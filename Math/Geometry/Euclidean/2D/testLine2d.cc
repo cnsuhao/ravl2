@@ -30,10 +30,6 @@ int main() {
     cerr << "Test failed line " << ln << "\n";
     return 1;
   }
-  if((ln = testMoments()) != 0) {
-    cerr << "Test failed line " << ln << "\n";
-    return 1;
-  }
   return 0;
 }
 
@@ -58,21 +54,3 @@ int testLines() {
   return 0;
 }
 
-int testMoments() {
-  Moments2d2C mom;
-  mom.AddPixel(Index2dC(9,19));
-  mom.AddPixel(Index2dC(10,20));
-  mom.AddPixel(Index2dC(11,22));
-  RealT cx = mom.CentroidX();
-  RealT cy = mom.CentroidY();
-  //cerr << "Centroid=" << cx << " " << cy <<"\n";
-  if((Abs(cx - 10) > 0.001) || (Abs(cy - 20.3333) > 0.001))
-     return __LINE__;
-  mom.Centerlize();
-  mom.ToPrincipalAxis();
-  //cerr << "X=" << mom.M10() << " Y=" << mom.M01() <<"\n"; 
-  RealT elong = mom.Elongatedness();
-  //cerr <<"Elong=" << elong << "\n";
-  if(Abs(elong -0.984886) > 0.001) return __LINE__;
-  return 0;
-}

@@ -21,4 +21,4 @@ LIBDEPS=RavlMath2D.def
 
 USESLIBS=RavlMath
 
-TESTEXES=testLine2d.cc
+TESTEXES=testLine2d.cc testGeom2d.cc

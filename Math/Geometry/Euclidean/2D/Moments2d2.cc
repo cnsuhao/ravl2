@@ -29,34 +29,14 @@ namespace RavlN {
 		     m02 / m00 - Sqr(cent2));
   }
   
-  const Moments2d2C & Moments2d2C::ToPrincipalAxis() {
+  Vector2dC Moments2d2C::PrincipalAxis() const {
     Matrix2dC mat = Covariance();
-    // This assumes the 'Centerlize' has been called.
     Vector2dC vec;
     EigenValuesIP(mat,vec);
-    if(vec[0] > vec[1]) {
-      m20 = vec[0];
-      m02 = vec[1];
-    } else {
-      m20 = vec[1];
-      m02 = vec[0];
-    }
-    m11 = 0;
-    return *this; 
+    if(vec[0] < vec[1])
+      Swap(vec[0],vec[1]);
+    return vec; 
   }
-
-  const Moments2d2C & Moments2d2C::Centerlize() {
-    m20 -= m10*m10/m00;
-    m02 -= m01*m01/m00;
-    m11 -= m10*m01/m00;
-    return *this;
-  }
-  
-  RealT Moments2d2C::Elongatedness() const {
-    RealT sumM = M20() + M02();
-    return (sumM!=0) ? Abs((M20() - M02()) / sumM) : 0 ;
-  }
-  
   
   ostream &operator<<(ostream & os, const  Moments2d2C & mom) {
     os << mom.M00() << ' ' << mom.M10() << ' ' << mom.M01() << ' '
@@ -69,5 +49,5 @@ namespace RavlN {
        >> mom.m20 >> mom.m11 >> mom.m02;
     return is;
   }
-
+  
 }

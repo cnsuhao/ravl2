@@ -18,6 +18,7 @@
 #include "Ravl/Types.hh"
 #include "Ravl/Index2d.hh"
 #include "Ravl/Point2d.hh"
+#include "Ravl/Vector2d.hh"
 
 namespace RavlN {
 
@@ -49,23 +50,23 @@ namespace RavlN {
     const Moments2d2C &operator+=(const Index2dC &pxl)
     { AddPixel(pxl); return *this; }
     //: Add pixel to set.
-
+    
     const Moments2d2C &operator+=(const Point2dC &point)
     { AddPixel(point); return *this; }
     //: Add pixel to set.
     
-    const Moments2d2C & Centerlize();
-    //: Recomputes the moments according to the centroid.
+    Vector2dC PrincipalAxis() const;
+    //: Calculate the size of the principle axis.
+    // It returns the new values for M02 and M20, 
+    // the largest is the first element of the vector.
     
-    const Moments2d2C & ToPrincipalAxis();
-    //: Recomputes the moments according to the principal axis.
-    
-    RealT Elongatedness() const;
+    static RealT Elongatedness(const Vector2dC &principalAxis) {
+      RealT sumM = principalAxis[0] + principalAxis[1];
+      return (sumM!=0) ? Abs((principalAxis[0] - principalAxis[1]) / sumM) : 0 ;
+    }
     //: Returns the ratio of the difference and the sum of moments m02 and m20.
     // The value 0 means that objects is a symmetrical object,
-    // the value 1 corresponds to a one-dimensional object. Is is assumed
-    // that input moments are centeralized and rotated to the principal
-    // axes.
+    // the value 1 corresponds to a one-dimensional object. 
     
     inline const Moments2d2C & Moments2d2() const
     { return *this; }
