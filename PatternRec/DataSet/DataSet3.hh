@@ -28,6 +28,8 @@ namespace RavlN {
     : public DataSet2BodyC<Sample1T,Sample2T>
   {
   public:
+    typedef typename Sample1T::ElementT Element1T;
+    typedef typename Sample2T::ElementT Element2T;
     typedef typename Sample3T::ElementT Element3T;
     
     DataSet3BodyC(UIntT sizeEstimate)
@@ -76,6 +78,8 @@ namespace RavlN {
     : public DataSet2C<Sample1T,Sample2T>
   {
   public:
+    typedef typename Sample1T::ElementT Element1T;
+    typedef typename Sample2T::ElementT Element2T;
     typedef typename Sample3T::ElementT Element3T;
     
     DataSet3C()
