@@ -154,6 +154,9 @@ namespace RavlN {
     // This currently prints the time in the form
     // sec:usec.
     
+    StringC ODBC() const;
+    //: Return the date and time in ODBC format
+
     StringC CTime() const;
     //: Returns results equivelent to calling ctime().
     

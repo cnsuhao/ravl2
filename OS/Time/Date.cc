@@ -185,7 +185,16 @@ namespace RavlN {
     return StringC((unsigned int) sec) +":"+StringC((unsigned int)usec); 
   }
 
-  
+
+  //: Return the date and time in ODBC format
+
+  StringC DateC::ODBC() const {
+    StringC str;
+    str.form("%04d-%02d-%02d %02d:%02d:%02d",Year(),Month(),DayInMonth(),Hour(),Minute(),Seconds());
+    return str;
+  }
+
+
   //: Returns results equivelent to calling ctime().
   
   StringC DateC::CTime() const  {
