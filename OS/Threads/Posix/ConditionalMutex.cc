@@ -75,7 +75,9 @@ namespace RavlN
       if(errcode == ETIMEDOUT)
 	break;
       // May be interupted by EINTR... ignore and restart the wait.
-      RavlAssertMsg(errcode == EINTR,"ConditionalMutexC::Wait(), ERROR: Unexpected return code.");
+      if ( errcode == 0 ) break ; 
+       RavlAssertMsg(errcode == EINTR,"ConditionalMutexC::Wait(), ERROR: Unexpected return code.");
+
     } while(errcode != 0);
     
     return (errcode != ETIMEDOUT);
