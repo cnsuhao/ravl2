@@ -380,9 +380,9 @@ namespace RavlN {
 
   template<class DataT>
   UIntT CollectionBodyC<DataT>::Insert(const Array1dC<DataT> &dat) {
-    if(((IntT) (n + dat.Size()) -1) >= (IntT) data.Size()) {
+    if( (n + dat.Size()) > data.Size() ) {
       UIntT ns = (UIntT) data.Size() * 2;
-      while(ns < (n + data.Size()))
+      while(ns < (n + dat.Size()))
 	ns *= 2;
       data = data.Copy(ns); // Double the size of the collection.
     }
