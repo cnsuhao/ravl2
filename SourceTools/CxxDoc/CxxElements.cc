@@ -391,11 +391,12 @@ namespace RavlCxxDocN
   //////// MethodBodyC ///////////////////////////////////////////////////////////
   //: Constructor.
   
-  MethodBodyC::MethodBodyC(const StringC &nname,const DataTypeC &rt,const ObjectListC &nargs,ObjectC &nquals,bool isConv)
+  MethodBodyC::MethodBodyC(const StringC &nname,const DataTypeC &rt,const ObjectListC &nargs,ObjectC &nquals,bool isConv,bool isPtr)
     : ObjectBodyC(nname),
       retType(rt),
       isConstructor(false),
       isConversion(isConv),
+      isPointer(isPtr),
       quals(nquals)
   {
     CopyLineNo(rt);
@@ -456,7 +457,11 @@ namespace RavlCxxDocN
 	ret += ReturnType().FullName(templSub,dg,maxDepth);
 	ret += ' ';
       }
+      if(isPointer)
+	ret += "(*" ;
       ret += dg.MethodNameText(Var("BaseName"));
+      if(isPointer)
+	ret += ')';
     }
     ret += dg.TextFor('(');
     bool first = true;

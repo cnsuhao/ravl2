@@ -278,13 +278,13 @@ static const short yyrline[] = { 0,
    614,   615,   616,   617,   618,   619,   620,   621,   622,   623,
    624,   625,   626,   628,   629,   631,   634,   638,   643,   661,
    664,   669,   672,   678,   680,   681,   683,   684,   686,   687,
-   689,   690,   691,   693,   694,   695,   698,   708,   714,   715,
-   716,   717,   720,   722,   723,   725,   726,   728,   729,   729,
-   729,   730,   730,   730,   730,   730,   730,   730,   730,   730,
-   730,   730,   730,   731,   731,   731,   731,   731,   731,   731,
-   731,   731,   732,   732,   732,   732,   732,   732,   733,   733,
-   733,   733,   733,   733,   734,   734,   734,   734,   734,   734,
-   734,   734,   735,   735,   735
+   689,   690,   691,   693,   694,   695,   698,   712,   723,   724,
+   725,   726,   729,   731,   732,   734,   735,   737,   738,   738,
+   738,   739,   739,   739,   739,   739,   739,   739,   739,   739,
+   739,   739,   739,   740,   740,   740,   740,   740,   740,   740,
+   740,   740,   741,   741,   741,   741,   741,   741,   742,   742,
+   742,   742,   742,   742,   743,   743,   743,   743,   743,   743,
+   743,   743,   744,   744,   744
 };
 #endif
 
@@ -936,7 +936,7 @@ int yydebug;			/*  nonzero means print parse trace	*/
 /*  YYINITDEPTH indicates the initial size of the parser's stacks	*/
 
 #ifndef	YYINITDEPTH
-#define YYINITDEPTH 1000
+#define YYINITDEPTH 200
 #endif
 
 /*  YYMAXDEPTH is the maximum size the stacks can grow to
@@ -1153,7 +1153,6 @@ yynewstate:
 #ifndef YYSTACK_USE_ALLOCA
       yyfree_stacks = 1;
 #endif
-      printf("\nXXXXXXXXXXXXXXXX COPYING XXXXXXXXXXXXXXXXXXXXXXX \n\n");
       yyss = (short *) YYSTACK_ALLOC (yystacksize * sizeof (*yyssp));
       __yy_memcpy ((char *)yyss, (char *)yyss1,
 		   size * (unsigned int) sizeof (*yyssp));
@@ -2436,42 +2435,51 @@ case 267:
 	    name = yyvsp[-5].Name();
 	  else
 	    name = StringC("anon?") + StringC(anonCount++);
-	  yyval=DataTypeC(yyvsp[-8].Name() + StringC(" (*)(") + yyvsp[-2].Name() + strp_CloseBracket + yyvsp[0].Name(),name); 
+	  MethodC meth(name,DataTypeC(yyvsp[-8]),ObjectListC(yyvsp[-2]),yyvsp[0],false,true);
+	  //$$=DataTypeC($1.Name() + StringC(" (*)(") + $7.Name() + strp_CloseBracket + $9.Name(),name); 
+	  ObjectListC ol("(*)");
+	  ol.Append(meth);
+	  yyval = DataTypeC(name,"",ol);
 	  yyval.SetupLineNos(yyvsp[-8],yyvsp[-1],yyvsp[0]);
 	;
     break;}
 case 268:
-#line 709 "cxx.y"
-{ yyval=DataTypeC(yyvsp[-10].Name() + StringC(" (*)(") + yyvsp[-2].Name() + strp_CloseBracket + yyvsp[0].Name(),yyvsp[-5].Name()); 
+#line 713 "cxx.y"
+{
+	  MethodC meth(yyvsp[-5].Name(),DataTypeC(yyvsp[-10]),ObjectListC(yyvsp[-2]),yyvsp[0],false,true);
+	  ObjectListC ol("(*)");
+	  ol.Append(meth);	  
+	  //$$=DataTypeC($1.Name() + StringC(" (*)(") + $9.Name() + strp_CloseBracket + $11.Name(),$6.Name());
+	  yyval = DataTypeC(yyvsp[-4].Name(),"",ol);
 	  yyval.SetupLineNos(yyvsp[-10],yyvsp[-1],yyvsp[0]);
 	;
     break;}
 case 269:
-#line 714 "cxx.y"
+#line 723 "cxx.y"
 { yyval=ObjectC(""); ;
     break;}
 case 270:
-#line 715 "cxx.y"
+#line 724 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
 case 271:
-#line 716 "cxx.y"
+#line 725 "cxx.y"
 { yyval=yyvsp[-1]; ;
     break;}
 case 272:
-#line 717 "cxx.y"
+#line 726 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
 case 273:
-#line 720 "cxx.y"
+#line 729 "cxx.y"
 { yyval=yyvsp[-1]; yyval.SetupLineNos(yyvsp[-2],yyvsp[0]); ;
     break;}
 case 274:
-#line 722 "cxx.y"
+#line 731 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
 case 275:
-#line 723 "cxx.y"
+#line 732 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
 }
@@ -2696,6 +2704,6 @@ yyerrhandle:
     }
   return 1;
 }
-#line 738 "cxx.y"
+#line 747 "cxx.y"
 
 

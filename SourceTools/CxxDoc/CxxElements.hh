@@ -522,18 +522,20 @@ namespace RavlCxxDocN {
   public:
     MethodBodyC()
       : isConstructor(false),
-      isConversion(false)
-      {}
+	isConversion(false),
+	isPointer(false)
+    {}
     //: Default constructor.
     
     MethodBodyC(const StringC &nname)
       : ObjectBodyC(nname),
-      isConstructor(false),
-      isConversion(false)
-      {}
+	isConstructor(false),
+	isConversion(false),
+	isPointer(false)
+    {}
     //: Constructor.
     
-    MethodBodyC(const StringC &nname,const DataTypeC &rt,const ObjectListC &args,ObjectC &quals,bool isConv = false);
+    MethodBodyC(const StringC &nname,const DataTypeC &rt,const ObjectListC &args,ObjectC &quals,bool isConv = false,bool isPtr = true);
     //: Constructor.
 
     MethodBodyC(const MethodC &om);
@@ -600,6 +602,7 @@ namespace RavlCxxDocN {
     ObjectC scopeInfo;
     bool isConstructor;
     bool isConversion;
+    bool isPointer;
     ObjectC quals;
   };
   
@@ -639,8 +642,8 @@ namespace RavlCxxDocN {
       {}
     //: Constructor.
     
-    MethodC(const StringC &nname,const DataTypeC &rt,const ObjectListC &args,ObjectC &quals,bool isConv = false)
-      : ObjectC(*new MethodBodyC(nname,rt,args,quals,isConv))
+    MethodC(const StringC &nname,const DataTypeC &rt,const ObjectListC &args,ObjectC &quals,bool isConv = false,bool isPtr = false)
+      : ObjectC(*new MethodBodyC(nname,rt,args,quals,isConv,isPtr))
       {}
     //: Constructor.
     
@@ -715,7 +718,7 @@ namespace RavlCxxDocN {
     
     MethodTemplateBodyC(const StringC &nname,const ObjectC &ntemplArgs)
       : MethodBodyC(nname),
-      templArgs(ntemplArgs)
+	templArgs(ntemplArgs)
       {}
     //: Constructor.
     

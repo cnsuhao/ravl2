@@ -702,11 +702,20 @@ function_ptr_def: type_id '(' '*' maybe_identifier ')' '(' func_arg_list_all ')'
 	    name = $4.Name();
 	  else
 	    name = StringC("anon?") + StringC(anonCount++);
-	  $$=DataTypeC($1.Name() + StringC(" (*)(") + $7.Name() + strp_CloseBracket + $9.Name(),name); 
+	  MethodC meth(name,DataTypeC($1),ObjectListC($7),$9,false,true);
+	  //$$=DataTypeC($1.Name() + StringC(" (*)(") + $7.Name() + strp_CloseBracket + $9.Name(),name); 
+	  ObjectListC ol("(*)");
+	  ol.Append(meth);
+	  $$ = DataTypeC(name,"",ol);
 	  $$.SetupLineNos($1,$8,$9);
 	}
    | type_id '('  scope_resolved_id CLCL '*' IDENTIFIER ')' '(' func_arg_list_all ')'  func_qualifier
-        { $$=DataTypeC($1.Name() + StringC(" (*)(") + $9.Name() + strp_CloseBracket + $11.Name(),$6.Name()); 
+        {
+	  MethodC meth($6.Name(),DataTypeC($1),ObjectListC($9),$11,false,true);
+	  ObjectListC ol("(*)");
+	  ol.Append(meth);	  
+	  //$$=DataTypeC($1.Name() + StringC(" (*)(") + $9.Name() + strp_CloseBracket + $11.Name(),$6.Name());
+	  $$ = DataTypeC($7.Name(),"",ol);
 	  $$.SetupLineNos($1,$10,$11);
 	}
 ;
