@@ -105,13 +105,6 @@ namespace RavlN {
     // 'extend' extra elements initalised by the default constuctor
     // are appended to the end of the array.
     
-    void CopyFrom(const Slice1dC<DataT> &slice)
-    { SizeBufferAccessC<DataT>::CopyFrom(slice); }
-    //: Copy contents of slice into array.
-    // The first element of the slice is copied to element
-    // 0 of this array, second to 1 etc.  If this array isn't
-    // large enough an exception is thrown.
-    
     inline const SArray1dC<DataT> & operator=(const SArray1dC<DataT> & vv);
     //: Assign this handle to the data in VV.
     
