@@ -202,11 +202,11 @@ namespace RavlN {
     //: Shifts the rectangle to the new position.
     
     inline RealRange2dC operator+(const TFVectorC<RealT,2> & offset) const
-    { return RealRange2dC(Rows() + offset[0],Cols() + offset[1]); }
+    { return RealRange2dC( rows+offset[0], cols+offset[1] ) ; }
     //: Shifts the rectangle to the new position.
     
     inline RealRange2dC operator-(const TFVectorC<RealT,2> & offset) const
-    { return RealRange2dC(Rows() - offset[0],Cols() - offset[1]); }
+    { return RealRange2dC(rows() - offset[0], cols() - offset[1]); }
     //: Shifts the rectangle to the new position.
     
     inline const RealRangeC & RowRange() const
