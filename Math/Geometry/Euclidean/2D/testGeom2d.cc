@@ -25,6 +25,7 @@
 #include "Ravl/HEMesh2d.hh"
 #include "Ravl/TriMesh2d.hh"
 #include "Ravl/Projection2d.hh"
+#include "Ravl/Conic2d.hh"
 
 using namespace RavlN;
 
@@ -36,6 +37,7 @@ int testDelaunayTriangulation2d();
 int testFitAffine();
 int testHEMesh2d();
 int testProjective2d();
+int testConic2d();
 
 int main() {
   int ln;
@@ -68,6 +70,10 @@ int main() {
     return 1;
   }
   if((ln = testProjective2d()) != 0) {
+    cerr << "Test failed at " << ln << "\n";
+    return 1;
+  }
+  if((ln = testConic2d()) != 0) {
     cerr << "Test failed at " << ln << "\n";
     return 1;
   }
@@ -324,5 +330,21 @@ int testProjective2d() {
   for(DLIterC<Point2dC> it(tpoly);it;it++,i++)
     if((*it - opnt[i]).SumOfAbs() > 0.001) return __LINE__;
   
+  return 0;
+}
+
+int testConic2d() {
+  SArray1dC<Point2dC> pnts(5);
+  pnts[0] = Point2dC(1, 0);
+  pnts[1] = Point2dC(2,-1);
+  pnts[2] = Point2dC(3, 0);
+  pnts[3] = Point2dC(3, 1);
+  pnts[4] = Point2dC(2, 4);
+  Conic2dC conic = FitConic(pnts);
+  for(int i = 0;i <pnts.Size();i++) {
+    //cerr << i << " Residue=" << conic.Residue(pnts[i]) << "\n";
+    if(!conic.IsOnCurve(pnts[i]))
+      return __LINE__;
+  }
   return 0;
 }
