@@ -198,6 +198,10 @@ namespace RavlGUIN {
     Manager.Queue(Trigger(CanvasC(*this),&CanvasC::GUIDrawLine,x1,y1,x2,y2,c));
   }
 
+  void CanvasBodyC::DrawArc(ImageRectangleC rect, IntT start, IntT angle, IntT colId, bool fill) {
+    Manager.Queue(Trigger(CanvasC(*this),&CanvasC::GUIDrawArc,rect,start,angle,colId,fill));
+  }
+
   //: Draw some text
   
   void CanvasBodyC::DrawText(IntT x1,IntT y1,StringC text,IntT colId) {
@@ -348,6 +352,37 @@ namespace RavlGUIN {
       GUIRefresh();
     return true;
   } 
+
+  //: Draw an arc
+  
+  bool CanvasBodyC::GUIDrawArc(ImageRectangleC& rect, IntT& start, IntT& angle, IntT& colId, bool& fill) {
+    if(!IsReady()) {
+      ONDEBUG(cerr <<"CanvasBodyC::GUIDrawArc(), WARNING: Asked to render data before canvas is initialised. \n");
+      toDo.InsFirst(TriggerR(*this,&CanvasBodyC::GUIDrawArc,rect,start,angle,colId,fill));
+      return true;
+    }
+    GdkGC *gc;
+    if(colId == 0)
+      gc = widget->style->white_gc;
+    else{
+      gc = DrawGC();
+      gdk_gc_set_foreground(gc,&GetColour(colId));
+    }
+    gdk_draw_arc (DrawArea(),
+		  gc,
+		  fill,
+		  rect.Origin().Col().V(),
+		  rect.Origin().Row().V(),
+		  rect.Size().Col().V(),
+		  rect.Size().Row().V(),
+		  start,
+		  angle);
+
+    ONDEBUG(cerr <<"CanvasBodyC::GUIDrawArc(), AutoRefresh=" << autoRefresh << "\n");
+    if(autoRefresh)
+      GUIRefresh();
+    return true;    
+  }
 
   //: Draw some text.
   

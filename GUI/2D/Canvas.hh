@@ -88,6 +88,13 @@ namespace RavlGUIN {
     void DrawLine(IntT x1,IntT y1,IntT x2,IntT y2,IntT colId = 0); 
     //: Draw a line.
     
+    void DrawArc(ImageRectangleC rect, IntT start, IntT angle, IntT colId = 0, bool fill = false); 
+    //: Draw an arc.
+    // The rectangle defines an ellipse in the image
+    // start is the angle to start at, relative to 3 o'clock, in 1/64ths of a degree.
+    // angle is the length of the arc, in 1/64ths of a degree
+    // If fill is true, the arc is a pie, otherwise it's a line arc
+    
     void DrawRectangle(IntT x1,IntT y1,IntT x2,IntT y2,IntT colId = 0); 
     //: Draw a filled rectangle.
     
@@ -108,6 +115,13 @@ namespace RavlGUIN {
     bool GUIDrawLine(IntT &x1,IntT &y1,IntT &x2,IntT &y2,IntT &colId); 
     //: Draw a line.
     // Call with GUI thread only!
+    
+    bool GUIDrawArc(ImageRectangleC& rect, IntT& start, IntT& angle, IntT& colId, bool& fill); 
+    //: Draw an arc.
+    // The rectangle defines an ellipse in the image
+    // start is the angle to start at, relative to 3 o'clock, in 1/64ths of a degree.
+    // angle is the length of the arc, in 1/64ths of a degree
+    // If fill is true, the arc is a pie, otherwise it's a line arc
     
     bool GUIDrawText(IntT &x1,IntT &y1,StringC &text,IntT &colId);
     //: Draw some text
@@ -272,6 +286,14 @@ namespace RavlGUIN {
     { Body().DrawLine(x1,y1,x2,y2,colId); }
     //: Draw a line.
     
+    void DrawArc(ImageRectangleC rect, IntT start, IntT angle, IntT colId = 0, bool fill = false)
+    { Body().DrawArc(rect,start,angle,colId,fill); }
+    //: Draw an arc.
+    // The rectangle defines an ellipse in the image
+    // start is the angle to start at, relative to 3 o'clock, in 1/64ths of a degree.
+    // angle is the length of the arc, in 1/64ths of a degree
+    // If fill is true, the arc is a pie, otherwise it's a line arc
+
     void DrawText(IntT x1,IntT y1,StringC text,IntT colId = 0)
     { Body().DrawText(x1,y1,text,colId); }
     //: Draw a line.
@@ -293,6 +315,14 @@ namespace RavlGUIN {
     //: Draw a line.
     // Call with GUI thread only!
     
+    bool GUIDrawArc(ImageRectangleC& rect, IntT& start, IntT& angle, IntT& colId, bool& fill)
+    { return Body().GUIDrawArc(rect,start,angle,colId,fill); }
+    //: Draw an arc.
+    // The rectangle defines an ellipse in the image
+    // start is the angle to start at, relative to 3 o'clock, in 1/64ths of a degree.
+    // angle is the length of the arc, in 1/64ths of a degree
+    // If fill is true, the arc is a pie, otherwise it's a line arc
+
     void SetLineStyle(IntT iWidth, GdkLineStyle linestyle=GDK_LINE_SOLID, GdkCapStyle capstyle=GDK_CAP_NOT_LAST, GdkJoinStyle joinstyle=GDK_JOIN_MITER)
     { Body().SetLineStyle(iWidth,linestyle,capstyle,joinstyle); }
     //: Set line style - GUI thead only
