@@ -39,11 +39,11 @@ namespace RavlImageN {
     
     ImageC<ByteT> &operator[](IntT let)
     { return glyphs[let]; }
-    //: Access charactor.
+    //: Access character.
     
     const ImageC<ByteT> &operator[](IntT let) const
     { return glyphs[let]; }
-    //: Access charactor.
+    //: Access character.
     
     SArray1dC<ImageC<ByteT> > &Glyphs()
     { return glyphs; }
