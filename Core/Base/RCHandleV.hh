@@ -132,6 +132,7 @@ namespace RavlN {
   
   template<class BodyT>
   ostream &operator<<(ostream &strm,const RCHandleVC<BodyT> &obj) {
+    RavlAssertMsg(obj.IsValid(),"Attempt to write an invalid object handle.");
     obj.Save(strm);
     return strm;
   }
@@ -139,6 +140,7 @@ namespace RavlN {
   
   template<class BodyT>
   BinOStreamC &operator<<(BinOStreamC &strm,const RCHandleVC<BodyT> &obj) {
+    RavlAssertMsg(obj.IsValid(),"Attempt to write an invalid object handle.");
     obj.Save(strm);
     return strm;
   }
