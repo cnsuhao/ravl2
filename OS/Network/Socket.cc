@@ -301,8 +301,8 @@ namespace RavlN {
       return -1;
     sin.sin_port = htons(portNo);
     if(connect(fd, (sockaddr*)&sin, sizeof(sin)) < 0) {
+#if DODEBUG
       cerr << "Failed to connect socket " << errno << ":";
-      Close();
       if(errno == EADDRINUSE) {
 	cerr << "Address in use.\n";
 	return -1;
@@ -312,6 +312,8 @@ namespace RavlN {
 	return -1;
       }
       cerr << " \n";
+#endif
+      Close();
       return -1;
     }
     if(addr != 0)

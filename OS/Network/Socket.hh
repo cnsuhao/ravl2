@@ -148,13 +148,16 @@ namespace RavlN {
       { return Body().IsOpen(); }
     //: Test if socket is open.
     
-    inline SocketC Listen(bool block = true)
-    { return Body().Listen(block); }
+    inline SocketC Listen(bool block = true,int backLog = 1)
+    { return Body().Listen(block,backLog); }
     //: Listen for a connection from a client.
-    // Can only be used on server sockets.
+    // Can only be used on server sockets. <br>
     // If block is true, the call will not return until there
-    // is a valid client.
-  
+    // is a valid client. <br>
+    // 'backLog' is the maximum number of connects that will be kept pending, between calls
+    // to Listen().
+    
+    
     void Close()
       { Body().Close(); }
     //: Close the socket.
