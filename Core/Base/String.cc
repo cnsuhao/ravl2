@@ -208,7 +208,8 @@ namespace RavlN {
     else
       rep = old;    
     rep->len = srclen;
-    ncopy0(src, rep->s, srclen);
+    if(src != 0)
+      ncopy0(src, rep->s, srclen);
     return rep;
   }
   
