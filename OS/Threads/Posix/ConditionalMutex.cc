@@ -8,8 +8,8 @@
 //! rcsid="$Id$"
 //! lib=RavlThreads
 //! file="Ravl/OS/Threads/Posix/ConditionalMutex.cc"
-
-#ifdef __sol2__
+#include "Ravl/config.h"
+#if RAVL_OS_SOLARIS
 #define __EXTENSIONS__ 1
 #endif
 

@@ -8,9 +8,9 @@
 //! rcsid="$Id$"
 //! lib=RavlNet
 //! file="Ravl/OS/Network/Socket.cc"
+#include "Ravl/config.h"
 
-
-#ifdef __sol2__
+#if RAVL_OS_SOLARIS
 #define __EXTENSIONS__ 1
 #include <string.h>
 #include <netdir.h>

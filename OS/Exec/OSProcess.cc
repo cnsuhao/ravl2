@@ -29,7 +29,7 @@
 #include <errno.h>
 #include <signal.h>
 
-#ifdef RAVL_OS_SOLARIS
+#if RAVL_OS_SOLARIS
 #define WNOWAIT         0200    /* non destructive form of wait */
 #endif
 

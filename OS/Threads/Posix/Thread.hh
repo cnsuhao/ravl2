@@ -14,13 +14,14 @@
 //! docentry="Ravl.OS.Threads"
 //! author="Charles Galambos"
 //! date="02/07/1999"
-
+#include "Ravl/config.h"
 #if !defined(__sgi__)
 #define _GNU_SOURCE 1
 #define _POSIX_SOURCE 1
 #endif
 
-#if defined(__sol2__)
+//#if defined(__sol2__)
+#if RAVL_HAVE_SIGNAL_H
 #include <sys/signal.h>
 #endif
 

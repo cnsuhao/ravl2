@@ -21,7 +21,8 @@
 #define _POSIX_SOURCE 1
 #endif
 
-#if defined(__sol2__)
+//#if defined(__sol2__)
+#if RAVL_HAVE_SIGNAL_H
 #include <sys/signal.h>
 #endif
 

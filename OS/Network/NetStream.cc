@@ -8,17 +8,16 @@
 //! rcsid="$Id$"
 //! lib=RavlNet
 //! file="Ravl/OS/Network/NetStream.cc"
-
-#ifdef __sol2__
+#include "Ravl/config.h"
+#if RAVL_OS_SOLARIS
 #define __EXTENSIONS__ 1
 #endif
 
-#ifdef __sgi__
+#if RAVL_OS_IRIX
 #undef _POSIX_C_SOURCE
 #include <standards.h>
 #endif
 
-#include "Ravl/config.h"
 
 extern "C" {
 #include <unistd.h>

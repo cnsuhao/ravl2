@@ -10,8 +10,8 @@
 //! rcsid="$Id$"
 //! lib=RavlOS
 //! file="Ravl/OS/Time/Date.cc"
-
-#ifdef __sol2__
+#include "Ravl/config.h"
+#if RAVL_OS_SOLARIS
 #define _POSIX_PTHREAD_SEMANTICS 1
 #define _REENTRANT 1
 //#define __STDC__ 0
@@ -23,7 +23,6 @@
 #endif
 #include <time.h>
 
-#include "Ravl/config.h"
 
 #include "Ravl/Exception.hh"
 #include "Ravl/OS/Date.hh"
