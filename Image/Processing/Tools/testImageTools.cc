@@ -11,6 +11,7 @@
 #include "Ravl/Image/SummedAreaTable.hh"
 #include "Ravl/Array2dIter.hh"
 #include "Ravl/Image/Image.hh"
+#include "Ravl/Stream.hh"
 
 using namespace RavlN;
 using namespace RavlImageN;

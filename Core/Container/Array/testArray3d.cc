@@ -14,6 +14,7 @@
 #include "Ravl/Array3dIter.hh"
 #include "Ravl/Array3dIter2.hh"
 #include "Ravl/Array3dIter3.hh"
+#include "Ravl/Stream.hh"
 
 using namespace RavlN;
 

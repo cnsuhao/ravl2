@@ -15,6 +15,7 @@
 #include "Ravl/BfAcc3Iter.hh"
 #include "Ravl/BfAcc3Iter2.hh"
 #include "Ravl/BfAcc3Iter3.hh"
+#include "Ravl/Stream.hh"
 
 using namespace RavlN;
 

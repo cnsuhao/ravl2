@@ -11,6 +11,7 @@
 #include "Ravl/Option.hh"
 #include "Ravl/IO.hh"
 #include "Ravl/Image/HomomorphicFilter.hh"
+#include "Ravl/DP/SequenceIO.hh"
 
 using namespace RavlN;
 using namespace RavlImageN;
@@ -18,27 +19,48 @@ using namespace RavlImageN;
 int main(int nargs,char **argv) {
   OptionC opt(nargs,argv);
   bool bypass = opt.Boolean("b",false,"Bypass filter. ");
-  StringC inf = opt.String("","in.ppm","Input file.");
-  StringC outf = opt.String("","out.ppm","Input file.");
   RealT depth = opt.Real("d",0.5,"Depth of momomorphic filter. ");
   RealT sigma = opt.Real("s",5,"Width of filter. ");
+  bool seq = opt.Boolean("seq",false,"Process a sequence. ");
+  StringC inf = opt.String("","in.ppm","Input file.");
+  StringC outf = opt.String("","out.ppm","Input file.");
   opt.Check();
   
   ImageC<RealT> img;
   ImageC<RealT> res;
-  if(!Load(inf,img)) {
-    cerr << "Failed to load image '" << inf << "'\n";
-    return 1;
+  HomomorphicFilterC hf(sigma,depth);
+  if(!seq) {
+    if(!Load(inf,img)) {
+      cerr << "Failed to load image '" << inf << "'\n";
+      return 1;
+    }
+    if(!bypass)
+      res = hf.Apply(img);
+    else
+      res = img;
+    if(!Save(outf,res)) {
+      cerr << "Failed to save image '" << outf << "'\n";
+      return 1;
+    }
+  } else {
+    DPIPortC<ImageC<RealT> > in;
+    if(!OpenISequence(in,inf)) {
+      cerr << "Failed to open input file '" << inf << "'\n";
+      return 1;
+    }
+    DPOPortC<ImageC<RealT> > out;
+    if(!OpenOSequence(out,outf)) {
+      cerr << "Failed to open output file '" << outf << "'\n";
+      return 1;
+    }
+    ImageC<RealT> img;
+    while(in.Get(img)) {
+      if(!bypass)
+	res = hf.Apply(img);
+      else
+	res = img;
+      out.Put(res);
+    }
   }
-  if(!bypass) {
-    HomomorphicFilterC hf(sigma,depth);
-    res = hf.Apply(img);
-  }else
-    res = img;
-  if(!Save(outf,res)) {
-    cerr << "Failed to save image '" << outf << "'\n";
-    return 1;
-  }
-  
   return 0;
 }

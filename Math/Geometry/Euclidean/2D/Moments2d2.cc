@@ -12,6 +12,7 @@
 #include "Ravl/Moments2d2.hh"
 #include "Ravl/Matrix2d.hh"
 #include "Ravl/Vector2d.hh"
+#include "Ravl/Stream.hh"
 
 namespace RavlN {
 

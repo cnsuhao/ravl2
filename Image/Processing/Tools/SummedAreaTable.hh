@@ -109,7 +109,7 @@ namespace RavlImageN {
     //: Calculate the diffrence between two halfs of the rectangle split horizontally.
     // This mid point is an absolute columb location and should be within the rectangle.
 
-    DataT VerticalDifference3(IndexRange2dC range,IndexRangeC rng) const {
+    DataT VerticalDifference3(const IndexRange2dC &range,const IndexRangeC &rng) const {
       RavlAssert(range.Range2().Contains(rng));
       IndexRange2dC rng2(range.Range1(),rng);
       return Sum(range) - Sum(rng2);
@@ -117,7 +117,7 @@ namespace RavlImageN {
     //: Calculate the diffrence between two halfs of the rectangle split vertially.
     // This mid point is an absolute row location and should be within the rectangle.
     
-    DataT HorizontalDifference3(IndexRange2dC range,IndexRangeC rng) const {
+    DataT HorizontalDifference3(const IndexRange2dC &range,const IndexRangeC &rng) const {
       RavlAssert(range.Range1().Contains(rng));
       IndexRange2dC rng2(rng,range.Range2());
       return Sum(range) - Sum(rng2);
@@ -126,7 +126,7 @@ namespace RavlImageN {
     // This mid point is an absolute columb location and should be within the rectangle.
     
 #if 0
-    DataT DiagonalDifference(IndexRange2dC range,IntT vMid,IntT hMid) const {
+    DataT DiagonalDifference(IndexRange2dC range,const Index2dC &middle) const {
       
     }
 #endif

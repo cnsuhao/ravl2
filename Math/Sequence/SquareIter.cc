@@ -11,6 +11,7 @@
 //! file="Ravl/Math/Sequence/SquareIter.cc"
 
 #include "Ravl/SquareIter.hh"
+#include "Ravl/Stream.hh"
 
 #define DODEBUG 1
 #if DODEBUG

@@ -8,6 +8,7 @@
 //! lib=RavlMath
 
 #include "Ravl/FAffine.hh"
+#include "Ravl/Stream.hh"
 
 using namespace RavlN;
 

@@ -14,6 +14,7 @@
 #include "Ravl/Array2dIter2.hh"
 #include "Ravl/Array2dIter3.hh"
 #include "Ravl/Math.hh"
+#include "Ravl/Stream.hh"
 
 #if RAVL_USE_PARALLEL
 #include "Ravl/Threads/LaunchThread.hh"

@@ -14,6 +14,7 @@
 #include "Ravl/SArr3Iter.hh"
 #include "Ravl/SArr3Iter2.hh"
 #include "Ravl/SArr3Iter3.hh"
+#include "Ravl/Stream.hh"
 
 using namespace RavlN;
 

@@ -12,6 +12,7 @@
 #include "Ravl/Buffer2d.hh"
 #include "Ravl/SBfAcc2d.hh"
 #include "Ravl/RBfAcc2d.hh"
+#include "Ravl/Stream.hh"
 
 using namespace RavlN;
 

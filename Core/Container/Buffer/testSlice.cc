@@ -11,6 +11,7 @@
 
 #include "Ravl/Slice1d.hh"
 #include "Ravl/Buffer.hh"
+#include "Ravl/Stream.hh"
 
 using namespace RavlN;
 

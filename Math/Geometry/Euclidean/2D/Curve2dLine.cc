@@ -5,13 +5,13 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////////
-// Parametric Line.
-// $Id$
 //! rcsid="$Id$"
 //! lib=RavlMath
 
 #include "Ravl/Curve2dLine.hh"
 #include "Ravl/IndexRange2d.hh"
+#include "Ravl/Stream.hh"
+
 //#include "Ravl/LinearS2.hh"
 
 #define DODEBUG 0
