@@ -24,11 +24,8 @@ int verbose = 0;
 int untouch(char *filename,int seconds) {
   struct stat buf;
   struct utimbuf utbuf;
-#ifndef __sgi__
   time_t now,target;
-#else
-  timespec_t now,target;
-#endif
+  
   // Find out what the time is currently set to.
   if(stat(filename,&buf)) {
     if(verbose)
