@@ -26,11 +26,9 @@
 #include "Ravl/DP/AttributeValueTypes.hh"
 #include <gtk/gtk.h>
 
-#endif
-
-
 using namespace RavlGUIN;
 
+#endif
 
 int main(int nargs,char **argv) {
 #if RAVL_USE_GTK2
