@@ -30,7 +30,7 @@ namespace RavlN  {
     union {
       short s;
       char c[2];
-    } ret,val = buf;
+    } ret,val.s = buf;
     ret.c[0] = val.c[1];
     ret.c[1] = val.c[0];
     return ret.s;
@@ -42,7 +42,7 @@ namespace RavlN  {
     union {
       short i;
       char c[2];
-    } ret,val = buf;
+    } ret,val.i = buf;
     ret.c[0] = val.c[3];
     ret.c[1] = val.c[2];
     ret.c[2] = val.c[1];
