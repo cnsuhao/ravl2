@@ -23,8 +23,9 @@ namespace RavlN {
   
   //: Constructor.
   
-  NetOSPortServerBaseBodyC::NetOSPortServerBaseBodyC(const DPSeekCtrlC &nSeekCtrl,const StringC &nPortName)
-    : portName(nPortName),
+  NetOSPortServerBaseBodyC::NetOSPortServerBaseBodyC(const AttributeCtrlC &attrCtrl,const DPSeekCtrlC &nSeekCtrl,const StringC &nPortName)
+    : NetAttributeCtrlServerBodyC(attrCtrl),
+      portName(nPortName),
       seekCtrl(nSeekCtrl),
       at(0)
   { ONDEBUG(cerr << "NetOSPortServerBaseBodyC::NetOSPortServerBaseBodyC(), Called. Name=" << portName << " \n"); }
@@ -41,14 +42,17 @@ namespace RavlN {
   
   bool NetOSPortServerBaseBodyC::Connect(NetEndPointC &nep) {
     ONDEBUG(cerr << "NetOSPortServerBaseBodyC::Connect(), Called \n");
-    if(ep.IsValid())
-      return false; // Already connected!
     RavlAssert(nep.IsValid());
-    ep = nep;
+    if(!NetAttributeCtrlServerBodyC::Connect(nep)) {
+      ONDEBUG(cerr << "NetOSPortServerBaseBodyC::Connect(), ERROR: AttributeCtrl Connect Failed! \n");
+      return false; // Already connected!
+    }
+    ONDEBUG(cerr << "NetOSPortServerBaseBodyC::Connect(), Local init \n");
     if(!Init()) {
       cerr << "NetOSPortServerBaseBodyC::Connect(), Failed. \n";
       return false;
     }
+    ONDEBUG(cerr << "NetOSPortServerBaseBodyC::Connect(), Done. \n");
     return true;
   }
   
@@ -56,8 +60,7 @@ namespace RavlN {
   
   bool NetOSPortServerBaseBodyC::Disconnect() {
     ONDEBUG(cerr << "NetOSPortServerBaseBodyC::Disconnect(), Called. \n");
-    ep.Invalidate();
-    return true;
+    return NetAttributeCtrlServerBodyC::Disconnect();
   }
   
   //: Initalise stream.

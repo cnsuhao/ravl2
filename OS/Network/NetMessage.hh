@@ -33,18 +33,18 @@ namespace RavlN
     NetMsgRegisterBodyC(UIntT nid,const StringC &nname)
       : id(nid),
         name(nname)
-      {}
+    {}
     //: Constructor.
     
     virtual bool Decode(NetEndPointC &ep,BinIStreamC &pkt);
     //: Decode and execute a packet.
     
     UIntT Id() const
-      { return id; }
+    { return id; }
     //: Access id.
-
-    const StringC &Name()
-      { return name; }
+    
+    const StringC &Name() const
+    { return name; }
     //: Access type name.
     
     bool Encode(BinOStreamC &os) {
@@ -65,26 +65,26 @@ namespace RavlN
   {
   public:
     NetMsgRegisterC()
-      {}
+    {}
     //: Default constructor.
     
   protected:
     NetMsgRegisterC(NetMsgRegisterBodyC &bod)
       : RCHandleC<NetMsgRegisterBodyC>(bod)
-      {}
+    {}
     //: Body constructor.
     
   public:    
     inline bool Decode(NetEndPointC &ep,BinIStreamC &str)
-      { return Body().Decode(ep,str); }
+    { return Body().Decode(ep,str); }
     //: Decode a packet.
     
     UIntT Id() const
-      { return Body().Id(); }
+    { return Body().Id(); }
     //: Access id.
     
-    const StringC &Name()
-      { return Body().Name(); }
+    const StringC &Name() const
+    { return Body().Name(); }
     //: Access type name.
     
     static HashC<UIntT,NetMsgRegisterC> &MsgTypes() { 

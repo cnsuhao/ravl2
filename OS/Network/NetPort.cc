@@ -21,7 +21,8 @@ namespace RavlN {
   //: Constructor.
   
   NetPortBaseC::NetPortBaseC(const StringC &server)
-    : ep(server,false)
+    : ep(server,false),
+      netAttr(0)
   {}
 
   //: Destructor.
@@ -56,6 +57,15 @@ namespace RavlN {
     ep.RegisterR(NPMsg_StreamReady,"StreamInfo",*this,&NetPortBaseC::MsgStreamReady);
     //: Handle incoming StreamReady message.
     
+    return true;
+  }
+
+  //: Setup net end point.
+  
+  bool NetPortBaseC::Connect(NetEndPointC &nep) {
+    ep = nep;
+    netAttr.Connect(nep);
+    NetPortBaseC::Init();
     return true;
   }
 

@@ -54,7 +54,7 @@ namespace RavlN {
   //: Handle connect to message.
   
   bool NetPortClientBodyC::MsgConnectTo(StringC &port,StringC &datatype,bool nIsIPort) {
-    ONDEBUG(cerr << "NetPortClientBodyC::MsgConnectTo(), Called. Port=" << port << " Type=" << datatype << "\n");
+    ONDEBUG(cerr << "NetPortClientBodyC::MsgConnectTo(), Called. Port=" << port << " Type=" << datatype << " IsIPort=" << nIsIPort << "\n");
     isIPort = nIsIPort;
     if(isIPort) {
       // Deal with input port.
@@ -97,6 +97,7 @@ namespace RavlN {
       }
       // Connect something ?
       NetPortClientC me(*this);
+      ONDEBUG(cerr << "NetPortClientBodyC::MsgConnectTo(), Connecting OPort '" << port << "'. \n");
       if(!osport.Connect(me)) {
 	cerr << "NetPortClientBodyC::MsgConnectTo(), Failed, Already connected. \n";
 	Send(NPMsg_ReqFailed,1); // End of stream.
@@ -104,9 +105,11 @@ namespace RavlN {
 	return true;
       }
       connectionName = port;
+      ONDEBUG(cerr << "NetPortClientBodyC::MsgConnectTo(), Registering. \n");
       manager.RegisterConnection(osport);
     }
     Send(NPMsg_StreamReady);
+    ONDEBUG(cerr << "NetPortClientBodyC::MsgConnectTo(), Done. ");
     return true;
   }
 

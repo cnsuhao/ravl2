@@ -19,6 +19,7 @@
 #include "Ravl/DP/SPort.hh"
 #include "Ravl/TypeName.hh"
 #include "Ravl/DP/SPortAttach.hh"
+#include "Ravl/OS/NetAttributeCtrlServer.hh"
 
 namespace RavlN {
   
@@ -26,10 +27,10 @@ namespace RavlN {
   //: Base class for NetIPorts.
   
   class NetISPortServerBaseBodyC 
-    : public RCBodyVC
+    : public NetAttributeCtrlServerBodyC
   {
   public:
-    NetISPortServerBaseBodyC(const DPSeekCtrlC &seekCtrl,const StringC &portName);
+    NetISPortServerBaseBodyC(const AttributeCtrlC &attrCtrl,const DPSeekCtrlC &seekCtrl,const StringC &portName);
     //: Default constructor.
     
     ~NetISPortServerBaseBodyC();
@@ -61,7 +62,6 @@ namespace RavlN {
     //: Request information on the stream.. 
     
     StringC portName;
-    NetEndPointC ep;
     DPSeekCtrlC seekCtrl;
     UIntT at;
   };
@@ -75,7 +75,7 @@ namespace RavlN {
   {
   public:
     NetISPortServerBodyC(const DPISPortC<DataT> &niport,const StringC &portName)
-      : NetISPortServerBaseBodyC(niport,portName),
+      : NetISPortServerBaseBodyC(niport,niport,portName),
 	iport(niport)
     {}
     //: Constructor.
@@ -102,7 +102,7 @@ namespace RavlN {
   //: Input port server base.
 
   class NetISPortServerBaseC
-    : public RCHandleC<NetISPortServerBaseBodyC>
+    : public NetAttributeCtrlServerC
   {
   public:
     NetISPortServerBaseC()
@@ -112,16 +112,16 @@ namespace RavlN {
 
   protected:
     NetISPortServerBaseC(NetISPortServerBaseBodyC &bod)
-      : RCHandleC<NetISPortServerBaseBodyC>(bod)
+      : NetAttributeCtrlServerC(bod)
     {}
     //: Body constructor.
     
     NetISPortServerBaseBodyC &Body()
-    { return RCHandleC<NetISPortServerBaseBodyC>::Body(); }
+    { return static_cast<NetISPortServerBaseBodyC &>(NetAttributeCtrlServerC::Body()); }
     //: Access body.
     
     const NetISPortServerBaseBodyC &Body() const
-    { return RCHandleC<NetISPortServerBaseBodyC>::Body(); }
+    { return static_cast<const NetISPortServerBaseBodyC &>(NetAttributeCtrlServerC::Body()); }
     //: Access body.
     
   public:

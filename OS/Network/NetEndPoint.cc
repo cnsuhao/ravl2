@@ -117,8 +117,11 @@ namespace RavlN {
   bool NetEndPointBodyC::Register(const NetMsgRegisterC &nmsg) {
     MutexLockC lock(accessMsgReg);
 #if RAVL_CHECK
-    if(msgReg.IsElm(nmsg.Id()))
-      SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::Register(), WARNING: Overriding handling of message id:" << nmsg.Id() << "\n";
+    if(msgReg.IsElm(nmsg.Id())) {
+      NetMsgRegisterC oldMsg;
+      msgReg.Lookup(nmsg.Id(),oldMsg);
+      SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::Register(), WARNING: Overriding handling of message id:" << nmsg.Id() << " Name=" << nmsg.Name() << " Old name=" << oldMsg.Name() << "\n";
+    }
 #endif
     msgReg[nmsg.Id()] = nmsg;
     return true;

@@ -38,7 +38,6 @@ int main() {
     cerr << "Failed to open netPortManager. \n";
     return __LINE__;
   }
-  
   if((ln = testNetIPort()) != 0) {
     cerr << "Test failed on line :" << ln << "\n";
     return 1;

@@ -49,7 +49,7 @@ namespace RavlN {
       gotEOS = true;
       return false;
     }
-    if(!NetPortBaseC::Init())
+    if(!NetPortBaseC::Connect(ep))
       return false;
     ep.RegisterR(NPMsg_StreamInfo,"StreamInfo",*this,&NetISPortBaseC::RecvState);
     ep.RegisterR(NPMsg_ReqFailed,"ReqFailed",*this,&NetISPortBaseC::ReqFailed);
@@ -62,6 +62,7 @@ namespace RavlN {
     ep.Send(NPMsg_ReqConnection,portName,dataType,true);  // Request connection.
     if(!WaitForConnect())
       return false;
+    netAttr.UpdateAttributeTypes(); 
     ep.Send(NPMsg_ReqInfo); // Request info about the stream.
     return true;
   }

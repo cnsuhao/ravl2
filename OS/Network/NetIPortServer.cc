@@ -23,8 +23,9 @@ namespace RavlN {
   
   //: Constructor.
   
-  NetISPortServerBaseBodyC::NetISPortServerBaseBodyC(const DPSeekCtrlC &nSeekCtrl,const StringC &nPortName)
-    : portName(nPortName),
+  NetISPortServerBaseBodyC::NetISPortServerBaseBodyC(const AttributeCtrlC &attrCtrl,const DPSeekCtrlC &nSeekCtrl,const StringC &nPortName)
+    : NetAttributeCtrlServerBodyC(attrCtrl),
+      portName(nPortName),
       seekCtrl(nSeekCtrl),
       at(0)
   { ONDEBUG(cerr << "NetISPortServerBaseBodyC::NetISPortServerBaseBodyC(), Called. Name=" << portName << " \n"); }
@@ -41,10 +42,9 @@ namespace RavlN {
   
   bool NetISPortServerBaseBodyC::Connect(NetEndPointC &nep) {
     ONDEBUG(cerr << "NetISPortServerBaseBodyC::Connect(), Called \n");
-    if(ep.IsValid())
-      return false; // Already connected!
     RavlAssert(nep.IsValid());
-    ep = nep;
+    if(!NetAttributeCtrlServerBodyC::Connect(nep))
+      return false; // Already connected!
     if(!Init()) {
       cerr << "NetISPortServerBaseBodyC::Connect(), Failed. \n";
       return false;
@@ -56,8 +56,7 @@ namespace RavlN {
   
   bool NetISPortServerBaseBodyC::Disconnect() {
     ONDEBUG(cerr << "NetISPortServerBaseBodyC::Disconnect(), Called. \n");
-    ep.Invalidate();
-    return true;
+    return NetAttributeCtrlServerBodyC::Disconnect();
   }
   
   //: Initalise stream.

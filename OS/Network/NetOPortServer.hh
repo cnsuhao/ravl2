@@ -19,6 +19,7 @@
 #include "Ravl/DP/SPort.hh"
 #include "Ravl/TypeName.hh"
 #include "Ravl/DP/SPortAttach.hh"
+#include "Ravl/OS/NetAttributeCtrlServer.hh"
 
 namespace RavlN {
   
@@ -26,10 +27,10 @@ namespace RavlN {
   //: Base class for NetOports.
   
   class NetOSPortServerBaseBodyC 
-    : public RCBodyVC
+    : public NetAttributeCtrlServerBodyC
   {
   public:
-    NetOSPortServerBaseBodyC(const DPSeekCtrlC &seekCtrl,const StringC &portName);
+    NetOSPortServerBaseBodyC(const AttributeCtrlC &attrCtrl,const DPSeekCtrlC &seekCtrl,const StringC &portName);
     //: Default constructor.
     
     ~NetOSPortServerBaseBodyC();
@@ -42,7 +43,7 @@ namespace RavlN {
     virtual StringC PortType();
     //: Get the port type.
     
-    bool Connect(NetEndPointC &ep);
+    virtual bool Connect(NetEndPointC &ep);
     //: Connect to an end point.
     // Returns false if port is already in use..
     
@@ -61,7 +62,6 @@ namespace RavlN {
     //: Request information on the stream.. 
     
     StringC portName;
-    NetEndPointC ep;
     DPSeekCtrlC seekCtrl;
     UIntT at;
   };
@@ -75,7 +75,7 @@ namespace RavlN {
   {
   public:
     NetOSPortServerBodyC(const DPOSPortC<DataT> &noport,const StringC &portName)
-      : NetOSPortServerBaseBodyC(noport,portName),
+      : NetOSPortServerBaseBodyC(noport,noport,portName),
 	oport(noport)
     {}
     //: Constructor.
@@ -102,7 +102,7 @@ namespace RavlN {
   //: Input port server base.
 
   class NetOSPortServerBaseC
-    : public RCHandleC<NetOSPortServerBaseBodyC>
+    : public NetAttributeCtrlServerC
   {
   public:
     NetOSPortServerBaseC()
@@ -112,16 +112,16 @@ namespace RavlN {
 
   protected:
     NetOSPortServerBaseC(NetOSPortServerBaseBodyC &bod)
-      : RCHandleC<NetOSPortServerBaseBodyC>(bod)
+      : NetAttributeCtrlServerC(bod)
     {}
     //: Body constructor.
     
     NetOSPortServerBaseBodyC &Body()
-    { return RCHandleC<NetOSPortServerBaseBodyC>::Body(); }
+    { return static_cast<NetOSPortServerBaseBodyC &>(NetAttributeCtrlServerC::Body()); }
     //: Access body.
     
     const NetOSPortServerBaseBodyC &Body() const
-    { return RCHandleC<NetOSPortServerBaseBodyC>::Body(); }
+    { return static_cast<const NetOSPortServerBaseBodyC &>(NetAttributeCtrlServerC::Body()); }
     //: Access body.
     
   public:
@@ -215,8 +215,10 @@ namespace RavlN {
   template<class DataT>  
   bool NetOSPortServerBodyC<DataT>::Init() {
     NetOSPortServerC<DataT> me(*this);
+    RavlAssert(ep.IsValid());
     ep.Register(NPMsg_Data,"Data",me,&NetOSPortServerC<DataT>::PutData);
-    return NetOSPortServerBaseBodyC::Init();
+    bool ret =NetOSPortServerBaseBodyC::Init();
+    return ret;
   }
   
   //: Request information on the stream.. 

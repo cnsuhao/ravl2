@@ -16,6 +16,7 @@
 #include "Ravl/Types.hh"
 #include "Ravl/Threads/ThreadEvent.hh"
 #include "Ravl/OS/NetEndPoint.hh"
+#include "Ravl/OS/NetAttributeCtrl.hh"
 
 namespace RavlN {
   
@@ -50,12 +51,16 @@ namespace RavlN {
     bool WaitForConnect(RealT timeOut = 10);
     //: Wait for connection complete.
     
+    bool Connect(NetEndPointC &ep);
+    //: Setup net end point.
+    
   protected:
     bool MsgStreamReady();
     //: Handle incoming StreamReady message.
     
     NetEndPointC ep;
     ThreadEventC streamReady; // Have we recieved stream info yet.
+    NetAttributeCtrlC netAttr;
   };
 }
 
