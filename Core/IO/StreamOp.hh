@@ -213,11 +213,17 @@ namespace RavlN {
     {}
     //: Default Constructor.
     
-    DPIStreamOpC(const DPIStreamOpC<IntT,OutT> &oth) 
+    DPIStreamOpC(const DPIStreamOpC<InT,OutT> &oth) 
       : DPEntityC(oth),
 	DPIPortC<OutT>(oth)
     {}
     //: Copy Constructor.
+    
+    DPIStreamOpC<InT,OutT> &operator=(const DPIStreamOpC<InT,OutT> &oth) {
+      DPEntityC::operator=(oth);
+      return *this;
+    }
+    //: Assignment.
     
   protected:
     DPIStreamOpC(const DPIStreamOpBodyC<InT,OutT> &bod)
@@ -312,6 +318,13 @@ namespace RavlN {
 	DPOPortC<InT>(oth)
     {}
     //: Copy Constructor.
+    
+    DPOStreamOpC<InT,OutT> &operator=(const DPOStreamOpC<InT,OutT> &oth) {
+      // The compile can get confused about this, so make it clear.
+      DPEntityC::operator=(oth); 
+      return *this;
+    }
+    //: Assignment.
     
   protected:
     DPOStreamOpC(const DPOStreamOpBodyC<InT,OutT> &bod)
