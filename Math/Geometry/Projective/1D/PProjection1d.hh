@@ -31,8 +31,8 @@ namespace RavlN {
   {
   public:
     
+    //:----------------------------------------
     // Constructors, assigment, and destructor.
-    // ----------------------------------------
     
     inline PProjection1dC();
     // Creates the zero projection. All points are projected into
@@ -47,8 +47,8 @@ namespace RavlN {
     
     
     PProjection1dC(const PPoint1dC & i,
-			  const PPoint1dC & o,
-			  const PPoint1dC & u);
+		   const PPoint1dC & o,
+		   const PPoint1dC & u);
     // Creates a projective parametrization of the projective plane that
     // transforms the projective point 'i' into the ideal point I(1,0),
     // the projective point 'o' into the origin O(0,1), and the projective
@@ -72,10 +72,6 @@ namespace RavlN {
     
     //:--------------------------------------------
     // Access to the elements of the projection.
-    
-    Matrix2dC::operator[];
-    Matrix2dC::Rows;
-    Matrix2dC::Cols;
     
     inline const PProjection1dC & PProjection1d() const
     { return *this; }

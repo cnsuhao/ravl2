@@ -34,16 +34,16 @@ namespace RavlN {
   
   ostream & 
   operator<<(ostream & outS, const PProjection1dC & p) {
-    for (UIntT i = 0; i< p.Rows(); ++i)
-      for (UIntT j = 0; j < p.Cols(); ++j)
+    for (UIntT i = 0; i< 2; ++i)
+      for (UIntT j = 0; j < 2; ++j)
 	outS << p[i][j] << ' ';
     return outS;
   }
   
   istream & 
   operator>>(istream & inS, PProjection1dC & p) {
-    for (UIntT i = 0; i< p.Rows(); ++i)
-      for (UIntT j = 0; j < p.Cols(); ++j)
+    for (UIntT i = 0; i< 2; ++i)
+      for (UIntT j = 0; j < 2; ++j)
 	inS >> p[i][j];
     return inS;
   }
