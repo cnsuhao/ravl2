@@ -11,6 +11,7 @@
 #include "Ravl/Image/PyramidScan.hh"
 #include "Ravl/Image/Rectangle2dIter.hh"
 #include "Ravl/Image/SummedAreaTable.hh"
+#include "Ravl/Image/SummedAreaTable2.hh"
 #include "Ravl/Image/PeakDetector.hh"
 #include "Ravl/Array2dIter.hh"
 #include "Ravl/Image/Image.hh"
@@ -21,6 +22,7 @@ using namespace RavlImageN;
 
 int testRectangle2dIter();
 int testSummedAreaTable();
+int testSummedAreaTable2();
 int testPyramidScan();
 int testPeakDetection();
 
@@ -31,6 +33,10 @@ int main() {
     return 1;
   }
   if((ln = testSummedAreaTable()) != 0) {
+    cerr << "Error on line numner '" << ln << "'\n";
+    return 1;
+  }
+  if((ln = testSummedAreaTable2()) != 0) {
     cerr << "Error on line numner '" << ln << "'\n";
     return 1;
   }
@@ -77,7 +83,7 @@ int testSummedAreaTable() {
   Array2dC<IntT> img(5,5);
   img.Fill(1);
   SummedAreaTableC<UIntT> tab(img);
-  //cerr << tab << "\n";
+  cerr << "Table=" << tab << "\n";
   if(tab.Sum(img.Frame()) != 25) return __LINE__;
   IndexRange2dC srect(img.Frame());
   srect = srect.Erode();
@@ -102,6 +108,41 @@ int testSummedAreaTable() {
   //cerr <<"Sum=" << tab.Sum(rec4) << "\n";
   if(tab.Sum(rec4) != 40) return __LINE__;
   
+  
+  return 0;
+}
+
+int testSummedAreaTable2() {
+  cerr << "testSummedAreaTable2(), Called \n";
+  Array2dC<IntT> img(5,5);
+  img.Fill(2);
+  SummedAreaTable2C<UIntT> tab(img);
+  cerr << "Table=" << tab << "\n";
+  cerr << "Sum=" << tab.Sum(img.Frame()) << "\n";
+  if(tab.Sum(img.Frame())[0] != 50) return __LINE__;
+  if(tab.Sum(img.Frame())[1] != 100) return __LINE__;
+  IndexRange2dC srect(img.Frame());
+  srect = srect.Erode();
+  if(tab.Sum(srect)[0] != 18) return __LINE__;
+  
+  // Build a more interesting image.
+  IntT sum = 1;
+  for(Array2dIterC<IntT> it(img);it;it++)
+    *it = sum++;
+  tab.BuildTable(img);
+  //cerr << img << "\n";
+  //cerr << tab << "\n";
+  IndexRange2dC rec2(0,1,0,1);
+  //cerr <<"Sum=" << tab.Sum(rec2) << "\n";
+  if(tab.Sum(rec2)[0] != 16) return __LINE__;
+  
+  IndexRange2dC rec3(0,1,1,2);
+  //cerr <<"Sum=" << tab.Sum(rec3) << "\n";
+  if(tab.Sum(rec3)[0] != 20) return __LINE__;
+  
+  IndexRange2dC rec4(1,2,1,2);
+  //cerr <<"Sum=" << tab.Sum(rec4) << "\n";
+  if(tab.Sum(rec4)[0] != 40) return __LINE__;
   
   return 0;
 }
