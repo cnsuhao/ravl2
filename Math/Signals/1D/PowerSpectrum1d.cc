@@ -20,7 +20,7 @@ namespace RavlN {
   Array1dC<RealT> PowerSpectrumSimple(const Array1dC<RealT> &data,int smooth) {
     Array1dC<RealT> ret = data.Copy();
     int os = pwspec((double *) &(ret[0]),data.Size(),smooth);
-    return Array1dC<RealT>(ret,os);
+    return Array1dC<RealT>(ret,IndexRangeC(os));
   }
   
   //: Constructor
