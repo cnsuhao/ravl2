@@ -50,11 +50,11 @@ namespace RavlLogicN {
       {}
     //: Body constructor.
     
-    DecisionTreeBodyC &Body()
+    DecisionTreeBodyC<DataT> &Body()
     { return static_cast<DecisionTreeBodyC<DataT> &>(DecisionTreeBaseC::Body()); }
     //: Access body.
-
-    const DecisionTreeBodyC &Body() const
+    
+    const DecisionTreeBodyC<DataT> &Body() const
     { return static_cast<const DecisionTreeBodyC<DataT> &>(DecisionTreeBaseC::Body()); }
     //: Access body.
     
