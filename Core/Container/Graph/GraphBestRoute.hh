@@ -52,7 +52,9 @@ namespace RavlN {
       for(GraphAdjIterC<NodeT,EdgeT> it(at.Out());it.IsElm();it.Next()) {
 	if(it.OtherNodeH() == at)
 	  continue; // Ignore loops to self.
-	RealT val = ccost + EvalT(it.Data());
+        RealT dist = EvalT(it.Data());
+        RavlAssert(dist >= 0); // All distances must be positive, else we'll loop forever.
+	RealT val = ccost + dist;
 	if(dist.IsElm(it.OtherNode())) {
 	  if(dist[it.OtherNode()] <= val)
 	    continue;
@@ -97,7 +99,7 @@ namespace RavlN {
 	    break; 
 	}
       }
-      lastDist = mindist;
+      lastDist = dist[nat];
       RavlAssert(back.IsValid()); // Just to check sanity.
       ret.InsFirst(back);
       at = nat;
