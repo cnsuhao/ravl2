@@ -37,7 +37,11 @@
  */
 #define RAVL_USE_PARALLEL 0
 
+#if !defined(__sol2__)
 #define RAVL_USE_LARGEFILESUPPORT 1
+#else
+#define RAVL_USE_LARGEFILESUPPORT 0
+#endif
 
 /* Setting the follow define to 1 will enable the use of MMX code.
  */
