@@ -115,6 +115,9 @@ namespace RavlN {
     Array1dC(const Array1dC<DataT> & vv, const IndexRangeC & range);
     //: The subarray of the 'vv' with the 'range'.
     
+    Array1dC(const Array1dC<DataT> & vv, IndexC origin);
+    //: Create a new access to array vv with the origin at the given offset.
+    
     Array1dC(const SArray1dC<DataT> &oth);
     //: Construct an array from a SArray1dC.
     // Note: This does NOT make a copy, it just creates
@@ -276,6 +279,26 @@ namespace RavlN {
     //: Return array after offset to the end of the array.
     // If offset is larger than the array an empty array
     // is returned.
+
+    bool SetIMin(IndexC imin) {
+      IntT startIndex = buff.ReferenceElm() - ReferenceElm();
+      if(imin < startIndex)
+	return false;
+      range.Min() = imin;
+      return true;
+    }
+    //: Attempt to change the start of the array.
+    // This checks the index is within the allocated buffer.
+    
+    bool SetIMax(IndexC imax) {
+      IntT startIndex = buff.ReferenceElm() - ReferenceElm();
+      if(imax >= (startIndex + buff.Size()) )
+	return false;
+      range.Max() = imax;
+      return true;      
+    }
+    //: Attempty to change the end of the array.
+    // This checks the index is within the allocated buffer.
     
   private:
     
@@ -361,6 +384,12 @@ namespace RavlN {
   template <class DataT>
   Array1dC<DataT>::Array1dC(const Array1dC<DataT> & vv)
     : RangeBufferAccessC<DataT>(vv),
+      buff(vv.buff)
+  {}
+  
+  template <class DataT>
+  Array1dC<DataT>::Array1dC(const Array1dC<DataT> & vv, IndexC origin)
+    : RangeBufferAccessC<DataT>(const_cast<DataT *>(&vv[vv.IMin()]),IndexRangeC(origin,origin + (vv.IMax() - vv.IMin()))),
       buff(vv.buff)
   {}
   
