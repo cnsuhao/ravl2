@@ -24,8 +24,10 @@ USESLIBS=RavlCore
 
 PROGLIBS=RavlImageIO RavlOS
 
+MAINS=imgdiff.cc
+
 TESTEXES=testImage.cc
 
-EXAMPLES= exImage.cc
+EXAMPLES= exImage.cc imgdiff.cc
 
 EHT=Ravl.Images.Pixel_Types.html
