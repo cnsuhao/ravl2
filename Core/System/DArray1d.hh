@@ -96,28 +96,33 @@ namespace RavlN {
   {
   public:
     DArray1dBodyC()
-      : allocBlocksize(1024)
+      : nextFree(0),
+	allocBlocksize(1024)
     {}
     //: Default constructor.
-
-    DArray1dBodyC(IndexRangeC range) {
-      chunks.InsLast(*new DChunkC<DataT>(range.Min(),Array1dC<DataT>(range.Size())));
-    }
+    
+    DArray1dBodyC(IndexRangeC range) 
+      : nextFree(0),
+	allocBlocksize(1024)
+    { chunks.InsLast(*new DChunkC<DataT>(range.Min(),Array1dC<DataT>(range.Size()))); }
     //: Constructor an array with a range allocated.
     
-    DArray1dBodyC(SizeT size) {
-      chunks.InsLast(*new DChunkC<DataT>(Array1dC<DataT>(size)));
-    }
+    DArray1dBodyC(SizeT size) 
+      : nextFree(0),
+	allocBlocksize(1024)
+    { chunks.InsLast(*new DChunkC<DataT>(Array1dC<DataT>(size))); }
     //: Constructor an array with size elements allocated.
-
-    DArray1dBodyC(const Array1dC<DataT> &arr) {
-      chunks.InsLast(*new DChunkC<DataT>(arr));
-    }
+    
+    DArray1dBodyC(const Array1dC<DataT> &arr) 
+      : nextFree(0),
+	allocBlocksize(1024)
+    { chunks.InsLast(*new DChunkC<DataT>(arr)); }
     //: Construct from a normal array.
 
-    DArray1dBodyC(const SArray1dC<DataT> &arr) {
-      chunks.InsLast(*new DChunkC<DataT>(arr));
-    }
+    DArray1dBodyC(const SArray1dC<DataT> &arr) 
+      : nextFree(0),
+	allocBlocksize(1024)
+    { chunks.InsLast(*new DChunkC<DataT>(arr)); }
     //: Construct from a normal array.
     
     DArray1dC<DataT> Copy() const;
@@ -167,7 +172,7 @@ namespace RavlN {
 
     IndexC IMax() const { 
       if(chunks.IsEmpty())
-	return 0;// Together with IMin this should indicate an empty array.
+	return -1;// Together with IMin this should indicate an empty array.
       return chunks.Last().IMax();
     }
     //: Maximum offset used.
@@ -175,7 +180,7 @@ namespace RavlN {
     
     IndexC IMin() const {
       if(chunks.IsEmpty())
-	return 1; // Together with IMax this should indicate an empty array.
+	return 0; // Together with IMax this should indicate an empty array.
       return chunks.Last().IMin();
     }
     //: Minimum offset used.
@@ -470,9 +475,9 @@ namespace RavlN {
     lastBlk[nextFree] = newData;
     if(lastBlk.IMax() == nextFree)
       lastBlk = Array1dC<DataT>(); // Empty last block holder.
-    IndexC used = nextFree++;
-    chunks.Last().Data().SetIMax(used); // Must be a faster way to extend the array bounds.
-    return used;
+    chunks.Last().Data().SetIMax(nextFree); // Must be a faster way to extend the array bounds.
+    nextFree++;
+    return nextFree;
   }
   
   template<class DataT>
