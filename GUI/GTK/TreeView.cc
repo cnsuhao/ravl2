@@ -220,6 +220,14 @@ namespace RavlGUIN {
 	  else if (ait.Key() == "sortable") {
 	    gtk_tree_view_column_set_sort_column_id(GTK_TREE_VIEW_COLUMN (column), col_offset-1);
 	  }
+	  // Enable column reordering
+	  else if (ait.Key() == "reorderable") {
+	    gtk_tree_view_column_set_reorderable(GTK_TREE_VIEW_COLUMN (column), true);
+	  }	  
+	  // Enable column resizing
+	  else if (ait.Key() == "resizable") {
+	    gtk_tree_view_column_set_resizable(GTK_TREE_VIEW_COLUMN (column), true);
+	  }	  
 	}
       }
       

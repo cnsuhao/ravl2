@@ -139,7 +139,7 @@ namespace RavlGUIN {
     
     bool SetAttribute(UIntT colNum,const StringC &key,const StringC &value,bool proxy = true);
     //: Set an attribute for a column
-    // Possible keys include: "editable", "sortable", "activateable", "foreground"
+    // Possible keys include: "editable", "sortable", "activateable", "foreground", "reorderable", "resizable"
     
     Signal0C &ChangedSignal(UIntT colNum);
     //: Access changed signal for a column
@@ -211,7 +211,7 @@ namespace RavlGUIN {
     bool SetAttribute(UIntT colNum,const StringC &key,const StringC &value,bool proxy = true)
     { return Body().SetAttribute(colNum,key,value,proxy); }
     //: Set an attribute for a column
-    // Possible keys include: "editable", "sortable", "activateable", "foreground"
+    // Possible keys include: "editable", "sortable", "activateable", "foreground", "reorderable", "resizable"
     
     Signal0C &ChangedSignal(UIntT colNum)
     { return Body().ChangedSignal(colNum); }
