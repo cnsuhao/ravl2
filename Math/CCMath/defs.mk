@@ -14,3 +14,5 @@ PACKAGE= Ravl
 HEADERS= CCMath.hh
 
 LIBDEPS= CCMath.def
+
+PLIB= RavlMath
