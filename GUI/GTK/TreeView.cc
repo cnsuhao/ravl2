@@ -116,6 +116,7 @@ namespace RavlGUIN {
       case AVT_Abstract:
       case AVT_None:
       case AVT_Invalid:
+      case AVT_Component:
 	break;
       }
       ait->RenderType(renderType);

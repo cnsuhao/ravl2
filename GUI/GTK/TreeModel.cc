@@ -32,6 +32,7 @@ namespace RavlGUIN {
     case AVT_ByteRGBImage: return GDK_TYPE_PIXBUF;
     case AVT_None:     return G_TYPE_NONE;
     case AVT_Invalid:  return G_TYPE_INVALID;
+    case AVT_Component: return G_TYPE_NONE;
     }
     return G_TYPE_INVALID;
   }
