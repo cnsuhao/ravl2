@@ -70,7 +70,7 @@ int main(int nargs,char **argv) {
   
   // Save image to a file.
   
-  if(!Load(outf,image)) {
+  if(!Save(outf,image)) {
     cerr << "Failed to save to file '" << inf << "' \n";
     return 1;
   }
