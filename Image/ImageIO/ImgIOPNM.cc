@@ -338,7 +338,8 @@ namespace RavlImageN {
 	{
 	  char buff;
 	  for(Array2dIterC<ByteRGBValueC> it(img);it.IsElm();it.Next()) {
-	    if(inf.read(&buff,1) != 1)
+	    inf.read(&buff,1);
+	    if(inf.good())
 	      return ImageC<ByteRGBValueC>(); // Read FAILED !
 	    it.Data().Set(buff,buff,buff);
 	  }
@@ -483,7 +484,8 @@ namespace RavlImageN {
 	{
 	  for(Array2dIterC<ByteT> it(img);it.IsElm();it.Next()) {
 	    ByteRGBValueC tmp;
-	    if(inf.read((char *)&tmp,3) != 3)
+	    inf.read((char *)&tmp,3);
+	    if(inf.good())
 	      return ImageC<ByteT>(); // Read FAILED !
 	    it.Data() = (tmp.Red() + tmp.Green() + tmp.Blue())/3;
 	  }
