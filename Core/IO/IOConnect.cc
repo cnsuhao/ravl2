@@ -29,4 +29,11 @@ namespace RavlN {
     return false;
   }
   
+  //: Check if we're ready to run.
+  
+  bool DPIOConnectBaseBodyC::IsReady() const {
+    RavlAssertMsg(0,"DPIOConnectBaseBodyC::IsReady(), Abstract method called.");
+    return false;
+  }
+  
 }

@@ -40,6 +40,9 @@ namespace RavlN {
     virtual bool Step();
     //: Do a single processing step.
     
+    virtual bool IsReady() const;
+    //: Check if we're ready to run.
+    
   };
 
   //! userlevel=Develop
@@ -73,6 +76,10 @@ namespace RavlN {
     inline bool Run()
     { return Body().Run(); }
     //: Do processing.
+    
+    bool IsReady() const
+    { return Body().IsReady(); }
+    //: Check if we're ready to run.
   };
   
   //////////////////////////
