@@ -60,7 +60,24 @@ namespace RavlN {
     bool CanWrite() const
     { return canWrite; }
     //: Can you write the value of this attribute.
+
+    bool CanRead(bool can ) 
+      { 
+	bool ret = canRead ; 
+	canRead = can ;
+	return ret ; 
+      }
+    //: Set value of canRead - returns old value  
     
+    bool CanWrite (bool can) 
+      { 
+	bool ret = canWrite ; 
+	canWrite = can ; 
+	return ret ; 
+      }
+    //: Set value of canWrite - returns old value 
+
+
   protected:
     StringC name;  // Name of attribute
     StringC description; // Optional discription
@@ -106,7 +123,7 @@ namespace RavlN {
     
     const StringC &Name() const
     { return Body().Name(); }
-    //: Access name of attribute.
+    //: Access name of attribute const .
     
     const StringC &Description() const
     { return Body().Description(); }
@@ -114,12 +131,20 @@ namespace RavlN {
     
     bool CanRead() const
     { return Body().CanRead(); }
-    //: Can you read the value of this attribute ?
+    //: Can you read the value of this attribute const 
     
     bool CanWrite() const
     { return Body().CanWrite(); }
-    //: Can you write the value of this attribute.
+    //: Can you write the value of this attribute const
     
+    bool CanRead(bool canRead) 
+      { return Body().CanRead( canRead ) ; } 
+    //: Set value of CanRead 
+
+    bool CanWrite (bool canWrite ) 
+      { return Body().CanWrite( canWrite ) ; } 
+    //: Set value of CanWrite 
+
     bool SetToDefault(AttributeCtrlC &ctrl) const
     { return Body().SetToDefault(ctrl); }
     //: Set control to default value.

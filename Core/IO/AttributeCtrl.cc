@@ -105,7 +105,7 @@ namespace RavlN {
       if(parent.GetAttr(attrName,attrValue))
 	return true;
 
-    // Maybe attribute is of a different type ?
+       // Maybe attribute is of a different type ?
     
     AttributeTypeC attrType = GetAttrType(attrName);
     if(attrType.IsValid()) { // Do we know of this attribute ?

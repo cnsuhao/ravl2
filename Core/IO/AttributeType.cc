@@ -50,7 +50,8 @@ bool AttributeTypeBodyC::Save(ostream & strm) const {
 //: Output to stream 
 ostream & operator << (ostream & strm, const AttributeTypeBodyC & obj) 
 { 
-obj.Save(strm) ; 
+  strm << "Name: " << obj.Name()  << "\t" << obj.Description() << "\tCan Read: " << obj.CanRead() << "\t Can Write: " << obj.CanWrite() ; 
+  //obj.Save(strm) ; 
 return strm ; 
 }
 
