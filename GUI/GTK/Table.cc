@@ -76,7 +76,7 @@ namespace RavlGUIN {
 		       it.Data().xpadding,it.Data().ypadding);
       gtk_widget_show (it.Data().widge.Widget());
     }
-    children.Empty(); // Might as well free the memory.
+    //children.Empty(); // Might as well free the memory.
     ConnectSignals();
     return true;
   }
