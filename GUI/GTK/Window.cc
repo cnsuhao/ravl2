@@ -61,7 +61,7 @@ namespace RavlGUIN {
     if(widget == 0) {
       widget = gtk_window_new (winType);  
       if(rootWin && winType == GTK_WINDOW_TOPLEVEL) {
-	rootWinCount++;
+        rootWinCount++;
       }
       ConnectRef(Signal("delete_event"),*this,&WindowBodyC::Close);
       if(title != 0)
@@ -80,7 +80,7 @@ namespace RavlGUIN {
     if (!userresizable) GUIUserResizable(userresizable);
     // Set transience
     if (m_wParent.IsValid()) {
-      GUIMakeTransient(m_wParent);
+      GUIMakeTransient(m_wParent,m_wPosition);
       m_wParent.Invalidate();
     }
     // Set decorations
@@ -264,15 +264,28 @@ namespace RavlGUIN {
     return true;
   }
 
+  void WindowBodyC::MakeTransient(WindowC& parent, GtkWindowPosition &position) {
+    Manager.Queue(Trigger(WindowC(*this),&WindowC::GUIMakeTransient,parent,position));
+  }
+
   void WindowBodyC::MakeTransient(WindowC& parent) {
     Manager.Queue(Trigger(WindowC(*this),&WindowC::GUIMakeTransient,parent));
   }
 
   bool WindowBodyC::GUIMakeTransient(OneChildC& parent) {
-    if (widget!=0 && parent.Widget()!=0)
+    GtkWindowPosition position = GTK_WIN_POS_CENTER_ON_PARENT;
+    GUIMakeTransient(parent,position);
+    return true;
+  }
+
+  bool WindowBodyC::GUIMakeTransient(OneChildC& parent, GtkWindowPosition &position) {
+    if (widget!=0 && parent.Widget()!=0) {
       gtk_window_set_transient_for(GTK_WINDOW(widget),GTK_WINDOW(parent.Widget()));
-    else 
+      gtk_window_set_position(GTK_WINDOW(widget), position);
+    } else {
       m_wParent = parent;
+      m_wPosition = position;
+    }
     return true;
   }
 

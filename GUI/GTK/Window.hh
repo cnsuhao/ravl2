@@ -83,9 +83,13 @@ namespace RavlGUIN {
     void SetModal(bool& modal);
     //: Makes the window modal
 
-    void MakeTransient(WindowC& parent);
+    void MakeTransient(WindowC& parent, GtkWindowPosition &position);
     //: Makes this window transient for the parent
     // This means it will stay on top of it at all times
+
+    void MakeTransient(WindowC& parent);
+    //: Makes this window transient for the parent
+    // This means it will stay on top of it at all times.  Also the window will be centred on the parent.
 
   protected:
     virtual void Destroy();
@@ -132,9 +136,14 @@ namespace RavlGUIN {
     bool GUISetModal(bool& modal);
     //: Makes the window modal
 
+    bool GUIMakeTransient(OneChildC& parent, GtkWindowPosition &position);
+    //: Makes this window transient for the parent
+    // This means it will stay on top of it at all times.
+
     bool GUIMakeTransient(OneChildC& parent);
     //: Makes this window transient for the parent
-
+    // This means it will stay on top of it at all times.  Also the window will be centred on the parent.
+    
     virtual bool GUIShow();
     //: Show window on display.
     
@@ -149,6 +158,7 @@ namespace RavlGUIN {
     bool m_bDecorated; // Used only to cache SetDecorated calls - irrelevant after Create()
     GtkWindowType winType;
     OneChildC m_wParent; // Used only to cache MakeTransient calls - irrelevant after Create()
+    GtkWindowPosition m_wPosition;
     
     friend class WindowC;
   };
@@ -263,9 +273,16 @@ namespace RavlGUIN {
     { Body().SetModal(modal); }
     //: Makes the window modal
 
-    void MakeTransient(WindowC& parent)
-    { Body().MakeTransient(parent); }
+    void MakeTransient(WindowC& parent, GtkWindowPosition &position)
+    { Body().MakeTransient(parent,position); }
     //: Makes this window transient for the parent
+    // This means it will stay on top of it at all times.
+
+    void MakeTransient(WindowC& parent) {
+      Body().MakeTransient(parent);
+    }
+    //: Makes this window transient for the parent
+    // This means it will stay on top of it at all times.  Also the window will be centred on the parent.
 
     void SetDecorated(bool& decorated)
     { Body().SetDecorated(decorated); }
@@ -291,9 +308,15 @@ namespace RavlGUIN {
     { Body().SetCursor(cur); }
     //: Set cursor.
     
+    bool GUIMakeTransient(WindowC& parent,GtkWindowPosition &position)
+    { return Body().GUIMakeTransient(parent,position); }
+    //: Makes this window transient for the parent
+    // This means it will stay on top of it at all times.
+    
     bool GUIMakeTransient(WindowC& parent)
     { return Body().GUIMakeTransient(parent); }
     //: Makes this window transient for the parent
+    // This means it will stay on top of it at all times.  Also the window will be centred on the parent.
     
     friend class WindowBodyC;
   };
