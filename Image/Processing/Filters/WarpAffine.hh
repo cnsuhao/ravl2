@@ -88,16 +88,16 @@ namespace RavlImageN {
   void WarpAffineC<InT,OutT,MixerT>::Apply(const ImageC<InT> &src,ImageC<OutT> &outImg) {
     RealRange2dC orng(rec);
     RealRange2dC irng(src.Frame());
+    irng = irng.Expand(-1.1); // There's an off by a bit error somewhere in here...
     if(!outImg.IsValid())
       outImg = ImageC<OutT>(rec);
     
     //cerr << "Trans0=" << trans * orng.TopRight() << " from " << orng.TopRight() << "\n";
-    Matrix2dC invsr = trans.SRMatrix();
-    Point2dC at = Point2dC(outImg.Frame().Origin()) + invsr * trans.Translation();
+    
     const Matrix2dC &srm = trans.SRMatrix();
     Vector2dC ldir(srm[0][1],srm[1][1]);
     Vector2dC sdir(srm[0][0],srm[1][0]);
-    Point2dC lstart(at[0] * sdir + at[1] * ldir);
+    Point2dC lstart = trans * Point2dC(orng.Origin());
     lstart -= Vector2dC(0.5,0.5); //Co-ordinate system correction.
     Array2dIterC<OutT> it(outImg);
     
@@ -106,7 +106,6 @@ namespace RavlImageN {
        irng.Contains(trans * orng.BottomRight()) &&
        irng.Contains(trans * orng.BottomLeft())) {
       // Output maps entirely within input, so we don't have to do any checking!
-      //cerr << "No checking. \n";
       for(;it;) {
 	Point2dC pat = lstart;
 	do {

@@ -76,7 +76,7 @@ namespace RavlImageN {
 
   template<class DataT>
   GaussConvolveC<DataT>::GaussConvolveC(UIntT order) {
-    binomial = GenerateBinomial(1.0, order, true);
+    binomial = GenerateBinomial(1.0, order, true,true);
     conv.SetKernel(binomial, binomial);
   }
   
