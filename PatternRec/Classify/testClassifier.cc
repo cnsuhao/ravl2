@@ -63,7 +63,7 @@ int GenerateDataSet() {
 int testKNearestNeighbour() {
   cerr << "testKNearestNeighbour(), Called. \n";
   ClassifierKNearestNeighbourC knn(dataset,3);
-  int c = knn.Classifier(VectorC(0.3,0.2));
+  int c = knn.Classify(VectorC(0.3,0.2));
   if(c != 1) return __LINE__;
   VectorC vec =  knn.Confidence(VectorC(0.3,0.2));
   if(vec.Size() != 4) return __LINE__;
@@ -73,7 +73,7 @@ int testKNearestNeighbour() {
 int testAverageNearestNeighbour() {
   cerr << "testAverageNearestNeighbour(), Called. \n";
   ClassifierAverageNearestNeighbourC knn(dataset,3);
-  int c = knn.Classifier(VectorC(0.3,0.2));
+  int c = knn.Classify(VectorC(0.3,0.2));
   if(c != 1) return __LINE__;
   VectorC vec =  knn.Confidence(VectorC(0.3,0.2));
   if(vec.Size() != 4) return __LINE__;
@@ -86,7 +86,7 @@ int testDesignKMeans() {
   ClassifierC cv = kmeans.Apply(dataset.Sample1());
   HSetC<UIntT> labels;
   for(SampleIterC<VectorC> it(dataset.Sample1());it;it++) {
-    UIntT label = cv.Classifier(*it);
+    UIntT label = cv.Classify(*it);
     labels += label;
     //cerr << "Label=" << label << "\n";
   }

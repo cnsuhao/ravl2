@@ -40,7 +40,7 @@ namespace RavlN {
     virtual bool Save (BinOStreamC &out) const;
     //: Writes object to stream, can be loaded using constructor
     
-    virtual UIntT Classifier(const VectorC &data) const;
+    virtual UIntT Classify(const VectorC &data) const;
     //: Classifier vector 'data' return the most likely label.
     
     virtual VectorC Apply(const VectorC &data) const;
@@ -109,8 +109,8 @@ namespace RavlN {
     //: Access body.
     
   public:
-    UIntT Classifier(const VectorC &data) const
-    { return Body().Classifier(data); }
+    UIntT Classify(const VectorC &data) const
+    { return Body().Classify(data); }
     //: Classifier vector 'data' return the most likely label.
     
     VectorC Confidence(const VectorC &data) const

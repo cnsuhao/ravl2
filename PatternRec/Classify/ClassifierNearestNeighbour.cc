@@ -99,7 +99,7 @@ namespace RavlN {
   
   //: Classifier vector 'data' return the most likely label.
   
-  UIntT ClassifierNearestNeighbourBodyC::Classifier(const VectorC &vec) const {
+  UIntT ClassifierNearestNeighbourBodyC::Classify(const VectorC &vec) const {
     // Find the k nearest neighbours.
     
     SampleIterC<VectorC> it(vectors);

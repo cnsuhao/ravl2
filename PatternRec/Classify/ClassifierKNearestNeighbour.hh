@@ -54,7 +54,7 @@ namespace RavlN {
     //: Search for the the 'k' nearest neighbours.
     // Returns the label and the distance for the 'k' nearest neighbours.
     
-    virtual UIntT Classifier(const VectorC &data) const;
+    virtual UIntT Classify(const VectorC &data) const;
     //: Classifier vector 'data' return the most likely label.
     
     virtual VectorC Confidence(const VectorC &data) const;

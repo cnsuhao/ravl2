@@ -68,7 +68,7 @@ namespace RavlN {
   
   //: Classifier vector 'data' return the most likely label.
   
-  UIntT ClassifierDiscriminantFunctionBodyC::Classifier(const VectorC &data) const {
+  UIntT ClassifierDiscriminantFunctionBodyC::Classify(const VectorC &data) const {
     VectorC vec = func(data);
     return vec.MaxIndex().V();
   }

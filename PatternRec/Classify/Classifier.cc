@@ -44,7 +44,7 @@ namespace RavlN {
   
   //: Classifier vector 'data' return the most likely label.
   
-  UIntT ClassifierBodyC::Classifier(const VectorC &data) const {
+  UIntT ClassifierBodyC::Classify(const VectorC &data) const {
     RavlAssertMsg(0,"ClassifierBodyC::Classifier(), Abstract method called. ");
     return 0;
   }
@@ -55,7 +55,7 @@ namespace RavlN {
   VectorC ClassifierBodyC::Apply(const VectorC &data) const {
     VectorC ret(NoLabels());
     ret.Fill(0);
-    UIntT res = Classifier(data);
+    UIntT res = Classify(data);
     RavlAssert(res < NoLabels());
     ret[res] = 1;
     return ret;

@@ -85,7 +85,7 @@ namespace RavlN {
   
   //: Classifier vector 'data' return the most likely label.
   
-  UIntT ClassifierKNearestNeighbourBodyC::Classifier(const VectorC &data) const {
+  UIntT ClassifierKNearestNeighbourBodyC::Classify(const VectorC &data) const {
     // Find the k nearest neighbours.
     
     SArray1dC<Tuple2C<UIntT,RealT> > res = Search(data,defaultK);
