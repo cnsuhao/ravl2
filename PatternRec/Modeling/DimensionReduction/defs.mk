@@ -11,9 +11,9 @@ DESCRIPTION = Dimension reduction.
 
 PACKAGE = Ravl/PatternRec
 
-HEADERS=FuncSubset.hh DesignFuncReduce.hh DesignFuncPCA.hh
-
-SOURCES=FuncSubset.cc DesignFuncReduce.cc DesignFuncPCA.cc
+HEADERS=FuncSubset.hh DesignFuncReduce.hh DesignFuncPCA.hh  DesignFuncLDA.hh
+					                                    
+SOURCES=FuncSubset.cc DesignFuncReduce.cc DesignFuncPCA.cc  DesignFuncLDA.cc
 
 PLIB=RavlPatternRec
 
