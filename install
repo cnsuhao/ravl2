@@ -11,7 +11,7 @@ else
 fi
 
 case ${INSTMODE} in 
-  bin | src | clean)
+  bin | src | clean | auto)
      true ;;
   *) echo "Unrecognised mode '${INSTMODE}'"
      INSTMODE=""
