@@ -57,7 +57,7 @@ namespace Ravl3DN {
     IntT iNumSquares = iNumFaces / 2;
     if ( (iNumFaces%2) ) iNumSquares++;
     // Work out how many squares to a side of the texture (rounded up square root)
-    IntT iDim = IntT(ceil(sqrt(iNumSquares)));
+    IntT iDim = IntT(ceil(Sqrt(iNumSquares)));
     RealT dSize = 1.0/(RealT)iDim;
     // Generate texture coordinates for each triangle.
     SArray1dIterC<TriC> itFaces(faces);
