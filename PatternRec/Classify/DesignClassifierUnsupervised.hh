@@ -13,6 +13,7 @@
 //! lib=RavlPatternRec
 //! docentry="Ravl.Pattern Recognition.Cluster"
 //! file="Ravl/PatternRec/Classifier/DesignClassifierSupervised.hh"
+//! example=exKMeansCluster.cc
 
 #include "Ravl/RCHandleV.hh"
 #include "Ravl/Vector.hh"

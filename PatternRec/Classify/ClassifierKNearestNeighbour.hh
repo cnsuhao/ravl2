@@ -13,6 +13,7 @@
 //! userlevel=Normal
 //! docentry="Ravl.Pattern Recognition.Classifier"
 //! file="Ravl/PatternRec/Classifier/ClassifierKNearestNeighbour.hh"
+//! example=exKNearestNeighbour.cc
 
 #include "Ravl/PatternRec/Distance.hh"
 #include "Ravl/PatternRec/DataSet2.hh"

@@ -30,3 +30,5 @@ LIBDEPS = RavlPatternRecClassifier.def
 USESLIBS=RavlPatternRec
 
 EHT = Ravl.Pattern_Recognition.Classify.html
+
+EXAMPLES= exKMeansCluster.cc exKNearestNeighbour.cc

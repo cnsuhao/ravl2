@@ -10,6 +10,7 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! docentry="Ravl.Pattern Recognition.Cluster"
+//! example=exKMeansCluster.cc
 
 #include "Ravl/PatternRec/DesignClassifierUnsupervised.hh"
 #include "Ravl/PatternRec/DistanceSqrEuclidean.hh"

@@ -13,6 +13,7 @@
 //! lib=RavlPatternRec
 //! docentry="Ravl.Pattern Recognition.Classifier"
 //! file="Ravl/PatternRec/Classifier/DesignClassifierSupervised.hh"
+//! example=exKNearestNeighbour.cc
 
 #include "Ravl/RCHandleV.hh"
 #include "Ravl/Vector.hh"
