@@ -17,7 +17,6 @@
 
 #include "Ravl/Threads/Signal1.hh"
 #include "Ravl/DList.hh"
-#include "Ravl/DP/Entity.hh"
 #include "Ravl/GUI/GTKTypes.hh"
 #include "Ravl/Index2d.hh"
 #include "Ravl/IndexRange2d.hh"
