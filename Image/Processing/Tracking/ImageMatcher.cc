@@ -39,14 +39,15 @@ namespace RavlImageN {
 			       IntT matchSearchSize,
 			       IntT matchThreshold,
 			       RealT nzhomogTemplate,
-			       RealT nzhomogImage)
+			       RealT nzhomogImage,
+			       bool nverbose)
     : cropT(ncropT), cropB(ncropB), cropL(ncropL), cropR(ncropR),
       zhomogTemplate(nzhomogTemplate),
       zhomogImage(nzhomogImage),
+      verbose(nverbose),
       imageTemplate(nimageTemplate),
       tracker(matchPatchSize,matchSearchSize,matchThreshold)
-  {
-  }
+  { }
   
   //: Matches an image to the template.
   bool ImageMatcherC::Apply(const ImageC<ByteT> &img, Projection2dC &proj)
@@ -104,9 +105,11 @@ namespace RavlImageN {
     // initialise Levenberg-Marquardt algorithm
     StateVectorHomog2dC sv = ransac.GetSolution();
     LevenbergMarquardtC lm = LevenbergMarquardtC(sv, compatibleObsList);
-
-    cout << "2D homography fitting: Initial residual=" << lm.GetResidual() << endl;
-    cout << "Selected " << compatibleObsList.Size() << " observations using RANSAC" << endl;
+    if (verbose) {
+      cout << "2D homography fitting: Initial residual=" << lm.GetResidual()
+	   << "\nSelected " << compatibleObsList.Size()
+	   << " observations using RANSAC" << endl;
+    }
     VectorC x = lm.SolutionVector();
     x /= x[8];
     try {
@@ -120,9 +123,10 @@ namespace RavlImageN {
         else
           // iteration failed to reduce the residual
           lambda *= 10.0;
-
-        cout << " Accepted=" << accepted << " Residual=" << lm.GetResidual();
-        cout << " DOF=" << 2*compatibleObsList.Size()-8 << endl;
+	if (verbose) {
+	  cout << " Accepted=" << accepted << " Residual=" << lm.GetResidual()
+	       << " DOF=" << 2*compatibleObsList.Size()-8 << endl;
+	}
       }
     } catch(...) {
       // Failed to find a solution.
@@ -134,10 +138,7 @@ namespace RavlImageN {
     sv = lm.GetSolution();
     Matrix3dC P = sv.GetHomog();
     P /= P[2][2];
-
-    cout << "Solution: (" << P[0][0] << " " << P[0][1] << " " << P[0][2] << ")" << endl;
-    cout << "          (" << P[1][0] << " " << P[1][1] << " " << P[1][2] << ")" << endl;
-    cout << "          (" << P[2][0] << " " << P[2][1] << " " << P[2][2] << ")" << endl;
+    if (verbose)  cout << "Solution: " << P << endl;
 
     // update 2D projection from image onto template
     proj = Projection2dC(P.Inverse(),zhomogImage,zhomogTemplate);

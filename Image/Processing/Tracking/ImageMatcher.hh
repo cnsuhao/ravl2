@@ -35,7 +35,8 @@ namespace RavlImageN {
 		  IntT matchSearchSize=25,
 		  IntT matchThreshold=20,
 		  RealT zhomogTemplate=1.0,
-		  RealT zhomogImage=1.0);
+		  RealT zhomogImage=1.0,
+		  bool verbose=false);
     //: Constructor
     // Initialises image matcher
 
@@ -52,6 +53,7 @@ namespace RavlImageN {
     // stored parameters
     IntT cropT, cropB, cropL, cropR;
     RealT zhomogTemplate, zhomogImage;
+    bool verbose;
 
     // stored data
     ImageC<ByteT> imageTemplate;
