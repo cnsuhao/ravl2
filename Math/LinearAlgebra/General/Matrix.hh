@@ -60,8 +60,8 @@ namespace RavlN {
     MatrixC Inverse() const;
     //: Calculate the inverse of this matrix.
     // an invalid matrix is returned if this matrix is
-    // singular. This can be tested for by IsValid().
-
+    // singular. 
+    
     bool InverseIP();
     //: Calculate the inverse of this matrix in place.
     // Returns false if matrix is singular. <p>
