@@ -14,12 +14,14 @@ HEADERS=StringList.hh Option.hh TypeName.hh BufStream.hh \
  Collection.hh CollectionIter.hh IO.hh \
  DArray1d.hh DArray1dIter.hh DArray1dIter2.hh DArray1dIter3.hh \
  VirtualConstructor.hh FunctionRegister.hh IndexNd.hh Cache.hh \
- DListExtra.hh VariableLengthCode.hh IndexRange2dSet.hh Base64.hh
+ DListExtra.hh VariableLengthCode.hh IndexRange2dSet.hh Base64.hh \
+ PointerManager.hh
 
 SOURCES=StringList.cc Option.cc TypeName.cc BufStream.cc \
  SubStringList.cc XMLStream.cc XMLTree.cc StreamParse.cc \
  VirtualConstructor.cc FunctionRegister.cc IndexNd.cc \
- VariableLengthCode.cc IndexRange2dSet.cc Base64.cc
+ VariableLengthCode.cc IndexRange2dSet.cc Base64.cc \
+ PointerManager.cc
 
 PLIB=RavlCore
 
@@ -27,7 +29,7 @@ LIBDEPS=RavlSys.def
 
 USESLIBS=RavlCore
 
-EXAMPLES=exOption.cc exXMLTree.cc exVariableLengthCode.cc exXMLStream.cc
+EXAMPLES=exOption.cc exXMLTree.cc exVariableLengthCode.cc exXMLStream.cc exObjIO.cc
 
 EHT=Ravl.Core.XML.html Ravl.Core.IO.Type_Name.html Ravl.Core.IO.Function_Register.html
 
