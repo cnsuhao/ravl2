@@ -43,18 +43,24 @@ namespace RavlGUIN {
     PixbufC(const char **data);
     //: Create from XPM data.
     
+    PixbufC(const StringC &name);
+    //: Create from filename
+    
     PixbufC(GdkPixbuf *rawPixBuf);
     //: Handle raw pixbuf.
     
     ~PixbufC();
     //: Destructor.
     
-    
     GdkPixbuf *Pixbuf()
     { return pixbuf; }
 
     const GdkPixbuf *Pixbuf() const
     { return pixbuf; }
+    
+    const IntT Rows() const;
+    
+    const IntT Cols() const;
     
   protected:
     GdkPixbuf *pixbuf;

@@ -53,9 +53,18 @@ namespace RavlGUIN {
   
   PixbufC::PixbufC(const char **data) {
     pixbuf = gdk_pixbuf_new_from_xpm_data (data);
-    gdk_pixbuf_ref(pixbuf);
+    if (pixbuf != 0)
+      gdk_pixbuf_ref(pixbuf);
   }
   
+  //: Create from filename.
+  
+  PixbufC::PixbufC(const StringC &name) {
+    pixbuf = gdk_pixbuf_new_from_file(name, NULL);
+    if (pixbuf != 0)
+      gdk_pixbuf_ref(pixbuf);
+  }
+
   //: Destructor.
   
   PixbufC::~PixbufC() {
@@ -63,5 +72,15 @@ namespace RavlGUIN {
       gdk_pixbuf_unref(pixbuf);
   }
 
+  const IntT PixbufC::Rows() const
+  {
+    return (pixbuf != 0 ? gdk_pixbuf_get_height(pixbuf) : 0);
+  }
+  
+  const IntT PixbufC::Cols() const
+  {
+    return (pixbuf != 0 ? gdk_pixbuf_get_width(pixbuf) : 0);
+  }
+  
 #endif
 }
