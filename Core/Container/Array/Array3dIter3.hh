@@ -72,7 +72,7 @@ namespace RavlN {
     // Return TRUE if there actually is one.
     
     Index3dC Index() const { 
-      assert(dat1.IsValid());
+      RavlAssert(dat1.IsValid());
       Index2dC i2 = sit.Index(rit.Data1().ReferenceElm());
       return Index3dC((IndexC) (&(rit.Data1()) - dat1.ReferenceElm()),
 		      (IndexC) i2.Row(),

@@ -58,7 +58,7 @@ namespace RavlN {
     //: Assign to another array.
     
     Index3dC Index() const { 
-      assert(dat.IsValid());
+      RavlAssert(dat.IsValid());
       Index2dC i2 = sit.Index(rit->ReferenceElm());
       return Index3dC((IndexC) (&(*rit) - dat.ReferenceElm()),
 		      (IndexC) i2.Row(),
