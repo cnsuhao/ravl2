@@ -173,7 +173,10 @@ namespace RavlN {
     const BufferC<DataT> &Buffer() const
       { return buffer; }
     //: Access the raw buffer.
-    
+
+    const IndexRangeC &Range() const
+    { return rng; }
+    //: Access range of valid indexs.
   protected:
     IndexRangeC rng;// Range of valid index's
     IntT stride;    // Stride of data.

@@ -25,6 +25,7 @@
 #include "Ravl/BfAcc2Iter3.hh"
 #include "Ravl/SArray2d.hh"
 #include "Ravl/Math.hh"
+#include "Ravl/Slice1d.hh"
  
 class istream;
 class ostream;
@@ -99,7 +100,7 @@ namespace RavlN {
     
     Slice1dC<DataT> SliceColumn(IndexC i) { 
       return Slice1dC<DataT>(data.Data(),
-			     &((*this)[Range1().Min()][i]) - (Range1().Min() * Stride()),
+			     &((*this)[Range1().Min()][i]) - (Range1().Min().V() * Stride()),
 			     Range1(),
 			     Stride());
     }

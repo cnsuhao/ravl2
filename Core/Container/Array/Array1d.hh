@@ -498,9 +498,9 @@ namespace RavlN {
   
   template <class DataT>
   Array1dC<DataT> &Array1dC<DataT>::Copy(const Slice1dC<DataT> &data) {
-    RavlAssert(Contains(data.Range()));
-    DataT *at = &(*this)[data.Min()];
-    for(Slice1dIterC<DataT> it(slice);it;it++,at++)
+    RavlAssert(Range().Contains(data.Range()));
+    DataT *at = &(*this)[data.Range().Min()];
+    for(Slice1dIterC<DataT> it(data);it;it++,at++)
       *at = *it;
     return *this;
   }
