@@ -238,7 +238,7 @@ ifeq ($(filter Auto,$(USESLIBS)),Auto)
    AUTOPROGLIBS := $(PLIB).def $(AUTOPROGLIBS)
   endif
   ifndef NOINCDEFS
-   ifneq ($(strip $(AUTOPROGLIBS)),)
+   ifneq ($(strip $(filter-out $(PLIB).def,$(AUTOPROGLIBS))),)
     include $(filter-out $(PLIB).def,$(AUTOPROGLIBS))
    endif
   endif
