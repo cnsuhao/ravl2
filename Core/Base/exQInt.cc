@@ -21,21 +21,22 @@ using namespace RavlN;
 
 
 inline IntT LFloor(RealT x) {
-#if 0
+#if 1
   int y = static_cast<IntT>(x);
   if(y >=0) return y;
   return y + ((static_cast<double>(y) == x) ? 0 : -1);
 #else
-#if 0
-  int r;
-  FLOAT_TO_INT(x,r);
-  return r;
-#else
-  return lrintf(x);
-#endif
+  if(x >= 0) return x;
+  return static_cast<int>(1.0-x)*-1;
 #endif
 }
 //: Returns the greatest integral  value  less  than  or equal  to  'x'.
+
+inline IntT LRound(RealT x)
+{ 
+  //return x;
+  return lrint(x);
+}
 
 int main(int nargs,char **argv) {
   OptionC opt(nargs,argv);
@@ -57,6 +58,7 @@ int main(int nargs,char **argv) {
 	cerr << "Using Round. \n";
 	for(RealT v = -count;v < count;v += 0.013) {
 	  sum += Round(v);
+	  sum += Round(v);
 	}
       }
     } else {
@@ -77,7 +79,7 @@ int main(int nargs,char **argv) {
   } else {
     double values[] = { 0,0.1,-0.25,-3.6 , -3, 1.3,100000.01,1000,-1000,-0.00000000000001 };
     for(int i = 0;i < 10;i++) {
-      cerr << "Round " << values[i] << " N=" << Round(values[i])  << " Q=" << QRound(values[i]) << " round=" << round(values[i]) << "\n";
+      cerr << "Round " << values[i] << " N=" << LRound(values[i])  << " Q=" << QRound(values[i]) << " round=" << round(values[i]) << "\n";
       cerr << "Floor " << values[i] << " N=" << LFloor(values[i])  << " Q=" << QFloor(values[i]) << " floor=" << floor(values[i]) << "\n";
       if(round(values[i]) != QRound(values[i])) {
 	cerr << "test failed. \n";

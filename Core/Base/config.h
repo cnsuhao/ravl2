@@ -186,6 +186,8 @@
 
 #define RAVL_QINT_WORKAROUND RAVL_COMPILER_GCC3   /* Do we need a bug work around for the QInt functions (See Ravl/QInt.hh) */
 
+#define RAVL_HAVE_LRINT     RAVL_OS_LINUX  /* Do we have lrint and friends ? This is a C99 extention*/
+
 /********************************************************************************/
 /****** Compiler/ C++ Library ***************************************************/
 
