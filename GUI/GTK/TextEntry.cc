@@ -33,10 +33,9 @@ namespace RavlGUIN {
       sigAllChanges(nsigAllChanges),
       bPasswdMode(false),
       activate(text),
-      isEditable(editable)
       xsize(xdim), 
-    ysize(ydim),
-    isEditable(editable)
+      ysize(ydim),
+      isEditable(editable)
   {}
   
   //: Got a changed signal.
