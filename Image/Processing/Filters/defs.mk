@@ -16,7 +16,6 @@ HEADERS= Convolve2d.hh ConvolveSeparable2d.hh ConvolveHorz2d.hh \
  HistogramEqualise.hh Correlate2d.hh Matching.hh
 
 SOURCES= HomomorphicFilter.cc Correlate2d.cc
-# Convolve2d.cc
 
 TESTEXES= testConvolve.cc
 
