@@ -17,6 +17,14 @@
 #include "Ravl/Threads/Signal1.hh"
 #include "Ravl/InDLIter.hh"
 
+// Fix for Visual C++ which doesn't like default values for
+// some templated arguments. 
+#ifdef VISUAL_CPP
+#define VCPPARGFIX(x) x
+#else
+#define VCPPARGFIX(x)
+#endif
+
 namespace RavlN {
   
   template<class Data1T,class Data2T> class Signal2C;
@@ -444,7 +452,7 @@ namespace RavlN {
   
   template<class Data1T,class Data2T>  
   inline 
-  SignalConnectorC Connect(Signal0C &from,bool (*func)(Data1T &,Data2T &),const Data1T &def1 =Data1T(),const Data2T &def2 = Data2T()) { 
+  SignalConnectorC Connect(Signal0C &from,bool (*func)(Data1T &,Data2T &),const Data1T &def1 VCPPARGFIX(=Data1T()),const Data2T &def2 VCPPARGFIX(=Data2T())) { 
     RavlAssert(from.IsValid());
     return Signal2FuncC<Data1T,Data2T>(from,func,def1,def2);  
   }
@@ -453,7 +461,7 @@ namespace RavlN {
 
   template<class Data1T,class Data2T,class ObjT>
   inline
-  SignalConnectorC Connect(Signal0C &from,const ObjT &obj,bool (ObjT::* func)(Data1T &arg1,Data2T &arg2),const Data1T &def1 = Data1T(),const Data2T &def2 = Data2T()) {
+  SignalConnectorC Connect(Signal0C &from,const ObjT &obj,bool (ObjT::* func)(Data1T &arg1,Data2T &arg2),const Data1T &def1 VCPPARGFIX(= Data1T()),const Data2T &def2 VCPPARGFIX(=Data2T())) {
     RavlAssert(from.IsValid());
     return Signal2MethodC<Data1T,Data2T,ObjT>(from,obj,func,def1,def2); 
   }
@@ -462,7 +470,7 @@ namespace RavlN {
 
   template<class Data1T,class Data2T,class ObjT>
   inline
-  SignalConnectorC ConnectRef(Signal0C &from,ObjT &obj,bool (ObjT::* func)(Data1T &arg1,Data2T &arg2),const Data1T &def1 = Data1T(),const Data2T &def2 = Data2T()) {
+  SignalConnectorC ConnectRef(Signal0C &from,ObjT &obj,bool (ObjT::* func)(Data1T &arg1,Data2T &arg2),const Data1T &def1 VCPPARGFIX(=Data1T()),const Data2T &def2 VCPPARGFIX(=Data2T())) {
     RavlAssert(from.IsValid());
     return Signal2MethodRefC<Data1T,Data2T,ObjT>(from,obj,func,def1,def2); 
   }
@@ -473,4 +481,6 @@ namespace RavlN {
   // remains valid while being used.
 
 };
+
+#undef VCPPARGFIX
 #endif

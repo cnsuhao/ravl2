@@ -131,7 +131,7 @@ namespace RavlN {
     if(size > 0)
       Data = new char [sizeof(T) * size];
     else
-      Data = NULL;
+      Data = 0;
   }
   
   template<class T>

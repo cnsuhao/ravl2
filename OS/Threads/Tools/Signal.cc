@@ -46,8 +46,8 @@ namespace RavlN {
       return ; // Disconnected already.
     // Make new array 1 bigger than old.
     SArray1dC<SignalConnectorC> newouts(outputs.Size() - 1);
-    for(int i = 0;i < ind;i++)
-      newouts[i] = outputs[i];
+    for(int j = 0;j < ind;j++)
+      newouts[j] = outputs[j];
     for(int i = ind;i < ((IntT) newouts.Size());i++) {
       SignalConnectorC &sc = outputs[i+1];
       sc.Body().ind = i; // Update id.
