@@ -17,6 +17,8 @@ SOURCES=SerialIO.cc
 
 PLIB=RavlOS
 
+EHT= Ravl.OS.Hardware.html
+
 USESLIBS=RavlCore
 
 LIBDEPS=RavlOSMisc.def
