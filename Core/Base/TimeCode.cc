@@ -60,7 +60,7 @@ namespace RavlN {
       frame = atoi(&p[9]);
     }
   
-    if((hour>3) || (min>59) || (sec>59) || (frame>24)) {
+    if((hour>23) || (min>59) || (sec>59) || (frame>24)) {
       hour = 0xff;
       min = 0xff;
       sec = 0xff;
@@ -146,7 +146,7 @@ namespace RavlN {
     int frame = (int)sc.rem;
     
     bool valid = true;
-    if((hour<0)||(hour>3)) valid = false;
+    if((hour<0)||(hour>23)) valid = false;
     else if((minute<0)||(minute>59)) valid = false;
     else if((second<0)||(second>59)) valid = false;
     if((frame<0)||(frame>24)) valid = false;
