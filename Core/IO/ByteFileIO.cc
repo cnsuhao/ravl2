@@ -98,8 +98,8 @@ namespace RavlN {
   // Currently will only seek to begining of stream.
   
   bool DPIByteFileBodyC::Seek(UIntT newOff) {
-    in.Seek(static_cast<UIntT>(dataStart + static_cast<streampos>(newOff)));
     in.is().clear(); // Clear any end of stream errors.
+    in.Seek(static_cast<UIntT>(dataStart + static_cast<streampos>(newOff)));
     off = newOff;
     return true;
   }
@@ -119,8 +119,8 @@ namespace RavlN {
   // Currently will only seek to begining of stream.
   
   bool DPIByteFileBodyC::Seek64(StreamPosT newOff) {
-    in.Seek(static_cast<streamoff>(dataStart +  newOff));
     in.is().clear(); // Clear any end of stream errors.
+    in.Seek(static_cast<streamoff>(dataStart +  newOff));
     off = newOff;
     return true;
   }
