@@ -11,6 +11,7 @@
 #include "Ravl/LeastSquares.hh"
 #include "ccmath/ccmath.h"
 #include "Ravl/Exception.hh"
+#include "Ravl/SVD.hh"
 
 namespace RavlN {
   
@@ -57,5 +58,17 @@ namespace RavlN {
     return result;
   }
   
+  //: Solve X * v = 0, contraining the solutions to |V] == 1 
+  //!param: X - Equation matrix.
+  //!param: rv - Result vector.
+  
+  bool LeastSquaresEq0Mag1(const MatrixC &X,VectorC &rv) {
+    SVDC<RealT> SVD(X,false,true);
+    MatrixC v = SVD.GetV();
+    TVectorC<RealT> sv = SVD.SingularValues();
+    rv = v.SliceColumn(v.Cols()-1);
+    return true;
+  }
+
   
 }

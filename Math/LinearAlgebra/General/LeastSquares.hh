@@ -43,6 +43,12 @@ namespace RavlN {
   // From Appendix 5 of the Second edition of Multiple View Geometry by
   // R. Hartly and A.Zisserman.
   
+  bool LeastSquaresEq0Mag1(const MatrixC &X,VectorC &rv);
+  //: Find least squares solution to X * v = 0, contraining the solutions to |V] == 1 
+  //!param: X - Equation matrix.
+  //!param: rv - Result vector.
+  
+  
   
 }
 
