@@ -258,6 +258,15 @@ namespace RavlN {
   
   //! userlevel=Normal
   //:  An end point for a network packet base protocol.
+  // This class provides a peer to peer communication mechanism for operation over a network.
+  // The user can register functions to be called when a messages (identified by a id number) are 
+  // sent over the connection. Sending and receiving are handled asynchronously, one thread
+  // handles sending messages from the transmit queue, whilst the other handles decoding of messages
+  // and dispatching them to the receiver functions.<br>
+  // Note: There is only 1 receiver thread, if you wish to process other incoming messages whilst 
+  // handling a long request you should use LanuchThread() to create a separate thread for handling it.<br>
+  // Note: The processing threads hold a reference to this class and it will not be destroyed until 
+  // the connection is closed down, either with the 'Close()' method or by loosing the connection.
   
   class NetEndPointC 
     : public RCHandleC<NetEndPointBodyC>
