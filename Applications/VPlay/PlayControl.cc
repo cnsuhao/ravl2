@@ -387,15 +387,15 @@ namespace RavlGUIN {
     
     frameSlider = SliderH(theStart,theStart,maxSize,1,PlayControlC(*this),&PlayControlC::SliderCallback); 
     
-    Add(PackInfoC(HBox(HBox(Button(PixmapC(rewind_xpm),PlayControlC(*this),&PlayControlC::Rewind) +
-			    Button(PixmapC(fback_xpm) ,PlayControlC(*this),&PlayControlC::Backx2) +
-			    Button(PixmapC(back_xpm)  ,PlayControlC(*this),&PlayControlC::Back) +
-			    Button(PixmapC(jogbkw_xpm),PlayControlC(*this),&PlayControlC::JBkw) +
-			    Button(PixmapC(stop_xpm)  ,PlayControlC(*this),&PlayControlC::Stop) +
-			    Button(PixmapC(jogfwd_xpm),PlayControlC(*this),&PlayControlC::JFwd) +
-			    Button(PixmapC(play_xpm)  ,PlayControlC(*this),&PlayControlC::Play) + 
-			    Button(PixmapC(ff_xpm)    ,PlayControlC(*this),&PlayControlC::Playx2) +
-			    Button(PixmapC(theend_xpm),PlayControlC(*this),&PlayControlC::TheEnd),
+    Add(PackInfoC(HBox(HBox(Button(PixmapC(rewind_xpm),PlayControlC(*this),&PlayControlC::Rewind,"Go to first frame") +
+			    Button(PixmapC(fback_xpm) ,PlayControlC(*this),&PlayControlC::Backx2,"Reverse at double speed") +
+			    Button(PixmapC(back_xpm)  ,PlayControlC(*this),&PlayControlC::Back,"Reverse") +
+			    Button(PixmapC(jogbkw_xpm),PlayControlC(*this),&PlayControlC::JBkw,"Back one frame") +
+			    Button(PixmapC(stop_xpm)  ,PlayControlC(*this),&PlayControlC::Stop,"Stop") +
+			    Button(PixmapC(jogfwd_xpm),PlayControlC(*this),&PlayControlC::JFwd,"Forward one frame") +
+			    Button(PixmapC(play_xpm)  ,PlayControlC(*this),&PlayControlC::Play,"Play") + 
+			    Button(PixmapC(ff_xpm)    ,PlayControlC(*this),&PlayControlC::Playx2,"Play at double speed") +
+			    Button(PixmapC(theend_xpm),PlayControlC(*this),&PlayControlC::TheEnd,"Go to last frame"),
 			    0,false)),
 		  false,false,2) +
 	PackInfoC(frameSlider,false,true,2)
