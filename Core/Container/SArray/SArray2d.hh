@@ -62,7 +62,7 @@ namespace RavlN {
     //: Constructor.
     // Create a size[0] by size[1] array.
     
-    SArray2dC(const BufferC<DataT> & bf, SizeT size1,SizeT size2,SizeT startOffset = 0,SizeT stride = 0);
+    SArray2dC(const BufferC<DataT> & bf, SizeT size1,SizeT size2,SizeT startOffset = 0,IntT stride = 0);
     //: Constructor using the buffer 'bf'. 
     // This can be used, for example to view a 1d array, as a 2d array.
     // startOffset is the location in the buffer to use as 0,0.
@@ -75,7 +75,7 @@ namespace RavlN {
     //: Create a new access to 'rng' of 'arr'.
     // 'rng' must be within 'arr'. The origin of the new array will be at 'rng.Origin()' of 'arr'.
     
-    SArray2dC(DataT *data,SizeT size1,SizeT size2,bool copyMemory = false,bool freeMemory = false,SizeT stride = 0);
+    SArray2dC(DataT *data,SizeT size1,SizeT size2,bool copyMemory = false,bool freeMemory = false,IntT stride = 0);
     //: Create size1 x size2 array from memory given in 'data'
     // If freeMemory is true it 'data' will be freed with a 'delete []' call when no longer required.
     
@@ -220,7 +220,7 @@ namespace RavlN {
     {}
     //: Construct from a buffer, and an existing buffer access.
     
-    void BuildAccess(UIntT offset = 0,UIntT stride = 0);
+    void BuildAccess(UIntT offset = 0,IntT stride = 0);
     
     Buffer2dC<DataT> data; // Handle to data.
     
@@ -263,11 +263,15 @@ namespace RavlN {
   /////////////////////////////////////////////////////
 
   template<class DataT>
-  void SArray2dC<DataT>::BuildAccess(UIntT offset,UIntT stride) {
+  void SArray2dC<DataT>::BuildAccess(UIntT offset,IntT stride) {
     Attach(data);
     if(stride == 0)
       stride = this->size2;
-    DataT *at = data.Data().ReferenceElm() + offset;
+    DataT *at;
+    if(stride > 0)
+      at = data.Data().ReferenceElm() + offset;
+    else
+      at = data.Data().ReferenceElm() + offset + (data.Data().Size() + stride); // Goto the end of the buffer.
     for(BufferAccessIterC<BufferAccessC<DataT> > it(*this);
 	it;it++,at += stride)
       *it = BufferAccessC<DataT>(at);
@@ -292,15 +296,15 @@ namespace RavlN {
   { BuildAccess(); }
   
   template<class DataT>
-  SArray2dC<DataT>::SArray2dC(const BufferC<DataT> & bf, SizeT size1,SizeT nsize2,SizeT startOffset,SizeT stride)
+  SArray2dC<DataT>::SArray2dC(const BufferC<DataT> & bf, SizeT size1,SizeT nsize2,SizeT startOffset,IntT stride)
     : SizeBufferAccess2dC<DataT>(nsize2),
       data(bf,size1)
   { BuildAccess(startOffset,stride); }
   
   template<class DataT>
-  SArray2dC<DataT>::SArray2dC(DataT *data,SizeT size1,SizeT nsize2,bool copyMemory,bool freeMemory,SizeT stride) 
+  SArray2dC<DataT>::SArray2dC(DataT *data,SizeT size1,SizeT nsize2,bool copyMemory,bool freeMemory,IntT stride) 
     : SizeBufferAccess2dC<DataT>(nsize2),
-      data(size1,Max(nsize2,stride),data,copyMemory,freeMemory)
+      data(size1,Max(nsize2,static_cast<SizeT>(Abs(stride))),data,copyMemory,freeMemory)
   { BuildAccess(0,stride); }  
   
   template<class DataT>
