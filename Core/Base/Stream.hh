@@ -342,10 +342,13 @@ namespace RavlN {
     //: Copy constructor.
     
     void Unget(StringC text);
-    //: Put string pack. (Puts a '\n')
+    //: Put string back. 
+    // Note: you must unget exactly what was previously read.
+    // This includs a '\n' as a terminator 
     
     void Unget(const char *dat,int len);
-    //: Put string pack.
+    //: Put string back.
+    // Note: you must unget exactly what was previously read.
     
     IntT CopyTo(OStreamC &out,IntT maxChars = -1);
     //: Copy stream to output.
