@@ -59,7 +59,7 @@ int main(int nargs,char *args[])
   if(netExport) {
     if(!NetPortOpen(serverAddress)) {
       if(verb)
-	cout << "Open network failed. \n" << flush;
+	cout << "STATUS: Open network failed. \n" << flush;
       cerr << "Failed to open NetPortManager." << serverAddress << " \n";
       return __LINE__;
     }
@@ -71,7 +71,7 @@ int main(int nargs,char *args[])
     
     if(!OpenISequence(vidIn,infile,formatIn,verb)) {
       if(verb)
-	cout << "Open failed. \n" << flush;
+	cout << "STATUS: Open failed. \n" << flush;
       cerr << "ERROR: Failed to open input '" << infile << "'\n";
       exit(1);
     }
@@ -82,7 +82,7 @@ int main(int nargs,char *args[])
 	return __LINE__;
       }
       if(verb)
-	cout << "Stream ready.\n" << flush;
+	cout << "STATUS: Stream ready.\n" << flush;
       while(1)
 	Sleep(1000);
       return 0;
@@ -92,8 +92,15 @@ int main(int nargs,char *args[])
       cerr << "ERROR: Failed to open output '" << infile << "'\n";
       exit(1);
     }
-    if(verb)
-      cout << "Stream ready.\n" << flush;
+    
+    if (!(vidIn.IsGetReady() && vidOut.IsPutReady())) {
+      if (verb) 
+	cout << "STATUS: Open failed. \n" << flush;
+      exit(1);
+    }
+
+    if (verb)
+      cout << "STATUS: Stream ready.\n" << flush;
     
     es += vidIn >>= DPFixedBufferC<ImageC<ByteRGBValueC > >(bufferSize)
 		>>= vidOut;
@@ -104,7 +111,7 @@ int main(int nargs,char *args[])
     
     if(!OpenISequence(vidIn,infile,formatIn,verb)) {
       if(verb)
-	cout << "Open failed. \n" << flush;
+	cout << "STATUS: Open failed. \n" << flush;
       cerr << "ERROR: Failed to open input '" << infile << "'\n";
       exit(1);
     }
@@ -115,7 +122,7 @@ int main(int nargs,char *args[])
 	return __LINE__;
       }
       if(verb)
-	cout << "Stream ready.\n" << flush;
+	cout << "STATUS: Stream ready.\n" << flush;
       while(1)
 	Sleep(1000);
       return 0;
@@ -125,15 +132,22 @@ int main(int nargs,char *args[])
       cerr << "ERROR: Failed to open output '" << infile << "'\n";
       exit(1);
     }
+
+    if (!(vidIn.IsGetReady() && vidOut.IsPutReady())) {
+      if (verb) 
+	cout << "STATUS: Open failed. \n" << flush;
+      exit(1);
+    }
+
     if(verb)
-      cout << "Stream ready.\n" << flush;
+      cout << "STATUS: Stream ready.\n" << flush;
     
     es += vidIn >>= DPFixedBufferC<ImageC<ByteYUVValueC > >(bufferSize) 
 		>>= vidOut;
   }
   es.Wait();
   if(verb)
-    cout << "Done.\n" << flush;
+    cout << "STATUS: Done.\n" << flush;
   
   return 0;
 }
