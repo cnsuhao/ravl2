@@ -52,6 +52,14 @@ namespace RavlGUIN {
     {}
     //: Constructor.
     
+    const StringC &Name()
+    { return name; }
+    //: Access column name,
+    
+    void Name(const StringC &_name)
+    { name = _name; }
+    //: Access column name,
+    
     void SetRenderType(const StringC &newType)
     { renderType = newType; }
     //: Set render type.
@@ -97,6 +105,7 @@ namespace RavlGUIN {
     // Internal use only!
     
   protected:
+    StringC name;
     bool expand;
     StringC renderType;
     HashC<StringC,Tuple2C<StringC,bool> > attributes;
@@ -249,6 +258,10 @@ namespace RavlGUIN {
     //: Get the column number for a given name 
     // Returns -1 if not found.
     
+    IntT SubColumnName2Number(const StringC &name, const IntT &col);
+    //: Get the subcolumn number for a given name on a particular column 
+    // Returns -1 if not found.
+
     bool SetAttribute(IntT colNum,const StringC &key,const StringC &value,bool proxy = true);
     //: Set an attribute for a column
     // Possible keys include: "editable", "sortable", "activateable", "foreground", "background", "reorderable", "resizable"
@@ -268,7 +281,7 @@ namespace RavlGUIN {
     Signal0C &ChangedSignal(UIntT colNum,UIntT subColNo = 0);
     //: Access changed signal for a column
     
-    Signal0C &ChangedSignal(const StringC &colName,UIntT subColNo = 0);
+    Signal0C &ChangedSignal(const StringC &colName);
     //: Access changed signal for a column
     
     TreeModelIterC Path2Iter(const char *pathName)
@@ -515,6 +528,11 @@ namespace RavlGUIN {
     //: Get the column number for a given name 
     // Returns -1 if not found.
     
+    IntT SubColumnName2Number(const StringC &name, const IntT &col)
+    { return Body().SubColumnName2Number(name, col); }
+    //: Get the subcolumn number for a given name on a particular column 
+    // Returns -1 if not found.
+    
     bool SetAttribute(IntT colNum,const StringC &key,const StringC &value,bool proxy = true)
     { return Body().SetAttribute(colNum,key,value,proxy); }
     //: Set an attribute for a column
@@ -539,8 +557,8 @@ namespace RavlGUIN {
     { return Body().ChangedSignal(colNum,subColNo); }
     //: Access changed signal for a column
     
-    Signal0C &ChangedSignal(const StringC &colName,UIntT subColNo = 0)
-    { return Body().ChangedSignal(colName,subColNo); }
+    Signal0C &ChangedSignal(const StringC &colName)
+    { return Body().ChangedSignal(colName); }
     //: Access changed signal for a column
     
     TreeModelIterC Path2Iter(const char *pathName)
