@@ -39,6 +39,7 @@ namespace RavlN {
   template<class DataT,unsigned int N>
   inline BinOStreamC &operator<<(BinOStreamC &in,const TFVectorC<DataT,N> &dat);
   
+#if !RAVL_COMPILER_VISUALCPP
   template<unsigned int N>
   inline ostream &operator<<(ostream &out,const TFVectorC<ByteT,N> &dat);
   
@@ -50,7 +51,8 @@ namespace RavlN {
   
   template<unsigned int N>
   inline istream &operator>>(istream &in,TFVectorC<SByteT,N> &dat);
-  
+#endif
+
   //! userlevel=Advanced
   //: Fixed size vector.
   
