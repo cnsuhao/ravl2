@@ -335,8 +335,43 @@ namespace RavlN {
   //!return: 0= Not overlapping 1=this is completely covered by poly.
   
   RealT Polygon2dC::Overlap(const Polygon2dC &poly) const {
-    Polygon2dC overlap = ClipByConvex(poly);
-    return overlap.Area() / Area();
+    RealT thisArea = Area();
+    Polygon2dC localThis = *this;
+    if(thisArea > 0) {
+      localThis = Copy();
+      localThis.Reverse();
+    }
+    RealT polyArea = poly.Area();
+    Polygon2dC localPoly = *this;
+    if(polyArea > 0) {
+      localPoly = poly.Copy();
+      localPoly.Reverse();
+    }
+    
+    Polygon2dC overlap = localThis.ClipByConvex(localPoly);
+    return Abs(overlap.Area()) / Abs(thisArea);
+  }
+
+  //: Measure the fraction of the polygons overlapping as a fraction of the larger of the two polygons.
+  //!return: 0= Not overlapping 1=If the two polygons are identical.
+  
+  RealT Polygon2dC::CommonOverlap(const Polygon2dC &poly) const {
+    RealT thisArea = Area();
+    Polygon2dC localThis = *this;
+    if(thisArea > 0) {
+      localThis = Copy();
+      localThis.Reverse();
+    }
+    
+    RealT polyArea = poly.Area();
+    Polygon2dC localPoly = *this;
+    if(polyArea > 0) {
+      localPoly = poly.Copy();
+      localPoly.Reverse();
+    }
+    
+    Polygon2dC overlap = localThis.ClipByConvex(localPoly);
+    return Abs(overlap.Area()) / Max(Abs(thisArea),Abs(polyArea));
   }
   
 }

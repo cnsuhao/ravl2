@@ -47,6 +47,7 @@ int testEllipse2dA();
 int testEllipse2dB();
 int testEllipse2dC();
 int testScanPolygon();
+int testOverlap();
 
 int main() {
   int ln;
@@ -105,6 +106,10 @@ int main() {
   }
 #endif
   if((ln = testScanPolygon()) != 0) {
+    cerr << "Test failed at " << ln << "\n";
+    return 1;
+  }
+  if((ln = testOverlap()) != 0) {
     cerr << "Test failed at " << ln << "\n";
     return 1;
   }
@@ -881,5 +886,34 @@ int testScanPolygon() {
 #endif
   if(stop <= 0) return __LINE__;
 #endif
+  return 0;
+}
+
+int testOverlap() {
+  cerr << "testOverlap, Called. \n";
+  Polygon2dC poly;
+  poly.InsLast(Point2dC(0,0));
+  poly.InsLast(Point2dC(0,10));
+  poly.InsLast(Point2dC(10,10));
+  poly.InsLast(Point2dC(10,0));
+  
+  RealT score = poly.Overlap(poly);
+  if(Abs(score - 1.0) > 0.000001) return __LINE__;
+  
+  poly.Reverse();
+  
+  score = poly.Overlap(poly);
+  if(Abs(score - 1.0) > 0.000001) return __LINE__;
+  
+  Polygon2dC poly2 = poly.Copy();
+  poly2 += Point2dC(100,100);
+  
+  score = poly.Overlap(poly2);
+  if(Abs(score) > 0.000001) return __LINE__;
+  
+  score = poly2.Overlap(poly);
+  if(Abs(score) > 0.000001) return __LINE__;
+  
+  
   return 0;
 }

@@ -112,8 +112,13 @@ namespace RavlN {
     //: Returns true if the polygon is self intersecting, ie do any sides cross
   
     RealT Overlap(const Polygon2dC &poly) const;
-    //: Measure the fraction of the polygons overlapping.
+    //: Measure the fraction of the polygons overlapping as a fraction of the area of 'poly' 
     //!return: 0= Not overlapping 1=This polygon is completely covered by 'poly'.
+    
+    RealT CommonOverlap(const Polygon2dC &poly) const;
+    //: Measure the fraction of the polygons overlapping as a fraction of the larger of the two polygons.
+    //!return: 0= Not overlapping 1=If the two polygons are identical.
+    
     
   };
   
