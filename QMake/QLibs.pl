@@ -140,7 +140,21 @@ $useslibs =~ s/$plib//g;
 if(!defined($opt_d)) {
   $useslibs = "USESLIBS= $useslibs";
   $proglibs = "PROGLIBS= $proglibs";
+} else {
+    $u = "USESLIBS= ";
+    $p = "PROGLIBS= ";
+
+    for $l (split(' ', $useslibs)) {
+	$u = $u." $l.def";
+    }
+    $useslibs = $u;
+
+    for $l (split(' ', $proglibs)) {
+	$p = $p." $l.def";
+    }
+    $proglibs = $p;
 }
+
 
 if(defined($opt_use)) {
   print "$useslibs\n";
@@ -253,7 +267,7 @@ sub LoadLibHints {
   local @lines;
   local @lib;
 
-  open FILE, $libhints or die "can not open: $_[0]";
+  open FILE, $libhints or return;
   local @lines = <FILE>;
   close FILE;
   chomp @lines;
