@@ -30,7 +30,7 @@ int main(int nargs,char **argv)
 int testConnectComp() {
   ImageC<UIntT> test(8,8);
   test.Fill(0);
-
+  
   test[1][1] = 1;
   test[1][2] = 1;
   test[2][1] = 1;

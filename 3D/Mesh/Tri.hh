@@ -31,7 +31,9 @@ namespace Ravl3DN {
   class TriC 
   {
   public:
-    TriC() {
+    TriC() 
+      : normal(0,0,0)
+    {
       colour[0] = 196;
       colour[1] = 196;
       colour[2] = 196;
@@ -39,7 +41,8 @@ namespace Ravl3DN {
     //: Default constructor.
     
     TriC(const TFVectorC<VertexC *,3> &v)
-      : vertices(v)
+      : vertices(v),
+	normal(0,0,0)
     {
       colour[0] = 196;
       colour[1] = 196;
@@ -47,7 +50,9 @@ namespace Ravl3DN {
     }
     //: Construct from another vector.
 
-    TriC(VertexC &v0,VertexC &v1,VertexC &v2) {
+    TriC(VertexC &v0,VertexC &v1,VertexC &v2) 
+      : normal(0,0,0)
+    {
       vertices[0] = &v0;
       vertices[1] = &v1;
       vertices[2] = &v2;

@@ -136,20 +136,20 @@ namespace RavlImageN {
   template <class DataTypeT,class CompairT >
   Tuple2C<ImageC<UIntT>,UIntT> ConnectedComponentsBodyC<DataTypeT,CompairT>::Apply (const ImageC<DataTypeT> &ip) { 
     SArray1dC<UIntT> labelTable(maxLabel+1);
+    //labelTable.Fill(-1);
     // If there are two labels for the same component, the bigger label bin
     // contains the value of the smaller label.
-    
     ImageC<UIntT> jp(ip.Rectangle());
     
     // Label the first row.
     labelTable[0] = 0; // usually a special label
     UIntT lab = 1; // the last used label 
     {
-      labelTable[lab] = lab; // Setup first label.
       Array2dIter2C<DataTypeT,UIntT> it1(ip,jp);
       if(!it1.IsElm())
 	return Tuple2C<ImageC<UIntT>,UIntT>(jp,0); // Zero size image.
       it1.Data2() = lab; // Label first pixel in the image.
+      labelTable[lab] = lab; // Setup first label.
       DataTypeT lastValue = it1.Data1();
       for (;it1.Next();) { // Only iterate through the first row.
 	if(compair(it1.Data1(),lastValue)) 
@@ -169,7 +169,7 @@ namespace RavlImageN {
       if (compair(it.DataBL1(),it.DataTL1()))
 	it.DataBL2() = it.DataTL2();
       else {
-	++lab;
+	lab++;
 	RavlAssert(lab < maxLabel);
 	it.DataBR2() = lab;
 	labelTable[lab] = lab;
@@ -197,12 +197,10 @@ namespace RavlImageN {
 	  
 	  // There are two root labels for the same component.
 	  // Find the root labels.
-	  for (; upperRoot != labelTable[upperRoot];
-	       upperRoot  = labelTable[upperRoot])
-	    ;
-	  for (; leftRoot != labelTable[leftRoot];
-	       leftRoot  = labelTable[leftRoot])
-	    ;
+	  for (; upperRoot != labelTable[upperRoot];)
+	    upperRoot  = labelTable[upperRoot];
+	  for (; leftRoot != labelTable[leftRoot];)
+	    leftRoot  = labelTable[leftRoot];
 	  
 	  // Join both tree of labels.
 	  UIntT newRoot = (upperRoot >= leftRoot) ? leftRoot : upperRoot;
@@ -211,28 +209,23 @@ namespace RavlImageN {
 	  
 	  // Relabel both branches in the trees.
 	  UIntT il = it.DataTR2();
-	  for (UIntT hl = labelTable[il];
-	       il != newRoot;
-	       hl = labelTable[il = hl])
-	  labelTable[il] = newRoot;
-	  il = it.DataBL2();
-	  for (UIntT hhl = labelTable[il];
-	       il != newRoot;
-	       hhl = labelTable[il = hhl])
+	  for (UIntT hl = labelTable[il];il != newRoot;hl = labelTable[il = hl])
 	    labelTable[il] = newRoot;
-	  // DataU() = jp[ix-1][iy]
-	// DataB() = jp[ix][iy-1]
+	  il = it.DataBL2();
+	  for (UIntT hhl = labelTable[il];il != newRoot;hhl = labelTable[il = hhl])
+	    labelTable[il] = newRoot;
 	  continue;
 	}
 	// The upper pixel belongs to the different component.
 	if (compair(it.DataBR1(),it.DataBL1())) { // The left pixel belongs to the same component.
 	  // The processed pixel belongs to the left component.
-	  it.DataBR2() = it.DataBL2(); 
+	  it.DataBR2() = it.DataBL2();
 	  continue;
 	}
 	// The left pixel belongs to the different component.
 	// The processed pixel belongs to the new component.
 	lab++;
+	RavlAssert(lab < maxLabel);
 	it.DataBR2() = lab; 
 	labelTable[lab] = lab;
 	// +2 according to the first column pixel
@@ -269,7 +262,7 @@ namespace RavlImageN {
     }
     
     // Relabel the whole image
-    if (lab == 0) 
+    if (lab == 0)
       return Tuple2C<ImageC<UIntT>,UIntT>(jp,lab);
     
     // newLastLabel =
@@ -278,14 +271,14 @@ namespace RavlImageN {
     for(Array2dIterC<UIntT> it(jp);it;it++) 
       *it = labelTable[*it];  
     
-    
     // The user may of requested to ignore the empty pixels (eg. zeros) in the original image
     if(ignoreZero) {
-      SArray1dC<IntT>arr(lab+2);
+      SArray1dC<IntT> arr(lab+2);
       arr.Fill(-1);
-      UIntT curr=1;
+      UIntT curr = 1;
       for(Array2dIter2C<DataTypeT, UIntT> it(ip, jp);it;it++) {
-	if(it.Data1()==zero) it.Data2() = 0;
+	if(it.Data1()==zero) 
+	  it.Data2() = 0;
 	else {
 	  if(arr[it.Data2()]==-1) {
 	    arr[it.Data2()] = curr;
