@@ -90,7 +90,7 @@ namespace RavlGUIN {
     bool GUIDrawLine(IntT &x1,IntT &y1,IntT &x2,IntT &y2,IntT &colId); 
     //: Draw a line.
     // Call with GUI thread only!
-
+    
     bool GUIDrawText(IntT &x1,IntT &y1,StringC &text,IntT &colId);
     //: Draw some text
     // Call with GUI thread only!
@@ -192,6 +192,11 @@ namespace RavlGUIN {
     bool GUIDrawLine(IntT &x1,IntT &y1,IntT &x2,IntT &y2,IntT &colId)
     { return Body().GUIDrawLine(x1,y1,x2,y2,colId); }
     //: Draw a line.
+
+    bool GUIDrawLine(Index2dC &p1,Index2dC &p2,IntT &colId)
+      { return Body().GUIDrawLine(p1.Row().V(),p1.Col().V(),p2.Row().V(),p2.Col().V(),colId); }
+    //: Draw a line.
+    // Call with GUI thread only!
     
     bool GUIDrawImage(ImageC<ByteT> &img,Index2dC &offset)
     { return Body().GUIDrawImage(img,offset); }
