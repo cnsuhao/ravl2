@@ -58,14 +58,18 @@ namespace RavlN {
     virtual bool Save (BinOStreamC &out) const;
     //: Writes object to stream, can be loaded using constructor
     
-  protected:
-    inline void InputSize(UIntT inSize)
-    { inputSize = inSize; }
+    virtual UIntT InputSize(UIntT inSize)
+    { return inputSize = inSize; }
     //: Set the input size.
+    // This is for use of designer classes, changing the input size of
+    // an existing function has undefined effects.
     
-    inline void OutputSize(UIntT outSize)
-    { outputSize = outSize; }
+    virtual UIntT OutputSize(UIntT outSize)
+    { return outputSize = outSize; }
     //: Set the output size.
+    // This is for use of designer classes, changing the output size of
+    // an existing function has undefined effects.
+  protected:
     
     UIntT inputSize;  // (X in amma speak.)
     UIntT outputSize; // (Y in amma speak.)
@@ -120,6 +124,18 @@ namespace RavlN {
     inline UIntT OutputSize() const
     { return Body().OutputSize(); }
     //: Size of output vector
+
+    UIntT InputSize(UIntT inSize)
+    { return Body().InputSize(inSize); }
+    //: Set the input size.
+    // This is for use of designer classes, changing the input size of
+    // an existing function has undefined effects.
+    
+    UIntT OutputSize(UIntT outSize)
+    { return Body().OutputSize(outSize); }
+    //: Set the output size.
+    // This is for use of designer classes, changing the output size of
+    // an existing function has undefined effects.
     
   };
 }

@@ -21,6 +21,8 @@ namespace RavlN {
   
   //! userlevel=Normal
   //: Sample of vectors.
+  // This class expects all the vectors in the sample to be of the same
+  // size.
   
   class SampleVectorC
     : public SampleC<VectorC>
@@ -41,6 +43,9 @@ namespace RavlN {
       : SampleC<VectorC>(svec)
     {}
     //: Construct from base class.
+    
+    UIntT VectorSize() const;
+    //: Get the size of vectors in this sample.
     
     VectorC Mean() const;
     //: Find the mean vector of the sample.

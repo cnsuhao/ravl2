@@ -36,6 +36,13 @@ namespace RavlN {
     {}
     //: Construct from a data set.
     
+
+    DataSet3IterC(const Sample1T &s1,const Sample2T &s2, const Sample3T &s3)
+      : DArray1dIter3C<typename Sample1T::ElementT,typename Sample2T::ElementT,typename Sample3T::ElementT>(s1.DArray(),
+													    s2.DArray(),
+													    s3.DArray())
+    {}
+    //: Construct from individual samples.
     
   };
   

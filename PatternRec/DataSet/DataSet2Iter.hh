@@ -30,9 +30,16 @@ namespace RavlN {
     //: Default construtor.
     
     DataSet2IterC(const DataSet2C<Sample1T,Sample2T> &nds)
-      : DArray1dIter2C<typename Sample1T::ElementT,typename Sample2T::ElementT>(nds.Sample1().DArray(),nds.Sample2().DArray())
+      : DArray1dIter2C<typename Sample1T::ElementT,typename Sample2T::ElementT>(nds.Sample1().DArray(),
+										nds.Sample2().DArray())
     {}
     //: Construct from a data set.
+
+    DataSet2IterC(const Sample1T &s1,const Sample2T &s2)
+      : DArray1dIter2C<typename Sample1T::ElementT,typename Sample2T::ElementT>(s1.DArray(),
+										s2.DArray())
+    {}
+    //: Construct from two samples.
     
   };
   

@@ -114,6 +114,10 @@ namespace RavlN {
     { return DArray1dC<DataT>::Last(); }
     //: Access last element in the array.
     
+    bool IsEmpty() const
+    { return DArray1dC<DataT>::IsEmpty(); }
+    //: Is this empty ?
+    
   }; // end of class SampleC 
 
 

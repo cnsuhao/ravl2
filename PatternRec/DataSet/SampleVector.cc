@@ -14,6 +14,14 @@
 
 namespace RavlN {
 
+  //: Get the size of vectors in this sample.
+  
+  UIntT SampleVectorC::VectorSize() const {
+    if(IsEmpty())
+      return 0;
+    return First().Size();
+  }
+  
   //: Find the mean vector.
   
   VectorC SampleVectorC::Mean() const {
