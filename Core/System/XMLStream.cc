@@ -256,7 +256,7 @@ namespace RavlN {
   // This will skip to the next tag of the given name.
   // if the Current context ends it will return XMLEndTag.
 
-  XMLTagOpsT XMLIStreamC::SkipToElement(StringC &elementName,RCHashC<StringC,StringC> &attr) {
+  XMLTagOpsT XMLIStreamC::SkipToElement(const StringC &elementName,RCHashC<StringC,StringC> &attr) {
     StringC name;
     RCHashC<StringC,StringC> tattr;
     while(*this) {

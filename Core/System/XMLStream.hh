@@ -314,11 +314,18 @@ namespace RavlN {
     XMLElementC &Context()
       { return Body().Context(); }
     //: Access current context.
-    
+
     bool IsContext() const
     { return Body().IsContext(); }
     //: Are we in a valid context ? 
 
+    StringC ContextName() const {
+      if(!IsContext())
+	return StringC();
+      return Context().Name();
+    }
+    //: Get the name of the current context (the last open tag.)
+    
     const XMLElementC &Context() const
       { return Body().Context(); }
     //: Access current context.
@@ -407,7 +414,7 @@ namespace RavlN {
     bool SkipElement();
     //: Skip to after the end of the current element.
     
-    XMLTagOpsT SkipToElement(StringC &elementName,RCHashC<StringC,StringC> &attr);
+    XMLTagOpsT SkipToElement(const StringC &elementName,RCHashC<StringC,StringC> &attr);
     //: Skip to named element.
     // This will skip to the next tag of the given name.
     // if the Current context ends it will return XMLEndTag.
