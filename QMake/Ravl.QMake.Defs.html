@@ -354,12 +354,12 @@ they are available, but ignore them if the are not. This can be achieved by addi
 <LI><DT><A NAME="LIBDEPS"></A><B>LIBDEPS</B></DT>
 <DD>
 LIBDEPS is used to explicitly create references to libraries.  E.g. the
-following entry in the defs.mk file would create a reference to an external 
-library RavlImageFilter:
-<pre>  LIBDEPS = RavlImageFilter.def</pre>
+following entry in the defs.mk file would create a reference to another
+library RavlList:
+<pre>  LIBDEPS = RavlList.def</pre>
 which could then be referenced in the normal way, e.g.:
-<pre>  USESLIBS = RavlImageFilter</pre>
-See the file <a href="../../../../../../lib/RAVL/libdep/RavlImageFilter.def">RavlImageFilter.def</a> itself to see what to put in it. 
+<pre>  USESLIBS = RavlList</pre>
+See the file <a href="../../../html.RavlList.def">RavlList.def</a> itself to see what to put in it. 
 <p>
 This is used where the source for a library spans several directories, where each 
 directory creates a .def file but the object files are are added to a single
