@@ -96,8 +96,8 @@ int main(int argc,char **argv)
 
 #if 1
   // Some extra checks.
-  Signal1C<bool> sig3;
-  Signal2C<bool,int> sig4;
+  Signal1C<bool> sig3(true);
+  Signal2C<bool,int> sig4(true,1);
   SignalConnectorC c4 = Connect(sig3,&test3);
   SignalConnectorC c5 = Connect(sig4,&test3);
 
