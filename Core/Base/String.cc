@@ -1189,8 +1189,8 @@ namespace RavlN {
     x.rep->s[i] = 0;
     x.rep->len = i;
 #if RAVL_COMPILER_GCC3
-    if (ch == EOF) 
-      s.setstate(ios::eofbit);
+    if (ch == eof) 
+      s.setstate(ios::eofbit | ios::failbit);
 #else
     if (ch == eof)
       s.clear(ios::eofbit | ios::failbit);
