@@ -42,6 +42,9 @@ namespace RavlGUIN {
     //: Set aspect ratio.
     // GUI thread only.
     
+    bool Aspect(RealT ratio);
+    //: Set aspect ratio.
+    
     void GUIObeyChild(bool obeyChild);
     //: Set obey child.
     
@@ -105,6 +108,10 @@ namespace RavlGUIN {
     { return Body().GUIAspect(ratio); }
     //: Set aspect ratio.
     // GUI thread only.
+    
+    bool Aspect(RealT ratio)
+    { return Body().Aspect(ratio); }
+    //: Set aspect ratio.
     
     void GUIObeyChild(bool obeyChild)
     { Body().GUIObeyChild(obeyChild); }

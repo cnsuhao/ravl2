@@ -12,7 +12,9 @@
 
 #include "Ravl/GUI/AspectFrame.hh"
 #include "Ravl/GUI/Manager.hh"
+#include "Ravl/GUI/Manager.hh"
 #include <gtk/gtk.h>
+
 
 namespace RavlGUIN {
   
@@ -77,6 +79,14 @@ namespace RavlGUIN {
     return true;
   }
   
+  //: Set aspect ratio.
+  
+  bool AspectFrameBodyC::Aspect(RealT ratio) {
+    Manager.Queue(Trigger(AspectFrameC(*this),&AspectFrameC::Aspect,ratio));
+    
+    return true;
+  }
+ 
 }
 
 
