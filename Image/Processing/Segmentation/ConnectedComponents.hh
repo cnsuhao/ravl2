@@ -115,7 +115,6 @@ namespace RavlImageN {
   
   template <class DataTypeT,class CompairT >
   Tuple2C<ImageC<UIntT>,UIntT> ConnectedComponentsBodyC<DataTypeT,CompairT>::Apply (const ImageC<DataTypeT> &ip) { 
-    SizeT jnr;
     SArray1dC<UIntT> labelTable(maxLabel+1);
     // If there are two labels for the same component, the bigger label bin
     // contains the value of the smaller label.
@@ -254,11 +253,11 @@ namespace RavlImageN {
     if (lab == 0) 
       return Tuple2C<ImageC<UIntT>,UIntT>(jp,lab);
     
-    UIntT newLastLabel = RelabelTable(labelTable,lab);
+    //newLastLabel =
+    RelabelTable(labelTable,lab);
     // change labels in the have been processed area
     for(Array2dIterC<UIntT> it(jp);it;it++) 
       *it = labelTable[*it];  
-    jnr = newLastLabel+1;
     
     
     //: The user may of requested to ignore the empty pixels (eg. zeros) in the original image
