@@ -22,6 +22,8 @@
 #include "Ravl/IndexRange2d.hh"
 #include "Ravl/Hash.hh"
 #include "Ravl/String.hh"
+#include "Ravl/Image/Image.hh"
+#include "Ravl/Image/ByteRGBValue.hh"
 #include <gtk/gtkenums.h>
 
 // Namespace fix for Visual C++
@@ -108,6 +110,12 @@ namespace RavlGUIN {
     //: Set size of widget.
     // GUI thread only.
     
+    void SetBackground(const RavlImageN::ImageC<RavlImageN::ByteRGBValueC>& im);
+    //: Set the background of the widget
+
+    void SetBackground(const RavlImageN::ImageC<RavlImageN::ByteRGBValueC>& im, GtkStateType& state);
+    //: Set the background of the widget
+
     IndexRange2dC Rectangle() const;
     //: Widget position and extent within its parent window.
     
@@ -168,6 +176,12 @@ namespace RavlGUIN {
     bool GUISetState(GtkStateType &state);
     //: Set state of widget.
     
+    bool GUISetBackground(RavlImageN::ImageC<RavlImageN::ByteRGBValueC>& im);
+    //: Sets the background of the widget
+
+    bool GUISetBackground(RavlImageN::ImageC<RavlImageN::ByteRGBValueC>& im, GtkStateType& state);
+    //: Sets the background of the widget
+
     virtual void Destroy();
     //: Undo all references.
     // Used to avoid problems with circluar references.
@@ -262,6 +276,14 @@ namespace RavlGUIN {
     { return Body().GUISetState(state); }
     //: Set state of widget.
     
+    bool GUISetBackground(RavlImageN::ImageC<RavlImageN::ByteRGBValueC>& im, GtkStateType& state) 
+    { return Body().GUISetBackground(im,state); }
+    //: Sets the background of the widget
+
+    bool GUISetBackground(RavlImageN::ImageC<RavlImageN::ByteRGBValueC>& im) 
+    { return Body().GUISetBackground(im); }
+    //: Sets the background of the widget
+
   public:
     void Destroy() 
     { Body().Destroy(); }
@@ -322,6 +344,14 @@ namespace RavlGUIN {
     { return Body().SetUSize(x,y); }
     //: Set size of widget.
     
+    void SetBackground(const RavlImageN::ImageC<RavlImageN::ByteRGBValueC>& im, GtkStateType& state) 
+    { Body().SetBackground(im,state); }
+    //: Set the background of the widget
+
+    void SetBackground(const RavlImageN::ImageC<RavlImageN::ByteRGBValueC>& im) 
+    { Body().SetBackground(im); }
+    //: Set the background of the widget
+
     bool GUISetUSize(IntT& x,IntT& y)
     { return Body().GUISetUSize(x,y); }
     //: Set size of widget.

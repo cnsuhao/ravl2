@@ -32,6 +32,8 @@
 
 namespace RavlGUIN {
   
+  using namespace RavlImageN;
+
   //: Extra drag and drop info, where its needed.
   
   class WidgetDndInfoC {
@@ -690,6 +692,63 @@ namespace RavlGUIN {
     Manager.Queue(Trigger(WidgetC(*this),&WidgetC::GUISetUPosition,width,height));
   }
   
+  bool WidgetBodyC::GUISetBackground(ImageC<ByteRGBValueC>& im, GtkStateType& state) {
+    if(widget != 0) {
+      GdkPixmap* pixmap = NULL;
+      if (!im.IsEmpty()) {
+	pixmap = gdk_pixmap_new(widget->window,
+				im.Cols(),
+				im.Rows(),
+				-1);
+	gdk_draw_rgb_image(pixmap,
+			   widget->style->black_gc,
+			   0,0,
+			   im.Cols(),im.Rows(),
+			   GDK_RGB_DITHER_NORMAL,
+			   (unsigned char *) im.Row(im.TRow()),
+			   im.Cols() * 3);
+      }
+      // Set pixmap
+      widget->style->bg_pixmap[state] = pixmap;
+    }
+    return true;
+  }
   
+  bool WidgetBodyC::GUISetBackground(ImageC<ByteRGBValueC>& im) {
+    if(widget != 0) {
+      GdkPixmap* pixmap = NULL;
+      if (!im.IsEmpty()) {
+	pixmap = gdk_pixmap_new(widget->window,
+				im.Cols(),
+				im.Rows(),
+				-1);
+	gdk_draw_rgb_image(pixmap,
+			   widget->style->black_gc,
+			   0,0,
+			   im.Cols(),im.Rows(),
+			   GDK_RGB_DITHER_NORMAL,
+			   (unsigned char *) im.Row(im.TRow()),
+			   im.Cols() * 3);
+      }
+      // Set pixmap
+      widget->style->bg_pixmap[GTK_STATE_NORMAL]      = pixmap;
+      widget->style->bg_pixmap[GTK_STATE_ACTIVE]      = pixmap;
+      widget->style->bg_pixmap[GTK_STATE_PRELIGHT]    = pixmap;
+      widget->style->bg_pixmap[GTK_STATE_SELECTED]    = pixmap;
+      widget->style->bg_pixmap[GTK_STATE_INSENSITIVE] = pixmap;
+    }
+    return true;
+  }
+
+  //: Set the background of the window.
+  
+  void WidgetBodyC::SetBackground(const ImageC<ByteRGBValueC>& im, GtkStateType& state) {
+    Manager.Queue(Trigger(WidgetC(*this),&WidgetC::GUISetBackground,im,state));
+  }
+  
+  void WidgetBodyC::SetBackground(const ImageC<ByteRGBValueC>& im) {
+    Manager.Queue(Trigger(WidgetC(*this),&WidgetC::GUISetBackground,im));
+  }
+    
 }
 

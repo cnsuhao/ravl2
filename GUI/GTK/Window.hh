@@ -16,8 +16,6 @@
 
 #include "Ravl/GUI/OneChild.hh"
 #include "Ravl/GUI/Cursor.hh"
-#include "Ravl/Image/Image.hh"
-#include "Ravl/Image/ByteRGBValue.hh"
 
 namespace RavlGUIN {
   
@@ -51,12 +49,6 @@ namespace RavlGUIN {
     void SetTitle(const StringC &str);
     //: Set the title of the window.
   
-    void SetBackground(const RavlImageN::ImageC<RavlImageN::ByteRGBValueC>& im);
-    //: Set the background of the window
-
-    void SetBackground(const RavlImageN::ImageC<RavlImageN::ByteRGBValueC>& im, GtkStateType& state);
-    //: Set the background of the window
-
   protected:
     virtual void Destroy();
     //: Undo all references.
@@ -66,12 +58,6 @@ namespace RavlGUIN {
     // The function is called by the root window in its
     // destructor.
     
-    bool GUISetBackground(RavlImageN::ImageC<RavlImageN::ByteRGBValueC>& im);
-    //: Sets the background of the window
-
-    bool GUISetBackground(RavlImageN::ImageC<RavlImageN::ByteRGBValueC>& im, GtkStateType& state);
-    //: Sets the background of the window
-
     bool GUISetTitle(StringC &str);
     //: Set the title of the window.
     
@@ -125,14 +111,6 @@ namespace RavlGUIN {
       { return static_cast<const WindowBodyC  &>(WidgetC::Body()); }
     //: Access body.
     
-    bool GUISetBackground(RavlImageN::ImageC<RavlImageN::ByteRGBValueC>& im, GtkStateType& state) 
-    { return Body().GUISetBackground(im,state); }
-    //: Sets the background of the window
-
-    bool GUISetBackground(RavlImageN::ImageC<RavlImageN::ByteRGBValueC>& im) 
-    { return Body().GUISetBackground(im); }
-    //: Sets the background of the window
-
     bool GUISetTitle(StringC &str)
       { return Body().GUISetTitle(str); }
     //: Set the title of the window.
@@ -153,14 +131,6 @@ namespace RavlGUIN {
     }
     //: Destroy this window.
     
-    void SetBackground(const RavlImageN::ImageC<RavlImageN::ByteRGBValueC>& im, GtkStateType& state) 
-    { Body().SetBackground(im,state); }
-    //: Set the background of the window
-
-    void SetBackground(const RavlImageN::ImageC<RavlImageN::ByteRGBValueC>& im) 
-    { Body().SetBackground(im); }
-    //: Set the background of the window
-
     void SetTitle(const StringC &str)
     { Body().SetTitle(str); }
     //: Set the title of the window.

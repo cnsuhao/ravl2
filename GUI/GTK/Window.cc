@@ -24,8 +24,6 @@
 
 namespace RavlGUIN {
   
-  using namespace RavlImageN;
-
   static int rootWinCount = 0;
   /* when invoked (via signal delete_event), terminates the application.
    */
@@ -144,58 +142,6 @@ namespace RavlGUIN {
   
   //: Set the title of the window.
 
-  bool WindowBodyC::GUISetBackground(ImageC<ByteRGBValueC>& im, GtkStateType& state) {
-    if(widget != 0) {
-       GdkPixmap* pixmap = gdk_pixmap_new(widget->window,
- 					 im.Cols(),
- 					 im.Rows(),
- 					 -1);
-       gdk_draw_rgb_image(pixmap,
- 			 widget->style->black_gc,
- 			 0,0,
- 			 im.Cols(),im.Rows(),
- 			 GDK_RGB_DITHER_NORMAL,
- 			 (unsigned char *) im.Row(im.TRow()),
- 			 im.Cols() * 3);
-       // Set pixmap
-       widget->style->bg_pixmap[state] = pixmap;       
-    }
-    return true;
-  }
-
-  bool WindowBodyC::GUISetBackground(ImageC<ByteRGBValueC>& im) {
-    if(widget != 0) {
-       GdkPixmap* pixmap = gdk_pixmap_new(widget->window,
- 					 im.Cols(),
- 					 im.Rows(),
- 					 -1);
-       gdk_draw_rgb_image(pixmap,
- 			 widget->style->black_gc,
- 			 0,0,
- 			 im.Cols(),im.Rows(),
- 			 GDK_RGB_DITHER_NORMAL,
- 			 (unsigned char *) im.Row(im.TRow()),
- 			 im.Cols() * 3);
-       // Set pixmap
-       widget->style->bg_pixmap[GTK_STATE_NORMAL] = pixmap;
-       widget->style->bg_pixmap[GTK_STATE_ACTIVE] = pixmap;
-       widget->style->bg_pixmap[GTK_STATE_PRELIGHT] = pixmap;
-       widget->style->bg_pixmap[GTK_STATE_SELECTED] = pixmap;
-       widget->style->bg_pixmap[GTK_STATE_INSENSITIVE] = pixmap;
-    }
-    return true;
-  }
-
-  //: Set the background of the window.
-  
-  void WindowBodyC::SetBackground(const ImageC<ByteRGBValueC>& im, GtkStateType& state) {
-    Manager.Queue(Trigger(WindowC(*this),&WindowC::GUISetBackground,im,state));
-  }
-  
-  void WindowBodyC::SetBackground(const ImageC<ByteRGBValueC>& im) {
-    Manager.Queue(Trigger(WindowC(*this),&WindowC::GUISetBackground,im));
-  }
-  
   //: Close down window.
   
   bool WindowBodyC::GUICloseDown() {
