@@ -334,7 +334,7 @@ ChildOSProcessC::ChildOSProcessC(StringC cmd,bool useStdOut,bool useStdErr,bool 
 	cerr << "ChildOSProcessBodyC::IsRunning(), waitpid failed. " << id << " errno=" << errno << "\n";
 #if RAVL_LINIX_WAITPIDBUG
       // This is a bit of a hack to get around waitpid giving ECHILD when the child process
-      // is still running.   Is this a kernel bug ??
+      // is still running.   It only happens on some machines, could this be a kernel bug ??
       
       FilenameC fn("/proc/");
       fn += StringC(pid);
@@ -342,25 +342,26 @@ ChildOSProcessC::ChildOSProcessC(StringC cmd,bool useStdOut,bool useStdErr,bool 
 	fn += "/stat";
 	IStreamC in(fn);
 	UIntT apid;
-	StringC name;
 	in >> apid;
-	if(in) { // Not having trouble reading the file ? If we are assume its dead.
+	if(in) { // Not having trouble reading the file ? If we are, assume its dead.
 	  in.SkipTo(')'); // Skip to after the executable name
-	  char state;
+	  char state = 'z';
 	  in >> state; // This is what we're after!
-	  switch(state) {
-	  case 'R': // Running.
-	  case 'S': // Sleeping
-	  case 'D': // Sound asleep.
-	  case 'T': // Traced or stopped.
-	  case 'W': // Paging.
-	    return false; // Process is still alive!
-	  default:
-	    cerr << "WARNING: Unknown process state '" << state << "' \n";
+	  if(in) { // Still got a good stream ?
+	    switch(state) {
+	    case 'R': // Running.
+	    case 'S': // Sleeping
+	    case 'D': // Sound asleep.
+	    case 'T': // Traced or stopped.
+	    case 'W': // Paging.
+	      return false; // Process is still alive! Well at least ish.
+	    default:
+	      cerr << "WARNING: Unknown process state '" << state << "' \n";
 	    return false; // Assume its alive.
-	  case 'Z': // Zombie
-	    // Its really dead!
-	    break;
+	    case 'Z': // Zombie
+	      // Its really dead!
+	      break;
+	    }
 	  }
 	}
       }
