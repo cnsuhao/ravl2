@@ -165,6 +165,16 @@ namespace RavlGUIN {
   // GUI thread only.
   
   bool CListBodyC::GUIRemoveLine(int &id) {
+    if(widget == 0) {
+      //cerr << "CListBodyC::GUIRemoveLine(), WARNING: Called before widget constructed. \n";
+      for(DLIterC<Tuple2C<IntT,SArray1dC<CListCellC> > > it2(data);it2;it2++) {
+	if(it2.Data().Data1() == id) {
+	  it2.Del();
+	  break;
+	}
+      }
+      return true;
+    }
     int rowNo = gtk_clist_find_row_from_data (GTK_CLIST(widget),(void *) id);
     ONDEBUG(cerr << "CListBodyC::GUIRemoveLine(), ID:" << id << "  Row:" << rowNo << "\n");
     if(rowNo < 0)
