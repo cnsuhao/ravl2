@@ -64,6 +64,15 @@ namespace RavlN {
     
     Function1C(BinIStreamC &strm);
     //: Load from binary stream.
+
+    Function1C(const FunctionC &base)
+      : FunctionC(base)
+    {
+      if(dynamic_cast<const FunctionBodyC *>(&FunctionC::Body()) == 0)
+	Invalidate();
+    }
+    //: Base class constructor.
+    // If class is not of an appropriate type an invalid handle will be created.
     
   protected:
     Function1C(Function1BodyC &bod)
