@@ -43,7 +43,6 @@ namespace Ravl3DN {
   //: Build a TriMesh from this mesh.
   
   TriMeshC HEMeshBodyC::TriMesh() const {
-    TriMeshC tm;
     UIntT noFaces = NoFaces();
     UIntT noVertices = NoVertices();
     SArray1dC<VertexC> verts(noVertices);
@@ -77,8 +76,8 @@ namespace Ravl3DN {
 #endif
       *fait = TriC(v1,v2,v3);
     }
-      
-    return tm;
+    
+    return TriMeshC(verts,tri);
   }
   
   TriMeshC HEMeshC::TriMesh() const 

@@ -75,9 +75,15 @@ namespace Ravl3DN {
     TriMeshC TriMesh() const;
     //: Build a TriMesh from this mesh.
     
+    bool CheckMesh(bool canBeOpen = false) const;
+    //: Check mesh structure is consistant.
+    // Returns false if an inconsistancy is found.
+    
   protected:
     IntrDListC<HEMeshFaceBodyC> faces;  // List of faces in the mesh.
     IntrDListC<HEMeshVertexBodyC> vertices; // List of vertices.
+    
+    friend class HEMeshC;
   };
   
 
@@ -129,6 +135,19 @@ namespace Ravl3DN {
     
     TriMeshC TriMesh() const;
     //: Build a TriMesh from this mesh.
+    
+    bool CheckMesh(bool canBeOpen = false) const
+    { return Body().CheckMesh(canBeOpen); }
+    //: Check mesh structure is consistant.
+    // Returns false if an inconsistancy is found.
+    
+    IntrDListC<HEMeshFaceBodyC> &Faces()
+    { return Body().faces; }
+    //: List of faces in the mesh.
+    
+    IntrDListC<HEMeshVertexBodyC> Vertices()
+    { return Body().vertices; }
+    //: List of vertices.
     
   };
 

@@ -10,6 +10,7 @@
 #include "Ravl/3D/HEMesh.hh"
 #include "Ravl/SArr1Iter.hh"
 #include "Ravl/Hash.hh"
+#include "Ravl/InDLIter.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -75,5 +76,63 @@ namespace Ravl3DN {
     RavlAssertMsg(0,"HEMeshBodyC::InsertVertexOnEdge(), Not Implemented.");
     return ret;
   }
+
+  //: Check mesh structure is consistant.
+  // Returns false if an inconsistancy is found.
+  
+  bool HEMeshBodyC::CheckMesh(bool canBeOpen) const {
+    bool ret = true;
+    if(!canBeOpen) {
+      // Can't do this check properly on an open mesh.
+      ONDEBUG(cerr << "HEMeshBodyC::CheckMesh(), Checking vertexes. \n");
+      for(IntrDLIterC<HEMeshVertexBodyC> vit(vertices);vit;vit++) {
+	for(HEMeshVertexEdgeIterC it(*vit);it;it++) {
+	  if(it->Vertex() != *vit) {
+	    cerr << "HEMeshBodyC::CheckMesh(), Incorrect vertex pointer. \n";
+	    ret = false;
+	    //return false;
+	  }
+	  if(it->SourceVertex() == *vit) {
+	    cerr << "HEMeshBodyC::CheckMesh(), Zero area face. \n";
+	    ret = false;
+	    //return false;
+	  }
+	}
+      }
+    }
+    ONDEBUG(cerr << "HEMeshBodyC::CheckMesh(), Checking faces. \n");
+    for(IntrDLIterC<HEMeshFaceBodyC> fit(faces);fit;fit++) {
+      for(HEMeshFaceEdgeIterC efit(*fit);efit;efit++) {
+	if(efit->Face() != *fit) {
+	  cerr << "HEMeshBodyC::CheckMesh(), Bad face pointer found. \n";
+	  ret = false;
+	  //return false;
+	}
+	if(efit->HasPair()) {
+	  if(!efit->Pair().HasPair()) {
+	    cerr << "HEMeshBodyC::CheckMesh(), Half paired edge found.  \n";
+	    ret = false;
+	    //return false;
+	  }
+	  if(*efit != efit->Pair().Pair()) {
+	    if(*efit == efit->Pair())
+	      cerr << "HEMeshBodyC::CheckMesh(), Self paired edge found.  \n";
+	    else
+	      cerr << "HEMeshBodyC::CheckMesh(), Mis-paired edge found.  \n";
+	    ret = false;
+	    //	    return false;
+	  }
+	} else {
+	  if(!canBeOpen) {
+	    cerr << "HEMeshBodyC::CheckMesh(), Open face found. \n";
+	    ret = false;
+	    //return false;
+	  }
+	}
+      }
+    }
+    return ret;
+  }
+
   
 }

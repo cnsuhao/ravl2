@@ -40,6 +40,9 @@ namespace Ravl3DN {
     {}
     //: Default constructor.
 
+    ~HEMeshFaceBodyC();
+    //: Destructor.
+    
     HEMeshFaceBodyC(HEMeshEdgeBodyC &nedge)
       : edge(&nedge)
     {}
@@ -69,10 +72,19 @@ namespace Ravl3DN {
     //: Find the edge linking to vertex a.
     // If edge is not found an invalid handle is returned.
     
+    bool operator==(const HEMeshFaceBodyC &bod) const
+    { return this == &bod; }
+    //: Is this the same body ?
+
+    bool operator!=(const HEMeshFaceBodyC &bod) const
+    { return this != &bod; }
+    //: Is this the same body ?
+    
   private:
     HEMeshEdgeBodyC *edge; // Ptr to one of the edges adjacent to the face.
     friend class HEMeshFaceEdgeIterC;
     friend class HEMeshFaceC;
+    friend class HEMeshEdgeBodyC;
   };
 
   //! userlevel=Normal.
@@ -147,6 +159,15 @@ namespace Ravl3DN {
     { return Body().FindEdge(a); }
     //: Find the edge linking to vertex a.
     // If edge is not found an invalid handle is returned.
+    
+    bool Remove() { 
+      if(body == 0) return false;
+      delete body; 
+      body = 0;
+      return true;
+    }
+    //: Delete face from mesh.
+    // This operation leaves the mesh open.
     
   private:
     HEMeshFaceBodyC *body;
@@ -259,15 +280,15 @@ namespace Ravl3DN {
   
   //////////////////////////////////////////////////////
   
-  inline
-  HEMeshFaceC HEMeshEdgeC::OpenEdge()
+  inline HEMeshFaceC HEMeshEdgeC::OpenEdge()
   { return Body().OpenEdge(); }
   
-  inline
-  void HEMeshEdgeC::SetFace(HEMeshFaceC face)
+  inline void HEMeshEdgeC::SetFace(HEMeshFaceC face)
   { Body().SetFace(face.Body()); }
-  //: Set the face associated with the edge.
 
+  inline HEMeshFaceC HEMeshEdgeC::Face()
+  { return HEMeshFaceC(Body().Face()); }
+  
 }
 
 #endif

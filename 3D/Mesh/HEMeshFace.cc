@@ -9,8 +9,35 @@
 
 #include "Ravl/3D/HEMeshFace.hh"
 
+#define DODEBUG 0
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
+
 namespace Ravl3DN {
 
+  //: Destructor.
+  
+  HEMeshFaceBodyC::~HEMeshFaceBodyC() {
+    ONDEBUG(cerr << "HEMeshFaceBodyC::~HEMeshFaceBodyC(). \n");
+    if(edge != 0) {
+      while(1) {
+	HEMeshEdgeBodyC *eb = &(edge->Next());
+	if(eb == edge)
+	  break;
+	eb->CorrectVertexEdgePtr();
+	if(eb->HasPair())
+	  eb->Pair().pair = 0;
+	delete eb;
+      }
+      edge->CorrectVertexEdgePtr();
+      delete edge;
+      edge = 0;
+    }
+  }
+  
   //: Get number of edges on face.
   
   UIntT HEMeshFaceBodyC::Sides() const {

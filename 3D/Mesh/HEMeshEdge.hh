@@ -42,6 +42,14 @@ namespace Ravl3DN {
     HEMeshEdgeBodyC &Prev()
     { return static_cast<HEMeshEdgeBodyC &>(DLinkC::Prev()); }
     //: Get previous edge on face.
+
+    const HEMeshEdgeBodyC &Next() const
+    { return static_cast<const HEMeshEdgeBodyC &>(DLinkC::Next()); }
+    //: Get next edge on face.
+    
+    const HEMeshEdgeBodyC &Prev() const
+    { return static_cast<const HEMeshEdgeBodyC &>(DLinkC::Prev()); }
+    //: Get previous edge on face.
     
     HEMeshEdgeBodyC &Pair()
     { return *pair; }
@@ -67,6 +75,10 @@ namespace Ravl3DN {
     { face = &aface; }
     //: Set the face associated with the edge.
     
+    HEMeshFaceBodyC &Face()
+    { return *face; }
+    //: Access the face the edge lies on.
+    
     void LinkAfter(HEMeshEdgeBodyC &edge) 
     { DLinkC::LinkAft(edge); }
     //: Link 'edge' after this one.
@@ -89,19 +101,32 @@ namespace Ravl3DN {
     
     HEMeshVertexC Vertex() const
     { return HEMeshVertexC(const_cast<HEMeshVertexBodyC &>(*vertex)); }
-    //: Access vertex.
+    //: Access vertex this edge goes to
+    
+    HEMeshVertexC SourceVertex() const 
+    { return Prev().Vertex(); }
+    //: Access vertex this edge comes from.
     
     HEMeshVertexC CollapseEdge();
     //: Collapse edge to zero length.
     // This deletes the edge from the mesh and merges the vertex's
-    // at either end.  The new vertex is returned.
+    // at either end.  The remaining vertex is returned.
     
     HEMeshFaceC OpenEdge();
     //: Open an edge, merging the faces on either side.
     // This deletes the edge from the mesh and returns
     // a handle to the new face.
+
+    bool operator==(const HEMeshEdgeBodyC &bod) const
+    { return this == &bod; }
+    //: Is this the same body ?
+    
+    bool operator!=(const HEMeshEdgeBodyC &bod) const
+    { return this != &bod; }
+    //: Is this the same body ?
     
   protected:
+    
     HEMeshEdgeBodyC()
       : pair(0)
     {}
@@ -116,11 +141,23 @@ namespace Ravl3DN {
     //: Cosntructor.
     // the contents are left undefined.
     
+    void RemoveHalfEdge();
+    //: Remove this half edge.
+    // The use must ensure that the matching half is also removed.
+    // The memory of for this edge is not free'd, so if it is no
+    // longer needed it must be done by the caller.
+    
+    void CorrectVertexEdgePtr();
+    //: Correct edge's vertex pointer.
+    // This ensures the vertex's edge pointer doesn't point to this edge.
+    // Usefull if your about to delete the edge or restructure the mesh.
+    
     HEMeshVertexBodyC *vertex;
     HEMeshFaceBodyC *face;    // Adjacent face.
     HEMeshEdgeBodyC *pair;     // Other edge in pair, is its zero this in an edge
     
     friend class HEMeshEdgeC;
+    friend class HEMeshFaceBodyC;
   };
   
   //! userlevel=Normal
@@ -169,6 +206,14 @@ namespace Ravl3DN {
     { return HEMeshEdgeC(Body().Prev()); }
     //: Get previous edge on face.
     
+    HEMeshEdgeC Next() const
+    { return HEMeshEdgeC(const_cast<HEMeshEdgeBodyC &>(Body().Next())); }
+    //: Get next edge on face.
+    
+    HEMeshEdgeC Prev() const
+    { return HEMeshEdgeC(const_cast<HEMeshEdgeBodyC &>(Body().Prev())); }
+    //: Get previous edge on face.
+    
     void LinkAfter(HEMeshEdgeC &edge) 
     { Body().LinkAfter(edge.Body()); }
     //: Link 'edge' after this one.
@@ -204,13 +249,20 @@ namespace Ravl3DN {
     void SetFace(HEMeshFaceC face);
     //: Set the face associated with the edge.
     
+    inline HEMeshFaceC Face();
+    //: Access the face the edge lies on.
+    
     HEMeshEdgeC Pair()
     { return HEMeshEdgeC(Body().Pair()); }
     //: Access edge's apair.
     
     HEMeshVertexC Vertex() const
     { return Body().Vertex(); }
-    //: Get vertex associated with the edge. 
+    //: Access vertex this edge goes to
+    
+    HEMeshVertexC SourceVertex() const 
+    { return Prev().SourceVertex(); }
+    //: Access vertex this edge comes from.
     
     UIntT Hash() const
     { return ((UIntT) body) >> 3; }
@@ -232,11 +284,15 @@ namespace Ravl3DN {
     { return body != oth; }
     //: Is this not a handle to oth ?
 
-    HEMeshVertexC CollapseEdge()
-    { return Body().CollapseEdge(); }
+    HEMeshVertexC CollapseEdge() { 
+      return Body().CollapseEdge(); 
+      delete body;
+      body = 0;
+    }
     //: Collapse edge to zero length.
     // This deletes the edge from the mesh and merges the vertex's
-    // at either end.  The new vertex is returned.
+    // at either end.  The new vertex is returned. The edge is deleted,
+    // and the handle becomes invalid after the call completes.
     
     HEMeshFaceC OpenEdge();
     //: Open an edge, merging the faces on either side.

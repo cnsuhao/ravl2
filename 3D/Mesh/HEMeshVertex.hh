@@ -69,10 +69,13 @@ namespace Ravl3DN {
     {}
     //: Construct from a vertex position.
     
+    HEMeshEdgeBodyC *edge; 
+    // Ptr to one of the edges on the vertex.
+    // This must always point to an edge going to
+    // this vertex.
     
-    HEMeshEdgeBodyC *edge; // Ptr to one of the edges on the vertex.
-
     friend class HEMeshVertexC;
+    friend class HEMeshEdgeBodyC;
   };
   
   //! userlevel=Normal.
@@ -121,6 +124,14 @@ namespace Ravl3DN {
     //: Access body.
     
   public:
+    bool operator==(const HEMeshVertexBodyC &vert) const
+    { return body == &vert; }
+    //: Is this a handle to the vertex.
+    
+    bool operator!=(const HEMeshVertexBodyC &vert) const
+    { return body != &vert; }
+    //: Is this a handle to the vertex.
+    
     VertexC &Vertex()
     { return Body(); }
     //: Access vertex information.

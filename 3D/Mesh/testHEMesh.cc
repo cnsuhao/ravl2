@@ -44,9 +44,20 @@ int testTri2HEMesh() {
   
   HEMeshC mesh(tm);
   if(!mesh.IsValid()) return __LINE__;
+  if(!mesh.CheckMesh()) return __LINE__;
   if(mesh.NoFaces() != 4) return __LINE__;
   if(mesh.NoVertices() != 4) return __LINE__;
   
   TriMeshC recon = mesh.TriMesh();
+  if(recon.Faces().Size() != 4) return __LINE__;
+  if(recon.Vertices().Size() != 4) return __LINE__;
+  
+  HEMeshEdgeC anEdge = mesh.Faces().First().Edge();
+  if(!anEdge.IsValid()) return __LINE__;
+  anEdge.CollapseEdge();
+  if(!mesh.CheckMesh()) return __LINE__;
+  if(mesh.NoFaces() != 2) return __LINE__;
+  if(mesh.NoVertices() != 3) return __LINE__;
+  
   return 0;
 }
