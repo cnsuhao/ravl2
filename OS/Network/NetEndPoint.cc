@@ -377,7 +377,8 @@ namespace RavlN {
       }
       //ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::ReadData(), Waiting for read. Read=" << (int) FD_ISSET(nfd, &rfds) << " Except=" << (int) FD_ISSET(nfd, &efds) << "\n");
 #endif
-      
+      if(shutdown)
+	break;
       int n = read(nfd,&(buff[at]),size - at);
       if(n == 0) { // Linux indicates a close by returning 0 bytes read.  Is this portable ??
 	ONDEBUG(SysLog(SYSLOG_DEBUG) << "Socket close. ");
