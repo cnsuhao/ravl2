@@ -71,7 +71,7 @@ namespace RavlN {
     Vector2dC scale;
     SArray2dC<UIntC> xhist;
     strm >> offset >> scale >> xhist;
-    hist = RealHistogram2dC(offset,scale,xhist);
+    hist = RealHistogram2dC(scale,offset,xhist);
     return strm;
   }
 

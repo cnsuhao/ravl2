@@ -22,7 +22,7 @@ namespace RavlN {
     RealT offset,scale;
     SArray1dC<UIntC> xhist;
     strm >> offset >> scale >> xhist;
-    hist = RealHistogram1dC(offset,scale,xhist);
+    hist = RealHistogram1dC(scale,offset,xhist);
     return strm;
   }
   
