@@ -15,7 +15,7 @@
 //! date="24/01/2001"
 //! docentry="Ravl.Core.Calls"
 
-#include "Ravl/RefCounter.hh"
+#include "Ravl/RCHandleV.hh"
 
 namespace RavlN {
   
@@ -27,7 +27,7 @@ namespace RavlN {
   {
   public:
     TriggerBodyC()
-      {}
+    {}
     //: Default constructor.
     
     virtual void Invoke();
@@ -39,26 +39,26 @@ namespace RavlN {
   //: Signal Event handle
   
   class TriggerC
-    : public RCHandleC<TriggerBodyC>
+    : public RCHandleVC<TriggerBodyC>
   {
   public:
     TriggerC()
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     
   protected:
     TriggerC(TriggerBodyC &bod) 
-      : RCHandleC<TriggerBodyC>(bod)
-      {}
-    //: Body constructor.x
+      : RCHandleVC<TriggerBodyC>(bod)
+    {}
+    //: Body constructor.
     
     TriggerBodyC &Body()
-      { return  RCHandleC<TriggerBodyC>::Body(); }
+    { return  RCHandleC<TriggerBodyC>::Body(); }
     //: Access body.
     
     const TriggerBodyC &Body() const
-      { return  RCHandleC<TriggerBodyC>::Body(); }
+    { return  RCHandleC<TriggerBodyC>::Body(); }
     //: Access body.
     
   public:

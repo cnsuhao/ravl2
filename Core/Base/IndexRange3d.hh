@@ -39,6 +39,13 @@ namespace RavlN {
 	ks(0, kNumber-1)
     {}
     //: Constructor.
+
+    IndexRange3dC(IntT iNumber,IntT jNumber,IntT kNumber)
+      : is(0, iNumber-1), 
+	js(0, jNumber-1),
+	ks(0, kNumber-1)
+    {}
+    //: Constructor.
     
     IndexRange3dC(const IndexRangeC & iRange,
 		  const IndexRangeC & jRange,

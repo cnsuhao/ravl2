@@ -20,7 +20,7 @@ namespace RavlN {
     RavlAssert(ravl_atomic_read(&counter) == 0);
   }
   //: Destructor.
-
+  
   //: Access count of handles open to this object.
   
   UIntT RCBodyC::References() const
@@ -52,34 +52,5 @@ namespace RavlN {
   //: Output body.
   // No-op.
 
-  /// RCBodyVC //////////////////////////////////////////
-  
-  RCBodyVC::~RCBodyVC()
-  {}
-  //: Destructor.
-  
-  RCBodyVC &RCBodyVC::Copy() const {
-    RavlAssert(0);
-    return *new RCBodyVC();
-  }
-  //: Make copy of body.
-  
-  RCBodyC &RCBodyVC::DeepCopy(UIntT levels) const {
-    RavlAssert(0);
-    return *new RCBodyVC();
-  }
-  //: Make copy of body.
-  
-  istream &operator>>(istream &strm,RCBodyVC &obj) {
-    return strm;
-  }
-  //: Input virtual body.
-  // No-op.
-  
-  ostream &operator<<(ostream &strm,const RCBodyVC &obj) {
-    return strm;
-  }
-  //: Output virtual body.
-  // No-op.
 
 }

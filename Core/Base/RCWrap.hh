@@ -15,7 +15,7 @@
 //! author="Charles Galambos"
 //! date="06/05/1998"
 
-#include "Ravl/RefCounter.hh"
+#include "Ravl/RCHandleV.hh"
 #include "Ravl/RCAbstract.hh"
 #if RAVL_HAVE_RTTI
 #if RAVL_HAVE_ANSICPPHEADERS
@@ -37,7 +37,7 @@ namespace RavlN {
   {
   public:
     RCWrapBaseBodyC()
-      {}
+    {}
     //: Default constructor.
 
 #if RAVL_HAVE_RTTI    
@@ -50,38 +50,38 @@ namespace RavlN {
   //: Abstract wrapped object handle.
   
   class RCWrapAbstractC
-    : public RCHandleC<RCWrapBaseBodyC>
+    : public RCHandleVC<RCWrapBaseBodyC>
   {
   public:
     RCWrapAbstractC()
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
 
     RCWrapAbstractC(const RCAbstractC &val)
-      : RCHandleC<RCWrapBaseBodyC>(val)
-      {}
+      : RCHandleVC<RCWrapBaseBodyC>(val)
+    {}
     //:  Constructor from an abstract.
     
   protected:
     RCWrapAbstractC(RCWrapBaseBodyC &bod)
-      : RCHandleC<RCWrapBaseBodyC>(bod)
-      {}
+      : RCHandleVC<RCWrapBaseBodyC>(bod)
+    {}
     //: Body constructor.
 
     RCWrapBaseBodyC &Body()
-      { return RCHandleC<RCWrapBaseBodyC>::Body(); }
+    { return RCHandleC<RCWrapBaseBodyC>::Body(); }
     //: Access body of object.
 
     const RCWrapBaseBodyC &Body() const
-      { return RCHandleC<RCWrapBaseBodyC>::Body(); }
+    { return RCHandleC<RCWrapBaseBodyC>::Body(); }
     //: Access body of object.
     
   public:    
     
 #if RAVL_HAVE_RTTI
     const type_info &DataType() const
-      { return Body().DataType(); }
+    { return Body().DataType(); }
     //: Get type of wrapped object.
 #endif
   };
@@ -95,12 +95,12 @@ namespace RavlN {
   {
   public:
     RCWrapBodyC()
-      {}
+    {}
     //: Default constructor.
 
     RCWrapBodyC(const DataT &val)
       : data(val)
-      {}
+    {}
     //: Constructor.
     
     RCWrapBodyC(istream &in) {
@@ -109,16 +109,16 @@ namespace RavlN {
     //: Construct from a stream.
     
     DataT &Data()
-      { return data; }
+    { return data; }
     //: Access data.
 
     const DataT &Data() const
-      { return data; }
+    { return data; }
     //: Access data.
     
 #if RAVL_HAVE_RTTI   
     virtual const type_info &DataType() const
-      { return typeid(DataT); }
+    { return typeid(DataT); }
     //: Get type of wrapped object.
 #endif
     
@@ -135,7 +135,7 @@ namespace RavlN {
   {
   public:
     RCWrapC()
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
 
@@ -148,69 +148,69 @@ namespace RavlN {
     
     RCWrapC(const DataT &dat)
       : RCWrapAbstractC(*new RCWrapBodyC<DataT>(dat))
-      {}
+    {}
     //: Construct from an instance.
     // Uses the copy constructor to creat a reference
     // counted copy of 'dat.
     
     RCWrapC(const RCWrapAbstractC &val,bool v)
       : RCWrapAbstractC(val)
-      {
-	if(dynamic_cast<RCWrapBodyC<DataT> *>(&RCWrapAbstractC::Body()) == 0)
-	  Invalidate();
-      }
+    {
+      if(dynamic_cast<RCWrapBodyC<DataT> *>(&RCWrapAbstractC::Body()) == 0)
+	Invalidate();
+    }
     //: Construct from an abstract handle.
     // if the object types do not match, an invalid handle
     // is created.
     
     RCWrapC(const RCAbstractC &val)
       : RCWrapAbstractC(val) 
-      {
-	if(dynamic_cast<RCWrapBodyC<DataT> *>(&RCWrapAbstractC::Body()) == 0)
-	  Invalidate();	
-      }
+    {
+      if(dynamic_cast<RCWrapBodyC<DataT> *>(&RCWrapAbstractC::Body()) == 0)
+	Invalidate();	
+    }
     //: Construct from an abstract handle.
     
     RCWrapC(istream &in)
       : RCWrapAbstractC(*new RCWrapBodyC<DataT>(in))
-      {}
+    {}
     //: Construct from a stream.
     
   protected:
     RCWrapC(RCWrapBodyC<DataT> &bod)
       : RCWrapAbstractC(bod)
-      {}
+    {}
     //: Body constructor.
     
     RCWrapBodyC<DataT> &Body()
-      { return static_cast<RCWrapBodyC<DataT> &>(RCWrapAbstractC::Body()); }
+    { return static_cast<RCWrapBodyC<DataT> &>(RCWrapAbstractC::Body()); }
     //: Body access.
     
     const RCWrapBodyC<DataT> &Body() const
-      { return static_cast<const RCWrapBodyC<DataT> &>(RCWrapAbstractC::Body()); }
+    { return static_cast<const RCWrapBodyC<DataT> &>(RCWrapAbstractC::Body()); }
     //: Constant body access.
     
   public:
     RCWrapC<DataT> Copy() const 
-      { return RCWrapC<DataT>(Body().Data()); }
+    { return RCWrapC<DataT>(Body().Data()); }
     //: Make a copy of this handle.
     // NB. This assumes the wrapped object is SMALL, and so
     // just using the copy constructor is sufficent.
     
     DataT &Data()
-      { return Body().Data(); }
+    { return Body().Data(); }
     //: Access data.
 
     const DataT &Data() const
-      { return Body().Data(); }
+    { return Body().Data(); }
     //: Access data.
 
     operator DataT &() 
-      { return Body().Data(); }
+    { return Body().Data(); }
     //: Default conversion to data type.
 
     operator const DataT &() const 
-      { return Body().Data(); }
+    { return Body().Data(); }
     //: Default conversion to data type.
   };
   

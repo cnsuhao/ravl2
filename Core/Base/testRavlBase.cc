@@ -15,6 +15,8 @@
 #include "Ravl/SubIndexRange2dIter.hh"
 #include "Ravl/SubIndexRange3dIter.hh"
 #include "Ravl/Stream.hh"
+#include "Ravl/IndexRange2dIter.hh"
+#include "Ravl/IndexRange3dIter.hh"
 
 using namespace RavlN;
 
@@ -31,6 +33,12 @@ int testIndex();
 int testMisc();
 int testSubIndexRange2dIter();
 int testSubIndexRange3dIter();
+int testIndexRange2dIter();
+int testIndexRange3dIter();
+
+
+template class RCHandleC<TestBodyC>;
+template class RCWrapC<IntT>;
 
 int main()
 {
@@ -52,6 +60,14 @@ int main()
     return 1;
   }
   if((ln = testSubIndexRange3dIter()) != 0) {
+    cerr << "Test failed at line:" << ln << "\n";
+    return 1;
+  }
+  if((ln = testIndexRange2dIter()) != 0) {
+    cerr << "Test failed at line:" << ln << "\n";
+    return 1;
+  }
+  if((ln = testIndexRange3dIter()) != 0) {
     cerr << "Test failed at line:" << ln << "\n";
     return 1;
   }
@@ -147,6 +163,21 @@ int testSubIndexRange3dIter() {
   return 0;
 }
 
+int testIndexRange2dIter() {
+  IndexRange2dC rect(2,3);
+  int count = 0;
+  for(IndexRange2dIterC it(rect);it;it++)
+    count++;
+  if(rect.Area() != (UIntT) count) return __LINE__;
+  return 0;
+}
 
-template class RCHandleC<TestBodyC>;
-template class RCWrapC<IntT>;
+int testIndexRange3dIter() {
+  IndexRange3dC rect(2,3,4);
+  int count = 0;
+  for(IndexRange3dIterC it(rect);it;it++)
+    count++;
+  if(rect.Volume() != (UIntT) count) return __LINE__;
+  return 0;
+}
+

@@ -30,7 +30,8 @@
 
 namespace RavlN {  
   
-  class RCAbstractC ;
+  class BinIStreamC;
+  class BinOStreamC;
   
   enum CreateBodyFlagT { CreateBodyE };
   
@@ -64,16 +65,16 @@ namespace RavlN {
     // this funtion will issue an assertion failure if called.
     
     void IncRefCounter()
-      { ravl_atomic_inc(&counter); }
+    { ravl_atomic_inc(&counter); }
     //: Increment reference counter.
     
     bool DecRefCounter()
-      { return ravl_atomic_dec_and_test(&counter) != 0; }
+    { return ravl_atomic_dec_and_test(&counter) != 0; }
     //: Decrement reference counter.
     
   protected:    
     RCBodyC() 
-      { ravl_atomic_set(&counter,0); }
+    { ravl_atomic_set(&counter,0); }
     //: Default constructor.
     // Creates a handle with 0 reference counts.
     
@@ -81,41 +82,6 @@ namespace RavlN {
     mutable ravl_atomic_t counter;
   };
   
-  //! userlevel=Normal
-  //: Base class for all reference counted objects, where derivation is expected.
-  // This holds a count of the number of handles that
-  // are available for this object.
-  
-  class RCBodyVC 
-    : public RCBodyC
-  {
-  public:
-    virtual ~RCBodyVC();
-    //: Destructor.
-    
-    virtual bool Save(ostream &out) const
-      { return false; }
-    //: Save to stream out.
-    
-    virtual RCBodyVC &Copy() const;
-    //: Make copy of body.
-    // This should be provided in derived classes.
-    // this funtion will issue an assertion failure if called.
-
-    virtual RCBodyC &DeepCopy(UIntT levels = ((UIntT) -1)) const;
-    //: Make a deep copy of body.
-    // This should be provided in derived classes.
-    // this funtion will issue an assertion failure if called.
-
-  protected:
-    RCBodyVC()
-    {}
-    //: Default constructor.
-    // Creates a handle with 0 reference counts.
-    
-    friend class RCAbstractC ;
-  };
-
   template<class DataT> class SmartPtrC;
   
   //! userlevel=Normal
@@ -135,15 +101,6 @@ namespace RavlN {
     { 
       if(body != 0)
 	body->IncRefCounter(); 
-    }
-    //: Copy Constructor.
-    // Creates a new reference to 'oth'
-    
-    RCHandleC(const RCAbstractC &oth)
-      : body(dynamic_cast<BodyT *>(const_cast<RCBodyVC *> (&oth.Body())))
-    { 
-      if(body != 0)
-	body->IncRefCounter(); 	  
     }
     //: Copy Constructor.
     // Creates a new reference to 'oth'
@@ -213,7 +170,7 @@ namespace RavlN {
     template<class DT>
     void CheckHandleType(const DT &dummy) const throw(ExceptionErrorCastC) { 
       if(!IsHandleType(dummy))
-	throw ExceptionErrorCastC("RCHandleAC::CheckRCHandleType(), Failed.",
+	throw ExceptionErrorCastC("RCHandleC::CheckRCHandleType(), Failed.",
 				  typeid(Body()),
 				  typeid(DT));
     }
@@ -250,9 +207,6 @@ namespace RavlN {
     { return Body().References(); }
     //: Find the number of references to the body of this object.
     
-    RCAbstractC Abstract() 
-    { return RCAbstractC(Body()); }
-    //: Create an abstract handle.    
     
 #if RAVL_NEW_ANSI_CXX_DRAFT
     friend ostream &operator<< <>(ostream &strm,const RCHandleC<BodyT> &obj);
@@ -264,11 +218,6 @@ namespace RavlN {
     friend class SmartPtrC<BodyT>; 
   };
 
-
-  typedef RCHandleC<RCBodyVC> AbstractC;
-  //: Abstract object handle.
-  // NB. Objects which used abstract handles MUST be derived
-  // from RCBodyVC.
   
   istream &operator>>(istream &,RCBodyC &obj);
   //: Input body.
@@ -277,15 +226,7 @@ namespace RavlN {
   ostream &operator<<(ostream &,const RCBodyC &obj);
   //: Output body.
   // No-op.
-  
-  istream &operator>>(istream &,RCBodyVC &obj);
-  //: Input virtual body.
-  // No-op.
-
-  ostream &operator<<(ostream &,const RCBodyC &obj);
-  //: Output virtual body.
-  // No-op.
-  
+    
   template<class BodyT>
   ostream &operator<<(ostream &strm,const RCHandleC<BodyT> &obj) { 
     strm << obj.Body(); 

@@ -20,7 +20,8 @@ HEADERS=Types.hh config.h Pair.hh \
  StdConst.hh RCAbstract.hh Math.hh CallMethods.hh CallMethodRefs.hh \
  DeepCopy.hh StdHash.hh Const.hh IndexRange3d.hh Average.hh RealC.hh \
  SmartPtr.hh SubIndexRange2dIter.hh SubIndexRange3dIter.hh \
- RealRange1d.hh RealRange2d.hh RealRange3d.hh TimeCode.hh
+ RealRange1d.hh RealRange2d.hh RealRange3d.hh TimeCode.hh \
+ RCHandleV.hh IndexRange2dIter.hh IndexRange3dIter.hh
 
 SOURCES=Assert.cc Exception.cc EntryPnt.cc Index.cc String.cc \
  RefCounter.cc HandleRefCounter.cc Trigger.cc Calls.cc \
@@ -28,7 +29,8 @@ SOURCES=Assert.cc Exception.cc EntryPnt.cc Index.cc String.cc \
  BitStream.cc IndexRange1d.cc IndexRange2d.cc \
  Index2d.cc Index3d.cc IntC.cc StdConst.cc RCAbstract.cc \
  BinString.cc RCWrap.cc IndexRange3d.cc Math.cc RealC.cc \
- RealRange1d.cc RealRange2d.cc RealRange3d.cc TimeCode.cc
+ RealRange1d.cc RealRange2d.cc RealRange3d.cc TimeCode.cc \
+ RCHandleV.cc
 
 PLIB=RavlCore
 
