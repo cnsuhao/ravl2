@@ -168,6 +168,14 @@ namespace RavlN {
     //: Is iterator at a valid position ?
     // AMMA compatibility function, use cast to bool instread ie if(iter) {..}
     
+    inline bool IsFirst() const
+    { return &(lst.Head().Next()) == place; }
+    //: Returns true if the current element is the first in the list.
+    
+    inline bool IsLast() const
+    { return &(lst.Head().Prev()) == place; }
+    //: Returns true if the current element is the last in the list.
+    
     void Next()
       { (*this)++; }
     //: Goto next element.
