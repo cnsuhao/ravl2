@@ -29,7 +29,7 @@ namespace RavlImageN
   DP_REGISTER_CONVERSION_NAMED(RealTImageCT2FloatImageCT,1.5,
 			       "RavlImageN::ImageC<FloatT>  RavlImageN::Convert(const RavlImageN::ImageC<RealT> &)");
 
-  DP_REGISTER_CONVERSION_NAMED(ByteRGBImageCT2FloatImageCT,3,
+  DP_REGISTER_CONVERSION_NAMED(ByteRGBImageCT2FloatImageCT,2.8,
 			       "RavlImageN::ImageC<FloatT>  RavlImageN::Convert(const RavlImageN::ImageC<ByteRGBValueC> &)");
   
 }
