@@ -19,12 +19,12 @@
 namespace RavlImageN {
   
   template<class DataT> 
-  void MorphBinaryOpen(const ImageC<DataT>& image, const ImageC<DataT>& kernel,ImageC<DataT>& result,DataT inRegion = 1) {
+  void MorphBinaryOpen2d(const ImageC<DataT>& image, const ImageC<DataT>& kernel,ImageC<DataT>& result,DataT inRegion = 1) {
     ImageC<DataT> tmp;
-    BinaryDilate(image,kernel,tmp,inRegion);
-    BinaryErode(tmp,kernel,result,inRegion);
+    BinaryErode(image,kernel,tmp,inRegion);
+    BinaryDilate(tmp,kernel,result,inRegion);
   }
-  //: Perform a morphological 'open' on the image.  This first Dilate's then Erode's the regions in 'image'.
+  //: Perform a morphological 'open' on the image.  This first erodes then dilates the regions in 'image'.
   // Note: The result image is the result of two morphological operations with the given kernel and will 
   // be smaller than the original image.
 
