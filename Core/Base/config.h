@@ -37,11 +37,13 @@
  */
 #define RAVL_USE_PARALLEL 0
 
-/* Setting the follow define to 1 will enable the use of MMX code on intel
- * machines that support it.
+/* Setting the follow define to 1 will enable the use of MMX code.
  */
+#if defined(__linux___)
 #define RAVL_USE_MMX 1
-
+#else
+#define RAVL_USE_MMX 0
+#endif
 
 #if !defined(__sgi__)
 #define _GNU_SOURCE 1
