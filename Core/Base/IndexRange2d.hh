@@ -35,8 +35,8 @@ namespace RavlN {
     
     IndexRange2dC(IndexC rowNumber, IndexC colNumber)
       : rows(0, rowNumber-1), 
-      cols(0, colNumber-1)
-      {}
+	cols(0, colNumber-1)
+    {}
     //: Constructor.
     
     IndexRange2dC(const IndexRangeC & rowRange,
@@ -48,80 +48,80 @@ namespace RavlN {
 
     IndexRange2dC(const Index2dC &org,const Index2dC &end)
       : rows(org.Row(), end.Row()), 
-      cols(org.Col(),end.Col())
+	cols(org.Col(),end.Col())
       {}
     //: Create an 2d range from corner points.
-
+    
     IndexRange2dC(const Index2dC &center,SizeT size)
       : rows(center.Row()-size, center.Row()+size), 
-      cols(center.Col()-size,center.Col()+size)
-      {}
+	cols(center.Col()-size,center.Col()+size)
+    {}
     //: Create an 2d range from a center point and a size.
     // Size is the distance from the center to the edge, so
     // a size of 0 gives a single pixel, and a size of 1 generates
     // a 3x3 square.
     
     IndexRange2dC(IndexC minRow, IndexC maxRow,
-		    IndexC minCol, IndexC maxCol)
+		  IndexC minCol, IndexC maxCol)
       : rows(minRow, maxRow), 
-      cols(minCol,maxCol)
-      {}
+	cols(minCol,maxCol)
+    {}
     //: Create rectangle from indvidual values.
     
     inline Index2dC Origin() const
-      { return Index2dC(rows.Min(),cols.Min()); }
+    { return Index2dC(rows.Min(),cols.Min()); }
     //: Returns the top-left index of the rectangle.
     
     inline Index2dC  End() const
-      { return Index2dC(rows.Max(),cols.Max()); }
+    { return Index2dC(rows.Max(),cols.Max()); }
     //: Returns the bottom-right index of the rectangle.
     
     inline Index2dC Center() const
-      { return Index2dC(rows.Center(),cols.Center()); }
+    { return Index2dC(rows.Center(),cols.Center()); }
     //: Returns the index which is in the middle of the rectangle
     
     inline IndexC TRow() const
-      { return rows.Min(); }
+    { return rows.Min(); }
     //: Returns the top row index.
     
     inline IndexC LCol() const
-      { return cols.Min(); }
+    { return cols.Min(); }
     //: Returns the left side column index.
     
     inline IndexC BRow() const
-      { return rows.Max(); }
+    { return rows.Max(); }
     //: Returns the bottom row index.
     
     inline IndexC RCol() const
-      { return cols.Max(); }
+    { return cols.Max(); }
     //: Returns the right side column index.
-
+    
     inline IndexC &TRow()
-      { return rows.Min(); }
+    { return rows.Min(); }
     //: Returns the top row index.
     
     inline IndexC &LCol()
-      { return cols.Min(); }
+    { return cols.Min(); }
     //: Returns the left side column index.
     
     inline IndexC &BRow()
-      { return rows.Max(); }
+    { return rows.Max(); }
     //: Returns the bottom row index.
     
     inline IndexC &RCol()
-      { return cols.Max(); }
+    { return cols.Max(); }
     //: Returns the right side column index.
     
     inline SizeT Rows() const
-      { return rows.Size(); }
+    { return rows.Size(); }
     //: The number of rows in the rectangle.
-
+    
     inline SizeT Cols() const
-      { return cols.Size(); }
+    { return cols.Size(); }
     //: The number of rows in the rectangle.
-
+    
     inline SizeT Area() const
-      { return (SizeT) Rows() * Cols(); }
+    { return (SizeT) Rows() * Cols(); }
     //: Returns the area of the image rectangle expressed in number of indexs.
     
     inline IndexRange2dC Dilate() const 
@@ -129,15 +129,15 @@ namespace RavlN {
     //: Returns a new rectangle one index larger on each side.
     
     inline IndexRange2dC Erode() const
-      { return IndexRange2dC(rows.Shrink(1),cols.Shrink(1)); }
+    { return IndexRange2dC(rows.Shrink(1),cols.Shrink(1)); }
     //: Returns an rectangle with each side 1 index closer to the center.
     
     inline IndexRange2dC Expand(IndexC n) const
-      { return IndexRange2dC(rows.Expand(n),cols.Expand(n)); }
+    { return IndexRange2dC(rows.Expand(n),cols.Expand(n)); }
     //: Returns an rectangle expanded by 'n' indexs on each side.
     
     inline IndexRange2dC Shrink(IndexC n) const
-      { return IndexRange2dC(rows.Shrink(n),cols.Shrink(n)); }
+    { return IndexRange2dC(rows.Shrink(n),cols.Shrink(n)); }
     //: Returns a new rectangle which has layer of the width of 'n' indexs
     //: removed.
     
@@ -163,42 +163,42 @@ namespace RavlN {
     //: Shifts the rectangle to the new position.
     
     inline const IndexRangeC & RowRange() const
-      { return rows; }
+    { return rows; }
     //: Access row range.
     
     inline const IndexRangeC & ColRange() const
-      { return cols; }
+    { return cols; }
     //: Access col range.
     
     inline IndexRangeC & RowRange()
-      { return rows; }
+    { return rows; }
     //: Access row range.
     
     inline IndexRangeC & ColRange()
-      { return cols; }
+    { return cols; }
     //: Access col range.
     
     inline const IndexRangeC & Range1() const
-      { return rows; }
+    { return rows; }
     //: Access row range.
     
     inline const IndexRangeC & Range2() const
-      { return cols; }
+    { return cols; }
     //: Access col range.
     
     inline IndexRangeC & Range1()
-      { return rows; }
+    { return rows; }
     //: Access row range.
     
     inline IndexRangeC & Range2()
-      { return cols; }
+    { return cols; }
     //: Access col range.
     
     inline void Involve(const Index2dC & index);
     //: Ensures this rectangle contains given index.
     // This method checks and changes, if necessary, the 2 dimensional range
     // to contain the 'index'.
-
+    
     inline void Involve(const IndexRange2dC &subrectangle) { 
       Range1().Involve(subrectangle.Range1()); 
       Range2().Involve(subrectangle.Range2()); 
@@ -207,22 +207,24 @@ namespace RavlN {
     // This method checks and changes, if necessary, the 2 dimensional range
     // to contain the 'subrectangle'.
     
-    inline 
-    bool IsValid() const 
-      { return rows.IsValid() && cols.IsValid(); }
+    inline bool IsValid() const 
+    { return rows.IsValid() && cols.IsValid(); }
     //: Returns TRUE if this rectangle contains at least one index.
 
     bool operator==(const IndexRange2dC &oth) const
-      { return oth.Range1() == Range1() && oth.Range2() == Range2(); }
+    { return oth.Range1() == Range1() && oth.Range2() == Range2(); }
     //: Are two ranges equal ?
-
+    
     bool operator!=(const IndexRange2dC &oth) const
-      { return oth.Range1() != Range1() || oth.Range2() != Range2(); }
+    { return oth.Range1() != Range1() || oth.Range2() != Range2(); }
     //: Are two ranges unequal ?
+    
+    IndexRange2dC Rotate180(Index2dC centre = Index2dC(0,0));
+    //: Rotate rectangle 180 degree's around the given center.
     
   protected:
     inline const IndexRange2dC & Range() const
-      { return(*this); }
+    { return(*this); }
     
   private:
     IndexRangeC rows;

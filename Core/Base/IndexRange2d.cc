@@ -21,6 +21,12 @@ namespace RavlN {
   IndexRange2dC::IndexRange2dC(const IndexRange2dC & range)
     : rows(range.RowRange()), cols(range.ColRange())
   {}
+
+  //: Rotate rectangle 180 degree's around the given center.
+  
+  IndexRange2dC IndexRange2dC::Rotate180(Index2dC centre) {
+    return IndexRange2dC((End() * -1) + (centre*2),(Origin() * -1) + (centre * 2));
+  }
   
   BinOStreamC &operator<<(BinOStreamC &s,const IndexRange2dC &ir) {
     s << ir.Range1() << ir.Range2();
