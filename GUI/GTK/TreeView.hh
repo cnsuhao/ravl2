@@ -256,14 +256,17 @@ namespace RavlGUIN {
     
     void Expand(TreeModelPathC path);
     //: Expand to the specified path
-
-    void Expand(TreeModelIterC iter);
-    //: Expand to the specified row iterator
-
+    
     bool GUIExpand(TreeModelPathC path);
     //: Expand to the specified path
     // GUI thread only
-
+    
+    void Expand(TreeModelIterC iter);
+    //: Expand to the specified row iterator
+    
+    bool GUIExpandIter(TreeModelIterC iter);
+    //: Expand to the specified row iterator
+    
     bool GUIExpanded(TreeModelPathC path);
     //: Is the specified path expanded?
     // GUI thread only
@@ -488,16 +491,21 @@ namespace RavlGUIN {
     void Expand(TreeModelPathC path)
     { Body().Expand(path); }
     //: Expand to the specified path
-
+    
     void Expand(TreeModelIterC iter)
     { Body().Expand(iter); }
     //: Expand to the specified row iterator
-
+    
     bool GUIExpand(TreeModelPathC path)
     { return Body().GUIExpand(path); }
     //: Expand to the specified path
     // GUI thread only
-
+    
+    bool GUIExpandIter(TreeModelIterC iter)
+    { return Body().GUIExpandIter(iter); }
+    //: Expand to the specified row iterator
+    // GUI thread only
+    
     bool GUIExpanded(TreeModelPathC path)
     { return Body().GUIExpanded(path); }
     //: Is the specified path expanded?

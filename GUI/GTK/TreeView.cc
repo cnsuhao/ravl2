@@ -367,12 +367,18 @@ namespace RavlGUIN {
   //: Expand to the specified row iterator
 
   void TreeViewBodyC::Expand(TreeModelIterC iter) {
+    Manager.Queue(Trigger(TreeViewC(*this),&TreeViewC::GUIExpandIter,iter));
+  }
+
+  //: Expand to the specified row iterator
+  
+  bool TreeViewBodyC::GUIExpandIter(TreeModelIterC iter) {
     // Create path
     TreeModelPathC path(iter);
     // Expand to path    
-    Expand(path);
+    GUIExpand(path);
+    return true;
   }
-
 
   //: Expand to the specified path
   // GUI thread only

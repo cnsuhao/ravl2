@@ -212,7 +212,8 @@ namespace RavlGUIN {
       : RCHandleC<TreeModelPathBodyC>(*new TreeModelPathBodyC(treeIter))
     {}
     //: Constructor.
-
+    // GUI Thread only!
+    
     TreeModelPathC(GtkTreePath *treeIter,bool canFree)
       : RCHandleC<TreeModelPathBodyC>(*new TreeModelPathBodyC(treeIter,canFree))
     {}
