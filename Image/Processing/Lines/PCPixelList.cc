@@ -13,7 +13,7 @@
 #include "Ravl/Image/Image.hh"
 #include "Ravl/SArray1dIter.hh"
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG 
 #define ONDEBUG(x) x
 #else
@@ -96,7 +96,7 @@ namespace RavlImageN {
   IntT PCPixelListC::TrimLongest(RealT maxDist,RealT &distEst) {
     ONDEBUG(cerr << "PCPixelListC::TrimLongest(), maxDist=" << maxDist << "\n");
     DLIterC<PCIndex2dC> it(*this);
-    IntT longest  = 0,curLen = 0; 
+    IntT longest  = 0,curLen = 1; 
     RealT totDist = 0;
     RealT longDist = 0;
     it.First();
@@ -106,6 +106,7 @@ namespace RavlImageN {
     for(it++;it;it++) {
       cur = &it.Data();
       RealT dist = last->ClosestPnt().EuclidDistance(cur->ClosestPnt());
+      //cerr << "Pixel " << curLen << " dist=" << dist << " @ " << (void*)cur << "\n";
       if(dist > maxDist) { // Is the distance between pixels larger than the maximum allowed ?
 	if(curLen > longest) { // Is this the best line segment found so far ?
 	  longest = curLen;   // Save pixel count.
@@ -123,16 +124,20 @@ namespace RavlImageN {
       last = cur;
     }
     if(curLen > longest) {
+      //cerr << "Last seg. \n";
       longest = curLen;
       longDist = totDist;
       lStart = CStart;
       lEnd = it;
     }
-    ONDEBUG(cerr << "PCPixelListC::TrimLongest(), Total=" << List().Size() << " longest=" << longest<< "\n");
     if(longest == 0) return 0; // No segment meets the requirments.
-    if(lEnd) lEnd.InclusiveTail(); // Dump end of list.
+    if(lEnd)
+      lEnd.InclusiveTail(); // Dump end of list.
     lStart.Head(); // Dump head of list.
-    First();       // Might as well point to the first element.
+    First();       // Might as well point to the first element. 
+    ONDEBUG(cerr << "PCPixelListC::TrimLongest(), Total=" << List().Size() << " longest=" << longest<< " lEnd=" << (IntT) (lEnd)<< "\n");
+    //cerr << "Tail at @ " << ((void *) &(List().Last())) << " \n";
+    ONDEBUG(RavlAssert(lst.Size() == (UIntT) longest));
     distEst = (RealT) longDist / longest;
     return longest;
   }

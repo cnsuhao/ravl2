@@ -27,4 +27,6 @@ USESLIBS=RavlImageProc
 PROGLIBS=RavlIO RavlOS RavlOSIO RavlImageIO RavlMathIO RavlImgIOV4L.opt RavlDPDisplay.opt
 
 EHT = Ravl.Images.Lines.html 
+
+TESTEXES=testLineDet.cc
 #exedoPPHT.eht
