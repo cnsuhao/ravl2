@@ -11,14 +11,16 @@
 //! date="28/01/2003"
 //! rcsid="$Id$"
 //! lib=RavlGUI
+//! userlevel=Advanced
+//! docentry="Ravl.GUI.Internal"
 
 #include "Ravl/Threads/Semaphore.hh"
 #include "Ravl/RefCounter.hh"
 
 namespace RavlGUIN {
   using namespace RavlN;
-
-  //! userlevel=Advanced
+  
+  //! userlevel=Develop
   //: Read back delay.
   
   class ReadBackBodyC 
@@ -54,7 +56,7 @@ namespace RavlGUIN {
     SemaphoreC done;
   };
   
-  //! userlevel=Develop
+  //! userlevel=Advanced
   //: Read back delay.
   
   class ReadBackC 

@@ -8,6 +8,8 @@
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! file="Ravl/Core/Base/exRefCounterInherit.cc"
+//! docentry="Ravl.Core.Reference Counting"
+//! userlevel=Normal
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/Stream.hh"

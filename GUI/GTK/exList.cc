@@ -8,6 +8,8 @@
 //! rcsid="$Id$"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/exList.cc"
+//! userlevel=Normal
+//! docentry="Ravl.GUI.Control"
 
 #include "Ravl/GUI/Window.hh"
 #include "Ravl/GUI/Manager.hh"

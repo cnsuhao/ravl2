@@ -7,6 +7,9 @@
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlGUI
+//! docentry="Ravl.GUI.Layout"
+//! userlevel=Normal
+//! author="Charles Galambos"
 
 #include "Ravl/GUI/Window.hh"
 #include "Ravl/GUI/Manager.hh"

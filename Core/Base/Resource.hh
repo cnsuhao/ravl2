@@ -8,6 +8,8 @@
 #define RAVL_RESOURCE_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! docentry="Ravl.Core.Resource"
+//! userlevel=Normal
 
 #include "Ravl/String.hh"
 

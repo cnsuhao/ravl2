@@ -8,6 +8,8 @@
 //! rcsid="$Id$"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/Notebook.cc"
+//! docentry="Ravl.GUI.Layout"
+//! userlevel=Normal
 
 #include "Ravl/GUI/Notebook.hh"
 #include "Ravl/GUI/PackInfo.hh"

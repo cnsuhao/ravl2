@@ -111,7 +111,10 @@ namespace RavlGUIN {
     friend class WidgetStyleC;
 
   };
-
+  
+  //! userlevel=Normal
+  //: Widget style
+  
   class WidgetStyleC
     : public RCHandleC<WidgetStyleBodyC>
   {
