@@ -678,6 +678,9 @@ namespace RavlN {
   XMLOStreamC &operator<<(XMLOStreamC &strm,const StringC &str);
   //: Write tag contents.
   
+  XMLOStreamC &operator<<(XMLOStreamC &strm,const char *str);
+  //: Write tag contents.
+  
   XMLIStreamC &operator>>(XMLIStreamC &strm,StringC &str);
   //: Read tag contents as string.
   

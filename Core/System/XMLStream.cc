@@ -511,7 +511,7 @@ namespace RavlN {
       Context().SetEmptyTag(true);
       StartContents();
     }
-    if(!Context().IsEmptyTag()) {
+    if(!Context().IsEmptyTag() && LastOpenTag() != Context().Name()) {
       if(AutoIndent())
 	Indent(-1);
       Stream() << "</" << name << ">";
@@ -523,6 +523,7 @@ namespace RavlN {
       }
     } else
       EndOfContext();
+    LastOpenTag() = StringC();
   }
   
   //: End writting current entity.
@@ -533,13 +534,13 @@ namespace RavlN {
       Context().SetEmptyTag(true);      
       StartContents();
     }
-    
     if(!Context().IsEmptyTag()) {
       if(AutoIndent() && LastOpenTag() != Context().Name())
 	Indent(-1);
       Stream() << "</" << Context().Name() << ">";
     }
     EndOfContext();
+    LastOpenTag() = StringC();
   }
 
   //: Indent the following line appropriatly.
@@ -653,6 +654,15 @@ namespace RavlN {
     if(!strm.IsContent())
       strm << XMLContent; // End tag.
     ((OStreamC &) strm) << XMLBaseC::EncodeLitteral(str);
+    return strm;
+  }
+
+  //: Write tag contents.
+  
+  XMLOStreamC &operator<<(XMLOStreamC &strm,const char *str) {
+    if(!strm.IsContent())
+      strm << XMLContent; // End tag.
+    ((OStreamC &) strm) << XMLBaseC::EncodeLitteral(StringC(str));
     return strm;
   }
   
