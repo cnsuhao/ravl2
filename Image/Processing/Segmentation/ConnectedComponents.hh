@@ -182,7 +182,7 @@ namespace RavlImageN {
       else {
 	lab++;
 	RavlAssert(lab < maxLabel);
-	it.DataBR2() = lab;
+	it.DataBL2() = lab;
 	labelTable[lab] = lab;
       }
       // DataU() = jp[ix-1][iy]
