@@ -14,6 +14,7 @@
 #include "Ravl/Image/PPHT.hh"
 #include "Ravl/EntryPnt.hh"
 #include "Ravl/Image/ImageConv.hh"
+#include "Ravl/Image/DrawLine.hh"
 #include "Ravl/DP/SequenceIO.hh"
 #include "Ravl/IO.hh"
 #include "Ravl/Image/EdgeDetector.hh"
@@ -78,8 +79,11 @@ int doPPHT(int argc,char **argv)
   IntT maxGap = option.Int("mg",5,"Maxium size of gap inline in pixels ");
   IntT minLen = option.Int("ml",3,"Minimum line length to that can be detected ");
   
+  StringC overlayOut = option.String("ol","","Overlay lines on image and save it. (Single frame mode only) ");
+  
   StringC inFile = option.String("","in.ppm","Input filename. ");
-  StringC outFile = option.String("","lines.abs","Output filename. ");
+  StringC outFile = option.String("","","Output filename. ");
+  
   option.Check();
   
   PPHoughTransformC pphtProc(res,fp,angRange,ptl,useSobel,sFract,fullDir);
@@ -140,11 +144,23 @@ int doPPHT(int argc,char **argv)
       cerr << "Writing data. \n";
     
     DListC<LinePP2dC> linesOut = LineMap2LinePP(output);
-    if(!Save(outFile,linesOut,outType,verb)) {
-      cerr << "Failed to open output '" << outFile << "' \n";
-      return 1;
+    if(!outFile.IsEmpty()) {
+      if(!Save(outFile,linesOut,outType,verb)) {
+	cerr << "Failed to open output '" << outFile << "' \n";
+	return 1;
+      }
     }
     
+    if(!overlayOut.IsEmpty()) {
+      ImageC<RealT> overlayImg(img.Copy());
+      for(DLIterC<LinePP2dC> lit(linesOut);lit;lit++) {
+	//cerr << "Drawing line from " << lit->P1() << " to " << lit->P2() << "\n";
+	DrawLine(overlayImg,255.0,Index2dC(lit->P1()),Index2dC(lit->P2()));
+      }
+      if(!Save(overlayOut,overlayImg)) {
+	cerr << "Failed to write overlay image to '" << overlayOut << "' \n";
+      }
+    }
   }
   
   return 0;

@@ -61,11 +61,12 @@ int main(int argc,char **argv) {
   bool verb = option.Boolean("v",false,"Verbose. ");
   //bool eightCon = option.Boolean("u",false,"Use eight contectivity. ");
   bool rawEdgeImg = option.Boolean("rei",false,"Show raw edge image.");
-  RealT hystLower = option.Real("hl",10,"Lower hysterisis threshold. ");
-  RealT hystUpper = option.Real("hu",17,"Upper hysterisis threshold. ");
+  RealT hystLower = option.Real("hl",4,"Lower hysterisis threshold. ");
+  RealT hystUpper = option.Real("hu",8,"Upper hysterisis threshold. ");
   IntT threads = option.Int("th",2,"Number of threads to use in processing. ");
+  StringC overlay = option.String("ol","","Overlay edges on input image. ");
   StringC inFile = option.String("","in.pgm","Input filename");
-  StringC outFile = option.String("","edges.abs","Output filename");
+  StringC outFile = option.String("","","Output filename");
   
   option.Check();
   
@@ -99,10 +100,21 @@ int main(int argc,char **argv) {
     
     if(verb)
       cerr << "Writing data. \n";
-    
-    if(!Save(outFile,output,outType,verb)) {
-      cerr << "Failed to open output '" << outFile << "' \n";
-      return 1;
+
+    if(!overlay.IsEmpty()) {
+      ImageC<RealT> overlayImg(input.Copy());
+      for(SArray1dIterC<EdgelC> it(output);it;it++)
+	overlayImg[it->At()] = 255;
+      if(!Save(overlay,overlayImg)) {
+	cerr << "Failed to save overlay image '" << overlay << "' \n";
+	return 1;
+      }
+    }
+    if(!outFile.IsEmpty()) {
+      if(!Save(outFile,output,outType,verb)) {
+	cerr << "Failed to open output '" << outFile << "' \n";
+	return 1;
+      }
     }
   } else {
     // Setup IO.
