@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_SUMS1D_HEADER
-#define RAVL_SUMS1D_HEADER 1
+#ifndef RAVL_SUMS1D2_HEADER
+#define RAVL_SUMS1D2_HEADER 1
 //! author="Charles Galambos"
 //! date="26/8/2002"
 //! docentry="Ravl.Math.Statistics"
