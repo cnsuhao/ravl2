@@ -127,11 +127,17 @@ namespace RavlN {
       Where = New;
     }
     
-    StrRepP(StrRepC *SR) { Where = NULL; SetPtr(SR); }
-    StrRepP(const StrRepC *SR) { Where = NULL; SetPtr((StrRepC *)SR); }
-    StrRepP(const StrRepP &Oth) { Where = NULL; SetPtr(Oth.Where); }
-    StrRepP(void) { Where = NULL; }
-    ~StrRepP(void) { SetPtr(NULL); }
+    StrRepP(StrRepC *SR) { Where = SR; if(Where != 0) ravl_atomic_inc(&(Where->refs)); }
+    StrRepP(const StrRepC *SR) { Where = const_cast<StrRepC *>(SR); if(Where != 0) ravl_atomic_inc(&(Where->refs)); }
+    StrRepP(const StrRepP &Oth) { Where = const_cast<StrRepC *>(Oth.Where); if(Where != 0) ravl_atomic_inc(&(Where->refs)); }
+    StrRepP(void) { Where = 0; }
+    ~StrRepP(void) {  
+      if(Where != 0) {
+	if(ravl_atomic_dec_and_test(&(Where->refs)))
+	  delete [] ((char *) Where);
+      }
+    }
+    //: Destructor.
     
     StrRepP &operator=(const StrRepP &Oth) { SetPtr(Oth.Where); return *this; }
     StrRepC *operator=(StrRepC *Oth) { SetPtr(Oth); return Where; }
@@ -921,12 +927,6 @@ namespace RavlN {
     friend class StringC;
   };
 
-  extern const StringC NULLStringC; 
-  //: A NULL string.
-
-  extern StringC _nilStringC;
-  //: A NULL string.
-  
   int readline(istream& s, StringC& x, 
 	       char terminator,
 	       int discard_terminator);
@@ -948,8 +948,10 @@ namespace RavlN {
   // a helper needed by at, before, etc.
   
   inline SubStringC StringC::_substr(int first, int l) {
-    if (first < 0 || (unsigned)(first + l) > length() )
-      return SubStringC(_nilStringC, 0, 0) ;
+    if (first < 0 || (unsigned)(first + l) > length() ) {
+      StringC empty;
+      return SubStringC(empty, 0, 0) ;
+    }
     return SubStringC(*this, first, l);
   }
   

@@ -63,7 +63,6 @@ Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 namespace RavlN {
   
-  const StringC NULLStringC = StringC();
   
   // 
 #if defined(__linux__) || defined(__sol2__)
@@ -74,9 +73,6 @@ namespace RavlN {
 #else
   StrRepC  _nilStrRepC = { 0, 1, 1 , { 0 } }; // nil strings point here (Reference will never reach 0)
 #endif
-  
-  StringC _nilStringC;               // nil SubStringCs point here
-  
   
   /*
     the following inline fcts are specially designed to work
@@ -537,7 +533,7 @@ namespace RavlN {
   }
   
   void SubStringC::assign(const StrRepC* ysrc, const char* ys, int ylen) {
-    if (&S == &_nilStringC) return;
+    //if (&S == &_nilStringC) return;
     if (ylen < 0) ylen = slen(ys);
     StrRepC* targ = S.rep;
     int sl = targ->len - len + ylen;
