@@ -202,8 +202,15 @@ ifdef PLIB
 endif
 LIBLIBS := $(EXELIB)
 ifndef NOINCDEFS
- ifneq ($(strip $(PROGLIBS)),)
-  include $(patsubst %,%.def,$(PROGLIBS))
+ REQUIRED_PROGLIBS=$(patsubst %,%.def,$(filter-out %.opt,$(PROGLIBS)))
+ OPTIONAL_PROGLIBS=$(patsubst %.opt,%.def,$(PROGLIBS))
+ ifneq ($(strip $(REQUIRED_PROGLIBS)),)
+  include $(REQUIRED_PROGLIBS)
+ endif
+ ifneq ($(strip $(OPTIONAL_PROGLIBS)),)
+  -include $(OPTIONAL_PROGLIBS)
+$(OPTIONAL_PROGLIBS) :
+	@true;
  endif
 endif
 ifeq ($(filter Auto,$(USESLIBS)),Auto)
