@@ -149,6 +149,11 @@ namespace RavlN {
   { x = 0; }
   //: Set float value to zero.
 
+  inline 
+  void SetZero(Int16T &x) 
+  { x = 0; } 
+  //: Set integer value to zero.
+
   inline
   void SetZero(Int64T &x)
   { x = 0; }
