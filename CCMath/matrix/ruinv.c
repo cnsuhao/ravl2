@@ -6,6 +6,7 @@
  * ------------------------------------------------------------------------
  */
 
+#include "ccmath/ccmath.h"
 #include <math.h>
 
 int ruinv(double *a,int n)
