@@ -43,8 +43,10 @@ namespace RavlGUIN {
       gtk_container_set_border_width (GTK_CONTAINER (widget), border);
     gtk_frame_set_shadow_type (GTK_FRAME(widget),shadow);
     if(child.IsValid()) {
-      if(!child.Create())
-	return false;
+      if(child.Widget() == 0) {
+	if(!child.Create())
+	  return false;
+      }
       gtk_container_add (GTK_CONTAINER (widget), child.Widget());
       gtk_widget_show (child.Widget());
     }
