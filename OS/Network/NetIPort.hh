@@ -19,6 +19,7 @@
 #include "Ravl/OS/NetPort.hh"
 #include "Ravl/Threads/RWLock.hh"
 #include "Ravl/Threads/Semaphore.hh"
+#include "Ravl/Threads/ThreadEvent.hh"
 
 namespace RavlN {
 
@@ -52,6 +53,9 @@ namespace RavlN {
     bool ReqFailed(IntT &flag);
     //: Handle request failed.
     
+    bool WaitForInfo() const;
+    //: Wait for stream info to arrive.
+    
     NetEndPointC ep;
     
     StringC portName,dataType;
@@ -62,6 +66,7 @@ namespace RavlN {
     RWLockC rwlock;
     SemaphoreC recieved; // Posted when new data arrives.
     UIntT flag;
+    mutable ThreadEventC gotStreamInfo; // Have we recieved stream info yet.
   };
   
   //! userlevel=Develop
@@ -93,6 +98,7 @@ namespace RavlN {
     
     virtual bool Seek(UIntT off) { 
       //cerr << "NetISPortBodyC()::Seek() Off=" << off << " Start=" << start << " Size=" << size << "\n";
+      WaitForInfo();
       if(off >= size || off < start)
 	return false;
       gotEOS = false; // Reset end of stream flag.
@@ -108,6 +114,7 @@ namespace RavlN {
     virtual bool DSeek(IntT off) {
       //cerr << "NetISPortBodyC()::DSeek() Off=" << off << " At=" << at <<" Start=" << start << " Size=" << size << "\n";
       Int64T newOff = (Int64T) at + off;
+      WaitForInfo();
       if(off < 0) {
 	if((UIntT) (-off) > at)
 	  return false; // Seek to before beginning on file.
@@ -128,19 +135,25 @@ namespace RavlN {
     // if an error occurered (DSeek returned False) then stream
     // position will not be changed.
     
-    virtual UIntT Tell() const 
-    { return at; }
+    virtual UIntT Tell() const { 
+      WaitForInfo();
+      return at; 
+    }
     //: Find current location in stream.
     // Defined as the index of the next object to be written or read.
     // May return ((UIntT) (-1)) if not implemented.
     
-    virtual UIntT Size() const
-    { return size; }
+    virtual UIntT Size() const { 
+      WaitForInfo();
+      return size; 
+    }
     //: Find the total size of the stream. (assuming it starts from 0)
     // May return ((UIntT) (-1)) if not implemented.
     
-    virtual UIntT Start() const
-    { return start; }
+    virtual UIntT Start() const { 
+      WaitForInfo();
+      return start; 
+    }
     //: Find the offset where the stream begins, normally zero.
     // Defaults to 0
     

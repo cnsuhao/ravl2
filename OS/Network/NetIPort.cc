@@ -57,6 +57,16 @@ namespace RavlN {
     ep.Send(NPMsg_ReqInfo); // Request info about the stream.
     return true;
   }
+
+  //: Wait for stream info to arrive.
+  
+  bool NetISPortBaseC::WaitForInfo() const {
+    do {
+      if(!ep.IsValid()) return false;
+      if(!ep.IsOpen()) return false;
+    } while(!gotStreamInfo.Wait(2));
+    return true;
+  }
   
   //: Handle incoming state info.
   
@@ -66,6 +76,7 @@ namespace RavlN {
     at = nat;
     start = nstart;
     size = nsize;
+    gotStreamInfo.Post();
     return true;
   }
   
