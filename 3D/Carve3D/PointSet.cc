@@ -13,7 +13,7 @@ namespace Ravl3DN {
   
   // Make a copy of the point set.
   
-  RCBodyVC& PointSetBodyC::Copy() const 
+  RCBodyC& PointSetBodyC::Copy() const 
   {
     SArray1dC<VertexC> nverts = m_vertices.Copy();
     SArray1dC<ByteRGBValueC> ncolours = m_colours.Copy();

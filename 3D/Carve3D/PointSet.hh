@@ -24,15 +24,15 @@ namespace Ravl3DN
   class VoxelSetC;
 
   //!userlevel:Develop
-  //:Array of 3D vertices and attributes
-
-  class PointSetBodyC: public RCBodyVC
+  //: Array of 3D vertices and attributes
+  
+  class PointSetBodyC: public RCBodyC
   {
   public:
     PointSetBodyC()
     {}
     //:Default constructor
-
+    
     PointSetBodyC(UIntT numPoints,bool haveColour = false)
       : m_vertices(numPoints), m_haveColour(haveColour)
     { 
@@ -45,19 +45,16 @@ namespace Ravl3DN
       : m_vertices(v), m_colours(col), m_haveColour(haveColour)
     {}
     //:Construct a point set from an array of vertices and colours
-
-    virtual ~PointSetBodyC()
-    {}
-
+    
   public:
 
-    RCBodyVC& Copy() const;
+    RCBodyC& Copy() const;
     //:Make a copy of the set.
     
     SArray1dC<VertexC>& Vertices()
     { return m_vertices; }
     //:Access the array of all vertices in the point set.
-
+    
     const SArray1dC<VertexC>& Vertices() const
     { return m_vertices; }
     //:Access the array of all vertices in the point set.
