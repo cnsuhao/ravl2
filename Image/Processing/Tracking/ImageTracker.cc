@@ -27,6 +27,8 @@ namespace RavlImageN {
     
     DListC<CornerC> corners = cornerDet.Apply(mosaic);
     
+    Projection2dC iproj = proj.Inverse();
+    
     WarpProjectiveC<ByteT> warp(proj);
     
     // Generate patches.
@@ -38,10 +40,14 @@ namespace RavlImageN {
       Point2dC cpnt = it->Location();
       
       // Project corner into mosiac space.
-      Point2dC projLoc = proj * cpnt;
+      Point2dC projLoc = iproj * cpnt;
+      
+      // Project discretised location back into the image to get true location of patch.
+      Index2dC patchCenter(projLoc);
+      Point2dC trueLoc = proj * Point2dC(patchCenter);
       
       // Create a patch
-      IndexRange2dC fr(projLoc,patchSize,patchSize);
+      IndexRange2dC fr(patchCenter,patchSize,patchSize);
       ImageC<ByteT> patch(fr);
       warp.Apply(data,patch);
       
@@ -50,7 +56,7 @@ namespace RavlImageN {
       
       // Put matches in the list.
       if(sum < matchThreshold)
-	ret.InsLast(PairC<Point2dC>(cpnt,rat));
+	ret.InsLast(PairC<Point2dC>(trueLoc,rat));
     }
     
     return ret;
