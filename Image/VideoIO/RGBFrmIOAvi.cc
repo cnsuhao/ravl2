@@ -111,9 +111,9 @@ namespace RavlImageN {
     UIntT checkSize = 0; 
     for(Array2dIterC<ByteRGBValueC> it(head);it.IsElm();it.Next())
       {
-	aviStrm >> (char)it->Red();
-	aviStrm >> (char)it->Green();
-	aviStrm >> (char)it->Blue();
+	aviStrm >> it->Red();
+	aviStrm >> it->Green();
+	aviStrm >> it->Blue();
 	checkSize += 3;
       }
 
