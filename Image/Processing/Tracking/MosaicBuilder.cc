@@ -228,6 +228,7 @@ namespace RavlImageN {
       last = corners;
       Matrix3dC homog(Im2Mosaic(img));
       Parray.Append(homog);
+      if (verbose) cout << "Initial homography:\n"<< Parray[0]<<endl;
       return homog.IsReal();
     }
     // Generate an observation set for tracked points.
@@ -426,7 +427,6 @@ namespace RavlImageN {
 		     b[3], b[4], b[5],
 		     b[6], b[7], 1.0);
     Psum = Psum.Inverse();
-    if (verbose) cout << "Initial homography:\n"<< Parray[0]<<endl;
     return Psum*Pmosaic;    
     // So at this point, the result will transform a point from mosaic coords to frame 0 coords, using the "mosaic" coordinate system
   }
