@@ -379,7 +379,12 @@ namespace RavlN {
     { return HashIsEqual(Key,Another); }
     //: Does key equal that of this element ?
     
-    UIntT GetHashVal() const { return hashVal; }
+    UIntT GetHashVal() const 
+    { return hashVal; }
+    //: Get hash value.
+    
+    void HashVal(UIntT nHashVal)
+    { hashVal = nHashVal; }
     //: Get hash value.
     
   protected:
@@ -413,7 +418,7 @@ namespace RavlN {
   template<class K,class T>
   istream &operator>>(istream &in,HashElemC<K,T> &obj) { 
     obj = HashElemC<K,T>(in);
-    return obj;
+    return in;
   }
 
   template<class K,class T>
@@ -425,7 +430,7 @@ namespace RavlN {
   template<class K,class T>
   BinIStreamC &operator>>(BinIStreamC &in,HashElemC<K,T> &obj) { 
     obj = HashElemC<K,T>(in);
-    return obj;
+    return in;
   }
   
   ///////////////////////////////////////////////////////////////////
