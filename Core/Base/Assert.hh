@@ -12,8 +12,7 @@
 //! userlevel=Normal
 //! file="Ravl/Core/Base/Assert.hh"
 //! lib=RavlCore
-//! author=""
-//! date=""
+//! author="Charles Galambos"
 
 #include <stdarg.h>
 
