@@ -10,6 +10,8 @@
 
 PACKAGE=Ravl
 
+DESCRIPTION=RAVL, Video Switch Control Program
+
 NESTED=QMake.r Core.r OS.r CCMath.r Math.r PatternRec.r Image.r 3D.r Logic.r \
   SourceTools.r GUI.r Applications.r
 
