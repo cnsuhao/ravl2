@@ -46,7 +46,12 @@ namespace RavlN {
     
     OptionC(DListC<StringC> opts,OStreamC msgout = OStreamC(cerr));
     //: Creates the option processing system.
-  
+
+    void OfferLoadSave(); 
+    //: Add optload and optsave to the command line.
+    // This adds the options to both load and save options to the command line.
+    // When used this should be called before any other options are processed.
+    
     bool IsOnCommandLine(const char * option) const;
     // Returns true if the 'option' was on the command line. 
     

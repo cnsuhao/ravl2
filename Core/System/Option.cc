@@ -42,7 +42,7 @@ namespace RavlN {
       sout(msgout),
       unnamed(0)
   {
-    if(argc > 1)
+    if(argc >= 1)
       progName = StringC(argv[0]);
     for(IntT i = 1;i < argc;i++)
       args.InsLast(argv[i]);
@@ -61,7 +61,7 @@ namespace RavlN {
       sout(cerr),
       unnamed(0)
   {
-    if(argc > 1)
+    if(argc >= 1)
       progName = StringC(argv[0]);
     for(IntT i = 1;i < argc;i++)
       args.InsLast(argv[i]);
@@ -89,12 +89,19 @@ namespace RavlN {
   //: Sort out some standard options.
   
   void OptionC::Init() {
+    allargs = args.Copy();
+  }
+  
+  //: Add optload and optsave to the command line.
+  // This adds the options to both load and save options to the command line.
+  
+  void OptionC::OfferLoadSave() {
     StringC filename = String("optload","","Load options from a file. ");
     optSave  = String("optsave","","Save options to a file. ");
     if(!filename.IsEmpty()) 
       LoadOptions(filename);
-    allargs = args.Copy();
   }
+  
   
   //: Returns true if the 'option' was on the command line. 
   
