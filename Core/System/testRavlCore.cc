@@ -24,6 +24,7 @@
 #include "Ravl/HSet.hh"
 #include "Ravl/Option.hh"
 #include "Ravl/FunctionRegister.hh"
+#include "Ravl/Cache.hh"
 
 #include <string.h>
 
@@ -48,6 +49,7 @@ int testStrList();
 int testIntrDList();
 int testOption();
 int testFunctionRegister();
+int testCache();
 
 int testRavlCore(int argc,char **argv) {
   int line = 0;
@@ -83,6 +85,11 @@ int testRavlCore(int argc,char **argv) {
     cerr << "FunctionRegister test failed line :" << line << "\n";
     return 1;
   }
+  if((line = testCache()) != 0) {
+    cerr << "Cache test failed line :" << line << "\n";
+    return 1;
+  }
+  cout << "Test passed. \n";
   return 0;
 }
 
@@ -260,6 +267,26 @@ int testFunctionRegister() {
   
   if(!LookupFunctionByName("NullFunc(int)",afunc)) return __LINE__;
   if(afunc(2) != 2) return __LINE__;
+  return 0;
+}
+
+int testCache() {
+  cout << "Testing CacheC. \n";
+  CacheC<IntT,IntT> cache(5);
+  for(int i = 0;i < 10;i++)
+    cache.Insert(i,i);
+  if(cache.Size() != 5)
+    return __LINE__;
+  for(CacheIterC<IntT,IntT> it(cache);it;it++) {
+    if(it.Key() < 5) return __LINE__;
+    if(it.Key() != it.Data()) return __LINE__;
+  }  
+  IntT v;
+  for(int i = 5;i <= 9;i++) {
+    if(!cache.Lookup(i,v)) return __LINE__;
+    if(v != i) return __LINE__;
+  }
+    
   return 0;
 }
 
