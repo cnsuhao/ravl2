@@ -10,9 +10,9 @@ REQUIRES=libglade2 libGTK2
 
 PACKAGE=Ravl/GUI
 
-HEADERS= GladeWidget.hh GladeXML.hh
+HEADERS= GladeWidget.hh GladeXML.hh GladeWindow.hh
 
-SOURCES= GladeWidget.cc GladeXML.cc
+SOURCES= GladeWidget.cc GladeXML.cc GladeWindow.cc
 
 PLIB= RavlLibGlade
 

@@ -42,6 +42,11 @@ namespace RavlGUIN {
     //: Add named widget.
     
   protected:
+    bool InterceptDeleteEvent();
+    //: Intercept the "delete-event", and just hide the widget.
+    // Useful on windows where you just want to make them dissapear.
+    // Note: Must be called after widget has been initialised
+    
     GladeXMLC xml;
     StringC name;
     HashC<StringC,WidgetC> children;

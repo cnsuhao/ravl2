@@ -140,4 +140,26 @@ namespace RavlGUIN {
     return true;
   }
 
+
+  
+  extern "C" {
+    static int StopDeleteEvent(GtkWidget *widget,GdkEvent *event,GladeWidgetBodyC *bod) {
+      bod->GUIHide(); // Hide the window.
+      return 1; // Return true so window isn't really destroyed
+    }
+  }
+  
+  //: Intercept the "delete-event", and just hide the widget.
+  // Useful on windows where you just want to make them dissapear.
+  
+  bool GladeWidgetBodyC::InterceptDeleteEvent() {
+    RavlAssert(widget != 0);
+    gtk_signal_connect (GTK_OBJECT (widget),
+                        "delete_event",         
+                        GTK_SIGNAL_FUNC (StopDeleteEvent),
+                        this);
+    return true;
+  }
+
+  
 }
