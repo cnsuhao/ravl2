@@ -1,0 +1,180 @@
+////////////////////////////////////////////
+//! docentry="GUI"
+//! rcsid="$Id$"
+
+#include "Ravl/GUI/Slider.hh"
+#include "Ravl/GUI/Manager.hh"
+#include <gtk/gtk.h>
+
+#define DPDEBUG 0
+
+#if DPDEBUG 
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
+
+
+namespace RavlGUIN {
+  void value_changed( GtkAdjustment *adj,SliderBodyC *data ) {
+    data->SigChanged()(adj->value); 
+  }
+  
+  //: Constructor.
+  
+  SliderBodyC::SliderBodyC(RealT nvalue, 
+			   RealT nlower, 
+			   RealT nupper, 
+			   RealT nstep_increment,
+			   RealT npage_increment,
+			   RealT npage_size)
+    : setConfig(false),
+      value(nvalue),
+      lower(nlower),
+      upper(nupper), 
+      step_increment(nstep_increment),
+      page_increment(npage_increment),
+      page_size(npage_size),
+      digits(0),
+      updateCont(true),
+      vert(false),
+      sReq(false),
+      numPos(GTK_POS_TOP),
+      drawValue(true),
+      setValue(false),
+      sigChanged(true)
+  {
+    cerr << "Horiz Constructor. \n";
+  }
+  
+  SliderBodyC::SliderBodyC(bool nvert,RealT nvalue, RealT nlower, 
+			       RealT nupper, RealT nstep_increment,
+			   RealT npage_increment,RealT npage_size)
+    
+    : value(nvalue),
+      lower(nlower),
+      upper(nupper), 
+      step_increment(nstep_increment),
+      page_increment(npage_increment),
+      page_size(npage_size),
+      digits(0),
+      updateCont(true),
+      vert(nvert),
+      sReq(false),
+      numPos(GTK_POS_TOP),
+      drawValue(true),
+      setValue(false),
+      sigChanged(true)
+  {
+    if(!vert)
+      numPos = GTK_POS_TOP;
+    else
+      numPos = GTK_POS_LEFT;
+  }
+  //: Constructor.
+  
+  
+  //: Create the widget.
+
+  bool SliderBodyC::Create() {
+    ONDEBUG(cerr << "Slider create: Low:" << lower << " High:" << upper << " Inc:" << step_increment << "\n");
+    adj = gtk_adjustment_new (value, 
+			      lower, 
+			      upper + step_increment, 
+			      step_increment,
+			      page_increment,
+			      page_size);
+    if(vert) 
+      widget = gtk_vscale_new (GTK_ADJUSTMENT (adj));
+    else
+      widget = gtk_hscale_new (GTK_ADJUSTMENT (adj));
+    
+    if(updateCont) {
+      gtk_range_set_update_policy (GTK_RANGE (widget),
+				   GTK_UPDATE_CONTINUOUS);
+    } else {
+      gtk_range_set_update_policy (GTK_RANGE (widget),
+				   GTK_UPDATE_DISCONTINUOUS);    
+    }
+    // GTK_UPDATE_DELAYED
+    
+    gtk_scale_set_digits (GTK_SCALE (widget), digits);
+    gtk_scale_set_value_pos (GTK_SCALE (widget), numPos);
+    gtk_scale_set_draw_value (GTK_SCALE(widget), drawValue);
+    
+    gtk_signal_connect (GTK_OBJECT (adj), "value_changed",
+			GTK_SIGNAL_FUNC (value_changed), this);
+    
+    return true;
+  }
+  
+  //: Update the slider value.
+  
+  bool SliderBodyC::GUIUpdateValue(RealT &val) {
+    value = val;
+    if(widget == 0)
+      return true;
+    
+    if(GTK_RANGE (widget)->button == 0) { // Don't set value if user is changing it.
+      GTK_ADJUSTMENT (adj)->value = val;
+      ONDEBUG(cerr << "Slider setting: Value:" << value << " (L: " << GTK_ADJUSTMENT (adj)->lower << " U:" << GTK_ADJUSTMENT (adj)->upper << ") \n");
+    }  
+    gtk_signal_emit_by_name (GTK_OBJECT (adj), "changed");
+    return true;
+  }
+  
+  //: Update the slider value.
+  bool SliderBodyC::GUIUpdateRange(RealT &nlower,RealT &nupper) {
+    lower = nlower;
+    upper = nupper;
+    if(widget == 0)
+      return true;
+    GTK_ADJUSTMENT (adj)->lower = lower;
+    GTK_ADJUSTMENT (adj)->upper = (RealT) upper + step_increment;
+    gtk_signal_emit_by_name (GTK_OBJECT (adj), "changed");
+    return true;
+  }
+  
+  //: Update the slider value.
+  
+  bool SliderBodyC::GUIUpdate(RealT &val,RealT &nlower,RealT &nupper,RealT &inc) {
+    lower = nlower;
+    upper = nupper;
+    step_increment = inc;
+    if(widget == 0)
+      return true;
+    if(GTK_RANGE (widget)->button == 0) { // Don't set value if user is changing it.
+      GTK_ADJUSTMENT (adj)->value = val;
+    }
+    GTK_ADJUSTMENT (adj)->lower = lower;
+    GTK_ADJUSTMENT (adj)->upper = (RealT) upper + step_increment;
+    GTK_ADJUSTMENT (adj)->step_increment = step_increment;
+    gtk_signal_emit_by_name (GTK_OBJECT (adj), "changed");
+    return true;
+  }
+  
+  bool SliderBodyC::UpdateRange(RealT nlower,RealT nupper) {
+    Manager.Queue(Trigger(SliderC(*this),&SliderC::GUIUpdateRange,nlower,nupper));
+    return true;
+  }
+  
+  //: Update the slider value.
+  
+  bool SliderBodyC::UpdateValue(RealT val) {
+    if(widget != 0) {    
+      if(GTK_RANGE (widget)->button != 0) // Don't set value if user is changing it.
+	return false;
+    }  
+    Manager.Queue(Trigger(SliderC(*this),&SliderC::GUIUpdateValue,val));
+    return true;
+  }
+
+  //: Update the slider value.
+  
+  bool SliderBodyC::Update(RealT val,RealT nlower,RealT nupper,RealT inc) {
+    Manager.Queue(Trigger(SliderC(*this),&SliderC::GUIUpdate,val,nlower,nupper,inc));
+    return true;  
+  }
+
+}
+

@@ -1,0 +1,8 @@
+! author="Charles Galambos"
+! docentry="Ravl.GUI.Layout"
+
+: Application layout widgets.
+
+Widgets used to contruct the frame work for
+GUI interfaces.
+

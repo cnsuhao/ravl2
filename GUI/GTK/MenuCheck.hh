@@ -1,0 +1,158 @@
+#ifndef RAVLGUIMENUCHECKITEM
+#define RAVLGUIMENUCHECKITEM 1
+/////////////////////////////////////////////////////
+//! rcsid="$Id$"
+//! file="Ravl/GUI/GTK/MenuCheck.hh"
+//! lib=GUI
+//! author="Charles Galambos"
+//! docentry="Ravl.GUI.Control"
+//! date="26/07/99"
+
+#include "Ravl/GUI/Menu.hh"
+
+namespace RavlGUIN {
+
+  //! userlevel=Develop
+  //: Menu check item body
+  
+  class MenuCheckItemBodyC 
+    : public MenuItemBodyC 
+  {
+  public:
+    MenuCheckItemBodyC(const StringC &lab,bool initActive= false);
+    //: Constructor.
+    
+    virtual bool Create();
+    //: Create the widget.
+    
+    bool IsActive() const;
+    //: Test if toggle is active.
+    
+    bool GUISetActive(bool &val);
+    //: Set active.
+    // This will cause a 'SelectedToggle' signal to 
+    // be issued. <p>
+    // Should only be called by the GUI thread.
+    
+    void SetActive(bool val);
+    //: Set active.
+    // This will cause a 'SelectedToggle' signal to 
+    // be issued. <p>
+    
+    Signal1C<bool> &SelectedToggle()
+      { return selectedToggle; }
+    //: Toggle select signal.
+    
+  protected:
+    virtual void Destroy();
+    //: Undo all refrences
+    
+    static int doSelected(GtkWidget *widget,Signal1C<bool> *data);
+    
+    Signal1C<bool> selectedToggle;
+    
+    bool active;
+  };
+  
+  
+  //! userlevel=Normal
+  //: Menu item
+  
+  class MenuCheckItemC 
+    : public MenuItemC 
+  {
+  public:
+    MenuCheckItemC()
+      : MenuItemC(true)
+      {}
+    //: Default constructor
+    
+    MenuCheckItemC(const StringC &name,bool initActive = false)
+      : MenuItemC(*new MenuCheckItemBodyC(name,initActive))
+      {}
+    //: Constructor
+    
+    MenuCheckItemC(MenuCheckItemBodyC &bod)
+      : MenuItemC(bod)
+      {}
+    //: Body constructor
+    
+  protected:
+    MenuCheckItemBodyC &Body() 
+      { return static_cast<MenuCheckItemBodyC &>(WidgetC::Body()); }
+    //: Access body.
+    
+    const MenuCheckItemBodyC &Body() const
+      { return static_cast<const MenuCheckItemBodyC &>(WidgetC::Body()); }
+    //: Access body.
+    
+  public:
+    bool IsActive() const
+      { return Body().IsActive(); }
+    //: Test if toggle is active.
+    
+    bool GUISetActive(bool &val)
+      { return Body().GUISetActive(val); }
+    //: Set active status.
+    // This will cause a 'SelectedToggle' signal to 
+    // be issued. <p>
+    // GUI Thread only.
+    
+    void SetActive(bool val)
+      { Body().SetActive(val); }
+    //: Set active status.
+    // This will cause a 'SelectedToggle' signal to 
+    // be issued. <p>
+    // Thread safe. 
+    
+    Signal1C<bool> &SelectedToggle()
+      { return Body().SelectedToggle(); }
+    //: Toggle select signal.
+    
+  };
+  
+  //: Call a function.
+
+  template<class Data1T>
+  MenuCheckItemC MenuCheckItem(const StringC &label,void (*func)(bool &, Data1T &),const Data1T &dat1 = Data1T())
+  {
+    MenuCheckItemC ret(label);
+    Connect(ret.SelectedToggle(),func,false,dat1);
+    return ret;
+  }
+  
+  template<class DataT>
+  MenuCheckItemC MenuCheckItem(const StringC &label,const DataT &obj,void (DataT::*func)(bool &))
+  {  
+    MenuCheckItemC ret(label);
+    Connect(ret.SelectedToggle(),obj,func);
+    return ret;
+  }
+  
+  template<class DataT>
+  MenuCheckItemC MenuCheckItemR(const StringC &label,DataT &obj,void (DataT::*func)(bool &))
+  {  
+    MenuCheckItemC ret(label);
+    ConnectRef(ret.SelectedToggle(),obj,func);
+    return ret;
+  }
+  //: Menu check item, call refrenced class's method.
+  
+  template<class DataT>
+  MenuCheckItemC MenuCheckItem(const StringC &label,bool initActive,const DataT &obj,void (DataT::*func)(bool &))
+  {  
+    MenuCheckItemC ret(label,initActive);
+    Connect(ret.SelectedToggle(),obj,func);
+    return ret;
+  }
+  
+  template<class DataT>
+  MenuCheckItemC MenuCheckItemR(const StringC &label,bool initActive,DataT &obj,void (DataT::*func)(bool &))
+  {  
+    MenuCheckItemC ret(label,initActive);
+    ConnectRef(ret.SelectedToggle(),obj,func);
+    return ret;
+  }
+}
+
+#endif

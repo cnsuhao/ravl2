@@ -1,0 +1,12 @@
+! author="Charles Galambos"
+! docentry="Ravl.GUI"
+
+: Graphical User Interface.
+
+Tools for building graphical user interfaces.  These tools act
+as wrappers for the 'C' GTK library.  The current version is very
+incomplete, but growing.  Additional functions can be added on request. <p>
+
+Probably the best way to learn to use this library is by looking at the examples.
+The CanvasC,MenuC or ButtonC widgets are particularly good places to start.
+

@@ -1,0 +1,114 @@
+////////////////////////////////////////////
+//! docentry="GUI"
+//! rcsid="$Id$"
+
+#include "Ravl/GUI/TextEntry.hh"
+#include "Ravl/GUI/Manager.hh"
+#include <gtk/gtk.h>
+
+
+#define DODEBUG 0
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
+
+namespace RavlGUIN {
+
+  static void enter_callback(GtkWidget *widget, TextEntryBodyC *entry)
+  { entry->Entry(gtk_entry_get_text(GTK_ENTRY(entry->Widget()))); }
+  
+  
+  TextEntryBodyC::TextEntryBodyC(const StringC &ntext,IntT nMaxLen,bool nsigAllChanges)
+    : text(ntext),
+      maxLen(nMaxLen),
+      sigAllChanges(nsigAllChanges),
+      activate(text)
+  {}
+  
+  //: Got a changed signal.
+  
+  bool TextEntryBodyC::SigChanged() {
+    MutexLockC lock(access);
+    text = StringC(gtk_entry_get_text(GTK_ENTRY(Widget())));
+    if(sigAllChanges)
+      activate(text);
+    return true;
+  }
+  
+  //: Got a activate signal.
+  
+  bool TextEntryBodyC::SigActivate()  {  
+    ONDEBUG(cerr << "TextEntryBodyC::SigActivate() \n");
+    return true;
+  }
+  
+  //: Create the widget.
+  
+  bool TextEntryBodyC::Create() {
+    ONDEBUG(cerr << "TextEntryBodyC::Create() MaxLen : " << maxLen << "\n");
+    if(maxLen > 0)
+      widget = gtk_entry_new_with_max_length(maxLen);
+    else
+      widget = gtk_entry_new ();
+    if(!text.IsEmpty())
+      gtk_entry_set_text (GTK_ENTRY (widget), text);
+    gtk_signal_connect(GTK_OBJECT(widget), "activate",
+		       GTK_SIGNAL_FUNC(enter_callback),
+		       this);
+    changed = Signal("changed");
+    RavlAssert(changed.IsValid());
+    ConnectSignals();
+    ConnectRef(changed,*this,&TextEntryBodyC::SigChanged);
+    return true;
+  }
+  
+  //: Access text
+  
+  StringC TextEntryBodyC::Text() {
+    MutexLockC lock(access);
+    StringC ret = text; // Ensure the right order.
+    lock.Unlock();
+    return ret ;
+  }
+  
+  
+  //: Set text to edit.
+  // This should only be called within the GUI thread.
+  
+  bool TextEntryBodyC::GUISetText(StringC &txt) {
+    MutexLockC lock(access);
+    text=txt;
+    lock.Unlock();
+    if(widget == 0)
+      return true;
+    gtk_entry_set_text (GTK_ENTRY (widget), text);
+    return true;
+  }
+  
+  //: Some new text has been entered.
+  
+  bool TextEntryBodyC::Entry(const StringC &txt) {
+    MutexLockC lock(access);
+    text=txt;
+    lock.Unlock();
+    //cerr << "TextEntryBodyC::Entry(), Text:" << text << "\n";
+    return true;
+  }
+  
+  //: Update text.
+  // This is thread safe.
+  
+  bool TextEntryBodyC::Text(const StringC &txt) {
+    Manager.Queue(Trigger(TextEntryC(*this),&TextEntryC::GUISetText,txt));
+    return true;
+  }
+  
+  //: Set text to display.
+  
+  bool TextEntryBodyC::SetText(const StringC &txt) {
+    gtk_entry_set_text (GTK_ENTRY (widget), txt);
+    return true;
+  }
+}

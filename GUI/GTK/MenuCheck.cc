@@ -1,0 +1,89 @@
+//////////////////////////////////////
+//! rcsid="$Id$"
+
+#include "Ravl/GUI/MenuCheck.hh"
+#include "Ravl/GUI/Manager.hh"
+#include <gtk/gtk.h>
+
+#define DODEBUG 0
+
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
+
+
+namespace RavlGUIN
+{
+  extern void MenuItemC_response ( GtkWidget *,MenuItemBodyC *data);
+
+  int MenuCheckItemBodyC::doSelected(GtkWidget *widget,Signal1C<bool> *data){ 
+    if(data->IsValid()) {
+      bool isActive(GTK_CHECK_MENU_ITEM(widget)->active);
+      (*data)(isActive);
+    }
+    return 1;
+  }
+  
+  //: Constructor.
+
+  MenuCheckItemBodyC::MenuCheckItemBodyC(const StringC &lab,bool initActive)
+    : MenuItemBodyC(lab),
+      selectedToggle(true),
+      active(initActive)
+  {}
+  
+  //: Set active.
+  
+  bool MenuCheckItemBodyC::GUISetActive(bool &val) {
+    active = val;
+    if(widget != 0)
+      gtk_check_menu_item_set_active(GTK_CHECK_MENU_ITEM(widget),val);
+    return true;
+  }
+  
+  //: Test if toggle is active.
+  
+  bool MenuCheckItemBodyC::IsActive() const {
+    if(widget == 0)
+      return active;
+    return GTK_CHECK_MENU_ITEM(widget)->active;
+  }
+  
+  //: Undo all refrences
+  
+  void MenuCheckItemBodyC::Destroy() {
+    selectedToggle.Invalidate();
+    MenuItemBodyC::Destroy();
+  }
+  
+  //: Set active.
+  
+  void MenuCheckItemBodyC::SetActive(bool val) {
+    Manager.Queue(Trigger(MenuCheckItemC(*this),&MenuCheckItemC::GUISetActive,val));
+  }
+  
+  //: Create the widget.
+  
+  bool MenuCheckItemBodyC::Create() {
+    ONDEBUG(cerr << "MenuItemBodyC::Create(), Called. \n");
+    
+    /* Create a new menu-item with a name... */
+    widget = gtk_check_menu_item_new_with_label(name);
+    
+    gtk_check_menu_item_set_show_toggle (GTK_CHECK_MENU_ITEM(widget),true);
+    gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(widget),active);
+    
+    /* Do something interesting when the menuitem is selected */
+    gtk_signal_connect(GTK_OBJECT(widget), "activate",
+		       GTK_SIGNAL_FUNC(RavlGUIN::MenuItemC_response), this);
+    
+    gtk_signal_connect(GTK_OBJECT(widget), "activate",
+		       GTK_SIGNAL_FUNC(MenuCheckItemBodyC::doSelected), &selectedToggle);
+    
+    ONDEBUG(cerr << "MenuItemBodyC::Create(), Done. \n");
+    return true;
+  }
+
+}

@@ -1,0 +1,6 @@
+! author="Charles Galambos"
+! docentry="Ravl.GUI.Internal"
+: Internal classes.
+
+Classes not directly used for building GUI interfaces.
+

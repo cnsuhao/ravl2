@@ -1,0 +1,168 @@
+#ifndef RAVLGUIRADIOBUTTON_HEADER
+#define RAVLGUIRADIOBUTTON_HEADER 1
+//////////////////////////////////////////////////////
+//! rcsid="$Id$"
+//! example=exRadioButton.cc
+//! docentry="Ravl.GUI.Control"
+
+#include "Ravl/GUI/ToggleButton.hh"
+
+
+typedef struct _GSList           GSList;
+
+namespace RavlGUIN {
+
+  class RadioButtonC;
+  class RadioButtonBodyC;
+  //! userlevel=Normal
+  //: Radio button
+  
+  typedef DListC<RadioButtonBodyC *> RadioButtonGroupT;
+  
+  class RadioButtonC
+    : public ToggleButtonC
+  {
+  public:
+    RadioButtonC(const char *label = 0,const char *tooltip = 0,const RadioButtonGroupT &group = RadioButtonGroupT());
+    //: Create a button.
+    
+    RadioButtonC(const PixmapC &pixm,const char *label = 0,const RadioButtonGroupT &group = RadioButtonGroupT());
+    //: Create a button.
+    // If label is set to 0 none will be used.
+    
+  protected:
+    inline RadioButtonBodyC &Body();
+    //: Access body.
+    
+    inline const RadioButtonBodyC &Body() const;
+    //: Access body.
+    
+  public:
+    
+    inline RadioButtonGroupT &Group();
+    //: Access button group.
+    
+    friend class RadioButtonBodyC;
+  };
+  
+  //! userlevel=Develop
+  //: Radio button body.
+  
+  class RadioButtonBodyC
+    : public ToggleButtonBodyC
+  {
+  public:
+    RadioButtonBodyC(const char *nlabel = 0,const char *tooltip = 0,const RadioButtonGroupT &group = RadioButtonGroupT());
+    //: Constructor.
+    
+    RadioButtonBodyC(const char *nlabel,const PixmapC &pixm,const RadioButtonGroupT &group = RadioButtonGroupT());
+    //: Constructor.
+    
+    ~RadioButtonBodyC();
+    //: Destructor.
+    
+    virtual bool Create();
+    //: Create the widget.
+    
+    RadioButtonGroupT &Group()
+      { return group; }
+    //: Access the button group.
+    
+  protected:
+    virtual GtkWidget *BuildWidget(const char *lab = 0);
+    //: Create the actual widget.
+    // This allows different types of buttons to
+    // be created easily.
+    
+    GSList *GtkGroup()
+      { return gtkgroup; }
+    //: Access group.
+    
+    RadioButtonGroupT group;
+    GSList *gtkgroup;
+  };
+  
+  inline 
+  RadioButtonBodyC &RadioButtonC::Body() { 
+    return static_cast<RadioButtonBodyC &>(WidgetC::Body()); 
+  }
+  //: Access body.
+
+  inline 
+  const RadioButtonBodyC &RadioButtonC::Body() const
+  { return static_cast<const RadioButtonBodyC &>(WidgetC::Body()); }
+  //: Access body.
+
+  inline 
+  RadioButtonGroupT &RadioButtonC::Group()
+  { return Body().Group(); }
+  //: Access button group.
+  
+  inline
+  RadioButtonC RadioButton(const char *label,const RadioButtonGroupT &group)
+  { return  RadioButtonC(label,0,group); }
+  //: Construct a toggle button.
+  
+  template<class ObjT>
+  RadioButtonC RadioButton(const char *label,const RadioButtonGroupT &group,const ObjT &obj,bool (ObjT::*func)(bool &))
+  { 
+    RadioButtonC ret = RadioButtonC(label,0,group);
+    Connect(ret.SigChanged(),obj,func);
+    return ret;    
+  }
+  
+  inline
+  RadioButtonC RadioButton(const char *label,const RadioButtonGroupT &group,bool (*func)(bool &))
+  { 
+    RadioButtonC ret = RadioButtonC(label,0,group);
+    Connect(ret.SigChanged(),func);
+    return ret;    
+  }
+  
+  template<class DataT>
+  RadioButtonC RadioButton(const char *label,const RadioButtonGroupT &group,bool (*func)(bool &,DataT &),const DataT &v)
+  { 
+    RadioButtonC ret = RadioButtonC(label,0,group);
+    Connect(ret.SigChanged(),func,v);
+    return ret;    
+  }
+  
+  template<class ObjT>
+  RadioButtonC RadioButton(const char *label,const char *tooltip,const RadioButtonGroupT &group,const ObjT &obj,bool (ObjT::*func)(bool))
+  { 
+    RadioButtonC ret = RadioButtonC(label,0,group);
+    ret.SetToolTip(tooltip);
+    Connect(ret.SigChanged(),obj,func);
+    return ret;    
+  }
+  
+  ///// Refrence //////////////////////////
+
+  template<class ObjT>
+  RadioButtonC RadioButtonR(const char *label,const RadioButtonGroupT &group,ObjT &obj,bool (ObjT::*func)(bool &))
+  { 
+    RadioButtonC ret = RadioButtonC(label,0,group);
+    ConnectRef(ret.SigChanged(),obj,func);
+    return ret;    
+  }
+  
+  template<class ObjT,class DataT>
+  RadioButtonC RadioButtonR(const char *label,const RadioButtonGroupT &group,ObjT &obj,bool (ObjT::*func)(bool &,DataT &dat),const DataT &dat)
+  { 
+    RadioButtonC ret = RadioButtonC(label,0,group);
+    ConnectRef(ret.SigChanged(),obj,func,initState,dat);
+    return ret;    
+  }
+  
+  template<class ObjT>
+  RadioButtonC RadioButtonR(const char *label,const char *tooltip,const RadioButtonGroupT &group,bool initState,ObjT &obj,bool (ObjT::*func)(bool))
+  { 
+    RadioButtonC ret = RadioButtonC(label,0,group);
+    ret.SetToolTip(tooltip);
+    ConnectRef(ret.SigChanged(),obj,func);
+    return ret;    
+  }
+  
+}
+
+#endif
