@@ -41,10 +41,10 @@ namespace RavlN {
     TimeCodeC(ByteT * in,RealT frameRate = 25.0);
     //: Construct timecode from byte array
     
-    TimeCodeC(int hr, int min, int sec, int fr,RealT frameRate = 25.0);
+    TimeCodeC(IntT hr, IntT min, IntT sec, IntT fr,RealT frameRate = 25.0);
     //: Construct timecode from 4 ints
     
-    TimeCodeC(const long int nFrames,RealT frameRate = 25.0);
+    TimeCodeC(const IntT nFrames,RealT frameRate = 25.0);
     //: Construct timecode from absolute frame count
     
     TimeCodeC(const char * string,RealT frameRate = 25.0);
@@ -86,7 +86,7 @@ namespace RavlN {
     TimeCodeC & operator+=(const TimeCodeC & in);
     // Adds input timecode to this timecode
     
-    TimeCodeC & operator+=(long int frame);
+    TimeCodeC & operator+=(IntT frame);
     // Adds frame count to timecode
     
     TimeCodeC & operator-=(const TimeCodeC & in);
@@ -101,16 +101,16 @@ namespace RavlN {
     //:----------------------
     // Member Functions
     
-    unsigned int Hash() const { return (unsigned int) m_liFrame; }
+    UIntT Hash() const { return (UIntT) m_liFrame; }
     //: the hash key
     
-    inline int bcd(ByteT in) { return (in >> 4) * 10  + (in & 0xf);}
+    inline IntT bcd(ByteT in) { return (in >> 4) * 10  + (in & 0xf);}
     //: Routine to convert binary coded decimal to int
     
     StringC ToText() const;
     //: Return a char  representation of timecode
     
-    int NumberOfFramesTo(const TimeCodeC &in);
+    IntT NumberOfFramesTo(const TimeCodeC &in);
     //: Count the number of frames to a timecode
     
     bool IsValid();
@@ -119,10 +119,10 @@ namespace RavlN {
     long int getFrameCount() const {return m_liFrame;}
     //: Access frame count.
 
-    bool ConvertTo(int &hr, int &min, int &sec, int &fr) const;
+    bool ConvertTo(IntT &hr, IntT &min, IntT &sec, IntT &fr) const;
     //: Convert to hours, minutes, seconds, frame.
     
-    bool ConvertFrom(int hr,int min,int sec,int fr);
+    bool ConvertFrom(IntT hr,IntT min,IntT sec,IntT fr);
     //: Convert from hours, minutes, seconds, frame.
 
     RealT FrameRate() const
@@ -130,7 +130,8 @@ namespace RavlN {
     //: Access the frame rate
   public:
     
-    long int m_liFrame;
+    //long int m_liFrame;
+    IntT m_liFrame ; 
     // Absolute frame count of timecode
     
     RealT frameRate;
@@ -142,7 +143,6 @@ namespace RavlN {
   
   istream &operator>>(istream &s, TimeCodeC &tc);
   //: Read time code in from stream.
-  // NOT IMPLEMENTED.
   
 } // end namespace RavlN
 

@@ -10,6 +10,7 @@
 
 #include "Ravl/TimeCode.hh"
 #include "Ravl/String.hh"
+#include "Ravl/BinStream.hh"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -23,11 +24,11 @@ namespace RavlN {
     : frameRate(nFrameRate)
   { ConvertFrom(bcd(in[3]),bcd(in[2]),bcd(in[1]),bcd(in[0])); }
   
-  TimeCodeC::TimeCodeC(int hour, int min, int sec, int frame,RealT nFrameRate) 
+  TimeCodeC::TimeCodeC(IntT hour, IntT min, IntT sec, IntT frame,RealT nFrameRate) 
     : frameRate(nFrameRate)
   { ConvertFrom(hour,min,sec,frame); }
   
-  TimeCodeC::TimeCodeC(const long int frameNum,RealT nFrameRate) 
+  TimeCodeC::TimeCodeC(const IntT frameNum,RealT nFrameRate) 
     : frameRate(nFrameRate)
   { m_liFrame = frameNum; }
   
@@ -35,7 +36,7 @@ namespace RavlN {
     : frameRate(nFrameRate)
   {
     //TODO: put some checks in to verify it is a valid timecode
-    long int hour, sec, min, frame;
+    IntT hour, sec, min, frame;
     
     if((p[2]!=':') || (p[5]!=':') || (p[8]!=':')) {
       hour = 0xff;
@@ -62,24 +63,26 @@ namespace RavlN {
 
   //: Convert to hours, minutes, seconds, frame.
   
-  bool TimeCodeC::ConvertTo(int &hour, int &minute, int &second, int &frame) const {
-    ldiv_t hr = ldiv(m_liFrame,(long int) (frameRate * 3600.0) );
-    hour = (int)hr.quot;
-    ldiv_t mn = ldiv(hr.rem, (long int) (frameRate * 60.0));
-    minute = (int)mn.quot;
-    ldiv_t sc = ldiv(mn.rem, (long int) frameRate);
-    second = (int)sc.quot;
-    frame = (int)sc.rem;
+  bool TimeCodeC::ConvertTo(IntT &hour, IntT &minute, IntT &second, IntT &frame) const {
+    ldiv_t hr = ldiv(m_liFrame,(IntT) (frameRate * 3600.0) );
+    //hour = Floor( 
+
+    hour = (IntT) hr.quot;
+    ldiv_t mn = ldiv(hr.rem, (IntT) (frameRate * 60.0));
+    minute = (IntT)mn.quot;
+    ldiv_t sc = ldiv(mn.rem, (IntT) frameRate);
+    second = (IntT)sc.quot;
+    frame = (IntT)sc.rem;
     return true;
   }
   
   //: Convert from hours, minutes, seconds, frame.
   
-  bool TimeCodeC::ConvertFrom(int hr,int min,int sec,int fr) {
-    m_liFrame = (long int) (hr * (frameRate * 3600.0));
-    m_liFrame +=(long int) (min * (frameRate * 60.0));
-    m_liFrame +=(long int) (sec * frameRate);
-    m_liFrame +=(long int) fr;
+  bool TimeCodeC::ConvertFrom(IntT hr,IntT min,IntT sec,IntT fr) {
+    m_liFrame = (IntT) (hr * (frameRate * 3600.0));
+    m_liFrame +=(IntT) (min * (frameRate * 60.0));
+    m_liFrame +=(IntT) (sec * frameRate);
+    m_liFrame +=(IntT) fr;
     return true;
   }
   
@@ -111,12 +114,12 @@ namespace RavlN {
   }
 
   TimeCodeC TimeCodeC::operator+(const TimeCodeC & in) const {
-    long int newFrameCount = m_liFrame + in.m_liFrame;
+    IntT newFrameCount = m_liFrame + in.m_liFrame;
     return TimeCodeC(newFrameCount);
   }
   
   TimeCodeC TimeCodeC::operator-(const TimeCodeC & in) const {
-    long int newFrameCount = m_liFrame - in.m_liFrame;
+    IntT newFrameCount = m_liFrame - in.m_liFrame;
     return TimeCodeC(newFrameCount);
   }
 
@@ -125,7 +128,7 @@ namespace RavlN {
     return *this;
   }
 
-  TimeCodeC &TimeCodeC::operator+=(long int in) {
+  TimeCodeC &TimeCodeC::operator+=(IntT in) {
     m_liFrame += in;
     return *this;
   }
@@ -136,21 +139,21 @@ namespace RavlN {
     return *this;
   }
 
-  int TimeCodeC::NumberOfFramesTo(const TimeCodeC & tc_In) {
+  IntT TimeCodeC::NumberOfFramesTo(const TimeCodeC & tc_In) {
     return Abs(m_liFrame - tc_In.m_liFrame);
   }
   
   bool TimeCodeC::IsValid() {
-    ldiv_t hr = ldiv(m_liFrame, (long int)(frameRate * 3600.0) );
-    int hour = (int)hr.quot;
+    ldiv_t hr = ldiv(m_liFrame, (IntT) (frameRate * 3600.0) );
+    IntT hour = (IntT)hr.quot;
   
-    ldiv_t mn = ldiv(hr.rem, (long int) (frameRate * 60.0));
-    int minute = (int)mn.quot;
+    ldiv_t mn = ldiv(hr.rem, (IntT) (frameRate * 60.0));
+    IntT minute = (IntT)mn.quot;
   
-    ldiv_t sc = ldiv(mn.rem, (long int) frameRate);
-    int second = (int)sc.quot;
+    ldiv_t sc = ldiv(mn.rem, (IntT) frameRate);
+    IntT second = (IntT)sc.quot;
     
-    int frame = (int)sc.rem;
+    IntT frame = (IntT)sc.rem;
     
     bool valid = true;
     if((hour<0)||(hour>23)) valid = false;
@@ -161,22 +164,33 @@ namespace RavlN {
   }
   
   StringC TimeCodeC::ToText() const {
-    int hour,minute,second,frame;
+    IntT hour,minute,second,frame;
     ConvertTo(hour,minute,second,frame);
     char buff[16];
     sprintf(buff, "%.2d:%.2d:%.2d:%.2d", hour, minute, second, frame);
     return StringC(buff);
   }
-  
-  ostream &operator<<(ostream &s, const TimeCodeC &out) {
-    s << out.ToText();
+
+  // I/O operators 
+
+  ostream &operator<<(ostream & s, const TimeCodeC & tc) {
+    s << tc.m_liFrame << " " << tc.frameRate ;
     return s;
   }
 
-  istream &operator>>(istream &s, TimeCodeC &tc) {
-    //cerr << "operator>>(istream &s, TimeCodeC &tc): not implemented" << endl;
-    RavlAlwaysAssertMsg(0, "not implemented");
+  istream &operator>>(istream & s, TimeCodeC & tc) {
+    s >> tc.m_liFrame >> tc.frameRate ; 
     return s;
+  }
+
+  BinOStreamC & operator << (BinOStreamC & s, TimeCodeC & tc ) {
+    s << tc.m_liFrame << tc.frameRate ; 
+    return s ; 
+  }
+
+  BinIStreamC & operator >> (BinIStreamC & s, TimeCodeC & tc ) {
+    s >> tc.m_liFrame >> tc.frameRate ; 
+    return s ; 
   }
 
 
