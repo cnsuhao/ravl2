@@ -45,7 +45,7 @@ namespace RavlN {
     //: Type of iterator.
     
     inline SArray2dC()
-      {}
+    {}
     //: Default constructor.
     
     SArray2dC(SizeT dim1,SizeT dim2);
@@ -64,12 +64,12 @@ namespace RavlN {
     // -----------------
     
     Buffer2dC<DataT> &Buffer() 
-      { return data; }
+    { return data; }
     //: Access base data buffer.
     // Experts only!
     
     const Buffer2dC<DataT> &Buffer() const
-      { return data; }
+    { return data; }
     //: Constant access base data buffer.
     // Experts only!
 
@@ -372,10 +372,10 @@ namespace RavlN {
   template<class DataT>
   void SArray2dC<DataT>::SetColumn(IndexC i,const SArray1dC<DataT> &val) {
     RavlAssert(val.Size() == size2);
-    // Avoid including to many headers just use a ptr, not a slice.
+    // Avoid including to many headers by just using a ptr, not a slice.
     DataT *d1 = &((*this)[0][i]); 
     for(BufferAccessIterC<DataT> it(val);it;it++,d1 += Stride())
-      *it = *d1;
+      *d1 = *it;
   }
   
   template<class DataT>
