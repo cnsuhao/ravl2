@@ -68,7 +68,7 @@ namespace RavlN {
 	ret = false;
 	continue; // Can't read attribute.
       }
-      values[it->Name()] = value;
+      UpdateValue(it->Name(),value);
     }
     return ret;
   }
@@ -88,6 +88,21 @@ namespace RavlN {
 	ret = false;
     }
     return ret;
+  }
+  
+  //: Update value in table.
+  
+  bool AttributeSetBodyC::UpdateValue(const StringC &attrName,const StringC &newValue) {
+    StringC oldValue;
+    StringC *valuePlace = values.Lookup(attrName);
+    if(valuePlace != 0) { // Doesn't exist!
+      if(*valuePlace == newValue)
+	return false; // No change in value.
+      *valuePlace = newValue;
+    } else
+      values[attrName] = newValue;
+    SignalChange(attrName);
+    return true;
   }
   
   //: Get a attribute.
@@ -126,7 +141,7 @@ namespace RavlN {
 	return AttributeCtrlBodyC::SetAttr(attrName,attrValue);
       RegisterAttribute(AttributeTypeStringC(attrName,attrValue)); // Register new attribute.
     }
-    values[attrName] = attrValue;
+    UpdateValue(attrName,attrValue);
     return true;
   }
 
@@ -169,7 +184,7 @@ namespace RavlN {
       attrType = AttributeTypeNumC<IntT>(attrName,"",true,true,1,0,0,attrValue);
       RegisterAttribute(attrType); // Register new attribute.
     }
-    values[attrName] = StringC(attrValue);
+    UpdateValue(attrName,StringC(attrValue));
     return true;
   }
   
@@ -211,7 +226,7 @@ namespace RavlN {
       attrType = AttributeTypeNumC<RealT>(attrName,"",true,true,1,0,0,attrValue);
       RegisterAttribute(attrType); // Register new attribute.
     }
-    values[attrName] = StringC(attrValue);
+    UpdateValue(attrName,StringC(attrValue));
     return true;
   }
   
@@ -253,7 +268,7 @@ namespace RavlN {
       attrType = AttributeTypeBoolC(attrName,"",true,true,attrValue);
       RegisterAttribute(attrType); // Register new attribute.
     }
-    values[attrName] = StringC((IntT) attrValue);
+    UpdateValue(attrName,StringC((IntT) attrValue));
     return true;    
   }
 

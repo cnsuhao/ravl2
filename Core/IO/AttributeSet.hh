@@ -84,6 +84,10 @@ namespace RavlN {
     // This is for handling attributes such as frame rate, and compression ratios.
 
   protected:
+    bool UpdateValue(const StringC &attrName,const StringC &newValue);
+    //: Update value in table.
+    // Issue changed signal, if value has been changed.
+    
     HashC<StringC,StringC> values;
     bool enforceSchema;
   };
