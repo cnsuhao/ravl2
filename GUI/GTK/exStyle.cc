@@ -6,8 +6,10 @@
 
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/GUI/Window.hh"
+#include "Ravl/GUI/Pixmap.hh"
 #include "Ravl/DP/FileFormatIO.hh"
 #include "Ravl/GUI/WidgetStyle.hh"
+#include "Ravl/Option.hh"
 
 using namespace RavlN;
 using namespace RavlGUIN;
@@ -15,23 +17,32 @@ using namespace RavlImageN;
 
 int main(int nargs,char *args[]) {
 
+  OptionC opts(nargs,args);
+  StringC file = opts.String("i","/usr/share/doorman/misc/monkey.png","input filename");
+  opts.Check();
+
   // Initialise GUI manager
   Manager.Init(nargs,args);
 
   // Load an image to use as background
   ImageC<ByteRGBValueC> img;
-  Load("/usr/share/doorman/misc/monkey.png",img);
+  if (!Load(file,img)) {
+    return 1;
+  }  
 
   // Create main window
   WindowC win(100,100,"exStyle");
   win.Show();
+  
+  // Create style
+  WidgetStyleC style;
+  // Create pixmap
+  PixmapC pixmap(win,img);
+  // Set background
+  style.SetBackground(pixmap);
 
   // Set style
-  WidgetStyleC style(win);
   win.SetStyle(style);
-
-  // Set background
-  style.SetBackground(img);
 
   // Start GUI
   Manager.Execute();
