@@ -36,7 +36,9 @@ namespace RavlN {
   class Projection2dC {
   public:
     Projection2dC()
-      : trans(Matrix3dC::I()),
+      : trans(Matrix3dC(0,0,0,
+			0,0,0,
+			0,0,0)),
 	iz(1),
 	oz(1)
     {}
@@ -136,6 +138,10 @@ namespace RavlN {
     }
     //: Get an affine approximation of this projective transform
     //!return: the affine approximation
+    
+    inline bool IsValid() const
+    { return ((trans != Matrix3dC(0,0,0,0,0,0,0,0,0)) && trans.IsReal()); }
+    // True if not the zero projection and Matrix3dC is "real"
     
   protected:
     Matrix3dC trans;
