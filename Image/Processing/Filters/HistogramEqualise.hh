@@ -38,6 +38,23 @@ namespace RavlImageN {
     //: Performs histogram equalisation on image 'in'.
     // Returns a new equalised image.
     
+    static inline IntT Floor(RealT v) 
+    { return RavlN::Floor(v); }
+    //: Real valued floor
+    
+    static inline IntT Floor(ByteT v) 
+    { return (IntT) v; }
+    //: Real valued floor
+    
+    static inline IntT Floor(Int16T v) 
+    { return (IntT) v; }
+    //: Real valued floor
+    
+    static inline IntT Floor(IntT v) 
+    { return v; }
+    //: Real valued floor
+    
+    
   protected:
     DataT minValue;
     DataT maxValue;
@@ -50,7 +67,7 @@ namespace RavlImageN {
   ImageC<DataT> HistogramEqualiseC<DataT>::Apply (const ImageC<DataT> &in) {
     // Build the histogram.
     
-    Array1dC<RealT> pr((IntT) Floor(minValue),(IntT) Floor(maxValue));
+    Array1dC<RealT> pr(Floor(minValue),Floor(maxValue));
     pr.Fill(0.0);
     for(Array2dIterC<DataT> it(in);it;it++)
       pr[Floor(*it)]++;
@@ -60,13 +77,12 @@ namespace RavlImageN {
     
     RealT n = (RealT) in.Frame().Area();
     RealT sum = 0.0;
-    DataT diff = maxValue - minValue;
-    Array1dC<DataT> tr((IntT) Floor(minValue),(IntT) Floor(maxValue));
+    RealT diff = (RealT)(maxValue - minValue);
+    Array1dC<DataT> tr(Floor(minValue),Floor(maxValue));
     for(Array1dIter2C<DataT,RealT> it(tr,pr);it;it++) {
       RealT val = it.Data2();
-      it.Data1() = (DataT) (sum * diff) + minValue;
-      if(val > 0.0)
-	sum += val / n;
+      it.Data1() = (DataT) ((RealT) (sum * diff) + minValue);
+      sum += val / n;
     }
     
     // Transform the image.
