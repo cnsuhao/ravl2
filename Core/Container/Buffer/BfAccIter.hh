@@ -56,16 +56,16 @@ namespace RavlN {
     inline BufferAccessIterC<DataC> &operator=(const SizeBufferAccessC<DataC> &buff);
     //: Assignment to a buffer.
     
-    inline void First(const BufferAccessC<DataC> &buff,const IndexRangeC &rng);
+    inline bool First(const BufferAccessC<DataC> &buff,const IndexRangeC &rng);
     //: Goto fist element.
     
-    inline void First(const BufferAccessC<DataC> &buff,UIntT size);
+    inline bool First(const BufferAccessC<DataC> &buff,UIntT size);
     //: Goto fist element.
     
-    inline void First(const RangeBufferAccessC<DataC> &buff);
+    inline bool First(const RangeBufferAccessC<DataC> &buff);
     //: Goto fist element.
     
-    inline void First(const SizeBufferAccessC<DataC> &buff);
+    inline bool First(const SizeBufferAccessC<DataC> &buff);
     //: Goto fist element.
     
     inline bool IsElm() const
@@ -148,50 +148,54 @@ namespace RavlN {
   
   template <class DataC>
   inline 
-  void BufferAccessIterC<DataC>::First(const BufferAccessC<DataC> &buff,const IndexRangeC &rng) {
+  bool BufferAccessIterC<DataC>::First(const BufferAccessC<DataC> &buff,const IndexRangeC &rng) {
     if(rng.Size() <= 0) {
       at = 0;
       endOfRow = 0;
-      return;
+      return false;
     }
     at = const_cast<DataC *>(&buff[rng.Min()]);
     endOfRow = &(at[rng.Size()]);
+    return true;
   }
   
   template <class DataC>
   inline 
-  void BufferAccessIterC<DataC>::First(const BufferAccessC<DataC> &buff,UIntT size) {
+  bool BufferAccessIterC<DataC>::First(const BufferAccessC<DataC> &buff,UIntT size) {
     if(size <= 0) {
       at = 0;
       endOfRow = 0;
-      return;
+      return false;
     }
     at = const_cast<DataC *>(buff.ReferenceElm());
     endOfRow = &(at[size]);
+    return true;
   }
   
   template <class DataC>
   inline 
-  void BufferAccessIterC<DataC>::First(const RangeBufferAccessC<DataC> &buff) {
+  bool BufferAccessIterC<DataC>::First(const RangeBufferAccessC<DataC> &buff) {
     if(buff.Size() <= 0) {
       at = 0;
       endOfRow = 0;
-      return;
+      return false;
     }
     at = const_cast<DataC *>(&buff[buff.IMin()]);
     endOfRow = &(at[buff.Size()]);
+    return true;
   }
   
   template <class DataC>
   inline 
-  void BufferAccessIterC<DataC>::First(const SizeBufferAccessC<DataC> &buff) {
+  bool BufferAccessIterC<DataC>::First(const SizeBufferAccessC<DataC> &buff) {
     if(buff.Size() <= 0) {
       at = 0;
       endOfRow = 0;
-      return;
+      return false;
     }
     at = const_cast<DataC *>(buff.ReferenceElm());
     endOfRow = &(at[buff.Size()]);
+    return true;
   }
   
   template <class DataC>
@@ -201,7 +205,7 @@ namespace RavlN {
     First(buff); 
     return *this; 
   }
-
+  
   template <class DataC>
   inline 
   BufferAccessIterC<DataC> &
