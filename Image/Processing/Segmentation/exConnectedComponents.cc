@@ -9,7 +9,7 @@
 //! file="Ravl/Image/Processing/Segmentation/exSegmentation.cc"
 //! author="Lee Gregory"
 
-#include 	"Ravl/Image/ConnectedComponents.hh"
+#include "Ravl/Image/ConnectedComponents.hh"
 #include "Ravl/Option.hh" 
 #include "Ravl/IO.hh"
 
@@ -25,13 +25,11 @@ int main (int argc, char ** argv)
   StringC outputFile = opts.String("o", "out.pgm", "The labeled output image") ; 
   opts.Check() ; 
   
-  // specify our pixel types and method to compare pixels 
+  // specify our pixel type
   typedef ByteT PixelT ; 
-  typedef ConnectedComponentsCompareC<PixelT> CompareT ;
   
   // make the analysis classes ; 
-  CompareT compare ; 
-  ConnectedComponentsC<PixelT, CompareT > connected ; 
+  ConnectedComponentsC<PixelT> connected ; 
   
   // Load the image 
    ImageC<PixelT> img ; 
