@@ -8,6 +8,9 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/System/testRavlCore.cc"
+//! docentry="Ravl.Core"
+//! author="Charles Galambos"
+//! userlevel=Develop
 
 #include "Ravl/EntryPnt.hh"
 #include "Ravl/Array1d.hh"

@@ -8,6 +8,9 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/testCalls.cc"
+//! docentry="Ravl.Core.Calls"
+//! userlevel=Develop
+//! author="Charles Galambos"
 
 #include "Ravl/Stream.hh"
 #include "Ravl/Calls.hh"

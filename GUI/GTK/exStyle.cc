@@ -6,6 +6,10 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlGUI
+//! author="James Smith"
+//! date="28/10/2002"
+//! userlevel=Normal
+//! docentry="Ravl.GUI.Styles"
 
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/GUI/Window.hh"

@@ -7,6 +7,8 @@
 //! rcsid="$Id$"
 //! lib=RavlOS
 //! file="Ravl/OS/Text/testTextFile.cc"
+//! author="Charles Galambos"
+//! docentry="Ravl.OS.Text Processing"
 
 #include "Ravl/Text/TextFile.hh"
 #include "Ravl/Text/TextCursor.hh"

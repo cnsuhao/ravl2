@@ -7,6 +7,10 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/testStream.cc"
+//! date="23/04/1998"
+//! author="Charles Galambos"
+//! docentry="Ravl.Core.IO.Streams"
+//! userlevel=Develop
 
 // Do a quick test of stream functionality.  We don't
 // have any OS file functions so unfortunatly we can't

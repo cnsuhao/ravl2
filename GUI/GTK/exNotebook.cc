@@ -8,6 +8,10 @@
 //! rcsid="$Id$"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/exNotebook.cc"
+//! author="Charles Galambos"
+//! date="23/03/1999"
+//! docentry="Ravl.GUI.Layout"
+//! userlevel=Normal
 
 #include "Ravl/GUI/Window.hh"
 #include "Ravl/GUI/Button.hh"

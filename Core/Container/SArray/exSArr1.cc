@@ -7,6 +7,9 @@
 //! rcsid="$Id$"  $Id$
 //! lib=RavlCore
 //! file="Ravl/Core/Container/SArray/exSArr1.cc"
+//! author="Radek Marik"
+//! docentry="Ravl.Core.Arrays.1D"
+//! userlevel=Normal
 
 #include "Ravl/SArray1d.hh"
 #include "Ravl/SArray1dIter.hh"

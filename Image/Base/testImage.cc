@@ -8,6 +8,9 @@
 //! rcsid="$Id$"
 //! lib=RavlImage
 //! file="Ravl/Image/Base/testImage.cc"
+//! docentry="Ravl.Images"
+//! author="Charles Galambos"
+//! userlevel=Develop
 
 #include "Ravl/String.hh"
 #include "Ravl/Image/Image.hh"

@@ -9,6 +9,7 @@
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! file="Ravl/Core/System/exXMLTree.cc"
+//! docentry="Ravl.Core.XML"
 
 #include "Ravl/XMLTree.hh"
 #include "Ravl/Option.hh"

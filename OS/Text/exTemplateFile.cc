@@ -8,6 +8,9 @@
 //! rcsid="$Id$"
 //! lib=RavlOS
 //! file="Ravl/OS/Text/exTemplateFile.cc"
+//! docentry="Ravl.OS.Text Processing"
+//! userlevel=Normal
+//! author="Charles Galambos"
 
 #include "Ravl/Text/TemplateFile.hh"
 #include "Ravl/EntryPnt.hh"

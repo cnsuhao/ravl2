@@ -7,6 +7,10 @@
 //! rcsid="$Id$"
 //! lib=RavlImage
 //! file="Ravl/Image/Base/exDraw.cc"
+//! author="James Smith"
+//! date="27/10/2002"
+//! docentry="Ravl.Images"
+//! userlevel=Normal
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteRGBValue.hh"

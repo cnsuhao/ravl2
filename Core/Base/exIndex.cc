@@ -8,6 +8,7 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/exIndex.cc"
+//! docentry="Ravl.Core.Indexing"
 
 #include "Ravl/EntryPnt.hh"
 #include "Ravl/Index.hh"

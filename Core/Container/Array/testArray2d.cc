@@ -7,6 +7,9 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Array/testArray2d.cc"
+//! docentry="Ravl.Core.Arrays.2D"
+//! author="Charles Galambos"
+//! userlevel=Develop
 
 #include "Ravl/Array2d.hh"
 #include "Ravl/Array2dIter.hh"

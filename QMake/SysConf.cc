@@ -7,6 +7,7 @@
 //! rcsid="$Id$"
 //! file="Ravl/QMake/SysConf.cc"
 //! date="6/12/1996"
+//! docentry="Ravl.QMake.sysconf"
 
 //  A Utility to retrieve some imformation about the
 // machine this utility is run on.

@@ -9,6 +9,9 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/System/exOption.cc"
+//! date="12/11/1993"
+//! userlevel=Basic
+//! docentry="Ravl.Core.Misc"
 
 #include "Ravl/Stream.hh"
 #include "Ravl/Option.hh"

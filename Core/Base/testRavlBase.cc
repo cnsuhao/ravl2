@@ -7,6 +7,8 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/testRavlBase.cc"
+//! userlevel=Develop
+//! docentry="Ravl.Core"
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/RCWrap.hh"

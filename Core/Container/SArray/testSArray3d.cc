@@ -7,6 +7,8 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/SArray/testSArray3d.cc"
+//! docentry="Ravl.Core.Arrays.3D"
+//! userlevel=Develop
 
 #include "Ravl/SArray3d.hh"
 #include "Ravl/Slice1d.hh"

@@ -8,6 +8,8 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/SArray/testSArrIter.cc"
+//! docentry="Ravl.Core.Arrays"
+//! userlevel=Develop
 
 #include "Ravl/SArray1dIter.hh"
 #include "Ravl/SArray1dIter2.hh"

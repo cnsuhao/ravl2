@@ -8,6 +8,10 @@
 //! rcsid="$Id$"
 //! lib=RavlNet
 //! file="Ravl/OS/Network/exEndPoint.cc"
+//! author="Charles Galambos"
+//! date="15/02/2000"
+//! docentry="Ravl.OS.Network"
+//! userlevel=Normal
 
 #include "Ravl/Option.hh"
 #include "Ravl/EntryPnt.hh"

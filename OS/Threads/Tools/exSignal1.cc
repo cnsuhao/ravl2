@@ -9,6 +9,9 @@
 //! author="Charles Galambos"
 //! lib=RavlThreads
 //! file="Ravl/OS/Threads/Tools/exSignal1.cc"
+//! docentry="Ravl.OS.Signals"
+//! date="23/09/1999"
+//! userlevel=Normal
 
 #include "Ravl/Threads/Signal1.hh"
 

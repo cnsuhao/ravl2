@@ -16,6 +16,8 @@
 #include "Ravl/HSet.hh"
 //#include "Ravl/HSetExtra.hh"
 #include "Ravl/Stack.hh"
+#include "Ravl/XMLStream.hh"
+#include "Ravl/XMLTree.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -38,6 +40,12 @@ namespace RavlN {
       ordCount(0)
   {
     ONDEBUG(cerr << "ConfigFileBodyC::ConfigFileBodyC(TextOFileC,StringC), Called \n");
+  }
+
+  //: Read config from an XML stream.
+  
+  ConfigFileBodyC::ConfigFileBodyC(XMLIStreamC &is) {
+    Load(is);
   }
   
   //: Load a def file.
@@ -66,7 +74,14 @@ namespace RavlN {
       order[tag] = ordCount++;
     }
   }
-
+  
+  //: Add section.
+  
+  void ConfigFileBodyC::AddSection(const StringC &tag,ConfigFileC &cf) { 
+    sec[tag] = cf.Abstract(); 
+    order[tag] = ordCount++;
+  }
+  
   static SArray1dC<bool> ConfigFile_SkipSpace = TextCursorC::BuildClipTable(" \t\r\n");
   
   ///////////////////////
@@ -250,6 +265,26 @@ namespace RavlN {
     }
     return ret;
   }
+
+  //: Read from XML stream.
+  
+  bool ConfigFileBodyC::Load(XMLIStreamC &strm,bool doCheck) {
+    RavlAssert(0);
+    XMLTreeC tree(strm);
+    for(DLIterC<XMLTreeC> cit(tree.Children());cit;cit++) {
+      
+    }
+    return true;
+
+  }
+  
+  //: Save config to XML stream.
+  
+  bool ConfigFileBodyC::Save(XMLIStreamC &strm) const {
+    RavlAssert(0);     
+    return false;
+  }
+  
   
   //////////////////////////
   // Check if a tag is valid.

@@ -7,6 +7,10 @@
 //! rcsid="$Id$"
 //! lib=RavlOS
 //! file="Ravl/OS/Exec/exChild.cc"
+//! author="Charles Galambos"
+//! docentry="Ravl.OS.Exec"
+//! date="24/11/1998"
+//! userlevel=Normal
 
 #include "Ravl/Option.hh"
 #include "Ravl/OS/ChildOSProcess.hh"

@@ -143,16 +143,16 @@ namespace RavlN {
 
   bool NetExportBase(const StringC &name,NetISPortServerBaseC &isp);
   //! userlevel=Develop
-  //: Export ISPort.
-		     
+  //: Export a port.
+  
   template<class DataT>
   bool NetExport(const StringC &name,DPISPortC<DataT> &port) {
     NetISPortServerC<DataT> ips(port,name);
     return NetExportBase(name,ips);
   }
   //! userlevel=Normal 
-  //: Export ISPort.
-
+  //: Export an SPort with a given name.
+  
   template<class DataT>
   bool NetExport(const StringC &name,DPIPortC<DataT> &port) {
     DPISPortAttachC<DataT> sport(port);
@@ -160,7 +160,7 @@ namespace RavlN {
     return NetExportBase(name,ips);
   }
   //! userlevel=Normal 
-  //: Export ISPort.
+  //: Export an SPort with a given name.
   
   ///////////////////////////////////////////////////
   

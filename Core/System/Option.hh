@@ -14,7 +14,6 @@
 //! userlevel=Basic
 //! example=exOption.cc
 //! docentry="Ravl.Core.Misc"
-//! example=exOption.cc
 //! rcsid="$Id$"
 //
 // Based on the idea's in C and C++ option library by George Matas and Radek Marik.

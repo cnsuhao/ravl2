@@ -7,6 +7,8 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/System/testXMLStream.cc"
+//! author="Charles Galambos"
+//! docentry="Ravl.Core.XML"
 
 #include "Ravl/XMLStream.hh"
 #include "Ravl/EntryPnt.hh"

@@ -7,6 +7,8 @@
 //! rcsid="$Id$"
 //! lib=RavlNet
 //! file="Ravl/OS/Network/testNetPort.cc"
+//! docentry="Ravl.OS.Network.NetPort"
+//! author="Charles Galambos"
 
 #include "Ravl/OS/NetIPort.hh"
 #include "Ravl/OS/NetIPortServer.hh"

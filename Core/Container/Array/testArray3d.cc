@@ -8,6 +8,9 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Array/testArray3d.cc"
+//! docentry="Ravl.Core.Arrays.3D"
+//! author="Charles Galambos"
+//! userlevel=Develop
 
 #include "Ravl/Array3d.hh"
 #include "Ravl/Array3dIter.hh"

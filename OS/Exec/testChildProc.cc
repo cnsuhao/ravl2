@@ -8,6 +8,10 @@
 //! rcsid="$Id$"
 //! lib=RavlOS
 //! file="Ravl/OS/Exec/testChildProc.cc"
+//! author="Charles Galambos"
+//! docentry="Ravl.OS.Exec"
+//! date="24/11/1998"
+//! userlevel=Develop
 
 #include "Ravl/OS/DeadLineTimer.hh"
 #include "Ravl/OS/ChildOSProcess.hh"

@@ -7,7 +7,10 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/testTFVector.cc"
-
+//! docentry="Ravl.Core.Tuples"
+//! userlevel=Develop
+//! author="Charles Galambos"
+//! date="24/01/2001"
 
 #include "Ravl/TFVector.hh"
 #include "Ravl/Pair.hh"

@@ -9,6 +9,7 @@
 //! file="Ravl/GUI/GTK/exMenu.cc"
 //! userlevel=Normal
 //! docentry="Ravl.GUI.Control"
+//! author="Charles Galambos"
 
 #include "Ravl/GUI/Window.hh"
 #include "Ravl/GUI/Button.hh"

@@ -57,8 +57,11 @@ PAR_MAKE = --jobs=$(PROCS)
 
 UNDEFSYMB = -u #
 
-OPTCFLAGS = -O2 -funroll-loops -ffast-math -mcpu=i686 -DQMAKE_CHECK
-OPTCCFLAGS = -O2 -funroll-loops -ffast-math -mcpu=i686 -DQMAKE_CHECK
+OPTCFLAGS = -O2
+# -funroll-loops -ffast-math -mcpu=i686
+OPTCCFLAGS = -O2
+# -funroll-loops -ffast-math -mcpu=i686
+# -DQMAKE_CHECK
 
 ############################
 # 'debug' variant.
@@ -73,9 +76,9 @@ endif
 # 'check' variant.
 
 ifeq ($(VAR),check)
- CFLAGS += -O -DQMAKE_CHECK
- CCFLAGS += -O -DQMAKE_CHECK
- LDFLAGS += -O
+ CFLAGS += -O -g  -DQMAKE_CHECK
+ CCFLAGS += -O -g  -DQMAKE_CHECK
+ LDFLAGS += -O -g 
 endif
 
 ############################

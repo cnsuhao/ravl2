@@ -5,10 +5,13 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////
-// $Id$
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Math/exComplx.cc"
+//! userlevel=Normal
+//! author="Radek Marik"
+//! date="26/01/1994"
+//! docentry="Ravl.Core.Math"
 
 #include "Ravl/Complex.hh"
 #include "Ravl/Stream.hh"
@@ -33,9 +36,6 @@ int main(void)
   myStdO << "End of the example\n" << flush;
   return(0);
 }
-
-// IAPS - Image analysis program system.
-// End of file exComplx.cc
 
 
 

@@ -8,6 +8,9 @@
 //! rcsid="$Id$"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/exTextBox.cc"
+//! author="Charles Galambos"
+//! date="23/03/1999"
+//! docentry="Ravl.GUI.Control"
 
 #include "Ravl/GUI/Window.hh"
 #include "Ravl/GUI/TextBox.hh"

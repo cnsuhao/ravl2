@@ -7,6 +7,8 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/testString.cc"
+//! docentry="Ravl.Core.Strings"
+//! userlevel=Develop
 
 #include "Ravl/String.hh"
 

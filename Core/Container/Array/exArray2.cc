@@ -7,6 +7,9 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Array/exArray2.cc"
+//! docentry="Ravl.Core.Arrays.2D"
+//! author="Charles Galambos"
+//! userlevel=Normal
 
 #include "Ravl/Array1d.hh"
 #include "Ravl/Array2d.hh"

@@ -8,6 +8,9 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Array/testArray1d.cc"
+//! docentry="Ravl.Core.Arrays.1D"
+//! author="Charles Galambos"
+//! userlevel=Develop
 
 #include "Ravl/Array1d.hh"
 #include "Ravl/SArray1d.hh"

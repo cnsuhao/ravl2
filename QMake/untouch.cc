@@ -11,6 +11,7 @@
  */
 /*! rcsid="$Id$" */
 /*! author="Charles Galambos" */
+/*! docentry="Ravl.QMake.html" */
 
 #include <stdio.h>
 #include <stdlib.h>

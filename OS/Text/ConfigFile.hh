@@ -30,6 +30,8 @@ namespace RavlN {
   class TextFragmentC;
   class TextFileC;
   class ConfigFileC;
+  class XMLIStreamC;
+  class XMLOStreamC;
   
   typedef HashIterC<StringC,StringC> ConfigFileIterVarC;
   //: Iterate variables.
@@ -46,13 +48,22 @@ namespace RavlN {
     
     ConfigFileBodyC(TextFileC &af,const StringC &name);
     //: Sub-section. constructor.
+
+    ConfigFileBodyC(XMLIStreamC &is);
+    //: Read config from an XML stream.
     
     bool Load(StringC fn,bool doCheck = true);
     //: Load a def file.
     
     bool Load(TextFileC &af,bool doCheck = true);
     //: Read from a buffer.
-
+    
+    bool Load(XMLIStreamC &strm,bool doCheck = true);
+    //: Read from XML stream.
+    
+    bool Save(XMLIStreamC &strm) const;
+    //: Save config to XML stream.
+    
     const StringC &Name() const
     { return name; }
     //: Get name of configuration.
@@ -116,6 +127,9 @@ namespace RavlN {
     
     void AddSection(const StringC &tag,ConfigFileC &cf,const TextFragmentC &nf);
     //: Add section.
+
+    void AddSection(const StringC &tag,ConfigFileC &cf);
+    //: Add section.
     
     StringC name; // Name of config. Used 
     HashC<StringC,StringC> tab;
@@ -157,6 +171,11 @@ namespace RavlN {
     // constructor this can be checked for with the IsValid()
     // method
     
+    ConfigFileC(XMLIStreamC &is)
+      : RCHandleVC<ConfigFileBodyC>(*new ConfigFileBodyC(is))
+    {}
+    //: Read config from an XML stream.
+    
   protected:
     ConfigFileC(ConfigFileBodyC &bod) 
       : RCHandleVC<ConfigFileBodyC>(bod)
@@ -180,6 +199,10 @@ namespace RavlN {
     { Body().AddSection(tag,cf,nf); }
     //: Add section.
     
+    void AddSection(const StringC &tag,ConfigFileC &cf)    
+    { Body().AddSection(tag,cf); }
+    //: Add section.
+    
   public:
     
     bool Load(const StringC &fn,bool doCheck = true) { 
@@ -192,6 +215,17 @@ namespace RavlN {
     // be created. <p>
     // **** Derived classes MUST overload this function to
     // ensure the correct class is created. ****
+
+    bool Load(XMLIStreamC &strm,bool doCheck = true) {
+      if(!IsValid())
+	(*this) = ConfigFileC(true);
+      return Body().Load(strm,doCheck); 
+    }
+    //: Read from XML stream.
+    
+    bool Save(XMLIStreamC &strm) const 
+    { return Body().Save(strm); }
+    //: Save config to XML stream.
     
     const StringC &Name() const
     { return Body().Name(); }

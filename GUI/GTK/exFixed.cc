@@ -8,6 +8,11 @@
 //! rcsid="$Id$"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/exFixed.cc"
+//! author="Charles Galambos"
+//! date="17/06/1999"
+//! example=exFixed.cc
+//! docentry="Ravl.GUI.Layout"
+//! userlevel=Normal
 
 #include "Ravl/GUI/Window.hh"
 #include "Ravl/GUI/Button.hh"

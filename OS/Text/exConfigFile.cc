@@ -8,6 +8,10 @@
 //! rcsid="$Id$"
 //! lib=RavlOS
 //! file="Ravl/OS/Text/exConfigFile.cc"
+//! author="Charles Galambos"
+//! date="14/05/1998"
+//! docentry="Ravl.OS.Configuration Files"
+//! userlevel=Normal
 
 #include "Ravl/Text/ConfigFile.hh"
 #include "Ravl/EntryPnt.hh"
