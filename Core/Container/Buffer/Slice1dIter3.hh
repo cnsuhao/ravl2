@@ -37,6 +37,13 @@ namespace RavlN {
 		  const Slice1dC<Data2T> &nvec2,
 		  const Slice1dC<Data3T> &nvec3);
     //: Creates an iterator of 'nvec'
+
+    Slice1dIter3C(const Slice1dC<Data1T> &nvec1,
+		  const Slice1dC<Data2T> &nvec2,
+		  const Slice1dC<Data3T> &nvec3,
+		  const IndexRangeC &rng
+		  );
+    //: Creates an iterator of 'nvec'
     
     void First();
     //: Goto first element.
@@ -123,6 +130,26 @@ namespace RavlN {
     RavlAssert(vec2.Size() <= vec1.Size());
     RavlAssert(vec3.Size() <= vec1.Size());
     First(); 
+  }
+
+  template<class Data1T,class Data2T,class Data3T>
+  Slice1dIter3C<Data1T,Data2T,Data3T>::Slice1dIter3C(const Slice1dC<Data1T> &nvec1,
+						     const Slice1dC<Data2T> &nvec2,
+						     const Slice1dC<Data3T> &nvec3,
+						     const IndexRangeC &rng)
+    : vec1(nvec1),
+      vec2(nvec2),
+      vec3(nvec3)
+  { 
+    if(rng.Size() <= 0) {
+      at1 = 0;
+      end = 0;
+      return;
+    }  
+    at1 = &(vec1[rng.Min()]);
+    at2 = &(vec2[rng.Min()]);
+    at3 = &(vec3[rng.Min()]);
+    end = &(at1[rng.Size() * vec1.Stride()]);
   }
   
   template<class Data1T,class Data2T,class Data3T>

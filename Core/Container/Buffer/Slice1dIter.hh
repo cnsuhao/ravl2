@@ -37,6 +37,9 @@ namespace RavlN {
     Slice1dIterC(const Slice1dC<DataT> &nvec);
     //: Creates an iterator of 'nvec'
     
+    Slice1dIterC(const Slice1dC<DataT> &nvec,const IndexRangeC &rng);
+    //: Creates an iterator for sub range of 'nvec'
+    
     void First();
     //: Goto first element.
 
@@ -108,6 +111,20 @@ namespace RavlN {
   Slice1dIterC<DataT>::Slice1dIterC(const Slice1dC<DataT> &nvec)
     : vec(nvec)
   { First(); }
+
+  template<class DataT>
+  Slice1dIterC<DataT>::Slice1dIterC(const Slice1dC<DataT> &nvec,const IndexRangeC &rng)
+    : vec(nvec)
+  { 
+    RavlAssert(vec.Range().Contains(rng));
+    if(rng.Size() <= 0) {
+      place = 0;
+      end = 0;
+      return ;
+    }
+    place= &(vec[rng.Min()]);
+    end = &(place[rng.Size() * vec.Stride()]);
+  }
   
   template<class DataT>
   void Slice1dIterC<DataT>::First() {
@@ -117,7 +134,7 @@ namespace RavlN {
       return;
     }
     place = &vec.First();
-    end = &place[(IntT) vec.Size() * vec.Stride()];
+    end = &(place[(IntT) vec.Size() * vec.Stride()]);
   }
     
   

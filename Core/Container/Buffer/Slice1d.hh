@@ -173,10 +173,15 @@ namespace RavlN {
     const BufferC<DataT> &Buffer() const
     { return buffer; }
     //: Access the raw buffer.
-
+    
     const IndexRangeC &Range() const
     { return rng; }
     //: Access range of valid indexs.
+    
+    bool Contains(IndexC i) const
+    { return rng.Contains(i); }
+    //: Test if slice contains index i.
+    
   protected:
     IndexRangeC rng;// Range of valid index's
     IntT stride;    // Stride of data.
@@ -438,7 +443,7 @@ namespace RavlN {
 
   template<class DataT>
   ostream &operator<<(ostream &strm,const Slice1dC<DataT> &dat) {
-    strm << dat.Size() << "\n";
+    strm << dat.Range() << "\n";
     for(Slice1dIterC<DataT> it(dat);it;it++)
       strm << *it << " ";
     return strm;
@@ -446,7 +451,7 @@ namespace RavlN {
   
   template<class DataT>
   istream &operator>>(istream &strm,Slice1dC<DataT> &dat) {
-    UIntT s;
+    IndexRangeC s;
     strm >> s;
     Slice1dC<DataT> tmp(s);
     for(Slice1dIterC<DataT> it(tmp);it;it++)
