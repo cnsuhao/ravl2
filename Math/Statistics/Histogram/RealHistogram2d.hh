@@ -28,7 +28,7 @@ namespace RavlN {
   //: Create a histogram of real values.
   
   class RealHistogram2dC
-    : public SArray2dC<UIntC>
+    : public SArray2dC<UIntT>
   {
   public:
     RealHistogram2dC()
@@ -38,8 +38,8 @@ namespace RavlN {
     RealHistogram2dC(const Point2dC &min,const Point2dC &max,const Index2dC &steps);
     //: Create a histogram.
     
-    RealHistogram2dC(const Vector2dC &nscale,const Point2dC &noffset,const SArray2dC<UIntC> &array)
-      : SArray2dC<UIntC>(array),
+    RealHistogram2dC(const Vector2dC &nscale,const Point2dC &noffset,const SArray2dC<UIntT> &array)
+      : SArray2dC<UIntT>(array),
 	scale(nscale),
 	offset(noffset)
     { Reset(); }
