@@ -23,6 +23,7 @@
 #include "Ravl/RCHash.hh"
 #include "Ravl/HSet.hh"
 #include "Ravl/Option.hh"
+#include "Ravl/FunctionRegister.hh"
 
 #include <string.h>
 
@@ -46,6 +47,7 @@ int testTypeName();
 int testStrList();
 int testIntrDList();
 int testOption();
+int testFunctionRegister();
 
 int testRavlCore(int argc,char **argv) {
   int line = 0;
@@ -74,7 +76,11 @@ int testRavlCore(int argc,char **argv) {
     return 1;
   }
   if((line = testOption()) != 0) {
-    cerr << "IntrDList test failed line :" << line << "\n";
+    cerr << "Option test failed line :" << line << "\n";
+    return 1;
+  }
+  if((line = testFunctionRegister()) != 0) {
+    cerr << "FunctionRegister test failed line :" << line << "\n";
     return 1;
   }
   return 0;
@@ -244,6 +250,16 @@ int testOption() {
   if(!opt.IsOnCommandLine("d")) return __LINE__;
   if(opt.IsOnCommandLine("x")) return __LINE__;
   
+  return 0;
+}
+
+int testFunctionRegister() {
+  cout << "Testing FunctionRegister. \n";
+  
+  int (*afunc)(int);
+  
+  if(!LookupFunctionByName("NullFunc",afunc)) return __LINE__;
+  if(afunc(2) != 2) return __LINE__;
   return 0;
 }
 
