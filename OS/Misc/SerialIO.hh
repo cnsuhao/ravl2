@@ -8,7 +8,7 @@
 #define RAVL_SERIALIO_HEADER 1
 /////////////////////////////////////////////////////////////
 //! userlevel=Normal
-//! date="31/12/99"
+//! date="31/12/1999"
 //! author="Fangxiang Cheng"
 //! docentry="Ravl.OS.Hardware"
 //! rcsid="$Id$"
@@ -19,8 +19,7 @@
 
 struct termios ;
 
-namespace RavlOSN {
-  using namespace RavlN;
+namespace RavlN {
   
   //! userlevel=Normal
   //: Class to control unix serial ports.

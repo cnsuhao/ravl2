@@ -30,7 +30,7 @@
 #include <stdio.h>
 #include <string.h>
 
-namespace RavlOSN {
+namespace RavlN {
 #if RAVL_VISUALCPP_NAMESPACE_BUG
   using namespace RavlN;
 #endif
