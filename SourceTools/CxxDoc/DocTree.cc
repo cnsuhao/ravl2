@@ -16,6 +16,7 @@
 #include "Ravl/OS/Directory.hh"
 #include "Ravl/Text/TextFile.hh"
 #include "Ravl/Text/TextCursor.hh"
+#include "Ravl/SourceTools/SourceFile.hh"
 
 #define DODEBUG 0
 #if DODEBUG 
@@ -351,5 +352,6 @@ namespace RavlCxxDocN {
     }
     return true;
   }
+  
 
 }

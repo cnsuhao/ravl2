@@ -8,15 +8,24 @@
 //! rcsid="$Id$"
 //! lib=RavlCxxDoc
 //! file="Ravl/SourceTools/CxxDoc/CxxDoc.cc"
+//! docentry="Ravl.Source Tools.CxxDoc"
+//! author="Charles Galambos"
+//! userlevel=Normal
+//! brief="CxxDoc. Documentation generator. "
+//! detailed="CxxDoc. Documentation generator. "
 
 #include "Ravl/CxxDoc/Parser.hh"
 #include "Ravl/CxxDoc/Document.hh"
 #include "Ravl/CxxDoc/DocTree.hh"
+#include "Ravl/CxxDoc/Executables.hh"
 #include "Ravl/Option.hh"
 #include "Ravl/EntryPnt.hh"
 #include "Ravl/DList.hh"
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/OS/Directory.hh"
+#include "Ravl/SourceTools/DefsFile.hh"
+#include "Ravl/SourceTools/SourceCodeManager.hh"
+#include "Ravl/SourceTools/SourceFile.hh"
 
 #ifndef NDEBUG
 #define YYDEBUG 1
@@ -42,6 +51,9 @@ extern bool verbose;
 StringC projName;
 StringC projDesc;
 
+enum ExeTypeT { ET_Application,ET_Example,ET_Test };
+  
+
 void BuildTemplates(FilenameC templFile,RavlCxxDocN::ObjectListC &ol,StringC &outFile,DocTreeC &dt) {
   if(templFile.IsDirectory()) {
     DirectoryC dir(templFile);
@@ -54,6 +66,66 @@ void BuildTemplates(FilenameC templFile,RavlCxxDocN::ObjectListC &ol,StringC &ou
   RavlCxxDocN::DocumentC doc(templFile,outFile,dt,projName,projDesc);
   doc.Document(ol);
 }
+
+//: Read a source file for an exe.
+
+bool ReadExeCode(const StringC &fileName,ExeTypeT et,RavlCxxDocN::ParserC &pt) {
+  cerr << "DocTreeBodyC::ReadExeCode(), Reading " << fileName << "\n";
+  SourceFileC tf(fileName);
+  
+  HashC<StringC,StringC> vars;
+  StringC name = FilenameC(fileName).NameComponent();
+  ObjectExeC oexe(name.before('.')); 
+  oexe.SetVar("source",fileName);
+  switch(et) {
+  case ET_Application: oexe.SetVar("exetype","application"); break;
+  case ET_Example:     oexe.SetVar("exetype","example");     break;
+  case ET_Test:        oexe.SetVar("exetype","test");        break;
+  default:
+    break;
+  }
+  tf.GetDocVars(oexe.Comment().Vars());
+  oexe.Comment().Header() = oexe.Comment().Vars()["brief"];
+  oexe.Comment().Text() = oexe.Comment().Vars()["detail"];
+  pt.Data().Append(oexe);
+  return true;
+}
+
+
+bool DocSource(StringC &dir,DefsMkFileC &defs,RavlCxxDocN::ParserC &pt) {
+  StringListC mains = defs["MAINS"];
+  StringListC examples = defs["EXAMPLES"];
+  StringListC testexes = defs["TESTEXES"];
+  DLIterC<StringC> it(mains);
+  for(;it;it++) {
+    FilenameC fn(dir + filenameSeperator + *it);
+    if(!fn.Exists()) {
+      cerr << "Can't find source code for '" << fn << "'\n";
+      continue;
+    }
+    ReadExeCode(fn,ET_Application,pt);
+  }
+  it = examples;
+  for(;it;it++) {
+    FilenameC fn(dir + filenameSeperator + *it);
+    if(!fn.Exists()) {
+      cerr << "Can't find source code for '" << fn << "'\n";
+      continue;
+    }
+    ReadExeCode(fn,ET_Example,pt);
+  }
+  it = testexes;
+  for(;it;it++) {
+    FilenameC fn(dir + filenameSeperator + *it);
+    if(!fn.Exists()) {
+      cerr << "Can't find source code for '" << fn << "'\n";
+      continue;
+    }
+    ReadExeCode(fn,ET_Test,pt);
+  }
+  return true;
+}
+
 
 int BuildCxx(int argc, char **argv)
 {
@@ -68,6 +140,7 @@ int BuildCxx(int argc, char **argv)
   StringC localProjOut = opt.String("p",prjo,"Project out. ");
   StringC inFiles = opt.String("i",localProjOut + "/include" , "Directory containing header files");
   StringC outFile = opt.String("o",localProjOut + "/share/doc/RAVL/Auto", "output document");
+  StringC sourceTree = opt.String("st",".", "Source tree.");
   StringC ehtFiles = opt.String("eht",localProjOut + "/share/RAVL/Admin/AutoDoc/EHT","Location of EHT files. ");
   StringC installHome = opt.String("ih",PROJECT_OUT,"Install home.");
   StringC templFiles = opt.String("tc",installHome + "/share/RAVL/CxxDoc/Class", "Directory of template files for class pages, or single template file");
@@ -100,7 +173,15 @@ int BuildCxx(int argc, char **argv)
       cerr << "Reading EHT files. \n";
     docTree.ReadEHTSet(ehtFiles);
   }
-  
+  if(verbose)
+    cerr << "Checking source tree.\n";
+  if(!sourceTree.IsEmpty()) {
+    SourceCodeManagerC chkit(sourceTree);
+    if(verbose)
+      chkit.SetVerbose(true);  
+    DefsMkFileC tmp;
+    chkit.ForAllDirs(CallFunc3C<StringC&,DefsMkFileC&,RavlCxxDocN::ParserC &,bool>(&DocSource,sourceTree,tmp,pt),false);
+  }
   if(dump) {
     cerr << "C++ Tree:\n";
     pt.Dump(cout); // Dump parse tree.

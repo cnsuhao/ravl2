@@ -24,11 +24,11 @@ NESTED = Templates.r
 LOCALHEADERS= tokenizer.h FlexLexer.h
 
 HEADERS= Object.hh Document.hh Parser.hh CxxElements.hh \
- CxxScope.hh DocNode.hh DocTree.hh Strings.hh
+ CxxScope.hh DocNode.hh DocTree.hh Strings.hh Executables.hh
 
 SOURCES = Object.cc Document.cc Parser.cc \
  CxxElements.cc CxxScope.cc DocExe.cc DocNode.cc DocTree.cc \
- Strings.cc  tokenizer.yy.cc cxx.y 
+ Strings.cc  tokenizer.yy.cc cxx.y Executables.cc
 #cxx.tab.cc
 
 # the output of flex and bison is not compatibile with gcc-3.1, it needs
@@ -45,7 +45,7 @@ EHT= Ravl.Source_Tools.CxxDoc.html Ravl.Introduction.Documentation.html \
  Ravl.Source_Tools.CxxDoc.Templates.html Ravl.Source_Tools.CxxDoc.Internal.html \
  Ravl.undocumented.html Ravl.undocumented.anonymous.html 
 
-USESLIBS=  RavlCore RavlOS
+USESLIBS=  RavlCore RavlOS RavlSourceTools
 
 PROGLIBS=  
 

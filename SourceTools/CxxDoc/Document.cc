@@ -353,7 +353,20 @@ namespace RavlCxxDocN {
       }
       return ;
     }
-
+    if(fileObject == "exe") {
+      for(DLIterC<ObjectC> dit(ol.List());dit.IsElm();dit.Next()) {
+	// If its a scope, recurse...
+	if(fileObject != dit->TypeName())
+	  continue;
+	FilenameC fn = MakeFilename(dit.Data());
+	cerr << "******* GENERATING FILE " << fn << " (executable) ********** \n";
+	obj.Push(dit.Data());
+	Build(fn);
+	obj.DelTop();	
+      }
+      return ;
+      
+    }
     int param = fileObject.index(':');
     if(param >= 0) {
       SubStringC objType = fileObject.before(param);

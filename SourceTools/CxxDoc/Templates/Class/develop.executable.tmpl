@@ -1,0 +1,12 @@
+$(FileObject:exe)$(FilePattern:Develop/Application/%.html)$(silent:
+$(set:refPattern=%.html)
+$(set:title=Developer Documentation)
+$(set:hdrcolour=#00DF5F)
+$(set:pagemode=develop)
+$(set:othpagemode=user)
+$(define:mkhref:$(MakeFilename:%.html))
+$(define:othref:$(MakeFilename:../../Basic/Application/%.html))
+$(ifset:docentry:$(MakeDocNode:$(docentry)))
+$(else:$(ifset:author:$(MakeDocNode:undocumented.$(author)))
+       $(else:$(MakeDocNode:undocumented.anonymous)))
+)$(include:executable.stmpl)

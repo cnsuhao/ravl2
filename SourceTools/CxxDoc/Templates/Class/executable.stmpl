@@ -1,0 +1,37 @@
+<html>
+<head><TITLE>$(FullName)</TITLE></head><body BGCOLOR=#FFFFFF>
+
+$(include:topbar.stmpl)
+
+$(//: **************** Put in bread crumbs *********************** )
+$(ifset:docentry:
+<table width=100% bgcolor="#C0C0C0"><tr>$(set:parent=)$(set:maindocentry=$(before:;:$(docentry)))
+$(set:tmp=$(before:.:$(maindocentry)))$(if:$tmp!=$projectName:$(set:maindocentry=$(projectName).$(maindocentry)))
+<td>$(for:.:$maindocentry:$(silent:
+		    $(ifset:parent:$(set:parent=$(parent).$(subst: :_:%arg%)))
+	            $(else:$(set:parent=$(subst: :_:%arg%)))
+)<A HREF="../Tree/$(parent).html">%arg%</A> - )<b>$(FullName)</b>
+</table>)
+
+&nbsp;<p>
+
+$(//: **************** Page body *********************** )
+
+$(silent:
+$(set:autoLink=on)
+$(set:refPattern=../Basic/Class/%.html)
+)
+<h1>
+$(brief)
+</h1>
+$(detailed)
+<p>
+
+$(//: **************** Footer ************************ )
+<table width=100% align="middle"><tr>
+<td align="center" bgcolor="black"><FONT face="helvetica,arial" color="white"><b>
+$(ifset:author:Maintainer:$(author),) $(ifset:date:Created: $(date),) Documentation by <a href="http://ravl.sourceforge.net/doc/Auto/Basic/Tree/Ravl.Source_Tools.CxxDoc.html">CxxDoc</a>: $(buildtime)
+</b></FONT></td>
+</tr></table>
+</body>
+</html>

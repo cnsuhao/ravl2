@@ -1,0 +1,9 @@
+$(FileObject:exe)$(FilePattern:Basic/Application/%.html)$(silent:
+$(set:refPattern=%.html)
+$(set:title=User Documentation)
+$(set:hdrcolour=#007FFF)
+$(set:pagemode=user)
+$(set:othpagemode=develop)
+$(define:mkhref:$(MakeFilename:%.html))
+$(define:othref:$(MakeFilename:../../Develop/Application/%.html))
+)$(include:executable.stmpl)

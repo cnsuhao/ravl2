@@ -57,12 +57,24 @@ $(set:subType=class)$(set:subTitle=classes)$(set:objLevel=Normal)$(include:objec
 $(set:subType=method)$(set:subTitle=functions)$(set:objLevel=Normal)$(include:objects.stmpl)
 $(set:subType=class)$(set:subTitle=classes)$(set:objLevel=Advanced)$(include:objects.stmpl)
 $(set:subType=method)$(set:subTitle=functions)$(set:objLevel=Advanced)$(include:objects.stmpl)
+$(set:area=Application)
+
+$(define:chktype:$(if:$exetype=public:%arg%))
+
+$(set:subType=exe)$(set:subTitle=Application)$(set:objLevel=Basic)$(include:objects.stmpl)
+$(set:subType=exe)$(set:subTitle=Application)$(set:objLevel=Normal)$(include:objects.stmpl)
+$(set:subType=exe)$(set:subTitle=Application)$(set:objLevel=Advanced)$(include:objects.stmpl)
+$(set:subType=exe)$(set:subTitle=Application)$(set:objLevel=Default)$(include:objects.stmpl)
+$(set:area=Class)
 
 $(if:$pagemode=develop:
 $(set:subType=class)$(set:subTitle=classes)$(set:objLevel=Develop)$(include:objects.stmpl)
 $(set:subType=method)$(set:subTitle=functions)$(set:objLevel=Develop)$(include:objects.stmpl)
 $(set:subType=class)$(set:subTitle=classes)$(set:objLevel=Default)$(include:objects.stmpl)
 $(set:subType=method)$(set:subTitle=functions)$(set:objLevel=Default)$(include:objects.stmpl)
+$(set:area=Executable)
+$(set:subType=exe)$(set:subTitle=application)$(set:objLevel=Develop)$(include:objects.stmpl)
+$(set:area=Class)
 )
 
 </BLOCKQUOTE>

@@ -210,7 +210,7 @@ namespace RavlCxxDocN {
     const CommentInfoC &Comment() const
     { return comment; }
     //: Access comment.
-
+    
     void SetVar(const StringC &nm,const StringC &value)
     { comment.SetVar(nm,value); }
     //: Set variable.
