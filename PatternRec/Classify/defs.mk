@@ -18,7 +18,8 @@ HEADERS= DesignClassifierSupervised.hh  \
  ClassifierGaussianMixture.hh DesignClassifierGaussianMixture.hh \
  ClassifierPreprocess.hh ClassifierFunc1Threshold.hh \
  ClassifierWeakLinear.hh ClassifierLinearCombination.hh \
- DesignWeakLinear.hh
+ DesignWeakLinear.hh \
+ClassifierLinear.hh DesignLinear.hh
 
 SOURCES= DesignClassifierSupervised.cc \
  DesignDiscriminantFunction.cc DesignKNearestNeighbour.cc \
@@ -26,7 +27,8 @@ SOURCES= DesignClassifierSupervised.cc \
  ClassifierDiscriminantFunction.cc ClassifierGaussianMixture.cc DesignClassifierGaussianMixture.cc \
  ClassifierPreprocess.cc ClassifierFunc1Threshold.cc \
  ClassifierWeakLinear.cc ClassifierLinearCombination.cc \
- DesignWeakLinear.cc
+ DesignWeakLinear.cc \
+ClassifierLinear.cc DesignLinear.cc
 
 PLIB = RavlPatternRec
 
