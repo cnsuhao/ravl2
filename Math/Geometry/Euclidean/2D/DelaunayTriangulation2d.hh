@@ -9,6 +9,8 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! userlevel=Normal
+//! docentry="Ravl.Math.Geometry.2D"
 
 #include "Ravl/HEMesh2d.hh"
 

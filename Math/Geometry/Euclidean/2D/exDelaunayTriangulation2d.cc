@@ -6,6 +6,9 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! author="Charles Galambos"
+//! docentry="Ravl.Math.Geometry.2D"
+//! userlevel=Normal
 
 #include "Ravl/DelaunayTriangulation2d.hh"
 #include "Ravl/Option.hh"
@@ -41,8 +44,7 @@ int main(int nargs,char **argv) {
   
   Point2dC x(size[0]/2,size[1]/2);
   
-  THEMeshFaceC<Point2dC> fface;
-  //= mesh.FindFace(x);
+  THEMeshFaceC<Point2dC> fface = mesh.FindFace(x);
   for(THEMeshFaceIterC<Point2dC> mit(mesh.Faces());mit;mit++) {
     for(THEMeshFaceEdgeIterC<Point2dC> eit(*mit);eit;eit++) {
       if(!eit->HasPair()) {

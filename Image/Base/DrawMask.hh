@@ -8,6 +8,9 @@
 #define RAVLIMAGE_DRAWMASK_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlImage
+//! docentry="Ravl.Images"
+//! author="Charles Galambos"
+//! userlevel=Normal
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Array2dIter2.hh"

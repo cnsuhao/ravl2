@@ -9,6 +9,8 @@
 //! rcsid="$Id$"
 //! lib=RavlMath
 //! author="Charles Galambos"
+//! userlevel=Normal
+//! docentry="Ravl.Math.Geometry.2D"
 
 #include "Ravl/Circle2d.hh"
 

@@ -9,6 +9,9 @@
 //! rcsid="$Id$"
 //! lib=RavlMath
 //! file="Ravl/Math/LinearAlgebra/General/MatrixDecomposition.hh"
+//! docentry="Ravl.Math.Linear Algebra"
+//! author="Charles Galambos"
+//! userlevel=Normal
 
 #include "Ravl/Matrix.hh"
 
