@@ -99,12 +99,17 @@ namespace RavlN {
       return true;      
     }
     //: Go to the begining of the next row.
-    // returns true if iterator is left at the begining of a valid row or
-    // false if the end of the array has been reached.
+    // Returns true if the iterator is begining of a valid row, and false
+    // if it is at the end of the array.
     
     void NextCol()
       { cit.Next(); }
     //: Goto next column, without checking for row change.
+    // Use with care.
+
+    void NextCol(int skip)
+      { cit.Next(skip); }
+    //: Go forward 'skip' columns, without checking for row change.
     // Use with care.
     
     bool Next() { 

@@ -69,7 +69,7 @@ namespace RavlN {
     //: Goto fist element.
     
     inline bool IsElm() const
-    { return at != endOfRow; }
+    { return at < endOfRow; }
     //: At valid element ?
     
     inline bool IsLast() const
@@ -78,17 +78,22 @@ namespace RavlN {
     // Note: This is slightly slower than IsElm().
     
     inline operator bool() const
-      { return at != endOfRow; }
+      { return at < endOfRow; }
     //: At valid element ?
     
     inline bool operator!() const
-      { return at == endOfRow; }
-    //: At valid element ?
+    { return at >= endOfRow; }
+    //: Not at valid element ?
     
     inline void Next()
       { RavlAssert(at != endOfRow); at++; }
     //: Goto next element.
     // Call ONLY if IsElm() is valid.
+
+    inline void Next(int skip)
+    { at += skip; }
+    //: Advance 'skip' elements.
+    // Call ONLY if you know this will not go past the end of the array.
     
     inline void operator++(int) 
       { RavlAssert(at != endOfRow); at++; }

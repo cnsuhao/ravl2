@@ -43,7 +43,7 @@ namespace RavlN {
     BufferAccess2dIter2C(const BufferAccessC<BufferAccessC<Data1T> > &pbufa,const IndexRangeC &nrng1a,const IndexRangeC &nrng2a,
 			 const BufferAccessC<BufferAccessC<Data2T> > &pbufb,const IndexRangeC &nrng1b,const IndexRangeC &nrng2b)
       { First(pbufa,nrng1a,nrng2a,
-	      pbufn,nrng1b,nrng2b); 
+	      pbufb,nrng1b,nrng2b); 
       }
     //: Constructor.
 
@@ -109,9 +109,14 @@ namespace RavlN {
       return true;      
     }
     //: Go to the begining of the next row.
-    // returns true if iterator is left at the begining of a valid row or
-    // false if the end of the array has been reached.
-
+    // Returns true if the iterator is begining of a valid row, and false
+    // if it is at the end of the array.
+    
+    void NextCol(int skip)
+    { cit.Next(skip); }
+    //: Go forward 'skip' columns, without checking for row change.
+    // Use with care.
+    
     bool IsElm() const
       { return cit.IsElm(); }
     //: At a valid element ?

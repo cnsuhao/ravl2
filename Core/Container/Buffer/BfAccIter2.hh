@@ -75,7 +75,7 @@ namespace RavlN {
     //: Goto first elements.
     
     inline bool IsElm() const
-      { return at1 != endOfRow; }
+      { return at1 < endOfRow; }
     //: At valid element ?
     
     inline bool IsLast() const
@@ -84,12 +84,19 @@ namespace RavlN {
     // Note: This is slightly slower than IsElm().
 
     inline operator bool() 
-      { return at1 != endOfRow; }
+      { return at1 < endOfRow; }
     //: At valid element ?
     
     inline void Next();
     //: Goto next element.
     // Call ONLY if IsElm() is valid.
+    
+    inline void Next(int skip) {
+      at1 += skip;
+      at2 += skip;
+    }
+    //: Advance 'skip' elements.
+    // Call ONLY if you know this will not go past the end of the array.
     
     void operator++(int)
       { Next(); }
@@ -242,7 +249,7 @@ namespace RavlN {
   inline 
   void 
   BufferAccessIter2C<Data1T,Data2T>::Next() {
-    RavlAssert(at1 != endOfRow);
+    RavlAssert(at1 < endOfRow);
     at1++;
     at2++;
   }

@@ -111,7 +111,25 @@ namespace RavlN {
     }
     //: Goto next element.
     // returns true if on the same row.
-
+    
+    bool NextRow() {
+      rit.Next();
+      if(!rit.IsElm())
+	return false;
+      cit.First(rit.Data1(),rng1,
+		rit.Data2(),rng2,
+		rit.Data3(),rng3);
+      return true;      
+    }
+    //: Go to the begining of the next row.
+    // Returns true if the iterator is begining of a valid row, and false
+    // if it is at the end of the array.
+    
+    void NextCol(int skip)
+    { cit.Next(skip); }
+    //: Go forward 'skip' columns, without checking for row change.
+    // Use with care.
+    
     bool IsElm() const
       { return cit.IsElm(); }
     //: At a valid element ?
