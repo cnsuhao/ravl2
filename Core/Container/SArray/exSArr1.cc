@@ -19,9 +19,9 @@ int main()
   cout << "Simple 1 dimensional array of char\n"
            << "==================================\n";
 
-  char            oString[] = "Hello world    "; //12 characters
-  SArray1dC<char> stringA(oString,12);      //create the 1. array
-  SArray1dC<char> stringB(stringA);         //another access to the 1. array
+  char oString[] = "Hello world    ";  // 12 characters
+  SArray1dC<char> stringA(oString,12); //create the 1. array
+  SArray1dC<char> stringB(stringA);    //another access to the 1. array
   stringA[3] = '3';
 
   cout << "The original string: " << oString    << '\n'
@@ -49,9 +49,4 @@ int main()
   cout << "End of the example\n";
   return 0;
 }
-
-// IAPS - Image analysis program system.
-// End of file exSArr1.cc
-
-
 

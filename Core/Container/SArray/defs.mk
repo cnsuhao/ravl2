@@ -5,13 +5,9 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 #*********************************************************************
-#*********************************************************************
-# This is a part of a makefile for C and C++ programs under AMMA project
 # $Id$
 #! rcsid="$Id$"
 #! file="Ravl/Core/Container/SArray/defs.mk"
-
-# -----------  Specification of your project -----------------------
 
 DESCRIPTION=Simple 1D arrays, indexed from zero.
 

@@ -21,6 +21,7 @@
 #include "Ravl/BfAccIter.hh"
 #include "Ravl/BfAccIter2.hh"
 #include "Ravl/BfAccIter3.hh"
+#include "Ravl/StdHash.hh"
 
 namespace RavlN {
 
@@ -196,6 +197,12 @@ namespace RavlN {
     //: Sort the array in place.
     // This does a simple bubble sort.
     // FIXME:- we could do with something better!
+
+    bool operator==(const SArray1dC<DataC> & vv);
+    //: Comparison operator
+    
+    UIntT Hash() const;
+    //: Compute a hash value for the array.
     
   protected:
     SArray1dC(BufferC<DataC> & bf,DataC *start, const SizeT dim);
@@ -576,6 +583,23 @@ namespace RavlN {
     } while(changed) ;
     return ;
   }
+
+  template<class DataC>
+  bool SArray1dC<DataC>::operator==(const SArray1dC<DataC> & vv) {
+    for(BufferAccessIter2C<DataC,DataC> it(*this,arr);it;it++)
+      if(it.Data1() != it.Data2())
+	return false;
+    return true;
+  }
+  
+  template<class DataC>
+  UIntT SArray1dC<DataC>::Hash() const {
+    UIntT ret = Size();
+    for(BufferAccessIterC<DataC> it(*this);it;it++)
+      ret += StdHash(it.Data()) ^ (ret >> 1) ;
+    return ret;
+  }
+
 }
 #endif
 
