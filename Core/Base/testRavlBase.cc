@@ -29,6 +29,7 @@ public:
 };
 
 int testTypes();
+int testEndian();
 int testIndex();
 int testMisc();
 int testSubIndexRange2dIter();
@@ -44,6 +45,10 @@ int main()
 {
   int ln;
   if((ln = testTypes()) != 0) {
+    cerr << "Test failed at line:" << ln << "\n";
+    return 1;
+  }
+  if((ln = testEndian()) != 0) {
     cerr << "Test failed at line:" << ln << "\n";
     return 1;
   }
@@ -87,6 +92,18 @@ int testTypes()
 #else
   if(sizeof(StreamSizeT) < 4) return __LINE__;
   if(sizeof(StreamOffsetT) < 4) return __LINE__;
+#endif
+  return 0;
+}
+
+int testEndian() {
+  int x = 0x1234;
+#if RAVL_LITTLEENDIAN
+  if(((char *)(&x))[0] != 0x34) return __LINE__;
+  if(((char *)(&x))[1] != 0x12) return __LINE__;
+#else
+  if(((char *)(&x))[0] != 0x12) return __LINE__;
+  if(((char *)(&x))[1] != 0x34) return __LINE__;
 #endif
   return 0;
 }
