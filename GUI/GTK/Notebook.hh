@@ -75,6 +75,9 @@ namespace RavlGUIN
     
     void ShowPage(WidgetC &page);
     //: Show a page from the notebook.
+
+    IntT GetCurrentPage();
+    //: Get the id of the current page being displayed.
     
   protected:
     virtual void Destroy();
@@ -175,6 +178,10 @@ namespace RavlGUIN
     void ShowPage(WidgetC &page)
     { Body().ShowPage(page); }
     //: Show a page from the notebook.
+    
+    IntT GetCurrentPage()
+    { return Body().GetCurrentPage(); }
+    //: Get the id of the current page being displayed.
     
     friend class NotebookBodyC;
   };

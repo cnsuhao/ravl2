@@ -15,6 +15,7 @@
 #include "Ravl/GUI/PackInfo.hh"
 #include "Ravl/GUI/Label.hh"
 #include "Ravl/GUI/Manager.hh"
+#include "Ravl/GUI/ReadBack.hh"
 #include "Ravl/HashIter.hh"
 #include "Ravl/Stream.hh"
 #include <gtk/gtk.h>
@@ -218,7 +219,11 @@ namespace RavlGUIN {
     Manager.Queue(Trigger(NotebookC(*this),&NotebookC::GUIShowPage,page));
   }
   
-  
+  //: Get the id of the current page being displayed.
+  IntT NotebookBodyC::GetCurrentPage() {
+    ReadBackLockC readBackLock; // Lock the GUI thread.
+    return gtk_notebook_get_current_page(GTK_NOTEBOOK (widget));
+  }
   
   ///////////////////////////////////////////
   
