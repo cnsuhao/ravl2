@@ -174,7 +174,7 @@ namespace RavlN {
 	foundEndTag = false;
 	c = GetChar();
 	if(c != '<') {
-	  content += c;
+	  Content() += c;
 	  continue; // Skip non-tag characters.
 	}
 	gotTag = true;
@@ -297,7 +297,7 @@ namespace RavlN {
       Push(pe ,elem,name);
       ret = XMLBeginTag;
     }
-    if(ret == XMLBeginTag )
+    if(ret == XMLBeginTag) 
       StartContext(elem);
     return ret;
   }
@@ -466,6 +466,7 @@ namespace RavlN {
   void XMLOStreamC::StartTag(const StringC &name,const RCHashC<StringC,StringC> &attribs,bool emptyTag) {
     if(IsContext() && !IsContent())
       StartContents(); // Make sure we're in a content section.
+    LastOpenTag() = name;
     StartContext(name,attribs,emptyTag);
   }
   
@@ -473,6 +474,7 @@ namespace RavlN {
   
   void XMLOStreamC::StartTag(const StringC &name,bool emptyTag) {
     RCHashC<StringC,StringC> none;
+    LastOpenTag() = name;
     StartTag(name,none,emptyTag);
   }
   
@@ -531,8 +533,9 @@ namespace RavlN {
       Context().SetEmptyTag(true);      
       StartContents();
     }
+    
     if(!Context().IsEmptyTag()) {
-      if(AutoIndent())
+      if(AutoIndent() && LastOpenTag() != Context().Name())
 	Indent(-1);
       Stream() << "</" << Context().Name() << ">";
     }

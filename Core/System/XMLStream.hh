@@ -319,6 +319,14 @@ namespace RavlN {
     { return pushed; }
     //: Is there a context pushed ?
     
+    StringC &Content()
+    { return content; }
+    //: Content.
+    
+    StringC &LastOpenTag()
+    { return lastOpenTag; }
+    //: Get name of last tag opened.
+    
   protected:
     bool strict; // Be strict about usage.
     StackC<XMLElementC> context;
@@ -330,6 +338,8 @@ namespace RavlN {
     XMLTagOpsT pushedOp;
     XMLElementC pushedElem;
     StringC pushedName;
+    StringC content;
+    StringC lastOpenTag;
   };
   
   //! userlevel=Advanced
@@ -428,6 +438,14 @@ namespace RavlN {
     bool AutoIndent(bool val)
     { return Body().AutoIndent(val); }
     //: Auto indenting activated.
+
+    StringC &Content()
+    { return Body().Content(); }
+    //: Content.
+
+    StringC &LastOpenTag()
+    { return Body().LastOpenTag(); }
+    //: Get name of last tag opened.
     
   protected:
     void Push(XMLTagOpsT op,XMLElementC &elm,StringC &name) 
@@ -548,10 +566,6 @@ namespace RavlN {
     // The attribute value is stored using its default streaming 
     // operators. (ostream and istream)
     
-    StringC &Content()
-    { return content; }
-    //: Access tag content.
-    
   protected:
     
     StringC ReadAttrib(XMLElementC &elem);
@@ -561,7 +575,6 @@ namespace RavlN {
     XMLTagOpsT GetTag(XMLElementC &elem,StringC &name);
     //: Get the next tag from the stream without modifying the Context.
     
-    StringC content;
   };
   
   //! userlevel=Normal
@@ -645,7 +658,7 @@ namespace RavlN {
     void SetAttrib(const StringC &name,const RealT &val);
     //: Set a real valued attribute for entity.
     // This can only be called between StartTag and StartContents.
-    
+
   };
   
   inline
