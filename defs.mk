@@ -11,9 +11,6 @@ PACKAGE=Ravl
 
 DESCRIPTION=RAVL, Recognition and Vision Library
 
-#If you wish to use the 'Ravl-Contrib' code remove the
-# '#' before the Contrib.r at the end of the following line.
-
 NESTED=QMake.r Core.r OS.r CCMath.r Math.r PatternRec.r Image.r 3D.r Logic.r \
   SourceTools.r GUI.r Applications.r Contrib.r
 
