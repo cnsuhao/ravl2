@@ -80,16 +80,18 @@ namespace RavlN {
     //: Constructor.
     
     AttributeTypeBoolC(const AttributeTypeC &base)
-      : AttributeTypeC(base)
-    {
-      if(dynamic_cast<AttributeTypeBoolBodyC *>(&AttributeTypeC::Body()) == 0)
-	Invalidate();
-    }
+      : AttributeTypeC(dynamic_cast<const AttributeTypeBoolBodyC *>(BodyPtr(base)))
+    {}
     //: Construct from a base handle
     // Creates an invalid handle if object is not of the correct type.
     
   protected:
     AttributeTypeBoolC(AttributeTypeBoolBodyC &bod)
+      : AttributeTypeC(bod)
+    {}
+    //: Body constructor.
+    
+    AttributeTypeBoolC(const AttributeTypeBoolBodyC *bod)
       : AttributeTypeC(bod)
     {}
     //: Body constructor.
@@ -222,11 +224,8 @@ namespace RavlN {
     //: Constructor.
     
     AttributeTypeNumC(const AttributeTypeC &base)
-      : AttributeTypeC(base)
-    {
-      if(dynamic_cast<AttributeTypeNumBodyC<ValueT> *>(&AttributeTypeC::Body()) == 0)
-	Invalidate();
-    }
+      : AttributeTypeC(dynamic_cast<const AttributeTypeNumBodyC<ValueT> *>(BodyPtr(base)))
+    {}
     //: Construct from a base handle
     // Creates an invalid handle if object is not of the correct type.
     
@@ -326,11 +325,8 @@ namespace RavlN {
     //: Constructor.
     
     AttributeTypeStringC(const AttributeTypeC &base)
-      : AttributeTypeC(base)
-    {
-      if(dynamic_cast<AttributeTypeStringBodyC *>(&AttributeTypeC::Body()) == 0)
-	Invalidate();
-    }
+      : AttributeTypeC(dynamic_cast<const AttributeTypeStringBodyC *>(BodyPtr(base)))
+    {}
     //: Construct from a base handle
     // Creates an invalid handle if object is not of the correct type.
     
@@ -428,11 +424,8 @@ namespace RavlN {
     //: Constructor.
 
     AttributeTypeEnumC(const AttributeTypeC &base)
-      : AttributeTypeC(base)
-    {
-      if(dynamic_cast<AttributeTypeEnumBodyC *>(&AttributeTypeC::Body()) == 0)
-	Invalidate();
-    }
+      : AttributeTypeC(dynamic_cast<const AttributeTypeEnumBodyC *>(BodyPtr(base)))
+    {}
     //: Construct from a base handle
     // Creates an invalid handle if object is not of the correct type.
     
@@ -518,11 +511,8 @@ namespace RavlN {
     //: Constructor.
     
     AttributeTypeComponentC(const AttributeTypeC &base)
-      : AttributeTypeC(base)
-    {
-      if(dynamic_cast<AttributeTypeComponentBodyC *>(&AttributeTypeC::Body()) == 0)
-	Invalidate();
-    }
+      : AttributeTypeC(dynamic_cast<const AttributeTypeComponentBodyC *>(BodyPtr(base)))
+    {}
     //: Construct from a base handle
     // Creates an invalid handle if object is not of the correct type.
     
@@ -601,11 +591,8 @@ namespace RavlN {
     //: Constructor.
     
     AttributeTypeMiscC(const AttributeTypeC &base)
-      : AttributeTypeC(base)
-    {
-      if(dynamic_cast<AttributeTypeMiscBodyC *>(&AttributeTypeC::Body()) == 0)
-	Invalidate();
-    }
+      : AttributeTypeC(dynamic_cast<const AttributeTypeMiscBodyC *>(BodyPtr(base)))
+    {}
     //: Construct from a base handle
     // Creates an invalid handle if object is not of the correct type.
     

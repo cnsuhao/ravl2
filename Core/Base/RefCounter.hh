@@ -226,13 +226,14 @@ namespace RavlN {
     //: Access body pointer.
     // Used in upcasting.
     
-    BodyT *BodyPtr(RCHandleC<BodyT> &bod)
+    static BodyT *BodyPtr(RCHandleC<BodyT> &bod)
     { return bod.body; }
     //: Access body point from a derived class.
     
-    const BodyT *BodyPtr(const RCHandleC<BodyT> &bod)
+    static const BodyT *BodyPtr(const RCHandleC<BodyT> &bod)
     { return bod.body; }
     //: Access body point from a derived class.
+    
   public:
     UIntT References() const
     { return Body().References(); }

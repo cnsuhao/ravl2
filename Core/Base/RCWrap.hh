@@ -70,7 +70,12 @@ namespace RavlN {
       : RCHandleVC<RCWrapBaseBodyC>(bod)
     {}
     //: Body constructor.
-
+    
+    RCWrapAbstractC(const RCWrapBaseBodyC *bod)
+      : RCHandleVC<RCWrapBaseBodyC>(bod)
+    {}
+    //: Body constructor.
+    
     RCWrapBaseBodyC &Body()
     { return RCHandleC<RCWrapBaseBodyC>::Body(); }
     //: Access body of object.
@@ -182,21 +187,15 @@ namespace RavlN {
     // counted copy of 'dat.
     
     RCWrapC(const RCWrapAbstractC &val,bool v)
-      : RCWrapAbstractC(val)
-    {
-      if(dynamic_cast<RCWrapBodyC<DataT> *>(BodyPtr()) == 0)
-        Invalidate();
-    }
+      : RCWrapAbstractC(dynamic_cast<const RCWrapBodyC<DataT> *>(BodyPtr(val)))
+    {}
     //: Construct from an abstract handle.
     // if the object types do not match, an invalid handle
     // is created.
     
     RCWrapC(const RCAbstractC &val)
-      : RCWrapAbstractC(val) 
-    {
-      if(dynamic_cast<RCWrapBodyC<DataT> *>(BodyPtr()) == 0)
-	Invalidate();	
-    }
+      : RCWrapAbstractC(dynamic_cast<const RCWrapBodyC<DataT> *>(val.BodyPtr()))
+    {}
     //: Construct from an abstract handle.
     
     RCWrapC(istream &in)

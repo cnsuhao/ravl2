@@ -84,11 +84,8 @@ namespace RavlN {
     // Returns an invalid handle if ones is not found.
     
     THEMeshVertexC(const HEMeshBaseVertexC &base)
-      : HEMeshBaseVertexC(base)
-    {
-      if(dynamic_cast<THEMeshVertexBodyC<VertexDataT,FaceDataT,EdgeDataT> *>(&HEMeshBaseVertexC::Body()) == 0)
-	Invalidate();
-    }
+      : HEMeshBaseVertexC(dynamic_cast<const THEMeshVertexBodyC<VertexDataT,FaceDataT,EdgeDataT> *>(BodyPtr(base)))
+    {}
     //: Base constructor.
     
   protected:

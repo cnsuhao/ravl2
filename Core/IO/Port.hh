@@ -376,7 +376,7 @@ namespace RavlN {
     {}
     //: Copy constructor.
     
-  protected:
+  protected:    
     inline DPPortBodyC &Body() 
     { return dynamic_cast<DPPortBodyC &> (DPEntityC::Body()); }
     //: Access body.
@@ -430,12 +430,8 @@ namespace RavlN {
     //: Stream constructor.
     
     DPIPortBaseC(const DPPortC &bod) 
-      : DPEntityC(bod),
-	DPPortC(bod)
-    {
-      if(dynamic_cast<DPIPortBaseBodyC *>(&DPEntityC::Body()) == 0)
-	Invalidate();
-    }
+      : DPEntityC(dynamic_cast<const DPIPortBaseBodyC *>(BodyPtr(bod)))
+    {}
     //: Body constructor.
     
   protected:

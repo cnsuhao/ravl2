@@ -84,7 +84,7 @@ namespace RavlN {
     // Ptr to one of the edges on the vertex.
     // This must always point to an edge going to
     // this vertex.
-
+    
     UIntT id;
     //: Identifier for vertex.
     
@@ -128,6 +128,11 @@ namespace RavlN {
     HEMeshBaseVertexC(HEMeshBaseVertexBodyC &nbody)
       : body(&nbody)
     {}
+    //: Construct from reference
+    
+    HEMeshBaseVertexC(const HEMeshBaseVertexBodyC *nbody)
+      : body(const_cast<HEMeshBaseVertexBodyC *>(nbody))
+    {}
     //: Construct from pointer.
     
     HEMeshBaseVertexBodyC &Body()
@@ -137,6 +142,14 @@ namespace RavlN {
     const HEMeshBaseVertexBodyC &Body() const
     { return *body; }
     //: Access body.
+    
+    const HEMeshBaseVertexBodyC *BodyPtr(const HEMeshBaseVertexC &handle)
+    { return handle.body; }
+    //: Access handle ptr.
+    
+    HEMeshBaseVertexBodyC *BodyPtr(HEMeshBaseVertexC &handle)
+    { return handle.body; }
+    //: Access handle ptr.
     
   public:
     bool operator==(const HEMeshBaseVertexBodyC &vert) const

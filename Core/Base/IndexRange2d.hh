@@ -277,7 +277,11 @@ namespace RavlN {
     inline bool IsValid() const 
     { return rows.IsValid() && cols.IsValid(); }
     //: Returns true if this rectangle contains at least one index.
-
+    
+    inline bool IsEmpty() const
+    { return rows.IsEmpty() || cols.IsEmpty(); }
+    //: Returns true if either of the index ranges is empty.
+    
     bool operator==(const IndexRange2dC &oth) const
     { return oth.Range1() == Range1() && oth.Range2() == Range2(); }
     //: Are two ranges equal ?

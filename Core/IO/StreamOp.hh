@@ -74,11 +74,8 @@ namespace RavlN {
     // Creates an invalid handle.
     
     DPStreamOpC(DPEntityC &ent)
-      : DPEntityC(ent)
-    {
-      if(dynamic_cast<DPStreamOpBodyC *>(&DPEntityC::Body()) == 0)
-	Invalidate();
-    }
+      : DPEntityC(dynamic_cast<const DPStreamOpBodyC *>(BodyPtr(ent)))
+    {}
     //: Base class constructor.
     // If object is not a DPStreamOpC then an invalid handle will
     // be created.

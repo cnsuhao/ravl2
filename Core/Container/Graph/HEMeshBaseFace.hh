@@ -127,8 +127,8 @@ namespace RavlN {
     {}
     //: Body constructor.
 
-    HEMeshBaseFaceC(HEMeshBaseFaceBodyC *bod)
-      : body(bod)
+    HEMeshBaseFaceC(const HEMeshBaseFaceBodyC *bod)
+      : body(const_cast<HEMeshBaseFaceBodyC *>(bod))
     {}
     //: Body constructor.
     
@@ -149,7 +149,15 @@ namespace RavlN {
     const HEMeshBaseFaceBodyC &Body() const
     { return *body; }
     //: Access body.
-
+    
+    static const HEMeshBaseFaceBodyC *BodyPtr(const HEMeshBaseFaceC &handle)
+    { return handle.body; }
+    //: Access body.
+    
+    static HEMeshBaseFaceBodyC *BodyPtr(HEMeshBaseFaceC &handle)
+    { return handle.body; }
+    //: Access body.
+    
     HEMeshBaseEdgeBodyC *FirstEdge()
     { return Body().FirstEdge(); }
     //: Access first edge.

@@ -146,11 +146,8 @@ namespace RavlN {
     //: Constructor.
 
     XMLTreeC(HashTreeC<StringC,RCHashC<StringC,StringC> > &oth)
-      : HashTreeC<StringC,RCHashC<StringC,StringC> >(oth)
-    {
-      if(dynamic_cast<XMLTreeBodyC *>(&HashTreeC<StringC,RCHashC<StringC,StringC> >::Body()) == 0)
-	Invalidate();
-    }
+      : HashTreeC<StringC,RCHashC<StringC,StringC> >(dynamic_cast<const XMLTreeBodyC *>(BodyPtr(oth)))
+    {}
     //: Construct from a base class.
     // An invalid handle is created if it failes.
     

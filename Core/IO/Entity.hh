@@ -111,7 +111,7 @@ namespace RavlN {
     //: Access body.
     
   protected:
-    DPEntityC(DPEntityBodyC *nbod) 
+    DPEntityC(const DPEntityBodyC *nbod) 
       : RCHandleVC<DPEntityBodyC>(nbod)
     {}
     //: Body ptr constructor.

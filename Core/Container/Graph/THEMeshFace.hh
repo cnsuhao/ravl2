@@ -98,11 +98,8 @@ namespace RavlN {
     // Creates an invalid handle.
     
     THEMeshFaceC(const HEMeshBaseFaceC &base)
-      : HEMeshBaseFaceC(base)
-    {
-      if(dynamic_cast<THEMeshFaceBodyC<VertexDataT,FaceDataT,EdgeDataT> *>(&HEMeshBaseFaceC::Body()) == 0)
-	Invalidate();
-    }
+      : HEMeshBaseFaceC(dynamic_cast<const THEMeshFaceBodyC<VertexDataT,FaceDataT,EdgeDataT> *>(BodyPtr(base)))
+    {}
     //: Base constructor.
     
   protected:

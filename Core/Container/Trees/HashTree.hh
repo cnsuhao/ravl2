@@ -79,6 +79,11 @@ namespace RavlN {
     {}
     //: Default constructor.
     
+    HashTreeNodeC(const HashTreeNodeBodyC<KeyT,DataT> *bod)
+      : RCHandleC<HashTreeNodeBodyC<KeyT,DataT> >(bod)
+    {}
+    //: Default constructor.
+    
     HashTreeNodeBodyC<KeyT,DataT> &Body()
     { return RCHandleC<HashTreeNodeBodyC<KeyT,DataT> >::Body(); }
     //: Access body.
@@ -196,11 +201,8 @@ namespace RavlN {
     // Creates an empty tree
 
     HashTreeC(HashTreeNodeC<KeyT,DataT> &base)
-      : HashTreeNodeC<KeyT,DataT>(base)
-    {
-      if(dynamic_cast<HashTreeBodyC<KeyT,DataT> * >(&HashTreeNodeC<KeyT,DataT>::Body() ) == 0)
-	this->Invalidate();
-    }
+      : HashTreeNodeC<KeyT,DataT>(dynamic_cast<HashTreeBodyC<KeyT,DataT> * >(RCHandleC<HashTreeNodeBodyC<KeyT,DataT> >::BodyPtr(base)))
+    {}
     //: Base class constructor.
     
     explicit HashTreeC(const DataT &data)
@@ -209,6 +211,11 @@ namespace RavlN {
     
   protected:
     HashTreeC(HashTreeBodyC<KeyT,DataT> &bod)
+      : HashTreeNodeC<KeyT,DataT>(bod)
+    {}
+    //: Body constructor.
+    
+    HashTreeC(const HashTreeBodyC<KeyT,DataT> *bod)
       : HashTreeNodeC<KeyT,DataT>(bod)
     {}
     //: Body constructor.

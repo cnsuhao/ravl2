@@ -130,7 +130,7 @@ namespace RavlN {
     {}
     //: Body constructor.
     
-    AttributeTypeC(AttributeTypeBodyC *bod)
+    AttributeTypeC(const AttributeTypeBodyC *bod)
       : RCHandleVC<AttributeTypeBodyC>(bod)
     {}
     //: Body constructor.

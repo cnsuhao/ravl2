@@ -98,12 +98,8 @@ namespace RavlN {
     // Creates an invalid handle.
     
     CallFunc0C(const TriggerC &trig,bool invalidOk = false)
-      : TriggerC(dynamic_cast<const CallFunc0BodyC<RetT> *>(BodyPtr(trig)))
-    {
-      if(!IsValid()) {
-	RavlAlwaysAssertMsg(invalidOk,"Casting to incorrect function type. ");
-      }
-    }
+      : TriggerC(dynamic_cast<const CallFunc0BodyC<RetT> *>(RCHandleC<TriggerBodyC>::BodyPtr(trig)))
+    { RavlAlwaysAssertMsg(invalidOk || RCHandleC<TriggerBodyC>::IsValid(), "Casting to incorrect function type. "); }
     //: Convert from a base handle.
     // If the base handle is of another type, the invaldOk flag is true, 
     // an invalid handle is generated, otherwise an assertion failure is 
@@ -125,6 +121,11 @@ namespace RavlN {
     
   protected:
     CallFunc0C(CallFunc0BodyC<RetT> &bod)
+      : TriggerC(bod)
+    {}
+    // Body constructor.
+
+    CallFunc0C(const CallFunc0BodyC<RetT> *bod)
       : TriggerC(bod)
     {}
     // Body constructor.
@@ -259,13 +260,8 @@ namespace RavlN {
     // Creates an invalid handle.
 
     CallFunc1C(const TriggerC &trig,bool invalidOk = false)
-      : CallFunc0C<RetT>(trig,invalidOk)
-    {
-      if(dynamic_cast<CallFunc1BodyC<DataT,RetT> *>(TriggerC::BodyPtr()) == 0) {
-	RavlAlwaysAssertMsg(invalidOk,"Casting to incorrect function type. ");
-	Invalidate();
-      }
-    }
+      : CallFunc0C<RetT>(dynamic_cast<const CallFunc1BodyC<DataT,RetT> *>(RCHandleC<TriggerBodyC>::BodyPtr(trig)))
+    { RavlAlwaysAssertMsg(invalidOk || RCHandleC<TriggerBodyC>::IsValid(),"Casting to incorrect function type. "); }
     //: Convert from a base handle.
     // If the base handle is of another type, the invaldOk flag is true, 
     // an invalid handle is generated, otherwise an assertion failure is 
@@ -291,6 +287,11 @@ namespace RavlN {
     
   protected:
     CallFunc1C(CallFunc1BodyC<DataT,RetT> &body)
+      : CallFunc0C<RetT>(body)
+    {}
+    //: Body constructor.
+
+    CallFunc1C(const CallFunc1BodyC<DataT,RetT> *body)
       : CallFunc0C<RetT>(body)
     {}
     //: Body constructor.
@@ -448,13 +449,8 @@ namespace RavlN {
     // Creates an invalid handle.
    
     CallFunc2C(const TriggerC &trig,bool invalidOk = false)
-      : CallFunc1C<Data1T,RetT>(trig,invalidOk)
-    {
-      if(dynamic_cast<CallFunc2BodyC<Data1T,Data2T,RetT> *>(TriggerC::BodyPtr()) == 0) {
-	RavlAlwaysAssertMsg(invalidOk,"Casting to incorrect function type. ");
-	Invalidate();
-      }
-    }
+      : CallFunc1C<Data1T,RetT>(dynamic_cast<const CallFunc2BodyC<Data1T,Data2T,RetT> *>(RCHandleC<TriggerBodyC>::BodyPtr(trig)))
+    { RavlAlwaysAssertMsg(invalidOk || RCHandleC<TriggerBodyC>::IsValid(),"Casting to incorrect function type. "); }
     //: Convert from a base handle.
     // If the base handle is of another type, the invaldOk flag is true, 
     // an invalid handle is generated, otherwise an assertion failure is 
@@ -479,6 +475,11 @@ namespace RavlN {
     //: Invalidate handle
   protected:
     CallFunc2C(CallFunc2BodyC<Data1T,Data2T,RetT> &bod)
+      : CallFunc1C<Data1T,RetT>(bod)
+    {}
+    //: Body constructor.
+    
+    CallFunc2C(const CallFunc2BodyC<Data1T,Data2T,RetT> *bod)
       : CallFunc1C<Data1T,RetT>(bod)
     {}
     //: Body constructor.
@@ -637,13 +638,8 @@ namespace RavlN {
     // Creates an invalid handle.
 
     CallFunc3C(const TriggerC &trig,bool invalidOk = false)
-      : CallFunc2C<Data1T,Data2T,RetT>(trig,invalidOk)
-    {
-      if(dynamic_cast<CallFunc3BodyC<Data1T,Data2T,Data3T,RetT> *>(TriggerC::BodyPtr()) == 0) {
-	RavlAlwaysAssertMsg(invalidOk,"Casting to incorrect function type. ");
-	Invalidate();
-      }
-    }
+      : CallFunc2C<Data1T,Data2T,RetT>(dynamic_cast<const CallFunc3BodyC<Data1T,Data2T,Data3T,RetT> *>(RCHandleC<TriggerBodyC>::BodyPtr(trig)))
+    { RavlAlwaysAssertMsg(invalidOk || RCHandleC<TriggerBodyC>::IsValid(),"Casting to incorrect function type. "); }
     //: Convert from a base handle.
     // If the base handle is of another type, the invaldOk flag is true, 
     // an invalid handle is generated, otherwise an assertion failure is 
@@ -669,6 +665,11 @@ namespace RavlN {
 
   protected:
     CallFunc3C(CallFunc3BodyC<Data1T,Data2T,Data3T,RetT> &bod)
+      : CallFunc2C<Data1T,Data2T,RetT>(bod)
+    {}
+    //: Body constructor.
+    
+    CallFunc3C(const CallFunc3BodyC<Data1T,Data2T,Data3T,RetT> *bod)
       : CallFunc2C<Data1T,Data2T,RetT>(bod)
     {}
     //: Body constructor.
@@ -834,13 +835,8 @@ namespace RavlN {
     // Creates an invalid handle.
     
     CallFunc4C(const TriggerC &trig,bool invalidOk = false)
-      : CallFunc3C<Data1T,Data2T,Data3T,RetT>(trig,invalidOk)
-    {
-      if(dynamic_cast<CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT> *>(TriggerC::BodyPtr()) == 0) {
-	RavlAlwaysAssertMsg(invalidOk,"Casting to incorrect function type. ");
-	Invalidate();
-      }
-    }
+      : CallFunc3C<Data1T,Data2T,Data3T,RetT>(dynamic_cast<const CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT> *>(RCHandleC<TriggerBodyC>::BodyPtr(trig)))
+    { RavlAlwaysAssertMsg(invalidOk || RCHandleC<TriggerBodyC>::IsValid(),"Casting to incorrect function type. "); }
     //: Convert from a base handle.
     // If the base handle is of another type, the invaldOk flag is true, 
     // an invalid handle is generated, otherwise an assertion failure is 
@@ -867,6 +863,11 @@ namespace RavlN {
     
   protected:
     CallFunc4C(CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT> &bod)
+      : CallFunc3C<Data1T,Data2T,Data3T,RetT>(bod)
+    {}
+    //: Body constructor.
+    
+    CallFunc4C(const CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT> *bod)
       : CallFunc3C<Data1T,Data2T,Data3T,RetT>(bod)
     {}
     //: Body constructor.
@@ -1052,13 +1053,8 @@ namespace RavlN {
     // the call returns silently.
 
     CallFunc5C(const TriggerC &trig,bool invalidOk = false)
-      : CallFunc4C<Data1T,Data2T,Data3T,Data4T,RetT>(trig,invalidOk)
-    {
-      if(dynamic_cast<CallFunc5BodyC<Data1T,Data2T,Data3T,Data4T,Data5T,RetT> *>(TriggerC::BodyPtr()) == 0) {
-	RavlAlwaysAssertMsg(invalidOk,"Casting to incorrect function type. ");
-	Invalidate();
-      }
-    }
+      : CallFunc4C<Data1T,Data2T,Data3T,Data4T,RetT>(dynamic_cast<const CallFunc5BodyC<Data1T,Data2T,Data3T,Data4T,Data5T,RetT> *>(RCHandleC<TriggerBodyC>::BodyPtr(trig)))
+    { RavlAlwaysAssertMsg(invalidOk || RCHandleC<TriggerBodyC>::IsValid(),"Casting to incorrect function type. "); }
     //: Convert from a base handle.
     // If the base handle is of another type, the invaldOk flag is true, 
     // an invalid handle is generated, otherwise an assertion failure is 
@@ -1081,6 +1077,11 @@ namespace RavlN {
     
   protected:
     CallFunc5C(CallFunc5BodyC<Data1T,Data2T,Data3T,Data4T,Data5T,RetT> &bod)
+      : CallFunc4C<Data1T,Data2T,Data3T,Data4T,RetT>(bod)
+    {}
+    //: Body constructor.
+    
+    CallFunc5C(const CallFunc5BodyC<Data1T,Data2T,Data3T,Data4T,Data5T,RetT> *bod)
       : CallFunc4C<Data1T,Data2T,Data3T,Data4T,RetT>(bod)
     {}
     //: Body constructor.

@@ -167,11 +167,8 @@ namespace RavlN {
     //: Copy constructor.
     
     DPSeekCtrlC(const DPEntityC &oth)
-      : DPEntityC(oth)
-    {
-      if(dynamic_cast<DPSeekCtrlBodyC *>(&DPEntityC::Body()) == 0)
-	Invalidate(); // Incorrect type.
-    }
+      : DPEntityC(dynamic_cast<const DPSeekCtrlBodyC *>(BodyPtr(oth)))
+    {}
     //: Base Constructor.
   protected:
     DPSeekCtrlC(DPSeekCtrlBodyC &bod)
@@ -337,11 +334,8 @@ namespace RavlN {
     //: Copy constructor.
     
     DPISPortC(const DPIPortBaseC &oth)
-      : DPEntityC(oth)
-    {
-      if(dynamic_cast<DPISPortBodyC<DataT> *>(&DPEntityC::Body()) == 0)
-	Invalidate();
-    }
+      : DPEntityC(dynamic_cast<const DPISPortBodyC<DataT> *>(BodyPtr(oth)))
+    {}
     //: Base constructor.
     
     const DPISPortC<DataT> &operator= (const DPISPortC<DataT> &obj) {
@@ -389,11 +383,8 @@ namespace RavlN {
     //: Copy constructor.
     
     DPOSPortC(const DPOPortBaseC &oth)
-      : DPEntityC(oth)
-    {
-      if(dynamic_cast<DPOSPortBodyC<DataT> *>(&DPEntityC::Body()) == 0)
-	Invalidate();
-    }
+      : DPEntityC(dynamic_cast<const DPOSPortBodyC<DataT> *>(BodyPtr(oth)))
+    {}
     //: Base constructor.
     
     const DPOSPortC<DataT> &operator= (const DPOSPortC<DataT> &obj) {

@@ -72,6 +72,14 @@ namespace RavlN {
     const RCBodyVC &Body() const
     { return RCHandleC<RCBodyVC>::Body(); }
     //: Access body.
+
+    RCBodyVC *BodyPtr()
+    { return RCHandleC<RCBodyVC>::BodyPtr(); }
+    //: Access body.
+
+    const RCBodyVC *BodyPtr() const
+    { return RCHandleC<RCBodyVC>::BodyPtr(); }
+    //: Access body.
     
   };
   

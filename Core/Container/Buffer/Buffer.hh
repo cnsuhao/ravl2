@@ -94,6 +94,11 @@ namespace RavlN {
     {}
     //: Body constructor
     
+    explicit BufferC(const BufferBodyC<DataT> *bod)
+      : RCHandleVC<BufferBodyC<DataT> >(bod)
+    {}
+    //: Body constructor
+    
     BufferBodyC<DataT> &Body()
     { return RCHandleC<BufferBodyC<DataT> >::Body(); }
     //: Access body.
