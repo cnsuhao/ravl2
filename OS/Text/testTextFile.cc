@@ -40,7 +40,7 @@ int testTextFile() {
       cerr << "Got arg! " << ip << "\n";
       return __LINE__;
     }
-    oss << flush;
+    oss.os() << flush;
   }
   StringC to = oss.String();
   cerr << "Out='" << to << "'\n";
