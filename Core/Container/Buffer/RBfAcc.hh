@@ -155,7 +155,7 @@ namespace RavlN {
     // The range will be shifted by -offset.
     
     inline void SetSubRange(IndexC newMin, IndexC newMax)
-      { range.Clip(IndexRangeC(newMin, newMax)); }
+    { range.ClipBy(IndexRangeC(newMin, newMax)); }
     //: Constrain the indexs that can be accessed from the array.
     // The range of indexes of this array will be constrained to cover
     // the index range <newMin, newMax> at most.
