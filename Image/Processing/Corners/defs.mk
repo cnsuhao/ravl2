@@ -18,4 +18,5 @@ LIBDEPS=RavlImageCorner.def
 
 USESLIBS=RavlImageProc
 
-PROGLIBS=RavlImageIO RavlDPDisplay RavlImgIOV4L
+PROGLIBS=RavlImageIO
+# RavlDPDisplay RavlImgIOV4L
