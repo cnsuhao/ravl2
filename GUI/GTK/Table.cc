@@ -61,20 +61,21 @@ namespace RavlGUIN {
     RavlAssert(widget == 0);
     widget = gtk_table_new(sx,sy,homogeneous);
     for(DLIterC<WidgeInfoC> it(children);it;it++) {
-      if(it.Data().widge.Widget() == 0) {
-	if(!it.Data().widge.Create()) {
+      WidgeInfoC &child = *it;
+      if(child.widge.Widget() == 0) {
+	if(!child.widge.Create()) {
 	  cerr << "TableBodyC::Create(), Widget create failed. \n";
 	  return false;
 	}
       }
       //cerr << "TableBodyC::Create(), Making entry " << it.Data().widge.WidgetName()<< "\n";
       gtk_table_attach(GTK_TABLE(widget),
-		       it.Data().widge.Widget(),
-		       it.Data().left_attach,it.Data().right_attach,
-		       it.Data().top_attach,it.Data().bottom_attach,
-		       it.Data().xoptions,it.Data().yoptions,
-		       it.Data().xpadding,it.Data().ypadding);
-      gtk_widget_show (it.Data().widge.Widget());
+		       child.widge.Widget(),
+		       child.left_attach,child.right_attach,
+		       child.top_attach,child.bottom_attach,
+		       child.xoptions,child.yoptions,
+		       child.xpadding,child.ypadding);
+      gtk_widget_show (child.widge.Widget());
     }
     //children.Empty(); // Might as well free the memory.
     ConnectSignals();
