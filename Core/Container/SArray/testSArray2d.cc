@@ -59,6 +59,10 @@ int main() {
   
   Index2dC at(0,0);
   if(testArr[at] != testArr[0][0]) return 1;
+  SArray2dC<int> testMin(1,1);
+  testMin.Fill(1);
+  if(testMin[0][0] != 1) return 1;
+  
   cerr << "Test passed ok. \n";
   return 0; 
 }
