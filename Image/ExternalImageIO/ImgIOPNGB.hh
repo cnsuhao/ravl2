@@ -70,6 +70,9 @@ namespace RavlImageN {
     ~DPIImageIOPNGBaseC();
     //: Destructor.
     
+    bool ReadHeaderInfo(int &bit_depth,int &colourType,int &interlace);
+    //: Get information about a png file.
+    
   protected:
     bool ReadHeader(const type_info &ti);
     //: Read header information.

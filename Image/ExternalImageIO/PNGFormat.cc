@@ -9,6 +9,8 @@
 //! lib=RavlExtImgIO
 //! file="Ravl/Image/ExternalImageIO/PNGFormat.cc"
 
+#include <png.h>
+
 #include "Ravl/Image/PNGFormat.hh"
 #include "Ravl/Image/UInt16RGBValue.hh"
 #include "Ravl/Image/ByteRGBAValue.hh"
@@ -36,6 +38,62 @@ namespace RavlImageN {
     : FileFormatBodyC(id,desc),
       only16Bit(nonly16Bit)
   {}
+
+  //: Try and choose best format for IO.
+  
+  const type_info &FileFormatPNGBodyC::ChooseFormat(const type_info &obj_type,int bit_depth,int colour_type,int interlace) const {
+    if(bit_depth <= 8) {
+      if(obj_type == typeid(ImageC<ByteRGBValueC>))
+	return obj_type; // We know how do this as well.
+      if(obj_type == typeid(ImageC<ByteT>))
+	return obj_type; // We know how do this as well.
+      if(obj_type == typeid(ImageC<ByteRGBAValueC>))
+	return obj_type; // We know how do this as well.  
+      if(obj_type == typeid(ImageC<ByteT>)) 
+	return obj_type; // We know how do this as well.    
+     
+      // PNG doesn't know to convert 8 bits images to 16.
+      if(obj_type == typeid(ImageC<UInt16T>))
+	return typeid(ImageC<ByteT>);
+      if(obj_type == typeid(ImageC<UInt16RGBValueC>)) 
+	return typeid(ImageC<ByteRGBValueC>);
+    }
+    
+    if(bit_depth == 16) {
+      if(obj_type == typeid(ImageC<ByteRGBValueC>))
+	return typeid(ImageC<UInt16RGBValueC>);
+      if(obj_type == typeid(ImageC<ByteRGBAValueC>))
+	return typeid(ImageC<UInt16RGBValueC>); // Need a 16 bit RGBX ??
+      if(obj_type == typeid(ImageC<ByteT>))
+	return typeid(ImageC<ByteT>);
+      
+      // Use some hints...
+      if(obj_type == typeid(ImageC<SByteT>))
+	return typeid(ImageC<ByteT>);
+    }
+    
+    
+    // Look for a single component hints...
+    
+    if(obj_type == typeid(ImageC<IntT>) || obj_type == typeid(ImageC<UIntT>) ||
+       obj_type == typeid(ImageC<UInt16T>) || obj_type == typeid(ImageC<Int16T>) ||
+       obj_type == typeid(ImageC<RealT>) 
+       ) {
+      if(bit_depth == 16) 
+	return typeid(ImageC<UInt16T>);
+      return typeid(ImageC<ByteT>);
+    }
+    
+    // We could have a peak in the file and try and decide what's best here.
+    // but just return an RGB image will work, just might be a little slower
+    // in some cases.
+    
+    // Sooo do the default.
+    
+    if(bit_depth == 16) 
+      return typeid(ImageC<UInt16RGBValueC>);
+    return typeid(ImageC<ByteRGBValueC>);   
+  }
   
   //: Try and choose best format for IO.
   
@@ -109,7 +167,16 @@ namespace RavlImageN {
     if(buff[0] != (ByteT) 0x89 || buff[1] != (ByteT)0x50 || buff[2] != (ByteT)0x4e ||  buff[3] != (ByteT)0x47)
       return typeid(void);
     
-    return ChooseFormat(obj_type);
+    streampos at = in.Tell();
+    DPIImageIOPNGBaseC info(in);
+    int bit_depth, colourType, interlace;
+    
+    if(!info.ReadHeaderInfo(bit_depth,colourType,interlace)) {
+      in.Seek(at);
+      return typeid(void); // Not a PNG ?!
+    }
+    in.Seek(at);
+    return ChooseFormat(obj_type,bit_depth,colourType,interlace);
   }
   
   const type_info &

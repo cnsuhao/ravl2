@@ -20,7 +20,7 @@
 //#include <stdio.h>
 #include <setjmp.h>
 
-#define DODEBUG 0
+#define DODEBUG 1
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -126,6 +126,28 @@ namespace RavlImageN {
     png_destroy_read_struct(&png_ptr, &info_ptr, (png_infopp)NULL);
   }
   
+  //: Get information about a png file.
+  
+  bool DPIImageIOPNGBaseC::ReadHeaderInfo(int &nbit_depth,int &ncolourType,int &ninterlace) {
+    if (setjmp(png_jmpbuf(png_ptr))) 
+      return false;
+    
+    /* The call to png_read_info() gives us all of the information from the
+     * PNG file before the first IDAT (image data chunk).  REQUIRED
+     */
+    png_read_info(png_ptr, info_ptr);
+    
+    png_uint_32 width, height;
+    
+    png_get_IHDR(png_ptr, info_ptr, &width, &height, &bit_depth, &color_type,
+		 &interlace_type, NULL, NULL);
+    
+    nbit_depth = bit_depth;
+    ncolourType = color_type;
+    ninterlace = interlace_type;
+    return true;
+  }
+
   //: Read header information.
   
   bool DPIImageIOPNGBaseC::ReadHeader(const type_info &obj_type) {
@@ -230,7 +252,7 @@ namespace RavlImageN {
       }
     }
     
-#if 0
+#if 1
     /* If you want to shift the pixel values from the range [0,255] or
      * [0,65535] to the original [0,7] or [0,31], or whatever range the
      * colors were originally in:
@@ -253,7 +275,7 @@ namespace RavlImageN {
     
     // RGB to Grey conversion needed ?
     
-#if 0
+#if 1
     if(req_color_type == PNG_COLOR_TYPE_GRAY || req_color_type == PNG_COLOR_TYPE_GRAY_ALPHA) {
       ONDEBUG(cerr << "DPOImageIOPNGBaseC::ReadHeader(), png_set_rgb_to_gray_fixed(png_ptr), Called. \n");
       png_set_rgb_to_gray_fixed(png_ptr, 1,-1,-1);

@@ -32,6 +32,9 @@ namespace RavlImageN {
     const type_info &ChooseFormat(const type_info &obj_type) const;
     //: Try and choose best format for IO.
     
+    const type_info &ChooseFormat(const type_info &obj_type,int bit_depth,int colour_type,int interlace) const;
+    //: Try and choose best format for IO.
+    
     virtual const type_info &ProbeLoad(IStreamC &in,const type_info &obj_type) const;
     //: Is stream in std stream format ?
   
