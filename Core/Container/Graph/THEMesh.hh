@@ -118,7 +118,7 @@ namespace RavlN {
     { return Body().InsertVertex(data); }
     //: Insert a new vertex into the mesh.
     
-    THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT> InsertVertexOnEdge(THEMeshEdgeC<VertexDataT,EdgeDataT,FaceDataT> &edge)
+    THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT> InsertVertexOnEdge(THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> &edge)
     { return Body().InsertVertexOnEdge(edge); }
     //: Insert a vertex on an edge.
     
@@ -158,7 +158,7 @@ namespace RavlN {
     //: Get the first face in the mesh.
     // Note: The mesh must NOT be empty.
     
-    THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT> FirstVirtex()
+    THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT> FirstVertex()
     { return THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT>(Body().vertices.First()); }
     //: Get the first vertex in the mesh.
     // Note: The mesh must NOT be empty.

@@ -35,7 +35,7 @@ namespace RavlN {
     : public HEMeshBaseVertexBodyC // Link in list of all vertexes
   {
   public:    
-    THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> FindEdge(const THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT> &oth) const;
+    THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> FindEdge(const THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT> &oth) const;
     //: Look for a connection from this vertex to oth.
     // Returns an invalid handle if ones is not found.
     
@@ -77,7 +77,7 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> FindEdge(const THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT> &oth) const;
+    THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> FindEdge(const THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT> &oth) const;
     //: Look for a connection from this vertex to oth.
     // Returns an invalid handle if ones is not found.
     

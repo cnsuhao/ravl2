@@ -103,7 +103,7 @@ namespace RavlN {
     // Creates an invalid handle.
     
   protected:
-    THEMeshEdgeC(THEMeshVertexBodyC<VertexDataT,FaceDataT,EdgeDataT> &vert,THEMeshFaceBodyC<VertexDataT,EdgeDataT,FaceDataT> &face)
+    THEMeshEdgeC(THEMeshVertexBodyC<VertexDataT,FaceDataT,EdgeDataT> &vert,THEMeshFaceBodyC<VertexDataT,FaceDataT,EdgeDataT> &face)
       : HEMeshBaseEdgeC(*new THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT>(vert,face))
     {}
     //: Constructor.
@@ -135,11 +135,11 @@ namespace RavlN {
     //: Get previous edge on face.
     
     THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> Next() const
-    { return THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT>(const_cast<THEMeshEdgeBodyC<VertexDataT,EdgeDataT,FaceDataT> &>(Body().Next())); }
+    { return THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT>(const_cast<THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &>(Body().Next())); }
     //: Get next edge on face.
     
     THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> Prev() const
-    { return THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT>(const_cast<THEMeshEdgeBodyC<VertexDataT,EdgeDataT,FaceDataT> &>(Body().Prev())); }
+    { return THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT>(const_cast<THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &>(Body().Prev())); }
     //: Get previous edge on face.
     
     void LinkAfter(THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> &edge) 
@@ -154,7 +154,7 @@ namespace RavlN {
     // If the edge is already in a chain it MUST
     // be unlinked first with Unlink().
 
-    void CutPaste(THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> firstCut, THEMeshEdgeC<VertexDataT,EdgeDataT,FaceDataT> firstNotCut) 
+    void CutPaste(THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> firstCut, THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> firstNotCut) 
     { Body().CutPaste(firstCut.Body(),firstNotCut.Body()); }
     //: Splice edges between firstCut, and firstNotCut into this list.
     // Cuts the chain of edges starting at 'firstCut' and

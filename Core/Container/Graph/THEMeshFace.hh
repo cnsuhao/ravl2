@@ -61,7 +61,7 @@ namespace RavlN {
     { return THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT>(*edge); }
     //: Get an edge leading to the face.
     
-    THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> FindEdge(THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT> a);
+    THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> FindEdge(THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT> a);
     //: Find the edge linking to vertex a.
     // If edge is not found an invalid handle is returned.
     
@@ -149,7 +149,7 @@ namespace RavlN {
     //: Get an edge leading to the face.
 
 #if 0    
-    THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> FindEdge(THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT> a)
+    THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> FindEdge(THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT> a)
     { return Body().FindEdge(a); }
     //: Find the edge linking to vertex a.
     // If edge is not found an invalid handle is returned.
