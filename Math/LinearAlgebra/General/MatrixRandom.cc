@@ -18,7 +18,7 @@ namespace RavlN {
   //: Create a random matrix of values between -scale and scale with the given size.
   
   MatrixC RandomMatrix(int n,int m,RealT scale) {
-    MatrixC x(n,n);
+    MatrixC x(n,m);
     for(SArray2dIterC<RealT> it(x);it;it++)
       *it = (Random1() -0.5) * 2 * scale;
     return x;
