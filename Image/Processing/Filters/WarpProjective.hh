@@ -74,11 +74,9 @@ namespace RavlImageN {
     //: output image rectangle.
     // The output rectangle is specified in the constructor.
     
-    inline
     Point2dC BackProject(const Point2dC &pnt) const;
     // Transform a point from the destination to source.
 
-    inline
     Point2dC Project(const Point2dC &pnt) const;
     // Transform a point from the source to destination
     
@@ -118,11 +116,6 @@ namespace RavlImageN {
     if(!outImg.Frame().Contains(rec))
       outImg = ImageC<OutT>(rec);
     //cerr << "Trans0=" << trans * orng.TopRight() << " from " << orng.TopRight() << "\n";
-
-    // set pat as top-left pixel in output image
-    Point2dC pat(src.Frame().Origin());
-    pat[0] += 0.5;
-    pat[1] += 0.5;
     
     // adjust source window for area where bilinear interpolation can be
     // computed safely. Using 0.51 instead of 0.5 ensures that points on the
@@ -142,26 +135,35 @@ namespace RavlImageN {
       IndexRange2dC oclip(Floor(trng.TRow()),Floor(trng.BRow())+1,
 			  Floor(trng.LCol()),Floor(trng.RCol())+1);
       
+      //cerr << "Clip=" << oclip << " Frame=" << outImg.Frame() << "\n";
       // Clip the output image appropriatly.
       oclip.ClipBy(outImg.Frame());
       workingOutImg = ImageC<OutT>(outImg,oclip);
     } else
       workingOutImg = outImg;
     
-    Array2dIterC<OutT> it(outImg);  
+    // set pat as top-left pixel in output image
+    Point2dC pat(workingOutImg.Frame().Origin());
+    pat[0] += 0.5;
+    pat[1] += 0.5;
+    
+    Array2dIterC<OutT> it(workingOutImg);  
     
     // If the output maps entirely within input, we don't have to do any checking.
+    
     if(irng.Contains(Project(orng.TopRight())) &&
        irng.Contains(Project(orng.TopLeft())) &&
        irng.Contains(Project(orng.BottomRight())) &&
        irng.Contains(Project(orng.BottomLeft()))) {
-      RealT beg = pat[1];
+      Vector3dC ldir(trans[0][1] * iz,trans[1][1] * iz,trans[2][1]);
       for(;it;) {
+	Vector3dC at = inv * Vector3dC(pat[0],pat[1],oz);
+	at[0] *= iz;
+	at[1] *= iz;
 	do {
-	  mixer(*it,src.BiLinear(Project(pat)));
-	  pat[1]++;
+	  mixer(*it,src.BiLinear(Point2dC((at[0]/at[2]) - 0.5,(at[1]/at[2])- 0.5)));
+	  at += ldir;
 	} while(it.Next()) ;
-	pat[1] = beg;
 	pat[0]++;
       }
       return;
@@ -171,41 +173,32 @@ namespace RavlImageN {
     // This could be sped up by projecting the line into the source image space,
     // clipping it and then projecting back into the output image and only iterate
     // along that bit of the line.
-
-    RealT beg = pat[1];
+    
+    Vector3dC ldir(trans[0][1] * iz,trans[1][1] * iz,trans[2][1]);
     for(;it;) {
+      Vector3dC at = inv * Vector3dC(pat[0],pat[1],oz);
+      at[0] *= iz;
+      at[1] *= iz;
+      
       if(fillBackground) {
 	do {
-	  Point2dC ipat = Project(pat);
-
-	  if(irng.Contains(ipat)) {
-	    // move coordinates to be based on 0,0 at the centre of the
-	    // top-left pixel
-	    ipat[0] -= 0.5;
-	    ipat[1] -= 0.5;
-	    mixer(*it,src.BiLinear(ipat));
-	  }
+	  Point2dC ipat(at[0]/at[2],at[1]/at[2]);
+	  if(irng.Contains(ipat))
+	    mixer(*it,src.BiLinear(ipat - Point2dC(0.5,0.5)));
 	  else
 	    SetZero(*it);
-	  pat[1]++;
+	  at += ldir;
 	} while(it.Next()) ;
       } else {
 	do {
-	  Point2dC ipat = Project(pat);
-
-	  if(irng.Contains(ipat)) {
-	    // move coordinates to be based on 0,0 at the centre of the
-	    // top-left pixel
-	    ipat[0] -= 0.5;
-	    ipat[1] -= 0.5;
-	    mixer(*it,src.BiLinear(ipat));
-	  }
-	  pat[1]++;
+	  Point2dC ipat(at[0]/at[2],at[1]/at[2]);
+	  if(irng.Contains(ipat))
+	    mixer(*it,src.BiLinear(ipat - Point2dC(0.5,0.5)));
+	  at += ldir;
 	} while(it.Next()) ;
       }
-      pat[1] = beg;
       pat[0]++;
-    }    
+    }
   }
   
 }
