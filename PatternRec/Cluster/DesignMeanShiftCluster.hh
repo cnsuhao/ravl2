@@ -142,6 +142,13 @@ namespace RavlN {
     //!param: in - Sample of vectors to cluster
     //!param: labels - Sample used to store the membership of each sample in the form of an index into the returned array
     //!return: Array of clusters.
+
+    SArray1dC<MeanCovarianceC> Cluster(const SampleC<VectorC> &in)
+    { return Body().Cluster(in); }
+    //: Compute cluster means, and labels for all the samples
+    //!param: in - Sample of vectors to cluster
+    //!param: labels - Sample used to store the membership of each sample in the form of an index into the returned array
+    //!return: Array of clusters.
     
   };
 
