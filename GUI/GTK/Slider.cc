@@ -144,6 +144,14 @@ namespace RavlGUIN {
       return true;
     GTK_ADJUSTMENT (adj)->lower = lower;
     GTK_ADJUSTMENT (adj)->upper = (RealT) upper + step_increment;
+    // Check range.
+    if(GTK_ADJUSTMENT (adj)->lower > GTK_ADJUSTMENT (adj)->value) {
+      GTK_ADJUSTMENT (adj)->value = GTK_ADJUSTMENT (adj)->lower;
+    }
+    if(GTK_ADJUSTMENT (adj)->upper < GTK_ADJUSTMENT (adj)->value) {
+      GTK_ADJUSTMENT (adj)->value = GTK_ADJUSTMENT (adj)->upper;
+    }
+    
     gtk_signal_emit_by_name (GTK_OBJECT (adj), "changed");
     return true;
   }
