@@ -95,6 +95,10 @@ namespace RavlN {
     inline SizeT Size2() const
       { return size2; }
     //: Size.
+
+    UIntT Size() const 
+    { return Size1() * Size2(); }
+    //: Get the total number of elements in the array.
     
     void Fill(const DataC &d);
     //: Fill array with value.

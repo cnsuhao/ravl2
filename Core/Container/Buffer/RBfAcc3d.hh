@@ -94,6 +94,10 @@ namespace RavlN {
     void Fill(const DataT &d);
     //: Fill array with value.
     
+    UIntT Size() const 
+    { return Range1().Size() * Range2().Size() * Range3().Size(); }
+    //: Get the total number of elements in the array.
+    
   protected:
     IndexRangeC rng2;
     IndexRangeC rng3;

@@ -102,6 +102,10 @@ namespace RavlN {
     inline const IndexRangeC &Range2() const
       { return rng2; }
     //: Range of second index.
+
+    UIntT Size() const 
+    { return Range1().Size() * Range2().Size(); }
+    //: Get the total number of elements in the array.
     
     void Fill(const DataC &d);
     //: Fill array with value.
