@@ -29,7 +29,6 @@ namespace RavlLogicN {
   class VarBodyC;
   class BindSetC;
   class LiteralC;
-  class ExprC;
   class LiteralIterC;
   class XMLIStreamC;
   class XMLOStreamC;
