@@ -40,8 +40,6 @@ MUSTLINK=atexit.cc
 
 USESLIBS=Math
 
-EXTRA_CFLAGS = -finline-math 
-
 TESTEXES= testRavlBase.cc testCalls.cc testString.cc testStream.cc testTFVector.cc
 
 EXAMPLES = exIndex.cc exRefCounter.cc exRefCounterInherit.cc exQInt.cc exTrigger.cc 
