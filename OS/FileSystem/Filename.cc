@@ -204,7 +204,7 @@ namespace RavlN {
     if(stat(chars(),&buff) < 0)
       return DateC(false);
 #endif
-#if defined(__linux__) || defined(VISUAL_CPP) || defined(__sol2__)
+#if defined(__linux__) || defined(VISUAL_CPP) || defined(__sol2__) || defined(__cygwin__)
     return DateC((long) buff.st_atime,0);
 #else
     return DateC((long) buff.st_atim.tv_sec,(long) buff.st_atim.tv_nsec / 1000);
@@ -225,7 +225,7 @@ namespace RavlN {
     if(stat(chars(),&buff) < 0)
       return DateC(false);
 #endif
-#if defined(__linux__) || defined(VISUAL_CPP) || defined(__sol2__)
+#if defined(__linux__) || defined(VISUAL_CPP) || defined(__sol2__) || defined(__cygwin__)
     return DateC((long) buff.st_mtime,0);
 #else
     return DateC((long) buff.st_mtim.tv_sec,(long) buff.st_mtim.tv_nsec / 1000);
@@ -246,7 +246,7 @@ namespace RavlN {
     if(stat(chars(),&buff) < 0)
       return DateC(false);
 #endif
-#if defined(__linux__) || defined(VISUAL_CPP) || defined(__sol2__)
+#if defined(__linux__) || defined(VISUAL_CPP) || defined(__sol2__) || defined(__cygwin__)
     return DateC((long) buff.st_ctime,0);
 #else
     return DateC((long) buff.st_ctim.tv_sec,(long) buff.st_ctim.tv_nsec / 1000);

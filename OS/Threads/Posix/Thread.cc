@@ -143,7 +143,7 @@ namespace RavlN {
   void ThreadBodyC::Terminate() {
     int ret;
     terminatePending = true;
-#if defined(__cygwin__)
+#if defined(__cygwin_OLD__)
     if((ret = pthread_exit((void *)threadID)) != 0)
 #else
     if((ret = pthread_cancel(threadID)) != 0)

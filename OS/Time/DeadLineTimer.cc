@@ -18,7 +18,6 @@
 #include <sys/time.h>
 #endif
 
-
 #ifndef __sgi__
 #ifndef _POSIX_C_SOURCE
 #define _POSIX_C_SOURCE 199309L
@@ -42,7 +41,7 @@
 #include <assert.h>
 #include <signal.h>
 
-#if defined(__sgi__) || defined(__linux__)
+#if defined(__sgi__) || defined(__linux__) || defined(__cygwin__)
 #include <sched.h>
 #endif
 
@@ -347,7 +346,7 @@ namespace RavlN {
   // May return false if no deadline pending.
   
   bool DeadLineTimerC::WaitForIt() const {
-#ifndef VISUAL_CPP
+#if !defined(VISUAL_CPP) && !defined(__cygwin__)
     if(id < 0 || timesUp)
       return false; // No timer set.
     while(!timesUp) {
