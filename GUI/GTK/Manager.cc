@@ -198,17 +198,23 @@ namespace RavlGUIN {
       Init(nargs, args);
     }
     
+#if  RAVL_USE_GTKTHREADS
     // Get screen size from GDK
+    gdk_threads_enter();
     screensize.Set(gdk_screen_height(),gdk_screen_width());
     physicalScreensize = Point2dC(gdk_screen_height_mm(),gdk_screen_width_mm());
+    gdk_threads_leave();
     
-#if  RAVL_USE_GTKTHREADS
     LaunchThreadR(*this,&ManagerC::HandleNotify);
     ONDEBUG(cerr << "ManagerC::Start(), Starting gtk_main().\n");
     gdk_threads_enter();
     gtk_main();
     gdk_threads_leave();
+    ONDEBUG(cerr << "ManagerC::Start(), gtk_main() Done.\n");
 #else
+    // Get screen size from GDK
+    screensize.Set(gdk_screen_height(),gdk_screen_width());
+    physicalScreensize = Point2dC(gdk_screen_height_mm(),gdk_screen_width_mm());
     
     // Setup IO...
     
@@ -250,13 +256,22 @@ namespace RavlGUIN {
   //: Finishup and exit.
   
   bool ManagerC::Shutdown() {
+#if RAVL_USE_GTKTHREADS
+    Queue(TriggerC());
+#else
     Notify(0);
+#endif
     return true;
   }
   
   void ManagerC::Quit() { 
-    Notify(0); 
-    Notify(0); 
+#if RAVL_USE_GTKTHREADS
+    Queue(TriggerC());
+    Queue(TriggerC());
+#else
+    Notify(0);
+    Notify(0);
+#endif
   }
   
   //: Notify interface of event.
@@ -276,19 +291,21 @@ namespace RavlGUIN {
   
   bool ManagerC::HandleNotify() {
 #if RAVL_USE_GTKTHREADS
-    ONDEBUG(cerr << "ManagerC::HandleNotify(), Started. \n");
-    
     guiThreadID = ThisThreadID();
+    ONDEBUG(cerr << "ManagerC::HandleNotify(), Started. ThreadID=" << guiThreadID << "\n");
     startupDone.Post();
     Sleep(0.2);
     while(!shutdownFlag) {
       TriggerC trig = events.Get();
-      ONDEBUG(cerr << "ManagerC::HandleNotify(), Processing... \n");
-      if(trig.IsValid()) {
-	gdk_threads_enter();
-	trig.Invoke();
-	gdk_threads_leave();
+      if(!trig.IsValid()) { // Shutdown notification ?
+	gtk_main_quit ();
+	break;      
       }
+      gdk_threads_enter();
+      ONDEBUG(cerr << "ManagerC::HandleNotify(), Event Start... \n");
+      trig.Invoke();
+      ONDEBUG(cerr << "ManagerC::HandleNotify(), Event Finished.. \n");
+      gdk_threads_leave();
     }
     ONDEBUG(cerr << "ManagerC::HandleNotify(), Done. \n");
 #else
@@ -343,6 +360,7 @@ namespace RavlGUIN {
       return ;
     }
     if(!events.TryPut(se)) {
+      ONDEBUG(cerr << "ManagerC::Queue(), WARNING: Event queue full. \n");
       if(!IsGUIThread()) // Are we running in the GUI thread?
 	events.Put(se); // Nope, just wait...
       else {
@@ -351,10 +369,12 @@ namespace RavlGUIN {
 	} while(!events.TryPut(se)) ;
       }
     }
+#if RAVL_USE_GTKTHREADS
     if(!eventProcPending) {
       eventProcPending = true;
       Notify(1);
     }
+#endif
   }
   
   static bool doUnrefPixmap(GdkPixmap *&pixmap) {
@@ -380,23 +400,14 @@ namespace RavlGUIN {
       cerr << "ManagerC::Queue(), Called after shutdown started. \n";
       return ;
     }
-    TimedTriggerQueueC teQueue(true);
+    static TimedTriggerQueueC teQueue(true);
     teQueue.Schedule(t,se);
   }
   
   //: Test if we're in the GUI thread.
   
-  bool ManagerC::IsGUIThread() const {
-#if RAVL_USE_GTKTHREADS
-    if(g_mutex_trylock(gdk_threads_mutex)) {
-      g_mutex_unlock(gdk_threads_mutex);
-      return false;
-    }
-    return true;
-#else
-    return !managerStarted || guiThreadID == ThisThreadID();
-#endif
-  }
+  bool ManagerC::IsGUIThread() const 
+  { return !managerStarted || guiThreadID == ThisThreadID(); }
   
   //: Register new window.
   
