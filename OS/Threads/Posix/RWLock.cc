@@ -11,7 +11,7 @@
 
 #include "Ravl/Threads/Thread.hh"
 #include "Ravl/Threads/RWLock.hh"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 namespace RavlN
 {

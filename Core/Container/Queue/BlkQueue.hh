@@ -5,12 +5,9 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 #ifndef RAVL_BLKQUEUE_HEADER
-#define RAVL_BLKQUEUE_HEADER
+#define RAVL_BLKQUEUE_HEADER 1
 ///////////////////////////////////////////////////////////////////////////
-//! date="15/11/95"
-//-------------------------------------------------------------------------- 
-//  author : George (Jiri) Matas                     g.matas@ee.surrey.ac.uk
-//--------------------------------------------------------------------------
+//! date="15/11/1995"
 //! file="Ravl/Core/Container/Queue/BlkQueue.hh"
 //! lib=RavlCore
 //! author="George (Jiri) Matas"
@@ -44,27 +41,27 @@ namespace RavlN {
     //: Put an item at the end of the queue.
     
     inline T& First()
-      { return (first!=blkSize) ? firstBlk->d[first] : firstBlk->link->d[0]; }
+    { return (first!=blkSize) ? firstBlk->d[first] : firstBlk->link->d[0]; }
     //: Access the first element in the queue.
     
     inline const T& First() const
-      { return (first!=blkSize) ? firstBlk->d[first] : firstBlk->link->d[0]; }
+    { return (first!=blkSize) ? firstBlk->d[first] : firstBlk->link->d[0]; }
     //: Access the first element in the queue.
     
     inline T& Last()
-      { return lastBlk->d[last-1]; }
+    { return lastBlk->d[last-1]; }
     //: Access the last element in the queue.
     
     inline const T& Last()  const
-      { return lastBlk->d[last-1]; }
+    { return lastBlk->d[last-1]; }
     //: Access the last element in the queue.
     
     inline int IsEmpty() const
-      { return last==first && lastBlk==firstBlk; }
+    { return last==first && lastBlk==firstBlk; }
     //: Is queue empty ?
     
     inline int Size() const
-      { return last-first + blkTotal; }
+    { return last-first + blkTotal; }
     //: Returns the number of items in the queue.
     
     inline void DelFirst(); 
@@ -77,11 +74,11 @@ namespace RavlN {
     //: Insert an item at the front of the queue.
     
     inline T& Top()
-      { return First(); }
+    { return First(); }
     //: Alias for First().
     
     inline void Push(const T& d)
-      { InsFirst(d); }
+    { InsFirst(d); }
     //: Push an item onto the front of the queue.
     
     inline T Pop()
@@ -97,7 +94,7 @@ namespace RavlN {
     //! userlevel=Develop
     struct q_Blk {q_Blk* link; T d[1];};
     q_Blk * AllocBlk()
-      {return (q_Blk*) new char[sizeof(q_Blk) + sizeof(T)*(blkSize-1)];}
+    {return (q_Blk*) new char[sizeof(q_Blk) + sizeof(T)*(blkSize-1)];}
     void FirstBlk();
     void DelBlk();
     

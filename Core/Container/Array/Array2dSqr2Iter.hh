@@ -125,9 +125,9 @@ namespace RavlN {
     const DataT &DataTL() const
     { return up[-1]; }
     //: Access upper left data element
-
+    
     Index2dC Index() const { 
-      assert(array.IsValid());
+      RavlAssert(array.IsValid());
       return BufferAccess2dIterC<DataT>::Index(array.ReferenceElm());
     }
     //: Get index of current location.

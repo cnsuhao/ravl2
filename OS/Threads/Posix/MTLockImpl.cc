@@ -11,7 +11,7 @@
 
 #include "Ravl/Threads/RWLock.hh"
 #include "Ravl/MTLocks.hh"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 namespace RavlN {
   void IncPThreadSysDBLock()

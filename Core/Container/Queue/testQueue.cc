@@ -10,8 +10,7 @@
 
 #include "Ravl/BlkQueue.hh"
 #include "Ravl/Stream.hh"
-
-//#include <stdlib.h>
+#include <stdlib.h>
 
 using namespace RavlN;
 

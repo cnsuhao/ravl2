@@ -11,7 +11,8 @@
 
 #include "Ravl/Threads/Mutex.hh"
 #include "Ravl/Threads/Thread.hh"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
+
 #include <string.h>
 
 namespace RavlN

@@ -10,7 +10,7 @@
 //! file="Ravl/OS/Threads/Posix/Semaphore.cc"
 
 #include "Ravl/Threads/Semaphore.hh"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 namespace RavlN
 {

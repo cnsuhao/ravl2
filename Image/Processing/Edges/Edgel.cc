@@ -9,7 +9,7 @@
 //! file="Ravl/Image/Processing/Edges/Edgel.cc"
 
 #include "Ravl/Image/Edgel.hh"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 namespace RavlImageN {
   
