@@ -60,12 +60,12 @@ namespace RavlN {
     // the elements of the vector, for builtin types this means
     // their values will be undefined.
     
-    TFVectorC(const DataT *init);
+    explicit TFVectorC(const DataT *init);
     //: Value constructor.
     // Copy values from 'init'. It is the user's responsibility
     // to ensure that data has at least 'N' elements. 
     
-    TFVectorC(UIntT size)
+    explicit TFVectorC(UIntT size)
     { RavlAssert(size == N); }
     //: This constructor is for compatibility with arbitrarily sized vectors.
     // Used by some templates.
