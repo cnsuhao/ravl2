@@ -18,6 +18,10 @@
 #include "Ravl/DList.hh"
 #include "Ravl/3D/Tri.hh"
 
+namespace RavlN {
+  class Index3dC;
+}
+
 namespace Ravl3DN {
   using namespace RavlN;
 #if RAVL_VISUALCPP_NAMESPACE_BUG
@@ -27,12 +31,12 @@ namespace Ravl3DN {
   using RavlN::RealT;
   using RavlN::RCHandleC;
   using RavlN::DListC;
+  using RavlN::Index3dC;
 #endif
 
   
   class TriMeshBodyC;
   class TriMeshC;
-  
   //! userlevel=Develop
   //: Tri mesh body.
   // This is designed to store meshes, and fast access for vertex and normal value. 
@@ -64,7 +68,10 @@ namespace Ravl3DN {
     TriMeshBodyC(const DListC<Vector3dC> &v,const DListC<UIntT> &faceInd);
     //: Construct from a list of vertices and a list of indices.
     // The length of faceInd should be a power of 3, success triples are taken
-
+    
+    TriMeshBodyC(const DListC<Vector3dC> &v,const DListC<Index3dC> &faceInd);
+    //: Construct from a list of vertices and a list of indices.
+    
     TriMeshBodyC(const SArray1dC<VertexC> &v,const SArray1dC<TriC> &nfaces,bool haveTextureCoord=false)
       : vertices(v),
 	faces(nfaces),
@@ -159,6 +166,11 @@ namespace Ravl3DN {
     {}
     //: Construct from a list of vertices and a list of indices.
     // The length of faceInd should be a power of 3, success triples are taken
+
+    TriMeshC(const DListC<Vector3dC> &v,const DListC<Index3dC> &faceInd)
+      : RCHandleC<TriMeshBodyC>(*new TriMeshBodyC(v,faceInd))
+    {}
+    //: Construct from a list of vertices and a list of indices.
 
     TriMeshC(const SArray1dC<VertexC> &v,const SArray1dC<TriC> &nfaces,bool haveTextureCoord=false)
       : RCHandleC<TriMeshBodyC>(*new TriMeshBodyC(v,nfaces,haveTextureCoord))

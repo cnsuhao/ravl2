@@ -44,19 +44,15 @@ namespace Ravl3DN {
     TexTriMeshBodyC(const SArray1dC<Vector3dC> &vertices,
 		    const SArray1dC<UIntT> &faceIndices)
       : TriMeshBodyC(vertices,faceIndices)
-    {
-      GenerateTextureMap();
-    }
+    { GenerateTextureMap(); }
     //: Construct from an array of vertices and an array of indices.
     // Successive triples are taken from faceIndices to form the faces in the mesh.
     // A texture map and texture coordinates are generated for the mesh.
-
+    
     TexTriMeshBodyC(const SArray1dC<VertexC> &vertices,
 		    const SArray1dC<TriC> &faces)
       : TriMeshBodyC(vertices,faces)
-    {
-      GenerateTextureMap();
-    }
+    { GenerateTextureMap(); }
     //: Construct from an array of vertices and an array of tri's.
     // The TriC's must refer to elements in 'v'.
     // A texture map and texture coordinates are generated for the mesh.
@@ -71,7 +67,7 @@ namespace Ravl3DN {
     { }
     //: Construct from an array of vertices, an array of tri's and the texture images.
     // The TriC's must refer to elements in 'v' and must have texture coordinates.
-
+    
     RCBodyVC& Copy() const
     { return *new TexTriMeshBodyC(*this); }
     //: Make a copy.
@@ -136,10 +132,18 @@ namespace Ravl3DN {
     //: Construct from an array of vertices and an array of tri's.
     // The TriC's must refer to elements in 'v'.
     // A texture map and texture coordinates are generated for the mesh.
-
-    TexTriMeshC(const TriMeshC& mesh)
-      : TriMeshC(*new TexTriMeshBodyC(mesh.Vertices(),mesh.Faces()))
-    {}
+    
+    TexTriMeshC(const TriMeshC& mesh,bool forceConv = true)
+      : TriMeshC(mesh)
+    {
+      if(dynamic_cast<TexTriMeshBodyC *>(&TriMeshC::Body()) == 0) {
+	Invalidate();
+	// Don't like this, but it maintains compatability with old code...
+	
+	if(forceConv)
+	  (*this) = TexTriMeshC(mesh.Vertices(),mesh.Faces());
+      }
+    }
     //: Construct from a TriMesh.
     // Creates a textured mesh that references the vertices and faces in the TriMesh.
     // A texture map and texture coordinates are generated for the mesh.

@@ -15,6 +15,13 @@
 #include "Ravl/SArray1dIter.hh"
 #include "Ravl/SArray1dIter2.hh"
 
+#define DODEBUG 1
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
+
 namespace Ravl3DN {
 #if RAVL_VISUALCPP_NAMESPACE_BUG
   using namespace RavlN;
@@ -51,7 +58,7 @@ namespace Ravl3DN {
   //: Automatically generate texture coordinates and a texture image
   bool TexTriMeshBodyC::GenerateTextureMap(void)
   { 
-    cerr << "Generating a texture map...\n"; 
+    ONDEBUG(cerr << "Generating a texture map...\n"); 
 
     // Check that we have a valid mesh
     IntT iNumFaces = faces.Size();
