@@ -49,7 +49,7 @@ int main(int nargs,char *args[])
 
   gdk_gc_set_foreground(agc,&col);
   gdk_draw_rectangle(&otherbm.Bitmap(),agc,1,4,4,10,10);
-  win.ShapeCombineMask(otherbm.Bitmap());
+  win.ShapeCombineMask(&otherbm.Bitmap());
   
   Manager.Start();
   

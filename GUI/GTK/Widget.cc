@@ -569,9 +569,9 @@ namespace RavlGUIN {
   
   //: Make a shape mask for the widget.
   
-  void WidgetBodyC::ShapeCombineMask(GdkBitmap &mask,int off_x,int off_y) {
+  void WidgetBodyC::ShapeCombineMask(GdkBitmap *mask,int off_x,int off_y) {
     RavlAssert(widget != 0);
-    gtk_widget_shape_combine_mask(widget,&mask,off_x,off_y);
+    gtk_widget_shape_combine_mask(widget,mask,off_x,off_y);
   }
 
   //: Grab keyboard focus.

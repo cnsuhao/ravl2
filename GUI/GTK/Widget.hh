@@ -132,7 +132,7 @@ namespace RavlGUIN {
     void DelEventMask(IntT event);
     //: Remove from the event mask.
     
-    void ShapeCombineMask(GdkBitmap &mask,int off_x = 0,int off_y = 0);
+    void ShapeCombineMask(GdkBitmap *mask,int off_x = 0,int off_y = 0);
     //: Make a shape mask for the widget.
     
     void GUIGrabFocus();
@@ -357,7 +357,7 @@ namespace RavlGUIN {
     { Body().DelEventMask(event); }
     //: Remove from the event mask.
     
-    void ShapeCombineMask(GdkBitmap &mask,int off_x = 0,int off_y = 0)
+    void ShapeCombineMask(GdkBitmap *mask,int off_x = 0,int off_y = 0)
     { Body().ShapeCombineMask(mask,off_x,off_y); }
     //: Make a shape mask for the widget.
     // GUI thread only.
