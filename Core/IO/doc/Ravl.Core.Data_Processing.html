@@ -97,11 +97,13 @@ Simple data pipe.</CAPTION>
 </DIV>
 
 <P>
-Here is an example of a pipe using this type of processing.  The source and sinks are
-classed derived from the templated classes DPIPortC&lt;x&gt; and DPOPortC&lt;x&gt;, they 
+Following is an example of a pipe using this type of processing.  The source and sinks are
+classes derived from the templated classes DPIPortC&lt;x&gt; and DPOPortC&lt;x&gt;, they 
 convert data to and from the standard C++ text streams.  The following code takes
 a series of numbers from the file `in.dat', adds an offset of 2 and scales it by 3,
-calculates a running average of the data and outputs it to `out.dat'
+calculates a running average of the data and outputs it to `out.dat'. Its worth noting
+that there is no need to explicitly add a 'Pump' to the pipe line, as its implied
+by the connecting to an input to an output and is automaticly inserted by the compiler.
 
 <P>
 <BLOCKQUOTE>
