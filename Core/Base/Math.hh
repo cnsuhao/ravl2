@@ -164,14 +164,14 @@ namespace RavlN {
 #endif
   }
   //: Computes sqrt(sqr(a)+sqr(b)) without destructive overflow or underflow.
-
-  inline bool IsSmall(RealT a,RealT norm,RealT isSmall =1e-8)
+  
+  inline bool IsSmall(RealT a,RealT norm = 1,RealT isSmall =1e-8)
   { return ( (Abs(a/norm)) < isSmall );  }
   //: Is a small relative to 'norm' ?
+  // This code does the following test 'Abs(a/norm)) < isSmall'.<p>
   // This code used to be as follows, but it was changed because
   // using x==y for floats is a bad idea, and eventually caused
   // trouble on Visual C++.  (AJS)
-  
   //  float b = (float) ((double) Abs(a) + norm);
   //  return (b == (float) norm);
 
