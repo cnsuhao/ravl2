@@ -93,6 +93,10 @@ namespace RavlGUIN {
     { return static_cast<FrameBodyC &>(WidgetC::Body()); }
     //: Access body.
     
+    const FrameBodyC &Body() const
+    { return static_cast<const FrameBodyC &>(WidgetC::Body()); }
+    //: Access body.
+    
     bool GUISetShadow(GtkShadowType &shadow)
     { return Body().GUISetShadow(shadow); }
     //: Setup shadow.
