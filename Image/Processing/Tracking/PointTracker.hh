@@ -51,6 +51,10 @@ namespace RavlImageN {
     { return tracks; }
     //: Direct access to current tracks list.
     
+    IntT FrameNo() const
+    { return frameCount; }
+    //: Access the current frame number.
+    
   protected:
     UIntT idAlloc;
     IntT frameCount;

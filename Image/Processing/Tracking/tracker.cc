@@ -20,7 +20,7 @@ int main(int nargs,char **argv) {
   OptionC opt(nargs,argv);
   int cthreshold = opt.Int("ct",800,"Corner threshold. ");
   int cwidth     = opt.Int("cw",7,"Corner filter width. ");
-  int mthreshold = opt.Int("mt",20,"Corner threshold. ");
+  int mthreshold = opt.Int("mt",20,"Matching threshold. ");
   int mwidth     = opt.Int("mw",15,"Tracker feature width. ");
   int lifeTime   = opt.Int("ml",8,"Lifetime of a point without a match in the incoming images. ");
   int searchSize = opt.Int("ss",25,"Search size. How far to look from the predicted position of the feature.");

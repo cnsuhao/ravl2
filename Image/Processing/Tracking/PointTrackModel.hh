@@ -64,8 +64,8 @@ namespace RavlImageN {
     //: Access frame number object was last seen.
     
     void Update(const Point2dC &nat,UIntT frameNo,IntT nmatchScore) { 
-      vel = nat - at;
-      at = nat ; 
+      vel = (nat - at) / (RealT)(frameNo - frame);
+      at = nat;
       frame = frameNo;
       matchScore = nmatchScore;
     }
