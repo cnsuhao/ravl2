@@ -154,7 +154,7 @@ namespace RavlN {
     
     inline DataT CityBlockDistance(const TFVectorC<DataT,N> & i) const;
     //: Returns the distance of two indexes in absolute value metric.
-
+    
     inline DataT SqrEuclidDistance(const TFVectorC<DataT,N> & i) const;
     //: Returns the distance of two indexes in square Euclid metric.
     

@@ -371,7 +371,7 @@ namespace RavlN {
     buff = BufferC<DataC>(slice.Size());
     Attach(buff,Range1dC(0,slice.Size()));
     // Copy data.
-    DataC *at = buff.RefrenceElm();
+    DataC *at = buff.ReferenceElm();
     for(Slice1dIterC<DataC> it(slice);it;it++,at++)
       *at = *it;
   }

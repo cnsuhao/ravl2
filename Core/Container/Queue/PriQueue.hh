@@ -49,17 +49,17 @@ namespace RavlN {
     
     D &Top(void);
     //: Look/Modify data on top of queue.
-    // Refrence not garanteed to stay valid
+    // Reference not garanteed to stay valid
     // after any insert/delete operation !
     
     const D &Top(void) const;
     //: Look at data on top of queue.
-    // Refrence not garanteed to stay valid
+    // Reference not garanteed to stay valid
     // after any insert/delete operation !
     
     const K &TopKey(void) const;
     //: Look at key on top of queue.
-    // Refrence not garanteed to stay valid
+    // Reference not garanteed to stay valid
     // after any insert/delete operation !
     
     void DelTop(void);

@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////
 //! userlevel=Normal
 //! author="Charles Galambos"
-//! docentry="Basic Types.Refrence Counting"
+//! docentry="Basic Types.Reference Counting"
 //! lib=RavlCore
 //! rcsid="$Id$"
 //! file="Ravl/Core/Base/RCAbstract.cc"

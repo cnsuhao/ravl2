@@ -65,9 +65,9 @@ namespace RavlN {
 #ifndef RAVL_ATOMIC_INIT
 #define RAVL_ATOMIC_INIT(x) (x)
 #endif
-  StrRepC  _nilStrRepC = { 0, 1, { RAVL_ATOMIC_INIT(1) } , { 0 } }; // nil strings point here (Refrence will never reach 0)
+  StrRepC  _nilStrRepC = { 0, 1, { RAVL_ATOMIC_INIT(1) } , { 0 } }; // nil strings point here (Reference will never reach 0)
 #else
-  StrRepC  _nilStrRepC = { 0, 1, 1 , { 0 } }; // nil strings point here (Refrence will never reach 0)
+  StrRepC  _nilStrRepC = { 0, 1, 1 , { 0 } }; // nil strings point here (Reference will never reach 0)
 #endif
   
   StringC _nilStringC;               // nil SubStringCs point here

@@ -76,7 +76,7 @@ namespace RavlN {
   {
     unsigned int      len;         // string length 
     unsigned int      sz;          // allocated space
-    ravl_atomic_t          refs;        // Refrence counts.
+    ravl_atomic_t          refs;        // Reference counts.
     char              s[1];        // the string starts here 
                                    // (at least 1 char for trailing null)
                                    // allocated & expanded via non-public fcts

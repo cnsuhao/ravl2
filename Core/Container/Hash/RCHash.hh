@@ -20,7 +20,7 @@
 #include "Ravl/RCWrap.hh"
 
 namespace RavlN {
-  //: Refrence counted auto-resizing hash table.
+  //: Reference counted auto-resizing hash table.
   // This is a BIG OBJECT.
   // See HashC for more details. <p>
   // NB. This class requires the standard stream operators to

@@ -71,7 +71,7 @@ namespace RavlN {
     //: Position in stack.
     
   private:
-    StackC<T>&         stack; // Refrence to stack.
+    StackC<T>&         stack; // Reference to stack.
     
     inline void        DecrTop() { 
       if(top==0) { 

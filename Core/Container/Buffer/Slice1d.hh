@@ -58,7 +58,7 @@ namespace RavlN {
     //: Attach a vector to a buffer.
     // size   - Number of elements in the slice.
     // buff   - Buffer in which data is held.
-    // elm    - Refrence to first element in the slice.
+    // elm    - Reference to first element in the slice.
     // stride - distance between successive elements in slice.
     // Element 0 is at 'off' in buffer, and use the given stride.
     
@@ -66,7 +66,7 @@ namespace RavlN {
     //: Attach a vector to a buffer.
     // size   - Number of elements in the slice.
     // buff   - Buffer in which data is held.
-    // elm    - Refrence to first element in the slice.
+    // elm    - Reference to first element in the slice.
     // stride - distance between successive elements in slice.
     // Element 0 is at 'off' in buffer, and use the given stride.
     
