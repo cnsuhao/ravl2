@@ -15,13 +15,24 @@
 
 namespace RavlImageN {
   
-  static const RealT Init_YUVtoRGB_Matrix[] = {0.299,  0.587,  0.114,
-					       -0.148, -0.289,  0.437,
-					       0.615, -0.515, -0.100 };
+  // These are taken directly from the equivelent amma code.
+  // they probably could do with some checking.
+
+  static const RealT Init_YUVtoRGB_Matrix[] = {1.000,  0.000,  1.140,
+					       1.000, -0.395, -0.581,
+					       1.000,  2.032,  0.000};
   
   const TFMatrixC<RealT,3,3> ImageYUVtoRGBMatrix(Init_YUVtoRGB_Matrix);
   
-  const TFMatrixC<RealT,3,3> ImageRGBtoYUVMatrix((1./1.175) * ImageYUVtoRGBMatrix);
+  static const RealT Init_RGBtoYUV_Matrix[] = {0.299,  0.587,  0.114,
+					       -0.148, -0.289,  0.437,
+					       0.615, -0.515, -0.100 };
+
+  
+  const TFMatrixC<RealT,3,3> ImageRGBtoYUVMatrixStd(Init_RGBtoYUV_Matrix );
+  
+  const TFMatrixC<RealT,3,3> ImageRGBtoYUVMatrix(ImageRGBtoYUVMatrixStd * ((1./1.175)));
+
   //: This has been taken from the AMMA code.
   // Is it right ??
   
