@@ -7,14 +7,14 @@
 //! rcsid="$Id$"
 //! lib=RavlAudioIO
 //! author="Charles Galambos"
-//! docentry="Ravl.Audio"
+//! docentry="Ravl.Audio;Ravl.Applications"
 //! userlevel=Normal
 //! file="Ravl/Audio/IO/audioconv.cc"
 
 //: Audio file converter
 // This program is designed to convert audio files between various format.
-// It more efficient than 'conv' for this, and understands audio stream attributes 
-// like sample rate.
+// It is more efficient than "conv" for this, and understands audio
+// stream attributes like sample rate.
 
 #include "Ravl/IO.hh"
 #include "Ravl/Option.hh"
