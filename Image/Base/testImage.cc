@@ -20,6 +20,7 @@
 #include "Ravl/Image/DrawFrame.hh"
 #include "Ravl/Image/DrawCircle.hh"
 #include "Ravl/Image/Reflect.hh"
+#include "Ravl/Image/BilinearInterpolation.hh"
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/IO.hh"
 
@@ -31,6 +32,7 @@ int TestColorCnv();
 int TestDeinterlace();
 int TestFont();
 int TestDraw();
+int TestBilinear();
 
 template class ImageC<int>; // Make sure all functions are compiled.
 
@@ -59,6 +61,10 @@ int main()
      return 1;
   }
   if((lineno = TestDraw()) != 0) {
+    cerr << "Image test failed : " << lineno << "\n";
+     return 1;
+  }
+  if((lineno = TestBilinear()) != 0) {
     cerr << "Image test failed : " << lineno << "\n";
      return 1;
   }
@@ -274,5 +280,22 @@ int TestDraw() {
   if(img[0][0] != 255) return __LINE__;
   if(img[99][99] != 255) return __LINE__;
   if(img[15][10] != 0) return __LINE__;
+  return 0;
+}
+
+int TestBilinear() {
+  ImageC<RealT> img(4,4);
+  img.Fill(0);
+  img[1][1] = 1.0;
+  
+  RealT value;
+  for(int i = 0;i < 3;i++) {
+    for(int j = 0;j < 3;j++) {
+      BilinearInterpolation(img,Point2dC((RealT) i,(RealT) j),value);
+      cerr << "Value=" << value << "\n";
+      if(Abs(img[i][j] - value) > 0.001) return __LINE__;
+    }
+  }
+  
   return 0;
 }

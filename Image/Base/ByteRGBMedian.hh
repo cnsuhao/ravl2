@@ -27,39 +27,37 @@ namespace RavlImageN {
   {
   public:
     ByteRGBGreyValueC()
-      : ByteRGBValueC()
     {}
     //: Default constructor.
     // creates an undefined RGB + grey value pixel.
 
     ByteRGBGreyValueC(ByteT r,ByteT g,ByteT b)
       : ByteRGBValueC(r,g,b)
-    {
-      grey = Y();
-    }
+    { grey = Y(); }
     //: Constructor
-    // Builds an RGB + grey pixel from RGB components.
-
+    // Builds an RGB + grey pixel from RGB components
+    
     ByteRGBGreyValueC(const ByteRGBValueC &pix)
       : ByteRGBValueC(pix)
-    {
-      grey = Y();
-    }
+    { grey = Y(); }
     //: Constructor
     // Builds an RGB + grey pixel from an RGB pixel.
 
+    ByteRGBGreyValueC(const RavlN::TFVectorC<RealT, 3> &value)
+      : ByteRGBValueC((ByteT) value[0],(ByteT) value[1],(ByteT) value[2])
+    { grey = Y(); }
+    //: Constructor.
+    
     ByteT Grey() const
     { return grey; }
     // Grey-level value for pixel
 
-    bool operator<(const ByteRGBGreyValueC &v) {
-      return(Grey() < v.Grey());
-    }
+    bool operator<(const ByteRGBGreyValueC &v) 
+    { return(Grey() < v.Grey()); }
     //: Comparison operator
 
-    bool operator>(const ByteRGBGreyValueC &v) {
-      return(Grey() > v.Grey());
-    }
+    bool operator>(const ByteRGBGreyValueC &v) 
+    { return(Grey() > v.Grey()); }
     //: Comparison operator
 
   private:
@@ -82,9 +80,14 @@ namespace RavlImageN {
 	pixels(10)
     {}
     //: Construct from RGB components
-
-    void Combine(const ByteRGBValueC &pix)
-    {
+    
+    ByteRGBMedianC(const RavlN::TFVectorC<RealT, 3> &value)
+      : ByteRGBValueC((ByteT) value[0],(ByteT) value[1],(ByteT) value[2]),
+	pixels(10)
+    {}
+    //: Constructor.
+    
+    void Combine(const ByteRGBValueC &pix) {
       ByteRGBGreyValueC rgb_grey(pix);
 
       // add new pixel to the collection
