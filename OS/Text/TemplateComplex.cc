@@ -403,8 +403,12 @@ namespace RavlN {
     if(stb == 0) {
       FilenameC fn(data);
       if(templateDir != "") {
-	if(fn.firstchar() != '/')
-	  fn = templateDir + '/' + fn;
+	if(fn.firstchar() != '/') {
+	  if(fn.firstchar() == '@')
+	    fn = fn.after('@');
+	  else
+	    fn = templateDir + '/' + fn;
+	}
       }
       if(!fn.Exists()) {
 	cerr << "Can't find include file '" << data << "' \n";
