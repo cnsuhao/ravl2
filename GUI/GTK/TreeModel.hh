@@ -21,10 +21,12 @@
 #include "Ravl/GUI/Pixbuf.hh"
 #include "Ravl/DP/AttributeType.hh"
 #include "Ravl/DP/AttributeValueTypes.hh"
+#include "Ravl/Threads/Signal2.hh"
 
 extern "C" {
   typedef struct _GtkTreeModel        GtkTreeModel; 
   typedef struct _GtkTreeIter         GtkTreeIter;
+  typedef struct _GtkTreePath         GtkTreePath;
 }
 
 namespace RavlGUIN {
@@ -33,14 +35,17 @@ namespace RavlGUIN {
   //: Handle to row in tree model.
   // Available on GTK+-2.0 and above only.
   
-  class TreeModelRowBodyC 
+  class TreeModelIterBodyC 
     : public RCBodyC
   {
   public:
-    TreeModelRowBodyC();
+    TreeModelIterBodyC();
+    //: Constructor.
+
+    TreeModelIterBodyC(GtkTreeIter *treeIter,bool canFree);
     //: Constructor.
     
-    ~TreeModelRowBodyC();
+    ~TreeModelIterBodyC();
     //: Destructor.
     
     GtkTreeIter *TreeIter()
@@ -49,26 +54,93 @@ namespace RavlGUIN {
 
   protected:
     GtkTreeIter *treeIter;
+    bool canfree;
   };
   
   //! userlevel=Normal
   //: Handle to row in tree model.
   // Available on GTK+-2.0 and above only.
   
-  class TreeModelRowC 
-    : public RCHandleC<TreeModelRowBodyC>
+  class TreeModelIterC 
+    : public RCHandleC<TreeModelIterBodyC>
   {
   public:
-    TreeModelRowC()
-      : RCHandleC<TreeModelRowBodyC>(*new TreeModelRowBodyC())
+    TreeModelIterC()
+      : RCHandleC<TreeModelIterBodyC>(*new TreeModelIterBodyC())
     {}
     //: Default constructor.
+
+    TreeModelIterC(GtkTreeIter *treeIter,bool canFree)
+      : RCHandleC<TreeModelIterBodyC>(*new TreeModelIterBodyC(treeIter,canFree))
+    {}
+    //: Constructor.
     
     GtkTreeIter *TreeIter()
     { return Body().TreeIter(); }
     //: Access tree store.
     
   };
+  
+  //:-------------------------------------------------------------------------------------
+  
+  //! userlevel=Develop
+  //: Handle to row in tree model.
+  // Available on GTK+-2.0 and above only.
+  
+  class TreeModelPathBodyC 
+    : public RCBodyC
+  {
+  public:
+    TreeModelPathBodyC();
+    //: Constructor.
+
+    TreeModelPathBodyC(GtkTreePath *treeIter,bool canFree);
+    //: Constructor.
+    
+    ~TreeModelPathBodyC();
+    //: Destructor.
+    
+    GtkTreePath *TreePath()
+    { return treePath; }
+    //: Access tree store.
+    
+    StringC Text() const;
+    //: Path as text.
+  protected:
+    GtkTreePath *treePath;
+    bool canfree;
+  };
+  
+  
+  //! userlevel=Normal
+  //: Handle to row in tree model.
+  // Available on GTK+-2.0 and above only.
+  
+  class TreeModelPathC 
+    : public RCHandleC<TreeModelPathBodyC>
+  {
+  public:
+    TreeModelPathC()
+      : RCHandleC<TreeModelPathBodyC>(*new TreeModelPathBodyC())
+    {}
+    //: Default constructor.
+    
+    TreeModelPathC(GtkTreePath *treeIter,bool canFree)
+      : RCHandleC<TreeModelPathBodyC>(*new TreeModelPathBodyC(treeIter,canFree))
+    {}
+    //: Constructor.
+    
+    GtkTreePath  *TreePath()
+    { return Body().TreePath(); }
+    //: Access tree store.
+    
+    StringC Text() const
+    { return Body().Text(); }
+    //: Path as text.
+    
+  };
+
+  //:-------------------------------------------------------------------------------------
 
   //! userlevel=Develop
   //: List store body.
@@ -109,29 +181,37 @@ namespace RavlGUIN {
     { return colTypes.Size(); }
     //: Access the number of columns .
     
-    virtual bool AppendRow(TreeModelRowC &rowHandle);
+    virtual bool AppendRow(TreeModelIterC &rowHandle);
     //: Append a row.
     
-    virtual bool DeleteRow(TreeModelRowC &rowHandle);
+    virtual bool DeleteRow(TreeModelIterC &rowHandle);
     //: Delete a row.
     
-    bool GetValue(TreeModelRowC &rowIter,IntT col, IntT &value);
+    bool GetValue(TreeModelIterC &rowIter,IntT col, IntT &value);
     //: Set int value.
     
-    bool GetValue(TreeModelRowC &rowIter,IntT col, bool &value);
+    bool GetValue(TreeModelIterC &rowIter,IntT col, bool &value);
     //: Set bool value.
     
-    bool GetValue(TreeModelRowC &rowIter,IntT col, StringC &value);
+    bool GetValue(TreeModelIterC &rowIter,IntT col, StringC &value);
     //: Set bool value.
     
-    bool GetValue(TreeModelRowC &rowIter,IntT col, PixbufC &value);
+    bool GetValue(TreeModelIterC &rowIter,IntT col, PixbufC &value);
     //: Set bool value. 
     
+    Signal2C<TreeModelPathC,TreeModelIterC> &Signal(const char *name);
+    //: Access tree signal.
+    // Where name is one of "row-changed", "row-deleted","row-has-child-toggled","row-inserted","rows-reordered"
+    
   protected:
+    void ConnectUp(StringC name);
+    //: Create a new signal.
+    
     GtkTreeModel        *model;
     SArray1dC<AttributeTypeC> colTypes;
-    
+    HashC<StringC,Signal2C<TreeModelPathC,TreeModelIterC> > signals;
   };
+
   
   //! userlevel=Normal
   //: List Store
@@ -181,11 +261,11 @@ namespace RavlGUIN {
     { return Body().Cols(); }
     //: Access the number of columns .
     
-    bool AppendRow(TreeModelRowC &rowHandle)
+    bool AppendRow(TreeModelIterC &rowHandle)
     { return Body().AppendRow(rowHandle); }
     //: Append a row.
     
-    bool DeleteRow(TreeModelRowC &rowHandle) 
+    bool DeleteRow(TreeModelIterC &rowHandle) 
     { return Body().DeleteRow(rowHandle); }
     //: Delete a row.
     
@@ -193,21 +273,27 @@ namespace RavlGUIN {
     { return Body().ColNumber(name); }
     //: Look up column number of named column.
     
-    bool GetValue(TreeModelRowC &rowIter,IntT col, IntT &value)
+    bool GetValue(TreeModelIterC &rowIter,IntT col, IntT &value)
     { return Body().GetValue(rowIter,col,value); }
     //: Set int value.
     
-    bool GetValue(TreeModelRowC &rowIter,IntT col, bool &value)
+    bool GetValue(TreeModelIterC &rowIter,IntT col, bool &value)
     { return Body().GetValue(rowIter,col,value); }
     //: Set bool value.
     
-    bool GetValue(TreeModelRowC &rowIter,IntT col, StringC &value)
+    bool GetValue(TreeModelIterC &rowIter,IntT col, StringC &value)
     { return Body().GetValue(rowIter,col,value); }
     //: Set bool value.
     
-    bool GetValue(TreeModelRowC &rowIter,IntT col, PixbufC &value)
+    bool GetValue(TreeModelIterC &rowIter,IntT col, PixbufC &value)
     { return Body().GetValue(rowIter,col,value); }
     //: Set bool value. 
+    
+    Signal2C<TreeModelPathC,TreeModelIterC> &Signal(const char *name)
+    { return Body().Signal(name); }
+    
+    //: Access tree signal.
+    // Where name is one of "row-changed", "row-deleted","row-has-child-toggled","row-inserted","rows-reordered"
     
   };
   

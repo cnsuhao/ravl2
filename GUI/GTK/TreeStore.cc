@@ -34,14 +34,14 @@ namespace RavlGUIN {
   
   //: Delete a row.
   
-  bool TreeStoreBodyC::DeleteRow(TreeModelRowC &rowHandle) {
+  bool TreeStoreBodyC::DeleteRow(TreeModelIterC &rowHandle) {
     gtk_tree_store_remove (GTK_TREE_STORE(model),rowHandle.TreeIter());
     return true;
   }
   
   //: Set int value.
   
-  bool TreeStoreBodyC::SetValue(TreeModelRowC &rowIter,IntT col, IntT value) {
+  bool TreeStoreBodyC::SetValue(TreeModelIterC &rowIter,IntT col, IntT value) {
 #if 0
     GValue gval;
     g_value_init(&gval,G_TYPE_INT);
@@ -55,7 +55,7 @@ namespace RavlGUIN {
   
   //: Set bool value.
   
-  bool TreeStoreBodyC::SetValue(TreeModelRowC &rowIter,IntT col, bool value) {
+  bool TreeStoreBodyC::SetValue(TreeModelIterC &rowIter,IntT col, bool value) {
 #if 0
     GValue gval;
     g_value_init(&gval,G_TYPE_BOOLEAN);
@@ -69,14 +69,14 @@ namespace RavlGUIN {
   
   //: Set bool value.
   
-  bool TreeStoreBodyC::SetValue(TreeModelRowC &rowIter,IntT col, const StringC &value) {
+  bool TreeStoreBodyC::SetValue(TreeModelIterC &rowIter,IntT col, const StringC &value) {
     gtk_tree_store_set(GTK_TREE_STORE(model),rowIter.TreeIter(),col,const_cast<char *>(value.chars()),-1);
     return true;    
   }
 
   //: Set bool value.
   
-  bool TreeStoreBodyC::SetValue(TreeModelRowC &rowIter,IntT col, const PixbufC &value) {
+  bool TreeStoreBodyC::SetValue(TreeModelIterC &rowIter,IntT col, const PixbufC &value) {
     //gtk_tree_store_set_value(GTK_TREE_STORE(model),rowIter.TreeIter(),col,G_VALUE(value.Pixmap()));
     gtk_tree_store_set(GTK_TREE_STORE(model),rowIter.TreeIter(),col,value.Pixbuf(),-1);
     return true;
@@ -85,14 +85,14 @@ namespace RavlGUIN {
   
   //: Append a row.
   
-  bool TreeStoreBodyC::AppendRow(TreeModelRowC &rowIter,TreeModelRowC &parentIter) {
+  bool TreeStoreBodyC::AppendRow(TreeModelIterC &rowIter,TreeModelIterC &parentIter) {
     gtk_tree_store_append (GTK_TREE_STORE(model), rowIter.TreeIter(),parentIter.TreeIter());
     return true;
   }
   
   //: Append a row.
 
-  bool TreeStoreBodyC::AppendRow(TreeModelRowC &rowIter) {
+  bool TreeStoreBodyC::AppendRow(TreeModelIterC &rowIter) {
     gtk_tree_store_append (GTK_TREE_STORE(model), rowIter.TreeIter(),0);
     return true;
   }
@@ -107,8 +107,7 @@ namespace RavlGUIN {
     for(SArray1dIter2C<GType,AttributeTypeC> it(types,colTypes);it;it++)
       it.Data1() = Ravl2GTKType(it.Data2().ValueType());
     model = GTK_TREE_MODEL(gtk_tree_store_newv(colTypes.Size(),&(types[0])));
-    
-    return true;
+    return TreeModelBodyC::Create();
   }
 
 }

@@ -45,17 +45,17 @@ namespace RavlGUIN {
     { return treeModel; }
     //: Access tree model.
     
-    DListC<TreeModelRowC> GUISelected();
+    DListC<TreeModelIterC> GUISelected();
     //: Get list of selected rows.
     
-    Signal1C<DListC<TreeModelRowC> > &SelectionChanged()
+    Signal1C<DListC<TreeModelIterC> > &SelectionChanged()
     { return selectionChanged; }
     //: Access selection changed signal.
     
   protected:
     TreeModelC treeModel;
     GtkTreeSelection *selection;
-    Signal1C<DListC<TreeModelRowC> > selectionChanged;
+    Signal1C<DListC<TreeModelIterC> > selectionChanged;
     DListC<StringC> displayColumns;
   };
   
@@ -98,11 +98,11 @@ namespace RavlGUIN {
     { return Body().TreeModel(); }
     //: Access tree model.
     
-    DListC<TreeModelRowC> GUISelected()
+    DListC<TreeModelIterC> GUISelected()
     { return Body().GUISelected(); }
     //: Get list of selected rows.
     
-    Signal1C<DListC<TreeModelRowC> > &SelectionChanged()
+    Signal1C<DListC<TreeModelIterC> > &SelectionChanged()
     { return Body().SelectionChanged(); }
     //: Access selection changed signal.
     

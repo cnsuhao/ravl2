@@ -43,25 +43,25 @@ namespace RavlGUIN {
     virtual bool Create();
     //: Create the widget.
     
-    bool AppendRow(TreeModelRowC &rowIter,TreeModelRowC &parentIter);
+    bool AppendRow(TreeModelIterC &rowIter,TreeModelIterC &parentIter);
     //: Append a row.
     
-    virtual bool AppendRow(TreeModelRowC &rowHandle);
+    virtual bool AppendRow(TreeModelIterC &rowHandle);
     //: Append a row.
     
-    virtual bool DeleteRow(TreeModelRowC &rowHandle);
+    virtual bool DeleteRow(TreeModelIterC &rowHandle);
     //: Delete a row.
     
-    bool SetValue(TreeModelRowC &rowIter,IntT col, IntT value);
+    bool SetValue(TreeModelIterC &rowIter,IntT col, IntT value);
     //: Set int value.
     
-    bool SetValue(TreeModelRowC &rowIter,IntT col, bool value);
+    bool SetValue(TreeModelIterC &rowIter,IntT col, bool value);
     //: Set bool value.
     
-    bool SetValue(TreeModelRowC &rowIter,IntT col, const StringC &value);
+    bool SetValue(TreeModelIterC &rowIter,IntT col, const StringC &value);
     //: Set bool value.
     
-    bool SetValue(TreeModelRowC &rowIter,IntT col, const PixbufC &value);
+    bool SetValue(TreeModelIterC &rowIter,IntT col, const PixbufC &value);
     //: Set bool value.
     
   protected:
@@ -100,27 +100,27 @@ namespace RavlGUIN {
     //: Access body.
     
   public:
-    bool AppendRow(TreeModelRowC &rowHandle,TreeModelRowC &parentHandle)
+    bool AppendRow(TreeModelIterC &rowHandle,TreeModelIterC &parentHandle)
     { return Body().AppendRow(rowHandle,parentHandle); }
     //: Append a row.
     
-    bool AppendRow(TreeModelRowC &rowHandle)
+    bool AppendRow(TreeModelIterC &rowHandle)
     { return Body().AppendRow(rowHandle); }
     //: Append a row.
     
-    bool SetValue(TreeModelRowC &rowIter,IntT col, IntT value) 
+    bool SetValue(TreeModelIterC &rowIter,IntT col, IntT value) 
     { return Body().SetValue(rowIter,col,value); }
     //: Set int value.
     
-    bool SetValue(TreeModelRowC &rowIter,IntT col, bool value)
+    bool SetValue(TreeModelIterC &rowIter,IntT col, bool value)
     { return Body().SetValue(rowIter,col,value); }
     //: Set bool value.
     
-    bool SetValue(TreeModelRowC &rowIter,IntT col, const StringC &value)
+    bool SetValue(TreeModelIterC &rowIter,IntT col, const StringC &value)
     { return Body().SetValue(rowIter,col,value); }
     //: Set bool value.
     
-    bool SetValue(TreeModelRowC &rowIter,IntT col, const PixbufC &value)
+    bool SetValue(TreeModelIterC &rowIter,IntT col, const PixbufC &value)
     { return Body().SetValue(rowIter,col,value); }
     //: Set bool value.
         

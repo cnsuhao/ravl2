@@ -23,8 +23,8 @@ namespace RavlGUIN {
   static void tree_selection_changed_cb (GtkTreeSelection *selection, gpointer obj) {
     TreeViewBodyC *bod = (TreeViewBodyC *) obj;
     GtkTreeModel *model;
-    TreeModelRowC rowIter;
-    DListC<TreeModelRowC> ret;
+    TreeModelIterC rowIter;
+    DListC<TreeModelIterC> ret;
     if (gtk_tree_selection_get_selected (selection, &model, rowIter.TreeIter()))
       ret.InsLast(rowIter);
     bod->SelectionChanged()(ret);
@@ -35,7 +35,7 @@ namespace RavlGUIN {
   TreeViewBodyC::TreeViewBodyC(const TreeModelC &tm,const DListC<StringC> &ndisplayColumns) 
     : treeModel(tm),
       selection(0),
-      selectionChanged(DListC<TreeModelRowC>()),
+      selectionChanged(DListC<TreeModelIterC>()),
       displayColumns(ndisplayColumns)
   {}
   
@@ -137,12 +137,12 @@ namespace RavlGUIN {
 
   //: Get list of selected rows.
   
-  DListC<TreeModelRowC> TreeViewBodyC::GUISelected() {
-    DListC<TreeModelRowC> ret;
+  DListC<TreeModelIterC> TreeViewBodyC::GUISelected() {
+    DListC<TreeModelIterC> ret;
     if(selection == 0)
       return ret; // Not created yet!.
     GtkTreeModel *model;
-    TreeModelRowC rowIter;
+    TreeModelIterC rowIter;
     if (gtk_tree_selection_get_selected (selection, &model, rowIter.TreeIter()))
       ret.InsLast(rowIter);
     return ret;
