@@ -467,6 +467,22 @@ namespace RavlN {
     *this = TBuff;
   }
   
+  //: Create a string from Int
+  
+  StringC::StringC(Int64T n) {
+    char TBuff[64];
+    sprintf(TBuff,"%ll",n);
+    *this = TBuff;
+  }
+    
+  //: Create a string from unsigned int
+  
+  StringC::StringC(UInt64T n) {
+    char TBuff[64];
+    sprintf(TBuff,"%ull",n);
+    *this = TBuff;    
+  }
+
   StringC::StringC(istream & in) {
     in >> *this;
   }
@@ -1374,7 +1390,19 @@ namespace RavlN {
   IntT StringC::IntValue() const {
     return atoi(chars());
   }
-    
+  
+  //: Interpret string as an integer.
+  
+  Int64T StringC::Int64Value() const {
+    return atoll(chars());
+  }
+  
+  //: Interpret string as an integer.
+  
+  UInt64T StringC::UInt64Value() const {
+    return (UInt64T) atoll(chars());
+  }
+  
   //: Interpret stream as a floating point value.
   
   RealT StringC::RealValue() const {
@@ -1385,6 +1413,18 @@ namespace RavlN {
   
   IntT SubStringC::IntValue() const {
     return atoi(chars());
+  }
+  
+  //: Interpret stream as an integer.
+  
+  UInt64T SubStringC::UInt64Value() const {
+    return (UInt64T) atoll(chars());
+  }
+  
+  //: Interpret string as an integer.
+  
+  Int64T SubStringC::Int64Value() const {
+    return atoll(chars());
   }
   
   //: Interpret string as a floating point value.

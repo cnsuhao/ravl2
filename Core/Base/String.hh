@@ -272,6 +272,12 @@ namespace RavlN {
     explicit StringC(UIntT n);
     //: Create a string from unsigned int
     
+    explicit StringC(Int64T n);
+    //: Create a string from Int
+    
+    explicit StringC(UInt64T n);
+    //: Create a string from unsigned int
+    
     explicit StringC(RealT val); 
     //: Create a string from real value
     
@@ -692,6 +698,12 @@ namespace RavlN {
     IntT IntValue() const;
     //: Interpret string as an integer.
     
+    Int64T Int64Value() const;
+    //: Interpret string as an integer.
+    
+    UInt64T UInt64Value() const;
+    //: Interpret string as an integer.
+    
     RealT RealValue() const;
     //: Interpret string as a floating point value.
     
@@ -908,6 +920,12 @@ namespace RavlN {
     //: Remove while space from begining and end of string.
     
     IntT IntValue() const;
+    //: Interpret string as an integer.
+    
+    Int64T Int64Value() const;
+    //: Interpret string as an integer.
+    
+    UInt64T UInt64Value() const;
     //: Interpret string as an integer.
     
     RealT RealValue() const;

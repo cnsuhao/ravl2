@@ -51,6 +51,14 @@ int testString() {
     test.gsub("*","Hello");
     if(test.freq("Hello") != 3) return __LINE__;
   }
+  for(Int64T i = 0;i < 10;i++) {
+    StringC ui(i);
+    if(ui.Int64TValue() != i) return __LINE__;
+    
+    StringC sui((UInt64T)i);
+    if(sui.UInt64TValue() != (UInt64T)i) return __LINE__;
+  }
+  
   return 0;
 }
 
