@@ -67,14 +67,17 @@ namespace RavlN {
     { return iters[i]; }
     //: Access a given iterator.
     
-    inline void InsLast(UIntT i,const T &Item)
-    { iters[i].InsertAft(Item); }
+    inline void InsLast(UIntT i,const T &item)
+    { iters[i].InsertAft(item); }
     //: Add item to list for position i.
     
-    inline void InsLast(const T &Item); 
+    inline void InsLast(const T &item); 
     //: Add to all lists.
     
-    inline void InsLast(UIntT i,DListC<T> &Items);
+    inline void InsLast(UIntT i,DListC<T> &items);
+    //: Add items to list for position i.
+    
+    inline void InsLast(UIntT i,const SArray1dC<T> &items);
     //: Add items to list for position i.
     
     inline void Del(UIntT i);             
@@ -137,15 +140,21 @@ namespace RavlN {
   }
   
   template<class T>
-  inline void PermutationIterC<T>::InsLast(const T &Item)  {
+  inline void PermutationIterC<T>::InsLast(const T &item)  {
     for(UIntT i = 0;i < iters.Size();i++)
-      iters[i].InsertAft(Item);
+      iters[i].InsertAft(item);
   }
   
   template<class T>
   void PermutationIterC<T>::InsLast(UIntT i,DListC<T> &items)  {
-    for(DLIterC<T> it(items);it.IsElm();it.Next())
-      iters[i].InsertAft(it.Data());
+    for(DLIterC<T> it(items);it;it++)
+      iters[i].InsertAft(*it);
+  }
+
+  template<class T>
+  void PermutationIterC<T>::InsLast(UIntT i,const SArray1dC<T> &items) {
+    for(SArray1dIterC<T> it(items);it;it++)
+      iters[i].InsertAft(*it);
   }
   
   template<class T>
