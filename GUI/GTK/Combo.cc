@@ -8,6 +8,7 @@
 //! rcsid="$Id$"
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/Combo.cc"
+//! example=exCombo.cc
 
 #include "Ravl/Threads/Signal1.hh"
 #include "Ravl/Threads/Signal2.hh"
