@@ -81,7 +81,7 @@ namespace RavlImageN {
     
     RealT &Direction()
     { return direction; }
-    //: Direction direction in radians
+    //: Edge direction in radians
     
     RealT &Magnitude()
     { return magnitude; }
@@ -93,7 +93,7 @@ namespace RavlImageN {
     
     RealT Direction() const
     { return direction; }
-    //: Direction in Radians
+    //: Edge direction in Radians
     
     RealT Magnitude() const
     { return magnitude; }
