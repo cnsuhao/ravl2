@@ -21,6 +21,7 @@
 #include "Ravl/MatrixRS.hh"
 #include "Ravl/MatrixDecomposition.hh"
 #include "Ravl/Vector.hh"
+#include "Ravl/LeastSquares.hh"
 
 using namespace RavlN;
 
@@ -34,6 +35,7 @@ int testVector();
 int testInverse();
 int testATAandAAT();
 int testSolve();
+int testLSQFixedRank();
 
 int main() {
   int ln;
@@ -75,6 +77,10 @@ int main() {
   }
   if((ln = testSolve()) != 0) {
     cerr << "testSolve() failed. Line:" << ln << "\n";
+    return 1;
+  }
+  if((ln = testLSQFixedRank()) != 0) {
+    cerr << "testLSQFixedRank() failed. Line:" << ln << "\n";
     return 1;
   }
   cerr << "Test passed. \n";
@@ -410,6 +416,30 @@ int testSolve() {
   //cerr << "b=" << b << "\n";
   if(MatrixC(c - b).SumOfSqr() > 0.0001)
     return __LINE__;
+  
+  return 0;
+}
+
+int testLSQFixedRank() {
+  cerr << "testLSQFixedRank(), Called. \n";
+  VectorC b(3);
+  b[0] = 1;
+  b[1] = 2;
+  b[2] = 3;
+  MatrixC A(3,2);
+  A[0][0] = 0.1; A[0][1] = 0.2;
+  A[1][0] = 0.3; A[1][1] = 0.4;
+  A[2][0] = 0.5; A[2][1] = 0.6;
+  
+  VectorC res = LeastSquaresFixedRank(A,b,1);
+  if(res.Size() != 2) return __LINE__;
+  if(Abs(res[0] - 2.43172) > 0.0001) return __LINE__;
+  if(Abs(res[1] - 3.0803) > 0.0001) return __LINE__;
+  res = LeastSquaresFixedRank(A,b,2);
+  //cerr << "Result=" << res << "\n";
+  if(res.Size() != 2) return __LINE__;
+  if(Abs(res[0]) > 0.000001) return __LINE__;
+  if(Abs(res[1] - 5) > 0.0001) return __LINE__;
   
   return 0;
 }
