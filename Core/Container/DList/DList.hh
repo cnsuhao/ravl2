@@ -173,7 +173,7 @@ namespace RavlN {
     
     const DataT &Last() const 
     { return LastLink().Data(); }
-    //: Get first element in list.
+    //: Get last element in list.
     // Note, list MUST be non-empty.
     
     bool Del(const DataT &x);
@@ -409,7 +409,7 @@ namespace RavlN {
     
     DataT &Last() 
     { return  Body().Last(); }
-    //: Get first element in list.
+    //: Get last element in list.
     // NB. List MUST be non-empty.
     
     const DataT &First() const 
@@ -419,7 +419,7 @@ namespace RavlN {
     
     const DataT &Last() const 
     { return Body().Last(); }
-    //: Get first element in list.
+    //: Get last element in list.
     // NB. List MUST be non-empty.
     
     bool Del(const DataT &x)
