@@ -16,6 +16,7 @@
 #include "Ravl/Matrix.hh"
 
 namespace RavlN {
+  class MatrixRSC;
   
   SArray1dC<IntT> LUDecomposition(MatrixC &mat,RealT &d);
   //: LU Decomposition with partial pivoting.
@@ -51,7 +52,13 @@ namespace RavlN {
   //: Back substitute.
   // LU Matrix must be in LU form. Intended to work with the output of LUDecompositionPD(..)
   
-
+  bool CholeskyDecomposition(const MatrixRSC &m,MatrixC &l);
+  //: Perform Cholesky decomposition of rs.  
+  // Such that m = l.T() * l where the matrix 'm' is positive definite
+  //!param: m - Matrix to decompose
+  //!param: l - Variable to hold result
+  //!return: True if decomposition is successfull.
+  
 }
 
 

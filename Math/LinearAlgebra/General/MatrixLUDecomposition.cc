@@ -169,6 +169,28 @@ namespace RavlN {
     }
   }
   
-  
+  bool CholeskyDecomposition(const MatrixRSC &rs,MatrixC &ret) {
+    const int n = rs.Rows();
+    ret = MatrixC(n,rs.Cols());
+    ret.Fill(0);
+    for(int i = 0;i < n;i++) {
+      SizeBufferAccessC<RealT> rowi = ret[i];
+      for(int j = i;j < n;j++) {
+	RealT sum = rs[i][j];
+	SizeBufferAccessC<RealT> rowj = ret[j];
+	for(BufferAccessIter2C<RealT,RealT> it(rowi,rowj,IndexRangeC(0,i-1));it;it++)
+	  sum -= it.Data1() * it.Data2();
+	if(i == j) {
+	  //RavlAssertMsg(sum > 0.0,"Matrix is not positive definite. ");
+	  if(sum <= 0.0)
+	    return false;
+	  ret[i][i] = Sqrt(sum);
+	} else
+	  ret[j][i] = sum/ret[i][i];
+      }
+    }
+    return true;
+  }
+ 
   
 }

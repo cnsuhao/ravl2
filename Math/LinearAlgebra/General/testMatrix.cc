@@ -31,6 +31,7 @@ int testMisc();
 int testMatrixRUT();
 int testDet();
 int testLUDecomposition();
+int testCholeskyDecomposition();
 int testVector();
 int testInverse();
 int testATAandAAT();
@@ -39,6 +40,7 @@ int testLSQFixedRank();
 
 int main() {
   int ln;
+#if 1
   if((ln = testSVD()) != 0) {
     cerr << "testSVD failed. Line:" << ln << "\n";
     return 1;
@@ -55,6 +57,10 @@ int main() {
     cerr << "testEigen() failed. Line:" << ln << "\n";
     return 1;
   }
+  if((ln = testCholeskyDecomposition()) != 0) {
+    cerr << "testCholeskyDecomposition() failed. Line:" << ln << "\n";
+    return 1;
+  }  
   if((ln = testLUDecomposition()) != 0) {
     cerr << "testLUDecomposition() failed. Line:" << ln << "\n";
     return 1;
@@ -83,6 +89,7 @@ int main() {
     cerr << "testLSQFixedRank() failed. Line:" << ln << "\n";
     return 1;
   }
+#endif
   cerr << "Test passed. \n";
   return 0;
 }
@@ -257,6 +264,18 @@ int testDet() {
   return 0;
 }
 
+int testCholeskyDecomposition() {
+  cerr << "testCholeskyDecomposition(), Called. \n";
+  MatrixRSC rs = RandomPositiveDefiniteMatrix(4);  
+  //cerr << "RS=" << rs << "\n";
+  MatrixC l;
+  if(!CholeskyDecomposition(rs,l)) return __LINE__;
+  //cerr << "l=" << l <<"\n";
+  MatrixC nrs = l * l.T();
+  //cerr << "nrs=" << nrs <<"\n";
+  if((rs - nrs).SumOfSqr() > 0.000001) return __LINE__;
+  return 0;
+}
 
 int testLUDecomposition() {
   cerr << "testLUDecomposition(), Called. \n";
