@@ -7,6 +7,9 @@
 //! rcsid="$Id$"
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Euclidean/2D/testGeom2d.cc"
+//! docentry="Ravl.Math.Geometry.2D"
+//! author="Charles Galambos"
+//! userlevel=Develop
 
 #include "Ravl/Moments2d2.hh"
 #include "Ravl/Stream.hh"

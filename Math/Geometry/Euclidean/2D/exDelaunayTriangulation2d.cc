@@ -27,24 +27,34 @@ int main(int nargs,char **argv) {
   IntT npnts = opt.Int("p",5,"Number of points to use. ");
   IntT seed = opt.Int("rs",1,"Random number seed. ");
   Index2dC size = opt.Index2d("s",300,300,"Size of image. ");
+  IntT loop = opt.Int("l",1,"Number of meshes to check . ");
   opt.Check();
   
-  RandomSeedDefault(seed);
-  
+  HEMesh2dC mesh;
   ImageC<ByteT> img(size[0],size[1]);
   img.Fill(0);
   
-  Array1dC<Point2dC> pnts(npnts);
-  
-  // Generate a point set.
-  for(UIntT i = 0;i < pnts.Size();i++)
-    pnts[i] = Point2dC(Random1() * size[0],Random1() * size[1]);
-  
-  HEMesh2dC mesh = DelaunayTriangulation(pnts);
+  for(int i = 0;i < loop;i++) {
+    cerr << "Seed=" << seed + i << "\n";
+    RandomSeedDefault(seed + i);
+    
+    Array1dC<Point2dC> pnts(npnts);
+    
+    // Generate a point set.
+    for(UIntT i = 0;i < pnts.Size();i++)
+      pnts[i] = Point2dC(Random1() * size[0],Random1() * size[1]);
+    
+    mesh = DelaunayTriangulation(pnts);
+    //cerr << "Checking mesh:\n";
+    mesh.CheckMesh(true);
+  }
   
   Point2dC x(size[0]/2,size[1]/2);
   
-  THEMeshFaceC<Point2dC> fface = mesh.FindFace(x);
+  // Draw Mesh
+  
+  //THEMeshFaceC<Point2dC> fface = mesh.FindFace(x);
+  THEMeshFaceC<Point2dC> fface;
   for(THEMeshFaceIterC<Point2dC> mit(mesh.Faces());mit;mit++) {
     for(THEMeshFaceEdgeIterC<Point2dC> eit(*mit);eit;eit++) {
       if(!eit->HasPair()) {
@@ -65,7 +75,7 @@ int main(int nargs,char **argv) {
       }
     }
   }
-  
-  Save(file,img);
+  if(!file.IsEmpty())
+    Save(file,img);
   return 0;
 }

@@ -53,7 +53,7 @@ namespace RavlN {
     
     // Twist edge in the face.
     mesh.TwistEdge(edge,edge.Next(),edge.Pair().Next());
-    //RavlAssert(mesh.CheckMesh(true));
+    RavlAssert(mesh.CheckMesh(true));
     
     // Check resulting triangles are ok.
     RavlAssert(edge.Next().Next().Vertex() == pr);
@@ -79,7 +79,8 @@ namespace RavlN {
 	//ONDEBUG(cerr << "FindFace(), " << (*eit).Prev().Vertex().Data() << " " << eit->Vertex().Data() << " -> " << !line.IsPointToLeftOn(pnt) << "\n");
 	if(!line.IsPointToLeftOn(pnt))
 	  break;
-	if(line.IsPointOn(pnt)) {
+	if(line.IsPointIn(pnt)) {
+	  cerr << "Point is on a line. Point=" << pnt << " Line=" << line << "\n";
 	  me = *eit;
 	  return *it;
 	}
@@ -102,11 +103,13 @@ namespace RavlN {
     ONDEBUG(cerr << "DelaunayTriangulation(), Called. \n");
     
     Array1dIterC<Point2dC> xit(points);
+    if(!xit)
+      return ret;
     RealRange2dC box(*xit,0);
     for(xit++;xit;xit++)
       box.Involve(*xit);
     
-    Point2dC off(box.RowRange().Size() * 100,box.ColRange().Size() * 100 );
+    Point2dC off((box.RowRange().Size()+1) * 100,(box.ColRange().Size() + 1) * 100 );
     
     // Create initial face.
     
@@ -127,8 +130,12 @@ namespace RavlN {
       it.Data2() = vertex;
       HEMeshBaseEdgeC me;
       THEMeshFaceC<Point2dC> face = FindFace(ret,me,it.Data1());
-      if(!face.IsValid())
+#if 0
+      if(face.IsValid())
 	face = firstFace;
+#else
+      RavlAssert(face.IsValid());
+#endif
       if(!me.IsValid()) { // Insert vertex in face.
 	ONDEBUG(cerr << "HEMesh2dC DelaunayTriangulation(), Inserting vertex in face. \n");
 	RavlAssert(face.Sides() == 3);
@@ -139,15 +146,21 @@ namespace RavlN {
 	
 	ret.InsertVertexInFace(vertex,face);
 	
+	RavlAssert(ret.CheckMesh(true));
+	
 	LegaliseEdge(ret,e1);	
 	LegaliseEdge(ret,e2);
 	LegaliseEdge(ret,e3);
 	
       } else { // Insert vertex on edge.
-	ONDEBUG(cerr << "HEMesh2dC DelaunayTriangulation(), Inserting vertex in edge. \n");
+	ONDEBUG(cerr << "HEMesh2dC DelaunayTriangulation(), Inserting vertex on edge. \n");
 	
 	ret.InsertVertexInEdgeTri(vertex,me);
+	
+	RavlAssert(ret.CheckMesh(true));
+	
 	THEMeshVertexEdgeIterC<Point2dC> it(vertex);
+	RavlAssert(it);
 	THEMeshEdgeC<Point2dC> e1 = (*it).Prev(); it++;
 	THEMeshEdgeC<Point2dC> e2 = (*it).Prev(); it++;
 	THEMeshEdgeC<Point2dC> e3 = (*it).Prev(); it++;
@@ -159,8 +172,13 @@ namespace RavlN {
 	LegaliseEdge(ret,e4);
       }
     }
-    for(int i = 0;i < 3;i++)
+    RavlAssert(ret.CheckMesh(true));
+#if 1
+    for(int i = 0;i < 3;i++) {
       ret.DeleteVertex(tempFace[i]);
+      RavlAssert(ret.CheckMesh(true));
+    }
+#endif
     return ret;
   }
 

@@ -11,7 +11,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Math.Geometry.2D"
 //! lib=RavlMath
-
+//! example=exHEMesh2d.cc
 #include "Ravl/THEMesh.hh"
 #include "Ravl/Point2d.hh"
 #include "Ravl/RealRange2d.hh"

@@ -31,4 +31,4 @@ PROGLIBS=RavlIO RavlDPDisplay.opt
 
 TESTEXES=testLine2d.cc testGeom2d.cc 
 
-EXAMPLES= exDelaunayTriangulation2d.cc
+EXAMPLES= exDelaunayTriangulation2d.cc exHEMesh2d.cc
