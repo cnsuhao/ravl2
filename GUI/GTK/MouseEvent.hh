@@ -20,7 +20,7 @@
 // Namespace fix for Visual C++
 #ifdef RAVL_COMPILER_VISUALCPP6
 #ifndef RavlGUIN
-//#define RavlGUIN RavlN
+#define RavlGUIN RavlN
 #endif
 #endif
 
