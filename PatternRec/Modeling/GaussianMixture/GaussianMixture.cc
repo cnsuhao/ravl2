@@ -167,7 +167,7 @@ namespace RavlN {
     //: First we have to check for very small variances
     //: The smallest variance we allow
     RealT smallVariance = 0.001;
-    RealT smallDeterminant = 1e-100;
+    RealT smallDeterminant = 1e-150;
 
     //: lets regularise our model
     //: this has effect of increasing the distance slighty in all orthogonal directions

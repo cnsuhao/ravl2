@@ -62,6 +62,14 @@ namespace RavlN {
     IntT NoGaussians() const
     { return weights.Size(); }
     //: Return the number of gaussians in the model.
+
+    SArray1dC<MeanCovarianceC> MeanCovariances()
+    { return params; }
+    //: Access the mean and covariance of each component of the mixture.
+    
+    SArray1dC<RealT> Weights()
+    { return weights; }
+    //: Access weights for the components of the mixture.
     
   protected:
     void precompute(bool regularise=true);
@@ -150,6 +158,14 @@ namespace RavlN {
     IntT NoGaussians() const
     { return Body().NoGaussians(); }
     //: Return the number of gaussians in the model.
+    
+    SArray1dC<MeanCovarianceC> MeanCovariances()
+    { return Body().MeanCovariances(); }
+    //: Access the mean and covariance of each component of the mixture.
+    
+    SArray1dC<RealT> Weights()
+    { return Body().Weights(); }
+    //: Access weights for the components of the mixture.
 
   };
 
