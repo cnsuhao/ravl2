@@ -298,7 +298,11 @@ namespace RavlN {
   bool ChildOSProcessBodyC::CheckExit(bool block) {
 #ifndef VISUAL_CPP
     int stat,id;
-    if((id = waitpid(pid,&stat,WNOHANG)) == 0) {
+    int opt = WNOHANG;
+#if RAVL_OS_LINUX
+    opt |= __WALL;
+#endif
+    if((id = waitpid(pid,&stat,opt)) == 0) {
       if(errno == ECHILD) { // No such child ??
 	exitok = false;
 	exitcode = 0;
@@ -307,7 +311,8 @@ namespace RavlN {
       return false; // OSProcess is still running.
     }
     if(id < 0) {
-      cerr << "ChildOSProcessBodyC::IsRunning(), waitpid failed. \n";
+      if(errno != ECHILD)
+	cerr << "ChildOSProcessBodyC::IsRunning(), waitpid failed. " << id << " errno=" << errno << "\n";
       exitok = false;
       exitcode = 0;
       return true;
