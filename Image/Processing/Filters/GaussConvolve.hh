@@ -77,8 +77,8 @@ namespace RavlImageN {
       conv.Apply(in, op);
       return op;
     }
-    //: Performs histogram equalisation on image 'in'.
-    // Returns a new equalised image.
+    //: Performs Gaussian filter on image 'in'.
+    // Returns a new filtered image.
     
     Array1dC<KernelPixelT> &Filter()
     { return binomial; }
