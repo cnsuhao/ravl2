@@ -225,6 +225,7 @@ ChildOSProcessC::ChildOSProcessC(StringC cmd,bool useStdOut,bool useStdErr,bool 
       execvp(*arglst,arglst); 
       // If no error this won't return.
       perror("ChildOSProcessBodyC::Run(): execvp failed ");
+      cerr << "ChildOSProcessBodyC::Run(), Failed to run '" << args.First() << "' \n";
       _exit(-1);
     }
     // Close unneeded file descriptors.
