@@ -81,7 +81,8 @@ namespace RavlN {
   
   
   RAVL_INITVIRTUALCONSTRUCTOR_FULL(FuncMeanProjectionBodyC,FuncMeanProjectionC,FunctionC);
-
-
+  FileFormatStreamC <FuncMeanProjectionC> FileFormatStream_FuncMeanProjectionC;
+  FileFormatBinStreamC <FuncMeanProjectionC> FileFormatBinStream_FuncMeanProjectionC;
+  static TypeNameC typenameFuncMeanProjection(typeid(FuncMeanProjectionC),"FuncMeanProjectionC");
 
 }
