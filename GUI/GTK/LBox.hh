@@ -4,15 +4,16 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLGUILBOX_HEADER
-#define RAVLGUILBOX_HEADER 1
+#ifndef RAVLGUI_LBOX_HEADER
+#define RAVLGUI_LBOX_HEADER 1
 ////////////////////////////////////////////
 //! file="Ravl/GUI/GTK/LBox.hh"
 //! lib=RavlGUI
 //! author="Charles Galambos"
-//! date="23/03/99"
+//! date="23/03/1999"
 //! docentry="Ravl.GUI.Layout"
 //! rcsid="$Id$"
+//! example=exLBox.cc
 
 #include "Ravl/GUI/CWidget.hh"
 

@@ -4,15 +4,15 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLGUICURSOR_HEADER
-#define RAVLGUICURSOR_HEADER
+#ifndef RAVLGUI_CURSOR_HEADER
+#define RAVLGUI_CURSOR_HEADER
 ////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/GUI/GTK/Cursor.hh"
 //! lib=RavlGUI
 //! docentry="Ravl.GUI.Layout"
 //! author="Charles Galambos"
-//! date="17/06/99"
+//! date="17/06/1999"
 //! example=exCursor.cc
 
 #include "Ravl/GUI/GTKTypes.hh"

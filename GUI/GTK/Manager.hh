@@ -15,7 +15,6 @@
 //! example=exCanvas.cc
 //! docentry="Ravl.GUI.Internal"
 
-
 #include "Ravl/GUI/Widget.hh"
 #include "Ravl/Threads/Mutex.hh"
 #include "Ravl/Threads/Semaphore.hh"

@@ -13,6 +13,7 @@
 //! author="Charles Galambos"
 //! date="17/06/1999"
 //! docentry="Ravl.GUI.Layout"
+//! example=exFrame.cc
 
 #include "Ravl/GUI/OneChild.hh"
 #include "Ravl/String.hh"
@@ -69,31 +70,31 @@ namespace RavlGUIN {
   {
   public:
     FrameC()
-      {}
+    {}
     //: Default constructor.
 
     FrameC(const WidgetC &widge,const StringC &title,int boarder = 2)
       : OneChildC(*new FrameBodyC(widge,boarder,title))
-      {}
+    {}
     //: Constructor.
     
     FrameC(const WidgetC &widge,int boarder)
       : OneChildC(*new FrameBodyC(widge,boarder))
-      {}
+    {}
     //: Constructor.
     
   protected:
     FrameC(FrameBodyC &body)
       : OneChildC(body)
-      {}
+    {}
     //: Body constructor.
     
     FrameBodyC &Body() 
-      { return static_cast<FrameBodyC &>(WidgetC::Body()); }
+    { return static_cast<FrameBodyC &>(WidgetC::Body()); }
     //: Access body.
     
     bool GUISetShadow(GtkShadowType &shadow)
-      { return Body().GUISetShadow(shadow); }
+    { return Body().GUISetShadow(shadow); }
     //: Setup shadow.
     // Values for shadow are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSHADOWTYPE">here</A>.
     
@@ -112,17 +113,17 @@ namespace RavlGUIN {
     // an invalid handle is created.
     
     bool GUISetLabel(StringC &name)
-      { return Body().GUISetLabel(name); }
+    { return Body().GUISetLabel(name); }
     //: Set label
     // Call with GUI thread only!
     
     void SetShadowType(GtkShadowType shadow)
-      { Body().SetShadowType(shadow); }
+    { Body().SetShadowType(shadow); }
     //: Set frame type.
     // Values for shadow are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSHADOWTYPE">here</A>.
     
     void SetLabel(StringC &name)
-      { Body().SetLabel(name); }
+    { Body().SetLabel(name); }
     //: Set label
     
     friend class FrameBodyC;
