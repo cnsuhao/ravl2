@@ -282,11 +282,11 @@ namespace RavlN {
     //: Body constructor.
     
     inline DPProcessBodyC<InT,OutT> &Body() 
-    { return dynamic_cast<DPProcessBodyC<InT,OutT> & > (DPEntityC::Body()); }
+    { return static_cast<DPProcessBodyC<InT,OutT> & > (DPEntityC::Body()); }
     //: Access body.
     
     inline const DPProcessBodyC<InT,OutT> &Body() const
-    { return dynamic_cast<const DPProcessBodyC<InT,OutT> & > (DPEntityC::Body()); }
+    { return static_cast<const DPProcessBodyC<InT,OutT> & > (DPEntityC::Body()); }
     //: Access body.
     
   public:  
