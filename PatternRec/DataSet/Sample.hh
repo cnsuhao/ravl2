@@ -193,8 +193,8 @@ namespace RavlN {
   template <class DataT>
   SampleC<DataT> SampleC<DataT>::SubSample(const CollectionC<UIntT> &x) {
     SampleC<DataT> ret(x.Size());
-    for(CollectionIterC<UIntT> it(x);it;it++)
-      ret.Insert((*this)[*it]);
+    for(CollectionIterC<UIntT> it(const_cast<CollectionC<UIntT> &>(x));it;it++)
+      ret.Append((*this)[*it]);
     return ret;
   }
   
