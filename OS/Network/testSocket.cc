@@ -15,6 +15,8 @@
 #include "Ravl/Random.hh"
 #include "Ravl/Threads/Semaphore.hh"
 
+#include <signal.h>
+
 using namespace RavlN;
 
 #define DODEBUG 0
@@ -160,6 +162,9 @@ int main(int nargs,char **argv)
   testFreeze = opts.Boolean("f",false,"Test reader freeze. ");
   timeout = opts.Int("to",30,"Set write timeout. ");;
   opts.Check();
+  
+  // Ignore broken pipe signals
+  signal(SIGPIPE,SIG_IGN);
   
   LaunchThread(&TransmitThread);
   if(RecieveThread() != 0)
