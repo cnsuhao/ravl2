@@ -16,7 +16,7 @@ SOURCES=Rectangle2dIter.cc SobolImage.cc PyramidScan.cc
 
 PLIB= RavlImageProc
 
-USESLIBS=RavlImage RavlThreads RavlMath RavlIO RavlOS
+USESLIBS=RavlImage RavlThreads RavlMath RavlIO RavlOS RavlOptimise
 # RavlOS is needed for DeadLineTimerC in PPHT code.
 
 EHT=Ravl.Images.Misc.html 
