@@ -61,6 +61,9 @@ namespace RavlN {
     virtual FunctionC Apply(const SampleC<VectorC> &trainX);
     //: Train the unsupervised classifier on a list of feature vectors
     
+    virtual SArray1dC<MeanCovarianceC> Cluster(const SampleC<VectorC> &in);
+    //: Compute cluster means.
+    
     virtual bool Save (ostream &out) const;
     //: Writes object to stream, can be loaded using constructor
 
@@ -71,6 +74,9 @@ namespace RavlN {
     //: Handle class
     
   protected:
+    bool Train(const SampleC<VectorC> &in);
+    //: Train network.
+    
     Array2dC<VectorC> _weights;
     //: Cluster centres
     

@@ -114,9 +114,10 @@ namespace RavlN {
     for(Array2dIterC<VectorC> it (_weights);it;it++)  
       *it = RandomVector(size,1/(RealT)RavlConstN::maxInt);
   }
+
+  //: Train network.
   
-  FunctionC DesignKohonenNetBodyC::Apply(const SampleC<VectorC> &trainX)
-  {
+  bool DesignKohonenNetBodyC::Train(const SampleC<VectorC> &trainX) {
     // Initialise if it has not already
     if (!_initialised) 
       Initialise (_Sx, _Sy, trainX);
@@ -163,6 +164,13 @@ namespace RavlN {
     
       } 
     }
+    return true;
+  }
+  
+  FunctionC DesignKohonenNetBodyC::Apply(const SampleC<VectorC> &trainX)
+  {
+    if(!Train(trainX))
+      return FunctionC();
     
     // Build classifier
     
@@ -175,6 +183,24 @@ namespace RavlN {
       labs.Append((UIntT)((at[0].V() * _Sx) + at[1].V()));
     }
     return ClassifierNearestNeighbourC(vecs,labs,_distance);
+  }
+  
+  //: Compute cluster means.
+  
+  SArray1dC<MeanCovarianceC> DesignKohonenNetBodyC::Cluster(const SampleC<VectorC> &trainX) {
+    SArray1dC<MeanCovarianceC> ret;
+    if(!Train(trainX))
+      return ret;
+    Array2dIterC<VectorC> it(_weights); 
+    if(!it)
+      return ret;
+    UIntT totLabels = _weights.Frame().Area();
+    ret = SArray1dC<MeanCovarianceC>(totLabels);
+    SArray1dIterC<MeanCovarianceC> ait(ret);
+    MatrixC cov = MatrixC::Identity(it->Size());
+    for(;it;it++,ait++)
+      *ait = MeanCovarianceC(1,*it,cov);
+    return ret;
   }
   
   bool DesignKohonenNetBodyC::Save (ostream &out) const {
