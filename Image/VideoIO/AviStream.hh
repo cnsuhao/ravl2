@@ -406,10 +406,10 @@ namespace RavlImageN{
     
   private:
     //private methods
-    bool AviOStreamC::SetFileSize(int newSize);
+    bool SetFileSize(int newSize);
     //: writes file size and return to the data chunk
   
-    bool AviOStreamC::SetHdrlSize(int newSize);
+    bool SetHdrlSize(int newSize);
     //: writes file size and return to the data chunk
 
     bool WriteCerr(const StringC info);
