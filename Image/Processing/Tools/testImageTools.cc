@@ -10,6 +10,7 @@
 #include "Ravl/Image/PyramidScan.hh"
 #include "Ravl/Image/Rectangle2dIter.hh"
 #include "Ravl/Image/SummedAreaTable.hh"
+#include "Ravl/Image/PeakDetector.hh"
 #include "Ravl/Array2dIter.hh"
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Stream.hh"
@@ -20,6 +21,7 @@ using namespace RavlImageN;
 int testRectangle2dIter();
 int testSummedAreaTable();
 int testPyramidScan();
+int testPeakDetection();
 
 int main() {
   int ln;
@@ -35,11 +37,16 @@ int main() {
     cerr << "Error on line numner '" << ln << "'\n";
     return 1;
   }
+  if((ln = testPeakDetection()) != 0) {
+    cerr << "Error on line numner '" << ln << "'\n";
+    return 1;
+  }
   cerr << "Test passed. \n";
   return 0;
 }
 
 int testRectangle2dIter() {
+  cerr << "testRectangle2dIter(), Called \n";
   ImageRectangleC rect1(0,6,0,5);
   ImageRectangleC rect2(5,5);
   ImageC<int> data(rect1);
@@ -65,6 +72,7 @@ template SummedAreaTableC<UIntT>;
 #endif
 
 int testSummedAreaTable() {
+  cerr << "testSummedAreaTable(), Called \n";
   Array2dC<IntT> img(5,5);
   img.Fill(1);
   SummedAreaTableC<UIntT> tab(img);
@@ -99,6 +107,7 @@ int testSummedAreaTable() {
 
 
 int testPyramidScan() {
+  cerr << "testPyramidScan(), Called \n";
   IndexRange2dC rect(100,200);
   int i = 0;
   int areaSum = 0;
@@ -110,5 +119,66 @@ int testPyramidScan() {
   cerr << "I=" << i << " Area=" << areaSum << "\n";
   if(i != 24) return __LINE__;
   if(areaSum != 82500) return __LINE__;
+  return 0;
+}
+
+int testPeakDetection() {
+  cerr << "testPeakDetection(), Called \n";
+  ImageC<IntT> img(10,10);
+  img.Fill(0);
+  Index2dC at(5,5);
+
+  // Check 3x3
+  if(PeakDetect3(img,at)) return __LINE__;
+  img[at] = 1;
+  if(!PeakDetect3(img,at)) return __LINE__;
+  img[at + Index2dC(1,0)] = 1;
+  if(PeakDetect3(img,at)) return __LINE__;  
+  img[at + Index2dC(1,0)] = 0;  
+  img[at + Index2dC(0,1)] = 1;
+  if(PeakDetect3(img,at)) return __LINE__;  
+  img[at + Index2dC(0,1)] = 0;
+  img[at + Index2dC(-1,0)] = 1;  
+  if(PeakDetect3(img,at)) return __LINE__;  
+  img[at + Index2dC(-1,0)] = 0;  
+  img[at + Index2dC(0,-1)] = 1;
+  if(PeakDetect3(img,at)) return __LINE__;  
+  img[at + Index2dC(0,-1)] = 0;
+  img[at] = 0;
+  
+  // Check 5x5
+  if(PeakDetect5(img,at)) return __LINE__;
+  img[at] = 1;
+  if(!PeakDetect5(img,at)) return __LINE__;
+  img[at + Index2dC(1,0)] = 1;
+  if(PeakDetect5(img,at)) return __LINE__;  
+  img[at + Index2dC(1,0)] = 0;  
+  img[at + Index2dC(0,1)] = 1;
+  if(PeakDetect5(img,at)) return __LINE__;  
+  img[at + Index2dC(0,1)] = 0;
+  img[at + Index2dC(-1,0)] = 1;  
+  if(PeakDetect5(img,at)) return __LINE__;  
+  img[at + Index2dC(-1,0)] = 0;  
+  img[at + Index2dC(0,-1)] = 1;
+  if(PeakDetect5(img,at)) return __LINE__;  
+  img[at + Index2dC(0,-1)] = 0;
+  img[at] = 0;
+  
+  // Check 7x7
+  if(PeakDetect7(img,at)) return __LINE__;
+  img[at] = 1;
+  if(!PeakDetect7(img,at)) return __LINE__;
+  img[at + Index2dC(1,0)] = 1;
+  if(PeakDetect7(img,at)) return __LINE__;  
+  img[at + Index2dC(1,0)] = 0;  
+  img[at + Index2dC(0,1)] = 1;
+  if(PeakDetect7(img,at)) return __LINE__;  
+  img[at + Index2dC(0,1)] = 0;
+  img[at + Index2dC(-1,0)] = 1;  
+  if(PeakDetect7(img,at)) return __LINE__;  
+  img[at + Index2dC(-1,0)] = 0;  
+  img[at + Index2dC(0,-1)] = 1;
+  if(PeakDetect7(img,at)) return __LINE__;  
+  
   return 0;
 }

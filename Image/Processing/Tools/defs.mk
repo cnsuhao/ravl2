@@ -10,7 +10,7 @@
 PACKAGE=Ravl/Image
 
 HEADERS=Rectangle2dIter.hh SobolImage.hh SubSample.hh SummedAreaTable.hh \
- PyramidScan.hh
+ PyramidScan.hh PeakDetector.hh
 
 SOURCES=Rectangle2dIter.cc SobolImage.cc PyramidScan.cc
 
