@@ -10,19 +10,21 @@
 
 PACKAGE=Ravl/DP
 
-HEADERS=Entity.hh Process.hh Port.hh SPort.hh SPortAttach.hh \
+HEADERS= Entity.hh Process.hh Port.hh SPort.hh SPortAttach.hh \
  StreamOp.hh IOJoin.hh ProcOStream.hh ProcIStream.hh Func2Proc.hh \
  FileIO.hh BinFileIO.hh FuncP2Proc.hh ProcCompose.hh ProcInfo.hh \
  Converter.hh DataConv.hh TypeInfo.hh Pipes.hh FileFormat.hh \
  FileFormDesc.hh FileFormatStream.hh FileFormatBinStream.hh \
  FileFormatGen.hh FileFormatIO.hh TypeConverter.hh FileFormatRegistry.hh \
  CoreIO.hh ComposeSingle.hh Compose.hh Func2Stream.hh IOConnect.hh \
- IFailOver.hh  IOTap.hh  Multiplex.hh SplitO.hh
+ IFailOver.hh  IOTap.hh  Multiplex.hh SplitO.hh Event.hh EventSet.hh
 
-SOURCES=Entity.cc Process.cc Port.cc SPort.cc SPortAttach.cc ProcInfo.cc \
+SOURCES= Entity.cc Process.cc Port.cc SPort.cc SPortAttach.cc ProcInfo.cc \
  Converter.cc TypeInfo.cc Pipes.cc FileFormat.cc FileFormDesc.cc \
  FileFormatStream.cc FileFormatBinStream.cc FileFormatGen.cc \
- FileFormatIO.cc TypeConverter.cc FileFormatRegistry.cc IndexIO.cc
+ FileFormatIO.cc TypeConverter.cc FileFormatRegistry.cc IndexIO.cc \
+ Event.cc EventSet.cc
+
 
 MUSTLINK= CoreIO.cc
 # ProcInfo.cc
