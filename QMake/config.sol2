@@ -35,7 +35,7 @@ BISON=/opt/GNUdevelop/bin/bison
 FLEX=/opt/GNUdevelop/bin/flex
 
 AMKDEPFLAGS = -Wp,-MMD,$(WORKTMP)/$*.d
-MKDEPUP = echo -n '$$(INST_OBJS)/' > $(INST_DEPEND)/$*.d ; cat $(WORKTMP)/$*.d  >> $(INST_DEPEND)/$*.d ;\
+MKDEPUP = /usr/ucb/echo -n '$$(INST_OBJS)/' > $(INST_DEPEND)/$*.d ; cat $(WORKTMP)/$*.d  >> $(INST_DEPEND)/$*.d ;\
  rm $(WORKTMP)/$*.d
 
 # $@ 
