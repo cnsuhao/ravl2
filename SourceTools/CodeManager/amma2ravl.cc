@@ -63,6 +63,13 @@ static bool CheckDirectory(StringC &dir,DefsMkFileC &defs) {
     theFile.GlobalSubst("\"amma/ImageIter.hh\"","\"Ravl/Array2dIter.hh\"");
     theFile.GlobalSubst("\"amma/Image2Iter.hh\"","\"Ravl/Array2dIter2.hh\"");
     theFile.GlobalSubst("\"amma/Image3Iter.hh\"","\"Ravl/Array2dIter3.hh\"");
+    theFile.GlobalSubst("\"amma/Image.hh\"","\"Ravl/Image/Image.hh\"");
+    theFile.GlobalSubst("\"amma/ByteImag.hh\"","\"Ravl/Image/Image.hh\"");
+    theFile.GlobalSubst("\"amma/RGBImage.hh\"","\"Ravl/Image/ByteRGBValue.hh\"");
+    theFile.GlobalSubst("\"amma/YUVImage.hh\"","\"Ravl/Image/ByteYUVValue.hh\"");
+    theFile.GlobalSubst("\"amma/YUVValue.hh\"","\"Ravl/Image/ByteYUVValue.hh\"");
+    theFile.GlobalSubst("\"amma/RGBValue.hh\"","\"Ravl/Image/ByteRGBValue.hh\"");
+    theFile.GlobalSubst("\"amma/GreyVal.hh\"","\"Ravl/Types.hh\"");
     
     if(guiUpdates) {
       theFile.GlobalSubst("GUIDEBUG","DODEBUG");
@@ -123,11 +130,26 @@ static bool CheckDirectory(StringC &dir,DefsMkFileC &defs) {
       theFile.GlobalSubst("DPEntityC::Body()","WidgetC::Body()");
       theFile.GlobalSubst("return dynamic_cast<","return static_cast<");
     }
-    theFile.GlobalSubst("BodyRefCounterC","RCBodyC");
-    theFile.GlobalSubst("BodyRefCounterVC","RCBodyVC");
+    
+    // Image.
+    
     theFile.GlobalSubst("ImageIterC","Array2dIterC");
     theFile.GlobalSubst("Image2IterC","Array2dIter2C");
     theFile.GlobalSubst("Image3IterC","Array2dIter3C");
+    theFile.GlobalSubst("ByteImageC "," ImageC<ByteT> ");
+    theFile.GlobalSubst("RGBImageC "," ImageC<ByteRGBValueC> ");
+    theFile.GlobalSubst("YUVImageC "," ImageC<ByteYUVValueC> ");
+    theFile.GlobalSubst("RGBPointC","RealRGBValueC");
+    theFile.GlobalSubst("YUVPointC","RealYUVValueC");
+    theFile.GlobalSubst("DoubleImageValueT","RealT");
+    theFile.GlobalSubst("ByteGreyValueT","ByteT");
+    theFile.GlobalSubst("namespace StdImageN","namespace RavlImageN");
+    
+    
+    // Core.
+    
+    theFile.GlobalSubst("BodyRefCounterC","RCBodyC");
+    theFile.GlobalSubst("BodyRefCounterVC","RCBodyVC");
     theFile.GlobalSubst("Launch(","ThreadLaunch(");
     theFile.GlobalSubst("MsgPipeC<","MessageQueueC<");
     theFile.GlobalSubst("SignalEvent(","Trigger(");
