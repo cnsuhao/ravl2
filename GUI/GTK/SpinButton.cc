@@ -45,8 +45,12 @@ namespace RavlGUIN {
   //: Get current value.
   
   RealT SpinButtonBodyC::Value() { 
-    if(adj == 0) return 0;
+    if(adj == 0) return value; 
+#if 1
+    return gtk_adjustment_get_value(GTK_ADJUSTMENT (adj));
+#else
     return GTK_ADJUSTMENT (adj)->value; 
+#endif
   }
   
   //: Create widget.
