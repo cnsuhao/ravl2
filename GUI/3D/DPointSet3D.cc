@@ -55,10 +55,10 @@ namespace RavlGUIN {
     glDrawArrays(GL_POINTS,0,pointSet.RenderNumber());
 #endif
 
-    // Setup materials and colours as appropriate
-    bool bColour = pointSet.HaveColour();
 
 #if 0
+    // Setup materials and colours as appropriate
+    bool bColour = pointSet.HaveColour();
     if (!bColour) 
     {
       if (canvas.GetLightingMode()) 
