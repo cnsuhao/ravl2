@@ -28,6 +28,7 @@ int testSummedAreaTable();
 int testSummedAreaTable2();
 int testPyramidScan();
 int testPeakDetection();
+int testSubPixelPeakDetection();
 
 int main() {
   int ln;
@@ -48,6 +49,10 @@ int main() {
     return 1;
   }
   if((ln = testPeakDetection()) != 0) {
+    cerr << "Error on line numner '" << ln << "'\n";
+    return 1;
+  }
+  if((ln = testSubPixelPeakDetection()) != 0) {
     cerr << "Error on line numner '" << ln << "'\n";
     return 1;
   }
@@ -225,5 +230,23 @@ int testPeakDetection() {
   img[at + Index2dC(0,-1)] = 1;
   if(PeakDetect7(img,at)) return __LINE__;  
   
+  return 0;
+}
+
+
+int testSubPixelPeakDetection() {
+  ImageC<RealT> img(3,3);
+  img.Fill(0);
+  img[1][1] = 1;
+  Point2dC at = LocatePeakSubPixel(img,Index2dC(1,1));
+  if(Abs(at[0] - 1) > 0.000001) return __LINE__;
+  if(Abs(at[1] - 1) > 0.000001) return __LINE__;
+  img[1][0] = 0.5;
+  img[2][1] = 0.5;
+  
+  at = LocatePeakSubPixel(img,Index2dC(1,1));
+  //cerr << "At=" << at << "\n";
+  if(Abs(at[0] - 0.9) > 0.000001) return __LINE__;
+  if(Abs(at[1] - 1.1) > 0.000001) return __LINE__;
   return 0;
 }
