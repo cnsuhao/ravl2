@@ -100,14 +100,18 @@ namespace Ravl3DN {
 	  cerr << "ERROR: Failed to find quoted texture name. \n";
 	  continue;
 	}
-	StringC texFile = path + inf.ClipTo('\"');
+	texFile = path + inf.ClipTo('\"');
+	
+		
 	ONDEBUG(cerr << "Loading texture map '" << texFile << "'\n");
 	if(!RavlN::Load(texFile,texImage)) {
 	  cerr << "WARNING: Failed to load texture map '" << texFile << "'\n";
 	}
 	inf.SkipTo('}'); // Skip to end of texture block.
 	continue;
+	
 	}
+	
 	if(word == "Coordinate") {
 	  ONDEBUG(cerr << "Found vertexs. \n");
 	  GetVectors(inf,verts,numVerts);
@@ -176,6 +180,8 @@ namespace Ravl3DN {
     SArray1dC<TriC> triArray(numFaces);
     SArray1dIterC<TriC> tait(triArray);
     ONDEBUG(cerr << "numFaceTex=" << numFacesTex << " numTexCoord=" << numTexCoord << "\n");
+  
+   
     if(!triTex.IsEmpty()) {
       ONDEBUG(cerr << "Creating tri table using texture coords. \n");
       if(numFaces > numFacesTex) {
