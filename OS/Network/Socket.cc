@@ -297,10 +297,10 @@ namespace RavlN {
     }
     if(error == 0) { // If we got the name ok.
       name = StringC(ent.h_name);
-      delete hostentData;
+      delete [] hostentData;
       return true;
     }
-    delete hostentData;
+    delete [] hostentData;
     MTWriteLockC hold; // this call isn't MT safe. 
     name = inet_ntoa(((sockaddr_in &)sin).sin_addr); // Convert to a dot notation string.
 #endif
