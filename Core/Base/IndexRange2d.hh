@@ -201,6 +201,10 @@ namespace RavlN {
     { return Range1().Contains(oth.Row()) && Range2().Contains(oth.Col()); }
     //: Returns true if this range contains the subrange 'oth'.
     
+    inline bool Contains(const TFVectorC<RealT,2> &vec) const
+    { return Range1().Contains(vec[0]) && Range2().Contains(vec[1]); }
+    //: Is a vector inside the rectangle ?
+    
     inline const IndexRange2dC & operator+=(const Index2dC & offset);
     //: Shifts the rectangle to the new position.
     

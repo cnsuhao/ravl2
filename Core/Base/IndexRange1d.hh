@@ -113,6 +113,10 @@ namespace RavlN {
     { return (Min() <= i) && (i <= Max()); }
     //: Returns true if this range contains the index 'i'.
     
+    inline bool Contains(RealT val) const
+    { return (Floor(val) >= Min()) && (Ceil(val) <= Max()); }
+    //: Is a real value inside the range ?
+    
     inline bool Contains(const IndexRangeC & range) const
     { return Contains(range.Min()) && Contains(range.Max()); }
     //: Returns true if this range contains the subrange 'range'.

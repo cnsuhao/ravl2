@@ -195,6 +195,10 @@ namespace RavlN {
     { return Range1().Contains(oth[0]) && Range2().Contains(oth[1]) && Range3().Contains(oth[2]); }
     //: Returns true if this range contains the subrange 'oth'.
     
+    inline bool Contains(const TFVectorC<RealT,3> & oth) const
+    { return Range1().Contains(oth[0]) && Range2().Contains(oth[1]) && Range3().Contains(oth[2]); }
+    //: Returns true if this range contains the subrange 'oth'.
+    
     inline bool Contains(const IndexRange3dC & oth) const
     { return Range1().Contains(oth.Range1()) && Range2().Contains(oth.Range2()) && Range3().Contains(oth.Range3()); }
     //: Returns true if this range contains the subrange 'oth'.
