@@ -112,9 +112,9 @@ namespace RavlImageN {
 
   //: List all edgles in image
   
-  SArray1dC<EdgelC> EdgeLinkC::ListEdgels(const ImageC<RealT> & inDrIm, 
-					  const ImageC<RealT> & inDcIm,  
-					  const ImageC<RealT> & inGrad) {
+  SArray1dC<EdgelC> EdgeLinkC::ArrayOfEdgels(const ImageC<RealT> & inDrIm, 
+					     const ImageC<RealT> & inDcIm,  
+					     const ImageC<RealT> & inGrad) {
     ONDEBUG(cerr << "EdgeLinkC::ListEdgels(), Called. Max edges=" << edgeCount << " Area=" << inGrad.Frame().Area() << "\n");
     SArray1dC<EdgelC> ret(edgeCount);
     SArray1dIterC<EdgelC> rit(ret);
@@ -127,6 +127,21 @@ namespace RavlImageN {
       rit++;
     }
     ONDEBUG(cerr << "EdgeLinkC::ListEdgels(), Processed=" << rit.Index() << "\n");
+    return ret;
+  }
+
+  //: Generate a list of all edgles in image
+  
+  DListC<EdgelC> EdgeLinkC::ListOfEdgels(const ImageC<RealT> & inDrIm, 
+					 const ImageC<RealT> & inDcIm,  
+					 const ImageC<RealT> & inGrad) {
+    DListC<EdgelC> ret;
+    for(Array2dIterC<ByteT> it(*this);it;it++) {
+      if(GetState(*it) == EDGE_PROC)
+	continue;
+      Index2dC at = it.Index();
+      ret.InsLast(EdgelC(at,inDcIm[at],inDrIm[at],inGrad[at]));
+    }
     return ret;
   }
 

@@ -33,8 +33,14 @@ namespace RavlImageN {
     EdgeDetectorBodyC(bool useDeriche,RealT minHyst,RealT maxHyst);
     //: Constructor.
     
+    bool Apply(const ImageC<RealT> &img,EdgeLinkC &edgeMap,ImageC<RealT> &edgeDx,ImageC<RealT> &edgeDy,ImageC<RealT> &edgeMag);
+    //: Apply the edge detector to 'img', generate an edge map image.
+    
     bool Apply(const ImageC<RealT> &img,SArray1dC<EdgelC> &edges);
-    //: Apply the edge detector to 'img', returning a list of edgels.
+    //: Apply the edge detector to 'img', generate an array of edgels.
+
+    bool Apply(const ImageC<RealT> &img,DListC<EdgelC> &edges);
+    //: Apply the edge detector to 'img', generate a list of edgels.
     
     SArray1dC<EdgelC> PApply(const ImageC<RealT> &img) {
       SArray1dC<EdgelC> ret;
@@ -49,7 +55,7 @@ namespace RavlImageN {
     EdgeDericheC edgeDet;
     EdgeNonMaxSuppressionC nonMaxSup;
     SqrCompositionC sqrCompose;
-    
+    bool useDeriche;   // Use deriche edge detection, otherwise use Sobel.
     bool eightConnect; // Use eight connectivity ?
   };
   
@@ -71,17 +77,30 @@ namespace RavlImageN {
       : RCHandleC<EdgeDetectorBodyC>(*new EdgeDetectorBodyC(useDeriche,minHyst,maxHyst))
     {}
     //: Constructor.
+    // If useDeriche is set to false the system defaults to Sobel edge detection.
     
   protected:
     
   public:
+    ImageC<RealT> edgeDx;
+    ImageC<RealT> edgeDy;
+    ImageC<RealT> edgeMag;
+
+    bool Apply(const ImageC<RealT> &img,EdgeLinkC &edgeMap,ImageC<RealT> &edgeDx,ImageC<RealT> &edgeDy,ImageC<RealT> &edgeMag)
+    { return Body().Apply(img,edgeMap,edgeDx,edgeDy,edgeMag); }
+    //: Apply the edge detector to 'img', generate an edge link image.
+    
     bool Apply(const ImageC<RealT> &img,SArray1dC<EdgelC> &edges)
     { return Body().Apply(img,edges); }
-    //: Apply the edge detector to 'img', returning a list of edgels.
+    //: Apply the edge detector to 'img', generate an array of edgels.
     
     SArray1dC<EdgelC> PApply(const ImageC<RealT> &img) 
     { return Body().PApply(img); }
-    //: Apply the edge detector to 'img', returning a list of edgels.
+    //: Apply the edge detector to 'img', generate an array of edgels.
+
+    bool Apply(const ImageC<RealT> &img,DListC<EdgelC> &edges)
+    { return Body().Apply(img,edges); }
+    //: Apply the edge detector to 'img', generate a list of edgels.
     
   };
   

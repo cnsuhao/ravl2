@@ -27,7 +27,7 @@ namespace RavlImageN {
   class EdgeSobelC {
   public:
     EdgeSobelC()
-      {}
+    {}
     
     bool Apply(const ImageC<DataInT> &inImg,ImageC<TFVectorC<DataOutT,2> > &out);
     //: Apply sobol operator to 'img', put result in 'out'

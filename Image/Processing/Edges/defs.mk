@@ -15,7 +15,7 @@ MAINS= doEdgeDet.cc
 
 HEADERS=EdgeSobel.hh EdgeDeriche.hh SqrComposition.hh \
  EdgeNonMaxSuppression.hh Edgel.hh EdgeLink.hh \
- EdgeDetector.hh
+ EdgeDetector.hh Gradient.hh
 
 SOURCES=EdgeSobel.cc EdgeDeriche.cc SqrComposition.cc \
  EdgeNonMaxSuppression.cc Edgel.cc EdgeLink.cc \

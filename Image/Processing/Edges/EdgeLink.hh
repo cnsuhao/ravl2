@@ -55,10 +55,15 @@ namespace RavlImageN {
     SArray1dC<Index2dC> ListEdges();
     //: List edge positions in the image
     
-    SArray1dC<EdgelC> ListEdgels(const ImageC<RealT> & inDrIm, 
-				 const ImageC<RealT> & inDcIm,  
-				 const ImageC<RealT> & inGrad);
-    //: List all edgles in image
+    SArray1dC<EdgelC> ArrayOfEdgels(const ImageC<RealT> & inDrIm, 
+				    const ImageC<RealT> & inDcIm,  
+				    const ImageC<RealT> & inGrad);
+    //: Generate an array of all edgles in image
+    
+    DListC<EdgelC> ListOfEdgels(const ImageC<RealT> & inDrIm, 
+				const ImageC<RealT> & inDcIm,  
+				const ImageC<RealT> & inGrad);
+    //: Generate a list of all edgles in image
     
   protected:
     static NeighbourOrderT GetDir(ByteT val, FBOrientationT oo) 
