@@ -279,14 +279,14 @@ namespace RavlN {
     // Creates an invalid handle.
 
     NetEndPointC(SocketC &socket,bool autoInit = true)
-      : RCHandleC<NetEndPointBodyC>(*new NetEndPointBodyC(skt,autoInit))
+      : RCHandleC<NetEndPointBodyC>(*new NetEndPointBodyC(socket,autoInit))
     {}
     //: Constructor.  
     //!param: socket - connext to existing socket
     //!param: autoInit - If false, you must call the Ready() function when you are ready to start processing network messages. If true, messages will start being processed as soon as the connection is established.
     
     NetEndPointC(const StringC &address,bool autoInit = true)
-      : RCHandleC<NetEndPointBodyC>(*new NetEndPointBodyC(addr,autoInit))
+      : RCHandleC<NetEndPointBodyC>(*new NetEndPointBodyC(address,autoInit))
     {}
     //: Constructor.
     // This connects to the given port address. <p>
