@@ -21,7 +21,9 @@ HEADERS = LMSOpticFlow.hh
 
 PLIB = LMSMotion
 
-USESLIBS = RavlImageIO RavlDPDisplay Auto
+USESLIBS = RavlImageIO Auto
+
+PROGLIBS = RavlDPDisplay
 
 EXAMPLES = 
 #exLMSOptic.cc exLMSRegion.cc exMultiScale.cc
