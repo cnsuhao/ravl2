@@ -161,7 +161,7 @@ namespace RavlN {
       { ShiftRows(offset.Row()); ShiftCols(offset.Col()); }
     //: The array is shifted by <code>offset</code> w.r.t. the coordinate origin
     // This combines the functionality of <code>ShiftRows</code> and <code>ShiftCols</code><br>
-    // Thus to shift an array so that the top left element has indices (0,0), use:<br>
+    // Thus to shift an array so that the top left element has indices (0,0), use:
     //<pre>array.ShiftArray(-array.Frame().TopLeft())</pre>
 
     
@@ -184,6 +184,8 @@ namespace RavlN {
     //: This will create a copy of the access structure without copying the data itself.
     // The access is shifted by rowShift vertically and colShift horizontally. 
     
+    //!section: Operators -  These operators assume that the arrays have equal size, although they do not need to have the same origin.
+  
     Array2dC<DataT> operator+(const Array2dC<DataT> & arr) const;
     //: Sums 2 numerical arrays. 
     // The operator returns the result as a new array.
