@@ -28,8 +28,10 @@ int testMeanCovar2d();
 
 const RealT small = 0.000000001;
 
+#ifndef __sgi__
 template FMeanC<2>;
 template FMeanCovarianceC<2>;
+#endif
 
 int main() {
   int ln;

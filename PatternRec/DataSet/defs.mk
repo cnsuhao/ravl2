@@ -6,6 +6,7 @@
 # file-header-ends-here
 #! rcsid="$Id$"
 #! file="Ravl/PatternRec/DataSet/defs.mk"
+
 DESCRIPTION = Pattern Recognition
 
 PACKAGE = Ravl/PatternRec
@@ -17,9 +18,11 @@ HEADERS = Sample.hh SampleVector.hh SampleLabel.hh SampleDiscrete.hh \
 
 SOURCES = SampleVector.cc SampleLabel.cc DataSetBase.cc
 
-MAINS = exSample.cc
+MAINS = 
 
 PLIB = RavlPatternRec
+
+EXAMPLES = exSample.cc
 
 TESTEXES=testDataSet.cc
 
