@@ -9,11 +9,15 @@
 //! file="Ravl/PatternRec/Modeling/Basic/testGaussianMixture.cc"
 
 #include "Ravl/PatternRec/GaussianMixture.hh"
+#include "Ravl/PatternRec/DesignGaussianMixture.hh"
 #include "Ravl/PatternRec/SampleVector.hh"
+#include "Ravl/OS/Filename.hh"
 
 using namespace RavlN;
 
 int testGaussianMixture();
+int testDesignGaussianMixture();
+
 
 int main() {
   int ln;
@@ -22,6 +26,15 @@ int main() {
     return 1;
   }
   cerr << "Test passed ok. \n";
+
+
+  if((ln = testDesignGaussianMixture()) != 0) {
+    cerr << "Test failed line " << ln << "\n";
+    return 1;
+  }
+  cerr << "Test passed ok. \n";
+
+
   return 0;
 }
 
@@ -46,25 +59,29 @@ int testGaussianMixture() {
   GaussianMixtureC gm2(arr, weights, false);
   GaussianMixtureC gm3;
 
-  
+  FilenameC tmp("/tmp/gm.strm");
+
   //: Lets output a model
   {
-    OStreamC ofs("gm.strm");
+    OStreamC ofs(tmp);
     ofs << gm1;
   }
   
   //: Lets load in same model
   {
-  IStreamC ifs("gm.strm");
+  IStreamC ifs(tmp);
   ifs >> gm3;
   }
+  tmp.Remove();
 
   //: Lets test on data
   VectorC test(2);
   test[0] = 1.9;
   test[1] = 2.3;
 
-#if 1
+
+
+#if 0
   cout << "gm1 - " << gm1.Apply(test) << endl;
   cout << "gm2 - " << gm2.Apply(test) << endl;
   cout << "gm3 - " << gm3.Apply(test) << endl;
@@ -76,6 +93,33 @@ int testGaussianMixture() {
   if((gm1.Apply(test)[0] - gm3.Apply(test)[0])>dif) return 1;
   if((gm2.Apply(test)[0] - gm3.Apply(test)[0])>dif) return 1;
 
+  return 0;
+}
 
+int testDesignGaussianMixture() 
+{
+  //: Set a random seed
+  //: Different seeds we do a different result
+  RandomSeedDefault(12342121211);
+
+  //: Load a dataset
+  StringC datafile = StringC(PROJECT_OUT) + "/share/RAVL/data/class5.strm";
+  IStreamC ifs(datafile);
+  SampleVectorC dset;
+  ifs >> dset;
+
+  //: Lets do EM
+  DesignGaussianMixtureC em(5, true);
+  GaussianMixtureC gm = em.Apply(dset);
+  //: Lets do a quick test
+  VectorC X(2);
+  X[0] = 0.0;
+  X[1] = 0.0;
+  RealT value = gm.DensityValue(X);
+
+  //: This should be about 0.03
+  if((value<0.025) || (value>0.035)) return 1;
+
+  //: Everything looks OKish
   return 0;
 }

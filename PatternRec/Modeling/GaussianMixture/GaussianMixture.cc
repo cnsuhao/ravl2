@@ -12,6 +12,7 @@
 #include "Ravl/PatternRec/GaussianMixture.hh"
 #include "Ravl/BinStream.hh"
 #include "Ravl/SArray1dIter.hh"
+#include "Ravl/SArray1dIter3.hh"
 #include "Ravl/SArray1dIter4.hh"
 #include "Ravl/VirtualConstructor.hh"
 
@@ -20,7 +21,7 @@ namespace RavlN {
   //: Constructor from an array of indexes.
   
   GaussianMixtureBodyC::GaussianMixtureBodyC(const SArray1dC<MeanCovarianceC> & prms, const SArray1dC<RealT> & wgt, bool diag)
-    : params(prms), weights(wgt), invCov(prms.Size()), det(prms.Size()), isDiagonal(diag)
+    : params(prms), weights(wgt), isDiagonal(diag)
   {
     //: Lets do some checks
     if(params.Size()!=weights.Size()) 
@@ -38,52 +39,46 @@ namespace RavlN {
     OutputSize(outputSize);
     InputSize(inputSize);
 
-    //: For speed, lets precompute some stuff
-    konst =  Pow(2.0* RavlConstN::pi, (RealT)inputSize/2.0);
-    
-    //: First we have to check for very small variances
-    //: The smallest variance we allow
-    RealT smallVariance = 0.001;
-    RealT smallDeterminant = 1e-20;
+    //: Lets precompute stuff
+    precompute();
 
-#if 0
-    //: lets regularise our model
-    for(SArray1dIterC<MeanCovarianceC> paramIt(params);paramIt;paramIt++)  {
-      for (UIntT i=0; i<inputSize; i++)
-	paramIt.Data().Covariance()[i][i] += smallVariance;
-    }
-#endif
-
-    //: compute inverse and determinant of models
-    for(SArray1dIterC<MeanCovarianceC>paramIt(params);paramIt;paramIt++)  {
-      IndexC i = paramIt.Index();
-      if(!isDiagonal) {
-	invCov[i] = paramIt.Data().Covariance().NearSingularInverse(det[i]);             
-
-      } else {
-	det[i]=1.0;
-	invCov [i] = MatrixRSC(inputSize);
-	invCov[i].Fill(0.0);
-	for(UIntT j=0;j<inputSize;j++) {
-	  invCov[i][j][j]=1.0/paramIt.Data().Covariance()[j][j];
-	  det[i] *= paramIt.Data().Covariance()[j][j]; 
-	}
-      }
-      
-      if(det[i]<smallDeterminant) {
-	//: if this is called then we have a problem on one component
-	//: having a very small variance.  We do try and avoid this
-	//: by setting a minimum allowed variance, but it is not foolproof.
-	RavlIssueError("The deteminant is too small (or negative).  Unsuitable data, perhaps use PCA.");
-      } 
-    }
-    
   }
+
+  GaussianMixtureBodyC::GaussianMixtureBodyC(const SArray1dC<VectorC> & means, const SArray1dC<MatrixRSC> & covariances, const SArray1dC<RealT> & wgt, bool diag)
+    : params(means.Size()), weights(wgt), isDiagonal(diag)
+  {
+
+    //: Lets do some checks
+    if((means.Size()!=covariances.Size()) || (means.Size()!=weights.Size())) 
+      RavlIssueError("Gaussian Mixture parameters not of same dimension");
+
+    // now lets build our model
+    for(SArray1dIter3C<MeanCovarianceC, VectorC, MatrixRSC>it(params, means,  covariances);it;it++)
+      it.Data1() = MeanCovarianceC(1, it.Data2(), it.Data3());
+    
+    UIntT outputSize = params.Size();
+    UIntT inputSize = params[0].Mean().Size();
+
+    if(outputSize<1) 
+      RavlIssueError("Gaussian Mixture model has output dimension of < 1");
+
+    if(inputSize<1) 
+      RavlIssueError("Gaussian Mixture model has input dimension < 1");
+
+    OutputSize(outputSize);
+    InputSize(inputSize);
+
+    //: Lets precompute stuff
+    precompute();
+  }
+
+
 
   //: Load from stream.
   GaussianMixtureBodyC::GaussianMixtureBodyC(istream &strm) 
     : FunctionBodyC(strm) { 
-    strm >> params >> weights >> invCov >> det >> konst >> isDiagonal; 
+    strm >> params >> weights >> isDiagonal; 
+    precompute();
   }
   
   
@@ -91,24 +86,22 @@ namespace RavlN {
   bool GaussianMixtureBodyC::Save (ostream &out) const {
     if(!FunctionBodyC::Save(out))
       return false;
-    out << '\n' << params << '\n' << weights << '\n' << invCov << '\n' << det << '\n' << konst << '\n' << isDiagonal;
+    out << '\n' << params << '\n' << weights << '\n' << isDiagonal;
     return true;    
   }
   
   //: Load from binary stream.  
   GaussianMixtureBodyC::GaussianMixtureBodyC(BinIStreamC &strm) 
     : FunctionBodyC(strm) { 
-    strm >> params  >> weights >> invCov >> det >> konst >> isDiagonal; 
-    OutputSize(params.Size());
-    InputSize(params[0].Mean().Size());
-    
+    strm >> params  >> weights >> isDiagonal;     
+    precompute();
   }
 
   //: Writes object to binary stream.  
   bool GaussianMixtureBodyC::Save (BinOStreamC &out) const {
     if(!FunctionBodyC::Save(out))
       return false;
-    out << params << weights << invCov << det << konst << isDiagonal;
+    out << params << weights << isDiagonal;
     return true;
   }
   
@@ -127,6 +120,56 @@ namespace RavlN {
 
     return out;
   }
+
+  //: Precompute the inverse matrices e.t.c..
+  void GaussianMixtureBodyC::precompute()
+  {
+
+    //: For speed, lets precompute some stuff
+    konst =  Pow(2.0* RavlConstN::pi, (RealT)InputSize()/2.0);
+    
+    //: First we have to check for very small variances
+    //: The smallest variance we allow
+    RealT smallVariance = 0.001;
+    RealT smallDeterminant = 1e-20;
+
+#if 0
+    //: lets regularise our model
+    for(SArray1dIterC<MeanCovarianceC> paramIt(params);paramIt;paramIt++)  {
+      for (UIntT i=0; i<inputSize; i++)
+	paramIt.Data().Covariance()[i][i] += smallVariance;
+    }
+#endif
+    
+    //: make room for the arrays
+    invCov = SArray1dC<MatrixRSC>(OutputSize());
+    det = SArray1dC<RealT>(OutputSize());
+
+    //: compute inverse and determinant of models
+    for(SArray1dIterC<MeanCovarianceC>paramIt(params);paramIt;paramIt++)  {
+      IndexC i = paramIt.Index();
+      if(!isDiagonal) {
+	invCov[i] = paramIt.Data().Covariance().NearSingularInverse(det[i]);             
+      } else {
+	det[i]=1.0;
+	invCov [i] = MatrixRSC(inputSize);
+	invCov[i].Fill(0.0);
+	for(UIntT j=0;j<inputSize;j++) {
+	  invCov[i][j][j]=1.0/paramIt.Data().Covariance()[j][j];
+	  det[i] *= paramIt.Data().Covariance()[j][j]; 
+	}
+      }
+      
+      if(det[i]<smallDeterminant) {
+	//: if this is called then we have a problem on one component
+	//: having a very small variance.  We do try and avoid this
+	//: by setting a minimum allowed variance, but it is not foolproof.
+	RavlIssueError("The deteminant is too small (or negative).  Unsuitable data, perhaps use PCA.");
+      } 
+    }
+
+  }
+
 
   RAVL_INITVIRTUALCONSTRUCTOR_FULL(GaussianMixtureBodyC,GaussianMixtureC,FunctionC);
 

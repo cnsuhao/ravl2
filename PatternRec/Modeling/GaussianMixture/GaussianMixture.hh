@@ -30,6 +30,9 @@ namespace RavlN {
     
     GaussianMixtureBodyC(const SArray1dC<MeanCovarianceC> & params, const SArray1dC<RealT> & weights, bool isDiagonal);
     //: Construct from mixture parameters and mixing coefficients
+
+    GaussianMixtureBodyC(const SArray1dC<VectorC> & means, const SArray1dC<MatrixRSC> & covariances, const SArray1dC<RealT> & weights, bool isDiagonal);
+    //: Construct from mixture parameters and mixing coefficients
     
     GaussianMixtureBodyC(istream &strm);
     //: Load from stream.
@@ -46,7 +49,14 @@ namespace RavlN {
     virtual VectorC Apply(const VectorC &data) const;
     //: Reduce the dimension of 'data'.
 
+    RealT DensityValue(const VectorC & X) const
+      { return Apply(X).Sum(); }
+    //: Return the denisty value at point X
+
   protected:
+    void precompute();
+    //: precompute the inverse covariances, determinants e.t.c.
+    
     SArray1dC<MeanCovarianceC>params; 
     //: The parameters of the distribution
     
@@ -81,7 +91,12 @@ namespace RavlN {
     
     GaussianMixtureC(const SArray1dC<MeanCovarianceC> & params, SArray1dC<RealT> & weights, bool isDiagonal=false)
       : FunctionC(*new GaussianMixtureBodyC(params, weights, isDiagonal))
-    {}
+      {}
+    //: Construct from mixture parameters and mixing coefficients
+    
+    GaussianMixtureC(const SArray1dC<VectorC> & means, const SArray1dC<MatrixRSC> & covariances, const SArray1dC<RealT> & weights, bool isDiagonal=false)
+      : FunctionC(*new GaussianMixtureBodyC(means, covariances, weights, isDiagonal))
+      {}
     //: Construct from mixture parameters and mixing coefficients
 
     GaussianMixtureC(istream &is);
@@ -115,7 +130,10 @@ namespace RavlN {
     //: Access body.
     
   public:
-    
+    RealT DensityValue(const VectorC & X) const
+      { return Body().DensityValue(X); }
+    //: Return the density value at point X
+
   };
 
   inline istream &operator>>(istream &strm,GaussianMixtureC &obj) {
