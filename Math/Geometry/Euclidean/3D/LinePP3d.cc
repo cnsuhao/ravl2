@@ -8,24 +8,14 @@
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Euclidean/3D/LinePP3d.cc"
 
+#include "Ravl/Stream.hh"
+#include "Ravl/BinStream.hh"
 #include "Ravl/StdMath.hh"     //::Abs()
 #include "Ravl/Point3d.hh"
 #include "Ravl/Vector3d.hh"
 #include "Ravl/LinePP3d.hh"
-#include "Ravl/Stream.hh"
 
 namespace RavlN {
-
-  ostream &operator<<(ostream & outS, const LinePP3dC & line) {
-    outS << line.FirstPoint() << ' ' << line.SecondPoint();
-    return outS;
-  }
-  
-  istream &operator>>(istream & inS, LinePP3dC & line) {
-    inS >> line.pointA >> line.pointB;
-    return inS;
-  }
-  
   
   RealT LinePP3dC::Distance(const LinePP3dC & line) { 
     // more information in Rektorys: 
@@ -41,7 +31,7 @@ namespace RavlN {
   
   LinePP3dC LinePP3dC::ShortestLine(const LinePP3dC & line) {
     Vector3dC axb(Vector().Cross(line.Vector()));
-    RealT     axbNorm = axb.Dot(axb);
+    RealT  axbNorm = axb.Dot(axb);
     Vector3dC pmr(FirstPoint() - line.FirstPoint());
     return LinePP3dC(Point3dC(FirstPoint() + Vector() * ((axb.Dot(line.Vector().Cross(pmr))) / axbNorm)),
 		     Point3dC(line.FirstPoint() + line.Vector() * ((axb.Dot(Vector().Cross(pmr))) / axbNorm)));
@@ -49,9 +39,8 @@ namespace RavlN {
   
   RealT LinePP3dC::Distance(const Point3dC & p) const {
     Vector3dC lineVector(Vector());
-    return  lineVector.Cross(Vector3dC(FirstPoint() - p)).Magnitude()
-      / lineVector.Magnitude();
+    return  lineVector.Cross(Vector3dC(FirstPoint() - p)).Magnitude() / lineVector.Magnitude();
   }
-
+  
 }
 

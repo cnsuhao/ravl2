@@ -18,6 +18,7 @@
 #include "Ravl/Types.hh"
 #include "Ravl/Point3d.hh"
 #include "Ravl/Vector3d.hh"
+#include "Ravl/FLinePP.hh"
 
 namespace RavlN {
 
@@ -30,79 +31,25 @@ namespace RavlN {
   // in Euclidian space. A line is represented by 2 points.
   
   class LinePP3dC
+    : public FLinePPC<3>
   {
   public:
     LinePP3dC()
-      : pointA(0,0,0), pointB(0,0,0)
     {}
-    //: Creates the non-existing line ([0,0,0]; [0,0,0]);
+    //: Default constructor.
+    // The line created is not defined.
     
     LinePP3dC(const Point3dC & first, const Point3dC & second)
-      : pointA(first), pointB(second)
+      : FLinePPC<3>(first,second)
     {}
     //: Creates the line segment connecting the point 'first' with the
     //: point 'second'.
     
     LinePP3dC(const Point3dC & a, const Vector3dC & v) 
-      : pointA(a), pointB(a+v)
+      : FLinePPC<3>(a,v)
     {}
     //: Creates the line segment connecting the point 'a' and the point
     //: a+v.
-    
-    //:---------------------------------------
-    //: Access to elements of the line segment.
-    
-    const Point3dC & FirstPoint() const
-    { return pointA; }
-    //: Returns the start point of the line segment.
-    
-    const Point3dC & SecondPoint() const
-    { return pointB; }
-    //: Returns the end point of the line segment.
-
-    Point3dC & FirstPoint()
-    { return pointA; }
-    //: Returns the start point of the line segment.
-    
-    Point3dC & SecondPoint()
-    { return pointB; }
-    //: Returns the end point of the line segment.
-    
-    const Point3dC & P1() const
-    { return pointA; }
-    //: Returns the start point of the line segment. 
-    // It is equivalent to the function FirstPoint().
-    
-    const Point3dC & P2() const
-    { return pointB; }
-    // Returns the start point of the line segment. 
-    //: It is equivalent to the function SecondPoint().
-    
-    Point3dC & P1()
-    { return pointA; }
-    //: Returns the start point of the line segment. 
-    // It is equivalent to the function FirstPoint().
-    
-    Point3dC & P2()
-    { return pointB; }
-    //: Returns the start point of the line segment. 
-    // It is equivalent to the function SecondPoint().
-    
-    const Point3dC & operator[](const IndexC i) const {
-      RavlAssertMsg(i != 0 && i != 1,"Index out of range 0..1"); 
-      return (i==0) ? P1() : P2();
-    }
-    //: Returns the ith point.
-
-    Point3dC & operator[](const IndexC i) {
-      RavlAssertMsg(i != 0 && i != 1,"Index out of range 0..1"); 
-      return (i==0) ? P1() : P2();
-    }
-    //: Returns the ith point.
-    
-    Vector3dC Vector() const
-    { return Vector3dC(pointB - pointA); } 
-    //: Returns the line segment as a free vector.
     
     Line3dPVC LinePV() const;
     //: Returns the line represented by the start point and the vector.
@@ -110,43 +57,9 @@ namespace RavlN {
     // segment. The vector of the returned line is determined by the
     // start point and the end point of this line segment.
     
-    RealT Length() const
-    { return pointA.EuclidDistance(pointB); }
-    //: Returns the Euclidian distance of the start and end points.
-    
-    void Swap();
-    //: Swaps the end points of this
-    
-    LinePP3dC Swapped() const
-    { return LinePP3dC (P2(), P1()); }
-    //: Returns a line with swapped endpoints
-    
+    //:-------------------------
     // Geometrical computations.
-    // -------------------------
     
-    LinePP3dC operator+(const Vector3dC & v) const
-    { return LinePP3dC(Point3dC(P1()+v),Point3dC(P2()+v)); }
-    //: Returns the line segment translated into the new position.
-    
-    LinePP3dC & operator+=(const Vector3dC & v) {
-      pointA += v;
-      pointB += v;
-      return *this;
-    }
-    //: Moves the line segment into the new position.
-    // The operator is equivalent to the member function Translate().
-
-    LinePP3dC & Translate(const Vector3dC & v)
-    { return operator+=(v); }
-    //: Moves the line segment into the new position.
-    // The member function is equivalent to the operator+=.
-
-    LinePP3dC & FixStart(const Point3dC & p);
-    //: Translates the line segment to start in the point 'p'.
-
-    LinePP3dC & FixEnd(const Point3dC & p);
-    //: Translates the line segment to end in the point 'p'.
-
     RealT Distance(const LinePP3dC & line);
     //: Returns the distance of the lines represented by this line segment
     //: and the segment 'line'.
@@ -160,54 +73,39 @@ namespace RavlN {
     // The returned line has the first point on this
     // line and the second point on the 'line'.
     
-    Point3dC Point(const RealT t) const
-    { return FirstPoint() + Vector() * t; }
-    //: Returns the point of the line: FirstPoint() + t * Vector().
-    
     Vector3dC Perpendicular(const Point3dC & p) const
     { return Vector().Cross(p-P1()); }
     //: Returns the vector that is perpendicular to the plane containing
     //: the line segment and the point 'p'. 
     // The direction of the return vector is determined by the cross 
     // product (P2-P1) % (p-P1) which is equivalent to (P1-p) % (P2-p).
+
+    Vector3dC Vector() const
+    { return FLinePPC<3>::Vector(); } 
+    //: Returns the line segment as a free vector.
     
   private:
-
-    // The representation of the object.
-    // ---------------------------------
-
-    Point3dC pointA;  // The start point of the line segment.
-    Point3dC pointB;  // The end point of the line segment.
-
     friend RealT Distance(const Point3dC & point, const LinePP3dC & line);
-    friend istream & operator>>(istream & inS, LinePP3dC & line);
   };
   
   inline RealT Distance(const Point3dC & point, const LinePP3dC & line) 
   { return line.Distance(point); }
   
-  ostream & operator<<(ostream & outS, const LinePP3dC & line);
-  istream & operator>>(istream & inS, LinePP3dC & line);
+  inline
+  ostream & operator<<(ostream & s, const LinePP3dC & line)
+  { return s << ((const FLinePPC<3> &) line); }
   
-  ////////////////////////////////////////////////////////////
+  inline
+  istream & operator>>(istream & s, LinePP3dC & line)
+  { return s >> ((FLinePPC<3> &) line); }
+
+  inline
+  BinOStreamC & operator<<(BinOStreamC & s, const LinePP3dC & line)
+  { return s << ((const FLinePPC<3> &) line); }
   
-  inline void LinePP3dC::Swap() {
-    Point3dC tmp(P1());
-    P1() = P2();
-    P2() = tmp;
-  }
-  
-  inline LinePP3dC &LinePP3dC::FixStart(const Point3dC & p) {
-    pointB += p-pointA;
-    pointA  = p;
-    return *this;
-  }
-  
-  inline LinePP3dC & LinePP3dC::FixEnd(const Point3dC & p) {
-    pointA += p-pointB;
-    pointB  = p;
-    return *this;
-  }
+  inline
+  BinIStreamC & operator>>(BinIStreamC & s, LinePP3dC & line)
+  { return s >> ((FLinePPC<3> &) line); }
   
   
 }

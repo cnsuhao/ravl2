@@ -12,7 +12,7 @@
 //! rcsid="$Id$"
 //! lib=RavlMath
 //! author="Charles Galambos"
-//! date="26/08/98"
+//! date="26/08/1998"
 //! file="Ravl/Math/Geometry/Euclidean/2D/Curve2dLineSegment.hh"
 
 #include "Ravl/Curve2dLine.hh"
