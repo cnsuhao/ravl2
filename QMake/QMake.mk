@@ -263,7 +263,7 @@ libbuild:
 #  4-Build documentation
 
 fullbuild:
-	$(SHOWIT)if $(MAKEMO) $(FULLBUILDFLAGS) src_all NOINCDEFS=1 ; then true; \
+	+ $(SHOWIT)if $(MAKEMO) $(FULLBUILDFLAGS) src_all NOINCDEFS=1 ; then true; \
         else \
 	  echo "QMAKE: Installation of header files failed. " ; \
 	  exit 1; \
@@ -292,7 +292,7 @@ fullbuild:
 	$(MAKEDC) $(FULLBUILDFLAGS) doc 
 
 rpmbuild:
-	$(SHOWIT)if $(MAKEMO) $(FULLBUILDFLAGS) src_all NOINCDEFS=1 ; then true; \
+	+ $(SHOWIT)if $(MAKEMO) $(FULLBUILDFLAGS) src_all NOINCDEFS=1 ; then true; \
         else \
 	  echo "QMAKE: Installation of header files failed. " ; \
 	  exit 1; \
@@ -326,7 +326,7 @@ rpmbuild:
 	$(MAKEDC) $(FULLBUILDFLAGS) doc 
 
 fullshared:
-	if $(MAKEMD) $(FULLBUILDFLAGS) fullbuild VAR=shared TARGET=fullbuild NOEXEBUILD=1 ; then true; \
+	+ $(SHOWIT)if $(MAKEMD) $(FULLBUILDFLAGS) fullbuild VAR=shared TARGET=fullbuild NOEXEBUILD=1 ; then true; \
         else \
 	  echo "QMAKE: Shared library build failed. " ; \
 	  exit 1; \
