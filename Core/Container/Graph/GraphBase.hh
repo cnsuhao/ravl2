@@ -504,7 +504,7 @@ namespace RavlN {
     { return SourceRep(); }
     // Returns the first node of the edge which is connected
     // to this graph adjacency.
-
+    
     inline GraphNodeBaseBodyC & Node1Rep()
     { return SourceRep(); }
     // Returns the first node of the edge which is connected
@@ -519,7 +519,17 @@ namespace RavlN {
     { return TargetRep(); }
     // Returns the second node of the edge which is connected
     // to this graph adjacency.
-
+    
+    inline GraphNodeBaseC  Node1()
+    { return GraphNodeBaseC(SourceRep(),Graph()); }
+    // Returns the first node of the edge which is connected
+    // to this graph adjacency.
+    
+    inline GraphNodeBaseC Node2()
+    { return GraphNodeBaseC(TargetRep(),Graph()); }
+    // Returns the second node of the edge which is connected
+    // to this graph adjacency.
+    
     inline GraphEdgeBaseC Edge();
     // Returns the edge which is connected to this graph adjacency.
 

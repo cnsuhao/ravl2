@@ -14,8 +14,7 @@ HEADERS=GraphBase.hh Graph.hh GraphNode.hh GraphEdge.hh GraphAdj.hh \
  GraphBaseLinearIter.hh GraphLinearIter.hh GraphBestRoute.hh GraphConnIt.hh \
  GraphBConIt.hh
 
-SOURCES=GraphBase.cc Graph.cc \
- GraphBaseLinearIter.cc  GraphBConIt.cc
+SOURCES=GraphBase.cc Graph.cc GraphBaseLinearIter.cc  GraphBConIt.cc
 
 PLIB=RavlCore
 

@@ -52,7 +52,7 @@ namespace RavlN {
     // Get data from node 1.
     
     inline NodeT &Node2Data(void);
-  // Get data from node 2.
+    // Get data from node 2.
     
     NodeT &SourceData(void) { return Node1Data(); }
     // Data from source node.
@@ -166,12 +166,12 @@ namespace RavlN {
   template<class NodeT,class EdgeT>
   inline 
   GraphNodeIterC<NodeT,EdgeT> GraphAdjIterC<NodeT,EdgeT>::Node1(void) 
-  { return static_cast<GraphNodeDatC<NodeT,EdgeT> &>(GraphAdjIterBaseC::Node1Rep()); }
+  { return GraphNodeIterC<NodeT,EdgeT>(GraphAdjIterBaseC::Node1()); }
   
   template<class NodeT,class EdgeT>
   inline 
   GraphNodeIterC<NodeT,EdgeT> GraphAdjIterC<NodeT,EdgeT>::Node2(void) 
-  { return static_cast<GraphNodeDatC<NodeT,EdgeT> &>(GraphAdjIterBaseC::Node2Rep()); }
+  { return GraphNodeIterC<NodeT,EdgeT>(GraphAdjIterBaseC::Node2()); }
   
   template<class NodeT,class EdgeT>
   inline
