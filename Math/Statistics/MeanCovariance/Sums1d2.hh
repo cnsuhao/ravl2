@@ -39,6 +39,10 @@ namespace RavlN {
     {}
     //: Constructor from sum elements.
     
+    void Reset()
+    { n = 0; sum = 0; sum2 = 0; }
+    //: Reset all counters.
+    
     void operator+=(RealT val) {
       n++;
       sum += val;
