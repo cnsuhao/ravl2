@@ -211,6 +211,20 @@ namespace RavlN {
     { return RelNth(-n); }
     //: Short hand for RelNth(-n).
     
+    DLIterC<DataT> operator+(IntT n) const { 
+      DLIterC<DataT> it(*this); 
+      it.RelNth(n); 
+      return it;
+    }
+    //: Create an iterator positioned 'n' elements forward from this one.
+    
+    DLIterC<DataT> operator-(IntT n) const { 
+      DLIterC<DataT> it(*this); 
+      it.RelNth(-n); 
+      return it;
+    }
+    //: Create an iterator positioned 'n' elements back from this one.
+    
     DLIterC<DataT> &Nth(IntT n) {
       if(n >= 0) {
 	First();
