@@ -50,6 +50,8 @@ namespace RavlN {
 	break;
       }
       for(GraphAdjIterC<NodeT,EdgeT> it(at.Out());it.IsElm();it.Next()) {
+	if(it.OtherNodeH() == at)
+	  continue; // Ignore loops to self.
 	RealT val = ccost + EvalT(it.Data());
 	if(dist.IsElm(it.OtherNode())) {
 	  if(dist[it.OtherNode()] <= val)
@@ -71,21 +73,22 @@ namespace RavlN {
     while(at != from) {
       GraphEdgeIterC<NodeT,EdgeT> back;
       GraphAdjIterC<NodeT,EdgeT> it(at.In());
-      while(!dist.IsElm(it.OtherNode())) {
+      while(!dist.IsElm(it.OtherNode()) || it.OtherNodeH() == at) {
 	it++;
 	RavlAssert(it); // There should be at least 1 node with a distance.
       }
       CostT mindist = dist[it.OtherNode()] + EvalT(it.Data());
       back = it.Edge();
-      at = it.OtherNode();
+      GraphNodeHC<NodeT,EdgeT> nat = it.OtherNode();
       for(it++;it;it++) {
-	if(!dist.IsElm(it.OtherNode()))
+	// Ignore loops to self and nodes with no distances.
+	if(!dist.IsElm(it.OtherNode()) || it.OtherNodeH() == at) 
 	  continue;
 	CostT cv = dist[it.OtherNode()] + EvalT(it.Data());
 	if(cv <= mindist) {
 	  mindist = cv;
 	  back = it.Edge();
-	  at = it.OtherNode();
+	  nat = it.OtherNode();
 	  // If the cost is equal or smaller than that of the current node we know
 	  // we've found the smallest.
 	  // Note: It may not be exactly equal because of rounding errors, so if its
@@ -97,6 +100,7 @@ namespace RavlN {
       lastDist = mindist;
       RavlAssert(back.IsValid()); // Just to check sanity.
       ret.InsFirst(back);
+      at = nat;
     }
     return ret;
   }
