@@ -671,6 +671,12 @@ namespace RavlGUIN {
 
   //: Grab keyboard focus.
   
+  void WidgetBodyC::GrabFocus() {
+    Manager.Queue(Trigger(WidgetC(*this),&WidgetC::GUIGrabFocus));
+  }
+  
+  //: Grab keyboard focus.
+  
   void WidgetBodyC::GUIGrabFocus() {
     if(widget == 0)
       return ;

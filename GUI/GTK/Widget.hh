@@ -169,6 +169,9 @@ namespace RavlGUIN {
     static GTKSignalInfoC &SigInfo(const char *nm) ;
     //: Get information about a named signal.
     
+    void GrabFocus();
+    //: Grab keyboard focus.
+    
   protected:
 
     virtual bool GUISetStyle(WidgetStyleC& style);
@@ -316,6 +319,10 @@ namespace RavlGUIN {
     bool GUISetUPosition(int &width, int &height)
     { return Body().GUISetUPosition(width, height); }
     //: Set the widget position
+    
+    void GrabFocus() 
+    { Body().GrabFocus(); }
+    //: Grab keyboard focus
     
     void GUIGrabFocus()
     { Body().GUIGrabFocus(); }
