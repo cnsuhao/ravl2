@@ -48,13 +48,13 @@ namespace RavlN {
 	const ObservationC &obs = sample.Nth(i);
 	if ( dynamic_cast<const ObservationExplicitBodyC *>(&obs.Body()) != 0 ) {
 	  // explicit form of point observation
-	  const ObservationQuadraticPointC &eobs(obs);
+	  const ObservationQuadraticPointC &eobs = obs;
 	  xc = eobs.GetXC();
 	  yc = eobs.GetZ()[0];
 	}
 	else {
 	  // implicit form of point observation
-	  const ObservationImpQuadraticPointC &iobs(obs);
+	  const ObservationImpQuadraticPointC &iobs = obs;
 	  xc = iobs.GetZ()[0];
 	  yc = iobs.GetZ()[1];
 	}
@@ -82,13 +82,13 @@ namespace RavlN {
       const ObservationC &obs = it.Data();
       if ( dynamic_cast<const ObservationExplicitBodyC *>(&obs.Body()) != 0 ) {
 	// explicit form of point observation
-	const ObservationQuadraticPointC &eobs(obs);
+	const ObservationQuadraticPointC &eobs = obs;
 	xc = eobs.GetXC();
 	yc = eobs.GetZ()[0];
       }
       else {
 	// implicit form of point observation
-	const ObservationImpQuadraticPointC &iobs(obs);
+	const ObservationImpQuadraticPointC &iobs = obs;
 	xc = iobs.GetZ()[0];
 	yc = iobs.GetZ()[1];
       }

@@ -37,7 +37,7 @@ namespace RavlN {
   VectorC ObservationImpHomog2dPointBodyC::EvaluateFunctionF(const StateVectorC &state_vec)
   {
     // we know that the state vector actually represents a 2D homography
-    const StateVectorHomog2dC sv(state_vec);
+    const StateVectorHomog2dC sv = state_vec;
     RavlAssert(sv.IsValid());
     
     const Matrix3dC &P = sv.GetHomog(); // homography matrix
@@ -58,10 +58,9 @@ namespace RavlN {
 
     // store computed z-coordinate as well
     z2 = p[2];
-
+    
     // subtract observed point on plane 2
-    Vector2dC F(p2[0]-z[2], p2[1]-z[3]);
-    return F;
+    return VectorC(p2[0]-z[2], p2[1]-z[3]);
   }
 #if 1
   //: Evaluate the Jacobian of an observation for a single point w.r.t. the
@@ -69,7 +68,7 @@ namespace RavlN {
   MatrixC ObservationImpHomog2dPointBodyC::EvaluateJacobianFz(const StateVectorC &state_vec)
   {
     // we know that the state vector actually represents a 2D homography
-    const StateVectorHomog2dC& sv(state_vec);
+    const StateVectorHomog2dC& sv = state_vec;
     RavlAssert(sv.IsValid());
     
     const Matrix3dC &P = sv.GetHomog(); // homography matrix
@@ -93,7 +92,7 @@ namespace RavlN {
   MatrixC ObservationImpHomog2dPointBodyC::EvaluateJacobianFx(const StateVectorC &state_vec)
   {
     // we know that the state vector actually represents a 2D homography
-    const StateVectorHomog2dC& sv(state_vec);
+    const StateVectorHomog2dC& sv = state_vec;
     RavlAssert(sv.IsValid());
     
     const VectorC &z = GetZ(); // 2D point pair

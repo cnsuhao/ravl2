@@ -32,7 +32,7 @@ namespace RavlN {
   VectorC ObservationLine2dPointBodyC::EvaluateFunctionF(const StateVectorC &state_vec)
   {
     // we know that the state vector actually represents a 2D line
-    const StateVectorLine2dC sv(state_vec);
+    const StateVectorLine2dC sv = state_vec;
     RavlAssert(sv.IsValid());
     
     const VectorC &z = GetZ(); // 2D image point
@@ -55,7 +55,7 @@ namespace RavlN {
   MatrixC ObservationLine2dPointBodyC::EvaluateJacobianFz(const StateVectorC &state_vec)
   {
     // we know that the state vector actually represents a 2D line
-    const StateVectorLine2dC& sv(state_vec);
+    const StateVectorLine2dC& sv = state_vec;
     RavlAssert(sv.IsValid());
     
     MatrixC Fz(1,2); // Jacobian matrix
@@ -71,7 +71,7 @@ namespace RavlN {
   MatrixC ObservationLine2dPointBodyC::EvaluateJacobianFx(const StateVectorC &state_vec)
   {
     // we know that the state vector actually represents a 2D line
-    const StateVectorLine2dC& sv(state_vec);
+    const StateVectorLine2dC& sv = state_vec;
     RavlAssert(sv.IsValid());
     
     const VectorC &z = GetZ(); // 2D image point pair

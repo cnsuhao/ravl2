@@ -50,13 +50,13 @@ namespace RavlN {
 	RealT x1, y1, x2, y2;
 	if ( dynamic_cast<const ObservationExplicitBodyC *>(&obs.Body()) != 0 ) {
 	  // explicit form of point observation
-	  const ObservationHomog2dPointC &eobs(obs);
+	  const ObservationHomog2dPointC &eobs = obs;
 	  x1=eobs.GetZ1()[0]; y1=eobs.GetZ1()[1];
 	  x2=eobs.GetZ()[0];  y2=eobs.GetZ()[1];
 	}
 	else {
 	  // implicit form of point observation
-	  const ObservationImpHomog2dPointC &iobs(obs);
+	  const ObservationImpHomog2dPointC &iobs = obs;
 	  x1=iobs.GetZ()[0]; y1=iobs.GetZ()[1];
 	  x2=iobs.GetZ()[2]; y2=iobs.GetZ()[3];
 	}

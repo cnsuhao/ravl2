@@ -82,21 +82,21 @@ namespace RavlN {
 
     // generate random sample
     num_constraints = 0;
-    for(SArray1dIterC<IntT> it(index);it;it++, i++) {
+    for(SArray1dIterC<IntT> it2(index);it;it++) {
       for(;;) {
 	// add index of random observation to sample
-	index[i] = RandomInt() % obs_array.Size();
-
+	*it2 = RandomInt() % obs_array.Size();
+	
 	// check whether this observation is already selected
-	if(obs_array[index[i]].GetSelected())
+	if(obs_array[*it2].GetSelected())
 	  continue;
 
 	// set selected flag for observation
-	obs_array[index[i]].SetSelected();
-
+	obs_array[*it2].SetSelected();
+	
 	// accumulate the number of constraints
-	num_constraints += obs_array[index[i]].GetNumConstraints();
-
+	num_constraints += obs_array[*it2].GetNumConstraints();
+	
 	// get next element in sample
 	break;
       }
@@ -105,7 +105,7 @@ namespace RavlN {
       if(num_constraints >= min_num_constraints)
 	break;
     }
-      
+    
     // build sample list of observations
     DListC<ObservationC> sample;
     for(;i>=0;i--)

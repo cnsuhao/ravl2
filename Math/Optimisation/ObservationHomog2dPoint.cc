@@ -61,10 +61,10 @@ namespace RavlN {
 
     // store computed z-coordinate as well
     z2 = p[2];
-
-    return p2;
+    
+    return VectorC(p2[0],p2[1]);
   }
-
+  
   //: Evaluate the Jacobian of an observation for a single point
   MatrixC ObservationHomog2dPointBodyC::EvaluateJacobianHx(const StateVectorC &state_vec)
   {
