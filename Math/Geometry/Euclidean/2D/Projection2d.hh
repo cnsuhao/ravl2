@@ -19,6 +19,7 @@
 #include "Ravl/Vector2d.hh"
 #include "Ravl/Matrix2d.hh"
 #include "Ravl/Point2d.hh"
+#include "Ravl/LineABC2d.hh"
 #include "Ravl/FAffine.hh"
 
 namespace RavlN {
@@ -85,6 +86,19 @@ namespace RavlN {
     { return Project(pnt); }
     //: Project a point through the transform.
     
+    inline
+    LineABC2dC Project(const LineABC2dC &line) const {
+      Vector3dC vo = trans.Inverse() * Vector3dC(line.A(),line.B(),line.C()/iz);
+      return LineABC2dC(vo[0],vo[1],vo[2]*oz);          
+    }
+    //: Project a line through the transform.
+    // Current implementation is slow, as it inverts the projection each time the method is called.
+    
+    LineABC2dC operator*(const LineABC2dC &line) const
+    { return Project(line); }
+    //: Project a line through the transform.
+    // Current implementation is slow, as it inverts the projection each time the method is called.
+
     Projection2dC operator*(const Projection2dC &oth) const {
       Matrix3dC diag(Matrix3dC::I());
       diag[2][2] = iz/oth.oz;

@@ -25,6 +25,7 @@
 #include "Ravl/HEMesh2d.hh"
 #include "Ravl/TriMesh2d.hh"
 #include "Ravl/Projection2d.hh"
+#include "Ravl/LineABC2d.hh"
 #include "Ravl/Conic2d.hh"
 #include "Ravl/Ellipse2d.hh"
 #include "Ravl/Angle.hh"
@@ -40,6 +41,7 @@ int testDelaunayTriangulation2d();
 int testFitAffine();
 int testHEMesh2d();
 int testProjective2d();
+int testLineProjective2d();
 int testConic2d();
 int testEllipse2dA();
 int testEllipse2dB();
@@ -78,6 +80,10 @@ int main() {
     return 1;
   }
   if((ln = testProjective2d()) != 0) {
+    cerr << "Test failed at " << ln << "\n";
+    return 1;
+  }
+  if((ln = testLineProjective2d()) != 0) {
     cerr << "Test failed at " << ln << "\n";
     return 1;
   }
@@ -361,6 +367,22 @@ int testProjective2d() {
   // Check projection multiplication
   Projection2dC proj2(Projection2dC::I(14,3)); // Another arbitrary unit projection
   if (((proj*proj2)*ipnt[1] - ipnt[1]).SumOfAbs() > 0.001) return __LINE__;
+  return 0;
+}
+
+int testLineProjective2d() {
+  cerr << "testLineProjective2d Called. \n";
+  // Draw a line through 2 points
+  Point2dC p1(2,1);
+  Point2dC p2(1,3);
+  LineABC2dC inLine(p1, p2);
+  // See if projected line still passes through projected points
+  Projection2dC proj(Matrix3dC(0,.5,0,.5,0,0,0,0,0.4), 2, 5);
+  LineABC2dC outLine(proj*inLine);
+  if (   (outLine.Distance(proj*p1) > 0.001)
+      || (outLine.Distance(proj*p2) > 0.001)) return __LINE__;
+
+exit(0);
   
   return 0;
 }
