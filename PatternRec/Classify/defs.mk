@@ -14,12 +14,12 @@ PACKAGE = Ravl/PatternRec
 HEADERS=Classifier.hh DesignClassifierSupervised.hh  DesignClassifierUnsupervised.hh \
  DesignDiscriminantFunction.hh DesignKNearestNeighbour.hh \
  ClassifierKNearestNeighbour.hh ClassifierNearestNeighbour.hh ClassifierAverageNearestNeighbour.hh \
- ClassifierDiscriminantFunction.hh DesignKMeans.hh
+ ClassifierDiscriminantFunction.hh DesignKMeans.hh DesignMeanShiftCluster.hh
 
 SOURCES=Classifier.cc DesignClassifierSupervised.cc DesignClassifierUnsupervised.cc \
  DesignDiscriminantFunction.cc DesignKNearestNeighbour.cc \
  ClassifierKNearestNeighbour.cc ClassifierNearestNeighbour.cc ClassifierAverageNearestNeighbour.cc \
- ClassifierDiscriminantFunction.cc DesignKMeans.cc
+ ClassifierDiscriminantFunction.cc DesignKMeans.cc DesignMeanShiftCluster.cc
 
 PLIB = RavlPatternRec
 

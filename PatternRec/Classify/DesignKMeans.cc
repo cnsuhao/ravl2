@@ -35,7 +35,7 @@ namespace RavlN {
     IntT version;
     strm >> version;
     if(version != 0)
-      throw ExceptionOutOfRangeC("DesignKMeansBodyC::DesignKMeansBodyC(istream &), Unrecognised version number in stream. ");
+      throw ExceptionOutOfRangeC("DesignKMeansBodyC(istream &), Unrecognised version number in stream. ");
     strm >> distance >> k; 
   }
   //: Load from binary stream.
@@ -46,7 +46,7 @@ namespace RavlN {
     IntT version;
     strm >> version;
     if(version != 0)
-      throw ExceptionOutOfRangeC("DesignKMeansBodyC::DesignKMeansBodyC(BinIStreamC &), Unrecognised version number in stream. ");
+      throw ExceptionOutOfRangeC("DesignKMeansBodyC(BinIStreamC &), Unrecognised version number in stream. ");
     strm >> distance >> k; 
   }
   //: Writes object to stream, can be loaded using constructor
