@@ -146,7 +146,8 @@ namespace RavlN {
     
     virtual void PutEOS() { 
       gotEOS = true; 
-      ep.Send(NPMsg_Close);      
+      ep.Send(NPMsg_Close);
+      ep.WaitTransmitQClear();
     }
     //: Put End Of Stream marker.
     
