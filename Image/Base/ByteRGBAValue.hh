@@ -42,26 +42,6 @@ namespace RavlN {
     // This returns the average of the red, green
     // and blue components.
   };
-
-  inline
-  istream &operator>>(istream &strm,ByteRGBAValueC &val) 
-    { return strm >> ((TFVectorC<ByteT,4> &)(val)); }
-  //: Stream input.
-  
-  inline
-  ostream &operator<<(ostream &strm,const ByteRGBAValueC &val) 
-    { return strm << ((const TFVectorC<ByteT,4> &)(val)); }
-  //: Stream output.
-
-  inline  
-  BinIStreamC &operator>>(BinIStreamC &strm,ByteRGBAValueC &val) 
-    { return strm >> ((TFVectorC<ByteT,4> &)(val)); }
-  //: Binary stream input.
-  
-  inline
-  BinOStreamC &operator<<(BinOStreamC &strm,const ByteRGBAValueC &val) 
-    { return strm << ((const TFVectorC<ByteT,4> &)(val)); }
-  //: Binary stream output
   
 }
 

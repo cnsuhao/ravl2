@@ -43,26 +43,7 @@ namespace RavlN {
     // creates an undefined YUV pixel.
 
   };
-  
-  inline
-  istream &operator>>(istream &strm,RealYUVValueC &val) 
-    { return strm >> ((TFVectorC<RealT,3> &)(val)); }
-  //: Stream input.
-  
-  inline
-  ostream &operator<<(ostream &strm,const RealYUVValueC &val) 
-    { return strm << ((const TFVectorC<RealT,3> &)(val)); }
-  //: Stream output.
 
-  inline  
-  BinIStreamC &operator>>(BinIStreamC &strm,RealYUVValueC &val) 
-    { return strm >> ((TFVectorC<RealT,3> &)(val)); }
-  //: Binary stream input.
-  
-  inline
-  BinOStreamC &operator<<(BinOStreamC &strm,const RealYUVValueC &val) 
-    { return strm << ((const TFVectorC<RealT,3> &)(val)); }
-  //: Binary stream output
 }
 
 #endif

@@ -195,6 +195,13 @@ namespace RavlCxxDocN
       return *lu;
     return ObjectC(const_cast<ObjectBodyC &>(*this));
   }
+
+  //: Access arg list.
+  ObjectListC &ObjectBodyC::TemplArgList() { 
+    RavlAssert(0); // Abstract function.
+    static ObjectListC dummy;
+    return dummy; // None, so return an empty dummy.
+  }
   
   ///// ObjectC //////////////////////////////////////////////////
 

@@ -42,26 +42,7 @@ namespace RavlN {
     // creates an undefined RGB pixel.
     
   };
-  
-  inline
-  istream &operator>>(istream &strm,RealRGBValueC &val) 
-    { return strm >> ((TFVectorC<RealT,3> &)(val)); }
-  //: Stream input.
-  
-  inline
-  ostream &operator<<(ostream &strm,const RealRGBValueC &val) 
-    { return strm << ((const TFVectorC<RealT,3> &)(val)); }
-  //: Stream output.
 
-  inline  
-  BinIStreamC &operator>>(BinIStreamC &strm,RealRGBValueC &val) 
-    { return strm >> ((TFVectorC<RealT,3> &)(val)); }
-  //: Binary stream input.
-  
-  inline
-  BinOStreamC &operator<<(BinOStreamC &strm,const RealRGBValueC &val) 
-    { return strm << ((const TFVectorC<RealT,3> &)(val)); }
-  //: Binary stream output
 }
 
 #endif

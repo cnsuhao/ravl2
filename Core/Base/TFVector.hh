@@ -32,9 +32,11 @@ namespace RavlN {
   ostream &operator<<(ostream &in,const TFVectorC<DataT,N> &dat);
   
   template<class DataT,unsigned int N>
+  inline
   BinIStreamC &operator>>(BinIStreamC &in,TFVectorC<DataT,N> &dat);
   
   template<class DataT,unsigned int N>
+  inline
   BinOStreamC &operator<<(BinOStreamC &in,const TFVectorC<DataT,N> &dat);
   
   //! userlevel=Advanced

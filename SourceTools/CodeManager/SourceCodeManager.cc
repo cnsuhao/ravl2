@@ -41,7 +41,7 @@ namespace RavlN {
   
   //: For all directories in project do 'op'.
   
-  bool SourceCodeManagerC::ForAllDirs(CallFunc2C<StringC,DefsMkFileC,bool> op,bool inActiveAsWell = false) {
+  bool SourceCodeManagerC::ForAllDirs(CallFunc2C<StringC,DefsMkFileC,bool> op,bool inActiveAsWell) {
     BlkQueueC<StringC> toDo;
     toDo.InsLast(".");
     while(!toDo.IsEmpty()) {

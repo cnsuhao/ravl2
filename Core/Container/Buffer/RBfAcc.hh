@@ -320,7 +320,7 @@ namespace RavlN {
   inline 
   const RangeBufferAccessC<DataC> & 
   RangeBufferAccessC<DataC>::operator=(DataC * bp) {
-    BufferAccessC<DataC>::operator=(bp);
+    ((BufferAccessC<DataC> &) *this) = bp;
     return *this;
   }
   

@@ -145,6 +145,14 @@ namespace RavlN {
     inline const IndexRangeC & ColRange() const
       { return cols; }
     //: Access col range.
+
+    inline IndexRangeC & RowRange()
+      { return rows; }
+    //: Access row range.
+    
+    inline IndexRangeC & ColRange()
+      { return cols; }
+    //: Access col range.
     
     inline const IndexRangeC & Range1() const
       { return rows; }

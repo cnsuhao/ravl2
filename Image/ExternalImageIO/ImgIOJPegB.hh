@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 #ifndef RAVLDPIMAGEIOJPEG_HEADER
-#define RAVLDPIMAGEIOJPEG_HEADER
+#define RAVLDPIMAGEIOJPEG_HEADER 1
 ///////////////////////////////////////////////////
 //! userlevel=Develop
 //! rcsid="$Id$"
@@ -15,16 +15,21 @@
 //! author="Charles Galambos"
 //! date="29/10/98"
 
+#include "Ravl/config.h"
+
+
+extern "C" {
+#include <stdio.h> // Needed for jpeglib.
+#include <setjmp.h>
+#include <jpeglib.h>
+};
+
 #include "Ravl/Image/ImgIOJPeg.hh"
 #include "Ravl/DP/FileFormat.hh"
 #include "Ravl/DP/Port.hh"
 #include "Ravl/Stream.hh"
 
-#include <setjmp.h>
 
-extern "C" {
-#include <jpeglib.h>
-};
 
 namespace RavlN
 {

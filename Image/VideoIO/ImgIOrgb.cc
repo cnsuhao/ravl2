@@ -39,8 +39,8 @@ namespace RavlN {
     // Work out frame size.
     frameSize = (size.Row().V() * size.Col().V()) * 3;
     // Setup image rectangle.
-    rect.Origin() = Index2dC(0,0);
-    rect.End() = Index2dC(size.Row()-1,size.Col()-1);
+    rect.RowRange() = IndexRangeC(0,size.Row()-1);
+    rect.ColRange() = IndexRangeC(0,size.Col()-1);
     
     padSize = frameSize % blockSize;
     cerr << "Padding :"<<padSize<<"\n";

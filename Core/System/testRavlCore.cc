@@ -155,7 +155,7 @@ int testMatrixN() {
 }
 #endif
 
-static bool IntLessOrEqual(int &v1,int &v2)
+static bool IntLessOrEqual(const int &v1,const int &v2)
 { return v1 <= v2; }
 
 int testDList() {

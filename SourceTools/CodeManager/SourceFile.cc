@@ -96,7 +96,7 @@ namespace RavlN {
   // concat, if true don't split lines, 
   // otherwise do.
   
-  SourceFileBodyC::SourceFileBodyC(const StringC &text,bool noFinalRet,bool concat = false)
+  SourceFileBodyC::SourceFileBodyC(const StringC &text,bool noFinalRet,bool concat)
     : TextFileBodyC(text,noFinalRet,concat),
       fileType("Unknown")
   {
@@ -306,12 +306,9 @@ namespace RavlN {
     ONDEBUG(cerr << "Using marker:'" << eoh << "' \n");
     DLIterC<TextFileLineC> it1(const_cast<TextBufferC &>(hdr).Lines());
     DLIterC<TextFileLineC> it2(Lines());
-    bool ok = true;
     for(;it1 && it2;it1++,it2++) {
-      if(it1->Text() != it2->Text()) {
-	ok = false;
+      if(it1->Text() != it2->Text())
 	break;
-      }
     }
     if(!it1) 
       return false; // Header is present and correct.

@@ -16,6 +16,7 @@
 //! date="24/01/2001"
 
 #include "Ravl/BfAccIter.hh"
+#include "Ravl/IndexRange1d.hh"
 
 namespace RavlN {
   //! userlevel=Advanced

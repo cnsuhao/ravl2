@@ -15,10 +15,8 @@
 #define ONDEBUG(x)
 #endif
 
-#include <stdio.h>
 extern "C" {
-
-  //#include <jinclude.h>
+#include <stdio.h>
 #include <jpeglib.h>
 #include <jerror.h>
   

@@ -408,7 +408,7 @@ namespace RavlN  {
   inline
   BinOStreamC &operator<<(BinOStreamC &out,const TFVectorC<DataT,N> &dat) {
     for(UIntT i = 0;i < N;i++)
-      out << dat.data[i];
+      out << dat[i];
     return out;
   }
   
@@ -416,7 +416,7 @@ namespace RavlN  {
   inline
   BinIStreamC &operator>>(BinIStreamC &in,TFVectorC<DataT,N> &dat) {
     for(UIntT i = 0;i < N;i++)
-      in >> dat.data[i];
+      in >> dat[i];
     return in;
   }
 

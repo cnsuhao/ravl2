@@ -49,25 +49,6 @@ namespace RavlN {
 
   };
   
-  inline
-  istream &operator>>(istream &strm,ByteRGBValueC &val) 
-    { return strm >> ((TFVectorC<ByteT,3> &)(val)); }
-  //: Stream input.
-  
-  inline
-  ostream &operator<<(ostream &strm,const ByteRGBValueC &val) 
-    { return strm << ((const TFVectorC<ByteT,3> &)(val)); }
-  //: Stream output.
-
-  inline  
-  BinIStreamC &operator>>(BinIStreamC &strm,ByteRGBValueC &val) 
-    { return strm >> ((TFVectorC<ByteT,3> &)(val)); }
-  //: Binary stream input.
-  
-  inline
-  BinOStreamC &operator<<(BinOStreamC &strm,const ByteRGBValueC &val) 
-    { return strm << ((const TFVectorC<ByteT,3> &)(val)); }
-  //: Binary stream output
 }
 
 #endif

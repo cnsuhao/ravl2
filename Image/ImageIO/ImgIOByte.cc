@@ -15,6 +15,14 @@
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Array2dIter2.hh"
 #include "Ravl/TypeName.hh"
+#include <iostream.h>
+
+#ifdef __sgi__
+istream &operator>>(istream &s,RavlN::SByteT b) {
+  s >> ((signed char &) b);
+  return s;
+}
+#endif
 
 namespace RavlN {
   

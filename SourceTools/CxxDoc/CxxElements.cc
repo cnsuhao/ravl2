@@ -60,7 +60,7 @@ namespace RavlCxxDocN
   
   //: Generate a full path name.
   
-  StringC PathName(DListC<ObjectC> path,DesciptionGeneratorC &dg = defaultDescGen,int maxDepth) {
+  StringC PathName(DListC<ObjectC> path,DesciptionGeneratorC &dg,int maxDepth) {
     return PathName(path,emptyTemplSubst,dg,maxDepth);
   }
 

@@ -289,8 +289,7 @@ namespace RavlCxxDocN {
     void IncludeLineNo(const ObjectC &ob);
     //: Include lines into object.
 
-    virtual ObjectListC &TemplArgList()
-      { return *((ObjectListC *) 0); }
+    virtual ObjectListC &TemplArgList();
     //: Access arg list.
     
     virtual bool IsTemplate() const

@@ -38,8 +38,8 @@ namespace RavlN {
     // Work out frame size.
     frameSize = (size.Row().V() * size.Col().V()) * 3/2;
     // Setup image rectangle.
-    rect.Origin() = Index2dC(0,0);
-    rect.End() = Index2dC(size.Row()-1,size.Col()-1);
+    rect.RowRange() = IndexRangeC(0,size.Row()-1);
+    rect.ColRange() = IndexRangeC(0,size.Col()-1);
     
     RavlAssert(!(rect.Rows() &1)); // Must be even number of rows.
     RavlAssert(!(rect.Cols() &1)); // Must be even number of columbs.
