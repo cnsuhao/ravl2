@@ -123,49 +123,63 @@ namespace RavlN {
   
   //: Constructor.
   
-  DateC::DateC(IntT year,IntT month,IntT day,IntT hour,IntT min,IntT asec,IntT nusec)
+  DateC::DateC(IntT year,IntT month,IntT day,IntT hour,IntT min,IntT asec,IntT nusec,bool useLocalTimeZone)
     : sec(0),
       usec(nusec)
   {
-    //                                    Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov,Dec,x
-    static int daysin[14]           = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 0 };
-    static int daysintoyear[14]     = { 0,  0, 31, 59, 90,120,151,181,212,243,273,304,334, 365};
-    static int daysleapin[14]       = { 0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 0 };
-    static int daysintoleapyear[14] = { 0,  0, 31, 60, 91,121,152,182,213,244,274,305,335, 366};  
-    sec =  YearToDaysSince1970(year) * 24 * 60 * 60;
-    if(month < 1 || month > 12) {
-      cerr << "DateC::DateC(), Illegal month " << month << "\n";
-    return ;
-    }
-    if(IsLeapYear(year)) {
-      sec += daysintoleapyear[month] * 24 * 60 * 60;
-      if(day < 1 || day > daysleapin[month]) {
-	cerr << "DateC::DateC(), Illegal day " <<day << " in month " << month << "\n";
+    if(!useLocalTimeZone) {
+      //                                    Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov,Dec,x
+      static int daysin[14]           = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 0 };
+      static int daysintoyear[14]     = { 0,  0, 31, 59, 90,120,151,181,212,243,273,304,334, 365};
+      static int daysleapin[14]       = { 0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31, 0 };
+      static int daysintoleapyear[14] = { 0,  0, 31, 60, 91,121,152,182,213,244,274,305,335, 366};  
+      sec =  YearToDaysSince1970(year) * 24 * 60 * 60;
+      if(month < 1 || month > 12) {
+	cerr << "DateC::DateC(), Illegal month " << month << "\n";
 	return ;
       }
+      if(IsLeapYear(year)) {
+	sec += daysintoleapyear[month] * 24 * 60 * 60;
+	if(day < 1 || day > daysleapin[month]) {
+	  cerr << "DateC::DateC(), Illegal day " <<day << " in month " << month << "\n";
+	  return ;
+	}
+      } else {
+	sec += daysintoyear[month] * 24 * 60 * 60;
+	if(day < 1 || day > daysin[month]) {
+	  cerr << "DateC::DateC(), Illegal day " <<day << " in month " << month << "\n";
+	  return ;
+	}
+      }
+      sec += (day-1) * (24 * 60 * 60);
+      if(hour < 0 || hour > 23) {
+	cerr << "DateC::DateC(), Illegal hour " << hour << "\n";
+	return ;
+      }
+      sec += hour * (60 * 60);
+      if(min < 0 || min > 59) {
+	cerr << "DateC::DateC(), Illegal minite " << min << "\n";
+	return ;
+      }
+      sec += min * 60;
+      if(asec < 0 || asec > 59) {
+	cerr << "DateC::DateC(), Illegal second " << min << "\n";
+	return ;
+      }
+      sec += asec;
     } else {
-      sec += daysintoyear[month] * 24 * 60 * 60;
-      if(day < 1 || day > daysin[month]) {
-	cerr << "DateC::DateC(), Illegal day " <<day << " in month " << month << "\n";
-	return ;
-      }
+      struct tm ttm;
+      ttm.tm_year = year;
+      ttm.tm_mon = month;
+      ttm.tm_mday = day;
+      ttm.tm_hour = hour;
+      ttm.tm_min = min;
+      ttm.tm_sec = asec;
+      ttm.tm_isdst = -1;
+      sec = mktime(&ttm);
+      if(sec < 0)
+	cerr << "DateC::DateC(), Illegal date. \n";
     }
-    sec += (day-1) * (24 * 60 * 60);
-    if(hour < 0 || hour > 23) {
-      cerr << "DateC::DateC(), Illegal hour " << hour << "\n";
-      return ;
-    }
-    sec += hour * (60 * 60);
-    if(min < 0 || min > 59) {
-      cerr << "DateC::DateC(), Illegal minite " << min << "\n";
-      return ;
-    }
-    sec += min * 60;
-    if(asec < 0 || asec > 59) {
-      cerr << "DateC::DateC(), Illegal second " << min << "\n";
-      return ;
-    }
-    sec += asec;
   }
   
   //: Set value of variable to now!

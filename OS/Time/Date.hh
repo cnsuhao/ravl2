@@ -46,8 +46,16 @@ namespace RavlN {
     DateC(RealT val);
     //: Construct from a real in seconds.
     
-    DateC(IntT year,IntT month,IntT day,IntT hour = 0,IntT min = 0,IntT sec = 0,IntT usec = 0);
+    DateC(IntT year,IntT month,IntT day,IntT hour = 0,IntT min = 0,IntT sec = 0,IntT usec = 0,bool useLocalTimeZone = false);
     //: Constructer.
+    //!param: year - Year (Must be from 1901 to 2038 inclusive)
+    //!param: month - Month in year 1-12
+    //!param: day - Day in the month 1 to 31
+    //!param: hour - 0 to 23
+    //!param: min - 0 to 59
+    //!param: sec - 0 to 59
+    //!param: usec - 1000000's of a second.
+    //!param: useLocalTimeZone - Assume parameters are in the local time zone, (May not be GMT.)
     
     DateC(istream &in);
     //: Construct from a stream
@@ -182,22 +190,22 @@ namespace RavlN {
     //: Get minute.
     
     IntT Hour() const;
-    //: Hours since midnight. 0-23
+    //: Hours since midnight. 0 to 23
     
     IntT Month() const;
-    //: Get month 1-31
+    //: Get month 1 to 12
     
     IntT Year() const;
     //: Get year.
     
     IntT DayInMonth() const;
-    //: Get day in month.  1,31
+    //: Get day in month.  1 to 31
     
     IntT DayInYear() const;
-    //: Get day of year. 0-365
+    //: Get day of year. 0 to 365
     
     IntT DayInWeek() const;
-    //: Get day of week. Since sunday, 0-6
+    //: Get day of week. Since sunday, 0 to 6
     
     const StringC &TextDayInWeek() const;
     //: Get day of week in text form.
