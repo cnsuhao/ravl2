@@ -13,4 +13,4 @@ DESCRIPTION=RAVL Applications.
 
 NESTED= FileConverter.r VPlay.r AVPlay.r SkinBlobFind.r Tracker.r VisualDataFlow VGrab.r
 
-EHT=Ravl.Applications.html
+EHT=Ravl.Applications.html Ravl.Applications.Video.html

@@ -8,8 +8,20 @@
 //! file="Ravl/Applications/Tracker/mosaic.cc"
 //! author="Phil McLauchlan"
 //! lib=RavlImageProc
-//! docentry="Ravl.Applications.Mosaic.mosaic"
+//! docentry="Ravl.Applications.Video"
 //! userlevel=Normal
+
+//: Creates a mosaic from a video sequence as a batch process
+//
+// <p>Runs as a batch process, in contrast to <a href=xmosaic.html>xmosaic</a>.</p>
+// <p>Main operations are:</p> <ul>
+// <li> applies Harris corner detector to each frame</li>
+// <li> tracks corners through sequence
+// <li> uses RANSAC on corners to compute a homography</li>
+// <li> uses Levenberg-Marquart to improve homography </li>
+// <li> uses homography to warp each frame into a reference frame</li>
+// <li> median filter applied to warped frames to create the mosaic</li>
+// </ul>
 
 #include "Ravl/Option.hh"
 #include "Ravl/StdConst.hh"

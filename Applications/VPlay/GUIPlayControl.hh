@@ -11,7 +11,7 @@
 //! file="Ravl/Applications/VPlay/GUIPlayControl.hh"
 //! author="Charles Galambos"
 //! date="23/03/1999"
-//! docentry="Ravl.Applications.VPlay"
+//! docentry="Ravl.Applications.Video"
 //! lib=RavlVPlay
 
 #include "Ravl/GUI/LBox.hh"

@@ -8,6 +8,10 @@
 //! lib=RavlVDF
 //! file="Ravl/Applications/VisualDataFlow/vdf.cc"
 
+//: Visual Data Flow
+//
+// This is work in progress, not of much practical use 
+
 #include "Ravl/Option.hh"
 #include "Ravl/DF/GUIEditor.hh"
 #include "Ravl/GUI/Manager.hh"

@@ -32,4 +32,4 @@ PROGLIBS = RavlDV.opt RavlImgIOV4L.opt RavlExtImgIO.opt RavlDPDisplay \
  RavlImgIO1394dc.opt
 
 
-EHT = exeVPlay.eht
+#EHT = exeVPlay.eht

@@ -7,9 +7,15 @@
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Applications/FileConverter/conv.cc"
-//! docentry="Ravl.Applications.conv"
+//! docentry="Ravl.Applications.Video"
 //! author="Charles Galambos"
 //! userlevel=Normal
+
+//: File/Sequence convertion.
+//
+//This program converts between Ravl fileformats. To list the
+//known file formats use the '-lf' option, to see a list of known
+//conversions use '-lc', and see a list of known classes use '-lt.'
 
 #include "Ravl/Option.hh"
 #include "Ravl/DP/FileFormatIO.hh"

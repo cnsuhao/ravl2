@@ -19,4 +19,4 @@ PROGLIBS= RavlDPDisplay.opt RavlExtImgIO.opt RavlDV.opt RavlImgIOV4L.opt  \
  RavlAudioFile.opt RavlDMeda.opt RavlImgIOMeteor1.opt RavlDPGraph.opt RavlAudioIO.opt \
  Lib1394dc.opt
 
-EHT = execonv.eht
+#EHT = execonv.eht

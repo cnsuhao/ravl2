@@ -7,7 +7,7 @@
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Applications/VPlay/VPlay.cc"
-//! docentry="Ravl.Applications.VPlay"
+//! docentry="Ravl.Applications.Video"
 //! author="Charles Galambos"
 //! lib=RavlVPlay
 //! userlevel=Normal

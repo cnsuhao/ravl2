@@ -27,7 +27,7 @@ USESLIBS=RavlGUI RavlIO RavlImageIO RavlDPDisplay RavlOSIO RavlDPMT RavlImagePro
 
 PROGLIBS= RavlImgIOV4L.opt RavlExtImgIO.opt 
 
-EHT = Ravl.Applications.VDF.html
+#EHT = Ravl.Applications.VDF.html
 
 AUXFILES= factory.cfg
 

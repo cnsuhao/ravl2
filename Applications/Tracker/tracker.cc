@@ -7,6 +7,13 @@
 //! rcsid="$Id$"
 //! file="Ravl/Applications/Tracker/tracker.cc"
 //! lib=RavlImageProc
+//! author="Charles Galambos"
+//! docentry="Ravl.Applications.Video"
+//! userlevel=Normal
+
+//: Track some Points 
+//
+//<p> This program identifies points in an images sequence and tracks them. By default it will attempt to grab from a connected video source. <p> 
 
 #include "Ravl/config.h"
 #include "Ravl/Option.hh"

@@ -6,16 +6,16 @@
 // file-header-ends-here
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/Applications/VPlay/VPlay.cc"
-//! docentry="Ravl.Applications.VPlay"
+//! file="Ravl/Applications/VPlay/AVPlay.cc"
+//! docentry="Ravl.Applications.Video;Ravl.Applications.Audio;"
 //! author="Charles Galambos"
 //! lib=RavlVPlay
 //! userlevel=Normal
 
-//: Play a Video sequence.
+//: Play a Video sequence containing audio track.
 //
 // This program uses the RAVL sequence handling to read a 
-// video sequence and display it using the GTK based GUI interface.
+// video sequence plus an sudio track, and plays it using the GTK based GUI interface.
 
 #include "Ravl/AVFrame.hh"
 #include "Ravl/AVMixer.hh"

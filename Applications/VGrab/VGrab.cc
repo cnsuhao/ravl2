@@ -7,9 +7,15 @@
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Applications/VideoGrab/VideoGrab.cc"
-//! docentry="Ravl.Applications.VideoGrab"
+//! docentry="Ravl.Applications.Video"
 //! author="Lee Gregory"
 //! userlevel=Normal
+
+//: Video Frame Grabber
+//
+//This program captures video from grabber cards. The grabber device can be specified using RAVL virtual files and defaults to the ClipStationPro driver. 
+
+
 #include "Ravl/EntryPnt.hh"
 #include "Ravl/Option.hh" 
 #include "Ravl/Image/ByteYUV422Value.hh"

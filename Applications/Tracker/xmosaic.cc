@@ -7,6 +7,13 @@
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! file="Ravl/Applications/Tracker/xmosaic.cc"
+//! author="Phil McLauchlan"
+//! docentry="Ravl.Applications.Video"
+//! userlevel=Normal
+
+//: Creates a mosaic from a video sequence interactively
+//
+// Like <a href=mosaic.html>mosaic</a>, but has a GUI and is therefore more interactive.
 
 #include "Ravl/EntryPnt.hh"
 #include "Ravl/Option.hh"
