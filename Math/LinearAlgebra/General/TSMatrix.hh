@@ -27,9 +27,9 @@
 namespace RavlN {
   template<class DataT> class TSMatrixC;
   template<class DataT> class TSMatrixTransposeC;
-
+  template<class DataT> class TSMatrixSymmetricC;
   template<class DataT> class TSMatrixFullBodyC;
-
+  
   template<class DataT>
   inline DataT MultiplySum(const RangeBufferAccessC<DataT> &ar1,const RangeBufferAccessC<DataT> &ar2) {
     DataT sum;
