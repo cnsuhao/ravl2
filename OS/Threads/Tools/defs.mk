@@ -14,7 +14,7 @@ PACKAGE=Ravl/Threads
 
 HEADERS=MessageQueue.hh LaunchThread.hh TickerTrigger.hh \
  TimedTriggerQueue.hh Signal.hh Signal1.hh Signal2.hh Signal3.hh \
- SignalConnectionSet.hh
+ SignalConnectionSet.hh MTPriQueueL.hh
 #  EventHandler.hh  TimedEventQueue.hh \
 # EventHandlerRef.hh
 
