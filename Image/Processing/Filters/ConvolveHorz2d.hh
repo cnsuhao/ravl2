@@ -68,7 +68,7 @@ namespace RavlImageN {
     for(Array2dIter2C<OutPixelT,InPixelT> it(result,in,resRect);it;it++) { // ,resRect
       const KernelPixelT *kp = &(rowKernel[rowKernel.IMin()]);
       const KernelPixelT *eol = &kp[ksize];
-      const InPixelT *ip = &it.Data2();
+      const InPixelT *ip = &((&it.Data2())[rowKernel.IMin().V()]);
       SumTypeT sum = (SumTypeT) ((*ip) * (*kp));
       ip++;
       kp++;
