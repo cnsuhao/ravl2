@@ -32,6 +32,7 @@ using namespace RavlImageN;
 using namespace RavlN;
 
 #ifdef __sgi__
+#include <stdlib.h>
 static DPOPortBodyC<PCPixMappingC<Curve2dLineSegmentC> > fix_sgi_bug1;
 static DPOPortC<PCPixMappingC<Curve2dLineSegmentC> > fix_sgi_bug2;
 static DPIPortBodyC<DListC<EdgelC > > fix_sgi_bug3;
