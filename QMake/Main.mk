@@ -733,6 +733,10 @@ $(INST_GENBIN)/RAVLExec : $(INST_GENBIN)/.dir $(MAKEHOME)/RAVLExec $(ROOTDIR)/sh
 
 $(INST_GENBIN)/% : $(INST_GENBIN)/RAVLExec
 	$(SHOWIT)echo "--- Creating redirect for $(@F)." ; \
+	if [ -f $(INST_GENBIN)/$(@F) ] ; then \
+	  $(CHMOD) +w $(INST_GENBIN)/$(@F) ; \
+	  $(RM) $(INST_GENBIN)/$(@F) ; \
+	fi ; \
 	ln -f $(INST_GENBIN)/RAVLExec $(INST_GENBIN)/$(@F)
 
 ifndef NOEXEBUILD
