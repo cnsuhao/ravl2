@@ -34,7 +34,7 @@ namespace RavlN {
       buff = ((DataT *)aligned);
     }
     //: Construct an aligned buffer.
-    // - align must be a power of 2.
+    // - align must be a power of 2. <p>
     // - This does not initalise the elements of the buffer, and should
     // only be used for trivial objects.
     
