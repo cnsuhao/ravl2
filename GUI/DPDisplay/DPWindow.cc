@@ -12,6 +12,8 @@
 #include "Ravl/GUI/DPWindow.hh"
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/Threads/Signal1.hh"
+#include "Ravl/GUI/WaitForExit.hh"
+
 #include <stdlib.h>
 
 #define DODEBUG 0
@@ -21,27 +23,6 @@
 #define ONDEBUG(x)
 #endif
 
-namespace RavlGUIN {
-  static bool noWaitForGUIExit = false;
-  
-  void DisableWaitForGUIExit() {
-    noWaitForGUIExit = true;
-  }
-  
-}
-
-extern "C" {
-  void waitForGUIExit() {
-    using namespace RavlGUIN;
-    if(noWaitForGUIExit)
-      return ;
-    if(!Manager.IsManagerStarted())
-      return ;
-    cerr << "Program exited, waiting for GUI to be shutdown. \n";
-    Manager.Wait();
-  }
-
-}
 
 namespace RavlGUIN {
   
@@ -69,11 +50,8 @@ namespace RavlGUIN {
       return ;
     winSize = size;
     // Ensure the manager is started.
-    if(!Manager.IsManagerStarted()) {
-      Manager.Execute();
-      Manager.WaitForStartup();
-      atexit(waitForGUIExit);
-    }
+    // And make sure program doesn't exit before use has closed the window.
+    WaitForGUIExit(); 
     
     // Create a window and display it.
     win = WindowC(winSize.LCol().V()+10,winSize.BRow().V()+10,name);
