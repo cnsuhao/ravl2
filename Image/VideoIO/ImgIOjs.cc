@@ -17,7 +17,7 @@
 #include "Ravl/Array2dIter.hh"
 #include "Ravl/BinStream.hh"
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -40,6 +40,7 @@ namespace RavlImageN {
   //: Read header from stream.
   
   bool DPImageJSBaseBodyC::ReadHeader(IStreamC &is) {
+    FilenameC fn(is.Name());
     ByteT magic[4];
     is.read((char *) magic,4);
     BinIStreamC bis(is);
@@ -79,10 +80,15 @@ namespace RavlImageN {
     int width = header[4];
     int height = header[5];
     
-    ONDEBUG(cerr << " BlockSize=" << blockSize << " Width=" << width << " Height=" << height << "\n");
     
     rect = ImageRectangleC(height,width);
     SetupIO();
+    ONDEBUG(cerr << " BlockSize=" << blockSize << " Width=" << width << " Height=" << height << "  Filename='" << fn << "'\n");
+    if(fn.Exists())  {
+      seqSize = (StreamSizeT) ((fn.FileSize() / (StreamSizeT) frameSize)) - 1;
+      ONDEBUG(cerr << "DPIImageJSBodyC::ReadHeader(), Sequence size=" << seqSize << " Filesize=" << fn.FileSize() << "\n");      
+    }
+    
     return true;
   }
 
@@ -118,7 +124,6 @@ namespace RavlImageN {
       return ;
     }
     ReadHeader(strm);
-    ONDEBUG(cerr << "DPIImageJSBodyC::DPIImageJSBodyC(const IStreamC &), Sequence size=" << seqSize << "\n");
   }
 
   //: Constructor from a file.
@@ -126,10 +131,7 @@ namespace RavlImageN {
   DPIImageJSBodyC::DPIImageJSBodyC(const StringC &fileName) 
     : strm(fileName)
   {
-    FilenameC fn(fileName);
     ReadHeader(strm);
-    seqSize = (StreamSizeT) ((fn.FileSize() / (StreamSizeT) frameSize)) - 1;
-    ONDEBUG(cerr << "DPIImageJSBodyC::DPIImageJSBodyC(const StringC &), Sequence size=" << seqSize << " Filesize=" << fn.FileSize() << "\n");
   }
 
   
@@ -181,10 +183,10 @@ namespace RavlImageN {
   //: Get next image.
   
   bool DPIImageJSBodyC::Get(ImageC<ByteYUV422ValueC> &head) { 
+    strm.is().clear(); // Clear any errors.
+    strm.Seek(CalcOffset(frameNo));
     if(!strm.good())
       return false;
-    
-    strm.Seek(CalcOffset(frameNo));
     
     // Check input image.
     
@@ -225,6 +227,7 @@ namespace RavlImageN {
     doneHeader = true;
     rect = wrect;
     BinOStreamC bos(strm);
+    strm.os().clear(); // Clear any errors.
     bos.Seek(0);
 
     
@@ -294,12 +297,13 @@ namespace RavlImageN {
   // Returns false if can't.
   
   bool DPOImageJSBodyC::Put(const ImageC<ByteYUV422ValueC> &img) {
-    if(!strm.good())
-      return false;
     if(!doneHeader)
       WriteHeader(img.Rectangle());
     RavlAssert(img.Rectangle() == rect); // Expected image size ?
+    strm.os().clear(); // Clear any errors.
     strm.Seek(CalcOffset(frameNo));
+    if(!strm.good())
+      return false;
     if(&(img[rect.TRow()][rect.RCol()]) == (&(img[rect.TRow()+1][rect.LCol()]))+1) {
       strm.write((char *) &(img[rect.Origin()]),rect.Area() * sizeof(ByteYUV422ValueC));
     } else {
