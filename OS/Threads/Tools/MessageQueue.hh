@@ -40,12 +40,14 @@ namespace RavlN
         maxSize(nMaxSize + 2),
         head(0),
         tail(0)
-      { RavlAssert(nMaxSize > 0); }
+    { RavlAssert(nMaxSize > 0); }
     //: Default constructor.
     
     MessageQueueBaseC(const MessageQueueBaseC &) 
-      : maxSize(0)
-      { RavlAssert(0); } 
+      : putSema(0),
+	ready(0),
+	maxSize(0)
+    { RavlAssert(0); } 
     // Not supported !
     
     void Dump(void) const; 

@@ -55,7 +55,8 @@ namespace RavlN
   
   TimedTriggerQueueBodyC::TimedTriggerQueueBodyC() 
     : eventCount(0),
-      done(false)
+      done(false),
+      semaSched(0)
   {
 #if !USE_NEW_TIMEDTRIGGERQUEUE
     int iofds[2];
