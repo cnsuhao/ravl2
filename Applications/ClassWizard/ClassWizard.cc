@@ -212,9 +212,16 @@ namespace RavlN {
     StringC funcArgs;
     DLIterC<DataTypeC> it(method.Args());
     if(it) {
-      funcArgs += it->Alias();
-      for(it++;it;it++)
-	funcArgs += StringC(",") + it->Alias();
+      StringC argName = it->Alias();
+      if(argName.contains("=")) // Got a default argument for the function
+	argName = argName.before("=").TopAndTail(); // Remove default args.
+      funcArgs += argName;
+      for(it++;it;it++) {
+	argName = it->Alias();
+	if(argName.contains("=")) // Got a default argument for the function
+	  argName = argName.before("=").TopAndTail(); // Remove default args.
+	funcArgs += StringC(",") + argName;
+      }
     }
     StringC fullName= obj.FullName(templSub,descGen);
     StringC baseName=obj.Var("BaseName");
@@ -444,7 +451,9 @@ namespace RavlN {
 	MethodC constructor = GenerateHandleConstructor(*it);
 	handleName = constructor.Name();
       }
-      ObjectC handleMethod = handleObj.Lookup(handleName);
+      
+      ObjectC handleMethod;
+      handleObj.LookupI(handleName,handleMethod);
       
       // Does method exist ?
       
