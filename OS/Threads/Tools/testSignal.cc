@@ -14,12 +14,14 @@ using namespace RavlN;
 
 int count = 0;
 
-void test1() {
+bool test1() {
   count++;
+  return true;
 }
 
-void test2() {
+bool test2() {
   count += 2;
+  return true;
 }
 
 int main(int argc,char **argv)
