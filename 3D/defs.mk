@@ -7,6 +7,6 @@
 #! rcsid="$Id$"
 #! file="Ravl/3D/defs.mk"
 
-NESTED= Mesh.r MeshIO.r
+NESTED= Mesh.r MeshIO.r CameraCal.r Carve3D.r
 
 EHT=Ravl.3D.html 
