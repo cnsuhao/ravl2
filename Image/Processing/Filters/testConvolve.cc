@@ -85,7 +85,7 @@ static ObservationListManagerBodyC dummyvar11 (dummyvar9);
 
 int main() {
   int ln;
-#if 0
+#if 1
 #if !TESTMMX
   if((ln = testConvolve2d()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
@@ -515,6 +515,9 @@ int testDCT() {
   ImageC<RealT> rimg;
   IDCT(res,rimg);
   
-  cerr << "rImg=" << rimg << "\n";
+  cerr << "rImg=" << rimg << " Err=" << (rimg - img).SumOfSqr() << "\n";
+
+  if((rimg - img).SumOfSqr() > 0.000001)
+    return __LINE__;
   return 0;
 }
