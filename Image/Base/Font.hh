@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! lib=RavlImage
 //! author="Charles Galambos"
-//! docentry="Ravl.Images.Misc"
+//! docentry="Ravl.Images.Drawing"
 //! file="Ravl/Image/Base/Font.hh"
 
 #include "Ravl/SArray1d.hh"
@@ -97,13 +97,20 @@ namespace RavlImageN {
     }
   }
 
+  //: Draw text on image.  
+  // Text is positioned below and to right of "offset".
+
   template<class DataT>
   void DrawTextCenter(const FontC &font,
 		const DataT &value,
-		const Index2dC &offset,
+		const Index2dC &center,
 		const StringC &text,
 		ImageC<DataT> &image) 
-  { DrawText(font,value,offset - font.Center(text),text,image); }
+  { DrawText(font,value,center - font.Center(text),text,image); }
+  //: Draw text on image, centred.  
+  // Text is centred on "center".
+
+
 }
 
 #endif

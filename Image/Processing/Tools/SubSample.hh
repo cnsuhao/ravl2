@@ -8,7 +8,7 @@
 #define RAVLIMAGE_SUBSAMPLE_HEADER 1
 ////////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Images.Misc"
+//! docentry="Ravl.Images.Warping"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Tools/SubSample.hh"
 //! author="Charles Galambos"
@@ -19,7 +19,6 @@
 namespace RavlImageN {
   
   //! userlevel=Normal
-  //: Function to subsample by 2 in each direction.
   
   template<class PixelT>
   ImageC<PixelT> SubSample22(const ImageC<PixelT> &Img) {
@@ -54,7 +53,8 @@ namespace RavlImageN {
     }
     return result;
   }
-  
+  //: Function to subsample by 2 in each direction.
+
 
 }
 
