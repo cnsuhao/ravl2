@@ -49,7 +49,7 @@ namespace RavlImageN {
     const static unsigned int defaultBufferSize;// = 4096;
     
     unsigned int BufferSize() const
-      { return defaultBufferSize; }
+    { return defaultBufferSize; }
     //: Access buffer size.
     
   protected:
@@ -82,7 +82,7 @@ namespace RavlImageN {
     //: Initalise Input.
     
     IStreamC &FIn()
-      { return fin; }
+    { return fin; }
     //: Access output stream.
     
     bool BaseIsGetEOS() const {
@@ -127,7 +127,7 @@ namespace RavlImageN {
     //: Initalise output.
     
     OStreamC &FOut()
-      { return fout; }
+    { return fout; }
     //: Access output stream.
   protected:
     bool SetupFormat(const type_info &ti);
@@ -204,7 +204,7 @@ namespace RavlImageN {
   template<class PixelT>
   DPIImageJPegBodyC<PixelT>::DPIImageJPegBodyC(const StringC &nfn) 
     : DPImageIOJPegIBaseC(IStreamC(nfn))
-{}
+  {}
   
   //: Constructor from stream.
   
@@ -256,7 +256,11 @@ namespace RavlImageN {
       return false;
     }
     
-    jpeg_read_header(&cinfo, true);
+    jpeg_read_header(&cinfo, true);    
+    
+    if(!SetupFormat(typeid(PixelT))) // Setup decompression.
+      return false; /* Don't know pixel type... */
+    
     jpeg_start_decompress(&cinfo);
     
     /* We may need to do some setup of our own at this point before reading
@@ -348,7 +352,7 @@ namespace RavlImageN {
     cinfo.image_height = buff.Rows();
     
     if(!SetupFormat(typeid(PixelT)))
-    return false; /* Don't know pixel type... */
+      return false; /* Don't know pixel type... */
     
     jpeg_set_defaults(&cinfo);
     jpeg_set_quality(&cinfo, compression, true /* limit to baseline-JPEG values */);

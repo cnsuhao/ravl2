@@ -414,7 +414,7 @@ namespace RavlImageN {
     }
     if(ti == typeid(ByteT)) {
       cinfo.input_components = 1;		 /* # of color components per pixel */
-      cinfo.in_color_space = JCS_GRAYSCALE;/* colorspace of input image */
+      cinfo.in_color_space = JCS_GRAYSCALE;      /* colorspace of input image */
       return true;
     }
     cerr << "DPImageIOJPegOBaseC::SetupFormat(), Unknown pixel type.  '" << ti.name() << "'\n";
