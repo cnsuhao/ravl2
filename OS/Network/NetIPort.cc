@@ -40,6 +40,7 @@ namespace RavlN {
     }
     ep.RegisterR(3,"SendState",*this,&NetISPortBaseC::RecvState);
     ep.RegisterR(6,"ReqFailed",*this,&NetISPortBaseC::ReqFailed);
+    ep.WaitSetupComplete();
     ep.Send(10,portName,dataType);  // Request connection.
     ep.Send(2); // Request info about the stream.
     return true;
