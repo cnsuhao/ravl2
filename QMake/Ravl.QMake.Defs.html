@@ -333,9 +333,13 @@ automatically included.</ul>
 <LI><DT><A NAME="PROGLIBS"></A><B>PROGLIBS</B></DT> <DD>The name of the
 libraries used to create executables specified in either MAINS or EXAMPLES that
 are not already included with the USESLIBS variable.  Typically you would
-include things like the Options code which is not need for the PLIB library
-itself. For example: <PRE>PROGLIBS = Mopt</PRE> You can use the automatic
-methods described under USESLIBS for PROGLIBS as well.  </DD><P>
+include things like IO code which is not need for the PLIB library
+itself. For example: <PRE>PROGLIBS = RavlImageIO </PRE> You can use the automatic
+methods described under USESLIBS for PROGLIBS as well. <P> Normally all libraries specified
+in PROGLIBS are required to exist to create the executables. This is not always ideal, particularly 
+for some IO libraries (e.g. RavlDPDisplay RavlImgIOV4L ...) we want to include them if
+they are available, but ignore them if the are not. This can be achieved by adding
+.opt to the end of the library names, indicating they are optional. For example RavlImgIOV4L would be added as 'RavlImgIOV4L.opt' .     </DD><P>
 
 <LI><DT><A NAME="LIBDEPS"></A><B>LIBDEPS</B></DT>
 <DD>
