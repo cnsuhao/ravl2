@@ -29,6 +29,7 @@
 #include "Ravl/Image/Rectangle2dIter.hh"
 #include "Ravl/Image/RealRGBValue.hh"
 #include "Ravl/Image/DCT2d.hh"
+#include "Ravl/Image/ImageExtend.hh"
 #include "Ravl/Random.hh"
 #include "Ravl/config.h"
 
@@ -50,6 +51,7 @@ int testMatching();
 int testSpatialDifference();
 int testSumRectangles();
 int testDCT();
+int testImageExtend();
 
 
 
@@ -138,6 +140,10 @@ int main() {
   }
 #endif
   if((ln = testDCT()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  }
+  if((ln = testImageExtend()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
@@ -539,6 +545,29 @@ int testDCT() {
   ImageC<RealT> cimg2 = vrdct.DCT(img);
   cerr << "CRes=" << cimg2 << "\n";
 #endif
+  
+  return 0;
+}
+
+int testImageExtend() {
+  
+  ImageC<IntT> img(3,3);
+  int i = 0;
+  for(Array2dIterC<IntT> it(img);it;it++,i++)
+    *it = i;
+  
+  ImageC<IntT> result;
+  ExtendImageCopy(img,2,result);
+  if(result[result.Frame().Origin()] != img[img.Frame().Origin()]) return __LINE__;
+  if(result[result.Frame().End()] != img[img.Frame().End()]) return __LINE__;
+  
+  ExtendImageFill(img,2,result,-1);
+  if(result[result.Frame().Origin()] != -1) return __LINE__;
+  if(result[result.Frame().End()] != -1) return __LINE__;
+  
+  ExtendImageMirror(img,2,result);
+  if(result[result.Frame().Origin()] != img[img.Frame().End()]) return __LINE__;
+  if(result[result.Frame().End()] != img[img.Frame().Origin()]) return __LINE__;
   
   return 0;
 }
