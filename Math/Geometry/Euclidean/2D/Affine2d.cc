@@ -30,7 +30,7 @@ namespace RavlN {
   // FIXME :- This can be done more efficiently.
   
   Affine2dC FitAffine(SArray1dC<Point2dC> org,SArray1dC<Point2dC> newPos,RealT &residual) {
-    RavlAssert(org.Size() == newPos.Size());
+    RavlAssertMsg(org.Size() == newPos.Size(),"Affine2dC FitAffine(), Point arrays must have the same size.");
     
     UIntT samples = org.Size();
     if ( samples < 3 )
