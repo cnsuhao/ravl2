@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 
-#include "ObsVectorBiGaussian.hh"
+#include "Ravl/ObsVectorBiGaussian.hh"
 
 namespace RavlN {
 

@@ -10,9 +10,10 @@
 //! author="Phil McLauchlan"
 //! date="24/7/2002"
 //! rcsid="$Id$"
-//! docentry="Ravl.Math.Optimisation"
+//! docentry="Ravl.Math.Optimisation.Examples"
+//! example="OrthogonalRegressionTest.cc"
 
-#include "ObservationImplicit.hh"
+#include "Ravl/ObservationImplicit.hh"
 #include "Ravl/Vector2d.hh"
 
 namespace RavlN {

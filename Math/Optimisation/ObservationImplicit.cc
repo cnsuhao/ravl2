@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 
-#include "ObservationImplicit.hh"
+#include "Ravl/ObservationImplicit.hh"
 #include "Ravl/Array1d.hh"
 #include "Ravl/MatrixRUT.hh"
 

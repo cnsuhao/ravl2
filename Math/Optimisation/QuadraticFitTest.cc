@@ -6,11 +6,11 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 
-#include "LevenbergMarquardt.hh"
-#include "StateVectorQuadratic.hh"
-#include "ObservationQuadraticPoint.hh"
-#include "ObservationImpQuadraticPoint.hh"
-#include "ObsVectorBiGaussian.hh"
+#include "Ravl/LevenbergMarquardt.hh"
+#include "Ravl/StateVectorQuadratic.hh"
+#include "Ravl/ObservationQuadraticPoint.hh"
+#include "Ravl/ObservationImpQuadraticPoint.hh"
+#include "Ravl/ObsVectorBiGaussian.hh"
 #include "Ravl/Random.hh"
 #include "Ravl/Vector3d.hh"
 #include "Ravl/Matrix3d.hh"

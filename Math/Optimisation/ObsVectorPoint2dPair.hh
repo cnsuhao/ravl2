@@ -10,9 +10,10 @@
 //! author="Phil McLauchlan"
 //! date="24/7/2002"
 //! rcsid="$Id$"
-//! docentry="Ravl.Math.Optimisation"
+//! docentry="Ravl.Math.Optimisation.Examples"
+//! example="Homography2dFitTest.cc"
 
-#include "ObsVectorBiGaussian.hh"
+#include "Ravl/ObsVectorBiGaussian.hh"
 
 namespace RavlN {
 

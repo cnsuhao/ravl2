@@ -6,10 +6,10 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 
-#include "LevenbergMarquardt.hh"
-#include "StateVectorLine2d.hh"
-#include "ObservationLine2dPoint.hh"
-#include "ObsVectorBiGaussian.hh"
+#include "Ravl/LevenbergMarquardt.hh"
+#include "Ravl/StateVectorLine2d.hh"
+#include "Ravl/ObservationLine2dPoint.hh"
+#include "Ravl/ObsVectorBiGaussian.hh"
 #include "Ravl/Random.hh"
 #include "Ravl/EntryPnt.hh"
 

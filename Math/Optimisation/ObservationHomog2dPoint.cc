@@ -6,9 +6,9 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 
-#include "ObservationHomog2dPoint.hh"
-#include "StateVectorHomog2d.hh"
-#include "ObsVectorBiGaussian.hh"
+#include "Ravl/ObservationHomog2dPoint.hh"
+#include "Ravl/StateVectorHomog2d.hh"
+#include "Ravl/ObsVectorBiGaussian.hh"
 #include "Ravl/Vector3d.hh"
 
 namespace RavlN {

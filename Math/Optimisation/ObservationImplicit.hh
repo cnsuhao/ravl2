@@ -12,7 +12,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Math.Optimisation"
 
-#include "Observation.hh"
+#include "Ravl/Observation.hh"
 #include "Ravl/MatrixRS.hh"
 
 namespace RavlN {
@@ -59,7 +59,7 @@ namespace RavlN {
 
   //! userlevel=Normal
   //! autoLink=on
-  //: Implicit observation handle class
+  //: Implicit observation class
   // This class represents a single observation on a state vector x, where
   // the observation vector z is related to x through the implicit form of
   // observation equation
@@ -69,12 +69,12 @@ namespace RavlN {
   // where the noise vector w has covariance N. This class implements the
   // SquareResidual() and IncrementLS() methods which are virtual in the
   // ObservationC base class, by applying the explicit
-  // <a href="/user/cvsspst/ees1pm/Ravl/doc/levmarq/levmarq.html#chi2-def">error function</a>
+  // <a href="../../../LevenbergMarquardt/levmarq.html#chi2-def">error function</a>
   // and
-  // <a href="/user/cvsspst/ees1pm/Ravl/doc/levmarq/levmarq.html#LM_update">state update</a>
+  // <a href="../../../LevenbergMarquardt/levmarq.html#LM_update">state update</a>
   // formulae, substituting the terms computed from the implicit form as
   // described
-  // <a href="/user/cvsspst/ees1pm/Ravl/doc/levmarq/node2.html">here</a>.
+  // <a href="../../../LevenbergMarquardt/node2.html">here</a>.
   // The specific form of F(.)
   // should be provided by a sub-class, which implements at least the virtual
   // function EvaluateFunctionF(). If formulae for the Jacobians dF/dx and

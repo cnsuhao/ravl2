@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 
-#include "StateVectorQuadratic.hh"
+#include "Ravl/StateVectorQuadratic.hh"
 
 namespace RavlN {
 

@@ -6,9 +6,9 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 
-#include "ObservationImpQuadraticPoint.hh"
-#include "ObsVectorBiGaussian.hh"
-#include "StateVectorQuadratic.hh"
+#include "Ravl/ObservationImpQuadraticPoint.hh"
+#include "Ravl/ObsVectorBiGaussian.hh"
+#include "Ravl/StateVectorQuadratic.hh"
 
 namespace RavlN {
 

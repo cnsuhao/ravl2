@@ -16,8 +16,8 @@
 #include "Ravl/Vector.hh"
 #include "Ravl/MatrixRS.hh"
 
-#include "StateVector.hh"
-#include "ObsVector.hh"
+#include "Ravl/StateVector.hh"
+#include "Ravl/ObsVector.hh"
 
 namespace RavlN {
   
@@ -57,7 +57,7 @@ namespace RavlN {
 
   //! userlevel=Normal
   //! autoLink=on
-  //: Observation handle class
+  //: Observation class
   // This is the base class for observations on a state, for the purpose of
   // least-squares optimisation. It contains an observation vector z and its
   // associated inverse covariance matrix N^-1 encapsulated as an ObsVectorC
@@ -74,7 +74,7 @@ namespace RavlN {
   // ObservationC currently provides methods to support the
   // Levenberg-Marquardt algorithm, but it is envisaged that more methods
   // may be added to support other algorithms. Because there are two types
-  // of observation, explicit and implicit the specific formulae for
+  // of observation, explicit and implicit. The specific formulae for
   // implementing the Levenberg-Marquardt updates are placed in corresponding
   // sub-classes, ObservationExplicitC and ObservationImplicitC.
   // ObservationExplicitC and ObservationImplicitC are themselves derived
@@ -126,7 +126,7 @@ namespace RavlN {
     { return Body().SquareResidual(state_vec); }
     //: Compute the Chi-squared residual
     // This is the term in the
-    // <a href="/user/cvsspst/ees1pm/Ravl/doc/levmarq/levmarq.html#chi2-def">error function</a>
+    // <a href="../../../LevenbergMarquardt/levmarq.html#chi2-def">error function</a>
     // for a single observation. This is a virtual method, and
     // has specific implementations for explicit and implicit observations in
     // the ObservationExplicitC and ObservationImplicitC subclasses.
@@ -139,7 +139,7 @@ namespace RavlN {
     // This adds the relevant terms to the inverse covariance matrix A and
     // vector a accumulated within a Levenberg-Marquardt iteration for a
     // single observation, as given by the
-    // <a href="/user/cvsspst/ees1pm/Ravl/doc/levmarq/levmarq.html#LM_update">state update equation</a>
+    // <a href="../../../LevenbergMarquardt/levmarq.html#LM_update">state update equation</a>
     // for the explicit form of observations. This is a virtual method, and
     // has specific implementations for explicit and implicit observations in
     // the ObservationExplicitC and ObservationImplicitC subclasses.

@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 
-#include "LevenbergMarquardt.hh"
+#include "Ravl/LevenbergMarquardt.hh"
 #include "Ravl/Array1d.hh"
 #include "Ravl/MatrixRUT.hh"
 #include "Ravl/DList.hh" // Need this for some reason to get the linker to work

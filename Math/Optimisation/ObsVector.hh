@@ -88,6 +88,10 @@ namespace RavlN {
   // defining error distributions. If you do not agree with this presumption,
   // let us know!
   // <p>
+  // It might be better in future to separate the error models into a separate
+  // class hierarchy (ObsErrorModelC?), and make an instance of an
+  // ObsErrorModelC a member of the ObsVectorC class. Then sub-classes of
+  // ObsVectorC would deal strictly with different data types.
   class ObsVectorC
     : public RCHandleC<ObsVectorBodyC>
   {

@@ -10,9 +10,10 @@
 //! author="Phil McLauchlan"
 //! date="24/7/2002"
 //! rcsid="$Id$"
-//! docentry="Ravl.Math.Optimisation"
+//! docentry="Ravl.Math.Optimisation.Examples"
+//! example="Homography2dFitTest.cc"
 
-#include "ObservationExplicit.hh"
+#include "Ravl/ObservationExplicit.hh"
 #include "Ravl/Vector2d.hh"
 
 namespace RavlN {
@@ -56,7 +57,29 @@ namespace RavlN {
 
   //! userlevel=Normal
   //! autoLink=on
-  //: 2D homography fitting 2D point observation handle class
+  //: 2D homography fitting 2D point observation class
+  // Use this class to construct an observation consisting of a pair of 2D
+  // points, each of which lies on a plane. The two planes are related by
+  // a 2D projective transformation represented by a 3x3 homography matrix.
+  // This class applies the functional model of the 
+  // 2D point pair observations on a plane which
+  // are to be used to fit a line through the data. If all the points have
+  // the same error isotropic error in the x and y directions, you can use
+  // the standard orthogonal regression algorithm. If some points have
+  // different errors to others, or there are outliers in the data points,
+  // this class may be useful. It allows you to specify errors separately
+  // for each point, as well as use a robust error model that accounts for
+  // outliers, at least if they are not TOO far away from the good data.
+  // <p>
+  // This class encapsulates a single data point xc,yc and its associated error
+  // inverse covariance matrix estimate N^-1. It assumes that the 2D line
+  // parameters are represented by an instance of the StateVectorLine2dC
+  // sub-class.
+  // <p>
+  // To use the data points for optimisation, create one instance of an
+  // ObservationLine2dPointC for each data point, place them all in a single
+  // list of ObservationC (the base class) objects, and pass the list into the
+  // relevant optimisation routines.
   class ObservationHomog2dPointC
     : public ObservationExplicitC
   {

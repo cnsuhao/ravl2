@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 
-#include "ObsVectorPoint2dPair.hh"
+#include "Ravl/ObsVectorPoint2dPair.hh"
 
 namespace RavlN {
 

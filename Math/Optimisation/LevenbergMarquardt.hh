@@ -13,8 +13,7 @@
 //! docentry="Ravl.Math.Optimisation"
 //! example="OrthogonalRegressionTest.cc;QuadraticFitTest.cc;Homography2dFitTest.cc"
 
-#include "Observation.hh"
-
+#include "Ravl/Observation.hh"
 #include "Ravl/DList.hh"
 #include "Ravl/Vector.hh"
 #include "Ravl/Matrix.hh"
@@ -26,9 +25,10 @@ namespace RavlN {
   //! autoLink=on
   //: Levenberg-Marquardt algorithm class
   // This is a generic implementation of Levenberg-Marquardt least-squares
-  // minimisation. The algorithm is described mathematically in a separate
-  // document
-  // <a href="/user/cvsspst/ees1pm/Ravl/doc/levmarq/levmarq.html">here</a>.
+  // minimisation. The algorithm is described mathematically in a
+  // <a href="../../../LevenbergMarquardt/levmarq.pdf">separate document</a>,
+  // which is also available in
+  // <a href="../../../LevenbergMarquardt/levmarq.html">HTML</a>,
   // <p>
   // This class contains a constructor for initialising the algorithm, a method
   // for a applying a damped Levenberg-Marquardt iteration, which should be
@@ -48,7 +48,7 @@ namespace RavlN {
     //: Apply an iteration
     // Process observations in the provided list (obs_list) to build the
     // inverse covariance matrix A and vector a in the
-    // <a href="/user/cvsspst/ees1pm/Ravl/doc/levmarq/levmarq.html#LM_update">state update equation</a>,
+    // <a href="../../../LevenbergMarquardt/levmarq.html#LM_update">state update equation</a>,
     // apply damping by adding lambda*identity to A, and update the state
     // vector x.
     // <p>
@@ -62,7 +62,7 @@ namespace RavlN {
 
     const MatrixRSC &InverseCovarianceMatrix(DListC<ObservationC> obs_list);
     //: Inverse covariance matrix of solution
-    // This is the matrix A in the <a href="/user/cvsspst/ees1pm/Ravl/doc/levmarq/levmarq.html#LM_update">state update equation</a>,
+    // This is the matrix A in the <a href="../../../LevenbergMarquardt/levmarq.html#LM_update">state update equation</a>,
     // but computed without any damping, i.e. lambda set to zero.
     // The observation list is reprocessed to produce the matrix.
     // This will normally be called once, after convergence has been achieved.
@@ -76,7 +76,7 @@ namespace RavlN {
     RealT Residual() const;
     //: Get stored Chi-squared residual for latest state estimate
     // This is the
-    // <a href="/user/cvsspst/ees1pm/Ravl/doc/levmarq/levmarq.html#chi2-def">error function</a>
+    // <a href="../../../LevenbergMarquardt/levmarq.html#chi2-def">error function</a>
     // evaluated for the latest state estimate x.
 
   private:

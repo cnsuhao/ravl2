@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 
-#include "StateVectorHomog2d.hh"
+#include "Ravl/StateVectorHomog2d.hh"
 
 namespace RavlN {
 

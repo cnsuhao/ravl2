@@ -72,7 +72,7 @@ namespace RavlN {
 
   //! userlevel=Normal
   //! autoLink=on
-  //: State vector handle class
+  //: State vector class
   // This is the base class in a class hierarchy to represent state vectors
   // for the purpose of parameter estimation. For a "vanilla" estimation
   // problem with no special features to the state vector, the base class

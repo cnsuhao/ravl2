@@ -10,9 +10,10 @@
 //! author="Phil McLauchlan"
 //! date="24/7/2002"
 //! rcsid="$Id$"
-//! docentry="Ravl.Math.Optimisation"
+//! docentry="Ravl.Math.Optimisation.Examples"
+//! example="QuadraticFitTest.cc"
 
-#include "ObservationExplicit.hh"
+#include "Ravl/ObservationExplicit.hh"
 
 namespace RavlN {
 

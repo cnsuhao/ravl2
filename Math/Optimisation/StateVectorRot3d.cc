@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 
-#include "StateVectorRot3d.hh"
+#include "Ravl/StateVectorRot3d.hh"
 
 namespace RavlN {
 

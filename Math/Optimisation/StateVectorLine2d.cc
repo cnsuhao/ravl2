@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 
-#include "StateVectorLine2d.hh"
+#include "Ravl/StateVectorLine2d.hh"
 
 namespace RavlN {
 

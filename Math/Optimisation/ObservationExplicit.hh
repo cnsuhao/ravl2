@@ -12,7 +12,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Math.Optimisation"
 
-#include "Observation.hh"
+#include "Ravl/Observation.hh"
 #include "Ravl/MatrixRS.hh"
 
 namespace RavlN {
@@ -47,7 +47,7 @@ namespace RavlN {
 
   //! userlevel=Normal
   //! autoLink=on
-  //: Explicit observation handle class
+  //: Explicit observation class
   // This class represents a single observation on a state vector x, where
   // the observation vector z is related to x through the explicit form of
   // observation equation
@@ -57,9 +57,9 @@ namespace RavlN {
   // where the noise vector w has covariance N. This class implements the
   // SquareResidual() and IncrementLS() methods which are virtual in the
   // ObservationC base class, by applying the
-  // <a href="/user/cvsspst/ees1pm/Ravl/doc/levmarq/levmarq.html#chi2-def">error function</a>
+  // <a href="../../../LevenbergMarquardt/levmarq.html#chi2-def">error function</a>
   // and
-  // <a href="/user/cvsspst/ees1pm/Ravl/doc/levmarq/levmarq.html#LM_update">state update</a>
+  // <a href="../../../LevenbergMarquardt/levmarq.html#LM_update">state update</a>
   // formulae. The specific form of h(.)
   // should be provided by a sub-class, which implements at least the virtual
   // function EvaluateFunctionH(). If a formula for the Jacobian dh/dx of h(.)

@@ -10,9 +10,10 @@
 //! author="Phil McLauchlan"
 //! date="24/7/2002"
 //! rcsid="$Id$"
-//! docentry="Ravl.Math.Optimisation"
+//! docentry="Ravl.Math.Optimisation.Examples"
+//! example="OrthogonalRegressionTest.cc"
 
-#include "StateVector.hh"
+#include "Ravl/StateVector.hh"
 #include "Ravl/Matrix3d.hh"
 
 #define DEFAULT_GAUGE_WEIGHT 1.0e3
@@ -90,7 +91,7 @@ namespace RavlN {
   // condition the inverse covariance matrix used in least-squares algorithms
   // such as Levenberg-Marquardt, which otherwise would be rank-deficient
   // (at least without damping).
-  // The <a href="/user/cvsspst/ees1pm/Ravl/doc/levmarq/levmarq.html#measure_equation">measurement equation</a> for the gauge condition is
+  // The <a href="../../../LevenbergMarquardt/levmarq.html#measure_equation">measurement equation</a> for the gauge condition is
   // <blockquote>
   //   z = h(x) + w
   // </blockquote>

@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 
-#include "StateVector.hh"
+#include "Ravl/StateVector.hh"
 
 #define DEFAULT_STEP_SIZE 1.0e-6
 

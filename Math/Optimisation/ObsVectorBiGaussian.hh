@@ -12,7 +12,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Math.Optimisation"
 
-#include "ObsVector.hh"
+#include "Ravl/ObsVector.hh"
 
 namespace RavlN {
 
@@ -59,7 +59,7 @@ namespace RavlN {
   // This class adds robustness to the ObsVectorC class, using a simple
   // bi-Gaussian error model with a narrow inlier Gaussian and a wider
   // outlier Gaussian distribution, as described
-  // <a href="/user/cvsspst/ees1pm/Ravl/doc/levmarq/node1.html">here</a>.
+  // <a href="../../../LevenbergMarquardt/node1.html">here</a>.
   
   class ObsVectorBiGaussianC
     : public ObsVectorC
@@ -71,7 +71,7 @@ namespace RavlN {
     {}
     //: Constructor
     // var_scale is the covariance scaling K parameter in the
-    // <a href="/user/cvsspst/ees1pm/Ravl/doc/levmarq/node1.html">theory document</a>,
+    // <a href="../../../LevenbergMarquardt/node1.html">theory document</a>,
     // and chi2_thres is the chi-squared cutoff parameter.
 
     ObsVectorBiGaussianC(const VectorC &z, const MatrixRSC &Ni,
@@ -81,7 +81,7 @@ namespace RavlN {
     {}
     //: Constructor
     // var_scale is the covariance scaling K parameter in the
-    // <a href="/user/cvsspst/ees1pm/Ravl/doc/levmarq/node1.html">theory document</a>,
+    // <a href="../../../LevenbergMarquardt/node1.html">theory document</a>,
     // and chi2_thres is the chi-squared cutoff parameter.
     // This constructor also allows you to specify a vector zstep of step
     // sizes for numerical differentiation with respect to the elements of z,
