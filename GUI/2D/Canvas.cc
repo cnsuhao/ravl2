@@ -17,7 +17,7 @@
 
 #include <gtk/gtk.h>
 
-#define DODEBUG 0
+#define DODEBUG 1
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -146,7 +146,7 @@ namespace RavlGUIN {
   bool CanvasBodyC::Create() {
     if(widget != 0)
       return true; // Done already.
-    ONDEBUG(cerr <<"Create start. \n");
+    ONDEBUG(cerr <<"CanvasBodyC::Create() start. \n");
     widget =  gtk_drawing_area_new ();  
     gtk_drawing_area_size (GTK_DRAWING_AREA (widget), sx, sy);  
     if(!direct) {
@@ -158,7 +158,8 @@ namespace RavlGUIN {
     }
     SetupColours();
     ConnectSignals();
-    ONDEBUG(cerr <<"Create done. \n");
+    gtk_widget_add_events(widget,GDK_EXPOSURE_MASK);
+    ONDEBUG(cerr <<"CanvasBodyC::Create() done. \n");
     return true;
   }
   

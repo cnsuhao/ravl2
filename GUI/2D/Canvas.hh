@@ -36,7 +36,9 @@ namespace RavlGUIN {
   public:
     CanvasBodyC(int sx,int sy,bool direct = false);
     //: Constructor.
-
+    // If direct rendering is enabled (true) it is the user's responsibity to provide an 
+    // expose method which updates the window on the display.
+    
     CanvasBodyC(const ImageRectangleC& rect, bool direct = false);
     //: Constructor.
     
@@ -181,9 +183,13 @@ namespace RavlGUIN {
     
     CanvasC(int xs,int ys,bool direct = false);
     //: Constructor.
+    // If direct rendering is enabled (true) it is the user's responsibity to provide an 
+    // expose method which updates the window on the display.
     
     CanvasC(const ImageRectangleC& rect, bool direct = false);
     //: Constructor.
+    // If direct rendering is enabled (true) it is the user's responsibity to provide an 
+    // expose method which updates the window on the display.
 
     CanvasC(CanvasBodyC &body)
       : WidgetC(body)
