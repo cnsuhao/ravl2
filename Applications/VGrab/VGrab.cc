@@ -177,7 +177,7 @@ int VGrab(int argc, char ** argv)
 
       while ( true ) 
       {
-	Sleep ( .5) ; 
+	//Sleep ( .5) ; 
 	//cerr << "\n Time now " << timeNow.ToText() << "end is " << endTime.ToText() << " cond = " << (timeNow>=nextGrab) ; 
 	if (timeNow >= endTime) break ; 
 	tmpImage = inStream.Get() ; 
