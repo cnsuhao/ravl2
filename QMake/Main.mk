@@ -171,9 +171,9 @@ ifndef NOINCDEFS
  ifdef USESLIBS
   ifneq ($(USESLIBS),)
    ifneq ($(USESLIBS),None)
-    ifeq ($(USESLIBS),Auto)
+    ifeq ($(filter Auto,$(USESLIBS)),Auto)
      AUTOUSELIBS := $(shell $(QLIBS) -use -d -p $(ROOTDIR))
-     EXTRA_USESLIBS = $(AUTOUSELIBS)
+     EXTRA_USESLIBS = $(AUTOUSELIBS) $(patsubst %,%.def,$(filter-out Auto,$(USESLIBS)))
      ifdef LIBDEPS
       ifdef PLIB
        AUTOUSELIBS := $(PLIB).def $(AUTOUSELIBS)
@@ -197,23 +197,20 @@ ifndef NOINCDEFS
   EXELIB := $(MKMUSTLINK) -l$(PLIB) $(EXELIB)
  endif
  LIBLIBS := $(EXELIB)
- ifdef PROGLIBS
-  ifneq ($(PROGLIBS),)
-   include $(patsubst %,%.def,$(PROGLIBS))
-  endif
- else
-  ifeq ($(USESLIBS),Auto)
-   ifneq ($(strip $(MAINS) $(TESTEXES)),)
-    AUTOPROGLIBS := $(shell $(QLIBS) -prog -d -p $(ROOTDIR))
-    ifdef LIBDEPS
-     ifdef PLIB
-      AUTOPROGLIBS := $(PLIB).def $(AUTOPROGLIBS)
-     endif
-     AUTOPROGLIBS := $(filter-out $(LIBDEPS),$(AUTOPROGLIBS))
+ ifneq ($(strip $(PROGLIBS)),)
+  include $(patsubst %,%.def,$(PROGLIBS))
+ endif
+ ifeq ($(filter Auto,$(USESLIBS)),Auto)
+  ifneq ($(strip $(MAINS) $(TESTEXES)),)
+   AUTOPROGLIBS := $(shell $(QLIBS) -prog -d -p $(ROOTDIR))
+   ifdef LIBDEPS
+    ifdef PLIB
+     AUTOPROGLIBS := $(PLIB).def $(AUTOPROGLIBS)
     endif
-    ifneq ($(strip $(AUTOPROGLIBS)),)
-     include $(AUTOPROGLIBS)
-    endif
+    AUTOPROGLIBS := $(filter-out $(LIBDEPS),$(AUTOPROGLIBS))
+   endif
+   ifneq ($(strip $(AUTOPROGLIBS)),)
+    include $(AUTOPROGLIBS)
    endif
   endif
  endif
