@@ -109,7 +109,7 @@ namespace RavlGUIN
     // GUI thread only.
     
     void SetLabel(StringC &text)
-    { return Body().SetLabel(text); }
+    { Body().SetLabel(text); }
     //: Set toggle label.
     
     friend class ButtonBodyC;
