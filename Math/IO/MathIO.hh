@@ -4,12 +4,15 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLMATHIO_HEADER
-#define RAVLMATHIO_HEADER 1
+#ifndef RAVL_MATHIO_HEADER
+#define RAVL_MATHIO_HEADER 1
 ///////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlMathIO
 //! file="Ravl/Math/IO/MathIO.hh"
+//! author="Charles Galambos"
+//! userlevel=Advanced
+//! docentry="Ravl.Math.IO"
 
 namespace RavlN {
   

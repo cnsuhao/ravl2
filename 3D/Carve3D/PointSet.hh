@@ -7,6 +7,8 @@
 ////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCarve3D
+//! docentry="Ravl.3D.Carve3D"
+//! author="Joel Mitchelson"
 
 #ifndef _POINTSETC_
 #define _POINTSETC_

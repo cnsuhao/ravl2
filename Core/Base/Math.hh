@@ -104,7 +104,7 @@ namespace RavlN {
     return exp(r);
 #endif
   }
-  // Returns safe exp(r).
+  //: Returns safe exp(r).
 
   inline IntT ILog2(IntT i) {
     IntT mex = 0;
@@ -113,7 +113,7 @@ namespace RavlN {
   }
   //: Interger Log 2
   // "i" = 2 ^ "mex", "mex" = ?
-
+  
   inline RealT Sin(RealT x)
   { return sin(x); }
   //: Returns the sine of 'x'.

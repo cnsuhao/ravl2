@@ -13,12 +13,8 @@
 namespace Ravl3DN
 {
   void VoxelSetBodyC::Fill(ByteT v)
-  {
-    vox.Fill(v);
-  }
+  { vox.Fill(v); }
 
   VoxelSetC VoxelSetBodyC::ContiguousPortion(UIntT total_portions, UIntT portion_index)
-  {
-    return VoxelSetC();
-  }
+  { return VoxelSetC(); }
 }

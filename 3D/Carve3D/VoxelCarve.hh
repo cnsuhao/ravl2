@@ -10,6 +10,7 @@
 //! rcsid="$Id$"
 //! lib=RavlCarve3D
 //! author="Joel Mitchelson"
+//! docentry="Ravl.3D.Carve3D"
 
 namespace Ravl3DN
 {

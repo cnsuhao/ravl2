@@ -5,7 +5,7 @@
 //! file="amma/Applications/VPlay/GUIPlayControl.hh"
 //! author="Charles Galambos"
 //! date="23/03/99"
-//! docentry="GUI.Widget"
+//! docentry="Ravl.Applications.VPlay"
 
 #include "amma/DP/PlayControl.hh"
 #include "amma/GUI/LBox.hh"

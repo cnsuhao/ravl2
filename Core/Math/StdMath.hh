@@ -69,18 +69,18 @@ namespace RavlN {
     return pow(r, 1.0/dem);
 #endif
   }
-  // Returns the cube root of 'x'.
+  //: Returns the cube root of 'x'.
   
 #ifndef VISUAL_CPP
   // FIXME:- We have to sort this out..
   
   inline RealT Erf(RealT x)
   { return erf(x); }
-  // Returns the error function of x. Erf(x) = 2/sqrt(pi)*integral from 0 to x of exp(-t*t) dt.
+  //: Returns the error function of x. Erf(x) = 2/sqrt(pi)*integral from 0 to x of exp(-t*t) dt.
   
   inline RealT Erfc(RealT x)
   { return erfc(x); }
-  // Returns 1.0 - Erf(x). (Use when x is large)
+  //: Returns 1.0 - Erf(x). (Use when x is large)
 #endif
   
   inline RealT Log2(RealT r) {
@@ -109,15 +109,15 @@ namespace RavlN {
 #endif
 #endif
   }
-  // Is infinit ?
+  //: Is infinit ?
   
   inline bool IsPInf(RealT i)
   { return ((bool) (i > 0)) && IsInf(i); }
-  // Is positive infinity ?
+  //: Is positive infinity ?
   
   inline bool IsNInf(RealT i)
   { return ((bool) (i < 0)) && IsInf(i); }
-  // Is negative infinity ?
+  //: Is negative infinity ?
   
   inline bool IsNan(RealT i) {
 #if defined(VISUAL_CPP)
@@ -131,11 +131,8 @@ namespace RavlN {
 #endif
 #endif
   }
-  // Is Not A Number ?
+  //: Is Not A Number ?
     
 }  
 #endif
-
-// IAPS - Image analysis program system. 
-// End of include file StdMath.hh
 

@@ -71,5 +71,7 @@ int testNetPort() {
   cerr << "testNetPort(), Check data. Elements=" << lst2.Size() << "\n";
   // Check the results.
   if(lst2.Size() != lst.Size()) return __LINE__;
+  if(lst2.First() != lst.First()) return __LINE__;
+  if(lst2.Last() != lst.Last()) return __LINE__;
   return 0;
 }

@@ -10,6 +10,7 @@
 //! rcsid="$Id$"
 //! author="Charles Galambos"
 //! lib=RavlNet
+//! docentry="Ravl.OS.Network.NetPort"
 
 #include "Ravl/OS/NetEndPoint.hh"
 #include "Ravl/DP/SPort.hh"

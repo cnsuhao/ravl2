@@ -1,9 +1,9 @@
 ! author="Charles Galambos"
-! docentry="Ravl.Core.IO.conv"
+! docentry="Ravl.Applications.conv"
 
 : File/Sequence convertion.
 
-This program converts between amma fileformats. To list the
+This program converts between Ravl fileformats. To list the
 known file formats use the '-lf' option, to see a list of known
 convertsions use '-lc', and see a list of known classes use '-lt.'
 

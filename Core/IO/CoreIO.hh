@@ -4,15 +4,19 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLCOREIO_HEADER
-#define RAVLCOREIO_HEADER 1
+#ifndef RAVL_COREIO_HEADER
+#define RAVL_COREIO_HEADER 1
 ///////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/CoreIO.hh"
+//! author="Charles Galambos"
+//! userlevel=Advanced
+//! docentry="Ravl.Core.IO"
 
 namespace RavlN {  
-  extern void InitCoreIO(); //: Initalise all the math IO.
+  extern void InitCoreIO(); 
+  //: Initalise core IO.
   
   extern void InitFixedIndexIO();
   

@@ -9,6 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlCarve3D
 //! author="Joel Mitchelson"
+//! docentry="Ravl.3D.Carve3D"
 
 #include "Ravl/Vector3d.hh"
 #include "Ravl/Matrix3d.hh"
@@ -21,7 +22,7 @@ namespace Ravl3DN
   using namespace RavlN;
   class VoxelSetC;
 
-  //!userlevel:Develop
+  //! userlevel=Develop
   //:A cuboid of volume cells (voxels) in 3D space
 
   class VoxelSetBodyC : public RCBodyVC
@@ -97,7 +98,7 @@ namespace Ravl3DN
      _t(nt),
      voxel_size(nvoxel_size)
     {}    
-
+    
   public:
     void Fill(ByteT v);
     VoxelSetC ContiguousPortion(UIntT total_portions, UIntT portion_index);
@@ -112,7 +113,7 @@ namespace Ravl3DN
 
 
 
-  //!userlevel:Normal
+  //! userlevel=Normal
   //:A cuboid of volume cells (voxels) in 3D space
   // Each voxel has an 8-bit flag for storing any user-defined attributes.
   // A voxel set has a coordinate system with xyz corresponding to index 1,2,3

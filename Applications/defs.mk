@@ -10,3 +10,5 @@
 DESCRIPTION=RAVL Applications.
 
 NESTED= FileConverter.r VPlay.r
+
+EHT=Ravl.Applications.html

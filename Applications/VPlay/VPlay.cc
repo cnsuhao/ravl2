@@ -7,6 +7,8 @@
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Applications/VPlay/VPlay.cc"
+//! docentry="Ravl.Applications.VPlay"
+//! author="Charles Galambos"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteYUVValue.hh"

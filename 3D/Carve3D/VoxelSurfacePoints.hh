@@ -1,4 +1,8 @@
-
+#ifndef RAVL3D_VOXELSURFACEPOINTS_HEADER
+#define RAVL3D_VOXELSURFACEPOINTS_HEADER 1
+//! docentry="Ravl.3D.Carve3D"
+//! author="Joel Mitchelson"
+//! userlevel=Normal
 
 #include "Ravl/3D/VoxelSet.hh"
 #include "Ravl/3D/PointSet.hh"
@@ -24,3 +28,5 @@ namespace Ravl3DN
   //: Compute set of point locations/normals/colours on the current volume surface
   // image is used to find the colour of each surface point
 }
+
+#endif
