@@ -29,7 +29,7 @@ class ostream;
 #endif
 #else
 #if RAVL_HAVE_ANSICPPHEADERS
-#include <iostream>
+#include <iosfwd>
 #else
 #include <iostream.h>
 #endif
