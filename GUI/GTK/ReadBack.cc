@@ -11,7 +11,7 @@
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/GUI/ReadBack.hh"
 
-#define RAVL_USE_GTKDIRECT 1
+#define RAVL_USE_GTKDIRECT RAVL_OS_WIN32
 
 #if RAVL_USE_GTKDIRECT
 #include <gtk/gtk.h>

@@ -9,8 +9,8 @@
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/Manager.cc"
 
-#define RAVL_USE_GTKTHREADS 1  /* Use thread based event handling stratagy. */
-#define RAVL_USE_GTKDIRECT  1
+#define RAVL_USE_GTKTHREADS RAVL_OS_WIN32  /* Use thread based event handling stratagy. */
+#define RAVL_USE_GTKDIRECT  RAVL_OS_WIN32
 
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/GUI/Window.hh"
@@ -333,19 +333,19 @@ namespace RavlGUIN {
     IntT r;
     if(read(ifp,&r,sizeof(IntT)) != sizeof(IntT)) {
       perror("ManagerC::HandleNotify(),  Failed ");
-      return ;
+      return false;
     }
     ONDEBUG(cerr << "ManagerC::HandleNotify() Called on " << r << " Started.\n");
     if(r == 0) { // Shutdown request ?
       gtk_main_quit ();
-      return ;
+      return true;
     }
     if(r == 1) {
       eventProcPending = false;
       TriggerC trig;
       while(events.TryGet(trig))
 	trig.Invoke();
-      return ;
+      return true;
     }
     ONDEBUG(cerr << "ManagerC::HandleNotify() Called on " << r << " Done.\n");
 #endif
