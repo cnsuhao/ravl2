@@ -127,9 +127,9 @@ namespace RavlGUIN {
   }
   
   int WidgetBodyC::gtkCListSelect(GtkWidget *widget,
-				     gint row,gint column,
-				     GdkEventButton *event,
-				     Signal0C *data) {
+				  gint row,gint column,
+				  GdkEventButton *event,
+				  Signal0C *data) {
     Signal1C<CListEventC> sig(*data);
     RavlAssert(sig.IsValid());
     IntT rowId = (IntT) gtk_clist_get_row_data(GTK_CLIST(widget),row);

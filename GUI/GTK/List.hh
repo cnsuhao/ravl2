@@ -25,14 +25,14 @@ namespace RavlGUIN {
 
   class ListC;
   
+  
+  //! userlevel=Develop
+  //: List body.
   // GtkSelectionMode:
   //  GTK_SELECTION_SINGLE
   //  GTK_SELECTION_BROWSE
   //  GTK_SELECTION_MULTIPLE
   //  GTK_SELECTION_EXTENDED
-  
-  //! userlevel=Develop
-  //: List body.
   
   class ListBodyC 
     : public WidgetBodyC

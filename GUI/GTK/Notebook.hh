@@ -24,7 +24,7 @@ namespace RavlGUIN
   class NotebookC;
   
   //! userlevel=Develop
-  //: Layout box
+  //: Notebook
   
   class NotebookBodyC 
     : public ContainerWidgetBodyC 
@@ -104,7 +104,7 @@ namespace RavlGUIN
     };
   
   //! userlevel=Normal
-  //: Layout box
+  //: Notebook
   
   class NotebookC 
     : public ContainerWidgetC 
