@@ -129,29 +129,36 @@ namespace RavlN {
     { RavlAssertMsg(nBins > 0,"Must have at least 1 bin in a hash table."); }
     //: Create table with nBins.
     // Bin size must be at least 1.
+    //!param: nBins - Number of bin to initially put in the table.
     
     HashC(const HashC<K,T> &oth) 
       : HashBaseC(oth.elements),
 	table(oth.table.Copy())
     {}
     //: Copy access structure.
+    //!param: oth - Table to copy to make this one.
     
     HashC(const HashC<K,T> &oth,UIntT levels);
     //: Copy access structure.
+    //!param: oth - Table to copy to make this one.
+    //!param: levels - Depth of copy 
     
     HashC(Tuple2C<K,T> *data); 
     //: Initalise from simple array.
-    // NB. Array must be terminated by a duplicate of 
-    // the first key. (i.e. == must return true between them)
+    //!param: data - pointer to array of tuples to initalise the table with, terminated with an entry with a duplicate key of the first entry.
+    // Note: Array must be terminated by a duplicate of the first key. (i.e. == must return true between them)
     
     HashC(istream &in);
     //: Recreate from stream.
+    //!param: in - Stream to construct table from
     
     HashC(BinIStreamC &in);
     //: Recreate from stream.
+    //!param: in - Binary stream to construct table from
     
     HashC<K,T> Copy() const;
     //: Make a copy of the table.
+    //!return: Copy of this table.
     
     HashC<K,T> DeepCopy(UIntT levels = ((UIntT) -1)) const
     { return HashC<K,T>(*this,levels); }
@@ -166,93 +173,132 @@ namespace RavlN {
     // Do not use, Try Lookup(key,data);
     // Ptr == NULL, if matching key not found.
     
-    inline T *Lookup(const K &Key);
+    inline T *Lookup(const K &key);
     //: Find data matching key.
     // Do not use, Try Lookup(key,data);
     // Ptr == NULL, if matching key not found.
     
-    inline bool Lookup(const K &Key,T &data) const;
+    inline bool Lookup(const K &key,T &data) const;
     //: Lookup data for key.
-    // Returns true if entry is found, and is assigned to 'data'.
+    //!param: key - Key value to be used in lookup.
+    //!param: data - Place to hold data if lookup is successfull.
+    //!return: true if entry is found, and is assigned to 'data'.
+    // otherwise 'data' is not modified.
     
-    inline bool Update(const K &Key,const T &Data);
+    inline bool Update(const K &key,const T &data);
     //: Update member of hash table, will create new one if it doesn't
     //: exist. 
     // Require's a default constructor & a working assigment operator !!
-    // Returns: True=Member existed already. False=New one was added.
+    //!param: key - Key for element to update.
+    //!param: data - Data to update entry with.
+    //!returns: true=Member existed already. false=New one was added.
     
-    inline T &Update(const K &Key);
+    inline T &Update(const K &key);
     //: Get value, add default if its not there. Return reference anyway.
+    //!param: key - Key for element to access.
+    //!return: Reference to element in table
     
-    inline T &operator[](const K &Key) 
-    { return Update(Key); }
+    inline T &operator[](const K &key) 
+    { return Update(key); }
     //: Associative array style interface.
+    // Update member of hash table, will create new one if it doesn't
+    // exist. 
+    //!param: key - Key for element to access.
+    //!return: Reference to element in table
     
-    inline const T &operator[](const K &Key) const;
+    inline const T &operator[](const K &key) const;
     //: Associative array style of access.
+    // Note: this will cause an assertion failure if element doesn't exist as the table can't be modified.
+    //!param: key - Key for element to access.
+    //!return: Reference to element in table
     
-    inline bool Insert(const K &Key,const T &Data) 
+    inline bool Insert(const K &key,const T &data) 
     { return Update(Key,Data); }
     //: Default insertion operation, same as Update(K,T);
+    //!param: key - Key for element to update.
+    //!param: data - Data to update entry with.
+    //!returns: true=Member existed already. false=New one was added.
     
-    inline T &Access(const K &key,const T &def = T());
-    //: Access key, if it does not exist create a new bin with value 'def'
-    // Retuns a reference to the entry.
+    inline T &Access(const K &key,const T &def = T());    
+    //: Access key, if it does exists create a new bin with value 'def'
+    //!param: key - Key to lookup.
+    //!param: def - Default value to assign to entry if it doesn't exist.
+    //!return: Reference to the new entry.
     
     inline T &AccessCopy(const K &key,const T &def = T());
     //: Access key, if it does not exist create a new bin with a copy of value 'def'
-    // Retuns a reference to the entry.
+    //!param: key - Key to lookup.
+    //!param: def - Default value to assign a copy of if entry doesn't exist.
+    //!return: Reference to the new entry.
     
-    bool Del(const K &Key,bool allowResize = true);
+    bool Del(const K &key,bool allowResize = true);
     //: Delete member from table.
+    //!param: key - Key to remove from table.
+    //!param: allowResize - if true allow table resize.
+    // Note, if your deleting a large fraction of the entries it is more efficient to set
+    // allowResize to false, then to call the Resize() method to rebin entries after. (If
+    // your going to add an equive
     
-    inline T Get(const K &Key,bool allowResize = true);
+    inline T Get(const K &key,bool allowResize = true);
     //: Get data element from table, and remove it.
+    //!param: key - Element to get from the table.
     
-    inline bool IsElm(const K &Key) const 
-    { return (Lookup(Key) != 0); }
+    inline bool IsElm(const K &key) const 
+    { return (Lookup(key) != 0); }
     //: Is key used in the table ?
+    //!param: key - Element to check for in the table.
+    //!return: true if element is present in the table, false otherwise.
     
     void Empty(void); 
     //: Remove all items from table.
-          
+    
     inline UIntT Bins(void) const 
     { return (UIntT) table.Size(); }
     //: Number of bins in the HashTable.
+    //!return: Number of bin's in the hash table.
     
-    void Resize(SizeT NewSize);
+    void Resize(SizeT newSize);
     //: Resize hash table.
-
+    //!param: newSize - New number of bin's for the hashtable.
+    
     const HashC<K,T> &operator= (const HashC<K,T> &oth) { 
       table = oth.table.Copy(); 
       elements = oth.elements;
       return *this; 
     }
     //: Assign from another hash table.
+    //!param: oth - Other table
     
     bool operator==(const HashC<K,T> &oth) const;
     //: Are two hash tables identical ?
-
+    //!param: oth - Table to compare this one with.
+    //!return: true if keys and corresponding data entries are identical
+    
     bool operator!=(const HashC<K,T> &oth) const
     { return !operator==(oth); }
     //: Are two hash tables different ?
+    //!param: oth - Table to compare this one with.
+    //!return: true if keys and corresponding data entries are different
     
     UIntT Hash() const;
     //: Compute a hash value for the hash table.
-
+    //!return: Hash value for table key and data entries.
+    
     inline void Move(HashC<K,T> &oth);
     //: Move contents of another table into this one.
     // leave other empty. The previous contents of this table are removed.
+    //!param: oth - Table to move entries from.
     
     void AddFrom(HashC<K,T> &oth,bool replace = true);
     //: Add contents of another table into this one.
-    // leave other empty.  if replace is false the contents of the 
-    // old table are not replace by the new entries. 
+    // Leaves 'oth' table empty.
+    //!param: oth - Table to move elements from.
+    //!param: replace - If true replace elements with conflicting with ones from the 'oth' table, if false keep ones in this table.
     
     void Add(const HashC<K,T> &oth,bool replace = true);
-    //: Add contents of another table into this one.
-    // if replace is false the contents of the 
-    // old table are not replace by the new entries. 
+    //: Copy contents of another table 'oth' into this one.
+    //!param: oth - Table to copy elements from.
+    //!param: replace - If true replace elements with conflicting keys with entries from the 'oth' table, if false keep ones in this table.
     
     typedef HashElemC<K,T> HashElem;
     typedef IntrDListC<HashElemC<K,T> > HashElemLst;
