@@ -15,8 +15,10 @@
 
 
 namespace RavlImageN {
-#ifdef __sgi__
-  //template SArray2dC<double>;
+#if RAVL_COMPILER_MIPSPRO
+  static Slice1dC<ComplexC*> fixSGIBug1;
+  static Slice1dIter2C<ComplexC*,ComplexC> fixSGIBug2;
+  static SArray1dC<ComplexC*> fixSGIBug3(1);
   static SArray2dC<double> stupidSGIbugfix(1,1);
 #endif
   

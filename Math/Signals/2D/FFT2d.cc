@@ -24,7 +24,13 @@
 #define ONDEBUG(x)
 #endif
 
+
 namespace RavlN {
+  
+#if RAVL_COMPILER_MIPSPRO
+  static Slice1dC<ComplexC*> fixSGIBug1;
+  static Slice1dIter2C<ComplexC*,ComplexC> fixSGIBug2;
+#endif
 
   //: Constructor.
   

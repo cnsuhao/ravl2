@@ -24,7 +24,7 @@ LIBDEPS=RavlImageFilter.def
 
 PLIB=RavlImageProc
 
-USESLIBS=RavlImageProc
+USESLIBS=RavlImageProc RavlMath
 
 PROGLIBS=RavlIO RavlImageIO RavlDPDisplay RavlOSIO
 

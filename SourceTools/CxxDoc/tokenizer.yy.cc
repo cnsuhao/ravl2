@@ -22,8 +22,19 @@
 #ifdef __cplusplus
 
 #include <stdlib.h>
+#include "Ravl/config.h"
 /* class std::istream; */
+#if RAVL_HAVE_ANSICPPHEADERS
 #include <iostream>
+#else
+#include <iostream.h>
+#endif
+
+#if RAVL_HAVE_STDNAMESPACE
+#define RAVL_IONAMESPACE std::
+#else
+#define RAVL_IONAMESPACE
+#endif
 
 /* Use prototypes in function declarations. */
 #define YY_USE_PROTOS
@@ -143,8 +154,8 @@ typedef unsigned int yy_size_t;
 
 struct yy_buffer_state
 	{
-	std::istream* yy_input_file;
-
+	RAVL_IONAMESPACE istream* yy_input_file;
+	  
 	char *yy_ch_buf;		/* input buffer */
 	char *yy_buf_pos;		/* current position in input buffer */
 
@@ -1985,7 +1996,7 @@ ECHO;
 		} /* end of scanning one token */
 	} /* end of yylex */
 
-yyFlexLexer::yyFlexLexer( std::istream* arg_yyin, ostream* arg_yyout )
+yyFlexLexer::yyFlexLexer( RAVL_IONAMESPACE istream* arg_yyin, ostream* arg_yyout )
 	{
 	yyin = arg_yyin;
 	yyout = arg_yyout;
@@ -2020,7 +2031,7 @@ yyFlexLexer::~yyFlexLexer()
 	yy_delete_buffer( yy_current_buffer );
 	}
 
-void yyFlexLexer::switch_streams( std::istream* new_in, ostream* new_out )
+void yyFlexLexer::switch_streams( RAVL_IONAMESPACE istream* new_in, ostream* new_out )
 	{
 	if ( new_in )
 		{
@@ -2369,7 +2380,7 @@ int yyFlexLexer::yyinput()
 	}
 
 
-void yyFlexLexer::yyrestart( std::istream* input_file )
+void yyFlexLexer::yyrestart( RAVL_IONAMESPACE istream* input_file )
 	{
 	if ( ! yy_current_buffer )
 		yy_current_buffer = yy_create_buffer( yyin, YY_BUF_SIZE );
@@ -2413,7 +2424,7 @@ void yyFlexLexer::yy_load_buffer_state()
 	}
 
 
-YY_BUFFER_STATE yyFlexLexer::yy_create_buffer( std::istream* file, int size )
+YY_BUFFER_STATE yyFlexLexer::yy_create_buffer( RAVL_IONAMESPACE istream* file, int size )
 	{
 	YY_BUFFER_STATE b;
 
@@ -2453,7 +2464,7 @@ void yyFlexLexer::yy_delete_buffer( YY_BUFFER_STATE b )
 	}
 
 
-void yyFlexLexer::yy_init_buffer( YY_BUFFER_STATE b, std::istream* file )
+void yyFlexLexer::yy_init_buffer( YY_BUFFER_STATE b, RAVL_IONAMESPACE istream* file )
 
 	{
 	yy_flush_buffer( b );

@@ -1193,7 +1193,7 @@ namespace RavlN {
       s.clear(ios::eofbit|s.rdstate());
 #else
     if (ch == eof)
-      s.setstate(ios::eofbit | ios::failbit);
+      s.clear(ios::eofbit | ios::failbit);
 #endif
     return i;
   }
