@@ -57,10 +57,10 @@ namespace RavlN {
   //: Find a format.
   
   FileFormatBaseC FileFormatRegistryBodyC::FindFormat(bool forLoad,
-						  const StringC &name,
-						  const type_info &objtype,
-						  bool useIndirect
-						  ) {
+						      const StringC &name,
+						      const type_info &objtype,
+						      bool useIndirect
+						      ) {
     if(name == "") { // Request for default format ?
       for(DLIterC<FileFormatBaseC> it(Formats());
 	  it.IsElm();
@@ -98,11 +98,11 @@ namespace RavlN {
   //: Find the format of the file.
   
   FileFormatBaseC FileFormatRegistryBodyC::FindFormatFile(bool forLoad,
-						      const StringC &filename,
-						      const type_info &objtype,
-						      StringC formName,
-						      bool useIndirect
-						      ) {
+							  const StringC &filename,
+							  const type_info &objtype,
+							  StringC formName,
+							  bool useIndirect
+							  ) {
     if(formName == "") {
       for(DLIterC<FileFormatBaseC> it(Formats());
 	  it.IsElm();
@@ -126,7 +126,8 @@ namespace RavlN {
 	}
 	return it.Data();
       }
-      cerr << "No driver for: '" << filename << "' to/from '" << TypeName(objtype.name()) << "'" << endl;
+      if(objtype != typeid(void)) // If a type is specified and we couldn't convert to it.
+	cerr << "Unknown file format: '" << filename << "' (Requested type: '" << TypeName(objtype.name()) << ")" << endl;
       return FileFormatBaseC(); // No default type found.
     }
     if(!FormatByName().IsElm(formName)) {
@@ -163,10 +164,10 @@ namespace RavlN {
   //: Find the format of the file.
   
   FileFormatBaseC FileFormatRegistryBodyC::FindFormat(IStreamC &in,
-						  const type_info &objtype,
-						  StringC formName,
-						  bool useIndirect
-						  ) {
+						      const type_info &objtype,
+						      StringC formName,
+						      bool useIndirect
+						      ) {
     if(formName == "") {
       for(DLIterC<FileFormatBaseC> it(Formats());
 	  it.IsElm();
@@ -221,11 +222,11 @@ namespace RavlN {
   //: Search for input format.
   
   bool FileFormatRegistryBodyC::FindInputFormat(FileFormatDescC &fmtInfo,
-					    StringC filename,
-					    StringC format,
-					    const type_info &obj_type,
-					    bool verbose
-					    ) {
+						StringC filename,
+						StringC format,
+						const type_info &obj_type,
+						bool verbose
+						) {
     ONDEBUG(cerr << "FindInputFormat(), Fn:'" << filename << "' Format:'" << format << "'  Type : " << TypeName(obj_type) << "  Verb:" << verbose << "\n");
     
     // Check file...
@@ -654,9 +655,9 @@ namespace RavlN {
   
   FileFormatBaseC FileFormatRegistryBodyC::Identify(const StringC &afile)  {
     FileFormatBaseC ret;
-    ret = FindFormat(true,afile); // Find a load format.
+    ret = FindFormatFile(true,afile); // Find a load format.
     if(!ret.IsValid()) // No, then try save.
-      ret = FindFormat(false,afile);
+      ret = FindFormatFile(false,afile);
     return ret;
   }
   
