@@ -64,12 +64,12 @@ int testFFT2d() {
   for(SArray2dIterC<ComplexC> it(indat);it;it++)
     *it = ComplexC(i++,0);
   
-  FFT2dC fftf(30,20,false); // create forward transform.
+  FFT2dC fftf(indat.Size1(),indat.Size2(),false); // create forward transform.
   SArray2dC<ComplexC> fres = fftf.Apply(indat);
   
   //cerr << fres << "\n";
   
-  FFT2dC ffti(30,20,true);// create reverse transform.
+  FFT2dC ffti(indat.Size1(),indat.Size2(),true);// create reverse transform.
   SArray2dC<ComplexC> ires = ffti.Apply(fres);
   
   //cerr << ires << "\n";
@@ -90,12 +90,12 @@ int testFFT2dPwr2() {
   for(SArray2dIterC<ComplexC> it(indat);it;it++)
     *it = ComplexC(i++,0);
   
-  FFT2dC fftf(64,32,false); // create forward transform.
+  FFT2dC fftf(indat.Size1(),indat.Size2(),false); // create forward transform.
   SArray2dC<ComplexC> fres = fftf.Apply(indat);
   
   //cerr << fres << "\n";
   
-  FFT2dC ffti(64,32,true);// create reverse transform.
+  FFT2dC ffti(indat.Size1(),indat.Size2(),true);// create reverse transform.
   SArray2dC<ComplexC> ires = ffti.Apply(fres);
   
   //cerr << ires << "\n";
@@ -120,12 +120,12 @@ int testRealFFT2d() {
   for(SArray2dIterC<RealT> it(indat);it;it++)
     *it = (RealT) i++;
   
-  FFT2dC fftf(30,20,false); // create forward transform.
+  FFT2dC fftf(indat.Size1(),indat.Size2(),false); // create forward transform.
   SArray2dC<ComplexC> fres = fftf.Apply(indat);
   
   //cerr << fres << "\n";
   
-  FFT2dC ffti(30,20,true);// create reverse transform.
+  FFT2dC ffti(indat.Size1(),indat.Size2(),true);// create reverse transform.
   SArray2dC<ComplexC> ires = ffti.Apply(fres);
   
   //cerr << ires << "\n";
@@ -146,12 +146,12 @@ int testRealFFT2dPwr2() {
   for(SArray2dIterC<RealT> it(indat);it;it++)
     *it = i++;
   
-  FFT2dC fftf(64,32,false); // create forward transform.
+  FFT2dC fftf(indat.Size1(),indat.Size2(),false); // create forward transform.
   SArray2dC<ComplexC> fres = fftf.Apply(indat);
   
   //cerr << fres << "\n";
   
-  FFT2dC ffti(64,32,true);// create reverse transform.
+  FFT2dC ffti(indat.Size1(),indat.Size2(),true);// create reverse transform.
   SArray2dC<ComplexC> ires = ffti.Apply(fres);
   
   //cerr << ires << "\n";

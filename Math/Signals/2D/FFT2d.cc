@@ -14,6 +14,7 @@
 #include "Ravl/SArray2dIter2.hh"
 #include "Ravl/SArray2dIter3.hh"
 #include "Ravl/Slice1d.hh"
+#include "Ravl/Assert.hh"
 
 #include "ccmath/ccmath.h"
 
@@ -62,6 +63,13 @@ namespace RavlN {
       base2 = false;
       nf1 = pfac(size[0].V(),primeFactors1,'o');
       nf2 = pfac(size[1].V(),primeFactors2,'o');
+
+      // CCMath pfac (prime factor) function does not work for prime factors > 101.
+      StringC errTxt0 = ((StringC)"FFT2dBodyC::Init(), row size of "    +  size[0].V() + (StringC)" has a prime factor > 101.");
+      StringC errTxt1 = ((StringC)"FFT2dBodyC::Init(), column size of " +  size[1].V() + (StringC)" has a prime factor > 101.");
+      RavlAlwaysAssertMsg( size[0].V() == nf1, &errTxt0[0]);
+      RavlAlwaysAssertMsg( size[1].V() == nf2, &errTxt1[0]);
+
       tmp1 = SArray2dC<ComplexC>(size[0].V(),size[1].V());
       tmp1Ptr = SArray2dC<ComplexC *>(size[0].V(),size[1].V());
     }
