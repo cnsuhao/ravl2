@@ -351,8 +351,7 @@ namespace RavlN {
   TMatrixC<DataT> TMatrixC<DataT>::T() const {
     TMatrixC<DataT> ret(Cols(),Rows());
     for(IndexC i = 0;i < Rows();i++)
-      for(IndexC j = 0;j < Cols();j++)
-	ret[j][i] = (*this)[i][j];
+      ret.SetColumn(i,const_cast<TMatrixC<DataT> &>(*this).SliceRow(i));
     return ret;
   }
 

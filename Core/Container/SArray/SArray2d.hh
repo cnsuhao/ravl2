@@ -457,7 +457,8 @@ namespace RavlN {
     RavlAssert(val.Size() == Size1());
     // Avoid including to many headers by just using a ptr, not a slice.
     DataT *d1 = &((*this)[0][i]); 
-    for(BufferAccessIterC<DataT> it(val);it;it++,d1 += Stride())
+    const int s = Stride();
+    for(BufferAccessIterC<DataT> it(val);it;it++,d1 += s)
       *d1 = *it;
   }
   
