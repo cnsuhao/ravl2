@@ -67,6 +67,11 @@ namespace RavlN {
     void Rotate(RealT Angle);
     //: Add rotation <code>Angle</code> to transformation
     
+    RealT OrthogonalCrossProduct() const 
+    { return SRMatrix()[0][0] * SRMatrix()[1][1] - SRMatrix()[0][1] * SRMatrix()[1][0]; }
+    //: This returns the cross product of the projection of two orthognal unit vectors.
+    // This is usefull if you want to test if the transform is mirrored. i.e. changes
+    // the direction of rotations.
   };
   
   Affine2dC FitAffine(const SArray1dC<Point2dC> &org,const SArray1dC<Point2dC> &newPos,RealT &residual);
