@@ -87,7 +87,7 @@ namespace RavlN {
     // Use buffer 'bf',  make access of 'dim' elements. 
     // the start of the buffer should be 'offsetInBuff' elements into
     // the buffer.
-  
+    
     SArray1dC(const SArray1dC<DataC> & vv, const SizeT dim,SizeT offsetInBuff = 0);
     //: The subarray of the 'vv' with size 'dim'.
     
@@ -173,12 +173,28 @@ namespace RavlN {
         
     inline SArray1dC<DataC> & Append(const SArray1dC<DataC> & a);
     // This array is extended by the length of the array 'a' and the contents
-    // of both arrays are copied to it. The function supports empty arrays.
+    // of both arrays are copied to it. Empty arrays are handled correctly.
     
     SArray1dC<DataC> Join(const SArray1dC<DataC> &Oth) const;
     // Join this Array and another into a new Array which
     // is returned. This does not change either of its arguments.
     // This is placed in the array first, followed by 'Oth'.
+    
+    SArray1dC<DataC> From(UIntT offset) { 
+      if(offset >= Size())
+	return SArray1dC<DataC>(); // Empty array.
+      SizeT nsize = Size() - offset;
+      return SArray1dC<DataC>(*this,nsize,offset); 
+    }
+    //: Return array from offset to the end of the array.
+    // If offset is larger than the array an empty array
+    // is returned,
+    
+    SArray1dC<DataC> After(UIntT offset) 
+    { return From(offset+1); }
+    //: Return array after offset to the end of the array.
+    // If offset is larger than the array an empty array
+    // is returned,
     
     // Special operations
     // ------------------

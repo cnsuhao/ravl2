@@ -257,6 +257,22 @@ namespace RavlN {
     Array1dC<DataC> &ApplyIP(void (*op)(DataC &func));
     //: Apply a function In Place to each item in the array.
     // the changes are made to this array.
+
+    Array1dC<DataC> From(IndexC offset) { 
+      if(offset > Range().Max())
+	return Array1dC<DataC>(); // Empty array.
+      RavlAssert(offset >= Range().Min()); // Ensure its within the array.
+      return SArray1dC<DataC>(*this,IndexRangeC(offset,Range().Max())); 
+    }
+    //: Return array from offset to the end of the array.
+    // If offset is larger than the array an empty array
+    // is returned.  
+    
+    Array1dC<DataC> After(IndexC offset) 
+    { return From(offset+1); }
+    //: Return array after offset to the end of the array.
+    // If offset is larger than the array an empty array
+    // is returned.
     
   private:
     
