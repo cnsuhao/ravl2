@@ -31,9 +31,9 @@ namespace RavlN {
   public:
     DPIStreamOp21BodyC(const DPProcess21C<In1T,In2T,Out1T> &nproc,const DPIPortC<In1T> &input1,const DPIPortC<In2T> &input2)
       : DPIPortBodyC<Out1T>("Out1"),
-	proc(nproc),
 	in1(input1),
-	in2(input2)
+	in2(input2),
+	proc(nproc)
     {}
     //: Constructor.
     
