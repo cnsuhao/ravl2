@@ -242,6 +242,7 @@ namespace Ravl3DN {
 	  // Vertex/Texture/Normal
 	  outf << ind << '/' << (at+i) << '/' << ind << ' '; 
 	}
+ 	outf << "\n";
       }
     } else {
       for(SArray1dIterC<TriC> it(dat.Faces());it;it++) {
@@ -251,6 +252,7 @@ namespace Ravl3DN {
 	  // Vertex/Texture/Normal
 	  outf << ind << "//" << ind << ' '; 
 	}
+        outf << "\n";
       }
     }
       
