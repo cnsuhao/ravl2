@@ -93,7 +93,7 @@ namespace RavlN {
   
   template<class DataT>
   class DPISListC 
-    : public DPIPortC<DataT>
+    : public DPISPortC<DataT>
   {
   public:
     DPISListC(const DListC<DataT> &dat)
