@@ -109,7 +109,7 @@ namespace RavlN {
     ret.Fill(-1);
     for(IntT i = 0;i < (int) mat.Rows();i++) {
       if(ret[i] >= 0)
-	continue; // Already found a corelation for this paramiter.
+	continue; // Already found a correlation for this parameter.
       for(IntT j = i+1;j < (int) mat.Rows();j++) {
 	RealT ii = mat[i][i];
 	RealT ij = mat[j][i];
@@ -119,7 +119,7 @@ namespace RavlN {
 	ONDEBUG(cerr << " " << i << " " << j << " Det=" << det << "\n");
 	if(IsSmall(det,aver,thresh)) {
 	  ret[j] = i;
-	  break; // Paramiters j and i are corelated.
+	  break; // Paramiters j and i are correlated.
 	}
       }
     }
