@@ -40,9 +40,9 @@ namespace RavlImageN {
 	  newImage.Data() = oldCol.Data() ;
       }
     return subSampled ; 
-  }; 
+  }
   //: Subsamples the image by the given factor 
-  // Pixel at origin is always sampled first. 
+  // Pixel at top left-hand corner is always sampled first. 
   
 
 
