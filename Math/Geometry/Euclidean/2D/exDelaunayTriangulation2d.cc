@@ -13,6 +13,7 @@
 #include "Ravl/THEMeshFaceIter.hh"
 #include "Ravl/Random.hh"
 #include "Ravl/IO.hh"
+#include "Ravl/Array1d.hh"
 
 using namespace RavlN;
 using namespace RavlImageN;
@@ -30,7 +31,7 @@ int main(int nargs,char **argv) {
   ImageC<ByteT> img(size[0],size[1]);
   img.Fill(0);
   
-  SArray1dC<Point2dC> pnts(npnts);
+  Array1dC<Point2dC> pnts(npnts);
   
   // Generate a point set.
   for(UIntT i = 0;i < pnts.Size();i++)
