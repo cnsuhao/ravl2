@@ -34,6 +34,11 @@ namespace RavlN {
       : FPointC<4>(base)
       {}
     //: Constructor.
+
+    Point4dC(const FIndexC<4> &ind) 
+      : FPointC<4>(ind)
+      {}
+    //: Construct from a 4d index.
     
     Point4dC(RealT v1,RealT v2,RealT v3,RealT v4) { 
       data[0] = v1;

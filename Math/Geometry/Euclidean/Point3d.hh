@@ -34,6 +34,11 @@ namespace RavlN {
       : FPointC<3>(base)
       {}
     //: Constructor.
+
+    Point3dC(const FIndexC<3> &ind) 
+      : FPointC<3>(ind)
+      {}
+    //: Construct from a 3d index.
     
     Point3dC(RealT v1,RealT v2,RealT v3) { 
       data[0] = v1;

@@ -33,13 +33,24 @@ namespace RavlN {
     Point2dC(const TFVectorC<RealT,2> &base)
       : FPointC<2>(base)
       {}
-    //: Constructor.
+    //: Base class constructor.
+    
+    Point2dC(UIntT size)
+      { RavlAssert(size == 2); }
+    //: Construct with size.
+    // This is used in some templates that are
+    // designed to work with PointNdC as well as instances of FPointC.
+    
+    Point2dC(const FIndexC<2> &ind) 
+      : FPointC<2>(ind)
+      {}
+    //: Construct from a 2d index.
     
     Point2dC(RealT v1,RealT v2) { 
       data[0] = v1;
       data[1] = v2;
     }
-    //: Constructor.
+    //: Construct from two reals.
     
     RealT &X()
       { return data[0]; }

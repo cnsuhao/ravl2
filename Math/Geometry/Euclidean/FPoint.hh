@@ -16,6 +16,7 @@
 //! docentry="Ravl.Math.Geometry"
 
 #include "Ravl/TFVector.hh"
+#include "Ravl/FIndex.hh"
 
 namespace RavlN {
 
@@ -33,12 +34,20 @@ namespace RavlN {
     FPointC()
       {}
     //: Default constructor.
+    // The contents of the class are left
+    // undefined.
     
     FPointC(const TFVectorC<RealT,N> &oth)
       : TFVectorC<RealT,N>(oth)
       {}
     //: Base constructor.
-
+    
+    FPointC(const FIndexC<N> &oth) { 
+      for(unsigned int i = 0; i < N;i++) 
+	data[i] = (RealT) oth[i];
+    }
+    //: Construct from an index.
+    
     explicit FPointC(const FVectorC<N> &oth)
       : TFVectorC<RealT,N>(oth)
       {}
