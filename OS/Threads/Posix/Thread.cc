@@ -39,9 +39,12 @@
 
 namespace RavlN {
   extern void IncPThreadSysDBLock();
+  extern void IncPThreadAMutexInit();
   
-  void DummyIncFunc() 
-  { IncPThreadSysDBLock(); }
+  void DummyIncFunc() { 
+    IncPThreadAMutexInit();
+    IncPThreadSysDBLock(); 
+  }
   
   void OSYield() {
 #if RAVL_HAVE_THR_YIELD

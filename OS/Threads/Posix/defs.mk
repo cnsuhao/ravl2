@@ -18,7 +18,7 @@ HEADERS = Thread.hh Mutex.hh ConditionalMutex.hh Semaphore.hh RWLock.hh \
  SemaphoreRC.hh ThreadEvent.hh
 
 SOURCES = Thread.cc Mutex.cc ConditionalMutex.cc Semaphore.cc RWLock.cc \
- SemaphoreRC.cc MTLockImpl.cc ThreadEvent.cc
+ SemaphoreRC.cc MTLockImpl.cc ThreadEvent.cc AMutexImpl.cc
 
 PLIB = RavlThreads
 

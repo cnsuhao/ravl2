@@ -13,6 +13,7 @@
 #include "Ravl/Threads/Thread.hh"
 #include "Ravl/Threads/Semaphore.hh"
 #include "Ravl/Stream.hh"
+#include "Ravl/AMutex.hh"
 
 #include <stdlib.h>
 
@@ -87,6 +88,7 @@ static const int TestSize = 8;
 int main() {
   int i;
   cerr << "Starting RWLock test. \n";
+  //AMutexC testMutex(true);
   
   Done = new SemaphoreC(0);
   ARWLock = new RWLockC();
