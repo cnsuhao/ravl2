@@ -22,8 +22,6 @@
 #include "Ravl/IndexRange2d.hh"
 #include "Ravl/Hash.hh"
 #include "Ravl/String.hh"
-#include "Ravl/Image/Image.hh"
-#include "Ravl/Image/ByteRGBValue.hh"
 #include <gtk/gtkenums.h>
 
 // Namespace fix for Visual C++
@@ -44,7 +42,8 @@ namespace RavlGUIN {
   struct GTKSignalInfoC;
   class TargetEntryC;
   class WidgetDndInfoC;
-  
+  class WidgetStyleC;
+
   //! userlevel=Develop
   //: Widget base body.
   
@@ -81,14 +80,6 @@ namespace RavlGUIN {
     // Defaults to WidgetName(), but may be differnt
     // for Lables etc.
     
-    bool GUIShow();
-    //: Show widget to the world.
-    // Call only from GUI thread.
-    
-    bool GUIHide();
-    //: Hide widget from the world.
-    // Call only from GUI thread.
-    
     bool Show();
     //: Show widget to the world.
     // Thread safe.
@@ -105,16 +96,6 @@ namespace RavlGUIN {
     
     bool SetUSize(IntT x,IntT y);
     //: Set size of widget.
-
-    bool GUISetUSize(IntT& x,IntT& y);
-    //: Set size of widget.
-    // GUI thread only.
-    
-    void SetBackground(const RavlImageN::ImageC<RavlImageN::ByteRGBValueC>& im);
-    //: Set the background of the widget
-
-    void SetBackground(const RavlImageN::ImageC<RavlImageN::ByteRGBValueC>& im, GtkStateType& state);
-    //: Set the background of the widget
 
     IndexRange2dC Rectangle() const;
     //: Widget position and extent within its parent window.
@@ -145,11 +126,40 @@ namespace RavlGUIN {
     void ShapeCombineMask(GdkBitmap *mask,int off_x = 0,int off_y = 0);
     //: Make a shape mask for the widget.
     
+    void SetStyle(WidgetStyleC& style);
+    //: Set style of widget.
+
     void SetUPosition(int &width, int &height);
     //: Set the widget position
     
+    static SArray1dC<GtkTargetEntry> CommonTargetEntries();
+    //: Get a list of common target entries.
+    // name="text/plain" info=0 <br>
+    // name="text/uri-list" info=1 <br>
+    // name="STRING" info=2 <br>
+    
+    bool GUIShow();
+    //: Show widget to the world.
+    // Call only from GUI thread.
+    
+    bool GUIHide();
+    //: Hide widget from the world.
+    // Call only from GUI thread.
+    
+  protected:
+
+    bool GUISetStyle(WidgetStyleC& style);
+    //: Set style of widget.
+
+    bool GUISetState(GtkStateType &state);
+    //: Set state of widget.
+    
     bool GUISetUPosition(int &width, int &height);
     //: Set the widget position
+    
+    bool GUISetUSize(IntT& x,IntT& y);
+    //: Set size of widget.
+    // GUI thread only.
     
     void GUIGrabFocus();
     //: Grab keyboard focus.
@@ -166,22 +176,6 @@ namespace RavlGUIN {
     bool GUIDNDTargetDisable();
     //: Disable widget as a drag and drop source.
     
-    static SArray1dC<GtkTargetEntry> CommonTargetEntries();
-    //: Get a list of common target entries.
-    // name="text/plain" info=0 <br>
-    // name="text/uri-list" info=1 <br>
-    // name="STRING" info=2 <br>
-    
-  protected:
-    bool GUISetState(GtkStateType &state);
-    //: Set state of widget.
-    
-    bool GUISetBackground(RavlImageN::ImageC<RavlImageN::ByteRGBValueC>& im);
-    //: Sets the background of the widget
-
-    bool GUISetBackground(RavlImageN::ImageC<RavlImageN::ByteRGBValueC>& im, GtkStateType& state);
-    //: Sets the background of the widget
-
     virtual void Destroy();
     //: Undo all references.
     // Used to avoid problems with circluar references.
@@ -276,15 +270,52 @@ namespace RavlGUIN {
     { return Body().GUISetState(state); }
     //: Set state of widget.
     
-    bool GUISetBackground(RavlImageN::ImageC<RavlImageN::ByteRGBValueC>& im, GtkStateType& state) 
-    { return Body().GUISetBackground(im,state); }
-    //: Sets the background of the widget
-
-    bool GUISetBackground(RavlImageN::ImageC<RavlImageN::ByteRGBValueC>& im) 
-    { return Body().GUISetBackground(im); }
-    //: Sets the background of the widget
-
+    bool GUISetStyle(WidgetStyleC &style)
+    { return Body().GUISetStyle(style); }
+    //: Set style of widget.
+    
+    bool GUISetUSize(IntT& x,IntT& y)
+    { return Body().GUISetUSize(x,y); }
+    //: Set size of widget.
+    // GUI thread only.
+    
+    bool GUISetUPosition(int &width, int &height)
+    { return Body().GUISetUPosition(width, height); }
+    //: Set the widget position
+    
+    void GUIGrabFocus()
+    { Body().GUIGrabFocus(); }
+    //: Grab keyboard focus.
+    
+    bool GUIDNDSource(ModifierTypeT flags,const SArray1dC<GtkTargetEntry> &entries,DragActionT actions)
+    { return Body().GUIDNDSource(flags,entries,actions); }
+    //: Setup widget as drag and drop source.
+    // e.g. GDK_BUTTON1_MASK GDK_BUTTON2_MASK or GDK_BUTTON3_MASK   
+    
+    bool GUIDNDSourceDisable()
+    { return Body().GUIDNDSourceDisable(); }
+    //: Disable widget as a drag and drop source.
+    
+    bool GUIDNDTarget(DestDefaultsT flags,const SArray1dC<GtkTargetEntry> &entries,DragActionT actions)
+    { return Body().GUIDNDTarget(flags,entries,actions); }
+    //: Setup widget as drag and drop target.
+    
+    bool GUIDNDTargetDisable()
+    { return Body().GUIDNDTargetDisable(); }
+    //: Disable widget as a drag and drop source.
+    
   public:
+
+    bool GUIShow()
+    { return Body().GUIShow(); }
+    //: Show widget on the display.
+    // Call only from GUI thread.
+    
+    bool GUIHide()
+    { return Body().GUIHide(); }
+    //: Hide widget on the display.
+    // Call only from GUI thread.
+
     void Destroy() 
     { Body().Destroy(); }
     //: See body class for details.
@@ -312,16 +343,6 @@ namespace RavlGUIN {
     { return Body().Create(); }
     //: Create the widget.
     
-    bool GUIShow()
-    { return Body().GUIShow(); }
-    //: Show widget on the display.
-    // Call only from GUI thread.
-    
-    bool GUIHide()
-    { return Body().GUIHide(); }
-    //: Hide widget on the display.
-    // Call only from GUI thread.
-    
     bool Show()
     { return Body().Show(); }
     //: Show widget on the display.
@@ -344,24 +365,14 @@ namespace RavlGUIN {
     { return Body().SetUSize(x,y); }
     //: Set size of widget.
     
-    void SetBackground(const RavlImageN::ImageC<RavlImageN::ByteRGBValueC>& im, GtkStateType& state) 
-    { Body().SetBackground(im,state); }
-    //: Set the background of the widget
-
-    void SetBackground(const RavlImageN::ImageC<RavlImageN::ByteRGBValueC>& im) 
-    { Body().SetBackground(im); }
-    //: Set the background of the widget
-
-    bool GUISetUSize(IntT& x,IntT& y)
-    { return Body().GUISetUSize(x,y); }
-    //: Set size of widget.
-    // GUI thread only.
-    
     void SetState(GtkStateType state)
     { Body().SetState(state); }
     //: Set state 
     // One of: GTK_STATE_NORMAL GTK_STATE_ACTIVE  GTK_STATE_PRELIGHT,
     // GTK_STATE_SELECTED GTK_STATE_INSENSITIVE
+
+    void SetStyle(WidgetStyleC& style)
+    { Body().SetStyle(style); }
 
     IndexRange2dC Rectangle() const
     { return Body().Rectangle(); }
@@ -407,31 +418,6 @@ namespace RavlGUIN {
     void SetUPosition(int &width, int &height)
     { Body().SetUPosition(width, height); }
     //: Set the widget position
-    
-    bool GUISetUPosition(int &width, int &height)
-    { return Body().GUISetUPosition(width, height); }
-    //: Set the widget position
-    
-    void GUIGrabFocus()
-    { Body().GUIGrabFocus(); }
-    //: Grab keyboard focus.
-    
-    bool GUIDNDSource(ModifierTypeT flags,const SArray1dC<GtkTargetEntry> &entries,DragActionT actions)
-    { return Body().GUIDNDSource(flags,entries,actions); }
-    //: Setup widget as drag and drop source.
-    // e.g. GDK_BUTTON1_MASK GDK_BUTTON2_MASK or GDK_BUTTON3_MASK   
-    
-    bool GUIDNDSourceDisable()
-    { return Body().GUIDNDSourceDisable(); }
-    //: Disable widget as a drag and drop source.
-    
-    bool GUIDNDTarget(DestDefaultsT flags,const SArray1dC<GtkTargetEntry> &entries,DragActionT actions)
-    { return Body().GUIDNDTarget(flags,entries,actions); }
-    //: Setup widget as drag and drop target.
-    
-    bool GUIDNDTargetDisable()
-    { return Body().GUIDNDTargetDisable(); }
-    //: Disable widget as a drag and drop source.
     
     friend class WidgetBodyC;
     friend class ManagerC;
