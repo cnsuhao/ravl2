@@ -68,14 +68,14 @@ namespace RavlN {
     done.Fill(false);
     if(fromNode == toNode)
       return false;
-    BlkQueueC<typename BGraphTypesC::NodeHandleT> open;
+    BlkQueueC<BGraphTypesC::NodeHandleT> open;
     open.InsLast(toNode);
     done[toNode] = true;
     while (!open.IsEmpty()) {
       for(BGraphAdjIterC<NT,ET> It(NodeObj(open.GetFirst()),Bkw);
 	  It.IsElm();
 	  It.Next()) {
-	typename BGraphTypesC::NodeHandleT NN = It.FarNodeH();
+	BGraphTypesC::NodeHandleT NN = It.FarNodeH();
 	if(done[NN])
 	  continue;
 	if(NN == fromNode)
