@@ -24,7 +24,7 @@ AUXFILES =  QMake.mk \
   config.linux_alpha config.sgi     config.sol2 \
   config.alpha       config.unknown config.linux config.cygwin \
   QLibs.pl GlobalMake qmake.cshrc qmake.sh \
-  RAVLExec
+  RAVLExec AutoBuild.pl AutoBuild.sample.conf
 
 EHT= exeSysConf.eht Ravl.QMake.html Ravl.QMake.Defs.html Ravl.QMake.Commands.html \
  Ravl.QMake.Build_Structure.html
