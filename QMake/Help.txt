@@ -23,7 +23,7 @@ Common targets:
     chkclean clean with VAR=check
   cleanlib  Like clean, but removes library as well.  (See below for details)
   cleandep  Remove all dependency files. (See below for details)
-  distclean Clean and remove all executables and libraries for current variant 
+  distclean Remove ALL files from your project out.  
   doc       Make automatic documentation.
   docentry  Make semantic documentation
   chead     Check headers with original RAVL make system.
@@ -43,6 +43,7 @@ Variables:
   VAR      = check (default), debug, opt 
   RAVL_INFO=1 Print command lines during make. 
   USERCFLAGS=... Pass extra options to the compiler.
+  NOEXEBUILD=1 Build libraries only, don't compile or link executables.
 
 Examples: 
 
