@@ -15,3 +15,5 @@ SOURCES=AudioIO.cc
 PLIB=RavlAudioUtil
 
 USESLIBS=RavlIO
+
+EHT= Ravl.Audio.IO.html
