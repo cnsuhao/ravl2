@@ -13,7 +13,7 @@
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! date="13/08/98"
-//! userlevel=Default
+//! userlevel=Normal
 
 #include "Ravl/Graph.hh"
 #include "Ravl/Hash.hh"
