@@ -23,7 +23,7 @@ HEADERS=Types.hh config.h Pair.hh Resource.hh \
  RealRange1d.hh RealRange2d.hh RealRange3d.hh \
  RCBodyV.hh RCHandleV.hh IndexRange2dIter.hh IndexRange3dIter.hh fdstreambuf.hh \
  fdstream.hh GenBinStream.hh Traits.hh FPNumber.hh QInt.hh CompilerHints.hh \
- stdio_fdstream.hh
+ stdio_fdstream.hh AMutex.hh
 
 SOURCES=Assert.cc Exception.cc EntryPnt.cc Index.cc String.cc \
  RefCounter.cc HandleRefCounter.cc Trigger.cc Calls.cc \
@@ -32,7 +32,8 @@ SOURCES=Assert.cc Exception.cc EntryPnt.cc Index.cc String.cc \
  Index2d.cc Index3d.cc IntC.cc StdConst.cc RCAbstract.cc \
  BinString.cc RCWrap.cc IndexRange3d.cc Math.cc RealC.cc \
  RealRange1d.cc RealRange2d.cc RealRange3d.cc \
- RCBodyV.cc URLMapper.cc GenBinStream.cc Resource.cc
+ RCBodyV.cc URLMapper.cc GenBinStream.cc Resource.cc \
+ AMutex.cc
 
 PLIB=RavlCore
 
