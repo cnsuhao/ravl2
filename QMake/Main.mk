@@ -462,7 +462,7 @@ else
 	@true
 endif
 
-src_all: srcfiles
+src_all: srcfiles  build_aux
 ifneq ($(strip $(TARG_NESTED)),)
 	+ $(SHOWIT)for SUBDIR in $(TARG_NESTED) ; do \
 	  if [ -d $$SUBDIR ] ; then \
