@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLFMATRIX_HEADER
-#define RAVLFMATRIX_HEADER 1
+#ifndef RAVL_FMATRIX_HEADER
+#define RAVL_FMATRIX_HEADER 1
 //////////////////////////////////////////////////
 //! rcsid=$Id$
 //! file="Ravl/Math/LinearAlgebra/FixedSize/FMatrix.hh"
@@ -33,12 +33,12 @@ namespace RavlN {
   {
   public:
     FMatrixC()
-      {}
+    {}
     //: Default constructor.
     
     FMatrixC(const TFMatrixC<RealT,N,M> &oth)
       : TFMatrixC<RealT,N,M>(oth)
-      {}
+    {}
     //: Base constructor.
     
     bool IsReal() const {
@@ -176,51 +176,42 @@ namespace RavlN {
   // NB. This function destory's the contents of this matrix!
   
   template<unsigned int N,unsigned int M>
-  FVectorC<N> EigenValues(FMatrixC<N,M> &mat) {
+  void EigenValues(FMatrixC<N,M> &mat,FVectorC<N> &vec) {
     RavlAssertMsg(N == M,"MatrixTFC::EigenValues() Matrix must be square. ");
-    FVectorC<N> ret;
     FMatrixC<N,M> tmp(mat);
-    eigval(&tmp[0][0],&ret[0],N);
+    eigval(&tmp[0][0],&vec[0],N);
     return ret;
   }
-  //: Calculate the eigen values of this matrix.
+  //: Calculate the eigen values of a real symmetric matrix.
   // This matrix remains unchanged. A vector of the eigen
-  // values is returned. <p>
-  // If any errors occured a zero length vector is generated.
+  // values is assigned to 'vec'.
   
   template<unsigned int N,unsigned int M>
-  FVectorC<N> EigenValuesIP(FMatrixC<N,M> &mat) {
+  void EigenValuesIP(FMatrixC<N,M> &mat,FVectorC<N> &vec) {
     RavlAssertMsg(N == M,"MatrixTFC::EigenValuesIP() Matrix must be square. ");
-    FVectorC<N> ret;
-    eigval(&mat[0][0],&ret[0],N);
-    return ret;
+    eigval(&mat[0][0],&vec[0],N);
   }
-  //: Calculate the eigen values of this matrix.
-  // The contents of this matrix are destroyed. A vector of the eigen
-  // values is returned.   <p>
-  // If any errors occured a zero length vector is generated.
-    
+  //: Calculate the eigen values of a real symmetric matrix.
+  // The contents of this matrix are destroyed. The vector 
+  // is placed in 'vec'.
+  
   template<unsigned int N,unsigned int M>
-  FVectorC<N> EigenVectors(FMatrixC<N,M> &mat,FMatrixC<N,M> &E) {
+  void EigenVectors(FMatrixC<N,M> &mat,FMatrixC<N,M> &E,FVectorC<N> &D) {
     RavlAssertMsg(N == M,"FMatrixC::EigenVectorsIP() Matrix must be square. ");
-    FVectorC<N> ret;
     FMatrixC<N,M> tmp(mat);
-    eigen(&tmp[0][0],&ret[0],N);
-    return ret;
+    eigen(&tmp[0][0],&D[0],N);
   }
-  //: Calculate the eigen values and vectors of this matrix.
+  //: Calculate the eigen values and vectors of a real symmetric matrix.
   // A = E*D*E~ where D is the diagonal matrix of eigenvalues
   //   D[i,j] = ret[i] if i=j and 0 otherwise. 'ret' is the
   // returned matrix.
   
   template<unsigned int N,unsigned int M>
-  FVectorC<N> EigenVectorsIP(FMatrixC<N,M> &mat) {
+  void EigenVectorsIP(FMatrixC<N,M> &mat,FVectorC<N> &D) {
     RavlAssertMsg(N == M,"FMatrixC::EigenVectorsIP() Matrix must be square. ");
-    FVectorC<N> ret;
-    eigen(&mat[0][0],&ret[0],N);
-    return ret;
+    eigen(&mat[0][0],&D[0],N);
   }
-  //: Calculate the eigen values and vectors of this matrix.
+  //: Calculate the eigen values and vectors of a real symmetric matrix.
   // This matrix is filed with the eigen vectors
   // A = E*D*E~ where D is the diagonal matrix of eigenvalues
   //   D[i,j] = ret[i] if i=j and 0 otherwise. 'ret' is the
