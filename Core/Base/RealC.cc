@@ -7,9 +7,9 @@
 ////////////////////////////////////////////////////////
 //! rcsid="$id$"
 //! lib=RavlCore
-//! file="Ravl/Core/Base/IntC.cc"
+//! file="Ravl/Core/Base/RealC.cc"
 
-#include "Ravl/IntC.hh"
+#include "Ravl/RealC.hh"
 #include "Ravl/Stream.hh"
 
 namespace RavlN {
@@ -18,24 +18,14 @@ namespace RavlN {
   //using namespace std;
 #endif
 
-  ostream &operator<<(ostream &out,const IntC &x) {
-    out << ((int) x.v);
+  ostream &operator<<(ostream &out,const RealC &x) {
+    out << x.v;
     return out;
   }
   
-  istream &operator>>(istream &in,IntC &x) {
-    in >> ((int &) x.v);
+  istream &operator>>(istream &in,RealC &x) {
+    in >> x.v;
     return in;
-  }
-
-  ostream &operator<<(ostream &out,const UIntC &x) {
-    out << ((unsigned int) x.v);
-    return out;
   }
   
-  istream &operator>>(istream &in,UIntC &x) {
-    in >> ((unsigned int &) x.v);
-    return in;
-  }
-
 }
