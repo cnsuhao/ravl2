@@ -17,6 +17,7 @@
 
 #include "Ravl/config.h"
 #include "Ravl/Math.hh"
+#include "Ravl/StdConst.hh"
 
 #if RAVL_HAVE_FLOAT_H
 #include <float.h>
@@ -82,6 +83,11 @@ namespace RavlN {
   // Returns 1.0 - Erf(x). (Use when x is large)
 #endif
   
+  inline RealT Log2(RealT r) {
+    RavlAssertMsg(r > 0.0,"Log2(RealT r): Can't take log of zero or negative number.");
+    return log(r)/RavlConstN::ln2;
+  }
+  //: Returns logarithm to base 2.
   
   inline bool IsPow2(IntT i) {
     IntT j = 1;
