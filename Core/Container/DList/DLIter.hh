@@ -183,12 +183,26 @@ namespace RavlN {
     void Next()
     { (*this)++; }
     //: Goto next element.
-    // AMMA compatibility function, use ++ operator.
     
     void Prev()
     { (*this)--; }
+    //: Goto previous element.
+
+    void NextCrc() { 
+      (*this)++; 
+      if(!IsElm()) (*this)++; 
+    }
     //: Goto next element.
-    // AMMA compatibility function, use -- operator.
+    // If the next element is the head of the list, loop
+    // back to the begining of the list.
+    
+    void PrevCrc() { 
+      (*this)--; 
+      if(!IsElm()) (*this)--; 
+    }
+    //: Goto previous element.
+    // If the next element is the head of the list, go
+    // to the begining of the list.
     
     DLIterC<DataT> &RelNth(IntT n) {
       if(n==0)
