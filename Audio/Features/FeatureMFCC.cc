@@ -30,10 +30,10 @@ namespace RavlAudioN {
 				     IntT numCep,        // Number of ceptstrum co-efficents to compute.
 				     RealT preEmphasisAlpha
 				     )
+    : preEmphasis(preEmphasisAlpha)
   {
     IntT frameSep = Round(sampleRate / frameRate);
     ONDEBUG(cerr << "Windowing signal. frameSep=" << frameSep << " \n");
-    preEmphasis = PreEmphasisC<Int16T,RealT,RealT>(preEmphasisAlpha);
     window = WindowSignalC<RealT,RealT,RealT>(RAWHanning,frameSize,frameSep);
     melSpectrum.InitFilters(sampleRate,frameSize,freqRange,numMelFilters);
     melCepstrum.Init(numCep,numMelFilters);
