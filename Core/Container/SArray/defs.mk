@@ -45,7 +45,7 @@ EXAMPLES = exSArr1.cc
 
 # Tests - program testing runtime consistency of the software
 #TESTEXES = exSArrIter.cc 
-TESTEXES = testSArray1d.cc testSArray2d.cc testSArray3d.cc testSArrIter.cc 
+TESTEXES = testSArray1d.cc testSArray2d.cc testSArray3d.cc
 #testSArr3D.cc
 
 # Documentation - html pages

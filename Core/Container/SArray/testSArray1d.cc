@@ -24,6 +24,7 @@
 using namespace RavlN;
 
 int testBasic();
+int testOriginal();
 int testSort();
 int testReverse();
 int testIO();
@@ -32,6 +33,10 @@ int  main()
 {
   int ln;
   if((ln = testBasic()) != 0) {
+    cerr << "Test failed line " << ln << "\n";
+    return 1;
+  }
+  if((ln = testOriginal()) != 0) {
     cerr << "Test failed line " << ln << "\n";
     return 1;
   }
@@ -44,6 +49,43 @@ int  main()
     return 1;
   }
   return 0;
+}
+
+
+int testOriginal() {
+  SArray1dC<int> test(100);
+  SArray1dC<int> test2(100);
+  int x = 10;
+  for(SArray1dIterC<int> it(test);it.IsElm();it.Next())
+    it.Data() = x++;
+  if((x-10) != (int) test.Size()) 
+    return __LINE__;
+  x = 10;
+  for(int i = 0;i < (int) test.Size();i++) {
+    if(test[i] != x++)
+      return __LINE__;
+  }
+  
+  SArray1dC<int> test3;
+  SArray1dIterC<int> it2(test3);
+  if(it2.IsElm()) 
+    return __LINE__;
+  
+  // Check the iterators instanciate properly.
+  x = 0;
+  for(SArray1dIter2C<int,int> itx2(test,test);itx2;itx2++)
+    x++;
+  
+  for(SArray1dIter3C<int,int,int> itx3(test,test,test);itx3;itx3++)
+    x++;
+  
+  for(SArray1dIter4C<int,int,int,int> itx4(test,test,test,test);itx4;itx4++)
+    x++;
+  
+  if(x != 300) 
+    return __LINE__;
+  
+  return 0;  
 }
 
 int testBasic() {
