@@ -1,7 +1,7 @@
 /*! rcsid="$Id$" */
 /*! lib=RavlCxxDoc */
 /*! license=own */
-#ifndef FLEXLEXER_HEADER
+#if !defined(FLEXLEXER_HEADER) && !defined(__FLEX_LEXER_H)
 #define FLEXLEXER_HEADER 1
 /*! file="Ravl/SourceTools/CxxDoc/FlexLexer.h" */
 // FlexLexer.h -- define interfaces for lexical analyzer classes generated
