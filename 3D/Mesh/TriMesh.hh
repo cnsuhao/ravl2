@@ -19,7 +19,8 @@ namespace Ravl3DN {
   using namespace RavlN;
   
   class TriMeshBodyC;
-    
+  class TriMeshC;
+  
   //! userlevel=Develop
   //: Tri set body.
   
@@ -49,6 +50,9 @@ namespace Ravl3DN {
     //: Construct from an array of vertexes and an array of tri's.
     // The TriC's must refer to elements in 'v'
     
+    RCBodyVC& Copy() const;
+    //: Make a copy of the mesh.
+    
     SArray1dC<VertexC> &Vertices()
     { return vertices; }
     //: Access a list of all vertices in the mesh.
@@ -76,13 +80,20 @@ namespace Ravl3DN {
     //: Create an array of faces indexes.
     // each successive triple of indexes represents a face in the mesh.
     
-    UIntT Index(const TriC &tri,int no)
+    UIntT Index(const TriC &tri,int no) const
     { return tri.VertexPtr(no) - &(vertices[0]); }
     //: Find the index of a TriC's vertex.
     // no should be 0 to 2.
     
+    void Limits(Vector3dC &min,Vector3dC &max) const;
+    //: Find largest and smallest for each compoent of all vertices.
+    
     void UpdateVertexNormals();
     //: Recalculate vertex normals.
+    
+    void OffsetScale(const Vector3dC &off,RealT scale);
+    //: Offset and Scale mesh by given values.
+    
   protected:
     SArray1dC<VertexC> vertices; // Array of vertex positions.
     SArray1dC<TriC> faces;     // Array of triangles.
@@ -114,6 +125,10 @@ namespace Ravl3DN {
     //: Construct from an array of vertexes and an array of tri's.
     // The TriC's must refer to elements in 'v'
     
+    TriMeshC(UIntT noVertices,UIntT noFaces)
+      : RCHandleC<TriMeshBodyC>(*new TriMeshBodyC(noVertices,noFaces))
+    {}
+    
   protected:
     TriMeshC(TriMeshBodyC &bod)
       : RCHandleC<TriMeshBodyC>(bod)
@@ -129,6 +144,10 @@ namespace Ravl3DN {
     //: Access body.
     
   public:
+    TriMeshC Copy() const
+    { return TriMeshC(static_cast<TriMeshBodyC &>(Body().Copy())); }
+    //: Make a copy of the mesh.
+
     SArray1dC<VertexC> &Vertices()
     { return Body().Vertices(); }
     //: Access a list of all vertices in the mesh.
@@ -163,10 +182,18 @@ namespace Ravl3DN {
     { return Body().UpdateVertexNormals(); }
     //: Recalculate vertex normals.
     
-    UIntT Index(const TriC &tri,int no)
+    UIntT Index(const TriC &tri,int no) const
     { return Body().Index(tri,no); }
     //: Find the index of a TriC's vertex.
     // no should be 0 to 2.
+    
+    void Limits(Vector3dC &min,Vector3dC &max) const
+    { return Body().Limits(min,max); }
+    //: Find largest and smallest for each compoent of all vertices.
+    
+    void OffsetScale(const Vector3dC &off,RealT scale)
+    { return Body().OffsetScale(off,scale); }
+    //: Offset and Scale mesh by given values.
     
   };
 

@@ -26,6 +26,20 @@ namespace Ravl3DN {
       it.Data1().Position() = it.Data2();
     UpdateVertexNormals();    
   }
+
+  //: Make a copy of the mesh.
+  
+  RCBodyVC&  TriMeshBodyC::Copy() const {
+    SArray1dC<VertexC> nverts = vertices.Copy();
+    SArray1dC<TriC> ntris(faces.Size());
+    for(SArray1dIter2C<TriC,TriC> it(ntris,faces);it;it++) {
+      for(int i = 0;i < 3;i++)
+	it.Data1().VertexPtr(i) = &(nverts[Index(it.Data2(),i)]);
+      it.Data1().TextureCoords() = it.Data2().TextureCoords();
+      it.Data1().FaceNormal() = it.Data2().FaceNormal();
+    }
+    return *new TriMeshBodyC(nverts,ntris);
+  }
   
   //: Flips the mesh surface
   
@@ -63,6 +77,31 @@ namespace Ravl3DN {
     return ret;
   }
 
+  //: Find largest and smallest for each compoent of all vertices.
+  
+  void TriMeshBodyC::Limits(Vector3dC &min,Vector3dC &max) const{
+    SArray1dIterC<VertexC> it(vertices);
+    if(!it)
+      return ; // Empty mesh!
+    min = it->Position();
+    max = it->Position();
+    for(it++;it;it++) {
+      for(int i = 0;i < 3;i++) {
+	if(min[i] > it->Position()[i])
+	  min[i] = it->Position()[i];
+	if(max[i] < it->Position()[i])
+	  max[i] = it->Position()[i];
+      }
+    }
+  }
+  
+  //: Offset and Scale mesh by given values.
+  
+  void TriMeshBodyC::OffsetScale(const Vector3dC &off,RealT scale) {
+    for(SArray1dIterC<VertexC> it(vertices);it;it++)
+      it->Position() = (it->Position() + off) * scale;
+  }
+  
   //: Recalculate vertex normals.
   
   void TriMeshBodyC::UpdateVertexNormals() {
