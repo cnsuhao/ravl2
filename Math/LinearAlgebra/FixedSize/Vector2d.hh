@@ -43,16 +43,36 @@ namespace RavlN {
     RealT &X()
     { return data[0]; }
     //: First component of vector.
-
+    // Obsolete
+    
     RealT X() const
     { return data[0]; }
     //: First component of vector.
-
+    // Obsolete
+    
     RealT &Y()
     { return data[1]; }
     //: Second component of vector.
-
+    // Obsolete
+    
     RealT Y() const
+    { return data[1]; }
+    //: Second component of vector.
+    // Obsolete
+
+    RealT &A()
+    { return data[0]; }
+    //: First component of vector.
+    
+    RealT A() const
+    { return data[0]; }
+    //: First component of vector.
+    
+    RealT &B()
+    { return data[1]; }
+    //: Second component of vector.
+    
+    RealT B() const
     { return data[1]; }
     //: Second component of vector.
     
@@ -96,8 +116,7 @@ namespace RavlN {
     RealT Modulus() const
     { return Norm(); }  
     //: Returns the Euclidian size of the vector.
-
-
+    
     RealT Angle() const
     { return atan2(data[1],data[0]); }
     //: Returns the oriented angle (rad) from the axes x in
