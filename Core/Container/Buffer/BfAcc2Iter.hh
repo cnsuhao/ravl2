@@ -189,7 +189,7 @@ namespace RavlN {
     void operator+=(UIntT n) {
       cit.Next(n);
       if(!cit.IsElm())
-	rit.CNextRow(n);
+	CNextRow(n);
     }
     //: Goto next element when subsampling by a factor of n.
     //  That is, when used to iterate through a 2D array, it will subsample rows and columns by a factor of n
