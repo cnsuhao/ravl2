@@ -31,8 +31,8 @@ SOURCES = ImgIOJPeg.cc JPEGFormat.cc \
 
 MUSTLINK =  ExtImgIO.cc
 
+EXAMPLES = exExtImgIO.cc
+
 USESLIBS = RavlImage RavlIO LibJPEG LibPNG LibTIFF
-# 
 
 PROGLIBS = 
-#Mopt
