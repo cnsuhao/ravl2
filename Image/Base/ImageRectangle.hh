@@ -47,6 +47,11 @@ namespace RavlImageN {
       {}
     //: Construct from corner points.
 
+    ImageRectangleC(const Index2dC &center,SizeT size)
+      : IndexRange2dC(center,size)
+    {}
+    //: Construct a square from center and size.
+
     ImageRectangleC(IndexC minRow, IndexC maxRow,
 		    IndexC minCol, IndexC maxCol)
       : IndexRange2dC(minRow,maxRow,minCol,maxCol)
