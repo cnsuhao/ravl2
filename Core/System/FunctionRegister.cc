@@ -122,7 +122,7 @@ namespace RavlN {
     MTWriteLockC lock(0);
     FunctionPointerEntryC *ent;
     if(FunctionPointerName2Pointer().Lookup(name,ent)) {
-      cerr <<"WARNING: Second function pointer registeration for '" << name << "\n";
+      cerr <<"WARNING: Duplicate function pointer registeration for '" << name << "'\n";
       return false;
     }
     FunctionPointerEntries().InsLast(FunctionPointerEntryC(name,ptr,size,ti));
