@@ -128,6 +128,12 @@ namespace RavlN {
       { return Data().Access(key,def); }
     //: Access key, if it does exists create a new bin with value 'def'
     // Retuns a refrence to the new entry.
+
+    void AddFrom(RCHashC<Key,Dat> &oth,bool replace = true)
+    { return Data().AddFrom(oth,replace); }
+    //: Add contents of another table into this one.
+    // leave other empty.  if replace is false the contents of the 
+    // old table are not replace by the new entries. 
     
   };
 

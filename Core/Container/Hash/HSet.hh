@@ -137,10 +137,14 @@ namespace RavlN {
     bool operator==(const HSetC<T> &oth) const;
     //: Is equal, ie contains all the same members ?
     
-    inline
-      bool operator!=(const HSetC<T> &oth) const
+    inline bool operator!=(const HSetC<T> &oth) const
       { return !operator==(oth); }
     //: Is not equal, ie contains different members ?
+    
+    inline void AddFrom(HSetC<T> &oth)
+    { set.AddFrom(oth.set); }
+    //: Add contents of another set into this one.
+    // leave other empty. 
     
     // More comming soon.... (Or on request. )
     

@@ -20,7 +20,6 @@
 #define HASHITER_ALLOW_DELETE 0
 
 namespace RavlN {
-
   
   //: Hash table iterator.
   // This iterator works with both HashC and HashARC. <p>
