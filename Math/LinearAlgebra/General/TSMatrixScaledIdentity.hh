@@ -101,6 +101,16 @@ namespace RavlN {
     //: Get transpose of matrix.
     // This is a no-op.
     
+    virtual void AddIP(const TSMatrixC<DataT> &oth);
+    //: Add this matrix to 'oth' and return the result.
+    // Note the default implementation only works where Row(UIntT), returns a real access
+    // to the data in the matrix.
+    
+    virtual void SubIP(const TSMatrixC<DataT> &oth);
+    //: Subtract 'oth' from this matrix and return the result.
+    // Note the default implementation only works where Row(UIntT), returns a real access
+    // to the data in the matrix.
+    
     virtual TSMatrixC<DataT> Mul(const TSMatrixC<DataT> &oth) const;
     //: Get this matrix times 'oth'.
     
@@ -190,6 +200,25 @@ namespace RavlN {
     //: Get scale for matrix.
   };
   
+  template<class DataT>
+  void TSMatrixScaledIdentityBodyC<DataT>::AddIP(const TSMatrixC<DataT> &mat) {
+    if(mat.MatrixType() == typeid(TSMatrixScaledIdentityBodyC<DataT>)) {
+      TSMatrixScaledIdentityC<DataT> msi(mat);
+      scale += msi.Scale();
+      return ;
+    }
+    TSMatrixBodyC<DataT>::AddIP(mat);
+  }
+  
+  template<class DataT>
+  void TSMatrixScaledIdentityBodyC<DataT>::SubIP(const TSMatrixC<DataT> &mat) {
+    if(mat.MatrixType() == typeid(TSMatrixScaledIdentityBodyC<DataT>)) {
+      TSMatrixScaledIdentityC<DataT> msi(mat);
+      scale -= msi.Scale();
+      return ;
+    }
+    TSMatrixBodyC<DataT>::SubIP(mat);
+  }
   
   template<class DataT>
   TSMatrixC<DataT> TSMatrixScaledIdentityBodyC<DataT>::Mul(const TSMatrixC<DataT> &mat) const {

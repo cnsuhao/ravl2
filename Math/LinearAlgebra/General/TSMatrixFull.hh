@@ -215,36 +215,100 @@ namespace RavlN {
   
   template<class DataT>  
   TSMatrixC<DataT> TSMatrixFullBodyC<DataT>::Add(const TSMatrixC<DataT> &oth) const {
+    RavlAssert(oth.Rows() == Rows() && oth.Cols() == Cols());
     TSMatrixFullC<DataT> ts(oth);
-    if(!ts.IsValid())
-      return TSMatrixBodyC<DataT>::Add(oth); // Use default
-    return TSMatrixC<DataT>(matrix + ts.FullTMatrix());
+    if(ts.IsValid())
+      return TSMatrixC<DataT>(matrix + ts.FullTMatrix());
+    TMatrixC<DataT> ret(Rows(),Cols());
+    // We know we'll need a full matrix for result.
+    IndexC cmax = matrix.Size2()-1;
+    for(UIntT i = 0;i < Rows();i++) {
+      Array1dC<DataT> row2 = oth.Row(i);
+      if(row2.Range().Size() <= 0) {
+	for(BufferAccessIter2C<DataT,DataT> it(ret[i],matrix[i]);it;it++)
+	  it.Data1() = it.Data2();
+	continue;
+      }
+      if(row2.Range().Min() > 0) {
+	IndexRangeC rng(0,row2.Range().Min()-1);
+	for(BufferAccessIter2C<DataT,DataT> it(ret[i],matrix[i],rng);it;it++)
+	  it.Data1() = it.Data2();
+      }
+      for(BufferAccessIter3C<DataT,DataT,DataT> it(ret[i],matrix[i],row2,row2.Range());it;it++)
+	it.Data1() = it.Data2() + it.Data3();
+      if(row2.Range().Max() < cmax ) {
+	IndexRangeC rng(row2.Range().Max()+1,cmax);
+	for(BufferAccessIter2C<DataT,DataT> it(ret[i],matrix[i],rng);it;it++)
+	  it.Data1() = it.Data2();
+      }
+    }
+    return TSMatrixC<DataT>(ret);
   }
   
   template<class DataT>  
   TSMatrixC<DataT> TSMatrixFullBodyC<DataT>::Sub(const TSMatrixC<DataT> &oth) const {
+    RavlAssert(oth.Rows() == Rows() && oth.Cols() == Cols());
     TSMatrixFullC<DataT> ts(oth);
-    if(!ts.IsValid())
-      return TSMatrixBodyC<DataT>::Add(oth); // Use default
-    return TSMatrixC<DataT>(matrix - ts.FullTMatrix());
+    if(ts.IsValid()) 
+      return TSMatrixC<DataT>(matrix - ts.FullTMatrix());
+    TMatrixC<DataT> ret(Rows(),Cols());
+    // We know we'll need a full matrix for result.
+    IndexC cmax = matrix.Size2()-1;
+    for(UIntT i = 0;i < Rows();i++) {
+      Array1dC<DataT> row2 = oth.Row(i);
+      if(row2.Range().Size() <= 0) {
+	for(BufferAccessIter2C<DataT,DataT> it(ret[i],matrix[i]);it;it++)
+	  it.Data1() = it.Data2();
+	continue;
+      }
+      if(row2.Range().Min() > 0) {
+	IndexRangeC rng(0,row2.Range().Min()-1);
+	for(BufferAccessIter2C<DataT,DataT> it(ret[i],matrix[i],rng);it;it++)
+	  it.Data1() = it.Data2();
+      }
+      for(BufferAccessIter3C<DataT,DataT,DataT> it(ret[i],matrix[i],row2,row2.Range());it;it++)
+	it.Data1() = it.Data2() - it.Data3();
+      if(row2.Range().Max() < cmax ) {
+	IndexRangeC rng(row2.Range().Max()+1,cmax);
+	for(BufferAccessIter2C<DataT,DataT> it(ret[i],matrix[i],rng);it;it++)
+	  it.Data1() = it.Data2();
+      }
+    }
+    return TSMatrixC<DataT>(ret);    
   }
   
-  template<class DataT>  
+  template<class DataT>
   void TSMatrixFullBodyC<DataT>::AddIP(const TSMatrixC<DataT> &oth) {
     TSMatrixFullC<DataT> ts(oth);
-    if(!ts.IsValid())
-      TSMatrixBodyC<DataT>::AddIP(oth); // Use default
-    else
+    if(ts.IsValid()) {
       matrix += ts.FullTMatrix();
+      return ;
+    }
+    RavlAssert(oth.Rows() == Rows() && oth.Cols() == Cols());
+    for(UIntT i = 0;i < Rows();i++) {
+      Array1dC<DataT> row2 = oth.Row(i);
+      if(row2.Range().Size() <= 0)
+	continue;
+      for(Array1dIter2C<DataT,DataT> it(const_cast<TMatrixC<DataT> &>(matrix).SliceRow(i),row2,row2.Range());it;it++)
+	it.Data1() += it.Data2();
+    }
   }
   
   template<class DataT>  
   void TSMatrixFullBodyC<DataT>::SubIP(const TSMatrixC<DataT> &oth) {
     TSMatrixFullC<DataT> ts(oth);
-    if(!ts.IsValid())
-      TSMatrixBodyC<DataT>::SubIP(oth); // Use default
-    else
+    if(ts.IsValid()) {
       matrix -= ts.FullTMatrix();
+      return ;
+    }
+    RavlAssert(oth.Rows() == Rows() && oth.Cols() == Cols());
+    for(UIntT i = 0;i < Rows();i++) {
+      Array1dC<DataT> row2 = oth.Row(i);
+      if(row2.Range().Size() <= 0)
+	continue;
+      for(Array1dIter2C<DataT,DataT> it(const_cast<TMatrixC<DataT> &>(matrix).SliceRow(i),row2,row2.Range());it;it++)
+	it.Data1() -= it.Data2();
+    }
   }
   
 #if !RAVL_TSMATERIXFULL_DEFAULT    

@@ -33,7 +33,7 @@ namespace RavlN {
   template<class DataT> class TSMatrixSymmetricBodyC;
   
   template<class DataT>
-  inline DataT MultiplySum(const RangeBufferAccessC<DataT> &ar1,const RangeBufferAccessC<DataT> &ar2) {
+  DataT MultiplySum(const RangeBufferAccessC<DataT> &ar1,const RangeBufferAccessC<DataT> &ar2) {
     DataT sum;
     IndexRangeC rng = ar1.Range();
     rng.ClipBy(ar2.Range());
@@ -45,6 +45,24 @@ namespace RavlN {
     sum = it.Data1() * it.Data2();
     for(it++;it;it++)
       sum += it.Data1() * it.Data2();
+    return sum;
+  }
+  //! userlevel=Advanced
+  //: Multiply the contents of matching entries in two arrays together and sum them.
+
+  template<class DataT>
+  DataT MultiplySum(const Slice1dC<DataT> &ar1,const Slice1dC<DataT> &ar2) {
+    DataT sum;
+    IndexRangeC rng = ar1.Range();
+    rng.ClipBy(ar2.Range());
+    if(rng.Size() <= 0) {
+      SetZero(sum);
+      return sum;
+    }
+    Slice1dIter2C<DataT,DataT> it(ar1,ar2,rng);
+    sum = (it.Data1()) * (it.Data2());
+    for(it++;it;it++)
+      sum += (it.Data1()) * (it.Data2());
     return sum;
   }
   //! userlevel=Advanced
@@ -537,31 +555,11 @@ namespace RavlN {
     const SizeT rdim = Cols();
     const SizeT cdim = mat.Cols();
     TMatrixC<DataT> out(rdim, cdim);
-#if 1
     for (UIntT r = 0; r < rdim; r++) {
       Slice1dC<DataT> col = Col(r);
       for (UIntT c = 0; c < cdim; c++) 
 	out[r][c] = mat.MulSumColumn(c,col);
     }
-#else
-    const SizeT xrdim = Rows();
-    out.Fill(0);
-    SArray1dC<Array1dC<DataT> > rowArr(xrdim);
-    for(UIntT c = 0;c < xrdim;c++)
-      rowArr[c] = Row(c);
-    IndexRangeC rcols(0,Cols());
-    for (UIntT r = 0; r < xrdim; r++) {
-      Array1dC<DataT> row = rowArr[r];
-      //cerr << "Row=" << row << "\n";
-      for (UIntT c = 0; c < xrdim; c++) {
-	RangeBufferAccessC<DataT> orow(out[c],rcols);
-	IndexRangeC rng = row.Range();
-	rng.ClipBy(rowArr[c].Range());
-	for(BufferAccessIter3C<DataT,DataT,DataT> it(orow,row,rowArr[c],rng);it;it++)
-	  it.Data1() += it.Data2() * it.Data3();
-      }
-    }
-#endif
     return TSMatrixC<DataT>(out);
   }
   

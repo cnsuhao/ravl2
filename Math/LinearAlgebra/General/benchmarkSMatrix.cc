@@ -92,31 +92,37 @@ int testMatrix(MatrixC mat1,MatrixC mat2,int iters,int method) {
 }
 
 int testSMatrix(SMatrixC smat1,SMatrixC smat2,int iters,int method) {
-  SMatrixC sres(smat1.Rows(),smat1.Cols());
-  sres.Fill(0);
+  SMatrixC sres;
   switch(method) {
   case 0: // All
-    for(int i = 0;i < iters;i++)
+    sres = smat1 * smat2;
+    for(int i = 1;i < iters;i++)
       sres += smat1 * smat2;
-    for(int i = 0;i < iters;i++)
+    sres = smat1.TMul(smat2);
+    for(int i = 1;i < iters;i++)
       sres += smat1.TMul(smat2);
-    for(int i = 0;i < iters;i++)
+    sres = smat1.MulT(smat2);
+    for(int i = 1;i < iters;i++)
       sres += smat1.MulT(smat2);
     break;
   case 1: // Mul.
-    for(int i = 0;i < iters;i++)
+    sres = smat1 * smat2;
+    for(int i = 1;i < iters;i++)
       sres += smat1 * smat2;
     break;
   case 2:
-    for(int i = 0;i < iters;i++)
+    sres = smat1.TMul(smat2);
+    for(int i = 1;i < iters;i++)
       sres += smat1.TMul(smat2);
     break;
   case 3:
-    for(int i = 0;i < iters;i++)
+    sres = smat1.MulT(smat2);
+    for(int i = 1;i < iters;i++)
       sres += smat1.MulT(smat2);
     break;
   case 4:
-    for(int i = 0;i < iters;i++)
+    sres = smat1 + smat2;
+    for(int i = 1;i < iters;i++)
       sres += smat1 + smat2;
     break;
   }
