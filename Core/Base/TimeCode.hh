@@ -49,6 +49,9 @@ namespace RavlN {
     
     TimeCodeC(const char * string,RealT frameRate = 25.0);
     //: Construct from a valid string representation
+
+    TimeCodeC(const StringC & string, RealT frameRate = 25.00) ; 
+    //: Construct from a Ravl string representation 
     
     TimeCodeC()
       : m_liFrame(0),
@@ -63,52 +66,52 @@ namespace RavlN {
     //: Checks for equals assignment
     
     bool operator!=(const TimeCodeC &in);
-    // Checks for not equals assignment
+    //: Checks for not equals assignment
     
     bool operator<(const TimeCodeC &in) const;
-    // Checks if timecode smaller than input timecode
+    //: Checks if timecode smaller than input timecode
     
     bool operator>(const TimeCodeC &in) const;
-    // Checks if timecode is bigger than input
+    //: Checks if timecode is bigger than input
     
     bool operator>=(const TimeCodeC &in) const;
-    // Checks if timecode is bigger or equal to input
+    //: Checks if timecode is bigger or equal to input
     
     bool operator<=(const TimeCodeC &in) const;
-    // Checks if timecode is smaller or equal to input
+    //: Checks if timecode is smaller or equal to input
     
     TimeCodeC operator+(const TimeCodeC & in) const;
-    // Adds timecodes
+    //: Adds timecodes
     
     TimeCodeC operator-(const TimeCodeC & in) const;
-    // Subtracts timecodes
+    //: Subtracts timecodes
     
     TimeCodeC & operator+=(const TimeCodeC & in);
-    // Adds input timecode to this timecode
+    //: Adds input timecode to this timecode
     
     TimeCodeC & operator+=(IntT frame);
-    // Adds frame count to timecode
+    //: Adds frame count to timecode
     
     TimeCodeC & operator-=(const TimeCodeC & in);
-    // Subtracts input timecode from this
+    //: Subtracts input timecode from this
     
     friend ostream &operator<<(ostream &s, const TimeCodeC &out);
-    // Output stream for timecode
+    //: Output stream for timecode
     
     friend istream &operator>>(istream &s, TimeCodeC &inds);
-    // Input stream fot timecode
+    //: Input stream fot timecode
     
     //:----------------------
-    // Member Functions
+    //: Member Functions
     
     UIntT Hash() const { return (UIntT) m_liFrame; }
-    //: the hash key
+    //:: the hash key
     
     inline IntT bcd(ByteT in) { return (in >> 4) * 10  + (in & 0xf);}
     //: Routine to convert binary coded decimal to int
     
     StringC ToText() const;
-    //: Return a char  representation of timecode
+    //: Return a string  representation of timecode
     
     IntT NumberOfFramesTo(const TimeCodeC &in);
     //: Count the number of frames to a timecode
@@ -125,17 +128,22 @@ namespace RavlN {
     bool ConvertFrom(IntT hr,IntT min,IntT sec,IntT fr);
     //: Convert from hours, minutes, seconds, frame.
 
+    bool ConvertFrom  (const char * string) ;
+    //: Convert from a string
+    // expects format hh:mm:ss:ff 
+
     RealT FrameRate() const
     { return frameRate; }
     //: Access the frame rate
+
   public:
     
-    //long int m_liFrame;
+    // long int m_liFrame;
     IntT m_liFrame ; 
-    // Absolute frame count of timecode
+    //: Absolute frame count of timecode
     
     RealT frameRate;
-    // Refrence frame rate.
+    //: Refrence frame rate.
   };
   
   ostream &operator<<(ostream &s, const TimeCodeC &out);
