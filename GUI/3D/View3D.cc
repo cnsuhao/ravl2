@@ -29,6 +29,7 @@ namespace RavlGUIN {
   
   View3DBodyC::View3DBodyC(int sx,int sy)
     : Canvas3DBodyC(sx,sy),
+      scene(true),
       viewObject(0,0,0),
       viewPoint(0,0,3),
       useRotate(true),
