@@ -194,7 +194,7 @@ int testDArray1dMore() {
 	dset.Append(dat);
       }
       dset.Remove(s,e);
-      if(dset.Size() != (8 - (e-s))) {
+      if(dset.Size() != (UIntT) (8 - (e-s))) {
 	cerr << "s=" << s <<" e=" << e << " Collection=" << dset << ". \n"; 
 	return __LINE__;
       }
