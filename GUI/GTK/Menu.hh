@@ -36,6 +36,9 @@ namespace RavlGUIN {
     virtual bool Create();
     //: Create the widget.
     
+    virtual bool Create(GtkWidget *widget);
+    //: Create with a widget supplied from elsewhere.
+    
     Signal0C &SigSelected()
     { return selected; }
     //: Access selected signal.

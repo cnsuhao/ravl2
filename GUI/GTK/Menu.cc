@@ -52,6 +52,16 @@ namespace RavlGUIN
     return true;
   }
   
+  //: Create with a widget supplied from elsewhere.
+  
+  bool MenuItemBodyC::Create(GtkWidget *newWidget) {
+    widget = newWidget;
+    gtk_signal_connect(GTK_OBJECT(widget), "activate",
+     GTK_SIGNAL_FUNC(RavlGUIN::MenuItemC_response), this);
+    ONDEBUG(cerr << "MenuItemBodyC::Create(), Done. \n");
+    return true;
+  }
+  
   //: Undo all references.
   
   void MenuItemBodyC::Destroy() {
