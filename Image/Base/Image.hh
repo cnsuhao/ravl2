@@ -109,6 +109,10 @@ namespace RavlImageN {
     
     inline PixelT BiLinear(const TFVectorC<RealT,2> &pnt)  const;
     //: Get a bi linearly interpolated pixel value.
+    // Note: For efficency reasons this method assumes the CENTER
+    // of the pixel is at 0,0.  This means that a 0.5 offset may
+    // me needed if your co-oridnate systems is at the top left
+    // of the pixel.
     
     ImageC<PixelT> Rotate180(Index2dC centre = Index2dC(0,0)) const;
     //: Create a copy of the image which is rotated 180 degree's.
@@ -117,7 +121,8 @@ namespace RavlImageN {
   
   
   template <class PixelT>
-  PixelT ImageC<PixelT>::BiLinear(const TFVectorC<RealT,2> &pnt) const {
+  PixelT ImageC<PixelT>::BiLinear(const TFVectorC<RealT,2> &ipnt) const {
+    TFVectorC<RealT,2> pnt = ipnt;
     IntT fx = Floor(pnt[0]); // Row
     IntT fy = Floor(pnt[1]); // Col
     RealT u = pnt[0] - fx;
@@ -126,10 +131,10 @@ namespace RavlImageN {
     const PixelT* pixel2 = &(*this)[fx+1][fy];
     const RealT onemt = (1.0-t);
     const RealT onemu = (1.0-u);
-    return (PixelT)((onemt*onemu*pixel1[0]) + 
-		    (t*onemu*pixel1[1]) + 
-		    (onemt*u*pixel2[0]) +
-		    (t*u*pixel2[1]));
+    return (PixelT)((pixel1[0] * onemt*onemu) + 
+		    (pixel1[1] * t*onemu) + 
+		    (pixel2[0] * onemt*u) +
+		    (pixel2[1] * t*u));
   }
 
   template <class PixelT>
