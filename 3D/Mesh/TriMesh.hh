@@ -24,7 +24,9 @@ namespace Ravl3DN {
   class TriMeshC;
   
   //! userlevel=Develop
-  //: Tri set body.
+  //: Tri mesh body.
+  // This is designed to store meshes, and fast access for vertex and normal value. 
+  // It is not really suitable for making changes to the mesh topology.
   
   class TriMeshBodyC
     : public RCBodyVC
@@ -113,8 +115,10 @@ namespace Ravl3DN {
   
   
   //! userlevel=Normal
-  //: Tri set.
-
+  //: Triangular 3d mesh.
+  // This is designed to store meshes, and fast access for vertex and normal value. 
+  // It is not really suitable for making changes to the mesh topology.
+  
   class TriMeshC
     : public RCHandleC<TriMeshBodyC>
   {
