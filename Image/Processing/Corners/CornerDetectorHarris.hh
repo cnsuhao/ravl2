@@ -61,7 +61,13 @@ namespace RavlImageN {
 
   //! userlevel=Normal
   //: Harris corner detector.
-  // Also known as the Plessey corner detector. Proposed by C.Harris in 1987.<p>
+  // <p>Also known as the Plessey corner detector. Proposed by
+  // C.Harris in 1987.  The threshold is compared to the criterion
+  // given by Ee/(E+e), where E, e are the eigenvalues of the
+  // (Gaussian weighted) mean of the outer product of the gradient
+  // vectors over a patch. (Thus the weighting favours pixels near the
+  // centre of the patch.)</p>
+  
   // Note: the implementation of this detector could be faster.
   
   class CornerDetectorHarrisC

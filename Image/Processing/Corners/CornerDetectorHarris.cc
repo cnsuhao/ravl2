@@ -61,7 +61,7 @@ namespace RavlImageN {
       vals = ImageC<TFVectorC<IntT,3> >(workRect);
       fvals = ImageC<TFVectorC<IntT,3> >(workRect);
       var = ImageC<IntT>(workRect);               /* cornerness image */
-      var.Fill(0); // Ensure the boarders are zero.
+      var.Fill(0); // Ensure the borders are zero.
     }
     
     ImagGrad(img,vals);
