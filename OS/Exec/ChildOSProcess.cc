@@ -15,10 +15,12 @@
 #define _POSIX_C_SOURCE 3
 #endif
 
+#if 0
 #ifdef __linux__
 extern "C" {
   int kill(pid_t pid, int sig);
 };
+#endif
 #endif
 
 #include <sys/types.h>
