@@ -208,6 +208,11 @@ namespace RavlN {
     DataT data[N][M];
 
     //friend class TFMatrixC<DataT,M,N>; // Make the transpose a friend.
+
+#if RAVL_COMPILER_VISUALCPPNET
+  private:
+	typedef  TFMatrixC<DataT,1,N> VectorAsMatrixT;	// Visual C++ .NET Hack
+#endif
   };
 
   template<class DataT,unsigned int N,unsigned int M>
@@ -506,7 +511,11 @@ namespace RavlN {
   //// TFVectorC methods that use TFMatrixC.
   
   template<class DataT,unsigned int N>
+#if RAVL_COMPILER_VISUALCPPNET
+  const TFMatrixC<DataT,1,N>::VectorAsMatrixT &TFVectorC<DataT,N>::T() const { 
+#else
   const TFMatrixC<DataT,1,N> &TFVectorC<DataT,N>::T() const { 
+#endif
     return *((const TFMatrixC<DataT,1,N> *) ((void *)this)); //: A bit hacky, but very fast.
   }
 
