@@ -22,7 +22,9 @@
 namespace RavlN {
   
   int TickerTriggerBodyC::Start() { 
+#if 0
     try {
+#endif
       ONDEBUG(cerr << "Ticker started... " <<  ((void *) this) <<". Delay:" << delay << " \n");
       if(!se.IsValid()) {
 	cerr << "ERROR: TickerTriggerBodyC::Startup(), ask to launch an invalid event.\n";
@@ -35,11 +37,13 @@ namespace RavlN {
 	se.Invoke();
 	next.Wait();
       }
+#if 0
     } catch(...) {
       // FIXME: Is there any valid exception that can pass through here ???
       cerr << "WARNING: Ticker aborted on exception. " << ((void *) this)  << "\n";
       throw ;
     }
+#endif
     ONDEBUG(cerr << "Ticker done... " <<  ((void *) this) <<". Delay:" << delay << " \n");
     return 0;
   }
