@@ -17,8 +17,15 @@
 #include "Ravl/Stack.hh"
 #include "Ravl/CxxDoc/Parser.hh"
 #include "Ravl/OS/Directory.hh"
-#include "cxx.tab.h"
+
+#if RAVL_HAVE_ANSICPPHEADERS
+#include <fstream>
+#else
 #include <fstream.h>
+#endif
+
+#include "cxx.tab.h"
+
 #include <assert.h>
 #include <ctype.h>
 
