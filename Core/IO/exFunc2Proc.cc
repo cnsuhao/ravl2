@@ -2,13 +2,13 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 
-#include "amma/Option.hh"
-#include "amma/DP/FileIO.hh"
-#include "amma/DP/Compose.hh"
-#include "amma/DP/Func2Proc.hh"
-#include "amma/DP/Func2Proc2.hh"
-#include "amma/DP/Func2Stream.hh"
-#include "amma/DP/ProcMethod.hh"
+#include "Ravl/Option.hh"
+#include "Ravl/DP/FileIO.hh"
+#include "Ravl/DP/Compose.hh"
+#include "Ravl/DP/Func2Proc.hh"
+#include "Ravl/DP/Func2Proc2.hh"
+#include "Ravl/DP/Func2Stream.hh"
+#include "Ravl/DP/ProcMethod.hh"
 
 IntT DoLog(RealT in)
 { return (IntT) (in * 2); }
@@ -16,10 +16,10 @@ IntT DoLog(RealT in)
 int main(int argc,char **argv) 
 {
   using namespace DPComposeST; // Using single threaded namespace.
-
-  OptionC option(argc,argv,TRUE);
-  FilenameC infile = option.String("i","in.dat","Input filename");
-  FilenameC outfile = option.String("o","out.dat","Output filename");
+  
+  OptionC option(argc,argv,true);
+  StringC infile = option.String("i","in.dat","Input filename");
+  StringC outfile = option.String("o","out.dat","Output filename");
   option.Check();
   
   DPIFileC<RealT>(infile) >> DoLog >> DPOFileC<IntT>(outfile);
