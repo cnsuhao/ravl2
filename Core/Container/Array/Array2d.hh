@@ -482,7 +482,7 @@ namespace RavlN {
       return SArray2dC<DataT>(); // Empty array.
     if(doShift) {
       SizeT offset = &((*this)[Range1().Min()][Range2().Min()]) - data.Data().ReferenceElm();
-      return SArray2dC<DataT>(data.Data(),Range1().Size(),Range2().Size(),offset,(SizeT) Stride());
+      return SArray2dC<DataT>(data.Data(),Range1().Size(),Range2().Size(),offset,Stride());
     }
     if(!this->Contains(Index2dC(0,0))) {
       RavlAssertMsg(this->Contains(Index2dC(0,0)),"Array2dC must contain the element 0,0 to convert to an SArray without shifting. "); // Cause assertion failure in debug/check mode
