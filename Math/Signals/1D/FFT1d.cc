@@ -52,24 +52,24 @@ namespace RavlN {
   
   //: Apply transform to array.
   
-  SArray1dC<ComplexC> FFT1dBodyC::Apply(const SArray1dC<ComplexC> &dat) {
-    ONDEBUG(cerr << "FFT1dBodyC::Apply(SArray1dC<ComplexC>) n=" << n << " inv=" << inv << " \n");
-    SArray1dC<ComplexC> ret(n);
-    SArray1dC<ComplexC> tmpArr(n);    
+  Array1dC<ComplexC> FFT1dBodyC::Apply(const Array1dC<ComplexC> &dat) {
+    ONDEBUG(cerr << "FFT1dBodyC::Apply(Array1dC<ComplexC>) n=" << n << " inv=" << inv << " \n");
+    Array1dC<ComplexC> ret(n);
+    Array1dC<ComplexC> tmpArr(n);    
     if(dat.Size() < (UIntT) n && zeroPad) {
       ONDEBUG(cerr << "Zero padding. \n");
-      ret = SArray1dC<ComplexC>(n);
+      ret = Array1dC<ComplexC>(n);
       // Copy original data.
       for(BufferAccessIter2C<ComplexC,ComplexC> it(dat,tmpArr);it;it++)
 	it.Data2() = it.Data1();
       // Zero pad it.
-      for(BufferAccessIterC<ComplexC> it(tmpArr,IndexRangeC(dat.Size(),n-1));it;it++)
-	*it = 0;
+      for(BufferAccessIterC<ComplexC> ita(tmpArr,IndexRangeC(dat.Size(),n-1));ita;ita++)
+	*ita = 0;
     } else {
       RavlAssert(dat.Size() == (UIntT) n);
       tmpArr = dat.Copy();
     }
-    SArray1dC<complex *> ptrArr(n);    
+    Array1dC<complex *> ptrArr(n);    
     //ptrArr.Fill(0);
     //cerr << dat <<  "\n";
     // FIXME :- Would it be quicker to copy the array and use fft2 if length is a power of two ?
@@ -103,23 +103,23 @@ namespace RavlN {
   
   //: Apply transform to array.
   
-  SArray1dC<ComplexC> FFT1dBodyC::Apply(const SArray1dC<RealT> &dat) {
-    ONDEBUG(cerr << "FFT1dBodyC::Apply(SArray1dC<RealT>) n=" << n << " inv=" << inv << " \n");
+  Array1dC<ComplexC> FFT1dBodyC::Apply(const Array1dC<RealT> &dat) {
+    ONDEBUG(cerr << "FFT1dBodyC::Apply(Array1dC<RealT>) n=" << n << " inv=" << inv << " \n");
     if(dat.Size() < (UIntT) n && zeroPad) {
       ONDEBUG(cerr << "Zero padding. \n");
-      SArray1dC<RealT> ndat(n);
+      Array1dC<RealT> ndat(n);
       // Copy original data.
       for(BufferAccessIter2C<RealT,RealT> it(dat,ndat);it;it++)
 	it.Data2() = it.Data1();
       // Zero pad it.
-      for(BufferAccessIterC<RealT> it(ndat,IndexRangeC(dat.Size(),n-1));it;it++)
-	*it = 0;
+      for(BufferAccessIterC<RealT> ita(ndat,IndexRangeC(dat.Size(),n-1));ita;ita++)
+	*ita = 0;
       // Then try again.
       return Apply(ndat);
     } else {
       RavlAssert(dat.Size() == (UIntT) n);
     }
-    SArray1dC<ComplexC> ret(n); 
+    Array1dC<ComplexC> ret(n); 
     if(inv)
       fftgr((double *) &(dat[0]),
 	    (complex *) ((void *)&(ret[0])),

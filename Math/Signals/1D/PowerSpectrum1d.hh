@@ -14,7 +14,7 @@
 //! lib=RavlMath
 
 #include "Ravl/StdMath.hh"
-#include "Ravl/SArray1d.hh"
+#include "Ravl/Array1d.hh"
 #include "Ravl/FFT1d.hh"
 
 namespace RavlN {
@@ -27,11 +27,11 @@ namespace RavlN {
     PowerSpectrum1dC(IntT size);
     //: Constructor.
     
-    SArray1dC<RealT> Apply(const SArray1dC<RealT> &data);
+    Array1dC<RealT> Apply(const Array1dC<RealT> &data);
     //: Compute the power spectrum of data.
     // Compute the power spectrum using Bartlett window (simple triangle).
     
-    SArray1dC<RealT> Apply(const SArray1dC<RealT> &d1,const SArray1dC<RealT> &d2);
+    Array1dC<RealT> Apply(const Array1dC<RealT> &d1,const Array1dC<RealT> &d2);
     //: Compute the power spectrum of data in two arrays.
     // Compute the power spectrum using Bartlett window (simple triangle).
     // The arrays are expected to be of equal size, so the first
@@ -42,7 +42,7 @@ namespace RavlN {
     FFT1dC fft;  
   };
   
-  SArray1dC<RealT> PowerSpectrumSimple(const SArray1dC<RealT> &data,int smooth = 0);
+  Array1dC<RealT> PowerSpectrumSimple(const Array1dC<RealT> &data,int smooth = 0);
   //: Compute the power spectrum of data with no windowing..
 }
 

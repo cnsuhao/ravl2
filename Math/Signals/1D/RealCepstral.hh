@@ -13,7 +13,7 @@
 //! lib=RavlMath
 
 #include "Ravl/Math.hh"
-#include "Ravl/SArray1d.hh"
+#include "Ravl/Array1d.hh"
 #include "Ravl/Types.hh"
 #include "Ravl/FFT1d.hh"
 
@@ -26,7 +26,7 @@ namespace RavlN {
     RealCepstralC(SizeT size);
     //: Constructor.
 
-    SArray1dC<RealT> Apply(const SArray1dC<RealT> &data);
+    Array1dC<RealT> Apply(const Array1dC<RealT> &data);
     //: Compute the real cepstral of data.
 
   protected:

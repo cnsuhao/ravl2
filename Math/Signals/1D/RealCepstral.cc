@@ -10,8 +10,8 @@
 
 #include "Ravl/StdMath.hh"
 #include "Ravl/RealCepstral.hh"
-#include "Ravl/SArr1Iter2.hh"
-#include "Ravl/SArr1Iter.hh"
+#include "Ravl/Array1dIter2.hh"
+#include "Ravl/Array1dIter.hh"
 
 namespace RavlN {
 
@@ -24,18 +24,18 @@ namespace RavlN {
   
   //: Compute the real cepstral of data.
   
-  SArray1dC<RealT> RealCepstralC::Apply(const SArray1dC<RealT> &data) {
-    SArray1dC<ComplexC> res = fft.Apply(data); // Compute FFT
+  Array1dC<RealT> RealCepstralC::Apply(const Array1dC<RealT> &data) {
+    Array1dC<ComplexC> res = fft.Apply(data); // Compute FFT
     // Log of magintude.
-    for(SArray1dIterC<ComplexC> it(res);it;it++) {
+    for(Array1dIterC<ComplexC> it(res);it;it++) {
       it.Data().Re() = Log(it.Data().Mag() + 0.00000000001);
       it.Data().Im() = 0;
     }
     res = ifft.Apply(res); // Inverse FFT
-    SArray1dC<RealT> ret(res.Size()/2);
+    Array1dC<RealT> ret(res.Size()/2);
     // Get magnitude of results.
-    for(SArray1dIter2C<RealT,ComplexC> it(ret,res);it;it++) {
-      it.Data1() = it.Data2().Re();
+    for(Array1dIter2C<RealT,ComplexC> ita(ret,res);ita;ita++) {
+      ita.Data1() = ita.Data2().Re();
       //cerr << "Im:" << it.Data2().Re() << " " << place->Re() << "\n";
     }
     return ret;

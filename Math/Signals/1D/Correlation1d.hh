@@ -13,7 +13,7 @@
 //! lib=RavlMath
 
 #include "Ravl/StdMath.hh"
-#include "Ravl/SArray1d.hh"
+#include "Ravl/Array1d.hh"
 #include "Ravl/FFT1d.hh"
 
 namespace RavlN {
@@ -24,12 +24,12 @@ namespace RavlN {
     //: Constructor.
     // Give the size of arrays to correlate.
     
-    SArray1dC<RealT> Apply(const SArray1dC<RealT> &d1,const SArray1dC<RealT> &d2);
+    Array1dC<RealT> Apply(const Array1dC<RealT> &d1,const Array1dC<RealT> &d2);
     //: Return the correlation of signals d1 and d2.
     // This uses FFT to caculate the correlation between d1 and d2.
     // both d1 and d2 must have the same length. <p>
     
-    SArray1dC<RealT> AutoCorrelation(const SArray1dC<RealT> &d1);
+    Array1dC<RealT> AutoCorrelation(const Array1dC<RealT> &d1);
     //: Return the auto correlation  signals d1.
     // This uses FFT to caculate the correlation d1 and itself. <p>
     

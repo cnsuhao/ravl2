@@ -8,6 +8,7 @@
 //! lib=RavlMath
 
 #include "Ravl/GenerateSignal1d.hh"
+#include "Ravl/IntC.hh"
 
 using namespace RavlN;
 
@@ -37,17 +38,35 @@ int testGauss() {
 }
 
 int testBinomial() {
-  Array1dC<RealT> res = GenerateBinomial(1.0,5);
-  //cerr << res;
-  if(res.Size() != 5) return __LINE__;
-  if(res[0] != 1) return __LINE__;
-  if(res[1] != 4) return __LINE__;
-  if(res[2] != 6) return __LINE__;
-  if(res[3] != 4) return __LINE__;
-  if(res[4] != 1) return __LINE__;
-
-  res = GenerateBinomial(1.0,5,false,true);
-  if(res[0] != 6) return __LINE__;
-  //cerr << res;
+  // Test with real.
+  {
+    Array1dC<RealT> res = GenerateBinomial(1.0,5);
+    //cerr << res;
+    if(res.Size() != 5) return __LINE__;
+    if(res[0] != 1) return __LINE__;
+    if(res[1] != 4) return __LINE__;
+    if(res[2] != 6) return __LINE__;
+    if(res[3] != 4) return __LINE__;
+    if(res[4] != 1) return __LINE__;
+    
+    res = GenerateBinomial(1.0,5,false,true);
+    if(res[0] != 6) return __LINE__;
+    //cerr << res;
+  }
+  {
+    Array1dC<IntC> res = GenerateBinomial((IntC) 1,5);
+    //cerr << res;
+    if(res.Size() != 5) return __LINE__;
+    if(res[0] != 1) return __LINE__;
+    if(res[1] != 4) return __LINE__;
+    if(res[2] != 6) return __LINE__;
+    if(res[3] != 4) return __LINE__;
+    if(res[4] != 1) return __LINE__;
+    
+    res = GenerateBinomial((IntC) 1,5,false,true);
+    if(res[0] != 6) return __LINE__;
+    //cerr << res;
+  }
+  
   return 0;
 }

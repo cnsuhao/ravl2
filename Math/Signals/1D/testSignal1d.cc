@@ -10,7 +10,7 @@
 #include "Ravl/Convolution1d.hh"
 #include "Ravl/Correlation1d.hh"
 #include "Ravl/FFT1d.hh"
-#include "Ravl/SArr1Iter2.hh"
+#include "Ravl/Array1dIter2.hh"
 
 using namespace RavlN;
 
@@ -39,16 +39,16 @@ int main()
 
 int testfft() {
   cerr << "Testing fft. \n";
-  SArray1dC<RealT> x(16);
+  Array1dC<RealT> x(16);
   x.Fill(0);
   x[4] = 2;
   x[5] = 1;
   FFT1dC fft(x.Size());
-  SArray1dC<ComplexC> res = fft.Apply(x);
+  Array1dC<ComplexC> res = fft.Apply(x);
   FFT1dC ifft(x.Size(),true);
-  SArray1dC<ComplexC> res2= ifft.Apply(res);
+  Array1dC<ComplexC> res2= ifft.Apply(res);
   if(res2.Size() != x.Size()) return __LINE__;
-  for(SArray1dIter2C<ComplexC,RealT> it(res2,x);it;it++) {
+  for(Array1dIter2C<ComplexC,RealT> it(res2,x);it;it++) {
     if(Abs(it.Data1().Re()) > 0.000001)
       cerr << it.Data1().Re() << ":";
     else
@@ -84,15 +84,15 @@ int testConvolve() {
 
 int testCorrelate() {
   cerr << "Testing Correlation. \n";
-  SArray1dC<RealT> arr1(8);
-  SArray1dC<RealT> arr2(8);
+  Array1dC<RealT> arr1(8);
+  Array1dC<RealT> arr2(8);
   arr1.Fill(0);
   arr2.Fill(0);
   arr1[6] = 1;
   arr2[5] = 1;
   //arr2[2] = 1;
   Correlation1dC corr(8);
-  SArray1dC<RealT> res = corr.Apply(arr1,arr2);
+  Array1dC<RealT> res = corr.Apply(arr1,arr2);
   cerr << "Correlation:\n";
   cerr << res;
   return 0;

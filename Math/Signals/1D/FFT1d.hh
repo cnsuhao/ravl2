@@ -14,7 +14,7 @@
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/Complex.hh"
-#include "Ravl/SArray1d.hh"
+#include "Ravl/Array1d.hh"
 
 namespace RavlN {
   
@@ -34,13 +34,13 @@ namespace RavlN {
     bool Init(int n,bool iinv);
     //: Create a plan with the given setup.
     
-    SArray1dC<ComplexC> Apply(const SArray1dC<ComplexC> &dat);
+    Array1dC<ComplexC> Apply(const Array1dC<ComplexC> &dat);
     //: Apply transform to array.
     // Note, only the first 'n' byte of dat are proccessed.
     // if the array is shorter than the given length, an
     // exception 'ErrorOutOfRangeC' will be thrown.
     
-    SArray1dC<ComplexC> Apply(const SArray1dC<RealT> &dat);
+    Array1dC<ComplexC> Apply(const Array1dC<RealT> &dat);
     //: Apply transform to real array 
     // Note, only the first 'n' byte of dat are proccessed.
     // if the array is shorter than the given length, an
@@ -84,14 +84,14 @@ namespace RavlN {
     { return Body().Init(n,iinv); }
     //: Create a plan with the given setup.
     
-    SArray1dC<ComplexC> Apply(const SArray1dC<ComplexC> &dat)
+    Array1dC<ComplexC> Apply(const Array1dC<ComplexC> &dat)
       { return Body().Apply(dat); }
     //: Apply transform to array.
     // Note, only the first 'n' byte of dat are proccessed.
     // if the array is shorter than the given length, an
     // exception 'ErrorOutOfRangeC' will be thrown.
     
-    SArray1dC<ComplexC> Apply(const SArray1dC<RealT> &dat)
+    Array1dC<ComplexC> Apply(const Array1dC<RealT> &dat)
       { return Body().Apply(dat); }
     //: Apply transform to real array 
     // Note, only the first 'n' byte of dat are proccessed.
