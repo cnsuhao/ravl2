@@ -13,7 +13,7 @@
 #include "Ravl/3D/TriMesh.hh"
 #include "Ravl/TypeName.hh"
 
-#define DPDEBUG 1
+#define DPDEBUG 0
 #if DPDEBUG
 #define ONDEBUG(x) x
 #else

@@ -9,11 +9,11 @@
 
 #include "Ravl/config.h"
 #include "Ravl/3D/FormatMeshObj.hh"
-#include "Ravl/3D/TriFileIO.hh"
+#include "Ravl/3D/MeshIOObj.hh"
 #include "Ravl/3D/TriMesh.hh"
 #include "Ravl/TypeName.hh"
 
-#define DPDEBUG 1
+#define DPDEBUG 0
 #if DPDEBUG
 #define ONDEBUG(x) x
 #else
@@ -61,8 +61,9 @@ namespace Ravl3DN {
   // Will create an Invalid port if not supported.
   
   DPIPortBaseC FileFormatObjBodyC::CreateInput(IStreamC &in,const type_info &obj_type) const {
+    ONDEBUG(cerr << "FileFormatObjBodyC::CreateInput(IStreamC). Called. type='" << TypeName(obj_type) << "'\n");
     if(obj_type == typeid(TriMeshC))
-      return DPITriFileC(in);
+      return DPIMeshObjC(in);
     return DPIPortBaseC();
   }
   
@@ -70,8 +71,9 @@ namespace Ravl3DN {
   // Will create an Invalid port if not supported.
   
   DPOPortBaseC FileFormatObjBodyC::CreateOutput(OStreamC &out,const type_info &obj_type) const  {
+    ONDEBUG(cerr << "FileFormatObjBodyC::CreateOutput(OStreamC). Called. type='" << TypeName(obj_type) << "'\n");
     if(obj_type == typeid(TriMeshC))
-      return  DPOTriFileC(out);
+      return  DPOMeshObjC(out);
     return DPOPortBaseC();
   }
   

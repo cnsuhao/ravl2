@@ -9,6 +9,19 @@
 
 #include "Ravl/3D/MeshIOObj.hh"
 #include "Ravl/SArr1Iter.hh"
+#include "Ravl/StringList.hh"
+#include "Ravl/Tuple2.hh"
+#include "Ravl/Hash.hh"
+#include "Ravl/HashIter.hh"
+#include "Ravl/Collection.hh"
+#include <stdlib.h>
+
+#define DODEBUG 0
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
 
 namespace Ravl3DN {
   //: Open file.
@@ -33,12 +46,158 @@ namespace Ravl3DN {
   //: Get next piece of data.
   
   TriMeshC DPIMeshObjBodyC::Get() {
+    ONDEBUG(cerr << "DPIMeshObjBodyC::Get(), Called \n");
     if(done)
       return TriMeshC();
     TriMeshC ret;
-    //CollectionC<VertexC> verts;
+    CollectionC<Vector3dC> vertPos(10000);
+    CollectionC<Vector3dC> vertNorm(10000);
+    CollectionC<Vector2dC> vertTexture(10000);
+    DListC<TFVectorC<TFVectorC<UIntT,2>,3 > > faces;
     
-    ret.UpdateVertexNormals();
+    StringC line;
+    UIntT faceCount = 0;
+    HashC<Tuple2C<UIntT,UIntT>,UIntT> vertIndex;
+    UIntT vertexAlloc = 0;
+    
+    try {
+      while(inf) {
+	if(readline(inf,line) <= 0)
+	  continue;
+	if(line[0] == '#') 
+	  continue; // Skip comments.
+	ONDEBUG(cerr << "DPIMeshObjBodyC::Get(), Got entry '" << line << "' \n");
+	StringListC strs(line);
+	DLIterC<StringC> it(strs);
+	if(!it) continue; // Empty line.
+	if(*it == "v" || *it == "vn") { // Vertex.
+	  bool isPos = (*it == "v");
+	  Vector3dC v;
+	  it++;
+	  if(!it) throw ExceptionC("Unexpected end of 3d vertex data. ");
+	  v[0] = it->RealValue();
+	  it++;
+	  if(!it) throw ExceptionC("Unexpected end of 3d vertex data. ");
+	  v[1] = it->RealValue();
+	  it++;
+	  if(!it) throw ExceptionC("Unexpected end of 3d vertex data. ");
+	  v[2] = it->RealValue();
+	  if(isPos)
+	    vertPos.Insert(v);
+	  else
+	    vertNorm.Insert(v);
+	  continue;
+	}
+	if(*it == "vt") { // Vertex.
+	  Vector2dC v;
+	  it++;
+	  if(!it) throw ExceptionC("Unexpected end of 2d vertex data. ");
+	  v[0] = it->RealValue();
+	  it++;
+	  if(!it) throw ExceptionC("Unexpected end of 2d vertex data. ");
+	  v[1] = it->RealValue();
+	  vertTexture.Insert(v);
+	  continue;
+	}
+	if(*it == "f") { // Face, save for later.
+	  // Decode face indes and save for later.
+	  TFVectorC<TFVectorC<UIntT,2>,3 > faceInfo;
+	  UIntT vi = 0;
+	  for(it++;it;it++,vi++) {
+	    int vertNo = -1;
+	    int textNo = -1;
+	    int normNo = -1;
+	    int at = it->index('/');
+	    if(at < 0) {
+	      vertNo = atoi(*it);
+	    } else {
+	      SubStringC v1 = it->before(at);
+	      vertNo = atoi(v1.chars());
+	      SubStringC v2 = it->after(at);
+	      int at2 = it->index('/',at+1);
+	      if(at2 < 0) {
+		textNo = it->after(at).IntValue();
+	      } else {
+		if((at2-1) > at)
+		  textNo = it->after(at).IntValue();
+		normNo = it->after(at2).IntValue();
+	      }
+	    }
+	    Tuple2C<UIntT,UIntT> key(vertNo,normNo);
+	    UIntT vn;
+	    if(!vertIndex.Lookup(key,vn)) {
+	      vn = vertexAlloc++;
+	      vertIndex[key] = vn;
+	    }
+	    ONDEBUG(cerr << " " << vertNo << ":" << textNo << ":" << normNo);
+	    if(vi > 1) {
+	      faceInfo[2][0] = vn;
+	      faceInfo[2][1] = textNo;
+	      faces.InsLast(faceInfo);
+	      faceCount++;
+	      faceInfo[1][0] = vn;
+	      faceInfo[1][1] = textNo;
+	    } else {
+	      faceInfo[vi][0] = vn;
+	      faceInfo[vi][1] = textNo;
+	    }
+	  }
+	  ONDEBUG(cerr << "\n");
+	}
+	// Ignore everything else silently.
+      }
+
+      SArray1dC<Vector3dC> vertPosArr = vertPos.Array();
+      SArray1dC<Vector3dC> vertNormArr = vertNorm.Array();
+      SArray1dC<Vector2dC> vertTextArr = vertTexture.Array();
+      
+      // Build vertex array.
+      SArray1dC<VertexC> verts(vertexAlloc);
+      for(HashIterC<Tuple2C<UIntT,UIntT>,UIntT> hit(vertIndex);hit;hit++) {
+	VertexC &v = verts[hit.Data()];
+	UIntT vp = hit.Key().Data1();
+	vp -= 1;
+	ONDEBUG(cerr << "Vertex " << vp << " (Max=" << vertPosArr.Size() << ")\n");
+	if(vp >= vertPosArr.Size())
+	  throw ExceptionC("Vertex position index out of range. ");	  
+	v.Position() = vertPosArr[vp];
+	UIntT vn = hit.Key().Data2() ;
+	if(vn != ((UIntT) -1)) {
+	  vn -= 1;
+	  if(vn >= vertNormArr.Size())
+	    throw ExceptionC("Vertex normal index out of range. ");	  
+	  v.Normal() = vertNormArr[vn];
+	}
+      }
+      
+      // Build triangle faces.
+      SArray1dC<TriC> tris(faceCount);
+      RavlAssert(faceCount == faces.Size());
+      UIntT find = 0;
+      for(DLIterC<TFVectorC<TFVectorC<UIntT,2>,3 > > fit(faces);fit;fit++,find++) {
+	TriC &tri = tris[find];
+	for(int fn = 0;fn < 3;fn++) {
+	  //ONDEBUG(cerr << " " << (*fit)[fn][0]);
+	  tri.VertexPtr(fn) = &verts[(*fit)[fn][0]];
+	  UIntT tind = (*fit)[fn][1];
+	  if(tind != ((UIntT) -1))
+	    tri.TextureCoords()[fn] = vertTextArr[tind];
+	}
+	//ONDEBUG(cerr << "\n");
+      }
+      
+      ret = TriMeshC(verts,tris,vertTexture.Size() > 0);
+    } catch(ExceptionC &x) {
+      cerr << "ERROR Parsing OBJ file : " << x.Text() << "\n";
+      cerr << "Load aborted. \n";
+      return TriMeshC();  // Return an invalid object.
+    } catch(...) {
+      cerr << "Exception caught while loading obj file.\n";
+      cerr << "Load aborted. \n";
+      return TriMeshC();  // Return an invalid object.
+    }
+    if(vertNorm.Size() == 0)
+      ret.UpdateVertexNormals(); // Generate some normals.
     return ret;
   }
 
@@ -61,21 +220,36 @@ namespace Ravl3DN {
   //: Put data.
   
   bool DPOMeshObjBodyC::Put(const TriMeshC &dat) {
+    ONDEBUG(cerr << "DPIMeshObjBodyC::Put(), Called \n");
     if(done || !outf)
       return false;
+    outf << "# OBJ file, created by RAVL MeshIO.\n";
     for(SArray1dIterC<VertexC> vit(dat.Vertices());vit;vit++)
       outf << "v " <<  vit->Position() << '\n';
     for(SArray1dIterC<VertexC> vit(dat.Vertices());vit;vit++)
       outf << "vn " <<  vit->Normal() << '\n';
-    // Texture co-ordinates.
-    for(SArray1dIterC<VertexC> vit(dat.Vertices());vit;vit++)
-      outf << "vt " <<  vit->Normal() << '\n';
-    for(SArray1dIterC<TriC> it(dat.Faces());it;it++) {
-      outf << "f ";
-      for(int i = 0;i < 3;i++) {
-	IntT ind = dat.Index(*it,i) + 1;
-	// Vertex/Normal/Texture
-	outf << ind << '/' << ind << '/' << ind << ' '; 
+    if(dat.HaveTextureCoord()) { // With texture co-ordinates ?
+      for(SArray1dIterC<TriC> it(dat.Faces());it;it++) {
+	for(int i = 0;i < 3;i++)
+	  outf << "vt " << it->TextureCoords()[i] << "\n";
+      }
+      for(SArray1dIterC<TriC> it(dat.Faces());it;it++) {
+	outf << "f ";
+	for(int i = 0;i < 3;i++) {
+	  IntT ind = dat.Index(*it,i) + 1;
+	  IntT at = it.Index().V();
+	  // Vertex/Texture/Normal
+	  outf << ind << '/' << (at+i) << '/' << ind << ' '; 
+	}
+      }
+    } else {
+      for(SArray1dIterC<TriC> it(dat.Faces());it;it++) {
+	outf << "f ";
+	for(int i = 0;i < 3;i++) {
+	  IntT ind = dat.Index(*it,i) + 1;
+	  // Vertex/Texture/Normal
+	  outf << ind << "//" << ind << ' '; 
+	}
       }
     }
       
