@@ -16,7 +16,7 @@ HEADERS= Convolve2d.hh ConvolveSeparable2d.hh ConvolveHorz2d.hh \
  Correlate2d.hh Matching.hh WarpScale.hh WarpAffine.hh WarpProjective.hh \
  PixelMixer.hh GaussConvolve.hh RemoveDistortion.hh
 
-SOURCES= HomomorphicFilter.cc Correlate2d.cc Matching.cc RemoveDistortion.cc
+SOURCES= HomomorphicFilter.cc Correlate2d.cc Matching.cc
 
 TESTEXES= testConvolve.cc
 
