@@ -36,19 +36,24 @@ namespace RavlN {
     // True is returned if operation succeeded.
     
     const StringC &Name() const
-      { return progName; }
+    { return progName; }
     //: Get program name.
     
     DListC<StringC> &UsesLibs()
-      { return useslibs; }
+    { return useslibs; }
     //: Libraries required by this one.
     
     DListC<StringC> Sources()
-      { return sources; }
+    { return sources; }
     //: Source files in the program.
+    
+    const StringC &MainSource() const
+    { return progSource; }
+    //: Get name of source file.
     
   protected:
     StringC progName; // Unqualitified program name, (Has code extention though.)
+    StringC progSource;
     DListC<StringC> useslibs;// Libraries required by this one.
     DListC<StringC> sources;  // Source files in the program (fully qualified names).
   };
@@ -61,31 +66,35 @@ namespace RavlN {
   {
   public:
     ProgInfoC()
-      {}
+    {}
     //: Default constructor,
     // Creates an invalid handle.
     
     ProgInfoC(const StringC &programName,DefsMkFileC &defs,const StringC &fromDir)
       : RCHandleC<ProgInfoBodyC>(*new ProgInfoBodyC(programName,defs,fromDir))
-      {}
+    {}
     //: Constructor.
     
     bool Add(DefsMkFileC &defs,const StringC &fromDir)
-      { return Body().Add(defs,fromDir); }
+    { return Body().Add(defs,fromDir); }
     //: Add information from defs file 'defs'.
     // True is returned if operation succeeded.
     
     const StringC &Name() const
-      { return Body().Name(); }
+    { return Body().Name(); }
     //: Get program name.
     
     DListC<StringC> &UsesLibs()
-      { return Body().UsesLibs(); }
+    { return Body().UsesLibs(); }
     //: Libraries required by this one.
     
     DListC<StringC> Sources()
-      { return Body().Sources(); }
+    { return Body().Sources(); }
     //: Source files in the program.
+    
+    const StringC &MainSource() const
+    { return Body().MainSource(); }
+    //: Get name of source file.
     
   };
 

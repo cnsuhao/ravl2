@@ -40,6 +40,10 @@ namespace RavlN {
       { return name; }
     //: Name of headerfile (without path.)
     
+    const StringC &Name() const
+    { return name; }
+    //: Name of headerfile (without path.)
+    
     StringC &Package()
       { return package; }
     //: Where is should be installed.

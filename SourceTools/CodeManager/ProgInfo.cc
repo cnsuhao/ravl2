@@ -18,7 +18,9 @@ namespace RavlN {
   
   //: Constructor.
   ProgInfoBodyC::ProgInfoBodyC(const StringC &ln,DefsMkFileC &defs,const StringC &fromDir)   { 
+    progSource = ln;
     progName = StringC(ln).before('.',-1); // Strip .cc or .c from progName.
+    //cerr << "ProgInfoBodyC::ProgInfoBodyC() Source= "<< progSource << "\n";
     Add(defs,fromDir); 
   }
   
@@ -28,7 +30,7 @@ namespace RavlN {
   bool ProgInfoBodyC::Add(DefsMkFileC &defs,const StringC &dir) {
     if(!defs.IsValid())
       return false;
-    sources += dir + filenameSeperator + progName;
+    sources += dir + filenameSeperator + progSource;
     // We could check for duplications here, but there
     // really shouldn't be.
     if(defs["PLIB"].IsEmpty()) { // Are these just for the exe ?
