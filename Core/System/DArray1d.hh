@@ -113,6 +113,14 @@ namespace RavlN {
       chunks.InsLast(*new DChunkC<DataT>(arr));
     }
     //: Construct from a normal array.
+
+    DArray1dBodyC(const SArray1dC<DataT> &arr) {
+      chunks.InsLast(*new DChunkC<DataT>(arr));
+    }
+    //: Construct from a normal array.
+    
+    DArray1dC<DataT> Copy() const;
+    //: Make a copy of this DArray.
     
     DataT &Index(IndexC i);
     //: Find data item with that index.
@@ -172,6 +180,10 @@ namespace RavlN {
     { chunks.Empty(); }
     //: Empty this array of all its contents.
     
+    UIntT Size() const;
+    //: Find the number of elements in the DArray.
+    // This doesn't count holes in the array.
+    
   protected:
     IntrDListC<DChunkC<DataT> > chunks;
     
@@ -199,20 +211,30 @@ namespace RavlN {
     DArray1dC(IndexRangeC range)
       : RCHandleC<DArray1dBodyC<DataT> >(*new DArray1dBodyC<DataT>(range))
     {}
-    //: Default constructor.
+    //: Range constructor.
     // Creates a array with range elements allocated.
     
     DArray1dC(SizeT size)
       : RCHandleC<DArray1dBodyC<DataT> >(*new DArray1dBodyC<DataT>(size))
     {}
-    //: Default constructor.
+    //: Size constructor.
     // Creates an array of the given size starting from index 0.
 
     DArray1dC(const Array1dC<DataT> &arr)
       : RCHandleC<DArray1dBodyC<DataT> >(*new DArray1dBodyC<DataT>(arr))
     {}
-    //: Default constructor.
+    //: Array constructor.
     // Creates an array of the given size starting from index 0.
+
+    DArray1dC(const SArray1dC<DataT> &arr)
+      : RCHandleC<DArray1dBodyC<DataT> >(*new DArray1dBodyC<DataT>(arr))
+    {}
+    //: SArray constructor.
+    // Creates an array of the given size starting from index 0.
+    
+    DArray1dC<DataT> Copy() const
+    { return Body().Copy(); }
+    //: Make a copy of this DArray.
     
     DataT &Index(IndexC i)
     { return Body().Index(i); }
@@ -276,10 +298,35 @@ namespace RavlN {
     void Empty()
     { Body().Empty(); }
     //: Empty this array of all its contents.
+    
+    UIntT Size() const
+    { return Body().Size(); }
+    //: Find the number of elements in the DArray.
+    // This doesn't count holes in the array.
+
   protected:
     friend class DArray1dBodyC<DataT>;
     friend class DArray1dIterC<DataT>;
   };
+
+  
+  template<class DataT>
+  DArray1dC<DataT> DArray1dBodyC<DataT>::Copy() const {
+    DArray1dC<DataT> ret;
+    IntrDLIterC<DChunkC<DataT> > it(chunks);
+    // FIXME:- Could try and de-fragment here.
+    for(;it;it++)
+      ret.Body().chunks.InsLast(*new DChunkC<DataT>(it->Data().Copy()));
+    return ret;
+  }
+
+  template<class DataT>
+  UIntT DArray1dBodyC<DataT>::Size() const {
+    UIntT size = 0;
+    for(IntrDLIterC<DChunkC<DataT> > it(chunks);it;it++)
+      size += it->Data().Size();
+    return size;
+  }
   
   template<class DataT>
   DataT &DArray1dBodyC<DataT>::Index(IndexC i) {

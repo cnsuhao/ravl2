@@ -104,8 +104,10 @@ int testDArray1d() {
   if(i != testSize) return __LINE__;
 
   i = 0;
-  for(DArray1dIter2C<int,int> it(test,test2);it;it++,i++)
+  for(DArray1dIter2C<int,int> it(test,test2);it;it++,i++) {
     if(it.Data1() != it.Data2()) return __LINE__;
+    if(it.Index() != i) return __LINE__;
+  }
   if(i != 10) return __LINE__;
   return 0;
 }
