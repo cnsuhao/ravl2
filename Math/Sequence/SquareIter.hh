@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLSQUAREITER_HEADER
-#define RAVLSQUAREITER_HEADER 1
+#ifndef RAVL_SQUAREITER_HEADER
+#define RAVL_SQUAREITER_HEADER 1
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Math/Sequence/SquareIter.hh"
@@ -30,8 +30,8 @@ namespace RavlN {
   public:  
     inline SquareIterC(UIntT thesize,Index2dC thecentre = Index2dC(0,0))
       : centre(thecentre), 
-      maxSize(thesize) 
-      { First(); }
+	maxSize(thesize) 
+    { First(); }
     //: Constructor.
     
     inline void First() { 
