@@ -144,7 +144,7 @@ namespace RavlN {
       return false;  // Had to be added.
     }
     //: Insert a new item into the cache.
-    // Returns true if item is already in the cache.
+    // Returns true if item is already in the cache (which will be updated with the new value).
     // If bump is true the item is moved to the end of the age list and if the 
     // cache is full the oldest element will be remove to make new for new items.
     
