@@ -46,73 +46,38 @@ int testConic2d();
 int testEllipse2dA();
 int testEllipse2dB();
 int testEllipse2dC();
+int testEllipse2dD();
 int testScanPolygon();
 int testOverlap();
 
+#define TEST(f) \
+  if((ln = f()) != 0) {\
+    cerr << "Test failed at " << ln << "\n";\
+    return 1;\
+  }
+
 int main() {
   int ln;
+  
 #if 1
-  if((ln = testMoments()) != 0) {
-    cerr << "Test failed at " << ln << "\n";
-    return 1;
-  }
-  if((ln = testBinIO()) != 0) {
-    cerr << "Test failed at " << ln << "\n";
-    return 1;
-  }
-  if((ln = testCircle2d()) != 0) {
-    cerr << "Test failed at " << ln << "\n";
-    return 1;
-  }
-  if((ln = testHEMesh2d()) != 0) {
-    cerr << "Test failed at " << ln << "\n";
-    return 1;
-  }
-  if((ln = testConvexHull2d()) != 0) {
-    cerr << "Test failed at " << ln << "\n";
-    return 1;
-  }
-  if((ln = testDelaunayTriangulation2d()) != 0) {
-    cerr << "Test failed at " << ln << "\n";
-    return 1;
-  }
-  if((ln = testFitAffine()) != 0) {
-    cerr << "Test failed at " << ln << "\n";
-    return 1;
-  }
-  if((ln = testProjective2d()) != 0) {
-    cerr << "Test failed at " << ln << "\n";
-    return 1;
-  }
-  if((ln = testLineProjective2d()) != 0) {
-    cerr << "Test failed at " << ln << "\n";
-    return 1;
-  }
-  if((ln = testConic2d()) != 0) {
-    cerr << "Test failed at " << ln << "\n";
-    return 1;
-  }
-  if((ln = testEllipse2dA()) != 0) {
-    cerr << "Test failed at " << ln << "\n";
-    return 1;
-  }
-  if((ln = testEllipse2dB()) != 0) {
-    cerr << "Test failed at " << ln << "\n";
-    return 1;
-  }
-  if((ln = testEllipse2dC()) != 0) {
-    cerr << "Test failed at " << ln << "\n";
-    return 1;
-  }
+  TEST(testMoments);
+  TEST(testBinIO);
+  TEST(testCircle2d);
+  TEST(testConvexHull2d);
+  TEST(testDelaunayTriangulation2d);
+  TEST(testFitAffine);
+  TEST(testHEMesh2d);
+  TEST(testProjective2d);
+  TEST(testLineProjective2d);
+  TEST(testConic2d);
 #endif
-  if((ln = testScanPolygon()) != 0) {
-    cerr << "Test failed at " << ln << "\n";
-    return 1;
-  }
-  if((ln = testOverlap()) != 0) {
-    cerr << "Test failed at " << ln << "\n";
-    return 1;
-  }
+  TEST(testEllipse2dA);
+  TEST(testEllipse2dB);
+  TEST(testEllipse2dC);
+  TEST(testEllipse2dD);
+  TEST(testScanPolygon);
+  TEST(testOverlap);
+
   cout << "Test passed. \n";
   return 0;
 }
@@ -385,10 +350,7 @@ int testLineProjective2d() {
   Projection2dC proj(Matrix3dC(0,.5,0,.5,0,0,0,0,0.4), 2, 5);
   LineABC2dC outLine(proj*inLine);
   if (   (outLine.Distance(proj*p1) > 0.001)
-      || (outLine.Distance(proj*p2) > 0.001)) return __LINE__;
-
-exit(0);
-  
+      || (outLine.Distance(proj*p2) > 0.001)) return __LINE__;  
   return 0;
 }
 
@@ -446,16 +408,19 @@ int testEllipse2dA() {
 
 int testEllipse2dB() {
   cerr << "testEllipse2dB Called. \n";
+  // Generates series of ellipses with orientations from 0 to pi
   for(RealT tangle = 0;tangle < RavlConstN::pi;tangle += RavlConstN::pi/10) {
     Point2dC gtc(50,50);
+    // Generate ellispe
     Ellipse2dC ellipse(gtc,40,20,tangle);
-    //  cerr << "Ellipse1=" << ellipse << "\n";
+    // Generate set of points on ellipse
     RealT step = RavlConstN::pi/5;
     SArray1dC<Point2dC> points(10);
     IntT i = 0;
     for(RealT a = 0;i < 10;a += step,i++) {
       points[i] = ellipse.Point(a);
     }
+    // Fit set of points to ellipse as conic
     Conic2dC conic;
     if(!FitEllipse(points,conic)) 
       return __LINE__;
@@ -463,22 +428,24 @@ int testEllipse2dB() {
     Point2dC centre;
     RealT min,maj,ang;
     conic.EllipseParameters(centre,maj,min,ang);
-    //cerr << "C Paramiters=" << centre << " " << maj << " " << min << " " << ang << "   Diff=" << AngleC(ang,RavlConstN::pi).Diff(AngleC(tangle,RavlConstN::pi)) << "\n";
+    //cerr << "Conic representation parameters=" << centre << " " << maj << " " << min << " " << ang << "   Diff=" << AngleC(ang,RavlConstN::pi).Diff(AngleC(tangle,RavlConstN::pi)) << "\n";
     if((centre - gtc).SumOfAbs() > 0.00000001) return __LINE__;
     if(Abs(maj - 40) > 0.000000001) return __LINE__;
     if(Abs(min - 20) > 0.000000001) return __LINE__;
     if(Abs(AngleC(ang,RavlConstN::pi).Diff(AngleC(tangle,RavlConstN::pi))) > 0.000001) return __LINE__;
+    // Fit same set of points to ellipse as Ellipse2dC
     Ellipse2dC ellipse2;
     if(!FitEllipse(points,ellipse2)) {
       cerr << "Failed to fit ellipse. \n";
       return __LINE__;
     }
-    
+    // Check that fitted ellipse has same params as original
     ellipse2.EllipseParameters(centre,maj,min,ang);
-    //cerr << "E Paramiters=" << centre << " " << maj << " " << min << " " << ang << "  Diff=" << AngleC(ang,RavlConstN::pi).Diff(AngleC(tangle,RavlConstN::pi)) << "\n";
+    //cerr << "Ellipse representation parameters=" << centre << " " << maj << " " << min << " " << ang << "  Diff=" << AngleC(ang,RavlConstN::pi).Diff(AngleC(tangle,RavlConstN::pi)) << "\n";
     if((centre - gtc).SumOfAbs() > 0.00000001) return __LINE__;
     if(Abs(maj - 40) > 0.000000001) return __LINE__;
     if(Abs(min - 20) > 0.000000001) return __LINE__;
+    //cerr << "param angle vs orig: " << ang << " " << tangle << endl;
     if(Abs(AngleC(ang,RavlConstN::pi).Diff(AngleC(tangle,RavlConstN::pi))) > 0.000001) return __LINE__;
   }
   //cerr << "Ellipse2=" << ellipse2 << "\n";
@@ -495,12 +462,56 @@ int testEllipse2dC() {
   Point2dC centre;
   RealT min,maj,ang;
   ellipse.EllipseParameters(centre,maj,min,ang);
-  //cerr << "Paramiters=" << centre << " " << maj << " " << min << " " << ang << " \n";
+  //cerr << "Parameters=" << centre << " " << maj << " " << min << " " << ang << " \n";
   if(Abs(maj - 2) > 0.0000001)
     return __LINE__;
   if(Abs(min - 1) > 0.0000001)
     return __LINE__;
   if(Abs(AngleC(ang,RavlConstN::pi).Diff(AngleC(0,RavlConstN::pi))) > 0.000001) return __LINE__;
+  return 0;
+}
+
+int testEllipse2dD() { 
+  // Create an ellipse that passes through 5 points and check that it is the same (more or less) as the corresponding ellipse constructed from ellipse parameters. 
+  cerr << "testEllipse2dD Called. \n";
+
+  // Check that EllipseParameters works ok.
+  RealT major=Sqrt(8), minor=Sqrt(0.5), angle=RavlConstN::pi_4;
+  Ellipse2dC e(Point2dC(0,0), major, minor, angle);
+  Point2dC e_centre;
+  RealT e_major, e_minor, e_angle;
+  e.EllipseParameters(e_centre, e_major, e_minor, e_angle);
+  //cout << "e : " << e_centre <<"; "<<e_major <<"; "<< e_minor <<"; "<< e_angle << endl;
+  //cout << "e as stream:\n" << e << endl;
+  if((e_centre).SumOfAbs() > 0.00000001) return __LINE__;
+  if(Abs(e_major - major) > 0.000000001) return __LINE__;
+  if(Abs(e_minor - minor) > 0.000000001) return __LINE__;
+  if(Abs(e_angle - angle) > 0.000001) return __LINE__;
+
+  // Create diamond of points + another point along (1,1) direction: should fit to ellipse centred on 0,0; major axis 10 root 2; minor axis a tad more than 2 root 2; angle pi/4
+  SArray1dC<Point2dC> pt(5);
+  pt[0] = Point2dC(1,0);
+  pt[1] = Point2dC(0,1);
+  pt[2] = Point2dC(-1,0);
+  pt[3] = Point2dC(0,-1);
+  pt[4] = Point2dC(2,2);
+  //  fit ellipse
+  Ellipse2dC f;
+  bool ans = FitEllipse(pt, f);	
+  if (!ans) return  __LINE__;
+  Point2dC f_centre;
+  RealT f_major, f_minor, f_angle;
+  f.EllipseParameters(f_centre, f_major, f_minor, f_angle);
+  //cerr << "f: " << f_centre <<"; "<<f_major <<"; "<< f_minor <<"; "<< f_angle << endl;
+  //cerr << "f as stream:\n" << f << endl;
+  if((e_centre - f_centre).SumOfAbs() > 0.00000001) return __LINE__;
+  if(Abs(e_major - f_major) > 0.000000001) return __LINE__;
+  // The following test is deliberately loose, as ellipse "e" is only an
+  // approximation to ellipse "f"
+  if(Abs(e_minor - f_minor) > 0.03) return __LINE__;
+  //cerr << "param angle vs orig: " << f_angle << " " << e_angle << endl;
+  if(Abs(e_angle - f_angle) > 0.000001) return __LINE__;
+  
   return 0;
 }
 
