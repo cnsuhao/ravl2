@@ -9,7 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! author="Charles Galambos"
-//! docentry="Ravl.PatternRec.Data Set"
+//! docentry="Ravl.Pattern Recognition.Data Set"
 
 #include "Ravl/DP/SPort.hh"
 #include "Ravl/Tuple2.hh"
