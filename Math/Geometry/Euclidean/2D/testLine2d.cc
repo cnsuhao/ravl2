@@ -103,11 +103,21 @@ int testLine2d() {
   LinePP2dC line1(Point2dC(0,0),Point2dC(1,1));
   if(!line1.IsPointToRight(Point2dC(1,0))) return __LINE__;
   if(line1.IsPointToRight(Point2dC(0,1))) return __LINE__;
-
+  
   LinePP2dC line2(Point2dC(0,1),Point2dC(1,0));
   if(!line2.IsPointToRight(Point2dC(0,0))) return __LINE__;
   if(line2.IsPointToRight(Point2dC(1,1))) return __LINE__;
-
+  
+  RealT cres;
+  if(!line1.IntersectRow(0.5,cres)) return __LINE__;
+  if(Abs(cres - 0.5) > 0.000001) return __LINE__;
+  
+  if(!line2.IntersectRow(0.5,cres)) return __LINE__;
+  if(Abs(cres - 0.5) > 0.000001) return __LINE__;
+  
+  if(!line2.IntersectRow(0.2,cres)) return __LINE__;
+  if(Abs(cres - 0.8) > 0.000001) return __LINE__;
+  
   RealT val = line2.ParIntersection(line1);
   cerr << "Val=" << val << "\n";
   if(Abs(val - 0.5) > 0.0001) return __LINE__;

@@ -28,6 +28,7 @@
 #include "Ravl/Conic2d.hh"
 #include "Ravl/Ellipse2d.hh"
 #include "Ravl/Angle.hh"
+#include "Ravl/ScanPolygon2d.hh"
 
 using namespace RavlN;
 
@@ -43,6 +44,7 @@ int testConic2d();
 int testEllipse2dA();
 int testEllipse2dB();
 int testEllipse2dC();
+int testScanPolygon();
 
 int main() {
   int ln;
@@ -83,7 +85,6 @@ int main() {
     cerr << "Test failed at " << ln << "\n";
     return 1;
   }
-#endif
   if((ln = testEllipse2dA()) != 0) {
     cerr << "Test failed at " << ln << "\n";
     return 1;
@@ -93,6 +94,11 @@ int main() {
     return 1;
   }
   if((ln = testEllipse2dC()) != 0) {
+    cerr << "Test failed at " << ln << "\n";
+    return 1;
+  }
+#endif
+  if((ln = testScanPolygon()) != 0) {
     cerr << "Test failed at " << ln << "\n";
     return 1;
   }
@@ -457,5 +463,114 @@ int testEllipse2dC() {
   if(Abs(min - 1) > 0.0000001)
     return __LINE__;
   if(Abs(AngleC(ang,RavlConstN::pi).Diff(AngleC(0,RavlConstN::pi))) > 0.000001) return __LINE__;
+  return 0;
+}
+
+#define DODISPLAY 0
+
+#if DODISPLAY
+#include "Ravl/Image/Image.hh"
+#include "Ravl/Image/DrawLine.hh"
+#include "Ravl/IO.hh"
+using namespace RavlImageN;
+#endif
+
+
+int testScanPolygon() {
+  UIntT count = 0;
+#if DODISPLAY
+  ByteT drawVal = 255;
+  ImageC<ByteT> img(105,105);
+  img.Fill(0);
+#endif
+  Polygon2dC poly;
+  poly.InsLast(Point2dC(5,10));
+  poly.InsLast(Point2dC(40,50));
+  poly.InsLast(Point2dC(100,20));
+  
+  for(ScanPolygon2dC it(poly);it;it++) {
+#if DODISPLAY
+    DrawLine(img,drawVal,Index2dC(it.Row(),it.Data().Min()),Index2dC(it.Row(),it.Data().Max()));
+#endif
+    //cerr << " " << it.Row() << " " << it.Data() << "\n";
+    if(it.Data().Size() > 0.001 && 
+       !poly.Contains(Point2dC(it.Row(),it.Data().Center()))) 
+      return __LINE__;
+    count++;
+  }
+#if DODISPLAY
+  Save("@X:1",img);
+  cerr << " ---------- Test 2 --------------------------- \n";
+#endif
+  //cerr << "Entries=" << count <<"\n";
+  
+  count = 0;
+#if DODISPLAY
+  img = ImageC<ByteT>(105,105);
+  img.Fill(0);
+#endif
+  poly.Empty();
+  poly.InsLast(Point2dC(10,10));
+  poly.InsLast(Point2dC(30,20));
+  poly.InsLast(Point2dC(20,40));
+  poly.InsLast(Point2dC(40,20));
+  for(ScanPolygon2dC it(poly,1);it;it++) {
+#if DODISPLAY
+    DrawLine(img,drawVal,Index2dC(it.Row(),it.Data().Min()),Index2dC(it.Row(),it.Data().Max()));
+#endif
+    //cerr << " " << it.Row() << " " << it.Data() << "\n";
+    if(it.Data().Size() > 0.001 &&
+       !poly.Contains(Point2dC(it.Row(),it.Data().Center()))) 
+      return __LINE__;
+    count++;
+  }
+#if DODISPLAY
+  Save("@X:2",img);
+  cerr << " ---------- Test 3 --------------------------- \n";
+  img = ImageC<ByteT>(105,105);
+  img.Fill(0);
+#endif
+  poly.Empty();
+  poly.InsLast(Point2dC(10,30));
+  poly.InsLast(Point2dC(40,40));
+  poly.InsLast(Point2dC(20,30));
+  poly.InsLast(Point2dC(30,10));
+  for(ScanPolygon2dC it(poly,1);it;it++) {
+#if DODISPLAY
+    DrawLine(img,drawVal,Index2dC(it.Row(),it.Data().Min()),Index2dC(it.Row(),it.Data().Max()));
+#endif
+    //cerr << " " << it.Row() << " " << it.Data() << "\n";
+    if(it.Data().Size() > 0.001 &&
+       !poly.Contains(Point2dC(it.Row(),it.Data().Center()))) 
+      return __LINE__;
+    count++;
+  }
+#if DODISPLAY
+  Save("@X:3",img);
+  cerr << " ---------- Test 4 --------------------------- \n";
+  img = ImageC<ByteT>(105,105);
+  img.Fill(0);
+#endif
+  poly.Empty();
+  poly.InsLast(Point2dC(10,10));
+  poly.InsLast(Point2dC(10,90));
+  poly.InsLast(Point2dC(90,90));
+  poly.InsLast(Point2dC(90,10));
+  for(ScanPolygon2dC it(poly,1);it;it++) {
+#if DODISPLAY
+    DrawLine(img,drawVal,Index2dC(it.Row(),it.Data().Min()),Index2dC(it.Row(),it.Data().Max()));
+#endif
+    //cerr << " " << it.Row() << " " << it.Data() << "\n";
+#if 0
+    if(it.Data().Size() > 0.001 &&
+       !poly.Contains(Point2dC(it.Row(),it.Data().Center()))) 
+      return __LINE__;
+#endif
+    count++;
+  }
+#if DODISPLAY
+  Save("@X:4",img);
+#endif
+  
   return 0;
 }

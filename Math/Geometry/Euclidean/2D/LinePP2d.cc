@@ -80,43 +80,48 @@ namespace RavlN {
     return accept;
   }
  
-   bool LinePP2dC::IsPointIn(const Point2dC& point) const {
-      if ( ! IsPointOn(point))
-         return false;
+  bool LinePP2dC::IsPointIn(const Point2dC& point) const {
+    if ( ! IsPointOn(point))
+      return false;
 
-      // If ab not vertical, check betweenness on x; else on y.
-      if ( P1()[0] != P2()[0] ) 
-         return   ((P1()[0] <= point[0]) && (point[0] <= P2()[0]))
-            ||((P1()[0] >= point[0]) && (point[0] >= P2()[0]));
-      else
-         return   ((P1()[1] <= point[1]) && (point[1] <= P2()[1]))
-            ||((P1()[1] >= point[1]) && (point[1] >= P2()[1]));
-   }
+    // If ab not vertical, check betweenness on x; else on y.
+    if ( P1()[0] != P2()[0] ) 
+      return   ((P1()[0] <= point[0]) && (point[0] <= P2()[0]))
+	||((P1()[0] >= point[0]) && (point[0] >= P2()[0]));
+    else
+      return   ((P1()[1] <= point[1]) && (point[1] <= P2()[1]))
+	||((P1()[1] >= point[1]) && (point[1] >= P2()[1]));
+  }
 
-   Point2dC LinePP2dC::Intersection(const LinePP2dC & l) const {
-      Vector2dC n1(static_cast<Vector2dC>(Vector()).Perpendicular());
-      Vector2dC n2(static_cast<Vector2dC>(l.Vector()).Perpendicular());
-      RealT     d1  = - n1.Dot(FirstPoint());
-      RealT     d2  = - n2.Dot(l.FirstPoint());
-      RealT     det = n1.Cross(n2);
-      return Point2dC((n1[1]*d2 - n2[1]*d1)/det,
-                      (n2[0]*d1 - n1[0]*d2)/det);
-   }
-   
-   RealT LinePP2dC::ParIntersection(const LinePP2dC & l) const {
-#if 0
-     Vector2dC u2P(Vector2dC(;
-     return (l.FirstPoint()-FirstPoint()).Dot(u2P)/Vector().Dot(u2P);
-#else
-			     
-     Vector2dC u2P(l.point[0][1] - l.point[1][1],l.point[1][0] - l.point[0][0]); // u2p = l.Vector().Perpendicular();
-     return (l.FirstPoint()-FirstPoint()).Dot(u2P)/Vector().Dot(u2P);     
-#endif
-   }
-   
-   bool LinePP2dC::HasInnerIntersection(const LinePP2dC & l) const {
-      RealT t = ParIntersection(l);
-      return t >= 0 && t<=1;
-   }   
+  Point2dC LinePP2dC::Intersection(const LinePP2dC & l) const {
+    Vector2dC n1(static_cast<Vector2dC>(Vector()).Perpendicular());
+    Vector2dC n2(static_cast<Vector2dC>(l.Vector()).Perpendicular());
+    RealT     d1  = - n1.Dot(FirstPoint());
+    RealT     d2  = - n2.Dot(l.FirstPoint());
+    RealT     det = n1.Cross(n2);
+    return Point2dC((n1[1]*d2 - n2[1]*d1)/det,
+		    (n2[0]*d1 - n1[0]*d2)/det);
+  }
+  
+  //: Find the column position which itersects the given row.
+  
+  bool LinePP2dC::IntersectRow(RealT row,RealT &col) const {
+    Vector2dC dir = P2() - P1();
+    row -= P1()[0];
+    if(dir[0] == 0)
+      return false;
+    col = ((row * dir[1]) / dir[0]) + P1()[1];
+    return true;
+  }
+  
+  RealT LinePP2dC::ParIntersection(const LinePP2dC & l) const {
+    Vector2dC u2P(l.point[0][1] - l.point[1][1],l.point[1][0] - l.point[0][0]); // u2p = l.Vector().Perpendicular();
+    return (l.FirstPoint()-FirstPoint()).Dot(u2P)/Vector().Dot(u2P);     
+  }
+  
+  bool LinePP2dC::HasInnerIntersection(const LinePP2dC & l) const {
+    RealT t = ParIntersection(l);
+    return t >= 0 && t<=1;
+  }
    
 }

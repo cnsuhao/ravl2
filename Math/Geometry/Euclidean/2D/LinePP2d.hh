@@ -80,6 +80,12 @@ namespace RavlN {
     Point2dC Intersection(const LinePP2dC & l) const;
     // Returns the intersection of 2 lines.
     
+    bool IntersectRow(RealT row,RealT &col) const;
+    //: Find the column position which itersects the given row.
+    //!param: row - Row for which we want to find the interecting column
+    //!param: col - Place to store the intersecting col.
+    //!return: True if position exists, false if there is no intersection
+    
     RealT Angle() const {
       Vector2dC dir = P2() - P1();
       return ATan2(dir[1],dir[0]);
