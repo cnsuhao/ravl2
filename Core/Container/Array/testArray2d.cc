@@ -23,6 +23,7 @@
 #include "Ravl/Array2dSqr2Iter2.hh"
 #include "Ravl/Array2dSqr3Iter.hh"
 #include "Ravl/Array2dSqr31Iter2.hh"
+#include "Ravl/Array2dSqr33Iter2.hh"
 #include "Ravl/Array2dSqr311Iter3.hh"
 #include "Ravl/Array2dSqr3111Iter4.hh"
 #include "Ravl/Array2dSqr3311Iter4.hh"
@@ -490,6 +491,7 @@ template class Array2dIter7C<IntT,RealT,ByteT,bool,Int16T,UByteT,UIntT>;
 template class Array2dSqr2Iter2C<IntT,Int16T>;
 template class Array2dSqr3IterC<IntT>;
 template class Array2dSqr31Iter2C<IntT,Int16T>;
+template class Array2dSqr33Iter2C<IntT,Int16T>;
 template class Array2dSqr311Iter3C<IntT,Int16T,RealT>;
 template class Array2dSqr3111Iter4C<IntT,Int16T,RealT,ByteT>;
 template class Array2dSqr3311Iter4C<IntT,Int16T,RealT,ByteT>;
