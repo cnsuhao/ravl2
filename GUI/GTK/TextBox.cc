@@ -63,7 +63,7 @@ namespace RavlGUIN {
   
   //: Access text
   
-  StringC TextBoxBodyC::Text() {
+  StringC TextBoxBodyC::Text() const {
     //MutexLockC lock(access);
     StringC ret = text; // Ensure the right order.
     //lock.Unlock();

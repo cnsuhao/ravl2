@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////
 //! lib=RavlGUI
 //! author="Charles Galambos"
-//! date="23/03/99"
+//! date="23/03/1999"
 //! docentry="Ravl.GUI.Control"
 //! rcsid="$Id$"
 //! file="Ravl/GUI/GTK/TextBox.hh"
@@ -24,7 +24,8 @@ namespace RavlGUIN {
   class TextBoxC;
   
   //! userlevel=Develop
-  //: TextBox body
+  //: Text box body
+  // See handle documentation for more information.
   
   class TextBoxBodyC 
     : public WidgetBodyC
@@ -36,7 +37,7 @@ namespace RavlGUIN {
     virtual bool Create();
     //: Create the widget.
     
-    StringC Text();
+    StringC Text() const;
     //: Access text
     
     bool Insert(const StringC &txt);
@@ -55,8 +56,11 @@ namespace RavlGUIN {
 
 
   //! userlevel=Normal
-  //: TextBox 
-  // This displays some text.
+  //: Text box 
+  // This is intended to edit multi-line text. Due to some problems with the
+  // underlying gtk widget it is unreliable at the moment and it is recommended 
+  // that it not be used.  When the move to gtk2 is complete it will be changed 
+  // to something more usable.
   
   class TextBoxC 
     : public WidgetC
@@ -91,7 +95,7 @@ namespace RavlGUIN {
     //: Insert text in window.
     
   public:
-    StringC Text() 
+    StringC Text() const 
     { return Body().Text(); }
     //: Access text
     
