@@ -45,7 +45,7 @@ namespace RavlImageN {
     //: Construct an image with origin 0,0 and size rows cols.
 
     ImageC(UIntT rows,UIntT cols,const BufferC<PixelT> &buf)
-      : Array2dC<PixelT>(IndexRange2dC(0,rows,0,cols),buf)
+      : Array2dC<PixelT>(IndexRange2dC(0,rows-1,0,cols-1),buf)
       {}
     //: Construct an image with origin 0,0 and size rows cols with space in 'buf'
     
