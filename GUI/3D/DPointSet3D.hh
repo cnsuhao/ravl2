@@ -22,6 +22,8 @@ namespace RavlGUIN
   using namespace Ravl3DN;
   
   // Draw a Point Set
+  // THIS CLASS IS OBSOLETE! use DSurfacePointVertexArrayC and DSurfacePointVertexByteRGBArrayC
+  // This class will be removed in early 2003.
 
   class DPointSet3DBodyC
     : public DObject3DBodyC
