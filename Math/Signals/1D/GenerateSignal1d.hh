@@ -42,7 +42,7 @@ namespace RavlN {
     last = *it;
     it++;
     if(doNorm) {
-      IntT norm = 1;
+      DataT norm = 1;
       for (;it;it++,i++) {
 	*it = last * (rsize-i) / i;
 	last = *it;
