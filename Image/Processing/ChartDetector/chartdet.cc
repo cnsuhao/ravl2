@@ -17,7 +17,10 @@
 #include "Ravl/StringList.hh"
 #include "Ravl/Option.hh"
 #include "Ravl/SArray1dIter3.hh"
+#include "Ravl/SArray1dIter2.hh"
 #include "Ravl/Image/WarpProjective.hh"
+#include "Ravl/Image/DrawCross.hh"
+#include "Ravl/Image/DrawCircle.hh"
 
 using namespace RavlN;
 using namespace RavlImageN;
@@ -55,6 +58,7 @@ int main(int nargs,char **argv) {
   OptionC opt(nargs,argv);
   bool verbose = opt.Boolean("v",true,"Verbose mode. ");
   bool displayCourse = opt.Boolean("dc",false,"Display course localisation. ");
+  bool displayMatches = opt.Boolean("dm",false,"Display matches. ");
   RealT inlierThreshold = opt.Real("id",10,"Inlier distance threshold. ");
   UIntT ransacIterations = (UIntT) opt.Int("ri",50000,"RANSAC iterations to use in search.");
   RealT acceptThreshold = opt.Real("at",0.7,"Threshold at which to just accept hypothesis ");
@@ -112,7 +116,6 @@ int main(int nargs,char **argv) {
   
   if(verbose) 
     cerr << "Transform =" << transform << "\n";
-  
   if(displayCourse) {
     WarpProjectiveC<ByteT> pwarp(chartImage.Frame(),transform.Inverse());
     ImageC<ByteT> pimage = pwarp.Apply(sceneImage);
@@ -124,6 +127,7 @@ int main(int nargs,char **argv) {
     cerr << "Setting up fine localisation. \n";
   
   ChartLocaliseC localise(chartImage,chartPoints,patchSize);
+  localise.SetVerbose(verbose);
   SArray1dC<Point2dC> matches;
   SArray1dC<bool> matchesOk;
   if(verbose)
@@ -131,12 +135,23 @@ int main(int nargs,char **argv) {
   localise.Apply(sceneImage,transform,matches,matchesOk);
   
   UIntT pass = 0;
-    
-  for(SArray1dIterC<bool> it(matchesOk);it;it++)
-    if(*it) pass++;
+  for(SArray1dIterC<bool> it(matchesOk);it;it++) {
+    if(*it)
+      pass++; 
+  }
+  
   if(verbose)
     cerr << "Found " << pass << " matches. \n";
-  
+  if(displayMatches) {
+    ImageC<ByteT> simage(sceneImage.Copy());
+    for(SArray1dIter2C<Point2dC,bool> it(matches,matchesOk);it;it++) {
+      if(it.Data2()) 
+	DrawCircle(simage,(ByteT) 255,it.Data1(),3);
+      else
+	DrawCross(simage,(ByteT) 255,it.Data1(),3);
+    }
+    Save("@X:Matches",simage);
+  }
   if(!matchFilename.IsEmpty()) {
     if(verbose)
       cerr << "Writing match file '" << matchFilename << "'\n";

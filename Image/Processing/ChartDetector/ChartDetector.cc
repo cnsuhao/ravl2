@@ -201,7 +201,7 @@ namespace RavlImageN {
       if(it->Size() == 0)
 	continue;
       UIntT next = ((it->Size() * distArray) / total) + bias;
-      for(int i = 0;i < next;i++)
+      for(UIntT i = 0;i < next;i++)
 	rtDist[at++] = it.Index().V();
     }
     RavlAssert(at == stotal);
@@ -220,7 +220,7 @@ namespace RavlImageN {
     
     ONDEBUG(cerr << "ChartDetectorBodyC::Apply(), Starting RANSAC. \n");
     
-    for(int i = 0;i < ransacIterations;i++) {
+    for(UIntT i = 0;i < ransacIterations;i++) {
       //cerr << "ChartDetectorBodyC::Apply(), Iter=" << i << " \n";
       
       // Pick some point correspondances.
@@ -296,6 +296,11 @@ namespace RavlImageN {
     // Get a list of inlier matches.
     
     DListC<Tuple2C<ChartDetectorRegionC,ChartDetectorRegionC> > inliers = ListInliers(bestAffine,sceneModel);
+    
+    if(inliers.Size() < 6) {
+      cerr << "WARNING: Insufficient inliers detected (" << inliers.Size() << ") \n";
+      return false;
+    }
     
     transform = FitProjection(inliers);
     

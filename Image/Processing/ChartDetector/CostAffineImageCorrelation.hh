@@ -24,12 +24,14 @@ namespace RavlImageN {
     : public CostBodyC
   {
   public:
-    CostAffineImageCorrelationBodyC(const ImageC<ByteT> &refImage,const ImageC<ByteT> &sceneImage,const Affine2dC &est,const VectorC &range = VectorC());
+    CostAffineImageCorrelationBodyC(const ImageC<ByteT> &refImage,const ImageC<ByteT> &sceneImage,const Affine2dC &est,const VectorC & range = VectorC ());
     //: Constructor.
     //!param:refImage - Image of which we're try to get a match.
     //!param:sceneImage - Scene in which we're searching.
     //!param:est - Initial estimate of transform.
     //!param:range - Range of parameter values over which to search. If null vector will be set automaticly.
+    // Parameter vector consists of row,col,sr[0][0],sr[0][1],sr[1][0],sr[1][1] where sr is the scale rotation
+    // matrix used in Affine2dC.
     
     virtual VectorC Apply (const VectorC &X) const;
     //: Evaluate cost function at X
@@ -49,6 +51,7 @@ namespace RavlImageN {
   protected: 
     ImageC<ByteT> refImage;
     ImageC<ByteT> sceneImage;
+    Affine2dC context;
   };
   
   //! userlevel=normal
@@ -61,13 +64,14 @@ namespace RavlImageN {
   public:
     CostAffineImageCorrelationC(const ImageC<ByteT> & refImage,const ImageC<ByteT> & sceneImage,const Affine2dC & est,const VectorC & range = VectorC ()) 
       : CostC(*new CostAffineImageCorrelationBodyC(refImage,sceneImage,est,range))
-    {}
-    //: Constructor. 
+    {} 
+    //: Constructor.
     //!param:refImage - Image of which we're try to get a match.
     //!param:sceneImage - Scene in which we're searching.
     //!param:est - Initial estimate of transform.
     //!param:range - Range of parameter values over which to search. If null vector will be set automaticly.
-    //!cwiz:author
+    // Parameter vector consists of row,col,sr[0][0],sr[0][1],sr[1][0],sr[1][1] where sr is the scale rotation
+    // matrix used in Affine2dC.
     
     VectorC Apply(const VectorC & X) const
     { return Body().Apply(X); }

@@ -13,6 +13,7 @@
 #include "Ravl/Image/WarpAffine.hh"
 #include "Ravl/Image/NormalisedCorrelation.hh"
 #include "Ravl/IO.hh"
+#include "Ravl/OS/Date.hh"
 
 namespace RavlImageN {
   //: Constructor.
@@ -27,25 +28,24 @@ namespace RavlImageN {
 								   const Affine2dC &est,
 								   const VectorC &range) 
     : refImage(nrefImage),
-      sceneImage(nsceneImage)
+      sceneImage(nsceneImage),
+      context(est)
   {
-    VectorC start = Affine2Vector(est);
     ParametersC xyz(6);
     if(range.Size() > 0) {
-      // Use given paramiter ranges.
-      for(int i = 0;i < 6;i++) {
-	RealT x = start[i];
-	xyz.Setup(i,x - range[i],x + range[i],1000,x);
-      }
+      VectorC start(6);
+      start.Fill(0);
+      start[2] = 1.0;
+      start[5] = 1.0;
+      for(int i = 0;i < 6;i++)
+	xyz.Setup(i,start[i]-range[i],start[i]+range[i],1000,start[i]);
     } else {
-      // Guess paramiter ranges....
-      // FIXME :- This could do with some looking at.
-      for(int i = 0;i < 6;i++) {
-	RealT x = start[i];
-	RealT p1 = (x * 0.9);
-	RealT p2 = (x * 1.1);
-	xyz.Setup(i,Min(p1,p2)-0.7,Max(p1,p2)+0.7,1000,x);
-      }
+      xyz.Setup(0,-15,15,1000,0.0);
+      xyz.Setup(1,-15,15,1000,0.0);
+      xyz.Setup(2, 0.7,1.3,1000,1.0);
+      xyz.Setup(3,-0.3,0.3,1000,0.0);
+      xyz.Setup(4,-0.3,0.3,1000,0.0);
+      xyz.Setup(5, 0.7,1.3,1000,1.0);      
     }
     SetParameters(xyz);
   }
@@ -53,13 +53,15 @@ namespace RavlImageN {
   //: Convert affine transform to vector form.
   
   VectorC CostAffineImageCorrelationBodyC::Affine2Vector(const Affine2dC &affine) const {
+    RavlAssert(0); // Not working, need to account for context.
     VectorC ret(6);
-    ret[0] = affine.Translation()[0];
-    ret[1] = affine.Translation()[1];
-    ret[2] = affine.SRMatrix()[0][0];
-    ret[3] = affine.SRMatrix()[0][1];
-    ret[4] = affine.SRMatrix()[1][0];
-    ret[5] = affine.SRMatrix()[1][1];
+    Affine2dC aff = affine;
+    ret[0] = aff.Translation()[0];
+    ret[1] = aff.Translation()[1];
+    ret[2] = aff.SRMatrix()[0][0];
+    ret[3] = aff.SRMatrix()[0][1];
+    ret[4] = aff.SRMatrix()[1][0];
+    ret[5] = aff.SRMatrix()[1][1];
     return ret;
   }
   
@@ -68,14 +70,14 @@ namespace RavlImageN {
   Affine2dC CostAffineImageCorrelationBodyC::Vector2Affine(const VectorC &data) const {
     Vector2dC translation (data[0], data[1]);
     Matrix2dC srMatrix (data[2], data[3], data[4], data[5]);
-    return Affine2dC(srMatrix, translation);
+    return Affine2dC(srMatrix, translation) * context;
   }
   
   //: Determines cost of X
   
   RealT CostAffineImageCorrelationBodyC::Cost (const VectorC &x) const {
-    Affine2dC trans = Vector2Affine(x);
-    WarpAffineC<ByteT> warp(refImage.Frame(),trans);
+    //cerr << "X=" << x << "\n";
+    WarpAffineC<ByteT> warp(refImage.Frame(),Vector2Affine(x));
     ImageC<ByteT> result = warp.Apply(sceneImage);
     //RavlN::Save("@X:Ref",refImage);
     //RavlN::Save("@X:Opt",result);

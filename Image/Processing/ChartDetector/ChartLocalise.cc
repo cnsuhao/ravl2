@@ -40,7 +40,8 @@ namespace RavlImageN {
   ChartLocaliseBodyC::ChartLocaliseBodyC(const ImageC<ByteT> &exampleChart,const SArray1dC<Point2dC> &nChartPoints,UIntT nPatchSize) 
     : patchSize(nPatchSize),
       exampleImage(exampleChart),
-      chartPoints(nChartPoints)
+      chartPoints(nChartPoints),
+      verbose(false)
   { CalibrateExample(); }
 
   //: Calibrate the given chart coordinates and the example image.
@@ -210,20 +211,24 @@ namespace RavlImageN {
     
     // --- Optimise position ---
     
-    OptimisePowellC optimiser(200,1e-3);
+    OptimisePowellC optimiser(200,1e-5);
     //OptimiseDescentC optimiser(500);
     RealT minCost = 0;
+    
 #if 1
-    CostAffineImageCorrelationC domain(patch,sceneImage,affPos);
+    VectorC searchRange(6);
+    searchRange[0] = 15; // Row offsets
+    searchRange[1] = 15; // Col offsets
+    searchRange[2] = 0.3;  // Variation from the identity matrix.
+    searchRange[3] = 0.3;
+    searchRange[4] = 0.3;
+    searchRange[5] = 0.3;
+    
+    CostAffineImageCorrelationC domain(patch,sceneImage,affPos,searchRange);
     VectorC optResult = optimiser.MinimalX(domain,minCost);
+    //cerr << "Opt=" << optResult << "\n";
     Affine2dC refinedPos = domain.Vector2Affine(optResult);
     
-#if 0
-    // Use power optimiser twice 
-    CostAffineImageCorrelationC domain2(patch,sceneImage,refinedPos);
-    optResult = optimiser.MinimalX(domain2,minCost);
-    refinedPos = domain2.Vector2Affine(optResult);
-#endif
     // Check the correlation of the result.
     
     WarpAffineC<ByteT> xwarp(patch.Frame(),refinedPos);
@@ -232,17 +237,16 @@ namespace RavlImageN {
     //RavlN::Save("@X:OOpt",xImage);
     RealT correlation = NormalisedCorrelation(patch,xImage);
     ONDEBUG(cerr << "Correlation=" << correlation << "\n");
-    if(correlation < 0.9)
-      return false; // Its just not a good enough fit.
     // --- Get refined position for chart point. ---
     
-    result =  Example2Chart(refinedPos * exPoint);
+    result =  refinedPos * exPoint;
 #endif
     if(verbose)
       cerr << " " << chartPoint << " -> " << result << " (" << correlation << ")\n";
     ONDEBUG(cerr << "ChartLocaliseBodyC::MatchPoint(), Done. match=" << result << " \n");
     //Sleep(1);
-    
+    if(correlation < 0.9)
+      return false; // Its just not a good enough fit.
     return true;
   }
   
