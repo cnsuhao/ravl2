@@ -21,7 +21,7 @@ USESLIBS = RavlOS RavlSourceTools
 EHT = autoport.eht
 
 # Deal with template files.
-AUXFILES = files.tmpl
+AUXFILES = libs.tmpl examples.tmpl tests.tmpl mains.tmpl Ravl.dsw.tmpl
 
 AUXDIR= Tools/AutoPort
 
