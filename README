@@ -13,7 +13,7 @@ INSTALLATION
   can stop the installation by going to the Ravl/SourceTools/defs.mk file
   and removing the `.r' after CxxDoc.   If you still want to use this
   tool you can create a debug version with `qm debug' which will be slow,
-  but take much less memory to compile.
+  but takes much less memory to compile.
 
 - At the moment you have to manualy configure where to look
   for the compiler. This is done by setting CC and CXX to the locations of
