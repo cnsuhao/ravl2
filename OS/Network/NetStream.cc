@@ -18,6 +18,8 @@
 #include <standards.h>
 #endif
 
+#include "Ravl/config.h"
+
 extern "C" {
 #include <unistd.h>
 #include <sys/types.h>
