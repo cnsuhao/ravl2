@@ -21,6 +21,11 @@
 // These functions are designed to provide just enough functionality
 // to ensure that the core library is thread safe.  Full threading
 // functionality will be provided elsewhere.
+//
+// Id 0 is a genral system lock.
+// Id 1 is used for locking the random number generator.
+// Id 2 is used for non-reentrant 'C' library calls.
+// Id 3 is reserved for use in RavlLogic.
 
 //: Ravl namespace.
 
@@ -96,10 +101,6 @@ namespace RavlN {
   // You also can't go directly between a read lock to a write lock
   // just by calling MTWriteLock(), you have to Unlock the ReadLock
   // first.
-  //
-  // Id 0 is a genral system lock.
-  // Id 1 is used for locking the random number generator.
-  // Id 2 is used for non-reentrant 'C' library calls.
   
   class MTWriteLockC {
   public:
