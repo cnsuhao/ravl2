@@ -159,8 +159,8 @@ bool SetupHeaders(const StringC &cfgFile) {
 int main(int nargs,char **argv) {
   OptionC option(nargs,argv);
   StringC fn = option.String("i",".","Input filename. ");
-  hdrConfig = option.String("c",hdrConfig,"File to look in for header information. ");
-  StringC hdrConfig = Resource("RAVL/CodeManager","fixSource.cfg");
+  StringC hdrConfig = option.String("c",hdrConfig,"File to look in for header information. ");
+  hdrConfig = Resource("RAVL/CodeManager","fixSource.cfg");
   dryRun = option.Boolean("d",false,"Do a dry run. Don't change anything. ");
   setFileloc = option.Boolean("fl",setFileloc,"If true the file location will be updated. ");
   bool all = option.Boolean("a",true,"Go into inactive directories as well. ");
