@@ -290,6 +290,34 @@ namespace RavlN {
     return (count%2) == 1;
   }
 
+   bool Polygon2dC::IsSelfIntersecting() const {
+     DLIterC<Point2dC> ft(*this);
+     DLIterC<Point2dC> lt(*this); lt.Last();
+     // first loop does all but last side
+     LinePP2dC l1(ft.Data(), ft.NextCrcData());
+     DLIterC<Point2dC> it2 = ft; it2++;
+     if (it2) {
+       for (it2++; it2 != lt; it2++) {
+         LinePP2dC l2(it2.Data(), it2.NextData());
+         if (l1.HasInnerIntersection(l2))
+           return true;
+       }
+     }
+     // then go to the last side for all subsequent iterations
+     for (ft++; ft != lt; ft++) {
+       LinePP2dC l1(ft.Data(), ft.NextCrcData());
+       DLIterC<Point2dC> it2 = ft; it2++;
+       if (it2) {
+         for (it2++; it2; it2++) {
+           LinePP2dC l2(it2.Data(), it2.NextCrcData());
+           if (l1.HasInnerIntersection(l2))
+             return true;
+         }
+       }
+     }
+     return false;
+   }
+
   RealT Polygon2dC::Perimeter() const {
     RealT perimeter = 0.0;
     DLIterC<Point2dC> it(*this);

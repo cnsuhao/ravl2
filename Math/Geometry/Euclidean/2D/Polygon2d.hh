@@ -107,7 +107,10 @@ namespace RavlN {
 
     RealT Perimeter() const;
     //: Returns the perimeter length of this polygon.
-    
+
+    bool IsSelfIntersecting() const;
+    //: Returns true if the polygon is self intersecting, ie do any sides cross
+  
     RealT Overlap(const Polygon2dC &poly) const;
     //: Measure the fraction of the polygons overlapping.
     //!return: 0= Not overlapping 1=This polygon is completely covered by 'poly'.
