@@ -46,7 +46,6 @@ namespace RavlN {
   
   class IndexRange2dC;
   class IndexRectangleC;
-  class DirectionRLUDC;
   class BinIStreamC;
   class BinOStreamC;
   
@@ -97,8 +96,9 @@ namespace RavlN {
     inline void Set(IndexC r, IndexC c);
     //: Sets this index to be <r,c>.
     
-    Index2dC & Step(const DirectionRLUDC & dir);
-    //: Translates the index into direction 'dir'.
+    const Index2dC & Step(const NeighbourOrderT & dir)
+    { (*this) = Neighbour(dir); return *this; }
+    //: Translates index in direction 'dir'.
     
     inline Index2dC Swapped() const;
     //: Returns the 2-dimensional index with swapped value I() and J().
@@ -177,7 +177,7 @@ namespace RavlN {
     inline Index2dC UpperRightN() const;
     //: Returns the coordinates of the upperright neighbouring pixel 
 
-    inline Index2dC Neighbour(const DirectionRLUDC & dir) const;
+    inline Index2dC Neighbour(NeighbourOrderT dir) const;
     //: Returns the index of the neighbour in the direction 'dir'.
 
     inline bool IsRelNeighbour8() const;
@@ -185,10 +185,7 @@ namespace RavlN {
 
     inline bool IsNeighbour8(const Index2dC & pxl) const;
     //: Is the 'pxl' a neighbouring index of '*this'?
-
-    inline Index2dC Neighbour(const NeighbourOrderT neighOrder) const;
-    //: Returns the coordinates of the neighbouring index. 
-
+    
     IndexC NeighbourOrder() const;
     //: Returns the order of the relative index.
 
@@ -313,7 +310,7 @@ namespace RavlN {
   Index2dC 
   Index2dC::UpperLeftN() const
   { return Index2dC(*this).Up().Left(); }
-
+  
   inline 
   Index2dC 
   Index2dC::UpperRightN() const
@@ -333,17 +330,8 @@ namespace RavlN {
     return relCoo.IsRelNeighbour8();
   }
   
-  inline
-  Index2dC
-  Index2dC::Neighbour(const DirectionRLUDC & dir) const {
-    Index2dC id(*this);
-    id.Step(dir);
-    return id;
-  }
-  
   inline 
-  Index2dC
-  Index2dC::Neighbour(const NeighbourOrderT neighOrder) const {
+  Index2dC Index2dC::Neighbour(NeighbourOrderT neighOrder) const {
     switch(neighOrder)
       {
       case NEIGH_RIGHT:      return Index2dC(Row()  , Col()+1);
