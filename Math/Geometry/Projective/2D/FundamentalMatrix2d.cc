@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlMath
-
+#include "Ravl/config.h"
 #include "Ravl/Matrix.hh"
 #include "Ravl/Vector.hh"
 #include "Ravl/SArray1dIter2.hh"
@@ -102,8 +102,14 @@ namespace RavlN {
     MatrixC newf = (u * MatrixC(d[0],0   ,0,
 				0   ,d[1],0,
 				0   ,0   ,0)).MulT(v);
-    static_cast<Matrix3dC &>(*this) = (Matrix3dC) newf;
-  }
+    
+#if RAVL_COMPILER_MIPSPRO 
+    static_cast<Matrix3dC &>(*this) = (Matrix3dC) (TFMatrixC<RealT,3,3>) newf ; // help the compiler a bit  !
+#else 
+    static_cast<Matrix3dC &>(*this) = (Matrix3dC)  newf;
+#endif 
+
+ }
   
   //: Build a design matrix given two sets of points.
   
