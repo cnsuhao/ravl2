@@ -14,46 +14,63 @@
 //! author="Charles Galambos"
 
 #include "Ravl/Image/Image.hh"
-#include "Ravl/Average.hh"
+
 
 namespace RavlImageN {
   
   //! userlevel=Normal
   
   template<class PixelT>
-  ImageC<PixelT> SubSample22(const ImageC<PixelT> &Img) {
-    PixelT *imgVal[2];
-    PixelT *resVal,*eor;
-    int i;
-    IndexC pxlRow;
-    IndexC resRow;
-    
-    ImageRectangleC workRect = Img.Rectangle();  
-    workRect.End().Col() =  workRect.LCol() + (workRect.Cols() & ~1);      // Round down.
-    workRect.End().Row() =  workRect.TRow() + (workRect.Rows() & ~1);      // Round down.
-    
-    ImageRectangleC resultRect;
-    resultRect.Origin().Col()   = workRect.LCol() >> 1;
-    resultRect.Origin().Row()   = workRect.TRow() >> 1;
-    resultRect.End().Col() = resultRect.Origin().Col() + (workRect.Cols() >> 1)-1;
-    resultRect.End().Row() = resultRect.Origin().Row() + (workRect.Rows() >> 1)-1;
-    
-    ImageC<PixelT> result(resultRect); // Result image.
-    const int len = result.End().Col() - result.Origin().Col();
-    
-    resRow = resultRect.TRow();
-    pxlRow = workRect.TRow();
-    for(;pxlRow < workRect.BRow();pxlRow += 2,resRow++) {
-      imgVal[0] =  img.Row(pxlRow);
-      imgVal[1] =  img.Row(pxlRow+1);
-      resVal =  result.Row(resRow);
-      eor = resVal[len]; // Where's the end of row?
-      for(;resVal < eor;i += 2,imgVal[0] += 2,imgVal[1] += 2,resVal++)
-	*resVal = Average(imgVal[0][0],imgVal[0][1],imgVal[1][0],imgVal[1][1]);
-    }
-    return result;
+  ImageC<PixelT> SubSample(const ImageC<PixelT> & img,  const UIntT factor =2) {    
+    ImageRectangleC oldRect  (img.Rectangle() ) ; 
+    ImageRectangleC newRect = oldRect / factor ; 
+    ImageC<PixelT>  subSampled (newRect) ;
+
+    // iterate through rows 
+    IndexC oldRow,oldCol, newRow, newCol ;
+    for ( oldRow = oldRect.TRow() , newRow=newRect.TRow() ; oldRow <= oldRect.BRow() && newRow <= newRect.BRow() ; ++newRow , oldRow+=factor ) 
+      {
+	// lets get the whole rows
+	RangeBufferAccessC<PixelT> oldRowBuffer = img[oldRow] ; 
+	RangeBufferAccessC<PixelT>  newRowBuffer = subSampled[newRow] ; 
+	
+	// now go through columns and copy the pixels
+	for ( oldCol = oldRect.LCol() , newCol = newRect.LCol() ;  oldCol <= oldRect.RCol() && newCol <= newRect.RCol() ; ++newCol, oldCol += factor ) 
+	  newRowBuffer[newCol]  = oldRowBuffer[oldCol] ;   
+      }
+    return subSampled ; 
   }
-  //: Function to subsample by 2 in each direction.
+  //: Subsamples the image by the given factor 
+  // Pixel at origin is always sampled first. 
+
+  template <class PixelT> 
+  ImageC <PixelT> UpSample ( const ImageC<PixelT> & img, const UIntT factor=2 ) {
+    ImageRectangleC oldRect (img.Rectangle() ) ; 
+    ImageRectangleC newRect ( oldRect * factor ) ; 
+    ImageC<PixelT> upSampled ( newRect ) ;  
+
+    // iterate through rows of original image 
+    IndexC oldRow, oldCol, newRow, newCol ; 
+    UIntT counter ; 
+    for ( oldRow = oldRect.TRow(), newRow = newRect.TRow()  ; oldRow <= oldRect.BRow() ; ++ oldRow  ) 
+      {
+	RangeBufferAccessC<PixelT> oldRowBuffer = img[oldRow] ; 
+	// iterate through rows of upsampled image 
+    for (  UIntT rowCounter = 1 ; (newRow <= newRect.BRow()) && (rowCounter <= factor)  ; ++newRow, ++rowCounter  ) 
+      {
+	RangeBufferAccessC<PixelT> newRowBuffer = upSampled[newRow] ; 
+	// iterate through cols and do the copy 
+	for ( oldCol = oldRect.LCol() , newCol = newRect.LCol()  ; oldCol <= oldRect.RCol()  ; ++ oldCol  ) // for each pixel in the old row
+	    // iterate through cols of new images 
+	  {
+	  for (  counter = 1 ; newCol <= newRect.RCol() && counter <= factor ; ++ newCol, ++ counter ) // copy to desired number of pixels along new row 
+	    { newRowBuffer[newCol] = oldRowBuffer[oldCol] ; }
+	  } }}
+    
+    return upSampled ;     
+  }
+  //: Up-Samples an image by the given factor. 
+   
 
 
 }
