@@ -14,6 +14,7 @@
 #include "Ravl/Logic/State.hh"
 #include "Ravl/Assert.hh"
 #include "Ravl/Stream.hh"
+#include "Ravl/VirtualConstructor.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -32,6 +33,28 @@ namespace RavlLogicN {
       ret += ' ';
     return ret;
   }
+  
+  //: Construct from a binary stream.
+  
+  LiteralBodyC::LiteralBodyC(BinIStreamC &strm) 
+    : RCBodyVC(strm)
+  {}
+
+  //: Construct from a binary stream.
+  
+  LiteralBodyC::LiteralBodyC(istream &strm) 
+    : RCBodyVC(strm)
+  {}
+  
+  //: Save to binary stream 'out'.
+  
+  bool LiteralBodyC::Save(BinOStreamC &out) const 
+  { return RCBodyVC::Save(out); }
+  
+  //: Save to binary stream 'out'.
+  
+  bool LiteralBodyC::Save(ostream &out) const 
+  { return RCBodyVC::Save(out); }
   
   // Unify with another variable.
   
@@ -110,6 +133,7 @@ namespace RavlLogicN {
     RavlAssert(IsValid());
     return Body().Solutions(state,binds); 
   }
-
-
+  
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(LiteralBodyC,LiteralC,RCHandleVC<LiteralBodyC>);
+  
 }

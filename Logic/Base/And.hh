@@ -34,6 +34,18 @@ namespace RavlLogicN {
     //: Constructor.
     // If useArrayDirectly is true then use the array directly, the first
     // element must be literalAnd.
+
+    AndBodyC(istream &strm);
+    //: Construct from a binary stream.
+    
+    AndBodyC(BinIStreamC &strm);
+    //: Construct from a binary stream.
+    
+    virtual bool Save(ostream &out) const;
+    //: Save to binary stream 'out'.
+
+    virtual bool Save(BinOStreamC &out) const;
+    //: Save to binary stream 'out'.
     
     SArray1dC<LiteralC> &Terms()
     { return args; }
@@ -92,7 +104,18 @@ namespace RavlLogicN {
     {}
     //: Constructor.
     
+    AndC(istream &strm);
+    //: Load from stream.
+    
+    AndC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
   protected:
+    AndC(AndBodyC *bod)
+      : ConditionC(bod)
+    {}
+    //: Body constructor.
+    
     AndC(AndBodyC &bod)
       : ConditionC(bod)
     {}

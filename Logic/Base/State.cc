@@ -12,8 +12,31 @@
 #include "Ravl/Logic/State.hh"
 #include "Ravl/Collection.hh"
 #include "Ravl/Logic/BindSet.hh"
+#include "Ravl/VirtualConstructor.hh"
 
 namespace RavlLogicN {
+  
+  //: Construct from a binary stream.
+  
+  StateBodyC::StateBodyC(BinIStreamC &strm) 
+    : RCBodyVC(strm)
+  {}
+
+  //: Construct from a binary stream.
+  
+  StateBodyC::StateBodyC(istream &strm) 
+    : RCBodyVC(strm)
+  {}
+  
+  //: Save to binary stream 'out'.
+  
+  bool StateBodyC::Save(BinOStreamC &out) const 
+  { return RCBodyVC::Save(out); }
+  
+  //: Save to binary stream 'out'.
+  
+  bool StateBodyC::Save(ostream &out) const 
+  { return RCBodyVC::Save(out); }
 
   //: Make a copy of this state.
   RCBodyVC &StateBodyC::Copy() const {
@@ -147,5 +170,7 @@ namespace RavlLogicN {
     return s;
   }
   //: Read in from stream.
+  
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(StateBodyC,StateC,RCHandleC<StateBodyC>);
 
 }

@@ -14,6 +14,7 @@
 #include "Ravl/SArray1dIter2.hh"
 #include "Ravl/Logic/BindSet.hh"
 #include "Ravl/Logic/StateAndIter.hh"
+#include "Ravl/VirtualConstructor.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -60,6 +61,28 @@ namespace RavlLogicN {
     ONDEBUG(cerr << "AndBodyC::AndBodyC(), Name=" << Name() << "\n");    
   }
   
+  
+  //: Construct from a binary stream.
+  
+  AndBodyC::AndBodyC(istream &strm)
+    : ConditionBodyC(strm)
+  {}
+  
+  //: Construct from a binary stream.
+  
+  AndBodyC::AndBodyC(BinIStreamC &strm)
+    : ConditionBodyC(strm)
+  {}
+  
+  //: Save to binary stream 'out'.
+  
+  bool AndBodyC::Save(ostream &out) const
+  { return ConditionBodyC::Save(out); }
+  
+  //: Save to binary stream 'out'.
+  
+  bool AndBodyC::Save(BinOStreamC &out) const 
+  { return ConditionBodyC::Save(out); }
   
   //: Unify with another variable.
   
@@ -178,5 +201,7 @@ namespace RavlLogicN
     return ret;
   }
   //: And operator.
+
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(AndBodyC,AndC,ConditionC);
 
 }

@@ -42,6 +42,18 @@ namespace RavlLogicN {
     {}
     //: Create a tuple from an array of literals.
     
+    TupleBodyC(istream &strm);
+    //: Construct from a binary stream.
+    
+    TupleBodyC(BinIStreamC &strm);
+    //: Construct from a binary stream.
+    
+    virtual bool Save(ostream &out) const;
+    //: Save to binary stream 'out'.
+
+    virtual bool Save(BinOStreamC &out) const;
+    //: Save to binary stream 'out'.
+
     virtual bool Unify(const LiteralC &oth,BindSetC &bs) const;
     //: Unify with another variable.
     
@@ -131,33 +143,44 @@ namespace RavlLogicN {
 
     TupleC(const LiteralC &a1,const LiteralC &a2)
       : LiteralC(*new TupleBodyC(2))
-      {
-	SetArg(0,a1);
-	SetArg(1,a2);
-      }
+    {
+      SetArg(0,a1);
+      SetArg(1,a2);
+    }
     //: Create a tuple containing two literals.
 
     TupleC(const LiteralC &a1,const LiteralC &a2,const LiteralC &a3)
       : LiteralC(*new TupleBodyC(3))
-      {
-	SetArg(0,a1);
-	SetArg(1,a2);
-	SetArg(2,a3);
-      }
+    {
+      SetArg(0,a1);
+      SetArg(1,a2);
+      SetArg(2,a3);
+    }
     //: Create a tuple containing two literals.
 
     TupleC(const LiteralC &a1,const LiteralC &a2,const LiteralC &a3,const LiteralC &a4)
       : LiteralC(*new TupleBodyC(4))
-      {
-	SetArg(0,a1);
-	SetArg(1,a2);
-	SetArg(2,a3);
-	SetArg(3,a4);
-      }
+    {
+      SetArg(0,a1);
+      SetArg(1,a2);
+      SetArg(2,a3);
+      SetArg(3,a4);
+    }
     //: Create a tuple containing two literals.
+
+    TupleC(istream &strm);
+    //: Load from stream.
+
+    TupleC(BinIStreamC &strm);
+    //: Load from binary stream.
     
   protected:
     TupleC(TupleBodyC &bod)
+      : LiteralC(bod)
+    {}
+    //: Body constructor.
+    
+    TupleC(TupleBodyC *bod)
       : LiteralC(bod)
     {}
     //: Body constructor.

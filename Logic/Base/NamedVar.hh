@@ -32,6 +32,18 @@ namespace RavlLogicN {
       : name(nname)
     {}
     //: Constructor.
+
+    NamedVarBodyC(istream &strm);
+    //: Construct from a stream.
+    
+    NamedVarBodyC(BinIStreamC &strm);
+    //: Construct from a binary stream.
+    
+    virtual bool Save(ostream &out) const;
+    //: Save to stream 'out'.
+    
+    virtual bool Save(BinOStreamC &out) const;
+    //: Save to binary stream 'out'.
     
     virtual StringC Name() const;
     //: Get the name of symbol.
@@ -76,6 +88,12 @@ namespace RavlLogicN {
     //: Base class constructor.
     // if 'oth' isn't a named literal an invalid handle
     // will be created.
+    
+    NamedVarC(istream &strm);
+    //: Load from stream.
+    
+    NamedVarC(BinIStreamC &strm);
+    //: Load from binary stream.
     
   };
   

@@ -10,8 +10,36 @@
 //! file="Ravl/Logic/Base/NamedVar.cc"
 
 #include "Ravl/Logic/NamedVar.hh"
+#include "Ravl/VirtualConstructor.hh"
 
 namespace RavlLogicN {
+  
+  //: Construct from a stream.
+  
+  NamedVarBodyC::NamedVarBodyC(istream &strm)
+    : LiteralBodyC(strm)
+  { strm >> name; }
+    
+  //: Construct from a binary stream.
+  
+  NamedVarBodyC::NamedVarBodyC(BinIStreamC &strm) 
+    : LiteralBodyC(strm)
+  { strm >> name; }
+    
+  //: Save to stream 'out'.
+  
+  bool NamedVarBodyC::Save(ostream &out) const { 
+    if(!LiteralBodyC::Save(out)) return false;
+    out << ' ' << name;
+    return true;
+  }
+  
+  //: Save to binary stream 'out'.
+  
+  bool NamedVarBodyC::Save(BinOStreamC &out) const { 
+    out << name;
+    return LiteralBodyC::Save(out); 
+  }
   
   //: Get the name of symbol.
   
@@ -29,5 +57,7 @@ namespace RavlLogicN {
   bool NamedVarBodyC::IsEqual(const LiteralC &oth) const {
     return oth.Name() == name;
   }
+
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(NamedVarBodyC,NamedVarC,LiteralC);
   
 }

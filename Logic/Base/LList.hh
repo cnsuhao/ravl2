@@ -30,6 +30,18 @@ namespace RavlLogicN {
     {}
     //: Default constructor.
     
+    LListBodyC(istream &strm);
+    //: Construct from a binary stream.
+    
+    LListBodyC(BinIStreamC &strm);
+    //: Construct from a binary stream.
+    
+    virtual bool Save(ostream &out) const;
+    //: Save to binary stream 'out'.
+
+    virtual bool Save(BinOStreamC &out) const;
+    //: Save to binary stream 'out'.
+    
     DListC<LiteralC> &List()
     { return lst; }
     //: Access list.
@@ -55,6 +67,12 @@ namespace RavlLogicN {
     {}
     //: Default constructor.
     // Creates invalid handle.
+    
+    LListC(istream &strm);
+    //: Load from stream.
+    
+    LListC(BinIStreamC &strm);
+    //: Load from binary stream.
     
     explicit LListC(bool)
       : LiteralC(*new LListBodyC())

@@ -40,12 +40,12 @@ namespace RavlLogicN {
   class BindC {
   public:
     BindC()
-      {}
+    {}
 
     BindC(const LiteralC &val,BindMarkT nnext)
       : value(val),
 	next(nnext)
-      {}
+    {}
     
     LiteralC &Value()
     { return value; }
@@ -75,12 +75,28 @@ namespace RavlLogicN {
   //! userlevel=Advanced
   //: output stream 
   
-  inline istream &operator<<(istream &s,BindC &bind) {
+  inline istream &operator>>(istream &s,BindC &bind) {
     RavlAssertMsg(0,"operator<<(istream &s,BindC &binds), Not implemented. ");
     return s;
   }
   //! userlevel=Advanced
   //: input stream 
+
+  inline BinOStreamC &operator<<(BinOStreamC &s,const BindC &bind);
+  //! userlevel=Advanced
+  //: output stream 
+  
+  BinIStreamC &operator>>(BinIStreamC &s,BindC &bind);
+  //! userlevel=Advanced
+  //: input stream 
+  
+  BinOStreamC &operator<<(BinOStreamC &out,const HashElemC<LiteralC,BindC> &obj);
+  //! userlevel=Develop
+  //: Write hash element out to stream.
+  
+  BinIStreamC &operator>>(BinIStreamC &in,HashElemC<LiteralC,BindC> &obj);
+  //! userlevel=Develop
+  //: Read hash element from stream.
   
   typedef HashElemC<LiteralC,BindC>* BindMarkT;
   
@@ -97,6 +113,18 @@ namespace RavlLogicN {
       : top(0)
     {}
     //: Default constructor.
+    
+    BindSetBodyC(istream &strm);
+    //: Construct from a binary stream.
+    
+    BindSetBodyC(BinIStreamC &strm);
+    //: Construct from a binary stream.
+    
+    bool Save(ostream &out) const;
+    //: Save to binary stream 'out'.
+    
+    bool Save(BinOStreamC &out) const;
+    //: Save to binary stream 'out'.
     
     BindSetBodyC(const BindSetC &oth);
     //: Copy constructor.
@@ -172,13 +200,13 @@ namespace RavlLogicN {
   {
   public:
     BindSetC()
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     
     explicit BindSetC(bool)
       : RCHandleC<BindSetBodyC>(*new BindSetBodyC())
-      {}
+    {}
     //: Constructor.
     // Creates an empty bind set.
     

@@ -11,8 +11,31 @@
 
 #include "Ravl/Logic/Var.hh"
 #include "Ravl/Logic/BindSet.hh"
+#include "Ravl/VirtualConstructor.hh"
 
 namespace RavlLogicN {
+  
+  //: Construct from a stream.
+  
+  VarBodyC::VarBodyC(istream &strm)
+    : LiteralBodyC(strm)
+  {}
+    
+  //: Construct from a binary stream.
+  
+  VarBodyC::VarBodyC(BinIStreamC &strm) 
+    : LiteralBodyC(strm)
+  {}
+    
+  //: Save to stream 'out'.
+  
+  bool VarBodyC::Save(ostream &out) const 
+  { return LiteralBodyC::Save(out); }
+    
+  //: Save to binary stream 'out'.
+  
+  bool VarBodyC::Save(BinOStreamC &out) const 
+  { return LiteralBodyC::Save(out); }
  
   //: Unify with another variable.
   
@@ -75,5 +98,7 @@ namespace RavlLogicN {
     subs.Insert(me,result);
     return true;
   }
- 
+  
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(VarBodyC,VarC,LiteralC);
+  
 }

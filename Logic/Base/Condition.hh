@@ -42,6 +42,18 @@ namespace RavlLogicN {
     {}
     //: Default constructor.
     
+    ConditionBodyC(istream &strm);
+    //: Construct from a binary stream.
+    
+    ConditionBodyC(BinIStreamC &strm);
+    //: Construct from a binary stream.
+    
+    virtual bool Save(ostream &out) const;
+    //: Save to binary stream 'out'.
+    
+    virtual bool Save(BinOStreamC &out) const;
+    //: Save to binary stream 'out'.
+    
     virtual bool Test(const StateC &state,BindSetC &binds) const;
     //: Test if condition is true in 'state'.
     
@@ -81,8 +93,19 @@ namespace RavlLogicN {
     //: Default constructor
     // Creates an invalid handle.
     
+    ConditionC(istream &strm);
+    //: Load from stream.
+    
+    ConditionC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
   protected:
     ConditionC(ConditionBodyC &bod)
+      : TupleC(bod)
+    {}
+    //: Body constructor.
+
+    ConditionC(ConditionBodyC *bod)
       : TupleC(bod)
     {}
     //: Body constructor.

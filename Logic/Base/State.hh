@@ -32,6 +32,18 @@ namespace RavlLogicN {
     {}
     //: Default constructor.
     
+    StateBodyC(istream &strm);
+    //: Construct from a binary stream.
+    
+    StateBodyC(BinIStreamC &strm);
+    //: Construct from a binary stream.
+    
+    virtual bool Save(ostream &out) const;
+    //: Save to binary stream 'out'.
+
+    virtual bool Save(BinOStreamC &out) const;
+    //: Save to binary stream 'out'.
+    
     virtual RCBodyVC &Copy() const;
     //: Make a copy of this state.
     
@@ -79,7 +91,7 @@ namespace RavlLogicN {
   {
   public:
     StateC()
-      {}
+    {}
     //: Default constructor
     // creates an invalid handle.
     
@@ -87,8 +99,19 @@ namespace RavlLogicN {
     //: Construct a valid state of the default type..
     // This currently creates a StateSet.
     
+    StateC(istream &strm);
+    //: Load from stream.
+    
+    StateC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
   protected:
     StateC(StateBodyC &bod)
+      : RCHandleC<StateBodyC>(bod)
+    {}
+    //: Body constructor.
+    
+    StateC(StateBodyC *bod)
       : RCHandleC<StateBodyC>(bod)
     {}
     //: Body constructor.

@@ -26,13 +26,25 @@ namespace RavlLogicN {
   {
   public:
     StateSetBodyC()
-      {}
+    {}
     //: Default constructor.
-
+    
     StateSetBodyC(const HSetC<LiteralC> &ndata)
       : data(ndata)
-      {}
+    {}
     //: Default constructor.
+
+    StateSetBodyC(istream &strm);
+    //: Construct from a binary stream.
+    
+    StateSetBodyC(BinIStreamC &strm);
+    //: Construct from a binary stream.
+    
+    virtual bool Save(ostream &out) const;
+    //: Save to binary stream 'out'.
+
+    virtual bool Save(BinOStreamC &out) const;
+    //: Save to binary stream 'out'.
     
     virtual RCBodyVC &Copy() const;
     //: Make a copy of this state.
@@ -105,8 +117,19 @@ namespace RavlLogicN {
     // If given state is not a StateSetC an invalid handle
     // will be generated.
     
+    StateSetC(istream &strm);
+    //: Load from stream.
+    
+    StateSetC(BinIStreamC &strm);
+    //: Load from binary stream.
+
   protected:
     StateSetC(StateSetBodyC &bod)
+      : StateC(bod)
+    {}
+    //: Body constructor.
+
+    StateSetC(StateSetBodyC *bod)
       : StateC(bod)
     {}
     //: Body constructor.

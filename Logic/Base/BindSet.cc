@@ -10,6 +10,7 @@
 //! file="Ravl/Logic/Base/BindSet.cc"
 
 #include "Ravl/Logic/BindSet.hh"
+#include "Ravl/PointerManager.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -19,7 +20,78 @@
 #endif
 
 namespace RavlLogicN {
+
+  BinOStreamC &operator<<(BinOStreamC &s,const BindC &bind) { 
+    s << ObjIO(bind.Value());
+    return s;
+  }
+  //! userlevel=Advanced
+  //: output stream 
   
+  BinIStreamC &operator>>(BinIStreamC &s,BindC &bind) {
+    s >> ObjIO(bind.Value());
+    return s;
+  }
+  //! userlevel=Advanced
+  //: input stream 
+  
+  BinOStreamC &operator<<(BinOStreamC &out,const HashElemC<LiteralC,BindC> &obj) {  
+    out << ObjIO(obj.GetKey()) << ObjIO(obj.Data().Value()); 
+    return out;
+  }
+  
+  BinIStreamC &operator>>(BinIStreamC &in,HashElemC<LiteralC,BindC> &obj) { 
+    in >> ObjIO(obj.GetKey()) >>  ObjIO(obj.Data().Value()); 
+    return in;
+  }
+  
+  //: Construct from a binary stream.
+  
+  BindSetBodyC::BindSetBodyC(istream &strm) 
+    : top(0)
+  { RavlAssert(0);  }
+  
+  //: Construct from a binary stream.
+  
+  BindSetBodyC::BindSetBodyC(BinIStreamC &strm) 
+    : top(0)
+  {
+    IntT version;
+    strm >> version;
+    if(version != 0)
+      throw ExceptionOutOfRangeC("Unexpected version number in binary stream");
+    UIntT size;
+    strm >> size;
+    static_cast<HashC<LiteralC,BindC> &>(*this) = HashC<LiteralC,BindC>(size);
+    for(UIntT i = 0;i < size;i++) {
+      // Load entry.
+      BindMarkT tmp;
+      strm >> ObjIO(tmp);
+      
+      // Put object into hash table.
+      const UIntT hashVal = StdHash(tmp->GetKey());
+      tmp->HashVal(hashVal);
+      const UIntT ind = hashVal % table.Size();
+      table[ind].InsFirst(*tmp);
+    }
+  }
+  
+  //: Save to binary stream 'out'.
+  
+  bool BindSetBodyC::Save(ostream &out) const {
+    RavlAssert(0);
+    return true;
+  }
+  
+  //: Save to binary stream 'out'.
+  
+  bool BindSetBodyC::Save(BinOStreamC &out) const {
+    IntT version = 0;
+    out << version << Size();
+    for(BindMarkT at = top;at != 0;at = at->Data().Next())
+      out << ObjIO(at);
+    return true;
+  }
   
   //: Copy constructor.
   

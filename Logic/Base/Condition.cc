@@ -12,8 +12,33 @@
 #include "Ravl/Logic/Condition.hh"
 #include "Ravl/Logic/BindSet.hh"
 #include "Ravl/Logic/LiteralIter.hh"
+#include "Ravl/VirtualConstructor.hh"
 
 namespace RavlLogicN {
+  
+  //: Construct from a binary stream.
+  
+  ConditionBodyC::ConditionBodyC(istream &strm)
+    : TupleBodyC(strm)
+  {}
+  
+  //: Construct from a binary stream.
+  
+  ConditionBodyC::ConditionBodyC(BinIStreamC &strm)
+    : TupleBodyC(strm)
+  {}
+  
+  //: Save to binary stream 'out'.
+  
+  bool ConditionBodyC::Save(ostream &out) const {
+    return TupleBodyC::Save(out);
+  }
+  
+  //: Save to binary stream 'out'.
+  
+  bool ConditionBodyC::Save(BinOStreamC &out) const {
+    return TupleBodyC::Save(out);
+  }
   
   //: Test if condition is true in 'state'.
   
@@ -109,5 +134,7 @@ namespace RavlLogicN {
       hash += it->Hash();
     return hash;
   }
-
+  
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(ConditionBodyC,ConditionC,TupleC);
+  
 }

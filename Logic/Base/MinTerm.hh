@@ -41,6 +41,18 @@ namespace RavlLogicN {
     MinTermBodyC(const LiteralC &lit,bool negate);
     //: Construct from a single literal.
     // Effectively add NotC(lit) if negate is true.
+
+    MinTermBodyC(istream &strm);
+    //: Construct from a binary stream.
+    
+    MinTermBodyC(BinIStreamC &strm);
+    //: Construct from a binary stream.
+    
+    virtual bool Save(ostream &out) const;
+    //: Save to binary stream 'out'.
+
+    virtual bool Save(BinOStreamC &out) const;
+    //: Save to binary stream 'out'.
     
     const SArray1dC<LiteralC> &Pos() const { 
       RavlAssert(t.IsValid());
@@ -141,8 +153,19 @@ namespace RavlLogicN {
     }
     //: Base constructor
     
+    MinTermC(istream &strm);
+    //: Load from stream.
+    
+    MinTermC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
   protected:
     MinTermC(MinTermBodyC &bod)
+      : AndC(bod)
+    {}
+    //: Body constructor.
+
+    MinTermC(MinTermBodyC *bod)
       : AndC(bod)
     {}
     //: Body constructor.

@@ -36,6 +36,18 @@ namespace RavlLogicN {
     OrBodyC(const LiteralC &term);
     //: Constructor.
     
+    OrBodyC(istream &strm);
+    //: Construct from a binary stream.
+    
+    OrBodyC(BinIStreamC &strm);
+    //: Construct from a binary stream.
+    
+    virtual bool Save(ostream &out) const;
+    //: Save to binary stream 'out'.
+    
+    virtual bool Save(BinOStreamC &out) const;
+    //: Save to binary stream 'out'.
+    
     SArray1dC<LiteralC> &Terms()
     { return args; }
     //: Access set of terms.
@@ -92,8 +104,19 @@ namespace RavlLogicN {
     // If useArrayDirectly is true then use the array directly, the first
     // element must be literalOr.
     
+    OrC(istream &strm);
+    //: Load from stream.
+    
+    OrC(BinIStreamC &strm);
+    //: Load from binary stream.
+
   protected:
     OrC(OrBodyC &bod)
+      : ConditionC(bod)
+    {}
+    //: Body constructor.
+    
+    OrC(OrBodyC *bod)
       : ConditionC(bod)
     {}
     //: Body constructor.

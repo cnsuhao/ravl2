@@ -14,6 +14,7 @@
 #include "Ravl/Logic/Or.hh"
 #include "Ravl/SArray1dIter.hh"
 #include "Ravl/Logic/BindSet.hh"
+#include "Ravl/VirtualConstructor.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -98,6 +99,28 @@ namespace RavlLogicN {
     args[2] = !n;
     ONDEBUG(cerr << "MinTermBodyC::SetTerms(), " << Name() << "\n");
   }
+  
+  //: Construct from a binary stream.
+  
+  MinTermBodyC::MinTermBodyC(istream &strm)
+    : AndBodyC(strm)
+  {}
+  
+  //: Construct from a binary stream.
+  
+  MinTermBodyC::MinTermBodyC(BinIStreamC &strm)
+    : AndBodyC(strm)
+  {}
+  
+  //: Save to binary stream 'out'.
+  
+  bool MinTermBodyC::Save(ostream &out) const
+  { return AndBodyC::Save(out); }
+  
+  //: Save to binary stream 'out'.
+  
+  bool MinTermBodyC::Save(BinOStreamC &out) const 
+  { return AndBodyC::Save(out); }
   
   //: Copy minterm.
   
@@ -270,5 +293,7 @@ namespace RavlLogicN {
     return ret;    
   }
   //: And a min term and a literal.
+  
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(MinTermBodyC,MinTermC,AndC);
   
 }

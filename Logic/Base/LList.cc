@@ -10,9 +10,49 @@
 //! file="Ravl/Logic/Base/LList.cc"
 
 #include "Ravl/Logic/LList.hh"
+#include "Ravl/PointerManager.hh"
+#include "Ravl/VirtualConstructor.hh"
 
 namespace RavlLogicN
 {
+  
+  //: Construct from a binary stream.
+  
+  LListBodyC::LListBodyC(istream &strm)
+    : LiteralBodyC(strm)
+  { RavlAssertMsg(0,"Not implemented. "); }
+    
+  //: Construct from a binary stream.
+  
+  LListBodyC::LListBodyC(BinIStreamC &strm)
+    : LiteralBodyC(strm)
+  {
+    UIntT size;
+    strm >> size;
+    for(UIntT i = 0;i <size;i++) {
+      LiteralC lit;
+      strm >> lit;
+      lst.InsLast(lit);
+    }
+  }
+  
+  //: Save to binary stream 'out'.
+  
+  bool LListBodyC::Save(ostream &out) const {
+    RavlAssertMsg(0,"Not implemented. ");
+    return false;
+  }
+
+  //: Save to binary stream 'out'.
+  
+  bool LListBodyC::Save(BinOStreamC &out) const {
+    if(!LiteralBodyC::Save(out))
+      return false;
+    out << lst.Size();
+    for(DLIterC<LiteralC> it(lst);it;it++)
+      out << ObjIO(*it);
+    return true; 
+  }
   
   //: Unify with another variable.
   
@@ -25,5 +65,7 @@ namespace RavlLogicN
   bool LListBodyC::UnifyLiteral(const LiteralBodyC &oth,BindSetC &bs) const {
     return false;
   }
+
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(LListBodyC,LListC,LiteralC);
 
 }

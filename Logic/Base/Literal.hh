@@ -14,7 +14,7 @@
 //! file="Ravl/Logic/Base/Literal.hh"
 //! author="Charles Galambos"
 
-#include "Ravl/RefCounter.hh"
+#include "Ravl/RCHandleV.hh"
 #include "Ravl/String.hh"
 #include "Ravl/HSet.hh"
 
@@ -35,7 +35,7 @@ namespace RavlLogicN {
   
   //! userlevel=Develop
   //: Literal body
-
+  
   class LiteralBodyC 
     : public RCBodyVC
   {
@@ -43,6 +43,18 @@ namespace RavlLogicN {
     LiteralBodyC()
     {}
     //: Default constructor.
+
+    LiteralBodyC(istream &strm);
+    //: Construct from a binary stream.
+    
+    LiteralBodyC(BinIStreamC &strm);
+    //: Construct from a binary stream.
+    
+    virtual bool Save(ostream &out) const;
+    //: Save to binary stream 'out'.
+
+    virtual bool Save(BinOStreamC &out) const;
+    //: Save to binary stream 'out'.
     
     virtual bool IsVariable() const
     { return false; }
@@ -100,7 +112,7 @@ namespace RavlLogicN {
   //: Literalol
   
   class LiteralC 
-    : public RCHandleC<LiteralBodyC>
+    : public RCHandleVC<LiteralBodyC>
   {
   public:
     LiteralC()
@@ -108,25 +120,36 @@ namespace RavlLogicN {
     //: Default constructor.
     
     explicit LiteralC(bool)
-      : RCHandleC<LiteralBodyC>(*new LiteralBodyC())
+      : RCHandleVC<LiteralBodyC>(*new LiteralBodyC())
     {}
     //: Constructor.
     
     LiteralC(const char *name);
     //: Create a named literal.
+
+    LiteralC(istream &strm);
+    //: Load from stream.
+
+    LiteralC(BinIStreamC &strm);
+    //: Load from binary stream.
     
   protected:
     LiteralC(LiteralBodyC &bod)
-      : RCHandleC<LiteralBodyC>(bod)
+      : RCHandleVC<LiteralBodyC>(bod)
+    {}
+    //: Body constructor.
+
+    LiteralC(LiteralBodyC *bod)
+      : RCHandleVC<LiteralBodyC>(bod)
     {}
     //: Body constructor.
     
     LiteralBodyC &Body()
-    { return RCHandleC<LiteralBodyC>::Body(); }
+    { return RCHandleVC<LiteralBodyC>::Body(); }
     //: Access body.
 
     const LiteralBodyC &Body() const
-    { return RCHandleC<LiteralBodyC>::Body(); }
+    { return RCHandleVC<LiteralBodyC>::Body(); }
     //: Access body.
     
   public:
@@ -203,11 +226,34 @@ namespace RavlLogicN {
   { return LiteralC(true); }
   //: Create an anonymous symbol.
   
-  inline
-  ostream &operator<<(ostream &s,const LiteralC  &l) {
-    s << l.Name();
-    return s;
+  inline istream &operator>>(istream &strm,LiteralC &obj) {
+    obj = LiteralC(strm);
+    return strm;
   }
+  //: Load from a stream.
+  // Uses virtual constructor.
+  
+  inline ostream &operator<<(ostream &out,const LiteralC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+  
+  inline BinIStreamC &operator>>(BinIStreamC &strm,LiteralC &obj) {
+    obj = LiteralC(strm);
+    return strm;
+  }
+  //: Load from a binary stream.
+  // Uses virtual constructor.
+  
+  inline BinOStreamC &operator<<(BinOStreamC &out,const LiteralC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+
 }
 
 #endif

@@ -13,6 +13,7 @@
 #include "Ravl/Logic/BindSet.hh"
 #include "Ravl/Logic/LiteralFilterIter.hh"
 #include "Ravl/Logic/State.hh"
+#include "Ravl/VirtualConstructor.hh"
 
 namespace RavlLogicN {
   
@@ -32,6 +33,28 @@ namespace RavlLogicN {
     args[0] = literalNot;
     args[1] = nterm;
   }
+
+  //: Construct from a binary stream.
+  
+  NotBodyC::NotBodyC(istream &strm)
+    : ConditionBodyC(strm)
+  {}
+  
+  //: Construct from a binary stream.
+  
+  NotBodyC::NotBodyC(BinIStreamC &strm)
+    : ConditionBodyC(strm)
+  {}
+  
+  //: Save to binary stream 'out'.
+  
+  bool NotBodyC::Save(ostream &out) const
+  { return ConditionBodyC::Save(out); }
+  
+  //: Save to binary stream 'out'.
+  
+  bool NotBodyC::Save(BinOStreamC &out) const 
+  { return ConditionBodyC::Save(out); }
   
   //: Is this equal to another condition ?
   
@@ -105,6 +128,8 @@ namespace RavlLogicN {
       return xnot.Term(); // Double not simplifies.
     return NotC(true,lit);
   }
-
+  
+  
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(NotBodyC,NotC,ConditionC);
   
 }

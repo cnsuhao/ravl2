@@ -28,6 +28,18 @@ namespace RavlLogicN {
     VarBodyC()
     {}
     //: Default constructor.
+
+    VarBodyC(istream &strm);
+    //: Construct from a stream.
+    
+    VarBodyC(BinIStreamC &strm);
+    //: Construct from a binary stream.
+    
+    virtual bool Save(ostream &out) const;
+    //: Save to stream 'out'.
+    
+    virtual bool Save(BinOStreamC &out) const;
+    //: Save to binary stream 'out'.
     
     virtual bool IsVariable() const
     { return true; }
@@ -80,7 +92,13 @@ namespace RavlLogicN {
     {}
     //: Constructor.
     // Construct an anonymous var.
+    
+    VarC(istream &strm);
+    //: Load from stream.
 
+    VarC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
   protected:
     VarC(VarBodyC &bod)
       : LiteralC(bod)

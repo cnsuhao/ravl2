@@ -11,8 +11,36 @@
 
 #include "Ravl/Logic/NamedLiteral.hh"
 #include "Ravl/MTLocks.hh"
+#include "Ravl/VirtualConstructor.hh"
 
 namespace RavlLogicN {
+
+  //: Construct from a stream.
+  
+  NamedLiteralBodyC::NamedLiteralBodyC(istream &strm)
+    : LiteralBodyC(strm)
+  { strm >> name; }
+    
+  //: Construct from a binary stream.
+  
+  NamedLiteralBodyC::NamedLiteralBodyC(BinIStreamC &strm) 
+    : LiteralBodyC(strm)
+  { strm >> name; }
+  
+  //: Save to stream 'out'.
+  
+  bool NamedLiteralBodyC::Save(ostream &out) const { 
+    if(!LiteralBodyC::Save(out)) return false;
+    out << ' ' << name;
+    return true;
+  }
+  
+  //: Save to binary stream 'out'.
+  
+  bool NamedLiteralBodyC::Save(BinOStreamC &out) const { 
+    out << name;
+    return LiteralBodyC::Save(out); 
+  }
 
   //: Get the name of symbol.
   
@@ -67,5 +95,7 @@ namespace RavlLogicN {
   
   LiteralC::LiteralC(const char *name) 
   { (*this) = NamedLiteralC(StringC(name)); }
+  
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(NamedLiteralBodyC,NamedLiteralC,LiteralC);
   
 }

@@ -13,6 +13,8 @@
 #include "Ravl/Logic/LiteralIterWrap.hh"
 #include "Ravl/Logic/LiteralFilterIter.hh"
 #include "Ravl/DList.hh"
+#include "Ravl/PointerManager.hh"
+#include "Ravl/VirtualConstructor.hh"
 
 namespace RavlLogicN {
   
@@ -24,6 +26,42 @@ namespace RavlLogicN {
   {}
   
   //----------------------------------------------------------------------------------
+  
+  //: Construct from a binary stream.
+  
+  StateSetBodyC::StateSetBodyC(BinIStreamC &strm) 
+    : StateBodyC(strm)
+  {
+    UIntT size;
+    strm >> size;
+    for(UIntT i = 0;i <size;i++) {
+      LiteralC lit;
+      strm >> ObjIO(lit);
+      data += lit;
+    }
+  }
+  
+  //: Construct from a binary stream.
+  
+  StateSetBodyC::StateSetBodyC(istream &strm) 
+    : StateBodyC(strm)
+  { RavlAssertMsg(0,"Not implemented"); }
+  
+  //: Save to binary stream 'out'.
+  
+  bool StateSetBodyC::Save(BinOStreamC &out) const { 
+    if(!StateBodyC::Save(out)) return false;
+    out << data.Size();
+    for(HSetIterC<LiteralC> it(data);it;it++)
+      out << ObjIO(*it);
+    return true;
+  }
+  
+  //: Save to binary stream 'out'.
+  
+  bool StateSetBodyC::Save(ostream &out) const 
+  { return StateBodyC::Save(out); }
+  
   
   //: Make a copy of this state.
   
@@ -79,5 +117,7 @@ namespace RavlLogicN {
   UIntT StateSetBodyC::Size() const {
     return data.Size();
   }
+  
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(StateSetBodyC,StateSetC,StateC);
   
 }

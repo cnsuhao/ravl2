@@ -14,6 +14,7 @@
 #include "Ravl/SArray1dIter2.hh"
 #include "Ravl/Logic/BindSet.hh"
 #include "Ravl/Logic/StateOrIter.hh"
+#include "Ravl/VirtualConstructor.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -61,6 +62,28 @@ namespace RavlLogicN {
     args[0] = literalOr;
     args[1] = term;
   }
+  
+  //: Construct from a binary stream.
+  
+  OrBodyC::OrBodyC(istream &strm)
+    : ConditionBodyC(strm)
+  {}
+  
+  //: Construct from a binary stream.
+  
+  OrBodyC::OrBodyC(BinIStreamC &strm)
+    : ConditionBodyC(strm)
+  {}
+  
+  //: Save to binary stream 'out'.
+  
+  bool OrBodyC::Save(ostream &out) const
+  { return ConditionBodyC::Save(out); }
+  
+  //: Save to binary stream 'out'.
+  
+  bool OrBodyC::Save(BinOStreamC &out) const 
+  { return ConditionBodyC::Save(out); }
   
   //: Unify with another variable.
   
@@ -157,5 +180,7 @@ namespace RavlLogicN {
     ONDEBUG(cerr << "operator+(LiteralC,LiteralC) Result=" << arr << "\n");
     return OrC(arr); 
   }
- 
+  
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(OrBodyC,OrC,ConditionC);
+
 }

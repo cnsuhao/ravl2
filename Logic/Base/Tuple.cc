@@ -14,6 +14,8 @@
 #include "Ravl/SArray1dIter.hh"
 #include "Ravl/Logic/BindSet.hh"
 #include "Ravl/Logic/LiteralIter.hh"
+#include "Ravl/PointerManager.hh"
+#include "Ravl/VirtualConstructor.hh"
 
 #define DODEBUG 0
 #if DODEBUG 
@@ -24,6 +26,52 @@
 
 namespace RavlLogicN {
 
+  //: Construct from a binary stream.
+  
+  TupleBodyC::TupleBodyC(istream &strm) 
+    : LiteralBodyC(strm)
+  {
+    UIntT arity;
+    strm >> arity;
+    args = SArray1dC<LiteralC>(arity);
+    for(SArray1dIterC<LiteralC> it(Args());it;it++)
+      strm >> *it;        
+  }
+  
+  //: Construct from a binary stream.
+  
+  TupleBodyC::TupleBodyC(BinIStreamC &strm)
+    : LiteralBodyC(strm)
+  {
+    UIntT arity;
+    strm >> arity;
+    args = SArray1dC<LiteralC>(arity);
+    for(SArray1dIterC<LiteralC> it(Args());it;it++)
+      strm >> ObjIO(*it);    
+  }
+  
+  //: Save to binary stream 'out'.
+  
+  bool TupleBodyC::Save(ostream &out) const {
+    if(!LiteralBodyC::Save(out))
+      return false;
+    out << Arity() << ' ';
+    for(SArray1dIterC<LiteralC> it(Args());it;it++)
+      out << *it << ' ';
+    return true;
+  }
+  
+  //: Save to binary stream 'out'.
+  
+  bool TupleBodyC::Save(BinOStreamC &out) const {
+    if(!LiteralBodyC::Save(out))
+      return false;
+    out << Arity();
+    for(SArray1dIterC<LiteralC> it(Args());it;it++)
+      out << ObjIO(*it);
+    return true;
+  }
+  
   //: Is this a simple expression with no variables ?
   
   bool TupleBodyC::IsGrounded() const {
@@ -148,5 +196,6 @@ namespace RavlLogicN {
   void TupleBodyC::Dump(ostream &out) {
     out << Name();
   }
-
+  
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(TupleBodyC,TupleC,LiteralC);
 }
