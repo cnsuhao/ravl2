@@ -44,10 +44,10 @@ namespace RavlImageN
     }
   }
   //: Binary erosion
-  // This code does not deal with boundry conditions, the output rectangle is smaller than the input. 
-  // The center of the kernel is take to be the origin (0,0), the results are placed in the corresponding location in the 'result'
-  // image. If results rectangle is not large enough it will be reallocated.
-  
+  // This code does not deal with boundary conditions and only pixels for which the mask is entirely within the
+  // input image will be modified.   This means the modified output is in a rectangle thats is smaller than the input one. <br>
+  // The centre of the kernel is its origin (0,0), the results are placed in the corresponding location in the 'result'
+  // image. For example if you wish to create a symmetric 3x3 kernel it would be have a range -1 to 1 in both dimensions. <br>
 }
 
 #endif
