@@ -54,7 +54,8 @@ namespace RavlGUIN {
 #if !RAVL_USE_GTK2
     gtk_selection_data_set (data,dtype,8, (const guchar *)str.chars(), str.Size());
 #else
-    cerr << "DNDDataInfoC::PutString(), Not implemetned under GTK2. \n";
+    gtk_selection_data_set_text(data,const_cast<gchar *>((const gchar *)str.chars()),str.Size());
+    //cerr << "DNDDataInfoC::PutString(), Not implemetned under GTK2. \n";
 #endif
     return true;
   }

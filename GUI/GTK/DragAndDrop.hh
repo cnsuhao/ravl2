@@ -105,7 +105,8 @@ namespace RavlGUIN {
     
     bool PutString(int dtype,const StringC &str);
     //: Put a string.
-    // Used in response to 'data_get'.
+    // Used in response to 'data_get'. <br>
+    // Note: dtype is currently ignored under GTK+-2
     
   protected:
     // Info....
