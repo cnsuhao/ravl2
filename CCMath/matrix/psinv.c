@@ -7,7 +7,6 @@
  */
 #include "ccmath/ccmath.h"
 #include <math.h>
-#include "ccmath/matutl.h"
 int psinv(double *v,int n)
 { double z,*p,*q,*r,*s,*t; int j,k;
   for(j=0,p=v; j<n ;++j,p+=n+1){

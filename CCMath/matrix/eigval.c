@@ -7,7 +7,6 @@
  */
 #include "ccmath/ccmath.h"
 #include <stdlib.h>
-#include "ccmath/matutl.h"
 void eigval(double *a,double *ev,int n)
 { double *dp;
   dp=(double *)calloc(n,sizeof(double));

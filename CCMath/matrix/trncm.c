@@ -6,7 +6,6 @@
  * ------------------------------------------------------------------------
  */
 #include "ccmath/ccmath.h"
-#include "ccmath/complex.h"
 void trncm(Cpx *a,int n)
 { Cpx s,*p,*q;
   int i,j,e;

@@ -5,9 +5,8 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
-#include <stdlib.h>
 #include "ccmath/ccmath.h"
-#include "ccmath/complex.h"
+#include <stdlib.h>
 void fft2(struct complex *ff,int k,int j);
 void fft2_d(struct complex *a,int m,int n,int f)
 { register int md,nd,i,j; struct complex *p,*q;

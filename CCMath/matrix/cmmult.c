@@ -7,7 +7,6 @@
  */
 #include "ccmath/ccmath.h"
 #include <stdlib.h>
-#include "ccmath/complex.h"
 void cmmult(Cpx *cm,Cpx *a,Cpx *b,int n,int m,int l)
 { Cpx z,*q0,*p,*q; int i,j,k;
   q0=(Cpx *)calloc(m,sizeof(Cpx));

@@ -6,7 +6,8 @@
  * ------------------------------------------------------------------------
  */
 #include "ccmath/ccmath.h"
-#include "ccmath/complex.h"
+#include <math.h>
+
 void fft2(struct complex *ft,int m,int inv)
 { int n,i,j,k,mm,mp;
   double s,t,ang,tpi=6.283185307179586;

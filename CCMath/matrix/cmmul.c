@@ -6,8 +6,6 @@
  * ------------------------------------------------------------------------
  */
 #include "ccmath/ccmath.h"
-#include "ccmath/complex.h"
-#include "ccmath/matutl.h"
 void cmmul(Cpx *c,Cpx *a,Cpx *b,int n)
 { Cpx s,*p,*q; int i,j,k;
   trncm(b,n);

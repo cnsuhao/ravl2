@@ -6,7 +6,6 @@
  * ------------------------------------------------------------------------
  */
 #include "ccmath/ccmath.h"
-#include "ccmath/complex.h"
 void cvmul(Cpx *u,Cpx *a,Cpx *v,int n)
 { Cpx *q; int i,j;
   for(i=0; i<n ;++i,++u){

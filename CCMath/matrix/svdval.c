@@ -8,7 +8,6 @@
 #include "ccmath/ccmath.h"
 #include <stdlib.h>
 #include <math.h>
-#include "ccmath/matutl.h"
 int svdval(double *d,double *a,int m,int n)
 { double *p,*p1,*q,*w,*v;
   double s,h,u;

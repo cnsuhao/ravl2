@@ -7,7 +7,6 @@
  */
 #include "ccmath/ccmath.h"
 #include <stdlib.h>
-#include "ccmath/complex.h"
 void chousv(Cpx *a,double *d,double *dp,int n)
 { double sc,x,y; Cpx cc,u,*qs;
   int i,j,k,m,e;

@@ -5,9 +5,8 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
-#include <stdlib.h>
 #include "ccmath/ccmath.h"
-#include "ccmath/matutl.h"
+#include <stdlib.h>
 void eigen(double *a,double *ev,int n)
 { double *dp;
   dp=(double *)calloc(n,sizeof(double));

@@ -7,7 +7,6 @@
  */
 #include "ccmath/ccmath.h"
 #include <stdlib.h>
-#include "ccmath/complex.h"
 void pshuf(Cpx **pa,Cpx **pb,int *kk,int n)
 { int *mm,*m,i,j,k,jk; struct complex **p,**q;
   mm=(int *)malloc((kk[0]+1)*sizeof(int));

@@ -6,7 +6,6 @@
  * ------------------------------------------------------------------------
  */
 #include "ccmath/ccmath.h"
-#include "ccmath/complex.h"
 void cmcpy(Cpx *a,Cpx *b,int n)
 { int i;
   for(i=0; i<n ;++i) *a++ = *b++;

@@ -7,8 +7,6 @@
  */
 #include "ccmath/ccmath.h"
 #include <stdlib.h>
-#include "ccmath/complex.h"
-#include "ccmath/matutl.h"
 void heigval(Cpx *a,double *ev,int n)
 { double *dp;
   dp=(double *)calloc(n,sizeof(double));

@@ -7,7 +7,6 @@
  */
 #include "ccmath/ccmath.h"
 #include <stdlib.h>
-#include "ccmath/complex.h"
 void utrncm(Cpx *cm,Cpx *a,Cpx *b,int n)
 { Cpx z,*q0,*p,*s,*t;
   int i,j,k;

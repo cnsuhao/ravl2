@@ -6,8 +6,8 @@
  * ------------------------------------------------------------------------
  */
 #include "ccmath/ccmath.h"
+#include <math.h>
 #include <stdlib.h>
-#include "ccmath/complex.h"
 int csolv(Cpx *a,Cpx *b,int n)
 { int i,j,k,lc; Cpx *ps,*p,*q,*pa,*pd;
   Cpx z,h,*q0; double s,t,tq=0.,zr=1.e-15;

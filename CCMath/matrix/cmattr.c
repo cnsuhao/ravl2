@@ -6,7 +6,6 @@
  * ------------------------------------------------------------------------
  */
 #include "ccmath/ccmath.h"
-#include "ccmath/complex.h"
 void cmattr(Cpx *a,Cpx *b,int m,int n)
 { Cpx *p; int i,j;
   for(i=0; i<n ;++i,++b)

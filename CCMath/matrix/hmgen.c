@@ -5,11 +5,8 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
-#include <stdlib.h>
-
 #include "ccmath/ccmath.h"
-/*#include "ccmath/complex.h"*/
-#include "ccmath/matutl.h"
+#include <stdlib.h>
 
 void hmgen(Cpx *h,double *ev,Cpx *u,int n)
 { Cpx *v,*p;

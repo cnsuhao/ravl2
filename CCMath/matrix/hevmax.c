@@ -6,8 +6,8 @@
  * ------------------------------------------------------------------------
  */
 #include "ccmath/ccmath.h"
+#include <math.h>
 #include <stdlib.h>
-#include "ccmath/complex.h"
 double hevmax(Cpx *a,Cpx *u,int n)
 { Cpx *x,*p,h;
   double e,ep,s,t,te=1.e-12;

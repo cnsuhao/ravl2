@@ -6,9 +6,8 @@
  * ------------------------------------------------------------------------
  */
 #include "ccmath/ccmath.h"
-#include "ccmath/complex.h"
 #include <stdlib.h>
-void pshuf(Cpx **pa,Cpx **pb,int *kk,int n);
+#include <math.h>
 void fftgc(Cpx **pc,struct complex *ft,int n,int *kk,int inv)
 { Cpx a,b,z,w,*d,*p,**f,**fb;
   double tpi=6.283185307179586,sc,q;

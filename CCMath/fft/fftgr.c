@@ -6,8 +6,8 @@
  * ------------------------------------------------------------------------
  */
 #include "ccmath/ccmath.h"
-#include "ccmath/complex.h"
 #include <stdlib.h>
+#include <math.h>
 void fftgr(double *x,struct complex *ft,int n,int *kk,int inv)
 { struct complex a,b,z,w,*d,*p,*f,*fb;
   double tpi=6.283185307179586,sc,q,*t;
