@@ -81,7 +81,7 @@ namespace RavlN {
   };
   
   //! userlevel=Normal
-  //: Design a dimension reducing function using Principle Component Anaylsis (LDA)
+  //: Design a dimension reducing function using the  Linear Discriminant Anaylsis(LDA)
   
   class DesignFuncLDAC
     : public DesignFuncReduceC
@@ -114,11 +114,11 @@ namespace RavlN {
   public:    
     inline MatrixC &Lda()
     { return Body().Lda(); }
-    //: Access eigen vectors and values.
+    //: Access the transformation matrix.
 
     inline const MatrixC &Lda() const
     { return Body().Lda(); }
-    //: Access eigen vectors and values.
+    //: Access the transformation matrix.
     
     inline VectorC &Mean()
     { return Body().Mean(); }
@@ -135,7 +135,5 @@ namespace RavlN {
   };
 
 }
-
-
 
 #endif
