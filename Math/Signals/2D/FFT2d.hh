@@ -51,7 +51,7 @@ namespace RavlN {
     Index2dC Size() const
       { return size; }
     //: The size of the transform.
-    
+
   protected:
     Index2dC size;  // Size of the transform.
     IntT n,m;
@@ -128,6 +128,26 @@ namespace RavlN {
     Index2dC Size() const
     { return Body().Size(); }
     //: The size of the transform.
+    
+    static SArray2dC<ComplexC> FFTShift(const SArray2dC<ComplexC> &dat);
+    //: FFTShift image.
+    // DC moved from top left to centre or centre to top left. 
+    // FFTShift(FFTShift(a)) == a; for even sized a, not quite for odd sized a.
+
+    static SArray2dC<RealT> FFTShift(const SArray2dC<RealT> &dat);
+    //: FFTShift image.
+    // DC moved from top left to centre or centre to top left. 
+    // FFTShift(FFTShift(a)) == a; for even sized a, not quite for odd sized a.
+    
+    static Array2dC<ComplexC> FFTShift(const Array2dC<ComplexC> &dat);
+    //: FFTShift image.
+    // DC moved from top left to centre or centre to top left. 
+    // FFTShift(FFTShift(a)) == a; for even sized a, not quite for odd sized a.
+
+    static Array2dC<RealT> FFTShift(const Array2dC<RealT> &dat);
+    //: FFTShift image.
+    // DC moved from top left to centre or centre to top left. 
+    // FFTShift(FFTShift(a)) == a; for even sized a, not quite for odd sized a.
     
   };
 

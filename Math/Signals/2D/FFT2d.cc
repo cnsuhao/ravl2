@@ -14,6 +14,7 @@
 #include "Ravl/SArray2dIter2.hh"
 #include "Ravl/SArray2dIter3.hh"
 #include "Ravl/Slice1d.hh"
+#include 	"Ravl/Array2d.hh"
 
 #include "ccmath/ccmath.h"
 
@@ -204,5 +205,171 @@ namespace RavlN {
     return ret;
   }
 
+
+  //: FFTShift image of complex numbers
+  SArray2dC<ComplexC> FFT2dC::FFTShift(const SArray2dC<ComplexC> &dat)
+  {
+    //: Quartile numbering: 0 1
+    //:                     2 3
+    //: Reordering:         0 1   --->  3 2
+    //:                     2 3         1 0
+    //: Care is required for odd sizes: 0 1 2 ---> 5 3 4
+    //:                                 3 4 5      2 0 1
+
+    //: Input quartiles
+    //=================
+    Index2dC datQuartile3TopLeft( dat.Size1() / 2, dat.Size2() / 2 );
+    if( dat.Size1() & true ) datQuartile3TopLeft.Row()++;
+    if( dat.Size2() & true ) datQuartile3TopLeft.Col()++;
+
+    IndexRange2dC datQuartile0Range( 0, datQuartile3TopLeft.Row() - 1, 
+                                     0, datQuartile3TopLeft.Col() - 1 );
+    IndexRange2dC datQuartile1Range( 0, datQuartile3TopLeft.Row() - 1, 
+                                     datQuartile3TopLeft.Col(), dat.Size2() - 1 );
+    IndexRange2dC datQuartile2Range( datQuartile3TopLeft.Row(), dat.Size1() - 1,
+                                     0, datQuartile3TopLeft.Col() - 1 );
+    IndexRange2dC datQuartile3Range( datQuartile3TopLeft.Row(), dat.Size1() - 1, 
+                                     datQuartile3TopLeft.Col(), dat.Size2() - 1 );
+
+    //: Output quartiles
+    //==================
+    IndexRange2dC resQuartile0Range = datQuartile3Range;
+    IndexRange2dC resQuartile1Range = datQuartile2Range;
+    IndexRange2dC resQuartile2Range = datQuartile1Range;
+    IndexRange2dC resQuartile3Range = datQuartile0Range;
+
+    Index2dC resQuartile0Origin( 0              , 0 ); 
+    Index2dC resQuartile1Origin( 0              , dat.Size2() / 2 ); 
+    Index2dC resQuartile2Origin( dat.Size1() / 2, 0 ); 
+    Index2dC resQuartile3Origin( dat.Size1() / 2, dat.Size2() / 2 );
+
+    resQuartile0Range.SetOrigin(resQuartile0Origin);
+    resQuartile1Range.SetOrigin(resQuartile1Origin);
+    resQuartile2Range.SetOrigin(resQuartile2Origin);
+    resQuartile3Range.SetOrigin(resQuartile3Origin);
+
+    //: Copy each quartile of dat to shifted
+    //======================================
+    SArray2dC<ComplexC> shifted(dat.Size1(), dat.Size2());
+
+    SArray2dC<ComplexC> datQuartile3(const_cast<SArray2dC<ComplexC> &>(dat), datQuartile3Range);
+    SArray2dC<ComplexC> resQuartile0(shifted, resQuartile0Range);
+    for( SArray2dIter2C<ComplexC, ComplexC> it(datQuartile3, resQuartile0); it; it++ )
+      it.Data2() = it.Data1();
+
+    SArray2dC<ComplexC> datQuartile0(const_cast<SArray2dC<ComplexC> &>(dat), datQuartile0Range);
+    SArray2dC<ComplexC> resQuartile3(shifted, resQuartile3Range);
+    for( SArray2dIter2C<ComplexC, ComplexC> it(datQuartile0, resQuartile3); it; it++ )
+      it.Data2() = it.Data1();
+
+    SArray2dC<ComplexC> datQuartile2(const_cast<SArray2dC<ComplexC> &>(dat), datQuartile2Range);
+    SArray2dC<ComplexC> resQuartile1(shifted, resQuartile1Range);
+    for( SArray2dIter2C<ComplexC, ComplexC> it(datQuartile2, resQuartile1); it; it++ )
+      it.Data2() = it.Data1();
+
+    SArray2dC<ComplexC> datQuartile1(const_cast<SArray2dC<ComplexC> &>(dat), datQuartile1Range);
+    SArray2dC<ComplexC> resQuartile2(shifted, resQuartile2Range);
+    for( SArray2dIter2C<ComplexC, ComplexC> it(datQuartile1, resQuartile2); it; it++ )
+      it.Data2() = it.Data1();
+
+    return shifted;
+  }
+
+
+  //: FFTShift image of reals
+  SArray2dC<RealT> FFT2dC::FFTShift(const SArray2dC<RealT> &dat)
+  {
+    //: Quartile numbering: 0 1
+    //:                     2 3
+    //: Reordering:         0 1   --->  3 2
+    //:                     2 3         1 0
+    //: Care is required for odd sizes: 0 1 2 ---> 5 3 4
+    //:                                 3 4 5      2 0 1
+
+    //: Input quartiles
+    //=================
+    Index2dC datQuartile3TopLeft( dat.Size1() / 2, dat.Size2() / 2 );
+    if( dat.Size1() & true ) datQuartile3TopLeft.Row()++;
+    if( dat.Size2() & true ) datQuartile3TopLeft.Col()++;
+
+    IndexRange2dC datQuartile0Range( 0, datQuartile3TopLeft.Row() - 1, 
+                                     0, datQuartile3TopLeft.Col() - 1 );
+    IndexRange2dC datQuartile1Range( 0, datQuartile3TopLeft.Row() - 1, 
+                                     datQuartile3TopLeft.Col(), dat.Size2() - 1 );
+    IndexRange2dC datQuartile2Range( datQuartile3TopLeft.Row(), dat.Size1() - 1,
+                                     0, datQuartile3TopLeft.Col() - 1 );
+    IndexRange2dC datQuartile3Range( datQuartile3TopLeft.Row(), dat.Size1() - 1, 
+                                     datQuartile3TopLeft.Col(), dat.Size2() - 1 );
+
+    //: Output quartiles
+    //==================
+    IndexRange2dC resQuartile0Range = datQuartile3Range;
+    IndexRange2dC resQuartile1Range = datQuartile2Range;
+    IndexRange2dC resQuartile2Range = datQuartile1Range;
+    IndexRange2dC resQuartile3Range = datQuartile0Range;
+
+    Index2dC resQuartile0Origin( 0              , 0 ); 
+    Index2dC resQuartile1Origin( 0              , dat.Size2() / 2 ); 
+    Index2dC resQuartile2Origin( dat.Size1() / 2, 0 ); 
+    Index2dC resQuartile3Origin( dat.Size1() / 2, dat.Size2() / 2 );
+
+    resQuartile0Range.SetOrigin(resQuartile0Origin);
+    resQuartile1Range.SetOrigin(resQuartile1Origin);
+    resQuartile2Range.SetOrigin(resQuartile2Origin);
+    resQuartile3Range.SetOrigin(resQuartile3Origin);
+
+    //: Copy each quartile of dat to shifted
+    //======================================
+    SArray2dC<RealT> shifted(dat.Size1(), dat.Size2());
+
+    SArray2dC<RealT> datQuartile3(const_cast<SArray2dC<RealT> &>(dat), datQuartile3Range);
+    SArray2dC<RealT> resQuartile0(shifted, resQuartile0Range);
+    for( SArray2dIter2C<RealT, RealT> it(datQuartile3, resQuartile0); it; it++ )
+      it.Data2() = it.Data1();
+
+    SArray2dC<RealT> datQuartile0(const_cast<SArray2dC<RealT> &>(dat), datQuartile0Range);
+    SArray2dC<RealT> resQuartile3(shifted, resQuartile3Range);
+    for( SArray2dIter2C<RealT, RealT> it(datQuartile0, resQuartile3); it; it++ )
+      it.Data2() = it.Data1();
+
+    SArray2dC<RealT> datQuartile2(const_cast<SArray2dC<RealT> &>(dat), datQuartile2Range);
+    SArray2dC<RealT> resQuartile1(shifted, resQuartile1Range);
+    for( SArray2dIter2C<RealT, RealT> it(datQuartile2, resQuartile1); it; it++ )
+      it.Data2() = it.Data1();
+
+    SArray2dC<RealT> datQuartile1(const_cast<SArray2dC<RealT> &>(dat), datQuartile1Range);
+    SArray2dC<RealT> resQuartile2(shifted, resQuartile2Range);
+    for( SArray2dIter2C<RealT, RealT> it(datQuartile1, resQuartile2); it; it++ )
+      it.Data2() = it.Data1();
+
+    return shifted;
+  }
   
+  //: FFTShift image.
+  Array2dC<ComplexC> FFT2dC::FFTShift(const Array2dC<ComplexC> &dat)
+  {
+    SArray2dC<ComplexC> shiftedSArray = FFTShift( const_cast<Array2dC<ComplexC> &>(dat).SArray2d(true) );
+
+    Array2dC<ComplexC> shifted(shiftedSArray);
+
+    // Translate shifted to dat position
+    shifted.ShiftIndexes1(-dat.Range1().Min());
+    shifted.ShiftIndexes2(-dat.Range2().Min());
+  
+    return shifted;
+  }
+  
+  //: FFTShift image.
+  Array2dC<RealT> FFT2dC::FFTShift(const Array2dC<RealT> &dat)
+  {
+    SArray2dC<RealT> shiftedSArray = FFTShift( const_cast<Array2dC<RealT> &>(dat).SArray2d(true) );
+
+    Array2dC<RealT> shifted(shiftedSArray);
+
+    // Translate shifted to dat position
+    shifted.ShiftIndexes1(-dat.Range1().Min());
+    shifted.ShiftIndexes2(-dat.Range2().Min());
+  
+    return shifted;
+  }
 }
