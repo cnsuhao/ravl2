@@ -20,6 +20,52 @@
 #include "Ravl/Index.hh"
 #include "Ravl/TFVector.hh"
 
+// The following 3 flags dictate what kind of binary IO functionality we have.
+// if RAVL_ENDIAN_COMPATILIBITY is set to 1 the streams will support both big
+// and little endian files.
+
+#define RAVL_ENDIAN_COMPATILIBITY    1
+#define RAVL_BINSTREAM_ENDIAN_LITTLE 0
+#define RAVL_BINSTREAM_ENDIAN_BIG    1
+
+// The following defineds translate defined(xyz) into 1 or 0 values so the can be used in 
+// code if() {}  statements.
+
+#if RAVL_LITTLEENDIAN
+#define RAVL_ENDIAN_LITTLE 1
+#define RAVL_ENDIAN_BIG 0
+#else
+#define RAVL_ENDIAN_LITTLE 0
+#define RAVL_ENDIAN_BIG 1
+#endif
+
+#if RAVL_BIGENDIANDOUBLES
+#define RAVL_DOUBLE_ENDIAN_LITTLE 0
+#define RAVL_DOUBLE_ENDIAN_BIG 1
+#else
+#define RAVL_DOUBLE_ENDIAN_LITTLE 1
+#define RAVL_DOUBLE_ENDIAN_BIG 0
+#endif
+
+// Setup conditions to use.
+// The assumption is that the compiler will remove unreachable code, so using if(0) { xyz; } will
+// remove xyz from the generated code.
+
+#if RAVL_ENDIAN_COMPATILIBITY
+#define RAVL_ENDIAN_IF (useNativeEndian)
+#else
+#define RAVL_ENDIAN_IF ((RAVL_ENDIAN_LITTLE) == (RAVL_BINSTREAM_ENDIAN_LITTLE))
+#endif
+
+// Decide how to setup the bin streams by default.
+
+#if (RAVL_LITTLEENDIAN) == (RAVL_BINSTREAM_ENDIAN_LITTLE)
+#define RAVL_BINSTREAM_DEFAULT 1
+#else
+#define RAVL_BINSTREAM_DEFAULT 0
+#endif
+
+
 namespace RavlN  {
 #if RAVL_HAVE_BYTESWAP
 #include <byteswap.h>
@@ -73,25 +119,29 @@ namespace RavlN  {
   class BinIStreamC {
   public:
     BinIStreamC(const IStreamC &nIn)
-      : in(nIn)
+      : in(nIn),
+	useNativeEndian(RAVL_BINSTREAM_DEFAULT)
     {}
     //: Constructor.
     // From a IStreamC.
     
 #if RAVL_HAVE_INTFILEDESCRIPTORS
     BinIStreamC(int fd)
-      : in(fd)
+      : in(fd),
+	useNativeEndian(RAVL_BINSTREAM_DEFAULT)
     {}
     //: Constructor.
     // From a file descriptor.
 #endif
     
     BinIStreamC(const StringC &nIn,bool buffered = true)
-      : in(nIn,true,buffered) // Open binary stream.
+      : in(nIn,true,buffered),
+	useNativeEndian(RAVL_BINSTREAM_DEFAULT)
     {}
     //: Constructor.
     
     BinIStreamC()
+      : useNativeEndian(RAVL_BINSTREAM_DEFAULT)
     {}
     //: Default construtor.
     
@@ -161,8 +211,25 @@ namespace RavlN  {
     { return in.PointerManager(); }
     //: Access the pointer manager.
     
+    void UseNativeEndian(bool nUseNativeEndian) { 
+      RavlAssert(RAVL_ENDIAN_COMPATILIBITY);
+      useNativeEndian = nUseNativeEndian; 
+    }
+    //: Set native endian
+    
+    void UseBigEndian(bool nUseBigEndian) { 
+      RavlAssert(RAVL_ENDIAN_COMPATILIBITY);
+      useNativeEndian = (RAVL_ENDIAN_BIG == nUseBigEndian);
+    }
+    //: Set endian to use
+    
+    bool NativeEndian() const
+    { return useNativeEndian; }
+    //: Using native endian ?
+    
   protected:
     IStreamC in;
+    bool useNativeEndian;
   };
   
   //! userlevel=Normal
@@ -172,24 +239,28 @@ namespace RavlN  {
   class BinOStreamC {
   public:
     BinOStreamC(const OStreamC &nOut)
-      : out(nOut)
+      : out(nOut),
+	useNativeEndian(RAVL_BINSTREAM_DEFAULT)
     {}
     //: Constructor.
     
 #if RAVL_HAVE_INTFILEDESCRIPTORS
     BinOStreamC(int fd)
-      : out(fd)
+      : out(fd),
+	useNativeEndian(RAVL_BINSTREAM_DEFAULT)
     {}
     //: Constructor.
     // From a file descriptor.
 #endif
     
     BinOStreamC(const StringC &nOut,bool buffered = true)
-      : out(nOut,true,buffered) // Open binary stream
+      : out(nOut,true,buffered),
+	useNativeEndian(RAVL_BINSTREAM_DEFAULT)
     {}
     //: Constructor.
     
     BinOStreamC()
+      : useNativeEndian(RAVL_BINSTREAM_DEFAULT)
     {}
     //: Default construtor.
     // Creates an invalid stream.
@@ -259,8 +330,25 @@ namespace RavlN  {
     { return out.PointerManager(); }
     //: Access the pointer manager.
     
+    void UseNativeEndian(bool nUseNativeEndian) { 
+      RavlAssertMsg(nUseNativeEndian || RAVL_ENDIAN_COMPATILIBITY,"Compatiblity binary streams not enabled. ");
+      useNativeEndian = nUseNativeEndian; 
+    }
+    //: Set native endian
+    
+    void UseBigEndian(bool nUseBigEndian) { 
+      RavlAssertMsg((nUseBigEndian == RAVL_BINSTREAM_ENDIAN_BIG) || RAVL_ENDIAN_COMPATILIBITY,"Compatiblity binary streams not enabled. ");
+      useNativeEndian = (RAVL_ENDIAN_BIG == nUseBigEndian); 
+    }
+    //: Set endian to use
+    
+    bool NativeEndian() const
+    { return useNativeEndian; }
+    //: Using native endian ?
+    
   protected:    
     OStreamC out;
+    bool useNativeEndian;
   };
 
   
@@ -282,78 +370,78 @@ namespace RavlN  {
   { in.read((char *)&dat,sizeof(unsigned char));  return *this; }
   
   BinIStreamC &BinIStreamC::operator>>(Int16T &dat) {
-#if RAVL_BIGENDIAN
-    in.read((char *)&dat,2); 
-#else
-    short buf;
-    in.read((char *)&buf,2);  
-    dat = bswap_16(buf);
-#endif
+    if(RAVL_ENDIAN_IF) {
+      in.read((char *)&dat,2); 
+    } else {
+      short buf;
+      in.read((char *)&buf,2);  
+      dat = bswap_16(buf);
+    }
     return *this; 
   }
   
   BinIStreamC &BinIStreamC::operator>>(UInt16T &dat) {
-#if RAVL_BIGENDIAN
-    in.read((char *)&dat,2); 
-#else
-    short buf;
-    in.read((char *) &buf,2);  
-    dat = (UInt16T) bswap_16(buf);
-#endif
+    if(RAVL_ENDIAN_IF) {
+      in.read((char *)&dat,2); 
+    } else {
+      short buf;
+      in.read((char *) &buf,2);  
+      dat = (UInt16T) bswap_16(buf);
+    }
     return *this; 
   }
   
   BinIStreamC &BinIStreamC::operator>>(IntT &dat) {
-#if RAVL_BIGENDIAN
-    in.read((char *)&dat,4);
-#else
-    int buf;
-    in.read((char *) &buf,4);
-    dat = (IntT) bswap_32(buf);
-#endif
+    if(RAVL_ENDIAN_IF) {
+      in.read((char *)&dat,4);
+    } else {
+      int buf;
+      in.read((char *) &buf,4);
+      dat = (IntT) bswap_32(buf);
+    }
     return *this; 
   }
   
   BinIStreamC &BinIStreamC::operator>>(UIntT &dat) {
-#if RAVL_BIGENDIAN
-    in.read((char *)&dat,4);
-#else
-    int buf;
-    in.read((char *) &buf,4);
-    dat = (UIntT) bswap_32(buf);
-#endif
+    if(RAVL_ENDIAN_IF) {
+      in.read((char *)&dat,4);
+    } else {
+      int buf;
+      in.read((char *) &buf,4);
+      dat = (UIntT) bswap_32(buf);
+    }
     return *this; 
   }
 
   inline 
   BinIStreamC &BinIStreamC::operator>>(Int64T &dat) {
-#if RAVL_BIGENDIAN
-    in.read((char *)&dat,8);
-#else
-    union {
-      Int64T lli;
-      IntT i[2];
-    } val;
-    (*this) >> val.i[1];
-    (*this) >> val.i[0];
-    dat = val.lli;
-#endif
+    if(RAVL_ENDIAN_IF) {
+      in.read((char *)&dat,8);
+    } else {
+      union {
+	Int64T lli;
+	IntT i[2];
+      } val;
+      (*this) >> val.i[1];
+      (*this) >> val.i[0];
+      dat = val.lli;
+    }
     return *this;
   }
 
   inline 
   BinIStreamC &BinIStreamC::operator>>(UInt64T &dat) {
-#if RAVL_BIGENDIAN
-    in.read((char *)&dat,8);
-#else
-    union {
-      UInt64T lli;
-      UIntT i[2];
-    } val;
-    (*this) >> val.i[1];
-    (*this) >> val.i[0];
-    dat = val.lli;
-#endif
+    if(RAVL_ENDIAN_IF) {
+      in.read((char *)&dat,8);
+    } else {
+      union {
+	UInt64T lli;
+	UIntT i[2];
+      } val;
+      (*this) >> val.i[1];
+      (*this) >> val.i[0];
+      dat = val.lli;
+    }
     return *this;
   }
   
@@ -376,14 +464,14 @@ namespace RavlN  {
       RealT d;
       IntT i[2];
     } val;
-#if RAVL_BIGENDIANDOUBLES
-    in.read((char *)&(val.i[0]),8);
-#else
-    IntT buff[2];
-    in.read((char *)buff,8);
-    val.i[0] = bswap_32(buff[1]);
-    val.i[1] = bswap_32(buff[0]);
-#endif
+    if(RAVL_ENDIAN_IF == (RAVL_DOUBLE_ENDIAN_BIG == RAVL_ENDIAN_BIG)) {
+      in.read((char *)&(val.i[0]),8);
+    } else {
+      IntT buff[2];
+      in.read((char *)buff,8);
+      val.i[0] = bswap_32(buff[1]);
+      val.i[1] = bswap_32(buff[0]);
+    }
     dat = val.d;
     return *this;
   }
@@ -414,72 +502,72 @@ namespace RavlN  {
   { out.write((char *)&dat,1);  return *this; }
 
   BinOStreamC &BinOStreamC::operator<<(Int16T dat) {
-#if RAVL_BIGENDIAN
-    out.write((char *)&dat,2);  
-#else
-    short buf = bswap_16(dat);
-    out.write((char *) &buf,2);  
-#endif
+    if(RAVL_ENDIAN_IF) {
+      out.write((char *)&dat,2);  
+    } else {
+      short buf = bswap_16(dat);
+      out.write((char *) &buf,2);  
+    }
     return *this; 
   }
   
   BinOStreamC &BinOStreamC::operator<<(UInt16T dat) {
-#if RAVL_BIGENDIAN
-    out.write((char *)&dat,2);  
-#else
-    short buf = bswap_16(dat);
-    out.write((char *) &buf,2);  
-#endif
+    if(RAVL_ENDIAN_IF) {
+      out.write((char *)&dat,2);  
+    } else {
+      short buf = bswap_16(dat);
+      out.write((char *) &buf,2);  
+    }
     return *this; 
   }
   
   BinOStreamC &BinOStreamC::operator<<(IntT dat) {
-#if RAVL_BIGENDIAN
-    out.write((char *)&dat,4);
-#else
-    int buf = bswap_32(dat);
-    out.write((char *) &buf,4);  
-#endif
+    if(RAVL_ENDIAN_IF) {
+      out.write((char *)&dat,4);
+    } else {
+      int buf = bswap_32(dat);
+      out.write((char *) &buf,4);  
+    }
     return *this; 
   }
   
   BinOStreamC &BinOStreamC::operator<<(UIntT dat) {
-#if RAVL_BIGENDIAN
-    out.write((char *)&dat,4);
-#else
-    int buf = bswap_32(dat);
-    out.write((char *) &buf,4);
-#endif
+    if(RAVL_ENDIAN_IF) {
+      out.write((char *)&dat,4);
+    } else {
+      int buf = bswap_32(dat);
+      out.write((char *) &buf,4);
+    }
     return *this; 
   }
   
   BinOStreamC &BinOStreamC::operator<<(Int64T dat) {
-#if RAVL_BIGENDIAN
-    out.write((char *)&dat,8);
-#else
-    union {
-      Int64T lli;
-      UIntT i[2];
-    } val;
-    val.lli = dat;
-    (*this) << val.i[1];
-    (*this) << val.i[0];
-#endif
+    if(RAVL_ENDIAN_IF) {
+      out.write((char *)&dat,8);
+    } else {
+      union {
+	Int64T lli;
+	UIntT i[2];
+      } val;
+      val.lli = dat;
+      (*this) << val.i[1];
+      (*this) << val.i[0];
+    }
     return *this;
   }
   
   BinOStreamC &BinOStreamC::operator<<(UInt64T dat) {
-#if RAVL_BIGENDIAN
-    out.write((char *)&dat,8);
-#else
-    union {
-      UInt64T lli;
-      UIntT i[2];
-    } val;
-    val.lli = dat;
-    (*this) << val.i[1];
-    (*this) << val.i[0];
-#endif
+    if(RAVL_ENDIAN_IF) {
+      out.write((char *)&dat,8);
+    } else {
+      union {
+	UInt64T lli;
+	UIntT i[2];
+      } val;
+      val.lli = dat;
+      (*this) << val.i[1];
+      (*this) << val.i[0];
+    }
     return *this;     
   }
 
@@ -504,13 +592,13 @@ namespace RavlN  {
     } val;
     val.r = dat;
     IntT buff[2];
-#if RAVL_BIGENDIANDOUBLES
-    buff[0] = val.i[0];
-    buff[1] = val.i[1];
-#else
-    buff[0] = bswap_32(val.i[1]);
-    buff[1] = bswap_32(val.i[0]);
-#endif
+    if(RAVL_ENDIAN_IF == (RAVL_DOUBLE_ENDIAN_BIG == RAVL_ENDIAN_BIG)) {
+      buff[0] = val.i[0];
+      buff[1] = val.i[1];
+    } else {
+      buff[0] = bswap_32(val.i[1]);
+      buff[1] = bswap_32(val.i[0]);
+    }
     out.write((char *) buff,8);
     return *this;
   }

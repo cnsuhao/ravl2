@@ -194,6 +194,7 @@ namespace RavlN {
     bool Send(UIntT id,const Data1T &dat1) {
       BufOStreamC os;
       BinOStreamC bos(os);
+      bos.UseBigEndian(useBigEndianBinStream);
       bos << id << dat1;
       Transmit(NetPacketC(os.Data()));
       return true;
@@ -204,6 +205,7 @@ namespace RavlN {
     bool Send(UIntT id,const Data1T &dat1,const Data2T &dat2) {
       BufOStreamC os;
       BinOStreamC bos(os);
+      bos.UseBigEndian(useBigEndianBinStream);
       bos << id << dat1 << dat2;
       Transmit(NetPacketC(os.Data()));
       return true;
@@ -214,6 +216,7 @@ namespace RavlN {
     bool Send(UIntT id,const Data1T &dat1,const Data2T &dat2,const Data3T &dat3) {
       BufOStreamC os;
       BinOStreamC bos(os);
+      bos.UseBigEndian(useBigEndianBinStream);
       bos << id << dat1 << dat2  << dat3;
       Transmit(NetPacketC(os.Data()));
       return true;
@@ -346,6 +349,8 @@ namespace RavlN {
     MessageQueueC<NetPacketC> receiveQ; // Recieve Q.
     volatile bool shutdown;   // Shutdown system ?
     ThreadEventC setupComplete;
+    ThreadEventC gotStreamType;
+    StringC streamType;
     StringC remoteUser;
     MutexC accessMsgReg;
     HashC<UIntT,NetMsgRegisterC> msgReg;  // Local register of decoding routines.
@@ -355,6 +360,7 @@ namespace RavlN {
     
     NetClientInfoC localInfo; // Info for this application.
     NetClientInfoC peerInfo;  // Info for remote application.
+    bool useBigEndianBinStream;
   };
   
   //! userlevel=Normal

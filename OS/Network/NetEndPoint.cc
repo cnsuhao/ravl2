@@ -41,7 +41,8 @@ namespace RavlN {
       transmitQ(15),
       receiveQ(5),
       shutdown(false),
-      autoInit(nautoInit)
+      autoInit(nautoInit),
+      useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG)
   {
     localInfo.appName = SysLogApplicationName();
     Init(skt); 
@@ -54,7 +55,8 @@ namespace RavlN {
       transmitQ(15),
       receiveQ(5),
       shutdown(false),
-      autoInit(nautoInit)
+      autoInit(nautoInit),
+      useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG)
   {
     localInfo.appName = SysLogApplicationName();
     Init(nskt); 
@@ -68,7 +70,8 @@ namespace RavlN {
       receiveQ(5),
       shutdown(false),
       autoInit(nautoInit),
-      localInfo(protocolName,protocolVersion)
+      localInfo(protocolName,protocolVersion),
+      useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG)
   { 
     localInfo.appName = SysLogApplicationName();
     Init(skt); 
@@ -82,7 +85,8 @@ namespace RavlN {
       receiveQ(5),
       shutdown(false),
       autoInit(nautoInit),
-      localInfo(protocolName,protocolVersion)
+      localInfo(protocolName,protocolVersion),
+      useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG)
   { 
     localInfo.appName = SysLogApplicationName();
     Init(skt); 
@@ -93,7 +97,8 @@ namespace RavlN {
   NetEndPointBodyC::NetEndPointBodyC() 
     : transmitQ(15),
       receiveQ(5),
-      shutdown(false)
+      shutdown(false),
+      useBigEndianBinStream(RAVL_BINSTREAM_ENDIAN_BIG)
   {}
   
   //: Destructor.
@@ -209,6 +214,7 @@ namespace RavlN {
   bool NetEndPointBodyC::Send(UIntT id) {
     BufOStreamC os;
     BinOStreamC bos(os);
+    bos.UseBigEndian(useBigEndianBinStream);
     bos << id ;
     Transmit(NetPacketC(os.Data()));
     return true;
@@ -229,7 +235,8 @@ namespace RavlN {
     return true;
   }
   
-  static const StringC streamHeader ="\n<ABPS>\n";
+  static const StringC streamHeaderBigEndian ="\n<ABPS>\n";
+  static const StringC streamHeaderLittleEndian ="\n<RBPS>\n";
   
   //: Handle packet transmition.
   
@@ -240,10 +247,59 @@ namespace RavlN {
       SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), ERROR: No connection. \n";    
       return false;       
     }
-    if(!WriteData(wfd,streamHeader.chars(),streamHeader.Size())) {
+#if RAVL_BINSTREAM_ENDIAN_LITTLE
+    StringC streamHeader = streamHeaderLittleEndian;
+#else
+    StringC streamHeader = streamHeaderBigEndian;
+#endif
+    // Write stream header.
+    if(!WriteData(wfd,streamHeader,streamHeader.Size())) {
       SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), ERROR: Failed to write header. \n";    
       return false;
     }
+    // Wait still we got a stream header from peer 
+    if(!gotStreamType.Wait(30)) {
+      SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), ERROR: Timeout waiting for stream header. \n";
+      Close();
+      return false;
+    }
+    
+    cerr << "NetEndPointBodyC::RunTransmit() Stream mode:" << streamType << "\n";
+    
+#if RAVL_BINSTREAM_ENDIAN_LITTLE
+    // Check peer protocol.
+    if(streamType == "<ABPS>") { // Client using an old big endian protocol ?
+#if RAVL_ENDIAN_COMPATILIBITY
+      // We're in compatiblity mode, send old header.
+      // If so, write <ABPS> header.
+      useBigEndianBinStream = true;
+      if(!WriteData(wfd,streamHeaderBigEndian,streamHeader.Size())) {
+	SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), ERROR: Failed to write header. \n";    
+	return false;
+      }
+#else
+      SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), ERROR: Incompatible protocol. \n";
+      Close();
+      return false;
+#endif
+    }
+#else
+    if(streamType == "<ABPS>") { // Client using an new little endian protocol ?
+#if RAVL_ENDIAN_COMPATILIBITY
+      // We're in compatiblity mode, send old header.
+      // If so, write <ABPS> header.
+      useBigEndianBinStream = false;
+      if(!WriteData(wfd,streamHeaderBigEndian,streamHeader.Size())) {
+	SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), ERROR: Failed to write header. \n";    
+	return false;
+      }
+#else
+      SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), ERROR: Incompatible protocol. \n";
+      Close();
+      return false;
+#endif
+    }
+#endif
     
     ONDEBUG(cerr << "NetEndPointBodyC::RunTransmit(), Starting transmit loop. \n");
     try {
@@ -258,8 +314,13 @@ namespace RavlN {
 	ONDEBUG(cerr << "  Transmit packet:\n");
 	ONDEBUG(pkt.Dump(cerr));
 	UIntT size = pkt.Size();
+
 #if RAVL_LITTLEENDIAN
-	size = bswap_32(size);
+	if(useBigEndianBinStream)
+	  size = bswap_32(size);
+#else
+	if(!useBigEndianBinStream)
+	  size = bswap_32(size);	
 #endif
 	// Write length of packet.
 	if(!WriteData(wfd,
@@ -389,25 +450,32 @@ namespace RavlN {
       SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunReceive(), ERROR: No connection. \n";    
       return false;       
     }
+    StringC recvStreamType;
     {
       // Look for ABPS
       const char *str = "<ABPS>\n";
       char buff;
       int state = 0;
+      streamType = "<ABPS>";
       do {
 	ONDEBUG(cerr << "State=" << state << "\n";)
 	if(!ReadData(rfd,&buff,1))
 	  break;
 	if(str[state] != buff) {
-	  if(str[0] == buff)
-	    state = 1;
-	  else 
-	    state = 0;
-	  continue;
-	} 
+	  if(state != 1 || buff != 'R') {
+	    if(str[0] == buff)
+	      state = 1;
+	    else 
+	      state = 0;
+	    continue;
+	  } else {
+	    streamType = "<RBPS>";
+	  }
+	}
 	state++;
       } while(str[state] != 0) ;
     }
+    gotStreamType.Post();
     
     ONDEBUG(cerr << "NetEndPointBodyC::RunReceive(), Connection type confirmed. \n");
     
@@ -421,7 +489,11 @@ namespace RavlN {
 	if(size == 0)
 	  continue;
 #if RAVL_LITTLEENDIAN
-	size = bswap_32(size);
+	if(useBigEndianBinStream)
+	  size = bswap_32(size);
+#else
+	if(!useBigEndianBinStream)
+	  size = bswap_32(size);	
 #endif
 	ONDEBUG(cerr << "NetEndPointBodyC::RunRecieve(), Read " << size << " bytes. \n"); 
 	SArray1dC<char> data(size);
@@ -483,6 +555,7 @@ namespace RavlN {
 	//ONDEBUG(pkt.Dump(cerr));
 	// Decode....
 	BinIStreamC is(pkt.DecodeStream());
+	is.UseBigEndian(useBigEndianBinStream);
 	UIntT msgTypeID = 0;
 	is >> msgTypeID;
 	ONDEBUG(cerr << "Incoming packet type id:" << msgTypeID << "\n");
