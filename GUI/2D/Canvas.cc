@@ -162,13 +162,13 @@ namespace RavlGUIN {
 
 
   //: Draw an image on the canvas.
-  void CanvasBodyC::DrawImage(ImageC<ByteT> &img,Index2dC offset) {
-    Manager.Queue(Trigger(CanvasC(*this),&CanvasC::GUIDrawImage,img,offset));
+  void CanvasBodyC::DrawImage(const ImageC<ByteT> &img,Index2dC offset) {
+    Manager.Queue(Trigger(CanvasC(*this),&CanvasC::GUIDrawImage,const_cast<ImageC<ByteT> &>(img),offset));
   }
   
   //: Draw an rgb image on the canvas.
-  void CanvasBodyC::DrawImage(ImageC<ByteRGBValueC> &img,Index2dC offset) {
-    Manager.Queue(Trigger(CanvasC(*this),&CanvasC::GUIDrawRGBImage,img,offset));
+  void CanvasBodyC::DrawImage(const ImageC<ByteRGBValueC> &img,Index2dC offset) {
+    Manager.Queue(Trigger(CanvasC(*this),&CanvasC::GUIDrawRGBImage,const_cast<ImageC<ByteRGBValueC> &>(img),offset));
   }
 
   //: Draw an rgb image on the canvas.
@@ -203,12 +203,12 @@ namespace RavlGUIN {
 			img.Row(img.TRow()),
 			img.Cols());
 
-#if 0    
+#if 1    
     GdkRectangle update_rect;
     update_rect.x = atx;
     update_rect.y = aty;
-    update_rect.width = Min((UIntT)Widget()->allocation.width,img.Rows());
-    update_rect.height = Min((UIntT)Widget()->allocation.height,img.Cols());
+    update_rect.width = Min((UIntT)Widget()->allocation.width,img.Cols());
+    update_rect.height = Min((UIntT)Widget()->allocation.height,img.Rows());
     gtk_widget_draw (Widget(), &update_rect);  
 #endif
     return true;
@@ -235,12 +235,12 @@ namespace RavlGUIN {
 		       (unsigned char *) img.Row(img.TRow()),
 		       img.Cols() * 3);
 
-#if 0    
+#if 1
     GdkRectangle update_rect;
     update_rect.x = atx;
     update_rect.y = aty;
-    update_rect.width = Min((UIntT)Widget()->allocation.width,img.Rows());
-    update_rect.height = Min((UIntT)Widget()->allocation.height,img.Cols());
+    update_rect.width = Min((UIntT)Widget()->allocation.width,img.Cols());
+    update_rect.height = Min((UIntT)Widget()->allocation.height,img.Rows());
     gtk_widget_draw (Widget(), &update_rect);  
 #endif
     return true;
