@@ -289,6 +289,7 @@ ifeq ($(SUPPORT_OK),yes)
  TARG_EXEOBJS=$(patsubst %$(CEXT),$(INST_OBJS)/%$(OBJEXT),$(patsubst %$(CXXEXT),$(INST_OBJS)/%$(OBJEXT),$(filter-out %.java,$(MAINS))))
  TARG_TESTEXE := $(patsubst %$(CEXT),$(INST_TESTBIN)/%, $(patsubst %$(CXXEXT),$(INST_TESTBIN)/%,$(TESTEXES)))
  TARG_TESTEXEOBJS=$(patsubst %$(CEXT),$(INST_OBJS)/%$(OBJEXT),$(patsubst %$(CXXEXT),$(INST_OBJS)/%$(OBJEXT),$(TESTEXES)))
+ifndef NOEXEBUILD
  TARG_DEPEND:= $(patsubst %$(CXXAUXEXT),$(INST_DEPEND)/%.d, \
 	       $(patsubst %$(CEXT),$(INST_DEPEND)/%.d, \
 	       $(patsubst %.S,$(INST_DEPEND)/%.S.d, \
@@ -301,7 +302,16 @@ ifeq ($(SUPPORT_OK),yes)
 	       $(patsubst %.java,$(INST_DEPEND)/%.java.d,$(MAINS) $(TESTEXES)))) \
                $(patsubst %$(CEXT),$(INST_DEPEND)/%.$(VAR).bin.d,  \
                $(patsubst %$(CXXEXT),$(INST_DEPEND)/%.$(VAR).bin.d, \
-               $(filter-out %.java,$(MAINS))))
+               $(filter-out %.java,$(MAINS)))) $(INST_DEPEND)/.dir
+else
+ TARG_DEPEND:= $(patsubst %$(CXXAUXEXT),$(INST_DEPEND)/%.d, \
+	       $(patsubst %$(CEXT),$(INST_DEPEND)/%.d, \
+	       $(patsubst %.S,$(INST_DEPEND)/%.S.d, \
+	       $(patsubst %.y,$(INST_DEPEND)/%.tab.d, \
+	       $(patsubst %.l,$(INST_DEPEND)/%.yy.d, \
+               $(patsubst %$(CXXEXT),$(INST_DEPEND)/%.d, \
+	       $(patsubst %.java,,$(SOURCES) $(MUSTLINK)))))))) $(INST_DEPEND)/.dir
+endif
  TARG_JAVA    =$(patsubst %.java,$(INST_JAVA)/%.class,$(JAVA_SRC))
  TARG_JAVAEXE =$(patsubst %.java,$(INST_JAVAEXE)/%,$(filter %.java,$(MAINS)))
  TARG_NESTED =$(patsubst %.r,%,$(filter %.r,$(NESTED)))
@@ -368,7 +378,7 @@ endif
 
 .PHONY : srcfiles build_subdirs build_testsubdirs build_purifydirs build_libs build_exe \
          all build_aux build_test test build_pureexe fullbuild testbuild purifybuild cheadbuild \
-         buildjavalibs
+         buildjavalibs libbuild
 
 all: srcfiles build_aux
 	@echo "Internal error: No valid build target "
@@ -376,6 +386,8 @@ all: srcfiles build_aux
 fullbuild: build_subdirs build_libs build_exe build_aux  $(TARG_HDRCERTS)
 
 testbuild: build_subdirs build_libs build_test  $(TARG_HDRCERTS)
+
+libbuild: build_subdirs build_libs build_aux
 
 purifybuild: build_subdirs build_libs build_pureexe
 

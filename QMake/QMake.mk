@@ -199,6 +199,9 @@ fullinfo:
 fullclean:
 	$(SMAKECL) clean VAR=check $(FULLBUILDFLAGS) TARGET=clean
 
+libbuild: 
+	$(SMAKEMD) libbuild  $(FULLBUILDFLAGS) TARGET=libbuild
+
 # Build amma.
 # Proceeds as follows:
 #  1-Src the latest version of the source.
@@ -215,17 +218,18 @@ fullbuild:
 	  echo "QMAKE: Installation of header files failed. " ; \
 	  exit 1; \
         fi ; \
-	if $(MAKEMD) $(FULLBUILDFLAGS) fullbuild VAR=check TARGET=fullbuild NOEXEBUILD=1 ; then true; \
+	if $(MAKEMD) $(FULLBUILDFLAGS) libbuild VAR=check TARGET=libbuild NOEXEBUILD=1 ; then true; \
         else \
 	  echo "QMAKE: Check library build failed. " ; \
 	  exit 1; \
         fi ; \
-	if $(MAKEMD) $(FULLBUILDFLAGS) fullbuild VAR=debug TARGET=fullbuild NOEXEBUILD=1 ; then true; \
+	echo "Check build complete. " ; \
+	if $(MAKEMD) $(FULLBUILDFLAGS) libbuild VAR=debug TARGET=libbuild NOEXEBUILD=1 ; then true; \
         else \
 	  echo "QMAKE: Debug library build failed. " ; \
 	  exit 1; \
         fi ; \
-	if $(MAKEMD) $(FULLBUILDFLAGS) fullbuild VAR=opt TARGET=fullbuild NOEXEBUILD=1 ; then true; \
+	if $(MAKEMD) $(FULLBUILDFLAGS) libbuild VAR=opt TARGET=libbuild NOEXEBUILD=1 ; then true; \
         else \
 	  echo "QMAKE: opt library build failed. " ; \
 	  exit 1; \
@@ -235,6 +239,7 @@ fullbuild:
 	  echo "QMAKE: executable build failed. " ; \
 	  exit 1; \
         fi ; \
+	echo "Building documentation. " ; \
 	$(MAKEDC) $(FULLBUILDFLAGS) doc 2>&1 | tee $(PROJECT_OUT)/log/buildDoc.log
 
 fullshared:

@@ -11,6 +11,8 @@ ifndef MAKEHOME
  MAKEHOME=.
 endif
 include $(MAKEHOME)/Main.mk
+
 -include $(TARG_DEPEND)
+
 -include $(TARG_HDRFLAG)
 
