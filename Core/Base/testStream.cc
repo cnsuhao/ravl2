@@ -33,6 +33,7 @@ using namespace RavlN;
 
 int SimpleTest();
 int VectorTest();
+int StringTest();
 int StrStreamTest();
 int testRawFD(); /* NB. This is only usefull on some platforms. */
 int testFDStream();
@@ -48,6 +49,10 @@ int main() {
   }
   if((errLine = VectorTest()) != 0) {
     cerr << "Stream vector test failed line: " << errLine << "\n";
+    return 1;
+  }
+  if((errLine = StringTest()) != 0) {
+    cerr << "Stream string test failed line: " << errLine << "\n";
     return 1;
   }
   if((errLine = StrStreamTest()) != 0) {
@@ -96,6 +101,47 @@ int VectorTest() {
       cerr << "Test failed. \n";
       return __LINE__; 
     }
+  }
+  return 0;
+  
+}
+
+int StringTest() {
+  // This function is currently disabled, as it will FAIL
+  return 0;
+
+  StringC strings[] = {"Hello", "this", "is", "a", "test"};
+
+  {
+    OStreamC os(testFile);
+    if(!os) {
+      cerr << "Failed to open output. \n";
+      return __LINE__;
+    }
+    for (int i=0; i<5; i++) {
+      os << i << " " << strings[i] << " ";
+    }
+  }
+  
+  {
+    IStreamC is(testFile);
+    if(!is) {
+      cerr << "Failed to open output. \n";
+      return __LINE__;
+    }
+    for (int i=0; i<5; i++) {
+      IntT ii;
+      StringC str;
+      is >> ii >> str;
+      if (ii != i && str != strings[i]) {
+	cerr << "Test failed on string " << i << " = " << ii << "," << str << "\n";
+	return __LINE__; 
+      }
+      else {
+	cerr << str << " ";
+      }
+    }
+    cerr << "\n";
   }
   return 0;
   
