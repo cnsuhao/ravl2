@@ -49,6 +49,12 @@ int testBasic() {
   for(SArray2dIter2C<int,int> it(subArr,testArr);it;it++)
     if(it.Data1() != it.Data2()) return __LINE__;
   
+  IndexRange2dC subRng2(IndexRangeC(1,2),IndexRangeC(2,4));
+  SArray2dC<int> subArr2(testArr,subRng2);
+  if(subArr2[0][0] != testArr[subRng2.Origin()]) return __LINE__;
+  if(subArr2.Size1() != subRng2.Rows()) return __LINE__;
+  if(subArr2.Size2() != subRng2.Cols()) return __LINE__;
+  
   Slice1dC<int> slice = testArr.Diagonal();
   int v = 0;
   for(Slice1dIterC<int> its(slice);its;its++,v+=11) {

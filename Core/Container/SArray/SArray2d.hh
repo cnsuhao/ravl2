@@ -70,6 +70,10 @@ namespace RavlN {
     SArray2dC(SArray2dC<DataT> &arr,SizeT size1,SizeT size2);
     //: Construct an access to a sub array of this one.
     
+    SArray2dC(SArray2dC<DataT> &arr,const IndexRange2dC &rng);
+    //: Create a new access to 'rng' of 'arr'.
+    // 'rng' must be within 'arr'. The origin of the new array will be at 'rng.Origin()' of 'arr'.
+    
     SArray2dC<DataT> Copy() const;
     //: Copy array.
     
@@ -274,6 +278,16 @@ namespace RavlN {
     : SizeBufferAccess2dC<DataT>(arr,size1,size2),
       data(arr.data)
   {}
+  
+  template<class DataT>
+  SArray2dC<DataT>::SArray2dC(SArray2dC<DataT> &arr,const IndexRange2dC &rng)
+    : SizeBufferAccess2dC<DataT>(rng.Cols()),
+      data(arr.data.Data(),rng.Rows())
+  { 
+    RavlAssert(rng.TRow() >= 0 && rng.LCol() >= 0);
+    RavlAssert(rng.BRow() < arr.Size1() && rng.RCol() < arr.Size2());
+    BuildAccess(&(arr[rng.Origin()]) - &(arr[0][0]),arr.Stride());
+  }
   
   template<class DataT>
   SArray2dC<DataT> SArray2dC<DataT>::Copy() const {
