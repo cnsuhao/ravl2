@@ -243,5 +243,12 @@ namespace RavlDFN {
     oplugs.Lookup(ip,ret);
     return ret;
   }
-
+  
+  //: Access attribute control for object if it exists.
+  // Returns an invalid handle if none.
+  
+  AttributeCtrlC DFStreamOpBodyC::AttributeCtrl() {
+    return AttributeCtrlC((DPEntityC &)streamOp); 
+  }
+  
 }

@@ -71,6 +71,10 @@ namespace RavlDFN {
     //: Find DFIPort corresponding to 'ip'.
     // Returns an invalid handle if not found.
     
+    virtual AttributeCtrlC AttributeCtrl();
+    //: Access attribute control for object if it exists.
+    // Returns an invalid handle if none.
+    
   protected:
     bool packStacked;
     DPStreamOpC streamOp;

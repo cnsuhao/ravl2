@@ -34,6 +34,12 @@ namespace RavlDFN {
     virtual DListC<DFAttachC> Parts() const;
     //: Get list of attachment points.
     
+#if 0
+    virtual AttributeCtrlC AttributeCtrl();
+    //: Access attribute control for object if it exists.
+    // Returns an invalid handle if none.
+#endif
+    
   protected:
     DListC<DFAttachC> parts;
   };
