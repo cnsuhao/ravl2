@@ -149,7 +149,7 @@ namespace RavlConstN {
   // Smallest +ve value a float may have.  
 #endif
 #endif
-  const union { int i ; float f; } u_nan = {0x7ff80000};
+  const union u_nan_t { int i ; float f; } u_nan = {0x7ff80000};
   // internal nan.
   
   const float nanFloat = (float)(u_nan.f);
