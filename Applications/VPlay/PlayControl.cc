@@ -7,6 +7,7 @@
 //////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Applications/VPlay/PlayControl.cc"
+//! lib=RavlVPlay
 
 #include "Ravl/Tuple2.hh"
 #include "Ravl/VPlay/PlayControl.hh"

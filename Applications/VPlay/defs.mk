@@ -25,9 +25,9 @@ MAINS= VPlay.cc
 
 PLIB= RavlVPlay
 
-USESLIBS = RavlCore RavlOS RavlImage RavlOSIO RavlGUI RavlDPMT RavlGUI2D \
- RavlImageIO RavlVideoIO 
+USESLIBS = RavlCore RavlOS RavlImage RavlOSIO RavlGUI RavlDPMT RavlGUI2D 
 
-PROGLIBS = RavlDV.opt RavlImgIOV4L.opt RavlExtImgIO.opt RavlDPDisplay
+PROGLIBS = RavlDV.opt RavlImgIOV4L.opt RavlExtImgIO.opt RavlDPDisplay \
+ RavlImageIO RavlVideoIO
 
 EHT = exeVPlay.eht
