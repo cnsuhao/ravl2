@@ -15,6 +15,7 @@
 #include "Ravl/Image/BilinearInterpolation.hh"
 #include "Ravl/Image/HistogramEqualise.hh"
 #include "Ravl/Image/Matching.hh"
+#include "Ravl/Image/ByteRGBValue.hh"
 
 using namespace RavlImageN;
 
@@ -29,6 +30,10 @@ int testConvolve2dMMX();
 int testBilinearInterpolation();
 int testHistogramEqualise();
 int testMatching();
+
+#ifndef __sgi__
+template BilinearInterpolationC<ByteRGBValueC,ByteRGBValueC>;
+#endif
 
 int main() {
   int ln;

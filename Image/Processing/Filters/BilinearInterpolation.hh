@@ -84,8 +84,8 @@ namespace RavlImageN {
 	  break;
 	}
 	
-	it.Data() = (OutT)(((1.0-t) * im[y4]) + 
-			   (   t    * im[y3]) 
+	it.Data() = (OutT)((im[y4] * (1.0-t)) + 
+			   (im[y3] * t ) 
 			   );
       }
       return res;
@@ -105,8 +105,8 @@ namespace RavlImageN {
 	  cerr << "ERROR: Overflow in interpolation (R) \n";
 	  break;
 	}
-	it.Data() = (OutT)(((1.0-u) * im[y4]) + 
-			   ( u      * im[y2]));
+	it.Data() = (OutT)((im[y4] * (1.0-u)) + 
+			   (im[y2] * u));
       }
       
       return res;
@@ -137,11 +137,10 @@ namespace RavlImageN {
 	y2.Col() = iMinC;
 	y4.Col() = iMinC;
 	
-	it.Data() = (OutT)(
-			   ((1.0-t) * (1.0-u) * im[y4]) + 
-			   (t*(1.0-u)*im[y3]) + 
-			   ((1.0-t)*u*im[y2]) +
-			   (t*u*im[y1]) 
+	it.Data() = (OutT)((im[y4] * (1.0-t) * (1.0-u)) + 
+			   (im[y3] *      t  * (1.0-u)) + 
+			   (im[y2] * (1.0-t) * u ) +
+			   (im[y1] *      t  * u ) 
 			   );
       } while(it.Next()); // True while in same row.
       
