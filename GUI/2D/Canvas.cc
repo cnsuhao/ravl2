@@ -238,8 +238,8 @@ namespace RavlGUIN {
       return true;
     }
     Index2dC off = ioffset + img.Rectangle().Origin();    
-    int atx = off.Row().V();
-    int aty = off.Col().V();
+    int atx = off.Col().V(); // Convert between RAVL and GTK co-ordinates...
+    int aty = off.Row().V(); 
     
     GtkWidget *widget = Widget();
     gdk_draw_rgb_image(DrawArea(),
