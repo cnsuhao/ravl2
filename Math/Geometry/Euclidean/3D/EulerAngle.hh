@@ -17,6 +17,7 @@
 
 namespace RavlN
 {
+  //:--------------------------------------------------------
   //! userlevel=Develop
 
   // C-style euler angle -> matrix conversions
@@ -47,10 +48,10 @@ namespace RavlN
   void MatrixToEulerZYX(const RealT* R, RealT* a, const RealT a0_default = 0.0);
   void MatrixToEulerZYZ(const RealT* R, RealT* a, const RealT a0_default = 0.0);
   
-  //! userlevel=Normal
+  //:--------------------------------------------------------
+  //! userlevel=Advanced
 
   // Euler angle -> matrix conversions
-
 
   inline void EulerXYXToMatrix(const Vector3dC& a, Matrix3dC& R)
   { EulerXYXToMatrix(&a[0],&R[0][0]); }
@@ -107,10 +108,16 @@ namespace RavlN
   { MatrixToEulerZYZ(&R[0][0], &a[0], a0_default); }
 #endif
 
+  //:--------------------------------------------------------
   //! userlevel=Normal
-
-  //: Euler angle sequence definition.
-  // Doesn't yet support all sequences...will add more soon
+  //
+  //: Euler angle sequence definition
+  //
+  //  This class just holds an integer to specify the order of rotations
+  //  for a set of euler angles, 
+  //  used by <a href="RavlN.EulerAngleC.html">EulerAngleC</a>.
+  //
+  //!classbugs: Doesn't yet support all sequences...will add more soon
   class EulerSequenceC
   {
   public:
@@ -149,20 +156,38 @@ namespace RavlN
   };
   
 
-  //: Convert Euler angles to rotation matrix according to sequence
-  //  Not all sequences yet supported.
+  //:--------------------------------------------------------
+ 
   void EulerToMatrix(const Vector3dC& a, 
 		     Matrix3dC& R, 
 		     const EulerSequenceC sequence);
+  //: Convert Euler angles to rotation matrix according to sequence
+  //  See <a href="RavlN.EulerAngleC.html">EulerAngleC</a> for a
+  //  description of the Euler angle representation.
+  //!bug: Not all sequences yet supported.
 
-  //: Convert rotation matrix to Euler angles according to sequence
-  //  Not all sequences yet supported.
   void MatrixToEuler(const Matrix3dC& R, 
 		     Vector3dC& a, 
 		     const EulerSequenceC sequence,
 		     const RealT a0_default = 0.0);
+  //: Convert rotation matrix to Euler angles according to sequence
+  //  See <a href="RavlN.EulerAngleC.html">EulerAngleC</a> for a
+  //  description of the Euler angle representation.
+  //!bug: Not all sequences yet supported.
 
-  //: Class for all Euler angle info
+
+  //:--------------------------------------------------------
+  //: Euler angle class
+  //
+  //  Specifies a vector of 3 successive 3D rotations about 
+  //  the 3 orthogonal axes.
+  //  Such vectors are known as <i>Euler Angles</i>.  
+  //  The sequence of axes about
+  //  which rotations are done is important, and must be specified 
+  //  using an <a href="RavlN.EulerSequenceC.html">EulerSequenceC</a>.
+  //
+  //!classbugs: Not all euler sequences yet supported...will add more soon.
+
   class EulerAngleC : public Vector3dC
   {
   public:

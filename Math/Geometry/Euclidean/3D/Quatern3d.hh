@@ -27,8 +27,13 @@ namespace RavlN {
   // default in a switch to test for unprocessed option, and not for
   // any other task.
   
-
+  //! userlevel=Obsolete
   //: Quaternion 
+  //
+  //  <i>This is an excellent class but its interface is not consistent
+  //  with the new EulerAngleC and AxisAngleC.  A new version is
+  //  on its way soon.</i>
+  //
   // Two quarternions may represent the same rotation q and -q,
   // both are valid, but it can be convenient to keep q[0]>0.
   // This code usually tries to keep q[0] positive. All the non trivial

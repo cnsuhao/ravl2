@@ -19,23 +19,37 @@
 namespace RavlN
 {
 
+  //:--------------------------------------------------------
   //! userlevel=Develop
   
   // C-style axis-angle conversions
   void AxisAngleToMatrix(const RealT* a, RealT* R);
   void MatrixToAxisAngle(const RealT* R, RealT* a);
 
+  //:--------------------------------------------------------
   //! userlevel=Normal
 
-  //: Axis-angle -> matrix conversion.
   inline void AxisAngleToMatrix(const Vector3dC& a, Matrix3dC& R)
   { AxisAngleToMatrix(&a[0], &R[0][0]); }
+  //: Convert axis-angle to 3D rotation matrix
+  //  See <a href="RavlN.AxisAngleC.html">AxisAngleC</a> for a
+  //  description of the axis-angle representation.
 
-  //: Matrix -> axis-angle conversion.
   inline void MatrixToAxisAngle(const Matrix3dC& R, Vector3dC& a)
   { MatrixToAxisAngle(&R[0][0], &a[0]); }
+  //: Convert 3D rotation matrix to axis-angle
+  //  See <a href="RavlN.AxisAngleC.html">AxisAngleC</a> for a
+  //  description of the axis-angle representation.
 
+  //:--------------------------------------------------------
+  //! userlevel=Normal
   //: Axis-angle class
+  //
+  //  Represents a rigid 3D rotation using a 3D vector.  The
+  //  direction of the vector is the axis of rotation, and
+  //  the magnitude of the vector is the angle of rotation,
+  //  in <i>radians</i>.
+
   class AxisAngleC : public Vector3dC
   {
   public:
