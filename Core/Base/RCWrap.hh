@@ -98,7 +98,7 @@ namespace RavlN {
     {}
     //: Default constructor.
 
-    RCWrapBodyC(const DataT &val)
+    explicit RCWrapBodyC(const DataT &val)
       : data(val)
     {}
     //: Constructor.
@@ -146,7 +146,7 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    RCWrapC(const DataT &dat)
+    explicit RCWrapC(const DataT &dat)
       : RCWrapAbstractC(*new RCWrapBodyC<DataT>(dat))
     {}
     //: Construct from an instance.
