@@ -1,8 +1,17 @@
 
+                ------------------------------------
+                RAVL, Recognition And Vision Library
+                ------------------------------------
+
+
 LICENSE
 -------
 
-RAVL is distributed under the GNU LESSER GENERAL PUBLIC LICENSE. (LGPL)
+The RAVL libraries are distributed under the GNU LESSER GENERAL PUBLIC 
+LICENSE (LGPL), however some of the tools built with the library have
+been issued under the more restrictive GNU GENERAL PUBLIC LICENSE, the
+headers attached to each of the files in the project indicate which of 
+these apply.
 
 
 INSTALLATION
