@@ -100,10 +100,13 @@ int testDArray1d() {
   DArray1dC<int> test2(5,true);
   for(i = 0;i < testSize;i++) {
     if(test2.Size() != (UIntT) i) {
-      cerr << "Test failed at count " << i << "\n";
+      cerr << "Test failed at count=" << i << " size=" << test2.Size() << "\n";
       return __LINE__;
     }
     test2.Append(i);
+    IntT j = 0;
+    for(DArray1dIterC<int> it(test2);it;it++,j++)
+      if(*it != j) return __LINE__;
   }
   i = 0;
   for(DArray1dIterC<int> it(test2);it;it++,i++)
