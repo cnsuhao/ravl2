@@ -21,6 +21,8 @@ LIBDEPS=RavlPatternRecDistance.def
 
 PLIB=RavlPatternRec
 
+TESTEXES=testMeasure.cc
+
 USESLIBS=RavlPatternRec RavlMath
 
 EHT=Ravl.Pattern_Recognition.Distance.html
