@@ -502,7 +502,7 @@ int testGaussConvolve() {
 }
 
 int testDCT() {
-  ImageC<RealT> img(6,5);
+  ImageC<RealT> img(6,6);
   img.Fill(0);
   img[3][3] = 1;
   img[4][3] = 1;
