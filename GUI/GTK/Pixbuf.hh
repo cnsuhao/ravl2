@@ -58,6 +58,9 @@ namespace RavlGUIN {
     const GdkPixbuf *Pixbuf() const
     { return pixbuf; }
     
+    const bool IsValid() const
+    { return (pixbuf != 0); }
+    
     const IntT Rows() const;
     
     const IntT Cols() const;
