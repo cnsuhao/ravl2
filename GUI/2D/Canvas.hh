@@ -375,7 +375,7 @@ namespace RavlGUIN {
     //: Clear canvas to given colour.
     
     bool Clear()
-    { return Body().GUIClear(); }
+    { return Body().Clear(); }
     //: Clear canvas to given colour.
     
     bool IsReady() const 
