@@ -12,6 +12,7 @@
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
 #include "Ravl/Threads/Signal1.hh"
+#include "Ravl/QInt.hh"
 
 #define DODEBUG 1
 #if DODEBUG
@@ -97,42 +98,73 @@ namespace RavlGUIN {
   //: Draw an image into the canvas with its origin offset by 'offset'.
   // Note: You have to include the RavlGUI2d library to use this function.
   
-  void RawZoomCanvasBodyC::GUIDrawImage(const ImageC<ByteRGBValueC> &image,const Point2dC &offset,bool ignoreImageOrigin) {
-    cerr << "RawZoomCanvasBodyC::GUIDrawImage(), Called. \n";
-    IndexRange2dC drawRect = World2GUIi(image.Frame());
-    cerr << "DrawRect=" << drawRect << " widgetSize=" << widgetSize << "\n";
+  void RawZoomCanvasBodyC::GUIDrawImage(const ImageC<ByteRGBValueC> &image,const Point2dC &doffset,bool ignoreImageOrigin) {
+    ONDEBUG(cerr << "RawZoomCanvasBodyC::GUIDrawImage(), Called. Offset=" << offset << "\n");
+    IndexRange2dC drawRect = World2GUIi(image.Frame() + doffset);
+    ONDEBUG(cerr << "DrawRect=" << drawRect << " widgetSize=" << widgetSize << "\n");
     drawRect.ClipBy(widgetSize);
     if(drawRect.Area() <= 0)
       return ;
-    cerr << "FinalDrawRect=" << drawRect << "\n";
-    ImageC<ByteRGBValueC> drawImg(drawRect);
-    for(Array2dIterC<ByteRGBValueC> it(drawImg);it;it++) {
-      Index2dC at = Index2dC(GUI2World(it.Index()));
-      if(!image.Frame().Contains(at))
-	continue;
-      *it = image[at];
+    ONDEBUG(cerr << "FinalDrawRect=" << drawRect << "\n");
+    
+    if(Abs(scale[0] - 1) < 0.0001 && Abs(scale[0] - 1) < 0.0001) {
+      
+      RawCanvasBodyC::GUIDrawImage(image,Index2dC(doffset + offset),false);
+    } else {
+      ImageC<ByteRGBValueC> drawImg(drawRect);
+      Vector2dC inc(1/scale[0],1/scale[1]);
+      Array2dIterC<ByteRGBValueC> it(drawImg);
+      Point2dC pat,start = GUI2World(it.Index()) + doffset;
+      pat = start;
+      for(;it;) {
+	pat[1] = start[1];
+	do {
+	  Index2dC at(QFloor(pat[0]),QFloor(pat[1]));
+	  if(image.Frame().Contains(at))
+	    *it = image[at];
+	  else *it = ByteRGBValueC(255,0,0);
+	  pat[1] += inc[1];
+	} while(it.Next());
+	pat[0] += inc[0];
+      }
+      RawCanvasBodyC::GUIDrawImage(drawImg,Index2dC(0,0),false);
     }
-    RawCanvasBodyC::GUIDrawImage(drawImg,Index2dC(0,0),false);
   }
   
   //: Draw an image into the canvas with its origin offset by 'offset'.
   // Note: You have to include the RavlGUI2d library to use this function.
   
-  void RawZoomCanvasBodyC::GUIDrawImage(const ImageC<ByteT> &image,const Point2dC &offset,bool ignoreImageOrigin) {
-    cerr << "RawZoomCanvasBodyC::GUIDrawImage(), Called. \n";
-    IndexRange2dC drawRect = World2GUIi(image.Frame());
-    cerr << "DrawRect=" << drawRect << "\n";
+  void RawZoomCanvasBodyC::GUIDrawImage(const ImageC<ByteT> &image,const Point2dC &doffset,bool ignoreImageOrigin) {
+    ONDEBUG(cerr << "RawZoomCanvasBodyC::GUIDrawImage(), Called. Offset=" << offset << "\n");
+    IndexRange2dC drawRect = World2GUIi(image.Frame() + doffset);
+    ONDEBUG(cerr << "DrawRect=" << drawRect << " widgetSize=" << widgetSize << "\n");
     drawRect.ClipBy(widgetSize);
     if(drawRect.Area() <= 0)
       return ;
-    ImageC<ByteT> drawImg(drawRect);
-    for(Array2dIterC<ByteT> it(drawImg);it;it++) {
-      Index2dC at = Index2dC(GUI2World(it.Index()));
-      if(!image.Frame().Contains(at))
-	continue;
-      *it = image[at];
+    ONDEBUG(cerr << "FinalDrawRect=" << drawRect << "\n");
+    
+    if(Abs(scale[0] - 1) < 0.0001 && Abs(scale[0] - 1) < 0.0001) {
+      
+      RawCanvasBodyC::GUIDrawImage(image,Index2dC(doffset + offset),false);
+    } else {
+      ImageC<ByteT> drawImg(drawRect);
+      Vector2dC inc(1/scale[0],1/scale[1]);
+      Array2dIterC<ByteT> it(drawImg);
+      Point2dC pat,start = GUI2World(it.Index()) + doffset;
+      pat = start;
+      for(;it;) {
+	pat[1] = start[1];
+	do {
+	  Index2dC at(QFloor(pat[0]),QFloor(pat[1]));
+	  if(image.Frame().Contains(at))
+	    *it = image[at];
+	  else *it = 0;
+	  pat[1] += inc[1];
+	} while(it.Next());
+	pat[0] += inc[0];
+      }
+      RawCanvasBodyC::GUIDrawImage(drawImg,Index2dC(0,0),false);
     }
-    RawCanvasBodyC::GUIDrawImage(drawImg,Index2dC(0,0),false);    
   }
   
   //: Translate an expose event.

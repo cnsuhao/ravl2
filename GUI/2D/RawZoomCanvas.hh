@@ -145,7 +145,7 @@ namespace RavlGUIN {
     virtual bool Create();
     //: Create the widget.
     
-    bool EventConfigure(GdkEvent* &event);
+    virtual bool EventConfigure(GdkEvent* &event);
     //: Handle configure event.
     
     Vector2dC offset;

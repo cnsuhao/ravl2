@@ -17,6 +17,7 @@
 #include "Ravl/Polygon2d.hh"
 #include "Ravl/GUI/Slider.hh"
 #include "Ravl/GUI/LBox.hh"
+#include "Ravl/GUI/PackInfo.hh"
 
 using namespace RavlGUIN;
 
@@ -82,11 +83,14 @@ int main(int nargs,char **argv) {
   
   Connect(canvas.Signal("expose_event"),&Refresh);
   
-  SliderC scale = SliderH(1,1,10,1,&UpdateScale);
-  SliderC roffset = SliderH(1,0,100,1,&UpdateROffset);
-  SliderC coffset = SliderH(1,0,100,1,&UpdateCOffset);
+  SliderC scale = SliderH(1,1,10,0.1,&UpdateScale);
+  SliderC roffset = SliderH(1,0,100,0.1,&UpdateROffset);
+  SliderC coffset = SliderH(1,0,100,0.1,&UpdateCOffset);
   
-  win.Add(VBox(canvas + scale + roffset + coffset));
+  win.Add(VBox(canvas + 
+	       PackInfoC(scale,false,true) + 
+	       PackInfoC(roffset,false,true) + 
+	       PackInfoC(coffset,false,true)));
   win.Show();
   Manager.Start();
 
