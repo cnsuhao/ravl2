@@ -85,8 +85,8 @@ namespace RavlN {
   // Based on method presented in 'Numerically Stable Direct Least Squares Fitting of Ellipses' 
   // by Radim Halir and Jan Flusser.
   
-  Ellipse2dC EllipseMeanCovar(const Matrix2dC &covar,const Point2dC &mean,RealT stdDev);
-  //: Compute an ellipse from a covariance matrix, mean, and standard deviation.
+  Ellipse2dC EllipseMeanCovariance(const Matrix2dC &covar,const Point2dC &mean,RealT stdDev = 1.0);
+  //: Compute an ellipse from a 2d covariance matrix, mean, and standard deviation.
   
   ostream &operator<<(ostream &s,const Ellipse2dC &obj);
   //: Write ellipse to text stream.

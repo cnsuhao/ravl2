@@ -89,8 +89,14 @@ namespace RavlN {
 
   //: Compute an ellipse from a covariance matrix, mean, and standard deviation.
   
-  Ellipse2dC EllipseMeanCovar(const Matrix2dC &covar,const Point2dC &mean,RealT stdDev) {
-    return Ellipse2dC();
+  Ellipse2dC EllipseMeanCovariance(const Matrix2dC &covar,const Point2dC &mean,RealT stdDev) {
+    Matrix2dC su,sv;
+    Vector2dC dv = SVD(covar,su,sv);
+    Matrix2dC d(stdDev*Sqrt(dv[0]),0,
+		0,stdDev*Sqrt(dv[1]));
+    // FIXME:- Multiply out by hand to make it faster.
+    Matrix2dC sr = (su * d).MulT(sv);
+    return Ellipse2dC(sr,mean);
   }
 
 

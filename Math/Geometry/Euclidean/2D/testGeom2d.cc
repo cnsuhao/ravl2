@@ -42,6 +42,7 @@ int testProjective2d();
 int testConic2d();
 int testEllipse2dA();
 int testEllipse2dB();
+int testEllipse2dC();
 
 int main() {
   int ln;
@@ -88,6 +89,10 @@ int main() {
     return 1;
   }
   if((ln = testEllipse2dB()) != 0) {
+    cerr << "Test failed at " << ln << "\n";
+    return 1;
+  }
+  if((ln = testEllipse2dC()) != 0) {
     cerr << "Test failed at " << ln << "\n";
     return 1;
   }
@@ -434,5 +439,23 @@ int testEllipse2dB() {
     if(Abs(AngleC(ang,RavlConstN::pi).Diff(AngleC(tangle,RavlConstN::pi))) > 0.000001) return __LINE__;
   }
   //cerr << "Ellipse2=" << ellipse2 << "\n";
+  return 0;
+}
+
+int testEllipse2dC() {
+  Matrix2dC covar(4,0,
+		  0,1);
+  Vector2dC mean(50,50);
+  
+  Ellipse2dC ellipse = EllipseMeanCovariance(covar,mean,1.0);
+  Point2dC centre;
+  RealT min,maj,ang;
+  ellipse.EllipseParameters(centre,maj,min,ang);
+  //cerr << "Paramiters=" << centre << " " << maj << " " << min << " " << ang << " \n";
+  if(Abs(maj - 2) > 0.0000001)
+    return __LINE__;
+  if(Abs(min - 1) > 0.0000001)
+    return __LINE__;
+  if(Abs(AngleC(ang,RavlConstN::pi).Diff(AngleC(0,RavlConstN::pi))) > 0.000001) return __LINE__;
   return 0;
 }
