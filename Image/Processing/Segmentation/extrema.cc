@@ -18,14 +18,14 @@ using namespace RavlImageN;
 
 int main(int nargs,char **argv) {
   OptionC opt(nargs,argv);
-  StringC fn = opt.String("","test.pgm","Input image. ");
-  StringC ofn = opt.String("","out.strm","Output boundries. ");
   IntT minSize = opt.Int("ms",10,"Minimum region size. ");
   RealT minMargin = opt.Real("mm",10,"Minimum margin. ");
   bool seq = opt.Boolean("s",false,"Process a sequence. ");
   bool drawResults = opt.Boolean("d",false,"Draw results into a window.");
-  
+  StringC fn = opt.String("","test.pgm","Input image. ");
+  StringC ofn = opt.String("","","Output boundries. ");  
   opt.Check();
+  
   ImageC<ByteT> img;
   
   SegmentExtremaC lst(minSize,minMargin);
@@ -38,9 +38,11 @@ int main(int nargs,char **argv) {
   }
   
   DPOPortC<DListC<BoundaryC> > outp;
-  if(!OpenOSequence(outp,ofn)) {
-    cerr <<  "Failed to open output sequence " << ofn << "\n";
-    return 1;
+  if(!ofn.IsEmpty()) {
+    if(!OpenOSequence(outp,ofn)) {
+      cerr <<  "Failed to open output sequence " << ofn << "\n";
+      return 1;
+    }
   }
   
   while(inp.Get(img)) {
@@ -52,9 +54,11 @@ int main(int nargs,char **argv) {
 	  img[it->LPixel()] = 255;
       Save("@X",img);
     }
-    if(!outp.Put(bounds)) {
-      cerr << "ABORT: Failed to write output. \n";
-      return 1;
+    if(outp.IsValid()) {
+      if(!outp.Put(bounds)) {
+	cerr << "ABORT: Failed to write output. \n";
+	return 1;
+      }
     }
     if(!seq)
       break;
