@@ -72,9 +72,6 @@ namespace RavlN {
     //: Convert to a fixed size vector.
 #endif
     
-    DataT Sum() const;      
-    //: Returns the sum all elements of the vector.
-    
     DataT Product() const;      
     //: Returns the product of all elements of the vector.
     
@@ -149,20 +146,6 @@ namespace RavlN {
     for(BufferAccessIterC<DataC> it(arr);it;it++)
       s << ((const DataC &) *it) << ' ';
     return s;
-  }
-  
-  template<class DataT>
-  DataT TVectorC<DataT>::Sum() const  {
-    DataT sum;
-    BufferAccessIterC<DataT> it(*this);
-    if(!it) {
-      SetZero(sum);
-      return sum;
-    }
-    sum = StdCopy(*it);
-    for(it++;it;it++)
-      sum += it.Data();
-    return sum;
   }
   
   template<class DataT>
