@@ -10,13 +10,17 @@
 PACKAGE=Ravl
 
 HEADERS= LinePP3d.hh  LinePV3d.hh  PlaneABCD3d.hh  PlanePVV3d.hh Point3d.hh \
- Quatern3d.hh RigidTransform3d.hh
+ Quatern3d.hh RigidTransform3d.hh EulerAngle.hh AxisAngle.hh
 
 SOURCES= LinePP3d.cc  LinePV3d.cc  PlaneABCD3d.cc  PlanePVV3d.cc \
- Quatern3d.cc RigidTransform3d.cc
+ Quatern3d.cc RigidTransform3d.cc EulerAngle.cc AxisAngle.cc
 
 PLIB=RavlMath
 
 LIBDEPS=RavlMath3D.def
 
 USESLIBS=RavlMath
+
+TESTEXES = testAngles.cc
+
+
