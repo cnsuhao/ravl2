@@ -196,6 +196,8 @@ namespace RavlN {
     RavlAssert(edge.HasPair());
     HEMeshBaseEdgeC edgep = edge.Pair();
     
+    RavlAssert(vertFrom.Vertex() != vertTo.Vertex());
+    
     RavlAssert(edgep != vertFrom);
     RavlAssert(edgep != vertTo);
     
