@@ -202,7 +202,7 @@ namespace RavlN {
 
   FileFormatBaseC::FileFormatBaseC(bool forLoad,const StringC &filename,StringC formName,const type_info &objtype) 
     : DPEntityC(true)
-  {  (*this) = SystemFileFormatRegistry().FindFormat(forLoad,filename,objtype,formName); }
+  {  (*this) = SystemFileFormatRegistry().FindFormatFile(forLoad,filename,objtype,formName); }
  
   //: Load constructor.
   
