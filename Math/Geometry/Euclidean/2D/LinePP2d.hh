@@ -46,11 +46,11 @@ namespace RavlN {
     // Returns false if no part of the line is in the rectangle.
 
     bool IsPointToLeft(const Point2dC& pnt) const
-    { return pnt.Area2(P1(),P2()) > 0; }
+    { return pnt.Area2(P1(),P2()) < 0; }
     //: Checks if this point is to the left of the line
 
     bool IsPointToLeftOn(const Point2dC& pnt) const 
-    { return pnt.Area2(P1(),P2()) >= 0; }
+    { return pnt.Area2(P1(),P2()) <= 0; }
     //: Checks if this point is to the left of , or exactly on the line
     
     bool IsPointOn(const Point2dC& pnt) const
