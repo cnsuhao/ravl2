@@ -41,9 +41,10 @@ GTKLIBS = -L/opt/lib  `$(GTKCONFIG) --libs`
 endif 
 
 ifndef GLIBLIBS 
-GLIBLIBS = -lgthread `$(GLIBCONFIG) --libs`
+GLIBLIBS = `$(GLIBCONFIG) --libs`
 endif 
 
+GTKLIBS += -lgthread 
 else
 
 ifndef GTKCFLAGS
