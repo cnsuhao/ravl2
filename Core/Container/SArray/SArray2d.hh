@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLSARRAY2D_HEADER
-#define RAVLSARRAY2D_HEADER 1
+#ifndef RAVL_SARRAY2D_HEADER
+#define RAVL_SARRAY2D_HEADER 1
 /////////////////////////////////////////////////////
 //! userlevel=Normal
 //! docentry="Ravl.Core.Arrays.2D"
@@ -25,6 +25,7 @@
 namespace RavlN {
   
   template<class DataT> class SArray1dC;
+  template<class DataT> class Array2dC;
   template<class DataT> class SArray2dIterC;
   template<class DataT> class Slice1dC;
   template<class DataT> class Slice1dIterC;
@@ -157,14 +158,24 @@ namespace RavlN {
     // 'val' must have a size equal to the number of columns
     
   protected:
+    SArray2dC(Buffer2dC<DataT> & bf, 
+	      const BufferAccessC<BufferAccessC<DataT> > &ab,
+	      SizeT dim1,SizeT dim2)
+      : SizeBufferAccess2dC<DataT>(ab,dim1,dim2),
+	data(bf)
+    {}
+    //: Construct from a buffer, and an existing buffer access.
+    
     void BuildAccess(UIntT offset = 0,UIntT stride = 0);
     
     Buffer2dC<DataT> data; // Handle to data.
+    
+    friend class Array2dC<DataT>;
   };
   
   template <class DataT>
   ostream & operator<<(ostream & s, const SArray2dC<DataT> & arr) {
-    s << "0 " <<  arr.Size1() << " 0 " << arr.Size2() << "\n";
+    s << "0 " <<  (arr.Size1()-1) << " 0 " << (arr.Size2()-1) << "\n";
     return s << ((SizeBufferAccess2dC<DataT> &) arr);
   }
   // Prints into the stream 's'
@@ -174,6 +185,7 @@ namespace RavlN {
     SizeT size1,size2,x1,x2;
     s >> x1 >> size1 >> x2 >> size2;
     RavlAssert(x1 == 0 && x2 == 0);  // Only accept arrays starting at origin.
+    arr = SArray2dC<DataT>(size1+1,size2+1);
     return s >> ((SizeBufferAccess2dC<DataT> &) arr);
   }
   // Reads the array from the stream 's'
@@ -181,7 +193,7 @@ namespace RavlN {
   template<class DataT>
   BinOStreamC &operator<<(BinOStreamC & s, const SArray2dC<DataT> & arr) {
     SizeT x = 0;
-    s << x << arr.Size1() << x << arr.Size2();
+    s << x << (arr.Size1()-1) << x << (arr.Size2()-1);
     return s << ((SizeBufferAccess2dC<DataT> &) arr);
   }
 
@@ -215,8 +227,8 @@ namespace RavlN {
   
   template<class DataT>
   SArray2dC<DataT>::SArray2dC(const BufferC<DataT> & bf, SizeT size1,SizeT nsize2,SizeT startOffset,SizeT stride)
-    : SizeBufferAccess2dC<DataT>(size2),
-      data(bf,bsize1)
+    : SizeBufferAccess2dC<DataT>(nsize2),
+      data(bf,size1)
   { BuildAccess(startOffset,stride); }
   
   template<class DataT>

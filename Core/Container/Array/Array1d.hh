@@ -155,13 +155,13 @@ namespace RavlN {
       { return *this; }
     //: Access to the whole array.
     
-    inline SArray1dC<DataC> SArray1d();
+    inline SArray1dC<DataC> SArray1d(bool doShift = false);
     //: Create an access as an sarray.
     // NB. This does NOT copy the data, it only make a new access to it.
-    // If the array does not have contain element '0' an error will
-    // occure in check mode, when optimised is enabled an empty array
-    // will be returned. 
-    // In anycase only elements 0 and above will be accessable.
+    // If doShift is true element IMin() will become element 0 of the 
+    // SArray while the size stays the same. Otherwise if the array 
+    // does not contain element '0' an error will occure in check mode, 
+    // when optimised is enabled an empty array will be returned. 
     
     // Array representation modifications.
     // -----------------------------------
@@ -487,18 +487,14 @@ namespace RavlN {
     *this = newArr;
     return *this;
   }
-
-  //: Create an access as an sarray.
-  // If the array does not have contain element '0' an error will
-  // occure in check mode, when optimised is enabled an empty array
-  // will be returned. 
-  // In anycase only elements 0 and above will be accessable.
   
   template <class DataC>
   inline 
-  SArray1dC<DataC> Array1dC<DataC>::SArray1d() {
+  SArray1dC<DataC> Array1dC<DataC>::SArray1d(bool doShift = false) {
+    if(doShift)
+      return SArray1dC<DataC>(buff,&((*this)[IMin()]),Size());
     if(!Contains(0)) {
-      assert(Contains(0)); // Cause assertion failure in debug/check mode
+      RavlAssert(Contains(0)); // Cause assertion failure in debug/check mode
       return SArray1dC<DataC>();
     }
     return SArray1dC<DataC>(buff,&((*this)[0]) ,IMax().V());

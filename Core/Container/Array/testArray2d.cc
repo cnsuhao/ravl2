@@ -19,10 +19,12 @@
 #include "Ravl/Array2dSqr311Iter3.hh"
 #include "Ravl/Array2dSqr3111Iter4.hh"
 #include "Ravl/Array2dSqr3311Iter4.hh"
+#include "Ravl/SArr2Iter.hh"
 
 using namespace RavlN;
 
 int testBasic();
+int testSArrayConv();
 int testSqr2();
 int testSqr3();
 int testSqr31();
@@ -35,6 +37,10 @@ int main()
   int ln;
   if((ln = testBasic()) != 0) {
     cerr << "Basic Array2d test failed line:" << ln << "\n";
+    return 1;
+  }
+  if((ln = testSArrayConv()) != 0) {
+    cerr << "SArrayConv Array2d test failed line:" << ln << "\n";
     return 1;
   }
   if((ln = testSqr2()) != 0) {
@@ -114,6 +120,33 @@ int testBasic() {
 
   return 0;
 }
+
+int testSArrayConv() {
+  Array2dC<IntT> data(IndexRangeC(1,3),IndexRangeC(2,6));
+  int i = 0;
+  for(Array2dIterC<IntT> it(data);it;it++,i++)
+    *it = i;
+  Array2dC<IntT> data2(3,3);  
+  i = 0;
+  for(Array2dIterC<IntT> it(data2);it;it++,i++)
+    *it = i;
+  SArray2dC<IntT> d1(data2.SArray2d());
+  i = 0;
+  for(SArray2dIterC<IntT> it(d1);it;it++,i++)
+    if(*it != i) return __LINE__;
+  i = 0;
+  Array2dC<IntT> a1(d1);
+  for(Array2dIterC<IntT> it(a1);it;it++,i++)
+    if(*it != i) return __LINE__;
+  
+  SArray2dC<IntT> d2(data.SArray2d(true));
+  i = 0;
+  for(SArray2dIterC<IntT> it(d2);it;it++,i++)
+    if(*it != i) return __LINE__;
+  
+  return 0;
+}
+
 
 // Test 2x2 iterators.
 
