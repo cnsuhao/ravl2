@@ -32,7 +32,7 @@ namespace RavlImageN {
   ImageC<FloatT> ByteRGBImageCT2FloatImageCT(const ImageC<ByteRGBValueC> &dat) {
     ImageC<FloatT> ret(dat.Frame());
     for(Array2dIter2C<FloatT,ByteRGBValueC> it(ret,dat);it;it++)
-      it.Data1() = (FloatT) ((FloatT) it.Data2().Red() + (FloatT) it.Data2().Green() + (FloatT) it.Data2().Blue()) / 3.0;
+      it.Data1() = (FloatT) ((FloatT) it.Data2().Red() + (FloatT) it.Data2().Green() + (FloatT) it.Data2().Blue()) / 3.0f;
     return ret;
   }
   //: Byte Colour to float image.
@@ -49,7 +49,7 @@ namespace RavlImageN {
   ImageC<bool> ByteImage2BoolImage(const ImageC<ByteT> &dat) {
     ImageC<bool> ret(dat.Frame());
     for(Array2dIter2C<ByteT,bool> it(dat,ret);it;it++)
-      it.Data2() = it.Data1();
+      it.Data2() = (it.Data1()!=0);
     return ret;
   }
   //: Convert an image of byte's to a bool image.
