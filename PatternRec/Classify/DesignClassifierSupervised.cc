@@ -11,6 +11,9 @@
 
 #include "Ravl/PatternRec/DesignClassifierSupervised.hh"
 #include "Ravl/PatternRec/SampleIter.hh"
+#include "Ravl/config.h"
+
+
 
 namespace RavlN {
   
@@ -65,3 +68,26 @@ namespace RavlN {
 
 
 }
+
+#if RAVL_COMPILER_MIPSPRO
+#include "Ravl/SArray1dIter3.hh"
+#include "Ravl/SArray1dIter4.hh"
+#include "Ravl/MeanCovariance.hh"
+#include "Ravl/MatrixRS.hh"
+#include "Ravl/Vector.hh"
+#include "Ravl/SArray1d.hh"
+#include "Ravl/BinStream.hh"
+#include "Ravl/VirtualConstructor.hh"
+#include "Ravl/RCHandleV.hh"
+
+#pragma instantiate RavlN::SArray1dIter3C<RavlN::MeanCovarianceC,RavlN::VectorC,RavlN::MatrixRSC>
+#pragma instantiate istream & RavlN::operator>>(istream&,RavlN::SArray1dC<RavlN::MeanCovarianceC>&)
+#pragma instantiate RavlN::BinIStreamC & RavlN::operator>>(RavlN::BinIStreamC&,RavlN::SArray1dC<RavlN::MeanCovarianceC>&)
+#pragma instantiate ostream & RavlN::operator<<(ostream&,const RavlN::SArray1dC<RavlN::MeanCovarianceC>&)
+#pragma instantiate ostream & RavlN::operator<<(ostream&,const RavlN::SArray1dC<double>&) 
+#pragma instantiate RavlN::BinOStreamC & RavlN::operator<<(RavlN::BinOStreamC&,const RavlN::SArray1dC<RavlN::MeanCovarianceC>&)
+#pragma instantiate RavlN::SArray1dIter4C<RavlN::MeanCovarianceC,double,RavlN::MatrixRSC,double>
+#pragma instantiate RavlN::DesignClassifierSupervisedBodyC* ::RavlN::VCLoad(istream&, RavlN::DesignClassifierSupervisedBodyC*)
+#pragma instantiate RavlN::DesignClassifierSupervisedBodyC* ::RavlN::VCLoad(RavlN::BinIStreamC & , RavlN::DesignClassifierSupervisedBodyC*)
+
+#endif 

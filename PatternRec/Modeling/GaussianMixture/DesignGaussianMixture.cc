@@ -16,6 +16,7 @@
 #include "Ravl/PatternRec/DistanceEuclidean.hh"
 #include "Ravl/SArray1dIter2.hh"
 #include "Ravl/SArray1dIter3.hh"
+#include "Ravl/config.h"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -24,6 +25,19 @@
 #define ONDEBUG(x)
 #endif
 
+#if RAVL_COMPILER_MIPSPRO
+#include "Ravl/VirtualConstructor.hh"
+#include "Ravl/SArray1dIter3.hh"
+#include "Ravl/Vector.hh"
+#include "Ravl/MatrixRS.hh"
+
+#pragma instantiate RavlN::SArray1dIter3C<RavlN::VectorC,RavlN::MatrixRSC,double>
+#pragma instantiate RavlN::GaussianMixtureBodyC* RavlN::VCLoad(istream&,RavlN::GaussianMixtureBodyC*)
+#pragma instantiate RavlN::SArray1dIter2C<RavlN::VectorC,RavlN::MatrixRSC>
+#pragma instantiate RavlN::SArray1dIterC<RavlN::MatrixRSC>
+#pragma instantiate RavlN::SArray1dIter2C<RavlN::MeanCovarianceC,RavlN::VectorC>
+#pragma instantiate RavlN::BufferAccessIter3C<RavlN::VectorC,RavlN::MatrixRSC,double>
+#endif 
 
 namespace RavlN {
   

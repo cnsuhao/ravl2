@@ -12,6 +12,15 @@
 #include "Ravl/PatternRec/ClassifierDiscriminantFunction.hh"
 #include "Ravl/PatternRec/SampleLabel.hh"
 #include "Ravl/VirtualConstructor.hh"
+#include "Ravl/config.h"
+
+#if RAVL_COMPILER_MIPSPRO
+#include "Ravl/VirtualConstructor.hh"
+#include "Ravl/BinStream.hh"
+#pragma instantiate RavlN::DesignDiscriminantFunctionBodyC* ::RavlN::VCLoad(istream &,RavlN::DesignDiscriminantFunctionBodyC*)
+#pragma instantiate RavlN::DesignDiscriminantFunctionBodyC* ::RavlN::VCLoad(RavlN::BinIStreamC&,RavlN::DesignDiscriminantFunctionBodyC*)
+#endif 
+
 #if RAVL_COMPILER_VISUALCPP
 #include "Ravl/BinStream.hh"
 #endif
