@@ -82,6 +82,7 @@ namespace RavlN {
   //: Convert from string 
   bool TimeCodeC::ConvertFrom  (const StringC& str) {
     StringListC items(str, ":");
+    if (items.Size() != 4) return false;
     IntT hour = items.PopFirst().IntValue();
     IntT min = items.PopFirst().IntValue();
     IntT sec = items.PopFirst().IntValue();
