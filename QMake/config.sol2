@@ -52,6 +52,12 @@ ifndef TR
  TR = tr 
 endif 
 
+
+ifndef DYNAMICFLAG
+DYNAMICFLAG = -rdynamic 
+endif 
+
+
 ARFLAGS = ruc
 MKDIR = mkdir -p
 CP = cp

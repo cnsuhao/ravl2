@@ -8,6 +8,6 @@
 ifndef DynLinkDEF
 DynLinkDEF=1
 
-EXELIB := -rdynamic -ldl $(EXELIB)
+EXELIB := $(DYNAMICFLAG) -ldl $(EXELIB)
 
 endif
