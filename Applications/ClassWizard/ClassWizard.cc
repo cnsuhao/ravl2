@@ -260,7 +260,7 @@ namespace RavlN {
     
     StringC bodyClassName = bodyObj.Name();
     //ONDEBUG(err << "ClassWizardBodyC::WriteHandleClass() Body=" <<  << " Classname=" << className << " Body=" << bodyClassName << "\n");
-    sc += "//! userlevel=normal";
+    sc += "//! userlevel=Normal";
     if(bodyObj.Comment().Header().IsEmpty())
       sc += StringC("//: Handle for ") + bodyClass.Name();
     WriteComment(sc,bodyObj);
