@@ -77,8 +77,8 @@ namespace RavlGUIN {
 			       Label(" Y=") + PackInfoC(ypos,false,false) + 
 			       Label(" Info:") + PackInfoC(info,true,true)),
 			  0,3,3,4,
-			  (GtkAttachOptions)(GTK_EXPAND|GTK_SHRINK|GTK_FILL),
-			  (GtkAttachOptions)(GTK_EXPAND|GTK_SHRINK|GTK_FILL));
+			  (GtkAttachOptions)(GTK_FILL),
+			  (GtkAttachOptions)(GTK_FILL));
     
     TableBodyC::AddObject(canvas,1,2,1,2,
 			  (GtkAttachOptions)(GTK_FILL),
