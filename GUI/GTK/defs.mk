@@ -18,8 +18,6 @@ endif
 
 PACKAGE = Ravl/GUI
 
-SUPPORT_ONLY = linux sol2 sgi
-
 HEADERS = Manager.hh Widget.hh GTKTypes.hh SignalInfo.hh \
  MouseEvent.hh Window.hh Cursor.hh ToolTips.hh CWidget.hh \
  Button.hh Pixmap.hh  OneChild.hh PackInfo.hh LBox.hh \
