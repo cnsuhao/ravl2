@@ -2,22 +2,21 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 
-#include "amma/DP/FileFormatStream.hh"
-#include "amma/DP/FileFormatBinStream.hh"
-#include "amma/DP/Converter.hh"
-#include "amma/BinImgIO.hh"
+#include "Ravl/DP/FileFormatStream.hh"
+#include "Ravl/DP/FileFormatBinStream.hh"
+//#include "Ravl/DP/Converter.hh"
+#include "Ravl/Image/Image.hh"
+//#include "Ravl/Array2dIter2.hh"
+#include "Ravl/TypeName.hh"
 
-void InitImgIOUInt16()
-{}
+namespace RavlN {
 
-//ImageC<ByteGreyValueT>  DPConvByteImageC2ImageCT(const ByteImageC &dat)  
-//{ return ImageC<ByteGreyValueT>(dat); }
-//ByteImageC DPConvImageCT2ByteImageC(const ImageC<ByteGreyValueT> &dat)  
-//{ return ByteImageC(dat); }
-//DP_REGISTER_CONVERTION(DPConvByteImageC2ImageCT,1);
-//DP_REGISTER_CONVERTION(DPConvImageCT2ByteImageC,1);
-
-FileFormatStreamC<ImageC<GreyValueU16T> > FileFormatStream_ImageC_GreyValueU16T;
-FileFormatBinStreamC<ImageC<GreyValueU16T> > FileFormatBinStream_ImageC_GreyValueU16T;
-
-static TypeNameC type2(typeid(ImageC<GreyValueU16T>),"ImageC<GreyValueU16T>");
+  void InitImgIOUInt16()
+    {}
+  
+  static TypeNameC type1(typeid(ImageC<UIntT>),"ImageC<UInt16T>");
+  
+  FileFormatStreamC<ImageC<UInt16T> > FileFormatStream_ImageC_UInt16T;
+  FileFormatBinStreamC<ImageC<UInt16T> > FileFormatBinStream_ImageC_UInt16T;
+  
+}

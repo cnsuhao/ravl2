@@ -30,35 +30,26 @@ namespace RavlN {
     return ret;
   }
   
-#if 0
-  ImageC<UIntT> UInt16TImageCT2UIntTImageCT(const ImageC<GreyValueU16T> &dat) { 
+  ImageC<UIntT> UInt16TImageCT2UIntTImageCT(const ImageC<UInt16T> &dat) { 
     ImageC<UIntT> ret(dat.Rectangle());
-    for(Image2IterC<UIntT,GreyValueU16T> it(ret,dat);it.IsElm();it.Next()) 
+    for(Array2dIter2C<UIntT,UInt16T> it(ret,dat);it;it++)
       it.Data1() = it.Data2();
     return ret;
   }
-
-  ImageC<GreyValueU16T> UIntTImageCT2UInt16TImageCT(const ImageC<UIntT> &dat) { 
-    ImageC<GreyValueU16T> ret(dat.Rectangle());
-    for(Image2IterC<GreyValueU16T,UIntT> it(ret,dat);it.IsElm();it.Next()) 
+  
+  ImageC<UInt16T> UIntTImageCT2UInt16TImageCT(const ImageC<UIntT> &dat) { 
+    ImageC<UInt16T> ret(dat.Rectangle());
+    for(Array2dIter2C<UInt16T,UIntT> it(ret,dat);it;it++)
       it.Data1() = it.Data2();
     return ret;
   }
-#endif
   
   DP_REGISTER_CONVERTION(UIntTImageCT2DoubleImageCT,1);
-#if 0
   DP_REGISTER_CONVERTION(UInt16TImageCT2UIntTImageCT,1);
   DP_REGISTER_CONVERTION(UIntTImageCT2UInt16TImageCT,2);
-#endif
   
   static TypeNameC type1(typeid(ImageC<IntT>),"ImageC<IntT>");  
   static TypeNameC type2(typeid(ImageC<UIntT>),"ImageC<UIntT>");
-
-#if 0  
-  DP_REGISTER_CONVERTION(DPConvIntImageC2ImageCT,1);
-  DP_REGISTER_CONVERTION(DPConvImageCT2IntImageC,1);
-#endif
   
   FileFormatStreamC<ImageC<IntT> > FileFormatStream_ImageC_IntT;
   FileFormatBinStreamC<ImageC<IntT> > FileFormatBinStream_ImageC_IntT;

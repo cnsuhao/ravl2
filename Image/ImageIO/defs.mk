@@ -15,11 +15,13 @@ HEADERS = ImgIOPNMB.hh ImgIOPNM.hh PNMFormat.hh ImgIO.hh
 #  \
 # ImageConv.hh 
 
-SOURCES = ImgIOPNM.cc PNMFormat.cc ImgIOInt.cc ImgIOByte.cc
+SOURCES = ImgIOPNM.cc PNMFormat.cc ImgIOInt.cc ImgIOByte.cc \
+ ImgIOUInt16.cc ImgIOByteRGB.cc
+
 #  \
 # ImgTypeCnv.cc ImgTypeCnv2.cc ImgCnvRGB.cc ImgCnvRGB16.cc \
 # ImgIOPixel.cc \
-# ImgIOByte.cc ImgIOInt.cc ImgIOReal.cc ImgIOUInt16.cc \
+#  ImgIOReal.cc  \
 # ImgIOByteRGB.cc ImgIORealRGB.cc ImgIOU16RGB.cc \
 # ImgIOByteYUV.cc ImgIORealYUV.cc \
 # PixelIO.cc ImgFrameCnv.cc ImgIOByteVYU.cc \
