@@ -4,14 +4,14 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLDATASET1ITER_HEADER
-#define RAVLDATASET1ITER_HEADER 1
+#ifndef RAVLDATASET2ITER_HEADER
+#define RAVLDATASET2ITER_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Pattern Recognition.Data Set"
 //! lib=RavlPatternRec
 
-#include "Ravl/PatternRec/DataSet1.hh"
+#include "Ravl/PatternRec/DataSet3.hh"
 #include "Ravl/CollectionIter.hh"
 
 namespace RavlN {
@@ -19,14 +19,14 @@ namespace RavlN {
   //! userlevel=Normal
   //: Iterate through a data set.
   
-  template<class SampleT>
-  class DataSet1IterC {
+  template<class Sample1T,class Sample2T,class Sample3T>
+  class DataSet3IterC {
   public:
-    DataSet1IterC()
+    DataSet3IterC()
     {}
     //: Default construtor.
     
-    DataSet1IterC(DataSet1C<SampleT> &nds)
+    DataSet3IterC(DataSet3C<Sample1T,Sample2T,Sample3T> &nds)
       : ds(nds),
       index(nds.Index())
     {}
@@ -40,21 +40,29 @@ namespace RavlN {
     { return index.IsElm(); }
     //: At a valid element ?
     
-    typename SampleT::ElementT &Data()
+    typename Sample1T::ElementT &Data1()
     { return ds.Sample1()[*index]; }
+    //: Access sample.
+    
+    typename Sample2T::ElementT &Data2()
+    { return ds.Sample2()[*index]; }
     //: Access sample.
 
-    const typename SampleT::ElementT &Data() const
+    typename Sample3T::ElementT &Data3()
+    { return ds.Sample3()[*index]; }
+    //: Access sample.
+    
+    const typename Sample1T::ElementT &Data1() const
     { return ds.Sample1()[*index]; }
     //: Access sample.
     
-    typename SampleT::ElementT &operator*()
-      { return Data(); }
-    //: Pointer like access to sample.
+    const typename Sample2T::ElementT &Data2() const
+    { return ds.Sample2()[*index]; }
+    //: Access sample.
     
-    const typename SampleT::ElementT &operator*() const
-      { return Data(); }
-    //: Pointer like access to sample.
+    const typename Sample3T::ElementT &Data3() const
+    { return ds.Sample3()[*index]; }
+    //: Access sample.
     
     void Next() 
     { index.Next(); }
@@ -69,7 +77,7 @@ namespace RavlN {
     //: Goto first element.
     
   protected:
-    DataSet1C<SampleT> ds;
+    DataSet3C<Sample1T,Sample2T,Sample3T> ds;
     CollectionIterC<UIntT> index;
   };
   

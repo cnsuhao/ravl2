@@ -16,97 +16,95 @@
 #include "Ravl/Vector.hh"
 
 namespace RavlN {
-  template<class DataT> class DataSet1C;
+  template<class SampleT> class DataSet1C;
   
   //! userlevel=Develop
   //: Data set 
   
-  template <class DataT> 
+  template <class SampleT> 
   class DataSet1BodyC 
     : public DataSetBaseBodyC
   {
-    
   public:
-    DataSet1BodyC(const SampleC<DataT> & samp);
+    DataSet1BodyC(const SampleT & samp);
     //: Create a dataset from a sample
     
-    DataSet1BodyC(const SampleC<DataT> & samp,const CollectionC<UIntT> &nindex);
+    DataSet1BodyC(const SampleT & samp,const CollectionC<UIntT> &nindex);
     //: Create a dataset from a sample and an index.
     
-    DataSet1C<DataT> Shuffle() const;
+    DataSet1C<SampleT> Shuffle() const;
     //: Create a new data set with a random order.
     
-    SampleC<DataT> &Sample1()
+    SampleT &Sample1()
       { return samp1; }
     //: Access complete sample.
     
   private:
-    SampleC<DataT> samp1;
+    SampleT samp1;
     //: the actual data
     
-
   };
 
   //! userlevel=Normal
   //: Data set 
   
-  template<class DataT>
+  template<class SampleT>
   class DataSet1C
     : public DataSetBaseC
   {
   public:
-    DataSet1C(const SampleC<DataT> & dat)
-      : DataSetBaseC(*new DataSet1BodyC<DataT>(dat))
+    DataSet1C(const SampleT & dat)
+      : DataSetBaseC(*new DataSet1BodyC<SampleT>(dat))
       {}
     //: Create a dataset from a sample
     
   protected:
-    DataSet1C(const SampleC<DataT> & dat,const CollectionC<UIntT> &nindex)
-      : DataSetBaseC(*new DataSet1BodyC<DataT>(dat,nindex))
+    DataSet1C(const SampleT & dat,const CollectionC<UIntT> &nindex)
+      : DataSetBaseC(*new DataSet1BodyC<SampleT>(dat,nindex))
       {}
     //: Create a dataset from a sample and an index.
     
-    DataSet1C(DataSet1BodyC<DataT> &bod)
+    DataSet1C(DataSet1BodyC<SampleT> &bod)
       : DataSetBaseC(bod)
       {}
     //: Body constructor.
     
-    DataSet1BodyC<DataT> &Body()
-      { return static_cast<DataSet1BodyC<DataT> &>(DataSetBaseC::Body()); }
+    DataSet1BodyC<SampleT> &Body()
+      { return static_cast<DataSet1BodyC<SampleT> &>(DataSetBaseC::Body()); }
     //: Access body.
 
-    const DataSet1BodyC<DataT> &Body() const
-    { return static_cast<const DataSet1BodyC<DataT> &>(DataSetBaseC::Body()); }
+    const DataSet1BodyC<SampleT> &Body() const
+    { return static_cast<const DataSet1BodyC<SampleT> &>(DataSetBaseC::Body()); }
     //: Access body.
     
   public:
-    SampleC<DataT> &Sample1()
+    SampleT &Sample1()
       { return Body().Sample1(); }
     //: Access complete sample.
     
-    DataSet1C<DataT> Shuffle() const
+    DataSet1C<SampleT> Shuffle() const
       { return Body().Shuffle(); }
     //: Shuffle the samples in the dataset
     
-    friend class DataSet1BodyC<DataT>;
+    friend class DataSet1BodyC<SampleT>;
   };
   
 
-  template<class DataT>
-  DataSet1BodyC<DataT>::DataSet1BodyC(const SampleC<DataT> & sp)
+  template<class SampleT>
+  DataSet1BodyC<SampleT>::DataSet1BodyC(const SampleT & sp)
     : DataSetBaseBodyC(sp.Size()),
       samp1(sp)
   {}
 
-  template<class DataT>
-  DataSet1BodyC<DataT>::DataSet1BodyC(const SampleC<DataT> & sp,const CollectionC<UIntT> &nindex)
+  template<class SampleT>
+  DataSet1BodyC<SampleT>::DataSet1BodyC(const SampleT & sp,const CollectionC<UIntT> &nindex)
     : DataSetBaseBodyC(nindex),
       samp1(sp)
   {}
   
-  template<class DataT>
-  DataSet1C<DataT> DataSet1BodyC<DataT>::Shuffle() const {
-    return DataSet1C<DataT>(samp,index.Shuffle());
+  template<class SampleT>
+  DataSet1C<SampleT> DataSet1BodyC<SampleT>::Shuffle() const {
+    return DataSet1C<SampleT>(samp,index.Shuffle());
   }
   
 

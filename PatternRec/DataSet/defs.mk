@@ -10,9 +10,10 @@ DESCRIPTION = Pattern Recognition Toolbox
 PACKAGE = Ravl/PatternRec
 
 HEADERS = Sample.hh SampleVector.hh SampleLabel.hh DataSetBase.hh \
- DataSet1.hh DataSet1Iter.hh DataSet2.hh DataSet2Iter.hh
+ DataSet1.hh DataSet1Iter.hh DataSet2.hh DataSet2Iter.hh \
+ DataSet3.hh DataSet3Iter.hh
 
-SOURCES = SampleVector.cc SampleLabel.cc DataSetBase.cc
+SOURCES = SampleVector.cc SampleLabel.cc DataSetBase.cc DataTest.cc
 
 MAINS = exSample.cc
 

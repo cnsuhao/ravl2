@@ -19,14 +19,14 @@ namespace RavlN {
   //! userlevel=Normal
   //: Iterate through a data set.
   
-  template<class Data1T,class Data2T>
+  template<class Sample1T,class Sample2T>
   class DataSet2IterC {
   public:
     DataSet2IterC()
     {}
     //: Default construtor.
     
-    DataSet2IterC(DataSet2C<Data1T,Data2T> &nds)
+    DataSet2IterC(DataSet2C<Sample1T,Sample2T> &nds)
       : ds(nds),
       index(nds.Index())
     {}
@@ -40,16 +40,20 @@ namespace RavlN {
     { return index.IsElm(); }
     //: At a valid element ?
     
-    Data1T &Data1()
+    typename Sample1T::ElementT &Data1()
     { return ds.Sample1()[*index]; }
     //: Access sample.
     
-    Data1T &Data2()
+    typename Sample2T::ElementT &Data2()
     { return ds.Sample2()[*index]; }
     //: Access sample.
     
-    const Data1T &Data() const
+    const typename Sample1T::ElementT &Data1() const
     { return ds.Sample1()[*index]; }
+    //: Access sample.
+    
+    const typename Sample2T::ElementT &Data2() const
+    { return ds.Sample2()[*index]; }
     //: Access sample.
     
     void Next() 
@@ -65,7 +69,7 @@ namespace RavlN {
     //: Goto first element.
     
   protected:
-    DataSet2C<Data1T,Data2T> ds;
+    DataSet2C<Sample1T,Sample2T> ds;
     CollectionIterC<UIntT> index;
   };
   

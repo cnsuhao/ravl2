@@ -16,94 +16,94 @@
 #include "Ravl/Vector.hh"
 
 namespace RavlN {
-  template<class Data1T,class Data2T> class DataSet2C;
+  template<class Sample1T,class Sample2T> class DataSet2C;
   
   //! userlevel=Develop
   //: Data set 
   
-  template <class Data1T,class Data2T> 
+  template <class Sample1T,class Sample2T> 
   class DataSet2BodyC 
-    : public DataSet1BodyC<Data1T>
+    : public DataSet1BodyC<Sample1T>
   {
   public:
-    DataSet2BodyC(const SampleC<Data1T> & samp1,const SampleC<Data2T> & samp2);
+    DataSet2BodyC(const Sample1T & samp1,const Sample2T & samp2);
     //: Create a dataset from a sample
     
-    DataSet2BodyC(const SampleC<Data1T> & samp1,const SampleC<Data2T> & samp2,const CollectionC<UIntT> &nindex);
+    DataSet2BodyC(const Sample1T & samp1,const Sample2T & samp2,const CollectionC<UIntT> &nindex);
     //: Create a dataset from a sample and an index.
     
-    DataSet2C<Data1T,Data2T> Shuffle() const;
+    DataSet2C<Sample1T,Sample2T> Shuffle() const;
     //: Create a new data set with a random order.
     
-    SampleC<Data2T> &Sample2()
+    Sample2T &Sample2()
       { return samp2; }
     //: Access complete sample.
     
   private:
-    SampleC<Data2T> samp2;
+    Sample2T samp2;
     //: the actual data
   };
 
   //! userlevel=Normal
   //: Data set 
   
-  template<class Data1T,class Data2T>
+  template<class Sample1T,class Sample2T>
   class DataSet2C
-    : public DataSet1C<Data1T>
+    : public DataSet1C<Sample1T>
   {
   public:
-    DataSet2C(const SampleC<Data1T> & dat1,const SampleC<Data2T> & dat2)
-      : DataSet1C<Data1T>(*new DataSet2BodyC<Data1T,Data2T>(dat1,dat2))
+    DataSet2C(const Sample1T & dat1,const Sample2T & dat2)
+      : DataSet1C<Sample1T>(*new DataSet2BodyC<Sample1T,Sample2T>(dat1,dat2))
       {}
     //: Create a dataset from a sample
     
   protected:
-    DataSet2C(const SampleC<Data1T> & dat1,const SampleC<Data2T> & dat2,const CollectionC<UIntT> &nindex)
-      : DataSetBaseC(*new DataSet2BodyC<Data1T,Data2T>(dat1,dat2,nindex))
+    DataSet2C(const Sample1T & dat1,const Sample2T & dat2,const CollectionC<UIntT> &nindex)
+      : DataSetBaseC(*new DataSet2BodyC<Sample1T,Sample2T>(dat1,dat2,nindex))
       {}
     //: Create a dataset from a sample and an index.
     
-    DataSet2C(DataSet2BodyC<Data1T,Data2T> &bod)
+    DataSet2C(DataSet2BodyC<Sample1T,Sample2T> &bod)
       : DataSetBaseC(bod)
       {}
     //: Body constructor.
     
-    DataSet2BodyC<Data1T,Data2T> &Body()
-      { return static_cast<DataSet2BodyC<Data1T,Data2T> &>(DataSetBaseC::Body()); }
+    DataSet2BodyC<Sample1T,Sample2T> &Body()
+      { return static_cast<DataSet2BodyC<Sample1T,Sample2T> &>(DataSetBaseC::Body()); }
     //: Access body.
 
-    const DataSet2BodyC<Data1T,Data2T> &Body() const
-      { return static_cast<const DataSet2BodyC<Data1T,Data2T> &>(DataSetBaseC::Body()); }
+    const DataSet2BodyC<Sample1T,Sample2T> &Body() const
+      { return static_cast<const DataSet2BodyC<Sample1T,Sample2T> &>(DataSetBaseC::Body()); }
     //: Access body.
     
   public:
-    SampleC<Data2T> &Sample2()
+    Sample2T &Sample2()
       { return Body().Sample2(); }
     //: Access complete sample.
     
-    DataSet2C<Data1T,Data2T> Shuffle() const
+    DataSet2C<Sample1T,Sample2T> Shuffle() const
       { return Body().Shuffle(); }
     //: Shuffle the samples in the dataset
     
-    friend class DataSet2BodyC<Data1T,Data2T>;
+    friend class DataSet2BodyC<Sample1T,Sample2T>;
   };
   
 
-  template<class Data1T,class Data2T>
-  DataSet2BodyC<Data1T,Data2T>::DataSet2BodyC(const SampleC<Data1T> & dat1,const SampleC<Data2T> &dat2)
-    : DataSet1BodyC<Data1T>(dat1),
+  template<class Sample1T,class Sample2T>
+  DataSet2BodyC<Sample1T,Sample2T>::DataSet2BodyC(const Sample1T & dat1,const Sample2T &dat2)
+    : DataSet1BodyC<Sample1T>(dat1),
       samp2(dat2)
   {}
-
-  template<class Data1T,class Data2T>
-  DataSet2BodyC<Data1T,Data2T>::DataSet2BodyC(const SampleC<Data1T> & dat1,const SampleC<Data2T> & dat2,const CollectionC<UIntT> &nindex)
-    : DataSet1BodyC<Data1T>(dat1,nindex),
+  
+  template<class Sample1T,class Sample2T>
+  DataSet2BodyC<Sample1T,Sample2T>::DataSet2BodyC(const Sample1T & dat1,const Sample2T & dat2,const CollectionC<UIntT> &nindex)
+    : DataSet1BodyC<Sample1T>(dat1,nindex),
       samp2(sp)
   {}
   
-  template<class Data1T,class Data2T>
-  DataSet2C<Data1T,Data2T> DataSet2BodyC<Data1T,Data2T>::Shuffle() const {
-    return DataSet2C<Data1T,Data2T>(samp1,samp2,index.Shuffle());
+  template<class Sample1T,class Sample2T>
+  DataSet2C<Sample1T,Sample2T> DataSet2BodyC<Sample1T,Sample2T>::Shuffle() const {
+    return DataSet2C<Sample1T,Sample2T>(samp1,samp2,index.Shuffle());
   }
   
 

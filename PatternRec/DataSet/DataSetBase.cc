@@ -10,6 +10,13 @@
 
 #include "Ravl/PatternRec/DataSetBase.hh"
 
+#define DODEBUG 0
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
+
 namespace RavlN {
 
   //: Default constructor.
@@ -17,6 +24,7 @@ namespace RavlN {
   DataSetBaseBodyC::DataSetBaseBodyC(SizeT size) 
     : index(size)
   {
+    ONDEBUG(cerr << "DataSetBaseBodyC::DataSetBaseBodyC(SizeT), Index of " << size << " elements. \n");
     // Initialise index.
     for(UIntT i=0;i<size;i++)
       index.Insert(i);
