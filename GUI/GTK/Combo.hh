@@ -186,12 +186,12 @@ namespace RavlGUIN {
     //: Clear selection.
     // Call on the GUI thread only.
 
-    bool GUIAddEntry(StringC &opt)
+    bool GUIAddEntry(const StringC &opt)
     { return Body().GUIAddEntry(opt); }
     //: Add new entry to combo list.
     // Call on the GUI thread only.
     
-    bool GUIDelEntry(StringC &opt)
+    bool GUIDelEntry(const StringC &opt)
     { return Body().GUIDelEntry(opt); }
     //: Add new entry to combo list.
     // Call on the GUI thread only.
