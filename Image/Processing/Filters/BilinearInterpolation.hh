@@ -23,6 +23,7 @@ namespace RavlImageN {
       : rec(ir)
     {}
     //: Constructor.
+    // 'ir' is the output rectangle.
     
     ImageC<OutT> Apply(const ImageC<InT> &img);
     //: Interpolate input image working rectangle into
