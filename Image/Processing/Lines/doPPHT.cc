@@ -8,6 +8,7 @@
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Lines/doPPHT.cc"
+
 #include "Ravl/config.h"
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Option.hh"
@@ -122,19 +123,33 @@ int doPPHT(int argc,char **argv)
       return 1;
     }
     
-    DPIPortC<DListC<EdgelC > > in = imgIn >> Process(edgeDet,&EdgeDetectorC::LApply);
     DPOPortC<DListC<LinePP2dC> > linesOut;
-    
-    if(!OpenOSequence(linesOut,outFile,outType,verb)) {
-      cerr << "Failed to open output '" << outFile << "' \n";
-      return 0;
+    if(!outFile.IsEmpty()) {
+      if(!OpenOSequence(linesOut,outFile,outType,verb)) {
+	cerr << "Failed to open output '" << outFile << "' \n";
+	return 0;
+      }
     }
     
     // Do some processsing.
     
-    DListC<EdgelC> inList;
-    while(in.Get(inList)) {
-      linesOut.Put(LineMap2LinePP(pphtProc.Apply(inList)));
+    ImageC<RealT> img;
+    while(imgIn.Get(img)) {
+      DListC<EdgelC> inList = edgeDet.LApply(img);
+      DListC<LinePP2dC> lines = LineMap2LinePP(pphtProc.Apply(inList));
+      if(linesOut.IsValid()) // Check if we've got an output.
+	linesOut.Put(lines);
+      
+      if(!overlayOut.IsEmpty()) {
+	ImageC<RealT> overlayImg(img.Copy());
+	for(DLIterC<LinePP2dC> lit(lines);lit;lit++) {
+	  //cerr << "Drawing line from " << lit->P1() << " to " << lit->P2() << "\n";
+	  DrawLine(overlayImg,255.0,Index2dC(lit->P1()),Index2dC(lit->P2()));
+	}
+	if(!Save(overlayOut,overlayImg)) {
+	  cerr << "Failed to write overlay image to '" << overlayOut << "' \n";
+	}
+      }
     }    
   } else { // Process single frame.
     
