@@ -30,7 +30,7 @@
 #include "Ravl/DP/StreamOp31.hh"
 #include "Ravl/DP/OffsetScale.hh"
 #include "Ravl/DP/RunningAverage.hh"
-
+#include "Ravl/config.h"
 using namespace RavlN;
 
 int conv(const int &val) {
@@ -191,4 +191,10 @@ int testVirtualConstructor() {
   
   return 0;
 }
+
+
+#if RAVL_COMPILER_MIPSPRO
+DPIPortBodyC<bool> dummy_variable ;
+DPIPortBodyC<char> dummy_variable1 ;
+#endif
 
