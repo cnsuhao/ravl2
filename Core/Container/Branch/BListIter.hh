@@ -29,12 +29,18 @@ namespace RavlN {
     //: Default constructor.
     
     BListIterC(const BListC<DataT> &list)
-      : place(const_cast<BLinkBodyC<DataT> *>(list.list.BodyPtr()))
-    {}
+      : place(0)
+    {
+      if(list.list.IsValid())
+	place = const_cast<BLinkBodyC<DataT> *>(list.list.BodyPtr());
+    }
     //: Construct from list.
     
     const BListIterC<DataT> &operator=(const BListC<DataT> &l) {
-      place = const_cast<BLinkBodyC<DataT> *>(l.list.BodyPtr());
+      if(list.list.IsValid())
+	place = const_cast<BLinkBodyC<DataT> *>(l.list.BodyPtr());
+      else
+	place = 0;
       return *this;
     }
     //: Assign to a list.
