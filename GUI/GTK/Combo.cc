@@ -51,7 +51,10 @@ namespace RavlGUIN {
   
   bool ComboBodyC::GUIAddEntry(StringC &opt) {
     choices.InsLast(opt);
+    if(widget == 0)
+      return true;
     GtkWidget *li = gtk_list_item_new_with_label ((gchar *) opt.chars());
+    cmap[opt] = li;
     gtk_widget_show (li);
     gtk_container_add (GTK_CONTAINER (GTK_COMBO(widget)->list), li);
     return true;
@@ -62,24 +65,35 @@ namespace RavlGUIN {
   
   bool ComboBodyC::GUIDelEntry(StringC &opt) {
     RavlAssertMsg(0,"ComboBodyC::GUIDelEntry(), Not implemented. ");
-    //GtkWidget *li = gtk_list_item_new_with_label ((gchar *) it.Data().chars());
-    //gtk_widget_show (li);
-    //gtk_container_add (GTK_CONTAINER (GTK_COMBO(widget)->list), li);
+    GtkWidget *li;
+    if(!cmap.Lookup(opt,li))
+      return true; // item not in list.
+    cmap.Del(opt);
+    gtk_widget_hide((GtkWidget *) li);
+    gtk_container_remove (GTK_CONTAINER (GTK_COMBO(widget)->list), li);
     return true;
   }
 
+  //: Set selection string.
+  
   bool ComboBodyC::SetSelection(StringC &opt) {
     Manager.Queue(Trigger(ComboC(*this),&ComboC::GUISetSelection,opt));
     return true;
   }
+  
   //: Set selection string.
   
   bool ComboBodyC::GUISetSelection(StringC &opt) {
     gtk_entry_set_text (GTK_ENTRY (GTK_COMBO(widget)->entry), opt.chars());
     return true;
   }
-  //: Set selection string.
   
+  //: Test if an entry exists.
+  // Call from the GUI thread only.
+  
+  bool ComboBodyC::GUIEntryExists(const StringC &entry) {
+    return cmap.IsElm(entry);
+  }
   
   //: Create the widget.
   
@@ -92,6 +106,7 @@ namespace RavlGUIN {
       GtkWidget *li = gtk_list_item_new_with_label ((gchar *) it.Data().chars());
       gtk_widget_show (li);
       gtk_container_add (GTK_CONTAINER (GTK_COMBO(widget)->list), li);
+      cmap[*it] = li;
       if(!editable)
 	gtk_entry_set_editable(GTK_ENTRY(GTK_COMBO(widget)->entry),0);
     }

@@ -20,9 +20,10 @@
 #include "Ravl/Threads/Signal1.hh"
 #include "Ravl/Threads/Signal2.hh"
 #include "Ravl/String.hh"
+#include "Ravl/Hash.hh"
 
 namespace RavlGUIN {
-
+  using namespace RavlN;
   class ComboC;
   
   //! userlevel=Develop
@@ -62,8 +63,13 @@ namespace RavlGUIN {
     bool GUISetSelection(StringC &opt);
     //: Set selection string.
     
+    bool GUIEntryExists(const StringC &entry);
+    //: Test if an entry exists.
+    // Call from the GUI thread only.
+    
   protected:
     DListC<StringC> choices;
+    HashC<StringC,GtkWidget *> cmap; // Widget map.
     bool editable;
     friend class ComboC;
   };
@@ -135,7 +141,12 @@ namespace RavlGUIN {
     bool GUISetSelection(StringC &opt)
     { return Body().GUISetSelection(opt); }
     //: Set selection string.
-
+    
+    bool GUIEntryExists(const StringC &entry)
+    { return Body().GUIEntryExists(entry); }
+    //: Test if an entry exists in the combo box.
+    // Call from the GUI thread only.
+    
     friend class ComboBodyC;
   };
   
