@@ -89,9 +89,9 @@ namespace RavlN {
   ///////////////////////////////
   //: Composition operator.
   
-  //template<class InT,class OutT>
-  //DPProcOStreamC<InT,OutT> operator>>(const DPIPortC<InT> &in,const DPProcessC<InT,OutT> &proc) 
-  //{ return DPProcOStreamC<InT,OutT> (proc,in); }
+  template<class InT,class OutT>
+  DPProcOStreamC<InT,OutT> operator>>(const DPProcessC<InT,OutT> &proc,const DPOPortC<OutT> &out) 
+  { return DPProcOStreamC<InT,OutT> (proc,out); }
   
 }
 

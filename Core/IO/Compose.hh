@@ -17,6 +17,7 @@
 
 #include "Ravl/DP/ProcCompose.hh"
 #include "Ravl/DP/ProcIStream.hh"
+#include "Ravl/DP/ProcOStream.hh"
 #include "Ravl/DP/FuncP2Proc.hh"
 #include "Ravl/DP/IOConnect.hh"
 #include "Ravl/DP/Port.hh"
