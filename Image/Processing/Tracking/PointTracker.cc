@@ -29,9 +29,9 @@
 namespace RavlImageN {
   
   template<class DataT,class SumT>
-  static SumT SearchGradientDecent(const Array2dC<DataT> &tmpl,const Array2dC<DataT> &img,const Index2dC &start,Point2dC &rat,SumT &rminScore) {
+  static SumT SearchGradientDecent(const Array2dC<DataT> &tmpl,const Array2dC<DataT> &img,const Index2dC &start,Point2dC &rat,SumT &rminScore,int searchSize = 50) {
     SumT minScore;
-    IndexRange2dC sarea(start,50,50);
+    IndexRange2dC sarea(start,searchSize+8,searchSize+8);
     sarea.ClipBy(img.Frame() - tmpl.Frame());
     //cerr << "Img=" << img.Frame() << " SArea=" << sarea << "\n";
     if(!sarea.Contains(start)) {
@@ -49,7 +49,7 @@ namespace RavlImageN {
     do {
       //cerr << "Center at " << minAt << "\n";
       lastMin = minAt;
-      for(SquareIterC it(4,minAt);it;it++) {
+      for(SquareIterC it(searchSize,minAt);it;it++) {
 	if(!sarea.Contains(*it) || scoreMap[*it] > 0)
 	  continue;
 	SumT score;
@@ -153,7 +153,7 @@ namespace RavlImageN {
       searchArea.ClipBy(img.Frame());
       SearchMinAbsDifference(itt->Template(),img,searchArea,at,score);
 #else
-      SearchGradientDecent(itt->Template(),img,lookAt,at,score);
+      SearchGradientDecent(itt->Template(),img,lookAt,at,score,searchSize);
 #endif
       //cerr <<"Score=" << score << " At=" << at << " Thresh=" << removeThresh << "\n";
       if(score > removeThresh) {
