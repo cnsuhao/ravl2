@@ -286,6 +286,11 @@ int TestDraw() {
   if(img[15][10] != 0) return __LINE__;
   Ellipse2dC ellipse(Point2dC(50,50),40,20,0);
   DrawEllipse(img,(ByteT) 255,ellipse);
+  DrawFrame(img,(ByteT) 128,img.Frame());
+  if(img[0][0] != 128) return __LINE__;
+  if(img[99][99] != 128) return __LINE__;
+  if(img[0][99] != 128) return __LINE__;
+  if(img[99][0] != 128) return __LINE__;
   //Save("@X",img);
   return 0;
 }
