@@ -45,13 +45,6 @@ invokes the make system in a simlar way.
 
 Some notes on installation:
 
-- The CxxDoc tools currently requires a daft amount of memory to compile,
-  approximately 512MB.  If you don't have this much on your machine you 
-  can stop the installation by going to the Ravl/SourceTools/defs.mk file
-  and removing the `.r' after CxxDoc.   If you still want to use this
-  tool you can create a debug version with `qm debug' which will be slow,
-  but takes much less memory to build.
-
 - RAVL is getting quite large, if you don't want to compile all the modules
   you can remove the '.r' from the end of the directory names in the root 
   defs.mk file.  In general modules later in the list generally depend on 
