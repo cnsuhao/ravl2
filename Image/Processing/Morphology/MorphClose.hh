@@ -20,8 +20,8 @@ namespace RavlImageN {
   template<class DataT> 
   void MorphBinaryClose(const ImageC<DataT>& image, const ImageC<DataT>& kernel,ImageC<DataT>& result,DataT inRegion = 1) {
     ImageC<DataT> tmp;
-    BinaryErode(tmp,kernel,result,inRegion);
-    BinaryDilate(image,kernel,tmp,inRegion);
+    BinaryErode(image,kernel,tmp,inRegion);
+    BinaryDilate(tmp,kernel,result,inRegion);
   }
   
 }
