@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlMath
-//! file="Ravl/Math/Geometry/Euclidean/2D/PointSet2d.cc"
+//! file="Ravl/Math/Geometry/Euclidean/2D/Polygon2d.cc"
 
 #include "Ravl/Polygon2d.hh"
 
@@ -72,8 +72,8 @@ namespace RavlN {
       if (size == 1) return p == p1;
       
       // The point can lie on the boundary of the polygon.
-      for (DLIterC<Point2dC> k(*this); k; k++) {
-         if (LinePP2dC(k.Data(), k.NextCrcData()).IsPointIn(p))
+      for (DLIterC<Point2dC> point(*this); point; point++) {
+         if (LinePP2dC(point.Data(), point.NextCrcData()).IsPointIn(p))
             return true;
       }
       
