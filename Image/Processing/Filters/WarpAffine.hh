@@ -137,6 +137,7 @@ namespace RavlImageN {
     Array2dIterC<OutT> it(outImg);
     
     WorkT tmp;
+    SampleT sampler;
     if(irng.Contains(trans * orng.TopRight()) &&
        irng.Contains(trans * orng.TopLeft()) &&
        irng.Contains(trans * orng.BottomRight()) &&
@@ -145,7 +146,7 @@ namespace RavlImageN {
       for(;it;) {
 	Point2dC pat = lstart;
 	do {
-	  BilinearInterpolation(src,pat,tmp);
+	  sampler(src,pat,tmp);
 	  mixer(*it,tmp);
 	  pat += ldir;
 	} while(it.Next()) ;
@@ -153,7 +154,6 @@ namespace RavlImageN {
       }
       return;
     }    
-    SampleT sampler;
 #if 0
     Vector2dC endv(0,((RealT) orng.Cols()));
     // This attempts to be clever project the line back into
