@@ -45,13 +45,13 @@ namespace RavlN {
       {}
     //: Constructor.
     
-    RangeBufferAccess2dC(const RangeBufferAccess2dC<BufferAccessC<DataC> > &ab,const IndexRangeC &nrng2)
+    RangeBufferAccess2dC(const RangeBufferAccessC<BufferAccessC<DataC> > &ab,const IndexRangeC &nrng2)
       : RangeBufferAccessC<BufferAccessC<DataC> >(ab),
       rng2(nrng2)
       {}
     //: Constructor.
 
-    RangeBufferAccess2dC(const RangeBufferAccess2dC<BufferAccessC<DataC> > &ab,const IndexRange2dC &rect)
+    RangeBufferAccess2dC(const RangeBufferAccessC<BufferAccessC<DataC> > &ab,const IndexRange2dC &rect)
       : RangeBufferAccessC<BufferAccessC<DataC> >(ab,rect.Range1()),
       rng2(rect.Range2())
       {}

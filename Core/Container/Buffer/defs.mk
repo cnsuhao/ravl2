@@ -11,8 +11,8 @@
 PACKAGE=Ravl
 
 HEADERS=RBfAcc.hh SBfAcc.hh BufferAccess.hh \
- BfAccIter.hh BfAccIter2.hh BfAccIter3.hh \
- Buffer.hh BfAcc2Iter.hh BfAcc2Iter2.hh BfAcc2Iter3.hh \
+ BfAccIter.hh BfAccIter2.hh BfAccIter3.hh BfAccIter4.hh \
+ Buffer.hh BfAcc2Iter.hh BfAcc2Iter2.hh BfAcc2Iter3.hh BfAcc2Iter4.hh \
  Buffer2d.hh SBfAcc2d.hh RBfAcc2d.hh Slice1d.hh Slice1dIter.hh \
  Slice1dIter2.hh Slice1dIter3.hh
 
