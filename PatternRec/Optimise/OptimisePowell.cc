@@ -92,7 +92,7 @@ namespace RavlN {
           BracketMinimum(cost1d);
           P = cost1d.Point(_brent.MinimalX(cost1d,minimumCost));
           Di[indexOfBiggest] = Di[numDim-1].Copy();
-          Di[numDim] = Pdiff.Copy();
+          Di[numDim-1] = Pdiff.Copy();
         }
       }
     }
