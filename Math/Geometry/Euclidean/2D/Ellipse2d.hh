@@ -21,7 +21,7 @@ namespace RavlN {
   class Conic2dC;
   
   //! userlevel=Normal
-  //: Ellipse .
+  //: Ellipse 
   
   class Ellipse2dC {
   public:
@@ -87,9 +87,17 @@ namespace RavlN {
   
   bool FitEllipse(const SArray1dC<Point2dC> &points,Ellipse2dC &ellipse);
   //: Fit ellipse to points.
+  //!param: points -  Set of points to fit to an ellipse.
+  //!param: ellipse - Ellipse structure to store result in.
   // Based on method presented in 'Numerically Stable Direct Least Squares Fitting of Ellipses' 
   // by Radim Halir and Jan Flusser.
   
+  //! docentry="Ravl.Math.Statistics;Ravl.Math.Geometry.2D"
+  Ellipse2dC EllipseMeanCovariance(const Matrix2dC &covar,const Point2dC &mean,RealT stdDev = 1.0);
+  //: Compute an ellipse from a 2d covariance matrix, mean, and standard deviation.
+  
+  //:-
+  //! docentry="Ravl.Math.Geometry.2D"
   
   ostream &operator<<(ostream &s,const Ellipse2dC &obj);
   //: Write ellipse to text stream.
@@ -103,9 +111,6 @@ namespace RavlN {
   BinIStreamC &operator>>(BinIStreamC &s,Ellipse2dC &obj);
   //: Read ellipse from binary stream.
   
-  //! docentry="Ravl.Math.Statistics;Ravl.Math.Geometry.2D"
-  Ellipse2dC EllipseMeanCovariance(const Matrix2dC &covar,const Point2dC &mean,RealT stdDev = 1.0);
-  //: Compute an ellipse from a 2d covariance matrix, mean, and standard deviation.
   
 }
 
