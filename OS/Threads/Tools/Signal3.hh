@@ -184,9 +184,9 @@ namespace RavlN {
     
     Signal3FuncC(Signal0C &from,
 		 typename Signal3FuncBodyC<Data1T,Data2T,Data3T>::Func3T nFunc,
-		 const Arg1T &def1 = Data1T(),
-		 const Arg2T &def2 = Data2T(),
-		 const Arg3T &def3 = Data3T())
+		 const Arg1T &def1 = Arg1T(),
+		 const Arg2T &def2 = Arg2T(),
+		 const Arg3T &def3 = Arg3T())
       : SignalConnectorC(*new Signal3FuncBodyC<Data1T,Data2T,Data3T>(from,nFunc,def1,def2,def3))
     {}
     //: Constructor.
@@ -210,9 +210,9 @@ namespace RavlN {
     Signal3MethodBodyC(Signal0C &from,
 		       BaseObjT &nobj,
 		       Func3T nFunc,
-		       const Arg1T &dat1 = Data1T(),
-		       const Arg2T &dat2 = Data2T(),
-		       const Arg3T &dat3 = Data3T())
+		       const Arg1T &dat1 = Arg1T(),
+		       const Arg2T &dat2 = Arg2T(),
+		       const Arg3T &dat3 = Arg3T())
       : SignalConnector0BodyC(from),
 	SignalConnector1BodyC<typename TraitsC<Data1T>::BaseTypeT>(from,dat1),
 	SignalConnector2BodyC<typename TraitsC<Data1T>::BaseTypeT,typename TraitsC<Data2T>::BaseTypeT>(from,dat1,dat2),

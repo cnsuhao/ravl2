@@ -186,8 +186,8 @@ namespace RavlN {
     Signal2MethodBodyC(Signal0C &from,
 		       BaseObjT &nobj,
 		       typename Signal2MethodBodyC<Data1T,Data2T,ObjT>::Func2T nFunc,
-		       const Arg1T &dat1 = Data1T(),
-		       const Arg2T &dat2 = Data2T())
+		       const Arg1T &dat1 = Arg1T(),
+		       const Arg2T &dat2 = Arg2T())
       : SignalConnector0BodyC(from),
 	SignalConnector1BodyC<typename TraitsC<Data1T>::BaseTypeT>(from,dat1),
 	SignalConnector2BodyC<typename TraitsC<Data1T>::BaseTypeT,typename TraitsC<Data2T>::BaseTypeT>(from,dat1,dat2),
