@@ -167,9 +167,53 @@ namespace RavlImageN {
     //: Calculate the diffrence between two rectangles one lying inside the other in the horizontal dimention.
     // This mid point is an absolute column location and should be within the rectangle.
     
+    void SetClipRange(IndexRange2dC &nClipRange) 
+    { clipRange = nClipRange; }
+    //: Set the clip range.
+    
+    const IndexRange2dC &ClipRange()
+    { return clipRange; }
+    //: Return range of value positions. 
+    
   protected:
     IndexRange2dC clipRange;
   };
+  
+  template<class DataT>
+  ostream &operator<<(ostream &strm,const SummedAreaTable2C<DataT> &data) {
+    strm << static_cast<const Array2dC<TFVectorC<DataT,2> > &>(data);
+    return strm;
+  }
+  //: Write to text stream.
+  
+  template<class DataT>
+  istream &operator>>(istream &strm,SummedAreaTable2C<DataT> &data) {
+    strm >> static_cast<Array2dC<TFVectorC<DataT,2> > &>(data);
+    IndexRange2dC clipRange = data.Frame();
+    clipRange.LCol()++;
+    clipRange.TRow()++;
+    data.SetClipRange(clipRange);
+    return strm;
+  }
+  //: Read from text stream.
+
+  template<class DataT>
+  BinOStreamC &operator<<(BinOStreamC &strm,const SummedAreaTable2C<DataT> &data) {
+    strm << static_cast<const Array2dC<TFVectorC<DataT,2> > &>(data);
+    return strm;
+  }
+  //: Write to binary stream.
+  
+  template<class DataT>
+  BinIStreamC &operator>>(BinIStreamC &strm,SummedAreaTable2C<DataT> &data) {
+    strm >> static_cast<Array2dC<TFVectorC<DataT,2> > &>(data);
+    IndexRange2dC clipRange = data.Frame();
+    clipRange.LCol()++;
+    clipRange.TRow()++;
+    data.SetClipRange(clipRange);
+    return strm;
+  }
+  //: Read from binary stream.
   
 }
 
