@@ -148,6 +148,19 @@ namespace RavlN {
     
     IOSerialC (const char *dev, bool buffered = false);
     //: Open an input serial stream.
+
+    bool good()
+    { return IStreamC::good() && OStreamC::good(); }
+    //: Test if stream is good
+    
+    bool operator!()
+    { return IStreamC::operator!() || OStreamC::operator!(); }
+    //: Test if stream is bad.
+    
+    bool IsOpen() const
+    { return IStreamC::IsOpen(); }
+    //: Is stream open ?
+    
   };
 }
 
