@@ -44,6 +44,7 @@ namespace RavlN {
   // Apply an iteration, processing observations and updating the state
   // Returns true if the iteration succeeded in reducing the residual,
   // false otherwise.
+  
   bool LevenbergMarquardtC::Iteration ( DListC<ObservationC> obs_list,
 					RealT lambda, bool rescale_diagonal )
   {
@@ -82,7 +83,9 @@ namespace RavlN {
 
     // compute inverse of the information matrix
     Ainv = A.Inverse();
-
+    if(!Ainv.IsValid()) { // Is matrix singular ?
+      throw ExceptionC("LevenbergMarquardtC::Iteration(), Singular matrix detected. ");
+    }
     // compute A^-1*a
     a = Ainv*a;
 

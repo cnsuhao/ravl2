@@ -188,11 +188,11 @@ using namespace RavlImageN;
 
 int Mosaic(int nargs,char **argv) {
   OptionC opt(nargs,argv);
-  int newFreq    = opt.Int("nf",10,"Frequency of introducing new features. ");
-  int cthreshold = opt.Int("ct",800,"Corner threshold. ");
+  int newFreq    = opt.Int("nf",5,"Frequency of introducing new features. ");
+  int cthreshold = opt.Int("ct",30,"Corner threshold. ");
   int cwidth     = opt.Int("cw",7,"Corner filter width. ");
   int mthreshold = opt.Int("mt",20,"Match threshold. ");
-  int mwidth     = opt.Int("mw",15,"Tracker feature width. ");
+  int mwidth     = opt.Int("mw",17,"Tracker feature width. ");
   int lifeTime   = opt.Int("ml",8,"Lifetime of a point without a match in the incoming images. ");
   int searchSize = opt.Int("ss",25,"Search size. How far to look from the predicted position of the feature.");
   int borderC    = opt.Int("bc", 200, "Width of horizontal border around image");
@@ -341,22 +341,26 @@ int Mosaic(int nargs,char **argv) {
       cout << "Selected " << compatible_obs_list.Size() << " observations using RANSAC" << endl;
       VectorC x = lm.SolutionVector();
       x *= 1.0/x[8];
-
-      // apply iterations
-      RealT lambda = 100.0;
-      for ( int i = 0; i < 4; i++ ) {
-	bool accepted = lm.Iteration(compatible_obs_list, lambda);
-	if ( accepted )
-	  // iteration succeeded in reducing the residual
-	  lambda /= 10.0;
-	else
-	  // iteration failed to reduce the residual
-	  lambda *= 10.0;
-
-	cout << " Accepted=" << accepted << " Residual=" << lm.GetResidual();
-	cout << " DOF=" << 2*compatible_obs_list.Size()-8 << endl;
+      try {
+	// apply iterations
+	RealT lambda = 100.0;
+	for ( int i = 0; i < 4; i++ ) {
+	  bool accepted = lm.Iteration(compatible_obs_list, lambda);
+	  if ( accepted )
+	    // iteration succeeded in reducing the residual
+	    lambda /= 10.0;
+	  else
+	    // iteration failed to reduce the residual
+	    lambda *= 10.0;
+	  
+	  cout << " Accepted=" << accepted << " Residual=" << lm.GetResidual();
+	  cout << " DOF=" << 2*compatible_obs_list.Size()-8 << endl;
+	}
+      } catch(...) {
+	// Failed to find a solution.
+	cerr << "Caught exception from LevenbergMarquardtC. \n";
+	continue;
       }
-
       // get solution homography
       sv = lm.GetSolution();
       Matrix3dC P = sv.GetHomog();
