@@ -9,11 +9,11 @@
 /////////////////////////////////////////////////////////////
 //! file="Ravl/Core/Base/Stream.hh"
 //! lib=RavlCore
-//! date="23/04/98"
+//! date="23/04/1998"
 //! author="Charles Galambos"
 //! docentry="Ravl.Core.IO.Streams"
 //! rcsid="$Id$"
-//! userlevel=Default
+//! userlevel=Normal
 
 #include "Ravl/String.hh"
 #include "Ravl/Assert.hh"
