@@ -84,6 +84,7 @@ bool ReadExeCode(const StringC &fileName,ExeTypeT et,RavlCxxDocN::ParserC &pt) {
   default:
     break;
   }
+  
   tf.GetDocVars(oexe.Comment().Vars());
   oexe.Comment().Header() = oexe.Comment().Vars()["brief"];
   oexe.Comment().Text() = oexe.Comment().Vars()["detail"];

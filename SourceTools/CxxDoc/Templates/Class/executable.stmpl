@@ -21,11 +21,21 @@ $(silent:
 $(set:autoLink=on)
 $(set:refPattern=../Basic/Class/%.html)
 )
-<h1>
+<h2>
 $(brief)
-</h1>
+</h2>
+<h3>Type : <B>$(exetype)</B></h3>
+<p>
 $(detailed)
 <p>
+$(if:$exetype=example:
+$(silent:
+$(set:autoLink=on)
+$(set:refPattern=../../Basic/Class/%.html)
+)<pre><code>
+$(AutoLink:$(htmlsafe:$(include:@$(source))))
+</code></pre>)
+
 
 $(//: **************** Footer ************************ )
 <table width=100% align="middle"><tr>
