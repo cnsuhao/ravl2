@@ -289,7 +289,7 @@ namespace RavlN {
       Array1dC<DataT> row2 = oth.Row(i);
       if(row2.Range().Size() <= 0)
 	continue;
-      for(Array1dIter2C<DataT,DataT> it(const_cast<TMatrixC<DataT> &>(matrix).SliceRow(i),row2,row2.Range());it;it++)
+      for(BufferAccessIter2C<DataT,DataT> it(matrix[i],row2,row2.Range());it;it++)
 	it.Data1() += it.Data2();
     }
   }
@@ -306,7 +306,7 @@ namespace RavlN {
       Array1dC<DataT> row2 = oth.Row(i);
       if(row2.Range().Size() <= 0)
 	continue;
-      for(Array1dIter2C<DataT,DataT> it(const_cast<TMatrixC<DataT> &>(matrix).SliceRow(i),row2,row2.Range());it;it++)
+      for(BufferAccessIter2C<DataT,DataT> it(matrix[i],row2,row2.Range());it;it++)
 	it.Data1() -= it.Data2();
     }
   }

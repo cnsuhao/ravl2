@@ -328,20 +328,20 @@ int testCombinations() {
       cout << "." << flush;
       SMatrixC mat2 = createMatrix(matSize,j);
       if((ln = MatrixTest(mat1,mat2)) > 0) {
-	cerr << "Failed at " << i << " " << j << "\n";
+	cerr << "Failed (NN) at " << i << " " << j << "\n";
 	return ln;
       }
 #if 0
-      if((ln = MatrixTest(mat1,mat2.T())) > 0) {
-	cerr << "Failed at " << i << " " << j << "\n";
+      if((ln = MatrixTest(mat1.T(),mat2)) > 0) {
+	cerr << "Failed (TN) at " << i << " " << j << "\n";
 	return ln;
       }
-      if((ln = MatrixTest(mat1.T(),mat2)) > 0) {
-	cerr << "Failed at " << i << " " << j << "\n";
+      if((ln = MatrixTest(mat1,mat2.T())) > 0) {
+	cerr << "Failed (NT) at " << i << " " << j << "\n";
 	return ln;
       }
       if((ln = MatrixTest(mat1.T(),mat2.T())) > 0) {
-	cerr << "Failed at " << i << " " << j << "\n";
+	cerr << "Failed (TT) at " << i << " " << j << "\n";
 	return ln;
       }
 #endif
