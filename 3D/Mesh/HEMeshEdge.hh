@@ -333,14 +333,27 @@ namespace Ravl3DN {
     {}
     //: Default constructor.
 
-    HEMeshVertexEdgeIterC(HEMeshVertexBodyC &vert)
-      : first(&vert.FirstEdge().Pair())
-    { at = first; }
+    HEMeshVertexEdgeIterC(HEMeshVertexBodyC &vert) { 
+      if(!vert.HasEdge()) {
+	at = 0;
+	first = 0;
+	return ;
+      }
+      first = &vert.FirstEdge().Pair();
+      at = first; 
+    }
     //: Construct from a face
     
-    HEMeshVertexEdgeIterC(HEMeshVertexC &vert)
-      : first(&vert.FirstEdge().Pair().Body())
-    { at = first; }
+    HEMeshVertexEdgeIterC(HEMeshVertexC &vert) { 
+      RavlAssert(vert.IsValid());
+      if(!vert.HasEdge()) {
+	first = 0;
+	at = 0;
+	return ;
+      }
+      first = &vert.FirstEdge().Pair().Body();
+      at = first; 
+    }
     //: Construct from a face
     
     bool First() { 
@@ -440,9 +453,16 @@ namespace Ravl3DN {
     { at = first; }
     //: Construct from a face
     
-    HEMeshToVertexEdgeIterC(HEMeshVertexC &vert)
-      : first(&vert.FirstEdge().Body())
-    { at = first; }
+    HEMeshToVertexEdgeIterC(HEMeshVertexC &vert) { 
+      RavlAssert(vert.IsValid());
+      if(!vert.HasEdge()) {
+	first = 0;
+	at = 0;
+	return ;
+      }
+      first = &vert.FirstEdge().Body();
+      at = first; 
+    }
     //: Construct from a face
     
     bool First() { 

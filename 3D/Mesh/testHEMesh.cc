@@ -38,7 +38,7 @@ int testTri2HEMesh() {
   verts[1] = Point3dC(0,0,1);
   verts[2] = Point3dC(0,1,0);
   verts[3] = Point3dC(1,0,0);
-  
+
   SArray1dC<UIntT> ind(4 * 3);
   ind[0] = 0; ind[1]  = 1; ind[2]  = 2;
   ind[3] = 3; ind[4]  = 1; ind[5]  = 0;
@@ -47,17 +47,17 @@ int testTri2HEMesh() {
   
   TriMeshC tm(verts,ind);
   if(tm.Faces().Size() != 4) return __LINE__;
-  if(tm.Vertices().Size() != 4) return __LINE__;
+  if(tm.Vertices().Size() != verts.Size()) return __LINE__;
   
   HEMeshC mesh(tm);
   if(!mesh.IsValid()) return __LINE__;
   if(!mesh.CheckMesh()) return __LINE__;
   if(mesh.NoFaces() != 4) return __LINE__;
-  if(mesh.NoVertices() != 4) return __LINE__;
+  if(mesh.NoVertices() != verts.Size()) return __LINE__;
   
   TriMeshC recon = mesh.TriMesh();
   if(recon.Faces().Size() != 4) return __LINE__;
-  if(recon.Vertices().Size() != 4) return __LINE__;
+  if(recon.Vertices().Size() != verts.Size()) return __LINE__;
   
   cout << "testTri2HEMesh(), checking collapse edge. \n";
   
@@ -66,7 +66,7 @@ int testTri2HEMesh() {
   anEdge.CollapseEdge();
   if(!mesh.CheckMesh()) return __LINE__;
   if(mesh.NoFaces() != 2) return __LINE__;
-  if(mesh.NoVertices() != 3) return __LINE__;
+  if(mesh.NoVertices() != (verts.Size()-1)) return __LINE__;
   
   return 0;
 }

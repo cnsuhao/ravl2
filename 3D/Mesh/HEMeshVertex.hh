@@ -66,6 +66,10 @@ namespace Ravl3DN {
     // This must always be an edge going to
     // this vertex.
     
+    bool HasEdge() const
+    { return edge != 0; }
+    //: Is this vertex associated with any faces/edges ?
+    
   protected:
     HEMeshVertexBodyC(const Vector3dC &pos,const Vector3dC &norm)
       : VertexC(pos,norm),
@@ -185,6 +189,10 @@ namespace Ravl3DN {
     //: Set edge associated with this vertex.
     // This must always be an edge going to
     // this vertex.
+    
+    bool HasEdge() const
+    { return Body().HasEdge(); }
+    //: Is this vertex associated with any faces/edges ?
     
   private:
     HEMeshVertexBodyC *body;    
