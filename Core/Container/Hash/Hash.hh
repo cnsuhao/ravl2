@@ -126,7 +126,7 @@ namespace RavlN {
     
     HashC(UIntT nBins = 23) 
       : table((int) nBins) 
-    {}
+    { RavlAssertMsg(nBins > 0,"Must have at least 1 bin in a hash table."); }
     //: Create table with nBins.
     // Bin size must be at least 1.
     
@@ -438,7 +438,7 @@ namespace RavlN {
     switch(levels) {
     case 1: table = oth.table.Copy(); break;
     case 2: {
-      table = SArray1dC<IntrDListC<HashElemC<K,T> > >(oth.elements);
+      table = SArray1dC<IntrDListC<HashElemC<K,T> > >(NextPrime(oth.elements));
       for(BufferAccessIterC<IntrDListC<HashElemC<K,T> > > it(oth.table);it;it++) {
 	for(IntrDLIterC<HashElemC<K,T> > place(*it);place;place++) {
 	  const UIntT hashVal = place->GetHashVal();
@@ -451,7 +451,7 @@ namespace RavlN {
     } break;
     default: {
       levels--;
-      table = SArray1dC<IntrDListC<HashElemC<K,T> > >(oth.elements);
+      table = SArray1dC<IntrDListC<HashElemC<K,T> > >(NextPrime(oth.elements));
       for(BufferAccessIterC<IntrDListC<HashElemC<K,T> > > it(oth.table);it;it++) {
 	for(IntrDLIterC<HashElemC<K,T> > place(*it);place;place++) {
 	  const UIntT hashVal = place->GetHashVal();
@@ -468,7 +468,7 @@ namespace RavlN {
   
   template<class K,class T>
   HashC<K,T>::HashC(Tuple2C<K,T> *data) 
-    : table(1)
+    : table(7)
   {
     K &firstKey = data->Data1();
     Insert(data->Data1(),data->Data2());
@@ -707,9 +707,7 @@ namespace RavlN {
   template<class K,class T>
   void HashC<K,T>::Resize(SizeT newSize) {
     if(newSize == table.Size()) return;
-#if HASHC_DEBUG
     RavlAssert(newSize > 0);
-#endif
     SArray1dC<HashElemLst> newTable(newSize);
     for(BufferAccessIterC<HashElemLst> it(table);it;it++) {
       while(!it->IsEmpty()) {
@@ -769,7 +767,7 @@ namespace RavlN {
     table = oth.table;
     elements = oth.elements;
     // Then set it to empty.
-    oth.table = SArray1dC<IntrDListC<HashElemC<K,T> > >();
+    oth.table = SArray1dC<IntrDListC<HashElemC<K,T> > >(7);
     oth.elements = 0;
   }
   
