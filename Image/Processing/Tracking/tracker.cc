@@ -24,6 +24,8 @@ int main(int nargs,char **argv) {
   int mwidth     = opt.Int("mw",15,"Tracker feature width. ");
   int lifeTime   = opt.Int("ml",8,"Lifetime of a point without a match in the incoming images. ");
   int searchSize = opt.Int("ss",25,"Search size. How far to look from the predicted position of the feature.");
+  bool noop      = opt.Boolean("no",false,"No output, usefull for benchmarking. ");
+  UIntT maxFrames = (UIntT) opt.Int("mf",-1,"Maximum frames to process. ");
   StringC ifn = opt.String("","@V4LH:/dev/video0","Input sequence. ");
   StringC ofn = opt.String("","@X","Output sequence. ");
   opt.Check();
@@ -46,14 +48,15 @@ int main(int nargs,char **argv) {
   PointTrackerC tracker(cthreshold,cwidth,mthreshold,mwidth,lifeTime,searchSize);
   
   ImageC<ByteT> img;
-  for(;;) {
+  for(;maxFrames > 0;maxFrames--) {
     // Read an image from the input.
     if(!inp.Get(img))
       break;
-
+    
     // Apply tracker.
     DListC<PointTrackC> corners = tracker.Apply(img);
-    
+    if(noop)
+      continue;
     // Draw boxes around the corners.
     ByteT val = 255;
     for(DLIterC<PointTrackC> it(corners);it;it++) {
