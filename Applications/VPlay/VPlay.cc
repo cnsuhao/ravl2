@@ -46,7 +46,7 @@
 
 #include "Ravl/GUI/Table.hh"
 
-#include "Ravl/VPlay/PlayControl.hh"
+#include "Ravl/VPlay/GUIPlayControl.hh"
 
 #include "Ravl/Image/ImgIOCif.hh"
 
