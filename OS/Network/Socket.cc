@@ -215,16 +215,23 @@ namespace RavlN {
     name = StringC(hostname);
 #else
     int buffSize = 1024;
-    char *hostentData = new char [buffSize];  
+    char *hostentData = new char [buffSize];
     struct hostent ent;
     int error = 0;
     while(1) {
 #if defined(__linux__)
       struct hostent *result = 0;
       int retcode;
-      if((retcode = gethostbyaddr_r(&((sockaddr_in &)sin).sin_addr,sinLen,AF_INET,&ent,hostentData,buffSize,&result,&error)) != 0) {
+      // Hack to detect the difference between red-hat 6.x  and 7.x boxes.
+#if (_XOPEN_SOURCE - 0) <= 500
+      // For red-hat 6.2
+      if((retcode = gethostbyaddr_r((char *) &(((sockaddr_in &)sin).sin_addr),sinLen,AF_INET,&ent,hostentData,buffSize,&result,&error)) != 0)
 	break;
-      }
+#else
+      // For red-hat 7.2
+      if((retcode = gethostbyaddr_r(&(((sockaddr_in &)sin).sin_addr),sinLen,AF_INET,&ent,hostentData,buffSize,&result,&error)) != 0)
+	break;
+#endif
 #else
       gethostbyaddr_r((const char *) &((sockaddr_in &)sin).sin_addr,sinLen,AF_INET,&ent,hostentData,buffSize,&error);
 #endif
