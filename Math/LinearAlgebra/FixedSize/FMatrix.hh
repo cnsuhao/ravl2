@@ -198,25 +198,24 @@ namespace RavlN {
   // is placed in 'vec'.
   
   template<unsigned int N,unsigned int M>
-  void EigenVectors(const FMatrixC<N,M> &mat,FMatrixC<N,M> &E,FVectorC<N> &D) {
+  void EigenVectors(const FMatrixC<N,M> &mat,FMatrixC<N,M> &E,FVectorC<N> &d) {
     RavlAssertMsg(N == M,"FMatrixC::EigenVectorsIP() Matrix must be square. ");
     E = mat;
-    eigen(&E[0][0],&D[0],N);
+    eigen(&E[0][0],&d[0],N);
   }
   //: Calculate the eigen values and vectors of a real symmetric matrix.
   // A = E*D*E~ where D is the diagonal matrix of eigenvalues
-  //   D[i,j] = ret[i] if i=j and 0 otherwise. 'ret' is the
-  // returned matrix.
+  // D[i,j] = d[i] if i=j and 0 otherwise. 
   
   template<unsigned int N,unsigned int M>
-  void EigenVectorsIP(FMatrixC<N,M> &mat,FVectorC<N> &D) {
+  void EigenVectorsIP(FMatrixC<N,M> &mat,FVectorC<N> &d) {
     RavlAssertMsg(N == M,"FMatrixC::EigenVectorsIP() Matrix must be square. ");
-    eigen(&mat[0][0],&D[0],N);
+    eigen(&mat[0][0],&d[0],N);
   }
   //: Calculate the eigen values and vectors of a real symmetric matrix.
   // This matrix is filed with the eigen vectors
   // A = E*D*E~ where D is the diagonal matrix of eigenvalues
-  //   D[i,j] = ret[i] if i=j and 0 otherwise. 
+  //   D[i,j] = d[i] if i=j and 0 otherwise. 
   
   template<unsigned int N,unsigned int M>
   RealT MaxEigenValue(FMatrixC<N,M> &mat,FVectorC<N> &maxv) {
