@@ -33,7 +33,7 @@ int main(int nargs,char **argv) {
       return -1;
     }
     cerr << "Remotehost=" << ns.Socket().ConnectedHost() << "\n";
-    OStreamC df(file,true,buffer);
+    OStreamC df(file,true);
     cerr << "Copying data. " << ns.good() << "\n";
     while(ns.good()) {
       cerr << "Copied:" << ns.CopyTo(df) << "\n";
