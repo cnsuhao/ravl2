@@ -14,11 +14,9 @@
 
 namespace RavlImageN {
   void InitDPImageIO(){
-#if 0
     InitStdImageCnv();
     InitStdImageCnv2();
-    InitFrameImageCnv();
-#endif    
+    
     InitPNMFormat();
     InitImgIOInt();
     InitImgIOByte();
@@ -35,13 +33,7 @@ namespace RavlImageN {
     InitRGBImageCnv();
     
 #if 0    
-    InitRGB16ImageCnv();
-    
     InitImgIOByteVYU();
-    InitCompatIORGB();
-    InitCompatIOYUV();
-    InitCompatIOY();
-    
     InitPixelIO();
 #endif
   }
