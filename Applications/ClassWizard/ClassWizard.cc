@@ -23,12 +23,20 @@ namespace RavlN {
 
   //: Constructor.
   
-  ClassWizardBodyC::ClassWizardBodyC(const StringC &nrootDir,const StringC &nlocalDir,bool nverbose) 
+  ClassWizardBodyC::ClassWizardBodyC(const StringC &nrootDir,const StringC &nlocalDir,bool nverbose,bool nwriteStubs,bool ndryRun) 
     : rootDir(nrootDir),
       localDir(nlocalDir),
       parseTree(true),
-      verbose(nverbose)
+      verbose(nverbose),
+      writeStubs(nwriteStubs),
+      dryRun(ndryRun)
   { parseTree.SetRootFilename(rootDir); }
+  
+  //: Dump the parse tree.
+  
+  void ClassWizardBodyC::DumpParseTree(ostream &out) {
+    parseTree.Dump(out);
+  }
   
   //: Gather information about the source code.
   
@@ -52,6 +60,10 @@ namespace RavlN {
   bool ClassWizardBodyC::GatherDir(StringC &dirname,DefsMkFileC &defsmk) {
     ONDEBUG(cerr << "ClassWizardBodyC::GatherDir(), " << dirname << "\n");
     StringListC hdrfiles = defsmk.Value("HEADERS");
+    if(writeStubs) {
+      StringListC srcfiles = defsmk.Value("SOURCES");
+      hdrfiles.MoveLast(srcfiles);
+    }
     for(DLIterC<StringC> it(hdrfiles);it;it++) {
       FilenameC sfile = dirname + '/' + *it;
       if(!sfile.Exists())
@@ -82,25 +94,34 @@ namespace RavlN {
     //scope.Dump(cout);
     
     ScanScope(scope);
-    
-    if(verbose)
-      cerr << "Saving edits. \n";
-    for(HashIterC<StringC,TextFileC> it(textFiles);it;it++) {
-      if(!modifiedPrefix.IsEmpty())
-	it.Data().SetFilename(modifiedPrefix + it.Key());
-      if(!it.Data().Save()) {
-	cerr << "ERROR: Failed to save '" << it.Data().Filename() << "'\n";
+    if(!dryRun) {
+      if(verbose)
+	cerr << "Saving edits. \n";
+      for(HashIterC<StringC,TextFileC> it(textFiles);it;it++) {
+	if(!modifiedPrefix.IsEmpty())
+	  it.Data().SetFilename(modifiedPrefix + it.Key());
+	if(!it.Data().Save()) {
+	  cerr << "ERROR: Failed to save '" << it.Data().Filename() << "'\n";
+	}
       }
     }
     return true;
   }
-
-  //: Locate insert point after object.
   
-  SourceCursorC ClassWizardBodyC::InsertPoint(TextBufferC &buff,ObjectC &object) {
-    SourceCursorC sc(buff);
-    
-    return sc;
+  //: Find public section in classObj
+  
+  IntT ClassWizardBodyC::FindPublicSection(ObjectC &obj) {
+    //cerr << "ClassWizardBodyC::FindPublicSection() of " << obj.Name() << " called. \n";
+    ClassC classObj(obj);
+    for(DLIterC<ObjectC> it(classObj.List());it;it++) {
+      if(!MarkerC::IsA(*it))
+	continue;
+      MarkerC marker(*it);
+      //cerr << "Marker=" << marker.Name() << " at " << marker.EndLineno() << "\n";
+      if(marker.Name() == "public")
+	return marker.EndLineno();
+    }
+    return -1;
   }
   
   //: Append comment to text buffer.
@@ -110,6 +131,15 @@ namespace RavlN {
       sc += StringC("//:") + obj.Comment().Header();
     if(!obj.Comment().Text().IsEmpty())
       sc += StringC("//") + obj.Comment().Text();
+    for(HashIterC<StringC,StringC> it(obj.Comment().Locals());it;it++) {
+      if(it.Data().contains("\n")) {
+	StringListC slist(it.Data(),"\n");
+	for(DLIterC<StringC> lit(slist);lit;lit++)
+	  sc += StringC("//!") + it.Key() + ':' + lit.Data();
+      } else {
+	sc += StringC("//!") + it.Key() + ':' + it.Data();
+      }
+    }
     if(markAsAuto)
       sc += "//!cwiz:author";
     return true;
@@ -137,6 +167,41 @@ namespace RavlN {
     WriteComment(sc,obj);
     return true;
   }
+  
+  //: Write stubs file.
+  
+  bool ClassWizardBodyC::WriteStubsFile(ObjectC &obj) {
+    TextFileC txt(true);
+    ClassC bodyClass(obj);
+    RCHashC<StringC,ObjectC> templSub;
+    SourceCursorC sc(txt,0);
+    ObjectC scope = obj.GetScope();
+    if(scope.IsValid())
+      sc += "namespace " + scope.Name() + " {";
+    else
+      sc += "namespace ??? {";
+    sc.AddIndent(1);
+    for(DLIterC<ObjectC> it(bodyClass.List());it;it++) {
+      if(!MethodC::IsA(*it)) // Only interested in methods here
+	continue;
+      //cerr << "Type=" << it->Var("dectype") << "\n";
+      if(it->Var("dectype") != "prototype")
+	continue; // Only generate stubs for prototypes.
+      MethodC method(*it);
+      sc += "//:" + method.Comment().Header(); 
+      sc += "";
+      sc += method.DefinitionName(bodyClass.Name() + "::") + "{";
+      sc += "}";
+      sc += "";
+    }
+    sc.AddIndent(-1);
+    sc += "}";
+    StringC lfn = modifiedPrefix + "Stub_" + obj.Name() + ".cc";
+    txt.SetFilename(lfn);
+    txt.Save();
+    return true;
+  }
+  
   
   //: Write the handle constructor.
   
@@ -225,6 +290,8 @@ namespace RavlN {
     for(InheritIterC it(bodyClass,SAPublic,true);it;it++) {
       if(!MethodC::IsA(*it)) // Only interested in methods here
 	continue;
+      if(it->Var("access") != "public")
+	continue;
       if(it->Var("constructor") == "true")
 	WriteHandleConstructor(sc,*it,mainBaseClass);
       else
@@ -309,10 +376,16 @@ namespace RavlN {
     ClassC handleObj = rawHandleObj;
     ONDEBUG(cerr << "EndLine = " << handleObj.EndLineno() << " " << handleObj.StartLineno()<< "\n");
     
+    if(writeStubs) {
+      WriteStubsFile(bodyObj);
+    }
+    
     // Look through handle for cruft that can be removed.
     
     for(InheritIterC it(handleObj,SAPublic,true);it;it++) {
       if(!MethodC::IsA(*it)) // Only interested in methods here
+	continue;
+      if(it->Var("access") != "public")
 	continue;
       if(verbose)
 	cerr << "Checking method " << it->Name() << "\n";
@@ -364,6 +437,8 @@ namespace RavlN {
       bool isConstructor = false;
       if(it->Var("constructor") == "true")
 	isConstructor = true;
+      if(it->Var("access") != "public")
+	continue;
       StringC handleName = it->Name();
       if(isConstructor)
 	continue; // Ignore for now.
@@ -375,8 +450,11 @@ namespace RavlN {
 	//cerr << "Failed to find handle method. \n";
 	if(endOfLastHandle < 0) {
 	  // Need to find were to write it....
-	  cerr << "WARNING: Don't know where to write method. skipping. \n";
-	  continue;
+	  endOfLastHandle = FindPublicSection(handleObj);
+	  if(endOfLastHandle < 0) {
+	    cerr << "WARNING: Don't know where to write handle method " << handleName << " in class " << handleObj.Name() << ". skipping. \n";
+	    continue;
+	  }
 	}
 	StringC localFile = bodyObj.Var("filename");
 	cerr << "Adding method " << it->Name() << " to " << localFile << " at " << (endOfLastHandle+1) << "\n";

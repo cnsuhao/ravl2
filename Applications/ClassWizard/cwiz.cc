@@ -24,16 +24,20 @@ int main(int nargs,char **argv)
   StringC prefix = opts.String("p","_","Prefix to add to modified files. ");
   bool verbose = opts.Boolean("v",false,"Verbose mode. ");
   StringC fileName=opts.String("",".","Input filename/directory. ");
+  bool dryRun = opts.Boolean("d",false,"Dry run, don't write any files. ");
+  bool writeStubs = opts.Boolean("s",false,"Write stubs. ");
+  bool dumpTree = opts.Boolean("dt",false,"Dump parse tree. ");
   opts.Check();
   
-  ClassWizardC classWizard(fileName,fileName,verbose);
+  ClassWizardC classWizard(fileName,fileName,verbose,writeStubs,dryRun);
   if(!prefix.IsEmpty())
     classWizard.SetModifiedPrefix(prefix);
   if(verbose)
     cout << "Processing... \n";
   
   classWizard.ApplyWizard();
-  
+  if(dumpTree)
+    classWizard.DumpParseTree(cout);
   if(verbose)
     cout << "Done. \n";
   

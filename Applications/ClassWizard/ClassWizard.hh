@@ -49,7 +49,7 @@ namespace RavlN {
     : public RCBodyC
   {
   public:
-    ClassWizardBodyC(const StringC &rootDir,const StringC &localDir,bool verbose);
+    ClassWizardBodyC(const StringC &rootDir,const StringC &localDir,bool verbose,bool writeStubs = false,bool dryrun = false);
     //: Constructor.
     
     bool GatherInfo();
@@ -57,9 +57,14 @@ namespace RavlN {
     
     bool GatherDir(StringC &dirname,DefsMkFileC &defsmk);
     //: Gather info from a directory.
+    //!param:dirname - Current directory
+    //!param:defsmk - Access class for defs.mk in the current directory.
+    //!return:True if directory has been processed successfully.
     
     bool GatherFile(StringC &filename);
     //: Gather info from file.
+    //!param:filename - file to scan for class information
+    //!return:true if file has been processed successfully.
     
     bool ApplyClass(ScopeC &scope,ObjectC &classObj);
     //: Apply to a directory.
@@ -82,20 +87,26 @@ namespace RavlN {
     bool WriteHandleConstructor(SourceCursorC &sc,ObjectC &obj,const StringC &handleBaseClass);
     //: Write the handle constructor.
     
+    bool WriteStubsFile(ObjectC &obj);
+    //: Write stubs file.
+    
     void AddLine(TextBufferC &buff,int indent,const StringC &info);
     //: Add line to buffer
     
-    SourceCursorC InsertPoint(TextBufferC &buff,ObjectC &object);
-    //: Locate insert point after object.
+    IntT FindPublicSection(ObjectC &classObj);
+    //: Find public section in classObj
     
-    TextFileC TextFile(const StringC &filename);
-    //: Get a text file for editing.
-
     void SetModifiedPrefix(const StringC &value)
     { modifiedPrefix = value; }
     //: Set the prefix to use for modified files.
     
+    void DumpParseTree(ostream &out);
+    //: Dump the parse tree.
+    
   protected:
+    TextFileC TextFile(const StringC &filename);
+    //: Get a text file for editing.
+    
     StringC rootDir; // Root of source tree in which we're working.
     StringC localDir;  // Directory where we want to make changes.
     
@@ -108,6 +119,8 @@ namespace RavlN {
     StringC modifiedPrefix; // Prefix to use for modified files.
     
     bool verbose;
+    bool writeStubs;
+    bool dryRun;
   };
 
   //! userlevel=Normal
@@ -122,8 +135,8 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    ClassWizardC(const StringC &rootDir,const StringC &localDir,bool verbose)
-      : RCHandleC<ClassWizardBodyC>(*new ClassWizardBodyC(rootDir,localDir,verbose))
+    ClassWizardC(const StringC &rootDir,const StringC &localDir,bool verbose,bool writeStubs = false,bool dryrun = false)
+      : RCHandleC<ClassWizardBodyC>(*new ClassWizardBodyC(rootDir,localDir,verbose,writeStubs,dryrun))
     {}
     //: Constructor.
     
@@ -152,6 +165,10 @@ namespace RavlN {
     //!author:cwiz
     
 #endif
+    
+    void DumpParseTree(ostream &out) 
+    { Body().DumpParseTree(out);  }
+    //: Dump the parse tree.
     
   protected:
     ClassWizardC(ClassWizardBodyC &bod)
