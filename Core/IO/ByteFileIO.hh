@@ -20,6 +20,7 @@
 #include "Ravl/String.hh"
 #include "Ravl/TypeName.hh"
 #include "Ravl/Stream.hh"
+#include "Ravl/DP/SByteStream.hh"
 
 namespace RavlN {
   ////////////////////////////////////////////
@@ -28,7 +29,7 @@ namespace RavlN {
   // Object must have a stream output function.
   
   class DPOByteFileBodyC 
-    : public DPOPortBodyC<ByteT>
+    : public DPOByteStreamBodyC
   {
   public:
     DPOByteFileBodyC() {}
@@ -78,7 +79,7 @@ namespace RavlN {
   // and a default constructor.
   
   class DPIByteFileBodyC 
-    : public DPISPortBodyC<ByteT>
+    : public DPISByteStreamBodyC
   {
   public:
     DPIByteFileBodyC() 
@@ -161,7 +162,7 @@ namespace RavlN {
   // Object must have a stream output function.
   
   class DPOByteFileC 
-    : public DPOPortC<ByteT>
+    : public DPOByteStreamC
   {
   public:
     inline DPOByteFileC() 
@@ -188,7 +189,7 @@ namespace RavlN {
   // and a default constructor.
   
   class DPIByteFileC 
-    : public DPISPortC<ByteT> 
+    : public DPISByteStreamC
   {
   public:
     inline DPIByteFileC() 
