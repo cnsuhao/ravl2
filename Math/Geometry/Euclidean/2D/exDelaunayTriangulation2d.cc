@@ -27,38 +27,24 @@ int main(int nargs,char **argv) {
   IntT npnts = opt.Int("p",5,"Number of points to use. ");
   IntT seed = opt.Int("rs",1,"Random number seed. ");
   Index2dC size = opt.Index2d("s",300,300,"Size of image. ");
-  IntT loop = opt.Int("l",1,"Number of meshes to check . ");
   opt.Check();
   
   HEMesh2dC mesh;
   ImageC<ByteT> img(size[0],size[1]);
   img.Fill(0);
 
-#if 1
-  SArray1dC<Point2dC> pnts(5);
-  pnts[0] = Point2dC(10,10);
-  pnts[1] = Point2dC(10,90);
-  pnts[2] = Point2dC(10,50);
-  pnts[3] = Point2dC(90,50);
-  pnts[4] = Point2dC(50,50);
+  RandomSeedDefault(seed);
+  
+  Array1dC<Point2dC> pnts(npnts);
+  
+  // Generate a point set.
+  for(UIntT i = 0;i < pnts.Size();i++)
+    pnts[i] = Point2dC(Random1() * size[0],Random1() * size[1]);
   
   mesh = DelaunayTriangulation(pnts);
-#else  
-  for(int i = 0;i < loop;i++) {
-    cerr << "Seed=" << seed + i << "\n";
-    RandomSeedDefault(seed + i);
-    
-    Array1dC<Point2dC> pnts(npnts);
-    
-    // Generate a point set.
-    for(UIntT i = 0;i < pnts.Size();i++)
-      pnts[i] = Point2dC(Random1() * size[0],Random1() * size[1]);
-    
-    mesh = DelaunayTriangulation(pnts);
-    //cerr << "Checking mesh:\n";
-    mesh.CheckMesh(true);
-  }
-#endif
+  //cerr << "Checking mesh:\n";
+  mesh.CheckMesh(true);
+  
   Point2dC x(size[0]/2,size[1]/2);
   
   // Draw Mesh
