@@ -46,6 +46,13 @@ namespace RavlN {
       { return hmap1[key]; }
     //: Do a lookup on data type 1
     
+    bool LookupFwd(const D1T &key,D2T &data)
+    { return hmap1.Lookup(key,data); }
+    //: Lookup forward.
+    // Return true if entry is found and copy 
+    // result into 'data'. Otherwise returns
+    // false and data is unaffected.
+    
     bool IsFwd(const D1T &key) const
       { return hmap1.IsElm(key); }
     //: Do we have a forward mapping.
@@ -57,6 +64,13 @@ namespace RavlN {
     D1T &Bkw(const D2T &key)
       { return hmap2[key]; }
     //: Do a lookup on data type 2
+
+    bool LookupBkw(const D2T &key,D1T &data)
+    { return hmap2.Lookup(key,data); }
+    //: Lookup backward.
+    // Return true if entry is found and copy 
+    // result into 'data'. Otherwise returns
+    // false and data is unaffected.
     
     bool IsBkw(const D2T &key) const
       { return hmap2.IsElm(key); }
