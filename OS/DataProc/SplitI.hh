@@ -237,6 +237,17 @@ namespace RavlN {
     out = DPSplitIC<DataT>(in);
     return out.NewPort();
   }
+  
+  template<class DataT,class InterT>
+  DPIOPortC<DataT,InterT> operator>>(const DPIOPortC<DataT,InterT> &in,DPSplitIC<DataT> &out) {
+    if(out.IsValid()) {
+      cerr << "DPSplitIC already assigned!\n";
+      return in;
+    }
+    out = DPSplitIC<DataT>(in);
+    return DPIOPortJoin(out.NewPort(),in); 
+  }
+
 
 #if 1
   template<class InT,class OutT> class DPProcessC;
