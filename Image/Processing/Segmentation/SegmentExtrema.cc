@@ -11,6 +11,7 @@
 #include "Ravl/Image/SegmentExtrema.hh"
 #include "Ravl/Image/DrawFrame.hh"
 #include "Ravl/Array2dIter2.hh"
+#include "Ravl/Array1dIter.hh"
 #include "Ravl/IO.hh"
 #include <string.h>
 
@@ -25,89 +26,48 @@ namespace RavlImageN {
 
   //: Destructor.
   
-  SegmentExtremaC::~SegmentExtremaC() {
+  SegmentExtremaBaseC::~SegmentExtremaBaseC() {
     ReallocRegionMap(0);
   }
 
   //: Delete the current region set, free any memory used.
   
-  void SegmentExtremaC::ReallocRegionMap(IntT size) {
+  void SegmentExtremaBaseC::ReallocRegionMap(IntT size) {
     if(size == 0)
       regionMap = SArray1dC<ExtremaRegionC>();
     else 
       regionMap = SArray1dC<ExtremaRegionC>(size);
   }
   
-  //: Apply operation to image.
-  
-  DListC<BoundaryC> SegmentExtremaC::Apply(const ImageC<ByteT> &nimg) {
-    SortPixels(nimg);
-    GenerateRegions();
-    Thresholds();
-    return GrowRegions();
-  }
-  
   //: Setup structures for a given image size.
   
-  void SegmentExtremaC::SetupImage(const IndexRange2dC &rect) {
+  void SegmentExtremaBaseC::SetupImage(const IndexRange2dC &rect) {
     IndexRange2dC imgRect = rect.Expand(1);
     labelAlloc = 0; // Reset region allocation counter.
     if(imgRect == pixs.Frame())
       return ; // Done already.
     
-    // Allocate ChainPixelC image.
-    pixs = ImageC<ChainPixelC>(imgRect);
-    origin = &(pixs[img.Frame().Origin()]);
+    // Allocate ExtremaChainPixelC image.
+    pixs = ImageC<ExtremaChainPixelC>(imgRect);
+    origin = &(pixs[rect.Origin()]);
     stride = imgRect.Cols();
     
     // Put a frame of zero labels around the edge.
-    ChainPixelC zeroPix;
+    ExtremaChainPixelC zeroPix;
     zeroPix.region = 0;
     zeroPix.next = 0;
     DrawFrame(pixs,zeroPix,imgRect);
     
     // Create region map.
-    ReallocRegionMap(img.Frame().Area()/2);
+    ReallocRegionMap(rect.Area()/2);
     
     // ...
-    maxSize = img.Frame().Area();
-  }
-  
-  //: Build a list from a byte image.
-  
-  bool SegmentExtremaC::SortPixels(const ImageC<ByteT> &nimg) {
-    limitMaxValue = 256;
-    img = nimg;
-    SetupImage(nimg.Frame());
-    
-    // Create lists of pixels with the same value.
-    
-    if(levels.Size() != 256)
-      levels = SArray1dC<ChainPixelC *>(256);
-    levels.Fill(0);    
-    Array2dIter2C<ByteT,ChainPixelC> it(img,pixs,img.Frame());
-    ByteT lmin = it.Data1();
-    ByteT lmax = it.Data1();
-    for(;it;it++) {
-      ByteT val = it.Data1();
-      ChainPixelC * &tmp = levels[val]; 
-      it.Data2().next = tmp;
-      tmp = &it.Data2();
-      it.Data2().region = 0;
-      if(val < lmin)
-	lmin = val;
-      if(val > lmax)
-	lmax = val;
-    }
-    valueRange.Min() = (IntT) lmin;
-    valueRange.Max() = (IntT) lmax;
-    //ONDEBUG(cerr << "Pixel value value range=" << valueRange << " Stride=" << stride << " Area=" << img.Frame().Area() <<"\n");
-    return true;
+    maxSize = rect.Area();
   }
   
   //: Find matching label.
   inline
-  ExtremaRegionC * SegmentExtremaC::FindLabel(ChainPixelC *cp) {
+  ExtremaRegionC * SegmentExtremaBaseC::FindLabel(ExtremaChainPixelC *cp) {
     register ExtremaRegionC *lab = cp->region;
     if(lab == 0 || lab->merge == 0) return lab;
     register ExtremaRegionC *at = lab->merge;
@@ -129,8 +89,8 @@ namespace RavlImageN {
   // put the results into 'labelArray' which must be at least 4 labels long.
   // The number of labels found is returned.
   inline
-  int SegmentExtremaC::ConnectedLabels(ChainPixelC *pix,ExtremaRegionC **labelArray) {
-    //cerr << "SegmentExtremaC::ConnectedLabels(), Pix=" << ((void *) pix) << "\n";
+  int SegmentExtremaBaseC::ConnectedLabels(ExtremaChainPixelC *pix,ExtremaRegionC **labelArray) {
+    //cerr << "SegmentExtremaBaseC::ConnectedLabels(), Pix=" << ((void *) pix) << "\n";
     IntT n = 0;
     ExtremaRegionC *l1 = FindLabel(pix + 1);
     ExtremaRegionC *l2 = FindLabel(pix - 1);
@@ -145,10 +105,10 @@ namespace RavlImageN {
   
   //: Add a new region.
   inline
-  void SegmentExtremaC::AddRegion(ChainPixelC *pix,IntT level) {
+  void SegmentExtremaBaseC::AddRegion(ExtremaChainPixelC *pix,IntT level) {
     ExtremaRegionC &region = regionMap[labelAlloc++];
     pix->region = &region;
-    //cerr << "SegmentExtremaC::AddRegion(), Pix=" << (void *) pix << " Region=" << (void *) &region << "\n";
+    //cerr << "SegmentExtremaBaseC::AddRegion(), Pix=" << (void *) pix << " Region=" << (void *) &region << "\n";
     IntT offset = pix - origin;
     region.total = 0;
     region.merge = 0; //&region;
@@ -167,7 +127,7 @@ namespace RavlImageN {
   //: Add pixel to region.
   
   inline
-  void SegmentExtremaC::AddPixel(ChainPixelC *pix,IntT level,ExtremaRegionC *reg) {
+  void SegmentExtremaBaseC::AddPixel(ExtremaChainPixelC *pix,IntT level,ExtremaRegionC *reg) {
     reg->hist[level]++;
     reg->total++;
     pix->region = reg;
@@ -176,7 +136,7 @@ namespace RavlImageN {
   //: Add pixel to region.
   
   inline
-  void SegmentExtremaC::MergeRegions(ChainPixelC *pix,IntT level,ExtremaRegionC **labels,IntT n) {
+  void SegmentExtremaBaseC::MergeRegions(ExtremaChainPixelC *pix,IntT level,ExtremaRegionC **labels,IntT n) {
     ExtremaRegionC *max = labels[0];
     IntT maxValue = labels[0]->total;
     
@@ -207,11 +167,11 @@ namespace RavlImageN {
   
   //: Generate regions.
   
-  void SegmentExtremaC::GenerateRegions() {
-    ChainPixelC *at;
+  void SegmentExtremaBaseC::GenerateRegions() {
+    ExtremaChainPixelC *at;
     IntT n, clevel = 0;
     ExtremaRegionC *labels[4];
-    for(SArray1dIterC<ChainPixelC *> lit(levels);lit;lit++,clevel++) {
+    for(Array1dIterC<ExtremaChainPixelC *> lit(levels);lit;lit++,clevel++) {
       //ONDEBUG(cerr << "Level=" << clevel << " \n");
       for(at = *lit;at != 0;at = at->next) {
 	// Got a pixel.
@@ -229,8 +189,8 @@ namespace RavlImageN {
   
   //: Generate thresholds
   
-  void SegmentExtremaC::Thresholds2() {
-    cerr << "SegmentExtremaC::Thresholds2() Called. Margin=" << minMargin << "\n";
+  void SegmentExtremaBaseC::Thresholds2() {
+    cerr << "SegmentExtremaBaseC::Thresholds2() Called. Margin=" << minMargin << "\n";
     Array1dC<IntT> chist(0,256);
     Array1dC<RealT> nhist(0,256);
     for(SArray1dIterC<ExtremaRegionC> it(regionMap,labelAlloc);it;it++) {
@@ -287,8 +247,8 @@ namespace RavlImageN {
   
   //: Generate thresholds
   
-  void SegmentExtremaC::Thresholds() {
-    //cerr << "SegmentExtremaC::Thresholds() ********************************************** \n";
+  void SegmentExtremaBaseC::Thresholds() {
+    //cerr << "SegmentExtremaBaseC::Thresholds() ********************************************** \n";
     ExtremaThresholdC thresh[257];
     IntT nthresh;
     Array1dC<IntT> chist(0,257);
@@ -396,84 +356,6 @@ namespace RavlImageN {
       }
       //cerr << "Thresholds=" << nthresh << " Kept=" << it->nThresh << "\n";
     }
-    //cerr << "SegmentExtremaC::Thresholds() Interesting regions=" << regions <<" \n";
-  }
-  
-  inline
-  bool SegmentExtremaC::AddIfInside(BlkQueueC<Index2dC> &q,ImageC<IntT> &marki,IntT id,IntT thresh,Index2dC at) {
-    if(!marki.Contains(at))
-      return true;
-    if(img[at] > thresh)
-      return true; // Is outside the region.
-    if(marki[at] != id) {
-      // Put in to do list.
-      marki[at] = id;
-      q.InsLast(at);
-    }
-    return false;
-  }
-  
-  inline 
-  void SegmentExtremaC::AddPixels(BlkQueueC<Index2dC> &queue,DListC<EdgeC> &boundary,ImageC<IntT> &marki,IntT id,IntT thresh,Index2dC at) {
-    if(AddIfInside(queue,marki,id,thresh,at + Index2dC(0,1)))
-      boundary.InsLast(EdgeC(at,CR_UP));
-    if(AddIfInside(queue,marki,id,thresh,at + Index2dC(0,-1)))
-      boundary.InsLast(EdgeC(at,CR_DOWN));
-    if(AddIfInside(queue,marki,id,thresh,at + Index2dC(1,0)))
-      boundary.InsLast(EdgeC(at,CR_RIGHT));
-    if(AddIfInside(queue,marki,id,thresh,at + Index2dC(-1,0)))
-      boundary.InsLast(EdgeC(at,CR_LEFT));
-  }
-  
-  //: Grow a single region.
-  
-  DListC<BoundaryC> SegmentExtremaC::GrowRegion(ExtremaRegionC &region,ImageC<IntT> &marki,IntT &id) {
-    DListC<BoundaryC> ret;
-    BlkQueueC<Index2dC> queue;
-    //cerr << " Thresholds=" << region.nThresh << "\n";
-    BoundaryC last;
-    for(int i = 0;i < region.nThresh;i++) {
-      queue.InsLast(region.minat);
-      DListC<EdgeC> boundary;
-      int thresh = region.thresh[i].thresh;
-      //cerr << "Thresh=" << thresh << "\n";
-      id++;
-      queue.InsLast(region.minat);
-#if 0
-      if(!last.IsEmpty()) {
-	for(DLIterC<EdgeC> it(last);it;it++)
-	  AddPixels(queue,boundary,marki,thresh,it->LPixel());
-      }
-#endif
-      while(!queue.IsEmpty())
-	AddPixels(queue,boundary,marki,id,thresh,queue.GetFirst());
-      last = BoundaryC(boundary,true);
-      ret.InsLast(last);
-    }
-    return ret;
-  }
-  
-  //: Grow regions.
-  
-  DListC<BoundaryC> SegmentExtremaC::GrowRegions() {
-    //cerr << "SegmentExtremaC::GrowRegions() \n";
-    ImageC<IntT> marki(img.Frame());
-    marki.Fill(0);
-    IntT id = 0;
-    ImageC<ByteT> dimg(pixs.Frame());
-    dimg.Fill(0);
-    
-    DListC<BoundaryC> bounds;
-    for(SArray1dIterC<ExtremaRegionC> it(regionMap,labelAlloc-1);it;it++) {
-      if(it->nThresh > 0)
-	bounds += GrowRegion(*it,marki,id);
-      if(it->thresh != 0) {
-	delete [] it->thresh;
-	it->thresh = 0;
-      }
-    }
-    
-    return bounds;
-  }
-  
+    //cerr << "SegmentExtremaBaseC::Thresholds() Interesting regions=" << regions <<" \n";
+  }  
 }

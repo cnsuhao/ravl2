@@ -10,7 +10,7 @@
 PACKAGE=Ravl/Image
 
 HEADERS=ChromaThreshold.hh  Segmentation.hh ConnectedComponents.hh \
- BlueScreen.hh SegmentExtrema.hh
+ BlueScreen.hh SegmentExtrema.hh FloodRegion.hh
 
 SOURCES=ChromaThreshold.cc Segmentation.cc ConnectedComponents.cc \
  BlueScreen.cc SegmentExtrema.cc

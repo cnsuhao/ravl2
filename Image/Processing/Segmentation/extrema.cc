@@ -28,7 +28,7 @@ int main(int nargs,char **argv) {
   
   ImageC<ByteT> img;
   
-  SegmentExtremaC lst(minSize,minMargin);
+  SegmentExtremaC<ByteT> lst(minSize,minMargin);
   
   // Open image source.
   DPIPortC<ImageC<ByteT> > inp;
