@@ -4,12 +4,12 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_PPHT_HEADER
-#define RAVL_PPHT_HEADER 1
+#ifndef RAVLIMAGE_PPHT_HEADER
+#define RAVLIMAGE_PPHT_HEADER 1
 //////////////////////////////////////////////////////
 //! file="Ravl/Image/Processing/Lines/PPHT.hh"
 //! userlevel=Normal
-//! docentry="Image.Image Processing.Lines"
+//! docentry="Ravl.Images.Lines"
 //! lib=RavlImageProc
 //! author="Charles Galambos"
 //! rcsid="$Id$"

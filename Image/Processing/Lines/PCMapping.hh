@@ -4,10 +4,10 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_PCMAPPING_HEADER
-#define RAVL_PCMAPPING_HEADER 1
+#ifndef RAVLIMAGE_PCMAPPING_HEADER
+#define RAVLIMAGE_PCMAPPING_HEADER 1
 ////////////////////////////////////////////////////////////
-//! docentry="Image.Image Processing.Lines"
+//! docentry="Ravl.Images.Lines"
 //! file="Ravl/Image/Processing/Lines/PCMapping.hh"
 //! lib=RavlImageProc
 //! author="Charles Galambos"

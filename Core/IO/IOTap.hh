@@ -7,7 +7,7 @@
 #ifndef RAVL_DPIOTAP_HEADER
 #define RAVL_DPIOTAP_HEADER 1
 ///////////////////////////////////////////////////
-//! docentry="Data Processing" 
+//! docentry="Ravl.Core.Data Processing"
 //! rcsid="$Id$"
 //! file="Ravl/Core/IO/IOTap.hh"
 //! lib=RavlIO

@@ -11,7 +11,7 @@
 //! file="Ravl/OS/DataProc/MTIOConnect.hh"
 //! author="Charles Galambos"
 //! date="02/10/98"
-//! docentry="Data Processing" 
+//! docentry="Ravl.OS.Data Processing"
 //! rcsid="$Id$"
 
 #include "Ravl/Threads/LaunchThread.hh"

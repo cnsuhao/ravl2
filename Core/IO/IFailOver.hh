@@ -7,7 +7,7 @@
 #ifndef RAVL_DPIFAILOVER_HEADER
 #define RAVL_DPIFAILOVER_HEADER 1
 /////////////////////////////////////////////////
-//! docentry="Data Processing"
+//! docentry="Ravl.Core.Data Processing"
 //! lib=RavlIO
 //! author="Charles Galambos"
 //! rcsid="$Id$"

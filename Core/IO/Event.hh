@@ -11,7 +11,7 @@
 //! file="Ravl/Core/IO/Event.hh"
 //! lib=RavlIO
 //! author="Charles Galambos"
-//! docentry="Data Processing"
+//! docentry="Ravl.Core.Data Processing"
 
 #include "Ravl/DP/Entity.hh"
 
