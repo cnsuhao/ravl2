@@ -48,7 +48,7 @@ namespace RavlN {
   {
   public:
     Array2dC()
-      {}
+    {}
     //: Creates an empty 2D array.
     
     Array2dC(SizeT dim1, SizeT dim2);
@@ -100,7 +100,7 @@ namespace RavlN {
     // when optimised is enabled an empty array  will be returned. 
     
     Array1dC<DataT> SliceRow(IndexC i)
-      { return Array1dC<DataT>(data.Data(),(*this)[i]); }
+    { return Array1dC<DataT>(data.Data(),(*this)[i]); }
     //: Access row as 1d array.
     // Note: Changes made to the slice will also affect this array!
     
@@ -123,11 +123,11 @@ namespace RavlN {
     // NB. Changes made to the slice will also affect this array!
     
     inline const Array2dC<DataT> & Array2d() const
-      { return(*this); }
+    { return(*this); }
     //: access to the constant object
     
     inline Array2dC<DataT> & Array2d()
-      { return(*this); }
+    { return(*this); }
     //: access to the object
     
     inline void ShiftIndexes1(IndexC offset);
@@ -297,7 +297,7 @@ namespace RavlN {
   template <class DataT>
   Array2dC<DataT>::Array2dC(const Array2dC<DataT> &arr,const IndexRange2dC & rect) 
     : RangeBufferAccess2dC<DataT> (arr,rect),
-    data(arr.data)
+      data(arr.data)
   {}
 
   template <class DataT>

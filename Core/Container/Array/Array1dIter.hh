@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLARRAY1DITER_HEADER
-#define RAVLARRAY1DITER_HEADER 1
+#ifndef RAVL_ARRAY1DITER_HEADER
+#define RAVL_ARRAY1DITER_HEADER 1
 //////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Core.Arrays.1D"
@@ -29,22 +29,22 @@ namespace RavlN {
   {
   public:
     Array1dIterC()
-      {}
+    {}
     //: Default constructor.
     
     Array1dIterC(const Array1dC<DataT> &arr)
       : BufferAccessIterC<DataT>(arr),
         dat(arr)
-      {}
+    {}
     //: Constructor.
     
     Array1dIterC(const Array1dC<DataT> &arr,const IndexRangeC & range)
       : dat(arr,range)
-      { BufferAccessIterC<DataT>::operator=(dat); }
+    { BufferAccessIterC<DataT>::operator=(dat); }
     //: Iterate through a sub-range.
     
     inline void First() 
-      { BufferAccessIterC<DataT>::First(dat); }
+    { BufferAccessIterC<DataT>::First(dat); }
     //: Goto first element in the array.
     
     inline void First(Array1dC<DataT> &arr) { 
@@ -66,7 +66,7 @@ namespace RavlN {
     //: Assignment.
     
     IndexC Index() const
-      { return IndexC((IntT)( at - dat.ReferenceElm())); }
+    { return IndexC((IntT)( at - dat.ReferenceElm())); }
     //: Calculate the index we're at.
     
   protected:

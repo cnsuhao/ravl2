@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLARRAY2dSQR3ITER_HEADER
-#define RAVLARRAY2dSQR3ITER_HEADER 1
+#ifndef RAVL_ARRAY2DSQR3ITER_HEADER
+#define RAVL_ARRAY2DSQR3ITER_HEADER 1
 //////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! author="Charles Galambos"
@@ -32,7 +32,7 @@ namespace RavlN {
   {
   public:
     Array2dSqr3IterC()
-      {}
+    {}
     //: Default constructor.
     
     Array2dSqr3IterC(const Array2dC<DataT> &narray) 
@@ -75,91 +75,91 @@ namespace RavlN {
     //: Goto next element.
     
     bool IsElm() const
-      { return cit.IsElm(); }
+    { return cit.IsElm(); }
     //: Test if iterator is at a valid element.
     
     operator bool() const
-      { return cit.IsElm(); }
+    { return cit.IsElm(); }
     //: Test if iterator is at a valid element.
     
     void operator++() 
-      { Next(); }
+    { Next(); }
     //: Goto next element.
 
     void operator++(int) 
-      { Next(); }
+    { Next(); }
     //: Goto next element.
     
     DataT &DataBL() 
-      { return dn[-1]; }
+    { return dn[-1]; }
     //: Access bottom left data element 
 
     const DataT &DataBL() const
-      { return dn[-1]; }
+    { return dn[-1]; }
     //: Access bottom left data element 
 
     DataT &DataBM() 
-      { return *dn; }
+    { return *dn; }
     //: Access bottom mid data element 
 
     const DataT &DataBM() const
-      { return *dn; }
+    { return *dn; }
     //: Access bottom mid data element 
 
     DataT &DataBR() 
-      { return dn[1]; }
+    { return dn[1]; }
     //: Access bottom right data element 
 
     const DataT &DataBR() const
-      { return dn[1]; }
+    { return dn[1]; }
     //: Access bottom right data element 
 
     DataT &DataML() 
-      { return (&(*cit))[-1]; }
+    { return (&(*cit))[-1]; }
     //: Access middle left data element 
     
     const DataT &DataML() const
-      { return (&(*cit))[-1]; }
+    { return (&(*cit))[-1]; }
     //: Access middle left data element 
     
     DataT &DataMM() 
-      { return *cit; }
+    { return *cit; }
     //: Access middle data element 
     
     const DataT &DataMM() const
-      { return *cit; }
+    { return *cit; }
     //: Access middle data element 
     
     DataT &DataMR() 
-      { return (&(*cit))[1]; }
+    { return (&(*cit))[1]; }
     //: Access middle right data element 
     
     const DataT &DataMR() const
-      { return (&(*cit))[1]; }
+    { return (&(*cit))[1]; }
     //: Access middle right data element 
 
     DataT &DataTL() 
-      { return up[-1]; }
+    { return up[-1]; }
     //: Access top left data element.
     
     const DataT &DataTL() const
-      { return up[-1]; }
+    { return up[-1]; }
     //: Access top left data element
 
     DataT &DataTM() 
-      { return *up; }
+    { return *up; }
     //: Access top middle element 
     
     const DataT &DataTM() const
-      { return *up; }
+    { return *up; }
     //: Access top middle element
     
     DataT &DataTR() 
-      { return up[1]; }
+    { return up[1]; }
     //: Access top right data element 
     
     const DataT &DataTR() const
-      { return up[1]; }
+    { return up[1]; }
     //: Access top right data element
     
   protected:

@@ -32,21 +32,21 @@ namespace RavlN {
   {
   public:
     Array2dIterC()
-      {}
+    {}
     //: Default constructor.
     
     Array2dIterC(const Array2dC<DataT> &arr,const IndexRange2dC &rng)
       : dat(arr,rng)
-      { First(); }
+    { First(); }
     //: Constructor.
 
     Array2dIterC(const Array2dC<DataT> &arr)
       : dat(arr)
-      { First(); }
+    { First(); }
     //: Constructor.
     
     inline bool First() 
-      { return BufferAccess2dIterC<DataT>::First(dat,dat.Range2()); }
+    { return BufferAccess2dIterC<DataT>::First(dat,dat.Range2()); }
     
     //: Goto first element in the array.
     // Return TRUE if there actually is one.

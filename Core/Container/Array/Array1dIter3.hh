@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLARR1ITER3_HEADER
-#define RAVLARR1ITER3_HEADER 1
+#ifndef RAVL_ARRAY1ITER3_HEADER
+#define RAVL_ARRAY1ITER3_HEADER 1
 //////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Core.Arrays.1D"
@@ -30,7 +30,7 @@ namespace RavlN {
   {
   public:
     Array1dIter3C()
-      {}
+    {}
     //: Default constructor.
     
     Array1dIter3C(const Array1dC<Data1T> &arr1,const Array1dC<Data2T> &arr2,const Array1dC<Data3T> &arr3,bool matching = true)
@@ -39,11 +39,11 @@ namespace RavlN {
 	dat2(arr2),
 	dat3(arr3)
     {
-	if(matching) {
-	  RavlAssertMsg(arr1.Range() == arr2.Range(),"Array1dIter3C, First and second array ranges don't match.");
-	  RavlAssertMsg(arr1.Range() == arr2.Range(),"Array1dIter3C, First and third array ranges don't match.");
-	}
+      if(matching) {
+	RavlAssertMsg(arr1.Range() == arr2.Range(),"Array1dIter3C, First and second array ranges don't match.");
+	RavlAssertMsg(arr1.Range() == arr2.Range(),"Array1dIter3C, First and third array ranges don't match.");
       }
+    }
     //: Constructor.
     // If you don't intend to iterator over the same range for each array set the 'matching' paramiter to 
     // false.  This will disable the check.

@@ -28,7 +28,7 @@ namespace RavlN {
   {
   public:
     Array2dIter2C()
-      {}
+    {}
     //: Default constructor.
     
     Array2dIter2C(const Array2dC<Data1T> &arr1,const Array2dC<Data2T> &arr2,bool matching = true)
@@ -36,19 +36,19 @@ namespace RavlN {
 					    arr2,arr2.Range2()),
         dat1(arr1),
         dat2(arr2)
-      { 
-	if(matching) 
-	  RavlAssert(dat1.Range().Size() == dat2.Range().Size());
-	First();
-      }
+    { 
+      if(matching) 
+	RavlAssert(dat1.Range().Size() == dat2.Range().Size());
+      First();
+    }
     //: Constructor.
     
     Array2dIter2C(const Array2dC<Data1T> &arr1,const Array2dC<Data2T> &arr2,const IndexRange2dC &rect)
       : dat1(arr1,rect),
         dat2(arr2,rect)
-      { BufferAccess2dIter2C<Data1T,Data2T>::First(dat1,dat1.Range2(),
-						   dat2,dat2.Range2()); 
-      }
+    { BufferAccess2dIter2C<Data1T,Data2T>::First(dat1,dat1.Range2(),
+						 dat2,dat2.Range2()); 
+    }
     //: Constructor.
     
     inline bool First() {
@@ -62,7 +62,7 @@ namespace RavlN {
       assert(dat1.IsValid());
       return Index2dC((IntT) (&(rit.Data1()) - dat1.ReferenceElm()),
 		      (IntT) (&(cit.Data1()) - rit.Data1().ReferenceElm()));
-      }
+    }
     //: Get index of current location.
     // Has to be calculate, and so is slightly slow.
         

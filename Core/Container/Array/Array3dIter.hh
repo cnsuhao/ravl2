@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLARRAY3DITER_HEADER
-#define RAVLARRAY3DITER_HEADER 1
+#ifndef RAVL_ARRAY3DITER_HEADER
+#define RAVL_ARRAY3DITER_HEADER 1
 ///////////////////////////////////////////////////////////////////////
 //! file="Ravl/Core/Container/Array/Array3dIter.hh"
 //! lib=RavlCore
@@ -14,7 +14,7 @@
 //! docentry="Ravl.Core.Arrays.3D"
 //! rcsid="$Id$"
 //! example=exArray2.cc
-//! date="24/08/99"
+//! date="24/08/1999"
 
 #include "Ravl/BfAcc3Iter.hh"
 #include "Ravl/Array3d.hh"
@@ -32,21 +32,21 @@ namespace RavlN {
   {
   public:
     Array3dIterC()
-      {}
+    {}
     //: Default constructor.
     
     Array3dIterC(const Array3dC<DataT> &arr,const IndexRange3dC &rng)
       : dat(arr,rng)
-      { First(); }
+    { First(); }
     //: Constructor.
     
     Array3dIterC(const Array3dC<DataT> &arr)
       : dat(arr)
-      { First(); }
+    { First(); }
     //: Constructor.
     
     inline bool First() 
-      { return BufferAccess3dIterC<DataT>::First(dat,dat.Range2(),dat.Range3()); }
+    { return BufferAccess3dIterC<DataT>::First(dat,dat.Range2(),dat.Range3()); }
     //: Goto first element in the array.
     // Return TRUE if there actually is one.
     

@@ -154,11 +154,11 @@ namespace RavlN {
     // ------------------------------
     
     inline const Array1dC<DataT> & Array1d() const
-      { return *this; }
+    { return *this; }
     //: Access to the whole array.
     
     inline Array1dC<DataT> & Array1d()
-      { return *this; }
+    { return *this; }
     //: Access to the whole array.
     
     inline SArray1dC<DataT> SArray1d(bool doShift = false);
@@ -199,11 +199,11 @@ namespace RavlN {
     // Special operations.
     
     BufferC<DataT> &Buffer()
-      { return buff; }
+    { return buff; }
     //: Access buffer in which data is stored.
     
     const BufferC<DataT> &Buffer() const
-      { return buff; }
+    { return buff; }
     //: Access buffer in which data is stored.
     
     Array1dC<DataT> operator+(const Array1dC<DataT> & arr) const;

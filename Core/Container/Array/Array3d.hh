@@ -44,7 +44,7 @@ namespace RavlN {
   {
   public:
     Array3dC()
-      {}
+    {}
     //: Creates an empty 3D array.
     
     Array3dC(SizeT dim1, SizeT dim2, SizeT dim3);
@@ -78,7 +78,7 @@ namespace RavlN {
     
 #if 0
     Array1dC<DataT> SliceRow(IndexC i)
-      { return Array1dC<DataT>(data.Data(),(*this)[i]); }
+    { return Array1dC<DataT>(data.Data(),(*this)[i]); }
     //: Access row as 1d array.
     // NB. Changes made to the slice will also affect this array!
     
@@ -102,11 +102,11 @@ namespace RavlN {
 #endif
     
     inline const Array3dC<DataT> & Array3d() const
-      { return(*this); }
+    { return(*this); }
     //: access to the constant object
     
     inline Array3dC<DataT> & Array3d()
-      { return(*this); }
+    { return(*this); }
     //: access to the object
 
 #if 0    

@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLARR3ITER2_HEADER
-#define RAVLARR3ITER2_HEADER 1
+#ifndef RAVL_ARRAY3ITER2_HEADER
+#define RAVL_ARRAY3ITER2_HEADER 1
 //////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Core.Arrays.3D"
@@ -28,7 +28,7 @@ namespace RavlN {
   {
   public:
     Array3dIter2C()
-      {}
+    {}
     //: Default constructor.
     
     Array3dIter2C(const Array3dC<Data1T> &arr1,const Array3dC<Data2T> &arr2,bool matching = true)
@@ -36,19 +36,19 @@ namespace RavlN {
 					    arr2,arr2.Range2(),arr2.Range3()),
         dat1(arr1),
         dat2(arr2)
-      { 
-	if(matching) 
-	  RavlAssert(dat1.Range() == dat2.Range());
-	First();
-      }
+    { 
+      if(matching) 
+	RavlAssert(dat1.Range() == dat2.Range());
+      First();
+    }
     //: Constructor.
     
     Array3dIter2C(const Array3dC<Data1T> &arr1,const Array3dC<Data2T> &arr2,const IndexRange3dC &rect)
       : dat1(arr1,rect),
         dat2(arr2,rect)
-      { BufferAccess3dIter2C<Data1T,Data2T>::First(dat1,dat1.Range2(),dat1.Range3(),
-						   dat2,dat2.Range2(),dat2.Range3()); 
-      }
+    { BufferAccess3dIter2C<Data1T,Data2T>::First(dat1,dat1.Range2(),dat1.Range3(),
+						 dat2,dat2.Range2(),dat2.Range3()); 
+    }
     //: Constructor.
     
     inline bool First() {
