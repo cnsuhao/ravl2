@@ -127,6 +127,17 @@ namespace RavlN {
     // Returns true if the iterator is in a valid row, and false
     // if it is at the end of the array. 
     
+    bool SkipRow(IntT offset) {
+      rit.Next(offset);
+      if(!rit.IsElm())
+	return false;
+      cit.First(rit.Data1(),rng1,rit.Data2(),rng2);
+      return true;
+    }
+    //: Skip 'offset' rows. 
+    // Leaves the iterator 'offset' rows further down the image, in the first column. <br>
+    // Returns true if the iterator is left on a valid element.
+    
     void NextCol(int skip)
     { cit.Next(skip); }
     //: Go forward 'skip' columns, without checking for row change.
