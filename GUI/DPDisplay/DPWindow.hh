@@ -55,9 +55,12 @@ namespace RavlGUIN {
     bool Refresh();
     //: Refresh the display.
     
+    bool WindowClosed();
+    //: Called when window is closed.
+    
   protected:    
     StringC name;
-    MutexC setupMutex; // Make sure window is only setup at once.
+    MutexC accessMutex; // Make sure window is only setup at once.
     WindowC win;
     IndexRange2dC winSize;
     DPDisplayViewC view;
@@ -114,6 +117,10 @@ namespace RavlGUIN {
     bool Refresh()
     { return Body().Refresh(); }
     //: Refresh the display.
+    
+    bool WindowClosed()
+    { return Body().WindowClosed(); }
+    //: Called when window is closed.
 
     friend class DPWindowBodyC;
   };

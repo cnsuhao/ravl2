@@ -45,24 +45,32 @@ extern "C" {
 
 namespace RavlGUIN {
   
-  //MutexC DPWindowBodyC::setupMutex; // Make sure window is only setup at once.
-  
   DPWindowBodyC::DPWindowBodyC(const StringC &nname,const IndexRange2dC &nWinSize)
     : name(nname),
       winSize(nWinSize)
   {}
   
+  //: Called when window is closed.
+  
+  bool DPWindowBodyC::WindowClosed() {
+    ONDEBUG(cerr << "DPWindowBodyC::WindowClosed(), Called. \n");
+    MutexLockC hold(accessMutex);
+    view.Invalidate();
+    win.Invalidate();
+    return true;
+  }
+  
   //: Construct widgets.
+  // Access mutex must be held when calling Init().
   
   void DPWindowBodyC::Init(const IndexRange2dC &size) {
     ONDEBUG(cerr << "DPWindowBodyC::Init(), Called. Size=" << winSize << " \n");
-    MutexLockC hold(setupMutex);
     if(view.IsValid()) // Check for race in setup.
       return ;
     winSize = size;
     // Ensure the manager is started.
     if(!Manager.IsManagerStarted()) {
-      Manager.Execute();      
+      Manager.Execute();
       Manager.WaitForStartup();
       atexit(waitForGUIExit);
     }
@@ -71,6 +79,9 @@ namespace RavlGUIN {
     win = WindowC(winSize.LCol().V()+10,winSize.BRow().V()+10,name);
     DPDisplayViewC nview(winSize);
     win.Add(nview);
+    
+    ConnectRef(win.Signal("delete_event"),*this,&DPWindowBodyC::WindowClosed);
+    
     win.Show();
     
     // Don't setup view until we're ready to start processing data.
@@ -81,8 +92,9 @@ namespace RavlGUIN {
   
   bool DPWindowBodyC::AddObject(const DPDisplayObjC &obj) { 
     ONDEBUG(cerr << "DPWindowBodyC::AddObject(), Called \n");
-    if(!view.IsValid())
-      Init(obj.Frame());
+    MutexLockC hold(accessMutex);
+    if(!view.IsValid()) 
+      Init(obj.Frame()); 
     view.AddObject(obj);
     view.Refresh();
     return true;
@@ -92,6 +104,7 @@ namespace RavlGUIN {
   
   bool DPWindowBodyC::ReplaceObject(const DPDisplayObjC &obj) {
     ONDEBUG(cerr << "DPWindowBodyC::ReplaceObject(), Called \n");
+    MutexLockC hold(accessMutex);
     if(!view.IsValid()) 
       Init(obj.Frame());
     view.Clear();
@@ -104,6 +117,7 @@ namespace RavlGUIN {
   
   bool DPWindowBodyC::Clear() {  
     ONDEBUG(cerr << "DPWindowBodyC::Clear(), Called \n");
+    MutexLockC hold(accessMutex);
     if(!view.IsValid())
       return true;
     return view.Clear();
@@ -113,6 +127,7 @@ namespace RavlGUIN {
   
   bool DPWindowBodyC::Refresh() {
     ONDEBUG(cerr << "DPWindowBodyC::Refresh(), Called \n");
+    MutexLockC hold(accessMutex);
     if(!view.IsValid())
       return true;
     return view.Refresh();

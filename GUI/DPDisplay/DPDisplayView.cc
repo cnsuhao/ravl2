@@ -73,8 +73,8 @@ namespace RavlGUIN {
     TableBodyC::AddObject(hRuler,1,2,0,1,(GtkAttachOptions) (GTK_EXPAND|GTK_SHRINK|GTK_FILL),GTK_FILL);
     TableBodyC::AddObject(vSlider,2,3,1,2,GTK_FILL,(GtkAttachOptions) (GTK_EXPAND|GTK_SHRINK|GTK_FILL));
     TableBodyC::AddObject(hSlider,1,2,2,3,(GtkAttachOptions) (GTK_EXPAND|GTK_SHRINK|GTK_FILL),GTK_FILL);
-    TableBodyC::AddObject(HBox(Label(" X=") + PackInfoC(xpos,false,false) +
-			       Label(" Y=") + PackInfoC(ypos,false,false) + 
+    TableBodyC::AddObject(HBox(Label(" Row=") + PackInfoC(xpos,false,false) +
+			       Label(" Col=") + PackInfoC(ypos,false,false) + 
 			       Label(" Info:") + PackInfoC(info,true,true)),
 			  0,3,3,4,
 			  (GtkAttachOptions)(GTK_FILL),
@@ -232,10 +232,10 @@ namespace RavlGUIN {
     Vector2dC pos(mouseEvent.X(),mouseEvent.Y());
     pos += offset;
     //ONDEBUG(cerr << "DPDisplayViewBodyC::CallbackMouseMotion(), Called. Posision=" << pos <<"\n");
-    StringC xps((int) pos[0]);
-    StringC yps((int) pos[1]);
-    xpos.Label(xps);
-    ypos.Label(yps);
+    StringC rowps((int) pos[0]);
+    StringC colps((int) pos[1]);
+    xpos.Label(colps);
+    ypos.Label(rowps);
     StringC infos("-");
     Query(pos,infos);
     info.Label(infos);
