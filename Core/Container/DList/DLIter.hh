@@ -59,7 +59,7 @@ namespace RavlN {
     DListC<DataT> Copy() const
     { return List().Copy(); }
     //: Make a copy of this list.
-
+    
     operator bool() const
     { return place != &lst.Head(); }
     //: Is iterator at a valid position ?
@@ -72,16 +72,16 @@ namespace RavlN {
     { place = &place->Next(); }
     //: Goto next element.
     
-    void operator++() 
-    { place = &place->Next(); }
+    DLIterC<DataT> &operator++() 
+    { place = &place->Next(); return *this; }
     //: Goto next element.
     
     void operator--(int) 
     { place = &place->Prev(); }
     //: Goto previous element.
     
-    void operator--() 
-    { place = &place->Prev(); }
+    DLIterC<DataT> &operator--() 
+    { place = &place->Prev(); return *this; }
     //: Goto previous element.
     
     void InsertBef(const DataT &dat)
@@ -202,6 +202,14 @@ namespace RavlN {
     // n = 1 means the move to the next element, 
     // and n = -1 means the move to the previous element. <p>
     // Returns a reference to this iterator.
+    
+    DLIterC<DataT> &operator+=(IntT n)
+    { return RelNth(n); }
+    //: Short hand for RelNth(n).
+    
+    DLIterC<DataT> &operator-=(IntT n)
+    { return RelNth(-n); }
+    //: Short hand for RelNth(-n).
     
     DLIterC<DataT> &Nth(IntT n) {
       if(n >= 0) {

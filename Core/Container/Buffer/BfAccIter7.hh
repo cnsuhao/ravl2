@@ -151,12 +151,26 @@ namespace RavlN {
       at7 += skip;
     }
     //: Advance 'skip' elements.
-    // Call ONLY if you know this will not go past the end of the array.
-
-    inline void operator++()
-    { Next(); }
-    //: Goto next elment.
-
+    // WARNING: When using negative values, positions before the begining of the array will
+    // not be detected correctly by IsElm().
+    
+    BufferAccessIter7C<Data1T,Data2T,Data3T,Data4T,Data5T,Data6T,Data7T> &operator++()
+    { Next(); return *this; }
+    //: Goto next element.
+    // Call ONLY if IsElm() is valid.
+    
+    inline BufferAccessIter7C<Data1T,Data2T,Data3T,Data4T,Data5T,Data6T,Data7T> & operator+=(int skip)
+    { Next(skip); return *this; }
+    //: Advance 'skip' elements.
+    // WARNING: When using negative values, positions before the begining of the array will
+    // not be detected correctly by IsElm().
+    
+    inline BufferAccessIter7C<Data1T,Data2T,Data3T,Data4T,Data5T,Data6T,Data7T> & operator-=(int skip)
+    { Next(-skip); return *this; }
+    //: Go back 'skip' elements.
+    // WARNING: When using positive values, positions before the begining of the array will
+    // not be detected correctly by IsElm().
+    
     inline void operator++(int)
     { Next(); }
     //: Goto next elment.
@@ -220,6 +234,36 @@ namespace RavlN {
     inline void Invalidate() 
     { at1 = 0; endOfRow = 0; }
     //: Make IsElm() return false.
+    
+    inline bool operator>(const BufferAccessIter7C<Data1T,Data2T,Data3T,Data4T,Data5T,Data6T,Data7T> &oth) const
+    { return at1 > oth.at1; }
+    //: Is this at a position passed 'oth' ?
+    // Using position in first buffer as a reference.
+    
+    inline bool operator<(const BufferAccessIter7C<Data1T,Data2T,Data3T,Data4T,Data5T,Data6T,Data7T> &oth) const
+    { return at1 < oth.at1; }
+    //: Is this at a position before 'oth' ?
+    // Using position in first buffer as a reference.
+
+    inline bool operator>=(const BufferAccessIter7C<Data1T,Data2T,Data3T,Data4T,Data5T,Data6T,Data7T> &oth) const
+    { return at1 >= oth.at1; }
+    //: Is this at a position passed or equal to 'oth' ?
+    // Using position in first buffer as a reference.
+    
+    inline bool operator<=(const BufferAccessIter7C<Data1T,Data2T,Data3T,Data4T,Data5T,Data6T,Data7T> &oth) const
+    { return at1 <= oth.at1; }
+    //: Is this at a position before or equal to 'oth' ?
+    // Using position in first buffer as a reference.
+
+    inline bool operator==(const BufferAccessIter7C<Data1T,Data2T,Data3T,Data4T,Data5T,Data6T,Data7T> &oth) const
+    { return at1 == oth.at1; }
+    //: Is this at the same position as 'oth' ?
+    // Using position in first buffer as a reference.
+    
+    IntT operator-(const BufferAccessIter7C<Data1T,Data2T,Data3T,Data4T,Data5T,Data6T,Data7T> &oth)
+    { return at1 - oth.at1; }
+    //: Return the difference in position of the iterators.
+    // Using position in first buffer as a reference.
     
   protected:    
     Data1T *at1;

@@ -118,15 +118,28 @@ namespace RavlN {
     inline void Next(int skip)
     { at += skip; }
     //: Advance 'skip' elements.
-    // Call ONLY if you know this will not go past the end of the array.
+    // WARNING: When using negative values, positions before the begining of the array will
+    // not be detected correctly by IsElm().
+    
+    inline BufferAccessIterC<DataT> & operator+=(int skip)
+    { Next(skip); return *this; }
+    //: Advance 'skip' elements.
+    // WARNING: When using negative values, positions before the begining of the array will
+    // not be detected correctly by IsElm().
+    
+    inline BufferAccessIterC<DataT> & operator-=(int skip)
+    { Next(-skip); return *this; }
+    //: Go back 'skip' elements.
+    // WARNING: When using positive values, positions before the begining of the array will
+    // not be detected correctly by IsElm().
     
     inline void operator++(int) 
     { RavlAssert(at != endOfRow); at++; }
     //: Goto next element.
     // Call ONLY if IsElm() is valid.
     
-    inline void operator++() 
-    { RavlAssert(at != endOfRow); at++; }
+    inline BufferAccessIterC<DataT> &operator++()
+    { RavlAssert(at != endOfRow); at++; return *this; }
     //: Goto next element.
     // Call ONLY if IsElm() is valid.
     
@@ -167,6 +180,40 @@ namespace RavlN {
     inline void Invalidate();
     //: Make IsElm() return false.
     
+    inline bool operator>(const BufferAccessIterC<DataT> &oth) const
+    { return at > oth.at; }
+    //: Is this at a position passed 'oth' ?
+    
+    inline bool operator<(const BufferAccessIterC<DataT> &oth) const
+    { return at < oth.at; }
+    //: Is this at a position before 'oth' ?
+
+    inline bool operator>=(const BufferAccessIterC<DataT> &oth) const
+    { return at >= oth.at; }
+    //: Is this at a position passed or equal to 'oth' ?
+    
+    inline bool operator<=(const BufferAccessIterC<DataT> &oth) const
+    { return at <= oth.at; }
+    //: Is this at a position before or equal to 'oth' ?
+
+    inline bool operator==(const BufferAccessIterC<DataT> &oth) const
+    { return at == oth.at; }
+    //: Is this at the same position as 'oth' ?
+    
+    IntT operator-(const BufferAccessIterC<DataT> &oth)
+    { return at - oth.at; }
+    //: Return the difference in position of the iterators.
+
+    DataT &operator[](IntT n)
+    { return at[n]; }
+    //: Return the value at a index relative to the iterator.
+    // Note: Is it the users resposibility to ensure this is a valid element.
+
+    DataT &operator[](IndexC n)
+    { return at[n.V()]; }
+    //: Return the value at a index relative to the iterator.
+    // Note: Is it the users resposibility to ensure this is a valid element.
+        
   protected:
     DataT *at;
     const DataT *endOfRow;
