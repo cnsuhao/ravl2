@@ -92,7 +92,7 @@ namespace RavlImageN {
     int rescale;
     s >> v;
     if(v > 0)
-      throw ExceptionOutOfRangeC("operator>>(BinIStreamC &,HistogramEqualiseC<DataT> &), Bad version number in stream. ");
+      throw ExceptionOutOfRangeC("Bad version number in stream. ");
     s >> min >> max >> rescale;
     hist = HistogramEqualiseC<DataT>(min,max,rescale != 0);
     return s;
@@ -114,7 +114,7 @@ namespace RavlImageN {
     int rescale;
     s >> v;
     if(v > 0)
-      throw ExceptionOutOfRangeC("operator>>(BinIStreamC &,HistogramEqualiseC<DataT> &), Bad version number in stream. ");
+      throw ExceptionOutOfRangeC("Bad version number in stream. ");
     s >> min >> max >> rescale;
     hist = HistogramEqualiseC<DataT>(min,max,rescale != 0);
     return s;
