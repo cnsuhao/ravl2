@@ -8,11 +8,13 @@
 ##################################################
 
 
-################ Compiler ##################################
+
+# Compiler
+##################################################
 
 # paths for cc and c++ compiler
-#RAVL_CC  = /opt/GNUdevelop/gcc-3.3.2/bin/gcc
-#RAVL_CXX = /opt/GNUdevelop/gcc-3.3.2/bin/g++
+RAVL_CC  = /opt/GNUdevelop/gcc-3.3.2/bin/gcc
+RAVL_CXX = /opt/GNUdevelop/gcc-3.3.2/bin/g++
 
 # extra CFLAGS (c)
 # EXTRA_CFLAGS =
@@ -22,15 +24,16 @@
 
 ################# LIBRARIES #################
 
-## GTK 2.x #####################################
+# PCSC LIBRARIES
+PCSCLITE_HOME=/usr/local
+PCSCLITE_INCLUDE=$(PCSCLITE_HOME)/include
 
-#RESOURCES += libGTK libGTK2
+# ICC LIBRARIES
+LIBICC_HOME=/opt/sharp3010
 
-#RESOURCES += libglade2
+## GTK #####################################
 
-## GTK 1.x #####################################
-
-RESOURCES += libGTK 
+RESOURCES += libGTK libGTK2 libglade2
 
 # gtk path 
 #GTKPATH =  /opt/PDlibs/gtk++-1.2.10
@@ -56,22 +59,21 @@ RESOURCES += libAudioFile
 
 ## libDV ################################################
 
-#RESOURCES += libDV
+RESOURCES += libDV
 #LIBDV_HOME=
 
 ## libavc1394 ################################################
 
-#RESOURCES += libavc1394
+RESOURCES += libavc1394
 #LIBAVC1394_HOME=
 
-## libdc1394 ################################################
-# Camera control.
+## libdc1394 #################################################
 
-#RESOURCES += libdc1394
+RESOURCES += libdc1394
 
 ## libcurl ################################################
 
-#RESOURCES += libCurl
+RESOURCES += libCurl
 
 ## libClipStationPro ################################################
 
@@ -81,37 +83,27 @@ RESOURCES += libAudioFile
 
 #RESOURCES += libDMedia
 
+## devVideo4Linux ################################################
+
+RESOURCES += devVideo4Linux
+
 ## libGuppi ################################################
 
 #RESOURCES += libGuppi
 
-## devVideo4Linux ################################################
-
-#RESOURCES += devVideo4Linux
-
-## devVideo4Linux2 ################################################
-
-#RESOURCES += devVideo4Linux2
-
 ## libmpeg2 ################################################
 
-#RESOURCES += libmpeg2
+RESOURCES += libmpeg2
 
-## FFTW ####################################################
-#FFTW_HOME=
+## avifile ##################################################
 
-## JAVASCRIPT ##############################################
-#JAVASCRIPT_HOME=
+RESOURCES += avifile
 
-## LIBJPEG #################################################
-#LIBJPEG_HOME=
+## dvdread ##################################################
 
-## LIBPNG_HOME #############################################
-#LIBPNG_HOME=
+RESOURCES += dvdread
 
-## LIBTIFF_HOME ############################################
-#LIBTIFF_HOME=
+## libmcrypt ##################################################
 
-## DVD Read ############################################
+#RESOURCES += libmcrypt
 
-#RESOURCES += libdvdread
