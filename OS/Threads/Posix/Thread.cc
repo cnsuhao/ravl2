@@ -66,9 +66,9 @@ namespace RavlN {
   //: Default constructor.
   
   ThreadBodyC::ThreadBodyC()
-    : threadID(0),
-      live(false),
-      terminatePending(false)
+    : terminatePending(false),
+      threadID(0),
+      live(false)
   {}
   
   //: Destructor.
@@ -197,7 +197,7 @@ namespace RavlN {
     try {
       Start();
     } catch(ExceptionC &e) {
-      cerr << "AMMA Exception :'" << e.what() << "'\n";
+      cerr << "RAVL Exception :'" << e.what() << "'\n";
       cerr << "Terminating thread. \n";
     } catch(exception &e) {
       cerr << "C++ Exception :'" << e.what() << "'\n";

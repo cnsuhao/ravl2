@@ -97,6 +97,9 @@ namespace RavlN
     // is optional.  There is no need to call this function 
     // directly. 
 
+  protected:
+    volatile bool terminatePending; // True if Terminate function has been called.
+    
   private:
     void Startup();
     //: Start user code.
@@ -106,8 +109,7 @@ namespace RavlN
 
     pthread_t threadID;
     bool live; // Set to true after thread is created.
-    bool terminatePending; // True if Terminate function has been called.
-
+    
     friend void *StartThread(void *);
     friend void cancellationHandler(void *data);
   };
