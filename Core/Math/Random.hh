@@ -29,7 +29,7 @@ namespace RavlN {
   typedef unsigned short RandomSeedT[3];
   //: Seed for random number
   
-  const long int RandomIntMaxValue = 2 ^ 31;
+  const long int RandomIntMaxValue = ((UIntT) (1 << 31))-1;
   
   inline long int RandomInt(RandomSeedT & idum) 
   { return nrand48(idum); }

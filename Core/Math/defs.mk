@@ -44,6 +44,6 @@ EXAMPLES = exComplx.cc
 # exUsefFn.cc 
 
 # Tests - program testing runtime consistency of the software
-TESTEXES = testFMatrix.cc
+TESTEXES = testMath.cc
 
 EHT=Ravl.Core.Math.eht

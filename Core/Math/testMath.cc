@@ -1,13 +1,5 @@
-// This file is part of RAVL, Recognition And Vision Library 
-// Copyright (C) 2001, University of Surrey
-// This code may be redistributed under the terms of the GNU Lesser
-// General Public License (LGPL). See the lgpl.licence file for details or
-// see http://www.gnu.org/copyleft/lesser.html
-// file-header-ends-here
-//! rcsid="$Id$"
-//! lib=RavlCore
-//! file="Ravl/Core/Math/testFMatrix.cc"
 
+#include "Ravl/Random.hh"
 #include "Ravl/TFMatrix.hh"
 #include "Ravl/Stream.hh"
 #include "Ravl/ScalMath.hh"
@@ -15,31 +7,37 @@
 
 using namespace RavlN;
 
-int Simple();
-int Validate();
-int ValidateNS();
-int VectorOps();
-int ScalMath();
+int testRandom();
+int testFMatrixSimple();
+int testFMatrixValidate();
+int testFMatrixValidateNS();
+int testFMatrixVectorOps();
+int testFMatrixScalMath();
+
 
 int main() {
   int line;
-  if((line = Simple())) {
+  if((line = testRandom()) != 0) {
+    cerr << "Error on line: " << line << "\n";
+    return 1;
+  }
+  if((line = testFMatrixSimple())) {
     cerr << "test failed on line " << line << "\n";
     return 1;
   }
-  if((line = Validate())) {
+  if((line = testFMatrixValidate())) {
     cerr << "test failed on line " << line << "\n";
     return 1;
   }
-  if((line = ValidateNS())) {
+  if((line = testFMatrixValidateNS())) {
     cerr << "test failed on line " << line << "\n";
     return 1;
   }
-  if((line = VectorOps())) {
+  if((line = testFMatrixVectorOps())) {
     cerr << "test failed on line " << line << "\n";
     return 1;
   }
-  if((line = ScalMath())) {
+  if((line = testFMatrixScalMath())) {
     cerr << "test failed on line " << line << "\n";
     return 1;
   }
@@ -47,7 +45,27 @@ int main() {
   return 0;
 }
 
-int Simple() {
+int testRandom() {
+  RealT num = 0;
+
+#if 0  
+  for(IntT i = 0;i < 100000000;i++) 
+#else
+  for(IntT i = 0;;i++)
+#endif
+  {
+    IntT rv =  RandomInt();
+    num = (RealT)rv / ((RealT) RandomIntMaxValue + 1.0);
+    if(num > 1 || num < 0) {
+      cout << "Bad random number:" << num << " RandomInt=" << rv << " (" << i << ")\n";
+      return __LINE__;
+    }
+  }
+  
+  return 0;
+}
+
+int testFMatrixSimple() {
   TFMatrixC<RealT,2,2> mat;
   mat.Fill(0);
   mat[Index2dC(0,0)] = 1;
@@ -59,7 +77,7 @@ int Simple() {
 
 // Simple matrix multiplication validation.
 
-int Validate()
+int testFMatrixValidate()
 {
   TFMatrixC<RealT,2,2> t1;
   t1[0][0] =1;
@@ -99,7 +117,7 @@ int Validate()
 }
 
 
-int ValidateNS()
+int testFMatrixValidateNS()
 {
   TFMatrixC<RealT,3,2> m1;
   m1[0][0] =1;
@@ -131,7 +149,7 @@ int ValidateNS()
   return 0;
 }
 
-int VectorOps() {
+int testFMatrixVectorOps() {
   TFVectorC<RealT,2> vec;
   vec[0] = 1;
   vec[1] = 2;
@@ -147,7 +165,7 @@ int VectorOps() {
   return 0;
 }
 
-int ScalMath() {
+int testFMatrixScalMath() {
   RealT fac = 1.0;
   for(int i = 1;i < 70;i++) {
     fac = fac * (RealT) i;
