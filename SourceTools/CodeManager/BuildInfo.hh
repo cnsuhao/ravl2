@@ -29,7 +29,10 @@ namespace RavlN {
     
     DListC<StringC> LibDepends(StringC &lib);
     //: List libraries the named library depends on.
-
+    
+    DListC<StringC> Depends(const DListC<StringC> &uses);
+    //: Given a list of libraries used directly, expand it to a full list.
+    
   protected:
     bool LibDepends(StringC &lib,DListC<StringC> &list,HSetC<StringC> &done);
     //: List libraries the named library depends on.
@@ -54,6 +57,10 @@ namespace RavlN {
     DListC<StringC> LibDepends(StringC &lib) 
     { return Body().LibDepends(lib); }
     //: List libraries this depends on.
+    
+    DListC<StringC> Depends(const DListC<StringC> &uses)
+    { return Body().Depends(uses); }
+    //: Given a list of libraries used directly, expand it to a full list.
     
   };
   

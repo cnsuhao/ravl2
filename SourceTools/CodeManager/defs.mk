@@ -32,6 +32,8 @@ MAINS = defsCheck.cc annotate.cc rcsinfo.cc amma2ravl.cc
 
 # doMerge.cc DocEntryUpdate.cc QLibs.cc
 
+EXAMPLES=exBuildInfo.cc
+
 AUXDIR=Tools/CodeManager
 
 AUXFILES= fixSource.cfg

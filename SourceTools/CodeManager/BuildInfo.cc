@@ -59,10 +59,30 @@ namespace RavlN {
       LibDepends(*it,list,done);
     }
     if(!info.IsDummy())
-      list.InsFirst(lib);
+      list.InsFirst(StringC("-l" + lib);
+    if(!info.MustLink().IsEmpty()) {
+      StringC ml = info.MustLink();
+      int i;
+      if((i = ml.index(".cc",-1)) >= 0) {
+	ml = ml.before(i);
+      } else if((i = ml.index(".c",-1)) >= 0) {
+	ml = ml.before(i);	
+      }
+      list.InsFirst(ml + ".o");
+    }
     return true;
   }
 
+  //: Given a list of libraries used directly, expand it to a full list.
+  
+  DListC<StringC> BuildInfoBodyC::Depends(const DListC<StringC> &uses) {
+    DListC<StringC> ret;
+    HSetC<StringC> done;
+    for(DLIterC<StringC> it(uses);it;it++)
+      LibDepends(*it,ret,done);
+    return ret;
+  }
+  
   //: List libraries the named library depends on.
   
   DListC<StringC> BuildInfoBodyC::LibDepends(StringC &lib) {

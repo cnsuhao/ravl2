@@ -48,6 +48,10 @@ namespace RavlN {
 	  useslibs += *it;
       }
     }
+    if(defs.IsDefined("MUSTLINK")) {
+      mustLink = defs["MUSTLINK"];
+    } else
+      mustLink = StringC();
     return true;
   }
  

@@ -90,12 +90,18 @@ namespace RavlN {
     { return dummy; }
     //: Is this a dummy library ?
     
+    const StringC &MustLink() const
+    { return mustLink; }
+    //: Required object file.
+    // If none this is an empty string.
+    
   protected:
     bool dummy; // Is this a dummy library ?
     StringC libName;
     DListC<StringC> useslibs;// Libraries required by this one.
     DListC<StringC> sources;  // Source files in the library.
     DListC<HeaderInfoC > headers; // Headers for the library.
+    StringC mustLink; // Is there an object file required for linking ?
   };
 
   //! userlevel=Normal
@@ -139,6 +145,11 @@ namespace RavlN {
     bool IsDummy() const
     { return Body().IsDummy(); }
     //: Is this a dummy library ?
+    
+    const StringC &MustLink() const
+    { return Body().MustLink(); }
+    //: Required object file.
+    // If none this is an empty string.
     
   };
   
