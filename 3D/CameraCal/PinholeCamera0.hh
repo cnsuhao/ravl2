@@ -96,21 +96,20 @@ namespace Ravl3DN
     }
     //:The Jacobian matrix of the projection funtion
 
-    void ProjectInverseDirection(Vector3dC& x, const Vector2dC& z) const
-    {
+    void ProjectInverseDirection(Vector3dC& x, const Vector2dC& z) const {
       Vector3dC Rx;
       Rx[0] = (z[0] - _cx) / _fx;
       Rx[1] = (z[1] - _cy) / _fy;
       Rx[2] = 1.0;
-      x = _R.TMul(Rx);
+      TMul(_R,Rx,x);
     }
     //:Inverse projection up to a scale factor
     // Origin + lambda*ProjectInverseDirection is the camera ray
     // corresponding to image point z.
-
-    void Origin(Vector3dC& org) const
-    {
-      org = _R.TMul(_t) * -1.0;
+    
+    void Origin(Vector3dC& org) const {
+      TMul(_R,_t,org);
+      org *= -1.0;      
     }
     //: Origin of the camera in world co-ordinates
     //  Computed as -R.T() * t.

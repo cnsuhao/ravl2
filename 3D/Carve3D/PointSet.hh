@@ -22,7 +22,14 @@ namespace Ravl3DN
 {
   using namespace RavlN;
   using namespace RavlImageN;
-
+#if RAVL_VISUALCPP_NAMESPACE_BUG
+  using RavlN::RCBodyC;
+  using RavlN::SArray1dC;
+  using RavlN::SArray1dIterC;
+  using RavlN::UIntT;
+  using RavlN::RCHandleC;
+#endif 
+  
   class VoxelSetC;
 
   //! userlevel=Develop
@@ -136,7 +143,7 @@ namespace Ravl3DN
     //: Access the array of all colours in the point set.
 
     Vector3dC Centroid() const
-      { return Body().Centroid(); }
+    { return Body().Centroid(); }
     //: Centroid of points.
   };
   

@@ -19,7 +19,12 @@
 #include "Ravl/Stream.hh"
 
 namespace Ravl3DN {
-  using namespace RavlN;
+  using namespace RavlN;  
+#if RAVL_VISUALCPP_NAMESPACE_BUG
+  using RavlN::Vector3dC;
+  using RavlN::BinOStreamC;
+  using RavlN::BinIStreamC;
+#endif
   
   //! userlevel=Normal
   //: Vertex in a mesh.

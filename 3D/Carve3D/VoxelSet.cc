@@ -12,6 +12,8 @@
 
 namespace Ravl3DN
 {
+  using namespace RavlN;
+  
   void VoxelSetBodyC::Fill(ByteT v)
   { vox.Fill(v); }
 
