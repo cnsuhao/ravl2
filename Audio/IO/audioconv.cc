@@ -20,15 +20,16 @@ using namespace RavlAudioN;
 int main(int nargs,char **argv) {
   OptionC opt(nargs,argv);
   IntT bufSize = opt.Int("bs",512,"Buffer size. ");
-  StringC idev = opt.String("","@DEVAUDIO:/dev/audio","Input  device.");
-  StringC odev = opt.String("","@DEVAUDIO:/dev/audio","Output device.");
   StringC ifmt = opt.String("if","","Input format.");
   StringC ofmt = opt.String("of","","Output format.");
   bool verbose = opt.Boolean("v",false,"Verbose. ");
   RealT len    = opt.Real("l",-1,"Length of track to copy. -1=Unlimited ");
   bool stereo = opt.Boolean("s",false,"Enable stereo. ");
+  RealT reqSampleRate = opt.Real("sr",-1,"Sample rate. ");
+  StringC idev = opt.String("","@DEVAUDIO:/dev/audio","Input  device.");
+  StringC odev = opt.String("","@DEVAUDIO:/dev/audio","Output device.");
   opt.Check();
-
+  
   if(!stereo) {
     SArray1dC<Int16T> buff(bufSize);
     
@@ -43,13 +44,17 @@ int main(int nargs,char **argv) {
       cerr << "Failed to open output : " << odev << "\n";
       return 1;
     }
-    RealT sampleRate = 8000;
+    if(reqSampleRate > 0){
+      if(!in.SetAttr("samplerate",reqSampleRate))
+	cerr << "WARNING: Failed to set input sample rate. \n";
+    }
+    RealT sampleRate = reqSampleRate;
     if(!in.GetAttr("samplerate",sampleRate))
-      cerr << "WARNING: Failed to find input sample rate. \n";
+      cerr << "WARNING: Failed to get input sample rate. \n";
     out.SetAttr("samplerate",sampleRate);
-    cerr << "Sample rate = " << sampleRate << "\n";
-    RealT samples = sampleRate;
-    for(;;) {
+    IntT samples = Round(sampleRate * len/ ((RealT) bufSize));
+    cerr << "Sample rate = " << sampleRate << " Samples=" << samples << "\n";
+    for(;samples != 0;samples--) {
       if(in.GetArray(buff) == 0) {
 	break;
       }
@@ -72,13 +77,17 @@ int main(int nargs,char **argv) {
       cerr << "Failed to open output : " << odev << "\n";
       return 1;
     }
-    RealT sampleRate = 8000;
+    if(reqSampleRate > 0){
+      if(!in.SetAttr("samplerate",reqSampleRate))
+	cerr << "WARNING: Failed to set input sample rate. \n";
+    }
+    RealT sampleRate = reqSampleRate;
     if(!in.GetAttr("samplerate",sampleRate))
       cerr << "WARNING: Failed to find input sample rate. \n";
     out.SetAttr("samplerate",sampleRate);
-    cerr << "Sample rate = " << sampleRate << "\n";
-    RealT samples = sampleRate;
-    for(;;) {
+    IntT samples = Round(sampleRate * len / ((RealT) bufSize));
+    cerr << "Sample rate = " << sampleRate << " No=" << samples << "\n";
+    for(;samples != 0;samples--) {
       if(in.GetArray(buff) == 0) {
 	break;
       }

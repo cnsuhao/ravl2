@@ -5,15 +5,15 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! rcsid="$Id$"
-//! lib=RavlAudioIO
+//! lib=RavlAudioUtil
 
+#include "Ravl/Audio/Segment.hh"
 
 namespace RavlAudioN {
-  extern void InitAudioSample();
-  extern void InitSphereFormat();
+
+  //: Default constructor.
   
-  void RavlAudioSample() {
-    InitAudioSample();
-    InitSphereFormat();
-  }
+  SegmentC::SegmentC()
+  {}
+  
 }

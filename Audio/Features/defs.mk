@@ -10,16 +10,19 @@ PACKAGE=Ravl/Audio
 
 MAINS=exFeatureMFCC.cc
 
-HEADERS=MelSpectrum.hh MelCepstrum.hh FeatureMFCC.hh
+HEADERS=MelSpectrum.hh MelCepstrum.hh PreEmphasis.hh FeatureMFCC.hh VectorDelta012.hh
 
-SOURCES=MelSpectrum.cc MelCepstrum.cc FeatureMFCC.cc
+# LabelFeatures.hh
+
+SOURCES=MelSpectrum.cc MelCepstrum.cc FeatureMFCC.cc VectorDelta012.cc 
+# LabelFeatures.cc
 
 PLIB=RavlAudioFeatures
 
-USESLIBS=RavlAudioUtil RavlMath 
+USESLIBS=RavlAudioUtil RavlMath RavlOS RavlAudioIO
 
 TESTEXES=testAudioFeatures.cc
 
 EXAMPLES= exFeatureMFCC.cc
 
-PROGLIBS=RavlDevAudio.opt 
+PROGLIBS=RavlDevAudio.opt  RavlAudioIO RavlAudioFile.opt

@@ -16,6 +16,7 @@
 #include "Ravl/Audio/WindowSignal.hh"
 #include "Ravl/Audio/MelSpectrum.hh"
 #include "Ravl/Audio/MelCepstrum.hh"
+#include "Ravl/Audio/PreEmphasis.hh"
 #include "Ravl/DP/StreamOp.hh"
 #include "Ravl/Vector.hh"
 
@@ -37,17 +38,20 @@ namespace RavlAudioN {
 		     IntT frameSize,      // Size of a frame.
 		     RealRangeC freqRange,// Range of frequencies.
 		     IntT numMelFilters,  // Number of mel spectrum filters.
-		     IntT numCep);        // Number of ceptstrum co-efficents to compute.
+		     IntT numCep,         // Number of ceptstrum co-efficents to compute.
+		     RealT preEmphasis    // Amount of pre-emphasis.
+		     );
     //: Constructor.
     
-    VectorC Get();
+    virtual VectorC Get();
     //: Get next sample
     
-    bool Get(VectorC &buff);
+    virtual bool Get(VectorC &buff);
     //: Get next sample
     
   protected:
-    WindowSignalC<Int16T,RealT,RealT> window;
+    PreEmphasisC<Int16T,RealT,RealT> preEmphasis;
+    WindowSignalC<RealT,RealT,RealT> window;
     MelSpectrumC melSpectrum;
     MelCepstrumC melCepstrum;
   };
@@ -71,8 +75,10 @@ namespace RavlAudioN {
 		 IntT frameSize = 512,     // Size of a frame.
 		 RealRangeC freqRange = RealRangeC(133.333334,6855.4976),// Range of frequencies.
 		 IntT numMelFilters = 40,  // Number of mel spectrum filters.
-		 IntT numCep = 13)         // Number of ceptstrum co-efficents to compute.
-      : DPEntityC(*new FeatureMFCCBodyC(sampleRate,frameRate,frameSize,freqRange,numMelFilters,numCep) )
+		 IntT numCep = 13,         // Number of ceptstrum co-efficents to compute.
+		 RealT preEmphasis = 0.97  // Pre emphasis alpha value.
+		 )
+      : DPEntityC(*new FeatureMFCCBodyC(sampleRate,frameRate,frameSize,freqRange,numMelFilters,numCep,preEmphasis) )
     {}
     //: Constructor.
     

@@ -19,9 +19,9 @@ using namespace RavlAudioN;
 
 int main(int nargs,char **argv) {
   OptionC opts(nargs,argv);
+  IntT sampleRate = opts.Int("sr",16000,"Sample rate. ");
   StringC inFile = opts.String("","@DEVAUDIO:/dev/dsp","Audio input. ");
   StringC outFile = opts.String("","","Output for features. ");
-  IntT sampleRate = opts.Int("sr",16000,"Sample rate. ");
   opts.Check();
   
   DPIPortC<Int16T> inp;
@@ -42,13 +42,14 @@ int main(int nargs,char **argv) {
   fextract.Input() = inp;
   VectorC vec;
   while(1) {
-    fextract.Get(vec);
-#if 0
+    if(!fextract.Get(vec))
+      break;
+#if 1
     for(int i = 0;i < vec.Size();i++)
-      cout << Round(vec[i]) << " ";
+      cout << Round(vec[i] * 20) << " ";
     cout << "\n";
 #else
-    cout << vec << "\n";
+    //cout << vec << "\n";
 #endif
     if(outp.IsValid())
       outp.Put(vec);

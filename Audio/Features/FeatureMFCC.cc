@@ -26,11 +26,14 @@ namespace RavlAudioN {
 				     IntT frameSize,      // Size of a frame.
 				     RealRangeC freqRange,// Range of frequencies.
 				     IntT numMelFilters,  // Number of mel spectrum filters.
-				     IntT numCep)        // Number of ceptstrum co-efficents to compute.
+				     IntT numCep,        // Number of ceptstrum co-efficents to compute.
+				     RealT preEmphasisAlpha
+				     )
   {
     IntT frameSep = Round(sampleRate / frameRate);
     ONDEBUG(cerr << "Windowing signal. frameSep=" << frameSep << " \n");
-    window = WindowSignalC<Int16T,RealT,RealT>(RAWHanning,frameSize,frameSep);
+    preEmphasis = PreEmphasisC<Int16T,RealT,RealT>(preEmphasisAlpha);
+    window = WindowSignalC<RealT,RealT,RealT>(RAWHanning,frameSize,frameSep);
     melSpectrum.InitFilters(sampleRate,frameSize,freqRange,numMelFilters);
     melCepstrum.Init(numCep,numMelFilters);
   }
@@ -53,18 +56,23 @@ namespace RavlAudioN {
   
   bool FeatureMFCCBodyC::Get(VectorC &buff) {
     DPIPortC<Int16T> inp = Input();
-    window.Input() = inp;
+    preEmphasis.Input() = inp;
+    window.Input() = preEmphasis;
     SArray1dC<RealT> samp;
     ONDEBUG(cerr << "Windowing signal. \n");
     if(!window.Get(samp))
       return false;
     ONDEBUG(cerr << "Computing spectrum. \n");
     SArray1dC<RealT> pspec = PowerSpectrumSimple(samp).SArray1d();
-    ONDEBUG(cerr << "Computing mep spectrum. \n");
+    ONDEBUG(cerr << "Computing mel spectrum. \n");
     SArray1dC<RealT> mspec = melSpectrum.Apply(pspec);
-    ONDEBUG(cerr << "Computing mep cepstrum. \n");
+#if 1
+    ONDEBUG(cerr << "Computing mel cepstrum. \n");
     SArray1dC<RealT> mcep = melCepstrum.Apply(mspec);
     buff = mcep;
+#else
+    buff = mspec;
+#endif
     return true;
   }
   

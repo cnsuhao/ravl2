@@ -6,18 +6,21 @@
 # file-header-ends-here
 #! rcsid="$Id$"
 
-ORGANISATION=OmniPerception Ltd.
-
 PACKAGE=Ravl/Audio
 
-SOURCES=AudioSample.cc
+HEADERS=SphereIO.hh SphereFormat.hh TranscriptionFiles.hh TranscriptionStream.hh
+
+SOURCES=AudioSample.cc SphereIO.cc SphereFormat.cc TranscriptionFiles.cc \
+ TranscriptionStream.cc
 
 PLIB=RavlAudioIO
 
-USESLIBS=RavlAudioUtil
+USESLIBS=RavlAudioUtil RavlOS
 
 MUSTLINK=RavlAudioSample.cc
 
 MAINS=audioconv.cc
 
 PROGLIBS=RavlDevAudio.opt RavlAudioFile.opt
+
+EXAMPLES= exTranscriptionStream.cc

@@ -12,7 +12,7 @@
 #include "Ravl/SArray1dIter2.hh"
 #include "Ravl/SArray1dIter.hh"
 
-#define DODEBUG 0
+#define DODEBUG 1
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -43,9 +43,9 @@ namespace RavlAudioN {
   void MelCepstrumC::Init(IntT numCepstrum,IntT specSize) {
     ONDEBUG(cerr << "MelCepstrumC::Init(), numCepstrum=" << numCepstrum << " Spec size=" << specSize << "\n");
     filters = SArray1dC<SArray1dC<RealT> >(numCepstrum);
-    RealT period = (2 * RavlConstN::pi) / (2 * (RealT) numCepstrum);
+    RealT period = ( 2 * (RealT) specSize);
     for(SArray1dIterC<SArray1dC<RealT> > it(filters);it;it++) {
-      RealT freq = ((RealT) it.Index())/period;
+      RealT freq = (2 * RavlConstN::pi * ((RealT) it.Index())) / period;
       SArray1dC<RealT> coeff(specSize);
       RealT i = 0.5;
       ONDEBUG(cerr << it.Index() << " Freq=" << freq << "\n");
@@ -72,7 +72,12 @@ namespace RavlAudioN {
     
     for(SArray1dIter2C<RealT,SArray1dC<RealT> > it(ret,filters);it;it++) {
       RealT sum = 0;
-      for(SArray1dIter2C<RealT,RealT> fit(logSpec,it.Data2());fit;fit++)
+      SArray1dIter2C<RealT,RealT> fit(logSpec,it.Data2());
+#if 0
+      sum += fit.Data1() * fit.Data2() * 0.5;
+      fit++;
+#endif
+      for(;fit;fit++)
 	sum += fit.Data1() * fit.Data2();
       it.Data1() = sum;
     }

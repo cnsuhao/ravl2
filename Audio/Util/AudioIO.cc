@@ -103,7 +103,7 @@ namespace RavlAudioN {
   //: Handle Set attrib.
   
   bool AudioIOBaseC::HandleSetAttr(const StringC &attrName,const StringC &attrValue) {
-    ONDEBUG(cerr << "AudioIOBaseC::HandleSetAttr(), " << attrName << "' = " << attrValue << "\n");
+    ONDEBUG(cerr << "AudioIOBaseC::HandleSetAttr(), '" << attrName << "' = " << attrValue << "\n");
     if(attrName == "samplerate")
       return SetSampleRate(attrValue.RealValue());
     return false;
@@ -129,7 +129,7 @@ namespace RavlAudioN {
   // This is for handling stream attributes such as sample rate.
   
   bool AudioIOBaseC::HandleSetAttr(const StringC &attrName,const IntT &attrValue) {
-    ONDEBUG(cerr << "AudioIOBaseC::HandleSetAttr(), " << attrName << "' = " << attrValue << "\n");
+    ONDEBUG(cerr << "AudioIOBaseC::HandleSetAttr(), '" << attrName << "' = " << attrValue << "\n");
     if(attrName == "samplerate")
       return SetSampleRate((RealT) attrValue);
     return false;
@@ -150,7 +150,7 @@ namespace RavlAudioN {
   // This is for handling stream attributes such as frame rate, and compression ratios.
   
   bool AudioIOBaseC::HandleSetAttr(const StringC &attrName,const RealT &attrValue) {
-    ONDEBUG(cerr << "AudioIOBaseC::HandleSetAttr(), " << attrName << "' = " << attrValue << "\n");
+    ONDEBUG(cerr << "AudioIOBaseC::HandleSetAttr(), '" << attrName << "' = " << attrValue << "\n");
     if(attrName == "samplerate")
       return SetSampleRate(attrValue);
     return false;
@@ -164,5 +164,22 @@ namespace RavlAudioN {
     return false;
   }
   
+  //: Seek to location in stream.
+  // Returns false, if seek failed. (Maybe because its
+  // not implemented.)
+  bool AudioIOBaseC::Seek(UIntT off) 
+  { return false; }
+  
+  //: Find current location in stream.
+  // May return ((UIntT) (-1)) if not implemented.
+  
+  UIntT AudioIOBaseC::Tell() const
+  { return (UIntT) -1; }
+  
+  //: Find the total size of the stream.  (assuming it starts from 0)
+  // May return ((UIntT) (-1)) if not implemented.
+  
+  UIntT AudioIOBaseC::Size() const
+  { return (UIntT) -1; }
   
 }

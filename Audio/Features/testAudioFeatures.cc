@@ -13,6 +13,7 @@
 #include "Ravl/Audio/MelSpectrum.hh"
 #include "Ravl/Audio/MelCepstrum.hh"
 #include "Ravl/Audio/FeatureMFCC.hh"
+#include "Ravl/Audio/VectorDelta012.hh"
 #include "Ravl/Stream.hh"
 #include "Ravl/SArray1dIter.hh"
 #include "Ravl/StdConst.hh"
@@ -24,6 +25,7 @@ using namespace RavlAudioN;
 int testMelSpectrum();
 int testMelCepstrum();
 int testFeatureMFCC();
+int testVectorDelta012();
 
 int main() {
   int ln;
@@ -36,6 +38,10 @@ int main() {
     return 1;
   }
   if((ln = testFeatureMFCC()) != 0) {
+    cerr << "Test failed line " << ln << "\n";
+    return 1;
+  }
+  if((ln = testVectorDelta012()) != 0) {
     cerr << "Test failed line " << ln << "\n";
     return 1;
   }
@@ -92,17 +98,54 @@ int testMelCepstrum() {
 
 int testFeatureMFCC() {
   cerr << "testFeatureMFCC(), Called. \n";
-  DListC<Int16T> list;
-  for(int i= 0;i < 32000;i++)
-    list.InsLast((RandomInt() % 64000)-32000);
-  DPISListC<Int16T> ip(list);
-  
-  FeatureMFCCC fextract(16000);
-  fextract.Input() = ip;
-  VectorC v1;
+  cerr.precision(2);
+  for(int i = 0;i < 3;i++) {
+    DListC<Int16T> list;
+    FeatureMFCCC fextract(16000);
+    switch(i) {
+    case 0: {
+      cerr << "Sine wave.\n";
+      for(int i= 0;i < 32000;i++)
+	list.InsLast(Round(Sin(i *(200 / RavlConstN::pi)) * 32000));
+    } break;
+    case 1: {
+      cerr << "Noise.\n";
+      for(int i= 0;i < 32000;i++)
+	list.InsLast((RandomInt() % 64000)-32000);
+    } break;
+    case 2: {
+      cerr << "Zero.\n";
+      for(int i= 0;i < 32000;i++)
+	list.InsLast(0);
+    } break;
+    }
+    DPISListC<Int16T> ip(list);
+    
+    fextract.Input() = ip;
+    VectorC v1;
+    for(int i = 0;i < 20;i++) {
+      fextract.Get(v1);
+      for(SArray1dIterC<RealT> it(v1);it;it++)
+	if(*it < 0.001)
+	  *it = 0;
+      cerr << "v1=" << v1 << "\n";
+    }
+  }
+  return 0;
+}
+
+int testVectorDelta012() {
+  cerr << "testVectorDelta012(), Called. \n";
+  VectorDelta012C vecDelta(3);
   for(int i = 0;i < 10;i++) {
-    fextract.Get(v1);
-    cerr << "v1=" << v1 << "\n";
+    VectorC vec(3);
+    vec[0] = 1;
+    vec[1] = i;
+    vec[2] = Sqr(i);
+    VectorC delta = vecDelta.Apply(vec);
+    if(delta.Size() != (vec.Size() * 3))
+      return __LINE__;
+    cerr << delta << "\n";
   }
   return 0;
 }

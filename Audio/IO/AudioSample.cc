@@ -25,14 +25,26 @@ namespace RavlAudioN {
   static Int16T Sample2Int16ToInt16(const SampleElemC<2,Int16T> &samp) 
   { return (Int16T) (((IntT) samp.channel[0] + (IntT) samp.channel[1])/2); }
   
-  static IntT ConvInt162Int(const Int16T &v)
+  static SampleElemC<2,Int16T> Int16ToSample2Int16(const Int16T &samp) { 
+    SampleElemC<2,Int16T> ret;
+    ret.channel[0] = samp;
+    ret.channel[1] = samp;
+    return ret; 
+  }
+  
+  static Int16T ConvInt8ToInt16(const SByteT &v)
+  { return (Int16T) v; }
+  
+  static IntT ConvInt16ToInt(const Int16T &v)
   { return (IntT) v; }
 
   static RealT ConvFloat2Real(const FloatT &v)
   { return (RealT) v; }
 
-  DP_REGISTER_CONVERSION_NAMED(Sample2Int16ToInt16,1,"Int16T RavlAudioN::Convert(const SampleElemC<2,Int16T> &)");
-  DP_REGISTER_CONVERSION_NAMED(ConvInt162Int,1,"IntT RavlAudioN::Convert(const Int16T &)");
+  DP_REGISTER_CONVERSION_NAMED(Sample2Int16ToInt16,2,"Int16T RavlAudioN::Convert(const SampleElemC<2,Int16T> &)");
+  DP_REGISTER_CONVERSION_NAMED(Int16ToSample2Int16,2,"SampleElemC<2,Int16T> RavlAudioN::Convert(const Int16T &)");
+  DP_REGISTER_CONVERSION_NAMED(ConvInt8ToInt16,1,"Int16T RavlAudioN::Convert(const SByteT &)");
+  DP_REGISTER_CONVERSION_NAMED(ConvInt16ToInt,1,"IntT RavlAudioN::Convert(const Int16T &)");
   DP_REGISTER_CONVERSION_NAMED(ConvFloat2Real,1,"RealT RavlAudioN::Convert(const FloatT &)");
   
   

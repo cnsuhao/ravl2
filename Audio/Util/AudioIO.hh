@@ -11,7 +11,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Audio.IO"
 
-#include "Ravl/DP/Port.hh"
+#include "Ravl/DP/SPort.hh"
 #include "Ravl/Audio/Types.hh"
 #include "Ravl/String.hh"
 #include "Ravl/TypeName.hh"
@@ -57,6 +57,19 @@ namespace RavlAudioN {
     //: Get frequency of samples
     // Returns actual frequency.
     
+    bool Seek(UIntT off);
+    //: Seek to location in stream.
+    // Returns false, if seek failed. (Maybe because its
+    // not implemented.)
+    
+    UIntT Tell() const; 
+    //: Find current location in stream.
+    // May return ((UIntT) (-1)) if not implemented.
+    
+    virtual UIntT Size() const; 
+    //: Find the total size of the stream.  (assuming it starts from 0)
+    // May return ((UIntT) (-1)) if not implemented.
+
     bool Read(void *buf,IntT &len);
     //: Read bytes from audio stream.
     // Returns false if error occured.
@@ -156,7 +169,25 @@ namespace RavlAudioN {
       return size / sizeof(DataT);
     }
     //: Get an array of samples.
-
+    
+    virtual bool Seek(UIntT off)
+    { return IOClassT::Seek(off); }
+    //: Seek to location in stream.
+    // Returns false, if seek failed. (Maybe because its
+    // not implemented.)
+    // if an error occurered (Seek returned False) then stream
+    // position will not be changed.
+    
+    virtual UIntT Tell() const
+    { return IOClassT::Tell(); }
+    //: Find current location in stream.
+    // May return ((UIntT) (-1)) if not implemented.
+    
+    virtual UIntT Size() const
+    { return IOClassT::Size(); }
+    //: Find the total size of the stream.  (assuming it starts from 0)
+    // May return ((UIntT) (-1)) if not implemented.
+    
     virtual bool GetAttr(const StringC &attrName,StringC &attrValue)
     { return HandleGetAttr(attrName,attrValue); }
     //: Get a stream attribute.
