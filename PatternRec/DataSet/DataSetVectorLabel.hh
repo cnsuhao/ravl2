@@ -8,6 +8,8 @@
 #define RAVL_DATASETVECTORLABEL_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! docentry="Ravl.Pattern Recognition.Data Set"
+//! author="Charles Galambos"
 
 #include "Ravl/PatternRec/DataSet2.hh"
 #include "Ravl/PatternRec/SampleVector.hh"
