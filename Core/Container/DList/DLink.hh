@@ -40,8 +40,8 @@ namespace RavlN {
     // sense
     
     inline ~DLinkC() 
-      { Unlink(); }
-    //: Creates one double-link which points to itself.
+    { Unlink(); }
+    //: Make sure we're unlinked from a list.
     
     inline void SetSelfPointing(){ 
       succ = this;
@@ -50,7 +50,7 @@ namespace RavlN {
     //: Set both links to point to this object.
     
     inline bool IsSelfPointing() const
-      { return succ == this;  }
+    { return succ == this;  }
     // Returns TRUE if the next element is this element.
     
     inline const DLinkC & Next() const
@@ -132,15 +132,15 @@ namespace RavlN {
   public:
     DLinkDataC(const DataT &ndat)
       : data(ndat)
-      {}
+    {}
     //: Data constructor.
     
     DataT &Data()
-      { return data; }
+    { return data; }
     //: Access data.
     
     const DataT &Data() const
-      { return data; }
+    { return data; }
     //: Access data.
     
   protected:
@@ -153,12 +153,12 @@ namespace RavlN {
   class DLinkHeadC {
   public:
     DLinkHeadC()
-      {}
+    {}
     //: Default constructor.
     // creates an empty list.
     
     bool IsEmpty() const
-      { return head.IsSelfPointing(); }
+    { return head.IsSelfPointing(); }
     //: Is list empty ?
     
     UIntT Size() const;
@@ -178,39 +178,39 @@ namespace RavlN {
     //: Merge sort the list using given comparison function.
     
     DLinkC &Head()
-      { return head; }
+    { return head; }
     //: Get head of list.
     
   protected:
     
     const DLinkC &Head() const
-      { return head; }
+    { return head; }
     //: Get head of list.
     
     void InsFirst(DLinkC &dat)
-      { head.LinkAft(dat); }
+    { head.LinkAft(dat); }
     //: Push element onto the begining of the list.
     
     void InsLast(DLinkC &dat)
-      { head.LinkBef(dat); }
+    { head.LinkBef(dat); }
     //: Push element onto the begining of the list.
     
     void MoveFirst(DLinkHeadC &lst)
-      { head.CutPaste(lst.Head().Next(), lst.Head()); }
+    { head.CutPaste(lst.Head().Next(), lst.Head()); }
     //: Move the entire contents of 'lst' to the front of this one.
     // this leaves 'lst' empty.
     
     void MoveLast(DLinkHeadC &lst) 
-      { head.Prev().CutPaste(lst.Head().Next(), lst.Head()); }
+    { head.Prev().CutPaste(lst.Head().Next(), lst.Head()); }
     //: Move the entire contents of 'lst' to the back of this one.
     // this leaves 'lst' empty.
     
     void MoveFirst(DLinkC &at)
-      { at.Unlink(); head.LinkAft(at); }
+    { at.Unlink(); head.LinkAft(at); }
     //: Move the item 'at' to the front of this list
     
     void MoveLast(DLinkC &at) 
-      { at.Unlink(); head.LinkBef(at);  }
+    { at.Unlink(); head.LinkBef(at);  }
     //: Move the item 'at' to the back of this list
     
     DLinkC** MergeSortInternal(DLinkC** chead,UIntT n,MergeSortInterCmpT ms,void *pass);
