@@ -145,6 +145,9 @@ namespace RavlN {
   Projection2dC FitProjection(const DListC<Point2dC> &org,const DListC<Point2dC> &newPos);
   //: Fit a projective transform given to the mapping between original and newPos.
   
+  bool FitProjection(const SArray1dC<Point2dC> &from,const SArray1dC<Point2dC> &to,Matrix3dC &proj);
+  //: Fit a projective matrix.
+  
   PointSet2dC operator*(const Projection2dC &trans,const PointSet2dC &points);
   //: Apply a projective transform to a point set
   
