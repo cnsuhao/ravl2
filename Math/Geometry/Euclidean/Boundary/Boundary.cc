@@ -41,14 +41,15 @@ namespace RavlN {
     ONDEBUG(cout << "BoundaryC()\n");
   }
   
-  BoundaryC::BoundaryC(const IndexRange2dC & rect)
-    : orientation(true) 
+  BoundaryC::BoundaryC(const IndexRange2dC & rect,bool asHole = true)
+    : orientation(!asHole) 
   {
     Index2dC   origin(rect.Origin());
     Index2dC   endP(rect.End());
     BVertexC   oVertex(origin);      // to help to GNU C++ 2.6.0
     CrackCodeC cr(CR_RIGHT);
     EdgeC      edge(oVertex, cr);
+    
     for(IndexC cUp=origin.Col(); cUp <= endP.Col(); cUp++) {
       InsLast(edge);
       edge.Step(NEIGH_RIGHT);
@@ -69,82 +70,60 @@ namespace RavlN {
       edge.Step(NEIGH_UP);
     }
   }
-
-  /*
-    void
-    BoundaryC::Order()
-    //========================================================
-    {
-    // create hashtable
-    // make a list of all points with one invalid neighbour
-    // start with a point on that list; remove that point from the list
-    // trace until the endpoint of that chain; remove that point from the list
-    // take another point in the list until it is empty
-    }
-  */
-
-  /*
-    void
-    BoundaryC::Order(const EdgeC & firstEdge, bool orient)
-    //========================================================
-    {
-    HashC<BVertexC, PairC<BVertexC> > hashtable(this->Size());
   
-    // make entries for all edgels in the hash table
-    FOREACH_EDGE(*this, edge){
-    BVertexC bvertex1(edge.Data().Begin());
-    BVertexC bvertex2(edge.Data().End());
-    BVertexC invalid_vertex(-1, -1);
-
-    if (!hashtable.IsElm(bvertex1)){
-    hashtable.Update(bvertex1, PairC<BVertexC>(bvertex2, invalid_vertex));
-    }
-    else {
-    BVertexC neighbouring_vertex = hashtable.Lookup(bvertex1)->A();
-    hashtable.Update(bvertex1, PairC<BVertexC>(neighbouring_vertex, bvertex2));
-    }
-
-    if (!hashtable.IsElm(bvertex2)){
-    hashtable.Update(bvertex2, PairC<BVertexC>(bvertex1, invalid_vertex));
-    }
-    else {
-    BVertexC neighbouring_vertex = hashtable.Lookup(bvertex2)->A();
-    hashtable.Update(bvertex2, PairC<BVertexC>(neighbouring_vertex, bvertex1));
-    }
-    }
-
-    // construct the new boundary
-    BoundaryC bnd(orient);
-    BVertexC present_vertex = firstEdge.Begin();
-    BVertexC next_vertex(-1, -1);
-    BVertexC previous_vertex(-1, -1);
-
-    BVertexC neighbour1 = hashtable.Lookup(present_vertex)->A();
-    BVertexC neighbour2 = hashtable.Lookup(present_vertex)->B();
-    if (firstEdge.End()==neighbour1) next_vertex = neighbour1;
-    else if (firstEdge.End()==neighbour2) next_vertex = neighbour2;
-    bnd.InsLast(EdgeC(present_vertex, next_vertex));
-  
-    for(;;){
-    present_vertex = bnd.Last().End();
-    previous_vertex = bnd.Last().Begin();
-    neighbour1 = hashtable.Lookup(present_vertex)->A();
-    neighbour2 = hashtable.Lookup(present_vertex)->B();
-
-    if (previous_vertex == neighbour1)
-    next_vertex = neighbour2;
-    else next_vertex = neighbour1;
+  IntT BoundaryC::Area() const {
+    int   col  = 0; // relative column of the boundary pixel 
+    IntT area = 0; // region area 
     
-    bnd.InsLast(EdgeC(present_vertex, next_vertex));
-
-    if (next_vertex==bnd.First().Begin()) break; // boundary has been traced
-    // need another exit condition in case the boundary is not complete
+    for(DLIterC<EdgeC> edge(*this);edge;edge++) {
+      switch (edge.Data().Code())  {
+      case CR_DOWN  : area -= col;  break;
+      case CR_RIGHT : col++;        break;
+      case CR_UP    : area += col;  break;
+      case CR_LEFT  : col--;        break;
+      case CR_NODIR :
+      default       : 
+        RavlAssertMsg(0,"BoundaryC::Area(), Illegal direction code. ");
+      };
+      //ONDEBUG(cerr << "BoundaryC::Area() Area=" << area << " col=" << col << "\n");
     }
-
-    BoundaryC::operator=(bnd);
+    if(orientation)
+      return -area;
+    return area;
+  }
+  
+  IndexRange2dC BoundaryC::BoundingBox() const {
+    if (IsEmpty())
+      return IndexRange2dC();
+    BVertexC firstV(First());
+    IndexC minR = firstV.Row();
+    IndexC minC = firstV.Col();
+    IndexC maxR = minR;
+    IndexC maxC = minC;
+    if(orientation) {
+      ONDEBUG(cerr << "BoundaryC::BoundingBox(), Object is on left. \n");
+      for(DLIterC<EdgeC> edge(*this);edge;edge++) {
+	Index2dC vx = edge->LPixel();
+	if (minR > vx.Row()) minR = vx.Row();
+	if (maxR < vx.Row()) maxR = vx.Row();
+	if (minC > vx.Col()) minC = vx.Col();
+	if (maxC < vx.Col()) maxC = vx.Col();
+      }
+    } else {
+      ONDEBUG(cerr << "BoundaryC::BoundingBox(), Object is on right. \n");
+      for(DLIterC<EdgeC> edge(*this);edge;edge++) {
+	Index2dC vx = edge->RPixel();
+	if (minR > vx.Row()) minR = vx.Row();
+	if (maxR < vx.Row()) maxR = vx.Row();
+	if (minC > vx.Col()) minC = vx.Col();
+	if (maxC < vx.Col()) maxC = vx.Col();
+      }
     }
-  */
+    return IndexRange2dC(Index2dC(minR,minC), Index2dC(maxR,maxC));
+  }
 
+  
+  
   DListC<BoundaryC> BoundaryC::Order(const EdgeC & firstEdge, bool orient) {
     DListC<BoundaryC> bnds;
 
@@ -183,7 +162,7 @@ namespace RavlN {
     orientation = !orientation;
     return *this;
   }
-
+  
   RCHashC<BVertexC, PairC<BVertexC> > BoundaryC::CreateHashtable() const {
     RCHashC<BVertexC, PairC<BVertexC> > hashtable;
     for(DLIterC<EdgeC> edge(*this);edge;edge++) {
@@ -251,8 +230,7 @@ namespace RavlN {
     return bnd;
   }
   
-  DListC<BVertexC> 
-  BoundaryC::FindEndpoints(const RCHashC<BVertexC, PairC<BVertexC> > & hashtable) const {
+  DListC<BVertexC> BoundaryC::FindEndpoints(const RCHashC<BVertexC, PairC<BVertexC> > & hashtable) const {
     BVertexC invalid_vertex(-1, -1);
     HashIterC<BVertexC, PairC<BVertexC> > hash_iter(hashtable);
     DListC<BVertexC> endpoints;

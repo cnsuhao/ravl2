@@ -83,6 +83,10 @@ namespace RavlN {
     { return *this; }
     //: Returns the boundary vertex from which the elementary edge starts from.
     
+    BVertexC & Begin()
+    { return *this; }
+    //: Returns the boundary vertex from which the elementary edge starts from.
+    
     BVertexC End() const
     { return CrackStep(*this,crackCode); }
     //: Returns the boundary vertex to which the elementary edge points to.

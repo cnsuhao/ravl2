@@ -42,18 +42,20 @@ namespace RavlN {
     BoundaryC(const DListC<EdgeC> & edgeList, bool orient);
     //: Create the boundary from the list of edges with a appropriate orientation. 
     // The 'edgelist' will be a part of boundary.
-
-#if 0
-    BoundaryC(const DListC<EdgePtrC> & edgeList, bool orient = true);
+    
+    BoundaryC(const DListC<DLIterC<EdgeC> > & edgeList, bool orient = true);
     //: Creates the boundary from the list of pointers to the elementary edges.
     // The orientation of the boundary is set according to 'orient'.
-#endif
     
-    BoundaryC(const IndexRange2dC & rect);
-    //: The boundary of the rectangle as a hole
+    BoundaryC(const IndexRange2dC & rect,bool asHole = true);
+    //: The boundary of the rectangle.
+    // If asHole is true, then the rectangle is 'outside' the region.
+    // otherwise its inside.
     
-    SizeT Area() const;
+    IntT Area() const;
     //: Get the area of the region which is determined by the 'boundary'.
+    // Note: The area of the region can be negative, If it is a 'hole' in
+    // a plane. This can be inverted with the BReverse() method.
     
     DListC<BoundaryC> Order(const EdgeC & firstEdge, bool orient = true);
     // Order the edgels of this boundary such that it can be traced 
@@ -64,6 +66,12 @@ namespace RavlN {
     bool Orient() const
     { return orientation; }
     //: Return the orientation of the boundary.
+    // true means that an object is on the left side of edges
+    // and false that is on the right.
+    
+    void Invert()
+    { orientation = !orientation; }
+    //: Invert the boundry.
     
     BoundaryC & BReverse();
     //: Reverse the order of the edges.
@@ -71,30 +79,17 @@ namespace RavlN {
     BoundaryC Copy() const;
     //: Create a physical copy of the boundary.
     
-#if 0
-    EdgeCPtrListC ConvexHull() const;
+    DListC<DLIterC<EdgeC> > ConvexHull() const;
     //: Compute the convex hull.
     // The convex hull is created from the original Jordan boundary using
     // Melkman's method.
     // Ref.: A V Melkman. On-line construction of the convex hull of a 
     //                    simple polyline. Information Processing Letters,
     //                    25(1):11-12, 1987.
-    // Ref.: M Sonka, V Hlavac: Image Processing.
-    
-    EdgeCPtrListC ConvexHullMM() const;
-    // The convex hull is created from the original Jordan boundary using
-    // Marik&Matas's method. 
-#endif
+    // Ref.: M Sonka, V Hlavac: Image Processing.    
     
     IndexRange2dC BoundingBox() const;
     //: Get the bounding box of the boundary in "boundary's" coordinates.
-    
-    void WriteCompressed(ostream &s) const;
-    //: Save as ASCII characters in compressed format.
-    
-    void ReadCompressed(istream & s);
-    // Read a boundary stored in compressed format. The current object
-    // is deleted.
     
   private:
     bool orientation;  
@@ -118,25 +113,9 @@ namespace RavlN {
   ostream & operator<<(ostream & s, const BoundaryC & b);
   // Prints the whole boundary into the output stream 's'.
 
-#if 0
   BoundaryC Line2Boundary(const BVertexC & startVertex, const BVertexC & endVertex);
   // Creates a boundary which connects both boundary vertexes.
-
-  void SaveAsGF(ostream & s, const DListC<BoundaryC> & boundaries, LongIntT minArea);
-  // Save all boundaries which inside area is bigger than 'minArea'
-  // into the stream 's'.
-
-  void SaveCompressed(ostream & s, const DListC<BoundaryC> & boundaries, 
-		 LongIntT minArea);
-  // Save all boundaries which inside area is bigger than 'minArea'
-  // into the stream 's'.
-
-#define FOREACH_C_EDGE(boundary, e) \
-  for(EdgeCPtrC e(boundary); e.IsElm(); e.Next())
-
-#define FOREACH_EDGE(boundary, e) \
-  for(EdgePtrC e(boundary); e.IsElm(); e.Next())
-#endif
+  
 }
 #endif
 
