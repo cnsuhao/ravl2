@@ -92,7 +92,7 @@ namespace RavlN {
   protected:
     
     THEMeshVertexC(THEMeshVertexBodyC<VertexDataT,FaceDataT,EdgeDataT> &nbody)
-      : HEMeshBaseVertexC(&nbody)
+      : HEMeshBaseVertexC(nbody)
     {}
     //: Body constructor.
     
