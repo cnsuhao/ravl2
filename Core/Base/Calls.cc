@@ -13,6 +13,7 @@
 
 namespace RavlN
 {
+  template CallFunc0BodyC<bool>;  
   
   //: Invoke event.
   
