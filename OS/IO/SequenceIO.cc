@@ -16,7 +16,7 @@
 #include "Ravl/DP/FileSequence.hh"
 #include "Ravl/DP/FileFormatIO.hh"
 #include "Ravl/DP/FileFormat.hh"
-#include "Ravl/DP/FileFormDesc.hh"
+#include "Ravl/DP/FileFormatDesc.hh"
 #include "Ravl/DP/SPortAttach.hh"
 #include "Ravl/DP/FileFormatRegistry.hh"
 

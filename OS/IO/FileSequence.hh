@@ -17,7 +17,7 @@
 #include "Ravl/DP/SPort.hh"
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/DP/FileFormat.hh"
-#include "Ravl/DP/FileFormDesc.hh"
+#include "Ravl/DP/FileFormatDesc.hh"
 
 namespace RavlN {
 
