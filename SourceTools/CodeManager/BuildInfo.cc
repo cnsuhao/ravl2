@@ -45,7 +45,7 @@ namespace RavlN {
   bool BuildInfoBodyC::LibDepends(StringC &lib,DListC<StringC> &list,HSetC<StringC> &done) {
     if(!libs.IsElm(lib)) {
       if(!done.IsMember(lib)) {
-	list.InsFirst(lib);
+	list.InsFirst(StringC("-l") + lib);
 	done += lib;
       }
       return true;
