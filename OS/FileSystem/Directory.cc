@@ -25,15 +25,18 @@
 #include "Ravl/DLIter.hh"
 #include "Ravl/HSet.hh"
 
+#ifdef WIN32
+#include <windows.h>
+#else
 #if RAVL_HAVE_UNIXDIRFUNCS
 #include <dirent.h>
 #endif
 #if RAVL_HAVE_UNISTD_H
 #include <unistd.h>
 #endif
-
 #if !RAVL_HAVE_REENTRANT_UNIXDIRFUNCS
 #include "Ravl/MTLocks.hh"
+#endif
 #endif
 
 #define DPDEBUG 0
@@ -61,6 +64,20 @@ namespace RavlN {
   //: List contents of directory.
   
   DListC<StringC> DirectoryC::List() const  {
+#ifdef WIN32
+	DListC<StringC> ret;
+	WIN32_FIND_DATA dataFind;
+	memset(&dataFind, 0, sizeof(WIN32_FIND_DATA));
+	StringC strSearch = StringC(chars()) + "/*";
+	HANDLE hFindFile = FindFirstFile(strSearch, &dataFind);
+	BOOL bFoundNext = hFindFile ? TRUE : FALSE;
+	while (bFoundNext)
+	{
+		ret.InsLast(StringC(dataFind.cFileName));
+		bFoundNext = FindNextFile(hFindFile, &dataFind);
+	}
+	return ret;
+#else
 #if RAVL_HAVE_UNIXDIRFUNCS
     DListC<StringC> ret;
     struct dirent *entry;
@@ -99,6 +116,8 @@ namespace RavlN {
     return ret;
 #else
     throw ExceptionC("DirectoryC::List(), Not implemented. ");
+#endif
+
 #endif
   }
   
