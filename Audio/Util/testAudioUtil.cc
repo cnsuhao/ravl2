@@ -73,7 +73,7 @@ int testSignalWindowFilters() {
 
 int testSignalWindow() {
   DListC<IntT> list;
-  for(int i= 0;i < (128*4);i++)
+  for(int i= 0;i < 1000;i++)
     list.InsLast(i);
   DPISListC<IntT> ip(list);
   IntT frameSep = 32;
