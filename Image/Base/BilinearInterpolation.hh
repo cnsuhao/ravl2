@@ -27,7 +27,8 @@ namespace RavlImageN {
   inline
   void BilinearInterpolation(const ImageC<PixelT> &img,const TFVectorC<RealT,2> &ipnt,OutT &pixVal) {
     TFVectorC<RealT,2> pnt = ipnt;
-#if RAVL_USE_QUICKREAL2INT
+#if RAVL_USE_QUICKREAL2INT && 0
+    // There's some issues with QFloor, don't use it for the moment.
     IntT fx = QFloor(pnt[0]); // Row
     IntT fy = QFloor(pnt[1]); // Col
 #else
@@ -55,7 +56,8 @@ namespace RavlImageN {
   inline
   void BilinearInterpolation(const ImageC<ByteT> &img,const TFVectorC<RealT,2> &ipnt,ByteT &pixVal) {
     TFVectorC<RealT,2> pnt = ipnt;
-#if RAVL_USE_QUICKREAL2INT
+#if RAVL_USE_QUICKREAL2INT && 0
+    // There's some issues with QFloor, don't use it for the moment.
     IntT fx = QFloor(pnt[0]); // Row
     IntT fy = QFloor(pnt[1]); // Col
 #else
