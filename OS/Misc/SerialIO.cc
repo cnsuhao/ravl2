@@ -215,14 +215,10 @@ namespace RavlOSN {
     return true;  
   }
   
-  bool SerialCtrlC::SerialInit(IntT fd,IntT i_speed,IntT o_speed,IntT stop_bits,ParityT par,IntT char_size)
-  {
+  bool SerialCtrlC::SerialInit(IntT fd,IntT i_speed,IntT o_speed,IntT stop_bits,ParityT par,IntT char_size) {
     fid = fd;
     return Setup(i_speed,o_speed,stop_bits,par,char_size);
   }
-  
-  
-  
   
   bool SerialCtrlC::SetISpeed(const IntT i_speed) {
     termios pb;
@@ -238,7 +234,7 @@ namespace RavlOSN {
   bool SerialCtrlC::SetOSpeed(const IntT o_speed) {
     termios pb;
     if (tcgetattr(fid,&pb) < 0) { 
-      cerr << "SerialCtrlC::SetISpeed(), Failed to read port paramiters. \n";
+      cerr << "SerialCtrlC::SetOSpeed(), Failed to read port paramiters. \n";
       return false;
     }
     if(!SetOSpeed(pb,o_speed))
@@ -250,7 +246,7 @@ namespace RavlOSN {
   bool SerialCtrlC::SetStopBits(const IntT stop_bit) {  
     termios pb;
     if (tcgetattr(fid,&pb) < 0) { 
-      cerr << "SerialCtrlC::SetISpeed(), Failed to read port paramiters. \n";
+      cerr << "SerialCtrlC::SetStopBits(), Failed to read port paramiters. \n";
       return false;
     }
     if(!SetStopBits(pb,stop_bit))
@@ -262,7 +258,7 @@ namespace RavlOSN {
   bool SerialCtrlC::SetCharSize(const IntT char_size) {
     termios pb;
     if (tcgetattr(fid,&pb) < 0) { 
-      cerr << "SerialCtrlC::SetISpeed(), Failed to read port paramiters. \n";
+      cerr << "SerialCtrlC::SetCharSize(), Failed to read port paramiters. \n";
       return false;
     }
     if(!SetCharSize(pb,char_size))
@@ -274,7 +270,7 @@ namespace RavlOSN {
   bool SerialCtrlC::SetParity(ParityT parity_type){
     termios pb;
     if (tcgetattr(fid,&pb) < 0) { 
-      cerr << "SerialCtrlC::SetISpeed(), Failed to read port paramiters. \n";
+      cerr << "SerialCtrlC::SetParity(), Failed to read port paramiters. \n";
       return false;
     }
     if(!SetParity(pb,parity_type))
