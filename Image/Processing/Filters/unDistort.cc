@@ -20,12 +20,12 @@ using namespace RavlImageN;
 
 int Mosaic(int nargs,char **argv) {
   OptionC opt(nargs,argv);
-  RealT cx_ratio = opt.Int("cx",0.5,"Image centre x coordinate as ratio of image width. ");
-  RealT cy_ratio = opt.Int("cy",0.5,"Image centre y coordinate as ratio of image height. ");
-  RealT fx = opt.Int("fx",1.0,"Focal distance in x pixels. ");
-  RealT fy = opt.Int("fy",1.0,"Focal distance in y pixels. ");
-  RealT K1 = opt.Int("K1",0.0,"First radial distortion coefficient. ");
-  RealT K2 = opt.Int("K2",0.0,"Second radial distortion coefficient. ");
+  RealT cx_ratio = opt.Real("cx",0.5,"Image centre x coordinate as ratio of image width. ");
+  RealT cy_ratio = opt.Real("cy",0.5,"Image centre y coordinate as ratio of image height. ");
+  RealT fx = opt.Real("fx",1.0,"Focal distance in vertical pixels. ");
+  RealT fy = opt.Real("fy",1.0,"Focal distance in horizontal pixels. ");
+  RealT K1 = opt.Real("K1",0.0,"Cubic radial distortion coefficient. ");
+  RealT K2 = opt.Real("K2",0.0,"Quintic radial distortion coefficient. ");
   int cropT = opt.Int("crt", 0, "Width of cropping region at top of image");
   int cropB = opt.Int("crb", 0, "Width of cropping region at bottom of image");
   int cropL = opt.Int("crl", 0, "Width of cropping region at left of image");
@@ -48,7 +48,7 @@ int Mosaic(int nargs,char **argv) {
 	    cy_ratio*(RealT)inputImage.Cols(),
 	    fx, fy, K1, K2);
 
-      // set frame from first image
+  // set frame from first image
   IndexRange2dC rect(inputImage.Frame());
 
   // adjust frame for cropping region

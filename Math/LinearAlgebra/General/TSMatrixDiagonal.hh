@@ -80,7 +80,7 @@ namespace RavlN {
       }
       return slice[c] * data[c];      
     }
-    //: Multiply columb by values from slice and sum them.
+    //: Multiply column by values from slice and sum them.
     
     virtual DataT MulSumColumn(UIntT c,const Array1dC<DataT> &dat) const { 
       if(!dat.Contains(c)) {
@@ -90,7 +90,7 @@ namespace RavlN {
       }
       return dat[c] * data[c];
     }
-    //: Multiply columb by values from dat and sum them.
+    //: Multiply column by values from dat and sum them.
     
     virtual TSMatrixC<DataT> T() const { 
       // FIXME: This should really be a copy ?

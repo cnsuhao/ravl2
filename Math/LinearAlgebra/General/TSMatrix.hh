@@ -91,7 +91,7 @@ namespace RavlN {
     
     virtual DataT MulSumColumn(UIntT c,const Array1dC<DataT> &dat) const
     { RavlAssert(0); return DataT(); }
-    //: Multiply columb by values from dat and sum them.
+    //: Multiply column by values from dat and sum them.
     
     virtual Slice1dC<DataT> Col(UIntT j) const
     { RavlAssert(0); return Slice1dC<DataT>(); }
@@ -103,7 +103,7 @@ namespace RavlN {
     
     virtual DataT MulSumColumn(UIntT c,const Slice1dC<DataT> &slice) const
     { RavlAssert(0); return DataT(); }
-    //: Multiply columb by values from slice and sum them.
+    //: Multiply column by values from slice and sum them.
     
     virtual TSMatrixC<DataT> Add(const TSMatrixC<DataT> &oth) const;
     //: Add this matrix to 'oth' and return the result.
@@ -260,7 +260,7 @@ namespace RavlN {
     
     DataT MulSumColumn(UIntT c,const Array1dC<DataT> &dat) const
     { return Body().MulSumColumn(c,dat); }
-    //: Multiply columb by values from dat and sum them.
+    //: Multiply column by values from dat and sum them.
 
     Slice1dC<DataT> Col(UIntT j) const
     { return Body().Col(j); }
@@ -272,7 +272,7 @@ namespace RavlN {
 
     DataT MulSumColumn(UIntT c,const Slice1dC<DataT> &slice) const
     { return Body().MulSumColumn(c,slice); }
-    //: Multiply columb by values from slice and sum them.
+    //: Multiply column by values from slice and sum them.
 
     DataT operator[](const Index2dC &ind)
     { return Body().Element(ind[0].V(),ind[1].V()); }

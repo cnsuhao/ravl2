@@ -49,7 +49,7 @@ namespace RavlImageN {
 	DataT zero;
 	SetZero(zero); // We can't rely on '= 0' working.
 	(*this).Array2dC<DataT>::operator=(Array2dC<DataT>(rng));
-	DrawFrame((*this),zero,rng); // We only really need the top row and left columb cleared.
+	DrawFrame((*this),zero,rng); // We only really need the top row and left column cleared.
       }
       Array2dC<DataT> work((*this),in.Frame());
       Array2dSqr2Iter2C<DataT,InT> it(work,in);
@@ -108,7 +108,7 @@ namespace RavlImageN {
 	- (*this)[range.End()];
     }
     //: Calculate the diffrence between two halfs of the rectangle split horizontally.
-    // This mid point is an absolute columb location and should be within the rectangle.
+    // This mid point is an absolute column location and should be within the rectangle.
 
     DataT VerticalDifference3(const IndexRange2dC &range,const IndexRangeC &rng) const {
       RavlAssert(range.Range2().Contains(rng));
@@ -124,7 +124,7 @@ namespace RavlImageN {
       return Sum(range) - Sum(rng2);
     }
     //: Calculate the diffrence between two rectangles one lying inside the other in the horizontal dimention.
-    // This mid point is an absolute columb location and should be within the rectangle.
+    // This mid point is an absolute column location and should be within the rectangle.
     
 #if 0
     DataT DiagonalDifference(IndexRange2dC range,const Index2dC &middle) const {

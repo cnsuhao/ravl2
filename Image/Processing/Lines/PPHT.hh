@@ -204,7 +204,7 @@ namespace RavlImageN {
   private:
     Point2dC res;
     Array2dC<IntT> accum;      // Accumulator.
-    Array1dC<IntT> angleCount; // Number of votes in each columb.
+    Array1dC<IntT> angleCount; // Number of votes in each column.
     Array1dC<RealT> tCos;      // Cos.
     Array1dC<RealT> tSin;      // Sin.
     ImageC<ByteT> usedMap;        // Map of user pixels.

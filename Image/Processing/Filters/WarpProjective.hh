@@ -142,7 +142,7 @@ namespace RavlImageN {
   void WarpProjectiveC<InT,OutT,MixerT>::Apply(const ImageC<InT> &src,ImageC<OutT> &outImg) {
     
     RealRange2dC irng(src.Frame());
-    if(!outImg.Frame().Contains(rec))
+    if(rec.TRow()<=rec.BRow() && !outImg.Frame().Contains(rec))
       outImg = ImageC<OutT>(rec);
     //cerr << "Trans0=" << trans * orng.TopRight() << " from " << orng.TopRight() << "\n";
     

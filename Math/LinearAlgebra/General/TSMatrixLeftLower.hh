@@ -79,7 +79,7 @@ namespace RavlN {
     //: Access a row from the matrix.
     
     virtual DataT MulSumColumn(UIntT c,const Array1dC<DataT> &dat) const;
-    //: Multiply columb by values from dat and sum them.
+    //: Multiply column by values from dat and sum them.
     
     virtual TSMatrixC<DataT> Mul(const TSMatrixC<DataT> &oth) const;
     //: Get this matrix times 'oth'.
@@ -92,7 +92,7 @@ namespace RavlN {
     //: Does Col() give direct access to actual data ?
     
     virtual DataT MulSumColumn(UIntT c,const Slice1dC<DataT> &slice) const;
-    //: Multiply columb by values from slice and sum them.
+    //: Multiply column by values from slice and sum them.
     
 #if 0    
     virtual TVectorC<DataT> Mul(const TVectorC<DataT> &oth) const;

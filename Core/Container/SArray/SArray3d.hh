@@ -151,7 +151,7 @@ namespace RavlN {
 			     Min(Size1(),Size2(),Size3()),
 			     Stride());
     }
-    //: Access columb as 1d slice.
+    //: Access column as 1d slice.
     // NB. Changes made to the slice will also affect this array!
     // <p> NOT IMPLEMENTED, Will be on request.
     

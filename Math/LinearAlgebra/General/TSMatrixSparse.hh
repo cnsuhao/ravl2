@@ -298,7 +298,7 @@ namespace RavlN {
     //: Does Row() give direct access to actual data ?
     
     virtual DataT MulSumColumn(UIntT c,const Array1dC<DataT> &dat) const;
-    //: Multiply columb by values from dat and sum them.
+    //: Multiply column by values from dat and sum them.
 
     virtual Slice1dC<DataT> Col(UIntT j) const;
     //: Access slice from matrix.
@@ -308,7 +308,7 @@ namespace RavlN {
     //: Does Col() give direct access to actual data ?
     
     virtual DataT MulSumColumn(UIntT c,const Slice1dC<DataT> &slice) const;
-    //: Multiply columb by values from slice and sum them.
+    //: Multiply column by values from slice and sum them.
         
     virtual TMatrixC<DataT> TMatrix(bool alwaysCopy = false) const;
     //: Access as a TMatrix.
@@ -458,7 +458,7 @@ namespace RavlN {
     return ret;
   }
   
-  //: Multiply columb by values from dat and sum them.
+  //: Multiply column by values from dat and sum them.
   
   template<class DataT>
   DataT TSMatrixSparseBodyC<DataT>::MulSumColumn(UIntT c,const Array1dC<DataT> &dat) const {

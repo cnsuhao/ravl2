@@ -42,7 +42,7 @@ namespace RavlN {
     MatrixC(const VectorC &vec)
       : TMatrixC<RealT>((const TVectorC<RealT> &)vec)
     {}
-    //: Treat vector as columb matrix.
+    //: Treat vector as column matrix.
     
     MatrixC(UIntT rows,UIntT cols)
       : TMatrixC<RealT>(rows,cols)

@@ -68,7 +68,7 @@ namespace RavlN {
 	sum += it.Data1() * it.Data2();
       return sum;
     }
-    //: Multiply columb by values from dat and sum them.
+    //: Multiply column by values from dat and sum them.
     
     virtual void AddIP(const TSMatrixC<DataT> &oth) {
       RavlAssertMsg(0,"TSMatrixTransposeBodyC::AddIP(), not implemented. ");

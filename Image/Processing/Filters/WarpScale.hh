@@ -92,7 +92,7 @@ namespace RavlImageN {
       return res;
     }
     
-    if(imCols == 1) { // Just one columb.    
+    if(imCols == 1) { // Just one column.    
       y2.Col() = im.Rectangle().Origin().Col();
       y4.Col() = y2.Col();
       for(Array2dIterC<OutT> it(res);it.IsElm();it.Next()) {

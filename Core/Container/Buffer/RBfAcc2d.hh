@@ -126,7 +126,7 @@ namespace RavlN {
       return (IntT) (RangeBufferAccessC<BufferAccessC<DataT> >::operator[](IMin()+1).ReferenceElm() -  
 		     RangeBufferAccessC<BufferAccessC<DataT> >::operator[](IMin()).ReferenceElm());
     }
-    //: Get the stide of the 2d array. 
+    //: Get the stride of the 2d array. 
     
     bool IsContinuous() const 
     { return Stride() == (IntT) rng2.Size(); }

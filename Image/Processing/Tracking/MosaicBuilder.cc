@@ -214,7 +214,7 @@ namespace RavlImageN {
     cout << "2D homography fitting: Initial residual=" << lm.GetResidual() << endl;
     cout << "Selected " << compatible_obs_list.Size() << " observations using RANSAC" << endl;
     VectorC x = lm.SolutionVector();
-    x *= 1.0/x[8];
+    x /= x[8];
     try {
       // apply iterations
       RealT lambda = 100.0;

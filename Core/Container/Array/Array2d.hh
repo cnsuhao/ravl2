@@ -119,7 +119,7 @@ namespace RavlN {
 			     Range1(),
 			     Stride());
     }
-    //: Access columb as 1d slice.
+    //: Access column as 1d slice.
     // NB. Changes made to the slice will also affect this array!
     
     Slice1dC<DataT> Diagonal() {

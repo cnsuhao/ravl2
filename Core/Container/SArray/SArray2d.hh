@@ -172,7 +172,7 @@ namespace RavlN {
 			     Size1(),
 			     Stride());
     }
-    //: Access columb as 1d slice.
+    //: Access column as 1d slice.
     // NB. Changes made to the slice will also affect this array!
     
     void SetColumn(IndexC i,const SArray1dC<DataT> &val);

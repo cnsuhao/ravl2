@@ -67,7 +67,7 @@ namespace RavlN {
       }
       return dat[c] * scale;
     }
-    //: Multiply columb by values from dat and sum them.
+    //: Multiply column by values from dat and sum them.
     
     virtual TSMatrixC<DataT> T() const { 
       // FIXME: This should really be a copy ?

@@ -308,6 +308,7 @@ namespace RavlImageN {
     Array2dIterC<OutT> it(outImg);  
     
     // Do simple check for each pixel that its contained in the input image.
+    RealT yStart = pat[1];
     for(;it;) {
       if(fillBackground) {
 	do {
@@ -316,15 +317,18 @@ namespace RavlImageN {
 	    mixer(*it,src.BiLinear(ipat - Point2dC(0.5,0.5)));
 	  else
 	    SetZero(*it);
+	  pat[1]++;
 	} while(it.Next()) ;
       } else {
 	do {
 	  Point2dC ipat = AddDist(pat);
 	  if(irng.Contains(ipat))
 	    mixer(*it,src.BiLinear(ipat - Point2dC(0.5,0.5)));
+	  pat[1]++;
 	} while(it.Next()) ;
       }
       pat[0]++;
+      pat[1] = yStart;
     }
   }
 }

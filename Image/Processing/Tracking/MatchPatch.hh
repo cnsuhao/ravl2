@@ -26,7 +26,7 @@ namespace RavlImageN {
     //cerr << "Img=" << img.Frame() << " SArea=" << sarea << "\n";
     if(!sarea.Contains(start)) {
       rat = Point2dC(-1,-1);
-      minScore = 100000000;
+      minScore = rminScore = 100000000;
       return minScore;
     }
     Array2dC<SumT> scoreMap(sarea);

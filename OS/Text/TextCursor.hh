@@ -187,7 +187,7 @@ namespace RavlN {
     
     inline void First() 
       { line.First(); Col = 0; }
-    //: Goto the first columb of the first line in the file.
+    //: Goto the first column of the first line in the file.
     
     inline void FirstLine() 
       { line.First(); }
@@ -217,7 +217,7 @@ namespace RavlN {
   
     UIntT ColNum() const 
       { return Col; }
-    //: Get the current columb number.
+    //: Get the current column number.
     
     StringC PositionTxt();
     //: Print out position in human readable sytle.
