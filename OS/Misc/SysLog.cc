@@ -29,7 +29,20 @@ namespace RavlN {
   static bool syslog_pid = false;
   static int localLevel = 8;
   static int syslogLevel = 8;
-
+  
+  typedef void (*SyslogFunc)(SysLogPriorityT level,const char *message);
+  
+  static SyslogFunc syslogRedirect = 0;
+  
+  //: Register function to redirect log messages.
+  // Calling with a null function pointer restores the default behavour.
+  
+  bool SysLogRedirect(void (*logFunc)(SysLogPriorityT level,const char *message)) {
+    MTWriteLockC lockWrite(2); // Be carefull in multithreaded programs.
+    syslogRedirect = logFunc;
+    return true;
+  }
+  
   //: Get the name of the current application.
   
   const StringC &SysLogApplicationName()
@@ -90,6 +103,10 @@ namespace RavlN {
   
   static bool LogMessage(const char *message,int priority) {
     MTWriteLockC lockWrite(2); // Be carefull in multithreaded programs.
+    if(syslogRedirect != 0) {
+      syslogRedirect((SysLogPriorityT)priority,message);
+      return true;
+    }
 #if RAVL_OS_POSIX
     if(syslog_StdErrOnly) {
       if(priority <= localLevel) {

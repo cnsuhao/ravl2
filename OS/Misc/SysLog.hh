@@ -56,6 +56,10 @@ namespace RavlN {
   
   const StringC &SysLogApplicationName();
   //: Get the name of the current application.
+  
+  bool SysLogRedirect(void (*logFunc)(SysLogPriorityT level,const char *message));
+  //: Register function to redirect log messages.
+  // Calling with a null function pointer restores the default behavour.
 }
 
 #endif
