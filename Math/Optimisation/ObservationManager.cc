@@ -67,22 +67,22 @@ namespace RavlN {
   //: Generate a random sample of observations
   DListC<ObservationC> ObservationListManagerC::RandomSample(UIntT min_num_constraints) {
     SArray1dC<IntT> index(min_num_constraints);
-    IntT i=0;
     UIntT num_constraints=0;
-
+    
     // check that there are enough observations
     for(SArray1dIterC<ObservationC> it(obs_array);it;it++) {
       num_constraints += it.Data().GetNumConstraints();
       if(num_constraints >= min_num_constraints)
 	break;
     }
-
+    
     if(num_constraints < min_num_constraints)
       throw ExceptionC("Not enough data for sample in ObservationListManagerC::RandomSample(UIntT). ");
 
+    DListC<ObservationC> sample;
     // generate random sample
     num_constraints = 0;
-    for(SArray1dIterC<IntT> it2(index);it2;it2++) {
+    for(SArray1dIterC<IntT> it2(index);it2;it2++,i++) {
       for(;;) {
 	// add index of random observation to sample
 	*it2 = RandomInt() % obs_array.Size();
@@ -90,12 +90,15 @@ namespace RavlN {
 	// check whether this observation is already selected
 	if(obs_array[*it2].GetSelected())
 	  continue;
-
+	
 	// set selected flag for observation
 	obs_array[*it2].SetSelected();
 	
 	// accumulate the number of constraints
 	num_constraints += obs_array[*it2].GetNumConstraints();
+	
+	// Add to sample.
+	sample.InsLast(obs_array[*it2]);
 	
 	// get next element in sample
 	break;
@@ -106,11 +109,6 @@ namespace RavlN {
 	break;
     }
     
-    // build sample list of observations
-    DListC<ObservationC> sample;
-    for(;i>=0;i--)
-      sample.InsLast(obs_array[index[i]]);
-
     return sample;
   }
     
