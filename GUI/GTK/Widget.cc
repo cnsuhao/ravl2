@@ -332,7 +332,7 @@ namespace RavlGUIN {
     if(widget != 0) {
       if(GTK_IS_WIDGET(widget)) { // Incase it was destroyed within GTK.
         if(destroySigId >= 0)
-          gtk_signal_disconnect (widget, destroySigId);
+          gtk_signal_disconnect (GTK_OBJECT(widget), destroySigId);
 	gtk_widget_hide (widget);
 	if(gotRef) {
 	  gtk_object_unref(GTK_OBJECT(widget));
