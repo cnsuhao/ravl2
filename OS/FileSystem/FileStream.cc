@@ -10,28 +10,41 @@
 //! lib=RavlOS
 
 #include "Ravl/OS/FileStream.hh"
+
+#if !RAVL_COMPILER_VISUALCPP
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <errno.h>
+#else
+#include "Ravl/OS/Filename.hh"
+#include <direct.h>
+#include <memory.h>
+#include <io.h>
+#endif
 
 namespace RavlN {
   
   //: Default constructor.
   
   FileStreamC::FileStreamC()
+#if RAVL_HAVE_INTFILEDESCRIPTORS 
     : fd(-1)
+#endif
   {}
   
+#if RAVL_HAVE_INTFILEDESCRIPTORS 
   //: Construct from a file descriptor.
   
   FileStreamC::FileStreamC(int nfd)
     : fd(nfd)
   {}
+#endif
   
   //: Construct from a file descriptor.
   
+#if RAVL_HAVE_INTFILEDESCRIPTORS 
   FileStreamC::FileStreamC(const StringC &filename,bool forRead,bool forWrite)
     : fd(-1)
   {
@@ -46,35 +59,71 @@ namespace RavlN {
     flags |= O_LARGEFILE;
     fd = open(filename.chars(),flags,0666);
   }
-
+#else
+  FileStreamC::FileStreamC(const StringC &filename,bool _forRead,bool _forWrite)
+    :  forRead(_forRead),
+       forWrite(_forWrite),
+       filename(filename)
+  {
+    if(forRead)
+      is = IStreamC(filename);
+    if(forWrite)
+      os = OStreamC(filename);
+  }
+#endif
+  
   //: Destructor
   
   FileStreamC::~FileStreamC() {
+#if RAVL_HAVE_INTFILEDESCRIPTORS 
     if(fd >= 0)
       close(fd);
+#endif
   }
   
   //: Seek to offset in a file.
   
-  bool FileStreamC::Seek(StreamOffsetT offset)
-  { return lseek64(fd,offset,SEEK_SET) >= 0; }
+  bool FileStreamC::Seek(StreamOffsetT offset) { 
+#if RAVL_HAVE_INTFILEDESCRIPTORS 
+    return lseek64(fd,offset,SEEK_SET) >= 0; 
+#else
+    if(forRead)
+      is.Seek(offset);
+    if(forWrite)
+      os.Seek(offset);
+    return true;
+#endif
+  }
   
   //: Write data to file descriptor.
   // Returns the number of charactors read, or -1 on error.
   
-  IntT FileStreamC::Write(const void *data,IntT length) 
-  { return write(fd,data,length); }
+  IntT FileStreamC::Write(const void *data,IntT length) { 
+#if RAVL_HAVE_INTFILEDESCRIPTORS     
+    return write(fd,data,length); 
+#else
+    os.write(static_cast<const char *>(data),length);
+    return os.good() ? length : 0;
+#endif
+  }
   
   //: Read data from file descriptor.
   
-  IntT FileStreamC::Read(void *data,IntT length) 
-  { return read(fd,data,length); }
+  IntT FileStreamC::Read(void *data,IntT length) { 
+#if RAVL_HAVE_INTFILEDESCRIPTORS    
+    return read(fd,data,length); 
+#else
+    is.read(static_cast<char *>(data),length);
+    return is.is().gcount();    
+#endif
+  }
 
   
   //: Write all data to file descriptor.
   // This routine works as Write(), but will handle temporary errors.
   
   IntT FileStreamC::WriteAll(const void *tdata,IntT length) {
+#if RAVL_HAVE_INTFILEDESCRIPTORS    
     const char *data = (const char *) tdata;
     IntT done = 0;
     do {
@@ -87,12 +136,16 @@ namespace RavlN {
       done += n;
     } while(done < length);
     return done;
+#else
+    return Write(tdata,length);
+#endif
   }
   
   //: Read all data from file descriptor.
   // This routine works as Write(), but will handle temporary errors.
   
   IntT FileStreamC::ReadAll(void *tdata,IntT length) {
+#if RAVL_HAVE_INTFILEDESCRIPTORS    
     char *data = (char *) tdata;
     IntT done = 0;
     do {
@@ -110,11 +163,15 @@ namespace RavlN {
       done += n;
     } while(done < length);
     return done;
+#else
+    return Read(tdata,length);
+#endif
   }
-
+  
   //: Find the size of the file.
   
   StreamSizeT FileStreamC::Size() const {
+#if RAVL_HAVE_INTFILEDESCRIPTORS    
     if(!Good())
       return 0;
 #if RAVL_USE_LARGEFILESUPPORT
@@ -127,6 +184,10 @@ namespace RavlN {
       return 0;
 #endif
     return (StreamSizeT) buff.st_size;
+#else
+    FilenameC lf(filename);
+    return lf.FileSize();
+#endif
   }
   
 }

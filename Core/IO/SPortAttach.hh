@@ -128,6 +128,10 @@ namespace RavlN {
       }
     //: Constructor.
     // Attach 'aport' to seek ctrl 'sc'
+
+    virtual bool Save(ostream &out) const 
+    { return DPISPortBodyC<DataT>::Save(out); }
+    //: Save to ostream.
     
     virtual bool Seek(UIntT off)
       { return sctrl.Seek(off); }
@@ -242,6 +246,10 @@ namespace RavlN {
       {}
     //: Constructor.
     // Attach 'aport' to seek ctrl 'sc'
+    
+    virtual bool Save(ostream &out) const 
+    { return DPOSPortBodyC<DataT>::Save(out); }
+    //: Save to ostream.
     
     virtual bool Seek(UIntT off)
       { return sctrl.Seek(off); }

@@ -32,11 +32,7 @@ namespace RavlN {
   class DesignFuncLDABodyC
     : public DesignFuncReduceBodyC
   {
-  public:
-    DesignFuncLDABodyC()
-    {}
-    //: Default constructor.
-    
+  public:    
     DesignFuncLDABodyC(RealT variationPreserved = 0.98);
     //: Construct from a mean and rotation.
     

@@ -157,7 +157,11 @@ namespace RavlN {
   public:
     typedef typename TraitsC<DataT>::BaseTypeT Arg1T; //: Type of arguments without const's and refs.
     typedef typename TraitsC<ObjT>::BaseTypeT BaseObjT; //: Type of object without const's and refs.
+#if !RAVL_COMPILER_VISUALCPP 
     typedef bool (BaseObjT::*Func1T)(DataT dat);
+#else
+    typedef bool (ObjT::*Func1T)(DataT dat);
+#endif
     
     Signal1MethodBodyC(Signal0C &from,
 		       BaseObjT &nobj,
@@ -196,11 +200,15 @@ namespace RavlN {
   {
   public:
     typedef typename TraitsC<DataT>::BaseTypeT Arg1T; //: Type of arguments without const's and refs.
+#if !RAVL_COMPILER_VISUALCPP 
     typedef typename TraitsC<ObjT>::BaseTypeT BaseObjT; //: Type of object without const's and refs.
+#else
+    typedef ObjT BaseObjT; //: Type of object without const's and refs.
+#endif
     
     Signal1MethodC(Signal0C &from,
 		   BaseObjT &nobj,
-		   bool (BaseObjT::*nFunc)(DataT),
+		   typename Signal1MethodBodyC<DataT,ObjT>::Func1T nFunc,
 		   const Arg1T &dat = Arg1T())
       : SignalConnectorC(*new Signal1MethodBodyC<DataT,ObjT>(from,nobj,nFunc,dat))
     {}

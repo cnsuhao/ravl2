@@ -25,6 +25,7 @@
 
 #if RAVL_HAVE_UNISTD_H
 #include <unistd.h>
+#include <errno.h>
 #endif
 
 #define NANOSEC 1000000000
@@ -87,34 +88,68 @@ namespace RavlN
   // ----------------------------------------------------------------
   // Some stubs we may fill in later.
   
+  ConditionalMutexC::ConditionalMutexC() {
+#if RAVL_HAVE_WIN32_THREADS
+    event = CreateEvent(0,false,false,0);
+#endif
+  }
+  
+  
   ConditionalMutexC::~ConditionalMutexC() { 
+#if RAVL_HAVE_WIN32_THREADS
+    CloseHandle(event);
+    event = 0;
+#endif
   }
   
   bool ConditionalMutexC::Wait(RealT maxTime) {
+#if RAVL_HAVE_WIN32_THREADS
+    int rc;
+    Unlock();
+    rc = WaitForSingleObject(event,Round(maxTime * 1000.0));
+    Lock();
+#endif
+#if RAVL_HAVE_POSIX_THREADS
     RavlAssert(0);// Not implemented.
+#endif
     return false;
   }
   
-  ConditionalMutexC::ConditionalMutexC() {
-    RavlAssert(0);// Not implemented.
-  }
   
   //: Boardcast a signal to all waiting threads.
   // Always succeeds.
   
   void ConditionalMutexC::Broadcast() { 
+#if RAVL_HAVE_POSIX_THREADS
     RavlAssert(0); // Not implemented.
+#endif
+#if RAVL_HAVE_WIN32_THREADS
+    PulseEvent(event);
+#endif
   }
   
   //: Signal one waiting thread.
   // Always succeeds.
     
   void ConditionalMutexC::Signal() { 
+#if RAVL_HAVE_POSIX_THREADS
     RavlAssert(0); // Not implemented.
+#endif
+#if RAVL_HAVE_WIN32_THREADS
+    PulseEvent(event);
+#endif
   }
   
   void ConditionalMutexC::Wait() { 
+#if RAVL_HAVE_WIN32_THREADS
+    int rc;
+    Unlock();
+    rc = WaitForSingleObject(event,INFINITE); // Wait for signal
+    Lock();
+#endif
+#if RAVL_HAVE_POSIX_THREADS
     RavlAssert(0); // Not implemented.
+#endif
   }
     
 #endif  

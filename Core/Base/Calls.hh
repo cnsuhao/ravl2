@@ -47,12 +47,7 @@ namespace RavlN {
     // if issueErrorOnCall a function which causes the
     // equivelent of a assertion failure is called. Otherwise
     // the call returns silently.
-    
-    CallFunc0BodyC()
-      : func((VoidFuncPtrT) &CallFunc0BodyC<RetT>::IssueError)
-    {}
-    //: Default constructor.
-    
+        
     virtual void Invoke()
     { (*FuncPtr())(); }
     //: Invoke event.
@@ -180,13 +175,17 @@ namespace RavlN {
 	dat1(ndat)
     {}
     //: Constructor.
+    
+    CallFunc1BodyC(VoidFuncPtrT voidFuncPtr)
+      : CallFunc0BodyC<RetT>(voidFuncPtr)
+    {}
+    //: void function ptr constructor.
 
-    CallFunc1BodyC(bool issueErrorOnCall) {
-      if(issueErrorOnCall)
-	func = (VoidFuncPtrT) (&CallFunc1BodyC<DataT,RetT>::IssueError);
-      else
-	func = (VoidFuncPtrT) &CallFunc1BodyC<DataT,RetT>::NoOp;
-    }
+    CallFunc1BodyC(bool issueErrorOnCall) 
+      : CallFunc0BodyC<RetT>(issueErrorOnCall 
+			     ? ((VoidFuncPtrT) &CallFunc1BodyC<DataT,RetT>::IssueError) 
+			     : ((VoidFuncPtrT) &CallFunc1BodyC<DataT,RetT>::NoOp))
+    {}
     //: Constructor.
     // if issueErrorOnCall a function which causes the
     // equivelent of a assertion failure is called. Otherwise
@@ -342,7 +341,7 @@ namespace RavlN {
     typedef typename TraitsC<Data2T>::BaseTypeT Arg2T;  //: Basic type of arg, ignore references and const's
     
     CallFunc2BodyC() 
-      : CallFunc1BodyC<Data1T,RetT>((VoidFuncPtrT) &CallFunc2BodyC<Data1T,Data2T,RetT>::IssueError)
+      : CallFunc1BodyC<Data1T,RetT>((VoidFuncPtrT)&CallFunc2BodyC<Data1T,Data2T,RetT>::IssueError)
     {}
     //: Default constructor.
     
@@ -351,6 +350,11 @@ namespace RavlN {
 	dat2(ndat2)
     {}
     //: Constructor.
+    
+    CallFunc2BodyC(VoidFuncPtrT voidFuncPtr)
+      : CallFunc1BodyC<Data1T,RetT>(voidFuncPtr)
+    {}
+    //: void function ptr constructor.
     
     CallFunc2BodyC(bool issueErrorOnCall) {
       if(issueErrorOnCall)
@@ -543,6 +547,11 @@ namespace RavlN {
     {}
     //: Constructor.
     
+    CallFunc3BodyC(VoidFuncPtrT voidFuncPtr)
+      : CallFunc2BodyC<Data1T,Data2T,RetT>(voidFuncPtr)
+    {}
+    //: void function ptr constructor.
+    
     virtual void Invoke()
     { (*FuncPtr())(dat1,dat2,dat3); }
     //: Invoke event.
@@ -708,6 +717,11 @@ namespace RavlN {
       : CallFunc3BodyC<Data1T,Data2T,Data3T,RetT>((VoidFuncPtrT) &CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT>::IssueError)
     {}
     //: Default constructor.
+    
+    CallFunc4BodyC(VoidFuncPtrT voidFuncPtr)
+      : CallFunc3BodyC<Data1T,Data2T,Data3T,RetT>(voidFuncPtr)
+    {}
+    //: void function ptr constructor.
     
     CallFunc4BodyC(bool issueErrorOnCall) {
       if(issueErrorOnCall)

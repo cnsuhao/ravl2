@@ -16,13 +16,19 @@
 
 #include <string.h>
 
+#if RAVL_HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 
 #define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
 #define ONDEBUG(x)
+#endif
+#if RAVL_HAVE_WIN32_THREADS
+#include <windows.h>
+#include <conio.h>
 #endif
 
 namespace RavlN
@@ -41,6 +47,8 @@ namespace RavlN
   //: Setup mutex.
   
   void MutexC::Init(bool recursive) {
+    // ---------------------------------- POSIX ----------------------------------
+#if RAVL_HAVE_POSIX_THREADS
 #if defined(NDEBUG)
     ONDEBUG(cerr << "MutexC::Init(), Constructing normal mutex. (@:" << ((void*) this) << ") \n");
     // Build a fast mutex.
@@ -78,7 +86,13 @@ namespace RavlN
       Error("Failed to create mutex.",errno,rc); 
     pthread_mutexattr_destroy(&mutAttr);
 #endif
-    //ONDEBUG(cerr << "MutexC::MutexC(), Construction complete. \n");
+#endif
+    // ---------------------------------- WIN32 ----------------------------------
+#if RAVL_HAVE_WIN32_THREADS
+    if((mutex = CreateMutex(0,false,0)) == 0) {
+      Error("Failed to create mutex.",errno,0); 
+    }
+#endif
   }
   
   void MutexC::Error(const char *msg)  {
@@ -97,6 +111,7 @@ namespace RavlN
   
   //: Destructor.
   MutexC::~MutexC() { 
+#if RAVL_HAVE_POSIX_THREADS
     ONDEBUG(cerr << "MutexC::~MutexC(), Destroying mutex. (@:" << ((void*) this) << ")\n");
     int maxRetry = 100;
     while(--maxRetry > 0) {
@@ -109,6 +124,11 @@ namespace RavlN
     }
     if(maxRetry <= 0)
       cerr << "WARNING: MutexC::~MutexC(), destroy failed. \n";
+#endif
+#if RAVL_HAVE_WIN32_THREADS
+    if(!CloseHandle(mutex))
+      cerr << "WARNING: MutexC::~MutexC(), destroy failed. " << GetLastError() << "\n";
+#endif    
   }
   
 #if !RAVL_USE_INLINEMUTEXCALLS  
@@ -116,12 +136,20 @@ namespace RavlN
   
   bool MutexC::Lock(void) {
     int rc;
+#if RAVL_HAVE_POSIX_THREADS
     //ONDEBUG(cerr << "MutexC::Lock() Start @:" << ((void*) this) << " \n");
     if((rc = pthread_mutex_lock(&mutex)) == 0) {
       //ONDEBUG(cerr << "MutexC::Lock() Obtained @:" << ((void*) this) << " \n");
       return true;
     }
     Error("Lock failed",errno,rc);
+#endif
+#if RAVL_HAVE_WIN32_THREADS
+    if((rc = WaitForSingleObject(mutex,INFINITE)) == WAIT_OBJECT_0) {
+      return true;
+    }
+    Error("Lock failed",GetLastError(),rc);
+#endif    
     return false;
   }
     
@@ -129,6 +157,7 @@ namespace RavlN
   
   bool MutexC::TryLock(void) {
     int rc;
+#if RAVL_HAVE_POSIX_THREADS
     //ONDEBUG(cerr << "MutexC:TryLock() @:" << ((void*) this) << " \n");
     if((rc = pthread_mutex_trylock(&mutex)) == 0) {
       //ONDEBUG(cerr << "MutexC:TryLock() Succeeded. @:" << ((void*) this) << "  \n");
@@ -137,21 +166,32 @@ namespace RavlN
     //ONDEBUG(cerr << "MutexC:TryLock() Failed. @:" << ((void*) this) << "  rc=" << rc << "\n");
     if(rc != EBUSY && rc != EDEADLK)
       Error("Trylock failed for unexpected reason.",errno,rc);
+#endif
+#if RAVL_HAVE_WIN32_THREADS
+    if((rc = WaitForSingleObject(mutex,INFINITE)) == WAIT_OBJECT_0)
+      return true;
+#endif
     return false;
   }
-    
+  
   //: Unlock mutex.
   
   bool MutexC::Unlock(void) {
     //RavlAssertMsg(!TryLock(),"MutexC::Unlock() called on an unlocked mutex.");
-    
-    int rc;
+    int rc = 0;
+#if RAVL_HAVE_POSIX_THREADS
     //ONDEBUG(cerr << "MutexC:Unlock() @:" << ((void*) this) << "\n");
     if((rc = pthread_mutex_unlock(&mutex)) == 0) {
       //ONDEBUG(cerr << "MutexC::Unlock() Released @:" << ((void*) this) << " \n");
       return true;
     }
     Error("Unlock failed.",errno,rc);
+#endif
+#if RAVL_HAVE_WIN32_THREADS
+    if(ReleaseMutex(mutex))
+      return true;
+    Error("Unlock failed.",GetLastError(),rc);
+#endif
     return false;
   }
 #endif

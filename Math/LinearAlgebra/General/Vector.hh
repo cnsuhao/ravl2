@@ -69,7 +69,7 @@ namespace RavlN {
     }
     //: Convert to a float vector.
     
-#if !RAVL_COMPILER_VISUALCPP
+#if !RAVL_COMPILER_VISUALCPP6
     template<unsigned int N>
     inline VectorC(const TFVectorC<RealT,N> &dat) 
       : TVectorC<RealT>(dat)

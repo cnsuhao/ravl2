@@ -26,7 +26,13 @@
 #include <sys/signal.h>
 #endif
 
+#if RAVL_HAVE_WIN32_THREADS
+#include <windows.h>
+#endif
+#if RAVL_HAVE_POSIX_THREADS
 #include <pthread.h>
+#endif
+
 #include "Ravl/Types.hh"
 #include "Ravl/Threads/Mutex.hh"
 
@@ -86,7 +92,6 @@ namespace RavlN
 #else
     ;
 #endif
-      
     //: Wait for conditional.
     // This unlocks the mutex and then waits for a signal
     // from either Signal or Broadcast.  When it gets the signal
@@ -109,6 +114,9 @@ namespace RavlN
     
 #if RAVL_HAVE_PTHREAD_COND 
     pthread_cond_t cond;
+#endif
+#if RAVL_HAVE_WIN32_THREADS
+    HANDLE event; // Broadcast event
 #endif
   };
 }

@@ -24,6 +24,14 @@
 #include <sched.h>
 #endif
 
+#if RAVL_HAVE_POSIX_THREADS
+#include <pthread.h>
+#endif
+
+#if RAVL_HAVE_WIN32_THREADS
+#include <windows.h>
+#endif
+
 #include "Ravl/Threads/Thread.hh"
 #include "Ravl/Exception.hh"
 #include "Ravl/Assert.hh"
@@ -42,6 +50,8 @@ namespace RavlN {
     sched_yield();
 #elif RAVL_HAVE_YIELD
     yield();
+#elif RAVL_HAVE_WIN32_THREADS
+    ::Sleep(0);
 #else
     sleep(0);
 #endif
@@ -50,8 +60,12 @@ namespace RavlN {
   // Function to force inclusion of RWLock code
   // for system DB.
   
-  
-  void *StartThread(void *Data);
+#if RAVL_HAVE_POSIX_THREADS    
+  extern void *StartThread(void *Data);
+#endif
+#if RAVL_HAVE_WIN32_THREADS
+  extern DWORD WINAPI StartThread(LPVOID data);
+#endif
   
   //: Yield control of processor
   // call if you wish a brief delay in execution.  
@@ -59,8 +73,15 @@ namespace RavlN {
     
   //: Get ID of current thread.
   
-  UIntT CurrentThreadID()
-  { return (UIntT) pthread_self(); }
+  UIntT CurrentThreadID() { 
+#if RAVL_HAVE_POSIX_THREADS
+    return (UIntT) pthread_self(); 
+#endif
+#if RAVL_HAVE_WIN32_THREADS
+    return (UIntT) GetCurrentThread();
+#endif
+  }
+  
   
   //: Default constructor.
   
@@ -78,15 +99,27 @@ namespace RavlN {
       RavlAssertMsg(0,"ERROR: Destructor called on live thread."); // This is bad!  Core dump so we can trace where this happened.
       cerr << "WARNING: Destructor called on live thread. \n";
       
+#if RAVL_HAVE_POSIX_THREADS
 #if RAVL_OS_CYGWIN
       pthread_exit((void *)threadID);
 #else
       pthread_cancel(threadID);
 #endif
+#endif
+#if RAVL_HAVE_WIN32_THREADS
+      TerminateThread(threadID,-1);
+#endif
     }
+#if RAVL_HAVE_POSIX_THREADS
     pthread_t tmpThreadID = threadID;
     threadID = 0; // Forget the ID, no other function will work now.
     pthread_detach(tmpThreadID);
+#endif
+#if RAVL_HAVE_WIN32_THREADS
+    HANDLE tmpThreadID = threadID;
+    threadID = 0; // Forget the ID, no other function will work now.
+    CloseHandle(threadID);
+#endif
     live = false;
   }
 
@@ -144,14 +177,21 @@ namespace RavlN {
   // THEAD SAFE.
   
   void ThreadBodyC::Terminate() {
-    int ret;
     terminatePending = true;
+#if RAVL_HAVE_WIN32_THREADS
+    if(!TerminateThread(threadID,-1)) 
+      cerr << "ThreadBodyC::Terminate(), Error killing thread. Error:" << GetLastError() << "\n";
+#endif
+#if RAVL_HAVE_POSIX_THREADS
+    int ret = 0;
 #if defined(__cygwin_OLD__)
     if((ret = pthread_exit((void *)threadID)) != 0)
+      cerr << "ThreadBodyC::Terminate(), Error killing thread. " << ret << "\n";
 #else
     if((ret = pthread_cancel(threadID)) != 0)
-#endif
       cerr << "ThreadBodyC::Terminate(), Error killing thread. " << ret << "\n";
+#endif
+#endif
   }
   
   // Start thread running, use this command to start thread running
@@ -161,8 +201,14 @@ namespace RavlN {
   bool ThreadBodyC::Execute() {
     if(live)
       return false;
-    if(threadID != 0) // Restarting thread ??
+    if(threadID != 0) { // Restarting thread ??
+#if RAVL_HAVE_WIN32_THREADS
+      CloseHandle(threadID);
+#endif
+#if RAVL_HAVE_POSIX_THREADS
       pthread_detach(threadID);
+#endif
+    }
     terminatePending = false;
     live = true;
     RavlAssert(References() > 0); // There should be at least one reference here.
@@ -170,24 +216,35 @@ namespace RavlN {
     // This will be held while the thread is running and will
     // be removed by the thread cancellation function.
     IncRefCounter();
-    
-    if(pthread_create(&threadID,0,StartThread,(void *) this) != 0) {
-      cerr << "ThreadBodyC::Execute(), ERROR: Failed to execute thread. " << errno << " \n";
-      live = false; // Its definitly not live!
-      DecRefCounter(); // This can't be the last reference.
-      RavlAssert(References() > 0);
-      return false;
-    }
+#if RAVL_HAVE_POSIX_THREADS    
+    if(pthread_create(&threadID,0,StartThread,(void *) this) != 0) 
+#endif
+#if RAVL_HAVE_WIN32_THREADS
+    DWORD winThreadId;
+    if((threadID = CreateThread(0,0,StartThread,(void *) this,0,&winThreadId)) == 0) 
+#endif
+      {
+	cerr << "ThreadBodyC::Execute(), ERROR: Failed to execute thread. " << errno << " \n";
+	live = false; // Its definitly not live!
+	DecRefCounter(); // This can't be the last reference.
+	RavlAssert(References() > 0);
+	return false;
+      }    
     return true;
   }
   
   bool ThreadBodyC::SetPriority(int Pri) {
+#if RAVL_HAVE_POSIX_THREADS    
     int policy;
     struct sched_param sparam;
     pthread_getschedparam(threadID,&policy,&sparam);
     sparam.sched_priority = Pri;
     if(pthread_setschedparam(threadID,policy,&sparam) == 0)
       return true; // I hope, but don't know.
+#endif
+#if RAVL_HAVE_WIN32_THREADS
+    SetThreadPriority(threadID,Pri);
+#endif
     return false;
   }
   
@@ -216,6 +273,7 @@ namespace RavlN {
   ///////////////////////
   // Start thread running.
   
+#if RAVL_HAVE_POSIX_THREADS    
   void *StartThread(void *data) {
     //cerr << "Started1\n" << flush <<endl;
     pthread_cleanup_push(cancellationHandler,data);
@@ -223,10 +281,27 @@ namespace RavlN {
     pthread_cleanup_pop(1); // Execute cleanup function.
     return NULL;
   }
+#endif
+#if RAVL_HAVE_WIN32_THREADS
+  DWORD WINAPI StartThread(LPVOID data) {
+    //cerr << "Started1\n" << flush <<endl;
+    ((ThreadBodyC *) data)->Startup();
+    ((ThreadBodyC *) data)->Cancel();
+    ExitThread(0);
+    return 0;
+  }
+#endif
 
+  
   //: Get ID for this thread.
   
-  UIntT ThisThreadID() 
-   { return (UIntT) pthread_self(); }
+  UIntT ThisThreadID() { 
+#if RAVL_HAVE_POSIX_THREADS
+    return (UIntT) pthread_self(); 
+#endif
+#if RAVL_HAVE_WIN32_THREADS
+    return (UIntT) GetCurrentThread();
+#endif
+  }
   
 };

@@ -40,6 +40,7 @@
 #define RAVL_COMPILER_MIPSPRO (!defined(__GNUC__) && defined(__sgi))   /* MIPS Pro compiler */
 #define RAVL_COMPILER_VISUALCPP (!defined(__GNUC__) && defined(WIN32)) /* Visual C++ */
 #define RAVL_COMPILER_VISUALCPPNET (!defined(__GNUC__) && defined(WIN32) && (_MSC_VER >= 1300)) /* Visual C++ .NET*/
+#define RAVL_COMPILER_VISUALCPP6 (!defined(__GNUC__) && defined(WIN32) && !RAVL_COMPILER_VISUALCPPNET) /* Visual C++ 6 */
 
 #define RAVL_CPU_IX86    defined(__i386__)      /* 386 base varient. */
 #define RAVL_CPU_SPARC   defined(__sparc)       /* sun sparc based system. */
@@ -70,6 +71,7 @@
 #define RAVL_COMPILER_MIPSPRO   0
 #define RAVL_COMPILER_VISUALCPP 1
 #define RAVL_COMPILER_VISUALCPPNET (_MSC_VER >= 1300)
+#define RAVL_COMPILER_VISUALCPP6 (!RAVL_COMPILER_VISUALCPPNET)
 
 #define RAVL_CPU_IX86  1
 #define RAVL_CPU_SPARC 0
@@ -120,6 +122,8 @@
 #define RAVL_HAVE_UNIXDIRFUNCS RAVL_OS_POSIX       /* Unix style directory access ? */
 #define RAVL_HAVE_REENTRANT_UNIXDIRFUNCS !RAVL_OS_CYGWIN /* Re-entrant directory functions. */
 #define RAVL_HAVE_POSIX_THREADS_RWLOCK RAVL_OS_LINUX
+#define RAVL_HAVE_POSIX_THREADS  RAVL_OS_POSIX    /* Have posix threading functions. */
+#define RAVL_HAVE_WIN32_THREADS  RAVL_OS_WIN32    /* Have windows threading. */
 #define RAVL_HAVE_PTHREAD_COND RAVL_OS_POSIX
 #define RAVL_HAVE_BYTESWAP     RAVL_OS_LINUX
 #define RAVL_HAVE_NETDB_H      RAVL_OS_UNIX
@@ -133,7 +137,7 @@
 #define RAVL_HAVE_SYS_TIME_H   (!RAVL_OS_SOLARIS && !RAVL_OS_WIN32) /* Have <sys/time.h> */
 #define RAVL_HAVE_SIGNAL_H     (RAVL_OS_SOLARIS)                    /* have <sys/signal.h> */
 
-#define RAVL_HAVE_YIELD        (RAVL_OS_WIN32 || RAVL_OS_SOLARIS)   /* have yield() */
+#define RAVL_HAVE_YIELD        (RAVL_OS_SOLARIS)   /* have yield() */
 #define RAVL_HAVE_SCHED_YIELD  (!RAVL_OS_WIN32 && !RAVL_OS_SOLARIS) /* have sched_yield() */
 #define RAVL_HAVE_SCHED_H      !RAVL_OS_WIN32     /* have <sched.h> */
 #define RAVL_HAVE_THREAD_H     RAVL_OS_SOLARIS    /* have <thread.h> (solaris threads.) */
@@ -204,8 +208,10 @@
 #define RAVL_VISUALCPP_NAMESPACE_BUG RAVL_COMPILER_VISUALCPP /* Bug in namespace handling under Visual C++ 6.x */
 #define RAVL_VISUALCPP_TYPENAME_BUG (RAVL_COMPILER_VISUALCPP && !RAVL_COMPILER_VISUALCPPNET) /* Restrictions in using keyword 'typename' in Visual C++ 6.x */
 #define RAVL_ISTREAM_UNGET_BUG    RAVL_COMPILER_VISUALCPP    /* Bug in stream unget under Visual C++ 6.x */
-#define RAVL_NEW_ANSI_CXX_DRAFT   RAVL_COMPILER_GCC          /* The mainly effects the use of <> in templated friend declarations */
+#define RAVL_NEW_ANSI_CXX_DRAFT   (RAVL_COMPILER_GCC || RAVL_COMPILER_VISUALCPPNET) /* The mainly effects the use of <> in templated friend declarations */
 #define RAVL_HAVE_STRINGSTREAM    RAVL_COMPILER_GCC3         /* Use stringstream instead of strstream */
+
+#define RAVL_HAVE_TEMPLATEDFUNCPTR_BUG (RAVL_COMPILER_VISUALCPP6) /* Do we have problems with resolving template arguments from function pointers ? Visual C++ 6.x */
 
 /* Define a macro so we can easily switch in and out exception specs
 // for functions.

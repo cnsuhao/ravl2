@@ -16,14 +16,18 @@
 //! date="02/07/1999"
 
 #include "Ravl/config.h"
-        
+
+#if RAVL_HAVE_POSIX_THREADS        
 #include <pthread.h>
+#endif
 
 #if RAVL_OS_SOLARIS
 #include <sys/signal.h>
 #endif
 
+#if RAVL_OS_UNIX
 #include <errno.h>
+#endif
 
 #if !RAVL_HAVE_POSIX_THREADS_RWLOCK
 #include <assert.h>

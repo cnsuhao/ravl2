@@ -168,7 +168,7 @@ namespace RavlN {
 #if RAVL_OS_POSIX
     localLevel = messageTypes[pri];
 #else
-    syslogLevel = pri
+    syslogLevel = pri;
 #endif
     return true;
   }

@@ -14,6 +14,11 @@
 #include "Ravl/Types.hh"
 #include "Ravl/String.hh"
 
+#if !RAVL_HAVE_INTFILEDESCRIPTORS 
+#include "Ravl/Stream.hh"
+#endif
+
+
 namespace RavlN {
   
   //! userlevel=Normal
@@ -26,8 +31,10 @@ namespace RavlN {
     FileStreamC();
     //: Default constructor.
     
+#if RAVL_HAVE_INTFILEDESCRIPTORS 
     FileStreamC(int fd);
     //: Construct from a file descriptor.
+#endif
     
     FileStreamC(const StringC &filename,bool forRead,bool forWrite = false);
     //: Construct from a file descriptor.
@@ -57,20 +64,32 @@ namespace RavlN {
     // Returns the number of charactors written, or -1 on error.
     
     bool Good() const
+#if RAVL_HAVE_INTFILEDESCRIPTORS 
     { return fd >= 0; }
+#else
+    { return is.good() && os.good(); }
+#endif
     //: Is stream good ?
     
     StreamSizeT Size() const;
     //: Find the size of the file.
     
   protected:
+#if RAVL_HAVE_INTFILEDESCRIPTORS 
     int fd;
+#else
+    IStreamC is;
+    OStreamC os;
+    bool forRead;
+    bool forWrite;
+    StringC filename;
+#endif
     int error;
     
   private:
     FileStreamC(const FileStreamC &)
     {}
-    //: Copy constructor.
+    //: Hide copy constructor.
   };
 }
 

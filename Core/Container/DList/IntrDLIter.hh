@@ -189,7 +189,7 @@ namespace RavlN {
     //: Access the list we're iterating.
     
     bool Invalidate()
-    { return place = &Head(); }
+    { place = &Head(); return true; }
     //: Point interator at an invalid element.
     
   protected:

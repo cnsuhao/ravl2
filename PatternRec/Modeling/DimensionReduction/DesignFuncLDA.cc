@@ -29,8 +29,8 @@ namespace RavlN {
   
   DesignFuncLDABodyC::DesignFuncLDABodyC(RealT variationPreserved)
     : DesignFuncReduceBodyC(variationPreserved),
-      forceHimDim(false), classSamp(0)
-      
+      forceHimDim(false), 
+      classSamp(0)
   {}
   
   //: Load from stream.

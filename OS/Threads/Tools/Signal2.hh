@@ -181,7 +181,11 @@ namespace RavlN {
     typedef typename TraitsC<ObjT>::BaseTypeT BaseObjT; //: Type of object without const's and refs.
     typedef typename TraitsC<Data1T>::BaseTypeT Arg1T; //: Type of arguments without const's and refs.
     typedef typename TraitsC<Data2T>::BaseTypeT Arg2T; //: Type of arguments without const's and refs.
+#if !RAVL_COMPILER_VISUALCPP 
     typedef bool (BaseObjT::*Func2T)(Data1T,Data2T);
+#else
+    typedef bool (ObjT::*Func2T)(Data1T,Data2T);
+#endif
     
     Signal2MethodBodyC(Signal0C &from,
 		       BaseObjT &nobj,

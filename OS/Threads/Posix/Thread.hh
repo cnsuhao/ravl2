@@ -27,7 +27,14 @@
 #include <sys/signal.h>
 #endif
 
+#if RAVL_HAVE_POSIX_THREADS
 #include <pthread.h>
+#endif
+
+#if RAVL_HAVE_WIN32_THREADS
+#include <windows.h>
+#endif
+
 #include "Ravl/RCHandleV.hh"
 
 namespace RavlN
@@ -42,14 +49,17 @@ namespace RavlN
   //! userlevel=Normal
   UIntT CurrentThreadID();
   //: Get ID of current running thread.
-
-  extern void *StartThread(void *Data);
-  //! userlevel=Develop
-  //: Use internally to start threads.
   
   extern void cancellationHandler(void *data);
   //! userlevel=Develop
   //: Called when a thread is cancelled.
+
+#if RAVL_HAVE_POSIX_THREADS    
+  void *StartThread(void *Data);
+#endif
+#if RAVL_HAVE_WIN32_THREADS
+  DWORD WINAPI StartThread(LPVOID data);
+#endif
   
   //! userlevel=Develop
   //: Thread body.
@@ -115,10 +125,21 @@ namespace RavlN
     void Cancel();
     //: Cancel thread.
 
+#if RAVL_HAVE_POSIX_THREADS
     pthread_t threadID;
+#endif
+#if RAVL_HAVE_WIN32_THREADS
+    HANDLE threadID;
+#endif
+    
     bool live; // Set to true after thread is created.
     
-    friend void *StartThread(void *);
+#if RAVL_HAVE_POSIX_THREADS    
+    friend void *StartThread(void *Data);
+#endif
+#if RAVL_HAVE_WIN32_THREADS
+    friend DWORD WINAPI StartThread(LPVOID data);
+#endif
     friend void cancellationHandler(void *data);
   };
   

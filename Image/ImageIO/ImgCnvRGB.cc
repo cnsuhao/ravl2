@@ -94,7 +94,9 @@ namespace RavlImageN
   ImageC<ByteRGBValueC> UInt16RGBImageCT2ByteRGBImageCT(const ImageC<UInt16RGBValueC> &dat) {
     ImageC<ByteRGBValueC> ret(dat.Rectangle());
     for(Array2dIter2C<ByteRGBValueC,UInt16RGBValueC> it(ret,dat);it.IsElm();it.Next()) 
-      it.Data1() = ByteRGBValueC(it.Data2().Red(),it.Data2().Green(),it.Data2().Blue());
+      it.Data1() = ByteRGBValueC(static_cast<ByteT>(it.Data2().Red()),
+				 static_cast<ByteT>(it.Data2().Green()),
+				 static_cast<ByteT>(it.Data2().Blue()));
     return ret;
   }
   

@@ -56,7 +56,7 @@ namespace RavlN {
     {}
     //: Constructor.
     
-#if !RAVL_COMPILER_VISUALCPP
+#if !RAVL_COMPILER_VISUALCPP6
     template<unsigned int N>
     inline TVectorC(const TFVectorC<DataT,N> &dat)
       : SArray1dC<DataT>(N)

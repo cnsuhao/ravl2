@@ -294,6 +294,9 @@ namespace RavlN {
       }
     //: Constructor.
 
+    virtual bool Save(ostream &out) const 
+    { return DPOSPortBodyC<DataT>::Save(out); }
+    //: Save to ostream.
     
     bool UpdateStream() {
       if(gotEOS)

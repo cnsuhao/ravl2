@@ -289,6 +289,10 @@ namespace RavlN {
     DPOSPortBodyC()
     {}
     //: Default constructor.
+    
+    virtual bool Save(ostream &out) const 
+    { return DPOPortBodyC<DataT>::Save(out); }
+    //: Save to ostream.
   };
 
   //////////////////////////////////////////////////

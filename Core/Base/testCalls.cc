@@ -83,10 +83,10 @@ int TestCalls()
   char let = 1;
   CallFunc2C<int&,char&,char> t2 = Trigger(&test2,2,let);
   if(t2.Call() != let) return __LINE__;
-  float f = 0.1;
+  float f = 0.1f;
   CallFunc3C<int&,char&,float&,bool> t3 = Trigger(&test3,2,let,f);
   if(!t3.Call()) return __LINE__;
-  double d = 0.3;
+  double d = 0.3f;
   CallFunc4C<int&,char&,float&,double&,float> t4 = Trigger(&test4,2,let,f,d);
   if(t4.Call() != f) 
     return __LINE__;

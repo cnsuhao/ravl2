@@ -74,7 +74,7 @@ namespace RavlN {
   {
   public:
     typedef typename TraitsC<ObjT>::BaseTypeT BaseObjT; //: Basic type of object, ignore references and const's
-#if !RAVL_COMPILER_VISUALCPP
+#if !RAVL_COMPILER_VISUALCPP 
     typedef RetT (BaseObjT::*FuncT)();    //: Function ptr type.
 #else // Lobotomize for Visual C++
     typedef RetT (ObjT::*FuncT)();    //: Function ptr type.
@@ -88,7 +88,7 @@ namespace RavlN {
     CallMethod0C(const BaseObjT &nobj,FuncT nfunc)
       : CallFunc0C<RetT>(*new CallMethod0BodyC<ObjT,RetT>(nobj,nfunc))
     {}
-    //:  Constructor.
+    //:  Constructor.x
   };
 
   /////////////////////////////////////////////////////////

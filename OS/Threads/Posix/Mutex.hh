@@ -24,8 +24,15 @@
 #include <signal.h>
 #endif
 
+#if RAVL_HAVE_POSIX_THREADS
 #include <pthread.h>
 #include <errno.h>
+#endif
+
+#if RAVL_HAVE_WIN32_THREADS
+#include <windows.h>
+#endif
+
 #include "Ravl/Types.hh"
 #include "Ravl/Assert.hh"
 
@@ -94,7 +101,12 @@ namespace RavlN
     //: Unlock mutex.
 #endif    
   protected:
+#if RAVL_HAVE_POSIX_THREADS
     pthread_mutex_t mutex;
+#endif
+#if RAVL_HAVE_WIN32_THREADS
+    HANDLE mutex;
+#endif
     
     void Error(const char *msg);  
     //: Report an error.
