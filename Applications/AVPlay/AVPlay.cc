@@ -187,12 +187,14 @@ public:
       imageOut.Put(frame.Image());
     if(audioOut.IsValid()) {
       SArray1dC<SampleElemC<2,Int16T> > data = frame.Audio().Stereo();
-      IntT n = audioOut.PutArray(data.From(n));    
-      while(n < (IntT) data.Size()) {
-	IntT nw =  audioOut.PutArray(data.From(n));
-	if(nw < 0)
-	  break;
-	n += nw;
+      if(data.Size() > 0) {
+	IntT n = audioOut.PutArray(data);    
+	while(n < (IntT) data.Size()) {
+	  IntT nw =  audioOut.PutArray(data.From(n));
+	  if(nw < 0)
+	    break;
+	  n += nw;
+	}
       }
     }
     return true;
