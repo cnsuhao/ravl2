@@ -10,6 +10,7 @@
 #include "Ravl/HEMeshBase.hh"
 #include "Ravl/SArray1dIter.hh"
 #include "Ravl/Hash.hh"
+#include "Ravl/HSet.hh"
 #include "Ravl/IntrDLIter.hh"
 
 #define DODEBUG 0
@@ -50,7 +51,7 @@ namespace RavlN {
     HEMeshBaseEdgeC firstEdge;
     for(;it;it++) {
       RavlAssert(it->IsValid());
-      HEMeshBaseEdgeC newEdge(it->Body(),face.Body());
+      HEMeshBaseEdgeC newEdge = NewEdge(*it,face);
       if(!firstEdge.IsValid())
 	firstEdge = newEdge;
       else
@@ -64,7 +65,7 @@ namespace RavlN {
       HEMeshBaseEdgeC &me = edgeTab[Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC>(lastVert,*it)];
       RavlAssert(!me.IsValid());
       me = newEdge;
-      ONDEBUG(cerr << "Linking " << lastVert.Hash() << " To " << it->Hash() << "\n");
+      ONDEBUG(cerr << "Linking " << lastVert.Hash() << " to " << it->Hash() << "\n");
       it->SetEdge(me.Body()); // Make sure vertex has a valid edge.
       lastVert = *it;
     }
@@ -97,10 +98,45 @@ namespace RavlN {
   //: Insert a vertex into a face, link all vertexes already in the face to it.
   
   bool HEMeshBaseBodyC::InsertVertexInFace(HEMeshBaseVertexC &vert,HEMeshBaseFaceC &face) {
-    RavlAssertMsg(0,"HEMeshBaseBodyC::InsertVertexInFace(), Not Implemented.");
+    ONDEBUG(cerr << "HEMeshBaseBodyC::InsertVertexInFace(), Called.  Vert=" << vert.Hash() << " Face=" << face.Hash() << "\n");
+    // Put in first link to new vertex.
+    
+    HEMeshBaseEdgeC lastEdge,firstEdge;
+    HEMeshBaseEdgeC nextEdge;
+    HEMeshBaseEdgeC endEdge = face.Edge();
+    HEMeshBaseEdgeC thisEdge = face.Edge();
+    for(;thisEdge.IsValid();thisEdge = nextEdge) {
+      nextEdge = thisEdge.Next();
+      if(nextEdge == endEdge)
+	nextEdge.Invalidate();
+      //ONDEBUG(cerr << "Edge :" << thisEdge.Hash() << "\n");
+      HEMeshBaseFaceC newFace;
+      if(thisEdge == endEdge) {
+	newFace = NewFace();
+	faces.InsLast(newFace.Body());
+      } else 
+	newFace = face;
+      newFace.SetEdge(thisEdge);
+      HEMeshBaseVertexC lastVert = thisEdge.Prev().Vertex();
+      thisEdge.SetSelfPointing();
+      thisEdge.SetFace(newFace);
+      HEMeshBaseEdgeC edge1 = NewEdge(vert,newFace);
+      HEMeshBaseEdgeC edge2 = NewEdge(lastVert,newFace);
+      if(lastEdge.IsValid()) {
+	lastEdge.SetPair(edge1);
+	edge1.SetPair(lastEdge);
+      } else
+	firstEdge = edge1;
+      thisEdge.LinkAfter(edge1);
+      thisEdge.LinkBefore(edge2); 
+      lastEdge = edge2;
+    }
+    firstEdge.SetPair(lastEdge);
+    lastEdge.SetPair(firstEdge);
     
     return true;
   }
+  
 
   //: Check mesh structure is consistant.
   // Returns false if an inconsistancy is found.
@@ -111,6 +147,7 @@ namespace RavlN {
       // Can't do this check properly on an open mesh.
       ONDEBUG(cerr << "HEMeshBaseBodyC::CheckMesh(), Checking vertexes. \n");
       for(IntrDLIterC<HEMeshBaseVertexBodyC> vit(vertices);vit;vit++) {
+	ONDEBUG(cerr << " Checking vertex " << HEMeshBaseVertexC(*vit).Hash() << "\n");
 	for(HEMeshBaseVertexEdgeIterC it(*vit);it;it++) {
 	  if(it->SourceVertex() != *vit) {
 	    cerr << "HEMeshBaseBodyC::CheckMesh(), Incorrect vertex pointer. \n";
@@ -126,8 +163,24 @@ namespace RavlN {
       }
     }
     ONDEBUG(cerr << "HEMeshBaseBodyC::CheckMesh(), Checking faces. \n");
+    HSetC<HEMeshBaseFaceC> faceDone;
     for(IntrDLIterC<HEMeshBaseFaceBodyC> fit(faces);fit;fit++) {
+      HEMeshBaseFaceC curFace(*fit);
+      ONDEBUG(cerr << " Checking face " << curFace.Hash() << "\n");
+      if(faceDone.IsMember(curFace)) {
+	cerr << "HEMeshBaseBodyC::CheckMesh(), Infinite loop in face links. \n";
+	break;
+      }
+      faceDone += curFace;
+      HSetC<HEMeshBaseEdgeC> edgeDone;
       for(HEMeshBaseFaceEdgeIterC efit(*fit);efit;efit++) {
+	HEMeshBaseEdgeC curEdge(*efit);
+	ONDEBUG(cerr << " Checking Edge " << curEdge.Hash() << "\n");
+	if(edgeDone.IsMember(curEdge)) {
+	  cerr << "HEMeshBaseBodyC::CheckMesh(), Infinite loop in edge links. \n";
+	  break;
+	}
+	edgeDone += curEdge;
 	if(efit->Face() != *fit) {
 	  cerr << "HEMeshBaseBodyC::CheckMesh(), Bad face pointer found. \n";
 	  ret = false;
@@ -159,5 +212,30 @@ namespace RavlN {
     return ret;
   }
 
+  //: Insert a new vertex into the mesh.
+  
+  HEMeshBaseVertexC HEMeshBaseBodyC::InsertVertex() {
+    HEMeshBaseVertexC ret = NewVertex();
+    vertices.InsLast(ret.Body());
+    return ret;
+  }
+
+  //: Create a new face.
+  
+  HEMeshBaseFaceC HEMeshBaseBodyC::NewFace() {
+    return HEMeshBaseFaceC(true);
+  }
+  
+  //: Create a new face.
+  
+  HEMeshBaseVertexC HEMeshBaseBodyC::NewVertex() {
+    return HEMeshBaseVertexC(true);
+  }
+    
+    //: Create a new face.
+  
+  HEMeshBaseEdgeC HEMeshBaseBodyC::NewEdge(HEMeshBaseVertexBodyC &vert,HEMeshBaseFaceBodyC &face) 
+  { return HEMeshBaseEdgeC(vert,face); }
+  
   
 }

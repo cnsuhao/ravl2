@@ -110,6 +110,10 @@ namespace RavlN {
     //: Invalidate this handle to the vertex body.
     
   protected:
+    HEMeshBaseVertexC(bool)
+      : body(new HEMeshBaseVertexBodyC())
+    {}
+    //: Constructor.
     
     HEMeshBaseVertexC(HEMeshBaseVertexBodyC &nbody)
       : body(&nbody)

@@ -51,6 +51,13 @@ namespace RavlN {
 			       HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> &edgeTab);
     //: Insert face defined by vertices.
     
+    HEMeshBaseFaceC InsertFace(const SArray1dC<HEMeshBaseVertexC> &vertices,
+			       HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> &edgeTab)  { 
+      HEMeshBaseFaceC face = NewFace(); 
+      return InsertFace(face,vertices,edgeTab); 
+    }
+    //: Insert face defined by vertices.
+    
     bool InsertVertexInFace(HEMeshBaseVertexC &vert,HEMeshBaseFaceC &face);
     //: Insert a vertex into a face, link all vertexes already in the face to it.
     
@@ -65,6 +72,22 @@ namespace RavlN {
     bool CheckMesh(bool canBeOpen = false) const;
     //: Check mesh structure is consistant.
     // Returns false if an inconsistancy is found.
+    
+    HEMeshBaseVertexC InsertVertex();
+    //: Insert a new vertex into the mesh.
+    
+    virtual HEMeshBaseFaceC NewFace();
+    //: Create a new face.
+    
+    virtual HEMeshBaseVertexC NewVertex();
+    //: Create a new face.
+    
+    virtual HEMeshBaseEdgeC NewEdge(HEMeshBaseVertexBodyC &vert,HEMeshBaseFaceBodyC &face);
+    //: Create a new face.
+    
+    HEMeshBaseEdgeC NewEdge(const HEMeshBaseVertexC &vert,const HEMeshBaseFaceC &face)
+    { return NewEdge(const_cast<HEMeshBaseVertexC &>(vert).Body(),const_cast<HEMeshBaseFaceC &>(face).Body()); }
+    //: Create a new face.
     
   protected:
     IntrDListC<HEMeshBaseFaceBodyC> faces;  // List of faces in the mesh.
@@ -104,17 +127,27 @@ namespace RavlN {
     const HEMeshBaseBodyC& Body() const
     { return RCHandleC<HEMeshBaseBodyC>::Body(); }
     //: Access body.
+
+    HEMeshBaseFaceC NewFace()
+    { return Body().NewFace(); }
+    //: Create a new face.
+    
+    HEMeshBaseVertexC NewVertex()
+    { return Body().NewVertex(); }
+    //: Create a new face.
+    
+    HEMeshBaseEdgeC NewEdge(HEMeshBaseVertexBodyC &vert,HEMeshBaseFaceBodyC &face)
+    { return Body().NewEdge(vert,face); }
+    //: Create a new face.
+    
+    HEMeshBaseEdgeC NewEdge(HEMeshBaseVertexC &vert,HEMeshBaseFaceC &face)
+    { return Body().NewEdge(vert.Body(),face.Body()); }
+    //: Create a new face.
     
   public:
-#if 0
-    HEMeshBaseVertexC InsertVertex(const Vector3dC &position,const Vector3dC &norm)
-    { return Body().InsertVertex(position,norm); }
+    HEMeshBaseVertexC InsertVertex()
+    { return Body().InsertVertex(); }
     //: Insert a new vertex into the mesh.
-
-    HEMeshBaseVertexC InsertVertex(const VertexC &vert)
-    { return Body().InsertVertex(vert); }
-    //: Insert a new vertex into the mesh.
-#endif
     
     HEMeshBaseVertexC InsertVertexOnEdge(HEMeshBaseEdgeC edge)
     { return Body().InsertVertexOnEdge(edge); }
@@ -124,6 +157,11 @@ namespace RavlN {
 			       const SArray1dC<HEMeshBaseVertexC> &vertices,
 			       HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> &edgeTab)
     { return Body().InsertFace(face,vertices,edgeTab); }
+    //: Insert face defined by vertices.
+    
+    HEMeshBaseFaceC InsertFace(const SArray1dC<HEMeshBaseVertexC> &vertices,
+			       HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> &edgeTab)
+    { return Body().InsertFace(vertices,edgeTab); }
     //: Insert face defined by vertices.
     
     bool InsertVertexInFace(HEMeshBaseVertexC &vert,HEMeshBaseFaceC &face)

@@ -31,7 +31,7 @@ namespace RavlN {
   //: Half edge in mesh.
   
   class HEMeshBaseEdgeBodyC 
-    : public DLinkC // Link in list of  vertex's around a face.
+    : public DLinkC // Link in list of  edge's around a face.
   {
   public:
     HEMeshBaseEdgeBodyC &Next()
@@ -74,12 +74,21 @@ namespace RavlN {
     { face = &aface; }
     //: Set the face associated with the edge.
     
+    void SetVertex(HEMeshBaseVertexBodyC &vert)
+    { vertex = &vert; }
+    //: Set vertex.
+    
     HEMeshBaseFaceBodyC &Face()
     { return *face; }
     //: Access the face the edge lies on.
     
     void LinkAfter(HEMeshBaseEdgeBodyC &edge) 
     { DLinkC::LinkAft(edge); }
+    //: Link 'edge' after this one.
+    // If the edge is already in a chain it MUST
+    // be unlinked first with Unlink().
+
+    void LinkAfter(const HEMeshBaseEdgeC &edge);
     //: Link 'edge' after this one.
     // If the edge is already in a chain it MUST
     // be unlinked first with Unlink().
@@ -140,7 +149,7 @@ namespace RavlN {
     {}
     //: Default cosntructor.
     // the contents are left undefined.
-
+    
     HEMeshBaseEdgeBodyC(HEMeshBaseVertexBodyC &vert,HEMeshBaseFaceBodyC &nface)
       : vertex(&vert),
 	face(&nface),
@@ -185,8 +194,17 @@ namespace RavlN {
     bool IsValid() const
     { return body != 0; }
     //: Is this a valid handle ?
+
+    void Invalidate()
+    { body = 0; }
+    //: Invalidate this handle.
     
   protected:
+    HEMeshBaseEdgeC(bool)
+      : body(new HEMeshBaseEdgeBodyC())
+    {}
+    //: Constructor.
+    
     HEMeshBaseEdgeC(HEMeshBaseVertexBodyC &vert,HEMeshBaseFaceBodyC &face)
       : body(new HEMeshBaseEdgeBodyC(vert,face))
     {}
@@ -208,6 +226,10 @@ namespace RavlN {
     { return *body; }
     //: Access body.
 
+    void SetSelfPointing()
+    { body->SetSelfPointing(); }
+    //: Set edge pointers to point to itself.
+    
   public:
     HEMeshBaseEdgeC Next()
     { return HEMeshBaseEdgeC(Body().Next()); }
@@ -225,8 +247,8 @@ namespace RavlN {
     { return HEMeshBaseEdgeC(const_cast<HEMeshBaseEdgeBodyC &>(Body().Prev())); }
     //: Get previous edge on face.
     
-    void LinkAfter(HEMeshBaseEdgeC &edge) 
-    { Body().LinkAfter(edge.Body()); }
+    void LinkAfter(const HEMeshBaseEdgeC &edge) 
+    { Body().LinkAfter(const_cast<HEMeshBaseEdgeC &>(edge).Body()); }
     //: Link 'edge' after this one.
     // If the edge is already in a chain it MUST
     // be unlinked first with Unlink().
@@ -259,6 +281,10 @@ namespace RavlN {
     
     void SetFace(HEMeshBaseFaceC face);
     //: Set the face associated with the edge.
+    
+    void SetVertex(HEMeshBaseVertexBodyC &vert)
+    { Body().SetVertex(vert); }
+    //: Set vertex.
     
     inline HEMeshBaseFaceC Face();
     //: Access the face the edge lies on.
@@ -323,6 +349,7 @@ namespace RavlN {
     friend class HEMeshBaseFaceC;
     friend class HEMeshBaseFaceEdgeIterC;
     friend class HEMeshBaseFaceBodyC;
+    friend class HEMeshBaseEdgeBodyC;
   };
   
   //////////////////////////////////////////////////////////////////////////
@@ -558,6 +585,10 @@ namespace RavlN {
   inline
   HEMeshBaseEdgeC HEMeshBaseVertexC::FirstEdge() const
   { return HEMeshBaseEdgeC(const_cast<HEMeshBaseEdgeBodyC &>(Body().FirstEdge())); }
+  
+  inline
+  void HEMeshBaseEdgeBodyC::LinkAfter(const HEMeshBaseEdgeC &edge) 
+  { DLinkC::LinkAft(const_cast<HEMeshBaseEdgeC &>(edge).Body()); }
 
 }
 
