@@ -15,8 +15,28 @@
 
 using namespace RavlN;
 
-int main()
-{
+int testBasic();
+int testRange();
+
+template class Slice1dC<UIntT>;
+template class Slice1dIterC<UIntT>;
+template class Slice1dIter2C<UIntT,RealT>;
+template class Slice1dIter3C<UIntT,RealT,ByteT>;
+
+int main() {
+  int ln;
+  if((ln = testBasic()) != 0) {
+    cerr << "Test failed at line << " << ln << "\n";
+    return 1;
+  }
+  if((ln = testRange()) != 0) {
+    cerr << "Test failed at line << " << ln << "\n";
+    return 1;
+  }
+  return 0;
+}
+
+int testBasic() {
   BufferC<UIntT> dataBuff(100);
   Slice1dC<UIntT> s1(10);
   Slice1dC<UIntT> s2(dataBuff,10,0,10);
@@ -27,13 +47,22 @@ int main()
   for(int i = 0;i < 10;i++) {
     if(s2[i] != (UIntT) i) {
       cerr << "Slice test failed. \n";
-      return 1;
+      return __LINE__;
     }
   }
   return 0;
 }
 
-template class Slice1dC<UIntT>;
-template class Slice1dIterC<UIntT>;
-template class Slice1dIter2C<UIntT,RealT>;
-template class Slice1dIter3C<UIntT,RealT,ByteT>;
+int testRange() {
+  IndexRangeC rng(3,5);
+  Slice1dC<int> slice(rng);
+  int i = 0;
+  for(Slice1dIterC<int> it(slice);it;it++)
+    *it = i++;
+  if(slice[3] != 0) return __LINE__;
+  if(slice[4] != 1) return __LINE__;
+  if(slice[5] != 2) return __LINE__;
+  
+  return 0;
+}
+

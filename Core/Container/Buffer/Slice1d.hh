@@ -87,12 +87,12 @@ namespace RavlN {
     //: Constant access to element i in vector.
     
     DataT &First()
-    { return ref[0]; }
+    { return ref[rng.Min().V()]; }
     //: Access first element in the vector.
     // Not the results of this function is undefined if Size() is zero.
     
     const DataT &First() const
-    { return ref[0]; }
+    { return ref[rng.Min().V()]; }
     //: Access first element in the vector.
     // Not the results of this function is undefined if Size() is zero.
     
