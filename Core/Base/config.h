@@ -50,7 +50,7 @@
  */
 #define RAVL_USE_PARALLEL 0
 
-#if !defined(__sol2__)
+#if !defined(__sol2__) && !defined(VISUAL_CPP)
 #define RAVL_USE_LARGEFILESUPPORT 1
 #else
 #define RAVL_USE_LARGEFILESUPPORT 0
