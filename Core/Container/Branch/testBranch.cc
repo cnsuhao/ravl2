@@ -13,6 +13,7 @@
 #include "Ravl/BListIter.hh"
 #include "Ravl/BHash.hh"
 #include "Ravl/BHashIter.hh"
+#include "Ravl/BStack.hh"
 
 using namespace RavlN;
 
@@ -20,6 +21,7 @@ int testBList();
 int testBListIter();
 int testBHash();
 int testBHashIter();
+int testBStack();
 
 int main() {
   int ln;
@@ -36,6 +38,10 @@ int main() {
     return 1;
   }
   if((ln = testBHashIter()) != 0) {
+    cerr << "Error at line:" << ln << "\n";
+    return 1;
+  }
+  if((ln = testBStack()) != 0) {
     cerr << "Error at line:" << ln << "\n";
     return 1;
   }
@@ -105,5 +111,20 @@ int testBHashIter() {
   }
   if(done.Size() != count) return __LINE__;
   if(count != 10) return __LINE__;  
+  return 0;
+}
+
+int testBStack() {
+  BStackC<int> stack;
+  int i;
+  for(i=0;i < 10;i++)
+    stack.Push(i);
+  if(stack.Size() != 10) return __LINE__;
+  if(stack.Top() != 9) return __LINE__;
+  for(i--;i >= 0;i--) {
+    if(stack.IsEmpty()) return __LINE__;
+    if(stack.Pop() != i) return __LINE__;
+  }
+  if(!stack.IsEmpty()) return __LINE__;
   return 0;
 }

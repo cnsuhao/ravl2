@@ -9,7 +9,7 @@
 
 PACKAGE=Ravl
 
-HEADERS=BLink.hh BList.hh BListIter.hh BHash.hh BHashIter.hh \
+HEADERS=BLink.hh BList.hh BListIter.hh BHash.hh BHashIter.hh BStack.hh \
  BDAGraph.hh    BGraphEdgeIter.hh  BGraphBase.hh  \
  BGraph.hh      BGraphLinearIter.hh BGraphBaseIter.hh  BGraphNodeIter.hh \
  BGraphEdge.hh  BGraphNode.hh

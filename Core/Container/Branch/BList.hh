@@ -40,6 +40,12 @@ namespace RavlN {
     }
     //: Access first in list.
     
+    const DataT &First() const {
+      RavlAssert(list.IsValid());
+      return list.Data(); 
+    }
+    //: Access first in list.
+    
     bool IsEmpty() const
     { return !list.IsValid(); }
     //: Is list empty ?
