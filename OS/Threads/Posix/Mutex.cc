@@ -27,20 +27,31 @@
 
 namespace RavlN
 {
+
+  //: Default constructor.
+  
+  MutexC::MutexC() 
+  { Init(false); }
+  
+  //: Constructor.
   
   MutexC::MutexC(bool recursive) 
-  { 
+  { Init(recursive); }
+  
+  //: Setup mutex.
+  
+  void MutexC::Init(bool recursive) {
 #if defined(NDEBUG)
-    ONDEBUG(cerr << "MutexC::MutexC(), Constructing normal mutex. (@:" << ((void*) this) << ") \n");
+    ONDEBUG(cerr << "MutexC::Init(), Constructing normal mutex. (@:" << ((void*) this) << ") \n");
     // Build a fast mutex.
     int rc;
     if((rc = pthread_mutex_init(&mutex,0)) != 0)
       Error("Failed to create mutex.",errno,rc); 
 #else
 #if defined(PTHREAD_MUTEX_ERRORCHECK) || defined(PTHREAD_MUTEX_ERRORCHECK_NP) || RAVL_OS_LINUX
-    ONDEBUG(cerr << "MutexC::MutexC(), Constructing debuging mutex. (@:" << ((void*) this) << ") \n");
+    ONDEBUG(cerr << "MutexC::Init(), Constructing debuging mutex. (@:" << ((void*) this) << ") \n");
 #else
-    ONDEBUG(cerr << "MutexC::MutexC(), Attempting to construct debuging mutex but don't know how. \n");
+    ONDEBUG(cerr << "MutexC::Init(), Attempting to construct debuging mutex but don't know how. \n");
 #endif
     // Build an error checking mutex.
     pthread_mutexattr_t mutAttr;
@@ -69,7 +80,6 @@ namespace RavlN
 #endif
     //ONDEBUG(cerr << "MutexC::MutexC(), Construction complete. \n");
   }
-  //: Constructor.
   
   void MutexC::Error(const char *msg)  {
     cerr << "MutexC::Error() :" << msg << " \n";
