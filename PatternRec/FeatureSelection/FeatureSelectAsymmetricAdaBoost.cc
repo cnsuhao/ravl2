@@ -109,10 +109,13 @@ namespace RavlN {
 	if (AlreadyUsed(featureSet,j))
 	  continue;
 	oneFeature[0] = j;
-	ClassifierC weakClassifier = designer.Apply(train.Sample1(),train.Sample2(),oneFeature);
-	RealT error = 0.0;
-	for (IndexC i = 0; i < test.Size(); i++) {
-	  error += weights[i] * (weakClassifier.Classify(test.Sample1()[i],oneFeature) != test.Sample2()[i]);
+	ClassifierC weakClassifier = designer.Apply(train.Sample1(),train.Sample2(),oneFeature,weights);
+	RealT error = 0.0 + 1e-6;
+	SArray1dIterC<RealT> itw (weights);
+	SampleIterC<VectorC> itf (test.Sample1());
+	SampleIterC<UIntT> itl (test.Sample2());
+	for (; itw; itw++,itf++,itl++) {
+	   error += *itw * (weakClassifier.Classify(*itf,oneFeature) != *itl);
 	}
 	if (lowestError > error) {
 	  lowestError = error;
@@ -132,12 +135,37 @@ namespace RavlN {
       }
       else
 	cout << "Didn't assign classifier!\n";
-      classifier = ClassifierLinearCombinationC(weakClassifiers,classifierWeights);
-	// update the weights
+      classifier = ClassifierLinearCombinationC(weakClassifiers,classifierWeights, 0.5);
+      // update the weights
       for(IndexC i = 0; i < train.Size(); i++) {
 	RealT ei = classifier.Classify(train.Sample1()[i],featureSet) != train.Sample2()[i];
-	weights[i] = weights[i] * Pow(betaT,1.0-ei) * multiplier[train.Sample2()[i]];
+	weights[i] *= Pow(betaT,1.0-ei) * multiplier[train.Sample2()[i]];
       }
+    }
+    RealT bestTh = 1.0;
+    RealT bestRate = 0.0;
+    for (RealT th = 0.9; th > 0.0; th -= 0.1) {
+      classifier = ClassifierLinearCombinationC(weakClassifiers,classifierWeights, th);
+      // determine weighted success rates
+      Vector2dC sums(0.0,0.0);
+      SampleIterC<VectorC> itf (test.Sample1());
+      SampleIterC<UIntT> itl (test.Sample2());
+      for (; itf; itf++,itl++) {
+	if (classifier.Classify(*itf,featureSet) == *itl)
+	  sums[*itl]++;
+      }
+      sums[0] /= sampleCount[0];
+      sums[1] /= sampleCount[1];
+      //cout << sums << endl;
+      sums[0] *= 1.0-m_weight;
+      sums[1] *= m_weight;
+      cout << sums << endl;
+      if (sums[0] + sums[1] > bestRate+1e-4) {
+	bestRate = sums[0] + sums[1];
+	bestTh = th;
+      }
+      //cout << bestRate << " " << bestTh << endl;
+      classifier = ClassifierLinearCombinationC(weakClassifiers,classifierWeights, bestTh);
     }
     return featureSet;
   }
