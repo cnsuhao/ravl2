@@ -18,7 +18,7 @@
 #include <GL/gl.h>
 #include <GL/glx.h>
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -113,6 +113,8 @@ namespace RavlGUIN {
   
   bool Canvas3DBodyC::SwapBuffers() {
     gtk_gl_area_swapbuffers(GTK_GL_AREA(widget));
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glLoadIdentity();
     return true;
   }
 

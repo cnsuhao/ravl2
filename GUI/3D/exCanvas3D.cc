@@ -17,11 +17,15 @@
 #include "Ravl/GUI/Canvas3D.hh"
 #include "Ravl/GUI/DViewPoint3D.hh"
 #include "Ravl/GUI/DCube3D.hh"
+#include "Ravl/GUI/DTriSet3D.hh"
 #include "Ravl/GUI/DLight3D.hh"
 #include "Ravl/GUI/MouseEvent.hh"
 #include "Ravl/Option.hh"
 #include "Ravl/GUI/Bitmap.hh"
 #include "Ravl/Vector3d.hh"
+#include "Ravl/3D/TriSet.hh"
+#include "Ravl/DP/FileFormatIO.hh"
+
 #include <gtk/gtk.h>
 #include <gdk/gdk.h>
 
@@ -29,35 +33,11 @@ using namespace RavlN;
 using namespace RavlGUIN;
 
 
-bool DrawFunc()
+bool InitGL()
 {
-  Vector3dC diag(1,1,1);
-  Vector3dC d1 = diag/2;
-  Vector3dC d2 = -diag/2;
-
-  glBegin(GL_QUAD_STRIP);
-  {
-    glNormal3d(1,0,0);
-	       
-    glVertex3d(d1.X(),d1.Y(),d1.Y());
-    glVertex3d(d1.X(),d2.Y(),d1.Y());
-    
-    glVertex3d(d1.X(),d1.Y(),d2.Y());
-    glVertex3d(d1.X(),d2.Y(),d2.Y());
-  }
-  glEnd();
-
-  glBegin(GL_QUAD_STRIP);
-  {
-    glNormal3d(-1,0,0);
-    
-    glVertex3d(d2.X(),d1.Y(),d1.Y());
-    glVertex3d(d2.X(),d2.Y(),d1.Y());
-    
-    glVertex3d(d2.X(),d1.Y(),d2.Y());
-    glVertex3d(d2.X(),d2.Y(),d2.Y());
-  }
-  glEnd();  
+  glEnable(GL_CULL_FACE);
+  glCullFace(GL_BACK);
+  glEnable(GL_DEPTH_TEST);
   return true;
 }
 
@@ -76,6 +56,7 @@ bool moveFunc(MouseEventC &me) {
   return true;
 }
 
+using namespace Ravl3DN;
 
 int main(int nargs,char *args[]) 
 {
@@ -83,11 +64,13 @@ int main(int nargs,char *args[])
   
   OptionC opts(nargs,args); // Make sure help option is detected.
   bool doMotion = opts.Boolean("m",false,"Detect motion events.");
+  StringC meshFile = opts.String("t","/vol/vssp/motion3d/DispMap/cubehead/detail.tri","Mesh to load ");
+  bool useDisplayList = opts.Boolean("dl",false,"Use display lists. ");
   opts.Check();
   
   WindowC win(100,100,"Hello");
-  Canvas3DC area(400,400);
-  
+  Canvas3DC area(800,800);
+  area.SetRenderMode(C3D_SMOOTH);
   Connect(area.Signal("button_press_event"),&pressFunc);
   Connect(area.Signal("button_release_event"),&releaseFunc);
   if(doMotion)
@@ -97,12 +80,24 @@ int main(int nargs,char *args[])
   cerr << "Starting gui. \n";
   Manager.Execute();
   win.Show();
-  
+  area.Render(&InitGL); // Set things up.
   area.Light(RealRGBValueC(0.8,0.8,0.8),Point3dC(3,3,10));
   area.ViewPoint(90,Point3dC(0,0,3)); // Setup view point.
   
-  DCube3DC object(Vector3dC(1,1,1),RealRGBValueC(0,1,0));
-  //object.EnableDisplayList();
+  DObject3DC object;
+  if(!meshFile.IsEmpty()) {
+    TriSetC ts;
+    //: Load a mesh from a file.
+    if(!Load(meshFile,ts,"",true)) {
+      cerr << "Failed to load file. \n";
+      return 1;
+    }
+    object = DTriSet3DC(ts);
+  } else
+    object = DCube3DC(Vector3dC(1,1,1),RealRGBValueC(0,1,0));
+  
+  if(useDisplayList)
+    object.EnableDisplayList();
   
   for(RealT i = 0;i < 1000;i++) {
     // Draw rotated cube

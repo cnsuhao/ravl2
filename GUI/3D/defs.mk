@@ -30,7 +30,7 @@ MAINS =
 #ex3DCanvas.cc
 
 HEADERS = gdkgl.h gtkglarea.h DObject3D.hh DLight3D.hh \
- Util.hh Canvas3D.hh DViewPoint3D.hh DCube3D.hh 
+ Util.hh Canvas3D.hh DViewPoint3D.hh DCube3D.hh DTriSet3D.hh
 #View3D.hh
 
 #  DLines3D.hh
@@ -39,20 +39,20 @@ HEADERS = gdkgl.h gtkglarea.h DObject3D.hh DLight3D.hh \
 # DPolops3D.hh  DTriSet3D.hh DCTriSet3D.hh Pixmap3D.hh
 
 SOURCES = gdkgl.c gtkglarea.c DObject3D.cc  DLight3D.cc \
- Util.cc Canvas3D.cc DViewPoint3D.cc DCube3D.cc 
+ Util.cc Canvas3D.cc DViewPoint3D.cc DCube3D.cc DTriSet3D.cc
 #View3D.cc
 
 #  DLines3D.cc
 #      
 
-# DPolops3D.cc  DTriSet3D.cc DCTriSet3D.cc Pixmap3D.cc
+# DPolops3D.cc  DTriSet3D.cc  Pixmap3D.cc
 
 PLIB = RavlGUI3D
 
 EXAMPLES = exCanvas3D.cc
 # exView3D.cc
 
-USESLIBS = RavlCore RavlGeom RavlGUI OpenGL
+USESLIBS = RavlCore RavlGeom RavlGUI OpenGL Ravl3D Ravl3DIO
 #GUI OpenGL Polops tri DispMap
 
 EHT = Ravl.GUI.3D.html
