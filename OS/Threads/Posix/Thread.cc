@@ -199,13 +199,16 @@ namespace RavlN {
     } catch(ExceptionC &e) {
       cerr << "RAVL Exception :'" << e.what() << "'\n";
       cerr << "Terminating thread. \n";
-    } catch(exception &e) {
+    }
+#if 0
+    catch(exception &e) {
       cerr << "C++ Exception :'" << e.what() << "'\n";
       cerr << "Terminating thread. \n";
     } catch(...) {
       cerr << "Unknown exception caught. \n";
       cerr << "Terminating thread. \n";
     }
+#endif
   }
 
   ///////////////////////

@@ -237,7 +237,14 @@ namespace RavlN {
 	ONDEBUG(cerr << "NetEndPointBodyC::RunReceive(), Error on read. \n");
 	if(errno == EINTR || errno == EAGAIN)
 	  continue;
-	break;
+	cerr << "NetEndPointBodyC::ReadData(), Error reading from socket :" << errno;
+#if RAVL_OS_LINUX
+	char buff[256];
+	cerr << " '" << strerror_r(errno,buff,256) << "'\n";
+#else
+	cerr << "\n";
+#endif
+	return false;
       }
       at += n;
     }
@@ -300,12 +307,16 @@ namespace RavlN {
     } catch(ExceptionC &e) {
       cerr << "RAVL Exception :'" << e.what() << "'\n";
       cerr << "NetEndPointBodyC::RunRecieve(), Exception caught, terminating link. \n";
-    } catch(exception &e) {
+    }
+#if 0
+    catch(exception &e) {
       cerr << "C++ Exception :'" << e.what() << "'\n";
       cerr << "NetEndPointBodyC::RunRecieve(), Exception caught, terminating link. \n";
     } catch(...) {
       cerr << "NetEndPointBodyC::RunRecieve(), Exception caught, terminating link. \n";
     }
+#endif
+ 
 #if 0
     if(!nis)
       cerr << "NetEndPointBodyC::RunReceive(), Connection broken \n";
