@@ -124,7 +124,7 @@ namespace RavlN {
   bool DPISListBodyC<DataT>::Get(DataT &buff) {
     if(!iter)
       return false;
-    RavlAssert(iter->IsValid());
+    RavlAssert(iter.IsValid());
     buff = *iter;
     iter++;
     next++;
