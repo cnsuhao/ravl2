@@ -75,6 +75,12 @@ namespace RavlN {
       return v;
     }
     //: Take another UIntT from this one.
+
+    UIntT operator/=(IntT oth) {
+      v /= oth;
+      return v;
+    }
+    //: Divide in place by another value.
     IntT v;
   };
   
