@@ -15,7 +15,7 @@ SOURCES = Parameters.cc Cost.cc CostInvert.cc CostFunction.cc \
 	Optimise.cc OptimiseDescent.cc OptimiseRandomUniform.cc
 
 HEADERS = Parameters.hh Cost.hh CostInvert.hh CostFunction.hh \
-	CostFunc.hh Optimise.hh OptimiseDescent.hh OptimiseRandomUniform.hh
+	 Optimise.hh OptimiseDescent.hh OptimiseRandomUniform.hh
 
 PLIB = Optimisation
 
