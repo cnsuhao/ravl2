@@ -35,8 +35,20 @@ namespace RavlImageN {
     return ret;
   }
   
+  ImageC<ByteT> Array2dByte2ImageByte(const Array2dC<ByteT> &dat)   
+  { return dat; }
+
+  Array2dC<ByteT> ImageByte2Array2dByte(const ImageC<ByteT> &dat)   
+  { return dat; }
+  
   DP_REGISTER_CONVERSION_NAMED(BoolImageC2ByteImageCT,1,
-			       "ImageC<ByteT>  RavlImageN::Convert(const ImageC<bool> &)");
+			       "ImageC<ByteT> RavlImageN::Convert(const ImageC<bool> &)");
+  
+  DP_REGISTER_CONVERSION_NAMED(Array2dByte2ImageByte,1,
+			       "ImageC<ByteT> RavlImageN::Convert(const Array2dC<ByteT> &)");
+  
+  DP_REGISTER_CONVERSION_NAMED(ImageByte2Array2dByte,1,
+			       "Array2dC<ByteT> RavlImageN::Convert(const ImageC<ByteT> &)");
   
   FileFormatStreamC<ImageC<ByteT> > FileFormatStream_ImageC_ByteT;
   FileFormatBinStreamC<ImageC<ByteT> > FileFormatBinStream_ImageC_ByteT;
