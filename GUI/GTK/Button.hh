@@ -12,9 +12,8 @@
 //! lib=RavlGUI
 //! author="Charles Galambos"
 //! example=exButton.cc
-//! date="23/03/99"
+//! date="23/03/1999"
 //! docentry="Ravl.GUI.Control"
-
 
 #include "Ravl/GUI/Widget.hh"
 #include "Ravl/GUI/GTKTypes.hh"
@@ -22,8 +21,7 @@
 #include "Ravl/Threads/Signal1.hh"
 #include "Ravl/Threads/Signal2.hh"
 
-namespace RavlGUIN
-{
+namespace RavlGUIN {
   
   class ButtonC;
   
@@ -91,11 +89,11 @@ namespace RavlGUIN
   protected:
     
     ButtonBodyC &Body()
-      { return static_cast<ButtonBodyC &>(WidgetC::Body()); }
+    { return static_cast<ButtonBodyC &>(WidgetC::Body()); }
     //: Access body.
     
     const ButtonBodyC &Body() const
-      { return static_cast<const ButtonBodyC &>(WidgetC::Body()); }
+    { return static_cast<const ButtonBodyC &>(WidgetC::Body()); }
     //: Access body.
     
   public:
