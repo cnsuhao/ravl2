@@ -22,6 +22,9 @@
 
 namespace RavlImageN {
   using namespace RavlN;
+
+  //! userlevel=Develop
+  //: Some common methods for Warping an image with a thin plate spline.
   
   class WarpThinPlateSplineBaseC {
   public:
@@ -50,6 +53,8 @@ namespace RavlImageN {
     bool fillBackground;
   };
   
+  //! userlevel=Normal
+  //: Warp an image with a thin plate spline.
   
   template<class InT,class OutT = InT,class MixerT = PixelMixerAssignC<InT,OutT> >
   class WarpThinPlateSplineC 
@@ -91,6 +96,8 @@ namespace RavlImageN {
       return true;
     }
     //: Warp image.
+    // This method will warp the input image 'src' so that the points in array 'orgPos' are in position
+    // 'newPos' in the output image 'ret'.
     
   protected:
     MixerT mixer;
