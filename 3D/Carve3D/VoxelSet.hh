@@ -63,7 +63,7 @@ namespace Ravl3DN
     Index3dC VoxelIndex(const Vector3dC& xw) const
     {
       Vector3dC x = _R*xw + _t;
-      return Index3dC((UIntT)(x[0]+0.5),(UIntT)(x[1]+0.5),(UIntT)(x[2]+0.5));
+      return Index3dC(IndexC(x[0]/voxel_size+0.5),IndexC(x[1]/voxel_size+0.5),IndexC(x[2]/voxel_size+0.5));
     }
 
     bool IsOccupied(const Vector3dC& x)
