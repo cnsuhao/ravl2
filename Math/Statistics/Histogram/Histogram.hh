@@ -33,13 +33,24 @@ namespace RavlN {
       {}
     //: Default constructor.
     
-    UIntT Vote(const KeyT &bin)
-      { total++; return ++HashC<KeyT,UIntC>::operator[](bin); }
+    UIntT Vote(const KeyT &bin) { 
+      total++; 
+      return ++HashC<KeyT,UIntC>::operator[](bin); 
+    }
     //: Vote for 'bin'
     // returns the count of the bin after voting.
+
+    UIntT Vote(const KeyT &bin,UIntT noVotes) { 
+      total += noVotes; 
+      return HashC<KeyT,UIntC>::operator[](bin) += noVotes;
+    }
+    //: Vote with 'noVotes' for 'bin'
+    // returns the count of the bin after voting.
     
-    UIntT Unvote(const KeyT &bin)
-      { total--; return --HashC<KeyT,UIntC>::operator[](bin); }
+    UIntT Unvote(const KeyT &bin) { 
+      total--; 
+      return --HashC<KeyT,UIntC>::operator[](bin); 
+    }
     //: Unvote for 'bin'
     // returns the count of the bin after unvoting.
     
