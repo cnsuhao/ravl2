@@ -4,15 +4,15 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLGUIMENUCHECKITEM
-#define RAVLGUIMENUCHECKITEM 1
+#ifndef RAVLGUI_MENUCHECKITEM_HEADER
+#define RAVLGUI_MENUCHECKITEM_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/GUI/GTK/MenuCheck.hh"
 //! lib=RavlGUI
 //! author="Charles Galambos"
 //! docentry="Ravl.GUI.Control"
-//! date="26/07/99"
+//! date="26/07/1999"
 
 #include "Ravl/GUI/Menu.hh"
 
@@ -46,7 +46,7 @@ namespace RavlGUIN {
     // be issued. <p>
     
     Signal1C<bool> &SelectedToggle()
-      { return selectedToggle; }
+    { return selectedToggle; }
     //: Toggle select signal.
     
   protected:
@@ -70,49 +70,49 @@ namespace RavlGUIN {
   public:
     MenuCheckItemC()
       : MenuItemC(true)
-      {}
+    {}
     //: Default constructor
     
     MenuCheckItemC(const StringC &name,bool initActive = false)
       : MenuItemC(*new MenuCheckItemBodyC(name,initActive))
-      {}
+    {}
     //: Constructor
     
     MenuCheckItemC(MenuCheckItemBodyC &bod)
       : MenuItemC(bod)
-      {}
+    {}
     //: Body constructor
     
   protected:
     MenuCheckItemBodyC &Body() 
-      { return static_cast<MenuCheckItemBodyC &>(WidgetC::Body()); }
+    { return static_cast<MenuCheckItemBodyC &>(WidgetC::Body()); }
     //: Access body.
     
     const MenuCheckItemBodyC &Body() const
-      { return static_cast<const MenuCheckItemBodyC &>(WidgetC::Body()); }
+    { return static_cast<const MenuCheckItemBodyC &>(WidgetC::Body()); }
     //: Access body.
     
   public:
     bool IsActive() const
-      { return Body().IsActive(); }
+    { return Body().IsActive(); }
     //: Test if toggle is active.
     
     bool GUISetActive(bool &val)
-      { return Body().GUISetActive(val); }
+    { return Body().GUISetActive(val); }
     //: Set active status.
     // This will cause a 'SelectedToggle' signal to 
     // be issued. <p>
     // GUI Thread only.
     
     void SetActive(bool val)
-      { Body().SetActive(val); }
+    { Body().SetActive(val); }
     //: Set active status.
     // This will cause a 'SelectedToggle' signal to 
     // be issued. <p>
     // Thread safe. 
     
     Signal1C<bool> &SelectedToggle()
-      { return Body().SelectedToggle(); }
+    { return Body().SelectedToggle(); }
     //: Toggle select signal.
     
   };
@@ -120,7 +120,7 @@ namespace RavlGUIN {
   //: Call a function.
 
   template<class Data1T>
-  MenuCheckItemC MenuCheckItem(const StringC &label,void (*func)(bool &, Data1T &),const Data1T &dat1 = Data1T())
+  MenuCheckItemC MenuCheckItem(const StringC &label,bool (*func)(bool &, Data1T &),const Data1T &dat1 = Data1T())
   {
     MenuCheckItemC ret(label);
     Connect(ret.SelectedToggle(),func,false,dat1);
@@ -128,7 +128,7 @@ namespace RavlGUIN {
   }
   
   template<class DataT>
-  MenuCheckItemC MenuCheckItem(const StringC &label,const DataT &obj,void (DataT::*func)(bool &))
+  MenuCheckItemC MenuCheckItem(const StringC &label,const DataT &obj,bool (DataT::*func)(bool &))
   {  
     MenuCheckItemC ret(label);
     Connect(ret.SelectedToggle(),obj,func);
@@ -136,7 +136,7 @@ namespace RavlGUIN {
   }
   
   template<class DataT>
-  MenuCheckItemC MenuCheckItemR(const StringC &label,DataT &obj,void (DataT::*func)(bool &))
+  MenuCheckItemC MenuCheckItemR(const StringC &label,DataT &obj,bool (DataT::*func)(bool &))
   {  
     MenuCheckItemC ret(label);
     ConnectRef(ret.SelectedToggle(),obj,func);
@@ -145,7 +145,7 @@ namespace RavlGUIN {
   //: Menu check item, call referenced class's method.
   
   template<class DataT>
-  MenuCheckItemC MenuCheckItem(const StringC &label,bool initActive,const DataT &obj,void (DataT::*func)(bool &))
+  MenuCheckItemC MenuCheckItem(const StringC &label,bool initActive,const DataT &obj,bool (DataT::*func)(bool &))
   {  
     MenuCheckItemC ret(label,initActive);
     Connect(ret.SelectedToggle(),obj,func);
@@ -153,7 +153,7 @@ namespace RavlGUIN {
   }
   
   template<class DataT>
-  MenuCheckItemC MenuCheckItemR(const StringC &label,bool initActive,DataT &obj,void (DataT::*func)(bool &))
+  MenuCheckItemC MenuCheckItemR(const StringC &label,bool initActive,DataT &obj,bool (DataT::*func)(bool &))
   {  
     MenuCheckItemC ret(label,initActive);
     ConnectRef(ret.SelectedToggle(),obj,func);
