@@ -22,6 +22,7 @@
 #include "Ravl/Image/Edgel.hh"
 #include "Ravl/Image/ImageConv.hh"
 #include "Ravl/Image/EdgeDetector.hh"
+#include "Ravl/Image/SubSample.hh"
 #include "Ravl/OS/Date.hh"
 
 using namespace RavlN;

@@ -73,7 +73,7 @@ namespace RavlN {
     
   public:
     void Shuffle()
-    { return Body().Shuffle(); }
+    { Body().Shuffle(); }
     //: Shuffle the order of the dataset.
     // This is an in place operation.
     

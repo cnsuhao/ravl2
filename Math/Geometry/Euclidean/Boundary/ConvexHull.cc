@@ -19,7 +19,7 @@ namespace RavlN {
   //: Creates the boundary from the list of pointers to the elementary edges.
   // The orientation of the boundary is set according to 'orient'.
   
-  BoundaryC::BoundaryC(const DListC<DLIterC<EdgeC> > & edgeList, bool orient = true) 
+  BoundaryC::BoundaryC(const DListC<DLIterC<EdgeC> > & edgeList, bool orient) 
     : orientation(orient)
   {
     for (DLIterC<DLIterC<EdgeC> > p(edgeList); p; p++)

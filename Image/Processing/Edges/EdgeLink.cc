@@ -33,7 +33,7 @@ namespace RavlImageN {
     DrawFrame(ret,(ByteT) EDGE_PROC,ret.Frame());
     
     for(Array2dIter2C<ByteT,RealT> it(ret,img);it;it++)
-      if((it.Data2() > upThr) && (it.Data1() == EDGE_UNPROC))
+      if((it.Data2() > upThr) && (((EdgeStateT) it.Data1()) == EDGE_UNPROC))
 	ret.LabelContour(it.Index());
 
 #if 0 
