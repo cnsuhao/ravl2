@@ -89,7 +89,7 @@ namespace RavlN {
     //: return the item array[(i)]
     
     inline SizeT Size1() const
-      { return Size(); }
+      { return SizeBufferAccessC<BufferAccessC<DataC> >::Size(); }
     //: Size.
     
     inline SizeT Size2() const

@@ -187,7 +187,7 @@ namespace RavlN {
   
   template<class Data1T,class Data2T>
   inline 
-  bool BufferAccessIter2C<Data1T,Data2T>::First(const SizeBufferAccessC<Data1T> &buff1,const SizeBufferAccessC<Data2T> &buff2,UIntT off1,UIntT off2 = 0) {
+  bool BufferAccessIter2C<Data1T,Data2T>::First(const SizeBufferAccessC<Data1T> &buff1,const SizeBufferAccessC<Data2T> &buff2,UIntT off1,UIntT off2) {
     if(buff.Size() <= off1) {
       at1 = 0;
       endOfRow = 0;
@@ -203,7 +203,7 @@ namespace RavlN {
 
   template<class Data1T,class Data2T>
   inline 
-  bool BufferAccessIter2C<Data1T,Data2T>::First(const RangeBufferAccessC<Data1T> &buff1,const RangeBufferAccessC<Data2T> &buff2,UIntT off1,UIntT off2 = 0) {
+  bool BufferAccessIter2C<Data1T,Data2T>::First(const RangeBufferAccessC<Data1T> &buff1,const RangeBufferAccessC<Data2T> &buff2,UIntT off1,UIntT off2) {
     if(buff.Size() <= off1) {
       at1 = 0;
       endOfRow = 0;
