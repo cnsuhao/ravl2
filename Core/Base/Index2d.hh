@@ -243,6 +243,27 @@ namespace RavlN {
     
   };
   
+  inline
+  IndexC TFVectorC<IndexC,2>::SqrEuclidDistance(const TFVectorC<IndexC,2> & o) const 
+  { return RavlN::Sqr(data[0] - o[0]) + RavlN::Sqr(data[1] - o[1]); }
+  
+  inline 
+  TFVectorC<IndexC,2> TFVectorC<IndexC,2>::operator+(const TFVectorC<IndexC,2> & o) const {
+    TFVectorC<IndexC,2> ret;
+    ret[0] = data[0] + o[0];
+    ret[1] = data[1] + o[1];
+    return ret;
+  }
+  //: Loop unrolled add.
+  
+  inline 
+  bool TFVectorC<IndexC,2>::operator==(const TFVectorC<IndexC,2> & ind) const 
+  { return (data[0] == ind[0]) && (data[1] == ind[1]);  }
+  
+  inline 
+  bool TFVectorC<IndexC,2>::operator!=(const TFVectorC<IndexC,2> & ind) const 
+  { return (data[0] != ind[0]) || (data[1] != ind[1]);  }
+  
   inline Index2dC Index2dC::Neighbour(NeighbourOrderT neighOrder) const {
     switch(neighOrder) {
     case NEIGH_RIGHT:      return Index2dC(Row()  , Col()+1);

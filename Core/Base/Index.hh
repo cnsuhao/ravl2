@@ -86,28 +86,39 @@ namespace RavlN {
     // <p><h2>Constructors, copies, assigment, and destructor:</h2>
     /* ----------------------------------------------- */
     
-    inline IndexC(IntT i = 0);
+    inline IndexC(IntT i = 0)    
+      : v(i)
+    {}
     //: Creates the index with the value 'i'.
     
-    inline IndexC(SizeT s);
+    inline IndexC(SizeT s)
+      : v((IntT) s)
+    {}
     //: Creates the index with the same value as the value of size 's'.
     
-    inline IndexC(const IndexC & i);
+    inline IndexC(const IndexC & i)
+      : v(i.v)
+    {}
     //: Creates the index with the same value as the index 'i' has.
-  
-    inline IndexC(RealT i);
+    
+    inline IndexC(RealT i)
+      : v((IntT) RavlN::Floor(i)) // floor is needed for correct round of negative numbers.
+    {}
     //: Creates the index with the value rounded version of 'i'.
     
     // <p><h2>Access functions:</h2>
     /* ---------------- */
     
-    inline IntT V() const;
+    inline IntT V() const
+    { return v; }
     //: Returns the current value of the index.
     
-    inline IntT & V();
+    inline IntT & V()
+    { return v; }
     //: Returns the current value of the index.
     
-    inline bool IsInRange(SizeT size) const;
+    inline bool IsInRange(SizeT size) const
+    { return (UIntT) v < size; }
     //: True if 0 <= this < size
     
     // <p><h2>Conversions:</h2>
@@ -118,307 +129,391 @@ namespace RavlN {
     // is detected in compilation time and one can decide which
     // type of expression is proper one.
     
-    inline operator bool() const;
+    inline operator bool() const
+    { return v!=0; }
     //: Returns true if the index value is different from 0.
     
-    inline operator ByteT() const;
+    inline operator ByteT() const
+    { return (ByteT) v; }
     //: Truncates the index value and returns it as ByteT.
-
-#if 0
-    inline operator UByteT() const;
-    //: Truncates the index value and returns it as UByteT.
-#endif
     
-    inline operator SByteT() const;
+    inline operator SByteT() const
+    { return (SByteT) v; }
     //: Truncates the index value and returns it as SByteT.
-
-    inline operator FloatT() const;
+    
+    inline operator FloatT() const
+    { return (FloatT) v; }
     //: Converts the index value into float representation.
 
-    inline operator RealT() const;
+    inline operator RealT() const
+    { return (RealT) v; }
     //: Converts the index value into double representation.
 
     // <p><h2>Arithmetical operations:</h2>
     /* -----------------------*/
 
-    inline IndexC operator-() const;
+    inline IndexC operator-() const
+    { return -v; }
     //: Returns opposite index (unary minus operator).
 
-    inline IndexC & operator++();
+    inline IndexC & operator++()
+    { ++v; return *this; }
     //: The prefix operator increments the index value by 1.
 
-    inline IndexC operator++(int);
+    inline IndexC operator++(int)
+    { return v++ ; }
     //: The postfix operator increments the index value by 1.
-
-    inline IndexC & operator--();
+    
+    inline IndexC & operator--()
+    { --v; return *this; }
     //: The prefix operator decrements the index value by 1.
-
-    inline IndexC operator--(int);
+    
+    inline IndexC operator--(int)
+    { return v--; }
     //: The postfix operator decrements the index value by 1.
-
-    inline IndexC operator+(IntT i) const;
+    
+    inline IndexC operator+(IntT i) const
+    { return v + i; }
     //: Returns a new index with value of this index added by integer 'i'.
 
-    inline IndexC operator-(IntT i) const;
+    inline IndexC operator-(IntT i) const
+    { return v - i; }
     //: Returns a new index with value of this index subtracted by integer 'i'.
 
-    inline IndexC operator*(IntT i) const;
+    inline IndexC operator*(IntT i) const
+    { return v * i; }
     //: Returns a new index with value of this index multiplied by integer 'i'.
 
-    inline IndexC operator/(IntT i) const;
+    inline IndexC operator/(IntT i) const {
+      if(i >= 0)
+        return (v >= 0) ? (v/i) : (v-i+1)/i;
+      return (v <= 0) ? ((-v)/(-i)) : (-v+i+1)/(-i);
+    }
     //: Returns a new index with value of this index divided by integer 'i'.
 
-    inline const IndexC & operator+=(IntT i);
+    inline const IndexC & operator+=(IntT i)
+    { v += i; return *this; }
     //: Returns this index added by integer 'i'.
-
-    inline const IndexC & operator-=(IntT i);
+    
+    inline const IndexC & operator-=(IntT i)
+    { v -= i; return *this; }
     //: Returns this index subtracted by integer 'i'.
-
-    inline const IndexC & operator*=(IntT i);
+    
+    inline const IndexC & operator*=(IntT i)
+    { v *= i; return *this; }
     //: Returns this index multiplied by integer 'i'.
-
-    inline const IndexC & operator/=(IntT i);
+    
+    inline const IndexC & operator/=(IntT i) { 
+      (*this) = (*this)/i; // Use proper division, defined above.
+      return *this;
+    }
     //: Returns this index divided by integer 'i'.
-
-    inline IndexC operator+(const UIntT i) const;
+    
+    inline IndexC operator+(const UIntT i) const
+    { return v + i; }
     //: Returns a new index with value of this index added by integer 'i'.
 
-    inline IndexC operator-(const UIntT i) const;
+    inline IndexC operator-(const UIntT i) const
+    { return v - i; }
     //: Returns a new index with value of this index subtracted by integer 'i'.
 
-    inline IndexC operator*(const UIntT i) const;
+    inline IndexC operator*(const UIntT i) const
+    { return v * i; }
     //: Returns a new index with value of this index multiplied by integer 'i'.
-
-    inline IndexC operator/(const UIntT i) const;
+    
+    inline IndexC operator/(const UIntT i) const
+    { return (v>=0)  ? (v/i) : (v-IntT(i)+1)/IntT(i); }
     //: Returns a new index with value of this index divided by integer 'i'.
-
-    inline IndexC operator%(const UIntT i) const;
+    
+    inline IndexC operator%(const UIntT i) const
+    { return (v>=0) ? (v%i) : (v-IntT(i)+1)%IntT(i); }
+    //: Returns a new index with value of modulo operation between
+    //: this index and integer 'i'.
+    
+    inline IndexC operator%(IntT i) const {
+      if(i >= 0) return (v >= 0) ? (v%i) : (v-i+1)%i;
+      return (v <= 0) ? ((-v)%(-i)) : (-v+i+1)%(-i);
+    }
     //: Returns a new index with value of modulo operation between
     //: this index and integer 'i'.
 
-    inline IndexC operator%(IntT i) const;
-    //: Returns a new index with value of modulo operation between
-    //: this index and integer 'i'.
-
-    inline const IndexC & operator+=(const UIntT i);
+    inline const IndexC & operator+=(const UIntT i)
+    { v += i; return *this; }
     //: Returns this index added by integer 'i'.
-
-    inline const IndexC & operator-=(const UIntT i);
+    
+    inline const IndexC & operator-=(const UIntT i)
+    { v -= i; return *this; }
     //: Returns this index subtracted by integer 'i'.
-
-    inline const IndexC & operator*=(const UIntT i);
+    
+    inline const IndexC & operator*=(const UIntT i)
+    { v *= i; return *this; }
     //: Returns this index multiplied by integer 'i'.
-
-    inline const IndexC & operator/=(const UIntT i);
+    
+    inline const IndexC & operator/=(const UIntT i) {
+      (*this) = (*this)/i; // Use proper division, see above.
+      return *this;
+    }
     //: Returns this index divided by integer 'i'.
-
-    inline RealT operator+(RealT i) const;
+    
+    inline RealT operator+(RealT i) const
+    { return (RealT) v + i; }
     //: Returns a new index with value of this index added by double 'i'
     //: cut to integer value.
 
-    inline RealT operator-(RealT i) const;
+    inline RealT operator-(RealT i) const
+    { return (RealT) v - i; }
     //: Returns a new index with value of this index subtracted by double 'i'
     //: cut to integer value.
 
-    inline RealT operator*(RealT i) const;
+    inline RealT operator*(RealT i) const
+    { return (RealT) v * i; }
     //: Returns a new index with value of this index multiplied by double 'i'.
     //: The result is cut to integer value and converted to index value.
 
-    inline RealT operator/(RealT i) const;
+    inline RealT operator/(RealT i) const
+    { return (RealT) v / i; }
     //: Returns a new index with value of this index divided by double 'i'.
     //: The result is cut to integer value and converted to index value.
 
-    inline const IndexC & operator+=(RealT i);
+    inline const IndexC & operator+=(RealT i)
+    { v += IntT(RavlN::Floor(i)); return *this; }
     //: Returns this index added by double 'i' cut to integer value.
-
-    inline const IndexC & operator-=(RealT i);
+    
+    inline const IndexC & operator-=(RealT i)
+    { v -= IntT(RavlN::Ceil(i)); return *this; }
     //: Returns this index subtracted by double 'i' cut to integer value.
-
-    inline const IndexC & operator*=(RealT i);
+    
+    inline const IndexC & operator*=(RealT i)
+    { v = IntT(RavlN::Floor(v * i)); return *this; }
     //: Returns this index multiplied by double 'i' with the result converted to
     //: index value type.
 
-    inline const IndexC & operator/=(RealT i);
+    inline const IndexC & operator/=(RealT i)
+    { v = IntT(RavlN::Floor(v / i)); return *this; }
     //: Returns this index divided by double 'i' with the result converted to
     //: index value type.
-
-    inline IndexC operator+(const IndexC & i) const;
+    
+    inline IndexC operator+(const IndexC & i) const
+    { return v+i.v; }
     //: Returns a new index with value of this index added by the value
     //: of index 'i'.
 
-    inline IndexC operator-(const IndexC & i) const;
+    inline IndexC operator-(const IndexC & i) const
+    { return v-i.v; }
     //: Returns a value of this index subtracted by the value
     //: of index 'i'.
 
-    inline IndexC operator/(const IndexC & i) const;
+    inline IndexC operator/(const IndexC & i) const
+    { return (*this)/i.v; }
     //: Returns a new index with value of this index divided by the value
     //: of index 'i'.
 
-    inline IndexC operator*(const IndexC & i) const;
+    inline IndexC operator*(const IndexC & i) const
+    { return v*i.v; }
     //: Returns a new index with value of this index multiplied by the value
     //: of index 'i'.
 
-    inline const IndexC & operator+=(const IndexC & i);
+    inline const IndexC & operator+=(const IndexC & i)
+    { v += i.v; return *this; }
     //: Returns this index added by index 'i'.
 
-    inline const IndexC & operator-=(const IndexC & i);
+    inline const IndexC & operator-=(const IndexC & i)
+    { v -= i.v; return *this; }
     //: Returns this index subtracted by index 'i'.
 
-    inline const IndexC & operator*=(const IndexC & i);
+    inline const IndexC & operator*=(const IndexC & i)
+    { v *= i.v; return *this; }
     //: Returns this index multiplied by index 'i'.
-
-    inline const IndexC & operator/=(const IndexC & i);
+    
+    inline const IndexC & operator/=(const IndexC & i)
+    { (*this) = (*this)/i.v; return *this; }
     //: Returns his index divided by index 'i'.
-
+    
     // <h2>Modifications of indices:</h2>
     /* ------------------------*/
 
-    inline IndexC operator<<(IntT i) const;
+    inline IndexC operator<<(IntT i) const
+    { return v << i; }
     //: Returns the new index with the value equal to the value of this
     //: index shifted 'i' position to the left.
     
-    inline IndexC operator>>(IntT i) const;
+    inline IndexC operator>>(IntT i) const
+    { return v >> i; }
     //: Returns the new index with the value equal to the value of this
     //: index shifted 'i' position to the right.
 
     // <h2>Logical operators with integer numbers:</h2>
     /* --------------------------------------*/
 
-    inline bool operator==(IntT i ) const;
+    inline bool operator==(IntT i) const
+    { return v == i; }
     //: Returns true if the value of this index is equal to 
     //: the integer number 'i'.
-
-    inline bool operator!=(IntT i ) const;
+    
+    inline bool operator!=(IntT i) const
+    { return v != i; }
     //: Returns true if the value of this index is not equal to 
     //: the integer number 'i'.
 
-    inline bool operator<(IntT i) const;
+    inline bool operator<(IntT i) const
+    { return v < i; }
     //: Returns true if the value of this index is smaller than
     //: the integer number 'i'.
 
-    inline bool operator<=(IntT i) const;
+    inline bool operator<=(IntT i) const
+    { return v <= i; }
     //: Returns true if the value of this index is smaller than
     //: or equal to the integer number 'i'.
 
-    inline bool operator>(IntT i) const;
+    inline bool operator>(IntT i) const
+    { return v > i; }
     //: Returns true if the value of this index is greater than
     //: the integer number 'i'.
 
-    inline bool operator>=(IntT i) const;
+    inline bool operator>=(IntT i) const
+    { return v >= i; }
     //: Returns true if the value of this index is greater than
     //: or equal to the integer number 'i'.
 
     // <h2>Logical operators with unsigned integer numbers:</h2>
     /* -----------------------------------------------*/
 
-    inline bool operator==(const UIntT i ) const;
+    inline bool operator==(const UIntT i) const
+    { return v == IntT(i); }
     //: Returns true if the value of this index is equal to 
     //: the integer number 'i'.
-
-    inline bool operator!=(const UIntT i ) const;
+    
+    inline bool operator!=(const UIntT i) const
+    { return v != IntT(i); }
     //: Returns true if the value of this index is not equal to 
     //: the integer number 'i'.
-
-    inline bool operator<(const UIntT i) const;
+    
+    inline bool operator<(const UIntT i) const
+    { return v < IntT(i); }
     //: Returns true if the value of this index is smaller than
     //: the integer number 'i'.
-
-    inline bool operator<=(const UIntT i) const;
+    
+    inline bool operator<=(const UIntT i) const
+    { return v <= IntT(i); }
     //: Returns true if the value of this index is smaller than
     //: or equal to the integer number 'i'.
 
-    inline bool operator>(const UIntT i) const;
+    inline bool operator>(const UIntT i) const
+    { return v > IntT(i); }
     //: Returns true if the value of this index is greater than
     //: the integer number 'i'.
-
-    inline bool operator>=(const UIntT i) const;
+    
+    inline bool operator>=(const UIntT i) const
+    { return v >= IntT(i); }
     //: Returns true if the value of this index is greater than
     //: or equal to the integer number 'i'.
 
     // <h2>Logical operators with double numbers:</h2>
     /* -------------------------------------*/
 
-    inline bool operator==(RealT i ) const;
+    inline bool operator==(RealT i ) const
+    { return v == i; }
     //: Returns true if the value of this index is equal to 
     //: the integer number 'i'.
 
-    inline bool operator!=(RealT i ) const;
+    inline bool operator!=(RealT i ) const
+    { return v != i; }
     //: Returns true if the value of this index is not equal to 
     //: the integer number 'i'.
-
-    inline bool operator<(RealT i) const;
+    
+    inline bool operator<(RealT i) const
+    { return v < i; }
     //: Returns true if the value of this index is smaller than
     //: the double number 'i'.
 
-    inline bool operator<=(RealT i) const;
+    inline bool operator<=(RealT i) const
+    { return v <= i; }
     //: Returns true if the value of this index is smaller than
     //: or equal to the double number 'i'.
 
-    inline bool operator>(RealT i) const;
+    inline bool operator>(RealT i) const
+    { return v > i; }
     //: Returns true if the value of this index is greater than
     //: the double number 'i'.
 
-    inline bool operator>=(RealT i) const;
+    inline bool operator>=(RealT i) const
+    { return v >= i; }
     //: Returns true if the value of this index is greater than
     //: or equal to the double number 'i'.
 
     // <h2>Logical operators with another index:</h2>
     /* ------------------------------------*/
 
-    inline bool operator==(const IndexC & i ) const;
+    inline bool operator==(const IndexC & i ) const
+    { return v==i.v; }
     //: Returns true if the value of this index and index 'i' have got
     //: the same value.
-
-    inline bool operator!=(const IndexC & i ) const;
+    
+    inline bool operator!=(const IndexC & i ) const
+    { return v!=i.v; }
     //: Returns true if the value of this index and index 'i' are different.
-
-    inline bool operator<(const IndexC & i) const;
+    
+    inline bool operator<(const IndexC & i) const
+    { return v < i.v; }
     //: Returns true if the value of this index is smaller than
     //: the value of index 'i'.
 
-    inline bool operator<=(const IndexC & i) const;
+    inline bool operator<=(const IndexC & i) const
+    { return v <= i.v; }
     //: Returns true if the value of this index is smaller than
     //: or equal to the value of index 'i'.
-
-    inline bool operator>(const IndexC & i) const;
+    
+    inline bool operator>(const IndexC & i) const
+    { return v > i.v; }
     //: Returns true if the value of this index is greater than
     //: the value of index 'i'.
-
-    inline bool operator>=(const IndexC & i) const;
+    
+    inline bool operator>=(const IndexC & i) const
+    { return v >= i.v; }
     //: Returns true if the value of this index is greater than
     //: or equal to the value of index 'i'.
 
     // <h2>Miscellaneous functions:</h2>
     /* -------------------------*/
 
-    inline IndexC Abs() const;
+    inline IndexC Abs() const
+    { return RavlN::Abs(v); }
     //: Returns the index whose index value is equal to the absolute value
     //: of this index value.
 
-    inline IndexC & SetAbs();
+    inline IndexC & SetAbs()
+    { v = RavlN::Abs(v); return *this; }
     //: Returns this index whose index value is equal to the absolute value
     //: of the original index value.
-
-    inline IndexC ILog2() const;
+    
+    inline IndexC ILog2() const{
+      IntT mex = 0;
+      IntT i   = v;
+      while((i/=2) != 0) mex++;
+      return mex;
+    }
     //: Returns the index which is logarithm of this index value
     //: with base 2.
-  
-    inline IndexC Min(const IndexC & i) const;
+    
+    inline IndexC Min(const IndexC & i) const
+    { return v <= i.v ? *this : i; }
     //: Returns the index with the smaller value.
-  
-    inline IndexC Max(const IndexC & i) const;
+    
+    inline IndexC Max(const IndexC & i) const
+    { return v >= i.v ? *this : i; }
     //: Returns the index with the greater value.
-  
+    
     // <h2>Special member functions:</h2>
     /* ------------------------*/
   
-    inline UIntT Hash() const;
+    inline UIntT Hash() const
+    { return UIntT(v); }
     //: Generates a randomised hash value for this index.
   
-    inline SizeT Size() const;
+    inline SizeT Size() const
+    { return dim; }
     //: Returns the number of dimensions indexed.
     
-
   private:
     /* Object Representation
      * ---------------------*/
@@ -709,443 +804,6 @@ namespace RavlN {
   //: Returns true if the double number 'i' is greater than  
   //: or equal to the value of index 'j' .
   
-  inline 
-  IndexC::IndexC(IntT i)
-    : v(i)
-  {}
-  
-  inline 
-  IndexC::IndexC(SizeT s)
-    : v((IntT) s)
-  {}
-  
-  inline 
-  IndexC::IndexC(const IndexC & i)
-    : v(i.v)
-  {}
-
-  inline 
-  IndexC::IndexC(RealT i)
-    : v((IntT) RavlN::Floor(i)) // floor is needed for correct round of negative numbers.
-  {}
-  
-  inline 
-  IntT 
-  IndexC::V() const
-  { return v; }
-  
-  inline 
-  IntT & 
-  IndexC::V()
-  { return v; }
-
-  inline 
-  bool 
-  IndexC::IsInRange(SizeT size) const
-  { return (UIntT) v < size; }
-  
-  inline 
-  IndexC::operator bool() const
-  { return v!=0; }
-
-#if 0  
-  inline 
-  IndexC::operator UByteT() const
-  { return (UByteT) v; }
-#endif
-  
-  inline 
-  IndexC::operator ByteT() const
-  { return (ByteT) v; }
-  
-  inline 
-  IndexC::operator SByteT() const
-  { return (SByteT) v; }
-  
-  inline 
-  IndexC::operator FloatT() const
-  { return (FloatT) v; }
-
-  inline 
-  IndexC::operator RealT() const
-  { return (RealT) v; }
-
-  inline 
-  IndexC 
-  IndexC::operator- () const
-  { return -v; }
-  
-  inline 
-  IndexC & 
-  IndexC::operator++() {
-    ++v;
-    return *this;
-  }
-  
-  inline 
-  IndexC  
-  IndexC::operator++(int)
-  { return v++ ; }
-
-  inline 
-  IndexC & 
-  IndexC::operator--() {
-    --v;
-    return *this;
-  }
-  
-  inline 
-  IndexC 
-  IndexC::operator--(int)
-  { return v--; }
-  
-  inline 
-  IndexC 
-  IndexC::operator+ (IntT i) const
-  { return v + i; }
-  
-  inline 
-  IndexC 
-  IndexC::operator- (IntT i) const
-  { return v - i; }
-  
-  inline 
-  IndexC 
-  IndexC::operator*(IntT i) const
-  { return v * i; }
-   
-  inline 
-  IndexC 
-  IndexC::operator/(IntT i) const {
-    if(i >= 0)
-      return (v >= 0) ? (v/i) : (v-i+1)/i;
-    return (v <= 0) ? ((-v)/(-i)) : (-v+i+1)/(-i);
-  }
-  
-  inline 
-  IndexC 
-  IndexC::operator%(IntT i) const {
-    if(i >= 0)
-      return (v >= 0) ? (v%i) : (v-i+1)%i;
-    return (v <= 0) ? ((-v)%(-i)) : (-v+i+1)%(-i);
-  }
-  
-  inline 
-  const IndexC & IndexC::operator+=(IntT i) {
-    v += i;
-    return *this;
-  }
-  
-  inline 
-  const IndexC & IndexC::operator-=(IntT i) {
-    v -= i;
-    return *this;
-  }
-
-  inline 
-  const IndexC & IndexC::operator*=(IntT i) {
-    v *= i;
-    return *this;
-  }
-
-  inline 
-  const IndexC & IndexC::operator/=(IntT i) {
-    (*this) = (*this)/i; // Use proper division, defined above.
-    return *this;
-  }
-
-  inline 
-  IndexC IndexC::operator+(const UIntT i) const
-  { return v + i; }
-
-  inline 
-  IndexC IndexC::operator-(const UIntT i) const
-  { return v - i; }
-
-  inline 
-  IndexC IndexC::operator*(const UIntT i) const
-  { return v * i; }
-  
-  inline 
-  IndexC IndexC::operator/(const UIntT i) const {
-    return (v>=0) 
-      ? (v/i) 
-      : (v-IntT(i)+1)/IntT(i);
-  }
-  
-  inline 
-  IndexC IndexC::operator%(const UIntT i) const
-  { return (v>=0) ? (v%i) : (v-IntT(i)+1)%IntT(i); }
-
-  inline 
-  const IndexC & IndexC::operator+=(const UIntT i) {
-    v += i;
-    return *this;
-  }
-  
-  inline 
-  const IndexC & IndexC::operator-=(const UIntT i) {
-    v -= i;
-    return *this;
-  }
-  
-  inline 
-  const IndexC & IndexC::operator*=(const UIntT i) {
-    v *= i;
-    return *this;
-  }
-  
-  inline 
-  const IndexC & IndexC::operator/=(const UIntT i) {
-    (*this) = (*this)/i; // Use proper division, see above.
-    return *this;
-  }
-
-  inline 
-  RealT IndexC::operator+ (RealT i) const
-  { return (RealT) v + i; }
-
-  inline 
-  RealT IndexC::operator- (RealT i) const
-  { return (RealT) v - i; }
-  
-  inline 
-  RealT IndexC::operator*(RealT i) const
-  { return (RealT) v * i; }
-
-  inline 
-  RealT IndexC::operator/(RealT i) const
-  { return (RealT) v / i; }
-  
-  inline 
-  const IndexC & IndexC::operator+=(RealT i) {
-    v += IntT(RavlN::Floor(i));
-  return *this;
-  }
-  
-  inline 
-  const IndexC & IndexC::operator-=(RealT i) {
-    v -= IntT(ceil(i));
-    return *this;
-  }
-  
-  inline 
-  const IndexC & IndexC::operator*=(RealT i) {
-    v = IntT(RavlN::Floor(v * i));
-    return *this;
-  }
-
-  inline 
-  const IndexC & IndexC::operator/=(RealT i) {
-    v = IntT(RavlN::Floor(v / i));
-    return *this;
-  }
-  
-  inline 
-  IndexC IndexC::operator+(const IndexC & i) const  
-  { return v+i.v; }
-
-  inline 
-  IndexC IndexC::operator-(const IndexC & i) const
-  { return v-i.v; }
-
-  inline 
-  IndexC 
-  IndexC::operator*(const IndexC & i) const
-  { return v*i.v; }
-
-  inline 
-  IndexC 
-  IndexC::operator/(const IndexC & i) const
-  { return (*this)/i.v; }
-
-  inline 
-  const IndexC & IndexC::operator+=(const IndexC & i) {
-    v += i.v;
-    return *this;
-  }
-  
-  inline 
-  const IndexC & IndexC::operator-=(const IndexC & i) {
-    v -= i.v;
-    return *this;
-  }
-  
-  inline 
-  const IndexC & IndexC::operator*=(const IndexC & i) {
-    v *= i.v;
-    return *this;
-  }
-  
-  inline 
-  const IndexC & IndexC::operator/=(const IndexC & i) {
-    (*this) = (*this)/i.v;
-    return *this;
-  }
-  
-  inline 
-  IndexC IndexC::operator<<(IntT i) const
-  { return v << i; }
-  
-  inline 
-  IndexC IndexC::operator>>(IntT i) const
-  { return v >> i; }
-  
-  inline 
-  bool IndexC::operator==(IntT i ) const
-  { return v == i; }
-
-  inline 
-  bool IndexC::operator!=(IntT i ) const
-  { return v != i; }
-  
-  inline 
-  bool IndexC::operator<(IntT i ) const
-  { return v < i; }
-
-  inline 
-  bool 
-  IndexC::operator<=(IntT i ) const
-  { return v <= i; }
-
-  inline 
-  bool 
-  IndexC::operator>(IntT i ) const
-  { return v > i; }
-  
-  inline 
-  bool 
-  IndexC::operator>=(IntT i ) const
-  { return v >= i; }
-  
-  inline 
-  bool 
-  IndexC::operator==(const UIntT i ) const
-  { return v == IntT(i); }
-  
-  inline 
-  bool 
-  IndexC::operator!=(const UIntT i ) const
-  { return v != IntT(i); }
-  
-  inline 
-  bool 
-  IndexC::operator<(const UIntT i ) const
-  { return v < IntT(i); }
-
-  inline 
-  bool 
-  IndexC::operator<=(const UIntT i ) const
-  { return v <= IntT(i); }
-  
-  inline 
-  bool 
-  IndexC::operator>(const UIntT i ) const
-  { return v > IntT(i); }
-  
-  inline 
-  bool 
-  IndexC::operator>=(const UIntT i ) const
-  { return v >= IntT(i); }
-
-  inline 
-  bool 
-  IndexC::operator==(RealT i ) const
-  { return v == i; }
-
-  inline 
-  bool 
-  IndexC::operator!=(RealT i ) const
-  { return v != i; }
-
-  inline 
-  bool 
-  IndexC::operator<(RealT i ) const
-  { return v < i; }
-  
-  inline 
-  bool 
-  IndexC::operator<=(RealT i ) const
-  { return v <= i; }
-
-  inline 
-  bool 
-  IndexC::operator>(RealT i ) const
-  { return v > i; }
-
-  inline 
-  bool
-  IndexC::operator>=(RealT i ) const
-  { return v >= i; }
-
-  inline 
-  bool 
-  IndexC::operator==(const IndexC & i ) const
-  { return v==i.v; }
-  
-  inline 
-  bool 
-  IndexC::operator!=(const IndexC & i ) const
-  { return v!=i.v; }
-
-  bool 
-  IndexC::operator<(const IndexC & i ) const
-  { return v < i.v; }
-
-  bool 
-  IndexC::operator<=(const IndexC & i ) const
-  { return v <= i.v; }
-
-  bool 
-  IndexC::operator>(const IndexC & i ) const
-  { return v > i.v; }
-  
-  bool 
-  IndexC::operator>=(const IndexC & i ) const
-  { return v >= i.v; }
-
-  inline 
-  IndexC 
-  IndexC::Abs() const
-  { return RavlN::Abs(v); }
-
-  inline 
-  IndexC & 
-  IndexC::SetAbs() {
-    v = RavlN::Abs(v);
-    return *this;
-  }
-  
-  inline 
-  IndexC 
-    IndexC::ILog2() const {
-    IntT mex = 0;
-    IntT i   = v;
-    while((i/=2) != 0) mex++;
-    return mex;
-  }
-
-  inline 
-  IndexC 
-  IndexC::Min(const IndexC & i) const
-  { return v <= i.v ? *this : i; }
-
-  inline 
-  IndexC 
-  IndexC::Max(const IndexC & i) const
-  { return v >= i.v ? *this : i; }
-
-  inline 
-  UIntT 
-  IndexC::Hash() const
-  { return UIntT(v); }
-
-  inline 
-  SizeT 
-  IndexC::Size() const
-  { return dim; }
-
-
 }
 
 #endif

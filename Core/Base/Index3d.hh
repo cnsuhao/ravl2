@@ -118,6 +118,37 @@ namespace RavlN {
     
   };
   
+  inline
+  IndexC TFVectorC<IndexC,3>::SqrEuclidDistance(const TFVectorC<IndexC,3> & o) const 
+  { return RavlN::Sqr(data[0] - o[0]) + RavlN::Sqr(data[1] - o[1]) + RavlN::Sqr(data[2] - o[2]); }
+  
+  inline 
+  TFVectorC<IndexC,3> TFVectorC<IndexC,3>::operator+(const TFVectorC<IndexC,3> & o) const {
+    TFVectorC<IndexC,3> ret;
+    ret[0] = data[0] + o[0];
+    ret[1] = data[1] + o[1];
+    ret[2] = data[2] + o[2];
+    return ret;
+  }
+  //: Loop unrolled add.
+  
+  inline 
+  TFVectorC<IndexC,3> TFVectorC<IndexC,3>::operator-(const TFVectorC<IndexC,3> & o) const {
+    TFVectorC<IndexC,3> ret;
+    ret[0] = data[0] - o[0];
+    ret[1] = data[1] - o[1];
+    ret[2] = data[2] - o[2];
+    return ret;
+  }
+  //: Loop unrolled subtract.
+  
+  inline 
+  bool TFVectorC<IndexC,3>::operator==(const TFVectorC<IndexC,3> & ind) const 
+  { return (data[0] == ind[0]) && (data[1] == ind[1]) && (data[2] == ind[2]);  }
+  
+  inline 
+  bool TFVectorC<IndexC,3>::operator!=(const TFVectorC<IndexC,3> & ind) const 
+  { return (data[0] != ind[0]) || (data[1] != ind[1]) || (data[2] != ind[2]);  }
   
   inline Index3dC &Index3dC::Right() {
     J()++;

@@ -24,19 +24,19 @@ namespace RavlN {
   class BinIStreamC;
   class BinOStreamC;
   
-  template<class DataT,unsigned int N> class TFVectorC;
-  template<class DataT,unsigned int N,unsigned int M> class TFMatrixC;
+  template<typename DataT,unsigned int N> class TFVectorC;
+  template<typename DataT,unsigned int N,unsigned int M> class TFMatrixC;
   
-  template<class DataT,unsigned int N>
+  template<typename DataT,unsigned int N>
   istream &operator>>(istream &in,TFVectorC<DataT,N> &dat);
   
-  template<class DataT,unsigned int N>
+  template<typename DataT,unsigned int N>
   ostream &operator<<(ostream &in,const TFVectorC<DataT,N> &dat);
   
-  template<class DataT,unsigned int N>
+  template<typename DataT,unsigned int N>
   inline BinIStreamC &operator>>(BinIStreamC &in,TFVectorC<DataT,N> &dat);
   
-  template<class DataT,unsigned int N>
+  template<typename DataT,unsigned int N>
   inline BinOStreamC &operator<<(BinOStreamC &in,const TFVectorC<DataT,N> &dat);
   
 #if !RAVL_COMPILER_VISUALCPP && !RAVL_COMPILER_VISUALCPPNET
@@ -56,7 +56,7 @@ namespace RavlN {
   //! userlevel=Advanced
   //: Fixed size vector.
   
-  template<class DataT,unsigned int N>
+  template<typename DataT,unsigned int N>
   class TFVectorC {
   public:
 #if RAVL_COMPILER_VISUALCPP
@@ -242,7 +242,7 @@ namespace RavlN {
     DataT data[N];
   };
   
-  template<class DataT>
+  template<typename DataT>
   inline TFVectorC<DataT,2> TFVector2(const DataT &v1,const DataT &v2) {
     TFVectorC<DataT,2> ret;
     ret[0] = v1;
@@ -252,7 +252,7 @@ namespace RavlN {
   //: Create a 2d vector.
   // Helper function to make creation of fixed size vectors easier.
   
-  template<class DataT>
+  template<typename DataT>
   inline TFVectorC<DataT,3> TFVector3(const DataT &v1,const DataT &v2,const DataT &v3) {
     TFVectorC<DataT,3> ret;
     ret[0] = v1;
@@ -263,7 +263,7 @@ namespace RavlN {
   //: Create a 3d vector.
   // Helper function to make creation of fixed size vectors easier.
 
-  template<class DataT>
+  template<typename DataT>
   inline TFVectorC<DataT,4> TFVector4(const DataT &v1,const DataT &v2,const DataT &v3,const DataT &v4) {
     TFVectorC<DataT,4> ret;
     ret[0] = v1;
@@ -275,7 +275,7 @@ namespace RavlN {
   //: Create a 3d vector.
   // Helper function to make creation of fixed size vectors easier.
   
-  template<class DataT,unsigned int N>
+  template<typename DataT,unsigned int N>
   inline void SetZero(TFVectorC<DataT,N> &x) { 
     DataT xv;
     SetZero(xv);
@@ -284,13 +284,13 @@ namespace RavlN {
   //: Set vector to zero.
   
   
-  template<class DataT,unsigned int N>
+  template<typename DataT,unsigned int N>
   TFVectorC<DataT,N>::TFVectorC(const DataT *init) {
     for(UIntT i = 0;i < N;i++)
       data[i] = init[i];
   }
     
-  template<class DataT,unsigned int N>
+  template<typename DataT,unsigned int N>
   inline 
   bool TFVectorC<DataT,N>::operator==(const TFVectorC<DataT,N> & ind) const {
     for(UIntT i = 0;i < N;i++)
@@ -299,7 +299,7 @@ namespace RavlN {
     return true;
   }
   
-  template<class DataT,unsigned int N>
+  template<typename DataT,unsigned int N>
   inline 
   bool TFVectorC<DataT,N>::operator!=(const TFVectorC<DataT,N> & ind) const {
     for(UIntT i = 0;i < N;i++)
@@ -308,14 +308,14 @@ namespace RavlN {
     return false;
   }
   
-  template<class DataT,unsigned int N>
+  template<typename DataT,unsigned int N>
   inline 
   void TFVectorC<DataT,N>::Fill(const DataT &dat) {
     for(UIntT i = 0;i < N;i++)
       data[i] = dat;
   }
   
-  template<class DataT,unsigned int N>
+  template<typename DataT,unsigned int N>
   inline 
   const TFVectorC<DataT,N> & TFVectorC<DataT,N>::operator+=(const TFVectorC<DataT,N> & o) {
     for(UIntT i = 0;i < N;i++)
@@ -323,7 +323,7 @@ namespace RavlN {
     return *this;
   }
   
-  template<class DataT,unsigned int N>
+  template<typename DataT,unsigned int N>
   inline 
   const TFVectorC<DataT,N> & TFVectorC<DataT,N>::operator-=(const TFVectorC<DataT,N> & o) {
     for(UIntT i = 0;i < N;i++)
@@ -331,7 +331,7 @@ namespace RavlN {
     return *this;
   }
   
-  template<class DataT,unsigned int N>
+  template<typename DataT,unsigned int N>
   inline 
   const TFVectorC<DataT,N> & TFVectorC<DataT,N>::operator*=(const TFVectorC<DataT,N> & o) {
     for(UIntT i = 0;i < N;i++)
@@ -339,7 +339,7 @@ namespace RavlN {
     return *this;
   }
   
-  template<class DataT,unsigned int N>
+  template<typename DataT,unsigned int N>
   inline 
   const TFVectorC<DataT,N> & TFVectorC<DataT,N>::operator/=(const TFVectorC<DataT,N> & o) {
     for(UIntT i = 0;i < N;i++)
@@ -347,7 +347,7 @@ namespace RavlN {
     return *this;
   }
   
-  template<class DataT,unsigned int N>
+  template<typename DataT,unsigned int N>
   inline 
   const TFVectorC<DataT,N> & TFVectorC<DataT,N>::operator*=(const DataT &alpha) {
     for(UIntT i = 0;i < N;i++)
@@ -355,7 +355,7 @@ namespace RavlN {
     return *this;
   }
   
-  template<class DataT,unsigned int N>
+  template<typename DataT,unsigned int N>
   inline 
   const TFVectorC<DataT,N> & TFVectorC<DataT,N>::operator/=(const DataT &alpha) {
     for(UIntT i = 0;i < N;i++)
@@ -363,7 +363,7 @@ namespace RavlN {
     return *this;
   }
   
-  template<class DataT,unsigned int N>
+  template<typename DataT,unsigned int N>
   inline
   TFVectorC<DataT,N> TFVectorC<DataT,N>::operator-() const {
     TFVectorC<DataT,N> ret;
@@ -372,7 +372,7 @@ namespace RavlN {
     return ret;
   }
   
-  template<class DataT,unsigned int N>
+  template<typename DataT,unsigned int N>
   inline 
   TFVectorC<DataT,N> TFVectorC<DataT,N>::operator+(const TFVectorC<DataT,N> & o) const {
     TFVectorC<DataT,N> ret;
@@ -381,7 +381,7 @@ namespace RavlN {
     return ret;
   }
   
-  template<class DataT,unsigned int N>
+  template<typename DataT,unsigned int N>
   inline 
   TFVectorC<DataT,N> TFVectorC<DataT,N>::operator-(const TFVectorC<DataT,N> & o) const {
     TFVectorC<DataT,N> ret;
@@ -390,7 +390,7 @@ namespace RavlN {
     return ret;
   }
   
-  template<class DataT,unsigned int N>
+  template<typename DataT,unsigned int N>
   inline 
   TFVectorC<DataT,N> TFVectorC<DataT,N>::operator*(const TFVectorC<DataT,N> & o) const {
     TFVectorC<DataT,N> ret;
@@ -399,7 +399,7 @@ namespace RavlN {
     return ret;
   }
   
-  template<class DataT,unsigned int N>
+  template<typename DataT,unsigned int N>
   inline 
   TFVectorC<DataT,N> TFVectorC<DataT,N>::operator/(const TFVectorC<DataT,N> & o) const {
     TFVectorC<DataT,N> ret;
@@ -408,7 +408,7 @@ namespace RavlN {
     return ret;
   }
   
-  template<class DataT,unsigned int N>
+  template<typename DataT,unsigned int N>
   inline 
   TFVectorC<DataT,N> TFVectorC<DataT,N>::operator*(const DataT &alpha) const {
     TFVectorC<DataT,N> ret;
@@ -417,7 +417,7 @@ namespace RavlN {
     return ret;    
   }
   
-  template<class DataT,unsigned int N>
+  template<typename DataT,unsigned int N>
   inline TFVectorC<DataT,N> operator*(const DataT &alpha,const TFVectorC<DataT,N> & data) {
     TFVectorC<DataT,N> ret;
     for(UIntT i = 0;i < N;i++)
@@ -425,7 +425,7 @@ namespace RavlN {
     return ret;    
   }
   
-  template<class DataT,unsigned int N>
+  template<typename DataT,unsigned int N>
   inline 
   TFVectorC<DataT,N> TFVectorC<DataT,N>::operator/(const DataT &alpha) const {
     TFVectorC<DataT,N> ret;
@@ -434,7 +434,7 @@ namespace RavlN {
     return ret;
   }
 
-  template<class DataT,unsigned int N>
+  template<typename DataT,unsigned int N>
   inline 
   bool TFVectorC<DataT,N>::Limit(const DataT &min,const DataT &max) {
     bool ret = true;
@@ -452,7 +452,7 @@ namespace RavlN {
     return ret;
   }
   
-  template<class DataT,unsigned int N>
+  template<typename DataT,unsigned int N>
   inline
   TFVectorC<DataT,N> TFVectorC<DataT,N>::Abs() const {
     TFVectorC<DataT,N> ret;
@@ -461,7 +461,7 @@ namespace RavlN {
     return ret;
   }
   
-  template<class DataT,unsigned int N>
+  template<typename DataT,unsigned int N>
   inline 
   DataT TFVectorC<DataT,N>::MaxValueDistance(const TFVectorC<DataT,N> & o) const {
     DataT ret = RavlN::Abs(data[0] - o[0]);
@@ -473,7 +473,7 @@ namespace RavlN {
     return ret;
   }
   
-  template<class DataT,unsigned int N>
+  template<typename DataT,unsigned int N>
   inline 
   DataT TFVectorC<DataT,N>::CityBlockDistance(const TFVectorC<DataT,N> & o) const{
     DataT ret = RavlN::Abs(data[0] - o[0]);
@@ -482,7 +482,7 @@ namespace RavlN {
     return ret;
   }
   
-  template<class DataT,unsigned int N>
+  template<typename DataT,unsigned int N>
   inline 
   DataT TFVectorC<DataT,N>::SqrEuclidDistance(const TFVectorC<DataT,N> & o) const {
     DataT ret = RavlN::Sqr(data[0] - o[0]);
@@ -491,7 +491,7 @@ namespace RavlN {
     return ret;
   }
   
-  template<class DataT,unsigned int N>
+  template<typename DataT,unsigned int N>
   inline
   DataT TFVectorC<DataT,N>::Sum() const {
     DataT ret = StdCopy(data[0]);
@@ -500,7 +500,7 @@ namespace RavlN {
     return ret;
   }
   
-  template<class DataT,unsigned int N>
+  template<typename DataT,unsigned int N>
   inline
   DataT TFVectorC<DataT,N>::SumOfSqr() const {
     DataT ret = RavlN::Sqr(data[0]);
@@ -509,7 +509,7 @@ namespace RavlN {
     return ret;
   }
 
-  template<class DataT,unsigned int N>
+  template<typename DataT,unsigned int N>
   inline
   DataT TFVectorC<DataT,N>::SumOfAbs() const {
     DataT ret = RavlN::Abs(data[0]);
@@ -518,7 +518,7 @@ namespace RavlN {
     return ret;
   }
   
-  template<class DataT,unsigned int N>
+  template<typename DataT,unsigned int N>
   inline
   ostream &operator<<(ostream &out,const TFVectorC<DataT,N> &dat) {
     for(UIntT i = 0;i < N;i++)
@@ -526,13 +526,90 @@ namespace RavlN {
     return out;
   }
   
-  template<class DataT,unsigned int N>
+  template<typename DataT,unsigned int N>
   inline
   istream &operator>>(istream &in,TFVectorC<DataT,N> &dat) {
     for(UIntT i = 0;i < N;i++)
       in >> dat.data[i];
     return in;
   }
+  
+  inline
+  RealT TFVectorC<RealT,2>::SqrEuclidDistance(const TFVectorC<RealT,2> & o) const 
+  { return RavlN::Sqr(data[0] - o[0]) + RavlN::Sqr(data[1] - o[1]); }
+  
+  inline
+  RealT TFVectorC<RealT,3>::SqrEuclidDistance(const TFVectorC<RealT,3> & o) const 
+  { return RavlN::Sqr(data[0] - o[0]) + RavlN::Sqr(data[1] - o[1]) + RavlN::Sqr(data[2] - o[2]); }
+  
+  inline
+  IntT TFVectorC<IntT,2>::SqrEuclidDistance(const TFVectorC<IntT,2> & o) const 
+  { return RavlN::Sqr(data[0] - o[0]) + RavlN::Sqr(data[1] - o[1]); }
+  
+  inline
+  IntT TFVectorC<IntT,3>::SqrEuclidDistance(const TFVectorC<IntT,3> & o) const 
+  { return RavlN::Sqr(data[0] - o[0]) + RavlN::Sqr(data[1] - o[1]) + RavlN::Sqr(data[2] - o[2]); }
+  
+  inline 
+  TFVectorC<RealT,2> TFVectorC<RealT,2>::operator+(const TFVectorC<RealT,2> & o) const {
+    TFVectorC<RealT,2> ret;
+    ret[0] = data[0] + o[0];
+    ret[1] = data[1] + o[1];
+    return ret;
+  }
+  //: Loop unrolled add.
+  
+  inline 
+  TFVectorC<RealT,3> TFVectorC<RealT,3>::operator+(const TFVectorC<RealT,3> & o) const {
+    TFVectorC<RealT,3> ret;
+    ret[0] = data[0] + o[0];
+    ret[1] = data[1] + o[1];
+    ret[2] = data[2] + o[2];
+    return ret;
+  }
+  //: Loop unrolled add.
+  
+  inline 
+  TFVectorC<RealT,4> TFVectorC<RealT,4>::operator+(const TFVectorC<RealT,4> & o) const {
+    TFVectorC<RealT,4> ret;
+    ret[0] = data[0] + o[0];
+    ret[1] = data[1] + o[1];
+    ret[2] = data[2] + o[2];
+    ret[3] = data[3] + o[3];
+    return ret;
+  }
+  //: Loop unrolled add.
+  
+  inline 
+  TFVectorC<RealT,2> TFVectorC<RealT,2>::operator-(const TFVectorC<RealT,2> & o) const {
+    TFVectorC<RealT,2> ret;
+    ret[0] = data[0] - o[0];
+    ret[1] = data[1] - o[1];
+    return ret;
+  }
+  //: Loop unrolled subtract.
+  
+  inline 
+  TFVectorC<RealT,3> TFVectorC<RealT,3>::operator-(const TFVectorC<RealT,3> & o) const {
+    TFVectorC<RealT,3> ret;
+    ret[0] = data[0] - o[0];
+    ret[1] = data[1] - o[1];
+    ret[2] = data[2] - o[2];
+    return ret;
+  }
+  //: Loop unrolled subtract.
+  
+  inline 
+  TFVectorC<RealT,4> TFVectorC<RealT,4>::operator-(const TFVectorC<RealT,4> & o) const {
+    TFVectorC<RealT,4> ret;
+    ret[0] = data[0] - o[0];
+    ret[1] = data[1] - o[1];
+    ret[2] = data[2] - o[2];
+    ret[3] = data[3] - o[3];
+    return ret;
+  }
+  //: Loop unrolled subtract.
+  
   
 #if !RAVL_COMPILER_VISUALCPP
   template<unsigned int N>
