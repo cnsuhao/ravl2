@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef FILEFORMATIO_HEADER
-#define FILEFORMATIO_HEADER 1
+#ifndef RAVLFILEFORMATIO_HEADER
+#define RAVLFILEFORMATIO_HEADER 1
 /////////////////////////////////////////
 //! lib=RavlIO
 //! rcsid="$Id$"
