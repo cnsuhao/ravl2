@@ -10,10 +10,10 @@ $(include:topbar.stmpl)
 <TABLE BORDER=3 CELLPADDING=10>
 <TR> <TD ALIGN=CENTER><B>Class</B></TD> <TD ALIGN=CENTER><B>Item</B></TD> <TD ALIGN=CENTER><B>Description</B></TD> </TR>
 $(forall:class:$(ifset:classbugs:
-<tr><td><A HREF="$(MakeFilename:Develop/Class/%.html)">$(ObjectName)</A></td><td>Class</td><td>$(classbugs)</td></tr>)
+<tr><td><A HREF="$(MakeFilename:../Develop/Class/%.html)">$(ObjectName)</A></td><td>Class</td><td>$(classbugs)</td></tr>)
 $(set:inclass=$(ObjectName))$(set:infile=$(MakeFilename:../Develop/Class/%.html))
 $(forall:method:$(ifset:bug:
-<tr><td><A HREF="$infile">$(inclass)</A></td><td>$(ObjectName)</td><td>$(bug)</td></tr>
+<tr><td><A HREF="$(infile)">$(inclass)</A></td><td><A HREF="$(infile)#$(href)">$(ObjectName)</A></td><td>$(bug)</td></tr>
 )))
 </TABLE>
 </CENTER>
