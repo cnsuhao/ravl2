@@ -84,12 +84,14 @@ namespace RavlGUIN {
   // Call on the GUI thread only.
   
   bool ComboBodyC::GUIClear() {
+    choices.Empty();
     if(widget == 0)
       return true;
     if(GTK_COMBO(widget)->list == 0)
       return true;
     // Disable signals
     allowsignals = false;
+    cmap.Empty();
     // Clear list
     gtk_list_clear_items(GTK_LIST (GTK_COMBO(widget)->list),0,-1);
     // Re-enable signals
@@ -137,6 +139,7 @@ namespace RavlGUIN {
   // Call on the GUI thread only.
   
   bool ComboBodyC::GUIDelEntry(const StringC &opt) {
+    choices.Del(opt);
     //    RavlAssertMsg(0,"ComboBodyC::GUIDelEntry(), Not implemented. ");
     GtkWidget *li;
     if(!cmap.Lookup(opt,li))
