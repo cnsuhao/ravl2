@@ -14,6 +14,7 @@
 #include "Ravl/GUI/Manager.hh"
 #include <gtk/gtk.h>
 #include <gdk/gdktypes.h>
+#include <gdk/gdk.h>
 
 #define DODEBUG 0
 #if DODEBUG
@@ -27,8 +28,7 @@ namespace RavlGUIN {
   using namespace RavlImageN;
   using namespace RavlN;
   
-  WidgetStyleBodyC::WidgetStyleBodyC() 
-  {
+  WidgetStyleBodyC::WidgetStyleBodyC() {
     // Load default style
     LoadDefault();
   }
@@ -167,6 +167,22 @@ namespace RavlGUIN {
   void WidgetStyleBodyC::SetColour(WidgetColourTypeT& type, ByteRGBValueC& col) {
     Manager.Queue(Trigger(WidgetStyleC(*this),&WidgetStyleC::GUISetColour,type,col));
   }
+
+  void WidgetStyleBodyC::SetFont(StringC& strFontDesc) {
+    Manager.Queue(Trigger(WidgetStyleC(*this),&WidgetStyleC::GUISetFont,strFontDesc));
+  }
+
+  bool WidgetStyleBodyC::GUISetFont(StringC& strFontDesc) {
+    // Load font
+    GdkFont* pFont = gdk_font_load(strFontDesc);
+    // Use font
+    if (pFont) {
+      gdk_font_ref(pFont);
+      style->font = pFont;
+    }
+    return true;
+  }
+
 
 }
 

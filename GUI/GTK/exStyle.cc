@@ -56,6 +56,9 @@ int main(int nargs,char *args[]) {
   win.Add(FrameC(button,"exStyle",100));
   // Setup button style
   WidgetStyleC buttonstyle;
+  // Set font
+  StringC font("-*-arial-bold-r-normal--*-160-*-*-*-*-iso8859-1");
+  buttonstyle.SetFont(font);
   // Set red background in all modes
   WidgetColourTypeT coltype = WIDGET_COLOUR_BG;
   ByteRGBValueC col(255,0,0);
