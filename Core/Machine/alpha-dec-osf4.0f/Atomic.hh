@@ -15,30 +15,28 @@
 //! docentry="Ravl.Core.Misc"
 //! lib=RavlCore
 
-typedef int ravl_atomic_t;
+typedef volatile long int ravl_atomic_t;
+
+#define RAVL_ATOMIC_INIT(i)	{ (i) }
 
 #define ravl_atomic_read(v)		(*v)
 #define ravl_atomic_set(v,i)		((*v) = (i))
 
 static inline void ravl_atomic_inc(ravl_atomic_t *v)
 {
-  int val = 1;
+  register int val = 1;
   register int result;
   __asm__ __volatile__ (
-	"/* Inline exchange & add */\n"
 	"1:\t"
 	"ldl_l	%0,%2\n\t"
 	"addl	%0,%3,%0\n\t"
 	"stl_c	%0,%1\n\t"
 	"beq	%0,2f\n\t"
-	".subsection 1\n"
+	"br	1b\n\t"
 	"2:\t"
-	"br	1b\n"
-	".previous\n\t"
 	"mb\n\t"
-	"/* End exchange & add */"
-	: "=&r"(result), "=m"(*mem)
-	: "m" (*mem), "r"(val));
+	: "=&r"(result), "=m"(*v)
+	: "m" (*v), "r"(val));
 }
 
 static inline void ravl_atomic_dec(ravl_atomic_t *v)
@@ -46,40 +44,32 @@ static inline void ravl_atomic_dec(ravl_atomic_t *v)
   int val = -1;
   register int result;
   __asm__ __volatile__ (
-	"/* Inline exchange & add */\n"
 	"1:\t"
 	"ldl_l	%0,%2\n\t"
 	"addl	%0,%3,%0\n\t"
 	"stl_c	%0,%1\n\t"
 	"beq	%0,2f\n\t"
-	".subsection 1\n"
+	"br	1b\n\t"
 	"2:\t"
-	"br	1b\n"
-	".previous\n\t"
 	"mb\n\t"
-	"/* End exchange & add */"
-	: "=&r"(result), "=m"(*mem)
-	: "m" (*mem), "r"(val));
+	: "=&r"(result), "=m"(*v)
+	: "m" (*v), "r"(val));
 }
 
 static inline int ravl_atomic_inc_return(ravl_atomic_t *v) {
     int val = 1;
   register int result;
   __asm__ __volatile__ (
-	"/* Inline exchange & add */\n"
 	"1:\t"
 	"ldl_l	%0,%2\n\t"
 	"addl	%0,%3,%0\n\t"
 	"stl_c	%0,%1\n\t"
 	"beq	%0,2f\n\t"
-	".subsection 1\n"
-	"2:\t"
 	"br	1b\n"
-	".previous\n\t"
+	"2:\t"
 	"mb\n\t"
-	"/* End exchange & add */"
-	: "=&r"(result), "=m"(*mem)
-	: "m" (*mem), "r"(val));
+	: "=&r"(result), "=m"(*v)
+	: "m" (*v), "r"(val));
   return result;
 }
 
@@ -87,20 +77,16 @@ static inline int ravl_atomic_dec_and_test(ravl_atomic_t *v) {
   int val = -1;
   register int result;
   __asm__ __volatile__ (
-	"/* Inline exchange & add */\n"
 	"1:\t"
 	"ldl_l	%0,%2\n\t"
 	"addl	%0,%3,%0\n\t"
 	"stl_c	%0,%1\n\t"
 	"beq	%0,2f\n\t"
-	".subsection 1\n"
+	"br	1b\n\t"
 	"2:\t"
-	"br	1b\n"
-	".previous\n\t"
 	"mb\n\t"
-	"/* End exchange & add */"
-	: "=&r"(result), "=m"(*mem)
-	: "m" (*mem), "r"(val));
+	: "=&r"(result), "=m"(*v)
+	: "m" (*v), "r"(val));
   return result == 0;
 }
 

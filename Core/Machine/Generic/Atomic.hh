@@ -17,6 +17,8 @@
 
 typedef int ravl_atomic_t;
 
+#define RAVL_ATOMIC_INIT(i)	{ (i) }
+
 #define ravl_atomic_read(v)		(*v)
 #define ravl_atomic_set(v,i)		((*v) = (i))
 

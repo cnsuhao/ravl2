@@ -9,4 +9,4 @@
 
 DESCRIPTION= Machine/Compiler specific header files
 
-NESTED = Generic.r i386-linux-gnu.r mips-irix-mpro.r sparc-solaris-gnu.r
+NESTED = Generic.r i386-linux-gnu.r mips-irix-mpro.r sparc-solaris-gnu.r  alpha-dec-osf4.0f.r
