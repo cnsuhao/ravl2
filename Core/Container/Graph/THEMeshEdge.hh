@@ -181,7 +181,7 @@ namespace RavlN {
     //: Access vertex this edge goes to
     
     THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT> SourceVertex() const 
-    { return Prev().SourceVertex(); }
+    { return Prev().Vertex(); }
     //: Access vertex this edge comes from.
     
     THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT> CollapseEdge() { 
