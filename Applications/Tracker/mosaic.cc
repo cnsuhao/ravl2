@@ -22,8 +22,9 @@
 // <li> uses Levenberg-Marquart to improve homography </li>
 // <li> uses homography to warp each frame into a reference frame</li>
 // <li> median filter applied to warped frames to create the mosaic</li>
-// <li> warps mosaic into each frame and subtract from frame to generate foreground objects (optional)</li>
+// <li> warp mosaic into each frame and subtract from frame to generate foreground objects (optional)</li>
 // </ul>
+// <p>It does <font color=red>not</font> do lens distortion correction; for this use <code>RemoveDistortion</code></p>
 
 #include "Ravl/config.h"
 #include "Ravl/Option.hh"
@@ -55,16 +56,16 @@
 using namespace RavlN;
 using namespace RavlImageN;
 
-// These are the 3rd vector components in the respective homogeneous
-// coordinate systems  - the normalising components (i.e. doesn't always have
-// to be 1)
-#define IMAGE_ZHOMOG 100.0 // used for video frame coordinates
-#define MOSAIC_ZHOMOG 1.0 // used for mosaic coordinate system (however this one makes absolutely no difference whatever.)
+// These are the 3rd vector elements in the respective homogeneous
+// coordinate systems (i.e. it doesn't always have to be 1)
+#define IMAGE_ZHOMOG 100.0
+#define MOSAIC_ZHOMOG 1.0
 
-  
+
 int Mosaic(int nargs,char **argv) {
   OptionC opt(nargs,argv);
-  opt.Comment("Creates mosaic image from video sequence, and generates sequence of foreground images based on difference between input images and mosaic.\n");
+  opt.Comment("Creates mosaic image from video sequence, and generates sequence of foreground images based on difference between input images and mosaic.\n\n");
+  opt.Comment("It is not necessary to specify the mosaic size with this version; on the other hand, lens distortion correction cannot be performed (use unDistort as preprocessing step instead).\n\n");
   opt.Comment("Preprocessing:");
   int cropT = opt.Int("crt", 0, "Width of cropping region at top of image");
   int cropB = opt.Int("crb", 0, "Width of cropping region at bottom of image");
@@ -86,15 +87,16 @@ int Mosaic(int nargs,char **argv) {
   int lifeTime   = opt.Int("ml",8,"Lifetime of a point without a match in the incoming images. ");
   int searchSize = opt.Int("ss",25,"Search size. How far to look from the predicted position of the feature.");
   StringC maskName = opt.String("mask", "", "Mask to exclude image regions from tracking (black = omit point; default - no mask)");
+  opt.Comment("Homographies:");
+  StringC homogFile = opt.String("hf", "", "Output file for interframe projections used to construct mosaic (default: no output)");
   opt.Comment("Mosaic:");
-  int borderC    = opt.Int("bc", 200, "Width of horizontal border around initial mosaic image");
-  int borderR    = opt.Int("br", 200, "Width of vertical border around initial mosaic image");
+  StringC mosaicFile = opt.String("mo", "/tmp/mosaic.ppm", "Output file for mosaic");
+  Index2dC border = opt.Index2d("bo", 200, 200, "Width of vertical & horizontal borders around initial mosaic image (default is {0, 0} if auto is on)");
+  autoResizeT resize = (autoResizeT) opt.Int("auto", 0, "Automatically expands the mosaic rectangle to accommodate projected images as necessary. 0 = no expansion; 1 = one-pass (slower); 2 = two-pass (faster)");
   Point2dC pointTL = opt.Point2d("ptl", 0.0, 0.0, "Top-left coordinates of projection of first image (in units of picture size)");
   Point2dC pointTR = opt.Point2d("ptr", 0.0, 1.0, "Top-right coordinates of projection of first image (in units of picture size)");
   Point2dC pointBL = opt.Point2d("pbl", 1.0, 0.0, "Bottom-left coordinates of projection of first image (in units of picture size)");
   Point2dC pointBR = opt.Point2d("pbr", 1.0, 1.0, "Bottom-right coordinates of projection of first image (in units of picture size)");
-  StringC mosaicFile = opt.String("mo", "/tmp/mosaic.ppm", "Output file for mosaic");
-  StringC homogFile = opt.String("hf", "", "Output file for interframe projections used to construct mosaic (default: no output)");
   opt.Comment("Foreground image generation:");
   bool noForeground = opt.Boolean("nofg", false, "Suppress foreground image generation");
   int fgThreshold = opt.Int("ft",24,"Minimum distance between image and mosaic pixel values to be a foreground pixel");
@@ -104,77 +106,31 @@ int Mosaic(int nargs,char **argv) {
   StringC ifn = opt.String("","@V4LH:/dev/video0","Input sequence. ");
   StringC ofn = opt.String("","@X","Output sequence. ");
   opt.Check();
-  if (maxFrames < 0) maxFrames = 200;  // a hack; currently program fails if default is used.
-
-  // Open an input stream.
-  DPISPortC<ImageC<ByteRGBValueC> > inp;
-  if(!OpenISequence(inp,ifn)) {
-    cerr << "Failed to open input '" << ifn << "'\n";
-    return 1;
-  }
-  inp.Seek(startFrame);
-
-  // Open mask image
-  ImageC<bool> mask;
-  if(!maskName.IsEmpty()) {
-    ImageC<ByteT> byteMask;  // hack until RAVL handles bit images
-    if (!Load(maskName, byteMask)) {
-      cerr << "Failed to load file: " << maskName << endl;
-      exit(-1);
-    }
-    mask = ImageC<bool>(byteMask.Rectangle());
-    for(Array2dIter2C<bool,ByteT>i(mask,byteMask); i; i++) i.Data1()=i.Data2();
-  }
     
 #if 0
   inp.SetAttr("FrameBufferSize","2");
 #endif
-  ImageC<ByteRGBValueC> img;
 
   // Create a mosaic class instance
-  MosaicBuilderC mosaicBuilder(cthreshold, cwidth, mthreshold, mwidth,
-			       lifeTime, searchSize, newFreq,
-			       borderC, borderR, IMAGE_ZHOMOG,
-			       cropT, cropB, cropL, cropR,
-			       pointTL, pointTR, pointBL, pointBR,
-			       maxFrames, mask);
+  MosaicBuilderC mosaicBuilder(resize);
+  // Set tracker params
+  mosaicBuilder.SetTracker(cthreshold, cwidth, mthreshold, mwidth,
+			   lifeTime, searchSize, newFreq);
+  // and crop image borders
+  mosaicBuilder.SetCropRegion(cropT, cropB, cropL, cropR);
+  // Load mask to avoid unwanted regions if required 
+  if(!maskName.IsEmpty())  mosaicBuilder.SetMask(maskName);
+  // Set mosaic coordinate system
+  mosaicBuilder.SetCoordinates(pointTL, pointTR, pointBL, pointBR);
+  // If we are not automaically growing the mosaic size as required, we need to expand the mosaic border to allow for growth
+  if (resize == none) 
+    mosaicBuilder.SetBorderExpansion(border.Row(), border.Col());
+  // If there is lens distortion, correct it (& save the results)
+  if (K1 > 0.0 || K2 > 0.0) mosaicBuilder.SetLensCorrection(K1, K2, cx_ratio, cy_ratio, fx, fy);
 
-  // declare distortion correction object
-  RemoveDistortionC<ByteRGBValueC,ByteRGBValueC> distortionRemover;
-  ImageC<ByteRGBValueC> linearImg;
+  // Build the mosaic homograpy data
+  if (!mosaicBuilder.GrowMosaic(ifn, startFrame, maxFrames)) exit (-1);
 
-  for(IntT frameNo = 0;frameNo < maxFrames;frameNo++) {
-    if(!inp.Get(img))
-      break;
-    cout << "Tracking frame " << frameNo << endl;
-
-    if(K1 == 0.0 && K2 == 0.0) {
-      // no distortion, so build mosaic from original images
-      if(!mosaicBuilder.Apply(img))
-	return 1;
-    }
-    else {
-      if(frameNo==0) {
-	// create distortion correction object at the first frame
-	distortionRemover = RemoveDistortionC<ByteRGBValueC,ByteRGBValueC>(
-						cx_ratio*(RealT)img.Rows(),
-						cy_ratio*(RealT)img.Cols(),
-						fx, fy, K1, K2);
-	
-	// create linear camera image at first frame
-	linearImg = img.Copy();
-      }
-
-      // apply distortion correction
-      distortionRemover.Apply(img,linearImg);
-      if(!mosaicBuilder.Apply(linearImg))
-	return 1;
-    }
-
-#if 0
-    Save("@X:Mosaic",mosaicBuilder.GetMosaic());
-#endif
-  }
 
   // construct mosaic image from median image & save it
   ImageC<ByteRGBValueC> mosaicRGB = ByteRGBMedianImageC2ByteRGBImageCT(mosaicBuilder.GetMosaic());
@@ -183,18 +139,11 @@ int Mosaic(int nargs,char **argv) {
   // save interframe projections if required
   if (homogFile != "") {
     OStreamC homogStream(homogFile);
-    homogStream<<mosaicBuilder.GetMotion() << mosaicBuilder.GetCropRect() << endl;
+    homogStream<<mosaicBuilder.GetMotion() << mosaicBuilder.GetCropRect() << endl<< mosaicRGB.Rectangle() << endl;
     homogStream.Close();
   }
 
   if (noForeground) return 0;
-
-  // reopen input sequence
-  if(!OpenISequence(inp,ifn)) {
-    cerr << "Failed to open input '" << ifn << "'\n";
-    return 1;
-  }
-  for (IntT i(0); i<startFrame; ++i) inp.Discard();  // skip to start frame
 
   // Open the output stream for the foreground segmentation images.
   DPOPortC<ImageC<ByteRGBValueC> > outp;
@@ -202,97 +151,7 @@ int Mosaic(int nargs,char **argv) {
     cerr << "Failed to open output '" << ofn << "'\n";
     return 1;
   }
-
-  // 5x5 kernel for morphological operations, with this shape:
-  //  ***
-  // *****
-  // *****
-  // *****
-  //  ***
-  IndexRangeC centred(-2,2);
-  ImageC<bool> kernel(centred,centred);
-  kernel.Fill(true);
-  kernel[-2][-2] = kernel[-2][2] = kernel[2][-2] = kernel[2][2] = false;
-
-  // first motion estimate for registration with the mosaic
-  Projection2dC proj(mosaicBuilder.GetMotion(0),IMAGE_ZHOMOG,MOSAIC_ZHOMOG);
-
-  // convert mosaic to grey level
-  ImageC<ByteT> mosaicGrey = RGBImageCT2ByteImageCT(mosaicRGB);
-
-  // set up image matcher, used to improve estimate of homography
-  ImageMatcherC matcher(mosaicGrey, cropT, cropB, cropL, cropR,
-			17, 25, 20, MOSAIC_ZHOMOG, IMAGE_ZHOMOG );
-
-  // compute foreground segmented image
-  for(IntT frameNo = 0;frameNo < maxFrames;frameNo++) {
-    // Read an image from the input.
-    if(!inp.Get(img)) {
-      cerr << "Could not read image for frame " << frameNo << endl;
-      break;
-    }
-
-    // convert image to grey level
-    ImageC<ByteT> imgGrey = RGBImageCT2ByteImageCT(img);
-
-    // match image to mosaic and update the motion "proj"
-    if(!matcher.Apply(imgGrey, proj))
-      continue;
-
-    Matrix3dC P = mosaicBuilder.GetMotion(frameNo).Inverse();
-    P /= P[2][2];
-    // WARNING: this matrix never actually gets used.  Maybe it was intended to use it to update proj before matching?
-
-    cout << "P:\n" << P << endl;
-    cerr << "proj after * P\n"<<proj.Matrix() * P<<endl;
-
-    // crop image to ensure it fits within mosaic
-    img = ImageC<ByteRGBValueC>(img,mosaicBuilder.GetCropRect()).Copy();
-    // (The .Copy() is a temporary fix to get round DPOPort / @X bug)
-
-    // warp mosaic onto image
-    ImageC<ByteRGBValueC> warped_img(mosaicBuilder.GetCropRect());
-    WarpProjectiveC<ByteRGBValueC,ByteRGBValueC> pwarp(mosaicBuilder.GetCropRect(),proj);
-    pwarp.Apply(mosaicRGB,warped_img);
-
-    // smooth both images to suppress artefacts
-    GaussConvolveC<ByteRGBValueC, ByteRGBValueC, RealT, RealRGBValueC> lpf(7);
-    img = lpf.Apply(img);
-    warped_img = lpf.Apply(warped_img);
-
-
-
-    // subtract and threshold
-    ImageC<bool> mask(mosaicBuilder.GetCropRect());
-    mask.Fill(false);
-    for(Array2dIter3C<ByteRGBValueC,ByteRGBValueC,bool> it(img,warped_img,mask,false);
-	it.IsElm(); it.Next()) {
-      IntT diff2 = Sqr((IntT)it.Data1().Red()   - (IntT)it.Data2().Red()) +
-                   Sqr((IntT)it.Data1().Green() - (IntT)it.Data2().Green()) +
-	           Sqr((IntT)it.Data1().Blue()  - (IntT)it.Data2().Blue());
-      if ( diff2 > fgThreshold*fgThreshold )
-	it.Data3() = true;
-    }
-
-    // erode and dilate binary mask
-    ImageC<bool> result(mosaicBuilder.GetCropRect());
-    BinaryErode(mask, kernel, result);
-    cout << "result.TL=(" << result.Frame().TRow() << "," << result.Frame().LCol() << ") result.BR=(" << result.Frame().BRow() << "," << result.Frame().RCol() << ")" << endl;
-    BinaryDilate(result, kernel, mask);
-    cout << "mask.TL=(" << mask.Frame().TRow() << "," << mask.Frame().LCol() << ") mask.BR=(" << mask.Frame().BRow() << "," << mask.Frame().RCol() << ")" << endl;
-    cout << "mask.Rows()=" << mask.Rows() << " mask.Cols()=" << mask.Cols() << endl;
-
-    ByteRGBValueC val(0,0,0);
-    for(Array2dIter2C<ByteRGBValueC,bool> it(img,mask,false);
-	it.IsElm(); it.Next()) {
-      if ( !it.Data2() )
-	it.Data1() = val;
-    }
-
-    // Write an image out.
-    outp.Put(img);
-  }
-
+  mosaicBuilder.GenerateForeground(startFrame, maxFrames, outp, fgThreshold);
   cout << "Output finished" << endl;
   return 0;
 }
