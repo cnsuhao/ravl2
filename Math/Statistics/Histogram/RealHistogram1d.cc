@@ -57,13 +57,13 @@ namespace RavlN {
 
   //: Evaluate histogram as a smoothed pdf.
   
-  RealT RealHistogram1dC::SmoothedPDF(IntT bin) const {
+  RealT RealHistogram1dC::SmoothedPDF(IntT bin,RealT sigma) const {
     RealT smoothedMeasure = 0.0;
     for(SArray1dIterC<UIntC> it(*this);it;it++) {
-      RealT arg = (RealT) (it.Index() - bin) / scale;
+      RealT arg = (RealT) (it.Index() - bin) /( sigma * scale);
       smoothedMeasure += (RealT) *it * Exp(-RavlConstN::pi * Sqr(arg));
     }
-    return smoothedMeasure / TotalVotes() * scale;
+    return smoothedMeasure / (TotalVotes() * sigma * scale);
   }
 
   ostream &operator<<(ostream &strm,const RealHistogram1dC &hist) {
