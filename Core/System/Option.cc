@@ -404,7 +404,7 @@ namespace RavlN {
   // Emits error message if 'name' was not found on the command line 
   
   void OptionC::Compulsory(const char * name) {
-    assert(name != 0);
+    RavlAssert(name != 0);
     if(!IsOnCommandLine(name))
       Error(StringC('-') + name + " not found. This option is compulsory");
     Depend(StringC('-') + name + " is compulsory.");
@@ -428,7 +428,7 @@ namespace RavlN {
   //: Get option with zero args.
   
   bool OptionC::GetOption0(const char *name) {
-    assert(name != 0);
+    RavlAssert(name != 0);
     if(IsUsed(name))
       Error(StringC("Internal program error: Option ") + name + " has been defined more than once. ");
     used.InsLast(name);
@@ -450,7 +450,7 @@ namespace RavlN {
     StringC ret;
     MarkProcessed(ret); // Mark as unfound by default.
     ONDEBUG(cerr << "OptionC::GetOption1(), Called looking for '"<< name <<"'\n");
-    assert(name != 0);
+    RavlAssert(name != 0);
     if(*name == 0) { // Unnamed arg ?
       for(DLIterC<StringC> it(args);it.IsElm();it.Next()) {
 	if(IsProcessed(it.Data()))
@@ -500,7 +500,7 @@ namespace RavlN {
     DListC<StringC> ret;
     ONDEBUG(cerr << "OptionC::GetOptions(), Called looking for "<< name <<" with " << nargs << " args. \n");
     
-    assert(name != 0);
+    RavlAssert(name != 0);
     
 #if !SUPPORT_UNAMED_MULTIARG
     if(*name == 0) { // Unnamed option ?
@@ -648,7 +648,7 @@ namespace RavlN {
    DataT OptionC::GetOption(OptionC &opt,const char * name,const DataT &def,const char * comment,int nArgs = 1) {
      DataT ret;
      StringC value;
-     assert(nArgs != 0);
+     RavlAssert(nArgs != 0);
      
      // Get argument text.
      if(nArgs == 1)

@@ -11,7 +11,7 @@
 //! file="Ravl/Core/Math/exComplx.cc"
 
 #include "Ravl/Complex.hh"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 using namespace RavlN;
 

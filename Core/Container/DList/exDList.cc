@@ -12,7 +12,7 @@
 
 #include "Ravl/DList.hh"
 #include "Ravl/DLIter.hh"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 using namespace RavlN;
 

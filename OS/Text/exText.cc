@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////
 //! rcsid="$Id$"
 
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 #include "Ravl/Text/TextFile.hh"
 #include "Ravl/Option.hh"
 

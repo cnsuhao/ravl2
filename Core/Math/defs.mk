@@ -18,16 +18,14 @@ MAINS	 =
 # HEADERS = all include files of this project to be exported
 HEADERS = StdMath.hh Random.hh RandomGauss.hh Angle.hh ScalMath.hh \
  Complex.hh TFMatrix.hh
-#ScalMath.hh UsefulFn.hh Random.hh Angle.hh
+
 
 # SOURCES = all C modules, not containing main separated by space. The compiled
 #   code of these modules is stored in the project library.
 SOURCES = StdMath.cc Random.cc RandomGs.cc Angle.cc ScalMath.cc \
  Complex.cc
 
-#ScalMath.cc EMGamma.cc UsefulFn.cc \
-#           Random.cc   RandomGs.cc Angle.cc Erf.cc
-
+# EMGRavl.cc UsefulFn.cc Erf.cc
 
 # LOCALHEADERS = all include files of this project used only for compilation
 LOCALHEADERS = 

@@ -11,7 +11,7 @@
 #include "Ravl/BinaryTree.hh"
 #include "Ravl/BinaryTreeUpIter.hh"
 #include "Ravl/BinaryTreeDownIter.hh"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 using namespace RavlN;
 

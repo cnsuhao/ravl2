@@ -17,7 +17,7 @@
 /*---------------------------------------------------------------------*/
 //static char sccsid[]="@(#)93/06/23 g.matas@ee.surrey.ac.uk 1.1 ex4.c";
 
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 #include "Ravl/Option.hh"
 
 using namespace RavlN;

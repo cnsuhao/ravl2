@@ -3,8 +3,7 @@
 
 #include "Ravl/SArray3d.hh"
 #include "Ravl/SArr3Iter2.hh"
-#include <iostream.h>
-#include <typeinfo>
+#include "Ravl/Stream.hh"
 
 using namespace RavlN;
 

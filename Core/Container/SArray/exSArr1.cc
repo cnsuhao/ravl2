@@ -8,9 +8,9 @@
 //! lib=RavlCore
 //! file="Ravl/Core/Container/SArray/exSArr1.cc"
 
-#include <iostream.h>
 #include "Ravl/SArray1d.hh"
 #include "Ravl/SArr1Iter.hh"
+#include "Ravl/Stream.hh"
 
 using namespace RavlN;
 

@@ -23,7 +23,7 @@
 #include "Ravl/DList.hh"
 #include "Ravl/Tuple2.hh"
 #include "Ravl/StrStream.hh"
-#include <assert.h>
+#include "Ravl/Assert.hh"
 
 namespace RavlN {
   class Index2dC;
@@ -77,8 +77,8 @@ namespace RavlN {
     DataT Get(const char * name,const DataT &def,const char * comment,int nArgs = 1) {
       DataT ret;
       StringC value;
-      assert(nArgs != 0);
-      assert(name != 0);
+      RavlAssert(nArgs != 0);
+      RavlAssert(name != 0);
       // Get argument text.
       if(nArgs == 1)
 	value = GetOption1(name);
