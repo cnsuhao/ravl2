@@ -359,6 +359,8 @@ namespace RavlN {
 	  }
 	}
       }
+    } catch(ExceptionEndOfStreamC &eos) {
+      // Shut down quietly
     } catch(...) {
       cerr << "An exception occured in: " << typeid(*this).name() << endl;
       cerr << "Halting thread. \n" << flush;
