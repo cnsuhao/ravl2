@@ -69,7 +69,7 @@ namespace RavlN {
       {}
     //: Default constructor
     
-    IStrStreamC(StringC dat);
+    IStrStreamC(const StringC &dat);
     //: Constructor.
     
     inline StringC &String() { return buff; }

@@ -18,34 +18,40 @@
 #else
 #include <strstrea.h>
 #endif
-
 #include "Ravl/StrStream.hh"
+#include "Ravl/Calls.hh"
 
 namespace RavlN {
+  
   ///////////////////
   //: Default constructor.
-  
+
   OStrStreamC::OStrStreamC()
     : OStreamC(*(oss = new ostrstream()),true)
-{}
+  {}
   
   ///////////////////
   //: Get text written to stream so far.
   // NB. This does NOT clean the buffer.
   
   StringC OStrStreamC::String() {
-    return StringC(oss->str(),oss->pcount(),oss->pcount()+1);
-}
+    char *data = oss->str(); 
+    // This is a bit ugly, we have to copy the 
+    // string into another buffer.
+    StringC ret(data,oss->pcount(),oss->pcount()+1);
+    delete data; // Free buffer.
+    return ret;
+  }
   
   ////////////////////////////////////////////////////
   
   //: Default constructor.
   
-  IStrStreamC::IStrStreamC(StringC dat)
+  IStrStreamC::IStrStreamC(const StringC &dat)
 #ifdef VISUAL_CPP
     : IStreamC(*(iss = new istrstream(const_cast<char *>(dat.chars()),dat.length())),true),
 #else
-      : IStreamC(*(iss = new istrstream(dat.chars(),dat.length())),true),
+    : IStreamC(*(iss = new istrstream(dat.chars(),dat.length())),true),
 #endif
       buff(dat)
   {}
