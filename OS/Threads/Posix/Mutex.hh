@@ -178,6 +178,10 @@ namespace RavlN
     { return locked; }
     //: Is it locked ?
     
+    MutexC &Mutex()
+    { return mutex; }
+    //: Access mutex we're locking.
+    
   protected:
     MutexC &mutex;
     bool locked;
