@@ -283,7 +283,7 @@ int doVPlay(int nargs,char *args[])
     strFrameRate = StringC(frameRate);
   }
   
-  guiFrameRate.Text(frameRate);
+  guiFrameRate.Text(StringC(frameRate));
   
   PlayControlC guiPlayControl(vpCtrl);
   
