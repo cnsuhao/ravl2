@@ -216,7 +216,7 @@ int Mosaic(int nargs,char **argv) {
     pwarp.Apply(mosaicRGB,warped_img);
 
     // smooth both images to suppress artefacts
-    GaussConvolveC<ByteRGBValueC, ByteRGBValueC, RealRGBValueC, RealT> lpf(7);
+    GaussConvolveC<ByteRGBValueC, ByteRGBValueC, RealT, RealRGBValueC> lpf(7);
     img = lpf.Apply(img);
     warped_img = lpf.Apply(warped_img);
 
