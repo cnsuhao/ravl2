@@ -37,6 +37,8 @@ namespace RavlAudioN {
     StringC dataExt;
   };
   
+  //! userlevel=Normal
+  
   DPIPortC<TranscriptionC> OpenTranscriptionList(const StringC &transFileList,const StringC &dataExt);
   //: Open a file containing a list of transcriptions
   
