@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Image/ImageIO/PNMFormat.hh"
-//! lib=RavlImageIO
+//! lib=Ravl3DIO
 //! author="Charles Galambos"
 //! docentry="Ravl.3D.IO.Formats"
 //! date="29/10/98"

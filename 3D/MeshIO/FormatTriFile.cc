@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! rcsid="$Id$"
-//! lib=RavlImageIO
+//! lib=Ravl3DIO
 
 #include "Ravl/3D/FormatTriFile.hh"
 #include "Ravl/3D/TriFileIO.hh"
