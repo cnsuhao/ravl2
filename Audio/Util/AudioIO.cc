@@ -11,7 +11,7 @@
 #include "Ravl/Audio/AudioIO.hh"
 #include "Ravl/DList.hh"
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -96,7 +96,18 @@ namespace RavlAudioN {
       RealT rval;
       if(!GetSampleRate(rval)) return false;
       attrValue = StringC(rval);
-      return false;
+      return true;
+    }
+
+    if (attrName == "samplebits") {
+      IntT ival ; 
+      bool ret = false ; 
+      ret = GetSampleBits(ival) ;
+      if (!ret) return false ;
+      else {
+	attrValue = StringC(ival) ; 
+	return true ;
+      }
     }
     return false;
   }
@@ -107,6 +118,10 @@ namespace RavlAudioN {
     ONDEBUG(cerr << "AudioIOBaseC::HandleSetAttr(), '" << attrName << "' = " << attrValue << "\n");
     if(attrName == "samplerate")
       return SetSampleRate(attrValue.RealValue());
+    
+    if(attrName == "samplebits") 
+      return SetSampleBits(attrValue.IntValue() ) ; 
+
     return false;
   }
   
@@ -122,6 +137,14 @@ namespace RavlAudioN {
       attrValue = Round(value);
       return true;
     }
+
+    if (attrName == "samplebits") {
+      IntT value ; 
+      if (!GetSampleBits(value) ) 
+	return false ; 
+      attrValue = value ; 
+      return true ; 
+    }
     return false;
   }
   
@@ -133,9 +156,14 @@ namespace RavlAudioN {
     ONDEBUG(cerr << "AudioIOBaseC::HandleSetAttr(), '" << attrName << "' = " << attrValue << "\n");
     if(attrName == "samplerate")
       return SetSampleRate((RealT) attrValue);
-    return false;
-  }
   
+    if(attrName == "samplebits")
+      return SetSampleBits (attrValue) ; 
+    
+    return false;
+    }
+    
+    
   //: Get a stream attribute.
   // Returns false if the attribute name is unknown.
   // This is for handling stream attributes such as frame rate, and compression ratios.
@@ -143,9 +171,19 @@ namespace RavlAudioN {
   bool AudioIOBaseC::HandleGetAttr(const StringC &attrName,RealT &attrValue) {
     if(attrName == "samplerate") 
       return GetSampleRate(attrValue);
+  
+    if(attrName == "samplebits") 
+      {
+	IntT value ; 
+	if (!GetSampleBits(value) ) return false ; 
+	attrValue = value ; 
+	return true ; 
+      } 
     return false;
   }
   
+
+
   //: Set a stream attribute.
   // Returns false if the attribute name is unknown.
   // This is for handling stream attributes such as frame rate, and compression ratios.
@@ -154,14 +192,21 @@ namespace RavlAudioN {
     ONDEBUG(cerr << "AudioIOBaseC::HandleSetAttr(), '" << attrName << "' = " << attrValue << "\n");
     if(attrName == "samplerate")
       return SetSampleRate(attrValue);
+
+    if (attrName == "samplebits") 
+      return SetSampleBits(IntT(attrValue) ) ; 
+
     return false;
   }
+
+
 
   //: Get list of attributes available.
   // This method will ADD all available attribute names to 'list'.
   
   bool AudioIOBaseC::HandleGetAttrList(DListC<StringC> &list) const {
     list.InsLast("samplerate");
+    list.InsLast("samplebits");
     return false;
   }
   
