@@ -42,7 +42,7 @@ namespace RavlN {
         version(0)
     {
 #ifdef RAVL_CHECK
-      if(!out.Stream().good()) 
+      if(!out.good()) 
 	cerr << "DPOXMLFileBodyC<DataT>::DPOXMLFileBodyC<DataT>(StringC,bool), Failed to open file.\n";
 #endif
       if(useHeader) {
@@ -59,7 +59,7 @@ namespace RavlN {
       version(0)
     {
 #ifdef RAVL_CHECK
-      if(!out.Stream().good()) 
+      if(!out.good()) 
 	cerr << "DPOXMLFileBodyC<DataT>::DPOXMLFileBodyC<DataT>(OStreamC,bool), Passed bad output stream. \n";
 #endif
       if(useHeader) {
@@ -68,7 +68,7 @@ namespace RavlN {
 	attr["class"] = TypeName(typeid(DataT));
 	out.WritePI("RAVL",attr);
 #ifdef RAVL_CHECK
-	if(!out.Stream().good()) 
+	if(!out.good()) 
 	  cerr << "DPOXMLFileBodyC<DataT>::DPOXMLFileBodyC<DataT>(XMLOStreamC,bool), Bad stream after writting header! \n";
 #endif
       }
@@ -77,26 +77,26 @@ namespace RavlN {
     
     virtual bool Put(const DataT &dat) { 
 #ifdef RAVL_CHECK
-      if(!out.Stream().good()) {
+      if(!out.good()) {
 	cerr << "DPOXMLFileBodyC<DataT>::Put(), Failed because of bad output stream (before write!). \n";
 	return false;
       }
 #endif
       out << dat;
 #ifdef RAVL_CHECK
-      if(!out.Stream().good()) 
+      if(!out.good()) 
 	cerr << "DPOXMLFileBodyC<DataT>::Put(), Failed because of bad output stream. \n";
 #endif
-      return out.Stream().good(); 
+      return out.good(); 
     }
     //: Put data.
     
     virtual IntT PutArray(const SArray1dC<DataT> &data) {
-      if(!out.Stream().good()) 
+      if(!out.good()) 
 	return data.Size();
       for(SArray1dIterC<DataT> it(data);it;it++) {
 	out << *it;
-	if(!out.Stream().good()) {
+	if(!out.good()) {
 #ifdef RAVL_CHECK
 	  cerr << "DPOXMLFileBodyC<DataT>::PutArray(), Endded early because of bad output stream. \n";	
 #endif
@@ -109,7 +109,7 @@ namespace RavlN {
     // returns the number of elements processed.
     
     virtual bool IsPutReady() const 
-      { return out.Stream().good(); }
+      { return out.good(); }
     //: Is port ready for data ?
     
     virtual bool Save(ostream &sout) const 
@@ -162,7 +162,7 @@ namespace RavlN {
     //: Stream constructor.
     
     virtual bool IsGetEOS() const 
-      { return (!in.Stream().good() || in.Stream().eof()); }
+      { return (!in.good() || in.eof()); }
     //: Is valid data ?
   
     virtual DataT Get() { DataT ret; in >> ret; return ret; }
@@ -179,7 +179,7 @@ namespace RavlN {
     virtual IntT GetArray(SArray1dC<DataT> &data) {
       for(SArray1dIterC<DataT> it(data);it;it++) {
 	in >> *it;
-	if(!in.Stream().good()) {
+	if(!in.good()) {
 #ifdef RAVL_CHECK
 	  cerr << "DPIXMLFileBodyC<DataT>::GetArray(), Ended early because of bad input stream. \n";	
 #endif
