@@ -49,6 +49,13 @@ namespace RavlImageN {
       return ret;
     }
     //: Apply the edge detector to 'img', returning a list of edgels.
+
+    DListC<EdgelC> LApply(const ImageC<RealT> &img) {
+      DListC<EdgelC> ret;
+      Apply(img,ret);
+      return ret;
+    }
+    //: Apply the edge detector to 'img', returning a list of edgels.
     
   protected:
     RealT minHyst,maxHyst;
@@ -101,6 +108,10 @@ namespace RavlImageN {
     
     SArray1dC<EdgelC> PApply(const ImageC<RealT> &img) 
     { return Body().PApply(img); }
+    //: Apply the edge detector to 'img', generate an array of edgels.
+    
+    DListC<EdgelC> LApply(const ImageC<RealT> &img) 
+    { return Body().LApply(img); }
     //: Apply the edge detector to 'img', generate an array of edgels.
 
     bool Apply(const ImageC<RealT> &img,DListC<EdgelC> &edges)
