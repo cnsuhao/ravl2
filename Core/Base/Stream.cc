@@ -81,7 +81,7 @@ namespace RavlN {
   bool StreamBaseC::Close() {
     if(s == 0)
       return false;
-#if !defined(VISUAL_CPP) && !USE_GCC3
+#if !defined(VISUAL_CPP) && !RAVL_USE_GCC3
     fstreambase *fsb = dynamic_cast<fstreambase *>(s);
 #else
     fstream *fsb = dynamic_cast<fstream *>(s);
@@ -206,7 +206,7 @@ namespace RavlN {
 #endif
     if(append)
       fmode |= ios::app;  
-#if !USE_GCC3
+#if !RAVL_USE_GCC3
     Init(ofstrm = new ofstream(filename.chars(),fmode),filename);
 #else
     Init(ofstrm = new ofstream(filename.chars(),(std::_Ios_Openmode) fmode),filename);
@@ -214,13 +214,13 @@ namespace RavlN {
       
     //Init(ofstrm = new ofstream(filename),filename);
     out = ofstrm;
-#if !USE_GCC3
+#if !RAVL_USE_GCC3
     if(!buffered) 
       ofstrm->setbuf(0,0);
 #endif
   }
   
-#if USE_GCC3 && 0
+#if RAVL_USE_GCC3 && 0
   class UnixBasicFilebufC
     : public basic_filebuf<char,traits_type>
   {
@@ -236,7 +236,7 @@ namespace RavlN {
   //: Get data from unix filehandle.
   
   OStreamC::OStreamC(int fd,bool buffered) { 
-#if !USE_GCC3
+#if !RAVL_USE_GCC3
     if(buffered)
       Init(out = new ofstream(fd),StringC(fd)); 
     else
@@ -318,7 +318,7 @@ namespace RavlN {
 #endif
       Init(ifstrm = new ifstream(filename),filename);
     in = ifstrm;
-#if !USE_GCC3
+#if !RAVL_USE_GCC3
     if(!buffered) {
       RavlAssert(ifstrm != 0);
       ifstrm->setbuf(0,0);
@@ -329,7 +329,7 @@ namespace RavlN {
   //: Get data from unix filehandle.
   
   IStreamC::IStreamC(int fd,bool buffered) {   
-#if !USE_GCC3
+#if !RAVL_USE_GCC3
     if(buffered)
       Init(in = new ifstream(fd),StringC(fd));
     else

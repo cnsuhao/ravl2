@@ -12,6 +12,20 @@
 #include "Ravl/config.h"
 #include "Ravl/Assert.hh"
 
+// Do some sanity checking.
+
+#if (RAVL_OS_LINUX + RAVL_OS_WIN32 + RAVL_OS_IRIX + RAVL_OS_SOLARIS + RAVL_OS_OSF) != 1
+#error "RAVL ERROR:Confused about current OS. "
+#endif
+
+#if (RAVL_COMPILER_GCC + RAVL_COMPILER_MIPSPRO + RAVL_COMPILER_VISUALCPP) != 1
+#error "RAVL ERROR:Confused about current compiler. "
+#endif
+
+#if (RAVL_CPU_IX86 + RAVL_CPU_SPARC + RAVL_CPU_MIPS + RAVL_CPU_ALPHA) != 1
+#error "RAVL ERROR:Confused about current CPU achitecture . "
+#endif
+
 #if RAVL_HAVE_ANSICPPHEADERS
 #include <iostream>
 #else
@@ -28,7 +42,10 @@ namespace RavlN {
 #if RAVL_HAVE_STDNAMESPACE
   using namespace std;
 #endif
-
+#if RAVL_VISUALCPP_NAMESPACE_BUG
+  using std::cerr;
+#endif
+  
   static bool assertThrowException = false;
   
   //: Test if an exception on an assertion failure.

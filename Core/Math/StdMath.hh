@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_StdMath_HEADER
-#define RAVL_StdMath_HEADER 1
+#ifndef RAVL_STDMATH_HEADER
+#define RAVL_STDMATH_HEADER 1
 ///////////////////////////////////////////////////////////////////////////
 //! file="Ravl/Core/Math/StdMath.hh"
 //! lib=RavlCore
@@ -13,7 +13,7 @@
 //! author="Radek Marik"
 //! docentry="Ravl.Core.Math"
 //! rcsid="$Id$"
-//! date="20/11/95"
+//! date="20/11/1995"
 
 #include "Ravl/config.h"
 #include "Ravl/Math.hh"
@@ -29,30 +29,19 @@
 #include <ieeefp.h>
 #endif
 
-#if defined(__linux__) || defined(__sol2__) || defined(__sgi__)
-extern "C" {
-  double hypot(double a,double b);
-};
-#endif
-
-#if defined(__sol2__)
+#if RAVL_HAVE_ERF
+#if RAVL_OS_SOLARIS
 extern "C" {
   double erf __P((double)); // not in standard <math.h> file
   double erfc __P((double)); // not in standard <math.h> file
 }
 #endif
-#if defined(__linux__)
+#if RAVL_OS_LINUX || RAVL_OS_IRIX
 extern "C" {
   double erf(double x); // not in standard <math.h> file
   double erfc(double x); // not in standard <math.h> file
 }
 #endif
-
-#if defined(__sgi__) 
-// These are need because of problems with
-// defining _POSIX_C_SOURCE=... on the SGI
-extern double erf (double x);
-extern double erfc (double x);
 #endif
 
 //: The Ravl namespace.
@@ -60,18 +49,20 @@ extern double erfc (double x);
 namespace RavlN {
   
   inline RealT Cbrt(RealT r) {
-#if defined(BORLAND) || defined(GNU) || defined(__sgiCC__) 
-    return pow(r,1.0/3.0);
-#elif !defined VISUAL_CPP
+#if RAVL_HAVE_CBRT
     return cbrt(r);
 #else
-    RealT dem = 3.0;  // Get a compile warning unless we do this
+#if RAVL_COMPILER_VISUALCPP
+    RealT dem = 3.0;  // Sometimes get a compile warning unless we do this.
     return pow(r, 1.0/dem);
+#else
+    return pow(r, 1.0/3.0);
+#endif
 #endif
   }
   //: Returns the cube root of 'x'.
   
-#if !defined(VISUAL_CPP) && !defined(__cygwin__)
+#if RAVL_HAVE_ERF
   // FIXME:- We have to sort this out..
   
   inline RealT Erf(RealT x)
@@ -99,14 +90,14 @@ namespace RavlN {
   // Returns true if 'i' is a power of 2.
     
   inline bool IsInf(RealT i) {
-#if defined(__linux__) 
+#if RAVL_HAVE_ISINF
     return isinf(i);
-#else
-#if defined(VISUAL_CPP)
+#elif RAVL_HAVE_FINITE
+    return !finite(i);
+#elif RAVL_HAVE__FINITE
     return !_finite(i);
 #else
-    return !finite(i);
-#endif
+#error "No IsInf() implementation for found. "
 #endif
   }
   //: Is infinit ?
@@ -120,15 +111,14 @@ namespace RavlN {
   //: Is negative infinity ?
   
   inline bool IsNan(RealT i) {
-#if defined(VISUAL_CPP)
-    if(_isnan(i)==0) return false;
-    return true;
-#else
-#if defined(__sgi__) || defined(__sol2__)
+#if RAVL_HAVE_ISNAN
+    return isnan(i);
+#elif RAVL_HAVE__ISNAN
+    return (_isnan(i)!=0);
+#elif RAVL_HAVE_ISNAND
     return isnand(i);
 #else
-    return isnan(i);
-#endif
+#error "No IsNan() implementation for found. "
 #endif
   }
   //: Is Not A Number ?

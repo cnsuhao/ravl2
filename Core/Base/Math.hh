@@ -23,11 +23,12 @@
 #include <math.h>
 
 #if RAVL_HAVE_HYPOT
-#if defined(__linux__) || defined(__sol2__) || defined(__sgi__) || defined(__alpha__)
+/* This isn't ansi so it may not be in the include files,
+ * but we want to use it if its available.
+ */
 extern "C" {
   double hypot(double a,double b);
 };
-#endif
 #endif
 
 //: Ravl namespace.
@@ -120,7 +121,7 @@ namespace RavlN {
   //: Returns 'x' raised to the power 'y' where y is an integer..
   
   inline RealT Exp(RealT r){
-#if !defined VISUAL_CPP
+#if !RAVL_COMPILER_VISUALCPP
     return r < -30.0 ? 0.0 : exp(r);
 #else
     return exp(r);

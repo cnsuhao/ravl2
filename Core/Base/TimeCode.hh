@@ -19,7 +19,10 @@
 #include "Ravl/Types.hh"
 
 namespace RavlN {
-
+#if RAVL_VISUALCPP_NAMESPACE_BUG && RAVL_HAVE_STDNAMESPACE
+  using namespace std;
+#endif
+  
   class StringC;
   
   //! userlevel=Normal
