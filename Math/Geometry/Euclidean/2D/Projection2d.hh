@@ -18,6 +18,7 @@
 #include "Ravl/Vector3d.hh"
 #include "Ravl/Vector2d.hh"
 #include "Ravl/Point2d.hh"
+#include "Ravl/FAffine.hh"
 
 namespace RavlN {
   class PointSet2dC;
@@ -46,6 +47,24 @@ namespace RavlN {
     //!param: transform - the 2D projective transformation
     //!param: niz, noz - the normalisation values for the input and output vectors
     // The normalisation values are the values the last term in the vectors must have for correct normalisation.  This is ususally set = 1, but for some operations is better set to a value representative of typical components of the vector.
+
+    Projection2dC(const FAffineC<2> &affineTransform, RealT niz = 1, RealT noz = 1) 
+      : iz(niz),
+        oz(noz)
+    {
+      trans[0][0] = affineTransform.SRMatrix()[0][0];
+      trans[1][0] = affineTransform.SRMatrix()[1][0];
+      trans[0][1] = affineTransform.SRMatrix()[0][1];
+      trans[1][1] = affineTransform.SRMatrix()[1][1];
+      trans[0][2] = affineTransform.Translation()[0];
+      trans[1][2] = affineTransform.Translation()[1];
+      trans[2][2] = 1;
+      trans[2][0] = trans[2][1] = 0;
+    }
+    //: Construct a projective transform from an affine one
+    //!param: affineTransform - the 2D affine transform
+    //!param: niz, noz - the normalisation values for the input and output vectors
+    // The ambiguous parameters that are not specified by the affine transform are set to 0.
     
     inline
     Point2dC Project(const Point2dC &pnt) const {
