@@ -35,6 +35,7 @@ namespace RavlN {
       playMode(0),
       subStart(0),
       subEnd(0),
+      doneRev(false),
       at(0)
   {}
   
