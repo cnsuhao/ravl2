@@ -13,22 +13,22 @@ namespace RavlN {
 
   //: Constructor
   StateVectorLine2dBodyC::StateVectorLine2dBodyC(RealT lx, RealT ly, RealT lz,
-						 RealT nzh, RealT gaugeWeight)
+						 RealT nzh, RealT nGaugeWeight)
     : StateVectorBodyC(VectorC(lx,ly,lz))
   {
     zh = nzh;
-    gaugeWeight = gaugeWeight;
+    gaugeWeight = nGaugeWeight;
     Postprocess();
   }
 
   //: Constructor
   StateVectorLine2dBodyC::StateVectorLine2dBodyC(RealT lx, RealT ly, RealT lz,
-						 RealT nzh, RealT gaugeWeight,
+						 RealT nzh, RealT nGaugeWeight,
 						 const VectorC &xstep)
     : StateVectorBodyC(VectorC(lx,ly,lz),xstep)
   {
     zh = nzh;
-    gaugeWeight = gaugeWeight;
+    gaugeWeight = nGaugeWeight;
     Postprocess();
   }
 
