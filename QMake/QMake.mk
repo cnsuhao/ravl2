@@ -164,7 +164,7 @@ test: src
 	@if [ ! -d $(INST_TESTLOG) ] ; then \
 	  $(MKDIR) $(INST_TESTLOG); \
 	fi 
-	$(SHOWIT)touch $(INST_TESTDB); \
+	+ $(SHOWIT)touch $(INST_TESTDB); \
 	if $(MAKEMD) VAR=check testbuild FULLCHECKING=1 NOEXEBUILD=1 TARGET=testbuild ; then true ; \
 	else \
 	  echo "test: Failed to do inital build for test. "; \
