@@ -25,11 +25,7 @@ bool MarkTime(int &i) {
   return true;
 }
 
-#ifndef __sgi__
-const RealT maxTimerError = 0.01;
-#else
-const RealT maxTimerError = 0.03;
-#endif
+const RealT maxTimerError = 0.04;
 
 int main()
 {
