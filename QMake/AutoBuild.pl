@@ -23,6 +23,7 @@ close(FILE);
 
 # Load variables from $config
 my $PACKAGENAME = $config{PACKAGENAME};
+my $PACKAGES = $config{PACKAGES} ? $config{PACKAGES} : $config{PACKAGENAME};
 my $BUILDDIRECTORY = $config{BUILDDIRECTORY};
 my $BUILDTREES = $config{BUILDTREES};
 
@@ -38,8 +39,6 @@ if ($ENV{USER} )
      { $USERNAME = $ENV{USER} ;}
 else
      { $USERNAME = `whoami` ; }
-
-
 
 # Mail Error function
 # A function to mail the error to a user
@@ -132,7 +131,7 @@ sub Checkout () {
     $retries--;
   } while (!$ok && $retries > 0);
   if (!$ok) {
-    my $message = "ERROR - Failed to check out package $pkg";
+    my $message = "ERROR - Failed to check out package(s) $pkg";
     & MailError ($message) ;
     die ($message) ;
   }
@@ -178,7 +177,7 @@ print "Build =$BUILDTREE\n";
 # Check out source tree.
 print "Checking out source tree.\n";
 & ChDir($SRCTREE);
-& Checkout($PACKAGENAME);
+& Checkout($PACKAGES);
 
 # Check out extra packages
 if ($config{EXTRAPKG}) {
@@ -186,8 +185,19 @@ if ($config{EXTRAPKG}) {
   & Checkout($config{EXTRAPKG});
 }
 
-
-& ChDir("$SRCTREE/$PACKAGENAME");
+# Create defs.mk file
+if ($config{PACKAGES}) {
+  open(MAKEFILE, ">$SRCTREE/defs.mk");
+  print MAKEFILE "# Temporary QMake Makefile\n";
+  print MAKEFILE "NESTED = ";
+  my @subdirs = split(/ /, $PACKAGES);
+  my $dir;
+  foreach $dir (@subdirs) {
+    print MAKEFILE "$dir.r "
+  }
+  print MAKEFILE "\n";
+  close(MAKEFILE);
+}
 
 # Set temporary file location
 if ($config{TEMPDIR}) {
@@ -196,15 +206,13 @@ if ($config{TEMPDIR}) {
 }
 
 # Clean out temporary files
-if ($config{CLEANTEMP}) {
-  print ("\nPre Cleaning tempory files :$config{TEMPDIR}/$USERNAME/qm$BUILDTREE \n") ;
-  system("rm -rf $config{TEMPDIR}/$USERNAME/qm$BUILDTREE");
-}
+print ("\nPre Cleaning temporary files :$config{TEMPDIR}/$USERNAME/qm$BUILDTREE \n") ;
+system("rm -rf $config{TEMPDIR}/$USERNAME/qm$BUILDTREE");
 
 # If an install script exists, do full install
 if(-e "$SRCTREE/$PACKAGENAME/install") {
   # Install
-  my $command = "./install $BUILDTREE auto";
+  my $command = "$SRCTREE/$PACKAGENAME/install $BUILDTREE auto";
   if ($config{RAVLCONFIG}) {
     $command .= " $config{RAVLCONFIG}";
   }
@@ -220,7 +228,10 @@ else {
   & Build("gmake -f $config{RAVL_LOCATION}/share/RAVL/QMake/QMake.mk PROJECT_OUT=$BUILDTREE test","$BUILDTREE/test.log","test");
 }
 
-
+if ($config{CLEANTEMP}) {
+  print ("\nCleaning temporary files :$config{TEMPDIR}/$USERNAME/qm$BUILDTREE \n") ;
+  system("rm -rf $config{TEMPDIR}/$USERNAME/qm$BUILDTREE");
+}
 
 # it worked ok
 print "Clean compile, replacing symlinks. \n";
@@ -244,6 +255,7 @@ if(-e $SYMNAME) {
   unlink $SYMNAME;
 }
 symlink $BUILDTREE, $SYMNAME;
+
 my $message = "Build completed successfully " ;
 if ($config{MAILONSUCCESS} == 1) {
   & MailError ($message);
