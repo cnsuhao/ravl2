@@ -92,7 +92,7 @@ namespace RavlN {
     //: No of items in the ring.
 
     inline SizeT MaxSize() const
-    { return SArray1dC<T>::Size(); }
+    { return SArray1dC<T>::Size()-1; }
     //: Get maximum size of queue.
     
     inline bool IsInRing(UIntT P) const;
@@ -208,7 +208,7 @@ namespace RavlN {
   { 
     head = &((*this)[0]);
     tail = head;
-    eoa = &(head[MaxSize()]);
+    eoa = &(head[SArray1dC<T>::Size()]);
   }
   
   template<class T>
