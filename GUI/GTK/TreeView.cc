@@ -20,6 +20,7 @@
 #include "Ravl/HashIter.hh"
 #include "Ravl/StringList.hh"
 #include "Ravl/GUI/DragAndDrop.hh"
+#include "Ravl/OS/SysLog.hh"
 
 #include  <gtk/gtk.h>
 
@@ -90,6 +91,7 @@ namespace RavlGUIN {
                                bool ignoreInitialSelectionSignals) 
     : treeModel(tm),
       selection(0),
+      m_preselection(NULL),
       selectionChanged(DListC<TreeModelIterC>()),
       firstSelection(ignoreInitialSelectionSignals ? 2 : 0),
       selMode(nselMode)
@@ -184,6 +186,7 @@ namespace RavlGUIN {
                                bool ignoreInitialSelectionSignals) 
     : treeModel(tm),
       selection(0),
+      m_preselection(NULL),
       selectionChanged(DListC<TreeModelIterC>()),
       displayColumns(displayColumns),
       firstSelection(ignoreInitialSelectionSignals ? 2 : 0),
@@ -194,6 +197,7 @@ namespace RavlGUIN {
   
   TreeViewBodyC::TreeViewBodyC(bool ignoreInitialSelectionSignals) 
     : selection(0),
+      m_preselection(NULL),
       selectionChanged(DListC<TreeModelIterC>()),
       firstSelection(ignoreInitialSelectionSignals ? 2 : 0)
   {}
@@ -385,6 +389,7 @@ namespace RavlGUIN {
   //: Create with a widget supplied from elsewhere.
   
   bool TreeViewBodyC::Create(GtkWidget *nwidget) {
+    SysLog(SYSLOG_DEBUG) << "TreeViewBodyC::Create()";
     widget = nwidget;
     
     // Setup tree model.
@@ -473,6 +478,11 @@ namespace RavlGUIN {
     // Finalise widget
     
     ConnectSignals();
+
+    // If a selection was made prior to Create() being called we need to redo the selection now...
+    if (m_preselection != NULL) {
+      gtk_tree_selection_select_iter(selection, m_preselection);
+    }
     return true;
   }
   
@@ -697,8 +707,11 @@ namespace RavlGUIN {
   // GUI thread only
   
   bool TreeViewBodyC::GUISelectIter(TreeModelIterC iter) {
-    if (selection == 0)
+    SysLog(SYSLOG_DEBUG) << "TreeViewBodyC::GUISelectIter()";
+    if (selection == 0) {
+      m_preselection = iter.TreeIter();
       return false;
+    }
     if(!iter.IsValid()) {
       cerr << "TreeViewBodyC::GUISelectIter(), Warning: Asked to select invalid iterator. \n";
       return false;

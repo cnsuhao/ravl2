@@ -469,6 +469,7 @@ namespace RavlGUIN {
     
     TreeModelC treeModel;
     GtkTreeSelection *selection;
+    GtkTreeIter *m_preselection;
     Signal1C<DListC<TreeModelIterC> > selectionChanged;
     SArray1dC<TreeViewColumnC> displayColumns;
     IntT firstSelection;
