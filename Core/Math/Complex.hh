@@ -64,6 +64,10 @@ namespace RavlN {
     inline RealT    Mag() const
     { return Sqrt(re*re + im*im); }
     //: The maginude
+
+    inline RealT    Arg() const
+    { return ATan2(im,re); }
+    //: The angle
     
     inline ComplexC I() const 
     { return ComplexC(-im, re); }
