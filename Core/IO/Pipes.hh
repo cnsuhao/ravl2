@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef DPPIPE_HEADER
-#define DPPIPE_HEADER 1
+#ifndef RAVL_DPPIPE_HEADER
+#define RAVL_DPPIPE_HEADER 1
 ////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Core/IO/Pipes.hh"
