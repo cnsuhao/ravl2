@@ -28,6 +28,7 @@
 #if RAVL_COMPILER_MIPSPRO
 #include "Ravl/VirtualConstructor.hh"
 #include "Ravl/SArray1dIter3.hh"
+#include "Ravl/SArray1dIter2.hh"
 #include "Ravl/Vector.hh"
 #include "Ravl/MatrixRS.hh"
 
@@ -37,6 +38,8 @@
 #pragma instantiate RavlN::SArray1dIterC<RavlN::MatrixRSC>
 #pragma instantiate RavlN::SArray1dIter2C<RavlN::MeanCovarianceC,RavlN::VectorC>
 #pragma instantiate RavlN::BufferAccessIter3C<RavlN::VectorC,RavlN::MatrixRSC,double>
+#pragma instantiate RavlN::SArray1dIter2C<RavlN::VectorC,double>
+#pragma instantiate RavlN::SArray1dIter2C<RavlN::MatrixRSC,double>
 #endif 
 
 namespace RavlN {

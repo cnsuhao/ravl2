@@ -16,6 +16,13 @@
 #include "Ravl/SArray1dIter4.hh"
 #include "Ravl/SArray1dIter5.hh"
 #include "Ravl/VirtualConstructor.hh"
+#include "Ravl/config.h"
+
+#if RAVL_COMPILER_MIPSPRO 
+#include "Ravl/VirtualConstructor.hh"
+#include "Ravl/BinStream.hh"
+#pragma RavlN::GaussianMixtureBodyC* instantiate RavlN::VCLoad(RavlN::BinIStreamC&,RavlN::GaussianMixtureBodyC*)
+#endif 
 
 namespace RavlN {
   
