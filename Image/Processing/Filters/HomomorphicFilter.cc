@@ -89,7 +89,7 @@ namespace RavlImageN {
     RealT sigma,depth;
     s >> v;
     if(v > 0)
-      throw ExceptionOutOfRangeC("operator>>(istream &,HomomorphicFilterC &), Bad version number in stream. ");
+      throw ExceptionOutOfRangeC("Bad version number in stream. ");
     s >> sigma >> depth;
     homom = HomomorphicFilterC(sigma,depth);
     return s;
@@ -108,7 +108,7 @@ namespace RavlImageN {
     RealT sigma,depth;
     s >> v;
     if(v > 0)
-      throw ExceptionOutOfRangeC("operator>>(BinIStreamC &,HomomorphicFilterC &), Bad version number in stream. ");
+      throw ExceptionOutOfRangeC("Bad version number in stream. ");
     s >> sigma >> depth;
     homom = HomomorphicFilterC(sigma,depth);
     return s;
