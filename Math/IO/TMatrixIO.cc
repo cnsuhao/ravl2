@@ -49,14 +49,14 @@ namespace RavlN {
   TVectorC<FloatT> Vector2TVectorFloat(const VectorC &vec) {
     TVectorC<FloatT> ret(vec.Size());
     for(SArray1dIter2C<FloatT,RealT> it(ret,vec);it;it++)
-      it.Data1() = static_cast<RealT>(it.Data2());
+      it.Data1() = static_cast<FloatT>(it.Data2());
     return ret;
   }
   
   VectorC TVectorFloat2Vector(const TVectorC<FloatT> &vec) {
     VectorC ret(vec.Size());
     for(SArray1dIter2C<RealT,FloatT> it(ret,vec);it;it++)
-      it.Data1() = static_cast<FloatT>(it.Data2());
+      it.Data1() = static_cast<RealT>(it.Data2());
     return ret;
   }
   
@@ -74,14 +74,14 @@ namespace RavlN {
   TMatrixC<FloatT> Matrix2TMatrixFloat(const MatrixC &mat) {
     TMatrixC<FloatT> ret(mat.Rows(),mat.Cols());
     for(SArray2dIter2C<FloatT,RealT> it(ret,mat);it;it++)
-      it.Data1() = static_cast<RealT>(it.Data2());
+      it.Data1() = static_cast<FloatT>(it.Data2());
     return ret;
   }
   
   MatrixC TMatrixFloat2Matrix(const TMatrixC<FloatT> &mat) {
     MatrixC ret(mat.Rows(),mat.Cols());
     for(SArray2dIter2C<RealT,FloatT> it(ret,mat);it;it++)
-      it.Data1() = static_cast<FloatT>(it.Data2());
+      it.Data1() = static_cast<RealT>(it.Data2());
     return ret;
   }
   
