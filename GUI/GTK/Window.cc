@@ -80,7 +80,10 @@ namespace RavlGUIN {
     // Set resizableness
     if (!userresizable) GUIUserResizable(userresizable);
     // Set transience
-    if (m_wParent.IsValid()) GUIMakeTransient(m_wParent);
+    if (m_wParent.IsValid()) {
+      GUIMakeTransient(m_wParent);
+      m_wParent.Invalidate();
+    }
     // Set decorations
     if (!m_bDecorated) GUISetDecorated(m_bDecorated);
     // Done
