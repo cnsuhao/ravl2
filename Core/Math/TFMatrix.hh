@@ -167,6 +167,19 @@ namespace RavlN {
     }
     //: Mutiply this matrix by transpose of 'mat'
     
+    TFVectorC<DataT,M> TMul(const TFVectorC<DataT,N>& vec) const 
+    {
+      TFVectorC<DataT,M> ret;
+      for(UIntT i = 0; i < M; i++)
+      {
+	ret[i] = 0.0;
+	for(UIntT j = 0; j < N;j++)
+	  ret[i] += data[j][i] * vec[j];
+      }
+      return ret;
+    }
+    //: Transpose this matrix and multiply by 'vec'
+
     TFMatrixC<DataT,M,N> T() const;
     //: Matrix transpose.
     
