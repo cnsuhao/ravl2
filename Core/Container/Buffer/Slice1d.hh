@@ -204,6 +204,15 @@ namespace RavlN {
     { return *ref; }
     //: Access refrence element.
     // Advanced users only.
+    
+    void CopySlice(const Slice1dC<DataT> &data);
+    //: Copy 'data' into this slice.
+    // Both must be the same length.
+    
+    void Copy(const RangeBufferAccessC<DataT> &data);
+    //: Copy 'data' into this slice.
+    // Both must be the same length.
+    
   protected:
     IndexRangeC rng;// Range of valid index's
     IntT stride;    // Stride of data.
@@ -448,6 +457,23 @@ namespace RavlN {
     for(it++;it;it++)
       sum += it.Data1() * it.Data2();
     return sum;  
+  }
+  
+  template<class DataT>
+  void Slice1dC<DataT>::CopySlice(const Slice1dC<DataT> &data) {
+    RavlAssert(Size() == data.Size());
+    for(Slice1dIter2C<DataT,DataT> it(*this,data);it;it++)
+      it.Data1() = it.Data2();
+  }
+  
+  template<class DataT>
+  void Slice1dC<DataT>::Copy(const RangeBufferAccessC<DataT> &data) {
+    RavlAssert(Size() == data.Size());
+    if(Size() == 0)
+      return ;
+    const DataT *at = &(data[data.IMin()]);
+    for(Slice1dIterC<DataT> it(*this);it;it++,at++)
+      *it = *at;
   }
   
   template<class DataT>
