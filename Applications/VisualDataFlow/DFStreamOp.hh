@@ -31,6 +31,21 @@ namespace RavlDFN {
     DFStreamOpBodyC(const StringC &nname,const DPStreamOpC &sop);
     //: Construct from name and data.
     
+    DFStreamOpBodyC(istream &strm);
+    //: Load from stream.
+    
+    DFStreamOpBodyC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
+    virtual bool Save(XMLOStreamC &strm,bool inCharge) const;
+    //: Save ostream.
+    
+    virtual bool Save (ostream &out) const;
+    //: Writes object to stream, can be loaded using constructor
+    
+    virtual bool Save (BinOStreamC &out) const;
+    //: Writes object to stream, can be loaded using constructor
+    
     bool Init(const DPStreamOpC &sop);
     //: Setup stream operator.
     

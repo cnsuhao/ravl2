@@ -114,20 +114,50 @@ namespace RavlDFN {
   
   DFObjectBodyC::DFObjectBodyC(istream &strm) 
     : RCBodyVC(strm)
-  { strm >> name >> renderSize >> packingSize; }
+  {
+    int version;
+    strm >> version;
+    if(version != 0)
+      throw ExceptionOutOfRangeC("Unknown version number in DFObjectBodyC stream. ");
+    strm >> name >> renderSize >> packingSize; 
+  }
   
   //: Load from binary stream.
   
   DFObjectBodyC::DFObjectBodyC(BinIStreamC &strm) 
     : RCBodyVC(strm)
-  { strm >> name >> renderSize >> packingSize; }
+  {
+    int version;
+    strm >> version;
+    if(version != 0)
+      throw ExceptionOutOfRangeC("Unknown version number in DFObjectBodyC binary stream. ");
+    strm >> name >> renderSize >> packingSize; 
+  }
+
+  //: Read from istream.
+  
+  DFObjectBodyC::DFObjectBodyC(XMLIStreamC &strm,DFSystemC &context) {
+    strm >> XMLAttribute("name",name);
+  }
+  
+  //: Save ostream.
+  
+  bool DFObjectBodyC::Save(XMLOStreamC &strm,bool inCharge) const {
+    if(inCharge)
+      strm << XMLStartTag("DFObject");
+    strm << XMLAttribute("name",name);
+    if(inCharge)
+      strm << XMLEndTag;
+    return true;
+  }
   
   //: Writes object to stream, can be loaded using constructor
   
   bool DFObjectBodyC::Save (ostream &out) const {
     if(!RCBodyVC::Save(out))
-      return false;    
-    out << name << ' ' << renderSize << ' ' << packingSize << ' ';
+      return false;
+    int version = 0;
+    out << ' ' << version << ' ' << name << ' ' << renderSize << ' ' << packingSize << ' ';
     return true;
   }
   
@@ -136,7 +166,8 @@ namespace RavlDFN {
   bool DFObjectBodyC::Save (BinOStreamC &out) const {
     if(!RCBodyVC::Save(out))
       return false;
-    out << name << renderSize << packingSize;
+    int version = 0;
+    out << version << name << renderSize << packingSize;
     return true;
   }
   

@@ -27,8 +27,14 @@ namespace RavlDFN {
     DFLinkBodyC(const DFObjectC &src,const DFObjectC &dst);
     //: Create link.
     
-    DFLinkBodyC();
+    ~DFLinkBodyC();
     //: Destructor.
+    
+    DFLinkBodyC(XMLIStreamC &is,DFSystemC &context);
+    //: Read from istream.
+    
+    virtual bool Save(XMLOStreamC &strm,bool inCharge = true) const;
+    //: Save ostream.
     
     const DFObjectC &Source() const
     { return src; }

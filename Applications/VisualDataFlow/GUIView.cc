@@ -37,7 +37,7 @@ namespace RavlDFN {
       factories(nfactories)
   {
     EnableURLMapper(); // This widget relies on URL mapping being enabled.
-    AttachSystem(nsys);
+    AttachSystem(const_cast<DFSystemC &>(nsys));
   }
   
   //: Destructor.
@@ -48,9 +48,16 @@ namespace RavlDFN {
   
   //:  Attach system to this view.
   
-  bool GUIViewBodyC::AttachSystem(const DFSystemC &nsys) {
+  bool GUIViewBodyC::AttachSystem(DFSystemC &nsys) {
     if(system == nsys)
       return true; // Already attached.
+    if(system.IsValid()) {
+      // Disconnect the old system.
+      elements.Empty();
+      hold.Invalidate();
+      obj2elem.Empty();
+      sysConnectSet.DisconnectAll();
+    }
     
     system = nsys;
       
@@ -62,8 +69,8 @@ namespace RavlDFN {
       return false;
     
     // Attach new system.
-    connectSet += ConnectRef(sigObjChange,*this,&GUIViewBodyC::ObjectUpdate);
-    connectSet += Connect(system.SigChange(),sigObjChange);
+    sysConnectSet += ConnectRef(sigObjChange,*this,&GUIViewBodyC::ObjectUpdate);
+    sysConnectSet += Connect(system.SigChange(),sigObjChange);
     
     BuildAll();
     return true;
@@ -80,6 +87,8 @@ namespace RavlDFN {
       Index2dC at(10,x);
       AddObject(*it,at);
     }
+    if(widget != 0)
+      Render();
   }
   
   //: Handle object updates.
@@ -436,7 +445,7 @@ namespace RavlDFN {
     DFObjectC obj2 = elm2.Object(); 
     if(!obj1.IsValid() || !obj2.IsValid())
       return false;
-    DFObjectC newun = DFObjectC(obj1).LinkTo(DFObjectC(obj2),system,autoConvert);
+    DFObjectC newun = obj1.LinkTo(obj2,system,autoConvert);
     if(!newun.IsValid())
       return false;
     system.AddObject(newun);
@@ -724,6 +733,7 @@ namespace RavlDFN {
     //ONDEBUG(cerr << "GUIViewBodyC::Destroy(), Called. \n");
     // Disconnect all signals.
     connectSet.DisconnectAll();
+    sysConnectSet.DisconnectAll();
     sigObjChange.DisconnectAll();
     elements.Empty();
     system.Invalidate();

@@ -17,13 +17,15 @@ HEADERS=DFObject.hh DFSystem.hh ViewElement.hh GUIView.hh GUIEditor.hh \
 
 SOURCES=DFObject.cc DFSystem.cc ViewElement.cc GUIView.cc GUIEditor.cc \
  DFData.cc DFProcess.cc DFStreamOp.cc DFPort.cc DFLink.cc Factory.cc \
- FactorySet.cc GUIFactory.cc DFPump.cc
+ FactorySet.cc GUIFactory.cc DFPump.cc DFSystemIO.cc
 
 PLIB= RavlVDF
 
 MAINS=vdf.cc
 
 USESLIBS=RavlGUI RavlIO RavlImageIO RavlDPDisplay RavlOSIO RavlDPMT
+
+PROGLIBS= RavlImgIOV4L.opt RavlExtImgIO.opt
 
 EHT = Ravl.Applications.VDF.html
 

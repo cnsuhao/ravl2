@@ -120,9 +120,10 @@ namespace RavlDFN {
     { return autoConvert = nautoConvert; }
     //: Set auto conversion
     
-  protected:
-    bool AttachSystem(const DFSystemC &nsys);
+    bool AttachSystem(DFSystemC &nsys);
     //:  Attach system to this view.
+    
+  protected:
     
     void BuildAll();
     //: build view of the complete system.
@@ -214,6 +215,7 @@ namespace RavlDFN {
     FactorySetC factories;
     
     SignalConnectionSetC connectSet;
+    SignalConnectionSetC sysConnectSet;
   };
   
   //! userlevel=Normal
@@ -247,7 +249,11 @@ namespace RavlDFN {
     DFSystemC &System()
     { return Body().System(); }
     //: Access system.
-    
+     
+    bool AttachSystem(DFSystemC &sys)
+    { return Body().AttachSystem(sys); }
+    //: Replace system.
+   
     bool AutoConvert() const
     { return Body().AutoConvert(); }
     //: Auto conversion enabled ?

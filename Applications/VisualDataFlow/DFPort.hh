@@ -37,6 +37,12 @@ namespace RavlDFN {
     DFPortBodyC(BinIStreamC &strm);
     //: Load from binary stream.
     
+    DFPortBodyC(XMLIStreamC &is,DFSystemC &context);
+    //: Read from istream.
+    
+    virtual bool Save(XMLOStreamC &strm,bool inCharge = true) const;
+    //: Save ostream.
+    
     virtual bool Save (ostream &out) const;
     //: Writes object to stream, can be loaded using constructor
     

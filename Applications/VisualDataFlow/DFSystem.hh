@@ -17,8 +17,13 @@
 #include "Ravl/String.hh"
 #include "Ravl/DList.hh"
 #include "Ravl/Threads/Signal2.hh"
+#include "Ravl/XMLStream.hh"
+#include "Ravl/DF/FactorySet.hh"
 
 namespace RavlDFN {
+  
+  extern void InitDFSystemIO();
+  //: Function to force linking of system IO.
   
   enum DFObjectUpdateT { DFOU_ADDED,DFOU_DELETED,DFOU_CHANGED };
   
@@ -38,10 +43,16 @@ namespace RavlDFN {
     DFSystemBodyC(BinIStreamC &is);
     //: Read from istream.
     
+    DFSystemBodyC(XMLIStreamC &is);
+    //: Read from istream.
+    
     bool Save(ostream &strm) const;
     //: Save ostream.
     
     bool Save(BinOStreamC &strm) const;
+    //: Save ostream.
+    
+    bool Save(XMLOStreamC &strm) const;
     //: Save ostream.
     
     DListC<DFObjectC> Objects()
@@ -78,10 +89,19 @@ namespace RavlDFN {
     { return sigChange; }
     //: Signal change to an object.
     
+    bool Factory(const FactorySetC &nfactory)
+    { factory = nfactory; return true;}
+    //: Set object factory.
+    
+    FactorySetC &Factory()
+    { return factory; }
+    //: Access factory.
+    
   protected:
     StringC name;
     DListC<DFObjectC> objects; // Objects in the system.
     Signal2C<DFObjectUpdateT,DFObjectC> sigChange; // Signal change in object.
+    FactorySetC factory; // Needed for loading systems.
   };
   
   //! userlevel=Normal
@@ -168,6 +188,14 @@ namespace RavlDFN {
     //: Remove an object from the system.
     // Returns true if object was in the system.
     
+    bool Factory(const FactorySetC &nfactory)
+    { return Body().Factory(nfactory); }
+    //: Set object factory.
+    
+    FactorySetC &Factory()
+    { return Body().Factory(); }
+    //: Access factory.
+
   };
   
   ostream &operator<<(ostream &strm,const DFSystemC &dfa);

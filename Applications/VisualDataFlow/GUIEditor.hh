@@ -37,6 +37,13 @@ namespace RavlDFN {
     ~DFEditorBodyC();
     //: Destructor.
     
+    bool SaveSystem(StringC &filename);
+    //: Save system.
+    
+    bool LoadSystem(StringC &filename);
+    //: Load system.
+    
+    
   protected:
     void Init();
     //: Initalise window.
@@ -60,6 +67,9 @@ namespace RavlDFN {
     virtual void Destroy();
     //: Undo all references.
     
+    bool ReplaceSystem(DFSystemC &system);
+    //: Replace system.
+    
     DFSystemC system;
     
     GUIViewC viewGUI;        // View widget.
@@ -74,6 +84,8 @@ namespace RavlDFN {
     
     FileSelectorC fileSelInput;
     FileSelectorC fileSelOutput;
+    FileSelectorC fileLoad;
+    FileSelectorC fileSave;
   };
   
   //! userlevel=Normal
@@ -102,6 +114,14 @@ namespace RavlDFN {
     //: Access body.
     
   public:
+    bool SaveSystem(StringC &filename)
+    { return Body().SaveSystem(filename); }
+    //: Save system.
+    
+    bool LoadSystem(StringC &filename)
+    { return Body().LoadSystem(filename); }
+    //: Load system.
+
   };
 }
 

@@ -46,6 +46,25 @@ namespace RavlDFN {
     : DFObjectBodyC(strm)
   {}
   
+  //: Read from XMLStream.
+  
+  DFPortBodyC::DFPortBodyC(XMLIStreamC &strm,DFSystemC &context)
+    : DFObjectBodyC(strm,context)
+  {
+  }
+  
+  //: Save ostream.
+  
+  bool DFPortBodyC::Save(XMLOStreamC &strm,bool inCharge) const {
+    if(inCharge)
+      strm << XMLStartTag("DFPort");
+    if(!DFObjectBodyC::Save(strm,false))
+      return false;
+    if(inCharge)
+      strm << XMLEndTag;
+    return true;
+  }
+  
   //: Writes object to stream, can be loaded using constructor
   
   bool DFPortBodyC::Save (ostream &out) const {

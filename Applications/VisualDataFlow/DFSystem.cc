@@ -13,6 +13,7 @@
 #include "Ravl/DF/DFSystem.hh"
 #include "Ravl/DF/DFData.hh"
 #include "Ravl/DF/DFPort.hh"
+#include "Ravl/DF/DFLink.hh"
 #include "Ravl/IO.hh"
 #include "Ravl/BinStream.hh"
 #include "Ravl/Stream.hh"
@@ -30,9 +31,10 @@ namespace RavlDFN {
   
   DFSystemBodyC::DFSystemBodyC(const StringC &nname)
     : name(nname),
-      sigChange(DFOU_CHANGED)
+      sigChange(DFOU_CHANGED),
+      factory(PROJECT_OUT "/share/RAVL/vdf/factory.cfg")
   {}
-
+  
   //: Read from istream.
   
   DFSystemBodyC::DFSystemBodyC(istream &is)
@@ -42,6 +44,12 @@ namespace RavlDFN {
   
   DFSystemBodyC::DFSystemBodyC(BinIStreamC &is)
   { is >> name >> objects; }
+  
+  //: Read from XMLStream.
+  
+  DFSystemBodyC::DFSystemBodyC(XMLIStreamC &is) {
+    
+  }
   
   //: Save ostream.
   
@@ -54,6 +62,26 @@ namespace RavlDFN {
   
   bool DFSystemBodyC::Save(BinOStreamC &strm) const {
     strm << name << objects;
+    return true;
+  }
+  
+  //: Save ostream.
+  
+  bool DFSystemBodyC::Save(XMLOStreamC &strm) const {
+    strm << XMLStartTag("DFSystem") << XMLAttribute("name",name);
+    // Save objects first.
+    for(DLIterC<DFObjectC> it(objects);it;it++) {
+      DFLinkC lnk(*it);
+      if(!lnk.IsValid())
+	it->Save(strm,true);
+    }
+    // Save links between them
+    for(DLIterC<DFObjectC> it(objects);it;it++) {
+      DFLinkC lnk(*it);
+      if(lnk.IsValid())
+	it->Save(strm,true);
+    } 
+    strm << XMLEndTag;
     return true;
   }
   

@@ -40,10 +40,11 @@ namespace RavlDFN {
       system(nname),
       sigObjChange(DFOU_ADDED)
   { 
+    InitDFSystemIO(); // Make sure system IO is linked.
     ONDEBUG(cerr << "DFEditorBodyC::DFEditorBodyC(const StringC &), Called. \n");
     Init(); 
   }
-
+  
   //: Destructor.
   
   DFEditorBodyC::~DFEditorBodyC() {
@@ -53,18 +54,25 @@ namespace RavlDFN {
   //: Init window.
   
   void DFEditorBodyC::Init() {
-    FactorySetC factories(PROJECT_OUT "/share/RAVL/vdf/factory.cfg");
+    FactorySetC factories = system.Factory();
     factoryGUI = GUIFactoryC(factories);
     
     viewGUI = GUIViewC(system,factories);
     
     StringC fn(""); // Convert to a real filename.
     fileSelInput = FileSelectorC("Create input",fn);
-    connectSet += Connect(fileSelInput.Selected(),*this,&DFEditorBodyC::OpenInput,fn);
+    connectSet += ConnectRef(fileSelInput.Selected(),*this,&DFEditorBodyC::OpenInput,fn);
     fileSelOutput = FileSelectorC("Create output",fn); 
-    connectSet += Connect(fileSelOutput.Selected(),*this,&DFEditorBodyC::OpenOutput,fn);
+    connectSet += ConnectRef(fileSelOutput.Selected(),*this,&DFEditorBodyC::OpenOutput,fn);
+    
+    fileLoad = FileSelectorC("Load System",fn);
+    connectSet += ConnectRef(fileLoad.Selected(),*this,&DFEditorBodyC::LoadSystem,fn);
+    fileSave = FileSelectorC("Save System",fn);
+    connectSet += ConnectRef(fileSave.Selected(),*this,&DFEditorBodyC::SaveSystem,fn);
     
     MenuBarC menu(MenuC("File",
+			MenuItemShow("Load system",fileLoad) +
+			MenuItemShow("Save system" ,fileSave) +
 			MenuItemR("quit",*this,&DFEditorBodyC::Quit)
 			) +
 		  MenuC("Insert",
@@ -147,6 +155,28 @@ namespace RavlDFN {
     return true;
   }
   
+  //: Save system.
+  
+  bool DFEditorBodyC::SaveSystem(StringC &filename) {
+    ONDEBUG(cerr << "DFEditorBodyC::SaveSystem() '" << filename << "'\n");
+    if(!RavlN::Save(filename,system)) {
+      ONDEBUG(cerr << "DFEditorBodyC::SaveSystem(). Failed.\n");
+      return false;
+    }
+    ONDEBUG(cerr << "DFEditorBodyC::SaveSystem(). Ok.\n");
+    return true;
+  }
+  
+  //: Load system.
+  
+  bool DFEditorBodyC::LoadSystem(StringC &filename) {
+    ONDEBUG(cerr << "DFEditorBodyC::LoadSystem() '" << filename << "'\n");
+    DFSystemC newSystem;
+    if(!RavlN::Load(filename,newSystem))
+      return false;
+    return ReplaceSystem(newSystem);
+  }
+  
   //: Quit from the editor.
   
   bool DFEditorBodyC::Quit() {
@@ -172,5 +202,14 @@ namespace RavlDFN {
     // Do normal window cleanup.
     WindowBodyC::Destroy();
   }  
+
+  //: Replace system.
+  
+  bool DFEditorBodyC::ReplaceSystem(DFSystemC &sys) {
+    system = sys;
+    viewGUI.AttachSystem(sys);
+    return true;
+  }
+
   
 }

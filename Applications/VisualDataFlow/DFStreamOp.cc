@@ -12,6 +12,7 @@
 #include "Ravl/DF/DFStreamOp.hh"
 #include "Ravl/DF/GUIView.hh"
 #include "Ravl/DF/DFPort.hh"
+#include "Ravl/BinStream.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -26,6 +27,63 @@ namespace RavlDFN {
     : DFObjectBodyC(nname),
       packStacked(true)
   { Init(sop); }
+  
+  //: Load from stream.
+  
+  DFStreamOpBodyC::DFStreamOpBodyC(istream &strm) 
+    : DFObjectBodyC(strm)
+  {
+    int version;
+    strm >> version;
+    if(version != 0)
+      throw ExceptionOutOfRangeC("Unknown version number in DFStreamOpBodyC stream. ");
+    strm >> packStacked >> streamOp;
+  }
+  
+  //: Load from binary stream.
+  
+  DFStreamOpBodyC::DFStreamOpBodyC(BinIStreamC &strm)
+    : DFObjectBodyC(strm)
+  {
+    int version;
+    strm >> version;
+    if(version != 0)
+      throw ExceptionOutOfRangeC("Unknown version number in DFStreamOpBodyC binary stream. ");
+    strm >> packStacked >> streamOp;    
+  }
+  
+  //: Save ostream.
+  
+  bool DFStreamOpBodyC::Save(XMLOStreamC &strm,bool inCharge) const {
+    if(inCharge)
+      strm << XMLStartTag("DFStreamOp");
+    if(!DFObjectBodyC::Save(strm,false))
+      return false;
+    strm << XMLAttribute("stacked",packStacked);
+    if(inCharge)
+      strm << XMLEndTag;
+    return true;
+  }
+
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool DFStreamOpBodyC::Save (ostream &strm) const {
+    if(!DFObjectBodyC::Save(strm))
+      return false;
+    int version = 0;
+    strm << ' ' << version << ' ' << packStacked << ' ' << streamOp;
+    return true;
+  }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool DFStreamOpBodyC::Save (BinOStreamC &strm) const {
+    if(!DFObjectBodyC::Save(strm))
+      return false;
+    int version = 0;
+    strm << version << packStacked << streamOp;
+    return true;
+  }
   
   //: Setup stream operator.
   

@@ -32,9 +32,30 @@ namespace RavlDFN {
   
   //: Destructor.
   
-  DFLinkBodyC::DFLinkBodyC() {
+  DFLinkBodyC::~DFLinkBodyC() {
     if(connected)
       Disconnect();
+  }
+  
+  //: Read from istream.
+  
+  DFLinkBodyC::DFLinkBodyC(XMLIStreamC &strm,DFSystemC &context) 
+    : DFObjectBodyC(strm,context)
+  {
+    strm >> XMLAttribute("connected",connected);
+  }
+  
+  //: Save ostream.
+  
+  bool DFLinkBodyC::Save(XMLOStreamC &strm,bool inCharge) const {
+    if(inCharge)
+      strm << XMLStartTag("DFLink");
+    strm << XMLAttribute("connected",connected);
+    if(!DFObjectBodyC::Save(strm,false))
+      return false;
+    if(inCharge)
+      strm << XMLEndTag;
+    return true;
   }
   
   //: Render object to view.

@@ -20,6 +20,7 @@
 #include "Ravl/DList.hh"
 #include "Ravl/GUI/MouseEvent.hh"
 #include "Ravl/Stream.hh"
+#include "Ravl/XMLStream.hh"
 
 namespace RavlDFN {
   using namespace RavlN;
@@ -56,7 +57,13 @@ namespace RavlDFN {
     
     DFObjectBodyC(BinIStreamC &strm);
     //: Load from binary stream.
-
+    
+    DFObjectBodyC(XMLIStreamC &is,DFSystemC &context);
+    //: Read from istream.
+    
+    virtual bool Save(XMLOStreamC &strm,bool inCharge = true) const;
+    //: Save ostream.
+    
     virtual bool Save (ostream &out) const;
     //: Writes object to stream, can be loaded using constructor
     
@@ -157,6 +164,18 @@ namespace RavlDFN {
     //: Access body.
     
   public:
+    bool Save(XMLOStreamC &strm,bool inCharge = true) const
+    { return Body().Save(strm,inCharge); }
+    //: Save ostream.
+    
+    bool Save(BinOStreamC &strm) const
+    { return Body().Save(strm); }
+    //: Save ostream.
+    
+    bool Save(ostream &strm) const
+    { return Body().Save(strm); }
+    //: Save ostream.
+    
     bool Init(FactoryC &factory)
     { return Body().Init(factory); }
     //: Initalise with info from a factory.
