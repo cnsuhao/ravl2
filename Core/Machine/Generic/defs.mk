@@ -12,7 +12,7 @@ DESCRIPTION= Dummy Atomic operations
 
 PACKAGE=Ravl
 
-DONOT_SUPPORT=linux sgi alpha sol2_7 sol2_9
+DONOT_SUPPORT=linux sgi alpha sol2_7 sol2_9 VCPP
 
 HEADERS=Atomic.hh
 
