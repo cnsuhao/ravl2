@@ -32,6 +32,8 @@ namespace RavlN {
 
       for (DLIterC<Point2dC> ptr(*this); ptr != pLast; ptr++)
         sum += ptr.Data().X() * ptr.NextData().Y() - ptr.NextData().X() * ptr.Data().Y();
+      // close the polygon
+      sum += pLast.Data().X() * pLast.NextCrcData().Y() - pLast.NextCrcData().X() * pLast.Data().Y();
       return sum * 0.5;
    }
     
@@ -46,6 +48,10 @@ namespace RavlN {
         x += (ptr.Data().X() + ptr.NextData().X()) * temp;
         y += (ptr.Data().Y() + ptr.NextData().Y()) * temp;
       }
+      // close the polygon
+      RealT temp = pLast.Data().X() * pLast.NextCrcData().Y() - pLast.NextCrcData().X() * pLast.Data().Y();
+      x += (pLast.Data().X() + pLast.NextCrcData().X()) * temp;
+      y += (pLast.Data().Y() + pLast.NextCrcData().Y()) * temp;
       RealT scale = 1.0 / (6.0 * Area());
       return Point2dC(x * scale, y * scale);
    }
