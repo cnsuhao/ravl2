@@ -65,11 +65,18 @@ namespace RavlImageN {
   
   class ChanDCTC {
   public:
+    ChanDCTC();
+    //: Default constructor.
+    
     ChanDCTC(unsigned int size);
     //: Construct DCT for image of 'size' rows by 'size' columns
     
     ~ChanDCTC();
     //: Destructor.
+    
+    void Setup(unsigned int size);
+    //: Setup tables for dct of given size.
+    //!param:size - Size of dct image.
     
     void dct_in_place(ImageC<RealT>& im) const;
     //: Do an inplace dct of im.
@@ -85,6 +92,10 @@ namespace RavlImageN {
     //: Compute the dct of 'src', place the result in 'dest'.
     
   private:
+    const ChanDCTC &operator=(const ChanDCTC &oth)
+    { return *this; }
+    //: Make assigment operator private.
+    
     int N;
     int m;
     RealT *cosines;
@@ -148,6 +159,10 @@ namespace RavlImageN {
     //: Compute the DCT of src, place the result in 'dest'.
     
   private:
+    const VecRadDCTC &operator=(const VecRadDCTC &oth)
+    { return *this; }
+    //: Make assigment operator private.
+    
     int N;
     int N0;
     int m;

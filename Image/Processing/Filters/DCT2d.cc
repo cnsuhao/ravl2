@@ -147,21 +147,39 @@ namespace RavlImageN {
 
   ***************************************************************************/
 
+  //: Default constructor.
+  
+  ChanDCTC::ChanDCTC()
+    : m(0),
+      N(0),
+      cosines(0)
+  {}
+  
   ChanDCTC::ChanDCTC(unsigned int size)
-  {
+    : cosines(0)
+  { Setup(size); }
+  
+  ChanDCTC::~ChanDCTC()
+  { delete [] cosines; }
+  
+  //: Setup tables for dct of given size.
+  //!param:size - Size of dct image.
+  
+  void ChanDCTC::Setup(unsigned int size) {
+    if(cosines != 0)
+      delete [] cosines;
+    if(size == 0) {
+      m = 0;
+      N = 0;
+      return ;
+    }
     m = (unsigned int)Ceil(Log(size)/log(2.0));
     N = (unsigned int)Pow(2.0, m);
     cosines = new RealT [N];
     makecosinetable();
-
     scaleDC = 1.0/(RealT)N;
     scaleMix = sqrt(2.0)/(RealT)N;
-    scaleAC = 2.0 * scaleDC;
-  }
-
-  ChanDCTC::~ChanDCTC()
-  {
-    delete [] cosines;
+    scaleAC = 2.0 * scaleDC;    
   }
   
   void ChanDCTC::dct_in_place(ImageC<RealT>& dest) const
