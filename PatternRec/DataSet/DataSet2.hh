@@ -46,6 +46,10 @@ namespace RavlN {
 		 const Element2T &data2);
     //: Append a data entry.
     // returns its index.
+
+    void Append(const DataSet2C<Sample1T,Sample2T> &data);
+    //: Append a data set.
+    // Note that the entries are not copied
     
     DataSet2C<Sample1T,Sample2T> ExtractSample(RealT proportion);
     //: Extract a sample.
@@ -126,6 +130,11 @@ namespace RavlN {
     { return Body().Append(data1,data2); }
     //: Append a data entry.
     // returns its index.
+
+    void Append(const DataSet2C<Sample1T,Sample2T> &data)
+    { return Body().Append(data); }
+    //: Append a data set to this one
+    // Note that the elements are not copied
     
     DataSet2C<Sample1T,Sample2T> ExtractSample(RealT proportion)
     { return Body().ExtractSample(proportion); }
@@ -183,6 +192,12 @@ namespace RavlN {
     UIntT no2 = samp2.Append(data2);
     RavlAssert(no1==no2);
     return no1;
+  }
+
+  template<class Sample1T,class Sample2T>
+  void DataSet2BodyC<Sample1T,Sample2T>::Append(const DataSet2C<Sample1T,Sample2T> &data) {
+    samp1.Append(data.Sample1());
+    samp2.Append(data.Sample2());
   }
 
   template<class Sample1T,class Sample2T>
