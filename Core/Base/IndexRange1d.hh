@@ -99,12 +99,15 @@ namespace RavlN {
     //: Logical operations.
     
     inline bool IsEmpty() const
-    { return Min() > Max(); }
+    { return Min() >= (Max() + 1); }
     //: Returns true if the minimum limit is bigger than the maximum limit. 
+    // The range is empty if Min() > (Max()+1) since zero length ranges are supported
+    // Note: if Min() = Max() the range has length 1
 
     inline bool IsValid() const
-    { return Min() > Max(); }
-    //: Returns true if the minimum limit is bigger than the maximum limit. 
+    { return Min() <= (Max()+1); }
+    //: Returns true if the range is valid
+    //: Empty ranges (ie Min() = Max()+1) are valid
     
     inline bool Contains(IndexC i) const
     { return (Min() <= i) && (i <= Max()); }
