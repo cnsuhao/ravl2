@@ -23,34 +23,25 @@ namespace RavlImageN {
   //! userlevel=Normal
   //: Low-pass-filters an image with a finite-width approximation to a Gaussian mask
   //
-  //<p> The filter design is bsed on a normalised row from Pascal's triangle
-  // (i.e. binomial coefficients).  The "standard deviation" of such a filter, with <i>n</i> coefficients, is thus ((<i>n</i>-1)/4)^1/2</p>
-  //
-  // <p> The rational is this:
-  // <ul>
-  // <li> The simplest possible non-trivial Gaussian filter is a 2nd-order one,
-  // which from symmetry considerations will have two equal coefficients.
-  // <li> Higher-order filters can be viewed as convolved 2nd-order filters,
-  // i.e. an <i>n</i>th order filter is a convolution of <i>n</i>+1 2nd-order filters.
-  // By the Central Limit Theorem these will approximate a Gaussian profile
-  // more and more closely as the order increases.
-  // <li> At the same time because they are of finite width they avoid the
-  // problem of truncating the Gaussian tails.
-  // </ul>
-  // E.g. a 5th order filter has mask of:
-  //
-  // <pre> (1 4 6 4 1) / 16 </pre></p>
   // <p>This class is just wraps <a href="RavlImageN.ConvolveSeparable2dC.html">ConvolveSeparable2dC</a> and
-  // <a href="RavlN.GenerateBinomialObDataT_SizeT_bool_boolCb.html">GenerateBinomial()</a> calls in a convenient form.</p>
-  // The default form of this function is setup to handle single channel images. (e.g. byte, real, int)
+  // <a href="RavlN.GenerateBinomialObSizeT_bool_bool_UIntTCb.html">GenerateBinomial()</a> calls in a convenient form.</p>
+
+  //<p> The filter design is based on a normalised row from Pascal's triangle
+  // (i.e. binomial coefficients).  E.g. a 5th order filter has mask of:</p>
+  // <pre> (1 4 6 4 1) / 16 </pre>
+
+  //<p> The "standard deviation" of such a filter, with <i>n</i> coefficients, is thus ((<i>n</i>-1)/4)^&frac12;.  For more details, see <a href="RavlN.GenerateBinomialObSizeT_bool_bool_UIntTCb.html">GenerateBinomial()</a>.</p>
+
+  // <p>The default form of this function is setup to handle single channel images. (e.g. byte, real, int)
   // if you want to convolve multi channel images you should change the 'SumTypeT' template argument to
   // a type that can handle sums and multiplications without overflowing 
-  // e.g. If you wish to convolve a <a href="RavlImageN.ByteRGBValueC.html">ByteRGBValueC</a> SumTypeT should be set to RealRGBValueC. <p>
-  // <b>Template args:</b> <br>
+  // e.g. If you wish to convolve a <a href="RavlImageN.ByteRGBValueC.html">ByteRGBValueC</a> SumTypeT should be set to RealRGBValueC. </p>
+
+  // <p>Template args:</p>
   // InPixelT = Type of pixel in input image. <br>
   // OutPixelT = Type of pixel in output image. (Default = InPixelT) <br>
   // KernelPixelT = Type of pixel in convolution kernel. (Default = RealT; integer types currently will not work, as the normalisation is done in the kernel generation)  <br>
-  // SumTypeT = A type appropriate for summing the product of KernelPixelT and InPixelT. (Default = KernelPixelT <br>
+  // SumTypeT = A type appropriate for summing the product of KernelPixelT and InPixelT. (Default = KernelPixelT) <br>
   // There are two main issues when choosing these types.<br>
   // 1. Underflow and overflow of the sums and product operations. <br>
   // 2. Handing multi-channel images. (Such as RGB.) <br>
@@ -67,14 +58,10 @@ namespace RavlImageN {
     {}
     //: Default constructor.
     
-    GaussConvolve2dC(UIntT order, UIntT derivative=0) 
-      : binomial(GenerateBinomial<KernelPixelT>(order, true,true,derivative))
-      { 
-	SetKernel(binomial, binomial);
-      }
+    GaussConvolve2dC(UIntT order) 
+      : binomial(GenerateBinomial<KernelPixelT>(order, true, true))
+      { SetKernel(binomial, binomial); }
     //: Construct Gaussian with the given size.
-    //!param: order - total width of the Gaussian approximation (<em>not</em> the "standard deviation")
-    //!param: derivative - if set, for derivatives of Gaussian (2nd order is inverted)
     
     ImageC<OutPixelT> Apply (const ImageC<InPixelT> &in) const {
       ImageC<OutPixelT> op;
@@ -97,7 +84,7 @@ namespace RavlImageN {
     
     UIntT Order() const
     { return binomial.Size(); }
-    //: Get size of gausian.
+    //: Get size of Gaussian.
 
 #if RAVL_NEW_ANSI_CXX_DRAFT
     friend ostream &operator<< <>(ostream &s, const GaussConvolve2dC<InPixelT,OutPixelT,KernelPixelT,SumTypeT> &out);
