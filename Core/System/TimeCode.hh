@@ -130,7 +130,7 @@ namespace RavlN {
     //: Return a string  representation of timecode
     
     inline IntT NumberOfFramesTo(const TimeCodeC &in) const 
-      { return Abs(m_liFrame - tc_In.m_liFrame); }    
+      { return Abs(m_liFrame - in.m_liFrame); }    
     //: Count the number of frames to a timecode
     
     inline bool IsValid() const
