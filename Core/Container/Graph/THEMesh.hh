@@ -65,7 +65,51 @@ namespace RavlN {
       HEMeshBaseBodyC::InsertFace(ret,vertices,edgeTab);
       return ret;
     }
-    //: Insert face defined by vertices.
+    //: Insert face defined by vertices.  
+
+  protected:
+    virtual THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> NewEdge(THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT> &vert,
+		    THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> &face)
+    { return THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT>(*new THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT>(vert,face)); }
+    //: Create a new edge.
+    
+  public:
+    THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> SplitFace( THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> from,
+		    THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> to ) {
+
+      //ONDEBUG(cerr << "THEMeshC::SplitFace(). From:" << from.Hash() << " To:" << to.Hash() << "\n");
+      RavlAssert(from.IsValid());
+      RavlAssert(to.IsValid());
+      RavlAssert(from.Face() == to.Face());
+      RavlAssert(to.Next() != from);
+      RavlAssert(from.Next() != to); 
+      
+      THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> face1 = to.Face();
+      THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> face2 = NewFace();
+      faces.InsLast(face2.Body()); 
+      
+      THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT> fromVertex = from.Vertex();
+      THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT> toVertex = to.Vertex();
+      THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> edge1 = NewEdge(fromVertex,face1);
+      THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> edge2 = NewEdge(toVertex,face2);
+      edge1.SetPair(edge2);
+      edge2.SetPair(edge1);
+      face2.SetEdge(edge2);
+      face1.SetEdge(edge1); // Make sure face1 is pointing to a valid edge.
+    
+      edge2.Body().CutPaste(to.Body().Next(),from.Body().Next()); 
+      to.LinkAfter(edge1); 
+      
+      for(THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> at = edge2.Next();at != edge2;at = at.Next()) {
+	//ONDEBUG(cerr << "THEMeshC::SplitFace() Setting face for edge " << at.Hash() <<" to " << face2.Hash() << "\n";)
+	at.SetFace(face2);
+      }
+
+      return edge2;
+    }   
+    //: Split a face with a new edge.
+    // Edges from and to must be on the same face. The new edge is placed between
+    // the vertex's they point to. The new edge is returned.
     
   protected:
     virtual HEMeshBaseFaceC NewFace()
@@ -132,6 +176,13 @@ namespace RavlN {
     { return Body().InsertFace(vertices,edgeTab); }
     //: Insert face defined by vertices.
     
+    THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> SplitFace( THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> from,
+		    THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> to )
+    { return Body().SplitFace(from,to); }
+    //: Split a face with a new edge.
+    // Edges from and to must be on the same face. The new edge is placed between
+    // the vertex's they point to. The new edge is returned.
+
     THEMeshFaceIterC<VertexDataT,FaceDataT,EdgeDataT> Faces()
     { return THEMeshFaceIterC<VertexDataT,FaceDataT,EdgeDataT>(Body().faces); }
     //: List of faces in the mesh.

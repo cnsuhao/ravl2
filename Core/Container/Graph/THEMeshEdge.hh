@@ -117,7 +117,9 @@ namespace RavlN {
     //: Constructor.
     
     THEMeshEdgeC(THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT> vert,
-		 THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> face);
+		 THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> face)
+	    : HEMeshBaseEdgeC(*new THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT>(vert.Body(),face.Body()))
+    {}
     //: Constructor.
     
     THEMeshEdgeC(HEMeshBaseEdgeBodyC &bod)
@@ -182,7 +184,8 @@ namespace RavlN {
     { Body().SetPair(edge.Body()); }
     //: Set edge pair.
     
-    void SetFace(THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> face);
+    void SetFace(THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> face)
+    { Body().SetFace(face.Body()); }
     //: Set the face associated with the edge.
     
     inline THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> Face();
