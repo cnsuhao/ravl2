@@ -40,6 +40,10 @@ namespace RavlN {
       buff = CurLibInfo().Name();
       return true;
     }
+    if(varname == "target") {
+      buff = target;
+      return true;
+    }
     if(varname == "filename") { // Get the full path.
       buff = CurFilename();
       return true;
@@ -156,6 +160,7 @@ namespace RavlN {
     if(fileObject == "none") 
       return true;
     if(fileObject == "one") {
+      target = "one";
       StringC fn = MakeFilename("");
       cerr << "Building file:'" << fn << "'\n";
       Build(fn);
@@ -163,6 +168,7 @@ namespace RavlN {
     }
     if(fileObject == "lib") {
       for(HashIterC<StringC,LibInfoC> it(src.Libs());it;it++) {
+	target = it.Key();
 	StringC fn = MakeFilename(it.Key());
 	context.Push(ContextC(*it));
 	Build(fn);
@@ -179,6 +185,7 @@ namespace RavlN {
       else
 	pi = src.Tests();
       for(DLIterC<ProgInfoC> it(pi);it;it++) {
+	target = it->Name();
 	StringC fn = MakeFilename(it->Name());
 	context.Push(ContextC(*it));
 	Build(fn);	

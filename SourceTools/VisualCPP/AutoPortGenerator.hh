@@ -92,7 +92,7 @@ namespace RavlN {
     };
     
     StackC<ContextC> context;
-    
+    StringC target; // Current target.
     StringC filePattern;
     StringC fileObject;
     StringC output;
