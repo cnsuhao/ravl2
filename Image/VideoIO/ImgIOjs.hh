@@ -23,7 +23,7 @@ namespace RavlImageN {
   
   ///////////////////////////////////
   //! userlevel=Develop
-  //: Basic information about a cif file
+  //: Basic information about a js file
 
   class DPImageJSBaseBodyC {
   public:  
@@ -52,24 +52,21 @@ namespace RavlImageN {
     UIntT SeqSize() const { return seqSize; }
     //: Get the sequence size.
     
+    void SetupIO();
+    //: Setup paramiters needed for io.
     
-  protected:
-    static inline bool is_odd (IndexC x) {return bool (x%2 != 0);}
-    // Is an index odd ?
-    
-    
+  protected:     
     ImageRectangleC rect; // Size of YUV variant. Origin 0,0
     StreamOffsetT frameSize; // Size of one frame in bytes.
     UIntT frameNo; // Current frameno.
     UIntT seqSize;  // Number of frames in sequence, ((UIntT) -1) if unknown
     UIntT blockSize;  
     StreamOffsetT offset;  // Offset of start.
-    UIntT pad;     // Pad size;
   };
   
   ///////////////////////////////////
   //! userlevel=Develop
-  //: Load a YUV image in YUV format.
+  //: Load a js file in YUV 422 format.
   
   class DPIImageJSBodyC 
     : public DPISPortBodyC<ImageC<ByteYUV422ValueC> >,
@@ -121,7 +118,7 @@ namespace RavlImageN {
   
   ///////////////////////////////////
   //! userlevel=Develop
-  //: Save a YUV image in YUV format.
+  //: Save a js file in YUV 422 format.
   
   class DPOImageJSBodyC 
     : public DPOSPortBodyC<ImageC<ByteYUV422ValueC> >,
@@ -159,11 +156,15 @@ namespace RavlImageN {
     //: Put End Of Stream marker.
     
   protected:  
+    bool WriteHeader(const ImageRectangleC &wrect);
+    //: Write js header.
+    
+    bool doneHeader;
     OStreamC strm;
   };
 
   //! userlevel=Normal
-  //: Load a YUV image in YUV format.
+  //: Load a js file in YUV 422 format.
   
   class DPIImageJSC 
     : public DPISPortC<ImageC<ByteYUV422ValueC> >
@@ -180,7 +181,7 @@ namespace RavlImageN {
   };
   
   //! userlevel=Normal
-  //: Save a YUV image in YUV format.
+  //: Save a js file in YUV 422 format.
   
   class DPOImageJSC 
     : public DPOSPortC<ImageC<ByteYUV422ValueC> >

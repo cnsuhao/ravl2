@@ -22,11 +22,13 @@
 #define ONDEBUG(x)
 #endif
 
+// FIXME :-  Use the magic number at the beginning of the file to identify the
+// format. Support IO from streams.
+
 namespace RavlImageN {
 
   void InitJSFormat() 
   {}
-  
   
   // YUV ////////////////////////////////////////////////////////////////
   
@@ -41,6 +43,7 @@ namespace RavlImageN {
   
   const type_info & FileFormatJSBodyC::ProbeLoad(IStreamC &in,const type_info &obj_type) const { 
 #if 0
+    // FIXME :- Check magic number.
     return typeid(ImageC<ByteYUV422ValueC>); 
 #else
     return typeid(void); 
@@ -58,17 +61,13 @@ namespace RavlImageN {
   
   const type_info &
   FileFormatJSBodyC::ProbeSave(const StringC &nfilename,const type_info &obj_type,bool forceFormat) const {
-#if 0
+    StringC suffix = Extension(nfilename);
+    ONDEBUG(cerr << "FileFormatJSBodyC::ProbeSave() Called. Filename:'"<< nfilename <<"' Ext:'" << suffix << "'  LoadType:'" << TypeName(obj_type) << "'\n");
     if(!forceFormat) {
-      StringC suffix = Extension(nfilename);
-      ONDEBUG(cerr << "FileFormatJSBodyC::ProbeSave() Called. Filename:'"<<nfilename <<"' Ext:'" << suffix << "'  LoadType:'" << TypeName(obj_type) << "'\n");
       if (suffix != "js")
 	return typeid(void);
     }
     return typeid(ImageC<ByteYUV422ValueC>);
-#else
-    return typeid(void); // Can't save in this format for the moment.
-#endif
   }
   
   //: Create a input port for loading.
@@ -87,12 +86,10 @@ namespace RavlImageN {
   // Will create an Invalid port if not supported.
   
   DPOPortBaseC FileFormatJSBodyC::CreateOutput(OStreamC &out,const type_info &obj_type) const  {
-#if 0
     if(!out.good())
       return DPOPortBaseC();
     if(obj_type == typeid(ImageC<ByteYUV422ValueC>))
       return DPOImageJSC(out);
-#endif
     return DPOPortBaseC();
   }
   

@@ -22,11 +22,11 @@ int main(int argc,char **argv)
   // Process options.
   
   OptionC option(argc,argv);
-  StringC ifilename = option.String("i","","Input stream.");
-  StringC ofilename = option.String("o","out.abs","Output stream.");
   StringC ifmt = option.String("if","","Input format. ");
   StringC ofmt = option.String("of","","Output format. ");
   bool verbose = option.Boolean("v",false,"Verbose mode. ");
+  StringC ifilename = option.String("","","Input stream.");
+  StringC ofilename = option.String("","@X","Output stream.");
   option.Check();
   
   DPIPortC<ImageC<ByteT> > inputStream;
