@@ -10,7 +10,7 @@
 //! author="Charles Galambos"
 
 #include "Ravl/Option.hh"
-#include "Ravl/OS/DynamicLink.hh"
+#include "Ravl/DP/DynamicLink.hh"
 
 using namespace RavlN;
 
