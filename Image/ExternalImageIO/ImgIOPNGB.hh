@@ -226,7 +226,7 @@ namespace RavlImageN {
      * and update info structure.  REQUIRED if you are expecting libpng to
      * update the palette for you (ie you selected such a transform above).
      */
-    png_read_update_info(png_ptr, info_ptr);
+    //png_read_update_info(png_ptr, info_ptr);
     
     /* Allocate the memory to hold the image using the fields of info_ptr. */
     
