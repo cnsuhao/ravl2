@@ -80,15 +80,7 @@ namespace RavlN {
   // <code>int</code>.  In particular you can't use an IndexC object directly as
   // an <code>int</code> function argument.  You need to use the <a
   // href="#IndexC_V_void__const">V()</a> member function to achieve this.  (We <i>could</i> have provided the implicit conversion, but it would then be very difficult sometimes to know which was actually being used.) </ul>
-  
-  // See also the class bugs above.
-  //!classbugs: <dl>
-  //!classbugs: <dt>operator-:
-  //!classbugs: <dd> Currently, IndexC::operator-(IndexC) returns an IntT, not
-  //!classbugs: (as you might have expected) an IndexC.  This can give
-  //!classbugs:  surprising results.
-  //!classbugs: </dl>
-  
+    
   class IndexC {
   public:
     // <p><h2>Constructors, copies, assigment, and destructor:</h2>
