@@ -206,6 +206,7 @@ namespace RavlN {
 	SignalConnector1BodyC<Data1T>(from,dat1),
 	SignalConnector2BodyC<Data1T,Data2T>(from,dat1,dat2),
 	SignalConnector3BodyC<Data1T,Data2T,Data3T>(from,dat1,dat2,dat3),
+	obj(nobj),
 	func(nFunc)
       {}
     //: Constructor.
@@ -259,7 +260,7 @@ namespace RavlN {
     : public SignalConnector3BodyC<Data1T,Data2T,Data3T>
   {
   public:
-    typedef void (ObjT::*Func3T)(Data1T &dat1,Data2T &dat2,Data3T &dat3);
+    typedef bool (ObjT::*Func3T)(Data1T &dat1,Data2T &dat2,Data3T &dat3);
     
     Signal3MethodRefBodyC(Signal0C &from,
 			  ObjT &nobj,
