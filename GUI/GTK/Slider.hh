@@ -237,6 +237,18 @@ namespace RavlGUIN {
   }
   //: Vertical slider with call back to function.
 
+  inline SliderC SliderH(RealT nvalue, 
+		  RealT nlower, 
+		  RealT nupper, 
+		  RealT nstep_increment,
+		  bool (*func)(RealT &value))
+  {
+    SliderC ret(false,nvalue,nlower,nupper,nstep_increment);
+    Connect(ret.SigChanged(),func,nvalue);
+    return ret;
+  }
+  //: Horizontal slider with call back to function.
+
   template<class DataT>
   SliderC SliderH(RealT nvalue, 
 		  RealT nlower, 
