@@ -15,6 +15,7 @@
 #include "Ravl/Vector3d.hh"
 #include "Ravl/Matrix3d.hh"
 #include "Ravl/Stream.hh"
+#include "Ravl/BinStream.hh"
 #include "Ravl/SArray1d.hh"
 
 namespace Ravl3DN
@@ -124,10 +125,16 @@ namespace Ravl3DN
   };
 
   istream& operator>>(istream& s, PinholeCamera0C& camera);
-  //:Read camera parameters from a text stream
+  //:Read camera parameters from a text stream.
 
   ostream& operator<<(ostream& s, const PinholeCamera0C& camera);
-  //:Write camera parameters to a text stream
+  //:Write camera parameters to a text stream.
+
+  BinIStreamC& operator>>(BinIStreamC& s, PinholeCamera0C& camera);
+  //:Read camera parameters from a binary stream.
+
+  BinOStreamC& operator<<(BinOStreamC& s, const PinholeCamera0C& camera);
+  //:Write camera parameters to a binary stream.
 };
 
 #endif

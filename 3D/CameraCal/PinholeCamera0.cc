@@ -32,4 +32,27 @@ namespace Ravl3DN
     s << camera.t();
     return s;
   }
+
+  BinIStreamC& operator>>(BinIStreamC& s, PinholeCamera0C& camera)
+  {
+    s >> 
+      camera.fx() >> 
+      camera.fy() >> 
+      camera.cx() >> 
+      camera.cy() >> 
+      camera.R()  >> 
+      camera.t();
+    return s;
+  }
+
+  BinOStreamC& operator<<(BinOStreamC& s, const PinholeCamera0C& camera)
+  {
+    s << camera.fx() 
+      << camera.fy() 
+      << camera.cx() 
+      << camera.cy() 
+      << camera.R()
+      << camera.t();
+    return s;
+  }
 };
