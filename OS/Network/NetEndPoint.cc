@@ -19,6 +19,7 @@
 //#include "Ravl/BinString.hh"
 
 #include <stdlib.h>
+#include <unistd.h>
 
 #define DODEBUG 0
 #if DODEBUG
