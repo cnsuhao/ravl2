@@ -28,9 +28,8 @@ SOURCES = DefsFile.cc SourceCodeManager.cc RCSFile.cc SourceFile.cc \
 #SrcInst.cc SrcFunc.cc SrcUtil.cc ManagedFile.cc
 # doLog.cc
 
-MAINS = defsCheck.cc annotate.cc rcsinfo.cc amma2ravl.cc
-
-# doMerge.cc DocEntryUpdate.cc QLibs.cc
+MAINS = defsCheck.cc annotate.cc  amma2ravl.cc
+# rcsinfo.cc doMerge.cc DocEntryUpdate.cc QLibs.cc
 
 EXAMPLES=exBuildInfo.cc
 
