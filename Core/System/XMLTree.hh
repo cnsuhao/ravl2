@@ -69,7 +69,7 @@ namespace RavlN {
     
     bool Add(const StringC &name,const XMLTreeC &subtree);
     //: Add subtree to node.
-    // Obsolete use Add(const XMLTreeC &subtree).
+    // Obsolete; use Add(const XMLTreeC &subtree).
     
     bool Add(const XMLTreeC &subtree);
     //: Add subtree to node.
@@ -168,7 +168,7 @@ namespace RavlN {
     bool Add(const StringC &name,const XMLTreeC &subtree)
     { return Body().Add(name,subtree); }
     //: Add subtree to node.
-    // Obsolete use Add(const XMLTreeC &subtree).
+    // <font color="#880088"> Obsolete</font>; use Add(const XMLTreeC &subtree).
     
     bool Add(const XMLTreeC &subtree)
     { return Body().Add(subtree); }
