@@ -140,8 +140,18 @@ namespace RavlN {
       version(0)
     {
       if(useHeader) {
-	StringC classname;
-	in.ReadTag(classname);
+	if(!in.ReadHeader()) {
+	  cerr << "DPIXMLFileC ERROR: File has no XML header. \n";
+	  return ;
+	} 
+	StringC strmName;
+	RCHashC<StringC,StringC> attrs;
+	in.ReadTag(strmName,attrs);
+	if(strmName != "RAVL") {
+	  cerr << "DPIXMLFileC ERROR: Not a RAVL stream. \n";
+	  return ;
+	}
+	StringC classname = attrs["class"];
 	if(classname != TypeName(typeid(DataT))) 
 	  cerr << "DPIXMLFileC ERROR: Bad file type: " << classname << " Expected:" << TypeName(typeid(DataT)) << " \n";
       }
@@ -153,10 +163,20 @@ namespace RavlN {
         version(0)
     {
       if(useHeader) {
-	StringC classname; 
-	in.ReadTag(classname);
+	if(!in.ReadHeader()) {
+	  cerr << "DPIXMLFileC ERROR: File has no XML header. \n";
+	  return ;
+	} 
+	StringC strmName;
+	RCHashC<StringC,StringC> attrs;
+	in.ReadTag(strmName,attrs);
+	if(strmName != "RAVL") {
+	  cerr << "DPIXMLFileC ERROR: Not a RAVL stream. \n";
+	  return ;
+	}
+	StringC classname = attrs["class"];
 	if(classname != TypeName(typeid(DataT))) 
-	  cerr << "DPIXMLFileC ERROR: Bad file type. " << classname << " Expected:" << TypeName(typeid(DataT)) << " \n";
+	  cerr << "DPIXMLFileC ERROR: Bad file type: " << classname << " Expected:" << TypeName(typeid(DataT)) << " \n";
       }
     }
     //: Stream constructor.
