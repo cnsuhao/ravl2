@@ -39,13 +39,6 @@ namespace RavlN {
     return ret;
   }
   
-  //: Increment the linear system
-  
-  bool StateVectorAffine2dBodyC::IncrementLS(MatrixRSC &A, VectorC &a) {
-    A += x.OuterProduct();
-    return true;
-  }
-  
   //: Postprocess state vector after an adjustment to the parameters
   
   bool StateVectorAffine2dBodyC::Postprocess() {

@@ -39,9 +39,6 @@ namespace RavlN {
     { return *new StateVectorAffine2dBodyC(t); }
     //: Make a copy of the body.
     
-    virtual bool IncrementLS(MatrixRSC &A, VectorC &a);
-    //: Increment the linear system
-    
     virtual bool Postprocess();
     //: Postprocess state vector after an adjustment to the parameters
     
