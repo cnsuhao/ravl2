@@ -37,8 +37,7 @@ my $USERNAME ;
 if ($ENV{USER} ) 
      { $USERNAME = $ENV{USER} ;}
 else
-     { print "\nenv is whoami" ;
-       $USERNAME = `whoami` ; }
+     { $USERNAME = `whoami` ; }
 
 
 
