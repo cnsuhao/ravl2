@@ -10,7 +10,7 @@
 
 PACKAGE=Ravl/GUI
 
-LICENCE=GPL
+LICENSE=LGPL
 
 DESCRIPTION = Interface to open GL.
 
