@@ -68,9 +68,9 @@ namespace RavlN {
     int rem = d2.Size();
     inc = 1/(RealT) rem; // Make sure its accurate.
     Array1dC<RealT> t2(work,IndexRangeC(mid,d2.Size()));
-    for(Array1dIter2C<RealT,RealT> it(t2,d2);it;it++) {
+    for(Array1dIter2C<RealT,RealT> it2(t2,d2);it2;it2++) {
       frac -= inc;
-      it.Data1() = it.Data2() * frac;
+      it2.Data1() = it2.Data2() * frac;
       wss += Sqr(frac);
     }
     
