@@ -26,7 +26,7 @@ namespace RavlN {
   //: Text buffer body
   
   class TextBufferBodyC 
-    : public RCBodyC
+    : public RCBodyVC
   {
   public:
     TextBufferBodyC();
