@@ -23,9 +23,7 @@
 #include <new.h>
 #endif
 
-
-namespace RavlN
-{
+namespace RavlN {
   
   //////////////////////
   //! userlevel=Develop
@@ -57,10 +55,16 @@ namespace RavlN
     //: Get size of pipe.
     
   protected:
-    inline bool IsSpace() const;
+    inline bool IsSpace() const {
+      IntT nHead = head + 1;
+      if(nHead >= MaxSize())
+	nHead = 0;
+      return (nHead != tail);
+    }
     // Is space to data into ring ?
     
-    inline bool IsEmptyBase() const;
+    inline bool IsEmptyBase() const
+    { return head == tail; }
     // Is space to data into ring ?
     
     MutexC access;      // Access control.
@@ -84,13 +88,20 @@ namespace RavlN
     : public MessageQueueBaseC
   {
   public:
-    MessageQueueC(int nMaxSize = 10);
+    MessageQueueC(int nMaxSize = 10)
+      : MessageQueueBaseC(nMaxSize),
+	data((T *) new char[(nMaxSize + 2) * sizeof(T)])
+    {}
     //: Default constructor.
     
-    MessageQueueC(const MessageQueueC<T> &) { RavlAssert(0); }// Not supported !
+    MessageQueueC(const MessageQueueC<T> &) 
+    { RavlAssert(0); }// Not supported !
     //: Copy constructor.
     
-    ~MessageQueueC();
+    ~MessageQueueC() { 
+      Empty();
+      delete [] (char *) data; 
+    }
     //: Destructor.
     
     inline void Put(const T &Data);
@@ -129,32 +140,6 @@ namespace RavlN
   };
   
   //////////////////////////////////////////////////////////////
-  
-  inline 
-  bool MessageQueueBaseC::IsSpace() const {
-    IntT nHead = head + 1;
-    if(nHead >= MaxSize())
-      nHead = 0;
-    return (nHead != tail);
-  }
-  
-  inline 
-  bool MessageQueueBaseC::IsEmptyBase() const  
-  { return head == tail; }
-
-  //////////////////////////////////////////////////////////////
-  
-  template<class T>
-  MessageQueueC<T>::MessageQueueC(int nMaxSize)  
-    : MessageQueueBaseC(nMaxSize),
-      data((T *) new char[(nMaxSize + 2) * sizeof(T)])
-  {}
-  
-  template<class T>
-  MessageQueueC<T>::~MessageQueueC() { 
-    Empty();
-    delete [] (char *) data; 
-  }
   
   // Put data into queue.
   
@@ -256,7 +241,6 @@ namespace RavlN
     while(IsElm())
       Get();
   }
-  
   
   /////////////////////////
   // Is there data in the queue ?
