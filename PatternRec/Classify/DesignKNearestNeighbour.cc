@@ -25,6 +25,7 @@ namespace RavlN {
   //: Create a clasifier.
   
   ClassifyVectorC DesignKNearestNeighbourBodyC::Apply(const SampleC<VectorC> &in,const SampleC<UIntT> &out) {
+    RavlAssertMsg(in.Size() == out.Size(),"DesignKNearestNeighbourBodyC::Apply(), Sample of vector and labels should be the same size.");
     if(useAverageKNN)
       return ClassifyAverageNearestNeighbourC (DataSet2C<SampleVectorC,SampleLabelC>(in,out),k,distanceMetric);
     return ClassifyKNearestNeighbourC (DataSet2C<SampleVectorC,SampleLabelC>(in,out),k,distanceMetric);
