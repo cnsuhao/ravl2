@@ -89,7 +89,7 @@ namespace RavlGUIN {
     //: Get rendering mode
     
   protected:
-    void ProcessReq(DObject3DC &obj);
+    bool ProcessReq(DObject3DC &obj);
     //: Process OpenGL requests.
     
     bool InitGL();
@@ -159,8 +159,8 @@ namespace RavlGUIN {
     const Canvas3DBodyC &Body() const
       { return static_cast<const Canvas3DBodyC &>(WidgetC::Body()); }
     
-    void ProcessReq(DObject3DC &obj)
-      { Body().ProcessReq(obj); }
+    bool ProcessReq(DObject3DC &obj)
+      { return Body().ProcessReq(obj); }
     //: Process OpenGL requests.
     
     bool DoLighting()

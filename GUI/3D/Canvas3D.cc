@@ -47,7 +47,7 @@ namespace RavlGUIN {
       cerr << "No native OpenGL not supported on this display. \n";
       cerr << "You could try: 'setenv LD_LIBRARY_PATH /opt/PDmesa/Mesa-3.1/lib' \n";
       cerr << "Then restarting your program. \n";
-      exit(1);
+      RavlAssertMsg(0,"OpenGL not supported. ");
 #else
       //cerr << "No native OpenGL not supported on this display. \n";    
 #endif
@@ -118,18 +118,19 @@ namespace RavlGUIN {
 
   //: Process OpenGL requests.
   
-  void Canvas3DBodyC::ProcessReq(DObject3DC &obj) {
+  bool Canvas3DBodyC::ProcessReq(DObject3DC &obj) {
     ONDEBUG(cerr << "Canvas3DBodyC::ProcessReq(), Called. \n");
     if(!BeginGL()) {
       cerr << "Canvas3DBodyC::ProcessReq(), Failed to BeginGL(). \n";
-      return ;
+      return false;
     }
     Canvas3DC c(*this);
     if(!obj.IsValid())
-      cerr << "Canvas3DBodyC::ProcessReq(), Given invalid object. \n";
+     cerr << "Canvas3DBodyC::ProcessReq(), Given invalid object. \n";
     else
       obj.RenderDL(c);
     EndGL();  
+    return true;
   }
   
   //: Put render instructon into pipe.
