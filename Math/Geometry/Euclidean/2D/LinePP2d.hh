@@ -44,7 +44,36 @@ namespace RavlN {
     bool ClipBy(const RealRange2dC &rng);
     //: Clip line by given rectangle.
     // Returns false if no part of the line is in the rectangle.
+
+    bool IsPointToLeft(const Point2dC& pnt) const
+    { return pnt.Area2(P1(),P2()) > 0; }
+    //: Checks if this point is to the left of the line
+
+    bool IsPointToLeftOn(const Point2dC& pnt) const 
+    { return pnt.Area2(P1(),P2()) >= 0; }
+    //: Checks if this point is to the left of , or exactly on the line
     
+    bool IsPointOn(const Point2dC& pnt) const
+    { return pnt.Area2(P1(),P2()) == 0; }
+    //: Checks if this point is exactly on the line
+
+    bool IsPointIn(const Point2dC& pnt) const;
+    //: Checks if this point is exactly on the closed segment
+
+    RealT ParIntersection(const LinePP2dC & l) const;
+    // Returns the parameter of the intersection according to this line.
+    // If the parameter is equal to 0, the intersection is the starting
+    // point of this line, if the parameter is 1, the intersection is the
+    // end point. If the parameter is between 0 and 1 the intersection is
+    // inside of this line segment.
+
+    bool HasInnerIntersection(const LinePP2dC & l) const;
+    // Returns TRUE if the intersection of this line segment and the 
+    // line 'l' is either inside of this line segment or one of the end points.
+ 
+    Point2dC Intersection(const LinePP2dC & l) const;
+    // Returns the intersection of 2 lines.
+
   };
   
 }

@@ -67,7 +67,10 @@ namespace RavlN {
     RealT Y() const
     { return data[1]; }
     //: Second component of vector.
-    
+
+    RealT Area2(const Point2dC& second, const Point2dC& third) const;
+    //: return twice the area contained by the three points
+
   };
 }
 
