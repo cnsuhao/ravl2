@@ -189,7 +189,7 @@ namespace RavlN {
 
   template<class SampleT>
   void DataSet1BodyC<SampleT>::Append(const DataSet1C<SampleT> &data) {
-    samp1.Append(data);
+    samp1.Append(data.Sample1());
   }
   
   template<class SampleT>
