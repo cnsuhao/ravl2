@@ -62,7 +62,7 @@ namespace RavlN {
     int x = Min(D.Size(),md.Size1(),md.Size2());
     for(int i = 0;i < x;i++)
       md[i][i] = D[i]; // Set all the diagonal elements we've got.
-    return (V * md).MulT(U.T());
+    return (V * md).MulT(U);
   }
   
   
