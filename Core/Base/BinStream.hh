@@ -65,6 +65,7 @@ namespace RavlN  {
   // RealT     8
   // FloatT    4
   
+  
   //! userlevel=Normal
   //: Machine independant binary input stream.
   // Note: All numbers are stored in big endian format.
@@ -93,6 +94,9 @@ namespace RavlN  {
     BinIStreamC()
     {}
     //: Default construtor.
+    
+    ~BinIStreamC();
+    //: Destructor.
     
     inline BinIStreamC &IBuff(char *buff,IntT len); 
     //: Character buffer. NB. Length is NOT saved.
@@ -152,16 +156,15 @@ namespace RavlN  {
     inline bool IsEndOfStream() 
     { return in.IsEndOfStream(); }
     //: Test if at end of the stream.
-  
-  protected:
-    void Dummy(void);
-    //: Dummy func.
     
+    RCHandleC<RCBodyVC> &PointerManager()
+    { return in.PointerManager(); }
+    //: Access the pointer manager.
+    
+  protected:
     IStreamC in;
-    IntT idAlloc;
-    //HashC<IntT,void *> ptrMap;
   };
-
+  
   //! userlevel=Normal
   //: Machine independant binary output stream.
   // Note: All numbers are stored in big endian format.
@@ -182,7 +185,7 @@ namespace RavlN  {
 #endif
     
     BinOStreamC(const StringC &nOut,bool buffered = true)
-      : out(nOut,true,buffered) // Open binary stream.
+      : out(nOut,true,buffered) // Open binary stream
     {}
     //: Constructor.
     
@@ -190,6 +193,9 @@ namespace RavlN  {
     {}
     //: Default construtor.
     // Creates an invalid stream.
+    
+    ~BinOStreamC();
+    //: Destructor.
     
     inline BinOStreamC &OBuff(const char *buff,IntT len); 
     //: Character buffer. NB. Length is NOT saved.
@@ -249,13 +255,12 @@ namespace RavlN  {
     const OStreamC &Stream() const { return out; }
     //: Access underlying stream.
     
-  protected:
-    void Dummy(void);
-    //: Dummy func.
+    RCHandleC<RCBodyVC> &PointerManager()
+    { return out.PointerManager(); }
+    //: Access the pointer manager.
     
+  protected:    
     OStreamC out;
-    //IntT idAlloc;
-    //HashC<void *,IntT> ptrMap;
   };
 
   

@@ -13,6 +13,18 @@
 
 namespace RavlN {
   
+  //: Destructor.
+  
+  BinOStreamC::~BinOStreamC() 
+  {}
+  
+  //: Destructor.
+  
+  BinIStreamC::~BinIStreamC() 
+  {}
+  
+  //: Charactor stream.
+  
   BinOStreamC &BinOStreamC::operator << (const char *text) {
     UIntT len = 0;
     if(text == 0) {// Check for null string just in case.
@@ -26,13 +38,5 @@ namespace RavlN {
     return (*this);
   }
   
-  void  BinIStreamC::Dummy(void)
-  {}
-  
-  //: Dummy func.
-
-  void  BinOStreamC::Dummy(void)
-  {}
-
   
 }

@@ -160,6 +160,10 @@ namespace RavlN {
     //: Close this stream.
     // After this is called no further IO should be attempted!
     
+    RCHandleC<RCBodyVC> &PointerManager()
+    { return ptrManager; }
+    //: Access the pointer manager.
+    
   protected:
     StreamBaseC(ostream *ns,StringC afilename,bool nDelOnClose = true);
     //: Body Constructor.
@@ -192,6 +196,7 @@ namespace RavlN {
   protected:
     StringC name; // Name of stream.
     ios *s;
+    RCHandleC<RCBodyVC> ptrManager;
   };
   
   //! userlevel=Normal
