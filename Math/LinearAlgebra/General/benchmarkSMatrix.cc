@@ -163,7 +163,10 @@ int main(int nargs,char **argv) {
   cout << " 0=Full 1=Diagonal 2=RightUpper 3=LeftLower 4=ScaledIdentity 5=Symmetric 6=Sparse. \n";
   
   cout.precision(2);
-  cout.setf(ios_base::fixed);
+ 
+
+  //cout.setf(ios_base::fixed);
+  cout.setf(ios::fixed);
   int n = 0;
   RealT total = 0;
   if(testAll) {
