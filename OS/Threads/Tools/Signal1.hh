@@ -20,6 +20,14 @@
 #include "Ravl/IntrDLIter.hh"
 #include "Ravl/Types.hh"
 
+// Fix for Visual C++ which doesn't like default values for
+// some templated arguments. 
+#if !RAVL_COMPILER_VISUALCPP && !RAVL_COMPILER_VISUALCPPNET
+#define VCPPARGFIX(x) x
+#else
+#define VCPPARGFIX(x)
+#endif
+
 namespace RavlN {
 
   template<class DataT> class Signal1C;
@@ -442,7 +450,7 @@ namespace RavlN {
   
   template<class DataT>  
   inline SignalConnectorC Connect(Signal0C &from,bool (*func)(DataT),
-				  const typename TraitsC<DataT>::BaseTypeT &def = typename TraitsC<DataT>::BaseTypeT()) {
+				  const typename TraitsC<DataT>::BaseTypeT &def = VCPPARGFIX(typename) TraitsC<DataT>::BaseTypeT()) {
     RavlAssert(from.IsValid());
     return Signal1FuncC<DataT>(from,func,def);  
   }
@@ -452,7 +460,7 @@ namespace RavlN {
   template<class ObjT,class DataT>
   inline
   SignalConnectorC Connect(Signal0C &from,const ObjT &obj,bool (ObjT::* func)(DataT),
-			   const typename TraitsC<DataT>::BaseTypeT &def = typename TraitsC<DataT>::BaseTypeT()) { 
+			   const typename TraitsC<DataT>::BaseTypeT &def = VCPPARGFIX(typename) TraitsC<DataT>::BaseTypeT()) { 
     RavlAssert(from.IsValid());
     return Signal1MethodC<DataT,ObjT>(from,const_cast<ObjT &>(obj),func,def);
   } 
@@ -462,7 +470,7 @@ namespace RavlN {
   template<class ObjT,class DataT>
   inline
   SignalConnectorC ConnectRef(Signal0C &from,ObjT &obj,bool (ObjT::* func)(DataT),
-			      const typename TraitsC<DataT>::BaseTypeT &def = typename TraitsC<DataT>::BaseTypeT()) { 
+			      const typename TraitsC<DataT>::BaseTypeT &def = VCPPARGFIX(typename) TraitsC<DataT>::BaseTypeT()) { 
     RavlAssert(from.IsValid());
 #if RAVL_COMPILER_VISUALCPP 
     return Signal1MethodRefC<DataT,ObjT>(from,obj,func,def);
@@ -479,7 +487,7 @@ namespace RavlN {
   template<class ObjT,class DataT>
   inline
   SignalConnectorC ConnectR(Signal0C &from,ObjT &obj,bool (ObjT::* func)(DataT),
-			    const typename TraitsC<DataT>::BaseTypeT &def = typename TraitsC<DataT>::BaseTypeT()) { 
+			    const typename TraitsC<DataT>::BaseTypeT &def = VCPPARGFIX(typename) TraitsC<DataT>::BaseTypeT()) { 
     RavlAssert(from.IsValid());
 #if RAVL_COMPILER_VISUALCPP 
     return Signal1MethodRefC<DataT,ObjT>(from,obj,func,def);
@@ -493,4 +501,5 @@ namespace RavlN {
   // NB. It is the users responsibility to ensure the object
   // remains valid while being used.
 }
+#undef VCPPARGFIX
 #endif

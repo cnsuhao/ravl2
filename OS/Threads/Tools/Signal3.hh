@@ -22,7 +22,7 @@
 
 // Fix for Visual C++ which doesn't like default values for
 // some templated arguments. 
-#if !RAVL_COMPILER_VISUALCPP || RAVL_COMPILER_VISUALCPPNET
+#if !RAVL_COMPILER_VISUALCPP && !RAVL_COMPILER_VISUALCPPNET
 #define VCPPARGFIX(x) x
 #else
 #define VCPPARGFIX(x)
@@ -530,9 +530,9 @@ namespace RavlN {
   template<class Data1T,class Data2T,class Data3T>  
   inline 
   SignalConnectorC Connect(Signal0C &from,bool (*func)(Data1T,Data2T,Data3T),
-			   const typename TraitsC<Data1T>::BaseTypeT &def1 VCPPARGFIX(= typename TraitsC<Data1T>::BaseTypeT()),
-			   const typename TraitsC<Data2T>::BaseTypeT &def2 VCPPARGFIX(= typename TraitsC<Data2T>::BaseTypeT()),
-			   const typename TraitsC<Data3T>::BaseTypeT &def3 VCPPARGFIX(= typename TraitsC<Data3T>::BaseTypeT())
+			   const typename TraitsC<Data1T>::BaseTypeT &def1 = VCPPARGFIX(typename) TraitsC<Data1T>::BaseTypeT(),
+			   const typename TraitsC<Data2T>::BaseTypeT &def2 = VCPPARGFIX(typename) TraitsC<Data2T>::BaseTypeT(),
+			   const typename TraitsC<Data3T>::BaseTypeT &def3 = VCPPARGFIX(typename) TraitsC<Data3T>::BaseTypeT()
 			   ) { 
     RavlAssert(from.IsValid());
     return Signal3FuncC<Data1T,Data2T,Data3T>(from,func,def1,def2,def3);
@@ -543,9 +543,9 @@ namespace RavlN {
   template<class Data1T,class Data2T,class Data3T,class ObjT>
   inline
   SignalConnectorC Connect(Signal0C &from,const ObjT &obj,bool (ObjT::* func)(Data1T,Data2T,Data3T),
-			   const typename TraitsC<Data1T>::BaseTypeT &def1 VCPPARGFIX(= typename TraitsC<Data1T>::BaseTypeT()),
-			   const typename TraitsC<Data2T>::BaseTypeT &def2 VCPPARGFIX(= typename TraitsC<Data2T>::BaseTypeT()),
-			   const typename TraitsC<Data3T>::BaseTypeT &def3 VCPPARGFIX(= typename TraitsC<Data3T>::BaseTypeT())
+			   const typename TraitsC<Data1T>::BaseTypeT &def1 = VCPPARGFIX(typename) TraitsC<Data1T>::BaseTypeT(),
+			   const typename TraitsC<Data2T>::BaseTypeT &def2 = VCPPARGFIX(typename) TraitsC<Data2T>::BaseTypeT(),
+			   const typename TraitsC<Data3T>::BaseTypeT &def3 = VCPPARGFIX(typename) TraitsC<Data3T>::BaseTypeT()
 			   ) {
     RavlAssert(from.IsValid());
     return Signal3MethodC<Data1T,Data2T,Data3T,ObjT>(from,const_cast<ObjT &>(obj),func,def1,def2,def3);
@@ -556,9 +556,9 @@ namespace RavlN {
   template<class Data1T,class Data2T,class Data3T,class ObjT>
   inline
   SignalConnectorC ConnectRef(Signal0C &from,ObjT &obj,bool (ObjT::* func)(Data1T,Data2T,Data3T),
-			      const typename TraitsC<Data1T>::BaseTypeT &def1 VCPPARGFIX(= typename TraitsC<Data1T>::BaseTypeT()),
-			      const typename TraitsC<Data2T>::BaseTypeT &def2 VCPPARGFIX(= typename TraitsC<Data2T>::BaseTypeT()),
-			      const typename TraitsC<Data3T>::BaseTypeT &def3 VCPPARGFIX(= typename TraitsC<Data3T>::BaseTypeT())
+			      const typename TraitsC<Data1T>::BaseTypeT &def1 = VCPPARGFIX(typename) TraitsC<Data1T>::BaseTypeT(),
+			      const typename TraitsC<Data2T>::BaseTypeT &def2 = VCPPARGFIX(typename) TraitsC<Data2T>::BaseTypeT(),
+			      const typename TraitsC<Data3T>::BaseTypeT &def3 = VCPPARGFIX(typename) TraitsC<Data3T>::BaseTypeT()
 			      ) {
     RavlAssert(from.IsValid());
 #if RAVL_COMPILER_VISUALCPP 
@@ -576,9 +576,9 @@ namespace RavlN {
   template<class Data1T,class Data2T,class Data3T,class ObjT>
   inline
   SignalConnectorC ConnectR(Signal0C &from,ObjT &obj,bool (ObjT::* func)(Data1T,Data2T,Data3T),
-			    const typename TraitsC<Data1T>::BaseTypeT &def1 VCPPARGFIX(= typename TraitsC<Data1T>::BaseTypeT()),
-			    const typename TraitsC<Data2T>::BaseTypeT &def2 VCPPARGFIX(= typename TraitsC<Data2T>::BaseTypeT()),
-			    const typename TraitsC<Data3T>::BaseTypeT &def3 VCPPARGFIX(= typename TraitsC<Data3T>::BaseTypeT())
+			    const typename TraitsC<Data1T>::BaseTypeT &def1 = VCPPARGFIX(typename) TraitsC<Data1T>::BaseTypeT(),
+			    const typename TraitsC<Data2T>::BaseTypeT &def2 = VCPPARGFIX(typename) TraitsC<Data2T>::BaseTypeT(),
+			    const typename TraitsC<Data3T>::BaseTypeT &def3 = VCPPARGFIX(typename) TraitsC<Data3T>::BaseTypeT()
 			    ) {
     RavlAssert(from.IsValid());
 #if RAVL_COMPILER_VISUALCPP 
