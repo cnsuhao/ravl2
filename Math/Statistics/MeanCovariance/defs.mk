@@ -8,9 +8,11 @@
 
 PACKAGE=Ravl
 
-HEADERS=MeanNd.hh
+HEADERS= MeanVariance.hh MeanNd.hh MeanCovarianceNd.hh
 
-SOURCES=MeanNd.cc
+SOURCES= MeanVariance.cc MeanNd.cc MeanCovarianceNd.cc
+
+TESTEXES=testMeanCovar.cc
 
 PLIB=RavlMath
 

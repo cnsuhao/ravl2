@@ -11,11 +11,29 @@
 
 namespace RavlN {
   
-  //: Reset the counters.
-  
-  void MeanNdC::Reset() {
-    n = 0;
-    total.Fill(0);
+  MeanNdC::MeanNdC(const SArray1dC<VectorC> &vecs) {
+    number = vecs.Size();
+    if(number == 0)
+      return ;
+    SArray1dIterC<VectorC> it(vecs);
+    Mean() = it->Copy();
+    it++;
+    for(;it;it++)
+      Mean() += *it;
+    Mean() /= ((RealT) number);
   }
-
+  
+  MeanNdC MeanNdC::Copy() const 
+  { return MeanNdC(number, VectorC::Copy()); }
+  
+  ostream &operator<<(ostream & s, const MeanNdC & mean) {
+    s << mean.Number() << ' ' << mean.Mean();
+    return s;
+  }
+  
+  istream &operator>>(istream & s, MeanNdC & mean) {
+    s >>  mean.number >>  mean.Mean();
+    return s;
+  }
+  
 }

@@ -21,96 +21,173 @@ namespace RavlN {
   //: Mean in N-D space
   // This class computes the mean of a set of vectors.
   
-  class MeanNdC {
+  // ******** MeanNdC *************************************************
+  // ------------------------------------------------------------------
+  
+  //: Mean in N-D space
+  // The class MeanNdC serves for computation of the mean
+  // of a set of N-dimensional vectors.  
+  
+  class MeanNdC
+    : public VectorC
+  {
   public:
-    MeanNdC(SizeT dim = 0)
-      : n(0),
-      total(dim)
+    MeanNdC()
+      : number(0)
       {}
-    //: Constructor.
+    //: Default constructor.
     
-    void Reset();
-    //: Reset the counters.
+    MeanNdC(const SArray1dC<VectorC> &vecs);
+    //: Caluclate the mean of an array of vectors.
+    // All the vectors must have the same size, if
+    // the array is empty a zero mean is generated.
     
-    VectorC Mean() const
-      { return total/((RealT) n); }
-    //: Get the mean vector.
+    MeanNdC(const SizeT dim)
+      : VectorC(dim),
+      number(0)
+      { VectorC::Fill(0); }
+    //: Creat an N-dimentional mean.
+    // Creates zero mean representing the 'n'-dimensional set 
+    // containing no data points.
     
-    SizeT N() const
-      { return n; }
-    //: Number of elements in mean.
+    MeanNdC(const VectorC & mean) 
+      : VectorC(mean),
+      number(1)
+      {}
+    //: Create a mean with a single point.
+    // Creates the mean vector representing
+    // the data set containing just one data point.
+    // This object is attached to the memory of 'point'.
     
-    const MeanNdC &operator+=(const VectorC &vec) {
-      if(total.Size() == 0) // 
-	total = vec;
-      else
-	total += vec;
-      n++;
-      return *this;
-    }
-    //: Add a vector to set.
+    MeanNdC(SizeT n, const VectorC & mean)
+      : VectorC(mean),
+      number(n)
+      {}
+    //: Create with a mean an a number of points.
+    // Creates the mean vector representing
+    // the data set containing 'n' points and represented by the 'mean'.
+    // This object is attached to the memory of 'mean'.
     
-    const MeanNdC &operator-=(const VectorC &vec) {
-      RavlAssert(n > 0);
-      total -= vec;
-      n--;
-      return *this;
-    }
-    //: Remove a vector from the set.
+    MeanNdC Copy() const;
+    //: Copy this mean
+    // Returns a new physical copy of this object.
+    
+    // Information about an object
+    // ---------------------------
 
-    const MeanNdC &operator+=(const MeanNdC &m) {
-      if(total.Size() == 0) {
-	total = m.Total();
-	n = m.N();
-	return *this;
-      }
-      total += m.Total();
-      n += m.N();
-      return *this;
-    }
-    //: Add another mean to this one.
+    inline SizeT Number() const
+      { return number; }
+    // Returns number of points which were added into the object.
     
-    const MeanNdC &operator-=(const MeanNdC &m) {
-      RavlAssert(n >= m.N());
-      total -= m.Total();
-      n -= m.N();
-      return *this;
-    }
-    //: Add another mean to this one.
+    inline const VectorC & Mean() const
+      { return *this; }
+    // Returns the current value of the mean.
     
-    void Set(SizeT nn, const VectorC & m) {
-      n = nn;
-      total = m * nn;
-    }
-    //: Sets the new content of mean object. 
-    // It will represent 'n' points with the mean location 'm'.
+    // Object modification
+    // -------------------      
     
-    VectorC &Total()
-      { return total; }
-    //: Access total of vectors.
+    inline void MeanNdC::SetZero() 
+      { VectorC::Fill(0); number = 0; }
+    //: Reset all the counters to zero.
     
-    const VectorC &Total() const
-      { return total; }
-    //: Access total of vectors.
+    inline void Set(SizeT n, const VectorC & m)
+      { VectorC::operator=(m); number = n; }
+    // Sets the new content of mean object. It will represent 'n' points
+    // with the mean location 'm'.
+    
+    inline MeanNdC & operator+=(const VectorC & point);
+    // Adds a point to the set.
+
+    inline MeanNdC & operator-=(const VectorC & point);
+    // Removes a point from the set. Be carefull to remove
+    // a point which was already added to the set, otherwise the representation
+    // will not describe a real set.
+    
+    inline MeanNdC & operator+=(const MeanNdC & mean);
+    // Adds the whole set of points represented by the mean object 'm'.
+
+    inline MeanNdC & operator-=(const MeanNdC & mean);
+    // Removes the whole set of points represented by the mean object 'm'.
+    // Be carefull to remove points which was already added to the set,
+    // otherwise the representation will not describe a real set.
     
   protected:
-    SizeT n; // Number of elements.
-    VectorC total; // Total value.
-  };
+    VectorC &Mean()
+      { return (VectorC &) *this; }
+    //: Access the mean vector.
+    
+    // Object representation
+    // ---------------------
+    
+    SizeT number;  // The number of points represented by mean object.
 
-  inline
-  ostream &operator<<(ostream &s,const MeanNdC &mean) {
-    s << mean.N() << ' ' << mean.Total(); 
-    return s;    
+    friend istream & operator>>(istream & s, MeanNdC & mean);
+  };
+  
+  ostream & operator<<(ostream & s, const MeanNdC & mean);
+  // Saves the statistical description of the set 'mean' into the output
+  // stream 'outS'.
+  
+  istream & operator>>(istream & s, MeanNdC & mean);
+  // Reads and sets the statistical description of the set 'mean'
+  // according to the information in the input stream 'inS'.
+  
+  inline MeanNdC &MeanNdC::operator+=(const VectorC & point) {
+    if (&Mean() == &point)
+      number++;
+    else {
+      Mean() *= (RealT) number++;
+      Mean() += point;
+      Mean() /= number;
+    }
+    return *this;
   }
   
-  inline
-  istream &operator>>(istream &s,MeanNdC &mean) {
-    SizeT n;
-    VectorC v;
-    s >> n >> v;
-    mean.Set(n,v);
-    return s;    
+  inline MeanNdC &  MeanNdC::operator-=(const VectorC & point) {
+    if (&Mean() == &point) {
+      number--;
+      if (number == 0)
+	SetZero();
+    } else {
+      Mean() *= (RealT)number--;
+      Mean() -= point;
+      if (number == 0)
+	SetZero();
+      else
+	Mean() /= (RealT) number;
+    }
+    return *this;
+  }
+  
+  inline MeanNdC &MeanNdC::operator+=(const MeanNdC & point) {
+    if (this == &point)
+      number += number;
+    else {
+      Mean() *= (RealT)number;
+      number  += point.number;
+      if (number == 0)
+	SetZero();
+      else {
+	Mean() += point * (RealT)point.number;
+	Mean() /= (RealT)number;
+      }
+    }
+    return *this;
+  }
+  
+  inline MeanNdC &MeanNdC::operator-=(const MeanNdC & point) {
+    if (this == &point)
+      SetZero();
+    else {
+      Mean() *= (RealT)number;
+      number  -= point.number;
+      Mean() -= point * (RealT)point.number;
+      if (number == 0)
+	SetZero();
+      else
+	Mean() /= (RealT)number;
+    }
+    return *this;
   }
   
 }
