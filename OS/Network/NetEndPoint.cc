@@ -30,13 +30,13 @@ namespace RavlN {
   
   //: Constructor.
 
-  NetEndPointBodyC::NetEndPointBodyC(const StringC &addr,bool serv) 
-    : skt(addr,serv),
+  NetEndPointBodyC::NetEndPointBodyC(const StringC &addr) 
+    : skt(addr,false),
       transmitQ(15),
       receiveQ(5),
       shutdown(false)
-  { Init(); }
-
+  { Init(skt); }
+  
   //:  Constructor.
 
   NetEndPointBodyC::NetEndPointBodyC(SocketC &nskt) 
@@ -44,10 +44,19 @@ namespace RavlN {
       transmitQ(15),
       receiveQ(5),
       shutdown(false)
-  { Init(); }
+  { Init(nskt); }
 
-  //: Destructor.
   
+  //: Default constructor.
+  
+  NetEndPointBodyC::NetEndPointBodyC() 
+    : transmitQ(15),
+      receiveQ(5),
+      shutdown(false)
+  {}
+  
+  //: Destructor.
+
   NetEndPointBodyC::~NetEndPointBodyC() {
     //cerr << "NetEndPointBodyC::~NetEndPointBodyC(), Called. \n";
   }
@@ -87,7 +96,12 @@ namespace RavlN {
     Send(1,user);
   }
   
-  void NetEndPointBodyC::Init() {
+  bool NetEndPointBodyC::Init(SocketC &nskt) {
+    skt = nskt;
+    if(!skt.IsOpen()) {
+      cerr << "NetEndPointBodyC::Init(), Socket not opened. \n";
+      return false;
+    }
     NetEndPointC me(*this);
     
     RegisterR(1,"Init",*this,&NetEndPointBodyC::MsgInit);
@@ -102,6 +116,7 @@ namespace RavlN {
     LaunchThread(me,&NetEndPointC::RunReceive);
     LaunchThread(me,&NetEndPointC::RunTransmit);
     LaunchThread(me,&NetEndPointC::RunDecode);
+    return true;
   }
   
   //: Handle packet transmition.

@@ -41,11 +41,19 @@ namespace RavlN {
     NetEndPointBodyC(SocketC &skt);
     //: Constructor.
     
-    NetEndPointBodyC(const StringC &skt,bool serv = false);
+    NetEndPointBodyC(const StringC &skt);
     //: Constructor.
+    
+    NetEndPointBodyC();
+    //: Default constructor.
     
     ~NetEndPointBodyC();
     //: Destructor.
+    
+    bool Init(SocketC &skt);
+    //: Setup a connection.
+    // This should only be used if net end point 
+    // has been created by the default constructor.
     
     void Transmit(const NetPacketC &pkt)
       { transmitQ.Put(pkt); }
@@ -131,9 +139,8 @@ namespace RavlN {
     // NB. This does not make a handle to 'obj', it is the users responsibility to 
     // ensure it is not deleted.
     
+    
   protected:
-    void Init();
-    //: Setup and startup the aproprate threads.
     
     bool RunTransmit();
     //: Handle packet transmition.
@@ -171,11 +178,16 @@ namespace RavlN {
       {}
     //: Constructor.
     
-    NetEndPointC(const StringC &addr,bool serv = false)
-      : RCHandleC<NetEndPointBodyC>(*new NetEndPointBodyC(addr,serv))
+    NetEndPointC(const StringC &addr)
+      : RCHandleC<NetEndPointBodyC>(*new NetEndPointBodyC(addr))
       {}
     //: Constructor.
     // This connects to the given address.
+    
+    NetEndPointC(bool)
+      : RCHandleC<NetEndPointBodyC>(*new NetEndPointBodyC())
+    {}
+    //: Create an uninitalised end point.
     
   protected:
     NetEndPointC(NetEndPointBodyC &bod)
@@ -204,6 +216,12 @@ namespace RavlN {
     //: Decodes incoming packets.
     
   public:
+    bool Init(SocketC &skt)
+    { return Body().Init(skt); }
+    //: Setup a connection.
+    // This should only be used if net end point 
+    // has been created by the default constructor.
+    
     void Transmit(const NetPacketC &pkt)
       { Body().Transmit(pkt); }
     //: Queue a packet for transmition.
