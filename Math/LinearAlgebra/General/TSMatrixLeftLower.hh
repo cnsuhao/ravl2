@@ -226,7 +226,7 @@ namespace RavlN {
   template<class DataT>
   DataT TSMatrixLeftLowerBodyC<DataT>::MulSumColumn(UIntT c,const Slice1dC<DataT> &slice) const {
     DataT sum;
-    IndexRangeC rng(0,(Cols()-1) - c);
+    IndexRangeC rng(c,(Cols()-1));
     rng.ClipBy(slice.Range());
     if(rng.Size() <= 0) {
       SetZero(sum);
@@ -235,15 +235,12 @@ namespace RavlN {
     const DataT *at = &data[ElementIndex(rng.Min().V(),c)];
     UIntT z = rng.Min().V() + 1;
     Slice1dIterC<DataT> it(slice,rng);
-    cerr << " (" << (*it) << "," << (*at) << ")";
     sum = (*it) * (*at);
     at += z++;
     for(it++;it;it++) {
-      cerr << " (" << (*it) << "," << (*at) << ")";
       sum += (*it) * (*at);
       at += z++;
     }
-    cerr << "\n";
     return sum;
   }
 

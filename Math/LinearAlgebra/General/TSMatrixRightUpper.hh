@@ -232,15 +232,12 @@ namespace RavlN {
     const DataT *at = &data[ElementIndex(rng.Min().V(),c)];
     UIntT z = (Cols() - rng.Min().V()) -1;
     Slice1dIterC<DataT> it(slice,rng);
-    cerr << " (" << (*it) << " " << (*at) << ")";
     sum = (*it) * (*at);
     at += z--;
     for(it++;it;it++) {
-      cerr << " (" << (*it) << " " << (*at) << ")";
       sum += (*it) * (*at);
       at += z--;
     }
-    cerr << "\n";
     return sum;
   }
   

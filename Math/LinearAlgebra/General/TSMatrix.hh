@@ -513,11 +513,8 @@ namespace RavlN {
     TMatrixC<DataT> out(rdim, cdim);
     for (UIntT r = 0; r < rdim; r++) {
       Slice1dC<DataT> col = Col(r);
-      cerr << "col=" << col << "\n";
-      for (UIntT c = 0; c < cdim; c++) {
+      for (UIntT c = 0; c < cdim; c++) 
 	out[r][c] = mat.MulSumColumn(c,col);
-	//out[r][c] = 0;
-      }
     }
     return TSMatrixC<DataT>(out);
   }
