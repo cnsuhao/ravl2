@@ -60,6 +60,10 @@ namespace RavlN {
     
     RealT Information() const;
     //: Calculate the amount of information represented by the histogram.
+    // This is also known as the entropy of the histogram.
+    
+    RealT Energy() const;
+    //: Calculate the energy represented by the original signal.
     
     UIntT SumIntersection(const HistogramC<KeyT> &oth) const;
     //: Return the sum of the intersection between the two histograms.
@@ -76,6 +80,14 @@ namespace RavlN {
       totalp += -prob * Log2(prob);
     }
     return totalp;
+  }
+  
+  template<class KeyT>
+  RealT HistogramC<KeyT>::Energy() const {
+    RealT sum = 0;
+    for(HashIterC<KeyT,UIntC> it(*this);it;it++)
+      sum += Pow((RealT) it.Data() / total,2);
+    return sum;
   }
   
   template<class KeyT>

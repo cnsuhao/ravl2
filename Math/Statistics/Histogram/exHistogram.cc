@@ -25,5 +25,6 @@ int main() {
   
   cout << "Votes:" << hist.Total() << "\n";
   cout << "Information:" << hist.Information() << "\n";
+  cout << "Energy:" << hist.Energy() << "\n";
   return 0;
 }

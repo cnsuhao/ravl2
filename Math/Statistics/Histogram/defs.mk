@@ -9,9 +9,9 @@
 
 PACKAGE=Ravl
 
-HEADERS=Histogram.hh
+HEADERS=Histogram.hh RealHistogram1d.hh
 
-SOURCES=
+SOURCES=RealHistogram1d.cc
 
 PLIB=RavlMath
 
