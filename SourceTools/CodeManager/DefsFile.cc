@@ -4,8 +4,6 @@
 // Public License (GPL). See the gpl.licence file for details or
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
-// DefFile.hh
-// $Id$
 //! rcsid="$Id$"
 //! lib=RavlSourceTools
 //! file="Ravl/SourceTools/CodeManager/DefsFile.cc"
@@ -28,7 +26,8 @@ namespace RavlN {
 			 "OPTLIBPATH","LIBDEPS","EXAMPLES","TESTEXES",
 			 "LOCAL_FILES","HTML","MAN1","MAN3","MAN5","LOCALHEADERS","PRIVATE",
 			 "AUXDIR","AUXFILES","AUXINSTALL","EHT","STATE",
-			 "DOCNODE","SCRIPTS","MUSTLINK","ANSIFLAG","LICENSE","PACKAGENAME",0 };
+			 "DOCNODE","SCRIPTS","MUSTLINK","ANSIFLAG","LICENSE","PACKAGENAME",
+			 "ORGANISATION",0 };
   
   /////////////////
   // Construct from a filename.
