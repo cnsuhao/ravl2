@@ -29,6 +29,9 @@ namespace RavlN {
     NetISPortBaseC(const StringC &server,const StringC &portName,const type_info &ndataType);
     //: Default constructor.
     
+    ~NetISPortBaseC();
+    //: Destructor.
+    
   protected:
     bool Init();
     //: Initalise link.

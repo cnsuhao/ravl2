@@ -25,7 +25,7 @@ namespace RavlN {
   class NetPortManagerC;
   
   //! userlevel=Develop
-  //: Net port manager.
+  //: Port server.
   
   class NetPortManagerBodyC 
     : public RCBodyC
@@ -63,7 +63,10 @@ namespace RavlN {
   };
 
   //! userlevel=Advanced
-  //: Net port manager.
+  //: Port server.
+  // Server side exported port manager. <br>
+  // This class manages the ports to exported on a server.  The server listens for
+  // connections on network socket, and setups 
   
   class NetPortManagerC 
     : public RCHandleC<NetPortManagerBodyC>

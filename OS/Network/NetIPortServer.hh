@@ -122,6 +122,7 @@ namespace RavlN {
   
   //! userlevel=Normal
   //: Input port.
+  // This class manages the information needed to serve a particular port.
   
   template<class DataT>
   class NetISPortServerC
@@ -155,8 +156,7 @@ namespace RavlN {
   
   template<class DataT>
   bool NetExport(const StringC &name,DPIPortC<DataT> &port) {
-    DPISPortAttachC<DataT> sport(port);
-    NetISPortServerC<DataT> ips(sport,name);
+    NetISPortServerC<DataT> ips(SPort(port),name);
     return NetExportBase(name,ips);
   }
   //! userlevel=Normal 

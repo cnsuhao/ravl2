@@ -23,7 +23,8 @@ namespace RavlN {
   
   //! userlevel=Develop
   //: NetPortClient.
-  // This class manages incoming connection requests.
+  // This class is a server side object that manages incoming connection
+  // requests on a per client basis
   
   class NetPortClientBodyC 
     : public NetEndPointBodyC
@@ -46,7 +47,8 @@ namespace RavlN {
   
   //! userlevel=Normal
   //: NetPortClient.
-  // This class manages incoming connection requests.
+  // This class is a server side object that manages incoming connection
+  // requests on a per client basis
   
   class NetPortClientC 
     : public NetEndPointC

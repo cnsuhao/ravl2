@@ -33,6 +33,12 @@ namespace RavlN {
       flag(0)
   {}
   
+  //: Destructor.
+  
+  NetISPortBaseC::~NetISPortBaseC() { 
+    ep.Close(); // Make sure NetEndPointC is closed before we complete close.
+  }
+  
   bool NetISPortBaseC::Init() {
     ONDEBUG(cerr << "NetISPortBaseC::Init(), Called for '" << portName << "'\n");
     if(!ep.IsOpen()) {
