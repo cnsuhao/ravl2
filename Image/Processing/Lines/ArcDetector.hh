@@ -12,6 +12,7 @@
 //! docentry="Ravl.Images.Lines"
 //! date="19/11/2002"
 //! file="Ravl/Image/Processing/Lines/ArcDetector.hh"
+//! example="doArcs.cc"
 
 #include "Ravl/Image/Edgel.hh"
 #include "Ravl/Arc2d.hh"

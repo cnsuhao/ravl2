@@ -14,6 +14,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! date="07/01/1999"
+//! example="doPPHT.cc"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/StdConst.hh"
