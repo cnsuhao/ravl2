@@ -9,7 +9,8 @@
 
 PACKAGE=Ravl/Image
 
-HEADERS= Convolve2d.hh ConvolveSeparable2d.hh ConvolveHorz2d.hh ConvolveVert2d.hh
+HEADERS= Convolve2d.hh ConvolveSeparable2d.hh ConvolveHorz2d.hh \
+ ConvolveVert2d.hh BilinearInterpolation.hh
 
 SOURCES= Convolve2d.cc
 

@@ -12,16 +12,19 @@
 #include "Ravl/Image/ConvolveHorz2d.hh"
 #include "Ravl/Image/ConvolveVert2d.hh"
 #include "Ravl/Image/ConvolveSeparable2d.hh"
+#include "Ravl/Image/BilinearInterpolation.hh"
 
 using namespace RavlImageN;
 
-#define TESTMMX 1
+#define TESTMMX 0
 
 int testConvolve2d();
 int testConvolveHorz2d();
 int testConvolveVert2d();
 int testConvolveSeparable2d();
 int testConvolve2dMMX();
+
+int testBilinearInterpolation();
 
 int main() {
   int ln;
@@ -44,6 +47,11 @@ int main() {
   }
 #endif
   if((ln = testConvolve2dMMX()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  }
+
+  if((ln = testBilinearInterpolation()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
@@ -188,5 +196,26 @@ int testConvolve2dMMX() {
   return 0;
 #endif
   
+  return 0;
+}
+
+
+// Tag this on the end for the moment.
+
+int testBilinearInterpolation() {
+  cerr << "testBilinearInterpolation(), Started... \n";
+  ImageC<IntT> test(10,10);
+  IntT i = 0;
+  for(Array2dIterC<IntT> it(test);it;it++)
+    *it = i++;
+  //cerr << test << "\n";
+  ImageRectangleC resRect(0,19,0,19);
+  BilinearInterpolationC<IntT,IntT> xyz(resRect);
+  ImageC<IntT> res = xyz.Apply(test);
+  if(res.Rectangle() != resRect) return __LINE__;
+  //cerr << res << "\n";
+  if(res[resRect.Origin()] != 0) return __LINE__;
+  
+  // Do some more checking here.
   return 0;
 }
