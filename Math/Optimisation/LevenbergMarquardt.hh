@@ -56,7 +56,7 @@ namespace RavlN {
 
     bool Iteration ( DListC<ObservationC> obs_list, RealT lambda,
 		     bool rescale_diagonal=false);
-    //: Apply an iteration
+    //: Apply a single iteration
     // Process observations in the provided list (obs_list) to build the
     // inverse covariance matrix A and vector a in the
     // <a href="../../../LevenbergMarquardt/levmarq.html#LM_update">state update equation</a>,
