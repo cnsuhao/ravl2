@@ -216,7 +216,7 @@ namespace RavlImageN {
     if (raster == NULL)
       throw DataNotReadyC("DPIImageTIFFByteRGBABodyC: Allocation failed.. ");
     
-    if (!TIFFReadRGBAImage(tif, w, h, raster, 0))
+    if (!TIFFReadRGBAImage(tif, w, h, raster, 0)) {
       throw DataNotReadyC("DPIImageTIFFByteRGBABodyC: Read failed. ");
     img = ImageC<ByteRGBAValueC>(h,w,BufferRC<ByteRGBAValueC>((ByteRGBAValueC *) raster,true),true);
 #else
@@ -240,6 +240,7 @@ namespace RavlImageN {
     
     if (!TIFFRGBAImageGet(&tiffimg, raster, tiffimg.width, tiffimg.height)) 
     {
+      _TIFFfree(raster);
       TIFFRGBAImageEnd(&tiffimg);
       throw DataNotReadyC("DPIImageTIFFByteRGBABodyC: Allocation failed.. ");
     }
@@ -311,7 +312,7 @@ namespace RavlImageN {
 
     TIFFRGBAImageEnd(&tiffimg);
 #endif
-
+    _TIFFfree(raster);
     done = true;
     return img;
   }
