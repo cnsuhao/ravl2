@@ -19,9 +19,17 @@ namespace RavlN {
   
   //: Fit an affine transform given to the mapping between original and newPos.
   
+  Affine2dC FitAffine(SArray1dC<Point2dC> org,SArray1dC<Point2dC> newPos) {
+    RealT residual;
+    return FitAffine(org,newPos,residual);
+  }
+
+
+  //: Fit an affine transform given to the mapping between original and newPos.
+  
   // FIXME :- This can be done more efficiently.
   
-  Affine2dC FitAffine(SArray1dC<Point2dC> org,SArray1dC<Point2dC> newPos) {
+  Affine2dC FitAffine(SArray1dC<Point2dC> org,SArray1dC<Point2dC> newPos,RealT &residual) {
     RavlAssert(org.Size() == newPos.Size());
     
     UIntT samples = org.Size();
@@ -46,12 +54,12 @@ namespace RavlN {
     MatrixC tA = A.Copy();
     if(A.Rows() == A.Cols()) {
       // solve for solution vector
+      residual = 0;
       if(!SolveIP(tA,b))
 	throw ExceptionNumericalC("Dependent linear equations in FitAffine() ");
       if(!SolveIP(A,c))
 	throw ExceptionNumericalC("Dependent linear equations in FitAffine() ");
     } else {
-      RealT residual;
       if(!LeastSquaresQR_IP(tA,b,residual))
 	throw ExceptionNumericalC("Dependent linear equations in FitAffine() ");
       if(!LeastSquaresQR_IP(A,c,residual))

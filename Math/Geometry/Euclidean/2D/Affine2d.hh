@@ -68,6 +68,10 @@ namespace RavlN {
     
   };
   
+  Affine2dC FitAffine(SArray1dC<Point2dC> org,SArray1dC<Point2dC> newPos,RealT &residual);
+  //: Fit an affine transform given to the mapping between original and newPos.
+  // Returns the residual from the fit.
+  
   Affine2dC FitAffine(SArray1dC<Point2dC> org,SArray1dC<Point2dC> newPos);
   //: Fit an affine transform given to the mapping between original and newPos.
   
