@@ -60,7 +60,7 @@ namespace RavlGUIN {
     
     adj = gtk_adjustment_new (value, 
 			      lower, 
-			      upper + step_increment, 
+			      upper,
 			      step_increment,
 			      1,
 			      1);
