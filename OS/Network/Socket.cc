@@ -384,11 +384,10 @@ namespace RavlN {
   IntT SocketBodyC::ConnectedPort() { 
     if(addr == 0)
       return 0;
-    struct sockaddr_in *name = new (sockaddr_in) ;
-    socklen_t namelen        = sizeof (name) ; 
-    getpeername ( fd, (sockaddr*) name, &namelen ) ; 
-    IntT ret = ntohs ( name->sin_port ) ;
-    delete name ;
+    struct sockaddr_in name;
+    socklen_t namelen = sizeof(name); 
+    getpeername( fd, (sockaddr*) &name, &namelen );
+    IntT ret = ntohs( name.sin_port );
     return ret;
   }
 }
