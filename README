@@ -35,7 +35,14 @@ INSTALLATION
   older versions as well.  The location of the ccmath package is set
   in Ravl/Math/CCMath/CCMath.def, set the 'CCMATH' variable to appropriate
   directory uncomment two lines following it, and comment out any other
-  'EXELIB' lines later in the file. 
+  'EXELIB' lines later in the file.  
+
+  - A version of the ccmath source code which will compile under QMake is
+  included the RAVL releases and as a separate file available for download.
+  Using this is NOT guaranteed to give the best code as the QMake release
+  does not currently make use of assembler provided with the official package.
+  It does make it much easier to install. If you don't wish to use this
+  code remove the 'CCMath.r' from the NESTED line in the Ravl/defs.mk file.
 
 - The appropriate version of perl (Tested with 5.005_03) must be in your 
   default path.
