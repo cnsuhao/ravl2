@@ -85,6 +85,10 @@ namespace RavlN {
     { return IndexC((IntT)(at1 - dat1.ReferenceElm())); }
     //: Calculate the index we're at (In first array.)
     
+    IndexC Index2() const 
+      { return IndexC( (IntT) (at2 - dat2.ReferenceElm()) ) ; } 
+    //: Calcualte the index we're at (In second array.) 
+
   protected:
     Array1dC<Data1T> dat1;
     Array1dC<Data2T> dat2;
