@@ -47,7 +47,7 @@ int main(int nargs,char **argv) {
   
   TreeStoreC treeStore(types);
   
-  TreeModelRowC iter;
+  TreeModelIterC iter;
   treeStore.AppendRow(iter);
   //treeStore.SetValue(iter,0,true);
   treeStore.SetValue(iter,0,StringC("meep"));
@@ -55,7 +55,7 @@ int main(int nargs,char **argv) {
   PixbufC map(xpmData_OpenFile);
   treeStore.SetValue(iter,2, map);
   
-  TreeModelRowC iter2;
+  TreeModelIterC iter2;
   treeStore.AppendRow(iter2,iter);
   treeStore.SetValue(iter2,0,StringC("igloo"));
   treeStore.SetValue(iter2,1,StringC("child"));
