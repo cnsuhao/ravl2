@@ -283,12 +283,9 @@ namespace RavlGUIN {
 
   bool WindowBodyC::GUISetDecorated(bool& decorated) {
     if (widget!=0 && widget->window!=0) {
-#ifdef RAVL_USE_GTK2
-      gtk_window_set_decorated(widget,decorated);
-#else
       GdkWMDecoration dec = decorated ? GdkWMDecoration(127) : GdkWMDecoration(0);
       gdk_window_set_decorations(widget->window,dec);
-#endif
+      //gtk_window_set_decorated(widget->window,decorated);
     }
     else 
       m_bDecorated = decorated;

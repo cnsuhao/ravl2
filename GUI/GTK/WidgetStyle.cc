@@ -177,8 +177,12 @@ namespace RavlGUIN {
     GdkFont* pFont = gdk_font_load(strFontDesc);
     // Use font
     if (pFont) {
+#if RAVL_USE_GTK2
+      gtk_style_set_font(style,pFont);
+#else
       gdk_font_ref(pFont);
       style->font = pFont;
+#endif
     }
     return true;
   }

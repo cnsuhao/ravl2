@@ -23,6 +23,10 @@
 #include "Ravl/Trigger.hh"
 #include <gdk/gdktypes.h>
 
+#if RAVL_USE_GTK2
+#include <gdk/gdkgc.h>
+#endif
+
 namespace RavlGUIN {
   using namespace RavlImageN;
   class CanvasC;
