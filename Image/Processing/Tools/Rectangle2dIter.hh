@@ -15,6 +15,7 @@
 #include "Ravl/Image/ImageRectangle.hh"
 
 namespace RavlImageN {
+  using namespace RavlN;
   
   //! userlevel=Normal
   //: Rectangle iterator.
