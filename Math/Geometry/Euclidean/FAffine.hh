@@ -184,7 +184,7 @@ namespace RavlN {
   template<unsigned int N>
   istream & 
   operator>>(istream & inS, FAffineC<N> & vector) {
-    inS >> vector.SRMatrix() >> "\t" >> vector.Translation();
+    inS >> vector.SRMatrix() >> vector.Translation();
     return inS;
   }
    
