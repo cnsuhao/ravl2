@@ -10,6 +10,7 @@
 //! docentry="Ravl.Images.Filtering"
 //! lib=RavlImageProc
 //! rcsid="$Id$"
+//! userlevel=Normal 
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Array2dIter2.hh"
@@ -30,8 +31,8 @@ namespace RavlImageN {
       it.Data1() = it.Data2();
     // Take care of border
     DrawFrame(result,borderValue,n,rect);
-  };
-  //: Extend an image by n pixels filling new pixels with 'borderValue'
+  }
+  //: <a name="ExtendImage">Extend an image by n pixels in all directions by filling new pixels with 'borderValue'</a>
   // If 'result' image is large enough it will be used for results, otherwise it will
   // be replaced with an image of a suitable size.
   
@@ -68,8 +69,8 @@ namespace RavlImageN {
       for(BufferAccessIter2C<DataT,DataT> it(result[r],result[image.Frame().BRow()]);it;it++)
         it.Data1() = it.Data2();
     }
-  };
-  //: Extend an image by n pixels using a copy of its boarder
+  }
+  //: Extend an image by n pixels in all directions using a copy of its border pixel
   // If 'result' image is large enough it will be used for results, otherwise it will
   // be replaced with an image of a suitable size.
   
@@ -111,8 +112,8 @@ namespace RavlImageN {
       for(BufferAccessIter2C<DataT,DataT> it(result[rb2],result[rb1]);it;it++)
         it.Data1() = it.Data2();
     }
-  };
-  //: Extend an image by n pixels in all directions using mirroring 
+  }
+  //: Extend an image by n pixels in all directions by mirroring the border region
   // If 'result' image is large enough it will be used for results, otherwise it will
   // be replaced with an image of a suitable size. 
  
