@@ -315,6 +315,21 @@ namespace RavlN {
     // Attach 'aport' to seek ctrl 'sc'
     
   };
+  
+  template<class DataT>
+  DPISPortAttachC<DataT> SPort(const DPIPortC<DataT> &aport)
+  { return DPISPortAttachC<DataT>(aport); }
+  //: Attempt to turn 'aport' into a seekable port.
+  // This checks up the processing line for a seekable port and attaches it
+  // where possible.  If none are found then the seek controls are attached to stubs.
+  
+  template<class DataT>
+  DPOSPortAttachC<DataT> SPort(const DPOPortC<DataT> &aport)
+  { return DPOSPortAttachC<DataT>(aport); }
+  //: Attempt to turn 'aport' into a seekable port.
+  // This checks up the processing line for a seekable port and attaches it
+  // where possible.  If none are found then the seek controls are attached to stubs.
+  
 }
 
 
