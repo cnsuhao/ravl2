@@ -74,12 +74,16 @@ namespace RavlGUIN {
     : public WidgetBodyC
   {
   public:
+    CListBodyC(const SArray1dC<StringC> &titles,GtkSelectionMode nselMode = GTK_SELECTION_SINGLE);
+    //: Constructor from SArray1dC
+    // Values for nselMode are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSELECTIONMODE">here</A>.
+    
     CListBodyC(const DListC<StringC> &titles,GtkSelectionMode nselMode = GTK_SELECTION_SINGLE);
-    //: Constructor
+    //: Constructor from DList
     // Values for nselMode are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSELECTIONMODE">here</A>.
     
     CListBodyC(const char *titles[],int *colWidths = 0,GtkSelectionMode nselMode = GTK_SELECTION_SINGLE);
-    //: Constructor
+    //: Constructor from char*[]
     // Values for nselMode are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSELECTIONMODE">here</A>.
     
     virtual bool Create();
@@ -242,10 +246,23 @@ namespace RavlGUIN {
     //: Default constructor
     // Creates an invalid handle.
     
+    CListC(const SArray1dC<StringC> &titles,GtkSelectionMode nselMode = GTK_SELECTION_SINGLE)
+      : WidgetC(* new CListBodyC(titles,nselMode))
+    {}
+    //: Constructor from column titles as array of strings
+    // Values for nselMode are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSELECTIONMODE">here</A>.
+    
+    CListC(const DListC<StringC> &titles,GtkSelectionMode nselMode = GTK_SELECTION_SINGLE)
+      : WidgetC(* new CListBodyC(titles,nselMode))
+    {}
+    //: Constructor from column titles as list of strings
+    // Values for nselMode are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSELECTIONMODE">here</A>.
+    
     CListC(const char *titles[],int *colWidths = 0,GtkSelectionMode nselMode = GTK_SELECTION_SINGLE)
       : WidgetC(* new CListBodyC(titles,colWidths,nselMode))
     {}
-    //: Constructor
+    //: Constructor from column titles as char* array
+    // This constructor allows initialisation from simple C-style array of string constants.</br>
     // Values for nselMode are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSELECTIONMODE">here</A>.
     
     

@@ -52,7 +52,17 @@ namespace RavlGUIN {
     widths.Fill(-1);
   }
   
-  //: Default constructor
+  CListBodyC::CListBodyC(const SArray1dC<StringC> &ntitles,GtkSelectionMode nselMode)
+    : selMode(nselMode),
+      selectionChanged(0)
+  {
+    for (UIntT i(0); i<ntitles.Size(); ++i) titles.InsLast(ntitles[i]);
+    cols = titles.Size();
+    ONDEBUG(cerr << "CListBodyC::CListBodyC(), Cols : " << cols << "\n");
+    widths = SArray1dC<IntT>(cols);
+    widths.Fill(-1);
+  }
+  
   
   CListBodyC::CListBodyC(const char *ntitles[],int *colWidths,GtkSelectionMode nselMode)
     : selMode(nselMode),
