@@ -192,7 +192,7 @@ namespace RavlN {
     try {
       End();
     } catch(ExceptionC &e) {
-      cerr << "AMMA Exception :'" << e.what() << "'\n";
+      cerr << "RAVL Exception :'" << e.what() << "'\n";
       cerr << "While terminating thread. \n";
     } catch(exception &e) {
       cerr << "C++ Exception :'" << e.what() << "'\n";
@@ -322,8 +322,7 @@ namespace RavlN {
     } catch(ExceptionC &e) {
       cerr << "RAVL Exception :'" << e.what() << "'\n";
       cerr << "Terminating thread. \n";
-    }
-    catch(exception &e) {
+    } catch(exception &e) {
       cerr << "C++ Exception :'" << e.what() << "'\n";
       cerr << "Terminating thread. \n";
     } catch(...) {
