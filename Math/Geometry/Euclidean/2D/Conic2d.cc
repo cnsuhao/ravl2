@@ -90,8 +90,6 @@ namespace RavlN {
       samples++;
     MatrixC A(samples,6);
     IntT i = 0;
-    VectorC c(samples);
-    c.Fill(1);
     for(SArray1dIterC<Point2dC> it(points);it;it++,i++) {
       Point2dC p = (*it - mean) / scale; // Normalise point.
       A[i][0] = Sqr(p[0]);
@@ -113,8 +111,8 @@ namespace RavlN {
       A[i][5] = 1;
     }
     //cerr << "A=" << A.Rows() << " " << A.Cols() << " Vec=" << c.Size() << "\n";
-    VectorC result = LeastSquaresFixedRank(A,c,5);
-    result[5]--;
+    VectorC result;
+    LeastSquaresEq0Mag1(A,result);
     
     //cerr << "Result1=" << result << "\n Cr=" << Cr<< "\n";
     // --------- Undo normalisation ----------------
