@@ -23,7 +23,8 @@ namespace RavlN {
   //: Input list body.
   
   template<class ContainerT>
-  class DPIContainerBodyC : public DPIPortBodyC<typename ContainerT::ElementT> 
+  class DPIContainerBodyC 
+    : public DPIPortBodyC<typename ContainerT::ElementT> 
   {
   public:
     DPIContainerBodyC(const ContainerT &dat);
@@ -115,7 +116,9 @@ namespace RavlN {
   //: Input from list.
   
   template<class ContainerT>
-  class DPIContainerC : public DPIPortC<typename ContainerT::ElementT> {
+  class DPIContainerC 
+    : public DPIPortC<typename ContainerT::ElementT> 
+  {
   public:
     DPIContainerC(const ContainerT &dat)
       : DPEntityC(*new DPIContainerBodyC<ContainerT>(dat))
@@ -131,7 +134,9 @@ namespace RavlN {
   // The container must define 'ElementT'
   
   template<class ContainerT>
-  class DPOContainerC : public DPOPortC<typename ContainerT::ElementT> {
+  class DPOContainerC 
+    : public DPOPortC<typename ContainerT::ElementT> 
+  {
   public:
     DPOContainerC(ContainerT &dat)
       : DPEntityC(*new DPOContainerBodyC<ContainerT>(dat))
@@ -167,19 +172,19 @@ namespace RavlN {
   //: Some helper functions.
   
   template<class ContainerT>
-  DPOContainerC<ContainerT> DPOContainer(ContainerT &dat)
+  DPOPortC<typename ContainerT::ElementT> DPOContainer(ContainerT &dat)
   { return DPOContainerC<ContainerT>(dat); }
   
   //: Write out stream to container, appending to contents.
   
   template<class ContainerT>
-  DPOContainerC<ContainerT> DPOContainerOverwrite(ContainerT &dat)
+  DPOPortC<typename ContainerT::ElementT> DPOContainerOverwrite(ContainerT &dat)
   { return DPOContainerOverwriteC<ContainerT>(dat); }
   
   //: Write out stream to container, overwriting existing contents.
   
   template<class ContainerT>
-  DPIContainerC<ContainerT> DPIContainer(const ContainerT &dat)
+  DPIPortC<typename ContainerT::ElementT> DPIContainer(const ContainerT &dat)
   { return DPIContainerC<ContainerT>(dat); }
   
   //: Use container as source for stream.

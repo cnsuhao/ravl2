@@ -11,7 +11,7 @@
 //! lib=RavlIO
 //! author="Charles Galambos"
 //! docentry="Ravl.Core.Data Processing" 
-//! date="06/07/98"
+//! date="06/07/1998"
 //! example=exDataProc.cc
 //! file="Ravl/Core/IO/IOConnect.hh"
 
