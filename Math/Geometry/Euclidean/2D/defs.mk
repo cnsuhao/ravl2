@@ -9,12 +9,16 @@
 
 PACKAGE=Ravl
 
-HEADERS= LineABC2d.hh Curve2d.hh Curve2dLine.hh Curve2dLineSegment.hh
+HEADERS= LineABC2d.hh Curve2d.hh Curve2dLine.hh Curve2dLineSegment.hh \
+ Line2dIter.hh
 
-SOURCES= LineABC2d.cc Curve2d.cc Curve2dLine.cc Curve2dLineFit.cc Curve2dLineSegment.cc
+SOURCES= LineABC2d.cc Curve2d.cc Curve2dLine.cc Curve2dLineFit.cc \
+ Curve2dLineSegment.cc Line2dIter.cc
 
 PLIB=RavlMath
 
 LIBDEPS=RavlMath2D.def
 
 USESLIBS=RavlMath
+
+TESTEXES=testLine2d.cc
