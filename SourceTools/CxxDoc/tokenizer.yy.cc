@@ -2036,8 +2036,8 @@ yyFlexLexer::yyFlexLexer( RAVL_IONAMESPACE istream* arg_yyin, ostream* arg_yyout
 
 yyFlexLexer::~yyFlexLexer()
 	{
-	delete yy_state_buf;
-	yy_delete_buffer( yy_current_buffer );
+	  delete [] yy_state_buf;
+	  yy_delete_buffer( yy_current_buffer );
 	}
 
 void yyFlexLexer::switch_streams( RAVL_IONAMESPACE istream* new_in, ostream* new_out )
