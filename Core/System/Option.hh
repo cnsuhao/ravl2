@@ -166,7 +166,9 @@ namespace RavlN {
     //: Save options to a file.
     
     bool LoadOptions(StringC filename);
-    //: Save options to a file.
+    //: Load options from a file.
+    // This MUST be called before any options are processed for
+    // it to have any effect.
     
 #ifndef VISUAL_CPP
   protected:

@@ -226,6 +226,7 @@ namespace RavlN {
       sout << it.Data() << ' ';
     sout << "\n";
 #endif
+    Init();
     return true;
   }
   
