@@ -760,7 +760,7 @@ namespace RavlImageN {
 	  }
 	}
 #else
-	Index2dC pat(Floor(at.X()),Floor(at.Y()));
+	Index2dC pat(Floor(at[0]),Floor(at[1]));
 	if(pixMap[pat] == 0)
 	continue;
 	if(usedMap[pat] != 0)

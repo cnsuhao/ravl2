@@ -4,10 +4,10 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_PIXMAPSEARCH_HEADER 
-#define RAVL_PIXMAPSEARCH_HEADER 1
+#ifndef RAVLIMAGE_PIXMAPSEARCH_HEADER 
+#define RAVLIMAGE_PIXMAPSEARCH_HEADER 1
 /////////////////////////////////////////////////////////
-//! date="13/2/97"
+//! date="13/2/1997"
 //! author="Charles Galambos"
 //! docentry="Ravl.Images.Lines"
 //! file="Ravl/Image/Processing/Lines/PixelMapSearch.hh"
@@ -121,7 +121,7 @@ namespace RavlImageN {
   Point2dC PixelMapSearchC<CurveT>::NewPoints(Point2dC CurAt,DListC<PCIndex2dC> &NewPnts)  {
     Point2dC MAt = (CurAt/Map.BinSize()) - Vector2dC(0.5,0.5);
     // Find nearest grid.
-    Index2dC IndAt((IndexC) ((IntT) MAt.X()),(IndexC) ((IntT) MAt.Y()));
+    Index2dC IndAt((IndexC) ((IntT) MAt[0]),(IndexC) ((IntT) MAt[1]));
     Point2dC Center = (Point2dC(IndAt) * Map.BinSize()) + Map.BinSize();
     IntT dx,dy;
     //cerr << "NewPoints: " << Center << "\n";
@@ -172,8 +172,8 @@ namespace RavlImageN {
     //RealT MinDist =RavlConstN::maxReal;
     RealT MinOff =  RavlConstN::maxReal;
     for(IntT i = 0;i < 4;i++) {
-      Newun.X() = CheckX[i] * BinSize.X() + From.X();
-      Newun.Y() = CheckY[i] * BinSize.Y() + From.Y();
+      Newun[0] = CheckX[i] * BinSize[0] + From[0];
+      Newun[1] = CheckY[i] * BinSize[1] + From[1];
       RealT NP = Curve.Closest(Newun);
       RealT PDist = (NP - NewPar);
       //cerr << "Consider :" << NP << " D:" << PDist << "\n";

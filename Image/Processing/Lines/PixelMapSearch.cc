@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 /////////////////////////////////////////////////////////
-//! date="13/2/97"
+//! date="13/2/1997"
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlImageProc
