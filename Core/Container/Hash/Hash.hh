@@ -92,14 +92,14 @@ namespace RavlN {
   //: General hash table. (auto-resizing) 
   // Note this is a SMALL OBJECT, assignment of these hash tables creates a new copy of the object. 
   // RCHashC is a fully refrence counted version of this class. <br>
-  // Type K is the hash key, it mush define a function<p>
-  //   unsigned int K::Hash();  which returns a number fairly unique to the key.
-  //    or a global function of the form UIntT StdHash(const K &x) which returns the key. <p>
-  //   bool K::operator== (const K &Oth);  to test equality. <p>
+  // Type K is the hash key: it must define a function <code>
+  //   unsigned int K::Hash(); </code>  which returns a number fairly unique to the key,
+  //    or a global function of the form <code> UIntT StdHash(const K &x); </code> which returns the key. <p>
+  //   Also <code> bool K::operator== (const K &Oth); </code>  to test equality. <p>
   
-  // !!!!! Update() Require's a default constructor & a working assigment operator !!!!! <p>
+  // !!!!! Update() Requires a default constructor & a working assigment operator !!!!! <p>
   
-  // A few things to bare in mind when writing StdHash() functions. <p>
+  // A few things to bear in mind when writing StdHash() functions. <p>
   // 1) Try and use all the bits in the values being hashed. <p>
   // 2) Use quick operations that tend to preserve the number of bits in the value.
   //     ie '+' '^' '-' <p>
