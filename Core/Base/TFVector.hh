@@ -47,6 +47,12 @@ namespace RavlN {
   template<class DataT,unsigned int N>
   class TFVectorC {
   public:
+#if RAVL_COMPILER_VISUALCPP
+    enum { SizeV = N }; 
+#else
+    static const int SizeV = N;
+#endif
+    
     TFVectorC()
     {}
     //: Default constructor.
