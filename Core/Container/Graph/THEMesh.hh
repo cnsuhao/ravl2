@@ -44,11 +44,13 @@ namespace RavlN {
     }
     //: Insert a new vertex into the mesh.
     
-#if 0    
-    THEMeshFaceC<VertexDataT,EdgeDataT,FaceDataT> InsertFace(const SArray1dC<THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT> > &vertices,
-							     HashC<Tuple2C<THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT>,THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT> >,
-							     THEMeshEdgeC<VertexDataT,EdgeDataT,FaceDataT> > &edgeTab);
-#endif
+    THEMeshFaceC<VertexDataT,EdgeDataT,FaceDataT> InsertFace(const FaceDataT &data,
+							     const SArray1dC<HEMeshBaseVertexC> &vertices,
+							     HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> &edgeTab) {
+      THEMeshFaceC<VertexDataT,EdgeDataT,FaceDataT> ret(data);
+      HEMeshBaseBodyC::InsertFace(ret,vertices,edgeTab);
+      return ret;
+    }
     //: Insert face defined by vertices.
     
   protected:
@@ -93,13 +95,11 @@ namespace RavlN {
     { return Body().InsertVertexOnEdge(edge); }
     //: Insert a vertex on an edge.
     
-#if 0
-    THEMeshFaceC<VertexDataT,EdgeDataT,FaceDataT> InsertFace(const SArray1dC<THEMeshVertexC> &vertices,
-			    HashC<Tuple2C<THEMeshVertexC,THEMeshVertexC>, 
-			    THEMeshEdgeC> &edgeTab)
-    { return Body().InsertFace(vertices,edgeTab); }
+    THEMeshFaceC<VertexDataT,EdgeDataT,FaceDataT> InsertFace(const FaceDataT &data,
+							     const SArray1dC<HEMeshBaseVertexC> &vertices,
+							     HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> &edgeTab)
+    { return Body().InsertFace(data,vertices,edgeTab); }
     //: Insert face defined by vertices.
-#endif
     
     THEMeshFaceIterC<VertexDataT,EdgeDataT,FaceDataT> Faces()
     { return THEMeshFaceIterC<VertexDataT,EdgeDataT,FaceDataT>(Body().faces); }

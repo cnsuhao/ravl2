@@ -19,6 +19,11 @@
 
 namespace RavlN {
   
+  //: Destructor.
+  
+  HEMeshBaseEdgeBodyC::~HEMeshBaseEdgeBodyC()
+  {}
+  
   //: Correct edge's vertex pointer.
   
   void HEMeshBaseEdgeBodyC::CorrectVertexEdgePtr() {

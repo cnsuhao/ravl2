@@ -39,6 +39,11 @@ namespace RavlN {
     THEMeshFaceBodyC()
     {}
     //: Default constructor.
+
+    THEMeshFaceBodyC(const FaceDataT &faceData)
+      : data(faceData)
+    {}
+    //: Constructor.
     
     THEMeshFaceBodyC(THEMeshEdgeBodyC<VertexDataT,EdgeDataT,FaceDataT> &nedge)
       : HEMeshBaseFaceBodyC(&nedge)
@@ -59,7 +64,17 @@ namespace RavlN {
     //: Find the edge linking to vertex a.
     // If edge is not found an invalid handle is returned.
     
+    FaceDataT &Data()
+    { return data; }
+    //: Access data.
+    
+    const FaceDataT &Data() const
+    { return data; }
+    //: Access data.
+    
   private:
+    FaceDataT data;
+    
     friend class THEMeshFaceEdgeIterC<VertexDataT,EdgeDataT,FaceDataT>;
     friend class THEMeshFaceC<VertexDataT,EdgeDataT,FaceDataT>;
     friend class THEMeshEdgeBodyC<VertexDataT,EdgeDataT,FaceDataT>;
@@ -71,16 +86,30 @@ namespace RavlN {
   
   template<class VertexDataT,class EdgeDataT,class FaceDataT>
   class THEMeshFaceC 
-    : HEMeshBaseFaceC
+    : public HEMeshBaseFaceC
   {
   public:
     THEMeshFaceC()
     {}
     //: Default constructor
     
-    bool IsValid() const
-    { return body != 0; }
-    //: Is this a valid handle ?
+  protected:
+    THEMeshFaceBodyC<VertexDataT,EdgeDataT,FaceDataT> &Body()
+    { return static_cast<THEMeshFaceBodyC<VertexDataT,EdgeDataT,FaceDataT> &>(HEMeshBaseFaceC::Body()); }
+    //: Body access.
+    
+    const THEMeshFaceBodyC<VertexDataT,EdgeDataT,FaceDataT> &Body() const
+    { return static_cast<const THEMeshFaceBodyC<VertexDataT,EdgeDataT,FaceDataT> &>(HEMeshBaseFaceC::Body()); }
+    //: Body access.
+    
+  public:
+    FaceDataT &Data()
+    { return Body().Data(); }
+    //: Access data.
+    
+    const FaceDataT &Data() const
+    { return Body().Data(); }
+    //: Access data.
 
   protected:
     THEMeshFaceC(THEMeshFaceBodyC<VertexDataT,EdgeDataT,FaceDataT> &bod)
@@ -88,8 +117,8 @@ namespace RavlN {
     {}
     //: Body constructor.
     
-    THEMeshFaceC(bool)
-      : HEMeshBaseFaceC(new THEMeshFaceBodyC<VertexDataT,EdgeDataT,FaceDataT>())
+    THEMeshFaceC(const FaceDataT &faceData)
+      : HEMeshBaseFaceC(new THEMeshFaceBodyC<VertexDataT,EdgeDataT,FaceDataT>(faceData))
     {}
     //: Construct a new face.
 
@@ -98,13 +127,6 @@ namespace RavlN {
     {}
     //: Construct a new face.
     
-    THEMeshFaceBodyC<VertexDataT,EdgeDataT,FaceDataT> &Body()
-    { return static_cast<THEMeshFaceBodyC<VertexDataT,EdgeDataT,FaceDataT> &>(HEMeshBaseFaceC::Body()); }
-    //: Access body.
-
-    const THEMeshFaceBodyC<VertexDataT,EdgeDataT,FaceDataT> &Body() const
-    { return static_cast<const THEMeshFaceBodyC<VertexDataT,EdgeDataT,FaceDataT> &>(HEMeshBaseFaceC::Body()); }
-    //: Access body.
     
 #if 0
     THEMeshEdgeBodyC<VertexDataT,EdgeDataT,FaceDataT> *FirstEdge()

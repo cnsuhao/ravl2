@@ -35,9 +35,11 @@ namespace RavlN {
   
   //: Insert face defined by vertices.
   
-  HEMeshBaseFaceC HEMeshBaseBodyC::InsertFace(const SArray1dC<HEMeshBaseVertexC> &vertices,HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> &edgeTab) {
+  HEMeshBaseFaceC HEMeshBaseBodyC::InsertFace(HEMeshBaseFaceC &face,
+					      const SArray1dC<HEMeshBaseVertexC> &vertices,
+					      HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> &edgeTab) {
     RavlAssert(vertices.Size() > 2);
-    HEMeshBaseFaceC face(true);
+    RavlAssert(face.IsValid());
     ONDEBUG(cerr << "Inserting face " << face.Hash() << "\n"); 
     faces.InsLast(face.Body());
     

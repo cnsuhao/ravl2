@@ -99,11 +99,11 @@ namespace RavlN {
     //: Constructor.
     
     THEMeshVertexBodyC<VertexDataT,EdgeDataT,FaceDataT> &Body()
-    { return static_cast<THEMeshVertexBodyC<VertexDataT,EdgeDataT,FaceDataT> &>(THEMeshVertexC::Body()); }
+    { return static_cast<THEMeshVertexBodyC<VertexDataT,EdgeDataT,FaceDataT> &>(HEMeshBaseVertexC::Body()); }
     //: Access body.
     
     const THEMeshVertexBodyC<VertexDataT,EdgeDataT,FaceDataT> &Body() const
-    { return static_cast<const THEMeshVertexBodyC<VertexDataT,EdgeDataT,FaceDataT> &>(THEMeshVertexC::Body()); }
+    { return static_cast<const THEMeshVertexBodyC<VertexDataT,EdgeDataT,FaceDataT> &>(HEMeshBaseVertexC::Body()); }
     //: Access body.
     
   public:

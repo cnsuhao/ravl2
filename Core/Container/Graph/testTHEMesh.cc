@@ -19,10 +19,13 @@ using namespace RavlN;
 int main(int nargs,char **argv) {
   
   THEMeshC<IntT,RealT,bool> test(true);
-#if 0  
-  THEMeshVertexC<IntT,RealT,bool> vert1 = test.InsertVertex(1);
-  THEMeshVertexC<IntT,RealT,bool> vert2 = test.InsertVertex(2);
-#endif
+  
+  SArray1dC<HEMeshBaseVertexC> arr(3);
+  HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> edgeTab;
+  arr[0] = test.InsertVertex(1);
+  arr[1] = test.InsertVertex(2);
+  arr[2] = test.InsertVertex(3);
+  test.InsertFace(true,arr,edgeTab);
   
   return 0;
 }

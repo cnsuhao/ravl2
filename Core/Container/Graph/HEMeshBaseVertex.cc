@@ -12,6 +12,11 @@
 #include "Ravl/HEMeshBaseFace.hh"
 
 namespace RavlN {
+
+  //: Destructor.
+  
+  HEMeshBaseVertexBodyC::~HEMeshBaseVertexBodyC()
+  {}
   
   //: Look for a connection from this vertex to oth.
   // Returns an invalid handle if ones is not found.

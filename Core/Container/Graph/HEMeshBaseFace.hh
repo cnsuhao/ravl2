@@ -38,8 +38,8 @@ namespace RavlN {
       : edge(0)
     {}
     //: Default constructor.
-
-    ~HEMeshBaseFaceBodyC();
+    
+    virtual ~HEMeshBaseFaceBodyC();
     //: Destructor.
     
     HEMeshBaseFaceBodyC(HEMeshBaseEdgeBodyC &nedge)

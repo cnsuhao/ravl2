@@ -141,6 +141,9 @@ namespace RavlN {
     //: Cosntructor.
     // the contents are left undefined.
     
+    virtual ~HEMeshBaseEdgeBodyC();
+    //: Destructor.
+    
     void RemoveHalfEdge();
     //: Remove this half edge.
     // The use must ensure that the matching half is also removed.

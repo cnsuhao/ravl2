@@ -46,7 +46,9 @@ namespace RavlN {
     HEMeshBaseVertexC InsertVertexOnEdge(HEMeshBaseEdgeC edge);
     //: Insert a vertex on an edge.
     
-    HEMeshBaseFaceC InsertFace(const SArray1dC<HEMeshBaseVertexC> &vertices,HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> &edgeTab);
+    HEMeshBaseFaceC InsertFace(HEMeshBaseFaceC &face,
+			       const SArray1dC<HEMeshBaseVertexC> &vertices,
+			       HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> &edgeTab);
     //: Insert face defined by vertices.
     
     UIntT NoFaces() const
@@ -115,10 +117,12 @@ namespace RavlN {
     { return Body().InsertVertexOnEdge(edge); }
     //: Insert a vertex on an edge.
     
-    HEMeshBaseFaceC InsertFace(const SArray1dC<HEMeshBaseVertexC> &vertices,HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> &edgeTab)
-    { return Body().InsertFace(vertices,edgeTab); }
+    HEMeshBaseFaceC InsertFace(HEMeshBaseFaceC &face,
+			       const SArray1dC<HEMeshBaseVertexC> &vertices,
+			       HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> &edgeTab)
+    { return Body().InsertFace(face,vertices,edgeTab); }
     //: Insert face defined by vertices.
-
+    
     UIntT NoFaces() const
     { return Body().NoFaces(); }
     //: Get the number of faces.

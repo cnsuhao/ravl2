@@ -32,6 +32,9 @@ namespace RavlN {
     : public DLinkC // Link in list of all vertexes
   {
   public:    
+    virtual ~HEMeshBaseVertexBodyC();
+    //: Destructor.
+    
     HEMeshBaseEdgeC FindEdge(const HEMeshBaseVertexC &oth) const;
     //: Look for a connection from this vertex to oth.
     // Returns an invalid handle if ones is not found.
