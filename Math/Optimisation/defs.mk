@@ -29,3 +29,5 @@ EHT=Ravl.Math.Optimisation.html Ravl.Math.Optimisation.Examples.html
 TESTEXES= OrthogonalRegressionTest.cc QuadraticFitTest.cc Homography2dFitTest.cc
 
 EXAMPLES= OrthogonalRegressionTest.cc QuadraticFitTest.cc Homography2dFitTest.cc
+
+USESLIBS=RavlCore RavlMath
