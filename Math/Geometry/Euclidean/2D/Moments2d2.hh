@@ -47,8 +47,11 @@ namespace RavlN {
     
     inline void AddPixel (const Index2dC &pxl);
     //: Adds a pixel to the object and updates sums.
+
+    inline void AddPixel (const Point2dC &pxl);
+    //: Adds a position with a weight to the object and updates sums.
     
-    inline void AddPixel (const Point2dC &pxl,RealT weight = 1);
+    inline void AddPixel (const Point2dC &pxl,RealT weight);
     //: Adds a position with a weight to the object and updates sums.
     
     const Moments2d2C &operator+=(const Index2dC &pxl)
@@ -229,7 +232,19 @@ namespace RavlN {
     m20 += a*a;
   }
   
-  //: Adds a position with a weight to the object and updates sums.
+  inline 
+  void Moments2d2C::AddPixel (const Point2dC &pxl) {
+    RealT a = pxl[0];
+    RealT b = pxl[1];
+    
+    m00++;
+    m01 += b;
+    m10 += a;
+    m11 += a*b;
+    m02 += b*b;
+    m20 += a*a;    
+  }
+  
   
   void Moments2d2C::AddPixel (const Point2dC &pxl,RealT weight) {
     RealT a = pxl[0];

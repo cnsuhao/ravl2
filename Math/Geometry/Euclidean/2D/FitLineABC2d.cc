@@ -68,7 +68,10 @@ namespace RavlN {
     RealT sxy = sums.M11()  - sums.M00() * sums.CentroidX() * sums.CentroidY();
     RealT sxx = sums.M20() - sums.M00() * Sqr(sums.CentroidX());
     RealT syy = sums.M02() - sums.M00() * Sqr(sums.CentroidY());
-    residual = Sqrt(Sqr(sxy) / (sxx * syy));
+    RealT prod = (sxx * syy);
+    if(prod == 0) residual = 0;
+    else residual = Sqrt(Sqr(sxy) / prod);
+    
     if(sums.VarX() > sums.VarY()) {
       RealT b = sxy/sxx;
       RealT a = (sums.M01() - b * sums.M10())/sums.M00();

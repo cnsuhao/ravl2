@@ -144,5 +144,12 @@ int testLineFitLSQ() {
   RealT res;
   line.FitLSQ(points,res);
   cerr << "Line=" << line << " Res=" << res <<"\n";
+  
+  for(UIntT i = 0;i < points.Size();i++)
+    points[i] = Point2dC(i+1, i * 0.5);
+  RealT res;
+  line.FitLSQ(points,res);
+  cerr << "Line=" << line << " Res=" << res <<"\n";
+
   return 0;
 }
