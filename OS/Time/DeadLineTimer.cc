@@ -21,9 +21,12 @@
 #endif
 
 #if RAVL_OS_IRIX
-#ifndef _POSIX_C_SOURCE
-#define _POSIX_C_SOURCE 199309L
-#endif
+//#ifndef _POSIX_C_SOURCE
+//#define _POSIX_C_SOURCE 199309L
+//#endif
+#include <sys/types.h>
+#include <bstring.h>
+#include <sys/time.h>
 #endif
 #include <errno.h>
 #include <stdio.h>

@@ -233,16 +233,18 @@ namespace RavlN {
   void TSMatrixFullBodyC<DataT>::AddIP(const TSMatrixC<DataT> &oth) {
     TSMatrixFullC<DataT> ts(oth);
     if(!ts.IsValid())
-      return TSMatrixBodyC<DataT>::AddIP(oth); // Use default
-    matrix += ts.FullTMatrix();
+      TSMatrixBodyC<DataT>::AddIP(oth); // Use default
+    else
+      matrix += ts.FullTMatrix();
   }
   
   template<class DataT>  
   void TSMatrixFullBodyC<DataT>::SubIP(const TSMatrixC<DataT> &oth) {
     TSMatrixFullC<DataT> ts(oth);
     if(!ts.IsValid())
-      return TSMatrixBodyC<DataT>::SubIP(oth); // Use default
-    matrix -= ts.FullTMatrix();
+      TSMatrixBodyC<DataT>::SubIP(oth); // Use default
+    else
+      matrix -= ts.FullTMatrix();
   }
   
 #if !RAVL_TSMATERIXFULL_DEFAULT    
@@ -283,7 +285,7 @@ namespace RavlN {
   template<class DataT>  
   DataT TSMatrixFullBodyC<DataT>::MulSumColumn(UIntT c,const Array1dC<DataT> &dat) const { 
     RavlAssert(IndexRangeC(0,Rows()-1).Contains(dat.Range()));
-    if(dat.Size() < 0) {
+    if(dat.Size() <= 0) {
       DataT ret;
       SetZero(ret);
       return ret;
