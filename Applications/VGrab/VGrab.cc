@@ -20,8 +20,8 @@
 #include "Ravl/Assert.hh"
 #include "Ravl/Image/Image.hh"
 #include "Ravl/TimeCode.hh"
-
 #include "Ravl/OS/Date.hh"
+
 using namespace RavlN ; 
 using namespace RavlImageN ; 
 
@@ -35,7 +35,8 @@ int VGrab(int argc, char ** argv)
   OptionC opts(argc,argv) ; 
   StringC usage = "This program captures video from grabber cards. The grabber device can be specified using RAVL virtual files and defaults to the ClipStationPro driver. \n Output formats are determined by the extension specified, 4cif is the defalut." ; 
   opts.Comment(usage) ; 
-  
+
+  RealT delay       = opts.Real    ("delay", 0.0,               "The delay in seconds " ) ; 
   bool showTC       = opts.Boolean ("g",     false,             "Get current timecode " ) ; 
   bool verbose      = opts.Boolean ("v",     false,             "Be verbose ? " ) ; 
   StringC start     = opts.String  ("start", "now",             "The starting timecode [HH:MM:SS:FF , now] " ) ; 
@@ -47,6 +48,9 @@ int VGrab(int argc, char ** argv)
 
   opts.DependXor ("end n") ; 
   opts.Check() ;  
+
+
+  Sleep (delay) ; 
 
 
   //: create a name for the timecode file 
