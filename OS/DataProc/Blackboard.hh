@@ -66,6 +66,13 @@ namespace RavlN {
     }
     //: Add entry to table.
     
+    bool Remove(const StringC &tag) {
+      RWLockHoldC lock(rwlock,false);
+      entries.Del(tag);
+    }
+    //: Remove entry from blackboard.
+    
+    
   protected:
     RCWrapAbstractC Convert(RCWrapAbstractC &handle,const type_info &to);
     //: Attempt conversion to requested type.
@@ -122,6 +129,10 @@ namespace RavlN {
     bool Put(const StringC &tag,const DataT &value)
     { return Body().Put(tag,value); }
     //: Lookup entry to blackboard
+    
+    bool Remove(const StringC &tag) 
+    { return Body().Remove(tag); }
+    //: Remove entry from blackboard.
     
   };
   
