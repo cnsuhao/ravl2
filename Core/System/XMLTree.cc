@@ -99,13 +99,13 @@ namespace RavlN {
       out << ita.Key() << "=\"" << ita.Data() << "\" ";
     }
     if(me.Children().IsEmpty()) {
-      out << "\\>\n";
+      out << "/>\n";
     } else {
       out << ">\n";
       for(DLIterC<XMLTreeC> it(me.Children());it;it++) {
 	it.Data().Dump(out,level+1);
       }
-      Indent(out,level) << "<\\" << Name() << ">\n";
+      Indent(out,level) << "</" << Name() << ">\n";
     }
     return out;
   }
