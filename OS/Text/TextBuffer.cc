@@ -241,10 +241,10 @@ namespace RavlN {
     RavlAssert(firstLine <= lastLine);
     DLIterC<TextFileLineC> fit(lines);
     for(;fit;fit++) {
-      if(fit->LineNo() >= firstLine && fit->LineNo() != ((UIntT) -1))
+      if((IntT) fit->LineNo() >= firstLine && fit->LineNo() != ((UIntT) -1))
 	break;
     } 
-    if(!fit || fit->LineNo() > lastLine) {
+    if(!fit || (IntT) fit->LineNo() > lastLine) {
       //cerr << "Failed to find first line. \n";
       return 0;
     }
@@ -262,11 +262,11 @@ namespace RavlN {
 	  lit--;
 	  break;
 	}
-	if(lit->LineNo() > lastLine)
+	if((IntT) lit->LineNo() > lastLine)
 	  break;
 	lit = sit;
       }
-      if(lit->LineNo() > lastLine)
+      if((IntT) lit->LineNo() > lastLine)
 	break;
     }
     //cerr << "Deleting lines... \n";
