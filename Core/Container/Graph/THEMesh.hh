@@ -70,11 +70,11 @@ namespace RavlN {
     
   protected:
     virtual HEMeshBaseFaceC NewFace()
-    { return THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT>(*new THEMeshFaceBodyC<VertexDataT,FaceDataT,EdgeDataT>()); }
+    { return THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT>(*new THEMeshFaceBodyC<VertexDataT,FaceDataT,EdgeDataT>(allocFaceId++)); }
     //: Create a new face.
     
     virtual HEMeshBaseVertexC NewVertex()
-    { return THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT>(*new THEMeshVertexBodyC<VertexDataT,FaceDataT,EdgeDataT>()); }
+    { return THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT>(*new THEMeshVertexBodyC<VertexDataT,FaceDataT,EdgeDataT>(allocVertexId++)); }
     //: Create a new face.
     
     virtual HEMeshBaseEdgeC NewEdge(HEMeshBaseVertexBodyC &vert,HEMeshBaseFaceBodyC &face)

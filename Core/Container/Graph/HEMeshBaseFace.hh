@@ -35,8 +35,9 @@ namespace RavlN {
     : public DLinkC // Link in list of all faces.
   {
   public:
-    HEMeshBaseFaceBodyC()
-      : edge(0)
+    HEMeshBaseFaceBodyC(UIntT nid = 0)
+      : edge(0),
+	id(nid)
     {}
     //: Default constructor.
     
@@ -91,8 +92,14 @@ namespace RavlN {
     { return this != &bod; }
     //: Is this the same body ?
     
+    UIntT Id() const
+    { return id; }
+    //: Access face id.
+    
   protected:
     HEMeshBaseEdgeBodyC *edge; // Ptr to one of the edges adjacent to the face.
+    UIntT id;
+    
     friend class HEMeshBaseFaceEdgeIterC;
     friend class HEMeshBaseFaceC;
     friend class HEMeshBaseEdgeBodyC;
@@ -197,6 +204,10 @@ namespace RavlN {
     void Invalidate()
     { body = 0; }
     //: Invalidate handle to edge.
+    
+    UIntT Id() const
+    { return Body().Id(); }
+    //: Access face id.
     
   protected:
     HEMeshBaseFaceBodyC *body;

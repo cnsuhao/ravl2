@@ -37,6 +37,8 @@ namespace RavlN {
   {
   public:
     HEMeshBaseBodyC()
+      : allocFaceId(0),
+	allocVertexId(0)
     {}
     //: Default constructor.
     // Creates an empty mesh.
@@ -99,6 +101,14 @@ namespace RavlN {
     // If 'leaveHole' is true this does not close the resulting face, 
     // so a hole will be left in the mesh.
     
+    UIntT NumberOfFaceIds() const
+    { return allocFaceId; }
+    //: Access the number of face id's allocated.
+    
+    UIntT NumberOfVertexIds() const
+    { return allocVertexId; }
+    //: Allocate number of vertex id's allocated.
+    
   protected:
     virtual HEMeshBaseFaceC NewFace();
     //: Create a new face.
@@ -115,6 +125,9 @@ namespace RavlN {
     
     IntrDListC<HEMeshBaseFaceBodyC> faces;  // List of faces in the mesh.
     IntrDListC<HEMeshBaseVertexBodyC> vertices; // List of vertices.
+
+    UIntT allocFaceId;
+    UIntT allocVertexId;
     
     friend class HEMeshBaseC;
   };
@@ -251,6 +264,14 @@ namespace RavlN {
     { return HEMeshBaseVertexC(Body().vertices.First()); }
     //: Get the first vertex in the mesh.
     // Note: The mesh must NOT be empty.
+
+    UIntT NumberOfFaceIds() const
+    { return Body().NumberOfFaceIds(); }
+    //: Access the number of face id's allocated.
+    
+    UIntT NumberOfVertexIds() const
+    { return Body().NumberOfVertexIds(); }
+    //: Allocate number of vertex id's allocated.
 
   };
 

@@ -69,9 +69,14 @@ namespace RavlN {
     { return edge != 0; }
     //: Is this vertex associated with any faces/edges ?
     
+    UIntT Id() const
+    { return id; }
+    //: Access vertex id.
+    
   protected:
-    HEMeshBaseVertexBodyC()
-      : edge(0)
+    HEMeshBaseVertexBodyC(UIntT nid = 0)
+      : edge(0),
+	id(nid)
     {}
     //: Construct from a vertex position.
     
@@ -79,6 +84,9 @@ namespace RavlN {
     // Ptr to one of the edges on the vertex.
     // This must always point to an edge going to
     // this vertex.
+
+    UIntT id;
+    //: Identifier for vertex.
     
     friend class HEMeshBaseVertexC;
     friend class HEMeshBaseEdgeBodyC;
@@ -86,7 +94,7 @@ namespace RavlN {
   };
   
   //! userlevel=Normal
-  //: Vertex.
+  //: Vertex in half edge mesh
   
   class HEMeshBaseVertexC {
   public:
@@ -166,6 +174,10 @@ namespace RavlN {
     bool HasEdge() const
     { return Body().HasEdge(); }
     //: Is this vertex associated with any faces/edges ?
+    
+    UIntT Id() const
+    { return Body().Id(); }
+    //: Access vertex id.
     
     bool operator>(const HEMeshBaseVertexC &oth) const
     { return body > oth.body; }

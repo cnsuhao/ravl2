@@ -21,7 +21,7 @@ namespace RavlN {
   template<class VertexDataT,class FaceDataT,class EdgeDataT> class THEMeshC;
 
   //! userlevel=Normal
-  //: Mesh face iterator.
+  //: Iterator to go through all the faces in a mesh.
   // Note: It is the users responsibility to ensure the current face of the interator is NOT
   // deleted until the iterator is moved to another element.  Methods such as CollapseEdge()
   // are provided to help ensure this.

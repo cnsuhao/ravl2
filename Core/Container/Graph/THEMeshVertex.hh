@@ -48,12 +48,14 @@ namespace RavlN {
     //: Access data.
     
   protected:
-    THEMeshVertexBodyC()
+    THEMeshVertexBodyC(UIntT nid = 0)
+      : HEMeshBaseVertexBodyC(nid)
     {}
     //: Default constructor.
 
-    THEMeshVertexBodyC(const VertexDataT &ndata)
-      : data(ndata)
+    THEMeshVertexBodyC(const VertexDataT &ndata,UIntT nid = 0)
+      : HEMeshBaseVertexBodyC(nid),
+	data(ndata)
     {}
     //: Construct from a vertex data.
     

@@ -37,12 +37,14 @@ namespace RavlN {
     : public HEMeshBaseFaceBodyC
   {
   public:
-    THEMeshFaceBodyC()
+    THEMeshFaceBodyC(UIntT nid = 0)
+      : HEMeshBaseFaceBodyC(nid)
     {}
     //: Default constructor.
 
-    THEMeshFaceBodyC(const FaceDataT &faceData)
-      : data(faceData)
+    THEMeshFaceBodyC(const FaceDataT &faceData,UIntT nid = 0)
+      : HEMeshBaseFaceBodyC(nid),
+	data(faceData)
     {}
     //: Constructor.
     
