@@ -30,6 +30,10 @@ namespace RavlN {
     //: Default constructor.
     // The paramiters of the ellipse are left undefined.
     
+    Ellipse2dC(const TFVectorC<RealT,6> &conicParams);
+    //: Create from conic parameters.
+    //!param: conicParams - Conic paramiters a to f, where a * Sqr(row) + b * row * col + c * Sqr(col) + d * row + e * col + f = 0
+    
     Ellipse2dC(const Affine2dC &np)
       : p(p)
     {}

@@ -23,6 +23,14 @@
 #endif
 
 namespace RavlN {
+
+  //: Create from conic parameters.
+  //!param: conicParams - Conic paramiters a to f, where a * Sqr(row) + b * row * col + c * Sqr(col) + d * row + e * col + f = 0
+  
+  Ellipse2dC::Ellipse2dC(const TFVectorC<RealT,6> &conicParams) {
+    Conic2dC conic(conicParams);
+    conic.AsEllipse(*this); // What to do if this fails?
+  }
   
   //: Create an new ellipse
   //!param: centre - Centre of ellipse.
