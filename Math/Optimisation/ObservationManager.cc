@@ -82,7 +82,7 @@ namespace RavlN {
 
     // generate random sample
     num_constraints = 0;
-    for(SArray1dIterC<IntT> it2(index);it;it++) {
+    for(SArray1dIterC<IntT> it2(index);it2;it2++) {
       for(;;) {
 	// add index of random observation to sample
 	*it2 = RandomInt() % obs_array.Size();
