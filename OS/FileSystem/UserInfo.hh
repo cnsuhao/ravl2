@@ -110,7 +110,7 @@ namespace RavlN
     //: Initalise from a password structure.
     
   private:
-    bool exists; // TRUE = is a real user.
+    bool exists; // true = is a real user.
     UIntT uid;       // id.
     UIntT gid;       // group id.
     StringC login;   // login.

@@ -72,7 +72,7 @@ namespace RavlN {
     memset(&dataFind, 0, sizeof(WIN32_FIND_DATA));
     StringC strSearch = StringC(chars()) + "/*";
     HANDLE hFindFile = FindFirstFile(strSearch, &dataFind);
-    BOOL bFoundNext = hFindFile ? TRUE : FALSE;
+    BOOL bFoundNext = hFindFile ? true : false;
     while (bFoundNext) {
       ret.InsLast(StringC(dataFind.cFileName));
       bFoundNext = FindNextFile(hFindFile, &dataFind);

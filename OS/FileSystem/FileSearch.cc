@@ -19,7 +19,7 @@ namespace RavlN {
   // Returns this filename if is not found on path.
   
   FilenameC FilenameC::Search(const DListC<StringC> &dirs) const  {
-    for(ConstDLIterC<StringC> it(dirs);it.IsElm();it.Next()) {
+    for(DLIterC<StringC> it(dirs);it.IsElm();it.Next()) {
       FilenameC tmp(it.Data() + "/" + (*this));
       if(tmp.Exists())
 	return tmp;

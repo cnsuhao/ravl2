@@ -14,8 +14,7 @@
 
 namespace RavlN {
   
-    //: Get information on owner of file.
-  
+  //: Get information on owner of file.
   
   UserInfoC FilePermissionC::OwnerInfo() const { 
     return UserInfoC(Owner()); 

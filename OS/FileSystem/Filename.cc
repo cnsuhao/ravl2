@@ -25,7 +25,7 @@
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <assert.h>
+#include "Ravl/Assert.hh"
 #include <string.h>
 #include <errno.h>
 
@@ -165,7 +165,7 @@ namespace RavlN {
     if(Digits > 6 || Digits < 0) {
 #ifdef QMAKE_CHECK
       cerr << "FilenameC::MkTemp(), Value out of range Digits=" << Digits << "  should be between 0 and 6 \n";
-      assert(0);
+      RavlAssert(0);
 #endif
       throw ExceptionOutOfRangeC("FilenameC::MkTemp(), Digits must be between 0 and 6. \n");
     }
@@ -297,7 +297,7 @@ namespace RavlN {
       in1.read(buff,buffsize);
       int n = in1.gcount();
       in2.write(buff,n);
-      //assert(n == in2.gcount());
+      //RavlAssert(n == in2.gcount());
     } while(in1) ;
     // FIXME :- Copy access permissions !!
 #if RAVL_USE_LARGEFILESUPPORT
@@ -344,11 +344,11 @@ namespace RavlN {
       in1.read(buff1,buffsize);
       in2.read(buff2,buffsize);
       int n1 = (int) in1.gcount();
-      assert(n1 == ((int) in2.gcount()));
+      RavlAssert(n1 == ((int) in2.gcount()));
       if(memcmp(buff1,buff2,n1) != 0)
 	return false;
     } while(in1 && in2) ;
-    assert(!(in1 || in2)); // Both streams should be finished
+    RavlAssert(!(in1 || in2)); // Both streams should be finished
     return true;
   }
   
