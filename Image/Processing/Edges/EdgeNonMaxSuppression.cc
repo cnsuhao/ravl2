@@ -120,11 +120,8 @@ namespace RavlImageN {
       if(*it == 0)
 	continue;
       Index2dC at = it.Index();
-      RealT ang = ATan2(inDcIm[at],inDrIm[at]) + RavlConstN::pi/2;
-      if(ang > RavlConstN::pi)
-	ang -= RavlConstN::pi*2;
       RavlAssert(eit); // outEdgels miscounted!
-      *eit = EdgelC(at,ang,res[at]);
+      *eit = EdgelC(at,inDcIm[at],inDrIm[at],res[at]);
       eit++;
     }
     RavlAssert(!eit); // outEdgels miscounted!

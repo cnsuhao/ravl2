@@ -15,6 +15,8 @@
 //! file="Ravl/Image/Processing/Edges/Edgel.hh"
 
 #include "Ravl/Index2d.hh"
+#include "Ravl/StdConst.hh"
+#include "Ravl/Math.hh"
 
 namespace RavlImageN {
   using namespace RavlN;
@@ -31,6 +33,35 @@ namespace RavlImageN {
 	magnitude(mag)
     {}
     //: Constructor.
+    // loc = Location of edge <br>
+    // dir = Direction of edge in radians. <br>
+    // mag = Magnitude of edge.
+    
+    EdgelC(const Index2dC &loc,RealT dx,RealT dy,RealT mag) 
+      : at(loc),
+	magnitude(mag)
+    {
+      direction = ATan2(dx,dy) + RavlConstN::pi/2;
+      if(direction >= RavlConstN::pi)
+	direction -= RavlConstN::pi*2;
+    }
+    //: Construct from dx,dy values.
+    // loc = Location of edge <br>
+    // dx,dy = Direction of edge. <br>
+    // mag = Magnitude of edge.
+    
+    EdgelC(RealT dx,RealT dy,Index2dC loc) 
+      : at(loc),
+	magnitude(Sqrt(Sqr(dx) + Sqr(dy)))
+    {
+      direction = ATan2(dx,dy) + RavlConstN::pi/2;
+      if(direction > RavlConstN::pi)
+	direction -= RavlConstN::pi*2;
+      
+    }
+    //: Construct from dx,dy values.
+    // loc = Location of edge <br>
+    // dx,dy = Direction of edge. <br>
     
     EdgelC()
     {}

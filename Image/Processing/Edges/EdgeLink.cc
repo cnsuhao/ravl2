@@ -15,6 +15,13 @@
 #include "Ravl/SArr1Iter.hh"
 #include "Ravl/Image/DrawFrame.hh"
 
+#define DODEBUG 1
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
+
 namespace RavlImageN {
 
   EdgeLinkC HysterisisThreshold(const ImageC<RealT> &img,RealT upThr,RealT downThr) {
@@ -26,7 +33,7 @@ namespace RavlImageN {
     DrawFrame(ret,(ByteT) EDGE_PROC,ret.Frame());
     
     for(Array2dIter2C<ByteT,RealT> it(ret,img);it;it++)
-      if(it.Data2() > upThr && it.Data1() ==  EDGE_UNPROC)
+      if((it.Data2() > upThr) && (it.Data1() == EDGE_UNPROC))
 	ret.LabelContour(it.Index());
     
     for(Array2dIterC<ByteT> it(ret);it;it++)
@@ -73,9 +80,11 @@ namespace RavlImageN {
       
       // label edge point according to the number of neighbours.
       ByteT &val = (*this)[pxl];
-      if(neighbours <= 1 || neighbours > 2)
+      if(neighbours != 2) {
+	//ONDEBUG(cerr << "Junction at " << pxl << " Neigh=" << neighbours << "\n");
 	PutState(val,EDGE_JUNCT);
-      else {
+      } else {
+	//ONDEBUG(cerr << "Edge     at " << pxl << "\n");
 	PutDir(val, dir[0], FB_FORWARD);
 	PutDir(val, dir[1], FB_BACKWARD);
       }
@@ -85,17 +94,39 @@ namespace RavlImageN {
   //: List all edges in image
   
   SArray1dC<Index2dC> EdgeLinkC::ListEdges() {
+    ONDEBUG(cerr << "EdgeLinkC::ListEdges(), Called. Max edges=" << edgeCount << "\n");
     SArray1dC<Index2dC> ret(edgeCount);
     SArray1dIterC<Index2dC> rit(ret);
     for(Array2dIterC<ByteT> it(*this);it;it++) {
-      if(*it == EDGE_PROC) {
-	RavlAssert(rit);
-	*rit = it.Index();
-	rit++;
-      }
+      if(GetState(*it) == EDGE_PROC) 
+	continue;
+      RavlAssert(rit);
+      *rit = it.Index();
+      rit++;
     }
     return ret;
   }
+
+  //: List all edgles in image
+  
+  SArray1dC<EdgelC> EdgeLinkC::ListEdgels(const ImageC<RealT> & inDrIm, 
+					  const ImageC<RealT> & inDcIm,  
+					  const ImageC<RealT> & inGrad) {
+    ONDEBUG(cerr << "EdgeLinkC::ListEdgels(), Called. Max edges=" << edgeCount << " Area=" << inGrad.Frame().Area() << "\n");
+    SArray1dC<EdgelC> ret(edgeCount);
+    SArray1dIterC<EdgelC> rit(ret);
+    for(Array2dIterC<ByteT> it(*this);it;it++) {
+      if(GetState(*it) == EDGE_PROC)
+	continue;
+      Index2dC at = it.Index();
+      RavlAssert(rit);
+      *rit = EdgelC(at,inDcIm[at],inDrIm[at],inGrad[at]);
+      rit++;
+    }
+    ONDEBUG(cerr << "EdgeLinkC::ListEdgels(), Processed=" << rit.Index() << "\n");
+    return ret;
+  }
+
   
   DListC<DListC<Index2dC> >  EdgeLinkC::LinkEdges() {
     DListC<DListC<Index2dC> > strings;

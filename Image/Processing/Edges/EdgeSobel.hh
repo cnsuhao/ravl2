@@ -45,7 +45,7 @@ namespace RavlImageN {
       out = ImageC<TFVectorC<DataOutT,2> >(ir);
     }
     for(Array2dSqr31Iter2C<DataInT,DataOutT> it(img,out);it;it++) {
-      it.Data2()[0] = it.DataBL1() + it.DataBM1()*2 + it.DataBR1() - it.DataBL1() - it.DataBM1()*2 - it.DataBR1();
+      it.Data2()[0] = it.DataTL1() + it.DataTM1()*2 + it.DataTR1() - it.DataBL1() - it.DataBM1()*2 - it.DataBR1();
       it.Data2()[1] = it.DataBL1() + it.DataML1()*2 + it.DataTL1() - it.DataBR1() - it.DataMR1()*2 - it.DataTR1();
     }
     return true;
@@ -61,7 +61,7 @@ namespace RavlImageN {
       outY = ImageC<DataOutT>(ir);
     }
     for(Array2dSqr311Iter3C<DataInT,DataOutT,DataOutT> it(img,outX,outY);it;it++) {
-      it.Data2() = it.DataBL1() + it.DataBM1()*2 + it.DataBR1() - it.DataBL1() - it.DataBM1()*2 - it.DataBR1();
+      it.Data2() = it.DataTL1() + it.DataTM1()*2 + it.DataTR1() - it.DataBL1() - it.DataBM1()*2 - it.DataBR1();
       it.Data3() = it.DataBL1() + it.DataML1()*2 + it.DataTL1() - it.DataBR1() - it.DataMR1()*2 - it.DataTR1();
     }
     return true;    

@@ -14,13 +14,15 @@
 //! lib=RavlImageProc
 
 #include "Ravl/Image/Image.hh"
+#include "Ravl/Image/Edgel.hh"
 #include "Ravl/DList.hh"
+#include "Ravl/StdConst.hh"
 
 namespace RavlImageN {
   
   using namespace RavlN;
   
-  enum EdgeStateT { EDGE_PROC = 9,EDGE_UNPROC,EDGE_JUNCT,EDGE_INSTRING };
+  enum EdgeStateT { EDGE_PROC = 0,EDGE_UNPROC,EDGE_JUNCT,EDGE_INSTRING };
   enum FBOrientationT { FB_FORWARD,FB_BACKWARD };
   
   class EdgeLinkC
@@ -51,7 +53,12 @@ namespace RavlImageN {
     //: Generate a set of egde lists.
     
     SArray1dC<Index2dC> ListEdges();
-    //: List all edges in image
+    //: List edge positions in the image
+    
+    SArray1dC<EdgelC> ListEdgels(const ImageC<RealT> & inDrIm, 
+				 const ImageC<RealT> & inDcIm,  
+				 const ImageC<RealT> & inGrad);
+    //: List all edgles in image
     
   protected:
     static NeighbourOrderT GetDir(ByteT val, FBOrientationT oo) 
@@ -83,15 +90,17 @@ namespace RavlImageN {
     
     bool IsEdge(const Index2dC &pxl) 
     { return GetState((*this)[pxl]) != EDGE_PROC; }
+    //: Is this an edge ?
     
     bool IsNotExpanded(const Index2dC &pxl) 
     { return GetState((*this)[pxl]) == EDGE_UNPROC; }
+    //: Has this edge been expanded yet ?
     
     UIntT edgeCount; // Count of edges in the map.
   };
   
   EdgeLinkC HysterisisThreshold(const ImageC<RealT> &img,RealT upThr,RealT downThr);
-
+  
 }
 
 
