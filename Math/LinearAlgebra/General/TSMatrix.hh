@@ -525,12 +525,10 @@ namespace RavlN {
   
   template<class DataT>
   void TSMatrixBodyC<DataT>::SetSmallToBeZero(const DataT &min) {
-    DataT ret;
-    SetZero(ret);
     for(UIntT i = 0;i < Rows();i++) {
       for(Array1dIterC<DataT> it(Row(i));it;it++) {
 	if(Abs(*it) < min)
-	  Element(i,it.Index().V(),ret);
+	  SetZero(*it);
       }
     }
   }

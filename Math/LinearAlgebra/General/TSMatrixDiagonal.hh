@@ -103,7 +103,13 @@ namespace RavlN {
     
     virtual TSMatrixC<DataT> ATA() const;
     //: Return  A.T() * A.
-
+    
+    virtual TSMatrixC<DataT> IMul(const TSMatrixC<DataT> & B) const;
+    //: Multiply B by the inverse of this matrix.
+    
+    virtual TSMatrixC<DataT> ITMul(const TSMatrixC<DataT> & B) const;
+    //: Multiply B by the transpose of the inverse of this matrix.
+    
     virtual TMatrixC<DataT> TMatrix() const;
     //: Get as full matrix.
     
@@ -168,10 +174,11 @@ namespace RavlN {
     const SizeT rdim = Rows();
     const SizeT cdim = mat.Cols();
     TMatrixC<DataT> out(rdim, cdim);
-    for (UIntT r = 0; r < rdim; r++) {
-      DataT rv = data[r];
-      for (UIntT c = 0; c < cdim; c++)
-	out[r][c] = rv * mat.Element(r,c);
+    BufferAccessIterC<DataT> dit(data);
+    for (UIntT r = 0; r < rdim; r++,dit++) {
+      Array1dC<DataT> ra = mat.Row(r);
+      for(BufferAccessIter2C<DataT,DataT> it(ra,RangeBufferAccessC<DataT>(out[r],IndexRangeC(0,cdim)));it;it++)
+	it.Data2() = (*dit) * it.Data1();
     }
     return out;
   }
@@ -212,6 +219,25 @@ namespace RavlN {
   TSMatrixC<DataT> TSMatrixDiagonalBodyC<DataT>::ATA() const {
     return TSMatrixDiagonalBodyC<DataT>::AAT();
   }
+  
+  template<class DataT>
+  TSMatrixC<DataT> TSMatrixDiagonalBodyC<DataT>::IMul(const TSMatrixC<DataT> & mat) const {
+    RavlAssert(Cols() == mat.Rows());
+    const SizeT rdim = Rows();
+    const SizeT cdim = mat.Cols();
+    TMatrixC<DataT> out(rdim, cdim);
+    BufferAccessIterC<DataT> dit(data);
+    for (UIntT r = 0; r < rdim; r++,dit++) {
+      Array1dC<DataT> ra = mat.Row(r);
+      for(BufferAccessIter2C<DataT,DataT> it(ra,RangeBufferAccessC<DataT>(out[r],IndexRangeC(0,cdim)));it;it++)
+	it.Data2() = it.Data1() / (*dit);
+    }
+    return out;
+  }
+  
+  template<class DataT>
+  TSMatrixC<DataT> TSMatrixDiagonalBodyC<DataT>::ITMul(const TSMatrixC<DataT> & B) const 
+  { return TSMatrixDiagonalBodyC<DataT>::IMul(B); }
   
   template<class DataT>
   TMatrixC<DataT> TSMatrixDiagonalBodyC<DataT>::TMatrix() const {
