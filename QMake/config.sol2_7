@@ -1,0 +1,115 @@
+###########################
+# Make info for solaris systems
+# $Id$
+
+#######################
+# Programs to use.
+
+# The following ifndef's allow the rest of this configuration to be
+# used for alpha's
+
+
+ifdef RAVL_CC
+ CC = $(RAVL_CC)
+else
+ CC = gcc
+endif
+
+ifdef RAVL_CXX
+ CXX = $(RAVL_CXX) 
+else 
+ CXX = g++
+endif 
+
+
+MKDEPFLAGS = -MM
+AR = ar
+ARFLAGS = ruc
+MKDIR = mkdir -p
+CP = cp
+CHMOD = chmod
+RM = rm
+XARGS = gxargs
+TOUCH = /usr/bin/touch
+LIBPATHSWITCH = -Wl,-R#
+
+BISON=/opt/GNUdevelop/bin/bison
+FLEX=/opt/GNUdevelop/bin/flex
+
+AMKDEPFLAGS = -Wp,-MMD,$(WORKTMP)/$*.d
+MKDEPUP = /usr/ucb/echo -n '$$(INST_OBJS)/' > $(INST_DEPEND)/$*.d ; cat $(WORKTMP)/$*.d  >> $(INST_DEPEND)/$*.d ;\
+ rm $(WORKTMP)/$*.d
+
+# $@ 
+
+############################
+# Universal flags.
+
+CFLAGS   = -Wall -pipe 
+CFLAGS   += $(EXTRA_CFLAGS)
+
+CCFLAGS  = -Wall -pipe 
+CCFLAGS  += $(EXTRA_CCFLAGS)
+
+CCPPFLAGS= -DGNU -D__$(ARC)__ -Dunix
+
+CPPFLAGS = -DGNU -D__$(ARC)__ -Dunix
+LDFLAGS = 
+SOLDFLAGS = $(CCFLAGS) -G
+PAR_MAKE = --jobs=$(PROCS)
+
+
+############################
+# 'debug' variant.
+
+ifeq ($(VAR),debug)
+ CFLAGS += -g -DQMAKE_CHECK -DQMAKE_PARANOID=1
+ CCFLAGS += -g -DQMAKE_CHECK -DQMAKE_PARANOID=1
+ LDFLAGS += -g
+endif
+
+############################
+# 'check' variant.
+
+ifeq ($(VAR),check)
+ CFLAGS += -O -DQMAKE_CHECK
+ CCFLAGS += -O -DQMAKE_CHECK
+ LDFLAGS +=
+endif
+
+############################
+# 'opt' variant.
+
+ifeq ($(VAR),opt)
+ CFLAGS += -O2 -DNDEBUG
+ CCFLAGS += -O2 -DNDEBUG
+ LDFLAGS += -O2
+endif
+
+############################
+# 'share' variant.
+
+ifeq ($(VAR),shared)
+ CFLAGS += -shared -O2 -DNDEBUG
+ CCFLAGS += -shared -O2 -DNDEBUG
+ LDLIBFLAGS = -dy -G 
+ LDFLAGS += -O2 
+endif
+
+############################
+# 'prof' variant.
+
+ifeq ($(VAR),prof)
+ CFLAGS += -O2 -p -DNDEBUG
+ CCFLAGS += -O2 -p -DNDEBUG
+ LDFLAGS += -O2 -p
+endif
+
+############################
+# 'gprof' variant.
+
+ifeq ($(VAR),gprof)
+ CFLAGS += -O2 -pg -DNDEBUG
+ CCFLAGS += -O2 -pg -DNDEBUG
+ LDFLAGS += -O2 -pg
+endif
