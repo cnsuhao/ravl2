@@ -213,7 +213,7 @@ int doVPlay(int nargs,char *args[])
   UIntT endFrame = N;
   if(N != -1)
     endFrame += start;
-
+  
   if(deinterlace) 
     vidIn = DeinterlaceStreamC<ByteRGBValueC>(vidIn);
   
@@ -245,7 +245,7 @@ int doVPlay(int nargs,char *args[])
     sx = 100;
   }
 
-  vidIn.Invalidate(); // Finished with vidIn handle.
+  //vidIn.Invalidate(); // Finished with vidIn handle.
   
   // Setup GUI stuff.
   
@@ -276,7 +276,7 @@ int doVPlay(int nargs,char *args[])
   TextEntryC guiFrameRate("",5,false);
 
   StringC strFrameRate;
-  if(src.GetAttr("framerate",strFrameRate))
+  if(vidIn.GetAttr("framerate",strFrameRate))
     frameRate = strFrameRate.RealValue();
   else {
     frameRate = (RealT) 1.0/delay;
