@@ -19,11 +19,16 @@
 using namespace RavlN;
 
 int testBasic();
+int testSubArray();
 int testIO();
 
 int main() {
   int ln ;
   if((ln = testBasic()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  }
+  if((ln = testSubArray()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
@@ -129,6 +134,27 @@ int testIO() {
       return __LINE__;
   }
   
+  return 0;
+}
+
+int testSubArray() {
+  SArray2dC<IntT> arr(5,5);
+  IntT i = 0;
+  for(SArray2dIterC<IntT> it(arr);it;it++,i++)
+    *it = i;
+  //cerr << arr << "\n";
+  for(UIntT j = 1;j < arr.Size1();j++) {
+    for(UIntT k = 1;k < arr.Size2();k++) {
+      SArray2dC<IntT> sarr(arr,j,k);
+      //cerr << sarr << "\n";
+      UIntT area = 0;
+      for(SArray2dIter2C<IntT,IntT> it2(sarr,arr);it2;it2++) {
+	if(it2.Data1() != it2.Data2()) return __LINE__;
+	area++;
+      }
+      if(area != j * k) return __LINE__;
+    }
+  }
   return 0;
 }
 
