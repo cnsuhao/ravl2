@@ -15,11 +15,11 @@
 #include "Ravl/Array2dIter2.hh"
 #include "Ravl/Image/RGBcYUV.hh"
 #include "Ravl/Image/Deinterlace.hh"
-
 #include "Ravl/Image/Font.hh"
+#include "Ravl/Image/DrawLine.hh"
+#include "Ravl/Image/DrawFrame.hh"
 
 #include "Ravl/IO.hh"
-
 
 using namespace RavlImageN;
 
@@ -28,6 +28,7 @@ int TestIO();
 int TestColorCnv();
 int TestDeinterlace();
 int TestFont();
+int TestDraw();
 
 template class ImageC<int>; // Make sure all functions are compiled.
 
@@ -52,6 +53,10 @@ int main()
      return 1;
   }
   if((lineno = TestFont()) != 0) {
+    cerr << "Image test failed : " << lineno << "\n";
+     return 1;
+  }
+  if((lineno = TestDraw()) != 0) {
     cerr << "Image test failed : " << lineno << "\n";
      return 1;
   }
@@ -250,5 +255,17 @@ int TestFont() {
   img.Fill(0);
   DrawText(fnt,(ByteT) 255,Index2dC(50,10),"Hello",img);
   //Save("@X",img);
+  return 0;
+}
+
+int TestDraw() {
+  ImageC<ByteT> img(100,100);
+  img.Fill(0);
+  Index2dC from(10,10);
+  Index2dC to(90,90);
+  DrawLine(img,(ByteT) 255,from,to);
+  if(img[50][50] != 255) return __LINE__;
+  if(img[from] != 255) return __LINE__;
+  if(img[to] != 255) return __LINE__;
   return 0;
 }
