@@ -45,9 +45,11 @@ namespace RavlN {
     
     virtual FunctionC Apply(const SampleC<VectorC> &in);
     //: Create function from the given data.
+    // The actual class returned is FuncMeanProjectionC
     
     virtual FunctionC Apply(SampleStreamC<VectorC> &in);
     //: Create function from the given data.
+    // The actual class returned is FuncMeanProjectionC
     
     VectorMatrixC &Pca()
     { return pca; }
@@ -80,7 +82,9 @@ namespace RavlN {
   };
   
   //! userlevel=Normal
-  //: Design a dimension reducing function using Principle Component Anaylsis (PCA)
+  //: Design a dimension reducing function using Principle Component Anaylsis (PCA) <br>
+  // The actual class returned by the apply method is FuncMeanProjectionC. It is possible
+  // to obtain the projection matrix from this class if needed.
   
   class DesignFuncPCAC
     : public DesignFuncReduceC
