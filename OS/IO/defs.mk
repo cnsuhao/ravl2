@@ -13,8 +13,6 @@ HEADERS=FileSequence.hh SequenceIO.hh
 
 SOURCES=FileSequence.cc SequenceIO.cc
 
-PLIB=RavlOS
-
-LIBDEPS=RavlOSIO.def
+PLIB=RavlOSIO
 
 USESLIBS=RavlOS RavlIO
