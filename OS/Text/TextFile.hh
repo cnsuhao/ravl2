@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLTEXTFILE_HEADER
-#define RAVLTEXTFILE_HEADER 1
+#ifndef RAVL_TEXTFILE_HEADER
+#define RAVL_TEXTFILE_HEADER 1
 ///////////////////////////////////////////////////////
 //! file="Ravl/OS/Text/TextFile.hh"
 //! lib=RavlOS
@@ -208,7 +208,8 @@ namespace RavlN {
       { return Body().IsLoaded(); }
     //: Have file loaded into memory ?
     
-    IntT FindLineMatch(const StringC &str);
+    IntT FindLineMatch(const StringC &str)
+    { return Body().FindLineMatch(str); }
     //: Find a line begining with string 'str'.
     // returns line no otherwise -1.
   protected:
