@@ -21,7 +21,7 @@
 namespace RavlN {
   
   //! userlevel=Develop
-  //: Buffer2D
+  //: Buffer 3D
   // This holds a handle to data used in various 3d arrays.
   
   template<class DataT>
@@ -33,6 +33,7 @@ namespace RavlN {
     {}
     //: Default constructor.
     
+#if 0
     Buffer3dBodyC(SizeT nsize1,SizeT nsize2,SizeT nsize3)
       : BufferBodyC<BufferAccessC<BufferAccessC<DataT > > >(nsize1),
 	dataIndex(nsize1 * nsize2),
@@ -42,18 +43,6 @@ namespace RavlN {
     {}
     //: Sized constructor.
     
-#if 0
-    Buffer3dBodyC(const BufferC<DataT> &dat,const BufferC<BufferAccess2dC<DataT> > &buf,
-		  IndexRangeC nrng2,
-		  IndexRangeC nrng3)
-      : BufferBodyC<BufferAccess2dC<DataT> >(buf),
-	data(dat),
-	size2(nrng2.Size()),
-	size3(nrng3.Size())
-    {}
-    //: Buffer constructor.
-#endif
-    
     Buffer3dBodyC(const BufferC<DataT> &dat,SizeT nrng1,SizeT nrng2,SizeT nrng3)
       : BufferBodyC<BufferAccessC<BufferAccessC<DataT > > >(nrng1),
 	data(dat),
@@ -61,21 +50,38 @@ namespace RavlN {
 	size3(nrng3)
     {}
     //: Buffer constructor.
+#else
+    Buffer3dBodyC(SizeT nsize1,SizeT nsize2,SizeT nsize3)
+      : BufferBodyC<BufferAccessC<BufferAccessC<DataT > > >(nsize1),
+	buffer2(nsize1 * nsize2,nsize3),
+	size2(nsize2),
+	size3(nsize3)
+    {}
+    //: Sized constructor.
+    
+    Buffer3dBodyC(const BufferC<DataT> &dat,SizeT nrng1,SizeT nrng2,SizeT nrng3)
+      : BufferBodyC<BufferAccessC<BufferAccessC<DataT > > >(nrng1),
+	buffer2(dat,nrng1 * nrng2),
+	size2(nrng2),
+	size3(nrng3)
+    {}
+    //: Buffer constructor.    
+#endif
     
     BufferC<DataT> &Data()
-    { return data; }
+    { return buffer2.Data(); }
     //: Access data buffer.
     
     const BufferC<DataT> &Data() const
-    { return data; }
+    { return buffer2.Data(); }
     //: Access data buffer.
     
     BufferC<BufferAccessC<DataT> > &DataIndex()
-    { return dataIndex; }
+    { return buffer2; }
     //: Access data buffer.
     
     const BufferC<BufferAccessC<DataT> > &DataIndex() const
-    { return dataIndex; }
+    { return buffer2; }
     //: Access data buffer.
     
     SizeT Size1() const
@@ -90,17 +96,22 @@ namespace RavlN {
     { return size3; }
     //: Get size of dimention 3
     
+    Buffer2dC<DataT> &Buffer2d()
+    { return buffer2; }
+    //: Access 2d component of buffer.
+    
   protected:
-    BufferC<BufferAccessC<DataT> > dataIndex;
-    BufferC<DataT> data;
+    Buffer2dC<DataT> buffer2;
+    // BufferC<BufferAccessC<DataT> > dataIndex;
+    // BufferC<DataT> data;
     SizeT size2;
     SizeT size3;
   };
 
   //! userlevel=Develop
-  //: Buffer3D 
+  //: Buffer 3D 
   // This holds a handle to data used in various 3d arrays.
-
+  
   template<class DataT>
   class Buffer3dC 
     : public BufferC<BufferAccessC<BufferAccessC<DataT > > >
@@ -115,13 +126,6 @@ namespace RavlN {
       : BufferC<BufferAccessC<BufferAccessC<DataT > > >(*new Buffer3dBodyC<DataT>(size1,size2,size3))
     {}
     //: Size constructor.
-
-#if 0    
-    Buffer3dC(const BufferC<DataT> &dat,const BufferC<BufferAccess2dC<DataT> > &buf)
-      : BufferC<BufferAccessC<BufferAccessC<DataT > > >(*new Buffer3dBodyC<DataT>(dat,buf)) 
-    {}
-    //: Constructor.
-#endif
     
     Buffer3dC(const BufferC<DataT> &dat,SizeT rng1,SizeT rng2,SizeT rng3)
       : BufferC<BufferAccessC<BufferAccessC<DataT > > >(*new Buffer3dBodyC<DataT>(dat,rng1,rng2,rng3)) 
@@ -167,6 +171,10 @@ namespace RavlN {
     SizeT Size3() const
     { return Body().Size3(); }
     //: Get size of dimention 3
+    
+    Buffer2dC<DataT> &Buffer2d()
+    { return Body().Buffer2d(); }
+    //: Access 2d component of buffer.
     
   };
   

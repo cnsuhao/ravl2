@@ -21,15 +21,16 @@
 using namespace RavlN;
 
 int testBasic();
-int testSqr2();
-int testSqr3();
-int testSqr31();
-int testSqr311();
+int testSlice();
 
 int main()
 {
   int ln;
   if((ln = testBasic()) != 0) {
+    cerr << "Basic Array2d test failed line:" << ln << "\n";
+    return 1;
+  }
+  if((ln = testSlice()) != 0) {
     cerr << "Basic Array2d test failed line:" << ln << "\n";
     return 1;
   }
@@ -87,6 +88,24 @@ int testBasic() {
     }
     if(count != arr1.Size()) return __LINE__;
   }
+  return 0;
+}
+
+int testSlice() {
+  Array3dC<IntT> arr1(1,3,
+		      2,4,
+		      3,5);
+  int i = 0;
+  for(Array3dIterC<IntT> it(arr1);it;it++)
+    *it = i++;
+  Array2dC<IntT> slice1 = arr1.Slice1(2);
+  cerr << "Slice1=" << slice1 << " Sum=" <<slice1.Sum() <<"\n";
+  if(slice1.Sum() != 117) return __LINE__;  
+#if 1
+  Array2dC<IntT> slice2 = arr1.Slice2(3);
+  cerr << "Slice2=" << slice2 << " Sum=" <<slice2.Sum() <<"\n";
+  if(slice2.Sum() != 117) return __LINE__;
+#endif
   return 0;
 }
 

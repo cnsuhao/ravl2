@@ -18,6 +18,7 @@
 
 #include "Ravl/RBfAcc3d.hh"
 #include "Ravl/Buffer3d.hh"
+#include "Ravl/Array2d.hh"
 #include "Ravl/Index3d.hh"
 #include "Ravl/IndexRange3d.hh"
 #include "Ravl/BfAcc3Iter.hh"
@@ -28,6 +29,7 @@
 namespace RavlN {
   
   template<class DataT> class Array1dC;
+  template<class DataT> class Array2dC;
   template<class DataT> class Slice1dC;
   template<class DataT> class Slice1dIterC;
   
@@ -138,6 +140,22 @@ namespace RavlN {
     const Array3dC<DataT> & operator/=(const DataT &number);
     //: Divides the array elements by the 'number'.
     
+    Array2dC<DataT> Slice1(IndexC i);
+    //: Take a slice accross the first dimension of the 3d array.
+    // Note this does NOT copy the data, any changes made to this slice
+    // will be seen in the original 3d volume. 
+
+    Array2dC<DataT> Slice2(IndexC j);
+    //: Take a slice accross the second dimension of the 3d array.
+    // Note this does NOT copy the data, any changes made to this slice
+    // will be seen in the original 3d volume. <p>
+    // Note: This routine is slighly slower than Slice1 as it has to construct
+    // a new access array.
+    
+    Buffer3dC<DataT> &Buffer()
+    { return data; }
+    //: Access the buffer holding underlying data.
+    // Advanced users only.
   protected:
     void ConstructAccess(const IndexRangeC &rng1);
     //: Construct access for buffer.
@@ -415,6 +433,23 @@ namespace RavlN {
     for(BufferAccess3dIterC<DataT> it(*this,Range2(),Range3());it;it++)
       it.Data() /= number;
     return *this;
+  }
+  
+  template<class DataT>
+  Array2dC<DataT> Array3dC<DataT>::Slice1(IndexC i)
+  { return Array2dC<DataT>((*this)[i],Buffer().Buffer2d()); }
+  
+  template<class DataT>
+  Array2dC<DataT> Array3dC<DataT>::Slice2(IndexC j) {
+    RavlAssert(Range2().Contains(j));
+    Buffer2dC<DataT> nbuff(data.Data(),Range1().Size());
+    BufferAccessC<BufferAccessC<DataT> > bufAcc = nbuff;
+    RangeBufferAccess2dC<DataT> rbf(bufAcc - Range1().Min(),Range1(),Range3()); // Setup buffer access.
+    const SizeT d2Size = Range2().Size();
+    BufferAccessC<DataT> *at = &(static_cast<BufferAccessC<BufferAccessC<BufferAccessC<DataT> > > >(*this)[Range1().Min()][j]);
+    for(BufferAccessIterC<BufferAccessC<DataT> > it(rbf);it;it++,at += d2Size)
+      *it = *at;
+    return Array2dC<DataT>(rbf,nbuff);
   }
   
 }
