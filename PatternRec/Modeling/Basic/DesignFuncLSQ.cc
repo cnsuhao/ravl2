@@ -158,13 +158,25 @@ namespace RavlN {
     MatrixRUTC aaTu = coeffs.SumOuterProducts();
     aaTu.MakeSymmetric();
     MatrixRSC aaT(aaTu.Copy());
+    MatrixC aTb = coeffs.TMul(vout);
+#if 1
     if(!aaT.InverseIP()) {
       // Try and recover....
       cerr << "DesignFuncLSQBodyC::Apply(), WARNING: Covariance of input has singular values. \n";
       aaT = aaTu.PseudoInverse();
     }
-    MatrixC aTb = coeffs.TMul(vout);
     MatrixC A =  (aaT * aTb).T();
+#else
+    MatrixC At = Solve(aaTu,aTb);
+    MatrixC A;
+    if(!At.IsValid()) {
+      // Try and recover....
+      cerr << "DesignFuncLSQBodyC::Apply(), WARNING: Covariance of input has singular values. \n";
+      aaT = aaTu.PseudoInverse();
+      A = (aaT * aTb).T();
+    } else
+      A = At.T();
+#endif
     func.SetTransform(A);    
     return func;
   }
@@ -204,6 +216,8 @@ namespace RavlN {
     MatrixC aTb = coeffs.TMul(vout,weight);
     
     MatrixRSC aaT(aaTu.Copy());
+    
+#if 1
     if(!aaT.InverseIP()) {
       // Try and recover....
       cerr << "DesignFuncLSQBodyC::Apply(), WARNING: Covariance of input has singular values. \n";
@@ -212,6 +226,15 @@ namespace RavlN {
     // Ideally we'd use Solve here...
     
     MatrixC A =  (aaT * aTb).T();
+#else
+    MatrixC At = SolvePD(aaTu,aTb);
+    MatrixC A;
+    if(!At.IsValid()) {
+      aaT = aaTu.PseudoInverse();
+      A = (aaT * aTb).T();
+    } else
+      A = At.T();
+#endif
     func.SetTransform(A);
     return func;
   }
