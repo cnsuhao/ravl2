@@ -39,7 +39,7 @@ Common targets:
 Variables: 
   PROCS    = Number of processors to use. 
   VAR      = check (default), debug, opt 
-  RAVL_INFO=1 Print command lines during make. 
+  QMAKE_INFO=1 Print command lines during make. 
   USERCFLAGS=... Pass extra options to the compiler.
   NOEXEBUILD=1 Build libraries only, don't compile or link executables.
 
@@ -48,7 +48,7 @@ Examples:
   % make qopt
 Make optimised version of code, with frozen dependencies.
 
-  % make debug PROCS=1 RAVL_INFO=1 
+  % make debug PROCS=1 QMAKE_INFO=1 
 Make debug version one file at a time, with command lines printed. 
 
 The meaning of clean targets:
