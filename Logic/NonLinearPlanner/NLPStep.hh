@@ -1,0 +1,66 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2002, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
+#ifndef RAVLLOGIC_NLPSTEP_HEADER
+#define RAVLLOGIC_NLPSTEP_HEADER 1
+//! rcsid="$Id$"
+//! lib=RavlLogicNLP
+
+#include "Ravl/Logic/MinTerm.hh"
+
+namespace RavlLogicN {
+  
+  //! userlevel=Normal
+  //: Step in nonlinear plan.
+  
+  class NLPStepC 
+  {
+  public:
+    NLPStepC()
+    {}
+    //: Default constructor.
+    
+    NLPStepC(const LiteralC &nact,const MinTermC &npre,const MinTermC &npost,RealT nConfidence = 1)
+      : act(nact),
+	pre(npre),
+	post(npost),
+	confidence(nConfidence)
+    {}
+    //: Constructor.
+    
+    NLPStepC ReplaceVars(HashC<LiteralC,LiteralC> &subs) const;
+    //: Replace variables in step with new ones.
+    // The mapping between old and new variables is in subs.
+    
+    StringC Name() const;
+    //: Name of step.
+    
+    const LiteralC &Action() const
+    { return act; }
+    //: Access action
+    
+    const MinTermC &PreCondition() const
+    { return pre; }
+    //: Access pre-condition.
+    
+    const MinTermC &PostCondition() const
+    { return post; }
+    //: Access post-condition.
+    
+    RealT Confidence() const
+    { return confidence; }
+    //: Access confidence in step being correct.
+    
+  protected:
+    LiteralC act;  // Action id.
+    MinTermC pre;  // Precondition for step.
+    MinTermC post; // Post condition for step.
+    RealT confidence; // Confidence in step working.
+  };
+
+}
+
+#endif
