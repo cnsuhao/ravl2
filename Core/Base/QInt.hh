@@ -33,8 +33,19 @@
 
 #include "Ravl/config.h"
 #include <math.h>
-
 #if RAVL_HAVE_IEEE_DOUBLE
+
+
+
+#if RAVL_LITTLEENDIAN
+#define UNION_USE_BYTE 0 
+#else 
+#define UNION_USE_BYTE 1
+#endif 
+// UNION_USE_BYTE is used to ensure that the different sized structures in the unions are aligned correctly 
+// on both big endian and little endian archs. 
+
+
 
 /** Quick floating point to integer conversions.
     <p>
@@ -142,10 +153,10 @@
 #if RAVL_QINT_WORKAROUND 
 static inline long QInt (double inval)
 {
-  union { double dtemp; long result; } x;
+  union { double dtemp; long res[2]; } x;
   x.dtemp = FIST_MAGIC_QINT + inval;
-  x.result = RAVL_LONG_AT_BYTE (x.dtemp, 2);
-  return x.result < 0 ? (x.result >> 1) + 1 : x.result;
+  x.res[UNION_USE_BYTE] = RAVL_LONG_AT_BYTE (x.dtemp, 2);
+  return x.res[UNION_USE_BYTE] < 0 ? (x.res[UNION_USE_BYTE] >> 1) + 1 : x.res[UNION_USE_BYTE];
 }
 #else
 static inline long QInt (double inval)
@@ -165,13 +176,15 @@ inline int QRound(double x)
 // These are faster on Pentium III's
 #if RAVL_QINT_WORKAROUND
 inline int QRound(double inval) {
-  register union { double dtemp; long result; } x ;
+  register union { double dtemp; long res[2] ;} x ;
   if(inval < 0) {
     x.dtemp = (FIST_MAGIC_QINT - 0.5) + (inval);
-    return (x.result >> 17) + 1;
+    return (x.res[UNION_USE_BYTE] >> 17) + 1; 
+    //return (x.result >> 17) + 1;
+
   }
   x.dtemp = (FIST_MAGIC_QINT + 0.5) + (inval);
-  return x.result >> 16;
+  return x.res[UNION_USE_BYTE] >> 16;
 }
 //: Round a floating-point value and convert to integer
 #else
@@ -189,13 +202,13 @@ inline int QRound(double inval) {
 
 #if RAVL_QINT_WORKAROUND
 inline int QFloor(double inval) {
-  register union { double dtemp; long result; } x ;
+  register union { double dtemp; long res[2]; } x ;
   if(inval < 0) {
     x.dtemp = (FIST_MAGIC_QINT - 1) + (inval);
-    return (x.result >> 17) + 1;
+    return (x.res[UNION_USE_BYTE] >> 17) + 1;
   }
   x.dtemp = (FIST_MAGIC_QINT) + (inval);
-  return x.result >> 16;
+  return x.res[UNION_USE_BYTE] >> 16;
 }
 #else
 inline int QFloor(double inval) 
