@@ -69,6 +69,9 @@ namespace RavlN
     void Dump(ostream &out) const;
     //: Dump packet in human readable form.
     
+    UIntT Size() const
+    { return data.Size(); }
+    //: Get the size of the packet.
   protected:
     SArray1dC<char> data;
   };
