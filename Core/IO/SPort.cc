@@ -10,6 +10,8 @@
 //! file="Ravl/Core/IO/SPort.cc"
 
 #include "Ravl/DP/SPort.hh"
+#include "Ravl/DP/AttributeValueTypes.hh"
+#include "Ravl/StdConst.hh"
 
 #define DPDEBUG 0
 #if DPDEBUG
@@ -112,6 +114,16 @@ namespace RavlN {
   
   StreamPosT DPSeekCtrlBodyC::Start64() const 
   { return Start(); }
+  
+  //: Register sport attributes.
+  // Currently size and start.
+  
+  bool DPSeekCtrlBodyC::RegisterSPortAttributes(AttributeCtrlBodyC &attrHandle) {
+    attrHandle.RegisterAttribute(AttributeTypeNumC<IntT>("size","Size of stream. (-1 == unknown)",true,false,-1,RavlConstN::maxInt,1,-1));
+    attrHandle.RegisterAttribute(AttributeTypeNumC<IntT>("start","Start of stream. ",true,false,0,RavlConstN::maxInt,1,0));
+    attrHandle.RegisterAttribute(AttributeTypeNumC<IntT>("position","Position in stream. ",true,false,0,RavlConstN::maxInt,1,0));
+    return true;
+  }
 
   //////////////////////////////////////////////////////
   
@@ -180,5 +192,7 @@ namespace RavlN {
     else
       (*this) = DPSeekCtrlC(*new DPSeekCtrlBodyC());
   }
+
+  
   
 }
