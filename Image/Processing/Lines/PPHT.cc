@@ -400,7 +400,8 @@ namespace RavlImageN {
       for(IntT k = nst;k < MaxA;k++) {
 	RealT y = pixR * tSin[k] + pixC * tCos[k];
 	ONDYNTHRESH(angleCount[k]++);
-	if((tmp = ++accum[k][Round(y)]) > maxval) {
+	tmp = ++accum[k][Round(y)];
+	if(tmp > maxval) {
 	  maxk = k;
 	  maxy = y;
 	  maxval = tmp;
