@@ -259,6 +259,7 @@ namespace RavlGUIN {
     //cerr << "PlayControlBodyC::SliderUpdate(), Called at " << loc << "\n";
     if(loc == ((UIntT) -1)) 
       return true; // We don't have a clue!
+    sigUpdateFrameNo(loc); // Signal update.
     frameSlider.UpdateValue(loc);
     bool updateSlider = false;
     if(pc.FixedEnd() != ((UIntT)-1)) {
@@ -290,7 +291,8 @@ namespace RavlGUIN {
     : LBoxBodyC(true,5,true),
       doneAdd(false),
       baseSpeed(1),
-      skip(1)
+      skip(1),
+      sigUpdateFrameNo((IntT) 1)
   { InitGUI(); }
   
   PlayControlBodyC::PlayControlBodyC(const DPPlayControlC &nctrl)
@@ -298,7 +300,8 @@ namespace RavlGUIN {
       pc(nctrl),
       doneAdd(false),
       baseSpeed(1),
-      skip(1)
+      skip(1),
+      sigUpdateFrameNo((IntT) 1)
   { InitGUI(); }
   
   //: Show/Hide extended controls.

@@ -34,7 +34,10 @@
 #include "Ravl/GUI/LBox.hh"
 #include "Ravl/GUI/Menu.hh"
 #include "Ravl/GUI/PackInfo.hh"
+#include "Ravl/GUI/Label.hh"
 #include "Ravl/GUI/FileSelector.hh"
+
+#include "Ravl/GUI/Table.hh"
 
 #include "Ravl/VPlay/PlayControl.hh"
 
@@ -44,6 +47,8 @@
 #include "Ravl/DP/MethodIO.hh"
 #include "Ravl/DP/Func2Stream.hh"
 #include "Ravl/IO.hh"
+
+#include "Ravl/TimeCode.hh"
 
 #include <stdlib.h>
 
@@ -64,6 +69,16 @@ static bool gui_quit(DPIPlayControlC<ImageC<ByteRGBValueC> > &pc)
 {
   pc.Continue();
   Manager.Quit(); // Initate shutdown.
+  return true;
+}
+
+////////// TIME CODES //////////////////////////////////////////
+
+RealT frameRate = 25.0;
+
+bool DisplayTimeCode(IntT &val,TextEntryC &te) {
+  TimeCodeC tc(val,frameRate);
+  te.Text(tc.ToText());
   return true;
 }
 
@@ -228,7 +243,7 @@ int doVPlay(int nargs,char *args[])
   
   StringC strinfile(infile);
   Tuple2C<DPIPlayControlC<ImageC<ByteRGBValueC> > ,CanvasC> guiData(vpCtrl,vidout);
-
+  
   //void file_selector(StringC &filename,FileSelectorC &fs,Tuple2C<DPIPlayControlC<ImageC<ByteRGBValueC> > ,CanvasC>  &pc)   
   // Setup file selector.
   FileSelectorC inFileSelect = RavlGUIN::FileSelector(StringC("Open Video File"),
@@ -244,12 +259,49 @@ int doVPlay(int nargs,char *args[])
 			 )
 		   );
   
+  TextEntryC guiTimeCode("",12,false);
+  TextEntryC guiFrameRate("",5,false);
+
+  StringC strFrameRate;
+  if(src.GetAttr("framerate",strFrameRate))
+    frameRate = strFrameRate.RealValue();
+  else {
+    frameRate = (RealT) 1.0/delay;
+    strFrameRate = StringC(frameRate);
+  }
+  
+  guiFrameRate.Text(frameRate);
+  
+  PlayControlC guiPlayControl(vpCtrl);
+  
+  Connect(guiPlayControl.SigUpdateFrameNo(),&DisplayTimeCode,1,guiTimeCode);
+
+#if 0  
+  LBoxC timeCodeInfo = HBox(LabelC(" Time:") + PackInfoC(guiTimeCode,false,false) + 
+			    LabelC(" Rate(Hz):") + PackInfoC(guiFrameRate,false,false));
   win.Add(VBox(PackInfoC(menuBar,false,true) + 
+	       PackInfoC(timeCodeInfo,false,true) +
 	       PackInfoC(Box(vidout,5,true),false,false) + 
-	       PackInfoC(PlayControlC(vpCtrl),false,true) +
+	       PackInfoC(guiPlayControl,false,true) +
 	       PackInfoC(Button("Grab Frame",GetFileForGrab),false,false)
 	       )
 	  );
+#else
+  TableC table(4,5);
+  ButtonC grab = Button("Grab Frame",GetFileForGrab);
+  table.AddObject(menuBar,0,4,0,1,(GtkAttachOptions) (GTK_FILL | GTK_EXPAND),(GtkAttachOptions) GTK_FILL);
+  LabelC lt(" Time:");
+  table.AddObject(lt,0,1,1,2,(GtkAttachOptions) (GTK_FILL | GTK_EXPAND),GTK_FILL);
+  table.AddObject(guiTimeCode,1,2,1,2,(GtkAttachOptions) (GTK_FILL | GTK_EXPAND),GTK_FILL);
+  LabelC lr(" Rate:");
+  table.AddObject(lr,2,3,1,2,(GtkAttachOptions) (GTK_FILL | GTK_EXPAND),GTK_FILL);
+  table.AddObject(guiFrameRate,3,4,1,2,(GtkAttachOptions) (GTK_FILL | GTK_EXPAND),GTK_FILL);
+
+  table.AddObject(vidout,0,4,2,3,(GtkAttachOptions) (GTK_FILL),(GtkAttachOptions)(GTK_FILL),5,5);
+  table.AddObject(guiPlayControl,0,4,3,4,(GtkAttachOptions) (GTK_FILL | GTK_SHRINK),(GtkAttachOptions)GTK_FILL);
+  table.AddObject(grab,0,4,4,5,(GtkAttachOptions) (GTK_FILL| GTK_EXPAND),(GtkAttachOptions)(GTK_FILL));
+  win.Add(table);
+#endif
   win.Show();
   
   // Get GUI going ...
