@@ -1,3 +1,9 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2001, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 #ifndef RAVLBINTABLET_HEADER
 #define RAVLBINTABLET_HEADER 1
 ///////////////////////////////////////////////////////////////
@@ -7,7 +13,7 @@
 //! date="27/11/1996"
 //! docentry="Ravl.Core.Misc"
 //! rcsid="$Id$"
-//! lib=SparHist
+//! lib=RavlCore
 
 #include "Ravl/Hash.hh"
 #include "Ravl/Math.hh"
@@ -74,6 +80,9 @@ namespace RavlN {
     IT BinCentre(const IT &at) const;
     //: Get centre of bin containing point at.
     
+    IT BinCentre(const DIT &at) const;
+    //: Get centre of bin containing index at.
+    
     bool IsEmpty() const
       { return bins.IsEmpty(); }
     //: Test if table is empty.
@@ -124,6 +133,15 @@ namespace RavlN {
       ret[i] = Floor((RealT) at[i] / binSize[i]) * binSize[i]  + (binSize[i]/2);
     return ret;
   }
+
+  template<class IT,class DIT,class BT>
+  IT BinTableC<IT,DIT,BT>::BinCentre(const DIT &at) const {
+    IT ret(at.Size());
+    for(UIntT i = 0;i < at.Size();i++) 
+      ret[i] = at[i] * binSize[i]  + (binSize[i]/2);
+    return ret;
+  }
+
   
   template<class IT,class DIT,class BT>
   ostream &operator<<(ostream &s,const BinTableC<IT,DIT,BT> &tab) {

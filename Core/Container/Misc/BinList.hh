@@ -1,3 +1,9 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2001, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 #ifndef RAVLBINLIST_HEADER
 #define RAVLBINLIST_HEADER 1
 ///////////////////////////////////////////////////////////////
@@ -7,7 +13,7 @@
 //! date="11/2/97"
 //! docentry="Ravl.Core.Misc"
 //! rcsid="$Id$"
-//! lib=SparHist
+//! lib=RavlCore
 
 #include "Ravl/BinTable.hh"
 #include "Ravl/BinIter.hh"

@@ -57,8 +57,8 @@ namespace RavlN {
     //: Data access.
 
     UIntT Hash() const {
-      UIntT h2 = d2.Hash();
-      return (d1.Hash() + h2) ^ (h2 << 7); 
+      UIntT h2 = StdHash(d2);
+      return (StdHash(d1) + h2) ^ (h2 << 7); 
     }
     //: Get hash value for tuple.
     
