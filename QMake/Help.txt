@@ -12,6 +12,7 @@ Common targets:
   opt       Optimised build. 
   ne, debugne, optne, gprofne
             As check,debug, opt etc. but only building libraries, not executables.
+  buildall  Build check,debug,opt and the documentation.
   shared    Build optimised shared libraries/executables.
   prof      Output optimised code with profiling info suitable for prof.
   gprof     Output optimised code with profiling info suitable for gprof.

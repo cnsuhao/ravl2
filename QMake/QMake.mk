@@ -183,17 +183,44 @@ retest:
 	$(LOCALBIN)/Validate -v $(INST_TEST)	
 
 
+# Build everything.
+
+buildall:
+	$(SHOWIT)if $(MAKEMO) FULLCHECKING=1 src_all NOINCDEFS=1 ; then true; \
+        else \
+	  echo "QMAKE: Installation of header files failed. " ; \
+	  exit 1; \
+        fi ; \
+	if $(MAKEMD) libbuild VAR=check TARGET=libbuild NOEXEBUILD=1 ; then true; \
+        else \
+	  echo "QMAKE: check library build failed. " ; \
+	  exit 1; \
+        fi ; \
+	if $(MAKEMD) libbuild VAR=debug TARGET=libbuild NOEXEBUILD=1 ; then true; \
+        else \
+	  echo "QMAKE: debug library build failed. " ; \
+	  exit 1; \
+        fi ; \
+	if $(MAKEMD) libbuild VAR=opt TARGET=libbuild NOEXEBUILD=1 ; then true; \
+        else \
+	  echo "QMAKE: opt library build failed. " ; \
+	  exit 1; \
+        fi ; \
+	if $(MAKEMD) fullbuild VAR=opt TARGET=fullbuild  ; then true; \
+        else \
+	  echo "QMAKE: executable build failed. " ; \
+	  exit 1; \
+        fi ; \
+	echo "Building documentation. " ; \
+	$(MAKEDC) doc 
 
 ###########################################################
-# Utilities for eevsspsoft
-
-
-# PROJECT_OUT=/vol/vssp/local/develop/Ravl
-
-FULLBUILDSRC := BASE_VAR=none FULLCHECKING=1
+# Utilities for RAVL installation.
 
 # The last INST_LIBDEF is because the calling PROJECT_OUT may not
 # be the one we using.
+
+FULLBUILDSRC := BASE_VAR=none FULLCHECKING=1
 
 FULLBUILDFLAGS = NOCHECKOUT=1  $(FULLBUILDSRC)
 
@@ -231,7 +258,6 @@ libbuild:
 #  2-Compile all libraries.
 #  3-Build executables.
 #  4-Build documentation
-
 
 fullbuild:
 	$(SHOWIT)if $(MAKEMO) $(FULLBUILDFLAGS) src_all NOINCDEFS=1 ; then true; \
