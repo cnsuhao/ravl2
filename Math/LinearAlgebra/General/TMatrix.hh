@@ -168,7 +168,7 @@ namespace RavlN {
     const TMatrixC<DataT> &SetSmallToBeZero(const DataT &min);
     //: Set values smaller than 'min' to zero in vector.
     
-    const TMatrixC<DataT> &MulAdd(const TMatrixC<DataT> & i,RealT a);
+    const TMatrixC<DataT> &MulAdd(const TMatrixC<DataT> & i,DataT a);
     //: Multiply i by a and add it to this matrix.
     // Returns a refrence to this matrix.
     
@@ -281,7 +281,8 @@ namespace RavlN {
     TMatrixC<DataT> out(rdim, cdim);
     for (UIntT r = 0; r < rdim; r++)
       for (UIntT c = 0; c < cdim; c++) {
-	RealT sum = 0.0;
+	DataT sum;
+	SetZero(sum);
 	for (UIntT k = 0; k < dim; k++)
 	  sum += (*this)[r][k] * mat[k][c];
 	out[r][c] = sum;
@@ -326,7 +327,8 @@ namespace RavlN {
     BufferAccess2dIterC<DataT> ot(out,out.Size2());
     do {
       do {
-	RealT sum = 0;
+	DataT sum;
+	SetZero(sum);
 	do {
 	  sum += it1.Data() * it2.Data();
 	  it1.NextCol();
@@ -446,7 +448,7 @@ namespace RavlN {
     BufferAccess2dIterC<DataT> it(*this,this->Size2());
     while(it) {
       BufferAccessIterC<DataT> v2(vec2);
-      RealT r1 = (*v1);
+      DataT r1 = (*v1);
       do {
 	*it += r1 * (*v2);
 	v2++;
@@ -475,7 +477,7 @@ namespace RavlN {
   }
   
   template<class DataT>
-  const TMatrixC<DataT> &TMatrixC<DataT>::MulAdd(const TMatrixC<DataT> & i,RealT a) {
+  const TMatrixC<DataT> &TMatrixC<DataT>::MulAdd(const TMatrixC<DataT> & i,DataT a) {
     RavlAssert(i.Size2() == this->Size2());
     for(BufferAccess2dIter2C<DataT,DataT> it(*this,this->Size2(),i,i.Size2());it;it++)
       it.Data1() += it.Data2() * a;
@@ -530,7 +532,7 @@ namespace RavlN {
     BufferAccess2dIterC<DataT> it(ret,ret.Size2());
     while(it) {
       BufferAccessIterC<DataT> v2(a);
-      RealT r1 = (*v1);
+      DataT r1 = (*v1);
       do {
 	*it = r1 * (*v2);
 	v2++;
@@ -541,13 +543,13 @@ namespace RavlN {
   }
   
   template<class DataT>
-  TMatrixC<DataT> TVectorC<DataT>::OuterProduct(const TVectorC<DataT> &a,RealT b) const {
+  TMatrixC<DataT> TVectorC<DataT>::OuterProduct(const TVectorC<DataT> &a,DataT b) const {
     TMatrixC<DataT> ret(this->Size(),a.Size());
     BufferAccessIterC<DataT> v1(*this);
     BufferAccess2dIterC<DataT> it(ret,ret.Size2());
     while(it) {
       BufferAccessIterC<DataT> v2(a);
-      RealT r1 = (*v1) * b;
+      DataT r1 = (*v1) * b;
       do {
 	*it = r1 * (*v2);
 	v2++;

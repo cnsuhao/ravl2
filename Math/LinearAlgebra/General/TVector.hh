@@ -120,7 +120,7 @@ namespace RavlN {
     //: Calculate the outer product of this vector and a.
     // To use the function you must also include 'Ravl/Matrix.hh'.
     
-    TMatrixC<DataT> OuterProduct(const TVectorC<DataT> &a,RealT b) const;
+    TMatrixC<DataT> OuterProduct(const TVectorC<DataT> &a,DataT b) const;
     //: Calculate the outer product of this vector and a multiplied by b.
     // To use the function you must also include 'Ravl/Matrix.hh'.
     
@@ -136,7 +136,7 @@ namespace RavlN {
     { (*this) = Unit(); return *this; }
     //: Make this a unit vector.
     
-    const TVectorC<DataT> &MulAdd(const TVectorC<DataT> & i,RealT a);
+    const TVectorC<DataT> &MulAdd(const TVectorC<DataT> & i,DataT a);
     //: Multiply i by a and add it to this vector.
     // Returns a refrence to this vector.
     
@@ -408,7 +408,7 @@ namespace RavlN {
   { return Sqrt(SqrEuclidDistance(i)); }
   
   template<class DataT>
-  const TVectorC<DataT> &TVectorC<DataT>::MulAdd(const TVectorC<DataT> & i,RealT a) {
+  const TVectorC<DataT> &TVectorC<DataT>::MulAdd(const TVectorC<DataT> & i,DataT a) {
     for(BufferAccessIter2C<DataT,DataT> it(*this,i);it;it++)
       it.Data1() += it.Data2() * a;
     return *this;
