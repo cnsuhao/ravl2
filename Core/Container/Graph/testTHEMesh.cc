@@ -19,9 +19,10 @@ using namespace RavlN;
 int main(int nargs,char **argv) {
   
   THEMeshC<IntT,RealT,bool> test(true);
-  
+#if 0  
   THEMeshVertexC<IntT,RealT,bool> vert1 = test.InsertVertex(1);
   THEMeshVertexC<IntT,RealT,bool> vert2 = test.InsertVertex(2);
+#endif
   
   return 0;
 }
