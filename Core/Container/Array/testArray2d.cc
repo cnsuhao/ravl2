@@ -20,6 +20,9 @@
 #include "Ravl/Array2dSqr311Iter3.hh"
 #include "Ravl/Array2dSqr3111Iter4.hh"
 #include "Ravl/Array2dSqr3311Iter4.hh"
+#include "Ravl/Array2dSqr51Iter2.hh"
+#include "Ravl/Array2dSqr71Iter2.hh"
+
 #include "Ravl/SArray2dIter.hh"
 
 using namespace RavlN;
@@ -33,6 +36,8 @@ int testSqr31();
 int testSqr31b();
 int testSqr311();
 int testSqr3111();
+int testSqr51();
+int testSqr71();
 
 int main()
 {
@@ -71,6 +76,14 @@ int main()
   }
   if((ln = testSqr3111()) != 0) {
     cerr << "Sqr3111Iter4 Array2d test failed line:" << ln << "\n";
+    return 1;
+  }
+  if((ln = testSqr51()) != 0) {
+    cerr << "Sqr31Iter2 Array2d test failed line:" << ln << "\n";
+    return 1;
+  }
+  if((ln = testSqr71()) != 0) {
+    cerr << "Sqr31Iter2 Array2d test failed line:" << ln << "\n";
     return 1;
   }
   cerr << "Test passed ok. \n";
@@ -354,6 +367,66 @@ int testSqr3111() {
   return 0;
 }
 
+// Test 5x5 iterators.
+
+int testSqr51() {
+  Array2dC<IntT> data(7,7);
+  data.Fill(1);
+  
+  IntT count = 1;
+  for(Array2dIterC<IntT> ita(data);ita;ita++)
+    *ita = count++;
+  
+  Array2dSqr51Iter2C<IntT,IntT> it(data,data);
+  if(!it) return __LINE__;
+  if(!it.First()) return __LINE__;
+  IntT sqrs = 0;
+  count = 0;
+  for(;it;it++,sqrs++) {
+    count += it.DataU2()[-2] + it.DataU2()[-1] + it.DataU2()[0] + it.DataU2()[1] + it.DataU2()[2];
+    count += it.DataU1()[-2] + it.DataU1()[-1] + it.DataU1()[0] + it.DataU1()[1] + it.DataU1()[2];
+    count += it.DataM0()[-2] + it.DataM0()[-1] + it.DataM0()[0] + it.DataM0()[1] + it.DataM0()[2];
+    count += it.DataD1()[-2] + it.DataD1()[-1] + it.DataD1()[0] + it.DataD1()[1] + it.DataD1()[2];
+    count += it.DataD2()[-2] + it.DataD2()[-1] + it.DataD2()[0] + it.DataD2()[1] + it.DataD2()[2];
+  }
+  
+  //cerr << "Count:" << count << "\n";
+  if(count != 5625) return __LINE__;
+  if(sqrs != 9) return __LINE__;
+  return 0;
+}
+
+// Test 7x7 iterators.
+
+int testSqr71() {
+  Array2dC<IntT> data(9,9);
+  data.Fill(1);
+  
+  IntT count = 1;
+  for(Array2dIterC<IntT> ita(data);ita;ita++)
+    *ita = count++;
+  
+  Array2dSqr71Iter2C<IntT,IntT> it(data,data);
+  if(!it) return __LINE__;
+  if(!it.First()) return __LINE__;
+  IntT sqrs = 0;
+  count = 0;
+  for(;it;it++,sqrs++) {
+    count += it.DataU3()[-3] + it.DataU3()[-2] + it.DataU3()[-1] + it.DataU3()[0] + it.DataU3()[1] + it.DataU3()[2] + it.DataU3()[3];
+    count += it.DataU2()[-3] + it.DataU2()[-2] + it.DataU2()[-1] + it.DataU2()[0] + it.DataU2()[1] + it.DataU2()[2] + it.DataU2()[3];
+    count += it.DataU1()[-3] + it.DataU1()[-2] + it.DataU1()[-1] + it.DataU1()[0] + it.DataU1()[1] + it.DataU1()[2] + it.DataU1()[3];
+    count += it.DataU1()[-3] + it.DataM0()[-2] + it.DataM0()[-1] + it.DataM0()[0] + it.DataM0()[1] + it.DataM0()[2] + it.DataM0()[3];
+    count += it.DataD1()[-3] + it.DataD1()[-2] + it.DataD1()[-1] + it.DataD1()[0] + it.DataD1()[1] + it.DataD1()[2] + it.DataD1()[3];
+    count += it.DataD2()[-3] + it.DataD2()[-2] + it.DataD2()[-1] + it.DataD2()[0] + it.DataD2()[1] + it.DataD2()[2] + it.DataD2()[3];
+    count += it.DataD3()[-3] + it.DataD3()[-2] + it.DataD3()[-1] + it.DataD3()[0] + it.DataD3()[1] + it.DataD3()[2] + it.DataD3()[3];
+  }
+  
+  //cerr << "Count:" << count << "\n";
+  if(count != 18000) return __LINE__;
+  if(sqrs != 9) return __LINE__;
+  return 0;
+}
+
 // Force everything to be instantiated to check it at least compiles ok.
 
 #include "Ravl/Array1d.hh"
@@ -369,3 +442,5 @@ template class Array2dSqr31Iter2C<IntT,Int16T>;
 template class Array2dSqr311Iter3C<IntT,Int16T,RealT>;
 template class Array2dSqr3111Iter4C<IntT,Int16T,RealT,ByteT>;
 template class Array2dSqr3311Iter4C<IntT,Int16T,RealT,ByteT>;
+template class Array2dSqr51Iter2C<IntT,Int16T>;
+template class Array2dSqr71Iter2C<IntT,Int16T>;

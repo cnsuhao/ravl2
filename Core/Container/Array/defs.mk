@@ -20,7 +20,7 @@ HEADERS = Array1d.hh Array1dIter.hh Array1dIter2.hh Array1dIter3.hh Array1dIter4
  Array3d.hh Array3dIter.hh Array3dIter2.hh Array3dIter3.hh \
  Array2dSqr2Iter.hh Array2dSqr2Iter2.hh Array2dSqr3Iter.hh  \
  Array2dSqr31Iter2.hh Array2dSqr311Iter3.hh Array2dSqr3111Iter4.hh \
- Array2dSqr3311Iter4.hh Array1dIterR.hh
+ Array2dSqr3311Iter4.hh Array1dIterR.hh Array2dSqr51Iter2.hh Array2dSqr71Iter2.hh
 
 PLIB = RavlCore
 
