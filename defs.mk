@@ -16,5 +16,4 @@ NESTED=QMake.r Core.r OS.r CCMath.r Math.r PatternRec.r Audio.r \
 
 LOCAL_FILES=install lgpl.license gpl.license README
 
-EHT=Ravl.eht Ravl.Contrib.html
-# Ravl.Introduction.html
+EHT=Ravl.eht Ravl.Contrib.html Ravl.Introduction.html
