@@ -187,7 +187,15 @@ namespace RavlN {
     const Data3T &Data3() const
     { return cit.Data3(); }
     //: Access data.
-
+    
+    IntT RowIndex(const BufferAccessC<Data1T> *row1Begin) const
+    { return (IntT) (&(rit.Data1()) - row1Begin); }
+    //: Work out the current row number
+    
+    IntT ColIndex() const
+    { return (IntT) (&(cit.Data1()) - rit.Data1().ReferenceElm()); }
+    //: Work out the current column number
+    
     Index2dC Index(const BufferAccessC<Data1T> *row1Begin) const { 
       return Index2dC((IntT) (&(rit.Data1()) - row1Begin),
 		      (IntT) (&(cit.Data1()) - rit.Data1().ReferenceElm()));

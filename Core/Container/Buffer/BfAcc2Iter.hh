@@ -198,6 +198,14 @@ namespace RavlN {
     { return RangeBufferAccessC<DataT>(rng,*rit); }
     //: Access row we're currently iterating.
     
+    IntT RowIndex(const BufferAccessC<DataT> *row1Begin) const
+    { return (IntT) (&(*rit) - row1Begin); }
+    //: Work out the current row.
+    
+    IntT ColIndex() const
+    { return (IntT) (&(*cit) - rit->ReferenceElm()); }
+    //: Work out the current column.
+    
     Index2dC Index(const BufferAccessC<DataT> *rowBegin) const { 
       return Index2dC((IntT) (&(*rit) - rowBegin),
 		      (IntT) (&(*cit) - rit->ReferenceElm()));

@@ -16,40 +16,41 @@
 //! date="24/01/2001"
 
 #include "Ravl/BfAccIter4.hh"
+#include "Ravl/Index2d.hh"
 
 namespace RavlN {
   
   //! userlevel=Advanced
   //: Iterate through a 2d buffer.
   
-  template <class Data1C,class Data2C,class Data3C,class Data4C>
+  template <class Data1T,class Data2T,class Data3T,class Data4T>
   class BufferAccess2dIter4C {
   public:
     BufferAccess2dIter4C()
     {}
     //: Default constructor.
     
-    BufferAccess2dIter4C(const SizeBufferAccessC<BufferAccessC<Data1C> > &pbuf1,SizeT size1,
-			 const SizeBufferAccessC<BufferAccessC<Data2C> > &pbuf2,SizeT size2,
-			 const SizeBufferAccessC<BufferAccessC<Data3C> > &pbuf3,SizeT size3,
-			 const SizeBufferAccessC<BufferAccessC<Data4C> > &pbuf4,SizeT size4
+    BufferAccess2dIter4C(const SizeBufferAccessC<BufferAccessC<Data1T> > &pbuf1,SizeT size1,
+			 const SizeBufferAccessC<BufferAccessC<Data2T> > &pbuf2,SizeT size2,
+			 const SizeBufferAccessC<BufferAccessC<Data3T> > &pbuf3,SizeT size3,
+			 const SizeBufferAccessC<BufferAccessC<Data4T> > &pbuf4,SizeT size4
 			 )
     { First(pbuf1,size1,pbuf2,size2,pbuf3,size3,pbuf4,size4); }
     //: Constructor.
     
-    BufferAccess2dIter4C(const RangeBufferAccessC<BufferAccessC<Data1C> > &pbuf1,const IndexRangeC &nrng1,
-			 const RangeBufferAccessC<BufferAccessC<Data2C> > &pbuf2,const IndexRangeC &nrng2,
-			 const RangeBufferAccessC<BufferAccessC<Data3C> > &pbuf3,const IndexRangeC &nrng3,
-			 const RangeBufferAccessC<BufferAccessC<Data4C> > &pbuf4,const IndexRangeC &nrng4
+    BufferAccess2dIter4C(const RangeBufferAccessC<BufferAccessC<Data1T> > &pbuf1,const IndexRangeC &nrng1,
+			 const RangeBufferAccessC<BufferAccessC<Data2T> > &pbuf2,const IndexRangeC &nrng2,
+			 const RangeBufferAccessC<BufferAccessC<Data3T> > &pbuf3,const IndexRangeC &nrng3,
+			 const RangeBufferAccessC<BufferAccessC<Data4T> > &pbuf4,const IndexRangeC &nrng4
 			 )
     { First(pbuf1,nrng1,pbuf2,nrng2,pbuf3,nrng3,pbuf4,nrng4); }
     //: Constructor.
 
 
-    bool First(const RangeBufferAccessC<BufferAccessC<Data1C> > &pbuf1,const IndexRangeC &nrng1,
-	       const RangeBufferAccessC<BufferAccessC<Data2C> > &pbuf2,const IndexRangeC &nrng2,
-	       const RangeBufferAccessC<BufferAccessC<Data3C> > &pbuf3,const IndexRangeC &nrng3,
-	       const RangeBufferAccessC<BufferAccessC<Data4C> > &pbuf4,const IndexRangeC &nrng4
+    bool First(const RangeBufferAccessC<BufferAccessC<Data1T> > &pbuf1,const IndexRangeC &nrng1,
+	       const RangeBufferAccessC<BufferAccessC<Data2T> > &pbuf2,const IndexRangeC &nrng2,
+	       const RangeBufferAccessC<BufferAccessC<Data3T> > &pbuf3,const IndexRangeC &nrng3,
+	       const RangeBufferAccessC<BufferAccessC<Data4T> > &pbuf4,const IndexRangeC &nrng4
 	       ) {
       rit.First(pbuf1,pbuf2,pbuf3,pbuf4);
       rng1 = nrng1;
@@ -64,10 +65,10 @@ namespace RavlN {
     //: Goto first element.
     // returns true if there is one.
     
-    bool First(const SizeBufferAccessC<BufferAccessC<Data1C> > &pbuf1,SizeT size1,
-	       const SizeBufferAccessC<BufferAccessC<Data2C> > &pbuf2,SizeT size2,
-	       const SizeBufferAccessC<BufferAccessC<Data3C> > &pbuf3,SizeT size3,
-	       const SizeBufferAccessC<BufferAccessC<Data4C> > &pbuf4,SizeT size4
+    bool First(const SizeBufferAccessC<BufferAccessC<Data1T> > &pbuf1,SizeT size1,
+	       const SizeBufferAccessC<BufferAccessC<Data2T> > &pbuf2,SizeT size2,
+	       const SizeBufferAccessC<BufferAccessC<Data3T> > &pbuf3,SizeT size3,
+	       const SizeBufferAccessC<BufferAccessC<Data4T> > &pbuf4,SizeT size4
 	       ) {
       rit.First(pbuf1,pbuf2,pbuf3,pbuf4);
       rng1 = IndexRangeC(0,size1-1);
@@ -136,41 +137,58 @@ namespace RavlN {
     { Next(); }
     //: Goto next element.
     
-    Data1C &Data1() 
+    Data1T &Data1() 
     { return cit.Data1(); }
     //: Access data from array 1.
 
-    const Data1C &Data1() const
+    const Data1T &Data1() const
     { return cit.Data1(); }
     //: Access data from array 1.
 
-    Data2C &Data2() 
+    Data2T &Data2() 
     { return cit.Data2(); }
     //: Access data from array 2.
 
-    const Data2C &Data2() const
+    const Data2T &Data2() const
     { return cit.Data2(); }
     //: Access data from array 2.
     
-    Data3C &Data3()
+    Data3T &Data3()
     { return cit.Data3(); }
     //: Access data from array 3.
 
-    const Data3C &Data3() const
+    const Data3T &Data3() const
     { return cit.Data3(); }
     //: Access data from array 3.
 
-    Data4C &Data4()
+    Data4T &Data4()
     { return cit.Data4(); }
     //: Access data from array 4.
 
-    const Data4C &Data4() const
+    const Data4T &Data4() const
     { return cit.Data4(); }
     //: Access data from array 4.
-        
+    
+    IntT RowIndex(const BufferAccessC<Data1T> *row1Begin) const
+    { return (IntT) (&(rit.Data1()) - row1Begin); }
+    //: Work out the current row number
+    
+    IntT ColIndex() const
+    { return (IntT) (&(cit.Data1()) - rit.Data1().ReferenceElm()); }
+    //: Work out the current column number
+    
+    Index2dC Index(const BufferAccessC<Data1T> *row1Begin) const { 
+      return Index2dC((IntT) (&(rit.Data1()) - row1Begin),
+		      (IntT) (&(cit.Data1()) - rit.Data1().ReferenceElm()));
+    }
+    //: Get index of current location.
+    // Has to be calculate, and so is slightly slow.
+#if 0
+#endif
+    
   protected:
-    BufferAccessIter4C<BufferAccessC<Data1C>,BufferAccessC<Data2C>,BufferAccessC<Data3C>,BufferAccessC<Data4C> > rit;
-    BufferAccessIter4C<Data1C,Data2C,Data3C,Data4C> cit;
+    BufferAccessIter4C<BufferAccessC<Data1T>,BufferAccessC<Data2T>,BufferAccessC<Data3T>,BufferAccessC<Data4T> > rit;
+    BufferAccessIter4C<Data1T,Data2T,Data3T,Data4T> cit;
     IndexRangeC rng1;
     IndexRangeC rng2;
     IndexRangeC rng3;
