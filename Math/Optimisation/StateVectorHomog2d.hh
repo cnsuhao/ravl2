@@ -79,7 +79,7 @@ namespace RavlN {
     RealT gauge_weight; // weight of gauge condition observation
 
   private:
-    static VectorC StateVectorHomog2dBodyC::StateVecFromHomog(const Matrix3dC &P);
+    static VectorC StateVecFromHomog(const Matrix3dC &P);
     //: static method to build state vector from homography matrix
   };
 

@@ -15,9 +15,7 @@ namespace RavlN {
 
   //: Default constructor
   ObservationExplicitBodyC::ObservationExplicitBodyC()
-    : ObservationBodyC::ObservationBodyC()
-  {
-  }
+  {}
 
   //: Constructor
   ObservationExplicitBodyC::ObservationExplicitBodyC(const ObsVectorC &nobs_vec)

@@ -14,7 +14,6 @@ namespace RavlN {
   //: Constructor.
   EvaluateNumInliersC::EvaluateNumInliersC(RealT nchi2_thres,
 					   RealT ncompat_chi2_thres)
-    : EvaluateSolutionC::EvaluateSolutionC()
   {
     chi2_thres = nchi2_thres;
     compat_chi2_thres = (ncompat_chi2_thres == 0.0)

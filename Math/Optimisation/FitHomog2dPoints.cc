@@ -16,7 +16,6 @@ namespace RavlN {
 
   //: Constructor.
   FitHomog2dPointsC::FitHomog2dPointsC(RealT nzh1, RealT nzh2)
-    : FitToSampleC::FitToSampleC()
   {
     zh1 = nzh1;
     zh2 = nzh2;
@@ -24,7 +23,6 @@ namespace RavlN {
 
   //: Constructor.
   FitHomog2dPointsC::FitHomog2dPointsC()
-    : FitToSampleC::FitToSampleC()
   {
     zh1 = zh2 = 1.0;
   }

@@ -88,20 +88,14 @@ namespace RavlN {
   }
 
   //: Get outlier flag
-  const bool ObsVectorBiGaussianBodyC::Outlier() const
-  {
-    return outlier;
-  }
+  bool ObsVectorBiGaussianBodyC::Outlier() const
+  { return outlier; }
 
   //: Set observation to be an inlier
   void ObsVectorBiGaussianBodyC::SetAsInlier()
-  {
-    outlier = false;
-  }
+  { outlier = false; }
 
   //: Set observation to be an outlier
   void ObsVectorBiGaussianBodyC::SetAsOutlier()
-  {
-    outlier = true;
-  }
+  { outlier = true; }
 }

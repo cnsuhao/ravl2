@@ -13,7 +13,6 @@ namespace RavlN {
 
   //: Constructor.
   EvaluateLikelihoodC::EvaluateLikelihoodC(RealT nchi2_thres)
-    : EvaluateSolutionC::EvaluateSolutionC()
   {
     chi2_thres = nchi2_thres;
   }

@@ -15,10 +15,9 @@ namespace RavlN {
   RansacC::RansacC(ObservationManagerC &nobs_manager,
 		   FitToSampleC &nmodel_fitter,
 		   EvaluateSolutionC &nevaluator)
-    : StoredStateC::StoredStateC(),
-		    obs_manager(nobs_manager),
-		    model_fitter(nmodel_fitter),
-		    evaluator(nevaluator)
+    : obs_manager(nobs_manager),
+      model_fitter(nmodel_fitter),
+      evaluator(nevaluator)
   {
     highest_vote = DBL_MIN;
   }

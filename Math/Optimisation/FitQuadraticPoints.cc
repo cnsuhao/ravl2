@@ -17,7 +17,6 @@ namespace RavlN {
 
   //: Constructor.
   FitQuadraticPointsC::FitQuadraticPointsC()
-    : FitToSampleC::FitToSampleC()
   {
   }
 

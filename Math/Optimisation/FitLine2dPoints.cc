@@ -15,14 +15,12 @@ namespace RavlN {
 
   //: Constructor.
   FitLine2dPointsC::FitLine2dPointsC(RealT nzh)
-    : FitToSampleC::FitToSampleC()
   {
     zh = nzh;
   }
 
   //: Constructor.
   FitLine2dPointsC::FitLine2dPointsC()
-    : FitToSampleC::FitToSampleC()
   {
     zh = 1.0;
   }

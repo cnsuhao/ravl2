@@ -17,7 +17,7 @@ namespace RavlN {
   //: Constructor for Levenberg-Marquardt.
   LevenbergMarquardtC::LevenbergMarquardtC(StateVectorC &state_vec_init,
 					   DListC<ObservationC> obs_list)
-    : StoredStateC::StoredStateC(state_vec_init)
+    : StoredStateC(state_vec_init)
   {
     A = MatrixRSC(state_vec.GetX().Size());
     Ainv = MatrixRSC(state_vec.GetX().Size());

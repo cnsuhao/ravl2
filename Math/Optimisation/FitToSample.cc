@@ -20,5 +20,6 @@ namespace RavlN {
   StateVectorC FitToSampleC::FitModel(DListC<ObservationC> sample)
   {
     RavlAssertMsg(0,"FitToSampleC::FitModel(DListC<ObservationC>(), Abstract method called ");
+    return StateVectorC();
   }
 }

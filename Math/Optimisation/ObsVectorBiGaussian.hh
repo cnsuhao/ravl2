@@ -42,7 +42,7 @@ namespace RavlN {
     virtual bool Restore();
     //: Restore values are an aborted modification
 
-    const bool Outlier() const;
+    bool Outlier() const;
     //: Get outlier flag
 
     void SetAsInlier();
@@ -123,7 +123,7 @@ namespace RavlN {
     
   public:
 
-    const bool Outlier() const
+    bool Outlier() const
     { return Body().Outlier(); }
     //: Get outlier flag
 
