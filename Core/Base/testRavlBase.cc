@@ -17,6 +17,7 @@
 #include "Ravl/Stream.hh"
 #include "Ravl/IndexRange2dIter.hh"
 #include "Ravl/IndexRange3dIter.hh"
+#include "Ravl/FPNumber.hh"
 
 using namespace RavlN;
 
@@ -36,7 +37,7 @@ int testSubIndexRange2dIter();
 int testSubIndexRange3dIter();
 int testIndexRange2dIter();
 int testIndexRange3dIter();
-
+int testFPNumber();
 
 template class RCHandleC<TestBodyC>;
 template class RCWrapC<IntT>;
@@ -73,6 +74,10 @@ int main()
     return 1;
   }
   if((ln = testIndexRange3dIter()) != 0) {
+    cerr << "Test failed at line:" << ln << "\n";
+    return 1;
+  }
+  if((ln = testFPNumber()) != 0) {
     cerr << "Test failed at line:" << ln << "\n";
     return 1;
   }
@@ -198,3 +203,82 @@ int testIndexRange3dIter() {
   return 0;
 }
 
+int testFPNumber() {
+  // Check conversion an equality.
+  FPNumberC<8> p8 = 1;
+  if(p8 != 1) return __LINE__;
+  if(!(p8 == 1)) return __LINE__;
+  FPNumberC<6> p6 = p8;
+  if(p6 != 1) return __LINE__;
+  if(!(p6 == 1)) return __LINE__;
+  if(!(p6 == p8)) return __LINE__;
+  if(p6 != p8) return __LINE__;
+  p6++;
+  p8++;
+  if(p6 != 2) return __LINE__;
+  if(p8 != 2) return __LINE__;
+  
+  // Check increment and decrement.
+  if(p8++ == ++p6) return __LINE__;
+  if(p6++ == ++p8) return __LINE__;
+  if(p6 != p8) return __LINE__;
+  if(p8-- == --p6) return __LINE__;
+  if(p6-- == --p8) return __LINE__;
+  if(p6 != p8) return __LINE__;
+  
+  // Check magnitude comparison for positive numbers.
+  
+  if(p6 > p8) return __LINE__;
+  if(p8 > p6) return __LINE__;
+  if(!(p6 >= p8)) return __LINE__;
+  if(!(p8 >= p6)) return __LINE__;
+  if(p6 < p8) return __LINE__;
+  if(p8 < p6) return __LINE__;
+  if(!(p6 <= p8)) return __LINE__;
+  if(!(p8 <= p6)) return __LINE__;
+  p8++;
+  if(p8 <= p6) return __LINE__;
+  if(p8 < p6) return __LINE__;
+  if(p6 >= p8) return __LINE__;
+  if(p6 > p8) return __LINE__;
+  
+  if(!(p8 >= p6)) return __LINE__;
+  if(!(p8 > p6)) return __LINE__;
+  if(!(p6 <= p8)) return __LINE__;
+  if(!(p6 < p8)) return __LINE__;
+  
+  p8 = 0.25;
+  p6 = 8;
+
+  // Check Addition
+  
+  FPNumberC<4> p4;
+  p4 = p6 + p8 + p8 + p8 + p8;
+  if(p4 != 9) return __LINE__;
+
+  // Check Subtraction
+  p4 = p6 + p8;
+  p4 = p4 - p8;  
+  if(p4 != 8) return __LINE__;
+  
+  // Check multiplication
+    
+  p4 = p8 * p6;
+  if(p4 != 2) return __LINE__;
+  p4 = p6 * p8;
+  if(p4 != 2) return __LINE__;
+  p4 = p6 * 2;
+  //cerr <<"p4=" << p4 <<" p6=" << p6 << " p8=" << p8 <<"\n";
+  if(p4 != 16) return __LINE__;
+  
+  // Check division.
+  
+  p4 = p6 / p8;
+  if(p4 != 32) return __LINE__;
+  
+  p4 = p6 / 2;
+  //cerr <<"p4=" << p4 <<" p6=" << p6 << " p8=" << p8 <<"\n";
+  if(p4 != 4) return __LINE__;
+  
+  return 0;
+}
