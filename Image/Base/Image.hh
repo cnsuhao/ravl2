@@ -50,6 +50,11 @@ namespace RavlImageN {
     {}
     //: Base constructor.
     
+    ImageC(const IndexRange2dC &rng,const PixelT &val)
+      : Array2dC<PixelT>(rng)
+    { Fill(val); }
+    //: Create an image of size 'rng' filled with value 'val'
+    
     ImageC(const Array2dC<PixelT> &oth,const IndexRange2dC &rect)
       : Array2dC<PixelT>(oth,rect)
     {}
