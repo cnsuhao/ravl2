@@ -100,6 +100,11 @@ namespace RavlGUIN {
     //: Constructor.
     
   protected:
+    TableC(TableBodyC &bod)
+      : WidgetC(bod)
+      {}
+    //: Body constructor.
+    
     TableBodyC &Body()
       { return static_cast<TableBodyC &>(WidgetC::Body()); }
     //: Access body.
