@@ -118,6 +118,9 @@ namespace RavlN {
     { return oz; }
     //: Accesss iz.
     
+    Matrix3dC Homography() const;
+    //: Get homography normalised for iz and oz
+    
   protected:
     Matrix3dC trans;
     RealT iz, oz;

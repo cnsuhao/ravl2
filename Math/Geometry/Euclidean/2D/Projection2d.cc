@@ -18,6 +18,15 @@
 
 namespace RavlN {
 
+  //: Get homography normalised for iz and oz
+  
+  Matrix3dC Projection2dC::Homography() const {
+    Matrix3dC ret = trans;
+    ret[2][2] *= iz / oz;
+    return ret;
+  }
+  
+
   //: Fit a projective transform given to the mapping between original and newPos.
   
   Projection2dC FitProjection(const DListC<Point2dC> &org,const DListC<Point2dC> &newPos) {
@@ -79,6 +88,7 @@ namespace RavlN {
     return Projection2dC (P,zh1,zh2);
   }
 
+  
   //: Read from a stream.
   
   istream &operator>>(istream &s,Projection2dC &proj) {
