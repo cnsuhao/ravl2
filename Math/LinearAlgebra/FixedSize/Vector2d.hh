@@ -59,11 +59,33 @@ namespace RavlN {
     Vector2dC Perpendicular() const
     { return Vector2dC(-Y(),X()); }
     //: Get a vector perpendicular to this one.
+
+    RealT Dot(const Vector2dC & vector) const
+    { return X() * vector.X() + Y() * vector.Y(); }
+    //: Return the dot product
     
     RealT Cross(const Vector2dC & vector) const
     { return X() * vector.Y() - Y() * vector.X(); }
     //: Returns the third coordinate of the cross product of this vector
     //: and the vector 'v'.
+
+    RealT SqrNorm() const
+    { return Dot(*this); }
+    //: Returns the square of the norm.
+  
+    RealT Norm() const
+    { return Sqrt(SqrNorm()); }
+    //: Returns the Euclidian size of the vector.
+
+    RealT Modulus() const
+    { return Norm(); }  
+    //: Returns the Euclidian size of the vector.
+
+
+    RealT Angle() const
+    { return atan2(Y(), X()); }
+    //: Returns the oriented angle (rad) from the axes x in
+    //: the  range -PI to PI.
   };
   
   inline RealT TFVectorC<RealT,2>::Dot(const TFVectorC<RealT,2> &oth) const 

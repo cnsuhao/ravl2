@@ -10,3 +10,6 @@
 //! file="Ravl/Math/LinearAlgebra/FixedSize/Vector2d.cc"
 
 #include "Ravl/Vector2d.hh"
+
+
+
