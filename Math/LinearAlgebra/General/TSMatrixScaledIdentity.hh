@@ -121,6 +121,11 @@ namespace RavlN {
     : public TSMatrixC<DataT>
   {
   public:
+    TSMatrixScaledIdentityC()
+    {}
+    //: Default constructor.
+    // Creates an invalid handle.
+    
     TSMatrixScaledIdentityC(int i,const DataT &val)
       : TSMatrixC<DataT>(*new TSMatrixScaledIdentityBodyC<DataT>(i,val))
     {}

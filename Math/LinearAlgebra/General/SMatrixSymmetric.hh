@@ -30,12 +30,12 @@ namespace RavlN {
     //: Create a new symmetric matrix of size n.
     // Note: The contents of the matrix are undefined.
     
-    TSMatrixSymmetricC(const TMatrixC<DataT> &mat)
+    SMatrixSymmetricC(const TMatrixC<RealT> &mat)
       : TSMatrixSymmetricC<RealT>(mat)
     {}
     //: Constructor.
     
-    TSMatrixSymmetricC(const TSMatrixC<DataT> &mat)
+    SMatrixSymmetricC(const TSMatrixC<RealT> &mat)
       : TSMatrixSymmetricC<RealT>(mat)
     {}
     //: Create from a base handle.

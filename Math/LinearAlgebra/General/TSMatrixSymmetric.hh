@@ -16,7 +16,7 @@
 #include "Ravl/TSMatrixFull.hh"
 
 namespace RavlN {
-  
+  template<class DataT> class TSMatrixSymmetricC;
   template<class DataT> class TSMatrixLeftLowerC;
   
   //! userlevel=Develop

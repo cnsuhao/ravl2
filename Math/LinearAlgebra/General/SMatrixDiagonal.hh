@@ -28,7 +28,7 @@ namespace RavlN {
     {}
     //: Create a diagonal matrix of size i.
     
-    SMatrixDiagonalC(const SArray1dC<DataT> &dat)
+    SMatrixDiagonalC(const SArray1dC<RealT> &dat)
       : TSMatrixDiagonalC<RealT>(dat)
     {}
     //: Construct diagonal from an array

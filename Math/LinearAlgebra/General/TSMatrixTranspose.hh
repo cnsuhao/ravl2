@@ -13,7 +13,7 @@
 #include "Ravl/TSMatrix.hh"
 
 namespace RavlN {
-    template<class DataT> class TSMatrixTransposeC;
+  template<class DataT> class TSMatrixTransposeC;
   
   //! userlevel=Develop
   //: Transpose matrix body
@@ -47,7 +47,7 @@ namespace RavlN {
     virtual Array1dC<DataT> Row(UIntT i) const { 
       Array1dC<DataT> ret(Rows());
       BufferAccessIterC<DataT> it(ret);
-      for(int n = 0;n < Rows();n++,it++)
+      for(UIntT n = 0;n < Rows();n++,it++)
 	*it = matrix.Element(n,i);
       return ret;
     }

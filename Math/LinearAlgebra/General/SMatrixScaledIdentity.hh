@@ -33,7 +33,7 @@ namespace RavlN {
     //: Default constructor
     // Creates an invalid handle.
     
-    SMatrixScaledIdentityC(const TSMatrixC<DataT> &base)
+    SMatrixScaledIdentityC(const TSMatrixC<RealT> &base)
       : TSMatrixScaledIdentityC<RealT>(base)
     {}
     //: Base constructor.

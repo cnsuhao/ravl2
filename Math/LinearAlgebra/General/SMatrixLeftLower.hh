@@ -31,7 +31,7 @@ namespace RavlN {
     //: Create a new LeftLower matrix of size n.
     // Note: The contents of the matrix are undefined.
     
-    TSMatrixLeftLowerC(const TMatrixC<DataT> &mat)
+    SMatrixLeftLowerC(const TMatrixC<RealT> &mat)
       : TSMatrixLeftLowerC<RealT>(mat)
     {}
     //: Construct from normal matrix.

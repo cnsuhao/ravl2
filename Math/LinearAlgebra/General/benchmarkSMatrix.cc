@@ -11,6 +11,7 @@
 #include "Ravl/TSMatrixLeftLower.hh"
 #include "Ravl/TSMatrixSparse.hh"
 #include "Ravl/TSMatrixSymmetric.hh"
+#include "Ravl/TSMatrixTranspose.hh"
 #include "Ravl/TSMatrixScaledIdentity.hh"
 #include "Ravl/Random.hh"
 

@@ -35,7 +35,7 @@ namespace RavlN {
     // The matrix is effectively empty and behaves as if it was filled
     // with zero's.
     
-    SMatrixSparseC(const TMatrixC<RealT> &mat,const DataT &zeroValue = 1e-6)
+    SMatrixSparseC(const TMatrixC<RealT> &mat,const RealT &zeroValue = 1e-6)
       : TSMatrixSparseC<RealT>(mat,zeroValue)
     {}
     //: Construct a sparse matrix for a full matrix.

@@ -31,7 +31,7 @@ namespace RavlN {
     //: Create a new RightUpper matrix of size n.
     // Note: The contents of the matrix are undefined.
     
-    TSMatrixRightUpperC(const TMatrixC<DataT> &mat)
+    SMatrixRightUpperC(const TMatrixC<RealT> &mat)
       : TSMatrixRightUpperC<RealT>(mat)
     {}
     //: Construct from a plain matrix.

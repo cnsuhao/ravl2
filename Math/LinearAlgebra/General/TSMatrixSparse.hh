@@ -15,6 +15,7 @@
 #include "Ravl/TSMatrix.hh"
 #include "Ravl/IntrDList.hh"
 #include "Ravl/IntrDLIter.hh"
+#include "Ravl/BfAcc2Iter.hh"
 
 namespace RavlN {
   
@@ -406,15 +407,15 @@ namespace RavlN {
   TSMatrixSparseBodyC<DataT>::TSMatrixSparseBodyC(const TMatrixC<DataT> &mat,const DataT &zeroValue) 
     : TSMatrixBodyC<DataT>(mat.Rows(),mat.Cols())
   {
-    BufferAccess2dIterC<DataT> it(mat);
+    SArray2dIterC<DataT> it(mat);
     if(!it)
       return ;
-    IndexDListC *rlist = rows[0];
+    IndexDListC *rlist = &rows[0];
     do {
       IndexDListC *clist = &(cols[0]);
       do {
 	if(Abs(*it) > zeroValue) {
-	  TSMatrixSparseEntryC<DataT> &entry = *new TSMatrixSparseEntryC<DataT>(it->Index(mat.RefrenceElm()),*it);
+	  TSMatrixSparseEntryC<DataT> &entry = *new TSMatrixSparseEntryC<DataT>(it.Index(),*it);
 	  rlist->InsLast(entry.IRow());
 	  clist->InsLast(entry.ICol());
 	}

@@ -12,6 +12,8 @@
 #include "Ravl/TSMatrixFull.hh"
 #include "Ravl/TSMatrixRightUpper.hh"
 #include "Ravl/TSMatrixLeftLower.hh"
+#include "Ravl/TSMatrixSymmetric.hh"
+#include "Ravl/TSMatrixTranspose.hh"
 
 namespace RavlN {
 
