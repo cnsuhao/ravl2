@@ -37,7 +37,7 @@ namespace RavlN {
   BinOStreamC &operator << (BinOStreamC &out,const SubStringC &str) {
 #if RAVL_CHECK
     if(!out.Stream()) {
-      cerr << "BinOStreamC &operator<<(BinOStreamC &,SubStringC &), ERROR: Bad output stream. ";
+      cerr << "BinOStreamC &operator<<(BinOStreamC &,SubStringC &), ERROR: Bad output stream. \n";
       return out;
     }
 #endif
@@ -51,7 +51,7 @@ namespace RavlN {
   BinIStreamC &operator >> (BinIStreamC &in,StringC &str) {
 #if RAVL_CHECK
     if(!in.Stream()) {
-      cerr << "BinIStreamC &operator>>(BinIStreamC &,StringC &), ERROR: Bad input stream. ";
+      cerr << "BinIStreamC &operator>>(BinIStreamC &,StringC &), ERROR: Bad input stream. \n";
       return in;
     }
 #endif
@@ -60,8 +60,10 @@ namespace RavlN {
     ONDEBUG(cerr << "operator>>(BinIStreamC &,StringC &), Reading string of " << len << " bytes. (Hex:" << hex << len << dec <<")\n");
     if(!in.Stream()) {
       str = StringC();
-      if(len > 0)
-	cerr << "BinIStreamC &operator>>(BinIStreamC &,StringC &), WARNING: Stream terminated early. ";
+      if(len > 0) {
+	cerr << "BinIStreamC &operator>>(BinIStreamC &,StringC &), WARNING: Stream terminated early. \n";
+        //RavlAssert(0);
+      }
       return in;
     }
     if(len == 0) {
