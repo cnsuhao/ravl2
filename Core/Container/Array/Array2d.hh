@@ -217,6 +217,20 @@ namespace RavlN {
     
     DataT Sum() const;
     //: Calculate the sum of all elements in the array
+
+    Index2dC IndexOfMax() const {
+      RavlAssertMsg(Frame().Area() > 0,"Array2dC::IndexOfMax() Called on an empty array");
+      Index2dC indexOfMax (Frame().Origin());
+      DataT valueOfMax = operator[](indexOfMax);
+      for (BufferAccess2dIterC<DataT> i((*this),Range2()) ; i; i++) {
+	if (valueOfMax < *i) {
+	  valueOfMax = *i;
+	  indexOfMax = i.Index(ReferenceElm());
+	}
+      }
+      return indexOfMax;
+    }
+    //: Calculate the index of the maximum value in the array
     
     Buffer2dC<DataT> &Buffer2d()
     { return data; }

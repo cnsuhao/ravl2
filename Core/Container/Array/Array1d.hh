@@ -265,6 +265,20 @@ namespace RavlN {
     
     DataT Sum() const;
     //: Calculate the sum of all elements in the array
+
+    IndexC IndexOfMax() const {
+      RavlAssertMsg(Size() > 0,"Array1dC::IndexOfMax() Called on an empty array");
+      IndexC indexOfMax (IMin());
+      DataT valueOfMax = operator[](indexOfMax);
+      for (Array1dIterC<DataT> i = (*this); i; i++) {
+	if (valueOfMax < *i) {
+	  valueOfMax = *i;
+	  indexOfMax = i.Index();
+	}
+      }
+      return indexOfMax;
+    }
+    //: Calculate the index of the maximum element in the array
     
     Array1dC<DataT> Apply(DataT (*op)(const DataT &func)) const;
     //: Apply a function to each item in the array.
