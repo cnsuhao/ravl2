@@ -69,9 +69,9 @@ namespace RavlImageN {
     // Note: if the rows or cols are even there will be a half pixel offset in
     // the center of the rectangle. 
 
-    ImageRectangleC(IndexC minRow, IndexC maxRow,
-		    IndexC minCol, IndexC maxCol)
-      : IndexRange2dC(minRow,maxRow,minCol,maxCol)
+    ImageRectangleC(IndexC TRow, IndexC BRow,
+		    IndexC LCol, IndexC RCol)
+      : IndexRange2dC(TRow,BRow,LCol,RCol)
     {}
     //: Create rectangle from indvidual values.
 
