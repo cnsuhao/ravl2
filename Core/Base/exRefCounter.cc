@@ -21,7 +21,6 @@ class AnObjectBodyC
 {
 public:
   AnObjectBodyC(int a)
-    
     : someData(a)
   {}
   //: Constructor.

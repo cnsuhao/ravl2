@@ -102,6 +102,8 @@ namespace RavlN {
   bool NetIStreamC::WaitForData(RealT timeout) {
     if(!sock.IsOpen())
       return false;
+    if(is().rdbuf()->in_avail() > 0)
+      return true;
     ONDEBUG(cerr << "NetIStreamC::WaitForData(), Waiting for data.");
     fd_set readSet;
     int fd = sock.Fd();

@@ -13,12 +13,21 @@
 
 #include "Ravl/config.h"
 
+
 #if RAVL_COMPILER_GCC3
 
-#include "Ravl/fdstreambuf.hh"
+#define RAVL_USE_FDSTREAMBUF 1
+
 #include "Ravl/Stream.hh"
 
+#if RAVL_USE_FDSTREAMBUF
+#include "Ravl/fdstreambuf.hh"
+#else
+#include <ext/stdio_filebuf.h>
+#endif
+
 namespace RavlN {
+  using namespace __gnu_cxx;
   
   //! userlevel=Normal
   //: Basic input from a fd stream.
@@ -33,29 +42,39 @@ namespace RavlN {
     typedef typename traits_type::int_type  int_type;
     typedef typename traits_type::pos_type  pos_type;
     typedef typename traits_type::off_type  off_type;
+
+#if RAVL_USE_FDSTREAMBUF
+    typedef basic_fdbuf <char_type, traits_type>  buf_type;
+#else
+    typedef stdio_filebuf<char_type, traits_type> buf_type;
+#endif
     
+    explicit basic_ifdstream(int fd, ios_base::openmode mode = ios_base::in)
+      : basic_istream<char_type, traits_type>(0),
+#if RAVL_USE_FDSTREAMBUF
+	filebuf(fd,mode)
+#else
+	filebuf(fd,mode,false,100)
+#endif
+    {
+      init(&filebuf);
+    }
+    //: Construct from a file handle and an open mode.
+    
+    buf_type* rdbuf() const
+    { return const_cast<buf_type *>(&filebuf); }
+    //: Access fdbuffer.
+    
+#if RAVL_USE_FDSTREAMBUF
     basic_ifdstream()
       : basic_istream<char_type, traits_type>(0), 
 	filebuf()
     { init(&filebuf); }
     //: Default constructor.
     
-    explicit basic_ifdstream(int fd, ios_base::openmode mode = ios_base::in)
-      : basic_istream<char_type, traits_type>(0), 
-	filebuf()
-    {
-      init(&filebuf);
-      open(fd,mode);
-    }
-    //: Construct from a file handle and an open mode.
-
-    basic_fdbuf<char_type, traits_type>* rdbuf() const
-    { return const_cast<basic_fdbuf<char_type, traits_type> *>(&filebuf); }
-    //: Access fdbuffer.
-    
     bool is_open() { return filebuf.is_open(); }
     //: Check if its open.
-
+    
     void open(int fd, ios_base::openmode mode = ios_base::in) {
       if (!filebuf.open(fd,mode | ios_base::in))
 	setstate(ios_base::failbit);
@@ -67,9 +86,10 @@ namespace RavlN {
 	setstate(ios_base::failbit);
     }
     //: Close a file.
-
+#endif
+    
   private:
-    basic_fdbuf<char_type, traits_type>	filebuf;
+    buf_type filebuf;
   };
   
   //! userlevel=Normal
@@ -85,44 +105,55 @@ namespace RavlN {
     typedef typename traits_type::int_type  int_type;
     typedef typename traits_type::pos_type  pos_type;
     typedef typename traits_type::off_type  off_type;
-    
-    basic_ofdstream()
-      : basic_ostream<char_type, traits_type>(0), 
-	fdbuf()
-    { init(&fdbuf); }
-    //: Default constructor.
+
+#if RAVL_USE_FDSTREAMBUF
+    typedef basic_fdbuf <char_type, traits_type>  buf_type;
+#else
+    typedef stdio_filebuf<char_type, traits_type> buf_type;
+#endif
     
     explicit basic_ofdstream(int fd,ios_base::openmode mode = ios_base::out|ios_base::trunc)
-      : basic_ostream<char_type, traits_type>(0), 
-	fdbuf()
+      : basic_ostream<char_type, traits_type>(0),
+#if RAVL_USE_FDSTREAMBUF
+	filebuf(fd,mode)
+#else
+	filebuf(fd,mode,false,100)
+#endif
     {
-      init(&fdbuf);
-      open(fd, mode);
+      init(&filebuf);
     }
     //: Construct from a file handle.
     
-    basic_fdbuf<char_type, traits_type> * rdbuf() const
-    { return const_cast<basic_fdbuf<char_type, traits_type> *>(&fdbuf); }
+#if RAVL_USE_FDSTREAMBUF
+    basic_ofdstream()
+      : basic_ostream<char_type, traits_type>(0), 
+	filebuf()
+    { init(&filebuf); }
+    //: Default constructor.
+    
+    buf_type* rdbuf() const
+    { return const_cast<buf_type *>(&filebuf); }
     //: Access fd buffer.
     
     bool is_open() 
-    { return fdbuf.is_open(); }
+    { return filebuf.is_open(); }
     //: Is stream open ?
-    
+
     void open(int fd,ios_base::openmode mode = ios_base::out | ios_base::trunc) {
-      if (!fdbuf.open(fd, mode | ios_base::out))
+      if (!filebuf.open(fd, mode | ios_base::out))
 	setstate(ios_base::failbit);
     }
     //: Open a stream with file handle 'fd'.
     
     void close() {
-      if (!fdbuf.close())
+      if (!filebuf.close())
 	setstate(ios_base::failbit);
     }
     //: Close a file handle.
+#endif
     
   private:
-    basic_fdbuf<char_type, traits_type> fdbuf;
+    buf_type filebuf;
   };
   
   
@@ -140,42 +171,52 @@ namespace RavlN {
     typedef typename traits_type::pos_type pos_type;
     typedef typename traits_type::off_type off_type;
     
-    basic_fdstream()
-      : basic_iostream<CharT, TraitsT>(0),
-	fdbuf()
-    { init(&fdbuf); }
-    //: Default constructor.
+#if RAVL_USE_FDSTREAMBUF
+    typedef basic_fdbuf <char_type, traits_type>  buf_type;
+#else
+    typedef stdio_filebuf<char_type, traits_type> buf_type;
+#endif
     
     explicit basic_fdstream(int fd,ios_base::openmode mode = ios_base::in | ios_base::out)
       : basic_iostream<char_type, traits_type>(NULL), 
-	fdbuf()
+#if RAVL_USE_FDSTREAMBUF
+	filebuf(fd,mode)
+#else
+	filebuf(fd,mode,false,100)
+#endif
     {
-      init(&fdbuf);
-      open(fd,mode);
+      init(&filebuf);
     }
     //: Cosntructor.
     
-    basic_fdbuf<char_type, traits_type> * rdbuf() const
-    { return const_cast<basic_fdbuf<char_type, traits_type>*>(&fdbuf); }
-
+#if RAVL_USE_FDSTREAMBUF
+    basic_fdstream()
+      : basic_iostream<CharT, TraitsT>(0),
+	filebuf()
+    { init(&filebuf); }
+    //: Default constructor.
+    
+    buf_type* rdbuf() const
+    { return const_cast<buf_type *>(&filebuf); }
+    
     bool is_open() { return fdbuf.is_open(); }
     //: Is stream open ?
     
     void open(int fd,ios_base::openmode mode = ios_base::in | ios_base::out) {
-      if (!fdbuf.open(fd, mode))
+      if (!filebuf.open(fd, mode))
 	setstate(ios_base::failbit);
     }
     //: Open a stream with the given file handle.
     
     void close() {
-      if(!fdbuf.close())
+      if(!filebuf.close())
 	setstate(ios_base::failbit);
     }
     //: Close file handle.
+#endif
 
   private:
-    basic_fdbuf<char_type, traits_type>	fdbuf;
-
+    buf_type  filebuf;
   };
   
   typedef basic_ifdstream<char> ifdstream;

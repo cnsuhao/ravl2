@@ -13,6 +13,10 @@
 #include "Ravl/StreamType.hh"
 #include "Ravl/Calls.hh"
 
+#if RAVL_COMPILER_GCC3 
+#include "Ravl/fdstream.hh"
+#endif
+
 #if RAVL_HAVE_ANSICPPHEADERS
 #include <fstream>
 #else
@@ -47,7 +51,7 @@ namespace RavlN {
   using namespace std;
 #endif
 
-#if RAVL_COMPILER_GCC3
+#if RAVL_COMPILER_GCC3 && 0
   // Part of a horrible hack to allow us to open a stream from a file descriptor.
   
   template<typename _CharT, typename _Traits>
@@ -265,6 +269,7 @@ namespace RavlN {
     else
       Init(out = new ofstream(fd,0,0),StringC(fd)); 
 #else
+#if 0
     ofstream *ofs = new ofstream(); 
     // A horrible hack to allow us to open a file handle....
     basic_fdfilebuf<ofstream::char_type,ofstream::traits_type> *bfd = 
@@ -278,6 +283,9 @@ namespace RavlN {
     // bfd->SetBuf(0,0);
     if(!bfd->open(fd,mode))
       ofs->setstate(ios_base::failbit);
+#else
+    ofdstream *ofs = new ofdstream(fd); 
+#endif
     Init(out = ofs,StringC(fd)); 
 #endif
   }
@@ -368,6 +376,7 @@ namespace RavlN {
     else
       Init(in = new ifstream(fd,0,0),StringC(fd));
 #else
+#if 0
     ifstream *ifs = new ifstream(); 
     // A horrible hack to allow us to open a unix file descriptor.
     basic_fdfilebuf<ifstream::char_type,ifstream::traits_type>  *bfd = 
@@ -389,6 +398,10 @@ namespace RavlN {
       ifs->setstate(ios_base::failbit);
       ONDEBUG(cerr << "ERROR: Open of file descriptor failed. \n");
     }
+#else
+    ifdstream *ifs = new ifdstream(fd);
+    Init(in = ifs,StringC(fd));    
+#endif
     Init(in = ifs,StringC(fd)); 
 #endif
   }

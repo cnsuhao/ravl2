@@ -10,7 +10,7 @@
 
 // Do a quick test of stream functionality.  We don't
 // have any OS file functions so unfortunatly we can't
-// clear up after ourselves.
+// clear up after ourselves very well.
 
 
 #include "Ravl/Types.hh"
