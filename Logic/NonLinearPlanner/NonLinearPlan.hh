@@ -1,5 +1,5 @@
 // This file is part of RAVL, Recognition And Vision Library 
-// Copyright (C) 2002, University of Surrey
+// Copyright (C) 2001, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
@@ -227,11 +227,6 @@ namespace RavlLogicN {
     // goalCond   - Goal condition
     // listSteps  - Method for finding new steps for plan.
     
-    NonLinearPlanC(NonLinearPlanBodyC &bod)
-      : RCHandleC<NonLinearPlanBodyC>(bod)
-    {}
-    //: Body constructor.
-    
     bool IsValid() const 
     { return RCHandleC<NonLinearPlanBodyC>::IsValid(); }
     //: Is valid handle ?
@@ -333,8 +328,13 @@ namespace RavlLogicN {
     CallFunc2C<MinTermC,MinTermC,DListC<NLPStepC> > &ListSteps()
     { return Body().ListSteps(); }
     //: Access listStep methods.
-
+    
   protected:
+    NonLinearPlanC(NonLinearPlanBodyC &bod)
+      : RCHandleC<NonLinearPlanBodyC>(bod)
+    {}
+    //: Body constructor.
+    
     inline NLPAgendaItemC TopOfAgenda() 
     { return Body().TopOfAgenda(); }
     //: Look at current agenda item.
@@ -343,7 +343,7 @@ namespace RavlLogicN {
     { return Body().GetTopOfAgenda(); }
     //: Return current agenda item and remove it.
     
-  
+    friend class NonLinearPlanBodyC;
   };
   
 }

@@ -1,5 +1,5 @@
 // This file is part of RAVL, Recognition And Vision Library 
-// Copyright (C) 2002, University of Surrey
+// Copyright (C) 2001, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
@@ -26,6 +26,7 @@ namespace RavlLogicN {
   class NLPActionBodyC;
   class NLPActionC;
   class NonLinearPlanC;
+  class NonLinearPlanBodyC;
   
   //! userlevel=Develop
   //: Agent item base body class.
@@ -134,7 +135,7 @@ namespace RavlLogicN {
     : public NLPAgendaItemBodyC 
   {
   public:
-    NLPAgendaOpenGoalBodyC(const NLPStepNodeT &AStep,const MinTermC &AMTR,NonLinearPlanC &plan);
+    NLPAgendaOpenGoalBodyC(const NLPStepNodeT &AStep,const MinTermC &AMTR,NonLinearPlanBodyC &plan);
     // Constructor.
     
     virtual bool IsOpenGoal() const;
@@ -179,7 +180,7 @@ namespace RavlLogicN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    NLPAgendaOpenGoalC(const NLPStepNodeT &aStep,const MinTermC &aMTR,NonLinearPlanC &plan)
+    NLPAgendaOpenGoalC(const NLPStepNodeT &aStep,const MinTermC &aMTR,NonLinearPlanBodyC &plan)
       : NLPAgendaItemC(*new NLPAgendaOpenGoalBodyC(aStep,aMTR,plan))
     {}
     //: Constructor.

@@ -1,5 +1,5 @@
 // This file is part of RAVL, Recognition And Vision Library 
-// Copyright (C) 2002, University of Surrey
+// Copyright (C) 2001, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
@@ -18,7 +18,7 @@
 
 #include <stdio.h>
 
-#define DODEBUG 0
+#define DODEBUG 1
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -30,6 +30,7 @@ namespace RavlLogicN {
   static DListC<NLPStepC> FindStep(MinTermC &goal,MinTermC &full,DListC<NLPStepC> &list) {
     DListC<NLPStepC> ret;
     ONDEBUG(cerr << "FindStep(), Called. \n");
+    
     return ret;
   }
 		  
@@ -60,7 +61,7 @@ namespace RavlLogicN {
   //: Construct plan.
 
   DListC<NLPStepC> NLPlannerBodyC::Apply(const StateC &state,const MinTermC &goals) {
-    ONDEBUG(cerr << "NLPlannerBodyC::Apply(), Called. \n");
+    ONDEBUG(cerr << "NLPlannerBodyC::Apply(), Called. Goal=" << goals <<"\n");
     NewPlan(state,goals);
     if(!CompletePlan()) {
       ONDEBUG(cerr << "NLPlannerBodyC::Apply(), No Complete plan found. \n");
@@ -82,23 +83,24 @@ namespace RavlLogicN {
     // FIXME :- A better way of doing this.
     //          Make start state special ??
     planCount = 0;
-    MinTermC inital(true); // Clear inital state.
-    
+    MinTermC initial(true); // Clear initial state.
+    RavlAssert(initial.IsValid());
     for(LiteralIterC it(start.List());it;it++)
-      inital *= it.Data();
+      initial *= it.Data();
+    ONDEBUG(cerr << "NLPlannerBodyC::NewPlan(), Initial state:" << initial << " Goal=" << goal << "\n");
     
     // Create new plan.
-    NonLinearPlanC plan(inital,goal,listSteps);
+    NonLinearPlanC plan(initial,goal,listSteps);
     
     curSearch = 0;
     limSearch = maxSearch;
     bestSize = MaxBest;
     bestPlan.Invalidate(); // No Best plan yet.
     
-    //printf("Inital Step:%p \n",&(*initS));
+    //printf("Initial Step:%p \n",&(*initS));
     DoDBCheck(plan);
-    ONDEBUG(printf("\nNLPlannerBodyC::NewPlan(), ------------ Goal:%s ---------- \n",goal.GetName().chars()));
-    ONDEBUG(printf("NLPlannerBodyC::NewPlan(), Start:%s \n",inital.GetName().chars()));
+    ONDEBUG(cerr << "\nNLPlannerBodyC::NewPlan(), ------------ Goal:" << goal.Name() << " ---------- \n");
+    ONDEBUG(cerr << "NLPlannerBodyC::NewPlan(), Start:" << initial.Name() << " \n");
     if(plan.IsComplete()) {
       // No Goal ?
       return true;
@@ -118,19 +120,18 @@ namespace RavlLogicN {
   // Complete a plan.
 
   bool NLPlannerBodyC::CompletePlan() {
-    ONDEBUG(printf("NLPlannerBodyC::CompletePlan(), Called. \n"));
+    ONDEBUG(cerr << "NLPlannerBodyC::CompletePlan(), Called. \n");
     NonLinearPlanC newPlan;
     bestSize = MaxBest;
     while(!plans.IsEmpty()) {
-      ONDEBUG(printf("NLPlannerBodyC::CompletePlan(), Top plan. Score:%d \n",plans.Top().Plan().Score()));
+      ONDEBUG(cerr << "NLPlannerBodyC::CompletePlan(), Top plan. Score:" << plans.Top().Plan().Score() << "\n");
       if(!plans.Top().Next(newPlan)) {
 	plans.DelTop();
 	continue; // Out of actions.
       }
       DoDBCheck(newPlan);
       if(newPlan.IsComplete()) {
-	ONDEBUG(printf("NLPlannerBodyC::CompletePlan(), !!!!! Complete plan found !!!!!! \n"));
-	ONDEBUG(printf("NLPlannerBodyC::CompletePlan(), Init:%s \n",init.GetName().chars()));
+	ONDEBUG(cerr << "NLPlannerBodyC::CompletePlan(), !!!!! Complete plan found !!!!!! \n");
 	IntT newSize = newPlan.Steps();
 	if(newSize < bestSize) {
 	  bestPlan = newPlan;
@@ -151,13 +152,13 @@ namespace RavlLogicN {
       curSearch++;
       if(limSearch > 0) {
 	if(curSearch >= limSearch) {
-	  ONDEBUG(printf("NLPlannerBodyC::CompletePlan(), Search limit exceeded. \n"));
+	  ONDEBUG(cerr << "NLPlannerBodyC::CompletePlan(), Search limit exceeded. \n");
 	  break; // Give-up and return results.
 	}
       }
     }
     if(!IsComplete() && plans.IsEmpty()) {
-      ONDEBUG(printf("NLPlannerBodyC::CompletePlan(), plans exausted. \n"));
+      ONDEBUG(cerr << "NLPlannerBodyC::CompletePlan(), plans exausted. \n");
     }
     return IsComplete();
   }

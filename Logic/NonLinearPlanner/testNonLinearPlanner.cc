@@ -1,6 +1,14 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2001, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 ///////////////////////////////////////////
-// L2World/TPlan.cc  1/1/97 By Charles Galambos
-// $Id$
+//! rcsid="$Id$"
+//! date="01/91/1997"
+//! author="Charles Galambos"
+//! lib=RavlLogicNLP
 
 #include <stdio.h>
 #include "Ravl/Logic/NonLinearPlan.hh"
@@ -42,7 +50,7 @@ int main(int argc,char **argv)
 
 int SimpleTest()
 {
-  LiteralC goalSymb;
+  LiteralC goals;
   LiteralC startCond;
   
   LiteralC see("See");
@@ -50,12 +58,12 @@ int SimpleTest()
   LiteralC ball("Ball");
   LiteralC bat("Bat");
   LiteralC igloo("Igloo");
-  startCond = TupleC(see,ball) * TupleC(inv,bat) * TupleC(see,igloo);
-  
+  startCond = TupleC(see,ball) * TupleC(inv,bat) * TupleC(see,igloo); 
+  cerr << "Start=" << startCond << "\n"; 
   cerr << "Setting up goals.  \n";
-  goalSymb = TupleC(inv,ball) * !TupleC(inv,bat) * TupleC(see,bat) * 
+  goals = TupleC(inv,ball) * !TupleC(inv,bat) * TupleC(see,bat) * 
     !TupleC(see,igloo) * !TupleC(inv,igloo);
-  
+  cerr << "Goal=" << goals << "\n";
   cerr << "Setting up rules.  \n";
   VarC var1("var1");
   DListC<NLPStepC> rules;
@@ -83,7 +91,7 @@ int SimpleTest()
   NLPlannerC planner(rules);
   StateC init(true);
   init.Tell(startCond);
-  DListC<NLPStepC> plan = planner.Apply(init,goalSymb);
+  DListC<NLPStepC> plan = planner.Apply(init,MinTermC(goals,true));
   if(!plan.IsValid()) {
     cerr << "Unable to complete plan. \n";
     return 1;

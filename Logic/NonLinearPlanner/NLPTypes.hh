@@ -1,5 +1,5 @@
 // This file is part of RAVL, Recognition And Vision Library 
-// Copyright (C) 2002, University of Surrey
+// Copyright (C) 2001, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
@@ -19,8 +19,6 @@
 #include "Ravl/BDAGraph.hh"
 #include "Ravl/Logic/NLPCausalLink.hh"
 #include "Ravl/Logic/NLPStep.hh"
-//#include "Ravl/Logic/PlanLinear.hh"
-//#include "Ravl/Logic/PlanStep.hh"
 #include "Ravl/IntC.hh"
 #include "Ravl/BGraphNode.hh"
 
@@ -45,24 +43,7 @@ namespace RavlLogicN {
   typedef BGraphAdjIterC<NLPStepC,NLPCausalLinkC> NLPAdjLinkT;
   typedef BDAGraphC<NLPStepC,NLPCausalLinkC> NLPPlanT;
   
-  typedef IntT PriorityT;
-  
-#if 0
-  ///////////////////////////////
-  // Class for scoping NLP types.
-  
-  class NLPTypesC {
-  public:  
-    
-    typedef NLPAgendaC AgendaT;       // Agenda item.
-    typedef NLPAgendaItemC AgendaItemT;       // Agenda item.
-    typedef NLPAgendaOpenGoalC OpenGoalT; // Agenda, Goal.
-    typedef NLPAgendaThreatC ThreatT;     // Agenda, Threat.  
-    
-    //  typedef VLStepRef StepInf;             // Info held in a step.
-    // typedef NLPStepInfT NLPStepC;             // Info held in a step.
-  };
-#endif
+  typedef IntT PriorityT;  
 }
 
 

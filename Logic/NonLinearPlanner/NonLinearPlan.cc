@@ -1,5 +1,5 @@
 // This file is part of RAVL, Recognition And Vision Library 
-// Copyright (C) 2002, University of Surrey
+// Copyright (C) 2001, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
@@ -32,17 +32,18 @@ namespace RavlLogicN {
   
   //////////////////////////
   // Constructor, Empty plan.
-
+  
   NonLinearPlanBodyC::NonLinearPlanBodyC(const MinTermC &initCond,
 					 const MinTermC &goalCond,
 					 const CallFunc2C<MinTermC,MinTermC,DListC<NLPStepC> > &step) 
     : steps(0),
       listSteps(step)
   {
+    ONDEBUG(cerr << "NonLinearPlanBodyC::NonLinearPlanBodyC(), Called. Inital=" << initCond.Name() << " Goal=" << goalCond.Name() << "\n");
     MinTermC NA_MT(true);
     LiteralC NA_Act("NA_Act");
-    startNode = InsStep(NLPStepC(NA_MT,NA_Act,initCond));
-    goalNode  = InsStep(NLPStepC(goalCond,NA_Act,NA_MT));
+    startNode = InsStep(NLPStepC(NA_Act,NA_MT,initCond));
+    goalNode  = InsStep(NLPStepC(NA_Act,goalCond,NA_MT));
     InsOrderLink(startNode,goalNode);
   }
   
@@ -69,6 +70,7 @@ namespace RavlLogicN {
   // Destructor.
 
   NonLinearPlanBodyC::~NonLinearPlanBodyC() {
+    ONDEBUG(cerr << "NonLinearPlanBodyC::~NonLinearPlanBodyC(), Called.\n");
     agenda.Empty();   // Only realy needed for debuging.
   }
   
@@ -96,16 +98,17 @@ namespace RavlLogicN {
     steps++;
     ONDEBUG(cerr << "NonLinearPlanBodyC::InsStep() " << PlanID() << " Inserting step '" << step.Name() << "' (" << CurNode.Hash() << ") (NoSteps:" << steps <<") \n");
     // Update database of post/pre conditions.
-    for(MinTermIterC It(step.PreCondition());It.IsElm();It.Next()) {
-      if(!PostOpenCond(CurNode,It.Data())) {
-	// This occures if there's no way to resolve an Open Condition created
+    for(MinTermIterC it(step.PreCondition());it;it++) {
+      ONDEBUG(cerr << "Adding open condition '" << *it << "'\n");
+      if(!PostOpenCond(CurNode,MinTermC(it.Data(),it.IsNegated()))) {
+	// This occurs if there's no way to resolve an Open Condition created
 	// by new "Step".  There's no point in considering this plan further.
 	return NLPStepNodeT();
       }
-      PreConds().Insert(It.Data(),CurNode);
+      PreConds().Insert(it.Data(),CurNode);
 #if VDEBUG && 0
       // Check precondition list is valid (DEBUG)
-      for(BListIterC<NLPStepNodeT> PCIt(PreConds(It.Data()));PCIt.IsElm();PCIt.Next())
+      for(BListIterC<NLPStepNodeT> PCIt(PreConds(it.Data()));PCIt.IsElm();PCIt.Next())
 	RavlAssert(IsValid(PCIt.Data()));
 #endif
       //printf("  %s PreConds: %d \n",It.Data().Name().chars(),PreConds(It.Data()).Size());
@@ -241,8 +244,7 @@ namespace RavlLogicN {
   bool NonLinearPlanBodyC::PostOpenCond(NLPStepNodeT &aStep,
 					const MinTermC &openCond) {
     ONDEBUG(cerr << "NonLinearPlanBodyC::PostOpenCond() " << PlanID() << "  AGENDA+ Cond " << openCond.Name() << " for step " << aStep.Hash() << " \n");
-    NonLinearPlanC aPlan(*this);
-    agenda.InsFirst(NLPAgendaOpenGoalC(aStep,openCond,aPlan));
+    agenda.InsFirst(NLPAgendaOpenGoalC(aStep,openCond,*this));
     // FIXME :- Could check if Condition is resolvable ??
     //          if not return false.
     return true;
