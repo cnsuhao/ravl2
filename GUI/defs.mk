@@ -8,4 +8,4 @@
 
 DESCRIPTION = GUI Tools.
 
-NESTED=GTK.r GTKExtra
+NESTED=GTK.r 2D.r
