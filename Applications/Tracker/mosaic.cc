@@ -75,6 +75,7 @@ int Mosaic(int nargs,char **argv) {
   bool noForeground = opt.Boolean("nofg", false, "Suppress foreground image generation");
   int fgThreshold = opt.Int("ft",24,"Minimum distance between image and mosaic pixel values to be a foreground pixel");
   opt.Comment("Input and output video:");
+  int startFrame = opt.Int("sf", 0, "Start frame");
   int maxFrames = opt.Int("mf",200,"Maximum number of frames to process");
   StringC ifn = opt.String("","@V4LH:/dev/video0","Input sequence. ");
   StringC ofn = opt.String("","@X","Output sequence. ");
@@ -91,7 +92,8 @@ int Mosaic(int nargs,char **argv) {
   inp.SetAttr("FrameBufferSize","2");
 #endif
   ImageC<ByteRGBValueC> img;
-  
+  for (IntT i(0); i<startFrame; ++i) inp.Discard();  // skip to start frame
+
   // Create a mosaic class instance
   MosaicBuilderC mosaicBuilder(cthreshold, cwidth, mthreshold, mwidth,
 			       lifeTime, searchSize, newFreq,
@@ -212,7 +214,7 @@ int Mosaic(int nargs,char **argv) {
 
     // warp mosaic onto image
     ImageC<ByteRGBValueC> warped_img(mosaicBuilder.GetCropRect());
-    WarpProjectiveC<ByteRGBValueC,ByteRGBValueC> pwarp(mosaicBuilder.GetCropRect(),proj.Matrix(),MOSAIC_ZHOMOG,IMAGE_ZHOMOG,true);
+    WarpProjectiveC<ByteRGBValueC,ByteRGBValueC> pwarp(mosaicBuilder.GetCropRect(),proj);
     pwarp.Apply(mosaicRGB,warped_img);
 
     // smooth both images to suppress artefacts
