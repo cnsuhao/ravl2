@@ -51,22 +51,22 @@ namespace RavlN {
   //: Input bit stream
   // 'at' points to the next bit to read.
   
-  class IBitStreamC 
+  class BitIStreamC 
     : public BitStreamBaseC
   {
   public:
-    IBitStreamC()
+    BitIStreamC()
       {}
     //: Default constructor.
   
-    IBitStreamC(const StringC &filename)
+    BitIStreamC(const StringC &filename)
       : strm(filename)
       { at = -1; }
     //: Constructor.
   
-    IBitStreamC(const IStreamC &strm)
+    BitIStreamC(const IStreamC &strm)
       : strm(strm)
-      {}
+      { at = -1; }
     //: Construct from a normal strm.
     
     inline bool ReadBit() { 
@@ -104,31 +104,7 @@ namespace RavlN {
     }
     //: Read a unsigned byte from stream.
   
-    inline UByteT ReadUByte(IntT nbits) {
-      UByteT ret;
-      RavlAssert(nbits <= 8);
-      if(at < 0) {
-	strm.read((char *) &buff,1);
-	at = buffSize-1;
-      }
-      IntT bitsInBuff = at + 1;
-      if(bitsInBuff >= nbits) {
-	// This remainder is in the buffer already.
-	at -= nbits;
-	ret = (buff >> (at+1)) & Mask(nbits) ;
-	//cerr << "\nAll bits in buff :" << ((UIntT) ret) << " at:" << at <<" NBits:" << nbits <<" Mask:" << hex << Mask(nbits) <<"\n";
-      } else {
-	// This remainder goes over a byte boundry.
-	at -= bitsInBuff;
-	ret = ((buff >> (at+1)) & Mask(bitsInBuff)) << (nbits-bitsInBuff);
-	nbits -= bitsInBuff;
-	strm.read((char *) &buff,1);
-	at = (buffSize-1) - nbits;
-	ret |= (buff >> (at+1)) & Mask(nbits);
-      }
-      //cerr << "Read UIntT: " << hex << ((UIntT) ret) << " Bits:" << nbits << " at(after):" << at << " \n";
-      return ret;
-    }
+    UByteT ReadUByte(IntT nbits);
     //: Read a bit vector.
     
     UIntT ReadUInt() { 
@@ -149,36 +125,7 @@ namespace RavlN {
     //: Read an 32-bit unsigned integer.
     // MSB First.
     
-    UIntT ReadUInt(UIntT bits) { 
-      RavlAssert(bits <= 32);
-      UIntT ret = 0;
-#if RAVL_BIGENDIAN
-      //cerr << "Read UIntT: Bits:" << bits << " at(before):" << at << " \n";
-      UByteT *place = &(((UByteT *)&ret)[3-(bits/8)]);
-      UIntT rem = bits % 8;
-      *place = ReadUByte(rem);
-      place++;
-      bits -= rem;
-      while(bits > 0) {
-	*(place++) = ReadUByte();
-	bits -=8;
-      }
-      //cerr <<"Value :" << ret << "\n";
-#else
-      UByteT *place = &(((UByteT *)&ret)[bits/8]);
-      UByteT rem = bits % 8;
-      *place = ReadUByte(rem);
-      bits -= rem;
-      place--;
-      while(bits > 7) {
-	*place = ReadUByte();
-	place--;
-	bits -= 8;
-      }
-      // Read the remainder.
-#endif
-      return ret;
-    }
+    UIntT ReadUInt(UIntT bits);
     //: Read an unsigned integer.
     // MSB First.
     
@@ -223,17 +170,17 @@ namespace RavlN {
   // 'at' points to next bit to be written.
   // Numbering from LSB=0
   
-  class OBitStreamC 
+  class BitOStreamC 
     : public BitStreamBaseC
   {
   public:
-    OBitStreamC() { 
+    BitOStreamC() { 
       at = buffSize-1; 
       buff = 0;
     }
     //: Default constructor.
     
-    OBitStreamC(const StringC &filename)
+    BitOStreamC(const StringC &filename)
       : strm(filename)
     { 
       at = buffSize-1; 
@@ -241,14 +188,17 @@ namespace RavlN {
     }
     //: Constructor.
     
-    OBitStreamC(const OStreamC &strm)
+    BitOStreamC(const OStreamC &strm)
       : strm(strm)
-      {}
+      {
+	at = buffSize-1; 
+	buff = 0;
+      }
     //: Construct from a normal stream
     // NB. 'Flush' must be used before any write operations
     // are done on 'strm' after using the class.
     
-    ~OBitStreamC();
+    ~BitOStreamC();
     //: Close bit stream.
     
     inline void WriteBit(bool val) {
@@ -276,28 +226,7 @@ namespace RavlN {
     }
     //: Write a byte to stream.
     
-    inline void WriteUByte(UByteT data,IntT nbits) {
-      //cerr << "Writing UIntT: " << hex << ((UIntT) *v) << " Bits:" << nbits << " at:" << at <<"\n";
-      RavlAssert(nbits <= 8);
-      // Write the remainder.
-      IntT bitsInBuff = at+1;
-      if(bitsInBuff >= nbits) {
-	at -= nbits;
-	buff |= (data & Mask(nbits)) << (at+1);
-	if(at < 0) {
-	  strm.write((const char *) &buff,1);
-	  buff = 0;
-	  at = buffSize-1;
-	}
-      } else {
-	// at == -1
-	buff |= (data >> (nbits-bitsInBuff)) & Mask(bitsInBuff);
-	strm.write((const char *) &buff,1);
-	nbits -= bitsInBuff;
-	at = (buffSize-1)-nbits;
-	buff = (data & Mask(nbits)) << (at+1);
-      }
-    }
+    void WriteUByte(UByteT data,IntT nbits);
     //: Write an array of n bits.
     
     void WriteUInt(UIntT data) { 
@@ -316,33 +245,12 @@ namespace RavlN {
     //: Write an unsigned integer.
     // MSB First.
     
-    void WriteUInt(UIntT data,UIntT bits) { 
-#if RAVL_BIGENDIAN
-      //cerr << "Writing UIntT: " << hex << data << " Bits:" << bits << " \n";
-      UByteT *place = &((UByteT *)&data)[3-(bits/8)];
-      UIntT rem = bits % 8;
-      WriteUByte(*place,rem);
-      place++;
-      bits -= rem;
-      while(bits > 0) {
-	WriteUByte(*(place++));
-	bits -=8;
-      }
-#else
-      UByteT *place = &((UByteT *) &data)[bits/8];
-      WriteUByte(*place,bits % 8);
-      place--;
-      while(bits > 7) {
-	WriteUByte(*(place--)); 
-	bits -= 8;
-      }
-#endif
-    }
+    void WriteUInt(UIntT data,UIntT bits);
     //: Write an unsigned integer.
     // MSB First.
     
     void Flush() {
-      if(at < 7) {
+      if(at < (IntT) (buffSize-1)) {
 	strm.write((const char *) &buff,1);
 	at = buffSize -1;
 	buff = 0;
