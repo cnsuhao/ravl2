@@ -38,7 +38,8 @@ namespace RavlCxxDocN {
   class DerivedC;
   class ClassTemplateC;
   class ObjectTemplateC;  
-  class MethodTemplateC;  
+  class MethodTemplateC;
+  class MarkerC;
   
   enum ScopeAccessT { SAPrivate, SAPublic, SAProtected }; 
   
@@ -556,6 +557,7 @@ namespace RavlCxxDocN {
     friend class DerivedC;
     friend class EnumC;
     friend class MethodTemplateC;  
+    friend class MarkerC;  
   };
 
   inline

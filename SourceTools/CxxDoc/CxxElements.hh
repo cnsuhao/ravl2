@@ -1038,6 +1038,10 @@ namespace RavlCxxDocN {
 	Invalidate();
     }
     //: Base class constructor.
+
+    static bool IsA(const ObjectC &obj)
+    { return dynamic_cast<const MarkerBodyC *>(&obj.Body()) != 0; }
+    //: Is object a method ?
     
   protected:
     MarkerC(ObjectBodyC &bod)

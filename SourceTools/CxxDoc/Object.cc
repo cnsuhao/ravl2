@@ -117,6 +117,8 @@ namespace RavlCxxDocN
     Pad(out,indent) << "Object: '" << name << "'  Type:" << TypeName() << "\n";
     for(HashIterC<StringC,StringC> it(comment.Vars());it.IsElm();it.Next())
       Pad(out,indent+1) << "(" << it.Key() << "=" << it.Data() <<")\n";
+    for(HashIterC<StringC,StringC> it(comment.Locals());it.IsElm();it.Next())
+      Pad(out,indent+1) << "[" << it.Key() << "=" << it.Data() <<"]\n";
   }
   
   //: Get full path to object.
