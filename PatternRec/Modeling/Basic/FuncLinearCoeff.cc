@@ -10,6 +10,9 @@
 
 #include "Ravl/PatternRec/FuncLinearCoeff.hh"
 #include "Ravl/BinStream.hh"
+#include "Ravl/PatternRec/DataSet2Iter.hh"
+#include "Ravl/PatternRec/SampleVector.hh"
+#include "Ravl/MatrixRUT.hh"
 
 namespace RavlN {
   
@@ -88,6 +91,25 @@ namespace RavlN {
   UIntT FuncLinearCoeffBodyC::NumberCoeffs(UIntT inputSize) const {
     RavlAssertMsg(0,"FuncLinearCoeffBodyC::NumberCoeffs(), Abstract method called. ");
     return 0;
+  }
+
+  //: Compute matrix's directly from vectors.
+  
+  bool FuncLinearCoeffBodyC::ComputeSums(const SampleC<VectorC> &in,const SampleC<VectorC> &out,MatrixRUTC &aaTu,MatrixC &aTb) {
+    SampleVectorC vin(in);
+    SampleVectorC vout(out);
+    
+    DataSet2IterC<SampleVectorC,SampleVectorC> it(in,out);
+    VectorC vec = MakeInput(it.Data1());
+    aTb = vec.OuterProduct(it.Data2());
+    aaTu = OuterProductRUT(vec);
+    for(it++;it;it++) {
+      vec = MakeInput(it.Data1());
+      aaTu.AddOuterProduct(vec);
+      aTb.AddOuterProduct(vec,it.Data2());
+    }
+    
+    return true;
   }
 
   ///////////////////////////////////////////////////////////

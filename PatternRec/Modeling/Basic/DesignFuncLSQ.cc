@@ -129,6 +129,7 @@ namespace RavlN {
   //: Create function from the given data.
   
   FunctionC DesignFuncLSQBodyC::Apply(const SampleC<VectorC> &in,const SampleC<VectorC> &out) {
+    ONDEBUG(cerr << "DesignFuncLSQBodyC::Apply(), Computing coefficients.. \n");
     SampleVectorC vin(in);
     SampleVectorC vout(out);
     
@@ -136,7 +137,6 @@ namespace RavlN {
       cerr << "DesignFuncLSQBodyC::Apply(), WARNING: Asked to design a function without any data. ";
       return FuncLinearCoeffC();
     }
-    
     UIntT inSize = vin.VectorSize();
     UIntT outSize = vout.VectorSize();
     
@@ -154,11 +154,21 @@ namespace RavlN {
     
     //cerr << "Coeffs=" << coeffs << "\n";
     
+#if 0 
     // Do a few sums.
     MatrixRUTC aaTu = coeffs.SumOuterProducts();
     aaTu.MakeSymmetric();
     MatrixRSC aaT(aaTu.Copy());
     MatrixC aTb = coeffs.TMul(vout);
+#else
+    // Do some sums without duplicating data.
+    MatrixRUTC aaTu;
+    MatrixC aTb;
+    func.ComputeSums(in,out,aaTu,aTb);
+    aaTu.MakeSymmetric();
+    MatrixRSC aaT = aaTu.Copy();
+#endif
+    ONDEBUG(cerr << "DesignFuncLSQBodyC::Apply(), Solving equations.. \n");
 #if 1
     if(!aaT.InverseIP()) {
       // Try and recover....

@@ -63,6 +63,9 @@ namespace RavlN {
     virtual bool SetTransform(const MatrixC &a);
     //: Setup the transform.
     
+    virtual bool ComputeSums(const SampleC<VectorC> &in,const SampleC<VectorC> &out,MatrixRUTC &aaTu,MatrixC &aTb);
+    //: Compute matrix's directly from vectors.
+    
     VectorC &Mean()
     { return mean; }
     //: Access mean.

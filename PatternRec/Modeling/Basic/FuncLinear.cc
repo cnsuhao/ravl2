@@ -9,6 +9,9 @@
 //! file="Ravl/PatternRec/Modeling/Basic/FuncLinear.cc"
 
 #include "Ravl/PatternRec/FuncLinear.hh"
+#include "Ravl/PatternRec/DataSet2Iter.hh"
+#include "Ravl/PatternRec/SampleVector.hh"
+#include "Ravl/MatrixRUT.hh"
 
 #define DODEBUG 1
 #if DODEBUG
@@ -103,6 +106,36 @@ namespace RavlN {
     IndexRange2dC rng = a.Frame();
     rng.LCol()++;
     proj = SArray2dC<RealT>(a,rng);
+    
+    return true;
+  }
+
+  //: Compute matrix's directly from vectors.
+  
+  bool FuncLinearBodyC::ComputeSums(const SampleC<VectorC> &in,const SampleC<VectorC> &out,MatrixRUTC &aaTu,MatrixC &aTb) {
+    SampleVectorC vin(in);
+    SampleVectorC vout(out);
+    
+    DataSet2IterC<SampleVectorC,SampleVectorC> it(in,out);
+    if(!it)
+      return false;
+    VectorC vec(vin.VectorSize() + 1);
+    vec[0] = 1;
+    SArray1dC<RealT> subVec = vec.From(1);
+    {
+      for(BufferAccessIter2C<RealT,RealT> sit(it.Data1(),subVec);sit;sit++)
+	sit.Data2() = sit.Data1();
+    }
+    
+    aTb = vec.OuterProduct(it.Data2());
+    aaTu = OuterProductRUT(vec);
+    
+    for(it++;it;it++) {
+      for(BufferAccessIter2C<RealT,RealT> sit(it.Data1(),subVec);sit;sit++)
+	sit.Data2() = sit.Data1();
+      aaTu.AddOuterProduct(vec);
+      aTb.AddOuterProduct(vec,it.Data2());
+    }
     
     return true;
   }

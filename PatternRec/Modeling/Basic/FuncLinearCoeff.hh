@@ -16,6 +16,7 @@
 #include "Ravl/PatternRec/Function.hh"
 
 namespace RavlN {
+  class MatrixRUTC;
   
   //! userlevel=Develop
   //: Function with linear coeffiecents.
@@ -66,6 +67,9 @@ namespace RavlN {
     { return a; }
     //: Access transform matrix.
     // Advanced users only.
+    
+    virtual bool ComputeSums(const SampleC<VectorC> &in,const SampleC<VectorC> &out,MatrixRUTC &aaTu,MatrixC &aTb);
+    //: Compute matrix's directly from vectors.
     
   protected:
     MatrixC a;
@@ -139,6 +143,10 @@ namespace RavlN {
     { return Body().Transform(); }
     //: Access transform matrix.
     // Advanced users only.
+    
+    bool ComputeSums(const SampleC<VectorC> &in,const SampleC<VectorC> &out,MatrixRUTC &aaTu,MatrixC &aTb)
+    { return Body().ComputeSums(in,out,aaTu,aTb); }
+    //: Compute matrix's directly from vectors.
   };
   
   inline istream &operator>>(istream &strm,FuncLinearCoeffC &obj) {
