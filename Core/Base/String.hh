@@ -961,7 +961,7 @@ namespace RavlN {
 	       char terminator,
 	       int discard_terminator);
   //: Read a line of text from a stream.
-  
+  // Returns the number of charactors read into the string 'x'.
   
   ///// 
   
