@@ -14,6 +14,12 @@
 #include "Ravl/DP/FileFormatStream.hh"
 #include "Ravl/DP/FileFormatBinStream.hh"
 #include "Ravl/TypeName.hh"
+#include "Ravl/config.h"
+
+#if RAVL_COMPILER_MIPSPRO 
+#include "Ravl/VirtualConstructor.hh"
+#pragma instantiate RavlN::FuncMeanProjectionBodyC* RavlN::VCLoad(RavlN::BinIStreamC&,RavlN::FuncMeanProjectionBodyC*)
+#endif 
 
 namespace RavlN {
   
