@@ -39,6 +39,26 @@ namespace RavlN {
   { return (a>=0) ? a : -a; }
   //: Returns the absolute value of 'a'
   
+  inline unsigned char Abs(unsigned char a)
+  { return a; }
+  //: Returns the absolute value of 'a'
+  // Used to avoid warnings.
+  
+  inline unsigned short Abs(unsigned short a)
+  { return a; }
+  //: Returns the absolute value of 'a'
+  // Used to avoid warnings.
+  
+  inline unsigned int Abs(unsigned int a)
+  { return a; }
+  //: Returns the absolute value of 'a'
+  // Used to avoid warnings.
+  
+  inline unsigned long Abs(unsigned long a)
+  { return a; }
+  //: Returns the absolute value of 'a'
+  // Used to avoid warnings.
+  
   template<class DataT>
   inline DataT Sign(const DataT &a)
   { return (a>=0) ? 1 : -1; }
