@@ -78,7 +78,7 @@ namespace RavlImageN {
   FileFormatPPMBodyC::ProbeSave(const StringC &filename,const type_info &obj_type,bool forceFormat ) const {
     if(forceFormat)
       return typeid(ImageC<ByteRGBValueC>);
-    if(!Extension(filename) == StringC(".ppm") && filename != "-")
+    if(Extension(filename) != StringC(".ppm") && filename != "-")
       return typeid(void);
     return typeid(ImageC<ByteRGBValueC>);
   }
@@ -153,7 +153,7 @@ namespace RavlImageN {
     StringC filename(nfilename);
     ONDEBUG(cerr << "FileFormatPGMBodyC::ProbeSave()  FN:" << nfilename << "  OT:" << TypeName(obj_type) << endl);
     if(!forceFormat) {
-      if(!Extension(filename) == StringC(".pgm") && filename != "-")
+      if(Extension(filename) != StringC(".pgm") && filename != "-")
 	return typeid(void);
     }
     return typeid(ImageC<ByteT>);
@@ -230,7 +230,7 @@ namespace RavlImageN {
   FileFormatPBMBodyC::ProbeSave(const StringC &nfilename,const type_info &obj_type,bool forceFormat ) const {
     StringC filename(nfilename);
     if(!forceFormat) {
-      if(!Extension(filename) == StringC(".pbm")  && filename != "-")
+      if(Extension(filename) != StringC(".pbm")  && filename != "-")
 	return typeid(void);
     }
     if(obj_type == typeid(ImageC<ByteT>))
