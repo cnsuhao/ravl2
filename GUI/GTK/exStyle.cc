@@ -18,7 +18,7 @@ using namespace RavlImageN;
 int main(int nargs,char *args[]) {
 
   OptionC opts(nargs,args);
-  StringC file = opts.String("i","/usr/share/doorman/misc/monkey.png","input filename");
+  StringC file = opts.String("i",PROJECT_OUT "/share/RAVL/pixmaps/monkey.ppm","input filename");
   opts.Check();
 
   // Initialise GUI manager
@@ -31,7 +31,7 @@ int main(int nargs,char *args[]) {
   }  
 
   // Create main window
-  WindowC win(100,100,"exStyle");
+  WindowC win(256,256,"exStyle");
   win.Show();
   
   // Create style
