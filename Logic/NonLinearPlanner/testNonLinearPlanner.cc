@@ -38,7 +38,7 @@ int main(int argc,char **argv)
     return 1;
   }
 #endif
-#if 0
+#if 1
   if((ret = LoopTest()) != 0) {
     cerr << "Test failed. :" << ret << "\n";
     return 1;
@@ -100,10 +100,10 @@ int SimpleTest()
   return 0;
 }
 
-#if 0
+#if 1
 int LoopTest() 
 {
-  LiteralC goalSymb;
+  LiteralC goals;
   LiteralC startCond;
   
   cerr << "Setting up start conduition.  \n";
@@ -114,32 +114,30 @@ int LoopTest()
   
   startCond = TupleC(see,bat);
   cerr << "Setting up goals.  \n";
-  goalSymb = TupleC(inv,ball);
+  goals = TupleC(inv,ball);
   
   cerr << "Setting up rules.  \n";
-  VLVarC var1("var1");
+  VarC var1("var1");
+  DListC<NLPStepC> rules;
+  rules.InsLast(NLPStepC(TupleC(LiteralC("get"),var1),
+			 TupleC(see,var1),
+			 TupleC(inv,var1) *!TupleC(see,var1)
+			 )
+		);
   
-  rules.InsLast(NLPStepC(SeeT(var1),
-			    GetT(var1),
-			    InvT(var1) *!SeeT(var1)
-			    )
-		    );
-  
-  rules.InsLast(NLPStepC(InvT(var1),
-			PutT(var1),
-			SeeT(var1)*!InvT(var1))
+  rules.InsLast(NLPStepC(TupleC(LiteralC("put"),var1),
+			 TupleC(inv,var1),
+			 TupleC(see,var1)*!TupleC(inv,var1))
 		);
   
   //theory.Dump();
   cerr << "Constructing planner.  \n";
   
-  VLExprSetC spc(aTRUE);
+  NLPlannerC planner(rules);
   
-  VLNLPlannerC planner(ruleModel);
-  
-  spc.Assert(startCond);
-  VLPlanLinearStepC plan = planner.Apply(spc,VLMinTermC(goalSymb));
-  
+  StateC init(true);
+  init.Tell(startCond);
+  DListC<NLPStepC> plan = planner.Apply(init,MinTermC(goals,true));
   return 0;
 }
 #endif
