@@ -18,8 +18,6 @@
 
 #include "Ravl/Hash.hh"
 
-#define HASHITER_ALLOW_DELETE 1
-
 namespace RavlN {
   
   //: Hash table iterator.
@@ -110,12 +108,10 @@ namespace RavlN {
     { return &(lIt.Data().Data()); }
     //: Access data.
     
-#if HASHITER_ALLOW_DELETE
-    void Del(void);
-    // Delete current item from table, move to next.
-    // -> this breaks HashAR, if required I'll
-    //     make a new non-constant iterator which can do this.
-#endif
+    bool Del(void);
+    //: Delete current item from table, move to next.
+    // -> this breaks HashAR, if required I'll make a new non-constant iterator which can do this. <br>
+    // Returns true if at a valid element.
     
     HashIterC<K,T> &operator=(const HashC<K,T> &oth) { 
       bIt = oth.table;
@@ -157,18 +153,16 @@ namespace RavlN {
     return true;
   }
   
-#if HASHITER_ALLOW_DELETE
   ///////////////////////////////////
   // Delete current item from table, move to next.
   
   template<class K,class T>
-  void HashIterC<K,T>::Del(void) {
-    IntrDLIterC<HashElemC<K,T> > elem = lIt;
-    Next(); // Goto next element.
-    elem.Del();// Delete old member from list.
+  bool HashIterC<K,T>::Del(void) {
+    lIt.Del();// Delete old member from list.
+    lIt.Next(); // Goto next element.
     hashtable->CheckDel(false); // Make sure element cound is decremented.
+    return CheckValid(); 
   }
-#endif
   
 }
 
