@@ -1,5 +1,15 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2003, OmniPerception Ltd.
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 #ifndef RAVL_FUNDAMENTALMATRIX2D_HEADER
 #define RAVL_FUNDAMENTALMATRIX2D_HEADER 1
+//! rcsid="$Id$"
+//! lib=RavlMath
+//! docentry="Ravl.Math.Projective Geometry.2D"
+//! author="Charles Galambos"
 
 #include "Ravl/SArray1d.hh"
 #include "Ravl/PPoint2d.hh"
