@@ -77,15 +77,15 @@ namespace RavlN {
       this->cit++;
       if(this->cit)
 	return true;
-      up1 = &((this->rit.Data1())[this->rng1.Min()]);
-      dn1 = &((&(this->rit.Data1()))[2][this->rng1.Min()]);
-      up2 = &((this->rit.Data2())[this->rng2.Min()]);
-      dn2 = &((&(this->rit.Data2()))[2][this->rng2.Min()]);
       this->rit++;
       if(!this->rit)
 	return false;
+      up1 = &((&(this->rit.Data1()))[-1][this->rng1.Min()]);
+      dn1 = &((&(this->rit.Data1()))[ 1][this->rng1.Min()]);
+      up2 = &((&(this->rit.Data2()))[-1][this->rng2.Min()]);
+      dn2 = &((&(this->rit.Data2()))[ 1][this->rng2.Min()]);
       this->cit.First(this->rit.Data1(),this->rng1,
-		this->rit.Data2(),this->rng2);
+                      this->rit.Data2(),this->rng2);
       return false;
     }
     //: Goto next element.

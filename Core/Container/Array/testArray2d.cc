@@ -51,6 +51,7 @@ int testSqr71();
 int main()
 {
   int ln;
+#if 1
   if((ln = testBasic()) != 0) {
     cerr << "Basic Array2d test failed line:" << ln << "\n";
     return 1;
@@ -59,7 +60,6 @@ int main()
     cerr << "Basic slice test failed line:" << ln << "\n";
     return 1;
   }
-#if 1
   if((ln = testShift()) != 0) {
     cerr << "Basic Array2d test failed line:" << ln << "\n";
     return 1;
@@ -84,10 +84,12 @@ int main()
     cerr << "Sqr31Iter2 Array2d test failed line:" << ln << "\n";
     return 1;
   }
+#endif
   if((ln = testSqr33()) != 0) {
     cerr << "Sqr33Iter2 Array2d test failed line:" << ln << "\n";
     return 1;
   }
+#if 1
   if((ln = testSqr311()) != 0) {
     cerr << "Sqr311Iter3 Array2d test failed line:" << ln << "\n";
     return 1;
@@ -428,7 +430,23 @@ int testSqr33() {
   if(count2 != 1053) return __LINE__;
   if(sqrs != 9) return __LINE__;
   cerr << "Sqrs=" << sqrs << "\n";
-  
+#if 0
+  it.First();
+  cerr << "1:\n";
+  cerr << it.DataTL1() << " " <<  it.DataTM1() << " " << it.DataTR1() << "\n";
+  cerr << it.DataML1() << " " <<  it.DataMM1() << " " << it.DataMR1() << "\n";
+  cerr << it.DataBL1() << " " <<  it.DataBM1() << " " << it.DataBR1() << "\n\n";
+  while(it.Next()) {
+    cerr << it.DataTL1() << " " <<  it.DataTM1() << " " << it.DataTR1() << "\n";
+    cerr << it.DataML1() << " " <<  it.DataMM1() << " " << it.DataMR1() << "\n";
+    cerr << it.DataBL1() << " " <<  it.DataBM1() << " " << it.DataBR1() << "\n\n";
+  }
+  cerr << "2:\n";
+  cerr << it.DataTL1() << " " <<  it.DataTM1() << " " << it.DataTR1() << "\n";
+  cerr << it.DataML1() << " " <<  it.DataMM1() << " " << it.DataMR1() << "\n";
+  cerr << it.DataBL1() << " " <<  it.DataBM1() << " " << it.DataBR1() << "\n\n";
+  cerr << "Original=" << data;
+#endif
   return 0;
 }
 
