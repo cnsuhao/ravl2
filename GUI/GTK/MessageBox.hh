@@ -99,58 +99,65 @@ namespace RavlGUIN {
   };
 
   inline
-  void QuestionBox(StringC message,bool (*func)(bool &result))
+  MessageBoxC QuestionBox(StringC message,bool (*func)(bool &result))
   { 
     MessageBoxC ret = MessageBoxC(message,true,"Question");
     Connect(ret.SigDone(),func);
     ret.Show();
+    return ret;
   }
   
   template<class ObjT>
-  void QuestionBox(StringC message,const ObjT &obj,bool (ObjT::*func)(bool &result))
+  MessageBoxC QuestionBox(StringC message,const ObjT &obj,bool (ObjT::*func)(bool &result))
   { 
     MessageBoxC ret = MessageBoxC(message,true,"Question");
     Connect(ret.SigDone(),obj,func);
     ret.Show();
+    return ret;
   }
 
   template<class ObjT,class DataT>
-  void QuestionBoxR(StringC message,ObjT &obj,bool (ObjT::*func)(bool &result))
+  MessageBoxC QuestionBoxR(StringC message,ObjT &obj,bool (ObjT::*func)(bool &result))
   { 
     MessageBoxC ret = MessageBoxC(message,true,"Question");
     ConnectRef(ret.SigDone(),obj,func);
     ret.Show();
+    return ret;
   }
   
   inline
-  void AlertBox(StringC message)
+  MessageBoxC AlertBox(StringC message)
   { 
     MessageBoxC ret = MessageBoxC(message,false,"Alert");
     ret.Show();
+    return ret;
   }
 
   inline
-  void AlertBox(StringC message,bool (*func)())
+  MessageBoxC AlertBox(StringC message,bool (*func)())
   { 
     MessageBoxC ret = MessageBoxC(message,false,"Alert");
     Connect(ret.SigDone(),func);
     ret.Show();
+    return ret;
   }
   
   template<class ObjT>
-  void AlertBox(StringC message,const ObjT &obj,bool (ObjT::*func)())
+  MessageBoxC AlertBox(StringC message,const ObjT &obj,bool (ObjT::*func)())
   { 
     MessageBoxC ret = MessageBoxC(message,false,"Alert");
     Connect(ret.SigDone(),obj,func);
     ret.Show();
+    return ret;
   }
 
   template<class ObjT>
-  void AlertBoxR(StringC message,ObjT &obj,bool (ObjT::*func)())
+  MessageBoxC AlertBoxR(StringC message,ObjT &obj,bool (ObjT::*func)())
   { 
     MessageBoxC ret = MessageBoxC(message,false,"Alert");
     ConnectRef(ret.SigDone(),obj,func);
     ret.Show();
+    return ret;
   }
 
 }

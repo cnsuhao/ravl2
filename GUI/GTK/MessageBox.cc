@@ -19,7 +19,7 @@ namespace RavlGUIN {
   
   //: Constructor.  
   MessageBoxBodyC::MessageBoxBodyC(StringC message, bool bYesNo, const char *title)
-    : WindowBodyC(200,100,title,GTK_WINDOW_TOPLEVEL,0,false),
+    : WindowBodyC(200,100,title,GTK_WINDOW_DIALOG,0,false),
       m_strMessage(message),
       m_bYesNo(bYesNo),
       sigDone(false)
@@ -31,18 +31,21 @@ namespace RavlGUIN {
 
   //: Create the widget.  
   bool MessageBoxBodyC::Create() {
-
+    // Add widgets
     if (m_bYesNo) {
       Add(VBox(Label(m_strMessage) +
 	       HBox(ButtonR("Yes",*this,&MessageBoxBodyC::OnClick,true) +
 		    ButtonR("No",*this,&MessageBoxBodyC::OnClick,false))
-	       ,10,false,10));
+	       ,30,false,20));
     }
     else {
       Add(VBox(Label(m_strMessage) +
-	       HBox(ButtonR("OK",*this,&MessageBoxBodyC::OnClick,true)),10,false,10));
+	       HBox(ButtonR("OK",*this,&MessageBoxBodyC::OnClick,true)),30,false,20));
     }
-
+    // Set positioning
+    GtkWindowPosition pos(GTK_WIN_POS_CENTER);
+    GUISetPositioning(pos);
+    // Create window
     return WindowBodyC::Create();
   }
   
