@@ -5,8 +5,8 @@ setenv QMAKE_INSTALL /vol/vssp/local
 #define project area if not already set (for binaries, libs, *.hh etc.)
 if (! $?PROJECT_OUT) setenv PROJECT_OUT $HOME/build
 
-if (-x $QMAKE_INSTALL/Tools/QMake/config.arc) then
-  setenv ARC `$QMAKE_INSTALL/$QMAKE_VERSION/Tools/QMake/config.arc`
+if (-x $QMAKE_INSTALL/config.arc) then ;
+  setenv ARC `$QMAKE_INSTALL/config.arc`
   # add project binaries dir to path
   set path = ( $path $PROJECT_OUT/$ARC/bin )
 else
