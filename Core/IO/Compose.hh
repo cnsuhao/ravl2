@@ -29,6 +29,8 @@
 #include "Ravl/DP/StreamOp21.hh"
 #include "Ravl/DP/StreamOp31.hh"
 #include "Ravl/DP/IOPort.hh"
+#include "Ravl/DP/MethodIO.hh"
+#include "Ravl/DP/Func2Stream.hh"
 
 namespace RavlN {
   
