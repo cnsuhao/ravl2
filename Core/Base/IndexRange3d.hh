@@ -220,7 +220,7 @@ namespace RavlN {
       { return ks; }
     //: Access k range.
     
-    inline void SetIn(const Index3dC & index);
+    inline void Involve(const Index3dC & index);
     // Checks and changes, if necessary, the 2 dimensional range
     // to contain the 'index'.
     
@@ -282,7 +282,7 @@ namespace RavlN {
   
   inline 
   void 
-  IndexRange3dC::SetIn(const Index3dC & index) {
+  IndexRange3dC::Involve(const Index3dC & index) {
     if (is.Min() > index.I()) is.Min() = index.I();
     if (is.Max() < index.I()) is.Max() = index.I();
     if (js.Min() > index.J()) js.Min() = index.J();

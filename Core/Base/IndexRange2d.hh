@@ -181,7 +181,7 @@ namespace RavlN {
       { return cols; }
     //: Access col range.
     
-    inline void SetIn(const Index2dC & index);
+    inline void Involve(const Index2dC & index);
     // Checks and changes, if necessary, the 2 dimensional range
     // to contain the 'index'.
     
@@ -240,7 +240,7 @@ namespace RavlN {
   
   inline 
   void 
-  IndexRange2dC::SetIn(const Index2dC & index) {
+  IndexRange2dC::Involve(const Index2dC & index) {
     if (rows.Min() > index.Row()) rows.Min() = index.Row();
     if (rows.Max() < index.Row()) rows.Max() = index.Row();
     if (cols.Min() > index.Col()) cols.Min() = index.Col();
