@@ -31,8 +31,15 @@ namespace RavlLogicN {
   {
   public:
     LiteralIndexBaseBodyC()
-      {}
+      : maxArity(1)
+    {}
     //: Default constructor.
+    
+    virtual bool Load(BinIStreamC &strm);
+    //: Save to a binary stream.
+    
+    virtual bool Save(BinOStreamC &strm) const;
+    //: Save to a binary stream.
     
     LiteralIndexLeafC Lookup(const LiteralC &key);
     //: Lookup exact match in index.
@@ -63,9 +70,21 @@ namespace RavlLogicN {
     // The default version of this function just uses terms in numerical order, first
     // to last.  You may want to put a more clever heuristic in here.
     
+    virtual bool SaveEntry(BinOStreamC &strm,const LiteralC &key,const LiteralIndexLeafC &leaf) const;
+    //: Save an entry from the index.
+    
+    virtual bool LoadEntry(BinIStreamC &strm);
+    //: Load an entry into the index.
+    
+    static void SaveLiteral(BinOStreamC &strm,const LiteralC &lit);
+    //: Helper to avoid including Ravl/PointerManager.hh
+    
+    static void LoadLiteral(BinIStreamC &strm,LiteralC &lit);
+    //: Helper to avoid including Ravl/PointerManager.hh
+    
     HashC<LiteralC,LiteralIndexLeafC> map; // Direct lookup table.
     LiteralIndexElementC root; // Root of tree.
-    
+    UIntT maxArity;
     friend class LiteralIndexBaseIterC;
     friend class LiteralIndexFilterBaseBodyC;
     friend class LiteralIndexLeafBodyIterC;
@@ -79,9 +98,14 @@ namespace RavlLogicN {
   {
   public:
     LiteralIndexBaseC()
-      {}
+    {}
     //: Default constructor.
     // creates an invalid handle.
+    
+    LiteralIndexBaseC(BinIStreamC &strm)
+      : RCHandleC<LiteralIndexBaseBodyC>(*new LiteralIndexBaseBodyC())
+    { Load(strm); }
+    //: Binary stream constructor.
     
   protected:
     LiteralIndexBaseC(LiteralIndexBaseBodyC &bod)
@@ -97,7 +121,15 @@ namespace RavlLogicN {
       { return RCHandleC<LiteralIndexBaseBodyC>::Body(); }
     //: Access body.
     
+    bool Load(BinIStreamC &strm)
+    { return Body().Load(strm); }
+    //: Save to a binary stream.
+    
   public:
+    bool Save(BinOStreamC &strm) const
+    { return Body().Save(strm); }
+    //: Save to a binary stream.
+    
     LiteralIndexLeafC Lookup(const LiteralC &key)
     { return Body().Lookup(key); }
     //: Lookup value associated with the key in the index.

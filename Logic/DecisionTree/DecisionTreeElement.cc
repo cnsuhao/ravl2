@@ -10,6 +10,8 @@
 //! file="Ravl/Logic/DecisionTree/DecisionTreeElement.cc"
 
 #include "Ravl/Logic/DecisionTreeElement.hh"
+#include "Ravl/VirtualConstructor.hh"
+#include "Ravl/PointerManager.hh"
 
 namespace RavlLogicN {
   
@@ -24,6 +26,33 @@ namespace RavlLogicN {
   DecisionTreeElementBodyC::DecisionTreeElementBodyC(const DecisionExamplesC &nexamples) 
     : examples(nexamples)
   {}
+
+  //: Construct from a stream. 
+  
+  DecisionTreeElementBodyC::DecisionTreeElementBodyC(istream &strm)
+    : RCBodyVC(strm)
+  { RavlAssertMsg(0,"Not implemented. "); }
+  
+  //: Construct from a binary stream.
+  
+  DecisionTreeElementBodyC::DecisionTreeElementBodyC(BinIStreamC &strm)
+    : RCBodyVC(strm)
+  { strm >> ObjIO(examples); }
+  
+  //: Save to stream 'out'.
+  
+  bool DecisionTreeElementBodyC::Save(ostream &out) const { 
+    RavlAssertMsg(0,"Not implemented. ");
+    return false;
+  }
+  
+  //: Save to binary stream 'out'.
+  
+  bool DecisionTreeElementBodyC::Save(BinOStreamC &out) const { 
+    if(!RCBodyVC::Save(out)) return false;
+    out << ObjIO(examples);
+    return true;
+  }
   
   //: Find next level in the decision tree for given 'state'.
   
@@ -53,5 +82,6 @@ namespace RavlLogicN {
     cerr << "DecisionTreeElementBodyC::Dump(), Abstract method called \n";
   }
   
-
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(DecisionTreeElementBodyC,DecisionTreeElementC,RCHandleVC<DecisionTreeElementBodyC>);
+  
 }

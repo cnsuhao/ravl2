@@ -44,6 +44,18 @@ namespace RavlLogicN {
     DecisionExamplesBodyC(const DataSet2C<SampleStateC,SampleLiteralC> &data);
     //: Construct from a dataset.
     
+    DecisionExamplesBodyC(istream &strm);
+    //: Construct from a stream.
+    
+    DecisionExamplesBodyC(BinIStreamC &strm);
+    //: Construct from a binary stream.
+    
+    bool Save(ostream &out) const;
+    //: Save to stream 'out'.
+    
+    bool Save(BinOStreamC &out) const;
+    //: Save to binary stream 'out'.
+
     void Dump(ostream &out) const;
     //: Dump examples to a stream.
     
@@ -115,6 +127,24 @@ namespace RavlLogicN {
       : RCHandleC<DecisionExamplesBodyC>(*new DecisionExamplesBodyC(data))
     {}
     //: Construct from a dataset.
+
+    DecisionExamplesC(istream &strm)
+      : RCHandleC<DecisionExamplesBodyC>(*new DecisionExamplesBodyC(strm))
+    {}
+    //: Construct from a stream.
+    
+    DecisionExamplesC(BinIStreamC &strm)
+      : RCHandleC<DecisionExamplesBodyC>(*new DecisionExamplesBodyC(strm))
+    {}
+    //: Construct from a binary stream.
+    
+    bool Save(ostream &out) const
+    { return Body().Save(out); }
+    //: Save to stream 'out'.
+    
+    bool Save(BinOStreamC &out) const
+    { return Body().Save(out); }
+    //: Save to binary stream 'out'.
     
     void Dump(ostream &out) const
     { Body().Dump(out); }
@@ -155,9 +185,38 @@ namespace RavlLogicN {
     
     LiteralC ProbableDecision() const
     { return Body().ProbableDecision(); }
-    //: Get the most likely decision given the examples.
-    
+    //: Get the most likely decision given the examples.    
   };
+  
+  
+  inline istream &operator>>(istream &strm,DecisionExamplesC &obj) {
+    obj = DecisionExamplesC(strm);
+    return strm;
+  }
+  //: Load from a stream.
+  // Uses virtual constructor.
+  
+  inline ostream &operator<<(ostream &out,const DecisionExamplesC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+  
+  inline BinIStreamC &operator>>(BinIStreamC &strm,DecisionExamplesC &obj) {
+    obj = DecisionExamplesC(strm);
+    return strm;
+  }
+  //: Load from a binary stream.
+  // Uses virtual constructor.
+  
+  inline BinOStreamC &operator<<(BinOStreamC &out,const DecisionExamplesC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+
 }
 
 #endif

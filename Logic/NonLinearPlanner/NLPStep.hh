@@ -78,6 +78,12 @@ namespace RavlLogicN {
   ostream &operator<<(ostream &strm,const NLPStepC &step);
   //: Write out step.
   
+  BinOStreamC &operator<<(BinOStreamC &strm,const NLPStepC &step);
+  //: Save to binary stream.
+  
+  BinIStreamC &operator>>(BinIStreamC &strm,NLPStepC &step);
+  //: Load from binary stream.
+  
 }
 
 #endif

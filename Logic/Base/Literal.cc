@@ -40,7 +40,7 @@ namespace RavlLogicN {
     : RCBodyVC(strm)
   {}
 
-  //: Construct from a binary stream.
+  //: Construct from a stream.
   
   LiteralBodyC::LiteralBodyC(istream &strm) 
     : RCBodyVC(strm)
@@ -51,7 +51,7 @@ namespace RavlLogicN {
   bool LiteralBodyC::Save(BinOStreamC &out) const 
   { return RCBodyVC::Save(out); }
   
-  //: Save to binary stream 'out'.
+  //: Save to stream 'out'.
   
   bool LiteralBodyC::Save(ostream &out) const 
   { return RCBodyVC::Save(out); }

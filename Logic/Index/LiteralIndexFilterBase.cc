@@ -53,7 +53,7 @@ namespace RavlLogicN {
 	if(bindLoop > 1000) {
 	  // FIXME:- Check more intelligently for a loop. with a set of visited variables ?
 	  // This shouldn't happen, but issue a warning and make at a guess at what we should do.
-	  cerr << "LiteralIndexFilterBaseBodyC::First(), ERROR: Probably bind loop detected. Iterating all values. \n";
+	  cerr << "LiteralIndexFilterBaseBodyC::First(), ERROR: Probably a bind loop detected. Iterating all values. \n";
 	  RavlAssert(0); // In debug mode flag a problem.
 	}
 	// We're filtering on a unbound variable.

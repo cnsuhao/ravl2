@@ -11,8 +11,11 @@
 
 #include "Ravl/Logic/LiteralIndexBase.hh"
 #include "Ravl/Logic/LiteralIndexNode.hh"
+#include "Ravl/Logic/LiteralIndexBase.hh"
 #include "Ravl/Logic/Tuple.hh"
 #include "Ravl/Logic/Unify.hh"
+#include "Ravl/PointerManager.hh"
+#include "Ravl/BinStream.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -22,7 +25,58 @@
 #endif
 
 namespace RavlLogicN {
+  
+  //: Load from a binary stream.
+  
+  bool LiteralIndexBaseBodyC::Load(BinIStreamC &strm) {
+    IntT version;
+    UIntT size;
+    strm >> version;
+    if(version != 0)
+      throw ExceptionOutOfRangeC("LiteralIndexBaseBodyC::LiteralIndexBaseBodyC(BinIStreamC &), Unrecognised version number in stream. ");
+    strm >> size;
+    for(UIntT i = 0;i < size;i++)
+      LoadEntry(strm);
+    return true;
+  }
 
+  //: Save to a binary stream.
+  
+  bool LiteralIndexBaseBodyC::Save(BinOStreamC &strm) const {
+    IntT version = 0;
+    UIntT size = map.Size();
+    strm << version << size;
+    for(HashIterC<LiteralC,LiteralIndexLeafC>  hit(map);hit;hit++)
+      SaveEntry(strm,hit.Key(),hit.Data());
+    return true;
+  }
+  
+  //: Save an entry from the index.
+  
+  bool LiteralIndexBaseBodyC::SaveEntry(BinOStreamC &strm,const LiteralC &key,const LiteralIndexLeafC &) const {
+    strm << ObjIO(key);
+    return true;
+  }
+  
+  //: Load an entry into the index.
+  
+  bool LiteralIndexBaseBodyC::LoadEntry(BinIStreamC &strm) {
+    LiteralC key;
+    strm >> ObjIO(key);
+    Insert(key);
+    return true;
+  }
+  
+  //: Helper to avoid including Ravl/PointerManager.hh
+  
+  void LiteralIndexBaseBodyC::SaveLiteral(BinOStreamC &strm,const LiteralC &lit)
+  { strm << ObjIO(lit); }
+  
+  //: Helper to avoid including Ravl/PointerManager.hh
+  
+  void LiteralIndexBaseBodyC::LoadLiteral(BinIStreamC &strm,LiteralC &lit)
+  { strm >> ObjIO(lit); } 
+  
   //: Lookup value associated with the key in the index.
   // return an invalid handle if not found.
   
@@ -83,14 +137,15 @@ namespace RavlLogicN {
       return elem;
     }
     // There's no identical so add one.
-    
-    SArray1dC<bool> used(tuple.Arity()); // Set of used index's in tuple.
+    if(tuple.Arity() > maxArity)
+      maxArity = tuple.Arity();
+    SArray1dC<bool> used(maxArity); // Set of used index's in tuple.
     used.Fill(false);
     
     LiteralIndexElementC last,place;
     place = root;
     do {
-      ONDEBUG(cerr << "LIBB:Insert(), Inital Place=" << place.Name() << "\n");
+      ONDEBUG(cerr << "LiteralIndexBaseBodyC::Insert(), Inital Place=" << place.Name() << "\n");
       while(place.IsValid()) {
 	LiteralIndexNodeC lin(place);
 	if(!lin.IsValid()) 
@@ -110,7 +165,7 @@ namespace RavlLogicN {
 	return lil;
       }
       // There's a leaf that doesn't match the new key in the tree.
-      ONDEBUG(cerr << "LIBB:Insert(), Leaf Place=" << place.Name() << "\n");
+      ONDEBUG(cerr << "LiteralIndexBaseBodyC::Insert(), Leaf Place=" << place.Name() << "\n");
       LiteralIndexLeafC lil(place);
       RavlAssert(lil.IsValid()); 
       // Is the leaf the one we want to insert ?

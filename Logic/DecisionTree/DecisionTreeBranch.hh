@@ -28,6 +28,18 @@ namespace RavlLogicN {
     DecisionTreeBranchBodyC();
     //: Default constructor.
     
+    DecisionTreeBranchBodyC(istream &strm);
+    //: Construct from a stream.
+    
+    DecisionTreeBranchBodyC(BinIStreamC &strm);
+    //: Construct from a binary stream.
+    
+    virtual bool Save(ostream &out) const;
+    //: Save to stream 'out'.
+    
+    virtual bool Save(BinOStreamC &out) const;
+    //: Save to binary stream 'out'.
+
     virtual void Dump(ostream &out,IntT level = 0) const;
     //: Dump node in human readable form,
     
@@ -43,12 +55,23 @@ namespace RavlLogicN {
   {
   public:
     DecisionTreeBranchC()
-      {}
+    {}
     //: Default constructor.
     // creates an invalid handle.
     
+    DecisionTreeBranchC(istream &strm);
+    //: Load from stream.
+    
+    DecisionTreeBranchC(BinIStreamC &strm);
+    //: Load from binary stream.
+
   protected:
     DecisionTreeBranchC(DecisionTreeBranchBodyC &bod)
+      : DecisionTreeElementC(bod)
+    {}
+    //: Body constructor.
+    
+    DecisionTreeBranchC(DecisionTreeBranchBodyC *bod)
       : DecisionTreeElementC(bod)
     {}
     //: Body constructor.

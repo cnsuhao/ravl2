@@ -10,6 +10,7 @@
 //! file="Ravl/Logic/DecisionTree/Discriminator.cc"
 
 #include "Ravl/Logic/Discriminator.hh"
+#include "Ravl/VirtualConstructor.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -18,8 +19,29 @@
 #define ONDEBUG(x)
 #endif
 
-
 namespace RavlLogicN {
+  
+  //: Construct from a stream.
+  
+  DiscriminatorBodyC::DiscriminatorBodyC(istream &strm) 
+    : RCBodyVC(strm)
+  {}
+  
+  //: Construct from a binary stream.
+  
+  DiscriminatorBodyC::DiscriminatorBodyC(BinIStreamC &strm)
+    : RCBodyVC(strm)    
+  {}
+  
+  //: Save to binary stream 'out'.
+  
+  bool DiscriminatorBodyC::Save(ostream &out) const
+  { return RCBodyVC::Save(out); }
+  
+  //: Save to binary stream 'out'.
+  
+  bool DiscriminatorBodyC::Save(BinOStreamC &out) const 
+  { return RCBodyVC::Save(out); }
   
   //: Distinguish between the the two sets of examples.
   
@@ -72,5 +94,7 @@ namespace RavlLogicN {
     DecisionExamplesC de(data);
     return BestDiscriminator(de);
   }
+  
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(DiscriminatorBodyC,DiscriminatorC,RCHandleVC<DiscriminatorBodyC>);
 
 }

@@ -131,8 +131,15 @@ namespace RavlLogicN
     LiteralMapIterC<LiteralIndexElementC>  Filter(const LiteralC &filt) 
     { return Body().Filter(filt); }
     //: Access iterator for all branches from this node matching filter ex.
-    
   };
+  
+  BinOStreamC &operator<<(BinOStreamC &strm,const LiteralIndexElementC &index);
+  //: Output to binary stream.
+  
+  BinIStreamC &operator>>(BinIStreamC &strm,LiteralIndexElementC &index);
+  //: Input from binary stream.
+
+  
 }
 
 

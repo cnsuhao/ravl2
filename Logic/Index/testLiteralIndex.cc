@@ -15,17 +15,21 @@
 #include "Ravl/Logic/LiteralIndex.hh"
 #include "Ravl/Logic/Tuple.hh"
 #include "Ravl/Logic/LiteralIndexFilter.hh"
+#include "Ravl/StrStream.hh"
+#include "Ravl/PointerManager.hh"
 
 using namespace RavlLogicN;
 
 IntT testBase();
 IntT testVars();
 IntT testIndexFilterTest();
+IntT testIndexIO();
 
 int main()
 {
   UIntT err;
-  
+
+#if 1
   if((err = testBase()) != 0) {
     cerr << "LiteralIndex test failed, line: " << err << " \n";
     return 1;
@@ -38,7 +42,11 @@ int main()
     cerr << "LiteralIndexFilter test failed, line: " << err << " \n";
     return 1;
   }
-  
+#endif
+  if((err = testIndexIO()) != 0) {
+    cerr << "LiteralIndexIO test failed, line: " << err << " \n";
+    return 1;
+  }
   cerr << "LiteralIndex test passed. \n";
   return 0;
 }
@@ -55,9 +63,9 @@ IntT testBase() {
   
   LiteralIndexC<UIntT> index(true);
   index[l1] = 0; 
+  index[t2] = 2;
   index[t1] = 0; 
   index[t1] = 1; 
-  index[t2] = 2;
   index[t3] = 3; 
   cerr << "Index=" << index << " " << index[t1] << "\n";
   if(index[l1] != 0) return __LINE__;
@@ -174,6 +182,65 @@ IntT testIndexFilterTest() {
     return __LINE__;
   }
   if(count != 1) return __LINE__;
+  
+  return 0;
+}
+
+IntT testIndexIO() {
+  cerr << "testIndexIO() \n";
+  
+  LiteralIndexC<UIntT> index1(true);
+  
+  LiteralC l1 = Literal();
+  LiteralC l2 = Literal();
+  LiteralC l3 = Literal();
+  LiteralC t1 = Tuple(l1);
+  LiteralC t2 = Tuple(l2,l1);
+  LiteralC t3 = Tuple(l1,l1);
+  LiteralC t4 = Tuple(l1,l3);
+  
+  index1[l1] = 0; 
+  index1[t1] = 1; 
+  index1[t2] = 2;
+  index1[t3] = 3; 
+  index1[t4] = 4; 
+  
+  // Save the index along with some literals
+  StrOStreamC os;
+  BinOStreamC bos(os);
+  bos << index1 << ObjIO(l1) << ObjIO(l2) << ObjIO(l3);
+
+  
+  // Load up the index again.
+  
+  StringC data = os.String();
+  StrIStreamC is(data);
+  BinIStreamC bis(is);
+  
+  LiteralIndexC<UIntT> index2;
+  LiteralC l1b;
+  LiteralC l2b;
+  LiteralC l3b;
+  
+  bis >> index2 >> ObjIO(l1b) >> ObjIO(l2b) >> ObjIO(l3b);
+  
+  if(index2.Size() != index1.Size()) return __LINE__;
+  VarC v1 = Var();
+  
+  // Check we've got a working index.
+  
+  UIntT count = 0;
+  LiteralC f1 = Tuple(v1,l1b);
+  for(LiteralIndexFilterC<UIntT> it(index2,f1);it;it++) {
+    count++;
+    if(it.MappedData() == 2)
+      continue;
+    if(it.MappedData() == 3)
+      continue;
+    cerr << "Filter failed :" << it.Data().Name() << " Value:" << it.MappedData() << "\n";
+    return __LINE__;
+  }
+  if(count != 2) return __LINE__;
   
   return 0;
 }

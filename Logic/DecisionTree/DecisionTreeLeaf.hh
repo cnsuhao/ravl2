@@ -28,9 +28,21 @@ namespace RavlLogicN {
     DecisionTreeLeafBodyC();
     //: Default constructor.
 
-    DecisionTreeLeafBodyC(const LiteralC &decision,const DecisionExamplesC  &nexamples);
+    DecisionTreeLeafBodyC(const LiteralC &decision,const DecisionExamplesC &nexamples);
     //: Constructor.
     
+    DecisionTreeLeafBodyC(istream &strm);
+    //: Construct from a stream.
+    
+    DecisionTreeLeafBodyC(BinIStreamC &strm);
+    //: Construct from a binary stream.
+    
+    virtual bool Save(ostream &out) const;
+    //: Save to stream 'out'.
+    
+    virtual bool Save(BinOStreamC &out) const;
+    //: Save to binary stream 'out'.
+
     LiteralC &Decision()
     { return decision; }
     //: Value of decision of leaf.
@@ -76,10 +88,21 @@ namespace RavlLogicN {
     //: Base constructor.
     // creates an invalid handle if DecisionTreeElement isn't a leaf.
     
+    DecisionTreeLeafC(istream &strm);
+    //: Load from stream.
+    
+    DecisionTreeLeafC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
   protected:
     DecisionTreeLeafC(DecisionTreeLeafBodyC &bod)
       : DecisionTreeElementC(bod)
-      {}
+    {}
+    //: Body constructor.
+    
+    DecisionTreeLeafC(DecisionTreeLeafBodyC *bod)
+      : DecisionTreeElementC(bod)
+    {}
     //: Body constructor.
     
     DecisionTreeLeafBodyC &Body()

@@ -27,7 +27,7 @@ namespace RavlLogicN {
   {
   public:
     DecisionTreeBodyC()
-      {}
+    {}
     //: Default constructor.
     
   protected:
@@ -43,14 +43,24 @@ namespace RavlLogicN {
   {
   public:
     DecisionTreeC()
-      {}
+    {}
     //: Default constructor.
     // creates an invalid handle.
+
+    DecisionTreeC(istream &strm)
+      : DecisionTreeBaseC(* new DecisionTreeBodyC<DataT>(strm))      
+    {}
+    //: Construct from a stream.
+    
+    DecisionTreeC(BinIStreamC &strm)
+      : DecisionTreeBaseC(* new DecisionTreeBodyC<DataT>(strm))
+    {}
+    //: Construct from a binary stream.
     
   protected:
     DecisionTreeC(DecisionTreeBodyC<DataT> &bod)
       : DecisionTreeElementC(bod)
-      {}
+    {}
     //: Body constructor.
     
     DecisionTreeBodyC<DataT> &Body()
@@ -65,6 +75,35 @@ namespace RavlLogicN {
 
   };
   
+  template<class DataT>
+  inline istream &operator>>(istream &strm,DescisionTreeC<DataT> &obj) {
+    obj = DescisionTreeC<DataT>(strm);
+    return strm;
+  }
+  //: Load from a stream.
+  
+  template<class DataT>
+  inline ostream &operator<<(ostream &out,const DescisionTreeC<DataT> &obj) {
+    //obj.Save(out);
+    out << obj.Name();
+    return out;
+  }
+  //: Save to a stream.
+  
+  template<class DataT>
+  inline BinIStreamC &operator>>(BinIStreamC &strm,DescisionTreeC<DataT> &obj) {
+    obj = DescisionTreeC<DataT>(strm);
+    return strm;
+  }
+  //: Load from a binary stream.
+  
+  template<class DataT>
+  inline BinOStreamC &operator<<(BinOStreamC &out,const DescisionTreeC<DataT> &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+
 }
 
 #endif

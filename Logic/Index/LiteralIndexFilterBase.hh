@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLLOGICLITERALINDEXFILTERBASE_HEADER
-#define RAVLLOGICLITERALINDEXFILTERBASE_HEADER 1
+#ifndef RAVLLOGIC_LITERALINDEXFILTERBASE_HEADER
+#define RAVLLOGIC_LITERALINDEXFILTERBASE_HEADER 1
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Logic.Index"

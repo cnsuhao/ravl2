@@ -14,9 +14,10 @@
 #include "Ravl/Logic/DecisionTreeBranchBinary.hh"
 #include "Ravl/PatternRec/DataSet2Iter.hh"
 #include "Ravl/BlkQueue.hh"
+#include "Ravl/PointerManager.hh"
+#include "Ravl/BinStream.hh"
 
-#define DODEBUG 1
-
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -37,6 +38,37 @@ namespace RavlLogicN {
     : discriminator(desc)
   {}
 
+  //: Construct from a stream.
+  
+  DecisionTreeBaseBodyC::DecisionTreeBaseBodyC(istream &strm) 
+  { RavlAssertMsg(0,"Not Implemented."); }
+  
+  //: Construct from a binary stream.
+  
+  DecisionTreeBaseBodyC::DecisionTreeBaseBodyC(BinIStreamC &strm) 
+  { 
+    IntT version;
+    strm >> version;
+    if(version != 0)
+      throw ExceptionOutOfRangeC("DecisionTreeBaseBodyC::DecisionTreeBaseBodyC(BinIStreamC &), Unrecognised version number in stream. ");
+    strm >> ObjIO(discriminator) >> root;
+  }
+  
+  //: Save to stream 'out'.
+  
+  bool DecisionTreeBaseBodyC::Save(ostream &out) const {
+    RavlAssertMsg(0,"Not Implemented.");
+    return false;
+  }
+  
+  //: Save to binary stream 'out'.
+  
+  bool DecisionTreeBaseBodyC::Save(BinOStreamC &out) const {
+    IntT version = 0;
+    out << version << ObjIO(discriminator) << root;
+    return true;
+  }
+  
   //: Find the decision for given 'state'.
   
   DecisionTreeLeafC DecisionTreeBaseBodyC::Find(const StateC &state) {

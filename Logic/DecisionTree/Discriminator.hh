@@ -33,6 +33,18 @@ namespace RavlLogicN {
     {}
     //: Default constructor.
     
+    DiscriminatorBodyC(istream &strm);
+    //: Construct from a stream.
+    
+    DiscriminatorBodyC(BinIStreamC &strm);
+    //: Construct from a binary stream.
+    
+    virtual bool Save(ostream &out) const;
+    //: Save to stream 'out'.
+    
+    virtual bool Save(BinOStreamC &out) const;
+    //: Save to binary stream 'out'.
+    
     virtual LiteralC Distinguish(const DecisionExamplesC &set1,const DecisionExamplesC &set2);
     //: Distinguish between the the two sets of examples.
     
@@ -48,7 +60,7 @@ namespace RavlLogicN {
   //: Tool to find an expression which discriminates between sets of states.
   
   class DiscriminatorC
-    : public RCHandleC<DiscriminatorBodyC>
+    : public RCHandleVC<DiscriminatorBodyC>
   {
   public:
     DiscriminatorC()
@@ -56,13 +68,24 @@ namespace RavlLogicN {
     //: Constructor.
     
     explicit DiscriminatorC(bool)
-      : RCHandleC<DiscriminatorBodyC>(*new DiscriminatorBodyC())
+      : RCHandleVC<DiscriminatorBodyC>(*new DiscriminatorBodyC())
     {}
     //: Construct a default discriminator.
+
+    DiscriminatorC(istream &strm);
+    //: Load from stream.
+
+    DiscriminatorC(BinIStreamC &strm);
+    //: Load from binary stream.
     
   protected:
     DiscriminatorC(DiscriminatorBodyC &bod)
-      : RCHandleC<DiscriminatorBodyC>(bod)
+      : RCHandleVC<DiscriminatorBodyC>(bod)
+    {}
+    //: Body constructor.
+
+    DiscriminatorC(DiscriminatorBodyC *bod)
+      : RCHandleVC<DiscriminatorBodyC>(bod)
     {}
     //: Body constructor.
     
@@ -88,6 +111,34 @@ namespace RavlLogicN {
     //: Choose the best distriminator to seperate the decisions made in 'data'. 
     
   };
+  
+  inline istream &operator>>(istream &strm,DiscriminatorC &obj) {
+    obj = DiscriminatorC(strm);
+    return strm;
+  }
+  //: Load from a stream.
+  // Uses virtual constructor.
+  
+  inline ostream &operator<<(ostream &out,const DiscriminatorC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+  
+  inline BinIStreamC &operator>>(BinIStreamC &strm,DiscriminatorC &obj) {
+    obj = DiscriminatorC(strm);
+    return strm;
+  }
+  //: Load from a binary stream.
+  // Uses virtual constructor.
+  
+  inline BinOStreamC &operator<<(BinOStreamC &out,const DiscriminatorC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
 
 }
 

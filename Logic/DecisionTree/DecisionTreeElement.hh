@@ -32,6 +32,18 @@ namespace RavlLogicN {
     DecisionTreeElementBodyC(const DecisionExamplesC &nexamples);
     //: Constructor.
     
+    DecisionTreeElementBodyC(istream &strm);
+    //: Construct from a stream.
+    
+    DecisionTreeElementBodyC(BinIStreamC &strm);
+    //: Construct from a binary stream.
+    
+    virtual bool Save(ostream &out) const;
+    //: Save to stream 'out'.
+    
+    virtual bool Save(BinOStreamC &out) const;
+    //: Save to binary stream 'out'.
+    
     DecisionExamplesC &Examples()
     { return examples; }
     //: Access examples of decisions below this node.
@@ -63,18 +75,29 @@ namespace RavlLogicN {
   // Leaves are derived from this class.
   
   class DecisionTreeElementC 
-    : public RCHandleC<DecisionTreeElementBodyC>
+    : public RCHandleVC<DecisionTreeElementBodyC>
   {
   public:
     DecisionTreeElementC()
-      {}
+    {}
     //: Default constructor.
     // creates an invalid handle.
 
+    DecisionTreeElementC(istream &strm);
+    //: Construct from a stream.
+    
+    DecisionTreeElementC(BinIStreamC &strm);
+    //: Construct from a binary stream.
+    
   protected:
     DecisionTreeElementC(DecisionTreeElementBodyC &bod)
-      : RCHandleC<DecisionTreeElementBodyC>(bod)
-      {}
+      : RCHandleVC<DecisionTreeElementBodyC>(bod)
+    {}
+    //: Body constructor.
+    
+    DecisionTreeElementC(DecisionTreeElementBodyC *bod)
+      : RCHandleVC<DecisionTreeElementBodyC>(bod)
+    {}
     //: Body constructor.
     
     DecisionTreeElementBodyC &Body()

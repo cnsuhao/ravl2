@@ -1,0 +1,245 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2003, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
+#ifndef RAVLLOGIC_VALUE_HEADER
+#define RAVLLOGIC_VALUE_HEADER 1
+///////////////////////////////////////////////////////////////
+//! file="Ravl/Logic/Base/Value.hh"
+//! lib=RavlLogic
+//! userlevel=Normal
+//! date="03/07/1996"
+//! rcsid="$Id$"
+//! author="Charles Galambos"
+//! docentry="Ravl.Logic"
+
+#include "Ravl/Logic/Literal.hh"
+#include "Ravl/StrStream.hh"
+
+namespace RavlLogicN {
+  
+  //! userlevel=Develop
+  //: Abstract value.
+
+  class ValueBaseBodyC 
+    : public LiteralBodyC 
+  {
+  public:
+    inline ValueBaseBodyC() 
+      : LiteralBodyC() 
+    {}
+    // Default constructor.
+    
+    virtual ~ValueBaseBodyC() {}
+    // Destructor.
+    
+    ValueBaseBodyC(istream &strm);
+    //: Construct from a binary stream.
+    
+    ValueBaseBodyC(BinIStreamC &strm);
+    //: Construct from a binary stream.
+    
+    virtual bool Save(ostream &out) const;
+    //: Save to binary stream 'out'.
+
+    virtual bool Save(BinOStreamC &out) const;
+    //: Save to binary stream 'out'.
+
+    virtual bool Unify(const LiteralC &Other,BindSetC &SF) const;
+    // Unify with other values ?
+  };
+
+  //! userlevel=Advanced
+  //: Abstract value.
+  
+  class ValueBaseC 
+    : public LiteralC 
+  {
+  public:
+    inline ValueBaseC() 
+      : LiteralC() 
+    {}
+    //: Default constructor.
+    // Creates an invalid handle.    
+
+    ValueBaseC(const LiteralC &base)
+      : LiteralC(base)
+    {
+      if(dynamic_cast<ValueBaseBodyC *>(&LiteralC::Body()) == 0)
+	Invalidate();
+    }
+    //: Constructor.
+    // Will create an invalid handle if types don't match.
+    
+    ValueBaseC(istream &strm);
+    //: Load from stream.
+    
+    ValueBaseC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
+  protected:
+    inline ValueBaseC(ValueBaseBodyC &bod)
+      : LiteralC(bod)
+    {}
+    //: Body constructor.
+
+    inline ValueBaseC(ValueBaseBodyC *bod)
+      : LiteralC(bod)
+    {}
+    //: Body constructor.
+    
+    ValueBaseBodyC &Body()
+    { return static_cast<ValueBaseBodyC &>(LiteralC::Body()); }
+    //: Access body.
+    
+    const ValueBaseBodyC &Body() const
+    { return static_cast<const ValueBaseBodyC &>(LiteralC::Body()); }
+    //: Access body.
+    
+  public:
+    
+  };
+
+  //:----------------------------------------------------------------
+  //! userlevel=Develop
+  //: Value template
+  
+  template<class DataT>
+  class ValueBodyC 
+    : public ValueBaseBodyC
+  {
+  public:
+    ValueBodyC(const DataT &ndata)
+      : data(ndata)
+    {}
+    //: Constructor.
+
+    ValueBodyC(istream &strm)
+      : ValueBaseBodyC(strm)
+    { strm >> data; }
+    //: Construct from a binary stream.
+    
+    ValueBodyC(BinIStreamC &strm)
+      : ValueBaseBodyC(strm)
+    { strm >> data; }
+    //: Construct from a binary stream.
+    
+    virtual bool Save(ostream &out) const {
+      if(!ValueBaseBodyC::Save(out)) return false;
+      out << ' ' << data;
+      return true;
+    }
+    //: Save to binary stream 'out'.
+
+    virtual bool Save(BinOStreamC &out) const{
+      if(!ValueBaseBodyC::Save(out)) return false;
+      out << data;
+      return true;
+    }
+    //: Save to binary stream 'out'.
+    
+    virtual bool IsEqual(const LiteralC &oth) const;
+    //: Is this equial to another LiteralC ?
+
+    virtual StringC Name() const {
+      StrOStreamC ostr;
+      ostr << data;
+      return ostr.String();
+    }
+    //: Name for value.
+    
+    virtual void Dump(ostream &out) 
+    { out << data; }
+    //: Dump in human readable format.
+    
+    DataT &Data()
+    { return data; }
+    //: Access data.
+    
+    const DataT &Data() const
+    { return data; }
+    //: Access data.
+    
+  protected:
+    DataT data;
+  };
+
+  //:----------------------------------------------------------------
+  //! userlevel=Normal
+  //: Value template
+
+  template<class DataT>
+  class ValueC 
+    : public ValueBaseC
+  {
+  public:
+    ValueC()
+    {}
+    //: Default constructor.
+    // Creates an invalid handle.
+    
+    ValueC(const DataT &ndata)
+      : ValueBaseC(*new ValueBodyC<DataT>(ndata))
+    {}
+    //: Constructor.
+    
+    ValueC(const LiteralC &base)
+      : ValueBaseC(base)
+    {
+      if(dynamic_cast<ValueBodyC<DataT> *>(&LiteralC::Body()) == 0)
+	Invalidate();
+    }
+    //: Constructor.
+    // Will create an invalid handle if types don't match.
+
+    ValueC(istream &strm)
+      : ValueBaseC(RAVL_VIRTUALCONSTRUCTOR(strm,ValueBodyC<DataT>))
+    {}
+    //: Construct from a binary stream.
+    
+    ValueC(BinIStreamC &strm)
+      : ValueBaseC(RAVL_VIRTUALCONSTRUCTOR(strm,ValueBodyC<DataT>))
+    {}
+    //: Construct from a binary stream.
+    
+  protected:
+    ValueC(ValueBodyC<DataT> &bod)
+      : ValueBaseC(bod)
+    {}
+    //: Body constructor.
+    
+    ValueC(ValueBodyC<DataT> *bod)
+      : ValueBaseC(bod)
+    {}
+    //: Body constructor.
+    
+    ValueBodyC<DataT> &Body()
+    { return static_cast<ValueBodyC<DataT> &>(LiteralC::Body()); }
+    //: Access body.
+    
+    const ValueBodyC<DataT> &Body() const
+    { return static_cast<const ValueBodyC<DataT> &>(LiteralC::Body()); }
+    //: Access body.
+    
+  public:
+    DataT &Data()
+    { return Body().Data(); }
+    //: Access data.
+    
+    const DataT &Data() const
+    { return Body().Data(); }
+    //: Access data.
+    
+  };
+  
+  template<class DataT>
+  bool ValueBodyC<DataT>::IsEqual(const LiteralC &oth) const {
+    ValueC<DataT> isval(oth);
+    if(!isval.IsValid()) return false;
+    return data == isval.Data();
+  }
+  
+}  
+#endif

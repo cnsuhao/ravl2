@@ -16,12 +16,12 @@ HEADERS=Literal.hh Var.hh Unify.hh BindSet.hh Tuple.hh LList.hh Condition.hh \
  MinTerm.hh Or.hh And.hh Not.hh LiteralIter.hh LiteralIterWrap.hh LiteralMapIter.hh \
  LiteralMapListIter.hh State.hh LiteralIter1.hh StateOrIter.hh StateSet.hh \
  LiteralFilterIter.hh StateAndIter.hh NamedLiteral.hh NamedVar.hh LiteralIO.hh \
- MinTermIter.hh
+ MinTermIter.hh Value.hh Context.hh
 
 SOURCES=Literal.cc Var.cc Unify.cc BindSet.cc Tuple.cc LList.cc Condition.cc \
  MinTerm.cc Or.cc And.cc Not.cc LiteralIter.cc State.cc LiteralIter1.cc \
  StateOrIter.cc StateSet.cc  LiteralFilterIter.cc StateAndIter.cc \
- NamedLiteral.cc NamedVar.cc LiteralIO.cc MinTermIter.cc
+ NamedLiteral.cc NamedVar.cc LiteralIO.cc MinTermIter.cc Value.cc Context.cc
 
 TESTEXES=testLogic.cc
 

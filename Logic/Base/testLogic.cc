@@ -19,6 +19,8 @@
 #include "Ravl/Logic/And.hh"
 #include "Ravl/Logic/Not.hh"
 #include "Ravl/Logic/LiteralIO.hh"
+#include "Ravl/Logic/Value.hh"
+#include "Ravl/Logic/Context.hh"
 #include "Ravl/StrStream.hh"
 #include "Ravl/BinStream.hh"
 
@@ -346,6 +348,7 @@ int testLiteralIO() {
 
 int testBinaryIO() {
   cerr << "Testing binary IO. \n";
+  ContextC context;
   LiteralC l1(true);
   LiteralC l2(true);
   LiteralC l3(true);
@@ -354,8 +357,6 @@ int testBinaryIO() {
   StateC state1(true);
   OrC anor = l2 + v1;
   TupleC t1(l1,l2,v1,l1);
-  StrOStreamC os;
-  BinOStreamC bos(os);
   LiteralC lt1 = l1 * l2 + v1 + !l3;
   MinTermC mt1(l1 * l3,anor);
   BindSetC bs1(true);
@@ -364,8 +365,11 @@ int testBinaryIO() {
   state1.Tell(l1);
   state1.Tell(l2);
   if(!state1.Ask(t1[0])) return __LINE__;
+  ValueC<IntT> value1(7);
   
-  bos << t1 << lt1 << bs1 << state1 << mt1;
+  StrOStreamC os;
+  BinOStreamC bos(os);
+  bos << context << t1 << lt1 << bs1 << state1 << mt1 << value1;
   
   //cerr << "Reloading.\n";
   
@@ -383,8 +387,9 @@ int testBinaryIO() {
   LiteralC lt2;
   BindSetC bs2;
   StateC state2;
+  ValueC<IntT> value2;
   
-  bis >> t2 >> lt2 >> bs2 >> state2 >> mt2;
+  bis >> context >> t2 >> lt2 >> bs2 >> state2 >> mt2 >> value2;
   
   // cout << "Binds=" << bs2 <<"\n";
   //cout << "l1=" << t2[0].Name() <<"\n";
@@ -395,6 +400,7 @@ int testBinaryIO() {
   if(t2[0] != t2[3]) return __LINE__;
   if(t2[0] == t2[1]) return __LINE__;
   if(!state2.Ask(t2[0])) return __LINE__;
+  if(value2.Data() != value1.Data()) return __LINE__;
   
   cerr << "Done.\n";
   return 0;

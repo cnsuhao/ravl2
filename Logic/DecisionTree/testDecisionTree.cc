@@ -13,10 +13,13 @@
 
 #include "Ravl/Logic/DecisionTreeBase.hh"
 #include "Ravl/Logic/NamedLiteral.hh"
+#include "Ravl/StrStream.hh"
+#include "Ravl/BinStream.hh"
 
 using namespace RavlLogicN;
 
 int testBasic();
+int testIO();
 
 int main() {
   int ln;
@@ -24,7 +27,10 @@ int main() {
     cerr << "Test failed line " << ln << "\n";
     return 1;
   }
-  
+  if((ln = testIO()) != 0) {
+    cerr << "Test failed line " << ln << "\n";
+    return 1;
+  }
   cerr << "Test passed ok. \n";
   return 0;
 }
@@ -72,3 +78,27 @@ int testBasic() {
 }
 
 
+int testIO() {
+  cerr << "testIO() started. \n";
+  DecisionTreeBaseC dl1(true);  
+  DataSet2C<SampleStateC,SampleLiteralC > data = BuildDataset();
+  dl1.Train(data);
+  //cerr << "Tree=\n";
+  //dl1.Dump(cout);
+  
+  StrOStreamC os;
+  BinOStreamC bos(os);
+  bos << dl1;
+  
+  StringC tdata = os.String();
+  StrIStreamC is(tdata);
+  BinIStreamC bis(is);
+  
+  DecisionTreeBaseC dl2;  
+  
+  bis >> dl2;
+  cerr << "Loaded tree:\n";
+  dl2.Dump(cout);
+  
+  return 0;
+}

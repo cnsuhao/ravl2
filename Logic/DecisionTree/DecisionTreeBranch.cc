@@ -10,6 +10,7 @@
 //! file="Ravl/Logic/DecisionTree/DecisionTreeBranch.cc"
 
 #include "Ravl/Logic/DecisionTreeBranch.hh"
+#include "Ravl/VirtualConstructor.hh"
 
 namespace RavlLogicN {
 
@@ -22,4 +23,32 @@ namespace RavlLogicN {
     cerr << "DecisionTreeBranchBodyC::Dump(), Abstract method called \n";
   }
   
+  //: Construct from a stream.
+  
+  DecisionTreeBranchBodyC::DecisionTreeBranchBodyC(istream &strm)
+    : DecisionTreeElementBodyC(strm)
+  { RavlAssertMsg(0,"Not implemented. "); }
+  
+  //: Construct from a binary stream.
+  
+  DecisionTreeBranchBodyC::DecisionTreeBranchBodyC(BinIStreamC &strm)
+    : DecisionTreeElementBodyC(strm)
+  { }
+  
+  //: Save to stream 'out'.
+  
+  bool DecisionTreeBranchBodyC::Save(ostream &out) const { 
+    RavlAssertMsg(0,"Not implemented. ");
+    return false;
+  }
+  
+  //: Save to binary stream 'out'.
+  
+  bool DecisionTreeBranchBodyC::Save(BinOStreamC &out) const { 
+    if(!DecisionTreeElementBodyC::Save(out)) return false;
+    return true;
+  }
+  
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(DecisionTreeBranchBodyC,DecisionTreeBranchC,DecisionTreeElementC);
+ 
 }

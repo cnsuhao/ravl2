@@ -8,8 +8,9 @@
 //! lib=RavlLogicNLP
 //! file="Ravl/Logic/NonLinearPlanner/NLPStep.cc"
 
-
 #include "Ravl/Logic/NLPStep.hh"
+#include "Ravl/PointerManager.hh"
+#include "Ravl/BinStream.hh"
 
 namespace RavlLogicN {
 
@@ -44,5 +45,23 @@ namespace RavlLogicN {
     return strm;
   }
   //: Write out step.
+  
+  //: Save to binary stream.
+  
+  BinOStreamC &operator<<(BinOStreamC &strm,const NLPStepC &step) {
+    strm << ObjIO(step.Action()) << ObjIO(step.PreCondition()) << ObjIO(step.PostCondition()) << step.Confidence();
+    return strm;
+  }
+  
+  //: Load from binary stream.
+  
+  BinIStreamC &operator>>(BinIStreamC &strm,NLPStepC &step) {
+    LiteralC act;
+    MinTermC pre,post;
+    RealT conf;
+    strm >> ObjIO(act) >> ObjIO(pre) >> ObjIO(post) >> conf;
+    step = NLPStepC(act,pre,post,conf);
+    return strm;
+  }
   
 }

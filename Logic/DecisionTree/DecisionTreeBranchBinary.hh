@@ -30,6 +30,18 @@ namespace RavlLogicN {
     DecisionTreeBranchBinaryBodyC(const LiteralC &test);
     //: Construct with a test.
     
+    DecisionTreeBranchBinaryBodyC(istream &strm);
+    //: Construct from a stream.
+    
+    DecisionTreeBranchBinaryBodyC(BinIStreamC &strm);
+    //: Construct from a binary stream.
+    
+    virtual bool Save(ostream &out) const;
+    //: Save to stream 'out'.
+    
+    virtual bool Save(BinOStreamC &out) const;
+    //: Save to binary stream 'out'.
+    
     virtual DecisionTreeElementC Find(const StateC &state);
     //: Find next level in the decision tree for given 'state'.
 
@@ -73,6 +85,12 @@ namespace RavlLogicN {
       : DecisionTreeBranchC(*new DecisionTreeBranchBinaryBodyC(test))
     {}
     //: Construct with a test.
+    
+    DecisionTreeBranchBinaryC(istream &strm);
+    //: Load from stream.
+    
+    DecisionTreeBranchBinaryC(BinIStreamC &strm);
+    //: Load from binary stream.
     
   protected:
     DecisionTreeBranchBinaryC(DecisionTreeBranchBinaryBodyC &bod)

@@ -15,6 +15,7 @@
 
 #include "Ravl/Logic/LiteralIndexBase.hh"
 #include "Ravl/Logic/LiteralIndexLeaf.hh"
+#include "Ravl/BinStream.hh"
 
 namespace RavlLogicN {
    
@@ -32,11 +33,33 @@ namespace RavlLogicN {
     {}
     //: Default constructor.
     
+    LiteralIndexBodyC(BinIStreamC &strm)
+      : LiteralIndexBaseBodyC(strm)
+    {}
+    //: Binary stream constructor.
+    
   protected:
 
     virtual LiteralIndexLeafC NewLeaf(const LiteralC &key)
     { return LiteralIndexLeafDataC<DataT>(true,key); }
     //: Generate a new leaf.
+    
+    virtual bool SaveEntry(BinOStreamC &strm,const LiteralC &key,const LiteralIndexLeafC &leaf) const {
+      LiteralIndexLeafDataC<DataT> val(leaf);
+      SaveLiteral(strm,key);
+      strm << val.Data();
+      return true;
+    }
+    //: Save an entry from the index.
+    
+    virtual bool LoadEntry(BinIStreamC &strm) {
+      DataT val;
+      LiteralC key;
+      LoadLiteral(strm,key);
+      strm >> val;
+      return Insert(key,val); 
+    }
+    //: Load an entry into the index.
     
   public:
     bool Lookup(const LiteralC &key,DataT &val) {
@@ -66,6 +89,7 @@ namespace RavlLogicN {
     }
     //: Access data associated with a literal.
     
+    
   };
   
   //! userlevel=Normal
@@ -81,13 +105,18 @@ namespace RavlLogicN {
   {
   public:
     LiteralIndexC()
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     
     explicit LiteralIndexC(bool)
       : LiteralIndexBaseC(*new LiteralIndexBodyC<DataT>())
     {}
+    //: Constructor.
+    
+    explicit LiteralIndexC(BinIStreamC &strm)
+      : LiteralIndexBaseC(*new LiteralIndexBodyC<DataT>())
+    { Load(strm); }
     //: Constructor.
     
   protected:
@@ -140,6 +169,20 @@ namespace RavlLogicN {
     return strm;
   }
   //: Input from stream.
+
+  template<class DataT>  
+  BinOStreamC &operator<<(BinOStreamC &strm,const LiteralIndexC<DataT> &index) { 
+    index.Save(strm);
+    return strm;
+  }
+  //: Output to binary stream.
+  
+  template<class DataT>  
+  BinIStreamC &operator>>(BinIStreamC &strm,LiteralIndexC<DataT> &index) {
+    index = LiteralIndexC<DataT>(strm);
+    return strm;
+  }
+  //: Input from binary stream.
   
 }
 

@@ -13,6 +13,8 @@
 #include "Ravl/Logic/DecisionExamples.hh"
 #include "Ravl/HashIter.hh"
 #include "Ravl/PatternRec/DataSet2Iter.hh"
+#include "Ravl/PointerManager.hh"
+#include "Ravl/BinStream.hh"
 
 #define DODEBUG 1
 #if DODEBUG
@@ -23,6 +25,60 @@
 
 namespace RavlLogicN {
 
+  //: Construct from a stream.
+  
+  DecisionExamplesBodyC::DecisionExamplesBodyC(istream &strm) 
+  { RavlAssertMsg(0,"Not implemented. "); }
+  
+  //: Construct from a binary stream.
+  
+  DecisionExamplesBodyC::DecisionExamplesBodyC(BinIStreamC &strm) 
+  {
+    IntT version;
+    UIntT lsize,esize;
+    strm >> version;
+    if(version != 0) 
+      throw ExceptionOutOfRangeC("DecisionExamplesBodyC::DecisionExamplesBodyC(BinIStreamC &), Unrecognised version number in stream. ");
+    strm >> lsize;
+    for(UIntT i = 0;i < lsize;i++) {
+      LiteralC lit;
+      strm >> ObjIO(lit) >> esize;
+      if(esize == 0) {
+	examples[lit]; // Create an empty entry.
+      } else {
+	for(UIntT j = 0;j < esize;j++) {
+	  StateC state;
+	  strm >> ObjIO(state);
+	  AddExample(state,lit);
+	}
+      }
+    }
+  }
+  
+  //: Save to stream 'out'.
+  
+  bool DecisionExamplesBodyC::Save(ostream &out) const {
+    RavlAssertMsg(0,"Not implemented. ");
+    return false;
+  }
+  
+  //: Save to binary stream 'out'.
+  
+  bool DecisionExamplesBodyC::Save(BinOStreamC &out) const {
+    IntT version = 0;
+    out << version;
+    UIntT size = examples.Size();
+    out << size;
+    for(HashIterC<LiteralC,HSetC<StateC> > it(examples);it;it++) {
+      out << ObjIO(it.Key());
+      size = it.Data().Size();
+      out << size;
+      for(HSetIterC<StateC> sit(it.Data());sit;sit++)
+	out << ObjIO(*sit);
+    }
+    return true;
+  }
+  
   //: Construct from a dataset.
   
   DecisionExamplesBodyC::DecisionExamplesBodyC(const DataSet2C<SampleStateC,SampleLiteralC> &data) {

@@ -35,6 +35,18 @@ namespace RavlLogicN {
     DecisionTreeBaseBodyC(const DiscriminatorC &desc);
     //: Constructor.
     
+    DecisionTreeBaseBodyC(istream &strm);
+    //: Construct from a stream.
+    
+    DecisionTreeBaseBodyC(BinIStreamC &strm);
+    //: Construct from a binary stream.
+    
+    bool Save(ostream &out) const;
+    //: Save to stream 'out'.
+    
+    bool Save(BinOStreamC &out) const;
+    //: Save to binary stream 'out'.
+    
     DecisionTreeLeafC Find(const StateC &state);
     //: Find the decision for given 'state'.
     
@@ -81,6 +93,16 @@ namespace RavlLogicN {
     {}
     //: Constructor.
     
+    DecisionTreeBaseC(istream &strm)
+      : RCHandleC<DecisionTreeBaseBodyC>(* new DecisionTreeBaseBodyC(strm))      
+    {}
+    //: Construct from a stream.
+    
+    DecisionTreeBaseC(BinIStreamC &strm)
+      : RCHandleC<DecisionTreeBaseBodyC>(* new DecisionTreeBaseBodyC(strm))
+    {}
+    //: Construct from a binary stream.
+    
   protected:
     DecisionTreeBaseC(DecisionTreeBaseBodyC &bod)
       : RCHandleC<DecisionTreeBaseBodyC>(bod)
@@ -96,6 +118,13 @@ namespace RavlLogicN {
     //: Access body.
     
   public:
+    bool Save(ostream &out) const
+    { return Body().Save(out); }
+    //: Save to stream 'out'.
+    
+    bool Save(BinOStreamC &out) const
+    { return Body().Save(out); }
+    //: Save to binary stream 'out'.
     
     DecisionTreeLeafC Find(const StateC &state)
     { return Body().Find(state); }
@@ -119,8 +148,31 @@ namespace RavlLogicN {
     StateC BuildRuleSet() const
     { return Body().BuildRuleSet(); }
     //: Build a rule set from the decision tree.
-
   };
+  
+  inline istream &operator>>(istream &strm,DecisionTreeBaseC &obj) {
+    obj = DecisionTreeBaseC(strm);
+    return strm;
+  }
+  //: Load from a stream.
+  
+  inline ostream &operator<<(ostream &out,const DecisionTreeBaseC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  
+  inline BinIStreamC &operator>>(BinIStreamC &strm,DecisionTreeBaseC &obj) {
+    obj = DecisionTreeBaseC(strm);
+    return strm;
+  }
+  //: Load from a binary stream.
+  
+  inline BinOStreamC &operator<<(BinOStreamC &out,const DecisionTreeBaseC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
   
 }
 

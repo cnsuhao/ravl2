@@ -13,6 +13,8 @@
 #include "Ravl/Logic/State.hh"
 #include "Ravl/Logic/And.hh"
 #include "Ravl/Logic/Not.hh"
+#include "Ravl/VirtualConstructor.hh"
+#include "Ravl/PointerManager.hh"
 
 namespace RavlLogicN {
 
@@ -25,6 +27,33 @@ namespace RavlLogicN {
     : test(ntest)
   {}
 
+  //: Construct from a stream.
+  
+  DecisionTreeBranchBinaryBodyC::DecisionTreeBranchBinaryBodyC(istream &strm)
+    : DecisionTreeBranchBodyC(strm)
+  { RavlAssertMsg(0,"Not implemented. "); }
+  
+  //: Construct from a binary stream.
+  
+  DecisionTreeBranchBinaryBodyC::DecisionTreeBranchBinaryBodyC(BinIStreamC &strm)
+    : DecisionTreeBranchBodyC(strm)
+  { strm >> ObjIO(test) >> children[0] >> children[1]; }
+  
+  //: Save to stream 'out'.
+  
+  bool DecisionTreeBranchBinaryBodyC::Save(ostream &out) const  { 
+    RavlAssertMsg(0,"Not implemented. ");
+    return false;
+  }
+  
+  //: Save to binary stream 'out'.
+  
+  bool DecisionTreeBranchBinaryBodyC::Save(BinOStreamC &out) const {
+    if(!DecisionTreeBranchBodyC::Save(out)) return false;
+    out << ObjIO(test) << children[0] << children[1];
+    return true;
+  }
+  
   //: Go through the tree building a rule set.
   
   void DecisionTreeBranchBinaryBodyC::BuildRuleSet(const LiteralC &preCond,StateC &ruleSet) const {
@@ -53,5 +82,7 @@ namespace RavlLogicN {
   DecisionTreeElementC DecisionTreeBranchBinaryBodyC::Find(const StateC &state) {
     return children[state.Ask(test)];
   }
+
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(DecisionTreeBranchBinaryBodyC,DecisionTreeBranchBinaryC,DecisionTreeBranchC);
   
 }

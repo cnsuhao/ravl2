@@ -103,7 +103,7 @@ namespace RavlLogicN {
     
   protected:
     virtual bool UnifyLiteral(const LiteralBodyC &oth,BindSetC &bs) const;
-    //: Unify with simple symb.
+    //: Unify with simple literal.
     
     SArray1dC<LiteralC> args;
   };

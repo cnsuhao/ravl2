@@ -80,4 +80,19 @@ namespace RavlLogicN {
     return LiteralMapIterC<LiteralIndexElementC>();
   }
 
+
+  BinOStreamC &operator<<(BinOStreamC &strm,const LiteralIndexElementC &index) { 
+    RavlAssertMsg(0,"Not implemented.");
+    //index.Save(strm);
+    return strm;
+  }
+  //: Output to binary stream.
+  
+  BinIStreamC &operator>>(BinIStreamC &strm,LiteralIndexElementC &index) {
+    RavlAssertMsg(0,"Not implemented.");
+    //index = LiteralIndexC<DataT>(strm);
+    return strm;
+  }
+  //: Input from binary stream.
+  
 }

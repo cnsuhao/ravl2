@@ -43,16 +43,16 @@ namespace RavlLogicN {
     LiteralBodyC()
     {}
     //: Default constructor.
-
+    
     LiteralBodyC(istream &strm);
-    //: Construct from a binary stream.
+    //: Construct from a stream.
     
     LiteralBodyC(BinIStreamC &strm);
     //: Construct from a binary stream.
     
     virtual bool Save(ostream &out) const;
-    //: Save to binary stream 'out'.
-
+    //: Save to stream 'out'.
+    
     virtual bool Save(BinOStreamC &out) const;
     //: Save to binary stream 'out'.
     
@@ -103,8 +103,8 @@ namespace RavlLogicN {
     
   protected:
     virtual bool UnifyLiteral(const LiteralBodyC &oth,BindSetC &bs) const;
-    //: Unify with simple symb.
-
+    //: Unify with simple literal.
+    
     friend class LiteralC;
   };
 
