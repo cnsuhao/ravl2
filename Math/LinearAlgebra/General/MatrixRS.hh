@@ -64,6 +64,11 @@ namespace RavlN {
     // as it uses PCA to first rotate co-ordinate axis, so no nasty divisions.
     // See Fukunaga -Introduction to Statistical Pat Rec, page 40.
     
+    void MakeSymmetric();
+    //: Make this matrix symmetric.
+    // Copy the upper right triangle to the lower left.
+    // Note: this is an in-place operation.
+    
   };
 
   bool SolveIP(MatrixRSC &A,VectorC &b);
