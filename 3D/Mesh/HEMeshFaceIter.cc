@@ -5,7 +5,6 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! lib=Ravl3D
-
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 
@@ -18,6 +17,8 @@ namespace Ravl3DN {
   // to the previous valid face.
   
   bool HEMeshFaceIterC::CollapseEdge(HEMeshEdgeC edge) {
+    RavlAssertMsg(IsElm(),"HEMeshFaceIterC::CollapseEdge(), Iterator not on a valid face. ");
+    RavlAssertMsg(edge.IsValid(),"HEMeshFaceIterC::CollapseEdge(), Invalid edge. ");
     bool changed = false;
     HEMeshFaceC face1 = edge.Face();
     if(face1.Sides() < 4) { // Will face be deleted ?
