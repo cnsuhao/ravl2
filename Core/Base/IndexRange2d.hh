@@ -271,6 +271,11 @@ namespace RavlN {
     IndexRange2dC Rotate180(Index2dC centre = Index2dC(0,0));
     //: Rotate rectangle 180 degree's around the given center.
     
+    inline bool IsOverlapping(const IndexRange2dC & r) const
+    { return Range1().IsOverlapping(r.Range1()) && Range2().IsOverlapping(r.Range2()); }
+    //: Returns TRUE if this range contains at least one common index with 
+    //: the range 'r'.
+    
   protected:
     inline const IndexRange2dC & Range() const
     { return(*this); }

@@ -182,6 +182,11 @@ namespace RavlN {
     { return Range1().Contains(oth.Range1()) && Range2().Contains(oth.Range2()) && Range3().Contains(oth.Range3()); }
     //: Returns true if this range contains the subrange 'oth'.
     
+    inline bool IsOverlapping(const IndexRange3dC & r) const
+    { return Range1().IsOverlapping(r.Range1()) && Range2().IsOverlapping(r.Range2()) && Range3().IsOverlapping(r.Range3()); }
+    //: Returns TRUE if this range contains at least one common index with 
+    //: the range 'r'.
+    
     inline const IndexRange3dC & operator+=(const Index3dC & offset);
     //: Shifts the rectangle to the new position.
     
