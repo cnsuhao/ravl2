@@ -94,7 +94,7 @@ namespace RavlN {
     HEMeshBaseVertexC InsertVertex();
     //: Insert a new vertex into the mesh.
     
-    bool DeleteVertex(HEMeshBaseVertexC vert,bool leaveHole = false);
+    bool DeleteVertex(HEMeshBaseVertexC vert,bool leaveHole = true);
     //: Remove a vertex and assoicated faces from the mesh.
     // If 'leaveHole' is true this does not close the resulting face, 
     // so a hole will be left in the mesh.
@@ -172,7 +172,7 @@ namespace RavlN {
     { return Body().InsertVertex(); }
     //: Insert a new vertex into the mesh.
     
-    bool DeleteVertex(HEMeshBaseVertexC vert,bool leaveHole = false)
+    bool DeleteVertex(HEMeshBaseVertexC vert,bool leaveHole = true)
     { return Body().DeleteVertex(vert,leaveHole); }
     //: Remove a vertex and assoicated faces from the mesh.
     // If 'leaveHole' is true this does not close the resulting face, 

@@ -320,7 +320,7 @@ int testHEMeshBase() {
   HEMeshBaseVertexEdgeIterC it(vert);
   if(it) return __LINE__;
   if(!mesh.CheckMesh(true)) return __LINE__;
-  mesh.DeleteVertex(vert); 
+  mesh.DeleteVertex(vert,true); 
   
   // Create simple mesh.
   SArray1dC<HEMeshBaseVertexC> tempFace1(3);
@@ -341,7 +341,7 @@ int testHEMeshBase() {
   
   if(!mesh.CheckMesh(true)) return __LINE__;
   
-  mesh.DeleteVertex(tempFace2[1]);
+  mesh.DeleteVertex(tempFace2[1],true);
   
   if(!mesh.CheckMesh(true)) return __LINE__;
   return 0;

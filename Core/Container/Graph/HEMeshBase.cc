@@ -508,7 +508,7 @@ namespace RavlN {
 	HEMeshBaseEdgeC firstEdge = vert.FirstEdge();
 	if(!firstEdge.IsValid())
 	  break;
-	cerr << "Deleting edge:" << firstEdge.Hash() << "\n";
+	//cerr << "Deleting edge:" << firstEdge.Hash() << "\n";
 	OpenEdge(firstEdge);
       }
       return true;
