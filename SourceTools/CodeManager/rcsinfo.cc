@@ -15,6 +15,8 @@
 #include "Ravl/Option.hh"
 #include "Ravl/SourceTools/RCSFile.hh"
 
+#include <stdlib.h>
+
 using namespace RavlN;
 
 int main(int nargs,char **argv) {
