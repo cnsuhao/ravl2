@@ -16,7 +16,9 @@
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
-#include "Ravl/Image/ImageMatcher.hh"
+#include "Ravl/Image/RealRGBValue.hh"
+#include "Ravl/Image/ConvolveSeparable2d.hh"
+#include "Ravl/Matrix3d.hh"
 
 namespace RavlImageN {
 
@@ -32,29 +34,48 @@ namespace RavlImageN {
 
   class ForegroundSepC {
   public:
-    ForegroundSepC(const ImageC<ByteRGBValueC>& mosaic, RealT mosaicZHomog, RealT imageZHomog, int fgThreshold=25);
+    ForegroundSepC(const ImageC<ByteRGBValueC>& mosaic, RealT fgThreshold=8, bool progressive=true);
     //: Constructor: Initialises background image and threshold for foreground / background separation.
+    //!params: mosaic - the background image that images are compared with
+    //!params: fgThreshold - grey-level threshold for separation
+    //!params: progressive - switch for frame- or field-base operation
     
     void SetMask(const ImageC<bool>& nmask)
       { mask = nmask; }
     //: Set binary mask to exclude regions from tracker
     // Pixels set to false are excluded.
-
+    
     bool SetMask(const StringC& fileName);
-    //: Set binary mask to exclude regions from tracker
+    //: Load binary mask from file to exclude regions from tracker
     // Pixels set to zero are excluded.
+    
+    void SetOpening(IntT Width);
+    //: Set morphological opening structuring element
+    // Opens with border of width "Size" pixels (thus 0 = do nothing).<br>
+    // Max "Size" is 2 (the default value).
 
-    ImageC<ByteRGBValueC> Apply(const ImageC<ByteRGBValueC>& img, const Matrix3dC& homog);
+    void SetFilter(IntT Width);
+    //: Set width of Gaussian low-pass filter
+    // Default is 7 (i.e. a  s.d. of about 1.2)
+
+    void SetProjectiveScale(RealT imageScale, RealT mosaicScale);
+    //: Set the scales (i.e. 3rd, Z component) for the projective coordinate systems
+    // Should be set so that scale is commensurate with typical pixel coordinate values.  Can be set separately for video frame coordinates and mosaic coordinates . <br>
+    // Default is 100, 1.
+
+    ImageC<ByteRGBValueC> Apply(const ImageC<ByteRGBValueC>& img, Matrix3dC& homog);
     //: Computes foreground image for corresponding input image and homography
     
-  private:
+  protected:
     ImageC<ByteRGBValueC> mosaic;
     RealT mosaicZHomog;
     RealT imageZHomog;
     ImageC<bool> kernel;
-    ImageMatcherC matcher;  
-    int fgThreshold;  
+    RealT fgThreshold;  
     ImageC<bool> mask;
+    IntT filterWidth;
+    ConvolveSeparable2dC<ByteRGBValueC,ByteRGBValueC,RealT,RealRGBValueC> lpf;
+    bool progressive;
   };
   
 }
