@@ -122,6 +122,14 @@ namespace RavlGUIN {
   
   //: Constructor.
   
+  TreeModelPathBodyC::TreeModelPathBodyC(TreeModelIterC treeIter)
+    :  treePath(0),
+       canfree(true)
+  {
+    treePath = gtk_tree_model_get_path(treeIter.Model(), treeIter.TreeIter());
+  }
+  //: Constructor.
+
   TreeModelPathBodyC::TreeModelPathBodyC(GtkTreePath *ntreePath,bool nCanFree)
     : treePath(ntreePath),
       canfree(nCanFree)

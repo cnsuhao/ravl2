@@ -155,6 +155,30 @@ namespace RavlGUIN {
     bool GUISort(UIntT colNum, bool bAscending);
     //: Sort treeview by column colNum.
     // GUI thread only
+    
+    void Expand(TreeModelPathC path);
+    //: Expand to the specified path
+
+    void Expand(TreeModelIterC iter);
+    //: Expand to the specified row iterator
+
+    bool GUIExpand(TreeModelPathC path);
+    //: Expand to the specified path
+    // GUI thread only
+
+    void ExpandAll();
+    //: Expand the entire tree
+
+    bool GUIExpandAll();
+    //: Expand the entire tree
+    // GUI thread only
+
+    void CollapseAll();
+    //: Collapse the entire tree
+
+    bool GUICollapseAll();
+    //: Collapse the entire tree
+    // GUI thread only
 
   protected:
 
@@ -242,6 +266,37 @@ namespace RavlGUIN {
     //: Sort treeview by column colNum.
     // GUI thread only
     
+    void Expand(TreeModelPathC path)
+    { Body().Expand(path); }
+    //: Expand to the specified path
+
+    void Expand(TreeModelIterC iter)
+    { Body().Expand(iter); }
+    //: Expand to the specified row iterator
+
+    bool GUIExpand(TreeModelPathC path)
+    { return Body().GUIExpand(path); }
+    //: Expand to the specified path
+    // GUI thread only
+
+    void ExpandAll()
+    { Body().ExpandAll(); }
+    //: Expand the entire tree
+
+    bool GUIExpandAll()
+    { return Body().GUIExpandAll(); }
+    //: Expand the entire tree
+    // GUI thread only
+
+    void CollapseAll()
+    { Body().CollapseAll(); }
+    //: Collapse the entire tree
+
+    bool GUICollapseAll()
+    { return Body().GUICollapseAll(); }
+    //: Collapse the entire tree
+    // GUI thread only
+
     friend class TreeViewBodyC;
 
   };

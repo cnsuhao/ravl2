@@ -86,14 +86,20 @@ namespace RavlGUIN {
   //: Append a row.
   
   bool TreeStoreBodyC::AppendRow(TreeModelIterC &rowIter,TreeModelIterC &parentIter) {
+    // Append row
     gtk_tree_store_append (GTK_TREE_STORE(model), rowIter.TreeIter(),parentIter.TreeIter());
+    // Set tree model in iterator
+    rowIter.Model(model);
     return true;
   }
   
   //: Append a row.
 
   bool TreeStoreBodyC::AppendRow(TreeModelIterC &rowIter) {
+    // Append row
     gtk_tree_store_append (GTK_TREE_STORE(model), rowIter.TreeIter(),0);
+    // Set tree model in iterator
+    rowIter.Model(model);
     return true;
   }
   

@@ -61,6 +61,14 @@ namespace RavlGUIN {
     { return treeIter; }
     //: Access tree store.
     
+    GtkTreeModel *Model()
+    { return model; }
+    //: Access tree model.
+
+    void Model(GtkTreeModel * nModel)
+    { model = nModel; }
+    //: Set tree model.
+
     bool Next();
     //: Goto next element at current level.
     // Returns true if succeeded.
@@ -118,6 +126,14 @@ namespace RavlGUIN {
     { return Body().TreeIter(); }
     //: Access tree store.
     
+    GtkTreeModel *Model()
+    { return Body().Model(); }
+    //: Access tree model.
+    
+    void Model(GtkTreeModel * nModel)
+    { Body().Model(nModel); }
+    //: Set tree model.
+
     bool Next()
     { return Body().Next(); }
     //: Goto next element at current level.
@@ -140,6 +156,7 @@ namespace RavlGUIN {
     TreeModelIterC Copy()
     { return Body().Copy(); }
     //: Create a copy of the iterator.
+
   };
   
   //:-------------------------------------------------------------------------------------
@@ -153,6 +170,9 @@ namespace RavlGUIN {
   {
   public:
     TreeModelPathBodyC();
+    //: Constructor.
+
+    TreeModelPathBodyC(TreeModelIterC treeIter);
     //: Constructor.
 
     TreeModelPathBodyC(GtkTreePath *treeIter,bool canFree);
@@ -186,6 +206,11 @@ namespace RavlGUIN {
     {}
     //: Default constructor.
     
+    TreeModelPathC(TreeModelIterC treeIter)
+      : RCHandleC<TreeModelPathBodyC>(*new TreeModelPathBodyC(treeIter))
+    {}
+    //: Constructor.
+
     TreeModelPathC(GtkTreePath *treeIter,bool canFree)
       : RCHandleC<TreeModelPathBodyC>(*new TreeModelPathBodyC(treeIter,canFree))
     {}

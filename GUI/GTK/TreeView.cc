@@ -301,7 +301,69 @@ namespace RavlGUIN {
     return true;
   }
 
+  //: Expand to the specified path
+  
+  void TreeViewBodyC::Expand(TreeModelPathC path) {
+    Manager.Queue(Trigger(TreeViewC(*this),&TreeViewC::GUIExpand,path));  
+  }
 
+  //: Expand to the specified row iterator
+
+  void TreeViewBodyC::Expand(TreeModelIterC iter) {
+    // Create path
+    TreeModelPathC path(iter);
+    // Expand to path    
+    Expand(path);
+  }
+
+
+  //: Expand to the specified path
+  // GUI thread only
+
+  bool TreeViewBodyC::GUIExpand(TreeModelPathC path) {
+    // Check validity of widget
+    if(widget == 0)
+      Manager.Queue(Trigger(TreeViewC(*this),&TreeViewC::GUIExpand,path));
+    // Expand    
+    gtk_tree_view_expand_to_path(GTK_TREE_VIEW(widget),path.TreePath());
+    return true;
+  }
+  
+  //: Expand the entire tree
+  
+  void TreeViewBodyC::ExpandAll() {
+    Manager.Queue(Trigger(TreeViewC(*this),&TreeViewC::GUIExpandAll));
+  }
+  
+  //: Expand the entire tree
+  // GUI thread only
+  
+  bool TreeViewBodyC::GUIExpandAll() {
+    // Check validity of widget
+    if(widget == 0)
+      Manager.Queue(Trigger(TreeViewC(*this),&TreeViewC::GUIExpandAll));
+    // Expand all
+    gtk_tree_view_expand_all(GTK_TREE_VIEW(widget));
+    return true;
+  }
+  
+  //: Collapse the entire tree
+  
+  void TreeViewBodyC::CollapseAll() {
+    Manager.Queue(Trigger(TreeViewC(*this),&TreeViewC::GUICollapseAll));
+  }
+  
+  //: Collapse the entire tree
+  // GUI thread only
+  
+  bool TreeViewBodyC::GUICollapseAll() {
+    // Check validity of widget
+    if(widget == 0)
+      Manager.Queue(Trigger(TreeViewC(*this),&TreeViewC::GUICollapseAll));
+    // Collapse all
+    gtk_tree_view_collapse_all(GTK_TREE_VIEW(widget));
+    return true;
+  }
 
 }
 
