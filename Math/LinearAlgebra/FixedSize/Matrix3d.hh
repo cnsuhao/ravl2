@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLMATRIX3D_HEADER
-#define RAVLMATRIX3D_HEADER 1
+#ifndef RAVL_MATRIX3D_HEADER
+#define RAVL_MATRIX3D_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Math/LinearAlgebra/FixedSize/Matrix3d.hh"
@@ -19,6 +19,7 @@
 
 namespace RavlN {
   
+  //! userlevel=Normal
   //: 3 by 3 matrix of real values.
   
   class Matrix3dC
@@ -26,12 +27,12 @@ namespace RavlN {
   {
   public:
     Matrix3dC()
-      {}
+    {}
     //: Default constructor.
     
     Matrix3dC(const TFMatrixC<RealT,3,3> &base)
       : FMatrixC<3,3>(base)
-      {}
+    {}
     //: Constructor.
     
     Matrix3dC(RealT v00,RealT v01,RealT v02,
