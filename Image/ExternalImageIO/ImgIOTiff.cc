@@ -254,7 +254,7 @@ namespace RavlImageN {
       }
       case ORIENTATION_BOTLEFT:
       {
-	_TIFFmemcpy(img.DataStart(), raster, allocSize);
+	_TIFFmemcpy(img.Row(0), raster, allocSize);
 	// img = ImageC<ByteRGBAValueC>(tiffimg.height,tiffimg.width,BufferC<ByteRGBAValueC>(allocSize,(ByteRGBAValueC *) raster,true));
 	break;
       }
