@@ -63,11 +63,11 @@ namespace RavlImageN {
     
     ImageRectangleC InputRectangle() const { 
       RealRange2dC orng(rec);
-      ImageRectangleC ret(trans * orng.TopRight(),0);
-      ret.Involve(trans * orng.TopLeft());
-      ret.Involve(trans * orng.BottomRight());
-      ret.Involve(trans * orng.BottomLeft());
-      return ret;
+      RealRange2dC rret(trans * orng.TopRight(),0);
+      rret.Involve(trans * orng.TopLeft());
+      rret.Involve(trans * orng.BottomRight());
+      rret.Involve(trans * orng.BottomLeft());
+      return rret.IndexRange();
     }
     //: Get range of input rectangle that will be used.
     // Note: This may be larger than the actual input provided.
@@ -75,6 +75,10 @@ namespace RavlImageN {
     MixerT &Mixer() 
     { return mixer; }
     //: Access mixer class.
+    
+    void SetOutputRectangle(const IndexRange2dC &rng)
+    { rec = rng; }
+    //: Set the output rectangle.
     
   protected:
     ImageRectangleC rec;   // Output rectangle.
