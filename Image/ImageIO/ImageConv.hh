@@ -78,67 +78,67 @@ namespace RavlImageN {
   //: Byte RGB to byte YUV image.
 
   ImageC<ByteRGBValueC>  RealRGBAverageImageC2ByteRGBImageCT(const ImageC<RealRGBAverageC> &dat);
-  // Real RGB rolling average -> RGB
+  //: Real RGB rolling average -> RGB
 
   ImageC<ByteRGBValueC>  ByteRGBMedianImageC2ByteRGBImageCT(const ImageC<ByteRGBMedianC> &dat);
-  // Byte RGB median -> RGB
+  //: Byte RGB median -> RGB
 
   ImageC<RealRGBValueC>  ByteRGBImageCT2RealRGBImageCT(const ImageC<ByteRGBValueC> &dat);
-  // Byte RGB -> Real RGB
+  //: Byte RGB -> Real RGB
 
   ImageC<ByteRGBValueC>  RealRGBImageCT2ByteRGBImageCT(const ImageC<RealRGBValueC> &dat);
-  // Real RGB -> Byte RGB
+  //: Real RGB -> Byte RGB
 
   ImageC<UInt16RGBValueC> ByteRGBImageCT2UInt16RGBImageCT(const ImageC<ByteRGBValueC> &dat);
-  // Byte RGB -> UInt16 RGB
+  //: Byte RGB -> UInt16 RGB
 
   ImageC<ByteRGBValueC>  UInt16RGBImageCT2ByteRGBImageCT(const ImageC<UInt16RGBValueC> &dat);
-  // UInt16 RGB -> Byte RGB
+  //: UInt16 RGB -> Byte RGB
 
   ImageC<ByteYUVValueC> ByteYUVAImageCT2ByteYUVImageCT(const ImageC<ByteYUVAValueC> &dat);
-  // YUVA -> YUV
+  //: YUVA -> YUV
   
   ImageC<ByteYUVAValueC> ByteYUVImageCT2ByteYUVAImageCT(const ImageC<ByteYUVValueC> &dat);
-  // YUV -> YUVA
+  //: YUV -> YUVA
   
   ImageC<RealYUVValueC> ByteYUVImageCT2RealYUVImageCT(const ImageC<ByteYUVValueC> &dat);
-  // Byte YUV -> Read YUV
+  //: Byte YUV -> Read YUV
   
   ImageC<ByteYUVValueC> RealYUVImageCT2ByteYUVImageCT(const ImageC<ByteYUVValueC> &dat);
-  // Real YUV -> Byte YUV
+  //: Real YUV -> Byte YUV
   
   ImageC<ByteT> BoolImageC2ByteImageCT(const ImageC<bool> &dat);
-  // Boolean Image -> Byte Image
+  //: Boolean Image -> Byte Image
   
   ImageC<ByteYUVValueC> ByteVYUImageCT2ByteYUVImageCT(const ImageC<ByteVYUValueC> &dat);
-  // Byte VYU -> Byte YUV
+  //: Byte VYU -> Byte YUV
   
   ImageC<ByteVYUValueC> ByteYUVImageCT2ByteVYUImageCT(const ImageC<ByteYUVValueC> &dat);
-  // Byte YUV -> Byte VYU
+  //: Byte YUV -> Byte VYU
   
   ImageC<ByteYUVValueC> ByteYUV422ImageCT2ByteYUVImageCT(const ImageC<ByteYUV422ValueC> &dat);
-  // Byte YUV422 -> Byte YUV
+  //: Byte YUV422 -> Byte YUV
   
   ImageC<ByteRGBValueC> ByteYUV422ImageCT2ByteRGBImageCT(const ImageC<ByteYUV422ValueC> &dat);
-  // Byte YUV -> Byte YUV422
+  //: Byte YUV -> Byte YUV422
   
   ImageC<ByteT> ByteYUV422ImageCT2ByteImageCT(const ImageC<ByteYUV422ValueC> &dat);
-  // Byte YUV422 -> Byte
+  //: Byte YUV422 -> Byte
   
   ImageC<ByteYUV422ValueC> ByteImageCT2ByteYUV422ImageCT(const ImageC<ByteT> &dat);
-  // Byte -> Byte YUV422
+  //: Byte -> Byte YUV422
 
   ImageC<ByteYUV422ValueC> ByteRGBImageCT2ByteYUV422ImageCT(const ImageC<ByteRGBValueC> &dat);
-  // Byte RGB -> Byte YUV422
+  //: Byte RGB -> Byte YUV422
 
   ImageC<RealT> UIntTImageCT2DoubleImageCT(const ImageC<UIntT> &dat);
-  // UIntT -> RealT
+  //: UIntT -> RealT
 
   ImageC<UIntT> UInt16TImageCT2UIntTImageCT(const ImageC<UInt16T> &dat);
-  // UInt16T -> UIntT
+  //: UInt16T -> UIntT
 
   ImageC<UInt16T> UIntTImageCT2UInt16TImageCT(const ImageC<UIntT> &dat);
-  // UIntT -> UInt16T
+  //: UIntT -> UInt16T
   
 };
 
