@@ -18,14 +18,17 @@
 #include "Ravl/HashIter.hh"
 #include "Ravl/String.hh"
 #include "Ravl/BinStream.hh"
+#include "Ravl/StrStream.hh"
 #include "Ravl/Stream.hh"
 #include <stdlib.h> // rand()
 
 using namespace RavlN;
 
+int testHashMisc();
 int Hashtest();
 int HashCopytest();
 int HashAddFrom();
+int testHashMisc();
 
 int main() {  
   int ret;
@@ -38,6 +41,10 @@ int main() {
     return 1;    
   }  
   if((ret = HashAddFrom()) != 0) {
+    cerr << "Test failed at :" << ret<< "\n";
+    return 1;    
+  }  
+  if((ret = testHashMisc()) != 0) {
     cerr << "Test failed at :" << ret<< "\n";
     return 1;    
   }  
@@ -206,6 +213,35 @@ int HashAddFrom() {
   if(CountEntries(tab1) != 3) return __LINE__;
   
   cerr << "--------- Add from test passed. \n";
+  return 0;
+}
+
+int testHashMisc() {
+  cerr << "Check handling of empty hash tables. \n";
+  HashC<int,int> test;
+  // Check lookup in a empty copied table.
+  HashC<int,int> test2(test);
+  int v;
+  if(test2.Lookup(1,v)) return __LINE__;
+  
+  // Check handling binary IO of empty tables.
+  {
+    StrOStreamC ostr;
+    BinOStreamC bo(ostr);
+    bo << test2;
+    StrIStreamC istr(ostr.String());
+    BinIStreamC bi(istr);
+    bi >> test;
+    if(test.Lookup(1,v)) return __LINE__;
+  }
+  
+  {
+    StrOStreamC ostr;
+    ostr << test2;
+    StrIStreamC istr(ostr.String());
+    istr >> test;
+    if(test.Lookup(1,v)) return __LINE__;
+  }
   return 0;
 }
 
