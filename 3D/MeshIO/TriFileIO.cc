@@ -92,10 +92,11 @@ namespace Ravl3DN {
     outf << dat.Vertices().Size() << ' ' << dat.Faces().Size() << '\n';
     for(SArray1dIterC<VertexC> vit(dat.Vertices());vit;vit++)
       outf << vit->Position() << '\n';
-    const VertexC *x = &(dat.Vertices()[0]);
-    for(SArray1dIterC<TriC> it(dat.Faces());it;it++)
-      outf << "3 " << (it->VertexPtr(0) - x) << ' ' << (it->VertexPtr(1) - x) << ' ' << (it->VertexPtr(2) - x) << '\n';
-    
+    if(dat.Vertices().Size() != 0) {
+      const VertexC *x = &(dat.Vertices()[0]);
+      for(SArray1dIterC<TriC> it(dat.Faces());it;it++)
+	outf << "3 " << (it->VertexPtr(0) - x) << ' ' << (it->VertexPtr(1) - x) << ' ' << (it->VertexPtr(2) - x) << '\n';
+    }
     return true;
   }
   
