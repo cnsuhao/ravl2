@@ -132,6 +132,13 @@ namespace RavlN {
     // Returns a new rectangle which has layer of the width of 'n' indexs
     // removed.
     
+    inline IndexRange2dC & ClipBy(const IndexRange2dC & r) {
+      Range1().ClipBy(r.Range1());
+      Range2().ClipBy(r.Range2());
+      return *this;
+    }
+    //: This index range is clipped to contain at most the index range 'r'.
+    
     inline const IndexRange2dC & operator+=(const Index2dC & offset);
     // Shifts the rectangle to the new position.
     

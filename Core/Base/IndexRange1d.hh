@@ -138,7 +138,7 @@ namespace RavlN {
     inline const IndexRangeC & operator-=(IndexC i);
     //: Both minimum and maximum limits are shifted by subtracting the offset 'i'.
     
-    inline IndexRangeC & Clip(const IndexRangeC & r);
+    inline IndexRangeC & ClipBy(const IndexRangeC & r);
     //: This index range is clipped to contain at most the index range 'r'.
     
     inline IndexRangeC FirstHalf() const
@@ -259,7 +259,7 @@ namespace RavlN {
   
   inline 
   IndexRangeC & 
-  IndexRangeC::Clip(const IndexRangeC & r) {
+  IndexRangeC::ClipBy(const IndexRangeC & r) {
     if (Min() < r.Min()) Min() = r.Min();
     if (Max() > r.Max()) Max() = r.Max();
     return *this;
