@@ -369,6 +369,7 @@ namespace RavlGUIN {
     bool GUIDNDSource(ModifierTypeT flags,const SArray1dC<GtkTargetEntry> &entries,DragActionT actions)
     { return Body().GUIDNDSource(flags,entries,actions); }
     //: Setup widget as drag and drop source.
+    // e.g. GDK_BUTTON1_MASK GDK_BUTTON2_MASK or GDK_BUTTON3_MASK   
     
     bool GUIDNDSourceDisable()
     { return Body().GUIDNDSourceDisable(); }
