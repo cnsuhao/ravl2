@@ -77,7 +77,7 @@ namespace RavlN {
       for(;eit;eit++) {
 	LinePP2dC line((*eit).Prev().Vertex().Data(),eit->Vertex().Data());
 	//ONDEBUG(cerr << "FindFace(), " << (*eit).Prev().Vertex().Data() << " " << eit->Vertex().Data() << " -> " << line.IsPointToLeft(pnt) << "\n");
-	if(!line.IsPointToLeftOn(pnt))
+	if(line.IsPointToLeft(pnt))
 	  break;
 	if(line.IsPointOn(pnt)) {
 	  me = *eit;
