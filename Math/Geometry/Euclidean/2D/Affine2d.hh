@@ -32,16 +32,24 @@ namespace RavlN {
     : public FAffineC<2> 
   {
   public:
-    inline Affine2dC();
+    inline Affine2dC()
+      : FAffineC<2>()
+    {}
     //: Construct identity transformation.
     
-    inline Affine2dC(const FAffineC<2> &Oth);
+    inline Affine2dC(const FAffineC<2> &Oth)
+      : FAffineC<2>(Oth)
+    {}
     //: Construct from base template.
     
-    inline Affine2dC(const Affine2dC &Oth);
+    inline Affine2dC(const Affine2dC &Oth)
+      : FAffineC<2>(Oth)
+    {}
     //: Copy constructor.
     
-    inline Affine2dC(const Matrix2dC &SR, const Vector2dC &T);
+    inline Affine2dC(const Matrix2dC &SR, const Vector2dC &T)
+      : FAffineC<2>(SR,T)
+    {}
     //: Constructor from scaling/rotation matrix and translation vector.
     
     inline Affine2dC(const Vector2dC &Scale, RealT Angle, const Vector2dC &Trans);
@@ -59,26 +67,6 @@ namespace RavlN {
   };
   
   /////////////////////////////////
-  
-  inline 
-  Affine2dC::Affine2dC() 
-    : FAffineC<2>()
-  {}
-  
-  inline 
-  Affine2dC::Affine2dC(const Affine2dC &Oth) 
-    : FAffineC<2>(Oth)
-  {}
-
-  inline 
-  Affine2dC::Affine2dC(const FAffineC<2> &Oth)
-    : FAffineC<2>(Oth)
-  {}
-  
-  inline 
-  Affine2dC::Affine2dC(const Matrix2dC &SR, const Vector2dC &T) 
-    : FAffineC<2>(SR,T)
-  {}
   
   inline 
   Affine2dC::Affine2dC(const Vector2dC &Sc, RealT Angle, const Vector2dC &Trans) 
