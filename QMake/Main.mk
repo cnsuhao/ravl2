@@ -209,7 +209,7 @@ ifndef NOINCDEFS
  endif
  ifneq ($(strip $(OPTIONAL_PROGLIBS)),)
   -include $(OPTIONAL_PROGLIBS)
-$(OPTIONAL_PROGLIBS) :
+$(OPTIONAL_PROGLIBS) : $(INST_LIB)/.dir
 	@true;
  endif
 endif
