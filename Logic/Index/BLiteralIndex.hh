@@ -63,7 +63,7 @@ namespace RavlLogicN {
     //: Make a deep copy of the index.
 #endif
     
-    inline DataT &operator[](const LiteralC &cnd) {
+    inline const DataT &operator[](const LiteralC &cnd) {
       IntC &it = ids[cnd];
       if(it == 0)
 	it = ids.Size();
@@ -71,22 +71,40 @@ namespace RavlLogicN {
     }
     //: Lookup an entry.
     // Creates a new entry if one doesn't exist.
+
+    bool Lookup(const LiteralC &key,DataT &data) { 
+      IntC v;
+      if(!ids.Lookup(key,v))
+	return false;
+      return tab.Lookup(v,data);     
+    } 
+    //: Copy data associated with 'key' to data if it exists.
+    // Returns true if data has been found.
     
-    inline bool Add(const LiteralC &cnd,const DataT &data) {
-      (*this)[cnd] = data; // FIXME :- A little slow and dirty.
-      return true;
+    bool IsElm(const LiteralC &key) {
+      IntC v;
+      if(!ids.Lookup(key,v))
+	return false;
+      return tab.IsElm(v);
+    }
+    //: Is 'key' in index ?
+    
+    inline void Insert(const LiteralC &cnd,const DataT &data) { 
+      IntC &it = ids[cnd];
+      if(it == 0)
+	it = ids.Size();
+      tab.Insert(it,data); 
     }
     //: Add a new item to the index.
-    // Ret:False = Not new item.
     
     inline bool IsEmpty() const
     { return tab.IsEmpty(); }
     //: Is table empty ?
-  
+    
     UIntT Size() const
     { return tab.Size(); }
     //: How many entries ?
-
+    
     bool UseIndex(const LiteralIndexC<IntC> &nIds) {
       RavlAssert(IsEmpty());
       if(!IsEmpty())

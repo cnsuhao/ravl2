@@ -83,7 +83,7 @@ namespace RavlLogicN {
   //: Dump index in human readable form.
   // For debugging only.
   
-  void LiteralIndexNodeBodyC::Dump(ostream &out,int level) {
+  void LiteralIndexNodeBodyC::Dump(ostream &out,int level) const {
     out << Indent(level) <<"LiteralIndexNodeC Term=" << term <<"\n";      
     index.Dump(out,level+2);
     if(none.IsValid()) {

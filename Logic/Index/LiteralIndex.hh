@@ -11,6 +11,7 @@
 //! lib=RavlLogic
 //! docentry="Ravl.Logic.Index"
 //! file="Ravl/Logic/Index/LiteralIndex.hh"
+//! author="Charles Galambos"
 
 #include "Ravl/Logic/LiteralIndexBase.hh"
 #include "Ravl/Logic/LiteralIndexLeaf.hh"
@@ -125,6 +126,21 @@ namespace RavlLogicN {
     
     friend class LiteralIndexIterC<DataT>;
   };
+  
+  template<class DataT>  
+  ostream &operator<<(ostream &strm,const LiteralIndexC<DataT> &index) { 
+    strm << ((const LiteralIndexBaseC &) index); 
+    return strm;
+  }
+  //: Output to stream.
+  
+  template<class DataT>  
+  istream &operator>>(istream &strm,LiteralIndexC<DataT> &index) {
+    strm >> ((const LiteralIndexBaseC &) index); 
+    return strm;
+  }
+  //: Input from stream.
+  
 }
 
 

@@ -55,6 +55,13 @@ namespace RavlLogicN {
     bool Insert(const MinTermC &symb,const DataT &dat);
     //: Insert data into all appropriate lists.
   
+  protected:
+    void InsertEntry(bool negate,const LiteralC &as,const DataT &dat) {
+      BListC<DataT> list;
+      BMinTermIndexC<BListC<DataT> >::Lookup(negate,as,list);
+      list.InsFirst(dat);
+      BMinTermIndexC<BListC<DataT> >::Insert(negate,as,list);
+    }
   };
 
   ///////////////////////////////////////////////////
@@ -63,7 +70,7 @@ namespace RavlLogicN {
   bool BMinTermListIndexC<DataT>::Insert(const LiteralC &as,const DataT &dat) {
     AndC at(as);
     if(at.IsValid()) {
-      Access(false,at).InsFirst(dat);
+      InsertEntry(false,at,dat);
       for(SArray1dIterC<LiteralC> it(at.Terms());it;it++)
 	Insert(as,dat);
       return true;
@@ -73,20 +80,20 @@ namespace RavlLogicN {
       OrC ot(as);
       if(ot.IsValid()) {
 	for(SArray1dIterC<LiteralC> it(ot.Terms());it;it++)
-	  Access(true,*it).InsFirst(dat);
+	  InsertEntry(true,*it,dat);
 	return true;
       }
-      Access(true,as).InsFirst(dat);
+      InsertEntry(true,as,dat);
       return true;
     }
-    Access(false,as).InsFirst(dat);
+    InsertEntry(false,as,dat);
     return true;
   }
   
   template <class DataT>
   bool BMinTermListIndexC<DataT>::Insert(const MinTermC &mt,const DataT &dat) {
     for(MinTermIterC iter(mt);iter;iter++)
-      Access(iter.IsNegated(),iter.Data()).InsFirst(dat);
+      InsertEntry(iter.IsNegated(),iter.Data(),dat);
     return true;
   }
 

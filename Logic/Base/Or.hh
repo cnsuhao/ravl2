@@ -59,7 +59,13 @@ namespace RavlLogicN {
     
     void OrAdd(const SArray1dC<LiteralC> &lits);
     //: Add literals.
-
+    
+    virtual bool Substitute(const BindSetC &binds,LiteralC &result) const;
+    //: Substitute variables in 'binds' for their bound values.
+    // This builds a new literal with the substute values (if there
+    // are any). The new value is assigned to 'result' <p>
+    // Returns true if at least one substitution has been made,
+    // false if none.
   };
   
   //! userlevel=Normal

@@ -85,5 +85,27 @@ namespace RavlLogicN {
     RavlAssertMsg(0,"AndBodyC::IsEqual(), Not implemented. ");
     return false;
   }
+  
+  //: Substitute variables in 'binds' for their bound values.
+  // This builds a new literal with the substute values (if there
+  // are any). The new value is assigned to 'result' <p>
+  // Returns true if at least one substitution has been made,
+  // false if none.
+  //: Get hash value for symbol.
+  
+  bool ConditionBodyC::Substitute(const BindSetC &binds,LiteralC &result) const {
+    RavlAlwaysAssertMsg(0,"ConditionBodyC::Substitute(), Abstract method called.");
+    return false;
+  }
+
+  //: Get hash value for symbol.
+  
+  UIntT ConditionBodyC::Hash() const {
+    UIntT hash = 123;
+    // Generate an order independant hash.
+    for(SArray1dIterC<LiteralC> it(Args());it;it++)
+      hash += it->Hash();
+    return hash;
+  }
 
 }

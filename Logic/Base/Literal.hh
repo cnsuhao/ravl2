@@ -162,6 +162,10 @@ namespace RavlLogicN {
     bool operator==(const LiteralC &oth) const 
     { return Body().IsEqual(oth); }
     //: Equality test.
+
+    bool operator!=(const LiteralC &oth) const 
+    { return !Body().IsEqual(oth); }
+    //: Inequality test.
     
     void Dump(ostream &out)
       { Body().Dump(out); }
@@ -178,7 +182,7 @@ namespace RavlLogicN {
     {  Body().SubLiterals(lits); }
     //: Get a set of all sub literals.
     
-    bool Substitute(const BindSetC &binds,LiteralC &result)
+    bool Substitute(const BindSetC &binds,LiteralC &result) const
     { return Body().Substitute(binds,result); }
     //: Substitute variables in 'binds' for their bound values.
     // This builds a new literal with the substute values (if there

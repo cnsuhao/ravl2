@@ -51,7 +51,7 @@ namespace RavlLogicN {
     //: Get name for element.
     // usefull for debuging.
     
-    virtual void Dump(ostream &out,int level = 0);
+    virtual void Dump(ostream &out,int level = 0) const;
     //: Dump index in human readable form.
     // For debugging only.
     

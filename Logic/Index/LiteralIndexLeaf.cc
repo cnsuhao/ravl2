@@ -53,7 +53,7 @@ namespace RavlLogicN {
   //: Dump index in human readable form.
   // For debugging only.
   
-  void LiteralIndexLeafBodyC::Dump(ostream &out,int level) {
+  void LiteralIndexLeafBodyC::Dump(ostream &out,int level) const {
     out << Indent(level) << "Leaf. Key = " << key.Name() << "\n";
   }
 

@@ -58,6 +58,13 @@ namespace RavlLogicN {
     
     virtual LiteralIterC Solutions(const StateC &state,BindSetC &binds) const;
     //: Return iterator through possibile matches to this literal in 'state', if any.
+
+    virtual bool Substitute(const BindSetC &binds,LiteralC &result) const;
+    //: Substitute variables in 'binds' for their bound values.
+    // This builds a new literal with the substute values (if there
+    // are any). The new value is assigned to 'result' <p>
+    // Returns true if at least one substitution has been made,
+    // false if none.
    
   };
 

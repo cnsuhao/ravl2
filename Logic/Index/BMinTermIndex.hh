@@ -48,24 +48,40 @@ namespace RavlLogicN {
     //: Make a deep copy of this class.
 #endif
     
-    inline bool Add(bool negate,const LiteralC &lit,const DataT &data) {
+    inline void Insert(bool negate,const LiteralC &lit,const DataT &data) {
       if(!negate)
-	return pos.Add(lit,data);
-      return neg.Add(lit,data);
+	pos.Insert(lit,data);
+      else
+	neg.Insert(lit,data);
     }
     //: Add data indexed on a single literal.
-    // Returns true if 'lit' is a new key.
     
-    inline bool Add(const MinTermC &mt,const DataT &data);
+    inline bool Insert(const MinTermC &mt,const DataT &data);
     //: Add data indexed on a minterm.
     // Returns true if 'mt' is a new key.
     
-    DataT &Access(bool negate,const LiteralC &lit) 
+    const DataT &Access(bool negate,const LiteralC &lit)
     { return negate ? neg[lit] : pos[lit]; }
     //: Access data.
     // Lookup associated with 'lit'. If 'lit' does not
     // exist within the index it is added. The returned value
     // is created with the default constructor.
+
+    bool Lookup(bool negate,const LiteralC &lit,DataT &data) { 
+      if(negate)
+	return neg.Lookup(lit,data);
+      return pos.Lookup(lit,data);
+    }
+    //: Access data.
+    // Lookup associated with 'lit'. If 'lit' does not
+    // exist it returns false.
+    
+    void Insert(bool negate,const LiteralC &lit,DataT &data) { 
+      if(negate)
+	neg.Insert(lit,data);
+      pos.Insert(lit,data);
+    }
+    //: Lookup data associated with key.
     
     inline bool IsEmpty() const
     { return pos.IsEmpty() && neg.IsEmpty(); }
@@ -90,7 +106,7 @@ namespace RavlLogicN {
   ////////////////////////////////////////////////////////
   
   template<class DataT>
-  bool BMinTermIndexC<DataT>::Add(const MinTermC &mt,const DataT &data) {
+  bool BMinTermIndexC<DataT>::Insert(const MinTermC &mt,const DataT &data) {
     bool ret = true;
     for(MinTermIterC it(mt);it;it++) 
       ret &= Add(it.IsNegated(),*it,data);

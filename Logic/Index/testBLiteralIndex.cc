@@ -18,6 +18,7 @@ using namespace RavlLogicN;
 template class BMinTermListIndexC<LiteralC>;
 
 int testBIndex();
+int testBIndex2();
 int testBMinTermIndex();
 
 int main() {
@@ -26,10 +27,15 @@ int main() {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
+  if((ln = testBIndex2()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  }
   if((ln = testBMinTermIndex()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
+  cerr << "Test passed ok. \n";
   return 0;
 }
 
@@ -37,9 +43,9 @@ int main() {
 int testBIndex() {
   BLiteralIndexC<LiteralC> ind;
   // Test basic functionality.
-  ind["Hello1"] = LiteralC("Hello1");
-  ind["Hello2"] = LiteralC("Hello2");
-  ind["Hello3"] = LiteralC("Hello3");
+  ind.Insert(LiteralC("Hello1"),LiteralC("Hello1"));
+  ind.Insert(LiteralC("Hello2"),LiteralC("Hello2"));
+  ind.Insert(LiteralC("Hello3"),LiteralC("Hello3"));
   if(ind["Hello1"] != LiteralC("Hello1"))
     return __LINE__;
   if(ind["Hello2"] != LiteralC("Hello2"))
@@ -49,15 +55,31 @@ int testBIndex() {
   return 0;
 }
 
+int testBIndex2() {
+  BLiteralIndexC<LiteralC> ind;
+  // Test basic functionality.
+  ind.Insert("t1",LiteralC("H1"));
+  ind.Insert("t2", LiteralC("H2"));
+  
+  BLiteralIndexC<LiteralC> ind2(ind);
+  
+  ind2.Insert("t3",LiteralC("H3"));
+  
+  if(!ind2.IsElm("t3")) return __LINE__;
+  if(ind.IsElm("t3")) return __LINE__;
+  
+  return 0;
+}
+
 int testBMinTermIndex() {
   BMinTermIndexC<LiteralC> ind(true);
   // Test basic functionality.
-  ind.Add(true,"Hello1","Hello1");
-  ind.Add(true,"Hello2","Hello2");
-  ind.Add(true,"Hello3","Hello3");
-  ind.Add(false,"Hello1","Hello4");
-  ind.Add(false,"Hello2","Hello5");
-  ind.Add(false,"Hello3","Hello6");
+  ind.Insert(true,"Hello1","Hello1");
+  ind.Insert(true,"Hello2","Hello2");
+  ind.Insert(true,"Hello3","Hello3");
+  ind.Insert(false,"Hello1","Hello4");
+  ind.Insert(false,"Hello2","Hello5");
+  ind.Insert(false,"Hello3","Hello6");
   if(ind.Access(true,"Hello1") != LiteralC("Hello1"))
     return __LINE__;
   if(ind.Access(true,"Hello2") != LiteralC("Hello2"))

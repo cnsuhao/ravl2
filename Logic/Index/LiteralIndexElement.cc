@@ -64,7 +64,7 @@ namespace RavlLogicN {
   //: Dump index in human readable form.
   // For debugging only.
   
-  void LiteralIndexElementBodyC::Dump(ostream &out,int level) {
+  void LiteralIndexElementBodyC::Dump(ostream &out,int level) const {
     out << "LiteralIndexElementBodyC::Dump(), Abstract method called. \n";
   }
 

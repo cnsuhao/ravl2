@@ -19,10 +19,12 @@ namespace RavlLogicN {
   bool VarBodyC::Unify(const LiteralC &x,BindSetC &bs) const {
     //: Bind value 'oth' to this.
     LiteralC var(const_cast<VarBodyC &>(*this));
+    if(var == x) 
+      return true;
     LiteralC val;
     if(bs.Resolve(var,val)) // Is x bound to something ?
       return val.Unify(x,bs);
-    if(bs.Resolve(x,val)) 
+    if(bs.Resolve(x,val))
       return var.Unify(val,bs);
     return bs.Bind(var,x);
   }

@@ -58,7 +58,7 @@ namespace RavlLogicN {
 	continue;
       return it.Index().V();
     }
-    cerr << "Used:" << used << "\n";
+    cerr << "Used:" << used << " Key=" << key << "\n";
     RavlAssertMsg(0,"LiteralIndexBaseBodyC::PickNextTerm(), I'm confused! Out of terms to index with. "); 
     return 0;
   }
@@ -66,7 +66,7 @@ namespace RavlLogicN {
   //: Insert key into index.
   // Returns false if key already exists.
   
-  LiteralIndexLeafC  LiteralIndexBaseBodyC::Insert(const LiteralC &key) {
+  LiteralIndexLeafC LiteralIndexBaseBodyC::Insert(const LiteralC &key) {
     ONDEBUG(cerr << "LiteralIndexBaseBodyC::Insert() Key=" << key.Name() << "\n");
     TupleC tuple(key);
     if(!tuple.IsValid()) {
@@ -78,9 +78,10 @@ namespace RavlLogicN {
     }
     // Do a quick check to see if its here already.
     LiteralIndexLeafC elem;
-    if(map.Lookup(key,elem))
+    if(map.Lookup(key,elem)) {
+      ONDEBUG(cerr << "LiteralIndexBaseBodyC::Insert(), Key '" << key << "' is already in index. \n");
       return elem;
-    
+    }
     // There's no identical so add one.
     
     SArray1dC<bool> used(tuple.Arity()); // Set of used index's in tuple.
@@ -149,7 +150,7 @@ namespace RavlLogicN {
 
   //: Dump index in human readable form.
   
-  void LiteralIndexBaseBodyC::Dump(ostream &out,int level) {
+  void LiteralIndexBaseBodyC::Dump(ostream &out,int level) const {
     out << Indent(level) << "IndexBase:" << ((void *) this) << " \n";
     for(HashIterC<LiteralC,LiteralIndexLeafC> it(map);it;it++) {
       TupleC tup(it.Key());
@@ -161,5 +162,17 @@ namespace RavlLogicN {
     if(root.IsValid())
       root.Dump(out,level+1);
   }
+  
+  ostream &operator<<(ostream &strm,const LiteralIndexBaseC &index) {
+    index.Dump(strm);
+    return strm;
+  }
+  //: Output to stream.
+  
+  istream &operator>>(istream &strm,LiteralIndexBaseC &index) {
+    RavlAssert(0);    
+    return strm;
+  }
+  //: Input from stream.
   
 }

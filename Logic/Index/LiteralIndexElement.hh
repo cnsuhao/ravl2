@@ -52,7 +52,7 @@ namespace RavlLogicN
     // in the tree is assigned to 'next'.  var is the variable to witch
     // the value of the iterator should be bound.
     
-    virtual void Dump(ostream &out,int level = 0);
+    virtual void Dump(ostream &out,int level = 0) const;
     //: Dump index in human readable form.
     // For debugging only.
     
@@ -119,7 +119,7 @@ namespace RavlLogicN
     { return Body().Insert(key,next); }
     //: Insert/Replace element into the node.
     
-    void Dump(ostream &out,int level = 0) 
+    void Dump(ostream &out,int level = 0) const
     { Body().Dump(out,level); }
     //: Dump index in human readable form.
     // For debugging only.

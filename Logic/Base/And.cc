@@ -106,7 +106,28 @@ namespace RavlLogicN {
   LiteralIterC AndBodyC::Solutions(const StateC &state,BindSetC &binds) const {
     return StateAndIterC(state,AndC(const_cast<AndBodyC &>(*this)),binds);    
   }
-
+  
+  //: Substitute variables in 'binds' for their bound values.
+  // This builds a new literal with the substute values (if there
+  // are any). The new value is assigned to 'result' <p>
+  // Returns true if at least one substitution has been made,
+  // false if none.
+  
+  bool AndBodyC::Substitute(const BindSetC &binds,LiteralC &result) const {
+    SArray1dC<LiteralC> newTup(Args().Size());
+    bool ret = false;
+    SArray1dIter2C<LiteralC,LiteralC> it(Args(),newTup);
+    it.Data2() = it.Data1(); // Skip 'and' marker.
+    for(it++;it;it++)
+      ret |= it.Data1().Substitute(binds,it.Data2());
+    if(ret) {
+      result = AndC(newTup,true);
+      return true;
+    }
+    result = AndC(const_cast<AndBodyC &>(*this));
+    return false;
+  }
+  
 }
 
 #include "Ravl/Logic/Or.hh"

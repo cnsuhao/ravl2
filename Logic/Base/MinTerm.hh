@@ -42,12 +42,16 @@ namespace RavlLogicN {
     //: Construct from a single literal.
     // Effectively add NotC(lit) if negate is true.
     
-    const SArray1dC<LiteralC> &Pos() const
-    { return t.Args(); }
+    const SArray1dC<LiteralC> &Pos() const { 
+      RavlAssert(t.IsValid());
+      return t.Args(); 
+    }
     //: Positive terms.
     
-    const SArray1dC<LiteralC> &Neg() const
-    { return n.Args(); }
+    const SArray1dC<LiteralC> &Neg() const { 
+      RavlAssert(n.IsValid());
+      return n.Args(); 
+    }
     //: Negated terms.
     
     RCBodyVC &Copy() const;
@@ -77,6 +81,13 @@ namespace RavlLogicN {
     OrC &NegTerm()
     { return n; }
     //: Negated terms.
+    
+    virtual bool Substitute(const BindSetC &binds,LiteralC &result) const;
+    //: Substitute variables in 'binds' for their bound values.
+    // This builds a new literal with the substute values (if there
+    // are any). The new value is assigned to 'result' <p>
+    // Returns true if at least one substitution has been made,
+    // false if none.
     
   protected:
     void SetTerms(const SArray1dC<LiteralC> &nt,const SArray1dC<LiteralC> &nn,bool useArrayDirectly = false);
@@ -189,6 +200,7 @@ namespace RavlLogicN {
     { return Body().Covers(mt,bs); }
     //: Does this minterm cover all terms of mt ?
 
+    friend class MinTermBodyC;
   };
   
   MinTermC operator*(const MinTermC &mt1,const MinTermC &mt2);

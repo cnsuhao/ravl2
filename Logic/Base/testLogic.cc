@@ -86,7 +86,10 @@ int testBasic() {
   
   LiteralC s1(Literal());
   LiteralC s2(Literal());
+  if(s1 == s2) return __LINE__;
+  if(s1 != s1) return __LINE__;
   VarC v1(true);
+  if(s1 == v1) return __LINE__;
   LiteralC test;
   
   LiteralC nl1("Hello");
@@ -109,6 +112,8 @@ int testBasic() {
   TupleC e1 = Tuple(s1,s2);
   //e1.Dump(cerr);   cerr <<"\n";
   TupleC e2 = Tuple(s1,s2);
+  if(e1.Hash() != e2.Hash()) return __LINE__;
+  if(e1 != e2) return __LINE__;
   BindSetC bs(true);
   if(!Unify(e1,e2,bs)) return __LINE__;
   TupleC e3 = Tuple(s1,Var());
@@ -134,7 +139,6 @@ int testCompose() {
   if(land.Arity() != 3) return __LINE__;  
   if(land.Terms()[1] != l1) return __LINE__;
   if(land.Terms()[2] != l2) return __LINE__;
-  
   cerr << "And=" << land << "\n";
   // Check minterm.
   MinTermC mt((const LiteralC &)land,false);

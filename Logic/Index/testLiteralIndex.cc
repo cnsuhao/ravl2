@@ -15,14 +15,19 @@
 
 using namespace RavlLogicN;
 
-IntT testBaseTest();
+IntT testBase();
+IntT testVars();
 IntT testIndexFilterTest();
 
 int main()
 {
   UIntT err;
   
-  if((err = testBaseTest()) != 0) {
+  if((err = testBase()) != 0) {
+    cerr << "LiteralIndex test failed, line: " << err << " \n";
+    return 1;
+  }
+  if((err = testVars()) != 0) {
     cerr << "LiteralIndex test failed, line: " << err << " \n";
     return 1;
   }
@@ -35,22 +40,23 @@ int main()
   return 0;
 }
 
-IntT testBaseTest() {
+IntT testBase() {
   LiteralC l1 = Literal();
   LiteralC l2 = Literal();
+  
   LiteralC t1 = Tuple(l1);
   LiteralC t2 = Tuple(l2,l1);
   LiteralC t3 = Tuple(l1,l1);
+  if(t1 == t2) return __LINE__;
+  if(t3 == t1) return __LINE__;
   
   LiteralIndexC<UIntT> index(true);
-  //cerr << "\nSetting l1\n";
   index[l1] = 0; 
-  //cerr << "\nSetting t1\n";
+  index[t1] = 0; 
   index[t1] = 1; 
-  //cerr << "\nSetting t2\n";
   index[t2] = 2;
-  //cerr << "\nSetting t3\n";
   index[t3] = 3; 
+  cerr << "Index=" << index << " " << index[t1] << "\n";
   if(index[l1] != 0) return __LINE__;
   if(index[t1] != 1) return __LINE__;
   if(index[t2] != 2) return __LINE__;
@@ -58,6 +64,40 @@ IntT testBaseTest() {
   if(index.Size() != 4) return  __LINE__;
   //  cerr << "Dump:\n";
   //index.Dump(cerr);
+  return 0;
+}
+
+IntT testVars() {
+  LiteralIndexC<UIntT> index(true);
+  LiteralC l1 = Literal();
+  LiteralC l2 = Literal();
+  LiteralC v1 = Var();
+  LiteralC v2 = Var();
+  LiteralC t1 = Tuple(l1);
+  LiteralC t2 = Tuple(l2,l1);
+  LiteralC t3 = Tuple(l1,l1);
+  LiteralC t3a = Tuple(l1,l1);
+  LiteralC t4 = Tuple(v1,l1);
+  LiteralC t5 = Tuple(v1,v1);
+  LiteralC t6 = Tuple(v2,l1);
+  
+  index[l1] = 0; 
+  index[t1] = 1; 
+  index[t2] = 2;
+  index[t3] = 100; 
+  index[t3a] = 3; 
+  index[t4] = 4; 
+  index[t5] = 5; 
+  index[t6] = 6; 
+  
+  if(index[l1] != 0) return __LINE__;
+  if(index[t1] != 1) return __LINE__;
+  if(index[t2] != 2) return __LINE__;
+  if(index[t3] != 3) return __LINE__;
+  if(index[t4] != 4) return __LINE__;
+  if(index[t5] != 5) return __LINE__;
+  if(index.Size() != 7) return  __LINE__;
+  
   return 0;
 }
 

@@ -79,7 +79,28 @@ namespace RavlLogicN {
   LiteralIterC OrBodyC::Solutions(const StateC &state,BindSetC &binds) const {
     return StateOrIterC(state,OrC(const_cast<OrBodyC &>(*this)),binds);
   }
-
+  
+  //: Substitute variables in 'binds' for their bound values.
+  // This builds a new literal with the substute values (if there
+  // are any). The new value is assigned to 'result' <p>
+  // Returns true if at least one substitution has been made,
+  // false if none.
+  
+  bool OrBodyC::Substitute(const BindSetC &binds,LiteralC &result) const {
+    SArray1dC<LiteralC> newTup(Args().Size());
+    bool ret = false;
+    SArray1dIter2C<LiteralC,LiteralC> it(Args(),newTup);
+    it.Data2() = it.Data1(); // Skip 'or' marker.
+    for(it++;it;it++)
+      ret |= it.Data1().Substitute(binds,it.Data2());
+    if(ret) {
+      result = OrC(newTup,true);
+      return true;
+    }
+    result = OrC(const_cast<OrBodyC &>(*this));
+    return false;
+  }
+  
   //: Add literal.
   
   void OrBodyC::OrAdd(const LiteralC &lit) {

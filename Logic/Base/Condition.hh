@@ -48,6 +48,17 @@ namespace RavlLogicN {
     virtual bool IsEqual(const LiteralC &oth) const;
     //: Is this equal to another condition ?
     
+    virtual UIntT Hash() const;
+    //: Generate has value for condition.
+    
+    virtual bool Substitute(const BindSetC &binds,LiteralC &result) const;
+    //: Substitute variables in 'binds' for their bound values.
+    // This builds a new literal with the substute values (if there
+    // are any). The new value is assigned to 'result' <p>
+    // Returns true if at least one substitution has been made,
+    // false if none.
+    //: Get hash value for symbol.
+    
   protected:
     void AddTerms(const SArray1dC<LiteralC> &terms);
     //: Add some terms.
@@ -100,10 +111,6 @@ namespace RavlLogicN {
 	Invalidate();
     }
     //: Construct from base class.
-    
-    UIntT Hash() const
-    { return Body().Hash(); }
-    //: Generate hash value for condition.
     
     bool IsEqual(const ConditionC &oth) const
     { return Body().IsEqual(oth); }

@@ -15,6 +15,13 @@
 #include "Ravl/Logic/BindSet.hh"
 #include "Ravl/Logic/LiteralIter.hh"
 
+#define DODEBUG 0
+#if DODEBUG 
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x) 
+#endif
+
 namespace RavlLogicN {
 
   //: Is this a simple expression with no variables ?
@@ -80,10 +87,27 @@ namespace RavlLogicN {
   }
   
   //: Unify with simple symb
-   
+  
   bool TupleBodyC::UnifyLiteral(const LiteralBodyC &oth,BindSetC &bs) const {
     // Can't unify with a simple Literal.
     return false;
+  }
+  
+  //: Is this equial to another LiteralC ?
+  
+  bool TupleBodyC::IsEqual(const LiteralC &oth) const {
+    ONDEBUG(cerr << "TupleBodyC::IsEqual(), Called '" << Name() << "' and '" << oth << "'\n");
+    TupleC tup(oth);
+    if(!tup.IsValid())
+      return false;
+    if(Arity() != tup.Arity())
+      return false;
+    if(this == &tup.Body())
+      return true;
+    for(SArray1dIter2C<LiteralC,LiteralC> it(Args(),tup.Args());it;it++)
+      if(!it.Data1().IsEqual(it.Data2()))
+	return false;
+    return true;
   }
 
   //: Get the name of symbol.
@@ -109,7 +133,17 @@ namespace RavlLogicN {
     out += ')';
     return out;
   }
-
+  
+  UIntT TupleBodyC::Hash() const {
+    UIntT hash = 101;
+    int i = 0;
+    for(SArray1dIterC<LiteralC> it(Args());it;it++,i++) {
+      UIntT v = it->Hash(); 
+      hash += v + (v << i);
+    }
+    return hash;
+  }
+  
   //: Dump info in human readable format to stream 'out'.
   void TupleBodyC::Dump(ostream &out) {
     out << Name();

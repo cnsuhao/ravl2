@@ -38,6 +38,9 @@ namespace RavlLogicN {
     virtual bool Unify(const LiteralC &oth,BindSetC &bs) const;
     //: Unify with another variable.
     
+    virtual bool IsEqual(const LiteralC &oth) const;
+    //: Is this equial to another LiteralC ?
+    
     UIntT Arity() const
     { return args.Size(); }
     //: Get the arity of the expression.
@@ -52,7 +55,7 @@ namespace RavlLogicN {
     
     virtual bool IsGrounded() const;
     //: Is this a simple expression with no variables ?
-
+    
     void SetArg(UIntT n,const LiteralC &s)
     { args[n] = s; }
     //: Set the value of an arg.
@@ -75,6 +78,9 @@ namespace RavlLogicN {
     // are any). The new value is assigned to 'result' <p>
     // Returns true if at least one substitution has been made,
     // false if none.
+    
+    virtual UIntT Hash() const;
+    //: Get hash value for symbol.
     
   protected:
     virtual bool UnifyLiteral(const LiteralBodyC &oth,BindSetC &bs) const;

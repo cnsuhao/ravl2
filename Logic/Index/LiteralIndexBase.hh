@@ -4,11 +4,12 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLLOGICLITERALINDEXBASE_HEADER
-#define RAVLLOGICLITERALINDEXBASE_HEADER 1
+#ifndef RAVLLOGIC_LITERALINDEXBASE_HEADER
+#define RAVLLOGIC_LITERALINDEXBASE_HEADER 1
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Logic.Index"
+//! author="Charles Galambos"
 //! lib=RavlLogic
 //! file="Ravl/Logic/Index/LiteralIndexBase.hh"
 
@@ -39,7 +40,7 @@ namespace RavlLogicN {
     
     LiteralIndexLeafC Insert(const LiteralC &key);
     //: Insert key into index.
-    // Returns false if key already exists.
+    // Will return handle to leaf if key already exists.
     
     virtual LiteralIndexLeafC NewLeaf(const LiteralC &key);
     //: Generate a new leaf.
@@ -52,7 +53,7 @@ namespace RavlLogicN {
     { return map.Size(); }
     //: Get the number of elements in the index.
 
-    void Dump(ostream &out,int level = 0);
+    void Dump(ostream &out,int level = 0) const;
     //: Dump index in human readable form.
   protected:
     virtual UIntT PickNextTerm(const SArray1dC<bool> &used,const LiteralC &key);
@@ -116,7 +117,7 @@ namespace RavlLogicN {
     //: Delete key from index.
     // returns true if key existed, false otherwise.
     
-    void Dump(ostream &out,int level = 0) 
+    void Dump(ostream &out,int level = 0) const 
     { Body().Dump(out,level); }
     //: Dump index in human readable form.
     // For debugging only.
@@ -126,6 +127,13 @@ namespace RavlLogicN {
     friend class LiteralIndexLeafBodyIterC;
                  
   };
+  
+  ostream &operator<<(ostream &strm,const LiteralIndexBaseC &index);
+  //: Output to stream.
+  
+  istream &operator>>(istream &strm,LiteralIndexBaseC &index);
+  //: Input from stream.
+
 }
 
 

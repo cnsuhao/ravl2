@@ -162,6 +162,25 @@ namespace RavlLogicN {
     return true;
   }
 
+  //: Substitute variables in 'binds' for their bound values.
+  // This builds a new literal with the substute values (if there
+  // are any). The new value is assigned to 'result' <p>
+  // Returns true if at least one substitution has been made,
+  // false if none.
+  
+  bool MinTermBodyC::Substitute(const BindSetC &binds,LiteralC &result) const {
+    AndC nt;
+    OrC nn;
+    bool sub = t.Substitute(binds,nt);
+    sub |= n.Substitute(binds,nn);
+    if(sub) {
+      result = MinTermC(nt,nn);
+      return true;
+    }
+    result = MinTermC(const_cast<MinTermBodyC &>(*this));
+    return false;
+  }
+  
   //: Does this minterm cover all terms of mt ?
   
   bool MinTermBodyC::Covers(const MinTermC &mt,BindSetC &bs) const {

@@ -80,6 +80,22 @@ namespace RavlLogicN {
     return LiteralFilterIterC(state.List(),me);
   }
   
+  //: Substitute variables in 'binds' for their bound values.
+  // This builds a new literal with the substute values (if there
+  // are any). The new value is assigned to 'result' <p>
+  // Returns true if at least one substitution has been made,
+  // false if none.
+  
+  bool NotBodyC::Substitute(const BindSetC &binds,LiteralC &result) const {
+    LiteralC lit;
+    if(Term().Substitute(binds,lit)) {
+      result = NotC(lit);
+      return true;
+    }
+    result = NotC(const_cast<NotBodyC &>(*this));
+    return false;
+  }
+  
   //: Not operator.
   // FIXME :- Do more simplification.
 
@@ -90,6 +106,5 @@ namespace RavlLogicN {
     return NotC(true,lit);
   }
 
-  
   
 }
