@@ -32,17 +32,17 @@ namespace RavlN {
   {
   public:
     FVectorC()
-      {}
+    {}
     //: Default constructor.
     
     FVectorC(const TFVectorC<RealT,N> &oth)
       : TFVectorC<RealT,N>(oth)
-      {}
+    {}
     //: Base constructor.
     
     explicit FVectorC(const TFPointC<N> &oth)
       : TFVectorC<RealT,N>(oth)
-      {}
+    {}
     //: Base constructor.
 
     bool IsReal() const {
@@ -56,11 +56,11 @@ namespace RavlN {
     // or infinite values are found.
     
     RealT Magnitude() const 
-      { return Sqrt(SumSqr()); }
+    { return Sqrt(SumSqr()); }
     //: Calculate the magintude of the vector.
     
     inline RealT EuclidDistance(const TFVectorC<RealT,N> & i) const
-      { return Sqrt(SqrEuclidDistance(i)); }
+    { return Sqrt(SqrEuclidDistance(i)); }
     //: Returns the magintude of the difference between the two vectors.
     
     FVectorC<N> Unit() const {
