@@ -62,6 +62,7 @@ namespace RavlN {
   
   //! userlevel=Normal
   //: Design a weak linear classifier.
+  // This class should be used with the <a href="RavlN.DesignWeakLinearC.html"> DesignWeakLinearC </a> class. 
   
   class DesignWeakLinearC
     : public DesignClassifierSupervisedC

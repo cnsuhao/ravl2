@@ -21,6 +21,7 @@ namespace RavlN {
   //! userlevel=Develop
   //: ClassifierAverage k nearest neighbour classifier.
   // Amoung the k nearest neighours to the probe choose the label with the smallest average distance.
+  // This class can be used with the <a href="RavlN.DesignKNearestNeighbourC.html"> DesignKNearestNeighbourC </a> class. 
     
   class ClassifierAverageNearestNeighbourBodyC 
     : public ClassifierKNearestNeighbourBodyC
@@ -57,7 +58,8 @@ namespace RavlN {
   //! userlevel=Normal
   //: ClassifierAverage k nearest neighbour classifier.
   // Amoung the k nearest neighours to the probe choose the label with the smallest average distance.
-  
+  // This class can be used with the <a href="RavlN.DesignKNearestNeighbourC.html"> DesignKNearestNeighbourC </a> class. 
+
   class ClassifierAverageNearestNeighbourC 
     : public ClassifierKNearestNeighbourC
   {

@@ -20,7 +20,8 @@ namespace RavlN {
   
   //! userlevel=Develop
   //: Create a classifier based on a descriminant function.
-  //  This classifier returns the label with the highest value.
+  // This classifier returns the label with the highest value.
+  // This class can be used with <a href="RavlN.DesignDiscriminantFunctionC.html"> DesignDiscriminantFunctionC </a>  
   
   class ClassifierDiscriminantFunctionBodyC 
     : public ClassifierBodyC
@@ -62,7 +63,8 @@ namespace RavlN {
   //! userlevel=Develop
   //: Create a classifier based on a descriminant function.
   //  This classifier returns the label with the highest value.
-  
+  // This class can be used with <a href="RavlN.DesignDiscriminantFunctionC.html"> DesignDiscriminantFunctionC </a>  
+
   class ClassifierDiscriminantFunctionC 
     : public ClassifierC
   {

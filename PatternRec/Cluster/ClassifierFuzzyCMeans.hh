@@ -27,6 +27,8 @@ namespace RavlN {
 
   //! userlevel=Develop
   //: Fuzzy C-Means classifier
+  // This class can be used with the <a href="RavlN.DesignFuzzyCMeansClusterC.html"> DesignFuzzyCMeansClusterC </a> class. 
+
   
   class ClassifierFuzzyCMeansBodyC 
     : public ClassifierBodyC
@@ -63,7 +65,8 @@ namespace RavlN {
   
   //! userlevel=Normal
   //: Fuzzy C-Means classifier
- 
+   // This class can be used with the <a href="RavlN.DesignFuzzyCMeansClusterC.html"> DesignFuzzyCMeansClusterC </a> class. 
+
   
   class ClassifierFuzzyCMeansC 
     : public ClassifierC

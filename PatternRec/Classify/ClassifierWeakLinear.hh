@@ -22,7 +22,8 @@ namespace RavlN {
   //: Weak linear classifier
   // A weak linear classifier which uses a single feature to classify into one
   // of two classes using a threshold.
-  
+  // This class can be used with the <a href="RavlN.DesignWeakLinearC.html"> DesignWeakLinearC </a> class. 
+
   class ClassifierWeakLinearBodyC 
     : public ClassifierBodyC
   {
@@ -73,7 +74,8 @@ namespace RavlN {
     // The meaning of the confidence assigned to each label depends
     // on the classifier used. The higher the confidence the more likely
     // it is the label is correct.
-    
+    // This class can be used with the <a href="RavlN.DesignWeakLinearC.html"> DesignWeakLinearC </a> class. 
+
   protected:
     SArray1dC<IndexC> m_featureSet;
     RealT m_parityThreshold1;
@@ -86,6 +88,7 @@ namespace RavlN {
   //: Weak linear classifier
   // A weak linear classifier which uses a single feature to classify into one
   // of two classes using a threshold.
+  // This class can be used with the <a href="RavlN.DesignWeakLinearC.html"> DesignWeakLinearC </a> class. 
 
   class ClassifierWeakLinearC 
     : public ClassifierC

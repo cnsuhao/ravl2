@@ -21,7 +21,8 @@ namespace RavlN {
   //! userlevel=Develop
   //: A classifier based on a mixture of gaussian distributions.
   //  This classifier returns the label with the highest value.
-  
+  // This class can be used with the <a href="RavlN.DesignClassifierGaussianMixtureC.html"> DesignClassifierGaussianMixtureC </a> class. 
+
   class ClassifierGuassianMixtureBodyC 
     : public ClassifierBodyC
   {
@@ -62,7 +63,8 @@ namespace RavlN {
   //! userlevel=Normal
   //: A classifier based on a mixture of gaussian distributions.
   //  This classifier returns the label with the highest value.
-  
+  // This class can be used with the <a href="RavlN.DesignClassifierGaussianMixtureC.html"> DesignClassifierGaussianMixtureC </a> class. 
+
   class ClassifierGuassianMixtureC 
     : public ClassifierC
   {

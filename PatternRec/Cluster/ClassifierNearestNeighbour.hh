@@ -27,7 +27,8 @@ namespace RavlN {
   //! userlevel=Develop
   //: Nearest neighbours classifier.
   // Classifier probe vector as the closest neighbour.
-  
+  // This class can be used with the <a href="RavlN.DesignKNearestNeighbourC.html"> DesignKNearestNeighbourC </a> class. 
+
   class ClassifierNearestNeighbourBodyC 
     : public ClassifierBodyC
   {
@@ -65,7 +66,8 @@ namespace RavlN {
   //! userlevel=Normal
   //: Nearest neighbours classifier.
   // Classifier probe vector as the closest neighbour.
-  
+    // This class can be used with the <a href="RavlN.DesignKNearestNeighbourC.html"> DesignKNearestNeighbourC </a> class. 
+
   class ClassifierNearestNeighbourC 
     : public ClassifierC
   {

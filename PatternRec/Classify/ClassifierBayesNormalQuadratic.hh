@@ -21,7 +21,8 @@ namespace RavlN {
 
   //! userlevel=Develop
   //: A Bayes Normal Quadratic classifier
-  
+  // This class can be used with the <a href="RavlN.DesignBayesNormalQuadraticC.html"> DesignBayesNormalQuadraticC </a> class. 
+
   class ClassifierBayesNormalQuadraticBodyC
     : public ClassifierBodyC
   {
@@ -61,7 +62,8 @@ namespace RavlN {
   
   //! userlevel=Normal
   //: A Bayes Normal Quadratic classifier
-  
+  // This class can be used with the <a href="RavlN.DesignBayesNormalQuadraticC.html"> DesignBayesNormalQuadraticC </a> class. 
+
   class ClassifierBayesNormalQuadraticC
     : public ClassifierC 
   {

@@ -20,7 +20,8 @@ namespace RavlN {
 
   //! userlevel=Develop
   //: Bayes Normal Linear classifier
-  
+  // This class can be used with the <a href="RavlN.DesignBayesNormalLinearC.html"> DesignBayesNormalLinearC </a> class. 
+
   class ClassifierBayesNormalLinearBodyC
     : public ClassifierBodyC
   {
@@ -60,7 +61,8 @@ namespace RavlN {
   
   //! userlevel=Normal
   //: Bayes Normal Linear classifier
-  
+  // This class can be used with the <a href="RavlN.DesignBayesNormalLinearC.html"> DesignBayesNormalLinearC </a> class. 
+
   class ClassifierBayesNormalLinearC
     : public ClassifierC 
   {
