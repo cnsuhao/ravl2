@@ -37,6 +37,7 @@ int testTypes();
 int testEndian();
 int testIndex();
 int testMisc();
+int testRefCounter();
 int testSubIndexRange2dIter();
 int testSubIndexRange3dIter();
 int testIndexRange2dIter();
@@ -64,6 +65,10 @@ int main()
     return 1;
   }
   if((ln = testMisc()) != 0) {
+    cerr << "Test failed at line:" << ln << "\n";
+    return 1;
+  }
+  if((ln = testRefCounter()) != 0) {
     cerr << "Test failed at line:" << ln << "\n";
     return 1;
   }
@@ -173,6 +178,25 @@ int testMisc() {
   IntT v = Abs((int) x -  y);
   if(v != 1) return __LINE__;
 
+  return 0;
+}
+
+
+int testRefCounter() {
+  // Check atomic counting is sane.
+  ravl_atomic_t test = RAVL_ATOMIC_INIT(0);
+  if(ravl_atomic_read(&test) != 0)  return __LINE__;
+  ravl_atomic_set(&test,1); 
+  if(ravl_atomic_read(&test) != 1)  return __LINE__;
+  ravl_atomic_inc(&test);
+  if(ravl_atomic_read(&test) != 2)  {
+    cerr << "Value ="  << ravl_atomic_read(&test) << "\n";
+    return __LINE__;
+  }
+  ravl_atomic_dec(&test);
+  if(ravl_atomic_read(&test) != 1)  return __LINE__;
+  if(!ravl_atomic_dec_and_test(&test)) return __LINE__;
+  //if(ravl_atomic_inc_return(&test) != 1) return __LINE__;
   return 0;
 }
 

@@ -44,9 +44,14 @@ int testRawFD(); /* NB. This is only usefull on some platforms. */
 int testFDStream();
 int testBitStream();
 
+#if RAVL_OS_WIN32
+StringC testFile = "C:/WINDOWS/Temp/testStream" + StringC((IntT) getpid());
+#else
 StringC testFile = "/tmp/testStream" + StringC((IntT) getpid());
+#endif
 
 int main() {
+  cerr << "Starting test... \n";
   int errLine;
   // NOTE: test may fail if file exits and belongs to someone else!!
   if((errLine = SimpleTest()) != 0) {
@@ -69,10 +74,12 @@ int main() {
     cerr << "test failed line: " << errLine << "\n";
     return 1;
   }
+#if RAVL_HAVE_INTFILEDESCRIPTORS
   if((errLine = testRawFD()) != 0) {
     cerr << "test failed line: " << errLine << "\n";
     return 1;
   }
+#endif
   if((errLine = testBitStream()) != 0) {
     cerr << "test failed line: " << errLine << "\n";
     return 1;
@@ -82,6 +89,7 @@ int main() {
 }
 
 int VectorTest() {
+  cerr << "VectorTest(), Called. \n";
   TFVectorC<ByteT,3> val;
   
   val[0] = 1;
@@ -112,12 +120,13 @@ int VectorTest() {
       return __LINE__; 
     }
   }
+  cerr << "VectorTest(), Done. \n";
   return 0;
   
 }
 
 int StringTest() {
-  
+  cerr << "StringTest(), Called. \n";
   StringC strings[] = {"Hello", "this", "is", "a", "test"};
   {
     OStreamC os(testFile);
@@ -154,15 +163,18 @@ int StringTest() {
     }
     cerr << "\n";
   }
+  cerr << "StringTest(), Done. \n";
   return 0;
   
 }
 
 
 int SimpleTest() {
+  cerr << "SimpleTest(), Called. \n";
+
   ByteT val;
   RealT rval = 0.5;
-  FloatT fval = 0.7;
+  FloatT fval = 0.7f;
   val = 1;
   {
     BinOStreamC os(testFile);
@@ -184,11 +196,12 @@ int SimpleTest() {
     is >> val >> nval >> nfval;
     if(val != 1) {
       cerr << "Test failed. " << ((int) val) << "\n";
-      return __LINE__; 
+      return __LINE__;
     }
   }
   if(Abs(nval - rval) > 0.00000001)  return __LINE__;
   if(Abs(nfval - fval) > 0.00000001) return __LINE__;
+  cerr << "SimpleTest(), Done. \n";
   return 0;
 }
 
@@ -262,6 +275,7 @@ int testFDStream() {
   return 0;
 }
 
+#if RAVL_HAVE_INTFILEDESCRIPTORS
 int testRawFD() {
   int fds[2];
   pipe(fds);
@@ -306,6 +320,7 @@ int testRawFD() {
   if(let != rlet2) return __LINE__;
   return 0;
 }
+#endif
 
 int testBitStream() {
   cerr << "testBitStream(), Called. \n";

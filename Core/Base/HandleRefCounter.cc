@@ -13,11 +13,20 @@
 #include "Ravl/Assert.hh"
 #include "Ravl/Calls.hh"
 
+#define DODEBUG 0
+#if DODEBUG
+#include "Ravl/Stream.hh"
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
+
 namespace RavlN {
   
   //: Destructor.
   
   HandleRefCounterBodyC::~HandleRefCounterBodyC() { 
+    ONDEBUG(cerr << "HandleRefCounterBodyC::~HandleRefCounterBodyC(), Called. trig=" << trig.IsValid() << "\n");
     if(trig.IsValid())
       trig.Invoke();
   }
@@ -31,6 +40,7 @@ namespace RavlN {
   //: Add a new trigger to call on delete.
   
   void HandleRefCounterBodyC::AddDestructionOp(const TriggerC &newTrigger) {
+    ONDEBUG(cerr << "HandleRefCounterBodyC::AddDestructionOp(), Called. trig=" << trig.IsValid() << "\n");
     if(!trig.IsValid())
       trig = newTrigger;
     else

@@ -112,7 +112,7 @@ namespace RavlN {
     {}
     //: Copy Constructor.
     
-    virtual ~StreamBaseC() 
+    virtual ~StreamBaseC()
     {}
     //: Ensure correct destructor is used.
     
@@ -223,7 +223,7 @@ namespace RavlN {
     // '-' is treated as cout.
     
 #if RAVL_HAVE_INTFILEDESCRIPTORS 
-	OStreamC(int fd,bool binary = true,bool buffered = true);
+    OStreamC(int fd,bool binary = true,bool buffered = true);
     //: Send data to unix filehandle.
 #endif
     

@@ -52,43 +52,6 @@ namespace RavlN {
 #if RAVL_HAVE_STDNAMESPACE
   using namespace std;
 #endif
-
-#if RAVL_COMPILER_GCC3 && 0
-  // Part of a horrible hack to allow us to open a stream from a file descriptor.
-  
-  template<typename _CharT, typename _Traits>
-  class basic_fdfilebuf 
-    : public std::basic_filebuf< _CharT, _Traits>
-  {
-  public:
-    basic_filebuf<_CharT, _Traits>  *open(int fd, ios_base::openmode __mode) {
-      basic_filebuf<_CharT, _Traits> *__ret = NULL;
-      if (!this->is_open())
-	{
-	  // The true here will cause the file to be closed when stream is destroyed.
-	  _M_file.sys_open(fd, __mode,true); 
-	  if (this->is_open())
-	    {
-	      _M_allocate_internal_buffer();
-	      _M_mode = __mode;
-	      
-	      // For time being, set both (in/out) sets  of pointers.
-	      _M_set_indeterminate();
-	      if ((__mode & ios_base::ate)
-		  && this->seekoff(0, ios_base::end, __mode) < 0)
-		this->close();
-	      __ret = this;
-	    }
-	}
-      return __ret;      
-    }
-    //: Open a file handle.
-    
-    void SetBuf(char *buf,int len)
-    { setbuf(buf,len); }
-    //: Set buffer to use.
-  };
-#endif
   
   // A hook to allow a method to map urls to be added by another module.
   
@@ -124,6 +87,7 @@ namespace RavlN {
   // After this is called no further IO should be attempted!
   
   bool StreamBaseC::Close() {
+    ONDEBUG(cerr << "StreamBaseC::Close() Called. \n");
     if(s == 0)
       return false;
 #if !RAVL_COMPILER_VISUALCPP && !RAVL_COMPILER_GCC3
@@ -139,11 +103,13 @@ namespace RavlN {
   }
   
   static bool NukeIStream(istream *&is) {
+    ONDEBUG(cerr << "NukeIStream(), Called. \n");
     delete is;
     return true;
   }
   
   static bool NukeOStream(ostream *&os) {
+    ONDEBUG(cerr << "NukeOStream(), Called. \n");
     delete os;
     return true;
   }
@@ -176,6 +142,7 @@ namespace RavlN {
   // default constructor!
   
   bool StreamBaseC::Init(istream *ns,StringC afilename,bool nDelOnClose) {
+    ONDEBUG(cerr << "StreamBaseC::Init((istream *)" << ((void *) ns) << "," << afilename << "," << nDelOnClose << ")\n");
     name = afilename;
     s = ns;
     if(nDelOnClose)
@@ -190,6 +157,7 @@ namespace RavlN {
   // default constructor!
   
   bool StreamBaseC::Init(ostream *ns,StringC afilename,bool nDelOnClose) {
+    ONDEBUG(cerr << "StreamBaseC::Init((ostream *)" << ((void *) ns) << "," << afilename << "," << nDelOnClose << ")\n");
     name = afilename;
     s = ns;
     if(nDelOnClose)
