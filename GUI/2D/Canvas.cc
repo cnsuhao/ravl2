@@ -4,7 +4,6 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlGUI2D
 //! file="Ravl/GUI/2D/Canvas.cc"
@@ -13,6 +12,7 @@
 #include "Ravl/GUI/Canvas.hh"
 #include "Ravl/GUI/MouseEvent.hh"
 #include "Ravl/GUI/Manager.hh"
+#include "Ravl/CallMethodRefs.hh"
 #include <gtk/gtk.h>
 #include <iostream.h>
 
@@ -42,8 +42,7 @@ namespace RavlGUIN {
   }
   
   /* Create a new backing pixmap of the appropriate size */
-  static gint
-  win_configure_event (GtkWidget *widget, GdkEventConfigure *event, gpointer data ) {
+  static gint win_configure_event (GtkWidget *widget, GdkEventConfigure *event, gpointer data ) {
     CanvasBodyC &body = *(CanvasBodyC *) data;
     ONDEBUG(cerr <<"Configuring pixmap. \n");
     if(body.ConfigDone())
@@ -84,10 +83,17 @@ namespace RavlGUIN {
 		      0,0,
 		      0,0,
 		      xs, ys);
-    // Delete old pixmap.
+      // Delete old pixmap.
       gdk_pixmap_unref(orgPixmap);
     } 
     
+  /* Take care of pending actions that require the pixmap. */
+#if 0
+    while(!body.doDo.IsEmpty()) {
+      body.doDo.First().Invoke();
+      body.doDo.DelFirst();
+    }
+#endif
     ONDEBUG(cerr <<"Configuring pixmap done. \n");
     return true;
   }
@@ -160,7 +166,7 @@ namespace RavlGUIN {
       return widget->window;
     return pixmap; 
   }
-
+  
 
   //: Draw an image on the canvas.
   void CanvasBodyC::DrawImage(const ImageC<ByteT> &img,Index2dC offset) {
@@ -186,16 +192,22 @@ namespace RavlGUIN {
   // Call with GUI thread only!
   
   bool CanvasBodyC::GUIDrawImage(ImageC<ByteT> &img,Index2dC &ioffset) {
+    if(!IsReady()) {
+      cerr <<"CanvasBodyC::GUIDrawLine(), WARNING: Asked to render data before canvas is initialise. \n";
+      toDo.InsFirst(TriggerR(*this,&CanvasBodyC::GUIDrawImage,img,ioffset));
+      return true;
+    }
     if(img.IsEmpty()) {
       cerr << "CanvasBodyC::GUIDrawImage(), WARNING: Ask to render empty image. \n";
       return true;
     }
-    
+    if(widget == 0) {
+      cerr <<"CanvasBodyC::GUIDrawImage(), WARNING: Asked to render image before canvas is initialise. \n";
+      return true;
+    }
     Index2dC off = ioffset + img.Rectangle().Origin();    
     int atx = off.Row().V();
     int aty = off.Col().V();
-    
-    GtkWidget *widget = Widget();
     gdk_draw_gray_image(DrawArea(),
 			widget->style->black_gc,
 			atx,aty,
@@ -219,6 +231,11 @@ namespace RavlGUIN {
   // Call with GUI thread only!
   
   bool CanvasBodyC::GUIDrawRGBImage(ImageC<ByteRGBValueC> &img,Index2dC &ioffset) {
+    if(!IsReady()) {
+      cerr <<"CanvasBodyC::GUIDrawLine(), WARNING: Asked to render data before canvas is initialise. \n";
+      toDo.InsFirst(TriggerR(*this,&CanvasBodyC::GUIDrawRGBImage,img,ioffset));
+      return true;
+    }
     if(img.IsEmpty()) {
       cerr << "GUIRenderRGBImageBodyC::Render(), WARNING: Ask to render empty image. \n";
       return true;
@@ -251,7 +268,11 @@ namespace RavlGUIN {
   //: Draw a line.
   
   bool CanvasBodyC::GUIDrawLine(IntT &x1,IntT &y1,IntT &x2,IntT &y2,IntT &c) {
-    GtkWidget *widget = Widget();
+    if(!IsReady()) {
+      cerr <<"CanvasBodyC::GUIDrawLine(), WARNING: Asked to render data before canvas is initialise. \n";
+      toDo.InsFirst(TriggerR(*this,&CanvasBodyC::GUIDrawLine,x1,y1,x2,y2,c));
+      return true;
+    }
     GdkGC *gc;
     if(c == 0)
       gc = widget->style->white_gc;
@@ -271,7 +292,11 @@ namespace RavlGUIN {
   //: Draw some text.
   
   bool CanvasBodyC::GUIDrawText(IntT &x1,IntT &y1,StringC &text,IntT &c) {
-    GtkWidget *widget = Widget();
+    if(!IsReady()) {
+      cerr <<"CanvasBodyC::GUIDrawText(), WARNING: Asked to render data before canvas is initialise. \n";
+      toDo.InsFirst(TriggerR(*this,&CanvasBodyC::GUIDrawText,x1,y1,text,c));
+      return true;
+    }
     GdkGC *gc;
     if(c == 0)
       gc = widget->style->white_gc;
@@ -292,6 +317,11 @@ namespace RavlGUIN {
   //: Refresh display.
   
   bool CanvasBodyC::GUIRefresh() {
+    if(widget == 0) {
+      cerr <<"CanvasBodyC::GUIRefresh(), WARNING: Asked to refresh before canvas is initialise. \n";
+      toDo.InsFirst(TriggerR(*this,&CanvasBodyC::GUIRefresh));
+      return true;
+    }
     GdkRectangle update_rect;
     update_rect.x = 0;
     update_rect.y = 0;
@@ -341,8 +371,13 @@ namespace RavlGUIN {
   // GUI thread only.
   
   GdkColor &CanvasBodyC::GetColour(int n) {
+    static GdkColor nullColour;
     GdkColor &ret = colourTab[((UIntT)(n-1)) % colourTab.Size()];
     if(ret.pixel == 0) { // Need to allocate ?
+      if(widget == 0) {
+	cerr <<"CanvasBodyC::GetColour(), WARNING: Called before canvas is initalised. \n";
+	return nullColour;
+      }
       GdkColormap *colorMap = gdk_window_get_colormap(widget->window);
       if(!gdk_colormap_alloc_color (colorMap,
 				    &ret,

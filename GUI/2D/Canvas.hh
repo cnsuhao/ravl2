@@ -4,24 +4,23 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLGUICANVAS_HEADER
-#define RAVLGUICANVAS_HEADER 1
+#ifndef RAVLGUI_CANVAS_HEADER
+#define RAVLGUI_CANVAS_HEADER 1
 ////////////////////////////////////////////////
 //! docentry="Ravl.GUI.Control"
 //! file="Ravl/GUI/2D/Canvas.hh"
 //! lib=RavlGUI2D
 //! author="Charles Galambos"
 //! example=exCanvas.cc
-//! date="17/03/99"
+//! date="17/03/1999"
 //! rcsid="$Id$"
 
 #include "Ravl/GUI/Widget.hh"
-
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
-
 #include "Ravl/SArray1d.hh"
-
+#include "Ravl/DList.hh"
+#include "Ravl/Trigger.hh"
 #include <gdk/gdktypes.h>
 
 namespace RavlGUIN {
@@ -41,10 +40,12 @@ namespace RavlGUIN {
     ~CanvasBodyC();
     //: Destructor.
     
-    GtkWidget *DDrawArea() { return widget; }
+    GtkWidget *DDrawArea() 
+    { return widget; }
     //: Direct draw area.
   
-    GdkPixmap * &Pixmap() { return pixmap; }
+    GdkPixmap * &Pixmap() 
+    { return pixmap; }
     //: Pixmap.
     
     GdkDrawable *DrawArea();
@@ -101,7 +102,15 @@ namespace RavlGUIN {
     //: Draw some text
     // Call with GUI thread only!
     
+    bool IsReady() const { 
+      if(widget == 0) return false;
+      if(direct) return true;
+      return pixmap != 0;
+    }
+    //: Is Canvas ready for drawing.
+    
   protected:
+    
     virtual bool Create();
     //: Create the widget.
     
@@ -123,7 +132,9 @@ namespace RavlGUIN {
     
     GdkGC *drawGC;
     SArray1dC<GdkColor> colourTab; // Colour table.
-
+    
+    DListC<TriggerC> toDo; // List of things to do as soon as we're initalised.
+    
     friend class CanvasC;
   };
   
@@ -223,6 +234,9 @@ namespace RavlGUIN {
     //: Draw some text.
     // Call with GUI thread only!
     
+    bool IsReady() const 
+    { return Body().IsReady(); }
+    //: Is Canvas ready for drawing ?
     
     friend class CanvasBodyC;
   };
