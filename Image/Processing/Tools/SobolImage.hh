@@ -12,7 +12,7 @@
 //! lib=RavlImageProc
 //! author="Charles Galambos"
 //! rcsid="$Id$"
-//! date="07/01/99"
+//! date="07/01/1999"
 
 #include "Ravl/Image/Image.hh"
 
@@ -21,6 +21,7 @@ namespace RavlImageN {
   ImageC<UIntT> SobolImage(const ImageRectangleC &rect);
   //! userlevel=Normal
   //: Generate a sobel image of a given size.
+  // Each pixel image is set to it place in a Sobol sequence.
   
 }
 #endif

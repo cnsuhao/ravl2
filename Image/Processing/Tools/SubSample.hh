@@ -4,13 +4,14 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_SUBSAMPLE_HEADER
-#define RAVL_SUBSAMPLE_HEADER 1
+#ifndef RAVLIMAGE_SUBSAMPLE_HEADER
+#define RAVLIMAGE_SUBSAMPLE_HEADER 1
 ////////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Images.Misc"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Tools/SubSample.hh"
+//! author="Charles Galambos"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Average.hh"

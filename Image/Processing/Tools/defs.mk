@@ -9,7 +9,7 @@
 
 PACKAGE=Ravl/Image
 
-HEADERS=Rectangle2dIter.hh SobolImage.hh SubSample.hh
+HEADERS=Rectangle2dIter.hh SobolImage.hh SubSample.hh SummedAreaTable.hh
 
 SOURCES=Rectangle2dIter.cc SobolImage.cc 
 
