@@ -77,9 +77,12 @@ namespace RavlN {
       oneFeature[0] = it.Data3();
       weightedSumLabels += it.Data2() * it.Data1().Classify(data,oneFeature);
     }
-    return weightedSumLabels >= 0.5 * m_sumWeights;
+    return weightedSumLabels >= m_sumWeights; // threshold is included in sum weights
   }
       
   RAVL_INITVIRTUALCONSTRUCTOR_FULL(ClassifierLinearCombinationBodyC,ClassifierLinearCombinationC,ClassifierC);
+
+  void InitRavlClassifierLinearCombinationIO() {
+  }
 
 }

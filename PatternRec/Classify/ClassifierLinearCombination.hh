@@ -28,7 +28,7 @@ namespace RavlN {
     : public ClassifierBodyC
   {
   public:
-    ClassifierLinearCombinationBodyC(SArray1dC<ClassifierC> weakClassifiers, SArray1dC<RealT> weights)
+    ClassifierLinearCombinationBodyC(SArray1dC<ClassifierC> weakClassifiers, SArray1dC<RealT> weights, RealT threshold)
       :m_weakClassifiers(weakClassifiers),
        m_weights(weights),
        m_sumWeights(0.0),
@@ -39,6 +39,7 @@ namespace RavlN {
 	m_sumWeights += it.Data1();
 	it.Data2() = it.Index();
       }
+      m_sumWeights *= threshold;
     }
     //: Constructor.
     //!param: weakClassifiers - a set of classifiers to be combined
@@ -84,8 +85,8 @@ namespace RavlN {
     //: Default constructor 
     // Creates an invalid handle.
 
-    ClassifierLinearCombinationC(SArray1dC<ClassifierC> weakClassifiers, SArray1dC<RealT> weights)
-      : ClassifierC(*new ClassifierLinearCombinationBodyC(weakClassifiers,weights))
+    ClassifierLinearCombinationC(SArray1dC<ClassifierC> weakClassifiers, SArray1dC<RealT> weights, RealT threshold)
+      : ClassifierC(*new ClassifierLinearCombinationBodyC(weakClassifiers,weights,threshold))
     {}
     //: Constructor.
     
@@ -106,6 +107,8 @@ namespace RavlN {
     {}
     //: Body ptr constructor.
   };
+
+  void InitRavlClassifierLinearCombinationIO();
       
 }
 #endif
