@@ -33,6 +33,11 @@ namespace RavlN {
     RavlAssert(0);
     return *new RCBodyC();
   }
+
+  RCBodyC &RCBodyC::DeepCopy(UIntT level) const {
+    RavlAssert(0);
+    return *new RCBodyC();
+  }
   
   istream &operator>>(istream &strm,RCBodyC &obj) {
     return strm;
@@ -58,12 +63,18 @@ namespace RavlN {
   }
   //: Make copy of body.
   
+  RCBodyC &RCBodyVC::DeepCopy(UIntT levels) const {
+    RavlAssert(0);
+    return *new RCBodyVC();
+  }
+  //: Make copy of body.
+  
   istream &operator>>(istream &strm,RCBodyVC &obj) {
     return strm;
   }
   //: Input virtual body.
   // No-op.
-
+  
   ostream &operator<<(ostream &strm,const RCBodyVC &obj) {
     return strm;
   }

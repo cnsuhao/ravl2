@@ -58,6 +58,11 @@ namespace RavlN {
     // This should be provided in derived classes.
     // this funtion will issue an assertion failure if called.
     
+    RCBodyC &DeepCopy(UIntT levels = ((UIntT) -1)) const;
+    //: Make a deep copy of body.
+    // This should be provided in derived classes.
+    // this funtion will issue an assertion failure if called.
+    
     void IncRefCounter()
       { ravl_atomic_inc(&counter); }
     //: Increment reference counter.
@@ -95,6 +100,11 @@ namespace RavlN {
   protected:
     virtual RCBodyVC &Copy() const;
     //: Make copy of body.
+    // This should be provided in derived classes.
+    // this funtion will issue an assertion failure if called.
+
+    virtual RCBodyC &DeepCopy(UIntT levels = ((UIntT) -1)) const;
+    //: Make a deep copy of body.
     // This should be provided in derived classes.
     // this funtion will issue an assertion failure if called.
 
@@ -162,6 +172,10 @@ namespace RavlN {
       return *this;
     }
     //: Assign handle.
+
+    RCHandleC<BodyT> DeepCopy(UIntT levels = ((UIntT) -1)) const
+      { return RCHandleC<BodyT>(Body().DeepCopy(levels)); }
+    //: Do a deep copy of the object.
     
     bool operator==(const RCHandleC<BodyT> &oth) const
       { return body == oth.body; }
