@@ -193,6 +193,11 @@ namespace RavlGUIN {
     gdk_threads_init();
 #endif
     
+    // In theory no other threads should be running yet so the following
+    // lock is not nessary.
+    
+    LockGtkThreadC  gtkLock(*this); 
+    
     /* this is called in all GTK applications.  arguments are parsed from
      * the command line and are returned to the application. */
     gtk_init (&nargs, &args);
@@ -266,7 +271,7 @@ namespace RavlGUIN {
     physicalScreensize = Point2dC(gdk_screen_height_mm(),gdk_screen_width_mm());
     gtkLock.Unlock();
     
-    guiThreadID1 = ThisThreadID();
+    //guiThreadID1 = ThisThreadID();
 #if !RAVL_USE_GTKDIRECT    
     LaunchThreadR(*this,&ManagerC::HandleNotify);
 #else
@@ -276,7 +281,6 @@ namespace RavlGUIN {
     gtkLock.Lock();
     gtk_main();
     gtkLock.Unlock();
-    gdk_threads_leave();
     ONDEBUG(cerr << "ManagerC::Start(), gtk_main() Done.\n");
 #else
     // Get screen size from GDK
