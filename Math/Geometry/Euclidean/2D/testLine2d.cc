@@ -107,7 +107,10 @@ int testLine2d() {
   LinePP2dC line2(Point2dC(0,1),Point2dC(1,0));
   if(!line2.IsPointToRight(Point2dC(0,0))) return __LINE__;
   if(line2.IsPointToRight(Point2dC(1,1))) return __LINE__;
-  
+
+  RealT val = line2.ParIntersection(line1);
+  cerr << "Val=" << val << "\n";
+  if(Abs(val - 0.5) > 0.0001) return __LINE__;
   return 0;
 }
 

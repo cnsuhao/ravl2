@@ -104,8 +104,14 @@ namespace RavlN {
    }
    
    RealT LinePP2dC::ParIntersection(const LinePP2dC & l) const {
-      Vector2dC u2P(static_cast<Vector2dC>(l.Vector()).Perpendicular());
-      return (l.FirstPoint()-FirstPoint()).Dot(u2P)/Vector().Dot(u2P);   
+#if 0
+     Vector2dC u2P(Vector2dC(;
+     return (l.FirstPoint()-FirstPoint()).Dot(u2P)/Vector().Dot(u2P);
+#else
+			     
+     Vector2dC u2P(l.point[0][1] - l.point[1][1],l.point[1][0] - l.point[0][0]); // u2p = l.Vector().Perpendicular();
+     return (l.FirstPoint()-FirstPoint()).Dot(u2P)/Vector().Dot(u2P);     
+#endif
    }
    
    bool LinePP2dC::HasInnerIntersection(const LinePP2dC & l) const {
