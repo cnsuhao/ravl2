@@ -137,9 +137,9 @@ namespace RavlImageN {
       // find best compensated pixel in image & write it as current pixel.
       Index2dC p = it.Index();
       Vector2dC rp(p[0],p[1]);
-      Vector2dC p_shifted(rp + it.Data2());
+      Vector2dC p_shifted(rp + it.Data2() - shift);
       if (im.Frame().Contains(p_shifted)) {
-	BilinearInterpolation(im,p_shifted - shift,it.Data1());
+	BilinearInterpolation(im,p_shifted,it.Data1());
       } else {
 	Index2dC at(rp + it.Data2());
 	if(at[0] < im.Frame().TRow())
