@@ -187,13 +187,17 @@ int testFFTShift() {
     if(Abs(rit.Data1().Im() - rit.Data2().Im()) > 0.000001)
       return __LINE__;
   }
-
+ 
   // Fixed test for odd size
   SArray2dC<ComplexC> oddSize(3,5);
-  i=0;
+  int c=0;
   for( SArray2dIterC<ComplexC> it(oddSize); it; it++ )
-    *it = ComplexC(i++, i++);
-
+    {
+      int i = c++ ; 
+      int j = c++ ;  
+      *it = ComplexC(i,j) ;
+    }
+  
   SArray2dC<ComplexC> sOddSize = FFT2dC::FFTShift(oddSize);
 
   SArray2dC<ComplexC> correctSOddSize(3,5);
