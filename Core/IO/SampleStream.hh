@@ -55,12 +55,20 @@ namespace RavlN {
     { return sinput.DSeek((Int64T) off * sampleRate); }
     //: Delta seek
     
-    virtual UIntT Tell() const 
-    { return (sinput.Tell64() - startFrame) / sampleRate; }
+    virtual UIntT Tell() const { 
+      UIntT pos = sinput.Tell();
+      if(pos == ((UIntT) -1))
+	return pos;
+      return ( - startFrame) / sampleRate; 
+    }
     //: Get current position in stream.
     
-    virtual UIntT Size() const 
-    { return (sinput.Size64() - startFrame) / sampleRate; }
+    virtual UIntT Size() const { 
+      UIntT size = sinput.Size();
+      if(size == ((UIntT) -1))
+	return size;
+      return (size - startFrame) / sampleRate;
+    }
     //: Get size of stream
     
     virtual UIntT Start() const 
@@ -75,12 +83,20 @@ namespace RavlN {
     { return sinput.DSeek(off * sampleRate); }
     //: Delta seek
     
-    virtual Int64T Tell64() const 
-    { return (sinput.Tell64() - startFrame) / sampleRate; }
+    virtual Int64T Tell64() const { 
+      Int64T pos = sinput.Tell64();
+      if(pos == streamPosUnknown)
+	return streamPosUnknown;
+      return (pos - startFrame) / sampleRate; 
+    }
     //: Get current position in stream.
     
-    virtual Int64T Size64() const 
-    { return (sinput.Size64() - startFrame) / sampleRate; }
+    virtual Int64T Size64() const { 
+      Int64T size = sinput.Size64();
+      if(size == streamPosUnknown)
+	return streamPosUnknown;
+      return (size - startFrame) / sampleRate; 
+    }
     //: Get size of stream
     
     virtual Int64T Start64() const 
