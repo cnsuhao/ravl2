@@ -94,9 +94,9 @@ namespace RavlImageN {
     ONDEBUG(cerr << "FileFormatCifBodyC::CreateInput(const StringC &,const type_info &), Called. \n");
     if(obj_type == typeid(ImageC<ByteYUVValueC>)) {
       IStreamC strm(filename);
-    if(!strm)
-      return DPIPortBaseC();
-    return DPIImageCifC(strm,vSize);
+      if(!strm)
+	return DPIPortBaseC();
+      return DPIImageCifC(strm,vSize);
     }
     return DPIPortBaseC();
   }

@@ -160,7 +160,7 @@ namespace RavlImageN {
       r2 = head.Row(r++);
       eor = &r1[cols.V()];
       while(r1 != eor) {
-	ByteT byte = strm.get() - 128;
+	SByteT byte = strm.get() - 128;
 	r1->U() = byte;
 	r2->U() = byte;
 	r1++;
@@ -177,7 +177,7 @@ namespace RavlImageN {
       r2 = head.Row(r++);
       eor = &(r1[cols.V()]);
       while(r1 != eor) {
-	ByteT byte = strm.get() - 128;
+	SByteT byte = strm.get() - 128;
 	r1->V() = byte;
 	r2->V() = byte;
 	r1++;

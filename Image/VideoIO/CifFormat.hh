@@ -67,7 +67,7 @@ namespace RavlImageN {
     
     virtual bool IsStream() const { return true; }
     //: Test if format is a fully streamable.
-    // i.e. check if you can read/write more than object object.
+    // check if you can read/write more than object object.
     
   protected:
     StringC vName;  // Variant name.
