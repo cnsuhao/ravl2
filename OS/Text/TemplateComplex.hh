@@ -169,7 +169,7 @@ namespace RavlN {
     StackC<OStreamC> output;
     StackC<RCHashC<StringC,StringC> > vars;
     HSetC<StringC> presets;
-    HashC<SubStringC,CallFunc1C<StringC,bool> > commands;
+    HashC<SubStringC,CallFunc1C<StringC &,bool> > commands;
     HashC<StringC,TextFileC> component; // Components.
     bool verbose;
     IntT incDepth; // Include depth. 

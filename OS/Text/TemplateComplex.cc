@@ -81,9 +81,9 @@ namespace RavlN {
   //: Setup default commands.
   
   void TemplateComplexBodyC::InitCommands() {
-    commands["FilePattern"] = CallFunc1C<StringC,bool>(false); // Not need here, ignore it.
-    commands["FileObject"] = CallFunc1C<StringC,bool>(false);  // Not need here, ignore it.
-    commands["//"] = CallFunc1C<StringC,bool>(false);          // Comment, ignore.
+    commands["FilePattern"] = CallFunc1C<StringC &,bool>(false); // Not need here, ignore it.
+    commands["FileObject"] = CallFunc1C<StringC &,bool>(false);  // Not need here, ignore it.
+    commands["//"] = CallFunc1C<StringC &,bool>(false);          // Comment, ignore.
     SetupCommand("set",&TemplateComplexBodyC::DoSet);
     SetupCommand("for",&TemplateComplexBodyC::DoFor);
     SetupCommand("if",&TemplateComplexBodyC::DoIf);
@@ -725,7 +725,7 @@ namespace RavlN {
       }
       
       // Prefixed command.
-      CallFunc1C<StringC,bool> &com = commands[ip.before(at)];
+      CallFunc1C<StringC &,bool> &com = commands[ip.before(at)];
       if(!com.IsValid()) {
 	cerr << "Unknown command: '" << ip.before(at) << "' in template '" << templFile.Filename() << "' \n";
 	continue;

@@ -44,7 +44,7 @@ int main(int nargs,char **argv) {
   SourceCodeManagerC chkit(fn);
   if(verb)
     chkit.SetVerbose(true);  
-  chkit.ForAllDirs(CallFunc2C<StringC,DefsMkFileC,bool>(&CheckDirectory),false);
+  chkit.ForAllDirs(CallFunc2C<StringC&,DefsMkFileC&,bool>(&CheckDirectory),false);
 
   return 0;
 }

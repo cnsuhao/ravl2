@@ -43,11 +43,11 @@ namespace RavlN {
     // the root directory of the project.  The root defs.mk file
     // is indexed by '.'
     
-    bool ForAllDirs(CallFunc2C<StringC,DefsMkFileC,bool> op,bool inActiveAsWell = false);
+    bool ForAllDirs(CallFunc2C<StringC &,DefsMkFileC &,bool> op,bool inActiveAsWell = false);
     //: For all directories in project do 'op'.
     // 
     
-    bool MissingSubDir(const CallFunc1C<StringC,bool> &missingDir) { 
+    bool MissingSubDir(const CallFunc1C<StringC &,bool> &missingDir) { 
       onMissingDirectory = missingDir;
       return true;
     } 
@@ -71,7 +71,7 @@ namespace RavlN {
     
     HashC<StringC,DefsMkFileC> defsFiles; // Cache of defs.mk file info.
     
-    CallFunc1C<StringC,bool> onMissingDirectory; // What to do when you find a missing directory.
+    CallFunc1C<StringC&,bool> onMissingDirectory; // What to do when you find a missing directory.
     
     bool abortOnError; // Abort processing on error ?
     bool verbose;      // Be verbose about what we're doing ?
