@@ -24,7 +24,7 @@ Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
   StringC class implementation
  */
 
-
+#include "Ravl/config.h"
 // On systems like linux on ix86 is better to use the tuned
 // 'C' string code.
 #define USE_CSTRING 1
@@ -34,7 +34,7 @@ Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include "Ravl/String.hh"
 #include "Ravl/Index.hh"
 
-#if defined(__sgi__)
+#if RAVL_OS_IRIX
 #include <std.h>
 #endif
 
@@ -65,8 +65,7 @@ Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 namespace RavlN {
   
   
-  // 
-#if defined(__linux__) || defined(__sol2__)
+#if RAVL_OS_LINUX || RAVL_OS_SOLARIS
 #ifndef RAVL_ATOMIC_INIT
 #define RAVL_ATOMIC_INIT(x) (x)
 #endif
