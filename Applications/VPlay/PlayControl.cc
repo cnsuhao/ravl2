@@ -93,8 +93,19 @@ namespace RavlGUIN {
   
   
   bool PlayControlBodyC::Rewind() {
-    Speed(1);  
-    Seek(0); 
+    Speed(0);
+    MutexLockC hold(access);
+    if(!pc.IsValid())
+      return true;
+    pc.ToBeginning();
+    int tell = pc.Tell();
+    if(tell >= 0) {
+      for(DLIterC<DPPlayControlC> it(pcs);it.IsElm();it.Next())
+	it.Data().Seek(tell);      
+    } else {
+      for(DLIterC<DPPlayControlC> it(pcs);it.IsElm();it.Next())
+	it.Data().ToBeginning();
+    }
     return true;
   }
   

@@ -88,7 +88,7 @@ namespace RavlN {
     // Preserve sequence limits ???
     start = ctrl.Start();
     at = start;
-    ctrl.Seek(0);
+    ctrl.Seek(start);
     UIntT sSize = ctrl.Size();
     if(sSize != ((UIntT) -1))
       end = sSize -1;
@@ -330,7 +330,19 @@ namespace RavlN {
   
   void DPPlayControlBodyC::ToBeginning() {
     Speed(1);
-    Seek(0);
+    ONDEBUG(cerr << "DPPlayControlBodyC::ToBeginning(), Called. Start=" << start << " Mode=" << playMode << "\n");
+    switch(playMode) {
+    case 0:
+      Seek(start);
+      break;
+    case 1: // Sub sequence.
+    case 2: // Loop
+    case 3: // Palindrome.
+      Seek(subStart);
+    default:
+      Seek(start);
+      break;
+    }
   }
   
   //: Fast forward. (for GUI)
@@ -383,7 +395,19 @@ namespace RavlN {
     if(FixedEnd() == ((UIntT) -1)) 
       return ;
     Pause();  
-    Seek(FixedEnd()); 
+    
+    switch(playMode) {
+    case 0:
+      Seek(end);
+      break;
+    case 1: // Sub sequence.
+    case 2: // Loop
+    case 3: // Palindrome.
+      Seek(subEnd);
+    default:
+      Seek(end);
+      break;
+    }
   }
   
   //: Goto position in sequence. (for GUI)
