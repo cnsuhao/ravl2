@@ -383,7 +383,7 @@ namespace RavlN {
   {
   public:
     CallMethodRef5BodyC(ObjT &nobj,RetT (ObjT::*nfunc)(Data1T &,Data2T &,Data3T &,Data4T &,Data5T &),const Data1T &ndat1,const Data2T &ndat2,const Data3T &ndat3,const Data4T &ndat4,const Data5T &ndat5)
-      : CallFunc5BodyC<Data1T,Data2T,Data3T,Data4T,Data5T,RetT>((VoidFuncPtrT) 0,dat1,dat2,dat3,dat4,dat5),
+      : CallFunc5BodyC<Data1T,Data2T,Data3T,Data4T,Data5T,RetT>((VoidFuncPtrT) 0,ndat1,ndat2,ndat3,ndat4,ndat5),
 	mPtr(nfunc),
 	obj(nobj)
       {}
