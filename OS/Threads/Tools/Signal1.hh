@@ -340,8 +340,8 @@ namespace RavlN {
     Signal1C(const DataT &defV)
       : Signal0C(*new Signal1BodyC<DataT>(defV))
     {}
-    //: Default constructor.
-    // Creates an invalid handle.
+    //: Constructor.
+    // Creates a valid signal
     
   protected:
     Signal1C(Signal1BodyC<DataT> &sig)
