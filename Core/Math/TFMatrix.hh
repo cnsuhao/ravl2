@@ -244,7 +244,7 @@ namespace RavlN {
   // the result.
 
   template<class DataT,unsigned int N,unsigned int M,unsigned int MT>
-  void Mul(const TFMatrixC<DataT,N,M> &fmat,const TFMatrixC<DataT,M,MT> &mat,TFMatrixC<DataT,N,MT> &result) {
+  void MulM(const TFMatrixC<DataT,N,M> &fmat,const TFMatrixC<DataT,M,MT> &mat,TFMatrixC<DataT,N,MT> &result) {
     for(UIntT i = 0;i < N;i++)
       for(UIntT j = 0;j < MT;j++) {
 	DataT &val = result[i][j];

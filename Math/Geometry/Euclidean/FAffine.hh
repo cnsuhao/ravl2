@@ -129,7 +129,7 @@ namespace RavlN {
   inline FAffineC<N> FAffineC<N>::I(void) const {
     FAffineC<N> ret;
     ret.SR = SR.I();
-    Mul(iSR,T,ret.T);
+    Mul(ret.SR,T,ret.T);
     ret.T *= -1;
     return ret;
   }
