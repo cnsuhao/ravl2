@@ -216,11 +216,12 @@ int Validate(char *dir)
       passed = false;
       continue;
     }
-    if(!testit.Wait(60 * 2)) { // Wait up to 2 minites
-      cout << "FAILED -> Timeout,  Terminated.  \n"<< flush;
-      testit.Terminate();
-      passed = false;
-      continue;
+    if ( testit.IsRunning() )
+      if(!testit.Wait(60 * 2)) { // Wait up to 2 minites
+	cout << "FAILED -> Timeout,  Terminated.  \n"<< flush;
+	testit.Terminate();
+	passed = false;
+	continue;
     }
     if(!testit.ExitedOk()) {
       cout << "FAILED -> Abnormal exit,  ";
