@@ -18,6 +18,13 @@
 #include "Ravl/GUI/GTKTypes.hh"
 #include "Ravl/RefCounter.hh"
 
+// Namespace fix for Visual C++.
+#ifdef VISUAL_CPP
+#ifndef RavlGUIN
+#define RavlGUIN RavlN
+#endif
+#endif
+
 namespace RavlGUIN {
   
   using namespace RavlN;

@@ -90,11 +90,12 @@ namespace RavlGUIN {
     delete tlist; // Hope I don't need this now.
     gtk_clist_set_selection_mode(GTK_CLIST(widget),selMode);
     // Append lines that we've stored up.
-    for(DLIterC<Tuple2C<IntT,SArray1dC<CListCellC> > > it(data);it;it++)
-      GUIAppendCLine(it->Data1(),it->Data2());
+    for(DLIterC<Tuple2C<IntT,SArray1dC<CListCellC> > > it2(data);it2;it2++)
+      GUIAppendCLine(it2->Data1(),it2->Data2());
     
-    ConnectRef(Signal("select_row"),*this,&CListBodyC::GUIRowSelected);
-    ConnectRef(Signal("unselect_row"),*this,&CListBodyC::GUIRowUnselected);
+    CListEventC defaultInit;
+    ConnectRef(Signal("select_row"),*this,&CListBodyC::GUIRowSelected,defaultInit);
+    ConnectRef(Signal("unselect_row"),*this,&CListBodyC::GUIRowUnselected,defaultInit);
     ConnectSignals();
     return true;
   }

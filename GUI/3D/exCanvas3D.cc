@@ -91,8 +91,8 @@ int main(int nargs,char *args[])
   
   win.Add(area);
   cerr << "Starting gui. \n";
-  win.Show();
   Manager.Execute();
+  win.Show();
   Sleep(1);
   area.Render(&InitGL); // Set things up.
   area.Light(RealRGBValueC(0.8,0.8,0.8),Point3dC(3,3,10));

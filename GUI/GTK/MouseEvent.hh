@@ -17,6 +17,13 @@
 #include "Ravl/Types.hh"
 #include "Ravl/Index2d.hh"
 
+// Namespace fix for Visual C++
+#ifdef VISUAL_CPP
+#ifndef RavlGUIN
+#define RavlGUIN RavlN
+#endif
+#endif
+
 typedef struct _GdkEventMotion	    GdkEventMotion;
 typedef struct _GdkEventButton	    GdkEventButton;
 

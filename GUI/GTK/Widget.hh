@@ -25,12 +25,12 @@
 #include "Ravl/String.hh"
 #include <gtk/gtkenums.h>
 
-extern "C" {
-  struct _GdkWindow;
-  typedef struct _GdkEventMotion	    GdkEventMotion;
-  typedef struct _GdkEventButton	    GdkEventButton;
-  typedef struct _GdkWindow        GdkBitmap;
-}
+// Namespace fix for Visual C++
+#ifdef VISUAL_CPP
+#ifndef RavlGUIN
+#define RavlGUIN RavlN
+#endif
+#endif
 
 namespace RavlGUIN {
 

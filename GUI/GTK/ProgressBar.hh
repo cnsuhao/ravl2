@@ -74,7 +74,7 @@ namespace RavlGUIN{
       {}
     //: Default constructor.
     
-    ProgressBarC(ProgBarTypeT ntype=GUIPROGBAR_CONTINUOUS,
+    ProgressBarC(ProgBarTypeT ntype,
 		 ProgBarOrientationT orient = GUIPROGBAR_LEFT_TO_RIGHT,
 		 int nblocks = 10)
       : WidgetC(*new ProgressBarBodyC(ntype,orient,nblocks))

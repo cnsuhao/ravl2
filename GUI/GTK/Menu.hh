@@ -237,7 +237,7 @@ namespace RavlGUIN {
   
   
   template<class Data1T,class Data2T>
-  MenuItemC MenuItem(const StringC &label,bool (*func)(Data1T &, Data2T &),const Data1T &dat1 = Data1T(),const Data2T &dat2 = Data2T()) {
+  MenuItemC MenuItem(const StringC &label,bool (*func)(Data1T &, Data2T &),const Data1T &dat1,const Data2T &dat2) {
     MenuItemC ret(label);
     Connect(ret.SigSelected(),func,dat1,dat2);
     return ret;
@@ -245,7 +245,7 @@ namespace RavlGUIN {
   //: Create new menu item, connect to a function.
   
   template<class Data1T>
-  MenuItemC MenuItem(const StringC &label,bool (*func)(Data1T &),const Data1T &dat1 = Data1T()) {
+  MenuItemC MenuItem(const StringC &label,bool (*func)(Data1T &),const Data1T &dat1) {
     MenuItemC ret(label);
     Connect(ret.SigSelected(),func,dat1);
     return ret;
@@ -253,7 +253,7 @@ namespace RavlGUIN {
   //: Create new menu item, connect to a function.
   
   template<class DataT>
-  MenuItemC MenuItem(const StringC &label,bool (*func)(MenuItemC &, DataT &ref),const DataT &dat = DataT())
+  MenuItemC MenuItem(const StringC &label,bool (*func)(MenuItemC &, DataT &ref),const DataT &dat)
   {  
     MenuItemC ret(label);
     Connect(ret.SigSelected(),func,ret,dat);
@@ -281,7 +281,7 @@ namespace RavlGUIN {
   // This does NOT hold a refrence to item 'dat'
   
   template<class ObjT,class DataT>
-  MenuItemC MenuItem(const StringC &label,const ObjT &obj,bool (ObjT::*func)(DataT &),const DataT &dat = DataT())
+  MenuItemC MenuItem(const StringC &label,const ObjT &obj,bool (ObjT::*func)(DataT &),const DataT &dat)
   {  
     MenuItemC ret(label);
     Connect(ret.SigSelected(),obj,func,dat);
@@ -300,7 +300,7 @@ namespace RavlGUIN {
   // This does NOT hold a refrence to item 'dat'
 
   template<class ObjT,class Data1T,class Data2T>
-  MenuItemC MenuItem(const StringC &label,const ObjT &obj,bool (ObjT::*func)(Data1T &,Data2T &),const Data1T &dat1 = Data1T(),const Data2T &dat2 = Data2T())
+  MenuItemC MenuItem(const StringC &label,const ObjT &obj,bool (ObjT::*func)(Data1T &,Data2T &),const Data1T &dat1,const Data2T &dat2)
   {  
     MenuItemC ret(label);
     Connect(ret.SigSelected(),obj,func,dat1,dat2);

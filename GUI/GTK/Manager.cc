@@ -16,7 +16,15 @@
 #include "Ravl/Threads/TimedTriggerQueue.hh"
 
 //#include "Ravl/GUI/Label.hh"
+#if RAVL_HAVE_UNISTD_H
 #include <unistd.h>
+#endif
+
+#ifdef WIN32
+#include <io.h>
+#include <fcntl.h>
+#endif
+
 #include <gtk/gtk.h>
 #include <gdk/gdkrgb.h>
 #include <stdio.h>
