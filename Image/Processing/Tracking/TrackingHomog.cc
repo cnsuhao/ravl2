@@ -79,7 +79,7 @@ namespace RavlImageN {
     // carry on optimising solution if Ransac succeeding
     if(!ransac.GetSolution().IsValid()) {
       
-      cerr << "Failed to find a solution" << endl;
+      if (verbose)  cout << "Failed to find a solution" << endl;
       return Projection2dC();  // null projection
     }
 
