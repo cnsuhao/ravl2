@@ -28,6 +28,7 @@ namespace RavlImageN {
   using RavlN::RealT;
   using RavlN::ByteT;
   using RavlN::Vector2dC;
+  using RavlN::Abs;
 #endif
 
   //! userlevel=Normal
