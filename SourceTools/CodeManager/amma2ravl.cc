@@ -29,6 +29,7 @@ static bool CheckDirectory(StringC &dir,DefsMkFileC &defs) {
     cerr << "Checking '" << dir << "' \n";
   StringListC source = defs.AllSources();
   for(DLIterC<StringC> it(source);it;it++) {
+    bool c_source = false;
     FilenameC fn(dir + filenameSeperator + *it);
     if(!fn.Exists()) {
       cerr << "ERROR: Source file '" << fn << "' does not exist. \n";
@@ -38,9 +39,31 @@ static bool CheckDirectory(StringC &dir,DefsMkFileC &defs) {
       cerr << "ERROR: Source file '" << fn << "' is not readable \n";
       return false;
     }
+    if(fn.Extension() == "c" || fn.Extension() == "h")
+      c_source = true;
     SourceFileC theFile;
     if(!theFile.Load(fn)) {
       cerr << "Failed to load file '" << fn << "'\n";
+      continue;
+    }
+    if(c_source) {
+      // ccmath stuff.
+      theFile.GlobalSubst("include \"complex.h\"","include \"ccmath/complex.h\"");
+      theFile.GlobalSubst("include \"ccmath.h\"","include \"ccmath/ccmath.h\"");
+      theFile.GlobalSubst("include \"orpol.h\"","include \"ccmath/orpol.h\"");
+      theFile.GlobalSubst("include \"matutl.h\"","include \"ccmath/matutl.h\"");
+      theFile.GlobalSubst("include \"tree.h\"","include \"ccmath/tree.h\"");
+      theFile.GlobalSubst("include \"merge.h\"","include \"ccmath/merge.h\"");
+      theFile.GlobalSubst("include \"arma.h\"","include \"ccmath/arma.h\"");
+      theFile.GlobalSubst("include \"armaf.h\"","include \"ccmath/armaf.h\"");
+      theFile.GlobalSubst("include \"xpre.h\"","include \"ccmath/xpre.h\"");
+      theFile.GlobalSubst("include \"xpre.h\"","include \"ccmath/xpre.h\"");
+      
+      if(theFile.IsModified()) {
+	cerr << "Updated file :" << fn << "\n";
+	if(!dryRun)
+	  theFile.Save();
+      }
       continue;
     }
     theFile.GlobalSubst("\"amma/StdType.hh\"","\"Ravl/Types.hh\"");
