@@ -50,7 +50,7 @@ namespace RavlImageN {
       pointBL(1.0, 0.0), pointBR(1.0, 1.0),
       zhomog(100), mosaicZHomog(1),
       K1(0), K2(0), cx_ratio(0.5), cy_ratio(0.5), fx(1.0), fy(1.0),
-      Parray(0),
+      filterSubsample(1), Parray(0),
       tracker(30,7,20,17,8,25,1),
       epos(2),
       fitHomog2d(zhomog,zhomog),
@@ -87,7 +87,7 @@ namespace RavlImageN {
             0.0,1.0,0,
 	    0.0,0.0,zhomog),
     frameNo(0),
-      verbose(nVerbose)
+    verbose(nVerbose)
   {
     // set corner error covariance matrix to 2x2 identity
     epos[0][0] = 1; epos[1][1] = 1; epos[1][0] = 0; epos[0][1] = 0;
@@ -121,11 +121,13 @@ namespace RavlImageN {
       }
       mosaic = ImageC<ByteRGBMedianC>(mosaicRect);
       input.Seek(startFrame);
-      for (frameNo = 0; frameNo < Parray.Size(); ++frameNo){
-	if (verbose)  cout << "Warping frame " << frameNo << endl;
+      for (frameNo = 0; frameNo < Parray.Size(); ++frameNo) {
 	if (!GetImage(img))  break;
-	if (!PrepareFrame(img)) break;
-	WarpFrame(img);
+	if (frameNo % filterSubsample == 0) {
+	  if (verbose)  cout << "Warping frame " << frameNo << endl;
+	  if (!PrepareFrame(img)) break;
+	  WarpFrame(img);
+	}
       }
     }
     else { // one-pass version
@@ -144,13 +146,15 @@ namespace RavlImageN {
 {
     if (!PrepareFrame(img)) return false; 
     if (!FindProj(img)) return false;  // process next image to get projection info
-    // If we are resizing the mosaic as we go, and mosaic rectangle needs 
-    // expanding, then we need to copy mosaic to a new, bigger image.
-    if (InvolveFrame(img.Rectangle(), Parray[frameNo]) && (resize==onepass)) {
-      if (verbose)  cout << "Mosaic was expanded" << endl;
-      ExpandMosaic();
+    if (frameNo % filterSubsample == 0) {
+      // If we are resizing the mosaic as we go, and mosaic rectangle needs 
+      // expanding, then we need to copy mosaic to a new, bigger image.
+      if (InvolveFrame(img.Rectangle(),Parray[frameNo]) && (resize==onepass)) {
+	if (verbose)  cout << "Mosaic was expanded" << endl;
+	ExpandMosaic();
+      }
+      WarpFrame(img);
     }
-    WarpFrame(img); 
 
 #if DODEBUG
     ImageC<ByteRGBValueC> timg(img.Copy());
@@ -373,7 +377,7 @@ namespace RavlImageN {
     return true;
   }
 
-  //: Start new mosaic using 'img' as the initial frame.
+  //: Computes the homography between the first frame and the mosaic
   bool MosaicBuilderBodyC::Reset(const ImageC<ByteRGBValueC> &img) {
     last = corners;
     

@@ -121,6 +121,11 @@ namespace RavlImageN {
     //!param: f1, f2 - focal lengths in pixels (default = 1)
     //!param: cx_ratio, cy_ratio - image centre coordinates as ratio of image dimensions (default: image centre)
 
+    void SetSubsample(UIntT factor)
+      { filterSubsample = factor; }
+    //: Set temporal subsample factor for median filter
+    // I.e. only accumulate every <code>factor</code>th frame in mosaic image.  Default value = 1.
+
     //:-
     //: Methods to grow the mosaic
 
@@ -206,6 +211,7 @@ namespace RavlImageN {
     Point2dC pointTL, pointTR, pointBL, pointBR;
     RealT zhomog, mosaicZHomog;
     RealT K1, K2, cx_ratio, cy_ratio, fx, fy;  // lens parameters
+    UIntT filterSubsample; //median filter temporal subsample factor
 
     // stored data
     DArray1dC<Matrix3dC> Parray; // array of projections from mosaic coord frame into image coord frame (~ Psum * Pmosaic)
@@ -348,6 +354,11 @@ namespace RavlImageN {
     //!param: f1, f2 - focal lengths in pixels (default = 1)
     //!param: cx_ratio, cy_ratio - image centre coordinates as ratio of image dimensions (default: image centre)
 
+    void SetSubsample(UIntT factor)
+      { Body().SetSubsample(factor); }
+    //: Set temporal subsample factor for median filter
+    // I.e. only accumulate every <code>factor</code>th frame in mosaic image.  Default value = 1.
+
     //:-
     //: Methods to grow the mosaic
 
@@ -406,11 +417,12 @@ namespace RavlImageN {
 
     bool Reset(const ImageC<ByteRGBValueC> &img)
       { return Body().Reset(img); }
-    //: Computes the homography for the first frame
+    //: Computes the homography between the first frame and the mosaic
     
     bool InvolveFrame(const IndexRange2dC& rect, const Matrix3dC& homog)
       { return Body().InvolveFrame(rect, homog); }
     //: Expand mosaic rectangle to include projected frame corners
+    // Returns true if expansion of mosaic was requested and needed
 
     void ExpandMosaic()
       { return Body().ExpandMosaic(); }
@@ -419,7 +431,6 @@ namespace RavlImageN {
     void WarpFrame(const ImageC<ByteRGBValueC>& croppedImg)
       { return Body().WarpFrame(croppedImg); }
     //: Warps current frame into mosaic coords and adds to mosaic
-    // Returns true if expansion of mosaic was requested and needed
 
   };
   

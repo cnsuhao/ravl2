@@ -73,12 +73,13 @@ int Mosaic(int nargs,char **argv) {
   StringC homogFile = opt.String("hf", "", "Output file for interframe projections used to construct mosaic (default: no output)");
   opt.Comment("Mosaic:");
   StringC mosaicFile = opt.String("mo", "/tmp/mosaic.ppm", "Output file for mosaic");
-  Index2dC border = opt.Index2d("bo", 200, 200, "Width of vertical & horizontal borders around initial mosaic image (default is {0, 0} if auto is on)");
+  Index2dC border = opt.Index2d("bo", 200, 200, "Width of vertical & horizontal borders around initial mosaic image (default is (0, 0) if auto is on)");
   autoResizeT resize = (autoResizeT) opt.Int("auto", 0, "Automatically expands the mosaic rectangle to accommodate projected images as necessary. 0 = no expansion; 1 = one-pass (slower); 2 = two-pass (faster)");
   Point2dC pointTL = opt.Point2d("ptl", 0.0, 0.0, "Top-left coordinates of projection of first image (in units of picture size)");
   Point2dC pointTR = opt.Point2d("ptr", 0.0, 1.0, "Top-right coordinates of projection of first image (in units of picture size)");
   Point2dC pointBL = opt.Point2d("pbl", 1.0, 0.0, "Bottom-left coordinates of projection of first image (in units of picture size)");
   Point2dC pointBR = opt.Point2d("pbr", 1.0, 1.0, "Bottom-right coordinates of projection of first image (in units of picture size)");
+  UIntT filterSubsample = opt.Int("sub",1," Temporal subsample factor for median filter");
   opt.Comment("Foreground image generation:");
   StringC ofn = opt.String("fg","","Output sequence. (Default: no foreground sequence generated)");
   int fgThreshold = opt.Int("ft",8,"Minimum distance between image and mosaic pixel values to be a foreground pixel");
@@ -109,6 +110,8 @@ int Mosaic(int nargs,char **argv) {
     mosaicBuilder.SetBorderExpansion(border.Row(), border.Col());
   // If there is lens distortion, correct it (& save the results)
   if (K1 > 0.0 || K2 > 0.0) mosaicBuilder.SetLensCorrection(K1, K2, cx_ratio, cy_ratio, fx, fy);
+  // Skip frames if required
+  mosaicBuilder.SetSubsample(filterSubsample);
 
   // Build the mosaic homograpy data
   if (!mosaicBuilder.GrowMosaic(ifn, startFrame, maxFrames)) exit (-1);
