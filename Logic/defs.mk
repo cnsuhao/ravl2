@@ -11,6 +11,6 @@ DONOT_SUPPORT=cygwin
 
 DESCRIPTION=
 
-NESTED=Base.r Index.r DecisionTree.r NonLinearPlanner.r
+NESTED=Base.r Index.r DecisionTree.r NonLinearPlanner.r Agent.r
 
 EHT=Ravl.Logic.html
