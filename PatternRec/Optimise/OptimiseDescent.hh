@@ -23,6 +23,7 @@ namespace RavlN {
   // --------------------------------------------------------------------------
   // **********  OptimiseDescentBodyC  ****************************************
   // --------------------------------------------------------------------------
+  //! userlevel=Develop
   //: Gradient descent optimiser implementation class.
   //
   // This is the implementation class of the gradient descent optimiser for the
@@ -51,6 +52,7 @@ namespace RavlN {
     //: Writes object to stream, can be loaded using constructor
   };
   
+  //! userlevel=Normal
   //: Gradient descent optimisation algorithm.
   //
   // Optimisation algorithm based on gradient descent. The cost function provides
