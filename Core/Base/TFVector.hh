@@ -422,6 +422,44 @@ namespace RavlN {
     return in;
   }
 
+  template<unsigned int N>
+  inline ostream &operator<<(ostream &out,const TFVectorC<ByteT,N> &dat) {
+    for(UIntT i = 0;i < N;i++)
+      out << ((int) dat.data[i]) << ' ';
+    return out;
+  }
+  //: Specialise byte vectors so they're treated as numerical values.
+  
+  template<unsigned int N>
+  inline istream &operator>>(istream &in,TFVectorC<ByteT,N> &dat) {
+    int x;
+    for(UIntT i = 0;i < N;i++) {
+      in >> x;
+      dat.data[i] = (ByteT) x;
+    }
+    return in;
+  }
+  //: Specialise byte vectors so they're treated as numerical values.
+
+  template<unsigned int N>
+  inline ostream &operator<<(ostream &out,const TFVectorC<SByteT,N> &dat) {
+    for(UIntT i = 0;i < N;i++)
+      out << ((int) dat.data[i]) << ' ';
+    return out;
+  }
+  //: Specialise byte vectors so they're treated as numerical values.
+  
+  template<unsigned int N>
+  inline istream &operator>>(istream &in,TFVectorC<SByteT,N> &dat) {
+    int x;
+    for(UIntT i = 0;i < N;i++) {
+      in >> x;
+      dat.data[i] = (ByteT) x;
+    }
+    return in;
+  }
+  //: Specialise byte vectors so they're treated as numerical values.
+
 }
 
 #endif
