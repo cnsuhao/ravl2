@@ -78,13 +78,25 @@ namespace RavlGUIN {
     void AppendLine(int &id,SArray1dC<StringC> &line);
     //: Append a line entry.  
     // GUI thread only.
-    
+
     bool GUIRemoveLine(int &id);
     //: Remove a line entry.  
     // GUI thread only.
     
     void RemoveLine(int &id);
     //: Remove a line entry.  
+    
+    bool GUISelect(int &id);
+    //: Force an item to be selected.
+    
+    bool GUIUnselect(int &id);
+    //: Force an item to be unselected.
+
+    bool Select(int &id);
+    //: Force an item to be selected.
+    
+    bool Unselect(int &id);
+    //: Force an item to be unselected.
     
     IntT Cols() const
       { return cols ; }
@@ -179,6 +191,22 @@ namespace RavlGUIN {
     void RemoveLine(int &id)
       { Body().RemoveLine(id); }
     //: Remove a line entry.  
+
+    bool GUISelect(int &id)
+      { return Body().GUISelect(id); }
+    //: Force an item to be selected.
+    
+    bool GUIUnselect(int &id)
+      { return Body().GUIUnselect(id); }
+    //: Force an item to be unselected.
+    
+    bool Select(int &id)
+      { return Body().Select(id); }
+    //: Force an item to be selected.
+    
+    bool Unselect(int &id)
+      { return Body().Unselect(id); }
+    //: Force an item to be unselected.
     
     IntT Cols() const
       { return Body().Cols(); }

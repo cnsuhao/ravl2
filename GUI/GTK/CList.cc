@@ -176,6 +176,50 @@ namespace RavlGUIN {
   void CListBodyC::AppendLine(int &id,SArray1dC<StringC> &line) {
     Manager.Queue(Trigger(CListC(*this),&CListC::GUIAppendLine,id,line));
   }
+
+  //: Force an item to be selected.
+  
+  bool CListBodyC::GUISelect(int &id) {
+    if(widget == 0) {
+      // FIXME:- This should be handled properly....
+      cerr << "WARNING: CListBodyC::GUISelect() called before widget created. \n";
+      return true;
+    }
+    int rowNo = gtk_clist_find_row_from_data (GTK_CLIST(widget),(void *) id);
+    if(rowNo < 0)
+      return true; // Not found.
+    gtk_clist_select_row (GTK_CLIST(widget),rowNo,0);
+    return true;    
+  }
+  
+  //: Force an item to be unselected.
+  
+  bool CListBodyC::GUIUnselect(int &id) {
+    if(widget == 0) {
+      // FIXME:- This should be handled properly.
+      cerr << "WARNING: CListBodyC::GUIUnselect() called before widget created. \n";
+      return true;
+    }
+    int rowNo = gtk_clist_find_row_from_data (GTK_CLIST(widget),(void *) id);
+    if(rowNo < 0)
+      return true; // Not found.
+    gtk_clist_unselect_row (GTK_CLIST(widget),rowNo,0);
+    return true;
+  }
+  
+  //: Force an item to be selected.
+  
+  bool CListBodyC::Select(int &id) {
+    Manager.Queue(Trigger(CListC(*this),&CListC::GUISelect,id));
+    return true;
+  }
+  
+  //: Force an item to be unselected.
+  
+  bool CListBodyC::Unselect(int &id) {
+    Manager.Queue(Trigger(CListC(*this),&CListC::GUIUnselect,id));
+    return true;
+  }
   
   //: Undo all refrences.
   
