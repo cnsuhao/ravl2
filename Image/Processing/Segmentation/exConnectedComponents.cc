@@ -24,14 +24,14 @@ int main (int argc, char ** argv)
   StringC inputFile = opts.String("i", "in.pgm", "The input image") ; 
   StringC outputFile = opts.String("o", "out.pgm", "The labeled output image") ; 
   opts.Check() ; 
-
-  // specify our pixel types and method to compair pixels 
+  
+  // specify our pixel types and method to compare pixels 
   typedef ByteT PixelT ; 
-  typedef ConnectedComponentsCompairC<PixelT> CompairT ;
+  typedef ConnectedComponentsCompareC<PixelT> CompareT ;
   
   // make the analysis classes ; 
-  CompairT compair ; 
-  ConnectedComponentsC<PixelT, CompairT > connected ; 
+  CompareT compare ; 
+  ConnectedComponentsC<PixelT, CompareT > connected ; 
   
   // Load the image 
    ImageC<PixelT> img ; 

@@ -61,10 +61,10 @@ namespace RavlImageN {
   //: Default compariston operator for connected components
   
   template <class DataTypeT>
-  class ConnectedComponentsCompairC
+  class ConnectedComponentsCompareC
   {
   public:
-    ConnectedComponentsCompairC()
+    ConnectedComponentsCompareC()
     {}
     //: Default constructor.
     
@@ -76,22 +76,22 @@ namespace RavlImageN {
   //! userlevel=Develop
   //: Connected component labelling. 
   
-  template <class DataTypeT,class CompairT = ConnectedComponentsCompairC<DataTypeT> >
+  template <class DataTypeT,class CompareT = ConnectedComponentsCompareC<DataTypeT> >
   class ConnectedComponentsBodyC
     : public RCBodyC,
       public ConnectedComponentsBaseBodyC
   {
   public:
-    ConnectedComponentsBodyC (UIntT nmaxLabel = 10000, bool ignoreZero=false,const CompairT &compMethod = CompairT())
+    ConnectedComponentsBodyC (UIntT nmaxLabel = 10000, bool ignoreZero=false,const CompareT &compMethod = CompareT())
       : ConnectedComponentsBaseBodyC(nmaxLabel, ignoreZero),
-	compair(compMethod)
+	compare(compMethod)
     { SetZero(zero); }
     //: Constructor
     // (See handle class ConnectedComponentsC)
 
-    ConnectedComponentsBodyC (UIntT nmaxLabel,const CompairT &compMethod,const DataTypeT &zeroValue)
+    ConnectedComponentsBodyC (UIntT nmaxLabel,const CompareT &compMethod,const DataTypeT &zeroValue)
       : ConnectedComponentsBaseBodyC(nmaxLabel, true),
-	compair(compMethod),
+	compare(compMethod),
 	zero(zeroValue)
     {}
     //: Constructor
@@ -101,24 +101,24 @@ namespace RavlImageN {
     //: Performs the connected component labelling
     
   protected:
-    CompairT compair;
+    CompareT compare;
     DataTypeT zero; // Zero value to use.
   };
 
   //! userlevel=Normal
   //: Connected component labelling. 
   
-  template <class DataTypeT,typename CompairT = ConnectedComponentsCompairC<DataTypeT> >
+  template <class DataTypeT,typename CompareT = ConnectedComponentsCompareC<DataTypeT> >
   class ConnectedComponentsC
-    : public RCHandleC<ConnectedComponentsBodyC<DataTypeT,CompairT> >
+    : public RCHandleC<ConnectedComponentsBodyC<DataTypeT,CompareT> >
   {
   public:
-    ConnectedComponentsC (bool ignoreZero=false,const CompairT &compMethod = CompairT())
+    ConnectedComponentsC (bool ignoreZero=false,const CompareT &compMethod = CompareT())
       : RCHandleC<ConnectedComponentsBodyC<DataTypeT> >(*new ConnectedComponentsBodyC<DataTypeT>(10000, ignoreZero,compMethod))
     {}
     //: Constructor.  Set ignoreZero if you want to ignore the zeros on the input image
     
-    ConnectedComponentsC (const CompairT &compMethod,const DataTypeT &zeroValue)
+    ConnectedComponentsC (const CompareT &compMethod,const DataTypeT &zeroValue)
       : RCHandleC<ConnectedComponentsBodyC<DataTypeT> >(*new ConnectedComponentsBodyC<DataTypeT>(10000,compMethod,zeroValue))
     {}
     //: Constructor.  
@@ -129,12 +129,12 @@ namespace RavlImageN {
     //: Performs the connected component labelling
 
   protected:
-    ConnectedComponentsBodyC<DataTypeT,CompairT> &Body()
-    { return RCHandleC<ConnectedComponentsBodyC<DataTypeT,CompairT> >::Body(); }
+    ConnectedComponentsBodyC<DataTypeT,CompareT> &Body()
+    { return RCHandleC<ConnectedComponentsBodyC<DataTypeT,CompareT> >::Body(); }
     //: Access body
     
-    const ConnectedComponentsBodyC<DataTypeT,CompairT> &Body() const
-    { return RCHandleC<ConnectedComponentsBodyC<DataTypeT,CompairT> >::Body(); }
+    const ConnectedComponentsBodyC<DataTypeT,CompareT> &Body() const
+    { return RCHandleC<ConnectedComponentsBodyC<DataTypeT,CompareT> >::Body(); }
     //: Access body
     
   };
@@ -144,8 +144,8 @@ namespace RavlImageN {
   /////////////////////////////////////////////////////////////////////////
   // Implementation:
   
-  template <class DataTypeT,class CompairT >
-  Tuple2C<ImageC<UIntT>,UIntT> ConnectedComponentsBodyC<DataTypeT,CompairT>::Apply (const ImageC<DataTypeT> &ip) { 
+  template <class DataTypeT,class CompareT >
+  Tuple2C<ImageC<UIntT>,UIntT> ConnectedComponentsBodyC<DataTypeT,CompareT>::Apply (const ImageC<DataTypeT> &ip) { 
     SArray1dC<UIntT> labelTable(maxLabel+1);
     //labelTable.Fill(-1);
     // If there are two labels for the same component, the bigger label bin
@@ -163,7 +163,7 @@ namespace RavlImageN {
       labelTable[lab] = lab; // Setup first label.
       DataTypeT lastValue = it1.Data1();
       for (;it1.Next();) { // Only iterate through the first row.
-	if(compair(it1.Data1(),lastValue)) 
+	if(compare(it1.Data1(),lastValue)) 
 	  it1.Data2() = lab;
 	else { // a new component
 	  lab++;
@@ -177,7 +177,7 @@ namespace RavlImageN {
     
     for(Array2dSqr2Iter2C<DataTypeT,UIntT> it(ip,jp);it;) {
       // Label the first column pixel.
-      if (compair(it.DataBL1(),it.DataTL1()))
+      if (compare(it.DataBL1(),it.DataTL1()))
 	it.DataBL2() = it.DataTL2();
       else {
 	lab++;
@@ -189,9 +189,9 @@ namespace RavlImageN {
       // DataB() = jp[ix][iy-1]
       
       do { // The rest of the image row.
-	if (compair(it.DataBR1(),it.DataTR1())) { 
+	if (compare(it.DataBR1(),it.DataTR1())) { 
 	  // The upper pixel belongs to the same component.
-	  if (!(compair(it.DataBR1(),it.DataBL1()))) {
+	  if (!(compare(it.DataBR1(),it.DataBL1()))) {
 	    // The processed pixel belongs to the upper component.
 	    it.DataBR2() = it.DataTR2();
 	    continue;
@@ -228,7 +228,7 @@ namespace RavlImageN {
 	  continue;
 	}
 	// The upper pixel belongs to the different component.
-	if (compair(it.DataBR1(),it.DataBL1())) { // The left pixel belongs to the same component.
+	if (compare(it.DataBR1(),it.DataBL1())) { // The left pixel belongs to the same component.
 	  // The processed pixel belongs to the left component.
 	  it.DataBR2() = it.DataBL2();
 	  continue;
