@@ -27,7 +27,7 @@ $(//: **************** Side bar with methods ************************ )
 &nbsp;<font size=2 face="arial,helvetica" color="white">
 <B>PUBLIC</B></font></td></tr><tr>
 $(ifany:$modeMethod,$NodeType=method:<td><font face="arial,helvetica" SIZE=-1>
-$(forall:$modeMethod,$NodeType=method:$(chkacc:$(ParentScope)::<A HREF="#$(href)">$(ObjectName)</A><BR>
+$(forall:$modeMethod,$NodeType=method:$(chkacc:<A HREF="#$(href)">$(marktruncate:80:...:$(ParentScope)::$(ObjectName))</A><BR>
 ))</font></td></tr>)
 $(ifany:friend:<tr><td bgcolor="$(hdrcolour)">
 &nbsp;<font size=2 face="arial,helvetica" color="white">
