@@ -208,7 +208,7 @@ namespace RavlN {
 
   template<class ContainerT>
   typename ContainerT::ElementT DPIContainerBodyC<ContainerT>::Get() {
-    const typename ContainerT::ElementT &dat = iter;
+    const typename ContainerT::ElementT &dat = iter.Data();
     iter++;
     return dat;
   }
