@@ -71,6 +71,14 @@ namespace RavlN {
     { return crackCode; }
     //: Returns the crack code.
     
+    RelativeCrackCodeT Relative(const CrackCodeC & cc) const {
+      int rcode = (int) cc.Code() - (int) Code();
+      if(rcode < 0) rcode += 4;
+      else rcode %= 4;
+      return static_cast<RelativeCrackCodeT>(rcode); 
+    }
+    //: Get relative crack code of direction 'cc' relative to this one.
+    
     inline bool operator==(const CrackCodeC & cc) const
     { return cc.Code() == Code(); }
     //: Equality test

@@ -23,12 +23,17 @@ using namespace RavlN;
 #define ONDEBUG(x)
 #endif
 
+int testCrackCode();
 int testBoundry();
 int testEdge();
 int testMidPoint();
 
 int main() {
   int ln;
+  if((ln = testCrackCode()) != 0) {
+    cerr << "Test failed at line " << ln << "\n";
+    return 1;
+  }
   if((ln = testEdge()) != 0) {
     cerr << "Test failed at line " << ln << "\n";
     return 1;
@@ -42,6 +47,41 @@ int main() {
     return 1;
   }
   cerr << "Test passed. \n";
+  return 0;
+}
+
+int testCrackCode() {
+
+  CrackCodeC xcc(CR_UP);
+  CrackCodeC ycc(CR_RIGHT);
+  RelativeCrackCodeT rcc = xcc.Relative(ycc);
+  if(rcc != CR_TO_RIGHT) return __LINE__;
+  
+  for(int i = 0;i < 4;i++) {
+    CrackCodeC cc(i);
+    int ip = i + 1;
+    if(ip >= 4)
+      ip -= 4;
+    rcc = cc.Relative(cc);
+    if(rcc != CR_AHEAD) return __LINE__;
+    CrackCodeC ipcc(ip);
+    rcc = cc.Relative(ipcc);
+    cerr << "CodeLeft=" << (int)rcc << "\n";
+    if(rcc != CR_TO_LEFT) return __LINE__;
+    rcc = ipcc.Relative(cc);
+    cerr << "CodeRight=" << (int)rcc << "\n";
+    if(rcc != CR_TO_RIGHT) return __LINE__;
+    
+    int ipp = i + 2;
+    if(ipp >= 4)
+      ipp -= 4;;
+    CrackCodeC ippcc(ipp);
+    rcc = ippcc.Relative(cc);
+    if(rcc != CR_BACK) return __LINE__;
+    rcc = cc.Relative(ippcc);
+    if(rcc != CR_BACK) return __LINE__;
+  }
+    
   return 0;
 }
 
