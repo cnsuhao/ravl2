@@ -17,7 +17,12 @@
 #include "Ravl/BinStream.hh"
 #include "Ravl/TFVector.hh"
 #include "Ravl/String.hh"
+
+#if RAVL_HAVE_UNISTD_H
 #include <unistd.h>
+#else
+#include <process.h>
+#endif
 
 using namespace RavlN;
 
