@@ -145,7 +145,6 @@ gprof:
 chead:
 	$(SMAKEMD) cheadbuild FULLCHECKING=1 TARGET=cheadbuild  
 
-
 ne:	
 	$(SMAKEMD) fullbuild VAR=check TARGET=fullbuild NOEXEBUILD=1 
 
@@ -155,6 +154,8 @@ optne:
 debugne:
 	$(SMAKEMD) fullbuild VAR=debug TARGET=fullbuild NOEXEBUILD=1 
 
+gprofne:
+	$(SMAKEMD) fullbuild VAR=gprof TARGET=fullbuild NOEXEBUILD=1 
 
 test: src
 	@if [ ! -d $(INST_TESTBIN) ] ; then \

@@ -10,8 +10,8 @@ Common targets:
 	    the all available debug information. NB. The executables may
 	    be very large.
   opt       Optimised build. 
-  ne, nedebug, neopt 
-            As check,debug and opt but only building libraries, not executables.
+  ne, debugne, optne, gprofne
+            As check,debug, opt etc. but only building libraries, not executables.
   shared    Build optimised shared libraries/executables.
   prof      Output optimised code with profiling info suitable for prof.
   gprof     Output optimised code with profiling info suitable for gprof.
