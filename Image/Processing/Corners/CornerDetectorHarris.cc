@@ -97,7 +97,7 @@ namespace RavlImageN {
   
   
   int CornerDetectorHarrisBodyC::Peak(ImageC<IntT> &result,const ImageC<ByteT> &in,DListC<CornerC> &cornLst) {
-    IndexRange2dC rect(result.Frame().Shrink(4));
+    IndexRange2dC rect(in.Frame().Shrink(4));
     int n = 0;
     for(Array2dIterC<IntT> it(result,rect);it;it++) {
       if(*it < threshold)
