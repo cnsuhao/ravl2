@@ -111,11 +111,11 @@ namespace RavlN {
     //: Subtract 2 matrixes.
 
     TFMatrixC<DataT,N,M> operator*(const DataT &val) const;
-    //: Multiply all elements of the matrix by a scaler 'val'.
+    //: Multiply all elements of the matrix by a scalar 'val'.
     // put results in a new matrix
 
     TFMatrixC<DataT,N,M> operator/(const DataT &val) const;
-    //: Divide all elements of the matrix by a scaler 'val'.
+    //: Divide all elements of the matrix by a scalar 'val'.
     // put results in a new matrix
 
     const TFMatrixC<DataT,N,M> &operator+=(const TFMatrixC<DataT,N,M> & mat);
@@ -125,10 +125,10 @@ namespace RavlN {
     //: Subtract another matrix from this one.
     
     const TFMatrixC<DataT,N,M> &operator*=(const DataT &val);
-    //: Multiply all elements of this matrix by a scaler 'val'.
+    //: Multiply all elements of this matrix by a scalar 'val'.
     
     const TFMatrixC<DataT,N,M> &operator/=(const DataT &val);
-    //: Divide all elements of this matrix by a scaler 'val'.
+    //: Divide all elements of this matrix by a scalar 'val'.
     
     TFVectorC<DataT,N> operator*(const TFVectorC<DataT,M> & mat) const;
     //: Multiply vector by the matrix.
