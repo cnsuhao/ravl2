@@ -9,6 +9,7 @@
 //! file="Ravl/OS/Text/testTextFile.cc"
 //! author="Charles Galambos"
 //! docentry="Ravl.OS.Text Processing"
+//! userlevel=Develop
 
 #include "Ravl/Text/TextFile.hh"
 #include "Ravl/Text/TextCursor.hh"
