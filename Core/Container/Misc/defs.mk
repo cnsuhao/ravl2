@@ -10,7 +10,7 @@
 
 PACKAGE=Ravl
 
-HEADERS=Stack.hh StackIt.hh Tuple2.hh Tuple3.hh Tuple4.hh \
+HEADERS=Stack.hh StackIter.hh Tuple2.hh Tuple3.hh Tuple4.hh \
  BlkStack.hh BlkStackIter.hh \
  BinTable.hh BinIter.hh BinList.hh
 

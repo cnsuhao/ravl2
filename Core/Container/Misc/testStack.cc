@@ -14,7 +14,7 @@
 #include <stdlib.h>
 
 #include "Ravl/Stack.hh"
-#include "Ravl/StackIt.hh"
+#include "Ravl/StackIter.hh"
 
 using namespace RavlN;
 

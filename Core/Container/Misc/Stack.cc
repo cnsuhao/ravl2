@@ -9,7 +9,7 @@
 //! file="Ravl/Core/Container/Misc/Stack.cc"
 
 #include "Ravl/Stack.hh"
-#include "Ravl/StackIt.hh"
+#include "Ravl/StackIter.hh"
 
 namespace RavlN {
 #if defined(VISUAL_CPP) || defined(__sgi__)

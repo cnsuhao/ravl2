@@ -9,7 +9,7 @@
 //! file="Ravl/Core/Container/Misc/exStack.cc"
 
 #include "Ravl/Stack.hh"
-#include "Ravl/StackIt.hh"
+#include "Ravl/StackIter.hh"
 #include "Ravl/Stream.hh"
 
 using namespace RavlN;
