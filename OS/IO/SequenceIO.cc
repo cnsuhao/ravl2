@@ -59,7 +59,8 @@ namespace RavlN {
 	ONDEBUG(cerr << "OpenISequenceBase(), Stream is a sequence. sc=" << sc.IsValid() << " \n");
 	return ip.IsValid();
       }
-      fileSeq = DPIFileSequenceC(StringC("")); // Not a single file, so try a sequence.
+      // Not a single file, so try a sequence.
+      fileSeq = DPIFileSequenceC(StringC("")); 
       if(!fileSeq.ProbeFormat(ifilename)) { 
 	// If its not a sequence then just return stream 'as is'.
 	ip = fmtInfo.CreateInput(ifilename,inStream);
