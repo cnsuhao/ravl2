@@ -913,10 +913,18 @@ namespace RavlN {
     unsigned int length() const
     { return len; }    
     //: Get the length of the substring.
+
+    inline SizeT Size() const
+    { return len; }
+    //: Access size of sub string.
     
     int empty() const
     { return len == 0; }    
     //: Test if the substring is empty.
+    
+    bool IsEmpty() const
+    { return len == 0; }
+    //: Test if sub string is empty.
     
     const char* chars() const
     { return &(S.rep->s[pos]); } 
