@@ -5,7 +5,6 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 ##########################################################
-# $Id$
 #! rcsid="$Id$"
 #! file="Ravl/OS/Threads/Tools/defs.mk"
 
