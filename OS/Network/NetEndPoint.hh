@@ -77,6 +77,18 @@ namespace RavlN {
     
     bool Close();
     //: Close connection.
+
+    inline SocketC Socket(void) 
+    { return skt ; }
+    //: Access the socket 
+
+    inline StringC ConnectedHost(void) 
+    { return skt.ConnectedHost() ; }
+    //: Access the name of the connected Host 
+
+    inline IntT ConnectedPort(void) 
+    { return skt.ConnectedPort() ; } 
+    //: Access the name of the connected Port 
     
     const StringC &RemoteUser() const
     { return remoteUser; }
@@ -287,6 +299,18 @@ namespace RavlN {
     { return Body().IsOpen(); }
     //: Is Connections open ?
     
+    inline SocketC Socket (void) 
+    { return Body().Socket() ; } 
+    //: Access the socket 
+
+    inline StringC ConnectedHost (void) 
+    { return Body().ConnectedHost() ; } 
+    //: Access the connected host 
+
+    inline IntT ConnectedPort (void) 
+    { return Body().ConnectedPort() ; } 
+    //: Access the connected port
+
     const StringC &RemoteUser() const
     { return Body().RemoteUser(); }
     //: Access name of remote user.
