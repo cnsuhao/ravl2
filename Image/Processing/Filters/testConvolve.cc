@@ -85,7 +85,7 @@ static ObservationListManagerBodyC dummyvar11 (dummyvar9);
 
 int main() {
   int ln;
-#if 0
+#if 1
 #if !TESTMMX
   if((ln = testConvolve2d()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
@@ -531,8 +531,8 @@ int testDCT() {
   if((cimg - res).SumOfSqr() > 0.000001)
     return __LINE__;
 
-  for(int i = 0;i < 10000;i++)
-    cimg = chandct.DCT(img);
+  //for(int i = 0;i < 10000;i++)
+  //  cimg = chandct.DCT(img);
   
 #if 0  
   VecRadDCTC vrdct(8,8);
