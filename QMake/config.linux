@@ -81,8 +81,8 @@ endif
 # 'opt' variant.
 
 ifeq ($(VAR),opt)
- CFLAGS += -O3  -ffast-math -funroll-loops -DNDEBUG
- CCFLAGS += -O3  -ffast-math -funroll-loops -DNDEBUG
+ CFLAGS += -O3  -ffast-math -funroll-loops -finline-limit=800 -DNDEBUG
+ CCFLAGS += -O3  -ffast-math -funroll-loops -finline-limit=800 -DNDEBUG
  LDFLAGS += -O3
 endif
 
@@ -90,9 +90,9 @@ endif
 # 'shared' variant.
 
 ifeq ($(VAR),shared)
- CFLAGS += -fPIC -shared -O2 -funroll-loops -DNDEBUG
- CCFLAGS += -fPIC -shared -O2 -funroll-loops -DNDEBUG
- LDLIBFLAGS = -fPIC -shared -O2
+ CFLAGS += -fPIC -shared -O3 -funroll-loops -finline-limit=800 -DNDEBUG
+ CCFLAGS += -fPIC -shared -O3 -funroll-loops -finline-limit=800 -DNDEBUG
+ LDLIBFLAGS = -fPIC -shared -O3
  LDFLAGS += -O2 -rdynamic  -Wl,-rpath=$(PROJECT_OUT)/lib/RAVL/$(ARC)/$(VAR)
 # -Wl,-export-dynamic
 endif
@@ -110,7 +110,7 @@ endif
 # 'gprof' variant.
 
 ifeq ($(VAR),gprof)
- CFLAGS += -O3 -pg -ffast-math -funroll-loops -DNDEBUG
- CCFLAGS += -O3 -pg -ffast-math -funroll-loops -DNDEBUG
- LDFLAGS += -O3 -pg
+ CFLAGS += -O3 -pg -Winline -ffast-math -funroll-loops -finline-limit=800 -DNDEBUG
+ CCFLAGS += -O3 -pg -Winline -ffast-math -funroll-loops -finline-limit=800 -DNDEBUG
+ LDFLAGS += -O3 -pg 
 endif
