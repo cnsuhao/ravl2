@@ -120,6 +120,7 @@ namespace RavlGUIN {
     else
       displaySize.Involve(obj.Frame());
     displayList.InsLast(obj);
+    hold.Unlock();
     Refresh();
     return true;
   }
@@ -184,14 +185,14 @@ namespace RavlGUIN {
       vdiff = 0;
     if(hdiff < 0)
       hdiff = 0;
+    vSlider.UpdateRange(displaySize.Range1().Min().V(),vdiff);
     if(vdiff == 0 && displaySize.Range1().Min() >= 0) 
       vSlider.Hide();
     else vSlider.Show();      
-    vSlider.UpdateRange(displaySize.Range1().Min().V(),vdiff);
+    hSlider.UpdateRange(displaySize.Range2().Min().V(),hdiff);
     if(hdiff == 0 && displaySize.Range2().Min() >= 0)
       hSlider.Hide();
     else hSlider.Show();      
-    hSlider.UpdateRange(displaySize.Range2().Min().V(),hdiff);
     return true;
   }
   
