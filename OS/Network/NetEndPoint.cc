@@ -271,7 +271,7 @@ namespace RavlN {
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunTransmit(), Sending header '" << streamHeader << "' ");
     
     // Write stream header.
-    if(ostrm.Write(streamHeader,streamHeader.Size()) < (IntT) streamHeader.Size()) {
+    if(ostrm.Write(streamHeader,streamHeader.Size()) != (IntT) streamHeader.Size()) {
       SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), ERROR: Failed to write header. ";
       CloseTransmit();
       return false;
@@ -360,8 +360,10 @@ namespace RavlN {
 	bufLen[0] = sizeof(size);
 	bufPtr[1] = &(pkt.Data()[0]);
 	bufLen[1] = pkt.Size();
-	if(ostrm.WriteV(bufPtr,bufLen,2) < (IntT) (sizeof(size) + pkt.Size()))
-	  break;	
+	if(ostrm.WriteV(bufPtr,bufLen,2) != (IntT) (sizeof(size) + pkt.Size())) {
+	  SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::WriteV() Failed.  ";
+	  break;
+	}
 	ONDEBUG(SysLog(SYSLOG_DEBUG) << "  Sent packet. ");
       }
     } catch(ExceptionC &e) {
@@ -394,7 +396,7 @@ namespace RavlN {
   //: Handle packet reception.
   
   bool NetEndPointBodyC::RunReceive() {
-    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunReceive(), Started. ");
+    SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunReceive(), Started. ";
     if(!istrm.IsGetReady()) {
       SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunReceive(), ERROR: No connection. ";
       return false;       
@@ -408,11 +410,12 @@ namespace RavlN {
       int state = 0;
       streamType = "<ABPS>";
       do {
-	ONDEBUG(SysLog(SYSLOG_DEBUG) << "State=" << state);
-	if(istrm.Read(&buff,1) < 1) {
+	if(istrm.Read(&buff,1) != 1) {
+	  SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunReceive(), Failed to read byte from input stream. " << errno << " ";
 	  errorInHeader = true;
 	  break;
 	}
+	//SysLog(SYSLOG_DEBUG) << "State=" << state << " char='" << buff << "' ";
 	if(str[state] != buff) {
 	  if(state != 1 || buff != 'R') {
 	    if(str[0] == buff)
@@ -439,7 +442,7 @@ namespace RavlN {
     try {
       while(!shutdown) {
 	UIntT size;
-	if(istrm.Read((char *) &size,sizeof(UIntT)) < (IntT) sizeof(UIntT)) {
+	if(istrm.Read((char *) &size,sizeof(UIntT)) != (IntT) sizeof(UIntT)) {
 	  if(!shutdown)
 	    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunRecieve(), Read size failed. Assuming connection broken. ");
 	  break;
@@ -456,7 +459,7 @@ namespace RavlN {
 #endif
 	ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunRecieve(), Read " << size << " bytes. UseBigEndian:" << useBigEndianBinStream << " BigEdian:" << RAVL_ENDIAN_BIG << " "); 
 	SArray1dC<char> data(size);
-	if(istrm.Read((char *) &(data[0]),size) < (IntT) size) {
+	if(istrm.Read((char *) &(data[0]),size) != (IntT) size) {
 	  ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunRecieve(), Read data failed. Assuming connection broken. "); 
 	  break;
 	}
