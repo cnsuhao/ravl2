@@ -40,6 +40,10 @@ namespace RavlImageN {
   // <pre> (1 4 6 4 1) / 16 </pre></p>
   // <p>This class is just wraps ConvolveSeparable2d and
   // GenerateBinomial() calls in a convenient form.</p>
+  // The default form of this function is setup to handle single channel images. (e.g. byte, real, int)
+  // if you want to convolve multi channel images you should change the 'SumTypeT' template argument to
+  // a type that can handle sums and multiplications without overflowing 
+  // e.g. If you wish to convolve a ByteRGBValueC SumTypeT should be set to RealRGBValueC.
   
   template<class InPixelT,class OutPixelT = InPixelT,class SumTypeT = RealT>
   class GaussConvolveC {
