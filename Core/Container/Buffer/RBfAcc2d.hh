@@ -96,7 +96,7 @@ namespace RavlN {
     //: Returns TRUE if there is an item of the 2D array
     
     IntT Stride() const {
-      if(Size1() < 1)
+      if(Range1().Size() < 1)
 	return (IntT) rng2.Size();
       return (IntT) (RangeBufferAccessC<BufferAccessC<DataC> >::operator[](1).ReferenceElm() -  
 		     RangeBufferAccessC<BufferAccessC<DataC> >::operator[](0).ReferenceElm());
