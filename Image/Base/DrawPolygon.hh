@@ -14,6 +14,7 @@
 //! lib=RavlImage
 //! userlevel=Normal
 //! file="Ravl/Image/Base/DrawPolygon.hh"
+//! example=exDraw.cc
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/DrawLine.hh"
@@ -75,6 +76,7 @@ namespace RavlImageN {
 	  SArray1dC<RealT> coord = poly.BarycentricCoordinate(pnt);
 	  // Calculate interpolated value
 	  DataT value;
+	  SetZero(value);
 	  SArray1dIterC<RealT> cit(coord);
 	  DLIterC<DataT> vit(values);
 	  while (cit && vit) {

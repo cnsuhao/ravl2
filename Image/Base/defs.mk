@@ -24,13 +24,13 @@ PLIB=RavlImage
 
 USESLIBS=RavlCore
 
-PROGLIBS=RavlImageIO RavlOS RavlMath
+PROGLIBS=RavlImageIO RavlOS RavlMath RavlDPDisplay
 
 MAINS=imgdiff.cc
 
 TESTEXES=testImage.cc
 
-EXAMPLES= exImage.cc imgdiff.cc
+EXAMPLES= exImage.cc imgdiff.cc exDraw.cc
 
 EHT=Ravl.Images.Pixel_Types.html
 
