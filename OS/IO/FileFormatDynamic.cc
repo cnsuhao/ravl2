@@ -30,8 +30,10 @@
 
 namespace RavlN {
   
-  bool InitDynamicIO() 
-  { static FileFormatDynamicC RegisterFileFormatDynamic; }
+  bool InitDynamicIO() { 
+    static FileFormatDynamicC RegisterFileFormatDynamic; 
+    return true;
+  }
   
   //: Default constructor.
 
