@@ -61,7 +61,7 @@ namespace RavlN {
     MatrixC proj;
   };
   
-  //! userlevel=normal
+  //! userlevel=Normal
   //: Subtract a mean and project a vector
   // This is very similar FuncLinear, except the mean is subtracted first then 
   // the vector is projected.
