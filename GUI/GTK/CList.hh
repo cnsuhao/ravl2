@@ -91,15 +91,19 @@ namespace RavlGUIN {
     
     bool GUISelect(int &id);
     //: Force an item to be selected.
+    // Use from the GUI thread only.
     
     bool GUIUnselect(int &id);
     //: Force an item to be unselected.
+    // Use from the GUI thread only.
 
     bool GUIUnselectAll();
     //: Remove all entries from the selection.
+    // Use from the GUI thread only.
 
     bool GUISelectAll();
     //: Remove all entries from the selection.
+    // Use from the GUI thread only.
 
     bool Select(int &id);
     //: Force an item to be selected.
@@ -114,7 +118,7 @@ namespace RavlGUIN {
     //: Remove all entries from the selection.
     
     IntT Cols() const
-      { return cols ; }
+    { return cols ; }
     //: Get the number of cols in the clist.
     
     DListC<IntT> Selection();
@@ -122,6 +126,7 @@ namespace RavlGUIN {
     
     bool GUIMoveID2Row(int &id,int &rowNo);
     //: Move the row with the given id to the rowNo .
+    // Use from the GUI thread only.
     
     bool MoveID2Row(int id,int rowNo);
     //: Move the row with the given id to the rowNo .
@@ -134,19 +139,22 @@ namespace RavlGUIN {
     bool GUIFreeze();
     //: Stop rendering updates to CList.
     // Calling this before doing many changes to the list
-    // and then calling Thaw() will speed up the updates.
+    // and then calling Thaw() will speed up the updates. <p>
+    // Use from the GUI thread only.
     
     bool Thaw();
     //: Start rendering updates to CList.
     
     bool GUIThaw();
     //: Start rendering updates to CList.
+    // Use from the GUI thread only.
     
     bool Clear();
     //: Clear all entries from the list.
     
     bool GUIClear();
     //: Clear all entries from the list.
+    // Use from the GUI thread only.
     
   protected:
     virtual void Destroy();

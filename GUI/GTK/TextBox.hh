@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLGUITEXTBOX_HEADER
-#define RAVLGUITEXTBOX_HEADER 1
+#ifndef RAVLGUI_TEXTBOX_HEADER
+#define RAVLGUI_TEXTBOX_HEADER 1
 //////////////////////////////////////////////////
 //! lib=RavlGUI
 //! author="Charles Galambos"
