@@ -11,7 +11,7 @@ PACKAGE=Ravl/OS
 
 DESCRIPTION=Interfaces for common computer hardware.
 
-HEADERS=SerialIO.hh
+HEADERS=SerialIO.hh DMABuffer.hh
 
 SOURCES=SerialIO.cc
 
