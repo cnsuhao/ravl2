@@ -69,7 +69,6 @@ namespace RavlGUIN {
   {
   public:
     MenuCheckItemC()
-      : MenuItemC(true)
     {}
     //: Default constructor
     
