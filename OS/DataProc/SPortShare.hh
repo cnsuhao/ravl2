@@ -17,6 +17,7 @@
 #include "Ravl/DP/StreamOp.hh"
 #include "Ravl/DP/Plug.hh"
 #include "Ravl/Threads/Mutex.hh"
+#include "Ravl/Trigger.hh"
 
 namespace RavlN {
   
@@ -26,12 +27,16 @@ namespace RavlN {
       public AttributeCtrlBodyC
   {
   public:
-    DPISPortShareBodyC()
+    explicit DPISPortShareBodyC()
+      : lastOffset((UIntT) -1),
+	clients(0)
     {}
     //: Default constructor.
     
     explicit DPISPortShareBodyC(const DPISPortC<DataT> &ip)
-      : input(ip)
+      : input(ip),
+	lastOffset((UIntT) -1),
+	clients(0)
     {}
     //: Constructor.
     
@@ -233,10 +238,36 @@ namespace RavlN {
     }
     //: Register a new attribute type.
     
+    UIntT Clients() const
+    { return clients; }
+    //: Access number of clients using the SPort.
+    
+    void RegisterClient() {
+      MutexLockC lock(access);
+      clients++;
+    }
+    //: Regiser a client
+    
+    void DeregisterClient() {
+      MutexLockC lock(access);
+      clients--;      
+      if(clients == 0 && triggerCountZero.IsValid()) {
+	lock.Unlock();
+	triggerCountZero.Invoke();
+      }
+    }
+    //: Unregiser a client
+    
+    TriggerC &TriggerCountZero()
+    { return triggerCountZero; }
+    //: Access trigger called when client count drops to zero.
+    
   protected:
     DPISPortC<DataT> input;
     UIntT lastOffset;
+    UIntT clients; // Number of clients currently using the port.
     MutexC access;
+    TriggerC triggerCountZero; // Called when client count drops to zero.
   };
   
   template<class DataT>
@@ -326,6 +357,23 @@ namespace RavlN {
     
     DPIPortC<DataT> Port() const;
     //: Explicitly create a port.
+    
+    UIntT Clients() const
+    { return Body().Clients(); }
+    //: Access number of clients using the SPort.
+    
+    void RegisterClient()
+    { Body().RegisterClient(); }
+    //: Register a client using this port.
+    
+    void DeregisterClient()
+    { Body().DeregisterClient(); }
+    //: Deregister a client using this port
+    
+    TriggerC &TriggerCountZero()
+    { return Body().TriggerCountZero(); }
+    //: Access trigger called when client count drops to zero.
+    
   }; 
     
   //:---------------------------------------------------------------------------------------------
@@ -337,13 +385,24 @@ namespace RavlN {
   {
   public:
     DPISPortShareClientBodyC()
+      : offset(0)
     {}
     //: Default constructor.
     
     DPISPortShareClientBodyC(const DPISPortShareC<DataT> &sharedPort)
-      : input(sharedPort)
-    {}
+      : offset(0),
+	input(sharedPort)
+    {
+      input.RegisterClient();
+      offset = input.Start(); 
+    }
     //: Constructor.
+    
+    ~DPISPortShareClientBodyC() {
+      if(input.IsValid())
+	input.DeregisterClient();
+    }
+    //: Destructor
     
     //:----------------------------------------------------------
     // Get controls
