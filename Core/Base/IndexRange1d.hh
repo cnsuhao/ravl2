@@ -53,7 +53,7 @@ namespace RavlN {
     {}
     //: Creates the index range <minIndex, maxIndex>.
     
-    inline IndexRangeC(istream & s);
+    IndexRangeC(istream & s);
     //: Creates the index range from the input stream.
     
     //:---------------------------------
