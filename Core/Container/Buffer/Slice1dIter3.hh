@@ -48,13 +48,29 @@ namespace RavlN {
     bool IsElm() const
       { return at1 != end; }
     //: Test if we're at a valid element.
+
+    inline bool IsLast() const
+    { return (at1+vec.Stride()) == endOfRow; }
+    //: Test if we're at the last valid element in the slice.
+    // This is slower than IsElm().
     
-    void operator++(int) { 
-	at1 += vec1.Stride(); 
-	at2 += vec2.Stride();
-	at3 += vec3.Stride();
-      }
+    inline bool IsFirst() const
+    { return at1 == &vec.First(); }
+    //: Test if we're at the first element in the slice.
+    // This is slower than IsElm().
+
+    void Next() {
+      at1 += vec1.Stride(); 
+      at2 += vec2.Stride();
+      at3 += vec3.Stride();
+    }
     //: Goto next element.
+    // Call ONLY if IsElm() is valid.
+    
+    void operator++(int) 
+    { Next(); }
+    //: Goto next element.
+    // Call ONLY if IsElm() is valid.
     
     Data1T &Data1()
       { return *at1; }

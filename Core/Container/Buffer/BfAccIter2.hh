@@ -74,10 +74,14 @@ namespace RavlN {
     inline bool First(const BufferAccessC<Data1T> &buff,const IndexRangeC &rng1,const BufferAccessC<Data2T> &buff2,const IndexRangeC &rng2);
     //: Goto first elements.
     
-    
     inline bool IsElm() const
       { return at1 != endOfRow; }
     //: At valid element ?
+    
+    inline bool IsLast() const
+    { return (at1+1) == endOfRow; }
+    //: Test if we're at the last valid element in the range.
+    // Note: This is slightly slower than IsElm().
 
     inline operator bool() 
       { return at1 != endOfRow; }
@@ -204,13 +208,13 @@ namespace RavlN {
   template<class Data1T,class Data2T>
   inline 
   bool BufferAccessIter2C<Data1T,Data2T>::First(const RangeBufferAccessC<Data1T> &buff1,const RangeBufferAccessC<Data2T> &buff2,UIntT off1,UIntT off2) {
-    if(buff.Size() <= off1) {
+    if(buff1.Size() <= off1) {
       at1 = 0;
       endOfRow = 0;
       return false;
     }
     RavlAssert(buff2.Size() > off2); 
-    RavlAssert(((int) buff2.Size() - off2) >= ((int) buff1.Size1() - off1));
+    RavlAssert(((int) buff2.Size() - off2) >= ((int) buff1.Size() - off1));
     at1 = const_cast<Data1T *>(&buff1[buff1.IMin() + off1]);
     at2 = const_cast<Data2T *>(&buff2[buff2.IMin() + off2]);
     endOfRow = &(at1[buff1.Size() - off1]);

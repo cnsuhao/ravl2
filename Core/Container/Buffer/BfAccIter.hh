@@ -69,8 +69,13 @@ namespace RavlN {
     //: Goto fist element.
     
     inline bool IsElm() const
-      { return at != endOfRow; }
+    { return at != endOfRow; }
     //: At valid element ?
+    
+    inline bool IsLast() const
+    { return (at+1) == endOfRow; }
+    //: Test if we're at the last valid element in the range.
+    // Note: This is slightly slower than IsElm().
     
     inline operator bool() const
       { return at != endOfRow; }
