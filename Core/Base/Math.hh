@@ -141,7 +141,7 @@ namespace RavlN {
     while((i/=2) != 0) mex++;
     return(mex);
   }
-  //: Interger Log 2
+  //: Integer Log 2
   // "i" = 2 ^ "mex", "mex" = ?
   
   inline RealT Sin(RealT x)
