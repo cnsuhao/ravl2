@@ -138,6 +138,21 @@ int testEndian() {
 
 int testIndex()
 {
+  IndexC i(5);
+  IndexC j(-4);
+  IntT p(3);
+  IntT q(-3);
+  UIntT u(3);
+  // This line is the invariant test defined in ANSII C
+  if (i != (i/p)*p + i%p || i != (i/q)*q + i%q || i != (i/u)*u + i%u
+      || j != (j/p)*p + j%p || j != (j/q)*q + j%q || j != (j/u)*u + j%u)
+    return __LINE__;
+  // These 2 lines test the RAVL convention for modulo involving -ve numbers
+  if (i/p != 1 || i/q != -1 || i/u != 1 
+      || j/p != -2 || j/q != 2 || j/u != -2) return __LINE__;
+  if (i%p != 2 || i%q != 2 || i%u != 2 
+      || j%p != 2 || j%q != 2 || j%u != 2) return __LINE__;
+
   IndexRangeC r1(0,3);
   IndexRangeC r2(1,2);
   IndexRangeC r3(r1);
@@ -367,7 +382,6 @@ int testException() {
 }
 
 int testQInt() {
-  cerr << "testQInt(), Called. \n";
   double values[] = { 0,0.1,-0.25,-3.6 , 1.3,100000.01,1000,-1000 };
   for(int i = 0;i < 5;i++) {
     if(Round(values[i]) != QRound(values[i]))
