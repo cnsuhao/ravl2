@@ -12,7 +12,7 @@
 //! author="Charles Galambos"
 //! file="Ravl/PatternRec/DimensionReduction/Funcsubset.hh"
 
-#include "Ravl/PatternRec/Function.hh"
+#include "Ravl/PatternRec/Function1.hh"
 #include "Ravl/MeanCovariance.hh"
 
 
@@ -22,7 +22,7 @@ namespace RavlN {
   //: Reduce dimension by taking a subset of features.
   
   class GaussianMixtureBodyC 
-    : public FunctionBodyC
+    : public Function1BodyC
   {
   public:
     GaussianMixtureBodyC()
@@ -49,9 +49,14 @@ namespace RavlN {
     
     virtual VectorC Apply(const VectorC &data) const;
     //: Reduce the dimension of 'data'.
-
-    RealT DensityValue(const VectorC & X) const
-      { return Apply(X).Sum(); }
+    
+    virtual RealT Apply1(const VectorC &data) const;
+    //: Apply function to 'data'
+    
+    VectorC GaussianValues(const VectorC &data) const;
+    //: Get vector of individual values.
+    
+    RealT DensityValue(const VectorC & X) const;
     //: Return the denisty value at point X
 
   protected:
@@ -82,7 +87,7 @@ namespace RavlN {
   //: Reduce dimension by taking a subset of features.
 
   class GaussianMixtureC 
-    : public FunctionC
+    : public Function1C
   {
   public:
     GaussianMixtureC()
@@ -91,34 +96,33 @@ namespace RavlN {
     // Creates an invalid handle.
     
     GaussianMixtureC(const SArray1dC<MeanCovarianceC> & params, SArray1dC<RealT> & weights, bool isDiagonal=false)
-      : FunctionC(*new GaussianMixtureBodyC(params, weights, isDiagonal))
-      {}
+      : Function1C(*new GaussianMixtureBodyC(params, weights, isDiagonal))
+    {}
     //: Construct from mixture parameters and mixing coefficients
     
     GaussianMixtureC(const SArray1dC<VectorC> & means, const SArray1dC<MatrixRSC> & covariances, const SArray1dC<RealT> & weights, bool isDiagonal=false)
-      : FunctionC(*new GaussianMixtureBodyC(means, covariances, weights, isDiagonal))
-      {}
+      : Function1C(*new GaussianMixtureBodyC(means, covariances, weights, isDiagonal))
+    {}
     //: Construct from mixture parameters and mixing coefficients
-
+    
     GaussianMixtureC(istream &is);
     //: Stream constructor.
-
+    
     GaussianMixtureC(const FunctionC &func)
-      : FunctionC(func)
+      : Function1C(func)
     {
       if(dynamic_cast<GaussianMixtureBodyC *>(&FunctionC::Body()) == 0)
 	Invalidate();
     }
     //: Attempt to create handle from base class.
     // If object is not a FuncMeanProjectionC, an invalid handle will be created.
-
+    
     GaussianMixtureC(BinIStreamC &is);
     //: Stream constructor.
-
     
   protected:
     GaussianMixtureC(GaussianMixtureBodyC &bod)
-      : FunctionC(bod)
+      : Function1C(bod)
     {}
     //: Body constructor.
     

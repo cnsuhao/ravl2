@@ -14,6 +14,7 @@
 #include "Ravl/SArray1dIter.hh"
 #include "Ravl/SArray1dIter3.hh"
 #include "Ravl/SArray1dIter4.hh"
+#include "Ravl/SArray1dIter5.hh"
 #include "Ravl/VirtualConstructor.hh"
 
 namespace RavlN {
@@ -21,7 +22,9 @@ namespace RavlN {
   //: Constructor from an array of indexes.
   
   GaussianMixtureBodyC::GaussianMixtureBodyC(const SArray1dC<MeanCovarianceC> & prms, const SArray1dC<RealT> & wgt, bool diag)
-    : params(prms), weights(wgt), isDiagonal(diag)
+    : params(prms), 
+      weights(wgt), 
+      isDiagonal(diag)
   {
     //: Lets do some checks
     if(params.Size()!=weights.Size()) 
@@ -76,7 +79,8 @@ namespace RavlN {
 
   //: Load from stream.
   GaussianMixtureBodyC::GaussianMixtureBodyC(istream &strm) 
-    : FunctionBodyC(strm) { 
+    : Function1BodyC(strm) 
+  { 
     strm >> params >> weights >> isDiagonal; 
     precompute(false); //: should of already regularised before writing to file, no need to do it again
   }
@@ -92,7 +96,8 @@ namespace RavlN {
   
   //: Load from binary stream.  
   GaussianMixtureBodyC::GaussianMixtureBodyC(BinIStreamC &strm) 
-    : FunctionBodyC(strm) { 
+    : Function1BodyC(strm) 
+  { 
     strm >> params  >> weights >> isDiagonal;     
     precompute(false); //: should of already regularised before writing to file
   }
@@ -105,9 +110,9 @@ namespace RavlN {
     return true;
   }
   
-  //: Compute the density at a given point 
-  VectorC GaussianMixtureBodyC::Apply(const VectorC & data) const  {
-    
+  //: Get vector of individual values.
+  
+  VectorC GaussianMixtureBodyC::GaussianValues(const VectorC &data) const {
     //: do some checks
     if(data.Size()!=InputSize()) 
       RavlIssueError("Input data of different dimension to that of model");
@@ -117,10 +122,34 @@ namespace RavlN {
       VectorC D = data - it.Data1().Mean();
       out[it.Index()]  = it.Data2() * ((1.0/(konst * Sqrt(it.Data4()))) * Exp(-0.5 * D.Dot(( it.Data3() * D))));
     }
-
     return out;
   }
-
+  
+  //: Return the denisty value at point X
+  
+  RealT GaussianMixtureBodyC::DensityValue(const VectorC & data) const { 
+    RealT ret = 0;
+    
+    for(SArray1dIter4C<MeanCovarianceC, RealT, MatrixRSC, RealT> it(params, weights, invCov, det);it;it++) {
+      VectorC D = data - it.Data1().Mean();
+      ret += it.Data2() * ((1.0/(konst * Sqrt(it.Data4()))) * Exp(-0.5 * D.Dot(( it.Data3() * D))));
+    }
+    return ret; 
+  }
+  
+  //: Compute the density at a given point 
+  VectorC GaussianMixtureBodyC::Apply(const VectorC & data) const  {
+    VectorC ret(1);
+    ret[0] = DensityValue(data);
+    return ret;
+  }
+  
+  //: Apply function to 'data'
+  
+  RealT GaussianMixtureBodyC::Apply1(const VectorC &data) const {
+    return DensityValue(data);
+  }
+  
   //: Precompute the inverse matrices e.t.c..
   void GaussianMixtureBodyC::precompute(bool regularise)
   {
@@ -173,6 +202,6 @@ namespace RavlN {
   }
 
 
-  RAVL_INITVIRTUALCONSTRUCTOR_FULL(GaussianMixtureBodyC,GaussianMixtureC,FunctionC);
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(GaussianMixtureBodyC,GaussianMixtureC,Function1C);
 
 }
