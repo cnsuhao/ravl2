@@ -8,7 +8,7 @@
 #define RAVLTFMATRIX_HEADER 1
 ///////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/Core/Math/FMatrix.hh"
+//! file="Ravl/Core/Math/TFMatrix.hh"
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! date="24/01/2001"
