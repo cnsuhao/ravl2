@@ -1,5 +1,5 @@
 ! author="Charles Galambos"
-! children="Pixel Types;IO;Converters;Filtering;Morphology;Warping;Transforms;Drawing;Edges;Lines;Corner Detection;Segmentation;Chart Detector;Video;Motion;Tracking;Mosaic;Misc"
+! children="Pixel Types;IO;Converters;Filtering;Morphology;Warping;Transforms;Drawing;Edges;Lines;Corner Detection;Segmentation;Boundaries;Chart Detector;Video;Motion;Tracking;Mosaic;Misc"
 : Image and video processing
 
 <p> The basic image class is the template class <a
