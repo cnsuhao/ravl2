@@ -229,7 +229,7 @@ namespace RavlGUIN {
 	
 	if(renderType == "bool") { // Bool render
 	  renderer = gtk_cell_renderer_toggle_new (); 
-	  if(it->SignalChanged().IsValid()) {
+	  if(rit->SignalChanged().IsValid()) {
 	    g_signal_connect (G_OBJECT (renderer), "toggled",
 			      G_CALLBACK (tree_view_toggle_cb),
 			      &(*rit));
@@ -238,7 +238,7 @@ namespace RavlGUIN {
 	  
 	} else if( renderType == "text") {
 	  renderer = gtk_cell_renderer_text_new ();
-	  if(it->SignalChanged().IsValid()) {
+	  if(rit->SignalChanged().IsValid()) {
 	    g_signal_connect (G_OBJECT (renderer), "edited",
 			      G_CALLBACK (tree_view_edit_cb),
 			      &(*rit));
