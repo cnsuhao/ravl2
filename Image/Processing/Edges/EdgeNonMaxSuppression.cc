@@ -22,15 +22,6 @@
 #include "Ravl/StdConst.hh"
 #include "Ravl/Image/DrawFrame.hh"
 
-#if RAVL_COMPILER_MIPSPRO
-// help the compiler a bit !
-namespace RavlImageN 
-{
-  DrawFrame(RavlN::Array2dC<RavlN::TFVectorC<int,2> >&,const RavlN::TFVectorC<int,2>&,const RavlN::IndexRange2dC&,bool) ;
-  DrawFrame(RavlN::Array2dC<double>&,const double&,const RavlN::IndexRange2dC&,bool);
-}
-#endif 
-
 
 #if RAVL_USE_PARALLEL
 #include "Ravl/Threads/Launch.hh"
