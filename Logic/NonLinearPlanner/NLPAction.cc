@@ -15,6 +15,7 @@
 #include "Ravl/Collection.hh"
 #include "Ravl/Logic/NLPAction.hh"
 #include "Ravl/Logic/BMinTermIndexIter.hh"
+#include <stdlib.h>
 
 #define VDEBUG 1
 #if VDEBUG
