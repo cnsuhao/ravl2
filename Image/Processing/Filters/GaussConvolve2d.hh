@@ -40,12 +40,12 @@ namespace RavlImageN {
   // E.g. a 5th order filter has mask of:
   //
   // <pre> (1 4 6 4 1) / 16 </pre></p>
-  // <p>This class is just wraps ConvolveSeparable2d and
-  // GenerateBinomial() calls in a convenient form.</p>
+  // <p>This class is just wraps <a href="RavlImageN.ConvolveSeparable2dC.html">ConvolveSeparable2dC</a> and
+  // <a href="RavlN.GenerateBinomialObDataT_SizeT_bool_boolCb.html">GenerateBinomial()</a> calls in a convenient form.</p>
   // The default form of this function is setup to handle single channel images. (e.g. byte, real, int)
   // if you want to convolve multi channel images you should change the 'SumTypeT' template argument to
   // a type that can handle sums and multiplications without overflowing 
-  // e.g. If you wish to convolve a ByteRGBValueC SumTypeT should be set to RealRGBValueC. <p>
+  // e.g. If you wish to convolve a <a href="RavlImageN.ByteRGBValueC.html">ByteRGBValueC</a> SumTypeT should be set to RealRGBValueC. <p>
   // <b>Template args:</b> <br>
   // InPixelT = Type of pixel in input image. <br>
   // OutPixelT = Type of pixel in output image. (Default = InPixelT) <br>
@@ -67,10 +67,14 @@ namespace RavlImageN {
     {}
     //: Default constructor.
     
-    GaussConvolve2dC(UIntT order) 
-      : binomial(GenerateBinomial((KernelPixelT) 1.0, order, true,true))
-      { SetKernel(binomial, binomial); }
+    GaussConvolve2dC(UIntT order, UIntT derivative=0) 
+      : binomial(GenerateBinomial<KernelPixelT>(order, true,true,derivative))
+      { 
+	SetKernel(binomial, binomial);
+      }
     //: Construct Gaussian with the given size.
+    //!param: order - total width of the Gaussian approximation (<em>not</em> the "standard deviation")
+    //!param: derivative - if set, for derivatives of Gaussian (2nd order is inverted)
     
     ImageC<OutPixelT> Apply (const ImageC<InPixelT> &in) const {
       ImageC<OutPixelT> op;
@@ -82,7 +86,7 @@ namespace RavlImageN {
     
     Array1dC<KernelPixelT> &Filter()
     { return binomial; }
-    //: Access current filter.
+    //: Access current filter coefficients.
     // Note the save/load routines of this class do NOT save
     // the filter coefficients, just its order. So modifying
     // them and saving this class is pointless.
