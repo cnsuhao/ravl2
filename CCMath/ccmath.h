@@ -23,6 +23,7 @@
 //! docentry="Ravl.Math.Internal"
 //! author="Daniel A. Atkinson" 
 */
+#include "Ravl/config.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -721,7 +722,7 @@ struct xpr srt2={{0x3FFF,0xB504,0xF333,0xF9DE,0x6484,0x597D,0x89B3,0x754B}};
 
      struct complex cdef(double r,double i) ;
 
-#if !defined(__sgi__) && !defined(VISUAL_CPP) && !defined(__osf__)
+#if !defined(__sgi__) && !RAVL_COMPILER_VISUALCPP && !defined(__osf__)
      /* This conflicts with an existing function on sgi */
      double cabs(struct complex c) ;
 #endif
