@@ -104,7 +104,7 @@ namespace RavlN
 
             // Apply the transformation.
 
-	    double t = 0;
+	    RealT t = 0;
 	    for (i = k; i < m; i++) {
 	      t += A[i][k]*A[i][j];
 	    }
@@ -160,7 +160,7 @@ namespace RavlN
 	      }
 	    }
 	    for (j = k+1; j < n; j++) {
-	      double t = -e[j]/e[k+1];
+	      RealT t = -e[j]/e[k+1];
 	      for (i = k+1; i < m; i++) {
 		A[i][j] += t*work[i];
 	      }
@@ -204,7 +204,7 @@ namespace RavlN
 	for (k = nct-1; k >= 0; k--) {
 	  if (s[k] != 0.0) {
 	    for (j = k+1; j < nu; j++) {
-	      double t = 0;
+	      RealT t = 0;
 	      for (i = k; i < m; i++) {
 		t += U[i][k]*U[i][j];
 	      }
@@ -235,7 +235,7 @@ namespace RavlN
 	for (k = n-1; k >= 0; k--) {
 	  if ((k < nrt) & (e[k] != 0.0)) {
 	    for (j = k+1; j < nu; j++) {
-	      double t = 0;
+	      RealT t = 0;
 	      for (i = k+1; i < n; i++) {
 		t += V[i][k]*V[i][j];
 	      }
@@ -256,7 +256,7 @@ namespace RavlN
 
       int pp = p-1;
       int iter = 0;
-      double eps = Pow(2.0,-52.0);
+      RealT eps = Pow(2.0,-52.0);
       while (p > 0) {
 	int k=0;
 	int kase=0;
@@ -266,7 +266,7 @@ namespace RavlN
 	// This section of the program inspects for
 	// negligible elements in the s and e arrays.  On
 	// completion the variables kase and k are set as follows.
-
+	
 	// kase = 1     if s(p) and e[k-1] are negligible and k<p
 	// kase = 2     if s(k) is negligible and k<p
 	// kase = 3     if e[k-1] is negligible, k<p, and
@@ -277,7 +277,7 @@ namespace RavlN
 	  if (k == -1) {
 	    break;
 	  }
-	  if (abs(e[k]) <= eps*(abs(s[k]) + abs(s[k+1]))) {
+	  if (Abs(e[k]) <= eps*(Abs(s[k]) + Abs(s[k+1]))) {
 	    e[k] = 0.0;
 	    break;
 	  }
@@ -290,9 +290,9 @@ namespace RavlN
 	    if (ks == k) {
 	      break;
 	    }
-	    double t = (ks != p ? abs(e[ks]) : 0.) + 
-	      (ks != k+1 ? abs(e[ks-1]) : 0.);
-	    if (abs(s[ks]) <= eps*t)  {
+	    RealT t = (ks != p ? Abs(e[ks]) : 0.) + 
+	      (ks != k+1 ? Abs(e[ks-1]) : 0.);
+	    if (Abs(s[ks]) <= eps*t)  {
 	      s[ks] = 0.0;
 	      break;
 	    }
@@ -315,12 +315,12 @@ namespace RavlN
 	  // Deflate negligible s(p).
 
 	case 1: {
-	  double f = e[p-2];
+	  RealT f = e[p-2];
 	  e[p-2] = 0.0;
 	  for (j = p-2; j >= k; j--) {
-	    double t = Hypot(s[j],f);
-	    double cs = s[j]/t;
-	    double sn = f/t;
+	    RealT t = Hypot(s[j],f);
+	    RealT cs = s[j]/t;
+	    RealT sn = f/t;
 	    s[j] = t;
 	    if (j != k) {
 	      f = -sn*e[j-1];
@@ -340,12 +340,12 @@ namespace RavlN
 	  // Split at negligible s(k).
 
 	case 2: {
-	  double f = e[k-1];
+	  RealT f = e[k-1];
 	  e[k-1] = 0.0;
 	  for (j = k; j < p; j++) {
-	    double t = Hypot(s[j],f);
-	    double cs = s[j]/t;
-	    double sn = f/t;
+	    RealT t = Hypot(s[j],f);
+	    RealT cs = s[j]/t;
+	    RealT sn = f/t;
 	    s[j] = t;
 	    f = -sn*e[j];
 	    e[j] = cs*e[j];
@@ -366,17 +366,17 @@ namespace RavlN
 
 	  // Calculate the shift.
    
-	  double scale = Max(Max(Max(Max(
-					 abs(s[p-1]),abs(s[p-2])),abs(e[p-2])), 
-				 abs(s[k])),abs(e[k]));
-	  double sp = s[p-1]/scale;
-	  double spm1 = s[p-2]/scale;
-	  double epm1 = e[p-2]/scale;
-	  double sk = s[k]/scale;
-	  double ek = e[k]/scale;
-	  double b = ((spm1 + sp)*(spm1 - sp) + epm1*epm1)/2.0;
-	  double c = (sp*epm1)*(sp*epm1);
-	  double shift = 0.0;
+	  RealT scale = Max(Max(Max(Max(
+					Abs(s[p-1]),Abs(s[p-2])),Abs(e[p-2])), 
+				Abs(s[k])),Abs(e[k]));
+	  RealT sp = s[p-1]/scale;
+	  RealT spm1 = s[p-2]/scale;
+	  RealT epm1 = e[p-2]/scale;
+	  RealT sk = s[k]/scale;
+	  RealT ek = e[k]/scale;
+	  RealT b = ((spm1 + sp)*(spm1 - sp) + epm1*epm1)/2.0;
+	  RealT c = (sp*epm1)*(sp*epm1);
+	  RealT shift = 0.0;
 	  if ((b != 0.0) | (c != 0.0)) {
 	    shift = sqrt(b*b + c);
 	    if (b < 0.0) {
@@ -384,15 +384,15 @@ namespace RavlN
 	    }
 	    shift = c/(b + shift);
 	  }
-	  double f = (sk + sp)*(sk - sp) + shift;
-	  double g = sk*ek;
+	  RealT f = (sk + sp)*(sk - sp) + shift;
+	  RealT g = sk*ek;
    
 	  // Chase zeros.
    
 	  for (j = k; j < p-1; j++) {
-	    double t = Hypot(f,g);
-	    double cs = f/t;
-	    double sn = g/t;
+	    RealT t = Hypot(f,g);
+	    RealT cs = f/t;
+	    RealT sn = g/t;
 	    if (j != k) {
 	      e[j-1] = t;
 	    }
@@ -449,7 +449,7 @@ namespace RavlN
 	    if (s[k] >= s[k+1]) {
 	      break;
 	    }
-	    double t = s[k];
+	    RealT t = s[k];
 	    s[k] = s[k+1];
 	    s[k+1] = t;
 	    if (wantv && (k < n-1)) {
@@ -512,8 +512,8 @@ namespace RavlN
     //: Two norm of condition number (Max(S)/Min(S)) 
     
     IntT Rank () const {
-      double eps = Pow(2.0,-52.0);
-      double tol = Max(m,n)*s[0]*eps;
+      RealT eps = Pow(2.0,-52.0);
+      RealT tol = Max(m,n)*s[0]*eps;
       int r = 0;
       for (int i = 0; i < s.dim(); i++) {
 	if (s[i] > tol)
