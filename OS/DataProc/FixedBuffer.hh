@@ -14,7 +14,7 @@
 //! author="Charles Galambos"
 //! date="04/03/1999"
 
-#include "Ravl/DP/Port.hh"
+#include "Ravl/DP/IOPort.hh"
 #include "Ravl/Threads/MessageQueue.hh"
 
 namespace RavlN {

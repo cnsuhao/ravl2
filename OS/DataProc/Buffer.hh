@@ -17,7 +17,7 @@
 #include "Ravl/Threads/Mutex.hh"
 #include "Ravl/Threads/Semaphore.hh"
 #include "Ravl/DList.hh"
-#include "Ravl/DP/Port.hh"
+#include "Ravl/DP/IOPort.hh"
 
 namespace RavlN {
   //////////////////////////////
@@ -25,8 +25,8 @@ namespace RavlN {
   //: MT safe queue body
   
   template<class DataT>
-  class DPBufferBodyC :
-    public DPIOPortBodyC<DataT,DataT>
+  class DPBufferBodyC 
+    : public DPIOPortBodyC<DataT,DataT>
   {
   public:
     DPBufferBodyC(bool nblock = true) 

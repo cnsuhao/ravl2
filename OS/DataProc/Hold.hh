@@ -14,7 +14,7 @@
 //! author="Charles Galambos"
 //! date="03/08/1998"
 
-#include "Ravl/DP/Port.hh"
+#include "Ravl/DP/IOPort.hh"
 #include "Ravl/DP/Process.hh"
 #include "Ravl/Threads/Mutex.hh"
 
