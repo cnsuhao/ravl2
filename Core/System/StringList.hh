@@ -62,6 +62,7 @@ namespace RavlN {
     
     IndexC CasePos (const StringC &str) const;
     //: finds position of string in list - case insensitive
+    // returns -1 if string is not found
     
     StringC Cat (const StringC &sep = " ") const;
     //: concatenates string list into a single string
