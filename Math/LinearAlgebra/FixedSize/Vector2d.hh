@@ -91,7 +91,12 @@ namespace RavlN {
   inline RealT TFVectorC<RealT,2>::Dot(const TFVectorC<RealT,2> &oth) const 
   { return data[0] * oth.data[0] + data[1] * oth.data[1]; }
   //: Calculate the dot product of this and 'oth' vector.
-
+  
+  inline
+  Vector2dC Angle2Vector2d(RealT angle) 
+  { return Vector2dC(Sin(angle),Cos(angle)); }
+  //: Convert an angle to a unit vector in that direction.
+  
 }
 
 #endif
