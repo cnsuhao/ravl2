@@ -16,7 +16,7 @@
 //! file="Ravl/Core/IO/BinFileIO.hh"
 //! userlevel=Default
 
-#include "Ravl/DP/Port.hh"
+#include "Ravl/DP/SPort.hh"
 #include "Ravl/String.hh"
 #include "Ravl/TypeName.hh"
 #include "Ravl/BinStream.hh"
@@ -123,15 +123,20 @@ namespace RavlN {
   
   template<class DataT>
   class DPIBinFileBodyC 
-    : public DPIPortBodyC<DataT>
+    : public DPISPortBodyC<DataT>
   {
   public:
-    DPIBinFileBodyC() {}
+    DPIBinFileBodyC() 
+      : version(-1),
+	off(0),
+	dataStart(0)
+    {}
     //: Default constructor.
     
     DPIBinFileBodyC(const StringC &nfname,bool useHeader = false)
       : in(nfname),
-      version(0)
+	version(0),
+	off(0)
     {
       if(useHeader) {
 	StringC classname;
@@ -143,12 +148,14 @@ namespace RavlN {
 	if(classname != TypeName(typeid(DataT))) 
 	  cerr << "DPIBinFileC ERROR: Bad file type: " << classname << " Expected:" << TypeName(typeid(DataT)) << " \n";
       }
+      dataStart = in.Tell(); // Remember where data starts.
     }
     //: Construct from a filename.
     
     inline DPIBinFileBodyC(BinIStreamC &strmin,bool useHeader = false)
       : in(strmin),
-        version(0)
+        version(0),
+	off(0)
     {
       if(useHeader) {
 	StringC classname; 
@@ -160,20 +167,27 @@ namespace RavlN {
 	if(classname != TypeName(typeid(DataT))) 
 	  cerr << "DPIBinFileC ERROR: Bad file type. " << classname << " Expected:" << TypeName(typeid(DataT)) << " \n";
       }
+      dataStart = in.Tell(); // Remember where data starts.
     }
     //: Stream constructor.
     
     virtual bool IsGetEOS() const 
-      { return (!in.Stream().good() || in.Stream().eof()); }
+    { return (!in.Stream().good() || in.Stream().eof()); }
     //: Is valid data ?
   
-    virtual DataT Get() { DataT ret; in >> ret; return ret; }
+    virtual DataT Get() { 
+      DataT ret;
+      in >> ret;
+      off++;
+      return ret; 
+    }
     //: Get next piece of data.
     
     virtual bool Get(DataT &buff) { 
       if(in.IsEndOfStream())
 	return false;
       in >> buff;
+      off++;
       return true; 
     }
     //: Get next piece of data.
@@ -181,6 +195,7 @@ namespace RavlN {
     virtual IntT GetArray(SArray1dC<DataT> &data) {
       for(SArray1dIterC<DataT> it(data);it;it++) {
 	in >> *it;
+	off++;
 	if(!in.Stream().good()) {
 #ifdef RAVL_CHECK
 	  cerr << "DPIBinFileBodyC<DataT>::GetArray(), Ended early because of bad input stream. \n";	
@@ -193,12 +208,33 @@ namespace RavlN {
     //: Get multiple pieces of input data.
     
     virtual bool Save(ostream &out) const 
-      { out << in.Name(); return true; }
+    { out << in.Name(); return true; }
     //: Save to ostream.
+    
+    virtual bool Seek(UIntT newOff) {
+      if(newOff == 0) {
+	in.Seek(dataStart);
+	off = newOff;
+	return true;
+      }
+      return false;
+    }
+    //: Seek to position in stream.
+    // Currently only understands seek to start.
+    
+    virtual UIntT Tell() const
+    { return off; }
+    //: Get current offset in stream.
+    
+    virtual UIntT Size() const
+    { return (UIntT) (-1); }
+    //: Get size of stream. 
     
   private:
     BinIStreamC in;
     UIntT version;
+    UIntT off;
+    streampos dataStart;
   };
   
   ///////////////////////////////
@@ -234,7 +270,7 @@ namespace RavlN {
   
   template<class DataT>
   class DPIBinFileC 
-    : public DPIPortC<DataT> 
+    : public DPISPortC<DataT> 
   {
   public:
     inline DPIBinFileC() {}

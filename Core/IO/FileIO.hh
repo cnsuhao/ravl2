@@ -12,17 +12,17 @@
 //! file="Ravl/Core/IO/FileIO.hh"
 //! lib=RavlIO
 //! author="Charles Galambos"
-//! date="04/07/98"
+//! date="04/07/1998"
 //! rcsid="$Id$"
 //! userlevel=Default
 
-#include "Ravl/DP/Port.hh"
+#include "Ravl/DP/SPort.hh"
 #include "Ravl/String.hh"
 #include "Ravl/TypeName.hh"
 #include "Ravl/Stream.hh"
 
 namespace RavlN {
-  /////////////////////////////////////////////
+  ////////////////////////////////////////////
   //! userlevel=Develop
   //: Save objects to a file.
   // Object must have a stream output function.
@@ -37,30 +37,30 @@ namespace RavlN {
     
     DPOFileBodyC(const StringC &nfname,bool useHeader=false)
       : out(nfname)
-      {
+    {
 #if RAVL_CHECK
-	if(!out.good()) 
-	  cerr << "DPOFileBodyC<DataT>::DPOFileBodyC<DataT>(StringC,bool), Failed to open file '" << nfname << "'.\n";
+      if(!out.good()) 
+	cerr << "DPOFileBodyC<DataT>::DPOFileBodyC<DataT>(StringC,bool), Failed to open file '" << nfname << "'.\n";
 #endif
-	if(useHeader) 
-	  out << TypeName(typeid(DataT)) << endl;
-      }
+      if(useHeader) 
+	out << TypeName(typeid(DataT)) << endl;
+    }
     //: Construct from a filename.
     
     inline DPOFileBodyC(OStreamC &strmout,bool useHeader=false)
       : out(strmout)
-      {
+    {
 #if RAVL_CHECK
-	if(!out.good()) 
-	  cerr << "DPOFileBodyC<DataT>::DPOFileBodyC<DataT>(OStreamC,bool), Passed bad output stream. \n";
+      if(!out.good()) 
+	cerr << "DPOFileBodyC<DataT>::DPOFileBodyC<DataT>(OStreamC,bool), Passed bad output stream. \n";
 #endif
-	if(useHeader) 
-	  out << TypeName(typeid(DataT)) << endl;
+      if(useHeader) 
+	out << TypeName(typeid(DataT)) << endl;
 #if RAVL_CHECK
-	if(!out.good()) 
-	  cerr << "DPOFileBodyC<DataT>::DPOFileBodyC<DataT>(OStreamC,bool), Bad stream after writting header! \n";
+      if(!out.good()) 
+	cerr << "DPOFileBodyC<DataT>::DPOFileBodyC<DataT>(OStreamC,bool), Bad stream after writting header! \n";
 #endif
-      }
+    }
     //: Stream constructor.
     
     virtual bool Put(const DataT &dat) { 
@@ -97,7 +97,7 @@ namespace RavlN {
     // returns the number of elements processed.
     
     virtual bool IsPutReady() const 
-      { return out.good(); }
+    { return out.good(); }
     //: Is port ready for data ?
     
     virtual bool Save(ostream &sout) const  { 
@@ -118,47 +118,55 @@ namespace RavlN {
   
   template<class DataT>
   class DPIFileBodyC 
-    : public DPIPortBodyC<DataT>
+    : public DPISPortBodyC<DataT>
   {
   public:
     DPIFileBodyC() 
-      {}
+      : dataStart(0),
+	off(0)
+    {}
     //: Default constructor.
     
     DPIFileBodyC(const StringC &nfname,bool useHeader = false)
-      : in(nfname)
-      {
+      : in(nfname),
+	dataStart(0),
+	off(0)
+    {
 #if RAVL_CHECK
-	if(!in.good()) 
-	  cerr << "DPOFileBodyC<DataT>::DPOFileBodyC<DataT>(StringC,bool), WARNING: Failed to open file '" << nfname << "'.\n";
+      if(!in.good()) 
+	cerr << "DPOFileBodyC<DataT>::DPOFileBodyC<DataT>(StringC,bool), WARNING: Failed to open file '" << nfname << "'.\n";
 #endif
-	if(useHeader) {
-	  StringC classname;
-	  in >> classname; // Skip class name.
-	  if(classname != TypeName(typeid(DataT))) 
-	    cerr << "DPIFileC ERROR: Bad file type: " << classname << " Expected:" << TypeName(typeid(DataT)) << " \n";
-	}
+      if(useHeader) {
+	StringC classname;
+	in >> classname; // Skip class name.
+	if(classname != TypeName(typeid(DataT))) 
+	  cerr << "DPIFileC ERROR: Bad file type: " << classname << " Expected:" << TypeName(typeid(DataT)) << " \n";
       }
+      dataStart = in.Tell();
+    }
     //: Construct from a filename.
     
     inline DPIFileBodyC(IStreamC &strmin,bool useHeader = false)
-      : in(strmin)
-      {
+      : in(strmin),
+	dataStart(0),
+	off(0)
+    {
 #if RAVL_CHECK
-	if(!in.good()) 
-	  cerr << "DPIFileBodyC<DataT>::DPIFileBodyC<DataT>(OStreamC,bool), WARNING: Passed bad input stream. \n";
+      if(!in.good()) 
+	cerr << "DPIFileBodyC<DataT>::DPIFileBodyC<DataT>(OStreamC,bool), WARNING: Passed bad input stream. \n";
 #endif
-	if(useHeader) {
-	  StringC classname;
-	  in >> classname; // Skip class name.
-	  if(classname != TypeName(typeid(DataT))) 
-	    cerr << "DPIFileC ERROR: Bad file type. " << classname << " Expected:" << TypeName(typeid(DataT)) << " \n";
-	}
+      if(useHeader) {
+	StringC classname;
+	in >> classname; // Skip class name.
+	if(classname != TypeName(typeid(DataT))) 
+	  cerr << "DPIFileC ERROR: Bad file type. " << classname << " Expected:" << TypeName(typeid(DataT)) << " \n";
       }
+      dataStart = in.Tell();
+    }
     //: Stream constructor.
     
     virtual bool IsGetEOS() const 
-      { return (in.eof()) || !in.good(); }
+    { return (in.eof()) || !in.good(); }
     //: Is valid data ?
     
     virtual DataT Get() { 
@@ -166,6 +174,7 @@ namespace RavlN {
 	throw DataNotReadyC("DPIFileBodyC::Get(), End of input stream. ");
       DataT ret; 
       in >> ret;
+      off++;
       if(!in.good())
 	throw DataNotReadyC("DPIFileBodyC::Get(), Bad input stream. ");    
       return ret; 
@@ -176,6 +185,7 @@ namespace RavlN {
       if(in.IsEndOfStream())
 	return false;
       in >> buff;
+      off++;
       return in.good();
     }
     //: Get next piece of data.
@@ -185,6 +195,7 @@ namespace RavlN {
 	return data.Size();
       for(SArray1dIterC<DataT> it(data);it;it++) {
 	in >> *it;
+	off++;
 	if(!in.good()) {
 #if RAVL_CHECK
 	  cerr << "DPIFileBodyC<DataT>::GetArray(), Ended early because of bad input stream. \n";	
@@ -203,8 +214,29 @@ namespace RavlN {
     }
     //: Save to ostream.
     
+    virtual bool Seek(UIntT newOff) {
+      if(newOff == 0) {
+	in.Seek(dataStart);
+	off = 0;
+	return true;
+      }
+      return false;
+    }
+    //: Seek to position in stream.
+    // Currently will only seek to begining of stream.
+    
+    virtual UIntT Tell() const
+    { return off; }
+    //: Get offset in stream.
+    
+    virtual UIntT Size() const
+    { return (UIntT) (-1); }
+    //: Get size of stream. 
+  
   private:
     IStreamC in;
+    streampos dataStart;
+    UIntT off;
   };
   
   ///////////////////////////////
@@ -222,12 +254,12 @@ namespace RavlN {
     
     inline DPOFileC(OStreamC &strm,bool useHeader=false)
       : DPEntityC(*new DPOFileBodyC<DataT>(strm,useHeader))
-      {}
+    {}
     //: Stream constructor.
     
     inline DPOFileC(const StringC &fname,bool useHeader=false) 
       : DPEntityC(*new DPOFileBodyC<DataT>(fname,useHeader))
-      {}
+    {}
     
     //: Filename constructor.  
   };
@@ -240,7 +272,7 @@ namespace RavlN {
   
   template<class DataT>
   class DPIFileC 
-    : public DPIPortC<DataT> 
+    : public DPISPortC<DataT> 
   {
   public:
     inline DPIFileC() {}
@@ -248,12 +280,12 @@ namespace RavlN {
     
     inline DPIFileC(IStreamC &strm,bool useHeader=false)
       : DPEntityC(*new DPIFileBodyC<DataT>(strm,useHeader))
-      {}
+    {}
     //: Stream constructor.
     
     inline DPIFileC(const StringC &afname,bool useHeader=false)
       : DPEntityC(*new DPIFileBodyC<DataT>(afname,useHeader))
-      {}
+    {}
     //: Filename constructor.  
   }; 
 }
