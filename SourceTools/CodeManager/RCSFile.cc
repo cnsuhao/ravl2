@@ -20,7 +20,10 @@
 #include <fstream.h>
 
 #include <sys/types.h>
+
+#if RAVL_HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 
 #define DODEBUG 0
 
