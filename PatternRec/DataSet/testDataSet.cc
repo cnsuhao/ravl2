@@ -15,6 +15,8 @@
 #include "Ravl/PatternRec/DataSet1Iter.hh"
 #include "Ravl/PatternRec/DataSet2Iter.hh"
 #include "Ravl/PatternRec/DataSet3Iter.hh"
+#include "Ravl/PatternRec/SampleIO.hh"
+#include "Ravl/OS/Filename.hh"
 #include "Ravl/OS/Date.hh"
 #include <iostream.h>
 
@@ -23,6 +25,7 @@ using namespace RavlN;
 #define USE_SPEEDTEST 0
 
 int testSample();
+int testSampleIO();
 int testDataSet1();
 int testDataSet2();
 int testDataSet3();
@@ -35,6 +38,10 @@ int testSpeed();
 int main() {
   int ln;
   if((ln = testSample()) != 0) {
+    cerr << "Test failed line " << ln << "\n";
+    return 1;
+  }
+  if((ln = testSampleIO()) != 0) {
     cerr << "Test failed line " << ln << "\n";
     return 1;
   }
@@ -69,6 +76,24 @@ int testSample() {
   for(DArray1dIterC<IntT> it(sample.DArray());it;it++,i++)
     if(*it != i) return __LINE__;
   if(sample.Size() != 10) return __LINE__;
+  return 0;
+}
+
+int testSampleIO() {
+  SampleC<IntT> sample;
+  sample.Append(10);
+  sample.Append(11);
+  sample.Append(12);
+  FilenameC tmpFile("/tmp/test.strm");
+  if(!SaveSample(tmpFile,sample,"",true))
+    return __LINE__;
+  SampleC<IntT> sample2;
+  if(!LoadSample(tmpFile,sample2,((UIntT) -1),"",true))
+    return __LINE__;
+  if(sample.Size() != sample2.Size())
+    return __LINE__;
+  // Should check the loaded set.
+  tmpFile.Remove();
   return 0;
 }
 
