@@ -128,14 +128,20 @@ namespace RavlN {
     DArray1dBodyC(IndexRangeC range) 
       : nextFree(0),
 	allocBlocksize(1024)
-    { chunks.InsLast(*new DChunkC<DataT>(range.Min(),Array1dC<DataT>(range.Size()))); }
+    { 
+      if(range.Size() > 0)
+	chunks.InsLast(*new DChunkC<DataT>(range.Min(),Array1dC<DataT>(range.Size()))); 
+    }
     //: Constructor an array with a range allocated.
 
     
     DArray1dBodyC(SizeT size) 
       : nextFree(size),
 	allocBlocksize(1024)
-    { chunks.InsLast(*new DChunkC<DataT>(Array1dC<DataT>(size))); }
+    { 
+      if(size > 0)
+	chunks.InsLast(*new DChunkC<DataT>(Array1dC<DataT>(size))); 
+    }
     //: Constructor an array with size elements allocated.
     
     DArray1dBodyC(SizeT size,bool preAlloc) 
@@ -154,13 +160,19 @@ namespace RavlN {
     DArray1dBodyC(const Array1dC<DataT> &arr) 
       : nextFree(0),
 	allocBlocksize(1024)
-    { chunks.InsLast(*new DChunkC<DataT>(arr)); }
+    { 
+      if(arr.Size() > 0)
+	chunks.InsLast(*new DChunkC<DataT>(arr)); 
+    }
     //: Construct from a normal array.
 
     DArray1dBodyC(const SArray1dC<DataT> &arr) 
       : nextFree(0),
 	allocBlocksize(1024)
-    { chunks.InsLast(*new DChunkC<DataT>(arr)); }
+    { 
+      if(arr.Size() > 0)
+	chunks.InsLast(*new DChunkC<DataT>(arr)); 
+    }
     //: Construct from a normal array.
     
     DArray1dC<DataT> Copy() const;
@@ -538,6 +550,8 @@ namespace RavlN {
   
   template<class DataT>
   UIntT DArray1dBodyC<DataT>::Append(const Array1dC<DataT> &newData) {
+    if(newData.Size() == 0)
+      return 0;
     if(chunks.IsEmpty())
       chunks.InsLast(*new DChunkC<DataT>(0,newData));
     else
@@ -549,6 +563,8 @@ namespace RavlN {
   template<class DataT>
   UIntT DArray1dBodyC<DataT>::Append(const DArray1dC<DataT> &newData) {
     if(!newData.IsValid())
+      return 0;
+    if(newData.IsEmpty())
       return 0;
     IntrDLIterC<DChunkC<DataT> > it(newData.Body().chunks);
     if(!it) return 0;
