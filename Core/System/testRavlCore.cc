@@ -34,6 +34,9 @@
 #include "Ravl/BinStream.hh"
 #include "Ravl/Random.hh"
 #include "Ravl/IndexRange2dSet.hh"
+#include "Ravl/Base64.hh"
+#include "Ravl/Random.hh"
+#include "Ravl/SArray1dIter2.hh"
 
 #include <string.h>
 
@@ -62,6 +65,7 @@ int testCache();
 int testStringArrayIO();
 int testSArrayIO();
 int testIndexRange2dSet();
+int testBase64();
 
 int testRavlCore(int argc,char **argv) {
   int line = 0;
@@ -111,6 +115,10 @@ int testRavlCore(int argc,char **argv) {
   }
   if((line = testIndexRange2dSet()) != 0) {
     cerr << "SArrayIO io test failed line :" << line << "\n";
+    return 1;
+  }
+  if((line = testBase64()) != 0) {
+    cerr << "Base64 io test failed line :" << line << "\n";
     return 1;
   }
   cout << "Test passed. \n";
@@ -422,6 +430,29 @@ int testIndexRange2dSet() {
     cerr << "Failed test 4. " << t4.Area() << " Elems:" << t4.Size() << "\n";
     cerr << t4 << "\n";
     return __LINE__;
+  }
+  return 0;
+}
+
+int testBase64() {
+  cerr << "Testing Base64C. \n";
+  for(int i = 0;i <10;i++) {
+    SArray1dC<ByteT> data(RandomInt() % 400);
+    for(SArray1dIterC<ByteT> it(data);it;it++)
+      *it = RandomInt() % 256;
+    StringC enc = Base64C::Encode(data);
+    //cerr << "Encoded string=" << enc << "\n";
+    SArray1dC<ByteT> data2 = Base64C::Decode(enc);
+    if(data2.Size() != data.Size()) return __LINE__;
+    //cerr << "1= " << data << "\n";
+    //cerr << "2= " << data2 << "\n";
+    for(SArray1dIter2C<ByteT,ByteT> it(data,data2);it;it++) {
+      //cerr  << (int) it.Data1() << " != " << (int) it.Data2() << " \n";
+      if(it.Data1() != it.Data2())  {
+	cerr << "Mismatch at " << it.Index() << " :  " << (int) it.Data1() << " != " << (int) it.Data2() << " \n";
+	//	return __LINE__;
+      }
+    }
   }
   return 0;
 }
