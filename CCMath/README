@@ -1,0 +1,14 @@
+
+---------------------------------------------------------
+!! THIS VERSION OF CCMATH SHOULD ONLY BE USED FOR RAVL !!
+---------------------------------------------------------
+
+This is NOT an offical or complete release of ccmath, there are 
+many minor tweeks to get his code to compile with c++ on various 
+platforms, and to make it work with the QMake make system. 
+
+The current version was retrieved from 
+
+  http://freshmeat.net/projects/ccmath
+
+
