@@ -56,8 +56,8 @@ namespace RavlDFN {
   void DFEditorBodyC::Init() {
     FactorySetC factories = system.Factory();
     factoryGUI = GUIFactoryC(factories);
-    
     viewGUI = GUIViewC(system,factories);
+    attributeGUI = GUIAttributesC(system);
     
     StringC fn(""); // Convert to a real filename.
     fileSelInput = FileSelectorC("Create input",fn);
@@ -86,7 +86,7 @@ namespace RavlDFN {
     
     
     Add(VBox(PackInfoC(menu,false,true) + 
-	     PanedC(ScrolledAreaC(factoryGUI,250,0),
+	     PanedC(PanedC(ScrolledAreaC(factoryGUI,250,0),ScrolledAreaC(attributeGUI,100,100),true),
 		    ScrolledAreaC(viewGUI,500,500))));
     
     connectSet += ConnectRef(sigObjChange,*this,&DFEditorBodyC::ObjectUpdate);

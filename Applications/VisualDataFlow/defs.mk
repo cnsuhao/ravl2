@@ -13,17 +13,18 @@ PACKAGE=Ravl/DF
 
 HEADERS=DFObject.hh DFSystem.hh ViewElement.hh GUIView.hh GUIEditor.hh \
  DFData.hh DFProcess.hh DFStreamOp.hh DFPort.hh DFLink.hh Factory.hh \
- FactorySet.hh GUIFactory.hh DFPump.hh
+ FactorySet.hh GUIFactory.hh DFPump.hh GUIAttributes.hh
 
 SOURCES=DFObject.cc DFSystem.cc ViewElement.cc GUIView.cc GUIEditor.cc \
  DFData.cc DFProcess.cc DFStreamOp.cc DFPort.cc DFLink.cc Factory.cc \
- FactorySet.cc GUIFactory.cc DFPump.cc DFSystemIO.cc
+ FactorySet.cc GUIFactory.cc DFPump.cc DFSystemIO.cc  GUIAttributes.cc
 
 PLIB= RavlVDF
 
 MAINS=vdf.cc
 
-USESLIBS=RavlGUI RavlIO RavlImageIO RavlDPDisplay RavlOSIO RavlDPMT RavlImageProc
+USESLIBS=RavlGUI RavlIO RavlImageIO RavlDPDisplay RavlOSIO RavlDPMT \
+ RavlImageProc RavlGUIUtil
 
 PROGLIBS= RavlImgIOV4L.opt RavlExtImgIO.opt 
 

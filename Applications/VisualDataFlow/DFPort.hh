@@ -72,6 +72,10 @@ namespace RavlDFN {
     
     virtual StringC PortName() const;
     //: Get the port name.
+
+    virtual AttributeCtrlC AttributeCtrl();
+    //: Access attribute control for object if it exists.
+    // Returns an invalid handle if none.
     
   protected:
     void SetAttachPlacement(DFAttachPlacementT attach) {

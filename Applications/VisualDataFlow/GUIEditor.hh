@@ -18,6 +18,7 @@
 #include "Ravl/GUI/CList.hh"
 #include "Ravl/DF/GUIView.hh"
 #include "Ravl/DF/GUIFactory.hh"
+#include "Ravl/DF/GUIAttributes.hh"
 #include "Ravl/Threads/SignalConnectionSet.hh"
 #include "Ravl/GUI/FileSelector.hh"
 
@@ -74,6 +75,7 @@ namespace RavlDFN {
     
     GUIViewC viewGUI;        // View widget.
     GUIFactoryC factoryGUI; // Factory widget.
+    GUIAttributesC attributeGUI;
     
     bool ObjectUpdate(DFObjectUpdateT &type,DFObjectC &obj);
     //: Handle object updates.

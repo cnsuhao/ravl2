@@ -195,6 +195,13 @@ namespace RavlDFN {
     static StringC unknown("Unknown");
     return unknown;
   }
+
+  //: Access attribute control for object if it exists.
+  // Returns an invalid handle if none.
+  
+  AttributeCtrlC DFPortBodyC::AttributeCtrl() {
+    return Port();
+  }
   
   // IPort /////////////////////////////////////////////////////////////////////////////////////////////
   

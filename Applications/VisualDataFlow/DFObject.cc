@@ -229,7 +229,14 @@ namespace RavlDFN {
   DListC<DFAttachC> DFObjectBodyC::Parts() const {
     return DListC<DFAttachC>();
   }
-
+  
+  //: Access attribute control for object if it exists.
+  // Returns an invalid handle if none.
+  
+  AttributeCtrlC DFObjectBodyC::AttributeCtrl() {
+    return AttributeCtrlC();
+  }
+  
   ////////////////////////////////////////////////////////////////////////////////
   
   //: Construct from a stream.
@@ -244,6 +251,7 @@ namespace RavlDFN {
     : RCHandleVC<DFObjectBodyC>(RAVL_VIRTUALCONSTRUCTOR(strm,DFObjectBodyC))
   {}
   
+
   //: Write DFObjectC to stream.
   
   BinOStreamC &operator<<(BinOStreamC &strm,const DFObjectC &dfo) {

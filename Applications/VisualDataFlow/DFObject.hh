@@ -21,6 +21,7 @@
 #include "Ravl/GUI/MouseEvent.hh"
 #include "Ravl/Stream.hh"
 #include "Ravl/XMLStream.hh"
+#include "Ravl/DP/AttributeCtrl.hh"
 
 namespace RavlDFN {
   using namespace RavlN;
@@ -106,7 +107,10 @@ namespace RavlDFN {
     
     virtual Index2dC AttachPoint() const;
     //: Get attachment point.
-      
+    
+    virtual AttributeCtrlC AttributeCtrl();
+    //: Access attribute control for object if it exists.
+    // Returns an invalid handle if none.
   protected:
     const IndexRange2dC &RenderSize(const IndexRange2dC &size)
     { return renderSize = size; }
@@ -224,6 +228,11 @@ namespace RavlDFN {
     bool operator!=(const DFObjectC &obj) const
     { return &Body() != &obj.Body(); }
     //: Compair handles.
+    
+    AttributeCtrlC AttributeCtrl()
+    { return Body().AttributeCtrl(); }
+    //: Access attribute control for object if it exists.
+    // Returns an invalid handle if none.
     
   };
   

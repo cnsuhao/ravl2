@@ -43,8 +43,8 @@ namespace RavlDFN {
   {
   public:
     GUIViewBodyC(const DFSystemC &nsys,
-		const FactorySetC &nfactories,
-		int nsx = 400,int nsy = 400);
+		 const FactorySetC &nfactories,
+		 int nsx = 400,int nsy = 400);
     //: Construct with a system.
     
     ~GUIViewBodyC();
