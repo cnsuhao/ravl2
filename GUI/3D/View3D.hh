@@ -33,8 +33,8 @@ namespace RavlGUIN {
     View3DBodyC(int sx,int sy);
     //: Default constructor.
     
-    bool Put(const DObject3DC &r, IntT id = 0);
-    //: Put render instructon into pipe.
+    bool Add(const DObject3DC &r, IntT id = 0);
+    //: Add object to scene
     // If ID!=0, the object is assigned this id number, and
     // can be accessed using it.
     
@@ -57,6 +57,10 @@ namespace RavlGUIN {
     bool AutoCenter(bool &val);
     //: Auto center output.
     
+    void SceneComplete() {sceneComplete = true;}
+    //: Make the scene complete. 
+    // If more objects are Put() after this, a new scene will be started
+
   protected:
     bool MousePress(MouseEventC &me);
     //: Handle button press.
@@ -199,6 +203,15 @@ namespace RavlGUIN {
       { Body().AutoCenter(val); }
     //: Auto center output.  
     
+    void SceneComplete() {Body().SceneComplete();}
+    //: Make the scene complete. 
+    // If more objects are Put() after this, a new scene will be started
+
+    bool Add(const DObject3DC &r, IntT id = 0) {return Body().Add(r,id);}
+    //: Add object to scene
+    // If ID!=0, the object is assigned this id number, and
+    // can be accessed using it.    
+
     friend class View3DBodyC;
   };
   

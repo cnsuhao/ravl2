@@ -29,6 +29,7 @@ namespace RavlGUIN {
   
   View3DBodyC::View3DBodyC(int sx,int sy)
     : Canvas3DBodyC(sx,sy),
+      sceneComplete(false),
       viewObject(0,0,0),
       viewPoint(0,0,3),
       useRotate(true),
@@ -67,7 +68,7 @@ namespace RavlGUIN {
       dist = 0.01;
     fov = ATan(extent/dist) * (180 / RavlConstN::pi);
     ONDEBUG(cerr << "Set fov to " << fov << "\n");
-    Canvas3DBodyC::Put(DViewPoint3DC(fov,viewPoint,viewObject));
+    Put(DViewPoint3DC(fov,viewPoint,viewObject));
     if (bRefresh) Refresh();
     return true;
   }
@@ -77,7 +78,7 @@ namespace RavlGUIN {
     ONDEBUG(cerr << "View3DBodyC::DoCenter(), Called. \n");
     if (!scene.IsValid()) return false;
     viewObject = scene.Center();
-    Canvas3DBodyC::Put(DViewPoint3DC(fov,viewPoint,viewObject));
+    Put(DViewPoint3DC(fov,viewPoint,viewObject));
     ResetCamera();
     if (bRefresh) Refresh();
     return true;
@@ -239,21 +240,16 @@ namespace RavlGUIN {
 		     );
     
     
-    if(!Canvas3DBodyC::Create()) {
-      cerr << "WARNING: ViewGeometry2DBodyC::Create(), failed. \n";
-      return false;
-    }
-    
     ONDEBUG(cerr << "View3DBodyC::Create(), Doing setup. \n");
     
     // Initialise OpenGL
-    Canvas3DBodyC::Put(DOpenGLC(Trigger(View3DC(*this),&View3DC::InitGL)));
+    Put(DOpenGLC(Trigger(View3DC(*this),&View3DC::InitGL)));
     SetTextureMode(bTextureStatus);
     SetLightingMode(bLightingStatus);
     
     // Setup lights and cameras
-    Canvas3DBodyC::Put(DLight3DC(RealRGBValueC(1,1,1),Point3dC(0,0,10)));
-    Canvas3DBodyC::Put(DViewPoint3DC(90,viewPoint));
+    Put(DLight3DC(RealRGBValueC(1,1,1),Point3dC(0,0,10)));
+    Put(DViewPoint3DC(90,viewPoint));
     
     ONDEBUG(cerr << "View3DBodyC::Create(), Done. \n");
     return true;
@@ -261,8 +257,8 @@ namespace RavlGUIN {
   
   //: Put render instructon into pipe.
   
-  bool View3DBodyC::Put(const DObject3DC &r, IntT id) {
-    ONDEBUG(cerr << "View3DBodyC::Put(), Called. \n");
+  bool View3DBodyC::Add(const DObject3DC &r, IntT id) {
+    ONDEBUG(cerr << "View3DBodyC::Add(), Called. \n");
     if(sceneComplete || !scene.IsValid()) {
       scene = DObjectSet3DC(true);
       sceneComplete = false;
@@ -272,7 +268,7 @@ namespace RavlGUIN {
     if(m_bAutoFit || m_bAutoCenter) 
       DoSetup();
     Refresh();
-    ONDEBUG(cerr << "View3DBodyC::Put(), Done. \n");
+    ONDEBUG(cerr << "View3DBodyC::Add(), Done. \n");
     return true;
   }
   
@@ -282,13 +278,18 @@ namespace RavlGUIN {
     if(!initDone)
       return false; // Can't do anything before the setup is complete.
     
-    Canvas3DBodyC::Put(DOpenGLC(Trigger(View3DC(*this),&View3DC::NewFrame)));
+    Put(DOpenGLC(Trigger(View3DC(*this),&View3DC::NewFrame)));
     
-    Canvas3DBodyC::Put(DOpenGLC(Trigger(View3DC(*this),&View3DC::SetCamera)));
+    Put(DOpenGLC(Trigger(View3DC(*this),&View3DC::SetCamera)));
     
     // Render scene
-    if(scene.IsValid())
-      Canvas3DBodyC::Put(scene);
+    if(scene.IsValid()) {
+      cerr << "Rendering Scene" << endl;
+      Put(scene);
+    }
+    else {
+      cerr << "No Scene to render" << endl;      
+    }
     SwapBuffers();  
     return true;
   }
