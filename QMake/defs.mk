@@ -24,7 +24,7 @@ AUXFILES =  QMake.mk \
   config.arc BinDep.pl mkdefs.pl \
   config.linux_alpha config.sgi     config.sol2 \
   config.alpha       config.unknown config.linux config.cygwin \
-  QLibs.pl GlobalMake qmake.cshrc
+  QLibs.pl GlobalMake qmake.cshrc qmake.sh qm
 
 EHT= exeSysConf.eht Ravl.QMake.html Ravl.QMake.Defs.html Ravl.QMake.Commands.html
 
