@@ -11,7 +11,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 
-#include "Ravl/DArray1dIter.hh"
+#include "Ravl/DArray1dIter2.hh"
 
 namespace RavlN {
   
