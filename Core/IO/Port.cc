@@ -59,6 +59,18 @@ namespace RavlN {
     return false; 
   }
 
+
+  //: Get a stream attribute.
+  // Return the value of an attribute or an empty string if its unkown.
+  // This is for handling stream attributes such as frame rate, and compression ratios.
+  
+  StringC DPPortC::GetAttr(const StringC &attrName) { 
+    StringC ret;
+    if(!Body().GetAttr(attrName,ret))
+      return StringC();
+    return ret;
+  }
+
   /////////////////////////////////////////////////////////
   
   // Input type.
