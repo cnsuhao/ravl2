@@ -247,17 +247,17 @@ int testLUDecomposition() {
 #if 1
   MatrixRSC rs = RandomPositiveDefiniteMatrix(n);  
   org = rs.Copy();
-  cerr << "Org=" << org << "\n";
+  //cerr << "Org=" << org << "\n";
   if(!LUDecompositionPD(rs,d))
     return __LINE__;
-  cerr << "RS=" << rs << "\n";
-  cerr << "Det=" << d << "\n";
+  //cerr << "RS=" << rs << "\n";
+  //cerr << "Det=" << d << "\n";
   mat1 = rs;
   mat2 = rs.T();
-  cerr << "mat1=" << mat1 << "\n";
-  cerr << "mat2=" << mat2 << "\n";  
+  //cerr << "mat1=" << mat1 << "\n";
+  //cerr << "mat2=" << mat2 << "\n";  
   res = mat1 * mat2;
-  cerr << "Res=" << res << "\n";
+  //cerr << "Res=" << res << "\n";
   if((res - org).SumOfSqr() > 0.00001)
     return __LINE__;  
 #endif
@@ -334,18 +334,29 @@ int testATAandAAT() {
 
 int testSolve() {
   cerr << "testSolve() Called. \n";
-#if 0
-  // Work in progess..
+  // Check normal.
   MatrixC a = RandomMatrix(10,10);
   MatrixC b = RandomMatrix(10,2);
   MatrixC x = Solve(a,b);
   if(x.Rows() == 0) return __LINE__;
-  cerr << "x=" << x << "\n";
+  //cerr << "x=" << x << "\n";
   MatrixC c = a * x;
-  cerr << "c=" << c << "\n";
-  cerr << "b=" << b << "\n";
+  //cerr << "c=" << c << "\n";
+  //cerr << "b=" << b << "\n";
   if(MatrixC(c - b).SumOfSqr() > 0.0001)
     return __LINE__;
-#endif
+  
+  // Check positive definite.
+  a = RandomPositiveDefiniteMatrix(10);
+  b = RandomMatrix(10,2);
+  x = SolvePD(a,b);
+  if(x.Rows() == 0) return __LINE__;
+  //cerr << "x=" << x << "\n";
+  c = a * x;
+  //cerr << "c=" << c << "\n";
+  //cerr << "b=" << b << "\n";
+  if(MatrixC(c - b).SumOfSqr() > 0.0001)
+    return __LINE__;
+  
   return 0;
 }

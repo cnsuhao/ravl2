@@ -33,14 +33,21 @@ namespace RavlN {
   // This transforms 'mat' into (L + U - I). 'd' is set to
   // the determinant of the matrix. <br>
   // 'mat' must be symmetric and positive definite.
-  
-  void LUBackSubstitute(const MatrixC &lu,SArray1dC<RealT> &b);  
-  //: Back substitute.
-  // LU Matrix must be in LU form. 
+
+  inline bool LUDecompositionPD(MatrixC &mat)
+  { RealT d; return LUDecompositionPD(mat,d); }
+  //: LUDecomposition for positive definite matrices.
+  // This transforms 'mat' into (L + U - I). <br>
+  // 'mat' must be symmetric and positive definite.
   
   void LUBackSubstitute(const MatrixC &lu,const SArray1dC<IntT> &index,SArray1dC<RealT> &b);
   //: Back substitute with permutation.
-  // LU Matrix must be in LU form. 
+  // LU Matrix must be in (L + U - I) form. Intended to work with the output of LUDecomposition(..)
+  
+  void LUBackSubstitute(const MatrixC &lu,SArray1dC<RealT> &b);  
+  //: Back substitute.
+  // LU Matrix must be in LU form. Intended to work with the output of LUDecompositionPD(..)
+  
 
 }
 

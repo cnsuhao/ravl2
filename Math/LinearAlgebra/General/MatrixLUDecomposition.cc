@@ -138,16 +138,15 @@ namespace RavlN {
     IntT i,n = lu.Rows();
     for(i = 0;i < n;i++) {
       sum = b[i];
-      for(BufferAccessIter2C<RealT,RealT> it(lu[i],b,IndexRangeC(0,i-1));it;it++)
-	sum -= it.Data1() * it.Data2();
-      b[i] = sum;
+      for(int k = i-1;k >= 0;k--)
+	sum -= lu[i][k] * b[k];
+      b[i] = sum / lu[i][i];
     }
-    for(i = n-1;i > 0;i--) {
+    for(i = n-1;i >= 0;i--) {
       sum = b[i];
-      for(BufferAccessIter2C<RealT,RealT> it(lu[i],b,IndexRangeC(i+1,n-1));it;it++)
-	sum -= it.Data1() * it.Data2();
-      RealT v = sum/lu[i][i];
-      b[i] = v;
+      for(int k = i+1;k < n;k++)
+	sum -= lu[k][i] * b[k];
+      b[i] = sum / lu[i][i];
     }
   }
   
@@ -161,7 +160,7 @@ namespace RavlN {
 	sum -= it.Data1() * it.Data2();
       b[i] = sum;
     }
-    for(i = n-1;i > 0;i--) {
+    for(i = n-1;i >= 0;i--) {
       RealT sum = b[i];
       for(BufferAccessIter2C<RealT,RealT> it(lu[i],b,IndexRangeC(i+1,n-1));it;it++)
 	sum -= it.Data1() * it.Data2();

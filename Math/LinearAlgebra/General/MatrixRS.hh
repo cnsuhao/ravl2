@@ -83,6 +83,15 @@ namespace RavlN {
   // Where X is the returned vector.
   // If matrix is singular a zero length vector is returned.
   
+  MatrixC SolvePD(const MatrixC &A,const MatrixC &B);
+  //: Solve a general linear system  A*X = B where A is postive definite.
+  // This return's X, or a 0 by 0 matrix if it fails.
+  
+  bool SolvePD_IP(MatrixC &A,MatrixC &B);
+  //: Solve a general linear system  A*X = B where A is postive definite in place.
+  // A is modified to its LU form and B is replace by X.
+  
+  
 }
 
 #endif
