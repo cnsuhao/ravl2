@@ -88,6 +88,15 @@ namespace RavlN {
     TMatrixC<DataT> OuterProduct() const;
     //: Calculate the outer product of this vector with itself.
     // To use the function you must also include 'Ravl/Matrix.hh'.
+
+    TMatrixC<DataT> Unit() const
+    { return (*this) / Modulus(); }
+    //: Return a unit vector
+    
+    const TMatrixC<DataT> &MakeUnit()
+    { (*this) = Unit(); return *this; }
+    //: Make this a unit vector.
+    
   };
   
   ////////////////////////////////////////

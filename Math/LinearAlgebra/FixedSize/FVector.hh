@@ -72,6 +72,9 @@ namespace RavlN {
     }
     //: Create a unit vector with the same direction.
     
+    const FVectorC<N> &MakeUnit()
+    { (*this) = Unit(); return *this; }
+    //: Make this a unit vector.
   };
 }
 
