@@ -44,6 +44,7 @@ int testBasic() {
     cerr << "Fill failed. ("  << arr1[1][2][3] << ")\n";
     return __LINE__;
   }
+  cout << arr1;
   
   UIntT x = 0;
   {

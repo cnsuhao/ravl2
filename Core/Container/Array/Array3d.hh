@@ -34,9 +34,9 @@ namespace RavlN {
   template<class DataT> class Slice1dIterC;
   
   //! userlevel=Basic
-  //: 2 Dimensional array
-  // The class Array2dC is a container of items which can be indexed
-  // by 2-dimensional index.
+  //: 3 Dimensional array
+  // The class Array3dC is a container of items which can be indexed
+  // by 3-dimensional index.
   
   template <class DataT>
   class Array3dC
@@ -48,7 +48,7 @@ namespace RavlN {
     //: Creates an empty 3D array.
     
     Array3dC(SizeT dim1, SizeT dim2, SizeT dim3);
-    //: Creates 3D array with the range < <0,dim1-1>, <0,dim2-1> >
+    //: Creates 3D array with the range < <0,dim1-1>, <0,dim2-1>, <0,dim3-1> >
     
     Array3dC(IntT minI,IntT maxI,IntT minJ,IntT maxJ,IntT minK,IntT maxK);
     //: Creates 3D array with the range minRow to maxRow by minCol to maxCol.
@@ -57,10 +57,10 @@ namespace RavlN {
     //: Creates 3D array with the range minRow to maxRow by minCol to maxCol.
     
     Array3dC(const Index3dC & min, const Index3dC & max);
-    //: Creates 3D array with the range < <min[0], max[0]>, <min[1], max[1]> >.
+    //: Creates 3D array with the range < <min[0], max[0]>, <min[1], max[1]> , <min[3], max[3]> >.
     
     Array3dC(const IndexRangeC & rng1, const IndexRangeC & rng2, const IndexRangeC & rng3);
-    //: Creates 3D array with the range <rng1, rng2>
+    //: Creates 3D array with the range <rng1, rng2, rng3>
     
     Array3dC(const IndexRange3dC & rect);
     //: Create 3D array with the range covering indexes in 'rect'
