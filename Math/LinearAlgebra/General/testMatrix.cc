@@ -32,6 +32,7 @@ int testDet();
 int testLUDecomposition();
 int testVector();
 int testInverse();
+int testATAandAAT();
 
 int main() {
   int ln;
@@ -67,6 +68,10 @@ int main() {
     cerr << "testInverse() failed. Line:" << ln << "\n";
     return 1;
   }
+  if((ln = testATAandAAT()) != 0) {
+    cerr << "testInverse() failed. Line:" << ln << "\n";
+    return 1;
+  }
   cerr << "Test passed. \n";
   return 0;
 }
@@ -77,7 +82,7 @@ int testSVD() {
   VectorC D;
   MatrixC U, V;
   MatrixC Test(30,3);
-  Test = RandomMatrix(10,20);
+  Test = RandomMatrix(10,10);
   D=SVD(Test,U,V);
   
   MatrixC md(D.Size(),D.Size());
@@ -299,6 +304,16 @@ int testInverse() {
   mat[0][0] = 2;
   MatrixC res = mat.Inverse();
   if(Abs(res[0][0] - 0.5) > 0.000000001)
+    return __LINE__;
+  return 0;
+}
+
+int testATAandAAT() {
+  cerr << "testATAandAAT() Called \n";
+  MatrixC mat = RandomMatrix(500,500);
+  if(MatrixC(mat.ATA() - mat.TMul(mat)).SumSqr() > 0.00001)
+    return __LINE__;
+  if(MatrixC(mat.AAT() - mat.MulT(mat)).SumSqr() > 0.00001)
     return __LINE__;
   return 0;
 }

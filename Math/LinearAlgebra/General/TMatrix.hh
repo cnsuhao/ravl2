@@ -107,16 +107,19 @@ namespace RavlN {
     
     TMatrixC<DataT> TMul(const TMatrixC<DataT> & B) const;
     //: Multiplication A.T() * B
+    // Note: Because of effects of memory layout it this is 
+    // approximatly half the speed of MulT().
     
     TVectorC<DataT> TMul(const TVectorC<DataT>& vec) const;
     //: Multiplication A.T() * vec
     
-    TMatrixC<DataT> AAT() const 
-    { return MulT(*this); }      
+    TMatrixC<DataT> AAT() const;
     //: Return  A * A.T().
+    // Note: Because of effects of memory layout it this is much
+    // slower than ATA(). It may even be worth using T().ATA()
+    // over this call.
     
-    TMatrixC<DataT> ATA() const 
-    { return TMul(*this); }
+    TMatrixC<DataT> ATA() const;
     //: Return  A.T() * A.
     
     TMatrixC<DataT> T() const;
@@ -345,8 +348,46 @@ namespace RavlN {
     return(out);
   }
   
-  //: Get transpose of matrix.
+  template<class DataT>
+  TMatrixC<DataT> TMatrixC<DataT>::ATA() const {
+    int n = Cols();
+    TMatrixC<DataT> out(n,n);
+    for(int i = 0;i < n;i++) {
+      Slice1dC<DataT> sl = const_cast<TMatrixC<DataT> &>(*this).SliceColumn(i);
+      out[i][i] = sl.SumOfSqr();
+      for(int j = i+1;j < n;j++) {
+	DataT v = sl.Dot(const_cast<TMatrixC<DataT> &>(*this).SliceColumn(j));
+	out[i][j] = v;
+	out[j][i] = v;
+      }
+    }    
+    return out;
+  }
   
+  template<class DataT>
+  TMatrixC<DataT> TMatrixC<DataT>::AAT() const {
+    int n = Rows();
+    TMatrixC<DataT> out(n,n);
+    DataT v;
+    for(int i = 0;i < n;i++) {
+      SizeBufferAccessC<DataT> sl((*this)[i]);
+      BufferAccessIterC<DataT> it1(sl);
+      v = Sqr(*it1);
+      for(it1++;it1;it1++)
+	v += Sqr(*it1);
+      out [i][i] = v;
+      for(int j = i+1;j < n;j++) {
+	BufferAccessIter2C<DataT,DataT> it(sl,(*this)[j]);
+	v = it.Data1() * it.Data2();
+	for(it++;it;it++)
+	  v += it.Data1() * it.Data2();
+	out[i][j] = v;
+	out[j][i] = v;
+      }
+    }
+    return out;
+  }
+    
   template<class DataT>
   TMatrixC<DataT> TMatrixC<DataT>::T() const {
     TMatrixC<DataT> ret(Cols(),Rows());
