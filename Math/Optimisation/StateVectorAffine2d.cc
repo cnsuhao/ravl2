@@ -13,17 +13,15 @@ namespace RavlN {
   
   //: Constructor.
   
-  StateVectorAffine2dBodyC::StateVectorAffine2dBodyC(const Affine2dC &nt,RealT ngauge_weight)
+  StateVectorAffine2dBodyC::StateVectorAffine2dBodyC(const Affine2dC &nt)
     : StateVectorBodyC(StateVecFromAffine2d(nt)),
-      t(nt),
-      gauge_weight(ngauge_weight)
+      t(nt)
   {}
   
   //: Construct from a state vector.
   
-  StateVectorAffine2dBodyC::StateVectorAffine2dBodyC(const VectorC &sv,RealT ngauge_weight) 
-    : StateVectorBodyC(sv),
-      gauge_weight(ngauge_weight)
+  StateVectorAffine2dBodyC::StateVectorAffine2dBodyC(const VectorC &sv) 
+    : StateVectorBodyC(sv)
   {
     Postprocess();    
   }
@@ -44,11 +42,7 @@ namespace RavlN {
   //: Increment the linear system
   
   bool StateVectorAffine2dBodyC::IncrementLS(MatrixRSC &A, VectorC &a) {
-    MatrixC xxT = x.OuterProduct();
-    MatrixRSC xxTS(xxT);
-    
-    xxTS *= gauge_weight;
-    A += xxTS;
+    A += x.OuterProduct();
     return true;
   }
   
