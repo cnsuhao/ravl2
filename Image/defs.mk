@@ -8,6 +8,6 @@
 
 PACKAGE=Ravl/Image
 
-NESTED=Base.r ImageIO.r ExternalImageIO
+NESTED=Base.r ImageIO.r VideoIO.r ExternalImageIO.r
 
 EHT=Ravl.Images.eht
