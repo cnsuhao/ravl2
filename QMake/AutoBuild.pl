@@ -15,6 +15,7 @@ while (<FILE>) {
   next if(/^\s*$/) ;
   /^\s*((\s*[^\s]+)*)\s*$/;
   my($key, $val) = split(/\s+/, $1, 2);
+  chomp($val);
   $config{$key} = $val;
   die "Error on line $.:\n$@\n" if ($@);
 }
@@ -102,16 +103,30 @@ sub MkDir () {
 }
 
 sub Checkout () {
+  # How many retries?
+  my $retries = 7;
+  my $delay = 100;
+  my $ok = 0;
   # Get function args
   my($pkg) = @_;
   # Get config params
   my $CVSROOT = $config{CVSROOT};
   # Checkout source
-  if (system("cvs -z3 -d$CVSROOT co $pkg") != 0) {
+  do {    
+    if ($retries != 7) {
+      sleep $delay;
+    }
+    print "checking out...";
+    if (system("cvs -z3 -d$CVSROOT co $pkg") == 0) {
+      $ok = 1;
+    } 
+    $retries--;
+  } while (!$ok && $retries > 0);
+  if (!$ok) {
     my $message = "ERROR - Failed to check out package $pkg";
     & MailError ($message) ;
     die ($message) ;
-  } 
+  }
 }
 
 # Select new build tree, and clear it out
@@ -164,6 +179,12 @@ if ($config{EXTRAPKG}) {
 
 & ChDir("$SRCTREE/$PACKAGENAME");
 
+# Set temporary file location
+if ($config{TEMPDIR}) {
+  & MkDir($config{TEMPDIR});
+  $ENV{DEFAULTTMP} = $config{TEMPDIR};
+}
+
 # If an install script exists, do full install
 if(-e "$SRCTREE/$PACKAGENAME/install") {
   # Install
@@ -184,8 +205,8 @@ else {
 }
 
 # Clean out temporary files
-if ($config{CLEANTEMP}) {
-  system("rm -rf /tmp/$ENV{USER}/qm$BUILDTREE");
+if ($config{TEMPDIR}) {
+  system("rm -rf $config{TEMPDIR}/$ENV{USER}/qm$BUILDTREE");
 }
 
 # it worked ok
