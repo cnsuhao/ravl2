@@ -139,22 +139,6 @@ namespace RavlN {
     // This moves the iterator to the previous element.
     // NB. The iterator must be pointing to a valid element.    
     
-    DataT &operator*()
-    { return DLinkData().Data(); }
-    //: Access data.
-    
-    const DataT &operator*() const
-    { return DLinkData().Data(); }
-    //: Constant access to data.
-    
-    DataT *operator->()
-    { return &DLinkData().Data(); }
-    //: Access member function of data..
-    
-    const DataT *operator->() const
-    { return &DLinkData().Data(); }
-    //: Constant access to member function of data..
-    
     bool operator==(const DLIterC<DataT> &oth) const
     { return place == oth.place; }
     //: Are these iterators equal ?
@@ -235,15 +219,33 @@ namespace RavlN {
     // not skip the head of the list.<p>
     // Returns a refrence to this iterator.
     
-    DataT &Data()
-    { return DLinkData().Data(); }
+    DataT &Data() { 
+      RAVL_PARANOID(RavlAssertMsg(IsElm() && IsValid(),"Attempt to access data from invalid iterator."));
+      return DLinkData().Data(); 
+    }
     //: Access data 
-    // AMMA compatibility function, use unary * operator.
-
-    const DataT &Data() const
-    { return DLinkData().Data(); }
+    
+    const DataT &Data() const { 
+      RAVL_PARANOID(RavlAssertMsg(IsElm() && IsValid(),"Attempt to access data from invalid iterator."));
+      return DLinkData().Data(); 
+    }
     //: Constant access to data.
-    // AMMA compatibility function, use unary * operator.
+    
+    DataT &operator*()
+    { return Data(); }
+    //: Access data.
+    
+    const DataT &operator*() const
+    { return Data(); }
+    //: Constant access to data.
+    
+    DataT *operator->()
+    { return &Data(); }
+    //: Access member function of data..
+    
+    const DataT *operator->() const
+    { return &Data(); }
+    //: Constant access to member function of data..
 
     DataT &NextData() { 
       RavlAssert(!IsLast());

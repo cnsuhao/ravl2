@@ -14,13 +14,26 @@
 
 /******* AMMA/QMAKE COMPATIBILITY *******/
 #if !defined(RAVL_CHECK)
-#ifdef AMMA_CHECK
+#if defined(AMMA_CHECK) || defined(QMAKE_CHECK)
 #define RAVL_CHECK 1
 #else
 #define RAVL_CHECK 0
 #endif
 #endif
 /****************************************/
+
+/******** RAVL Paranoid checking. ********
+ * These checks may significantly slow code,
+ * but are helpful when looking for more 
+ * obscure bugs.
+ */
+#ifdef QMAKE_PARANOID
+#define RAVL_PARANOID(x) x
+#else
+#define RAVL_PARANOID(x)
+#endif
+
+/************************************/
 
 /* Set the following define to 1 to have the Ravl IO system
  * to automatically use the type conversion mechanism when doing IO.

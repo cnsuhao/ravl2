@@ -51,11 +51,11 @@ namespace RavlN {
   {
   public:
     DListBodyC()
-      {}
+    {}
     //: Default constructor.
     
     ~DListBodyC()
-      { Empty(); }
+    { Empty(); }
     //: Destructor.
     
     RCBodyVC &Copy() const;
@@ -70,11 +70,11 @@ namespace RavlN {
     //: Empty the list of all contents
     
     void InsFirst(const DataT &dat)
-      { DLinkHeadC::InsFirst(*new DLinkDataC<DataT>(dat)); }
+    { DLinkHeadC::InsFirst(*new DLinkDataC<DataT>(dat)); }
     //: Insert element into the begining of the list.
 
     void InsLast(const DataT &dat)
-      { DLinkHeadC::InsLast(*new DLinkDataC<DataT>(dat)); }
+    { DLinkHeadC::InsLast(*new DLinkDataC<DataT>(dat)); }
     //: Insert element into the end of the list.
 
     DataT PopFirst()  { 
@@ -94,19 +94,19 @@ namespace RavlN {
     //: Pop item off end of list.
     
     void operator+=(const DataT &dat)
-      { InsLast(dat); }
+    { InsLast(dat); }
     //: Add 'dat' to end of this list.
     
     void operator+=(const DListC<DataT> &dat);
     //: Copy contents of other list to end of this one.
     
     void MoveFirst(DListC<DataT> & lst)
-      { DLinkHeadC::MoveFirst(lst.Body()); }
+    { DLinkHeadC::MoveFirst(lst.Body()); }
     //: Move the entire contents of 'lst' to the front of this one.
     // this leaves 'lst' empty.
     
     void MoveLast(DListC<DataT> & lst)
-      { DLinkHeadC::MoveLast(lst.Body()); }
+    { DLinkHeadC::MoveLast(lst.Body()); }
     //: Move the entire contents of 'lst' to the end of this one.
     // this leaves 'lst' empty.
     
@@ -136,7 +136,7 @@ namespace RavlN {
     // assumes '==' is defined for 'DataT'
     
     bool operator!=(const DListBodyC<DataT> &oth) const
-      { return !((*this) == oth); }
+    { return !((*this) == oth); }
     //: Test if lists are different.
     // assumes '==' is defined for 'DataT'
 
@@ -153,37 +153,29 @@ namespace RavlN {
   public:
     //MergeSortCmpT
     void MergeSort(bool (*cmp)(const DataT &l1,const DataT &l2)) // 
-      { DLinkHeadC::MergeSort(&DListBodyC<DataT>::MergeSortHelpCmp,(void *) cmp); }
+    { DLinkHeadC::MergeSort(&DListBodyC<DataT>::MergeSortHelpCmp,(void *) cmp); }
     //: Merge sort the list with comparison function 'cmp'.
     
-    DataT &First() { 
-      RavlAssert(!IsEmpty());
-      return FirstLink().Data(); 
-    }
+    DataT &First() 
+    { return FirstLink().Data(); }
     //: Get first element in list.
-    // NB. List MUST be non-empty.
+    // Note, list MUST be non-empty.
     
-    DataT &Last() { 
-      RavlAssert(!IsEmpty());
-      return LastLink().Data(); 
-    }
+    DataT &Last() 
+    { return LastLink().Data();  }
     //: Get last element in list.
-    // NB. List MUST be non-empty.
+    // Note, list MUST be non-empty.
     
-    const DataT &First() const { 
-      RavlAssert(!IsEmpty());
-      return FirstLink().Data(); 
-    }
+    const DataT &First() const 
+    { return FirstLink().Data(); }
     //: Get first element in list.
-    // NB. List MUST be non-empty.
+    // Note, list MUST be non-empty.
     
-    const DataT &Last() const { 
-      RavlAssert(!IsEmpty());
-      return LastLink().Data(); 
-    }
+    const DataT &Last() const 
+    { return LastLink().Data(); }
     //: Get first element in list.
-    // NB. List MUST be non-empty.
-
+    // Note, list MUST be non-empty.
+    
     bool Del(const DataT &x);
     //: Remove first instance of 'x' found in list.
     // returns true if the item is found and removed, 
@@ -191,32 +183,40 @@ namespace RavlN {
     
   protected:
     static void Delete(DLinkC &elm) 
-      { delete &static_cast<DLinkDataC<DataT> &>(elm); }
+    { delete &static_cast<DLinkDataC<DataT> &>(elm); }
     //: Unlink and delete an element from the list.
     // The delete will unkink the node automaticly.
     
-    DLinkDataC<DataT> &FirstLink()
-      { return static_cast<DLinkDataC<DataT> &>(head.Next()); }
+    DLinkDataC<DataT> &FirstLink() { 
+      RavlAssert(!IsEmpty());
+      return static_cast<DLinkDataC<DataT> &>(head.Next()); 
+    }
     //: Get first link in list.
     
-    DLinkDataC<DataT> &LastLink()
-      { return static_cast<DLinkDataC<DataT> &>(head.Prev()); }
+    DLinkDataC<DataT> &LastLink() { 
+      RavlAssert(!IsEmpty());
+      return static_cast<DLinkDataC<DataT> &>(head.Prev()); 
+    }
     //: Get the last ilink in the list.
     
-    const DLinkDataC<DataT> &FirstLink() const
-    { return static_cast<const DLinkDataC<DataT> &>(head.Next()); }
+    const DLinkDataC<DataT> &FirstLink() const { 
+      RavlAssert(!IsEmpty());
+      return static_cast<const DLinkDataC<DataT> &>(head.Next()); 
+    }
     //: Get first link in list.
     
-    const DLinkDataC<DataT> &LastLink() const
-      { return static_cast<const DLinkDataC<DataT> &>(head.Prev()); }
+    const DLinkDataC<DataT> &LastLink() const { 
+      RavlAssert(!IsEmpty());
+      return static_cast<const DLinkDataC<DataT> &>(head.Prev()); 
+    }
     //: Get the last ilink in the list.
     
     DLinkC &Head()
-      { return DLinkHeadC::Head(); }
+    { return DLinkHeadC::Head(); }
     //: Get head of list.
 
     const DLinkC &Head() const
-      { return DLinkHeadC::Head(); }
+    { return DLinkHeadC::Head(); }
     //: Get head of list.
     
     DataT &Nth(int n);
@@ -468,13 +468,13 @@ namespace RavlN {
   
   ///// DListBodyC //////////////////////////////////////////////////////
   
-  template<class DataT> 
-  RCBodyVC &DListBodyC<DataT>::Copy() const {
-    DListBodyC<DataT> *ret = new DListBodyC<DataT>();
-    for(DLIterC<DataT> it(*this);it;it++)
-      ret->InsLast(*it);
-    return *ret;
-  }
+template<class DataT> 
+RCBodyVC &DListBodyC<DataT>::Copy() const {
+  DListBodyC<DataT> *ret = new DListBodyC<DataT>();
+  for(DLIterC<DataT> it(*this);it;it++)
+    ret->InsLast(*it);
+  return *ret;
+}
   
   template<class DataT> 
   void DListBodyC<DataT>::operator+=(const DListC<DataT> &dat) {
@@ -612,11 +612,7 @@ namespace RavlN {
     return strm;
   }
   //: Read from a binary stream.
-
-  
+ 
 }
-
-
-
 
 #endif

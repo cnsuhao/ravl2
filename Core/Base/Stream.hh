@@ -49,21 +49,21 @@ namespace RavlN {
     
     StreamBaseC()
       : s(0)
-      {}
+    {}
     //: Default constructor.
     
     StreamBaseC(const StreamBaseC &oth) 
       : HandleRefCounterC(oth),
         s(oth.s)
-      {}
+    {}
     //: Copy Constructor.
     
     virtual ~StreamBaseC() 
-      {}
+    {}
     //: Ensure correct destructor is used.
     
     inline const StringC &Name() const
-      { return name; }
+    { return name; }
     //: Returns the name of the stream.
     
     inline bool IsOpen() const { 
@@ -156,7 +156,7 @@ namespace RavlN {
   {
   public:
     OStreamC()
-      {}
+    {}
     //:Default constructor.
     
     OStreamC(const StringC &filename,bool binary = true,bool buffered=true,bool append = false);
@@ -169,13 +169,13 @@ namespace RavlN {
     inline OStreamC(ostream &strm,bool deletable = false)
       : StreamBaseC(&strm,"",deletable),
         out(&strm)
-      {}
+    {}
     //: Constructor.
     
     inline OStreamC(const OStreamC &oth)
       : StreamBaseC(oth),
-      out(oth.out)
-      {}
+	out(oth.out)
+    {}
     //: Copy constructor.
     
     ostream& form(const char *format ...);
@@ -184,25 +184,34 @@ namespace RavlN {
     // buffer of 4096 bytes.  <p>
     // This is a duplication of the function  GNU iostreams
     // for those platforms that don't have this function.
+
+    ostream &os() { 
+      RAVL_PARANOID(RavlAssertMsg(out != 0,"Attempt to use invalid OStreamC. "));
+      return *out; 
+    }
+    //: Access ostream.
     
-    operator ostream &() { return *out; }
+    const ostream &os() const { 
+      RAVL_PARANOID(RavlAssertMsg(out != 0,"Attempt to use invalid OStreamC. "));
+      return *out; 
+    }
+    //: Access ostream.
+    
+    operator ostream &() 
+    { return os(); }
     //: Converter.
     
-    operator const ostream &() const { return *out; }
+    operator const ostream &() const 
+    { return os(); }
     //: Converter.  
-    
-    ostream &os() { return *out; }
-    //: Access ostream.
-    
-    const ostream &os() const { return *out; }
-    //: Access ostream.
     
     ostream &write(const char *d,StreamSizeT n) 
     { return os().write(d,n); }
     //: Write data.
     // ostream compatable.
     
-    ostream &put(char ch) { return os().put(ch); }
+    ostream &put(char ch) 
+    { return os().put(ch); }
     //: Put charactor.
     // ostream compatable.
     
@@ -245,7 +254,7 @@ namespace RavlN {
   {
   public:
     IStreamC()
-      {}
+    {}
     //:Default constructor.
     
     IStreamC(const StringC &filename,bool binary = true,bool buffered=true);
@@ -258,13 +267,13 @@ namespace RavlN {
     inline IStreamC(istream &strm,bool deletable = false)
       : StreamBaseC(&strm,StringC(""),deletable),
         in(&strm)
-      {}
+    {}
     //: Constructor.
     
     inline IStreamC(const IStreamC &oth)
       : StreamBaseC(oth),
         in(oth.in)
-      {}
+    {}
     //: Copy constructor.
     
     void Unget(StringC text);
@@ -275,55 +284,63 @@ namespace RavlN {
     
     IntT CopyTo(OStreamC &out,IntT maxChars = -1);
     //: Copy stream to output.
-    
-    operator istream &() { return dynamic_cast<istream &>(buf()); }
-    //: Converter.
-    
-    operator const istream &() const { return *in; }
-    //: Converter.
-    
+        
     istream &is() { 
-      RavlAssert(s != 0);
+      RAVL_PARANOID(RavlAssertMsg(in != 0,"Attempt to use invalid IStreamC. "));
       return *in; 
     }
     //: Access input stream.
     
     const istream &is() const { 
-      RavlAssert(s != 0);
+      RAVL_PARANOID(RavlAssertMsg(in != 0,"Attempt to use invalid IStreamC. "));
       return *in; 
     }
     //: Access input stream.
     
-    istream &read(char *d,streamsize n) { return is().read(d,n); }
+    operator istream &() 
+    { return is(); }
+    //: Converter.
+    
+    operator const istream &() const 
+    { return is(); }
+    //: Converter.
+    
+    istream &read(char *d,streamsize n) 
+    { return is().read(d,n); }
     //: read data.
     // istream compatable function.
     
-    istream &get(char &ch) { return is().get(ch); }
+    istream &get(char &ch) 
+    { return is().get(ch); }
     //: Get charactor.
     // istream compatable function.
     
-    char get() { return is().get(); }
+    char get() 
+    { return is().get(); }
     //: Get charactor.
     // istream compatable function.
     
-    istream &get(char *buff,int buffsize) { return is().get(buff,buffsize); }
+    istream &get(char *buff,int buffsize) 
+    { return is().get(buff,buffsize); }
     //: Read in a line.
     // istream compatable function.
     
-    istream &getline(char *buff,int buffsize) { return is().getline(buff,buffsize); }
+    istream &getline(char *buff,int buffsize) 
+    { return is().getline(buff,buffsize); }
     //: Read in a line.
     // istream compatable function.
     
-    streamsize gcount() { return is().gcount(); }
+    streamsize gcount() 
+    { return is().gcount(); }
     //: Get number of charactor read in last operation.
     // istream compatable function.
     
     template<class DataT>
-      istream &operator>>(DataT &dat)
-      { return is() >> dat; }
+    istream &operator>>(DataT &dat)
+    { return is() >> dat; }
     
     istream &operator>>(char *dat)
-      { return is() >> dat; }
+    { return is() >> dat; }
     
     streampos Tell() const { return in->tellg(); }
     //: Where are we in the stream.

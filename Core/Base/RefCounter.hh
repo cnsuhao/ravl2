@@ -18,6 +18,7 @@
 #include "Ravl/Types.hh"
 #include "Ravl/Atomic.hh"
 #include "Ravl/Exception.hh"
+#include "Ravl/Assert.hh"
 
 #if RAVL_HAVE_ANSICPPHEADERS
 #include <typeinfo>
@@ -232,12 +233,16 @@ namespace RavlN {
     { body->IncRefCounter(); }
     //: Body base constructor.
     
-    BodyT &Body()
-    { return *body; }
+    BodyT &Body() { 
+      RAVL_PARANOID(RavlAssertMsg(IsValid(),"Attempt to access invalid handle. "));
+      return *body; 
+    }
     //: Access body of object.
     
-    const BodyT &Body() const
-    { return *body; }
+    const BodyT &Body() const { 
+      RAVL_PARANOID(RavlAssertMsg(IsValid(),"Attempt to access invalid handle. "));
+      return *body; 
+    }
     //: Constant access to body of object.
     
   public:
