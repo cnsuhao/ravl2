@@ -37,20 +37,26 @@ namespace RavlGUIN {
     //: Default constructor.
     // Creates an invalid pix buf.
     
-    PixbufC(const ImageC<ByteRGBValueC> &img);
-    //: Create from an image.
-    
-    PixbufC(const char **data);
-    //: Create from XPM data.
-    
-    PixbufC(const StringC &name);
-    //: Create from filename
+    PixbufC(const PixbufC &copy);
+    //: Copy constructor.
     
     PixbufC(GdkPixbuf *rawPixBuf);
     //: Handle raw pixbuf.
     
+    PixbufC(const ImageC<ByteRGBValueC> &img);
+    //: Create from an image.
+    
+    explicit PixbufC(const char **data);
+    //: Create from XPM data.
+    
+    explicit PixbufC(const StringC &name);
+    //: Create from filename
+    
     ~PixbufC();
     //: Destructor.
+    
+    PixbufC& operator= (const PixbufC &other);
+    //: Assignment operator.
     
     GdkPixbuf *Pixbuf()
     { return pixbuf; }
