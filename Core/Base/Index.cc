@@ -12,14 +12,12 @@
 #include "Ravl/Index.hh"
 
 namespace RavlN {
-  istream & 
-  operator>>(istream & sss, IndexC & i) { 
+  istream & operator>>(istream & sss, IndexC & i) { 
     sss >> i.V();
     return  sss;
   }
   
-  ostream & 
-  operator<<(ostream & s, const IndexC & i) { 
+  ostream & operator<<(ostream & s, const IndexC & i) { 
     s << i.V();
     return s;
   }

@@ -18,6 +18,7 @@
 #include "Ravl/config.h"
 #include "Ravl/Stream.hh"
 #include "Ravl/Index.hh"
+#include "Ravl/TFVector.hh"
 
 namespace RavlN  {
 #if RAVL_LITTLEENDIAN
@@ -401,6 +402,22 @@ namespace RavlN  {
   BinOStreamC &operator<<(BinOStreamC &s,const IndexC &ind)  {
     s << ind.V();
     return s;
+  }
+
+  template<class DataT,unsigned int N>
+  inline
+  BinOStreamC &operator<<(BinOStreamC &out,const TFVectorC<DataT,N> &dat) {
+    for(UIntT i = 0;i < N;i++)
+      out << dat.data[i];
+    return out;
+  }
+  
+  template<class DataT,unsigned int N>
+  inline
+  BinIStreamC &operator>>(BinIStreamC &in,TFVectorC<DataT,N> &dat) {
+    for(UIntT i = 0;i < N;i++)
+      in >> dat.data[i];
+    return in;
   }
 
 }

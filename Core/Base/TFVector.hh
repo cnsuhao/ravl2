@@ -359,22 +359,6 @@ namespace RavlN {
     return in;
   }
 
-  template<class DataT,unsigned int N>
-  inline
-  BinOStreamC &operator<<(BinOStreamC &out,const TFVectorC<DataT,N> &dat) {
-    for(UIntT i = 0;i < N;i++)
-      out << dat.data[i];
-    return out;
-  }
-  
-  template<class DataT,unsigned int N>
-  inline
-  BinIStreamC &operator>>(BinIStreamC &in,TFVectorC<DataT,N> &dat) {
-    for(UIntT i = 0;i < N;i++)
-      in >> dat.data[i];
-    return in;
-  }
-
 }
 
 #endif
