@@ -48,8 +48,8 @@ namespace RavlN {
   //! userlevel=Develop
   //: Abstract port body.
   
-  class DPPortBodyC : 
-    virtual public DPEntityBodyC 
+  class DPPortBodyC 
+    : virtual public DPEntityBodyC 
   {
   public:
     DPPortBodyC() {}
@@ -89,7 +89,9 @@ namespace RavlN {
   //! userlevel=Develop
   //: Input port base body.
   
-  class DPIPortBaseBodyC : public DPPortBodyC {
+  class DPIPortBaseBodyC 
+    : public DPPortBodyC 
+  {
   public:
     DPIPortBaseBodyC() {}
     //: Default constuctor.
@@ -194,7 +196,9 @@ namespace RavlN {
   //! userlevel=Develop
   //: Output port base body.
   
-  class DPOPortBaseBodyC : public DPPortBodyC {
+  class DPOPortBaseBodyC 
+    : public DPPortBodyC 
+  {
   public:
     DPOPortBaseBodyC() {}
     //: Default constuctor.
@@ -222,7 +226,9 @@ namespace RavlN {
   //: Output port body.
   
   template<class DataT>
-  class DPOPortBodyC : public DPOPortBaseBodyC {
+  class DPOPortBodyC 
+    : public DPOPortBaseBodyC 
+  {
   public:
     DPOPortBodyC() {}
     //: Default constructor.
@@ -267,7 +273,10 @@ namespace RavlN {
   //: Input/Output port body.
   
   template<class InT,class OutT>
-  class DPIOPortBodyC : public DPIPortBodyC<InT>, public DPOPortBodyC<OutT> {
+  class DPIOPortBodyC 
+    : public DPIPortBodyC<InT>, 
+      public DPOPortBodyC<OutT> 
+  {
   public:
     DPIOPortBodyC() {}
     //: Default constructor.
@@ -358,7 +367,9 @@ namespace RavlN {
   //! userlevel=Develop
   //: Input port base class.
   
-  class DPIPortBaseC : public DPPortC {
+  class DPIPortBaseC 
+    : public DPPortC 
+  {
   public:
     DPIPortBaseC() 
       : DPEntityC(true)
@@ -424,37 +435,41 @@ namespace RavlN {
   //: Input port.
   
   template<class DataT>
-  class DPIPortC : public DPIPortBaseC {
+  class DPIPortC 
+    : public DPIPortBaseC 
+  {
   public:
     DPIPortC() 
       : DPEntityC(true)
       {}
     //: Default constructor.
     
+#ifdef __sgi__
     DPIPortC(const DPIPortC<DataT> &oth) 
       : DPEntityC(oth),
-      DPIPortBaseC(oth)
+	DPIPortBaseC(oth)
       {}
     //: Copy constructor.
+#endif
     
     DPIPortC(DPIPortBodyC<DataT> &bod) 
       : DPEntityC(bod),
-      DPIPortBaseC(bod)
+	DPIPortBaseC(bod)
       {}
     //: Body constructor.
     
     DPIPortC(const DPIPortBaseC &oth) 
       : DPEntityC(oth)
-      { 
+    { 
 #if RAVL_CHECK
-	if(IsValid()) {
-	  if(oth.InputType() != typeid(DataT)) {
-	    cerr << "DPIPortC<DataT>() Type mismatch.  " << oth.InputType().name() << " given to " << typeid(DataT).name() << endl; 
-	    assert(0);
+      if(IsValid()) {
+	if(oth.InputType() != typeid(DataT)) {
+	  cerr << "DPIPortC<DataT>() Type mismatch.  " << oth.InputType().name() << " given to " << typeid(DataT).name() << endl; 
+	  assert(0);
 	  }
-	}
-#endif
       }
+#endif
+    }
   //: Base constructor.
     
     DPIPortC(istream &in) 
@@ -507,7 +522,9 @@ namespace RavlN {
   //! userlevel=Develop
   //: Output port base.
   
-  class DPOPortBaseC : public DPPortC {
+  class DPOPortBaseC 
+    : public DPPortC 
+  {
   public:
     DPOPortBaseC() 
       : DPEntityC(true)
@@ -553,22 +570,26 @@ namespace RavlN {
   //: Output port.
   
   template<class DataT>
-  class DPOPortC : public DPOPortBaseC {
+  class DPOPortC 
+    : public DPOPortBaseC 
+  {
   public:
     DPOPortC() 
       : DPEntityC(true)
       {}
     // Default constructor.
     
+#ifdef __sgi__
     DPOPortC(const DPOPortC<DataT> &oth) 
       : DPEntityC(oth),
-      DPOPortBaseC(oth)
+	DPOPortBaseC(oth)
       {}
     //: Copy constructor.
+#endif
     
     DPOPortC(DPOPortBodyC<DataT> &bod) 
       : DPEntityC(bod),
-      DPOPortBaseC(bod)
+	DPOPortBaseC(bod)
       {}
     //: Body constructor.
     
@@ -633,7 +654,10 @@ namespace RavlN {
   //: Input/Output port.
   
   template<class InT,class OutT>
-  class DPIOPortC : public DPIPortC<InT>, public DPOPortC<OutT> {
+  class DPIOPortC 
+    : public DPIPortC<InT>, 
+      public DPOPortC<OutT> 
+  {
   public:
     DPIOPortC() 
       : DPEntityC(true)

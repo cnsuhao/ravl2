@@ -40,7 +40,7 @@ namespace RavlN {
       {
 #if RAVL_CHECK
 	if(!out.good()) 
-	  cerr << "DPOFileBodyC<DataT>::DPOFileBodyC<DataT>(StringC,bool), Failed to open file.\n";
+	  cerr << "DPOFileBodyC<DataT>::DPOFileBodyC<DataT>(StringC,bool), Failed to open file '" << nfname << "'.\n";
 #endif
 	if(useHeader) 
 	  out << TypeName(typeid(DataT)) << endl;
@@ -128,6 +128,10 @@ namespace RavlN {
     DPIFileBodyC(const StringC &nfname,bool useHeader = false)
       : in(nfname)
       {
+#if RAVL_CHECK
+	if(!in.good()) 
+	  cerr << "DPOFileBodyC<DataT>::DPOFileBodyC<DataT>(StringC,bool), WARNING: Failed to open file '" << nfname << "'.\n";
+#endif
 	if(useHeader) {
 	  StringC classname;
 	  in >> classname; // Skip class name.
@@ -140,6 +144,10 @@ namespace RavlN {
     inline DPIFileBodyC(IStreamC &strmin,bool useHeader = false)
       : in(strmin)
       {
+#if RAVL_CHECK
+	if(!in.good()) 
+	  cerr << "DPIFileBodyC<DataT>::DPIFileBodyC<DataT>(OStreamC,bool), WARNING: Passed bad input stream. \n";
+#endif
 	if(useHeader) {
 	  StringC classname;
 	  in >> classname; // Skip class name.

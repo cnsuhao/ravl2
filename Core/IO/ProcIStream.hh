@@ -109,7 +109,7 @@ namespace RavlN {
   
   template<class InT,class OutT>
   DPIPortC<OutT> operator>>(const DPIPortC<InT> &in,const DPProcessC<InT,OutT> &proc) 
-  { return DPProcIStreamC<InT,OutT> (proc,in); }
+  { return (const DPIPortC<OutT> &) DPProcIStreamC<InT,OutT> (proc,in); }
   
   template<class InT,class OutT,class InterT>
   DPIOPortC<OutT,InterT> operator>>(const DPIOPortC<InT,InterT> &in,const DPProcessC<InT,OutT> &proc) 
@@ -119,7 +119,7 @@ namespace RavlN {
   
   template<class InT,class OutT>
   DPProcIStreamBodyC<InT,OutT>::DPProcIStreamBodyC(const DPProcIStreamBodyC<InT,OutT> &oth)
-    : DPProcessC<InT,OutT>(oth.Copy()),
+    : DPProcessC<InT,OutT>(oth), //.Copy()
       DPIStreamOpBodyC<InT,OutT>(oth)
   {}
   //: Copy Constructor.

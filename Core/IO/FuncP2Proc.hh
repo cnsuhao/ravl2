@@ -13,7 +13,8 @@
 //! file="Ravl/Core/IO/FuncP2Proc.hh"
 //! author="Charles Galambos"
 //! date="09/07/98"
-//! userlevel=Default
+//! userlevel=Normal
+//! example=exDataProc.cc
 
 #include "Ravl/DP/Process.hh"
 #include "Ravl/DP/ProcCompose.hh"

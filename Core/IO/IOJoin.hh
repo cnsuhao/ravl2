@@ -13,7 +13,7 @@
 //! docentry="Ravl.Core.Data Processing" 
 //! date="12/10/98"
 //! rcsid="$Id$"
-//! userlevel=Default
+//! userlevel=Normal
 
 #include "Ravl/DP/Port.hh"
 
@@ -33,8 +33,8 @@ namespace RavlN {
     
     DPIOPortJoinBodyC(const DPIPortC<InT> &nin,const DPOPortC<OutT> &nout,const DPEntityC &ahold = DPEntityC(true))
       : in(nin),
-      out(nout),
-      hold(ahold)
+	out(nout),
+	hold(ahold)
     {}
     //: Constructor. 
     

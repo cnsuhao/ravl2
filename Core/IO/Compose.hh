@@ -11,32 +11,24 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! docentry="Ravl.Core.Data Processing"
+//! example=exDataProc.cc
 //! lib=RavlIO
 
 #include "Ravl/DP/ProcCompose.hh"
 #include "Ravl/DP/ProcIStream.hh"
-//#include "Ravl/DP/Func2Stream.hh"
 #include "Ravl/DP/FuncP2Proc.hh"
-//#include "Ravl/DP/IOConnect.hh"
+#include "Ravl/DP/IOConnect.hh"
 #include "Ravl/DP/Port.hh"
 #include "Ravl/DP/StreamOp.hh"
 
 namespace RavlN {
-
-#if 0
-  template<class InT,class OutT>
-  DPFunc2ProcC<InT,OutT> Process(OutT (*func)(const InT &))
-  { return DPFunc2ProcC<InT,OutT>(func); }
-  //: Turn a function into a process.
-#endif
   
   template<class InT,class MidT,class OutT>
   DPIOPortC<InT,OutT> operator>>(const DPIOPortC<InT,MidT> &in,DPIStreamOpC<MidT,OutT> dat)  {
     dat.Input() = in;
     return DPIOPortJoin(dat,in);
   }
-
-
+  
 }
 
 #endif
