@@ -24,33 +24,34 @@ INSTALLATION UNIX
   tool you can create a debug version with `qm debug' which will be slow,
   but takes much less memory to build.
 
+- RAVL is getting quite large, if you don't want to compile all the modules
+  you can remove the '.r' from the end of the directory names in the root 
+  defs.mk file.  In general modules later in the list depend on those found 
+  earlier so care must be with which modules are disabled.  Required modules
+  for particular tools can be found in the documentation. (Or will be soon!)
+
 - At the moment you have to manualy configure where to look
   for the compiler. This is done by setting CC and CXX to the locations of
   the C and C++ compilers respectively in the system configuration
   file. The configuration file can be found in Ravl/QMake/config.$(ARC)
   where arc is one of linux,sgi or sol2, depending on your machine.
 
-- The `Math' module requires the ccmath package to be installed. The code
-  has been tested with version 2.2.0, but I would expect it to work with   
-  older versions as well.  The location of the ccmath package is set
-  in Ravl/Math/CCMath/CCMath.def, set the 'CCMATH' variable to appropriate
-  directory uncomment two lines following it, and comment out any other
-  'EXELIB' lines later in the file.  
-
-  - A version of the ccmath source code which will compile under QMake is
+- A version of the ccmath source code which will compile under QMake is
   included the RAVL releases and as a separate file available for download.
   Using this is NOT guaranteed to give the best code as the QMake release
   does not currently make use of assembler provided with the official package.
   It does make it much easier to install. If you don't wish to use this
   code remove the 'CCMath.r' from the NESTED line in the Ravl/defs.mk file.
 
+  RAVL can be made to use an external version of CCMath.  The code
+  has been tested with version 2.2.0, but I would expect it to work with   
+  older versions as well.  The location of the ccmath package is set
+  in Ravl/Math/CCMath/CCMath.def, set the 'CCMATH' variable to appropriate
+  directory uncomment two lines following it, and comment out any other
+  'EXELIB' lines later in the file.  
+
 - The appropriate version of perl (Tested with 5.005_03) must be in your 
   default path.
-
-- Currently there are problems with using ccmath on IRIX, these are
-  being looked at.  If your not interested in the matrix stuff you can
-  turn it off by editing ./Ravl/defs.mk and removing the '.r' after the
-  'math' in the NESTED line.
 
 To install go the root RAVL directory and type:
 
