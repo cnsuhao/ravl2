@@ -4,14 +4,14 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef __ARCH_SGI_RAVL_ATOMIC__
-#define __ARCH_SGI_RAVL_ATOMIC__ 1
+#ifndef RAVL_ATOMIC_SGI
+#define RAVL_ATOMIC_SGI 1
 //! file="Ravl/Core/Machine/mips-irix-mpro/Atomic.hh"
 //! userlevel=Default
 //! author="Charles Galambos"
-//! date="25/02/99"
+//! date="25/02/1999"
 //! rcsid="$Id$"
-//! docentry="default.Charles Galambos"
+//! docentry="Ravl.Core.Misc"
 //! lib=RavlCore
 
 #ifdef __cplusplus

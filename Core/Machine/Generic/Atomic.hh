@@ -4,19 +4,16 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef __ARCH_GENERIC_ATOMIC__
-#define __ARCH_GENERIC_ATOMIC__
+#ifndef RAVL_GENERIC_ATOMIC_HEADER 
+#define RAVL_GENERIC_ATOMIC_HEADER 1
 //////////////////////////////////////////////////////////////////
 //! file="Ravl/Core/Machine/Generic/Atomic.hh"
 //! userlevel=Default
 //! author="Charles Galambos"
-//! date="25/02/99"
+//! date="25/02/1999"
 //! rcsid="$Id$"
 //! docentry="Ravl.Core.Misc"
-/********************************************************************
 //! lib=RavlCore
- * Dummy atomic operation file.
- */
 
 typedef int ravl_atomic_t;
 
@@ -32,4 +29,4 @@ static inline void ravl_atomic_dec(ravl_atomic_t *v)
 static inline int ravl_atomic_dec_and_test(ravl_atomic_t *v)
 { return (--(*v)) == 0; }
 
-#endif /* !(__ARCH_SPARC_ATOMIC__) */
+#endif
