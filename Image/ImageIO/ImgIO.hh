@@ -21,6 +21,7 @@ namespace RavlImageN {
   extern void InitStdImageCnv();
   extern void InitStdImageCnv2();
   extern void InitStdImageCnv3();
+  extern void InitStdImageCnv4();
   extern void InitPNMFormat();
   extern void InitImgIOByte();
   extern void InitImgIObool();
