@@ -103,13 +103,11 @@ namespace RavlN {
 				0   ,d[1],0,
 				0   ,0   ,0)).MulT(v);
     
-#if RAVL_COMPILER_MIPSPRO || RAVL_COMPILER_VISUALCPP
-    static_cast<Matrix3dC &>(*this) = (Matrix3dC) (TFMatrixC<RealT,3,3>&) newf ; // help the compiler a bit  !
-#else 
-    static_cast<Matrix3dC &>(*this) = (Matrix3dC)  newf;
-#endif 
-
- }
+    // Copy the result back into this matrix.
+    for(int i = 0;i < 3;i++)
+      for(int j = 0;j < 3;j++)
+	(*this)[i][j] = newf[i][j];
+  }
   
   //: Build a design matrix given two sets of points.
   
