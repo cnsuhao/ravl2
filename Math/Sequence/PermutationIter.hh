@@ -23,21 +23,37 @@
 namespace RavlN {
 
   //: Iterate permutations.
-  // Basicly this generates a list for each position in an
+  // This class generates a list for each position in an
   // array then iterates through all the possible combinations
   // of values.
   
   template<class T>
   class PermutationIterC {
   public:
+    PermutationIterC(UIntT nArity = 0,const DListC<T> &items)
+      : iters(nArity) 
+    {
+      for(DLIterC<T> it(items);it;it++)
+        InsLast(*it);
+      First();
+    }
+    //: Constructor.
+    //!param: nArity - Number of values to permutate.
+    //!param: items - List of posibilities for all positions.
+    // Note you can construct PermutationIterC with a fix arity 
+    // and initalise each list seperately with InsLast(i,item);
+    
     PermutationIterC(UIntT nArity = 0)
       : iters(nArity) 
-      {}
+    {}
     //: Constructor.
+    //!param: nArity - Number of values to permutate.
+    // Note you must initalise each list either seperately with InsLast(i,item) or
+    // on mass with InsLast(item) and then call First().
     
     PermutationIterC(const PermutationIterC &Oth)
       : iters(Oth.iters)
-      {}
+    {}
     //: Copy constructor.
     
     PermutationIterC<T> Copy() const;
@@ -48,21 +64,21 @@ namespace RavlN {
     // This may be changed in the future.
     
     inline DLIterC<T> &Iter(UIntT i)
-      { return iters[i]; }
+    { return iters[i]; }
     //: Access a given iterator.
     
     inline void InsLast(UIntT i,const T &Item)
-      { iters[i].InsAft(Item); }
-    //: Add item to end of list.
+    { iters[i].InsertAft(Item); }
+    //: Add item to list for position i.
     
     inline void InsLast(const T &Item); 
     //: Add to all lists.
     
     inline void InsLast(UIntT i,DListC<T> &Items);
-    //: Add items to end of list.
+    //: Add items to list for position i.
     
     inline void Del(UIntT i);             
-    //: Delete element from given list.
+    //: Delete current element from given position.
     
     bool First(void);
     //: Goto first permutation.
@@ -70,8 +86,16 @@ namespace RavlN {
     bool Next(void);
     //: Goto Next permutation.
     
+    bool operator++(int)
+    { return Next(); }
+    //: Goto Next permutation.
+    
     inline bool IsElm(void) const
-      { return iters[0].IsElm(); }
+    { return iters[0].IsElm(); }
+    //: Is a valid element ?
+    
+    operator bool() const
+    { return IsElm(); }
     //: Is a valid element ?
     
     inline const T &Data(UIntT i) const;
@@ -80,18 +104,22 @@ namespace RavlN {
     DListC<T> Data(void) const;
     //: Make a list.
     
+    DListC<T> operator*() const
+    { return Data(); }
+    //: Alias for Data()
+    
     void Reset(UIntT nArity);
     //: Clear Iter & change arity.
     
     UIntT Arity(void) const 
-      { return iters.Size(); }
+    { return iters.Size(); }
     //: Get Arity of iterator.
     
     void Empty(void);
     //: Empty all lists.
     
     DLIterC<T> GetIter(int i) const 
-      { return iters[i]; }
+    { return iters[i]; }
     //: Get a copy of iterator.
     
   private:
@@ -111,13 +139,13 @@ namespace RavlN {
   template<class T>
   inline void PermutationIterC<T>::InsLast(const T &Item)  {
     for(UIntT i = 0;i < iters.Size();i++)
-      iters[i].InsAft(Item);
+      iters[i].InsertAft(Item);
   }
   
   template<class T>
   void PermutationIterC<T>::InsLast(UIntT i,DListC<T> &items)  {
     for(DLIterC<T> it(items);it.IsElm();it.Next())
-      iters[i].InsAft(it.Data());
+      iters[i].InsertAft(it.Data());
   }
   
   template<class T>

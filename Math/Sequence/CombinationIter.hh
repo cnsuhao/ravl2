@@ -45,19 +45,19 @@ namespace RavlN {
     // Does an implicit First().
     
     inline bool IsElm() const
-      { return !data.IsEmpty(); }
+    { return !data.IsEmpty(); }
     //: Is there a valid combination remaining ?
 
     operator bool() const
-      { return IsElm(); }
+    { return IsElm(); }
     //: Is there a valid combination remaining ?
     
     inline DListC<DataT> &Data()
-      { return data; }
+    { return data; }
     //: Current combination.
     
     inline IntT Terms() const
-      { return combSize; }
+    { return combSize; }
     //: Get number of items in current combination.
     
     bool First();
@@ -69,7 +69,7 @@ namespace RavlN {
     // Returns false if none.
     
     void operator++(int)
-      { Next(); }
+    { Next(); }
     //: Goto next combination.
     
   private:
