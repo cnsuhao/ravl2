@@ -15,6 +15,14 @@
 
 namespace RavlLogicN {
   
+  //: Construct a valid state of the default type..
+  // This currently creates a StateSet.
+  
+  StateC::StateC(bool)
+    : RCHandleC<StateBodyC>(*new StateSetBodyC())
+  {}
+  
+  //----------------------------------------------------------------------------------
   
   //: Make a copy of this state.
   

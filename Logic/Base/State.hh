@@ -79,6 +79,10 @@ namespace RavlLogicN {
     //: Default constructor
     // creates an invalid handle.
     
+    StateC(bool);
+    //: Construct a valid state of the default type..
+    // This currently creates a StateSet.
+    
   protected:
     StateC(StateBodyC &bod)
       : RCHandleC<StateBodyC>(bod)

@@ -78,6 +78,10 @@ namespace RavlLogicN {
     
   };
 
+  inline NamedLiteralC Literal(const char *name)
+  { return NamedLiteralC(StringC(name)); }
+  //: Create a named symbol.
+
 }
 
 #endif
