@@ -11,12 +11,13 @@
 //! author="Charles Galambos"
 //! lib=RavlNet
 //! docentry="Ravl.OS.Network.NetPort"
-//! file="Ravl/OS/Network/NetIPort.hh"
+//! file="Ravl/OS/Network/NetOPort.hh"
 //! example=exNetPort.cc
 
 #include "Ravl/DP/SPort.hh"
 #include "Ravl/OS/NetEndPoint.hh"
 #include "Ravl/Threads/RWLock.hh"
+#include "Ravl/OS/NetPort.hh"
 
 namespace RavlN {
 
@@ -82,8 +83,8 @@ namespace RavlN {
     // 'portName' is the namer of the stream on the server.
     
     ~NetOSPortBodyC() { 
-      if(ep.IsOpen()) {
-	ep.Send(15);
+      if(ep.IsOpen() && !gotEOS) {
+	ep.Send(NPMsg_Close);
 	ep.WaitTransmitQClear();
       }
       ep.Close(); 
@@ -143,8 +144,10 @@ namespace RavlN {
     //: Find the offset where the stream begins, normally zero.
     // Defaults to 0
     
-    virtual void PutEOS()
-    { gotEOS= true; }
+    virtual void PutEOS() { 
+      gotEOS = true; 
+      ep.Send(NPMsg_Close);      
+    }
     //: Put End Of Stream marker.
     
     virtual bool IsPutReady() const 
@@ -154,7 +157,7 @@ namespace RavlN {
     virtual bool Put(const DataT &data) { 
       if(gotEOS || !ep.IsValid())
 	return false;
-      ep.Send(7,at,data);
+      ep.Send(NPMsg_Data,at,data);
       at++;
       if(at > size)
 	size = at;

@@ -16,6 +16,7 @@
 
 #include "Ravl/DP/SPort.hh"
 #include "Ravl/OS/NetEndPoint.hh"
+#include "Ravl/OS/NetPort.hh"
 #include "Ravl/Threads/RWLock.hh"
 #include "Ravl/Threads/Semaphore.hh"
 
@@ -83,7 +84,7 @@ namespace RavlN {
     
     ~NetISPortBodyC() { 
       if(ep.IsOpen()) {
-	ep.Send(15);
+	ep.Send(NPMsg_Close);
 	ep.WaitTransmitQClear();
       }
       ep.Close(); 
@@ -217,7 +218,7 @@ namespace RavlN {
 
   template<class DataT>
   bool NetISPortBodyC<DataT>::Init() {
-    ep.RegisterR(5,"SendData",*this,&NetISPortBodyC<DataT>::RecvData);
+    ep.RegisterR(NPMsg_Data,"SendData",*this,&NetISPortBodyC<DataT>::RecvData);
     return NetISPortBaseC::Init();
   }
   
@@ -241,7 +242,7 @@ namespace RavlN {
     //cerr << "NetISPortBodyC<DataT>::Get(DataT &), Called for Pos=" << at << "\n";
     if(gotEOS)
       return false;
-    ep.Send(4,at);
+    ep.Send(NPMsg_ReqData,at);
     recieved.Wait();
     // 'at' is updated by the RecvData method. 
     RWLockHoldC hold(rwlock,RWLOCK_READONLY);

@@ -32,7 +32,7 @@ namespace RavlN {
   //: Destructor.
   
   NetISPortServerBaseBodyC::~NetISPortServerBaseBodyC() 
-  { cerr << "NetISPortServerBaseBodyC::~NetISPortServerBaseBodyC(), Called. Name=" << portName << " \n";  }
+  { ONDEBUG(cerr << "NetISPortServerBaseBodyC::~NetISPortServerBaseBodyC(), Called. Name=" << portName << " \n");  }
   
   //: Get the port type.
   
@@ -55,7 +55,7 @@ namespace RavlN {
   //: Disonnect to an end point.
   
   bool NetISPortServerBaseBodyC::Disconnect() {
-    cerr << "NetISPortServerBaseBodyC::Disconnect(), Called. \n";
+    ONDEBUG(cerr << "NetISPortServerBaseBodyC::Disconnect(), Called. \n");
     ep.Invalidate();
     return true;
   }
@@ -64,7 +64,7 @@ namespace RavlN {
   
   bool NetISPortServerBaseBodyC::Init() {
     ONDEBUG(cerr << "NetISPortServerBaseBodyC::Init(), Called. \n");
-    ep.RegisterR(2,"ReqState",*this,&NetISPortServerBaseBodyC::ReqStats);
+    ep.RegisterR(NPMsg_ReqInfo,"ReqState",*this,&NetISPortServerBaseBodyC::ReqStats);
     return true;
   }
   
@@ -80,7 +80,7 @@ namespace RavlN {
       start = seekCtrl.Start();
       size = seekCtrl.Size();
     }
-    ep.Send(3,at,start,size);
+    ep.Send(NPMsg_StreamInfo,at,start,size);
     ONDEBUG(cerr << "NetISPortServerBaseBodyC::ReqStats(), Sent: At=" << at << " Start=" << start << " Size=" << size << "\n");
     return true;
   }

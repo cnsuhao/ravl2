@@ -49,12 +49,12 @@ namespace RavlN {
       gotEOS = true;
       return false;
     }
-    ep.RegisterR(3,"SendState",*this,&NetISPortBaseC::RecvState);
-    ep.RegisterR(6,"ReqFailed",*this,&NetISPortBaseC::ReqFailed);
+    ep.RegisterR(NPMsg_StreamInfo,"StreamInfo",*this,&NetISPortBaseC::RecvState);
+    ep.RegisterR(NPMsg_ReqFailed,"ReqFailed",*this,&NetISPortBaseC::ReqFailed);
     ep.Ready();
     ep.WaitSetupComplete();
-    ep.Send(10,portName,dataType,true);  // Request connection.
-    ep.Send(2); // Request info about the stream.
+    ep.Send(NPMsg_ReqConnection,portName,dataType,true);  // Request connection.
+    ep.Send(NPMsg_ReqInfo); // Request info about the stream.
     return true;
   }
   

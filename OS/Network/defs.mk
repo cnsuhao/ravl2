@@ -13,7 +13,7 @@ PACKAGE=Ravl/OS
 HEADERS = SktError.hh Socket.hh NetStream.hh Packet.hh \
  NetMessage.hh NetEndPoint.hh NetMsgCall.hh NetIPort.hh \
  NetIPortServer.hh NetPortManager.hh NetPortClient.hh \
- NetPortFormat.hh NetOPort.hh NetOPortServer.hh
+ NetPortFormat.hh NetOPort.hh NetOPortServer.hh NetPort.hh
 
 SOURCES = Socket.cc NetStream.cc SocketStrm.cc Packet.cc \
  NetMessage.cc NetEndPoint.cc NetMsgCall.cc NetIPort.cc \

@@ -40,8 +40,8 @@ namespace RavlN {
   
   bool NetPortClientBodyC::Init() {
     ONDEBUG(cerr << "NetPortClientBodyC::Init(), Called. \n");
-    RegisterR(10,"ConnectTo",*this,&NetPortClientBodyC::MsgConnectTo);
-    RegisterR(15,"Close",*this,&NetPortClientBodyC::MsgClose);
+    RegisterR(NPMsg_ReqConnection,"ConnectTo",*this,&NetPortClientBodyC::MsgConnectTo);
+    RegisterR(NPMsg_Close,"Close",*this,&NetPortClientBodyC::MsgClose);
     Ready();
     WaitSetupComplete();
     return true;

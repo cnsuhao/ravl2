@@ -8,7 +8,7 @@
 //! rcsid="$Id$"
 //! author="Charles Galambos"
 //! lib=RavlNet
-//! file="Ravl/OS/Network/NetIPort.cc"
+//! file="Ravl/OS/Network/NetOPort.cc"
 
 #include "Ravl/OS/NetOPort.hh"
 #include "Ravl/TypeName.hh"
@@ -48,12 +48,12 @@ namespace RavlN {
       gotEOS = true;
       return false;
     }
-    ep.RegisterR(3,"SendState",*this,&NetOSPortBaseC::RecvState);
-    ep.RegisterR(6,"ReqFailed",*this,&NetOSPortBaseC::ReqFailed);
+    ep.RegisterR(NPMsg_StreamInfo,"StreamInfo",*this,&NetOSPortBaseC::RecvState);
+    ep.RegisterR(NPMsg_ReqFailed,"ReqFailed",*this,&NetOSPortBaseC::ReqFailed);
     ep.Ready();
     ep.WaitSetupComplete();
-    ep.Send(10,portName,dataType,false);  // Request connection.
-    ep.Send(2); // Request info about the stream.
+    ep.Send(NPMsg_ReqConnection,portName,dataType,false);  // Request connection.
+    ep.Send(NPMsg_ReqInfo); // Request info about the stream.
     return true;
   }
   

@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlNet
-//! file="Ravl/OS/Network/testNetPort.cc"
+//! file="Ravl/OS/Network/exNetPort.cc"
 //! docentry="Ravl.OS.Network.NetPort"
 //! userlevel=Normal
 //! author="Charles Galambos"

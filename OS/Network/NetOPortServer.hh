@@ -12,9 +12,10 @@
 //! lib=RavlNet
 //! docentry="Ravl.OS.Network.NetPort"
 //! example=exNetPort.cc
-//! file="Ravl/OS/Network/NetIPortServer.hh"
+//! file="Ravl/OS/Network/NetOPortServer.hh"
 
 #include "Ravl/OS/NetEndPoint.hh"
+#include "Ravl/OS/NetPort.hh"
 #include "Ravl/DP/SPort.hh"
 #include "Ravl/TypeName.hh"
 #include "Ravl/DP/SPortAttach.hh"
@@ -188,7 +189,7 @@ namespace RavlN {
   };
 
   ///////////////////////////////////////////////////
-
+  
   bool NetExportBase(const StringC &name,NetOSPortServerBaseC &isp);
   //! userlevel=Develop
   //: Export  port.
@@ -214,7 +215,7 @@ namespace RavlN {
   template<class DataT>  
   bool NetOSPortServerBodyC<DataT>::Init() {
     NetOSPortServerC<DataT> me(*this);
-    ep.Register(7,"PutData",me,&NetOSPortServerC<DataT>::PutData);
+    ep.Register(NPMsg_Data,"Data",me,&NetOSPortServerC<DataT>::PutData);
     return NetOSPortServerBaseBodyC::Init();
   }
   
@@ -223,7 +224,7 @@ namespace RavlN {
   template<class DataT>
   bool NetOSPortServerBodyC<DataT>::PutData(UIntT &pos,DataT &data) {
     if(!oport.IsValid()) {
-      ep.Send(6,1); // Report end of stream.
+      ep.Send(NPMsg_ReqFailed,1); // Report end of stream.
       return true;
     }
     //cerr << "NetOSPortServerBodyC<DataT>::ReqData(), Pos=" << pos << " at=" << at << " Tell=" << oport.Tell() <<"\n";
@@ -235,9 +236,9 @@ namespace RavlN {
       at++;
     } else { // Failed to get data.
       if(!oport.IsPutReady())
-	ep.Send(6,1); // Ug
+	ep.Send(NPMsg_ReqFailed,1); // Ug
       else
-	ep.Send(6,2); // Just get failed.
+	ep.Send(NPMsg_ReqFailed,2); // Just get failed.
     }
     return true;
   }

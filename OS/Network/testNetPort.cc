@@ -13,6 +13,8 @@
 
 #include "Ravl/OS/NetIPort.hh"
 #include "Ravl/OS/NetIPortServer.hh"
+#include "Ravl/OS/NetOPort.hh"
+#include "Ravl/OS/NetOPortServer.hh"
 #include "Ravl/DP/ContainerIO.hh"
 #include "Ravl/DP/Compose.hh"
 #include "Ravl/OS/Date.hh"
@@ -20,12 +22,28 @@
 
 using namespace RavlN;
 
-int testNetPort();
+int testNetIPort();
+int testNetOPort();
+
+StringC server;
 
 int main() {
   int ln;
-
-  if((ln = testNetPort()) != 0) {
+  
+  cerr << "testNetPort(), Start port server. \n";
+  
+  server = StringC("localhost:4046");
+  
+  if(!NetPortOpen(server)) {
+    cerr << "Failed to open netPortManager. \n";
+    return __LINE__;
+  }
+  
+  if((ln = testNetIPort()) != 0) {
+    cerr << "Test failed on line :" << ln << "\n";
+    return 1;
+  }
+  if((ln = testNetOPort()) != 0) {
     cerr << "Test failed on line :" << ln << "\n";
     return 1;
   }
@@ -34,7 +52,7 @@ int main() {
   return 0;
 }
 
-int testNetPort() {
+int testNetIPort() {
   cerr << "testNetPort(), Test started. \n";
 
   // ********************** SERVER SIDE ************************************
@@ -44,13 +62,6 @@ int testNetPort() {
   lst.InsLast(2);
   lst.InsLast(3);
   
-  cerr << "testNetPort(), Start port server. \n";
-  
-  StringC server = "localhost:4046";  
-  if(!NetPortOpen(server)) {
-    cerr << "Failed to open netPortManager. \n";
-    return __LINE__;
-  }
   // Setup server IPort.
   cerr << "testNetPort(), Setup server IPort. \n";
   DPIPortC<IntT> op = DPIContainer(lst);
@@ -81,6 +92,57 @@ int testNetPort() {
   // ********************** CHECK IT WORKED ************************
   
   cerr << "testNetPort(), Check data. Elements=" << lst2.Size() << "\n";
+  // Check the results.
+  if(lst2.Size() != lst.Size()) return __LINE__;
+  if(lst2.First() != lst.First()) return __LINE__;
+  if(lst2.Last() != lst.Last()) return __LINE__;
+  return 0;
+}
+
+
+
+
+int testNetOPort() {
+  cerr << "testNetPort(), Test started. \n";
+
+  // ********************** SERVER SIDE ************************************
+  // Setup some data.
+  DListC<IntT> lst;
+  
+  // Setup server IPort.
+  cerr << "testNetPort(), Setup server IPort. \n";
+  DPOPortC<IntT> op = DPOContainer(lst);
+  
+  // Export the stream 'op' as test1
+  if(!NetExport("test2",op)) {
+    cerr << "Failed to export 'test1' \n";
+    return __LINE__;
+  }
+  
+  // ********************** CLIENT SIDE ******************************
+  
+  cerr << "testNetPort(), Setup  NetIPort. \n";
+
+  // Make a connection to the server.
+  NetOSPortC<IntT>  osp (server,"test2");
+  
+  // Should check it succeeded here.
+  
+  DListC<IntT> lst2;
+  lst2.InsLast(1);
+  lst2.InsLast(2);
+  lst2.InsLast(3);
+  
+  // Transfer data from server to lst2
+  
+  cerr << "testNetPort(), Transfer data. \n";
+  
+  DPIContainer(lst2) >> osp;
+  Sleep(1); // Wait for data to be sent.
+  
+  // ********************** CHECK IT WORKED ************************
+  
+  cerr << "testNetPort(), Check data. Elements=" << lst.Size() << "\n";
   // Check the results.
   if(lst2.Size() != lst.Size()) return __LINE__;
   if(lst2.First() != lst.First()) return __LINE__;

@@ -14,6 +14,7 @@
 //! example=exNetPort.cc
 //! file="Ravl/OS/Network/NetIPortServer.hh"
 
+#include "Ravl/OS/NetPort.hh"
 #include "Ravl/OS/NetEndPoint.hh"
 #include "Ravl/DP/SPort.hh"
 #include "Ravl/TypeName.hh"
@@ -214,14 +215,14 @@ namespace RavlN {
   template<class DataT>  
   bool NetISPortServerBodyC<DataT>::Init() {
     NetISPortServerC<DataT> me(*this);
-    ep.Register(4,"ReqData",me,&NetISPortServerC<DataT>::ReqData);
+    ep.Register(NPMsg_ReqData,"ReqData",me,&NetISPortServerC<DataT>::ReqData);
     return NetISPortServerBaseBodyC::Init();
   }
   
   template<class DataT>
   bool NetISPortServerBodyC<DataT>::ReqData(UIntT &pos) {
     if(!iport.IsValid()) {
-      ep.Send(6,1); // Report end of stream.
+      ep.Send(NPMsg_ReqFailed,1); // Report end of stream.
       return true;
     }
     //cerr << "NetISPortServerBodyC<DataT>::ReqData(), Pos=" << pos << " at=" << at << " Tell=" << iport.Tell() <<"\n";
@@ -232,12 +233,12 @@ namespace RavlN {
     DataT dat;
     if(iport.Get(dat)) {
       at++;
-      ep.Send(5,at,dat);
+      ep.Send(NPMsg_Data,at,dat);
     } else { // Failed to get data.
       if(iport.IsGetEOS())
-	ep.Send(6,1); // End of stream.
+	ep.Send(NPMsg_ReqFailed,1); // End of stream.
       else
-	ep.Send(6,2); // Just get failed.
+	ep.Send(NPMsg_ReqFailed,2); // Just get failed.
     }
     return true;
   }
