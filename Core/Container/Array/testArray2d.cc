@@ -42,6 +42,7 @@ int testSqr2();
 int testSqr3();
 int testSqr31();
 int testSqr31b();
+int testSqr33();
 int testSqr311();
 int testSqr3111();
 int testSqr51();
@@ -58,7 +59,7 @@ int main()
     cerr << "Basic slice test failed line:" << ln << "\n";
     return 1;
   }
-#if 0
+#if 1
   if((ln = testShift()) != 0) {
     cerr << "Basic Array2d test failed line:" << ln << "\n";
     return 1;
@@ -81,6 +82,10 @@ int main()
   }
   if((ln = testSqr31b()) != 0) {
     cerr << "Sqr31Iter2 Array2d test failed line:" << ln << "\n";
+    return 1;
+  }
+  if((ln = testSqr33()) != 0) {
+    cerr << "Sqr33Iter2 Array2d test failed line:" << ln << "\n";
     return 1;
   }
   if((ln = testSqr311()) != 0) {
@@ -363,6 +368,69 @@ int testSqr31b() {
 }
 
 // Test 3x3 iterators.
+
+int testSqr33() {
+  cerr << "testSqr33() \n";
+  Array2dC<IntT> data(5,5);
+  data.Fill(1);
+
+  IntT count = 1;
+  for(Array2dIterC<IntT> ita(data);ita;ita++)
+    *ita = count++;
+  
+  Array2dSqr33Iter2C<IntT,IntT> it(data,data);
+  
+  
+  if(!it) return __LINE__;
+  if(!it.First()) return __LINE__;
+  IntT sqrs = 0;
+  IntT count1 = 0;
+  IntT count2 = 0;
+  for(;it;it++,sqrs++) {
+    count1 += 
+      it.DataBR1() + it.DataBM1() + it.DataBL1() + 
+      it.DataMR1() + it.DataMM1() + it.DataML1() + 
+      it.DataTR1() + it.DataTM1() + it.DataTL1();
+    
+    count2 += 
+      it.DataBR1() + it.DataBM1() + it.DataBL1() + 
+      it.DataMR1() + it.DataMM1() + it.DataML1() + 
+      it.DataTR1() + it.DataTM1() + it.DataTL1();
+  }
+  
+  //cerr << "Count:" << count << "\n";
+  if(count1 != 1053) return __LINE__;
+  if(count2 != 1053) return __LINE__;
+  if(sqrs != 9) return __LINE__;
+  
+  // Check other iteration style
+  
+  it.First();
+  count1 = 0;
+  count2 = 0;
+  sqrs = 0;
+  while(it) {
+    do {
+      count1 += 
+	it.DataBR1() + it.DataBM1() + it.DataBL1() + 
+	it.DataMR1() + it.DataMM1() + it.DataML1() + 
+	it.DataTR1() + it.DataTM1() + it.DataTL1();
+    
+      count2 += 
+	it.DataBR1() + it.DataBM1() + it.DataBL1() + 
+	it.DataMR1() + it.DataMM1() + it.DataML1() + 
+	it.DataTR1() + it.DataTM1() + it.DataTL1();      
+      sqrs++;
+    } while(it.Next()) ;
+  }
+  
+  if(count1 != 1053) return __LINE__;
+  if(count2 != 1053) return __LINE__;
+  if(sqrs != 9) return __LINE__;
+  cerr << "Sqrs=" << sqrs << "\n";
+  
+  return 0;
+}
 
 int testSqr311() {
   Array2dC<IntT> data(5,5);

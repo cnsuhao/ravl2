@@ -45,9 +45,9 @@ namespace RavlN {
     
     bool First() {
       rng1 = IndexRangeC(array1.Range2().Min()+1,array1.Range2().Max()-1);
-      rng2 = IndexRangeC(array2.Range2().Min()+1,array2.Range2().Max()-1);
+      rng2 = array2.Range2();
       rng2.ClipBy(rng1);
-      IndexRangeC srng1(array1.Range1().Min()+1,array1.Range2().Max()-1);
+      IndexRangeC srng1(array1.Range1().Min()+1,array1.Range1().Max()-1);
       IndexRangeC srng2 = array2.Range1();
       srng2.ClipBy(srng1);
       if(!rit.First(array1,srng1,
