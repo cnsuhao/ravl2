@@ -62,7 +62,38 @@ namespace RavlImageN {
   // of the pixel is at 0,0.  This means that a 0.5 offset may
   // me needed if your co-oridnate systems is at the top left
   // of the pixel.
+
+  //:-
   
+  //! userlevel=Normal
+  //: Bilinear sampler
+  
+  template<class InT,class OutT>
+  class SampleBilinearC
+  {
+  public:
+    SampleBilinearC()
+    {}
+    
+    void operator()(const ImageC<InT> &img,const TFVectorC<RealT,2> &ipnt,OutT &pixVal)
+    { BilinearInterpolation(img,ipnt,pixVal); }
+    //: Do bilinear interpolation
+    
+  };
+  
+  //! userlevel=Normal
+  //: Nearest pixel sampler.
+  
+  template<class InT,class OutT>
+  class SampleNearestC
+  {
+  public:    
+    void operator()(const ImageC<InT> &img,const TFVectorC<RealT,2> &ipnt,OutT &pixVal)
+    { pixVal = img[Round(ipnt[0])][Round(ipnt[1])]; }
+    //: Do bilinear interpolation
+    
+  };
+
 }
 
 #endif
