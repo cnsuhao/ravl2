@@ -13,7 +13,8 @@
 //! date="2/5/1993"
 //! docentry="Ravl.Core.Arrays.2D"
 //! rcsid="$Id$"
-//! userlevel=Default
+//! example=exArray2d.cc
+//! userlevel=Normal
 
 #include "Ravl/RBfAcc2d.hh"
 #include "Ravl/Buffer2d.hh"
@@ -48,7 +49,10 @@ namespace RavlN {
     
     Array2dC(SizeT dim1, SizeT dim2);
     //: Creates 2D array with the range < <0,dim1-1>, <0,dim2-1> >
-
+    
+    Array2dC(IntT minRow,IntT maxRow,IntT minCol,IntT maxCol);
+    //: Creates 2D array with the range minRow to maxRow by minCol to maxCol.
+    
     Array2dC(IndexC minRow,IndexC maxRow,IndexC minCol,IndexC maxCol);
     //: Creates 2D array with the range minRow to maxRow by minCol to maxCol.
     
@@ -70,7 +74,7 @@ namespace RavlN {
     //: Make a copy of the array.
     
     Array1dC<DataC> SliceRow(IndexC i)
-      { return Array1dC<DataC>(data,Array1d()[i]); }
+      { return Array1dC<DataC>(data.Data(),(*this)[i]); }
     //: Access row as 1d array.
     // NB. Changes made to the slice will also affect this array!
     
@@ -225,6 +229,16 @@ namespace RavlN {
     ConstructAccess(IndexRangeC(minRow,maxRow)); 
   }
   
+  template <class DataC>
+  Array2dC<DataC>::Array2dC(IntT minRow,IntT maxRow,IntT minCol,IntT maxCol) 
+    : RangeBufferAccess2dC<DataC>(IndexRangeC(minCol,maxCol)),
+      data(IndexRangeC(minRow,maxRow).Size(),IndexRangeC(minCol,maxCol).Size())    
+  {
+    RavlAssert(minRow <= maxRow);
+    RavlAssert(minCol <= maxCol);
+    ConstructAccess(IndexRangeC(minRow,maxRow)); 
+  }
+
   template <class DataC>
   Array2dC<DataC>::Array2dC(const IndexRangeC & rng1,
 			    const IndexRangeC & rng2)

@@ -1,26 +1,30 @@
-#include "amma/Array1d.hh"
-#include "amma/EntryPnt.hh"
+//! rcsid="$Id$"
+
+#include "Ravl/Array1d.hh"
+#include "Ravl/Array1dIter.hh"
+#include "Ravl/EntryPnt.hh"
 #include <iostream.h>
-#include <assert.h>
-#include <stdlib.h>
+
+using namespace RavlN;
 
 int Main(int argc, char* argv[])
 {
-  if (argc != 3) {
-    cerr << "Usage: " << argv[0] << "rowmin rowmax colmin colmax"
-	 << endl;
-    // argv[1] [2] [3] [4]
-    exit(-1);
-  } assert((argv[1]<=argv[2]));
-  IndexRangeC rect (atoi(argv[1]), atoi(argv[2]));
-  Array1dC<IntT> arr(rect);
-  cerr << "array has IndexRectangle = " << arr.Rectangle() 
-       << endl;
-  arr.ShiftIndexes(-1);
-  cerr << "after array.ShiftIndexes(-1); " << endl;
-  cerr << "array has IndexRectangle = " << arr.Range()<<endl;
+  
+  Array1dC<IntT> arr(-10,10);
+  
+  cout << "arr.Range() = " << arr.Range() << "\n";
+  cout << "arr.Size()  = " << arr.Size() << "\n";
+  
+  arr.Fill(0); // Fill array with 0's
+  
+  arr[-2] = 1;
+  arr[3] = 2;
+  
+  for(Array1dIterC<IntT> it(arr);it;it++)
+    if(*it != 0)
+      cout << "Array element arr[" << it.Index() << "] is non zero, " << *it << "\n";
   
   return 0;
 }
 
-AMMA_ENTRY_POINT(Main);
+RAVL_ENTRY_POINT(Main);

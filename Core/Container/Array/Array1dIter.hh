@@ -4,16 +4,17 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLARR1ITER_HEADER
-#define RAVLARR1ITER_HEADER 1
+#ifndef RAVLARRAY1DITER_HEADER
+#define RAVLARRAY1DITER_HEADER 1
 //////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Core.Arrays.1D"
 //! file="Ravl/Core/Container/Array/Array1dIter.hh"
 //! lib=RavlCore
 //! author="Charles Galambos"
-//! date="//"
-//! userlevel=Default
+//! userlevel=Normal
+//! date="24/08/99"
+//! example=exArray1.cc
 
 #include "Ravl/Array1d.hh"
 #include "Ravl/BfAccIter.hh"
