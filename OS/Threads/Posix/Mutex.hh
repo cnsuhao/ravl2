@@ -52,9 +52,10 @@ namespace RavlN
     //: Lock mutex.
     
     inline bool TryLock(void) {
-      if(pthread_mutex_trylock(&mutex) == 0)
+      int rc;
+      if((rc = pthread_mutex_trylock(&mutex)) == 0)
 	return true;
-      if(errno != EPERM && errno != EBUSY && errno != EINTR)
+      if(errno != EPERM && errno != EBUSY && errno != EINTR && rc != EBUSY)
 	Error("Trylock failed for unexpected reason.",errno);
       return false;
     }
