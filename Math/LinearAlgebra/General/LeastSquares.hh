@@ -17,10 +17,23 @@
 
 namespace RavlN {
   
-  VectorC LeastSquaresQR(const MatrixC &A,const VectorC &b);
+  VectorC LeastSquaresQR(const MatrixC &A,const VectorC &b,RealT &residual);
   //: Find a least squares solution to A*x = b
-  // Uses the QR algorithm.
+  // Uses the QR algorithm.  Returns false if the rank of 'A' is insufficient.
+  // The residual is assigned to 'residual'.
   
+  inline VectorC LeastSquaresQR(const MatrixC &A,const VectorC &b) { 
+    RealT tmp;
+    return LeastSquaresQR(A,b,tmp);
+  }
+  //: Find a least squares solution to A*x = b
+  // Uses the QR algorithm.  Returns false if the rank of 'A' is insufficient.
+  
+  bool LeastSquaresQR_IP(MatrixC &A,VectorC &b,RealT &residual);
+  //: Find a least squares solution to A*x = b
+  // This destroys the contents of A, and replaces b with the solution vector.
+  // The residual is assigned to 'residual'.
+  // Returns false if the rank of 'A' is insufficient.
   
 }
 

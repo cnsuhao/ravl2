@@ -17,16 +17,25 @@ namespace RavlN {
   //: Find a least squares solution to A*x = b
   // Uses the QR algorithm.
   
-  VectorC LeastSquaresQR(const MatrixC &xA,const VectorC &xb) {
+  VectorC LeastSquaresQR(const MatrixC &xA,const VectorC &xb,RealT &residual) {
     MatrixC A = xA.Copy();
     VectorC b = xb.Copy();
     int f = 0;
     RavlAssert(A.Size1() == xb.Size());
-    qrlsq(&(A[0][0]),&(b[0]),A.Size1(),A.Size2(),&f);
+    residual = qrlsq(&(A[0][0]),&(b[0]),A.Size1(),A.Size2(),&f);
     if(f != 0) 
       return VectorC();
     return VectorC(SArray1dC<RealT>(b,A.Size2()));
   }
   
-  
+  //: Find a least squares solution to A*x = b
+  // This destroys the contents of A, and replaces b with the solution vector.
+ 
+  bool LeastSquaresQR_IP(MatrixC &A,VectorC &b,RealT &residual) {
+    int f = 0;
+    residual = qrlsq(&(A[0][0]),&(b[0]),A.Size1(),A.Size2(),&f);
+    b = VectorC(SArray1dC<RealT>(b,A.Size2()));
+    return f == 0;
+  }
+ 
 }
