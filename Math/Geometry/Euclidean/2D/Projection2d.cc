@@ -21,7 +21,8 @@
 namespace RavlN {
   
   
-  //: Get homography normalised for iz and oz
+  //: Get homography
+  // This returns the projection normalised so that the projective scales are both = 1
   
   Matrix3dC Projection2dC::Homography() const {
     Matrix3dC mat1(1,0,0,
@@ -258,28 +259,28 @@ namespace RavlN {
   //: Read from a stream.
   
   istream &operator>>(istream &s,Projection2dC &proj) {
-    s >> proj.Matrix() >> proj.Iz() >> proj.Oz();
+    s >> proj.Matrix() >> proj.IZ() >> proj.OZ();
     return s;
   }
 
   //: Write to a stream.
   
   ostream &operator<<(ostream &s,const Projection2dC &proj) {
-    s << proj.Matrix() << ' ' << proj.Iz() << ' ' << proj.Oz();
+    s << proj.Matrix() << ' ' << proj.IZ() << ' ' << proj.OZ();
     return s;
   }
   
   //: Read from a binary stream.
   
   BinIStreamC &operator>>(BinIStreamC &s,Projection2dC &proj) {
-    s >> proj.Matrix() >> proj.Iz() >> proj.Oz();
+    s >> proj.Matrix() >> proj.IZ() >> proj.OZ();
     return s;
   }
   
   //: Write to a binary stream.
   
   BinOStreamC &operator<<(BinOStreamC &s,const Projection2dC &proj) {
-    s << proj.Matrix() << proj.Iz() << proj.Oz();
+    s << proj.Matrix() << proj.IZ() << proj.OZ();
     return s;    
   }
   

@@ -45,19 +45,20 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid (zero) transform.
 
-    Projection2dC(const Matrix3dC &transform,RealT niz = 1,RealT noz = 1)
+    Projection2dC(const Matrix3dC &transform,RealT Oz = 1,RealT Iz = 1)
       : trans(transform),
-	iz(niz),
-	oz(noz)
+	iz(Iz),
+	oz(Oz)
     {}
     //: Construct a projective transform.
     //!param: transform - the 2D projective transformation
-    //!param: niz, noz - the normalisation values for the input and output vectors
-    // The normalisation values are the values the last term in the vectors must have for correct normalisation.  This is ususally set = 1, but for some operations is better set to a value representative of typical components of the vector.
+    //!param: Iz, Oz - the projective scale values for the input and output vectors
+    // <p>These are the scale values that the last term in the projective vectors must have for correct normalisation.  They are usually set = 1.  However for some optimisation operations better results are obtained if values more representative of typical components of the vector are used.
+    // In the projection "b = P a", Iz and Oz is the scale values for a and b respectively.</p>
 
-    Projection2dC(const FAffineC<2> &affineTransform, RealT niz = 1, RealT noz = 1) 
-      : iz(niz),
-        oz(noz)
+    Projection2dC(const FAffineC<2> &affineTransform, RealT Oz = 1, RealT Iz = 1) 
+      : iz(Iz),
+        oz(Oz)
     {
       trans[0][0] = affineTransform.SRMatrix()[0][0];
       trans[1][0] = affineTransform.SRMatrix()[1][0];
@@ -70,36 +71,43 @@ namespace RavlN {
     }
     //: Construct a projective transform from an affine one
     //!param: affineTransform - the 2D affine transform
-    //!param: niz, noz - the normalisation values for the input and output vectors
+    //!param: Iz, Oz - the projective scale values for the input and output vectors
     // The ambiguous parameters that are not specified by the affine transform are set to 0.
     
     inline
     Point2dC Project(const Point2dC &pnt) const {
-      Vector3dC vo = trans * Vector3dC(pnt[0],pnt[1],oz);
-      return Point2dC(iz*vo[0]/vo[2],iz*vo[1]/vo[2]);          
+      Vector3dC vo = trans * Vector3dC(pnt[0],pnt[1],iz);
+      return Point2dC(oz*vo[0]/vo[2],oz*vo[1]/vo[2]);          
     }
     //: Project a point through the transform.
     
-    Projection2dC operator*(const Projection2dC &oth) const {
-      Matrix3dC diag(Matrix3dC::I());
-      diag[2][2] = oth.oz/iz;
-      Matrix3dC transform = trans * diag * oth.trans;
-      return Projection2dC(transform, oth.iz, oz);
-    }
-    //: Combine two transforms
-    //!param: oth - the other transform to be combined with this one
-    //!return: the result of cascading this transform with the other one
-    // Note that the average iz and oz value of the two transforms are used
-    // for the resultant one.
-
     Point2dC operator*(const Point2dC &pnt) const
     { return Project(pnt); }
     //: Project a point through the transform.
     
+    Projection2dC operator*(const Projection2dC &oth) const {
+      Matrix3dC diag(Matrix3dC::I());
+      diag[2][2] = iz/oth.oz;
+      Matrix3dC transform = trans * diag * oth.trans;
+      return Projection2dC(transform, oz, oth.iz);
+    }
+    //: Combine two transforms
+    //!param: oth - the other transform to be combined with this one
+    //!return: the result of cascading this transform with the other one.<br>
+    // Note that the iz and oz values of the two transforms are combined
+    // for the resulting one.
+
     Projection2dC Inverse() const
-    { return Projection2dC(trans.Inverse(),oz,iz); }
+    { return Projection2dC(trans.Inverse(),iz,oz); }
     //: Invert transform.
     
+    static Projection2dC I(RealT oz=1, RealT iz=1) {
+      Matrix3dC m (Matrix3dC::I());
+      m[2][2] = oz/iz;
+      return Projection2dC(m, oz, iz);
+    }
+    //: Returns identity projection
+
     Matrix3dC &Matrix()
     { return trans; }
     //: Access transformation matrix.
@@ -108,24 +116,25 @@ namespace RavlN {
     { return trans; }
     //: Access transformation matrix.
     
-    RealT Iz() const
+    RealT IZ() const
     { return iz; }
     //: Accesss iz.
 
-    RealT Oz() const
+    RealT OZ() const
     { return oz; }
-    //: Accesss iz.
+    //: Accesss oz.
 
-    RealT &Iz()
+    RealT &IZ()
     { return iz; }
     //: Accesss iz.
 
-    RealT &Oz()
+    RealT &OZ()
     { return oz; }
-    //: Accesss iz.
+    //: Accesss oz.
     
     Matrix3dC Homography() const;
-    //: Get homography normalised for iz and oz
+    //: Get homography
+    // This returns the projection normalised to make the projective scales both = 1
 
     FAffineC<2> AffineApproximation() const {
       RealT t1 = trans[0][2] / trans[2][2];

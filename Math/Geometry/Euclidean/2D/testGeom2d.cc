@@ -335,8 +335,12 @@ int testHEMesh2d() {
 }
 
 int testProjective2d() {
+  cerr << "testProjective2d Called. \n";
   IntT i;
-  Projection2dC proj; // Create a unit projection.
+  Projection2dC proj(Projection2dC::I(2,10)); // Create a unit projection with arbitrary iz & oz.
+  
+  // Check homography 
+  if ((proj.Homography() - Matrix3dC::I()).SumOfAbs() > 0.001)  return __LINE__;
   
   SArray1dC<Point2dC> ipnt(3);
   ipnt[0] = Point2dC(1,1);
@@ -347,18 +351,22 @@ int testProjective2d() {
   
   // Check polygon transform.
   Polygon2dC poly;
-  
   for(i = 0;i < 3;i++)
     poly.InsLast(ipnt[i]);
   Polygon2dC tpoly = proj * poly;
   i = 0;
   for(DLIterC<Point2dC> it(tpoly);it;it++,i++)
     if((*it - opnt[i]).SumOfAbs() > 0.001) return __LINE__;
+
+  // Check projection multiplication
+  Projection2dC proj2(Projection2dC::I(14,3)); // Another arbitrary unit projection
+  if (((proj*proj2)*ipnt[1] - ipnt[1]).SumOfAbs() > 0.001) return __LINE__;
   
   return 0;
 }
 
 int testConic2d() {
+  cerr << "testConic2d() Called. \n";
   SArray1dC<Point2dC> pnts(5);
   pnts[0] = Point2dC(1, 0);
   pnts[1] = Point2dC(2,-1);
@@ -375,6 +383,7 @@ int testConic2d() {
 }
 
 int testEllipse2dA() {
+  cerr << "testEllipse2dA Called. \n";
   SArray1dC<Point2dC> pnts(5);
   pnts[0] = Point2dC(1, 0);
   pnts[1] = Point2dC(2,-1);
@@ -409,6 +418,7 @@ int testEllipse2dA() {
 }
 
 int testEllipse2dB() {
+  cerr << "testEllipse2dB Called. \n";
   for(RealT tangle = 0;tangle < RavlConstN::pi;tangle += RavlConstN::pi/10) {
     Point2dC gtc(50,50);
     Ellipse2dC ellipse(gtc,40,20,tangle);
@@ -449,6 +459,7 @@ int testEllipse2dB() {
 }
 
 int testEllipse2dC() {
+  cerr << "testEllipse2dC Called. \n";
   Matrix2dC covar(4,0,
 		  0,1);
   Vector2dC mean(50,50);
@@ -477,6 +488,7 @@ using namespace RavlImageN;
 
 
 int testScanPolygon() {
+  cerr << "testScanPolygon Called. \n";
   UIntT count = 0;
 #if DODISPLAY
   ByteT drawVal = 255;

@@ -42,8 +42,8 @@ namespace RavlImageN {
 		    bool nFillBackground = true,
 		    const MixerT &mix = MixerT())
       : trans(transform.Matrix()),
-	iz(transform.Oz()),
-	oz(transform.Iz()),
+	iz(transform.IZ()),
+	oz(transform.OZ()),
 	rec(orec),
 	fillBackground(nFillBackground),
 	mixer(mix)
@@ -58,8 +58,8 @@ namespace RavlImageN {
 		    bool nFillBackground = true,
 		    const MixerT &mix = MixerT())
       : trans(transform.Matrix()),
-	iz(transform.Oz()),
-	oz(transform.Iz()),
+	iz(transform.IZ()),
+	oz(transform.OZ()),
 	fillBackground(nFillBackground),
 	mixer(mix)
     { Init(); }
