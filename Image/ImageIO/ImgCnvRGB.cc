@@ -43,9 +43,9 @@ namespace RavlImageN
   }
 
   // Register conversions...
-  DP_REGISTER_CONVERTION(ByteRGBAImageCT2ByteRGBImageCT,1.25);
-  DP_REGISTER_CONVERTION(ByteRGBImageCT2ByteRGBAImageCT,1);
-
+  DP_REGISTER_CONVERTION_FT(ImageC<ByteRGBAValueC>,ImageC<ByteRGBValueC>,ByteRGBAImageCT2ByteRGBImageCT,1.25);
+  DP_REGISTER_CONVERTION_FT(ImageC<ByteRGBValueC>,ImageC<ByteRGBAValueC>,ByteRGBImageCT2ByteRGBAImageCT,1);
+  
   //////////////////////////////////////////////////////////////////////////////////////////
   
   // Byte colour to real colour image.
@@ -70,8 +70,8 @@ namespace RavlImageN
     return ret;
   }
   
-  DP_REGISTER_CONVERTION(ByteRGBImageCT2RealRGBImageCT ,1);
-  DP_REGISTER_CONVERTION(RealRGBImageCT2ByteRGBImageCT ,8);
+  DP_REGISTER_CONVERTION_FT(ImageC<ByteRGBValueC>,ImageC<RealRGBValueC>,ByteRGBImageCT2RealRGBImageCT ,1);
+  DP_REGISTER_CONVERTION_FT(ImageC<RealRGBValueC>,ImageC<ByteRGBValueC>,RealRGBImageCT2ByteRGBImageCT ,8);
 
   /////////////////////////////////////////////////////////////////////////////////////////
   
@@ -95,8 +95,8 @@ namespace RavlImageN
   
   // Register conversions...
   
-  DP_REGISTER_CONVERTION(ByteRGBImageCT2UInt16RGBValueCImageCT,1);
-  DP_REGISTER_CONVERTION(UInt16RGBValueCImageCT2ByteRGBImageCT,2);
+  DP_REGISTER_CONVERTION_FT(ImageC<ByteRGBValueC>,ImageC<UInt16RGBValueC>,ByteRGBImageCT2UInt16RGBValueCImageCT,1);
+  DP_REGISTER_CONVERTION_FT(ImageC<UInt16RGBValueC>,ImageC<ByteRGBValueC>,UInt16RGBValueCImageCT2ByteRGBImageCT,2);
   
   
 }
