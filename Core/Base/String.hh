@@ -132,11 +132,33 @@ namespace RavlN {
       }
       Where = New;
     }
+    // Change the pointer to another value.
     
-    StrRepP(StrRepC *SR) { Where = SR; if(Where != 0) ravl_atomic_inc(&(Where->refs)); }
-    StrRepP(const StrRepC *SR) { Where = const_cast<StrRepC *>(SR); if(Where != 0) ravl_atomic_inc(&(Where->refs)); }
-    StrRepP(const StrRepP &Oth) { Where = const_cast<StrRepC *>(Oth.Where); if(Where != 0) ravl_atomic_inc(&(Where->refs)); }
-    StrRepP(void) { Where = 0; }
+    StrRepP(StrRepC *SR) { 
+      if(SR != 0) 
+	ravl_atomic_inc(&(SR->refs)); 
+      Where = SR; 
+    }
+    // Create from a pointer to a string rep.
+    
+    StrRepP(const StrRepC *SR) { 
+      Where = const_cast<StrRepC *>(SR);      
+      if(Where != 0) 
+	ravl_atomic_inc(&(Where->refs)); 
+    }
+    // Create from a pointer to a string rep.
+    
+    StrRepP(const StrRepP &Oth) { 
+      Where = const_cast<StrRepC *>(Oth.Where); 
+      if(Where != 0) 
+	ravl_atomic_inc(&(Where->refs)); 
+    }
+    //: Create from another string rep.
+    
+    StrRepP(void) 
+    { Where = 0; }
+    //: Default constructor.
+    
     ~StrRepP(void) {  
       if(Where != 0) {
 	if(ravl_atomic_dec_and_test(&(Where->refs)))
@@ -169,7 +191,13 @@ namespace RavlN {
   
   ////////////////////////////////
   //! userlevel=Basic
-  //: A reference-counted string.
+  //: A text string.
+  // THREADING:
+  // This string implementation uses atomic reference counting, making the
+  // management of handles to strings thread safe. This however does NOT mean
+  // that string operations themselves are thread safe. You should take the normal
+  // precautions when writing code that access the same variable from different
+  // threads.
   
   class StringC {
     friend class      SubStringC;

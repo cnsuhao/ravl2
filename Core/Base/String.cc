@@ -188,9 +188,14 @@ namespace RavlN {
   // allocate, copying src if nonull
   
   StrRepC* Salloc(StrRepC* old, const char* src, int srclen,int newlen) {
-    if (old == &_nilStrRepC) old = 0;
-    if (srclen < 0) srclen = slen(src);
-    if (newlen < srclen) newlen = srclen;
+    if(old != 0) {
+      if(ravl_atomic_read(&old->refs) > 1) // If there's more than 1 ref replace it.
+	old = 0;
+      if(old == &_nilStrRepC) 
+	old = 0;
+    }
+    if(srclen < 0) srclen = slen(src);
+    if(newlen < srclen) newlen = srclen;
     StrRepC* rep;
     if (old == 0 || newlen > ((int) old->sz))
       rep = Snew(newlen);
@@ -206,7 +211,11 @@ namespace RavlN {
   // than to call realloc
   
   static StrRepC* Sresize(StrRepC* old, int newlen) {
-    if (old == &_nilStrRepC) old = 0;
+    if(old != 0) {
+      if(ravl_atomic_read(&old->refs) > 1) // If there's more than 1 ref replace it.
+	old = 0;
+      if(old == &_nilStrRepC) old = 0;
+    }
     StrRepC* rep;
     if (old == 0)
       rep = Snew(newlen);
@@ -229,7 +238,11 @@ namespace RavlN {
   // like allocate, but we know that src is a StrRepC
   
   StrRepC* Scopy(StrRepC* old, const StrRepC* s) {
-    if (old == &_nilStrRepC) old = 0;
+    if(old != 0) {
+      if(ravl_atomic_read(&old->refs) > 1) // If there's more than 1 ref replace it.
+	old = 0;
+      if(old == &_nilStrRepC) old = 0;
+    }
     if (s == &_nilStrRepC) s = 0;
     if (old == s) 
       return (old == 0)? &_nilStrRepC : old;
@@ -258,7 +271,11 @@ namespace RavlN {
   // allocate & concatenate
   
   StrRepC* Scat(StrRepC* old, const char* s, int srclen, const char* t, int tlen) {
-    if (old == &_nilStrRepC) old = 0;
+    if(old != 0) {
+      if(ravl_atomic_read(&old->refs) > 1) // If there's more than 1 ref replace it.
+	old = 0;
+      if(old == &_nilStrRepC) old = 0;
+    }
     if (srclen < 0) srclen = slen(s);
     if (tlen < 0) tlen = slen(t);
     int newlen = srclen + tlen;
@@ -281,7 +298,11 @@ namespace RavlN {
   
   StrRepC* Scat(StrRepC* old, const char* s, int srclen, const char* t, int tlen,
 		const char* u, int ulen) {
-    if (old == &_nilStrRepC) old = 0;
+    if(old != 0) {
+      if(ravl_atomic_read(&old->refs) > 1) // If there's more than 1 ref replace it.
+	old = 0;
+      if(old == &_nilStrRepC) old = 0;
+    }
     if (srclen < 0) srclen = slen(s);
     if (tlen < 0) tlen = slen(t);
     if (ulen < 0) ulen = slen(u);
@@ -307,7 +328,12 @@ namespace RavlN {
   StrRepC* Sprepend(StrRepC* old, const char* t, int tlen) {
     char* s;
     int srclen;
-    if (old == &_nilStrRepC || old == 0) {
+    if(old != 0) {
+      if(ravl_atomic_read(&old->refs) > 1) // If there's more than 1 ref replace it.
+	old = 0;
+      if(old == &_nilStrRepC) old = 0;
+    }
+    if (old == 0) {
       s = 0; old = 0; srclen = 0;
     } else {
       s = old->s; srclen = old->len;
@@ -704,6 +730,14 @@ namespace RavlN {
     if (pos < 0 || len <= 0 || (unsigned)(pos + len) > length()) return;
     int nlen = length() - len;
     int first = pos + len;
+    if(ravl_atomic_read(&rep->refs) > 1) { // If there's more than 1 ref replace it.
+      StrRepC *nrep = Snew(nlen); // Allocate new string of appropriate size.
+      ncopy(rep->s,nrep->s,pos); // Copy head of string.
+      ncopy0(&rep->s[first],&nrep->s[pos],length() - first); // Copy tail of string.
+      rep = nrep;
+      rep->len = nlen;
+      return ;
+    }
     ncopy0(&(rep->s[first]), &(rep->s[pos]), length() - first);
     rep->len = nlen;
   }
@@ -990,7 +1024,12 @@ namespace RavlN {
   
   StrRepC* Supcase(const StrRepC* src, StrRepC* dest) {
     int n = src->len;
-    if (src != dest) dest = Salloc(dest, src->s, n, n);
+    if (src != dest) 
+      dest = Salloc(dest, src->s, n, n);
+    else {
+      if(ravl_atomic_read(&dest->refs) > 1) // If there's more than 1 ref replace it.
+	dest = Scopy(0,dest);
+    }
     char* p = dest->s;
     char* e = &(p[n]);
     for (; p < e; ++p) if (islower(*p)) *p = toupper(*p);
@@ -999,7 +1038,12 @@ namespace RavlN {
   
   StrRepC* Sdowncase(const StrRepC* src, StrRepC* dest) {
     int n = src->len;
-    if (src != dest) dest = Salloc(dest, src->s, n, n);
+    if (src != dest) 
+      dest = Salloc(dest, src->s, n, n);
+    else {
+      if(ravl_atomic_read(&dest->refs) > 1) // If there's more than 1 ref replace it.
+	dest = Scopy(0,dest);
+    }
     char* p = dest->s;
     char* e = &(p[n]);
     for (; p < e; ++p) if (isupper(*p)) *p = tolower(*p);
@@ -1008,8 +1052,12 @@ namespace RavlN {
   
   StrRepC* Scapitalize(const StrRepC* src, StrRepC* dest) {
     int n = src->len;
-    if (src != dest) dest = Salloc(dest, src->s, n, n);
-    
+    if (src != dest) 
+      dest = Salloc(dest, src->s, n, n);
+    else {
+      if(ravl_atomic_read(&dest->refs) > 1) // If there's more than 1 ref replace it.
+	dest = Scopy(0,dest);
+    }    
     char* p = dest->s;
     char* e = &(p[n]);
     for (; p < e; ++p) {
