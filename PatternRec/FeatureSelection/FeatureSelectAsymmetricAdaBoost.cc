@@ -144,7 +144,7 @@ namespace RavlN {
     }
     RealT bestTh = 1.0;
     RealT bestRate = 0.0;
-    for (RealT th = 0.9; th > 0.0; th -= 0.1) {
+    for (RealT th = 0.9; th > 0.0; th -= 0.025) {
       classifier = ClassifierLinearCombinationC(weakClassifiers,classifierWeights, th);
       // determine weighted success rates
       Vector2dC sums(0.0,0.0);
@@ -159,7 +159,7 @@ namespace RavlN {
       //cout << sums << endl;
       sums[0] *= 1.0-m_weight;
       sums[1] *= m_weight;
-      cout << sums << endl;
+      //cout << sums << endl;
       if (sums[0] + sums[1] > bestRate+1e-4) {
 	bestRate = sums[0] + sums[1];
 	bestTh = th;
