@@ -470,6 +470,10 @@ namespace RavlGUIN {
   bool TreeViewBodyC::GUISelectIter(TreeModelIterC iter) {
     if (selection == 0)
       return false;
+    if(!iter.IsValid()) {
+      cerr << "TreeViewBodyC::GUISelectIter(), Warning: Asked to select invalid iterator. \n";
+      return false;
+    }
     gtk_tree_selection_select_iter(selection,iter.TreeIter());
     return true;
   }
