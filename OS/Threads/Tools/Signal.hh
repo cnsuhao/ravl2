@@ -54,7 +54,7 @@ namespace RavlN {
     virtual void Disconnect();
     //: Disconnect from input list.
     
-    virtual void Invoke();
+    virtual bool Invoke();
     //: Pass signal on.
     
     bool IsConnected() const 
@@ -84,8 +84,8 @@ namespace RavlN {
       { Body().Disconnect(); }
     //: Disconnect handle.
     
-    void Invoke()
-      { Body().Invoke(); }
+    bool Invoke()
+      { return Body().Invoke(); }
     //: Pass signal on.
     
     bool IsConnected() const 
@@ -146,7 +146,7 @@ namespace RavlN {
     virtual void Disconnect();
     //: Disconnect from input list.
     
-    virtual void Invoke();
+    virtual bool Invoke();
     //: Invoke signal.
     
     Signal0BodyC &Target() {
@@ -207,7 +207,7 @@ namespace RavlN {
     ~Signal0BodyC();
     //: Destructor.
     
-    virtual void Invoke();
+    virtual bool Invoke();
     //: Send default signal.
     
     bool Disconnect(Signal0C &targ);
@@ -248,7 +248,7 @@ namespace RavlN {
     : public RCHandleC<Signal0BodyC>
   {
   public:
-    typedef void (*FuncT)(void);
+    typedef bool (*FuncT)(void);
     
     Signal0C()
       {}
@@ -291,12 +291,12 @@ namespace RavlN {
       { Body().DisconnectAll(); }
     //: Disconnect all signals from this one.
     
-    inline void Invoke()
-      { Body().Invoke(); }
+    inline bool Invoke()
+      { return Body().Invoke(); }
     //: Send default signal.
     
-    inline void operator()()
-      { Invoke(); }
+    inline bool operator()()
+      { return Invoke(); }
   //: Simple invokation.
     
     friend class SignalConnector0BodyC;
@@ -320,7 +320,7 @@ namespace RavlN {
     : public SignalConnector0BodyC
   {
   public:
-    typedef void (*FuncT)(void);
+    typedef bool (*FuncT)(void);
     
     Signal0FuncBodyC(Signal0C &from,FuncT nFunc)
       : SignalConnector0BodyC(from),
@@ -328,8 +328,8 @@ namespace RavlN {
       {}
     //: Constructor.
     
-    virtual void Invoke()
-      { func(); }
+    virtual bool Invoke()
+      { return func(); }
     //: Call function.
     
   protected:
@@ -359,7 +359,7 @@ namespace RavlN {
     : public SignalConnector0BodyC
   {
   public:
-    typedef void (DataT::*FuncT)();
+    typedef bool (DataT::*FuncT)();
     
     Signal0MethodBodyC(Signal0C &from,
 		       const DataT &ndata,
@@ -370,8 +370,8 @@ namespace RavlN {
     {}
     //: Constructor.
     
-    virtual void Invoke()
-      { (data.*func)(); }
+    virtual bool Invoke()
+      { return (data.*func)(); }
     //: Call function.
     
   protected:
@@ -389,7 +389,7 @@ namespace RavlN {
   public:
     Signal0MethodC(Signal0C &from,
 		   const DataT &ndata,
-		   void (DataT::*nFunc)())
+		   bool (DataT::*nFunc)())
       : SignalConnectorC(*new Signal0MethodBodyC<DataT>(from,ndata,nFunc))
       {}
     //: Constructor.
@@ -408,7 +408,7 @@ namespace RavlN {
     : public SignalConnector0BodyC
   {
   public:
-    typedef void (DataT::*FuncT)();
+    typedef bool (DataT::*FuncT)();
     
     Signal0MethodRefBodyC(Signal0C &from,
 			  DataT &ndata,
@@ -419,8 +419,8 @@ namespace RavlN {
       {}
     //: Constructor.
     
-    virtual void Invoke()
-      { (data.*func)(); }
+    virtual bool Invoke()
+      { return (data.*func)(); }
     //: Call function.
     
   protected:
@@ -441,7 +441,7 @@ namespace RavlN {
   public:
     Signal0MethodRefC(Signal0C &from,
 		      DataT &ndata,
-		      void (DataT::*nFunc)())
+		      bool (DataT::*nFunc)())
       : SignalConnectorC(*new Signal0MethodRefBodyC<DataT>(from,ndata,nFunc))
       {}
     //: Constructor.
@@ -480,7 +480,7 @@ namespace RavlN {
   
   template<class DataT>
   inline 
-  SignalConnectorC Connect(Signal0C &from,const DataT &obj,void (DataT::* func)()) { 
+  SignalConnectorC Connect(Signal0C &from,const DataT &obj,bool (DataT::* func)()) { 
     RavlAssert(from.IsValid());
     return Signal0MethodC<DataT>(from,obj,func); 
   }
@@ -489,7 +489,7 @@ namespace RavlN {
   
   template<class DataT>
   inline 
-  SignalConnectorC ConnectRef(Signal0C &from,DataT &obj,void (DataT::* func)()) { 
+  SignalConnectorC ConnectRef(Signal0C &from,DataT &obj,bool (DataT::* func)()) { 
     RavlAssert(from.IsValid());
     return Signal0MethodRefC<DataT>(from,obj,func); 
   }

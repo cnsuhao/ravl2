@@ -52,19 +52,19 @@ namespace RavlN {
       {}
     //: Constructor.
     
-    virtual void Invoke(Data1T &,Data2T &,Data3T &) = 0;
+    virtual bool Invoke(Data1T &,Data2T &,Data3T &) = 0;
     //: Pass signal on.
     
-    virtual void Invoke(Data1T &d1,Data2T &d2) 
-      { Invoke(d1,d2,defaultVal3); }
+    virtual bool Invoke(Data1T &d1,Data2T &d2) 
+      { return Invoke(d1,d2,defaultVal3); }
     //: Pass signal on.
     
-    virtual void Invoke(Data1T &d1)
-      { Invoke(d1,defaultVal2,defaultVal3); }
+    virtual bool Invoke(Data1T &d1)
+      { return Invoke(d1,defaultVal2,defaultVal3); }
     //: Pass signal on, use default value.
     
-    virtual void Invoke()
-      { Invoke(defaultVal,defaultVal2,defaultVal3); }
+    virtual bool Invoke()
+      { return Invoke(defaultVal,defaultVal2,defaultVal3); }
     //: Pass signal on, use default value.
     
   protected:
@@ -87,16 +87,16 @@ namespace RavlN {
     SignalInterConnect3BodyC(Signal0C &from,Signal3C<Data1T,Data2T,Data3T> &targ);
     //: Constructor.
     
-    inline virtual void Invoke(Data1T &,Data2T &,Data3T &);
+    inline virtual bool Invoke(Data1T &,Data2T &,Data3T &);
     //: Invoke signal, with value.
     
-    inline virtual void Invoke(Data1T &,Data2T &);
+    inline virtual bool Invoke(Data1T &,Data2T &);
     //: Invoke signal, with value.
     
-    inline virtual void Invoke(Data1T &);
+    inline virtual bool Invoke(Data1T &);
     //: Invoke signal, with value.
     
-    inline virtual void Invoke();
+    inline virtual bool Invoke();
     //: Invoke signal, with default value.
   };
   
@@ -124,7 +124,7 @@ namespace RavlN {
   : public SignalConnector3BodyC<Data1T,Data2T,Data3T>
   {
   public:
-    typedef void (*Func3T)(Data1T &val1,Data2T &val2,Data3T &val3);
+    typedef bool (*Func3T)(Data1T &val1,Data2T &val2,Data3T &val3);
     
     Signal3FuncBodyC(Signal0C &from,Func3T nFunc,const Data1T &def1,const Data2T &def2,const Data3T &def3)
       : SignalConnector0BodyC(from),
@@ -135,21 +135,21 @@ namespace RavlN {
       {}
     //: Constructor.
     
-    virtual void Invoke()
-      { func(defaultVal,defaultVal2,defaultVal3); }
+    virtual bool Invoke()
+      { return func(defaultVal,defaultVal2,defaultVal3); }
     //: Call function.
     // Use default value.
     
-    virtual void Invoke(Data1T &val)
-      { func(val,defaultVal2,defaultVal3); }
+    virtual bool Invoke(Data1T &val)
+      { return func(val,defaultVal2,defaultVal3); }
     //: Call function.
     
-    virtual void Invoke(Data1T &val1,Data2T &val2)
-      { func(val1,val2,defaultVal3); }
+    virtual bool Invoke(Data1T &val1,Data2T &val2)
+      { return func(val1,val2,defaultVal3); }
     //: Call function.
 
-    virtual void Invoke(Data1T &val1,Data2T &val2,Data3T &val3)
-      { func(val1,val2,val3); }
+    virtual bool Invoke(Data1T &val1,Data2T &val2,Data3T &val3)
+      { return func(val1,val2,val3); }
     //: Call function.
     
   protected:
@@ -182,7 +182,7 @@ namespace RavlN {
     : public SignalConnector3BodyC<Data1T,Data2T,Data3T>
   {
   public:
-    typedef void (ObjT::*Func3T)(Data1T &dat1,Data2T &dat2,Data3T &dat3);
+    typedef bool (ObjT::*Func3T)(Data1T &dat1,Data2T &dat2,Data3T &dat3);
     
     Signal3MethodBodyC(Signal0C &from,
 		       const ObjT &nobj,
@@ -198,20 +198,20 @@ namespace RavlN {
       {}
     //: Constructor.
     
-    virtual void Invoke()
-      { (obj.*func)(defaultVal,defaultVal2,defaultVal3); }
+    virtual bool Invoke()
+      { return (obj.*func)(defaultVal,defaultVal2,defaultVal3); }
     //: Call function.
     
-    virtual void Invoke(Data1T &val)
-      { (obj.*func)(val,defaultVal2,defaultVal3); }
+    virtual bool Invoke(Data1T &val)
+      { return (obj.*func)(val,defaultVal2,defaultVal3); }
     //: Call function.
     
-    virtual void Invoke(Data1T &val1,Data2T &val2)
-      { (obj.*func)(val1,val2,defaultVal3); }
+    virtual bool Invoke(Data1T &val1,Data2T &val2)
+      { return (obj.*func)(val1,val2,defaultVal3); }
     //: Call function.
     
-    virtual void Invoke(Data1T &val1,Data2T &val2,Data3T &val3)
-      { (obj.*func)(val1,val2,val3); }
+    virtual bool Invoke(Data1T &val1,Data2T &val2,Data3T &val3)
+      { return (obj.*func)(val1,val2,val3); }
     //: Call function.
     
   protected:
@@ -264,20 +264,20 @@ namespace RavlN {
       {}
     //: Constructor.
     
-    virtual void Invoke()
-      { (obj.*func)(defaultVal,defaultVal2,defaultVal3); }
+    virtual bool Invoke()
+      { return (obj.*func)(defaultVal,defaultVal2,defaultVal3); }
     //: Call function.
     
-    virtual void Invoke(Data1T &val)
-      { (obj.*func)(val,defaultVal2,defaultVal3); }
+    virtual bool Invoke(Data1T &val)
+      { return (obj.*func)(val,defaultVal2,defaultVal3); }
     //: Call function.
     
-    virtual void Invoke(Data1T &val1,Data2T &val2)
-      { (obj.*func)(val1,val2,defaultVal3); }
+    virtual bool Invoke(Data1T &val1,Data2T &val2)
+      { return (obj.*func)(val1,val2,defaultVal3); }
     //: Call function.
 
-    virtual void Invoke(Data1T &val1,Data2T &val2,Data3T &val3)
-      { (obj.*func)(val1,val2,val3); }
+    virtual bool Invoke(Data1T &val1,Data2T &val2,Data3T &val3)
+      { return (obj.*func)(val1,val2,val3); }
     //: Call function.
     
   protected:
@@ -322,45 +322,46 @@ namespace RavlN {
     //: Constructor.
     
     inline 
-      virtual void Invoke(Data1T &v1,Data2T &v2,Data3T &v3)
-      {
+      virtual bool Invoke(Data1T &v1,Data2T &v2,Data3T &v3) {
 	RWLockHoldC hold(access,true);
 	SArray1dIterC<SignalConnectorC> it(outputs);
 	hold.Unlock();
+	bool ret = true;
 	for(;it;it++) {
 	  SignalConnector3BodyC<Data1T,Data2T,Data3T> *sc3 = dynamic_cast<SignalConnector3BodyC<Data1T,Data2T,Data3T> *>(&it.Data().Body());
 	  if(sc3 != 0) {
-	  sc3->Invoke(v1,v2,v3);
-	  continue;
+	    ret &= sc3->Invoke(v1,v2,v3);
+	    continue;
 	  }
 	  SignalConnector2BodyC<Data1T,Data2T> *sc2 = dynamic_cast<SignalConnector2BodyC<Data1T,Data2T> *>(&it.Data().Body());
 	  if(sc2 != 0) {
-	    sc2->Invoke(v1,v2);
+	    ret &= sc2->Invoke(v1,v2);
 	    continue;
 	  }
 	  SignalConnector1BodyC<Data1T> *sc1 = dynamic_cast<SignalConnector1BodyC<Data1T> *>(&it.Data().Body());
 	  if(sc1 != 0) {
-	    sc1->Invoke(v1);
+	    ret &= sc1->Invoke(v1);
 	    continue;
 	  }
 	  // Must be a 0.
-	  it.Data().Invoke();
+	  ret &= it.Data().Invoke();
 	}
+	return ret;
       }
     //: Send signal with value.
     
     inline 
-      virtual void Invoke(Data1T &v1,Data2T &v2)
-      { Signal3BodyC<Data1T,Data2T,Data3T>::Invoke(v1,v2,defaultVal3); }
+      virtual bool Invoke(Data1T &v1,Data2T &v2)
+      { return Signal3BodyC<Data1T,Data2T,Data3T>::Invoke(v1,v2,defaultVal3); }
     //: Send signal with value.
     
     inline 
-      virtual void Invoke(Data1T &v1)
-      { Signal3BodyC<Data1T,Data2T,Data3T>::Invoke(v1,defaultVal2,defaultVal3); }
+      virtual bool Invoke(Data1T &v1)
+      { return Signal3BodyC<Data1T,Data2T,Data3T>::Invoke(v1,defaultVal2,defaultVal3); }
     //: Send signal with value.
     
-    virtual void Invoke()
-      { Signal3BodyC<Data1T,Data2T,Data3T>::Invoke(defaultVal,defaultVal2,defaultVal3); }
+    virtual bool Invoke()
+      { return Signal3BodyC<Data1T,Data2T,Data3T>::Invoke(defaultVal,defaultVal2,defaultVal3); }
     //: Send signal with default value where needed.
     
   protected:
@@ -405,26 +406,26 @@ namespace RavlN {
     //: Access body.
     
   public:
-    inline void Invoke(Data1T &dat1,Data2T &dat2,Data3T &dat3)
-      { Body().Invoke(dat1,dat2,dat3); }
+    inline bool Invoke(Data1T &dat1,Data2T &dat2,Data3T &dat3)
+      { return Body().Invoke(dat1,dat2,dat3); }
     //: Send default signal.
     
-    inline void operator()(Data1T &dat1,Data2T &dat2,Data3T &dat3)
-      { Body().Invoke(dat1,dat2,dat3); }
+    inline bool operator()(Data1T &dat1,Data2T &dat2,Data3T &dat3)
+      { return Body().Invoke(dat1,dat2,dat3); }
     //: Simple invokation.
     
-    inline void operator()(const Data1T &dat1,const Data2T &dat2,const Data3T &dat3) { 
+    inline bool operator()(const Data1T &dat1,const Data2T &dat2,const Data3T &dat3) { 
       Data1T tmp1(dat1);
       Data2T tmp2(dat2);
       Data3T tmp3(dat3);
-      Body().Invoke(tmp1,tmp2,tmp3); 
+      return Body().Invoke(tmp1,tmp2,tmp3); 
     }
     //: Simple invocation. 
   };
   
   template<class Data1T,class Data2T,class Data3T>
   ostream &operator<<(ostream &out,const Signal3C<Data1T,Data2T,Data3T> &) { 
-    assert(0); // Not implemented.
+    RavlAssert(0); // Not implemented.
     return out;
   }
   //: IO Operator.
@@ -445,31 +446,31 @@ namespace RavlN {
   
   template<class Data1T,class Data2T,class Data3T>
   inline 
-  void SignalInterConnect3BodyC<Data1T,Data2T,Data3T>::Invoke(Data1T &dat1,Data2T &dat2,Data3T &dat3)
-  { dynamic_cast<Signal3BodyC<Data1T,Data2T,Data3T> &>(Target()).Invoke(dat1,dat2,dat3); }
+  bool SignalInterConnect3BodyC<Data1T,Data2T,Data3T>::Invoke(Data1T &dat1,Data2T &dat2,Data3T &dat3)
+  { return dynamic_cast<Signal3BodyC<Data1T,Data2T,Data3T> &>(Target()).Invoke(dat1,dat2,dat3); }
   
   template<class Data1T,class Data2T,class Data3T>
   inline 
-  void SignalInterConnect3BodyC<Data1T,Data2T,Data3T>::Invoke(Data1T &dat1,Data2T &dat2)
-  { dynamic_cast<Signal3BodyC<Data1T,Data2T,Data3T> &>(Target()).Invoke(dat1,dat2,defaultVal3); }
+  bool SignalInterConnect3BodyC<Data1T,Data2T,Data3T>::Invoke(Data1T &dat1,Data2T &dat2)
+  { return dynamic_cast<Signal3BodyC<Data1T,Data2T,Data3T> &>(Target()).Invoke(dat1,dat2,defaultVal3); }
   
   template<class Data1T,class Data2T,class Data3T>
   inline
-  void SignalInterConnect3BodyC<Data1T,Data2T,Data3T>::Invoke(Data1T &dat1)
-  { dynamic_cast<Signal3BodyC<Data1T,Data2T,Data3T> &>(Target()).Invoke(dat1,defaultVal2,defaultVal3); }
+  bool SignalInterConnect3BodyC<Data1T,Data2T,Data3T>::Invoke(Data1T &dat1)
+  { return dynamic_cast<Signal3BodyC<Data1T,Data2T,Data3T> &>(Target()).Invoke(dat1,defaultVal2,defaultVal3); }
   
   template<class Data1T,class Data2T,class Data3T>
   inline
-  void SignalInterConnect3BodyC<Data1T,Data2T,Data3T>::Invoke()
-  { Invoke(defaultVal1,defaultVal2,defaultV3l3); }
+  bool SignalInterConnect3BodyC<Data1T,Data2T,Data3T>::Invoke()
+  { return Invoke(defaultVal1,defaultVal2,defaultV3l3); }
   
   ///////////////////////
   
   template<class Data1T,class Data2T,class Data3T>
   inline 
   SignalConnectorC Connect(Signal0C &from,Signal3C<Data1T,Data2T,Data3T> &oth) { 
-    assert(from.IsValid());
-    assert(oth.IsValid());
+    RavlAssert(from.IsValid());
+    RavlAssert(oth.IsValid());
     return SignalInterConnect3C<Data1T,Data2T,Data3T>(from,oth);
   }
   //: Connect to a signal
@@ -477,7 +478,7 @@ namespace RavlN {
   template<class Data1T,class Data2T,class Data3T>  
   inline 
   SignalConnectorC Connect(Signal0C &from,void (*func)(Data1T &,Data2T &,Data3T &),const Data1T &def1 =Data1T(),const Data2T &def2 = Data2T(),const Data3T &def3 = Data3T()) { 
-    assert(from.IsValid());
+    RavlAssert(from.IsValid());
     return Signal3FuncC<Data1T,Data2T,Data3T>(from,func,def1,def2,def3);
   }
   //: Connect to a function.
@@ -485,7 +486,7 @@ namespace RavlN {
   template<class Data1T,class Data2T,class Data3T,class ObjT>
   inline
   SignalConnectorC Connect(Signal0C &from,const ObjT &obj,void (ObjT::* func)(Data1T &,Data2T &,Data3T &),const Data1T &def1,const Data2T &def2,const Data3T &def3) {
-    assert(from.IsValid());
+    RavlAssert(from.IsValid());
     return Signal3MethodC<Data1T,Data2T,Data3T,ObjT>(from,obj,func,def1,def2,def3);
   }
   //: Connect to a method.
@@ -493,7 +494,7 @@ namespace RavlN {
   template<class Data1T,class Data2T,class Data3T,class ObjT>
   inline
   SignalConnectorC ConnectRef(Signal0C &from,ObjT &obj,void (ObjT::* func)(Data1T &,Data2T &,Data3T &),const Data1T &def1,const Data2T &def2,const Data3T &def3) {
-    assert(from.IsValid());
+    RavlAssert(from.IsValid());
     return Signal3MethodRefC<Data1T,Data2T,Data3T,ObjT>(from,obj,func,def1,def2,def3);
   }
   //: Connect to a method.

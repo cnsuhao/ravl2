@@ -78,12 +78,14 @@ namespace RavlN {
   
   //: Send default signal.
   
-  void Signal0BodyC::Invoke() {
+  bool Signal0BodyC::Invoke() {
     RWLockHoldC hold(access,true); //
     SArray1dIterC<SignalConnectorC> it(outputs);
     hold.Unlock();
+    bool ret = true;
     for(;it;it++) 
-      it.Data().Invoke();
+      ret &= it.Data().Invoke();
+    return ret;
   }
   
   //: Find interconnection between this and 'targ'.
@@ -152,9 +154,10 @@ namespace RavlN {
   
   //: Pass signal on.
   
-  void SignalConnector0BodyC::Invoke() {
+  bool SignalConnector0BodyC::Invoke() {
     cerr << "SignalConnector0BodyC::Invoke(), ABSTRACT method Called. \n";
     RavlAssert(0);
+    return true;
   }
   
   //: Disconnect from input list.
@@ -191,9 +194,9 @@ namespace RavlN {
   
   //: Invoke signal.
   
-  void SignalInterConnect0BodyC::Invoke() {
+  bool SignalInterConnect0BodyC::Invoke() {
     RavlAssert(target != 0);
-    target->Invoke();
+    return target->Invoke();
   }
   
   void SignalInterConnect0BodyC::Disconnect()  { 
