@@ -30,8 +30,8 @@ namespace RavlImageN {
     //: Default constructor.
     // creates an undefined BGR pixel.
     
-    ByteBGRValueC(ByteT r,ByteT g,ByteT b,ByteT a)
-      : BGRValueC<ByteT>(r,g,b,a)
+    ByteBGRValueC(ByteT r,ByteT g,ByteT b)
+      : BGRValueC<ByteT>(r,g,b)
     {}
     //: Construct from components.
     
