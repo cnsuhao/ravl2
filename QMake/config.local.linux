@@ -58,6 +58,11 @@ RESOURCES += libAudioFile
 #RESOURCES += libavc1394
 #LIBAVC1394_HOME=
 
+## libdc1394 ################################################
+# Camera control.
+
+#RESOURCES += libdc1394
+
 ## libcurl ################################################
 
 #RESOURCES += libCurl
