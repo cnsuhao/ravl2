@@ -98,7 +98,7 @@ namespace RavlN {
     }
     if(varname == "Back_ProjectOut") {
       if(!projectOut.IsEmpty() && projectOut[0] == '.') // Relative path.
-	buff = StringC("../") + projectOut;
+	buff = StringC("..\\") + projectOut;
       else
 	buff = projectOut;
     }

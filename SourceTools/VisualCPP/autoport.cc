@@ -60,8 +60,8 @@ int main(int nargs,char **argv) {
   StringC fn    = option.String("i",".",     "(input)  Directory for unix src tree. ");
   StringC fout  = option.String("o","",      "(output) Directory for VCPP src tree.  ");
   StringC pathtempl= option.String("pt", PROJECT_OUT "/share/RAVL/AutoPort","Where to look for template files.");
-  StringC projectOut= option.String("p", "../ProjectOut","Project out to use in windows. (With UNIX style seperators)");
-  projectOut.gsub("/","\\");
+  StringC projectOut= option.String("p", "C:/Build","Project out to use in windows. (With UNIX style seperators)");
+  projectOut.gsub("/","\\"); // "../ProjectOut"
   
   //bool rec    = option.Boolean("r",true,    "recurse into subdirectories. ");
   //bool all    = option.Boolean("a",false,   "Go into inactive directories as well. ");
