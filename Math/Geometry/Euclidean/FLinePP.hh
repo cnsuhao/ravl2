@@ -72,13 +72,13 @@ namespace RavlN {
     // It is equivalent to the function SecondPoint().
     
     const FPointC<N> & operator[](const UIntT i) const {
-      RavlAssertMsg(i != 0 && i != 1,"Index out of range 0..1"); 
+      RavlAssertMsg(i == 0 || i == 1,"Index out of range 0..1"); 
       return point[i];
     }
     //: Returns the ith point.
 
     FPointC<N> & operator[](const UIntT i) {
-      RavlAssertMsg(i != 0 && i != 1,"Index out of range 0..1"); 
+      RavlAssertMsg(i == 0 || i == 1,"Index out of range 0..1"); 
       return point[i];
     }
     //: Returns the ith point.
@@ -139,7 +139,14 @@ namespace RavlN {
     FPointC<N> Point(const RealT t) const
     { return FirstPoint() + Vector() * t; }
     //: Returns the point of the line: FirstPoint() + t * Vector().
-
+    
+    RealT ParClosest(const FPointC<N> &pnt) const {
+      TFVectorC<RealT,N> v = Vector();
+      return v.Dot(pnt - point[0]) / v.SumOfSqr();
+    }
+    //: Return the paramiter of the closest point on the line to 'pnt'.
+    // Where 0 is at the start point and 1 is at the end. 
+    
   protected:
     FPointC<N> point[2];
   };

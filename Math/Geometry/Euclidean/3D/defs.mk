@@ -21,6 +21,6 @@ LIBDEPS=RavlMath3D.def
 
 USESLIBS=RavlMath
 
-TESTEXES = testAngles.cc
+TESTEXES = testGeom3d.cc
 
 

@@ -68,8 +68,7 @@ namespace RavlN {
     //: and the segment 'line'.
     
     RealT Distance(const Point3dC & p) const;
-    //: Returns the distance between the point 'p' and the line represented
-    //: by this line segment.
+    //: Returns the distance between the point 'p' and this line.
     
     inline LinePP3dC ShortestLine(const LinePP3dC & line);
     //: Returns the shortest line connecting this to 'line'.
@@ -82,7 +81,7 @@ namespace RavlN {
     //: the line segment and the point 'p'. 
     // The direction of the return vector is determined by the cross 
     // product (P2-P1) % (p-P1) which is equivalent to (P1-p) % (P2-p).
-
+    
     Vector3dC Vector() const
     { return FLinePPC<3>::Vector(); } 
     //: Returns the line segment as a free vector.

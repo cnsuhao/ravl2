@@ -59,9 +59,9 @@ namespace RavlN {
 
     bool IsPointIn(const Point2dC& pnt) const;
     //: Checks if this point is exactly on the closed segment
-
+    
     RealT ParIntersection(const LinePP2dC & l) const;
-    // Returns the parameter of the intersection according to this line.
+    //: Returns the parameter of the intersection point of 'l' with this line.
     // If the parameter is equal to 0, the intersection is the starting
     // point of this line, if the parameter is 1, the intersection is the
     // end point. If the parameter is between 0 and 1 the intersection is
