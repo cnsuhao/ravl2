@@ -36,13 +36,13 @@ namespace RavlImageN {
     
     inline StreamOffsetT CalcOffset(UIntT frameNo) const {
       assert(frameSize > 0);
-      return offset + ((StreamOffsetT) frameSize * frameNo); 
+      return offset + ((StreamOffsetT) frameSize * (StreamOffsetT) frameNo); 
     }
     //: Calculate the offset of a frame.
 
     inline StreamOffsetT CalcOffset(IntT frameNo) const  {
       assert(frameSize > 0);
-      return offset + ((StreamOffsetT) frameSize * frameNo); 
+      return offset + ((StreamOffsetT) frameSize * (StreamOffsetT) frameNo); 
     }
     //: Calculate the offset of a frame.
     
