@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_MATHMEANND_HEADER
-#define RAVL_MATHMEANND_HEADER 1
+#ifndef RAVL_MATHFMEAN_HEADER
+#define RAVL_MATHFMEAN_HEADER 1
 /////////////////////////////////////////////
 //! rcsid="$Id$"
 //! userlevel=Normal
@@ -15,38 +15,40 @@
 //! lib=RavlMath
 //! file="Ravl/Math/Statistics/MeanCovariance/MeanNd.hh"
 
-#include "Ravl/Vector.hh"
+#include "Ravl/FVector.hh"
+#include "Ravl/Vector2d.hh"
+#include "Ravl/SArray1d.hh"
+#include "Ravl/SArr1Iter.hh"
+#include "Ravl/Stream.hh"
 
 namespace RavlN {
+
+  template<unsigned int N> class FMeanC;
+  
+  template<unsigned int N>
+  istream & operator>>(istream & s, FMeanC<N> & mean);
   
   //: Mean in N-D space
   // The class MeanNdC serves for computation of the mean
   // of a set of N-dimensional vectors.  
   
-  class MeanNdC
-    : public VectorC
+  template<unsigned int N>
+  class FMeanC
+    : public FVectorC<N>
   {
   public:
-    MeanNdC()
+    FMeanC()
       : number(0)
     {}
     //: Default constructor.
     
-    MeanNdC(const SArray1dC<VectorC> &vecs);
+    FMeanC(const SArray1dC<FVectorC<N> > &vecs);
     //: Caluclate the mean of an array of vectors.
     // All the vectors must have the same size, if
     // the array is empty a zero mean is generated.
     
-    MeanNdC(const SizeT dim)
-      : VectorC(dim),
-	number(0)
-    { VectorC::Fill(0); }
-    //: Creat an N-dimentional mean.
-    // Creates zero mean representing the 'n'-dimensional set 
-    // containing no data points.
-    
-    MeanNdC(const VectorC & mean) 
-      : VectorC(mean),
+    FMeanC(const FVectorC<N> & mean) 
+      : FVectorC<N>(mean),
 	number(1)
     {}
     //: Create a mean with a single point.
@@ -54,8 +56,8 @@ namespace RavlN {
     // the data set containing just one data point.
     // This object is attached to the memory of 'point'.
     
-    MeanNdC(SizeT n, const VectorC & mean)
-      : VectorC(mean),
+    FMeanC(SizeT n, const FVectorC<N> & mean)
+      : FVectorC<N>(mean),
 	number(n)
     {}
     //: Create with a mean an a number of points.
@@ -63,71 +65,99 @@ namespace RavlN {
     // the data set containing 'n' points and represented by the 'mean'.
     // This object is attached to the memory of 'mean'.
     
-    MeanNdC Copy() const;
+    FMeanC<N> Copy() const;
     //: Copy this mean
     // Returns a new physical copy of this object.
     
-    //:---------------------------
     // Information about an object
+    // ---------------------------
 
     inline SizeT Number() const
     { return number; }
     //: Returns number of points which were added into the object.
     
-    inline const VectorC & Mean() const
+    inline const FVectorC<N> & Mean() const
     { return *this; }
     //: Returns the current value of the mean.
+
+    FVectorC<N> &Mean()
+    { return (FVectorC<N> &) *this; }
+    //: Access the mean vector.
     
     //:-------------------      
     // Object modification
     
     inline void SetZero() 
-    { VectorC::Fill(0); number = 0; }
+    { FVectorC<N>::Fill(0); number = 0; }
     //: Reset all the counters to zero.
     
-    inline void Set(SizeT n, const VectorC & m)
-    { VectorC::operator=(m); number = n; }
+    inline void Set(SizeT n, const FVectorC<N> & m)
+    { FVectorC<N>::operator=(m); number = n; }
     //: Sets the new content of mean object. 
     // It will represent 'n' points with the mean location 'm'.
     
-    inline MeanNdC & operator+=(const VectorC & point);
+    inline FMeanC<N> & operator+=(const FVectorC<N> & point);
     //: Adds a point to the set.
-    
-    inline MeanNdC & operator-=(const VectorC & point);
+
+    inline FMeanC<N> & operator-=(const FVectorC<N> & point);
     //: Removes a point from the set. 
     // Be carefull to remove a point which was already added to 
     // the set, otherwise the representation will not describe a real set.
     
-    inline MeanNdC & operator+=(const MeanNdC & mean);
+    inline FMeanC<N> & operator+=(const FMeanC<N> & mean);
     //: Adds the whole set of points represented by the mean object 'm'.
 
-    inline MeanNdC & operator-=(const MeanNdC & mean);
+    inline FMeanC<N> & operator-=(const FMeanC<N> & mean);
     //: Removes the whole set of points represented by the mean object 'm'.
     // Be carefull to remove points which was already added to the set,
     // otherwise the representation will not describe a real set.
     
   protected:
-    VectorC &Mean()
-    { return (VectorC &) *this; }
-    //: Access the mean vector.
     
     // Object representation
     // ---------------------
     
     SizeT number;  // The number of points represented by mean object.
-
-    friend istream & operator>>(istream & s, MeanNdC & mean);
+    
+    friend istream & operator>> <>(istream & s, FMeanC<N> & mean);
   };
   
-  ostream & operator<<(ostream & s, const MeanNdC & mean);
+  template<unsigned int N>
+  ostream & operator<<(ostream & s, const FMeanC<N> & mean) {
+    s << mean.Number() << ' ' << mean.Mean();
+    return s;
+  }
   // Saves the statistical description of the set 'mean' into the output
   // stream 'outS'.
   
-  istream & operator>>(istream & s, MeanNdC & mean);
+  template<unsigned int N>
+  istream & operator>>(istream & s, FMeanC<N> & mean) {
+    s >>  mean.number >>  mean.Mean();
+    return s;
+  }
   // Reads and sets the statistical description of the set 'mean'
   // according to the information in the input stream 'inS'.
+
   
-  inline MeanNdC &MeanNdC::operator+=(const VectorC & point) {
+  template<unsigned int N>
+  FMeanC<N>::FMeanC(const SArray1dC<FVectorC<N> > &vecs) {
+    number = vecs.Size();
+    if(number == 0)
+      return ;
+    SArray1dIterC<FVectorC<N> > it(vecs);
+    Mean() = *it;
+    it++;
+    for(;it;it++)
+      Mean() += *it;
+    Mean() /= ((RealT) number);
+  }
+  
+  template<unsigned int N>
+  FMeanC<N> FMeanC<N>::Copy() const 
+  { return *this; }
+  
+  template<unsigned int N>
+  inline FMeanC<N> &FMeanC<N>::operator+=(const FVectorC<N> & point) {
     if (&Mean() == &point)
       number++;
     else {
@@ -138,7 +168,8 @@ namespace RavlN {
     return *this;
   }
   
-  inline MeanNdC &  MeanNdC::operator-=(const VectorC & point) {
+  template<unsigned int N>
+  inline FMeanC<N> &  FMeanC<N>::operator-=(const FVectorC<N> & point) {
     if (&Mean() == &point) {
       number--;
       if (number == 0)
@@ -154,7 +185,8 @@ namespace RavlN {
     return *this;
   }
   
-  inline MeanNdC &MeanNdC::operator+=(const MeanNdC & point) {
+  template<unsigned int N>
+  inline FMeanC<N> &FMeanC<N>::operator+=(const FMeanC<N> & point) {
     if (this == &point)
       number += number;
     else {
@@ -170,7 +202,8 @@ namespace RavlN {
     return *this;
   }
   
-  inline MeanNdC &MeanNdC::operator-=(const MeanNdC & point) {
+  template<unsigned int N>
+  inline FMeanC<N> &FMeanC<N>::operator-=(const FMeanC<N> & point) {
     if (this == &point)
       SetZero();
     else {

@@ -1,5 +1,5 @@
 # This file is part of RAVL, Recognition And Vision Library 
-# Copyright (C) 2001, University of Surrey
+# Copyright (C) 2002, University of Surrey
 # This code may be redistributed under the terms of the GNU Lesser
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
@@ -10,7 +10,7 @@
 PACKAGE=Ravl
 
 HEADERS= MeanVariance.hh MeanNd.hh MeanCovarianceNd.hh Statistics.hh \
- Mean.hh
+ Mean.hh FMean.hh FMeanCovariance.hh MeanCovariance2d.hh MeanCovariance3d.hh
 
 SOURCES= MeanVariance.cc MeanNd.cc MeanCovarianceNd.cc Statistics.cc \
  Mean.cc
