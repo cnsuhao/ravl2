@@ -50,6 +50,8 @@ namespace RavlN {
       MutexLockC lock(access);
       input = SPort(DPIPortC<DataT>(const_cast<DPIPortBaseC &>(port)));
       lastOffset = (UIntT) -1;
+      lock.Unlock();
+      ReparentAttributeCtrl(input); // Make sure changed signals are changed appropriately.
       return port.IsValid();
     }
     //: set port.
@@ -58,6 +60,8 @@ namespace RavlN {
       MutexLockC lock(access);
       input = sp;
       lastOffset = (UIntT) -1;
+      lock.Unlock();
+      ReparentAttributeCtrl(sp); // Make sure changed signals are changed appropriately.
       return true;
     }
     //: Set port.
@@ -228,7 +232,7 @@ namespace RavlN {
     
     virtual IntT RegisterChangedSignal(const StringC &attrName,const TriggerC &trig) {
       MutexLockC lock(access);
-      return input.RegisterChangedSignal(attrName,trig);
+      return AttributeCtrlBodyC::RegisterChangedSignal(attrName,trig);
     }
     
     //: Register a value changed signal.
@@ -237,16 +241,20 @@ namespace RavlN {
     
     virtual bool RemoveChangedSignal(IntT id) {
       MutexLockC lock(access);
-      return input.RemoveChangedSignal(id);
+      return AttributeCtrlBodyC::RemoveChangedSignal(id);
     }
     //: Remove a changed signal.
     // Note: This method may not be implemented for all AttributeCtrl's.
     
     virtual bool RegisterAttribute(const AttributeTypeC &attr) {
       MutexLockC lock(access);
-      return input.RegisterAttribute(attr);      
+      return AttributeCtrlBodyC::RegisterAttribute(attr);      
     }
     //: Register a new attribute type.
+    
+    virtual AttributeCtrlC ParentCtrl() const
+    { return AttributeCtrlC(input); }
+    //: Get Parent attribute control.
     
     UIntT Clients() const
     { return clients; }
