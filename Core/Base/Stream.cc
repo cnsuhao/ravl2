@@ -448,7 +448,7 @@ namespace RavlN {
       int n = gcount();
       out.write(buff,n);
       total += n;
-    } while((*this).good() && out.good() && (bool)(total < maxChars)) ;
+    } while((*this).good() && out.good() && ((bool)(total < maxChars) || maxChars < 0)) ;
     return total;
   }
   
