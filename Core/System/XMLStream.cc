@@ -21,7 +21,6 @@
 #define ONDEBUG(x)
 #endif
 
-
 namespace RavlN {
 
   static UByteT  xmlCharacters[256] = 
@@ -288,7 +287,14 @@ namespace RavlN {
       ret = GetTag(elem,name);
     if(elem.IsValid())
       attr = elem.Attributes();
-    if(ret == XMLBeginTag)
+    if(ret == XMLEmptyTag) {
+      // Push a fake end tag.
+      XMLElementC elem;
+      XMLTagOpsT pe = XMLEndTag;
+      Push(pe ,elem,name);
+      ret = XMLBeginTag;
+    }
+    if(ret == XMLBeginTag )
       StartContext(elem);
     return ret;
   }
@@ -296,13 +302,16 @@ namespace RavlN {
   XMLTagOpsT XMLIStreamC::PeekTag(StringC &name,RCHashC<StringC,StringC> &attr) {
     XMLTagOpsT ret;
     XMLElementC elem;
-    if(IsPushed())
+    if(IsPushed()) 
       GetPushed(ret,elem,name);
-    else
+    else {
       ret = GetTag(elem,name);
+      Push(ret,elem,name);
+    }
     if(elem.IsValid())
       attr = elem.Attributes();
-    Push(ret,elem,name);
+    if(ret == XMLEmptyTag) 
+      ret = XMLBeginTag;
     return ret;
   }
   
@@ -325,7 +334,6 @@ namespace RavlN {
 	level++;
 	continue;
       }
-      RavlAssertMsg(tt == XMLEmptyTag,"Unexpected tag type. ");
     }
     if(name != curCtxt) {
       cerr << "WARNING: End tag name mismatch, got '" << name << "' expected '" << curCtxt << "'\n";
@@ -346,7 +354,7 @@ namespace RavlN {
       if(name == elementName) {
 	attr = tattr;
 	return tt;
-      }
+      } 
       if(tt == XMLBeginTag)
 	SkipElement();
       if(tt == XMLEndTag)
@@ -361,20 +369,25 @@ namespace RavlN {
     StringC id = ReadID();
     char c = SkipWhiteSpace();
     if(c != '=') {
-      ONDEBUG(cerr << "ERROR: Unexpected character "  << c << "in XML attribute. \n");
+      ONDEBUG(cerr << "ERROR: Unexpected character '"  << c << "' in XML attribute. \n");
       throw ExceptionInvalidStreamC("Unexpected character in XML attribute. ");
     }
     c = SkipWhiteSpace();
     StringC val;
-    if(c != '\"') { // Quoted string ?
+    switch(c) {
+    case '\"':
+      val = ClipTo('\"');
+      break;
+    case '\'':
+      val = ClipTo('\'');
+      break;
+    default:// Unescaped string ??
       is().putback(c);
       val += ReadID();
-    } else {
-      val = ClipTo('\"');
-      // Unescape string ??
+      break;
     }
     elem.Attributes()[id] = val;
-    ONDEBUG(cerr << "XMLOStreamC::ReadAttrib(), Got '" << id << "' = '" << val << "' in " << Context().Name() << "\n");
+    ONDEBUG(cerr << "XMLOStreamC::ReadAttrib(), Got '" << id << "' = '" << val << "' \n");
     return id;
   }
   
@@ -619,8 +632,8 @@ namespace RavlN {
 	break; // Ignore.
 	
       case XML_PI:
-      case XMLEmptyTag:
       case XMLBeginTag:
+      case XMLEmptyTag:
       case XMLComment: // Issue error.
 	RavlAssertMsg(0,"XMLIStreamC & operator>>(XMLTagOpsT) Illegal tag op. ");
 	break;

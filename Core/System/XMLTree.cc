@@ -22,7 +22,9 @@ namespace RavlN {
   
   //: Construct from an XMLStream.
   
-  XMLTreeBodyC::XMLTreeBodyC(XMLIStreamC &in) {
+  XMLTreeBodyC::XMLTreeBodyC(XMLIStreamC &in) 
+    : isPI(false)
+  {
     Read(in);
   }
 
@@ -31,6 +33,11 @@ namespace RavlN {
   bool XMLTreeBodyC::Read(XMLIStreamC &in) {
     if(!in)
       return false;
+#if 0
+    XMLTagOpsT thisTag = in.ReadTag(name);
+    if(thisTag == XML_PI)
+      isPI = true;
+#endif
     while(in) {
       StringC name;
       RCHashC<StringC,StringC> attr;
@@ -47,8 +54,6 @@ namespace RavlN {
       if(tt == XMLBeginTag) {
 	ONDEBUG(cerr << "Found begin tag '" << name << "' \n");
 	subtree.Read(in);
-      } else {
-	ONDEBUG(cerr << "Found empty tag '" << name << "' \n");
       }
       Add(name,subtree);
     }

@@ -12,10 +12,11 @@
 
 #include "Ravl/XMLTree.hh"
 #include "Ravl/Option.hh"
+#include "Ravl/EntryPnt.hh"
 
 using namespace RavlN;
 
-int main(int nargs,char **argv) {
+int exXMLTree(int nargs,char **argv) {
   OptionC opt(nargs,argv);
   StringC ifn = opt.String("i","test.xml","Input file. ");
   StringC ofn = opt.String("o","-","Output file. ");
@@ -35,3 +36,5 @@ int main(int nargs,char **argv) {
   tree.Dump(out);
   return 0;
 }
+
+RAVL_ENTRY_POINT(exXMLTree);

@@ -27,7 +27,7 @@
 namespace RavlN {
 
   enum XMLTagOpsT 
-    { XMLEndTag, XMLContent, XMLIndent,XMLIndentDown, XMLEmptyTag, XMLBeginTag, XMLComment, XML_PI };
+    { XMLEndTag, XMLContent, XMLIndent,XMLIndentDown, XMLBeginTag, XMLEmptyTag, XMLComment, XML_PI };
   
   //! userlevel=Normal
   //: Exception issued when an parse error occurs.
@@ -288,7 +288,7 @@ namespace RavlN {
     { autoIndent = val; return val; }
     //: Auto indenting activated.
     
-    void Push(XMLTagOpsT &op,XMLElementC &elm,StringC &name) {
+    void Push(XMLTagOpsT op,XMLElementC &elm,StringC &name) {
       RavlAssert(!pushed);
       pushed = true;
       pushedOp = op;
@@ -430,7 +430,7 @@ namespace RavlN {
     //: Auto indenting activated.
     
   protected:
-    void Push(XMLTagOpsT &op,XMLElementC &elm,StringC &name) 
+    void Push(XMLTagOpsT op,XMLElementC &elm,StringC &name) 
     { Body().Push(op,elm,name); }
     //: Push a context.
     
@@ -487,7 +487,7 @@ namespace RavlN {
     
     XMLTagOpsT ReadTag(StringC &name,RCHashC<StringC,StringC> &attr);
     //: Read a tag from a stream.
-    // returns XMLBeginTag, XMLEndTag, XMLEmptyTag or XML_PI. 
+    // returns XMLBeginTag, XMLEndTag or XML_PI. 
     // XML Processing Instructions indicated by XML_PI are treated in the same way as empty tags.
     // This will skip comments and DTD info, and anything else it doesn't understand.
     
@@ -496,7 +496,7 @@ namespace RavlN {
       return ReadTag(name,attr);
     }
     //: Read a tag from a stream.
-    // returns XMLBeginTag, XMLEndTag, XMLEmptyTag or XML_PI. 
+    // returns XMLBeginTag, XMLEndTag or XML_PI. 
     // XML Processing Instructions indicated by XML_PI are treated in the same way as empty tags.
     // This will skip comments and DTD info, and anything else it doesn't understand.
     
@@ -712,8 +712,6 @@ namespace RavlN {
 	//cerr << "Found end:" << name << "\n";
 	break; // Found end of array tag.
       }
-      if(tt == XMLEmptyTag )
-	throw ExceptionInvalidStreamC("Unexpected tag when reading SArray1dC ");
       if(name != "data") {
 	cerr << "WARNING: Read array ignoring tag '" << name << "'\n";
 	strm.SkipElement();

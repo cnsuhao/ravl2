@@ -29,12 +29,14 @@ namespace RavlN {
   {
   public:
     XMLTreeBodyC()
-      : HashTreeBodyC<StringC,RCHashC<StringC,StringC> >()
+      : HashTreeBodyC<StringC,RCHashC<StringC,StringC> >(),
+	isPI(false)
     {}
     //: Default constructor.
     
     XMLTreeBodyC(const StringC &nname,RCHashC<StringC,StringC> &attrs) 
       : HashTreeBodyC<StringC,RCHashC<StringC,StringC> >(attrs),
+	isPI(false),
 	name(nname)
     {}
     //: Construct from a name and an attribute table.
@@ -52,9 +54,12 @@ namespace RavlN {
     ostream &Dump(ostream &out,int level= 0) const;
     //: Dump tree in a human readable format.
     
+    bool IsPI() const
+    { return isPI; }
+    //: Is this a processing instruction.
   protected:
     static ostream &Indent(ostream &out,int level);
-    
+    bool isPI; // Is this a processing instruction ?
     StringC name;
   };
   
@@ -117,6 +122,10 @@ namespace RavlN {
     const StringC &Name() const
     { return Body().Name(); }
     //: Access name.
+    
+    bool IsPI() const
+    { return Body().IsPI(); }
+    //: Is this a processing instruction.
 
     friend class XMLTreeBodyC;
   };
