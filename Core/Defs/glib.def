@@ -9,9 +9,12 @@ GLIBDEF = 1
 
 include Math.def
 
-GLIBHOME = /opt/PDgtk
+#GLIBHOME = /opt/PDgtk
 
-INCLUDES += `$(GLIBHOME)/bin/glib-config --cflags`
-EXELIB := `$(GLIBHOME)/bin/glib-config --libs`  $(EXELIB)
+#INCLUDES += `$(GLIBHOME)/bin/glib-config --cflags`
+#EXELIB := `$(GLIBHOME)/bin/glib-config --libs`  $(EXELIB)
+
+INCLUDES += `glib-config --cflags`
+EXELIB := `glib-config --libs`  $(EXELIB)
 
 endif
