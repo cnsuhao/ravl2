@@ -186,7 +186,7 @@ namespace RavlGUIN {
   //: Create a text entry.
   
   template<class DataT>
-  TextEntryC TextEntry(const StringC &def,const DataT &dat,bool (DataT::*func)(StringC &ref),int maxLen = -1,bool sigAllChanges = false, bool editable = true, IntT xsize, IntT ysize)
+  TextEntryC TextEntry(const StringC &def,const DataT &dat,bool (DataT::*func)(StringC &ref),int maxLen = -1,bool sigAllChanges = false, bool editable = true, IntT xsize = -1, IntT ysize = -1)
   { 
     TextEntryC ret(def,maxLen,sigAllChanges, editable, xsize, ysize);
     Connect(ret.Activate(),dat,func);
@@ -194,7 +194,7 @@ namespace RavlGUIN {
   } 
 
   template<class DataT>
-  TextEntryC TextEntryR(const StringC &def,DataT &dat,bool (DataT::*func)(StringC &ref),int maxLen = -1, bool sigAllChanges = false, bool editable, IntT xsize, IntT ysize)
+  TextEntryC TextEntryR(const StringC &def,DataT &dat,bool (DataT::*func)(StringC &ref),int maxLen = -1, bool sigAllChanges = false, bool editable = true, IntT xsize = -1, IntT ysize = -1)
   { 
     TextEntryC ret(def,maxLen,sigAllChanges,editable,xsize,ysize);
     ConnectRef(ret.Activate(),dat,func);
@@ -202,7 +202,7 @@ namespace RavlGUIN {
   } 
   
   template<class DataT>
-  TextEntryC TextEntry(const StringC &def,bool (*func)(StringC &ref,DataT &dat),const DataT &dat,int maxLen = -1,bool sigAllChanges = false, bool editable, IntT xsize, IntT ysize)
+  TextEntryC TextEntry(const StringC &def,bool (*func)(StringC &ref,DataT &dat),const DataT &dat,int maxLen = -1,bool sigAllChanges = false, bool editable = true, IntT xsize = -1, IntT ysize = -1)
   {
     TextEntryC ret(def,maxLen,sigAllChanges,editable,xsize,ysize);
     Connect(ret.Activate(),func,StringC(""),dat);
