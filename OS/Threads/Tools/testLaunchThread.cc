@@ -10,6 +10,7 @@
 //! file="Ravl/OS/Threads/Tools/testLaunchThread.cc"
 
 #include "Ravl/Threads/LaunchThread.hh"
+#include "Ravl/Threads/MessageQueue.hh"
 #include <unistd.h>
 #include <iostream.h>
 
@@ -36,16 +37,40 @@ public:
     }
 };
 
+int TestLaunchThreads();
+int TestMessageQueue();
+
 int main()
 {
+  int ln;
+  if((ln = TestLaunchThreads()) != 0) {
+    cerr << "Test failed line " << ln << "\n";
+    return 1;
+  }
+  cerr << "Test passed ok. \n";
+  return 0;
+}
+
+int TestLaunchThreads() {
   ExampleC ae;
   LaunchThread(ae,&ExampleC::DoIt);
   LaunchThread(ae,&ExampleC::DoItArg,2);
   sleep(1);
   if(count1 != 1 || count2 != 2) {
     cerr << "Error launching threads. \n";
-    return 1;
+    return __LINE__;
   }
-  cerr << "Test passed ok. \n";
+  return 0;
+}
+
+int TestMessageQueue() {
+  MessageQueueC<int> q(4);
+  // Do some basic tests.
+  if(q.IsElm()) return __LINE__;
+  q.Put(1);
+  if(!q.IsElm()) return __LINE__;
+  if(q.Get() != 1) return __LINE__;
+  if(q.IsElm()) return __LINE__;
+  
   return 0;
 }

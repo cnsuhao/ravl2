@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLTHREADMSGQUEUE_HEADER 
-#define RAVLTHREADMSGQUEUE_HEADER 1
+#ifndef RAVL_THREADMSGQUEUE_HEADER 
+#define RAVL_THREADMSGQUEUE_HEADER 1
 /////////////////////////////////////////////////////////////////////
 //! author="Charles Galambos"
 //! date="25/11/1995"
@@ -52,7 +52,7 @@ namespace RavlN
     inline bool IsSpace() const;
     // Is space to data into ring ?
     
-    inline bool IsEmpty() const;
+    inline bool IsEmptyBase() const;
     // Is space to data into ring ?
     
     MutexC access;      // Access control.
@@ -77,33 +77,37 @@ namespace RavlN
   {
   public:
     MessageQueueC(int nMaxSize = 10);
-    // Default constructor.
+    //: Default constructor.
     
     MessageQueueC(const MessageQueueC<T> &) { RavlAssert(0); }// Not supported !
-    // Copy constructor.
+    //: Copy constructor.
     
     ~MessageQueueC();
-    // Destructor.
+    //: Destructor.
     
     inline void Put(const T &Data);
-    // Put data into queue.
+    //: Put data into queue.
     
     inline bool TryPut(const T &Data);
-    // Try an put data in queue if there's space.
+    //: Try an put data in queue if there's space.
     // Ret:true = Data in queue. Ret:false = data not in queue.
     
-    inline T Get(void);
-    // Get data from queue.
+    inline T Get();
+    //: Get data from queue.
     
     inline bool TryGet(T &Data);
-    // Try and get data from queue.
+    //: Try and get data from queue.
     // Ret:false = No data available.
     
-    inline bool IsElm(void);
-    // Is there data in the queue ?
+    inline bool IsElm();
+    //: Is there data in the queue ?
+
+    bool IsEmpty()
+    { return !IsElm(); }
+    //: Is the queue empty ?
     
-    inline int Size(void);
-    // How much data is there in the queue.
+    inline int Size();
+    //: How much data is there in the queue.
     
     void Empty();
     //: Empty pipe of all its contents.
@@ -123,7 +127,7 @@ namespace RavlN
   }
   
   inline 
-  bool MessageQueueBaseC::IsEmpty() const  
+  bool MessageQueueBaseC::IsEmptyBase() const  
   { return head == tail; }
 
   //////////////////////////////////////////////////////////////
@@ -178,10 +182,10 @@ namespace RavlN
   // Get data from queue.
   
   template<class T>
-  inline T MessageQueueC<T>::Get(void)  {
+  inline T MessageQueueC<T>::Get()  {
     ready.Wait();
     MutexLockC lock(access);
-    RavlAssert(!IsEmpty());
+    RavlAssert(!IsEmptyBase());
     T Ret = data[tail]; // Possible exception.
     // If copy failed we're in trouble anyway.
     data[tail].~T(); // Possible exception.
@@ -217,7 +221,7 @@ namespace RavlN
   //: Empty pipe of all its contents.
   template<class T>
   void MessageQueueC<T>::Empty() {
-    while(!IsEmpty())
+    while(IsElm())
       Get();
   }
   
@@ -227,9 +231,9 @@ namespace RavlN
   
   template<class T>
   inline 
-  bool MessageQueueC<T>::IsElm(void)  { 
+  bool MessageQueueC<T>::IsElm()  { 
     MutexLockC lock(access);
-    return !IsEmpty();
+    return !IsEmptyBase();
     // Unlock here.
   }
   
@@ -238,7 +242,7 @@ namespace RavlN
   
   template<class T>
   inline 
-  int MessageQueueC<T>::Size(void)  {
+  int MessageQueueC<T>::Size()  {
     MutexLockC lock(access);
     if(head >= tail)
       return head-tail;
