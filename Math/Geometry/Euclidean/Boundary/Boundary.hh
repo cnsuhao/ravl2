@@ -44,6 +44,9 @@ namespace RavlN {
     BoundaryC(const Array2dC<IntT> &emask,IntT inLabel);
     //: Create a boundary from the edges between 'inLabel' pixels an other values
     
+    BoundaryC(const Array2dC<UIntT> &emask,IntT inLabel);
+    //: Create a boundary from the edges between 'inLabel' pixels an other values
+    
     BoundaryC(const DListC<EdgeC> & edgeList, bool orient);
     //: Create the boundary from the list of edges with a appropriate orientation. 
     // The 'edgelist' will be a part of boundary.  If orient is true, the object

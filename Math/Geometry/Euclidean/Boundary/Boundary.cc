@@ -51,6 +51,27 @@ namespace RavlN {
     }
   }
 
+  //: Create a boundary from the edges between 'inLabel' pixels an other values
+  
+  BoundaryC::BoundaryC(const Array2dC<UIntT> &emask,IntT inLabel) {
+    if(emask.Frame().Rows() < 3 || emask.Frame().Cols() < 3) {
+      cerr << "RegionMaskBodyC::Boundary(), Mask too small to compute boundary. \n";
+      return;
+    }
+    for(Array2dSqr3IterC<UIntT> it(emask);it;it++) {
+      if(it.DataMM() != inLabel)
+	continue;
+      if(it.DataMR() != inLabel)
+	InsLast(EdgeC(it.Index(),CR_UP));
+      if(it.DataML() != inLabel)
+	InsLast(EdgeC(it.Index(),CR_DOWN));
+      if(it.DataTM() != inLabel)
+	InsLast(EdgeC(it.Index(),CR_LEFT));
+      if(it.DataBM() != inLabel)
+	InsLast(EdgeC(it.Index(),CR_RIGHT));
+    }
+  }
+
   BoundaryC::BoundaryC(const DListC<EdgeC> & edgeList, bool orient)
     : DListC<EdgeC>(edgeList), 
       orientation(orient)
