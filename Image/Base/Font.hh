@@ -54,6 +54,8 @@ namespace RavlImageN {
     { return glyphs.Size() != 0; }
     //: Is this a valid font.
     
+    Index2dC Center(const StringC &text);
+    //: Get the offset to the center of the string.
   protected:
     SArray1dC<ImageC<ByteT> > glyphs;
   };
@@ -68,28 +70,37 @@ namespace RavlImageN {
   //: Access default font.
   
   template<class DataT>
-  void DrawFrame(const FontC &font,
-		 ImageC<DataT> &image,
-		 const DataT &value,
-		 const Index2dC &offset,
-		 char *text) 
+  void DrawText(const FontC &font,
+		const DataT &value,
+		const Index2dC &offset,
+		const StringC &text,
+		ImageC<DataT> &image) 
   {
     Index2dC at(offset);
-    const char *p = text;
-    for(;*p != 0;p++) {
-      const ImageC<ByteT> &gylph = font[*p];
-      IndexRange2dC drawRect(at,Index2dC(at.Row() + gylph.Frame().Rows() - 1,
-					 at.Col() + gylph.Frame().Cols() - 1));
+    const char *p = text.chars();
+    const char *eos = &p[text.length()];
+    for(;p != eos;p++) {
+      const ImageC<ByteT> &glyph = font[*p];
+      IndexRange2dC drawRect = glyph.Frame(); // Get rectangle.
+      drawRect.SetOrigin(at); 
       drawRect.ClipBy(image.Frame());
-      if(drawRect.Area() > 0) {
-	for(Array2dIter2C<DataT,ByteT> it(Array2dC<DataT>(image,drawRect),gylph);it;it++) {
-	  if(it.Data2() != 0)
-	    it.Data1() = value;
-	}
+      if(drawRect.Area() <= 0) 
+	continue;
+      for(Array2dIter2C<DataT,ByteT> it(Array2dC<DataT>(image,drawRect),glyph,false);it;it++) {
+	if(it.Data2() != 0)
+	  it.Data1() = value;
       }
-      at.Col() += gylph.Frame().Cols();
+      at.Col() += glyph.Frame().Cols();
     }
   }
+
+  template<class DataT>
+  void DrawTextCenter(const FontC &font,
+		const DataT &value,
+		const Index2dC &offset,
+		const StringC &text,
+		ImageC<DataT> &image) 
+  { DrawText(font,value,offset - font.Center(text),text,image); }
 }
 
 #endif

@@ -249,7 +249,7 @@ int TestFont() {
   if(!fnt.IsValid()) return __LINE__;
   ImageC<ByteT> img(100,100);
   img.Fill(0);
-  DrawFrame(fnt,img,(ByteT) 255,Index2dC(50,10),"Hello");
+  DrawText(fnt,(ByteT) 255,Index2dC(50,10),"Hello",img);
   //Save("@X",img);
   return 0;
 }

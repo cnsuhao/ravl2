@@ -26,7 +26,7 @@ namespace RavlImageN {
   //: Load the default font.
   
   static FontC LoadDefaultFont() {
-    static char *fontName = PROJECT_OUT "share/RAVL/Fonts/default8x16.psf";
+    static char *fontName = PROJECT_OUT "/share/RAVL/Fonts/default8x16.psf";
     FontC defaultFont = LoadPSF1(fontName);
     if(!defaultFont.IsValid())
       cerr << "WARNING: Can't load default font '" << fontName << "'\n";
@@ -46,6 +46,24 @@ namespace RavlImageN {
   {
     (*this) = DefaultFont();
   }
+
+  //: Get the offset to the center of the string.
+  
+  Index2dC FontC::Center(const StringC &text) {
+    const char *at = text.chars();
+    const char *eos = &(at[text.length()]);
+    IntT maxHeight = 0;
+    IntT cols = 0;
+    for(;at != eos;at++) {
+      const IndexRange2dC &ind = glyphs[*at].Frame(); 
+      if((IntT) ind.Rows() > maxHeight)
+	maxHeight = ind.Rows();
+      cols += ind.Cols();
+    }
+    return Index2dC(maxHeight,cols)/2;
+  }
+
+  ////////////////////////////////////////////////////////////////
   
   FontC LoadPSF1(const StringC &fontFile) {
     ONDEBUG(cerr << "LoadPSF1() Loading font " << fontFile << "\n");
