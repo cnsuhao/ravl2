@@ -41,7 +41,7 @@ SOURCES = Manager.cc Widget.cc MouseEvent.cc Window.cc \
  ReadBack.cc WaitForExit.cc TreeModel.cc TreeStore.cc TreeView.cc \
  ListStore.cc Pixbuf.cc AspectFrame.cc ButtonBox.cc
 
-MAINS = 
+MAINS = rdialog.cc
 
 LOCAL_FILES = info.xpm
 
