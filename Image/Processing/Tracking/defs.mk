@@ -31,6 +31,6 @@ TESTEXES=
 USESLIBS=RavlImage RavlImageProc RavlOptimise RavlImageIO
 # CSPDriver
 
-PROGLIBS=RavlDPDisplay RavlVideoIO RavlGUI2D 
-#RavlImgIOV4L
+PROGLIBS=RavlDPDisplay RavlVideoIO RavlGUI2D
+# RavlImgIOV4L
 

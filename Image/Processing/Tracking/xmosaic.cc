@@ -14,9 +14,14 @@
 #include "Ravl/GUI/Button.hh"
 #include "Ravl/GUI/LBox.hh"
 #include "Ravl/GUI/Manager.hh"
+#include "Ravl/GUI/Menu.hh"
+#include "Ravl/GUI/MessageBox.hh"
+#include "Ravl/GUI/FileSelector.hh"
 #include "Ravl/Image/MosaicBuilder.hh"
 #include "Ravl/Image/ImageConv.hh"
 #include "Ravl/Threads/LaunchThread.hh"
+#include "Ravl/Threads/RWLock.hh"
+#include "Ravl/IO.hh"
 
 #define DODEBUG 1
 #if DODEBUG
@@ -65,7 +70,10 @@ protected:
     return true;
   }
   //:Resume mosaic building.
-
+  
+  bool SaveMosaic(StringC &fn);
+  //: Save mosaic to a file.
+  
   bool Reset() {
     resetMosaic = true;
     canvas.Clear();
@@ -83,6 +91,7 @@ protected:
   //: Processing.
 
   LaunchThreadC buildThread;
+  RWLockC accessMosaic; // Access lock for buildMosaic.
   volatile bool finished;
   volatile bool resetMosaic;
   
@@ -141,6 +150,12 @@ XMosaicBodyC::XMosaicBodyC(const StringC &title,const DPIPortC<ImageC<ByteRGBVal
     canvas(500,500)
 { Init(); }
 
+bool gui_quit() 
+{
+  Manager.Quit(); // Initate shutdown.
+  return true;
+}
+
 //: Setup window.
 
 void XMosaicBodyC::Init() {
@@ -148,10 +163,18 @@ void XMosaicBodyC::Init() {
   resumeButton = ButtonR("Start",*this,&XMosaicBodyC::ResumeBuild);
   pauseButton = ButtonR("Pause",*this,&XMosaicBodyC::PauseBuild);
   
-  Add(VBox(canvas + HBox(pauseButton +
-			 resumeButton +
-			 ButtonR("Clear",*this,&XMosaicBodyC::Reset)
-			 )));
+  MenuBarC menuBar(MenuC("File",
+			 MenuItemShow("Save Mosaic",FileSelectorR("Save Mosaic",*this,&XMosaicBodyC::SaveMosaic)) +
+			 MenuItemSeparator() +
+			 MenuItem("Quit",gui_quit) 
+			 ));
+  
+  Add(VBox(menuBar +
+	   canvas + 
+	   HBox(pauseButton +
+		resumeButton +
+		ButtonR("Clear",*this,&XMosaicBodyC::Reset)
+		)));
   
   Show();
   
@@ -171,6 +194,18 @@ void XMosaicBodyC::Destroy() {
   WindowBodyC::Destroy(); // Call parent destroy.
 }
 
+//: Save mosaic to a file.
+
+bool XMosaicBodyC::SaveMosaic(StringC &fn) {
+    RWLockHoldC holdMosaic(accessMosaic,RWLOCK_READONLY);
+    ImageC<ByteRGBMedianC> mosaic = mosaicBuilder.GetMosaic();
+    ImageC<ByteRGBValueC> rgb = DPConvByteRGBMedianImageC2ByteRGBValueImageCT(mosaic);
+    holdMosaic.Unlock(); // Finished reading mosaic.
+    if(!RavlN::Save(fn,rgb)) // Save RGB image.
+      AlertBox(StringC("Failed to save mosaic to '") + fn + "'.");
+    return true;
+}
+
 //: Mosaic building thread.
 
 bool XMosaicBodyC::BuilderThread() {
@@ -185,20 +220,25 @@ bool XMosaicBodyC::BuilderThread() {
     }
     //: Update mosaic..
     
+    RWLockHoldC holdMosaic(accessMosaic,RWLOCK_WRITE);
     if(resetMosaic) {
       mosaicBuilder.Reset(img);
       resetMosaic = false;
     } else
       mosaicBuilder.Apply(img);
+    holdMosaic.Unlock(); // Finished updating mosaic.
     
     //: Get updated part of image...
+    holdMosaic.LockRd(); // Only need a read lock when rendering the image.
 #if 0
+    // Try and update only the modified section...
     IndexRange2dC cropRect = mosaicBuilder.GetCropRect();
     ImageC<ByteRGBMedianC> mosaic(mosaicBuilder.GetMosaic(),cropRect);
 #else
     ImageC<ByteRGBMedianC> mosaic = mosaicBuilder.GetMosaic();
 #endif
     ImageC<ByteRGBValueC> rgb = DPConvByteRGBMedianImageC2ByteRGBValueImageCT(mosaic);
+    holdMosaic.Unlock(); // Finished reading mosaic.
     
     //: Render it to the canvas.
     canvas.DrawImage(rgb,rgb.Frame().Origin());
