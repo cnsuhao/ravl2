@@ -492,7 +492,7 @@ namespace RavlN {
 	if(size == 0)
 	  continue;
 #if RAVL_LITTLEENDIAN
-	SysLog(SYSLOG_DEBUG) << "Little endian. \n";
+	//SysLog(SYSLOG_DEBUG) << "Little endian. \n";
 	if(useBigEndianBinStream)
 	  size = bswap_32(size);
 #else
