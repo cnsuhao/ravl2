@@ -103,6 +103,7 @@ namespace RavlGUIN {
   TreeModelIterC TreeModelIterBodyC::Children() {
     RavlAssert(model != 0);
     TreeModelIterC ret;
+    ret.Model(model);
     if(!gtk_tree_model_iter_children (model,ret.TreeIter(),treeIter))
       ret.Invalidate();
     return ret;
