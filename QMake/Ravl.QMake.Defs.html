@@ -57,6 +57,7 @@
   <li><a href="#LIBDEPS">LIBDEPS</A>
   <li><a href="#SUPPORT_ONLY">SUPPORT_ONLY</A>
   <li><a href="#DONOT_SUPPORT">DONOT_SUPPORT</A>
+  <li><a href="#REQUIRES">REQUIRES</A>
   <li><a href="#PACKAGE">PACKAGE</A>
   <lI><A HREF="#DOCNODE">DOCNODE</A>
   <lI><A HREF="#EHT">EHT</A>
@@ -179,6 +180,13 @@ variables are provided:
 </DD>
 </UL>
 
+<LI><DT><A NAME="REQUIRES"></A><B>REQUIRES</B></DT>
+<DD>A list of features required to compile the model. For example:
+ <PRE>REQUIRES = libGTK</PRE> means that this directory and its subdirectories
+can only be compiled if resource libGTK is available. A list of available resources
+is generated in the config.local.$(ARC) file and places in the RESOURCES variable.
+</DD>
+</UL>
 
 <H3><A NAME="source"></A>Source Files</H3>
 

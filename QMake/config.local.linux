@@ -8,9 +8,7 @@
 ##################################################
 
 
-
-# Compiler
-##################################################
+################ Compiler ##################################
 
 # paths for cc and c++ compiler
 #RAVL_CC  = /opt/GNUdevelop/gcc-3.3-pre/bin/gcc
@@ -22,11 +20,11 @@
 # extra CCFLAGS (c++)
 # EXTRA_CCFLAGS =
 
+################# LIBRARIES #################
 
+## GTK #####################################
 
-
-# GTK
-##################################################
+RESOURCES += libGTK 
 
 # gtk path 
 #GTKPATH =  /opt/PDlibs/gtk++-1.2.10
@@ -45,3 +43,33 @@
 
 # ovveride glib link flags 
 # GLIBLIBS = 
+
+## libAudioFile ################################################
+
+RESOURCES += libAudioFile
+
+## libDV ################################################
+
+#RESOURCES += libDV
+#LIBDV_HOME=
+
+## libavc1394 ################################################
+
+#RESOURCES += libavc1394
+#LIBAVC1394_HOME=
+
+## libcurl ################################################
+
+#RESOURCES += libCurl
+
+## libClipStationPro ################################################
+
+#RESOURCES += libClipStationPro
+
+## libDMedia ################################################
+
+#RESOURCES += libDMedia
+
+## devVideo4Linux ################################################
+
+RESOURCES += devVideo4Linux

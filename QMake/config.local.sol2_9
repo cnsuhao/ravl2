@@ -8,9 +8,7 @@
 ##################################################
 
 
-
-# Compiler
-##################################################
+################ Compiler ##################################
 
 # paths for cc and c++ compiler
 RAVL_CC  = /opt/GNUdevelop/gcc-3.2/bin/gcc3
@@ -26,10 +24,9 @@ RAVL_CXX = /opt/GNUdevelop/gcc-3.2/bin/g++3
 EXTRA_CCFLAGS =  -Wa,-xarch=v8plus -mcpu=v9
 
 
+## GTK ################################################
 
-
-# GTK
-##################################################
+RESOURCES += libGTK 
 
 # gtk path 
 #GTKPATH =  /opt/PDlibs/gtk++-1.2.10

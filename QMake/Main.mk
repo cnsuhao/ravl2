@@ -142,6 +142,17 @@ else
  endif
 endif
 
+###########################
+# Required libraries available ?
+
+ifeq ($(SUPPORT_OK),yes)
+  ifeq ($(strip $(filter-out $(RESOURCES),$(REQUIRES))),)
+    SUPPORT_OK=yes
+  else
+    SUPPORT_OK=no
+  endif
+endif
+
 ########################
 # Setup directories etc.
 
