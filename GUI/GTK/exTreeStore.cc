@@ -56,7 +56,6 @@ int main(int nargs,char **argv) {
   
   WindowC win(100,100,"Hello");
   
-
   //: Create tree store.
   
   SArray1dC<AttributeTypeC> types(5);
@@ -64,8 +63,8 @@ int main(int nargs,char **argv) {
   types[0] = AttributeTypeStringC("Another","...");
   types[1] = AttributeTypeStringC("AString","...");
   types[2] = AttributeTypeMiscC("AImage","...",AVT_ByteRGBImage);
-  types[3] = AttributeTypeBoolC("ABool","...");
-  types[4] = AttributeTypeStringC("Colour","...");
+  types[3] = AttributeTypeBoolC("ABool","...");   
+  types[4] = AttributeTypeStringC("Colour","..."); // This is used for controling the colour of column 1 
   treeStore = TreeStoreC(types);
   
   //: Put some data into the tree store.
@@ -80,6 +79,7 @@ int main(int nargs,char **argv) {
   treeStore.SetValue(iter,3,true);
   treeStore.SetValue(iter,4,StringC("red"));
   
+  // Add another line to the tree store.
   TreeModelIterC iter2;
   treeStore.AppendRow(iter2,iter);
   treeStore.SetValue(iter2,0,StringC("igloo"));
@@ -88,7 +88,7 @@ int main(int nargs,char **argv) {
   treeStore.SetValue(iter2,3,false);
   treeStore.SetValue(iter2,4,StringC("green"));
   
-  //: View a tree store.
+  // Make a list of columns we want to see from the store.
   
   DListC<StringC> cols;
   cols.InsLast("Another");
@@ -96,17 +96,27 @@ int main(int nargs,char **argv) {
   cols.InsLast("AImage");
   cols.InsLast("ABool");
   
+  // Create a new tree view displaying the columns
   TreeViewC treeView(treeStore,cols);
-  treeView.SetAttribute(1,"foreground","Colour");
-  treeView.SetAttribute(1,"editable","1",false);
+  
+  // Use the colour from column 'Colour' from the store to set the forground of column 1
+  treeView.SetAttribute(1,"foreground","Colour"); 
+  
+  // Always set the editable flag to true for column 1.
+  treeView.SetAttribute(1,"editable","1",false);  
+  
+  // Always set the activatable flag to true for column 3.
   treeView.SetAttribute(3,"activatable","1",false);
+
+  // Connect the changed signal for column 1 to 'EditCallback'
   Connect(treeView.ChangedSignal(1),&EditCallback);
+
+  // Connect the changed signal for column 3 to 'ToggleCallback'  
   Connect(treeView.ChangedSignal(3),&ToggleCallback);
   
+  // Setup the widgets, and off we go!
   win.Add(treeView);
   win.Create();
-  
-  
   
   win.Show();
   Manager.Start();
