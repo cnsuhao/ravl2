@@ -32,6 +32,21 @@ typedef unsigned int streamsize;
 #endif
 
 namespace RavlN {
+#if (RAVL_COMPILER_VISUALCPP && !RAVL_HAVE_STDNAMESPACE)
+  inline istream& operator>>(istream& is, bool & b) {
+    int val;
+    is >> val;
+    b = (val != 0);
+    return is; 
+  }
+  //: Fix for Visual C++'s lack of a bool stream operator.
+  
+  inline ostream& operator<<(ostream& os, bool b) { 
+    os << ((int)b);
+    return os;
+  }
+  //: Fix for Visual C++'s lack of a bool stream operator.
+#endif
   
   typedef StringC (*URLMapperFuncT)(const StringC &fn);
   //: Pointer to URL mapping function.
@@ -189,7 +204,7 @@ namespace RavlN {
     {}
     //:Default constructor.
     
-    OStreamC(const StringC &filename,bool binary = false,bool buffered=true,bool append = false);
+    OStreamC(const StringC &filename,bool binary = true,bool buffered=true,bool append = false);
     //: Open a file for output.
     // '-' is treated as cout.
     
