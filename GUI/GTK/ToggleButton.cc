@@ -144,7 +144,11 @@ namespace RavlGUIN {
     initInconsistant = val;
     if(widget == 0)
       return false;
+#if RAVL_USE_GTK2
     gtk_toggle_button_set_inconsistent(GTK_TOGGLE_BUTTON(widget),val);
+#else
+    cerr << "ToggleButtonBodyC::GUISetInconsistent(), Only supported on GTK2 and above. \n";
+#endif
     return true;
   }
   

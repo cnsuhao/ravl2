@@ -58,10 +58,12 @@ namespace RavlGUIN {
     
     bool GUISetInconsistent(bool val);
     //: Set inconsistant state
-    // GUI thread only.
+    // GUI thread only. 
+    // GTK2 and above only.
     
     bool SetInconsistent(bool &val);
     //: Set inconsistant state
+    // GTK2 and above only.
     
   protected:
     bool SignalState();
@@ -159,10 +161,12 @@ namespace RavlGUIN {
     { return Body().GUISetInconsistent(val); }
     //: Set inconsistant state
     // GUI thread only.
+    // GTK2 and above only.
     
     bool SetInconsistent(bool &val)
     { return Body().SetInconsistent(val); }
     //: Set inconsistant state
+    // GTK2 and above only.
     
     friend class ToggleButtonBodyC;
   };
