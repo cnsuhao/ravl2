@@ -20,11 +20,10 @@
 #include "Ravl/DList.hh"
 #include "Ravl/RealRange2d.hh"
 
-namespace RavlN {
-
+namespace RavlN {  
   //! userlevel=Normal
   //: A set of points in 2d space
-   
+  
   class PointSet2dC: public DListC<Point2dC>
   {
   public:

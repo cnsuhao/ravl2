@@ -21,7 +21,7 @@
 #include "Ravl/SArray1d.hh"
 
 namespace RavlN {
-
+  
   //: A polygon in 2d space
   // The Polygon2dC class is a representation of a polygon in 2 dimensional
   // space. A polygon is the region of a plane bounded by a finite collection

@@ -23,6 +23,8 @@ namespace RavlN {
   template<class DataT> class SArray1dC;
   template<class DataT> class DListC;
   class Point2dC;
+  class PointSet2dC;
+  class Polygon2dC;
   
   //! userlevel=Normal
   //: 2-D affine transformation
@@ -87,6 +89,12 @@ namespace RavlN {
   Affine2dC FitAffine(const DListC<Point2dC> &org,const DListC<Point2dC> &newPos);
   //: Fit an affine transform given to the mapping between original and newPos.
   
+  PointSet2dC operator*(const FAffineC<2> &trans,const PointSet2dC &points);
+  //: Apply a affine transform to a point set
+  
+  Polygon2dC operator*(const FAffineC<2> &trans,const Polygon2dC &points);
+  //: Apply a affine transform to a polygon
+  
   /////////////////////////////////
   
   inline 
@@ -105,6 +113,6 @@ namespace RavlN {
     Scale(Sc);
     Rotate(ScaleAngle+Angle);
   }
-  
+
 }
 #endif
