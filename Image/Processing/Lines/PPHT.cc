@@ -557,6 +557,7 @@ namespace RavlImageN {
   
   //: Save accumulator.
   
+#if 0
   void PPHoughTransformBodyC::SaveAccum(StringC filename) {
     ImageRectangleC ir(accum.Range1().Min(),
 		       accum.Range1().Max(),
@@ -574,6 +575,7 @@ namespace RavlImageN {
     }
     RavlN::Save(filename,out);
   }
+#endif
   
   //////////////////////////////////
   //: Pre compute sin and cos tables.
@@ -782,7 +784,7 @@ namespace RavlImageN {
       Vote(it.Data().At(),dummy,x);
       maxPeaks++;
     }
-    SaveAccum("accum.pgm");
+    //SaveAccum("accum.pgm");
     
     ONDEBUG(cerr << "Voting done.\n");
     maxPeaks /= minLength;

@@ -16,7 +16,8 @@
 
 namespace RavlImageN {
 #ifdef __sgi__
-  template SArray2dC<double>;
+  //template SArray2dC<double>;
+  static SArray2dC<double> stupidSGIbugfix(1,1);
 #endif
   
 

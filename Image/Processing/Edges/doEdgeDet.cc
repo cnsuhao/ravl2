@@ -28,6 +28,11 @@
 using namespace RavlN;
 using namespace RavlImageN;
 
+#ifdef __sgi__
+static DPIPortBodyC<SArray1dC<EdgelC > > fix_sgi_bug1;
+static DPOPortBodyC<SArray1dC<EdgelC > > fix_sgi_bug2;
+#endif
+
 ImageC<RealT> SquareComp(const Tuple2C<ImageC<RealT>,ImageC<RealT> > &dat) {
   static SqrCompositionC sc;
   ImageC<RealT> out;
@@ -85,7 +90,7 @@ int main(int argc,char **argv) {
 	cerr << "Failed to open output '" << outFile << "' \n";
 	return 1;
       }
-      exit(0); // Done.
+      return 0; // Done.
     }
     
     SArray1dC<EdgelC> output;
@@ -119,7 +124,7 @@ int main(int argc,char **argv) {
       if(verb)
 	cerr << "Running... \n";
       done.Wait();
-      exit(0);
+      return 0;
     }
     DPOPortC<SArray1dC<EdgelC > > out;
     if(!OpenOSequence(out,outFile,outType,verb)) {

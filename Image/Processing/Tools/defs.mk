@@ -15,7 +15,7 @@ SOURCES=Rectangle2dIter.cc SobolImage.cc
 
 PLIB= RavlImageProc
 
-USESLIBS=RavlImage RavlThreads RavlMath
+USESLIBS=RavlImage RavlThreads RavlMath RavlIO
 
 EHT=Ravl.Images.Misc.html 
 

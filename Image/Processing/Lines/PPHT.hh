@@ -89,8 +89,10 @@ namespace RavlImageN {
     void SetGradEstNeigh(IntT size) { gradEstNeigh = size; }
     //: Gradient estimate neighhood size.
     
+#if 0
     void SaveAccum(StringC filename);
     //: Save accumulator.
+#endif
     
     void SetImage(const  ImageC<ByteT> &apixMap) { pixMap = apixMap; }
     //: Set input image.

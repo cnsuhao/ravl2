@@ -54,7 +54,9 @@ int testRectangle2dIter() {
   return 0;
 }
 
+#ifndef __sgi__
 template SummedAreaTableC<UIntT>;
+#endif
 
 int testSummedAreaTable() {
   Array2dC<IntT> img(5,5);

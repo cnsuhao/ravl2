@@ -225,8 +225,10 @@ int testBilinearInterpolation() {
   return 0;
 }
 
+#ifndef __sgi__
 template HistogramEqualiseC<RealT>;
 template HistogramEqualiseC<ByteT>;
+#endif
 
 int testHistogramEqualise() {
   ImageC<RealT> test(10,10);
