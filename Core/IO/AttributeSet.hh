@@ -17,7 +17,7 @@
 
 namespace RavlN {
   
-  //! userlevel=Normal
+  //! userlevel=Develop
   //: Set of attribute values.
   
   class AttributeSetBodyC
