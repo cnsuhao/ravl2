@@ -20,6 +20,8 @@
 #include "Ravl/PLine2d.hh"
 
 namespace RavlN {
+  template<class DataT> class SArray1dC;
+  
   class Projection2dC;
   
   //! userlevel=Normal
@@ -43,6 +45,11 @@ namespace RavlN {
     {}
     // Creates the zero projection. All points are projected into
     // not-valid projective object.
+
+    inline PProjection2dC(const Matrix3dC & m)
+      : Matrix3dC(m)
+    {}
+    // Creates a projectivity transformation defined by the matrix 'm'..
     
     inline PProjection2dC(RealT b00, RealT b01, RealT b02,
 			  RealT b10, RealT b11, RealT b12,
@@ -120,12 +127,7 @@ namespace RavlN {
     { return ((const Matrix3dC &) (*this))[ind]; }
     //: Access.
     
-  protected:
-    inline PProjection2dC(const Matrix3dC & m)
-      : Matrix3dC(m)
-    {}
-    // Creates a projectivity transformation defined by the matrix 'm'..
-    
+  protected:    
     inline PProjection2dC(const RavlN::FMatrixC<3,3> & m)
       : Matrix3dC(m)
     {}
@@ -136,7 +138,14 @@ namespace RavlN {
     {}
     // Creates a projectivity transformation defined by the matrix 'm'..
   };    
-
+  
+  bool FitPProjection(const SArray1dC<PPoint2dC> &from,const SArray1dC<PPoint2dC> &to,PProjection2dC &proj);
+  //: Fit projection to a set of points.  4 or more point correspondances are required
+  //!param: from - 1st point set.
+  //!param: to - 2nd point set.
+  //!param: proj - Projection to store result in.
+  //!return: Returns true if fit was successfull.
+  
   ostream & operator<<(ostream & outS, const PProjection2dC & p);
   // Saves the projection 'p' into the output stream 'outS'.
 

@@ -8,6 +8,8 @@
 //! lib=RavlMath
 
 #include "Ravl/FundamentalMatrix2d.hh"
+#include "Ravl/PProjection2d.hh"
+#include "Ravl/SArray1dIter2.hh"
 #include "Ravl/Random.hh"
 #include "Ravl/Vector3d.hh"
 #include "Ravl/LineABC2d.hh"
@@ -15,10 +17,17 @@
 using namespace RavlN;
 
 int testBasic();
+int testPProjection();
 
 int main() {
   int ln;
+#if 1
   if((ln = testBasic()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  }
+#endif
+  if((ln = testPProjection()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
@@ -27,6 +36,7 @@ int main() {
 }
 
 int testBasic() {
+  cerr << "Testing fundanmental matrix estimation.\n";
   int n = 8;
   SArray1dC<PPoint2dC> pnts1(n);
   SArray1dC<PPoint2dC> pnts2(n);
@@ -77,5 +87,51 @@ int testBasic() {
   }
   
   cerr << "\nFm2=" << fm2 << "\n";
+  return 0;
+}
+
+int testPProjection() {
+  cerr << "Testing projective fitting. \n";
+  SArray1dC<PPoint2dC> from(5);
+  SArray1dC<PPoint2dC> to(5);
+
+  // Do a simple test.
+  
+  from[0] = PPoint2dC(1,1,1); to[0] = PPoint2dC(2,2,1);
+  from[1] = PPoint2dC(1,2,1); to[1] = PPoint2dC(2,4,1);
+  from[2] = PPoint2dC(2,1,1); to[2] = PPoint2dC(3,2,1);
+  from[3] = PPoint2dC(2,2,1); to[3] = PPoint2dC(3,4,1);
+  from[4] = PPoint2dC(1,1,1); to[4] = PPoint2dC(2,2,1);
+  PProjection2dC pp;
+  if(!FitPProjection(from,to,pp)) 
+    return __LINE__;
+  
+  for(SArray1dIter2C<PPoint2dC,PPoint2dC> it(from,to);it;it++) {
+    PPoint2dC x = pp * it.Data1();
+    //cerr << "x=" << x <<"  " << x.Point2d() << "\n";
+    if((x.Point2d() - it.Data2().Point2d()).SumOfAbs() > 0.000001)
+      return __LINE__;
+  }
+  //cerr << "Pp=" << pp << "\n";
+  
+  // Try a more complex transform.
+  
+  for(SArray1dIter2C<PPoint2dC,PPoint2dC> it(from,to);it;it++) {
+    it.Data1() = PPoint2dC(Random1(),Random1(),1);
+    it.Data2() = PPoint2dC(Random1(),Random1(),1);
+  }
+  from[4] = from[3]; to[4] = to[3]; // Duplicate last entry to ensure unique transform
+  
+  if(!FitPProjection(from,to,pp)) 
+    return __LINE__;
+  
+  for(SArray1dIter2C<PPoint2dC,PPoint2dC> it(from,to);it;it++) {
+    PPoint2dC x = pp * it.Data1();
+    //cerr << "x=" << x <<"  " << x.Point2d() << "\n";
+    if((x.Point2d() - it.Data2().Point2d()).SumOfAbs() > 0.000001)
+      return __LINE__;
+  }
+
+
   return 0;
 }

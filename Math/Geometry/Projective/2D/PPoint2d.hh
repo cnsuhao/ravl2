@@ -21,6 +21,8 @@
 namespace RavlN {
   class Point2dC;
   class PLine2dC;
+  class Matrix3dC;
+  template<class DataT> class SArray1dC;
   
   //! userlevel=Normal
   //: Point in 2D projective space
@@ -157,7 +159,17 @@ namespace RavlN {
   PPoint2dC operator*(RealT lambda, const PPoint2dC & p)
   { return p * lambda; }
   // Returns the point which is the 'lambda' multiplication of 'p'.
-
+  
+  bool Normalise(const SArray1dC<PPoint2dC> &raw,SArray1dC<PPoint2dC> &norm,Matrix3dC &normMat);
+  //: Normalise an array of points.
+  // This finds the mean and variation of euclidean point position. It corrects the mean to zero
+  // and the average variation to 1.
+  // This assumes there are no points at infinity.
+  //!param: raw - Raw points to be normalised
+  //!param: norm - Normalised points.
+  //!param: normMat - Normalisation matrix 
+  //!return: Normalisation found and applied.
+  
 #if 0
   inline
   PPoint2dC operator/(RealT lambda, const PPoint2dC & p)

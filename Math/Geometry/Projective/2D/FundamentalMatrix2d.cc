@@ -6,13 +6,14 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlMath
+
 #include "Ravl/config.h"
 #include "Ravl/Matrix.hh"
 #include "Ravl/Vector.hh"
 #include "Ravl/SArray1dIter2.hh"
 #include "Ravl/LineABC2d.hh"
 #include "Ravl/Vector3d.hh"
-
+#include "Ravl/LeastSquares.hh"
 #include "Ravl/FundamentalMatrix2d.hh"
 
 #define DODEBUG 0
@@ -50,15 +51,12 @@ namespace RavlN {
     ONDEBUG(cerr << "Norm1=" << norm1 << "\n");
     ONDEBUG(cerr << "Norm2=" << norm2 << "\n");
     
-    //A.NormaliseRows();
+    VectorC v;
+    LeastSquaresEq0Mag1(A,v);
     
-    MatrixC u, v;
-    VectorC d = SVD_IP(A,u,v);
-    UIntT col = v.Cols()-1;
-    
-    FundamentalMatrix2dC ret(v[0][col],v[1][col],v[2][col],
-			     v[3][col],v[4][col],v[5][col],
-			     v[6][col],v[7][col],v[8][col]);
+    FundamentalMatrix2dC ret(v[0],v[1],v[2],
+			     v[3],v[4],v[5],
+			     v[6],v[7],v[8]);
     
     ret.MakeRank2();
     

@@ -43,9 +43,11 @@ namespace RavlN {
   { inS >> *this; }
   
   ostream & operator<<(ostream & outS, const PProjection2dC & p) {
-    for (UIntT i = 0; i< 3; ++i)
+    for (UIntT i = 0; i< 3; ++i) {
       for (UIntT j = 0; j < 3; ++j)
 	outS << p[i][j] << ' ';
+      outS << '\n';
+    }
     return outS;
   }
   

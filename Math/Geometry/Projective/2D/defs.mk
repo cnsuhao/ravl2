@@ -23,7 +23,7 @@ MAINS	   =
 # SOURCES = all C modules, not containing main separated by space. The compiled
 #   code of these modules is stored in the project library.
 SOURCES   = PPointLine2d.cc PPoint2d.cc PLine2d.cc PLinePP2d.cc \
-            PProjection2d.cc PPerspective2d.cc  FundamentalMatrix2d.cc
+            PProjection2d.cc PPerspective2d.cc  FundamentalMatrix2d.cc FitPProjection2d.cc
 
 # HEADERS = all include files of this project to be exported
 HEADERS = PPointLine2d.hh PPoint2d.hh PLine2d.hh PProjection2d.hh  \
