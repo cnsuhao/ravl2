@@ -27,9 +27,21 @@
 namespace RavlN {
   //: Create an input from the descriptor.
   
-  DPIPortBaseC FileFormatDescC::CreateInput(StringC filename) const {
+  DPIPortBaseC FileFormatDescC::CreateInput(StringC filename,IStreamC &inStream) const {
     RavlAssert(isInput);
-    DPIPortBaseC inp = form.CreateInput(filename,SourceType());
+    DPIPortBaseC inp;
+    // Ensure the stream is at reset of the begining of the file.
+    if(inStream.IsOpen()) {
+      if((streamsize) inStream.tellg() != 0) {
+	inStream.seekg(0);
+	if((streamsize) inStream.tellg() == 0)
+	  inp = form.CreateInput(inStream,SourceType());
+      } else
+	inp = form.CreateInput(inStream,SourceType());
+    }
+    // Did we manage to reset it ? If not open from the file again.
+    if(!inp.IsValid())
+      inp = form.CreateInput(filename,SourceType());
     if(!inp.IsValid()) {
       cerr << "Internal error: Failed to open input file '" << filename << "' in format '" << form.Name() << "' \n" ;
       RavlAssert(0);
@@ -54,9 +66,21 @@ namespace RavlN {
 
   //: Create an input from the descriptor.
   
-  DPIPortBaseC FileFormatDescC::CreateInput(StringC filename,DPSeekCtrlC &sc) const {
+  DPIPortBaseC FileFormatDescC::CreateInput(StringC filename,IStreamC &inStream,DPSeekCtrlC &sc) const {
     RavlAssert(isInput);
-    DPIPortBaseC inp = form.CreateInput(filename,SourceType());
+    DPIPortBaseC inp;
+    // Ensure the stream is at reset of the begining of the file.
+    if(inStream.IsOpen()) {
+      if((streamsize) inStream.tellg() != 0) {
+	inStream.seekg(0);
+	if((streamsize) inStream.tellg() == 0)
+	  inp = form.CreateInput(inStream,SourceType());
+      } else
+	inp = form.CreateInput(inStream,SourceType());
+    }
+    // Did we manage to reset it ? If not open from the file again.
+    if(!inp.IsValid())
+      inp = form.CreateInput(filename,SourceType());
     sc = DPSeekCtrlC(inp); // This may or maynot work...
     if(!inp.IsValid()) {
       cerr << "Internal error: Failed to open input file '" << filename << "' in format '" << form.Name() << "' \n" ;

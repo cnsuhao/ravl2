@@ -229,6 +229,7 @@ namespace RavlN {
   
   bool FileFormatRegistryBodyC::FindInputFormat(FileFormatDescC &fmtInfo,
 						StringC filename,
+						IStreamC &in,
 						StringC format,
 						const type_info &obj_type,
 						bool verbose
@@ -241,7 +242,7 @@ namespace RavlN {
     }
     
     // Open file to start probe..
-    IStreamC in(filename,true); // Open in binary mode, particularly for windows.
+    in = IStreamC(filename,true); // Open in binary mode, particularly for windows.
     if(!in.good() && filename[0] != '@') {
       cerr << "Can't open file '" << filename << "'\n";
       return false;
@@ -320,17 +321,18 @@ namespace RavlN {
   //: Create an input pipe.
   
   DPIPortBaseC FileFormatRegistryBodyC::CreateInput(StringC filename,
-						StringC format,
-						const type_info &obj_type,
-						bool verbose
-						) {
+						    StringC format,
+						    const type_info &obj_type,
+						    bool verbose
+						    ) {
     FileFormatDescC fmtInfo;
-    if(!FindInputFormat(fmtInfo,filename,format,obj_type,verbose)) {
+    IStreamC inStream;
+    if(!FindInputFormat(fmtInfo,filename,inStream,format,obj_type,verbose)) {
       if(verbose) 
 	cerr << "CreateInput(), Can't find format for file '" << filename << "'. \n"; 
       return DPIPortBaseC();
     }
-    DPIPortBaseC ret = fmtInfo.CreateInput(filename);
+    DPIPortBaseC ret = fmtInfo.CreateInput(filename,inStream);
     if(!ret.IsValid())
       cerr << "CreateInput(), Failed to create input stream for '" << filename << "'\n";
     return ret;

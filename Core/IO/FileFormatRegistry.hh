@@ -60,13 +60,14 @@ namespace RavlN {
     
     FileFormatBaseC FindFormatFile(bool forLoad,const StringC &filename,const type_info &atype = typeid(void),StringC formatName = "",bool useInDirect = true);
     //: Find the format of the file.
+    // 'stream' is opened by this function where appropriate.
     // This can be input or output.
     
     FileFormatBaseC FindFormat(IStreamC &in,const type_info &atype =typeid(void),StringC formatName = "",bool useInDirect = true);
     //: Find the format of the file.
     // This can only be input.
     
-    bool FindInputFormat(FileFormatDescC  &fmtInfo,StringC filename,StringC format,const type_info &obj_type,bool verbose = false);
+    bool FindInputFormat(FileFormatDescC  &fmtInfo,StringC filename,IStreamC &stream,StringC format,const type_info &obj_type,bool verbose = false);
     //: Search for input format.
     
     bool FindOutputFormat(FileFormatDescC &fmtInfo,StringC filename,StringC format,const type_info &obj_type,bool verbose = false);
@@ -177,8 +178,8 @@ namespace RavlN {
     //: Find the format of the file.
     // This can only be input.
     
-    bool FindInputFormat(FileFormatDescC  &fmtInfo,StringC filename,StringC format,const type_info &obj_type,bool verbose = false)
-      { return Body().FindInputFormat(fmtInfo,filename,format,obj_type,verbose); }
+    bool FindInputFormat(FileFormatDescC  &fmtInfo,StringC filename,IStreamC &inStream,StringC format,const type_info &obj_type,bool verbose = false)
+    { return Body().FindInputFormat(fmtInfo,filename,inStream,format,obj_type,verbose); }
     //: Search for input format.
     
     bool FindOutputFormat(FileFormatDescC &fmtInfo,StringC filename,StringC format,const type_info &obj_type,bool verbose = false)

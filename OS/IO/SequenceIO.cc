@@ -37,9 +37,10 @@ namespace RavlN {
     FilenameC ifilename(fn);
     DPIFileSequenceC fileSeq;
     sc.Invalidate();
+    IStreamC inStream;
     if(ifilename.Exists() || (ifilename == "-") || (ifilename[0] == '@')) { // Does the requested file exists ?
       // If requested file exists, it might be a single file sequence...
-      if(!SystemFileFormatRegistry().FindInputFormat(fmtInfo,fn,fileformat,obj_type,verbose)) {
+      if(!SystemFileFormatRegistry().FindInputFormat(fmtInfo,fn,inStream,fileformat,obj_type,verbose)) {
 	ONDEBUG(cerr << "OpenISequenceBase(), Failed to find format for '" << fn << "' \n");
 	return false; // Failed to find format.
       }
@@ -47,14 +48,14 @@ namespace RavlN {
       if(fmtInfo.Format().IsStream() || fn == "-") { // Is stream already ?
 	if(verbose)
 	  fmtInfo.DumpConv(cerr);
-	ip = fmtInfo.CreateInput(fn,sc);
+	ip = fmtInfo.CreateInput(fn,inStream,sc);
 	ONDEBUG(cerr << "OpenISequenceBase(), Stream is a sequence. sc=" << sc.IsValid() << " \n");
 	return ip.IsValid();
       }
       fileSeq = DPIFileSequenceC(StringC("")); // Not a single file, so try a sequence.
       if(!fileSeq.ProbeFormat(fn)) { 
 	// If its not a sequence then just return stream 'as is'.
-	ip = fmtInfo.CreateInput(fn);
+	ip = fmtInfo.CreateInput(fn,inStream);
 	if(!ip.IsValid()) 
 	  return false;
 	sc = DPSeekCtrlC(true); // Put in a dummy seek control.
@@ -70,7 +71,7 @@ namespace RavlN {
 	  cerr << "Can't find file sequence of with base name '" << ifilename << "' \n";
 	return false; // Obviously failed to find sequence pattern.
       }
-      if(!SystemFileFormatRegistry().FindInputFormat(fmtInfo,fileSeq.Filename(),fileformat,obj_type,verbose))
+      if(!SystemFileFormatRegistry().FindInputFormat(fmtInfo,fileSeq.Filename(),inStream,fileformat,obj_type,verbose))
 	return false; // Failed to find format.
     }
     ONDEBUG(cerr << "OpenISequenceBase(), Building output stream.... \n");

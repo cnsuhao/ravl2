@@ -55,14 +55,15 @@ namespace RavlN {
     
     bool IsInput() const { return isInput; }
     //: Is an input descriptor ?
-  
-    DPIPortBaseC CreateInput(StringC filename) const;
+    
+    DPIPortBaseC CreateInput(StringC filename,IStreamC &inStream) const;
     //: Create an input from the descriptor.
+    // If the file has already been opened 'inStream' will be valid.
     
     DPOPortBaseC CreateOutput(StringC filename) const;
     //: Create an input from the descriptor.
-
-    DPIPortBaseC CreateInput(StringC filename,DPSeekCtrlC &sc) const;
+    
+    DPIPortBaseC CreateInput(StringC filename,IStreamC &inStream,DPSeekCtrlC &sc) const;
     //: Create an input from the descriptor.
     
     DPOPortBaseC CreateOutput(StringC filename,DPSeekCtrlC &sc) const;
