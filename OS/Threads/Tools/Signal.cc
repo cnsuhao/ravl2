@@ -132,20 +132,20 @@ namespace RavlN {
 
   //: Disconnect all inputs to this signal.
   
-  void Signal0BodyC::DisconnectInputs() {
+  void Signal0BodyC::DisconnectInputs(bool waitThreadsExit) {
     RWLockHoldC hold(access,false); 
     while(!inputs.IsEmpty()) {
       SignalInterConnect0C con(inputs.First());
       hold.Unlock();
-      con.Disconnect();
+      con.Disconnect(waitThreadsExit);
       con.Invalidate(); // Make sure its released here..
       hold.LockWr();
-    }    
+    }
   }
   
   //: Disconnect all outputs from this signal.
   
-  void Signal0BodyC::DisconnectOutputs() {
+  void Signal0BodyC::DisconnectOutputs(bool waitThreadsExit) {
     RWLockHoldC hold(access,false); 
     // Disconnect all outputs.
     hold.Unlock();
@@ -159,13 +159,21 @@ namespace RavlN {
       for(;it;it++) 
 	it.Data().Disconnect();
     } while(outputs.Size() > 0) ;
+    if(waitThreadsExit) {
+      // This ensures all threads have left this signal on exit.
+      // Unfortunatly if this disconnect is being called from this signal
+      // it will deadlock. 
+      RWLockHoldC holdExec(execLock,RWLOCK_WRITE);
+    }
   }
   
   //: Disconnect all signals.
   
-  void Signal0BodyC::DisconnectAll() {
+  void Signal0BodyC::DisconnectAll(bool waitThreadsExit) {
     DisconnectInputs();
-    DisconnectOutputs();
+    // Only have to wait for threads to exit once, so do it at the end of DisconnectOutputs, 
+    // if we want to at all.
+    DisconnectOutputs(waitThreadsExit);
   }
   
   //// SignalIterConnect0 ////////////////////////////////////////////////

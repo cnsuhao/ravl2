@@ -51,7 +51,7 @@ namespace RavlN {
     virtual ~SignalConnector0BodyC();
     //: Default constructor.
     
-    virtual void Disconnect(bool waitThreadsExit);
+    virtual void Disconnect(bool waitThreadsExit = false);
     //: Disconnect from input list.
     
     virtual bool Invoke();
@@ -220,13 +220,13 @@ namespace RavlN {
     SignalInterConnect0C FindInterConnect(const Signal0C &targ);
     //: Find interconnection between this and 'targ'.
     
-    void DisconnectAll();
+    void DisconnectAll(bool waitThreadsExit = false);
     //: Disconnect all signals.
     
-    void DisconnectInputs();
+    void DisconnectInputs(bool waitThreadsExit = false);
     //: Disconnect all inputs to this signal.
     
-    void DisconnectOutputs();
+    void DisconnectOutputs(bool waitThreadsExit = false);
     //: Disconnect all outputs from this signal.
     
   protected:
@@ -297,16 +297,16 @@ namespace RavlN {
     //: Disconnect other signal from this one.
     // 'targ' must be the target of the signal.
     
-    inline void DisconnectAll()
-    { Body().DisconnectAll(); }
+    inline void DisconnectAll(bool waitThreadsExit = false)
+    { Body().DisconnectAll(waitThreadsExit); }
     //: Disconnect all signals from this one.
     
-    void DisconnectInputs()
-    { Body().DisconnectInputs(); }
+    void DisconnectInputs(bool waitThreadsExit = false)
+    { Body().DisconnectInputs(waitThreadsExit); }
     //: Disconnect all inputs to this signal.
     
-    void DisconnectOutputs()
-    { Body().DisconnectOutputs(); }
+    void DisconnectOutputs(bool waitThreadsExit = false)
+    { Body().DisconnectOutputs(waitThreadsExit); }
     //: Disconnect all outputs from this signal.
     
     inline bool Invoke()
