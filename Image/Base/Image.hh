@@ -96,6 +96,10 @@ namespace RavlImageN {
     
     inline PixelT BiLinear(const TFVectorC<RealT,2> &pnt)  const;
     //: Get a bi linearly interpolated pixel value.
+
+    ImageC<PixelT> Rotate180(Index2dC centre = Index2dC(0,0)) const;
+    //: Create a copy of the image which is rotated 180 degree's.
+    // The image is rotated around the center given.
   };
   
   
@@ -113,6 +117,27 @@ namespace RavlImageN {
 		    (t*onemu*pixel1[1]) + 
 		    (onemt*u*pixel2[0]) +
 		    (t*u*pixel2[1]));
+  }
+
+  template <class PixelT>
+  ImageC<PixelT> ImageC<PixelT>::Rotate180(Index2dC centre) const {    
+    ImageC<PixelT> flipped(Rectangle().Rotate180(centre));
+    BufferAccess2dIterC<PixelT> it((*this),Range2());
+    IntT frow = flipped.BRow().V();
+    PixelT *place = &(flipped[frow][flipped.RCol()]);
+    while(it.IsElm()) {
+      *place = it.Data();
+      if(it.Next()) {
+        place--;
+        continue;
+      }
+      // Next row ?
+      if(!it.IsElm())
+        break;
+      frow--;
+      place = &(flipped[frow][flipped.RCol()]);
+    }
+    return flipped;
   }
   
 }
