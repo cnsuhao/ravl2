@@ -8,11 +8,15 @@
 //! lib=RavlMath
 
 #include "Ravl/Histogram.hh"
+#include "Ravl/RealHistogram1d.hh"
+#include "Ravl/RealHistogram2d.hh"
 
 using namespace RavlN;
 
 int testBasic();
 int testCompair();
+int testRealHistogram1d();
+int testRealHistogram2d();
 
 int main() {
   int ln;
@@ -25,7 +29,14 @@ int main() {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
-  
+  if((ln = testRealHistogram1d()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  }
+  if((ln = testRealHistogram2d()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  }
   cerr << "Test passed. \n";
   return 0;
 }
@@ -67,5 +78,21 @@ int testCompair() {
   if(c != 1) return __LINE__;
   if(key != 3) return __LINE__;
   if(ldiff != 3) return __LINE__;
+  return 0;
+}
+
+int testRealHistogram1d() {
+  RealHistogram1dC rhist(0,1,100);
+  rhist.Vote(1);
+  rhist.Vote(0);
+  if(rhist.TotalVotes() != 2) return __LINE__;
+  return 0;
+}
+
+int testRealHistogram2d() {
+  RealHistogram2dC rhist(Point2dC(0,0),Point2dC(10,10),Index2dC(100,100));
+  rhist.Vote(Point2dC(10,10));
+  rhist.Vote(Point2dC(0,0));
+  if(rhist.TotalVotes() != 2) return __LINE__;
   return 0;
 }
