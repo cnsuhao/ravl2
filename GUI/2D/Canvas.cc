@@ -163,6 +163,25 @@ namespace RavlGUIN {
     return true;
   }
   
+  //: Create with a widget supplied from elsewhere.
+  
+  bool CanvasBodyC::Create(GtkWidget *nwidget) {
+    widget = nwidget;
+    ONDEBUG(cerr <<"CanvasBodyC::Create() start. \n");
+    if(!direct) {
+      gtk_signal_connect (GTK_OBJECT (widget), "expose_event",
+			  (GtkSignalFunc) win_expose_event,(gpointer) this);
+      
+      gtk_signal_connect (GTK_OBJECT(widget),"configure_event",
+			  (GtkSignalFunc) win_configure_event,(gpointer) this);
+    }
+    SetupColours();
+    ConnectSignals();
+    gtk_widget_add_events(widget,GDK_EXPOSURE_MASK);
+    ONDEBUG(cerr <<"CanvasBodyC::Create() done. \n");
+    return true;    
+  }
+  
   void CanvasBodyC::WidgetDestroy() {
     if(pixmap != 0) {
       gdk_pixmap_unref(pixmap);

@@ -191,6 +191,9 @@ namespace RavlGUIN {
     virtual bool Create();
     //: Create the widget.
     
+    virtual bool Create(GtkWidget *widget);
+    //: Create with a widget supplied from elsewhere.
+
     virtual void WidgetDestroy();
     //: Called when the underlying widget it destroyed.
     // The default version of this method simpily 0's the widget ptr.
