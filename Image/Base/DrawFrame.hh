@@ -21,7 +21,9 @@ namespace RavlImageN {
   template<class DataT>
   void DrawFrame(Array2dC<DataT> &dat,const DataT &value,const IndexRange2dC &rect) {
     IndexRange2dC dr(rect);
-    dr.ClipBy(dat.Frame());    
+    dr.ClipBy(dat.Frame());
+    if(dr.Area() < 0)
+      return ; // Nothing to draw around.
     DataT *it1,*it2,*eor;
     
     it1 = &(dat[rect.TRow()][rect.LCol().V()]);
