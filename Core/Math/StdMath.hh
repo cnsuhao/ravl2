@@ -97,15 +97,7 @@ namespace RavlN {
   }
   //: Is interger power of 2 ?
   // Returns true if 'i' is a power of 2.
-  
-  inline IntT ILog2(IntT i) {
-    IntT mex = 0;
-    while((i/=2) != 0) mex++;
-    return(mex);
-  }
-  //: Interger Log 2
-  // "i" = 2 ^ "mex", "mex" = ?
-  
+    
   inline bool IsInf(RealT i) {
 #if defined(__linux__) 
     return isinf(i);
