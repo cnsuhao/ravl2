@@ -28,5 +28,4 @@ EXAMPLES= exDList.cc
 
 EHT=Ravl.Core.Lists.eht
 
-HTML=RavlList.def
 
