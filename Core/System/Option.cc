@@ -324,7 +324,13 @@ namespace RavlN {
     StrOStreamC os;  
     if(*name == 0) os << "arg";
     else os << '-' << name;
-    os << " (" << ret << ") [ ] " << comment;
+    os << " (";
+    for(DLIterC<StringC> it(ret);it;it++) {
+      os << *it;
+      if(!it.IsLast())
+	os << ' ';
+    }
+    os << ") [ ] " << comment;
     Comment(os.String());
     return ret;
   }
