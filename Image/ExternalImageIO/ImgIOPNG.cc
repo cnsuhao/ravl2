@@ -20,7 +20,7 @@
 //#include <stdio.h>
 #include <setjmp.h>
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -230,7 +230,6 @@ namespace RavlImageN {
       }
     }
     
-    
 #if 0
     /* If you want to shift the pixel values from the range [0,255] or
      * [0,65535] to the original [0,7] or [0,31], or whatever range the
@@ -272,6 +271,14 @@ namespace RavlImageN {
 	  png_set_filler(png_ptr,65535,PNG_FILLER_AFTER);
       }
     }
+    
+    /* Update information about the image taking into account any transformations. 
+     * This may cause a warning to be issues with some versions of the library. 
+     * FIXME :- Find a way of getting rid of it.
+     */
+    png_read_update_info(png_ptr, info_ptr);
+    
+    /* Do some sanity checking. */
     
     ONDEBUG(cerr << "Width:" << width << " Height:" << height << " ReqBitDepth:" << req_bit_depth <<  " Channels:" << req_chan << "\n");
     ONDEBUG(cerr << "Row bytes " << png_get_rowbytes(png_ptr, info_ptr) << " Expected:" << (width * (req_bit_depth/8) * req_chan) << "\n");
