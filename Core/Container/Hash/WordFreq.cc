@@ -26,7 +26,7 @@ int main(int nargs,char *argv[]) {
   
   HashC<StringC,IntC> wordFreq;
 
-  // Read a the standard input one word at a time.
+  // Read the standard input one word at a time.
   
   StringC word;
   while(!cin.eof()) {
@@ -34,7 +34,7 @@ int main(int nargs,char *argv[]) {
     wordFreq[word.Copy()]++;
     // Because the Word buffer is overwritten by
     // successive reads we have to make a copy of it
-    // when its used as a key in the hash table.
+    // when it's used as a key in the hash table.
   }
   
   // Print out the results.
