@@ -250,6 +250,11 @@ namespace RavlN {
     // This does a simple bubble sort.
     // FIXME:- we could do with something better!
 
+    void Sort(bool(*leq)(DataT &o1,DataT &o2));
+    //: Sort the array into ascending order in place
+    // Uses the provided comparison function which should be equivalent to
+    // less than or equal to.
+
     bool operator==(const SArray1dC<DataT> & vv) const;
     //: Comparison operator
     // Returns true if the two arrays are the same length and
@@ -677,6 +682,31 @@ namespace RavlN {
 	  changed = true;
 	}
 	lv = &(*it);
+      }
+    } while(changed) ;
+    return ;
+  }
+
+  template<class DataT>
+  void SArray1dC<DataT>::Sort(bool (*leq)(DataT &o1,DataT &o2)) {
+    BufferAccessIterC<DataT> it(*this);
+    if(!it)
+      return ; // Empty, so we're done.
+    DataT *lv;
+    bool changed = true;
+    do {
+      changed = false;
+      it.First(*this);
+      lv = &(*it);
+      it++;
+      for(;it;it++) {
+        if(!leq(*lv,*it)) {
+          DataT t = *lv;
+          *lv = *it;
+          *it = t;
+          changed = true;
+        }
+        lv = &(*it);
       }
     } while(changed) ;
     return ;
