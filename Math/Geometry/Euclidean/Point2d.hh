@@ -20,7 +20,7 @@
 namespace RavlN {
   
   //! userlevel=Normal
-  //: 3D Point
+  //: 2D Point
   
   class Point2dC
     : public FPointC<2>

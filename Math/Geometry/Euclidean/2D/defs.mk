@@ -9,15 +9,12 @@
 
 PACKAGE=Ravl
 
-NESTED=2D.r
+HEADERS= LineABC2d.hh Curve2d.hh Curve2dLine.hh Curve2dLineSegment.hh
 
-HEADERS=FPoint.hh Point2d.hh  Point3d.hh  Point4d.hh
-
-SOURCES=Point2d.cc
+SOURCES= LineABC2d.cc Curve2d.cc Curve2dLine.cc Curve2dLineFit.cc Curve2dLineSegment.cc
 
 PLIB=RavlMath
 
-LIBDEPS=RavlGeom.def
+LIBDEPS=RavlGeom2d.def
 
 USESLIBS=RavlMath RavlCore 
-
