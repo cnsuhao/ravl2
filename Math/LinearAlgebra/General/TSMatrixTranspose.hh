@@ -25,7 +25,15 @@ namespace RavlN {
   public:
     TSMatrixTransposeBodyC(const TSMatrixC<DataT> &oth)
       : matrix(oth)
-    {}
+    {
+      if(oth.IsValid()) {
+	size[0] = oth.Cols();
+	size[1] = oth.Rows();
+      } else {
+	size[0] = 0;
+	size[1] = 0;
+      }
+    }
     //: Constructor.
     
     virtual RCBodyVC &Copy() const
@@ -44,14 +52,21 @@ namespace RavlN {
     { matrix.Element(j,i,val); }
     //: Set element.
     
-    virtual Array1dC<DataT> Row(UIntT i) const { 
-      Array1dC<DataT> ret(Rows());
-      BufferAccessIterC<DataT> it(ret);
-      for(UIntT n = 0;n < Rows();n++,it++)
-	*it = matrix.Element(n,i);
-      return ret;
-    }
+    virtual Array1dC<DataT> Row(UIntT i) const 
+    { return matrix.Col(i); }
     //: Access a row from the matrix.
+    
+    virtual bool IsRowDirectAccess() const
+    { return false; }
+    //: Does Row() give direct access to actual data ?
+    
+    virtual Slice1dC<DataT> Col(UIntT j) const
+    { return matrix.Row(j).Slice1d(); }
+    //: Access slice from matrix.
+    
+    virtual bool IsColDirectAccess() const
+    { return matrix.IsRowDirectAccess(); }
+    //: Does Row() give direct access to actual data ?
     
     virtual DataT MulSumColumn(UIntT c,const Array1dC<DataT> &dat) const { 
       DataT sum;
@@ -140,7 +155,7 @@ namespace RavlN {
     // If d.Size() != Cols() an error is given.
     
     virtual TMatrixC<DataT> TMatrix(bool) const { 
-      RavlAssert(0); // This could be faster.
+      // FIXME: This could be faster.
       return matrix.TMatrix().T(); 
     }
     //: Get as full matrix.
@@ -181,13 +196,7 @@ namespace RavlN {
   class TSMatrixTransposeC
     : public TSMatrixC<DataT>
   {
-  public:
-    TSMatrixTransposeC(int i,const DataT &val)
-      : TSMatrixC<DataT>(*new TSMatrixTransposeBodyC<DataT>(i,val))
-    {}
-    //: Create a diagonal matrix of size i by i .
-    // The contents of the matrix are undefined.
-    
+  public:    
     TSMatrixTransposeC(const TSMatrixC<DataT> &base)
       : TSMatrixC<DataT>(base)
     {

@@ -59,6 +59,21 @@ namespace RavlN {
     }
     //: Access a row from the matrix.
     
+    virtual bool IsRowDirectAccess() const
+    { return false; }
+    //: Does Row() give direct access to actual data ?
+    
+    virtual Slice1dC<DataT> Col(UIntT j) const { 
+      Slice1dC<DataT> ret(1); 
+      ret[0] = scale;
+      return ret;
+    }
+    //: Access slice from matrix.
+    
+    virtual bool IsColDirectAccess() const
+    { return false; }
+    //: Does Row() give direct access to actual data ?
+    
     virtual DataT MulSumColumn(UIntT c,const Array1dC<DataT> &dat) const { 
       if(!dat.Contains(c)) {
 	DataT ret;
@@ -183,15 +198,25 @@ namespace RavlN {
       TSMatrixScaledIdentityC<DataT> msi(mat);
       return TSMatrixScaledIdentityC<DataT>(msi.Rows(),scale * msi.Scale());
     }
-    
-    RavlAssert(Cols() == mat.Rows());
     const SizeT rdim = Rows();
+    if(mat.IsRowDirectAccess()) {
+      //cerr << "Using copy... \n";
+      TSMatrixC<DataT> ret(mat.Copy()); // Use same type as input.
+      for (UIntT r = 0; r < rdim; r++) {
+	Array1dC<DataT> ra = ret.Row(r);
+	for(BufferAccessIterC<DataT> it(ra);it;it++)
+	  it.Data() *= scale;
+      }
+      return ret;
+    }
+    //cerr << "Using direct... \n";
+    RavlAssert(Cols() == mat.Rows());
     const SizeT cdim = mat.Cols();
     TMatrixC<DataT> out(rdim, cdim);
     for (UIntT r = 0; r < rdim; r++) {
       Array1dC<DataT> ra = mat.Row(r);
       DataT *at = &(out[r][0]);
-      const DataT *end2 = &(at[Cols()]);
+      const DataT *end2 = &(at[rdim]);
       if(ra.Size() < 1) {
 	// Just clear row.
 	for(;at != end2;at++)
@@ -199,7 +224,7 @@ namespace RavlN {
 	continue;
       }
       DataT *start = &(at[ra.IMin().V()]);
-      const DataT *end1 = &(at[ra.IMax().V()]);
+      const DataT *end1 = &(at[ra.IMax().V()+1]);
       for(;at != start;at++)
 	SetZero(*at);
       DataT *at2 = &(ra[ra.IMin().V()]);

@@ -84,6 +84,10 @@ namespace RavlN {
 			     RangeBufferAccessC<DataT>(const_cast<DataT *>( &(data[RowStart(i)])),IndexRangeC(i,Cols()-1))); }
     //: Access a row from the matrix.
     
+    virtual bool IsRowDirectAccess() const
+    { return true; }
+    //: Does Row() give direct access to actual data ?
+
     virtual DataT MulSumColumn(UIntT c,const Array1dC<DataT> &dat) const;
     //: Multiply column by values from dat and sum them.
     
@@ -229,10 +233,10 @@ namespace RavlN {
   Slice1dC<DataT> TSMatrixRightUpperBodyC<DataT>::Col(UIntT j) const {
     Slice1dC<DataT> ret(IndexRangeC(0,j));
     const DataT *at = &data[j];
-    int i = 1;
+    int i = Cols()-1;
     for(Slice1dIterC<DataT> it(ret);it;it++) {
       *it = *at;
-      at += i++;
+      at += i--;
     }
     return ret;
   }
@@ -260,19 +264,20 @@ namespace RavlN {
   
   template<class DataT>
   TSMatrixC<DataT> TSMatrixRightUpperBodyC<DataT>::Mul(const TSMatrixC<DataT> &mat) const {
-    if(MatrixType() != typeid(TSMatrixRightUpperBodyC<DataT>))
-      return TSMatrixBodyC<DataT>::Mul(mat); // Use default.
-    RavlAssert(Cols() == mat.Rows());
-    const SizeT rdim = Rows();
-    const SizeT cdim = mat.Cols();
-    TSMatrixRightUpperC<DataT> out(rdim);
-    SArray1dIterC<DataT> it(out.Data());
-    for (UIntT r = 0; r < rdim; r++) {
-      Array1dC<DataT> row = Row(r);
-      for (UIntT c = r; c < cdim; c++,it++)
-	*it = mat.MulSumColumn(c,row);
+    if(mat.MatrixType() == typeid(TSMatrixRightUpperBodyC<DataT>)) {
+      RavlAssert(Cols() == mat.Rows());
+      const SizeT rdim = Rows();
+      const SizeT cdim = mat.Cols();
+      TSMatrixRightUpperC<DataT> out(rdim);
+      SArray1dIterC<DataT> it(out.Data());
+      for (UIntT r = 0; r < rdim; r++) {
+	Array1dC<DataT> row = Row(r);
+	for (UIntT c = r; c < cdim; c++,it++)
+	  *it = mat.MulSumColumn(c,row);
+      }
+      return out;
     }
-    return out;
+    return TSMatrixBodyC<DataT>::Mul(mat); // Use default.
   }
   
 #if 0  

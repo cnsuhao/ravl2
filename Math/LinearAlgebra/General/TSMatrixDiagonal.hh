@@ -209,13 +209,44 @@ namespace RavlN {
     RavlAssert(Cols() == mat.Rows());
     const SizeT rdim = Rows();
     const SizeT cdim = mat.Cols();
+    if(mat.IsRowDirectAccess()) {
+      //cerr << "Using copy... \n";
+      TSMatrixC<DataT> ret(mat.Copy()); // Use same type as input.
+      BufferAccessIterC<DataT> dit(data);
+      for (UIntT r = 0; r < rdim; r++,dit++) {
+	Array1dC<DataT> ra = ret.Row(r);
+	for(BufferAccessIterC<DataT> it(ra);it;it++)
+	  it.Data() *= (*dit);
+      }
+      return ret;
+    }
+    //cerr << "Using direct... \n";
     TMatrixC<DataT> out(rdim, cdim);
     BufferAccessIterC<DataT> dit(data);
+    IndexRangeC crng(0,cdim-1);
     for (UIntT r = 0; r < rdim; r++,dit++) {
       Array1dC<DataT> ra = mat.Row(r);
+      RangeBufferAccessC<DataT> ro(out[r],crng);
       //cerr <<"Row=" << ra << "\n";
-      for(BufferAccessIter2C<DataT,DataT> it(ra,RangeBufferAccessC<DataT>(out[r],IndexRangeC(0,cdim)));it;it++)
-	it.Data2() = (*dit) * it.Data1();
+      IndexRangeC rng = ra.Range();
+      if(rng.IsEmpty()) {
+	for(BufferAccessIterC<DataT> it(ro,crng);it;it++)
+	  SetZero(*it);
+	continue;
+      }
+      if(rng.Min() > 0) {
+	for(BufferAccessIterC<DataT> it(ro,IndexRangeC(0,rng.Min()-1));it;it++)
+	  SetZero(*it);
+      }
+      for(BufferAccessIter2C<DataT,DataT> it1(ra,ro,rng);it1;it1++) {
+	//	cerr << "(" << (*dit) << " " << it1.Data1() << ") ";
+	it1.Data2() = (*dit) * it1.Data1();
+      }
+      //cerr << "\n";
+      if(rng.Max() < crng.Max()) {
+	for(BufferAccessIterC<DataT> it(ro,IndexRangeC(rng.Max()+1,crng.Max()));it;it++)
+	  SetZero(*it);
+      }
     }
     return out;
   }

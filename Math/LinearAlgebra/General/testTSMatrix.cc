@@ -21,8 +21,16 @@
 #include "Ravl/Matrix.hh"
 #include "Ravl/SMatrix.hh"
 #include "Ravl/Vector.hh"
+#include "Ravl/Random.hh"
 
 using namespace RavlN;
+
+#define DODEBUG 0
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x) 
+#endif
 
 int testBasic();
 int testDiagonal();
@@ -30,6 +38,7 @@ int testRightUpper();
 int testLeftLower();
 int testSparse();
 int testSymmetric();
+int testCombinations();
 
 int main() {
   int ln;
@@ -57,25 +66,39 @@ int main() {
     cerr << "Test failed at " << ln << "\n";
     return 1;
   }
+  if((ln = testCombinations()) != 0) {
+    cerr << "Test failed at " << ln << "\n";
+    return 1;
+  }
   cerr << "Test passed. \n";
   return 0;
 }
 
 
 int MatrixTest(SMatrixC mat1,SMatrixC mat2) {
-  cerr <<"mat1=" << mat1.TMatrix() << "\n";
-  cerr <<"mat2=" << mat2.TMatrix() << "\n";
-  cerr << "Check Mul. \n";
+  ONDEBUG(cerr <<"mat1=" << mat1.TMatrix() << "\n");
+  ONDEBUG(cerr <<"mat2=" << mat2.TMatrix() << "\n");
+
+  ONDEBUG(cerr << "Check Copy. \n");
+  SMatrixC cp = mat1.Copy();
+  RealT error = MatrixC(cp.TMatrix() - mat1.TMatrix()).SumOfAbs();
+  if(error > 0.0000000001) {
+    cerr << "gt  =" << cp.TMatrix() << "\n";
+    cerr << "test=" << mat1.TMatrix() << "\n";
+    return __LINE__;
+  }
+  
+  ONDEBUG(cerr << "Check Mul. \n");
   MatrixC gt = mat1.TMatrix() * mat2.TMatrix();
   SMatrixC testR = mat1 * mat2;
-  RealT error = MatrixC(testR.TMatrix() - gt).SumOfAbs();
+  error = MatrixC(testR.TMatrix() - gt).SumOfAbs();
   if(error > 0.000000001) {
     cerr << "gt  =" << gt << "\n";
     cerr << "test=" << testR.TMatrix() << "\n";
     return __LINE__;
   } 
   
-  cerr << "Check TMul. \n";
+  ONDEBUG(cerr << "Check TMul. \n");
   gt = mat1.TMatrix().T() * mat2.TMatrix();
   testR = mat1.TMul(mat2);
   error = MatrixC(testR.TMatrix() - gt).SumOfAbs();
@@ -85,13 +108,17 @@ int MatrixTest(SMatrixC mat1,SMatrixC mat2) {
     return __LINE__;
   }
   
-  cerr << "Check MulT. \n";
+  ONDEBUG(cerr << "Check MulT. \n");
   gt = mat1.TMatrix() * mat2.TMatrix().T();
   testR = mat1.MulT(mat2);
   error = MatrixC(testR.TMatrix() - gt).SumOfAbs();
-  if(error > 0.000000001) return __LINE__;
-
-  cerr << "Check ATA. \n";
+  if(error > 0.000000001) { 
+    cerr << "gt  =" << gt << "\n";
+    cerr << "test=" << testR.TMatrix() << "\n";
+    return __LINE__;
+  }
+  
+  ONDEBUG(cerr << "Check ATA. \n");
   gt = mat1.TMatrix().ATA();
   testR = mat1.ATA();
   error = MatrixC(testR.TMatrix() - gt).SumOfAbs();
@@ -101,7 +128,7 @@ int MatrixTest(SMatrixC mat1,SMatrixC mat2) {
     return __LINE__;
   }
 
-  cerr << "Check AAT. \n";
+  ONDEBUG(cerr << "Check AAT. \n");
   gt = mat1.TMatrix().AAT();
   testR = mat1.AAT();
   error = MatrixC(testR.TMatrix() - gt).SumOfAbs();
@@ -111,7 +138,7 @@ int MatrixTest(SMatrixC mat1,SMatrixC mat2) {
     return __LINE__;
   }
   
-  cerr << "Check Mul(VectorC)\n";
+  ONDEBUG(cerr << "Check Mul(VectorC)\n");
   VectorC vec = RandomVector(mat1.Cols());
   VectorC tres = mat1.Mul(vec);
   VectorC vgt = mat1.TMatrix() * vec;
@@ -123,7 +150,7 @@ int MatrixTest(SMatrixC mat1,SMatrixC mat2) {
     return __LINE__;
   }
   
-  cerr << "Check TMul(VectorC)\n";
+  ONDEBUG(cerr << "Check TMul(VectorC)\n");
   vec = RandomVector(mat1.Rows());
   tres = mat1.TMul(vec);
   vgt = mat1.TMatrix().TMul(vec);
@@ -175,13 +202,14 @@ int testDiagonal() {
 
 int testRightUpper() {
   cerr << "testRightUpper() \n";
-  TSMatrixRightUpperC<RealT> mru1(2);
-  RealT c = 2;
+  TSMatrixRightUpperC<RealT> mru1(3);
+  RealT c = 3;
   for(UIntT i = 0;i < mru1.Rows();i++)
     for(UIntT j = i;j < mru1.Cols();j++)
       mru1.Element(i,j,c++);
-  //cerr <<"Mat=" << mru.TMatrix() << "\n"; 
-  TSMatrixRightUpperC<RealT> mru2(2);
+  //cerr <<"Mat=" << mru1.TMatrix() << "\n"; 
+  //cerr <<"Col=" << mru1.Col(1) << "\n";
+  TSMatrixRightUpperC<RealT> mru2(3);
   for(UIntT i = 0;i < mru2.Rows();i++)
     for(UIntT j = i;j < mru2.Cols();j++)
       mru2.Element(i,j,c++);
@@ -239,7 +267,7 @@ int testSparse() {
 }
 
 int testSymmetric() {
-  cerr << "testSummetric() \n";
+  cerr << "testSymmetric() \n";
   MatrixC mat = RandomPositiveDefiniteMatrix(4);
   TSMatrixSymmetricC<RealT> sym(mat);
   TSMatrixLeftLowerC<RealT> ru = sym.Cholesky();
@@ -248,5 +276,63 @@ int testSymmetric() {
   RealT err = (res - sym).SumOfAbs();
   if(err > 0.0000001) return __LINE__;
   
+  return 0;
+}
+
+const int noMatrixTypes = 7;
+
+SMatrixC createMatrix(UIntT size,IntT type) {
+  SMatrixC ret;
+  bool filled = false;
+  switch(type)
+    {
+    case 0:  ret = SMatrixC(RandomMatrix(size,size)); filled = true; break;
+    case 1:  ret = SMatrixC(TSMatrixDiagonalC<RealT>(size)); break;
+    case 2:  ret = SMatrixC(TSMatrixRightUpperC<RealT>(size)); break;
+    case 3:  ret = SMatrixC(TSMatrixLeftLowerC<RealT>(size)); break;
+    case 4:  ret = SMatrixC(TSMatrixScaledIdentityC<RealT>(size,Random1())); filled=true; break;
+    case 5:  ret = SMatrixC(TSMatrixSymmetricC<RealT>(size)); break;
+    case 6:  {
+      SMatrixC ret(TSMatrixSparseC<RealT>(size,size));
+      int n = (size * size)/5;
+      //cerr << "Elements=" << n << "\n";
+      for(int i = 0;i < n;i++)
+	ret.Element(RandomInt()%size,RandomInt()%size,Random1());
+      filled = true;
+      return ret;
+    }
+    default:
+      cerr << "Unknown matrix type=" << type << "\n";
+      return SMatrixC();
+    }
+  if(!filled) {
+    if(!ret.IsRowDirectAccess()) {
+      cerr << "Matrix type " << type << " is not direct row access. \n";
+      RavlAssert(0);
+    }
+    for(UIntT i = 0;i < size;i++) {
+      for(Array1dIterC<RealT> it(ret.Row(i));it;it++)
+	*it = Random1();
+    }
+  }
+  return ret;
+}
+
+int testCombinations() {
+  cerr << "testCombinations() \n";
+  IntT matSize = 7;
+  IntT ln;
+  for(int i = 0;i < noMatrixTypes;i++) {
+    SMatrixC mat1 = createMatrix(matSize,i);
+    for(int j = 0;j < noMatrixTypes;j++) {
+      cout << "." << flush;
+      SMatrixC mat2 = createMatrix(matSize,j);
+      if((ln = MatrixTest(mat1,mat2)) > 0) {
+	cerr << "Failed at " << i << " " << j << "\n";
+	return ln;
+      }
+    }
+    cout << "\n";
+  }
   return 0;
 }

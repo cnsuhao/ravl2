@@ -257,7 +257,7 @@ namespace RavlN {
     //: Access a row from the matrix.
     
     bool IsRowDirectAccess() const
-    { return Body().IsColDirectAccess(); }
+    { return Body().IsRowDirectAccess(); }
     //: Does Row() give direct access to actual data ?
     
     DataT MulSumColumn(UIntT c,const Array1dC<DataT> &dat) const
@@ -419,6 +419,8 @@ namespace RavlN {
   };
 
 }
+
+#include "Ravl/TSMatrixTranspose.hh"
 
 namespace RavlN {
   

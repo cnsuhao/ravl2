@@ -78,6 +78,10 @@ namespace RavlN {
 			     RangeBufferAccessC<DataT>(const_cast<DataT *>( &(data[RowStart(i)])),IndexRangeC(0,i))); }
     //: Access a row from the matrix.
     
+    virtual bool IsRowDirectAccess() const
+    { return true; }
+    //: Does Row() give direct access to actual data ?
+
     virtual DataT MulSumColumn(UIntT c,const Array1dC<DataT> &dat) const;
     //: Multiply column by values from dat and sum them.
     
@@ -204,7 +208,7 @@ namespace RavlN {
       return ret;
     }
     const DataT *at2 = &(dat[s]);
-    const DataT *endp = &(at2[dat.Size()-s]);
+    const DataT *endp = &(at2[dat.Range().Max().V()-s + 1]);
     const DataT *at = &data[ElementIndex(s,c)];
     DataT sum = (*at2) * (*at);
     s++;
@@ -256,7 +260,7 @@ namespace RavlN {
   
   template<class DataT>
   TSMatrixC<DataT> TSMatrixLeftLowerBodyC<DataT>::Mul(const TSMatrixC<DataT> &mat) const {
-    if(MatrixType() != typeid(TSMatrixLeftLowerBodyC<DataT>))
+    if(mat.MatrixType() != typeid(TSMatrixLeftLowerBodyC<DataT>))
       return TSMatrixBodyC<DataT>::Mul(mat); // Use default.
     RavlAssert(Cols() == mat.Rows());
     const SizeT rdim = Rows();

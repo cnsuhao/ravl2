@@ -20,27 +20,40 @@ using namespace RavlN;
 int testMatrix(MatrixC mat1,MatrixC mat2,int iters);
 int testSMatrix(SMatrixC mat1,SMatrixC mat2,int iters);
 
-const int noMatrixTypes = 6;
+const int noMatrixTypes = 7;
 
 SMatrixC createMatrix(UIntT size,IntT type) {
+  SMatrixC ret;
+  bool filled = false;
   switch(type)
     {
-    case 0:  return SMatrixC(RandomMatrix(size,size));
-    case 1:  return SMatrixC(TSMatrixDiagonalC<RealT>(size));
-    case 2:  return SMatrixC(TSMatrixRightUpperC<RealT>(size));
-    case 3:  return SMatrixC(TSMatrixLeftLowerC<RealT>(size));
-    case 4:  return SMatrixC(TSMatrixScaledIdentityC<RealT>(size,0.1));
-    case 5:  {
+    case 0:  ret = SMatrixC(RandomMatrix(size,size)); filled = true; break;
+    case 1:  ret = SMatrixC(TSMatrixDiagonalC<RealT>(size)); break;
+    case 2:  ret = SMatrixC(TSMatrixRightUpperC<RealT>(size)); break;
+    case 3:  ret = SMatrixC(TSMatrixLeftLowerC<RealT>(size)); break;
+    case 4:  ret = SMatrixC(TSMatrixScaledIdentityC<RealT>(size,Random1())); filled=true; break;
+    case 5:  ret = SMatrixC(TSMatrixSymmetricC<RealT>(size)); break;
+    case 6:  {
       SMatrixC ret(TSMatrixSparseC<RealT>(size,size));
       int n = (size * size)/5;
       //cerr << "Elements=" << n << "\n";
       for(int i = 0;i < n;i++)
 	ret.Element(RandomInt()%size,RandomInt()%size,Random1());
+      filled = true;
       return ret;
     }
+    default:
+      cerr << "Unknown matrix type=" << type << "\n";
+      return SMatrixC();
     }
-  cerr << "Unknown matrix type=" << type << "\n";
-  return SMatrixC();
+  if(!filled) {
+    RavlAssert(ret.IsRowDirectAccess());
+    for(UIntT i = 0;i < size;i++) {
+      for(Array1dIterC<RealT> it(ret.Row(i));it;it++)
+	*it = Random1();
+    }
+  }
+  return ret;
 }
 
 
@@ -68,6 +81,10 @@ int testMatrix(MatrixC mat1,MatrixC mat2,int iters,int method) {
     for(int i = 0;i < iters;i++)
       res += mat1.MulT(mat2);
     break;
+  case 4:
+    for(int i = 0;i < iters;i++)
+      res += mat1 + mat2;
+    break;
   }
   return 0;
 }
@@ -87,6 +104,7 @@ int testSMatrix(SMatrixC smat1,SMatrixC smat2,int iters,int method) {
   case 1: // Mul.
     for(int i = 0;i < iters;i++)
       sres += smat1 * smat2;
+    break;
   case 2:
     for(int i = 0;i < iters;i++)
       sres += smat1.TMul(smat2);
@@ -94,6 +112,10 @@ int testSMatrix(SMatrixC smat1,SMatrixC smat2,int iters,int method) {
   case 3:
     for(int i = 0;i < iters;i++)
       sres += smat1.MulT(smat2);
+    break;
+  case 4:
+    for(int i = 0;i < iters;i++)
+      sres += smat1 + smat2;
     break;
   }
   return 0;
@@ -121,10 +143,10 @@ RealT Evaluate(SMatrixC smat1,SMatrixC smat2,int iters,int method) {
 int main(int nargs,char **argv) {
   OptionC opt(nargs,argv);
   IntT iters = opt.Int("i",2000,"Test iterations. ");
-  IntT matSize = opt.Int("m",5,"Matrix size. ");
-  IntT type1 = opt.Int("m1",0,"Matrix 1 type. 0=Full 1=Diagonal 2=RightUpper 3=LeftLower 4=ScaledIdentity 5=Sparse"); 
+  IntT matSize = opt.Int("m",10,"Matrix size. ");
+  IntT type1 = opt.Int("m1",0,"Matrix 1 type. 0=Full 1=Diagonal 2=RightUpper 3=LeftLower 4=ScaledIdentity 5=Symmetric 6=Sparse"); 
   IntT type2 = opt.Int("m2",0,"Matrix 2 type. "); 
-  IntT method = opt.Int("op",0,"Operation. 0=All 1=Mul 2=TMul 3=MulT ");
+  IntT method = opt.Int("op",0,"Operation. 0=All 1=Mul 2=TMul 3=MulT 4=Add");
   
   bool testAll = opt.Boolean("a",false,"Test all combinations of matrices.");
   
