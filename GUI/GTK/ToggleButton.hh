@@ -43,6 +43,9 @@ namespace RavlGUIN {
     virtual bool Create();
     //: Create the widget.
     
+    virtual bool Create(GtkWidget *widget);
+    //: Create with a widget supplied from elsewhere.
+
     Signal1C<bool> &SigChanged()
     { return sigChanged; }
     //: Access changed signal.

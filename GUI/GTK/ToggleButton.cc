@@ -73,6 +73,15 @@ namespace RavlGUIN {
     return true;
   }
   
+  //: Create with a widget supplied from elsewhere.
+  
+  bool ToggleButtonBodyC::Create(GtkWidget *newwidget) {
+    if(!ButtonBodyC::Create(newwidget))
+       return false;
+    Connect(Signal("toggled"),ToggleButtonC(*this),&ToggleButtonC::SignalState);
+    return true;
+  }
+  
   //: Undo all references.
   
   void ToggleButtonBodyC::Destroy() {
