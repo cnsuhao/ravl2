@@ -47,6 +47,11 @@ namespace RavlN {
     Index2dC Data() const
     { return Index2dC(x,y); }
     //: Access position.
+    
+    Index2dC operator*() const
+    { return Index2dC(x,y); }
+    //: Access position.
+    
   protected:
     int dx,dy;
     int d;
