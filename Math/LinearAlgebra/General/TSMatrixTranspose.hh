@@ -70,7 +70,7 @@ namespace RavlN {
     
     virtual DataT MulSumColumn(UIntT c,const Array1dC<DataT> &dat) const { 
       DataT sum;
-      Array1dC<DataT> ra = Row(c);
+      Array1dC<DataT> ra = matrix.Row(c);
       IndexRangeC rng = dat.Range();
       rng.ClipBy(ra.Range());
       if(rng.Size() <= 0) {
@@ -85,6 +85,24 @@ namespace RavlN {
     }
     //: Multiply column by values from dat and sum them.
     
+    virtual DataT MulSumColumn(UIntT c,const Slice1dC<DataT> &slice) const { 
+      DataT sum;
+      Array1dC<DataT> ra = matrix.Row(c);
+      IndexRangeC rng = slice.Range();
+      rng.ClipBy(ra.Range());
+      if(rng.Size() <= 0) {
+	SetZero(sum);
+	return sum;
+      }
+      Slice1dIterC<DataT> its(slice,rng);
+      BufferAccessIterC<DataT> it(ra,rng);
+      sum = it.Data() * its.Data();
+      for(it++,its++;it;it++,its++)
+	sum += it.Data() * its.Data();
+      return sum;      
+    }
+    //: Multiply column by values from slice and sum them.
+
     virtual void AddIP(const TSMatrixC<DataT> &oth) {
       RavlAssertMsg(0,"TSMatrixTransposeBodyC::AddIP(), not implemented. ");
     }
@@ -99,12 +117,9 @@ namespace RavlN {
     // Note the default implementation only works where Row(UIntT), returns a real access
     // to the data in the matrix.
     
-    virtual TSMatrixC<DataT> T() const { 
-      // FIXME: This should really be a copy ?
-      return matrix; 
-    }
+    virtual TSMatrixC<DataT> T() const  
+    { return matrix; }
     //: Get transpose of matrix.
-    // This is a no-op.
     
     virtual TSMatrixC<DataT> Mul(const TSMatrixC<DataT> &oth) const
     { return matrix.TMul(oth); }
@@ -114,10 +129,8 @@ namespace RavlN {
     { return matrix.TMul(oth); }
     //: Get this matrix times 'oth'.
     
-    virtual TSMatrixC<DataT> MulT(const TSMatrixC<DataT> & B) const  { 
-      RavlAssert(0); // Could be faster.
-      return matrix.Mul(B).T(); 
-    }
+    virtual TSMatrixC<DataT> MulT(const TSMatrixC<DataT> & B) const  
+    { return matrix.TMul(B.T()); }
     //: Multiplication A * B.T()
     
     virtual TSMatrixC<DataT> TMul(const TSMatrixC<DataT> & B) const
@@ -162,11 +175,11 @@ namespace RavlN {
     
     const TSMatrixC<DataT> &Matrix() const
     { return matrix; }
-    //: Get scale for matrix.
+    //: Get original matrix.
     
     TSMatrixC<DataT> &Matrix()
     { return matrix; }
-    //: Get scale for matrix.
+    //: Get original matrix.
     
     virtual void SetSmallToBeZero(const DataT &min)
     { matrix.SetSmallToBeZero(min); }
@@ -177,7 +190,7 @@ namespace RavlN {
     //: Sum the absolute values of all members of the matrix.
     
     virtual void SwapRows(int i,int j)
-    { RavlAssert(0); }
+    { RavlAssertMsg(0,"TSMatrixTransposeBodyC::SwapRows(), not implemented. "); }
     //: Swap two rows in the matrix.
     
     virtual void Fill(const DataT &dat)

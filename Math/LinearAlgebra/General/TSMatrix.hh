@@ -50,23 +50,6 @@ namespace RavlN {
   //! userlevel=Advanced
   //: Multiply the contents of matching entries in two arrays together and sum them.
 
-  template<class DataT>
-  DataT MultiplySum(const Slice1dC<DataT> &ar1,const Slice1dC<DataT> &ar2) {
-    DataT sum;
-    IndexRangeC rng = ar1.Range();
-    rng.ClipBy(ar2.Range());
-    if(rng.Size() <= 0) {
-      SetZero(sum);
-      return sum;
-    }
-    Slice1dIter2C<DataT,DataT> it(ar1,ar2,rng);
-    sum = (it.Data1()) * (it.Data2());
-    for(it++;it;it++)
-      sum += (it.Data1()) * (it.Data2());
-    return sum;
-  }
-  //! userlevel=Advanced
-  //: Multiply the contents of matching entries in two arrays together and sum them.
   
   //:-
   

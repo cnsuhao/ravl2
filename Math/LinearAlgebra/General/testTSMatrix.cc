@@ -25,7 +25,7 @@
 
 using namespace RavlN;
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -331,7 +331,6 @@ int testCombinations() {
 	cerr << "Failed (NN) at " << i << " " << j << "\n";
 	return ln;
       }
-#if 0
       if((ln = MatrixTest(mat1.T(),mat2)) > 0) {
 	cerr << "Failed (TN) at " << i << " " << j << "\n";
 	return ln;
@@ -344,7 +343,6 @@ int testCombinations() {
 	cerr << "Failed (TT) at " << i << " " << j << "\n";
 	return ln;
       }
-#endif
     }
     cout << "\n";
   }
