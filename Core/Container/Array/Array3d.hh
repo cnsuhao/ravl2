@@ -74,31 +74,6 @@ namespace RavlN {
     Array3dC<DataT> Copy() const;
     //: Make a copy of the array.
     
-#if 0
-    Array1dC<DataT> SliceRow(IndexC i)
-    { return Array1dC<DataT>(data.Data(),(*this)[i]); }
-    //: Access row as 1d array.
-    // NB. Changes made to the slice will also affect this array!
-    
-    Slice1dC<DataT> SliceColumn(IndexC i) { 
-      return Slice1dC<DataT>(data.Data(),
-			     &((*this)[Range1().Min()][i]),
-			     Min(Range1.Size(),Range2.Size()),
-			     Stride());
-    }
-    //: Access column as 1d slice.
-    // NB. Changes made to the slice will also affect this array!
-    
-    Slice1dC<DataT> Diagonal() {
-      return Slice1dC<DataT>(data.Data(),
-			     &((*this)[Range1().Min()][Range2().Min()]),
-			     Min(Range1.Size(),Range2.Size()),
-			     Stride()+1);
-    }
-    //: Take a slice along the diagonal of the array.
-    // NB. Changes made to the slice will also affect this array!
-#endif
-    
     inline const Array3dC<DataT> & Array3d() const
     { return(*this); }
     //: access to the constant object
@@ -106,16 +81,6 @@ namespace RavlN {
     inline Array3dC<DataT> & Array3d()
     { return(*this); }
     //: access to the object
-
-#if 0    
-    inline void ShiftIndexes1(IndexC offset);
-    //: All indexes of Range1() will be changed by 'offset'.
-    // The range will be shifted by -offset.
-    
-    void ShiftIndexes2(IndexC offset);
-    //: All indexes of Range2() will be changed by 'offset'.
-    // The range will be shifted by -offset.
-#endif
     
     Array3dC<DataT> operator+(const Array3dC<DataT> & arr) const;
     //: Sums 2 numerical arrays. 
@@ -192,20 +157,6 @@ namespace RavlN {
   // Reads the array from the stream 's'
   
   ////////////////////////////////////////////////////////////////////////////////
-  
-#if 0
-  template <class DataT>
-  inline 
-  void Array3dC<DataT>::ShiftIndexes1(IndexC offset)
-  { ShiftIndexes(offset); }
-  
-  template <class DataT>
-  void Array3dC<DataT>::ShiftIndexes2(IndexC offset) {
-    for(BufferAccessIterC<BufferAccessC<DataT> > it(*this);it.IsElm();it.Next()) 
-      it.Data().ShiftIndexes(offset);
-    size2 -= offset.V(); // Keep dim2 uptodate.
-  }
-#endif
   
   template <class DataT>
   void Array3dC<DataT>::ConstructAccess(const IndexRangeC &rng1) {
