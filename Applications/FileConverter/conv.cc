@@ -61,7 +61,8 @@ int FileConv(int argc,char **argv)
   bool  listTypes = option.Boolean("lt",false,"List all known classes.");
   bool  ident    = option.Boolean("i",false,"Identify file. ");
   IntT      noFrames = option.Int("len",-1,"Length of sequence. ");
-  IntT      startFrame = option.Int("st",-1,"Where to start in sequence.-1=Default. ");
+  IntT      NoFrames = option.Int("nf",-1,"No. of frames in sequence.  -1 -> do all frames");
+  IntT      startFrame = option.Int("sf",-1,"Where to start in sequence.-1=Default. ");
   IntT      everyNth = option.Int("nth",1,"Frequence of frames to copy. 1=Every frame. ");
   FilenameC inFile  = option.String("","in.pgm","Input filename");
   FilenameC outFile = option.String("","out.pgm","Output filename");
@@ -69,8 +70,9 @@ int FileConv(int argc,char **argv)
   option.If(seq,"len","a sequence is being processed. (-s) ");
   option.If(seq,"st","a sequence is being processed. (-s) ");
   option.If(seq,"nth","a sequence is being processed. (-s) ");
-  
+  option.DependXor("len nf");
   option.Check();
+  if (option.IsOnCommandLine("nf")) noFrames = NoFrames;
   
   // Do stuff for info options.
   
