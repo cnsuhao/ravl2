@@ -1,56 +1,57 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2001, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 ///////////////////////////////////////////////////
 //! author="Charles Galambos"
 //! rcsid="$Id$"
+//! lib=RavlImage
 
-#include "amma/DP/FileFormatStream.hh"
-#include "amma/DP/FileFormatBinStream.hh"
-#include "amma/DP/Converter.hh"
-#include "amma/BinIOYUVValue.hh"
-#include "amma/BinImgIO.hh"
-#include "amma/YUVImage.hh"
+#include "Ravl/DP/FileFormatStream.hh"
+#include "Ravl/DP/FileFormatBinStream.hh"
+#include "Ravl/DP/Converter.hh"
+#include "Ravl/Image/Image.hh"
+#include "Ravl/Image/ByteYUVValue.hh"
+#include "Ravl/Array2dIter2.hh"
+#include "Ravl/TypeName.hh"
 
-void InitImgIOByteYUV()
-{}
-
-ImageC<ByteYUVValueC> DPConvYUVImageC2ImageCT(const YUVImageC &dat)  
-{ return ImageC<ByteYUVValueC>(dat); }
-
-YUVImageC DPConvImageCT2YUVImageC(const ImageC<ByteYUVValueC> &dat)  
-{ return YUVImageC(dat); }
-
-DP_REGISTER_CONVERTION(DPConvYUVImageC2ImageCT,1);
-DP_REGISTER_CONVERTION(DPConvImageCT2YUVImageC,1);
-
-FileFormatStreamC<ImageC<ByteYUVValueC> > FileFormatStream_ImageC_ByteYUVValueC;
-FileFormatBinStreamC<ImageC<ByteYUVValueC> > FileFormatBinStream_ImageC_ByteYUVValueC;
-
-
-BinOStreamC &operator << (BinOStreamC &out,const ImageC<ByteYUVValueC> &img)
-{ 
-  out << img.Rectangle();
+namespace RavlN {
   
-  IntT width = img.Cnum() * 3;
-  IndexT atrow = img.TRow();
-  IndexT offset = img.LCol();
-  IndexT brow = img.BRow();
-  for(;atrow <= brow;atrow++)
-    out.OBuff((const char *) &(img[atrow][offset]),width);  
-  return out;
-}
+  FileFormatStreamC<ImageC<ByteYUVValueC> > FileFormatStream_ImageC_ByteYUVValueC;
+  FileFormatBinStreamC<ImageC<ByteYUVValueC> > FileFormatBinStream_ImageC_ByteYUVValueC;
+  
 
-BinIStreamC &operator >> (BinIStreamC &in,ImageC<ByteYUVValueC> &img)
-{ 
-  ImageRectangleC rect;
-  in >> rect;
-  img = ImageC<ByteYUVValueC>(rect);
+  ////////////////////////////////////////////////////////////
+  // Accelerated IO routines...
   
-  IntT width = img.Cnum() * 3;
-  IndexT atrow = img.TRow();
-  IndexT offset = img.LCol();
+  BinOStreamC &operator << (BinOStreamC &out,const ImageC<ByteYUVValueC> &img) { 
+    out << img.Rectangle();
+    
+    IntT width = img.Cols() * 3;
+    IndexC atrow = img.TRow();
+    IndexC offset = img.LCol();
+    
+    IndexC brow = img.BRow();
+    for(;atrow <= brow;atrow++) 
+      out.OBuff((const char *) &(img[atrow][offset]),width);  
+    return out;
+  }
   
-  IndexT brow = img.BRow();
-  for(;atrow <= brow;atrow++)
-    in.IBuff((char *) &(img[atrow][offset]),width);
-  return in;
+  BinIStreamC &operator >> (BinIStreamC &in,ImageC<ByteYUVValueC> &img) { 
+    ImageRectangleC rect;
+    in >> rect;
+    img = ImageC<ByteYUVValueC>(rect);
+    
+    IntT width = img.Cols() * 3;
+    IndexC atrow = img.TRow();
+    IndexC offset = img.LCol();
+    IndexC brow = img.BRow();
+    for(;atrow <= brow;atrow++) 
+      in.IBuff((char *) &(img[atrow][offset]),width);  
+
+    return in;
+  }
 }
 

@@ -4,7 +4,6 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-# $Id$
 #! rcsid="$Id$"
 
 PACKAGE = Ravl/Image
@@ -16,14 +15,14 @@ HEADERS = ImgIOPNMB.hh ImgIOPNM.hh PNMFormat.hh ImgIO.hh
 # ImageConv.hh 
 
 SOURCES = ImgIOPNM.cc PNMFormat.cc ImgIOInt.cc ImgIOByte.cc \
- ImgIOUInt16.cc ImgIOByteRGB.cc
+ ImgIOUInt16.cc ImgIOByteRGB.cc ImgIOByteYUV.cc ImgIOReal.cc 
 
 #  \
 # ImgTypeCnv.cc ImgTypeCnv2.cc ImgCnvRGB.cc ImgCnvRGB16.cc \
 # ImgIOPixel.cc \
-#  ImgIOReal.cc  \
-# ImgIOByteRGB.cc ImgIORealRGB.cc ImgIOU16RGB.cc \
-# ImgIOByteYUV.cc ImgIORealYUV.cc \
+#   \
+# ImgIORealRGB.cc ImgIOU16RGB.cc \
+#  ImgIORealYUV.cc \
 # PixelIO.cc ImgFrameCnv.cc ImgIOByteVYU.cc \
 # ImgIOCompatRGB.cc ImgIOCompatYUV.cc ImgIOCompatY.cc
 
