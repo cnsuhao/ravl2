@@ -71,7 +71,8 @@ namespace RavlN {
     }
     mean /= n;
     cov /= n;
-    cov -= OuterProductRUT(mean);
+    //cov -= OuterProductRUT(mean);
+    cov.SubtractOuterProduct(mean);
     cov.MakeSymmetric();
     return MeanCovarianceC(in,mean,cov);
   }

@@ -83,16 +83,19 @@ namespace RavlN {
   }
 
   MatrixC DataSetVectorLabelBodyC::WithinClassScatter ()  const {
-    SArray1dC<MeanCovarianceC> meanCovs = ClassStats();
     SArray1dC<UIntT> nums = ClassNums();
-    IntT n = meanCovs[0].Mean().Size();
-    MatrixC Sw (n, n, 0.0);
     RealT total = (RealT) Sample1().Size();
+    SArray1dC<SampleVectorC> samps = SeperateLabels();
+    MatrixC Sw;
     IndexC i = 0;
-    for (SArray1dIterC<MeanCovarianceC> it (meanCovs); it; it++) {
+    for (SArray1dIterC<SampleVectorC> it (samps); it; it++) {
+      MeanCovarianceC meancov = it.Data().MeanCovariance();
       RealT p = (RealT) nums[i] / total;
-      Sw += it.Data().Covariance() * p;
-      i ++;
+      if(i==0)  
+	Sw = meancov.Covariance() * p;
+      else
+	Sw += (meancov.Covariance() * p);
+      i++;
     }
     return Sw;
   }
