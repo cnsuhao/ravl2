@@ -59,6 +59,10 @@ namespace RavlN {
       { return Sqrt(SumSqr()); }
     //: Calculate the magintude of the vector.
     
+    inline RealT EuclidDistance(const TFVectorC<RealT,N> & i) const
+      { return Sqrt(SqrEuclidDistance(i)); }
+    //: Returns the magintude of the difference between the two vectors.
+    
   };
 }
 
