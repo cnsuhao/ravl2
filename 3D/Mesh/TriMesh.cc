@@ -28,6 +28,12 @@ namespace Ravl3DN {
   {
     for(SArray1dIter2C<VertexC,Vector3dC> it(vertices,v);it;it++)
       it.Data1().Position() = it.Data2();
+    RavlAssert(faceInd.Size() == (faces.Size() * 3));
+    SArray1dIterC<UIntT> iit(faceInd);
+    for(SArray1dIterC<TriC> fit(faces);fit;fit++) {
+      for(int i = 0;i < 3;i++,iit++)
+	fit.Data1().VertexPtr(i) = &(vertices[*iit]);
+    }
     UpdateVertexNormals();    
   }
 
