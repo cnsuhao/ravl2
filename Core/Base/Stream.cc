@@ -204,7 +204,7 @@ namespace RavlN {
     ofstream *ofstrm = 0;
     if(sfilename == "-") {
       Init(out = &cout,sfilename,false);
-      if(!buffered) 
+      if(!buffered)
 	cerr << "WARNING: OStreamC() Can't disable buffering on 'cout'. \n";
       return ;
     }
@@ -257,6 +257,7 @@ namespace RavlN {
   //: Get data from unix filehandle.
   
   OStreamC::OStreamC(int fd,bool binary,bool buffered) { 
+    ONDEBUG(cerr << "OStreamC::OStreamC(" << fd << "," << ((int) binary) << ","  << (int) buffered << ") Called \n");
 #if !RAVL_COMPILER_GCC3
     if(buffered)
       Init(out = new ofstream(fd),StringC(fd)); 
@@ -359,6 +360,7 @@ namespace RavlN {
   //: Get data from unix filehandle.
   
   IStreamC::IStreamC(int fd,bool binary,bool buffered) {   
+    ONDEBUG(cerr << "IStreamC::IStreamC(" << fd << "," << ((int) binary) << ","  << (int) buffered << ") Called \n");
 #if !RAVL_COMPILER_GCC3
     if(buffered)
       Init(in = new ifstream(fd),StringC(fd));

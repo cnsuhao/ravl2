@@ -189,7 +189,7 @@ namespace RavlN {
     {}
     //:Default constructor.
     
-    OStreamC(const StringC &filename,bool binary = true,bool buffered=true,bool append = false);
+    OStreamC(const StringC &filename,bool binary = false,bool buffered=true,bool append = false);
     //: Open a file for output.
     // '-' is treated as cout.
     
