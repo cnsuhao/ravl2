@@ -73,6 +73,9 @@ namespace RavlN {
     bool Add(const XMLTreeC &subtree);
     //: Add subtree to node.
     
+    bool AddContent(const StringC &content);
+    //: Add some text to the tree
+    
     DListC<XMLTreeC> &Children()
     { return children; }
     //: Access list of children.
@@ -164,6 +167,10 @@ namespace RavlN {
     bool Add(const XMLTreeC &subtree)
     { return Body().Add(subtree); }
     //: Add subtree to node.
+
+    bool AddContent(const StringC &content)
+    { return Body().AddContent(content); }
+    //: Add some text to the tree
     
     DListC<XMLTreeC> &Children()
     { return Body().Children(); }

@@ -92,6 +92,18 @@ namespace RavlN {
     return HashTreeBodyC<StringC,RCHashC<StringC,StringC> >::Add(subtree.Name(),subtree,true);
   }
   
+  //: Add content to node.
+
+  bool XMLTreeBodyC::AddContent(const StringC &content){
+    RCHashC<StringC,StringC> attr;
+    attr["."] = content;
+    XMLTreeC item("?content", attr);
+    children.InsLast(item);
+    return HashTreeBodyC<StringC,RCHashC<StringC,StringC> >::Add(item.Name(),item,true);
+  }
+
+  //: Indents the XML listing
+
   ostream &XMLTreeBodyC::Indent(ostream &out,int level) {
     for(int i = 0;i < level;i++)
       out << ' ';
