@@ -97,8 +97,11 @@ namespace RavlGUIN {
     virtual bool Create();
     //: Create the widget.
     
+    virtual bool Create(GtkWidget *nwidget);
+    //: Create the widget.
+    
     virtual void Destroy()
-      { WidgetBodyC::Destroy(); }
+    { WidgetBodyC::Destroy(); }
     //: Undo all references.
     // Placeholder only.
     

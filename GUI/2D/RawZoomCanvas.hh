@@ -160,6 +160,9 @@ namespace RavlGUIN {
     virtual bool Create();
     //: Create the widget.
     
+    virtual bool Create(GtkWidget *widget);
+    //: Create the widget.
+    
     virtual bool EventConfigure(GdkEvent* &event);
     //: Handle configure event.
     

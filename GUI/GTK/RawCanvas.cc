@@ -25,6 +25,15 @@ namespace RavlGUIN {
     return true;
   }
 
+  //: Create the widget.
+  
+  bool RawCanvasBodyC::Create(GtkWidget *nwidget) {
+    widget = nwidget;
+    ConnectSignals();
+    return true;
+  }
+
+
   //: Access draw area.
   
   GdkDrawable *RawCanvasBodyC::DrawArea()

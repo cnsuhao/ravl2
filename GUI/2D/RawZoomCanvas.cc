@@ -32,8 +32,14 @@ namespace RavlGUIN {
        scale(1,1)
   {}
   
+  //: Create the widget.
+  
+  bool RawZoomCanvasBodyC::Create(GtkWidget *nwidget) {
+    ConnectRef(Signal("configure_event"),*this,&RawZoomCanvasBodyC::EventConfigure);
+    return RawCanvasBodyC::Create(nwidget);
+  }
+
   bool RawZoomCanvasBodyC::Create() {
-                       
     ConnectRef(Signal("configure_event"),*this,&RawZoomCanvasBodyC::EventConfigure);
     return RawCanvasBodyC::Create();
   }
