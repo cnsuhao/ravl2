@@ -24,8 +24,9 @@
 #include "Ravl/DP/IOConnect.hh"
 
 namespace RavlN {
-
+  
   template<class DataT> class DPMTIOConnectC;
+  template<class InT> class DPSplitIC;
   
   //////////////////////////
   //! userlevel=Develop
@@ -470,6 +471,16 @@ namespace RavlN {
   inline DPIOPortC<InT,OutT> operator>>= (const DPIOPortC<DataT,OutT> &in,const DPIOPortC<InT,DataT> &out) 
   { return DPIOPortJoin(out,in,DPMTIOConnectC<DataT>(in,out,true)); }
   //: Pump data from an input into an output.
+  
+  template<class DataT>
+  inline DPEventC operator>>= (const DPSplitIC<DataT> &in,const DPOPortC<DataT> &out)
+  { return in.NewPort() >>= out; }
+  //: Pump data from a split input into an output.
+  
+  template<class DataT,class OutT>
+  inline DPIPortC<OutT> operator>>= (const DPSplitIC<DataT> &in,const DPIOPortC<OutT,DataT> &out)
+  { return in.NewPort() >>= out; }
+  //: Pump data from a split input into an output.
   
 }
 
