@@ -22,7 +22,7 @@ namespace RavlN {
   
   //: Get hint about type of value attribute has.
   
-  AttributeValueTypeT AttributeTypeBoolBodyC::ValueType()
+  AttributeValueTypeT AttributeTypeBoolBodyC::ValueType() const
   { return AVT_Bool; }
   
   //: Set control to default value.
@@ -42,7 +42,7 @@ namespace RavlN {
   
   //: Get hint about type of value attribute has.
   
-  AttributeValueTypeT AttributeTypeStringBodyC::ValueType()
+  AttributeValueTypeT AttributeTypeStringBodyC::ValueType() const
   { return AVT_String; }
 
   //: Set control to default value.
@@ -63,10 +63,29 @@ namespace RavlN {
   
   //: Get hint about type of value attribute has.
   
-  AttributeValueTypeT AttributeTypeEnumBodyC::ValueType()
+  AttributeValueTypeT AttributeTypeEnumBodyC::ValueType() const
   { return AVT_Enum; }
   
   bool AttributeTypeEnumBodyC::SetToDefault(AttributeCtrlC &ctrl) const
   { return ctrl.SetAttr(name,defaultValue); }
+  
+  //:----------------------------------------------------------------------------------------------------
+  
+  //: Constructor
+  
+  AttributeTypeMiscBodyC::AttributeTypeMiscBodyC(const StringC &name,const StringC &desc,const AttributeValueTypeT &nvalType,bool nCanRead,bool nCanWrite)
+    : AttributeTypeBodyC(name,desc,nCanRead,nCanWrite),
+      valType(nvalType)
+  {}
+  
+  //: Get hint about type of value attribute has.
+  
+  AttributeValueTypeT AttributeTypeMiscBodyC::ValueType() const
+  { return valType; }
+  
+  //: Set control to default value.
+  
+  bool AttributeTypeMiscBodyC::SetToDefault(AttributeCtrlC &ctrl) const
+  { return true; }
   
 }

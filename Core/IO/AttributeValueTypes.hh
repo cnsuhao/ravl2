@@ -28,7 +28,7 @@ namespace RavlN {
 			   bool ndefaultValue = false);
     //: Constructor
     
-    virtual AttributeValueTypeT ValueType();
+    virtual AttributeValueTypeT ValueType() const;
     //: Get hint about type of value attribute has.
     
     bool Default() const
@@ -109,7 +109,7 @@ namespace RavlN {
     {}
     //: Constructor.
     
-    virtual AttributeValueTypeT ValueType() {
+    virtual AttributeValueTypeT ValueType() const{
       if(typeid(ValueT) == typeid(int))
 	return AVT_Int;
       if(typeid(ValueT) == typeid(RealT))
@@ -220,7 +220,7 @@ namespace RavlN {
 			     const StringC &ndefaultValue = StringC(),IntT maxLength = 65000);
     //: Constructor
     
-    virtual AttributeValueTypeT ValueType();
+    virtual AttributeValueTypeT ValueType() const;
     //: Get hint about type of value attribute has.
 
     StringC Default() const
@@ -304,7 +304,7 @@ namespace RavlN {
 			   const DListC<StringC> &values = DListC<StringC>(),const StringC &ndefaultValue = StringC());
     //: Constructor
     
-    virtual AttributeValueTypeT ValueType();
+    virtual AttributeValueTypeT ValueType() const;
     //: Get hint about type of value attribute has.
 
     StringC Default() const
@@ -374,7 +374,72 @@ namespace RavlN {
     // Possible values for enum.
     
   };
+
+  //:-----------------------------------------------------------------------------------
   
+  //! userlevel=Develop
+  //: Miscean attribute type.
+  
+  class AttributeTypeMiscBodyC
+    : public AttributeTypeBodyC
+  {
+  public:
+    AttributeTypeMiscBodyC(const StringC &name,const StringC &desc,const AttributeValueTypeT &valType,bool nCanRead = true,bool nCanWrite = true);
+    //: Constructor
+    
+    virtual AttributeValueTypeT ValueType() const;
+    //: Get hint about type of value attribute has.
+    
+    virtual bool SetToDefault(AttributeCtrlC &ctrl) const;
+    //: Set control to default value.
+    
+  protected:
+    AttributeValueTypeT valType;
+  };
+  
+  //! userlevel=Normal
+  //: Miscean attribute type.
+  
+  class AttributeTypeMiscC
+    : public AttributeTypeC
+  {
+  public:
+    AttributeTypeMiscC()
+    {}
+    //: DefaultValue constructor.
+    // Creates an invalid handle.
+    
+    AttributeTypeMiscC(const StringC &name,const StringC &desc,const AttributeValueTypeT &valType,bool nCanRead = true,bool nCanWrite = true)
+      : AttributeTypeC(*new AttributeTypeMiscBodyC(name,desc,valType,nCanRead,nCanWrite))
+    {}
+    //: Constructor.
+    
+    AttributeTypeMiscC(const AttributeTypeC &base)
+      : AttributeTypeC(base)
+    {
+      if(dynamic_cast<AttributeTypeMiscBodyC *>(&AttributeTypeC::Body()) == 0)
+	Invalidate();
+    }
+    //: Construct from a base handle
+    // Creates an invalid handle if object is not of the correct type.
+    
+  protected:
+    AttributeTypeMiscC(AttributeTypeMiscBodyC &bod)
+      : AttributeTypeC(bod)
+    {}
+    //: Body constructor.
+    
+    AttributeTypeMiscBodyC &Body()
+    { return static_cast<AttributeTypeMiscBodyC &> (AttributeTypeC::Body()); }
+    //: Access body.
+    
+    const AttributeTypeMiscBodyC &Body() const
+    { return static_cast<const AttributeTypeMiscBodyC &> (AttributeTypeC::Body()); }
+    //: Access body.
+    
+  public:
+  };
+
 }
 
 

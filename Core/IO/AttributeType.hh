@@ -20,7 +20,7 @@
 namespace RavlN {
 
   enum AttributeValueTypeT
-    { AVT_Bool,AVT_Int,AVT_Real,AVT_String,AVT_Enum, AVT_Abstract, AVT_None, AVT_Invalid  };
+    { AVT_Bool,AVT_Int,AVT_Real,AVT_String,AVT_Enum, AVT_Abstract, AVT_ByteRGBImage, AVT_None, AVT_Invalid  };
   
   //! userlevel=Develop
   //: Attribute type information.
@@ -38,7 +38,7 @@ namespace RavlN {
     virtual bool SetToDefault(AttributeCtrlC &ctrl) const;
     //: Set control to default value.
     
-    virtual AttributeValueTypeT ValueType();
+    virtual AttributeValueTypeT ValueType() const;
     //: Get hint about type of value attribute has.
     
     const StringC &Name() const
@@ -92,7 +92,7 @@ namespace RavlN {
     //: Access body.
     
   public:
-    AttributeValueTypeT ValueType()
+    AttributeValueTypeT ValueType() const
     { return Body().ValueType(); }
     //: Get hint about type of value attribute has.
     

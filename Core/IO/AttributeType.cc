@@ -31,7 +31,7 @@ namespace RavlN {
 
   //: Get hint about type of value attribute has.
   
-  AttributeValueTypeT AttributeTypeBodyC::ValueType()
+  AttributeValueTypeT AttributeTypeBodyC::ValueType() const
   { return AVT_Invalid; }
   
   //: Set control to default value.

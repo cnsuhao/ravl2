@@ -136,6 +136,7 @@ namespace RavlN {
       case AVT_Abstract:
       case AVT_None:
       case AVT_Invalid:
+      case AVT_ByteRGBImage:
 	// Don't know how to handle these...
 	break;
       }
@@ -189,6 +190,7 @@ namespace RavlN {
       case AVT_Abstract:
       case AVT_None:
       case AVT_Invalid:
+      case AVT_ByteRGBImage:
 	// Don't know how to handle these...
 	break;
       }
