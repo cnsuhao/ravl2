@@ -20,6 +20,7 @@
 #include "Ravl/Point2d.hh"
 #include "Ravl/RealRange2d.hh"
 #include "Ravl/LinePP2d.hh"
+#include "Ravl/Image/BilinearInterpolation.hh"
 
 namespace RavlImageN {
   
