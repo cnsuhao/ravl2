@@ -230,8 +230,12 @@ namespace RavlN {
     //: Access edge.
     // Iterator must be at a valid element
     // before calling this method.
-    
+
   };
+
+  template<class VertexDataT,class FaceDataT,class EdgeDataT>
+  inline THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT>::Face() 
+  { return THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT>(HEMeshBaseEdgeC::Face()); }
   
 }
 
