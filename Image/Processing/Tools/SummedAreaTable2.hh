@@ -100,6 +100,17 @@ namespace RavlImageN {
       // Could speed this up by seperating out row accesses ?
       return (*this)[range.End()] - (*this)[range.TopRight()] - (*this)[range.BottomLeft()] + (*this)[range.TopLeft()];
     }
+    //: Calculate the sum and sum of squares of the pixel values in the rectangle 'range'.
+    
+    RealT Sum1(IndexRange2dC range) const {
+      range.ClipBy(clipRange);
+      if(range.Area() == 0)
+	return (*this)[Frame().Origin()][0]; // Return 0.
+      range.LCol()--;
+      range.TRow()--;
+      // Could speed this up by seperating out row accesses ?
+      return (*this)[range.End()][0] - (*this)[range.TopRight()][0] - (*this)[range.BottomLeft()][0] + (*this)[range.TopLeft()][0];
+    }
     //: Calculate the sum of the pixel's in the rectangle 'range'.
     
     RealT Variance(IndexRange2dC range) const {
