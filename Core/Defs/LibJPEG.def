@@ -9,18 +9,24 @@ LIBJPEG_DEF = 1
 
 include Math.def
 
-ifeq ($(ARC),linux)
-EXELIB := -ljpeg $(EXELIB)
-else
-ifeq ($(ARC),sgi)
-LIBJPEG_HOME=/opt/freeware
-INCLUDES += -I$(LIBJPEG_HOME)/include 
-EXELIB := -Wl,-rpath,$(LIBJPEG_HOME)/lib32 -L$(LIBJPEG_HOME)/lib32 -ljpeg $(EXELIB)
-else
-LIBJPEG_HOME=/opt/PDlibs/jpeg-6b
-INCLUDES += -I$(LIBJPEG_HOME)/include 
-EXELIB := -L$(LIBJPEG_HOME)/lib -ljpeg $(EXELIB)
+ifndef LIBJPEG_HOME
+  ifeq ($(ARC),sgi)
+    LIBJPEG_HOME=/opt/freeware
+  else
+    LIBJPEG_HOME=/opt/PDlibs/jpeg-6b
+  endif
 endif
+
+INCLUDES += -I$(LIBJPEG_HOME)/include 
+
+ifeq ($(ARC),linux)
+  EXELIB := -Wl,-rpath,$(LIBJPEG_HOME)/lib -L$(LIBJPEG_HOME)/lib -ljpeg $(EXELIB)
+else
+  ifeq ($(ARC),sgi)
+    EXELIB := -Wl,-rpath,$(LIBJPEG_HOME)/lib32 -L$(LIBJPEG_HOME)/lib32 -ljpeg $(EXELIB)
+  else
+    EXELIB := -Wl,-rpath,$(LIBJPEG_HOME)/lib -L$(LIBJPEG_HOME)/lib -ljpeg $(EXELIB)
+  endif
 endif
 
 endif

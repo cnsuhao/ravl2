@@ -7,19 +7,17 @@
 ifndef FFTW_DEF
 FFTW_DEF=1
 
-
-ifneq ($(filter $(ARC), sol2_7 sol2_9),)
-FFTWHOME=/vol/vssp/dera/fft
-INCLUDES := -I$(FFTWHOME)/include $(INCLUDES)
-EXELIB := -L$(FFTWHOME)/lib -lfftw $(EXELIB)
+ifndef FFTW_HOME
+  ifneq ($(filter $(ARC), sol2_7 sol2_9),)
+    FFTW_HOME=/vol/vssp/dera/fft
+  else
+    ifeq ($(ARC), linux)
+      FFTW_HOME=/vol/vssp/local/tools
+    endif
+  endif
 endif
 
-
-
-ifeq ($(ARC), linux)
-FFTWHOME=/vol/vssp/local/tools
-INCLUDES := -I$(FFTWHOME)/include $(INCLUDES)
-EXELIB := -L$(FFTWHOME)/lib -lfftw $(EXELIB)
-endif
+INCLUDES := -I$(FFTW_HOME)/include $(INCLUDES)
+EXELIB := -L$(FFTW_HOME)/lib -lfftw $(EXELIB)
 
 endif
