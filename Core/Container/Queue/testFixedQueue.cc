@@ -16,6 +16,7 @@ using namespace RavlN;
 
 int TestQueue();
 int TestQueueIter();
+int TestQueueRevIter();
 
 int main() 
 {
@@ -26,6 +27,10 @@ int main()
   }
   if((ln = TestQueueIter()) != 0) {
     cerr << "Queue iter test failed at:" << ln << "\n";
+    return 1;
+  }
+  if((ln = TestQueueRevIter()) != 0) {
+    cerr << "Queue reverse iter test failed at:" << ln << "\n";
     return 1;
   }
   
@@ -103,7 +108,7 @@ int TestQueueIter() {
   for(int f = 1;f < 6;f++) {
     for(int z = 0;z < 6;z++) {
       // Shit the queue bountry on.
-      for(int k = 0;k < 1;k++) {
+      for(int k = 0;k < z;k++) {
 	q.InsLast(1);
 	q.GetFirst();
       }
@@ -135,6 +140,58 @@ int TestQueueIter() {
       }
     }
   }
+  return 0;
+}
+
+int TestQueueRevIter() {
+  cerr << "Starting TestQueueRevIter() \n";
+  FixedQueueC<int> q(5);
+#if 0
+  q.InsLast(1);
+  q.InsLast(2);
+  for(FixedQueueRevIterC<int> it(q);it;it++)
+    cerr << " " << *it;
+  cerr << "\n";
+#endif
+#if 1
+  for(int f = 1;f < 6;f++) {
+    for(int z = 0;z < 6;z++) {
+      // Shit the queue bountry on.
+      for(int k = 0;k < z;k++) {
+	q.InsLast(1);
+	q.GetFirst();
+      }
+      for(int i = 0;i < f;i++) 
+	q.InsLast(i);
+      FixedQueueRevIterC<int> it(q);
+      int cc = 0;
+      //cerr << " z=" << z << "\n";
+      for(int j = f-1;it;j--,it++) {
+	//cerr << " j=" << j << "\n";
+	if(j < 0) {
+	  cerr << "operator bool(), test failed. j=" << j << " q.Size()=" << q.Size()<< "\n";
+	  return __LINE__;
+	}
+	if(*it != j) {
+	  cerr << "operator bool(), iter content test failed. " << *it << " " << j << "\n";
+	  return __LINE__;
+	}
+	cc++;
+      }
+      if(cc != f) {
+	cerr << "Iteration failed :" << cc << " of "  << f << " elements covered. \n";
+	return __LINE__;
+      }
+      // Empty queue again.
+      for(int i = 0;i < f;i++) {
+	if(q.GetFirst() != i) {
+	  cerr << "Content test failed. \n";
+	  return __LINE__;
+	}
+      }
+    }
+  }
+#endif
   return 0;
 }
 

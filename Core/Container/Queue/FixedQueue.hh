@@ -20,6 +20,7 @@
 
 namespace RavlN {
   template<class T> class FixedQueueIterC;
+  template<class T> class FixedQueueRevIterC;
   
   //! userlevel=Normal
   //: Fixed size circular queue.
@@ -108,10 +109,12 @@ namespace RavlN {
     T *eoa;  // Ptr to end of array.
 
     friend class FixedQueueIterC<T>;
+    friend class FixedQueueRevIterC<T>;
   };
   
   //! userlevel=Normal
   //: Iterate through contents of the queue.
+  // This goes from the oldest element in the list to the latest. <p>
   
   template<class T>
   class FixedQueueIterC
@@ -158,6 +161,100 @@ namespace RavlN {
       at++;
       if(at == eoa)
 	at = &(*this)[0];
+    }
+    //: Goto next element.
+    
+    void operator++(int)
+    { Next(); }
+    //: Goto next element.
+    
+    void operator++()
+    { Next(); }
+    //: Goto next element.
+    
+    T &Data() 
+    { return *at; }
+    //: Access data.
+    
+    const T &Data() const
+    { return *at; }
+    //: Access data.
+    
+    T &operator*()
+    { return *at; }
+    //: Access data.
+
+    const T &operator*() const
+    { return *at; }
+    //: Access data.
+    
+    T *operator->()
+    { return at; }
+    //: Access data.
+
+    const T *operator->() const
+    { return at; }
+    //: Access data.
+    
+  protected:
+    T *at;
+    T *end;
+    T *eoa;
+  };
+
+  //-----------------------------------------------------
+  //! userlevel=Normal
+  //: Iterate through contents of the queue.
+  // This goes from the latest element in the list to the oldest.
+  
+  template<class T>
+  class FixedQueueRevIterC
+    : public SArray1dC<T>
+  {
+  public:
+    FixedQueueRevIterC()
+      : at(0),
+	end(0)
+    {}
+    //: Default constructor.
+    
+    FixedQueueRevIterC(FixedQueueC<T> &queue)
+      : SArray1dC<T>(queue)
+    { First(queue); }
+    //: Constructor from a queue.
+    // Note: Chaning the queue after the iterator is contructed
+    // will not affect the indexs iterated, though the data will
+    // change.
+    
+    void First(FixedQueueC<T> &queue) {
+      SArray1dC<T>::operator=(queue);
+      at = queue.head;
+      end = queue.tail -1;
+      eoa = &((*this)[0]) - 1;
+      if(end == eoa)
+	end = &(*this)[Size()-1]; 
+      Next();
+    }
+    //: Goto first element in queue.
+    
+    const FixedQueueIterC<T> &operator=(FixedQueueC<T> &queue) {
+      First(queue);
+      return *this;
+    }
+    //: Assign to a queue.
+    
+    bool IsElm() const
+    { return at != end; }
+    //: At valid element ?
+    
+    operator bool() const
+    { return at != end; }
+    //: At a valid element ?
+    
+    void Next() {
+      at--;
+      if(at == eoa)
+	at = &(*this)[Size()-1];
     }
     //: Goto next element.
     
