@@ -21,7 +21,7 @@ namespace RavlN {
   
   template<class SampleT>
   class DataSet1IterC 
-    : public DArray1dIterC<SampleT::ElementT>
+    : public DArray1dIterC<typename SampleT::ElementT>
   {
   public:
     DataSet1IterC()
@@ -29,7 +29,7 @@ namespace RavlN {
     //: Default construtor.
     
     DataSet1IterC(DataSet1C<SampleT> &nds)
-      : it(nds.Sample())
+      : DArray1dIterC<typename SampleT::ElementT>(nds.Sample())
     {}
     //: Construct from a data set.
     

@@ -32,7 +32,7 @@ namespace RavlN {
     DataSet3BodyC(const Sample1T & samp1,const Sample2T & samp2,const Sample3T & samp3,const CollectionC<UIntT> &nindex);
     //: Create a dataset from a sample and an index.
     
-    UIntT Append(const Sample1T::ElementT &data1,const Sample2T::ElementT &data2,const Sample3T::ElementT &data3);
+    UIntT Append(const typename Sample1T::ElementT &data1,const typename Sample2T::ElementT &data2,const typename Sample3T::ElementT &data3);
     //: Append a data entry.
     // returns its index.
     
@@ -82,7 +82,7 @@ namespace RavlN {
       { return Body().Sample3(); }
     //: Access complete sample.
     
-    UIntT Append(const Sample1T::ElementT &data1,const Sample2T::ElementT &data2,const Sample3T::ElementT &data3)
+    UIntT Append(const typename Sample1T::ElementT &data1,const typename Sample2T::ElementT &data2,const typename Sample3T::ElementT &data3)
     { return Body().Append(data1,data2,data3); }
     //: Append a data entry.
     // returns its index.
@@ -104,7 +104,7 @@ namespace RavlN {
   {}
   
   template<class Sample1T,class Sample2T,class Sample3T>
-  UIntT DataSet3BodyC<Sample1T,Sample2T,Sample3T>::Append(const Sample1T::ElementT &data1,const Sample2T::ElementT &data2,const Sample3T::ElementT &data3) {
+  UIntT DataSet3BodyC<Sample1T,Sample2T,Sample3T>::Append(const typename Sample1T::ElementT &data1,const typename Sample2T::ElementT &data2,const typename Sample3T::ElementT &data3) {
     UIntT no1 = samp1.Append(data1);
     UIntT no2 = samp2.Append(data2);
     UIntT no3 = samp3.Append(data3);
