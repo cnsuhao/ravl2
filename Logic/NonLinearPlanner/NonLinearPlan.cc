@@ -14,7 +14,6 @@
 #include "Ravl/Logic/BMinTermListIndex.hh"
 
 #include "Ravl/Assert.hh"
-//#include "Ravl/BLinIter.hh"
 #include "Ravl/BGraphLinearIter.hh"
 #include "Ravl/Logic/MinTermIter.hh"
 #include "Ravl/Logic/NonLinearPlan.hh"

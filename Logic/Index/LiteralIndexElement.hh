@@ -43,6 +43,9 @@ namespace RavlLogicN
     // returns true if this level is a leaf and leave next unchanged.
     // if no suitable node is found 'next' is made invalid.
     
+    virtual bool Del(const TupleC &key);
+    //: Delete branch with index 'key'.
+    
     virtual bool Insert(const TupleC &key,LiteralIndexElementC &next);
     //: Insert/Replace element into the node.
     
@@ -107,6 +110,10 @@ namespace RavlLogicN
     //: Lookup next level in tree.
     // returns true if this level is a leaf and leave next unchanged.
     // if no suitable node is found 'next' is made invalid.
+    
+    bool Del(const TupleC &key)
+    { return Body().Del(key); }
+    //: Delete branch with index 'key'.
     
     LiteralMapIterC<LiteralIndexElementC> Filter(const LiteralC &key,LiteralIndexElementC &next,BindSetC &binds,LiteralC &var)
     { return Body().Filter(key,next,binds,var); }

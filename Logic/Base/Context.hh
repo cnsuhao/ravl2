@@ -38,6 +38,15 @@ namespace RavlLogicN {
     bool Receive(BinIStreamC &strm);
     //: Recieve context information.
     
+    bool Lookup(const StringC &name,LiteralC &lit) {
+      Tuple2C<LiteralC,bool> x;
+      if(!map.Lookup(name,x))
+	return false;
+      lit = x.Data1();
+      return true;
+    }
+    //: Lookup literal.
+    
   protected:
     StringC name;
     RCHashC<StringC,Tuple2C<LiteralC,bool> > map;

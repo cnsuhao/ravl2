@@ -101,14 +101,14 @@ namespace RavlLogicN {
     return ret;
 #endif
   }
-
+  
   //: Generate a new leaf.
   
   LiteralIndexLeafC LiteralIndexBaseBodyC::NewLeaf(const LiteralC &key) {
     RavlAssertMsg(0,"ERROR: Default routine not overriden. ");
     return LiteralIndexLeafC(key);
   }
-
+  
   //: Pick next term to use in the index.
   // used is an array set to true for all the terms already used.
   // 'key' is the key we're updating the index for.
@@ -210,8 +210,28 @@ namespace RavlLogicN {
   // returns true if key existed, false otherwise.
   
   bool LiteralIndexBaseBodyC::Del(const LiteralC &key) {
-    RavlAssertMsg(0,"Not implemented. ");
-    return false;
+    LiteralIndexLeafC elem;
+    if(!map.Lookup(key,elem)) {
+      ONDEBUG(cerr << "LiteralIndexBaseBodyC::Insert(), Key '" << key << "' is already in index. \n");
+      return false;
+    }
+    map.Del(key);
+    TupleC tkey(key);
+    if(!tkey.IsValid())
+      return true;// Not a tuple. Easy!
+    
+    LiteralIndexElementC last,place,next;
+    place = root;
+    RavlAssert(place.IsValid());
+    while(!place.Lookup(tkey,next)) {
+      last = place;
+      place = next;
+    }
+    if(last.IsValid())
+      return last.Del(tkey);
+    // root node was a leaf!
+    root.Invalidate();
+    return true;
   }
 
   //: Dump index in human readable form.

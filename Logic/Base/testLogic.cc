@@ -340,7 +340,8 @@ int testStateNot() {
 int testLiteralIO() {
   StrIStreamC is("(hello) (fred one (three ?four)) fred");
   StateC state(true);
-  if(!LoadState(is,state)) return __LINE__;
+  ContextC context;
+  if(!LoadState(is,state,context)) return __LINE__;
   if(state.Size() != 3) return __LINE__;
   state.Dump(cerr);
   return 0;

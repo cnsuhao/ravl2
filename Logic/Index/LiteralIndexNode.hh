@@ -38,6 +38,9 @@ namespace RavlLogicN {
     // returns true if this level is a leaf and leave next unchanged.
     // if no suitable node is found 'next' is made invalid.
     
+    virtual bool Del(const TupleC &key);
+    //: Delete branch with index 'key'.
+    
     virtual LiteralMapIterC<LiteralIndexElementC> Filter(const LiteralC &key,LiteralIndexElementC &next,BindSetC &binds,LiteralC &var);
     //: Filter next level in tree.
     // If there's a choice return an iterator otherwise the next branch

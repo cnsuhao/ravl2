@@ -46,6 +46,20 @@ namespace RavlLogicN {
       next.Invalidate();
     return false;
   }
+
+  //: Delete branch with index 'key'.
+  
+  bool LiteralIndexNodeBodyC::Del(const TupleC &tuple) {
+    if(term >= tuple.Arity()) {
+      LiteralIndexLeafC leaf(none);      
+      RavlAssert(leaf.IsValid());
+      none.Invalidate();
+      return true;
+    }
+    const LiteralC &subKey = tuple[term];
+    RavlAssert(subKey.IsValid());
+    return index.Del(subKey);
+  }
   
   //: Filter next level in tree.
   // If there's a choice return an iterator otherwise the next branch

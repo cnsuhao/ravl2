@@ -52,6 +52,13 @@ namespace RavlLogicN {
     return false;
   }
   
+  //: Delete branch with index 'key'.
+  
+  bool LiteralIndexElementBodyC::Del(const TupleC &key) {
+    RavlAssertMsg(0,"Abstract method called.");
+    return false;
+  }
+  
   //: Insert/Replace element into the node.
   // returns false if element already exists.
   

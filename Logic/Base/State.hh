@@ -135,7 +135,7 @@ namespace RavlLogicN {
     //: Save to binary stream 'out'.
     
     StateC Copy() const
-      { return StateC(static_cast<StateBodyC &>(Body().Copy())); }
+    { return StateC(static_cast<StateBodyC &>(Body().Copy())); }
     //: Make a copy of this state.
     
     bool Ask(const LiteralC &lit) const

@@ -9,9 +9,13 @@
 //! file="Ravl/Logic/Agent/ActiveBlackboard.cc"
 
 #include "Ravl/Logic/ActiveBlackboard.hh"
+#include "Ravl/Logic/State.hh"
+#include "Ravl/Logic/LiteralIO.hh"
+#include "Ravl/Logic/Unify.hh"
 #include "Ravl/Calls.hh"
+#include "Ravl/CallMethods.hh"
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -26,6 +30,25 @@ namespace RavlLogicN {
     : index(true),
       triggers(true)
   {}
+
+  //: Load rules from a file.
+  
+  bool ActiveBlackboardBodyC::LoadRules(const StringC &filename) {
+    StateC state(true);
+    ContextC context;
+    if(!LoadState(filename,state,context))
+      return false;
+    LiteralC pre = Var();
+    LiteralC post = Var();
+    LiteralC lit = Tuple(pre,post);
+    BindSetC bnd(true);
+    for(LiteralIterC it(state.Filter(lit,bnd));it;it++) {
+      TupleC tup = *it;
+      cerr << "ActiveBlackboardBodyC::LoadRules(), Loading rule " << tup.Name() << "\n";
+      AddRule(tup[0],tup[1]);
+    }
+    return true;
+  }
   
   //: Register a trigger.
   
@@ -41,17 +64,23 @@ namespace RavlLogicN {
     ONDEBUG(cerr << "ActiveBlackboardBodyC::ProcessAdd(), Called. Key=" << key.Name() << "\n");
     RWLockHoldC lock(rwlock,RWLOCK_READONLY);
     LiteralC literal(key);
+    DListC<DListC<TriggerC> > todo;
     for(LiteralIndexFilterC<DListC<TriggerC> > it(triggers,key);it;it++) {
-      ONDEBUG(cerr << " Got match " << it.Data() << "\n");
-      for(DLIterC<TriggerC> lit(it.MappedData());lit;lit++) {
+      todo.InsLast(it.MappedData());
+    }
+    lock.Unlock();
+    LiteralC x(key);
+    for(DLIterC<DListC<TriggerC> > it(todo);it;it++) {
+      ONDEBUG(cerr << " Got match " << key.Name() << "\n");
+      for(DLIterC<TriggerC> lit(*it);lit;lit++) {
 	CallFunc2C<LiteralC,RCWrapAbstractC> call2(*lit,true);
 	if(call2.IsValid()) {
-	  call2.Call(literal,data);
+	  call2.Call(x,data);
 	  continue;
 	}
 	CallFunc1C<LiteralC> call1(*lit,true);
 	if(call1.IsValid()) {
-	  call1.Call(literal);
+	  call1.Call(x);
 	  continue;
 	}
 	lit->Invoke();
@@ -60,5 +89,30 @@ namespace RavlLogicN {
     return true;
   }
   
+  //: Handle assertion of a post condition
+  
+  bool ActiveBlackboardBodyC::AssertPost(LiteralC event,
+					 const LiteralC &preCond,
+					 const LiteralC &postCond) {
+    ONDEBUG(cerr << "ActiveBlackboardBodyC::AssertPost(), Event=" << event.Name() << " Pre=" << preCond.Name() << " Post=" << postCond.Name() << "\n");
+    BindSetC binds(true);
+    if(!Unify(preCond,event,binds)) {
+      cerr << "ActiveBlackboardBodyC::AssertPost(), ERROR: Unify failed. \n";
+      return true;
+    }
+    LiteralC newLit;
+    postCond.Substitute(binds,newLit);
+    ONDEBUG(cerr << "ActiveBlackboardBodyC::AssertPost(), Tell=" << newLit.Name() << " binds=" << binds << "\n");
+    Tell(newLit);
+    return true;
+  }
+  
+  //: Add a rule to the blackboard.
+  // When 'pre' condition it met, assert 'post' condition.
+  
+  UIntT ActiveBlackboardBodyC::AddRule(const LiteralC &pre,const LiteralC &post) {
+    LiteralC tmp;
+    return AddTrigger(pre,TriggerR(*this,&ActiveBlackboardBodyC::AssertPost,tmp,pre,post));
+  }
   
 }

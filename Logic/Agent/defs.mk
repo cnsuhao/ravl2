@@ -9,12 +9,14 @@
 
 PACKAGE=Ravl/Logic
 
-HEADERS=ActiveBlackboard.hh
+HEADERS=ActiveBlackboard.hh Agent.hh AgentPlan.hh
 
-SOURCES=ActiveBlackboard.cc
+SOURCES=ActiveBlackboard.cc Agent.cc AgentPlan.cc
 
 PLIB=RavlLogicAgent
 
-USESLIBS=RavlLogic RavlDPMT
+USESLIBS=RavlLogic RavlDPMT RavlLogicNLP
 
 TESTEXES= testActiveBlackboard.cc
+
+EXAMPLE=exAgent.cc

@@ -16,10 +16,15 @@
 using namespace RavlLogicN;
 
 int testBasic();
+int testRules();
 
 int main() {
   IntT ln;
   if((ln = testBasic()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  }
+  if((ln = testRules()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
@@ -34,7 +39,7 @@ bool simpleTrigger(int &value) {
 }
 
 int testBasic() {
-  cerr << "testBasic()... \n";
+  cerr << "testBasic(), Called \n";
   ActiveBlackboardC blackboard(true);
   
   LiteralC l1 = Literal();
@@ -51,5 +56,17 @@ int testBasic() {
   
   blackboard.Tell(t1,value);
   
+  return 0;
+}
+
+int testRules() {
+  cerr << "testRules(), Called. \n";
+  ActiveBlackboardC blackboard(true);
+  LiteralC l1("l1");
+  LiteralC l2("l2");
+  VarC v1(true);
+  blackboard.AddRule(Tuple(l1,v1),Tuple(l2,v1));
+  blackboard.Tell(Tuple(l1,l1));
+  if(!blackboard.Ask(Tuple(l2,l1))) return __LINE__;
   return 0;
 }

@@ -12,15 +12,16 @@
 //! file="Ravl/Logic/Base/LiteralIO.hh"
 
 #include "Ravl/Logic/Literal.hh"
+#include "Ravl/Logic/Context.hh"
 #include "Ravl/Exception.hh"
 
 namespace RavlLogicN {
   using namespace RavlN;
   
-  bool LoadState(IStreamC &is,StateC &state);
+  bool LoadState(IStreamC &is,StateC &state,ContextC &context);
   //: Load data into stream.
   
-  bool LoadState(const StringC &filename,StateC &state);
+  bool LoadState(const StringC &filename,StateC &state,ContextC &context);
   //: Load data from a file into a state.
   
   bool SaveState(OStreamC &os,StateC &state);

@@ -42,14 +42,14 @@ namespace RavlLogicN {
   
   //: Load data from filename into state.
   
-  bool LoadState(const StringC &filename,StateC &state) {
+  bool LoadState(const StringC &filename,StateC &state,ContextC &context) {
     IStreamC is(filename);
     if(!is)
       return false;
-    return LoadState(is,state);
+    return LoadState(is,state,context);
   }
   
-  bool LoadState(IStreamC &is,StateC &state) {
+  bool LoadState(IStreamC &is,StateC &state,ContextC &loadContext) {
     StackC<DListC<LiteralC> > context;
     int ln = 0;
     try {
@@ -118,7 +118,10 @@ namespace RavlLogicN {
 	case '"': { // String constant.
 	  StringC val = is.ClipTo('"');
 	  // FIXME:- If the string constant contains new lines, we'll loose our line number count.
-	  LiteralC lit = NamedLiteralC(val);
+	  
+	  LiteralC lit;
+	  if(!loadContext.Lookup(val,lit))
+	    lit = NamedLiteralC(val);
 	  if(!context.IsEmpty())
 	    context.Top().InsLast(lit);
 	  else
@@ -132,10 +135,15 @@ namespace RavlLogicN {
 	  x += is.ClipWord(" \t\n\r()\\/:;+<>{}[]|=%*^.,£#$@!~¬");
 	  // Check for numbers ?
 	  LiteralC lit;
-	  if(var)
-	    lit = NamedVarC(x);
-	  else
-	    lit = NamedLiteralC(x);
+	  if(!loadContext.Lookup(x,lit)) {
+	    if(var)
+	      lit = NamedVarC(x);
+	    else
+	      lit = NamedLiteralC(x);
+	  } else {
+	    if(var && !lit.IsVariable())
+	      throw ExceptionParseErrorC("Conflicting literal variable/literal types.");
+	  }
 	  if(!context.IsEmpty())
 	    context.Top().InsLast(lit);
 	  else
