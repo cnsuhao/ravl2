@@ -33,9 +33,9 @@ namespace Ravl3DN {
   
   //: Get next piece of data.
   
-  TriSetC DPITriFileBodyC::Get() {
+  TriMeshC DPITriFileBodyC::Get() {
     if(done)
-      return TriSetC();
+      return TriMeshC();
     UIntT nvertex,nelement;
     inf >> nvertex >>  nelement;
     SArray1dC<VertexC> verts(nvertex);
@@ -63,7 +63,7 @@ namespace Ravl3DN {
     }
     done = true;
     // The faces array is resized in case we had to drop any non trianglular faces.
-    TriSetC ret(verts,SArray1dC<TriC>(faces,it.Index().V()));
+    TriMeshC ret(verts,SArray1dC<TriC>(faces,it.Index().V()));
     ret.UpdateVertexNormals();
     return ret;
   }
@@ -86,7 +86,7 @@ namespace Ravl3DN {
   
   //: Put data.
   
-  bool DPOTriFileBodyC::Put(const TriSetC &dat) {
+  bool DPOTriFileBodyC::Put(const TriMeshC &dat) {
     if(done || !outf)
       return false;
     outf << dat.Vertices().Size() << ' ' << dat.Faces().Size() << '\n';

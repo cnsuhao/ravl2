@@ -9,7 +9,7 @@
 
 #include "Ravl/3D/FormatTriFile.hh"
 #include "Ravl/3D/TriFileIO.hh"
-#include "Ravl/3D/TriSet.hh"
+#include "Ravl/3D/TriMesh.hh"
 #include "Ravl/TypeName.hh"
 
 #define DPDEBUG 0
@@ -36,12 +36,12 @@ namespace Ravl3DN {
   
   const type_info &
   FileFormatTriBodyC::ProbeLoad(IStreamC &in,const type_info &obj_type) const {
-    return typeid(TriSetC);
+    return typeid(TriMeshC);
   }
 
   const type_info & FileFormatTriBodyC::ProbeLoad(const StringC &nfilename,IStreamC &in,const type_info &obj_type) const {
     //StringC filename(nfilename);
-    //  if(obj_type != typeid(TriSetC))
+    //  if(obj_type != typeid(TriMeshC))
     //    return false; // Can only deal with rgb at the moment.
     // For Load, use stream probe its more reliable than extentions.
     return ProbeLoad(in,obj_type);
@@ -50,17 +50,17 @@ namespace Ravl3DN {
   const type_info & FileFormatTriBodyC::ProbeSave(const StringC &filename,const type_info &obj_type,bool forceFormat ) const {
     cerr << "FileFormatTriBodyC::ProbeSave().. \n";
     if(forceFormat)
-      return typeid(TriSetC);
+      return typeid(TriMeshC);
     if(!Extension(filename) == StringC(".tri") && filename != "-")
       return typeid(void);
-    return typeid(TriSetC);
+    return typeid(TriMeshC);
   }
   
   //: Create a input port for loading.
   // Will create an Invalid port if not supported.
   
   DPIPortBaseC FileFormatTriBodyC::CreateInput(IStreamC &in,const type_info &obj_type) const {
-    if(obj_type == typeid(TriSetC))
+    if(obj_type == typeid(TriMeshC))
       return DPITriFileC(in);
     return DPIPortBaseC();
   }
@@ -69,7 +69,7 @@ namespace Ravl3DN {
   // Will create an Invalid port if not supported.
   
   DPOPortBaseC FileFormatTriBodyC::CreateOutput(OStreamC &out,const type_info &obj_type) const  {
-    if(obj_type == typeid(TriSetC))
+    if(obj_type == typeid(TriMeshC))
       return  DPOTriFileC(out);
     return DPOPortBaseC();
   }
@@ -77,7 +77,7 @@ namespace Ravl3DN {
   //: Get prefered IO type.
   
   const type_info &FileFormatTriBodyC::DefaultType() const 
-  { return typeid(TriSetC); }
+  { return typeid(TriMeshC); }
   
   
   //////////////////////////////////////////////////////////////////

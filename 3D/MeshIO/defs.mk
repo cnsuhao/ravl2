@@ -10,7 +10,7 @@ PACKAGE=Ravl/3D
 
 HEADERS= TriFileIO.hh FormatTriFile.hh
 
-SOURCES= TriFileIO.cc FormatTriFile.cc TriSetIO.cc
+SOURCES= TriFileIO.cc FormatTriFile.cc TriMeshIO.cc
 
 MUSTLINK= RavlMeshIO.cc
 

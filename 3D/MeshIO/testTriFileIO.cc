@@ -1,12 +1,13 @@
 
 #include "Ravl/Option.hh"
 #include "Ravl/DP/FileFormatIO.hh"
- 
+#include "Ravl/3D/TriMesh.hh"
+
 using namespace Ravl3DN;
 
 int main() {
   
-  TriSetC ts;
+  TriMeshC ts;
   if(!Load("/vol/vssp/motion3d/DispMap/cubehead/detail.tri",ts,"",true)) {
     cerr << "Failed to load file. \n";
     return 1;

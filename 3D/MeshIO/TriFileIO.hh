@@ -9,8 +9,9 @@
 ///////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=Ravl3DIO
+//! docentry="Ravl.3D.IO"
 
-#include "Ravl/3D/TriSet.hh"
+#include "Ravl/3D/TriMesh.hh"
 #include "Ravl/DP/Port.hh"
 #include "Ravl/Stream.hh"
 
@@ -20,7 +21,7 @@ namespace Ravl3DN {
   //: Tri file IO.
   
   class DPITriFileBodyC
-    : public DPIPortBodyC<TriSetC>
+    : public DPIPortBodyC<TriMeshC>
   {
   public:
     DPITriFileBodyC(const StringC &fn);
@@ -32,7 +33,7 @@ namespace Ravl3DN {
     virtual bool IsGetEOS() const;
     //: Is valid data ?
     
-    virtual TriSetC Get();
+    virtual TriMeshC Get();
     //: Get next piece of data.
     
   protected:
@@ -44,7 +45,7 @@ namespace Ravl3DN {
   //: Tri file IO.
 
   class DPITriFileC
-    : public DPIPortC<TriSetC>
+    : public DPIPortC<TriMeshC>
   {
   public:
     DPITriFileC(const StringC &fn)
@@ -64,7 +65,7 @@ namespace Ravl3DN {
   //: Tri file IO.
   
   class DPOTriFileBodyC
-    : public DPOPortBodyC<TriSetC>
+    : public DPOPortBodyC<TriMeshC>
   {
   public:
     DPOTriFileBodyC(const StringC &fn);
@@ -73,7 +74,7 @@ namespace Ravl3DN {
     DPOTriFileBodyC(OStreamC &is);
     //: Open stream.
     
-    virtual bool Put(const TriSetC &dat);
+    virtual bool Put(const TriMeshC &dat);
     //: Put data.
     
     virtual bool IsPutReady() const;
@@ -88,7 +89,7 @@ namespace Ravl3DN {
   //: Tri file IO.
 
   class DPOTriFileC
-    : public DPOPortC<TriSetC>
+    : public DPOPortC<TriMeshC>
   {
   public:
     DPOTriFileC(const StringC &fn)

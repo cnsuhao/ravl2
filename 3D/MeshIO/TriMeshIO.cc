@@ -7,17 +7,17 @@
 //! rcsid="$Id$"
 //! lib=Ravl3DIO
 
-#include "Ravl/3D/TriSet.hh"
+#include "Ravl/3D/TriMesh.hh"
 #include "Ravl/DP/FileFormatStream.hh"
 #include "Ravl/DP/FileFormatBinStream.hh"
 
 namespace Ravl3DN {
 
-  void InitTriSetIO() 
+  void InitTriMeshIO() 
   {}
   
-  static TypeNameC type1(typeid(TriSetC),"TriSetC");  
+  static TypeNameC type1(typeid(TriMeshC),"TriMeshC");  
   
-  FileFormatStreamC<TriSetC > FileFormatStream_TriSetC;
-  FileFormatBinStreamC<TriSetC > FileFormatBinStream_TriSetC;
+  FileFormatStreamC<TriMeshC > FileFormatStream_TriMeshC;
+  FileFormatBinStreamC<TriMeshC > FileFormatBinStream_TriMeshC;
 }

@@ -13,10 +13,10 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.3D.IO.Formats"
 //! date="29/10/98"
-//! userlevel=Default
+//! userlevel=Normal
 
 #include "Ravl/DP/FileFormat.hh"
-#include "Ravl/3D/TriSet.hh"
+#include "Ravl/3D/TriMesh.hh"
 
 namespace Ravl3DN {
   
@@ -65,10 +65,10 @@ namespace Ravl3DN {
   //: Create an instance of a Tri File Format.
   
   class FileFormatTriC 
-    : public FileFormatC<TriSetC > {
+    : public FileFormatC<TriMeshC > {
   public:
     FileFormatTriC()
-      : FileFormatC<TriSetC >(*new FileFormatTriBodyC())
+      : FileFormatC<TriMeshC >(*new FileFormatTriBodyC())
       {}
   };
   
