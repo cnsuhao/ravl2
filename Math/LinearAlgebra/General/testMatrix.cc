@@ -152,8 +152,11 @@ int testMatrixRUT() {
   
   VectorC vec(1,2,3);
   MatrixRUTC m = OuterProductRUT(vec);
+  //cerr << "m=" << m << "\n";
   m.MakeSymmetric();
   MatrixC om = vec.OuterProduct();
+  //cerr << "sm=" << m << "\n";
+  //cerr << "om=" << om << "\n";
   if((om - m).SumOfSqr() > 0.00000001) return __LINE__;
   
   // test AddOuterProduct(vec).

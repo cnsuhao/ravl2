@@ -12,7 +12,7 @@
 #include "Ravl/MatrixRUT.hh"
 #include "Ravl/Vector.hh"
 #include "Ravl/CCMath.hh"
-
+#include "Ravl/StdConst.hh"
 namespace RavlN {
   
   //: Calculate the inverse of a upper right triangular matrix.
@@ -143,6 +143,9 @@ namespace RavlN {
   
   MatrixRUTC OuterProductRUT(const VectorC &vec) {
     MatrixRUTC ret(vec.Size());
+#if RAVL_CHECK
+    ret.Fill(RavlConstN::nanReal); // Catch people expecting zero's in lower left.
+#endif
     SArray2dIterC<RealT> mit(ret);
     int off = 0;
     for(BufferAccessIterC<RealT> it(vec);it;it++) {
@@ -158,6 +161,9 @@ namespace RavlN {
   
   MatrixRUTC OuterProductRUT(const VectorC &vec,RealT a) {
     MatrixRUTC ret(vec.Size());
+#if RAVL_CHECK
+    ret.Fill(RavlConstN::nanReal); // Catch people expecting zero's in lower left.
+#endif
     SArray2dIterC<RealT> mit(ret);
     int off = 0;
     for(BufferAccessIterC<RealT> it(vec);it;it++) {
