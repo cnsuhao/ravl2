@@ -137,6 +137,8 @@ namespace RavlN {
     char *hostentData = new char [buffSize];  
     struct hostent ent;
     struct hostent *result = 0;
+    if(*name == 0)
+      name = "localhost";
     while(1) {
       ONDEBUG(cerr << " Looking for '" << name << "'\n");
 #if RAVL_OS_LINUX
@@ -325,8 +327,15 @@ namespace RavlN {
   
   int SocketBodyC::OpenServer(const char *name,IntT portNo) {
     struct sockaddr_in sin = {PF_INET};
-    if(!GetHostByName(name,sin))
-      return -1;    
+    if(*name != 0) {
+      if(!GetHostByName(name,sin))
+	return -1;
+    } else {
+      cerr << "sin_addr=" << sizeof(sin.sin_addr) <<  " ANY=" << sizeof(INADDR_ANY) << "\n";
+      static in_addr_t anyAddress = INADDR_ANY;
+      //sin.sin_addr = anyAddress;
+      memcpy(&sin.sin_addr,&anyAddress,sizeof(INADDR_ANY));
+    }
     if((fd = OpenSocket(sin,portNo)) < 0)
       return -1;
     sin.sin_port = htons(portNo);
@@ -357,7 +366,7 @@ namespace RavlN {
       struct sockaddr *cn_addr = (struct sockaddr *) new char [addrBuffSize];
       int nfd = accept(fd,cn_addr,(socklen_t *) &addrBuffSize);
       ONDEBUG(cerr  << "Got connection. \n");
-      if(nfd >= 0) 
+      if(nfd >= 0)
 	return SocketC(cn_addr,nfd);
       delete [] (char *) cn_addr;  
     } while(block);
