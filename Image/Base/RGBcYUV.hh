@@ -20,11 +20,15 @@ namespace RavlImageN {
   extern const TFMatrixC<RealT,3,3> ImageYUVtoRGBMatrix;
   // Matrix to convert YUV values to RGB.
   
+  extern const TFMatrixC<RealT,3,3> ImageRGBtoYUVMatrixStd;
+  // Matrix to convert YUV values to RGB.
+
   extern const TFMatrixC<RealT,3,3> ImageRGBtoYUVMatrix;
   // Matrix to convert YUV values to RGB.
   
+
   inline RealYUVValueC::RealYUVValueC(const RealRGBValueC &v) 
-    : YUVValueC<RealT>(ImageRGBtoYUVMatrix * v)
+    : YUVValueC<RealT>(ImageRGBtoYUVMatrixStd * v)
   {}
   
   inline RealRGBValueC::RealRGBValueC(const RealYUVValueC &v) 

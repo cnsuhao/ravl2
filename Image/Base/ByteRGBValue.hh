@@ -29,12 +29,12 @@ namespace RavlImageN {
       {}
     //: Default constructor.
     // creates an undefined RGB pixel.
-
+    
     ByteRGBValueC(ByteT r,ByteT g, ByteT b)
       : RGBValueC<ByteT>(r,g,b)
       {}
     //: Construct from components.
-
+    
     ByteRGBValueC(const RGBValueC<ByteT> &oth)
       : RGBValueC<ByteT>(oth)
       {}

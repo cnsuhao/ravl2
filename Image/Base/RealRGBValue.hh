@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLREALRGBVALUE_HEADER
-#define RAVLREALRGBVALUE_HEADER 1
+#ifndef RAVL_REALRGBVALUE_HEADER
+#define RAVL_REALRGBVALUE_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Image/Base/RealRGBValue.hh"

@@ -24,10 +24,10 @@ namespace RavlImageN {
   
   const TFMatrixC<RealT,3,3> ImageYUVtoRGBMatrix(Init_YUVtoRGB_Matrix);
   
-  static const RealT Init_RGBtoYUV_Matrix[] = {0.299,  0.587,  0.114,
+  static const RealT Init_RGBtoYUV_Matrix[] = { 0.299,  0.587,  0.114,
 					       -0.148, -0.289,  0.437,
-					       0.615, -0.515, -0.100 };
-
+					        0.615, -0.515, -0.100 };
+  
   
   const TFMatrixC<RealT,3,3> ImageRGBtoYUVMatrixStd(Init_RGBtoYUV_Matrix );
   

@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLYUVVALUE_HEADER
-#define RAVLYUVVALUE_HEADER
+#ifndef RAVL_YUVVALUE_HEADER
+#define RAVL_YUVVALUE_HEADER
 ////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Image/Base/YUVValue.hh"

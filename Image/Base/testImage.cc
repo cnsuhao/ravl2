@@ -13,12 +13,14 @@
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Array2dIter.hh"
 #include "Ravl/Array2dIter2.hh"
+#include "Ravl/Image/RGBcYUV.hh"
 #include <fstream.h>
 
 using namespace RavlImageN;
 
 int TestBasic();
 int TestIO();
+int TestColorCnv();
 
 int main()
 {
@@ -29,6 +31,10 @@ int main()
      return 1;
   }
   if((lineno = TestIO()) != 0) {
+    cerr << "Image io test failed : " << lineno << "\n";
+     return 1;
+  }
+  if((lineno = TestColorCnv()) != 0) {
     cerr << "Image io test failed : " << lineno << "\n";
      return 1;
   }
@@ -185,5 +191,17 @@ int TestIO()
     testFn.Remove();
 #endif
   
+  return 0;
+}
+
+int TestColorCnv() {
+  RealYUVValueC yuv(20,30,40);
+  cerr << "yuv=" << yuv << "\n";
+  RealRGBValueC rgb(yuv);
+  cerr << "rgb=" << rgb << "\n";
+  RealYUVValueC yuv2(rgb);
+  cerr << "yuv2=" << yuv2 << "\n";
+  RealT diff = (yuv - yuv2).SumSqr();
+  if(diff > 0.002) return __LINE__;
   return 0;
 }

@@ -47,9 +47,9 @@ namespace RavlImageN {
     
     template<class OCompT>
     RGBValueC(RGBValueC<OCompT> &oth) {
-      data[0] = oth.Red();
-      data[1] = oth.Green();
-      data[2] = oth.Blue();
+      data[0] = (CompT) oth.Red();
+      data[1] = (CompT) oth.Green();
+      data[2] = (CompT) oth.Blue();
     }
     //: Construct from another component type.
     
