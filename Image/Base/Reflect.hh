@@ -31,7 +31,7 @@ namespace RavlImageN {
 	*p2 = *p1;
     }
   }
-  //: Reflect image 
+  //: Reflect image along its vertical axis
 }
 
 
