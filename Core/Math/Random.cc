@@ -32,6 +32,15 @@ namespace RavlN {
   // The default variable of generators.
 
   static unsigned short *st = seed48(randomIdum);
+
+  //: Set the seed for the default random number generator.
+  
+  void RandomSeedDefault(int i) {
+    MTWriteLockC lock(1);
+    randomIdum[0] = i;
+    randomIdum[1] = i >> 16;
+    randomIdum[2] = i >> 24;
+  }
   
   // Returns an integer between 0 and RandomIntMax.
   

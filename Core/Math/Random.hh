@@ -49,7 +49,9 @@ namespace RavlN {
   //: Returns a Gaussian distributed zero mean random
   //: number with variance 1.0.
   // RandomGauss is based on Random1.
-
+  
+  void RandomSeedDefault(int i);
+  //: Set the seed for the default random number generator.
 }
 
 #endif
