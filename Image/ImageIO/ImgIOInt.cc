@@ -41,6 +41,20 @@ namespace RavlImageN {
       it.Data1() = it.Data2();
     return ret;
   }
+
+  ImageC<UIntT> IntTImageCT2UIntTImageCT(const ImageC<IntT> &dat) { 
+    ImageC<UIntT> ret(dat.Rectangle());
+    for(Array2dIter2C<UIntT,IntT> it(ret,dat);it;it++)
+      it.Data1() = it.Data2();
+    return ret;
+  }
+
+  ImageC<IntT> UIntTImageCT2IntTImageCT(const ImageC<UIntT> &dat) { 
+    ImageC<IntT> ret(dat.Rectangle());
+    for(Array2dIter2C<IntT,UIntT> it(ret,dat);it;it++)
+      it.Data1() = it.Data2();
+    return ret;
+  }
   
   ImageC<UInt16T> UIntTImageCT2UInt16TImageCT(const ImageC<UIntT> &dat) { 
     ImageC<UInt16T> ret(dat.Rectangle());
@@ -55,6 +69,10 @@ namespace RavlImageN {
 			       "ImageC<UIntT> RavlImageN::Convert(const ImageC<UInt16T> &)");
   DP_REGISTER_CONVERSION_NAMED(UIntTImageCT2UInt16TImageCT,2,
 			       "ImageC<UInt16T> RavlImageN::Convert(const ImageC<UIntT> &)");
+  DP_REGISTER_CONVERSION_NAMED(IntTImageCT2UIntTImageCT,1.03125,
+			       "ImageC<UIntT> RavlImageN::Convert(const ImageC<IntT> &)");
+  DP_REGISTER_CONVERSION_NAMED(UIntTImageCT2IntTImageCT,1.03125,
+			       "ImageC<IntT> RavlImageN::Convert(const ImageC<UIntT> &)");
   
   FileFormatStreamC<ImageC<IntT> > FileFormatStream_ImageC_IntT;
   FileFormatBinStreamC<ImageC<IntT> > FileFormatBinStream_ImageC_IntT;
