@@ -19,39 +19,59 @@
 #include "Ravl/DP/Compose.hh"
 #include "Ravl/OS/Date.hh"
 #include "Ravl/OS/NetPortManager.hh"
+#include "Ravl/Option.hh"
 
 using namespace RavlN;
 
-int testNetIPort();
+int testNetIPort(char *name);
 int testNetOPort();
 
 StringC server;
 
-int main() {
+int main(int nargs,char **argv) {
+  OptionC opts(nargs,argv);
+  server = opts.String("h","localhost:4048","Network address to use. ");
+  bool iport = opts.Boolean("i",true,"Test NetIPort.");
+  bool iport2 = opts.Boolean("i2",false,"Test NetIPort again.");
+  bool oport = opts.Boolean("o",true,"Test NetOPort.");
+  opts.Check();
   int ln;
   
   cerr << "testNetPort(), Start port server. \n";
-  
-  server = StringC("localhost:4046");
   
   if(!NetPortOpen(server)) {
     cerr << "Failed to open netPortManager. \n";
     return __LINE__;
   }
-  if((ln = testNetIPort()) != 0) {
-    cerr << "Test failed on line :" << ln << "\n";
-    return 1;
+  if(iport) {
+    if((ln = testNetIPort("ia")) != 0) {
+      cerr << "Test failed on line :" << ln << "\n";
+      return 1;
+    }
+    // Need to give read threads time to shutdown.
   }
-  if((ln = testNetOPort()) != 0) {
-    cerr << "Test failed on line :" << ln << "\n";
-    return 1;
+  if(iport2) {
+    if((ln = testNetIPort("ib")) != 0) {
+      cerr << "Test failed on line :" << ln << "\n";
+      return 1;
+    }
+    // Need to give read threads time to shutdown.
   }
-  
+  if(oport) {
+    if((ln = testNetOPort()) != 0) {
+      cerr << "Test failed on line :" << ln << "\n";
+      return 1;
+    }
+    // Need to give read threads time to shutdown.
+  }
+  cout << "Waiting for cleanup. \n";
+  NetPortClose();
+  Sleep(6);
   cout << "Test passed ok. \n";
   return 0;
 }
 
-int testNetIPort() {
+int testNetIPort(char *name) {
   cerr << "testNetPort(), Test started. \n";
 
   // ********************** SERVER SIDE ************************************
@@ -66,7 +86,7 @@ int testNetIPort() {
   DPIPortC<IntT> op = DPIContainer(lst);
 
   // Export the stream 'op' as test1
-  if(!NetExport("test1",op)) {
+  if(!NetExport(name,op)) {
     cerr << "Failed to export 'test1' \n";
     return __LINE__;
   }
@@ -76,7 +96,7 @@ int testNetIPort() {
   cerr << "testNetPort(), Setup  NetIPort. \n";
 
   // Make a connection to the server.
-  NetISPortC<IntT>  isp (server,"test1");
+  NetISPortC<IntT>  isp (server,name);
   
   // Should check it succeeded here.
   
