@@ -10,6 +10,7 @@
 //! rcsid="$Id$"
 //! userlevel=Normal
 //! author="Charles Galambos"
+//! docentry="Ravl.Images.Filtering"
 //! lib=RavlImage
 //! file="Ravl/Image/Processing/Filters/ConvolveSeparable2d.hh"
 

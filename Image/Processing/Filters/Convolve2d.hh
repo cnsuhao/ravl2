@@ -12,6 +12,7 @@
 //! author="Charles Galambos"
 //! lib=RavlImage
 //! file="Ravl/Image/Processing/Filters/Convolve2d.hh"
+//! docentry="Ravl.Images.Filtering"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Array2dIter.hh"

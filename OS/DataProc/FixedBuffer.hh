@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlDPMT
-//! docentry="Data Processing"
+//! docentry="Ravl.OS.Data Processing"
 //! file="Ravl/OS/DataProc/FixedBuffer.hh"
 //! author="Charles Galambos"
 //! date="04/03/99"

@@ -10,6 +10,8 @@
 //! rcsid="$Id$"
 //! lib=RavlLogic
 //! file="Ravl/Logic/DecisionTree/DecisionExamples.hh"
+//! author="Charles Galambos"
+//! docentry="Ravl.Logic.Decision Tree"
 
 #include "Ravl/Histogram.hh"
 #include "Ravl/Hash.hh"

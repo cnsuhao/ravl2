@@ -7,7 +7,7 @@
 #ifndef RAVL_DPSPLITO_HEADER
 #define RAVL_DPSPLITO_HEADER 1
 /////////////////////////////////////////////////
-//! docentry="Data Processing"
+//! docentry="Ravl.Core.Data Processing"
 //! lib=RavlIO
 //! example=exDPSplit.cc
 //! rcsid="$Id$"

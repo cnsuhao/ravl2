@@ -12,7 +12,7 @@
 //! userlevel = Default
 //! lib=RavlMath
 //! rcsid     = "$Id$"
-//! docentry  = "3D Surface.Rigid Body Transforms"
+//! docentry="Ravl.Math.Geometry.3D"
 
 #include "Ravl/Quatern3d.hh"
 #include "Ravl/Vector3d.hh"
@@ -21,7 +21,8 @@
 
 namespace RavlN {
 
-
+  
+  //! userlevel=Normal
   //: Rigid transform in 3 dimentions.
   // A RigigTransC is a 3D Rigid body transformation comprising of a 
   // rotation followed by a translation. The order is very important.
@@ -36,8 +37,8 @@ namespace RavlN {
   class RigidTransform3dC {
   public:
     
+    //:-------------------------------------
     // Constructors,  destructor, assignment
-    // -------------------------------------
 
     RigidTransform3dC()
     {}

@@ -8,6 +8,8 @@
 //! rcsid="$Id$"
 //! lib=RavlOSIO
 //! file="Ravl/OS/IO/SequenceIO.cc"
+//! author="Charles Galambos"
+//! docentry="Ravl.OS.Sequence"
 //! userlevel=Normal
 
 #include "Ravl/DP/SequenceIO.hh"

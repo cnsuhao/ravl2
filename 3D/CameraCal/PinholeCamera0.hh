@@ -6,7 +6,8 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlCameraCal
-
+//! author="Joel Mitchelson"
+//! docentry="Ravl.3D"
 #ifndef _CAMERA_CAL_PINHOLE_CAMERA_0_HH_
 #define _CAMERA_CAL_PINHOLE_CAMERA_0_HH_
 

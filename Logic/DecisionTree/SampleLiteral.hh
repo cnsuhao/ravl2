@@ -7,9 +7,10 @@
 #ifndef RAVL_SAMPLELITERAL_HEADER
 #define RAVL_SAMPLELITERAL_HEADER 1
 //! rcsid="$Id$"
-//! author="Charles Galambos"
 //! lib=RavlLogic
 //! file="Ravl/Logic/DecisionTree/SampleLiteral.hh"
+//! author="Charles Galambos"
+//! docentry="Ravl.Logic.Decision Tree"
 
 #include "Ravl/PatternRec/SampleDiscrete.hh"
 #include "Ravl/Logic/Literal.hh"

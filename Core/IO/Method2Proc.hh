@@ -7,7 +7,7 @@
 #ifndef RAVL_DPMETHODPROC_HEADER
 #define RAVL_DPMETHODPROC_HEADER 1
 ///////////////////////////////////////////////
-//! docentry="Data Processing"
+//! docentry="Ravl.Core.Data Processing"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/Method2Proc.hh"
 //! author="Charles Galambos"
@@ -59,7 +59,7 @@ namespace RavlN {
   };
   
   ///////////////////////////////
-  //! userlevel=Develop
+  //! userlevel=Advanced
   //: Methodtion handle.
   
   template<class InT,class OutT,class ObjT>
@@ -72,6 +72,8 @@ namespace RavlN {
     {}
     //: Default constructor.
   };
+
+  //! userlevel=Normal
   
   template<class InT,class OutT,class ObjT>
   DPMethod2ProcC<InT,OutT,ObjT> Process(const ObjT &nclass,OutT (ObjT::*nmethod)(const InT &))
