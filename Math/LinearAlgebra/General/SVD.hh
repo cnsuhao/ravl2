@@ -29,7 +29,7 @@ namespace RavlN
   //<p>
   //    (Adapted from <a href =
   //    "http://math.nist.gov/javanumerics/jama">JAMA</a>, a Java Matrix
-  //    Library, developed by jointly // by the Mathworks and NIST.)
+  //    Library, developed jointly by the Mathworks and NIST.)
   
   template <class NumT>
   class SVDC

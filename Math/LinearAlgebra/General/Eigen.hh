@@ -57,8 +57,9 @@ namespace RavlN
   // A = V*D*inverse(V) depends upon the condition number of V.
   // 
   // <p>
-  // (Adapted from JAMA, a Java Matrix Library, developed by jointly 
-  // by the Mathworks and NIST; see  http://math.nist.gov/javanumerics/jama).
+  // (Adapted from <a href =
+  // "http://math.nist.gov/javanumerics/jama">JAMA</a>, a Java Matrix
+  // Library, developed jointly by the Mathworks and NIST.)
   
   template <class NumT>
   class EigenValueC
