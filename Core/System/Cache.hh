@@ -19,7 +19,7 @@
 namespace RavlN {
   template<class KeyT,class DataT> class CacheIterC;
   
-  //! userlevel=Develop
+  //! userlevel=Advanced
   //: Entry in the CacheC.
   
   template<class DataT>
@@ -54,7 +54,10 @@ namespace RavlN {
 
   //! userlevel=Normal
   //: Fixed size cache class.
-  // Note: This is not refrence counted.
+  // This is effectly a hash table with a 'recently used' list and a maximum size.
+  // When a new item is added and the table is full, the oldest item is removed from
+  // the cache. <br>
+  // Note: This class is not refrence counted.
   
   template<class KeyT,class DataT>
   class CacheC 
@@ -99,6 +102,21 @@ namespace RavlN {
       return true;
     }
     //: Remove oldest item from the cache.
+    
+    bool GetOldest(KeyT &key,DataT &data) {
+      if(list.IsEmpty())
+	return false;
+      HashElemC<KeyT,CacheEntryC<DataT> > *entry = DLink2Entry(list.Last());
+      key = entry->GetKey();
+      data = entry->Data().Data();
+      delete entry;
+      CheckDel();
+      return true;
+    }
+    //: Remove oldest item from the cache.
+    // If there is data in the cache the key from the removed item is assigned to paramiter
+    // 'key', the data to 'data' and true is returned  If the cache is empty
+    // false is returned and the paramiters are unchanged.
     
     bool Insert(const KeyT &key,const DataT &data,bool bump = true) {
       UIntT hashVal;
@@ -147,7 +165,7 @@ namespace RavlN {
       CacheEntryC<DataT> *dl = HashC<KeyT,CacheEntryC<DataT> >::Lookup(key); 
       if(dl == 0) return false;
       dl->Link().Unlink();
-      list.InsFirst(dl->Data().Link()); // Put it at the end of the use list.
+      list.InsFirst(dl->Link()); // Put it at the end of the use list.
       dat = dl->Data();
       return true;
     }
@@ -196,6 +214,10 @@ namespace RavlN {
   public:
     DataT &Data()
     { return DLink2Entry(IntrDLIterC<DLinkC>::Data())->Data().Data(); }
+    //: Access data.
+    
+    DataT *operator->()
+    { return &Data(); }
     //: Access data.
     
     const KeyT &Key() const

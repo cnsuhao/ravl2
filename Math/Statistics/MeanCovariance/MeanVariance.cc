@@ -21,14 +21,15 @@ namespace RavlN {
   
   MeanVarianceC::MeanVarianceC(const SArray1dC<RealT> &data) {
     n = data.Size();
-    mean = 0;
     var = 0;
+    RealT sum = 0;
     for(SArray1dIterC<RealT> it(data);it;it++) {
-      mean += *it;
+      sum += *it;
       var += Sqr(*it);
     }
-    mean /= (RealT) n;
-    var = (var - Sqr(mean)/(RealT)n)/((RealT)n-1);
+    RealT rn = (RealT) n;
+    mean = sum / rn;
+    var = (var - Sqr(sum)/rn)/(rn-1);
   }
 
   //: Add another MeanVariance to this one.
