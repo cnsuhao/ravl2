@@ -7,6 +7,12 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Buffer/exRBfAcc.cc"
+//! userlevel=Normal
+//! author="Radek Marik"
+//! docentry="Ravl.Core.Arrays.Buffer"
+//! date="26/2/1997"
+
+//: Range Buffer Access
 
 #include "Ravl/EntryPnt.hh"
 #include "Ravl/Types.hh"

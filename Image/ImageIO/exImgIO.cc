@@ -8,6 +8,12 @@
 //! rcsid="$Id$"
 //! lib=RavlImageIO
 //! file="Ravl/Image/ImageIO/exImgIO.cc"
+//! userlevel=Normal
+//! author="Charles Galambos"
+//! date="16/03/1999"
+//! docentry="Ravl.Images"
+
+//: Loading and saving images.
 
 #include "Ravl/Option.hh"
 #include "Ravl/DP/FileFormatIO.hh"

@@ -9,6 +9,12 @@
 //! rcsid="$Id$"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/exDataProc.cc"
+//! userlevel=Normal
+//! author="Charles Galambos"
+//! docentry="Ravl.Core.Data Processing"
+
+//: Composing a processing pipeline
+// The input file for the example should be a white space seperated list of numbers
 
 #include "Ravl/Option.hh"
 #include "Ravl/DP/FileIO.hh"
@@ -19,7 +25,6 @@ using namespace RavlN;
 RealT MultiplyBy2(const RealT &val)
 { return val * 2; }
 
-// The input file for the example should be a white space seperated list of numbers
 
 int main(int argc,char **argv) {  
   OptionC option(argc,argv,true);

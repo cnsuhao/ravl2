@@ -8,6 +8,12 @@
 //! rcsid="$Id$"
 //! lib=RavlVideoIO
 //! file="Ravl/Image/VideoIO/exImgSeq.cc"
+//! example=exImgSeq.cc
+//! docentry="Ravl.Images.Video"
+//! author="Bill Christmas, Charles Galambos"
+//! date="08/04/1999"
+
+//: Loading and saving image sequences
 
 #include "Ravl/Option.hh"
 #include "Ravl/DP/SequenceIO.hh"

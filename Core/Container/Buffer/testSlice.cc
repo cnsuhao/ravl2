@@ -8,6 +8,9 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Buffer/testSlice.cc"
+//! docentry="Ravl.Core.Arrays.Buffer"
+//! author="Charles Galambos"
+//! userlevel=Develop
 
 #include "Ravl/Slice1d.hh"
 #include "Ravl/Buffer.hh"

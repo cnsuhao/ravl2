@@ -8,6 +8,9 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Buffer/testBuffer2d.cc"
+//! docentry="Ravl.Core.Arrays.Buffer"
+//! author="Charles Galambos"
+//! userlevel=Develop
 
 #include "Ravl/Buffer2d.hh"
 #include "Ravl/SBfAcc2d.hh"

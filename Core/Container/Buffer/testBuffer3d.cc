@@ -8,6 +8,9 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Buffer/testBuffer3d.cc"
+//! docentry="Ravl.Core.Arrays.Buffer"
+//! author="Charles Galambos"
+//! userlevel=Develop
 
 #include "Ravl/Stream.hh"
 #include "Ravl/Buffer3d.hh"

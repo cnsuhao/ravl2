@@ -8,6 +8,10 @@
 //! rcsid="$Id$"
 //! lib=RavlImageIO
 //! file="Ravl/Image/ImageIO/testImgIO.cc"
+//! userlevel=Develop
+//! author="Charles Galambos"
+//! date="16/03/1999"
+//! docentry="Ravl.Images"
 
 #include "Ravl/Option.hh"
 #include "Ravl/DP/FileFormatIO.hh"
@@ -18,8 +22,6 @@
 
 using namespace RavlImageN;
 
-//extern void InitDPImageIO(void);
-
 int main(int argc,char **argv) {  
   OptionC option(argc,argv,true);
   StringC filename = option.String("f","/tmp/testImgIO.abs","Working filename");
@@ -28,8 +30,6 @@ int main(int argc,char **argv) {
   option.Check();
   
   filename = FilenameC(filename).MkTemp();
-  
-  //InitDPImageIO();
   
   ImageC<IntT> x1(100,100);
   IntT counter = 1;

@@ -8,11 +8,14 @@
 //! rcsid="$Id$"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/exComposeSingle.cc"
+//! userlevel=Normal
+//! docentry="Ravl.Core.Data Processing.Single Items"
+//! author="Charles Galambos"
+
+//: Example of how to use single item processing pipelines.
 
 #include "Ravl/DP/ComposeSingle.hh"
 #include "Ravl/IntC.hh"
-
-// Example of how to use single item processing pipelines.
 
 namespace RavlN {
   IntC Multiply2(const IntC &x) {

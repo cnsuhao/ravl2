@@ -9,6 +9,11 @@
 //! rcsid="$Id$"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/exFileFormat.cc"
+//! docentry="Ravl.Core.IO.Formats" 
+//! date="13/08/1998"
+//! userlevel=Normal
+
+//: Using Load(...) and Save(...) methods.
 
 #include "Ravl/Option.hh"
 #include "Ravl/IO.hh"

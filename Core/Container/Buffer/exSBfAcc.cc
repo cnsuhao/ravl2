@@ -8,6 +8,12 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Buffer/exSBfAcc.cc"
+//! userlevel=Normal
+//! author="Radek Marik"
+//! docentry="Ravl.Core.Arrays.Buffer"
+//! date="26/2/1997"
+
+//: Sized Buffer Access
 
 #include "Ravl/EntryPnt.hh"
 #include "Ravl/Types.hh"

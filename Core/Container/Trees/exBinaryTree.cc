@@ -7,6 +7,11 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Trees/exBinaryTree.cc"
+//! docentry="Ravl.Core.Trees"
+//! author="Charles Galambos"
+//! userlevel=Normal
+
+//: Using and iterating through BinaryTreeC
 
 #include "Ravl/BinaryTree.hh"
 #include "Ravl/BinaryTreeUpIter.hh"
