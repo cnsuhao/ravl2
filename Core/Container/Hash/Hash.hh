@@ -4,13 +4,13 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLHASHT_HEADER
-#define RAVLHASHT_HEADER 1
+#ifndef RAVL_HASHTABLE_HEADER
+#define RAVL_HASHTABLE_HEADER 1
 ///////////////////////////////////////////////////////////////
 //! file="Ravl/Core/Container/Hash/Hash.hh"
 //! lib=RavlCore
 //! author="Charles Galambos"
-//! date="1/9/96"
+//! date="1/9/1996"
 //! docentry="Ravl.Core.Hash Tables"
 //! example=WordFreq.cc;exHash.cc
 //! rcsid="$Id$"
@@ -61,20 +61,20 @@ namespace RavlN {
   public:
     HashBaseC()
       : elements(0)
-      {}
+    {}
     //: Default constructor.
-
+    
     HashBaseC(UIntT nelements)
       : elements(nelements)
-      {}
+    {}
     //: Constructor.
     
     bool IsEmpty() const
-      { return elements == 0; }
+    { return elements == 0; }
     //: Is the table empty ?
-
+    
     UIntT Size() const 
-      { return elements; }
+    { return elements; }
     //: Count number of elements in table.
     
     SizeT NextPrime(SizeT v);
@@ -83,7 +83,7 @@ namespace RavlN {
   protected:
     UIntT elements; // Number of elements in the table.
   };
-
+  
   
   ///////////////////////////////
   //! userlevel=Normal
@@ -119,14 +119,14 @@ namespace RavlN {
     
     HashC(UIntT nBins = 23) 
       : table((int) nBins) 
-      {}
+    {}
     //: Create table with nBins.
     // Bin size must be at least 1.
     
     HashC(const HashC<K,T> &oth) 
       : HashBaseC(oth.elements),
 	table(oth.table.Copy())
-      {}
+    {}
     //: Copy access structure.
     
     HashC(Tuple2C<K,T> *data); 
@@ -155,8 +155,8 @@ namespace RavlN {
     // Returns true if entry is found, and is assigned to 'data'.
     
     inline bool Update(const K &Key,const T &Data);
-    //: Update member of HashTable, will create new one if it doesn't
-    // exist. 
+    //: Update member of hash table, will create new one if it doesn't
+    //: exist. 
     // Require's a default constructor & a working assigment operator !!
     // Returns: True=Member existed already. False=New one was added.
     
@@ -189,14 +189,14 @@ namespace RavlN {
     //: Get data element from table, and remove it.
     
     inline bool IsElm(const K &Key) const 
-      { return (Lookup(Key) != 0); }
+    { return (Lookup(Key) != 0); }
     //: Is key used in the table ?
     
     void Empty(void); 
     //: Remove all items from table.
           
     inline UIntT Bins(void) const 
-      { return (UIntT) table.Size(); }
+    { return (UIntT) table.Size(); }
     //: Number of bins in the HashTable.
     
     void Resize(SizeT NewSize);
@@ -213,7 +213,7 @@ namespace RavlN {
     //: Are two hash tables identical ?
 
     bool operator!=(const HashC<K,T> &oth) const
-      { return !operator==(oth); }
+    { return !operator==(oth); }
     //: Are two hash tables different ?
     
     UIntT Hash() const;
@@ -255,13 +255,13 @@ namespace RavlN {
     HashC(const HashC<K,T> &oth,bool) 
       : HashBaseC(oth.elements),
 	table(oth.table)
-      {}
+    {}
     //: Make temporary handle.
     
     HashC(const SArray1dC<HashElemLst >  &tab,UIntT nelements)
       : HashBaseC(nelements),
         table(tab)
-      {}
+    {}
     //: Create new table from an array.
     
 #if HASHC_DEBUG
@@ -274,8 +274,8 @@ namespace RavlN {
 #if HASHC_DEBUG
       RavlAssert(elements == Count());
 #endif
-    if(++elements > (Bins() << 1))
-      Resize(NextPrime(elements << 2));
+      if(++elements > (Bins() << 1))
+	Resize(NextPrime(elements << 2));
     }
     //: Need to increase size ?
     
@@ -316,7 +316,7 @@ namespace RavlN {
   {
   public:
     HashElemC() 
-      {}
+    {}
     //: Default constructor.
     // To keep the compiler happy.
     
@@ -325,19 +325,19 @@ namespace RavlN {
     
     HashElemC(const K &nKey,const T &Data) 
       : Key(nKey), 
-      Hold(Data) 
-      {}
+	Hold(Data) 
+    {}
     //: Constructor.
     
     HashElemC(const K &nKey,UIntT nHashVal,const T &Data) 
       : hashVal(nHashVal), 
         Key(nKey), 
         Hold(Data) 
-      {}
+    {}
     //: Constructor.
     
     const T &Data() const 
-      { return Hold; }
+    { return Hold; }
     //: Get constant refrence to data.
     
     T &Data() { return Hold; }
@@ -350,7 +350,7 @@ namespace RavlN {
     //: Get value key.
     
     bool operator==(const K &Another) const 
-      { return HashIsEqual(Key,Another); }
+    { return HashIsEqual(Key,Another); }
     //: Does key equal that of this element ?
     
     UIntT GetHashVal() const { return hashVal; }
@@ -425,9 +425,8 @@ namespace RavlN {
    }
   
   template<class K,class T>
-  HashC<K,T> HashC<K,T>::Copy() const  { 
-    return *this; 
-  }
+  HashC<K,T> HashC<K,T>::Copy() const  
+  { return *this; }
   
   template<class K,class T>
   inline HashElemC<K,T> *HashC<K,T>::LookupHV(const K &value,UIntT &hashVal) const {
@@ -610,7 +609,7 @@ namespace RavlN {
     }
     table = newTable;
   }
-
+  
 #if HASHC_DEBUG
   template<class K,class T>
   UIntT HashC<K,T>::Count() const {
@@ -620,7 +619,7 @@ namespace RavlN {
     return ret;
   }
 #endif
-
+  
   template<class K,class T>
   bool HashC<K,T>::operator==(const HashC<K,T> &oth) const {
     // Are two hash tables identical ?
