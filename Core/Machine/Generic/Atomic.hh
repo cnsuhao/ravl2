@@ -31,4 +31,7 @@ static inline void ravl_atomic_dec(ravl_atomic_t *v)
 static inline int ravl_atomic_dec_and_test(ravl_atomic_t *v)
 { return (--(*v)) == 0; }
 
+static inline int ravl_atomic_inc_return(ravl_atomic_t *v)
+{ return ++(*v); }
+
 #endif
