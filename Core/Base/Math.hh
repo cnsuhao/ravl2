@@ -22,7 +22,7 @@
 #include "Ravl/Assert.hh"
 #include <math.h>
 
-#if defined(__linux__) || defined(__sol2__) || defined(__sgi__)
+#if defined(__linux__) || defined(__sol2__) || defined(__sgi__) || defined(__alpha__)
 extern "C" {
   double hypot(double a,double b);
 };
