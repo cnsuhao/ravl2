@@ -15,6 +15,7 @@
 
 #include "Ravl/DP/AttributeType.hh"
 #include "Ravl/DList.hh"
+#include "Ravl/BinStream.hh"
 
 namespace RavlN {
   
@@ -29,6 +30,18 @@ namespace RavlN {
 			   bool ndefaultValue = false);
     //: Constructor
     
+    AttributeTypeBoolBodyC(BinIStreamC &is);
+    //: Binary stream constructor.
+    
+    AttributeTypeBoolBodyC(istream &is);
+    //: stream constructor.
+    
+    virtual bool Save(ostream & strm) const ; 
+    //: Save the attribute to a stream 
+    
+    virtual bool Save(BinOStreamC & strm) const ; 
+    //: Save the attribute to a stream 
+
     virtual AttributeValueTypeT ValueType() const;
     //: Get hint about type of value attribute has.
     
@@ -54,6 +67,12 @@ namespace RavlN {
     {}
     //: DefaultValue constructor.
     // Creates an invalid handle.
+    
+    AttributeTypeBoolC(BinIStreamC &is);
+    //: Binary stream constructor.
+    
+    AttributeTypeBoolC(istream &is);
+    //: stream constructor.
     
     AttributeTypeBoolC(const StringC &name,const StringC &desc,bool nCanRead = true,bool nCanWrite = true,bool ndefaultValue = false)
       : AttributeTypeC(*new AttributeTypeBoolBodyC(name,desc,nCanRead,nCanWrite,ndefaultValue))
@@ -109,6 +128,32 @@ namespace RavlN {
 	min(nmin),max(nmax),step(nstep),defaultValue(ndefaultValue)
     {}
     //: Constructor.
+
+    AttributeTypeNumBodyC(BinIStreamC &is)
+      : AttributeTypeBodyC(is)
+    { is >> min >> max >> step >> defaultValue; }
+    //: Binary stream constructor.
+    
+    AttributeTypeNumBodyC(istream &is)
+      : AttributeTypeBodyC(is)
+    { is >> min >> max >> step >> defaultValue; }
+    //: stream constructor.
+    
+    virtual bool Save(ostream & strm) const {
+      if(!AttributeTypeBodyC::Save(strm))
+	return false;
+      strm << ' ' << min << ' ' << max << ' ' << step << ' ' << defaultValue; 
+      return true;
+    }
+    //: Save the attribute to a stream 
+    
+    virtual bool Save(BinOStreamC & strm) const {
+      if(!AttributeTypeBodyC::Save(strm))
+	return false;
+      strm << min << max << step << defaultValue; 
+      return true;
+    }
+    //: Save the attribute to a stream 
     
     virtual AttributeValueTypeT ValueType() const{
       if(typeid(ValueT) == typeid(int))
@@ -160,12 +205,22 @@ namespace RavlN {
     //: DefaultValue constructor.
     // Creates an invalid handle.
     
+    AttributeTypeNumC(BinIStreamC &is)
+      : AttributeTypeC(RAVL_VIRTUALCONSTRUCTOR(is,AttributeTypeNumBodyC<ValueT>))
+    {}
+    //: Binary stream constructor.
+    
+    AttributeTypeNumC(istream &is)
+      : AttributeTypeC(RAVL_VIRTUALCONSTRUCTOR(is,AttributeTypeNumBodyC<ValueT>))
+    {}
+    //: stream constructor.
+    
     AttributeTypeNumC(const StringC &name,const StringC &desc,bool nCanRead = true,bool nCanWrite = true,
 		      ValueT nmin = ValueT(),ValueT nmax = ValueT(),ValueT nstep = ValueT(),ValueT ndefaultValue = ValueT())
       : AttributeTypeC(*new AttributeTypeNumBodyC<ValueT>(name,desc,nCanRead,nCanWrite,nmin,nmax,nstep,ndefaultValue))
     {}
     //: Constructor.
-
+    
     AttributeTypeNumC(const AttributeTypeC &base)
       : AttributeTypeC(base)
     {
@@ -221,6 +276,18 @@ namespace RavlN {
 			     const StringC &ndefaultValue = StringC(),IntT maxLength = 65000);
     //: Constructor
     
+    AttributeTypeStringBodyC(BinIStreamC &is);
+    //: Binary stream constructor.
+    
+    AttributeTypeStringBodyC(istream &is);
+    //: stream constructor.
+    
+    virtual bool Save(ostream & strm) const ; 
+    //: Save the attribute to a stream 
+    
+    virtual bool Save(BinOStreamC & strm) const ; 
+    //: Save the attribute to a stream 
+    
     virtual AttributeValueTypeT ValueType() const;
     //: Get hint about type of value attribute has.
 
@@ -267,6 +334,12 @@ namespace RavlN {
     //: Construct from a base handle
     // Creates an invalid handle if object is not of the correct type.
     
+    AttributeTypeStringC(BinIStreamC &is);
+    //: Binary stream constructor.
+    
+    AttributeTypeStringC(istream &is);
+    //: Stream constructor.
+    
   protected:
     AttributeTypeStringC(AttributeTypeStringBodyC &bod)
       : AttributeTypeC(bod)
@@ -305,6 +378,18 @@ namespace RavlN {
 			   const DListC<StringC> &values = DListC<StringC>(),const StringC &ndefaultValue = StringC());
     //: Constructor
     
+    AttributeTypeEnumBodyC(BinIStreamC &is);
+    //: Binary stream constructor.
+    
+    AttributeTypeEnumBodyC(istream &is);
+    //: stream constructor.
+    
+    virtual bool Save(ostream & strm) const ; 
+    //: Save the attribute to a stream 
+    
+    virtual bool Save(BinOStreamC & strm) const ; 
+    //: Save the attribute to a stream 
+
     virtual AttributeValueTypeT ValueType() const;
     //: Get hint about type of value attribute has.
 
@@ -350,6 +435,12 @@ namespace RavlN {
     }
     //: Construct from a base handle
     // Creates an invalid handle if object is not of the correct type.
+    
+    AttributeTypeEnumC(BinIStreamC &is);
+    //: Binary stream constructor.
+    
+    AttributeTypeEnumC(istream &is);
+    //: Stream constructor.
     
   protected:
     AttributeTypeEnumC(AttributeTypeEnumBodyC &bod)

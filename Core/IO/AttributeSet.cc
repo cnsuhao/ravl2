@@ -14,6 +14,7 @@
 #include "Ravl/DP/AttributeCtrlInternal.hh"
 #include "Ravl/DP/AttributeValueTypes.hh"
 #include "Ravl/DList.hh"
+#include "Ravl/BinStream.hh"
 
 #define RAVL_GETCREATESATTRIBUTE 1
 

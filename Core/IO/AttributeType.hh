@@ -33,6 +33,12 @@ namespace RavlN {
     AttributeTypeBodyC();
     //: Constructor.
     
+    AttributeTypeBodyC(BinIStreamC &is);
+    //: Binary stream constructor.
+    
+    AttributeTypeBodyC(istream &is);
+    //: stream constructor.
+    
     AttributeTypeBodyC(const StringC &name,const StringC &desc,bool nCanRead = true,bool nCanWrite = true);
     //: Constructor.
     
@@ -41,8 +47,11 @@ namespace RavlN {
     
     virtual AttributeValueTypeT ValueType() const;
     //: Get hint about type of value attribute has.
-
+    
     virtual bool Save(ostream & strm) const ; 
+    //: Save the attribute to a stream 
+    
+    virtual bool Save(BinOStreamC & strm) const ; 
     //: Save the attribute to a stream 
     
     const StringC &Name() const
@@ -61,23 +70,20 @@ namespace RavlN {
     { return canWrite; }
     //: Can you write the value of this attribute.
 
-    bool CanRead(bool can ) 
-      { 
-	bool ret = canRead ; 
-	canRead = can ;
-	return ret ; 
-      }
+    bool CanRead(bool can ) { 
+      bool ret = canRead ; 
+      canRead = can ;
+      return ret ; 
+    }
     //: Set value of canRead - returns old value  
     
-    bool CanWrite (bool can) 
-      { 
-	bool ret = canWrite ; 
-	canWrite = can ; 
-	return ret ; 
-      }
+    bool CanWrite (bool can) { 
+      bool ret = canWrite ; 
+      canWrite = can ; 
+      return ret ; 
+    }
     //: Set value of canWrite - returns old value 
-
-
+    
   protected:
     StringC name;  // Name of attribute
     StringC description; // Optional discription
@@ -94,7 +100,7 @@ namespace RavlN {
   //: Attribute type information.
   
   class AttributeTypeC 
-    : public RCHandleC<AttributeTypeBodyC>
+    : public RCHandleVC<AttributeTypeBodyC>
   {
   public:
     AttributeTypeC()
@@ -102,9 +108,20 @@ namespace RavlN {
     //: Default constructor
     // creates an invalid handle.
     
+    AttributeTypeC(BinIStreamC &is);
+    //: Binary stream constructor.
+    
+    AttributeTypeC(istream &is);
+    //: stream constructor.
+    
   protected:
     AttributeTypeC(AttributeTypeBodyC &bod)
-      : RCHandleC<AttributeTypeBodyC>(bod)
+      : RCHandleVC<AttributeTypeBodyC>(bod)
+    {}
+    //: Body constructor.
+    
+    AttributeTypeC(AttributeTypeBodyC *bod)
+      : RCHandleVC<AttributeTypeBodyC>(bod)
     {}
     //: Body constructor.
     
@@ -138,11 +155,11 @@ namespace RavlN {
     //: Can you write the value of this attribute const
     
     bool CanRead(bool canRead) 
-      { return Body().CanRead( canRead ) ; } 
+    { return Body().CanRead( canRead ) ; } 
     //: Set value of CanRead 
 
     bool CanWrite (bool canWrite ) 
-      { return Body().CanWrite( canWrite ) ; } 
+    { return Body().CanWrite( canWrite ) ; } 
     //: Set value of CanWrite 
 
     bool SetToDefault(AttributeCtrlC &ctrl) const
@@ -150,6 +167,19 @@ namespace RavlN {
     //: Set control to default value.
     
   };
+  
+  BinOStreamC &operator<<(BinOStreamC &strm,const AttributeTypeC &attrType);
+  //: Write attribute type to binary stream.
+  
+  BinIStreamC &operator>>(BinIStreamC &strm,AttributeTypeC &attrType);
+  //: Read attribute type from binary stream.
+  
+  ostream &operator<<(ostream &strm,const AttributeTypeC &attrType);
+  //: Write attribute type to stream.
+  
+  istream &operator>>(istream &strm,AttributeTypeC &attrType);
+  //: Read attribute type from stream.
+  
 }
 
 #endif

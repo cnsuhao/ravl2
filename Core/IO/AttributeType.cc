@@ -9,6 +9,8 @@
 //! file="Ravl/Core/IO/AttributeType.cc"
 
 #include "Ravl/DP/AttributeType.hh"
+#include "Ravl/BinStream.hh"
+#include "Ravl/VirtualConstructor.hh"
 
 namespace RavlN {
   
@@ -28,7 +30,52 @@ namespace RavlN {
       canWrite(nCanWrite)
   {}
   
+  //: Binary stream constructor.
+  
+  AttributeTypeBodyC::AttributeTypeBodyC(BinIStreamC &is)
+    : RCBodyVC(is)
+  {
+    IntT version;
+    is >> version;
+    if(version != 0)
+      throw ExceptionOutOfRangeC("AttributeTypeBodyC(BinIStreamC &), Unrecognised version number in stream.");
+    is >> name >> description >> canRead >> canWrite;
+  }
+  
+  //: stream constructor.
+  
+  AttributeTypeBodyC::AttributeTypeBodyC(istream &is) 
+    : RCBodyVC(is)
+  {
+    IntT version;
+    is >> version;
+    if(version != 0)
+      throw ExceptionOutOfRangeC("AttributeTypeBodyC(istream &), Unrecognised version number in stream.");
+    is >> name >> description >> canRead >> canWrite;
+  }
 
+  
+  //: Save the attribute to a stream 
+  
+  bool AttributeTypeBodyC::Save(BinOStreamC & strm) const { 
+    if(!RCBodyVC::Save(strm))
+      return false;
+    IntT version = 0;
+    strm << version << name << description << canRead << canWrite ; 
+    return true;
+  }
+
+  //: Save attribute to stream 
+  
+  bool AttributeTypeBodyC::Save(ostream & strm) const {
+    if(!RCBodyVC::Save(strm))
+      return false;
+    IntT version = 0;
+    strm << ' ' << version << "\t" << name << "\t" << description << "\t" << canRead << "\t" << canWrite ; 
+    return true ; 
+  }
+
+  
   //: Get hint about type of value attribute has.
   
   AttributeValueTypeT AttributeTypeBodyC::ValueType() const
@@ -40,21 +87,52 @@ namespace RavlN {
     RavlAssertMsg(0,"AttributeTypeBodyC::SetToDefault(), ERROR: Abstract method called. ");
     return false;
   }
-
-//: Save attribute to stream 
-bool AttributeTypeBodyC::Save(ostream & strm) const {
-  strm << name << "\t" << description << "\t" << canRead << "\t" << canWrite ; 
-  return true ; 
-}
-
-//: Output to stream 
-ostream & operator << (ostream & strm, const AttributeTypeBodyC & obj) 
-{ 
-  strm << "Name: " << obj.Name()  << "\t" << obj.Description() << "\tCan Read: " << obj.CanRead() << "\t Can Write: " << obj.CanWrite() ; 
-  //obj.Save(strm) ; 
-return strm ; 
-}
-
+  
+  ////////////////////////////////////////////////////////
+  
+  //: Load from stream.
+  
+  AttributeTypeC::AttributeTypeC(istream &strm) 
+    : RCHandleVC<AttributeTypeBodyC>(RAVL_VIRTUALCONSTRUCTOR(strm,AttributeTypeBodyC))
+  {}
+    
+  //: Load from binary stream.
+  
+  AttributeTypeC::AttributeTypeC(BinIStreamC &strm) 
+    : RCHandleVC<AttributeTypeBodyC>(RAVL_VIRTUALCONSTRUCTOR(strm,AttributeTypeBodyC))    
+  {}
+  
+  ////////////////////////////////////////////////////////
+  
+  //: Write attribute type to binary stream.
+  
+  BinOStreamC &operator<<(BinOStreamC &strm,const AttributeTypeC &attrType) {
+    RavlAssert(attrType.IsValid());
+    attrType.Save(strm);
+    return strm;
+  }
+  
+  //: Read attribute type from binary stream.
+  
+  BinIStreamC &operator>>(BinIStreamC &strm,AttributeTypeC &attrType) {
+    attrType = AttributeTypeC(strm);
+    return strm;
+  }
+  
+  //: Write attribute type to stream.
+  
+  ostream &operator<<(ostream &strm,const AttributeTypeC &attrType) {
+    RavlAssert(attrType.IsValid());
+    attrType.Save(strm);
+    return strm;
+  }
+  
+  //: Read attribute type from stream.
+  
+  istream &operator>>(istream &strm,AttributeTypeC &attrType){
+    attrType = AttributeTypeC(strm);
+    return strm;
+  }
   
 }
 

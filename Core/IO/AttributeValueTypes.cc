@@ -8,8 +8,9 @@
 //! lib=RavlIO
 //! file="Ravl/Core/IO/AttributeValueTypes.cc"
 
-
+#include "Ravl/BinStream.hh"
 #include "Ravl/DP/AttributeValueTypes.hh"
+#include "Ravl/VirtualConstructor.hh"
 
 namespace RavlN {
   
@@ -19,6 +20,36 @@ namespace RavlN {
     : AttributeTypeBodyC(name,desc,nCanRead,nCanWrite),
       defaultValue(ndefault)
   {}
+  
+  //: Binary stream constructor.
+  
+  AttributeTypeBoolBodyC::AttributeTypeBoolBodyC(BinIStreamC &is)
+    : AttributeTypeBodyC(is)
+  { is >> defaultValue; }
+  
+  //: stream constructor.
+  
+  AttributeTypeBoolBodyC::AttributeTypeBoolBodyC(istream &is)
+    : AttributeTypeBodyC(is)
+  { is >> defaultValue; }
+  
+  //: Save the attribute to a stream 
+  
+  bool AttributeTypeBoolBodyC::Save(ostream & strm) const {
+    if(!AttributeTypeBodyC::Save(strm))
+      return false;
+    strm << ' ' << defaultValue;
+    return true;
+  }
+  
+  //: Save the attribute to a stream 
+  
+  bool AttributeTypeBoolBodyC::Save(BinOStreamC & strm) const {
+    if(!AttributeTypeBodyC::Save(strm))
+      return false;
+    strm << defaultValue;
+    return true;
+  }
   
   //: Get hint about type of value attribute has.
   
@@ -30,6 +61,8 @@ namespace RavlN {
   bool AttributeTypeBoolBodyC::SetToDefault(AttributeCtrlC &ctrl) const
   { return ctrl.SetAttr(name,defaultValue); }
   
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(AttributeTypeBoolBodyC,AttributeTypeBoolC,AttributeTypeC);
+  
   //:----------------------------------------------------------------------------------------------------
   
   //: Constructor
@@ -40,6 +73,36 @@ namespace RavlN {
       maxLength(nMaxLen)
   {}
   
+  //: Binary stream constructor.
+  
+  AttributeTypeStringBodyC::AttributeTypeStringBodyC(BinIStreamC &is)
+    : AttributeTypeBodyC(is)
+  { is >> defaultValue >> maxLength; }
+  
+  //: stream constructor.
+
+  AttributeTypeStringBodyC::AttributeTypeStringBodyC(istream &is)
+    : AttributeTypeBodyC(is)
+  { is >> defaultValue >> maxLength; }
+  
+  //: Save the attribute to a stream 
+  
+  bool AttributeTypeStringBodyC::Save(ostream & strm) const {
+    if(!AttributeTypeBodyC::Save(strm))
+      return false;
+    strm << ' ' << defaultValue << ' ' << maxLength;
+    return true;
+  }
+  
+  //: Save the attribute to a stream 
+  
+  bool AttributeTypeStringBodyC::Save(BinOStreamC & strm) const {
+    if(!AttributeTypeBodyC::Save(strm))
+      return false;
+    strm << defaultValue << maxLength;
+    return true;
+  }
+  
   //: Get hint about type of value attribute has.
   
   AttributeValueTypeT AttributeTypeStringBodyC::ValueType() const
@@ -49,6 +112,8 @@ namespace RavlN {
   
   bool AttributeTypeStringBodyC::SetToDefault(AttributeCtrlC &ctrl) const
   { return ctrl.SetAttr(name,defaultValue); }
+
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(AttributeTypeStringBodyC,AttributeTypeStringC,AttributeTypeC);
   
   //:----------------------------------------------------------------------------------------------------
   
@@ -61,6 +126,36 @@ namespace RavlN {
       values(nvalues)
   {}
   
+  //: Binary stream constructor.
+  
+  AttributeTypeEnumBodyC::AttributeTypeEnumBodyC(BinIStreamC &is)
+    : AttributeTypeBodyC(is)
+  { is >> defaultValue >> values; }
+  
+  //: stream constructor.
+  
+  AttributeTypeEnumBodyC::AttributeTypeEnumBodyC(istream &is)
+    : AttributeTypeBodyC(is)
+  { is >> defaultValue >> values; }
+    
+  //: Save the attribute to a stream 
+  
+  bool AttributeTypeEnumBodyC::Save(ostream & strm) const {
+    if(!AttributeTypeBodyC::Save(strm))
+      return false;
+    strm << ' ' << defaultValue << ' ' << values;
+    return true;
+  }
+  
+  //: Save the attribute to a stream 
+  
+  bool AttributeTypeEnumBodyC::Save(BinOStreamC & strm) const {
+    if(!AttributeTypeBodyC::Save(strm))
+      return false;
+    strm << defaultValue << values;
+    return true;
+  }
+  
   //: Get hint about type of value attribute has.
   
   AttributeValueTypeT AttributeTypeEnumBodyC::ValueType() const
@@ -68,6 +163,8 @@ namespace RavlN {
   
   bool AttributeTypeEnumBodyC::SetToDefault(AttributeCtrlC &ctrl) const
   { return ctrl.SetAttr(name,defaultValue); }
+  
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(AttributeTypeEnumBodyC,AttributeTypeEnumC,AttributeTypeC);
   
   //:----------------------------------------------------------------------------------------------------
   
@@ -87,5 +184,11 @@ namespace RavlN {
   
   bool AttributeTypeMiscBodyC::SetToDefault(AttributeCtrlC &ctrl) const
   { return true; }
+  
+  //:----------------------------------------------------------------------------------------------------
+  
+  static VirtualConstructorInstC<AttributeTypeNumBodyC<IntT> > vc_function_AttributeTypeNumBodyC_IntT("AttributeTypeNumBodyC<IntT>" );
+  static VirtualConstructorInstC<AttributeTypeNumBodyC<RealT> > vc_function_AttributeTypeNumBodyC_RealT("AttributeTypeNumBodyC<RealT>" );
+  
   
 }
