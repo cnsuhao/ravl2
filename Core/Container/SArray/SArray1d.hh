@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLSArray1d_HH
-#define RAVLSArray1d_HH
+#ifndef RAVL_SARRAY1D_HEADER
+#define RAVL_SARRAY1D_HEADER
 ////////////////////////////////////////////////////////////////////////////
 //! file="Ravl/Core/Container/SArray/SArray1d.hh"
 //! lib=RavlCore
@@ -14,7 +14,6 @@
 //! date="21/2/1996"
 //! rcsid="$Id$"
 
-#include <iostream.h>
 #include "Ravl/Buffer.hh"
 #include "Ravl/SBfAcc.hh"
 #include "Ravl/Pair.hh"
@@ -22,6 +21,7 @@
 #include "Ravl/BfAccIter2.hh"
 #include "Ravl/BfAccIter3.hh"
 #include "Ravl/StdHash.hh"
+#include "Ravl/Stream.hh"
 
 namespace RavlN {
 
