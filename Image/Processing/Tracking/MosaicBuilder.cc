@@ -226,7 +226,9 @@ namespace RavlImageN {
     // frame 0 is a special case
     if (frameNo == 0)  {
       last = corners;
-      return Reset(img);
+      Matrix3dC homog(Im2Mosaic(img));
+      Parray.Append(homog);
+      return homog.IsReal();
     }
     // Generate an observation set for tracked points.
     DListC<ObservationC> obsList;
@@ -380,7 +382,7 @@ namespace RavlImageN {
   }
 
   //: Computes the homography between the first frame and the mosaic
-  bool MosaicBuilderBodyC::Reset(const ImageC<ByteRGBValueC> &img) {    
+  Matrix3dC MosaicBuilderBodyC::Im2Mosaic(const ImageC<ByteRGBValueC> &img) {    
     // initialise accumulated motion Psum by solving for transformation
     // from mosaic coords to image coords
     //  p1 is array of frame corners
@@ -424,10 +426,9 @@ namespace RavlImageN {
 		     b[3], b[4], b[5],
 		     b[6], b[7], 1.0);
     Psum = Psum.Inverse();
-    Parray.Append(Psum*Pmosaic);
-    // So at this point, Psum will transform a point from mosaic coords to frame 0 coords, using the "mosaic" coordinate system
     if (verbose) cout << "Initial homography:\n"<< Parray[0]<<endl;
-    return true;    
+    return Psum*Pmosaic;    
+    // So at this point, the result will transform a point from mosaic coords to frame 0 coords, using the "mosaic" coordinate system
   }
   
   //: Returns the mosaic image

@@ -189,7 +189,7 @@ namespace RavlImageN {
     //: Warps current frame into mosaic coords and adds to mosaic
     // Returns true if expansion of mosaic was requested and needed
 
-    bool Reset(const ImageC<ByteRGBValueC> &img);
+    Matrix3dC Im2Mosaic(const ImageC<ByteRGBValueC> &img);
     //: Computes the homography between the first frame and the mosaic
     
     bool GetImage(ImageC<ByteRGBValueC>& img)
@@ -415,8 +415,8 @@ namespace RavlImageN {
       { return Body().FindProj(img); }
     //: Computes homography between current frame and mosaic
 
-    bool Reset(const ImageC<ByteRGBValueC> &img)
-      { return Body().Reset(img); }
+    Matrix3dC Im2Mosaic(const ImageC<ByteRGBValueC> &img)
+      { return Body().Im2Mosaic(img); }
     //: Computes the homography between the first frame and the mosaic
     
     bool InvolveFrame(const IndexRange2dC& rect, const Matrix3dC& homog)
