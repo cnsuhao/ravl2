@@ -26,11 +26,12 @@ namespace RavlImageN {
     for(IndexC i = img.Range1().Min();i <= img.Range1().Max();i++) {
       const PixelT *p1 = &(img[i][minc]);
       const PixelT *ep = &(img[i][maxc]);
-      PixelT *p2 = &(out[i][minc]);
-      for(;p1 <= ep;p1++,p2++)
+      PixelT *p2 = &(out[i][maxc]);
+      for(;p1 <= ep;p1++,p2--)
 	*p2 = *p1;
     }
   }
+  //: Reflect image 
 }
 
 
