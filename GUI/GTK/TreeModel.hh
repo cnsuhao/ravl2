@@ -23,12 +23,6 @@
 #include "Ravl/DP/AttributeValueTypes.hh"
 #include "Ravl/Threads/Signal2.hh"
 
-extern "C" {
-  typedef struct _GtkTreeModel        GtkTreeModel; 
-  typedef struct _GtkTreeIter         GtkTreeIter;
-  typedef struct _GtkTreePath         GtkTreePath;
-}
-
 namespace RavlGUIN {
   
   class TreeModelIterC;
