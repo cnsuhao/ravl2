@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLDEADLINETIMER_HEADER
-#define RAVLDEADLINETIMER_HEADER 1
+#ifndef RAVL_DEADLINETIMER_HEADER
+#define RAVL_DEADLINETIMER_HEADER 1
 ////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.OS.Time"
@@ -13,7 +13,6 @@
 //! file="Ravl/OS/Time/DeadLineTimer.hh"
 //! lib=RavlOS
 //! author="Charles Galambos"
-//! date="//"
 
 #include "Ravl/Types.hh"
 
@@ -36,32 +35,32 @@ namespace RavlN {
   public:
     DeadLineTimerC(bool useVirt = false)
       : virt(useVirt),
-      timesUp(true),
-      id(-1)
-      {}
+	timesUp(true),
+	id(-1)
+    {}
     //: Default constructor.
   
     ~DeadLineTimerC()
-      { Stop(); }
-  //: Destructor.
+    { Stop(); }
+    //: Destructor.
     
     DeadLineTimerC(const DateC &timetoGo,bool useVirt = false)
       : virt(useVirt),
-      timesUp(true),
-      id(-1)
-      { Reset(timetoGo); }
+	timesUp(true),
+	id(-1)
+    { Reset(timetoGo); }
     //: Constructor for an absolute time.
     
     DeadLineTimerC(RealT timetoGo,bool useVirt = false)
       : virt(useVirt),
-      timesUp(true),
-      id(-1)
-      { Reset(timetoGo); }
+	timesUp(true),
+	id(-1)
+    { Reset(timetoGo); }
     //:  Constructor for a relative (to now) time.
     // Dead line will expire in 'timetoGo' seonds.
     // 
     void Stop();
-  //: Stop timer.
+    //: Stop timer.
     // This will set the timesUp flag, and free 
     // the deadline timer.
     

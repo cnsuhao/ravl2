@@ -66,9 +66,9 @@ struct sigaction;
 
 namespace RavlN {
   
-  HashC<int,bool *> alarms;
+  static HashC<int,bool *> alarms;
   
-  const int MaxAlarms = 64;
+  static const int MaxAlarms = 64;
   
   class DeadLineAlarmsC {
   public:
@@ -388,20 +388,21 @@ namespace RavlN {
   }
 
   ///// DateC ////////////////////////////////////////////////////////
-  
-  //: Wait until this time.
+
+#if 0
+  // The deadline timer was causing random segmentation faults on linux, so this has been changed to
+  // an alternate implementation found in Date.cc
   
   bool DateC::Wait() const {
     DeadLineTimerC waittill(*this);
     return waittill.WaitForIt();
   }
-
-  //: Pause execution for 'delay' seconds.
   
   bool Sleep(RealT delay) {
     DateC now(true);
     now += delay;
     return now.Wait();
   }
+#endif
 
 }

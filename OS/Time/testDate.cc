@@ -21,6 +21,7 @@ using namespace RavlN;
 
 int CheckConsistant();
 int CheckIO();
+int CheckSleep();
 
 // Check dates are consistant.
 
@@ -34,6 +35,10 @@ int main()
   }
   if((lineno = CheckIO()) != 0) {
     cerr << "CheckIO(), Failed :" << lineno << "\n";
+    return 1;
+  }
+  if((lineno = CheckSleep()) != 0) {
+    cerr << "CheckSleep(), Failed :" << lineno << "\n";
     return 1;
   }
   cerr << "Test passed.\n";
@@ -79,5 +84,18 @@ int CheckIO()
   cerr << "Rec:" << t.Text() << "\n";
   if(t != nowish)
     return __LINE__;
+  return 0;
+}
+
+int CheckSleep() {
+  for(int i = 0;i < 5;i++) {
+    DateC before(true);
+    Sleep(2);
+    DateC after(true);
+    RealT del = (after - before).Double();
+    cerr << "Delay=" << del << "\n";
+    if(del < 1.9 || del > 2.5)
+      return __LINE__;
+  }
   return 0;
 }

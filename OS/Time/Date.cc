@@ -36,6 +36,12 @@
 #else
 #include <string.h>
 
+#include <sys/select.h>
+
+#include <sys/time.h>
+#include <sys/types.h>
+#include <unistd.h>
+
 char *ctime_r(const time_t *s,char *buff) {
   strcpy(buff,ctime(s));
   return buff;
@@ -312,5 +318,50 @@ namespace RavlN {
     date = DateC(in);
     return in; 
   }
+
+#if 1
+  //: Wait until this time.
+  
+  bool DateC::Wait() const {
+    struct timeval timeout;
+    int reterr;
+#if RAVL_OS_LINUX
+    // Linux select modifies 'timeout' to time not slept, so we only have to setup once.
+    DateC now(true);
+    if(now > *this)
+      return true;
+    DateC toGo = *this - now;
+    //cerr << "Delay=" << toGo << "\n";
+    timeout.tv_sec = toGo.TotalSeconds();
+    timeout.tv_usec = toGo.USeconds();
+    do {
+      reterr = select(0,0,0,0,&timeout);
+      // A signal may throw us out of select early so check we're finished.
+    } while(timeout.tv_sec > 0 && timeout.tv_usec > 0);
+
+#else
+    do {
+      DateC now(true);
+      if(now > *this)
+	return true;
+      DateC toGo = *this - now;
+      timeout.tv_sec = toGo.TotalSeconds();
+      timeout.tv_usec = toGo.USeconds();
+      reterr = select(0,0,0,0,&timeout);
+      // A signal may throw us out of select early.
+    } while(1);
+#endif
+    return true;
+  }
+
+  //: Pause execution for 'delay' seconds.
+  
+  bool Sleep(RealT delay) {
+    DateC now(true);
+    now += delay;
+    return now.Wait();
+  }
+#endif
+
     
 }
