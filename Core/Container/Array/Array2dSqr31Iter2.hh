@@ -68,12 +68,7 @@ namespace RavlN {
     }
     //: Goto first element in the array.
     
-    bool Next() { 
-      up++;
-      dn++;
-      cit++;
-      if(cit)
-	return true;
+    bool NextRow() {
       rit++;
       if(!rit)
 	return false;
@@ -81,9 +76,23 @@ namespace RavlN {
       dn = &((&(rit.Data1()))[ 1][rng1.Min()]);
       cit.First(rit.Data1(),rng1,
 		rit.Data2(),rng2);
-      return false;
+      return true;
+    }
+    //: Goto next row.
+    // Returns true if left on a valid row.
+    
+    inline bool Next() { 
+      up++;
+      dn++;
+      cit++;
+      if(!cit) { // Goto next row ?
+	NextRow();
+	return false;
+      }
+      return true;
     }
     //: Goto next element.
+    // Return true if pixel is on the same line.
     
     bool IsElm() const
     { return cit.IsElm(); }
@@ -112,7 +121,7 @@ namespace RavlN {
     Data1T &DataBM1() 
     { return *dn; }
     //: Access bottom mid data element 
-
+    
     const Data1T &DataBM1() const
     { return *dn; }
     //: Access bottom mid data element 
