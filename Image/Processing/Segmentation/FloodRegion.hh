@@ -67,7 +67,7 @@ namespace RavlImageN {
     }
     //: Setup new image for processing.
     
-    bool GrowRegion(const Index2dC &seed,const InclusionTestT &inclusionCriteria,BoundaryC &boundary) {
+    bool GrowRegion(const Index2dC &seed,const InclusionTestT &inclusionCriteria,BoundaryC &boundary,IntT maxSize = 0) {
       RavlAssert(pixQueue.IsEmpty());
       inclusionTest = inclusionCriteria;
       boundary = BoundaryC(); // Create a new boundry list
@@ -75,15 +75,27 @@ namespace RavlImageN {
 	return false; // Empty region.
       pixQueue.InsLast(seed);
       id++;
-      while(!pixQueue.IsEmpty())
-	AddPixels(boundary,pixQueue.GetFirst());
+      if(maxSize == 0) {
+	while(!pixQueue.IsEmpty())
+	  AddPixels(boundary,pixQueue.GetFirst());
+      } else {
+	IntT size = 0;
+	while(!pixQueue.IsEmpty() && size < maxSize) {
+	  AddPixels(boundary,pixQueue.GetFirst());
+	  size++;
+	}
+	if(!pixQueue.IsEmpty()) {
+	  pixQueue.Empty();
+	  return false;
+	}
+      }
       return true;
     }
     //: Grow a region from 'seed' including all connected pixel less than or equal to threshold, generate a boundry as the result.
     // Returns false if the region has zero size.
 
     template<typename MaskT>
-    bool GrowRegion(const Index2dC &seed,const InclusionTestT &inclusionCriteria,ImageC<MaskT> &mask,IntT padding = 0) {
+    bool GrowRegion(const Index2dC &seed,const InclusionTestT &inclusionCriteria,ImageC<MaskT> &mask,IntT padding = 0,IntT maxSize = 0) {
       inclusionTest = inclusionCriteria;
       RavlAssert(pixQueue.IsEmpty());
       if(!inclusionTest(img[seed]))
@@ -91,8 +103,20 @@ namespace RavlImageN {
       pixQueue.InsLast(seed);
       id++;
       IndexRange2dC rng(seed,1,1);
-      while(!pixQueue.IsEmpty())
-	AddPixels(rng,pixQueue.GetFirst());
+      if(maxSize <= 0) {
+	while(!pixQueue.IsEmpty())
+	  AddPixels(rng,pixQueue.GetFirst());
+      } else {
+	IntT size = 0;
+	while(!pixQueue.IsEmpty() && size < maxSize) {
+	  AddPixels(rng,pixQueue.GetFirst());
+	  size++;
+	}
+	if(!pixQueue.IsEmpty()) {
+	  pixQueue.Empty();
+	  return false; // Region too big.
+	}
+      }
       mask = ImageC<MaskT>(rng.Expand(padding));
       if(padding > 0)
 	DrawFrame(mask,(MaskT) 0,padding,mask.Frame());
