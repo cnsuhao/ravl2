@@ -45,13 +45,13 @@ int main(int nargs,char *args[])
   StatusBarC sb("Hello");
   RealT d = 2;
   MenuBarC menuBar(MenuC("File",
-			       MenuItem("Not Implemented 1",sb,&StatusBarC::PushTimedF,d,StringC("Not Implemented.")) +
+			 MenuItem("Not Implemented 1",sb,&StatusBarC::PushTimedF,d,StringC("Not Implemented.")) +
 			 MenuItem("Not Implemented 2",sb,&StatusBarC::PushF,StringC("Not Implemented.2")) +
-			       MenuItemSeparator() +
-			       MenuItemShow("Open",fs) +
-			       MenuItem("Quit",gui_quit) +
-			       MenuCheckItemC("xx")
-			       ));
+			 MenuItemSeparator() +
+			 MenuItemShow("Open",fs) +
+			 MenuItem("Quit",gui_quit) +
+			 MenuCheckItemC("xx")
+			 ));
   
   win.Add(VBox(menuBar + 
 	       RawCanvasC(100,100) +       // Make a canvas

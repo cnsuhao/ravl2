@@ -11,7 +11,7 @@
 //! lib=RavlGUI
 //! author="Charles Galambos"
 //! date="23/03/1999"
-//! example=exMenu.cc
+//! example=exFileSelector.cc
 //! rcsid="$Id$"
 //! docentry="Ravl.GUI.Control"
 

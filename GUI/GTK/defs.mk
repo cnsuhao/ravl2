@@ -49,7 +49,7 @@ EXAMPLES = exButton.cc exMenu.cc exCList.cc exList.cc \
  exSlider.cc exRadioButton.cc exRuler.cc exWheel.cc \
  exNotebook.cc exCursor.cc exFixed.cc exTree.cc exTextBox.cc \
  exMessageBox.cc exStyle.cc exLBox.cc exFrame.cc exScrolledArea.cc \
- exLabel.cc exTreeStore.cc 
+ exLabel.cc exTreeStore.cc exFileSelector.cc
 
 #  exGUI.cc exCanvas.cc   exGraph1d.cc \
 
@@ -57,7 +57,7 @@ PLIB = RavlGUI
 
 USESLIBS = RavlCore RavlOS GTK RavlThreads
 
-PROGLIBS = RavlImageIO RavlExtImgIO
+PROGLIBS = RavlImageIO RavlExtImgIO RavlGUI2D
 
 EHT = Ravl.GUI.Control.eht  Ravl.GUI.Layout.eht  Ravl.GUI.eht  Ravl.GUI.Internal.eht
 #libRavlGUI.eht
