@@ -37,6 +37,7 @@ int main(int nargs,char **argv) {
   int cropB = opt.Int("crb", 0, "Width of cropping region at bottom of image");
   int cropL = opt.Int("crl", 0, "Width of cropping region at left of image");
   int cropR = opt.Int("crr", 0, "Width of cropping region at right of image");
+  UIntT maxFrames = opt.Int("mf",-1,"Maximum number of frames to process ");
   StringC ifn = opt.String("","@V4LH:/dev/video0","Input sequence. ");
   StringC ofn = opt.String("","@X","Output sequence. ");
   opt.Check();
@@ -120,7 +121,7 @@ int main(int nargs,char **argv) {
   cout << "Width=" << mosaic.Cols() << " Height=" << mosaic.Rows() << endl;
   Save("@X:Mosaic",mosaic);
 
-  for(;;) {
+  for(UIntT frameNo = 0;frameNo < maxFrames;frameNo++) {
     // Read an image from the input.
     if(!inp.Get(img))
       break;
@@ -139,7 +140,7 @@ int main(int nargs,char **argv) {
     DListC<ObservationC> obsList;
     RCHashC<UIntT,Point2dC> newpnts;
     for(DLIterC<PointTrackC> it(corners);it;it++) {
-#if 0
+#if 1
       cout << "Confidence: " << it->Confidence() << endl;
       if(it->Confidence() < 0.1)
 	continue; // Filter out points we haven't got recent info on.
@@ -166,7 +167,7 @@ int main(int nargs,char **argv) {
       IndexRange2dC rect(it->Location(),5,5);
       DrawFrame(img,val,rect);
     }
-
+    
     // carry on optimising solution if Ransac succeeding
     if(ransac.GetSolution().IsValid()) {
       // select observations compatible with solution
@@ -217,8 +218,8 @@ int main(int nargs,char **argv) {
       cout << "Width=" << mosaic.Cols() << " Height=" << mosaic.Rows() << endl;
       pwarp.Apply(grey_img,mosaic);
       cout << "Width=" << mosaic.Cols() << " Height=" << mosaic.Rows() << endl;
+      
       Save("@X:Mosaic",mosaic);
-
       // Draw green boxes around the selected corners
       val = ByteRGBValueC(0,255,0);
       for(DLIterC<ObservationC> it(compatible_obs_list);it;it++) {
@@ -228,7 +229,7 @@ int main(int nargs,char **argv) {
 	DrawFrame(img,val,rect);
       }
     }
-
+    
     // Write an image out.
     outp.Put(img);
   }
