@@ -100,7 +100,7 @@ namespace RavlN {
     }
     //: Construct from a filename.
     
-    inline DPIByteFileBodyC(IStreamC &strmin,bool useHeader = false)
+    inline DPIByteFileBodyC(IStreamC &strmin)
       : in(strmin),
 	dataStart(0),
 	off(0)
