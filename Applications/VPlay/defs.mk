@@ -28,6 +28,8 @@ PLIB= RavlVPlay
 USESLIBS = RavlCore RavlOS RavlImage RavlOSIO RavlGUI RavlDPMT RavlGUI2D 
 
 PROGLIBS = RavlDV.opt RavlImgIOV4L.opt RavlExtImgIO.opt RavlDPDisplay \
- RavlImageIO RavlVideoIO RavlMPEG2.opt CSPDriver.opt RavlURLIO.opt
+ RavlImageIO RavlVideoIO  CSPDriver.opt RavlURLIO.opt RavlLibMPEG2.opt \
+ RavlImgIO1394dc.opt
+
 
 EHT = exeVPlay.eht
