@@ -115,6 +115,14 @@ namespace RavlN {
     // projects projective objects in the same way as they would be
     // projected by projection 'p' at first and then by this projection.
     
+    SizeBufferAccessC<RealT> operator[](UIntT ind) 
+    { return ((Matrix2dC &) (*this))[ind]; }
+    //: Access element
+    
+    const SizeBufferAccessC<RealT> operator[](UIntT ind) const 
+    { return ((const Matrix2dC &) (*this))[ind]; }
+    //: Access element
+    
   protected:
     
     inline PProjection1dC(const Matrix2dC & m)
