@@ -15,40 +15,6 @@
 
 namespace RavlN {
   
-  StringListC::StringListC (const StringC &string, const char* rdelim) {
-    if(string.length() < 1)
-      return ;
-    RavlAssert(rdelim != 0);
-    bool delim[256];
-    for(int i = 0;i < 256;i++)
-      delim[i] = false;
-    const char *place,*eos,*lstart = 0;
-    // Fill out delim table.
-    for(place = rdelim;*place != 0;place++)
-      delim[(int) *place] = true;
-    // Begin search of string.
-    eos = &string.chars()[string.length()];
-    for(place = string.chars();place != eos;) {
-      // Skip spaces.
-      if(delim[(int) *place]) {
-	place++;
-	continue;
-      }
-      // Found string.
-      lstart = place;
-      SizeT len = 0;
-      for(;place != eos;place++) {
-	if(delim[(int) *place])
-	  break;
-	len++;
-      }
-      //cerr << "Str: " << len << " = " << lstart << endl;
-      // At end of string.
-      InsLast(StringC(lstart,len,len));
-    }
-    
-  }
-  
   StringListC::StringListC (const StringC &string, bool fullParse,const char* rdelim) {
     if(!fullParse) {
       (*this) = StringListC(string,rdelim);
@@ -145,4 +111,41 @@ namespace RavlN {
     return s;
   }
   
+  //: Parses string into list
+  void StringListC::Parse (const StringC &string, const char* rdelim) {
+    if(string.length() < 1)
+      return ;
+    RavlAssert(rdelim != 0);
+    bool delim[256];
+    for(int i = 0;i < 256;i++)
+      delim[i] = false;
+    const char *place,*eos,*lstart = 0;
+    // Fill out delim table.
+    for(place = rdelim;*place != 0;place++)
+      delim[(int) *place] = true;
+    // Begin search of string.
+    eos = &string.chars()[string.length()];
+    for(place = string.chars();place != eos;) {
+      // Skip spaces.
+      if(delim[(int) *place]) {
+	place++;
+	continue;
+      }
+      // Found string.
+      lstart = place;
+      SizeT len = 0;
+      for(;place != eos;place++) {
+	if(delim[(int) *place])
+	  break;
+	len++;
+      }
+      //cerr << "Str: " << len << " = " << lstart << endl;
+      // At end of string.
+      InsLast(StringC(lstart,len,len));
+    }
+
+  }
+
 }
+
+

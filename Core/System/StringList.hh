@@ -41,8 +41,13 @@ namespace RavlN {
       {}
     //: Constructor
     
-    StringListC (const StringC &str, const char* delim = " \n\t\0");
-    //: Constructor that tokenises string into string list
+    StringListC (const StringC &str, const char* delim = " \n\t\0")
+      { Parse(str, delim); }
+    //: Constructor that tokenises string into string list from StringC
+    
+    StringListC (const char* str, const char* delim = " \n\t\0")
+      { Parse(StringC(str), delim); }
+    //: Constructor that tokenises string into string list from char*
     
     StringListC (const StringC &str, bool fullParse,const char* delim = " \n\t\0");
     //: Constructor that tokenises string into string list  
@@ -69,6 +74,10 @@ namespace RavlN {
     
   private:
     
+
+    void Parse (const StringC &str, const char* delim);
+    //: Parses string into list
+
     friend ostream & operator<<(ostream & s, const StringListC & list);
   };
   
