@@ -10,6 +10,7 @@
 //! lib=RavlImageProc
 //! author="Charles Galambos"
 //! docentry="Ravl.Images.Lines"
+//! date="19/11/2002"
 
 #include "Ravl/Image/Edgel.hh"
 #include "Ravl/Arc2d.hh"
