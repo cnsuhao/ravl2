@@ -530,7 +530,7 @@ namespace RavlGUIN {
     //: Set column width.
     
     bool GUISetColumnWidth(IntT &colNo,IntT &width)
-    { return Body().SetColumnWidth(colNo,width); }
+    { return Body().GUISetColumnWidth(colNo,width); }
     //: Set column width.
     // Use from the GUI thread only.
     
