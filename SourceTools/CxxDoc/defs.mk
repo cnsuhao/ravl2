@@ -33,7 +33,6 @@ SOURCES = Object.cc tokenizer.l cxx.y Document.cc Parser.cc \
 PLIB = RavlCxxDoc
 
 MAINS = CxxDoc.cc 
-#doDocTree.cc
 
 EHT= Ravl.Source_Tools.CxxDoc.html Ravl.Introduction.Documentation.html \
  Ravl.Introduction.Documentation.Code.html Ravl.Introduction.Documentation.Sections.html \
