@@ -17,10 +17,12 @@
 using namespace RavlGUIN;
 
 int main() {
-  ImageC<ByteRGBValueC> img(256,256);
+  Index2dC origin(5,10);
+  IndexRange2dC rng(origin,origin + Index2dC(256,256));
+  ImageC<ByteRGBValueC> img(rng);
   for(int x = 0;x < 256;x++)
     for(int y = 0;y < 256;y++)
-      img[x][y] = ByteRGBValueC(x,y,128);
+      img[origin[0] + x][origin[1] + y] = ByteRGBValueC(x,y,128);
   
   if(!Save("@X:hello",img,"",true)) {
     cerr << "Failed to save image. \n";

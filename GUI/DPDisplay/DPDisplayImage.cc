@@ -42,8 +42,8 @@ namespace RavlGUIN {
   bool DPDisplayImageRGBBodyC::Draw(DPDisplayViewBodyC &canvas) {
     Index2dC ioffset(canvas.Offset()[0],canvas.Offset()[1]);
     Index2dC off = img.Frame().Origin() - ioffset;
-    int atx = off.Row().V();
-    int aty = off.Col().V();
+    int atx = off.Col().V();
+    int aty = off.Row().V();
     if(img.Frame().Area() <= 0)
       return true; // Nothing to draw!    
     gdk_draw_rgb_image(canvas.Canvas().DrawArea(),
@@ -99,8 +99,8 @@ namespace RavlGUIN {
   bool DPDisplayImageRealBodyC::Draw(DPDisplayViewBodyC &canvas) {
     Index2dC ioffset(canvas.Offset()[0],canvas.Offset()[1]);
     Index2dC off = img.Frame().Origin() - ioffset;
-    int atx = off.Row().V();
-    int aty = off.Col().V();
+    int atx = off.Col().V();
+    int aty = off.Row().V();
     if(img.Frame().Area() <= 0)
       return true; // Nothing to draw!
     gdk_draw_gray_image(canvas.Canvas().DrawArea(),
@@ -172,8 +172,8 @@ namespace RavlGUIN {
   bool DPDisplayImageByteBodyC::Draw(DPDisplayViewBodyC &canvas) {
     Index2dC ioffset(canvas.Offset()[0],canvas.Offset()[1]);
     Index2dC off = img.Frame().Origin() - ioffset;
-    int atx = off.Row().V();
-    int aty = off.Col().V();
+    int atx = off.Col().V();
+    int aty = off.Row().V();
     if(img.Frame().Area() <= 0)
       return true; // Nothing to draw!    
     gdk_draw_gray_image(canvas.Canvas().DrawArea(),

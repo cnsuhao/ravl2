@@ -68,7 +68,7 @@ namespace RavlGUIN {
     }
     
     // Create a window and display it.
-    win = WindowC(winSize.Cols()+10,winSize.Rows()+10,name);
+    win = WindowC(winSize.LCol().V()+10,winSize.BRow().V()+10,name);
     DPDisplayViewC nview(winSize);
     win.Add(nview);
     win.Show();

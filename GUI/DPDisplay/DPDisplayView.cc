@@ -40,8 +40,8 @@ namespace RavlGUIN {
   bool DPDisplayViewBodyC::Create() {
     ONDEBUG(cerr << "DPDisplayViewBodyC::Create(), Called \n");
     
-    int rows = winSize.Cols();
-    int cols = winSize.Rows();
+    int rows = winSize.RCol().V();
+    int cols = winSize.BRow().V();
     // Limit maximum inital size.
     if(rows > 800)
       rows = 800;
