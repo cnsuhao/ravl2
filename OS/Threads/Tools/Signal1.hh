@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLSIGNAL1_HEADER
-#define RAVLSIGNAL1_HEADER 1
+#ifndef RAVL_SIGNAL1_HEADER
+#define RAVL_SIGNAL1_HEADER 1
 /////////////////////////////////////////////////////
 //! docentry="Ravl.OS.Signals"
 //! rcsid="$Id$"
@@ -69,11 +69,11 @@ namespace RavlN {
   {
   public:
     SignalInterConnect1BodyC()
-      {}
+    {}
     //: Constructor.
     
     SignalInterConnect1BodyC(Signal0C &from,Signal1C<DataT> &targ);
-  //: Constructor.
+    //: Constructor.
     
     inline virtual bool Invoke(DataT &);
     //: Invoke signal, with value.
@@ -387,9 +387,9 @@ namespace RavlN {
   
   template<class DataT>
   SignalInterConnect1BodyC<DataT>::SignalInterConnect1BodyC(Signal0C &from,Signal1C<DataT> &targ)
-  : SignalConnector0BodyC(from),
-    SignalConnector1BodyC<DataT>(from),
-    SignalInterConnect0BodyC(from,targ)
+    : SignalConnector0BodyC(from),
+      SignalConnector1BodyC<DataT>(from),
+      SignalInterConnect0BodyC(from,targ)
   {}
   
   template<class DataT>

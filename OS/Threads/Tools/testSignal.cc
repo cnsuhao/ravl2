@@ -1,10 +1,18 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2001, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 ////////////////////////////////////////////
 //! rcsid="$Id$"
-
+//! lib=RavlThreads
+//! author="Charles Galambos"
 
 #include "Ravl/Threads/Signal.hh"
 #include "Ravl/Threads/Signal1.hh"
 #include "Ravl/Threads/Signal2.hh"
+#include "Ravl/Threads/Signal3.hh"
 #include "Ravl/Option.hh"
 
 
@@ -70,3 +78,22 @@ int main(int argc,char **argv)
   return 0;
 }
 
+
+template class Signal1C<IntT>;
+template class Signal1BodyC<IntT>;
+
+template class Signal2C<IntT,RealT>;
+template class Signal2BodyC<IntT,RealT>;
+template class Signal2FuncBodyC<IntT,RealT>;
+template class Signal2FuncC<IntT,RealT>;
+template class SignalConnector2BodyC<IntT,RealT>;
+template class Signal2MethodC<IntT,RealT,Signal0C>;
+template class SignalInterConnect2C<IntT,RealT>;
+
+template class Signal3C<IntT,RealT,UIntT>;
+template class Signal3BodyC<IntT,RealT,UIntT>;
+template class Signal3FuncBodyC<IntT,RealT,UIntT>;
+template class Signal3FuncC<IntT,RealT,UIntT>;
+template class SignalConnector3BodyC<IntT,RealT,UIntT>;
+template class Signal3MethodC<IntT,RealT,UIntT,Signal0C>;
+template class SignalInterConnect3C<IntT,RealT,UIntT>;

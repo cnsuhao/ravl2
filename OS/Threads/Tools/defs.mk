@@ -32,4 +32,4 @@ LIBDEPS=RavlThreadTools.def
 
 USESLIBS = RavlThreads RavlOS
 
-TESTEXES = testLaunchThread.cc testTickerTrigger.cc testTimedTriggerQueue.cc
+TESTEXES = testLaunchThread.cc testTickerTrigger.cc testTimedTriggerQueue.cc testSignal.cc
