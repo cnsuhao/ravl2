@@ -59,7 +59,7 @@ $(set:subType=method)$(set:subTitle=functions)$(set:objLevel=Advanced)$(include:
 
 $(if:$pagemode=develop:
 $(set:subType=class)$(set:subTitle=classes)$(set:objLevel=Develop)$(include:objects.stmpl)
-$(set:subType=method)$(set:subTitle=functions)$(set:subType=method)$(set:subTitle=functions)$(set:objLevel=Develop)$(include:objects.stmpl)
+$(set:subType=method)$(set:subTitle=functions)$(set:objLevel=Develop)$(include:objects.stmpl)
 $(set:subType=class)$(set:subTitle=classes)$(set:objLevel=Default)$(include:objects.stmpl)
 $(set:subType=method)$(set:subTitle=functions)$(set:objLevel=Default)$(include:objects.stmpl)
 )
