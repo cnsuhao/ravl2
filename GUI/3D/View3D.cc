@@ -27,7 +27,7 @@ namespace RavlGUIN {
 
   //: Default constructor.
   
-  View3DBodyC::View3DBodyC(int sx,int sy)
+  View3DBodyC::View3DBodyC(int sx,int sy,bool enableLighting,bool enableTexture)
     : Canvas3DBodyC(sx,sy),
       sceneComplete(false),
       viewObject(0,0,0),
@@ -39,6 +39,8 @@ namespace RavlGUIN {
       initDone(false),
       m_bAutoCenter(false),
       m_bAutoFit(false),
+      m_bTextureStatus(enableTexture),
+      m_bLightingStatus(enableLighting),
       m_pixButton0Pos(0,0),
       m_pixButton1Pos(0,0),
       m_fXRotation(0),
@@ -207,18 +209,14 @@ namespace RavlGUIN {
       ConnectRef(m_oRenderOpts[i].SigSelected(),*this,&View3DBodyC::SelectRenderMode,i);
     }
     
-    // Setup backmenu.
-    bool bTextureStatus = true;
-    bool bLightingStatus = true;
-    
     MenuC renderMenu("Render",
 		     m_oRenderOpts[0] +
 		     m_oRenderOpts[1] +
 		     m_oRenderOpts[2] +
 		     m_oRenderOpts[3] +
 		     MenuItemSeparator() +
-		     MenuCheckItem("Texturing",bTextureStatus,Canvas3DC(*this),&Canvas3DC::SetTextureMode) +
-		     MenuCheckItem("Lighting",bLightingStatus,Canvas3DC(*this),&Canvas3DC::SetLightingMode)
+		     MenuCheckItem("Texturing",m_bTextureStatus,Canvas3DC(*this),&Canvas3DC::SetTextureMode) +
+		     MenuCheckItem("Lighting",m_bLightingStatus,Canvas3DC(*this),&Canvas3DC::SetLightingMode)
 		     );
     
     MenuC facesMenu("Faces",
@@ -241,12 +239,13 @@ namespace RavlGUIN {
     
     // Initialise OpenGL
     Put(DOpenGLC(Trigger(View3DC(*this),&View3DC::InitGL)));
-    SetTextureMode(bTextureStatus);
-    SetLightingMode(bLightingStatus);
     
     // Setup lights and cameras
     Put(DLight3DC(RealRGBValueC(1,1,1),Point3dC(0,0,10)));
     Put(DViewPoint3DC(90,viewPoint));
+    
+    SetTextureMode(m_bTextureStatus);
+    SetLightingMode(m_bLightingStatus);
     
     ONDEBUG(cerr << "View3DBodyC::Create(), Done. \n");
     return true;

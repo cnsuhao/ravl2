@@ -30,7 +30,7 @@ namespace RavlGUIN {
     : public Canvas3DBodyC
   {
   public:
-    View3DBodyC(int sx,int sy);
+    View3DBodyC(int sx,int sy,bool enableLighting = true,bool enableTexture = true);
     //: Default constructor.
     
     bool Add(const DObject3DC &r, IntT id = 0);
@@ -118,6 +118,9 @@ namespace RavlGUIN {
     bool m_bAutoCenter;
     bool m_bAutoFit;
     
+    bool m_bTextureStatus;
+    bool m_bLightingStatus;
+    
     // Mouse position storage
     Index2dC m_pixButton0Pos;
     Index2dC m_pixButton1Pos;
@@ -128,6 +131,7 @@ namespace RavlGUIN {
     RealT m_fXTranslation;
     RealT m_fYTranslation;
     RealT m_fZoom;
+
     
     // Render mode menu option handles
     MenuCheckItemC m_oRenderOpts[4];
@@ -151,8 +155,8 @@ namespace RavlGUIN {
     //: Default constructor.
     // creates an invalid handle.
     
-    View3DC(int sx,int sy)
-      : Canvas3DC(*new View3DBodyC(sx,sy))
+    View3DC(int sx,int sy,bool enableLighting = true,bool enableTexture = true)
+      : Canvas3DC(*new View3DBodyC(sx,sy,enableLighting,enableTexture))
       {}
     //: Constructor.
     
