@@ -74,7 +74,7 @@ namespace RavlN {
       server(nserver),
       addr(0),
       dontClose(false),
-      writeTimeout(120)
+      writeTimeout(180)
   {
     int at = name.index(':');
     if(at < 0) {
@@ -97,7 +97,8 @@ namespace RavlN {
     : fd(-1),
       server(nserver),
       addr(0),
-      dontClose(false)
+      dontClose(false),
+      writeTimeout(180)
   {
     ONDEBUG(cerr << "Opening connection '" << name << "' port " << portno << "\n");
     if(server)
@@ -113,7 +114,8 @@ namespace RavlN {
     : fd(nfd),
       server(nserver),
       addr(naddr),
-      dontClose(false)
+      dontClose(false),
+      writeTimeout(180)
   { SetNonBlocking(true); }
   
   //: Open socket.
