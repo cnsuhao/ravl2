@@ -53,6 +53,7 @@
 #include <fcntl.h>
 
 #include "Ravl/OS/SysLog.hh"
+#include "Ravl/OS/Date.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -639,15 +640,18 @@ namespace RavlN {
     
     fd_set wfds;
     FD_ZERO(&wfds);
-    
+    DateC startTime(true);
     while(fd >= 0) {
-      FD_SET(fd,&wfds);
-      timeout.tv_sec = writeTimeout; // Time-out of a minute...
-      timeout.tv_usec = 0;
-      if((rn = select(fd+1,0,&wfds,0,&timeout)) == 0) {
+      RealT timeToGo = (RealT) writeTimeout - (DateC(true) - startTime).Double(); // Compute time remaining.
+      if(timeToGo <= 0) {
 	SysLog(SYSLOG_WARNING) << "SocketBodyC::Write(), Timeout writting to socket. : " << errno;
-	return at;
+	return at;	
       }
+      FD_SET(fd,&wfds);
+      timeout.tv_sec = Round(timeToGo);
+      timeout.tv_usec = 0;
+      if((rn = select(fd+1,0,&wfds,0,&timeout)) == 0)
+	continue; // Go check if timeout has expired.
       if(rn < 0) {
 	if(errno == EINTR || errno == EAGAIN)
 	  continue;
@@ -708,12 +712,21 @@ namespace RavlN {
       int blocksToGo = n - b;
       if(blocksToGo == 0)
 	break; // We're done!
-      timeout.tv_sec = writeTimeout; // Time-out of a minute...
-      timeout.tv_usec = 0;
-      FD_SET(fd,&wfds);
-      if((rn = select(fd+1,0,&wfds,0,&timeout)) == 0) {
-	SysLog(SYSLOG_WARNING) << "SocketBodyC::Write(), Timeout writting to socket. : " << errno;
-	return at;
+      
+      startTime = DateC(true); // Reset start time.
+      while(fd >= 0) {
+	RealT timeToGo = (RealT) writeTimeout - (DateC(true) - startTime).Double(); // Compute time remaining.
+	if(timeToGo <= 0) {
+	  SysLog(SYSLOG_WARNING) << "SocketBodyC::Write(), Timeout writting to socket. : " << errno;
+	  return at;	
+	}
+	timeout.tv_sec = Round(timeToGo);
+	timeout.tv_usec = 0;
+	FD_SET(fd,&wfds);
+	if((rn = select(fd+1,0,&wfds,0,&timeout)) == 0) {
+	  SysLog(SYSLOG_WARNING) << "SocketBodyC::Write(), Timeout writting to socket. : " << errno;
+	  return at;
+	}
       }
       if(fd < 0)
 	break; // Closed file descriptor ?
@@ -747,42 +760,31 @@ namespace RavlN {
     struct timeval timeout;
     
     while(at < size && fd >= 0) {
-      FD_SET(fd,&wfds);
-      timeout.tv_sec = writeTimeout; // Time-out of a minute...
-      timeout.tv_usec = 0;
-      if((rn = select(fd+1,0,&wfds,0,&timeout)) == 0) {
-	SysLog(SYSLOG_WARNING) << "SocketBodyC::Write(), Timeout writting to socket. :" << errno;
-	return at;
-      }
-      if(rn < 0) {
-	if(errno == EINTR || errno == EAGAIN)
-	  continue;
+      DateC startTime(true);
+      do {
+	RealT timeToGo = (RealT) writeTimeout - (DateC(true) - startTime).Double(); // Compute time remaining.
+	if(timeToGo <= 0) {
+	  SysLog(SYSLOG_WARNING) << "SocketBodyC::Write(), Timeout writting to socket. : " << errno;
+	  return at;	
+	}
+	FD_SET(fd,&wfds);
+	timeout.tv_sec = Round(timeToGo); // Time-out of a minute...
+	timeout.tv_usec = 0;
+	rn = select(fd+1,0,&wfds,0,&timeout);
+	if(rn < 0) {
+	  if(errno == EINTR || errno == EAGAIN)
+	    continue;
 #if RAVL_OS_LINUX
-	char buff[256];
-	SysLog(SYSLOG_WARNING) << "SocketBodyC::Write(), Error writing to socket :" << errno << " '" << strerror_r(errno,buff,256) << "' ";
+	  char buff[256];
+	  SysLog(SYSLOG_WARNING) << "SocketBodyC::Write(), Error writing to socket :" << errno << " '" << strerror_r(errno,buff,256) << "' ";
 #else
-	SysLog(SYSLOG_WARNING) << "SocketBodyC::Write(), Error writing to socket :" << errno;
+	  SysLog(SYSLOG_WARNING) << "SocketBodyC::Write(), Error writing to socket :" << errno;
 #endif
-	return at;
-      }
-      FD_SET(fd,&wfds);
-      timeout.tv_sec = writeTimeout; // Time-out of a minute...
-      timeout.tv_usec = 0;
-      if((rn = select(fd+1,0,&wfds,0,&timeout)) == 0) {
-	SysLog(SYSLOG_WARNING) << "SocketBodyC::Write(), Timeout writting to socket. :" << errno;
-	return at;
-      }
-      if(rn < 0) {
-	if(errno == EINTR || errno == EAGAIN)
-	  continue;
-#if RAVL_OS_LINUX
-	char buff[256];
-	SysLog(SYSLOG_WARNING) << "SocketBodyC::Write(), Error writing to socket :" << errno << " '" << strerror_r(errno,buff,256) << "' ";
-#else
-	SysLog(SYSLOG_WARNING) << "SocketBodyC::Write(), Error writing to socket :" << errno;
-#endif
-	return at;
-      }
+	  return at;
+	}
+      } while(rn <= 0 && fd >= 0) ;
+      if(fd < 0)
+	break;
       int n = write(fd,&(buff[at]),size - at);
       if(n < 0) {
 	ONDEBUG(SysLog(SYSLOG_DEBUG) << "SocketBodyC::RunReceive(), Error on read. ");
