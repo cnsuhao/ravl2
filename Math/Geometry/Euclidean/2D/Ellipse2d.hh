@@ -15,7 +15,6 @@
 #include "Ravl/Point2d.hh"
 #include "Ravl/Vector2d.hh"
 #include "Ravl/Affine2d.hh"
-#include "Ravl/Math.hh"
 
 namespace RavlN {
   class Conic2dC;

@@ -12,8 +12,8 @@
 #include "Ravl/SArray1dIter.hh"
 #include "Ravl/Matrix.hh"
 #include "Ravl/Vector.hh"
-
 #include "Ravl/Conic2d.hh"
+#include "Ravl/SVD.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -72,12 +72,13 @@ namespace RavlN {
   
   bool Ellipse2dC::EllipseParameters(Point2dC &centre,RealT &major,RealT &minor,RealT &angle) const {
     centre = p.Translation();
-    FMatrixC<2,2> E;
-    FVectorC<2> d;
-    EigenVectors(p.SRMatrix(),E,d);
-    angle = atan2(-E[0][1],-E[0][0]);
-    major = d[0];
-    minor = d[1];
+    FMatrixC<2,2> U,V;
+    FVectorC<2> S = SVD(p.SRMatrix(), U, V);
+    U = U * V.T();
+    angle = atan(U[0][1]/U[0][0]);
+    major = S[0];
+    minor = S[1];
+
     ONDEBUG(cerr << "Center=" << centre << " Major=" << major << " Minor=" << minor << " Angle=" << angle << "\n");
     return true;
   }
@@ -87,8 +88,7 @@ namespace RavlN {
   //!param: minor - Size of minor axis
   
   bool Ellipse2dC::Size(RealT &major,RealT &minor) const {
-    FVectorC<2> vec;
-    EigenValues(p.SRMatrix(),vec);
+    FVectorC<2> vec = SVD(p.SRMatrix());
     major = vec[0];
     minor = vec[1];
     return true;
