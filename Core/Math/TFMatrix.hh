@@ -233,7 +233,7 @@ namespace RavlN {
     }
   }
   //: Compute result = vec * mat + add;
-  // Unfortunatly return my value is a little slow, this gets around that by passind the location to store
+  // Unfortunatly return by value is a little slow, this gets around that by passing the location to store
   // the result.
   
   template<class DataT,unsigned int N,unsigned int M>
@@ -245,7 +245,7 @@ namespace RavlN {
     }
   }
   //: Compute result = vec * mat;
-  // Unfortunatly return my value is a little slow, this gets around that by passind the location to store
+  // Unfortunatly return by value is a little slow, this gets around that by passing the location to store
   // the result.
 
   template<class DataT,unsigned int N,unsigned int M,unsigned int MT>
@@ -259,7 +259,7 @@ namespace RavlN {
       }
   }
   //: Compute result = fmat * mat;
-  // Unfortunatly return my value is a little slow, this gets around that by passind the location to store
+  // Unfortunatly return by value is a little slow, this gets around that by passing the location to store
   // the result.
   
   template<class DataT,unsigned int N,unsigned int M>
@@ -272,7 +272,23 @@ namespace RavlN {
     }
   }
   //: Compute result = mat.T() * vec;
+  // Unfortunatly return by value is a little slow, this gets around that by passing the location to store
+  // the result.
   // Transpose this matrix and multiply by 'vec'
+  
+  template<class DataT,unsigned int N,unsigned int M,unsigned int NT>
+  void MulT(const TFMatrixC<DataT,N,M> &fmat,const TFMatrixC<DataT,NT, M> & mat ,TFMatrixC<DataT,N,NT> &result) {
+    for(UIntT i = 0;i < N;i++)
+      for(UIntT j = 0;j < NT;j++) {
+	DataT &val = result[i][j];
+	val = fmat[i][0] * mat[j][0];
+	for(UIntT k = 1; k < M;k++)
+	  val += fmat[i][k] * mat[j][k];
+      }
+  }
+  //: Mutiply matrix fmat by transpose of 'mat'
+  // Unfortunatly return by value is a little slow, this gets around that by passing the location to store
+  // the result.
   
   template<class DataT,unsigned int N,unsigned int M>
   ostream &operator<<(ostream &s,const TFMatrixC<DataT,N,M> &oth) {
