@@ -11,8 +11,7 @@
 The interface to DPIPortC&lt;DataT&gt; is fairly simple. There is a
 function `bool IsGetReady()' to test if any data is immediately
 available.  `bool IsGetEOS()', tests if the end of the stream has been
-reached. `IsGetEOS()' tests if the end of the stream has been reached.
-Finally there is `bool Get(DataT &amp;buf)' which retrieves data
+reached. Finally there is `bool Get(DataT &amp;buf)' which retrieves data
 from the stream. It returns false if for whatever reason it fails.
 The interface to DPOPortC&lt;DataT&gt; is fairly simple. `bool
 IsPutReady()' tests if a stream is ready to accept data and `bool
