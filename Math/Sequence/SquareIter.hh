@@ -42,15 +42,27 @@ namespace RavlN {
     //: Goto first point on square.
     
     inline bool IsElm() const
-      { return state != 0; }
+    { return state != 0; }
     //: At valid position ?
     
+    operator bool() const
+    { return state != 0; }
+    //: Test if we're at a valid point.
+    
     inline const Index2dC &Data() const
-      { return at; }
+    { return at; }
     //: Get point.
+    
+    const Index2dC &operator*() const
+    { return at; }
+    //: Get location of current point.
     
     bool Next();
     //: Goto next point.
+    
+    void operator++(int)
+    { Next(); }
+    //: Goto next point on square.
     
   private:
     IntT state;     // State we're in.

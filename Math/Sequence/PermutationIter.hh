@@ -10,7 +10,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! date="14/5/96"
-//! docentry=Misc
+//! docentry="Ravl.Math.Sequences"
 //! rcsid="$Id$"
 //! file="Ravl/Tools/Misc/PermutationIter.hh"
 //! lib=RavlMath
