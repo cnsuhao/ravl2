@@ -287,14 +287,14 @@ namespace RavlImageN {
 	for (IndexC c = -h_offset; c < cols-h_offset; c+=2) {
 	  if ((c >= 0) && (c < Img.Cols())) {
 	    IndexC R(r+Img.TRow()), C(c+Img.LCol());
-	    strm.put((Img[R][C].U()+Img[R][C+1].U()
-		      +Img[R+1][C].U()+Img[R+1][C+1].U())/4 + 128);
+	    strm.put((UByteT) (Img[R][C].U()+Img[R][C+1].U()
+			       +Img[R+1][C].U()+Img[R+1][C+1].U())/4 + 128);
 	  }
-	  else strm.put(128);
+	  else strm.put((UByteT)128);
 	}
       }
       else {
-	for (IndexC c = -h_offset; c < cols-h_offset; c+=2)  strm.put(128);
+	for (IndexC c = -h_offset; c < cols-h_offset; c+=2)  strm.put((UByteT)128);
       }
     }
     for (r = -v_offset; r < rows-v_offset; r+=2) { // V component
@@ -302,14 +302,14 @@ namespace RavlImageN {
 	for (IndexC c = -h_offset; c < cols-h_offset; c+=2) {
 	  if ((c >= 0) && (c < Img.Cols())) {
 	    IndexC R(r+Img.TRow()), C(c+Img.LCol());
-	    strm.put((Img[R][C].V()+Img[R][C+1].V()
-		      +Img[R+1][C].V()+Img[R+1][C+1].V())/4 + 128);
+	    strm.put((UByteT) (Img[R][C].V()+Img[R][C+1].V()
+			       +Img[R+1][C].V()+Img[R+1][C+1].V())/4 + 128);
 	  }
-	  else strm.put(128);
+	  else strm.put((UByteT)128);
 	}
       }
       else {
-	for (IndexC c = -h_offset; c < cols-h_offset; c+=2)  strm.put(128);
+	for (IndexC c = -h_offset; c < cols-h_offset; c+=2)  strm.put((UByteT)128);
       }
     }
     frameNo++;

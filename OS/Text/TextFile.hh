@@ -66,8 +66,8 @@ namespace RavlN {
       { return filename; }
     //: Get the name of the file.
     
-    inline bool operator+=(const StringC &text)
-      { return Append(text); }
+    inline void operator+=(const StringC &text)
+    { Append(text); }
     //: Append a line of text to the end of the file.
     
     
