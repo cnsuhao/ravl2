@@ -30,19 +30,20 @@ int totalSize = 100000;
 bool testFreeze = false;
 SemaphoreC serverReady(0);
 int timeout = 15;
+volatile bool error = false;
 
 bool TransmitThread() {
   SocketC os(address,true);
   if(!os.IsOpen()) {
-    cerr << "Failed to open socket. \n";
-    return false;
+    error = true;
+    return true;
   }
   serverReady.Post(); 
   os = os.Listen();
   os.SetNonBlocking(true);
   os.SetWriteTimeout(timeout);
   cerr << "Transmit started. \n";
-  for(int i = 0;i < totalSize;) {
+  for(int i = 0;i < totalSize && ! error;) {
     int a[257],b[257],c[257];
     int b1s = Round(Random1() * 255) + 1;
     for(int k = 0;k < b1s;k++)
@@ -63,9 +64,11 @@ bool TransmitThread() {
     lens[2] = sizeof(int) * b3s;
     int total = lens[0] + lens[1] + lens[2];
     int n = os.WriteV((const char **) bufs,lens,3);
-    if(n < total)
-      cerr << "WriteV(), Total=" << total << " n=" << n << "\n";
-    RavlAlwaysAssert(n == total);    
+    if(n != total) {
+      cerr << "WriteV(), ERROR: Total=" << total << " n=" << n << "\n";
+      error = true;
+      break;
+    }
     //if(Random1() < 0.3)
     // Sleep(0.1);
   }
@@ -84,7 +87,10 @@ int RecieveThread() {
     Sleep(0.02);
     is = SocketC(address,false);
   }
-  RavlAlwaysAssert(is.IsOpen());
+  if(!is.IsOpen()) {
+    error = true;
+    return __LINE__;
+  }
   serverReady.Wait(); 
   is.SetNonBlocking(true);
   bool error = false;
@@ -105,7 +111,10 @@ int RecieveThread() {
       cerr << "ReadV(), Total=" << total << " n=" << n << " i=" << i << "\n";
       if(i > (totalSize - 256)) // Just end of stream ?
 	return 0;
-      RavlAssert(n == total);
+      if(n != total) {
+	error = true;
+	break;
+      }
     }
     for(int k = 0;k < b1s;k++)
       if(a[k] != i++) { error = true; break; }
@@ -117,8 +126,9 @@ int RecieveThread() {
       ONDEBUG(cerr << "Read(), Total=" << total << " n=" << n << " i=" << i << "\n");
       if(i > (totalSize - 64)) // Just end of stream ?
 	return 0;
+      error = true;
+      break;
     }
-    RavlAssert(n == total);
     
     for(int k = 0;k < b3s;k++)
       if(c[k] != i++) { error = true; break; }
@@ -135,17 +145,16 @@ int RecieveThread() {
   }
   if(error) {
     cerr << "Test failed. \n";
-    RavlAlwaysAssert(0);
+    return __LINE__;
   }
   cerr << "Recieve done. \n";
-  
   return 0;
 }
 
 int main(int nargs,char **argv)
 {
   OptionC opts(nargs,argv);
-  address = opts.String("h","localhost:4048","Network address to use. ");
+  address = opts.String("h","localhost:4248","Network address to use. ");
   buffer = opts.Boolean("b",false,"Buffer. ");
   totalSize = opts.Int("s",100000,"Test size. ");
   testFreeze = opts.Boolean("f",false,"Test reader freeze. ");
@@ -155,5 +164,9 @@ int main(int nargs,char **argv)
   LaunchThread(&TransmitThread);
   if(RecieveThread() != 0)
     return 1;
+  if(error) {
+    cerr << "Test failed. \n";
+    return 1;
+  }
   return 0;
 }
