@@ -163,7 +163,11 @@ if ($config{EXTRAPKG} ne "") {
 # If an install script exists, do full install
 if(-e "$SRCTREE/$PACKAGENAME/install") {
   # Install
-  & Build("./install $BUILDTREE auto","$BUILDTREE/install.log","install");
+  my $command = "./install $BUILDTREE auto";
+  if ($config{RAVLCONFIG}) {
+    $command .= " $config{RAVLCONFIG}";
+  }
+  & Build($command,"$BUILDTREE/install.log","install");
   # Test  
   & Build("gmake -f $BUILDTREE/share/RAVL/QMake/QMake.mk PROJECT_OUT=$BUILDTREE test","$BUILDTREE/test.log","test");
 }

@@ -25,6 +25,7 @@ EXTRAPKG 	"Contrib"  	  # The name of any extra package
 CVSROOT 	":pserver:anonymous\@cvs.ravl.sourceforge.net:/cvsroot/ravl"
 
 # Build details
+RAVLCONFIG	/usr/local/etc/config.local.linux # The site config file to use for RAVL installations
 BUILDDIRECTORY  "/vol/soft/"
 BUILDTREES 	3		  # The build history to keep
 CLEANTEMP	1		  # Clean up temporary files
@@ -57,6 +58,11 @@ The function of the various commands are as follows:
 	<TD>CVSSROOT</TD>
 	<TD>no</TD>
 	<TD>The CVSROOT to check out from - the one above is good for normal RAVL builds.</TD>
+</TR>
+<TR>
+	<TD>RAVLCONFIG</TD>
+	<TD>yes</TD>
+	<TD>Location of a site configuration file if one exists, only used during RAVL installs. See the QMake documentation for more on this file.</TD>
 </TR>
 <TR>
 	<TD>BUILDDIRECTORY</TD>
