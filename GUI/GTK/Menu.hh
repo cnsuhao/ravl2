@@ -4,13 +4,13 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLGUIMENUBAR
-#define RAVLGUIMENUBAR 1
+#ifndef RAVLGUI_MENUBAR_HEADER
+#define RAVLGUI_MENUBAR_HEADER 1
 ////////////////////////////////////////////////
 //! file="Ravl/GUI/GTK/Menu.hh"
 //! lib=RavlGUI
 //! author="Charles Galambos"
-//! date="23/03/99"
+//! date="23/03/1999"
 //! example=exMenu.cc
 //! docentry="Ravl.GUI.Control"
 //! rcsid="$Id$"
@@ -37,7 +37,7 @@ namespace RavlGUIN {
     //: Create the widget.
     
     Signal0C &SigSelected()
-      { return selected; }
+    { return selected; }
     //: Access selected signal.
     
   protected:
@@ -57,7 +57,7 @@ namespace RavlGUIN {
   {
   public:
     MenuItemC()
-      {}
+    {}
     //: Default constructor
     
     MenuItemC(const StringC &name)
@@ -67,17 +67,17 @@ namespace RavlGUIN {
     
     MenuItemC(MenuItemBodyC &bod)
       : WidgetC(bod)
-      {}
+    {}
     //: Body constructor
     
   protected:
     MenuItemBodyC &Body() 
-      { return static_cast<MenuItemBodyC &>(WidgetC::Body()); }
+    { return static_cast<MenuItemBodyC &>(WidgetC::Body()); }
     //: Access body.
     
   public:
     Signal0C &SigSelected()
-      { return Body().SigSelected(); }
+    { return Body().SigSelected(); }
     //: Access selected signal.
     
   };
@@ -110,7 +110,8 @@ namespace RavlGUIN {
     virtual bool Create();
     //: Create the widget.
     
-    const StringC &MenuName() const { return menuName; }
+    const StringC &MenuName() const 
+    { return menuName; }
     //: Menu name
     
     void Popup(GdkEvent *event = 0);
@@ -134,12 +135,12 @@ namespace RavlGUIN {
     // creates an invalid handle.
     
     MenuC(const StringC &menuName,const DListC<WidgetC> &widges)
-     : ContainerWidgetC(*new MenuBodyC(menuName,widges))
+      : ContainerWidgetC(*new MenuBodyC(menuName,widges))
     {}
     //: Constructor
 
     MenuC(const StringC &menuName,const WidgetC &widge)
-     : ContainerWidgetC(*new MenuBodyC(menuName,widge))
+      : ContainerWidgetC(*new MenuBodyC(menuName,widge))
     {}
     //: Constructor
   
@@ -155,20 +156,20 @@ namespace RavlGUIN {
     
   protected:
     MenuBodyC &Body() 
-      { return static_cast<MenuBodyC &>(WidgetC::Body()); }
+    { return static_cast<MenuBodyC &>(WidgetC::Body()); }
     //: Access body.
     
     const MenuBodyC &Body() const 
-      { return static_cast<const MenuBodyC &>(WidgetC::Body()); }
+    { return static_cast<const MenuBodyC &>(WidgetC::Body()); }
     //: Access body.
     
   public:
     const StringC &MenuName() const 
-      { return Body().MenuName(); }
+    { return Body().MenuName(); }
     //: Get name of menu.
     
     void Popup(GdkEvent *event = 0) 
-      { Body().Popup(event); }
+    { Body().Popup(event); }
     //: Popup a menu.
     // If caused by an event you should pass 'event' ptr,
     // otherwise set to 0.   This is used for some heuristics
@@ -176,7 +177,7 @@ namespace RavlGUIN {
     // in most cases.)
     
     void Popup(GdkEventButton *event)
-	{ Body().Popup((GdkEvent *) event); }
+    { Body().Popup((GdkEvent *) event); }
     //: Popup a menu.
     // This is just a way of avoiding some casts.
     // See Popup(GdkEvent *) for details.
@@ -196,7 +197,7 @@ namespace RavlGUIN {
     //: Default constuctor.
   
     MenuBarBodyC(const DListC<WidgetC> &widges)
-    : ContainerWidgetBodyC(widges)
+      : ContainerWidgetBodyC(widges)
     {}
     //: Constructor.
   
