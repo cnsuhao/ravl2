@@ -8,7 +8,7 @@
 #define RAVLIMAGE_DRAWMASK_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlImage
-//! docentry="Ravl.Images"
+//! docentry="Ravl.Images.Drawing"
 //! author="Charles Galambos"
 //! userlevel=Normal
 //! file="Ravl/Image/Base/DrawMask.hh"

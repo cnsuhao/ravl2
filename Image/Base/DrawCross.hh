@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! author="Charles Galambos"
 //! date="14/07/2002"
-//! docentry="Ravl.Images"
+//! docentry="Ravl.Images.Drawing"
 //! lib=RavlImage
 //! userlevel=Normal
 //! file="Ravl/Image/Base/DrawCross.hh"
