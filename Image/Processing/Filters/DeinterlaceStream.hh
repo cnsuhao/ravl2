@@ -150,8 +150,12 @@ namespace RavlImageN {
     // Defined as the index of the next object to be written or read.
     // May return ((UIntT) (-1)) if not implemented.
     
-    virtual UIntT Size() const 
-    { return seekCtrl.Size() * 2; }
+    virtual UIntT Size() const { 
+      UIntT size = seekCtrl.Size();
+      if(size == ((UIntT) -1))
+	return size;
+      return size * 2; 
+    }
     //: Find the total size of the stream. (assuming it starts from 0)
     // May return ((UIntT) (-1)) if not implemented.
     
