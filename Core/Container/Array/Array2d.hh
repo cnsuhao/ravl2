@@ -147,20 +147,22 @@ namespace RavlN {
     inline void ShiftRows(IndexC offset)
     { ShiftIndexes(-offset); }
     //: The array is shifted "vertically" by <code>offset</code> w.r.t. the coordinate origin.
-    // In other words the row index of a given pixel will be <i>decremented</i> by <code>offset</code>.
+    // In other words the row index of a given pixel will be <i>incremented</i> by <code>offset</code>.
     // Note: this affects the access for all arrays accessing this data, use
     // with care.
     
     void ShiftCols(IndexC offset);
     //: The array is shifted "horizontally" by <code>offset</code> w.r.t. the coordinate origin.
-    // In other words the column index of a given pixel will be <i>decremented</i> by <code>offset</code>.
+    // In other words the column index of a given pixel will be <i>incremented</i> by <code>offset</code>.
     // Note: this affects the access for all arrays accessing this data, use
     // with care.
 
     void ShiftArray(Index2dC offset)
       { ShiftRows(offset.Row()); ShiftCols(offset.Col()); }
     //: The array is shifted by <code>offset</code> w.r.t. the coordinate origin
-    // This combines the functionality of <code>ShiftRows</code> and <code>ShiftCols</code>
+    // This combines the functionality of <code>ShiftRows</code> and <code>ShiftCols</code><br>
+    // Thus to shift an array so that the top left element has indices (0,0), use:<br>
+    //<pre>array.ShiftArray(-array.Frame().TopLeft())</pre>
 
     
     inline void ShiftIndexes1(IndexC offset)
