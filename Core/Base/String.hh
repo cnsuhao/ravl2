@@ -678,6 +678,9 @@ namespace RavlN {
   ////////////////////////////////
   //! userlevel=Normal
   //: Sub-string within a larger string.
+  // This class holds the position and length of a sub string
+  // within a string.  This holds a reference to the string
+  // data and so memory management is taken care of automaticly.
   
   class SubStringC {
   protected:

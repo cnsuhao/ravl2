@@ -27,8 +27,11 @@
 #endif 
 
 namespace RavlN {
+  
   //! userlevel=Develop
   //: Process Base body.
+  // A process performs a transformation on a data stream. This base
+  // class provides a way of handling processes as abstract entities.
   
   class DPProcessBaseBodyC 
     : public DPEntityBodyC 
@@ -73,6 +76,8 @@ namespace RavlN {
   
   //! userlevel=Develop
   //: Process body.
+  // This class provides a way of handling processes having a particular
+  // input and output type as abstract entity.
   
   template<class InT,class OutT>
   class DPProcessBodyC 
@@ -150,6 +155,8 @@ namespace RavlN {
   //////////////////////////////
   //! userlevel=Advanced
   //: Process handle base.
+  // A process performs a transformation on a data stream. This base
+  // class provides a way of handling processes as abstract entities.
   
   class DPProcessBaseC 
     : public DPEntityC 
@@ -214,6 +221,8 @@ namespace RavlN {
   /////////////////////////////////
   //! userlevel=Normal
   //: Templated process handle.
+  // This class provides a way of handling processes having a particular
+  // input and output type as abstract entity.
   
   template<class InT,class OutT>
   class DPProcessC 

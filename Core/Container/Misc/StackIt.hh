@@ -22,8 +22,8 @@
 #include "Ravl/Stack.hh"
 
 namespace RavlN {
-
-  //: Stack iterator.
+  
+  //: StackC iterator.
   // This iterates back through the stack.  Starting at the top element.
   
   template <class T>

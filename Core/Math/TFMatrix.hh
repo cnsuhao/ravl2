@@ -24,7 +24,9 @@ namespace RavlN {
   class BinOStreamC;
   
   //! userlevel=Advanced
-  //: Fixed size vector.
+  //: Fixed size NxM matrix.
+  // Provides basic matrix arithmetic operations for
+  // an arbitrary sized matrix.
   
   template<class DataT,unsigned int N,unsigned int M>
   class TFMatrixC {

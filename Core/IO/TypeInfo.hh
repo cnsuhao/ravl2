@@ -31,6 +31,10 @@ namespace RavlN {
   ///////////////////////////////
   //! userlevel=Develop
   //: Type information body.
+  // This base class holds meta information about C++ types. <p>
+  // Including methods which will do operation with abstract
+  // handles such as loading and saving from a file. See RCWrapC
+  // for information about how the abstract handles work.
   
   class DPTypeInfoBodyC : public DPEntityBodyC {
   public:
@@ -81,6 +85,10 @@ namespace RavlN {
   ///////////////////////////////
   //! userlevel=Normal
   //: Type information handle.
+  // This base class holds meta information about C++ types. <p>
+  // Including methods which will do operation with abstract
+  // handles such as loading and saving from a file. See RCWrapC
+  // for information about how the abstract handles work.
 
   class DPTypeInfoC : public DPEntityC {
   public:
@@ -148,8 +156,12 @@ namespace RavlN {
   };
   
   ///////////////////////////////
-  //! userlevel=Normal
+  //! userlevel=Develop
   //: Type information instance body.
+  // This class holds meta information about C++ types. <p>
+  // Including methods which will do operation with abstract
+  // handles such as loading and saving from a file. See RCWrapC
+  // for information about how the abstract handles work.
   
   template<class DataT>
   class DPTypeInfoInstBodyC : public DPTypeInfoBodyC {
@@ -236,6 +248,10 @@ namespace RavlN {
   ///////////////////////////////
   //! userlevel=Normal
   //: Type information instance body.
+  // This class holds meta information about C++ types. <p>
+  // Including methods which will do operation with abstract
+  // handles such as loading and saving from a file. See RCWrapC
+  // for information about how the abstract handles work.
   
   template<class DataT>
   class DPTypeInfoInstC : public DPTypeInfoC {

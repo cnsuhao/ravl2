@@ -38,7 +38,8 @@ namespace RavlN {
   ////////////////////////////////////
   //! userlevel=Develop
   //: Converted base body class
-  // The actualy implements the conversion between two class types.
+  // This base body class provides an abstract interface
+  // to a particular type conversion.
   
   class DPConverterBaseBodyC 
     : public DPProcInfoBodyC 
@@ -77,6 +78,8 @@ namespace RavlN {
   ////////////////////////////
   //! userlevel=Normal
   //: Converter base class
+  // This base class provides an abstract interface
+  // to a particular type conversion.
   
   class DPConverterBaseC 
     : public DPProcInfoC 
@@ -123,7 +126,7 @@ namespace RavlN {
   ///////////////////////////////////
   //! userlevel=Develop
   //: Data conversion body.
-  // The actualy implements the conversion between two class types.
+  // The actualy implements the conversion between two types.
   
   template<class ProcT>
   class DPConverterBodyC 
@@ -183,6 +186,8 @@ namespace RavlN {
   
   //! userlevel=Normal
   //: Type conversion handle.
+  // Handle for the class that actually implements the 
+  // conversion between two types.
   
   template<class ProcT>
   class DPConverterC : public DPConverterBaseC {
@@ -201,6 +206,7 @@ namespace RavlN {
   
   //! userlevel=Normal
   //: Setup data conversion function.
+  // This uses a pointer to a function to implement a type converter.
   
   template<class InT,class OutT>
   class DPConverterFuncC 

@@ -18,8 +18,21 @@
 
 namespace RavlN {
   
-  //! userlevel=Advanced
+  //! userlevel=Develop
   //: Type converter body.
+  // This class provides a mechanism for handle conversions between
+  // two types.  Its main use is converting data held in an abstract
+  // handle into a type which a particular piece of code can handle. <p>
+  // It holds the set of available conversions as a graph, and searches
+  // for the least cost path between two nodes (c++ types) in the graph. <p>
+  // The cost function attempts to minimise the sum of the data data losses,
+  // the costs a represented as ratio of bits of information given to those
+  // sent out.  e.g. The cost of converting a (32 bit) int into a char is 4
+  // 32/8.   Strictly speaking the losses should be multiplied, but this gives
+  // no preference to shorter conversion paths, so I've chosen to simply add them.
+  // If someone comes up with a single example where this crude approximation
+  // causes problems I'll put together a more sophisticated scheme, until then
+  // it will do.
   
   class TypeConverterBodyC 
     : public RCBodyVC
@@ -72,6 +85,19 @@ namespace RavlN {
 
   //! userlevel=Advanced
   //: Type converter.
+  // This class provides a mechanism for handle conversions between
+  // two types.  Its main use is converting data held in an abstract
+  // handle into a type which a particular piece of code can handle. <p>
+  // It holds the set of available conversions as a graph, and searches
+  // for the least cost path between two nodes (c++ types) in the graph. <p>
+  // The cost function attempts to minimise the sum of the data data losses,
+  // the costs a represented as ratio of bits of information given to those
+  // sent out.  e.g. The cost of converting a (32 bit) int into a char is 4
+  // 32/8.   Strictly speaking the losses should be multiplied, but this gives
+  // no preference to shorter conversion paths, so I've chosen to simply add them.
+  // If someone comes up with a single example where this crude approximation
+  // causes problems I'll put together a more sophisticated scheme, until then
+  // it will do.
   
   class TypeConverterC
     : public RCHandleC<TypeConverterBodyC>

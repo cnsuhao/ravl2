@@ -19,8 +19,12 @@
 #include "Ravl/RefCounter.hh"
 
 namespace RavlN {
+  
   //! userlevel=Develop
   //: Data processing entity body.
+  // This is the base class for most of the classes in
+  // data processing system.  It main function is to
+  // provide a virtual 'save' function. 
   
   class DPEntityBodyC 
     : public RCBodyVC
@@ -48,6 +52,9 @@ namespace RavlN {
   
   //! userlevel=Advanced
   //: Data processing entity.
+  // This is the base class for most of the classes in
+  // data processing system.  It main function is to
+  // provide a virtual 'save' function. 
   
   class DPEntityC 
     : public RCHandleC<DPEntityBodyC> 

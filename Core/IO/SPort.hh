@@ -18,10 +18,13 @@
 #include "Ravl/DP/Port.hh"
 
 namespace RavlN {
+  
   //////////////////////////////////////////////////
   //! userlevel=Develop
   //: Stream position control body class.
-  
+  // This class provides an abstract base class which allows
+  // the streams position to be queried and manipulated.
+
   class DPSeekCtrlBodyC 
     : virtual public DPEntityBodyC 
   {
@@ -105,6 +108,8 @@ namespace RavlN {
   //////////////////////////////////////////////////
   //! userlevel=Normal
   //: Stream position control handle class.
+  // This class provides an abstract base class which allows
+  // the streams position to be queried and manipulated.
   
   class DPSeekCtrlC 
     : virtual public DPEntityC 

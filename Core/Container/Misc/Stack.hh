@@ -106,7 +106,8 @@ namespace RavlN {
   
   
   //! userlevel=Normal
-  //: Templated stack.
+  //: Templated, dynamicly sized stack.
+  // Complexity proportional to sqrt(N); not N!
   
   template <class T> 
   class  StackC

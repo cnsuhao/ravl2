@@ -26,8 +26,8 @@ namespace RavlN {
   using namespace std;
 #endif
   
-  //: General Exception.
-  // Base class for Ravl's exceptions.
+  //: RAVL Exception.
+  // Base class for Ravl's exceptions. <P>
   
   class ExceptionC {
   public:
@@ -69,7 +69,7 @@ namespace RavlN {
   };
 
   //: Casting exception class.
-  // Throw if illegal cast is attempted.
+  // Thrown when an illegal cast is attempted.
   
   class ExceptionErrorCastC : public ExceptionC {
   public:

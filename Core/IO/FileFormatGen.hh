@@ -18,8 +18,12 @@
 #include "Ravl/DP/FileFormat.hh"
 
 namespace RavlN {
+  
   //! userlevel=Develop
   //: Generic format loader.
+  // This class provides a simple way of adding new file formats to
+  // the system, all it needs is a few points to functions which 
+  // create the appropriate I/O streams.
   
   class FileFormatGenericBodyC  
     : public FileFormatBodyC
@@ -123,6 +127,9 @@ namespace RavlN {
   
   //! userlevel=Normal
   //: Generic format loader.
+  // This class provides a simple way of adding new file formats to
+  // the system, all it needs is a few points to functions which 
+  // create the appropriate I/O streams.
   
   class FileFormatGenericC  
    : public FileFormatBaseC

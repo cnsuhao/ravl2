@@ -22,10 +22,13 @@
 #include "Ravl/Assert.hh"
 
 namespace RavlN {
-  //: Array based priority queue.
+  //: Fixed size priority queue.
+  // Priority queue implemented in a fixed size array. <p>
   // BIG OBJECT <p>
+  // <pre>
   // Keys must have operation '<' defined.
   // This queue assumes: **** Small numbers == High priority. ****
+  // </pre>
   
   template <class K,class D>
   class PriQueueC {
