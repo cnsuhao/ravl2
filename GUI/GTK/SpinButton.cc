@@ -46,7 +46,7 @@ namespace RavlGUIN {
   
   RealT SpinButtonBodyC::Value() { 
     if(adj == 0) return value; 
-#if 1
+#if RAVL_USE_GTK2
     return gtk_adjustment_get_value(GTK_ADJUSTMENT (adj));
 #else
     return GTK_ADJUSTMENT (adj)->value; 
