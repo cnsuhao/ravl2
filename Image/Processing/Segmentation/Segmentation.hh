@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef SEGMENTATION_HEADER
-#define SEGMENTATION_HEADER 1
+#ifndef RAVLIMAGE_SEGMENTATION_HEADER
+#define RAVLIMAGE_SEGMENTATION_HEADER 1
 /////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlImage
@@ -68,6 +68,8 @@ namespace RavlImageN {
     template<class PixelT,class CmpT>
     UIntT MergeComponents(ImageC<PixelT> &dat,UIntT thrSize,RealT maxDist,CmpT &cmp,IntT iter = 1);
     //: Merge simlar components smaller than 'thrSize'.
+    // This just looks for the difference between adjacent pixels from different regions.
+    // FIXME :- It maybe better to look at the average different.
     
     ImageC<UIntT> &SegMap()
     { return segmap; }
@@ -156,7 +158,6 @@ namespace RavlImageN {
     
   };
 
-  
   //: Merge simlar components smaller than 'thrSize'.
   
   template<class PixelT,class CmpT>

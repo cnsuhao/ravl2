@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef IPCONNCOMP_HEADER
-#define IPCONNCOMP_HEADER 1
+#ifndef RAVLIMAGE_CONNCOMP_HEADER
+#define RAVLIMAGE_CONNCOMP_HEADER 1
 ////////////////////////////////////////////////////////////////////////////
 //! docentry="Image.Image Processing.Operators"
 //! rcsid="$Id$"
@@ -30,6 +30,10 @@
 namespace RavlImageN {
   using namespace RavlN;
   
+  
+  //! userlevel=Develop
+  //: Connected component labelling base class
+  
   class ConnectedComponentsBaseBodyC {
   public:
     ConnectedComponentsBaseBodyC(UIntT nmaxLabel=1000, bool ignore=false)
@@ -44,57 +48,72 @@ namespace RavlImageN {
     SizeT maxLabel;
     bool ignoreZero;
   };
-  
-  
-  //: Connected component labeling.
+
+
+  //! userlevel=Normal
+  //: Default compariston operator for connected components
   
   template <class DataTypeT>
+  class ConnectedComponentsCompairC
+  {
+  public:
+    ConnectedComponentsCompairC()
+    {}
+    //: Default constructor.
+    
+    bool operator()(const DataTypeT &v1,const DataTypeT &v2)
+    { return v1 == v2; }
+  };
+
+
+  //! userlevel=Develop
+  //: Connected component labelling. 
+  
+  template <class DataTypeT,class CompairT = ConnectedComponentsCompairC<DataTypeT> >
   class ConnectedComponentsBodyC
     : public RCBodyC,
       public ConnectedComponentsBaseBodyC
   {
   public:
-    ConnectedComponentsBodyC (UIntT nmaxLabel = 10000, bool ignoreZero=false)
-      : ConnectedComponentsBaseBodyC(nmaxLabel, ignoreZero)
+    ConnectedComponentsBodyC (UIntT nmaxLabel = 10000, bool ignoreZero=false,const CompairT &compMethod = CompairT())
+      : ConnectedComponentsBaseBodyC(nmaxLabel, ignoreZero),
+	compair(compMethod)
     {}
     //: Constructor
     // (See handle class ConnectedComponentsC)
     
-    virtual Tuple2C<ImageC<UIntT>,UIntT> Apply (const ImageC<DataTypeT> &im);
+    Tuple2C<ImageC<UIntT>,UIntT> Apply (const ImageC<DataTypeT> &im);
     //: Performs the connected component labelling
     
   protected:
-    
+    CompairT compair;
   };
-  
-  ///////////////////////////////////////////////////
-  
-  
-  // --------------------------------------------------------------------------
-  // **********  ConnectedComponentsC  ********************************************
-  // --------------------------------------------------------------------------
-  
+
   //! userlevel=Normal
-  //: Class for using connected component labelling. 
+  //: Connected component labelling. 
   
-  template <class DataTypeT>
+  template <class DataTypeT,typename CompairT = ConnectedComponentsCompairC<DataTypeT> >
   class ConnectedComponentsC
-    : public RCHandleC<ConnectedComponentsBodyC<DataTypeT> >
+    : public RCHandleC<ConnectedComponentsBodyC<DataTypeT,CompairT> >
   {
   public:
-    
-    ConnectedComponentsC (bool ignoreZero=false)
-      : RCHandleC<ConnectedComponentsBodyC<DataTypeT> >(*new ConnectedComponentsBodyC<DataTypeT>(10000, ignoreZero))
+    ConnectedComponentsC (bool ignoreZero=false,const CompairT &compMethod = CompairT())
+      : RCHandleC<ConnectedComponentsBodyC<DataTypeT> >(*new ConnectedComponentsBodyC<DataTypeT>(10000, ignoreZero,compMethod))
     {}
     //: Constructor.  Set ignoreZero if you want to ignore the zeros on the input image
+
+    Tuple2C<ImageC<UIntT>,UIntT> Apply (const ImageC<DataTypeT> &im)
+    { return Body().Apply(im); }
+    //: Performs the connected component labelling
   };
   
+    
   
   /////////////////////////////////////////////////////////////////////////
   // Implementation:
   
-  template <class DataTypeT>
-  Tuple2C<ImageC<UIntT>,UIntT> ConnectedComponentsBodyC<DataTypeT>::Apply (const ImageC<DataTypeT> &ip) { 
+  template <class DataTypeT,class CompairT >
+  Tuple2C<ImageC<UIntT>,UIntT> ConnectedComponentsBodyC<DataTypeT,CompairT>::Apply (const ImageC<DataTypeT> &ip) { 
     SizeT jnr;
     SArray1dC<UIntT> labelTable(maxLabel+1);
     // If there are two labels for the same component, the bigger label bin
@@ -112,8 +131,8 @@ namespace RavlImageN {
 	return Tuple2C<ImageC<UIntT>,UIntT>(jp,0); // Zero size image.
       it1.Data2() = lab; // Label first pixel in the image.
       DataTypeT lastValue = it1.Data1();
-      for (;it1.RNext();) { // Only iterate through the first row.
-	if(it1.Data1() == lastValue) 
+      for (;it1.Next();) { // Only iterate through the first row.
+	if(compair(it1.Data1(),lastValue)) 
 	  it1.Data2() = lab;
 	else { // a new component
 	  lab++;
@@ -127,8 +146,8 @@ namespace RavlImageN {
     
     for(Array2dSqr2Iter2C<DataTypeT,UIntT> it(ip,jp);it;) {
       // Label the first column pixel.
-      if (it.DataBR1() == it.DataTR1())
-	it.DataBR2() = it.DataTR2();
+      if (compair(it.DataBL1(),it.DataTL1()))
+	it.DataBL2() = it.DataTL2();
       else {
 	++lab;
 	RavlAssert(lab < maxLabel);
@@ -138,10 +157,10 @@ namespace RavlImageN {
       // DataU() = jp[ix-1][iy]
       // DataB() = jp[ix][iy-1]
       
-      for(;it.RNext();) { // The rest of the image row.
-	if (it.DataBR1() == it.DataTR1()) { 
+      do { // The rest of the image row.
+	if (compair(it.DataBR1(),it.DataTR1())) { 
 	  // The upper pixel belongs to the same component.
-	  if (!(it.DataBR1() == it.DataBL1())) {
+	  if (!(compair(it.DataBR1(),it.DataBL1()))) {
 	    // The processed pixel belongs to the upper component.
 	    it.DataBR2() = it.DataTR2();
 	    continue;
@@ -186,7 +205,7 @@ namespace RavlImageN {
 	  continue;
 	}
 	// The upper pixel belongs to the different component.
-	if (it.DataBR1() == it.DataBL1()) { // The left pixel belongs to the same component.
+	if (compair(it.DataBR1(),it.DataBL1())) { // The left pixel belongs to the same component.
 	  // The processed pixel belongs to the left component.
 	  it.DataBR2() = it.DataBL2(); 
 	  continue;
@@ -199,15 +218,15 @@ namespace RavlImageN {
 	// +2 according to the first column pixel
 	if (lab + 2 > maxLabel)  { // Try condensate the 'labelTable'.
 	  UIntT newLastLabel = RelabelTable(labelTable,lab);
-	  
+	  Index2dC iat = it.Index();
 	  // Change labels in the processed part of the image.
 	  ImageRectangleC subRect(jp.Rectangle());
-	  IndexC ix = it.Row();
+	  IndexC ix = iat[0];
+	  IndexC iy = iat[1];
 	  subRect.BRow() = ix - 1;
 	  for(Array2dIterC<UIntT> its(jp,subRect);its;its++)
 	    *its = labelTable[*its];
 	  
-	  IndexC iy = it.Col();
 	  
 	  // Change labels in the processed part of the row.
 	  for (IndexC jy = ip.Rectangle().Origin().Col(); jy <= iy; ++jy)
@@ -227,12 +246,12 @@ namespace RavlImageN {
 	    *it = ll;
 	  lab = newLastLabel;
 	}
-      }
+      } while(it.Next());
     }
     
     // relabel the whole image
     if (lab == 0) 
-    return Tuple2C<ImageC<UIntT>,UIntT>(jp,lab);
+      return Tuple2C<ImageC<UIntT>,UIntT>(jp,lab);
     
     UIntT newLastLabel = RelabelTable(labelTable,lab);
     // change labels in the have been processed area
