@@ -19,7 +19,7 @@
 namespace RavlN {
   
   //! userlevel=Develop
-  //: Create a classifier based on a descriminant function.
+  //: A classifier based on a mixture of gaussian distributions.
   //  This classifier returns the label with the highest value.
   
   class ClassifierGuassianMixtureBodyC 
@@ -60,7 +60,7 @@ namespace RavlN {
   };
   
   //! userlevel=Normal
-  //: Create a classifier based on a descriminant function.
+  //: A classifier based on a mixture of gaussian distributions.
   //  This classifier returns the label with the highest value.
   
   class ClassifierGuassianMixtureC 

@@ -26,8 +26,7 @@
 namespace RavlN {
 
   //! userlevel=Develop
-  //: Nearest neighbours classifier.
-  // Classifier probe vector as the closest neighbour.
+  //: Fuzzy C-Means classifier
   
   class ClassifierFuzzyCMeansBodyC 
     : public ClassifierBodyC
@@ -63,8 +62,8 @@ namespace RavlN {
   };
   
   //! userlevel=Normal
-  //: Nearest neighbours classifier.
-  // Classifier probe vector as the closest neighbour.
+  //: Fuzzy C-Means classifier
+ 
   
   class ClassifierFuzzyCMeansC 
     : public ClassifierC

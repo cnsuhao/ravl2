@@ -9,7 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! author="Kieron Messer"
-//! docentry="Ravl.Pattern Recognition.Classifier"
+//! docentry="Ravl.Pattern Recognition.Classifier.DesignClassifier"
 //! file="Ravl/PatternRec/Classify/DesignBayesNormalQuadratic.hh"
 
 #include "Ravl/PatternRec/DesignClassifierSupervised.hh"

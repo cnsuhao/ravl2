@@ -8,7 +8,7 @@
 #define RAVL_DESIGNCLASSIFIERGAUSIANMIXTURE_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
-//! docentry="Ravl.Pattern Recognition.Classifier"
+//! docentry="Ravl.Pattern Recognition.Classifier.DesignClassifier"
 //! file="Ravl/PatternRec/Classify/DesignClassifierGaussianMixture.hh"
 
 #include "Ravl/PatternRec/DesignClassifierSupervised.hh"
@@ -16,7 +16,7 @@
 namespace RavlN {
   
   //! userlevel=Develop
-  //: Design a discriminat function classifier.
+  //: Design a gaussian mixture classifier .
   
   class DesignClassifierGaussianMixtureBodyC
     : public DesignClassifierSupervisedBodyC
@@ -48,8 +48,8 @@ namespace RavlN {
   };
   
   //! userlevel=Normal
-  //: Design a discriminat function classifier.
-  
+  //: Design a gaussian mixture classifier .
+
   class DesignClassifierGaussianMixtureC
     : public DesignClassifierSupervisedC
   {

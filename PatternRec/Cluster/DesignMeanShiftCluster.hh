@@ -10,7 +10,7 @@
 //! userlevel=Normal
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
-//! docentry="Ravl.Pattern Recognition.Cluster"
+//! docentry="Ravl.Pattern Recognition.Cluster;Ravl.Pattern Recognition.Classifier.DesignClassifier"
 //! file="Ravl/PatternRec/Cluster/DesignMeanShiftCluster.hh"
 
 #include "Ravl/PatternRec/DesignCluster.hh"
@@ -20,7 +20,7 @@ namespace RavlN {
   using namespace RavlN;
   
   //! userlevel=Develop
-  //: Cluster with mean shift.
+  //: Design a mean shift classifier / clustering algorithm
   
   class DesignMeanShiftClusterBodyC
     : public DesignClusterBodyC
@@ -73,8 +73,8 @@ namespace RavlN {
   };
 
   //! userlevel=Normal
-  //: Cluster with mean shift.
-  
+  //: Design a mean shift classifier / clustering algorithm
+
   class DesignMeanShiftClusterC 
     : public  DesignClusterC
   {

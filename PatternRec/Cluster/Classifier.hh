@@ -19,7 +19,7 @@
 namespace RavlN {
   
   //! userlevel=Develop
-  //: Generic classifier body.
+  //: Generic classifier body - Used as a base class for specific classifiers. 
   
   class ClassifierBodyC
     : public FunctionBodyC

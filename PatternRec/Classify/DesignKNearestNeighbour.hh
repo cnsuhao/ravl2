@@ -8,7 +8,7 @@
 #define RAVL_DESIGNKNEARESTNEIGHBOUR_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
-//! docentry="Ravl.Pattern Recognition.Classifier"
+//! docentry="Ravl.Pattern Recognition.Classifier.DesignClassifier"
 //! file="Ravl/PatternRec/Classify/DesignKNearestNeighbour.hh"
 //! example=exKNearestNeighbour.cc
 
@@ -19,7 +19,7 @@
 namespace RavlN {
   
   //! userlevel=Develop
-  //: Design a discriminat function classifier.
+  //: Design a k nearest neighbour classifier
   
   class DesignKNearestNeighbourBodyC
     : public DesignClassifierSupervisedBodyC
@@ -53,8 +53,8 @@ namespace RavlN {
   };
   
   //! userlevel=Normal
-  //: Design a discriminat function classifier.
-  
+   //: Design a k nearest neighbour classifier
+
   class DesignKNearestNeighbourC
     : public DesignClassifierSupervisedC
   {

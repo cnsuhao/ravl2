@@ -20,7 +20,7 @@
 namespace RavlN {
   
   //! userlevel=Develop
-  //: Binary Classifier, threshold a function.
+  //: Binary Classifier, based on a function and threshold.
   
   class ClassifierFunc1ThresholdBodyC 
     : public ClassifierBodyC
@@ -61,7 +61,8 @@ namespace RavlN {
   };
   
   //! userlevel=Normal
-  //: Binary Classifier, threshold a function.
+  //: Binary Classifier, based on a function and threshold.
+
   
   class ClassifierFunc1ThresholdC
     : public ClassifierC
