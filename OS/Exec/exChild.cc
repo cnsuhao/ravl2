@@ -14,7 +14,7 @@
 
 #include "Ravl/Option.hh"
 #include "Ravl/OS/ChildOSProcess.hh"
-#include <assert.h>
+#include "Ravl/Assert.hh"
 
 using namespace RavlN;
 
@@ -28,7 +28,7 @@ int main(int nargs,char *args[])
   option.Check();
   while(hang) ;
   if(stop)
-    assert(0);
+    RavlAssert(0);
   ChildOSProcessC cproc(cmd);
   if(!cproc.Wait(tlim))
     cproc.Terminate();

@@ -13,12 +13,12 @@
 
 #include "Ravl/OS/UserInfo.hh"
 #include "Ravl/OS/ChildOSProcess.hh"
-#include <assert.h>
+#include "Ravl/Assert.hh"
 #include <stdlib.h>
 #include <errno.h>
 #include <stdio.h>
 
-const char *AMMAMailProg = "/usr/lib/sendmail -t ";
+const char *RAVLMailProg = "/usr/lib/sendmail -t ";
 
 #define DODEBUG 1
 #if DODEBUG
@@ -34,7 +34,7 @@ namespace RavlN {
   bool UserInfoC::Mail(StringC Content) {
     if(!Exists())
       return false;
-    ChildOSProcessC mailProc(AMMAMailProg,false,false,true);
+    ChildOSProcessC mailProc(RAVLMailProg,false,false,true);
     mailProc.StdIn() << Content << "\n" << flush ;
     //mailProc.StdIn().Close();
     bool ok = mailProc.Wait(10);
@@ -65,7 +65,7 @@ namespace RavlN {
   bool UserInfoC::Mail(StringC /*Subject*/,TextFileC &/*Content*/) {
     if(!Exists())
       return false;
-    assert(0);
+    RavlAssert(0);
     return false;
   }
   
@@ -77,12 +77,12 @@ namespace RavlN {
       return false;
     
 #if 0
-    if(system("cat " + Filename + " |" + AMMAMailProg + " -subject \""+Subject +"\" " + login) < 0) {
+    if(system("cat " + Filename + " |" + RAVLMailProg + " -subject \""+Subject +"\" " + login) < 0) {
       perror("ERROR: Mail to " + login + " failed ");
       return false;
     }
 #endif
-    assert(0);
+    RavlAssert(0);
     return false;
   }
 

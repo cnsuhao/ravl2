@@ -41,7 +41,7 @@ namespace RavlN {
     
     bool Kill(bool hard = false);
     //: Kill the child process.
-    // If hard is FALSE, a SIGQUIT is sent.(This can be intercepted by the
+    // If hard is false, a SIGQUIT is sent.(This can be intercepted by the
     // process)  Otherwise a SIGKILL is sent.
     
     bool SigStop();
