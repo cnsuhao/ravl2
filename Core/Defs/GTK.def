@@ -9,7 +9,9 @@ GTKDEF = 1
 ################################################
 # $Id$
 
+include x11.def
 
+ifeq (x,x)
 ifeq ($(ARC),linux)
 GLIBPATH = /usr
 GTKPPATH = /usr
@@ -28,12 +30,13 @@ ifeq ($(ARC),sol2)
 GTKLIBS += -R$(GTKPPATH)/lib -R$(GLIBPATH)/lib
 endif
 
-#ifeq ($(ARC),linux)
-#GTKLIBS += -Wl,-rpath=$(GTKPPATH)/lib -Wl,-rpath=$(GLIBPATH)/lib
-#endif
-
 ifeq ($(ARC),sgi)
 GTKLIBS += -Wl,-rpath,$(GTKPPATH)/lib,-rpath,$(GLIBPATH)/lib
+endif
+
+else
+GTKCFLAGS= `pkg-config gtk+-2.0 --cflags` -DRAVL_USE_GTK2=1
+GTKLIBS= `pkg-config gtk+-2.0 --libs`
 endif
 
 INCLUDES += $(GTKCFLAGS)

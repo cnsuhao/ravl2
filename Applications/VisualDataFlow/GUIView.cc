@@ -191,7 +191,12 @@ namespace RavlDFN {
   
   GdkFont *GUIViewBodyC::DrawFont() {
     RavlAssert(Widget() != 0);
-    return Widget()->style->font;
+#if RAVL_USE_GTK2
+    GdkFont *cfont = gtk_style_get_font(widget->style);
+#else
+    GdkFont *cfont = widget->style->font;
+#endif
+    return cfont;
   }
   
   //: Get get draw area.

@@ -15,6 +15,8 @@
 //! docentry="Ravl.GUI.Internal"
 //! date="23/03/1999"
 
+#include "Ravl/config.h"
+
 extern "C" {
   struct _GdkWindow;
   
@@ -23,7 +25,7 @@ extern "C" {
 
   // GtkSelectionData
   
-#ifndef VISUAL_CPP  
+#if !defined(VISUAL_CPP) && !RAVL_USE_GTK2  
   typedef struct _GdkWindow GdkWindow;
   typedef struct _GdkWindow GdkPixmap;
   typedef struct _GdkWindow GdkDrawable;

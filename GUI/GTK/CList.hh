@@ -26,7 +26,12 @@
 #include "Ravl/Hash.hh"
 #include "Ravl/HSet.hh"
 #include "Ravl/Tuple2.hh"
+
+#if RAVL_USE_GTK2
+#include <gdk/gdkcolor.h>
+#else
 #include <gdk/gdktypes.h>
+#endif
 
 namespace RavlGUIN {
 

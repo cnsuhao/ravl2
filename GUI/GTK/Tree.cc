@@ -9,6 +9,12 @@
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/Tree.cc"
 
+#include "Ravl/config.h"
+
+#if RAVL_USE_GTK2
+#define GTK_ENABLE_BROKEN 1
+#endif
+
 #include "Ravl/GUI/Tree.hh"
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/GUI/Label.hh"

@@ -1,7 +1,5 @@
-
-/*! file="Ravl/GUI/3D/gtkglarea.c" */
-
-/* Copyright (C) 1997-1998 Janne Löf <jlof@mail.student.oulu.fi>
+/*
+ * Copyright (C) 1997-1998 Janne Löf <jlof@mail.student.oulu.fi>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -22,14 +20,9 @@
 /*! lib=RavlGUI3D */
 /*! license=own */
 
-#if RAVL_USE_GTK2
-#include "gtkglarea_gtk2.c"
-#else
-
-#include "Ravl/GUI/gdkgl.h"
-#include "Ravl/GUI/gtkglarea.h"
+#include "Ravl/GUI/gdkgl_gtk2.h"
+#include "Ravl/GUI/gtkglarea_gtk2.h"
 #include <GL/gl.h>
-#include <gtk/gtkfeatures.h>
 #include <stdarg.h>
 
 static void gtk_gl_area_class_init    (GtkGLAreaClass *klass);
@@ -39,27 +32,31 @@ static void gtk_gl_area_destroy       (GtkObject      *object); /* change to fin
 static GtkDrawingAreaClass *parent_class = NULL;
 
 
-GtkType
-gtk_gl_area_get_type ()
+GType
+gtk_gl_area_get_type (void)
 {
-  static GtkType gl_area_type = 0;
-  
-  if (!gl_area_type)
+  static GType object_type = 0;
+
+  if (!object_type)
     {
-      GtkTypeInfo gl_area_info =
+      static const GTypeInfo object_info =
       {
-	(gchar*)"GtkGLArea",
-	sizeof (GtkGLArea),
-	sizeof (GtkGLAreaClass),
-	(GtkClassInitFunc) gtk_gl_area_class_init,
-	(GtkObjectInitFunc) gtk_gl_area_init,
-	/* reserved_1 */ NULL,
-	/* reserved_2 */ NULL,
-	(GtkClassInitFunc) NULL
+        sizeof (GtkGLAreaClass),
+        (GBaseInitFunc) NULL,
+        (GBaseFinalizeFunc) NULL,
+        (GClassInitFunc) gtk_gl_area_class_init,
+        NULL,           /* class_finalize */
+        NULL,           /* class_data */
+        sizeof (GtkGLArea),
+        0,              /* n_preallocs */
+        (GInstanceInitFunc) gtk_gl_area_init,
       };
-      gl_area_type = gtk_type_unique (gtk_drawing_area_get_type (), &gl_area_info);
-  }
-  return gl_area_type;
+      
+      object_type = g_type_register_static (GTK_TYPE_DRAWING_AREA,
+                                            "GtkGLArea",
+                                            &object_info, 0);
+    }
+  return object_type;
 }
 
 static void
@@ -67,7 +64,7 @@ gtk_gl_area_class_init (GtkGLAreaClass *klass)
 {
   GtkObjectClass *object_class;
 
-  parent_class = gtk_type_class(gtk_drawing_area_get_type());
+  parent_class = g_type_class_peek_parent(klass);
   object_class = (GtkObjectClass*) klass;
   
   object_class->destroy = gtk_gl_area_destroy;
@@ -78,9 +75,7 @@ static void
 gtk_gl_area_init (GtkGLArea *gl_area)
 {
   gl_area->glcontext = NULL;
-#if GTK_CHECK_VERSION (1, 3, 1)
   gtk_widget_set_double_buffered(GTK_WIDGET(gl_area), FALSE);
-#endif
 }
 
 
@@ -144,7 +139,7 @@ gtk_gl_area_share_new (int *attrlist, GtkGLArea *share)
   gtk_widget_push_colormap(gdk_colormap_new(visual,TRUE));
   gtk_widget_push_visual(visual);
   
-  gl_area = gtk_type_new (gtk_gl_area_get_type());
+  gl_area = g_object_new(GTK_TYPE_GL_AREA, NULL);
   gl_area->glcontext = glcontext;
 
   /* pop back defaults */
@@ -162,7 +157,7 @@ gtk_gl_area_share_new (int *attrlist, GtkGLArea *share)
   if (glcontext == NULL)
     return NULL;
 
-  gl_area = gtk_type_new (gtk_gl_area_get_type());
+  gl_area = g_object_new(GTK_TYPE_GL_AREA, NULL);
   gl_area->glcontext = glcontext;
 
 #endif
@@ -180,15 +175,14 @@ gtk_gl_area_destroy(GtkObject *object)
   g_return_if_fail (GTK_IS_GL_AREA(object));
   
   gl_area = GTK_GL_AREA(object);
-  gdk_gl_context_unref(gl_area->glcontext);
+
+  if (gl_area->glcontext)
+    g_object_unref(gl_area->glcontext);
+  gl_area->glcontext = NULL;
 
   if (GTK_OBJECT_CLASS (parent_class)->destroy)
     (* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
-
-
-
-
 
 
 gint gtk_gl_area_make_current(GtkGLArea *gl_area)
@@ -200,25 +194,6 @@ gint gtk_gl_area_make_current(GtkGLArea *gl_area)
   return gdk_gl_make_current(GTK_WIDGET(gl_area)->window, gl_area->glcontext);
 }
 
-/* deprecated, use gtk_gl_area_make_current */
-gint gtk_gl_area_begingl(GtkGLArea *gl_area)
-{
-  return gtk_gl_area_make_current(gl_area);
-}
-
-/* deprecated, use glFlush if needed */
-void gtk_gl_area_endgl(GtkGLArea *gl_area)
-{
-  g_return_if_fail(gl_area != NULL);
-  g_return_if_fail(GTK_IS_GL_AREA(gl_area));
-  glFlush();
-}
-
-/* deprecated, use gtk_gl_area_swap_buffers */
-void gtk_gl_area_swapbuffers(GtkGLArea *gl_area)
-{
-  gtk_gl_area_swap_buffers(gl_area);
-}
 void gtk_gl_area_swap_buffers(GtkGLArea *gl_area)
 {
   g_return_if_fail(gl_area != NULL);
@@ -227,12 +202,3 @@ void gtk_gl_area_swap_buffers(GtkGLArea *gl_area)
 
   gdk_gl_swap_buffers(GTK_WIDGET(gl_area)->window);
 }
-
-void gtk_gl_area_size (GtkGLArea *glarea, gint width, gint height)
-{
-  g_return_if_fail (glarea != NULL);
-  g_return_if_fail (GTK_IS_GL_AREA (glarea));
-
-  gtk_drawing_area_size(GTK_DRAWING_AREA(glarea), width, height);
-}
-#endif

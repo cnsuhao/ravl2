@@ -21,6 +21,9 @@
 /*! lib=RavlGUI3D */
 /*! license=own */
 
+#if RAVL_USE_GTK2
+#include "gdkgl_gtk2.c"
+#else
 #include "gdkgl.h"
 
 /* support for gtk+1.2 should be removed once gtk+1.4 is released */
@@ -347,4 +350,4 @@ void gdk_gl_use_gdk_font(GdkFont *font, int first, int count, int list_base)
   g_return_if_fail(font != NULL);
   glXUseXFont(gdk_font_id(font), first, count, list_base);
 }
-
+#endif

@@ -123,10 +123,15 @@ namespace RavlGUIN {
     if(widget == 0)
       return true;
     
+#if !RAVL_USE_GTK2
     if(GTK_RANGE (widget)->button == 0) { // Don't set value if user is changing it.
       GTK_ADJUSTMENT (adj)->value = val;
       ONDEBUG(cerr << "Slider setting: Value:" << value << " (L: " << GTK_ADJUSTMENT (adj)->lower << " U:" << GTK_ADJUSTMENT (adj)->upper << ") \n");
-    }  
+    }
+#else
+    GTK_ADJUSTMENT (adj)->value = val;
+    ONDEBUG(cerr << "Slider setting: Value:" << value << " (L: " << GTK_ADJUSTMENT (adj)->lower << " U:" << GTK_ADJUSTMENT (adj)->upper << ") \n");
+#endif
     gtk_signal_emit_by_name (GTK_OBJECT (adj), "changed");
     return true;
   }
@@ -151,9 +156,13 @@ namespace RavlGUIN {
     step_increment = inc;
     if(widget == 0)
       return true;
+#if !RAVL_USE_GTK2
     if(GTK_RANGE (widget)->button == 0) { // Don't set value if user is changing it.
       GTK_ADJUSTMENT (adj)->value = val;
     }
+#else
+    GTK_ADJUSTMENT (adj)->value = val;
+#endif
     GTK_ADJUSTMENT (adj)->lower = lower;
     GTK_ADJUSTMENT (adj)->upper = (RealT) upper + step_increment;
     GTK_ADJUSTMENT (adj)->step_increment = step_increment;
@@ -169,10 +178,12 @@ namespace RavlGUIN {
   //: Update the slider value.
   
   bool SliderBodyC::UpdateValue(RealT val) {
+#if !RAVL_USE_GTK2
     if(widget != 0) {    
       if(GTK_RANGE (widget)->button != 0) // Don't set value if user is changing it.
 	return false;
-    }  
+    }
+#endif
     Manager.Queue(Trigger(SliderC(*this),&SliderC::GUIUpdateValue,val));
     return true;
   }

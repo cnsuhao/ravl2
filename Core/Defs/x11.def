@@ -17,7 +17,11 @@ ifeq ($(ARC),sol2)
 INCLUDES += -I/usr/openwin/include
 EXELIB := -L/opt/lib -L/usr/openwin/lib -R/usr/openwin/lib -lX11 $(EXELIB)
 else
+ifeq ($(ARC),linux)
+EXELIB := -L /usr/X11R6/lib -lX11 $(EXELIB)
+else
 EXELIB := -lX11 $(EXELIB)
+endif
 endif
 endif
 

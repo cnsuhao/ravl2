@@ -45,15 +45,22 @@ namespace RavlGUIN {
     cbuff[1] = 0;
     StringC text = vlb.Name();
     int py = 0;
+    
+#if RAVL_USE_GTK2
+    GdkFont *cfont = gtk_style_get_font(widget->style);
+#else
+    GdkFont *cfont = widget->style->font;
+#endif
+    
     if(ah > vlb.TextHeight())
       py += (ah - vlb.TextHeight())/2;
     for(int i = 0;i < ((int) text.length());i++) {
       cbuff[0] = text[i];
-      py += gdk_char_height(widget->style->font,cbuff[0]) + vcharsep;
+      py += gdk_char_height(cfont,cbuff[0]) + vcharsep;
       //cerr << "Char height :" << gdk_char_height(widget->style->font,cbuff[0]) << "\n";
-      int cw = aw - gdk_char_width(widget->style->font,cbuff[0]);
+      int cw = aw - gdk_char_width(cfont,cbuff[0]);
       gdk_draw_string (widget->window,
-		       widget->style->font,
+		       cfont,
 		       widget->style->fg_gc[0],
 		       (cw/2),py,
 		       cbuff);
@@ -99,7 +106,11 @@ namespace RavlGUIN {
       cerr << "VLabelBodyC::SizeUpText(), ERROR: No style found.  \n";
       return;
     }
-    GdkFont *font = style->font;
+#if RAVL_USE_GTK2
+    GdkFont *font = gtk_style_get_font(widget->style);
+#else
+    GdkFont *font = widget->style->font;
+#endif
     if(font == 0) {
       cerr << "VLabelBodyC::SizeUpText(), ERROR: No font found.  \n";
       return;

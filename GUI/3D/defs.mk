@@ -26,18 +26,14 @@ endif
 
 DESCRIPTION = Interface to open GL.
 
-#ifneq ($(ARC),sgi)
-#ANSIFLAG = -fpermissive
-#endif
-
 MAINS = 
 #exView3D.cc 
 #v3d.cc
 #ex3DCanvas.cc
 
-HEADERS = gdkgl.h gtkglarea.h DObject3D.hh DLight3D.hh \
- Util.hh Canvas3D.hh DViewPoint3D.hh DCube3D.hh DTriMesh3D.hh \
- DPointSet3D.hh DPinholeCamera03D.hh
+HEADERS = gdkgl.h gtkglarea.h gdkgl_gtk2.h gtkglarea_gtk2.h \
+ DObject3D.hh DLight3D.hh Util.hh Canvas3D.hh DViewPoint3D.hh \
+ DCube3D.hh DTriMesh3D.hh DPointSet3D.hh DPinholeCamera03D.hh
 #View3D.hh
 
 #  DLines3D.hh
@@ -60,7 +56,7 @@ PLIB = RavlGUI3D
 EXAMPLES = exCanvas3D.cc
 # exView3D.cc
 
-USESLIBS = RavlCore RavlGeom RavlGUI OpenGL Ravl3D 
+USESLIBS = RavlCore RavlGeom RavlGUI OpenGL Ravl3D x11
 
 EHT = Ravl.GUI.3D.html
 

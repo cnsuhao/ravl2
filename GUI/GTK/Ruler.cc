@@ -44,9 +44,12 @@ namespace RavlGUIN {
 	return false;
       }
     }
+#if !RAVL_USE_GTK2
     gtk_signal_connect_object(GTK_OBJECT(widge.Widget()), "motion_notify_event",
 			      (GtkSignalFunc)EVENT_METHOD(Widget(), motion_notify_event),
 			      GTK_OBJECT(Widget()) );
+#endif
+    
     gtk_widget_add_events(widge.Widget(), GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK );
     ConnectSignals();
     
