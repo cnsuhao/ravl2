@@ -145,9 +145,9 @@ namespace RavlOSN {
     IOSerialC()
     {}
     //:Default constructor.
-  // Creates an invalid handle.
+    // Creates an invalid handle.
     
-  IOSerialC (const char *dev, bool buffered = false);
+    IOSerialC (const char *dev, bool buffered = false);
     //: Open an input serial stream.
   };
 }

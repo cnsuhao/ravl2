@@ -68,6 +68,7 @@ namespace RavlOSN {
   }
   
   SerialCtrlC::SerialCtrlC()
+    : fid(-1)
   {}
   
 
@@ -83,12 +84,14 @@ namespace RavlOSN {
       openFlags |=  O_WRONLY;
     else if(strcmp(perm,"RDWR")==0) 
       openFlags |=  O_RDWR;
-    else 
-      cerr<<"wrong permission type input"<<endl;
+    else {
+      cerr<<"SerialCtrlC::SerialCtrlC(), ERROR: Unknown permission '" << perm << "' should be one of 'RDONLY', 'WRONLY' or 'RDWR'. "<<endl;
+      openFlags |=  O_RDWR;
+    }
     fid = open(dev,openFlags); 
     
     if (fid<0) { 
-      cout<<"open error"<<endl;
+      cout << "ERROR: Failed to open serial port '" << dev << "' "<<endl;
     }
   }
   
@@ -115,7 +118,7 @@ namespace RavlOSN {
       case 7: pb.c_cflag |= CS7; break;
       case 8: pb.c_cflag |= CS8; break;
       default:
-	cerr << "WARNING: Unsupported char size " << bits << ", Using 8 bit.\n";
+	cerr << "SerialCtrlC::SetCharSize(), WARNING: Unsupported char size " << bits << ", Using 8 bit.\n";
 	pb.c_cflag |= CS8;
 	return false;
       }
@@ -130,7 +133,7 @@ namespace RavlOSN {
       case 1: pb.c_cflag &= ~(CSTOPB); break;
       case 2: pb.c_cflag |= CSTOPB; break;
       default:
-	cerr<<"Illegal stopbit input " << bits << "\n";
+	cerr<<"SerialCtrlC::SetStopBits(), ERROR: Illegal stopbit input " << bits << "\n";
 	return false;
       }
     return true;
@@ -174,12 +177,12 @@ namespace RavlOSN {
     
   {
     if (fid < 0) {
-      cerr << "SerialCtrlC::Init(), No file descriptor for port, can't configure. \n";
+      cerr << "SerialCtrlC::Setup(), No file descriptor for port, can't configure. \n";
       return false;
     }
     termios termios_p;
     if (tcgetattr(fid,&termios_p) < 0) { 
-      cerr << "SerialCtrlC::Init(), Failed to read port paramiters. \n";
+      cerr << "SerialCtrlC::Setup(), Failed to read port paramiters. \n";
       return false;
     }
     
@@ -224,7 +227,7 @@ namespace RavlOSN {
   bool SerialCtrlC::SetISpeed(const IntT i_speed) {
     termios pb;
     if (tcgetattr(fid,&pb) < 0) { 
-      cerr << "SerialCtrlC::Init(), Failed to read port paramiters. \n";
+      cerr << "SerialCtrlC::SetISpeed(), Failed to read port paramiters. \n";
       return false;
     }
     if(!SetISpeed(pb,i_speed))
