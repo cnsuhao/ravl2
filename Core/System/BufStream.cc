@@ -76,7 +76,6 @@ namespace RavlN {
   // NB. This does NOT clean the buffer.
   
   SArray1dC<char> &BufOStreamC::Data() {
-    RavlAssert(0);
 #if USE_GCC3
 #if 0
     data = SArray1dC<char>((char *) oss->str().data(),oss->str().size());
