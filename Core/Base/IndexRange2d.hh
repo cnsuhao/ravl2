@@ -151,6 +151,10 @@ namespace RavlN {
     { return cols.Size(); }
     //: The number of rows in the rectangle.
     
+    inline Index2dC Size() const
+    { return Index2dC(rows.Size(),cols.Size()); }
+    //: Get size of range as an Index2dC.
+    
     inline SizeT Area() const
     { return (SizeT) Rows() * Cols(); }
     //: Returns the area of the image rectangle expressed in number of indexs.

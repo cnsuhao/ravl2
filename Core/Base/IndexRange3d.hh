@@ -133,6 +133,10 @@ namespace RavlN {
     { return ks.Size(); }
     //: The number of k's in the rectangle.
     
+    inline Index3dC Size() const
+    { return Index3dC(is.Size(),js.Size(),ks.Size()); }
+    //: Get size of range as an Index3dC.
+    
     inline SizeT Volume() const
     { return (SizeT) Is() * Js() * Ks(); }
     //: Returns the volume of the prism expressed in number of indexs.
