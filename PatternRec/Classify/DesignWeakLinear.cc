@@ -14,7 +14,6 @@
 #include "Ravl/BinStream.hh"
 #include "Ravl/Vector2d.hh"
 #include "Ravl/PatternRec/SampleIter.hh"
-#include "Ravl/MeanVariance.hh"
 
 namespace RavlN {
   
@@ -27,7 +26,6 @@ namespace RavlN {
     strm >> version;
     if(version != 0)
       throw ExceptionOutOfRangeC("DesignWeakLinearBodyC::DesignWeakLinearBodyC(istream &), Unrecognised version number in stream. ");
-    strm >> m_weight;
   }
   
   //: Load from binary stream.
@@ -39,7 +37,6 @@ namespace RavlN {
     strm >> version;
     if(version != 0)
       throw ExceptionOutOfRangeC("DesignWeakLinearBodyC::DesignWeakLinearBodyC(BinIStreamC &), Unrecognised version number in stream. ");
-    strm >> m_weight;
   }
   
   //: Writes object to stream, can be loaded using constructor
@@ -48,7 +45,7 @@ namespace RavlN {
     if(!DesignClassifierSupervisedBodyC::Save(out))
       return false;
     int version = 0;
-    out << ' ' << version << ' ' << m_weight;
+    out << ' ' << version;
     return true;
   }
   
@@ -58,7 +55,7 @@ namespace RavlN {
     if(!DesignClassifierSupervisedBodyC::Save(out))
       return false;
     int version = 0;
-    out << version << m_weight;
+    out << version;
     return true;
   }
   
@@ -81,69 +78,83 @@ namespace RavlN {
     return ClassifierC();
   }
  
-  ClassifierC DesignWeakLinearBodyC::Apply(const SampleC<VectorC> &in,const SampleC<UIntT> &out,const SArray1dC<IndexC> &featureSet) {
+  ClassifierC DesignWeakLinearBodyC::Apply(const SampleC<VectorC> &in,
+					   const SampleC<UIntT> &out,
+					   const SArray1dC<IndexC> &featureSet) {
+    RavlAssertMsg(0,"DesignWeakLinearBodyC::Apply(in,out,featureSet), Not implemented. Send a feature request! ");
+    return ClassifierC();
+  }
+
+  ClassifierC DesignWeakLinearBodyC::Apply(const SampleC<VectorC> &in,
+					   const SampleC<UIntT> &out,
+					   const SArray1dC<IndexC> &featureSet,
+					   const SampleC<RealT> &weight) {
     RavlAssertMsg(in.Size() == out.Size(),"DesignWeakLinearBodyC::Apply(), Sample of vector and labels should be the same size.");
     RavlAssertMsg(featureSet.Size() == 1,"DesignWeakLinearBodyC::Apply(), Reduced feature set may only contain a single feature.");
     IndexC feature = featureSet[0];
     Vector2dC sumX;
     Vector2dC sumX2;
-    Vector2dC sampleCount;
     sumX.Fill(0.0);
     sumX2.Fill(0.0);
-    sampleCount.Fill(0.0);
+    m_weight.Fill(0.0);
     SampleIterC<VectorC> it1(in);
     SampleIterC<UIntT> it2(out);
-    for (; it1; it1++,it2++) {
+    SampleIterC<RealT> it3(weight);
+    for (; it1; it1++,it2++,it3++) {
       RealT val = (*it1)[feature];
-      sumX[*it2] += val;
-      sumX2[*it2] += val * val;
-      sampleCount[*it2]++;
+      RealT w = *it3;
+      sumX[*it2] += val * w;
+      sumX2[*it2] += val * val * w;
+      m_weight[*it2] += w;
     }
     RealT threshold;
     RealT parity;
-    if (sampleCount[0] != 0 && sampleCount[1] != 0) {
-      RealT mean1 = sumX[1] / sampleCount[1];
-      RealT var1 = sumX2[1] / sampleCount[1] - mean1*mean1;
-      if (var1 < 0.0) var1 = 0.0;
-      RealT mean0 = sumX[0] / sampleCount[0];
-      RealT var0 = sumX2[0] / sampleCount[0] - mean0*mean0;
-      if (var0 < 0.0) var0 = 0.0;
-      m_dist1 = MeanVarianceC((UIntT)sampleCount[1], mean1, var1); 
-      m_dist0 = MeanVarianceC((UIntT)sampleCount[0], mean0, var0);
-      if (mean1 > mean0) {
-	parity = -1.0;
-	threshold = BestThreshold((mean1+mean0)/2);//mean1 - 2.5 * Sqrt(var1);
-      }
-      else {
-	parity = 1.0;
-	threshold = BestThreshold((mean1+mean0)/2);//mean1 + 2.5 * Sqrt(var1);
-      }
+    if (m_weight[0] != 0.0 && m_weight[1] != 0.0) {
+      m_mean[1] = sumX[1] / m_weight[1];
+      m_var[1] = sumX2[1] / m_weight[1] - m_mean[1]*m_mean[1];
+      if (m_var[1] < 0.0) m_var[1] = 0.0;
+      m_mean[0] = sumX[0] / m_weight[0];
+      m_var[0] = sumX2[0] / m_weight[0] - m_mean[0]*m_mean[0];
+      if (m_var[0] < 0.0) m_var[0] = 0.0;
+      ThresholdAndParity(threshold,parity);
     }
     else {
-      //cout << "Empty label count in one class!\n";
-      cout << "E";
+      cout << "Empty label count in one class!\n";
       parity = 1;
       threshold = 1e6;
     }
     return ClassifierWeakLinearC (threshold, parity);
   }
 
-  RealT DesignWeakLinearBodyC::BestThreshold(RealT start) {
-    RealT x = start;
-    RealT v = Difference(x);
-    IntT count = 10;
-    while (Abs(v) > 1e-6 && count--) {
-      RealT derivative = (Difference(x+1e-6) - Difference(x-1e-6)) / 2e-6;
-      x = x - v / derivative;
-      v = Difference(x);
+  void DesignWeakLinearBodyC::ThresholdAndParity(RealT &threshold, RealT &parity) {
+    Vector2dC sigma,root;
+    sigma[0] = Sqrt(m_var[0]);
+    sigma[1] = Sqrt(m_var[1]);
+    RealT a = 0.5 / m_var[0] - 0.5 / m_var[1];
+    RealT b = -(m_mean[0] / m_var[0] - m_mean[1] / m_var[1]);
+    RealT c = m_mean[0]*m_mean[0] / (2.0*m_var[0]) - m_mean[1]*m_mean[1] / (2.0*m_var[1]) - Log(m_weight[0]/sigma[0]) + Log(m_weight[1]/sigma[1]);
+    RealT offset = b*b-4.0*a*c;
+    if (IsNan(offset) || offset < 0.0) {
+      // set arbitrary threshold and parity
+      threshold = 1000.0;
+      parity = 1.0;
+      return;
     }
-    return x;
+    offset = Sqrt(offset);
+    root[0] = (-b + offset) / (2.0*a);
+    root[1] = (-b - offset) / (2.0*a);
+    Vector2dC erf0(Erf((root[0]-m_mean[0])/sigma[0]),Erf((root[0]-m_mean[1])/sigma[1]));
+    Vector2dC erf1(Erf((root[1]-m_mean[0])/sigma[0]),Erf((root[1]-m_mean[1])/sigma[1]));
+    VectorC errors(4);
+    errors[0] = erf0[0] -erf0[1];
+    errors[1] = -erf0[0] + erf0[1];
+    errors[2] = erf1[0] -erf1[1];
+    errors[3] = -erf1[0] + erf1[1];
+    IndexC index = errors.MaxIndex();
+    parity = index%2? 1.0: -1.0;
+    threshold = root[index.V()/2];
   }
 
-  RealT DesignWeakLinearBodyC::Difference(RealT x) {
-    return m_weight * m_dist1.Gauss(x) - (1.0 - m_weight) * m_dist0.Gauss(x);
-  }
-  
   //////////////////////////////////////////////////////////
   
   RAVL_INITVIRTUALCONSTRUCTOR_FULL(DesignWeakLinearBodyC,DesignWeakLinearC,DesignClassifierSupervisedC);
