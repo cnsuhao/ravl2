@@ -25,5 +25,6 @@ EXAMPLES=tracker.cc
 
 USESLIBS=RavlImage RavlImageProc
 
-PROGLIBS=RavlDPDisplay RavlVideoIO RavlImageIO RavlImgIOV4L
+PROGLIBS=RavlDPDisplay RavlVideoIO RavlImageIO 
+#RavlImgIOV4L
 
