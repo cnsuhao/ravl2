@@ -20,8 +20,8 @@ namespace RavlImageN {
   
   ImageC<UIntT> SobolImage(const ImageRectangleC &rect);
   //! userlevel=Normal
-  //: Generate a sobel image of a given size.
-  // Each pixel image is set to it place in a Sobol sequence.
+  //: Generate a Sobol image of a given size.
+  // Each pixel image is set to its place in a Sobol sequence.
   
 }
 #endif
