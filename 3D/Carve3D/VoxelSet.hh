@@ -4,10 +4,11 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef _VOXEL_SET_HH_
-#define _VOXEL_SET_HH_
+#ifndef RAVL3D_VOXEL_SET_HH_
+#define RAVL3D_VOXEL_SET_HH_
 //! rcsid="$Id$"
 //! lib=RavlCarve3D
+//! author="Joel Mitchelson"
 
 #include "Ravl/Vector3d.hh"
 #include "Ravl/Matrix3d.hh"
@@ -30,12 +31,12 @@ namespace Ravl3DN
 		  const Vector3dC& nt,
 		  RealT nvoxel_size,
 		  UIntT cube_side_num_voxels) :
-      _R(nR),
-      _t(nt),
-      voxel_size(nvoxel_size),
       vox(cube_side_num_voxels,
 	  cube_side_num_voxels,
-	  cube_side_num_voxels)
+	  cube_side_num_voxels),
+      _R(nR),
+      _t(nt),
+      voxel_size(nvoxel_size)
     {
     }
 
@@ -81,12 +82,11 @@ namespace Ravl3DN
 		 RealT nvoxel_size,
 		 Array3dC<ByteT> nvox) :
 	       
-      _R(nR),
-      _t(nt),
-      voxel_size(nvoxel_size),
-      vox(nvox)
-    {
-    }    
+     vox(nvox),
+     _R(nR),
+     _t(nt),
+     voxel_size(nvoxel_size)
+    {}    
 
   public:
     void Fill(ByteT v);

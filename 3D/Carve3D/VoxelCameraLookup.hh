@@ -4,10 +4,11 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef _VOXEL_CAMERA_LOOKUP_HH_
-#define _VOXEL_CAMERA_LOOKUP_HH_
+#ifndef RAVL3D_VOXEL_CAMERA_LOOKUP_HH_
+#define RAVL3D_VOXEL_CAMERA_LOOKUP_HH_
 //! rcsid="$Id$"
 //! lib=RavlCarve3D
+//! author="Joel Mitchelson"
 
 #include "Ravl/3D/PinholeCamera0.hh"
 #include "Ravl/3D/VoxelSet.hh"

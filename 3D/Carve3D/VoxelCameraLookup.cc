@@ -20,8 +20,8 @@ namespace Ravl3DN
 						 UIntT image_cols,
 						 const VoxelSetC &nvoxel) :
     camera(ncamera),
-    lookup(image_rows, image_cols),
-    voxel(nvoxel)
+    voxel(nvoxel),
+    lookup(image_rows, image_cols)
   {
     // cerr << "VoxelCameraLookupBodyC()" << endl;
     // cerr << "Camera: " << endl << camera << endl;
@@ -81,8 +81,8 @@ namespace Ravl3DN
     // Clip against +/- x
     if (fabs(line_dir.X()) > 1E-3) 
     {
-      IndexC uiMinXIndex = voxel.Array().Range1().Min();
-      IndexC uiMaxXIndex = voxel.Array().Range1().Max();
+      IndexC uiMinXIndex = array.Range1().Min();
+      IndexC uiMaxXIndex = array.Range1().Max();
       RealT dXmin = (RealT)uiMinXIndex*voxel.voxelSize();
       RealT dXmax = (RealT)uiMaxXIndex*voxel.voxelSize();
       RealT dMinIntersect = (dXmin-line_origin.X())/line_dir.X();
@@ -108,8 +108,8 @@ namespace Ravl3DN
     // Clip against +/- y
     if (fabs(line_dir.Y()) > 1E-3) 
     {
-      IndexC uiMinYIndex = voxel.Array().Range2().Min();
-      IndexC uiMaxYIndex = voxel.Array().Range2().Max();
+      IndexC uiMinYIndex = array.Range2().Min();
+      IndexC uiMaxYIndex = array.Range2().Max();
       RealT dYmin = (RealT)uiMinYIndex*voxel.voxelSize();
       RealT dYmax = (RealT)uiMaxYIndex*voxel.voxelSize();
       RealT dMinIntersect = (dYmin-line_origin.Y())/line_dir.Y();
@@ -137,8 +137,8 @@ namespace Ravl3DN
     // Clip against +/- z
     if (fabs(line_dir.Z()) > 1E-3)
     {
-      IndexC uiMinZIndex = voxel.Array().Range3().Min();
-      IndexC uiMaxZIndex = voxel.Array().Range3().Max();
+      IndexC uiMinZIndex = array.Range3().Min();
+      IndexC uiMaxZIndex = array.Range3().Max();
       RealT dZmin = (RealT)uiMinZIndex*voxel.voxelSize();
       RealT dZmax = (RealT)uiMaxZIndex*voxel.voxelSize();
       RealT dMinIntersect = (dZmin-line_origin.Z())/line_dir.Z();

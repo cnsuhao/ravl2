@@ -4,10 +4,13 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
+#ifndef RAVL3D_VOXELCARVE_HEADER
+#define RAVL3D_VOXELCARVE_HEADER 1
 #include "Ravl/3D/VoxelCameraLookup.hh"
 #include "Ravl/3D/PointSet.hh"
 //! rcsid="$Id$"
 //! lib=RavlCarve3D
+//! author="Joel Mitchelson"
 
 namespace Ravl3DN
 {
@@ -102,3 +105,5 @@ namespace Ravl3DN
   };
 }
 
+
+#endif
