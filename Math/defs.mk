@@ -9,8 +9,7 @@
 
 PACKAGE=Ravl
 
-NESTED= CCMath.r LinearAlgebra.r Geometry.r IO.r
-#Stats.r
+NESTED= CCMath.r LinearAlgebra.r Geometry.r Statistics.r IO.r
 
 EHT= Ravl.Math.eht
 
