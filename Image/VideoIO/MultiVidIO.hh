@@ -7,6 +7,8 @@
 //! rcsid="$Id$"
 //! lib=RavlVideoIO
 
+#ifndef _MULTI_VID_IO_HH_
+#define _MULTI_VID_IO_HH_
 
 #include "Ravl/DP/FileFormat.hh"
 #include "Ravl/Image/Image.hh"
@@ -522,3 +524,5 @@ namespace RavlImageN
   // See DPIMultiVidC and DPOMultiVidC for details
   void InitMultiVidIO();
 };
+
+#endif
