@@ -451,7 +451,7 @@ namespace RavlGUIN {
 #endif
     if(eventMask != (int) GDK_EXPOSURE_MASK)  {// Has it changed from default ?
       //if(GTK_WIDGET_NO_WINDOW (widget))
-      gtk_widget_set_events (widget,(GdkEventMask) eventMask);
+      gtk_widget_add_events (widget,(GdkEventMask) eventMask);
     }
     if(eventMask & (GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK))
       GTK_WIDGET_SET_FLAGS(widget,GTK_CAN_FOCUS);    
@@ -459,12 +459,10 @@ namespace RavlGUIN {
 			(GtkSignalFunc) gtkDestroy, this);
     for(HashIterC<const char *,Signal0C> it(signals);it.IsElm();it.Next())
       ConnectUp(it.Key(),it.Data());
-#if 1   
     if(tooltip != 0) {
       WidgetC me(*this);
       guiGlobalToolTips.AddToolTip(me,tooltip);
     }
-#endif
   }
   
   //: Show widget to the world.
