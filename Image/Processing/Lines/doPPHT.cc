@@ -34,11 +34,22 @@ using namespace RavlN;
 
 #if RAVL_COMPILER_MIPSPRO
 #include <stdlib.h>
+#include "Ravl/Image/DrawFrame.hh"
 static DPOPortBodyC<PCPixMappingC<Curve2dLineSegmentC> > fix_sgi_bug1;
 static DPOPortC<PCPixMappingC<Curve2dLineSegmentC> > fix_sgi_bug2;
 static DPIPortBodyC<DListC<EdgelC > > fix_sgi_bug3;
 static DPIPortBodyC<SArray1dC<EdgelC > > fix_sgi_bug4;
 static SArray1dIterC<RavlImageN::EdgelC> fix_sgi_bug5 ;
+
+namespace {
+  void sgi_bug_fix_func (void) 
+  {
+    Array2dC<double> sgi_bug_fix1 ; 
+    IndexRange2dC    sgi_bug_fix2 ;
+    DrawFrame ( sgi_bug_fix1, 0.0, sgi_bug_fix2 ) ;
+  };
+  //RavlImageN::DrawFrame(RavlN::Array2dC<double>&,const double&,const RavlN::IndexRange2dC&,bool)
+};
 
 #endif
 
