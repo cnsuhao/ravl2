@@ -41,8 +41,7 @@ namespace RavlImageN {
   bool EdgeSobelC<DataInT,DataOutT>::Apply(const ImageC<DataInT> &img,ImageC<TFVectorC<DataOutT,2> > &out) {
     if(out.IsEmpty()) {
       ImageRectangleC ir = img.Rectangle();
-      ir.Shrink(1);
-      out = ImageC<TFVectorC<DataOutT,2> >(ir);
+      out = ImageC<TFVectorC<DataOutT,2> >(ir.Shrink(1));
     }
     for(Array2dSqr31Iter2C<DataInT,DataOutT> it(img,out);it;it++) {
       it.Data2()[0] = it.DataTL1() + it.DataTM1()*2 + it.DataTR1() - it.DataBL1() - it.DataBM1()*2 - it.DataBR1();
@@ -56,7 +55,7 @@ namespace RavlImageN {
   bool EdgeSobelC<DataInT,DataOutT>::Apply(const ImageC<DataInT> &img,ImageC<DataOutT> &outX,ImageC<DataOutT> &outY) {
     if(outX.IsEmpty() || outY.IsEmpty()) {
       ImageRectangleC ir = img.Rectangle();
-      ir.Shrink(1);
+      ir = ir.Shrink(1);
       outX = ImageC<DataOutT>(ir);
       outY = ImageC<DataOutT>(ir);
     }
