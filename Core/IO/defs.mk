@@ -19,7 +19,9 @@ HEADERS=Entity.hh Process.hh Port.hh SPort.hh SPortAttach.hh \
  FileFormatGen.hh FileFormatIO.hh TypeConverter.hh FileFormatRegistry.hh \
  CoreIO.hh ComposeSingle.hh Compose.hh Func2Stream.hh IOConnect.hh \
  IFailOver.hh  IOTap.hh  Multiplex.hh SplitO.hh Event.hh EventSet.hh \
- Method2Proc.hh MethodIO.hh ContainerIO.hh Plug.hh Tap.hh StreamProcess.hh
+ Method2Proc.hh MethodIO.hh ContainerIO.hh Plug.hh Tap.hh StreamProcess.hh \
+ Process21.hh Process31.hh Method2Proc21.hh Method2Proc31.hh StreamOp21.hh \
+ StreamOp31.hh
 
 SOURCES=Entity.cc Process.cc Port.cc SPort.cc SPortAttach.cc ProcInfo.cc \
  Converter.cc TypeInfo.cc Pipes.cc FileFormat.cc FileFormDesc.cc \
@@ -34,7 +36,7 @@ PLIB=RavlIO
 
 USESLIBS=RavlCore
 
-TESTEXES=testFunc2Proc.cc testDataProc.cc testSPort.cc
+TESTEXES= testDataProc.cc
 
 EXAMPLES = exComposeSingle.cc exDataProc.cc exFileFormat.cc
 

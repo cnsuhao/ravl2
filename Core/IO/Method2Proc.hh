@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_DPMETHODPROC_HEADER
-#define RAVL_DPMETHODPROC_HEADER 1
+#ifndef RAVL_DPMETHOD2PROC_HEADER
+#define RAVL_DPMETHOD2PROC_HEADER 1
 ///////////////////////////////////////////////
 //! docentry="Ravl.Core.Data Processing.Processes"
 //! lib=RavlIO

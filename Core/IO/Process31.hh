@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_PROCESS21_HEADER
-#define RAVL_PROCESS21_HEADER 1
+#ifndef RAVL_PROCESS31_HEADER
+#define RAVL_PROCESS31_HEADER 1
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! author="Charles Galambos"
@@ -19,22 +19,22 @@ namespace RavlN {
   //! userlevel=Develop.
   //: Process body with 2 inputs and one output.
   
-  template<class In1T,class In2T,class Out1T>
-  class DPProcess21BodyC
+  template<class In1T,class In2T,class In3T,class Out1T>
+  class DPProcess31BodyC
     : public DPProcessBaseBodyC
   {
   public:
-    DPProcess21BodyC()
+    DPProcess31BodyC()
     {}
     //: Constructor.
 
-    DPProcess21BodyC(istream &in) 
+    DPProcess31BodyC(istream &in) 
       : DPProcessBaseBodyC(in),
 	DPEntityBodyC(in)
     {}
     //: Stream constructor.
     
-    DPProcess21BodyC(BinIStreamC &in) 
+    DPProcess31BodyC(BinIStreamC &in) 
       : DPProcessBaseBodyC(in),
 	DPEntityBodyC(in)
     {}
@@ -56,6 +56,7 @@ namespace RavlN {
       switch(n)  {
       case 0: return typeid(In1T);
       case 1: return typeid(In2T);
+      case 2: return typeid(In3T);
       }
       return typeid(void);
     }
@@ -67,7 +68,7 @@ namespace RavlN {
     }
     //: Get output types.
     
-    virtual Out1T Apply(const In1T &d1,const In2T &d2) = 0;
+    virtual Out1T Apply(const In1T &d1,const In2T &d2,const In3T &d3) = 0;
     //: Do operation.
     
   protected:
@@ -77,45 +78,43 @@ namespace RavlN {
   //! userlevel=Develop.
   //: Process body with 2 inputs and one output.
   
-  template<class In1T,class In2T,class Out1T>
-  class DPProcess21C
+  template<class In1T,class In2T,class In3T,class Out1T>
+  class DPProcess31C
     : public DPProcessBaseC
   {
   public:
-    DPProcess21C()
+    DPProcess31C()
     {}
     //: Default constructor.
     
-    DPProcess21C(istream &in)
+    DPProcess31C(istream &in)
       : DPProcessBaseC(in)
     {}
     //: Stream constructor.
     
-    DPProcess21C(BinIStreamC &in)
+    DPProcess31C(BinIStreamC &in)
       : DPProcessBaseC(in)
     {}
     //: Binary stream constructor.
     
   protected:
-    DPProcess21C(DPProcess21BodyC<In1T,In2T,Out1T> &bod)
+    DPProcess31C(DPProcess31BodyC<In1T,In2T,In3T,Out1T> &bod)
       : DPProcessBaseC (bod)
     {}
     //: Body constructor.
     
-    DPProcess21BodyC<In1T,In2T,Out1T> &Body()
-    { return dynamic_cast<DPProcess21BodyC<In1T,In2T,Out1T> &>(DPEntityC::Body()); }
+    DPProcess31BodyC<In1T,In2T,In3T,Out1T> &Body()
+    { return dynamic_cast<DPProcess31BodyC<In1T,In2T,In3T,Out1T> &>(DPEntityC::Body()); }
     //: Access body.
 
-    const DPProcess21BodyC<In1T,In2T,Out1T> &Body() const
-    { return dynamic_cast<const DPProcess21BodyC<In1T,In2T,Out1T> &>(DPEntityC::Body()); }
+    const DPProcess31BodyC<In1T,In2T,In3T,Out1T> &Body() const
+    { return dynamic_cast<const DPProcess31BodyC<In1T,In2T,In3T,Out1T> &>(DPEntityC::Body()); }
     //: Access body.
     
   public:
-    
-    Out1T Apply(const In1T &d1,const In2T &d2)
-    { return Body().Apply(d1,d2); }
+    Out1T Apply(const In1T &d1,const In2T &d2,const In3T &d3)
+    { return Body().Apply(d1,d2,d3); }
     //: Do operation.
-    
   };
   
   

@@ -18,13 +18,29 @@
 #include "Ravl/DP/FuncP2Proc.hh"
 #include "Ravl/DP/ContainerIO.hh"
 #include "Ravl/StrStream.hh"
+#include "Ravl/DP/Func2Proc.hh"
+#include "Ravl/DP/FuncP2Proc.hh"
+#include "Ravl/DP/SPortAttach.hh"
+#include "Ravl/DP/MethodIO.hh"
+#include "Ravl/DP/Method2Proc21.hh"
+#include "Ravl/DP/Method2Proc31.hh"
+#include "Ravl/DP/StreamOp21.hh"
+#include "Ravl/DP/StreamOp31.hh"
 
 using namespace RavlN;
+
+int conv(const int &val) {
+  return val;
+}
+
+template class DPFunc2ProcC<int,int,conv>;
 
 int testSimple(); 
 int testMultiplex();
 int testContainerIO();
 int testCompose(); 
+int testFunc2Proc();
+int testSPort();
 
 int main(int nargs,char **argv) {
   int ln;
@@ -38,6 +54,14 @@ int main(int nargs,char **argv) {
   }
   if((ln = testCompose()) != 0) {
     cerr << "Error in testMultiplex(), Line:" << ln << "\n";
+    return 1;
+  }
+  if((ln = testFunc2Proc()) != 0) {
+    cerr << "Error in testFunc2Proc(), Line:" << ln << "\n";
+    return 1;
+  }
+  if((ln = testSPort()) != 0) {
+    cerr << "Error in testFunc2Proc(), Line:" << ln << "\n";
     return 1;
   }
   cerr << "Test passed. \n";
@@ -103,6 +127,49 @@ int testMultiplex() {
   StringC result = ostr.String();
   if(result != "2\n4\n6\n8\n") return __LINE__;
 #endif
+  return 0;
+}
+
+class TestC {
+public:
+  TestC()
+    : i(0)
+  {}
+  
+  int Seq()
+  { return i++; }
+  
+  int Method21(const double &,const bool &)
+  { return i++; }
+
+  int Method31(const double &,const bool &,const char &)
+  { return i++; }
+  
+  int i;
+};
+
+TestC tc;
+
+int testFunc2Proc()
+{
+  DPFunc2ProcC<int,int,conv> func;
+  DPIStreamOp21C<double,bool,int> sop2(Process(tc,&TestC::Method21));
+  DPIStreamOp31C<double,bool,char,int> sop3(Process(tc,&TestC::Method31));
+  return 0;
+}
+
+int testSPort() {  
+  DPIPortC<int> ip = IMethod(tc,&TestC::Seq);
+  DPISPortAttachC<int> sip(ip,true);
+  DPISPortC<int> x(sip);
+  if(!x.IsValid()) return __LINE__;
+  DPIPortC<int> pip(sip);
+  DPSeekCtrlC asc(x);
+  if(!asc.IsValid()) return __LINE__;
+  DPSeekCtrlC asc3(pip);
+  if(!asc3.IsValid()) return __LINE__;
+  DPSeekCtrlC asc2(ip);
+  if(asc2.IsValid()) return __LINE__;
   return 0;
 }
 

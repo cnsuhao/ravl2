@@ -37,14 +37,20 @@ namespace RavlN {
     : public DPEntityBodyC 
   {
   public:
-    DPProcessBaseBodyC() {}
+    DPProcessBaseBodyC() 
+    {}
     //: Default constructor.
     
     DPProcessBaseBodyC(istream &in) 
       : DPEntityBodyC(in)
     {}
     //: Stream constructor.
-  
+    
+    DPProcessBaseBodyC(BinIStreamC &in) 
+      : DPEntityBodyC(in)
+    {}
+    //: Stream constructor.
+    
     DPProcessBaseBodyC(const DPProcessBaseBodyC &oth) 
       : DPEntityBodyC(oth)
     {}
@@ -173,7 +179,7 @@ namespace RavlN {
     //: Stream constructor.
     
     DPProcessBaseC(BinIStreamC &in);
-    //: Stream constructor.
+    //: Binary stream constructor.
     
     ~DPProcessBaseC() 
     {}
