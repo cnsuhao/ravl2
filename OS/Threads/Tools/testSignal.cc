@@ -118,7 +118,7 @@ int main(int argc,char **argv)
   SignalConnectorC c5a = Connect(sig4,aclass,&TestClassC::test_2);
   SignalConnectorC c6a = Connect(sig5,aclass,&TestClassC::test_3);
 
-#if 0
+#if 1
   SignalConnectorC c4b = ConnectR(sig3,aclass,&TestClassC::test3);
   SignalConnectorC c5b = ConnectR(sig4,aclass,&TestClassC::test_2);
   SignalConnectorC c6b = ConnectR(sig5,aclass,&TestClassC::test_3);
