@@ -34,6 +34,10 @@ namespace RavlImageN {
     //!param: filter - subsampling antialias filter
     //!param: flow - optical flow engine
     
+    LMSMultiScaleMotionC();
+    //: Default constructor.
+    // Creates motion estimate with a 2:1 antialias filter.
+    
     ImageC<Vector2dC> Estimate(const PairC<ImageC<RealT> > &im, IndexC Levels=3);
     // Generates optical flow field from a pair of images, using not
     // more than "Levels" levels of hierarchy

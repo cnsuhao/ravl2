@@ -76,8 +76,10 @@ namespace RavlN {
     D[0] = lambda1;
     D[1] = lambda2;
     
-    E = Matrix2dC(u1[0],-u1[1],
-		  u1[1],u1[0]);
+    E[0][0] = u1[0];
+    E[1][1] = u1[0];
+    E[0][1] = -u1[1];
+    E[1][0] = u1[1];
   }
   
 }

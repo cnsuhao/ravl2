@@ -4,6 +4,10 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
+//! rcsid="$Id$"
+//! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Motion/LMSGradient/LMSMultiScaleMotion.cc"
+
 #include "Ravl/Image/ImageRectangle.hh"
 #include "Ravl/Image/LMSMultiScaleMotion.hh"
 #include "Ravl/Image/BilinearInterpolation.hh"
@@ -19,12 +23,18 @@
 #include "Ravl/Array2dIter2.hh"
 #include "Ravl/Array2dIter5.hh"
 #include "Ravl/Array2dIter6.hh"
-//! rcsid="$Id$"
-//! lib=RavlImageProc
-//! file="Ravl/Image/Processing/Motion/LMSGradient/LMSMultiScaleMotion.cc"
+#include "Ravl/StrStream.hh"
 
+#define DODEBUG 0
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
 
 namespace RavlImageN {
+
+
   typedef PairC<ImageC<RealT> > ImPairT;
   
   // computes the LMS covariance matrix from known motion vectors
@@ -196,22 +206,33 @@ SaveLevel(IntT level, const PairC<NumImageC<RealT> > &im,
 	   << "\nmotion rectangle: " << motion.Rectangle() << "\n";
       RavlAssert(0);
     }
+#if 0
+    IndexRange2dC frame = im.Rectangle();
+    frame.BRow()--;
+    frame.RCol()--;
+#endif
+    
     for (Array2dIter2C<RealT,Vector2dC> it(comp,motion);it.IsElm();it.Next()) {
       // find best compensated pixel in image & write it as current pixel.
       Index2dC p(it.Index());
       Vector2dC rp(p[0],p[1]);
       Vector2dC p_shifted(rp + it.Data2());
-      if (IsInside(p_shifted, im.Rectangle())) {
+      if (IsInside(p_shifted, frame)) {
+#if 1
 	IndexC r(p_shifted.X());
 	IndexC r1(ceil (p_shifted.X()));
 	RealT alpha = p_shifted.X() - (RealT) r;
 	IndexC c(p_shifted.Y());
 	IndexC c1(ceil (p_shifted.Y()));
 	RealT beta = p_shifted.Y() - (RealT) c;
-	it.Data1() = (1.0-alpha) * ((1.0-beta) * im[r][c] + beta * im[r][c1])
+	it.Data1() = (1.0-alpha) * ((1.0-beta) * im[r][c] +  beta * im[r][c1])
 	  + alpha * ((1.0-beta) * im[r1][c] + beta * im[r1][c1]);
+#else
+        BilinearInterpolation(im,p_shifted,it.Data1());
+#endif
       }
-      else it.Data1() = im[im.Frame().Nearest(p_shifted)];}
+      else it.Data1() = im[im.Frame().Nearest(p_shifted)];
+    }
     return comp;
   }
 
@@ -255,9 +276,11 @@ SaveLevel(IntT level, const PairC<NumImageC<RealT> > &im,
 	(filt.TRow()+1)/2, filt.BRow()/2, (filt.LCol()+1)/2, filt.RCol()/2));
       for (Array2dIterC<RealT> it(binimated[i]); it; it++)
 	it.Data() = filt[it.Index()*2];
+#if DODEBUG
       if (i==0)  cerr << "in: " << im_pair[0].Rectangle()
 		      << "; filtered: " << filt.Rectangle()
 		      << "; subsampled: " << binimated[0].Rectangle() << '\n';
+#endif
     }
     return binimated;
   }
@@ -270,9 +293,25 @@ SaveLevel(IntT level, const PairC<NumImageC<RealT> > &im,
     return optical_flow.Motion();
   }
 
-
-  LMSMultiScaleMotionC::LMSMultiScaleMotionC(
-	const ConvolveSeparable2dC<RealT>& Filter, const LMSOpticFlowC& Flow)
+  //: Default constructor.
+  // Creates motion estimate with a 2:1 antialias filter.
+  
+  LMSMultiScaleMotionC::LMSMultiScaleMotionC() 
+    : verbose(false),
+      scale(1),
+      vec_subsample(1),
+      top_level(-1) // i.e. uninitialised
+  {
+    Array1dC<RealT> coeffs(-4,4);
+    StrIStreamC ("-4 4 -0.03008995 0.01247519 0.13510284 0.29130294 0.36395804 0.29130294 0.13510284 0.01247519 -0.03008995") >> coeffs;
+    // preserve d.c. level
+    RealT norm(0);
+    for (IndexC i(coeffs.IMin()); i<=coeffs.IMax(); ++i) norm += coeffs[i];
+    for (IndexC i(coeffs.IMin()); i<=coeffs.IMax(); ++i) coeffs[i] /= norm; 
+    filter = ConvolveSeparable2dC<RealT>(coeffs,coeffs);
+  }
+  
+  LMSMultiScaleMotionC::LMSMultiScaleMotionC(const ConvolveSeparable2dC<RealT>& Filter, const LMSOpticFlowC& Flow)
     : filter(Filter),
       verbose(false),
       scale(1),

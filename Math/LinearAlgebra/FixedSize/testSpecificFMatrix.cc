@@ -53,6 +53,14 @@ int testMatrix2d() {
   //  cerr << "m=" << m << "\n";
   if((m - z).SumOfSqr() > 0.0000001) return __LINE__;
   
+  Matrix2dC gtMulTRes = x * z.T();
+  Matrix2dC tsMulTRes;
+  MulT(x,z,tsMulTRes);
+  //cerr << "gtMulTRes=" << gtMulTRes <<"\n";
+  //cerr << "tsMulTRes=" << tsMulTRes <<"\n";
+  
+  if((gtMulTRes - tsMulTRes).SumOfSqr() > 0.0000001) return __LINE__;
+  
   return 0;
 }
 

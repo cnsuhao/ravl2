@@ -34,23 +34,29 @@ namespace RavlImageN {
     // calculate Z as inverted averaged "A" matrix    
     Matrix2dC E;
     EigenVectors(A,E,lambda);
+    const RealT sqr_n_noise = Sqr(N*noise);
+    RealT l_inv0 = lambda[0] / (Sqr(lambda[0]) + sqr_n_noise); // (pseudo) inverse
+    RealT l_inv1 = lambda[1] / (Sqr(lambda[1]) + sqr_n_noise); // of eigenvalues
+    //Matrix2dC A_inv = E * Matrix2dC(l_inv0, 0.0, 0.0, l_inv1).MulT(E);
+    // We now assign A_inv directly to cov to avoid creating another variable.
     
-    RealT l_inv0 = lambda[0] / (Sqr(lambda[0]) + Sqr(N*noise)); // (pseudo) inverse
-    RealT l_inv1 = lambda[1] / (Sqr(lambda[1]) + Sqr(N*noise)); // of eigenvalues
-    Matrix2dC A_inv;
-    // A_inv = E * Matrix2dC(l_inv0, 0.0, 0.0, l_inv1).MulT(E);
     Matrix2dC mtmp(l_inv0 * E[0][0] ,l_inv1 * E[0][1],
 		   l_inv0 * E[1][0] ,l_inv1 * E[1][1]);
-    MulT<RealT,2,2,2>(mtmp,E,A_inv);
+    //MulT<RealT,2,2,2>(mtmp,E,cov);
+    MulT(mtmp,E,cov);
     
     // hence compute motion vector
-    Vector2dC v (A_inv * b);
+    // Vector2dC v (cov * b);
+    Vector2dC v;
+    Mul(cov,b,v);
+    
     // and statistics
     sig_sq = (dt_sq + v.Dot(b)) / (N-2);
     if (sig_sq < 0.0)  
       sig_sq = 0.0;
-    cov = A_inv * sig_sq;
-    //cov = A_inv * (sig_sq + 0.01);  //: Frank's Solution
+    
+    cov *= sig_sq;
+    //cov *= (sig_sq + 0.1);  //: Frank's Solution
     return v;
   }
   //! userlevel=Advanced

@@ -98,12 +98,19 @@ namespace RavlN {
   }
   
   inline
-  void MulM(const TFMatrixC<RealT,2,2> & R1, const TFMatrixC<RealT,2,2>
-&R2, TFMatrixC<RealT,2,2> & result) {
+  void MulM(const TFMatrixC<RealT,2,2> & R1, const TFMatrixC<RealT,2,2> &R2, TFMatrixC<RealT,2,2> & result) {
     result[0][0] = R1[0][0]*R2[0][0] + R1[0][1]*R2[1][0];
     result[0][1] = R1[0][0]*R2[0][1] + R1[0][1]*R2[1][1];
     result[1][0] = R1[1][0]*R2[0][0] + R1[1][1]*R2[1][0];
     result[1][1] = R1[1][0]*R2[0][1] + R1[1][1]*R2[1][1];
+  }
+  
+  inline
+  void MulT(const TFMatrixC<RealT,2,2> &R1,const TFMatrixC<RealT,2,2> & R2 ,TFMatrixC<RealT,2,2> &result) {
+    result[0][0] = R1[0][0]*R2[0][0] + R1[0][1]*R2[0][1];
+    result[0][1] = R1[0][0]*R2[1][0] + R1[0][1]*R2[1][1];
+    result[1][0] = R1[1][0]*R2[0][0] + R1[1][1]*R2[0][1];
+    result[1][1] = R1[1][0]*R2[1][0] + R1[1][1]*R2[1][1];
   }
   
   inline
