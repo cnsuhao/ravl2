@@ -19,7 +19,7 @@
 namespace RavlN {
 
   //! userlevel=Normal
-  //: Iterate through an array accessing 5x5 area.
+  //: Iterate through an array accessing 5x5 area, 1 pixel in a second array.
   
   template<class Data1T,class Data2T>
   class Array2dSqr51Iter2C 

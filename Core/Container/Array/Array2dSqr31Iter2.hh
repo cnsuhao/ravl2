@@ -19,7 +19,7 @@
 namespace RavlN {
 
   //! userlevel=Normal
-  //: Iterate through an array accessing 3x3 area.
+  //: Iterate through an array accessing 3x3 area, and 1 pixel in a second array.
   // The square can be accessed with DataBL,DataBR etc...
   // which access the following array elements. <p>
   //  TL TM TR <br>
