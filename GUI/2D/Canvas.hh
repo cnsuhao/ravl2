@@ -249,7 +249,7 @@ namespace RavlGUIN {
     //: Draw a line.
     
     void DrawRectangle(IntT x1,IntT y1,IntT x2,IntT y2,IntT colId = 0)
-    { return Body().DrawRectangle(x1,y1,x2,y2,colId); }
+    { Body().DrawRectangle(x1,y1,x2,y2,colId); }
     //: Draw a filled rectangle
     
     bool GUIDrawLine(IntT &x1,IntT &y1,IntT &x2,IntT &y2,IntT &colId)
@@ -261,8 +261,8 @@ namespace RavlGUIN {
     //: Draw a line.
     // Call with GUI thread only!
     
-    void GUIDrawRectangle(IntT &x1,IntT &y1,IntT &x2,IntT &y2,IntT &colId)
-    { Body().GUIDrawRectangle(x1,y1,x2,y2,colId); }
+    bool GUIDrawRectangle(IntT &x1,IntT &y1,IntT &x2,IntT &y2,IntT &colId)
+    { return Body().GUIDrawRectangle(x1,y1,x2,y2,colId); }
     //: Draw a filled rectangle.
     
     bool GUIDrawImage(ImageC<ByteT> &img,Index2dC &offset)
