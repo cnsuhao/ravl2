@@ -58,6 +58,11 @@ namespace RavlN {
       { return (IntT) (at1 - &arr1[0]); }
     //: Get current index.
     // This is a little slow.
+
+    bool IsFirst() const
+    { return at1 == &dat1[0]; }
+    //: Test if this is the first element in the range.
+    // Note,this is slower than IsElm().
     
   private:
     SArray1dC<Data1T> arr1;

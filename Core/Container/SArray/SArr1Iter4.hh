@@ -112,6 +112,11 @@ namespace RavlN {
     void Invalidate()
       { at1 = endOfRow; }
     //: Invalidate iterator. Makes IsElm() return False.
+
+    bool IsFirst() const
+    { return at1 == &dat1[0]; }
+    //: Test if this is the first element in the range.
+    // Note,this is slower than IsElm().
     
   private:
     SArray1dC<Data1T> arr1;

@@ -21,6 +21,7 @@
 namespace RavlN {
   //! userlevel=Normal
   //: dual Array1dC iterator.
+  // Note, the first array in the pair controls the number of elements visited.
   
   template<class Data1T,class Data2T>
   class Array1dIter2C 
@@ -48,10 +49,27 @@ namespace RavlN {
         dat2(arr2,rng)
       { BufferAccessIter2C<Data1T,Data2T>::First(dat1,dat2); }
     //: Constructor.
+
+    Array1dIter2C(const Array1dC<Data1T> &arr1,const Array1dC<Data2T> &arr2,IntT offset1,IntT offset2)
+      : dat1(arr1),
+        dat2(arr2)
+      { BufferAccessIter2C<Data1T,Data2T>::First(dat1,dat2,offset1,offset2); }
+    //: Constructor from two arrays.
+    // Iterate through the length of the first array starting from offet1 in the first, and
+    // offset2 in the second.
     
     inline void First() 
       { BufferAccessIter2C<Data1T,Data2T>::First(dat1,dat2); }
     //: Goto first element in the array.
+    
+    inline void First(IntT offset1,IntT offset2) 
+      { BufferAccessIter2C<Data1T,Data2T>::First(dat1,dat2,offset1,offset2); }
+    //: Reset to position offset1 in the first array, and offset2 in the second.
+    
+    bool IsFirst() const
+    { return at1 == &dat1[dat1.IMin()]; }
+    //: Test if this is the first element in the range.
+    // Note,this is slower than IsElm().
     
   protected:
     Array1dC<Data1T> dat1;

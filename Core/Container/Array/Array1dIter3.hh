@@ -22,6 +22,7 @@ namespace RavlN {
   
   //! userlevel=Normal
   //: triple Array1dC iterator.
+  // Note, the first array in the triple controls the number of elements visited.
   
   template<class Data1T,class Data2T,class Data3T>
   class Array1dIter3C 
@@ -55,10 +56,14 @@ namespace RavlN {
       {}
     //: Constructor.
     
-    
     inline void First() 
       { BufferAccessIter3C<Data1T,Data2T,Data3T>::First(dat1,rng1,dat2,rng2,dat3,rng3); }
     //: Goto first element in the array.
+    
+    bool IsFirst() const
+    { return at1 == &dat1[dat1.IMin()]; }
+    //: Test if this is the first element in the range.
+    // Note,this is slower than IsElm().
     
   protected:
     Array1dC<Data1T> dat1;

@@ -53,6 +53,11 @@ namespace RavlN {
     }
     //: Goto first element in the array.
     
+    bool IsFirst() const
+    { return at == &dat[dat.IMin()]; }
+    //: Test if this is the first element in the range.
+    // Note,this is slower than IsElm().
+    
     const Array1dIterC<DataT> &operator=(const Array1dC<DataT> &arr) {
       dat = arr;
       First();
