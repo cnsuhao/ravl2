@@ -38,14 +38,15 @@ namespace RavlImageN {
   class PointTrackModelBodyC : public RCBodyC
   {
   public:
-    PointTrackModelBodyC(UIntT nid,const Index2dC &nat,IntT frameNo,const Array2dC<ByteT> &ntempl)
+    PointTrackModelBodyC(UIntT nid,const Index2dC &nat,IntT frameNo,const Array2dC<ByteT> &ntempl,IntT nremoveThreshold)
       : id(nid),
 	at(nat),
 	vel(0,0),
 	frame(frameNo),
 	matchScore(0),
 	templ(ntempl),
-	live(true)
+	live(true),
+	removeThreshold(nremoveThreshold)
     {}
     //: Create new track.
     
@@ -86,6 +87,9 @@ namespace RavlImageN {
     { return matchScore; }
     //: Get the last match score.
     
+    RealT Confidence() const;
+    //: Get confidence measurement between 0 and 1 for the last frame
+
     bool IsLive() const
     { return live; }
     //: Is this a live track ?
@@ -101,6 +105,7 @@ namespace RavlImageN {
     IntT matchScore; // Last match score.
     Array2dC<ByteT> templ; // Template of feature.
     bool live;   // Is this a live track ?
+    IntT removeThreshold;
   };
   
   class PointTrackModelC : public RCHandleC<PointTrackModelBodyC>
@@ -111,8 +116,8 @@ namespace RavlImageN {
     //: Default constructor.
     // Creates an invalid handle.
 
-    PointTrackModelC(UIntT nid,const Index2dC &nat,IntT frameNo,const Array2dC<ByteT> &ntempl)
-      : RCHandleC<PointTrackModelBodyC>(*new PointTrackModelBodyC(nid,nat,frameNo,ntempl))
+    PointTrackModelC(UIntT nid,const Index2dC &nat,IntT frameNo,const Array2dC<ByteT> &ntempl,IntT nremoveThreshold)
+      : RCHandleC<PointTrackModelBodyC>(*new PointTrackModelBodyC(nid,nat,frameNo,ntempl,nremoveThreshold))
     {}
     //: Create new track.
     
@@ -160,6 +165,10 @@ namespace RavlImageN {
     { return Body().MatchScore(); }
     //: Get the last match score.
     
+    RealT Confidence() const
+    { return Body().Confidence(); }
+    //: Get confidence measurement between 0 and 1 for the last frame
+
     bool IsLive() const
     { return Body().IsLive(); }
     //: Is this a live track ?

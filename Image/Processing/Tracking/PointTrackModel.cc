@@ -26,4 +26,8 @@ namespace RavlImageN {
     return strm;
   }
 
+  RealT PointTrackModelBodyC::Confidence() const {
+      return 1-((matchScore / removeThreshold) * 0.75); // Gives number between 0.25 and 1    
+  }
+
 }

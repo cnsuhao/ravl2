@@ -87,12 +87,10 @@ namespace RavlImageN {
   DListC<PointTrackC> PointTrackerC::Apply(const ImageC<ByteT> &img) {
     DListC<PointTrackC> ret;
     Update(img);
-    IntT removeThresh = Sqr(mwidth) * mthreshold;
     for(DLIterC<PointTrackModelC> itt(tracks);itt;itt++) {
       if(itt->Frame() != frameCount)
 	continue; // Ignore those not seen in this frame.
-      RealT conf = 1-((itt->MatchScore() / removeThresh) * 0.75); // Gives number between 0.25 and 1
-      ret.InsLast(PointTrackC(itt->ID(),itt->Location(),conf));
+      ret.InsLast(PointTrackC(itt->ID(),itt->Location(),itt->Confidence()));
     }
     return ret;
   }
@@ -118,12 +116,13 @@ namespace RavlImageN {
     }
 
     // Make tracks for good corners
+    IntT removeThresh = Sqr(mwidth) * mthreshold;
     for(DLIterC<CornerC> it(cl);it;it++) {
       IndexRange2dC fr(it->Location(),mwidth,mwidth);
       if(!img.Frame().Contains(fr))
          continue;
       Array2dC<ByteT> templ(img,fr,Index2dC(-mwidth/2,-mwidth/2));
-      tracks.InsLast(PointTrackModelC(idAlloc++,it->Location(),frameCount,templ));
+      tracks.InsLast(PointTrackModelC(idAlloc++,it->Location(),frameCount,templ,removeThresh));
       ONDEBUG(DrawFrame(*debugimg,(ByteT) 255,IndexRange2dC(it->Location(),mwidth,mwidth)));
     }
     
