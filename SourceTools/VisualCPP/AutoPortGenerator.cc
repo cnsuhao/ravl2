@@ -146,6 +146,7 @@ namespace RavlN {
     TextFileC subTextBuff(subtempltxt,true,true);
     // Libraries.
     if(typedata == "libs") {
+      ONDEBUG(cerr << "forall libs:\n");
       for(HashIterC<StringC,LibInfoC> it(src.Libs());it;it++) {
 	context.Push(ContextC(*it));
 	BuildSub(subTextBuff);
@@ -154,7 +155,9 @@ namespace RavlN {
       return true;
     }
     if(typedata == "useslibs") {
+      ONDEBUG(cerr << "forall useslibs: " << context.Top().UsesLibs().Size() << " Type=" << context.Top().ctype << " Name=" << context.Top().HeaderInfo().Name() << "\n");
       for(DLIterC<StringC> it(context.Top().UsesLibs());it;it++) {
+	ONDEBUG(cerr << " " << *it << "\n");
 	context.Push(ContextC(*it));
 	BuildSub(subTextBuff);
 	context.DelTop();
@@ -163,6 +166,7 @@ namespace RavlN {
     }
     // Source code.
     if(typedata == "sources") {
+      ONDEBUG(cerr << "forall sources:\n");
       DListC<StringC> lst = context.Top().Sources();
       for(DLIterC<StringC> it(lst);it;it++) {
 	context.Push(ContextC(*it));
@@ -173,6 +177,7 @@ namespace RavlN {
       return true;
     }
     if(typedata == "headers") {
+      ONDEBUG(cerr << "forall headers:\n");
       DListC<HeaderInfoC> lst = context.Top().Headers();
       for(DLIterC<HeaderInfoC> it(lst);it;it++) {
 	context.Push(ContextC(*it));
@@ -184,6 +189,7 @@ namespace RavlN {
     }
     // Programs.
     if(typedata == "mains" || typedata == "examples" || typedata == "tests") {
+      ONDEBUG(cerr << "forall exe, type=" << typedata << " :\n");
       DListC<ProgInfoC> pi;
       if(typedata == "mains")
 	pi = src.Mains();
@@ -220,6 +226,7 @@ namespace RavlN {
     if(fileObject == "none") 
       return true;
     if(fileObject == "one") {
+      ONDEBUG(cerr << "************** File one  **************************** \n");
       target = "one";
       StringC fn = MakeFilename("");
       cerr << "Building file:'" << fn << "'\n";
@@ -228,6 +235,7 @@ namespace RavlN {
     }
     if(fileObject == "lib") {
       for(HashIterC<StringC,LibInfoC> it(src.Libs());it;it++) {
+	ONDEBUG(cerr << "************** File lib  Name=" << it->Name() << " **************************** \n");
 	target = it.Key();
 	StringC fn = MakeFilename(it.Key());
 	context.Push(ContextC(*it));
@@ -245,9 +253,12 @@ namespace RavlN {
       else
 	pi = src.Tests();
       for(DLIterC<ProgInfoC> it(pi);it;it++) {
+	ONDEBUG(cerr << "************** File context Name=" << it->Name() << " Type=" << fileObject << " **************************** \n");
+	ONDEBUG(cerr << " Libs=" << it->UsesLibs().Size() << " First=" << ( it->UsesLibs().IsEmpty() ? StringC("NULL") : it->UsesLibs().First() ) << "\n");
 	target = it->Name();
 	StringC fn = MakeFilename(it->Name());
 	context.Push(ContextC(*it));
+	ONDEBUG(cerr << " Libs=" << context.Top().progInfo.UsesLibs().Size() << " " << context.Top().UsesLibs().Size() << "\n");
 	Build(fn);	
 	context.DelTop();
       }
