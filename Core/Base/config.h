@@ -139,7 +139,7 @@
 /* Yes there are other endian machines, but I've never actually met one. */
 
 /* Setting the follow define to 1 will enable the use of MMX code. */
-#define RAVL_USE_MMX (RAVL_CPU_IX86 && RAVL_COMPILER_GCC2)
+#define RAVL_USE_MMX (RAVL_CPU_IX86 && RAVL_COMPILER_GCC)
 
 /********************************************************************************/
 /****** Numerical functions and headers *****************************************/
