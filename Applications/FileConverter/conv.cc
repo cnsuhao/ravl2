@@ -7,7 +7,9 @@
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Applications/FileConverter/conv.cc"
-//! docentry="Ravl.Application.conv"
+//! docentry="Ravl.Applications.conv"
+//! author="Charles Galambos"
+//! userlevel=Normal
 
 #include "Ravl/Option.hh"
 #include "Ravl/DP/FileFormatIO.hh"
