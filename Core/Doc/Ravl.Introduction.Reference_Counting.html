@@ -16,13 +16,13 @@ such as when dealing with <EM>BIG</EM> and <EM>SMALL</EM> objects.
 This page will give details on:
 </P>
 
+<blockquote>
 <P>
-&nbsp;&nbsp;<a href="#BIG">The distinction between Big and Small objects</a><BR>
-&nbsp;&nbsp;<a href="#COPY">Copying nested templated big objects</a><BR>
+<a href="#BIG">The distinction between Big and Small objects</a><BR>
+<a href="#COPY">Copying nested templated big objects</a><BR>
+<a href="WRITING">Writing your own big objects</a><br>
 </P>
-
-
-<hr>
+</blockquote>
 
 <h2><a name="BIG">The Distinction Between Big and Small Objects</a></h2>
 
@@ -126,8 +126,15 @@ for (IndexC i=a1.IMin(); i&lt;=a1.IMax(); ++i)  a2[i] = a1[i].Copy();
 array iterator, in this case <code><a
 href="../Class/RavlN.Array1dIter2C.html">Array1dIter2C</a></code>.)
 
+<h2><a name="WRITING">Writing your own big objects</a></h2>
 
-</BLOCKQUOTE>
+
+    <p>There is is an example of how to write a basic big object in the example included <a href="Ravl.Core.Reference_Counting.html">here</a>.</p>
+
+    <p> There is also a "<a href="Ravl.Source_Tools.Class_Wizard.html">class wizard</a>", that removes some of the tedium.  If you write the body of the class, <code>cwiz</code> will write the corresponding handle for you.</p>
+
+<hr>
+
 
 </td>
 </tr></table>
