@@ -25,7 +25,7 @@ SOURCES = DefsFile.cc SourceCodeManager.cc RCSFile.cc SourceFile.cc
 #SrcInst.cc SrcFunc.cc SrcUtil.cc ManagedFile.cc
 # doLog.cc
 
-MAINS = defsCheck.cc fixSource.cc rcsinfo.cc
+MAINS = defsCheck.cc fixSource.cc rcsinfo.cc amma2ravl.cc
 
 # doMerge.cc DocEntryUpdate.cc QLibs.cc
 

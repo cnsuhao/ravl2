@@ -55,6 +55,10 @@ namespace RavlN {
     //: Append a line of text to file.
     // returns LineNo or -1 if failed.  
     
+    IntT GlobalSubst(const StringC &org,const StringC &nv);
+    //: Substute 'org' for 'nv' the whole buffer.
+    // returns the number of substitutions done.
+    
     void Empty();
     //: Empty all contents, set name to noname
     
@@ -173,6 +177,11 @@ namespace RavlN {
       { return Body().Append(text,noFinalRet); }
     //: Append a line of text to file.
     // returns LineNo or -1 if failed.  
+    
+    IntT GlobalSubst(const StringC &org,const StringC &nv)
+      { return Body().GlobalSubst(org,nv); }
+    //: Substute 'org' for 'nv' the whole buffer.
+    // returns the number of substitutions done.
     
     void Empty()
       { Body().Empty(); }

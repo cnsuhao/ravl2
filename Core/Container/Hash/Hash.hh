@@ -20,6 +20,7 @@
 #include "Ravl/InDList.hh"
 #include "Ravl/InDLIter.hh"
 #include "Ravl/SArr1Iter.hh"
+#include "Ravl/Tuple2.hh"
 
 #include <iostream.h>
 
@@ -204,6 +205,11 @@ namespace RavlN {
 	table(oth.table.Copy())
       {}
     //: Copy access structure.
+    
+    HashC(Tuple2C<K,T> *data); 
+    //: Initalise from simple array.
+    // NB. Array must be terminated by a duplicate of 
+    // the first key. (i.e. == must return true between them)
     
     HashC(istream &in);
     //: Recreate from stream.
@@ -453,8 +459,17 @@ namespace RavlN {
   
   
   ///////////////////////////////////////////////////////////////////
-  
-  
+  template<class K,class T>
+  HashC<K,T>::HashC(Tuple2C<K,T> *data) 
+    : table(1)
+  {
+    K &firstKey = data->Data1();
+    Insert(data->Data1(),data->Data2());
+    data++;
+    for(;data->Data1() != firstKey;data++)
+      Insert(data->Data1(),data->Data2());
+  }
+
   template<class K,class T>
   ostream &operator<<(ostream &out,const HashC<K,T> &obj) { 
     out << obj.elements << '\n';

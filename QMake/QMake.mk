@@ -300,17 +300,17 @@ unpack:
 ################################
 # Documentation.
 
+# Install files, build documentation
 doc: src
 	$(SMAKEDC) doc
 
+# Just install files.
+docinit: src
+	$(SMAKEDC) docinit
+
+# Just build documentation
 redoc:
 	$(SMAKEDC) doc
-
-docentry:
-	$(SMAKEDC) docentry
-
-doconly: 
-	$(SMAKEDC) doconly
 
 
 ###################################

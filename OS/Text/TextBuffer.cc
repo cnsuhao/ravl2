@@ -212,6 +212,19 @@ namespace RavlN {
     
     return noLines;
   }
+
+  //////////////////////////////////////////////
+  //: Substute 'org' for 'nv' the whole buffer.
+  // returns the number of substitutions done.
+  
+  IntT TextBufferBodyC::GlobalSubst(const StringC &org,const StringC &nv) {
+    IntT count = 0;
+    for(DLIterC<TextFileLineC> It(lines);It.IsElm();It.Next())
+      count += It.Data().Text().gsub(org,nv);
+    if(count > 0)
+      Modified = true;
+    return count;
+  }
   
   /////////////////////////////
   // Empty all contents, set name to noname

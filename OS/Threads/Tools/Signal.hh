@@ -13,10 +13,10 @@
 //! date="23/09/99"
 //! docentry="Ravl.OS.Signals"
 
+#include "Ravl/Threads/RWLock.hh"
 #include "Ravl/RefCounter.hh"
 #include "Ravl/DLink.hh"
 #include "Ravl/SArray1d.hh"
-#include "Ravl/Threads/RWLock.hh"
 #include "Ravl/SArr1Iter.hh"
 #include "Ravl/Assert.hh"
 #include "Ravl/InDList.hh"
@@ -98,6 +98,14 @@ namespace RavlN {
     bool operator!=(const SignalConnectorC &oth) const
       { return &Body() != &oth.Body(); }
     //: Are to connectors different ?
+
+    SignalConnector0BodyC  &Body()
+      { return RCHandleC<SignalConnector0BodyC>::Body(); }
+    //: Access body.
+
+    const SignalConnector0BodyC  &Body() const
+      { return RCHandleC<SignalConnector0BodyC>::Body(); }
+    //: Access body.
     
   protected:
     SignalConnectorC(SignalConnector0BodyC &bod)
