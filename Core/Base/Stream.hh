@@ -438,9 +438,10 @@ namespace RavlN {
     
     char SkipWhiteSpace();
     //: Skip white space characters.
-    // returns the first non-white space character found. <p>
+    // returns the first non-white space character found. This stream is left on 
+    // the charactor after the one returned. <p>
     // This will throw an ExceptionEndOfStreamC if the end
-    // of the input stream is found.
+    // of the input stream is found. <br>
     
     bool Skip(const char *delim = " \n\t\r");
     //: Skip all 'delim' characters.
@@ -473,6 +474,7 @@ namespace RavlN {
     
     StringC ClipWord(const char *delim = " \n\t\r",bool initalSkipDelim = false);
     //: Clip word until one of 'delim' characters are found.
+    // Stream is left at the terminating deliminator.
     
   protected:
     istream *in;
