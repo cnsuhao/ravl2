@@ -107,7 +107,11 @@ namespace RavlN {
 
     RealT Perimeter() const;
     //: Returns the perimeter length of this polygon.
-  
+    
+    RealT Overlap(const Polygon2dC &poly) const;
+    //: Measure the fraction of the polygons overlapping.
+    //!return: 0= Not overlapping 1=This polygon is completely covered by 'poly'.
+    
   };
   
   Polygon2dC ConvexHull(const SArray1dC<Point2dC>& points);
