@@ -49,6 +49,10 @@ int testTFVector() {
   TFVectorC<IntT,2> test1;
   test1[0] = 1;
   test1[1] = 2;  
+  TFVectorC<IntT,2> test1a;
+  test1a = test1;
+  if(test1a[0] != 1) return __LINE__;
+  if(test1a[1] != 2) return __LINE__;
   TFVectorC<IntT,2> test2 = test1 * 2;
   if(test2[0] != 2) return __LINE__;
   if(test2[1] != 4) return __LINE__;

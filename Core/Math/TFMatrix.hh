@@ -32,7 +32,7 @@ namespace RavlN {
   class TFMatrixC {
   public:
     TFMatrixC()
-      {}
+    {}
     //: Default constructor.
 
     TFMatrixC(const DataT *init);
@@ -40,15 +40,15 @@ namespace RavlN {
     // Initalise matrix with values from 'init'.
     
     SizeT Size1() const
-      { return N; }
+    { return N; }
     //: Get size of matrix in the first dimention
 
     SizeT Size2() const
-      { return M; }
+    { return M; }
     //: Get size of matrix in the second dimention
-
+    
     bool Contains(const Index2dC &i) const
-      { return ((UIntT) i.Row().V()) < Size1() && ((UIntT) i.Col().V()) < Size2(); }
+    { return ((UIntT) i.Row().V()) < Size1() && ((UIntT) i.Col().V()) < Size2(); }
     //: Test if array contains index i·
     
     DataT &operator[](const Index2dC &ind) { 
@@ -87,7 +87,7 @@ namespace RavlN {
     }
     //: Access item.
 
-    inline void Fill(const DataT &dat);
+    void Fill(const DataT &dat);
     //: Fill array with value 'dat'.
     
     bool operator==(const TFMatrixC<DataT,N,M> &oth) const;
@@ -172,11 +172,11 @@ namespace RavlN {
     TFVectorC<DataT,M> TMul(const TFVectorC<DataT,N>& vec) const  {
       TFVectorC<DataT,M> ret;
       for(UIntT i = 0; i < M; i++)
-      {
-	ret[i] = data[0][i] * vec[0];
-	for(UIntT j = 1; j < N;j++)
-	  ret[i] += data[j][i] * vec[j];
-      }
+	{
+	  ret[i] = data[0][i] * vec[0];
+	  for(UIntT j = 1; j < N;j++)
+	    ret[i] += data[j][i] * vec[j];
+	}
       return ret;
     }
     //: Transpose this matrix and multiply by 'vec'
@@ -193,7 +193,13 @@ namespace RavlN {
     
     static TFMatrixC<DataT,N,M> I();
     //: Create an identity matrix.
-
+    
+    const TFMatrixC<DataT,N,M> &SetDiagonal(const TFVectorC<DataT,N> &d);
+    //: Set the diagonal of this matrix.
+    
+    const TFMatrixC<DataT,N,M> &AddDiagonal(const TFVectorC<DataT,N> &d);
+    //: Add a vector to the diagonal of this matrix.
+    
   protected:
 
     DataT data[N][M];
@@ -278,7 +284,6 @@ namespace RavlN {
   }
   
   template<class DataT,unsigned int N,unsigned int M>
-  inline 
   void TFMatrixC<DataT,N,M>::Fill(const DataT &dat) {
     for(UIntT i = 0;i < N;i++)
       for(UIntT j = 0;j < M;j++)
@@ -444,11 +449,44 @@ namespace RavlN {
     return ret;
   }
   
+  template<class DataT,unsigned int N,unsigned int M>
+  const TFMatrixC<DataT,N,M> &TFMatrixC<DataT,N,M>::SetDiagonal(const TFVectorC<DataT,N> &d) {
+    unsigned int max = Min(N,M);
+    for(unsigned int i = 0;i < max;i++)
+      data[i][i] = d[i];
+    return *this;
+  }
+  
+  template<class DataT,unsigned int N,unsigned int M>
+  const TFMatrixC<DataT,N,M> &TFMatrixC<DataT,N,M>::AddDiagonal(const TFVectorC<DataT,N> &d) {
+    unsigned int max = Min(N,M);
+    for(unsigned int i = 0;i < max;i++)
+      data[i][i] += d[i];
+    return *this;
+  }
+
   //// TFVectorC methods that use TFMatrixC.
   
   template<class DataT,unsigned int N>
   const TFMatrixC<DataT,1,N> &TFVectorC<DataT,N>::T() const { 
     return *((const TFMatrixC<DataT,1,N> *) ((void *)this)); //: A bit hacky, but very fast.
+  }
+
+  template<class DataT,unsigned int N>
+  TFMatrixC<DataT,N,N> &TFVectorC<DataT,N>::OuterProduct(const TFVectorC<DataT,N> &av, 
+							 TFMatrixC<DataT,N,N> &result) const {
+    for(unsigned int i = 0;i < N;i++) 
+      for(unsigned int j = 0;j < N;i++) 
+	result[i][j] = av[i] * data[j];
+    return result;
+  }
+  
+  template<class DataT,unsigned int N>
+  TFMatrixC<DataT,N,N> &TFVectorC<DataT,N>::OuterProduct(TFMatrixC<DataT,N,N> &result) const {
+    for(unsigned int i = 0;i < N;i++) 
+      for(unsigned int j = 0;j < N;j++) 
+	result[i][j] = data[i] * data[j];
+    return result;
   }
   
   template<class DataT,unsigned int N,unsigned int M>
@@ -460,9 +498,7 @@ namespace RavlN {
     return ret;
   }
   //: Vector multiply a matrix.
-  // The implementation for this can be found in "Ravl/TFMatrix.hh"
-  
-  
+  // The implementation for this can be found in "Ravl/TFMatrix.hh"  
 }
 
 #endif

@@ -47,7 +47,7 @@ namespace RavlN {
   class TFVectorC {
   public:
     TFVectorC()
-      {}
+    {}
     //: Default constructor.
     // Note: The default constructor of 'DataT' is used to contruct
     // the elements of the vector, for builtin types this means
@@ -59,17 +59,17 @@ namespace RavlN {
     // to ensure that data has at least 'N' elements. 
     
     TFVectorC(UIntT size)
-      { RavlAssert(size == N); }
+    { RavlAssert(size == N); }
     //: This constructor is for compatibility with arbitrarily sized vectors.
     // Used by some templates.
     
     UIntT Size() const
-      { return N; }
+    { return N; }
     //: Get size of array
     // Used by some templates.
     
     bool Contains(UIntT i) const
-      { return i < N; }
+    { return i < N; }
     //: Test if array contains index i·
     
     DataT &operator[](UIntT ind) { 
@@ -149,6 +149,20 @@ namespace RavlN {
     }
     //: Calculate the dot product of this and 'oth' vector.
     
+    TFMatrixC<DataT,N,N> &OuterProduct(const TFVectorC<DataT,N> &av, TFMatrixC<DataT,N,N> &result) const;
+    //: Calculate the outer product of this vector with av.
+    // The output is assigned to 'result'. A refrence to 'result' is
+    // returned. <p>
+    // The implementation is in "Ravl/FMatrix.hh", it must be
+    // included to use this function.
+    
+    TFMatrixC<DataT,N,N> &OuterProduct(TFMatrixC<DataT,N,N> &result) const;
+    //: Calculate the outer product of this vector with itsself.
+    // The output is assigned to 'result'. A refrence to 'result' is
+    // returned. <p>
+    // The implementation is in "Ravl/FMatrix.hh", it must be
+    // included to use this function.
+
     inline bool Limit(const DataT &min,const DataT &max);
     //: Limit all values in this vector to between min and max.
     // Returns true if all values in the vector are between the limits.
@@ -187,7 +201,6 @@ namespace RavlN {
     DataT data[N];
   };
   
-  
   template<class DataT,unsigned int N>
   inline
   void SetZero(TFVectorC<DataT,N> &x) { 
@@ -197,12 +210,13 @@ namespace RavlN {
   }
   //: Set vector to zero.
   
+  
   template<class DataT,unsigned int N>
   TFVectorC<DataT,N>::TFVectorC(const DataT *init) {
     for(UIntT i = 0;i < N;i++)
       data[i] = init[i];
   }
-  
+    
   template<class DataT,unsigned int N>
   inline 
   bool TFVectorC<DataT,N>::operator==(const TFVectorC<DataT,N> & ind) const {
