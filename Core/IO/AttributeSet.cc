@@ -110,6 +110,7 @@ namespace RavlN {
   // This is for handling attributes such as frame rate, and compression ratios.
   
   bool AttributeSetBodyC::GetAttr(const StringC &attrName,StringC &attrValue) {
+    RavlAssertMsg(attrInfo != 0,"No attribute info! ");
     AttributeTypeC attrType = attrInfo->GetAttrType(attrName);
     if(!attrType.IsValid()) {
 #if RAVL_GETCREATESATTRIBUTE 
@@ -135,6 +136,7 @@ namespace RavlN {
   // This is for handling attributes such as frame rate, and compression ratios.
   
   bool AttributeSetBodyC::SetAttr(const StringC &attrName,const StringC &attrValue) {
+    RavlAssertMsg(attrInfo != 0,"No attribute info! ");
     AttributeTypeC attrType = attrInfo->GetAttrType(attrName);
     if(!attrType.IsValid()) {
       if(enforceSchema)
@@ -151,6 +153,7 @@ namespace RavlN {
   // This is for handling attributes such as frame rate, and compression ratios.
   
   bool AttributeSetBodyC::GetAttr(const StringC &attrName,IntT &attrValue) {
+    RavlAssertMsg(attrInfo != 0,"No attribute info! ");
     AttributeTypeC attrType = attrInfo->GetAttrType(attrName);
     if(!attrType.IsValid()) {
 #if RAVL_GETCREATESATTRIBUTE 
@@ -177,6 +180,7 @@ namespace RavlN {
   // This is for handling attributes such as frame rate, and compression ratios.
   
   bool AttributeSetBodyC::SetAttr(const StringC &attrName,const IntT &attrValue) {
+    RavlAssertMsg(attrInfo != 0,"No attribute info! ");
     AttributeTypeC attrType = attrInfo->GetAttrType(attrName);
     if(!attrType.IsValid()) {
       if(enforceSchema)
@@ -193,6 +197,7 @@ namespace RavlN {
   // This is for handling attributes such as frame rate, and compression ratios.
   
   bool AttributeSetBodyC::GetAttr(const StringC &attrName,RealT &attrValue) {
+    RavlAssertMsg(attrInfo != 0,"No attribute info! ");
     AttributeTypeC attrType = attrInfo->GetAttrType(attrName);
     if(!attrType.IsValid()) {
 #if RAVL_GETCREATESATTRIBUTE 
@@ -219,6 +224,7 @@ namespace RavlN {
   // This is for handling attributes such as frame rate, and compression ratios.
   
   bool AttributeSetBodyC::SetAttr(const StringC &attrName,const RealT &attrValue) {
+    RavlAssertMsg(attrInfo != 0,"No attribute info! ");
     AttributeTypeC attrType = attrInfo->GetAttrType(attrName);
     if(!attrType.IsValid()) {
       if(enforceSchema)
@@ -235,6 +241,7 @@ namespace RavlN {
   // This is for handling attributes such as frame rate, and compression ratios.
   
   bool AttributeSetBodyC::GetAttr(const StringC &attrName,bool &attrValue) {
+    RavlAssertMsg(attrInfo != 0,"No attribute info! ");
     AttributeTypeC attrType = attrInfo->GetAttrType(attrName);
     if(!attrType.IsValid()) {
 #if RAVL_GETCREATESATTRIBUTE 
@@ -261,6 +268,7 @@ namespace RavlN {
   // This is for handling attributes such as frame rate, and compression ratios.
   
   bool AttributeSetBodyC::SetAttr(const StringC &attrName,const bool &attrValue) {
+    RavlAssertMsg(attrInfo != 0,"No attribute info! ");
     AttributeTypeC attrType = attrInfo->GetAttrType(attrName);
     if(!attrType.IsValid()) {
       if(enforceSchema)
