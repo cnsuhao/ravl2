@@ -18,6 +18,7 @@
 #include "Ravl/Types.hh"
 #include "Ravl/RealRange1d.hh"
 #include "Ravl/TFVector.hh"
+#include "Ravl/IndexRange3d.hh"
 
 namespace RavlN {
   
@@ -45,6 +46,13 @@ namespace RavlN {
 		 const RealRangeC & jRange,
 		 const RealRangeC & kRange);
     //: Constructor.
+
+    RealRange3dC(const IndexRange3dC &rng)
+      : is(rng.Range1()), 
+	js(rng.Range2()), 
+	ks(rng.Range3())
+    {}
+    //: Construct from an IndexRange3dC.
     
     RealRange3dC(const TFVectorC<RealT,3> &org,const TFVectorC<RealT,3> &end)
       : is(org[0], end[0]), 

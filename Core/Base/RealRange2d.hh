@@ -17,6 +17,7 @@
 
 #include "Ravl/RealRange1d.hh"
 #include "Ravl/TFVector.hh"
+#include "Ravl/IndexRange2d.hh"
 
 namespace RavlN {
   
@@ -39,6 +40,12 @@ namespace RavlN {
 	cols(0, colNumber-1)
     {}
     //: Constructor.
+    
+    RealRange2dC(const IndexRange2dC &rng)
+      : rows(rng.Rows()),
+	cols(rng.Cols())
+    {}
+    //: Construct from an IndexRange2dC.
     
     RealRange2dC(const RealRangeC & rowRange,
 		 const RealRangeC & colRange);

@@ -15,6 +15,7 @@
 //! file="Ravl/Core/Base/RealRange1d.hh"
 
 #include "Ravl/Types.hh"
+#include "Ravl/IndexRange1d.hh"
 
 namespace RavlN {
 #if RAVL_VISUALCPP_NAMESPACE_BUG && RAVL_HAVE_STDNAMESPACE
@@ -24,7 +25,6 @@ namespace RavlN {
   class BinIStreamC;
   class BinOStreamC;
   class RealRangeC;
-  class IndexRangeC;
   
   //! userlevel=Normal
   //: 1D Range of real values.
@@ -39,6 +39,12 @@ namespace RavlN {
 	max(size-1)
     {}
     //: Creates the index range <0, dim-1>.
+    
+    inline RealRangeC(const IndexRangeC &rng)
+      : min(rng.Min()),
+	max(rng.Max())
+    {}
+    //: Create real range from an IndexRangeC.
     
     inline RealRangeC(RealT minReal, RealT maxReal)
       : min(minReal),
