@@ -168,7 +168,7 @@ namespace RavlGUIN {
   
   bool ComboBodyC::Create() {
     widget = gtk_combo_new();
-    cerr << "  bool ComboBodyC::Create() " << widget ;
+    //cerr << "  bool ComboBodyC::Create() " << widget ;
     // gtk_list_clear_items (GTK_LIST (combo->list), 0, -1);
     
     for(DLIterC<StringC> it(choices);it.IsElm();it.Next()) {
@@ -257,7 +257,7 @@ namespace RavlGUIN {
   //!param: chars - Maximum number of charactors in widget.
   
   bool ComboBodyC::GUISetMaxLength(IntT chars) {
-    cerr << "\n GUISetMaxLength"   << widget; 
+    //cerr << "\n GUISetMaxLength"   << widget; 
     maxEntryLength = chars;
     if(widget == 0)
       return true;
