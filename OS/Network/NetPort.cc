@@ -74,7 +74,8 @@ namespace RavlN {
   //: Handle connection broken signal.
   
   bool NetPortBaseC::ConnectionClosed() {
-    netAttr.ConnectionClosed();
+    if(netAttr.IsValid())
+      netAttr.ConnectionClosed();
     return true;
   }
  
