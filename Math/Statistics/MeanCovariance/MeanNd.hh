@@ -18,7 +18,7 @@
 #include "Ravl/Vector.hh"
 
 namespace RavlN {
-
+  template<class DataT> class DListC;
   class MeanCovarianceC;
   
   //: Mean in N-D space
@@ -38,6 +38,11 @@ namespace RavlN {
     //: Caluclate the mean of an array of vectors.
     // All the vectors must have the same size, if
     // the array is empty a zero mean is generated.
+    
+    MeanNdC(const DListC<VectorC> &vecs);
+    //: Caluclate the mean of a list of vectors.
+    // All the vectors must have the same size, if
+    // the list is empty a zero mean is generated.
     
     MeanNdC(const SizeT dim)
       : VectorC(dim),

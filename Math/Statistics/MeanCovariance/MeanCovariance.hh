@@ -80,6 +80,9 @@ namespace RavlN {
     MeanCovarianceC(const SArray1dC<VectorC> & data);
     //: Compute the mean and covariance of an array of vectors.
     
+    MeanCovarianceC(const DListC<VectorC> & data);
+    //: Compute the mean and covariance of a list of vectors.
+    
     // Information about an object
     // ---------------------------
 
@@ -119,8 +122,11 @@ namespace RavlN {
     // the empty set of data points.
 
     const MeanCovarianceC & operator+=(const VectorC & point);
-    // Adds one point to the set of data points.
-
+    //: Adds one point to the set of data points.
+    // Note, this is NOT a good way to compute the mean and covariance 
+    // of a large dataset. Use one of the constructors from a list
+    // or array of vectors.
+    
     const MeanCovarianceC & operator-=(const VectorC & point);
     // Removes one point from the set of data points. Be carefull to remove
     // a point which was already added to the set, otherwise the representation

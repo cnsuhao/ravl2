@@ -11,6 +11,7 @@
 #include "Ravl/MeanNd.hh"
 #include "Ravl/SArray1dIter.hh"
 #include "Ravl/BinStream.hh"
+#include "Ravl/DLIter.hh"
 
 namespace RavlN {
   
@@ -25,6 +26,23 @@ namespace RavlN {
       Mean() += *it;
     Mean() /= ((RealT) number);
   }
+
+  //: Caluclate the mean of a list of vectors.
+  // All the vectors must have the same size, if
+  // the list is empty a zero mean is generated.
+  
+  MeanNdC::MeanNdC(const DListC<VectorC> &vecs) {
+    number = vecs.Size();
+    if(number == 0)
+      return ;
+    DLIterC<VectorC> it(vecs);
+    Mean() = it->Copy();
+    it++;
+    for(;it;it++)
+      Mean() += *it;
+    Mean() /= ((RealT) number);
+  }
+
   
   MeanNdC MeanNdC::Copy() const 
   { return MeanNdC(number, VectorC::Copy()); }

@@ -17,6 +17,7 @@
 #include "Ravl/Stream.hh"
 #include "Ravl/StdConst.hh"
 #include "Ravl/BinStream.hh"
+#include "Ravl/DLIter.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -50,6 +51,27 @@ namespace RavlN {
     cov -= Mean().OuterProduct();
   }
   
+  MeanCovarianceC::MeanCovarianceC(const DListC<VectorC> & data) 
+    : m(data)
+  {
+    if(data.Size() == 0)
+      return;
+    m.number = data.Size();
+    DLIterC<VectorC> it(data);
+    cov = it->OuterProduct();
+    m.Mean() = it->Copy();
+    it++;
+    RealT n = ((RealT) m.number);
+    for(;it;it++) {
+      m.Mean() += *it;
+      cov += it->OuterProduct();
+    }
+    m.Mean() /= n;
+    cov /= n;
+    cov -= Mean().OuterProduct();    
+  }
+
+
   MeanCovarianceC MeanCovarianceC::Copy() const {
     return MeanCovarianceC(Number(), m.Mean().Copy(), cov.Copy());
   }
@@ -150,7 +172,7 @@ namespace RavlN {
 	cov *= p1;
 	cov += meanCov.Covariance() * p2;
       }
-      cov += (VectorC(meanCov.Mean() - Mean()).OuterProduct() *= p1*p2);
+      cov += (VectorC(meanCov.Mean() - Mean()).OuterProduct() *= (p1*p2));
       
       // Update the mean.
       m += meanCov.m;
