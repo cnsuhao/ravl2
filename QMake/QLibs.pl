@@ -2,7 +2,7 @@
 # qlibs.pl
 #
 #
-# This program works out the libraries needed to compile AMMA/RAVL programs.
+# This program works out the libraries needed to compile RAVL/RAVL programs.
 # author: Kieron Messer
 # date:   3 April 2001
 
@@ -201,7 +201,7 @@ sub getInclude {
 # getLibs(list of headers)
 #
 # this routine looks through the headers in the local
-# project out and the AMMA project out
+# project out and the RAVL project out
 sub getLibs {
   local $lib;
   local $inc;
@@ -218,7 +218,7 @@ sub getLibs {
       $lib = getLib("$loc_proj/$inc");
       $libs .= "$lib " if($lib ne "");
     }
-    # else look in AMMA installation
+    # else look in RAVL installation
     elsif(-f "$glob_proj/$inc") {
       #print "found globally: $inc\n";
       $lib = getLib("$glob_proj/$inc");

@@ -10,7 +10,7 @@
 # Directories used in making.
 
 ifndef MAKEHOME
- MAKEHOME = /vol/vssp/cpug/amma/src/Util/QMake#
+ MAKEHOME = /vol/vssp/cpug/Ravl/src/Util/QMake#
 endif
 
 ifndef ARC

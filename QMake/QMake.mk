@@ -177,7 +177,7 @@ retest:
 # Utilities for eevsspsoft
 
 
-# PROJECT_OUT=/vol/vssp/local/develop/amma
+# PROJECT_OUT=/vol/vssp/local/develop/Ravl
 
 FULLBUILDSRC := BASE_VAR=none FULLCHECKING=1
 
@@ -214,7 +214,7 @@ fullclean:
 libbuild: 
 	$(SMAKEMD) libbuild  $(FULLBUILDFLAGS) TARGET=libbuild
 
-# Build amma.
+# Build Ravl.
 # Proceeds as follows:
 #  1-Src the latest version of the source.
 #  2-Compile all libraries.

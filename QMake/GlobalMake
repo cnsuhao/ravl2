@@ -1,8 +1,8 @@
-# AMMA Compatibility file.
+# RAVL Compatibility file.
 ifndef MAKEHOME
   MAKEHOME=/buf/ees1cg/install/share/RAVL/QMake
 endif
-BASE_VAR := $(AMMA_VAR)
+BASE_VAR := $(RAVL_VAR)
 export MAKEHOME
 export BASE_VAR
 include $(MAKEHOME)/QMake.mk

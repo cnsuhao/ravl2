@@ -8,7 +8,7 @@
 
 # This is a little evil, but it saves changing the config all the time.
 
-ifeq (x,x)
+ifeq (x,y)
 ifeq ($(shell which /usr/local/gcc-2.95.3/bin/gcc 2> /dev/null),/usr/local/gcc-2.95.3/bin/gcc)
 CC = /usr/local/gcc-2.95.3/bin/gcc
 CXX = /usr/local/gcc-2.95.3/bin/g++
@@ -22,8 +22,8 @@ CXX = g++
 endif
 endif
 else
-CC = /vol/vssp/develop/ees1cg/gcc-3.1/bin/gcc
-CXX = /vol/vssp/develop/ees1cg/gcc-3.1/bin/g++
+CC = /opt/GNUdevelop/gcc-3.1/bin/gcc
+CXX = /opt/GNUdevelop/gcc-3.1/bin/g++
 endif
 
 MKDEPFLAGS = -MM
@@ -77,17 +77,17 @@ endif
 # 'opt' variant.
 
 ifeq ($(VAR),opt)
- CFLAGS += -O2 -DNDEBUG
- CCFLAGS += -O2 -DNDEBUG
- LDFLAGS += -O2
+ CFLAGS += -O3 -funroll-loops -DNDEBUG
+ CCFLAGS += -O3 -funroll-loops -DNDEBUG
+ LDFLAGS += -O3
 endif
 
 ############################
 # 'shared' variant.
 
 ifeq ($(VAR),shared)
- CFLAGS += -fPIC -shared -O2 -DNDEBUG
- CCFLAGS += -fPIC -shared -O2 -DNDEBUG
+ CFLAGS += -fPIC -shared -O2 -funroll-loops -DNDEBUG
+ CCFLAGS += -fPIC -shared -O2 -funroll-loops -DNDEBUG
  LDLIBFLAGS = -fPIC -shared -O2
  LDFLAGS += -O2 -rdynamic  -Wl,-rpath=$(PROJECT_OUT)/lib/RAVL/$(ARC)/$(VAR)
 # -Wl,-export-dynamic

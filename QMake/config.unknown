@@ -49,8 +49,8 @@ endif
 # 'debug' variant.
 
 ifeq ($(VAR),debug)
- CFLAGS += -g -DAMMA_CHECK
- CCFLAGS += -g -DAMMA_CHECK
+ CFLAGS += -g -DRAVL_CHECK
+ CCFLAGS += -g -DRAVL_CHECK
  LDFLAGS += -g
 endif
 
@@ -58,8 +58,8 @@ endif
 # 'check' variant.
 
 ifeq ($(VAR),check)
- CFLAGS += -DAMMA_CHECK
- CCFLAGS += -DAMMA_CHECK
+ CFLAGS += -DRAVL_CHECK
+ CCFLAGS += -DRAVL_CHECK
  LDFLAGS +=
 endif
 

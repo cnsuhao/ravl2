@@ -5,7 +5,7 @@
 # see http://www.gnu.org/copyleft/gpl.html
 # file-header-ends-here
 ################################
-# Quick AMMA make system.
+# Quick RAVL make system.
 # Documentation make file.
 # $Id$
 #! rcsid="$Id$"
@@ -24,7 +24,7 @@ CXXDOC=$(INSTALLHOME)/lib/RAVL/$(ARC)/bin/CxxDoc
 
 AUTOTEMPL=$(MAKEHOME)/../AutoDoc
 
-#/vol/vssp/cpug/amma/src/doc/Auto
+#/vol/vssp/cpug/Ravl/src/doc/Auto
 
 ifndef ARC
   ARC=$(shell $(MAKEHOME)/config.arc)#

@@ -48,7 +48,7 @@ sub cmain {
   chomp @lines;
   local $line;
   local $main = "main";                  # had to do it this way as I had trouble
-  local $amma = "RAVL\_ENTRY\_POINT";    # with unmatched bracket in regexp??
+  local $Ravl = "RAVL\_ENTRY\_POINT";    # with unmatched bracket in regexp??
   local $n=0;
 
   foreach $line (@lines) {
@@ -56,7 +56,7 @@ sub cmain {
     $n=($line =~ m/$main/g);
     return 1 if($n>0);
     
-    $n=($line =~ m/$amma/g);
+    $n=($line =~ m/$Ravl/g);
     return 1 if($n>0);
 
   }

@@ -5,13 +5,13 @@
 # see http://www.gnu.org/copyleft/gpl.html
 # file-header-ends-here
 ################################
-# Quick AMMA make system
+# Quick RAVL make system
 # $Id$
 #! rcsid="$Id$"
 #! file="Ravl/QMake/Util.mk"
 
 ifndef MAKEHOME
- MAKEHOME = /vol/vssp/cpug/amma/src/Util/QMake
+ MAKEHOME = /vol/vssp/cpug/Ravl/src/Util/QMake
 endif
 
 MAKEFLAGS += --no-print-directory -r 
@@ -20,7 +20,7 @@ ifndef ARC
   ARC=$(shell $(MAKEHOME)/config.arc)#
 endif
 
-ifdef AMMA_INFO
+ifdef RAVL_INFO
   SHOWIT = 
 else
   SHOWIT = @
@@ -139,10 +139,10 @@ co:
 
 
 ci:
-	$(SHOWIT)$(CIPROG) -m"$(CIMSG)" -t"-AMMA Source." -u $(CIFLAGS) $(SOURCESET) ; \
+	$(SHOWIT)$(CIPROG) -m"$(CIMSG)" -t"-RAVL Source." -u $(CIFLAGS) $(SOURCESET) ; \
 	for FILE in stupid_for_loop_thing $(IFFYSOURCE) ; do \
 	  if [ -f $$FILE ] ; then \
-	     $(CIPROG) -m"$(CIMSG)" -t"-AMMA Source." -u $(CIFLAGS) $$FILE ; \
+	     $(CIPROG) -m"$(CIMSG)" -t"-RAVL Source." -u $(CIFLAGS) $$FILE ; \
 	  fi \
 	done ; \
 	for SUBDIR in stupid_for_loop_thing $(TARG_NESTED) ; do \

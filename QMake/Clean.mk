@@ -5,13 +5,13 @@
 # see http://www.gnu.org/copyleft/gpl.html
 # file-header-ends-here
 ################################
-# Quick AMMA make system
+# Quick RAVL make system
 # $Id$
 #! rcsid="$Id$"
 #! file="Ravl/QMake/Clean.mk"
 
 ifndef MAKEHOME
- MAKEHOME = /vol/vssp/cpug/amma/src/Util/QMake
+ MAKEHOME = /vol/vssp/cpug/RAVL/src/Util/QMake
 endif
 
 MAKEFLAGS += --no-print-directory -r 
@@ -20,7 +20,7 @@ ifndef ARC
   ARC=$(shell $(MAKEHOME)/config.arc)#
 endif
 
-ifdef AMMA_INFO
+ifdef QMAKE_INFO
   SHOWIT = 
 else
   SHOWIT = @

@@ -44,8 +44,8 @@ UNDEFSYMB = -u #
 # 'debug' variant.
 
 ifeq ($(VAR),debug)
- CFLAGS += -g -DAMMA_CHECK
- CCFLAGS += -g -DAMMA_CHECK
+ CFLAGS += -g -DRAVL_CHECK
+ CCFLAGS += -g -DRAVL_CHECK
  LDFLAGS += -g 
 endif
 
@@ -53,8 +53,8 @@ endif
 # 'check' variant.
 
 ifeq ($(VAR),check)
- CFLAGS += -O -DAMMA_CHECK
- CCFLAGS += -O -DAMMA_CHECK
+ CFLAGS += -O -DRAVL_CHECK
+ CCFLAGS += -O -DRAVL_CHECK
  LDFLAGS += -O
 endif
 
