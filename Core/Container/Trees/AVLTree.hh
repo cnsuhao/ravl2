@@ -12,6 +12,7 @@
 //! author="Charles Galambos"
 //! lib=RavlCore
 //! example=exAVLTree.cc
+//! file="Ravl/Core/Container/Trees/AVLTree.hh"
 
 #include "Ravl/BinaryTree.hh"
 

@@ -13,6 +13,7 @@
 //! author="Charles Galambos"
 //! date="24/01/2001"
 //! docentry="Ravl.Images.Pixel Types"
+//! file="Ravl/Image/Base/YUV422Value.hh"
 
 #include "Ravl/TFVector.hh"
 

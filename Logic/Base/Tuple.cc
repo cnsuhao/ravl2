@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlLogic
+//! file="Ravl/Logic/Base/Tuple.cc"
 
 #include "Ravl/Logic/Tuple.hh"
 #include "Ravl/SArr1Iter2.hh"

@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Tools/SobolImage.cc"
 
 #include "Ravl/Image/SobolImage.hh"
 #include "Ravl/SobolSequence.hh"

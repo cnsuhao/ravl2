@@ -7,6 +7,7 @@
 ///////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Signals/1D/PowerSpectrum1d.cc"
 
 #include "Ravl/StdMath.hh"
 #include "Ravl/PowerSpectrum1d.hh"

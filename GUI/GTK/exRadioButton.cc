@@ -7,6 +7,7 @@
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlGUI
+//! file="Ravl/GUI/GTK/exRadioButton.cc"
 
 #include "Ravl/GUI/Window.hh"
 #include "Ravl/GUI/RadioButton.hh"

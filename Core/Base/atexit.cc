@@ -9,6 +9,7 @@
 #include "Ravl/Atomic.hh"
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Base/atexit.cc"
 
 #define TABLESIZE 1024
 

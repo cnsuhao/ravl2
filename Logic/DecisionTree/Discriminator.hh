@@ -9,6 +9,7 @@
 //////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlLogic
+//! file="Ravl/Logic/DecisionTree/Discriminator.hh"
 
 #include "Ravl/Logic/DecisionExamples.hh"
 #include "Ravl/RefCounter.hh"

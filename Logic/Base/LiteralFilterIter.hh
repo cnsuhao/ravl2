@@ -11,6 +11,7 @@
 //! lib=RavlLogic
 //! docentry="Ravl.Logic"
 //! author="Charles Galambos"
+//! file="Ravl/Logic/Base/LiteralFilterIter.hh"
 
 #include "Ravl/Logic/LiteralIter.hh"
 #include "Ravl/Logic/BindSet.hh"

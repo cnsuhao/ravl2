@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Lines/PCPixel.cc"
 
 #include "Ravl/Image/PCPixel.hh"
 #include <iostream.h>

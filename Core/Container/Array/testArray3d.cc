@@ -8,7 +8,7 @@
 // $Id$
 //! rcsid="$Id$"
 //! lib=RavlCore
-//! file="Ravl/Core/Container/Array/testArray2d.cc"
+//! file="Ravl/Core/Container/Array/testArray3d.cc"
 
 #include "Ravl/Array3d.hh"
 #include "Ravl/Array3dIter.hh"

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Sequence/PrimitiveBinaryPolynomial.cc"
 
 #include "Ravl/PrimitiveBinaryPolynomial.hh"
 #include "Ravl/BfAccIter2.hh"

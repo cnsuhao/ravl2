@@ -7,6 +7,7 @@
 /////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlMathIO
+//! file="Ravl/Math/IO/FixedPointIO.cc"
 
 #include "Ravl/Point2d.hh"
 #include "Ravl/Point3d.hh"

@@ -10,7 +10,7 @@
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! rcsid="$Id$"
-//! file="Ravl/Tools/Misc/CombinationIter.hh"
+//! file="Ravl/Math/Sequence/CombinationIter.hh"
 //! docentry="Ravl.Math.Sequences"
 //! date="24/08/98"
 //! lib=RavlMath

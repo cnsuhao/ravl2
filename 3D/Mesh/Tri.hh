@@ -11,6 +11,7 @@
 //! docentry="Ravl.3D.Mesh"
 //! lib=Ravl3D
 //! author="Charles Galambos"
+//! file="Ravl/3D/Mesh/Tri.hh"
 
 #include "Ravl/3D/Vertex.hh"
 

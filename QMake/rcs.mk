@@ -6,6 +6,7 @@
 # file-header-ends-here
 # Common RCS stuff
 #! rcsid="$Id$"
+#! file="Ravl/QMake/rcs.mk"
 
 ##########################################################
 # Prevent rcs from checking out internal makefiles.

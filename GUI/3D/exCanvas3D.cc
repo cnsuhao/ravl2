@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlGUI3D
+//! file="Ravl/GUI/3D/exCanvas3D.cc"
 
 #include "Ravl/GUI/Window.hh"
 #include "Ravl/GUI/Button.hh"

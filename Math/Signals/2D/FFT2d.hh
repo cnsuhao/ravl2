@@ -10,6 +10,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Math.Signals.2D"
 //! lib=RavlMath
+//! file="Ravl/Math/Signals/2D/FFT2d.hh"
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/Complex.hh"

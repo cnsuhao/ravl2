@@ -7,6 +7,7 @@
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlLogic
+//! file="Ravl/Logic/DecisionTree/DecisionExamples.cc"
 
 #include "Ravl/StdMath.hh"
 #include "Ravl/Logic/DecisionExamples.hh"

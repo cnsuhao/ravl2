@@ -6,5 +6,6 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Lines/PCMapping.cc"
 
 #include "Ravl/Image/PCMapping.hh"

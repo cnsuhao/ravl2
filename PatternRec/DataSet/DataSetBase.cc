@@ -7,6 +7,7 @@
 ///////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! file="Ravl/PatternRec/DataSet/DataSetBase.cc"
 
 #include "Ravl/PatternRec/DataSetBase.hh"
 #include "Ravl/HSet.hh"

@@ -8,6 +8,7 @@
 //! rcsid="$Id$"
 //! author="Charles Galambos"
 //! lib=RavlMath
+//! file="Ravl/Math/Sequence/SquareIter.cc"
 
 #include "Ravl/SquareIter.hh"
 

@@ -7,7 +7,7 @@
 // $Id$
 //! rcsid="$Id$"
 //! lib=RavlCore
-//! file="Ravl/Core/Container/Misc/testQueue.cc"
+//! file="Ravl/Core/Container/Queue/testQueue.cc"
 
 #include "Ravl/BlkQueue.hh"
 #include <iostream.h>

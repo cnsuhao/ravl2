@@ -1,4 +1,5 @@
 /* 
+/*! file="Ravl/GUI/3D/gdkgl.h" */
  * Copyright (C) 1998 Janne Löf <jlof@mail.student.oulu.fi>
  *
  * This library is free software; you can redistribute it and/or

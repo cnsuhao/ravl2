@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlGUI2D
+//! file="Ravl/GUI/2D/Canvas.cc"
 
 #include "Ravl/Math.hh"
 #include "Ravl/GUI/Canvas.hh"

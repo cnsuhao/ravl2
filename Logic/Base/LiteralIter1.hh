@@ -10,6 +10,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Logic"
 //! lib=RavlLogic
+//! file="Ravl/Logic/Base/LiteralIter1.hh"
 
 #include "Ravl/Logic/LiteralIter.hh"
 

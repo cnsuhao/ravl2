@@ -7,7 +7,7 @@
 #ifndef RAVLBINITER_HEADER
 #define RAVLBINITER_HEADER 1
 ///////////////////////////////////////////////////////////////
-//! file="amma/Statist/SparHist/BinIter.hh"
+//! file="Ravl/Core/Container/Misc/BinIter.hh"
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! docentry="Ravl.Core.Misc"

@@ -8,7 +8,8 @@
 #define RAVLGUI_DPWINDOW_HEADER 1
 ////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! lib=RavlGUIDisplay
+//! lib=RavlDPDisplay
+//! file="Ravl/GUI/DPDisplay/DPWindow.hh"
 
 #include "Ravl/DP/Port.hh"
 #include "Ravl/GUI/Window.hh"

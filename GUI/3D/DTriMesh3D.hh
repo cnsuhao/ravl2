@@ -1,10 +1,16 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2001, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 #ifndef RAVL_DTRISET3D_HEADER
 #define RAVL_DTRISET3D_HEADER 1
 ///////////////////////////////////////////////////
 //! docentry="Ravl.GUI.3D"
 //! rcsid="$Id$"
 //! file="Ravl/GUI/3D/DTriMesh3D.hh"
-//! lib=GUI3D
+//! lib=RavlGUI3D
 //! author="James Smith"
 //! date="2/4/2001"
 

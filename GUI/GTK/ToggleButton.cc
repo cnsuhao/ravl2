@@ -9,6 +9,7 @@
 //! lib=RavlGUI
 //! author="Charles Galambos"
 //! rcsid="$Id$"
+//! file="Ravl/GUI/GTK/ToggleButton.cc"
 
 #include "Ravl/GUI/ToggleButton.hh"
 #include "Ravl/GUI/Manager.hh"

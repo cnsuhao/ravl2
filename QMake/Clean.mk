@@ -8,6 +8,7 @@
 # Quick AMMA make system
 # $Id$
 #! rcsid="$Id$"
+#! file="Ravl/QMake/Clean.mk"
 
 ifndef MAKEHOME
  MAKEHOME = /vol/vssp/cpug/amma/src/Util/QMake

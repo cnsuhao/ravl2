@@ -11,6 +11,7 @@
 //! lib=RavlLogic
 //! docentry="Ravl.Logic"
 //! author="Charles Galambos"
+//! file="Ravl/Logic/Base/LiteralMapListIter.hh"
 
 #include "Ravl/Logic/LiteralMapIter.hh"
 #include "Ravl/DLIter.hh"

@@ -9,6 +9,7 @@
 // $Id$
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Sequence/SobolSequence.cc"
 
 #include "Ravl/StdMath.hh"
 #include "Ravl/SobolSequence.hh"

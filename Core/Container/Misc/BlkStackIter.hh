@@ -12,6 +12,7 @@
 //! docentry="Ravl.Core.Stacks"
 //! lib=RavlCore
 //! date="26/08/2001"
+//! file="Ravl/Core/Container/Misc/BlkStackIter.hh"
 
 #include "Ravl/BlkStack.hh"
 

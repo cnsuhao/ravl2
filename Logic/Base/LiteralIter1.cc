@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlLogic
+//! file="Ravl/Logic/Base/LiteralIter1.cc"
 
 #include "Ravl/Logic/LiteralIter1.hh"
 

@@ -12,6 +12,7 @@
 //! userlevel=Normal
 //! lib=RavlIO
 //! docentry="Ravl.Core.Data Processing"
+//! file="Ravl/Core/IO/ComposeSingle.hh"
 
 #include "Ravl/DP/Compose.hh"
 

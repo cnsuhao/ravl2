@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Core.Data Processing" 
-//! file="Ravl/StdType/DataProc/Func2Stream.hh"
+//! file="Ravl/Core/IO/Func2Stream.hh"
 //! lib=RavlIO
 //! author="Charles Galambos"
 //! date="09/07/98"

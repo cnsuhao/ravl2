@@ -12,6 +12,7 @@
 //! author="Charles Galambos"
 //! date="23/09/99"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Edges/Edgel.hh"
 
 #include "Ravl/Index2d.hh"
 

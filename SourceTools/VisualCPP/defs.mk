@@ -6,6 +6,7 @@
 # file-header-ends-here
 # $Id$
 #! rcsid="$Id$"
+#! file="Ravl/SourceTools/VisualCPP/defs.mk"
 
 PACKAGENAME= VCPP
 

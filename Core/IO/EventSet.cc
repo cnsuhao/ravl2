@@ -7,6 +7,7 @@
 ///////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlIO
+//! file="Ravl/Core/IO/EventSet.cc"
 
 #include "Ravl/DP/EventSet.hh"
 #include "Ravl/Assert.hh"

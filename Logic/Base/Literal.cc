@@ -7,6 +7,7 @@
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlLogic
+//! file="Ravl/Logic/Base/Literal.cc"
 
 #include "Ravl/Logic/Literal.hh"
 #include "Ravl/Logic/LiteralIter.hh"

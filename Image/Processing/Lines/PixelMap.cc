@@ -9,6 +9,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Lines/PixelMap.cc"
 
 #include "Ravl/Image/PixelMap.hh"
 #include "Ravl/Image/Image.hh"

@@ -7,6 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlImage
 //! author="Joel Mitchelson"
+//! file="Ravl/Image/Processing/Segmentation/ChromaThreshold.cc"
 
 #include "Ravl/Image/ChromaThreshold.hh"
 #include "Ravl/Array2dIter2.hh"

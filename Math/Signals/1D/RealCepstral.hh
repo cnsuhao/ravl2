@@ -11,6 +11,7 @@
 //! userlevel=Normal
 //! docentry="Ravl.Math.Signals.1D"
 //! lib=RavlMath
+//! file="Ravl/Math/Signals/1D/RealCepstral.hh"
 
 #include "Ravl/Math.hh"
 #include "Ravl/Array1d.hh"

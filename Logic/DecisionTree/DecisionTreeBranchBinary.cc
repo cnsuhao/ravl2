@@ -7,6 +7,7 @@
 ///////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlLogic
+//! file="Ravl/Logic/DecisionTree/DecisionTreeBranchBinary.cc"
 
 #include "Ravl/Logic/DecisionTreeBranchBinary.hh"
 #include "Ravl/Logic/State.hh"

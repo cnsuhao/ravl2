@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Sequence/CircleIter.cc"
 
 #include "Ravl/CircleIter.hh"
 

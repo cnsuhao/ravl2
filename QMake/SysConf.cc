@@ -6,6 +6,7 @@
 // file-header-ends-here
 /*****************************************************
 //! rcsid="$Id$"
+//! file="Ravl/QMake/SysConf.cc"
  * SysConf.c        6/12/96       By Charles Galambos
  * $Id$
  *

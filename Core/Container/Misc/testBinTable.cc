@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Container/Misc/testBinTable.cc"
 
 #include "Ravl/BinTable.hh"
 #include "Ravl/BinIter.hh"

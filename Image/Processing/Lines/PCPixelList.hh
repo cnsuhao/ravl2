@@ -8,7 +8,7 @@
 #define RAVLPCPIXELLIST_HEADER 1
 /////////////////////////////////////////////////////////
 //! docentry="Ravl.Images.Lines"
-//! file="Ravl/Image/IPStream/Lines/PCPixelLst.hh"
+//! file="Ravl/Image/Processing/Lines/PCPixelList.hh"
 //! lib=RavlImageProc
 //! author="Charles Galambos"
 //! rcsid="$Id$"

@@ -8,6 +8,7 @@
 //! rcsid="$Id$"
 //! author="Charles Galambos"
 //! lib=Ravl3D
+//! file="Ravl/3D/Mesh/Tri.cc"
 
 #include "Ravl/3D/Tri.hh"
 

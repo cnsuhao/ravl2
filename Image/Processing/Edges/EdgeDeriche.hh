@@ -8,7 +8,7 @@
 #define RAVLEDGEDERICHE_HEADER 1
 ///////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/Image/IPStream/Edge/Deriche.hh"
+//! file="Ravl/Image/Processing/Edges/EdgeDeriche.hh"
 //! authors="George Matas, Radek Marik and Charles Galambos"
 //! docentry="Ravl.Images.Edges"
 //! lib=RavlImageProc

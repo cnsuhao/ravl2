@@ -8,6 +8,7 @@
 // $Id$
 //! rcsid="$Id$"
 //! lib=RavlIO
+//! file="Ravl/Core/IO/CoreIO.cc"
 
 #include "Ravl/DP/CoreIO.hh"
 

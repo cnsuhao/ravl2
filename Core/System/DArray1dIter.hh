@@ -10,6 +10,7 @@
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! rcsid="$Id$"
+//! file="Ravl/Core/System/DArray1dIter.hh"
 
 #include "Ravl/DArray1d.hh"
 

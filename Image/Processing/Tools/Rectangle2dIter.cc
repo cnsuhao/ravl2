@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Tools/Rectangle2dIter.cc"
 
 #include "Ravl/Image/Rectangle2dIter.hh"
 

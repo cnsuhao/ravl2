@@ -11,6 +11,7 @@
 //! lib=RavlLogic
 //! docentry="Ravl.Logic"
 //! author="Charles Galambos"
+//! file="Ravl/Logic/Base/StateSet.hh"
 
 #include "Ravl/Logic/State.hh"
 #include "Ravl/HSet.hh"

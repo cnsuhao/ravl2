@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlVideoIO
+//! file="Ravl/Image/VideoIO/exImgSeq.cc"
 
 #include "Ravl/Option.hh"
 #include "Ravl/DP/SequenceIO.hh"

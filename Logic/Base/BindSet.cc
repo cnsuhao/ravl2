@@ -7,6 +7,7 @@
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlLogic
+//! file="Ravl/Logic/Base/BindSet.cc"
 
 #include "Ravl/Logic/BindSet.hh"
 

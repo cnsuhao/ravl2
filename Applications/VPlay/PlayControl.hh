@@ -8,7 +8,7 @@
 #define RAVLGUIPLAYCONTROL_HEADER 1
 //////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/GUI/View/PlayControl.hh"
+//! file="Ravl/Applications/VPlay/PlayControl.hh"
 //! author="Charles Galambos"
 //! date="23/03/99"
 //! docentry="GUI.Widget"

@@ -7,6 +7,7 @@
 /////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Signals/1D/Correlation1d.cc"
 
 #include "Ravl/StdMath.hh"
 #include "Ravl/Correlation1d.hh"

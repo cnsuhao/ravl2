@@ -7,6 +7,7 @@
 ////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlGUI
+//! file="Ravl/GUI/GTK/EventBox.cc"
 
 #include "Ravl/GUI/EventBox.hh"
 #include <gtk/gtk.h>

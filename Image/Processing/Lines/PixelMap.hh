@@ -7,7 +7,7 @@
 #ifndef RAVLPIXELMAP_HEADER 
 #define RAVLPIXELMAP_HEADER 1
 /////////////////////////////////////////////////////////
-//! file="Ravl/Image/IPStream/Lines/PixelMap.hh"
+//! file="Ravl/Image/Processing/Lines/PixelMap.hh"
 //! date="16/7/97"
 //! docentry="Ravl.Images.Lines"
 //! author="Charles Galambos"

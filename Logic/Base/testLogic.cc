@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlLogic
+//! file="Ravl/Logic/Base/testLogic.cc"
 
 #include "Ravl/Logic/Tuple.hh"
 #include "Ravl/Logic/Unify.hh"

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Statistics/Histogram/exHistogram.cc"
 
 #include "Ravl/Histogram.hh"
 #include "Ravl/StdMath.hh"

@@ -7,6 +7,7 @@
 ///////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlGUI
+//! file="Ravl/GUI/GTK/Tree.cc"
 
 #include "Ravl/GUI/Tree.hh"
 #include "Ravl/GUI/Manager.hh"

@@ -7,6 +7,7 @@
 ////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Edges/EdgeDeriche.cc"
 
 #include "Ravl/Image/EdgeDeriche.hh"
 #include "Ravl/StdMath.hh"

@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Statistics/MeanCovariance/MeanCovarianceNd.cc"
 
 #include "Ravl/MeanNd.hh"
 #include "Ravl/Matrix.hh"

@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlLogic
+//! file="Ravl/Logic/Base/Condition.cc"
 
 #include "Ravl/Logic/Condition.hh"
 #include "Ravl/Logic/BindSet.hh"

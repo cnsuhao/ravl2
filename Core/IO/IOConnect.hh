@@ -13,6 +13,7 @@
 //! docentry="Ravl.Core.Data Processing" 
 //! date="06/07/98"
 //! example=exDataProc.cc
+//! file="Ravl/Core/IO/IOConnect.hh"
 
 #include "Ravl/DP/Port.hh"
 #include "Ravl/DP/IOJoin.hh"

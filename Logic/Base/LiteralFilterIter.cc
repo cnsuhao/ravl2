@@ -7,6 +7,7 @@
 ///////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlLogic
+//! file="Ravl/Logic/Base/LiteralFilterIter.cc"
 
 #include "Ravl/Logic/LiteralFilterIter.hh"
 #include "Ravl/Logic/Unify.hh"

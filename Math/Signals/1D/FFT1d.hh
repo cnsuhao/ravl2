@@ -11,6 +11,7 @@
 //! docentry="Ravl.Math.Signals.1D"
 //! example=exFFT1d.cc
 //! lib=RavlMath
+//! file="Ravl/Math/Signals/1D/FFT1d.hh"
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/Complex.hh"

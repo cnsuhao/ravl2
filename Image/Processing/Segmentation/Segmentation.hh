@@ -10,6 +10,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Images.Segmentation"
 //! lib=RavlImage
+//! file="Ravl/Image/Processing/Segmentation/Segmentation.hh"
 
 #include "Ravl/Array2dSqr2Iter2.hh"
 #include "Ravl/Image/Image.hh"

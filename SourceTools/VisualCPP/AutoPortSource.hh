@@ -10,6 +10,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Source Tools.AutoPort"
 //! userlevel=Normal
+//! file="Ravl/SourceTools/VisualCPP/AutoPortSource.hh"
 
 #include "Ravl/SourceTools/DefsFile.hh"
 #include "Ravl/SourceTools/LibInfo.hh"

@@ -8,6 +8,7 @@
 //! docentry="GUI"
 //! rcsid="$Id$"
 //! lib=RavlGUI
+//! file="Ravl/GUI/GTK/CWidget.cc"
 
 #include "Ravl/GUI/CWidget.hh"
 #include "Ravl/GUI/Manager.hh"

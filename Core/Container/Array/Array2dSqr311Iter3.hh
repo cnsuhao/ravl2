@@ -11,6 +11,7 @@
 //! docentry="Ravl.Core.Arrays.2D"
 //! author="Charles Galambos"
 //! lib=RavlCore
+//! file="Ravl/Core/Container/Array/Array2dSqr311Iter3.hh"
 
 #include "Ravl/Array2d.hh"
 #include "Ravl/BfAcc2Iter3.hh"

@@ -8,6 +8,7 @@
 //! docentry="GUI"
 //! rcsid="$Id$"
 //! lib=RavlGUI
+//! file="Ravl/GUI/GTK/Slider.cc"
 
 #include "Ravl/GUI/Slider.hh"
 #include "Ravl/GUI/Manager.hh"

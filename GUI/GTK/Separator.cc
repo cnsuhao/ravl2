@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlGUI
+//! file="Ravl/GUI/GTK/Separator.cc"
 
 #include "Ravl/GUI/Separator.hh"
 #include <gtk/gtkhseparator.h>

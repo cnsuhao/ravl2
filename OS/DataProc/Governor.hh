@@ -12,6 +12,7 @@
 //! author="Charles Galambos"
 //! date="12/10/98"
 //! lib=RavlDPMT
+//! file="Ravl/OS/DataProc/Governor.hh"
 
 #include "Ravl/DP/StreamOp.hh"
 #include "Ravl/OS/Date.hh"

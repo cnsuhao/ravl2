@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlGUI
+//! file="Ravl/GUI/GTK/ProgressBar.cc"
 
 #include "Ravl/GUI/ProgressBar.hh"
 #include "Ravl/GUI/Manager.hh"

@@ -5,6 +5,7 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 #! rcsid="$Id$"
+#! file="Ravl/Math/Signals/defs.mk"
 
 NESTED=1D.r 2D.r
 

@@ -7,7 +7,8 @@
 #ifndef RAVLGUI_DPDISPLAYIMAGE_HEADER
 #define RAVLGUI_DPDISPLAYIMAGE_HEADER 1
 //! rcsid="$Id$"
-//! lib=RavlGUIDisplay
+//! lib=RavlDPDisplay
+//! file="Ravl/GUI/DPDisplay/DPDisplayImage.hh"
 
 #include "Ravl/GUI/DPDisplayObj.hh"
 #include "Ravl/Image/Image.hh"

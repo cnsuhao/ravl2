@@ -12,6 +12,7 @@
 //! author="Charles Galambos"
 //! example=exBinaryTree.cc
 //! lib=RavlCore
+//! file="Ravl/Core/Container/Trees/BinaryTreeDownIter.hh"
 
 #include "Ravl/BinaryTree.hh"
 

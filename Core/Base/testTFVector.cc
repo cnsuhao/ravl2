@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Base/testTFVector.cc"
 
 
 #include "Ravl/TFVector.hh"

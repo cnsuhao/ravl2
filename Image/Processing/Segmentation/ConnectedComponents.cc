@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlImage
+//! file="Ravl/Image/Processing/Segmentation/ConnectedComponents.cc"
 
 #include "Ravl/Image/ConnectedComponents.hh"
 #include "Ravl/SArr1Iter.hh"

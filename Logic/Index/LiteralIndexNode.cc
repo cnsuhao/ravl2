@@ -7,6 +7,7 @@
 ///////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlLogic
+//! file="Ravl/Logic/Index/LiteralIndexNode.cc"
 
 #include "Ravl/Logic/LiteralIndexNode.hh"
 #include "Ravl/Logic/LiteralIndexFilter.hh"

@@ -9,6 +9,7 @@
 /////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlLogic
+//! file="Ravl/Logic/DecisionTree/DecisionTree.hh"
 
 #include "Ravl/Logic/Literal.hh"
 #include "Ravl/Logic/DecisionTreeBase.hh"

@@ -7,6 +7,7 @@
 ////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlGUI3D
+//! file="Ravl/GUI/3D/DViewPoint3D.cc"
 
 #include "Ravl/GUI/DViewPoint3D.hh"
 #include "Ravl/GUI/Canvas3D.hh"

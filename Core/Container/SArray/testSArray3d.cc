@@ -7,7 +7,7 @@
 // $Id$
 //! rcsid="$Id$"
 //! lib=RavlCore
-//! file="Ravl/Core/Container/SArray/testSArray2d.cc"
+//! file="Ravl/Core/Container/SArray/testSArray3d.cc"
 
 #include "Ravl/SArray3d.hh"
 #include "Ravl/Slice1d.hh"

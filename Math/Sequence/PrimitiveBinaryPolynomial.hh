@@ -8,7 +8,7 @@
 #define RAVLPRIMITIVEBINARYPOLYNOMAIL_HEADER 1
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/Tools/Misc/BinaryPolynomial.hh"
+//! file="Ravl/Math/Sequence/PrimitiveBinaryPolynomial.hh"
 //! lib=RavlMath
 //! author="Charles Galambos"
 //! date="23/03/99"

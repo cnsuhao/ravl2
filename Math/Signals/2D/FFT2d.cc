@@ -7,6 +7,7 @@
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Signals/2D/FFT2d.cc"
 
 #include "Ravl/FFT2d.hh"
 #include "Ravl/Exception.hh"

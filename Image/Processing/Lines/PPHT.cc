@@ -7,6 +7,7 @@
 ////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Lines/PPHT.cc"
 
 #include "Ravl/Image/PPHT.hh"
 #include "Ravl/StdConst.hh"

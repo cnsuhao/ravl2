@@ -9,6 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlGUI
 //! author="Charles Galambos"
+//! file="Ravl/GUI/GTK/OneChild.cc"
 
 #include "Ravl/GUI/OneChild.hh"
 

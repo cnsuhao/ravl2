@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Edges/Edgel.cc"
 
 #include "Ravl/Image/Edgel.hh"
 #include <iostream.h>

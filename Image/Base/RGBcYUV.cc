@@ -8,6 +8,7 @@
 //! rcsid="$Id$"
 //! author="Radek Marik"
 //! lib=RavlImage
+//! file="Ravl/Image/Base/RGBcYUV.cc"
 
 #include "Ravl/Image/RGBcYUV.hh"
 #include "Ravl/Image/RealYUVValue.hh"

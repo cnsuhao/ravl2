@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlGUI3D
+//! file="Ravl/GUI/3D/DObject3D.cc"
 
 #include "Ravl/GUI/DObject3D.hh"
 #include "Ravl/DLIter.hh"

@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! example=exDPMultiplex.cc
 //! docentry="Data Processing"
-//! file="Ravl/StdType/DataProc/Multiplex.hh"
+//! file="Ravl/Core/IO/Multiplex.hh"
 //! lib=RavlIO
 //! author="Charles Galambos"
 //! date="04/07/98"

@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Statistics/MeanCovariance/MeanVariance.cc"
 
 #include "Ravl/MeanVariance.hh"
 #include "Ravl/SArr1Iter.hh"

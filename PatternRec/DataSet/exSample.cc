@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! file="Ravl/PatternRec/DataSet/exSample.cc"
 
 #include"Ravl/PatternRec/SampleVector.hh"
 #include"Ravl/PatternRec/SampleLabel.hh"

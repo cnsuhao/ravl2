@@ -7,6 +7,7 @@
 /////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Sequence/testCombinationIter.cc"
 
 #include "Ravl/CombinationIter.hh"
 #include <iostream.h>

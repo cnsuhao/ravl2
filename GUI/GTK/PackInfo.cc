@@ -7,6 +7,7 @@
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlGUI
+//! file="Ravl/GUI/GTK/PackInfo.cc"
 
 #include "Ravl/GUI/PackInfo.hh"
 

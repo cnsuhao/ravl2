@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////
 //! docentry="Ravl.GUI.3D"
 //! rcsid="$Id$"
-//! file="Ravl/GUI/3D/3DCanvas.hh"
+//! file="Ravl/GUI/3D/Canvas3D.hh"
 //! lib=RavlGUI3D
 //! example=exCanvas3D.cc
 //! author="Charles Galambos"

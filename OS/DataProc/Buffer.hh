@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! lib=RavlDPMT
 //! docentry="Data Processing"
-//! file="Ravl/StdType/MTDataProc/Buffer.hh"
+//! file="Ravl/OS/DataProc/Buffer.hh"
 //! author="Charles Galambos"
 //! date="02/10/98"
 

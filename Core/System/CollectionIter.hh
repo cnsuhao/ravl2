@@ -11,6 +11,7 @@
 //! docentry="Ravl.Core.Misc"
 //! author="Charles Galambos"
 //! lib=RavlCore
+//! file="Ravl/Core/System/CollectionIter.hh"
 
 #include "Ravl/Collection.hh"
 #include "Ravl/SArr1Iter.hh"

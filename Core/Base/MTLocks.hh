@@ -22,7 +22,7 @@
 // to ensure that the core library is thread safe.  Full threading
 // functionality will be provided elsewhere.
 //
-// Id 0 is a genral system lock.
+// Id 0 is a general system lock.
 // Id 1 is used for locking the random number generator.
 // Id 2 is used for non-reentrant 'C' library calls.
 // Id 3 is reserved for use in RavlLogic.

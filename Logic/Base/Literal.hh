@@ -11,6 +11,7 @@
 //! docentry="Ravl.Logic"
 //! userlevel=Normal
 //! lib=RavlLogic
+//! file="Ravl/Logic/Base/Literal.hh"
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/String.hh"

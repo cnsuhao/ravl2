@@ -8,6 +8,7 @@
 //! docentry="GUI"
 //! rcsid="$Id$"
 //! lib=RavlGUI
+//! file="Ravl/GUI/GTK/FileSelector.cc"
 
 #include "Ravl/GUI/FileSelector.hh"
 #include "Ravl/OS/Filename.hh"

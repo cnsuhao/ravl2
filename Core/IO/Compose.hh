@@ -13,6 +13,7 @@
 //! docentry="Ravl.Core.Data Processing"
 //! example=exDataProc.cc
 //! lib=RavlIO
+//! file="Ravl/Core/IO/Compose.hh"
 
 #include "Ravl/DP/ProcCompose.hh"
 #include "Ravl/DP/ProcIStream.hh"

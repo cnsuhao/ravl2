@@ -8,6 +8,7 @@
 # Setup make flags.
 # $Id$
 #! rcsid="$Id$"
+#! file="Ravl/QMake/QMake.mk"
 
 ifndef MAKEHOME
   MAKEHOME=.

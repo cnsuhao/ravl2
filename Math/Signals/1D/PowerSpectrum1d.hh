@@ -12,6 +12,7 @@
 //! docentry="Ravl.Math.Signals.1D"
 //! example=exPowerSpectrum.cc
 //! lib=RavlMath
+//! file="Ravl/Math/Signals/1D/PowerSpectrum1d.hh"
 
 #include "Ravl/StdMath.hh"
 #include "Ravl/Array1d.hh"

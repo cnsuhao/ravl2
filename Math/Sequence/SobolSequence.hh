@@ -7,7 +7,7 @@
 #ifndef RAVLSOBELSEQUENCE_HEADER
 #define RAVLSOBELSEQUENCE_HEADER 1
 ////////////////////////////////////////////////////
-//! file="Ravl/Tools/Misc/SobolSeq.hh"
+//! file="Ravl/Math/Sequence/SobolSequence.hh"
 //! lib=RavlMath
 //! author="Charles Galambos"
 //! rcsid="$Id$"

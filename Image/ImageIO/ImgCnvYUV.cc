@@ -7,6 +7,7 @@
 ///////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlImageIO
+//! file="Ravl/Image/ImageIO/ImgCnvYUV.cc"
 
 #include "Ravl/DP/Converter.hh"
 #include "Ravl/Array2dIter2.hh"

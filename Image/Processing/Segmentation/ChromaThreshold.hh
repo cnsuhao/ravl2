@@ -10,6 +10,7 @@
 //! lib=RavlImage
 //! author="Joel Mitchelson"
 //! docentry="Ravl.Images.Segmentation"
+//! file="Ravl/Image/Processing/Segmentation/ChromaThreshold.hh"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteRGBValue.hh"

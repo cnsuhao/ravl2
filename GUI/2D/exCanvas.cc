@@ -7,6 +7,7 @@
 ///////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlGUI2D
+//! file="Ravl/GUI/2D/exCanvas.cc"
 
 #include "Ravl/GUI/Window.hh"
 #include "Ravl/GUI/Manager.hh"

@@ -12,6 +12,7 @@
 //! example=exHistogram.cc
 //! docentry="Ravl.Math.Statistics.Histogram"
 //! lib=RavlMath
+//! file="Ravl/Math/Statistics/Histogram/Histogram.hh"
 
 #include "Ravl/StdMath.hh"
 #include "Ravl/Hash.hh"

@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Signals/1D/exPowerSpectrum.cc"
 
 #include "Ravl/PowerSpectrum1d.hh"
 #include "Ravl/Random.hh"

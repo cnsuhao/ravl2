@@ -11,6 +11,7 @@
 //! userlevel=Normal
 //! docentry="Ravl.Math.Statistics"
 //! lib=RavlMath
+//! file="Ravl/Math/Statistics/MeanCovariance/MeanVariance.hh"
 
 #include "Ravl/Math.hh"
 #include "Ravl/SArray1d.hh"

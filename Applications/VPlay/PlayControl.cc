@@ -6,6 +6,7 @@
 // file-header-ends-here
 //////////////////////////////////////////////
 //! rcsid="$Id$"
+//! file="Ravl/Applications/VPlay/PlayControl.cc"
 
 #include "Ravl/Tuple2.hh"
 #include "Ravl/VPlay/PlayControl.hh"

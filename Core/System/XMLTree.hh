@@ -12,6 +12,7 @@
 //! example=exXMLTree.cc
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/System/XMLTree.hh"
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/XMLStream.hh"

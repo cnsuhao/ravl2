@@ -7,6 +7,7 @@
 /////////////////////////////////////
 //! rcsid="$Id$
 //! lib=RavlGUI
+//! file="Ravl/GUI/GTK/MouseEvent.cc"
 
 #include "Ravl/GUI/MouseEvent.hh"
 #include <gtk/gtk.h>

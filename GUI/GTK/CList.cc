@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////////////////
 //! rcsid="$Id$" 
 //! lib=RavlGUI
+//! file="Ravl/GUI/GTK/CList.cc"
 
 #include "Ravl/GUI/CList.hh"
 #include "Ravl/GUI/Manager.hh"

@@ -11,6 +11,7 @@
 //! lib=RavlLogic
 //! author="Charles Galambos"
 //! docentry="Ravl.Logic"
+//! file="Ravl/Logic/Base/StateAndIter.hh"
 
 #include "Ravl/Logic/LiteralIter.hh"
 #include "Ravl/Logic/And.hh"

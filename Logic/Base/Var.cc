@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlLogic
+//! file="Ravl/Logic/Base/Var.cc"
 
 #include "Ravl/Logic/Var.hh"
 #include "Ravl/Logic/BindSet.hh"

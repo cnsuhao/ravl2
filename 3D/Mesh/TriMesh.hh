@@ -11,6 +11,7 @@
 //! lib=Ravl3D
 //! docentry="Ravl.3D.Mesh"
 //! author="Charles Galambos"
+//! file="Ravl/3D/Mesh/TriMesh.hh"
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/SArray1d.hh"

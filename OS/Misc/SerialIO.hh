@@ -13,6 +13,7 @@
 //! docentry="Ravl.OS.Hardware"
 //! rcsid="$Id$"
 //! lib=RavlOS
+//! file="Ravl/OS/Misc/SerialIO.hh"
 
 #include "Ravl/Stream.hh"
 

@@ -7,6 +7,7 @@
 //////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlDPMT
+//! file="Ravl/OS/DataProc/MTIOConnect.cc"
 
 #include "Ravl/DP/MTIOConnect.hh"
 

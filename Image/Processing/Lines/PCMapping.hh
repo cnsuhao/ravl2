@@ -8,7 +8,7 @@
 #define RAVL_PCMAPPING_HEADER 1
 ////////////////////////////////////////////////////////////
 //! docentry="Image.Image Processing.Lines"
-//! file="Ravl/Image/IPStream/Lines/PCMapping.hh"
+//! file="Ravl/Image/Processing/Lines/PCMapping.hh"
 //! lib=RavlImageProc
 //! author="Charles Galambos"
 //! rcsid="$Id$"

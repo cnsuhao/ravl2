@@ -10,6 +10,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Logic"
 //! lib=RavlLogic
+//! file="Ravl/Logic/Base/LiteralIter.hh"
 
 #include "Ravl/Logic/Literal.hh"
 #include "Ravl/Logic/BindSet.hh"

@@ -10,6 +10,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Logic"
 //! lib=RavlLogic
+//! file="Ravl/Logic/Base/Tuple.hh"
 
 #include "Ravl/Logic/Literal.hh"
 #include "Ravl/SArray1d.hh"

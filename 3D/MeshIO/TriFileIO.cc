@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=Ravl3DIO
+//! file="Ravl/3D/MeshIO/TriFileIO.cc"
 
 #include "Ravl/3D/TriFileIO.hh"
 #include "Ravl/SArr1Iter.hh"

@@ -7,7 +7,7 @@
 #ifndef RAVLSTDHASH_HEADER
 #define RAVLSTDHASH_HEADER 1
 ///////////////////////////////////////////////////////////////////
-//! file="Ravl/Core/Container/Hash/Hash.hh"
+//! file="Ravl/Core/Base/StdHash.hh"
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! date="1/9/96"

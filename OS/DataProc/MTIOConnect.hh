@@ -8,7 +8,7 @@
 #define RAVL_DPMTIOCONNECT_HEADER 1
 /////////////////////////////////////////////////////
 //! lib=RavlDPMT
-//! file="Ravl/StdType/MTDataProc/MTIOConnect.hh"
+//! file="Ravl/OS/DataProc/MTIOConnect.hh"
 //! author="Charles Galambos"
 //! date="02/10/98"
 //! docentry="Data Processing" 

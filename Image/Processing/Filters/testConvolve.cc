@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlImage
+//! file="Ravl/Image/Processing/Filters/testConvolve.cc"
 
 #include "Ravl/Image/Convolve2d.hh"
 #include "Ravl/Image/ConvolveHorz2d.hh"

@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/System/testCollection.cc"
 
 #include "Ravl/Collection.hh"
 #include "Ravl/CollectionIter.hh"

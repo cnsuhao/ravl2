@@ -11,6 +11,7 @@
 //! docentry="Ravl.Images.Edges"
 //! lib=RavlImageProc
 //! author="Charles Galambos"
+//! file="Ravl/Image/Processing/Edges/EdgeSobel.hh"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Array2dSqr31Iter2.hh"

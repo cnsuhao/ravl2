@@ -12,6 +12,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Base/Average.hh"
 
 #include "Ravl/Types.hh"
 

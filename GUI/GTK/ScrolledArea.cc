@@ -7,6 +7,7 @@
 /////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlGUI
+//! file="Ravl/GUI/GTK/ScrolledArea.cc"
 
 #include "Ravl/GUI/ScrolledArea.hh"
 #include <gtk/gtk.h>

@@ -7,6 +7,7 @@
 /////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlMathIO
+//! file="Ravl/Math/IO/FixedMatrixIO.cc"
 
 #include "Ravl/Matrix2d.hh"
 #include "Ravl/Matrix3d.hh"

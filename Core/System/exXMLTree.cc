@@ -8,6 +8,7 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! author="Charles Galambos"
+//! file="Ravl/Core/System/exXMLTree.cc"
 
 #include "Ravl/XMLTree.hh"
 #include "Ravl/Option.hh"

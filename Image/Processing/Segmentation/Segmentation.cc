@@ -7,6 +7,7 @@
 /////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlImage
+//! file="Ravl/Image/Processing/Segmentation/Segmentation.cc"
 
 #include "Ravl/Image/Segmentation.hh"
 #include "Ravl/Array2dSqr2Iter.hh"

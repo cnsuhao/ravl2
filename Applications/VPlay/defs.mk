@@ -7,6 +7,7 @@
 ###############################################
 # $Id$
 #! rcsid="$Id$"
+#! file="Ravl/Applications/VPlay/defs.mk"
 
 DESCRIPTION = VPlay - Video Player.
 

@@ -11,6 +11,7 @@
 //! docentry="Ravl.Logic"
 #include "Ravl/Logic/Literal.hh"
 //! lib=RavlLogic
+//! file="Ravl/Logic/Base/Var.hh"
 
 namespace RavlLogicN {
 

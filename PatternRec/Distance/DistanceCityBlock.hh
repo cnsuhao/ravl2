@@ -10,6 +10,7 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! docentry="Ravl.Pattern Recognition.Distance"
+//! file="Ravl/PatternRec/Distance/DistanceCityBlock.hh"
 
 #include "Ravl/PatternRec/Distance.hh"
 

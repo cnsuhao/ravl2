@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! file="Ravl/PatternRec/Distance/DistanceMax.cc"
 
 #include "Ravl/PatternRec/DistanceMax.hh"
 

@@ -7,6 +7,7 @@
 /////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlIO
+//! file="Ravl/Core/IO/Event.cc"
 
 #include "Ravl/DP/Event.hh"
 #include <iostream.h>

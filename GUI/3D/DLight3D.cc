@@ -7,6 +7,7 @@
 ///////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlGUI3D
+//! file="Ravl/GUI/3D/DLight3D.cc"
 
 #include "Ravl/GUI/DLight3D.hh"
 

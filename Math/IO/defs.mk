@@ -6,6 +6,7 @@
 # file-header-ends-here
 # $Id$
 #! rcsid="$Id$"
+#! file="Ravl/Math/IO/defs.mk"
 
 DESCRIPTION= IO for maths objects.
 

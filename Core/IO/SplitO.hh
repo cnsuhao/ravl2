@@ -11,7 +11,7 @@
 //! lib=RavlIO
 //! example=exDPSplit.cc
 //! rcsid="$Id$"
-//! file="Ravl/StdType/DataProc/SplitO.hh"
+//! file="Ravl/Core/IO/SplitO.hh"
 //! author="Charles Galambos"
 //! date="21/07/98"
 

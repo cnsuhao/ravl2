@@ -7,6 +7,7 @@
 ///////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlGUI
+//! file="Ravl/GUI/GTK/Widget.cc"
 
 #include "Ravl/GUI/Widget.hh"
 #include "Ravl/String.hh"

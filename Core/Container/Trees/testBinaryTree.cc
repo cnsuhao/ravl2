@@ -8,6 +8,7 @@
 //! rcsid="$Id$"
 //! author="Charles Galambos"
 //! lib=RavlCore
+//! file="Ravl/Core/Container/Trees/testBinaryTree.cc"
 
 #include "Ravl/BinaryTree.hh"
 #include "Ravl/BinaryTreeUpIter.hh"

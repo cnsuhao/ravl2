@@ -8,6 +8,7 @@
 //! docentry="GUI"
 //! rcsid="$Id$"
 //! lib=RavlGUI
+//! file="Ravl/GUI/GTK/TextEntry.cc"
 
 #include "Ravl/GUI/TextEntry.hh"
 #include "Ravl/GUI/Manager.hh"

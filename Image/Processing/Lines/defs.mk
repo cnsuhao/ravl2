@@ -6,6 +6,7 @@
 # file-header-ends-here
 # $Id$
 #! rcsid="$Id$"
+#! file="Ravl/Image/Processing/Lines/defs.mk"
 
 PACKAGE = Ravl/Image
 

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Container/Array/exArray3.cc"
 
 #include "Ravl/Array3d.hh"
 #include "Ravl/Array3dIter.hh"

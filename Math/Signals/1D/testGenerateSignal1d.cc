@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Signals/1D/testGenerateSignal1d.cc"
 
 #include "Ravl/GenerateSignal1d.hh"
 #include "Ravl/IntC.hh"

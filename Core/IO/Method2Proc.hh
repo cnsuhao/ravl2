@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////
 //! docentry="Data Processing"
 //! lib=RavlIO
-//! file="Ravl/StdType/DataProc/Method2Proc.hh"
+//! file="Ravl/Core/IO/Method2Proc.hh"
 //! author="Charles Galambos"
 //! date="09/07/98"
 //! rcsid="$Id$"

@@ -7,6 +7,7 @@
 //////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Signals/1D/GenerateSignal1d.cc"
 
 #include "Ravl/Math.hh"
 #include "Ravl/StdConst.hh"

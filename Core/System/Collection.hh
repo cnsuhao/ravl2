@@ -11,6 +11,7 @@
 //! docentry="Ravl.Core.Misc"
 //! author="Charles Galambos"
 //! lib=RavlCore
+//! file="Ravl/Core/System/Collection.hh"
 
 #include "Ravl/SArray1d.hh"
 #include "Ravl/Random.hh"

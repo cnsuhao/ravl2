@@ -9,6 +9,7 @@
 # Documentation make file.
 # $Id$
 #! rcsid="$Id$"
+#! file="Ravl/QMake/Doc.mk"
 
 ifndef MAKEHOME
   MAKEHOME=.
@@ -45,6 +46,12 @@ ifndef PLIB
 ifdef SLIB
 PLIB=$(SLIB)
 endif
+endif
+
+ifdef PACKAGENAME
+PACKAGENAME_OPT=-pn $(PACKAGENAME)
+else
+PACKAGENAME_OPT= 
 endif
 
 SLIB:=$(strip $(SLIB))
@@ -109,7 +116,7 @@ docinit: docfiles
 
 doc: docinit $(INST_INCLUDE)/.dir $(TARG_DOCNODE)
 	$(SHOWIT)echo "--- Generating documentation" ; \
-	$(CXXDOC) -p $(PROJECT_OUT)	
+	$(CXXDOC) $(PACKAGENAME_OPT) -p $(PROJECT_OUT)	
 
 $(INST_EHT)/% : % $(INST_EHT)/.dir
 	$(SHOWIT)echo "--- Installing EHT $(@F) to $(INST_EHT)" ; \

@@ -14,7 +14,7 @@
 //! date="04/07/98"
 //! example=exMethodIO.cc
 //! rcsid="$Id$"
-//! file="Ravl/StdType/DataProc/MethodIO.hh"
+//! file="Ravl/Core/IO/MethodIO.hh"
 
 #include "Ravl/DP/Port.hh"
 

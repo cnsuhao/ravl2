@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlGUI
+//! file="Ravl/GUI/GTK/exMenu.cc"
 
 #include "Ravl/GUI/Window.hh"
 #include "Ravl/GUI/Button.hh"

@@ -8,7 +8,7 @@
 #define RAVLEDGENONMAXSUP_HEADER 1
 //////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/Image/IPStream/Edge/NonMaxSupp.hh"
+//! file="Ravl/Image/Processing/Edges/EdgeNonMaxSuppression.hh"
 //! lib=RavlImageProc
 //! authors="George Matas, Radek Marik and Charles Galambos"
 //! date="04/07/2000"

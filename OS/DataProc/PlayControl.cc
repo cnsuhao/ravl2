@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlDPMT
+//! file="Ravl/OS/DataProc/PlayControl.cc"
 
 #include "Ravl/DP/PlayControl.hh"
 

@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Lines/doPPHT.cc"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Option.hh"

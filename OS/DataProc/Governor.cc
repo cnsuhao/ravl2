@@ -9,6 +9,7 @@
 //! author="Charles Galambos"
 //! date="12/10/98"
 //! lib=RavlDPMT
+//! file="Ravl/OS/DataProc/Governor.cc"
 
 #include "Ravl/DP/Governor.hh"
 

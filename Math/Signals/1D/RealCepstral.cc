@@ -7,6 +7,7 @@
 ///////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Signals/1D/RealCepstral.cc"
 
 #include "Ravl/StdMath.hh"
 #include "Ravl/RealCepstral.hh"

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=Ravl3DIO
+//! file="Ravl/3D/MeshIO/FormatMeshObj.cc"
 
 #include "Ravl/config.h"
 #include "Ravl/3D/FormatMeshObj.hh"

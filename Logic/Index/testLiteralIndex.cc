@@ -8,6 +8,7 @@
 //! rcsi="$Id$"
 //! rcsid="$Id$"
 //! lib=RavlLogic
+//! file="Ravl/Logic/Index/testLiteralIndex.cc"
 
 #include "Ravl/Logic/LiteralIndex.hh"
 #include "Ravl/Logic/Tuple.hh"

@@ -8,7 +8,8 @@
 #define RAVLGUI_DPWINDOWFORMAT_HEADER 1
 //////////////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! lib=RavlGUIDisplay
+//! lib=RavlDPDisplay
+//! file="Ravl/GUI/DPDisplay/DPWindowFormat.hh"
 
 #include "Ravl/DP/FileFormat.hh"
 #include "Ravl/GUI/DPDisplayObj.hh"

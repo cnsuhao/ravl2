@@ -10,7 +10,7 @@
 //! userlevel=Normal
 //! docentry="Ravl.Core.Arrays.3D"
 //! rcsid="$Id$"
-//! file="Ravl/Core/Container/SArray/SArray2d.hh"
+//! file="Ravl/Core/Container/SArray/SArray3d.hh"
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! date="10/09/98"

@@ -7,6 +7,7 @@
 ///////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlIO
+//! file="Ravl/Core/IO/testDataProc.cc"
 
 #include "Ravl/DP/IFailOver.hh"
 #include "Ravl/DP/IOTap.hh"

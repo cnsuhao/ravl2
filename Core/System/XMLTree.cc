@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/System/XMLTree.cc"
 
 #include "Ravl/XMLTree.hh"
 

@@ -10,7 +10,7 @@
 //! date="13/2/97"
 //! author="Charles Galambos"
 //! docentry="Ravl.Images.Lines"
-//! file="Ravl/Image/IPStream/Lines/PixelMapSearch.hh"
+//! file="Ravl/Image/Processing/Lines/PixelMapSearch.hh"
 //! lib=RavlImageProc
 //! rcsid="$Id$"
 

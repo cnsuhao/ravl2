@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlSourceTools
+//! file="Ravl/SourceTools/CodeManager/ProgInfo.cc"
 
 #include "Ravl/SourceTools/ProgInfo.hh"
 #include "Ravl/SourceTools/DefsFile.hh"

@@ -9,6 +9,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Lines/PixelMapSearch.cc"
 
 #include "Ravl/Image/PixelMapSearch.hh"
 

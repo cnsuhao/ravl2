@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Edges/EdgeNonMaxSuppression.cc"
 
 #include "Ravl/Image/EdgeNonMaxSuppression.hh"
 #include "Ravl/Array2dIter3.hh"

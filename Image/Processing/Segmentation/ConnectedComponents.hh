@@ -13,6 +13,7 @@
 //! docentry="Ravl.Images.Segmentation"
 //! lib=RavlImage
 //! date="17/10/2000"
+//! file="Ravl/Image/Processing/Segmentation/ConnectedComponents.hh"
 
 #include "Ravl/Types.hh"
 #include "Ravl/Tuple2.hh"

@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlGUI
+//! file="Ravl/GUI/GTK/Bitmap.cc"
 
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/GUI/Window.hh"

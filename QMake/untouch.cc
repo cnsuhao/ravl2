@@ -6,6 +6,7 @@
 // file-header-ends-here
 /**********************************************************************************
 //! rcsid="$Id$"
+//! file="Ravl/QMake/untouch.cc"
  * untouch, check that a file is at least a second old. (if it exists).
  */
 /*! rcsid="$Id$" */

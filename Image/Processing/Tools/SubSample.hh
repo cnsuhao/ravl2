@@ -10,6 +10,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Images.Misc"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Tools/SubSample.hh"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Average.hh"

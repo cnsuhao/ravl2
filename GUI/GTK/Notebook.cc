@@ -7,6 +7,7 @@
 ///////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlGUI
+//! file="Ravl/GUI/GTK/Notebook.cc"
 
 #include "Ravl/GUI/Notebook.hh"
 #include "Ravl/GUI/PackInfo.hh"

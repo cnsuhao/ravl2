@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlImage
+//! file="Ravl/Image/Processing/Morphology/testMorphology.cc"
 
 
 #include "Ravl/Image/Image.hh"

@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlImage
+//! file="Ravl/Image/Processing/Segmentation/BlueScreen.cc"
 
 #include "Ravl/Image/BlueScreen.hh"
 #include "Ravl/Array2dIter2.hh"

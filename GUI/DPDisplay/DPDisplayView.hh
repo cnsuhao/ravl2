@@ -8,7 +8,8 @@
 #define RAVLGUI_DPDISPLAYVIEW_HEADER 1
 ////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! lib=RavlGUIDisplay
+//! lib=RavlDPDisplay
+//! file="Ravl/GUI/DPDisplay/DPDisplayView.hh"
 
 #include "Ravl/GUI/Table.hh"
 #include "Ravl/GUI/RawCanvas.hh"

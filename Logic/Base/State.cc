@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlLogic
+//! file="Ravl/Logic/Base/State.cc"
 
 #include "Ravl/Logic/State.hh"
 #include "Ravl/Collection.hh"

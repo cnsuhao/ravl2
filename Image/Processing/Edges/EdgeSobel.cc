@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Edges/EdgeSobel.cc"
 
 #include "Ravl/Image/EdgeSobel.hh"
 

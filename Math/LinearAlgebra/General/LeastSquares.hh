@@ -10,6 +10,7 @@
 //! lib=RavlMath
 //! docentry="Ravl.Math.Linear Algebra"
 //! userlevel=Normal
+//! file="Ravl/Math/LinearAlgebra/General/LeastSquares.hh"
 
 #include "Ravl/Matrix.hh"
 #include "Ravl/Vector.hh"

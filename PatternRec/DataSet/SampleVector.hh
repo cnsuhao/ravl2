@@ -10,6 +10,7 @@
 //! author="Kieron Messer"
 //! docentry="Ravl.Pattern Recognition.Data Set"
 //! lib=RavlPatternRec
+//! file="Ravl/PatternRec/DataSet/SampleVector.hh"
 
 #include"Ravl/PatternRec/Sample.hh"
 #include"Ravl/Vector.hh"

@@ -8,7 +8,7 @@
 #define RAVL_DPEVENT_HEADER 1
 ////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/StdType/DataProc/Event.hh"
+//! file="Ravl/Core/IO/Event.hh"
 //! lib=RavlIO
 //! author="Charles Galambos"
 //! docentry="Data Processing"

@@ -8,6 +8,7 @@
 # Fast amma make system
 # $Id$
 #! rcsid="$Id$"
+#! file="Ravl/QMake/Main.mk"
 
 ifndef MAKEHOME
   MAKEHOME=.

@@ -10,6 +10,7 @@
 //! lib=RavlImageProc
 //! author="Charles Galambos"
 //! docentry="Ravl.Images.Misc"
+//! file="Ravl/Image/Processing/Tools/Rectangle2dIter.hh"
 
 #include "Ravl/Image/ImageRectangle.hh"
 

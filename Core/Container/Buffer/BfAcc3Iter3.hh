@@ -8,7 +8,7 @@
 #define RAVLBFACC3ITER3_HEADER 1
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/Core/Container/Buffer/BfAcc3Iter2.hh"
+//! file="Ravl/Core/Container/Buffer/BfAcc3Iter3.hh"
 //! docentry="Ravl.Core.Arrays.Buffer"
 //! lib=RavlCore
 //! userlevel=Advanced

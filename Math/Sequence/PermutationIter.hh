@@ -12,7 +12,7 @@
 //! date="14/5/96"
 //! docentry="Ravl.Math.Sequences"
 //! rcsid="$Id$"
-//! file="Ravl/Tools/Misc/PermutationIter.hh"
+//! file="Ravl/Math/Sequence/PermutationIter.hh"
 //! lib=RavlMath
 
 #include "Ravl/DList.hh"

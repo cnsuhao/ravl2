@@ -7,6 +7,7 @@
 //////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlGUI
+//! file="Ravl/GUI/GTK/MenuCheck.cc"
 
 #include "Ravl/GUI/MenuCheck.hh"
 #include "Ravl/GUI/Manager.hh"

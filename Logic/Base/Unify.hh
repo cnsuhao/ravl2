@@ -12,6 +12,7 @@
 //! lib=RavlLogic
 //! author="Charles Galambos"
 //! userlevel=Normal
+//! file="Ravl/Logic/Base/Unify.hh"
 
 #include "Ravl/Logic/Literal.hh"
 #include "Ravl/Logic/BindSet.hh"

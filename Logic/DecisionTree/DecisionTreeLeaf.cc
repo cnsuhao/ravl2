@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlLogic
+//! file="Ravl/Logic/DecisionTree/DecisionTreeLeaf.cc"
 
 #include "Ravl/Logic/DecisionTreeLeaf.hh"
 #include "Ravl/Logic/Tuple.hh"

@@ -10,6 +10,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Logic.Index"
 //! lib=RavlLogic
+//! file="Ravl/Logic/Index/LiteralIndexElement.hh"
 
 #include "Ravl/Logic/Literal.hh"
 #include "Ravl/Logic/LiteralMapIter.hh"

@@ -8,7 +8,7 @@
 #define RAVL_SBFACC3D_HEADER 1
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/Core/Container/Buffer/RBfAcc3d.hh"
+//! file="Ravl/Core/Container/Buffer/SBfAcc3d.hh"
 //! lib=RavlCore
 //! userlevel=Normal
 //! author="Charles Galambos"

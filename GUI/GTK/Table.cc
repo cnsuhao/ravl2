@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlGUI
+//! file="Ravl/GUI/GTK/Table.cc"
 
 #include "Ravl/GUI/Table.hh"
 #include <gtk/gtk.h>

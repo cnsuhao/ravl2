@@ -7,6 +7,7 @@
 ////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlGUI3D
+//! file="Ravl/GUI/3D/DCube3D.cc"
 
 #include "Ravl/GUI/DCube3D.hh"
 #include <GL/gl.h>

@@ -7,7 +7,7 @@
 #ifndef RAVLBINTABLET_HEADER
 #define RAVLBINTABLET_HEADER 1
 ///////////////////////////////////////////////////////////////
-//! file="amma/Statist/SparHist/BinTable.hh"
+//! file="Ravl/Core/Container/Misc/BinTable.hh"
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! date="27/11/1996"

@@ -10,6 +10,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Logic.Condition"
 //! lib=RavlLogic
+//! file="Ravl/Logic/Base/MinTerm.hh"
 
 #include "Ravl/SArray1d.hh"
 #include "Ravl/Logic/Condition.hh"

@@ -7,6 +7,7 @@
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlGUI3D
+//! file="Ravl/GUI/3D/Canvas3D.cc"
 
 #include "Ravl/GUI/Canvas3D.hh"
 //#include "Ravl/StdError.hh"

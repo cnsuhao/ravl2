@@ -11,6 +11,7 @@
 //! author="Joel Mitchelson"
 //! userlevel=Normal
 //! docentry="Ravl.Images.Morphology"
+//! file="Ravl/Image/Processing/Morphology/DilateSubSample2X.hh"
 
 #include "Ravl/Image/Image.hh"
 

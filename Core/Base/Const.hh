@@ -11,6 +11,7 @@
 //! lib=RavlCore
 //! docentry="Ravl.Core.Misc"
 //! author="Charles Galambos"
+//! file="Ravl/Core/Base/Const.hh"
 
 #include "Ravl/Assert.hh"
 

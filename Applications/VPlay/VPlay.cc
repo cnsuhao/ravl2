@@ -6,6 +6,7 @@
 // file-header-ends-here
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
+//! file="Ravl/Applications/VPlay/VPlay.cc"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteYUVValue.hh"

@@ -7,6 +7,7 @@
 /////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlLogic
+//! file="Ravl/Logic/Base/StateAndIter.cc"
 
 #include "Ravl/Logic/StateAndIter.hh"
 #include "Ravl/Logic/LiteralIter1.hh"

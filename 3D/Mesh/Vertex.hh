@@ -11,6 +11,7 @@
 //! rcsid="$Id$"
 //! lib=Ravl3D
 //! author="Charles Galambos"
+//! file="Ravl/3D/Mesh/Vertex.hh"
 
 #include "Ravl/Vector3d.hh"
 #include "Ravl/Vector2d.hh"

@@ -11,6 +11,7 @@
 //! docentry="Ravl.Source Tools"
 //! lib=RavlSourceTools
 //! userlevel=Normal
+//! file="Ravl/SourceTools/CodeManager/ProgInfo.hh"
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/String.hh"

@@ -1,5 +1,8 @@
 #ifndef CCMATHMAIN_HEADER
 #define CCMATHMAIN_HEADER 1
+/*! rcsid="$Id$" */
+/*! lib=ccmath */
+/*! file="Ravl/CCMath/ccmath.h" */
 
 /*  ccmath.h    CCMATH mathematics library source code.
  *

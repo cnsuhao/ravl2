@@ -8,7 +8,7 @@
 #define RAVLSQUAREITER_HEADER 1
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/Tools/Misc/SquareIter.hh"
+//! file="Ravl/Math/Sequence/SquareIter.hh"
 //! lib=RavlMath
 //! userlevel=Normal
 //! author="Charles Galambos"

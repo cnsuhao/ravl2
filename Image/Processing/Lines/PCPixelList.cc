@@ -7,6 +7,7 @@
 ///////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Lines/PCPixelList.cc"
 
 #include "Ravl/Image/PCPixelList.hh"
 #include "Ravl/Image/Image.hh"

@@ -11,6 +11,7 @@
 //! userlevel=Normal
 //! docentry="Ravl.Images.Pixel Types"
 //! lib=RavlImage
+//! file="Ravl/Image/Base/RGBcYUV.hh"
 
 #include "Ravl/TFMatrix.hh"
 #include "Ravl/Image/RealYUVValue.hh"

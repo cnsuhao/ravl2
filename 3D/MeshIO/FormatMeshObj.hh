@@ -8,7 +8,7 @@
 #define RAVL_OBJFORMAT_HEADER 1
 ////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/Image/ImageIO/PNMFormat.hh"
+//! file="Ravl/3D/MeshIO/FormatMeshObj.hh"
 //! lib=Ravl3DIO
 //! author="Charles Galambos"
 //! docentry="Ravl.3D.IO.Formats"

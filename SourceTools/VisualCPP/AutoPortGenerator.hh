@@ -9,6 +9,7 @@
 ///////////////////////////////////////////////////////
 //! docentry="Ravl.Source Tools.AutoPort"
 //! rcsid="$Id$"
+//! file="Ravl/SourceTools/VisualCPP/AutoPortGenerator.hh"
 
 #include "Ravl/SourceTools/AutoPortSource.hh"
 #include "Ravl/Text/TemplateComplex.hh"

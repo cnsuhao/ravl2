@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlIO
+//! file="Ravl/Core/IO/testSPort.cc"
 
 #include "Ravl/DP/SPortAttach.hh"
 #include "Ravl/DP/MethodIO.hh"

@@ -11,6 +11,7 @@
 //! userlevel=Normal
 //! docentry="Ravl.Math.Signals.1D"
 //! lib=RavlMath
+//! file="Ravl/Math/Signals/1D/Correlation1d.hh"
 
 #include "Ravl/StdMath.hh"
 #include "Ravl/Array1d.hh"

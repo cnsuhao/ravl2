@@ -5,6 +5,7 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 #! rcsid="$Id$"
+#! file="Ravl/PatternRec/DataSet/defs.mk"
 DESCRIPTION = Pattern Recognition Toolbox
 
 PACKAGE = Ravl/PatternRec

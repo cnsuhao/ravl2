@@ -8,7 +8,7 @@
 #define RAVL_SQRCOMPOSITION_HEADER 1
 //////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/Image/IPStream/Edge/SqrCompos.hh"
+//! file="Ravl/Image/Processing/Edges/SqrComposition.hh"
 //! lib=RavlImageProc
 //! docentry="Ravl.Images.Misc"
 //! author="Charles Galambos"

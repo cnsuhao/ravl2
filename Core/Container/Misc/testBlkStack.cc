@@ -7,7 +7,7 @@
 // $Id$
 //! rcsid="$Id$"
 //! lib=RavlCore
-//! file="Ravl/Core/Container/Misc/testStack.cc"
+//! file="Ravl/Core/Container/Misc/testBlkStack.cc"
 
 
 #include "Ravl/BlkStack.hh"

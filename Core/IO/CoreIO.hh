@@ -9,6 +9,7 @@
 ///////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlIO
+//! file="Ravl/Core/IO/CoreIO.hh"
 
 namespace RavlN {  
   extern void InitCoreIO(); //: Initalise all the math IO.

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //////////////////////////////////////////
 //! rcsid="$Id$"
+//! file="Ravl/SourceTools/VisualCPP/autoport.cc"
 
 #include "Ravl/Option.hh"
 

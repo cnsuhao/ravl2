@@ -11,7 +11,7 @@
 //! lib=RavlIO
 //! author="Charles Galambos"
 //! rcsid="$Id$"
-//! file="Ravl/StdType/DataProc/IFailOver.hh"
+//! file="Ravl/Core/IO/IFailOver.hh"
 //! date="25/08/98"
 
 #include "Ravl/DP/Port.hh"

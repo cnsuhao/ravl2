@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////
 //! docentry="Data Processing" 
 //! rcsid="$Id$"
-//! file="Ravl/StdType/DataProc/IOTap.hh"
+//! file="Ravl/Core/IO/IOTap.hh"
 //! lib=RavlIO
 //! author="Charles Galambos"
 //! date="20/07/98"

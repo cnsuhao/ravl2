@@ -9,6 +9,7 @@
 /////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlLogic
+//! file="Ravl/Logic/DecisionTree/DecisionExamples.hh"
 
 #include "Ravl/Histogram.hh"
 #include "Ravl/Hash.hh"

@@ -11,6 +11,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Math.Statistics.Histogram"
 //! lib=RavlMath
+//! file="Ravl/Math/Statistics/Histogram/RealHistogram1d.hh"
 
 #include "Ravl/StdMath.hh"
 #include "Ravl/IntC.hh"

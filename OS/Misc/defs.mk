@@ -5,7 +5,7 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 #! rcsid="$Id$"
-#! file="Ravl/OS/Time/defs.mk"
+#! file="Ravl/OS/Misc/defs.mk"
 
 PACKAGE=Ravl/OS
 

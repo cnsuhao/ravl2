@@ -7,6 +7,7 @@
 #########################################
 # $Id$
 #! rcsid="$Id$"
+#! file="Ravl/GUI/GTK/defs.mk"
 
 ifeq ($(ARC),sol2)
 # The solaris x11 header files a broken, so we need

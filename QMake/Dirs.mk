@@ -8,6 +8,7 @@
 # Directories used in making.
 # $Id$
 #! rcsid="$Id$"
+#! file="Ravl/QMake/Dirs.mk"
 
 ifndef MAKEHOME
  MAKEHOME = /vol/vssp/cpug/amma/src/Util/QMake#
@@ -130,6 +131,8 @@ WORKTMP=$(LOCALTMP)/$(ARC)/$(BASENAME)/$(VAR)
 
 DEF_INC = -I. -I$(INST_LIBDEF) -I$(MAKEHOME)/../../libdep
 
+# A file that definitly doesn't exist.
+
 NOFILE = /notme/hiya/fruitcake/whippy
 
 #########################
@@ -195,11 +198,9 @@ MAKESM=$(MAKE) $(DEF_INC) $(PAR_MAKE)
 
 # Make with dependancies
 MAKEMD=$(MAKESM) -f $(MAKEHOME)/MainDep.mk
-MAKEMDS=$(MAKESM) -f $(MAKEHOME)/MainDep.mk
 
 # Make with dependancies
 MAKEMO=$(MAKESM) -f $(MAKEHOME)/Main.mk
-MAKEMOS=$(MAKESM) -f $(MAKEHOME)/Main.mk
 
 # Clean up makefile.
 MAKECL=$(MAKESM) -f $(MAKEHOME)/Clean.mk

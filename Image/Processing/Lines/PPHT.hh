@@ -7,7 +7,7 @@
 #ifndef RAVL_PPHT_HEADER
 #define RAVL_PPHT_HEADER 1
 //////////////////////////////////////////////////////
-//! file="Ravl/Image/IPStream/Lines/PPHT.hh"
+//! file="Ravl/Image/Processing/Lines/PPHT.hh"
 //! userlevel=Normal
 //! docentry="Image.Image Processing.Lines"
 //! lib=RavlImageProc

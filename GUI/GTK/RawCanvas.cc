@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlGUI
+//! file="Ravl/GUI/GTK/RawCanvas.cc"
 
 #include "Ravl/GUI/RawCanvas.hh"
 #include <gtk/gtk.h>

@@ -11,6 +11,7 @@
 //! lib=RavlMath
 //! docentry="Ravl.Math.Signals.1D"
 //! userlevel=Normal
+//! file="Ravl/Math/Signals/1D/GenerateSignal1d.hh"
 
 #include "Ravl/Array1d.hh"
 

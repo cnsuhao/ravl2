@@ -11,6 +11,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Logic"
 //! lib=RavlLogic
+//! file="Ravl/Logic/Base/NamedLiteral.hh"
 
 #include "Ravl/Logic/Literal.hh"
 

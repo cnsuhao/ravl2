@@ -7,6 +7,7 @@
 ////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlGUI
+//! file="Ravl/GUI/GTK/Frame.cc"
 
 #include "Ravl/GUI/Frame.hh"
 #include "Ravl/GUI/Manager.hh"

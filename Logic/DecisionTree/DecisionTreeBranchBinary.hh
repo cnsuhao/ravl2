@@ -9,6 +9,7 @@
 //////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlLogic
+//! file="Ravl/Logic/DecisionTree/DecisionTreeBranchBinary.hh"
 
 #include "Ravl/Logic/DecisionTreeBranch.hh"
 

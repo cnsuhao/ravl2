@@ -10,6 +10,7 @@
 //! rcsid=$Id$"
 //! docentry="Ravl.Logic.Condition"
 //! lib=RavlLogic
+//! file="Ravl/Logic/Base/Condition.hh"
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/Logic/Literal.hh"

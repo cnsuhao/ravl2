@@ -8,7 +8,7 @@
 #define RAVLIMAGECNV_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/Image/DPImageIO/ImageConv.hh"
+//! file="Ravl/Image/ImageIO/ImageConv.hh"
 //! lib=RavlImageIO
 //! userlevel=Normal
 //! author="Charles Galambos"

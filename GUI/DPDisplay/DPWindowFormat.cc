@@ -6,7 +6,8 @@
 // file-header-ends-here
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! lib=RavlGUIDisplay
+//! lib=RavlDPDisplay
+//! file="Ravl/GUI/DPDisplay/DPWindowFormat.cc"
 
 #include "Ravl/GUI/DPWindowFormat.hh"
 #include "Ravl/GUI/DPWindowOPort.hh"

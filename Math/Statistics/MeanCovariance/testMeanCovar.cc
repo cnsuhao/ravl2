@@ -7,6 +7,7 @@
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Statistics/MeanCovariance/testMeanCovar.cc"
 
 #include "Ravl/MeanVariance.hh"
 #include <iostream.h>

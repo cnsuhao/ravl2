@@ -8,6 +8,7 @@
 //! docentry="GUI"
 //! rcsid="$Id$"
 //! lib=RavlGUI
+//! file="Ravl/GUI/GTK/Label.cc"
 
 #include "Ravl/GUI/Label.hh"
 #include "Ravl/GUI/Manager.hh"

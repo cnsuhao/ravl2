@@ -13,6 +13,7 @@
 //! lib=RavlGUI
 //! userlevel=Normal
 //! author="Charles Galambos"
+//! file="Ravl/GUI/GTK/RadioButton.hh"
 
 #include "Ravl/GUI/ToggleButton.hh"
 

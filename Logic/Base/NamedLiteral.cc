@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlLogic
+//! file="Ravl/Logic/Base/NamedLiteral.cc"
 
 #include "Ravl/Logic/NamedLiteral.hh"
 #include "Ravl/MTLocks.hh"

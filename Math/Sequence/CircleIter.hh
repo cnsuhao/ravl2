@@ -8,7 +8,7 @@
 #define RAVLCIRCLEITER_HEADER 1
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/Tools/Misc/CircleIter.hh"
+//! file="Ravl/Math/Sequence/CircleIter.hh"
 //! lib=RavlMath
 //! userlevel=Normal
 //! author="Charles Galambos"

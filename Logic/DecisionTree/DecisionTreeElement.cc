@@ -7,6 +7,7 @@
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlLogic
+//! file="Ravl/Logic/DecisionTree/DecisionTreeElement.cc"
 
 #include "Ravl/Logic/DecisionTreeElement.hh"
 

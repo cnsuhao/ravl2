@@ -11,6 +11,7 @@
 //! lib=RavlLogic
 //! docentry="Ravl.Logic"
 //! author="Charles Galambos"
+//! file="Ravl/Logic/Base/NamedVar.hh"
 
 #include "Ravl/Logic/Var.hh"
 

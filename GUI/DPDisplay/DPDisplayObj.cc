@@ -6,7 +6,8 @@
 // file-header-ends-here
 ///////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! lib=RavlGUIDisplay
+//! lib=RavlDPDisplay
+//! file="Ravl/GUI/DPDisplay/DPDisplayObj.cc"
 
 #include "Ravl/GUI/DPDisplayObj.hh"
 #include "Ravl/TypeName.hh"

@@ -12,6 +12,7 @@
 //! docentry="Ravl.Math.Signals.1D"
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Signals/1D/Convolution1d.hh"
 
 #include "Ravl/Array1d.hh"
 #include "Ravl/Array1dIter.hh"

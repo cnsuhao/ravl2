@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Sequence/testSquareIterFill.cc"
 
 
 #include "Ravl/EntryPnt.hh"

@@ -8,7 +8,7 @@
 #define RAVL_BYTEBGRAVALUE_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/Image/Base/ByteRGBAValue.hh"
+//! file="Ravl/Image/Base/ByteBGRAValue.hh"
 //! lib=RavlImage
 //! userlevel=Normal
 //! author="Charles Galambos"

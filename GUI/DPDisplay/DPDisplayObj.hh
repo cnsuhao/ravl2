@@ -8,7 +8,8 @@
 #define RAVLGUI_DPDISPLAYOBJ_HEADER 1
 /////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! lib=RavlGUIDisplay
+//! lib=RavlDPDisplay
+//! file="Ravl/GUI/DPDisplay/DPDisplayObj.hh"
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/IndexRange2d.hh"

@@ -7,6 +7,7 @@
 ######################################################
 # $Id$
 #! rcsid="$Id$"
+#! file="Ravl/GUI/3D/defs.mk"
 
 PACKAGE=Ravl/GUI
 

@@ -7,6 +7,7 @@
 /////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlOS
+//! file="Ravl/OS/Misc/SerialIO.cc"
 
 #ifdef __sol2__
 #include <sys/open.h>

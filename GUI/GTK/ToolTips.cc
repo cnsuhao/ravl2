@@ -7,6 +7,7 @@
 ///////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlGUI
+//! file="Ravl/GUI/GTK/ToolTips.cc"
 
 #include "Ravl/GUI/ToolTips.hh"
 #include "Ravl/GUI/Manager.hh"

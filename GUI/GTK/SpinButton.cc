@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlGUI
+//! file="Ravl/GUI/GTK/SpinButton.cc"
 
 #include "Ravl/GUI/SpinButton.hh"
 #include "Ravl/GUI/Manager.hh"

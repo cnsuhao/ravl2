@@ -7,6 +7,7 @@
 /////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlMathIO
+//! file="Ravl/Math/IO/FixedVectorIO.cc"
 
 #include "Ravl/Vector2d.hh"
 #include "Ravl/Vector3d.hh"

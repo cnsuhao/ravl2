@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Statistics/MeanCovariance/MeanNd.cc"
 
 #include "Ravl/MeanNd.hh"
 #include "Ravl/SArr1Iter.hh"

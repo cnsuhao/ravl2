@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlImage
+//! file="Ravl/Image/Processing/Filters/Convolve2d.cc"
 
 #include "Ravl/config.h"
 

@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Edges/SqrComposition.cc"
 
 #include "Ravl/Image/SqrComposition.hh"
 #include "Ravl/Array2dIter3.hh"

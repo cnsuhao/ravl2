@@ -7,7 +7,7 @@
 #ifndef RAVL_DPPLAYCONTROL_HEADER
 #define RAVL_DPPLAYCONTROL_HEADER 1
 ////////////////////////////////////////////////
-//! file="Ravl/StdType/MTDataProc/PlayControl.hh"
+//! file="Ravl/OS/DataProc/PlayControl.hh"
 //! lib=RavlDPMT
 //! author="Charles Galambos"
 //! date="16/03/99"

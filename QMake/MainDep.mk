@@ -6,6 +6,7 @@
 # file-header-ends-here
 # Make with dependancies.
 #! rcsid="$Id$"
+#! file="Ravl/QMake/MainDep.mk"
 .PRECIOUS : %.def 
 ifndef MAKEHOME
  MAKEHOME=.

@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlGUI
+//! file="Ravl/GUI/GTK/Cursor.cc"
 
 #include <gdk/gdktypes.h>
 #include <gdk/gdk.h>

@@ -7,6 +7,7 @@
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlLogic
+//! file="Ravl/Logic/Base/Or.cc"
 
 #include "Ravl/Logic/Or.hh"
 #include "Ravl/SArr1Iter.hh"

@@ -8,6 +8,7 @@
 //! rcsid="$Id$"
 //! lib=Ravl3D
 //! author="Charles Galambos"
+//! file="Ravl/3D/Mesh/TriMeshBinIO.cc"
 
 #include "Ravl/3D/TriMesh.hh"
 #include "Ravl/BinStream.hh"

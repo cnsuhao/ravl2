@@ -7,6 +7,7 @@
 /////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlLogic
+//! file="Ravl/Logic/DecisionTree/Discriminator.cc"
 
 #include "Ravl/Logic/Discriminator.hh"
 

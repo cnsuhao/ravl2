@@ -7,6 +7,7 @@
 //////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlLogic
+//! file="Ravl/Logic/Base/NamedVar.cc"
 
 #include "Ravl/Logic/NamedVar.hh"
 

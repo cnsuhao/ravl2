@@ -11,6 +11,7 @@
 //! lib=RavlLogic
 //! docentry="Ravl.Logic"
 //! author="Charles Galambos"
+//! file="Ravl/Logic/Base/State.hh"
 
 #include "Ravl/Logic/Literal.hh"
 #include "Ravl/Logic/MinTerm.hh"

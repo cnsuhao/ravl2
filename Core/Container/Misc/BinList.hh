@@ -7,7 +7,7 @@
 #ifndef RAVLBINLIST_HEADER
 #define RAVLBINLIST_HEADER 1
 ///////////////////////////////////////////////////////////////
-//! file="amma/Statist/SparHist/BinList.hh"
+//! file="Ravl/Core/Container/Misc/BinList.hh"
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! date="11/2/97"

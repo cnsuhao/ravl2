@@ -11,6 +11,7 @@
 //! author="Joel Mitchelson"
 //! userlevel=Normal
 //! docentry="Ravl.Images.Morphology"
+//! file="Ravl/Image/Processing/Morphology/Erode.hh"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/Rectangle2dIter.hh"

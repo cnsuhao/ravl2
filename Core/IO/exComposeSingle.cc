@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlIO
+//! file="Ravl/Core/IO/exComposeSingle.cc"
 
 #include "Ravl/DP/ComposeSingle.hh"
 #include "Ravl/IntC.hh"
