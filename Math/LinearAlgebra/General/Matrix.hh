@@ -57,7 +57,20 @@ namespace RavlN {
       : TMatrixC<RealT>(oth)
       {}
     //: Base class constructor.
-
+    
+    MatrixC(RealT v1,RealT v2,
+	    RealT v3,RealT v4)
+      : TMatrixC<RealT>(v1,v2,v3,v4)
+    {}
+    //: Construct a 2 x 2 matrix from given values.
+    
+    MatrixC(RealT v1,RealT v2,RealT v3,
+	    RealT v4,RealT v5,RealT v6,
+	    RealT v7,RealT v8,RealT v9)
+      : TMatrixC<RealT>(v1,v2,v3,v4,v5,v6,v7,v8,v9)
+    {}
+    //: Construct a 3 x 3 matrix from given values.
+    
     MatrixC Inverse() const;
     //: Calculate the inverse of this matrix.
     // an invalid matrix is returned if this matrix is

@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLTMATRIXC_HEADER
-#define RAVLTMATRIXC_HEADER 1
+#ifndef RAVL_TMATRIXC_HEADER
+#define RAVL_TMATRIXC_HEADER 1
 ///////////////////////////////////////////////////////////
 //! userlevel=Normal
 //! docentry="Ravl.Math.Linear Algebra"
@@ -32,12 +32,12 @@ namespace RavlN {
   {
   public:
     inline TMatrixC()
-      {}
+    {}
     //: Default constructor.
 
     inline TMatrixC(const SArray2dC<DataT> &oth)
       : SArray2dC<DataT>(oth)
-      {}
+    {}
     //: Base class constructor.
     
     inline TMatrixC(SizeT rows,SizeT cols);
@@ -47,16 +47,25 @@ namespace RavlN {
     //: Constructor.
     // With row wise array of initalisations data.
     
+    TMatrixC(DataT v1,DataT v2,
+	     DataT v3,DataT v4);
+    //: Construct a 2 x 2 matrix from given values.
+    
+    TMatrixC(DataT v1,DataT v2,DataT v3,
+	     DataT v4,DataT v5,DataT v6,
+	     DataT v7,DataT v8,DataT v9);
+    //: Construct a 3 x 3 matrix from given values.
+    
     inline SizeT Rows() const
-      { return Size1(); }
+    { return Size1(); }
     //: Return the number of rows
     
     inline SizeT Cols() const
-      { return Size2(); }
+    { return Size2(); }
     //: Return the number of columns
     
-    TMatrixC<DataT> operator*(RealT val) const
-      { return TMatrixC<DataT>(SArray2dC<DataT>::operator*(val)); }
+    TMatrixC<DataT> operator*(DataT val) const
+    { return TMatrixC<DataT>(SArray2dC<DataT>::operator*(val)); }
     //: Multiply by a constant.
 
     TVectorC<DataT> operator*(const TVectorC<DataT> & vector) const;
@@ -112,10 +121,38 @@ namespace RavlN {
     for(BufferAccess2dIterC<DataT> it(*this,Size2());it;it++)
       *it = *(at++);
   }
+
+  template<class DataT>
+  TMatrixC<DataT>::TMatrixC(DataT v1,DataT v2,
+	   DataT v3,DataT v4)
+    : SArray2dC<DataT>(2,2)
+  {
+    (*this)[0][0] = v1;
+    (*this)[0][1] = v2;
+    (*this)[1][0] = v3;
+    (*this)[1][1] = v4;
+  }
   
   template<class DataT>
-  TVectorC<DataT> 
-  TMatrixC<DataT>::operator*(const TVectorC<DataT> & vector) const {
+  TMatrixC<DataT>::TMatrixC(DataT v1,DataT v2,DataT v3,
+			    DataT v4,DataT v5,DataT v6,
+			    DataT v7,DataT v8,DataT v9)
+    : SArray2dC<DataT>(3,3)
+  {
+    (*this)[0][0] = v1;
+    (*this)[0][1] = v2;
+    (*this)[0][2] = v3;
+    (*this)[1][0] = v4;
+    (*this)[1][1] = v5;
+    (*this)[1][2] = v6;
+    (*this)[2][0] = v7;
+    (*this)[2][1] = v8;
+    (*this)[2][2] = v9;
+  }
+
+  
+  template<class DataT>
+  TVectorC<DataT> TMatrixC<DataT>::operator*(const TVectorC<DataT> & vector) const {
     const SizeT rdim = Rows();
     const SizeT cdim = Cols();
     TVectorC<DataT> out(rdim);
@@ -129,8 +166,7 @@ namespace RavlN {
   }
   
   template<class DataT>
-  TMatrixC<DataT> 
-  TMatrixC<DataT>::operator*(const TMatrixC<DataT> & mat) const  {
+  TMatrixC<DataT> TMatrixC<DataT>::operator*(const TMatrixC<DataT> & mat) const  {
     RavlAssert(Cols() == mat.Rows());
 #if 0
     const SizeT rdim = Rows();
