@@ -106,6 +106,7 @@ namespace RavlN {
     DListC<TriggerC> &list = name2trigList[attrName];
     list.InsLast(trig);
     trigId2trig[id] = list;
+    trigId2trig[id].Last();
     return id;
   }
   
