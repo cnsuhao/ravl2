@@ -63,13 +63,13 @@ namespace RavlImageN {
   // Byte colour to byte grey image.
   
   ImageC<RealT> RGBImageCT2DoubleImageCT(const ImageC<ByteRGBValueC> &dat);
-  // Byte Colour to double image.
+  //: Byte Colour to double image.
   
   ImageC<ByteRGBValueC> YUVImageCT2RGBImageCT(const ImageC<ByteYUVValueC> &dat);
-  // Byte YUV to byte RGB image.
+  //: Byte YUV to byte RGB image.
   
   ImageC<ByteYUVValueC> RGBImageCT2YUVImageCT(const ImageC<ByteRGBValueC> &dat);
-  // Byte RGB to byte YUV image.
+  //: Byte RGB to byte YUV image.
   
 };
 
