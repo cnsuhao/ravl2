@@ -380,7 +380,7 @@ struct xpr srt2={{0x3FFF,0xB504,0xF333,0xF9DE,0x6484,0x597D,0x89B3,0x754B}};
 
 
 
-     void chcof(double *c,int m,double (*func)()) ;
+     void chcof(double *c,int m,double (*func)(double)) ;
 
      /* functional form: double (*func)(double) */
 
@@ -440,22 +440,22 @@ struct xpr srt2={{0x3FFF,0xB504,0xF333,0xF9DE,0x6484,0x597D,0x89B3,0x754B}};
    /* nonlinear least squares */
 
      double seqlsq(double *x,double *y,int n,double *par,double *var,
-                   int m,double de,double (*func)(),int kf) ;
+                   int m,double de,double (*func)(double,double*),int kf) ;
 
      /* functional form: double (*func)(double x,double *par) */
 
      double gnlsq(double *x,double *y,int n,double *par,
-                  double *var,int m,double de,double (*func)()) ;
+                  double *var,int m,double de,double (*func)(double,double*)) ;
 
      /* functional form: double (*func)(double x,double *par) */
 
-     double fitval(double x,double *s,double *par,double (*fun)(),
-                   double *v,int n) ;
+     double fitval(double x,double *s,double *par,double (*fun)(double,double*),
+                   double *v,int n) ; /* Not MT safe!! */
 
      /* functional form: double (*func)(double x,double *par) */
 
-     void setfval(int i,int n) ;
-
+     void setfval(int i,int n) ; /* Not MT safe!! */
+	      
 
 
 /*    Fourier Analysis    */
@@ -718,7 +718,7 @@ struct xpr srt2={{0x3FFF,0xB504,0xF333,0xF9DE,0x6484,0x597D,0x89B3,0x754B}};
 
      struct complex cdef(double r,double i) ;
 
-#ifndef __sgi__
+#if !defined(__sgi__) && !defined(VISUAL_CPP)
      /* This conflicts with an existing function on sgi */
      double cabs(struct complex c) ;
 #endif

@@ -492,7 +492,7 @@ namespace RavlN {
   
   template <class DataT>
   inline 
-  SArray1dC<DataT> Array1dC<DataT>::SArray1d(bool doShift = false) {
+  SArray1dC<DataT> Array1dC<DataT>::SArray1d(bool doShift) {
     if(doShift)
       return SArray1dC<DataT>(buff,&((*this)[IMin()]),Size());
     if(!Contains(0)) {

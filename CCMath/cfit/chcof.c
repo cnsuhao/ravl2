@@ -6,7 +6,7 @@
  * ------------------------------------------------------------------------
  */
 #include <math.h>
-void chcof(double *c,int m,double (*func)())
+void chcof(double *c,int m,double (*func)(double))
 { double *p,*q,a,da,an,f; int j;
   ++m; q=c+m; a=1.570796326794897/m; da=a*2.;
   for(p=c; p<q ;) *p++ =0.;

@@ -8,7 +8,7 @@
 #include <math.h>
 #include <stdlib.h>
 static double *h,dl=1.e-8;
-double fitval(double x,double *s,double *par,double (*fun)(),
+double fitval(double x,double *s,double *par,double (*fun)(double,double*),
 	  double *v,int n)
 { double f,r,d; int i,j;
   f=(*fun)(x,par);

@@ -8,7 +8,7 @@
 #include <math.h>
 #include <stdlib.h>
 double seqlsq(double *x,double *y,int n,double *par,double *var,int m,
-		double de,double (*func)(),int kf)
+		double de,double (*func)(double,double*),int kf)
 { double *pd,*pc,*pmax,*p,*q,*r,*s,*t;
   double err,ssq,f,z; int j;
   pd=(double *)calloc(2*m,sizeof(double)); pc=pd+m;

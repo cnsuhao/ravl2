@@ -6,8 +6,10 @@
  * ------------------------------------------------------------------------
  */
 #include <stdlib.h>
+#include "ccmath/ccmath.h"
+
 double gnlsq(double *x,double *y,int n,double *par,double *var,int m,
-		double de,double (*func)())
+		double de,double (*func)(double,double*))
 { double *cp,*dp,*p,*q,*r,*s,*t;
   double err,f,z,ssq; int j,k,psinv();
   cp=(double *)calloc(2*m,sizeof(double)); dp=cp+m;
