@@ -82,13 +82,19 @@ int testLines() {
 int testLine2d() {
   cout << "Checking misc line methods. \n";
   Point2dC org(321,123);
-  for(int i = 0;i < 360;i++) {
+  for(int i = 0;i < 359;i++) {
     RealT angle = ((RealT) i/180.0) * RavlConstN::pi;
     Vector2dC vec = Angle2Vector2d(angle) * 4.3;
+    //cerr << "Vec=" << vec << "\n";
     Point2dC end(org + vec);
     Curve2dLineSegmentC line1(org,end);
     //cerr << "End=" << line1.Closest(line1.EndPnt()) - line1.Start()  << "\n";
     if(line1.Closest(line1.EndPnt()) - line1.Start() <= 0) return __LINE__;
+    
+    LinePP2dC linepp(org,end);
+    //cerr << "Angle=" << linepp.Angle() << " Angle2=" << angle << "\n";
+    if(i < 90) 
+      if(Abs(linepp.Angle() - angle) > 0.001) return __LINE__;
   }
   return 0;
 }

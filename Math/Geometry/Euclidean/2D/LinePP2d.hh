@@ -73,7 +73,13 @@ namespace RavlN {
  
     Point2dC Intersection(const LinePP2dC & l) const;
     // Returns the intersection of 2 lines.
-
+    
+    RealT Angle() const {
+      Vector2dC dir = P2() - P1();
+      return ATan2(dir[0],dir[1]);
+    }
+    //: Return the angle of the line in radians from the vertical +ve axis.
+    
   };
   
 }
