@@ -81,7 +81,7 @@ namespace RavlN {
     //: Delta seek
     
     virtual Int64T Tell64() const 
-    { return (pos / sampleRate) - startFrame; }
+    { return (pos - startFrame) / sampleRate; }
     //: Get current position in stream.
     
     virtual Int64T Size64() const 
