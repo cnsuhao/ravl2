@@ -25,10 +25,11 @@ namespace RavlN {
   class Projection2dC;
   
   //! userlevel=Normal
-  //: Projective transformation in 2D space
-  // The class PProjection2dC represents a  projective transformation
-  // of objects in projective plane. The projection is
-  // represented by a 3 x 3 matrix. The indexes start from 0.
+  //: Projective transformation in 2D projective space
+  // <p>The class PProjection2dC represents a  projective transformation
+  // of objects in the projective plane.  It is designed to be used in conjunction with projective 2D <a href="RavlN.PPoint2dC.html">points</a> and <a href="RavlN.PLine2dC.html">lines</a>.</p>
+  // <p>If you want to use this simply to project 2D Euclidean points and lines, use <a href="RavlN.Projection2dC.html">Projection2dC</a> instead.</p>
+
 
   class PProjection2dC
     : public Matrix3dC

@@ -28,8 +28,11 @@ namespace RavlN {
   
   //! userlevel=Normal
   //: 2D Projective transform.
-  // Represents a perspective projection in 2d space.
-  
+  // <p>Represents a perspective projection in 2D space. </p>
+  // <p>The difference between this class and <a href="RavlN.PProjection2dC.html">PProjection2dC</a> is:</p><ul>
+  // <li> This class (Projection2dC) includes the relevant projective scaling parameters within the projection object.  Use this class when dealing with Point2dC Euclidean 2D points.</li>
+  // <li> PProjection2dC does not include the projective scaling parameters: it is for use with projective 2D points PPoint2dC which themselves already contain the scaling parameters.</li></ul>
+
   class Projection2dC {
   public:
     Projection2dC()
