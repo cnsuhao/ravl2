@@ -30,10 +30,7 @@ using namespace RavlN;
 using namespace RavlImageN;
 
 
-#if RAVL_COMPILER_MIPSPRO 
-static DPIPortBodyC<SArray1dC<EdgelC > > fix_sgi_bug1;
-static DPOPortBodyC<SArray1dC<EdgelC > > fix_sgi_bug2;
-#endif
+
 
 ImageC<RealT> SquareComp(const Tuple2C<ImageC<RealT>,ImageC<RealT> > &dat) {
   static SqrCompositionC sc;
@@ -159,3 +156,26 @@ int main(int argc,char **argv) {
     cerr << "Done. \n";
   return 0;
 }
+
+
+// help the compiler 
+#if RAVL_COMPILER_MIPSPRO 
+#include "Ravl/Image/DrawFrame.hh"
+static DPIPortBodyC<SArray1dC<EdgelC > > fix_sgi_bug1;
+static DPOPortBodyC<SArray1dC<EdgelC > > fix_sgi_bug2;
+
+// this is crude but seems to be needed to resolve the templated 
+// function DrawFrame 
+namespace {
+  void fix_sgi_func (void) 
+  { 
+    Array2dC<double> fix_sgi_bug3 ; 
+    double           fix_sgi_bug4 ;
+    IndexRange2dC    fix_sgi_bug5 ;
+    DrawFrame<double> ( fix_sgi_bug3, fix_sgi_bug4, fix_sgi_bug5 ) ; 
+  }
+};
+
+
+
+#endif
