@@ -16,7 +16,7 @@
 #include "Ravl/Array1d.hh"
 
 namespace RavlN {
-
+  
   template<class DataT> class DArray1dC;
   template<class DataT> class DArray1dIterC;
   
@@ -292,6 +292,7 @@ namespace RavlN {
     IndexC nextFree;
     UIntT allocBlocksize;
     friend class DArray1dIterC<DataT>;
+    friend class DArray1dC<DataT>;
   };
 
   //! userlevel=Develop
@@ -453,6 +454,14 @@ namespace RavlN {
     //: Access last element in the array.
     
   protected:
+    bool FindChunk(int i,IntrDLIterC<DChunkC<DataT> > &it) const
+    { return Body().FindChunk(i,it); }
+    //: Find the chunk containing the interest.
+    
+    bool FindNthChunk(UIntT i,UIntT &at,IntrDLIterC<DChunkC<DataT> > &it) const
+    { return Body().FindNthChunk(i,at,it); }    
+    //: Find the chunk containing the interest.
+    
     friend class DArray1dBodyC<DataT>;
     friend class DArray1dIterC<DataT>;
   };

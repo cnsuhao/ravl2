@@ -100,6 +100,15 @@ namespace RavlN {
     { return IndexC((IntT)( &(*it) - cit.Data().Data().ReferenceElm())); }
     //: Get index of current element.
     
+    bool GotoNth(UIntT offset) {
+      UIntT at;
+      if(!arr.FindNthChunk(offset,at,cit))
+	return false;
+      it.First(cit->Nth(offset - at),cit->Data());
+      return true;
+    }
+    //: Goto an offset in the array.
+
     void Invalidate()
     { it.Invalidate(); }
     //: Invalidate iterator.
