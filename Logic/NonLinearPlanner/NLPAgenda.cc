@@ -5,10 +5,10 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////
-// NLPlan/NLPAgenda.cc  4/1/97   By Charles Galambos
-// $Id$
 //! rcsid="$Id$"
 //! lib=RavlLogicNLP
+//! date="16/12/1996"
+//! author="Charles Galambos"
 
 #include "Ravl/Logic/NLPAgenda.hh"
 

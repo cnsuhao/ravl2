@@ -68,19 +68,19 @@ int SimpleTest()
   VarC var1("var1");
   DListC<NLPStepC> rules;
   
-  rules.InsLast(NLPStepC(TupleC(see,var1),
-			 TupleC(LiteralC("Remove"),var1),
+  rules.InsLast(NLPStepC(TupleC(LiteralC("Remove"),var1),
+			 TupleC(see,var1),
 			 !TupleC(see,var1)
 			 )
 		);
-  rules.InsLast(NLPStepC(TupleC(see,var1),
-			 TupleC(LiteralC("get"),var1),
+  rules.InsLast(NLPStepC(TupleC(LiteralC("get"),var1),
+			 TupleC(see,var1),
 			 TupleC(inv,var1) *!TupleC(see,var1)
 			 )
 		);
   
-  rules.InsLast(NLPStepC(TupleC(inv,var1),
-			 TupleC(LiteralC("put"),var1),
+  rules.InsLast(NLPStepC(TupleC(LiteralC("put"),var1),
+			 TupleC(inv,var1),
 			 TupleC(see,var1)*!TupleC(inv,var1)
 			 )
 		);
@@ -96,7 +96,7 @@ int SimpleTest()
     cerr << "Unable to complete plan. \n";
     return 1;
   }
-  
+  cerr << "Plan=" << plan << "\n";
   return 0;
 }
 

@@ -35,12 +35,15 @@ namespace RavlLogicN {
       bs.Empty();
       MinTermC postCond = it->PostCondition();
       RavlAssert(postCond.IsValid());
+      //cerr << "Compairing " << postCond << " Goal=" << goal << "\n";
       if(postCond.Covers(goal,bs)) {
-	ONDEBUG(cerr << "FindStep(), Got step:" << *it << " \n");
-	ret.InsLast(*it);
+	NLPStepC newstep;
+	it->Substitute(bs,newstep);
+	ONDEBUG(cerr << "FindStep(), Got step: " << *it << " -> " << newstep << " Binds=" << bs << "\n");
+	ret.InsLast(newstep);
       }
     }
-    ONDEBUG(if(ret.IsEmpty()) cerr << "No steps found to meet goal.");
+    ONDEBUG(if(ret.IsEmpty()) cerr << "No steps found to meet goal.\n");
     return ret;
   }
 		  
@@ -193,8 +196,12 @@ namespace RavlLogicN {
     ONDEBUG(cerr << "NLPlannerBodyC::ListSteps(), Called for " << goal << "\n");
     for(DLIterC<NLPStepC> it(listSteps(goal,full));it;it++) {
       BindSetC bs;
-      if(it->PostCondition().Covers(goal,bs))
-	ret += *it;
+      if(it->PostCondition().Covers(goal,bs)) {
+	cerr << "Binds=" << bs << "\n";
+	NLPStepC newStep;
+	it->Substitute(bs,newStep);
+	ret += newStep;
+      }
     }
     ONDEBUG(cerr << "NLPlannerBodyC::ListSteps(), Got " << ret.Size() <<" steps. \n");
     return ret;

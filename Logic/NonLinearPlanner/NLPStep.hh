@@ -43,6 +43,9 @@ namespace RavlLogicN {
     //: Replace variables in step with new ones.
     // The mapping between old and new variables is in subs.
     
+    bool Substitute(const BindSetC &subs,NLPStepC &newStep) const;
+    //: Replace variables in step with values from 'subs.
+    
     StringC Name() const;
     //: Name of step.
     

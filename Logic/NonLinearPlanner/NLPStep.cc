@@ -27,7 +27,17 @@ namespace RavlLogicN {
     change |= post.ReplaceVars(subs,xPost);
     return NLPStepC(xAct,xPre,xPost,confidence);
   }
-
+  
+  //: Replace variables in step with values from 'subs.
+  
+  bool NLPStepC::Substitute(const BindSetC &subs,NLPStepC &newStep) const {
+    act.Substitute(subs,newStep.act);
+    pre.Substitute(subs,newStep.pre);
+    post.Substitute(subs,newStep.post);
+    newStep.confidence = confidence;
+    return true;
+  }
+  
   ostream &operator<<(ostream &strm,const NLPStepC &step) {
     strm << step.Action() << "{" << step.PreCondition() << " -> " << step.PostCondition() << "}";
     return strm;

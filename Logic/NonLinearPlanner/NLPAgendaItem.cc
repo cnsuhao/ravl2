@@ -11,7 +11,6 @@
 //! author="Charles Galambos"
 
 #include "Ravl/Logic/NLPAgendaItem.hh"
-//#include "Ravl/Logic/NLPlanner.hh"
 #include "Ravl/Logic/NLPAction.hh"
 #include "Ravl/Assert.hh"
 
@@ -49,7 +48,7 @@ namespace RavlLogicN {
     //VLOCKOBJ(plan);
     RavlAssert(plan.IsValid(aStep));
     newSteps = plan.ListSteps(aCond,Step().Data().PreCondition());
-    ONDEBUG(cerr << "NLPAgendaOpenGoalBodyC(), Found " << newSteps.Size() << " steps.");
+    ONDEBUG(cerr << "NLPAgendaOpenGoalBodyC(), Found " << newSteps.Size() << " steps.\n");
     // FIXME :- Do this properly.
     if(newSteps.IsEmpty())
       priority = 1;

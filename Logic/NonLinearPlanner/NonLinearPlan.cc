@@ -49,25 +49,6 @@ namespace RavlLogicN {
   }
   
   ////////////////////////
-  // Copy constructor.
-
-#if 0
-  NonLinearPlanBodyC::NonLinearPlanBodyC(const NonLinearPlanBodyC &oth) 
-    : plan(oth.plan),
-      bnds(oth.bnds),
-      negBnds(oth.negBnds),
-      preConds(oth.preConds.DeepCopy()),
-      postConds(oth.postConds.DeepCopy()),
-      agenda(oth.agenda),
-      steps(oth.steps),
-      planner(oth.planner)
-  {
-    //VLOCKOBJ(oth);
-    planID = planner.GetPlanNo();
-  }
-#endif
-  
-  ////////////////////////
   // Destructor.
 
   NonLinearPlanBodyC::~NonLinearPlanBodyC() {
@@ -211,8 +192,6 @@ namespace RavlLogicN {
   // of steps with no side effects (Which may be usefull), it which
   // a step identical to the new one exists it tells the planner to discard
   // the new step.
-  //
-
   
   bool NonLinearPlanBodyC::IsUsefullNewStep(const NLPStepC &step,const NLPStepNodeT &ss) const {
     NLPStepNodeT at(ss);
@@ -268,18 +247,18 @@ namespace RavlLogicN {
   // Get a linear version of the plan.
   DListC<NLPStepC> NonLinearPlanBodyC::GetLinear(void) const {
     DListC<NLPStepC> ret;
-#if 0
-    BGraphLinearIterC<NLPStepC,NLPCausalLinkC> It(const_cast<BDAGraphC<NLPStepC,NLPCausalLinkC>&>(plan));
+#if 1
+    BGraphLinearIterC<NLPStepC,NLPCausalLinkC> it(const_cast<BDAGraphC<NLPStepC,NLPCausalLinkC>&>(plan));
     IndexC StartNodeID = StartNode().ID();
     IndexC GoalNodeID = GoalNode().ID();
-    for(;It.IsElm();It.Next()) {
-      if(It.NodeH() == StartNodeID)
+    for(;it.IsElm();it.Next()) {
+      if(it.NodeH() == StartNodeID)
 	continue; // Ignore Start.
-      if(It.NodeH() == GoalNodeID) {
-	ret.SetGoalCondition(It.Data().PreCondition());
+      if(it.NodeH() == GoalNodeID) {
+	//ret.SetGoalCondition(It.Data().PreCondition());
 	continue; 
       }
-      ret.Append(It.Data().PreCondition(),It.Data().Action());
+      ret.InsLast(it.Data());
     }
     //printf("NonLinearPlanBodyC::GetLinear() %d, Plan dump: \n",PlanID());
     //Plan.DebugPrint(cout);
