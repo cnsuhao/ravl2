@@ -7,17 +7,16 @@
 //! rcsid="$Id$"
 //! lib=RavlVideoIO
 
-#include "MultiVidIO.hh"
+#include "Ravl/Image/MultiVidIO.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
 #include "Ravl/Image/ByteRGBAValue.hh"
 #include "Ravl/Image/ByteYUVValue.hh"
 #include "Ravl/Image/ImgIO.hh"
 
-namespace StudioToolN
+namespace RavlImageN
 {
   using namespace RavlN;
-  using namespace RavlImageN;
-
+  
   void InitMultiVidIO()
   {
   }
