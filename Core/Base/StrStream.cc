@@ -39,7 +39,48 @@ namespace RavlN {
     OStreamC(*(oss = new ostrstream()),true)
 #endif
   {}
+  
 
+#if RAVL_HAVE_STRINGSTREAM
+  static bool CallUserTrigger(ostringstream *oss,TriggerC &trigger) {
+    CallFunc1C<const char *> call(trigger);
+    string str = oss->str();
+    const char *data = str.data(); 
+    if(call.IsValid())
+      call.Call(data);
+    else
+      trigger.Invoke();
+    return true;
+  }
+#else
+  static bool CallUserTrigger(ostrstream *oss,TriggerC &trigger) {
+    CallFunc1C<const char *> call(trigger);
+    const char *data = &(oss->str()[0]);  
+    if(call.IsValid())
+      call.Call(data);
+    else
+      trigger.Invoke();
+    return true;
+  }
+#endif  
+  //: Construct an output stream with a trigger to call upon its destruction.
+  // If trigger is CallFunc1C<char *> or
+  // one of its derived classes the first argument is set to the
+  // contents of the stream. 
+  
+  StrOStreamC::StrOStreamC(const TriggerC &sendto) 
+    : 
+#if RAVL_HAVE_STRINGSTREAM
+    OStreamC(*(oss = new ostringstream()),true)
+#else
+    OStreamC(*(oss = new ostrstream()),true)
+#endif
+  {
+    if(sendto.IsValid())
+      AddDestructionOp(Trigger(&CallUserTrigger,oss,sendto)); 
+  }
+  
+  
   //: Get the number of bytes written so far.
   
   UIntT StrOStreamC::Size() const {

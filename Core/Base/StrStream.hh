@@ -59,6 +59,13 @@ namespace RavlN {
   public:
     StrOStreamC();
     //: Default constructor.
+    // Creates an output string stream ready for use.
+    
+    StrOStreamC(const TriggerC &sendto);
+    //: Construct an output stream with a trigger to call upon its destruction.
+    // If trigger is CallFunc1C<const char *> (returning a bool) or
+    // one of its derived classes the first argument is set to the
+    // contents of the stream. 
     
     StringC String();
     //: Get text written to stream.
