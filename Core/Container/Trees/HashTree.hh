@@ -142,13 +142,15 @@ namespace RavlN {
     //: lookup child in tree.
     // Returns true and updates 'child' if child is found.
     
-    bool Add(const KeyT &key,const DataT &data);
+    bool Add(const KeyT &key,const DataT &data,bool overWrite = false);
     //: Add a child with given key and data.
-    // returns false if child exists.
+    // If overWrite is true the node is replaced if it already exists.
+    // returns false if node is not added because it exists.
     
-    bool Add(const KeyT &key,const HashTreeC<KeyT,DataT> &subtree);
+    bool Add(const KeyT &key,const HashTreeC<KeyT,DataT> &subtree,bool overWrite = false);
     //: Add a sub tree
-    // returns false if child exists.
+    // If overWrite is true the node is replaced if it already exists.
+    // returns false if node is not added because it exists.
     
     HashC<KeyT,HashTreeNodeC<KeyT,DataT> > &Children()
     { return children; }
@@ -230,16 +232,18 @@ namespace RavlN {
     //: lookup child in tree.
     // Returns true and updates 'child' if child is found.
 
-    bool Add(const KeyT &key,const DataT &data)
-    { return Body().Add(key,data); }
+    bool Add(const KeyT &key,const DataT &data,bool overWrite = false)
+    { return Body().Add(key,data,overWrite); }
     //: Add a child with given key and data.
-    // returns false if child exists.
+    // If overWrite is true the node is replaced if it already exists.
+    // returns false if node is not added because it exists.
     
-    bool Add(const KeyT &key,const HashTreeC<KeyT,DataT> &subtree)
-    { return Body().Add(key,subtree); }
+    bool Add(const KeyT &key,const HashTreeC<KeyT,DataT> &subtree,bool overWrite = false)
+    { return Body().Add(key,subtree,overWrite); }
     //: Add a sub tree
-    // returns false if child exists.
-
+    // If overWrite is true the node is replaced if it already exists.
+    // returns false if node is not added because it exists.
+    
     HashC<KeyT,HashTreeNodeC<KeyT,DataT> > &Children()
     { return Body().Children(); }
     //: Access table of children.
@@ -330,9 +334,9 @@ namespace RavlN {
   // returns false if child exists.
   
   template<class KeyT,class DataT>
-  bool HashTreeBodyC<KeyT,DataT>::Add(const KeyT &key,const DataT &data) {
+  bool HashTreeBodyC<KeyT,DataT>::Add(const KeyT &key,const DataT &data,bool overWrite) {
     HashTreeNodeC<KeyT,DataT> &child = children[key];
-    if(child.IsValid())
+    if(child.IsValid()  && !overWrite)
       return false; // it already exits!
     child = HashTreeC<KeyT,DataT>(data);
     return true;
@@ -342,9 +346,9 @@ namespace RavlN {
   // returns false if child exists.
   
   template<class KeyT,class DataT>
-  bool HashTreeBodyC<KeyT,DataT>::Add(const KeyT &key,const HashTreeC<KeyT,DataT> &data) {
+  bool HashTreeBodyC<KeyT,DataT>::Add(const KeyT &key,const HashTreeC<KeyT,DataT> &data,bool overWrite) {
     HashTreeNodeC<KeyT,DataT> &child = children[key];
-    if(child.IsValid())
+    if(child.IsValid() && !overWrite)
       return false; // it already exits!
     child = data;
     return true;
