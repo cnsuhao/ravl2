@@ -149,8 +149,6 @@ namespace RavlN {
     return true;
   }
   
-  
-  
   ////////////////////////////////////////////////////
   
   //: Open a file.
@@ -160,16 +158,16 @@ namespace RavlN {
     : out(0)
   {
     ofstream *ofstrm = 0;
-    if(filename == "-") {
-    Init(out = &cout,sfilename,false);
-    if(!buffered) 
-      cerr << "WARNING: OStreamC() Can't disable buffering on 'cout'. \n";
-    return ;
+    if(sfilename == "-") {
+      Init(out = &cout,sfilename,false);
+      if(!buffered) 
+	cerr << "WARNING: OStreamC() Can't disable buffering on 'cout'. \n";
+      return ;
     }
     // Check if we're mapping url's.
     
     StringC filename;
-    if(urlMappingFunc != 0)
+    if(urlMapper != 0)
       filename = urlMapper(sfilename);
     
     // Open a 'special file' ?
@@ -267,10 +265,10 @@ namespace RavlN {
   //: Open a file for input.
   // '-' is treated as cin.
   
-  IStreamC::IStreamC(const StringC &filename,bool binary,bool buffered) {
+  IStreamC::IStreamC(const StringC &sfilename,bool binary,bool buffered) {
     ifstream *ifstrm = 0;
-    if(filename == "-") {
-      Init(in = &cin,filename,false);
+    if(sfilename == "-") {
+      Init(in = &cin,sfilename,false);
       if(!buffered) 
 	cerr << "WARNING: IStreamC() Can't disable buffering on 'cin'. \n";
       return ;
@@ -279,7 +277,7 @@ namespace RavlN {
     // Check if we're mapping url's.
     
     StringC filename;
-    if(urlMappingFunc != 0)
+    if(urlMapper != 0)
       filename = urlMapper(sfilename);
     
     // Open a 'special file' ?
