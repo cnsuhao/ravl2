@@ -53,10 +53,13 @@ namespace RavlImageN {
     
     //LIST OF CHECKS to be placed here.   
     //checks the file extension  
-    if (suffix != vName) {
-      //ONDEBUG(cerr << "ERROR: not an AVI file\n");
-      return typeid(void);
-    }
+
+    if (suffix != vName) 
+      {
+	ONDEBUG(cerr << "ERROR: not an AVI file\n");
+	return typeid(void);
+      }
+
     //checks whether the video stream exists
     
     in.Seek((streampos)108);
@@ -67,7 +70,7 @@ namespace RavlImageN {
 
     if(!isVids && !isIavs ) 
       {
-	cerr << "ERROR: file: " << nfilename << " doesn't contain a video stream!\n";
+	ONDEBUG(cerr << "ERROR: file: " << nfilename << " doesn't contain a video stream!\n");
 	return typeid(void);
       }
     else
@@ -79,7 +82,7 @@ namespace RavlImageN {
 	  return typeid(DVFrameC);
 	else
 	  {
-	    cerr << "ERROR: video stream in file: " << nfilename << " is not a known video format\n";
+	    ONDEBUG(cerr << "ERROR: video stream in file: " << nfilename << " is not a known video format\n";)
 	    return typeid(void);
 	  }
       }

@@ -28,7 +28,7 @@ using namespace RavlImageN;
 
 namespace RavlImageN{
 
-  typedef struct 
+  struct WaveFmtXST
   {
     UInt16T  wFormatTag;      
     UInt16T  nChannels;       
@@ -37,7 +37,7 @@ namespace RavlImageN{
     UInt16T  nBlockAlign;     
     UInt16T  wBitsPerSample;  
     UInt16T  cbSize;          
-  } WaveFmtXST;
+  };
   
   //: Struct describing an Audio Stream Format(strf) for uncompressed audio
   //
@@ -49,7 +49,7 @@ namespace RavlImageN{
   //  "wBitsPerSample" Number of bits per sample per channel data ( same for all samples is assumed) . Set to 0 if not needed. 
   //  "cbSize"  Size, in bytes, of the extra information in the format header, not including the size of the WaveFmtXST structure. 
   
-  typedef struct 
+  struct DvInfoST
   {
     UIntT dwDVAAuxSrc;
     UIntT dwDVAAuxCtl;
@@ -58,7 +58,7 @@ namespace RavlImageN{
     UIntT dwDVVAuxSrc;
     UIntT dwDVVAuxCtl;
     UIntT dwDVReserved[2];
-  } DvInfoST;
+  } ;
 
   //: Struct describing (optional) informations about the DV data stream
   //
@@ -71,7 +71,7 @@ namespace RavlImageN{
   // "DwDVReserved[2]" Reserved. Set this array to zero.
  
 
-  typedef struct 
+  struct BitmapInfoHST
   {
     UIntT biSize;
     UIntT biWidth;
@@ -87,7 +87,7 @@ namespace RavlImageN{
     UIntT biClrImportant;
     
     DvInfoST dvinfo;
-  } BitmapInfoHST;
+  } ;
   
   //: Struct describing a Video Stream Format(strf) 
   //  
@@ -104,7 +104,7 @@ namespace RavlImageN{
   //  "biClrImportant" Number of color indices that are considered important for displaying the bitmap. If this value is zero, all colors are important.
 
 
-  typedef struct
+  struct AviHeaderST
   {
     UIntT dwMicroSecPerFrame;
     UIntT dwMaxBytesPerSec;
@@ -119,7 +119,7 @@ namespace RavlImageN{
     UIntT dwHeight;
     
     UIntT dwReserved[4];
-  } AviHeaderST;
+  } ;
 
   //: Struct describing the main avi header (avih) 
   //    
@@ -142,7 +142,7 @@ namespace RavlImageN{
   //  "dwReserved[4]"  Reserved and normally set to zero.
 
 
-  typedef struct 
+  struct StreamHeaderST
   {
     char fccType[4];
     char fccHandler[4];
@@ -158,7 +158,7 @@ namespace RavlImageN{
     UIntT dwQuality;
     UIntT dwSampleSize;
     UInt16T rcFrame[4];
-  } StreamHeaderST;
+  } ;
   
   //: Struct describing a stream header (strh) 
   //    
@@ -181,13 +181,13 @@ namespace RavlImageN{
   //  "dwSampleSize" Specifies the size of a single sample of data. This is set to zero if the samples can vary in size. If this number is nonzero, then multiple samples of data can be grouped into a single chunk within the file. If it is zero, each sample of data (such as a video frame) must be in a separate chunk. For video streams, this number is typically zero, although it can be nonzero if all video frames are the same size. For audio streams, this number should be the same as the nBlockAlign.
   //  "rcFrame" Specifies the destination rectangle for a text or video stream within the movie rectangle specified by the dwWidth and dwHeight members of the AVI main header structure. 
 
-  typedef struct 
+  struct PalEntryST
   {
     ByteT peRed; 
     ByteT peGreen; 
     ByteT peBlue; 
     ByteT peFlags; 
-  } PalEntryST;
+  } ;
   
   //: Struct describing a palette entry for a palette change
   //
@@ -196,13 +196,13 @@ namespace RavlImageN{
   //  "peBlue" The blue intensity value for the palette entry.
   //  "peFlags" The alpha intensity value for the palette entry. 
 
-  typedef struct
+  struct PalChangeST
   {
     ByteT bFirstEntry;
     ByteT bNumEntries;
     UInt16T wFlags;
-    PalEntryST * peNew;
-  } PalChangeST;
+    PalEntryST *peNew;
+  };
   
   //: Struct describing palette change informations
   //  
@@ -211,13 +211,13 @@ namespace RavlImageN{
   //  "wFlags" Reserved.
   //  "peNew" Specifies an array of PalEntryST structures, of size bNumEntries.
 
-  typedef struct 
+  struct aviIndexItemST
   {
     char dwChunkId[4];
     UIntT dwFlags;
     UIntT dwOffset;
     UIntT dwSize;
-  } aviIndexItemST;
+  } ;
   
   //: Struct describing an index entry
   //
@@ -260,7 +260,7 @@ namespace RavlImageN{
     bool IsCorrectFormat(){return correct;};
     //: It is false if the stream is not a correct AVI stream 
     
-    const AviHeaderST GetAviHeaderInfo() const {return avih;} ;
+    const AviHeaderST GetAviHeaderInfo() const {return avih;};
     //: returns a read only copy of the AVI main header structure 
     
     bool GetDataStreamInfo(int streamNumber, StreamHeaderST &strh);
@@ -288,7 +288,7 @@ namespace RavlImageN{
   protected:
     
     //structural infos
-    AviHeaderST avih;
+    AviHeaderST avih;//contains the avi main header
     
     //protected variables
     streampos avihPos;//next tokens are header: ('avih')(size)
@@ -310,11 +310,12 @@ namespace RavlImageN{
 
     //private variables
     bool hasIndex; //true if the AVI has the HasIndex flag set into the header 
-    bool correct;//captures the result of methods GetStreamInfo() 
+    bool correct;//true if the format is correct (it's the result of methods GetStreamInfo())
     bool verbose; //if true writes into cerr info strings
   
-    StreamHeaderST strh;
-    bool isStrhSet;
+    StreamHeaderST strh;//temporary variable to store a stream header
+
+    bool isStrhSet;//true if variable strh has been used at least once
   };
   
   
@@ -419,12 +420,12 @@ namespace RavlImageN{
     //: Goes to the proper position to write a data chunk: (##yy)(size)(data)
 
     //private variables
-    int hdrlSize;  
-    int moviSize;
-    int fileSize;
-    UIntT indexSize;
+    int hdrlSize;//size of hdrl list  
+    int moviSize;//size of movi list
+    int fileSize;//size of the file
+    UIntT indexSize;//size of index chunk
 
-    int dataChunks;
+    int dataChunks;//number of data chunks written
     int current; //is the data chunk to write next (NOTE: not necesserily the one after the last one). 1st = 1.
 
     bool verbose; //if true writes into cerr info strings
