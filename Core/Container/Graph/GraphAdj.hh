@@ -145,125 +145,101 @@ namespace RavlN {
   
   template<class NodeT,class EdgeT>
   inline
-  EdgeT &
-  GraphAdjIterC<NodeT,EdgeT>::Data(void)  { 
-    return static_cast<GraphEdgeDatC<EdgeT> &>(GraphAdjIterBaseC::EdgeRep()).Data(); 
-  }
+  EdgeT &GraphAdjIterC<NodeT,EdgeT>::Data(void)  
+  { return static_cast<GraphEdgeDatC<EdgeT> &>(GraphAdjIterBaseC::EdgeRep()).Data(); }
   
   template<class NodeT,class EdgeT>
   inline 
-  const EdgeT &
-  GraphAdjIterC<NodeT,EdgeT>::Data(void) const  {
-    return static_cast<const GraphEdgeDatC<EdgeT> &>(GraphAdjIterBaseC::EdgeRep()).Data();
-  }
+  const EdgeT &GraphAdjIterC<NodeT,EdgeT>::Data(void) const  
+  { return static_cast<const GraphEdgeDatC<EdgeT> &>(GraphAdjIterBaseC::EdgeRep()).Data(); }
   
   template<class NodeT,class EdgeT>
   inline 
-  NodeT &
-  GraphAdjIterC<NodeT,EdgeT>::Node1Data(void)  { 
-    return static_cast<GraphNodeDatC<NodeT,EdgeT> &>(GraphAdjIterBaseC::Node1Rep()).Data(); 
-  }
+  NodeT &GraphAdjIterC<NodeT,EdgeT>::Node1Data(void)  
+  { return static_cast<GraphNodeDatC<NodeT,EdgeT> &>(GraphAdjIterBaseC::Node1Rep()).Data(); }
   
   template<class NodeT,class EdgeT>
   inline 
-  NodeT &
-  GraphAdjIterC<NodeT,EdgeT>::Node2Data(void)  {
-    return static_cast<GraphNodeDatC<NodeT,EdgeT> &>(GraphAdjIterBaseC::Node2Rep()).Data(); 
-  }
+  NodeT &GraphAdjIterC<NodeT,EdgeT>::Node2Data(void)  
+  { return static_cast<GraphNodeDatC<NodeT,EdgeT> &>(GraphAdjIterBaseC::Node2Rep()).Data(); }
+  
+  template<class NodeT,class EdgeT>
+  inline 
+  GraphNodeIterC<NodeT,EdgeT> GraphAdjIterC<NodeT,EdgeT>::Node1(void) 
+  { return static_cast<GraphNodeDatC<NodeT,EdgeT> &>(GraphAdjIterBaseC::Node1Rep()); }
+  
+  template<class NodeT,class EdgeT>
+  inline 
+  GraphNodeIterC<NodeT,EdgeT> GraphAdjIterC<NodeT,EdgeT>::Node2(void) 
+  { return static_cast<GraphNodeDatC<NodeT,EdgeT> &>(GraphAdjIterBaseC::Node2Rep()); }
   
   template<class NodeT,class EdgeT>
   inline
-  GraphNodeIterC<NodeT,EdgeT> 
-  GraphAdjIterC<NodeT,EdgeT>::Source(void)  {
-    return GraphNodeIterC<NodeT,EdgeT>(GraphAdjIterBaseC::EdgeRep().Source(),Graph()); 
-  }
+  GraphNodeIterC<NodeT,EdgeT> GraphAdjIterC<NodeT,EdgeT>::Source(void)  
+  { return GraphNodeIterC<NodeT,EdgeT>(GraphAdjIterBaseC::EdgeRep().Source(),Graph()); }
   
   template<class NodeT,class EdgeT>
   inline
-  GraphNodeIterC<NodeT,EdgeT> 
-  GraphAdjIterC<NodeT,EdgeT>::Target(void) {
-    return GraphNodeIterC<NodeT,EdgeT>(GraphAdjIterBaseC::EdgeRep().Target(),Graph()); 
-  }
+  GraphNodeIterC<NodeT,EdgeT> GraphAdjIterC<NodeT,EdgeT>::Target(void) 
+  { return GraphNodeIterC<NodeT,EdgeT>(GraphAdjIterBaseC::EdgeRep().Target(),Graph()); }
   
   template<class NodeT,class EdgeT>
   inline
-  GraphNodeIterC<NodeT,EdgeT> 
-  GraphAdjIterC<NodeT,EdgeT>::Node(void) {
-    return GraphNodeIterC<NodeT,EdgeT>(GraphAdjIterBaseC::Node()); 
-  }
+  GraphNodeIterC<NodeT,EdgeT> GraphAdjIterC<NodeT,EdgeT>::Node(void) 
+  { return GraphNodeIterC<NodeT,EdgeT>(GraphAdjIterBaseC::Node()); }
   
   template<class NodeT,class EdgeT>
   inline 
-  GraphNodeIterC<NodeT,EdgeT> 
-  GraphAdjIterC<NodeT,EdgeT>::OtherNode() {
-    return GraphNodeIterC<NodeT,EdgeT>(GraphAdjIterBaseC::OtherNode()); 
-  }
+  GraphNodeIterC<NodeT,EdgeT>  GraphAdjIterC<NodeT,EdgeT>::OtherNode() 
+  { return GraphNodeIterC<NodeT,EdgeT>(GraphAdjIterBaseC::OtherNode()); }
   
   template<class NodeT,class EdgeT>
   inline 
-  GraphNodeHC<NodeT,EdgeT> 
-  GraphAdjIterC<NodeT,EdgeT>::NodeH(void)  {
-    return GraphNodeHC<NodeT,EdgeT>(GraphAdjIterBaseC::Node());
-  }
+  GraphNodeHC<NodeT,EdgeT> GraphAdjIterC<NodeT,EdgeT>::NodeH(void)  
+  { return GraphNodeHC<NodeT,EdgeT>(GraphAdjIterBaseC::Node()); }
   
   template<class NodeT,class EdgeT>
   inline 
-  GraphNodeHC<NodeT,EdgeT>
-  GraphAdjIterC<NodeT,EdgeT>::OtherNodeH(void) {
-    return GraphNodeHC<NodeT,EdgeT>(GraphAdjIterBaseC::OtherNode());
-  }
-  
+  GraphNodeHC<NodeT,EdgeT> GraphAdjIterC<NodeT,EdgeT>::OtherNodeH(void) 
+  { return GraphNodeHC<NodeT,EdgeT>(GraphAdjIterBaseC::OtherNode()); }
   
   template<class NodeT,class EdgeT>
   inline
-  GraphEdgeIterC<NodeT,EdgeT> 
-  GraphAdjIterC<NodeT,EdgeT>::Edge(void) {
-    return GraphEdgeIterC<NodeT,EdgeT>(GraphAdjIterBaseC::Edge()); 
-  }
+  GraphEdgeIterC<NodeT,EdgeT> GraphAdjIterC<NodeT,EdgeT>::Edge(void) 
+  { return GraphEdgeIterC<NodeT,EdgeT>(GraphAdjIterBaseC::Edge()); }
   
   template<class NodeT,class EdgeT>
   inline
-  GraphNodeHC<NodeT,EdgeT>
-  GraphAdjIterC<NodeT,EdgeT>::SourceH()  {
-    return GraphNodeHC<NodeT,EdgeT>(SourceRep());
-  }
+  GraphNodeHC<NodeT,EdgeT> GraphAdjIterC<NodeT,EdgeT>::SourceH()  
+  { return GraphNodeHC<NodeT,EdgeT>(SourceRep()); }
   
   template<class NodeT,class EdgeT>
   inline 
-  GraphNodeHC<NodeT,EdgeT> 
-  GraphAdjIterC<NodeT,EdgeT>::TargetH() {
-    return GraphNodeHC<NodeT,EdgeT>(TargetRep());
-  }
+  GraphNodeHC<NodeT,EdgeT> GraphAdjIterC<NodeT,EdgeT>::TargetH() 
+  { return GraphNodeHC<NodeT,EdgeT>(TargetRep()); }
   
   template<class NodeT,class EdgeT>
   inline void GraphAdjIterC<NodeT,EdgeT>::Del() {
-    GraphEdgeDatC<EdgeT> *edge = 
-      &static_cast<GraphEdgeDatC<EdgeT> &>(GraphAdjIterBaseC::EdgeRep());
+    GraphEdgeDatC<EdgeT> *edge = &static_cast<GraphEdgeDatC<EdgeT> &>(GraphAdjIterBaseC::EdgeRep());
     Prev();
     delete edge;
   }
   
   template<class NodeT,class EdgeT>
   inline void GraphAdjIterC<NodeT,EdgeT>::DelMoveNext()  {
-    GraphEdgeDatC<EdgeT> *edge = 
-      &static_cast<GraphEdgeDatC<EdgeT> &>(GraphAdjIterBaseC::EdgeRep());
+    GraphEdgeDatC<EdgeT> *edge = &static_cast<GraphEdgeDatC<EdgeT> &>(GraphAdjIterBaseC::EdgeRep());
     Next();
     delete edge;
   }
   
   template<class NodeT,class EdgeT>
   inline 
-  GraphNodeDatC<NodeT,EdgeT> &
-  GraphAdjIterC<NodeT,EdgeT>::SourceRep(void){
-    return static_cast<GraphNodeDatC<NodeT,EdgeT> &>(GraphAdjIterBaseC::SourceRep()); 
-  }
-  
+  GraphNodeDatC<NodeT,EdgeT> & GraphAdjIterC<NodeT,EdgeT>::SourceRep(void)
+  { return static_cast<GraphNodeDatC<NodeT,EdgeT> &>(GraphAdjIterBaseC::SourceRep()); }
   
   template<class NodeT,class EdgeT>
   inline 
-  GraphNodeDatC<NodeT,EdgeT> &
-  GraphAdjIterC<NodeT,EdgeT>::TargetRep(void)  {
-    return static_cast<GraphNodeDatC<NodeT,EdgeT> &>(GraphAdjIterBaseC::TargetRep());
-  }
+  GraphNodeDatC<NodeT,EdgeT> &GraphAdjIterC<NodeT,EdgeT>::TargetRep(void)  
+  { return static_cast<GraphNodeDatC<NodeT,EdgeT> &>(GraphAdjIterBaseC::TargetRep()); }
 }
 #endif
