@@ -16,8 +16,11 @@
 #include "Ravl/3D/HEMeshVertex.hh"
 
 namespace Ravl3DN {
-
+#if RAVL_VISUALCPP_NAMESPACE_BUG
   using namespace RavlN;
+  using RavlN::UIntT;
+  using RavlN::DLinkC;
+#endif
   
   class HEMeshFaceC;
   class HEMeshFaceBodyC;
