@@ -26,7 +26,7 @@ namespace RavlN {
   // This routine increases accuracy by only summing 500 numbers at time.   Not really worth it.
   // For 1000000 numbers the difference in sums is about 10e-14
   
-  MatrixRUTC SampleStreamVectorC::SumOuterProducts() {
+  MatrixC SampleStreamVectorC::SumOuterProducts() {
     if(!First()) { // Goto first element.
       cerr << "SampleStreamVectorC::SumOuterProducts(), WARNING: Failed to seek to first element in sample stream.\n";
     }
@@ -72,6 +72,7 @@ namespace RavlN {
     accum = it->Data1();
     for(it++;it;it++)
       accum += it->Data1();
+    accum.MakeSymmetric();
     return accum;
   }
   

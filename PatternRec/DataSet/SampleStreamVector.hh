@@ -10,14 +10,14 @@
 //! docentry="Ravl.Pattern Recognition.Data Set"
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
-//! examples=exSampleStream.hh
+//! examples=exSampleStream.cc
 
 #include "Ravl/PatternRec/SampleStream.hh"
 #include "Ravl/Vector.hh"
 
 namespace RavlN {
   class MeanCovarianceC;
-  class MatrixRUTC;
+  class MatrixC;
   
   //! userlevel=Normal
   //: Stream of sample vectors
@@ -45,7 +45,7 @@ namespace RavlN {
     MeanCovarianceC MeanCovariance();
     //: Find the mean and covariance of the sample
     
-    MatrixRUTC SumOuterProducts();
+    MatrixC SumOuterProducts();
     //: Compute the sum of the outerproducts.
     
     

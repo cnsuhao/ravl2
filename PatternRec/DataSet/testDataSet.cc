@@ -224,16 +224,17 @@ int testSampleStreamVector() {
   }
   DPISListC<VectorC> vecs(lst);
   SampleStreamVectorC ssv(vecs);
+  accum.MakeSymmetric();
   MatrixRUTC accum2 = ssv.SumOuterProducts();
   //cerr << "Accum=" << accum << "\n";
   //cerr << "Accum2=" << accum2 << "\n";
   //cerr << "Diff=" << (accum - accum2) << "\n";
   if((accum - accum2).SumOfSqr() > 0.01) return __LINE__;
   MeanCovarianceC mcn = ssv.MeanCovariance();
-  cerr << "mc=" << mc << "\n";
-  cerr << "mnc=" << mcn << "\n";
+  //cerr << "mc=" << mc << "\n";
+  //cerr << "mnc=" << mcn << "\n";
   MeanCovarianceC lmc(lst);
-  cerr << "lmc=" << mcn << "\n";
+  //cerr << "lmc=" << mcn << "\n";
   if((mc.Mean() - mc.Mean()).SumOfSqr() > 0.0001) return __LINE__;
   if((mc.Covariance() - mc.Covariance()).SumOfSqr() > 0.0001) return __LINE__;
   return 0;

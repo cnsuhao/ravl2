@@ -1,18 +1,7 @@
-// This file is part of RAVL, Recognition And Vision Library 
-// Copyright (C) 2003, University of Surrey
-// This code may be redistributed under the terms of the GNU Lesser
-// General Public License (LGPL). See the lgpl.licence file for details or
-// see http://www.gnu.org/copyleft/lesser.html
-// file-header-ends-here
 //! author="Charles Galambos"
-//! rcsid="$Id$"
-//! lib=RavlPatternRec
-
-//: Example implementation for a sample stream.
 
 #include "Ravl/PatternRec/SampleStreamVector.hh"
 #include "Ravl/RandomMersenneTwister.hh"
-#include "Ravl/MeanCovariance.hh"
 
 using namespace RavlN;
 
@@ -44,7 +33,7 @@ public:
       return false;
     offset++;
     ret = VectorC(n);
-    for(UIntT i = 0;i < n;i++)
+    for(int i = 0;i < n;i++)
       ret[i] = twister.Double();
     return true;
   }
@@ -59,7 +48,7 @@ protected:
 
 
 class RandomVectorStreamC
-  : public SampleStreamVectorC
+  : public SampleStreamC
 {
 public:
   RandomVectorStreamC(UIntT vectorSize,UIntT numSamples)
@@ -71,7 +60,7 @@ public:
 
 
 int main(int nargs,char **argv) {
-  RandomVectorStreamC randomVectorStream(5,1000000);
+  RandomVectorStreamC randomVectorStream(5,10000);
   MeanCovarianceC meanCov = randomVectorStream.MeanCovariance();
   cerr << "Mean and Coverance of random stream =" << meanCov << "\n";
   return 0;
