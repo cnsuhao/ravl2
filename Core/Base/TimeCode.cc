@@ -183,7 +183,7 @@ namespace RavlN {
     return s;
   }
 
-  BinOStreamC & operator << (BinOStreamC & s, TimeCodeC & tc ) {
+  BinOStreamC & operator << (BinOStreamC & s, const TimeCodeC & tc ) {
     s << tc.m_liFrame << tc.frameRate ; 
     return s ; 
   }
@@ -195,3 +195,4 @@ namespace RavlN {
 
 
 } // end namespace RavlN
+ 

@@ -144,6 +144,12 @@ namespace RavlN {
   istream &operator>>(istream &s, TimeCodeC &tc);
   //: Read time code in from stream.
   
+  BinOStreamC & operator << (BinOStreamC & s, const TimeCodeC & tc ); 
+  //: Write time code to a binary stream 
+  
+  BinIStreamC & operator >> (BinIStreamC & s, TimeCodeC & tc ); 
+  //: Read time code in from binary stream 
+    
 } // end namespace RavlN
 
 #endif
