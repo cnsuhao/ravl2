@@ -117,35 +117,42 @@ namespace RavlN {
     : public BaseStackC<T>
   {
   public:
-    inline StackC();
+    inline StackC()
+      : BaseStackC<T>() 
+    {}
     //: Default constructor.
     // constructs an empty stack.
     
     StackC(const StackC<T>&);
     //: Copy constructor.
     
-    ~StackC();
+    ~StackC()
+    { Empty(); }
     //: Destructor.
     
     inline T Pop();
     //: Pop the element from the top of the stack.
     
-    inline T GetFirst() {return Pop();}
+    inline T GetFirst() 
+    { return Pop(); }
     //: Pop the element from the top of the stack.
     // Same as Pop().
     
-    inline T Get()      {return Pop();}
+    inline T Get()      
+    { return Pop(); }
     //: Pop the element from the top of the stack.
     // Same as Pop().
     
     inline void   Push(const T&);
     //: Push element onto stack.
     
-    inline void   InsFirst(const T& d) {Push(d);}
+    inline void   InsFirst(const T& d) 
+    { Push(d); }
     //: Push element onto stack.
     // Same as Push().
     
-    inline void   Insert(const T& d)   {Push(d);}
+    inline void   Insert(const T& d)   
+    { Push(d); }
     //: Push element onto stack.
     // Same as Push().
   
@@ -154,7 +161,8 @@ namespace RavlN {
     // Same as Pop(), but no value returned.
     // This may be faster then Pop
     
-    inline void   DelFirst()  { DelTop(); }
+    inline void   DelFirst()  
+    { DelTop(); }
     //: Remove an element from the top of the stack. 
     // Same as Pop(), but no value returned.
     // This may be faster then Pop
@@ -172,7 +180,10 @@ namespace RavlN {
   
   //------------------ BaseStack ---------------------------------------------
   template <class T>
-  inline   BaseStackC<T>::BaseStackC(): blkSize(0),topBlk(0),top(0)
+  inline BaseStackC<T>::BaseStackC()
+    : blkSize(0),
+      topBlk(0),
+      top(0)
   {}
   
   template <class T>
@@ -236,16 +247,6 @@ namespace RavlN {
     topBlk = last;
   }
   
-  //--------------------------------------------------------------------------
-  template <class T>
-  inline StackC<T>::StackC():BaseStackC<T>() 
-  {}
-  
-
-  template <class T>
-  StackC<T>::~StackC() 
-  { Empty(); }
-
   //--------------------------------------------------------------------------
   template <class T>
   inline void StackC<T>::Push(const T& data) {

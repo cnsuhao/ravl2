@@ -56,7 +56,7 @@ namespace RavlN {
     inline void Push(const DataT &data);
     //: Push item onto stack.
 
-    inline DataT &Pop();
+    inline DataT Pop();
     //: Pop item from stack.
     
     inline void   DelTop();
@@ -185,8 +185,8 @@ namespace RavlN {
 
   
   template<class DataT>
-   DataT &BlkStackC<DataT>::Pop() {
-    DataT &ret = *top;
+  DataT BlkStackC<DataT>::Pop() {
+    DataT ret = *top;
     RavlAssertMsg(top != bob,"Pop on empty stack. ");
     top--;
     if(top != bob) 

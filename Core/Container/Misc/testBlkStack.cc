@@ -23,6 +23,13 @@ const int MaxCounters = 500;
 const int MaxStacks = 5;
 const int TestSize = 2000000;
 
+#define DODEBUG 0
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
+
 int RandomTest();
 int BasicTest();
 
@@ -69,12 +76,17 @@ int RandomTest() {
 	{
 	case 0: // Push.
 	case 4:
-	  Stk[rand() % MaxStacks].Push(i);
+	  {
+	    int s = rand() % MaxStacks;
+	    ONDEBUG(cerr << " stk[" << s << "].Push(" << i << ")\n");
+	    Stk[s].Push(i);
+	  }
 	  break;
 	case 1: // Pop.
 	case 5:
 	  j = rand() % MaxStacks;
 	  if(!Stk[j].IsEmpty()) {
+	    ONDEBUG(cerr << " stk[" << j << "].Pop()\n");
 	    Stk[j].Pop();
 	  }
 	  break;
@@ -83,7 +95,10 @@ int RandomTest() {
 	  j = rand() % MaxStacks;
 	  k = rand() % MaxStacks;
 	  if(!Stk[k].IsEmpty()) {
-	    Stk[j].Push(Stk[k].Pop());
+	    int val = Stk[k].Pop();
+	    ONDEBUG(cerr << " stk[" << k << "].Pop() = " << val <<"\n");
+	    ONDEBUG(cerr << " stk[" << j << "].Push(" << val <<")\n");
+	    Stk[j].Push(val);
 	  }
 	  break;
 	case 3: // Check its all ok.
