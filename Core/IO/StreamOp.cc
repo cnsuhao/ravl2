@@ -10,7 +10,7 @@
 #include "Ravl/DP/StreamOp.hh"
 
 namespace RavlN {
-
+  
   //: Input plugs.
   
   DListC<DPIPlugBaseC> DPStreamOpBodyC::IPlugs() const {

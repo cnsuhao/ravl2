@@ -56,11 +56,19 @@ namespace RavlN {
     virtual bool Save(BinOStreamC &out) const;
     //: Save to binary stream.  
     
-    virtual const type_info &InputType() const;
-    //: Get input type.
+    virtual UIntT NoInputs() const;
+    //: Get number of inputs..
+    // Defaults to 1.
     
-    virtual const type_info &OutputType() const;
-    //: Get input type.
+    virtual UIntT NoOutputs() const;
+    //: Get number of outputs.
+    // Defaults to 1.
+    
+    virtual const type_info &InputType(int n = 0) const;
+    //: Get input types.
+    
+    virtual const type_info &OutputType(int n = 0) const;
+    //: Get output types.
     
     enum ProcTypeT { ConversionT,ConversionLossyT,LossyT };
     // ConversionT      - Lossless type conversion.
@@ -115,12 +123,16 @@ namespace RavlN {
     { return DPProcessBaseBodyC::Save(out); }
     //: Save to ostream.
     
-    virtual const type_info &InputType() const
-    { return typeid(InT); }
+    virtual const type_info &InputType(int n = 0) const { 
+      if(n != 0) return typeid(void);
+      return typeid(InT); 
+    }
     //: Get input type.
     
-    virtual const type_info &OutputType() const
-    { return typeid(OutT); }
+    virtual const type_info &OutputType(int n = 0) const { 
+      if(n != 0) return typeid(void);
+      return typeid(OutT); 
+    }
     //: Get output type.
     
   };
@@ -187,13 +199,23 @@ namespace RavlN {
     //: Access body.
     
   public:
-    inline const type_info &InputType() const 
-    { return Body().InputType(); }
-    //: Get input type.
+    inline UIntT NoInputs() const
+    { return Body().NoInputs(); }
+    //: Get number of inputs.
     
-    inline const type_info &OutputType() const 
-    { return Body().OutputType(); }
+    inline UIntT NoOutputs() const
+    { return Body().NoOutputs(); }
+    //: Get number of outputs.
+    
+    inline const type_info &InputType(int n = 0) const 
+    { return Body().InputType(n); }
+    //: Get input type.
+    // n is the input number to query, numbering starts from 0.
+    
+    inline const type_info &OutputType(int n = 0) const 
+    { return Body().OutputType(n); }
     //: Get input type.  
+    // n is the output number to query, numbering starts from 0.
     
     inline bool IsStateless() const 
     { return Body().IsStateless(); }
@@ -213,7 +235,7 @@ namespace RavlN {
   //! userlevel=Normal
   //: Templated process handle.
   // This class provides a way of handling processes having a particular
-  // input and output type as abstract entity.
+  // input and output type as abstract entity. 
   
   template<class InT,class OutT>
   class DPProcessC 

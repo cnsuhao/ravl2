@@ -11,7 +11,7 @@
 //! lib=RavlIO
 //! file="Ravl/Core/IO/Method2Proc.hh"
 //! author="Charles Galambos"
-//! date="09/07/98"
+//! date="09/07/1998"
 //! rcsid="$Id$"
 
 #include "Ravl/DP/Process.hh"

@@ -23,16 +23,27 @@ namespace RavlN {
   
   bool DPProcessBaseBodyC::Save(BinOStreamC &out) const
   { return DPEntityBodyC::Save(out); }
-
+  
+  
+  //: Get number of inputs..
+  
+  UIntT DPProcessBaseBodyC::NoInputs() const 
+  { return 1; }
+  
+  //: Get number of outputs.
+  
+  UIntT DPProcessBaseBodyC::NoOutputs() const 
+  { return 1; }
+  
   //: Get input type.
   
-  const type_info &DPProcessBaseBodyC::InputType() const  { 
+  const type_info &DPProcessBaseBodyC::InputType(int n) const  { 
     return typeid(void); 
   }
   
   //: Get Output type.
   
-  const type_info &DPProcessBaseBodyC::OutputType() const  { 
+  const type_info &DPProcessBaseBodyC::OutputType(int n) const  { 
     return typeid(void); 
   }
   

@@ -19,13 +19,13 @@ HEADERS=Entity.hh Process.hh Port.hh SPort.hh SPortAttach.hh \
  FileFormatGen.hh FileFormatIO.hh TypeConverter.hh FileFormatRegistry.hh \
  CoreIO.hh ComposeSingle.hh Compose.hh Func2Stream.hh IOConnect.hh \
  IFailOver.hh  IOTap.hh  Multiplex.hh SplitO.hh Event.hh EventSet.hh \
- Method2Proc.hh MethodIO.hh ContainerIO.hh Plug.hh Tap.hh
+ Method2Proc.hh MethodIO.hh ContainerIO.hh Plug.hh Tap.hh StreamProcess.hh
 
 SOURCES=Entity.cc Process.cc Port.cc SPort.cc SPortAttach.cc ProcInfo.cc \
  Converter.cc TypeInfo.cc Pipes.cc FileFormat.cc FileFormDesc.cc \
  FileFormatStream.cc FileFormatBinStream.cc FileFormatGen.cc \
  FileFormatIO.cc TypeConverter.cc FileFormatRegistry.cc IndexIO.cc \
- Event.cc EventSet.cc Plug.cc StreamOp.cc
+ Event.cc EventSet.cc Plug.cc StreamOp.cc StreamProcess.cc
 
 MUSTLINK= CoreIO.cc
 # ProcInfo.cc

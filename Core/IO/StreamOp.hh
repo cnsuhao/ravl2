@@ -58,7 +58,7 @@ namespace RavlN {
     {}
     //: Default constructor.
     // Creates an invalid handle.
-  
+    
     DPStreamOpC(DPEntityC &ent)
       : DPEntityC(ent)
     {
