@@ -13,6 +13,8 @@ PACKAGE=Ravl/Image
 
 MAINS= doEdgeDet.cc
 
+EXAMPLES=doEdgeDet.cc
+
 HEADERS=EdgeSobel.hh EdgeDeriche.hh SqrComposition.hh \
  EdgeNonMaxSuppression.hh Edgel.hh EdgeLink.hh \
  EdgeDetector.hh Gradient.hh
