@@ -17,8 +17,8 @@ namespace RavlN {
 
   //: Constructor.
   ObservationHomog2dPointBodyC::ObservationHomog2dPointBodyC(
-			     const VectorC &nz1, const MatrixRSC &nNi1,
-			     const VectorC &nz2, const MatrixRSC &nNi2)
+			     const Vector2dC &nz1, const MatrixRSC &nNi1,
+			     const Vector2dC &nz2, const MatrixRSC &nNi2)
     : ObservationExplicitBodyC(ObsVectorC(nz2,nNi2))
   {
     z1 = nz1;
@@ -27,23 +27,23 @@ namespace RavlN {
 
   //: Constructor for robust bi-Gaussian observation.
   ObservationHomog2dPointBodyC::ObservationHomog2dPointBodyC(
-			     const VectorC &nz1, const MatrixRSC &nNi1,
-			     const VectorC &nz2, const MatrixRSC &nNi2,
-			     RealT nvar_scale, RealT nchi2_thres)
-    : ObservationExplicitBodyC(ObsVectorBiGaussianC(nz2,nNi2,nvar_scale,nchi2_thres))
+			     const Vector2dC &nz1, const MatrixRSC &nNi1,
+			     const Vector2dC &nz2, const MatrixRSC &nNi2,
+			     RealT nvarScale, RealT nchi2Thres)
+    : ObservationExplicitBodyC(ObsVectorBiGaussianC(nz2,nNi2,nvarScale,nchi2Thres))
   {
     z1 = nz1;
     Ni1 = nNi1;
   }
 
   //: Evaluate an observation for a single point
-  VectorC ObservationHomog2dPointBodyC::EvaluateFunctionH(const StateVectorC &state_vec)
+  VectorC ObservationHomog2dPointBodyC::EvaluateFunctionH(const StateVectorC &stateVec)
   {
     // we know that the state vector actually represents a 2D homography
-    const StateVectorHomog2dC sv(state_vec);
+    const StateVectorHomog2dC sv(stateVec);
     RavlAssert(sv.IsValid());
     
-    const VectorC &z1 = GetZ1(); // 2D point on first plane
+    const Vector2dC &z1 = GetZ1(); // 2D point on first plane
     const Matrix3dC &P = sv.GetHomog(); // homography matrix
     RealT zh1 = sv.GetZH1(), zh2 = sv.GetZH2();
 
@@ -66,13 +66,13 @@ namespace RavlN {
   }
   
   //: Evaluate the Jacobian of an observation for a single point
-  MatrixC ObservationHomog2dPointBodyC::EvaluateJacobianHx(const StateVectorC &state_vec)
+  MatrixC ObservationHomog2dPointBodyC::EvaluateJacobianHx(const StateVectorC &stateVec)
   {
     // we know that the state vector actually represents a 2D homography
-    const StateVectorHomog2dC sv(state_vec);
+    const StateVectorHomog2dC sv(stateVec);
     RavlAssert(sv.IsValid());
     
-    const VectorC &z1 = GetZ1(); // 2D point on first plane
+    const Vector2dC &z1 = GetZ1(); // 2D point on first plane
     MatrixC H(2,9); // Jacobian matrix
     RealT zh1 = sv.GetZH1(), zh2 = sv.GetZH2();
 

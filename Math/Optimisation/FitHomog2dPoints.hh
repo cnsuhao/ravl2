@@ -14,10 +14,29 @@
 //! example="Homography2dFitTest.cc"
 //! lib=RavlOptimise
 
-#include <Ravl/FitToSample.hh>
+#include "Ravl/FitToSample.hh"
 
 namespace RavlN {
   
+  //! userlevel=Develop
+  //: Body class for fitting a 2D homography to a sample of 2D points
+  class FitHomog2dPointsBodyC
+    : public FitToSampleBodyC
+  {
+  public:
+    FitHomog2dPointsBodyC(RealT zh1, RealT zh2);
+    //: Constructor for a class to fit a 2D homography to pairs of points
+
+    FitHomog2dPointsBodyC();
+    //: Constructor for a class to fit a 2D homography to pairs of points
+    
+    virtual StateVectorC FitModel(DListC<ObservationC> sample);
+    //: Fit 2D homography to sample of 2D point observations
+
+  private:
+    RealT zh1, zh2; // 3rd homogeneous coordinates of planes on which points lie
+  };
+
   //! userlevel=Normal
   //! autoLink=on
   //: This class fits a 2D homography to a sample of 2D points
@@ -25,21 +44,41 @@ namespace RavlN {
     : public FitToSampleC
   {
   public:
-    FitHomog2dPointsC(RealT zh1, RealT zh2);
+    FitHomog2dPointsC(RealT zh1, RealT zh2)
+      : FitToSampleC(*new FitHomog2dPointsBodyC(zh1,zh2))
+    {}
     //: Constructor for a class to fit a 2D homography to pairs of points
     // zh1, zh2 are the 3rd homogeneous coordinates of the two planes on which
     // the point pairs lie.
 
-    FitHomog2dPointsC();
+    FitHomog2dPointsC()
+      : FitToSampleC(*new FitHomog2dPointsBodyC())
+    {}
     //: Constructor for a class to fit a 2D homography to pairs of points
     // The 3rd homogeneous coordinates of the two planes on which
     // the point pairs lie are set to one.
+    
+    FitHomog2dPointsC(const FitToSampleC &fitter)
+      : FitToSampleC(fitter)
+    {
+      if(dynamic_cast<FitHomog2dPointsBodyC *>(&FitToSampleC::Body()) == 0)
+	Invalidate();
+    }
+    //: Base class constructor.
+    
+  public:
+    FitHomog2dPointsC(FitHomog2dPointsBodyC &bod)
+      : FitToSampleC(bod)
+    {}
+    //: Body constructor.
+    
+    FitHomog2dPointsBodyC &Body()
+    { return static_cast<FitHomog2dPointsBodyC &>(FitToSampleC::Body()); }
+    //: Access body.
 
-    StateVectorC FitModel(DListC<ObservationC> sample);
-    //: Fit 2D homography to sample of 2D point observations
-
- private:
-   RealT zh1, zh2; // 3rd homogeneous coordinates of planes on which points lie
+    const FitHomog2dPointsBodyC &Body() const
+    { return static_cast<const FitHomog2dPointsBodyC &>(FitToSampleC::Body()); }
+    //: Access body.
   };
 }
 

@@ -13,10 +13,37 @@
 //! docentry="Ravl.Math.Optimisation"
 //! lib=RavlOptimise
 
-#include <Ravl/EvaluateSolution.hh>
+#include "Ravl/EvaluateSolution.hh"
 
 namespace RavlN {
   
+  //! userlevel=Develop
+  //: Solution evaluation body class
+  class EvaluateLikelihoodBodyC
+    : public EvaluateSolutionBodyC
+  {
+  public:
+    EvaluateLikelihoodBodyC()
+    {}
+    //: Default constructor
+
+    EvaluateLikelihoodBodyC(RealT chi2Thres);
+    //: Constructor.
+
+    virtual RealT SolutionScore(const StateVectorC &stateVec,
+				DListC<ObservationC> &obsList) const;
+    //: Returns the log likelihood for the given state parameters
+
+    DListC<ObservationC> CompatibleObservations(
+					const StateVectorC &stateVec,
+					DListC<ObservationC> &obsList) const;
+    //: Returns the observations compatible with the given state parameters
+
+
+  private:
+    RealT chi2Thres; // Threshold on normalised residual
+  };
+
   //! userlevel=Normal
   //! autoLink=on
   //: Solution evaluation class
@@ -26,24 +53,41 @@ namespace RavlN {
     : public EvaluateSolutionC
   {
   public:
-    EvaluateLikelihoodC(RealT chi2_thres=0.0);
+    EvaluateLikelihoodC()
+    {}
+    //: Default constructor
+    // Creates an invalid handle
+    
+    EvaluateLikelihoodC(RealT chi2Thres=0.0)
+      : EvaluateSolutionC(*new EvaluateLikelihoodBodyC(chi2Thres))
+    {}
     //: Constructor.
-    // The chi2_thres parameter is used as a threshold on the non-robust
+    // The chi2Thres parameter is used as a threshold on the non-robust
     // negative log-likelihood when selecting observations compatible with
     // the best model. If you only want the model parameters and don't care
     // about the selected obsrvations, pass an empty argument list.
 
-    virtual RealT SolutionScore(const StateVectorC &state_vec,
-				DListC<ObservationC> &obs_list) const;
-    //: Returns the log likelihood for the given state parameters
+    EvaluateLikelihoodC(const EvaluateSolutionC &evaluator)
+      : EvaluateSolutionC(evaluator)
+    {
+      if(dynamic_cast<EvaluateLikelihoodBodyC *>(&EvaluateSolutionC::Body()) == 0)
+	Invalidate();
+    }
+    //: Base class constructor.
+    
+  public:
+    EvaluateLikelihoodC(EvaluateLikelihoodBodyC &bod)
+      : EvaluateSolutionC(bod)
+    {}
+    //: Body constructor.
+    
+    EvaluateLikelihoodBodyC &Body()
+    { return static_cast<EvaluateLikelihoodBodyC &>(EvaluateSolutionC::Body()); }
+    //: Access body.
 
-    DListC<ObservationC> CompatibleObservations(
-					const StateVectorC &state_vec,
-					DListC<ObservationC> &obs_list) const;
-    //: Returns the observations compatible with the given state parameters
-
-  private:
-    RealT chi2_thres; // Threshold on normalised residual
+    const EvaluateLikelihoodBodyC &Body() const
+    { return static_cast<const EvaluateLikelihoodBodyC &>(EvaluateSolutionC::Body()); }
+    //: Access body.
   };
 }
 

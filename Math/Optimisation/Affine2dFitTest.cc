@@ -23,24 +23,24 @@ Affine2dC trueAffine(Matrix2dC(1.1,0.0,0.1,0.9),Vector2dC(3.0,10.0));
 
 // Initialisation function for state vector for 2D homography fitting
 
-static const StateVectorAffine2dC InitialiseAffine ( DListC<ObservationC> &obs_list, // observation list
-						     DListC<ObservationC> &compatible_obs_list ) // output list of compatible observations
+static const StateVectorAffine2dC InitialiseAffine ( DListC<ObservationC> &obsList, // observation list
+						     DListC<ObservationC> &compatibleObsList ) // output list of compatible observations
 {
   UIntT iteration;
-  ObservationListManagerC obs_manager(obs_list);
+  ObservationListManagerC obsManager(obsList);
   FitAffine2dPointsC fitter;
   EvaluateNumInliersC evaluator(3.0, 10.0);
   
   // use RANSAC to fit homography
-  RansacC ransac(obs_manager, fitter, evaluator);
+  RansacC ransac(obsManager, fitter, evaluator);
   
   // select and evaluate the given number of samples
   for ( iteration=0; iteration < RANSAC_ITERATIONS; iteration++ )
     ransac.ProcessSample(6);
 
   // select observations compatible with solution
-  compatible_obs_list = evaluator.CompatibleObservations(ransac.GetSolution(),
-							 obs_list);
+  compatibleObsList = evaluator.CompatibleObservations(ransac.GetSolution(),
+							 obsList);
   return ransac.GetSolution();
 }
 
@@ -58,7 +58,7 @@ static const StateVectorAffine2dC InitialiseAffine ( DListC<ObservationC> &obs_l
 #define OUTLIER_SIGMA 10.0
 
 int main() {
-  DListC<ObservationC> obs_list;
+  DListC<ObservationC> obsList;
   
   // build arrays of x & y coordinates
   int i;
@@ -83,25 +83,25 @@ int main() {
     Ni[0][0] = Ni[1][1] = 1.0/SIGMA/SIGMA;
     
     // construct robust observation and add to list
-    obs_list.InsLast(ObservationAffine2dPointC(VectorC(p1), Ni,
+    obsList.InsLast(ObservationAffine2dPointC(VectorC(p1), Ni,
 					       VectorC(p2), Ni));
   }
 
-  DListC<ObservationC> compatible_obs_list;
+  DListC<ObservationC> compatibleObsList;
   
-  StateVectorAffine2dC sv = InitialiseAffine(obs_list,compatible_obs_list);
+  StateVectorAffine2dC sv = InitialiseAffine(obsList,compatibleObsList);
   
   cerr << "Ransac solution=" << sv.GetAffine() << "\n";
 
   // initialise Levenberg-Marquardt algorithm
   LevenbergMarquardtC lm = LevenbergMarquardtC(sv,
-					       compatible_obs_list);
+					       compatibleObsList);
   
 
   // apply iterations
   RealT lambda = 100.0;
   for ( i = 0; i < 20; i++ ) {
-    bool accepted = lm.Iteration(compatible_obs_list, lambda);
+    bool accepted = lm.Iteration(compatibleObsList, lambda);
     if ( accepted )
       // iteration succeeded in reducing the residual
       lambda /= 10.0;

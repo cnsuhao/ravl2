@@ -27,22 +27,22 @@ namespace RavlN {
   {
   public:
 
-    ObservationHomog2dPointBodyC(const VectorC &nz1, const MatrixRSC &nNi1,
-				 const VectorC &nz2, const MatrixRSC &nNi2);
+    ObservationHomog2dPointBodyC(const Vector2dC &nz1, const MatrixRSC &nNi1,
+				 const Vector2dC &nz2, const MatrixRSC &nNi2);
     //: Constructor.
     
-    ObservationHomog2dPointBodyC(const VectorC &nz1, const MatrixRSC &nNi1,
-				 const VectorC &nz2, const MatrixRSC &nNi2,
-				 RealT var_scale, RealT chi2_thres);
+    ObservationHomog2dPointBodyC(const Vector2dC &nz1, const MatrixRSC &nNi1,
+				 const Vector2dC &nz2, const MatrixRSC &nNi2,
+				 RealT varScale, RealT chi2Thres);
     //: Constructor for robust bi-Gaussian observation.
 
-    virtual VectorC EvaluateFunctionH(const StateVectorC &state_vec);
+    virtual VectorC EvaluateFunctionH(const StateVectorC &stateVec);
     //: Evaluate the observation function h(x) given x
 
-    virtual MatrixC EvaluateJacobianHx(const StateVectorC &state_vec);
+    virtual MatrixC EvaluateJacobianHx(const StateVectorC &stateVec);
     //: Evaluate the Jacobian of an observation for a single point
 
-    inline const VectorC& GetZ1() const
+    inline const Vector2dC& GetZ1() const
     { return z1; }
     //: Get point position on first plane
 
@@ -51,7 +51,7 @@ namespace RavlN {
     //: Get point position inverse covariance on first plane
 
   private:
-    VectorC z1; // point position on first plane
+    Vector2dC z1; // point position on first plane
     MatrixRSC Ni1; // point position inverse covariance on first plane
 
     Vector2dC p2; // last evaluation of observation function
@@ -123,16 +123,16 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    ObservationHomog2dPointC(const VectorC &nz1, const MatrixRSC &nNi1,
-			     const VectorC &nz2, const MatrixRSC &nNi2)
+    ObservationHomog2dPointC(const Vector2dC &nz1, const MatrixRSC &nNi1,
+			     const Vector2dC &nz2, const MatrixRSC &nNi2)
       : ObservationExplicitC(*new ObservationHomog2dPointBodyC(nz1,nNi1,nz2,nNi2))
     {}
     //: Constructor.
     
-    ObservationHomog2dPointC(const VectorC &nz1, const MatrixRSC &nNi1,
-			     const VectorC &nz2, const MatrixRSC &nNi2,
-			     RealT var_scale, RealT chi2_thres)
-      : ObservationExplicitC(*new ObservationHomog2dPointBodyC(nz1,nNi1,nz2,nNi2,var_scale,chi2_thres))
+    ObservationHomog2dPointC(const Vector2dC &nz1, const MatrixRSC &nNi1,
+			     const Vector2dC &nz2, const MatrixRSC &nNi2,
+			     RealT varScale, RealT chi2Thres)
+      : ObservationExplicitC(*new ObservationHomog2dPointBodyC(nz1,nNi1,nz2,nNi2,varScale,chi2Thres))
     {}
     //: Constructor for robust bi-Gaussian observation.
 
@@ -159,7 +159,7 @@ namespace RavlN {
     //: Access body.
     
   public:
-    const VectorC& GetZ1() const
+    const Vector2dC& GetZ1() const
     { return Body().GetZ1(); }
     //: Get point position on first plane
 

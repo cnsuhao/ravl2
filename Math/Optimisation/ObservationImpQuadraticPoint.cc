@@ -47,17 +47,17 @@ namespace RavlN {
 							     RealT nxc,
 							     RealT nyc,
 							     RealT nsigma,
-							     RealT nvar_scale,
-							     RealT nchi2_thres)
-    : ObservationImplicitBodyC(ObsVectorBiGaussianC(BuildZ(nxc,nyc),BuildNi(nsigma),nvar_scale,nchi2_thres),1)
+							     RealT nvarScale,
+							     RealT nchi2Thres)
+    : ObservationImplicitBodyC(ObsVectorBiGaussianC(BuildZ(nxc,nyc),BuildNi(nsigma),nvarScale,nchi2Thres),1)
   {
   }
 
   //: Evaluate the observation function F(x,z) given x and z for a single point
-  VectorC ObservationImpQuadraticPointBodyC::EvaluateFunctionF(const StateVectorC &state_vec)
+  VectorC ObservationImpQuadraticPointBodyC::EvaluateFunctionF(const StateVectorC &stateVec)
   {
     // we know that the state vector actually represents a 2D homography
-    const StateVectorQuadraticC sv(state_vec);
+    const StateVectorQuadraticC sv(stateVec);
     RavlAssert(sv.IsValid());
 
     RealT xc = GetZ()[0], yc = GetZ()[1];
@@ -73,10 +73,10 @@ namespace RavlN {
   }
 
   //: Evaluate the Jacobian dF/dz given x and z for a single point
-  MatrixC ObservationImpQuadraticPointBodyC::EvaluateJacobianFz(const StateVectorC &state_vec)
+  MatrixC ObservationImpQuadraticPointBodyC::EvaluateJacobianFz(const StateVectorC &stateVec)
   {
     // we know that the state vector actually represents a 2D homography
-    const StateVectorQuadraticC sv(state_vec);
+    const StateVectorQuadraticC sv(stateVec);
     RavlAssert(sv.IsValid());
 
     RealT xc = GetZ()[0];
@@ -88,7 +88,7 @@ namespace RavlN {
   }
 
   //: Evaluate the Jacobian dF/dx given x and z  for a single point
-  MatrixC ObservationImpQuadraticPointBodyC::EvaluateJacobianFx(const StateVectorC &state_vec)
+  MatrixC ObservationImpQuadraticPointBodyC::EvaluateJacobianFx(const StateVectorC &stateVec)
   {
     RealT xc = GetZ()[0];
     MatrixC Fx(1,3);
@@ -99,7 +99,7 @@ namespace RavlN {
     Fx[0][2] = 1.0;
 #if 0
     // we know that the state vector actually represents a 2D homography
-    const StateVectorQuadraticC sv(state_vec);
+    const StateVectorQuadraticC sv(stateVec);
     RavlAssert(sv.IsValid());
     
     cout << "x=" << xc << " a=" << sv.GetA() << " b=" << sv.GetB() << " c=" << sv.GetC();

@@ -22,23 +22,23 @@ namespace RavlN {
   }
 
   //: Constructor
-  ObservationImplicitBodyC::ObservationImplicitBodyC(const ObsVectorC &nobs_vec, UIntT nFsize)
-    : ObservationBodyC(nobs_vec)
+  ObservationImplicitBodyC::ObservationImplicitBodyC(const ObsVectorC &nobsVec, UIntT nFsize)
+    : ObservationBodyC(nobsVec)
   {
     // compute covariance matrix from inverse
-    N = nobs_vec.GetNi().Inverse();
+    N = nobsVec.GetNi().Inverse();
 
     // store size of F vector
     Fsize = nFsize;
   }
 
   //: Compute the residual (negative log-likelihood) of the observation
-  RealT ObservationImplicitBodyC::Residual(const StateVectorC &state_vec) {
+  RealT ObservationImplicitBodyC::Residual(const StateVectorC &stateVec) {
     // evaluate observation F(x,z) identified with the negation of innovation v
     // and the Jacobian dF/dz
-    VectorC F = EvaluateFunctionF(state_vec);
-    RavlAssertMsg(F.Size()==Fsize,"ObservationImplicitBodyC::Residual(const StateVectorC &state_vec), Inconsistent size of F ");
-    MatrixC Fz = EvaluateJacobianFz(state_vec);
+    VectorC F = EvaluateFunctionF(stateVec);
+    RavlAssertMsg(F.Size()==Fsize,"ObservationImplicitBodyC::Residual(const StateVectorC &stateVec), Inconsistent size of F ");
+    MatrixC Fz = EvaluateJacobianFz(stateVec);
 
     // compute Fz*N*Fz^T
     MatrixC NFzT = GetN()*Fz.T();
@@ -49,16 +49,16 @@ namespace RavlN {
     MatrixRSC Nip = FNFT.Inverse();
 
     // compute and return F^T*N^-1*F adjusted for robust distribution, if any
-    return obs_vec.Residual(F, Nip);
+    return obsVec.Residual(F, Nip);
   }
 
   //: Compute the non-robust residual (negative log-likelihood)
-  RealT ObservationImplicitBodyC::NonRobustResidual(const StateVectorC &state_vec) {
+  RealT ObservationImplicitBodyC::NonRobustResidual(const StateVectorC &stateVec) {
     // evaluate observation F(x,z) identified with the negation of innovation v
     // and the Jacobian dF/dz
-    VectorC F = EvaluateFunctionF(state_vec);
-    RavlAssertMsg(F.Size()==Fsize,"ObservationImplicitBodyC::NonRobustResidual(const StateVectorC &state_vec), Inconsistent size of F ");
-    MatrixC Fz = EvaluateJacobianFz(state_vec);
+    VectorC F = EvaluateFunctionF(stateVec);
+    RavlAssertMsg(F.Size()==Fsize,"ObservationImplicitBodyC::NonRobustResidual(const StateVectorC &stateVec), Inconsistent size of F ");
+    MatrixC Fz = EvaluateJacobianFz(stateVec);
 
     // compute Fz*N*Fz^T
     MatrixC NFzT = GetN()*Fz.T();
@@ -76,16 +76,16 @@ namespace RavlN {
   }
 
   //: Increment the linear system
-  bool ObservationImplicitBodyC::IncrementLS(const StateVectorC &state_vec,
+  bool ObservationImplicitBodyC::IncrementLS(const StateVectorC &stateVec,
 					     MatrixRSC &A,
 					     VectorC &a) {
 
     // evaluate observation F(x,z) identified with the negation of innovation v
     // and the Jacobians Fz=dF/dz and Fx=dF/dx
-    VectorC F = EvaluateFunctionF(state_vec);
+    VectorC F = EvaluateFunctionF(stateVec);
     RavlAssertMsg(F.Size()==Fsize,"ObservationImplicitBodyC::IncrementLS(), Inconsistent size of F ");
-    MatrixC Fz = EvaluateJacobianFz(state_vec);
-    MatrixC Fx = EvaluateJacobianFx(state_vec);
+    MatrixC Fz = EvaluateJacobianFz(stateVec);
+    MatrixC Fx = EvaluateJacobianFx(stateVec);
 
     // compute Fz*N*Fz^T
     MatrixC NFzT = GetN()*Fz.T();
@@ -106,7 +106,7 @@ namespace RavlN {
       VectorC FxTNiF = NiFx.T() * F;//NiFx.TMul(v);
 
       // adjust information matrix/vector for any robustness
-      obs_vec.AdjustInformation ( Aterm, FxTNiF );
+      obsVec.AdjustInformation ( Aterm, FxTNiF );
 
       // increment information matrix and vector sums
       A += Aterm;
@@ -115,7 +115,7 @@ namespace RavlN {
     else {
 
       // adjust information matrix for any robustness
-      obs_vec.AdjustInformation ( Aterm, a );
+      obsVec.AdjustInformation ( Aterm, a );
 
       // increment information matrix and vector sums
       A += Aterm;
@@ -125,22 +125,22 @@ namespace RavlN {
   }
 
   //: Evaluate the observation function F(x,z) given x and z
-  VectorC ObservationImplicitBodyC::EvaluateFunctionF(const StateVectorC &state_vec)
+  VectorC ObservationImplicitBodyC::EvaluateFunctionF(const StateVectorC &stateVec)
   {
-    RavlAssertMsg(0,"ObservationImplicitBodyC::EvaluateFunctionF(const StateVectorC &state_vec), Abstract method called ");
+    RavlAssertMsg(0,"ObservationImplicitBodyC::EvaluateFunctionF(const StateVectorC &stateVec), Abstract method called ");
     return VectorC();
   }
 
   //: Evaluate the Jacobian dF/dz given x and z
-  MatrixC ObservationImplicitBodyC::EvaluateJacobianFz(const StateVectorC &state_vec)
+  MatrixC ObservationImplicitBodyC::EvaluateJacobianFz(const StateVectorC &stateVec)
   {
     // we want to manipulate the values of the observation vector parameters
     // locally, restoring them at the end. So let's cast our const reference
     // to a non-const reference.
     VectorC &z = const_cast<VectorC &> (GetZ());
     VectorC zcopy = z.Copy(); // so that we can restore the observation vector
-    VectorC zstep = obs_vec.GetZStep(); // step sizes for differentiation
-    VectorC F = EvaluateFunctionF(state_vec); // evaluate to get size
+    VectorC zstep = obsVec.GetZStep(); // step sizes for differentiation
+    VectorC F = EvaluateFunctionF(stateVec); // evaluate to get size
     MatrixC Fz = MatrixC(F.Size(), GetZ().Size());
 
     // fill in Jacobian, one column at a time
@@ -149,13 +149,13 @@ namespace RavlN {
       z[i] -= zstep[i];
 
       // evaluate h(x)
-      VectorC Fp1 = EvaluateFunctionF(state_vec);
+      VectorC Fp1 = EvaluateFunctionF(stateVec);
 
       // increment element i of state vector
       z[i] += 2.0*zstep[i];
 
       // evaluate h(x)
-      VectorC Fp2 = EvaluateFunctionF(state_vec);
+      VectorC Fp2 = EvaluateFunctionF(stateVec);
 
       // set element back to original value
       z[i] -= zstep[i];
@@ -176,16 +176,16 @@ namespace RavlN {
   }
 
   //: Evaluate the Jacobian dF/dx given x and z
-  MatrixC ObservationImplicitBodyC::EvaluateJacobianFx(const StateVectorC &state_vec)
+  MatrixC ObservationImplicitBodyC::EvaluateJacobianFx(const StateVectorC &stateVec)
   {
     // we want to manipulate the values of the state vector parameters locally,
     // restoring them at the end, and without making a copy of the whole state
     // vector object first. So let's cast our const reference to a non-const
     // reference.
-    StateVectorC &sv = const_cast<StateVectorC &> (state_vec);
+    StateVectorC &sv = const_cast<StateVectorC &> (stateVec);
     VectorC xcopy = sv.GetX().Copy(); // copy of state vector
     VectorC xstep = sv.GetXStep(); // step sizes for differentiation
-    VectorC F = EvaluateFunctionF(state_vec); // evaluate to get size
+    VectorC F = EvaluateFunctionF(stateVec); // evaluate to get size
     MatrixC Fx = MatrixC(F.Size(), xcopy.Size());
 
     // fill in Jacobian, one column at a time

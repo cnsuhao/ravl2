@@ -25,57 +25,57 @@ namespace RavlN {
   //: Constructor
   StateVectorHomog2dBodyC::StateVectorHomog2dBodyC(const VectorC &nx,
 						   RealT nzh1, RealT nzh2,
-						   RealT ngauge_weight)
+						   RealT ngaugeWeight)
     : StateVectorBodyC(nx)
   {
     zh1 = nzh1;
     zh2 = nzh2;
-    gauge_weight = ngauge_weight;
+    gaugeWeight = ngaugeWeight;
     Postprocess();
   }
 
   //: Constructor
   StateVectorHomog2dBodyC::StateVectorHomog2dBodyC(const VectorC &nx,
 						   RealT nzh1, RealT nzh2,
-						   RealT ngauge_weight,
+						   RealT ngaugeWeight,
 						   const VectorC &nxstep)
     : StateVectorBodyC(nx,nxstep)
   {
     zh1 = nzh1;
     zh2 = nzh2;
-    gauge_weight = ngauge_weight;
+    gaugeWeight = ngaugeWeight;
     Postprocess();
   }
 
   //: Constructor
   StateVectorHomog2dBodyC::StateVectorHomog2dBodyC(const Matrix3dC &P,
 						   RealT nzh1, RealT nzh2,
-						   RealT ngauge_weight)
+						   RealT ngaugeWeight)
     : StateVectorBodyC(StateVecFromHomog(P))
   {
     zh1 = nzh1;
     zh2 = nzh2;
-    gauge_weight = ngauge_weight;
+    gaugeWeight = ngaugeWeight;
     Postprocess();
   }
 
   //: Constructor
   StateVectorHomog2dBodyC::StateVectorHomog2dBodyC(const Matrix3dC &P,
 						   RealT nzh1, RealT nzh2,
-						   RealT ngauge_weight,
+						   RealT ngaugeWeight,
 						   const VectorC &nxstep)
     : StateVectorBodyC(StateVecFromHomog(P),nxstep)
   {
     zh1 = nzh1;
     zh2 = nzh2;
-    gauge_weight = ngauge_weight;
+    gaugeWeight = ngaugeWeight;
     Postprocess();
   }
 
   //: Constructor.
   StateVectorHomog2dBodyC::StateVectorHomog2dBodyC(const VectorC &nx,
 						   RealT nzh1, RealT nzh2,
-						   RealT ngauge_weight,
+						   RealT ngaugeWeight,
 						   const VectorC &nxstep,
 						   const Matrix3dC &Pnew) 
     : StateVectorBodyC(nx,nxstep),
@@ -83,7 +83,7 @@ namespace RavlN {
   {
     zh1 = nzh1;
     zh2 = nzh2;
-    gauge_weight = ngauge_weight;
+    gaugeWeight = ngaugeWeight;
     Postprocess();
   }
   
@@ -95,7 +95,7 @@ namespace RavlN {
     MatrixC xxT = x.OuterProduct();
     MatrixRSC xxTS(xxT);
     
-    xxTS *= gauge_weight;
+    xxTS *= gaugeWeight;
     A += xxTS;
     return true;
   }

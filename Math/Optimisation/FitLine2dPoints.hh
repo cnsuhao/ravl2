@@ -14,10 +14,29 @@
 //! example="OrthogonalRegressionTest.cc"
 //! lib=RavlOptimise
 
-#include <Ravl/FitToSample.hh>
+#include "Ravl/FitToSample.hh"
 
 namespace RavlN {
   
+  //! userlevel=Develop
+  //: Body class for fitting a 2D line to a sample of 2D points
+  class FitLine2dPointsBodyC
+    : public FitToSampleBodyC
+  {
+  public:
+    FitLine2dPointsBodyC();
+    //: Constructor for a class to fit a 2D line to points on a plane
+    
+    FitLine2dPointsBodyC(RealT zh);
+    //: Constructor for a class to fit a 2D line to points on a plane
+
+    virtual StateVectorC FitModel(DListC<ObservationC> sample);
+    //: Fit quadratic curve to sample of points on a plane
+
+ private:
+    RealT zh; // 3rd homogeneous coordinate of plane on which line lies
+  };
+
   //! userlevel=Normal
   //! autoLink=on
   //: This class fits a 2D line to a sample of 2D points
@@ -25,21 +44,41 @@ namespace RavlN {
     : public FitToSampleC
   {
   public:
-    FitLine2dPointsC(RealT zh);
+    FitLine2dPointsC(RealT zh)
+      : FitToSampleC(*new FitLine2dPointsBodyC(zh))
+    {}
     //: Constructor for a class to fit a 2D line to points on a plane
     // zh is the 3rd homogeneous coordinate of the plane on which the line and
     // the points lie.
 
-    FitLine2dPointsC();
+    FitLine2dPointsC()
+      : FitToSampleC(*new FitLine2dPointsBodyC())
+    {}
     //: Constructor for a class to fit a 2D line to points on a plane
     // The 3rd homogeneous coordinate of the plane on which the line and points
     // lie is set to one.
 
-    StateVectorC FitModel(DListC<ObservationC> sample);
-    //: Fit 2D line to sample of 2D point observations
+    FitLine2dPointsC(const FitToSampleC &fitter)
+      : FitToSampleC(fitter)
+    {
+      if(dynamic_cast<FitLine2dPointsBodyC *>(&FitToSampleC::Body()) == 0)
+	Invalidate();
+    }
+    //: Base class constructor.
+    
+  public:
+    FitLine2dPointsC(FitLine2dPointsBodyC &bod)
+      : FitToSampleC(bod)
+    {}
+    //: Body constructor.
+    
+    FitLine2dPointsBodyC &Body()
+    { return static_cast<FitLine2dPointsBodyC &>(FitToSampleC::Body()); }
+    //: Access body.
 
- private:
-   RealT zh; // 3rd homogeneous coordinate of plane on which line lies
+    const FitLine2dPointsBodyC &Body() const
+    { return static_cast<const FitLine2dPointsBodyC &>(FitToSampleC::Body()); }
+    //: Access body.
   };
 }
 

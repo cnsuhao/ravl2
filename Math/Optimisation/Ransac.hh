@@ -14,10 +14,10 @@
 //! example="OrthogonalRegressionTest.cc Homography2dFitTest.cc"
 //! lib=RavlOptimise
 
-#include <Ravl/StoredState.hh>
-#include <Ravl/ObservationManager.hh>
-#include <Ravl/FitToSample.hh>
-#include <Ravl/EvaluateSolution.hh>
+#include "Ravl/StoredState.hh"
+#include "Ravl/ObservationManager.hh"
+#include "Ravl/FitToSample.hh"
+#include "Ravl/EvaluateSolution.hh"
 
 namespace RavlN {
   
@@ -64,15 +64,15 @@ namespace RavlN {
     : public StoredStateC
   {
   public:
-    RansacC(ObservationManagerC &obs_manager,
-	    FitToSampleC &model_fitter,
+    RansacC(ObservationManagerC &obsManager,
+	    FitToSampleC &modelFitter,
 	    EvaluateSolutionC &evaluator);
     //: Constructor.
 
     virtual ~RansacC(){}
     //: Virtual destructor,
 
-    bool ProcessSample(UIntT min_num_constraints);
+    bool ProcessSample(UIntT minNumConstraints);
     //: Generate sample, compute vote and update best solution and vote
     // This creates and evaluates a single sample. Call ProcessSample()
     // multiple times to guarantee as far as possible that you get at least
@@ -80,10 +80,10 @@ namespace RavlN {
     // ProcessSample() a fixed number of times.
 
   private:
-    ObservationManagerC &obs_manager; // observation manager
-    FitToSampleC &model_fitter; // for fitting model parameters to samples
+    ObservationManagerC &obsManager; // observation manager
+    FitToSampleC &modelFitter; // for fitting model parameters to samples
     EvaluateSolutionC &evaluator; // for evaluating the vote for a solution
-    RealT highest_vote; // best vote so far
+    RealT highestVote; // best vote so far
 
   public:
     RealT GetHighestVote() const;

@@ -14,12 +14,12 @@ namespace RavlN {
   //: Constructor for optimisation base class
   StoredStateC::StoredStateC()
   {
-    state_vec = StateVectorC();
+    stateVec = StateVectorC();
   }
 
   //: Constructor for optimisation base class
-  StoredStateC::StoredStateC(StateVectorC &state_vec_init)
+  StoredStateC::StoredStateC(StateVectorC &stateVecInit)
   {
-    state_vec = state_vec_init.Copy();
+    stateVec = stateVecInit.Copy();
   }
 }

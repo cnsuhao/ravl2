@@ -15,27 +15,27 @@
 namespace RavlN {
 
   //: Constructor for Levenberg-Marquardt.
-  LevenbergMarquardtC::LevenbergMarquardtC(StateVectorC &state_vec_init,
-					   DListC<ObservationC> obs_list)
-    : StoredStateC(state_vec_init)
+  LevenbergMarquardtC::LevenbergMarquardtC(StateVectorC &stateVecInit,
+					   DListC<ObservationC> obsList)
+    : StoredStateC(stateVecInit)
   {
-    A = MatrixRSC(state_vec.GetX().Size());
-    Ainv = MatrixRSC(state_vec.GetX().Size());
-    residual = ComputeResidual(obs_list);
-    A_updated = Ainv_updated = false;
+    A = MatrixRSC(stateVec.GetX().Size());
+    Ainv = MatrixRSC(stateVec.GetX().Size());
+    residual = ComputeResidual(obsList);
+    Aupdated = AinvUpdated = false;
   }
 
   // compute residual given existing state vector
-  RealT LevenbergMarquardtC::ComputeResidual(DListC<ObservationC> obs_list) const
+  RealT LevenbergMarquardtC::ComputeResidual(DListC<ObservationC> obsList) const
   {
     RealT residual = 0.0;
 
     // go through observations one by one, adding up residual
-    for(DLIterC<ObservationC> it(obs_list);it;it++) {
+    for(DLIterC<ObservationC> it(obsList);it;it++) {
       ObservationC obs = it.Data();
 
       // accumulate residual
-      residual += obs.Residual(state_vec);
+      residual += obs.Residual(stateVec);
     }
 
     return residual;
@@ -44,35 +44,34 @@ namespace RavlN {
   // Apply an iteration, processing observations and updating the state
   // Returns true if the iteration succeeded in reducing the residual,
   // false otherwise.
-  
-  bool LevenbergMarquardtC::Iteration ( DListC<ObservationC> obs_list,
-					RealT lambda, bool rescale_diagonal )
+  bool LevenbergMarquardtC::Iteration ( DListC<ObservationC> obsList,
+					RealT lambda, bool rescaleDiagonal )
   {
-    VectorC a = state_vec.GetX().Copy();
+    VectorC a = stateVec.GetX().Copy();
 
     // force recalculation of (inverse) covariance matrix
-    A_updated = Ainv_updated = false;
+    Aupdated = AinvUpdated = false;
 
     // initialise information to zero
     A.Fill(0.0);
     a.Fill(0.0);
 
     // store existing state vector
-    VectorC xold = state_vec.GetX().Copy();
+    VectorC xold = stateVec.GetX().Copy();
 
     // go through observations one by one
-    for(DLIterC<ObservationC> it(obs_list);it;it++) {
+    for(DLIterC<ObservationC> it(obsList);it;it++) {
       ObservationC obs = it.Data();
 
       // accumulate information sum
-      obs.IncrementLS ( state_vec, A, a );
+      obs.IncrementLS ( stateVec, A, a );
     }
 
     // add any adjustments specified by the state vector
-    state_vec.IncrementLS ( A, a );
+    stateVec.IncrementLS ( A, a );
 
     IntT i;
-    if ( rescale_diagonal )
+    if ( rescaleDiagonal )
       // scale diagonal of A by 1+lambda
       for ( i = (IntT)A.Rows()-1; i >= 0; i-- )
 	A[i][i] = (1.0+lambda)*A[i][i];
@@ -90,33 +89,52 @@ namespace RavlN {
     a = Ainv*a;
 
     // add A^-1*a to state vector x
-    state_vec.IncX(a);
+    stateVec.IncX(a);
 
     // compute residual after update
-    RealT new_residual = ComputeResidual ( obs_list );
+    RealT newResidual = ComputeResidual ( obsList );
 
     // reinstate state vector if the new residual is equal or higher
-    if ( new_residual >= residual ) {
-      state_vec.SetX(xold);
+    if ( newResidual >= residual ) {
+      stateVec.SetX(xold);
 
       // restore state of observations
-      for(DLIterC<ObservationC> it(obs_list); it; it++) {
+      for(DLIterC<ObservationC> it(obsList); it; it++) {
 	ObservationC obs = it.Data();
-	ObsVectorC obs_vec = obs.GetObsVec();
-	obs_vec.Restore();
+	ObsVectorC obsVec = obs.GetObsVec();
+	obsVec.Restore();
       }
 
       return false;
     }
     else {
       // update best residual
-      residual = new_residual;
+      residual = newResidual;
       return true;
     }
   }
 
+  // Apply a fixed number of iterations
+  bool LevenbergMarquardtC::NIterations ( DListC<ObservationC> obsList,
+					  UIntT n,
+					  RealT lambda, RealT lambdaFactor,
+					  bool rescaleDiagonal )
+  {
+    for ( UIntT i = 0; i < n; i++ ) {
+      bool accepted = Iteration(obsList, lambda, rescaleDiagonal);
+      if ( accepted )
+	// iteration succeeded in reducing the residual
+	lambda *= lambdaFactor;
+      else
+	// iteration failed to reduce the residual
+	lambda /= lambdaFactor;
+    }
+
+    return true;
+  }
+
   // Inverse covariance matrix of solution
-  const MatrixRSC &LevenbergMarquardtC::InverseCovarianceMatrix(DListC<ObservationC> obs_list)
+  const MatrixRSC &LevenbergMarquardtC::InverseCovarianceMatrix(DListC<ObservationC> obsList)
   {
     // invalid vector
     VectorC a;
@@ -125,11 +143,11 @@ namespace RavlN {
     A.Fill(0.0);
 
     // go through observations one by one
-    for(DLIterC<ObservationC> it(obs_list);it;it++) {
+    for(DLIterC<ObservationC> it(obsList);it;it++) {
       ObservationC obs = it.Data();
 
       // accumulate information sum
-      obs.IncrementLS ( state_vec, A, a );
+      obs.IncrementLS ( stateVec, A, a );
     }
 
     return A;

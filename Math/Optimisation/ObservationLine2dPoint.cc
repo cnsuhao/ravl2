@@ -23,16 +23,16 @@ namespace RavlN {
   //: Constructor for robust bi-Gaussian observation.
   ObservationLine2dPointBodyC::ObservationLine2dPointBodyC(
 			     const VectorC &nz, const MatrixRSC &nNi,
-			     RealT nvar_scale, RealT nchi2_thres)
-    : ObservationImplicitBodyC(ObsVectorBiGaussianC(nz,nNi,nvar_scale,nchi2_thres),1)
+			     RealT nvarScale, RealT nchi2Thres)
+    : ObservationImplicitBodyC(ObsVectorBiGaussianC(nz,nNi,nvarScale,nchi2Thres),1)
   {
   }
 
   //: Evaluate an observation for a single point
-  VectorC ObservationLine2dPointBodyC::EvaluateFunctionF(const StateVectorC &state_vec)
+  VectorC ObservationLine2dPointBodyC::EvaluateFunctionF(const StateVectorC &stateVec)
   {
     // we know that the state vector actually represents a 2D line
-    const StateVectorLine2dC sv = state_vec;
+    const StateVectorLine2dC sv = stateVec;
     RavlAssert(sv.IsValid());
     
     const VectorC &z = GetZ(); // 2D image point
@@ -52,10 +52,10 @@ namespace RavlN {
 #if 1
   //: Evaluate the Jacobian of an observation for a single point w.r.t. the
   //: 2D point observation
-  MatrixC ObservationLine2dPointBodyC::EvaluateJacobianFz(const StateVectorC &state_vec)
+  MatrixC ObservationLine2dPointBodyC::EvaluateJacobianFz(const StateVectorC &stateVec)
   {
     // we know that the state vector actually represents a 2D line
-    const StateVectorLine2dC& sv = state_vec;
+    const StateVectorLine2dC& sv = stateVec;
     RavlAssert(sv.IsValid());
     
     MatrixC Fz(1,2); // Jacobian matrix
@@ -68,10 +68,10 @@ namespace RavlN {
 
   //: Evaluate the Jacobian of an observation for a single point w.r.t. the
   //: line parameters
-  MatrixC ObservationLine2dPointBodyC::EvaluateJacobianFx(const StateVectorC &state_vec)
+  MatrixC ObservationLine2dPointBodyC::EvaluateJacobianFx(const StateVectorC &stateVec)
   {
     // we know that the state vector actually represents a 2D line
-    const StateVectorLine2dC& sv = state_vec;
+    const StateVectorLine2dC& sv = stateVec;
     RavlAssert(sv.IsValid());
     
     const VectorC &z = GetZ(); // 2D image point pair

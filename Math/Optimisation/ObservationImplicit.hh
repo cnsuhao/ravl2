@@ -28,16 +28,16 @@ namespace RavlN {
     ObservationImplicitBodyC();
     //: Default constructor.
     
-    ObservationImplicitBodyC(const ObsVectorC &nobs_vec, UIntT Fsize);
+    ObservationImplicitBodyC(const ObsVectorC &nobsVec, UIntT Fsize);
     //: Constructor
 
-    RealT Residual(const StateVectorC &state_vec);
+    RealT Residual(const StateVectorC &stateVec);
     //: Compute the residual (negative log-likelihood) of the observation
 
-    RealT NonRobustResidual(const StateVectorC &state_vec);
+    RealT NonRobustResidual(const StateVectorC &stateVec);
     //: Compute the non-robust residual (negative log-likelihood)
 
-    bool IncrementLS(const StateVectorC &state_vec,
+    bool IncrementLS(const StateVectorC &stateVec,
 		     MatrixRSC &A,
 		     VectorC &a);
     //: Increment the linear system
@@ -46,13 +46,13 @@ namespace RavlN {
     { return Fsize; }
     //: Returns the number of constraints imposed on the state
     
-    virtual VectorC EvaluateFunctionF(const StateVectorC &state_vec);
+    virtual VectorC EvaluateFunctionF(const StateVectorC &stateVec);
     //: Evaluate the observation function F(x,z) given x and z
 
-    virtual MatrixC EvaluateJacobianFz(const StateVectorC &state_vec);
+    virtual MatrixC EvaluateJacobianFz(const StateVectorC &stateVec);
     //: Evaluate the Jacobian dF/dz given x and z
 
-    virtual MatrixC EvaluateJacobianFx(const StateVectorC &state_vec);
+    virtual MatrixC EvaluateJacobianFx(const StateVectorC &stateVec);
     //: Evaluate the Jacobian dF/dx given x and z
 
     const MatrixRSC &GetN() const;
@@ -103,8 +103,8 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    ObservationImplicitC(const ObsVectorC &nobs_vec, UIntT Fsize)
-      : ObservationC(*new ObservationImplicitBodyC(nobs_vec,Fsize))
+    ObservationImplicitC(const ObsVectorC &nobsVec, UIntT Fsize)
+      : ObservationC(*new ObservationImplicitBodyC(nobsVec,Fsize))
     {}
     //: Constructor
 
@@ -132,16 +132,16 @@ namespace RavlN {
     
   public:
 
-    VectorC EvaluateFunctionF(const StateVectorC &state_vec)
-    { return Body().EvaluateFunctionF(state_vec); }
+    VectorC EvaluateFunctionF(const StateVectorC &stateVec)
+    { return Body().EvaluateFunctionF(stateVec); }
     //: Evaluate the observation function F(x,z) given x and z
 
-    MatrixC EvaluateJacobianFz(const StateVectorC &state_vec)
-    { return Body().EvaluateJacobianFz(state_vec); }
+    MatrixC EvaluateJacobianFz(const StateVectorC &stateVec)
+    { return Body().EvaluateJacobianFz(stateVec); }
     //: Evaluate the Jacobian dF/dz given x and z
 
-    MatrixC EvaluateJacobianFx(const StateVectorC &state_vec)
-    { return Body().EvaluateJacobianFx(state_vec); }
+    MatrixC EvaluateJacobianFx(const StateVectorC &stateVec)
+    { return Body().EvaluateJacobianFx(stateVec); }
     //: Evaluate the Jacobian dF/dx given x and z
     
     const MatrixRSC &GetN() const

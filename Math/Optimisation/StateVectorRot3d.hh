@@ -104,8 +104,8 @@ namespace RavlN {
     {}
     //: Constructor
 
-    StateVectorRot3dC(const StateVectorC &state_vec)
-      : StateVectorC(state_vec)
+    StateVectorRot3dC(const StateVectorC &stateVec)
+      : StateVectorC(stateVec)
     {
       if(IsValid()) {
 	if(dynamic_cast<StateVectorRot3dBodyC *>(&StateVectorC::Body()) == 0)

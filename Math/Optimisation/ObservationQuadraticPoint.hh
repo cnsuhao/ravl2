@@ -29,10 +29,10 @@ namespace RavlN {
     //: Constructor.
     
     ObservationQuadraticPointBodyC(RealT nxc, RealT nyc, RealT nsigma,
-				   RealT nvar_scale, RealT nchi2_thres);
+				   RealT nvarScale, RealT nchi2Thres);
     //: Constructor.
 
-    virtual VectorC EvaluateFunctionH(const StateVectorC &state_vec);
+    virtual VectorC EvaluateFunctionH(const StateVectorC &stateVec);
     //: Evaluate the observation function h(x) given x
 
     virtual MatrixC EvaluateJacobianHx(const StateVectorC &x);
@@ -108,17 +108,17 @@ namespace RavlN {
     // the estimated standard deviation of the error in yc.
     
     ObservationQuadraticPointC(RealT xc, RealT yc, RealT sigma,
-			       RealT var_scale, RealT chi2_thres)
-      : ObservationExplicitC(*new ObservationQuadraticPointBodyC(xc,yc,sigma,var_scale,chi2_thres))
+			       RealT varScale, RealT chi2Thres)
+      : ObservationExplicitC(*new ObservationQuadraticPointBodyC(xc,yc,sigma,varScale,chi2Thres))
     {}
     //: Constructor.
     // xc, yc are the x, y coordinates of a point on the curve, and sigma is
     // the estimated standard deviation of the error in yc. This constructs
     // a robust bi-gaussian observation using the ObsVectorBiGaussianC class.
-    // The var_scale parameter is the size of the outlier standard deviation
+    // The varScale parameter is the size of the outlier standard deviation
     // relative to the inlier distribution (as given by sigma). If you estimate
-    // the outlier distrubition standard deviation as sigma_o, then var_scale
-    // should be set to (sigma_o/sigma)^2. The chi2_thres value specifies the
+    // the outlier distrubition standard deviation as sigma_o, then varScale
+    // should be set to (sigma_o/sigma)^2. The chi2Thres value specifies the
     // switching point between the inlier and outlier distributions, as a
     // threshold on the normalised chi-squared error using the inlier
     // distribution.

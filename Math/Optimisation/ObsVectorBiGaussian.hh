@@ -25,12 +25,12 @@ namespace RavlN {
   {
   public:
     ObsVectorBiGaussianBodyC(const VectorC &z, const MatrixRSC &Ni,
-			     RealT var_scale, RealT chi2_thres);
+			     RealT varScale, RealT chi2Thres);
     //: Constructor.
 
     ObsVectorBiGaussianBodyC(const VectorC &z, const MatrixRSC &Ni,
 			     const VectorC &zstep,
-			     RealT var_scale, RealT chi2_thres);
+			     RealT varScale, RealT chi2Thres);
     //: Constructor.
 
     virtual double Residual(const VectorC &v, const MatrixRSC &Ni);
@@ -52,12 +52,12 @@ namespace RavlN {
     //: Set observation to be an outlier
 
   protected:
-    RealT var_inv_scale; // inverse scaling of outlier covariance
-    RealT chi2_thres; // cut-off point for chi^2 to switch to outlier
+    RealT varInvScale; // inverse scaling of outlier covariance
+    RealT chi2Thres; // cut-off point for chi^2 to switch to outlier
                       // distribution
-    RealT chi2_offset; // adjustment to chi^2 residual for outlier distribution
+    RealT chi2Offset; // adjustment to chi^2 residual for outlier distribution
     bool outlier; // whether the observation is an outlier (true) or an inlier
-    bool previous_outlier_flag; // stored outlier flag
+    bool previousOutlierFlag; // stored outlier flag
   };
 
   //! userlevel=Normal
@@ -73,23 +73,23 @@ namespace RavlN {
   {
   public:
     ObsVectorBiGaussianC(const VectorC &z, const MatrixRSC &Ni,
-			 RealT var_scale, RealT chi2_thres)
-      : ObsVectorC(*new ObsVectorBiGaussianBodyC(z,Ni,var_scale,chi2_thres))
+			 RealT varScale, RealT chi2Thres)
+      : ObsVectorC(*new ObsVectorBiGaussianBodyC(z,Ni,varScale,chi2Thres))
     {}
     //: Constructor
-    // var_scale is the covariance scaling K parameter in the
+    // varScale is the covariance scaling K parameter in the
     // <a href="../../../LevenbergMarquardt/node1.html">theory document</a>,
-    // and chi2_thres is the chi-squared cutoff parameter.
+    // and chi2Thres is the chi-squared cutoff parameter.
 
     ObsVectorBiGaussianC(const VectorC &z, const MatrixRSC &Ni,
 			 const VectorC &zstep,
-			 RealT var_scale, RealT chi2_thres)
-      : ObsVectorC(*new ObsVectorBiGaussianBodyC(z,Ni,zstep,var_scale,chi2_thres))
+			 RealT varScale, RealT chi2Thres)
+      : ObsVectorC(*new ObsVectorBiGaussianBodyC(z,Ni,zstep,varScale,chi2Thres))
     {}
     //: Constructor
-    // var_scale is the covariance scaling K parameter in the
+    // varScale is the covariance scaling K parameter in the
     // <a href="../../../LevenbergMarquardt/node1.html">theory document</a>,
-    // and chi2_thres is the chi-squared cutoff parameter.
+    // and chi2Thres is the chi-squared cutoff parameter.
     // This constructor also allows you to specify a vector zstep of step
     // sizes for numerical differentiation with respect to the elements of z,
     // overriding the default step size (1e-6).

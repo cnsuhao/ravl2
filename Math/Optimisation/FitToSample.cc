@@ -11,15 +11,10 @@
 
 namespace RavlN {
 
-  //: Constructor.
-  FitToSampleC::FitToSampleC()
-  {
-  }
-
   //: Fit parameters to sample of observations
-  StateVectorC FitToSampleC::FitModel(DListC<ObservationC> sample)
+  StateVectorC FitToSampleBodyC::FitModel(DListC<ObservationC> sample)
   {
-    RavlAssertMsg(0,"FitToSampleC::FitModel(DListC<ObservationC>(), Abstract method called ");
+    RavlAssertMsg(0,"FitToSampleBodyC::FitModel(DListC<ObservationC>(), Abstract method called ");
     return StateVectorC();
   }
 }

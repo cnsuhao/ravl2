@@ -31,16 +31,16 @@ namespace RavlN {
     //: Constructor.
     
     ObservationLine2dPointBodyC(const VectorC &z, const MatrixRSC &Ni,
-				RealT var_scale, RealT chi2_thres);
+				RealT varScale, RealT chi2Thres);
     //: Constructor for robust bi-Gaussian observation.
 
-    virtual VectorC EvaluateFunctionF(const StateVectorC &state_vec);
+    virtual VectorC EvaluateFunctionF(const StateVectorC &stateVec);
     //: Evaluate the observation function F(x,z) given x and z
 #if 1
-    virtual MatrixC EvaluateJacobianFz(const StateVectorC &state_vec);
+    virtual MatrixC EvaluateJacobianFz(const StateVectorC &stateVec);
     //: Evaluate the Jacobian dF/dz given x and z
 
-    virtual MatrixC EvaluateJacobianFx(const StateVectorC &state_vec);
+    virtual MatrixC EvaluateJacobianFx(const StateVectorC &stateVec);
     //: Evaluate the Jacobian dF/dx given x and z
 #endif
   private:
@@ -83,8 +83,8 @@ namespace RavlN {
     //: Constructor.
     
     ObservationLine2dPointC(const VectorC &z, const MatrixRSC &Ni,
-			    RealT var_scale, RealT chi2_thres)
-      : ObservationImplicitC(*new ObservationLine2dPointBodyC(z,Ni,var_scale,chi2_thres))
+			    RealT varScale, RealT chi2Thres)
+      : ObservationImplicitC(*new ObservationLine2dPointBodyC(z,Ni,varScale,chi2Thres))
     {}
     //: Constructor for robust bi-Gaussian observation.
 

@@ -45,9 +45,9 @@ namespace RavlN {
 						RealT nxc,
 						RealT nyc,
 						RealT nsigma,
-						RealT nvar_scale,
-						RealT nchi2_thres)
-    : ObservationExplicitBodyC(ObsVectorBiGaussianC(BuildZ(nyc),BuildNi(nsigma),nvar_scale,nchi2_thres))
+						RealT nvarScale,
+						RealT nchi2Thres)
+    : ObservationExplicitBodyC(ObsVectorBiGaussianC(BuildZ(nyc),BuildNi(nsigma),nvarScale,nchi2Thres))
   {
     xc = nxc;
   }
@@ -59,10 +59,10 @@ namespace RavlN {
   }
 
   //: Evaluate an observation for a single point
-  VectorC ObservationQuadraticPointBodyC::EvaluateFunctionH(const StateVectorC &state_vec)
+  VectorC ObservationQuadraticPointBodyC::EvaluateFunctionH(const StateVectorC &stateVec)
   {
     // we know that the state vector actually represents a quadratic curve
-    const StateVectorQuadraticC sv(state_vec);
+    const StateVectorQuadraticC sv(stateVec);
     RavlAssert(sv.IsValid());
     
     VectorC h(1);
@@ -78,7 +78,7 @@ namespace RavlN {
   }
 
   //: Evaluate the Jacobian for a single point
-  MatrixC ObservationQuadraticPointBodyC::EvaluateJacobianHx(const StateVectorC &state_vec)
+  MatrixC ObservationQuadraticPointBodyC::EvaluateJacobianHx(const StateVectorC &stateVec)
   {
     MatrixC H(1,3);
 
@@ -88,7 +88,7 @@ namespace RavlN {
     H[0][2] = 1.0;
 #if 0
     // we know that the state vector actually represents a quadratic curve
-    const StateVectorQuadraticC sv(state_vec);
+    const StateVectorQuadraticC sv(stateVec);
     RavlAssert(sv.IsValid());
 
     cout << "x=" << xc << " a=" << sv.GetA() << " b=" << sv.GetB() << " c=" << sv.GetC();

@@ -32,16 +32,16 @@ namespace RavlN {
     //: Default constructor.
 
     StateVectorLine2dBodyC(RealT lx, RealT ly, RealT lz, RealT zh,
-			   RealT gauge_weight);
+			   RealT gaugeWeight);
     //: Constructor.
     
     StateVectorLine2dBodyC(RealT lx, RealT ly, RealT lz, RealT zh,
-			   RealT gauge_weight, const VectorC &xstep);
+			   RealT gaugeWeight, const VectorC &xstep);
     //: Constructor.
     
     virtual RCBodyVC &Copy() const
     { return *new StateVectorLine2dBodyC(GetLx(),GetLy(),GetLz(),GetZH(),
-					 gauge_weight,xstep.Copy()); }
+					 gaugeWeight,xstep.Copy()); }
     //: Make a copy of the body.
     
     virtual bool IncrementLS(MatrixRSC &A, VectorC &a);
@@ -64,7 +64,7 @@ namespace RavlN {
 
   private:
     RealT zh; // 3rd homogeneous coordinate of plane on which line lies
-    RealT gauge_weight; // Weight attached to gauge freedom observation
+    RealT gaugeWeight; // Weight attached to gauge freedom observation
   };
 
   //! userlevel=Normal
@@ -130,8 +130,8 @@ namespace RavlN {
     //: Constructor.
     
     StateVectorLine2dC(RealT lx, RealT ly, RealT lz, RealT zh,
-		       RealT gauge_weight)
-      : StateVectorC(*new StateVectorLine2dBodyC(lx,ly,lz,zh,gauge_weight))
+		       RealT gaugeWeight)
+      : StateVectorC(*new StateVectorLine2dBodyC(lx,ly,lz,zh,gaugeWeight))
     {}
     //: Constructor.
     
@@ -148,13 +148,13 @@ namespace RavlN {
     //: Constructor.
     
     StateVectorLine2dC(RealT lx, RealT ly, RealT lz, RealT zh,
-		       RealT gauge_weight, const VectorC &xstep)
-      : StateVectorC(*new StateVectorLine2dBodyC(lx,ly,lz,zh,gauge_weight,xstep))
+		       RealT gaugeWeight, const VectorC &xstep)
+      : StateVectorC(*new StateVectorLine2dBodyC(lx,ly,lz,zh,gaugeWeight,xstep))
     {}
     //: Constructor.
     
-    StateVectorLine2dC(const StateVectorC &state_vec)
-      : StateVectorC(state_vec)
+    StateVectorLine2dC(const StateVectorC &stateVec)
+      : StateVectorC(stateVec)
     {
       if(IsValid()) {
 	if(dynamic_cast<StateVectorLine2dBodyC *>(&StateVectorC::Body()) == 0)

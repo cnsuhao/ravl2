@@ -13,22 +13,22 @@ namespace RavlN {
 
   //: Constructor
   StateVectorLine2dBodyC::StateVectorLine2dBodyC(RealT lx, RealT ly, RealT lz,
-						 RealT nzh, RealT gauge_weight)
+						 RealT nzh, RealT gaugeWeight)
     : StateVectorBodyC(VectorC(lx,ly,lz))
   {
     zh = nzh;
-    gauge_weight = gauge_weight;
+    gaugeWeight = gaugeWeight;
     Postprocess();
   }
 
   //: Constructor
   StateVectorLine2dBodyC::StateVectorLine2dBodyC(RealT lx, RealT ly, RealT lz,
-						 RealT nzh, RealT gauge_weight,
+						 RealT nzh, RealT gaugeWeight,
 						 const VectorC &xstep)
     : StateVectorBodyC(VectorC(lx,ly,lz),xstep)
   {
     zh = nzh;
-    gauge_weight = gauge_weight;
+    gaugeWeight = gaugeWeight;
     Postprocess();
   }
 
@@ -37,10 +37,10 @@ namespace RavlN {
   // to one, so there is nothing to add to vector a.
   bool StateVectorLine2dBodyC::IncrementLS(MatrixRSC &A, VectorC &a)
   {
-    A[0][0] += gauge_weight*GetLx()*GetLx();
-    A[0][1] += gauge_weight*GetLx()*GetLy();
-    A[1][0] += gauge_weight*GetLx()*GetLy();
-    A[1][1] += gauge_weight*GetLy()*GetLy();
+    A[0][0] += gaugeWeight*GetLx()*GetLx();
+    A[0][1] += gaugeWeight*GetLx()*GetLy();
+    A[1][0] += gaugeWeight*GetLx()*GetLy();
+    A[1][1] += gaugeWeight*GetLy()*GetLy();
     return true;
   }
 

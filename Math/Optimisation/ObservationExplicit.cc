@@ -18,27 +18,27 @@ namespace RavlN {
   {}
 
   //: Constructor
-  ObservationExplicitBodyC::ObservationExplicitBodyC(const ObsVectorC &nobs_vec)
-    : ObservationBodyC(nobs_vec)
+  ObservationExplicitBodyC::ObservationExplicitBodyC(const ObsVectorC &nobsVec)
+    : ObservationBodyC(nobsVec)
   {
   }
 
   //: Compute the residual (negative log-likelihood) of the observation
-  RealT ObservationExplicitBodyC::Residual(const StateVectorC &state_vec) {
+  RealT ObservationExplicitBodyC::Residual(const StateVectorC &stateVec) {
     // evaluate observation
-    VectorC h = EvaluateFunctionH(state_vec);
+    VectorC h = EvaluateFunctionH(stateVec);
 
     // compute innovation vector v=z-h(x)
     VectorC v = GetZ() - h;
 
     // compute and return v^T*N^-1*v adjusted for robust distribution, if any
-    return obs_vec.Residual(v, obs_vec.GetNi());
+    return obsVec.Residual(v, obsVec.GetNi());
   }
 
   //: Compute the non-robust residual (negative log-likelihood)
-  RealT ObservationExplicitBodyC::NonRobustResidual(const StateVectorC &state_vec) {
+  RealT ObservationExplicitBodyC::NonRobustResidual(const StateVectorC &stateVec) {
     // evaluate observation
-    VectorC h = EvaluateFunctionH(state_vec);
+    VectorC h = EvaluateFunctionH(stateVec);
 
     // compute innovation vector v=z-h(x)
     VectorC v = GetZ() - h;
@@ -51,12 +51,12 @@ namespace RavlN {
   }
 
   //: Increment the linear system
-  bool ObservationExplicitBodyC::IncrementLS(const StateVectorC &state_vec,
+  bool ObservationExplicitBodyC::IncrementLS(const StateVectorC &stateVec,
 					     MatrixRSC &A,
 					     VectorC &a) {
     // evaluate observation and Jacobian
-    VectorC h = EvaluateFunctionH(state_vec);
-    MatrixC Hx = EvaluateJacobianHx(state_vec);
+    VectorC h = EvaluateFunctionH(stateVec);
+    MatrixC Hx = EvaluateJacobianHx(stateVec);
 
     // compute Hx^T*N^-1*Hx
     MatrixC NiHx = GetNi()*Hx;
@@ -72,7 +72,7 @@ namespace RavlN {
       VectorC HxTNiv = NiHx.T() * v;//NiHx.TMul(v);
 
       // adjust information matrix/vector for any robustness
-      obs_vec.AdjustInformation ( Aterm, HxTNiv );
+      obsVec.AdjustInformation ( Aterm, HxTNiv );
 
       // increment information matrix and vector sums
       A += Aterm;
@@ -81,7 +81,7 @@ namespace RavlN {
     else {
 
       // adjust information matrix for any robustness
-      obs_vec.AdjustInformation ( Aterm, a );
+      obsVec.AdjustInformation ( Aterm, a );
 
       // increment information matrix and vector sums
       A += Aterm;
@@ -91,22 +91,22 @@ namespace RavlN {
   }
 
   //: Evaluate the observation function h(x) given x.
-  VectorC ObservationExplicitBodyC::EvaluateFunctionH(const StateVectorC &state_vec)
+  VectorC ObservationExplicitBodyC::EvaluateFunctionH(const StateVectorC &stateVec)
   {
-    RavlAssertMsg(0,"ObservationExplicitBodyC::EvaluateFunctionH(const StateVectorC &state_vec), Abstract method called ");
+    RavlAssertMsg(0,"ObservationExplicitBodyC::EvaluateFunctionH(const StateVectorC &stateVec), Abstract method called ");
     return VectorC();
   }
   
   //: Evaluate the the Jacobian dh/dx given x.
   //: Uses numerical differentiation unless a specific symbolic implentation
   //: is supplied in a subclass
-  MatrixC ObservationExplicitBodyC::EvaluateJacobianHx(const StateVectorC &state_vec)
+  MatrixC ObservationExplicitBodyC::EvaluateJacobianHx(const StateVectorC &stateVec)
   {
     // we want to manipulate the values of the state vector parameters locally,
     // restoring them at the end, and without making a copy of the whole state
     // vector object first. So let's cast our const reference to a non-const
     // reference.
-    StateVectorC &sv = const_cast<StateVectorC &> (state_vec);
+    StateVectorC &sv = const_cast<StateVectorC &> (stateVec);
     VectorC xcopy = sv.GetX().Copy(); // copy of state vector
     VectorC xstep = sv.GetXStep(); // step sizes for differentiation
     MatrixC H = MatrixC(GetZ().Size(), xcopy.Size());

@@ -18,19 +18,52 @@
 
 namespace RavlN {
   
+  //! userlevel=Develop
+  //: Body class for fitting a 2D affine homography to a sample of 2D points
+  class FitAffine2dPointsBodyC
+    : public FitToSampleBodyC
+  {
+  public:
+    FitAffine2dPointsBodyC();
+    //: Constructor for a class to fit a 2D affine homography to (x,y) points
+    
+    virtual StateVectorC FitModel(DListC<ObservationC> sample);
+    //: Fit 2D affine homography to sample of 2D point observations
+  };
+
   //! userlevel=Normal
   //! autoLink=on
-  //: This class fits a affine curve to a sample of (x,y) points
-  
+  //: This class fits a 2D affine homography to a sample of 2D points
   class FitAffine2dPointsC
     : public FitToSampleC
   {
   public:
-    FitAffine2dPointsC();
-    //: Constructor for a class to fit a affine curve to (x,y) points
+    FitAffine2dPointsC()
+      : FitToSampleC(*new FitAffine2dPointsBodyC())
+    {}
+    //: Constructor for a class to fit a 2D affine homography to point pairs.
+
+    FitAffine2dPointsC(const FitToSampleC &fitter)
+      : FitToSampleC(fitter)
+    {
+      if(dynamic_cast<FitAffine2dPointsBodyC *>(&FitToSampleC::Body()) == 0)
+	Invalidate();
+    }
+    //: Base class constructor.
     
-    StateVectorC FitModel(DListC<ObservationC> sample);
-    //: Fit affine curve y = a*x^2 + b*x + c to (x,y) points
+  public:
+    FitAffine2dPointsC(FitAffine2dPointsBodyC &bod)
+      : FitToSampleC(bod)
+    {}
+    //: Body constructor.
+    
+    FitAffine2dPointsBodyC &Body()
+    { return static_cast<FitAffine2dPointsBodyC &>(FitToSampleC::Body()); }
+    //: Access body.
+
+    const FitAffine2dPointsBodyC &Body() const
+    { return static_cast<const FitAffine2dPointsBodyC &>(FitToSampleC::Body()); }
+    //: Access body.
   };
 }
 

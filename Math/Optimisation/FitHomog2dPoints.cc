@@ -15,24 +15,24 @@
 namespace RavlN {
 
   //: Constructor.
-  FitHomog2dPointsC::FitHomog2dPointsC(RealT nzh1, RealT nzh2)
+  FitHomog2dPointsBodyC::FitHomog2dPointsBodyC(RealT nzh1, RealT nzh2)
   {
     zh1 = nzh1;
     zh2 = nzh2;
   }
 
   //: Constructor.
-  FitHomog2dPointsC::FitHomog2dPointsC()
+  FitHomog2dPointsBodyC::FitHomog2dPointsBodyC()
   {
     zh1 = zh2 = 1.0;
   }
 
   //: Fit parameters to sample of observations
-  StateVectorC FitHomog2dPointsC::FitModel(DListC<ObservationC> sample)
+  StateVectorC FitHomog2dPointsBodyC::FitModel(DListC<ObservationC> sample)
   {
     // we need at least four points to fit a 2D line
     if ( sample.Size() < 4 )
-      throw ExceptionC("Sample size too small in FitHomog2dPointsC::FitToSample(). ");
+      throw ExceptionC("Sample size too small in FitHomog2dPointsBodyC::FitToSample(). ");
 
     if ( sample.Size() == 4 ) {
       // initialise homography P by fitting to four point pairs, assuming that
@@ -71,7 +71,7 @@ namespace RavlN {
 
       // solve for solution vector
       if(!SolveIP(A,b))
-	throw ExceptionNumericalC("Dependent linear equations in FitHomog2dPointsC::FitModel(DListC<ObservationC>). ");
+	throw ExceptionNumericalC("Dependent linear equations in FitHomog2dPointsBodyC::FitModel(DListC<ObservationC>). ");
 
       Matrix3dC P(b[0], b[1], b[2],
 		  b[3], b[4], b[5],
@@ -81,7 +81,7 @@ namespace RavlN {
 
     // compute solution for homography parameters using symmetric eigensystem
     // method
-    throw ExceptionC("Null-space method not implemented in FitHomog2dPointsC::FitToSample(). ");
+    throw ExceptionC("Null-space method not implemented in FitHomog2dPointsBodyC::FitToSample(). ");
     Matrix3dC P(1.0,0.0,0.0,
 		0.0,1.0,0.0,
 		0.0,0.0,1.0);

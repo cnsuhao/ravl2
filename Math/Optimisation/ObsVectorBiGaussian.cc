@@ -14,28 +14,28 @@ namespace RavlN {
   //: Constructor
   ObsVectorBiGaussianBodyC::ObsVectorBiGaussianBodyC(const VectorC &nz,
 						     const MatrixRSC &nNi,
-						     RealT nvar_scale,
-						     RealT nchi2_thres)
+						     RealT nvarScale,
+						     RealT nchi2Thres)
     : ObsVectorBodyC(nz,nNi)
   {
-    var_inv_scale = 1.0/nvar_scale;
-    chi2_thres = nchi2_thres;
-    chi2_offset = (1.0 - var_inv_scale)*chi2_thres;
-    outlier = previous_outlier_flag = true;
+    varInvScale = 1.0/nvarScale;
+    chi2Thres = nchi2Thres;
+    chi2Offset = (1.0 - varInvScale)*chi2Thres;
+    outlier = previousOutlierFlag = true;
   }
 
   //: Constructor
   ObsVectorBiGaussianBodyC::ObsVectorBiGaussianBodyC(const VectorC &nz,
 						     const MatrixRSC &nNi,
 						     const VectorC &nzstep,
-						     RealT nvar_scale,
-						     RealT nchi2_thres)
+						     RealT nvarScale,
+						     RealT nchi2Thres)
     : ObsVectorBodyC(nz,nNi,nzstep)
   {
-    var_inv_scale = 1.0/nvar_scale;
-    chi2_thres = nchi2_thres;
-    chi2_offset = (1.0 - var_inv_scale)*chi2_thres;
-    outlier = previous_outlier_flag = true;
+    varInvScale = 1.0/nvarScale;
+    chi2Thres = nchi2Thres;
+    chi2Offset = (1.0 - varInvScale)*chi2Thres;
+    outlier = previousOutlierFlag = true;
   }
 
   //: Return residual adjusted for robust aspects to the observation
@@ -43,7 +43,7 @@ namespace RavlN {
 					    const MatrixRSC &Ni)
   {
     // firstly store outlier flag
-    previous_outlier_flag = outlier;
+    previousOutlierFlag = outlier;
 
     // now compute residual as usual
 
@@ -53,13 +53,13 @@ namespace RavlN {
     // compute v^T*N^-1*v
     double residual = Niv.Dot(v);
 
-    if ( residual <= chi2_thres )
+    if ( residual <= chi2Thres )
       // inlier distribution: increment residual with squared innovation as
       // normal
       outlier = false;
-    else { // residual > chi2_thres
+    else { // residual > chi2Thres
       // adjust residual using outlier distribution offset
-      residual = residual*var_inv_scale + chi2_offset;
+      residual = residual*varInvScale + chi2Offset;
       outlier = true;
     }
 
@@ -72,8 +72,8 @@ namespace RavlN {
   {
     if ( outlier ) {
       // adjust increments to information matrix and vector
-      Aterm *= var_inv_scale;
-      aterm *= var_inv_scale;
+      Aterm *= varInvScale;
+      aterm *= varInvScale;
     }
 
     return true;
@@ -83,7 +83,7 @@ namespace RavlN {
   bool ObsVectorBiGaussianBodyC::Restore()
   {
     // restore previous outlier flag
-    outlier = previous_outlier_flag;
+    outlier = previousOutlierFlag;
     return true;
   }
 

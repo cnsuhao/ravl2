@@ -85,8 +85,8 @@ namespace RavlN {
     {}
     //: Constructor
 
-    StateVectorQuadraticC(const StateVectorC &state_vec)
-      : StateVectorC(state_vec)
+    StateVectorQuadraticC(const StateVectorC &stateVec)
+      : StateVectorC(stateVec)
     {
       if(IsValid()) {
 	if(dynamic_cast<StateVectorQuadraticBodyC *>(&StateVectorC::Body()) == 0)

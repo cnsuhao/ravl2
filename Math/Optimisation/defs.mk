@@ -36,7 +36,8 @@ HEADERS = ObsVector.hh ObsVectorBiGaussian.hh ObsVectorPoint2dPair.hh \
 	  Ransac.hh ObservationManager.hh FitToSample.hh EvaluateSolution.hh \
 	  EvaluateNumInliers.hh EvaluateLikelihood.hh \
 	  FitLine2dPoints.hh FitQuadraticPoints.hh FitHomog2dPoints.hh  \
-	  ObservationAffine2dPoint.hh StateVectorAffine2d.hh FitAffine2dPoints.hh
+	  ObservationAffine2dPoint.hh StateVectorAffine2d.hh FitAffine2dPoints.hh \
+	  Point2dPair.hh
 
 MAINS=OrthogonalRegressionTest.cc QuadraticFitTest.cc Homography2dFitTest.cc
 

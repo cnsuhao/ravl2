@@ -31,16 +31,16 @@ namespace RavlN {
     //: Constructor.
     
     ObservationImpQuadraticPointBodyC(RealT nxc, RealT nyc, RealT nsigma,
-				      RealT nvar_scale, RealT nchi2_thres);
+				      RealT nvarScale, RealT nchi2Thres);
     //: Constructor.
 
-    virtual VectorC EvaluateFunctionF(const StateVectorC &state_vec);
+    virtual VectorC EvaluateFunctionF(const StateVectorC &stateVec);
     //: Evaluate the observation function F(x,z) given x and z
 
-    virtual MatrixC EvaluateJacobianFz(const StateVectorC &state_vec);
+    virtual MatrixC EvaluateJacobianFz(const StateVectorC &stateVec);
     //: Evaluate the Jacobian dF/dz given x and z
 
-    virtual MatrixC EvaluateJacobianFx(const StateVectorC &state_vec);
+    virtual MatrixC EvaluateJacobianFx(const StateVectorC &stateVec);
     //: Evaluate the Jacobian dF/dx given x and z
 
   private:
@@ -101,8 +101,8 @@ namespace RavlN {
     //: Constructor.
     
     ObservationImpQuadraticPointC(RealT nxc, RealT nyc, RealT nsigma,
-			     RealT nvar_scale, RealT nchi2_thres)
-      : ObservationImplicitC(*new ObservationImpQuadraticPointBodyC(nxc,nyc,nsigma,nvar_scale,nchi2_thres))
+			     RealT nvarScale, RealT nchi2Thres)
+      : ObservationImplicitC(*new ObservationImpQuadraticPointBodyC(nxc,nyc,nsigma,nvarScale,nchi2Thres))
     {}
     //: Constructor.
 

@@ -16,16 +16,16 @@ namespace RavlN {
 
   //: Constructor.
   
-  FitAffine2dPointsC::FitAffine2dPointsC()
+  FitAffine2dPointsBodyC::FitAffine2dPointsBodyC()
   {}
   
   //: Fit parameters to sample of observations
   
-  StateVectorC FitAffine2dPointsC::FitModel(DListC<ObservationC> sample)
+  StateVectorC FitAffine2dPointsBodyC::FitModel(DListC<ObservationC> sample)
   {
     UIntT samples = sample.Size();
     if ( samples < 3 )
-      throw ExceptionC("Sample size too small in FitAffine2dPointsC::FitModel(). ");
+      throw ExceptionC("Sample size too small in FitAffine2dPointsBodyC::FitModel(). ");
     
     MatrixC A(samples*2,6);
     A.Fill(0.0);
@@ -50,7 +50,7 @@ namespace RavlN {
     }
     // solve for solution vector
     if(!SolveIP(A,b))
-      throw ExceptionNumericalC("Dependent linear equations in FitAffine2dPointsC::FitModel(DListC<ObservationC>). ");
+      throw ExceptionNumericalC("Dependent linear equations in FitAffine2dPointsBodyC::FitModel(DListC<ObservationC>). ");
     
     return StateVectorAffine2dC(b);
   }

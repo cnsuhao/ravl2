@@ -12,41 +12,41 @@
 namespace RavlN {
 
   //: Constructor.
-  EvaluateLikelihoodC::EvaluateLikelihoodC(RealT nchi2_thres)
+  EvaluateLikelihoodBodyC::EvaluateLikelihoodBodyC(RealT nchi2Thres)
   {
-    chi2_thres = nchi2_thres;
+    chi2Thres = nchi2Thres;
   }
 
   //: Returns the log likelihood for the given state parameters
-  RealT EvaluateLikelihoodC::SolutionScore(const StateVectorC &state_vec,
-					   DListC<ObservationC> &obs_list) const
+  RealT EvaluateLikelihoodBodyC::SolutionScore(const StateVectorC &stateVec,
+					   DListC<ObservationC> &obsList) const
   {
-    RealT total_loglikelihood=0.0;
-    for(DLIterC<ObservationC> it(obs_list);it;it++)
+    RealT totalLogLikelihood=0.0;
+    for(DLIterC<ObservationC> it(obsList);it;it++)
       // only use observations that have not already been selected
       if(!it.Data().GetSelected())
 	// compute the residual and decrement likelihood with it
-	total_loglikelihood -= it.Data().Residual(state_vec);
+	totalLogLikelihood -= it.Data().Residual(stateVec);
 
-    return total_loglikelihood;
+    return totalLogLikelihood;
   }
 
   //: Returns the observations compatible with the given state parameters
-  DListC<ObservationC> EvaluateLikelihoodC::CompatibleObservations(
-					const StateVectorC &state_vec,
-					DListC<ObservationC> &obs_list) const
+  DListC<ObservationC> EvaluateLikelihoodBodyC::CompatibleObservations(
+					const StateVectorC &stateVec,
+					DListC<ObservationC> &obsList) const
   {
-    DListC<ObservationC> compatible_list;
+    DListC<ObservationC> compatibleList;
 
-    for(DLIterC<ObservationC> it(obs_list);it;it++) {
+    for(DLIterC<ObservationC> it(obsList);it;it++) {
       // compute the residual
-      RealT residual = it.Data().NonRobustResidual(state_vec);
+      RealT residual = it.Data().NonRobustResidual(stateVec);
 
       // add to list if residual is within threshold
-      if ( residual < chi2_thres )
-	compatible_list.InsLast(it.Data());
+      if ( residual < chi2Thres )
+	compatibleList.InsLast(it.Data());
     }
 
-    return compatible_list;
+    return compatibleList;
   }
 }

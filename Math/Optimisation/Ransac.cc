@@ -12,26 +12,26 @@
 namespace RavlN {
 
   //: Constructor for RANSAC
-  RansacC::RansacC(ObservationManagerC &nobs_manager,
-		   FitToSampleC &nmodel_fitter,
+  RansacC::RansacC(ObservationManagerC &nobsManager,
+		   FitToSampleC &nmodelFitter,
 		   EvaluateSolutionC &nevaluator)
-    : obs_manager(nobs_manager),
-      model_fitter(nmodel_fitter),
+    : obsManager(nobsManager),
+      modelFitter(nmodelFitter),
       evaluator(nevaluator)
   {
-    highest_vote = DBL_MIN;
+    highestVote = DBL_MIN;
   }
 
   //: Generate sample, compute vote and update best solution and vote
-  bool RansacC::ProcessSample(UIntT min_num_constraints)
+  bool RansacC::ProcessSample(UIntT minNumConstraints)
   {
     // reset "selected" flags
-    obs_manager.UnselectAllObservations();
+    obsManager.UnselectAllObservations();
 
     // generate sample and abort if it can't be generated
     DListC<ObservationC> sample;
     try {
-      sample = obs_manager.RandomSample(min_num_constraints);
+      sample = obsManager.RandomSample(minNumConstraints);
     }
     catch(ExceptionC) {
       return false;
@@ -40,19 +40,19 @@ namespace RavlN {
     // fit model and abort on any numerical errors found
     StateVectorC sv;
     try {
-      sv = model_fitter.FitModel(sample);
+      sv = modelFitter.FitModel(sample);
     }
     catch(ExceptionNumericalC) {
       return false;
     }
 
     // generate list of observations to be evaluated
-    DListC<ObservationC> obs_list = obs_manager.ObservationList(sv);
-    RealT new_vote = evaluator.SolutionScore(sv, obs_list);
+    DListC<ObservationC> obsList = obsManager.ObservationList(sv);
+    RealT newVote = evaluator.SolutionScore(sv, obsList);
 
-    if ( new_vote > highest_vote ) {
-      state_vec = sv.Copy();
-      highest_vote = new_vote;
+    if ( newVote > highestVote ) {
+      stateVec = sv.Copy();
+      highestVote = newVote;
     }
 
     return true;
@@ -61,6 +61,6 @@ namespace RavlN {
   //: Return the highest vote found so far 
   RealT RansacC::GetHighestVote() const
   {
-    return highest_vote;
+    return highestVote;
   }
 }

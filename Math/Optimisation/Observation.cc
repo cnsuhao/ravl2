@@ -13,26 +13,26 @@
 namespace RavlN {
   
   //: Constructor.
-  ObservationBodyC::ObservationBodyC(const ObsVectorC &nobs_vec)
+  ObservationBodyC::ObservationBodyC(const ObsVectorC &nobsVec)
   {
-    obs_vec = nobs_vec;
+    obsVec = nobsVec;
     selected = false;
   }
 
   //: Compute the residual (negative log-likelihood) of the observation
-  RealT ObservationBodyC::Residual(const StateVectorC &state_vec) {
+  RealT ObservationBodyC::Residual(const StateVectorC &stateVec) {
     RavlAssertMsg(0,"ObservationBodyC::GetResidual(const VectorC &), Abstract method called ");
     return 0;
   }
   
   //: Compute the residual (negative log-likelihood) of the observation
-  RealT ObservationBodyC::NonRobustResidual(const StateVectorC &state_vec) {
+  RealT ObservationBodyC::NonRobustResidual(const StateVectorC &stateVec) {
     RavlAssertMsg(0,"ObservationBodyC::GetNonRobustResidual(const VectorC &), Abstract method called ");
     return 0;
   }
   
   //: Accumulate the linear system
-  bool ObservationBodyC::IncrementLS(const StateVectorC &state_vec,
+  bool ObservationBodyC::IncrementLS(const StateVectorC &stateVec,
 				     MatrixRSC &A,
 				     VectorC &a) {
     RavlAssertMsg(0,"ObservationBodyC::IncrementLS(const VectorC &,MatrixRSC &,VectorC &) const, Abstract method called ");

@@ -16,16 +16,16 @@
 namespace RavlN {
 
   //: Constructor.
-  FitQuadraticPointsC::FitQuadraticPointsC()
+  FitQuadraticPointsBodyC::FitQuadraticPointsBodyC()
   {
   }
 
   //: Fit parameters to sample of observations
-  StateVectorC FitQuadraticPointsC::FitModel(DListC<ObservationC> sample)
+  StateVectorC FitQuadraticPointsBodyC::FitModel(DListC<ObservationC> sample)
   {
     // we need at least two points to fit a 2D line
     if ( sample.Size() < 3 )
-      throw ExceptionC("Sample size too small in FitQuadraticPointsC::FitModel(). ");
+      throw ExceptionC("Sample size too small in FitQuadraticPointsBodyC::FitModel(). ");
 
     if ( sample.Size() == 3 ) {
       // initialise quadratic curve y = a*x^2 + b*x + c using three points.

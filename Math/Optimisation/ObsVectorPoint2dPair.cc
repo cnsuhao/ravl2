@@ -79,10 +79,10 @@ namespace RavlN {
 							   const MatrixRSC &nNi1,
 							   const VectorC &nz2,
 							   const MatrixRSC &nNi2,
-							   RealT nvar_scale,
-							   RealT nchi2_thres)
+							   RealT nvarScale,
+							   RealT nchi2Thres)
     : ObsVectorBiGaussianBodyC(BuildZ(nz1,nz2),BuildNi(nNi1,nNi2),
-			       nvar_scale,nchi2_thres)
+			       nvarScale,nchi2Thres)
   {
   }
 

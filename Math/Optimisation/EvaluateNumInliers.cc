@@ -12,51 +12,51 @@
 namespace RavlN {
 
   //: Constructor.
-  EvaluateNumInliersC::EvaluateNumInliersC(RealT nchi2_thres,
-					   RealT ncompat_chi2_thres)
+  EvaluateNumInliersBodyC::EvaluateNumInliersBodyC(RealT nchi2Thres,
+						   RealT ncompatChi2Thres)
   {
-    chi2_thres = nchi2_thres;
-    compat_chi2_thres = (ncompat_chi2_thres == 0.0)
-                        ? chi2_thres : ncompat_chi2_thres;
+    chi2Thres = nchi2Thres;
+    compatChi2Thres = (ncompatChi2Thres == 0.0)
+                      ? chi2Thres : ncompatChi2Thres;
   }
 
   //: Returns the number of inliers for the given state parameters
-  RealT EvaluateNumInliersC::SolutionScore(const StateVectorC &state_vec,
-					   DListC<ObservationC> &obs_list) const
+  RealT EvaluateNumInliersBodyC::SolutionScore(const StateVectorC &stateVec,
+					   DListC<ObservationC> &obsList) const
   {
-    RavlAssert(state_vec.IsValid());
-    UIntT total_vote=0;
-    for(DLIterC<ObservationC> it(obs_list);it;it++)
+    RavlAssert(stateVec.IsValid());
+    UIntT totalVote=0;
+    for(DLIterC<ObservationC> it(obsList);it;it++)
       // only use observations that have not already been selected
       if(!it.Data().GetSelected()) {
 	// compute the residual
-	RealT residual = it.Data().NonRobustResidual(state_vec);
+	RealT residual = it.Data().NonRobustResidual(stateVec);
 
 	// increment counter if residual is within threshold
-	if ( residual < chi2_thres )
-	  total_vote++;
+	if ( residual < chi2Thres )
+	  totalVote++;
       }
 
-    return (RealT)total_vote;
+    return (RealT)totalVote;
   }
 
   //: Returns the observations compatible with the given state parameters
-  DListC<ObservationC> EvaluateNumInliersC::CompatibleObservations(
-					const StateVectorC &state_vec,
-					DListC<ObservationC> &obs_list) const
+  DListC<ObservationC> EvaluateNumInliersBodyC::CompatibleObservations(
+					const StateVectorC &stateVec,
+					DListC<ObservationC> &obsList) const
   {
-    RavlAssert(state_vec.IsValid());
-    DListC<ObservationC> compatible_list;
+    RavlAssert(stateVec.IsValid());
+    DListC<ObservationC> compatibleList;
 
-    for(DLIterC<ObservationC> it(obs_list);it;it++) {
+    for(DLIterC<ObservationC> it(obsList);it;it++) {
       // compute the residual
-      RealT residual = it.Data().NonRobustResidual(state_vec);
+      RealT residual = it.Data().NonRobustResidual(stateVec);
 
       // add to list if residual is within threshold
-      if ( residual < compat_chi2_thres )
-	compatible_list.InsLast(it.Data());
+      if ( residual < compatChi2Thres )
+	compatibleList.InsLast(it.Data());
     }
 
-    return compatible_list;
+    return compatibleList;
   }
 }

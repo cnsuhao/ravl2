@@ -12,110 +12,105 @@
 
 namespace RavlN {
 
-  //: Constructor.
-  ObservationManagerC::ObservationManagerC()
-  {
-  }
-
   //: Set the "selected" flag for all observations to false
-  void ObservationManagerC::UnselectAllObservations()
+  void ObservationManagerBodyC::UnselectAllObservations()
   {
-    RavlAssertMsg(0,"ObservationManagerC::UnselectAllObservations(), Abstract method called ");
+    RavlAssertMsg(0,"ObservationManagerBodyC::UnselectAllObservations(), Abstract method called ");
   }
 
   //: Generate a random sample of observations
-  DListC<ObservationC> ObservationManagerC::RandomSample(UIntT min_num_constraints)
+  DListC<ObservationC> ObservationManagerBodyC::RandomSample(UIntT minNumConstraints)
   {
-    DListC<ObservationC> empty_obs_list;
-    RavlAssertMsg(0,"ObservationManagerC::RandomSample(UIntT), Abstract method called ");
-    return empty_obs_list;
+    DListC<ObservationC> emptyObsList;
+    RavlAssertMsg(0,"ObservationManagerBodyC::RandomSample(UIntT), Abstract method called ");
+    return emptyObsList;
   }
     
   //: Generate the set of observations to be evaluated
-  DListC<ObservationC> ObservationManagerC::ObservationList(
-					const StateVectorC &state_vec) const
+  DListC<ObservationC> ObservationManagerBodyC::ObservationList(
+					const StateVectorC &stateVec) const
   {
-    DListC<ObservationC> empty_obs_list;
-    RavlAssertMsg(0,"ObservationManagerC::ObservationList(DListC<ObservationC>, const StateVectorC &), Abstract method called ");
-    return empty_obs_list;
+    DListC<ObservationC> emptyObsList;
+    RavlAssertMsg(0,"ObservationManagerBodyC::ObservationList(DListC<ObservationC>, const StateVectorC &), Abstract method called ");
+    return emptyObsList;
   }
 }
 
 namespace RavlN {
 
   //: Constructor.
-  ObservationListManagerC::ObservationListManagerC(DListC<ObservationC> nobs_list)
-    : ObservationManagerC()
+  ObservationListManagerBodyC::ObservationListManagerBodyC(DListC<ObservationC> nobsList)
+    : ObservationManagerBodyC()
   {
     // copy a reference to the list
-    obs_list = nobs_list;
+    obsList = nobsList;
 
     // convert list of observations to array
-    obs_array = SArray1dC<ObservationC>(obs_list.Size());
+    obsArray = SArray1dC<ObservationC>(obsList.Size());
     IntT i=0;
-    for(DLIterC<ObservationC> it(obs_list);it;it++,i++)
-      obs_array[i] = it.Data();
+    for(DLIterC<ObservationC> it(obsList);it;it++,i++)
+      obsArray[i] = it.Data();
   }
 
   //: Set the "selected" flag for all observations to false
-  void ObservationListManagerC::UnselectAllObservations()
+  void ObservationListManagerBodyC::UnselectAllObservations()
   {
-    for(SArray1dIterC<ObservationC> it(obs_array);it;it++)
+    for(SArray1dIterC<ObservationC> it(obsArray);it;it++)
       it.Data().SetUnSelected();
   }
 
   //: Generate a random sample of observations
-  DListC<ObservationC> ObservationListManagerC::RandomSample(UIntT min_num_constraints) {
-    SArray1dC<IntT> index(min_num_constraints);
-    UIntT num_constraints=0;
-    
+  DListC<ObservationC> ObservationListManagerBodyC::RandomSample(UIntT minNumConstraints) {
+    SArray1dC<IntT> index(minNumConstraints);
+    UIntT numConstraints=0;
+
     // check that there are enough observations
-    for(SArray1dIterC<ObservationC> it(obs_array);it;it++) {
-      num_constraints += it.Data().GetNumConstraints();
-      if(num_constraints >= min_num_constraints)
+    for(SArray1dIterC<ObservationC> it(obsArray);it;it++) {
+      numConstraints += it.Data().GetNumConstraints();
+      if(numConstraints >= minNumConstraints)
 	break;
     }
-    
-    if(num_constraints < min_num_constraints)
+
+    if(numConstraints < minNumConstraints)
       throw ExceptionC("Not enough data for sample in ObservationListManagerC::RandomSample(UIntT). ");
 
     DListC<ObservationC> sample;
     // generate random sample
-    num_constraints = 0;
+    numConstraints = 0;
     for(SArray1dIterC<IntT> it2(index);it2;it2++) {
       for(;;) {
 	// add index of random observation to sample
-	*it2 = RandomInt() % obs_array.Size();
+	*it2 = RandomInt() % obsArray.Size();
 	
 	// check whether this observation is already selected
-	if(obs_array[*it2].GetSelected())
+	if(obsArray[*it2].GetSelected())
 	  continue;
 	
 	// set selected flag for observation
-	obs_array[*it2].SetSelected();
+	obsArray[*it2].SetSelected();
 	
 	// accumulate the number of constraints
-	num_constraints += obs_array[*it2].GetNumConstraints();
+	numConstraints += obsArray[*it2].GetNumConstraints();
 	
 	// Add to sample.
-	sample.InsLast(obs_array[*it2]);
-	
+	sample.InsLast(obsArray[*it2]);
+
 	// get next element in sample
 	break;
       }
 
       // check whether we have got enough constraints now
-      if(num_constraints >= min_num_constraints)
+      if(numConstraints >= minNumConstraints)
 	break;
     }
-    
+
     return sample;
   }
     
   //: Generate the set of observations to be evaluated
-  DListC<ObservationC> ObservationListManagerC::ObservationList(
-					const StateVectorC &state_vec) const
+  DListC<ObservationC> ObservationListManagerBodyC::ObservationList(
+					const StateVectorC &stateVec) const
   {
-    return obs_list;
+    return obsList;
   }
 }

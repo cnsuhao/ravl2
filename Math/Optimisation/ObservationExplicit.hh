@@ -28,16 +28,16 @@ namespace RavlN {
     ObservationExplicitBodyC();
     //: Default constructor.
     
-    ObservationExplicitBodyC(const ObsVectorC &nobs_vec);
+    ObservationExplicitBodyC(const ObsVectorC &nobsVec);
     //: Constructor.
     
-    RealT Residual(const StateVectorC &state_vec);
+    RealT Residual(const StateVectorC &stateVec);
     //: Compute the residual (negative log-likelihood) of the observation
 
-    RealT NonRobustResidual(const StateVectorC &state_vec);
+    RealT NonRobustResidual(const StateVectorC &stateVec);
     //: Compute the non-robust residual (negative log-likelihood)
 
-    bool IncrementLS(const StateVectorC &state_vec,
+    bool IncrementLS(const StateVectorC &stateVec,
 		     MatrixRSC &A,
 		     VectorC &a);
     //: Increment the linear system
@@ -46,10 +46,10 @@ namespace RavlN {
     { return GetZ().Size(); }
     //: Returns the number of constraints imposed on the state
     
-    virtual VectorC EvaluateFunctionH(const StateVectorC &state_vec);
+    virtual VectorC EvaluateFunctionH(const StateVectorC &stateVec);
     //: Evaluate the observation function h(x) given x
 
-    virtual MatrixC EvaluateJacobianHx(const StateVectorC &state_vec);
+    virtual MatrixC EvaluateJacobianHx(const StateVectorC &stateVec);
     //: Evaluate the Jacobian dh/dx given x
   };
 
@@ -85,8 +85,8 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    ObservationExplicitC(const ObsVectorC &nobs_vec)
-      : ObservationC(*new ObservationExplicitBodyC(nobs_vec))
+    ObservationExplicitC(const ObsVectorC &nobsVec)
+      : ObservationC(*new ObservationExplicitBodyC(nobsVec))
     {}
     //: Constructor
     
@@ -114,12 +114,12 @@ namespace RavlN {
     
   public:
 
-    VectorC EvaluateFunctionH(const StateVectorC &state_vec)
-    { return Body().EvaluateFunctionH(state_vec); }
+    VectorC EvaluateFunctionH(const StateVectorC &stateVec)
+    { return Body().EvaluateFunctionH(stateVec); }
     //: Evaluate the observation function h(x) given x
 
-    MatrixC EvaluateJacobianHx(const StateVectorC &state_vec)
-    { return Body().EvaluateJacobianHx(state_vec); }
+    MatrixC EvaluateJacobianHx(const StateVectorC &stateVec)
+    { return Body().EvaluateJacobianHx(stateVec); }
     //: Evaluate the Jacobian dh/dx given x
 
   };

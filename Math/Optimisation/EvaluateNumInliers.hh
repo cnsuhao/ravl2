@@ -14,10 +14,37 @@
 //! example="OrthogonalRegressionTest.cc Homography2dFitTest.cc QuadraticFitTest.cc"
 //! lib=RavlOptimise
 
-#include <Ravl/EvaluateSolution.hh>
+#include "Ravl/EvaluateSolution.hh"
 
 namespace RavlN {
   
+  //! userlevel=Develop
+  //: Solution evaluation body class
+  class EvaluateNumInliersBodyC
+    : public EvaluateSolutionBodyC
+  {
+  public:
+    EvaluateNumInliersBodyC()
+    {}
+    //: Default constructor
+
+    EvaluateNumInliersBodyC(RealT chi2Thres, RealT compatChi2Thres);
+    //: Constructor.
+
+    virtual RealT SolutionScore(const StateVectorC &StateVec,
+				DListC<ObservationC> &obsList) const;
+    //: Returns the number of inliers for the given state parameters
+
+    virtual DListC<ObservationC> CompatibleObservations(
+					const StateVectorC &StateVec,
+					DListC<ObservationC> &obsList) const;
+    //: Returns the observations compatible with the given state parameters
+
+  private:
+    RealT chi2Thres; // Threshold on normalised residual
+    RealT compatChi2Thres; // Threshold for comaptibility list
+  };
+
   //! userlevel=Normal
   //! autoLink=on
   //: Solution evaluation class
@@ -27,24 +54,41 @@ namespace RavlN {
     : public EvaluateSolutionC
   {
   public:
-    EvaluateNumInliersC(RealT chi2_thres, RealT compat_chi2_thres=0.0);
+    EvaluateNumInliersC()
+    {}
+    //: Default constructor
+    // Creates an invalid handle
+    
+    EvaluateNumInliersC(RealT chi2Thres, RealT compatChi2Thres=0.0)
+      : EvaluateSolutionC(*new EvaluateNumInliersBodyC(chi2Thres,compatChi2Thres))
+    {}
     //: Constructor.
-    // If compat_chi2_thres is not supplied, it is set to the same value
-    // as chi2_thres.
+    // If compatChi2Thres is not supplied, it is set to the same value
+    // as chi2Thres.
 
-    virtual RealT SolutionScore(const StateVectorC &state_vec,
-				DListC<ObservationC> &obs_list) const;
-    //: Returns the number of inliers for the given state parameters
+    EvaluateNumInliersC(const EvaluateSolutionC &evaluator)
+      : EvaluateSolutionC(evaluator)
+    {
+      if(dynamic_cast<EvaluateNumInliersBodyC *>(&EvaluateSolutionC::Body()) == 0)
+	Invalidate();
+    }
+    //: Base class constructor.
+    
+  public:
+    EvaluateNumInliersC(EvaluateNumInliersBodyC &bod)
+      : EvaluateSolutionC(bod)
+    {}
+    //: Body constructor.
+    
+    EvaluateNumInliersBodyC &Body()
+    { return static_cast<EvaluateNumInliersBodyC &>(EvaluateSolutionC::Body()); }
+    //: Access body.
 
-    virtual DListC<ObservationC> CompatibleObservations(
-					const StateVectorC &state_vec,
-					DListC<ObservationC> &obs_list) const;
-    //: Returns the observations compatible with the given state parameters
-
-  private:
-    RealT chi2_thres; // Threshold on normalised residual
-    RealT compat_chi2_thres; // Threshold for comaptibility list
+    const EvaluateNumInliersBodyC &Body() const
+    { return static_cast<const EvaluateNumInliersBodyC &>(EvaluateSolutionC::Body()); }
+    //: Access body.
   };
+
 }
 
 #endif

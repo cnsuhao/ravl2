@@ -28,10 +28,10 @@ namespace RavlN {
 				 const VectorC &nz2, const MatrixRSC &nNi2);
     //: Constructor.
     
-    virtual VectorC EvaluateFunctionH(const StateVectorC &state_vec);
+    virtual VectorC EvaluateFunctionH(const StateVectorC &stateVec);
     //: Evaluate the observation function h(x) given x
     
-    virtual MatrixC EvaluateJacobianHx(const StateVectorC &state_vec);
+    virtual MatrixC EvaluateJacobianHx(const StateVectorC &stateVec);
     //: Evaluate the Jacobian of an observation for a single point
     
     inline const VectorC& GetZ1() const

@@ -14,23 +14,23 @@
 namespace RavlN {
 
   //: Constructor.
-  FitLine2dPointsC::FitLine2dPointsC(RealT nzh)
+  FitLine2dPointsBodyC::FitLine2dPointsBodyC(RealT nzh)
   {
     zh = nzh;
   }
 
   //: Constructor.
-  FitLine2dPointsC::FitLine2dPointsC()
+  FitLine2dPointsBodyC::FitLine2dPointsBodyC()
   {
     zh = 1.0;
   }
 
   //: Fit parameters to sample of observations
-  StateVectorC FitLine2dPointsC::FitModel(DListC<ObservationC> sample)
+  StateVectorC FitLine2dPointsBodyC::FitModel(DListC<ObservationC> sample)
   {
     // we need at least two points to fit a 2D line
     if ( sample.Size() < 2 )
-      throw ExceptionC("Sample size too small in FitLine2dPointsC::FitModel(). ");
+      throw ExceptionC("Sample size too small in FitLine2dPointsBodyC::FitModel(). ");
 
     if ( sample.Size() == 2 ) {
       // initialise line lx*x + ly*y + lz*zh by fitting to two points (x1,y1)

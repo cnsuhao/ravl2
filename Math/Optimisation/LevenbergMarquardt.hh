@@ -44,20 +44,20 @@ namespace RavlN {
     : public StoredStateC
   {
   public:
-    LevenbergMarquardtC(StateVectorC &state_vec_init,
-			DListC<ObservationC> obs_list);
+    LevenbergMarquardtC(StateVectorC &stateVecInit,
+			DListC<ObservationC> obsList);
     //: Constructor.
     // Initialises the Levenberg-Marquardt algorithm with the given state
-    // parameter vector state_vec_init. The observation list obs_list is used
-    // to initialise the least-squares residual. state_vec_init should contain
+    // parameter vector stateVecInit. The observation list obsList is used
+    // to initialise the least-squares residual. stateVecInit should contain
     // a good enough estimate of the optimal state vector parameters for
     // direct minimisation to achieve the global minimum. Levenberg-Marquardt
     // always goes downhill!
 
-    bool Iteration ( DListC<ObservationC> obs_list, RealT lambda,
-		     bool rescale_diagonal=false);
+    bool Iteration ( DListC<ObservationC> obsList, RealT lambda=0.1,
+		     bool rescaleDiagonal=false );
     //: Apply a single iteration
-    // Process observations in the provided list (obs_list) to build the
+    // Process observations in the provided list (obsList) to build the
     // inverse covariance matrix A and vector a in the
     // <a href="../../../LevenbergMarquardt/levmarq.html#LM_update">state update equation</a>,
     // apply damping by adding lambda*identity to A, and update the state
@@ -68,19 +68,36 @@ namespace RavlN {
     // and the user program should reduce the value of lambda before calling
     // this method again.
     // <p>
-    // If rescale_diagonal is passed as false, the damping factor is added
+    // If rescaleDiagonal is passed as false, the damping factor is added
     // to the diagonal elements of the inverse covariance matrix in order to
-    // damp it. The is the algorithm as given by Marquardt. If it is passed as
+    // damp it. This is the algorithm as given by Marquardt. If it is passed as
+    // true, the diagonal elements are instead multiplied by 1+lambda, as
+    // given by Numerical Recipes. The former should be preferred if the
+    // parameters are scaled reasonable homogeneously, and is the default
+    // if the parameter is excluded.
+
+    bool NIterations ( DListC<ObservationC> obsList, UIntT n=10,
+		       RealT lambdaStart=0.1, RealT lambdaFactor=0.1,
+		       bool rescaleDiagonal=false );
+    //: Apply a fixed number of iterations
+    // Apply n Levenberg-Marquardt optimisation iterations. At each iteration,
+    // if the updated state gives a smaller residual, the damping factor lambda
+    // is multiplied by lambdaFactor, otherwise the original state vector is
+    // reinstated and lambda is divided by lambdaFactor.
+    // <p>
+    // If rescaleDiagonal is passed as false, the damping factor is added
+    // to the diagonal elements of the inverse covariance matrix in order to
+    // damp it. This is the algorithm as given by Marquardt. If it is passed as
     // true, the diagonal elements are instead multiplied by 1+lambda, as
     // given by Numerical Recipes. The former should be preferred if the
     // parameters are scaled reasonable homogeneously, and is the default
     // if the parameter is excluded.
 
     inline const VectorC &SolutionVector() const
-    { return state_vec.GetX(); }
+    { return stateVec.GetX(); }
     // Latest estimate of solution parameters
 
-    const MatrixRSC &InverseCovarianceMatrix(DListC<ObservationC> obs_list);
+    const MatrixRSC &InverseCovarianceMatrix(DListC<ObservationC> obsList);
     //: Inverse covariance matrix of solution
     // This is the matrix A in the <a href="../../../LevenbergMarquardt/levmarq.html#LM_update">state update equation</a>,
     // but computed without any damping, i.e. lambda set to zero.
@@ -102,12 +119,12 @@ namespace RavlN {
 
   private:
     MatrixRSC A; // Inverse covariance matrix
-    bool A_updated; // Whether A is up to date
+    bool Aupdated; // Whether A is up to date
     MatrixRSC Ainv; // Covariance matrix
-    bool Ainv_updated; // Whether Ainv is up to date
+    bool AinvUpdated; // Whether Ainv is up to date
     RealT residual; // current minimum value of Chi-squared residual
 
-    RealT ComputeResidual(DListC<ObservationC> obs_list) const;
+    RealT ComputeResidual(DListC<ObservationC> obsList) const;
     //: Compute least-squares residual
   };
 }

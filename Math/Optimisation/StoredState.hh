@@ -13,7 +13,7 @@
 //! docentry="Ravl.Math.Optimisation"
 //! lib=RavlOptimise
 
-#include <Ravl/StateVector.hh>
+#include "Ravl/StateVector.hh"
 
 namespace RavlN {
   
@@ -27,15 +27,15 @@ namespace RavlN {
     StoredStateC();
     //: Default constructor for optimisation base class
 
-    StoredStateC(StateVectorC &state_vec_init);
+    StoredStateC(StateVectorC &stateVecInit);
     //: Constructor for optimisation base class
 
   protected:
-    StateVectorC state_vec; // state parameter vector
+    StateVectorC stateVec; // state parameter vector
 
   public:
     inline const StateVectorC &GetSolution() const
-    { return state_vec; }
+    { return stateVec; }
     //: Solution parameters x for sample with lowest residual
   };
 }

@@ -99,7 +99,7 @@ namespace RavlN {
   public:
     ObsVectorBGPoint2dPairBodyC(const VectorC &z1, const MatrixRSC &Ni1,
 				const VectorC &z2, const MatrixRSC &Ni2,
-				RealT var_scale, RealT chi2_thres);
+				RealT varScale, RealT chi2Thres);
     //: Constructor.
 
   private:
@@ -129,8 +129,8 @@ namespace RavlN {
   public:
     ObsVectorBGPoint2dPairC(const VectorC &z1, const MatrixRSC &Ni1,
 			    const VectorC &z2, const MatrixRSC &Ni2,
-			    RealT var_scale, RealT chi2_thres)
-      : ObsVectorBiGaussianC(*new ObsVectorBGPoint2dPairBodyC(z1,Ni1,z2,Ni2,var_scale,chi2_thres))
+			    RealT varScale, RealT chi2Thres)
+      : ObsVectorBiGaussianC(*new ObsVectorBGPoint2dPairBodyC(z1,Ni1,z2,Ni2,varScale,chi2Thres))
     {}
     //: Constructor
     // This sticks the individual point observation vectors and inverse

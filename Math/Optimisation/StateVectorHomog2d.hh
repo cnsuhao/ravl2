@@ -32,30 +32,30 @@ namespace RavlN {
     //: Default constructor.
 
     StateVectorHomog2dBodyC(const VectorC &x, RealT zh1, RealT zh2,
-			    RealT gauge_weight);
+			    RealT gaugeWeight);
     //: Constructor.
     
     StateVectorHomog2dBodyC(const VectorC &x, RealT zh1, RealT zh2,
-			    RealT gauge_weight,
+			    RealT gaugeWeight,
 			    const VectorC &xstep);
     //: Constructor.
     
     StateVectorHomog2dBodyC(const Matrix3dC &P, RealT zh1, RealT zh2,
-			    RealT gauge_weight);
+			    RealT gaugeWeight);
     //: Constructor.
     
     StateVectorHomog2dBodyC(const Matrix3dC &P, RealT zh1, RealT zh2,
-			    RealT gauge_weight,
+			    RealT gaugeWeight,
 			    const VectorC &xstep);
     //: Constructor.
     
     StateVectorHomog2dBodyC(const VectorC &x, RealT zh1, RealT zh2,
-			    RealT gauge_weight, const VectorC &xstep,
+			    RealT gaugeWeight, const VectorC &xstep,
 			    const Matrix3dC &Pnew);
     //: Constructor.
     
     virtual RCBodyVC &Copy() const
-    { return *new StateVectorHomog2dBodyC(x.Copy(),GetZH1(),GetZH2(),gauge_weight,xstep.Copy(),P); }
+    { return *new StateVectorHomog2dBodyC(x.Copy(),GetZH1(),GetZH2(),gaugeWeight,xstep.Copy(),P); }
     //: Make a copy of the body.
     
     virtual bool IncrementLS(MatrixRSC &A, VectorC &a);
@@ -76,7 +76,7 @@ namespace RavlN {
   protected:
     RealT zh1, zh2; // 3rd homogeneous coordinates in planes 1 & 2
     Matrix3dC P; // 2D homography
-    RealT gauge_weight; // weight of gauge condition observation
+    RealT gaugeWeight; // weight of gauge condition observation
 
   private:
     static VectorC StateVecFromHomog(const Matrix3dC &P);
@@ -166,16 +166,16 @@ namespace RavlN {
     // Uses the provided 3rd homogeneous image coordinates with the default
     // gauge condition weighting.
 
-    StateVectorHomog2dC(const VectorC &x, RealT gauge_weight)
-      : StateVectorC(*new StateVectorHomog2dBodyC(x,1.0,1.0,gauge_weight))
+    StateVectorHomog2dC(const VectorC &x, RealT gaugeWeight)
+      : StateVectorC(*new StateVectorHomog2dBodyC(x,1.0,1.0,gaugeWeight))
     {}
     //: Constructor
     // Sets the 3rd homogeneous image coordinates to 1 and uses the provided
     // gauge condition weighting.
 
     StateVectorHomog2dC(const VectorC &x, RealT zh1, RealT zh2,
-			RealT gauge_weight)
-      : StateVectorC(*new StateVectorHomog2dBodyC(x,zh1,zh2,gauge_weight))
+			RealT gaugeWeight)
+      : StateVectorC(*new StateVectorHomog2dBodyC(x,zh1,zh2,gaugeWeight))
     {}
     //: Constructor
     // Uses the provided 3rd homogeneous image coordinates and gauge condition
@@ -202,9 +202,9 @@ namespace RavlN {
     // numerical derivatives with respect to the elements of x, overriding
     // the default step size.
 
-    StateVectorHomog2dC(const VectorC &x, RealT gauge_weight,
+    StateVectorHomog2dC(const VectorC &x, RealT gaugeWeight,
 			const VectorC &xstep)
-      : StateVectorC(*new StateVectorHomog2dBodyC(x,1.0,1.0,gauge_weight,xstep))
+      : StateVectorC(*new StateVectorHomog2dBodyC(x,1.0,1.0,gaugeWeight,xstep))
     {}
     //: Constructor
     // Sets the 3rd homogeneous image coordinates to 1 and uses the provided
@@ -214,8 +214,8 @@ namespace RavlN {
     // the default step size.
 
     StateVectorHomog2dC(const VectorC &x, RealT zh1, RealT zh2,
-			RealT gauge_weight, const VectorC &xstep)
-      : StateVectorC(*new StateVectorHomog2dBodyC(x,zh1,zh2,gauge_weight,xstep))
+			RealT gaugeWeight, const VectorC &xstep)
+      : StateVectorC(*new StateVectorHomog2dBodyC(x,zh1,zh2,gaugeWeight,xstep))
     {}
     //: Constructor
     // Uses the provided 3rd homogeneous image coordinates and gauge condition
@@ -237,16 +237,16 @@ namespace RavlN {
     // Uses the provided 3rd homogeneous image coordinates with the default
     // gauge condition weighting.
 
-    StateVectorHomog2dC(const Matrix3dC &P, RealT gauge_weight)
-      : StateVectorC(*new StateVectorHomog2dBodyC(P,1.0,1.0,gauge_weight))
+    StateVectorHomog2dC(const Matrix3dC &P, RealT gaugeWeight)
+      : StateVectorC(*new StateVectorHomog2dBodyC(P,1.0,1.0,gaugeWeight))
     {}
     //: Constructor
     // Sets the 3rd homogeneous image coordinates to 1 and uses the provided
     // gauge condition weighting.
 
     StateVectorHomog2dC(const Matrix3dC &P, RealT zh1, RealT zh2,
-			RealT gauge_weight)
-      : StateVectorC(*new StateVectorHomog2dBodyC(P,zh1,zh2,gauge_weight))
+			RealT gaugeWeight)
+      : StateVectorC(*new StateVectorHomog2dBodyC(P,zh1,zh2,gaugeWeight))
     {}
     //: Constructor
     // Uses the provided 3rd homogeneous image coordinates and gauge condition
@@ -273,9 +273,9 @@ namespace RavlN {
     // numerical derivatives with respect to the elements of x, overriding
     // the default step size.
 
-    StateVectorHomog2dC(const Matrix3dC &P, RealT gauge_weight,
+    StateVectorHomog2dC(const Matrix3dC &P, RealT gaugeWeight,
 			const VectorC &xstep)
-      : StateVectorC(*new StateVectorHomog2dBodyC(P,1.0,1.0,gauge_weight,xstep))
+      : StateVectorC(*new StateVectorHomog2dBodyC(P,1.0,1.0,gaugeWeight,xstep))
     {}
     //: Constructor
     // Sets the 3rd homogeneous image coordinates to 1 and uses the provided
@@ -285,8 +285,8 @@ namespace RavlN {
     // the default step size.
 
     StateVectorHomog2dC(const Matrix3dC &P, RealT zh1, RealT zh2,
-			RealT gauge_weight, const VectorC &xstep)
-      : StateVectorC(*new StateVectorHomog2dBodyC(P,zh1,zh2,gauge_weight,xstep))
+			RealT gaugeWeight, const VectorC &xstep)
+      : StateVectorC(*new StateVectorHomog2dBodyC(P,zh1,zh2,gaugeWeight,xstep))
     {}
     //: Constructor
     // Uses the provided 3rd homogeneous image coordinates and gauge condition
@@ -294,8 +294,8 @@ namespace RavlN {
     // specifies the step sizes to use when calculating numerical derivatives
     // with respect to the elements of x, overriding the default step size.
 
-    StateVectorHomog2dC(const StateVectorC &state_vec)
-      : StateVectorC(state_vec)
+    StateVectorHomog2dC(const StateVectorC &stateVec)
+      : StateVectorC(stateVec)
     {
       if(IsValid()) {
 	if(dynamic_cast<StateVectorHomog2dBodyC *>(&StateVectorC::Body()) == 0)

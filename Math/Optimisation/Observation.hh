@@ -32,16 +32,16 @@ namespace RavlN {
     {}
     //: Default constructor.
     
-    ObservationBodyC(const ObsVectorC &nobs_vec);
+    ObservationBodyC(const ObsVectorC &nobsVec);
     //: Constructor.
     
-    virtual RealT Residual(const StateVectorC &state_vec);
+    virtual RealT Residual(const StateVectorC &stateVec);
     //: Compute the residual (negative log-likelihood) of the observation
     
-    virtual RealT NonRobustResidual(const StateVectorC &state_vec);
+    virtual RealT NonRobustResidual(const StateVectorC &stateVec);
     //: Compute the residual (negative log-likelihood) of the observation
     
-    virtual bool IncrementLS(const StateVectorC &state_vec,
+    virtual bool IncrementLS(const StateVectorC &stateVec,
 			     MatrixRSC &A,
 			     VectorC &a);
     //: Increment the linear system
@@ -50,15 +50,15 @@ namespace RavlN {
     //: Returns the number of constraints imposed on the state
 
     const VectorC& GetZ() const
-    { return obs_vec.GetZ(); }
+    { return obsVec.GetZ(); }
     //: Get observation vector z
 
     inline const MatrixRSC& GetNi() const
-    { return obs_vec.GetNi(); }
+    { return obsVec.GetNi(); }
     //: Get observation inverse covariance N^-1
     
     inline const ObsVectorC& GetObsVec() const
-    { return obs_vec; }
+    { return obsVec; }
     //: Get observation vector/inverse covariance object
     
     inline bool GetSelected() const  
@@ -82,7 +82,7 @@ namespace RavlN {
     //: Set observation ID.
     
   protected:
-    ObsVectorC obs_vec; //: Observation vector
+    ObsVectorC obsVec; //: Observation vector
 
   private:
     bool selected;
@@ -136,8 +136,8 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    ObservationC(const ObsVectorC &nobs_vec)
-      : RCHandleC<ObservationBodyC>(*new ObservationBodyC(nobs_vec))
+    ObservationC(const ObsVectorC &nobsVec)
+      : RCHandleC<ObservationBodyC>(*new ObservationBodyC(nobsVec))
     {}
     //: Constructor
     
@@ -156,8 +156,8 @@ namespace RavlN {
     //: Access body.
     
   public:
-    RealT Residual(const StateVectorC &state_vec)
-    { return Body().Residual(state_vec); }
+    RealT Residual(const StateVectorC &stateVec)
+    { return Body().Residual(stateVec); }
     //: Compute the residual (negative log-likelihood) of the observation
     // This is the term in the
     // <a href="../../../LevenbergMarquardt/levmarq.html#chi2-def">error function</a>
@@ -167,8 +167,8 @@ namespace RavlN {
     // <p>
     // Incorporates any robust aspects of the observation into the calculation.
 
-    RealT NonRobustResidual(const StateVectorC &state_vec)
-    { return Body().NonRobustResidual(state_vec); }
+    RealT NonRobustResidual(const StateVectorC &stateVec)
+    { return Body().NonRobustResidual(stateVec); }
     //: Compute the residual (negative log-likelihood) of the observation
     // Treats the observation as a non-robust observation whether it is robust
     // or not. Use this function when using RANSAC (but use Residual() for
@@ -176,10 +176,10 @@ namespace RavlN {
     // explicit and implicit observations in the ObservationExplicitC and
     // ObservationImplicitC subclasses.
 
-    bool IncrementLS(const StateVectorC &state_vec,
+    bool IncrementLS(const StateVectorC &stateVec,
 		     MatrixRSC &A,
 		     VectorC &a)
-    { return Body().IncrementLS(state_vec,A,a); }
+    { return Body().IncrementLS(stateVec,A,a); }
     //: Increment the linear system
     // This adds the relevant terms to the inverse covariance matrix A and
     // vector a accumulated within a Levenberg-Marquardt iteration for a

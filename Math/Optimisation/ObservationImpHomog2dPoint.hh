@@ -27,22 +27,22 @@ namespace RavlN {
   {
   public:
 
-    ObservationImpHomog2dPointBodyC(const VectorC &nz1, const MatrixRSC &nNi1,
-				    const VectorC &nz2, const MatrixRSC &nNi2);
+    ObservationImpHomog2dPointBodyC(const Vector2dC &nz1, const MatrixRSC &nNi1,
+				    const Vector2dC &nz2, const MatrixRSC &nNi2);
     //: Constructor.
     
-    ObservationImpHomog2dPointBodyC(const VectorC &nz1, const MatrixRSC &nNi1,
-				    const VectorC &nz2, const MatrixRSC &nNi2,
-				    RealT var_scale, RealT chi2_thres);
+    ObservationImpHomog2dPointBodyC(const Vector2dC &nz1, const MatrixRSC &nNi1,
+				    const Vector2dC &nz2, const MatrixRSC &nNi2,
+				    RealT varScale, RealT chi2Thres);
     //: Constructor for robust bi-Gaussian observation.
 
-    virtual VectorC EvaluateFunctionF(const StateVectorC &state_vec);
+    virtual VectorC EvaluateFunctionF(const StateVectorC &stateVec);
     //: Evaluate the observation function F(x,z) given x and z
 #if 1
-    virtual MatrixC EvaluateJacobianFz(const StateVectorC &state_vec);
+    virtual MatrixC EvaluateJacobianFz(const StateVectorC &stateVec);
     //: Evaluate the Jacobian dF/dz given x and z
 
-    virtual MatrixC EvaluateJacobianFx(const StateVectorC &state_vec);
+    virtual MatrixC EvaluateJacobianFx(const StateVectorC &stateVec);
     //: Evaluate the Jacobian dF/dx given x and z
 #endif
   private:
@@ -118,16 +118,16 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    ObservationImpHomog2dPointC(const VectorC &nz1, const MatrixRSC &nNi1,
-				const VectorC &nz2, const MatrixRSC &nNi2)
+    ObservationImpHomog2dPointC(const Vector2dC &nz1, const MatrixRSC &nNi1,
+				const Vector2dC &nz2, const MatrixRSC &nNi2)
       : ObservationImplicitC(*new ObservationImpHomog2dPointBodyC(nz1,nNi1,nz2,nNi2))
     {}
     //: Constructor.
     
-    ObservationImpHomog2dPointC(const VectorC &nz1, const MatrixRSC &nNi1,
-				const VectorC &nz2, const MatrixRSC &nNi2,
-				RealT var_scale, RealT chi2_thres)
-      : ObservationImplicitC(*new ObservationImpHomog2dPointBodyC(nz1,nNi1,nz2,nNi2,var_scale,chi2_thres))
+    ObservationImpHomog2dPointC(const Vector2dC &nz1, const MatrixRSC &nNi1,
+				const Vector2dC &nz2, const MatrixRSC &nNi2,
+				RealT varScale, RealT chi2Thres)
+      : ObservationImplicitC(*new ObservationImpHomog2dPointBodyC(nz1,nNi1,nz2,nNi2,varScale,chi2Thres))
     {}
     //: Constructor for robust bi-Gaussian observation.
 

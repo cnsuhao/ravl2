@@ -26,45 +26,45 @@ using namespace RavlN;
 
 // Initialisation function for 2D line state vector
 static const StateVectorLine2dC
- InitialiseLine2d ( DListC<ObservationC> &obs_list, // observation list
+ InitialiseLine2d ( DListC<ObservationC> &obsList, // observation list
 		    RealT zh, // 3rd homogeneous plane coordinate
-		    DListC<ObservationC> &compatible_obs_list ) // output list of compatible observations
+		    DListC<ObservationC> &compatibleObsList ) // output list of compatible observations
 {
   UIntT iteration;
-  ObservationListManagerC obs_manager(obs_list);
+  ObservationListManagerC obsManager(obsList);
   FitLine2dPointsC fitter(zh);
   EvaluateNumInliersC evaluator(3.0, 10.0);
   
   // use RANSAC to fit line
-  RansacC ransac(obs_manager, fitter, evaluator);
+  RansacC ransac(obsManager, fitter, evaluator);
 
   // select and evaluate the given number of samples
   for ( iteration=0; iteration < RANSAC_ITERATIONS; iteration++ )
     ransac.ProcessSample(2);
 
   // select observations compatible with solution
-  compatible_obs_list = evaluator.CompatibleObservations(ransac.GetSolution(),
-							 obs_list);
+  compatibleObsList = evaluator.CompatibleObservations(ransac.GetSolution(),
+							 obsList);
   return ransac.GetSolution();
 }
 
 static void
- PrintInlierFlags(DListC<ObservationC> obs_list)
+ PrintInlierFlags(DListC<ObservationC> obsList)
 {
   cout << "Inlier flags: ";
-  for(DLIterC<ObservationC> it(obs_list);it;it++) {
+  for(DLIterC<ObservationC> it(obsList);it;it++) {
 
     // get observation vector/inverse covariance object
     ObservationC& obs(it.Data());
-    const ObsVectorBiGaussianC& obs_vec = obs.GetObsVec();
+    const ObsVectorBiGaussianC& obsVec = obs.GetObsVec();
 
     // ignore observations that are not robust
-    if(!obs_vec.IsValid()) {
+    if(!obsVec.IsValid()) {
       cout << "N";
       continue;
     }
 
-    if(obs_vec.Outlier()) cout << "0";
+    if(obsVec.Outlier()) cout << "0";
     else cout << "1";
   }
     
@@ -131,7 +131,7 @@ static bool
  TestLine2dFit()
 {
   SArray1dC<VectorC> coords(NPOINTS);
-  DListC<ObservationC> obs_list;
+  DListC<ObservationC> obsList;
 
   // build arrays of x & y coordinates
   IntT i = 0;
@@ -151,17 +151,17 @@ static bool
   Ni.Fill(0.0);
   Ni[0][0] = Ni[1][1] = 1.0/(SIGMA*SIGMA);
   for(SArray1dIterC<VectorC> it(coords);it;it++, i++)
-    obs_list.InsLast(ObservationLine2dPointC(it.Data(), Ni));
+    obsList.InsLast(ObservationLine2dPointC(it.Data(), Ni));
 
   // list of compatible observations
-  DListC<ObservationC> compatible_obs_list;
+  DListC<ObservationC> compatibleObsList;
 
   // fit the line parameters using RANSAC
-  StateVectorLine2dC state_vec_init = InitialiseLine2d(obs_list,ZHOMOG,
-						       compatible_obs_list);
+  StateVectorLine2dC stateVecInit = InitialiseLine2d(obsList,ZHOMOG,
+						       compatibleObsList);
 
   // initialise Levenberg-Marquardt algorithm
-  LevenbergMarquardtC lm = LevenbergMarquardtC(state_vec_init,obs_list);
+  LevenbergMarquardtC lm = LevenbergMarquardtC(stateVecInit,obsList);
 
   cout << "Line 2D fitting test: Initial residual=" << lm.GetResidual();
   cout << endl;
@@ -169,7 +169,7 @@ static bool
   // apply iterations
   RealT lambda = 10.0;
   for ( i = 0; i < 10; i++ ) {
-    bool accepted = lm.Iteration(obs_list, lambda);
+    bool accepted = lm.Iteration(obsList, lambda);
     if ( accepted )
       // iteration succeeded in reducing the residual
       lambda /= 10.0;
@@ -180,7 +180,7 @@ static bool
     StateVectorLine2dC sv = lm.GetSolution();
     cout << " a=" << sv.GetLx() << " b=" << sv.GetLy() << " c=" << sv.GetLz();
     cout << " Accepted=" << accepted << " Residual=" << lm.GetResidual();
-    cout << " DOF=" << obs_list.Size()-2 << endl;
+    cout << " DOF=" << obsList.Size()-2 << endl;
   }
 
   StateVectorLine2dC sv = lm.GetSolution();
@@ -195,7 +195,7 @@ static bool
  TestLine2dRobustFit()
 {
   SArray1dC<VectorC> coords(NPOINTS);
-  DListC<ObservationC> obs_list;
+  DListC<ObservationC> obsList;
   StateVectorLine2dC sv;
 
   // build arrays of x & y coordinates
@@ -226,30 +226,30 @@ static bool
   Ni.Fill(0.0);
   Ni[0][0] = Ni[1][1] = 1.0/(SIGMA*SIGMA);
   for(SArray1dIterC<VectorC> it(coords);it;it++, i++)
-    obs_list.InsLast(ObservationLine2dPointC(it.Data(), Ni,
+    obsList.InsLast(ObservationLine2dPointC(it.Data(), Ni,
 					     Sqr(OUTLIER_SIGMA/SIGMA), 5.0));
 
   // list of compatible observations
-  DListC<ObservationC> compatible_obs_list;
+  DListC<ObservationC> compatibleObsList;
 
   // fit the line parameters using RANSAC
-  StateVectorLine2dC state_vec_init = InitialiseLine2d(obs_list,ZHOMOG,
-						       compatible_obs_list);
+  StateVectorLine2dC stateVecInit = InitialiseLine2d(obsList,ZHOMOG,
+						     compatibleObsList);
 
   // initialise Levenberg-Marquardt algorithm
-  LevenbergMarquardtC lm = LevenbergMarquardtC(state_vec_init,compatible_obs_list);
+  LevenbergMarquardtC lm = LevenbergMarquardtC(stateVecInit,compatibleObsList);
 
   cout << "Line 2D robust fitting test: Initial residual=" << lm.GetResidual();
   cout << endl;
-  cout << "Selected " << compatible_obs_list.Size() << " observations using RANSAC" << endl;
+  cout << "Selected " << compatibleObsList.Size() << " observations using RANSAC" << endl;
   sv = lm.GetSolution();
   cout << "RANSAC solution: lx=" << sv.GetLx() << " ly=" << sv.GetLy() << " lz=" << sv.GetLz() << endl;
-  PrintInlierFlags(obs_list);
+  PrintInlierFlags(obsList);
 
   // apply iterations
   RealT lambda = 10.0;
   for ( i = 0; i < 10; i++ ) {
-    bool accepted = lm.Iteration(compatible_obs_list, lambda);
+    bool accepted = lm.Iteration(compatibleObsList, lambda);
     if ( accepted )
       // iteration succeeded in reducing the residual
       lambda /= 10.0;
@@ -260,14 +260,14 @@ static bool
     sv = lm.GetSolution();
     cout << " lx=" << sv.GetLx() << " ly=" << sv.GetLy() << " lz=" << sv.GetLz();
     cout << " Accepted=" << accepted << " Residual=" << lm.GetResidual();
-    cout << " DOF=" << compatible_obs_list.Size()-2 << endl;
+    cout << " DOF=" << compatibleObsList.Size()-2 << endl;
   }
 
   sv = lm.GetSolution();
   cout << "Final solution: lx=" << sv.GetLx() << " ly=" << sv.GetLy() << " lz=" << sv.GetLz() << endl;
   RealT s = sqrt(LX_TRUE*LX_TRUE + LY_TRUE*LY_TRUE);
   cout << "Ground truth: lx=" << LX_TRUE/s << " ly=" << LY_TRUE/s << " lz=" << LZ_TRUE/s << endl;
-  PrintInlierFlags(obs_list);
+  PrintInlierFlags(obsList);
   cout << endl;
 
   return true;

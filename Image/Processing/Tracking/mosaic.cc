@@ -185,6 +185,17 @@ int Mosaic(int nargs,char **argv) {
     return 1;
   }
 
+  // 5x5 kernel for morphological operations, with this shape:
+  //  ***
+  // *****
+  // *****
+  // *****
+  //  ***
+  IndexRangeC centred(-2,2);
+  ImageC<bool> kernel(centred,centred);
+  kernel.Fill(true);
+  kernel[-2][-2] = kernel[-2][2] = kernel[2][-2] = kernel[2][2] = false;
+
   // compute foreground segmented image
   for(IntT frameNo = 0;frameNo < maxFrames;frameNo++) {
     // Read an image from the input.
@@ -215,11 +226,6 @@ int Mosaic(int nargs,char **argv) {
     }
 
     // erode and dilate binary mask
-    IndexRangeC centred(-2,2);
-    ImageC<bool> kernel(centred,centred);
-    kernel.Fill(true);
-    kernel[-2][-2] = kernel[-2][2] = kernel[2][-2] = kernel[2][2] = false;
-
     ImageC<bool> result(mosaicBuilder.GetCropRect());
     BinaryErode(mask, kernel, result);
     cout << "result.TL=(" << result.Frame().TRow() << "," << result.Frame().LCol() << ") result.BR=(" << result.Frame().BRow() << "," << result.Frame().RCol() << ")" << endl;

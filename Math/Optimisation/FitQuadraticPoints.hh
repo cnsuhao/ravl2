@@ -14,10 +14,23 @@
 //! example="QuadraticFitTest.cc"
 //! lib=RavlOptimise
 
-#include <Ravl/FitToSample.hh>
+#include "Ravl/FitToSample.hh"
 
 namespace RavlN {
   
+  //! userlevel=Develop
+  //: Body class for fitting a quadratic curve to a sample of (x,y) points
+  class FitQuadraticPointsBodyC
+    : public FitToSampleBodyC
+  {
+  public:
+    FitQuadraticPointsBodyC();
+    //: Constructor for a class to fit a quadratic curve to points on a plane
+    
+    virtual StateVectorC FitModel(DListC<ObservationC> sample);
+    //: Fit quadratic curve y = a*x^2 + b*x + c to (x,y) points
+  };
+
   //! userlevel=Normal
   //! autoLink=on
   //: This class fits a quadratic curve to a sample of (x,y) points
@@ -25,11 +38,32 @@ namespace RavlN {
     : public FitToSampleC
   {
   public:
-    FitQuadraticPointsC();
+    FitQuadraticPointsC()
+      : FitToSampleC(*new FitQuadraticPointsBodyC())
+    {}
     //: Constructor for a class to fit a quadratic curve to (x,y) points
 
-    StateVectorC FitModel(DListC<ObservationC> sample);
-    //: Fit quadratic curve y = a*x^2 + b*x + c to (x,y) points
+    FitQuadraticPointsC(const FitToSampleC &fitter)
+      : FitToSampleC(fitter)
+    {
+      if(dynamic_cast<FitQuadraticPointsBodyC *>(&FitToSampleC::Body()) == 0)
+	Invalidate();
+    }
+    //: Base class constructor.
+    
+  public:
+    FitQuadraticPointsC(FitQuadraticPointsBodyC &bod)
+      : FitToSampleC(bod)
+    {}
+    //: Body constructor.
+    
+    FitQuadraticPointsBodyC &Body()
+    { return static_cast<FitQuadraticPointsBodyC &>(FitToSampleC::Body()); }
+    //: Access body.
+
+    const FitQuadraticPointsBodyC &Body() const
+    { return static_cast<const FitQuadraticPointsBodyC &>(FitToSampleC::Body()); }
+    //: Access body.
   };
 }
 
