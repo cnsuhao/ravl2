@@ -311,6 +311,8 @@ namespace RavlN {
       MutexLockC lock(access);
       CheckUpdate();
       RavlAssert(input.IsValid());
+      if(!input.IsValid())
+	throw DataNotReadyC("No input. ");
       DataT dat = input.Get();  // Possible exception.
       return dat;
     }
@@ -328,9 +330,10 @@ namespace RavlN {
 #if RAVL_GCC32FIX  
       int n[20];
 #endif
+      if(!input.IsValid())
+	return false;
       //cerr << "Access a=" << ((void *) & access) << "\n";
       RavlAssert(&(lock.Mutex()) == &access);
-      RavlAssert(input.IsValid());
       CheckUpdate();
       RavlAssert(&(lock.Mutex()) == &access);
       HelpDebugger();
