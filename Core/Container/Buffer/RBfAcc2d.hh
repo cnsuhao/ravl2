@@ -40,37 +40,37 @@ namespace RavlN {
   public:
     RangeBufferAccess2dC(const IndexRangeC &nrng2)
       : rng2(nrng2)
-      {}
+    {}
     //: Constructor.
     
     RangeBufferAccess2dC(const RangeBufferAccessC<BufferAccessC<DataT> > &ab,const IndexRangeC &nrng2)
       : RangeBufferAccessC<BufferAccessC<DataT> >(ab),
-      rng2(nrng2)
-      {}
+	rng2(nrng2)
+    {}
     //: Constructor.
 
     RangeBufferAccess2dC(const RangeBufferAccessC<BufferAccessC<DataT> > &ab,const IndexRange2dC &rect)
       : RangeBufferAccessC<BufferAccessC<DataT> >(ab,rect.Range1()),
-      rng2(rect.Range2())
-      {}
+	rng2(rect.Range2())
+    {}
     //: Construct a access to a rectangle within 'ab' with indexs 'rect'.
     
     RangeBufferAccess2dC(const RangeBufferAccessC<BufferAccessC<DataT> > &ab,const IndexRangeC &r1,const IndexRangeC &r2)
       : RangeBufferAccessC<BufferAccessC<DataT> >(ab,r1),
-      rng2(r2)
-      {}
+	rng2(r2)
+    {}
     //: Construct a access to a rectangle within 'ab' with ranges r1 and r2.
     
     RangeBufferAccess2dC(const BufferAccessC<BufferAccessC<DataT> > &ab,const IndexRangeC &r1,const IndexRangeC &r2)
       : RangeBufferAccessC<BufferAccessC<DataT> >(r1,ab),
-      rng2(r2)
-      {}
+	rng2(r2)
+    {}
     //: Construct a access to a rectangle within 'ab' with ranges r1 and r2.
     // All the offsets for the buffers should already be setup.
     
     RangeBufferAccess2dC()
       : rng2(0,-1)
-      {}
+    {}
     //: Default constructor.
     
     inline DataT & operator[](const Index2dC & i) { 
@@ -86,19 +86,19 @@ namespace RavlN {
     //: return the item array[(i)]
     
     inline RangeBufferAccessC<DataT> operator[](IndexC i)
-      { return RangeBufferAccessC<DataT>(rng2,RangeBufferAccessC<BufferAccessC<DataT> >::operator[](i)); }
+    { return RangeBufferAccessC<DataT>(rng2,RangeBufferAccessC<BufferAccessC<DataT> >::operator[](i)); }
     //: access to the item array[(i)]
     
     inline const RangeBufferAccessC<DataT> operator[](IndexC i) const
-      { return RangeBufferAccessC<DataT>(rng2,RangeBufferAccessC<BufferAccessC<DataT> >::operator[](i)); }
+    { return RangeBufferAccessC<DataT>(rng2,RangeBufferAccessC<BufferAccessC<DataT> >::operator[](i)); }
     //: return the item array[(i)]
     
     inline const IndexRangeC &Range1() const
-      { return Range(); }
+    { return Range(); }
     //: Range of first index.
     
     inline const IndexRangeC &Range2() const
-      { return rng2; }
+    { return rng2; }
     //: Range of second index.
 
     UIntT Size() const 
@@ -109,15 +109,15 @@ namespace RavlN {
     //: Fill array with value.
     
     IndexRange2dC Rectangle() const
-      { return IndexRange2dC(Range1(),Range2()); }
+    { return IndexRange2dC(Range1(),Range2()); }
     //: Return ranges of indexes
     
     IndexRange2dC Frame() const
-      { return IndexRange2dC(Range1(),Range2()); }
+    { return IndexRange2dC(Range1(),Range2()); }
     //: Return ranges of indexes
 
     inline bool Contains(const Index2dC & i) const
-      { return Range1().Contains(i.Row()) && Range2().Contains(i.Col()); }
+    { return Range1().Contains(i.Row()) && Range2().Contains(i.Col()); }
     //: Returns TRUE if there is an item of the 2D array
     
     IntT Stride() const {
@@ -135,12 +135,29 @@ namespace RavlN {
     // memory, this may miss other discontunities.
 
     bool IsEmpty() const
-      { return (Range1().Size() <= 0) || (Range2().Size() <= 0); }
+    { return (Range1().Size() <= 0) || (Range2().Size() <= 0); }
     //: Is rectangle empty ?
     
     BufferAccess2dIterC<DataT> Iter()
-      { return BufferAccess2dIterC<DataT>(*this,rng2); }
+    { return BufferAccess2dIterC<DataT>(*this,rng2); }
     //: Creat an iterator for this buffer.
+    
+    BufferAccessC<DataT> &RowPtr(IndexC i)
+    { return RangeBufferAccessC<BufferAccessC<DataT> >::operator[](i); }
+    //: Access element 0 of row i.
+    // Note: The element may not actually exist. <p>
+    // Advanced uses only!
+    
+    void SetRowPtr(IndexC i,BufferAccessC<DataT> &rowPtr)
+    { RangeBufferAccessC<BufferAccessC<DataT> >::operator[](i) = rowPtr; }
+    //: Set element 0 of row i to 'rowPtr'.
+    // Advanced uses only! <p>
+    // This directly manipulates the row pointer table. It can be used to
+    // change the way the array is stored. NOTE: Many of the numerical operations
+    // in RAVL assume the data is stored in linearly in a contiguous chunk of
+    // memory. Manipulating the layout with this method will break this method
+    // will break this assumption.  This method is provided to allow operations
+    // like deinterlacing image to be done without copying large amounts of memory.
     
   protected:
     IndexRangeC rng2;

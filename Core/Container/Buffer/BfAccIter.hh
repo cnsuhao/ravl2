@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLRBFACCITER_HEADER
-#define RAVLRBFACCITER_HEADER 1
+#ifndef RAVL_RBFACCITER_HEADER
+#define RAVL_RBFACCITER_HEADER 1
 ///////////////////////////////////////////////////
 //! userlevel=Normal
 //! rcsid="$Id$"
@@ -35,19 +35,19 @@ namespace RavlN {
     //: Default constructor.
     
     inline BufferAccessIterC(const BufferAccessC<DataC> &buff,const IndexRangeC &rng)
-      { First(buff,rng); }
+    { First(buff,rng); }
     //: Constructor.
     
     inline BufferAccessIterC(const BufferAccessC<DataC> &buff,UIntT size)
-      { First(buff,size); }
+    { First(buff,size); }
     //: Constructor.
     
     inline BufferAccessIterC(const RangeBufferAccessC<DataC> &buff)
-      { First(buff); }
+    { First(buff); }
     //: Constructor.
 
     inline BufferAccessIterC(const SizeBufferAccessC<DataC> &buff)
-      { First(buff); }
+    { First(buff); }
     //: Constructor.
     
     inline BufferAccessIterC<DataC> &operator=(const RangeBufferAccessC<DataC> &buff);
@@ -78,7 +78,7 @@ namespace RavlN {
     // Note: This is slightly slower than IsElm().
     
     inline operator bool() const
-      { return at < endOfRow; }
+    { return at < endOfRow; }
     //: At valid element ?
     
     inline bool operator!() const
@@ -86,7 +86,7 @@ namespace RavlN {
     //: Not at valid element ?
     
     inline void Next()
-      { RavlAssert(at != endOfRow); at++; }
+    { RavlAssert(at != endOfRow); at++; }
     //: Goto next element.
     // Call ONLY if IsElm() is valid.
 
@@ -96,46 +96,46 @@ namespace RavlN {
     // Call ONLY if you know this will not go past the end of the array.
     
     inline void operator++(int) 
-      { RavlAssert(at != endOfRow); at++; }
+    { RavlAssert(at != endOfRow); at++; }
     //: Goto next element.
     // Call ONLY if IsElm() is valid.
     
     inline void operator++() 
-      { RavlAssert(at != endOfRow); at++; }
+    { RavlAssert(at != endOfRow); at++; }
     //: Goto next element.
     // Call ONLY if IsElm() is valid.
     
     DataC &operator*() 
-      { return *at; }
+    { return *at; }
     //: Access data.
     
     const DataC &operator*() const
-      { return *at; }
+    { return *at; }
     //: Access data.
     
     DataC *operator->() 
-      { return at; }
+    { return at; }
     //: Access data.
     
     const DataC *operator->() const
-      { return at; }
+    { return at; }
     //: Access data.
     
     inline DataC &Data()
-      { return *at; }
+    { return *at; }
     //: Access data.
     
     inline const DataC &Data() const
-      { return *at; }
+    { return *at; }
     //: Access data.
     
     inline DataC &Data1()
-      { return *at; }  
+    { return *at; }  
     //: Access data.
     // Equivelent to .Data(), for compatability with other iterators.
     
     inline const DataC &Data1() const
-      { return *at; }
+    { return *at; }
     //: Const access data.
     // Equivelent to .Data(), for compatability with other iterators.
     

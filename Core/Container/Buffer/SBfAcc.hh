@@ -65,27 +65,27 @@ namespace RavlN {
     // --------------------
     
     inline DataT * DataStart() const
-      { return buff; }
+    { return buff; }
     // Returns the address of the first element of the buffer.
     
     inline SizeT Size() const
-      { return sz; }
+    { return sz; }
     // Returns the number of elements of the array.
     
     inline IndexRangeC Limits() const
-      { return IndexRangeC(0,sz); }
+    { return IndexRangeC(0,sz); }
     // Returns the usable range of indeces expressed by this object.
     
     inline IndexRangeC Range() const
-      { return IndexRangeC(0,sz); }
+    { return IndexRangeC(0,sz); }
     // Returns the usable range of indeces expressed by this object.
     
     inline IndexC IMin() const
-      { return 0; }
+    { return 0; }
     // Returns the minimum index of the range of this access.
     
     inline IndexC IMax() const
-      { return sz-1; }
+    { return sz-1; }
     // Returns the maximum index of the range of this access.
     
     inline const DataT  & operator[](const IndexC i) const;
@@ -95,18 +95,18 @@ namespace RavlN {
     // Read-write access  to the ('i'+1)-th element of the buffer. 
     
     inline const SizeBufferAccessC<DataT> & SAccess(void) const
-      { return *this; }
+    { return *this; }
     // Returns this object.
     
     // Logical functions
     // -----------------
     
     inline bool IsEmpty() const
-      { return sz == 0; }
+    { return sz == 0; }
     // Returns TRUE if the size of the array is zero.
     
     inline bool Contains(IndexC i) const
-      { return ((UIntT) i.V()) < sz; }
+    { return ((UIntT) i.V()) < sz; }
     // Returns TRUE if the array contains an item with the index 'i'.
     
     // Modifications of the access
@@ -120,7 +120,7 @@ namespace RavlN {
     // Changes the number of elements by subtracting the last 'k' elements.
     
     inline 
-      const SizeBufferAccessC<DataT> & Swap(SizeBufferAccessC<DataT> & a);
+    const SizeBufferAccessC<DataT> & Swap(SizeBufferAccessC<DataT> & a);
     // Exchanges the contents of this buffer with buffer 'a'.
     
     inline void Attach(const SizeBufferAccessC<DataT> & b);
@@ -155,6 +155,10 @@ namespace RavlN {
     SizeBufferAccessC<DataT> BufferFrom(UIntT first,UIntT len);
     //: Get an access for this buffer starting from the 'first' element for 'len' elements.
     // An error will be generated if the requested buffer isn't contains within this one.
+
+    bool operator==(const SizeBufferAccessC<DataT> &ba) const
+    { return (buff == ba.buff) && (sz == ba.sz); }
+    //: Are two accesses the same ?
     
   protected:
     
@@ -362,7 +366,7 @@ namespace RavlN {
     const DataT *at = dat.DataStart();
     const DataT *endOfRow = &at[dat.Size()];
     if(dat.Size() == 0)
-    return out;
+      return out;
     for(;at != endOfRow;at++)
       out << *at;
     return out;

@@ -29,49 +29,41 @@ namespace RavlN {
   {
   public:
     Buffer2dBodyC()
-      {}
+    {}
     //: Default constructor.
 
     Buffer2dBodyC(SizeT size1,SizeT size2)
       : BufferBodyC<BufferAccessC<DataT> >(size1),
-      data(size2 * size1)
-      {}
+	data(size2 * size1)
+    {}
     //: Sized constructor.
-
+    
     Buffer2dBodyC(SizeT size1,SizeT size2,DataT *data,bool copy = false,bool deletable = true)
       : BufferBodyC<BufferAccessC<DataT> >(size1),
 	data(size1 * size2,data,copy, deletable)
-      {}
+    {}
     //: Sized constructor.
-
-#if 0
-    Buffer2dBodyC(const BufferC<DataT> &dat,const BufferC<BufferAccessC<DataT> > &buf)
-      : BufferBodyC<BufferAccessC<DataT> >(buf),
-	data(dat)
-      {}
-    //: Buffer constructor.
-#endif
     
     Buffer2dBodyC(const BufferC<DataT> &dat,SizeT size1)
       : BufferBodyC<BufferAccessC<DataT> >(size1),
-      data(dat)
-      {}
-    //: Buffer constructor.
+	data(dat)
+    {}
+    //: Construct a buffer with data area 'dat' and an access buffer with 'size1' entries.
     
     BufferC<DataT> &Data()
-      { return data; }
+    { return data; }
     //: Access data buffer.
-
+    
     const BufferC<DataT> &Data() const
-      { return data; }
+    { return data; }
     //: Access data buffer.
 
     SizeT Size1() const
-      { return BufferBodyC<BufferAccessC<DataT> >::Size(); }
+    { return BufferBodyC<BufferAccessC<DataT> >::Size(); }
     //: Get size 1
 
     SizeT Size2() const
-      { return data.Size() / Size1(); }
+    { return data.Size() / Size1(); }
     //: Get size 2 (estimate.)
     
   protected:
@@ -88,58 +80,51 @@ namespace RavlN {
   {
   public:
     Buffer2dC()
-      {}
+    {}
     //: Default constructor.
     // creates an invalid handle.
     
     Buffer2dC(SizeT size1,SizeT size2)
       : BufferC<BufferAccessC<DataT> >(*new Buffer2dBodyC<DataT>(size1,size2))
-      {}
+    {}
     //: Sized constructor.
-
-#if 0    
-    Buffer2dC(const BufferC<DataT> &dat,const BufferC<BufferAccessC<DataT> > &buf)
-      : BufferC<BufferAccessC<DataT> >(*new Buffer2dBodyC<DataT>(dat,buf)) 
-      {}
-    //: Constructor.
-#endif
     
-    Buffer2dC(const BufferC<DataT> &dat,SizeT size2)
-      : BufferC<BufferAccessC<DataT> >(*new Buffer2dBodyC<DataT>(dat,size2)) 
-      {}
-    //: Constructor.
-
+    Buffer2dC(const BufferC<DataT> &dat,SizeT size1)
+      : BufferC<BufferAccessC<DataT> >(*new Buffer2dBodyC<DataT>(dat,size1)) 
+    {}
+    //: Construct a buffer with data area 'dat' and an access buffer with 'size1' entries.
+    
     Buffer2dC(SizeT size1,SizeT size2,DataT *data,bool copy = false,bool deletable = true)
       : BufferC<BufferAccessC<DataT> >(*new Buffer2dBodyC<DataT>(size1,size2,data,copy,deletable)) 
-      {}
+    {}
     //: Construct from an existing buffer.
     
   protected:
 
     Buffer2dBodyC<DataT> &Body()
-      { return static_cast<Buffer2dBodyC<DataT> &>(BufferC<BufferAccessC<DataT> >::Body()); }
+    { return static_cast<Buffer2dBodyC<DataT> &>(BufferC<BufferAccessC<DataT> >::Body()); }
     //: Access body.
     
     const Buffer2dBodyC<DataT> &Body() const
-      { return static_cast<const Buffer2dBodyC<DataT> &>(BufferC<BufferAccessC<DataT> >::Body()); }
+    { return static_cast<const Buffer2dBodyC<DataT> &>(BufferC<BufferAccessC<DataT> >::Body()); }
     //: Constant access to body.
     
   public:
 
     BufferC<DataT> &Data()
-      { return Body().Data(); }
+    { return Body().Data(); }
     //: Access data buffer.
     
     const BufferC<DataT> &Data() const
-      { return Body().Data(); }
+    { return Body().Data(); }
     //: Access data buffer.
     
     SizeT Size1() const
-      { return Body().Size1(); }
+    { return Body().Size1(); }
     //: Get size of buffer along dimention 1
 
     SizeT Size2() const
-      { return Body().Size2(); }
+    { return Body().Size2(); }
     //: Get size of buffer along dimention 2 (estimate.)
     
   };

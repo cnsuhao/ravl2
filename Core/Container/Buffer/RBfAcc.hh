@@ -191,6 +191,9 @@ namespace RavlN {
     void Reverse();
     //: Reverse the order of elements in this array in place.
     
+    bool operator==(const RangeBufferAccessC<DataT> &ba) const
+    { return (buff == ba.buff) && (range == ba.range); }
+    //: Are two accesses the same ?
   protected:
     
     // Copy
