@@ -4,7 +4,7 @@ $(//: *********************** Title ***************************** )
 <tr><td align="center" bgcolor="$(ifset:hdrcolour:$(hdrcolour))$(else:#007FFF)">
 <font size="+2" color="white">$(ifset:title:$(title))$(else:$(ObjectName))</font></td></tr>
 <tr><td align="center" bgcolor="black"><FONT size="+1" face="helvetica,arial" color="white">
-<b>$(projectName) -  RAVL, Recognition And Vision Library</b></font></td>
+<b>$(projectDesc)</b></font></td>
 </tr></table>
 
 $(//: *********************** option bar ***************************** )
