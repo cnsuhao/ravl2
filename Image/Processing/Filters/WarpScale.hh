@@ -53,7 +53,15 @@ namespace RavlImageN {
     void SetMethod(ScaleMethodT meth)
     { method = meth; }
     //: Set the scaling method
-
+    
+    void SetRectangle(const ImageRectangleC &nrec)
+    { rec = nrec; }
+    //: Set output rectangle.
+    
+    const ImageRectangleC &OutputRectangle()
+    { return rec; }
+    //: Access output rectangle.
+    
   protected:
 
     ImageC<OutT> NearestNeighbour(const ImageC<InT> &img);
