@@ -152,6 +152,9 @@ int main(int nargs,char **argv) {
   win.Create();
   
   win.Show();
+
+  treeView.Sort(0,true);
+
   Manager.Start();
 #endif  
   return 0;

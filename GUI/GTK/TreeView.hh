@@ -30,6 +30,7 @@ extern "C" {
 namespace RavlGUIN {
 
   class TreeViewBodyC;
+  class TreeViewC;
   
   //! userlevel=Develop
   
@@ -147,12 +148,23 @@ namespace RavlGUIN {
     TreeModelIterC Path2Iter(const char *pathName)
     { return treeModel.Path2Iter(pathName); }
     //: Get row iterator from path string.
-    
+
+    void Sort(UIntT colNum, bool bAscending);
+    //: Sort treeview by column colNum.
+        
+    bool GUISort(UIntT colNum, bool bAscending);
+    //: Sort treeview by column colNum.
+    // GUI thread only
+
   protected:
+
     TreeModelC treeModel;
     GtkTreeSelection *selection;
     Signal1C<DListC<TreeModelIterC> > selectionChanged;
     SArray1dC<TreeViewColumnC> displayColumns;
+
+    friend class TreeViewC;
+    
   };
   
   //! userlevel=Normal
@@ -220,7 +232,18 @@ namespace RavlGUIN {
     TreeModelIterC Path2Iter(const char *pathName)
     { return Body().Path2Iter(pathName); }
     //: Get row iterator from path string.
+
+    void Sort(UIntT colNum, bool bAscending)
+    { Body().Sort(colNum,bAscending); }
+    //: Sort treeview by column colNum.
+
+    bool GUISort(UIntT colNum, bool bAscending)
+    { return Body().GUISort(colNum,bAscending); }
+    //: Sort treeview by column colNum.
+    // GUI thread only
     
+    friend class TreeViewBodyC;
+
   };
   
 }

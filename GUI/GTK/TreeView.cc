@@ -13,6 +13,7 @@
 
 #if RAVL_USE_GTK2
 
+#include "Ravl/GUI/Manager.hh"
 #include "Ravl/GUI/Pixmap.hh"
 #include "Ravl/Threads/Signal2.hh"
 #include "Ravl/Threads/Signal1.hh"
@@ -279,6 +280,30 @@ namespace RavlGUIN {
     return ret;
   }
 
+
+  //: Sort treeview by column colNum.
+  
+  void TreeViewBodyC::Sort(UIntT colNum, bool bAscending) {
+    Manager.Queue(Trigger(TreeViewC(*this),&TreeViewC::GUISort,colNum,bAscending));
+  }
+
+  //: Sort treeview by column colNum.
+  // GUI thread only
+  
+  bool TreeViewBodyC::GUISort(UIntT colNum, bool bAscending) {
+    // Check validity of widget
+    if(widget == 0)
+      Manager.Queue(Trigger(TreeViewC(*this),&TreeViewC::GUISort,colNum,bAscending));
+    // Set sorting
+    gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(treeModel.TreeModel()), colNum,
+					 bAscending ? GTK_SORT_ASCENDING : GTK_SORT_DESCENDING);
+
+    return true;
+  }
+
+
+
 }
+
 
 #endif
