@@ -1,9 +1,16 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2001, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 #ifndef RAVLIMAGE_CONVOLVESEPARABLE2D_HEADER
 #define RAVLIMAGE_CONVOLVESEPARABLE2D_HEADER 1
 /////////////////////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! userlevel=Normal
 //! author="Charles Galambos"
+//! lib=RavlImage
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ConvolveHorz2d.hh"
@@ -14,7 +21,7 @@ namespace RavlImageN {
   //! userlevel=Normal
   //: Separable 2D Convolution
   
-  template<class KernelPixelT,class InPixelT = KernelPixelT,class OutPixelT = InPixelT>
+  template<class KernelPixelT,class InPixelT = KernelPixelT,class OutPixelT = InPixelT,class SumTypeT = KernelPixelT>
   class ConvolveSeparable2dC {
   public:
     ConvolveSeparable2dC()
@@ -38,13 +45,13 @@ namespace RavlImageN {
     { Apply(in,result); }
     
   protected:
-    ConvolveVert2dC<KernelPixelT,InPixelT,KernelPixelT>  vert;
-    ConvolveHorz2dC<KernelPixelT,KernelPixelT,OutPixelT> horz;
+    ConvolveVert2dC<KernelPixelT,InPixelT,SumTypeT>  vert;
+    ConvolveHorz2dC<KernelPixelT,SumTypeT,OutPixelT> horz;
   };
   
-  template<class KernelPixelT,class InPixelT,class OutPixelT>
-  void ConvolveSeparable2dC<KernelPixelT,InPixelT,OutPixelT>::Apply(const ImageC<InPixelT> &in,ImageC<OutPixelT> &result) const {
-    ImageC<KernelPixelT> tmp;
+  template<class KernelPixelT,class InPixelT,class OutPixelT,class SumTypeT>
+  void ConvolveSeparable2dC<KernelPixelT,InPixelT,OutPixelT,SumTypeT>::Apply(const ImageC<InPixelT> &in,ImageC<OutPixelT> &result) const {
+    ImageC<SumTypeT> tmp;
     vert.Apply(in,tmp);
     horz.Apply(tmp,result);
   }

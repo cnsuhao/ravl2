@@ -1,9 +1,16 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2001, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 #ifndef RAVLIMAGE_CONVOLVERT2D_HEADER
 #define RAVLIMAGE_CONVOLVERT2D_HEADER 1
 /////////////////////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! userlevel=Normal
 //! author="Charles Galambos"
+//! lib=RavlImage
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Array1d.hh"
@@ -16,7 +23,7 @@ namespace RavlImageN {
   //! userlevel=Normal
   //: Vertontal 2D Convolution with a 1D filter.
   
-  template<class KernelPixelT,class InPixelT = KernelPixelT,class OutPixelT = InPixelT>
+  template<class KernelPixelT,class InPixelT = KernelPixelT,class OutPixelT = InPixelT,class SumTypeT = KernelPixelT>
   class ConvolveVert2dC {
   public:
     ConvolveVert2dC()
@@ -29,9 +36,11 @@ namespace RavlImageN {
     
     void SetKernel(const Array1dC<KernelPixelT> &ncolKernel) { 
       colKernel = ncolKernel.Copy();
-      colKernel.Reverse();
+      colKernel.Reverse();  // Reverse mask as Appy method actually does correlation.
     }
     //: Set the convolution kernel.
+    // Note: Currently this rotates the mast around the central element,
+    // not about the 0 index as other convolution methods in RAVL.
     
     void Apply(const ImageC<InPixelT> &in,ImageC<OutPixelT> &result) const;
     //: Do convolution on image 'in', put the output in 'result' 
@@ -43,8 +52,8 @@ namespace RavlImageN {
     Array1dC<KernelPixelT> colKernel;
   };
   
-  template<class KernelPixelT,class InPixelT,class OutPixelT>
-  void ConvolveVert2dC<KernelPixelT,InPixelT,OutPixelT>::Apply(const ImageC<InPixelT> &in,ImageC<OutPixelT> &result) const {
+  template<class KernelPixelT,class InPixelT,class OutPixelT,class SumTypeT>
+  void ConvolveVert2dC<KernelPixelT,InPixelT,OutPixelT,SumTypeT>::Apply(const ImageC<InPixelT> &in,ImageC<OutPixelT> &result) const {
     RavlAssertMsg(colKernel.Size() > 0,"Convolution kernel too small. ");
     ImageRectangleC resRect = in.Rectangle();
     resRect.TRow() -= colKernel.IMin();
@@ -58,12 +67,12 @@ namespace RavlImageN {
       const KernelPixelT *kp = &(colKernel[colKernel.IMin()]);
       const KernelPixelT *eol = &kp[ksize];
       const InPixelT *ip = &it.Data2();
-      KernelPixelT sum = (KernelPixelT) (*ip) * (*kp);
+      SumTypeT sum = (KernelPixelT) (*ip) * (*kp);
       ip += rowSep;
       kp++;
       for(;kp != eol;kp++,ip += rowSep)
-	sum += (KernelPixelT) (*ip) * (*kp);
-      it.Data1() = sum;
+	sum += (SumTypeT) (*ip) * (SumTypeT) (*kp);
+      it.Data1() = (OutPixelT) sum;
     }
   }
   
