@@ -93,7 +93,7 @@ namespace RavlImageN {
   //: Process some data.
   
   bool AVMixerBodyC::Get(AVFrameC &outbuff) { 
-    SArray1dC<SampleElemC<2,Int16T> > audio(audioSamplesPerFrame);
+    SArray1dC<SampleElemC<2,Int16T> > audio(Round(audioSamplesPerFrame));
     if(in2.GetArray(audio) <= 0)
       return false;
     ImageC<ByteRGBValueC> img;
@@ -106,14 +106,14 @@ namespace RavlImageN {
   //: Seek to location in stream.
   
   bool AVMixerBodyC::Seek(UIntT off) {
-    in2.Seek(audioSamplesPerFrame * off);
+    in2.Seek(Round(audioSamplesPerFrame * (RealT) off));
     return in1.Seek(off);
   }
   
   //: Delta Seek, goto location relative to the current one.
   
   bool AVMixerBodyC::DSeek(IntT off) {
-    in2.DSeek(audioSamplesPerFrame * off);
+    in2.DSeek(Round(audioSamplesPerFrame * (RealT) off));
     return in1.DSeek(off);
   }
   

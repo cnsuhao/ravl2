@@ -71,7 +71,7 @@ namespace RavlImageN {
     
     DPISPortC<ImageC<ByteRGBValueC> > in1;
     DPISPortC<SampleElemC<2,Int16T> > in2;
-    UIntT audioSamplesPerFrame;
+    RealT audioSamplesPerFrame;
     RealT audioFreq;
     RealT videoFrameRate;
   };
