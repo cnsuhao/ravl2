@@ -16,13 +16,17 @@ HEADERS= DesignClassifierSupervised.hh  \
  ClassifierKNearestNeighbour.hh ClassifierAverageNearestNeighbour.hh \
  ClassifierDiscriminantFunction.hh \
   ClassifierGaussianMixture.hh DesignClassifierGaussianMixture.hh \
- ClassifierPreprocess.hh ClassifierFunc1Threshold.hh
+ ClassifierPreprocess.hh ClassifierFunc1Threshold.hh \
+ ClassifierWeakLinear.hh ClassifierLinearCombination.hh \
+ DesignWeakLinear.hh DesignLinearCombination.hh
 
 SOURCES= DesignClassifierSupervised.cc \
  DesignDiscriminantFunction.cc DesignKNearestNeighbour.cc \
  ClassifierKNearestNeighbour.cc ClassifierAverageNearestNeighbour.cc \
  ClassifierDiscriminantFunction.cc ClassifierGaussianMixture.cc DesignClassifierGaussianMixture.cc \
- ClassifierPreprocess.cc ClassifierFunc1Threshold.cc
+ ClassifierPreprocess.cc ClassifierFunc1Threshold.cc \
+ ClassifierWeakLinear.cc ClassifierLinearCombination.cc \
+ DesignWeakLinear.cc DesignLinearCombination.cc
 
 PLIB = RavlPatternRec
 
@@ -32,6 +36,6 @@ LIBDEPS = RavlPatternRecClassifier.def
 
 USESLIBS=RavlPatternRec
 
-EHT = Ravl.Pattern_Recognition.Classify.html
+EHT = Ravl.Pattern_Recognition.Classifier.html
 
 EXAMPLES=  exKNearestNeighbour.cc
