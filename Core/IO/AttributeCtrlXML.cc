@@ -27,6 +27,8 @@ namespace RavlN {
     strm << XMLStartTag("AttributeSet");
     for(DLIterC<AttributeTypeC> it(list);it;it++) {
       StringC value;
+      if(!it->CanWrite() || !it->CanRead())
+	continue; // No point in saving attributes you can't change, or that you can't read.
       if(!(const_cast<AttributeCtrlBodyC *>(this)->GetAttr(it->Name(),value)))
 	continue; // Can't read attribute.
       strm << XMLStartTag("Attribute") 
