@@ -19,6 +19,7 @@
 #include "Ravl/Index2d.hh"
 #include "Ravl/Vector2d.hh"
 #include "Ravl/Point2d.hh"
+#include "Ravl/Math.hh"
 
 namespace RavlImageN {
   using namespace RavlN;
@@ -108,7 +109,7 @@ namespace RavlImageN {
   inline RealT CornerC::Distance(const CornerC &oth) const {
     return loc.CityBlockDistance(oth.loc) + 
       grad.CityBlockDistance(oth.grad) + 
-      abs(level - oth.level);
+      Abs(level - oth.level);
   }
 
 }
