@@ -41,6 +41,16 @@ namespace RavlImageN {
   // 'img' is the image we're searching. <br>
   // 'origin' is the position in the image to check.<br>
   // 'diff' is used to accumulate the differences between the images.
+
+#if RAVL_USE_MMX
+  IntT MatchSumAbsDifference(const Array2dC<ByteT> &imgTemplate,
+			     const Array2dC<ByteT> &img,
+			     const Index2dC &origin,
+			     IntT &diff
+			     );
+  //: Compute the sum of absolute differences between two images.
+  //: Use some MMX code to speed this up.
+#endif
   
   template<class DataT,class SumT>
   SumT SearchMinAbsDifference(const Array2dC<DataT> &tmpl,const Array2dC<DataT> &img,const IndexRange2dC &area,Index2dC &at,SumT &rminScore) {
@@ -70,6 +80,7 @@ namespace RavlImageN {
   // it occured at.   The position is the pixel in 'img' corresponding to 
   // 0,0 in 'imgTemplate'.
   
+
   
 }
 

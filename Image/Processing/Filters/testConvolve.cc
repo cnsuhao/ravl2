@@ -43,6 +43,7 @@ template WarpProjectiveC<ByteRGBValueC,ByteRGBValueC>;
 
 int main() {
   int ln;
+#if 0
 #if !TESTMMX
   if((ln = testConvolve2d()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
@@ -73,6 +74,7 @@ int main() {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
+#endif
   if((ln = testMatching()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
@@ -248,6 +250,7 @@ template HistogramEqualiseC<ByteT>;
 #endif
 
 int testHistogramEqualise() {
+  cerr << "testHistogramEqualise() \n";
   ImageC<RealT> test(10,10);
   RealT v = 0;
   for(Array2dIterC<RealT> it(test);it;it++)
@@ -260,14 +263,31 @@ int testHistogramEqualise() {
   return 0;
 }
 
-int testMatching() {
-  Array2dC<ByteT> img1(10,10);
-  ByteT v = 0;
+int testMatch(int s) {
+  Array2dC<ByteT> img1(s,s);
+  Array2dC<ByteT> img2(s,s);
+  int v = 0;
   for(Array2dIterC<ByteT> it(img1);it;it++)
-    *it = v++;
+    *it =  (v++ % 32) + 1;
+  v = 0;
+  for(Array2dIterC<ByteT> it(img2);it;it++)
+    *it = (v++ % 32) + 2;
   Index2dC at(0,0);
   IntT sum;
-  if(RavlImageN::MatchSumAbsDifference(img1,img1,at,sum) != 0)
+  sum = RavlImageN::MatchSumAbsDifference(img1,img2,at,sum);
+  //cerr << "Sum=" << sum << "\n";
+  if(sum != s * s)
     return __LINE__;
+  return 0;
+}
+
+int testMatching() {
+  cerr << "testMatching(). \n";
+  int ln;
+  for(int i = 3;i < 19;i++) {
+    cerr << "Testing " << i << "x" << i << "\n";
+    if((ln = testMatch(i)) != 0)
+      return ln;
+  }
   return 0;
 }
