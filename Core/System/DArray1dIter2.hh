@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_DARRAY1DITER2_HEADER
 #define RAVL_DARRAY1DITER2_HEADER 1
-//! docentry="Ravl.Core.Misc"
+//! docentry="Ravl.Core.Arrays.1D"
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! rcsid="$Id$"

@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_DARRAY1D_HEADER
 #define RAVL_DARRAY1D_HEADER 1
-//! docentry="Ravl.Core.Misc"
+//! docentry="Ravl.Core.Arrays.1D"
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! rcsid="$Id$"
@@ -295,8 +295,12 @@ namespace RavlN {
     friend class DArray1dC<DataT>;
   };
 
-  //! userlevel=Develop
-  //: Dynamic arrays.
+  //! userlevel=Normal
+  //: Dynamic array.
+  // Behaves like Array1dC, together with some of the propoertied of a
+  // list.  Thus you can increase its size after you have created it,
+  // and delete elements from it.  Random access is slightly slower than
+  // Array1dC.
   
   template<class DataT>
   class DArray1dC
