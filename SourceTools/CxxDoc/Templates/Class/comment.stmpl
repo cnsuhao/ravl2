@@ -4,6 +4,7 @@
 :</TD></TR><TR><TD>:$(param)))</TD></TR>
 </TABLE>
 )$(ifset:detail:$(if:$detail!=:$(AutoLink:$(detail))<br>)
+)$(ifset:deprecated:<FONT COLOR="red">DEPRECATED:$(deprecated)</FONT><br>
 )$(ifset:bug:<FONT COLOR="red">BUG:$(bug)</FONT><br>
 )</FONT>
 $(ifset:section:<p><H3>$(section)</H3>
