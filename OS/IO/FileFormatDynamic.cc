@@ -31,7 +31,7 @@
 namespace RavlN {
   
   bool InitDynamicIO() 
-  { return true; }
+  { static FileFormatDynamicC RegisterFileFormatDynamic; }
   
   //: Default constructor.
 
@@ -188,7 +188,6 @@ namespace RavlN {
     : FileFormatBaseC(*new FileFormatDynamicBodyC())
   {}
   
-  FileFormatDynamicC RegisterFileFormatDynamic;
 #if CPUG_VAR_SHARED
 #endif
 
