@@ -52,18 +52,21 @@ namespace RavlGUIN {
     virtual bool DeleteRow(TreeModelIterC &rowHandle);
     //: Delete a row.
     
-    bool SetValue(TreeModelIterC &rowIter,IntT col, IntT value);
+    virtual bool SetValue(TreeModelIterC &rowIter,IntT col, IntT value);
     //: Set int value.
     
-    bool SetValue(TreeModelIterC &rowIter,IntT col, bool value);
+    virtual bool SetValue(TreeModelIterC &rowIter,IntT col, bool value);
     //: Set bool value.
     
-    bool SetValue(TreeModelIterC &rowIter,IntT col, const StringC &value);
+    virtual bool SetValue(TreeModelIterC &rowIter,IntT col, const StringC &value);
     //: Set bool value.
     
-    bool SetValue(TreeModelIterC &rowIter,IntT col, const PixbufC &value);
+    virtual bool SetValue(TreeModelIterC &rowIter,IntT col, const PixbufC &value);
     //: Set bool value.
     
+    virtual void Empty();
+    //: Clear store of all values.
+
   protected:
   };
   
@@ -107,23 +110,7 @@ namespace RavlGUIN {
     bool AppendRow(TreeModelIterC &rowHandle)
     { return Body().AppendRow(rowHandle); }
     //: Append a row.
-    
-    bool SetValue(TreeModelIterC &rowIter,IntT col, IntT value) 
-    { return Body().SetValue(rowIter,col,value); }
-    //: Set int value.
-    
-    bool SetValue(TreeModelIterC &rowIter,IntT col, bool value)
-    { return Body().SetValue(rowIter,col,value); }
-    //: Set bool value.
-    
-    bool SetValue(TreeModelIterC &rowIter,IntT col, const StringC &value)
-    { return Body().SetValue(rowIter,col,value); }
-    //: Set bool value.
-    
-    bool SetValue(TreeModelIterC &rowIter,IntT col, const PixbufC &value)
-    { return Body().SetValue(rowIter,col,value); }
-    //: Set bool value.
-        
+
   };
   
 }

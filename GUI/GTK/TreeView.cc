@@ -38,6 +38,13 @@ namespace RavlGUIN {
       selectionChanged(DListC<TreeModelIterC>()),
       displayColumns(ndisplayColumns)
   {}
+
+  //: Default constructor.
+  
+  TreeViewBodyC::TreeViewBodyC()
+    : selection(0),
+      selectionChanged(DListC<TreeModelIterC>())
+  {}
   
   //: Create widget.
   

@@ -260,6 +260,21 @@ namespace RavlGUIN {
     bool GetValue(TreeModelIterC &rowIter,IntT col, PixbufC &value);
     //: Set bool value. 
     
+    virtual bool SetValue(TreeModelIterC &rowIter,IntT col, IntT value);
+    //: Set int value.
+    
+    virtual bool SetValue(TreeModelIterC &rowIter,IntT col, bool value);
+    //: Set bool value.
+    
+    virtual bool SetValue(TreeModelIterC &rowIter,IntT col, const StringC &value);
+    //: Set bool value.
+    
+    virtual bool SetValue(TreeModelIterC &rowIter,IntT col, const PixbufC &value);
+    //: Set bool value.
+    
+    virtual void Empty();
+    //: Clear store of all values.
+    
     Signal2C<TreeModelPathC,TreeModelIterC> &Signal(const char *name);
     //: Access tree signal.
     // Where name is one of "row-changed", "row-deleted","row-has-child-toggled","row-inserted","rows-reordered"
@@ -351,6 +366,27 @@ namespace RavlGUIN {
     bool GetValue(TreeModelIterC &rowIter,IntT col, PixbufC &value)
     { return Body().GetValue(rowIter,col,value); }
     //: Set bool value. 
+    
+    void Empty()
+    { Body().Empty(); }
+    //: Clear store of all values.
+    
+    bool SetValue(TreeModelIterC &rowIter,IntT col, IntT value) 
+    { return Body().SetValue(rowIter,col,value); }
+    //: Set int value.
+    
+    bool SetValue(TreeModelIterC &rowIter,IntT col, bool value)
+    { return Body().SetValue(rowIter,col,value); }
+    //: Set bool value.
+    
+    bool SetValue(TreeModelIterC &rowIter,IntT col, const StringC &value)
+    { return Body().SetValue(rowIter,col,value); }
+    //: Set bool value.
+    
+    bool SetValue(TreeModelIterC &rowIter,IntT col, const PixbufC &value)
+    { return Body().SetValue(rowIter,col,value); }
+    //: Set bool value.
+        
     
     Signal2C<TreeModelPathC,TreeModelIterC> &Signal(const char *name)
     { return Body().Signal(name); }

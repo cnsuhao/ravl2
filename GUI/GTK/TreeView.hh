@@ -38,6 +38,9 @@ namespace RavlGUIN {
     TreeViewBodyC(const TreeModelC &tm,const DListC<StringC> &displayColumns);
     //: Constructor.
     
+    TreeViewBodyC();
+    //: Default constructor.
+    
     virtual bool Create();
     //: Create widget.
     

@@ -97,6 +97,12 @@ namespace RavlGUIN {
     return true;
   }
   
+  //: Clear store of all values.
+  
+  void TreeStoreBodyC::Empty() {
+    gtk_tree_store_clear(GTK_TREE_STORE(model));
+  }
+  
   //: Create the widget.
   
   bool TreeStoreBodyC::Create() {

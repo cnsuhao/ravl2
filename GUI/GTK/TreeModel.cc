@@ -314,8 +314,42 @@ namespace RavlGUIN {
     RavlAssertMsg(0,"TreeModelBodyC::GetValue(), Not implemented.");
     return true;
   }
-
-
+  
+  //: Set int value.
+  
+  bool TreeModelBodyC::SetValue(TreeModelIterC &rowIter,IntT col, IntT value) {
+    RavlAssertMsg(0,"TreeModelBodyC::SetValue(TreeModelIterC &,IntT,IntT) Not implemented. ");
+    return false;
+  }
+  
+  //: Set bool value.
+  
+  bool TreeModelBodyC::SetValue(TreeModelIterC &rowIter,IntT col, bool value) {
+    RavlAssertMsg(0,"TreeModelBodyC::SetValue(TreeModelIterC &,IntT,bool) Not implemented. ");
+    return false;
+  }
+  
+  //: Set bool value.
+  
+  bool TreeModelBodyC::SetValue(TreeModelIterC &rowIter,IntT col, const StringC &value) {
+    RavlAssertMsg(0,"TreeModelBodyC::SetValue(TreeModelIterC &,IntT,const StringC &) Not implemented. ");
+    return false;
+  }
+  
+  //: Set bool value.
+  
+  bool TreeModelBodyC::SetValue(TreeModelIterC &rowIter,IntT col, const PixbufC &value) {
+    RavlAssertMsg(0,"TreeModelBodyC::SetValue(TreeModelIterC &,IntT,const PixbufC &) Not implemented. ");
+    return false;
+  }
+  
+  //: Clear store of all values.
+  
+  void TreeModelBodyC::Empty() {
+    RavlAssertMsg(0,"TreeModelBodyC::Empty() Not implemented. ");
+    return ;
+  }
+  
   //: Access tree signal.
   // Where name is one of "row-changed", "row-deleted","row-has-child-toggled","row-inserted","rows-reordered"
   
