@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_BGRAVALUE_HEADER
-#define RAVL_BGRAVALUE_HEADER 1
+#ifndef RAVLIMAGE_BGRAVALUE_HEADER
+#define RAVLIMAGE_BGRAVALUE_HEADER 1
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! author="Charles Galambos"

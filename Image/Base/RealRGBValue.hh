@@ -47,6 +47,11 @@ namespace RavlImageN {
     {}
     //: Base class constructor.
     
+    RealRGBValueC(const RGBValueC<ByteT> &oth)
+      : RGBValueC<RealT>(oth.Red(),oth.Green(),oth.Blue())
+    {}
+    //: Construct from a byte RGB value.
+    
     RealRGBValueC(const TFVectorC<RealT,3> &oth)
       : RGBValueC<RealT>(oth)
     {}
