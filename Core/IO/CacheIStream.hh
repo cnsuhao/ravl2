@@ -14,8 +14,10 @@
 #include "Ravl/DP/StreamOp.hh"
 #include "Ravl/DP/SPortAttach.hh"
 #include "Ravl/Cache.hh"
+#include "Ravl/DP/IOJoin.hh"
 
 namespace RavlN {
+  template<class InT,class OutT> class DPProcessC;
   
   //! userlevel=Develop
   //: Cache for seekable input stream 
@@ -202,6 +204,12 @@ namespace RavlN {
   DPISPortC<InT> operator>>(const DPISPortC<InT> &in,CacheIStreamC<InT> &dat) {
     dat.SetInput(in);
     return dat;
+  }
+  
+  template<class DataT,class InterT>
+  DPIOPortC<DataT,InterT> operator>>(const DPIOPortC<DataT,InterT> &in,CacheIStreamC<DataT> &out) {
+    out.SetInput(in);
+    return DPIOPortJoin(out.NewPort(),in); 
   }
   
 }
