@@ -26,7 +26,7 @@
 #include "Ravl/Pair.hh"
 #include "Ravl/Image/LMSOpticFlow.hh"
 #include "Ravl/Image/ConvolveSeparable2d.hh"
-#include "Ravl/Image/GaussConvolve.hh"
+#include "Ravl/Image/GaussConvolve2d.hh"
 #include "Ravl/Image/SpatialDifference.hh"
 #include "Ravl/Image/Image.hh"
 
@@ -67,7 +67,7 @@ int exLMSOptic(int argc, char **argv)
   // filter images with antialias filter
   
   if (opt.IsOnCommandLine("g")) {
-    GaussConvolveC<RealT> filter(order);
+    GaussConvolve2dC<RealT> filter(order);
     for (UIntT i=0; i<=1; ++i) 
       filtered[i] = filter.Apply(image[i]);
   } 

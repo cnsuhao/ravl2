@@ -6,58 +6,20 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_GAUSSCONVOLVE_HEADER
 #define RAVLIMAGE_GAUSSCONVOLVE_HEADER 1
-//! userlevel=Normal
 //! author="Kieron J Messer"
 //! docentry="Ravl.Images.Filtering"
-//! example=exGaussConvolve.cc
 //! lib=RavlImageProc
 //! rcsid="$Id$"
 //! file="Ravl/Image/Processing/Filters/GaussConvolve.hh"
 
+#warning "GaussConvolveC is obsolete: please use GaussConvolve2dC"
 #include "Ravl/Image/Image.hh"
 #include "Ravl/GenerateSignal1d.hh"
 #include "Ravl/Image/ConvolveSeparable2d.hh"
 
 namespace RavlImageN {
   
-  //! userlevel=Normal
-  //: Low-pass-filters an image with a finite-width approximation to a Gaussian mask
-  //
-  //<p> The filter design is bsed on a normalised row from Pascal's triangle
-  // (i.e. binomial coefficients).  The "standard deviation" of such a filter, with <i>n</i> coefficients, is thus ((<i>n</i>-1)/4)^1/2</p>
-  //
-  // <p> The rational is this:
-  // <ul>
-  // <li> The simplest possible non-trivial Gaussian filter is a 2nd-order one,
-  // which from symmetry considerations will have two equal coefficients.
-  // <li> Higher-order filters can be viewed as convolved 2nd-order filters,
-  // i.e. an <i>n</i>th order filter is a convolution of <i>n</i>+1 2nd-order filters.
-  // By the Central Limit Theorem these will approximate a Gaussian profile
-  // more and more closely as the order increases.
-  // <li> At the same time because they are of finite width they avoid the
-  // problem of truncating the Gaussian tails.
-  // </ul>
-  // E.g. a 5th order filter has mask of:
-  //
-  // <pre> (1 4 6 4 1) / 16 </pre></p>
-  // <p>This class is just wraps ConvolveSeparable2d and
-  // GenerateBinomial() calls in a convenient form.</p>
-  // The default form of this function is setup to handle single channel images. (e.g. byte, real, int)
-  // if you want to convolve multi channel images you should change the 'SumTypeT' template argument to
-  // a type that can handle sums and multiplications without overflowing 
-  // e.g. If you wish to convolve a ByteRGBValueC SumTypeT should be set to RealRGBValueC. <p>
-  // <b>Template args:</b> <br>
-  // InPixelT = Type of pixel in input image. <br>
-  // OutPixelT = Type of pixel in output image. (Default = InPixelT) <br>
-  // KernelPixelT = Type of pixel in convolution kernel. (Default = RealT; integer types currently will not work, as the normalisation is done in the kernel generation)  <br>
-  // SumTypeT = A type appropriate for summing the product of KernelPixelT and InPixelT. (Default = KernelPixelT <br>
-  // There are two main issues when choosing these types.<br>
-  // 1. Underflow and overflow of the sums and product operations. <br>
-  // 2. Handing multi-channel images. (Such as RGB.) <br>
-  // The exact requirements of these types depends on the gain and type of the filter being used.
-  // In multi-channel filters SumPixelT should be a multi-channel value as well. e.g.
-  // to filter an ImageC<ByteRGBValueC> you may use:
-  // InPixelT=ByteRGBValueC, OutPixelT=ByteRGBValueC,KernelPixelT=RealT,SumType=RealRGBValueC
+  //! userlevel=Obsolete
 
   template<class InPixelT,class OutPixelT = InPixelT,class KernelPixelT = RealT,class SumTypeT = KernelPixelT>
   class GaussConvolveC {

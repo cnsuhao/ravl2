@@ -16,7 +16,7 @@
 #include "Ravl/DP/FileFormatIO.hh"
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
-#include "Ravl/Image/GaussConvolve.hh"
+#include "Ravl/Image/GaussConvolve2d.hh"
 
 using namespace RavlImageN;
 
@@ -34,7 +34,7 @@ int main(int argc, char **argv)
   ImageC<RealT> im;
   
   // Setup filter.
-  GaussConvolveC<RealT> gc(order);
+  GaussConvolve2dC<RealT> gc(order);
   
   // load in an image
   

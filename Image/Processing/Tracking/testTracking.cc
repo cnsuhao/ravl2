@@ -10,7 +10,7 @@
 
 #include "Ravl/config.h"
 #include "Ravl/Image/MatchNormalisedCorrelation.hh"
-#include "Ravl/Image/GaussConvolve.hh"
+#include "Ravl/Image/GaussConvolve2d.hh"
 #include "Ravl/Random.hh"
 
 using namespace RavlImageN;
@@ -51,7 +51,7 @@ int testNormalisedCorrelation() {
   for(Array2dIterC<ByteT> it(img);it;it++)
     *it = (RandomInt() % 200);
   
-  GaussConvolveC<ByteT> filt(11);
+  GaussConvolve2dC<ByteT> filt(11);
   img = filt.Apply(img);
   
   IndexRange2dC targFrame(Index2dC(50,50),8);

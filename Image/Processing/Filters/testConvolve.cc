@@ -15,7 +15,7 @@
 #include "Ravl/Image/ConvolveHorz2d.hh"
 #include "Ravl/Image/ConvolveVert2d.hh"
 #include "Ravl/Image/ConvolveSeparable2d.hh"
-#include "Ravl/Image/GaussConvolve.hh"
+#include "Ravl/Image/GaussConvolve2d.hh"
 #include "Ravl/Image/PixelMixer.hh"
 #include "Ravl/Image/WarpScale.hh"
 #include "Ravl/Image/WarpAffine.hh"
@@ -494,7 +494,7 @@ int testWarpThinPlateSpline() {
 }
 
 int testGaussConvolve() {
-  GaussConvolveC<ByteRGBValueC,ByteRGBValueC,RealT,RealRGBValueC> gc(3);
+  GaussConvolve2dC<ByteRGBValueC,ByteRGBValueC,RealT,RealRGBValueC> gc(3);
   ImageC<ByteRGBValueC> img(10,10);
   img.Fill(ByteRGBValueC(0,0,0));
   ImageC<ByteRGBValueC> res = gc.Apply(img);
