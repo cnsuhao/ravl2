@@ -22,6 +22,8 @@
 
 namespace RavlN {
   
+  class Moments2d2C;
+
   //: A polygon in 2d space
   // The Polygon2dC class is a representation of a polygon in 2 dimensional
   // space. A polygon is the region of a plane bounded by a finite collection
@@ -57,6 +59,9 @@ namespace RavlN {
 
     Point2dC Centroid() const;
     //!return: the centre of mass of the polygon
+
+    Moments2d2C Moments() const;
+    //!return: the moments of the polygon
   
     bool IsDiagonal(const DLIterC<Point2dC> & a, const DLIterC<Point2dC> & b, bool allowExternal = false) const;
     // Returns true if (a, b) is a proper internal or external (if allowExternal is true)

@@ -9,6 +9,7 @@
 //! file="Ravl/Math/Geometry/Euclidean/2D/Polygon2d.cc"
 
 #include "Ravl/Polygon2d.hh"
+#include "Ravl/Moments2d2.hh"
 
 namespace RavlN {
 
@@ -65,6 +66,56 @@ namespace RavlN {
       }
       RealT scale = 1.0 / (6.0 * Area());
       return Point2dC(x * scale, y * scale);
+   }
+
+   // see http://www9.in.tum.de/forschung/fgbv/tech-reports/1996/FGBV-96-04-Steger.pdf for details
+   Moments2d2C Polygon2dC::Moments() const {
+      RealT m00 = 0.0;
+      RealT m10 = 0.0;
+      RealT m01 = 0.0;
+      RealT m20 = 0.0;
+      RealT m11 = 0.0;
+      RealT m02 = 0.0;
+      if (!IsEmpty()) {
+        DLIterC<Point2dC> pLast(*this);
+        pLast.Last();
+
+        for (DLIterC<Point2dC> ptr(*this); ptr != pLast; ptr++) {
+          Point2dC p1 = ptr.Data();
+          Point2dC p2 = ptr.NextData();
+          RealT p1_10 = p1.X(), p1_01 = p1.Y();
+          RealT p2_10 = p2.X(), p2_01 = p2.Y();
+          m00 += p1_10 * p2_01 - p2_10 * p1_01;
+          RealT temp = p1_10 * p2_01 - p2_10 * p1_01;
+          m10 += (p1_10 + p2_10) * temp;
+          m01 += (p1_01 + p2_01) * temp;
+          m20 += (Sqr(p1_10) + p1_10*p2_10 + Sqr(p2_10)) * temp;
+          m02 += (Sqr(p1_01) + p1_01*p2_01 + Sqr(p2_01)) * temp;
+          m11 += (2.0*p1_10*p1_01 + p1_10*p2_01 + p2_10*p1_01 + 2.0*p2_10*p2_01) * temp;
+        }
+        // close the polygon
+        Point2dC p1 = pLast.Data();
+        Point2dC p2 = pLast.NextCrcData();
+        RealT p1_10 = p1.X(), p1_01 = p1.Y();
+        RealT p2_10 = p2.X(), p2_01 = p2.Y();
+        m00 += p1_10 * p2_01 - p2_10 * p1_01;
+        RealT temp = p1_10 * p2_01 - p2_10 * p1_01;
+        m10 += (p1_10 + p2_10) * temp;
+        m01 += (p1_01 + p2_01) * temp;
+        m20 += (Sqr(p1_10) + p1_10*p2_10 + Sqr(p2_10)) * temp;
+        m02 += (Sqr(p1_01) + p1_01*p2_01 + Sqr(p2_01)) * temp;
+        m11 += (2.0*p1_10*p1_01 + p1_10*p2_01 + p2_10*p1_01 + 2.0*p2_10*p2_01) * temp;
+      }
+      m00 *= 0.5;
+      RealT oneOver6 = 1.0 / 6.0;
+      m10 *= oneOver6;
+      m01 *= oneOver6;
+      RealT oneOver12 = 1.0 / 12.0;
+      m20 *= oneOver12;
+      m02 *= oneOver12;
+      RealT oneOver24 = 1.0 / 24.0;
+      m11 *= oneOver24;
+      return Moments2d2C(m00, m10, m01, m20, m11, m02);
    }
   
    bool Polygon2dC::IsDiagonal(const DLIterC<Point2dC> & a, const DLIterC<Point2dC> & b, bool allowExternal) const {
