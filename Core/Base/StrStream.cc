@@ -57,7 +57,8 @@ namespace RavlN {
   StringC StrOStreamC::String() {
     UIntT count = Size();
 #if RAVL_HAVE_STRINGSTREAM
-    const char *data = oss->str().data();
+    string str = oss->str();
+    const char *data = str.data(); 
 #else
     const char *data = &(oss->str()[0]); 
 #endif
