@@ -11,9 +11,9 @@
 
 #include "Ravl/SArray2d.hh"
 #include "Ravl/Slice1d.hh"
-#include "Ravl/SArr2Iter.hh"
-#include "Ravl/SArr2Iter2.hh"
-#include "Ravl/SArr2Iter3.hh"
+#include "Ravl/SArray2dIter.hh"
+#include "Ravl/SArray2dIter2.hh"
+#include "Ravl/SArray2dIter3.hh"
 
 using namespace RavlN;
 

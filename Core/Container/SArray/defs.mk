@@ -26,9 +26,9 @@ SOURCES  =
 
 # HEADERS = all include files of this project to be exported
 HEADERS = SDArray1d.hh \
- SArray1d.hh SArr1Iter.hh SArr1Iter2.hh SArr1Iter3.hh SArr1Iter4.hh \
- SArray2d.hh SArr2Iter.hh SArr2Iter2.hh SArr2Iter3.hh \
- SArray3d.hh SArr3Iter.hh SArr3Iter2.hh SArr3Iter3.hh
+ SArray1d.hh SArray1dIter.hh SArray1dIter2.hh SArray1dIter3.hh SArray1dIter4.hh \
+ SArray2d.hh SArray2dIter.hh SArray2dIter2.hh SArray2dIter3.hh \
+ SArray3d.hh SArray3dIter.hh SArray3dIter2.hh SArray3dIter3.hh
 
 # LOCALHEADERS = all include files of this project used only for compilation
 LOCALHEADERS = 

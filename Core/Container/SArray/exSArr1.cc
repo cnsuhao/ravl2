@@ -9,7 +9,7 @@
 //! file="Ravl/Core/Container/SArray/exSArr1.cc"
 
 #include "Ravl/SArray1d.hh"
-#include "Ravl/SArr1Iter.hh"
+#include "Ravl/SArray1dIter.hh"
 #include "Ravl/Stream.hh"
 
 using namespace RavlN;

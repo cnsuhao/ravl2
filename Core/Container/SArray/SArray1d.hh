@@ -171,7 +171,7 @@ namespace RavlN {
     DataT Sum() const;
     //: Calculate the sum of all elements in the array
     
-    DataT SumSqr() const;
+    DataT SumOfSqr() const;
     //: Calculate the sum of the squares of all elements in the array
     
     //:-----------------------------------
@@ -634,7 +634,7 @@ namespace RavlN {
   }
 
   template<class DataT>
-  DataT SArray1dC<DataT>::SumSqr() const {
+  DataT SArray1dC<DataT>::SumOfSqr() const {
     if(Size() == 0) {
       DataT ret;
       SetZero(ret);

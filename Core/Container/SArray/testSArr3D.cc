@@ -2,7 +2,7 @@
 //! rcsid="$Id$"
 
 #include "Ravl/SArray3d.hh"
-#include "Ravl/SArr3Iter2.hh"
+#include "Ravl/SArray3dIter2.hh"
 #include "Ravl/Stream.hh"
 
 using namespace RavlN;

@@ -11,9 +11,9 @@
 
 #include "Ravl/SArray3d.hh"
 #include "Ravl/Slice1d.hh"
-#include "Ravl/SArr3Iter.hh"
-#include "Ravl/SArr3Iter2.hh"
-#include "Ravl/SArr3Iter3.hh"
+#include "Ravl/SArray3dIter.hh"
+#include "Ravl/SArray3dIter2.hh"
+#include "Ravl/SArray3dIter3.hh"
 #include "Ravl/Stream.hh"
 
 using namespace RavlN;

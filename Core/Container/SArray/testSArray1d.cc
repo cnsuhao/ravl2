@@ -10,10 +10,10 @@
 
 #include "Ravl/Stream.hh"
 #include "Ravl/SArray1d.hh"
-#include "Ravl/SArr1Iter.hh"
-#include "Ravl/SArr1Iter2.hh"
-#include "Ravl/SArr1Iter3.hh"
-#include "Ravl/SArr1Iter4.hh"
+#include "Ravl/SArray1dIter.hh"
+#include "Ravl/SArray1dIter2.hh"
+#include "Ravl/SArray1dIter3.hh"
+#include "Ravl/SArray1dIter4.hh"
 
 using namespace RavlN;
 
