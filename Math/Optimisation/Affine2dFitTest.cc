@@ -14,6 +14,7 @@
 #include "Ravl/FitAffine2dPoints.hh"
 #include "Ravl/EvaluateNumInliers.hh"
 #include "Ravl/Random.hh"
+#include "Ravl/Optimise2dAffineHomography.hh"
 
 using namespace RavlN;
 
@@ -83,8 +84,7 @@ int main() {
     Ni[0][0] = Ni[1][1] = 1.0/SIGMA/SIGMA;
     
     // construct robust observation and add to list
-    obsList.InsLast(ObservationAffine2dPointC(VectorC(p1), Ni,
-					       VectorC(p2), Ni));
+    obsList.InsLast(ObservationAffine2dPointC(p1, Ni, p2, Ni));
   }
 
   DListC<ObservationC> compatibleObsList;
@@ -94,9 +94,7 @@ int main() {
   cerr << "Ransac solution=" << sv.GetAffine() << "\n";
 
   // initialise Levenberg-Marquardt algorithm
-  LevenbergMarquardtC lm = LevenbergMarquardtC(sv,
-					       compatibleObsList);
-  
+  LevenbergMarquardtC lm = LevenbergMarquardtC(sv, compatibleObsList);
 
   // apply iterations
   RealT lambda = 100.0;
@@ -116,5 +114,25 @@ int main() {
   
   cerr << "Solution=" << x << "\n";
   
+  // Test shrink-wrapped function
+  cout << "Testing shrink-wrap function" << endl;
+  DListC<Point2dPairC> matchList;
+  for(DLIterC<ObservationC> it(obsList);it;it++) {
+      ObservationAffine2dPointC obs = it.Data();
+      Vector2dC z2;
+      z2[0] = obs.GetZ()[0];
+      z2[1] = obs.GetZ()[1];
+      matchList.InsLast(Point2dPairC(obs.GetZ1(), obs.GetNi1(),
+				     z2,          obs.GetNi()));
+  }
+  
+  StateVectorAffine2dC stateVec =
+    Optimise2dAffineHomography ( matchList,
+				 Sqr(OUTLIER_SIGMA/SIGMA),
+				 5.0, RANSAC_ITERATIONS,
+				 3.0, 10.0, 20, 100.0, 0.1 );
+  x = stateVec.GetX();
+  cerr << "Solution=" << x << "\n";
+
   return 0;
 }

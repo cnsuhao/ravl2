@@ -22,7 +22,8 @@
 #include "Ravl/FitHomog2dPoints.hh"
 #include "Ravl/EvaluateNumInliers.hh"
 
-#include "Ravl/Point2dPair.hh"
+// Shrink-wrap function
+#include "Ravl/Optimise2dHomography.hh"
 
 using namespace RavlN;
 
@@ -54,64 +55,6 @@ static const StateVectorHomog2dC
   compatibleObsList = evaluator.CompatibleObservations(ransac.GetSolution(),
 						       obsList);
   return ransac.GetSolution();
-}
-
-// Shrink-wrap homography fitting function
-static const StateVectorHomog2dC
- FitHomography2d ( DListC<Point2dPairC> &matchList, // list of matches
-		   RealT zh1=1.0, RealT zh2=1.0, // 3rd homogeneous plane coordinates
-		   RealT varScale=10.0, // ratio of outlier/inlier standard deviation
-		   RealT chi2Thres=5.0, // Inlier/outlier residual threshold
-		   UIntT noRansacIterations=100, // Number of Ransac iterations
-		   RealT ransacChi2Thres=3.0, // Ransac inlier threshold
-		   RealT compatChi2Thres=5.0, // Threshold for compatibility
-		   UIntT noLevMarqIterations=10, // Number of Levenberg-Marquardt iterations
-		   RealT lambdaStart=0.1, // Starting value fo damping factor
-		   RealT lambdaFactor=0.1 ) // Multiplication factor for damping factor
-{
-  // build list of observations
-  DListC<ObservationC> obsList;
-  for(DLIterC<Point2dPairC> it(matchList);it;it++)
-    obsList.InsLast(ObservationHomog2dPointC(it.Data().z1(), it.Data().Ni1(),
-					     it.Data().z2(), it.Data().Ni2(),
-					     varScale, chi2Thres));
-#if 0
-  for(DLIterC<ObservationC> it(obsList);it;it++) {
-    ObservationHomog2dPointC obs = it.Data();
-    cout << "z1: " << obs.GetZ1() << endl;
-    cout << "Ni1: " << obs.GetNi1() << endl;
-    cout << "z2: " << obs.GetZ() << endl;
-    cout << "Ni2: " << obs.GetNi() << endl;
-  }
-#endif
-
-  // Build RANSAC components
-  ObservationListManagerC obsManager(obsList);
-  FitHomog2dPointsC fitter(zh1, zh2);
-  EvaluateNumInliersC evaluator(ransacChi2Thres, compatChi2Thres);
-  
-  // use RANSAC to fit homography
-  RansacC ransac(obsManager, fitter, evaluator);
-
-  // select and evaluate the given number of samples
-  for ( UIntT iteration=0; iteration < noRansacIterations; iteration++ ) {
-    ransac.ProcessSample(8);
-    cout << ransac.GetSolution().IsValid();
-  }
-
-  cout << endl;
-
-  // select observations compatible with solution
-  obsList = evaluator.CompatibleObservations(ransac.GetSolution(), obsList);
-  
-  // initialise Levenberg-Marquardt algorithm with Ransac solution
-  StateVectorHomog2dC stateVecInit = ransac.GetSolution();
-  LevenbergMarquardtC lm = LevenbergMarquardtC(stateVecInit, obsList);
-
-  // apply Levenberg-Marquardt iterations
-  lm.NIterations ( obsList, noLevMarqIterations, lambdaStart, lambdaFactor );
-
-  return lm.SolutionVector();
 }
 
 // number of points
@@ -252,6 +195,7 @@ static bool
   cout << endl;
 
   // Test shrink-wrapped function
+  cout << "Testing shrink-wrap function" << endl;
   DListC<Point2dPairC> matchList;
   for(DLIterC<ObservationC> it(obsList);it;it++) {
       ObservationHomog2dPointC obs = it.Data();
@@ -262,12 +206,19 @@ static bool
 				     z2,          obs.GetNi()));
   }
   
-  StateVectorHomog2dC stateVec = FitHomography2d ( matchList,
-						   ZHOMOG1, ZHOMOG2,
-						   Sqr(OUTLIER_SIGMA/SIGMA),
-						   5.0, RANSAC_ITERATIONS,
-						   3.0, 10.0,
-						   20, 100.0, 0.1 );
+  StateVectorHomog2dC stateVec = Optimise2dHomography ( matchList,
+							ZHOMOG1, ZHOMOG2,
+							Sqr(OUTLIER_SIGMA
+							    /SIGMA),
+							5.0, RANSAC_ITERATIONS,
+							3.0, 10.0,
+							20, 100.0, 0.1 );
+  x = stateVec.GetX();
+  x *= 1.0/x[8];
+
+  cout << "Solution: (" << x[0] << " " << x[1] << " " << x[2] << ")" << endl;
+  cout << "          (" << x[3] << " " << x[4] << " " << x[5] << ")" << endl;
+  cout << "          (" << x[6] << " " << x[7] << " " << x[8] << ")" << endl;
 
   return true;
 }

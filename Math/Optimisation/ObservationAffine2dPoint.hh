@@ -28,6 +28,11 @@ namespace RavlN {
 				  const Vector2dC &nz2, const MatrixRSC &nNi2);
     //: Constructor.
     
+    ObservationAffine2dPointBodyC(const Vector2dC &nz1, const MatrixRSC &nNi1,
+				  const Vector2dC &nz2, const MatrixRSC &nNi2,
+				  RealT varScale, RealT chi2Thres);
+    //: Constructor for robust bi-Gaussian observation.
+
     virtual VectorC EvaluateFunctionH(const StateVectorC &stateVec);
     //: Evaluate the observation function h(x) given x
     
@@ -66,6 +71,13 @@ namespace RavlN {
     {}
     //: Constructor.
     
+    ObservationAffine2dPointC(const Vector2dC &nz1, const MatrixRSC &nNi1,
+			      const Vector2dC &nz2, const MatrixRSC &nNi2,
+			      RealT varScale, RealT chi2Thres)
+      : ObservationExplicitC(*new ObservationAffine2dPointBodyC(nz1,nNi1,nz2,nNi2,varScale,chi2Thres))
+    {}
+    //: Constructor for robust bi-Gaussian observation.
+
     ObservationAffine2dPointC(const ObservationC &obs)
       : ObservationExplicitC(obs)
     {

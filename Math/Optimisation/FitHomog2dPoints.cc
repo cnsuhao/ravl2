@@ -11,6 +11,7 @@
 #include "Ravl/StateVectorHomog2d.hh"
 #include "Ravl/ObservationHomog2dPoint.hh"
 #include "Ravl/ObservationImpHomog2dPoint.hh"
+#include "Ravl/Matrix3d.hh"
 
 namespace RavlN {
 
