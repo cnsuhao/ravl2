@@ -45,7 +45,7 @@ namespace RavlImageN {
   // a type that can handle sums and multiplications without overflowing 
   // e.g. If you wish to convolve a ByteRGBValueC SumTypeT should be set to RealRGBValueC.
   
-  template<class InPixelT,class OutPixelT = InPixelT,class SumTypeT = RealT>
+  template<class InPixelT,class OutPixelT = InPixelT,class SumTypeT = RealT,class FilterT = RealT>
   class GaussConvolveC {
   public:
     GaussConvolveC()
@@ -53,7 +53,7 @@ namespace RavlImageN {
     //: Default constructor.
     
     GaussConvolveC(UIntT order) {
-      binomial = GenerateBinomial((SumTypeT) 1.0, order, true,true);
+      binomial = GenerateBinomial((FilterT) 1.0, order, true,true);
       conv.SetKernel(binomial, binomial);
     }
     //: Construct Gaussian with the given size.
@@ -66,14 +66,14 @@ namespace RavlImageN {
     //: Performs histogram equalisation on image 'in'.
     // Returns a new equalised image.
     
-    Array1dC<SumTypeT> &Filter()
+    Array1dC<FilterT> &Filter()
     { return binomial; }
     //: Access current filter.
     // Note the save/load routines of this class do NOT save
     // the filter coefficients, just its order. So modifying
     // them and saving this class is pointless.
     
-    const Array1dC<SumTypeT> &Filter() const
+    const Array1dC<FilterT> &Filter() const
     { return binomial; }
     //: Access current filter.
     
@@ -108,8 +108,8 @@ namespace RavlImageN {
 #endif
     
   protected:
-    Array1dC<SumTypeT> binomial;
-    ConvolveSeparable2dC<SumTypeT, InPixelT,OutPixelT,SumTypeT> conv;
+    Array1dC<FilterT> binomial;
+    ConvolveSeparable2dC<FilterT, InPixelT,OutPixelT,SumTypeT> conv;
   };
   
   template<class InPixelT,class OutPixelT,class SumTypeT>
