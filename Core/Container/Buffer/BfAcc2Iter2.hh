@@ -17,6 +17,7 @@
 
 #include "Ravl/BfAccIter2.hh"
 #include "Ravl/Index2d.hh"
+#include "Ravl/IndexRange2d.hh"
 
 namespace RavlN {
   
@@ -40,6 +41,11 @@ namespace RavlN {
     { First(pbuf1,nrng1,pbuf2,nrng2); }
     //: Constructor.
 
+    BufferAccess2dIter2C(const BufferAccessC<BufferAccessC<Data1T> > &pbuf1,const IndexRange2dC &nrng1,
+			 const BufferAccessC<BufferAccessC<Data2T> > &pbuf2,const IndexRange2dC &nrng2)
+    { First(pbuf1,nrng1,pbuf2,nrng2); }
+    //: Constructor.
+
     BufferAccess2dIter2C(const BufferAccessC<BufferAccessC<Data1T> > &pbufa,const IndexRangeC &nrng1a,const IndexRangeC &nrng2a,
 			 const BufferAccessC<BufferAccessC<Data2T> > &pbufb,const IndexRangeC &nrng1b,const IndexRangeC &nrng2b)
     { First(pbufa,nrng1a,nrng2a,
@@ -53,6 +59,21 @@ namespace RavlN {
       rng2 = nrng2b;
       rit.First(pbufa,nrng1a,
 		pbufb,nrng1b);
+      if(rng1.Size() > 0 && rit.IsElm())
+	return cit.First(rit.Data1(),rng1,
+			 rit.Data2(),rng2);
+      cit.Invalidate();
+      return false;
+    }
+    //: Goto first element.
+    // returns true if there is one.
+
+    bool First(const BufferAccessC<BufferAccessC<Data1T> > &pbufa,const IndexRange2dC &nrnga,
+	       const BufferAccessC<BufferAccessC<Data2T> > &pbufb,const IndexRange2dC &nrngb) {
+      rng1 = nrnga.Range2();
+      rng2 = nrngb.Range2();
+      rit.First(pbufa,nrnga.Range1(),
+		pbufb,nrngb.Range1());
       if(rng1.Size() > 0 && rit.IsElm())
 	return cit.First(rit.Data1(),rng1,
 			 rit.Data2(),rng2);
