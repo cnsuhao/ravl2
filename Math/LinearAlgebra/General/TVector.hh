@@ -157,6 +157,12 @@ namespace RavlN {
     
     IndexC MaxAbsIndex() const;
     //: Find the index with the absolute maximum valued index.
+
+    IndexC MinIndex() const;
+    //: Find the index with the most negative valued index.
+    
+    IndexC MinAbsIndex() const;
+    //: Find the index with the absolute minimum valued index.
   };
   
   ////////////////////////////////////////
@@ -315,7 +321,37 @@ namespace RavlN {
     }
     return ind;
   }
-
+  
+  template<class DataT>
+  IndexC TVectorC<DataT>::MinIndex() const {
+    IndexC ind = 0;
+    BufferAccessIterC<DataT> it(*this);
+    if(!it) return ind;
+    DataT minVal = *it;
+    for(it++;it;it++) {
+      if(*it < minVal) {
+	minVal = *it;
+	ind = (IntT) (&(*it) - &(*this)[0]);
+      }
+    }
+    return ind;
+  }
+  
+  template<class DataT>
+  IndexC TVectorC<DataT>::MinAbsIndex() const {
+    IndexC ind = 0;
+    BufferAccessIterC<DataT> it(*this);
+    if(!it) return ind;
+    DataT minVal = *it;
+    for(it++;it;it++) {
+      DataT aM = Abs(*it);
+      if(aM < minVal) {
+	minVal = aM;
+	ind = (IntT) (&(*it) - &(*this)[0]);
+      }
+    }
+    return ind;
+  }
 
   template<class DataT>
   DataT TVectorC<DataT>::MaxValueDistance(const TVectorC<DataT> & i) const {
