@@ -27,23 +27,25 @@ namespace RavlGUIN {
 			     GtkAttachOptions nxoptions,GtkAttachOptions nyoptions,
 			     UIntT nxpadding,UIntT nypadding)
   {
-    WidgeInfoC wi(widge,left_attach,right_attach,top_attach,bottom_attach,
+
+  WidgeInfoC wi(widge,left_attach,right_attach,top_attach,bottom_attach,
 		  nxoptions,nyoptions,
 		  nxpadding,nypadding);
     MutexLockC lock(addObjectMutex);
     if(widget != 0) {
-      Manager.Queue(Trigger(TableC(*this),&TableC::GUIAddObject,wi));
+            Manager.Queue(Trigger(TableC(*this),&TableC::GUIAddObject,wi));
       return true;
     }
     children.InsLast(wi);
     lock.Unlock();
     return true;
-  }
+ 
+ }
 
   //: Add object to table.
   // Values for attach options are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKATTACHOPTIONS">here</A>.
   // Call on the GUI thread only.
-  
+
   bool TableBodyC::GUIAddObject(WidgeInfoC &wi) {
     MutexLockC lock(addObjectMutex);
     children.InsLast(wi);

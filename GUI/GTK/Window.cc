@@ -9,6 +9,7 @@
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/Window.cc"
 
+
 #include "Ravl/GUI/Window.hh"
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/CallMethods.hh"
@@ -25,8 +26,8 @@
 namespace RavlGUIN {
   
   static int rootWinCount = 0;
-  /* when invoked (via signal delete_event), terminates the application.
-   */
+  // when invoked (via signal delete_event), terminates the application.
+  
 
   //: Constructor.
   
@@ -134,6 +135,7 @@ namespace RavlGUIN {
     return true;
   }
 
+
   //: Show widget to the world.
   // Call only from GUI thread.
   
@@ -172,7 +174,7 @@ namespace RavlGUIN {
     ONDEBUG(cerr << "WindowBodyC::GuiCloseDown() done" << endl);
     return true;
   }
-  
+
   void WindowBodyC::SetPositioning(GtkWindowPosition& pos) {
     Manager.Queue(Trigger(WindowC(*this),&WindowC::GUISetPositioning,pos));
   }
@@ -192,7 +194,7 @@ namespace RavlGUIN {
       gdk_window_raise(widget->window);
     return true;
   }
-  
+
   void WindowBodyC::Lower() {
     Manager.Queue(Trigger(WindowC(*this),&WindowC::GUILower));
   }
@@ -206,7 +208,7 @@ namespace RavlGUIN {
   void WindowBodyC::SetModal(bool& modal) {
     Manager.Queue(Trigger(WindowC(*this),&WindowC::GUISetModal,modal));
   }
-  
+
   bool WindowBodyC::GUISetModal(bool& modal) {
     if (widget!=0)
       gtk_window_set_modal(GTK_WINDOW(widget),modal);
@@ -214,9 +216,9 @@ namespace RavlGUIN {
   }
 
   void WindowBodyC::MakeTransient(WindowC& parent) {
-    Manager.Queue(Trigger(WindowC(*this),&WindowC::MakeTransient,parent));
+    Manager.Queue(Trigger(WindowC(*this),&WindowC::GUIMakeTransient,parent));
   }
-  
+
   bool WindowBodyC::GUIMakeTransient(WindowC& parent) {
     if (widget!=0 && parent.Widget()!=0)
       gtk_window_set_transient_for(GTK_WINDOW(widget),GTK_WINDOW(parent.Widget()));
@@ -229,5 +231,7 @@ namespace RavlGUIN {
   WindowC::WindowC(int sx,int sy,const char *ntitle,GtkWindowType nWinType,int nborder,bool nrootWin)
     : OneChildC(*new WindowBodyC(sx,sy,ntitle,nWinType,nborder,nrootWin))
   {}
+
 }
+
 

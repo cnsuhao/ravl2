@@ -70,6 +70,9 @@ namespace RavlGUIN {
       {}
       //: Constructor.
       
+      WidgeInfoC()
+      {} 
+
       WidgetC  widge;
       UIntT	left_attach;
       UIntT	right_attach;
