@@ -101,16 +101,18 @@ namespace Ravl3DN {
       // Can't do this check properly on an open mesh.
       ONDEBUG(cerr << "HEMeshBodyC::CheckMesh(), Checking vertexes. \n");
       for(IntrDLIterC<HEMeshVertexBodyC> vit(vertices);vit;vit++) {
-	for(HEMeshVertexEdgeIterC it(*vit);it;it++) {
-	  if(it->SourceVertex() != *vit) {
-	    cerr << "HEMeshBodyC::CheckMesh(), Incorrect vertex pointer. \n";
-	    ret = false;
-	    //return false;
-	  }
-	  if(it->Vertex() == *vit) {
-	    cerr << "HEMeshBodyC::CheckMesh(), Zero area face. \n";
-	    ret = false;
-	    //return false;
+	if (vit->HasEdge()) {
+	  for(HEMeshVertexEdgeIterC it(*vit);it;it++) {
+	    if(it->SourceVertex() != *vit) {
+	      cerr << "HEMeshBodyC::CheckMesh(), Incorrect vertex pointer. \n";
+	      ret = false;
+	      //return false;
+	    }
+	    if(it->Vertex() == *vit) {
+	      cerr << "HEMeshBodyC::CheckMesh(), Zero area face. \n";
+	      ret = false;
+	      //return false;
+	    }
 	  }
 	}
       }

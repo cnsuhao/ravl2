@@ -368,6 +368,10 @@ namespace Ravl3DN {
     //: Is this the first element in list.
     
     bool Next() {
+      if (!at->HasPair()) {
+	at = 0;
+	return false;
+      }
       at = &at->Pair().Next();
       if(at == first) {
 	at = 0;
