@@ -81,6 +81,7 @@ namespace RavlN {
     
     friend class HEMeshBaseVertexC;
     friend class HEMeshBaseEdgeBodyC;
+    friend class HEMeshBaseFaceBodyC;
   };
   
   //! userlevel=Normal

@@ -28,8 +28,13 @@ namespace RavlN {
       
       while(1) {
 	HEMeshBaseEdgeBodyC *eb = &(edge->Next());
+#if 0
 	if(!eb->CorrectVertexEdgePtr())
 	  cerr << "WARNING: Failed to correct vertex pointer. \n";
+#else
+	if(eb->VertexPtr()->edge == eb)
+	  eb->vertex->edge = 0;
+#endif
 	if(eb->HasPair())
 	  eb->Pair().pair = 0; // Clear pair pointers.
 	delete eb;

@@ -369,7 +369,7 @@ namespace RavlN {
 	at(0)
     {}
     //: Default constructor.
-
+    
     HEMeshBaseVertexEdgeIterC(HEMeshBaseVertexBodyC &vert) { 
       if(!vert.HasEdge()) {
 	at = 0;

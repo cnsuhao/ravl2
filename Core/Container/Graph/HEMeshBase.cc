@@ -333,7 +333,7 @@ namespace RavlN {
       // Can't do this check properly on an open mesh.
       ONDEBUG(cerr << "HEMeshBaseBodyC::CheckMesh(), Checking vertexes. \n");
       for(IntrDLIterC<HEMeshBaseVertexBodyC> vit(vertices);vit;vit++) {
-	ONDEBUG(cerr << " Checking vertex " << HEMeshBaseVertexC(*vit).Hash() << "\n");
+	ONDEBUG(cerr << " Checking vertex " << HEMeshBaseVertexC(*vit).Hash() << " Edge=" << HEMeshBaseVertexC(*vit).FirstEdge().Hash() << "\n");
 	for(HEMeshBaseVertexEdgeIterC it(*vit);it;it++) {
 	  if(it->Vertex() == *vit) {
 	    cerr << "HEMeshBaseBodyC::CheckMesh(), Warning: Zero area face with edge " << (*it).Hash() << " Vertex=" << it->Vertex().Hash() << "\n";
@@ -479,7 +479,8 @@ namespace RavlN {
   
   bool HEMeshBaseBodyC::DeleteVertex(HEMeshBaseVertexC vert) {
     RavlAssert(vert.IsValid());
-    ONDEBUG(cerr << "HEMeshBaseBodyC::DeleteVertex(), Vert=" << vert.Hash() << " HasEdge=" << vert.HasEdge() << " \n");
+    ONDEBUG();
+    //cerr << "HEMeshBaseBodyC::DeleteVertex(), Vert=" << vert.Hash() << " HasEdge=" << vert.HasEdge() << " \n";
     DListC<HEMeshBaseFaceC> delFaces;
     
     for(HEMeshBaseFaceIterC fit(faces);fit;fit++) {
@@ -491,25 +492,22 @@ namespace RavlN {
       }
     }
     
-    ONDEBUG(cerr << "HEMeshBaseBodyC::DeleteVertex(), No Face=" << faces.Size() << "\n");
+    //cerr << "HEMeshBaseBodyC::DeleteVertex(), Deleting Faces=" << delFaces.Size() << " Total=" << faces.Size() << "\n";
+    ONDEBUG();
     for(DLIterC<HEMeshBaseFaceC> it2(delFaces);it2;it2++) {
-      ONDEBUG(cerr << "HEMeshBaseBodyC::DeleteVertex(), Face=" << it2.Data().Hash() << " Valid=" << it2.Data().IsValid() << " Face=" << ((void *) &(it2->Body())) << "\n");
-      it2->Body().Unlink();
+      //cerr << "HEMeshBaseBodyC::DeleteVertex(), Face=" << it2.Data().Hash() << " Valid=" << it2.Data().IsValid() << " Face=" << ((void *) &(it2->Body())) << "\n";
+      ONDEBUG();
       delete &(it2->Body());
     }
-    vert.Body().Unlink();
     delete &vert.Body();
 
-#if 1
     // Tidy up any dangling vertex to edge pointers.
+    //cerr << "HEMeshBaseBodyC::DeleteVertex(), Total left=" << faces.Size() << "\n";
     
     for(HEMeshBaseFaceIterC fit(faces);fit;fit++) {
-      for(HEMeshBaseFaceEdgeIterC eit(*fit);eit;eit++) {
-	if(!eit->Vertex().HasEdge())
-	  eit->Vertex().SetEdge((*(eit)).Body());
-      }      
+      for(HEMeshBaseFaceEdgeIterC eit(*fit);eit;eit++)
+	eit->Vertex().SetEdge((*(eit)).Body());
     }
-#endif
     
     return true;
   }
