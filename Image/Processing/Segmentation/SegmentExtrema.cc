@@ -327,30 +327,27 @@ namespace RavlImageN {
       
       if(it->closed == 0) { // Is region closed ?
 	ExtremaThresholdC &et = thresh[nthresh++];
-	et.pos = maxValue;
+	et.pos = maxValue-1;
 	int margin = up - i;
 	et.margin = margin;
-	et.thresh = maxValue;	
+	et.thresh = maxValue-1;	
       }
       
       ExtremaThresholdC *newthresh = new ExtremaThresholdC[nthresh];
       IntT nt = 0;
       
       IntT lastSize = -1;
-      RealT lastCount = -1;
       IntT lastInd = -1;
       for(int j = 0;j < nthresh;j++) {
 	UIntT size = chist[thresh[j].pos];
-	if((lastSize * 1.05) > size) 
+	if((lastSize * 1.15) > size) { // Is size only slighly different ?
+	  if(thresh[j].margin > thresh[lastInd].margin)
+	    newthresh[nt-1] = thresh[j]; // Move threshold if margin is bigger.
 	  continue; // Reject it, not enough difference.
-#if 0	
-	if(lastCount < fhist[thresh[j].pos])
-	  newthresh[nt++] = thresh[j];
-	lastCount = fhist[*it];
-	lastInd = it.Index().V();
-#endif
+	}
 	newthresh[nt++] = thresh[j];
 	lastSize = size;
+	lastInd = j;
       }
       
       if(nt > 0) {
