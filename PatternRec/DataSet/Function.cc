@@ -30,7 +30,7 @@ namespace RavlN {
   bool FunctionBodyC::Save (ostream &out) const {
     if(!RCBodyVC::Save(out))
       return false;
-    out << inputSize << ' ' << outputSize;
+    out << ' ' << inputSize << ' ' << outputSize;
     return true;
   }
   
@@ -42,7 +42,7 @@ namespace RavlN {
     out << inputSize << outputSize;
     return true;
   }
-
+  
   //: Apply function to 'data'
   
   VectorC FunctionBodyC::Apply(const VectorC &data) const {
