@@ -15,6 +15,11 @@
 #include "Ravl/Array2dIter2.hh"
 #include "Ravl/Image/RGBcYUV.hh"
 #include "Ravl/Image/Deinterlace.hh"
+
+#include "Ravl/Image/Font.hh"
+
+#include "Ravl/IO.hh"
+
 #include <fstream.h>
 
 using namespace RavlImageN;
@@ -23,6 +28,7 @@ int TestBasic();
 int TestIO();
 int TestColorCnv();
 int TestDeinterlace();
+int TestFont();
 
 template class ImageC<int>; // Make sure all functions are compiled.
 
@@ -31,7 +37,7 @@ int main()
   cerr << "Testing basic image ops. \n";
   int lineno;
   if((lineno = TestBasic()) != 0) {
-    cerr << "Image io test failed : " << lineno << "\n";
+    cerr << "Image test failed : " << lineno << "\n";
      return 1;
   }
   if((lineno = TestIO()) != 0) {
@@ -39,11 +45,15 @@ int main()
      return 1;
   }
   if((lineno = TestColorCnv()) != 0) {
-    cerr << "Image io test failed : " << lineno << "\n";
+    cerr << "Image test failed : " << lineno << "\n";
      return 1;
   }
   if((lineno = TestDeinterlace()) != 0) {
-    cerr << "Image io test failed : " << lineno << "\n";
+    cerr << "Image test failed : " << lineno << "\n";
+     return 1;
+  }
+  if((lineno = TestFont()) != 0) {
+    cerr << "Image test failed : " << lineno << "\n";
      return 1;
   }
   cerr << "Test passed. \n";
@@ -229,5 +239,17 @@ int TestDeinterlace() {
   if(res.RowPtr(7) != img.RowPtr(8)) return __LINE__;
   if(res.RowPtr(8) != img.RowPtr(4)) return __LINE__;
   if(res.RowPtr(9) != img.RowPtr(9)) return __LINE__;
+  return 0;
+}
+
+int TestFont() {
+  cerr << "TestFont(), Called. \n";
+  //FontC fnt = LoadPSF1("default8x16.psf");
+  FontC fnt(true);
+  if(!fnt.IsValid()) return __LINE__;
+  ImageC<ByteT> img(100,100);
+  img.Fill(0);
+  DrawFrame(fnt,img,(ByteT) 255,Index2dC(50,10),"Hello");
+  //Save("@X",img);
   return 0;
 }
