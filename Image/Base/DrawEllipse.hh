@@ -20,7 +20,15 @@ namespace RavlImageN {
   
   template<class DataT>
   void DrawEllipse(ImageC<DataT> &image,const DataT &value,const Ellipse2dC &ellipse,bool fill = false) {
-    RealT step = RavlConstN::pi/15; // Hmmm.. need a better way to decide on how many points to use.
+    RealT maj,min;
+    ellipse.Size(maj,min);
+    if((maj + min) < 3) { // Very small ?
+      Index2dC at = ellipse.Centre();
+      if(image.Frame().Contains(at))
+	image[at] = value;
+      return ;
+    }
+    RealT step = 2*RavlConstN::pi/(maj + min);
     Polygon2dC poly;
     for(RealT a = 0;a < 2*RavlConstN::pi;a += step)
       poly.InsLast(ellipse.Point(a));
