@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLCOMPLEX_HH
-#define RAVLCOMPLEX_HH
+#ifndef RAVL_COMPLEX_HEADER
+#define RAVL_COMPLEX_HEADER 1
 /////////////////////////////////////////////////////////////////////////
 //! file="Ravl/Core/Math/Complex.hh"
 //! lib=RavlCore
@@ -24,16 +24,17 @@ class istream;
 
 namespace RavlN {
   
+  //! userlevel=Normal
   //: Complex algebra
   
   class ComplexC {
   public:
     
     // Constructors.
-  // -------------
+    // -------------
     
     inline ComplexC();
-  // Creates the complex number (0,0).
+    // Creates the complex number (0,0).
     
     inline ComplexC(RealT real);
     // Creates the complex number (real, 0).
@@ -48,31 +49,31 @@ namespace RavlN {
     // ----------------------------------------
     
     inline RealT &  Re()
-      { return re; }
+    { return re; }
     // Returns the real part.
     
     inline RealT    Re() const
-      { return re; }
+    { return re; }
     // Returns the real part.
     
     inline RealT &  Im()
-      { return im; }
+    { return im; }
     // Returns the imaginary part of the complex number.
     
     inline RealT    Im() const
-      { return im; }
+    { return im; }
     // Returns the imaginary part of the complex number.
     
     inline RealT    Mag() const
-      { return Sqrt(re*re + im*im); }
+    { return Sqrt(re*re + im*im); }
     //: The maginude
     
     inline ComplexC I() const 
-      { return ComplexC(-im, re); }
+    { return ComplexC(-im, re); }
     //: Inverse.
     
     inline ComplexC Conj() const
-      { return ComplexC(re, -im); }
+    { return ComplexC(re, -im); }
     //: Get the complex conjugate.
     
     
