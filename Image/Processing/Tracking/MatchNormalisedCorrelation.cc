@@ -62,8 +62,6 @@ namespace RavlImageN {
     RealT tvar = smv.Variance();
     RealT tsum = tsums.Sum();
     
-    Array2dC<ByteT> imgTemplate(templ.Frame());
-    
     IndexRange2dC clippedSearchArea = searchArea;
     clippedSearchArea.ClipBy(searchImg.Frame());
     
