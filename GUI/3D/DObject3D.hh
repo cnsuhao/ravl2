@@ -4,15 +4,15 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLDOBJECT3D_HEADER
-#define RAVLDOBJECT3D_HEADER 1
+#ifndef RAVLGUI_DOBJECT3D_HEADER
+#define RAVLGUI_DOBJECT3D_HEADER 1
 //////////////////////////////////////////////////////////
 //! docentry="Ravl.GUI.3D"
 //! rcsid="$Id$"
 //! file="Ravl/GUI/3D/DObject3D.hh"
 //! lib=RavlGUI3D
 //! author="Charles Galambos"
-//! date="12/04/99"
+//! date="12/04/1999"
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/Trigger.hh"
@@ -40,7 +40,7 @@ namespace RavlGUIN {
   public:
     DObject3DBodyC()
       : id(-1)
-      {}
+    {}
     //: Default constructor.
     
     ~DObject3DBodyC();
@@ -55,26 +55,26 @@ namespace RavlGUIN {
     
     inline
     void GLColour(const RealRGBValueC &colour)
-      { glColor3d(colour.Red(),colour.Green(),colour.Blue()); }
+    { glColor3d(colour.Red(),colour.Green(),colour.Blue()); }
     //: Set current colour.
     
     inline
-      void GLVertex(const Point3dC &v)
-      { glVertex3d(v.X(),v.Y(),v.Z()); }
+    void GLVertex(const Point3dC &v)
+    { glVertex3d(v.X(),v.Y(),v.Z()); }
     //: Set a vertex.
     
     inline
-      void GLNormal(const Vector3dC &v)
-      { glNormal3d(v.X(),v.Y(),v.Z()); }
+    void GLNormal(const Vector3dC &v)
+    { glNormal3d(v.X(),v.Y(),v.Z()); }
     //: Set a vertex.
     
     inline
-      void GLTexCoord(const Point2dC &p)
-      { glTexCoord2d(p.X(),p.Y()); }
+    void GLTexCoord(const Point2dC &p)
+    { glTexCoord2d(p.X(),p.Y()); }
     //: Set a texture coordinate
   
     virtual Vector3dC Center()
-      { return Vector3dC(0,0,0); }
+    { return Vector3dC(0,0,0); }
     //: Get center of object.
     // defaults to 0,0,0
     
@@ -84,15 +84,15 @@ namespace RavlGUIN {
     // defaults to 1
     
     void EnableDisplayList() 
-      { id = -2; }
+    { id = -2; }
     //: Enable generation of a display list.
     
     IntT DisplayListID() const
-      { return id; }
+    { return id; }
     //: Access display list ID.
     
     IntT &DisplayListID()
-      { return id; }
+    { return id; }
     //: Access display list ID.
     
   protected:
@@ -108,13 +108,13 @@ namespace RavlGUIN {
   {
   public:
     DObject3DC()
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     
     DObject3DC(DObject3DBodyC &bod)
       : RCHandleC<DObject3DBodyC>(bod)
-      {}
+    {}
     //: Body constructor.
     
   protected:
@@ -126,32 +126,32 @@ namespace RavlGUIN {
     
   public:
     bool Render(Canvas3DC &c3d)
-      { return Body().Render(c3d); }
+    { return Body().Render(c3d); }
     //: Render object.
     
     bool RenderDL(Canvas3DC &c3d)
-      { return Body().RenderDL(c3d); }
+    { return Body().RenderDL(c3d); }
     //: Render object, checking for display list.
     
     void EnableDisplayList() 
-      { Body().EnableDisplayList(); }
+    { Body().EnableDisplayList(); }
     //: Enable generation of a display list.
     
     IntT DisplayListID() const
-      { return Body().DisplayListID(); }
+    { return Body().DisplayListID(); }
     //: Access display list ID.
     
     IntT &DisplayListID()
-      { return Body().DisplayListID(); }
+    { return Body().DisplayListID(); }
     //: Access display list ID.
   
     Vector3dC Center()
-      { return Body().Center(); }
+    { return Body().Center(); }
     //: Get center of object.
     // defaults to 0,0,0
     
     RealT Extent()
-      { return Body().Extent(); }
+    { return Body().Extent(); }
     //: Get extent of object.
     // defaults to 1
     
@@ -172,18 +172,18 @@ namespace RavlGUIN {
   public:
     DOpenGLBodyC(const TriggerC &se,const Vector3dC &ncenter = Vector3dC(0,0,0),RealT nextent = 1)
       : sigEvent(se),
-      center(ncenter),
-      extent(nextent)
-      {}
+	center(ncenter),
+	extent(nextent)
+    {}
     //: Constructor.
     
     virtual Vector3dC Center() 
-      { return center; }
+    { return center; }
     //: Get center of object.
     // defaults to 0,0,0
     
     virtual RealT Extent() 
-      { return extent; }
+    { return extent; }
     //: Get extent of object.
     // defaults to 1
     
@@ -204,13 +204,13 @@ namespace RavlGUIN {
   {
   public:
     DOpenGLC()
-      {}
+    {}
     //: Default constructor.
     // NB. Creates an invalid handle.
     
     DOpenGLC(const TriggerC &se,const Vector3dC &ncenter = Vector3dC(0,0,0),RealT nextent = 1)
       : DObject3DC(*new DOpenGLBodyC(se,ncenter,nextent))
-      {}
+    {}
     //: Constructor.
   };
   
@@ -238,7 +238,7 @@ namespace RavlGUIN {
     //: Render object.
     
     inline void Add(const DObject3DC &obj)
-      { parts.InsLast(obj); }
+    { parts.InsLast(obj); }
     //: Add object into list.
     
     virtual Vector3dC Center();
@@ -266,30 +266,30 @@ namespace RavlGUIN {
   {
   public:
     DObjectSet3DC()
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     
     DObjectSet3DC(bool withBod)
       : DObject3DC(*new DObjectSet3DBodyC())
-      {}
+    {}
     //:  Constructor.
     
     DObjectSet3DC(DObjectSet3DBodyC &bod)
       : DObject3DC(bod)
-      {}
+    {}
     //: Body Constructor.
     
   protected:
     DObjectSet3DBodyC &Body() 
-      { return dynamic_cast<DObjectSet3DBodyC &>(DObject3DC::Body()); }
+    { return dynamic_cast<DObjectSet3DBodyC &>(DObject3DC::Body()); }
     
     const DObjectSet3DBodyC &Body() const
-      { return dynamic_cast<const DObjectSet3DBodyC &>(DObject3DC::Body()); }
+    { return dynamic_cast<const DObjectSet3DBodyC &>(DObject3DC::Body()); }
     
   public:
     const DObjectSet3DC &operator+=(const DObject3DC &obj)
-      { Body().Add(obj); return *this; }
+    { Body().Add(obj); return *this; }
     //: Add object into list.
   };
   

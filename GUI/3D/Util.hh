@@ -4,15 +4,15 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLDUTIL3D_HEADER
-#define RAVLDUTIL3D_HEADER 1
+#ifndef RAVLGUI_DUTIL3D_HEADER
+#define RAVLGUI_DUTIL3D_HEADER 1
 /////////////////////////////////////////////////
 //! docentry="Ravl.GUI.3D"
 //! rcsid="$Id$"
 //! file="Ravl/GUI/3D/Util.hh"
 //! lib=RavlGUI3D
 //! author="Charles Galambos"
-//! date="12/04/99"
+//! date="12/04/1999"
 
 #include "Ravl/GUI/DObject3D.hh"
 #include "Ravl/Image/RealRGBValue.hh"
@@ -30,26 +30,26 @@ namespace RavlGUIN {
   public:
     DTransform3DBodyC(RealT nAngle,const Vector3dC &nAxis)
       : doRot(true),
-      angle(nAngle),
-      axis(nAxis),
-      doTrans(false)
-      {}
+	angle(nAngle),
+	axis(nAxis),
+	doTrans(false)
+    {}
     //: Rotation Constructor.
     
     DTransform3DBodyC(RealT nAngle,const Vector3dC &nAxis,const Vector3dC &nTrans)
       : doRot(true),
-      angle(nAngle),
-      axis(nAxis),
-      doTrans(true),
-      trans(nTrans)
+	angle(nAngle),
+	axis(nAxis),
+	doTrans(true),
+	trans(nTrans)
     {}
     //: Rotation/Translation Constructor.
     
     DTransform3DBodyC(const Vector3dC &nTrans)
       : doRot(false),
-      doTrans(true),
-      trans(nTrans)
-      {}
+	doTrans(true),
+	trans(nTrans)
+    {}
     //: Translation Constructor.
     
     virtual bool Render(Canvas3DC &c3d);
@@ -77,30 +77,30 @@ namespace RavlGUIN {
     
     DTransform3DC(RealT nAngle,const Vector3dC &nAxis,const Vector3dC &nTrans)
       : DObjectSet3DC(*new DTransform3DBodyC(nAngle,nAxis,nTrans))
-      {}
-  //: Rotation/Translation Constructor.
+    {}
+    //: Rotation/Translation Constructor.
     
     DTransform3DC(RealT nAngle,const Vector3dC &nAxis,const Vector3dC &nTrans,const DObject3DC &obj)
       : DObjectSet3DC(*new DTransform3DBodyC(nAngle,nAxis,nTrans))
-      { (*this) += obj;  }
+    { (*this) += obj;  }
     //: Rotation/Translation Constructor.
     
     DTransform3DC(const Vector3dC &nTrans)
       : DObjectSet3DC(*new DTransform3DBodyC(nTrans))
-      {}
+    {}
     //: Translation Constructor.
     
     DTransform3DC(RealT nAngle,const Vector3dC &nAxis,const DObject3DC &obj)
       : DObjectSet3DC(*new DTransform3DBodyC(nAngle,nAxis))
-      { (*this) += obj; }
+    { (*this) += obj; }
     //: Constructor.
     
   protected:
     DTransform3DBodyC &Body() 
-      { return dynamic_cast<DTransform3DBodyC &>(DObject3DC::Body()); }
+    { return dynamic_cast<DTransform3DBodyC &>(DObject3DC::Body()); }
     
     const DTransform3DBodyC &Body() const
-      { return dynamic_cast<const DTransform3DBodyC &>(DObject3DC::Body()); }
+    { return dynamic_cast<const DTransform3DBodyC &>(DObject3DC::Body()); }
   };
 
 }

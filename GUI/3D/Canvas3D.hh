@@ -13,10 +13,9 @@
 //! lib=RavlGUI3D
 //! example=exCanvas3D.cc
 //! author="Charles Galambos"
-//! date="12/04/99"
+//! date="12/04/1999"
 
 #include "Ravl/GUI/Widget.hh"
-#include "Ravl/DP/Port.hh"
 #include "Ravl/GUI/DObject3D.hh"
 #include "Ravl/GUI/Util.hh"
 #include "Ravl/GUI/DViewPoint3D.hh"
@@ -135,13 +134,13 @@ namespace RavlGUIN {
   {
   public:
     Canvas3DC()
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
 
     Canvas3DC(int x,int y,int *nglattrlist = 0)
       : WidgetC(*new Canvas3DBodyC(x,y,nglattrlist))
-      {}
+    {}
     //: Constructor.
     // see GUI/3D/gdkgl.h for a list of attributes for nglattrlist,
     // the attribute list should be terminated with
@@ -149,22 +148,22 @@ namespace RavlGUIN {
     
     Canvas3DC(Canvas3DBodyC &bod)
       : WidgetC(bod)
-      {}
+    {}
     //: Body constructor
     
   protected:
     Canvas3DBodyC &Body() 
-      { return static_cast<Canvas3DBodyC &>(WidgetC::Body()); }
+    { return static_cast<Canvas3DBodyC &>(WidgetC::Body()); }
     
     const Canvas3DBodyC &Body() const
-      { return static_cast<const Canvas3DBodyC &>(WidgetC::Body()); }
+    { return static_cast<const Canvas3DBodyC &>(WidgetC::Body()); }
     
     bool ProcessReq(DObject3DC &obj)
-      { return Body().ProcessReq(obj); }
+    { return Body().ProcessReq(obj); }
     //: Process OpenGL requests.
     
     bool DoLighting()
-      { return Body().DoLighting(); }
+    { return Body().DoLighting(); }
     //: Enable or disable lighting
     
   public:
@@ -175,88 +174,88 @@ namespace RavlGUIN {
     // NB. Only call from the GUI thread.
     
     bool Put(const DObject3DC &r)
-      { return Body().Put(r); }
+    { return Body().Put(r); }
     //: Put render object on canvas.
     
     void ViewPoint(RealT fov = 90,
 		   Point3dC nEye = Point3dC(0,0,5),
 		   Point3dC nCentre  = Point3dC(0,0,0), 
 		   Vector3dC nUp = Vector3dC(0,1,0))
-      { Put(DViewPoint3DC(fov,nEye,nCentre,nUp)); }
+    { Put(DViewPoint3DC(fov,nEye,nCentre,nUp)); }
     //: Set the view point.
     // Thread safe.
     
     void Light(const RealRGBValueC &colour,const Point3dC &position,int nn = 0)
-      { Put(DLight3DC(colour,position,nn)); }
+    { Put(DLight3DC(colour,position,nn)); }
     //: Setup a light nn.
     // Thread safe
     
     void Transform(RealT nAngle,const Vector3dC &nAxis)
-      { Put(DTransform3DC(nAngle,nAxis)); }
+    { Put(DTransform3DC(nAngle,nAxis)); }
     //: Rotation Constructor.
     
     void Transform(RealT nAngle,const Vector3dC &nAxis,const Vector3dC &nTrans)
-      { Put(DTransform3DC(nAngle,nAxis,nTrans)); }
+    { Put(DTransform3DC(nAngle,nAxis,nTrans)); }
     //: Rotation/Translation Constructor.
     
     void Transform(RealT nAngle,const Vector3dC &nAxis,const Vector3dC &nTrans,const DObject3DC &obj)
-      { Put(DTransform3DC(nAngle,nAxis,nTrans,obj)); }
+    { Put(DTransform3DC(nAngle,nAxis,nTrans,obj)); }
     //: Rotation/Translation Constructor.
   
     void Transform(const Vector3dC &nTrans)
-      { Put(DTransform3DC(nTrans)); }
+    { Put(DTransform3DC(nTrans)); }
     //: Translation Constructor.
     
     void Transform(RealT nAngle,const Vector3dC &nAxis,const DObject3DC &obj)
-      { Put(DTransform3DC(nAngle,nAxis,obj)); }
+    { Put(DTransform3DC(nAngle,nAxis,obj)); }
     //: Constructor.
     
     void Render(bool (*nfunc)())
-      { Put(DOpenGLC(CallFunc0C<bool>(nfunc))); }
+    { Put(DOpenGLC(CallFunc0C<bool>(nfunc))); }
     //: Call OpenGL rendering function.
     
     template<class DataT>
     void Render(bool (*nfunc)(DataT &dat),const DataT &dat)
-      { Put(DOpenGLC(CallFunc1C<DataT>(nfunc,dat))); }
+    { Put(DOpenGLC(CallFunc1C<DataT>(nfunc,dat))); }
     //: Call OpenGL rendering function.
     
     template<class Data1T,class Data2T>
     void Render(bool (*nfunc)(Data1T &dat1,Data2T &dat2),const Data1T &dat1,const Data2T &dat2)
-      { Put(DOpenGLC(CallFunc2C<Data1T,Data2T>(nfunc,dat1,dat2))); }
+    { Put(DOpenGLC(CallFunc2C<Data1T,Data2T>(nfunc,dat1,dat2))); }
     //: Call OpenGL rendering function.
     
     template<class ObjT>
     void Render(const ObjT &nobj,bool (ObjT::*nfunc)())
-      { Put(DOpenGLC(CallMethod0C<ObjT>(nobj,nfunc))); }
+    { Put(DOpenGLC(CallMethod0C<ObjT>(nobj,nfunc))); }
     //: Call OpenGL rendering function.
     
     template<class ObjT,class DataT>
     void Render(const ObjT &nobj,bool (ObjT::*nfunc)(DataT &),const DataT &dat)
-      { Put(DOpenGLC(CallMethod1C<ObjT,DataT>(nobj,nfunc,dat))); }
+    { Put(DOpenGLC(CallMethod1C<ObjT,DataT>(nobj,nfunc,dat))); }
     //: Call OpenGL rendering function.
     
     template<class ObjT,class Data1T,class Data2T>
     void Render(const ObjT &nobj,bool (ObjT::*nfunc)(Data1T &,Data2T &),const Data1T &dat1,const Data2T &dat2)
-      { Put(DOpenGLC(CallMethod2C<ObjT,Data1T,Data2T>(nobj,nfunc,dat1,dat2))); }
+    { Put(DOpenGLC(CallMethod2C<ObjT,Data1T,Data2T>(nobj,nfunc,dat1,dat2))); }
     //: Call OpenGL rendering function.
     
     template<class ObjT>
     void RenderRef(ObjT &nobj,bool (ObjT::*nfunc)())
-      { Put(DOpenGLC(CallMethodRef0C<ObjT>(nobj,nfunc))); }
+    { Put(DOpenGLC(CallMethodRef0C<ObjT>(nobj,nfunc))); }
     //: Call OpenGL rendering function.
     // Use only a reference to 'nobj', not a copy.
     // NB. This means the reference counter will NOT be incremented.
     
     template<class ObjT,class DataT>
     void RenderRef(ObjT &nobj,bool (ObjT::*nfunc)(DataT &),const DataT &dat)
-      { Put(DOpenGLC(CallMethodRef1C<ObjT,DataT>(nobj,nfunc,dat))); }
+    { Put(DOpenGLC(CallMethodRef1C<ObjT,DataT>(nobj,nfunc,dat))); }
     //: Call OpenGL rendering function.
     // Use only a reference to 'nobj', not a copy.
     // NB. This means the reference counter will NOT be incremented.
     
     template<class ObjT,class Data1T,class Data2T>
     void RenderRef(ObjT &nobj,bool (ObjT::*nfunc)(Data1T &,Data2T &),const Data1T &dat1,const Data2T &dat2)
-      { Put(DOpenGLC(CallMethodRef2C<ObjT,Data1T,Data2T>(nobj,nfunc,dat1,dat2))); }
+    { Put(DOpenGLC(CallMethodRef2C<ObjT,Data1T,Data2T>(nobj,nfunc,dat1,dat2))); }
     //: Call OpenGL rendering function.
     // Use only a reference to 'nobj', not a copy.
     // NB. This means the reference counter will NOT be incremented.

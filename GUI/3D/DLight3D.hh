@@ -4,21 +4,21 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLDLIGHT3D_HEADER
-#define RAVLDLIGHT3D_HEADER 1
+#ifndef RAVLGUI_DLIGHT3D_HEADER
+#define RAVLGUI_DLIGHT3D_HEADER 1
 ///////////////////////////////////////////////////
 //! docentry="Ravl.GUI.3D"
 //! rcsid="$Id$"
 //! file="Ravl/GUI/3D/DLight3D.hh"
 //! lib=RavlGUI3D
 //! author="Charles Galambos"
-//! date="18/06/99"
+//! date="18/06/1999"
 
 #include "Ravl/GUI/DObject3D.hh"
 
 namespace RavlGUIN {
   
-  ///////////////////////////////////////////////
+  //////////////////////////////////////////////
   //! userlevel=Develop
   //: Draw some lines.
   
@@ -28,10 +28,10 @@ namespace RavlGUIN {
   public:
     DLight3DBodyC(const RealRGBValueC &nCol,const Point3dC &nPos,int nn)
       : n(nn),
-      colour(nCol),
-      pos(nPos),
-      spot(false)
-      {}
+	colour(nCol),
+	pos(nPos),
+	spot(false)
+    {}
     //: Constructor.
     
     virtual bool Render(Canvas3DC &c3d);
@@ -58,15 +58,15 @@ namespace RavlGUIN {
   public:
     DLight3DC(const RealRGBValueC &col,const Point3dC &nPos,int nn = 0)
       : DObject3DC(*new DLight3DBodyC(col,nPos,nn))
-      {}
+    {}
     //: Constructor.
     
   protected:
     DLight3DBodyC &Body() 
-      { return dynamic_cast<DLight3DBodyC &>(DObject3DC::Body()); }
+    { return dynamic_cast<DLight3DBodyC &>(DObject3DC::Body()); }
     
     const DLight3DBodyC &Body() const
-      { return dynamic_cast<const DLight3DBodyC &>(DObject3DC::Body()); }  
+    { return dynamic_cast<const DLight3DBodyC &>(DObject3DC::Body()); }  
     
   public:  
   };
