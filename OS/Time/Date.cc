@@ -209,7 +209,7 @@ namespace RavlN {
     localtime_r(&s,&b);
     buf += StringC(b.tm_hour) + ":" + StringC(b.tm_min) + ":" + StringC(b.tm_sec);
     buf += "-";
-    buf += StringC(b.tm_mday) + "/" + StringC(b.tm_mon) + "/" + StringC(b.tm_year);
+    buf += StringC(b.tm_mday) + "/" + StringC(b.tm_mon) + "/" + StringC(b.tm_year + 1900);
     return buf;
   }
   
@@ -258,7 +258,7 @@ namespace RavlN {
     struct tm b;
     time_t s = (time_t) sec;
     localtime_r(&s,&b);
-    return b.tm_year;  
+    return b.tm_year + 1900;  
   }
   
   //: Get day in month.  1,31
