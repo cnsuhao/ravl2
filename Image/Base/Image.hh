@@ -39,6 +39,11 @@ namespace RavlImageN {
       : Array2dC<PixelT>(oth)
       {}
     //: Base constructor.
+
+    ImageC(const Array2dC<PixelT> &oth,const IndexRange2dC &rect)
+      : Array2dC<PixelT>(oth,rect)
+      {}
+    //: Construct an image as a sub rectangle 'rect' on oth.
     
     ImageC(UIntT rows,UIntT cols)
       : Array2dC<PixelT>(rows,cols)
@@ -47,6 +52,11 @@ namespace RavlImageN {
 
     ImageC(UIntT rows,UIntT cols,const BufferC<PixelT> &buf)
       : Array2dC<PixelT>(IndexRange2dC(0,rows-1,0,cols-1),buf)
+      {}
+    //: Construct an image with origin 0,0 and size rows cols with space in 'buf'
+    
+    ImageC(UIntT rows,UIntT cols,PixelT *data,bool deletable = true)
+      : Array2dC<PixelT>(IndexRange2dC(0,rows-1,0,cols-1),BufferC<PixelT>(rows * cols,data,false,deletable))
       {}
     //: Construct an image with origin 0,0 and size rows cols with space in 'buf'
     
