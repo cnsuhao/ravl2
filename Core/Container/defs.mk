@@ -7,4 +7,4 @@
 #! rcsid="$Id$"
 #! file="Ravl/Core/Container/defs.mk"
 
-NESTED= Buffer.r SArray.r Array.r Misc.r Queue.r DList.r Hash.r Graph.r
+NESTED= Buffer.r SArray.r Array.r Misc.r Queue.r Trees.r DList.r Hash.r Graph.r
