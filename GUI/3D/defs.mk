@@ -43,8 +43,8 @@ SOURCES = gdkgl.c gtkglarea.c DObject3D.cc  DLight3D.cc \
 
 PLIB = RavlGUI3D
 
-EXAMPLES = 
-#ex3DCanvas.cc exView3D.cc
+EXAMPLES = exCanvas3D.cc
+# exView3D.cc
 
 USESLIBS = RavlCore RavlGeom RavlGUI OpenGL
 #GUI OpenGL Polops tri DispMap

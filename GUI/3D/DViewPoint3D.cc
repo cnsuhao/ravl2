@@ -13,6 +13,13 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
+#define DODEBUG 0
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
+
 namespace RavlGUIN {
 
   //: Render object.
@@ -23,6 +30,7 @@ namespace RavlGUIN {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     RealT dAspect = 1;//canvas.Size()[0]/canvas.Size()[1];
+    ONDEBUG(cerr << "gluPerspective(), FOV=" << fov <<" Aspect:" << dAspect << " Near=" << m_dNear << " Far=" << m_dFar << "\n");
     gluPerspective(fov,dAspect,m_dNear,m_dFar);
     gluLookAt(eye.X(),eye.Y(),eye.Z(),centre.X(),centre.Y(),centre.Z(),up.X(),up.Y(),up.Z());
     

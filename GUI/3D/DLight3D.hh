@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef DLIGHT3D_HEADER
-#define DLIGHT3D_HEADER 1
+#ifndef RAVLDLIGHT3D_HEADER
+#define RAVLDLIGHT3D_HEADER 1
 ///////////////////////////////////////////////////
 //! docentry="Ravl.GUI.3D"
 //! rcsid="$Id$"

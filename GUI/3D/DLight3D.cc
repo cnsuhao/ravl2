@@ -22,7 +22,7 @@ namespace RavlGUIN {
     glEnable(GL_LIGHTING);
     glEnable(LightNo(n));
     
-  // Material defaults.
+    // Material defaults.
     
     float mat[4];
     
