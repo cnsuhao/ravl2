@@ -15,9 +15,10 @@
 
 #include "Ravl/GUI/Window.hh"
 #include "Ravl/GUI/AttributeEditor.hh"
+#include "Ravl/GUI/FileSelector.hh"
 
 namespace RavlGUIN {
-
+  
   //! userlevel=Develop
   //: Window for editing attribute.
   
@@ -28,8 +29,22 @@ namespace RavlGUIN {
     AttributeEditorWindowBodyC(const StringC &name,const AttributeCtrlC &ctrl);
     //: Constructor.
     
+    bool LoadAttributes(StringC &name);
+    //: Load attributes from file.
+    
+    bool SaveAttributes(StringC &name);
+    //: Save attributes to a file.
+    
+    bool LoadSave(StringC &name);
+    //: Do load/save.
+    
+    bool openLoadSave(bool &doLoad);
+    //: Open load window.
     
   protected:
+    
+    bool doLoad;
+    FileSelectorC fileSelector;
     AttributeEditorC editor;
   };
 
@@ -40,9 +55,43 @@ namespace RavlGUIN {
     : public WindowC
   {
   public:
+    AttributeEditorWindowC()
+    {}
+    //: Default constructor
+    // Creates an invalid handle.
+    
     AttributeEditorWindowC(const StringC &name,const AttributeCtrlC &ctrl)
       : WindowC(*new AttributeEditorWindowBodyC(name,ctrl))
     {}
+
+  protected:
+    AttributeEditorWindowC(AttributeEditorWindowBodyC &bod)
+      : WindowC(bod)
+    {}
+    //: Body constructor.
+    
+    AttributeEditorWindowBodyC& Body()
+    { return static_cast<AttributeEditorWindowBodyC&>(WidgetC::Body()); }
+    //: Access body.
+    
+    const AttributeEditorWindowBodyC& Body() const
+    { return static_cast<const AttributeEditorWindowBodyC&>(WidgetC::Body()); }
+    //: Access body.
+    
+  public:
+    bool LoadAttributes(StringC &name)
+    { return Body().LoadAttributes(name); }
+    //: Load attributes from file.
+    
+    bool SaveAttributes(StringC &name)
+    { return Body().SaveAttributes(name); }
+    //: Save attributes to a file.
+    
+    bool LoadSave(StringC &name)
+    { return Body().LoadSave(name); }
+    //: Do load/save.
+    
+    friend class AttributeEditorWindowBodyC;
   };
 }
 

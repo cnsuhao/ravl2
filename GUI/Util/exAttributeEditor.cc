@@ -121,11 +121,17 @@ ExAttributeCtrlBodyC::~ExAttributeCtrlBodyC()
 
 bool ExAttributeCtrlBodyC::SetAttr(const StringC &attrName,const StringC &attrValue) {
   if(attrName=="String") {
-    stringValue = attrValue;
+    if(stringValue != attrValue) {
+      stringValue = attrValue;
+      SignalChange("String");
+    }
     return true;
   }
   if(attrName=="Enum") {
-    enumValue = attrValue;
+    if(enumValue != attrValue) {
+      enumValue = attrValue;
+      SignalChange("Enum");
+    }
     return true;
   }
   return AttributeCtrlBodyC::SetAttr(attrName,attrValue);
@@ -144,7 +150,7 @@ bool ExAttributeCtrlBodyC::GetAttr(const StringC &attrName,StringC &attrValue) {
     attrValue = enumValue;
     return true;
   }
-  return AttributeCtrlBodyC::SetAttr(attrName,attrValue);  
+  return AttributeCtrlBodyC::GetAttr(attrName,attrValue);  
 }
 
 
@@ -166,7 +172,10 @@ bool ExAttributeCtrlBodyC::GetAttr(const StringC &attrName,IntT &attrValue) {
 
 bool ExAttributeCtrlBodyC::SetAttr(const StringC &attrName,const IntT &attrValue) {
   if(attrName=="Int") {
-    boolValue = intValue;
+    if(intValue != attrValue) {
+      intValue = attrValue;
+      SignalChange("Int");      
+    }
     return true;
   }
   return AttributeCtrlBodyC::SetAttr(attrName,attrValue);
@@ -190,7 +199,10 @@ bool ExAttributeCtrlBodyC::GetAttr(const StringC &attrName,bool &attrValue) {
 
 bool ExAttributeCtrlBodyC::SetAttr(const StringC &attrName,const bool &attrValue) {
   if(attrName=="Bool") {
-    boolValue = (bool) attrValue;
+    if(boolValue != attrValue) {
+      boolValue = attrValue;
+      SignalChange("Bool");      
+    }
     return true;
   }
   return AttributeCtrlBodyC::SetAttr(attrName,attrValue);
@@ -214,7 +226,11 @@ bool ExAttributeCtrlBodyC::GetAttr(const StringC &attrName,RealT &attrValue) {
 
 bool ExAttributeCtrlBodyC::SetAttr(const StringC &attrName,const RealT &attrValue) {
   if(attrName=="Real") {
-    realValue = attrValue;
+    // Numericaly this is bad, but we're interested in avoiding repeated setting of exactly the same value.
+    if(realValue != attrValue) {
+      realValue = attrValue;
+      SignalChange("Real");
+    }
     return true;
   }
   return AttributeCtrlBodyC::SetAttr(attrName,attrValue);
@@ -224,6 +240,7 @@ int main(int nargs,char **argv) {
   Manager.Init(nargs,argv);
   
   OptionC opts(nargs,argv);
+  bool multiWindow = opts.Boolean("m",false,"Multi window example ");
   opts.Check();
  
 
@@ -234,8 +251,13 @@ int main(int nargs,char **argv) {
   //  win.Add(VBox(FrameC(editor,"Hello")));
   //win.Show();
 
-  AttributeEditorWindowC editorwin("test",attribs);
-  editorwin.Show();
+  AttributeEditorWindowC editorwin1("test1",attribs);
+  AttributeEditorWindowC editorwin2;
+  editorwin1.Show();
+  if(multiWindow) {
+    editorwin2 = AttributeEditorWindowC("test2",attribs);
+    editorwin2.Show();
+  }
   Manager.Start();
   
   return 0;

@@ -20,6 +20,8 @@
 #include "Ravl/GUI/LBox.hh"
 #include "Ravl/DP/AttributeValueTypes.hh"
 #include "Ravl/HSet.hh"
+#include "Ravl/XMLStream.hh"
+#include "Ravl/CallMethods.hh"
 
 #define DODEBUG 0
 #if DODEBUG 
@@ -37,6 +39,15 @@ namespace RavlGUIN {
     : TableBodyC(1,1,false),
       attribCtrl(ctrl)
   {}
+
+  //: Destructor.
+  
+  AttributeEditorBodyC::~AttributeEditorBodyC() {
+    if(!attribCtrl.IsValid())
+      return ;
+    for(HashIterC<StringC,Tuple3C<WidgetC,TriggerC,IntT> > it(controls);it;it++)
+      attribCtrl.RemoveChangedSignal(it.Data().Data3());
+  }
   
   //: Create widget.
   
@@ -69,9 +80,10 @@ namespace RavlGUIN {
     
     sx = 3;
     sy = noAttribs;
+    TriggerC updateTrigger;
     
     // Go through the list creating controls for each attribute.
-
+    
     int lineNo = 0;
     for(DLIterC<AttributeTypeC> it(list);it;it++,lineNo++) {      
       WidgetC widge;
@@ -86,6 +98,7 @@ namespace RavlGUIN {
 	  if(it->CanWrite()) {
 	    CheckButtonC cb = CheckButtonR(StringC(" "),(bool)initState,*this,&AttributeEditorBodyC::SetAttribBool,it->Name());
 	    widge = cb;
+	    updateTrigger = TriggerR(*this,&AttributeEditorBodyC::UpdateAttribBool,it->Name(),widge);
 	  } else {
 	    StringC s;
 	    if(initState)
@@ -94,6 +107,7 @@ namespace RavlGUIN {
 	      s = "false";
 	    LabelC label(s);
 	    widge = label;
+	    updateTrigger = TriggerR(*this,&AttributeEditorBodyC::UpdateAttribLabel,it->Name(),widge);
 	  }
 	} break;
 	case AVT_String:{
@@ -102,9 +116,11 @@ namespace RavlGUIN {
 	  if(it->CanWrite()) {
 	    TextEntryC te = TextEntryR(initValue,*this,&AttributeEditorBodyC::SetAttribString,it->Name());
 	    widge = te;
+	    updateTrigger = TriggerR(*this,&AttributeEditorBodyC::UpdateAttribString,it->Name(),widge);
 	  } else {
 	    LabelC label(initValue);
 	    widge = label;
+	    updateTrigger = TriggerR(*this,&AttributeEditorBodyC::UpdateAttribLabel,it->Name(),widge);
 	  }
 	} break;
 	case AVT_Int: {
@@ -115,11 +131,13 @@ namespace RavlGUIN {
 	  if(attr.CanWrite()) {
 	    SliderC sl((RealT) val,(RealT) attr.Min(),(RealT) attr.Max(),(RealT) attr.Step());
 	    ConnectRef(sl.SigChanged(),*this,&AttributeEditorBodyC::SetAttribInt,val,it->Name());
-	    widge = sl;
+	    widge = sl;	
+	    updateTrigger = TriggerR(*this,&AttributeEditorBodyC::UpdateAttribInt,it->Name(),widge);
 	  } else {
 	    StringC str(val);
 	    LabelC label(str);
 	    widge = label;
+	    updateTrigger = TriggerR(*this,&AttributeEditorBodyC::UpdateAttribLabel,it->Name(),widge);
 	  }
 	} break;
 	case AVT_Real: {
@@ -131,10 +149,12 @@ namespace RavlGUIN {
 	    SpinButtonC sl(4,attr.Step(),val,attr.Min(),attr.Max(),attr.Step() * 2);
 	    ConnectRef(sl.SigChanged(),*this,&AttributeEditorBodyC::SetAttribReal,val,it->Name());
 	    widge = sl;
+	    updateTrigger = TriggerR(*this,&AttributeEditorBodyC::UpdateAttribReal,it->Name(),widge);
 	  } else {
 	    StringC str(val);
 	    LabelC label(str);
 	    widge = label;
+	    updateTrigger = TriggerR(*this,&AttributeEditorBodyC::UpdateAttribLabel,it->Name(),widge);
 	  }
 	} break;
 	case AVT_Enum: {
@@ -147,10 +167,12 @@ namespace RavlGUIN {
 	    cb.SetSelection(val);	
 	    ConnectRef(cb.SigSelected(),*this,&AttributeEditorBodyC::SetAttribString,val,it->Name());
 	    widge = cb;
+	    updateTrigger = TriggerR(*this,&AttributeEditorBodyC::UpdateAttribEnum,it->Name(),widge);
 	  } else {
 	    StringC str(val);
 	    LabelC label(str);
 	    widge = label;
+	    updateTrigger = TriggerR(*this,&AttributeEditorBodyC::UpdateAttribLabel,it->Name(),widge);
 	  }
 	} break;
 	default:
@@ -162,7 +184,9 @@ namespace RavlGUIN {
       
       // Add widget and its label to the layout.
       if(widge.IsValid()) {
-	controls[it->Name()] = widge;
+	int updateId;
+	updateId = attribCtrl.RegisterChangedSignal(it->Name(),updateTrigger);
+	controls[it->Name()] = Tuple3C<WidgetC,TriggerC,IntT>(widge,updateTrigger,updateId);
 	StringC name = it->Name();
 	//cerr << "Name='" << name << "'\n";
 	//AddObject(CheckButtonC(name,it->CanRead()),0,1,lineNo,lineNo+1);
@@ -217,7 +241,93 @@ namespace RavlGUIN {
     attribCtrl.SetAttr(name,Round(val));
     return true;
   }
+  
+  
+  //: Update a bool attribute.
+  
+  bool AttributeEditorBodyC::UpdateAttribBool(StringC &name,WidgetC &widge) {
+    CheckButtonC cb(widge);
+    RavlAssert(cb.IsValid());
+    bool value;
+    if(attribCtrl.GetAttr(name,value))
+      cb.SetToggle(value);
+    return true;
+  }
+  
+  //: Update a string attribute.
+  
+  bool AttributeEditorBodyC::UpdateAttribString(StringC &name,WidgetC &widge) {
+    TextEntryC cb(widge);
+    RavlAssert(cb.IsValid());
+    StringC value;
+    if(attribCtrl.GetAttr(name,value))
+      cb.SetText(value);
+    return true;
+  }
+  
+  //: Update a string attribute.
+  
+  bool AttributeEditorBodyC::UpdateAttribReal(StringC &name,WidgetC &widge) {
+    SpinButtonC sb(widge);
+    RealT value;
+    if(attribCtrl.GetAttr(name,value))
+      sb.SetValue(value);
+    return true;
+  }
+  
+  //: Update a string attribute.
+  
+  bool AttributeEditorBodyC::UpdateAttribInt(StringC &name,WidgetC &widge) {
+    SliderC sl(widge);
+    IntT value;
+    if(attribCtrl.GetAttr(name,value))
+      sl.UpdateValue(value);
+    return true;
+  }
+  
+  //: Update a label attribute.
+  
+  bool AttributeEditorBodyC::UpdateAttribLabel(StringC &name,WidgetC &widge) {
+    LabelC lab(widge);
+    StringC value;
+    if(attribCtrl.GetAttr(name,value))
+      lab.Label(value);
+    return true;
+  }
 
+  //: Update a enum attribute.
+  
+  bool AttributeEditorBodyC::UpdateAttribEnum(StringC &name,WidgetC &widge) {
+    ComboC cb(widge);
+    StringC value;
+    if(attribCtrl.GetAttr(name,value))
+      cb.SetSelection(value);
+    return true;
+  }
+  
+  //: Load attributes from file.
+  
+  bool AttributeEditorBodyC::LoadAttributes(const StringC &fileName) {
+    XMLIStreamC xmlfile(fileName);
+    attribCtrl.LoadAttributes(xmlfile);
+    return true;
+  }
+  
+  //: Save attributes to a file.
+  
+  bool AttributeEditorBodyC::SaveAttributes(const StringC &fileName) {
+    XMLOStreamC xmlfile(fileName);
+    attribCtrl.SaveAttributes(xmlfile);
+    return true;
+  }
+  
+  //: Update control values.
+  
+  bool AttributeEditorBodyC::UpdateAll() {
+    for(HashIterC<StringC,Tuple3C<WidgetC,TriggerC,IntT> > it(controls);it;it++)
+      it.Data().Data2().Invoke();
+    return true;
+  }
   
   
 }

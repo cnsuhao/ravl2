@@ -12,6 +12,15 @@
 #include "Ravl/GUI/LBox.hh"
 #include "Ravl/GUI/Button.hh"
 #include "Ravl/GUI/Frame.hh"
+#include "Ravl/GUI/Menu.hh"
+#include "Ravl/Threads/Signal1.hh"
+
+#define DODEBUG 0
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
 
 namespace RavlGUIN {
   
@@ -19,9 +28,54 @@ namespace RavlGUIN {
   
   AttributeEditorWindowBodyC::AttributeEditorWindowBodyC(const StringC &name,const AttributeCtrlC &ctrl)
     : WindowBodyC(100,100,name,GTK_WINDOW_TOPLEVEL,4,false),
+      fileSelector("Attribute IO","attribute.xml"),
       editor(ctrl)
-  {
-    Add(VBox(editor + RavlGUIN::ButtonR("Close",(WidgetBodyC &)*this,&WindowBodyC::GUIHide)));
+  {    
+    AttributeEditorWindowC me(*this);
+    Connect(fileSelector.Selected(),me,&AttributeEditorWindowC::LoadSave);
+    MenuBarC menuBar(MenuItemR("Save",*this,&AttributeEditorWindowBodyC::openLoadSave,false) + 
+		     MenuItemR("Load",*this,&AttributeEditorWindowBodyC::openLoadSave,true));
+    Add(VBox(menuBar + FrameC(editor,"",5) + RavlGUIN::ButtonR("Close",(WidgetBodyC &)*this,&WindowBodyC::GUIHide)));
+  }
+  
+  //: Load attributes from file.
+  
+  bool AttributeEditorWindowBodyC::LoadAttributes(StringC &name) {
+    ONDEBUG(cerr << "AttributeEditorWindowBodyC::LoadAttributes(), \n");
+    if(editor.LoadAttributes(name))
+      editor.UpdateAll(); // Make sure everythings updated.
+    return true;
+  }
+  
+  //: Save attributes to a file.
+  
+  bool AttributeEditorWindowBodyC::SaveAttributes(StringC &name) {
+    ONDEBUG(cerr << "AttributeEditorWindowBodyC::SaveAttributes(), \n");
+    return editor.SaveAttributes(name);
+  }
+  
+  //: Do load/save.
+  
+  bool AttributeEditorWindowBodyC::LoadSave(StringC &name) {
+    ONDEBUG(cerr << "AttributeEditorWindowBodyC::LoadSave(), Called. \n");
+    if(doLoad)
+      LoadAttributes(name);
+    else
+      SaveAttributes(name);
+    return true;
+  }
+  
+  //: Open load window.
+  
+  bool AttributeEditorWindowBodyC::openLoadSave(bool &nDoLoad) {
+    ONDEBUG(cerr << "AttributeEditorWindowBodyC::openLoadSave(), Called. " << nDoLoad << "\n");
+    doLoad = nDoLoad;
+    if(doLoad) 
+      fileSelector.SetTitle("Load Attributes");
+    else
+      fileSelector.SetTitle("Save Attributes");
+    fileSelector.Show();
+    return true;
   }
   
 }

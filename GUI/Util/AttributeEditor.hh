@@ -16,6 +16,8 @@
 #include "Ravl/DP/AttributeCtrl.hh"
 #include "Ravl/DP/AttributeType.hh"
 #include "Ravl/GUI/Table.hh"
+#include "Ravl/Trigger.hh"
+#include "Ravl/Tuple3.hh"
 
 namespace RavlGUIN {
   
@@ -28,6 +30,9 @@ namespace RavlGUIN {
   public:
     AttributeEditorBodyC(const AttributeCtrlC &ctrl);
     //: Construct on attribute control
+    
+    ~AttributeEditorBodyC();
+    //: Destructor.
     
     void BuildWidgets();
     //: Build widgets needed for the current attribute control.
@@ -44,11 +49,38 @@ namespace RavlGUIN {
     bool SetAttribInt(RealT &val,StringC &name);
     //: Set a string attribute.
     
+    bool UpdateAttribBool(StringC &name,WidgetC &widge);
+    //: Update a bool attribute.
+    
+    bool UpdateAttribString(StringC &name,WidgetC &widge);
+    //: Update a string attribute.
+    
+    bool UpdateAttribReal(StringC &name,WidgetC &widge);
+    //: Update a real attribute.
+    
+    bool UpdateAttribInt(StringC &name,WidgetC &widge);
+    //: Update a int attribute.
+    
+    bool UpdateAttribEnum(StringC &name,WidgetC &widge);
+    //: Update a enum attribute.
+    
+    bool UpdateAttribLabel(StringC &name,WidgetC &widge);
+    //: Update a label attribute.
+    
+    bool LoadAttributes(const StringC &fileName);
+    //: Load attributes from file.
+    
+    bool SaveAttributes(const StringC &fileName);
+    //: Save attributes to a file.
+    
+    bool UpdateAll();
+    //: Update control values.
+    
   protected:
     virtual bool Create();
     //: Create widget.
     
-    HashC<StringC,WidgetC> controls;
+    HashC<StringC,Tuple3C<WidgetC,TriggerC,IntT> > controls;
     AttributeCtrlC attribCtrl;
   };
   
@@ -68,6 +100,34 @@ namespace RavlGUIN {
       : TableC(*new AttributeEditorBodyC(ctrl))
     {}
     //: Construct on attribute control    
+    
+  protected:
+    AttributeEditorC(AttributeEditorBodyC &bod)
+      : TableC(bod)
+    {}
+    //: Body constructor.
+    
+    AttributeEditorBodyC &Body()
+    { return static_cast<AttributeEditorBodyC &>(WidgetC::Body()); }
+    //: Access body.
+
+    const AttributeEditorBodyC &Body() const
+    { return static_cast<const AttributeEditorBodyC &>(WidgetC::Body()); }
+    //: Access body.
+    
+  public:
+    bool LoadAttributes(const StringC &fileName)
+    { return Body().LoadAttributes(fileName); }
+    //: Load attributes from file.
+    
+    bool SaveAttributes(const StringC &fileName)
+    { return Body().SaveAttributes(fileName); }
+    //: Save attributes to a file.
+    
+    bool UpdateAll()
+    { return Body().UpdateAll(); }
+    //: Update control values.
+
   };
   
 }
