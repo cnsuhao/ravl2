@@ -10,7 +10,7 @@
 PACKAGE=Ravl/DP
 
 HEADERS= MTIOConnect.hh PlayControl.hh ThreadPipe.hh Buffer.hh FixedBuffer.hh \
- Governor.hh Hold.hh
+ Governor.hh Hold.hh SerialisePort.hh
 
 SOURCES= MTIOConnect.cc PlayControl.cc Governor.cc
 
