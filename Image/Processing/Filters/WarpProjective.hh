@@ -181,6 +181,8 @@ namespace RavlImageN {
 	  if(irng.Contains(ipat)) {
 	    // move coordinates to be based on 0,0 at the centre of the
 	    // top-left pixel
+	    ipat[0] -= 0.5;
+	    ipat[1] -= 0.5;
 	    mixer(*it,src.BiLinear(ipat));
 	  }
 	  else
@@ -194,6 +196,8 @@ namespace RavlImageN {
 	  if(irng.Contains(ipat)) {
 	    // move coordinates to be based on 0,0 at the centre of the
 	    // top-left pixel
+	    ipat[0] -= 0.5;
+	    ipat[1] -= 0.5;
 	    mixer(*it,src.BiLinear(ipat));
 	  }
 	  pat[1]++;
