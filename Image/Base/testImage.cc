@@ -19,6 +19,7 @@
 #include "Ravl/Image/DrawLine.hh"
 #include "Ravl/Image/DrawFrame.hh"
 #include "Ravl/Image/DrawCircle.hh"
+#include "Ravl/Image/Reflect.hh"
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/IO.hh"
 
