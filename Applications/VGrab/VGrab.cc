@@ -13,8 +13,9 @@
 
 //: Video Frame Grabber
 //
-//This program captures video from grabber cards. The grabber device can be specified using RAVL virtual files and defaults to the ClipStationPro driver. 
-
+// This program captures video from grabber cards. The grabber device can be specified using RAVL virtual files and defaults to the ClipStationPro driver. 
+// In addition to the catpured images, VGrab generates a .tc file containing all the timecodes of the captured frames. Any dropped frames will be padded with 
+// a blank image. 
 
 #include "Ravl/EntryPnt.hh"
 #include "Ravl/Option.hh" 
