@@ -9,23 +9,21 @@ OPENGL_DEF = 1
 
 include x11.def
 
-ifeq ($(ARC),linux)
-MESAHOME=/opt/PDmesa/Mesa-3.2.1
-else
-MESAHOME=/opt/PDmesa/Mesa-3.2.1
+ifndef MESAHOME
+  MESAHOME=/opt/PDmesa/Mesa-3.2.1
 endif
 
-ifeq ($(ARC),sgi)
-# -L$(MESAHOME)/lib 
-EXELIB := -lGL -lGLU $(EXELIB)
-else
-ifeq ($(ARC),linux)
-EXELIB :=  -Wl,-rpath=$(MESAHOME)/lib -L$(MESAHOME)/lib -lGL -lGLU $(EXELIB)
-else
-EXELIB := -R$(MESAHOME)/lib -L$(MESAHOME)/lib -lMesaGL -lMesaGLU $(EXELIB)
-endif
-# Its important mesa home is early in the list.
+EXELIB := -L$(MESAHOME)/lib -lGL -lGLU $(EXELIB)
 INCLUDES := -I$(MESAHOME)/include $(INCLUDES)
+
+ifeq ($(ARC),linux)
+EXELIB := -Wl,-rpath=$(MESAHOME)/lib -L$(MESAHOME)/lib $(EXELIB)
+else
+ifneq ($(ARC),sgi)
+EXELIB := -R$(MESAHOME)/lib -L$(MESAHOME)/lib $(EXELIB)
+else
+EXELIB := -L$(MESAHOME)/lib $(EXELIB)
+endif
 endif
 
 endif
