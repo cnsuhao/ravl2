@@ -23,7 +23,7 @@ HEADERS = StdMath.hh Random.hh RandomGauss.hh Angle.hh ScalMath.hh \
 # SOURCES = all C modules, not containing main separated by space. The compiled
 #   code of these modules is stored in the project library.
 SOURCES = StdMath.cc Random.cc RandomGauss.cc Angle.cc ScalMath.cc \
- Complex.cc RandomMersenneTwister.cc
+ Complex.cc RandomMersenneTwister.cc Erf.cc
 
 # EMGRavl.cc UsefulFn.cc Erf.cc
 

@@ -42,6 +42,10 @@ extern "C" {
   double erfc(double x); // not in standard <math.h> file
 }
 #endif
+#else
+  // Defined in Erf.cc
+  double erf(double x);
+  double erfc(double x);
 #endif
 
 #if RAVL_OS_CYGWIN
@@ -72,9 +76,6 @@ namespace RavlN {
   }
   //: Returns the cube root of 'x'.
   
-#if RAVL_HAVE_ERF
-  // FIXME:- We have to sort this out..
-  
   inline RealT Erf(RealT x)
   { return erf(x); }
   //: Returns the error function of x. Erf(x) = 2/sqrt(pi)*integral from 0 to x of exp(-t*t) dt.
@@ -82,7 +83,6 @@ namespace RavlN {
   inline RealT Erfc(RealT x)
   { return erfc(x); }
   //: Returns 1.0 - Erf(x). (Use when x is large)
-#endif
   
   inline RealT Log2(RealT r) {
     RavlAssertMsg(r > 0.0,"Log2(RealT r): Can't take log of zero or negative number.");
