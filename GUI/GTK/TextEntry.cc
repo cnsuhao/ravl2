@@ -110,7 +110,7 @@ namespace RavlGUIN {
   
   //: Access text
   
-  StringC TextEntryBodyC::Text() {
+  StringC TextEntryBodyC::Text() const {
     MutexLockC lock(access);
     StringC ret = text; // Ensure the right order.
     lock.Unlock();

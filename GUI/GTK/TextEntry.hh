@@ -46,7 +46,7 @@ namespace RavlGUIN {
     virtual bool Entry(const StringC &text);
     //: Some new text has been entered.
     
-    StringC Text();
+    StringC Text() const;
     //: Access text
     
     bool Text(const StringC &txt);
@@ -174,7 +174,7 @@ namespace RavlGUIN {
     //: Hides text entered into this field
     // If the argument is true, text in this field will be displayed as *s
 
-    StringC Text() 
+    StringC Text() const
     { return Body().Text(); }
     //: Access text
     
