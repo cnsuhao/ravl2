@@ -15,6 +15,7 @@
 #include "Ravl/MeanCovariance.hh"
 #include "Ravl/MatrixRUT.hh"
 #include "Ravl/PatternRec/DataSet2Iter.hh"
+#include "Ravl/PatternRec/SampleIter.hh"
 #include "Ravl/SArray1dIter2.hh"
 
 namespace RavlN {
@@ -128,6 +129,23 @@ namespace RavlN {
       ret.AddOuterProduct(it.Data1(),it.Data2(),it.Data3());
     return ret;    
   }
+
+  void 
+  SampleVectorC::Normalise(const MeanCovarianceC & stats)  {
+    UIntT d = VectorSize();
+    VectorC stdDev(d);
+    for(UIntT i=0;i<d;i++) {
+      if(stats.Covariance()[i][i]==0) stdDev[i] = stats.Mean()[i];
+      else stdDev[i] = stats.Covariance()[i][i];
+    }
+    for(UIntT i=0;i<d;i++) stdDev[i] = Sqrt(stdDev[i]);
+    stdDev.Reciprocal ();
+    
+    for(SampleIterC<VectorC>it(*this);it;it++)
+      *it =  (*it-stats.Mean()) * stdDev;
+  }
+
+
   
 }
 

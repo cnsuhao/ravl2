@@ -84,6 +84,25 @@ namespace RavlN {
     }
     return Sw;
   }
+
+  DataSetVectorLabelC
+  DataSetVectorLabelBodyC::ExtractPerLabel(UIntT numSamples)  const {
+    cerr << "numSample: " << numSamples << endl;
+    SArray1dC<SampleVectorC> arr = SeperateLabels();
+    UIntT noClasses = Sample2().MaxValue()+1;
+    cerr << "classes: " << noClasses << endl;
+    SampleVectorC input(numSamples * noClasses);
+    SampleLabelC output(numSamples * noClasses);
+    for(SArray1dIterC<SampleVectorC>it(arr);it;it++) {
+      for(UIntT i=0;i<numSamples;i++) {
+	input.Append(it.Data().Pick());
+	output.Append(it.Index().V());
+      }
+    }
+    DataSetVectorLabelC ret(input, output);
+    return ret;
+  }
+
     
 
 }

@@ -19,6 +19,8 @@
 
 namespace RavlN {
 
+  class DataSetVectorLabelC;
+
   //! userlevel=Develop
   //: Data set of labeled vectors.
   
@@ -52,7 +54,10 @@ namespace RavlN {
 
     MatrixC WithinClassScatter () const;
     //: Returns within class scatter (covariance) matrix
-
+    
+    DataSetVectorLabelC ExtractPerLabel(UIntT numSamples) const;
+    //: Extracts numSamples samples per label
+    
   };
   
   //! userlevel=Normal
@@ -114,6 +119,10 @@ namespace RavlN {
     MatrixC WithinClassScatter () const
     { return Body().WithinClassScatter (); }
     //: Returns within class scatter (covariance) matrix
+
+    DataSetVectorLabelC ExtractPerLabel(UIntT numSamples) const
+      { return Body().ExtractPerLabel(numSamples); }
+    //: Extracts numSamples samples per label
 
     
   };

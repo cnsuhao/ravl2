@@ -24,6 +24,16 @@ namespace RavlN {
     return lv;
   }
 
+  //: Return the number of samples in each class
+  SArray1dC<UIntT> SampleLabelC::LabelSums() const {
+    UIntT noClasses = MaxValue()+1;
+    SArray1dC<UIntT>arr(noClasses);
+    arr.Fill(0);
+    for(DArray1dIterC<UIntT> it(*this);it;it++) arr[*it]++;
+    return arr;
+  }
+    
+
   //: Convert a sample of labels to vectors
   // Where the label index is set to 'inClass' and the rest to 'outClass'.
   

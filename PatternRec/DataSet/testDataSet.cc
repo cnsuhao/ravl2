@@ -18,6 +18,7 @@
 #include "Ravl/PatternRec/DataSet3Iter.hh"
 #include "Ravl/PatternRec/SampleIO.hh"
 #include "Ravl/PatternRec/SampleVector.hh"
+#include "Ravl/PatternRec/SampleLabel.hh"
 #include "Ravl/PatternRec/SampleIter.hh"
 #include "Ravl/PatternRec/SampleStreamVector.hh"
 #include "Ravl/PatternRec/Function1.hh"
@@ -159,6 +160,17 @@ int testDataSet2() {
   for(DataSet2IterC<SampleC<IntT>,SampleC<RealT> > it(dataset);it;it++)
     count++;
   if(count != 2) return __LINE__;
+
+  DataSet2C<SampleVectorC, SampleLabelC>dset(10);
+  VectorC x1(1.0, 2.0);
+  VectorC x2(3.0, 4.0);
+  dset.Append(x1, 0);
+  dset.Append(x2, 0);
+  cout << dset << endl;
+  DataSet2C<SampleVectorC, SampleLabelC>dset2(10);
+  dset2.Append(dset);
+  cout << dset2.Sample1() << endl;
+
   return 0;
 }
 

@@ -41,6 +41,9 @@ namespace RavlN {
     
     UIntT MaxValue() const;
     //: Find the value of the largest label.
+
+    SArray1dC<UIntT> LabelSums() const;
+    //: Return the number of samples in each class
     
     SampleC<VectorC> SampleVector(RealT inClass = 1,RealT outClass = 0,IntT maxLabel = -1) const;
     //: Convert a sample of labels to vectors
