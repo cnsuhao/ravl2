@@ -3,17 +3,23 @@
 
 echo "Ravl Installation script."
 
+
 if [ -z "$2" ] ; then
-  INSTMODE=bin
+  INSTMODE=full
 else
   INSTMODE=$2
 fi
 
+
 BUILDTYPE=fullbuild
 
 case ${INSTMODE} in 
-  bin | src | clean | auto )
+  full)
      BUILDDIR=$1
+     true ;;
+  --config)
+     BUILDDIR=$1
+     CONFIGFILE="CONFIGFILE=$3"
      true ;;
   rpm)
      BUILDDIR=$3
@@ -22,6 +28,8 @@ case ${INSTMODE} in
   *) echo "Unrecognised mode '${INSTMODE}'"
      INSTMODE=""
 esac
+
+echo "Config= ${CONFIGFILE} "
 
 if [ -z "$1" -o -z "${INSTMODE}" ]  ; then
   echo "Usage: install <target directory>"
@@ -77,7 +85,7 @@ fi
 echo "Architecture: '${ARC}'"
 
 # Install make system.
-if ${MAKE} -C QMake -f ./QMake.mk MAKEHOME=`pwd`/QMake BASEINSTALL=1 PROJECT_OUT=${INSTALL_SITE} ROOTDIR=${BUILDDIR} PROCS=1 FULLBUILDSRC='BASE_VAR=none' ; then
+if ${MAKE} -C QMake -f ./QMake.mk MAKEHOME=`pwd`/QMake BASEINSTALL=1 PROJECT_OUT=${INSTALL_SITE} ROOTDIR=${BUILDDIR} PROCS=1 FULLBUILDSRC='BASE_VAR=none' ${CONFIGFILE} ; then
   true
 else
   echo "ERROR: Failed to install make system. "
