@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -207,6 +207,8 @@ namespace RavlN {
       if(gotTag)
 	throw ExceptionInvalidStreamC("Unexpected end of XML stream. ");
     }
+    if(IsContext())
+      attr = Context().Attributes();
     if(emptyTag)
       EndOfContext(id);
     name = id;
@@ -217,11 +219,10 @@ namespace RavlN {
   
   bool XMLIStreamC::SkipElement() {
     StringC curCtxt = Context().Name();
-    RCHashC<StringC,StringC> attr;
     StringC name;
     int level = 0;
     for(;;) {
-      if(ReadTag(name,attr)) {
+      if(ReadTag(name)) {
 	// Found end tag.
 	if(level == 0)
 	  break;
@@ -443,9 +444,8 @@ namespace RavlN {
       case XMLEndTag:
 	{
 	  StringC name;
-	  RCHashC<StringC,StringC> attr;
 	  for(;;) {
-	    if(strm.ReadTag(name,attr))
+	    if(strm.ReadTag(name))
 	      break;
 	    cerr << "Unexpected start tag '" << name << "' found, skipping. \n";
 	    strm.SkipElement();

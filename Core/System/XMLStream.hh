@@ -200,6 +200,10 @@ namespace RavlN {
       { return context.Top(); }
     //: Access current context.
     
+    bool IsContext() const
+    { return !context.IsEmpty(); }
+    //: Are we in a valid context ? 
+   
     const XMLElementC &Context() const
       { return context.Top(); }
     //: Access current context.
@@ -310,6 +314,10 @@ namespace RavlN {
     XMLElementC &Context()
       { return Body().Context(); }
     //: Access current context.
+    
+    bool IsContext() const
+    { return Body().IsContext(); }
+    //: Are we in a valid context ? 
 
     const XMLElementC &Context() const
       { return Body().Context(); }
@@ -381,8 +389,17 @@ namespace RavlN {
         XMLBaseC(true)
       {}
     //: Construct from an ordinary stream.
+
     
     bool ReadTag(StringC &name,RCHashC<StringC,StringC> &attr);
+    //: Read a tag from a stream.
+    // returns true if one is found or false if end of group found.
+    // This will skip comments and DTD info, and anything else it doesn't understand.
+    
+    bool ReadTag(StringC &name) {
+      RCHashC<StringC,StringC> attr;
+      return ReadTag(name,attr);
+    }
     //: Read a tag from a stream.
     // returns true if one is found or false if end of group found.
     // This will skip comments and DTD info, and anything else it doesn't understand.
@@ -574,13 +591,12 @@ namespace RavlN {
   template<class DataT>
   XMLIStreamC &operator>>(XMLIStreamC &strm,SArray1dC<DataT> &arr) {
     UIntT size = 0;
-    RCHashC<StringC,StringC> attrs;    
     StringC name;
-    strm.ReadTag(name,attrs);
+    strm.ReadTag(name);
     strm >> XMLAttribute("size",size);
     SArray1dC<DataT> ret(size);
     for(SArray1dIterC<DataT> it(ret);it;it++) {
-      if(strm.ReadTag(name,attrs)) {
+      if(strm.ReadTag(name)) {
 	//cerr << "Found end:" << name << "\n";
 	break; // Found end of array tag.
       }
