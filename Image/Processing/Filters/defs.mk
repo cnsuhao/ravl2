@@ -9,14 +9,14 @@
 
 PACKAGE=Ravl/Image
 
-MAINS=doFilter.cc
+MAINS=doFilter.cc unDistort.cc
 
 HEADERS= Convolve2d.hh ConvolveSeparable2d.hh ConvolveHorz2d.hh \
  ConvolveVert2d.hh HomomorphicFilter.hh HistogramEqualise.hh \
  Correlate2d.hh Matching.hh WarpScale.hh WarpAffine.hh WarpProjective.hh \
- PixelMixer.hh GaussConvolve.hh
+ PixelMixer.hh GaussConvolve.hh RemoveDistortion.hh
 
-SOURCES= HomomorphicFilter.cc Correlate2d.cc Matching.cc
+SOURCES= HomomorphicFilter.cc Correlate2d.cc Matching.cc RemoveDistortion.cc
 
 TESTEXES= testConvolve.cc
 

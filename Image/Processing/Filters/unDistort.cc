@@ -1,0 +1,76 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2002, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
+//! rcsid="$Id$"
+//! file="Ravl/Image/Processing/Filters/undistort.cc"
+//! lib=RavlImageProc
+
+#include "Ravl/Option.hh"
+#include "Ravl/Image/RemoveDistortion.hh"
+#include "Ravl/Image/ByteRGBValue.hh"
+#include "Ravl/IO.hh"
+#include "Ravl/Image/ImgIO.hh"
+#include "Ravl/EntryPnt.hh"
+
+using namespace RavlN;
+using namespace RavlImageN;
+
+int Mosaic(int nargs,char **argv) {
+  OptionC opt(nargs,argv);
+  RealT cx_ratio = opt.Int("cx",0.5,"Image centre x coordinate as ratio of image width. ");
+  RealT cy_ratio = opt.Int("cy",0.5,"Image centre y coordinate as ratio of image height. ");
+  RealT fx = opt.Int("fx",1.0,"Focal distance in x pixels. ");
+  RealT fy = opt.Int("fy",1.0,"Focal distance in y pixels. ");
+  RealT K1 = opt.Int("K1",0.0,"First radial distortion coefficient. ");
+  RealT K2 = opt.Int("K2",0.0,"Second radial distortion coefficient. ");
+  int cropT = opt.Int("crt", 0, "Width of cropping region at top of image");
+  int cropB = opt.Int("crb", 0, "Width of cropping region at bottom of image");
+  int cropL = opt.Int("crl", 0, "Width of cropping region at left of image");
+  int cropR = opt.Int("crr", 0, "Width of cropping region at right of image");
+  StringC inputFileName = opt.String("","","Input image. ");
+  StringC outputFileName = opt.String("","","Output image. ");
+  opt.Check();
+
+  ImageC<ByteRGBValueC> inputImage;
+
+  // Open the input image.
+  if(!Load(inputFileName,inputImage)) {
+    cerr << "Failed to open input image '" << inputFileName << "'\n";
+    return 1;
+  }
+
+  // create distortion correction object
+  RemoveDistortionC<ByteRGBValueC,ByteRGBValueC>
+    remover(cx_ratio*(RealT)inputImage.Rows(),
+	    cy_ratio*(RealT)inputImage.Cols(),
+	    fx, fy, K1, K2);
+
+      // set frame from first image
+  IndexRange2dC rect(inputImage.Frame());
+
+  // adjust frame for cropping region
+  rect.TRow() += cropT; rect.BRow() -= cropB;
+  rect.LCol() += cropL; rect.RCol() -= cropR;
+
+  // crop image
+  ImageC<ByteRGBValueC> croppedInputImage(inputImage,rect);
+
+  // create output image
+  ImageC<ByteRGBValueC> outputImage = inputImage.Copy();
+
+  // apply distortion correction
+  remover.Apply(croppedInputImage,outputImage);
+  
+  // save distortion-corrected image
+  if(!Save(outputFileName,outputImage)) {
+    cerr << "Failed to write to output image '" << outputFileName << "'\n";
+    return 1;
+  }
+
+  return 0;
+}
+
+RAVL_ENTRY_POINT(Mosaic)
