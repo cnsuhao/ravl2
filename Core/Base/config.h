@@ -11,10 +11,12 @@
 /*! lib=RavlCore */
 
 /******* AMMA/QMAKE COMPATIBILITY *******/
+#if !defined(RAVL_CHECK)
 #ifdef AMMA_CHECK
 #define RAVL_CHECK 1
 #else
 #define RAVL_CHECK 0
+#endif
 #endif
 /****************************************/
 
@@ -104,9 +106,11 @@
 #if defined(VISUAL_CPP) 
 #define RAVL_NEW_ANSI_CXX_DRAFT 0
 #define RAVL_STRICT_NAMESPACES 1
+#define RAVL_USE_TIMEB_H 1
 #else
 #define RAVL_NEW_ANSI_CXX_DRAFT 1
 #define RAVL_STRICT_NAMESPACES 0
+#define RAVL_USE_TIMEB_H 0
 #endif
 
 #define RAVL_HAVE_REENTRANT_UNIXDIRFUNCS 1
