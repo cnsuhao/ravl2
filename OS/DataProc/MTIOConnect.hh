@@ -53,7 +53,8 @@ namespace RavlN {
     //: Test if connection is terminated.
     
     inline bool Wait() ;
-    //: Wait for connection to finish.
+    //: Block waiting for connection to finish.
+    // If connection is already finished, will return immediately.
     
     DPEventC EventComplete();
     //: Generate an event handle 
@@ -64,6 +65,8 @@ namespace RavlN {
     
     virtual bool Stop();
     //: Attempt to stop stream processing.
+    // Non-blocking. If you need to wait until after the thread has stopped, 
+    // call Wait() after this.
     
     virtual bool Start();
     //: Do some async stuff.
@@ -191,6 +194,7 @@ namespace RavlN {
     inline bool Wait()
     { return Body().Wait(); }
     //: Wait for connection to finish.
+    // If connection is already finished, will return immediately.
     
     inline DPEventC EventComplete()
     { return Body().EventComplete(); }
@@ -259,8 +263,8 @@ namespace RavlN {
   /////////////////////////////////////////
   
   inline bool DPMTIOConnectBaseBodyC::Wait() {
-    if(IsDisconnected())
-      return true;
+    //if(IsDisconnected())
+    //  return true;
     done.Wait();
     return true;
   }
