@@ -80,5 +80,8 @@ int testMatrix3d() {
   if((E - (Eu*Matrix3dC(Ed[0],0,0,0,Ed[1],0,0,0,Ed[2])*Ev.T())).SumOfSqr() > 0.00001)
     return __LINE__;
   
+  Vector3dC v3a(1,2,3),v3b(3,2,1);
+  Vector3dC v = v3a + v3b;
+  if(v[0] != 4 || v[1] != 4 || v[2] != 4) return __LINE__;
   return 0;
 }
