@@ -203,7 +203,8 @@ namespace RavlN {
   // '-' is treated as cout.
   
   OStreamC::OStreamC(const StringC &sfilename,bool binaryMod,bool buffered,bool append)
-    : out(0)
+    : StreamBaseC(sfilename),
+      out(0)
   {
     ONDEBUG(cerr << "OStreamC::OStreamC(" << sfilename << "," << ((int) binaryMod) << ","  << (int) buffered << "," << (int) append << ") Called \n");
     ofstream *ofstrm = 0;
@@ -328,7 +329,9 @@ namespace RavlN {
   //: Open a file for input.
   // '-' is treated as cin.
   
-  IStreamC::IStreamC(const StringC &sfilename,bool binary,bool buffered) {
+  IStreamC::IStreamC(const StringC &sfilename,bool binary,bool buffered) 
+    : StreamBaseC(sfilename)
+  {
     ifstream *ifstrm = 0;
     if(sfilename == "-") {
       Init(in = &cin,sfilename,false);

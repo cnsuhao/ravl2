@@ -98,9 +98,17 @@ namespace RavlN {
     {}
     //: Default constructor.
     
+    StreamBaseC(const StringC &nname)
+      : name(nname),
+	s(0)
+    {}
+    //: Constructor.
+    
     StreamBaseC(const StreamBaseC &oth) 
       : HandleRefCounterC(oth),
-        s(oth.s)
+	name(oth.name),
+        s(oth.s),
+	ptrManager(oth.ptrManager)
     {}
     //: Copy Constructor.
     
