@@ -45,8 +45,13 @@ namespace RavlImageN {
     RealRGBValueC(const RGBValueC<RealT> &oth)
       : RGBValueC<RealT>(oth)
     {}
-    //: Default constructor.
-    // creates an undefined RGB pixel.
+    //: Base class constructor.
+    
+    RealRGBValueC(const TFVectorC<RealT,3> &oth)
+      : RGBValueC<RealT>(oth)
+    {}
+    //: Base class constructor.
+    
     
   };
 
