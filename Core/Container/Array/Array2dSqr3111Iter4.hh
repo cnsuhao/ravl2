@@ -55,7 +55,7 @@ namespace RavlN {
       rng2.ClipBy(rng1);
       rng3.ClipBy(rng1);
       rng4.ClipBy(rng1);
-      IndexRangeC srng1(array1.Range1().Min()+1,array1.Range2().Max()-1);
+      IndexRangeC srng1(array1.Range1().Min()+1,array1.Range1().Max()-1);
       IndexRangeC srng2 = array2.Range1();
       IndexRangeC srng3 = array3.Range1();
       IndexRangeC srng4 = array4.Range1();

@@ -26,6 +26,7 @@ int testBasic();
 int testSqr2();
 int testSqr3();
 int testSqr31();
+int testSqr31b();
 int testSqr311();
 int testSqr3111();
 
@@ -45,6 +46,10 @@ int main()
     return 1;
   }
   if((ln = testSqr31()) != 0) {
+    cerr << "Sqr31Iter2 Array2d test failed line:" << ln << "\n";
+    return 1;
+  }
+  if((ln = testSqr31b()) != 0) {
     cerr << "Sqr31Iter2 Array2d test failed line:" << ln << "\n";
     return 1;
   }
@@ -150,7 +155,6 @@ int testSqr2() {
 int testSqr3() {
   Array2dC<IntT> data(5,5);
   data.Fill(1);
-
   IntT count = 1;
   for(Array2dIterC<IntT> ita(data);ita;ita++)
     *ita = count++;
@@ -194,6 +198,36 @@ int testSqr31() {
   //cerr << "Count:" << count << "\n";
   if(count != 1053) return __LINE__;
   if(sqrs != 9) return __LINE__;
+  return 0;
+}
+
+// Test 3x3 iterators.
+
+int testSqr31b() {
+  Array2dC<IntT> data(5,4);
+  Array2dC<IntT> data2(5,4);
+  data.Fill(1);
+  data2.Fill(0);
+  IntT count = 1;
+  for(Array2dIterC<IntT> ita(data);ita;ita++)
+    *ita = count++;
+  
+  Array2dSqr31Iter2C<IntT,IntT> it(data,data2);
+  if(!it) return __LINE__;
+  if(!it.First()) return __LINE__;
+  IntT sqrs = 0;
+  count = 0;
+  for(;it;it++,sqrs++) {
+    count += 
+      it.DataBR1() + it.DataBM1() + it.DataBL1() + 
+      it.DataMR1() + it.DataMM1() + it.DataML1() + 
+      it.DataTR1() + it.DataTM1() + it.DataTL1();
+    it.Data2() = count;
+  }
+  //cerr << data2;
+  //cerr << "Count:" << count << " Sqrs:" << sqrs << "\n";
+  if(sqrs != 6) return __LINE__;
+  if(count != 567) return __LINE__;
   return 0;
 }
 

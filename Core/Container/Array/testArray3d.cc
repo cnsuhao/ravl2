@@ -55,33 +55,32 @@ int testBasic() {
     for(;it;it++)
       x += *it;
   }
-#if 0
-  if(x != arr1.Rectangle().Area()) {
-    cerr << "Area test failed. \n";
-    return __LINE__;
-  }
-#endif
   arr1 /= 2;
   arr1 += 1;
   arr1 = arr1 + arr1;
-  
+  UIntT count =0;
+  UIntT total = 0;
   {
     Array3dIter2C<IntT,IntT> it(arr1,arr1);
-    if(it.Index() != origin) {
-      cerr << "Index check 2 failed. \n";
-      return __LINE__;
-    }    
-    for(;it;it++)
-      it.Data1() = it.Data2();
+    if(it.Index() != origin)  return __LINE__;
+    for(;it;it++) {
+      total += it.Data1();
+      it.Data1() = count;
+      if(it.Data2() != (IntT) count) return __LINE__;
+      count++;
+    }
+    if(count != arr1.Size()) return __LINE__;
+    cerr << "Total: " << total << "\n";
   }
   {
     Array3dIter3C<IntT,IntT,IntT> it(arr1,arr1,arr1);
-    if(it.Index() != origin) {
-      cerr << "Index check 3 failed. \n";
-      return __LINE__;
-    }    
-    for(;it;it++)
+    count = 0;
+    if(it.Index() != origin) return __LINE__;
+    for(;it;it++) {
       it.Data1() = it.Data2();
+      count++;
+    }
+    if(count != arr1.Size()) return __LINE__;
   }
   return 0;
 }
