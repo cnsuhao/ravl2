@@ -8,6 +8,7 @@
 //! rcsid="$Id$"
 //! lib=RavlThreads
 //! file="Ravl/OS/Threads/Tools/LaunchThread.cc"
+//! example=exLaunchThread.cc 
 
 #include "Ravl/Threads/LaunchThread.hh"
 #include "Ravl/Threads/MessageQueue.hh"
