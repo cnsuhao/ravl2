@@ -8,6 +8,8 @@
 #define RAVL_REDUCEPCA_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! author="Robert Crida, Kieron Messer and Charles Galambos"
+//! docentry="Ravl.Pattern Recognition.Dimension Reduction"
 
 #include "Ravl/PatternRec/ReduceLinear.hh"
 #include "Ravl/VectorMatrix.hh"
@@ -16,7 +18,7 @@
 namespace RavlN {
   
   //! userlevel=Develop
-  //: Dimention reduction by Principle Component Analysis
+  //: Dimension reduction by Principle Component Analysis
   
   class ReducePCABodyC
     : public ReduceLinearBodyC

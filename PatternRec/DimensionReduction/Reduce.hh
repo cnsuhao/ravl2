@@ -8,6 +8,8 @@
 #define RAVL_REDUCE_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! author="Robert Crida, Kieron Messer and Charles Galambos"
+//! docentry="Ravl.Pattern Recognition.Dimension Reduction"
 
 #include "Ravl/PatternRec/Function.hh"
 #include "Ravl/Vector.hh"

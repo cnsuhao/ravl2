@@ -8,6 +8,8 @@
 #define RAVL_REDUCELINEAR_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! author="Robert Crida and Charles Galambos"
+//! docentry="Ravl.Pattern Recognition.Dimension Reduction"
 
 #include "Ravl/PatternRec/Reduce.hh"
 #include "Ravl/Matrix.hh"
@@ -49,8 +51,8 @@ namespace RavlN {
     VectorC mean; // Mean.
     MatrixC proj;  // Rotation/projection to apply.
   };
-
-  //! userlevel=Develop
+  
+  //! userlevel=Normal
   //: Linear dimension reduction.
   // Uses a linear model. Subtract the mean, rotates
   // and project to a subspace.
