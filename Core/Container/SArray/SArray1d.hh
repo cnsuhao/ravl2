@@ -484,7 +484,7 @@ namespace RavlN {
   template<class DataT>
   BinIStreamC &
   operator>>(BinIStreamC & s, SArray1dC<DataT> & arr) {
-    UIntT size;
+    SizeT size;
     s >> size;
     arr = SArray1dC<DataT>(size);
     for(BufferAccessIterC<DataT> it(arr);it;it++)
