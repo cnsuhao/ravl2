@@ -19,7 +19,7 @@
 #include "Ravl/Image/RGBValue.hh"
 
 namespace RavlImageN {
-#if RAVL_VISUAL_NAMSPACE_BUG
+#if RAVL_VISUALCPP_NAMESPACE_BUG
   using namespace RavlN;
   using RavlN::BinIStreamC;
   using RavlN::BinOStreamC;
