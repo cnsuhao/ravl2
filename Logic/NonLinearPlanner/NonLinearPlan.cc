@@ -133,8 +133,8 @@ namespace RavlLogicN {
     if(to == StartNode())
       return NLPCausalLinkT(); // Can't have steps before start.
     
-    const MinTermC &stepPreC = to.Data().PreCondition();
 #if 0
+    const MinTermC &stepPreC = to.Data().PreCondition();
     if(!stepPreC.Unify(goalCond,bnds)) {
       ONDEBUG(cerr << "NonLinearPlanBodyC::InsCausalLink(), Failed to unify '" << stepPreC.Name() << "' and '" << goalCond.Name() << "' Bnds:'" << bnds.Name() << "' \n");
       return NLPCausalLinkT(); // Binding failed.
