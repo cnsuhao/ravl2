@@ -274,8 +274,8 @@ libbuild:
 #  4-Build documentation
 
 fullbuild:
-	+ $(SHOWIT)-rm $(LOCALTMP)/$(ARC)/*/shared/objs/libObjs.txt >& /dev/null; \
-	if $(MAKEMO) $(FULLBUILDFLAGS) src_all NOINCDEFS=1 ; then true; \
+	+ $(SHOWIT)-rm $(LOCALTMP)/$(ARC)/*/shared/objs/libObjs.txt >& /dev/null;
+	+ $(SHOWIT)if $(MAKEMO) $(FULLBUILDFLAGS) src_all NOINCDEFS=1 ; then true; \
         else \
 	  echo "QMAKE: Installation of header files failed. " ; \
 	  exit 1; \
