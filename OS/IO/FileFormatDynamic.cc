@@ -9,7 +9,7 @@
 //! lib=RavlOSIO
 
 #include "Ravl/DP/FileFormatDynamic.hh"
-#include "Ravl/OS/DynamicLink.hh"
+#include "Ravl/DP/DynamicLink.hh"
 #include "Ravl/TypeName.hh"
 #include "Ravl/StringList.hh"
 #include "Ravl/CDLIter.hh"

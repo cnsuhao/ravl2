@@ -7,7 +7,7 @@
 //! lib=RavlOSIO
 //! rcsid="$Id$"
 
-#include "Ravl/OS/DynamicLink.hh"
+#include "Ravl/DP/DynamicLink.hh"
 #include "Ravl/HSet.hh"
 #include "Ravl/String.hh"
 #include "Ravl/StringList.hh"
