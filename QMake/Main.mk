@@ -822,7 +822,9 @@ $(TARG_JAVAEXE) : $(INST_JAVAEXE)/% : %.java $(INST_JAVA)/%.class $(TARG_JAVA) $
 
 ### .def files ############################################################################
 
-$(INST_LIBDEF)/%.def : %.def $(INST_LIBDEF)/.dir
+ifdef LIBDEPS
+ifndef USESLIBS
+$(INST_LIBDEF)/$(LIBDEPS) : $(LIBDEPS) $(INST_LIBDEF)/.dir
 	$(SHOWIT)echo "--- Install def $(@F)" ;  \
 	if [ -f $(INST_LIBDEF)/$(@F) ] ; then \
 	  $(CHMOD) +w $(INST_LIBDEF)/$(@F) ; \
@@ -830,7 +832,8 @@ $(INST_LIBDEF)/%.def : %.def $(INST_LIBDEF)/.dir
 	$(CP) $< $(INST_LIBDEF)/$(@F) ; \
         $(SYNC) ; \
 	$(CHMOD) 444 $(INST_LIBDEF)/$(@F)
-
+endif
+endif
 
 ifdef BASEINSTALL
       MLOBJPATH=$(patsubst %$(CEXT),$$(INSTALLHOME)/lib/RAVL/$$(ARC)/obj/%$(OBJEXT), $(patsubst %$(CXXEXT),%$(CEXT), $(MUSTLINK)))

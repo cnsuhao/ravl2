@@ -11,4 +11,5 @@
 #include <stdio.h>
 int main() {
   printf("Dummy main. \n");
+  return 0;
 }
