@@ -41,12 +41,21 @@ namespace Ravl3DN {
       : at(pos),
 	normal(norm)
     {}
-    //: Constructor.
+    //: Constructor from position and normal
+    //!param: pos - Position of vertex.
+    //!param: norm - Direction of surface normal at vertex.
+    
+    VertexC(const Point3dC &pos)
+      : at(pos)
+    {}
+    //: Constructor from position
+    //!param: pos - Position of vertex.
+    // The surface normal is left undefined.
     
     Vector3dC &Position()
     { return at; }
     //: Access position of vertex.
-
+    
     const Vector3dC &Position() const
     { return at; }
     //: Access position of vertex.
