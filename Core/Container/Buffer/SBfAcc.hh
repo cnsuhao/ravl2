@@ -75,11 +75,11 @@ namespace RavlN {
     // Returns the number of elements of the array.
     
     inline IndexRangeC Limits() const
-    { return IndexRangeC(0,sz); }
+    { return IndexRangeC(0,sz-1); }
     // Returns the usable range of indeces expressed by this object.
     
     inline IndexRangeC Range() const
-    { return IndexRangeC(0,sz); }
+    { return IndexRangeC(0,sz-1); }
     // Returns the usable range of indeces expressed by this object.
     
     inline IndexC IMin() const
