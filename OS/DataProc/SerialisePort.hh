@@ -59,7 +59,7 @@ namespace RavlN {
     
     virtual IntT GetArray(SArray1dC<DataT> &data) {
       MutexLockC lock(access);
-      return input.Get(data);
+      return input.GetArray(data);
     }
     //: Get an array of data from stream.
     
@@ -83,12 +83,13 @@ namespace RavlN {
   {
   public:
     DPISerialisePortC()
+      : DPEntityC(true)
     {}
     //: Default constructor.
     // Creates an invalid handle.
     
     DPISerialisePortC(const DPIPortC<DataT> &in)
-      : DPIStreamOpC<DataT,DataT>(*new DPISerialisePortBodyC<DataT>(in))
+      : DPEntityC(*new DPISerialisePortBodyC<DataT>(in))
     {}
     //: Construct from port.
     
@@ -147,17 +148,28 @@ namespace RavlN {
   {
   public:
     DPOSerialisePortC()
+      : DPEntityC(true)
     {}
     //: Default constructor.
     // Creates an invalid handle.
     
     DPOSerialisePortC(const DPOPortC<DataT> &out)
-      : DPOStreamOpC<DataT,DataT>(*new DPOSerialisePortBodyC<DataT>(out))
+      : DPEntityC(*new DPOSerialisePortBodyC<DataT>(out))
     {}
     //: Construct from port.
     
   };
+  
+  template<typename DataT>
+  DPISerialisePortC<DataT> Serialise(const DPIPortC<DataT> &in)
+  { return DPISerialisePortC<DataT>(in); }
+  //: Serialise acceses to a port.
 
+  template<typename DataT>
+  DPOSerialisePortC<DataT> Serialise(const DPOPortC<DataT> &in)
+  { return DPOSerialisePortC<DataT>(in); }
+  //: Serialise acceses to a port.
+  
 }
 
 #endif
