@@ -20,6 +20,10 @@
 /*! rcsid="$Id$" */
 /*! lib=RavlGUI3D */
 /*! license=own */
+#include "Ravl/config.h"
+#if RAVL_COMPILER_MIPSPRO
+#define G_INLINE_FUNC __inline 
+#endif
 
 #if RAVL_USE_GTK2
 #include "gdkgl_gtk2.c"
