@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLBINTABLET_HEADER
-#define RAVLBINTABLET_HEADER 1
+#ifndef RAVL_BINTABLET_HEADER
+#define RAVL_BINTABLET_HEADER 1
 ///////////////////////////////////////////////////////////////
 //! file="Ravl/Core/Container/Misc/BinTable.hh"
 //! userlevel=Normal
@@ -42,11 +42,11 @@ namespace RavlN {
   public:  
     inline BinTableC(const IT &nBinSize)
       : binSize(nBinSize) 
-      {}
+    {}
     //: Constructor.
     
     inline BT &operator[](const IT &Pnt)
-      { return bins[Scale(Pnt)]; }
+    { return bins[Scale(Pnt)]; }
     //: Access a bin.
     
     inline const BT *operator[](const IT &Pnt) const;
@@ -54,11 +54,11 @@ namespace RavlN {
     // May return NULL !
     
     BT &Bin(const IT &Pnt)
-      { return bins[Scale(Pnt)]; }
+    { return bins[Scale(Pnt)]; }
     //: Access a bin.
     
     BT &Bin(const DIT &Pnt) 
-      { return bins[Pnt]; }
+    { return bins[Pnt]; }
     //: Access a bin directly.
     
     //inline const BT *Bin(const IT &Pnt) const;
@@ -84,7 +84,7 @@ namespace RavlN {
     //: Get centre of bin containing index at.
     
     bool IsEmpty() const
-      { return bins.IsEmpty(); }
+    { return bins.IsEmpty(); }
     //: Test if table is empty.
     
     void SetBinSize(const IT &nBinSize) { 
