@@ -13,7 +13,7 @@
 //! userlevel=Normal
 //! example=testCost.cc
 //! file="Ravl/PatternRec/FuncTools/CostOptimise/Parameters.hh"
-//! docentry="Optimisation.Cost Functions;Numerical Methods.Optimisation.Cost Functions"
+//! docentry="Ravl.Pattern Recognition.Optimisation.Cost Functions"
 //! rcsid="$Id$"
 
 #include "Ravl/RefCounter.hh"

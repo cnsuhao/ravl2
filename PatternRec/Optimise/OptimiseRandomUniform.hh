@@ -12,8 +12,7 @@
 //! date="22/4/1998"
 //! userlevel=Normal
 //! example=testNumOptimise.cc
-//! file="amma/PatternRec/Optimise/NumOptimiseRandomUniform.hh"
-//! docentry="Optimisation.Implementation;Numerical Methods.Optimisation.Implementation"
+//! docentry="Ravl.Pattern Recognition.Optimisation.Implementation"
 //! rcsid="$Id$"
 
 #include "Ravl/PatternRec/Optimise.hh"
