@@ -83,7 +83,7 @@ namespace RavlN {
     // If flag 'removable' is false, 'data' is not deallocated during 
     // destructing of the array.
     
-    SArray1dC(BufferC<DataT> & bf,SizeT dim,SizeT offsetInBuff = 0);
+    SArray1dC(const BufferC<DataT> & bf,SizeT dim,SizeT offsetInBuff = 0);
     //: Creates the array of size 'dim' using the buffer 'bf'.
     // Use buffer 'bf',  make access of 'dim' elements. 
     // the start of the buffer should be 'offsetInBuff' elements into
@@ -367,8 +367,8 @@ namespace RavlN {
   {}
   
   template <class DataT>
-  SArray1dC<DataT>::SArray1dC(BufferC<DataT> & bf,SizeT dim,SizeT offsetInBuff)
-    : SizeBufferAccessC<DataT>(bf.BufferAccess() + offsetInBuff, dim),
+  SArray1dC<DataT>::SArray1dC(const BufferC<DataT> & bf,SizeT dim,SizeT offsetInBuff)
+    : SizeBufferAccessC<DataT>(const_cast<BufferC<DataT> &>(bf).BufferAccess() + offsetInBuff, dim),
       buff(bf)
   {}
 
