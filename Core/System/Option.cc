@@ -40,7 +40,8 @@ namespace RavlN {
       help(false),
       progName("-Unknown-"),
       sout(msgout),
-      unnamed(0)
+      unnamed(0),
+      doneUnnamed(false)
   {
     if(argc >= 1)
       progName = StringC(argv[0]);
@@ -59,7 +60,8 @@ namespace RavlN {
       help(false),
       progName("-Unknown-"),
       sout(cerr),
-      unnamed(0)
+      unnamed(0),
+      doneUnnamed(false)
   {
     if(argc >= 1)
       progName = StringC(argv[0]);
@@ -77,7 +79,8 @@ namespace RavlN {
       help(false),
       progName("-Unknown-"),
       sout(msgout),
-      unnamed(0)    
+      unnamed(0),
+      doneUnnamed(false)
   {
     if(!args.IsEmpty()) {
       progName = opts.First();
@@ -452,6 +455,7 @@ namespace RavlN {
     ONDEBUG(cerr << "OptionC::GetOption1(), Called looking for '"<< name <<"'\n");
     RavlAssert(name != 0);
     if(*name == 0) { // Unnamed arg ?
+      doneUnnamed = true;
       for(DLIterC<StringC> it(args);it.IsElm();it.Next()) {
 	if(IsProcessed(it.Data()))
 	  continue;
@@ -466,6 +470,8 @@ namespace RavlN {
     }
     if(IsUsed(name))
       Error(StringC("Internal program error: Option ") + name + " has been defined more than once. ");
+    if(doneUnnamed)
+      Error(StringC("OptionC, Internal error: Found argument ") + name + " after an unamed one. All unamed arguments must be processed last.  ");
     used.InsLast(name);
     StringC srch = StringC('-') + name;
     for(DLIterC<StringC> it(args);it.IsElm();it.Next()) {
@@ -510,10 +516,13 @@ namespace RavlN {
 #endif
     
     if(name != 0) {
+      if(doneUnnamed)
+	Error(StringC("OptionC, Internal error: Found argument ") + name + " after an unamed one. All unamed arguments must be processed last.  ");
       if(IsUsed(name))
-      Error(StringC("Program error: Option ") + name + " is has already been used. ");
+	Error(StringC("Program error: Option ") + name + " is has already been used. ");
       used.InsLast(name);
-    }
+    } else
+      doneUnnamed = true;
     
     StringC srch('-');
     if(name != 0)

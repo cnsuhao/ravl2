@@ -29,7 +29,9 @@ namespace RavlN {
   
   //! userlevel=Basic
   //: The class OptionC is a simple parser of a command line. 
-  // This is a small object.
+  // This is a small object. <br>
+  // Note: Unnamed arguments MUST be process last for this class to work
+  // correctly.
   
   class OptionC {
   public:
@@ -226,6 +228,7 @@ namespace RavlN {
     StringC optSave;        // File to save options to.
     OStreamC sout;          // Where to send messages about option processing.
     IntT unnamed;           // Number of unnamed args found.
+    bool doneUnnamed;        // Have we seen an unnamed arg ?
   };
   
   //////////////////////////////////////////////
