@@ -96,6 +96,7 @@ namespace RavlN {
   protected:
     bool ComputeEllipse(Point2dC &centre,Matrix2dC &mat) const;
     //: Compute ellipse parameters.
+    // Assumes conic is ellipse, computes ellipse centre and returns remaining parameters as symmetric 2D matrix
     
     TFVectorC<RealT,6> p; // 0-a 1-b 2-c 3-d 4-e 5-f 
   };

@@ -115,7 +115,7 @@ namespace RavlN {
     return Conic2dC(nC);
   }
   
-  //: Compute ellipse parameters.
+  //: Compute some ellipse parameters.
   
   bool Conic2dC::ComputeEllipse(Point2dC &c,Matrix2dC &mat) const {
     // (Bill Xmas) I think what this does is:
@@ -171,14 +171,16 @@ namespace RavlN {
     if(!ComputeEllipse(centre,euc))
       return false;
     ONDEBUG(cerr << "Euclidean ellipse is:\n" << euc << endl);
+    // Then decompose to get orientation and scale (i.e. inverse of axes)
     FVectorC<2> lambda;
     FMatrixC<2,2> E;
     EigenVectors(euc,E,lambda);
+    // Note that, if orientation is +ve, E[1][0] MUST be -ve
     ONDEBUG(cerr << "Eigen decomp is:\n" << E << "\n" << lambda << endl);
     // Matrix "scale" (inverted swapped root of eigenvalues) contains major & minor axes
     // We swap eigenvalues when inverting to keep major axis as element [0][0]
-    Matrix2dC scale(1/Sqrt(lambda[1]),0,
-		0,1/Sqrt(lambda[0]));
+    Matrix2dC scale(1/Sqrt(lambda[1]), 0,
+                    0,                 1/Sqrt(lambda[0]));
     // Multiplying by constant matrix compensates for eigenvalue swap
     // FIXME:- Multiply out by hand to make it faster.
     Matrix2dC rot = E * Matrix2dC(0,1,-1,0);
