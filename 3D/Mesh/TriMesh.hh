@@ -17,10 +17,7 @@
 #include "Ravl/SArray1d.hh"
 #include "Ravl/DList.hh"
 #include "Ravl/3D/Tri.hh"
-
-namespace RavlN {
-  class Index3dC;
-}
+#include "Ravl/Index3d.hh"
 
 namespace Ravl3DN {
   using namespace RavlN;
