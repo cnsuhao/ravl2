@@ -11,7 +11,9 @@
 
 #include "Ravl/GUI/Window.hh"
 #include "Ravl/GUI/TextBox.hh"
+#include "Ravl/GUI/TextEntry.hh"
 #include "Ravl/GUI/Manager.hh"
+#include "Ravl/GUI/LBox.hh"
 #include "Ravl/Option.hh"
 
 using namespace RavlGUIN;
@@ -23,8 +25,12 @@ int main(int nargs,char *args[])
   opts.Check();
   
   WindowC win(100,100,"Hello");
-  TextBoxC textBox("helooooo");
-  win.Add(textBox);
+  TextBoxC textBox("TextBoxC");
+  TextEntryC entry("TextEntryC");
+  TextEntryC pw("Password");
+  bool bTrue = true;
+  pw.HideText(bTrue);
+  win.Add(VBox(entry+pw+textBox));
   win.Show();  
   Manager.Start();
 }

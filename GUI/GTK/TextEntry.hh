@@ -52,6 +52,10 @@ namespace RavlGUIN {
     Signal1C<StringC> &Activate() { return activate; }
     //: Activate, called when text is changed.
     
+    bool HideText(bool& hide);
+    //: Hides text entered into this field
+    // If the argument is true, text in this field will be displayed as *s
+
   protected:
     bool SetText(const StringC &txt);
     //: Set text to edit.
@@ -61,6 +65,10 @@ namespace RavlGUIN {
     //: Set text to edit.
     // This should only be called within the GUI thread.
     
+    bool GUIHideText(bool& hide);
+    //: Hides text entered into this field
+    // GUI Thread only
+
     bool SigChanged();
     //: Got a changed signal.
     
@@ -72,7 +80,8 @@ namespace RavlGUIN {
     StringC text; // Default text.
     IntT maxLen; // Maximum length, -1==Unset.
     bool sigAllChanges; // Signal all changes to text.
-    
+    bool bPasswdMode; // Use password mode
+
     Signal1C<StringC> activate; // Return has been pressed.
     Signal0C changed;  // Text in box has been changed.
     
@@ -118,7 +127,17 @@ namespace RavlGUIN {
     //: Set text to edit.
     // This should only be called within the GUI thread.
     
+    bool GUIHideText(bool& hide)
+    { return Body().GUIHideText(hide); }
+    //: Hides text entered into this field
+    // GUI thread only
+
   public:
+    bool HideText(bool& hide) 
+    { return Body().HideText(hide); }
+    //: Hides text entered into this field
+    // If the argument is true, text in this field will be displayed as *s
+
     StringC Text() 
       { return Body().Text(); }
     //: Access text

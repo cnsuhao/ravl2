@@ -31,6 +31,7 @@ namespace RavlGUIN {
     : text(ntext),
       maxLen(nMaxLen),
       sigAllChanges(nsigAllChanges),
+      bPasswdMode(false),
       activate(text)
   {}
   
@@ -74,6 +75,10 @@ namespace RavlGUIN {
     ConnectSignals();
     ConnectRef(changed,*this,&TextEntryBodyC::SigChanged);
     ConnectRef(Signal("activate"),*this,&TextEntryBodyC::SigActivate);
+
+    // Set password mode if necessary
+    if (bPasswdMode) GUIHideText(bPasswdMode);
+    // Done
     return true;
   }
   
@@ -124,4 +129,19 @@ namespace RavlGUIN {
     gtk_entry_set_text (GTK_ENTRY (widget), txt);
     return true;
   }
+
+  bool TextEntryBodyC::GUIHideText(bool& hide) {
+    bPasswdMode = hide;
+    if(widget == 0)
+      return true;
+    gtk_entry_set_visibility (GTK_ENTRY (widget), !hide);
+    return true;
+  }
+
+  bool TextEntryBodyC::HideText(bool& hide) {
+    Manager.Queue(Trigger(TextEntryC(*this),&TextEntryC::GUIHideText,hide));
+    return true;
+  }
+
+
 }
