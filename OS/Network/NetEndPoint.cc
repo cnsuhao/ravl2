@@ -251,12 +251,13 @@ namespace RavlN {
     return portNo;
   } 
   
-  static const StringC streamHeaderBigEndian ="\n<ABPS>\n";
-  static const StringC streamHeaderLittleEndian ="\n<RBPS>\n";
+  static const StringC streamHeaderBigEndian ="<ABPS>\n";
+  static const StringC streamHeaderLittleEndian ="<RBPS>\n";
   
   //: Handle packet transmition.
   
   bool NetEndPointBodyC::RunTransmit() {
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunTransmit(), Started. ");
     if(!ostrm.IsPutReady()) {
       SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), ERROR: No connection. ";
       CloseTransmit();
@@ -268,7 +269,8 @@ namespace RavlN {
 #else
     StringC streamHeader = streamHeaderBigEndian;
 #endif
-    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunTransmit(), Sending header '" << streamHeader << "' ");
+    //ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunTransmit(), Sending header '" << streamHeader << "' ");
+    
     
     // Write stream header.
     if(ostrm.Write(streamHeader,streamHeader.Size()) != (IntT) streamHeader.Size()) {
@@ -412,7 +414,7 @@ namespace RavlN {
   //: Handle packet reception.
   
   bool NetEndPointBodyC::RunReceive() {
-    SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunReceive(), Started. ";
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunReceive(), Started. ");
     if(!istrm.IsGetReady()) {
       SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunReceive(), ERROR: No connection. ";
       return false;       
@@ -434,6 +436,8 @@ namespace RavlN {
 	//SysLog(SYSLOG_DEBUG) << "State=" << state << " char='" << buff << "' ";
 	if(str[state] != buff) {
 	  if(state != 1 || buff != 'R') {
+	    if(buff != 10) // Accept \n's, they expected.
+	      SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::RunRecieve(), Unexpected byte in header " << ((int) buff) << " ";
 	    if(str[0] == buff)
 	      state = 1;
 	    else 
@@ -509,7 +513,7 @@ namespace RavlN {
     } else
       lock.Unlock();
     Close();
-    SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunRecieve(), Terminated ";
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunRecieve(), Terminated ");
     return true;
   }
   
@@ -517,7 +521,7 @@ namespace RavlN {
   //: Decodes incoming packets.
   
   bool NetEndPointBodyC::RunDecode() {
-    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunDecode(), Startup. "); 
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunDecode(), Started. "); 
     NetPacketC pkt;
     NetEndPointC me(*this);
     try {
