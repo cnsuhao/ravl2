@@ -7,7 +7,18 @@ using namespace RavlImageN;
 
 #if RAVL_COMPILER_MIPSPRO
 #include "Ravl/Image/Edgel.hh"
-static SArray1dC<EdgelC> sgi_bug_fix1 ;
+#include "Ravl/SArray1dIter.hh"
+static SArray1dC<EdgelC>     sgi_bug_fix1 ;
+static SArray1dIterC<EdgelC> sgi_bug_fix2 ; 
+
+namespace {
+  void sgi_bug_fix_func (void) 
+  {
+    Array2dC<double> sgi_bug_fix3 ; 
+    IndexRange2dC    sgi_bug_fix4 ;
+    DrawFrame ( sgi_bug_fix3, 0.0, sgi_bug_fix4 ) ;
+  };
+};
 #endif 
 
 
