@@ -10,7 +10,9 @@
 //! lib=RavlMath
 
 #include "Ravl/Crack.hh"
+#if !defined(VISUAL_CPP)
 #warning "EdgeC is now obsolete.  Use CrackC instead."
+#endif
 
 namespace RavlN {
   
