@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! userlevel=Normal
-//! docentry="Ravl.Source Tools.CxxDoc"
+//! docentry="Ravl.Source Tools.CxxDoc.Internal"
 //! lib=RavlCxxDoc
 //! author="Charles Galambos"
 //! date="08/12/99"
@@ -402,6 +402,7 @@ namespace RavlCxxDocN {
     
   };
   
+  //! userlevel=Develop
   //: Templated class body.
   
   class ClassTemplateBodyC
@@ -448,6 +449,7 @@ namespace RavlCxxDocN {
     ObjectListC templArgs; // Template args.
   };
 
+  //! userlevel=Normal
   //: Templated class.
   
   class ClassTemplateC
@@ -700,6 +702,7 @@ namespace RavlCxxDocN {
     friend class MethodBodyC;
   };
   
+  //! userlevel=Develop
   //: Templated function body.
   
   class MethodTemplateBodyC
@@ -745,6 +748,7 @@ namespace RavlCxxDocN {
 
   };
   
+  //! userlevel=Normal
   //: Templated function.
   
   class MethodTemplateC 

@@ -11,7 +11,7 @@
 //! file="Ravl/SourceTools/CxxDoc/Document.hh"
 //! userlevel=Default
 //! lib=RavlCxxDoc
-//! docentry="Ravl.Source Tools.CxxDoc"
+//! docentry="Ravl.Source Tools.CxxDoc.Internal"
 //! author="Charles Galambos"
 //! date="03/02/2000"
 

@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! userlevel=Normal
-//! docentry="Ravl.Source Tools.CxxDoc"
+//! docentry="Ravl.Source Tools.CxxDoc.Internal"
 //! lib=RavlCxxDoc
 //! author="Charles Galambos"
 //! date="08/12/99"
@@ -18,7 +18,8 @@
 #include "Ravl/CxxDoc/Object.hh"
 
 namespace RavlCxxDocN {
-
+  using namespace RavlN;
+  
   /////////////////////////////////////////////////
   
   //! userlevel=Develop
@@ -185,6 +186,7 @@ namespace RavlCxxDocN {
   
   //////////////////////////////////////////////////
   
+  //! userlevel=Normal
   //: Iterator through all objects in the inheritance hirachy.
   
   class InheritIterC {

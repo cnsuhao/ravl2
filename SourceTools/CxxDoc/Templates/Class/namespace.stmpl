@@ -38,7 +38,7 @@ $(//: **************** Footer ************************ )
 
 <table width=100% align="middle"><tr>
 <td align="center" bgcolor="black"><FONT face="helvetica,arial" color="white"><b>
-Documentation by CxxDoc: $(buildtime)
+Documentation by <a href=" http://ravl.sourceforge.net/doc/Auto/Basic/Tree/Ravl.Source_Tools.CxxDoc.html">CxxDoc</a>: $(buildtime)
 </b></FONT></td>
 </tr></table>
 </body>

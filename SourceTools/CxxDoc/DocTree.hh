@@ -11,7 +11,7 @@
 //! file="Ravl/SourceTools/CxxDoc/DocTree.hh"
 //! lib=RavlCxxDoc
 //! userlevel=Normal
-//! docentry="Ravl.Source Tools.CxxDoc"
+//! docentry="Ravl.Source Tools.CxxDoc.Internal"
 //! author="Charles Galambos"
 //! date="17/08/2000"
 
@@ -19,6 +19,9 @@
 #include "Ravl/CxxDoc/DocNode.hh"
 
 namespace RavlCxxDocN {
+
+  //! userlevel=Develop
+  //: Documentation tree body.
   
   class DocTreeBodyC 
     : public RCBodyC
@@ -62,7 +65,9 @@ namespace RavlCxxDocN {
     StringC projName;
     DocNodeC root; // Root node for documentation.
   };
-
+  
+  //! userlevel=Normal
+  //: Documentation tree body.
 
   class DocTreeC 
     : public RCHandleC<DocTreeBodyC>
