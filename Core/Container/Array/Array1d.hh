@@ -420,7 +420,7 @@ namespace RavlN {
   template <class DataC>
   Array1dC<DataC> & 
   Array1dC<DataC>::Copy(const IndexC off, const Array1dC<DataC> & a) {
-    const SizeT mySize = IMax() - off +1;
+    const SizeT mySize = (IMax() - off +1).V();
     DataC * myElm = &((*this)[off]);
     DataC const * aElm  = &(a[a.IMin()]);
     const DataC * myEnd  = mySize < a.Size() ? (myElm+mySize-1)
