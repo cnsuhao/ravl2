@@ -83,6 +83,10 @@ namespace RavlGUIN {
 	cerr << "WARNING: Can't find child widget '" << it.Key() << "'\n";
 	continue;
       }
+      if(!it.Data().IsValid()) {
+        cerr << "ERROR: Invalid widget wrapper provided for " << it.Key() << "\n";
+        continue;
+      }
       it.Data().Create(childWidget);
     }
     ONDEBUG(cerr << " Connecting signals \n");
