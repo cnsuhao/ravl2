@@ -74,6 +74,10 @@ namespace RavlN {
     //: Create a new access to 'rng' of 'arr'.
     // 'rng' must be within 'arr'. The origin of the new array will be at 'rng.Origin()' of 'arr'.
     
+    SArray2dC(DataT *data,SizeT size1,SizeT size2,bool copyMemory = false,bool freeMemory = false,SizeT stride = 0);
+    //: Create size1 x size2 array from memory given in 'data'
+    // If freeMemory is true it 'data' will be freed with a 'delete []' call when no longer required.
+    
     SArray2dC<DataT> Copy() const;
     //: Copy array.
     
@@ -277,6 +281,12 @@ namespace RavlN {
     : SizeBufferAccess2dC<DataT>(nsize2),
       data(bf,size1)
   { BuildAccess(startOffset,stride); }
+  
+  template<class DataT>
+  SArray2dC<DataT>::SArray2dC(DataT *data,SizeT size1,SizeT nsize2,bool copyMemory,bool freeMemory,SizeT stride) 
+    : SizeBufferAccess2dC<DataT>(nsize2),
+      data(size1,Max(nsize2,stride),data,copyMemory,freeMemory)
+  { BuildAccess(0,stride); }  
   
   template<class DataT>
   SArray2dC<DataT>::SArray2dC(SArray2dC<DataT> &arr,SizeT size1,SizeT size2)
