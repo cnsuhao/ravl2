@@ -59,7 +59,7 @@ namespace RavlN {
       UIntT pos = sinput.Tell();
       if(pos == ((UIntT) -1))
 	return pos;
-      return ( - startFrame) / sampleRate; 
+      return (pos - startFrame) / sampleRate; 
     }
     //: Get current position in stream.
     
