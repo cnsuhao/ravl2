@@ -32,7 +32,7 @@ namespace RavlN {
     UIntT at = Tell();
     if(at == ((UIntT) (-1)))
       return false; // Tell failed.
-    if(((IntT) at - off) < 0)
+    if(((IntT) at + off) < 0)
       return false; // Seek before begining of file.
     return Seek((UIntT) ((IntT) at + off));
   }
