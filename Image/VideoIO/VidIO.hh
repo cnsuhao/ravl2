@@ -26,6 +26,7 @@ namespace RavlImageN {
   extern void InitSYUVFormat(); // Abekas Sequence in a single file
   extern void InitImgIOComposites(); // Composite image streams.
   extern void InitJSFormat(); // Initalise format for js files. 
+  extern void InitAviFormat(); // Initalise AVI IO.
   
 }
 #endif

@@ -41,7 +41,7 @@ namespace RavlN{
     verbose = verb;
     correct = LoadStreamInfo();
   } //END OF AviIStreamC::AviIStreamC(const StringC &nIn, bool verb, bool buffered) 
-
+  
   bool AviIStreamC::LoadStreamInfo()
   {
     char token[4]; //a FOURCC

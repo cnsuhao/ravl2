@@ -22,6 +22,7 @@ namespace RavlImageN {
     InitRGBFormat();
     InitSYUVFormat();
     InitJSFormat();
+    InitAviFormat();
     // InitImgIOComposites(); 
   }
 }
