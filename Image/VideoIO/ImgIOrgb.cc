@@ -152,6 +152,7 @@ namespace RavlImageN {
   bool DPIImageRGBBodyC::Seek(UIntT off) {
     if(off == ((UIntT) -1))
       return false; // File to big.
+    strm.is().clear(); // Clear any errors.
     strm.Seek(CalcOffset(off));
     frameNo = off;// Wait to after seek in case of exception.
     return true;
@@ -165,6 +166,7 @@ namespace RavlImageN {
 	return false; // Seek off begining of data.
     }
     UIntT nfrmno = frameNo + off;
+    strm.is().clear(); // Clear any errors.
     strm.Seek(CalcOffset(nfrmno));
     frameNo = nfrmno; // Wait till after seek in case of exception.
     return true;
@@ -183,7 +185,8 @@ namespace RavlImageN {
   
   ImageC<ByteRGBValueC> DPIImageRGBBodyC::Get() {
     ImageC<ByteRGBValueC> head;
-    Get(head);
+    if(!Get(head))
+      throw DataNotReadyC("Failed to get image. ");
     return head;
   }
   

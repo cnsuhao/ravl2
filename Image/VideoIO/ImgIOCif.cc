@@ -113,6 +113,7 @@ namespace RavlImageN {
 	return false; // Seek off begining of data.
     }
     UIntT nfrmno = frameNo + off;
+    strm.is().clear(); // Clear any errors.
     strm.Seek(CalcOffset(nfrmno));
     frameNo = nfrmno; // Wait to after seek in case of exception.
     return true;
@@ -133,7 +134,8 @@ namespace RavlImageN {
   
   ImageC<ByteYUVValueC> DPIImageCifBodyC::Get() {
     ImageC<ByteYUVValueC> head;
-    Get(head);
+    if(!Get(head))
+      throw DataNotReadyC("Failed to get image. ");
     return head;
   }
   
