@@ -397,7 +397,7 @@ namespace RavlN {
   
   bool XMLIStreamC::GetAttrib(const StringC &name,IntT &val) {
     StringC tv;
-    if(!GetAttrib(name,tv))
+    if(!XMLBaseC::GetAttrib(name,tv))
       return false;
     val = atoi(tv);
     return true;
@@ -409,7 +409,7 @@ namespace RavlN {
   
   bool XMLIStreamC::GetAttrib(const StringC &name,UIntT &val) {
     StringC tv;
-    if(!GetAttrib(name,tv))
+    if(!XMLBaseC::GetAttrib(name,tv))
       return false;
     StrIStreamC(tv) >> val;
     return true;
@@ -421,7 +421,7 @@ namespace RavlN {
   
   bool XMLIStreamC::GetAttrib(const StringC &name,RealT &val) {
     StringC tv;
-    if(!GetAttrib(name,tv))
+    if(!XMLBaseC::GetAttrib(name,tv))
       return false;
     val = atof(tv);
     return true;
