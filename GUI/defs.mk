@@ -8,4 +8,6 @@
 
 DESCRIPTION = GUI Tools.
 
+SUPPORT_ONLY = linux sol2 sgi
+
 NESTED=GTK.r 2D.r 3D.r
