@@ -16,9 +16,9 @@ namespace RavlN {
     RealT TC = Cos(A),TS = Sin(A);    
     Matrix2dC result;
 #if !RAVL_COMPILER_VISUALCPP
-    MulM(SR,Matrix2dC(TC,-TS,TS,TC),SR);
+    MulM(SR,Matrix2dC(TC,-TS,TS,TC),result);
 #else
-    MulM<RealT,2,2,2>(SR,Matrix2dC(TC,-TS,TS,TC),SR);
+    MulM<RealT,2,2,2>(SR,Matrix2dC(TC,-TS,TS,TC),result);
 #endif
     SR = result;
   }
