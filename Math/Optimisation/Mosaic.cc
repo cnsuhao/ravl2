@@ -224,7 +224,6 @@ int Mosaic(int nargs,char **argv) {
   PointTrackerC tracker(cthreshold,cwidth,mthreshold,mwidth,lifeTime,searchSize,newFreq);
   
   ImageC<ByteRGBValueC> img, cropped_img;
-  RCHashC<UIntT,Point2dC> last;
   
   MatrixRSC epos(2);
   epos[0][0] = 1;
@@ -252,12 +251,9 @@ int Mosaic(int nargs,char **argv) {
   ImageC<ByteT> grey_img = RGBImageCT2ByteImageCT(cropped_img);
 
   // initialise tracker
-  DListC<PointTrackC> corners = tracker.Apply(grey_img);
-
-  // build initial hash table
-  for(DLIterC<PointTrackC> it(corners);it;it++)
-    last[it->ID()] = it->Location();
-
+  RCHashC<UIntT,PointTrackC> corners = tracker.Apply(grey_img);
+  RCHashC<UIntT,PointTrackC> last = corners;
+  
   // initialise accumulated motion
   Matrix3dC Psum(1,0,0,
 		 0,1,0,
@@ -305,22 +301,18 @@ int Mosaic(int nargs,char **argv) {
     
     // Generate an observation set for tracked points.
     DListC<ObservationC> obsList;
-    RCHashC<UIntT,Point2dC> newpnts;
-    for(DLIterC<PointTrackC> it(corners);it;it++) {
-#if 1
+    for(HashIterC<UIntT,PointTrackC> it(corners);it;it++) {
       //      cout << "Confidence: " << it->Confidence() << endl;
       if(it->Confidence() < 0.1)
 	continue; // Filter out points we haven't got recent info on.
-#endif
-      newpnts[it->ID()] = it->Location();
-      Point2dC lat;
+      PointTrackC lat;
       if(!last.Lookup(it->ID(),lat))
 	continue; // Matching point not found.
-      obsList.InsLast(ObservationHomog2dPointC(lat,epos,it->Location(),epos));
+      obsList.InsLast(ObservationHomog2dPointC(lat.Location(),epos,it->Location(),epos));
     }
     
-    last = newpnts;
-
+    last = corners;
+    
     ObservationListManagerC obsListManager(obsList);
     RansacC ransac(obsListManager,fitHomog2d,evalInliers);
 
@@ -387,7 +379,7 @@ int Mosaic(int nargs,char **argv) {
 
       // Draw red boxes around the corners.
       ByteRGBValueC val(255,0,0);
-      for(DLIterC<PointTrackC> it(corners);it;it++) {
+      for(HashIterC<UIntT,PointTrackC> it(corners);it;it++) {
 	IndexRange2dC rect(it->Location(),5,5);
 	DrawFrame(img,val,rect);
       }
