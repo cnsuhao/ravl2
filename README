@@ -22,7 +22,7 @@ INSTALLATION
   can stop the installation by going to the Ravl/SourceTools/defs.mk file
   and removing the `.r' after CxxDoc.   If you still want to use this
   tool you can create a debug version with `qm debug' which will be slow,
-  but takes much less memory to compile.
+  but takes much less memory to build.
 
 - At the moment you have to manualy configure where to look
   for the compiler. This is done by setting CC and CXX to the locations of
@@ -37,14 +37,18 @@ INSTALLATION
   directory uncomment two lines following it, and comment out any other
   'EXELIB' lines later in the file. 
 
-- The appropriate version of perl must be in your default path.
+- The appropriate version of perl (Tested with 5.005_03) must be in your 
+  default path.
 
+- Currently there are problems with using ccmath on IRIX 6.5, these are
+  being fixed.
 
 To install go the root RAVL directory and type:
 
 ./install [location]
 
-
-
-
+NOTE: Most of the development of RAVL is being done on a Redhat 6.2
+box with gcc-2.95.2, at this stage in development things are most
+likely to work on a similar box.  The installation system should be 
+changed to use a 'configure' script, its on my todo list, somewhere.
 
