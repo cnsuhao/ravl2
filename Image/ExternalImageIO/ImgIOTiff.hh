@@ -1,5 +1,11 @@
-#ifndef IMGIOTIFF_HEADER
-#define IMGIOTIFF_HEADER 1
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2001, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
+#ifndef RAVLIMGIOTIFF_HEADER
+#define RAVLIMGIOTIFF_HEADER 1
 /////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! userlevel=Normal
@@ -10,34 +16,37 @@
 //! example=exImgIO.cc
 //! date="29/10/98"
 
-#include "amma/DP/Port.hh"
-#include "amma/RGBImage.hh"
-#include "amma/ByteImag.hh"
-#include "amma/Stream.hh"
+#include "Ravl/DP/Port.hh"
+#include "Ravl/Stream.hh"
+#include "Ravl/Image/Image.hh"
+#include "Ravl/Image/ByteRGBAValue.hh"
 
-//: Load a RGB image in PPM format.
-// Use via function found in amma/StdType/DataProc/FileFormatIO.hh
-
-class DPIImageTIFFByteRGBAC :  public DPIPortC<ImageC<ByteRGBXValueC> >
-{
-public:
-  DPIImageTIFFByteRGBAC(FilenameC fn);
-  //: Constructor from filename.  
+namespace RavlN {
   
-  DPIImageTIFFByteRGBAC(const IStreamC &strm);
-  //: Constructor from stream 
-};
-
-//: Save a RGB image in PPM format.
-
-class DPOImageTIFFByteRGBAC :  public DPOPortC<ImageC<ByteRGBXValueC> >
-{
-public:
-  DPOImageTIFFByteRGBAC(FilenameC fn);
-  //: Constructor from filename.  
+  //: Load a RGB image in PPM format.
+  // Use via function found in amma/StdType/DataProc/FileFormatIO.hh
   
-  DPOImageTIFFByteRGBAC(const OStreamC &strm);
-  //: Constructor from stream.  
-};
+  class DPIImageTIFFByteRGBAC 
+    : public DPIPortC<ImageC<ByteRGBAValueC> > {
+    public:
+    DPIImageTIFFByteRGBAC(StringC fn);
+    //: Constructor from filename.  
+    
+    DPIImageTIFFByteRGBAC(const IStreamC &strm);
+    //: Constructor from stream 
+  };
+
+  //: Save a RGB image in PPM format.
+  
+  class DPOImageTIFFByteRGBAC 
+    : public DPOPortC<ImageC<ByteRGBAValueC> > {
+    public:
+    DPOImageTIFFByteRGBAC(StringC fn);
+    //: Constructor from filename.  
+    
+    DPOImageTIFFByteRGBAC(const OStreamC &strm);
+    //: Constructor from stream.  
+  };
+}
 
 #endif

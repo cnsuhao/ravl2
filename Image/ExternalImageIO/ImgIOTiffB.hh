@@ -1,108 +1,109 @@
-#ifndef DPIMAGEIOPPM_HEADER
-#define DPIMAGEIOPPM_HEADER
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2001, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
+#ifndef RAVLDPIMAGEIOPPM_HEADER
+#define RAVLDPIMAGEIOPPM_HEADER
 ///////////////////////////////////////////////////
 //! userlevel=Develop
 //! rcsid="$Id$"
 //! file="amma/Image/ExtImgIO/ImgIOTiffB.hh"
 //! lib=ExtImgIO
-//! docentry="Image.Image IO"
+//! docentry="Ravl.Image.IO.Formats"
 //! author="Charles Galambos"
 //! date="29/10/98"
 
-#include "amma/Filename.hh"
-#include "amma/RGBImage.hh"
-#include "amma/ByteImag.hh"
-#include "amma/DP/FileFormat.hh"
-#include "amma/DP/Port.hh"
-#include "amma/Stream.hh"
+#include "Ravl/DP/FileFormat.hh"
+#include "Ravl/DP/Port.hh"
+#include "Ravl/Stream.hh"
+#include "Ravl/Image/ImgIOTiff.hh"
+#include "Ravl/Image/ByteRGBAValue.hh"
 
 #include <tiffio.h>
 
 
+namespace RavlN {
 
-//: TIFF Utilities
+  //: TIFF Utilities
+  
+  class DPImageIOTIFFBaseC {
+  public:    
+    DPImageIOTIFFBaseC();
+    //: Constructor.
+    
+    ~DPImageIOTIFFBaseC();
+    //: Destructor.
+    
+  protected:    
+    TIFF *tif;
+  };
+  
+  //: Load a RGBA image.
+  
+  class DPIImageTIFFByteRGBABodyC : 
+    public DPIPortBodyC<ImageC<ByteRGBAValueC> >,
+    public DPImageIOTIFFBaseC
+  {
+  public:
+    DPIImageTIFFByteRGBABodyC(StringC fn);
+    //: Constructor from filename.
+    
+    DPIImageTIFFByteRGBABodyC(const IStreamC &in);
+    //: Constructor from stream.
+    
+    virtual bool IsGetEOS() const;
+    //: Is valid data ?
+    
+    virtual ImageC<ByteRGBAValueC> Get();
+    //: Get next piece of data.
+    
+  protected:
+    static tsize_t TIFFReadProc(thandle_t, tdata_t, tsize_t);
+    static tsize_t TIFFWriteProc(thandle_t, tdata_t, tsize_t);
+    static toff_t  TIFFSeekProc(thandle_t, toff_t, int);
+    static int TIFFCloseProc(thandle_t);
+    static toff_t TIFFSizeProc(thandle_t);
+    static int TIFFMapFileProc(thandle_t, tdata_t*, toff_t*);
+    static void TIFFUnmapFileProc(thandle_t, tdata_t, toff_t);
+    
+    
+    IStreamC inf; // Infile.
+    bool done;
+  };
+  
+  //: Save a ByteRGBA image.
+  
+  class DPOImageTIFFByteRGBABodyC : 
+    public DPOPortBodyC<ImageC<ByteRGBAValueC> >,
+    public DPImageIOTIFFBaseC
+  {
+  public:
+    DPOImageTIFFByteRGBABodyC(StringC fn);
+    //: Constructor from filename.
+    
+    DPOImageTIFFByteRGBABodyC(const OStreamC &strm);
+    //: Constructor from filename.
+    
+    virtual bool Put(const ImageC<ByteRGBAValueC> &dat);
+    //: Put data.
+    
+    virtual bool IsPutReady() const ;
+    //: Is port ready for data ?
+    
+  protected:
+    static tsize_t TIFFReadProc(thandle_t, tdata_t, tsize_t);
+    static tsize_t TIFFWriteProc(thandle_t, tdata_t, tsize_t);
+    static toff_t  TIFFSeekProc(thandle_t, toff_t, int);
+    static int TIFFCloseProc(thandle_t);
+    static toff_t TIFFSizeProc(thandle_t);
+    static int TIFFMapFileProc(thandle_t, tdata_t*, toff_t*);
+    static void TIFFUnmapFileProc(thandle_t, tdata_t, toff_t);
+    
+    OStreamC outf; // Infile.
+    bool done;
+  };
 
-class DPImageIOTIFFBaseC {
-public:    
-  DPImageIOTIFFBaseC();
-  //: Constructor.
-  
-  ~DPImageIOTIFFBaseC();
-  //: Destructor.
-
- protected:
-  //typedef	void* thandle_t;	/* client data handle */
-  
-  //static void TIFFErrorHandler(const char*, const char*, va_list);
-  //  static void *TIFFExtendProc(TIFF*);
-  
-  
-  TIFF *tif;
-};
-
-//: Load a RGBA image.
-
-class DPIImageTIFFByteRGBABodyC : 
-  public DPIPortBodyC<ImageC<ByteRGBXValueC> >,
-  public DPImageIOTIFFBaseC
-{
-public:
-  DPIImageTIFFByteRGBABodyC(FilenameC fn);
-  //: Constructor from filename.
-  
-  DPIImageTIFFByteRGBABodyC(const IStreamC &in);
-  //: Constructor from stream.
-  
-  virtual BooleanT IsGetEOS() const;
-  //: Is valid data ?
-  
-  virtual ImageC<ByteRGBXValueC> Get();
-  //: Get next piece of data.
-  
-protected:
-  static tsize_t TIFFReadProc(thandle_t, tdata_t, tsize_t);
-  static tsize_t TIFFWriteProc(thandle_t, tdata_t, tsize_t);
-  static toff_t  TIFFSeekProc(thandle_t, toff_t, int);
-  static int TIFFCloseProc(thandle_t);
-  static toff_t TIFFSizeProc(thandle_t);
-  static int TIFFMapFileProc(thandle_t, tdata_t*, toff_t*);
-  static void TIFFUnmapFileProc(thandle_t, tdata_t, toff_t);
-
-
-  IStreamC inf; // Infile.
-  BooleanT done;
-};
-
-//: Save a ByteRGBA image.
-
-class DPOImageTIFFByteRGBABodyC : 
-  public DPOPortBodyC<ImageC<ByteRGBXValueC> >,
-  public DPImageIOTIFFBaseC
-{
-public:
-  DPOImageTIFFByteRGBABodyC(FilenameC fn);
-  //: Constructor from filename.
-  
-  DPOImageTIFFByteRGBABodyC(const OStreamC &strm);
-  //: Constructor from filename.
-  
-  virtual BooleanT Put(const ImageC<ByteRGBXValueC> &dat);
-  //: Put data.
-  
-  virtual BooleanT IsPutReady() const ;
-  //: Is port ready for data ?
-  
-protected:
-  static tsize_t TIFFReadProc(thandle_t, tdata_t, tsize_t);
-  static tsize_t TIFFWriteProc(thandle_t, tdata_t, tsize_t);
-  static toff_t  TIFFSeekProc(thandle_t, toff_t, int);
-  static int TIFFCloseProc(thandle_t);
-  static toff_t TIFFSizeProc(thandle_t);
-  static int TIFFMapFileProc(thandle_t, tdata_t*, toff_t*);
-  static void TIFFUnmapFileProc(thandle_t, tdata_t, toff_t);
-  
-  OStreamC outf; // Infile.
-  BooleanT done;
-};
-
+}
 #endif
