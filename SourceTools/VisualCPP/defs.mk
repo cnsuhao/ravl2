@@ -21,6 +21,8 @@ HEADERS= AutoPortSource.hh AutoPortGenerator.hh
 SOURCES = AutoPortSource.cc AutoPortGenerator.cc
 #VCPP.cc
 
+PLIB=RavlAutoPort
+
 MAINS = autoport.cc
 
 USESLIBS = RavlOS RavlSourceTools

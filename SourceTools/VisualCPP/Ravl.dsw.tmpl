@@ -3,7 +3,7 @@ $(FileObject:one)$(FilePattern:MSVC/Ravl.dsw)Microsoft Developer Studio Workspac
 
 $(forall:libs:###############################################################################
 
-Project: "$(filename)"=.\$(filename).dsp - Package Owner=<4>
+Project: "$(name)"=.\$(name).dsp - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -13,7 +13,7 @@ Package=<4>
 {{{
 $(forall:useslibs:
     Begin Project Dependency
-    Project_Dep_Name $(filename)
+    Project_Dep_Name $(name)
     End Project Dependency)
 }}}
 

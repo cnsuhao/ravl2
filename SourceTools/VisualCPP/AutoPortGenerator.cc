@@ -79,6 +79,11 @@ namespace RavlN {
       ONDEBUG(cerr << "Filename="  << CurFilename() << "\n");
       return true;
     }
+    if(varname == "name") { // Get the full path.
+      buff = CurName();
+      ONDEBUG(cerr << "name="  << CurFilename() << "\n");
+      return true;
+    }
     if(varname == "rootname") { // Just get the root name of the file.
       buff = FilenameC(CurFilename()).NameComponent();
       return true;
