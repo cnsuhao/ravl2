@@ -178,8 +178,8 @@ namespace RavlGUIN {
 	  else
 	    rwtype="NA ";
 	}
-	AddObject(LabelC(rwtype),0,1,lineNo,lineNo+1,(GtkAttachOptions) (GTK_FILL | GTK_EXPAND),(GtkAttachOptions) (GTK_FILL | GTK_EXPAND),2,3);	  
-	AddObject(LabelC(name)  ,1,2,lineNo,lineNo+1,(GtkAttachOptions) (GTK_FILL | GTK_EXPAND),(GtkAttachOptions) (GTK_FILL | GTK_EXPAND),2,5);
+	AddObject(LabelC(rwtype),0,1,lineNo,lineNo+1,(GtkAttachOptions) (GTK_FILL),(GtkAttachOptions) (GTK_FILL),2,3);	  
+	AddObject(LabelC(name)  ,1,2,lineNo,lineNo+1,(GtkAttachOptions) (GTK_FILL),(GtkAttachOptions) (GTK_FILL),2,5); // | GTK_EXPAND
 	AddObject(widge         ,2,3,lineNo,lineNo+1);
       }
     }
