@@ -312,7 +312,7 @@ int CheckDeadLine()
   double v1 = 1;
   DeadLineTimerC t1(0.5);
   DeadLineTimerC t2(0.1);  
-  while(t1.IsRunning() && t2.IsRunning() && i < 500000) {
+  while(t1.IsRunning() && t2.IsRunning() && i < 5000000) {
     i++;
     k += getpid(); // Waste some time.
     v1 *= k * 1.2345; // And some more.
