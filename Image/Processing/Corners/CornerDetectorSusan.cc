@@ -12,7 +12,7 @@
 #include "Ravl/Image/PeakDetector.hh"
 #include "Ravl/Image/CornerDetectorSusan.hh"
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -53,7 +53,7 @@ namespace RavlImageN {
   }
   
   DListC<CornerC> CornerDetectorSusanBodyC::Apply(const ImageC<ByteT> &img) {
-    cerr << "CornerDetectorSusanBodyC::Apply(), Called. \n";
+    ONDEBUG(cerr << "CornerDetectorSusanBodyC::Apply(), Called. \n");
     ImageC<IntT> cornerImage(img.Frame());
     DListC<CornerC> lst = Corners(img,cornerImage);
     Peaks(lst,cornerImage);
