@@ -15,13 +15,44 @@ namespace RavlLogicN {
   
   //: Constructor
   
-  LiteralIndexLeafBodyIterC::LiteralIndexLeafBodyIterC(const LiteralIndexBaseC &ind)
-    : hit(ind.Body().map)
-  {}
+  LiteralIndexLeafBodyIterC::LiteralIndexLeafBodyIterC(const LiteralIndexBaseC &ind,bool nVarsOnly)
+    : varsOnly(nVarsOnly)
+  {
+    if(varsOnly)
+      hit = ind.Body().varMap;
+    else 
+      hit = ind.Body().map;
+  }
   
+  bool LiteralIndexLeafBodyIterC::First()
+  { return hit.First(); }
+  //: Goto first element.
+    
+  bool LiteralIndexLeafBodyIterC::Next()
+  { return hit.Next(); }
+  //: Goto next element.
+  // returns true if its valid.
+    
+  bool LiteralIndexLeafBodyIterC::IsElm() const 
+  { return hit.IsElm(); }
+  //: At a valid element ?
+    
+  LiteralC LiteralIndexLeafBodyIterC::Data()
+  { return hit.Key(); }
+  //: Get key for current item.
+    
+  LiteralIndexElementC &LiteralIndexLeafBodyIterC::MappedData()
+  { return hit.Data(); }
+  //: Access data.
+    
+  const LiteralIndexElementC &LiteralIndexLeafBodyIterC::MappedData() const
+  { return hit.Data(); }
+  //: Access data.
   
-  LiteralIndexLeafIterC::LiteralIndexLeafIterC(const LiteralIndexBaseC &ind)
-    : LiteralMapIterC<LiteralIndexElementC>(*new LiteralIndexLeafBodyIterC(ind))
+  //:----------------------------------------------------------------------------------
+  
+  LiteralIndexLeafIterC::LiteralIndexLeafIterC(const LiteralIndexBaseC &ind,bool varsOnly)
+    : LiteralMapIterC<LiteralIndexElementC>(*new LiteralIndexLeafBodyIterC(ind,varsOnly))
   {}
   //: Constructor.
 

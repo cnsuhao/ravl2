@@ -48,6 +48,12 @@ namespace RavlLogicN {
     virtual StringC Name() const;
     //: Get the name of symbol.
     
+    virtual bool IsVariable() const;
+    //: Is this a variable ?
+    
+    virtual bool IsGrounded() const;
+    //: Is this a simple object with no variables ?
+    
     virtual UIntT Hash() const;
     //: Get hash value for symbol.
     

@@ -25,6 +25,13 @@
 #endif
 
 namespace RavlLogicN {
+
+  //: Default constructor.
+  
+  LiteralIndexBaseBodyC::LiteralIndexBaseBodyC()
+    : maxArity(1),
+      indexGrounded(true)
+  {}
   
   //: Load from a binary stream.
   
@@ -34,7 +41,7 @@ namespace RavlLogicN {
     strm >> version;
     if(version != 0)
       throw ExceptionOutOfRangeC("LiteralIndexBaseBodyC::LiteralIndexBaseBodyC(BinIStreamC &), Unrecognised version number in stream. ");
-    strm >> size;
+    strm >> indexGrounded >> size ;
     for(UIntT i = 0;i < size;i++)
       LoadEntry(strm);
     return true;
@@ -45,7 +52,7 @@ namespace RavlLogicN {
   bool LiteralIndexBaseBodyC::Save(BinOStreamC &strm) const {
     IntT version = 0;
     UIntT size = map.Size();
-    strm << version << size;
+    strm << version << indexGrounded << size;
     for(HashIterC<LiteralC,LiteralIndexLeafC>  hit(map);hit;hit++)
       SaveEntry(strm,hit.Key(),hit.Data());
     return true;
@@ -122,11 +129,15 @@ namespace RavlLogicN {
   
   LiteralIndexLeafC LiteralIndexBaseBodyC::Insert(const LiteralC &key) {
     ONDEBUG(cerr << "LiteralIndexBaseBodyC::Insert() Key=" << key.Name() << "\n");
+    if(!key.IsGrounded())
+      indexGrounded = false;
     TupleC tuple(key);
     if(!tuple.IsValid()) {
       LiteralIndexLeafC &elem = map[key];
       if(!elem.IsValid())
 	elem = NewLeaf(key);
+      if(key.IsVariable())
+	varMap[key] = elem;
       RavlAssert(elem.IsValid());
       return elem;
     }

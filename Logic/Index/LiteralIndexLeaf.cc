@@ -40,10 +40,10 @@ namespace RavlLogicN {
 
   //: Filter next level in tree.
   // If there's a choice return an iterator otherwise the next branch
-  // in the tree is assigned to 'next'.  var is the variable to witch
+  // in the tree is assigned to 'next'.  var is the variable to which
   // the value of the iterator should be bound.
   
-  LiteralMapIterC<LiteralIndexElementC> LiteralIndexLeafBodyC::Filter(const LiteralC &key,LiteralIndexElementC &next,LiteralC &var) {
+  LiteralMapIterC<LiteralIndexElementC> LiteralIndexLeafBodyC::Filter(const LiteralC &key,LiteralIndexElementC &next,BindSetC &binds,LiteralC &var) {
     ONDEBUG(cerr << "LiteralIndexLeafBodyC::Filter(), Called. Key=" << key << " var=" << var <<"\n");
     LiteralMapIterC<LiteralIndexElementC> ret;
     next.Invalidate();

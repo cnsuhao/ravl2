@@ -12,11 +12,12 @@ PACKAGE=Ravl/Logic
 HEADERS=LiteralIndexBase.hh LiteralIndexElement.hh LiteralIndexLeaf.hh \
  LiteralIndexNode.hh LiteralIndex.hh LiteralIndexIter.hh \
  LiteralIndexFilterBase.hh LiteralIndexFilter.hh LiteralIndexLeafIter.hh \
- BLiteralIndex.hh BMinTermIndex.hh BMinTermIndexIter.hh BMinTermListIndex.hh
+ BLiteralIndex.hh BMinTermIndex.hh BMinTermIndexIter.hh BMinTermListIndex.hh \
+ LiteralIndexLeafVarIter.hh
 
 SOURCES=LiteralIndexBase.cc LiteralIndexElement.cc LiteralIndexLeaf.cc \
  LiteralIndexNode.cc LiteralIndexIter.cc LiteralIndexFilterBase.cc \
- LiteralIndexLeafIter.cc
+ LiteralIndexLeafIter.cc LiteralIndexLeafVarIter.cc
 
 PLIB=RavlLogic
 

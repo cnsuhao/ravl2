@@ -75,6 +75,9 @@ namespace RavlLogicN {
     virtual bool IsGrounded() const;
     //: Is this a simple expression with no variables ?
     
+    virtual bool IsTuple() const;
+    //: Is this literal a tuple ?
+    
     void SetArg(UIntT n,const LiteralC &s)
     { args[n] = s; }
     //: Set the value of an arg.

@@ -10,6 +10,7 @@
 //! file="Ravl/Logic/Index/LiteralIndexNode.cc"
 
 #include "Ravl/Logic/LiteralIndexNode.hh"
+#include "Ravl/Logic/LiteralIndexIter.hh"
 #include "Ravl/Logic/LiteralIndexFilter.hh"
 #include "Ravl/Logic/Tuple.hh"
 #include "Ravl/HashIter.hh"
@@ -48,23 +49,24 @@ namespace RavlLogicN {
   
   //: Filter next level in tree.
   // If there's a choice return an iterator otherwise the next branch
-  // in the tree is assigned to 'next'.  var is the variable to witch
+  // in the tree is assigned to 'next'.  var is the variable to which
   // the value of the iterator should be bound.
-  LiteralMapIterC<LiteralIndexElementC> LiteralIndexNodeBodyC::Filter(const LiteralC &key,LiteralIndexElementC &next,LiteralC &var) {
-    ONDEBUG(cerr << "LiteralIndexNodeBodyC::Filter(), Called Key:" << key << "  Var="  << var << "\n");
+  
+  LiteralMapIterC<LiteralIndexElementC> LiteralIndexNodeBodyC::Filter(const LiteralC &key,LiteralIndexElementC &next,BindSetC &binds,LiteralC &var) {
+    ONDEBUG(cerr << "LiteralIndexNodeBodyC::Filter(), Called Key:" << key << "  Var="  << var << " Term=" << term << "\n");
     TupleC tup(key);
     RavlAssert(tup.IsValid());
     const LiteralC &subkey = tup[term];
-    if(subkey.IsGrounded()) {
+    var = subkey;
+    if(subkey.IsGrounded() && index.IsGrounded()) {
       // There are no variables in the sub-key so we can just do 
       // a lookup.
       if(!index.Lookup(subkey,next))
 	next.Invalidate(); // The lookup failed.
       return LiteralMapIterC<LiteralIndexElementC>();
     }
-    var = subkey;
     // Return an iterator through possible sub keys.
-    return LiteralIndexFilterC<LiteralIndexElementC>(index,subkey);
+    return LiteralIndexFilterC<LiteralIndexElementC>(index,subkey,binds);
   }
 
   //: Insert/Replace element into the node.
@@ -84,11 +86,14 @@ namespace RavlLogicN {
   // For debugging only.
   
   void LiteralIndexNodeBodyC::Dump(ostream &out,int level) const {
-    out << Indent(level) <<"LiteralIndexNodeC Term=" << term <<"\n";      
-    index.Dump(out,level+2);
+    //out << Indent(level) <<"LiteralIndexNodeC Term=" << term <<"\n";
     if(none.IsValid()) {
-      out << Indent(level) <<"None:\n";
+      out << Indent(level) <<"[" << term << "]=-None-\n";
       none.Dump(out,level+2);
+    }
+    for(LiteralIndexIterC<LiteralIndexElementC> it(index);it;it.Next()) {
+      out << Indent(level) << "[" << term << "]=" << it.Data().Name() << "\n";
+      it.MappedData().Dump(out,level+2);
     }
   }
 

@@ -13,6 +13,7 @@
 #include "Ravl/Logic/Unify.hh"
 #include "Ravl/Logic/LiteralIndexIter.hh"
 #include "Ravl/Logic/LiteralIndexLeafIter.hh"
+#include "Ravl/Logic/LiteralIndexLeafVarIter.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -30,10 +31,26 @@ namespace RavlLogicN {
       filter(nfilter),
       index(nindex)
   { 
+    initialMark = binds.Mark();
     ONDEBUG(cerr << "LiteralIndexFilterBaseBodyC::LiteralIndexFilterBaseBodyC(), Called. Filter [" << nfilter << "]\n");
     First(); 
+    ONDEBUG(cerr << "LiteralIndexFilterBaseBodyC::LiteralIndexFilterBaseBodyC(), First=" << IsElm() << "\n"); 
   }
   
+  //: Construct a new filter with variable bindings.
+  
+  LiteralIndexFilterBaseBodyC::LiteralIndexFilterBaseBodyC(const LiteralIndexBaseC &nindex,const LiteralC &nfilter,BindSetC &nbinds)
+    : binds(nbinds),
+      filter(nfilter),
+      index(nindex)
+  { 
+    initialMark = binds.Mark();
+    ONDEBUG(cerr << "LiteralIndexFilterBaseBodyC::LiteralIndexFilterBaseBodyC(), Called. Filter [" << nfilter << "]\n");
+    First(); 
+    ONDEBUG(cerr << "LiteralIndexFilterBaseBodyC::LiteralIndexFilterBaseBodyC(), First=" << IsElm() << "\n"); 
+  }
+
+
   //: Goto first data element.
   // returns true if next element is valid.
   
@@ -41,10 +58,10 @@ namespace RavlLogicN {
     RavlAssert(filter.IsValid());
     RavlAssert(index.IsValid());
     stack.Empty();
-    binds.Empty();
+    binds.Undo(initialMark);
     ONDEBUG(cerr << "LiteralIndexFilterBaseBodyC::First(), Filter=" << filter <<" IsGrounded=" << filter.IsGrounded() << "\n");
     IntT bindLoop = 0;
-
+    
     // Filtering with a simple variable ?
     while(filter.IsVariable()) {
       LiteralC newUn;
@@ -62,7 +79,7 @@ namespace RavlLogicN {
 	stack.Push(LiteralIndexFilterChoicePointC(index.Body().root,binds.Mark(),filter,(LiteralMapIterC<LiteralIndexElementC> &) it));
 	if(it) {
 	  at = it.MappedData();
-	  ONDEBUG(cerr << "LiteralIndexFilterBaseBodyC::First(), Filter on var, solutions found. \n");
+	  ONDEBUG(cerr << "LiteralIndexFilterBaseBodyC::First(), Filter on var, solutions found. Data='" << Data().Key().Name() << "'\n");
 	  return true;
 	}
 	ONDEBUG(cerr << "LiteralIndexFilterBaseBodyC::First(), Filter on var, no solutions. \n");
@@ -74,15 +91,37 @@ namespace RavlLogicN {
     
     // Check if the operation is trivial.
     if(filter.IsGrounded()) {
-      at = index.Lookup(filter); 
-      ONDEBUG(cerr << "LiteralIndexFilterBaseBodyC::First(), Grounded filter [" << filter << "], just doing a lookup. \n");
-      return at.IsValid();
+      if(index.IsGrounded()) {
+	at = index.Lookup(filter); 
+	ONDEBUG(cerr << "LiteralIndexFilterBaseBodyC::First(), Grounded filter [" << filter << "], just doing a lookup. Data=" << Data().Key().Name() << " \n");
+	return at.IsValid();
+      }
+      if(!filter.IsTuple()) {
+	// We need to go through all simple variables, plus the exact match.
+	LiteralIndexLeafC leaf = index.Lookup(filter); 
+	LiteralMapIterC<LiteralIndexElementC> newit;
+	if(leaf.IsValid()) // Is there an exact match ?
+	  newit = LiteralIndexLeafVarIterC(index,filter,leaf); // Just iterate through the index.
+	else
+	  newit = LiteralIndexLeafIterC(index,true); // Just iterate through the index var's.
+	stack.Push(LiteralIndexFilterChoicePointC(index.Body().root,binds.Mark(),filter,newit));
+	if(newit) {
+	  at = newit.MappedData();
+	  ONDEBUG(cerr << "LiteralIndexFilterBaseBodyC::First(), Filter on lit, solutions found. Data='" << Data().Key().Name() << "'\n");
+	  return true;
+	}
+	ONDEBUG(cerr << "LiteralIndexFilterBaseBodyC::First(), Filter on lit, no solutions. \n");
+	return false; // No values to iteratate through!
+      }
     }
     // Setup for Next().
     ONDEBUG(cerr << "LiteralIndexFilterBaseBodyC::First(), Setup filter on [" << filter << "] \n");
     // Find first valid solution.
-    if(ExploreMatches(index.Body().root))
+    if(ExploreMatches(index.Body().root)) {
+      ONDEBUG(cerr << "LiteralIndexFilterBaseBodyC::First(), Setup filter on [" << filter << "] Data='" << Data().Key().Name() << "'\n");
+      
       return true;
+    }
     return Next();
   }
   
@@ -96,14 +135,20 @@ namespace RavlLogicN {
     LiteralC nextvar; // Holder for next variable to bind if there is one.
     while(place.IsValid()) {
       ONDEBUG(cerr << "LiteralIndexFilterBaseBodyC::ExploreMatches(), Filtering. \n");
-      filterIter = place.Filter(filter,next,nextvar);
+      BindMarkT mark = binds.Mark();
+      filterIter = place.Filter(filter,next,binds,nextvar);
       if(filterIter.IsValid()) {
 	// We have a choice...
 	if(filterIter.IsElm()) {
-	  stack.Push(LiteralIndexFilterChoicePointC(place,binds.Mark(),nextvar,filterIter));
+	  stack.Push(LiteralIndexFilterChoicePointC(place,mark,nextvar,filterIter));
 	  place = filterIter.MappedData();
 	  RavlAssert(nextvar.IsValid());
-	  binds.Bind(nextvar,filterIter.Data());
+	  if(filterIter.Data().IsVariable())
+	    binds.Bind(filterIter.Data(),nextvar);
+	  else {
+	    if(nextvar.IsVariable())
+	      binds.Bind(nextvar,filterIter.Data());
+	  }
 	  continue;
 	}
       }
@@ -134,7 +179,7 @@ namespace RavlLogicN {
     while(!stack.IsEmpty()) {
       // Back track.
       binds.Undo(stack.Top().BindMark());
-      if(!stack.Top().Iter().IsValid()) { // Reached init
+      if(!stack.Top().Iter().IsValid()) { // Recursed back to the initial point ?
 	stack.DelTop(); // Empty stack.
 	break; // Leave.
       }
@@ -147,10 +192,17 @@ namespace RavlLogicN {
       LiteralC &var =stack.Top().Var();
       if(var.IsValid()) {
 	ONDEBUG(cerr << "LiteralIndexFilterBaseBodyC::Next(), Binding " << var << " to " << stack.Top().Iter().Data() << " \n");
-	binds.Bind(var,stack.Top().Iter().Data());
+	if(var.IsVariable()) {
+	  binds.Bind(var,stack.Top().Iter().Data());
+	} else {
+	  if(stack.Top().Iter().Data().IsVariable())	    
+	    binds.Bind(stack.Top().Iter().Data(),var);
+	}
       }
-      if(ExploreMatches(stack.Top().Iter().MappedData()))
+      if(ExploreMatches(stack.Top().Iter().MappedData())) {
+	ONDEBUG(cerr << "LiteralIndexFilterBaseBodyC::Next(), Return= '" << Data().Key().Name() << "'\n");
 	return true;
+      }
     }
     ONDEBUG(cerr << "LiteralIndexFilterBaseBodyC::Next(), Failed to find solution. \n");
     at.Invalidate();

@@ -84,6 +84,9 @@ namespace RavlLogicN {
     LiteralIndexFilterBaseBodyC(const LiteralIndexBaseC &nindex,const LiteralC &nfilter);
     //: Construct a new filter.
     
+    LiteralIndexFilterBaseBodyC(const LiteralIndexBaseC &nindex,const LiteralC &nfilter,BindSetC &binds);
+    //: Construct a new filter with variable bindings.
+    
     bool Next();
     //: Goto next data element.
     // returns true if next element is valid.
@@ -111,6 +114,7 @@ namespace RavlLogicN {
     //: Expore matches.
     // returns true if one is found.
     
+    BindMarkT initialMark;
     BindSetC binds;
     LiteralC filter;
     LiteralIndexBaseC index;

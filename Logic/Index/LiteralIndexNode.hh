@@ -38,7 +38,7 @@ namespace RavlLogicN {
     // returns true if this level is a leaf and leave next unchanged.
     // if no suitable node is found 'next' is made invalid.
     
-    virtual LiteralMapIterC<LiteralIndexElementC> Filter(const LiteralC &key,LiteralIndexElementC &next,LiteralC &var);
+    virtual LiteralMapIterC<LiteralIndexElementC> Filter(const LiteralC &key,LiteralIndexElementC &next,BindSetC &binds,LiteralC &var);
     //: Filter next level in tree.
     // If there's a choice return an iterator otherwise the next branch
     // in the tree is assigned to 'next'.  var is the variable to witch
@@ -58,7 +58,7 @@ namespace RavlLogicN {
   protected:
     UIntT term; // Position in tuple we're indexing.
     LiteralIndexC<LiteralIndexElementC> index;
-    LiteralIndexElementC none; // Used for tuples with arity smaller than term. 
+    LiteralIndexElementC none; // Used for tuples with arity smaller than 'term'. 
   };
   
   //! userlevel=Advanced

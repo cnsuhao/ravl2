@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLLOGICLITERALINDEXELEM_HEADER
-#define RAVLLOGICLITERALINDEXELEM_HEADER 1
+#ifndef RAVLLOGIC_LITERALINDEXELEM_HEADER
+#define RAVLLOGIC_LITERALINDEXELEM_HEADER 1
 //////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Logic.Index"
@@ -46,7 +46,7 @@ namespace RavlLogicN
     virtual bool Insert(const TupleC &key,LiteralIndexElementC &next);
     //: Insert/Replace element into the node.
     
-    virtual LiteralMapIterC<LiteralIndexElementC> Filter(const LiteralC &key,LiteralIndexElementC &next,LiteralC &var);
+    virtual LiteralMapIterC<LiteralIndexElementC> Filter(const LiteralC &key,LiteralIndexElementC &next,BindSetC &binds,LiteralC &var);
     //: Filter next level in tree.
     // If there's a choice return an iterator otherwise the next branch
     // in the tree is assigned to 'next'.  var is the variable to witch
@@ -108,8 +108,8 @@ namespace RavlLogicN
     // returns true if this level is a leaf and leave next unchanged.
     // if no suitable node is found 'next' is made invalid.
     
-    LiteralMapIterC<LiteralIndexElementC> Filter(const LiteralC &key,LiteralIndexElementC &next,LiteralC &var)
-    { return Body().Filter(key,next,var); }
+    LiteralMapIterC<LiteralIndexElementC> Filter(const LiteralC &key,LiteralIndexElementC &next,BindSetC &binds,LiteralC &var)
+    { return Body().Filter(key,next,binds,var); }
     //: Filter next level in tree.
     // If there's a choice return an iterator otherwise the next branch
     // in the tree is assigned to 'next'.  var is the variable to witch

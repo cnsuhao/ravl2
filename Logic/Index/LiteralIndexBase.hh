@@ -22,6 +22,7 @@ namespace RavlLogicN {
   class LiteralIndexFilterBaseBodyC;  
   class LiteralIndexBaseIterC;
   class LiteralIndexLeafBodyIterC;
+  class LiteralIndexLeafVarBodyIterC;
   
   //! userlevel=Develop
   //: Base class for index access.
@@ -30,9 +31,7 @@ namespace RavlLogicN {
     : public RCBodyVC
   {
   public:
-    LiteralIndexBaseBodyC()
-      : maxArity(1)
-    {}
+    LiteralIndexBaseBodyC();
     //: Default constructor.
     
     virtual bool Load(BinIStreamC &strm);
@@ -62,6 +61,11 @@ namespace RavlLogicN {
 
     void Dump(ostream &out,int level = 0) const;
     //: Dump index in human readable form.
+    
+    bool IsGrounded() const
+    { return indexGrounded; }
+    // Is index entirely grounded.
+    
   protected:
     virtual UIntT PickNextTerm(const SArray1dC<bool> &used,const LiteralC &key);
     //: Pick next term to use in the index.
@@ -82,12 +86,15 @@ namespace RavlLogicN {
     static void LoadLiteral(BinIStreamC &strm,LiteralC &lit);
     //: Helper to avoid including Ravl/PointerManager.hh
     
+    HashC<LiteralC,LiteralIndexLeafC> varMap; // Direct lookup of simple variables.
     HashC<LiteralC,LiteralIndexLeafC> map; // Direct lookup table.
     LiteralIndexElementC root; // Root of tree.
     UIntT maxArity;
+    bool indexGrounded; // Is index entirely grounded.
     friend class LiteralIndexBaseIterC;
     friend class LiteralIndexFilterBaseBodyC;
     friend class LiteralIndexLeafBodyIterC;
+    friend class LiteralIndexLeafVarBodyIterC;
   };
   
   //! userlevel=Develop
@@ -154,10 +161,14 @@ namespace RavlLogicN {
     //: Dump index in human readable form.
     // For debugging only.
     
+    bool IsGrounded() const
+    { return Body().IsGrounded(); }
+    // Is index entirely grounded.
+    
     friend class LiteralIndexBaseIterC;
     friend class LiteralIndexFilterBaseBodyC;
     friend class LiteralIndexLeafBodyIterC;
-                 
+    friend class LiteralIndexLeafVarBodyIterC;                 
   };
   
   ostream &operator<<(ostream &strm,const LiteralIndexBaseC &index);

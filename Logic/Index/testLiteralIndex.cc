@@ -22,7 +22,8 @@ using namespace RavlLogicN;
 
 IntT testBase();
 IntT testVars();
-IntT testIndexFilterTest();
+IntT testIndexFilter();
+IntT testVarIndexFilter();
 IntT testIndexIO();
 
 int main()
@@ -38,13 +39,17 @@ int main()
     cerr << "LiteralIndex test failed, line: " << err << " \n";
     return 1;
   }
-  if((err = testIndexFilterTest()) != 0) {
+  if((err = testIndexFilter()) != 0) {
     cerr << "LiteralIndexFilter test failed, line: " << err << " \n";
     return 1;
   }
-#endif
   if((err = testIndexIO()) != 0) {
     cerr << "LiteralIndexIO test failed, line: " << err << " \n";
+    return 1;
+  }
+#endif
+  if((err = testVarIndexFilter()) != 0) {
+    cerr << "LiteralIndexFilter test failed, line: " << err << " \n";
     return 1;
   }
   cerr << "LiteralIndex test passed. \n";
@@ -112,8 +117,8 @@ IntT testVars() {
   return 0;
 }
 
-IntT testIndexFilterTest() {
-  cerr << "testIndexFilterTest() \n";
+IntT testIndexFilter() {
+  cerr << "testIndexFilter() \n";
   LiteralIndexC<UIntT> index(true);
   LiteralC l1 = Literal();
   LiteralC l2 = Literal();
@@ -182,6 +187,64 @@ IntT testIndexFilterTest() {
     return __LINE__;
   }
   if(count != 1) return __LINE__;
+  
+  return 0;
+}
+
+IntT testVarIndexFilter() {
+  cerr << "testVarIndexFilter() \n";
+  LiteralIndexC<UIntT> index(true);
+  LiteralC l1("l1");
+  LiteralC l2("l2");
+  LiteralC l3("l3");
+  LiteralC v1 = Var();
+  LiteralC v2 = Var();
+  LiteralC v3 = Var();
+  
+  LiteralC t1 = Tuple(l1);
+  LiteralC t2 = Tuple(l2,v1);
+  LiteralC t3 = Tuple(l1,l1);
+  LiteralC t4 = Tuple(v2,l3);
+  LiteralC t5 = Tuple(v1,v1);
+  LiteralC t6 = Tuple(l2,l2);
+  
+  index[l1] = 0; 
+  index[t1] = 1; 
+  index[t2] = 2;
+  index[t3] = 3; 
+  index[t4] = 4; 
+  index[t5] = 5; 
+  index[t6] = 6; 
+  cerr << "Index=" << "\n";
+  //index.Dump(cerr);
+  UIntT count = 0;
+  
+  // Test filter on variable.
+  cerr << "F1. Tuple(l2,l2) \n";
+  LiteralC f1 = Tuple(l2,l2);
+  for(LiteralIndexFilterC<UIntT> it(index,f1);it;it++) {
+    cerr << "Result " << it.Data().Name() << " = "  << it.MappedData() << "\n";
+    count++;
+  }
+  if(count != 3) return __LINE__;
+
+  cerr << "F2. Tuple(l2,l3) \n";
+  LiteralC f2 = Tuple(l2,l3);
+  count =0;
+  for(LiteralIndexFilterC<UIntT> it(index,f2);it;it++) {
+    cerr << "Result " << it.Data().Name() << " = "  << it.MappedData() << "\n";
+    count++;
+  }
+  if(count != 2) return __LINE__;
+  
+  count = 0;
+  cerr << "F3. Tuple(l1,l3) \n";
+  LiteralC f3 = Tuple(l3,l3);
+  for(LiteralIndexFilterC<UIntT> it(index,f3);it;it++) {
+    cerr << "Result " << it.Data().Name() << " = "  << it.MappedData() << "\n";
+    count++;
+  }
+  if(count != 2) return __LINE__;
   
   return 0;
 }

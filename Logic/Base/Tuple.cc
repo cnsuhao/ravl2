@@ -81,6 +81,11 @@ namespace RavlLogicN {
     return true;
   }
   
+  //: Is this literal a tuple ?
+  
+  bool TupleBodyC::IsTuple() const 
+  { return true; }
+  
   //: Unify with another variable.
   
   bool TupleBodyC::Unify(const LiteralC &oth,BindSetC &bs) const {

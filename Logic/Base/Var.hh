@@ -41,12 +41,10 @@ namespace RavlLogicN {
     virtual bool Save(BinOStreamC &out) const;
     //: Save to binary stream 'out'.
     
-    virtual bool IsVariable() const
-    { return true; }
+    virtual bool IsVariable() const;
     //: Is this a variable ?
     
-    virtual bool IsGrounded() const
-    { return false; }
+    virtual bool IsGrounded() const;
     //: Is this a simple object with no variables ?
 
     virtual void Dump(ostream &out);

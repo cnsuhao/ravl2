@@ -64,6 +64,10 @@ namespace RavlLogicN {
     { return true; }
     //: Is this a simple expression with no variables ?
     
+    virtual bool IsTuple() const
+    { return false; }
+    //: Is this literal a tuple ?
+    
     virtual bool Unify(const LiteralC &oth,BindSetC &bs) const;
     //: Unify with another variable.
     
@@ -168,7 +172,11 @@ namespace RavlLogicN {
     bool IsGrounded() const
     { return Body().IsGrounded(); }
     //: Is this a simple expression with no variables ?
-
+    
+    bool IsTuple() const
+    { return Body().IsTuple(); }
+    //: Is this literal a tuple ?
+    
     bool Unify(const LiteralC &val,BindSetC &bs) const
     { return Body().Unify(val,bs); }
     //: Unify this and 'val'.

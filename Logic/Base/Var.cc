@@ -36,7 +36,17 @@ namespace RavlLogicN {
   
   bool VarBodyC::Save(BinOStreamC &out) const 
   { return LiteralBodyC::Save(out); }
- 
+
+  //: Is this a variable ?
+  
+  bool VarBodyC::IsVariable() const
+  { return true; }
+  
+  //: Is this a simple object with no variables ?
+  
+  bool VarBodyC::IsGrounded() const
+  { return false; }
+  
   //: Unify with another variable.
   
   bool VarBodyC::Unify(const LiteralC &x,BindSetC &bs) const {

@@ -42,6 +42,16 @@ namespace RavlLogicN {
     out << name;
     return true; 
   }
+
+  //: Is this a variable ?
+  
+  bool NamedVarBodyC::IsVariable() const
+  { return true; }
+  
+  //: Is this a simple object with no variables ?
+  
+  bool NamedVarBodyC::IsGrounded() const
+  { return false; }
   
   //: Get the name of symbol.
   

@@ -1,11 +1,11 @@
 // This file is part of RAVL, Recognition And Vision Library 
-// Copyright (C) 2001, University of Surrey
+// Copyright (C) 2003, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLLOGIC_LITERALINDEXLEAFITER_HEADER
-#define RAVLLOGIC_LITERALINDEXLEAFITER_HEADER 1
+#ifndef RAVLLOGIC_LITERALINDEXLEAFVARITER_HEADER
+#define RAVLLOGIC_LITERALINDEXLEAFVARITER_HEADER 1
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Logic.Index"
@@ -15,6 +15,7 @@
 #include "Ravl/Logic/LiteralIter.hh"
 #include "Ravl/Logic/LiteralIndex.hh"
 #include "Ravl/Logic/LiteralMapIter.hh"
+#include "Ravl/Logic/LiteralIndexLeaf.hh"
 #include "Ravl/HashIter.hh"
 
 namespace RavlLogicN {
@@ -26,15 +27,15 @@ namespace RavlLogicN {
   // is just a simple variable to bind it to every key found in the
   // index.
   
-  class LiteralIndexLeafBodyIterC 
+  class LiteralIndexLeafVarBodyIterC 
     : public LiteralMapIterBodyC<LiteralIndexElementC>
   {
   public:
-    LiteralIndexLeafBodyIterC()
+    LiteralIndexLeafVarBodyIterC()
     {}
     //: Default constructor
     
-    LiteralIndexLeafBodyIterC(const LiteralIndexBaseC &ind,bool varsOnly = false);
+    LiteralIndexLeafVarBodyIterC(const LiteralIndexBaseC &ind,const LiteralC &fixedLit,const LiteralIndexLeafC &fixedLeaf);
     //: Constructor
     
     virtual bool First();
@@ -44,7 +45,7 @@ namespace RavlLogicN {
     //: Goto next element.
     // returns true if its valid.
     
-    virtual bool IsElm() const;
+    virtual bool IsElm() const ;
     //: At a valid element ?
     
     virtual LiteralC Data();
@@ -56,9 +57,11 @@ namespace RavlLogicN {
     virtual const LiteralIndexElementC &MappedData() const;
     //: Access data.
     
-  protected:    
+  protected:  
+    bool isFirst;
+    LiteralC fixedLit;
+    LiteralIndexLeafC fixedLeaf;
     HashIterC<LiteralC,LiteralIndexLeafC>  hit;
-    bool varsOnly;
   };
 
 
@@ -69,16 +72,16 @@ namespace RavlLogicN {
   // is just a simple variable to bind it to every key found in the
   // index.
   
-  class LiteralIndexLeafIterC 
+  class LiteralIndexLeafVarIterC 
     : public LiteralMapIterC<LiteralIndexElementC>
   {
   public:
-    LiteralIndexLeafIterC()
+    LiteralIndexLeafVarIterC()
     {}
     //: Default constructor.
     // Creates an invalid handle.
     
-    LiteralIndexLeafIterC(const LiteralIndexBaseC &ind,bool varsOnly = false);
+    LiteralIndexLeafVarIterC(const LiteralIndexBaseC &ind,const LiteralC &fixedLit,const LiteralIndexLeafC &fixedLeaf);
     //: Constructor.
     
   };

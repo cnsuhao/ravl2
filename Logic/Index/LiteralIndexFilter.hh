@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLLOGICLITERALINDEXFILTER_HEADER
-#define RAVLLOGICLITERALINDEXFILTER_HEADER 1
+#ifndef RAVLLOGIC_LITERALINDEXFILTER_HEADER
+#define RAVLLOGIC_LITERALINDEXFILTER_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Logic.Index"
@@ -29,6 +29,12 @@ namespace RavlLogicN {
     LiteralIndexFilterBodyC(const LiteralIndexC<DataT> &ind,const LiteralC &filter)
       : LiteralIndexFilterBaseBodyC(ind,filter)
     {}
+    //: Constructor from an index and a filter.
+    
+    LiteralIndexFilterBodyC(const LiteralIndexC<DataT> &ind,const LiteralC &filter,BindSetC &nbinds)
+      : LiteralIndexFilterBaseBodyC(ind,filter,nbinds)
+    {}
+    //: Constructor from an index and a filter with bindings.
     
     virtual bool Next()
     { return LiteralIndexFilterBaseBodyC::Next(); }
@@ -86,6 +92,11 @@ namespace RavlLogicN {
       : LiteralMapIterC<DataT>(*new LiteralIndexFilterBodyC<DataT>(ind,filter))
     {}
     //: Construct from and index and a filter.
+    
+    LiteralIndexFilterC(const LiteralIndexC<DataT> &ind,const LiteralC &filter,BindSetC &newBinds)
+      : LiteralMapIterC<DataT>(*new LiteralIndexFilterBodyC<DataT>(ind,filter,newBinds))
+    {}
+    //: Construct from and index, filter and bindings.
     
   protected:
     LiteralIndexFilterC(LiteralMapIterBodyC<DataT> &bod)
