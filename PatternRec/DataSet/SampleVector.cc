@@ -72,7 +72,7 @@ namespace RavlN {
   
   MeanCovarianceC SampleVectorC::MeanCovariance() const {
     DArray1dIterC<VectorC> it(*this);
-    if(!it) return MeanCovariance();
+    if(!it) return MeanCovarianceC();
     SumsNd2C sums(1.0,it->Copy(),OuterProductRUT(*it));
     for(it++;it;it++)
       sums += *it;
@@ -84,7 +84,7 @@ namespace RavlN {
   MeanCovarianceC SampleVectorC::MeanCovariance(const SampleC<RealT> &weights) const {
     RavlAssert(Size() == weights.Size());
     DArray1dIter2C<VectorC,RealT> it(*this,weights.DArray());
-    if(!it) return MeanCovariance();
+    if(!it) return MeanCovarianceC();
     SumsNd2C sums(it.Data2(),it.Data1() * it.Data2(),OuterProductRUT(it.Data1(),it.Data2()));
     for(it++;it;it++) 
       sums.Add(it.Data1(),it.Data2());
@@ -148,12 +148,17 @@ namespace RavlN {
   void 
   SampleVectorC::Normalise(const MeanCovarianceC & stats)  {
     UIntT d = VectorSize();
+    if(Size() < 2)
+      return ; // Can't normalise only 1 sample!
     VectorC stdDev(d);
     for(UIntT i=0;i<d;i++) {
-      if(stats.Covariance()[i][i]==0) stdDev[i] = stats.Mean()[i];
-      else stdDev[i] = stats.Covariance()[i][i];
+      if(stats.Covariance()[i][i] > 0) 
+	stdDev[i] = stats.Covariance()[i][i];
+      else 
+	stdDev[i] = stats.Mean()[i];
     }
-    for(UIntT i=0;i<d;i++) stdDev[i] = Sqrt(stdDev[i]);
+    for(UIntT i=0;i<d;i++)
+      stdDev[i] = Sqrt(stdDev[i]);
     stdDev.Reciprocal ();
     
     for(SampleIterC<VectorC>it(*this);it;it++)
