@@ -75,6 +75,12 @@ namespace RavlImageN {
     //: output image rectangle.
     // The output rectangle is specified in the constructor.
     
+    void SetTransform(const Matrix3dC &transform) {
+      trans = transform;
+      Init();
+    }
+    //: Set projective transform.
+    
     Point2dC BackProject(const Point2dC &pnt) const;
     // Transform a point from the destination to source.
 

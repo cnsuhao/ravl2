@@ -55,6 +55,16 @@ namespace RavlImageN {
     //: output image rectangle.
     // The output rectangle is specified in the constructor.
     
+    void SetTransform(const Affine2dC &transform) {
+      trans = transform;
+      itrans = transform.I();
+    }
+    //: Set the current transform.
+    
+    MixerT &Mixer() 
+    { return mixer; }
+    //: Access mixer class.
+    
   protected:
     ImageRectangleC rec;   // Output rectangle.
     Affine2dC trans;       // Transform.
