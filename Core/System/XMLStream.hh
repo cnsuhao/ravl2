@@ -732,7 +732,7 @@ namespace RavlN {
     strm.GetAttrib(elem.Name(),const_cast<XMLAttributeC<DataT> &>(elem).Data());
     return strm;
   }
-  //: Write out an attribute.
+  //: Read in an attribute.
   
   template<class DataT>
   XMLAttributeC<DataT> XMLAttribute(const StringC &nm,const DataT &dat)
