@@ -173,7 +173,7 @@ namespace RavlImageN {
     // This could be sped up by projecting the line into the source image space,
     // clipping it and then projecting back into the output image and only iterate
     // along that bit of the line.
-    
+#if 0
     Vector3dC ldir(trans[0][1] * iz,trans[1][1] * iz,trans[2][1]);
     for(;it;) {
       Vector3dC at = inv * Vector3dC(pat[0],pat[1],oz);
@@ -199,6 +199,42 @@ namespace RavlImageN {
       }
       pat[0]++;
     }
+#else
+    RealT beg = pat[1];
+    for(;it;) {
+      if(fillBackground) {
+	do {
+	  Point2dC ipat = Project(pat);
+
+	  if(irng.Contains(ipat)) {
+	    // move coordinates to be based on 0,0 at the centre of the
+	    // top-left pixel
+	    ipat[0] -= 0.5;
+	    ipat[1] -= 0.5;
+	    mixer(*it,src.BiLinear(ipat));
+	  }
+	  else
+	    SetZero(*it);
+	  pat[1]++;
+	} while(it.Next()) ;
+      } else {
+	do {
+	  Point2dC ipat = Project(pat);
+
+	  if(irng.Contains(ipat)) {
+	    // move coordinates to be based on 0,0 at the centre of the
+	    // top-left pixel
+	    ipat[0] -= 0.5;
+	    ipat[1] -= 0.5;
+	    mixer(*it,src.BiLinear(ipat));
+	  }
+	  pat[1]++;
+	} while(it.Next()) ;
+      }
+      pat[1] = beg;
+      pat[0]++;
+    }    
+#endif
   }
   
 }
