@@ -54,7 +54,7 @@ $(ifset:date:     $(tabTitle)Created:$(tabData)$(date)&nbsp;</tr>
 )$(if:$pagemode=develop:$(ifset:file:$(tabTitle)Source file:$(tabData)<B>$(file)</B></tr>
 ))                $(tabTitle)User Level:$(tabData)<b>$(userlevel)</b></tr>
 $(ifset:lib:      $(tabTitle)Library:$(tabData)<b>$(lib)</b></tr>
-)$(ifset:example: $(tabTitle)Example:$(tabData)$(for:;:$example:<A HREF="../../Examples/%arg%.html">%arg%</A>)</tr>
+)$(ifset:example: $(tabTitle)Example:$(tabData)$(for:;:$example:<A HREF="../../Examples/%arg%.html">%arg%</A>  )</tr>
 )                 $(tabTitle)In Scope:$(tabData)<a href="$(ParentScope).html">$(ParentScope)</a></tr>
 </table><p>
 </center>

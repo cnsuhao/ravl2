@@ -12,7 +12,7 @@
 //! author="Charles Galambos"
 //! date="1/9/96"
 //! docentry="Ravl.Core.Hash Tables"
-//! example=WordFreq.cc exHash.cc
+//! example=WordFreq.cc;exHash.cc
 //! rcsid="$Id$"
 //! userlevel=Normal
 
