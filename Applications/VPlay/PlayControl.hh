@@ -105,6 +105,9 @@ namespace RavlGUIN {
     // Note this is NOT called every frame, only about 5 to 10 times
     // a second.
     
+    bool Shutdown();
+    //: Shutdown play control.
+    
   protected:
     virtual void Destroy();
     //: Undo all references.
@@ -251,6 +254,10 @@ namespace RavlGUIN {
     //: Access update frame number signal.
     // Note this is NOT called every frame, only about 5 to 10 times
     // a second.
+    
+    bool Shutdown()
+    { return Body().Shutdown(); }
+    //: Shutdown play control.
     
     friend class PlayControlBodyC;
   };

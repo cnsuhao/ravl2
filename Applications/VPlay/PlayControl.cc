@@ -212,6 +212,16 @@ namespace RavlGUIN {
     return pcs.Del(strm);
   }
   
+  //: Shutdown play control.
+  
+  bool PlayControlBodyC::Shutdown() {
+    MutexLockC hold(access,true);
+    if(sliderUpdate.IsValid())
+      sliderUpdate.Terminate();  
+    sliderUpdate.Invalidate();
+    return true;
+  }
+  
   //: Undo all references.
   
   void PlayControlBodyC::Destroy() {
@@ -248,6 +258,7 @@ namespace RavlGUIN {
   }
   
   bool PlayControlBodyC::SliderUpdate() {
+    //cerr <<"PlayControlBodyC::SliderUpdate(). \n";
     MutexLockC hold(access,true);
     if(!hold.IsLocked()) // Did lock succeed ?
       return true; // We'll do the update next time.

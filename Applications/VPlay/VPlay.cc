@@ -53,7 +53,7 @@
 
 #include <stdlib.h>
 
-#define DODEBUG 1
+#define DODEBUG 0
 
 #if DODEBUG
 #define ONDEBUG(x) x
@@ -65,10 +65,18 @@ using namespace RavlN;
 using namespace RavlGUIN;
 using namespace RavlImageN;
 
+volatile bool terminateVPlay = false;
+
+PlayControlC guiPlayControl;
 
 static bool gui_quit(DPIPlayControlC<ImageC<ByteRGBValueC> > &pc) 
 {
+  //cerr << "Quitting. \n";
+  terminateVPlay = true;
   pc.Continue();
+  //cerr << "Shutting down play control. \n";
+  guiPlayControl.Shutdown();
+  //cerr << "Quitting manager. \n";
   Manager.Quit(); // Initate shutdown.
   return true;
 }
@@ -124,6 +132,8 @@ bool GetFileForGrab() {
 }
 
 ImageC<ByteRGBValueC> CacheFrame(const ImageC<ByteRGBValueC> &frame) {
+  if(terminateVPlay)
+    throw ExceptionEndOfStreamC("Shut down video pump.");
   MutexLockC lock(frameCacheLock);
   frameCache = frame;
   return frame;
@@ -287,7 +297,7 @@ int doVPlay(int nargs,char *args[])
   
   guiFrameRate.Text(StringC(frameRate));
   
-  PlayControlC guiPlayControl(vpCtrl,simpleOnly);
+  guiPlayControl = PlayControlC(vpCtrl,simpleOnly);
   
   Connect(guiPlayControl.SigUpdateFrameNo(),&DisplayTimeCode,1,guiTimeCode);
 
