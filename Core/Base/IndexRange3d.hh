@@ -161,9 +161,13 @@ namespace RavlN {
       return *this;
     }
     //: This index range is clipped to contain at most the index range 'r'.
+
+    inline bool Contains(const Index3dC & oth) const
+    { return Range1().Contains(oth[0]) && Range2().Contains(oth[1]) && Range3().Contains(oth[2]); }
+    // Returns true if this range contains the subrange 'oth'.
     
     inline bool Contains(const IndexRange3dC & oth) const
-      { return Range1().Contains(oth.Range1()) && Range2().Contains(oth.Range2()); }
+    { return Range1().Contains(oth.Range1()) && Range2().Contains(oth.Range2()) && Range3().Contains(oth.Range3()); }
     // Returns true if this range contains the subrange 'oth'.
     
     inline const IndexRange3dC & operator+=(const Index3dC & offset);
@@ -220,9 +224,13 @@ namespace RavlN {
       { return ks; }
     //: Access k range.
     
-    inline void Involve(const Index3dC & index);
-    // Checks and changes, if necessary, the 2 dimensional range
-    // to contain the 'index'.
+    inline const IndexRange3dC &Involve(const Index3dC & index);
+    //: Checks and changes, if necessary, the 2 dimensional range
+    //: to contain the 'index'.
+    
+    inline const IndexRange3dC &Involve(const IndexRange3dC & subRange);
+    //: Checks and changes, if necessary, the 2 dimensional range
+    //: to contain the 'subRange'.
     
     inline 
     bool IsValid() const 
@@ -264,31 +272,33 @@ namespace RavlN {
   
   ///////////////////////////////////////////////////////
   
-  inline 
-  const IndexRange3dC &IndexRange3dC::operator+=(const Index3dC & offset) {
+  inline const IndexRange3dC &IndexRange3dC::operator+=(const Index3dC & offset) {
     is += offset.I();
     js += offset.J();
     ks += offset.K();
     return *this;
   }
   
-  inline 
-  const IndexRange3dC & IndexRange3dC::operator-=(const Index3dC & offset) {
+  inline const IndexRange3dC & IndexRange3dC::operator-=(const Index3dC & offset) {
     is -= offset.I();
     js -= offset.J();
     ks -= offset.K();
     return *this;
   }
   
-  inline 
-  void 
-  IndexRange3dC::Involve(const Index3dC & index) {
-    if (is.Min() > index.I()) is.Min() = index.I();
-    if (is.Max() < index.I()) is.Max() = index.I();
-    if (js.Min() > index.J()) js.Min() = index.J();
-    if (js.Max() < index.J()) js.Max() = index.J();
-    if (ks.Min() > index.K()) ks.Min() = index.K();
-    if (ks.Max() < index.K()) ks.Max() = index.K();
+  inline const IndexRange3dC &IndexRange3dC::Involve(const Index3dC & index) {
+    Range1().Involve(index[0]);
+    Range2().Involve(index[1]);
+    Range3().Involve(index[2]);
+    return *this;
+  }
+
+  
+  inline const IndexRange3dC &IndexRange3dC::Involve(const IndexRange3dC & subRange) {
+    Range1().Involve(subRange.Range1());
+    Range2().Involve(subRange.Range2());
+    Range3().Involve(subRange.Range3());
+    return *this;
   }
   
 }

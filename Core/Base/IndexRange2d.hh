@@ -169,7 +169,7 @@ namespace RavlN {
     inline const IndexRangeC & ColRange() const
       { return cols; }
     //: Access col range.
-
+    
     inline IndexRangeC & RowRange()
       { return rows; }
     //: Access row range.
@@ -198,6 +198,14 @@ namespace RavlN {
     //: Ensures this rectangle contains given index.
     // This method checks and changes, if necessary, the 2 dimensional range
     // to contain the 'index'.
+
+    inline void Involve(const IndexRange2dC &subrectangle) { 
+      Range1().Involve(subrectangle.Range1()); 
+      Range2().Involve(subrectangle.Range2()); 
+    }
+    //: Ensures this rectangle contains given sub rectangle.
+    // This method checks and changes, if necessary, the 2 dimensional range
+    // to contain the 'subrectangle'.
     
     inline 
     bool IsValid() const 
