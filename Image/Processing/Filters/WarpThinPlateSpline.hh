@@ -19,6 +19,7 @@
 #include "Ravl/Matrix.hh"
 #include "Ravl/RealRange2d.hh"
 #include "Ravl/Image/PixelMixer.hh"
+#include "Ravl/Image/BilinearInterpolation.hh"
 
 namespace RavlImageN {
   using namespace RavlN;
@@ -94,7 +95,7 @@ namespace RavlImageN {
 	  //cerr << " " << at << " => " << pat << "\n";
 	  if(irng.Contains(pat)) {
 	    OutT val;
-	    BiLinear(src,pat - Point2dC(0.5,0.5),val);
+	    BilinearInterpolation(src,pat - Point2dC(0.5,0.5),val);
 	    mixer(*it,val);
 	  } else {
 	    if(fillBackground)
