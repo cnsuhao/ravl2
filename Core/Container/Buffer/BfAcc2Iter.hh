@@ -218,11 +218,11 @@ namespace RavlN {
     { return *cit; }
     //: Access data of current element
     
-    RangeBufferAccessC<DataT> &Row()
+    RangeBufferAccessC<DataT> Row()
     { return RangeBufferAccessC<DataT>(rng,*rit); }
     //: Access row we're currently iterating.
     
-    const RangeBufferAccessC<DataT> &Row() const
+    const RangeBufferAccessC<DataT> Row() const
     { return RangeBufferAccessC<DataT>(rng,*rit); }
     //: Access row we're currently iterating.
     
