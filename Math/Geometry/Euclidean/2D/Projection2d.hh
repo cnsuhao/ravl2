@@ -51,7 +51,7 @@ namespace RavlN {
     { return Project(pnt); }
     //: Project a point through the transform.
     
-    Projection2dC Inverse()
+    Projection2dC Inverse() const
     { return Projection2dC(trans.I(),oz,iz); }
     //: Invert transform.
     
