@@ -127,8 +127,11 @@ namespace RavlN {
   
   template<unsigned int N>
   inline FAffineC<N> FAffineC<N>::I(void) const {
-    FMatrixC<N,N> iSR = SR.I();
-    return FAffineC(iSR,iSR * T * -1);
+    FAffineC<N> ret;
+    ret.SR = SR.I();
+    Mul(iSR,T,ret.T);
+    ret.T *= -1;
+    return ret;
   }
   
   template<unsigned int N>
