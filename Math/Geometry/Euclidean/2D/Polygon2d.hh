@@ -46,20 +46,20 @@ namespace RavlN {
       //          Cambridge University Press, 1994, pp. 20-26
   
       bool IsDiagonal(const DLIterC<Point2dC> & a, const DLIterC<Point2dC> & b, bool allowExternal = false) const;
-      // Returns TRUE if (a, b) is a proper internal or external (if allowExternal is true)
+      // Returns true if (a, b) is a proper internal or external (if allowExternal is true)
       // diagonal of this polygon. The edges incident to 'a' and 'b'
       // are ignored.
       // Ref.: -  O'Rourke,J.: Computatinal geometry in C;
       //          Cambridge University Press, 1994, pp. 35-36
   
       bool IsInCone(const DLIterC<Point2dC> & a, const DLIterC<Point2dC> & b) const;
-      // Returns TRUE iff the diagonal (a,b) is strictly internal
+      // Returns true iff the diagonal (a,b) is strictly internal
       // to this polygon in the neighborhood of the 'a' endpoint.
       // Ref.: -  O'Rourke,J.: Computatinal geometry in C;
       //          Cambridge University Press, 1994, pp. 37-38
   
       bool Contains(const Point2dC & p) const;
-      // Returns TRUE iff the point 'p' is an internal point of this polygon.
+      // Returns true iff the point 'p' is an internal point of this polygon.
   
       DListC<LinePP2dC> Triangulate();
       // Returns the set of diagonals of this polygon. The polygon vertexes are

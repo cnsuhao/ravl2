@@ -13,11 +13,13 @@
 #include "Ravl/BinStream.hh"
 #include "Ravl/StrStream.hh"
 #include "Ravl/Matrix2d.hh"
+#include "Ravl/Circle2d.hh"
 
 using namespace RavlN;
 
 int testMoments();
 int testBinIO();
+int testCircle2d();
 
 int main() {
   int ln;
@@ -26,6 +28,10 @@ int main() {
     return 1;
   }
   if((ln = testBinIO()) != 0) {
+    cerr << "Test failed at " << ln << "\n";
+    return 1;
+  }
+  if((ln = testCircle2d()) != 0) {
     cerr << "Test failed at " << ln << "\n";
     return 1;
   }
@@ -74,6 +80,28 @@ int testBinIO() {
   if((p2 - ip2).SumOfSqr() > 0.000000001)
     return __LINE__;
   if((p3 - ip3).SumOfSqr() > 0.000000001)
+    return __LINE__;
+  return 0;
+}
+
+int testCircle2d() {
+  SArray1dC<Point2dC> pnts(5);
+  pnts[0] = Point2dC(1,0);
+  pnts[1] = Point2dC(-1,2);
+  pnts[2] = Point2dC(3,2);
+  pnts[3] = Point2dC(1,4);
+  pnts[4] = Point2dC(1,4.01); // Just to add a slight error.
+  
+  Circle2dC circle;
+  
+  RealT residual;
+  if(!circle.FitLSQ(pnts,residual))
+    return __LINE__;
+  //cerr << "Residual=" << residual << "\n";
+  //cerr << "Center=" << circle.Centre() << " Radius=" << circle.Radius() << "\n";
+  if(Point2dC(circle.Centre() - Point2dC(1,2)).SumOfSqr() > 0.01)
+    return __LINE__;
+  if(Abs(circle.Radius() - 2) > 0.01) 
     return __LINE__;
   return 0;
 }

@@ -102,13 +102,12 @@ namespace RavlN {
     //: Normalizes the equation so that the normal vector is unit.
     
     inline bool AreParallel(const LineABC2dC & line) const;
-    //: Returns TRUE if the lines are parallel.
+    //: Returns true if the lines are parallel.
     
     inline bool Intersection(const LineABC2dC & line,Point2dC &here) const;
     //: Find the intersection of two lines.
-    // If the intersection
-    // doesn't exist, the function returns false. The intersection is 
-    // assigned to 'here'.
+    // If the intersection doesn't exist, the function returns false.
+    // The intersection is assigned to 'here'.
     
     inline Point2dC Intersection(const LineABC2dC & line) const;
     //: Returns the intersection of both lines. 

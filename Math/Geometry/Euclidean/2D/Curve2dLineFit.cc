@@ -21,7 +21,7 @@ namespace RavlN {
   RealT Curve2dLineC::FitLSQ(const SArray1dC<Point2dC> &Pnts) {
 #if 0
     LinearSums2dC Sums;
-    for(IndexT i = 0;i < Pnts.N();i++)
+    for(IndexC i = 0;i < Pnts.N();i++)
       Sums += Pnts[i];
     
     if(Sums.N() < 2) {

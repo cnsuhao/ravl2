@@ -68,7 +68,7 @@ namespace RavlN {
     // inside of this line segment.
 
     bool HasInnerIntersection(const LinePP2dC & l) const;
-    // Returns TRUE if the intersection of this line segment and the 
+    // Returns true if the intersection of this line segment and the 
     // line 'l' is either inside of this line segment or one of the end points.
  
     Point2dC Intersection(const LinePP2dC & l) const;
