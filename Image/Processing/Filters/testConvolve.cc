@@ -25,8 +25,8 @@
 #include "Ravl/Image/SumRectangles.hh"
 #include "Ravl/Image/Rectangle2dIter.hh"
 #include "Ravl/Image/RealRGBValue.hh"
-
 #include "Ravl/Random.hh"
+#include "Ravl/config.h"
 
 using namespace RavlImageN;
 
@@ -46,11 +46,32 @@ int testMatching();
 int testSpatialDifference();
 int testSumRectangles();
 
-#ifndef __sgi__
+
+#ifndef RAVL_OS_IRIX
 template WarpScaleC<ByteRGBValueC,ByteRGBValueC>;
 template WarpAffineC<ByteT,ByteT>;
 template WarpProjectiveC<ByteT,ByteT>;
 template WarpProjectiveC<ByteRGBValueC,ByteRGBValueC>;
+#else
+#include "Ravl/EvaluateNumInliers.hh"
+#include "Ravl/Collection.hh"
+#include "Ravl/Image/ByteRGBMedian.hh"
+#include "Ravl/FitHomog2dPoints.hh"
+#include "Ravl/Ransac.hh"
+#include "Ravl/LevenbergMarquardt.hh"
+#include "Ravl/ObservationManager.hh"
+
+static EvaluateNumInliersBodyC dummyvar1(0.0,0.0) ;
+static CollectionBodyC<RavlImageN::ByteRGBGreyValueC> dummyvar2 ;
+static FitHomog2dPointsBodyC dummyvar3(0.0,0.0) ;
+static ObservationManagerC dummyvar4 ; 
+static FitToSampleC dummyvar5 ; 
+static EvaluateSolutionC dummyvar6 ; 
+static RansacC dummyvar7 ( dummyvar4, dummyvar5, dummyvar6) ;
+static StateVectorC dummyvar8 ;
+static DListC<ObservationC> dummyvar9 ; 
+static LevenbergMarquardtC dummyvar10( dummyvar8, dummyvar9);
+static ObservationListManagerBodyC dummyvar11 (dummyvar9);
 #endif
 
 int main() {
