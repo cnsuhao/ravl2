@@ -136,7 +136,7 @@ namespace RavlN {
 
     inline DataT Dot(const TFVectorC<DataT,N> &oth) {
       DataT ret = data[0] * oth.data[0];
-      for(int i = 1;i <N;i++)
+      for(UIntT i = 1;i <N;i++)
 	ret += data[i] * oth.data[i];
       return ret;
     }
