@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef PRIQUEUE_HEADER
-#define PRIQUEUE_HEADER 1
+#ifndef RAVL_PRIQUEUE_HEADER
+#define RAVL_PRIQUEUE_HEADER 1
 ////////////////////////////////////////////////
 //! userlevel=Normal
 //! example=TPriQH.cc
@@ -13,7 +13,7 @@
 //! rcsid="$Id$"
 //! file="Ravl/Core/Container/Queue/PriQueue.hh"
 //! author="Charles Galambos"
-//! date="24/08/98"
+//! date="24/08/1998"
 //! lib=RavlCore
 
 #include "Ravl/SDArray1d.hh"
@@ -24,6 +24,7 @@
 namespace RavlN {
   //: Fixed size priority queue.
   // Priority queue implemented in a fixed size array. <p>
+  // NOTE: The array will be resized if the queue overflows. 
   // BIG OBJECT <p>
   // <pre>
   // Keys must have operation '<' defined.
@@ -40,11 +41,11 @@ namespace RavlN {
     //: Copy constructor.
     
     bool IsElm(void) const
-      { return Array().Size() > 0; }
+    { return Array().Size() > 0; }
     //: Does the queue contains any items ?
     
     bool IsEmpty(void) const
-      { return Array().Size() == 0; }
+    { return Array().Size() == 0; }
     //: Is the queue empty ?
     
     D &Top(void);
@@ -73,30 +74,32 @@ namespace RavlN {
     //: Get Data from top of queue.
     
     void Insert(const K &Key,const D &Data)
-      { Insert(Tuple2C<K,D>(Key,Data)); }
+    { Insert(Tuple2C<K,D>(Key,Data)); }
     //: Insert Data/Key into queue.
+    // Will resize the queue if nessary.
     
     void Insert(const Tuple2C<K,D> &dat);
     //: Insert Data/Key into queue.
+    // Will resize the queue if nessary.
     
     bool Remove(const Tuple2C<K,D> &New)
-      { return false; }
+    { return false; }
     //: Remove all instances of Key from queue.
     //!bug: NOT IMPLEMENTED
     // Returns True if found.
     
     bool Remove(const K &Key)
-      { return false; }
+    { return false; }
     //: Remove all instances of Key from queue.
     //!bug: NOT IMPLEMENTED
     // Returns True if found.
     
     UIntT Size(void) const 
-      { return Array().Size(); }
+    { return Array().Size(); }
     //: Get number of items in queue.
     
     void Empty(void)
-      { Array().Empty(); }
+    { Array().Empty(); }
     //: Empty the queue of all its contents.
     
     bool Check();
@@ -105,10 +108,10 @@ namespace RavlN {
     RCWrapC<SDArray1dC<Tuple2C<K,D> > > data;
     
     SDArray1dC<Tuple2C<K,D> > &Array() 
-      { return data.Data(); }
+    { return data.Data(); }
     
     const SDArray1dC<Tuple2C<K,D> > &Array() const 
-      { return data.Data(); }
+    { return data.Data(); }
   };
   
   //////////////////////////////////////////
