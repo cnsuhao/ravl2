@@ -7,6 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 
+#include "Ravl/config.h"
 #include "Ravl/Image/ArcDetector.hh"
 #include "Ravl/Image/EdgeDetector.hh"
 #include "Ravl/Option.hh"
@@ -14,6 +15,11 @@
 
 using namespace RavlImageN;
 using namespace RavlN;
+
+#if RAVL_COMPILER_MIPSPRO 
+static SArray1dIterC<EdgelC> sgi_bug_fix1 ;
+#endif 
+
 
 int main(int nargs,char **argv) {
   OptionC option(nargs,argv);
