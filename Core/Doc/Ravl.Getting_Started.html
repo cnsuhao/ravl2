@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>How to write a simple program with RAVL.</title>
+  </head>
+
+  <body>
+
+This page shows how to write and compile a simple program with 
+RAVL. <p>
+
+Create a directory of your choice and in it create two files. The
+first 'myprog.cc' with the following code. This just does some
+basic command line parsing, and loads an image. <p>
+
+<code>
+<pre>
+// mycode.cc
+
+#include "Ravl/Option.hh"
+#include "Ravl/IO.hh"
+#include "Ravl/Image/Image.hh"
+#include "Ravl/Image/ImgIO.hh"
+
+using namespace RavlN;
+using namespace RavlImageN;
+
+int main(int nargs,char **argv) {
+  OptionC opt(nargs,argv);
+  StringC infile = opt.String("i","infile.ppm","Input filename");
+  opt.Check();
+  
+  ImageC<ByteT> img;
+  if(!Load(infile,img)) {
+    cerr << "Failed to load file " << infile << "\n";
+    return 1;
+  }  	
+
+  //.... Process img here ....
+  
+  return 0;
+}
+</pre></code><p>
+
+Next you'll have to tell QMake that you want to build an
+executable.  It uses a file call 'defs.mk' which tells
+it about files in the current directory.  For this example
+all you need is: <p>
+
+<code><pre>    
+  # defs.mk
+  MAINS=myprog.cc
+</pre></code><p>
+
+In the directory run 'qm' and the make system will
+build an executable to your project out. If you 'qm'
+isn't on your path you can setup an alias by sourcing
+either '{install}/share/RAVL/QMake/qmake.cshrc' if you use
+a 'csh' based shell or '{install}/share/RAVL/QMake/qmake.sh' if
+you use a bourne based shell (Like bash). <p>
+
+
+  </body>
+</html>
