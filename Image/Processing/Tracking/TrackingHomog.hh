@@ -16,7 +16,7 @@
 
 namespace RavlImageN {
 
-  //! userlevel=develop
+  //! userlevel=Develop
 
 
   //: Computes interframe homographies in an image sequence.
