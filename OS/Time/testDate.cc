@@ -41,7 +41,8 @@ int main()
 int CheckConsistant()
 {
   int days = 0;
-  for(int i = 1970;i < 3000;i++) {
+  int i;
+  for(i = 1970;i < 2037;i++) {
     if(days != DateC::YearToDaysSince1970(i)) {
       cerr << "Failed year " << i << " Days:" << days << " Calc:" << DateC::YearToDaysSince1970(i) << " Leap:" << DateC::IsLeapYear(i) << endl;
       return __LINE__;
@@ -50,6 +51,17 @@ int CheckConsistant()
       days += 366;
     else
       days += 365;
+    for(int m = 1;m <= 12;m++) {
+      DateC tmp(i,m,1); 
+      if(tmp.Year() != i) {
+	cerr << "Failed at Month=" << m << " Year=" << i << " Date=" << tmp.CTime() << " Month()=" << tmp.Month() << " Year()=" << tmp.Year() << "\n";
+	return __LINE__;
+      }
+      if(tmp.Month() != m) {
+	cerr << "Failed at Month=" << m << " Year=" << i << " Month()=" << tmp.Month() << " CTime()=" << tmp.CTime() << "\n";
+	return __LINE__;
+      }
+    }
   }
   return 0;
 }

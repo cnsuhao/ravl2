@@ -243,7 +243,7 @@ namespace RavlN {
     struct tm b;
     time_t s = (time_t) sec;
     localtime_r(&s,&b);
-    return b.tm_mon;
+    return b.tm_mon + 1;
   }
   
   
