@@ -35,7 +35,7 @@ namespace RavlN {
     {}
     //: Base class constructor.
     
-    Point2dC(UIntT size)
+    explicit Point2dC(UIntT size)
     { RavlAssert(size == 2); }
     //: Construct with size.
     // This is used in some templates that are
