@@ -24,7 +24,7 @@ include zlib.def
        else
 
          ifneq ($(filter $(ARC), sol2_7 sol2_9),)
-           EXELIB := -R $(LIBTIFF_HOME)/lib32 -L$(LIBTIFF_HOME)/lib32 -ltiff $(EXELIB)
+           EXELIB := -R $(LIBTIFF_HOME)/lib -L$(LIBTIFF_HOME)/lib -ltiff $(EXELIB)
          else
 
            EXELIB := -L$(LIBTIFF_HOME)/lib -ltiff $(EXELIB)
