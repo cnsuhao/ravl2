@@ -63,7 +63,7 @@ namespace RavlImageN {
       result = ImageC<OutPixelT>(resRect); // If its not make another.
       
     Array2dIterC<OutPixelT> res(result,resRect);
-    for(Rectange2dIterC rit(in.Frame(),kernel.Frame());rit;rit++,res++) {
+    for(Rectangle2dIterC rit(in.Frame(),kernel.Frame());rit;rit++,res++) {
       BufferAccess2dIter2C<KernelPixelT,InPixelT> it(kernel,kernel.Range1(),kernel.Range2(),
 					     in,rit.Window().Range1(),rit.Window().Range2());
       SumTypeT sum = (SumTypeT) (it.Data1() * it.Data2());

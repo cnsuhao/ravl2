@@ -45,7 +45,7 @@ namespace RavlImageN {
     INITMMX
     switch(kernel.Cols()) {
     case 2: 
-      for(Rectange2dIterC rit(in.Frame(),kernel.Frame());rit;rit++,res++) {
+      for(Rectangle2dIterC rit(in.Frame(),kernel.Frame());rit;rit++,res++) {
 	BufferAccess2dIter2C<short,short> it(kernel,kernel.Range1(),kernel.Range2(),
 					     in,rit.Window().Range1(),rit.Window().Range2());
 	int sum = 0;
@@ -56,7 +56,7 @@ namespace RavlImageN {
       }
       break;
     case 3: 
-      for(Rectange2dIterC rit(in.Frame(),kernel.Frame());rit;rit++,res++) {
+      for(Rectangle2dIterC rit(in.Frame(),kernel.Frame());rit;rit++,res++) {
 	BufferAccess2dIter2C<short,short> it(kernel,kernel.Range1(),kernel.Range2(),
 					     in,rit.Window().Range1(),rit.Window().Range2());
 	int sum = 0;
@@ -67,7 +67,7 @@ namespace RavlImageN {
       }
       break;
     case 4:  
-      for(Rectange2dIterC rit(in.Frame(),kernel.Frame());rit;rit++,res++) {
+      for(Rectangle2dIterC rit(in.Frame(),kernel.Frame());rit;rit++,res++) {
 	BufferAccess2dIter2C<short,short> it(kernel,kernel.Range1(),kernel.Range2(),
 					     in,rit.Window().Range1(),rit.Window().Range2());
 	int sum = 0;
@@ -78,7 +78,7 @@ namespace RavlImageN {
       }
       break;	
     case 5: 
-      for(Rectange2dIterC rit(in.Frame(),kernel.Frame());rit;rit++,res++) {
+      for(Rectangle2dIterC rit(in.Frame(),kernel.Frame());rit;rit++,res++) {
 	BufferAccess2dIter2C<short,short> it(kernel,kernel.Range1(),kernel.Range2(),
 					     in,rit.Window().Range1(),rit.Window().Range2());
 	int sum = 0;
@@ -89,7 +89,7 @@ namespace RavlImageN {
       }
       break;	
     case 6:
-      for(Rectange2dIterC rit(in.Frame(),kernel.Frame());rit;rit++,res++) {
+      for(Rectangle2dIterC rit(in.Frame(),kernel.Frame());rit;rit++,res++) {
 	BufferAccess2dIter2C<short,short> it(kernel,kernel.Range1(),kernel.Range2(),
 					     in,rit.Window().Range1(),rit.Window().Range2());
 	int sum = 0;
@@ -100,7 +100,7 @@ namespace RavlImageN {
       }	
       break;	
     case 7:  
-      for(Rectange2dIterC rit(in.Frame(),kernel.Frame());rit;rit++,res++) {
+      for(Rectangle2dIterC rit(in.Frame(),kernel.Frame());rit;rit++,res++) {
 	BufferAccess2dIter2C<short,short> it(kernel,kernel.Range1(),kernel.Range2(),
 					     in,rit.Window().Range1(),rit.Window().Range2());
 	int sum = 0;
@@ -111,7 +111,7 @@ namespace RavlImageN {
       }	
       break; 
     case 8:
-      for(Rectange2dIterC rit(in.Frame(),kernel.Frame());rit;rit++,res++) {
+      for(Rectangle2dIterC rit(in.Frame(),kernel.Frame());rit;rit++,res++) {
 	BufferAccess2dIter2C<short,short> it(kernel,kernel.Range1(),kernel.Range2(),
 					     in,rit.Window().Range1(),rit.Window().Range2());
 	int sum = 0;
@@ -123,7 +123,7 @@ namespace RavlImageN {
       break; 
     default:
       // Default implementation
-      for(Rectange2dIterC rit(in.Frame(),kernel.Frame());rit;rit++,res++) {
+      for(Rectangle2dIterC rit(in.Frame(),kernel.Frame());rit;rit++,res++) {
 	BufferAccess2dIter2C<short,short> it(kernel,kernel.Range1(),kernel.Range2(),
 					     in,rit.Window().Range1(),rit.Window().Range2());
 	int sum = 0;

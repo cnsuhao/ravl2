@@ -33,7 +33,7 @@ namespace RavlImageN
       result = ImageC<DataT>(resRect); // If its not make another.
     
     Array2dIterC<DataT> res(result,resRect);
-    for(Rectange2dIterC rit(image.Frame(),kernel.Frame());rit;rit++,res++) {
+    for(Rectangle2dIterC rit(image.Frame(),kernel.Frame());rit;rit++,res++) {
       *res = 0;
       for(Array2dIter2C<DataT,DataT> it(kernel,Array2dC<DataT>(image,rit.Window()));it;it++) {
 	if(it.Data1() && it.Data2()) {

@@ -19,3 +19,4 @@ USESLIBS=RavlImage RavlThreads RavlMath
 
 EHT=Ravl.Images.Misc.html 
 
+TESTEXES=testImageTools.cc

@@ -21,9 +21,9 @@ namespace RavlImageN {
   // Slide a window over all possible positions in a
   // larger rectangle.
   
-  class Rectange2dIterC {
+  class Rectangle2dIterC {
   public:
-    Rectange2dIterC(const ImageRectangleC &nImageRect,const ImageRectangleC &nwindow)
+    Rectangle2dIterC(const ImageRectangleC &nImageRect,const ImageRectangleC &nwindow)
       : size2(nwindow.Range2().Size()),
 	imageRect(nImageRect),
 	window(nwindow)
