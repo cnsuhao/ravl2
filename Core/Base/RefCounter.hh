@@ -114,6 +114,8 @@ namespace RavlN {
     
     friend class RCAbstractC ;
   };
+
+  template<class DataT> class SmartPtrC;
   
   //! userlevel=Normal
   //: Base class for handles to reference counter objects
@@ -123,31 +125,31 @@ namespace RavlN {
   public:
     RCHandleC()
       : body(0)
-      {}
+    {}
     //: Default constructor.
     // creates an invalid handle.
     
     RCHandleC(const RCHandleC<BodyT> &oth)
       : body(oth.body)
-      { 
-	if(body != 0)
-	  body->IncRefCounter(); 
-      }
+    { 
+      if(body != 0)
+	body->IncRefCounter(); 
+    }
     //: Copy Constructor.
     // Creates a new reference to 'oth'
     
     RCHandleC(const RCAbstractC &oth)
       : body(dynamic_cast<BodyT *>(const_cast<RCBodyVC *> (&oth.Body())))
-      { 
-	if(body != 0)
-	  body->IncRefCounter(); 	  
-      }
+    { 
+      if(body != 0)
+	body->IncRefCounter(); 	  
+    }
     //: Copy Constructor.
     // Creates a new reference to 'oth'
     
     RCHandleC(CreateBodyFlagT)
       : body(new BodyT())
-      { body->IncRefCounter(); }
+    { body->IncRefCounter(); }
     //: Constructor.
     // creates a body class with its default constructor.
     
@@ -177,20 +179,20 @@ namespace RavlN {
     //: Do a deep copy of the object.
     
     bool operator==(const RCHandleC<BodyT> &oth) const
-      { return body == oth.body; }
+    { return body == oth.body; }
     //: Are handles to the same object ?
     
     bool operator!=(const RCHandleC<BodyT> &oth) const
-      { return body != oth.body; }
+    { return body != oth.body; }
     //: Are handles to different objects ?
     
     UIntT Hash() const
-      { return ((UIntT) body) >> 2; }
+    { return ((UIntT) body) >> 2; }
     //: Default hash function.
     // This hashes on the address of the body.
     
     bool IsValid() const
-      { return body != 0; }
+    { return body != 0; }
     //: Test if this is a valid handle. 
 
     void Invalidate() { 
@@ -201,7 +203,7 @@ namespace RavlN {
     }
     //: Invalidate this handle.
     // Unattaches the body from the handle.
-
+    
     template<class DT>
     bool IsHandleType(const DT &/*dummy*/) const
     { return (dynamic_cast<const DT *>(&Body()) != 0); }
@@ -215,7 +217,7 @@ namespace RavlN {
 				  typeid(DT));
     }
     //: Check handle type. Throw an expception if not.
-
+    
   private:
     BodyT *body;
     
@@ -224,27 +226,27 @@ namespace RavlN {
       : body(&bod)
     { body->IncRefCounter(); }
     //: Body constructor.
-
+    
     RCHandleC(RCBodyC &bod)
       : body(&static_cast<BodyT &>(bod))
     { body->IncRefCounter(); }
     //: Body base constructor.
     
     BodyT &Body()
-      { return *body; }
+    { return *body; }
     //: Access body of object.
-
+    
     const BodyT &Body() const
-      { return *body; }
+    { return *body; }
     //: Constant access to body of object.
     
   public:
     UIntT References() const
-      { return Body().References(); }
+    { return Body().References(); }
     //: Find the number of references to the body of this object.
     
     RCAbstractC Abstract() 
-      { return RCAbstractC(Body()); }
+    { return RCAbstractC(Body()); }
     //: Create an abstract handle.    
     
 #if RAVL_NEW_ANSI_CXX_DRAFT
@@ -254,7 +256,7 @@ namespace RavlN {
     friend ostream &operator<<(ostream &strm,const RCHandleC<BodyT> &obj);
     friend istream &operator>>(istream &strm,RCHandleC<BodyT> &obj);
 #endif
- 
+    friend class SmartPtrC<BodyT>; 
   };
 
 
