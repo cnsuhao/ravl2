@@ -67,7 +67,7 @@ namespace RavlN {
     // Ref.: -  O'Rourke,J.: Computatinal geometry in C;
     //          Cambridge University Press, 1994, pp. 37-38
 
-    Polygon2dC ClipByConvex(const Polygon2dC &oth);
+    Polygon2dC ClipByConvex(const Polygon2dC &oth) const;
     //: Clips this polygon by another convex polygon
     //!param: oth - a convex clipping polygon
     //!return: the intersection of the two polygons
@@ -75,11 +75,16 @@ namespace RavlN {
     // Ref.: -  Foley. van Dam. Feiner. Hughes: Computer Graphics Principles and Practice
     //          Addison Wesley Publishing Company, 1996, pp. 123-129
 
-    Polygon2dC ClipByLine(const LinePP2dC &line);
+    Polygon2dC ClipByLine(const LinePP2dC &line) const;
     //: Clips this polygon by the line
     //!param: line - a line
     //!return: the clipped polygon so that only the part on the right side of the
     //!return: line remains.
+    
+    Polygon2dC ClipByRange(const RealRange2dC &range) const;
+    //: Clip polygon so it lies entirely within 'range'
+    // If adjacent points on the polygon map to the same place, 
+    // one of the points will be removed.
     
     bool Contains(const Point2dC & p) const;
     // Returns true iff the point 'p' is an internal point of this polygon.

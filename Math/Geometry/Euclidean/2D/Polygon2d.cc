@@ -98,7 +98,7 @@ namespace RavlN {
          return !(LinePP2dC(pa, pb).IsPointToRightOn(pan) && LinePP2dC(pb, pa).IsPointToRightOn(pap));
    }
 
-   Polygon2dC Polygon2dC::ClipByConvex(const Polygon2dC &oth) {
+   Polygon2dC Polygon2dC::ClipByConvex(const Polygon2dC &oth) const {
       Polygon2dC ret = *this;
       DLIterC<Point2dC> pLast(oth);
       pLast.Last();
@@ -109,7 +109,7 @@ namespace RavlN {
       return ret;
    }
 
-   Polygon2dC Polygon2dC::ClipByLine(const LinePP2dC &line) {
+   Polygon2dC Polygon2dC::ClipByLine(const LinePP2dC &line) const {
       Polygon2dC ret;
       if (!IsEmpty()) {
         DLIterC<Point2dC> st(*this);
@@ -135,7 +135,45 @@ namespace RavlN {
       return ret;
    }
 
-   bool Polygon2dC::Contains(const Point2dC & p) const {
+  //: Clip polygon so it lies entirely within 'range'
+  // If adjacent points on the polygon map to the same place, 
+  // one of the points will be removed.
+  
+  Polygon2dC Polygon2dC::ClipByRange(const RealRange2dC &rng) const {
+    Polygon2dC ret;
+    DLIterC<Point2dC> it(*this);
+    if(!it)
+      return ret;
+    Point2dC pnt = *it;
+    if(rng.Range1().Min() > it->Row())
+      pnt.Row() = rng.Range1().Min();
+    if(rng.Range1().Max() < it->Row())
+      pnt.Row() = rng.Range1().Max();
+    if(rng.Range2().Min() > it->Col())
+      pnt.Col() = rng.Range2().Min();
+    if(rng.Range2().Max() < it->Col())
+      pnt.Col() = rng.Range2().Max();
+    Point2dC last = pnt;
+    ret.InsLast(pnt);
+    for(it++;it;it++) {
+      pnt = *it;
+      if(rng.Range1().Min() > it->Row())
+	pnt.Row() = rng.Range1().Min();
+      if(rng.Range1().Max() < it->Row())
+	pnt.Row() = rng.Range1().Max();
+      if(rng.Range2().Min() > it->Col())
+	pnt.Col() = rng.Range2().Min();
+      if(rng.Range2().Max() < it->Col())
+	pnt.Col() = rng.Range2().Max();
+      if(pnt != last) {
+	ret.InsLast(pnt);
+	last = pnt;
+      }
+    }
+    return ret;
+  }
+  
+  bool Polygon2dC::Contains(const Point2dC & p) const {
       
       // Check singularities.
       SizeT size = Size();
