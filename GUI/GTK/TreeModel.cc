@@ -122,6 +122,7 @@ namespace RavlGUIN {
   
   TreeModelIterC TreeModelIterBodyC::Parent() {
     TreeModelIterC ret;
+    ret.Model(model);
     if(!gtk_tree_model_iter_parent (model,ret.TreeIter(),treeIter))
       ret.Invalidate();
     return ret;
