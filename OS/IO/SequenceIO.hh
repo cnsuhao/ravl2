@@ -35,7 +35,7 @@ namespace RavlN
 
   
   template<class DataT>
-  bool OpenOSequence(DPOSPortC<DataT> &op,const StringC &fn,const StringC &fileformat = "",bool verbose = false)
+  bool OpenOSequence(DPOSPortC<DataT> &op,const StringC &filename,const StringC &fileformat = "",bool verbose = false)
   { 
     DPOPortBaseC anOp;
     DPSeekCtrlC sc;
@@ -60,7 +60,7 @@ namespace RavlN
   // Returns true on succcess.
   
   template<class DataT>
-  bool OpenISequence(DPISPortC<DataT> &ip,const StringC &fn,const StringC &fileformat = "",bool verbose = false)
+  bool OpenISequence(DPISPortC<DataT> &ip,const StringC &filename,const StringC &fileformat = "",bool verbose = false)
   { 
     DPIPortBaseC anIp;
     DPSeekCtrlC sc;
@@ -90,7 +90,7 @@ namespace RavlN
 
   
   template<class DataT>
-  bool OpenOSequence(DPOPortC<DataT> &op,const StringC &fn,const StringC &fileformat = "",bool verbose = false)
+  bool OpenOSequence(DPOPortC<DataT> &op,const StringC &filename,const StringC &fileformat = "",bool verbose = false)
   { 
     DPOPortBaseC anOp;
     DPSeekCtrlC sc;
@@ -106,7 +106,7 @@ namespace RavlN
   // Returns true on succcess.
   
   template<class DataT>
-  bool OpenISequence(DPIPortC<DataT> &ip,const StringC &fn,const StringC &fileformat = "",bool verbose = false)
+  bool OpenISequence(DPIPortC<DataT> &ip,const StringC &filename,const StringC &fileformat = "",bool verbose = false)
   { 
     DPIPortBaseC anIp;
     DPSeekCtrlC sc;
