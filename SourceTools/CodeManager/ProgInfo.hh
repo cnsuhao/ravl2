@@ -4,8 +4,8 @@
 // Public License (GPL). See the gpl.licence file for details or
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
-#ifndef RAVLPROGINFO_HEADER
-#define RAVLPROGINFO_HEADER 1
+#ifndef RAVL_PROGINFO_HEADER
+#define RAVL_PROGINFO_HEADER 1
 ////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Source Tools"
@@ -22,13 +22,13 @@ namespace RavlN {
   class DefsMkFileC;
   
   //! userlevel=Develop
-  //: Information about library.
+  //: Information about an executable.
   
   class ProgInfoBodyC
     : public RCBodyC
   {
   public:
-    ProgInfoBodyC(const StringC &ln,DefsMkFileC &defs,const StringC &fromDir);
+    ProgInfoBodyC(const StringC &progName,DefsMkFileC &defs,const StringC &fromDir);
     //: Constructor.
     
     bool Add(DefsMkFileC &defs,const StringC &fromDir);
@@ -52,9 +52,9 @@ namespace RavlN {
     DListC<StringC> useslibs;// Libraries required by this one.
     DListC<StringC> sources;  // Source files in the program (fully qualified names).
   };
-
+  
   //! userlevel=Normal
-  //: Information about program.
+  //: Information about an executable.
   
   class ProgInfoC
     : public RCHandleC<ProgInfoBodyC>
@@ -63,10 +63,10 @@ namespace RavlN {
     ProgInfoC()
       {}
     //: Default constructor,
-    // creates an invalid handle.
+    // Creates an invalid handle.
     
-    ProgInfoC(const StringC &ln,DefsMkFileC &defs,const StringC &fromDir)
-      : RCHandleC<ProgInfoBodyC>(*new ProgInfoBodyC(ln,defs,fromDir))
+    ProgInfoC(const StringC &programName,DefsMkFileC &defs,const StringC &fromDir)
+      : RCHandleC<ProgInfoBodyC>(*new ProgInfoBodyC(programName,defs,fromDir))
       {}
     //: Constructor.
     

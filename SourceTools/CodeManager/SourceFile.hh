@@ -4,8 +4,8 @@
 // Public License (GPL). See the gpl.licence file for details or
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
-#ifndef RAVLSOURCEFILE_HEADER
-#define RAVLSOURCEFILE_HEADER 1
+#ifndef RAVL_SOURCEFILE_HEADER
+#define RAVL_SOURCEFILE_HEADER 1
 ///////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! author="Charles Galambos"  
@@ -32,10 +32,10 @@ namespace RavlN {
     SourceFileBodyC(const StringC &filename);
     //: Constructor from a file.
     
-    SourceFileBodyC(const StringC &text,bool noFinalRet,bool concat = false);
+    SourceFileBodyC(const StringC &text,bool noFinalReturn,bool concat = false);
     //: Construct from a string. 
-    // concat, if true don't split lines, 
-    // otherwise do.
+    // If 'noFinalReturn' is false, ensure each line ends with '\n', otherwise leave it alone. <p>
+    // concat, if true don't split up lines,  otherwise do.
     
     SourceFileBodyC(istream &fin);
     //: Constructor from a stream.
@@ -113,12 +113,12 @@ namespace RavlN {
       {}
     //: Constructor from a file.
     
-    SourceFileC(const StringC &text,bool noFinalRet,bool concat = false)
-      : TextFileC(*new SourceFileBodyC(text,noFinalRet,concat))
+    SourceFileC(const StringC &text,bool noFinalReturn,bool concat = false)
+      : TextFileC(*new SourceFileBodyC(text,noFinalReturn,concat))
       {}
     //: Construct from a string.
-    // concat, if true don't split lines at \n's, 
-    // otherwise do.
+    // If 'noFinalReturn' is false, ensure each line ends with '\n', otherwise leave it alone. <p>
+    // concat, if true don't split lines at \n's, otherwise do.
     
     SourceFileC(istream &fin)
       : TextFileC(*new SourceFileBodyC(fin))

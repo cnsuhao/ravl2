@@ -16,13 +16,13 @@ LICENSE = GPL
 PACKAGE=Ravl/SourceTools
 
 HEADERS= DefsFile.hh SourceCodeManager.hh RCSFile.hh SourceFile.hh \
- LibInfo.hh ProgInfo.hh
+ LibInfo.hh ProgInfo.hh BuildInfo.hh
 
 # SrcCheck.hh HdrUpdate.hh RCSFile.hh PatchMods.hh SrcMerge.hh \
 #SrcInst.hh SrcFunc.hh SrcUtil.hh ManagedFile.hh
 
 SOURCES = DefsFile.cc SourceCodeManager.cc RCSFile.cc SourceFile.cc \
- LibInfo.cc ProgInfo.cc
+ LibInfo.cc ProgInfo.cc  BuildInfo.cc
 
 # SrcCheck.cc HdrUpdate.cc RCSFile.cc PatchMods.cc SrcMerge.cc \
 #SrcInst.cc SrcFunc.cc SrcUtil.cc ManagedFile.cc

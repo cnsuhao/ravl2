@@ -52,8 +52,7 @@ namespace RavlN {
       onMissingDirectory = missingDir;
       return true;
     } 
-    //: What to call if  sub directory is missing.
-    
+    //: What to call if  sub directory is missing.    
     
     bool IsVerbose() const { return verbose; }
     //: In verbose mode ?
@@ -72,9 +71,8 @@ namespace RavlN {
     StringC rootDir; // Root source directory 
     
     HashC<StringC,DefsMkFileC> defsFiles; // Cache of defs.mk file info.
-    HashC<StringC,DListC<StringC> > children;
     
-    CallFunc1C<StringC,bool> onMissingDirectory;
+    CallFunc1C<StringC,bool> onMissingDirectory; // What to do when you find a missing directory.
     
     bool abortOnError; // Abort processing on error ?
     bool verbose;      // Be verbose about what we're doing ?

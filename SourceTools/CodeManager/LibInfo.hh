@@ -4,8 +4,8 @@
 // Public License (GPL). See the gpl.licence file for details or
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
-#ifndef RAVLLIBINFO_HEADER
-#define RAVLLIBINFO_HEADER 1
+#ifndef RAVL_LIBINFO_HEADER
+#define RAVL_LIBINFO_HEADER 1
 ////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! userlevel=Normal
@@ -28,11 +28,11 @@ namespace RavlN {
   
   class HeaderInfoC {
   public:
-    HeaderInfoC(const StringC &nname,const StringC &pack = StringC(),const StringC &nsrc = StringC())
-      : name(nname),
-      package(pack),
-      src(nsrc)
-      {}
+    HeaderInfoC(const StringC &headerName,const StringC &nPackage = StringC(),const StringC &sourceFile = StringC())
+      : name(headerName),
+	package(nPackage),
+	src(sourceFile)
+    {}
     //: Constructor.
     
     StringC &Name()
@@ -60,9 +60,10 @@ namespace RavlN {
     : public RCBodyC
   {
   public:
-    LibInfoBodyC(const StringC &ln)
-      : libName(ln.Copy())
-      {}
+    LibInfoBodyC(const StringC &ln,bool isDummy = false)
+      : dummy(isDummy),
+	libName(ln.Copy())
+    {}
     //: Constructor.
     
     bool Add(DefsMkFileC &defs,const StringC &fromDir);
@@ -85,7 +86,12 @@ namespace RavlN {
       { return headers; }
     //: Headers for the library.
     
+    bool IsDummy() const
+    { return dummy; }
+    //: Is this a dummy library ?
+    
   protected:
+    bool dummy; // Is this a dummy library ?
     StringC libName;
     DListC<StringC> useslibs;// Libraries required by this one.
     DListC<StringC> sources;  // Source files in the library.
@@ -104,8 +110,8 @@ namespace RavlN {
     //: Default constructor,
     // creates an invalid handle.
     
-    LibInfoC(const StringC &ln)
-      : RCHandleC<LibInfoBodyC>(*new LibInfoBodyC(ln))
+    LibInfoC(const StringC &libraryName,bool isDummy = false)
+      : RCHandleC<LibInfoBodyC>(*new LibInfoBodyC(libraryName,isDummy))
       {}
     //: Constructor.
     
@@ -120,7 +126,7 @@ namespace RavlN {
     
     DListC<StringC> &UsesLibs()
       { return Body().UsesLibs(); }
-    //: Libraries required by this one.
+    //: Libraries directly required by this one.
     
     DListC<StringC> Sources()
       { return Body().Sources(); }
@@ -129,6 +135,10 @@ namespace RavlN {
     DListC<HeaderInfoC> Headers()
       { return Body().Headers(); }
     //: Headers for the library.
+
+    bool IsDummy() const
+    { return Body().IsDummy(); }
+    //: Is this a dummy library ?
     
   };
   
