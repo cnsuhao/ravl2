@@ -49,16 +49,20 @@ namespace RavlImageN {
     // Negative values will be labeled as region 0.
     
     SArray1dC<HSetC<UIntT> > Adjacency(bool biDir = false);
-    //: Generate a table of region adjacencies.
+    //: Generate a table of 4 connected region adjacencies.
     // For each region, a set of adjacent regions is 
     // generated.   If biDir is false, only adjacenies from
     // regions with a smaller id to those with a larger ID are
-    // generated, otherwise both direction are registered.
+    // generated, otherwise both direction are registered. 
     
-    SArray1dC<HashC<UIntT,UIntC> > BoundryLength();
-    //: Generate a table of region adjacencies boundry lengths.
-    // only adjacenies from regions with a smaller id to those 
+    SArray1dC<HashC<UIntT,UIntC> > BoundryLength(bool biDir = false);
+    //: Generate a table of boundry lengths with 4 connected adjacent regions
+    // if biDir is false only adjacenies from regions with a smaller id to those 
     // with a larger ID are generated
+    
+    SArray1dC<UIntT> LocalBoundryLength();
+    //: Generate a table of the length of the 4 connected boundry for each region
+    // Note, boundry pixels at the edge of the image are NOT counted.
     
     UIntT RemoveSmallComponents(IntT thrSize);
     //: Remove small components from map, label them as 0.

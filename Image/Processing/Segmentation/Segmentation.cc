@@ -87,28 +87,154 @@ namespace RavlImageN {
   // only adjacenies from regions with a smaller id to those 
   // with a larger ID are generated
   
-  SArray1dC<HashC<UIntT,UIntC> > SegmentationBodyC::BoundryLength() {
+  SArray1dC<HashC<UIntT,UIntC> > SegmentationBodyC::BoundryLength(bool biDir) {
     SArray1dC<HashC<UIntT,UIntC> > ret(labels);
-    for(Array2dSqr2IterC<UIntT> it(segmap);it;) {
-      if(it.DataBR() != it.DataTR()) {
-	if(it.DataBR() < it.DataTR())
-	  ret[it.DataBR()][it.DataTR()]++;
-	else
-	  ret[it.DataTR()][it.DataBR()]++;
+    if(biDir) {
+      Array2dSqr2IterC<UIntT> it(segmap);
+      if(!it) return ret;
+      // First pixel
+      if(it.DataBL() != it.DataTL()) {
+        ret[it.DataBL()][it.DataTL()]++;
+        ret[it.DataTL()][it.DataBL()]++;
       }
-      for(;it.Next();) { // The rest of the image row.
-	if(it.DataBR() != it.DataTR()) {
-	  if(it.DataBR() < it.DataTR())
-	    ret[it.DataBR()][it.DataTR()]++;
-	  else
-	    ret[it.DataTR()][it.DataBR()]++;
-	}
-	if(it.DataBR() != it.DataBL()) {
-	  if(it.DataBR() < it.DataBL())
-	    ret[it.DataBR()][it.DataBL()]++;
-	  else
-	    ret[it.DataBL()][it.DataBR()]++;
-	}
+      // First row.
+      for(;it.Next();) {
+        if(it.DataBR() != it.DataTR()) {
+          ret[it.DataBR()][it.DataTR()]++;
+          ret[it.DataTR()][it.DataBR()]++;
+        }
+        if(it.DataBR() != it.DataBL()) {
+          ret[it.DataBR()][it.DataBL()]++;
+          ret[it.DataBL()][it.DataBR()]++;
+        }
+        if(it.DataTR() != it.DataTL()) {
+          ret[it.DataTR()][it.DataTL()]++;
+          ret[it.DataTL()][it.DataTR()]++;
+        }
+      }
+      // Rest of image.
+      for(;it;) {
+        // First pixel in row.
+        if(it.DataBL() != it.DataTL()) {
+          ret[it.DataBL()][it.DataTL()]++;
+          ret[it.DataTL()][it.DataBL()]++;
+        }
+        // The rest of the image row.
+        for(;it.Next();) { 
+          if(it.DataBR() != it.DataTR()) {
+            ret[it.DataBR()][it.DataTR()]++;
+            ret[it.DataTR()][it.DataBR()]++;
+          }
+          if(it.DataBR() != it.DataBL()) {
+            ret[it.DataBR()][it.DataBL()]++;
+            ret[it.DataBL()][it.DataBR()]++;
+          }
+        }
+      }
+    } else {
+      Array2dSqr2IterC<UIntT> it(segmap);
+      if(!it) return ret;
+      // First pixel
+      if(it.DataBL() != it.DataTL()) {
+        if(it.DataBL() < it.DataTL())
+          ret[it.DataBL()][it.DataTL()]++;
+        else
+          ret[it.DataTL()][it.DataBL()]++;
+      }
+      // First row.
+      for(;it.Next();) {
+        if(it.DataBR() != it.DataTR()) {
+          if(it.DataBR() < it.DataTR())
+            ret[it.DataBR()][it.DataTR()]++;
+          else
+            ret[it.DataTR()][it.DataBR()]++;
+        }
+        if(it.DataBR() != it.DataBL()) {
+          if(it.DataBR() < it.DataBL())
+            ret[it.DataBR()][it.DataBL()]++;
+          else
+            ret[it.DataBL()][it.DataBR()]++;
+        }
+        if(it.DataTR() != it.DataTL()) {
+          if(it.DataTR() < it.DataTL())
+            ret[it.DataTR()][it.DataTL()]++;
+          else
+            ret[it.DataTL()][it.DataTR()]++;
+        }
+      }
+      // Rest of image.
+      for(;it;) {
+        // First pixel in row.
+        if(it.DataBL() != it.DataTL()) {
+          if(it.DataBL() < it.DataTL())
+            ret[it.DataBL()][it.DataTL()]++;
+          else
+            ret[it.DataTL()][it.DataBL()]++;
+        }
+        // The rest of the image row.
+        for(;it.Next();) { 
+          if(it.DataBR() != it.DataTR()) {
+            if(it.DataBR() < it.DataTR())
+              ret[it.DataBR()][it.DataTR()]++;
+            else
+              ret[it.DataTR()][it.DataBR()]++;
+          }
+          if(it.DataBR() != it.DataBL()) {
+            if(it.DataBR() < it.DataBL())
+              ret[it.DataBR()][it.DataBL()]++;
+            else
+              ret[it.DataBL()][it.DataBR()]++;
+          }
+        }
+      }
+    }
+    return ret;
+  }
+  
+  //: Generate a table of the length of the boundry for each region
+  
+  SArray1dC<UIntT> SegmentationBodyC::LocalBoundryLength() {
+    SArray1dC<UIntT> ret(labels);
+    ret.Fill(0);
+    Array2dSqr2IterC<UIntT> it(segmap);
+    if(!it) return ret;
+    // First pixel
+    if(it.DataBL() != it.DataTL()) {
+      ret[it.DataBL()]++;
+      ret[it.DataTL()]++;
+    }
+    // First row.
+    for(;it.Next();) {
+      if(it.DataBR() != it.DataTR()) {
+        ret[it.DataBR()]++;
+        ret[it.DataTR()]++;
+      }
+      if(it.DataBR() != it.DataBL()) {
+        ret[it.DataBR()]++;
+        ret[it.DataBL()]++;
+      }
+      if(it.DataTR() != it.DataTL()) {
+        ret[it.DataTR()]++;
+        ret[it.DataTL()]++;
+      }
+    }
+    // Rest of image.
+    for(;it;) {
+      // First pixel in row.
+      if(it.DataBL() != it.DataTL()) {
+        ret[it.DataBL()]++;
+        ret[it.DataTL()]++;
+      }
+      // The rest of the image row.
+      for(;it.Next();) { 
+        if(it.DataBR() != it.DataTR()) {
+          ret[it.DataBR()]++;
+          ret[it.DataTR()]++;
+        }
+        if(it.DataBR() != it.DataBL()) {
+          ret[it.DataBR()]++;
+          ret[it.DataBL()]++;
+        }
       }
     }
     return ret;
