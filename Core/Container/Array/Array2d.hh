@@ -270,13 +270,13 @@ namespace RavlN {
     //: Calculate the index of the maximum value in the array
 
     Index2dC IndexOfMin() const {
-      RavlAssertMsg(Frame().Area() > 0,"Array2dC::IndexOfMax() Called on an empty array");
-      Index2dC indexOfMin (Frame().Origin());
-      DataT valueOfMin = operator[](indexOfMin);
+      RavlAssertMsg(this->Frame().Area() > 0,"Array2dC::IndexOfMin() Called on an empty array");
+      Index2dC indexOfMin (this->Frame().Origin());
+      DataT valueOfMin = this->operator[](indexOfMin);
       for (BufferAccess2dIterC<DataT> i((*this),Range2()) ; i; i++) {
 	if (valueOfMin > *i) {
 	  valueOfMin = *i;
-	  indexOfMin = i.Index(ReferenceElm());
+	  indexOfMin = i.Index(this->ReferenceElm());
 	}
       }
       return indexOfMin;
