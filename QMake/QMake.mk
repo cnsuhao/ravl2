@@ -22,8 +22,14 @@ endif
   ARC=$(shell $(MAKEHOME)/config.arc)#
 #endif
 
-
 export ARC
+
+ifndef LOCALARC
+  LOCALARC=$(shell $(MAKEHOME)/config.arc)#
+endif
+
+export LOCALARC
+
 
 MAKEDEFS:=perl -f $(MAKEHOME)/mkdefs.pl
 
@@ -40,7 +46,7 @@ ifndef PAGER
 endif
 
 export ARC
-export LOCALBIN := $(INSTALLHOME)/lib/RAVL/$(ARC)/bin
+export LOCALBIN := $(INSTALLHOME)/lib/RAVL/$(LOCALARC)/bin
 export DPATH:=$(shell basename $(shell 'pwd'))
 export TARGET
 
@@ -180,9 +186,11 @@ test: src
 	else \
 	  echo "test: Failed to do executable build. " ; \
 	  exit 1 ; \
-	fi ; \
-	sort -u -o$(INST_TESTDB) $(INST_TESTDB); \
+	fi ;
+ifeq ($(ARC),$(LOCALARC))
+	$(SHOWIT)sort -u -o$(INST_TESTDB) $(INST_TESTDB); \
 	$(LOCALBIN)/Validate -v $(INST_TEST)
+endif
 
 retest:
 	$(SHOWIT)sort -u -o$(INST_TESTDB) $(INST_TESTDB) ; \

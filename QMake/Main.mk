@@ -121,7 +121,7 @@ endif
 
 AUXDIR:=$(strip $(AUXDIR))#
 
-UNTOUCH:=$(INSTALLHOME)/lib/RAVL/$(ARC)/bin/untouch
+UNTOUCH:=$(LOCALBIN)/untouch
 
 ###########################
 # Platform supported ?
