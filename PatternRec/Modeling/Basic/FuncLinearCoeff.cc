@@ -13,6 +13,14 @@
 #include "Ravl/PatternRec/DataSet2Iter.hh"
 #include "Ravl/PatternRec/SampleVector.hh"
 #include "Ravl/MatrixRUT.hh"
+#include "Ravl/config.h"
+
+#if RAVL_COMPILER_MIPSPRO 
+#include "Ravl/DP/Port.hh"
+#include "Ravl/Tuple2.hh"
+#include "Ravl/Vector.hh"
+#pragma instantiate RavlN::DPIPortBodyC<RavlN::Tuple2C<RavlN::VectorC,RavlN::VectorC> >
+#endif 
 
 namespace RavlN {
   
