@@ -78,7 +78,8 @@ namespace RavlImageN {
     
     bool Apply(const ImageC<InT> &src,const Array1dC<Point2dC> &orgPos,const Array1dC<Point2dC> &newPos,ImageC<OutT> &ret) {
       if(ret.IsEmpty())
-	ret = ImageC<ByteT>(src.Frame());
+	ret = ImageC<OutT>(src.Frame());
+      OutT val;
       RealRange2dC irng(src.Frame());
       irng = irng.Expand(-1.1); // There's an off by a bit error somewhere in here...
       MatrixC w = ComputeW(newPos,orgPos); // We need a mapping from new positions to old.
@@ -92,9 +93,10 @@ namespace RavlImageN {
 	do {
 	  ComputeWUd(orgPos,at,w,pat);
 	  //cerr << " " << at << " => " << pat << "\n";
-	  if(irng.Contains(pat))
-	    mixer(*it,src.BiLinear(pat - Point2dC(0.5,0.5)));
-	  else {
+	  if(irng.Contains(pat)) {
+	    BiLinear(src,pat - Point2dC(0.5,0.5),val);
+	    mixer(*it,val);
+	  } else {
 	    if(fillBackground)
 	      SetZero(*it);
 	  }
