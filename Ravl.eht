@@ -21,7 +21,10 @@ You can search the online RAVL documentation:
 </FORM>
 </center>
 <!-- Search --><p>
-NOTE: The RAVL search engine is still in testing, if you have any problems, please mail <A HREF="mailto:smith@omniperception.com">James Smith</A> with details.<p><p>
+NOTE: The RAVL search engine is still in testing, if you have any problems, please mail <A HREF="mailto:smith@omniperception.com">James Smith</A> with details.
+<p>
+Galeon users can add a Smart Bookmark for the documentation by right-clicking on <a type="text/smartbookmark" href="http://ravl.sourceforge.net/share/doc/RAVL/Auto/Basic/Tree/Ravl.html" rel="http://ravl.sourceforge.net/search/search.php?page=1&search=%s" title="RAVL Manual">this link</A> and choosing "Add Bookmark".
+<p>
 
 
 RAVL is hosted by : 
