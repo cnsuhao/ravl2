@@ -34,7 +34,7 @@ namespace RavlN {
   bool FunctionBodyC::Save (ostream &out) const {
     if(!RCBodyVC::Save(out))
       return false;
-    out << inputSize << ' ' << outputSize << ' ';
+    out  << ' ' << inputSize << ' ' << outputSize << ' ';
     return true;
   }
   

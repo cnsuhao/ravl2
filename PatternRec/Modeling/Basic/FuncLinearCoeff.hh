@@ -61,6 +61,12 @@ namespace RavlN {
     
     virtual bool SetTransform(const MatrixC &a);
     //: Attempt to set transform matrix.
+    
+    MatrixC &Transform()
+    { return a; }
+    //: Access transform matrix.
+    // Advanced users only.
+    
   protected:
     MatrixC a;
   };
@@ -82,6 +88,16 @@ namespace RavlN {
     
     FuncLinearCoeffC(BinIStreamC &strm);
     //: Load from binary stream.
+    
+    FuncLinearCoeffC(const FunctionC &base)
+      : FunctionC(base)
+    {
+      if(dynamic_cast<FuncLinearCoeffBodyC *>(&FunctionC::Body()) == 0)
+	Invalidate();
+    }
+    //: Construct from base class.
+    // If base isn't derived from FuncLinearCoeff an invalid handle will
+    // be created.
     
   protected:
     FuncLinearCoeffC(FuncLinearCoeffBodyC &bod)
@@ -119,6 +135,10 @@ namespace RavlN {
     { return Body().NumberCoeffs(inputSize); }
     //: Calculate the number of coefficents for a given input size.
     
+    MatrixC &Transform()
+    { return Body().Transform(); }
+    //: Access transform matrix.
+    // Advanced users only.
   };
   
   inline istream &operator>>(istream &strm,FuncLinearCoeffC &obj) {

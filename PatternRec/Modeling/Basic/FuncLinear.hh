@@ -62,7 +62,15 @@ namespace RavlN {
 
     virtual bool SetTransform(const MatrixC &a);
     //: Setup the transform.
-
+    
+    VectorC &Mean()
+    { return mean; }
+    //: Access mean.
+    
+    MatrixC &Projection()
+    { return proj; }
+    //: Access projection.
+    
   protected:
     // These are extracted from transform 'a'
     VectorC mean;
@@ -118,6 +126,13 @@ namespace RavlN {
     //: Access body.
     
   public:    
+    VectorC &Mean()
+    { return Body().Mean(); }
+    //: Access mean.
+    
+    MatrixC &Projection()
+    { return Body().Projection(); }
+    //: Access projection.
   };
   
   inline istream &operator>>(istream &strm,FuncLinearC &obj) {

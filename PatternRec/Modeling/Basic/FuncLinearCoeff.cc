@@ -22,24 +22,20 @@ namespace RavlN {
   
   FuncLinearCoeffBodyC::FuncLinearCoeffBodyC(istream &strm)
     : FunctionBodyC(strm)
-  {
-    strm >> a;
-  }
+  { strm >> a; }
   
   //: Load from binary stream.
   
   FuncLinearCoeffBodyC::FuncLinearCoeffBodyC(BinIStreamC &strm) 
     : FunctionBodyC(strm)
-  {
-    strm >> a;
-  }
+  { strm >> a; }
   
   //: Writes object to stream, can be loaded using constructor
   
   bool FuncLinearCoeffBodyC::Save (ostream &out) const {
     if(!FunctionBodyC::Save(out))
       return false;
-    out << a << ' ';
+    out << ' ' << a ;
     return true;
   }
   
