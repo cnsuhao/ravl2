@@ -34,12 +34,17 @@ namespace RavlGUIN
     {}
     // constructor
     
-    virtual bool Render(Canvas3DC &c3d)
-    {  
+    virtual bool Render(Canvas3DC &c3d) {  
       DSurfacePointVertexByteRGBArray(surface); 
       return true; 
     }
     //: render object
+    
+    virtual Vector3dC Center();
+    //: Get center of object.
+    
+    virtual RealT Extent();
+    //: Get extent of object.
     
   protected:
     SurfacePoint3dArrayC<VertexColourByteRGBC> surface;

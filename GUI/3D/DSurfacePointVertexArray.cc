@@ -22,4 +22,32 @@ namespace RavlGUIN
     }
     glEnd();
   }
+
+
+  
+  //: Get center of object.
+  
+  Vector3dC DSurfacePointVertexArrayBodyC::Center() {
+    Vector3dC vec(0,0,0);
+    for(SArray1dIterC<VertexC> it(surface);it;it++) {
+      vec += it->Position();
+    }
+    vec /= (RealT)surface.Size();
+    return vec;
+  }
+  
+  //: Get extent of object.
+  
+  RealT DSurfacePointVertexArrayBodyC::Extent() {
+    Vector3dC vec(0,0,0);
+    for(SArray1dIterC<VertexC> it(surface);it;it++) {
+      vec += it->Position();
+    }
+    vec /= (RealT)surface.Size();
+    RealT dist = 0;
+    for(SArray1dIterC<VertexC> it(surface);it;it++)
+      dist = Max(dist,vec.EuclidDistance(it->Position()));
+    return dist;
+  }
+
 }

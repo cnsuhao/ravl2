@@ -6,6 +6,7 @@
 // file-header-ends-here
 //////////////////////////////////////////////////////
 //! rcsid="$Id$"
+//! lib=RavlGUI3D
 
 #include "Ravl/GUI/Window.hh"
 #include "Ravl/GUI/Manager.hh"

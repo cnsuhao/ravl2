@@ -12,8 +12,7 @@
 
 namespace RavlGUIN
 {
-  void DSurfacePointVertexByteRGBArray(const SurfacePoint3dArrayC<VertexColourByteRGBC>& s)
-  {
+  void DSurfacePointVertexByteRGBArray(const SurfacePoint3dArrayC<VertexColourByteRGBC>& s) {
     glBegin(GL_POINTS);
     for (SArray1dIterC<VertexColourByteRGBC> i(s); i; i++)
     {
@@ -23,4 +22,32 @@ namespace RavlGUIN
     }
     glEnd();
   }
+  
+  
+  
+  //: Get center of object.
+  
+  Vector3dC DSurfacePointVertexByteRGBArrayBodyC::Center() {
+    Vector3dC vec(0,0,0);
+    for(SArray1dIterC<VertexColourByteRGBC> it(surface);it;it++)
+      vec += it->Position();
+    vec /= (RealT)surface.Size();
+    return vec;
+  }
+  
+  //: Get extent of object.
+  
+  RealT DSurfacePointVertexByteRGBArrayBodyC::Extent() {
+    Vector3dC vec(0,0,0);
+    for(SArray1dIterC<VertexColourByteRGBC> it(surface);it;it++)
+      vec += it->Position();
+    vec /= (RealT)surface.Size();
+    RealT dist = 0;
+    for(SArray1dIterC<VertexColourByteRGBC> it(surface);it;it++)
+      dist = Max(dist,vec.EuclidDistance(it->Position()));
+    return dist;
+  }
+
+  
+  
 }

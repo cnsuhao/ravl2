@@ -122,5 +122,37 @@ namespace RavlGUIN {
     return true;
   }
 
+
+  //: Get center of object.
+  // defaults to 0,0,0
+  
+  Vector3dC DPointSet3DBodyC::Center() {
+    
+    Vector3dC ncenter(0,0,0);
+    SArray1dC<VertexC>& verts = pointSet.Vertices();
+    for(SArray1dIterC<VertexC> it(verts);it;it++)
+      ncenter += it->Position();
+    
+    ncenter /= (RealT) verts.Size();
+    return ncenter;
+  }
+  
+  //: Get extent of object.
+  // defaults to 1
+  
+  RealT DPointSet3DBodyC::Extent() {
+    Vector3dC ncenter(0,0,0);
+    SArray1dC<VertexC>& verts = pointSet.Vertices();
+    for(SArray1dIterC<VertexC> it(verts);it;it++)
+      ncenter += it->Position();
+    ncenter /= (RealT) verts.Size();
+    
+    RealT dist = 0;
+    for(SArray1dIterC<VertexC> it(verts);it;it++)
+      dist = Max(dist,Sqrt((ncenter - it->Position()).SumOfSqr()));
+    
+    return dist;
+  }
+
 }
 

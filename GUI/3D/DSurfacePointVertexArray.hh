@@ -41,6 +41,12 @@ namespace RavlGUIN
     }
     //: Render object.
     
+    virtual Vector3dC Center();
+    //: Get center of object.
+    
+    virtual RealT Extent();
+    //: Get extent of object.
+    
   protected:
     SurfacePoint3dArrayC<VertexC> surface;
   };

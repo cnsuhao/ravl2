@@ -37,6 +37,14 @@ namespace RavlGUIN
     virtual bool Render(Canvas3DC &c3d);
     //: Render object.
     
+    virtual Vector3dC Center();
+    //: Get center of object.
+    // defaults to 0,0,0
+    
+    virtual RealT Extent();
+    //: Get extent of object.
+    // defaults to 1
+    
   protected:
     PointSetC pointSet;
   };

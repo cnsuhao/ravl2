@@ -108,9 +108,16 @@ namespace RavlGUIN {
     else if(me.HasChanged(1)) 
       m_pixButton1Pos = me.Position();
     else if(me.HasChanged(2)) {
-    ONDEBUG(cerr << "Show menu. \n");
-    backMenu.Popup(); 
+      ONDEBUG(cerr << "Show menu. \n");
+      backMenu.Popup(); 
+    }  else if(me.HasChanged(3)) {
+      // Zoom in
+      //ChangeFOV(-3);
+    } else if(me.HasChanged(4)) {
+      // Zoom out
+      //ChangeFOV(3);
     }
+    
     return true;
   }
   
