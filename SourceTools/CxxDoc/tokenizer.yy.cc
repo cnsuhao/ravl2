@@ -1276,7 +1276,7 @@ YY_RULE_SETUP
 case 9:
 YY_RULE_SETUP
 #line 105 "tokenizer.l"
-{ CommentUpdate(yylval,STR(const)    ,yylineno); return CV_QUALIFIER;  }
+{ CommentUpdate(yylval,STR(static)    ,yylineno); return CV_QUALIFIER;  }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
@@ -2012,7 +2012,7 @@ yyFlexLexer::yyFlexLexer( istream* arg_yyin, ostream* arg_yyout )
 
 yyFlexLexer::~yyFlexLexer()
 	{
-	delete [] yy_state_buf;
+	delete yy_state_buf;
 	yy_delete_buffer( yy_current_buffer );
 	}
 

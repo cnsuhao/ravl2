@@ -102,7 +102,7 @@ SCHAR [^"\\\n]|{ESCAPE_SEQUENCE}
 <INITIAL>"protected"     { CommentUpdate(yylval,STR(protected),yylineno); return PROTECTED;  }
 <INITIAL>"private"       { CommentUpdate(yylval,STR(private)  ,yylineno); return PRIVATE;    }
 <INITIAL>"const"         { CommentUpdate(yylval,STR(const)    ,yylineno); return CV_QUALIFIER;  }
-<INITIAL>"static"        { CommentUpdate(yylval,STR(const)    ,yylineno); return CV_QUALIFIER;  }
+<INITIAL>"static"        { CommentUpdate(yylval,STR(static)    ,yylineno); return CV_QUALIFIER;  }
 <INITIAL>"virtual"       { CommentUpdate(yylval,STR(virtual)  ,yylineno); return CPVIRTUAL;  }
 
 <INITIAL>"enum"          { CommentUpdate(yylval,STR(enum)     ,yylineno); return ENUM;     }
