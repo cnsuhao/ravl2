@@ -63,10 +63,11 @@ namespace RavlN {
       }
     } else {
       // If requested file does not exists, it MUST be a file sequence, or a mistake.
+      ONDEBUG(cerr << "OpenISequenceBase(), File '" << ifilename << "' doesn't exist. Exist=" << ifilename.Exists() << "\n");
       fileSeq = DPIFileSequenceC(fn);
       if(!fileSeq.Filename().Exists()) {
 	if(verbose) 
-	  cerr << "Can't find file sequence of with base name '" << fn << "' \n";
+	  cerr << "Can't find file sequence of with base name '" << ifilename << "' \n";
 	return false; // Obviously failed to find sequence pattern.
       }
       if(!SystemFileFormatRegistry().FindInputFormat(fmtInfo,fileSeq.Filename(),fileformat,obj_type,verbose))
