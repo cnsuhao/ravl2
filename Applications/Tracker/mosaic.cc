@@ -105,6 +105,7 @@ int Mosaic(int nargs,char **argv) {
   for(IntT frameNo = 0;frameNo < maxFrames;frameNo++) {
     if(!inp.Get(img))
       break;
+    cout << "Tracking frame " << frameNo << endl;
 
     if(K1 == 0.0 && K2 == 0.0) {
       // no distortion, so build mosaic from original images
@@ -142,7 +143,7 @@ int Mosaic(int nargs,char **argv) {
   // save interframe projections if required
   if (homogFile != "") {
     OStreamC homogStream(homogFile);
-    homogStream<<mosaicBuilder.GetMotion() << mosaicBuilder.GetCropRect();
+    homogStream<<mosaicBuilder.GetMotion() << mosaicBuilder.GetCropRect() << endl;
     homogStream.Close();
   }
 
@@ -187,6 +188,7 @@ int Mosaic(int nargs,char **argv) {
     // Read an image from the input.
     if(!inp.Get(img))
       break;
+    cout << "Projection for frame " << frameNo << endl;
 
     // convert image to grey level
     ImageC<ByteT> imgGrey = RGBImageCT2ByteImageCT(img);
