@@ -79,6 +79,10 @@ namespace RavlN {
   { return (IntT) floor(x); }
   //: Returns the greatest integral  value  less  than  or equal  to  'x'.
   
+  inline IntT Ceil(RealT x)
+  { return (IntT) ceil(x); }
+  //: Returns the smallest integral  value  more  than  or equal  to  'x'.
+  
   template<class DataT>
   inline DataT Sqr(const DataT &x)
   { return x * x; }
