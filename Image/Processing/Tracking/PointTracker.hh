@@ -26,7 +26,8 @@ namespace RavlImageN {
   
   //! userlevel=Normal
   //: Point tracker.
-  
+  // It currently uses the Susan corner detector.
+
   class PointTrackerC {
   public:
     PointTrackerC(int cthreshold = 20,
@@ -39,7 +40,15 @@ namespace RavlImageN {
 		  bool useNormCorrelation = false
 		  );
     //: Constructor.
-    // When using normalised correlation nmthreshold should be set to around 2
+    //!param: cthreshold - minimum o/p from corner detector to be classified as corner
+    //!param: cwidth - corner filter width
+    //!param: nmthreshold - minimum o/p from correlator to be classified as match
+    //!param: nmwidth - size of correlator patch; also minimum distance between features
+    //!param: lifeTime - lifetime of a point without a match in the incoming images
+    //!param: searchSize - maximum distance it will look from predicted position of feature
+    //!param: newFreq - introduces new features every "newFreq" frames
+    //!param: useNormCorrelation - use normalised correlation for matching
+    // <b>N.B.:</b> When using normalised correlation, nmthreshold should be set to around 2.
     
     RCHashC<UIntT,PointTrackC> Apply(const ImageC<ByteT> &img);
     //: Returns a list of tracks.
