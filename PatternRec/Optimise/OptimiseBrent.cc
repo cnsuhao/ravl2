@@ -43,7 +43,7 @@ namespace RavlN {
     VectorC iterX1(1);
     VectorC iterX0(1);
 
-    RealT a,b,d,etemp,fx0,fx1,fx2,fx3,p,q,r,tol1,tol2,x3,x2,xm;
+    RealT a,b,d = 0,etemp,fx0,fx1,fx2,fx3,p,q,r,tol1,tol2,x3,x2,xm;
     RealT &x1 = iterX1[0];                  // Cunning trick to allow setting value in iterX directly
     RealT &x0 = iterX0[0];                  // Ditto
     RealT e = 0.0;                          // This will be the distance moved on the step before last.
