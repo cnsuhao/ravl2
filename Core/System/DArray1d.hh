@@ -137,14 +137,14 @@ namespace RavlN {
 	allocBlocksize(1024)
     { chunks.InsLast(*new DChunkC<DataT>(Array1dC<DataT>(size))); }
     //: Constructor an array with size elements allocated.
-
+    
     DArray1dBodyC(SizeT size,bool preAlloc) 
-      : nextFree(0),
-	allocBlocksize(1024),
-	lastBlk(size)
+      : lastBlk(size),
+	nextFree(0),
+	allocBlocksize(1024)
     { 
       if(size > 0 && preAlloc)
-	chunks.InsLast(*new DChunkC<DataT>(Array1dC<DataT>(arr,IndexRange(0,-1)))); 
+	chunks.InsLast(*new DChunkC<DataT>(Array1dC<DataT>(lastBlk,IndexRangeC(0,-1)))); 
     }
     //: Constructor an array with an expected size.
     // This is usefull if you know you'll be appending 'size' elements.
@@ -305,7 +305,13 @@ namespace RavlN {
     {}
     //: Size constructor.
     // Creates an array of the given size starting from index 0.
-
+    
+    DArray1dC(SizeT size,bool preAlloc)
+      : RCHandleC<DArray1dBodyC<DataT> >(*new DArray1dBodyC<DataT>(size,preAlloc))
+    {}
+    //: Constructor an array with an expected size.
+    // This is usefull if you know you'll be appending 'size' elements.
+    
     DArray1dC(const Array1dC<DataT> &arr)
       : RCHandleC<DArray1dBodyC<DataT> >(*new DArray1dBodyC<DataT>(arr))
     {}
