@@ -20,12 +20,12 @@ extern "C" {
   
   
   static funcptrT ftable[TABLESIZE];
-  static atomic_t reg = ATOMIC_INIT(-1);
+  static ravl_atomic_t reg = RAVL_ATOMIC_INIT(-1);
   
   int atexit(void (*fptr)(void)) {
-    int x = atomic_inc_return(&reg);
+    int x = ravl_atomic_inc_return(&reg);
     if(x >= TABLESIZE) {
-      atomic_dec(&reg);
+      ravl_atomic_dec(&reg);
       return -1;
     }
     ftable[x] = fptr;
@@ -38,10 +38,10 @@ extern "C" {
     int c;
     /* It is just possible that an exit function could inadvernantly call atexit,
        and register another function, so be carefull.... */
-    while((c = atomic_read(&reg)) >= 0) {
+    while((c = ravl_atomic_read(&reg)) >= 0) {
       if(ftable[c] != 0)
 	ftable[c]();
-      atomic_dec(&reg);
+      ravl_atomic_dec(&reg);
     }
   }
   
