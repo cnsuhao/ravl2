@@ -8,7 +8,7 @@
 #define RAVLIMAGE_DRAWPOLYGON_HEADER 1
 ///////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! author="James"
+//! author="James Smith"
 //! date="27/10/2002"
 //! docentry="Ravl.Images"
 //! lib=RavlImage
@@ -32,21 +32,16 @@ namespace RavlImageN {
     if (fill) {
       // TODO: Optimised triangle drawing (scan-line algorithm, probably)
       // Create bounding box for polygon
-      ImageRectangleC bbox(poly.First(),0);
-      for (DLIterC<Point2dC> it(poly); it; it++) {
-	bbox.Involve(*it);
-      }
-      // This is a bit of a hack - for some reason, the bbox is not big enough...
-      bbox.Expand(1);           
+      IndexRange2dC bbox = poly.BoundingRectangle().IndexRange();
+      bbox.ClipBy(dat.Frame()); // Clip by image size.
+      
       // For each pixel inside bounding box...
       for (Array2dIterC<DataT> it(dat,bbox); it; it++) {
 	// Check if pixel is inside polygon
-	if (poly.Contains(it.Index())) {
+	if (poly.Contains(it.Index()))
 	  *it = value;
-	}
       }
-    }
-    else {
+    } else {
       // Draw individual lines
       for (DLIterC<Point2dC> it(poly); it; it++) {
 	DrawLine(dat,value,it.Data(),it.NextCrcData());
@@ -61,12 +56,9 @@ namespace RavlImageN {
     if (fill) {
       // TODO: Optimised triangle drawing (scan-line algorithm, perhaps)
       // Create bounding box for polygon
-      ImageRectangleC bbox(poly.First(),0);
-      for (DLIterC<Point2dC> it(poly); it; it++) {
-	bbox.Involve(*it);
-      }
-      // This is a bit of a hack - for some reason, the bbox is not big enough...
-      bbox.Expand(1);           
+      IndexRange2dC bbox = poly.BoundingRectangle().IndexRange();
+      bbox.ClipBy(dat.Frame()); // Clip by image size.
+      
       // For each pixel inside bounding box...
       for (Array2dIterC<DataT> it(dat,bbox); it; it++) {
 	// Check if pixel is inside polygon
