@@ -85,7 +85,7 @@ namespace RavlGUIN {
     friend class ListC;
   };
   
-  //! userlevel=Normal
+  //! userlevel=Obsolete
   //: List widget.
   // NOTE: This widget has been replaced by CListC. Use CListC in all new code.
   
