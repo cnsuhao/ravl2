@@ -98,6 +98,12 @@ namespace RavlN {
     const TMatrixC<DataT> &AddDiagonal(const TVectorC<DataT> &d);
     //: Add a vector to the diagonal of this matrix.
     // If d.Size() != Cols() an error is given.
+
+    TMatrixC<DataT> SubMatrix(SizeT size1,SizeT size2)
+    { return TMatrixC<DataT>(SArray2dC<DataT>(*this,size1,size2)); }
+    //: Get sub matrix of size1,size2.
+    // The creates a new access, but does not copy the data itself.
+    // The matrix always starts from 0,0.
     
     DataT SumOfAbs() const;
     //: Sum the absolute values of all members of the matrix.
