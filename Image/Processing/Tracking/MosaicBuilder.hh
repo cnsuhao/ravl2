@@ -31,39 +31,44 @@ namespace RavlImageN {
   //! userlevel=Normal
   //! autoLink=on
   //: Mosaic building class
-  class MosaicBuilderC
+  
+  class MosaicBuilderBodyC
+    : public RCBodyC
   {
   public:
-    MosaicBuilderC(IntT cthreshold,
-		   IntT cwidth,
-		   IntT mthreshold,
-		   IntT mwidth,
-		   IntT lifeTime,
-		   IntT searchSize,
-		   IntT newFreq,
-		   IntT borderC, IntT borderR,
-		   RealT zhomog,
-		   IntT cropT, IntT cropB, IntT cropL, IntT cropR,
-		   const Point2dC &npointTL,
-		   const Point2dC &npointTR,
-		   const Point2dC &npointBL,
-		   const Point2dC &npointBR,
-		   IntT maxFrames);
+    MosaicBuilderBodyC(IntT cthreshold,
+		       IntT cwidth,
+		       IntT mthreshold,
+		       IntT mwidth,
+		       IntT lifeTime,
+		       IntT searchSize,
+		       IntT newFreq,
+		       IntT borderC, IntT borderR,
+		       RealT zhomog,
+		       IntT cropT, IntT cropB, IntT cropL, IntT cropR,
+		       const Point2dC &npointTL,
+		       const Point2dC &npointTR,
+		       const Point2dC &npointBL,
+		       const Point2dC &npointBR,
+		       IntT maxFrames);
     //: Constructor
     // Initialises mosaic builder
-
+    
     bool Apply(const ImageC<ByteRGBValueC> &img);
     //: Add an image to the mosaic.
-
+    
+    bool Reset(const ImageC<ByteRGBValueC> &img);
+    //: Start new mosaic using 'img' as the initial frame.
+    
     Matrix3dC GetMotion(IntT frame) const;
     //: Returns the 2D projective motion relative to the first frame.
-
+    
     const ImageC<ByteRGBMedianC> & GetMosaic() const;
     //: Returns the mosaic image
-
+    
     const IndexRange2dC & GetCropRect() const;
     //: Returns the crop rectangle
-
+    
   private:
     // stored parameters
     IntT borderC, borderR;
@@ -71,7 +76,7 @@ namespace RavlImageN {
     Point2dC pointTL, pointTR, pointBL, pointBR;
     IntT maxFrames;
     RealT zhomog;
-
+    
     // stored data
     SArray1dC<Matrix3dC> Parray;
     PointTrackerC tracker;
@@ -86,6 +91,79 @@ namespace RavlImageN {
     ImageC<ByteRGBMedianC> mosaic;
     int frameNo;
   };
+
+  //! userlevel=Normal
+  //! autoLink=on
+  //: Mosaic building class
+  
+  class MosaicBuilderC
+    : public RCHandleC<MosaicBuilderBodyC>
+  {
+  public:
+    MosaicBuilderC()
+    {}
+    //: Default constructor.
+    // Creates an invalid handle.
+
+    MosaicBuilderC(IntT cthreshold,
+		   IntT cwidth,
+		   IntT mthreshold,
+		   IntT mwidth,
+		   IntT lifeTime,
+		   IntT searchSize,
+		   IntT newFreq,
+		   IntT borderC, IntT borderR,
+		   RealT zhomog,
+		   IntT cropT, IntT cropB, IntT cropL, IntT cropR,
+		   const Point2dC &npointTL,
+		   const Point2dC &npointTR,
+		   const Point2dC &npointBL,
+		   const Point2dC &npointBR,
+		   IntT maxFrames)
+      : RCHandleC<MosaicBuilderBodyC>(*new MosaicBuilderBodyC(cthreshold, cwidth,
+							      mthreshold, mwidth,
+							      lifeTime, searchSize, newFreq,
+							      borderC, borderR,
+							      zhomog,
+							      cropT,  cropB,  cropL,  cropR,
+							      npointTL, npointTR, npointBL, npointBR,
+							      maxFrames
+							      ))
+    {}
+    //: Constructor.
+    
+  protected:
+    MosaicBuilderBodyC &Body()
+    { return RCHandleC<MosaicBuilderBodyC>::Body(); }
+    //: Access body.
+    
+    const MosaicBuilderBodyC &Body() const
+    { return RCHandleC<MosaicBuilderBodyC>::Body(); }
+    //: Access body.
+    
+  public:
+    bool Apply(const ImageC<ByteRGBValueC> &img)
+    { return Body().Apply(img); }
+    //: Add an image to the mosaic.
+    
+    bool Reset(const ImageC<ByteRGBValueC> &img)
+    { return Body().Reset(img); }
+    //: Start new mosaic using 'img' as the initial frame.
+    
+    Matrix3dC GetMotion(IntT frame) const
+    { return Body().GetMotion(frame); }
+    //: Returns the 2D projective motion relative to the first frame.
+    
+    const ImageC<ByteRGBMedianC> & GetMosaic() const
+    { return Body().GetMosaic(); }
+    //: Returns the mosaic image
+    
+    const IndexRange2dC & GetCropRect() const
+    { return Body().GetCropRect(); }
+    //: Returns the crop rectangle
+    
+  };
+  
 }
 
 

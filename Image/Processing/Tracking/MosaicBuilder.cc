@@ -35,7 +35,7 @@ namespace RavlImageN {
   using namespace RavlN;
 
   //: Constructor for mosaic builder
-  MosaicBuilderC::MosaicBuilderC(IntT cthreshold,
+  MosaicBuilderBodyC::MosaicBuilderBodyC(IntT cthreshold,
 				 IntT cwidth,
 				 IntT mthreshold,
 				 IntT mwidth,
@@ -79,88 +79,94 @@ namespace RavlImageN {
     frameNo = -1;
   }
   
-  //: Add an image to the mosaic.
-  bool MosaicBuilderC::Apply(const ImageC<ByteRGBValueC> &img)
-  {
-    if ( frameNo<0 ) {
-
-      // set frame from first image
-      rect = IndexRange2dC(img.Frame());
-
-      // adjust frame for cropping region
-      rect.TRow() += cropT; rect.BRow() -= cropB;
-      rect.LCol() += cropL; rect.RCol() -= cropR;
-
-      // crop image
-      ImageC<ByteRGBValueC> croppedImg(img,rect);
-      
-      // convert image to grey level
-      greyImg = RGBImageCT2ByteImageCT(croppedImg);
-
-      // initialise tracker
-      corners = tracker.Apply(greyImg);
-      last = corners;
-
-      // create initially empty mosaic
-      mosaicRect=rect;
-      mosaicRect.BRow() += 2*borderR;
-      mosaicRect.RCol() += 2*borderC;
+  //: Start new mosaic using 'img' as the initial frame.
   
-      mosaic = ImageC<ByteRGBMedianC>(mosaicRect);
-      ByteRGBValueC val(0,0,0);
-      for(Array2dIterC<ByteRGBMedianC> it(mosaic); it;it++ )
-	*it = ByteRGBMedianC(val);
-  
-      // initialise accumulated motion
-      SArray1dC<Vector2dC> p1(4), p2(4);
-      MatrixC A(8,8);
-      A.Fill(0.0);
-      VectorC b(8);
-
-      p1[0][0] =               0.0; p1[0][1] =               0.0;
-      p1[1][0] =               0.0; p1[1][1] = (RealT)img.Cols();
-      p1[2][0] = (RealT)img.Rows(); p1[2][1] =               0.0;
-      p1[3][0] = (RealT)img.Rows(); p1[3][1] = (RealT)img.Cols();
-      p2[0][0] = pointTL[0] * (RealT)img.Rows();
-      p2[0][1] = pointTL[1] * (RealT)img.Cols();
-      p2[1][0] = pointTR[0] * (RealT)img.Rows();
-      p2[1][1] = pointTR[1] * (RealT)img.Cols();
-      p2[2][0] = pointBL[0] * (RealT)img.Rows();
-      p2[2][1] = pointBL[1] * (RealT)img.Cols();
-      p2[3][0] = pointBR[0] * (RealT)img.Rows();
-      p2[3][1] = pointBR[1] * (RealT)img.Cols();
-
-      for(IntT i=0; i < 4; i++) {
-	A[i*2][0] = p1[i][0]*zhomog; A[i*2][1] = p1[i][1]*zhomog;
-	A[i*2][2] = zhomog*zhomog;
-	A[i*2][6] = -p1[i][0]*p2[i][0]; A[i*2][7] = -p1[i][1]*p2[i][0];
-	b[i*2] = zhomog*p2[i][0];
-	A[i*2+1][3] = p1[i][0]*zhomog; A[i*2+1][4] = p1[i][1]*zhomog;
-	A[i*2+1][5] = zhomog*zhomog;
-	A[i*2+1][6] = -p1[i][0]*p2[i][1]; A[i*2+1][7] = -p1[i][1]*p2[i][1];
-	b[i*2+1] = zhomog*p2[i][1];
-      }
-
-      // solve for solution vector
-      SolveIP(A,b);
-      Psum = Matrix3dC(b[0], b[1], b[2],
-		       b[3], b[4], b[5],
-		       b[6], b[7], 1.0);
-      Psum = Psum.Inverse();
-
-      // projective warp of first image
-      Matrix3dC Psm;
-      MulM<RealT,3,3,3>(Psum,Pmosaic,Psm); // Odd format for Visual C++ fix..
-      
-      if(maxFrames>0) Parray[0]=Psm;
-      Psm = Psm.Inverse();
-      WarpProjectiveC<ByteRGBValueC,ByteRGBMedianC,PixelMixerRecursiveC<ByteRGBValueC,ByteRGBMedianC> > pwarp(mosaicRect,Psm,zhomog,1.0,false);
-      pwarp.Apply(croppedImg,mosaic);
-
-      frameNo=0;
-      return true;
+  bool MosaicBuilderBodyC::Reset(const ImageC<ByteRGBValueC> &img) {
+    
+    // set frame from first image
+    rect = IndexRange2dC(img.Frame());
+    
+    // adjust frame for cropping region
+    rect.TRow() += cropT; rect.BRow() -= cropB;
+    rect.LCol() += cropL; rect.RCol() -= cropR;
+    
+    // crop image
+    ImageC<ByteRGBValueC> croppedImg(img,rect);
+    
+    // convert image to grey level
+    greyImg = RGBImageCT2ByteImageCT(croppedImg);
+    
+    // initialise tracker
+    corners = tracker.Apply(greyImg);
+    last = corners;
+    
+    // create initially empty mosaic
+    mosaicRect=rect;
+    mosaicRect.BRow() += 2*borderR;
+    mosaicRect.RCol() += 2*borderC;
+    
+    mosaic = ImageC<ByteRGBMedianC>(mosaicRect);
+    ByteRGBValueC val(0,0,0);
+    for(Array2dIterC<ByteRGBMedianC> it(mosaic); it;it++ )
+      *it = ByteRGBMedianC(val);
+    
+    // initialise accumulated motion
+    SArray1dC<Vector2dC> p1(4), p2(4);
+    MatrixC A(8,8);
+    A.Fill(0.0);
+    VectorC b(8);
+    
+    p1[0][0] =               0.0; p1[0][1] =               0.0;
+    p1[1][0] =               0.0; p1[1][1] = (RealT)img.Cols();
+    p1[2][0] = (RealT)img.Rows(); p1[2][1] =               0.0;
+    p1[3][0] = (RealT)img.Rows(); p1[3][1] = (RealT)img.Cols();
+    p2[0][0] = pointTL[0] * (RealT)img.Rows();
+    p2[0][1] = pointTL[1] * (RealT)img.Cols();
+    p2[1][0] = pointTR[0] * (RealT)img.Rows();
+    p2[1][1] = pointTR[1] * (RealT)img.Cols();
+    p2[2][0] = pointBL[0] * (RealT)img.Rows();
+    p2[2][1] = pointBL[1] * (RealT)img.Cols();
+    p2[3][0] = pointBR[0] * (RealT)img.Rows();
+    p2[3][1] = pointBR[1] * (RealT)img.Cols();
+    
+    for(IntT i=0; i < 4; i++) {
+      A[i*2][0] = p1[i][0]*zhomog; A[i*2][1] = p1[i][1]*zhomog;
+      A[i*2][2] = zhomog*zhomog;
+      A[i*2][6] = -p1[i][0]*p2[i][0]; A[i*2][7] = -p1[i][1]*p2[i][0];
+      b[i*2] = zhomog*p2[i][0];
+      A[i*2+1][3] = p1[i][0]*zhomog; A[i*2+1][4] = p1[i][1]*zhomog;
+      A[i*2+1][5] = zhomog*zhomog;
+      A[i*2+1][6] = -p1[i][0]*p2[i][1]; A[i*2+1][7] = -p1[i][1]*p2[i][1];
+      b[i*2+1] = zhomog*p2[i][1];
     }
-
+    
+    // solve for solution vector
+    SolveIP(A,b);
+    Psum = Matrix3dC(b[0], b[1], b[2],
+		     b[3], b[4], b[5],
+		     b[6], b[7], 1.0);
+    Psum = Psum.Inverse();
+    
+    // projective warp of first image
+    Matrix3dC Psm;
+    MulM<RealT,3,3,3>(Psum,Pmosaic,Psm); // Odd format for Visual C++ fix..
+    
+    if(maxFrames>0) Parray[0]=Psm;
+    Psm = Psm.Inverse();
+    WarpProjectiveC<ByteRGBValueC,ByteRGBMedianC,PixelMixerRecursiveC<ByteRGBValueC,ByteRGBMedianC> > pwarp(mosaicRect,Psm,zhomog,1.0,false);
+    pwarp.Apply(croppedImg,mosaic);
+    
+    frameNo=0;
+    return true;    
+  }
+  
+  
+  //: Add an image to the mosaic.
+  bool MosaicBuilderBodyC::Apply(const ImageC<ByteRGBValueC> &img)
+  {
+    if ( frameNo<0 )
+      return Reset(img);
+    
     // not the first image
     frameNo++;
     ImageC<ByteRGBValueC> croppedImg(img,rect);
@@ -258,7 +264,9 @@ namespace RavlImageN {
     Matrix3dC Psm;
     MulM<RealT,3,3,3>(Psum,Pmosaic,Psm);
     
-    if(maxFrames>0)Parray[frameNo]=Psm;
+    if(maxFrames>0)
+      Parray[frameNo]=Psm;
+    
     Psm = Psm.Inverse();
     WarpProjectiveC<ByteRGBValueC,ByteRGBMedianC,PixelMixerRecursiveC<ByteRGBValueC,ByteRGBMedianC> > pwarp(mosaicRect,Psm,zhomog,1.0,false);
     pwarp.Apply(croppedImg,mosaic);
@@ -289,21 +297,21 @@ namespace RavlImageN {
   }
 
   //: Returns the 2D projective motion relative to the first frame.
-  Matrix3dC MosaicBuilderC::GetMotion(IntT frame) const
+  Matrix3dC MosaicBuilderBodyC::GetMotion(IntT frame) const
   {
     RavlAssertMsg(maxFrames>0 && frame>=0 && frame<=frameNo,
-		  "in MosaicBuilderC::GetMotion()");
+		  "in MosaicBuilderBodyC::GetMotion()");
     return Parray[frame];
   }
 
   //: Returns the mosaic image
-  const ImageC<ByteRGBMedianC> & MosaicBuilderC::GetMosaic() const
+  const ImageC<ByteRGBMedianC> & MosaicBuilderBodyC::GetMosaic() const
   {
     return mosaic;
   }
 
   //: Returns the crop rectangle
-  const IndexRange2dC & MosaicBuilderC::GetCropRect() const
+  const IndexRange2dC & MosaicBuilderBodyC::GetCropRect() const
   {
     return rect;
   }
