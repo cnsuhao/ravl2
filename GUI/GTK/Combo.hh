@@ -50,7 +50,7 @@ namespace RavlGUIN {
     //: Add new entry to combo list.
 
     bool DelEntry(StringC &opt);
-    //: Add new entry to combo list.
+    //: Delete entry from combo list.
 
     bool GUIClear();
     //: Clear all entries from combo list.
