@@ -1,7 +1,16 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2001, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 #ifndef RAVLMEANVARIANCE_HEADER
 #define RAVLMEANVARIANCE_HEADER 1
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
+//! userlevel=Normal
+//! docentry="Ravl.Math.Statistics"
+//! lib=RavlMath
 
 #include "Ravl/Math.hh"
 #include "Ravl/SArray1d.hh"

@@ -8,3 +8,5 @@
 #! file="Ravl/Math/Geometry/defs.mk"
 
 NESTED=Euclidean.r
+
+EHT=Ravl.Math.Geometry.html

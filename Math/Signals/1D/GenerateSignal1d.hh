@@ -9,7 +9,9 @@
 ///////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlMath
-//! docentry="Ravl.Math.Signal.1D"
+//! docentry="Ravl.Math.Signals.1D"
+//! userlevel=Normal
+
 #include "Ravl/Array1d.hh"
 
 namespace RavlN {

@@ -12,3 +12,5 @@ DESCRIPTION= Linear Alegbra stuff.
 PACKAGE=Ravl
 
 NESTED=General.r FixedSize.r
+
+EHT=Ravl.Math.Linear_Algebra.html

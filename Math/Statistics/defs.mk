@@ -7,3 +7,5 @@
 #! rcsid="$Id$"
 
 NESTED = MeanCovariance.r Histogram.r
+
+EHT=Ravl.Math.Statistics.html

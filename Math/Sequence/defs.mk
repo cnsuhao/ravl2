@@ -26,3 +26,5 @@ LIBDEPS=RavlMathSequence.def
 USESLIBS=RavlMath
 
 PROGLIBS=RavlImage RavlImageIO
+
+EHT=Ravl.Math.Sequences.html

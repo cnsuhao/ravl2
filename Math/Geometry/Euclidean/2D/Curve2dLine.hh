@@ -1,7 +1,7 @@
 #ifndef RAVL_CURVE2DLINE_HEADER
 #define RAVL_CURVE2DLINE_HEADER 1
 //////////////////////////////////////////////////////
-//! docentry="Ravl.Geometry.2D"
+//! docentry="Ravl.Math.Geometry.2D"
 //! userlevel=Normal
 //! rcsid="$Id$"
 //! file="amma/Geometry/AnGeo2/PCLine.hh"

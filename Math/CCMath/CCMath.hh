@@ -45,6 +45,64 @@ extern "C" {
   void ortho(double *evc,int n) ;
   void smgen(double *a,double *eval,double *evec,int n) ;
   
+
+#if 0  
+  void chcof(double *c,int m,double (*func)()) ;
+  
+  /* functional form: double (*func)(double) */
+  
+  void chpade(double *c,double *a,int m,double *b,int n) ;
+  double ftch(double x,double *a,int m,double *b,int n) ;
+  void cspl(double *x,double *y,double *z,int m,double tn) ;
+  void csplp(double *x,double *y,double *z,int m,double tn) ;
+  double csfit(double w,double *x,double *y,double *z,int m) ;
+  double tnsfit(double w,double *x,double *y,double *z,
+                   int m,double tn) ;
+  double dcspl(double x,double *u,double *v,double *z,int m) ;
+  
+  /* polynominal least squares functions use the Opol structure. */
+  
+  void plsq(double *x,double *y,int n,Opol *c,double *ssq,int m) ;
+  double pplsq(double *x,double *y,int n,double *b,int m) ;
+  double evpsq(double x,Opol *c,int m) ;
+  double evpsqv(double x, Opol *c,int m,double *sig,double sqv) ;
+  void psqcf(double *pc,Opol *c,int m) ;
+  void psqvar(double *var,double s,Opol *c,int m) ;
+
+
+   /* QR transformation for linear least squares. */
+  
+  double qrlsq(double *a,double *b,int m,int n,int *f) ;
+  double qrvar(double *v,int m,int n,double ssq) ;
+  
+  
+  /* singular value decomposition least squares. */     
+  
+  double lsqsv(double *x,int *pr,double *var,double *d,double *b,
+                  double *v,int m,int n,double th) ;
+  int svdlsq(double *d,double *a,double *b,int m,double *v,int n) ;
+  int sv2lsq(double *d,double *a,double *b,int m,double *v,int n) ;
+  
+    
+  /* nonlinear least squares */
+  
+  double seqlsq(double *x,double *y,int n,double *par,double *var,
+                   int m,double de,double (*func)(),int kf) ;
+  
+  /* functional form: double (*func)(double x,double *par) */
+  
+  double gnlsq(double *x,double *y,int n,double *par,
+	       double *var,int m,double de,double (*func)()) ;
+  
+  /* functional form: double (*func)(double x,double *par) */
+  
+  double fitval(double x,double *s,double *par,double (*fun)(),
+		double *v,int n) ;
+  
+  /* functional form: double (*func)(double x,double *par) */
+  
+  void setfval(int i,int n) ;
+#endif
 }
 
 #endif

@@ -1,10 +1,18 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2001, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 #ifndef RAVLMEANCOVND_HH
 #define RAVLMEANCOVND_HH
 //////////////////////////////////////////////////////////////////////
+//! rcsid="$Id$"
 //! userlevel=Normal
 //! author="Radek Marik"
 //! date="01.01.1994"
-//! rcsid="$Id$"
+//! docentry="Ravl.Math.Statistics"
+//! lib=RavlMath
 
 #include "Ravl/MeanNd.hh"
 #include "Ravl/Matrix.hh"
@@ -14,6 +22,7 @@ class ostream;
 
 namespace RavlN {
   
+  //! userlevel=Normal
   //: Mean and covariance together in N-D space 
   // The class MeanCovarianceNdC serves for computation of the mean
   // and the covariance matrix of a set of N-dimensional data points.
