@@ -60,7 +60,12 @@ namespace RavlN {
     inline FAffineC<N> operator/(const FAffineC &In) const;
     //: 'In' / 'Out' = this; 
     
-    FAffineC<N> I() const;
+    FAffineC<N> I() const
+    { return Inverse(); }
+    //: Generate an inverse transformation.
+    // This is obsolete, use Inverse().
+    
+    FAffineC<N> Inverse() const;
     //: Generate an inverse transformation.
     
     FMatrixC<N,N> &SRMatrix() { return SR; }
@@ -142,7 +147,7 @@ namespace RavlN {
   }
   
   template<unsigned int N>
-  inline FAffineC<N> FAffineC<N>::I(void) const {
+  inline FAffineC<N> FAffineC<N>::Inverse(void) const {
     FAffineC<N> ret;
     ret.SR = SR.Inverse();
     Mul(ret.SR,T,ret.T);
