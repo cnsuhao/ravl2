@@ -1,0 +1,45 @@
+##################################################
+#### Site Specific Configuration file
+##################################################
+##
+## Any undefined variables will be assigned  
+## architecture specific defaults. 
+##
+##################################################
+
+
+
+# Compiler
+##################################################
+
+# paths for cc and c++ compiler
+RAVL_CC  = /opt/Embedix/tools/bin/arm-linux-gcc
+RAVL_CXX = /opt/Embedix/tools/bin/arm-linux-g++
+RAVL_AR  = /opt/Embedix/tools/bin/arm-linux-ar
+
+# extra CFLAGS (c)
+# EXTRA_CFLAGS =
+
+# extra CCFLAGS (c++)
+# EXTRA_CCFLAGS =
+
+# GTK
+##################################################
+
+# gtk path 
+#GTKPATH =  /opt/PDlibs/gtk++-1.2.10
+
+# glib path 
+#GLIBPATH = /opt/PDlibs/glib-1.2.10
+
+# override gtk compile flags 
+# GTKCFLAGS = 
+
+# override glib compile flags
+# GLIBCFLAGS = 
+
+# override gtk link flags 
+# GTKLIBS =
+
+# ovveride glib link flags 
+# GLIBLIBS = 
