@@ -29,6 +29,8 @@ namespace RavlN {
   {
   public:
     FunctionBodyC()
+      : inputSize(0),
+	outputSize(0)
     {}
     //: Default constructor.
     

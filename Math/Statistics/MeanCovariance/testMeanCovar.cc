@@ -94,7 +94,7 @@ int testMeanVar() {
 
 int testFMean() {
   FMeanC<2> mean;
-  mean += Vector2dC(0,1);
+  mean = Vector2dC(0,1);
   mean += Vector2dC(2,5);
   if((mean.Mean() - Vector2dC(1,3)).SumSqr() > 0.00001) return __LINE__;
   if(mean.Number() != 2) return __LINE__;
@@ -104,7 +104,7 @@ int testFMean() {
 
 int testFMeanCovar() {
   FMeanCovarianceC<2> meanco;
-  meanco += Vector2dC(0,1);
+  meanco = Vector2dC(0,1);
   meanco += Vector2dC(2,5);
   if((meanco.Mean() - Vector2dC(1,3)).SumSqr() > 0.00001) return __LINE__;
 
@@ -128,12 +128,12 @@ int testFMeanCovar() {
 int testMeanCovar2d() {
   // Check product operation.
   MeanCovariance2dC mc1;
-  mc1 += Vector2dC(0,0);
+  mc1 = Vector2dC(0,0);
   mc1 += Vector2dC(0.5,1);
   mc1 += Vector2dC(-0.5,1);
   mc1 += Vector2dC(0,2);
   MeanCovariance2dC mc2;
-  mc2 += Vector2dC(0,0);
+  mc2 = Vector2dC(0,0);
   mc2 += Vector2dC(1,0.5);
   mc2 += Vector2dC(1,-0.5);
   mc2 += Vector2dC(2,0);
