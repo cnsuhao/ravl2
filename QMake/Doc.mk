@@ -54,6 +54,12 @@ else
 PACKAGENAME_OPT= 
 endif
 
+ifdef PACKAGEDESC
+PACKAGEDESC_OPT=-pd "$(DESCRIPTION)"
+else
+PACKAGEDESC_OPT= 
+endif
+
 SLIB:=$(strip $(SLIB))
 PLIB:=$(strip $(PLIB))
 
@@ -116,7 +122,7 @@ docinit: docfiles
 
 doc: docinit $(INST_INCLUDE)/.dir $(TARG_DOCNODE)
 	$(SHOWIT)echo "--- Generating documentation" ; \
-	$(CXXDOC) $(PACKAGENAME_OPT) -p $(PROJECT_OUT)	
+	$(CXXDOC) $(PACKAGENAME_OPT) $(PACKAGEDESC_OPT) -p $(PROJECT_OUT)	
 
 $(INST_EHT)/% : % $(INST_EHT)/.dir
 	$(SHOWIT)echo "--- Installing EHT $(@F) to $(INST_EHT)" ; \
