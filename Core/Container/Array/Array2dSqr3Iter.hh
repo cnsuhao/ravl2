@@ -63,18 +63,51 @@ namespace RavlN {
     }
     //: Goto first element in the array.
     
-    bool Next() { 
-      up++;
-      dn++;
-      this->cit++;
-      if(this->cit)
-	return true;
+    bool NextRow() {
       this->rit++;
       if(!this->rit)
 	return false;
       up = &((&(*this->rit))[-1][this->rng.Min()]);
       dn = &((&(*this->rit))[ 1][this->rng.Min()]);
       this->cit.First(this->rit.Data(),this->rng);
+      return true;
+    }
+    //: Goto the next row.
+
+    bool NextRow(UIntT n) {
+      this->rit += n;
+      if(!this->rit)
+	return false;
+      up = &((&(*this->rit))[-1][this->rng.Min()]);
+      dn = &((&(*this->rit))[ 1][this->rng.Min()]);
+      this->cit.First(this->rit.Data(),this->rng);
+      return true;
+    }
+    //: Goto the n th next row.
+    
+    bool NextCol() { 
+      up++;
+      dn++;
+      this->cit++;
+      return (this->cit);
+    }
+    //: Goto next column.
+    
+    bool NextCol(UIntT n) { 
+      up += n;
+      dn += n;
+      this->cit += n;
+      return (this->cit);
+    }
+    //: Goto n th next column.
+    
+    bool Next() { 
+      up++;
+      dn++;
+      this->cit++;
+      if(this->cit)
+	return true;
+      NextRow();
       return false;
     }
     //: Goto next element.
