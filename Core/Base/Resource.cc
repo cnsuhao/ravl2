@@ -10,6 +10,10 @@
 
 #include "Ravl/Resource.hh"
 
+#ifndef PROJECT_OUT
+#define PROJECT_OUT ""
+#endif
+
 namespace RavlN {
   static StringC resourceRoot(PROJECT_OUT);
   

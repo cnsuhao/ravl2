@@ -493,8 +493,7 @@ namespace RavlN {
   
   bool HEMeshBaseBodyC::DeleteVertex(HEMeshBaseVertexC vert) {
     RavlAssert(vert.IsValid());
-    ONDEBUG();
-    //cerr << "HEMeshBaseBodyC::DeleteVertex(), Vert=" << vert.Hash() << " HasEdge=" << vert.HasEdge() << " \n";
+    ONDEBUG(cerr << "HEMeshBaseBodyC::DeleteVertex(), Vert=" << vert.Hash() << " HasEdge=" << vert.HasEdge() << " \n");
     DListC<HEMeshBaseFaceC> delFaces;
     
     for(HEMeshBaseFaceIterC fit(faces);fit;fit++) {
@@ -506,17 +505,15 @@ namespace RavlN {
       }
     }
     
-    //cerr << "HEMeshBaseBodyC::DeleteVertex(), Deleting Faces=" << delFaces.Size() << " Total=" << faces.Size() << "\n";
-    ONDEBUG();
+    //ONDEBUG(cerr << "HEMeshBaseBodyC::DeleteVertex(), Deleting Faces=" << delFaces.Size() << " Total=" << faces.Size() << "\n");
     for(DLIterC<HEMeshBaseFaceC> it2(delFaces);it2;it2++) {
-      //cerr << "HEMeshBaseBodyC::DeleteVertex(), Face=" << it2.Data().Hash() << " Valid=" << it2.Data().IsValid() << " Face=" << ((void *) &(it2->Body())) << "\n";
-      ONDEBUG();
+      //ONDEBUG(cerr << "HEMeshBaseBodyC::DeleteVertex(), Face=" << it2.Data().Hash() << " Valid=" << it2.Data().IsValid() << " Face=" << ((void *) &(it2->Body())) << "\n");
       delete &(it2->Body());
     }
     delete &vert.Body();
 
     // Tidy up any dangling vertex to edge pointers.
-    //cerr << "HEMeshBaseBodyC::DeleteVertex(), Total left=" << faces.Size() << "\n";
+    //ONDEBUG(cerr << "HEMeshBaseBodyC::DeleteVertex(), Total left=" << faces.Size() << "\n");
     
     for(HEMeshBaseFaceIterC fit(faces);fit;fit++) {
       for(HEMeshBaseFaceEdgeIterC eit(*fit);eit;eit++)

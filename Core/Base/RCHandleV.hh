@@ -19,7 +19,7 @@
 
 namespace RavlN {
   class RCAbstractC;
-  
+ 
   template<class BodyT> class RCHandleVC;  
   template<class BodyT> istream &operator>>(istream &strm,RCHandleVC<BodyT> &obj);  
   template<class BodyT> BinIStreamC &operator>>(BinIStreamC &strm,RCHandleVC<BodyT> &obj);
@@ -126,11 +126,11 @@ namespace RavlN {
     bool Save(BinOStreamC &out) const
     { return Body().Save(out); }
     //: Save to binary stream 'out'.
-    
+#if !RAVL_COMPILER_VISUALCPP  
     RCAbstractC Abstract() 
     { return RCAbstractC(Body()); }
     //: Create an abstract handle.    
-    
+#endif    
     RCHandleVC<BodyT> Copy() const
     { return RCHandleVC<BodyT>(Body().Copy()); }
     //: Make copy of body.

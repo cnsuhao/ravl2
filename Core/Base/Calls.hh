@@ -1074,7 +1074,8 @@ namespace RavlN {
   /////////////////////////////////////////////////////////
   //! userlevel=Normal
 
-#if !defined(VISUAL_CPP)
+//#if !defined(RAVL_COMPILER_VISUALCPP)
+#if (!RAVL_COMPILER_VISUALCPP || RAVL_COMPILER_VISUALCPPNET)
   
   template<class RetT>
   inline
@@ -1142,7 +1143,7 @@ namespace RavlN {
   // Doesn't template on return types.
   
   inline
-  CallFunc0C<RetT> Trigger(bool (*nfunc)())
+  CallFunc0C<bool> Trigger(bool (*nfunc)())
   { return CallFunc0C<bool>(nfunc); }
   //: Create a call 
   // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
@@ -1150,54 +1151,54 @@ namespace RavlN {
   template<class DataT>
   inline
   CallFunc1C<DataT,bool> 
-  Trigger(RetT (*nfunc)(DataT dat),const typename TraitsC<DataT>::BaseTypeT &defaultArg)
-  { return CallFunc1C<DataT,RetT>(nfunc,defaultArg); }
+  Trigger(bool (*nfunc)(DataT dat),const typename TraitsC<DataT>::BaseTypeT &defaultArg)
+  { return CallFunc1C<DataT,bool>(nfunc,defaultArg); }
   //: Create a call 
   // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class Data1T,class Data2T>
   inline
   CallFunc2C<Data1T,Data2T,bool> 
-  Trigger(RetT (*nfunc)(Data1T ,Data2T ),
+  Trigger(bool (*nfunc)(Data1T ,Data2T ),
 	  const typename TraitsC<Data1T>::BaseTypeT &defaultArg1,
 	  const typename TraitsC<Data2T>::BaseTypeT &defaultArg2)
-  { return CallFunc2C<Data1T,Data2T,RetT>(nfunc,defaultArg1,defaultArg2); }
+  { return CallFunc2C<Data1T,Data2T,bool>(nfunc,defaultArg1,defaultArg2); }
   //: Create a call 
   // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class Data1T,class Data2T,class Data3T>
   inline
   CallFunc3C<Data1T,Data2T,Data3T,bool> 
-  Trigger(RetT (*nfunc)(Data1T,Data2T,Data3T),
+  Trigger(bool (*nfunc)(Data1T,Data2T,Data3T),
 	  const typename TraitsC<Data1T>::BaseTypeT &defaultArg1,
 	  const typename TraitsC<Data2T>::BaseTypeT &defaultArg2,
 	  const typename TraitsC<Data3T>::BaseTypeT &defaultArg3)
-  { return CallFunc3C<Data1T,Data2T,Data3T,RetT>(nfunc,defaultArg1,defaultArg2,defaultArg3); }
+  { return CallFunc3C<Data1T,Data2T,Data3T,bool>(nfunc,defaultArg1,defaultArg2,defaultArg3); }
   //: Create a call 
   // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class Data1T,class Data2T,class Data3T,class Data4T>
   inline
   CallFunc4C<Data1T,Data2T,Data3T,Data4T,bool> 
-  Trigger(RetT (*nfunc)(Data1T,Data2T,Data3T,Data4T),
+  Trigger(bool (*nfunc)(Data1T,Data2T,Data3T,Data4T),
 	  const typename TraitsC<Data1T>::BaseTypeT &defaultArg1,
 	  const typename TraitsC<Data2T>::BaseTypeT &defaultArg2,
 	  const typename TraitsC<Data3T>::BaseTypeT &defaultArg3,
 	  const typename TraitsC<Data4T>::BaseTypeT &defaultArg4)
-  { return CallFunc4C<Data1T,Data2T,Data3T,Data4T,RetT>(nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4); }
+  { return CallFunc4C<Data1T,Data2T,Data3T,Data4T,bool>(nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4); }
   //: Create a call 
   // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
   template<class Data1T,class Data2T,class Data3T,class Data4T,class Data5T>
   inline
   CallFunc5C<Data1T,Data2T,Data3T,Data4T,Data5T,bool> 
-  Trigger(RetT (*nfunc)(Data1T,Data2T,Data3T,Data4T,Data5T),
+  Trigger(bool (*nfunc)(Data1T,Data2T,Data3T,Data4T,Data5T),
 	  const typename TraitsC<Data1T>::BaseTypeT &defaultArg1,
 	  const typename TraitsC<Data2T>::BaseTypeT &defaultArg2,
 	  const typename TraitsC<Data3T>::BaseTypeT &defaultArg3,
 	  const typename TraitsC<Data4T>::BaseTypeT &defaultArg4,
 	  const typename TraitsC<Data5T>::BaseTypeT &defaultArg5)
-  { return CallFunc5C<Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4,defaultArg5); }
+  { return CallFunc5C<Data1T,Data2T,Data3T,Data4T,Data5T,bool>(nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4,defaultArg5); }
   //: Create a call 
   // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
