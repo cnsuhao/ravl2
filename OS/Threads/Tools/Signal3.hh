@@ -19,7 +19,7 @@
 
 // Fix for Visual C++ which doesn't like default values for
 // some templated arguments. 
-#ifdef VISUAL_CPP
+#ifndef VISUAL_CPP
 #define VCPPARGFIX(x) x
 #else
 #define VCPPARGFIX(x)
@@ -484,7 +484,7 @@ namespace RavlN {
   
   template<class Data1T,class Data2T,class Data3T>  
   inline 
-  SignalConnectorC Connect(Signal0C &from,bool (*func)(Data1T &,Data2T &,Data3T &),const Data1T &def1 =Data1T(),const Data2T &def2 VCPPARGFIX(= Data2T()),const Data3T &def3 VCPPARGFIX(= Data3T())) { 
+  SignalConnectorC Connect(Signal0C &from,bool (*func)(Data1T &,Data2T &,Data3T &),const Data1T &def1 VCPPARGFIX(=Data1T()),const Data2T &def2 VCPPARGFIX(= Data2T()),const Data3T &def3 VCPPARGFIX(= Data3T())) { 
     RavlAssert(from.IsValid());
     return Signal3FuncC<Data1T,Data2T,Data3T>(from,func,def1,def2,def3);
   }

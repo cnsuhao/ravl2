@@ -19,7 +19,7 @@
 
 // Fix for Visual C++ which doesn't like default values for
 // some templated arguments. 
-#ifdef VISUAL_CPP
+#ifndef VISUAL_CPP
 #define VCPPARGFIX(x) x
 #else
 #define VCPPARGFIX(x)
