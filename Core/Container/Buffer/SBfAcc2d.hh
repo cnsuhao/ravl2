@@ -41,30 +41,30 @@ namespace RavlN {
   public:
     SizeBufferAccess2dC(SizeT nsize2)
       : size2(nsize2)
-      {}
+    {}
     //: Constructor.
     
     SizeBufferAccess2dC(const SizeBufferAccessC<BufferAccessC<DataC> > &ab,SizeT nsize2)
       : SizeBufferAccessC<BufferAccessC<DataC> >(ab),
-      size2(nsize2)
-      {}
+	size2(nsize2)
+    {}
     //: Constructor.
 
     SizeBufferAccess2dC(const BufferAccessC<BufferAccessC<DataC> > &ab,SizeT nsize1,SizeT nsize2)
       : SizeBufferAccessC<BufferAccessC<DataC> >(ab,nsize1),
-      size2(nsize2)
-      {}
+	size2(nsize2)
+    {}
     //: Constructor.
     
     SizeBufferAccess2dC()
       : size2(0)
-      {}
+    {}
     //: Default constructor.
     
     inline bool Contains(const Index2dC &i) const { 
       return (((UIntT) i.Col().V()) < size2) && 
 	(((UIntT) i.Row().V()) < Size1()); 
-      }
+    }
     //: Does this buffer contain the index i ?
     // Returns true if yes.
     
@@ -87,19 +87,19 @@ namespace RavlN {
     //: return the item array[(i)]
     
     inline SizeBufferAccessC<DataC> operator[](IndexC i)
-      { return SizeBufferAccessC<DataC>(SizeBufferAccessC<BufferAccessC<DataC> >::operator[](i),size2); }
+    { return SizeBufferAccessC<DataC>(SizeBufferAccessC<BufferAccessC<DataC> >::operator[](i),size2); }
     //: access to the item array[(i)]
     
     inline const SizeBufferAccessC<DataC> operator[](IndexC i) const
-      { return SizeBufferAccessC<DataC>(SizeBufferAccessC<BufferAccessC<DataC> >::operator[](i),size2); }
+    { return SizeBufferAccessC<DataC>(SizeBufferAccessC<BufferAccessC<DataC> >::operator[](i),size2); }
     //: return the item array[(i)]
     
     inline SizeT Size1() const
-      { return SizeBufferAccessC<BufferAccessC<DataC> >::Size(); }
+    { return SizeBufferAccessC<BufferAccessC<DataC> >::Size(); }
     //: Size.
     
     inline SizeT Size2() const
-      { return size2; }
+    { return size2; }
     //: Size.
 
     UIntT Size() const 
@@ -118,7 +118,7 @@ namespace RavlN {
     //: Get the stide of the 2d array. 
     
     bool IsContinuous() const 
-      { return Stride() == (IntT) size2; }
+    { return Stride() == (IntT) size2; }
     //: Test if the array is allocated in a continous area of memory.
     // Note: this only checks the first two rows follow each other in
     // memory, this may miss other discontunities.

@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLRBFACC2ITER2_HEADER
-#define RAVLRBFACC2ITER2_HEADER 1
+#ifndef RAVL_RBFACC2ITER2_HEADER
+#define RAVL_RBFACC2ITER2_HEADER 1
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Core/Container/Buffer/BfAcc2Iter2.hh"
@@ -27,24 +27,24 @@ namespace RavlN {
   class BufferAccess2dIter2C {
   public:
     BufferAccess2dIter2C()
-      {}
+    {}
     //: Default constructor.
     
     BufferAccess2dIter2C(const SizeBufferAccessC<BufferAccessC<Data1T> > &pbuf1,SizeT size1,
 			 const SizeBufferAccessC<BufferAccessC<Data2T> > &pbuf2,SizeT size2)
-      { First(pbuf1,size1,pbuf2,size2); }
+    { First(pbuf1,size1,pbuf2,size2); }
     //: Constructor.
     
     BufferAccess2dIter2C(const RangeBufferAccessC<BufferAccessC<Data1T> > &pbuf1,const IndexRangeC &nrng1,
 			 const RangeBufferAccessC<BufferAccessC<Data2T> > &pbuf2,const IndexRangeC &nrng2)
-      { First(pbuf1,nrng1,pbuf2,nrng2); }
+    { First(pbuf1,nrng1,pbuf2,nrng2); }
     //: Constructor.
 
     BufferAccess2dIter2C(const BufferAccessC<BufferAccessC<Data1T> > &pbufa,const IndexRangeC &nrng1a,const IndexRangeC &nrng2a,
 			 const BufferAccessC<BufferAccessC<Data2T> > &pbufb,const IndexRangeC &nrng1b,const IndexRangeC &nrng2b)
-      { First(pbufa,nrng1a,nrng2a,
-	      pbufb,nrng1b,nrng2b); 
-      }
+    { First(pbufa,nrng1a,nrng2a,
+	    pbufb,nrng1b,nrng2b); 
+    }
     //: Constructor.
 
     bool First(const BufferAccessC<BufferAccessC<Data1T> > &pbufa,const IndexRangeC &nrng1a,const IndexRangeC &nrng2a,
@@ -118,35 +118,35 @@ namespace RavlN {
     // Use with care.
     
     bool IsElm() const
-      { return cit.IsElm(); }
+    { return cit.IsElm(); }
     //: At a valid element ?
     
     operator bool() const
-      { return cit.IsElm(); }
+    { return cit.IsElm(); }
     //: At a valid element ?
     
     void operator++() 
-      { Next(); }
+    { Next(); }
     //: Goto next element.
 
     void operator++(int) 
-      { Next(); }
+    { Next(); }
     //: Goto next element.
     
     Data1T &Data1() 
-      { return cit.Data1(); }
+    { return cit.Data1(); }
     //: Access data.
 
     const Data1T &Data1() const
-      { return cit.Data1(); }
+    { return cit.Data1(); }
     //: Access data.
 
     Data2T &Data2() 
-      { return cit.Data2(); }
+    { return cit.Data2(); }
     //: Access data.
     
     const Data2T &Data2() const
-      { return cit.Data2(); }
+    { return cit.Data2(); }
     //: Access data.
     
     Index2dC Index(const BufferAccessC<Data1T> *row1Begin) const { 
@@ -157,7 +157,7 @@ namespace RavlN {
     // Has to be calculate, and so is slightly slow.
     
     void Invalidate()
-      { cit.Invalidate(); }
+    { cit.Invalidate(); }
     //: Invalidate this iterator.
     
   protected:

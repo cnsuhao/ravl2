@@ -30,16 +30,16 @@ namespace RavlN {
   {
   public:
     Buffer3dBodyC()
-      {}
+    {}
     //: Default constructor.
     
     Buffer3dBodyC(SizeT nsize1,SizeT nsize2,SizeT nsize3)
       : BufferBodyC<BufferAccessC<BufferAccessC<DataT > > >(nsize1),
-      dataIndex(nsize1 * nsize2),
-      data(nsize1 * nsize2 * nsize3),
-      size2(nsize2),
-      size3(nsize3)
-      {}
+	dataIndex(nsize1 * nsize2),
+	data(nsize1 * nsize2 * nsize3),
+	size2(nsize2),
+	size3(nsize3)
+    {}
     //: Sized constructor.
     
 #if 0
@@ -63,31 +63,31 @@ namespace RavlN {
     //: Buffer constructor.
     
     BufferC<DataT> &Data()
-      { return data; }
+    { return data; }
     //: Access data buffer.
     
     const BufferC<DataT> &Data() const
-      { return data; }
+    { return data; }
     //: Access data buffer.
     
     BufferC<BufferAccessC<DataT> > &DataIndex()
-      { return dataIndex; }
+    { return dataIndex; }
     //: Access data buffer.
     
     const BufferC<BufferAccessC<DataT> > &DataIndex() const
-      { return dataIndex; }
+    { return dataIndex; }
     //: Access data buffer.
     
     SizeT Size1() const
-      { return BufferBodyC<BufferAccessC<BufferAccessC<DataT > > >::Size(); }
+    { return BufferBodyC<BufferAccessC<BufferAccessC<DataT > > >::Size(); }
     //: Get size of dimention 1
     
     SizeT Size2() const
-      { return size2; }
+    { return size2; }
     //: Get size of dimention 2
     
     SizeT Size3() const
-      { return size3; }
+    { return size3; }
     //: Get size of dimention 3
     
   protected:
@@ -107,65 +107,65 @@ namespace RavlN {
   {
   public:
     Buffer3dC()
-      {}
+    {}
     //: Default constructor.
     // creates an invalid handle.
     
     Buffer3dC(SizeT size1,SizeT size2,SizeT size3)
       : BufferC<BufferAccessC<BufferAccessC<DataT > > >(*new Buffer3dBodyC<DataT>(size1,size2,size3))
-      {}
+    {}
     //: Size constructor.
 
 #if 0    
     Buffer3dC(const BufferC<DataT> &dat,const BufferC<BufferAccess2dC<DataT> > &buf)
       : BufferC<BufferAccessC<BufferAccessC<DataT > > >(*new Buffer3dBodyC<DataT>(dat,buf)) 
-      {}
+    {}
     //: Constructor.
 #endif
     
     Buffer3dC(const BufferC<DataT> &dat,SizeT rng1,SizeT rng2,SizeT rng3)
       : BufferC<BufferAccessC<BufferAccessC<DataT > > >(*new Buffer3dBodyC<DataT>(dat,rng1,rng2,rng3)) 
-      {}
+    {}
     //: Constructor.
     
   protected:
 
     Buffer3dBodyC<DataT> &Body()
-      { return static_cast<Buffer3dBodyC<DataT> &>(BufferC<BufferAccessC<BufferAccessC<DataT > > >::Body()); }
+    { return static_cast<Buffer3dBodyC<DataT> &>(BufferC<BufferAccessC<BufferAccessC<DataT > > >::Body()); }
     //: Access body.
     
     const Buffer3dBodyC<DataT> &Body() const
-      { return static_cast<const Buffer3dBodyC<DataT> &>(BufferC<BufferAccessC<BufferAccessC<DataT > > >::Body()); }
+    { return static_cast<const Buffer3dBodyC<DataT> &>(BufferC<BufferAccessC<BufferAccessC<DataT > > >::Body()); }
     //: Constant access to body.
     
   public:
     
     BufferC<DataT> &Data()
-      { return Body().Data(); }
+    { return Body().Data(); }
     //: Access data buffer.
     
     const BufferC<DataT> &Data() const
-      { return Body().Data(); }
+    { return Body().Data(); }
     //: Access data buffer.
 
     BufferC<BufferAccessC<DataT> > &DataIndex()
-      { return Body().DataIndex(); }
+    { return Body().DataIndex(); }
     //: Access data buffer.
     
     const BufferC<BufferAccessC<DataT> > &DataIndex() const
-      { return Body().DataIndex(); }
+    { return Body().DataIndex(); }
     //: Access data buffer.
     
     SizeT Size1() const
-      { return Body().Size1(); }
+    { return Body().Size1(); }
     //: Get size of dimention 1
     
     SizeT Size2() const
-      { return Body().Size2(); }
+    { return Body().Size2(); }
     //: Get size of dimention 2
     
     SizeT Size3() const
-      { return Body().Size3(); }
+    { return Body().Size3(); }
     //: Get size of dimention 3
     
   };

@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLBFACC3ITER2_HEADER
-#define RAVLBFACC3ITER2_HEADER 1
+#ifndef RAVL_BFACC3ITER2_HEADER
+#define RAVL_BFACC3ITER2_HEADER 1
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Core/Container/Buffer/BfAcc3Iter2.hh"
@@ -26,28 +26,28 @@ namespace RavlN {
   class BufferAccess3dIter2C {
   public:
     BufferAccess3dIter2C()
-      {}
+    {}
     //: Default constructor.
     
     BufferAccess3dIter2C(const BufferAccessC<BufferAccessC<BufferAccessC<Data1T> > > &pbufa,SizeT size1a,SizeT size2a,SizeT size3a,
-			const BufferAccessC<BufferAccessC<BufferAccessC<Data2T> > > &pbufb,SizeT size1b,SizeT size2b,SizeT size3b)
-      { First(pbufa,size1a,size2a,size3a,
-	      pbufb,size1b,size2b,size3b);
-      }
+			 const BufferAccessC<BufferAccessC<BufferAccessC<Data2T> > > &pbufb,SizeT size1b,SizeT size2b,SizeT size3b)
+    { First(pbufa,size1a,size2a,size3a,
+	    pbufb,size1b,size2b,size3b);
+    }
     //: Constructor.
     
     BufferAccess3dIter2C(const SizeBufferAccessC<BufferAccessC<BufferAccessC<Data1T> > > &pbufa,SizeT size2a,SizeT size3a,
-			const SizeBufferAccessC<BufferAccessC<BufferAccessC<Data2T> > > &pbufb,SizeT size2b,SizeT size3b)
-      { First(pbufa,size2a,size3a,
-	      pbufb,size2b,size3b);
-      }
+			 const SizeBufferAccessC<BufferAccessC<BufferAccessC<Data2T> > > &pbufb,SizeT size2b,SizeT size3b)
+    { First(pbufa,size2a,size3a,
+	    pbufb,size2b,size3b);
+    }
     //: Constructor.
     
     BufferAccess3dIter2C(const RangeBufferAccessC<BufferAccessC<BufferAccessC<Data1T> > > &pbufa,IndexRangeC nrng2a,IndexRangeC nrng3a,
-			const RangeBufferAccessC<BufferAccessC<BufferAccessC<Data2T> > > &pbufb,IndexRangeC nrng2b,IndexRangeC nrng3b)
-      { First(pbufa,nrng2a,nrng3a,
-	      pbufb,nrng2b,nrng3b); 
-      }
+			 const RangeBufferAccessC<BufferAccessC<BufferAccessC<Data2T> > > &pbufb,IndexRangeC nrng2b,IndexRangeC nrng3b)
+    { First(pbufa,nrng2a,nrng3a,
+	    pbufb,nrng2b,nrng3b); 
+    }
     //: Constructor.
     
     bool First(const RangeBufferAccessC<BufferAccessC<BufferAccessC<Data1T> > > &pbufa,IndexRangeC nrng2a,IndexRangeC nrng3a,
@@ -101,9 +101,9 @@ namespace RavlN {
     //: Goto first element in the array
     
     void SliceStart() 
-      { sit.First(rit.Data1(),rng2a,rng3a,
-		  rit.Data2(),rng2b,rng3b); 
-      }
+    { sit.First(rit.Data1(),rng2a,rng3a,
+		rit.Data2(),rng2b,rng3b); 
+    }
     //: Go back to the begining of this row.
     
     bool NextSlice() {
@@ -135,43 +135,43 @@ namespace RavlN {
     // the next row or at the end of the array.
     
     bool IsElm() const
-      { return sit.IsElm(); }
+    { return sit.IsElm(); }
     //: Test if iterator is at a valid element.
     
     operator bool() const
-      { return sit.IsElm(); }
+    { return sit.IsElm(); }
     //: Test if iterator is at a valid element.
     
     void operator++() 
-      { Next(); }
+    { Next(); }
     //: Goto next element.
 
     void operator++(int) 
-      { Next(); }
+    { Next(); }
     //: Goto next element.
     
     Data1T &Data() 
-      { return sit.Data1(); }
+    { return sit.Data1(); }
     //: Access data of current element
 
     const Data1T &Data() const
-      { return sit.Data1(); }
+    { return sit.Data1(); }
     //: Access data of current element
     
     Data1T &Data1() 
-      { return sit.Data1(); }
+    { return sit.Data1(); }
     //: Access data of current element
     
     const Data1T &Data1() const
-      { return sit.Data1(); }
+    { return sit.Data1(); }
     //: Access data of current element
     
     Data2T &Data2() 
-      { return sit.Data2(); }
+    { return sit.Data2(); }
     //: Access data of current element
     
     const Data2T &Data2() const
-      { return sit.Data2(); }
+    { return sit.Data2(); }
     //: Access data of current element
     
   protected:

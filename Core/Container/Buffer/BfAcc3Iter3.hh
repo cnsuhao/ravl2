@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLBFACC3ITER3_HEADER
-#define RAVLBFACC3ITER3_HEADER 1
+#ifndef RAVL_BFACC3ITER3_HEADER
+#define RAVL_BFACC3ITER3_HEADER 1
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Core/Container/Buffer/BfAcc3Iter3.hh"
@@ -26,34 +26,34 @@ namespace RavlN {
   class BufferAccess3dIter3C {
   public:
     BufferAccess3dIter3C()
-      {}
+    {}
     //: Default constructor.
     
     BufferAccess3dIter3C(const BufferAccessC<BufferAccessC<BufferAccessC<Data1T> > > &pbufa,SizeT size1a,SizeT size2a,SizeT size3a,
 			 const BufferAccessC<BufferAccessC<BufferAccessC<Data2T> > > &pbufb,SizeT size1b,SizeT size2b,SizeT size3b,
 			 const BufferAccessC<BufferAccessC<BufferAccessC<Data3T> > > &pbufc,SizeT size1c,SizeT size2c,SizeT size3c)
-      { First(pbufa,size1a,size2a,size3a,
-	      pbufb,size1b,size2b,size3b,
-	      pbufc,size1c,size2c,size3c); 
-      }
+    { First(pbufa,size1a,size2a,size3a,
+	    pbufb,size1b,size2b,size3b,
+	    pbufc,size1c,size2c,size3c); 
+    }
     //: Constructor.
     
     BufferAccess3dIter3C(const SizeBufferAccessC<BufferAccessC<BufferAccessC<Data1T> > > &pbufa,SizeT size2a,SizeT size3a,
 			 const SizeBufferAccessC<BufferAccessC<BufferAccessC<Data2T> > > &pbufb,SizeT size2b,SizeT size3b,
 			 const SizeBufferAccessC<BufferAccessC<BufferAccessC<Data3T> > > &pbufc,SizeT size2c,SizeT size3c)
-      { First(pbufa,size2a,size3a,
-	      pbufb,size2b,size3b,
-	      pbufc,size2c,size3c);
-      }
+    { First(pbufa,size2a,size3a,
+	    pbufb,size2b,size3b,
+	    pbufc,size2c,size3c);
+    }
     //: Constructor.
     
     BufferAccess3dIter3C(const RangeBufferAccessC<BufferAccessC<BufferAccessC<Data1T> > > &pbufa,IndexRangeC nrng2a,IndexRangeC nrng3a,
 			 const RangeBufferAccessC<BufferAccessC<BufferAccessC<Data2T> > > &pbufb,IndexRangeC nrng2b,IndexRangeC nrng3b,
 			 const RangeBufferAccessC<BufferAccessC<BufferAccessC<Data3T> > > &pbufc,IndexRangeC nrng2c,IndexRangeC nrng3c)
-      { First(pbufa,nrng2a,nrng3a,
-	      pbufb,nrng2b,nrng3b,
-	      pbufc,nrng2c,nrng3c); 
-      }
+    { First(pbufa,nrng2a,nrng3a,
+	    pbufb,nrng2b,nrng3b,
+	    pbufc,nrng2c,nrng3c); 
+    }
     //: Constructor.
     
     bool First(const RangeBufferAccessC<BufferAccessC<BufferAccessC<Data1T> > > &pbufa,IndexRangeC nrng2a,IndexRangeC nrng3a,
@@ -122,10 +122,10 @@ namespace RavlN {
     //: Goto first element in the array
     
     void SliceStart() 
-      { sit.First(rit.Data1(),rng2a,rng3a,
-		  rit.Data2(),rng2b,rng3b,
-		  rit.Data3(),rng2c,rng3c); 
-      }
+    { sit.First(rit.Data1(),rng2a,rng3a,
+		rit.Data2(),rng2b,rng3b,
+		rit.Data3(),rng2c,rng3c); 
+    }
     //: Go back to the begining of this row.
     
     bool NextSlice() {
@@ -159,51 +159,51 @@ namespace RavlN {
     // the next row or at the end of the array.
     
     bool IsElm() const
-      { return sit.IsElm(); }
+    { return sit.IsElm(); }
     //: Test if iterator is at a valid element.
     
     operator bool() const
-      { return sit.IsElm(); }
+    { return sit.IsElm(); }
     //: Test if iterator is at a valid element.
     
     void operator++() 
-      { Next(); }
+    { Next(); }
     //: Goto next element.
 
     void operator++(int) 
-      { Next(); }
+    { Next(); }
     //: Goto next element.
     
     Data1T &Data() 
-      { return sit.Data1(); }
+    { return sit.Data1(); }
     //: Access data of current element
 
     const Data1T &Data() const
-      { return sit.Data1(); }
+    { return sit.Data1(); }
     //: Access data of current element
     
     Data1T &Data1() 
-      { return sit.Data1(); }
+    { return sit.Data1(); }
     //: Access data of current element
     
     const Data1T &Data1() const
-      { return sit.Data1(); }
+    { return sit.Data1(); }
     //: Access data of current element
     
     Data2T &Data2() 
-      { return sit.Data2(); }
+    { return sit.Data2(); }
     //: Access data of current element
     
     const Data2T &Data2() const
-      { return sit.Data2(); }
+    { return sit.Data2(); }
     //: Access data of current element
 
     Data3T &Data3() 
-      { return sit.Data3(); }
+    { return sit.Data3(); }
     //: Access data of current element
     
     const Data3T &Data3() const
-      { return sit.Data3(); }
+    { return sit.Data3(); }
     //: Access data of current element
     
   protected:

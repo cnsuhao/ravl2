@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLSBFACCITER2_HEADER
-#define RAVLSBFACCITER2_HEADER 1
+#ifndef RAVL_SBFACCITER2_HEADER
+#define RAVL_SBFACCITER2_HEADER 1
 ///////////////////////////////////////////////////
 //! userlevel=Normal
 //! rcsid="$Id$"
@@ -13,7 +13,7 @@
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! docentry="Ravl.Core.Arrays.Buffer"
-//! date="10/09/98"
+//! date="10/09/1998"
 
 #include "Ravl/RBfAcc.hh"
 #include "Ravl/SBfAcc.hh"
@@ -30,26 +30,26 @@ namespace RavlN {
     //: Default constructor.
     
     inline BufferAccessIter2C(const RangeBufferAccessC<Data1T> &buff,const RangeBufferAccessC<Data2T> &buff2)
-      { First(buff,buff2); }
+    { First(buff,buff2); }
     
     inline BufferAccessIter2C(const BufferAccessC<Data1T> &buff,const BufferAccessC<Data2T> &buff2,SizeT size)
-      { First(buff,buff2,size); }
+    { First(buff,buff2,size); }
     
     inline BufferAccessIter2C(const SizeBufferAccessC<Data1T> &buff,const SizeBufferAccessC<Data2T> &buff2)
-      { First(buff,buff2); }
+    { First(buff,buff2); }
     
     inline BufferAccessIter2C(const SizeBufferAccessC<Data1T> &buff,const SizeBufferAccessC<Data2T> &buff2,UIntT off1,UIntT off2)
-      { First(buff,buff2,off1,off2); }
+    { First(buff,buff2,off1,off2); }
     //: Constructor.
     // start from off1 in the first array and off2 in the second.
     
     inline BufferAccessIter2C(const RangeBufferAccessC<Data1T> &buff,const RangeBufferAccessC<Data2T> &buff2,const IndexRangeC & range)
-      { First(buff,buff2,range); }
+    { First(buff,buff2,range); }
     //: Constructor.
     // Only iterate through 'range' in both buffers.
 
     inline BufferAccessIter2C(const RangeBufferAccessC<Data1T> &buff,const RangeBufferAccessC<Data2T> &buff2,UIntT off1,UIntT off2 = 0)
-      { First(buff,buff2,off1,off2); }
+    { First(buff,buff2,off1,off2); }
     //: Constructor.
     // Iterate through buffers starting at the given offsets off1 and off2 from the begining of the ranges.
     
@@ -75,7 +75,7 @@ namespace RavlN {
     //: Goto first elements.
     
     inline bool IsElm() const
-      { return at1 < endOfRow; }
+    { return at1 < endOfRow; }
     //: At valid element ?
     
     inline bool IsLast() const
@@ -84,7 +84,7 @@ namespace RavlN {
     // Note: This is slightly slower than IsElm().
 
     inline operator bool() 
-      { return at1 < endOfRow; }
+    { return at1 < endOfRow; }
     //: At valid element ?
     
     inline void Next();
@@ -99,24 +99,24 @@ namespace RavlN {
     // Call ONLY if you know this will not go past the end of the array.
     
     void operator++(int)
-      { Next(); }
+    { Next(); }
     //: Goto next element.
     // Call ONLY if IsElm() is valid.
     
     inline Data1T &Data1()
-      { return *at1; }
+    { return *at1; }
     //: Access data.
     
     inline const Data1T &Data1() const
-      { return *at1; }
+    { return *at1; }
     //: Access data.
     
     inline Data2T &Data2()
-      { return *at2; }
+    { return *at2; }
     //: Access data.
     
     inline const Data2T &Data2() const
-      { return *at2; }
+    { return *at2; }
     //: Access data.
     
     inline void Invalidate();

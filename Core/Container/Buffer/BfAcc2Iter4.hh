@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLRBFACC2ITER4_HEADER
-#define RAVLRBFACC2ITER4_HEADER 1
+#ifndef RAVL_RBFACC2ITER4_HEADER
+#define RAVL_RBFACC2ITER4_HEADER 1
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Core/Container/Buffer/BfAcc2Iter4.hh"
@@ -26,7 +26,7 @@ namespace RavlN {
   class BufferAccess2dIter4C {
   public:
     BufferAccess2dIter4C()
-      {}
+    {}
     //: Default constructor.
     
     BufferAccess2dIter4C(const SizeBufferAccessC<BufferAccessC<Data1C> > &pbuf1,SizeT size1,
@@ -34,7 +34,7 @@ namespace RavlN {
 			 const SizeBufferAccessC<BufferAccessC<Data3C> > &pbuf3,SizeT size3,
 			 const SizeBufferAccessC<BufferAccessC<Data4C> > &pbuf4,SizeT size4
 			 )
-      { First(pbuf1,size1,pbuf2,size2,pbuf3,size3,pbuf4,size4); }
+    { First(pbuf1,size1,pbuf2,size2,pbuf3,size3,pbuf4,size4); }
     //: Constructor.
     
     BufferAccess2dIter4C(const RangeBufferAccessC<BufferAccessC<Data1C> > &pbuf1,const IndexRangeC &nrng1,
@@ -42,7 +42,7 @@ namespace RavlN {
 			 const RangeBufferAccessC<BufferAccessC<Data3C> > &pbuf3,const IndexRangeC &nrng3,
 			 const RangeBufferAccessC<BufferAccessC<Data4C> > &pbuf4,const IndexRangeC &nrng4
 			 )
-      { First(pbuf1,nrng1,pbuf2,nrng2,pbuf3,nrng3,pbuf4,nrng4); }
+    { First(pbuf1,nrng1,pbuf2,nrng2,pbuf3,nrng3,pbuf4,nrng4); }
     //: Constructor.
 
 
@@ -121,51 +121,51 @@ namespace RavlN {
     // if it is at the end of the array.
     
     bool IsElm() const
-      { return cit.IsElm(); }
+    { return cit.IsElm(); }
     //: At a valid element ?
     
     operator bool() const
-      { return cit.IsElm(); }
+    { return cit.IsElm(); }
     //: At a valid element ?
     
     void operator++() 
-      { Next(); }
+    { Next(); }
     //: Goto next element.
 
     void operator++(int) 
-      { Next(); }
+    { Next(); }
     //: Goto next element.
     
     Data1C &Data1() 
-      { return cit.Data1(); }
+    { return cit.Data1(); }
     //: Access data from array 1.
 
     const Data1C &Data1() const
-      { return cit.Data1(); }
+    { return cit.Data1(); }
     //: Access data from array 1.
 
     Data2C &Data2() 
-      { return cit.Data2(); }
+    { return cit.Data2(); }
     //: Access data from array 2.
 
     const Data2C &Data2() const
-      { return cit.Data2(); }
+    { return cit.Data2(); }
     //: Access data from array 2.
     
     Data3C &Data3()
-      { return cit.Data3(); }
+    { return cit.Data3(); }
     //: Access data from array 3.
 
     const Data3C &Data3() const
-      { return cit.Data3(); }
+    { return cit.Data3(); }
     //: Access data from array 3.
 
     Data4C &Data4()
-      { return cit.Data4(); }
+    { return cit.Data4(); }
     //: Access data from array 4.
 
     const Data4C &Data4() const
-      { return cit.Data4(); }
+    { return cit.Data4(); }
     //: Access data from array 4.
         
   protected:

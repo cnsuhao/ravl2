@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLRBFACC_HEADER
-#define RAVLRBFACC_HEADER
+#ifndef RAVL_RBFACC_HEADER
+#define RAVL_RBFACC_HEADER
 //////////////////////////////////////////////////////////////////////////
 //! file="Ravl/Core/Container/Buffer/RBfAcc.hh"
 //! lib=RavlCore
@@ -25,10 +25,6 @@ namespace RavlN {
   
   class BinOStreamC;
   class BinIStreamC;
-  
-  // -------------------------------------------------------------------------
-  // ********** RangeBufferAccessC *******************************************
-  // -------------------------------------------------------------------------
   
   //: Basic access to buffer with limited range
   // The class RangeBufferAccessC enables to random indexed access to
@@ -85,27 +81,27 @@ namespace RavlN {
     // Returns this object.
     
     inline DataT * DataStart()
-      { return ReferenceElm() + range.Min().V(); }
+    { return ReferenceElm() + range.Min().V(); }
     //: Returns the address of the first element of the buffer.
     
     inline const DataT * DataStart() const
-      { return ReferenceElm() + range.Min().V(); }
+    { return ReferenceElm() + range.Min().V(); }
     //: Returns the address of the first element of the buffer.
     
     inline SizeT Size() const
-      { return range.Size(); }
+    { return range.Size(); }
     // Returns the number of elements of the array.
     
     inline const IndexRangeC & Range() const
-      { return range; }
+    { return range; }
     // Returns the usable range of indeces expressed by this object.
     
     inline IndexC IMin() const
-      { return range.Min(); }
+    { return range.Min(); }
     // Returns the minimum index of the range of this access.
     
     inline IndexC IMax() const
-      { return range.Max(); }
+    { return range.Max(); }
     // Returns the maximum index of the range of this access.
     
     inline const DataT  & operator[](IndexC i) const;
@@ -121,16 +117,16 @@ namespace RavlN {
     // -----------------
         
     inline bool IsEmpty() const
-      { return range.IsEmpty(); }
+    { return range.IsEmpty(); }
     // Returns TRUE if the size of the array is zero.
     
     inline bool Contains(IndexC i) const
-      { return range.Contains(i); }
+    { return range.Contains(i); }
     // Returns TRUE if the array contains an item with the index 'i'.
     
     inline 
     bool IsOverlapping(const RangeBufferAccessC<DataT> & acc) const
-      { return range.IsOverlapping(acc.range); }
+    { return range.IsOverlapping(acc.range); }
     // Returns TRUE if this access has an item with the same index as
     // an item of the access 'acc'.
     
@@ -138,16 +134,16 @@ namespace RavlN {
     // ---------------------------
     
     inline 
-      const RangeBufferAccessC<DataT> & operator+=(SizeT i);
+    const RangeBufferAccessC<DataT> & operator+=(SizeT i);
     // Changes indeces of the access to be 'i' units higher.
     
     inline 
-      RangeBufferAccessC<DataT> operator+(SizeT i) const;
+    RangeBufferAccessC<DataT> operator+(SizeT i) const;
     // Creates the new access object with the indeces 'i' units higher
     // than those used in this access object.
   
     inline const IndexRangeC & ShrinkHigh(SizeT k)
-      { return range.ShrinkHigh(k); }
+    { return range.ShrinkHigh(k); }
     //: Changes the number of elements by subtracting the last 'k' elements.
     
     inline void ShiftIndexes(IndexC offset);
@@ -161,7 +157,7 @@ namespace RavlN {
     // the index range <newMin, newMax> at most.
     
     inline 
-      const RangeBufferAccessC<DataT> & Swap(RangeBufferAccessC<DataT> & a);
+    const RangeBufferAccessC<DataT> & Swap(RangeBufferAccessC<DataT> & a);
     // Exchanges the contents of this buffer with buffer 'a'.
     
     inline void Swap(IndexC i1, IndexC i2);
@@ -267,21 +263,21 @@ namespace RavlN {
   
   template <class DataT>
   inline RangeBufferAccessC<DataT>::RangeBufferAccessC(DataT * bp, 
-						const IndexRangeC & r)
+						       const IndexRangeC & r)
     : BufferAccessC<DataT>(bp - r.Min().V()), 
       range(r)
   {}
   
   template <class DataT>
   inline RangeBufferAccessC<DataT>::RangeBufferAccessC( const IndexRangeC & r,
-						 DataT * bp)
+							DataT * bp)
     : BufferAccessC<DataT>(bp), 
       range(r)
   {}
 
   template <class DataT>
   inline RangeBufferAccessC<DataT>::RangeBufferAccessC(const BufferAccessC<DataT> & bp,
-						const IndexRangeC          & r)
+						       const IndexRangeC          & r)
     : BufferAccessC<DataT>(const_cast<BufferAccessC<DataT> &>(bp) - r.Min().V()), 
       range(r)
   {}
@@ -301,7 +297,7 @@ namespace RavlN {
   
   template <class DataT>
   inline RangeBufferAccessC<DataT>::RangeBufferAccessC(const RangeBufferAccessC<DataT> & ba,
-						const IndexRangeC & r)
+						       const IndexRangeC & r)
     : BufferAccessC<DataT>(ba), range(r)
   {
 #if RAVL_CHECK
@@ -366,7 +362,7 @@ namespace RavlN {
   
   template <class DataT>
   inline void  RangeBufferAccessC<DataT>::Attach(const BufferAccessC<DataT> & b,
-				    const IndexRangeC &          r) {
+						 const IndexRangeC &          r) {
     ((BufferAccessC<DataT> &)(*this)) = b - r.Min();
     range=r;
   }

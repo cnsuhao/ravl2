@@ -31,7 +31,7 @@ namespace RavlN {
     Slice1dIterC()
       : place(0),
         end(0)
-      {}
+    {}
     //: Creates an invalid iterator.
     
     Slice1dIterC(const Slice1dC<DataT> &nvec);
@@ -41,7 +41,7 @@ namespace RavlN {
     //: Goto first element.
 
     operator bool() const
-      { return place != end; }
+    { return place != end; }
     //: Test if we're at a valid element.
     
     bool IsElm() const
@@ -59,29 +59,29 @@ namespace RavlN {
     // This is slower than IsElm().
     
     void Next() 
-      { place += vec.Stride(); }
+    { place += vec.Stride(); }
     //: Goto next element.
     // Call ONLY if IsElm() is valid.
     
     void operator++(int) 
-      { place += vec.Stride(); }
+    { place += vec.Stride(); }
     //: Goto next element.
     // Call ONLY if IsElm() is valid.
     
     DataT &Data()
-      { return *place; }
+    { return *place; }
     //: Access data at current element.
 
     const DataT &Data() const
-      { return *place; }
+    { return *place; }
     //: Access data at current element.
 
     DataT &operator*() 
-      { return *place; }
+    { return *place; }
     //: Access data.
     
     const DataT &operator*() const
-      { return *place; }
+    { return *place; }
     //: Access data.
     
     DataT *operator->() 
@@ -89,11 +89,11 @@ namespace RavlN {
     //: Access data.
     
     const DataT *operator->() const
-      { return place; }
+    { return place; }
     //: Access data.
     
     IntT Index() const
-      { return (place - &vec.First())/vec.Stride(); }
+    { return (place - &vec.First())/vec.Stride(); }
     //: Calculate current index.
     
   protected:

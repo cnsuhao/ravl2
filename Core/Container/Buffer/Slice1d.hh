@@ -71,7 +71,7 @@ namespace RavlN {
     // Element '*refElm' is at index 0 in buffer, and use the given stride.
     
     SizeT Size() const
-      { return rng.Size(); }
+    { return rng.Size(); }
     //: Size of vector.
     
     Slice1dC Copy() const;
@@ -87,12 +87,12 @@ namespace RavlN {
     //: Constant access to element i in vector.
     
     DataT &First()
-      { return ref[0]; }
+    { return ref[0]; }
     //: Access first element in the vector.
     // Not the results of this function is undefined if Size() is zero.
     
     const DataT &First() const
-      { return ref[0]; }
+    { return ref[0]; }
     //: Access first element in the vector.
     // Not the results of this function is undefined if Size() is zero.
     
@@ -105,7 +105,7 @@ namespace RavlN {
     //: Access last element in vector.
 
     IntT Stride() const
-      { return stride; }
+    { return stride; }
     //: Access stride of vector.
     
     Slice1dC<DataT> operator+(const Slice1dC<DataT>& b) const;
@@ -167,11 +167,11 @@ namespace RavlN {
     //: scalar product of vectors    
 
     BufferC<DataT> &Buffer()
-      { return buffer; }
+    { return buffer; }
     //: Access the raw buffer 
     
     const BufferC<DataT> &Buffer() const
-      { return buffer; }
+    { return buffer; }
     //: Access the raw buffer.
 
     const IndexRangeC &Range() const

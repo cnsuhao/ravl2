@@ -30,7 +30,7 @@ namespace RavlN {
     Slice1dIter3C()
       : at1(0),
         end(0)
-      {}
+    {}
     //: Creates an invalid iterator.
     
     Slice1dIter3C(const Slice1dC<Data1T> &nvec1,
@@ -42,11 +42,11 @@ namespace RavlN {
     //: Goto first element.
 
     operator bool() const
-      { return at1 != end; }
+    { return at1 != end; }
     //: Test if we're at a valid element.
 
     bool IsElm() const
-      { return at1 != end; }
+    { return at1 != end; }
     //: Test if we're at a valid element.
 
     inline bool IsLast() const
@@ -73,31 +73,31 @@ namespace RavlN {
     // Call ONLY if IsElm() is valid.
     
     Data1T &Data1()
-      { return *at1; }
+    { return *at1; }
     //: Access data at current element.
 
     const Data1T &Data1() const
-      { return *at1; }
+    { return *at1; }
     //: Access data at current element.
 
     Data2T &Data2()
-      { return *at2; }
+    { return *at2; }
     //: Access data at current element.
 
     const Data2T &Data2() const
-      { return *at2; }
+    { return *at2; }
     //: Access data at current element.
     
     Data3T &Data3()
-      { return *at3; }
+    { return *at3; }
     //: Access data at current element.
 
     const Data3T &Data3() const
-      { return *at3; }
+    { return *at3; }
     //: Access data at current element.
     
     IntT Index() const
-      { return (at1 - &vec1.First())/vec1.Stride(); }
+    { return (at1 - &vec1.First())/vec1.Stride(); }
     //: Calculate current index.
     
   protected:

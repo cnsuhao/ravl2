@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLSBFACCITER4_HEADER
-#define RAVLSBFACCITER4_HEADER 1
+#ifndef RAVL_SBFACCITER4_HEADER
+#define RAVL_SBFACCITER4_HEADER 1
 ///////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Core/Container/Buffer/BfAccIter4.hh"
@@ -33,7 +33,7 @@ namespace RavlN {
 			      const BufferAccessC<Data3T> &buff3,
 			      const BufferAccessC<Data4T> &buff4,
  			      SizeT size)
-      { First(buff,buff2,buff3,size); }
+    { First(buff,buff2,buff3,size); }
     //: Constructor.
 
     inline BufferAccessIter4C(const BufferAccessC<Data1T> &buff1,const IndexRangeC &rng1,
@@ -41,10 +41,10 @@ namespace RavlN {
 			      const BufferAccessC<Data3T> &buff3,const IndexRangeC &rng3,
 			      const BufferAccessC<Data4T> &buff4,const IndexRangeC &rng4
 			      )
-      { First(buff1,rng1,
-	      buff2,rng2,
-	      buff3,rng3); 
-      }
+    { First(buff1,rng1,
+	    buff2,rng2,
+	    buff3,rng3); 
+    }
     //: Constructor.
     
     inline BufferAccessIter4C(const RangeBufferAccessC<Data1T> &buff,
@@ -52,7 +52,7 @@ namespace RavlN {
 			      const RangeBufferAccessC<Data3T> &buff3,
 			      const RangeBufferAccessC<Data4T> &buff4
 			      )
-      { First(buff,buff2,buff3); }
+    { First(buff,buff2,buff3); }
     //: Constructor.
 
     inline BufferAccessIter4C(const SizeBufferAccessC<Data1T> &buff,
@@ -60,7 +60,7 @@ namespace RavlN {
 			      const SizeBufferAccessC<Data3T> &buff3,
 			      const SizeBufferAccessC<Data4T> &buff4
 			      )
-      { First(buff,buff2,buff3); }
+    { First(buff,buff2,buff3); }
     //: Constructor.
     
     inline bool First(const BufferAccessC<Data1T> &buff1,const IndexRangeC &rng1,
@@ -96,7 +96,7 @@ namespace RavlN {
     // returns true if there is a first element.
     
     inline bool IsElm() const
-      { return at1 < endOfRow; }
+    { return at1 < endOfRow; }
     //: At valid element ?
     
     inline bool IsLast() const
@@ -105,7 +105,7 @@ namespace RavlN {
     // Note: This is slightly slower than IsElm().
 
     inline operator bool() const
-      { return at1 < endOfRow; }
+    { return at1 < endOfRow; }
     //: At valid element ?
     
     inline void Next();
@@ -122,43 +122,43 @@ namespace RavlN {
     // Call ONLY if you know this will not go past the end of the array.
 
     inline void operator++()
-      { Next(); }
+    { Next(); }
     //: Goto next elment.
 
     inline void operator++(int)
-      { Next(); }
+    { Next(); }
     //: Goto next elment.
     
     inline Data1T &Data1()
-      { return *at1; }
+    { return *at1; }
     //: Access data.
     
     inline const Data1T &Data1() const
-      { return *at1; }
+    { return *at1; }
     //: Access data.
     
     inline Data2T &Data2()
-      { return *at2; }
+    { return *at2; }
     //: Access data.
     
     inline const Data2T &Data2() const
-      { return *at2; }
+    { return *at2; }
     //: Access data.
     
     inline Data3T &Data3()
-      { return *at3; }
+    { return *at3; }
     //: Access data.
     
     inline const Data3T &Data3() const
-      { return *at3; }
+    { return *at3; }
     //: Access data.
 
     inline Data4T &Data4()
-      { return *at4; }
+    { return *at4; }
     //: Access data.
     
     inline const Data4T &Data4() const
-      { return *at4; }
+    { return *at4; }
     //: Access data.
     
     inline void Invalidate();

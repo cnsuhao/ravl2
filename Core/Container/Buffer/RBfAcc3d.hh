@@ -39,14 +39,14 @@ namespace RavlN {
   public:
     RangeBufferAccess3dC()
       : rng2(0,-1),
-      rng3(0,-1)
-      {}
+	rng3(0,-1)
+    {}
     //: Default constructor.
 
     RangeBufferAccess3dC(const IndexRangeC &nrng2,const IndexRangeC &nrng3)
       : rng2(nrng2),
-      rng3(nrng3)
-      {}
+	rng3(nrng3)
+    {}
     //: Constructor.
 
     RangeBufferAccess3dC(const RangeBufferAccessC<BufferAccessC<BufferAccessC<DataT> > > &ab,
@@ -54,11 +54,11 @@ namespace RavlN {
       : RangeBufferAccessC<BufferAccessC<BufferAccessC<DataT> > >(ab,frame.Range1()),
 	rng2(frame.Range2()),
 	rng3(frame.Range3())
-      {}
+    {}
     //: Construct a access to a frame within 'ab' with indexs 'rect'.
     
     inline bool Contains(const Index3dC & i) const
-      { return Range1().Contains(i.I()) && Range2().Contains(i.J()) && Range3().Contains(i.J()); }
+    { return Range1().Contains(i.I()) && Range2().Contains(i.J()) && Range3().Contains(i.J()); }
     //: Returns true if there is an item of the £D array
     
     inline DataT & operator[](const Index3dC & i) { 
@@ -76,27 +76,27 @@ namespace RavlN {
     //: return the item array[(i)]
 
     inline RangeBufferAccess2dC<DataT> operator[](IndexC i)
-      { return RangeBufferAccess2dC<DataT>(RangeBufferAccessC<BufferAccessC<BufferAccessC<DataT> > >::operator[](i),rng2,rng3); }
+    { return RangeBufferAccess2dC<DataT>(RangeBufferAccessC<BufferAccessC<BufferAccessC<DataT> > >::operator[](i),rng2,rng3); }
     //: access to the item array[(i)]
     
     inline const RangeBufferAccess2dC<DataT> operator[](IndexC i) const
-      { return RangeBufferAccess2dC<DataT>(RangeBufferAccessC<BufferAccessC<BufferAccessC<DataT> > >::operator[](i),rng2,rng3); }
+    { return RangeBufferAccess2dC<DataT>(RangeBufferAccessC<BufferAccessC<BufferAccessC<DataT> > >::operator[](i),rng2,rng3); }
     //: return the item array[(i)]
 
     inline const IndexRangeC &Range1() const
-      { return Range(); }
+    { return Range(); }
     //: Range of first index.
     
     inline const IndexRangeC &Range2() const
-      { return rng2; }
+    { return rng2; }
     //: Range of second index.
     
     inline const IndexRangeC &Range3() const
-      { return rng3; }
+    { return rng3; }
     //: Range of second index.
     
     IndexRange3dC Frame() const
-      { return IndexRange3dC(Range1(),Range2(),Range3()); }
+    { return IndexRange3dC(Range1(),Range2(),Range3()); }
     //: Return ranges of indexes
     
     void Fill(const DataT &d);
