@@ -110,7 +110,7 @@ int testBHashIter() {
   UIntT count = 0;
   HSetC<int> done;
   for(BHashIterC<int,UIntT> it(table);it;it++) {
-    if(it.Key() != it.Data()) return __LINE__;
+    if((UIntT)it.Key() != it.Data()) return __LINE__;
     count++;
     done += it.Key();
   }
