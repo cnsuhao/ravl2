@@ -41,6 +41,7 @@ extern "C" {
   typedef struct _GdkEventExpose GdkEventExpose;
   typedef struct _GdkEventButton GdkEventButton;
   typedef struct _GdkEventMotion GdkEventMotion;
+  typedef struct _GdkEventKey	 GdkEventKey;
   typedef struct _GdkGC	  GdkGC;
   typedef struct _GdkDragContext GdkDragContext;
   typedef struct _GtkSelectionData GtkSelectionData;
