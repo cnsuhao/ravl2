@@ -33,6 +33,7 @@ int testBasic() {
   if(!c.IsEmpty()) return __LINE__;
   int x = 0;
   c.Insert(x);
+  if(c.Size() != 1) return __LINE__;
   if(c.IsEmpty()) return __LINE__;
   for(int i= 1;i < 100;i++)
     c.Insert(i);

@@ -114,6 +114,18 @@ namespace RavlN {
     //: Take a random sample from the collection.
     // This collection is not modified.
 
+    DataT &operator[](IndexC ind) { 
+      RavlAssertMsg(ind < n,"Index out of range.");
+      return data[ind];
+    }
+    //: Array style access.
+    
+    const DataT &operator[](IndexC ind) const { 
+      RavlAssertMsg(ind < n,"Index out of range.");
+      return data[ind];
+    }
+    //: Array style access.
+    
     
   protected:
     SArray1dC<DataT> data;
@@ -224,7 +236,15 @@ namespace RavlN {
     // This collection is not modified.  There is no
     // garantee that an element will be picked only once.
     // 'ne' may be bigger than the size of this collection.
-
+    
+    DataT &operator[](IndexC ind)
+      { return Body().operator[](ind); }
+    //: Array style access.
+    
+    const DataT &operator[](IndexC ind) const
+      { return Body().operator[](ind); }
+    //: Array style access.
+    
     typedef CollectionIterC<DataT> IteratorT;
     //: Type of iterator.
 

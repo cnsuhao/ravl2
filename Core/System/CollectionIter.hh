@@ -24,6 +24,22 @@ namespace RavlN {
     //: Constructor.
     
   };
+
+  //! userlevel=Normal
+  //: Collection iterator.
+  // Iterates through the contents of a collection.
+  
+  template<class DataT>
+  class CollectionConstIterC 
+    : public SArray1dIterC<DataT>
+  {
+  public:
+    CollectionConstIterC(const CollectionC<DataT> &c)
+      : SArray1dIterC<DataT>(c.Array())
+    {}
+    //: Constructor.
+    
+  };
   
 }
 
