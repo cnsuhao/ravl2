@@ -26,7 +26,7 @@ namespace RavlN {
     {}
     //: Default construtor.
     
-    DataSet2IterC(DataSet2C<Data1T> &nds)
+    DataSet2IterC(DataSet2C<Data1T,Data2T> &nds)
       : ds(nds),
       index(nds.Index())
     {}
