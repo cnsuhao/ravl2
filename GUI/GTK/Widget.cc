@@ -741,7 +741,7 @@ namespace RavlGUIN {
     GtkRcStyle *rc_style;
     rc_style = gtk_rc_style_new ();
     rc_style->bg[state] = color;
-    rc_style->color_flags[state] |= GTK_RC_BG;
+    rc_style->color_flags[state] = (GtkRcFlags)( rc_style->color_flags[state] | GTK_RC_BG);
     gtk_widget_modify_style (widget, rc_style);
     gtk_rc_style_unref (rc_style);
 #endif
@@ -761,7 +761,7 @@ namespace RavlGUIN {
     GtkRcStyle *rc_style;
     rc_style = gtk_rc_style_new ();
     rc_style->fg[state] = color;
-    rc_style->color_flags[state] |= GTK_RC_FG;
+    rc_style->color_flags[state] = (GtkRcFlags)( rc_style->color_flags[state] | GTK_RC_FG);
     gtk_widget_modify_style (widget, rc_style);
     gtk_rc_style_unref (rc_style);
 #endif
