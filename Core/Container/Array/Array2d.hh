@@ -186,6 +186,10 @@ namespace RavlN {
     
     const Array2dC<DataT> & operator/=(const DataT &number);
     //: Divides the array elements by the 'number'.
+
+    Buffer2dC<DataT> &Buffer2d()
+    { return data; }
+    //: Access raw 2d buffer.
     
   protected:
     void ConstructAccess(const IndexRangeC &rng1);
