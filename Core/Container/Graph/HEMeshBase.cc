@@ -14,7 +14,7 @@
 #include "Ravl/IntrDLIter.hh"
 #include "Ravl/HEMeshBaseFaceIter.hh"
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -270,7 +270,7 @@ namespace RavlN {
   // between the vertex's they point to.  The new edge is returned.
   
   HEMeshBaseEdgeC HEMeshBaseBodyC::SplitFace(HEMeshBaseEdgeC from,HEMeshBaseEdgeC to) {
-    ONDEBUG(cerr << "HEMeshBaseBodyC::SplitFace(). \n"); 
+    ONDEBUG(cerr << "HEMeshBaseBodyC::SplitFace(). From:" << from.Hash() << " To:" << to.Hash() << "\n"); 
     RavlAssert(from.IsValid());
     RavlAssert(to.IsValid());
     RavlAssert(from.Face() == to.Face());
@@ -286,12 +286,15 @@ namespace RavlN {
     edge1.SetPair(edge2);
     edge2.SetPair(edge1);
     face2.SetEdge(edge2);
-
+    face1.SetEdge(edge1); // Make sure face1 is pointing to a valid edge.
+    
     edge2.Body().CutPaste(to.Body().Next(),from.Body().Next()); 
     to.LinkAfter(edge1);
     
-    for(HEMeshBaseEdgeC at = edge2.Next();at != edge2;at = at.Next())
+    for(HEMeshBaseEdgeC at = edge2.Next();at != edge2;at = at.Next()) {
+      ONDEBUG(cerr << "HEMeshBaseBodyC::SplitFace() Setting face for edge " << at.Hash() <<" to " << face2.Hash() << "\n"); 
       at.SetFace(face2);
+    }
     RavlAssert(CheckMesh(true));
     return edge2;
   }
