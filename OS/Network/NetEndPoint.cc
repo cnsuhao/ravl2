@@ -277,7 +277,7 @@ namespace RavlN {
       return false;
     }
     // Wait still we got a stream header from peer 
-    if(!gotStreamType.Wait(30)) {
+    if(!gotStreamType.Wait(45)) {
       SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), ERROR: Timeout waiting for stream header. ";
       CloseTransmit();
       return false;
