@@ -113,17 +113,19 @@ namespace RavlDFN {
     // Creates an invalid handle.
     
     DFPortC(const DFObjectC &obj)
-      : DFObjectC(obj)
-    {
-      if(dynamic_cast<const DFObjectBodyC *>(&DFObjectC::Body()) == 0)
-	Invalidate();
-    }
+      : DFObjectC(dynamic_cast<const DFObjectBodyC *>(BodyPtr(obj)))
+    {}
     //: Base constructor.
     // If object is not a DFPortC an invalid handle is
     // created
     
   protected:
     DFPortC(DFPortBodyC &bod)
+      : DFObjectC(bod)
+    {}
+    //: Body constructor.
+    
+    DFPortC(const DFPortBodyC *bod)
       : DFObjectC(bod)
     {}
     //: Body constructor.
@@ -219,11 +221,8 @@ namespace RavlDFN {
     //: Constructor.
     
     DFIPortC(const DFObjectC &obj)
-      : DFPortC(obj)
-    {
-      if(dynamic_cast<const DFIPortBodyC *>(&DFObjectC::Body()) == 0)
-	Invalidate();
-    }
+      : DFPortC(dynamic_cast<const DFIPortBodyC *>(BodyPtr(obj)))
+    {}
     //: Base constructor.
     // If object is not a DFIPortC an invalid handle is
     // created
@@ -317,11 +316,8 @@ namespace RavlDFN {
     //: Constructor.
     
     DFOPortC(const DFObjectC &obj)
-      : DFPortC(obj)
-    {
-      if(dynamic_cast<const DFOPortBodyC *>(&DFObjectC::Body()) == 0)
-	Invalidate();
-    }
+      : DFPortC(dynamic_cast<const DFOPortBodyC *>(BodyPtr(obj)))
+    {}
     //: Base constructor.
     // If object is not a DFIPortC an invalid handle is
     // created
@@ -413,11 +409,8 @@ namespace RavlDFN {
     //: Constructor.
     
     DFIPlugC(const DFObjectC &obj)
-      : DFPortC(obj)
-    {
-      if(dynamic_cast<const DFIPlugBodyC *>(&DFObjectC::Body()) == 0)
-	Invalidate();
-    }
+      : DFPortC(dynamic_cast<const DFIPlugBodyC *>(BodyPtr(obj)))
+    {}
     //: Base constructor.
     // If object is not a DFIPlugC an invalid handle is
     // created
@@ -509,11 +502,8 @@ namespace RavlDFN {
     //: Constructor.
 
     DFOPlugC(const DFObjectC &obj)
-      : DFPortC(obj)
-    {
-      if(dynamic_cast<const DFOPlugBodyC *>(&DFObjectC::Body()) == 0)
-	Invalidate();
-    }
+      : DFPortC(dynamic_cast<const DFOPlugBodyC *>(BodyPtr(obj)))
+    {}
     //: Base constructor.
     // If object is not a DFOPlugC an invalid handle is
     // created

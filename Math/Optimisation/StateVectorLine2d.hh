@@ -155,17 +155,17 @@ namespace RavlN {
     //: Constructor.
     
     StateVectorLine2dC(const StateVectorC &stateVec)
-      : StateVectorC(stateVec)
-    {
-      if(IsValid()) {
-	if(dynamic_cast<StateVectorLine2dBodyC *>(&StateVectorC::Body()) == 0)
-	  Invalidate();
-      }
-    }
+      : StateVectorC(dynamic_cast<const StateVectorLine2dBodyC *>(BodyPtr(stateVec)))
+    {}
     //: Base class constructor.
     
-  public:
+  protected:
     StateVectorLine2dC(StateVectorLine2dBodyC &bod)
+      : StateVectorC(bod)
+    {}
+    //: Body constructor.
+
+    StateVectorLine2dC(const StateVectorLine2dBodyC *bod)
       : StateVectorC(bod)
     {}
     //: Body constructor.

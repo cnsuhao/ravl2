@@ -101,6 +101,11 @@ namespace RavlN {
     {}
     //: Body constructor.
     
+    TSMatrixPartialC(const TSMatrixPartialBodyC<DataT> *bod)
+      : TSMatrixC<DataT>(bod)
+    {}
+    //: Body constructor.
+    
     TSMatrixPartialBodyC<DataT> &Body()
     { return static_cast<TSMatrixPartialBodyC<DataT> &>(TSMatrixC<DataT>::Body()); }
     //: Access body.

@@ -80,11 +80,8 @@ namespace RavlLogicN {
     //: Constructor.
     
     DecisionTreeLeafC(const DecisionTreeElementC &oth)
-      : DecisionTreeElementC(oth)
-    {
-      if(dynamic_cast<DecisionTreeElementBodyC *>(&Body()) == 0)
-	Invalidate();
-    }
+      : DecisionTreeElementC(dynamic_cast<const DecisionTreeElementBodyC *>(BodyPtr(oth)))
+    {}
     //: Base constructor.
     // creates an invalid handle if DecisionTreeElement isn't a leaf.
     

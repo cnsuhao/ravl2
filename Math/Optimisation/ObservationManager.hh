@@ -57,11 +57,17 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
     
+  protected:
     ObservationManagerC(ObservationManagerBodyC &bod)
       : RCHandleC<ObservationManagerBodyC>(bod)
     {}
     //: Body constructor.
-
+    
+    ObservationManagerC(const ObservationManagerBodyC *bod)
+      : RCHandleC<ObservationManagerBodyC>(bod)
+    {}
+    //: Body constructor.
+    
     ObservationManagerBodyC &Body()
     { return RCHandleC<ObservationManagerBodyC>::Body(); }
     //: Access body.
@@ -149,15 +155,17 @@ namespace RavlN {
     //: Constructor
     
     ObservationListManagerC(const ObservationManagerC &obsManager)
-      : ObservationManagerC(obsManager)
-    {
-      if(dynamic_cast<ObservationListManagerBodyC *>(&ObservationManagerC::Body()) == 0)
-	Invalidate();
-    }
+      : ObservationManagerC(dynamic_cast<const ObservationListManagerBodyC *>(BodyPtr(obsManager)))
+    {}
     //: Base class constructor.
     
-  public:
+  protected:
     ObservationListManagerC(ObservationListManagerBodyC &bod)
+      : ObservationManagerC(bod)
+    {}
+    //: Body constructor.
+    
+    ObservationListManagerC(const ObservationListManagerBodyC *bod)
       : ObservationManagerC(bod)
     {}
     //: Body constructor.
@@ -169,6 +177,8 @@ namespace RavlN {
     const ObservationListManagerBodyC &Body() const
     { return static_cast<const ObservationListManagerBodyC &>(ObservationManagerC::Body()); }
     //: Access body.
+    
+    friend class ObservationManagerC;
   };
 }
 

@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef NETMESSAGESIG_HEADER
-#define NETMESSAGESIG_HEADER 1
+#ifndef RAVL_NETMESSAGESIG_HEADER
+#define RAVL_NETMESSAGESIG_HEADER 1
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.OS.Network"
@@ -56,41 +56,38 @@ namespace RavlN
   {
   public:
     NetMsgCall0C()
-      {}
+    {}
     //: Default constructor.
     
     NetMsgCall0C(UIntT nid,const StringC &nname,const CallFunc0C<bool> &nsig)
       : NetMsgRegisterC(*new NetMsgCall0BodyC(nid,nname,nsig))
-      {}
+    {}
     //: Constructor.
     
     NetMsgCall0C(const NetMsgRegisterC &oth)
-      : NetMsgRegisterC(oth)
-      {
-	if(dynamic_cast<NetMsgCall0BodyC *>(&Body()) == 0)
-	  Invalidate();
-      }
+      : NetMsgRegisterC(dynamic_cast<const NetMsgCall0BodyC *>(BodyPtr(oth)))
+    {}
     //: Base constructor.
     // If the body isn't of the appropriate type, an invalid handle is generated.
     
   protected:
     NetMsgCall0C(NetMsgCall0BodyC &bod)
       : NetMsgRegisterC(bod)
-      {}
+    {}
     //: Body constructor.
     
     NetMsgCall0BodyC &Body()
-      { return static_cast<NetMsgCall0BodyC &>(NetMsgRegisterC::Body()); }
+    { return static_cast<NetMsgCall0BodyC &>(NetMsgRegisterC::Body()); }
     //: Access body.
     
     const NetMsgCall0BodyC &Body() const
-      { return static_cast<const NetMsgCall0BodyC &>(NetMsgRegisterC::Body()); }
+    { return static_cast<const NetMsgCall0BodyC &>(NetMsgRegisterC::Body()); }
     //: Access body.
-
+    
   public:
     
     bool Encode(BinOStreamC &os) 
-      { return Body().Encode(os); }
+    { return Body().Encode(os); }
     //: Encode a call.
     
   };
@@ -108,7 +105,7 @@ namespace RavlN
     NetMsgCall1BodyC(UIntT nid,const StringC &nname,const CallFunc1C<Data1T,bool> &nsig)
       : NetMsgRegisterBodyC(nid,nname),
         sig(nsig)
-      {}
+    {}
     //: Constructor.
     
     virtual bool Decode(NetEndPointC &ep,BinIStreamC &is) { 
@@ -140,35 +137,32 @@ namespace RavlN
   {
   public:
     NetMsgCall1C()
-      {}
+    {}
     //: Default constructor.
     
     NetMsgCall1C(UIntT nid,const StringC &nname,const CallFunc1C<Data1T,bool> &nsig)
       : NetMsgRegisterC(*new NetMsgCall1BodyC<Data1T>(nid,nname,nsig))
-      {}
+    {}
     //: Constructor.
 
     NetMsgCall1C(const NetMsgRegisterC &oth)
-      : NetMsgRegisterC(oth)
-      {
-	if(dynamic_cast<NetMsgCall1BodyC<Data1T> *>(&Body()) == 0)
-	  Invalidate();
-      }
+      : NetMsgRegisterC(dynamic_cast<const NetMsgCall1BodyC<Data1T> *>(BodyPtr(oth)))
+    {}
     //: Base constructor.
     // If the body isn't of the appropriate type, an invalid handle is generated.
     
   protected:
     NetMsgCall1C(NetMsgCall1BodyC<Data1T> &bod)
       : NetMsgRegisterC(bod)
-      {}
+    {}
     //: Body constructor.
     
     NetMsgCall1BodyC<Data1T> &Body()
-      { return static_cast<NetMsgCall1BodyC<Data1T> &>(NetMsgRegisterC::Body()); }
+    { return static_cast<NetMsgCall1BodyC<Data1T> &>(NetMsgRegisterC::Body()); }
     //: Access body.
     
     const NetMsgCall1BodyC<Data1T> &Body() const
-      { return static_cast<const NetMsgCall1BodyC<Data1T> &>(NetMsgRegisterC::Body()); }
+    { return static_cast<const NetMsgCall1BodyC<Data1T> &>(NetMsgRegisterC::Body()); }
     //: Access body.
     
   public:
@@ -190,7 +184,7 @@ namespace RavlN
     NetMsgCall2BodyC(UIntT nid,const StringC &nname,const CallFunc2C<Data1T,Data2T,bool> &nsig)
       : NetMsgRegisterBodyC(nid,nname),
         sig(nsig)
-      {}
+    {}
     //: Constructor.
     
     virtual bool Decode(NetEndPointC &ep,BinIStreamC &is) { 
@@ -225,34 +219,31 @@ namespace RavlN
   {
   public:
     NetMsgCall2C()
-      {}
+    {}
     //: Default constructor.
     
     NetMsgCall2C(UIntT nid,const StringC &nname,const CallFunc2C<Data1T,Data2T,bool> &nsig)
       : NetMsgRegisterC(*new NetMsgCall2BodyC<Data1T,Data2T>(nid,nname,nsig))
-      {}
+    {}
     //: Constructor.
     
     NetMsgCall2C(const NetMsgRegisterC &oth)
-      : NetMsgRegisterC(oth)
-      {
-	if(dynamic_cast<NetMsgCall2BodyC<Data1T,Data2T> *>(&Body()) == 0)
-	  Invalidate();
-      }
+      : NetMsgRegisterC(dynamic_cast<NetMsgCall2BodyC<Data1T,Data2T> *>(BodyPtr(oth)))
+    {}
     //: Base constructor.
     // If the body isn't of the appropriate type, an invalid handle is generated.
   protected:
     NetMsgCall2C(NetMsgCall2BodyC<Data1T,Data2T> &bod)
       : NetMsgRegisterC(bod)
-      {}
+    {}
     //: Body constructor.
     
     NetMsgCall2BodyC<Data1T,Data2T> &Body()
-      { return static_cast<NetMsgCall2BodyC<Data1T,Data2T> &>(NetMsgRegisterC::Body()); }
+    { return static_cast<NetMsgCall2BodyC<Data1T,Data2T> &>(NetMsgRegisterC::Body()); }
     //: Access body.
     
     const NetMsgCall2BodyC<Data1T,Data2T> &Body() const
-      { return static_cast<const NetMsgCall2BodyC<Data1T,Data2T> &>(NetMsgRegisterC::Body()); }
+    { return static_cast<const NetMsgCall2BodyC<Data1T,Data2T> &>(NetMsgRegisterC::Body()); }
     //: Access body.
     
   public:
@@ -260,7 +251,7 @@ namespace RavlN
     bool Encode(BinOStreamC &os,
 		const typename TraitsC<Data1T>::BaseTypeT &p1,
 		const typename TraitsC<Data2T>::BaseTypeT &p2) 
-      { return Body().Encode(os,p1,p2); }
+    { return Body().Encode(os,p1,p2); }
     //: Encode a call.
     
   };
@@ -277,7 +268,7 @@ namespace RavlN
     NetMsgCall3BodyC(UIntT nid,const StringC &nname,const CallFunc3C<Data1T,Data2T,Data3T,bool> &nsig)
       : NetMsgRegisterBodyC(nid,nname),
         sig(nsig)
-      {}
+    {}
     //: Constructor.
     
     virtual bool Decode(NetEndPointC &ep,BinIStreamC &is) { 
@@ -314,7 +305,7 @@ namespace RavlN
   {
   public:
     NetMsgCall3C()
-      {}
+    {}
     //: Default constructor.
     
     NetMsgCall3C(UIntT nid,const StringC &nname,const CallFunc3C<Data1T,Data2T,Data3T,bool> &nsig)
@@ -323,25 +314,22 @@ namespace RavlN
     //: Constructor.
     
     NetMsgCall3C(const NetMsgRegisterC &oth)
-      : NetMsgRegisterC(oth)
-      {
-	if(dynamic_cast<NetMsgCall3BodyC<Data1T,Data2T,Data3T> *>(&Body()) == 0)
-	  Invalidate();
-      }
+      : NetMsgRegisterC(dynamic_cast<const NetMsgCall3BodyC<Data1T,Data2T,Data3T> *>(BodyPtr(oth)))
+    {}
     //: Base constructor.
     // If the body isn't of the appropriate type, an invalid handle is generated.
   protected:
     NetMsgCall3C(NetMsgCall3BodyC<Data1T,Data2T,Data3T> &bod)
       : NetMsgRegisterC(bod)
-      {}
+    {}
     //: Body constructor.
     
     NetMsgCall3BodyC<Data1T,Data2T,Data3T> &Body()
-      { return static_cast<NetMsgCall3BodyC<Data1T,Data2T,Data3T> &>(NetMsgRegisterC::Body()); }
+    { return static_cast<NetMsgCall3BodyC<Data1T,Data2T,Data3T> &>(NetMsgRegisterC::Body()); }
     //: Access body.
     
     const NetMsgCall3BodyC<Data1T,Data2T,Data3T> &Body() const
-      { return static_cast<const NetMsgCall3BodyC<Data1T,Data2T,Data3T> &>(NetMsgRegisterC::Body()); }
+    { return static_cast<const NetMsgCall3BodyC<Data1T,Data2T,Data3T> &>(NetMsgRegisterC::Body()); }
     //: Access body.
     
   public:

@@ -77,6 +77,7 @@ namespace RavlN {
   // function EvaluateFunctionH(). If a formula for the Jacobian dh/dx of h(.)
   // is known then it can be implemented in the virtual function
   // EvaluateJacobianHx(); otherwise the Jacobian is computed numerically.
+  
   class ObservationExplicitC
     : public ObservationC
   {
@@ -92,15 +93,17 @@ namespace RavlN {
     //: Constructor
     
     ObservationExplicitC(const ObservationC &obs)
-      : ObservationC(obs)
-    {
-      if(dynamic_cast<ObservationExplicitBodyC *>(&ObservationC::Body()) == 0)
-	Invalidate();
-    }
+      : ObservationC(dynamic_cast<const ObservationExplicitBodyC *>(BodyPtr(obs)))
+    {}
     //: Base class constructor.
     
-  public:
+  protected:
     ObservationExplicitC(ObservationExplicitBodyC &bod)
+      : ObservationC(bod)
+    {}
+    //: Body constructor.
+    
+    ObservationExplicitC(const ObservationExplicitBodyC *bod)
       : ObservationC(bod)
     {}
     //: Body constructor.
@@ -127,7 +130,7 @@ namespace RavlN {
     // values in the class. See the body class documentation of the derived
     // class for more information.
     
-
+    friend class ObservationExplicitBodyC;
   };
 }  
 

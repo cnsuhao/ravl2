@@ -228,6 +228,11 @@ namespace RavlN {
     {}
     //: Body constructor.
     
+    TSMatrixC(const TSMatrixBodyC<DataT> *bod)
+      : RCHandleC<TSMatrixBodyC<DataT> >(bod)
+    {}
+    //: Body constructor.
+    
     TSMatrixBodyC<DataT> &Body()
     { return RCHandleC<TSMatrixBodyC<DataT> >::Body(); }
     //: Access body.

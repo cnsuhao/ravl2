@@ -121,11 +121,8 @@ namespace RavlN {
     //: Stream constructor.
     
     GaussianMixtureC(const FunctionC &func)
-      : Function1C(func)
-    {
-      if(dynamic_cast<GaussianMixtureBodyC *>(&FunctionC::Body()) == 0)
-	Invalidate();
-    }
+      : Function1C(dynamic_cast<const GaussianMixtureBodyC *>(BodyPtr(func)))
+    {}
     //: Attempt to create handle from base class.
     // If object is not a FuncMeanProjectionC, an invalid handle will be created.
     
@@ -134,6 +131,11 @@ namespace RavlN {
     
   protected:
     GaussianMixtureC(GaussianMixtureBodyC &bod)
+      : Function1C(bod)
+    {}
+    //: Body constructor.
+    
+    GaussianMixtureC(const GaussianMixtureBodyC *bod)
       : Function1C(bod)
     {}
     //: Body constructor.

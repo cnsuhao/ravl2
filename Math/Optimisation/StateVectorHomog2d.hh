@@ -296,17 +296,17 @@ namespace RavlN {
     // with respect to the elements of x, overriding the default step size.
 
     StateVectorHomog2dC(const StateVectorC &stateVec)
-      : StateVectorC(stateVec)
-    {
-      if(IsValid()) {
-	if(dynamic_cast<StateVectorHomog2dBodyC *>(&StateVectorC::Body()) == 0)
-	  Invalidate();
-      }
-    }
+      : StateVectorC(dynamic_cast<const StateVectorHomog2dBodyC *>(BodyPtr(stateVec)))
+    {}
     //: Base class constructor.
     
-  public:
+  protected:
     StateVectorHomog2dC(StateVectorHomog2dBodyC &bod)
+      : StateVectorC(bod)
+    {}
+    //: Body constructor.
+    
+    StateVectorHomog2dC(const StateVectorHomog2dBodyC *bod)
       : StateVectorC(bod)
     {}
     //: Body constructor.

@@ -166,11 +166,8 @@ namespace RavlN {
     //: Create a diagonal matrix from a vector.
     
     TSMatrixDiagonalC(const TSMatrixC<DataT> &mat)
-      : TSMatrixPartialC<DataT>(mat)
-    {
-      if(dynamic_cast<TSMatrixDiagonalBodyC<DataT> *>(&TSMatrixC<DataT>::Body()) == 0)
-	this->Invalidate();
-    }
+      : TSMatrixPartialC<DataT>(dynamic_cast<const TSMatrixDiagonalBodyC<DataT> *>(RCHandleC<TSMatrixBodyC<DataT> >::BodyPtr(mat)))
+    {}
     //: Create a diagonal matrix from a vector.
     
     TSMatrixDiagonalC()
@@ -180,6 +177,11 @@ namespace RavlN {
     
   protected:
     TSMatrixDiagonalC(TSMatrixDiagonalBodyC<DataT> &bod)
+      : TSMatrixPartialC<DataT>(bod)
+    {}
+    //: Body constructor.
+    
+    TSMatrixDiagonalC(const TSMatrixDiagonalBodyC<DataT> *bod)
       : TSMatrixPartialC<DataT>(bod)
     {}
     //: Body constructor.

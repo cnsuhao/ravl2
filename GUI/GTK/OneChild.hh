@@ -75,13 +75,15 @@ namespace RavlGUIN {
       : WidgetC(bod)
     {}
     //: Body constructor
-
+    
+    OneChildC(const OneChildBodyC *bod)
+      : WidgetC(bod)
+    {}
+    //: Body constructor
+    
     OneChildC(WidgetC &widge)
-      : WidgetC(widge)
-    {
-      if(dynamic_cast<WidgetBodyC *>(&WidgetC::Body()) == 0)
-	Invalidate();
-    }
+      : WidgetC(dynamic_cast<const WidgetBodyC *>(BodyPtr(widge)))
+    {}
     //: Base class constructor
     // Casts 'widge' to a 'OneChildC', if types don't match an invalid handle 
     // will be created.

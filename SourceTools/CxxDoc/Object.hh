@@ -388,6 +388,11 @@ namespace RavlCxxDocN {
     {}
     //: Body constructor.
     
+    ObjectC(const ObjectBodyC *bod)
+      : RCHandleC<ObjectBodyC>(bod)
+    {}
+    //: Body constructor.
+    
     ObjectBodyC &Body() 
     { return RCHandleC<ObjectBodyC>::Body(); }
     //: Access body.
@@ -674,17 +679,17 @@ namespace RavlCxxDocN {
     { return dynamic_cast<const ObjectListBodyC *>(&obj.Body()) != 0; }
     
     ObjectListC(const ObjectC &obj)
-      : ObjectC(obj)
-    {
-      if(!IsA(obj)) {
-	RavlAssert(0);
-	Invalidate();
-      }
-    }
+      : ObjectC(dynamic_cast<const ObjectListBodyC *>(BodyPtr(obj)))
+    {}
     //: Base class constructor.
     
   protected:
     ObjectListC(ObjectListBodyC &bod)
+      : ObjectC(bod)
+    {}
+    //: Body constructor.
+    
+    ObjectListC(const ObjectListBodyC *bod)
       : ObjectC(bod)
     {}
     //: Body constructor.

@@ -159,6 +159,11 @@ namespace RavlDFN {
     {}
     //: Body constructor.
     
+    DFObjectC(const DFObjectBodyC *bod)
+      : RCHandleVC<DFObjectBodyC>(bod)
+    {}
+    //: Body constructor.
+    
     DFObjectBodyC &Body()
     { return RCHandleVC<DFObjectBodyC>::Body(); }
     //: Access body.

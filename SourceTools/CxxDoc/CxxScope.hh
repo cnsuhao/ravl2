@@ -129,13 +129,8 @@ namespace RavlCxxDocN {
     //: Test if 'obj' is a ScopeC...
     
     ScopeC(ObjectC &obj)
-      : ObjectListC(obj)
-    {
-      if(dynamic_cast<ScopeBodyC *>(&ObjectC::Body()) == 0) {
-	RavlAssert(0);
-	Invalidate();
-      }
-    }
+      : ObjectListC(dynamic_cast<const ScopeBodyC *>(BodyPtr(obj)))
+    {}
     //: Base class constructor.
     
     ScopeC(ScopeBodyC &bod)
@@ -144,6 +139,11 @@ namespace RavlCxxDocN {
     //: Body constructor.
     // Really should be protected...
   protected:
+    ScopeC(const ScopeBodyC *bod)
+      : ObjectListC(bod)
+    {}
+    //: Body constructor.
+    // Really should be protected...
     
     ScopeBodyC &Body() 
     { return dynamic_cast<ScopeBodyC &>(ObjectC::Body()); }

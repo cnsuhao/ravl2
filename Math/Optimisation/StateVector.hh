@@ -135,12 +135,7 @@ namespace RavlN {
     //: Virtual destructor,
     // Included so that the class is polymorphic and so
     // we can make dynamic casts to subclasses
-
-    StateVectorC(StateVectorBodyC &bod)
-      : RCHandleC<StateVectorBodyC>(bod)
-    {}
-    //: Body constructor.
-
+    
   protected:
     StateVectorBodyC &Body()
     { return RCHandleC<StateVectorBodyC>::Body(); }
@@ -149,6 +144,16 @@ namespace RavlN {
     const StateVectorBodyC &Body() const
     { return RCHandleC<StateVectorBodyC>::Body(); }
     //: Access body.
+    
+    StateVectorC(StateVectorBodyC &bod)
+      : RCHandleC<StateVectorBodyC>(bod)
+    {}
+    //: Body constructor.
+    
+    StateVectorC(const StateVectorBodyC *bod)
+      : RCHandleC<StateVectorBodyC>(bod)
+    {}
+    //: Body constructor.
     
   public:
     StateVectorC Copy() const { 
@@ -188,6 +193,8 @@ namespace RavlN {
     bool DecElX(IntT index, RealT val)
     { return Body().DecElX(index,val); }
     //: Decrement element of state vector
+    
+    friend class StateVectorBodyC;
   };
 }
 

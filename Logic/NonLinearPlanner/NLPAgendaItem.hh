@@ -92,7 +92,13 @@ namespace RavlLogicN {
     NLPAgendaItemC(NLPAgendaItemBodyC &bod)
       : RCHandleC<NLPAgendaItemBodyC>(bod)
     {}
-    //:Body constructor.
+    //: Body constructor.
+    // Creates an invalid handle.
+    
+    NLPAgendaItemC(const NLPAgendaItemBodyC *bod)
+      : RCHandleC<NLPAgendaItemBodyC>(bod)
+    {}
+    //: Body constructor.
     // Creates an invalid handle.
     
     inline NLPAgendaItemBodyC &Body() 
@@ -186,11 +192,8 @@ namespace RavlLogicN {
     //: Constructor.
     
     NLPAgendaOpenGoalC(NLPAgendaItemC &handle)
-      : NLPAgendaItemC(handle)
-    {
-      if(dynamic_cast<NLPAgendaOpenGoalBodyC *>(& NLPAgendaItemC::Body()) == 0)
-	Invalidate();
-    }
+      : NLPAgendaItemC(dynamic_cast<const NLPAgendaOpenGoalBodyC *>(BodyPtr(handle)))
+    {}
     //: Base class constructor.
     
   protected:
@@ -291,11 +294,8 @@ namespace RavlLogicN {
     //: Constructor.
 
     NLPAgendaThreatC(NLPAgendaItemC &handle)
-      : NLPAgendaItemC(handle)
-    {
-      if(dynamic_cast<NLPAgendaThreatBodyC *>(&NLPAgendaItemC::Body()) == 0)
-	Invalidate();
-    }
+      : NLPAgendaItemC(dynamic_cast<const NLPAgendaThreatBodyC *>(BodyPtr(handle)))
+    {}
     //: Converting constructor.
 
   protected:

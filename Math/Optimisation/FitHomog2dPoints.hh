@@ -60,11 +60,8 @@ namespace RavlN {
     // the point pairs lie are set to one.
     
     FitHomog2dPointsC(const FitToSampleC &fitter)
-      : FitToSampleC(fitter)
-    {
-      if(dynamic_cast<FitHomog2dPointsBodyC *>(&FitToSampleC::Body()) == 0)
-	Invalidate();
-    }
+      : FitToSampleC(dynamic_cast<const FitHomog2dPointsBodyC *>(BodyPtr(fitter)))
+    {}
     //: Base class constructor.
     
   public:

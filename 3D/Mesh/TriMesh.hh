@@ -193,6 +193,11 @@ namespace Ravl3DN {
     {}
     //: Body constructor.
     
+    TriMeshC(const TriMeshBodyC *bod)
+      : RCHandleC<TriMeshBodyC>(bod)
+    {}
+    //: Body constructor.
+    
     TriMeshBodyC &Body()
     { return RCHandleC<TriMeshBodyC>::Body(); }
     //: Access body.

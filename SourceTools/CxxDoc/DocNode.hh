@@ -51,12 +51,12 @@ namespace RavlCxxDocN {
     // NB. this may fail if node exists, but is not a DocNode.
 
     StringC &DocFilename()
-      { return docFilename; }
+    { return docFilename; }
     //: Filename for info on this node.
     // This may be an empty string.
     
     StringC &Userlevel()
-      { return userlevel; }
+    { return userlevel; }
     //: User level for this node.
 
     bool SetUserlevel(const StringC &value);
@@ -82,7 +82,7 @@ namespace RavlCxxDocN {
     //: Get name of object type.
     
     virtual StringC ActualPath() const
-      { return position; }
+    { return position; }
     //: Resolve data references correctly.
     
   protected:
@@ -102,16 +102,13 @@ namespace RavlCxxDocN {
   {
   public:
     DocNodeC()
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
 
     DocNodeC(ObjectC &obj)
-      : ObjectListC(obj)
-      {
-	if(dynamic_cast<DocNodeBodyC *>(&Body()) == 0)
-	  Invalidate();
-      }
+      : ObjectListC(dynamic_cast<DocNodeBodyC *>(BodyPtr(obj)))
+    {}
     //: Base class constructor.
     // Node if the base class is of a different type an invalid handle
     // is created.
@@ -125,52 +122,57 @@ namespace RavlCxxDocN {
 	     bool aplaceHolder = false
 	     )
       : ObjectListC(*new DocNodeBodyC(nm,position,userlvl,brief,docName,nodeType,aplaceHolder))
-      {}
+    {}
     //: Constructor.
     
   protected:
     DocNodeC(DocNodeBodyC &bod)
       : ObjectListC(bod)
-      {}
+    {}
+    //: Body constructor.
+    
+    DocNodeC(const DocNodeBodyC *bod)
+      : ObjectListC(bod)
+    {}
     //: Body constructor.
     
     DocNodeBodyC &Body() 
-      { return dynamic_cast<DocNodeBodyC &>(ObjectC::Body()); }
+    { return dynamic_cast<DocNodeBodyC &>(ObjectC::Body()); }
     //: Access body.
     
     const DocNodeBodyC &Body() const
-      { return dynamic_cast<const DocNodeBodyC &>(ObjectC::Body()); }
+    { return dynamic_cast<const DocNodeBodyC &>(ObjectC::Body()); }
     //: Access body.
     
   public:    
     DocNodeC AddNode(const DListC<StringC> &id,bool create = true,const StringC &path = StringC())
-      { return Body().AddNode(id,create,path); }
+    { return Body().AddNode(id,create,path); }
     //: Find/Create node corresponding to the the address including and after 'it'.
     
     DocNodeC FindChild(const StringC &id,bool doadd = false,const StringC &path = StringC())
-      { return Body().FindChild(id,doadd,path); }
+    { return Body().FindChild(id,doadd,path); }
     //: Find the named child.
     // if doadd is true, add the new DocNode. 
     // NB. this may fail if node exists, but is not a DocNode.
     
     bool SetUserlevel(const StringC &value)
-      { return Body().SetUserlevel(value); }
+    { return Body().SetUserlevel(value); }
     //: Set the user level of this node.
 
     bool SetDetailComment(const StringC &value)
-      { return Body().SetDetailComment(value); }
+    { return Body().SetDetailComment(value); }
     //: Set the detailed comment of the node.
     
     bool SetBriefComment(const StringC &value)
-      { return Body().SetBriefComment(value); }
+    { return Body().SetBriefComment(value); }
     //: Set the brief comment of the node.
     
     bool UpdateVars(const HashC<StringC,StringC> &value)
-      { return Body().UpdateVars(value); }
+    { return Body().UpdateVars(value); }
     //: Update node's variables.
     
     bool OrderChildren(const DListC<StringC> &children)
-      { return Body().OrderChildren(children); }
+    { return Body().OrderChildren(children); }
     //: Put children in given order.
     
     friend class DocNodeBodyC;

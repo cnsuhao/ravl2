@@ -81,17 +81,17 @@ namespace RavlCxxDocN {
     //: Is this a Object Template.
     
     ObjectTemplateC(const ObjectC &obj)
-      : ObjectC(obj)
-    {
-      if(!IsA(obj)) {
-	RavlAssert(0);
-	Invalidate();
-      }
-    }
+      : ObjectC(dynamic_cast<const ObjectTemplateBodyC *>(BodyPtr(obj)))
+    {}
     //: Base class constructor.
     
   protected:
     ObjectTemplateC(ObjectTemplateBodyC &bod)
+      : ObjectC(bod)
+    {}
+    //: Body constructor.
+    
+    ObjectTemplateC(const ObjectTemplateBodyC *bod)
       : ObjectC(bod)
     {}
     //: Body constructor.
@@ -238,13 +238,8 @@ namespace RavlCxxDocN {
     //: Constructor.
     
     DataTypeC(ObjectC &obj)
-      : ObjectC(obj)
-    {
-      if(dynamic_cast<DataTypeBodyC *>(&ObjectC::Body()) == 0) {
-	RavlAssert(0);
-	Invalidate();
-      }
-    }
+      : ObjectC(dynamic_cast<DataTypeBodyC *>(BodyPtr(obj)))
+    {}
     //: Base class constructor.
     
     static bool IsA(const ObjectC &obj)
@@ -253,6 +248,11 @@ namespace RavlCxxDocN {
     
   protected:
     DataTypeC(ObjectBodyC &bod)
+      : ObjectC(bod)
+    {}
+    //: Body constructor.
+    
+    DataTypeC(const ObjectBodyC *bod)
       : ObjectC(bod)
     {}
     //: Body constructor.
@@ -374,14 +374,9 @@ namespace RavlCxxDocN {
     { return dynamic_cast<const ClassBodyC *>(&obj.Body()) != 0; }
     //: Is object a class ?
     
-    ClassC(ObjectC &obj)
-      : ScopeC(obj)
-    {
-      if(dynamic_cast<ClassBodyC *>(&ObjectC::Body()) == 0) {
-	RavlAssert(0);
-	Invalidate();
-      }
-    }
+    ClassC(const ObjectC &obj)
+      : ScopeC(dynamic_cast<const ClassBodyC *>(BodyPtr(obj)))
+    {}
     //: Base class constructor.
     
   protected:
@@ -481,16 +476,16 @@ namespace RavlCxxDocN {
     //: Is object a class ?
     
     ClassTemplateC(ObjectC &obj)
-      : ClassC(obj)
-    {
-      if(dynamic_cast<ClassTemplateBodyC *>(&ObjectC::Body()) == 0) {
-	RavlAssert(0);
-	Invalidate();
-      }
-    }
+      : ClassC(dynamic_cast<ClassTemplateBodyC *>(BodyPtr(obj)))
+    {}
     //: Base class constructor.
   protected:
     ClassTemplateC(ClassTemplateBodyC &bod)
+      : ClassC(bod)
+    {}
+    //: Body constructor.
+    
+    ClassTemplateC(const ClassTemplateBodyC *bod)
       : ClassC(bod)
     {}
     //: Body constructor.
@@ -662,13 +657,8 @@ namespace RavlCxxDocN {
     //: Is object a method ?
     
     MethodC(ObjectC &obj)
-      : ObjectC(obj)
-    {
-      if(dynamic_cast<MethodBodyC *>(&ObjectC::Body()) == 0) {
-	RavlAssert(0);
-	Invalidate();
-      }
-    }
+      : ObjectC(dynamic_cast<const MethodBodyC *>(BodyPtr(obj)))
+    {}
     //: Base class constructor.
     
     MethodC(const MethodC &om,bool copy)
@@ -683,6 +673,11 @@ namespace RavlCxxDocN {
     
   protected:
     MethodC(MethodBodyC &bod)
+      : ObjectC(bod)
+    {}
+    //: Body constructor.
+
+    MethodC(const MethodBodyC *bod)
       : ObjectC(bod)
     {}
     //: Body constructor.
@@ -840,13 +835,8 @@ namespace RavlCxxDocN {
     //: Is object a method ?
     
     MethodTemplateC(ObjectC &obj)
-      : MethodC(obj)
-    {
-      if(dynamic_cast<MethodTemplateBodyC *>(&ObjectC::Body()) == 0) {
-	RavlAssert(0);
-	Invalidate();
-      }
-    }
+      : MethodC(dynamic_cast<const MethodTemplateBodyC *>(BodyPtr(obj)))
+    {}
     //: Base class constructor.
     
     MethodTemplateC(const StringC &nname,const DataTypeC &rt,const ObjectListC &args,ObjectC &quals,const ObjectC &ntemplArgs)
@@ -938,13 +928,8 @@ namespace RavlCxxDocN {
     //: Is object a method ?
     
     TypedefC(ObjectC &obj)
-      : ObjectC(obj)
-    {
-      if(dynamic_cast<TypedefBodyC *>(&ObjectC::Body()) == 0) {
-	RavlAssert(0);
-	Invalidate();
-      }
-    }
+      : ObjectC(dynamic_cast<const TypedefBodyC *>(BodyPtr(obj)))
+    {}
     //: Base class constructor.
     
   protected:
@@ -1029,17 +1014,17 @@ namespace RavlCxxDocN {
     //: Is object a method ?
     
     VariableC(ObjectC &obj)
-      : ObjectC(obj)
-    {
-      if(dynamic_cast<VariableBodyC *>(&ObjectC::Body()) == 0) {
-	RavlAssert(0);
-	Invalidate();
-      }
-    }
+      : ObjectC(dynamic_cast<const VariableBodyC *>(BodyPtr(obj)))
+    {}
     //: Base class constructor.
     
   protected:
     VariableC(ObjectBodyC &bod)
+      : ObjectC(bod)
+    {}
+    //: Body constructor.
+    
+    VariableC(const ObjectBodyC *bod)
       : ObjectC(bod)
     {}
     //: Body constructor.
@@ -1099,11 +1084,8 @@ namespace RavlCxxDocN {
     //: Constructor.
 
     MarkerC(ObjectC &obj)
-      : ObjectC(obj)
-    {
-      if(dynamic_cast<MarkerBodyC *>(&ObjectC::Body()) == 0)
-	Invalidate();
-    }
+      : ObjectC(dynamic_cast<const MarkerBodyC *>(BodyPtr(obj)))
+    {}
     //: Base class constructor.
 
     static bool IsA(const ObjectC &obj)
@@ -1219,11 +1201,8 @@ namespace RavlCxxDocN {
     //: Constructor.
     
     InheritC(ObjectC &obj)
-      : ObjectC(obj)
-    {
-      if(dynamic_cast<InheritBodyC *>(&ObjectC::Body()) == 0)
-	Invalidate();
-    }
+      : ObjectC(dynamic_cast<const InheritBodyC *>(BodyPtr(obj)))
+    {}
     //: Base class constructor.
 
     static bool IsA(const ObjectC &obj)
@@ -1346,11 +1325,8 @@ namespace RavlCxxDocN {
     //: Constructor.
     
     DerivedC(ObjectC &obj)
-      : ObjectC(obj)
-    {
-      if(dynamic_cast<DerivedBodyC *>(&ObjectC::Body()) == 0)
-	Invalidate();
-    }
+      : ObjectC(dynamic_cast<const DerivedBodyC *>(BodyPtr(obj)))
+    {}
     //: Base class constructor.
     
     static bool IsA(const ObjectC &obj)
@@ -1359,6 +1335,11 @@ namespace RavlCxxDocN {
     
   protected:
     DerivedC(ObjectBodyC &bod)
+      : ObjectC(bod)
+    {}
+    //: Body constructor.
+    
+    DerivedC(const ObjectBodyC *bod)
       : ObjectC(bod)
     {}
     //: Body constructor.
@@ -1443,13 +1424,8 @@ namespace RavlCxxDocN {
     //: Is object a method ?
     
     EnumC(ObjectC &obj)
-      : ObjectListC(obj)
-    {
-      if(dynamic_cast<EnumBodyC *>(&ObjectC::Body()) == 0) {
-	RavlAssert(0);
-	Invalidate();
-      }
-    }
+      : ObjectListC(dynamic_cast<const EnumBodyC *>(BodyPtr(obj)))
+    {}
     //: Base class constructor.
     
   protected:

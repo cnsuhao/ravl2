@@ -130,11 +130,8 @@ namespace RavlGUIN {
     // If MaxLen is set to a negative number, the length is unlimited.
     
     TextEntryC(const WidgetC &base)
-      : WidgetC(base)
-    {
-      if(dynamic_cast<TextEntryBodyC *>(&WidgetC::Body()) == 0)
-	Invalidate();
-    }
+      : WidgetC(dynamic_cast<const TextEntryBodyC *>(BodyPtr(base)))
+    {}
     //: Base class contructor.
     
   protected:

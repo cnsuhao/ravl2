@@ -106,21 +106,22 @@ namespace RavlGUIN {
     //: Create a button.
     // If label is set to 0 none will be used.
   
+    ToggleButtonC(const WidgetC &widge)
+      : ButtonC(dynamic_cast<const ToggleButtonBodyC *>(BodyPtr(widge)))
+    {}
+    //: Create from base class.
+    // Creates an invalid handle if types don't match.
+    
+  protected:
     ToggleButtonC(ButtonBodyC &bod)
       : ButtonC(bod)
     {}
     //: Body constructor.
     
-    ToggleButtonC(const WidgetC &widge)
-      : ButtonC(widge)
-    {
-      if(dynamic_cast<ToggleButtonBodyC *>(&WidgetC::Body()) == 0)
-	Invalidate();
-    }
-    //: Create from base class.
-    // Creates an invalid handle if types don't match.
-    
-  protected:
+    ToggleButtonC(const ButtonBodyC *bod)
+      : ButtonC(bod)
+    {}
+    //: Body constructor.
     
     ToggleButtonBodyC &Body() 
     { return static_cast<ToggleButtonBodyC &>(WidgetC::Body()); }
@@ -214,11 +215,8 @@ namespace RavlGUIN {
     // If label is set to 0 none will be used.
     
     CheckButtonC(const WidgetC &base)
-      : ToggleButtonC(base)
-    {
-      if(dynamic_cast<CheckButtonBodyC *>(&WidgetC::Body()) == 0)
-	Invalidate();
-    }
+      : ToggleButtonC(dynamic_cast<const CheckButtonBodyC *>(BodyPtr(base)))
+    {}
     //: Create for base class.
     // Creates an invalid handle if classes don't match.
     

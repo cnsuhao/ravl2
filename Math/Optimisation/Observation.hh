@@ -147,7 +147,12 @@ namespace RavlN {
       : RCHandleC<ObservationBodyC>(bod)
     {}
     //: Body constructor.
-
+    
+    explicit ObservationC(const ObservationBodyC *bod)
+      : RCHandleC<ObservationBodyC>(bod)
+    {}
+    //: Body constructor.
+    
     ObservationBodyC &Body()
     { return RCHandleC<ObservationBodyC>::Body(); }
     //: Access body.

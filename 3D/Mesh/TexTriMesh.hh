@@ -134,15 +134,11 @@ namespace Ravl3DN {
     // A texture map and texture coordinates are generated for the mesh.
     
     TexTriMeshC(const TriMeshC& mesh,bool forceConv = true)
-      : TriMeshC(mesh)
+      : TriMeshC(dynamic_cast<const TexTriMeshBodyC *>(BodyPtr(mesh)))
     {
-      if(dynamic_cast<TexTriMeshBodyC *>(&TriMeshC::Body()) == 0) {
-	Invalidate();
-	// Don't like this, but it maintains compatability with old code...
-	
-	if(forceConv)
-	  (*this) = TexTriMeshC(mesh.Vertices(),mesh.Faces());
-      }
+      // Don't like this, but it maintains compatability with old code...
+      if(forceConv && !IsValid() && mesh.IsValid())
+        (*this) = TexTriMeshC(mesh.Vertices(),mesh.Faces());
     }
     //: Construct from a TriMesh.
     // Creates a textured mesh that references the vertices and faces in the TriMesh.
@@ -159,6 +155,11 @@ namespace Ravl3DN {
     
   protected:
     TexTriMeshC(TexTriMeshBodyC &bod)
+      : TriMeshC(bod)
+    {}
+    //: Body constructor.
+    
+    TexTriMeshC(const TexTriMeshBodyC *bod)
       : TriMeshC(bod)
     {}
     //: Body constructor.

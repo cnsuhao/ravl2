@@ -311,6 +311,11 @@ namespace RavlGUIN {
     {}
     //: Body Constructor.
     
+    WidgetC(const WidgetBodyC *bod) 
+      : RCHandleC<WidgetBodyC>(bod)
+    {}
+    //: Body Constructor.
+    
     WidgetBodyC &Body() 
     { return RCHandleC<WidgetBodyC>::Body(); }
     //: Access body.

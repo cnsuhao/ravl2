@@ -64,11 +64,8 @@ namespace RavlGUIN {
     // creates an invalid handle.
     
     DPDisplayImageRGBC(DPDisplayObjC &base)
-      : DPDisplayObjC(base)
-    {
-      if(dynamic_cast<DPDisplayImageRGBBodyC *>(&DPDisplayObjC::Body()) == 0)
-	Invalidate();
-    }
+      : DPDisplayObjC(dynamic_cast<const DPDisplayImageRGBBodyC *>(BodyPtr(base)))
+    {}
     //: Base class contructor.
     // If types do not match an invalid handle is created.
     
@@ -125,11 +122,8 @@ namespace RavlGUIN {
     // creates an invalid handle.
 
     DPDisplayImageRealC(DPDisplayObjC &base)
-      : DPDisplayObjC(base)
-    {
-      if(dynamic_cast<DPDisplayImageRealBodyC *>(&DPDisplayObjC::Body()) == 0)
-	Invalidate();
-    }
+      : DPDisplayObjC(dynamic_cast<const DPDisplayImageRealBodyC *>(BodyPtr(base)))
+    {}
     //: Base class contructor.
     // If types do not match an invalid handle is created.
   };
@@ -181,11 +175,8 @@ namespace RavlGUIN {
     // creates an invalid handle.
 
     DPDisplayImageByteC(DPDisplayObjC &base)
-      : DPDisplayObjC(base)
-    {
-      if(dynamic_cast<DPDisplayImageByteBodyC *>(&DPDisplayObjC::Body()) == 0)
-	Invalidate();
-    }
+      : DPDisplayObjC(dynamic_cast<const DPDisplayImageByteBodyC *>(BodyPtr(base)))
+    {}
     //: Base class contructor.
     // If types do not match an invalid handle is created.
   };

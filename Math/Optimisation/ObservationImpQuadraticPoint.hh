@@ -106,17 +106,19 @@ namespace RavlN {
       : ObservationImplicitC(*new ObservationImpQuadraticPointBodyC(nxc,nyc,nsigma,nvarScale,nchi2Thres))
     {}
     //: Constructor.
-
+    
     ObservationImpQuadraticPointC(const ObservationC &obs)
-      : ObservationImplicitC(obs)
-    {
-      if(dynamic_cast<ObservationImpQuadraticPointBodyC *>(&ObservationC::Body()) == 0)
-	Invalidate();
-    }
+      : ObservationImplicitC(dynamic_cast<const ObservationImpQuadraticPointBodyC *>(BodyPtr(obs)))
+    {}
     //: Base class constructor.
     
   protected:
     ObservationImpQuadraticPointC(ObservationImpQuadraticPointBodyC &bod)
+      : ObservationImplicitC(bod)
+    {}
+    //: Body constructor.
+    
+    ObservationImpQuadraticPointC(const ObservationImpQuadraticPointBodyC *bod)
       : ObservationImplicitC(bod)
     {}
     //: Body constructor.

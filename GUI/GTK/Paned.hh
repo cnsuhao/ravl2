@@ -86,13 +86,10 @@ namespace RavlGUIN {
       : WidgetC(bod)
     {}
     //: Body constructor
-
-    PanedC(WidgetC &bod)
-      : WidgetC(bod)
-    {
-      if(dynamic_cast<WidgetBodyC *>(&WidgetC::Body()) == 0)
-	Invalidate();
-    }
+    
+    PanedC(const WidgetC &bod)
+      : WidgetC(dynamic_cast<const PanedBodyC *>(BodyPtr(bod)))
+    {}
     //: Base class constructor
     // If object is of wrong type an invalid handle will be
     // created.

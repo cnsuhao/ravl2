@@ -83,19 +83,21 @@ namespace RavlGUIN {
     {}
     //: Default constructor.
     
+    ContainerWidgetC(const WidgetC &body)
+      : WidgetC(dynamic_cast<const ContainerWidgetBodyC *>(BodyPtr(body)))
+    {}
+    //: Base constructor.
+    
   protected:
     ContainerWidgetC(ContainerWidgetBodyC &body)
       : WidgetC(body)
     {}
     //: Body constructor.
-
-    ContainerWidgetC(WidgetC &body)
+    
+    ContainerWidgetC(const ContainerWidgetBodyC *body)
       : WidgetC(body)
-    {
-      if(dynamic_cast<ContainerWidgetBodyC *>(&WidgetC::Body()) == 0)
-	Invalidate();
-    }
-    //: Base constructor.
+    {}
+    //: Body constructor.
     
     ContainerWidgetBodyC &Body() 
     { return static_cast<ContainerWidgetBodyC &>(WidgetC::Body()); }

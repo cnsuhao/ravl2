@@ -214,14 +214,16 @@ namespace RavlN {
   {
   public:    
     TSMatrixTransposeC(const TSMatrixC<DataT> &base)
-      : TSMatrixC<DataT>(base)
-    {
-      if(dynamic_cast<const TSMatrixTransposeBodyC<DataT> *>(&TSMatrixC<DataT>::Body()) == 0)
-	this->Invalidate();
-    }
+      : TSMatrixC<DataT>(dynamic_cast<const TSMatrixTransposeBodyC<DataT> *>(RCHandleC<TSMatrixBodyC<DataT> >::BodyPtr(base)))
+    {}
     //: Base constructor.
   protected:
     TSMatrixTransposeC(TSMatrixTransposeBodyC<DataT> &bod)
+      : TSMatrixC<DataT>(bod)
+    {}
+    //: Body constructor.
+    
+    TSMatrixTransposeC(const TSMatrixTransposeBodyC<DataT> *bod)
       : TSMatrixC<DataT>(bod)
     {}
     //: Body constructor.

@@ -102,6 +102,11 @@ namespace RavlN {
     {}
     //: Body constructor.
     
+    ClassifierNearestNeighbourC(const ClassifierNearestNeighbourBodyC *bod)
+      : ClassifierC(bod)
+    {}
+    //: Body constructor.
+    
     ClassifierNearestNeighbourBodyC &Body()
     { return static_cast<ClassifierNearestNeighbourBodyC &>(ClassifierC::Body()); }
     //: Access body.

@@ -280,11 +280,8 @@ namespace RavlN {
     //: Constructor.
     
     DPIFileSequenceC(const DPEntityC &obj)
-      : DPEntityC(obj)
-    {
-      if(dynamic_cast<const DPIFileSequenceBodyC *>(&obj.Body()) == 0)
-	Invalidate();
-    }
+      : DPEntityC(dynamic_cast<const DPIFileSequenceBodyC *>(BodyPtr(obj)))
+    {}
     //: Create form an DPEntityC handle.
     
   protected:
@@ -369,11 +366,8 @@ namespace RavlN {
     //: Constructor.
     
     DPOFileSequenceC(const DPEntityC &obj)
-      : DPEntityC(obj)
-    {
-      if(dynamic_cast<const DPOFileSequenceBodyC *>(&obj.Body()) == 0)
-	Invalidate();
-    }
+      : DPEntityC(dynamic_cast<const DPOFileSequenceBodyC *>(BodyPtr(obj)))
+    {}
     //: Create form an DPEntityC handle.
     
   protected:

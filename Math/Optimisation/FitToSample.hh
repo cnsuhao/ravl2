@@ -48,7 +48,13 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
     
+  protected:
     FitToSampleC(FitToSampleBodyC &bod)
+      : RCHandleC<FitToSampleBodyC>(bod)
+    {}
+    //: Body constructor.
+    
+    FitToSampleC(const FitToSampleBodyC *bod)
       : RCHandleC<FitToSampleBodyC>(bod)
     {}
     //: Body constructor.
@@ -66,6 +72,8 @@ namespace RavlN {
     { return Body().FitModel(sample); }
     //: Fit model parameters to sample of observations
     // Supply this function in a sub-class.
+    
+    friend class FitToSampleBodyC;
   };
 }
 

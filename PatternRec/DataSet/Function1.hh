@@ -66,11 +66,8 @@ namespace RavlN {
     //: Load from binary stream.
 
     Function1C(const FunctionC &base)
-      : FunctionC(base)
-    {
-      if(dynamic_cast<const FunctionBodyC *>(&FunctionC::Body()) == 0)
-	Invalidate();
-    }
+      : FunctionC(dynamic_cast<const FunctionBodyC *>(BodyPtr(base)))
+    {}
     //: Base class constructor.
     // If class is not of an appropriate type an invalid handle will be created.
     
@@ -80,7 +77,7 @@ namespace RavlN {
     {}
     //: Body constructor.
 
-    Function1C(Function1BodyC *bod)
+    Function1C(const Function1BodyC *bod)
       : FunctionC(bod)
     {}
     //: Body ptr constructor.

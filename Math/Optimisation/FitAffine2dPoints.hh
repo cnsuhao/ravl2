@@ -45,18 +45,21 @@ namespace RavlN {
     //: Constructor for a class to fit a 2D affine homography to point pairs.
 
     FitAffine2dPointsC(const FitToSampleC &fitter)
-      : FitToSampleC(fitter)
-    {
-      if(dynamic_cast<FitAffine2dPointsBodyC *>(&FitToSampleC::Body()) == 0)
-	Invalidate();
-    }
+      : FitToSampleC(dynamic_cast<const FitAffine2dPointsBodyC *>(BodyPtr(fitter)))
+    {}
     //: Base class constructor.
     
-  public:
     FitAffine2dPointsC(FitAffine2dPointsBodyC &bod)
       : FitToSampleC(bod)
     {}
     //: Body constructor.
+    
+    FitAffine2dPointsC(const FitAffine2dPointsBodyC *bod)
+      : FitToSampleC(bod)
+    {}
+    //: Body constructor.
+    
+  public:
     
     FitAffine2dPointsBodyC &Body()
     { return static_cast<FitAffine2dPointsBodyC &>(FitToSampleC::Body()); }

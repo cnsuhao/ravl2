@@ -103,14 +103,9 @@ namespace RavlGUIN {
     //: Access body.
     
   public:
-    AspectFrameC(WidgetC &widge)
-      : FrameC(widge)
-    {
-      if(IsValid()) {
-	if(dynamic_cast<AspectFrameBodyC *>(&WidgetC::Body()) == 0)
-	  Invalidate();
-      }
-    }
+    AspectFrameC(const WidgetC &widge)
+      : FrameC(dynamic_cast<const AspectFrameBodyC *>(BodyPtr(widge)))
+    {}
     //: Base constructor.
     // If 'widge' is a AspectFrameC this creates a handle to it, if it is not
     // an invalid handle is created.

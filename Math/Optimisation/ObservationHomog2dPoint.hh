@@ -139,13 +139,10 @@ namespace RavlN {
       : ObservationExplicitC(*new ObservationHomog2dPointBodyC(nz1,nNi1,nz2,nNi2,varScale,chi2Thres))
     {}
     //: Constructor for robust bi-Gaussian observation.
-
+    
     ObservationHomog2dPointC(const ObservationC &obs)
-      : ObservationExplicitC(obs)
-    {
-      if(dynamic_cast<ObservationHomog2dPointBodyC *>(&ObservationC::Body()) == 0)
-	Invalidate();
-    }
+      : ObservationExplicitC(dynamic_cast<const ObservationHomog2dPointBodyC *>(BodyPtr(obs)))
+    {}
     //: Base class constructor.
     
   protected:
@@ -170,6 +167,8 @@ namespace RavlN {
     const MatrixRSC& GetNi1() const
     { return Body().GetNi1(); }
     //: Get point position inverse covariance on first plane
+    
+    friend class ObservationHomog2dPointBodyC;
   };
 }  
 

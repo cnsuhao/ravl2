@@ -58,13 +58,10 @@ namespace RavlN {
     //: Constructor for a class to fit a 2D line to points on a plane
     // The 3rd homogeneous coordinate of the plane on which the line and points
     // lie is set to one.
-
+    
     FitLine2dPointsC(const FitToSampleC &fitter)
-      : FitToSampleC(fitter)
-    {
-      if(dynamic_cast<FitLine2dPointsBodyC *>(&FitToSampleC::Body()) == 0)
-	Invalidate();
-    }
+      : FitToSampleC(dynamic_cast<const FitLine2dPointsBodyC *>(BodyPtr(fitter)))
+    {}
     //: Base class constructor.
     
   public:

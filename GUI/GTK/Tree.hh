@@ -214,13 +214,9 @@ namespace RavlGUIN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    TreeItemC(WidgetC &child)
-      : OneChildC(child)
-    {
-      if(dynamic_cast<TreeItemBodyC *>(&WidgetC::Body()) == 0)
-	Invalidate();
-      //(*this) = TreeItemC(*new TreeItemBodyC(child));
-    }
+    TreeItemC(const WidgetC &child)
+      : OneChildC(dynamic_cast<const TreeItemBodyC *>(BodyPtr(child)))
+    {}
     //: Base class constructor.
     
     TreeItemC(const WidgetC &child,bool)

@@ -69,12 +69,8 @@ namespace RavlN {
     //: Load from binary stream.
 
     DistanceEuclideanC(DistanceC &base)
-      : DistanceC(base)
-    {
-      if(IsValid())
-	if(dynamic_cast<DistanceEuclideanBodyC *>(&DistanceC::Body()) == 0)
-	  Invalidate();
-    }
+      : DistanceC(dynamic_cast<const DistanceEuclideanBodyC *>(BodyPtr(base)))
+    {}
     //: Base class constructor.
     // Creates an invalid handle if 'base' is not a DistanceEuclideanC.
     

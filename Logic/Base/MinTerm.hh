@@ -144,13 +144,8 @@ namespace RavlLogicN {
     // Effectively add NotC(lit) if negate is true.
     
     MinTermC(const LiteralC &lit) 
-      : AndC(lit)
-    {
-      if(!IsValid())
-	return ;
-      if(dynamic_cast<const MinTermBodyC *>(&LiteralC::Body()) == 0)
-	Invalidate();
-    }
+      : AndC(dynamic_cast<const MinTermBodyC *>(BodyPtr(lit)))
+    {}
     //: Base constructor
     
     MinTermC(istream &strm);

@@ -26,12 +26,12 @@ namespace RavlGUIN {
   {
   public:
     EventBoxBodyC()
-      {}
+    {}
     //: Default constructor.
     
     EventBoxBodyC(const WidgetC &widge)
       : OneChildBodyC(widge)
-      {}
+    {}
     //: Default constructor.
     
     virtual bool Create();
@@ -46,26 +46,27 @@ namespace RavlGUIN {
   {
   public:
     EventBoxC()
-      {}
+    {}
     //: Default constructor
     
     EventBoxC(const WidgetC &widge,bool)
       : OneChildC(*new EventBoxBodyC(widge))
-      {}
+    {}
     //: Constructor
   
   protected:
     EventBoxBodyC &Body() 
-      { return static_cast<EventBoxBodyC &>(WidgetC::Body()); }
+    { return static_cast<EventBoxBodyC &>(WidgetC::Body()); }
     //: Access body.
-  
+    
+    const EventBoxBodyC &Body() const
+    { return static_cast<const EventBoxBodyC &>(WidgetC::Body()); }
+    //: Access body.
+    
   public:
-    EventBoxC(WidgetC &widge)
-      : OneChildC(widge)
-      {
-	if(dynamic_cast<EventBoxBodyC *>(&WidgetC::Body()) == 0)
-	  Invalidate();
-      }
+    explicit EventBoxC(const WidgetC &widge)
+      : OneChildC(dynamic_cast<const EventBoxBodyC *>(BodyPtr(widge)))
+    {}
     //: Base constructor.
     
   };

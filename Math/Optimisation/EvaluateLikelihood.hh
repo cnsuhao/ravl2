@@ -63,13 +63,10 @@ namespace RavlN {
     // negative log-likelihood when selecting observations compatible with
     // the best model. If you only want the model parameters and don't care
     // about the selected obsrvations, pass an empty argument list.
-
+    
     EvaluateLikelihoodC(const EvaluateSolutionC &evaluator)
-      : EvaluateSolutionC(evaluator)
-    {
-      if(dynamic_cast<EvaluateLikelihoodBodyC *>(&EvaluateSolutionC::Body()) == 0)
-	Invalidate();
-    }
+      : EvaluateSolutionC(dynamic_cast<const EvaluateLikelihoodBodyC *>(BodyPtr(evaluator)))
+    {}
     //: Base class constructor.
     
   public:

@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLNETMESSAGE_HEADER
-#define RAVLNETMESSAGE_HEADER 1
+#ifndef RAVL_NETMESSAGE_HEADER
+#define RAVL_NETMESSAGE_HEADER 1
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/OS/Network/NetMessage.hh"
@@ -70,6 +70,11 @@ namespace RavlN
     
   protected:
     NetMsgRegisterC(NetMsgRegisterBodyC &bod)
+      : RCHandleC<NetMsgRegisterBodyC>(bod)
+    {}
+    //: Body constructor.
+    
+    NetMsgRegisterC(const NetMsgRegisterBodyC *bod)
       : RCHandleC<NetMsgRegisterBodyC>(bod)
     {}
     //: Body constructor.

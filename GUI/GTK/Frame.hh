@@ -75,16 +75,21 @@ namespace RavlGUIN {
 
     FrameC(const WidgetC &widge,const StringC &title,int border = 2)
       : OneChildC(*new FrameBodyC(widge,border,title))
-      {}
+    {}
     //: Constructor.
     
     FrameC(const WidgetC &widge,int border)
       : OneChildC(*new FrameBodyC(widge,border))
-      {}
+    {}
     //: Constructor.
     
   protected:
     FrameC(FrameBodyC &body)
+      : OneChildC(body)
+    {}
+    //: Body constructor.
+    
+    explicit FrameC(const FrameBodyC *body)
       : OneChildC(body)
     {}
     //: Body constructor.
@@ -104,14 +109,9 @@ namespace RavlGUIN {
     
     
   public:
-    FrameC(WidgetC &widge)
-      : OneChildC(widge)
-    {
-      if(IsValid()) {
-	if(dynamic_cast<FrameBodyC *>(&WidgetC::Body()) == 0)
-	  Invalidate();
-      }
-    }
+    explicit FrameC(const WidgetC &widge)
+      : OneChildC(dynamic_cast<const FrameBodyC *>(BodyPtr(widge)))
+    {}
     //: Base constructor.
     // If 'widge' is a FrameC this creates a handle to it, if it is not
     // an invalid handle is created.

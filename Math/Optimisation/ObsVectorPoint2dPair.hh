@@ -61,13 +61,10 @@ namespace RavlN {
     //: Constructor
     // This sticks the individual point observation vectors and inverse
     // covariance matrices together into a single vector and matrix.
-
+    
     ObsVectorPoint2dPairC(const ObsVectorC &obs)
-      : ObsVectorC(obs)
-    {
-      if(dynamic_cast<ObsVectorPoint2dPairBodyC *>(&ObsVectorC::Body()) == 0)
-	Invalidate();
-    }
+      : ObsVectorC(dynamic_cast<const ObsVectorPoint2dPairBodyC *>(BodyPtr(obs)))
+    {}
     //: Base class constructor.
     
     ObsVectorPoint2dPairC()
@@ -141,11 +138,8 @@ namespace RavlN {
     // the relevant ObsVectorBiGaussianC constructor.
 
     ObsVectorBGPoint2dPairC(const ObsVectorBiGaussianC &obs)
-      : ObsVectorBiGaussianC(obs)
-    {
-      if(dynamic_cast<ObsVectorBGPoint2dPairBodyC *>(&ObsVectorBiGaussianC::Body()) == 0)
-	Invalidate();
-    }
+      : ObsVectorBiGaussianC(dynamic_cast<const ObsVectorBGPoint2dPairBodyC *>(BodyPtr(obs)))
+    {}
     //: Base class constructor.
     
     ObsVectorBGPoint2dPairC()

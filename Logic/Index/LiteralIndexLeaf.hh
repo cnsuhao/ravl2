@@ -80,6 +80,11 @@ namespace RavlLogicN {
     {}
     //: Body constructor
     
+    LiteralIndexLeafC(const LiteralIndexLeafBodyC *bod)
+      : LiteralIndexElementC(bod)
+    {}
+    //: Body constructor
+    
     LiteralIndexLeafBodyC &Body()
     { return static_cast<LiteralIndexLeafBodyC &>(LiteralIndexElementC::Body()); }
     //: Access body.
@@ -91,11 +96,8 @@ namespace RavlLogicN {
   public:
 
     LiteralIndexLeafC(const LiteralIndexElementC &base)
-      : LiteralIndexElementC(base)
-    {
-      if(dynamic_cast<const LiteralIndexLeafBodyC *>(&LiteralIndexElementC::Body()) == 0)
-	Invalidate();
-    }
+      : LiteralIndexElementC(dynamic_cast<const LiteralIndexLeafBodyC *>(BodyPtr(base)))
+    {}
     //: Base class constructor.
     // An invalid handle is created if base is not of this type.
     
@@ -169,6 +171,11 @@ namespace RavlLogicN {
     {}
     //: Body constructor.
     
+    LiteralIndexLeafDataC(const LiteralIndexLeafDataBodyC<DataT> *bod)
+      : LiteralIndexLeafC(bod)
+    {}
+    //: Body constructor.
+    
     LiteralIndexLeafDataBodyC<DataT> &Body()
     { return static_cast<LiteralIndexLeafDataBodyC<DataT> & >(LiteralIndexElementC::Body()); }
     //: Access body.
@@ -179,11 +186,8 @@ namespace RavlLogicN {
     
   public:
     LiteralIndexLeafDataC(const LiteralIndexLeafC &base)
-      : LiteralIndexLeafC(base)
-    {
-      if(dynamic_cast<const LiteralIndexLeafDataBodyC<DataT> *>(&LiteralIndexLeafC::Body()) == 0)
-	Invalidate();
-    }
+      : LiteralIndexLeafC(dynamic_cast<const LiteralIndexLeafDataBodyC<DataT> *>(BodyPtr(base)))
+    {}
     //: Base constructor.
     // if 'base' is not a LiteralIndexLeafC, an invalid handle
     // will be created.

@@ -98,11 +98,8 @@ namespace RavlN {
     //: Load from binary stream.
     
     FuncLinearCoeffC(const FunctionC &base)
-      : FunctionC(base)
-    {
-      if(dynamic_cast<FuncLinearCoeffBodyC *>(&FunctionC::Body()) == 0)
-	Invalidate();
-    }
+      : FunctionC(dynamic_cast<const FuncLinearCoeffBodyC *>(BodyPtr(base)))
+    {}
     //: Construct from base class.
     // If base isn't derived from FuncLinearCoeff an invalid handle will
     // be created.
@@ -113,7 +110,7 @@ namespace RavlN {
     {}
     //: Body constructor.
     
-    FuncLinearCoeffC(FuncLinearCoeffBodyC *bod)
+    FuncLinearCoeffC(const FuncLinearCoeffBodyC *bod)
       : FunctionC(bod)
     {}
     //: Body ptr constructor.

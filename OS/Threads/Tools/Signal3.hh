@@ -447,6 +447,11 @@ namespace RavlN {
     {}
     //: Body constructor.
     
+    explicit Signal3C(const Signal3BodyC<Data1T,Data2T,Data3T> *sig)
+      : Signal2C<Data1T,Data2T>(sig)
+    {}
+    //: Body constructor.
+    
     inline 
     Signal3BodyC<Data1T,Data2T,Data3T> &Body() 
     { return static_cast<Signal3BodyC<Data1T,Data2T,Data3T> &>(Signal0C::Body()); }

@@ -67,6 +67,11 @@ namespace RavlGUIN {
     {}
     //: Body constructor.
     
+    DPDisplayObjC(const DPDisplayObjBodyC *body)
+      : RCHandleC<DPDisplayObjBodyC>(body)
+    {}
+    //: Body constructor.
+    
     DPDisplayObjBodyC &Body()
     { return RCHandleC<DPDisplayObjBodyC>::Body(); }
     //: Access body.

@@ -95,7 +95,7 @@ namespace RavlLogicN {
     {}
     //: Body constructor.
     
-    DecisionTreeElementC(DecisionTreeElementBodyC *bod)
+    DecisionTreeElementC(const DecisionTreeElementBodyC *bod)
       : RCHandleVC<DecisionTreeElementBodyC>(bod)
     {}
     //: Body constructor.

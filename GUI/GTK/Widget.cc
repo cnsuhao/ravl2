@@ -475,11 +475,11 @@ namespace RavlGUIN {
       case SigTypeString: // HACK!!
 	cerr << "WidgetBodyC::Signal(), Got SigTypeString from:" << nm << "\n";
 	return ret;
-      case SigTypeDNDContext: ret = Signal1C<GdkDragContext *>(0); break;
-      case SigTypeDNDPosition: ret = Signal2C<GdkDragContext *,PositionTimeC>(0); break;
+      case SigTypeDNDContext: ret = Signal1C<GdkDragContext *>((GdkDragContext *)0); break;
+      case SigTypeDNDPosition: ret = Signal2C<GdkDragContext *,PositionTimeC>((GdkDragContext *)0); break;
       case SigTypeDNDData: { DNDDataInfoC dnd; ret = Signal1C<DNDDataInfoC>(dnd); } break;
       case SigTypeInt: 	ret = Signal1C<IntT>(0); break;
-      case SigTypeWidgetInt: 	ret = Signal1C<UIntT>(0); break;
+      case SigTypeWidgetInt: 	ret = Signal1C<UIntT>((UIntT)0); break;
 #if RAVL_USE_GTK2
       case SigTypeTreeRow:      ret = Signal2C<TreeModelIterC,TreeModelPathC>(TreeModelIterC(),TreeModelPathC()); break;
       case SigTypeTreePathCol: ret = Signal2C<TreeModelPathC,StringC>(TreeModelPathC(),StringC()); break;

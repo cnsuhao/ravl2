@@ -182,15 +182,17 @@ namespace RavlN {
     //: Constructor.
     
     TSMatrixFullC(const TSMatrixC<DataT> &mat)
-      : TSMatrixC<DataT>(mat)
-    {
-      if(dynamic_cast<TSMatrixFullBodyC<DataT> *>(&TSMatrixC<DataT>::Body()) == 0)
-	this->Invalidate();
-    }
+      : TSMatrixC<DataT>(dynamic_cast<const TSMatrixFullBodyC<DataT> *>(BodyPtr(mat)))
+    {}
     //: Base constructor.
     
   protected:
     TSMatrixFullC(TSMatrixFullBodyC<DataT> &bod)
+      : TSMatrixC<DataT>(bod)
+    {}
+    //: Body constructor.
+
+    TSMatrixFullC(const TSMatrixFullBodyC<DataT> *bod)
       : TSMatrixC<DataT>(bod)
     {}
     //: Body constructor.

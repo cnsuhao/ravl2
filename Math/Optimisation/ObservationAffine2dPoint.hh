@@ -80,11 +80,8 @@ namespace RavlN {
     //: Constructor for robust bi-Gaussian observation.
 
     ObservationAffine2dPointC(const ObservationC &obs)
-      : ObservationExplicitC(obs)
-    {
-      if(dynamic_cast<ObservationAffine2dPointBodyC *>(&ObservationC::Body()) == 0)
-	Invalidate();
-    }
+      : ObservationExplicitC(dynamic_cast<const ObservationAffine2dPointBodyC *>(BodyPtr(obs)))
+    {}
     //: Base class constructor.
     
   protected:

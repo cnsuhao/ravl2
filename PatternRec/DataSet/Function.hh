@@ -122,7 +122,7 @@ namespace RavlN {
     {}
     //: Body constructor.
     
-    FunctionC(FunctionBodyC *bod)
+    FunctionC(const FunctionBodyC *bod)
       : RCHandleVC<FunctionBodyC>(bod)
     {}
     //: Body ptr constructor.

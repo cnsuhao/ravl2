@@ -104,15 +104,10 @@ namespace RavlN {
       : StateVectorC(*new StateVectorRot3dBodyC(x,xstep))
     {}
     //: Constructor
-
+    
     StateVectorRot3dC(const StateVectorC &stateVec)
-      : StateVectorC(stateVec)
-    {
-      if(IsValid()) {
-	if(dynamic_cast<StateVectorRot3dBodyC *>(&StateVectorC::Body()) == 0)
-	  Invalidate();
-      }
-    }
+      : StateVectorC(dynamic_cast<const StateVectorRot3dBodyC *>(BodyPtr(stateVec)))
+    {}
     //: Base class constructor.
     
   public:

@@ -133,11 +133,8 @@ namespace RavlN {
     //: Constructor for robust bi-Gaussian observation.
 
     ObservationImpHomog2dPointC(const ObservationC &obs)
-      : ObservationImplicitC(obs)
-    {
-      if(dynamic_cast<ObservationImpHomog2dPointBodyC *>(&ObservationC::Body()) == 0)
-	Invalidate();
-    }
+      : ObservationImplicitC(dynamic_cast<const ObservationImpHomog2dPointBodyC *>(BodyPtr(obs)))
+    {}
     //: Base class constructor.
     
   protected:

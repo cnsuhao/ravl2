@@ -126,16 +126,21 @@ namespace RavlN {
     // with respect to the elements of z,
     // overriding the default step size (1e-6).
 
-  public:
+  protected:
     ObsVectorC(ObsVectorBodyC &bod)
       : RCHandleC<ObsVectorBodyC>(bod)
     {}
     //: Body constructor.
-
+    
+    ObsVectorC(const ObsVectorBodyC *bod)
+      : RCHandleC<ObsVectorBodyC>(bod)
+    {}
+    //: Body constructor.
+    
     ObsVectorBodyC &Body()
     { return RCHandleC<ObsVectorBodyC>::Body(); }
     //: Access body.
-
+    
     const ObsVectorBodyC &Body() const
     { return RCHandleC<ObsVectorBodyC>::Body(); }
     //: Access body.

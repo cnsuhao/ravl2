@@ -74,8 +74,8 @@ namespace RavlN {
       : Function1C(bod)
     {}
     //: Body constructor.
-
-    DistanceC(DistanceBodyC *bod)
+    
+    DistanceC(const DistanceBodyC *bod)
       : Function1C(bod)
     {}
     //: Body ptr constructor.

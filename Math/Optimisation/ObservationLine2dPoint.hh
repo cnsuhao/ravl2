@@ -91,13 +91,10 @@ namespace RavlN {
       : ObservationImplicitC(*new ObservationLine2dPointBodyC(z,Ni,varScale,chi2Thres))
     {}
     //: Constructor for robust bi-Gaussian observation.
-
+    
     ObservationLine2dPointC(const ObservationC &obs)
-      : ObservationImplicitC(obs)
-    {
-      if(dynamic_cast<ObservationLine2dPointBodyC *>(&ObservationC::Body()) == 0)
-	Invalidate();
-    }
+      : ObservationImplicitC(dynamic_cast<const ObservationLine2dPointBodyC *>(BodyPtr(obs)))
+    {}
     //: Base class constructor.
     
   protected:

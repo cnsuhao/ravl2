@@ -114,6 +114,11 @@ namespace RavlN {
     {}
     //: Body constructor.  
     
+    SignalConnectorC(const SignalConnector0BodyC *bod)
+      : RCHandleC<SignalConnector0BodyC>(bod)
+    {}
+    //: Body constructor.  
+    
     friend class Signal0BodyC;
     friend class SignalConnector0BodyC;
   };
@@ -278,6 +283,11 @@ namespace RavlN {
     
   protected:
     Signal0C(Signal0BodyC &bod)
+      : RCHandleC<Signal0BodyC>(bod)
+    {}
+    //: Body constructor.
+    
+    Signal0C(const Signal0BodyC *bod)
       : RCHandleC<Signal0BodyC>(bod)
     {}
     //: Body constructor.

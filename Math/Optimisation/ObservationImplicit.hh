@@ -108,17 +108,19 @@ namespace RavlN {
       : ObservationC(*new ObservationImplicitBodyC(nobsVec,Fsize))
     {}
     //: Constructor
-
+    
     ObservationImplicitC(const ObservationC &obs)
-      : ObservationC(obs)
-    {
-      if(dynamic_cast<ObservationImplicitBodyC *>(&ObservationC::Body()) == 0)
-	Invalidate();
-    }
+      : ObservationC(dynamic_cast<const ObservationImplicitBodyC *>(BodyPtr(obs)))
+    {}
     //: Base class constructor.
     
   public:
     ObservationImplicitC(ObservationImplicitBodyC &bod)
+      : ObservationC(bod)
+    {}
+    //: Body constructor.
+    
+    ObservationImplicitC(const ObservationImplicitBodyC *bod)
       : ObservationC(bod)
     {}
     //: Body constructor.

@@ -96,11 +96,8 @@ namespace RavlN {
     // overriding the default step size (1e-6).
 
     ObsVectorBiGaussianC(const ObsVectorC &obs)
-      : ObsVectorC(obs)
-    {
-      if(dynamic_cast<ObsVectorBiGaussianBodyC *>(&ObsVectorC::Body()) == 0)
-	Invalidate();
-    }
+      : ObsVectorC(dynamic_cast<const ObsVectorBiGaussianBodyC *>(BodyPtr(obs)))
+    {}
     //: Base class constructor.
     
     ObsVectorBiGaussianC()
@@ -108,8 +105,13 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
     
-  public:
+  protected:
     ObsVectorBiGaussianC(ObsVectorBiGaussianBodyC &bod)
+      : ObsVectorC(bod)
+    {}
+    //: Body constructor.
+    
+    ObsVectorBiGaussianC(const ObsVectorBiGaussianBodyC *bod)
       : ObsVectorC(bod)
     {}
     //: Body constructor.

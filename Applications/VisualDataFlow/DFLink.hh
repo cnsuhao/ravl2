@@ -81,16 +81,18 @@ namespace RavlDFN {
     //: Create a link between two objects.
     
     DFLinkC(const DFObjectC &obj)
-      : DFObjectC(obj)
-    {
-      if(dynamic_cast<const DFLinkBodyC *>(&DFObjectC::Body()) == 0)
-	Invalidate();
-    }
+      : DFObjectC(dynamic_cast<const DFLinkBodyC *>(BodyPtr(obj)))
+    {}
     //: Create from base class.
     // If object types don't match an invalid handle will be created.
     
   protected:
     DFLinkC(DFLinkBodyC &bod)
+      : DFObjectC(bod)
+    {}
+    //: Body constructor.
+    
+    DFLinkC(const DFLinkBodyC *bod)
       : DFObjectC(bod)
     {}
     //: Body constructor.

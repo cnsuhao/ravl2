@@ -136,11 +136,8 @@ namespace RavlGUIN {
     //: Create a Combo box.
     
     ComboC(const WidgetC &base)
-      : WidgetC(base)
-    {
-      if(dynamic_cast<ComboBodyC *>(&WidgetC::Body()) == 0)
-	Invalidate();
-    }
+      : WidgetC(dynamic_cast<const ComboBodyC *>(BodyPtr(base)))
+    {}
     //: Base class constructor.
     // If types don't match an invalid handle will be created.
     

@@ -82,13 +82,8 @@ namespace RavlN {
     //: Construct from a state vector.
     
     StateVectorAffine2dC(const StateVectorC &sv)
-      : StateVectorC(sv)
-    {
-      if(IsValid()) {
-	if(dynamic_cast<const StateVectorAffine2dBodyC *>(&StateVectorC::Body()) == 0)
-	  Invalidate();
-      }
-    }
+      : StateVectorC(dynamic_cast<const StateVectorAffine2dBodyC *>(BodyPtr(sv)))
+    {}
     //: Base constructor.
     
   protected:

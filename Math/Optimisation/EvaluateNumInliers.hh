@@ -45,12 +45,13 @@ namespace RavlN {
     RealT chi2Thres; // Threshold on normalised residual
     RealT compatChi2Thres; // Threshold for comaptibility list
   };
-
+  
   //! userlevel=Normal
   //! autoLink=on
   //: Solution evaluation class
   // This class evaluates a proposed solution state vector by counting the
   // number of inlier observations
+  
   class EvaluateNumInliersC
     : public EvaluateSolutionC
   {
@@ -68,15 +69,12 @@ namespace RavlN {
     // as chi2Thres.
 
     EvaluateNumInliersC(const EvaluateSolutionC &evaluator)
-      : EvaluateSolutionC(evaluator)
-    {
-      if(dynamic_cast<EvaluateNumInliersBodyC *>(&EvaluateSolutionC::Body()) == 0)
-	Invalidate();
-    }
+      : EvaluateSolutionC(dynamic_cast<const EvaluateNumInliersBodyC *>(BodyPtr(evaluator)))
+    {}
     //: Base class constructor.
     
-  public:
-    EvaluateNumInliersC(EvaluateNumInliersBodyC &bod)
+  protected:
+    EvaluateNumInliersC(const EvaluateNumInliersBodyC *bod)
       : EvaluateSolutionC(bod)
     {}
     //: Body constructor.
@@ -88,6 +86,8 @@ namespace RavlN {
     const EvaluateNumInliersBodyC &Body() const
     { return static_cast<const EvaluateNumInliersBodyC &>(EvaluateSolutionC::Body()); }
     //: Access body.
+    
+    friend class EvaluateNumInliersBodyC;
   };
 
 }

@@ -123,17 +123,19 @@ namespace RavlN {
     // switching point between the inlier and outlier distributions, as a
     // threshold on the normalised chi-squared error using the inlier
     // distribution.
-
+    
     ObservationQuadraticPointC(const ObservationC &obs)
-      : ObservationExplicitC(obs)
-    {
-      if(dynamic_cast<ObservationQuadraticPointBodyC *>(&ObservationC::Body()) == 0)
-	Invalidate();
-    }
+      : ObservationExplicitC(dynamic_cast<const ObservationQuadraticPointBodyC *>(BodyPtr(obs)))
+    {}
     //: Base class constructor.
     
   protected:
     ObservationQuadraticPointC(ObservationQuadraticPointBodyC &bod)
+      : ObservationExplicitC(bod)
+    {}
+    //: Body constructor.
+    
+    ObservationQuadraticPointC(const ObservationQuadraticPointBodyC *bod)
       : ObservationExplicitC(bod)
     {}
     //: Body constructor.

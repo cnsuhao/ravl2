@@ -168,14 +168,17 @@ namespace RavlN {
     // The contents of the matrix are undefined.
     
     TSMatrixScaledIdentityC(const TSMatrixC<DataT> &base)
-      : TSMatrixC<DataT>(base)
-    {
-      if(dynamic_cast<const TSMatrixScaledIdentityBodyC<DataT> *>(&TSMatrixC<DataT>::Body()) == 0)
-	this->Invalidate();
-    }
+      : TSMatrixC<DataT>(dynamic_cast<const TSMatrixScaledIdentityBodyC<DataT> *>(RCHandleC<TSMatrixBodyC<DataT> >::BodyPtr(base)))
+    {}
     //: Base constructor.
+    
   protected:
     TSMatrixScaledIdentityC(TSMatrixScaledIdentityBodyC<DataT> &bod)
+      : TSMatrixC<DataT>(bod)
+    {}
+    //: Body constructor.
+    
+    TSMatrixScaledIdentityC(const TSMatrixScaledIdentityBodyC<DataT> *bod)
       : TSMatrixC<DataT>(bod)
     {}
     //: Body constructor.

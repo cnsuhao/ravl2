@@ -393,17 +393,19 @@ namespace RavlN {
     // Creates an invalid handle.
     
     Signal2C(const Signal0C &base)
-      : Signal1C<Data1T>(base)
-      {
-	if(dynamic_cast<const Signal2BodyC<Data1T,Data2T> *>(&Signal0C::Body()) == 0)
-	  this->Invalidate();
-      }
+      : Signal1C<Data1T>(dynamic_cast<const Signal2BodyC<Data1T,Data2T> *>(RCHandleC<Signal0BodyC>::BodyPtr(base)))
+    {}
     //: Base constructor.
     // Creates an invalid handle if body type
     // is correct.
     
   protected:
     Signal2C(Signal2BodyC<Data1T,Data2T> &sig)
+      : Signal1C<Data1T>(sig)
+    {}
+    //: Body constructor.
+    
+    explicit Signal2C(const Signal2BodyC<Data1T,Data2T> *sig)
       : Signal1C<Data1T>(sig)
     {}
     //: Body constructor.

@@ -43,17 +43,19 @@ namespace RavlN {
       : FitToSampleC(*new FitQuadraticPointsBodyC())
     {}
     //: Constructor for a class to fit a quadratic curve to (x,y) points
-
+    
     FitQuadraticPointsC(const FitToSampleC &fitter)
-      : FitToSampleC(fitter)
-    {
-      if(dynamic_cast<FitQuadraticPointsBodyC *>(&FitToSampleC::Body()) == 0)
-	Invalidate();
-    }
+      : FitToSampleC(dynamic_cast<const FitQuadraticPointsBodyC *>(BodyPtr(fitter)))
+    {}
     //: Base class constructor.
     
-  public:
+  protected:
     FitQuadraticPointsC(FitQuadraticPointsBodyC &bod)
+      : FitToSampleC(bod)
+    {}
+    //: Body constructor.
+    
+    FitQuadraticPointsC(const FitQuadraticPointsBodyC *bod)
       : FitToSampleC(bod)
     {}
     //: Body constructor.

@@ -150,11 +150,8 @@ namespace RavlGUIN {
     //: Body Constructor.
     
     SliderC(const WidgetC &base)
-      : WidgetC(base)
-    {
-      if(dynamic_cast<SliderBodyC *>(&WidgetC::Body()) == 0)
-	Invalidate();
-    }
+      : WidgetC(dynamic_cast<const SliderBodyC *>(BodyPtr(base)))
+    {}
     //: Create from base class.
     // Creates an invalid handle if class types don't match.
     

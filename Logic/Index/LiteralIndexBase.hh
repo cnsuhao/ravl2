@@ -121,6 +121,11 @@ namespace RavlLogicN {
     {}
     //: Body constructor.
     
+    LiteralIndexBaseC(const LiteralIndexBaseBodyC *bod)
+      : RCHandleC<LiteralIndexBaseBodyC>(bod)
+    {}
+    //: Body constructor.
+    
     LiteralIndexBaseBodyC &Body()
     { return RCHandleC<LiteralIndexBaseBodyC>::Body(); }
     //: Access body.

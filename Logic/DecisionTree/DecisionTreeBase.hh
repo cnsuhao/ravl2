@@ -109,6 +109,11 @@ namespace RavlLogicN {
       {}
     //: Body constructor.
     
+    DecisionTreeBaseC(const DecisionTreeBaseBodyC *bod)
+      : RCHandleC<DecisionTreeBaseBodyC>(bod)
+      {}
+    //: Body constructor.
+    
     DecisionTreeBaseBodyC &Body()
     { return RCHandleC<DecisionTreeBaseBodyC>::Body(); }
     //: Access body.

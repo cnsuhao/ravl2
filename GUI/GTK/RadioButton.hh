@@ -131,7 +131,7 @@ namespace RavlGUIN {
   RadioButtonC RadioButton(const char *label,const RadioButtonGroupT &group,bool (*func)(bool &))
   { 
     RadioButtonC ret = RadioButtonC(label,0,group);
-    Connect(ret.SigChanged(),func);
+    Connect(ret.SigChanged(),func,true);
     return ret;    
   }
   //! userlevel=Normal
@@ -141,7 +141,7 @@ namespace RavlGUIN {
   RadioButtonC RadioButton(const char *label,const RadioButtonGroupT &group,bool (*func)(bool &,DataT &),const DataT &v)
   { 
     RadioButtonC ret = RadioButtonC(label,0,group);
-    Connect(ret.SigChanged(),func,v);
+    Connect(ret.SigChanged(),func,true,v);
     return ret;    
   }
   //! userlevel=Normal
@@ -152,7 +152,7 @@ namespace RavlGUIN {
   { 
     RadioButtonC ret = RadioButtonC(label,0,group);
     ret.SetToolTip(tooltip);
-    Connect(ret.SigChanged(),obj,func);
+    Connect(ret.SigChanged(),obj,func,true);
     return ret;    
   }
   //! userlevel=Normal
@@ -162,7 +162,7 @@ namespace RavlGUIN {
   RadioButtonC RadioButtonR(const char *label,const RadioButtonGroupT &group,ObjT &obj,bool (ObjT::*func)(bool &))
   { 
     RadioButtonC ret = RadioButtonC(label,0,group);
-    ConnectRef(ret.SigChanged(),obj,func);
+    ConnectRef(ret.SigChanged(),obj,func,true);
     return ret;    
   }
   //! userlevel=Normal
@@ -184,7 +184,7 @@ namespace RavlGUIN {
   { 
     RadioButtonC ret = RadioButtonC(label,0,group);
     ret.SetToolTip(tooltip);
-    ConnectRef(ret.SigChanged(),obj,func);
+    ConnectRef(ret.SigChanged(),obj,func,true);
     return ret;    
   }
   //! userlevel=Normal

@@ -55,12 +55,18 @@ namespace RavlN {
     {}
     //: Default constructor.
     // Creates an invalid handle.
-    
+
+  protected:    
     EvaluateSolutionC(EvaluateSolutionBodyC &bod)
       : RCHandleC<EvaluateSolutionBodyC>(bod)
     {}
     //: Body constructor.
-
+    
+    EvaluateSolutionC(const EvaluateSolutionBodyC *bod)
+      : RCHandleC<EvaluateSolutionBodyC>(bod)
+    {}
+    //: Body constructor.
+    
     EvaluateSolutionBodyC &Body()
     { return RCHandleC<EvaluateSolutionBodyC>::Body(); }
     //: Access body.

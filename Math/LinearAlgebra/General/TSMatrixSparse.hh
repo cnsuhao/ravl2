@@ -375,15 +375,17 @@ namespace RavlN {
     // Any elements with an absolute value smaller than 'zeroValue' are taken as zero.
     
     TSMatrixSparseC(TSMatrixC<DataT> &xyz)
-      : TSMatrixC<DataT>(xyz)
-    {
-      if(dynamic_cast<TSMatrixSparseBodyC<DataT> *>(&TSMatrixC<DataT>::Body()) == 0)
-	this->Invalidate();
-    }
+      : TSMatrixC<DataT>(dynamic_cast<const TSMatrixSparseBodyC<DataT> *>(RCHandleC<TSMatrixBodyC<DataT> >::BodyPtr(xyz)))
+    {}
     //: Base constructor.
     
   protected:
     TSMatrixSparseC(TSMatrixSparseBodyC<DataT> &bod)
+      : TSMatrixC<DataT>(bod)
+    {}
+    //: Body constructor.
+    
+    TSMatrixSparseC(const TSMatrixSparseBodyC<DataT> *bod)
       : TSMatrixC<DataT>(bod)
     {}
     //: Body constructor.

@@ -95,11 +95,8 @@ namespace RavlGUIN {
     //: Constructor.
     
     SpinButtonC(const WidgetC &base)
-      : WidgetC(base)
-    {
-      if(dynamic_cast<SpinButtonBodyC *>(&WidgetC::Body()) == 0)
-	Invalidate();
-    }
+      : WidgetC(dynamic_cast<const SpinButtonBodyC *>(BodyPtr(base)))
+    {}
     //: Create from base class.
     // Creates an invalid handle if types don't match.
     

@@ -125,6 +125,11 @@ namespace RavlLogicN {
     {}
     //: Body constructor.
     
+    LiteralIndexC(const LiteralIndexBodyC<DataT> *bod)
+      : LiteralIndexBaseC(bod)
+    {}
+    //: Body constructor.
+    
     LiteralIndexBodyC<DataT> &Body()
     { return static_cast<LiteralIndexBodyC<DataT> &>(LiteralIndexBaseC::Body()); }
     //: Access body.

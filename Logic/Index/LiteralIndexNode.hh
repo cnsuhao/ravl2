@@ -91,6 +91,11 @@ namespace RavlLogicN {
     {}
     //: Body constructor
     
+    LiteralIndexNodeC(const LiteralIndexNodeBodyC *bod)
+      : LiteralIndexElementC(bod)
+    {}
+    //: Body constructor
+    
     LiteralIndexNodeBodyC &Body()
     { return static_cast<LiteralIndexNodeBodyC &>(LiteralIndexElementC::Body()); }
     //: Access body.
@@ -101,11 +106,8 @@ namespace RavlLogicN {
 
   public:
     LiteralIndexNodeC(LiteralIndexElementC &base)
-      : LiteralIndexElementC(base)
-    {
-      if(dynamic_cast<const LiteralIndexNodeBodyC *>(&LiteralIndexElementC::Body()) == 0)
-	Invalidate();
-    }
+      : LiteralIndexElementC(dynamic_cast<const LiteralIndexNodeBodyC *>(BodyPtr(base)))
+    {}
     //: Base constructor
 
     UIntT Term() const

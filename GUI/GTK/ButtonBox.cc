@@ -23,7 +23,7 @@ namespace RavlGUIN {
     : WindowBodyC(200,100,title,GTK_WINDOW_DIALOG,0,false),
       m_strMessage(message),
       m_buttons(buttons),
-      sigDone(0)
+      sigDone((UIntT) 0)
   {
     // Make sure this isn't deleted before the buttons have been clicked
     IncRefCounter();

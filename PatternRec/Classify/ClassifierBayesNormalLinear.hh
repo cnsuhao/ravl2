@@ -83,11 +83,8 @@ namespace RavlN {
     //: Stream constructor.
     
     ClassifierBayesNormalLinearC(const ClassifierC &func)
-      : ClassifierC(func)
-    {
-      if(dynamic_cast<ClassifierBayesNormalLinearBodyC *>(&ClassifierC::Body()) == 0)
-	Invalidate();
-    }
+      : ClassifierC(dynamic_cast<const ClassifierBayesNormalLinearBodyC *>(BodyPtr(func)))
+    {}
     //: Attempt to create handle from base class.
     // If object is not a ClassifierBayesNormalLinearC, an invalid handle will be created.
     

@@ -102,11 +102,8 @@ namespace RavlN {
     //: Load from binary stream.
     
     ClassifierC(const FunctionC &func)
-      : FunctionC(func)
-    { 
-      if(dynamic_cast<const ClassifierBodyC *>(&FunctionC::Body()) == 0)
-	Invalidate();
-    }
+      : FunctionC(dynamic_cast<const ClassifierBodyC *>(BodyPtr(func)))
+    {}
     //: Create from base class.
     // Creates an invalid handle if 'func' is not a classifer.
     
@@ -116,7 +113,7 @@ namespace RavlN {
     {}
     //: Body constructor.
 
-    ClassifierC(ClassifierBodyC *bod)
+    ClassifierC(const ClassifierBodyC *bod)
       : FunctionC(bod)
     {}
     //: Body ptr constructor.
