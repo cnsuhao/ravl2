@@ -78,7 +78,7 @@ namespace RavlN {
   
   
   const MeanCovarianceC & MeanCovarianceC::SetZero() {
-    m.Fill(0);
+    m.SetZero();
     cov.Fill(0);
     return *this;
   }
