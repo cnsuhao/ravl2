@@ -55,7 +55,7 @@ namespace RavlN {
     // This will return false if either nan's (Not an number) 
     // or infinite values are found.
     
-    RealT Magintude() const 
+    RealT Magnitude() const 
       { return Sqrt(SumSqr()); }
     //: Calculate the magintude of the vector.
     

@@ -20,7 +20,7 @@
 namespace RavlN {
   
   class Vector4dC
-    : public FVectorC<2>
+    : public FVectorC<4>
   {
   public:
     Vector4dC()
