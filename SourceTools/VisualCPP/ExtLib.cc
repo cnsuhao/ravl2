@@ -1,5 +1,8 @@
-// This file is part of OmniSoft, Pattern recognition software 
+// This file is part of VCPP, Visual C++ porting tool for QMake projects 
 // Copyright (C) 2003, Omniperception Ltd.
+// This code may be redistributed under the terms of the GNU General 
+// Public License (GPL). See the gpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=OmniFaceXml
