@@ -28,5 +28,7 @@ PROGLIBS=RavlIO RavlOS RavlOSIO RavlImageIO RavlMathIO RavlImgIOV4L.opt RavlDPDi
 
 EHT = Ravl.Images.Lines.html 
 
+EXAMPLES=doPPHT.cc doArcs.cc 
+
 TESTEXES=testLineDet.cc
 #exedoPPHT.eht
