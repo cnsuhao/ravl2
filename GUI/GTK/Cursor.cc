@@ -111,6 +111,19 @@ namespace RavlGUIN {
   
   static HashC<const char *,GdkCursorType> cursorTable(cursorNames);
   
+  const static gchar g_emptyCursor[] = 
+  {
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+  };
+  const static gchar g_emptyCursorMask[] = 
+  {
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+  };
+
   //: Constructor.
   
   CursorBodyC::CursorBodyC(const char *name)
@@ -128,7 +141,21 @@ namespace RavlGUIN {
       cursor = gdk_cursor_new(ct);
       return cursor;
     }
-    cerr << "CursorBodyC::Cursor(), Load pixmap cursor not implemented for '" << cname << "'\n";
+    else
+    {
+      if (StringC(cname) == "NONE")
+      {
+        GdkColor fg = { 0, 65535, 65535, 65535 }; /* White. */
+        GdkColor bg = { 0,     0,     0,     0 }; /* Black. */
+        GdkPixmap *source = gdk_bitmap_create_from_data(NULL, g_emptyCursor, 16, 16);
+        GdkPixmap *mask = gdk_bitmap_create_from_data(NULL, g_emptyCursorMask, 16, 16);
+        cursor = gdk_cursor_new_from_pixmap(source, mask, &fg, &bg, 8, 8);
+        gdk_pixmap_unref(source);
+        gdk_pixmap_unref(mask);
+      }
+      else
+        cerr << "CursorBodyC::Cursor(), Load pixmap cursor not implemented for '" << cname << "'\n";
+    }
     return 0;
   }
   

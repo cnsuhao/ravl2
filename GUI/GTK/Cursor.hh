@@ -59,8 +59,8 @@ namespace RavlGUIN {
   //! userlevel=Normal
   //: Cursor handle
   // This changes the pointer used in a window.
-  // List of options can be seen in Cursor.cc, will add
-  // it to documentation soon.
+  // List of options can be seen in Cursor.cc, with graphical examples found <a href="http://developer.gnome.org/doc/API/2.0/gdk/gdk-Cursors.html">here</a>.
+  // An invisible cursor can be set by using the name "NONE"
   
   class CursorC
     : public RCHandleC<CursorBodyC>
