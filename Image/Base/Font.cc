@@ -13,7 +13,7 @@
 #include "Ravl/Image/PSFFont.h"
 #include "Ravl/SArray1d.hh"
 #include "Ravl/SArray1dIter.hh"
-
+#include "Ravl/Resource.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -27,11 +27,7 @@ namespace RavlImageN {
   //: Load the default font.
   
   static FontC LoadDefaultFont() {
-#ifdef PROJECT_OUT
-    static char *fontName = PROJECT_OUT "/share/RAVL/Fonts/default8x16.psf";
-#else
-    static char *fontName = "/share/RAVL/Fonts/default8x16.psf";
-#endif
+    StringC fontName = Resource("RAVL/Fonts","default8x16.psf");
     FontC defaultFont = LoadPSF1(fontName);
     if(!defaultFont.IsValid())
       cerr << "WARNING: Can't load default font '" << fontName << "'\n";
@@ -48,10 +44,8 @@ namespace RavlImageN {
   //: Load default font.
   
   FontC::FontC(bool)
-  {
-    (*this) = DefaultFont();
-  }
-
+  { (*this) = DefaultFont(); }
+  
   //: Get the offset to the center of the string.
   
   Index2dC FontC::Center(const StringC &text) const {
