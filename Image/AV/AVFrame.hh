@@ -11,6 +11,7 @@
 //! author="Charles Galambos"
 //! userlevel=Normal
 //! docentry="Ravl.Images.Video"
+//! file="Ravl/Image/AV/AVFrame.hh"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Audio/AudioFrame.hh"

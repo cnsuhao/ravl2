@@ -8,6 +8,7 @@
 //! date="17/10/2000"
 //! rcsid="$Id$"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Filters/GabourFilter2d.cc"
 
 #include "Ravl/Image/GabourFilter2d.hh"
 #include "Ravl/Array2dIter3.hh"

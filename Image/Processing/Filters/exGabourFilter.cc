@@ -8,6 +8,7 @@
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! author="Charles Galambos"
+//! file="Ravl/Image/Processing/Filters/exGabourFilter.cc"
 
 #include "Ravl/Option.hh"
 #include "Ravl/Image/GabourFilter2d.hh"

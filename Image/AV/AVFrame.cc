@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlAV
+//! file="Ravl/Image/AV/AVFrame.cc"
 
 #include "Ravl/AVFrame.hh"
 

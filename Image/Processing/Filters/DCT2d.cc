@@ -25,6 +25,7 @@
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! license=own
+//! file="Ravl/Image/Processing/Filters/DCT2d.cc"
 
 // Modified by Charles Galambos
 

@@ -10,6 +10,7 @@
 //! lib=RavlAV
 //! author="Charles Galambos"
 //! docentry="Ravl.Images.Video"
+//! file="Ravl/Image/AV/AVMixer.hh"
 
 #include "Ravl/AVFrame.hh"
 #include "Ravl/DP/SPort.hh"

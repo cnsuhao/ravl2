@@ -13,6 +13,7 @@
 //! date="17/10/2000"
 //! lib=RavlImageProc
 //! example=exGabourFilter.cc
+//! file="Ravl/Image/Processing/Filters/GabourFilter2d.hh"
 
 #include "Ravl/Array1d.hh"
 #include "Ravl/SArray1d.hh"

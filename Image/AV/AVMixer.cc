@@ -9,6 +9,7 @@
 //! author="Charles Galambos"
 #include "Ravl/config.h" 
 #include "Ravl/AVMixer.hh"
+//! file="Ravl/Image/AV/AVMixer.cc"
 
 #if RAVL_COMPILER_MIPSPRO 
 #include "Ravl/Audio/Types.hh"
