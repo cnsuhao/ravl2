@@ -4,7 +4,6 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-# $Id$
 #! rcsid="$Id$"
 #! file="Ravl/Image/Processing/Edges/defs.mk"
 
@@ -16,13 +15,10 @@ MAINS=
 #doEdgeDet.cc
 
 HEADERS=EdgeSobel.hh EdgeDeriche.hh SqrComposition.hh \
- EdgeNonMaxSuppression.hh Edgel.hh
-
-# EdgeLink.hh
+ EdgeNonMaxSuppression.hh Edgel.hh EdgeLink.hh
 
 SOURCES=EdgeSobel.cc EdgeDeriche.cc SqrComposition.cc \
- EdgeNonMaxSuppression.cc Edgel.cc
-# EdgeLink.cc
+ EdgeNonMaxSuppression.cc Edgel.cc EdgeLink.cc
 
 PLIB=RavlImageProc
 

@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLEDGENONMAXSUP_HEADER
-#define RAVLEDGENONMAXSUP_HEADER 1
+#ifndef RAVLIAMGE_EDGENONMAXSUP_HEADER
+#define RAVLIMAGE_EDGENONMAXSUP_HEADER 1
 //////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Image/Processing/Edges/EdgeNonMaxSuppression.hh"
@@ -32,7 +32,7 @@ namespace RavlImageN {
   public:
     EdgeNonMaxSuppressionBodyC(bool ec = false)
       : eightConnectivity(ec)
-      {}
+    {}
     
     bool Apply(const ImageC<RealT> & inDrIm, 
 	       const ImageC<RealT> & inDcIm,  
@@ -42,7 +42,8 @@ namespace RavlImageN {
 	       IntT &edgels
 	       );
     //: Apply non-maximal suppression to edge images.
-    // This produces a new gradient magnitude image.
+    // This produces a new gradient magnitude image, the mean and
+    // number of the non-zero pixels. 
     
     bool Apply(const ImageC<RealT> & inDrIm, 
 	       const ImageC<RealT> & inDcIm,  
@@ -51,7 +52,8 @@ namespace RavlImageN {
 	       RealT &mean
 	       );
     //: Apply non-maximal suppression to edge images.
-    // return a list of edgels.
+    // return an array of edgels and the mean of there
+    // magnitude.
     
   protected:
     void DoNonMaxSupp(ImageC<RealT> &res,
@@ -76,20 +78,22 @@ namespace RavlImageN {
   public:
     EdgeNonMaxSuppressionC(bool ec = false)
       : RCHandleC<EdgeNonMaxSuppressionBodyC>(*new EdgeNonMaxSuppressionBodyC(ec))
-      {}
+    {}
+    //: Constructor
+    // ec =  Use eight connectivity.
     
   protected:
     EdgeNonMaxSuppressionC(EdgeNonMaxSuppressionBodyC &bod)
       : RCHandleC<EdgeNonMaxSuppressionBodyC>(bod)
-      {}
+    {}
     //: Body constructor.
     
     EdgeNonMaxSuppressionBodyC &Body()
-      { return RCHandleC<EdgeNonMaxSuppressionBodyC>::Body(); }
+    { return RCHandleC<EdgeNonMaxSuppressionBodyC>::Body(); }
     //: Access body.
     
     const EdgeNonMaxSuppressionBodyC &Body() const
-      { return RCHandleC<EdgeNonMaxSuppressionBodyC>::Body(); }
+    { return RCHandleC<EdgeNonMaxSuppressionBodyC>::Body(); }
     //: Access body.
     
     void DoNonMaxSupp(ImageC<RealT> &res,RealT &meanRes,IntT &count,
@@ -97,7 +101,7 @@ namespace RavlImageN {
 		      const ImageC<RealT> & inDcIm,  
 		      const ImageC<RealT> & inGrad,
 		      int &startRow,int &endRow)
-      {  Body().DoNonMaxSupp(res,meanRes,count,inDrIm,inDcIm,inGrad,startRow,endRow); }
+    {  Body().DoNonMaxSupp(res,meanRes,count,inDrIm,inDcIm,inGrad,startRow,endRow); }
     //: Do a stripe.
 
 
@@ -110,7 +114,7 @@ namespace RavlImageN {
 	       RealT &mean,
 	       IntT &edgels
 	       )
-      { return Body().Apply(inDrIm,inDcIm,inGrad,out,mean,edgels); }
+    { return Body().Apply(inDrIm,inDcIm,inGrad,out,mean,edgels); }
     //: Apply non-maximal suppression to edge images.
     // This produces a new gradient magnitude image.
     
@@ -120,7 +124,7 @@ namespace RavlImageN {
 	       SArray1dC<EdgelC> & outEdges,
 	       RealT &mean
 	       )
-      { return Body().Apply(inDrIm,inDcIm,inGrad,outEdges,mean); }
+    { return Body().Apply(inDrIm,inDcIm,inGrad,outEdges,mean); }
     //: Apply non-maximal suppression to edge images.
     // return a list of edgels.
 

@@ -4,13 +4,13 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLEDGEL_HEADER
-#define RAVLEDGEL_HEADER 1
+#ifndef RAVLIMAGE_EDGEL_HEADER
+#define RAVLIMAGE_EDGEL_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Images.Edges"
 //! author="Charles Galambos"
-//! date="23/09/99"
+//! date="23/09/1999"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Edges/Edgel.hh"
 
@@ -27,38 +27,38 @@ namespace RavlImageN {
   public:
     EdgelC(Index2dC loc,RealT dir,RealT mag)
       : at(loc),
-      direction(dir),
-      magnitude(mag)
-      {}
+	direction(dir),
+	magnitude(mag)
+    {}
     //: Constructor.
     
     EdgelC()
-      {}
+    {}
     //: Default constructor.
     // The contents of the edgel are left undefined.
     
     Index2dC &At()
-      { return at; }
+    { return at; }
     //: Location of edge.
     
     RealT &Direction()
-      { return direction; }
-    //: Direction direction in Radians
+    { return direction; }
+    //: Direction direction in radians
     
     RealT &Magnitude()
-      { return magnitude; }
+    { return magnitude; }
     //: Magnitude
     
     const Index2dC &At() const
-      { return at; }
+    { return at; }
     //: Location of edge.
     
     RealT Direction() const
-      { return direction; }
+    { return direction; }
     //: Direction in Radians
     
     RealT Magnitude() const
-      { return magnitude; }
+    { return magnitude; }
     //: Magnitude
     
   protected:

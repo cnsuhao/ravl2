@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLEDGESOBEL_HEADER
-#define RAVLEDGESOBEL_HEADER 1
+#ifndef RAVLIMAGE_EDGESOBEL_HEADER
+#define RAVLIMAGE_EDGESOBEL_HEADER 1
 //////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Images.Edges"
@@ -54,7 +54,7 @@ namespace RavlImageN {
 
   template<class DataInT,class DataOutT>
   bool EdgeSobelC<DataInT,DataOutT>::Apply(const ImageC<DataInT> &img,ImageC<DataOutT> &outX,ImageC<DataOutT> &outY) {
-    if(out.IsEmpty()) {
+    if(outX.IsEmpty() || outY.IsEmpty()) {
       ImageRectangleC ir = img.Rectangle();
       ir.Shrink(1);
       outX = ImageC<DataOutT>(ir);

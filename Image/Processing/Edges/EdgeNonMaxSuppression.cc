@@ -46,11 +46,13 @@ namespace RavlImageN {
     ImageRectangleC rect(inDrIm.Rectangle());
     rect.ClipBy(inDcIm.Rectangle());
     rect.ClipBy(inGrad.Rectangle());
-    if(!res.IsEmpty())
+    RavlAssert(rect.Area() > 0);
+    if(res.IsEmpty())
       res = ImageC<RealT>(rect);
     else
       rect.ClipBy(res.Rectangle());
     rect.Erode();
+    RavlAssert(rect.Area() > 0); // make sure there's something left.
     meanVal = 0;
     count = 0;
 #if RAVL_USE_PARALLEL
@@ -61,7 +63,7 @@ namespace RavlImageN {
     if(chunkSize < 20 || ncols < 50) {
 #endif
       // Not worth doing anything clever.
-
+      
       DoNonMaxSupp(res,meanVal,
 		   count,
 		   inDrIm,inDcIm,inGrad,
@@ -84,7 +86,7 @@ namespace RavlImageN {
       endRow = startRow + chunkSize;
       if(endRow > rect.BRow())
 	endRow = rect.BRow().V();
-      events[i] = ThreadThreadThreadThreadLaunch(me,&EdgeNonMaxSuppressionC::DoNonMaxSupp,res,meanValues[i],countValues[i],imgs,startRow,endRow);
+      events[i] = ThreadLaunch(me,&EdgeNonMaxSuppressionC::DoNonMaxSupp,res,meanValues[i],countValues[i],imgs,startRow,endRow);
       startRow = endRow+1;
     }
     // Wait for everything to finish.
@@ -131,13 +133,13 @@ namespace RavlImageN {
   
   
   void EdgeNonMaxSuppressionBodyC::DoNonMaxSupp(ImageC<RealT> &res,
-					   RealT &meanRes,
-					   IntT &points,
-					   const ImageC<RealT> & drIm, 
-					   const ImageC<RealT> & dcIm,  
-					   const ImageC<RealT> & grad,
-					   IntT startRow,IntT endRow
-					   ) {
+						RealT &meanRes,
+						IntT &points,
+						const ImageC<RealT> & drIm, 
+						const ImageC<RealT> & dcIm,  
+						const ImageC<RealT> & grad,
+						IntT startRow,IntT endRow
+						) {
     RealT meanVal = 0;
     points = 0;
     ImageC<RealT> & nonMax = res;
@@ -206,8 +208,8 @@ namespace RavlImageN {
       } else
 	it.Data2() = 0.0;
     }
-
-
+    
+    
     if (eightConnectivity) {
       for(Array2dSqr3311Iter4C<RealT,RealT,RealT,RealT> it(grad,nonMax,drIm,dcIm);it;it++) {
 	if(it.Data2() == 0)
