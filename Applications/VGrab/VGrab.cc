@@ -59,7 +59,7 @@ int VGrab(int argc, char ** argv)
   if ( outFile.PathComponent() == "" ) tcFile = outFile.BaseNameComponent()+".tc" ;
   else 
     tcFile = outFile.PathComponent()  + "/" + outFile.BaseNameComponent()+".tc" ; 
-  cerr << "tcFile -= " << tcFile ; 
+  //cerr << "tcFile -= " << tcFile ; 
   OStreamC tcStream(tcFile) ; 
 
 
