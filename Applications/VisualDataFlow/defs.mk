@@ -12,14 +12,21 @@ PACKAGE=Ravl/DF
 
 HEADERS=DFObject.hh DFSystem.hh ViewElement.hh GUIView.hh GUIEditor.hh \
  DFData.hh DFProcess.hh DFStreamOp.hh DFPort.hh DFLink.hh Factory.hh \
- FactorySet.hh GUIFactory.hh
+ FactorySet.hh GUIFactory.hh DFPump.hh
 
 SOURCES=DFObject.cc DFSystem.cc ViewElement.cc GUIView.cc GUIEditor.cc \
  DFData.cc DFProcess.cc DFStreamOp.cc DFPort.cc DFLink.cc Factory.cc \
- FactorySet.cc GUIFactory.cc
+ FactorySet.cc GUIFactory.cc DFPump.cc
 
 PLIB= RavlVDF
 
 MAINS=vdf.cc
 
-USESLIBS=RavlGUI RavlIO RavlImageIO RavlDPDisplay RavlOSIO RavlImgIOV4L
+USESLIBS=RavlGUI RavlIO RavlImageIO RavlDPDisplay RavlOSIO RavlImgIOV4L \
+ RavlDPMT
+
+EHT = Ravl.Applications.VDF.html
+
+AUXFILES= factory.cfg
+
+AUXDIR= share/RAVL/vdf

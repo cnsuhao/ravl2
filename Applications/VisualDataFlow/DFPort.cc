@@ -197,7 +197,7 @@ namespace RavlDFN {
     }
     return DFLinkC(DFIPortC(*this),obj);
   }
-
+  
   //: Connect this port to another.
   
   bool DFIPortBodyC::Connect(DFPortC &port) {

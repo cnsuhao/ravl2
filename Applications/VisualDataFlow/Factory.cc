@@ -9,10 +9,15 @@
 //! author="Charles Galambos"
 
 #include "Ravl/DF/Factory.hh"
+#include "Ravl/DF/DFPump.hh"
 #include "Ravl/IO.hh"
 #include "Ravl/StringList.hh"
 #include "Ravl/DP/SequenceIO.hh"
 #include "Ravl/DF/DFPort.hh"
+#include "Ravl/DP/MTIOConnect.hh"
+#include "Ravl/Image/Image.hh"
+#include "Ravl/Image/ByteRGBValue.hh"
+#include "Ravl/GUI/DPDisplayObj.hh"
 
 #define DODEBUG 1
 #if DODEBUG
@@ -22,6 +27,8 @@
 #endif
 
 namespace RavlDFN {
+  using namespace RavlImageN;
+  using namespace RavlGUIN;
   
   static DFObjectC DFObjectFromFile(StringC &file,StringC &format) {
     DFObjectC ret;
@@ -45,6 +52,18 @@ namespace RavlDFN {
       ip.SetAttr("id",file);
       return DFOPortC(ip,file);
     }
+    if(format == "pump") {
+      if(file == "ImageC<ByteRGBValueC>") {
+	DPMTIOConnectC<ImageC<ByteRGBValueC> > pump(true);
+	return DFPumpC("Pump",pump);
+      }
+      if(file == "DPDisplayObjC") {
+	DPMTIOConnectC<DPDisplayObjC> pump(true);
+	return DFPumpC("Pump",pump);
+      }
+      return DFObjectC();
+    }
+    
     Load(file,ret,format);
     return ret;
   }

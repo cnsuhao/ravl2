@@ -52,7 +52,7 @@ namespace RavlDFN {
   //: Init window.
   
   void DFEditorBodyC::Init() {
-    FactorySetC factories("factory.cfg");
+    FactorySetC factories(PROJECT_OUT "/share/RAVL/vdf/factory.cfg");
     factoryGUI = GUIFactoryC(factories);
     
     viewGUI = GUIViewC(system,factories);
@@ -77,7 +77,8 @@ namespace RavlDFN {
     
     
     Add(VBox(PackInfoC(menu,false,true) + 
-	     PanedC(ScrolledAreaC(factoryGUI,100,0),ScrolledAreaC(viewGUI))));
+	     PanedC(ScrolledAreaC(factoryGUI,250,0),
+		    ScrolledAreaC(viewGUI,500,500))));
     
     connectSet += ConnectRef(sigObjChange,*this,&DFEditorBodyC::ObjectUpdate);
     connectSet += Connect(system.SigChange(),sigObjChange);

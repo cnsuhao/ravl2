@@ -416,7 +416,12 @@ namespace RavlDFN {
     ONDEBUG(cerr << "GUIViewBodyC::CreateLink(ViewElementC &,ViewElementC &), Called. \n");
     if(!system.IsValid())
       return true;
-    return system.CreateLink(elm1.Object(),elm2.Object(),autoConvert).IsValid();
+    if(!elm1.Object().IsValid() || !elm2.Object().IsValid())
+      return false;
+    ret = DFObjectC(obj1).LinkTo(DFObjectC(obj2),autoConvert);
+    if(ret.IsValid())
+      system.AddObject(ret);
+    return true;
   }
   
   //: Load an object and put it at location 'at'.

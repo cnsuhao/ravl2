@@ -58,10 +58,6 @@ namespace RavlDFN {
     DFObjectC CreateOPlug(const StringC &name = StringC(""));
     //: Create an output port.
     
-    DFObjectC CreateLink(const DFObjectC &obj1,const DFObjectC &obj2,bool autoConvert = false);
-    //: Attempt to link two objects.
-    // Will return an invalid handle if operation fails.
-    
     DFObjectC LoadObject(const StringC &fn);
     //: Load object from file and add it the system.
     
@@ -128,11 +124,6 @@ namespace RavlDFN {
     DFObjectC CreateOPlug(const StringC &name = StringC(""))
     { return Body().CreateIPlug(name); }
     //: Create an output port.
-    
-    DFObjectC CreateLink(const DFObjectC &obj1,const DFObjectC &obj2,bool autoConvert = false)
-    { return Body().CreateLink(obj1,obj2,autoConvert); }
-    //: Attempt to link two objects.
-    // Will return an invalid handle if operation fails.
     
     DFObjectC LoadObject(const StringC &fn)
     { return Body().LoadObject(fn); }

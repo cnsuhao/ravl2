@@ -64,22 +64,6 @@ namespace RavlDFN {
     return op;
   }
   
-  //: Attempt to link two objects.
-  // Will return an invalid handle if operation fails.
-  
-  DFObjectC DFSystemBodyC::CreateLink(const DFObjectC &obj1,const DFObjectC &obj2,bool autoConvert) {
-    ONDEBUG(cerr << "DFSystemBodyC::CreateLink(), Called. \n");
-    DFObjectC ret;
-    if(!obj1.IsValid() || ! obj2.IsValid())
-      return ret;
-    if(obj1 == obj2)
-      return ret; // Can't link to itself.
-    ret = DFObjectC(obj1).LinkTo(DFObjectC(obj2),autoConvert);
-    if(ret.IsValid())
-      AddObject(ret);
-    return ret;
-  }
-
   //: Load object from file and add it the system.
   
   DFObjectC DFSystemBodyC::LoadObject(const StringC &fn) {
