@@ -50,7 +50,7 @@ namespace RavlN {
     {}
     //: Convert from a real number.
     
-    template<IntT M>
+    template<UIntT M>
     FPNumberC(FPNumberC<M> num)
       : v(BitShift(num.v,(int) N - (int) M))
     {}
