@@ -64,11 +64,11 @@ namespace RavlN {
       cit++;
       if(cit)
 	return true;
-      up = &((*rit)[rng.Min()]);
-      dn = &((&(*rit))[2][rng.Min()]);
       rit++;
       if(!rit)
 	return false;
+      up = &((&(*rit))[-1][rng.Min()]);
+      dn = &((&(*rit))[ 1][rng.Min()]);
       cit.First(rit.Data(),rng);
       return false;
     }

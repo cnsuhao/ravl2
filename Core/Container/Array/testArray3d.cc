@@ -80,6 +80,7 @@ int testBasic() {
     if(it.Index() != origin) return __LINE__;
     for(;it;it++) {
       it.Data1() = it.Data2();
+      it.Data3() = it.Data2();
       count++;
     }
     if(count != arr1.Size()) return __LINE__;

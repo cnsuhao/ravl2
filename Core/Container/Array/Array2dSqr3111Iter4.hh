@@ -98,11 +98,11 @@ namespace RavlN {
       cit++;
       if(cit)
 	return true;
-      up = &((rit.Data1())[rng1.Min()]);
-      dn = &((&(rit.Data1()))[2][rng1.Min()]);
       rit++;
       if(!rit)
 	return false;
+      up = &((&(rit.Data1()))[-1][rng1.Min()]);
+      dn = &((&(rit.Data1()))[ 1][rng1.Min()]);
       cit.First(rit.Data1(),rng1,
 		rit.Data2(),rng2,
 		rit.Data3(),rng3,

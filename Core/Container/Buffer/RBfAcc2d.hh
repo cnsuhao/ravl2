@@ -66,7 +66,7 @@ namespace RavlN {
 	rng2(r2)
     {}
     //: Construct a access to a rectangle within 'ab' with ranges r1 and r2.
-    // All the offsets for the buffers should already be setup.
+    // Assumes all the offsets for the buffers should already be setup.
     
     RangeBufferAccess2dC()
       : rng2(0,-1)

@@ -139,7 +139,8 @@ namespace RavlN {
     { return(*this); }
     //: access to the object
     
-    inline void ShiftIndexes1(IndexC offset);
+    inline void ShiftIndexes1(IndexC offset)
+    { ShiftIndexes(offset); }
     //: All indexes of Range1() will be changed by 'offset'.
     // The range will be shifted by -offset.
     // Note: this affects the access for all arrays accessing this data, use
@@ -237,11 +238,6 @@ namespace RavlN {
   // Reads the array from the stream 's'
   
   ////////////////////////////////////////////////////////////////////////////////
-  
-  template <class DataT>
-  inline 
-  void Array2dC<DataT>::ShiftIndexes1(IndexC offset)
-  { ShiftIndexes(offset); }
   
   template <class DataT>
   void Array2dC<DataT>::ShiftIndexes2(IndexC offset) {
@@ -355,13 +351,13 @@ namespace RavlN {
   template <class DataT>
   Array2dC<DataT> Array2dC<DataT>::CopyAccess(IndexC shift1,IndexC shift2) {
     Buffer2dC<DataT> buf(data.Data(),Range1().Size());
-    RangeBufferAccess2dC<DataT> rba(buf,Range1() + shift1,Range2() + shift2);
+    RangeBufferAccess2dC<DataT> rba(Range2() + shift2);
+    rba.Attach(buf,Range1() + shift1);
     for(BufferAccessIter2C<BufferAccessC<DataT>,BufferAccessC<DataT> > it(rba,*this);it;it++)
       it.Data1() = it.Data2() - shift2;
     return Array2dC<DataT>(rba,buf);
   }
   
-
   template <class DataT>
   inline SArray2dC<DataT> Array2dC<DataT>::SArray2d(bool doShift) {
     if(Range1().Size() == 0 || Range2().Size() == 0)

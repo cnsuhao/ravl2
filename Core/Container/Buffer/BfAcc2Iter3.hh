@@ -55,7 +55,9 @@ namespace RavlN {
     bool First(const BufferAccessC<BufferAccessC<Data1T> > &pbufa,const IndexRangeC &nrng1a,const IndexRangeC &nrng2a,
 	       const BufferAccessC<BufferAccessC<Data2T> > &pbufb,const IndexRangeC &nrng1b,const IndexRangeC &nrng2b,
 	       const BufferAccessC<BufferAccessC<Data3T> > &pbufc,const IndexRangeC &nrng1c,const IndexRangeC &nrng2c) {
-      rit.First(pbufa,nrng1a,pbufb,nrng1c,pbufc,nrng1c);
+      rit.First(pbufa,nrng1a,
+		pbufb,nrng1b,
+		pbufc,nrng1c);
       rng1 = nrng2a;
       rng2 = nrng2b;
       rng3 = nrng2c;

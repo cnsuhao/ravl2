@@ -35,16 +35,16 @@ namespace RavlN {
 		  const Array3dC<Data2T> &arr2,
 		  const Array3dC<Data3T> &arr3,
 		  bool matching = true)
-      : BufferAccess3dIter3C<Data1T,Data2T,Data3T>(arr1,arr1.Range1(),arr1.Range2(),
-						   arr2,arr2.Range1(),arr2.Range2(),
-						   arr3,arr3.Range1(),arr3.Range2()),
+      : BufferAccess3dIter3C<Data1T,Data2T,Data3T>(arr1,arr1.Range2(),arr1.Range3(),
+						   arr2,arr2.Range2(),arr2.Range3(),
+						   arr3,arr3.Range2(),arr3.Range3()),
         dat1(arr1),
         dat2(arr2),
         dat3(arr3)
     { 
       if(matching) {
-	RavlAssert(dat1.Range() == dat2.Range());
-	RavlAssert(dat1.Range() == dat3.Range());
+	RavlAssert(dat1.Frame() == dat2.Frame());
+	RavlAssert(dat1.Frame() == dat3.Frame());
       }
       First();
     }

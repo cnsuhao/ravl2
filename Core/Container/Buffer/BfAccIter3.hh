@@ -198,7 +198,7 @@ namespace RavlN {
       return false;
     }
     RavlAssert(rng1.Size() <= rng2.Size()); 
-    RavlAssert(rng2.Size() <= rng3.Size()); 
+    RavlAssert(rng1.Size() <= rng3.Size()); 
     at1 = const_cast<Data1T *>(&buff1[rng1.Min()]);
     at2 = const_cast<Data2T *>(&buff2[rng2.Min()]);
     at3 = const_cast<Data3T *>(&buff3[rng3.Min()]);
