@@ -15,6 +15,7 @@
 #include "Ravl/RefCounter.hh"
 #include "Ravl/Complex.hh"
 #include "Ravl/SArray2d.hh"
+#include "Ravl/Array2d.hh"
 #include "Ravl/FFT1d.hh"
 
 namespace RavlN {
@@ -69,8 +70,6 @@ namespace RavlN {
   
   //! userlevel=Normal
   //: 2d FFT.
-  // The size of the dimentions of the array must be a power of 2 in the
-  // current implementation.
   
   class FFT2dC
     : public RCHandleC<FFT2dBodyC>
@@ -97,18 +96,34 @@ namespace RavlN {
     //: Create a plan with the given setup.
     
     SArray2dC<ComplexC> Apply(const SArray2dC<ComplexC> &dat)
-      { return Body().Apply(dat); }
+    { return Body().Apply(dat); }
     //: Apply transform to array.
     // Note, only the first 'n' byte of dat are proccessed.
     // if the array is shorter than the given length, an
     // exception 'ErrorOutOfRangeC' will be thrown.
     
     SArray2dC<ComplexC> Apply(const SArray2dC<RealT> &dat)
-      { return Body().Apply(dat); }
+    { return Body().Apply(dat); }
     //: Apply transform to real array 
     // Note, only the first 'n' byte of dat are proccessed.
     // if the array is shorter than the given length, an
     // exception 'ErrorOutOfRangeC' will be thrown.
+    
+    Array2dC<ComplexC> Apply(const Array2dC<ComplexC> &dat)
+    { return Array2dC<ComplexC>(Body().Apply(const_cast<Array2dC<ComplexC> &>(dat).SArray2d(true))); }
+    //: Apply transform to array.
+    // Note, only the first 'n' byte of dat are proccessed.
+    // if the array is shorter than the given length, an
+    // exception 'ErrorOutOfRangeC' will be thrown. <p>
+    // Note: The output will always have an origin of 0,0.
+    
+    Array2dC<ComplexC> Apply(const Array2dC<RealT> &dat)
+    { return Array2dC<ComplexC>(Body().Apply(const_cast<Array2dC<RealT> &>(dat).SArray2d(true))); }
+    //: Apply transform to real array 
+    // Note, only the first 'n' byte of dat are proccessed.
+    // if the array is shorter than the given length, an
+    // exception 'ErrorOutOfRangeC' will be thrown. <p>
+    // Note: The output will always have an origin of 0,0.
     
     Index2dC Size() const
     { return Body().Size(); }
