@@ -155,23 +155,23 @@ namespace RavlN {
   
   inline RealT Sin(RealT x)
   { return sin(x); }
-  //: Returns the sine of 'x'.
+  //: Returns the sine of 'x', where 'x' is in radians.
   
   inline RealT ASin(RealT x) { 
     RavlAssertMsg(x >= -1 && x <= 1,"ASin(RealT r): Value out range, r < -1 or r > 1. ");
     return asin(x); 
   }
-  //: Returns the arc sine of 'x'.
+  //: Returns the arc sine of 'x' in radians.
   
   inline RealT Cos(RealT x)
   { return cos(x); }
-  //: Returns the cosine of 'x'.
+  //: Returns the cosine of 'x', where 'x' is in radians.
   
   inline RealT ACos(RealT x) { 
     RavlAssertMsg(x >= -1 && x <= 1,"ACos(RealT r): Value out range, r < -1 or r > 1. ");
     return acos(x); 
   }
-  //: Returns the arc cosine of 'x'.
+  //: Returns the arc cosine of 'x' in radians.
   
   inline RealT ATan(RealT x)
   { return atan(x); }
@@ -183,11 +183,11 @@ namespace RavlN {
   
   inline RealT Sinh(RealT x)
   { return sinh(x); }
-  //: Returns the sine of 'x'.
+  //: Returns the hyperbolic sine of 'x'.
   
   inline RealT Cosh(RealT x)
   { return cosh(x); }
-  //: Returns the cosine of 'x'.
+  //: Returns the hyperbolic cosine of 'x'.
   
   inline RealT Pythag(RealT a, RealT b) {
 #if RAVL_HAVE_HYPOT
