@@ -156,7 +156,7 @@ namespace RavlImageN {
   DP_REGISTER_CONVERSION_NAMED(ByteImageCT2ByteYUV422ImageCT,1,
 			       "ImageC<ByteYUV422ValueC> RavlImageN::Convert(const ImageC<ByteT> &)");
 
-  DP_REGISTER_CONVERSION_NAMED(ByteRGBImageCT2ByteYUV422ImageCT,1,
+  DP_REGISTER_CONVERSION_NAMED(ByteRGBImageCT2ByteYUV422ImageCT,1.5,
 			       "ImageC<ByteYUV422ValueC> RavlImageN::Convert(const ImageC<ByteRGBValueC> &)");
   
   FileFormatStreamC<ImageC<ByteYUV422ValueC> > FileFormatStream_ImageC_ByteYUV422ValueC;
