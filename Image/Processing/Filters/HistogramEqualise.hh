@@ -28,11 +28,16 @@ namespace RavlImageN {
   template<class DataT>
   class HistogramEqualiseC {
   public:
-    HistogramEqualiseC(DataT nminValue = 0,DataT nmaxValue = 255)
+    HistogramEqualiseC(DataT nminValue = 0,DataT nmaxValue = 255,bool nrescale = false)
       : minValue(nminValue),
-	maxValue(nmaxValue)
+	maxValue(nmaxValue),
+	rescale(nrescale)
     {}
     //: Constructor.
+    // Takes the minimum and maximum values to be used in the
+    // output.   If 'rescale' is true the input range will be scale
+    // to the same be as the output before histogram equalisation is
+    // done.
     
     ImageC<DataT> Apply (const ImageC<DataT> &in);
     //: Performs histogram equalisation on image 'in'.
@@ -53,11 +58,11 @@ namespace RavlImageN {
     static inline IntT Floor(IntT v) 
     { return v; }
     //: Real valued floor
-    
-    
+        
   protected:
     DataT minValue;
     DataT maxValue;
+    bool rescale;
   };
   
   //: Performs histogram equalisation on image 'in'.
@@ -66,18 +71,36 @@ namespace RavlImageN {
   template<class DataT>
   ImageC<DataT> HistogramEqualiseC<DataT>::Apply (const ImageC<DataT> &in) {
     // Build the histogram.
-    
+    if(in.IsEmpty())
+      return ImageC<DataT>();
+    RealT diff = (RealT)(maxValue - minValue);    
     Array1dC<RealT> pr(Floor(minValue),Floor(maxValue));
     pr.Fill(0.0);
-    for(Array2dIterC<DataT> it(in);it;it++)
-      pr[Floor(*it)]++;
-    
+    RealT scale = 1;
+    DataT imin = 0;
+    if(rescale) {
+      Array2dIterC<DataT> it(in);
+      imin = *it;
+      DataT imax = *it;
+      for(it++;it;it++) {
+	if(imin < *it)
+	  imin = *it;
+	else if(imax > *it)
+	  imax = *it;
+      }
+      RealT idiff = (RealT) imin - imax;
+      scale = diff/idiff;
+      for(Array2dIterC<DataT> it(in);it;it++)
+	pr[Floor((*it - imin) * scale + minValue)]++;
+    } else {
+      for(Array2dIterC<DataT> it(in);it;it++)
+	pr[Floor(*it)]++;
+    }
     // Compute the cumalitve histogram, and use it to compute the
     // transform.
     
     RealT n = (RealT) in.Frame().Area();
     RealT sum = 0.0;
-    RealT diff = (RealT)(maxValue - minValue);
     Array1dC<DataT> tr(Floor(minValue),Floor(maxValue));
     for(Array1dIter2C<DataT,RealT> it(tr,pr);it;it++) {
       RealT val = it.Data2();
@@ -88,9 +111,13 @@ namespace RavlImageN {
     // Transform the image.
     
     ImageC<DataT> op(in.Frame());
-    for(Array2dIter2C<DataT,DataT> it(in,op);it;it++)
-      it.Data2() = tr[Floor(it.Data1())];
-    
+    if(rescale) {
+      for(Array2dIter2C<DataT,DataT> it(in,op);it;it++)
+	it.Data2() = tr[Floor((it.Data1() - imin) * scale + minValue)];
+    } else {
+      for(Array2dIter2C<DataT,DataT> it(in,op);it;it++)
+	it.Data2() = tr[Floor(it.Data1())];
+    }
     return op;
   }
 
