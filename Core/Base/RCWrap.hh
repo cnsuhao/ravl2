@@ -214,6 +214,23 @@ namespace RavlN {
     //: Default conversion to data type.
   };
   
+  template<class DataT>
+  ostream &operator<<(ostream &strm,const RCWrapC<DataT> &data) {
+    RavlAssert(data.IsValid());
+    strm << data.Data();
+    return strm;
+  }
+  //: ostream operator.
+
+  template<class DataT>
+  istream &operator>>(istream &strm,RCWrapC<DataT> &data) {
+    DataT tmp;
+    strm >> tmp;
+    data = RCWrapC<DataT>(tmp);
+    return strm;
+  }
+  //: istream operator.
+  
 }
 
 
