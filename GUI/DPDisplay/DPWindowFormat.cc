@@ -9,12 +9,12 @@
 //! lib=RavlDPDisplay
 //! file="Ravl/GUI/DPDisplay/DPWindowFormat.cc"
 
-#include "Ravl/GUI/DPWindowFormat.hh"
+
 #include "Ravl/GUI/DPWindowOPort.hh"
 #include "Ravl/Threads/RWLock.hh"
 #include "Ravl/TypeName.hh"
 #include "Ravl/Hash.hh"
-
+#include "Ravl/GUI/DPWindowFormat.hh"
 #define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x

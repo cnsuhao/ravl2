@@ -9,7 +9,7 @@
 //! lib=RavlDPDisplay
 //! file="Ravl/GUI/DPDisplay/DPDisplayImage.cc"
 
-#include "Ravl/GUI/DPDisplayImage.hh"
+
 #include "Ravl/GUI/DPDisplayView.hh"
 #include "Ravl/GUI/RawCanvas.hh"
 #include <gtk/gtk.h>
@@ -19,6 +19,7 @@
 #include "Ravl/Array2dIter2.hh"
 #include "Ravl/StdConst.hh"
 #include "Ravl/IO.hh"
+#include "Ravl/GUI/DPDisplayImage.hh"
 
 #define DODEBUG 0
 #if DODEBUG
