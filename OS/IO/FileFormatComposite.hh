@@ -10,7 +10,7 @@
 //! docentry="Ravl.Core.Data Processing.Composite" 
 //! lib=RavlOSIO
 //! rcsid="$Id$"
-//! file="Ravl/StdType/DataConv/FileFormatComposite.hh"
+//! file="Ravl/OS/IO/FileFormatComposite.hh"
 //! author="Charles Galambos"
 //! date="12/08/1998"
 //! userlevel=Default

@@ -8,7 +8,7 @@
 #define RAVL_DPPLAYLIST_HEADER 1
 /////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/StdType/DataConv/PlayList.hh"
+//! file="Ravl/OS/IO/PlayList.hh"
 //! lib=RavlOSIO
 //! userlevel=Normal
 //! author="Charles Galambos"

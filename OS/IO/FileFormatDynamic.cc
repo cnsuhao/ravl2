@@ -7,6 +7,7 @@
 //////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlOSIO
+//! file="Ravl/OS/IO/FileFormatDynamic.cc"
 
 #include "Ravl/DP/FileFormatDynamic.hh"
 #include "Ravl/DP/DynamicLink.hh"

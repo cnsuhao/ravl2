@@ -7,6 +7,7 @@
 /////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlOSIO
+//! file="Ravl/OS/IO/PlayList.cc"
 
 #include "Ravl/DP/PlayList.hh"
 #include "Ravl/StringList.hh"

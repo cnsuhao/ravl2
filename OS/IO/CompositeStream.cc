@@ -7,6 +7,7 @@
 /////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlOSIO
+//! file="Ravl/OS/IO/CompositeStream.cc"
 
 #include "Ravl/DP/CompositeStream.hh"
 #include "Ravl/DP/FileFormatIO.hh"

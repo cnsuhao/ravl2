@@ -8,6 +8,7 @@
 //! lib=RavlOSIO
 //! docentry="Ravl.OS.Dynamic Linking"
 //! author="Charles Galambos"
+//! file="Ravl/OS/IO/exDynamicFormat.cc"
 
 #include "Ravl/IO.hh"
 #include "Ravl/Array2d.hh"

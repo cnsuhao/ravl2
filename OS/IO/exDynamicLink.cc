@@ -8,6 +8,7 @@
 //! lib=RavlOSIO
 //! docentry="Ravl.OS.Dynamic Linking"
 //! author="Charles Galambos"
+//! file="Ravl/OS/IO/exDynamicLink.cc"
 
 #include "Ravl/Option.hh"
 #include "Ravl/DP/DynamicLink.hh"

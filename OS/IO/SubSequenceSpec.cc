@@ -7,6 +7,7 @@
 /////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlOSIO
+//! file="Ravl/OS/IO/SubSequenceSpec.cc"
 
 #include "Ravl/DP/SubSequenceSpec.hh"
 #include "Ravl/BinStream.hh"

@@ -8,7 +8,7 @@
 #define RAVL_DPSUBSEQUENCESPEC_HEADER 1
 /////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/StdType/DataConv/SubSequenceSpec.hh"
+//! file="Ravl/OS/IO/SubSequenceSpec.hh"
 //! lib=RavlOSIO
 //! userlevel=Default
 //! author="Charles Galambos"

@@ -8,7 +8,7 @@
 #define RAVL_FILEFORMATDYNAMIC_HEADER
 ///////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/StdType/DataConv/FileFormatDynamic.hh"
+//! file="Ravl/OS/IO/FileFormatDynamic.hh"
 //! lib=RavlOSIO
 //! docentry="Ravl.OS"
 //! author="Charles Galambos"

@@ -8,7 +8,7 @@
 #define RAVL_DPEDITSPEC_HEADER 1
 /////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/StdType/DataConv/EditSpec.hh"
+//! file="Ravl/OS/IO/EditSpec.hh"
 //! lib=RavlOSIO
 //! userlevel=Default
 //! author="Charles Galambos"

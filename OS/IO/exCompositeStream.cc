@@ -9,6 +9,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Core.Data Processing.Composite" 
 //! lib=RavlOSIO
+//! file="Ravl/OS/IO/exCompositeStream.cc"
 
 #include "Ravl/Option.hh"
 #include "Ravl/DP/FileFormatComposite.hh"

@@ -7,6 +7,7 @@
 ////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlOSIO
+//! file="Ravl/OS/IO/EditSpec.cc"
 
 #include "Ravl/DP/EditSpec.hh"
 

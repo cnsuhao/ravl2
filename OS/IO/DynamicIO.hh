@@ -11,6 +11,7 @@
 //! docentry="Ravl.OS.Dynamic Linking"
 //! rcsid="$Id$"
 //! lib=RavlOSIO
+//! file="Ravl/OS/IO/DynamicIO.hh"
 
 namespace RavlN {
   

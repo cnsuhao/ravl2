@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlOSIO
+//! file="Ravl/OS/IO/RavlOSIOMustLink.cc"
 
 #include "Ravl/DP/DynamicIO.hh"
 

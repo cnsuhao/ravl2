@@ -8,12 +8,12 @@
 #define RAVL_DPCOMPOSITESTREAM_HEADER 1
 /////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/StdType/DataConv/CompositeStream.hh"
+//! file="Ravl/OS/IO/CompositeStream.hh"
 //! lib=RavlOSIO
-//! userlevel=Default
+//! userlevel=Normal
 //! author="Charles Galambos"
 //! date="13/12/2000"
-//! docentry="default.Charles Galambos"
+//! docentry="Ravl.Core.Data Processing.Composite" 
 
 #include "Ravl/DP/SPort.hh"
 #include "Ravl/DP/PlayList.hh"
