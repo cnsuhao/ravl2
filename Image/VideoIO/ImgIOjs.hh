@@ -23,7 +23,7 @@ namespace RavlImageN {
   
   ///////////////////////////////////
   //! userlevel=Develop
-  //: Basic information about a js file
+  //: Basic information about a Jaleo js file
 
   class DPImageJSBaseBodyC {
   public:  
@@ -66,7 +66,7 @@ namespace RavlImageN {
   
   ///////////////////////////////////
   //! userlevel=Develop
-  //: Load a js file in YUV 422 format.
+  //: Load a Jaleo js file in YUV 422 format.
   
   class DPIImageJSBodyC 
     : public DPISPortBodyC<ImageC<ByteYUV422ValueC> >,
@@ -118,7 +118,7 @@ namespace RavlImageN {
   
   ///////////////////////////////////
   //! userlevel=Develop
-  //: Save a js file in YUV 422 format.
+  //: Save a Jaleo js file in YUV 422 format.
   
   class DPOImageJSBodyC 
     : public DPOSPortBodyC<ImageC<ByteYUV422ValueC> >,
@@ -164,7 +164,7 @@ namespace RavlImageN {
   };
 
   //! userlevel=Normal
-  //: Load a js file in YUV 422 format.
+  //: Load a Jaleo js file in YUV 422 format.
   
   class DPIImageJSC 
     : public DPISPortC<ImageC<ByteYUV422ValueC> >

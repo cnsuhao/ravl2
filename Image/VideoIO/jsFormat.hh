@@ -20,7 +20,7 @@
 namespace RavlImageN {
 
   //! userlevel=Develop
-  //: YUV File format information.
+  //: Jaleo js file format information.
   
   class FileFormatJSBodyC 
     : public FileFormatBodyC 
@@ -74,7 +74,7 @@ namespace RavlImageN {
   
   /////////////////////////////
   //! userlevel=Advanced
-  //: Create an instance of a YUV File Format.
+  //: Create an instance of a Jaleo js File Format.
   
   class FileFormatJSC : public FileFormatC<ImageC<ByteYUV422ValueC> > {
   public:
