@@ -167,6 +167,9 @@ endif
 
 include $(MAKEHOME)/Dirs.mk
 
+# Don't include this stuff, unless we're building this directory.
+ifeq ($(SUPPORT_OK),yes)
+
 ifndef MKMUSTLINK
   MKMUSTLINK := $(patsubst %$(CEXT),$(INST_FORCEOBJS)/%$(OBJEXT), $(patsubst %$(CXXEXT),%$(CEXT), $(MUSTLINK)))
 endif
@@ -243,6 +246,7 @@ ifeq ($(filter Auto,$(USESLIBS)),Auto)
    endif
   endif
  endif
+endif
 endif
 
 LINKLIBS := $(EXELIB)
