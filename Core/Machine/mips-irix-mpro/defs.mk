@@ -16,3 +16,5 @@ SUPPORT_ONLY=sgi
 HEADERS=Atomic.hh
 
 PLIB=RavlCore
+
+USESLIBS=Math
