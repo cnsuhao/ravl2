@@ -107,8 +107,8 @@ namespace RavlN {
       sumX2[*it2] += val * val * w;
       m_weight[*it2] += w;
     }
-    RealT threshold;
-    RealT parity;
+    RealT threshold1,threshold2;
+    RealT parity1,parity2;
     if (m_weight[0] != 0.0 && m_weight[1] != 0.0) {
       m_mean[1] = sumX[1] / m_weight[1];
       m_var[1] = sumX2[1] / m_weight[1] - m_mean[1]*m_mean[1];
@@ -116,18 +116,20 @@ namespace RavlN {
       m_mean[0] = sumX[0] / m_weight[0];
       m_var[0] = sumX2[0] / m_weight[0] - m_mean[0]*m_mean[0];
       if (IsNan(m_var[0]) || m_var[0] < 0.0) m_var[0] = 0.0;
-      ThresholdAndParity(threshold,parity);
+      ThresholdAndParity(threshold1,parity1,threshold2,parity2);
     }
     else {
       cout << "Empty label count in one class!\n";
-      parity = 1;
-      threshold = 1e6;
+      parity1 = parity2 = 1;
+      threshold1 = threshold2 = 1e6;
     }
-    return ClassifierWeakLinearC (threshold, parity);
+    return ClassifierWeakLinearC (threshold1, parity1, threshold2, parity2);
   }
 
-  void DesignWeakLinearBodyC::ThresholdAndParity(RealT &threshold, RealT &parity) {
+  void DesignWeakLinearBodyC::ThresholdAndParity(RealT &threshold1, RealT &parity1, RealT &threshold2, RealT &parity2) {
     Vector2dC sigma,root;
+    // This finds the 2 possible solutions for where the two Gaussian 
+    // distributions are equal
     sigma[0] = Sqrt(m_var[0]);
     sigma[1] = Sqrt(m_var[1]);
     RealT a = 0.5 / m_var[0] - 0.5 / m_var[1];
@@ -136,13 +138,16 @@ namespace RavlN {
     RealT offset = b*b-4.0*a*c;
     if (IsNan(offset) || offset < 0.0) {
       // set arbitrary threshold and parity
-      threshold = 1000.0;
-      parity = 1.0;
+      threshold1 = threshold2 = 1e6;
+      parity1 = parity2 = 1.0;
       return;
     }
     offset = Sqrt(offset);
     root[0] = (-b + offset) / (2.0*a);
     root[1] = (-b - offset) / (2.0*a);
+    // We now determine which combinations of the roots will give the best
+    // discrimination by using the erf function to determine the parity for
+    // the thresholds
     Vector2dC erf0(Erf((root[0]-m_mean[0])/sigma[0]),Erf((root[0]-m_mean[1])/sigma[1]));
     Vector2dC erf1(Erf((root[1]-m_mean[0])/sigma[0]),Erf((root[1]-m_mean[1])/sigma[1]));
     VectorC errors(4);
@@ -151,8 +156,10 @@ namespace RavlN {
     errors[2] = erf1[0] -erf1[1];
     errors[3] = -erf1[0] + erf1[1];
     IndexC index = errors.MaxIndex();
-    parity = index%2? 1.0: -1.0;
-    threshold = root[index.V()/2];
+    parity1 = index%2? 1.0: -1.0;
+    threshold1 = root[index.V()/2];
+    parity2 = -parity1;
+    threshold2 = root[!index.V()/2];
   }
 
   //////////////////////////////////////////////////////////

@@ -53,7 +53,7 @@ namespace RavlN {
     //: Create a clasifier
     
   private:
-    void ThresholdAndParity(RealT &threshold,RealT &parity);
+    void ThresholdAndParity(RealT &threshold1,RealT &parity1,RealT &threshold2,RealT &parity2);
   protected:
     Vector2dC m_mean;
     Vector2dC m_var;

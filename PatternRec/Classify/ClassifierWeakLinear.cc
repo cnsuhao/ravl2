@@ -23,12 +23,15 @@ namespace RavlN {
 
   //: Constructor
 
-  ClassifierWeakLinearBodyC::ClassifierWeakLinearBodyC(RealT threshold, RealT parity)
+  ClassifierWeakLinearBodyC::ClassifierWeakLinearBodyC(RealT threshold1, RealT parity1, RealT threshold2, RealT parity2)
     :m_featureSet(1),
-     m_parityThreshold(parity*threshold),
-     m_parity(parity)
+     m_parityThreshold1(parity1*threshold1),
+     m_parity1(parity1),
+     m_parityThreshold2(parity2*threshold2),
+     m_parity2(parity2)
   {
-    RavlAssert(parity == 1.0 || parity == -1.0);
+    RavlAssert(parity1 == 1.0 || parity1 == -1.0);
+    RavlAssert(parity2 == 1.0 || parity2 == -1.0);
     m_featureSet[0] = 0;
   }
 
@@ -39,9 +42,9 @@ namespace RavlN {
   {
     IntT version;
     strm >> version;
-    if(version != 0)
+    if(version != 1)
       throw ExceptionOutOfRangeC("ClassifierWeakLinearBodyC(istream &), Unrecognised version number in stream. ");
-    strm >> m_featureSet >> m_parityThreshold >> m_parity;
+    strm >> m_featureSet >> m_parityThreshold1 >> m_parity1 >> m_parityThreshold2 >> m_parity2;
   }
   
   //: Load from binary stream.
@@ -51,9 +54,9 @@ namespace RavlN {
   {
     IntT version;
     strm >> version;
-    if(version != 0)
+    if(version != 1)
       throw ExceptionOutOfRangeC("ClassifierWeakLinearBodyC(BinIStreamC &), Unrecognised version number in stream. ");
-    strm >> m_featureSet >> m_parityThreshold >> m_parity;
+    strm >> m_featureSet >> m_parityThreshold1 >> m_parity1 >> m_parityThreshold2 >> m_parity2;
   }
   
   //: Writes object to stream, can be loaded using constructor
@@ -61,8 +64,8 @@ namespace RavlN {
   bool ClassifierWeakLinearBodyC::Save (ostream &out) const {
     if(!ClassifierBodyC::Save(out))
       return false;
-    IntT version = 0;
-    out << ' ' << version << ' ' << m_featureSet << ' ' << m_parityThreshold << ' ' << m_parity;
+    IntT version = 1;
+    out << ' ' << version << ' ' << m_featureSet << ' ' << m_parityThreshold1 << ' ' << m_parity1 << ' ' << m_parityThreshold2 << ' ' << m_parity2;
     return true;
   }
   
@@ -71,8 +74,8 @@ namespace RavlN {
   bool ClassifierWeakLinearBodyC::Save (BinOStreamC &out) const {
     if(!ClassifierBodyC::Save(out))
       return false;
-    IntT version = 0;
-    out << version << m_featureSet << m_parityThreshold << m_parity;
+    IntT version = 1;
+    out << version << m_featureSet << m_parityThreshold1 << m_parity1 << m_parityThreshold2 << m_parity2;
     return true;
   }
       

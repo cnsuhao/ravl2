@@ -27,11 +27,14 @@ namespace RavlN {
     : public ClassifierBodyC
   {
   public:
-    ClassifierWeakLinearBodyC(RealT threshold, RealT parity);
+    ClassifierWeakLinearBodyC(RealT threshold1, RealT parity1, RealT threshold2, RealT parity2);
     //: Constructor
-    //!param: threshold - a positive threshold value
-    //!param: parity    - parity (+1 or -1) used to indicate direction of inequality
-    // Classification is label 1 if parity*feature < parity*threshold
+    //!param: threshold1 - the first threshold value
+    //!param: parity1    - parity (+1 or -1) used to indicate direction of inequality
+    //!param: threshold2 - the second threshold value
+    //!param: parity2    - parity (+1 or -1) used to indicate direction of inequality
+    // Classification is label 1 if parity1*feature1 < parity1*threshold1 && 
+    // parity2*feature1 < parity2*threshold2
     
     ClassifierWeakLinearBodyC(istream &strm);
     //: Load from stream.
@@ -54,8 +57,9 @@ namespace RavlN {
 
     virtual UIntT Classify(const VectorC &data,const SArray1dC<IndexC> &featureSet) const
     { 
-      RavlAssert(featureSet.Size() == 1); 
-      return m_parity * data[featureSet[0]] < m_parityThreshold;
+      RavlAssert(featureSet.Size() == 1);
+      RealT feature = data[featureSet[0]];
+      return m_parity1 * feature < m_parityThreshold1 && m_parity2 * feature < m_parityThreshold2;
     }
     //: Classify vector using only the feature in the set
     
@@ -72,8 +76,10 @@ namespace RavlN {
     
   protected:
     SArray1dC<IndexC> m_featureSet;
-    RealT m_parityThreshold;
-    RealT m_parity;
+    RealT m_parityThreshold1;
+    RealT m_parity1;
+    RealT m_parityThreshold2;
+    RealT m_parity2;
   };
   
   //! userlevel=Normal
@@ -90,13 +96,16 @@ namespace RavlN {
     //: Default constructor
     // Creates an invalid handle.
     
-    ClassifierWeakLinearC(RealT threshold, RealT parity)
-      : ClassifierC(*new ClassifierWeakLinearBodyC(threshold,parity))
+    ClassifierWeakLinearC(RealT threshold1, RealT parity1, RealT threshold2, RealT parity2)
+      : ClassifierC(*new ClassifierWeakLinearBodyC(threshold1,parity1,threshold2,parity2))
     {}
-    //: Constructor.
-    //!param: threshold - a positive threshold value
-    //!param: parity    - parity (+1 or -1) used to indicate direction of inequality
-    // Classification is label 1 if parity*feature < parity*threshold
+    //: Constructor
+    //!param: threshold1 - the first threshold value
+    //!param: parity1    - parity (+1 or -1) used to indicate direction of inequality
+    //!param: threshold2 - the second threshold value
+    //!param: parity2    - parity (+1 or -1) used to indicate direction of inequality
+    // Classification is label 1 if parity1*feature1 < parity1*threshold1 && 
+    // parity2*feature1 < parity2*threshold2
    
     ClassifierWeakLinearC(istream &strm);
     //: Load from stream.
