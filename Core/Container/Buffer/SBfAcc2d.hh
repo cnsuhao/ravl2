@@ -69,7 +69,7 @@ namespace RavlN {
     // Returns true if yes.
     
     inline DataC & operator[](const Index2dC & i) { 
-      RavlAssert(((UIntT) i.Col()) < size2);
+      RavlAssert(((UIntT) i.Col().V()) < size2);
       return SizeBufferAccessC<BufferAccessC<DataC> >::operator[](i.Row())[i.Col()]; 
     }
     //: access to the item array[(i)]
