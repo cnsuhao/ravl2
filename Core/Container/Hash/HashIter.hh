@@ -18,7 +18,7 @@
 
 #include "Ravl/Hash.hh"
 
-#define HASHITER_ALLOW_DELETE 0
+#define HASHITER_ALLOW_DELETE 1
 
 namespace RavlN {
   
@@ -30,18 +30,20 @@ namespace RavlN {
   class HashIterC {
   public:
     HashIterC() 
-      {}
+    {}
     // Don't use this if you can help it.
     
     HashIterC(const HashC<K,T> &nTab) 
-      : bIt(nTab.table)
-      { First(); } 
+      : bIt(nTab.table),
+	hashtable(&const_cast<HashC<K,T> &>(nTab))
+    { First(); }
     // Normal constructor.
     
-    HashIterC(const HashIterC<K,T> &Oth) 
-      : lIt(Oth.lIt), 
-        bIt(Oth.bIt) 
-      {} 
+    HashIterC(const HashIterC<K,T> &oth) 
+      : lIt(oth.lIt), 
+        bIt(oth.bIt),
+	hashtable(oth.hashtable)
+    {} 
     // Copy constructor.
     
     bool First(void)  { 
@@ -97,7 +99,15 @@ namespace RavlN {
     //: Access data.
     
     const T &operator*() const
-    { return const_cast<T &>(lIt.Data().Data()); }
+    { return lIt.Data().Data(); }
+    //: Access data.
+    
+    T *operator->() 
+    { return &const_cast<T &>(lIt.Data().Data()); }
+    //: Access data.
+    
+    const T *operator->() const
+    { return &(lIt.Data().Data()); }
     //: Access data.
     
 #if HASHITER_ALLOW_DELETE
@@ -108,8 +118,9 @@ namespace RavlN {
 #endif
     
     HashIterC<K,T> &operator=(const HashC<K,T> &oth) { 
-      bIt = oth.table; 
-      First(); 
+      bIt = oth.table;
+      hashtable = &const_cast<HashC<K,T> &>(oth);
+      First();
       return *this; 
     }
     // Assign to another table.
@@ -117,12 +128,10 @@ namespace RavlN {
     HashIterC<K,T> &operator=(const HashIterC<K,T> &oth)  { 
       bIt = oth.bIt; 
       lIt = oth.lIt; 
+      hashtable = oth.hashtable;
       return *this; 
     }
     // Assign to another iterator.
-    
-    //const HashC<K,T> &GetTable() const { return hashTab; }
-    // Which table ?
     
   protected:
     bool CheckValid(void);
@@ -130,6 +139,7 @@ namespace RavlN {
   private:
     IntrDLIterC<HashElemC<K,T> > lIt; // List iterator.
     SArray1dIterC<IntrDListC<HashElemC<K,T> > > bIt;  // Current bin.
+    HashC<K,T> *hashtable;
   };
   
   //////////////////////////////////
@@ -153,9 +163,10 @@ namespace RavlN {
   
   template<class K,class T>
   void HashIterC<K,T>::Del(void) {
-    HashC<K,T>::HashElemConstIter Oldie(lIt);
-    Next();
-    Oldie.Del();// Delete old member from list.
+    IntrDLIterC<HashElemC<K,T> > elem = lIt;
+    Next(); // Goto next element.
+    elem.Del();// Delete old member from list.
+    hashtable->CheckDel(false); // Make sure element cound is decremented.
   }
 #endif
   
