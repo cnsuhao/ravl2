@@ -37,7 +37,7 @@ namespace RavlImageN {
       
       __asm__ volatile ("\n\t pxor       %%mm7, %%mm7 "
 			"\n\t pxor       %%mm6, %%mm6 "
-			: : );
+			: : "m" (cols) ); // Dummy arg to fix bug in gcc 2.95.3
       
       do {
 	__asm__ volatile (
@@ -78,7 +78,7 @@ namespace RavlImageN {
       
       __asm__ volatile ("\n\t pxor       %%mm7, %%mm7 "
 			"\n\t pxor       %%mm6, %%mm6 "
-			: : );
+			: : "m" (cols) ); // Dummy arg to fix bug in gcc 2.95.3
       
       do {
 	__asm__ volatile 
@@ -135,7 +135,7 @@ namespace RavlImageN {
 	BufferAccess2dIter2C<ByteT,ByteT> it(imgTemplate,imgTemplate.Range2(),subImg,subImg.Range2());
 	__asm__ volatile ("\n\t pxor       %%mm7, %%mm7 "
 			  "\n\t pxor       %%mm6, %%mm6 "
-			  : : );
+			  : : "m" (cols) ); // Dummy arg to fix bug in gcc 2.95.3
 	int diff1 = 0;
 	while(it) {
 	  __asm__ volatile 
@@ -176,7 +176,7 @@ namespace RavlImageN {
 	BufferAccess2dIter2C<ByteT,ByteT> it(imgTemplate,imgTemplate.Range2(),subImg,subImg.Range2());
 	__asm__ volatile ("\n\t pxor       %%mm7, %%mm7 "
 			  "\n\t pxor       %%mm6, %%mm6 "
-			  : : );
+			  : : "m" (cols) ); // Dummy arg to fix bug in gcc 2.95.3
 	int diff1 = 0;
 	while(it) {
 	  __asm__ volatile 
