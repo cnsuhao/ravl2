@@ -10,8 +10,8 @@
     A Signal is essentially a list of functions to call on an
     event. Signals currently may have 0,1,2 or 3 parameters which will
     be passed to the functions in the list.  The advantage of using
-    signals over simple function pointers is the exact form of the or
-    number of functions need not be known by the provider of the
+    signals over simple function pointers is the exact form of the arguments or
+    number of functions to call need not be known by the provider of the
     signal.  They are simpler to use that virtual functions as no new
     class need be defined.
     <p>
@@ -19,10 +19,10 @@
       signal structures can be connected together <b>without</b>
       creating a reference counted dependence between them. If either
       of the signal structures is destroyed the connection between
-      them is automaticly broken.  
+      them is automatically broken.  
     <p>
       If you are in a situation where you only want to call 1
-      function, but still want flexibilty in the exact form of that
+      function, but still want flexibility in the exact form of that
       function its worth looking at the <a href="Ravl.Core.Calls.html">Calls and Triggers</a> 
       in the RAVL core.
 
