@@ -21,6 +21,7 @@
 #include "Ravl/FAffine.hh"
 
 namespace RavlN {
+  template<class DataT> class DListC;
   class PointSet2dC;
   class Polygon2dC;
   
@@ -121,6 +122,12 @@ namespace RavlN {
     Matrix3dC trans;
     RealT iz, oz;
   };
+  
+  Projection2dC FitProjection(const DListC<Point2dC> &org,const DListC<Point2dC> &newPos,RealT &residual);
+  //: Fit a projective transform given to the mapping between original and newPos.
+
+  Projection2dC FitProjection(const DListC<Point2dC> &org,const DListC<Point2dC> &newPos);
+  //: Fit a projective transform given to the mapping between original and newPos.
   
   PointSet2dC operator*(const Projection2dC &trans,const PointSet2dC &points);
   //: Apply a projective transform to a point set
