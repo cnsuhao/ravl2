@@ -318,7 +318,7 @@ fullbuild:
        endif
 
        # opt build
-        ifeq ($(strip $(filter-out opt optbin, $(FULLBUILD_TARGETS))),)
+        ifeq ($(strip $(filter-out $(FULLBUILD_TARGETS),opt)),)
 	if $(MAKEMD) $(FULLBUILDFLAGS) libbuild VAR=opt TARGET=libbuild NOEXEBUILD=1 ; then true; \
         else \
 	  echo "QMAKE: opt library build failed. " ; \
