@@ -12,9 +12,14 @@
 #include "Ravl/Threads/LaunchThread.hh"
 #include "Ravl/Threads/MessageQueue.hh"
 #include "Ravl/Stream.hh"
+#include "Ravl/OS/SysLog.hh"
+
+#define RAVL_REUSE_THREADS 0
 
 namespace RavlN {
+#if RAVL_REUSE_THREADS
   MessageQueueC<LaunchThreadC> launchThreads(32);
+#endif
   
   //: Constructor.
 
@@ -22,24 +27,31 @@ namespace RavlN {
     : se(nse)
   {}
 
-  int LaunchThreadBodyC::Start()
-  { 
+  int LaunchThreadBodyC::Start() {
+    
+#if RAVL_REUSE_THREADS
     do {
       if(se.IsValid()) {
 	se.Invoke(); 
 	done.Post();
 	done.WaitForFree(); // Wait for everything to re-execute.
+	done.Reset();
       } else 
 	cerr << "ERROR: LaunchThreadBodyC::Startup(), ask to launch an invalid event.\n";
+      
+      reStart.Reset();
       
       LaunchThreadC le(*this);
       se.Invalidate();
       if(!launchThreads.TryPut(le)) 
-	break ;
+	break ; // Just exit, queue is full.
+      
       reStart.Wait();
-      reStart.Reset();
     } while(1) ;
-    
+#else
+    se.Invoke();
+    done.Post();
+#endif    
     return true;
   }
   
@@ -47,23 +59,31 @@ namespace RavlN {
   // Setup new event....
   
   void LaunchThreadBodyC::Reset(const TriggerC &nse) {
+#if RAVL_REUSE_THREADS
     se = nse;
-    done.Reset();
+    RavlAssert(!done);
+    //done.Reset();
     //assert(reStart.Count() == 0);
     reStart.Post();
+#else
+    RavlAssertMsg(0,"LaunchThreadBodyC::Reset(), Not supported. "); // Incase someone is using this method.
+#endif
   }
   
   //: Constructor.
   
   LaunchThreadC::LaunchThreadC(const TriggerC &nse)
-    
   {
+#if RAVL_REUSE_THREADS    
     LaunchThreadC me;
     if(launchThreads.TryGet(me)) {
+      SysLog(SYSLOG_DEBUG) << "LaunchThreadC::LaunchThreadC(), Reusing thread.  ";
       (*this) = me;
       Reset(nse);
       return ;
     }
+    SysLog(SYSLOG_DEBUG) << "LaunchThreadC::LaunchThreadC(), Creating new thread.  ";
+#endif
     LaunchThreadC newun(*new LaunchThreadBodyC(nse));
     (*this) = newun;
     Execute(); 

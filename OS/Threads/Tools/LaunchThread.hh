@@ -23,6 +23,7 @@
 #include "Ravl/CallMethodRefs.hh"
 
 namespace RavlN {
+  class LaunchThreadC;
   
   //! userlevel=Develop
   //: Launch event body.
@@ -47,12 +48,11 @@ namespace RavlN {
     // NB. This is used by the child thread
     // and should not be modified until after the event 'done'
     // has occured.
-
+    
+  protected:    
     void Reset(const TriggerC &nse);
     //: Reset signal event.
     // Setup new event....
-    
-  protected:    
     
     TriggerC se;
     //: Event to call.
@@ -63,6 +63,7 @@ namespace RavlN {
     ThreadEventC reStart;
     //: Signal to restart.
     
+    friend class LaunchThreadC;
   };
   
   //! userlevel=Normal
