@@ -12,7 +12,8 @@
 //! file="Ravl/OS/Threads/Tools/Signal2.hh"
 //! lib=RavlThreads
 //! author="Charles Galambos"
-//! date="23/09/99"
+//! date="23/09/1999"
+//! example=exSignal1.cc
 
 #include "Ravl/Threads/Signal1.hh"
 #include "Ravl/InDLIter.hh"

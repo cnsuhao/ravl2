@@ -15,7 +15,6 @@
 #include "Ravl/Threads/Signal3.hh"
 #include "Ravl/Option.hh"
 
-
 //#include "Ravl/Threads/LaunchThread.hh"
 
 using namespace RavlN;

@@ -4,14 +4,14 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef DPBINIO_HEADER
-#define DPBINIO_HEADER 1
+#ifndef RAVL_DPBINIO_HEADER
+#define RAVL_DPBINIO_HEADER 1
 //////////////////////////////////////////////////////////
 //! docentry="Ravl.Core.IO.Formats"
 //! example=exDataProc.cc
 //! lib=RavlIO
 //! author="Charles Galambos"
-//! date="04/07/98"
+//! date="04/07/1998"
 //! rcsid="$Id$"
 //! file="Ravl/Core/IO/BinFileIO.hh"
 //! userlevel=Default
@@ -26,8 +26,8 @@ namespace RavlN {
   
   /////////////////////////////////////////////
   //! userlevel=Develop
-  //: Save objects to a file.
-  // Object must have a stream output function.
+  //: Save objects in binary to a file.
+  // Object must have a binary stream output function.
   
   template<class DataT>
   class DPOBinFileBodyC 
@@ -117,8 +117,8 @@ namespace RavlN {
 
   /////////////////////////////////////
   //! userlevel=Develop
-  //: Load objects from a file.
-  // Object must have a stream input function
+  //: Load objects in binary from a file.
+  // Object must have a binary stream input function
   // and a default constructor.
   
   template<class DataT>
@@ -203,8 +203,8 @@ namespace RavlN {
   
   ///////////////////////////////
   //! userlevel=Normal
-  //: File output stream.
-  // Object must have a stream output function.
+  //: Binary file output stream.
+  // Object must have a binary stream output function.
   
   template<class DataT>
   class DPOBinFileC 
@@ -228,8 +228,8 @@ namespace RavlN {
   
   //////////////////////////////////
   //! userlevel=Normal
-  //: File input stream.
-  // Object must have a stream input function
+  //: Binary file input stream.
+  // Object must have a binary stream input function
   // and a default constructor.
   
   template<class DataT>

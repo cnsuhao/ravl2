@@ -27,5 +27,5 @@ USESLIBS=RavlImageProc RavlIO RavlOS RavlOSIO
 
 PROGLIBS=
 
-EHT = 
+EHT = Ravl.Images.Lines.html 
 #exedoPPHT.eht

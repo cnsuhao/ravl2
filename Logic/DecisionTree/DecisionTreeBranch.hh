@@ -19,7 +19,7 @@
 namespace RavlLogicN {
   
   //! userlevel=Develop
-  //: Decision tree body.
+  //: Branch in the decision tree.
   
   class DecisionTreeBranchBodyC 
     : public DecisionTreeElementBodyC
@@ -35,8 +35,8 @@ namespace RavlLogicN {
     
   };
   
-  //! userlevel=Develop
-  //: Decision tree.
+  //! userlevel=Advanced
+  //: Branch in the decision tree.
   
   class DecisionTreeBranchC 
     : public DecisionTreeElementC

@@ -2,70 +2,25 @@
 ! author="Charles Galambos, Bill Christmas"
 : Input Output system
 
-<p> There are two mechanisms for doing I/O in RAVL: via streams, and via the
-<code>Load()</code> / <code>Save()</code> functions.  The stream mechanism is general, whereas the <code>Load()</code> / <code>Save()</code> mechanism is useful where there is a choice of file formats, or where implicit data conversion is needed. 
+<p> There are two mechanisms for doing I/O in RAVL: via streams, and
+via the <code>Load()</code> / <code>Save()</code> functions.  The
+stream mechanism is general, whereas the <code>Load()</code> /
+<code>Save()</code> mechanism is useful where there is a choice of
+file formats, or where implicit data conversion is needed.
 
-<h2> Using streams</h2>
-
-You can use the RAVL streams <a href="../Class/RavlN.IStreamC.html">IStreamC</a>, <a
-href="../Class/RavlN.OStreamC.html">OStreamC</a>, together with the standard C++
-syntax of the I/O operators <code>&lt;&lt;</code> and <code>&gt;&gt;</code>, in
-conjunction with most of the RAVL classes.  These will read and write in ASCII
-format, just as the standard C++ streams do for simple types.  E.g. to load an
-image of reals from standard input:
-
-<pre>
-ImageC&lt;RealT&gt; x;
-cin >> x;
-</pre>
-
-This mechanism has been implemented for most of the RAVL classes.  If you find
-a class without it, please <a
-href="http://www.ee.surrey.ac.uk/internal-cgi/wreq/req?top-active-3">complain</a>.<br>
-<b>N.B.</b> For floating-point data types, there is generally a loss
-of accuracy if data is written to a file in ASCII format and subsequently read
-back in to a program.
-
-<p> You can use the same mechanism for reading from and writing to RAVL
-strings, using the <a href="../Class/RavlN.IStrStreamC.html">IStrStreamC</a> and <a
-href="../Class/RavlN.OStrStreamC.html">OStrStreamC</a> classes.  This is especially
-useful for initialising small arrays, e.g.:
-
-<pre>
-  SArray1dC<RealT> coeffs(5);
-  IStrStreamC ("5 0.363 0.291 0.135 0.012 -0.030") >> coeffs;
-</pre>
-
-<p>For some classes there are also stream operators for the <a
-href="../Class/RavlN.BinIStreamC.html">BinIStreamC</a> and <a
-href="../Class/RavlN.BinOStreamC.html">BinOStreamC</a> classes.  These read and write
-binary files.  These streams have advantages over IStreamC and OStreamC: they
-are faster; they are often more compact, and they store floating point data
-without loss of precision.  If you need this operator for the class you are
-using, and it is not there, again it is worth <a
-href="http://www.ee.surrey.ac.uk/internal-cgi/wreq/req?top-active-3">asking</a>.
-
-<ul>
-<li> Both of the above input stream operators <i>always</i>
-expect to read data in the format that is written by the corresponding
-output streams (give or take a white space or two), particularly in the case of
-the more complex objects.
-
-<li> Since the stream operators are not members of the classes being
-read/written, they are generally <i><font size =+1 color =
-magenta>undocumented</font></i>.
-
-</ul>
+There is also a mechanism for dealing with sequences of objects a
+description of which can be found in <a
+href="Ravl.OS.Sequence.html">Ravl.OS.Sequence</a>.
 
 <h2> <a name="LoadSave"></a>Using the <a href=
-"../Class/RavlN.html#LoadObconst_StringCRef_DataTRef_StringC_boolCb_">
+"../Class/RavlN.LoadObconst_StringC_Amp_DataT_Amp_StringC_boolCb.html">
 <code>Load()</code></a> / <a href=
-"../Class/RavlN.html#SaveObconst_StringCRef_const_DataTRef_StringC_boolCb_"> <code>Save()</code></a> functions</h2>
+"../Class/RavlN.SaveObconst_StringC_Amp_const_DataT_Amp_StringC_boolCb.html"> <code>Save()</code></a> functions</h2>
 
 The <code>Load()</code> / <code>Save()</code> global functions provide a more
 sophisticated I/O mechanism.  They were originally developed for the <a
-href="../Class/RavlN.ImageC.html">ImageC</a> template class (see <a
-href="Image.Image_IO.html">Image I/O</a>), but are now available for a few
+href="../Class/RavlImageN.ImageC.html">ImageC</a> template class (see <a
+href="Ravl.Images.IO.html">Image I/O</a>), but are now available for 
 other classes as well.  The mechanism identifies the type of file being loaded,
 and selects the appropriate code for loading it, if it exists.  It will also do
 certain type conversions automatically where its is deemed safe to do so.  The
@@ -85,7 +40,7 @@ The pixel type in the file "fred" is unknown at compile time; the appropriate
 type conversion therefore has to be selected at run time.
 
 <p> A more complete example of how to use this mechanism is given in <a
-href="../../../examples/exFileFormat.cc">exFileFormat.cc</a>.  To use this
+href="../../../Auto/Examples/exFileFormat.cc.html">exFileFormat.cc</a>.  To use this
 mechanism you'll have to include the <code>RavlIO</code> library in
 <code>defs.mk</code>:
 
@@ -101,8 +56,6 @@ mechanism you'll have to include the <code>RavlIO</code> library in
 <p> <b>N.B.</b> the increase in size of your executable from this library can be <font size = +4>large</font>, because all of
 the possible formats and conversions have to be allowed for at compile/link
 time.
-
-<p> &sup1;<b>N.B.</b> A better page will arrive once the documentation system can handle namespaces.
 
 
 <h2> Writing your own stuff </h2>

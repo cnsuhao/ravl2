@@ -61,9 +61,7 @@ GtkType    gtk_gl_area_get_type   (void);
 GtkWidget* gtk_gl_area_new        (int       *attrList);
 GtkWidget* gtk_gl_area_share_new  (int       *attrList,
                                    GtkGLArea *share);
-GtkWidget* gtk_gl_area_new_vargs  (GtkGLArea *share,
-				   ...);
-
+GtkWidget* gtk_gl_area_new_vargs  (GtkGLArea *share,...);
 
 gint       gtk_gl_area_make_current(GtkGLArea *glarea);
 

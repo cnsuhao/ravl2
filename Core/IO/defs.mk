@@ -36,6 +36,10 @@ USESLIBS=RavlCore
 
 TESTEXES=testFunc2Proc.cc testDataProc.cc testSPort.cc
 
-EXAMPLES = exComposeSingle.cc exDataProc.cc
+EXAMPLES = exComposeSingle.cc exDataProc.cc exFileFormat.cc
 
-EHT=Ravl.Core.IO.eht Ravl.Core.Data_Processing.eht Ravl.Core.IO.Formats.html Ravl.Core.IO.Type_Converter.html
+EHT=Ravl.Core.IO.eht \
+    Ravl.Core.Data_Processing.eht \
+    Ravl.Core.IO.Formats.html \
+    Ravl.Core.IO.Type_Converter.html \
+    Ravl.Core.IO.Virtual_Files.html

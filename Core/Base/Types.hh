@@ -37,10 +37,10 @@ namespace RavlN {
   //: Unsigned Integer of at least 32 bits
   
   typedef double RealT;
-  //: Real value of at least 32 bits.
+  //: Real value of at least 64 bits.
   
   typedef float FloatT;
-  //: Real value of at least 16 bits.
+  //: Real value of at least 32 bits.
   
   typedef unsigned char ByteT;
   //: Unigned byte of 8 bits

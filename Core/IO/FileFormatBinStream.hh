@@ -21,7 +21,7 @@
 
 namespace RavlN {
   /////////////////////////////
-  //: Stream File Format.
+  //: Binary stream file format.
   //! userlevel=Develop
   
   template<class DataT>
@@ -129,7 +129,7 @@ namespace RavlN {
   
   /////////////////////////////
   //! userlevel=Normal
-  //: Create an instance of a stream File Format.
+  //: Binary stream file format.
   
   template<class DataT>
   class FileFormatBinStreamC : public FileFormatC<DataT> {

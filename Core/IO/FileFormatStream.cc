@@ -13,8 +13,8 @@
 #include "Ravl/TypeName.hh"
 
 namespace RavlN {
-  int IncludeFileFormatStream() 
-  { return 1; }
+  void IncludeFileFormatStream() 
+  {  }
   
   // Some basic file types.
   

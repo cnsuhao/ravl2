@@ -93,9 +93,9 @@ namespace RavlN {
   //    or a global function of the form UIntT StdHash(const K &x) which returns the key. <p>
   //   bool K::operator== (const K &Oth);  to test equality. <p>
   
-  // !!!!! Update() Require's a default constructor & a working assigment operator !!!!!
+  // !!!!! Update() Require's a default constructor & a working assigment operator !!!!! <p>
   
-  // Few things to bare in mind when writing StdHash() functions. <p>
+  // A few things to bare in mind when writing StdHash() functions. <p>
   // 1) Try and use all the bits in the values being hashed. <p>
   // 2) Use quick operations that tend to preserve the number of bits in the value.
   //     ie '+' '^' '-' <p>

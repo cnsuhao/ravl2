@@ -4,15 +4,14 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLGUIPLAYCONTROL_HEADER
-#define RAVLGUIPLAYCONTROL_HEADER 1
+#ifndef RAVLGUI_PLAYCONTROL_HEADER
+#define RAVLGUI_PLAYCONTROL_HEADER 1
 //////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Applications/VPlay/PlayControl.hh"
 //! author="Charles Galambos"
-//! date="23/03/99"
-//! docentry="GUI.Widget"
-//! lib=GUIView
+//! date="23/03/1999"
+//! docentry="Ravl.Applications.VPlay"
 
 #include "Ravl/GUI/LBox.hh"
 #include "Ravl/DP/PlayControl.hh"
@@ -26,7 +25,7 @@ namespace RavlGUIN {
   class PlayControlC;
   
   ////////////////////////////
-  //! userlevel=Normal
+  //! userlevel=Develop
   //: Play Control GUI interface body.
   
   class PlayControlBodyC 

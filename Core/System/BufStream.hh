@@ -12,7 +12,7 @@
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! date="25/02/99"
-//! docentry="Ravl.Core.IO"
+//! docentry="Ravl.Core.IO.Streams"
 
 #include "Ravl/Stream.hh"
 #include "Ravl/SArray1d.hh"

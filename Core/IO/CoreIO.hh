@@ -11,7 +11,7 @@
 //! lib=RavlIO
 //! file="Ravl/Core/IO/CoreIO.hh"
 //! author="Charles Galambos"
-//! userlevel=Advanced
+//! userlevel=Develop
 //! docentry="Ravl.Core.IO"
 
 namespace RavlN {  
@@ -19,7 +19,7 @@ namespace RavlN {
   //: Initalise core IO.
   
   extern void InitFixedIndexIO();
-  
+  //: Initalise Fixed size index io methods.
 }
 
 #endif

@@ -4,15 +4,15 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLBINSTREAM_HEADER
-#define RAVLBINSTREAM_HEADER 1
+#ifndef RAVL_BINSTREAM_HEADER
+#define RAVL_BINSTREAM_HEADER 1
 ///////////////////////////////////////////////////////
 //! file="Ravl/Core/Base/BinStream.hh"
 //! lib=RavlCore
 //! userlevel=Normal
 //! author="Charles Galambos"
-//! date="09/02/99"
-//! docentry="Ravl.Core.IO"
+//! date="09/02/1999"
+//! docentry="Ravl.Core.IO.Streams"
 //! rcsid="$Id$"
 
 #include "Ravl/config.h"
@@ -27,16 +27,14 @@ namespace RavlN  {
 #else
   // If we don't have byte swap define these.
   
-  //: Swap bytes of a 16 bit number.
-  
   inline short bswap_16(const short &buf) {
     short ret;
     ((char *) &ret)[0] = ((const char *) &buf)[1];
     ((char *) &ret)[1] = ((const char *) &buf)[0];
     return ret;
   }
-  
-  //: Swap bytes of a 32 bit number.
+  //! userlevel=Advanced
+  //: Swap bytes of a 16 bit number.
   
   inline int bswap_32(const int &buf) {
     int ret;
@@ -46,9 +44,13 @@ namespace RavlN  {
     ((char *) &ret)[3] = ((const char *) &buf)[0];
     return ret;
   }
+  //! userlevel=Advanced
+  //: Swap bytes of a 32 bit number.
+  
   
 #endif
 #endif
+  //:-
   
   // Type     Bytes.
   // Int16T    2 

@@ -52,7 +52,7 @@ namespace RavlLogicN {
     DecisionTreeElementC children[2]; // 0-False 1-True.
   };
   
-  //! userlevel=Develop
+  //! userlevel=Advanced
   //: Decision tree.
   
   class DecisionTreeBranchBinaryC 

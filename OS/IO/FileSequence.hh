@@ -7,12 +7,12 @@
 #ifndef RAVL_DPFILESEQUENCE_HEADER
 #define RAVL_DPFILESEQUENCE_HEADER 1
 /////////////////////////////////////////////////////////
-//! docentry="Ravl.OS.Sequence"
+//! docentry="Ravl.OS.Sequence.Numbered Files"
 //! rcsid="$Id$"
 //! file="Ravl/OS/IO/FileSequence.hh"
 //! lib=RavlOSIO
 //! author="Charles Galambos"
-//! date="23/03/99"
+//! date="23/03/1999"
 
 #include "Ravl/DP/SPort.hh"
 #include "Ravl/OS/Filename.hh"

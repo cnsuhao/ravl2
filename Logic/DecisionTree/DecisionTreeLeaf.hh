@@ -19,7 +19,7 @@
 namespace RavlLogicN {
   
   //! userlevel=Develop
-  //: Decision tree body.
+  //: Leaf in the decision tree.
   
   class DecisionTreeLeafBodyC 
     : public DecisionTreeElementBodyC
@@ -50,8 +50,8 @@ namespace RavlLogicN {
     LiteralC decision; // Value of decision at the leaf.
   };
   
-  //! userlevel=Develop
-  //: Decision tree.
+  //! userlevel=Advanced
+  //: Leaf in the decision tree.
   
   class DecisionTreeLeafC 
     : public DecisionTreeElementC

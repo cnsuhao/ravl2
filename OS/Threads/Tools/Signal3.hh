@@ -12,7 +12,10 @@
 //! file="Ravl/OS/Threads/Tools/Signal3.hh"
 //! lib=RavlThreads
 //! author="Charles Galambos"
-//! date="23/09/99"
+//! date="23/09/1999"
+//! example=exSignal2.cc
+
+// FIXME:- Sort out some proper examples for Signal3C
 
 #include "Ravl/Threads/Signal2.hh"
 #include "Ravl/InDLIter.hh"

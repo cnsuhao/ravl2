@@ -29,7 +29,10 @@
 namespace RavlLogicN {
 
   class DecisionExamplesC;
-
+  
+  //! userlevel=Develop
+  //: Set of examples for a node in the decision tree.
+  
   class DecisionExamplesBodyC
     : public RCBodyC
   {

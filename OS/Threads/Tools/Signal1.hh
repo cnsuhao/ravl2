@@ -11,8 +11,9 @@
 //! rcsid="$Id$"
 //! lib=RavlThreads
 //! author="Charles Galambos"
-//! date="23/09/99"
+//! date="23/09/1999"
 //! file="Ravl/OS/Threads/Tools/Signal1.hh"
+//! example=exSignal1.cc
 
 #include "Ravl/Threads/Signal.hh"
 #include "Ravl/InDLIter.hh"

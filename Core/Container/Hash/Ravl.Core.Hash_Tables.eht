@@ -1,10 +1,7 @@
 
 : Creates an arbitrary mapping between a key and a value.
 
-HashC &lt& K,V &gt& unsigned int K::Hash();  which returns a number fairly unique to the key.
-or a global function of the form UIntT StdHash(const K &x) which returns the key. <p>
-bool K::operator== (const K &Oth);  to test equality. <p>
-  
+
   
 
 

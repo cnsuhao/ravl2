@@ -21,19 +21,18 @@
 
 namespace RavlN
 {
-  //! userlevel=Develop
   
   bool OpenISequenceBase(DPIPortBaseC &ip,DPSeekCtrlC &sc,const StringC &filename,const StringC &fileformat,const type_info &obj_type,bool verbose = false);
+  //! userlevel=Develop
   //: Open input stream base.
   // Returns TRUE on succcess.
   
-  //! userlevel=Develop
   
   bool OpenOSequenceBase(DPOPortBaseC &op,DPSeekCtrlC &sc,const StringC &filename,const StringC &fileformat,const type_info &obj_type,bool verbose = false);
+  //! userlevel=Develop
   //: Open output stream base.
   // Returns TRUE on succcess.
 
-  //! userlevel=Normal
   
   template<class DataT>
   bool OpenOSequence(DPOSPortC<DataT> &op,const StringC &fn,const StringC &fileformat = "",bool verbose = false)
@@ -53,6 +52,7 @@ namespace RavlN
     }
     return true;
   }
+  //! userlevel=Normal
   //: Open a seekable output stream.
   // - Not all streams are seekable, the seek/tell functions are not garanteed to work
   // for all formats. <p>
@@ -81,13 +81,13 @@ namespace RavlN
     //cerr << "Attach done. \n";
     return true;
   }
+  //! userlevel=Normal
   //: Open a seekable input stream.
   // Note: Not all streams are seekable, the seek/tell functions are not garanteed to work
   // for all formats. <p>
   // - If a fileformat is a zero length string, all formats are considered.
   // Returns TRUE on succcess.
 
-  //! userlevel=Normal
   
   template<class DataT>
   bool OpenOSequence(DPOPortC<DataT> &op,const StringC &fn,const StringC &fileformat = "",bool verbose = false)
@@ -100,11 +100,10 @@ namespace RavlN
     op = DPOPortC<DataT>(anOp); // This makes sure type checking gets done.
     return op.IsValid();
   }
+  //! userlevel=Normal
   //: Open a normal output stream
   // - If a fileformat is a zero length string, all formats are considered.
   // Returns TRUE on succcess.
-  
-  //! userlevel=Normal
   
   template<class DataT>
   bool OpenISequence(DPIPortC<DataT> &ip,const StringC &fn,const StringC &fileformat = "",bool verbose = false)
@@ -117,6 +116,7 @@ namespace RavlN
     ip = DPIPortC<DataT>(anIp);  // This makes sure type checking gets done.
     return ip.IsValid();
   }
+  //! userlevel=Normal
   //: Open a normal input stream
   // - If a fileformat is a zero length string, all formats are considered.
   // Returns TRUE on succcess.

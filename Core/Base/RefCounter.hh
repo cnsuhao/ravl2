@@ -11,14 +11,13 @@
 //! docentry="Ravl.Core.Reference Counting"
 //! file="Ravl/Core/Base/RefCounter.hh"
 //! lib=RavlCore
-//! userlevel=Default
-//! author=""
-//! date=""
+//! userlevel=Normal
+//! author="Charles Galambos"
+//! example=exRefCounter.cc
 
 #include "Ravl/Types.hh"
 #include "Ravl/Atomic.hh"
 #include "Ravl/Exception.hh"
-
 
 #if RAVL_HAVE_ANSICPPHEADERS
 #include <typeinfo>
@@ -40,7 +39,7 @@ namespace RavlN {
   template<class BodyT> ostream &operator<<(ostream &strm,const RCHandleC<BodyT> &obj);
   template<class BodyT> istream &operator>>(istream &strm,RCHandleC<BodyT> &obj);
   
-  //! userlevel=Develop
+  //! userlevel=Normal
   //: Base class for all reference counted objects
   // This holds a count of the number of handles that
   // are available for this object.
@@ -81,7 +80,7 @@ namespace RavlN {
     mutable ravl_atomic_t counter;
   };
   
-  //! userlevel=Develop
+  //! userlevel=Normal
   //: Base class for all reference counted objects, where derivation is expected.
   // This holds a count of the number of handles that
   // are available for this object.
@@ -109,14 +108,14 @@ namespace RavlN {
 
   protected:
     RCBodyVC()
-      {}
+    {}
     //: Default constructor.
     // Creates a handle with 0 reference counts.
     
     friend class RCAbstractC ;
   };
   
-  //! userlevel=Develop
+  //! userlevel=Normal
   //: Base class for handles to reference counter objects
   
   template<class BodyT>

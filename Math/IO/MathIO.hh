@@ -11,8 +11,8 @@
 //! lib=RavlMathIO
 //! file="Ravl/Math/IO/MathIO.hh"
 //! author="Charles Galambos"
-//! userlevel=Advanced
-//! docentry="Ravl.Math.IO"
+//! userlevel=Develop
+//! docentry="Ravl.Math"
 
 namespace RavlN {
   

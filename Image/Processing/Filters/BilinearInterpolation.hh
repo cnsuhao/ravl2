@@ -1,7 +1,7 @@
-#ifndef RAVL_BILINEARINTERPOLATION_HEADER
-#define RAVL_BILINEARINTERPOLATION_HEADER 1
+#ifndef RAVLIMAGE_BILINEARINTERPOLATION_HEADER
+#define RAVLIMAGE_BILINEARINTERPOLATION_HEADER 1
 ///////////////////////////////////////////////////////////////
-//! docentry="Ravl.Images.Interpolation"
+//! docentry="Ravl.Images.Warping"
 //! lib=IPFilter
 //! author="Kieron Messer"
 //! rcsid="$Id$"
@@ -13,7 +13,7 @@
 namespace RavlImageN {
   
   //! userlevel=Normal
-  //: Perform Bi-Linear Interpolation of an image.
+  //: Scale an image using bi-Linear Interpolation.
   
   template <class InT, class OutT>
   class BilinearInterpolationC

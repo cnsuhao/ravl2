@@ -18,6 +18,9 @@
 
 namespace RavlLogicN {
   
+  //! userlevel=Normal
+  //: Set of example literals.
+  
   class SampleLiteralC
     : public SampleDiscreteC<LiteralC>
   {

@@ -23,7 +23,8 @@
 
 namespace RavlN {
   
-  //: Real value.
+  //: Real value with a default constructor that assigns it a value of 0.
+  
   // Its main feature is the default constructor sets 
   // its value to zero.  Usefull in things like histograms.
   

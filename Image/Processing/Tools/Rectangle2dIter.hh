@@ -18,7 +18,7 @@ namespace RavlImageN {
   using namespace RavlN;
   
   //! userlevel=Normal
-  //: Rectangle iterator.
+  //: Slide a rectangular window over a larger rectangle.
   // Slide a window over all possible positions in a
   // larger rectangle.
   

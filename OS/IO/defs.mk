@@ -19,4 +19,4 @@ USESLIBS=RavlOS RavlIO
 
 TESTEXES= testSequenceIO.cc
 
-EHT=Ravl.OS.Sequence.html
+EHT=Ravl.OS.Sequence.html Ravl.OS.Sequence.Numbered_Files.html

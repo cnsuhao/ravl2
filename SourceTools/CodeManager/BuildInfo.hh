@@ -9,6 +9,8 @@
 ///////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlSourceTools
+//! author="Charles Galambos"
+//! docentry="Ravl.Source Tools"
 
 #include "Ravl/SourceTools/LibInfo.hh"
 #include "Ravl/SourceTools/DefsFile.hh"
@@ -16,6 +18,9 @@
 #include "Ravl/HSet.hh"
 
 namespace RavlN {
+  
+  //! userlevel=Develop
+  //: Collects information about library dependancies.
   
   class BuildInfoBodyC 
     : public RCBodyC
@@ -41,6 +46,9 @@ namespace RavlN {
     
   };
 
+  //! userlevel=Normal
+  //: Collects information about library dependancies.
+  
   class BuildInfoC 
     : public RCHandleC<BuildInfoBodyC>
   {

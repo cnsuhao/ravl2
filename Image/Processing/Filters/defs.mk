@@ -21,3 +21,5 @@ LIBDEPS=RavlImageFilter.def
 PLIB=RavlImage
 
 USESLIBS=RavlImage
+
+EHT= Ravl.Images.Filtering.html Ravl.Images.Warping.html

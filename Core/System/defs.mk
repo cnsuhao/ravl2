@@ -25,6 +25,6 @@ USESLIBS=RavlCore
 
 EXAMPLES=exOption.cc exXMLTree.cc
 
-EHT=Ravl.Core.XML.html
+EHT=Ravl.Core.XML.html Ravl.Core.IO.Type_Name.html
 
 TESTEXES=testRavlCore.cc testXMLStream.cc testCollection.cc

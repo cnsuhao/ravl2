@@ -315,6 +315,7 @@ namespace RavlN {
     UIntT Size() const
       { return Body().Size(); }
     //: Count the number of elements in the list.
+    // This is slow! It goes through the list counting the elements.
     
     void Reverse() 
     { Body().Reverse(); }

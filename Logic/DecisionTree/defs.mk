@@ -27,6 +27,8 @@ TESTEXES=testDecisionTree.cc
 
 PLIB=RavlLogic
 
+EHT=Ravl.Logic.Decision_Tree.html
+
 LIBDEPS=RavlLogicDecisionTree.def
 
 USESLIBS=RavlLogic

@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLINDEX_HH
-#define RAVLINDEX_HH
+#ifndef RAVL_INDEX_HH
+#define RAVL_INDEX_HH
 ////////////////////////////////////////////////////////////////////////
 //! file="Ravl/Core/Base/Index.hh"
 //! lib=RavlCore
@@ -21,14 +21,11 @@
 #include "Ravl/Math.hh"
 
 namespace RavlN {
-  //====================================================================
-  //======= IndexC =====================================================
-  //====================================================================
   
   //: Index class for indexing 1D arrays: an integer class with modified rounding and other operations
   
   // The class IndexC is designed as a replacement for the built-in C
-  // <code>int</code> type, in an atttempt to correct some of the perceived
+  // <code>int</code> type, in an attempt to correct some of the perceived
   // deficiencies of <code>int</code>:
   
   // <dl>

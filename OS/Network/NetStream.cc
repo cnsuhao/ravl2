@@ -84,9 +84,7 @@ namespace RavlN {
   NetIStreamC::NetIStreamC(const SocketC &nsock,bool buffered) 
     : IStreamC(nsock.Fd(),buffered),
       sock(nsock)
-  {
-    sock.SetDontClose(true);
-  }
+  { sock.SetDontClose(true); }
   
   //: Wait for data to arrive.
   // Returns true if data is available, on a timeout or other interupt

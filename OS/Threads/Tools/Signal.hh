@@ -4,15 +4,16 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLSIGNAL_HEADER
-#define RAVLSIGNAL_HEADER 1
+#ifndef RAVL_SIGNAL_HEADER
+#define RAVL_SIGNAL_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlThreads
 //! author="Charles Galambos"
-//! date="23/09/99"
+//! date="23/09/1999"
 //! docentry="Ravl.OS.Signals"
 //! file="Ravl/OS/Threads/Tools/Signal.hh"
+//! example=exSignal.cc
 
 #include "Ravl/Threads/RWLock.hh"
 #include "Ravl/RefCounter.hh"

@@ -57,7 +57,7 @@ namespace RavlLogicN {
     DecisionExamplesC examples; // Examples of decisions.
   };
   
-  //! userlevel=Develop
+  //! userlevel=Advanced
   //: Decision tree.
   // Base class for nodes in the decision tree. Both Branch's and
   // Leaves are derived from this class.

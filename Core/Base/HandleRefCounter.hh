@@ -11,9 +11,8 @@
 //! docentry="Ravl.Core.Reference Counting"
 //! file="Ravl/Core/Base/HandleRefCounter.hh"
 //! lib=RavlCore
-//! userlevel=Default
-//! author=""
-//! date=""
+//! userlevel=Normal
+//! author="Charles Galambos"
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/Trigger.hh"
@@ -47,8 +46,8 @@ namespace RavlN {
     TriggerC trig;
     friend class HandleRefCounterC;
   };
-    
-  //! userlevel=Normal
+  
+  //! userlevel=Advanced
   //: Handle based reference counter.
   // The class RefCounterC is a reference counter which should be always
   // inherited if a class contains pointers to allocated memory and the 

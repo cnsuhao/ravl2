@@ -34,7 +34,7 @@ namespace RavlLogicN {
     
   };
   
-  //! userlevel=Develop
+  //! userlevel=Normal
   //: Decision tree.
   
   template<class DataT>

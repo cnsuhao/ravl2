@@ -7,7 +7,6 @@
 #ifndef RAVLIMAGE_CONNCOMP_HEADER
 #define RAVLIMAGE_CONNCOMP_HEADER 1
 ////////////////////////////////////////////////////////////////////////////
-//! docentry="Image.Image Processing.Operators"
 //! rcsid="$Id$"
 //! author="Radek Marik, modified by Charles Galambos"
 //! docentry="Ravl.Images.Segmentation"

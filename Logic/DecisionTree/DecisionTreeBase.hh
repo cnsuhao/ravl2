@@ -58,7 +58,7 @@ namespace RavlLogicN {
     DecisionTreeElementC root; // Root of tree.    
   };
   
-  //! userlevel=Develop
+  //! userlevel=Advanced
   //: Decision tree.
   
   class DecisionTreeBaseC 

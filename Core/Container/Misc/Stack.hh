@@ -88,6 +88,7 @@ namespace RavlN {
   protected:
     inline        BaseStackC<T>& operator=(const BaseStackC<T>&) ;
     
+    //! userlevel=Develop
     //--------- private function for memory allocation 
     // place at the top of the file to allow inlining
   

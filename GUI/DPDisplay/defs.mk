@@ -22,3 +22,5 @@ MUSTLINK=RavlGUIDisplay.cc
 USESLIBS=RavlIO RavlGUI RavlImageIO
 
 EXAMPLES=exDPWindow.cc
+
+EHT=Ravl.GUI.Data_Display.html

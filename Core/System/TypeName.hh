@@ -4,16 +4,16 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLTYPENAME_HEADER
-#define RAVLTYPENAME_HEADER 1
+#ifndef RAVL_TYPENAME_HEADER
+#define RAVL_TYPENAME_HEADER 1
 ///////////////////////////////////////////////
-//! userlevel=Advanced
-//! docentry="Ravl.Core.IO"
+//! docentry="Ravl.Core.IO.Type Name"
 //! rcsid="$Id$"
 //! file="Ravl/Core/System/TypeName.hh"
 //! lib=RavlCore
 //! author="Charles Galambos"
-//! date="23/10/98"
+//! date="23/10/1998"
+//! userlevel=Normal
 
 #include "Ravl/config.h"
 
@@ -32,6 +32,7 @@ namespace RavlN {
   // These functions are here to help get around the problem.
   
   const char *TypeName(const type_info &info);
+  //: Return the C++ type name for a type info instance.
   // This funtion will return a standard name
   // for a class if one is known. The function will attempt
   // to generate a standard name if one is not defined. 
@@ -39,17 +40,17 @@ namespace RavlN {
   // error channel and the program will continue with the
   // compiler generated name.
   
-  const char *TypeName(const char *name);
-  
-  // Same as above but uses the type_info.name() directly.
+  const char *TypeName(const char *name);  
+  //: Return the C++ name for a type_info.name().
+  // Same as TypeName(const type_info &)  but uses the type_info.name() directly.
   
   const char *RTypeName(const char *name);
-  
+  //: Given a standardised name return the compiler specific one.
   // Reverse lookup.  Given the stanard name find the 
-  // compiler specific one. (NOT IMPLEMENTED)
+  // compiler specific one. 
   
   const type_info &RTypeInfo(const char *name);
-  
+  //: Given a standardised name return the type_info instance.
   // Reverse lookup.  Given the stanard name find the 
   // type info for that class.
   
@@ -57,14 +58,17 @@ namespace RavlN {
   // Set the stanard name to be used for a particular type.
   
   void AddTypeName(const char *sysname,const char *newname);
-  // Set the stanard name to be used for a particular type.
-
+  //: Set the stanard name to be used for a particular type.
+  
+  //:-
+  
+  //! userlevel=Normal
   //: Register typename.
   // Class to make it easy to register typename. Use as global
   // variables. <p>
   // e.g. for class xyzC declare the following as global
-  // in a .cc file preferably with the definition of xyzC
-  //  static TypeNameC typeNamexyzC(typeinfo(xyzC),"xyzC");
+  // in a .cc file preferably in the same file as the definition of XyzC <p>
+  //  static TypeNameC typeNameXyz(typeinfo(XyzC),"XyzC");
   
   class TypeNameC {
   public:

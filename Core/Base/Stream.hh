@@ -4,14 +4,14 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLSTREAM_HEADER
-#define RAVLSTREAM_HEADER 1
+#ifndef RAVL_STREAM_HEADER
+#define RAVL_STREAM_HEADER 1
 /////////////////////////////////////////////////////////////
 //! file="Ravl/Core/Base/Stream.hh"
 //! lib=RavlCore
 //! date="23/04/98"
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.IO"
+//! docentry="Ravl.Core.IO.Streams"
 //! rcsid="$Id$"
 //! userlevel=Default
 

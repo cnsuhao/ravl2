@@ -14,10 +14,12 @@
 
 namespace RavlN {
 
+  extern void IncludeFileFormatStream();
   //: Initalise all the core IO.
   
   void InitCoreIO() {
     InitFixedIndexIO();
+    IncludeFileFormatStream();
   }
   
 }

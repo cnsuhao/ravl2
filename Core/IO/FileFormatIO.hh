@@ -4,14 +4,14 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLFILEFORMATIO_HEADER
-#define RAVLFILEFORMATIO_HEADER 1
+#ifndef RAVL_FILEFORMATIO_HEADER
+#define RAVL_FILEFORMATIO_HEADER 1
 /////////////////////////////////////////
 //! lib=RavlIO
 //! rcsid="$Id$"
 //! file="Ravl/Core/IO/FileFormatIO.hh"
 //! author="Charles Galambos"
-//! date="13/08/98"
+//! date="13/08/1998"
 //! docentry="Ravl.Core.IO" 
 
 // These functions provide an interface to the system file format registry,
@@ -30,6 +30,8 @@ namespace RavlN {
   class IStreamC;
   class OStreamC;
   template <class DataC> class DListC;
+
+  //! userlevel=Normal
   
   template<class DataT>
   bool Load(const StringC &filename,DataT &obj,StringC fileformat = "",bool verbose = false) {
@@ -48,7 +50,7 @@ namespace RavlN {
   //!param: obj - name of C++ object
   //!param: fileformat - format of object file. If fileformat string is empty, the file format is detected automatically.  To get a list of file formats, type <code>conv -lf</code>
   //!param: verbose -  if true, a message is printed to stdout describing the filename, the format used, the object type being loaded and any status information. 
-  // More information <a href="../Tree/Basic_Types.IO.html#LoadSave">here</a>
+  // More information <a href="../Tree/Ravl.Core.IO.html#LoadSave">here</a>
   
   template<class DataT>
     bool Save(const StringC &filename,const DataT &obj,StringC fileformat = "",bool verbose = false) {
@@ -72,7 +74,7 @@ namespace RavlN {
   //!param: obj - name of C++ object
   //!param: fileformat - format of object file. If fileformat string is empty, the file format is detected automatically.  To get a list of file formats, type <code>conv -lf</code>
   //!param: verbose -  if true, a message is printed to stdout describing the filename, the format used, the object type being loaded and any status information. 
-  // More information <a href="../Tree/Basic_Types.IO.html#LoadSave">here</a>
+  // More information <a href="../Tree/Ravl.Core.IO.html#LoadSave">here</a>
 
   template<class DataT>
   bool Load(IStreamC &is,DataT &obj,StringC fileformat = "",bool verbose = false) {
@@ -84,12 +86,13 @@ namespace RavlN {
     }
     return in.Get(obj);
   }
+  //! userlevel=Normal
   //: Load a single object from a stream
   //!param: os - stream from which to load object.
   //!param: obj - name of C++ object
   //!param: fileformat - format of object file. If fileformat string is empty, the file format is detected automatically.  To get a list of file formats, type <code>conv -lf</code>
   //!param: verbose -  if true, a message is printed to stdout describing the filename, the format used, the object type being loaded and any status information. 
-  // More information <a href="../Tree/Basic_Types.IO.html#LoadSave">here</a>
+  // More information <a href="../Tree/Ravl.Core.IO.html#LoadSave">here</a>
   
   template<class DataT>
     bool Save(OStreamC &os,const DataT &obj,StringC fileformat = "",bool verbose = false) {
@@ -111,53 +114,60 @@ namespace RavlN {
   //!param: obj - name of C++ object
   //!param: fileformat - format of object file. If fileformat string is empty, the file format is detected automatically.  To get a list of file formats, type <code>conv -lf</code>
   //!param: verbose -  if true, a message is printed to stdout describing the filename, the format used, the object type being loaded and any status information. 
-  // More information <a href="../Tree/Basic_Types.IO.html#LoadSave">here</a>
+  // More information <a href="../Tree/Ravl.Core.IO.html#LoadSave">here</a>
   
   bool Load(const StringC &filename,RCWrapAbstractC &obj,StringC fileformat,bool verbose);
+  //! userlevel=Advanced
   //: Load to an abstract object handle.
   // NB. an instace of TypeInfoInstC must exists for the contained class if this
   // is to work.
   
   bool Save(const StringC &filename,const RCWrapAbstractC &obj,StringC fileformat,bool verbose);
+  //! userlevel=Advanced
   //: Save an abstract object handle.
   // NB. an instace of TypeInfoInstC must exists for the contained class if this
   // is to work.
   
   DListC<FileFormatBaseC> ListFormats(bool forLoad,const StringC &fileFormat = StringC(""),const type_info &typespec = typeid(void));
+  //! userlevel=Normal
   //: List all file formats that support the given type.
   // forLoad == true, then for load. forLoad == false, then for save. <p>  
   // If fileFormat string is empty then all file formats are listed. <p>
   // If typespec is void then all types are listed.
   
   FileFormatBaseC Identify(const StringC &afile);
+  //! userlevel=Normal
   //: Identify a file.
   // If file format is unrecognised the returned FileFormatBaseC will be an invalid handle.
   
   FileFormatBaseC Identify(IStreamC &is);
+  //! userlevel=Normal
   //: Identify a stream.
   // If file format is unrecognised the returned FileFormatBaseC will be an invalid handle.
   
-  //! userlevel=Develop
-  
   DPIPortBaseC BaseLoad(const StringC &filename,StringC fformat,const type_info &obj_type,bool verbose = false);
+  //! userlevel=Develop
   //: Base load function.
   // If fileformat string is empty, the file format is detected automaticly.
   // When verbose flag is true, a message is printed to stdout describing the filename, the format
   // used and the object type being loaded. 
   
   DPOPortBaseC BaseSave(const StringC &filename,StringC fformat,const type_info &obj_type,bool verbose = false);
+  //! userlevel=Develop
   //: Base save function.
   // If fileformat string is empty, the default file format for the type is used.
   // When verbose flag is true, a message is printed to stdout describing the filename, the format
   // used and the object type being saved. 
   
   DPIPortBaseC BaseLoad(IStreamC &is,StringC fformat,const type_info &obj_type,bool verbose = false);
+  //! userlevel=Develop
   //: Base load function for streams.
   // If fileformat string is empty, the file format is detected automaticly.
   // When verbose flag is true, a message is printed to stdout describing the filename, the format
   // used and the object type being loaded. 
   
   DPOPortBaseC BaseSave(OStreamC &os,StringC fformat,const type_info &obj_type,bool verbose = false);
+  //! userlevel=Develop
   //: Base save function for streams
   // If fileformat string is empty, the default file format for the type is used.
   // When verbose flag is true, a message is printed to stdout describing the filename, the format

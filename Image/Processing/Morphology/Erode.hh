@@ -44,9 +44,9 @@ namespace RavlImageN
     }
   }
   //: Binary erosion
-  // This code does not deal with boundry conditions. It will write the output into the appropriate
-  // place in 'results', if results is doesn't contain the appropriate range of pixels it will be
-  // reallocated.
+  // This code does not deal with boundry conditions, the output rectangle is smaller than the input. 
+  // The center of the kernel is take to be the origin (0,0), the results are placed in the corresponding location in the 'result'
+  // image. If results rectangle is not large enough it will be reallocated.
   
 }
 

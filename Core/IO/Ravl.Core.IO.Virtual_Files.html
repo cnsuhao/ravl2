@@ -1,0 +1,24 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Virtual files</title>
+  </head>
+  <body>
+    The RAVL IO mechanism includes a way of accessing various system
+    resources like they were a file, much like devices in /dev under
+    UN*X.  In RAVL all virtual devices start with the @
+    charactor. They allow you to access things like frame grabbers and
+    the display as if it was a file. 
+    <p></p>
+      
+    Here's some examples:
+    <lu>
+      <li><a href="Ravl.GUI.Data_Display.html"><b>@X</b> and <b>@XA</b></a> Used to display images on the screen. </li>
+      <li><a href="Ravl.Contrib.Image_IO.Video4Linux.html"><b>@V4L</b> and <b>@V4LH</b></a> Access a video 4 linux frame grabber. (From RAVL's Contrib library) </li>
+      <li><a href="Ravl.Contrib.Image_IO.Meteor1.html"><b>@METEOR1</b></a> Access a meteor 1 frame grabber. (From RAVL's Contrib library) </li>
+      <li><B>@str</b> Allows a string embeded in a program to read as a file. </li>
+    </lu>
+    
+    
+  </body>
+</html>

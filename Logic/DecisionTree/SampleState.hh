@@ -16,6 +16,9 @@
 #include "Ravl/Logic/State.hh"
 
 namespace RavlLogicN {
+  
+  //! userlevel=Normal
+  //: Set of example states.
 
   class SampleStateC
     : public SampleDiscreteC<StateC>

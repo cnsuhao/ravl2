@@ -1,3 +1,13 @@
 ! author="Charles Galambos"
 : Memory management system. 
 
+These classes provide a thread safe reference counting mechanism used
+in most of the classes in RAVL. Note: to keep the implementation
+simple and efficient we don't do any kind of garbage collection, so if
+you create a loop of references the objects in question will NOT be
+destroyed automaticly.  The two common ways of getting around this
+problem are to either use a container class like GraphC which can cope
+with loopes of refrences or to make a parent class for the structure
+which manages the destruction of the object ensureing all the loops
+are broken when they are no longer needed.
+
