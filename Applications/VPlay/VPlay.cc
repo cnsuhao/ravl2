@@ -107,6 +107,7 @@ int doVPlay(int nargs,char *args[])
   //bool deInterlace = option.Boolean("di",false,"De-interlace. (Subsample by 2) ");
   StringC formatIn = option.String("if","","Input format. ");
   StringC infile = option.String("","","Input filename");  
+  DListC<StringC> attribs = option.List("a","List of attributes to set. ");
   if(infile.IsEmpty())
     infile = option.String("","in.pgm","Input filename");
   
@@ -127,8 +128,14 @@ int doVPlay(int nargs,char *args[])
     cerr << "VPlay: Failed to open '" << infile << "'\n";
     exit(1);
   }
-  ONDEBUG(cerr << "VPlay: Sequence opened.\n");
+  for(DLIterC<StringC> it(attribs);it;it++) {
+    StringC attrName = it->before('=').TopAndTail();
+    StringC attrValue = it->after('=').TopAndTail();
+    if(!vidIn.SetAttr(attrName,attrValue))
+      cerr << "WARNING: Failed to set attribute '" << attrName << "' to '" << attrValue <<  "'\n";
+  }
   
+  ONDEBUG(cerr << "VPlay: Sequence opened.\n");
   if(start < 0) {
     start = vidIn.Tell();
     if(start < 0)
