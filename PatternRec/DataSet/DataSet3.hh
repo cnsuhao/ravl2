@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLDATASET3_HEADER
-#define RAVLDATASET3_HEADER 1
+#ifndef RAVL_DATASET3_HEADER
+#define RAVL_DATASET3_HEADER 1
 //! rcsid="$Id$"
 //! author="Kieron Messer"
 //! docentry="Ravl.Pattern Recognition.Data Set"
@@ -30,7 +30,7 @@ namespace RavlN {
   public:
     DataSet3BodyC(UIntT sizeEstimate)
       : DataSet2BodyC<Sample1T,Sample2T>(sizeEstimate),
-	samp3(sizeEstimate,true)
+	samp3(sizeEstimate)
     {}
     //: Default constructor.
     

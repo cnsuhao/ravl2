@@ -33,7 +33,7 @@ namespace RavlN {
     //: Type of data in sample.
     
     SampleC(SizeT maxSize=10)
-      //: DArray1dC()
+      : DArray1dC<DataT>(maxSize,true)
     {}
     //: Create a sample of data with a maximum size
     

@@ -29,7 +29,7 @@ namespace RavlN {
   public:
     DataSet1BodyC(UIntT sizeEstimate)
       : DataSetBaseBodyC(sizeEstimate),
-	samp1(sizeEstimate,true)
+	samp1(sizeEstimate)
     {}
     //: Create an empty dataset.
     

@@ -30,7 +30,7 @@ namespace RavlN {
   public:
     DataSet2BodyC(UIntT sizeEstimate)
       : DataSet1BodyC<Sample1T>(sizeEstimate),
-	samp2(sizeEstimate,true)    
+	samp2(sizeEstimate)
     {}
     //: Constructor.
     
