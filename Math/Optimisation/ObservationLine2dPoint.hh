@@ -27,10 +27,10 @@ namespace RavlN {
   {
   public:
 
-    ObservationLine2dPointBodyC(const VectorC &z, const MatrixRSC &Ni);
+    ObservationLine2dPointBodyC(const Vector2dC &z, const MatrixRSC &Ni);
     //: Constructor.
     
-    ObservationLine2dPointBodyC(const VectorC &z, const MatrixRSC &Ni,
+    ObservationLine2dPointBodyC(const Vector2dC &z, const MatrixRSC &Ni,
 				RealT varScale, RealT chi2Thres);
     //: Constructor for robust bi-Gaussian observation.
 
@@ -77,12 +77,12 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    ObservationLine2dPointC(const VectorC &z, const MatrixRSC &Ni)
+    ObservationLine2dPointC(const Vector2dC &z, const MatrixRSC &Ni)
       : ObservationImplicitC(*new ObservationLine2dPointBodyC(z,Ni))
     {}
     //: Constructor.
     
-    ObservationLine2dPointC(const VectorC &z, const MatrixRSC &Ni,
+    ObservationLine2dPointC(const Vector2dC &z, const MatrixRSC &Ni,
 			    RealT varScale, RealT chi2Thres)
       : ObservationImplicitC(*new ObservationLine2dPointBodyC(z,Ni,varScale,chi2Thres))
     {}

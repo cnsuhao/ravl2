@@ -18,32 +18,22 @@ namespace RavlN {
 
   // Shrink-wrap homography fitting function
   const StateVectorAffine2dC
-  Optimise2dAffineHomography ( DListC<Point2dPairC> &matchList,
-			       RealT varScale=10.0,
-			       RealT chi2Thres=5.0,
-			       UIntT noRansacIterations=100,
-			       RealT ransacChi2Thres=3.0,
-			       RealT compatChi2Thres=5.0,
-			       UIntT noLevMarqIterations=10,
-			       RealT lambdaStart=0.1,
-			       RealT lambdaFactor=0.1 )
+  Optimise2dAffineHomography ( DListC<Point2dPairObsC> &matchList,
+			       RealT varScale,
+			       RealT chi2Thres,
+			       UIntT noRansacIterations,
+			       RealT ransacChi2Thres,
+			       RealT compatChi2Thres,
+			       UIntT noLevMarqIterations,
+			       RealT lambdaStart,
+			       RealT lambdaFactor )
   {
     // build list of observations
     DListC<ObservationC> obsList;
-    for(DLIterC<Point2dPairC> it(matchList);it;it++)
+    for(DLIterC<Point2dPairObsC> it(matchList);it;it++)
       obsList.InsLast(ObservationAffine2dPointC(it.Data().z1(),it.Data().Ni1(),
 						it.Data().z2(),it.Data().Ni2(),
 						varScale, chi2Thres));
-#if 0
-    for(DLIterC<ObservationC> it(obsList);it;it++) {
-      ObservationAffine2dPointC obs = it.Data();
-      cout << "z1: " << obs.GetZ1() << endl;
-      cout << "Ni1: " << obs.GetNi1() << endl;
-      cout << "z2: " << obs.GetZ() << endl;
-      cout << "Ni2: " << obs.GetNi() << endl;
-    }
-#endif
-
     // Build RANSAC components
     ObservationListManagerC obsManager(obsList);
     FitAffine2dPointsC fitter;
@@ -66,6 +56,6 @@ namespace RavlN {
     // apply Levenberg-Marquardt iterations
     lm.NIterations ( obsList, noLevMarqIterations, lambdaStart, lambdaFactor );
 
-    return lm.SolutionVector();
+    return lm.GetSolution();
   }
 }

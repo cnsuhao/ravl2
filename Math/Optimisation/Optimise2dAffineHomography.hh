@@ -15,7 +15,7 @@
 //! lib=RavlOptimise
 
 #include "Ravl/StateVectorAffine2d.hh"
-#include "Ravl/Point2dPair.hh"
+#include "Ravl/Point2dPairObs.hh"
 #include "Ravl/DList.hh"
 
 namespace RavlN {
@@ -33,7 +33,7 @@ namespace RavlN {
   //  <li> lambdaFactor: Multiplication factor for damping factor lambda.
   // </ul>
   const StateVectorAffine2dC
-  Optimise2dAffineHomography ( DListC<Point2dPairC> &matchList,
+  Optimise2dAffineHomography ( DListC<Point2dPairObsC> &matchList,
 			       RealT varScale=10.0,
 			       RealT chi2Thres=5.0,
 			       UIntT noRansacIterations=100,

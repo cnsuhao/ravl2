@@ -19,10 +19,10 @@ namespace RavlN {
   ObservationHomog2dPointBodyC::ObservationHomog2dPointBodyC(
 			     const Vector2dC &nz1, const MatrixRSC &nNi1,
 			     const Vector2dC &nz2, const MatrixRSC &nNi2)
-    : ObservationExplicitBodyC(ObsVectorC(nz2,nNi2))
+    : ObservationExplicitBodyC(ObsVectorC(nz2,nNi2)),
+      z1(nz1),
+      Ni1(nNi1.Copy())
   {
-    z1 = nz1;
-    Ni1 = nNi1;
   }
 
   //: Constructor for robust bi-Gaussian observation.
@@ -30,10 +30,10 @@ namespace RavlN {
 			     const Vector2dC &nz1, const MatrixRSC &nNi1,
 			     const Vector2dC &nz2, const MatrixRSC &nNi2,
 			     RealT varScale, RealT chi2Thres)
-    : ObservationExplicitBodyC(ObsVectorBiGaussianC(nz2,nNi2,varScale,chi2Thres))
+    : ObservationExplicitBodyC(ObsVectorBiGaussianC(nz2,nNi2,varScale,chi2Thres)),
+      z1(nz1),
+      Ni1(nNi1.Copy())
   {
-    z1 = nz1;
-    Ni1 = nNi1;
   }
 
   //: Evaluate an observation for a single point

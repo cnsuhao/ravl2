@@ -15,6 +15,7 @@
 //! lib=RavlOptimise
 
 #include "Ravl/ObsVectorBiGaussian.hh"
+#include "Ravl/Vector2d.hh"
 
 namespace RavlN {
 
@@ -25,12 +26,12 @@ namespace RavlN {
     : public ObsVectorBodyC
   {
   public:
-    ObsVectorPoint2dPairBodyC(const VectorC &z1, const MatrixRSC &Ni1,
-			      const VectorC &z2, const MatrixRSC &Ni2);
+    ObsVectorPoint2dPairBodyC(const Vector2dC &z1, const MatrixRSC &Ni1,
+			      const Vector2dC &z2, const MatrixRSC &Ni2);
     //: Constructor.
 
   private:
-    static VectorC BuildZ(const VectorC &z1, const VectorC &z2);
+    static VectorC BuildZ(const Vector2dC &z1, const Vector2dC &z2);
     //: static method to build observation vector from sub-vectors
 
     static MatrixRSC BuildNi(const MatrixRSC &Ni1, const MatrixRSC &Ni2);
@@ -52,8 +53,8 @@ namespace RavlN {
     : public ObsVectorC
   {
   public:
-    ObsVectorPoint2dPairC(const VectorC &z1, const MatrixRSC &Ni1,
-			  const VectorC &z2, const MatrixRSC &Ni2)
+    ObsVectorPoint2dPairC(const Vector2dC &z1, const MatrixRSC &Ni1,
+			  const Vector2dC &z2, const MatrixRSC &Ni2)
       : ObsVectorC(*new ObsVectorPoint2dPairBodyC(z1,Ni1,z2,Ni2))
     {}
     //: Constructor
@@ -97,13 +98,13 @@ namespace RavlN {
     : public ObsVectorBiGaussianBodyC
   {
   public:
-    ObsVectorBGPoint2dPairBodyC(const VectorC &z1, const MatrixRSC &Ni1,
-				const VectorC &z2, const MatrixRSC &Ni2,
+    ObsVectorBGPoint2dPairBodyC(const Vector2dC &z1, const MatrixRSC &Ni1,
+				const Vector2dC &z2, const MatrixRSC &Ni2,
 				RealT varScale, RealT chi2Thres);
     //: Constructor.
 
   private:
-    static VectorC BuildZ(const VectorC &z1, const VectorC &z2);
+    static VectorC BuildZ(const Vector2dC &z1, const Vector2dC &z2);
     //: static method to build observation vector from sub-vectors
 
     static MatrixRSC BuildNi(const MatrixRSC &Ni1, const MatrixRSC &Ni2);
@@ -127,8 +128,8 @@ namespace RavlN {
     : public ObsVectorBiGaussianC
   {
   public:
-    ObsVectorBGPoint2dPairC(const VectorC &z1, const MatrixRSC &Ni1,
-			    const VectorC &z2, const MatrixRSC &Ni2,
+    ObsVectorBGPoint2dPairC(const Vector2dC &z1, const MatrixRSC &Ni1,
+			    const Vector2dC &z2, const MatrixRSC &Ni2,
 			    RealT varScale, RealT chi2Thres)
       : ObsVectorBiGaussianC(*new ObsVectorBGPoint2dPairBodyC(z1,Ni1,z2,Ni2,varScale,chi2Thres))
     {}

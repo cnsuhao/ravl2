@@ -115,15 +115,16 @@ int main() {
   cerr << "Solution=" << x << "\n";
   
   // Test shrink-wrapped function
-  cout << "Testing shrink-wrap function" << endl;
-  DListC<Point2dPairC> matchList;
+  cerr << endl;
+  cerr << "Testing shrink-wrap function" << endl;
+  DListC<Point2dPairObsC> matchList;
   for(DLIterC<ObservationC> it(obsList);it;it++) {
       ObservationAffine2dPointC obs = it.Data();
       Vector2dC z2;
       z2[0] = obs.GetZ()[0];
       z2[1] = obs.GetZ()[1];
-      matchList.InsLast(Point2dPairC(obs.GetZ1(), obs.GetNi1(),
-				     z2,          obs.GetNi()));
+      matchList.InsLast(Point2dPairObsC(obs.GetZ1(), obs.GetNi1(),
+					z2,          obs.GetNi()));
   }
   
   StateVectorAffine2dC stateVec =

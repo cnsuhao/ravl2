@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLMATH_POINT2DPAIR_HEADER
-#define RAVLMATH_POINT2DPAIR_HEADER 1
+#ifndef RAVLMATH_POINT2DPAIROBS_HEADER
+#define RAVLMATH_POINT2DPAIROBS_HEADER 1
 //! userlevel=Normal
 //! author="Phil McLauchlan"
 //! date="24/7/2002"
@@ -23,16 +23,16 @@ namespace RavlN {
   //! userlevel=Develop
   //: 2D point pair body
   
-  class Point2dPairBodyC
+  class Point2dPairObsBodyC
     : public RCBodyVC
   {
   public:
-    Point2dPairBodyC(const Vector2dC &nz1, const MatrixRSC &nNi1,
-		     const Vector2dC &nz2, const MatrixRSC &nNi2)
+    Point2dPairObsBodyC(const Vector2dC &nz1, const MatrixRSC &nNi1,
+			const Vector2dC &nz2, const MatrixRSC &nNi2)
       : rz1(nz1),
 	rz2(nz2),
-	rNi1(nNi1),
-	rNi2(nNi2)
+	rNi1(nNi1.Copy()),
+	rNi2(nNi2.Copy())
     {}
     //: Constructor.
 
@@ -68,30 +68,30 @@ namespace RavlN {
   //! userlevel=Normal
   //! autoLink=on
   //: 2D point pair class
-  class Point2dPairC
-    : public RCHandleC<Point2dPairBodyC>
+  class Point2dPairObsC
+    : public RCHandleC<Point2dPairObsBodyC>
   {
   public:
-    Point2dPairC(const Vector2dC &z1, const MatrixRSC &Ni1,
-		 const Vector2dC &z2, const MatrixRSC &Ni2)
-      : RCHandleC<Point2dPairBodyC>(*new Point2dPairBodyC(z1,Ni1,z2,Ni2))
+    Point2dPairObsC(const Vector2dC &z1, const MatrixRSC &Ni1,
+		    const Vector2dC &z2, const MatrixRSC &Ni2)
+      : RCHandleC<Point2dPairObsBodyC>(*new Point2dPairObsBodyC(z1,Ni1,z2,Ni2))
     {}
     //: Constructor
     // This sticks the individual point observation vectors and inverse
     // covariance matrices together.
 
   public:
-    Point2dPairC(Point2dPairBodyC &bod)
-      : RCHandleC<Point2dPairBodyC>(bod)
+    Point2dPairObsC(Point2dPairObsBodyC &bod)
+      : RCHandleC<Point2dPairObsBodyC>(bod)
     {}
     //: Body constructor.
     
-    Point2dPairBodyC &Body()
-    { return RCHandleC<Point2dPairBodyC>::Body(); }
+    Point2dPairObsBodyC &Body()
+    { return RCHandleC<Point2dPairObsBodyC>::Body(); }
     //: Access body.
 
-    const Point2dPairBodyC &Body() const
-    { return RCHandleC<Point2dPairBodyC>::Body(); }
+    const Point2dPairObsBodyC &Body() const
+    { return RCHandleC<Point2dPairObsBodyC>::Body(); }
     //: Access body.
     
   public:

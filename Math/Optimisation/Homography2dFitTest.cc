@@ -196,14 +196,14 @@ static bool
 
   // Test shrink-wrapped function
   cout << "Testing shrink-wrap function" << endl;
-  DListC<Point2dPairC> matchList;
+  DListC<Point2dPairObsC> matchList;
   for(DLIterC<ObservationC> it(obsList);it;it++) {
       ObservationHomog2dPointC obs = it.Data();
       Vector2dC z2;
       z2[0] = obs.GetZ()[0];
       z2[1] = obs.GetZ()[1];
-      matchList.InsLast(Point2dPairC(obs.GetZ1(), obs.GetNi1(),
-				     z2,          obs.GetNi()));
+      matchList.InsLast(Point2dPairObsC(obs.GetZ1(), obs.GetNi1(),
+					z2,          obs.GetNi()));
   }
   
   StateVectorHomog2dC stateVec = Optimise2dHomography ( matchList,
@@ -282,6 +282,7 @@ static bool
   LevenbergMarquardtC lm = LevenbergMarquardtC(stateVecInit,
 					       compatibleObsList);
 
+  cout << endl;
   cout << "2D homography fitting test (implicit): Residual=" << lm.GetResidual() << endl;
   cout << "Selected " << compatibleObsList.Size() << " observations using RANSAC" << endl;
   VectorC x = lm.SolutionVector();

@@ -7,52 +7,50 @@
 //! rcsid="$Id$"
 //! lib=RavlOptimise
 
-#include "Ravl/Optimise2dHomography.hh"
-#include "Ravl/ObservationHomog2dPoint.hh"
+#include "Ravl/OptimiseOrthogonalRegression.hh"
+#include "Ravl/ObservationLine2dPoint.hh"
 #include "Ravl/Ransac.hh"
-#include "Ravl/FitHomog2dPoints.hh"
+#include "Ravl/FitLine2dPoints.hh"
 #include "Ravl/EvaluateNumInliers.hh"
 #include "Ravl/LevenbergMarquardt.hh"
 
 namespace RavlN {
 
-  // Shrink-wrap homography fitting function
-  const StateVectorHomog2dC
-  Optimise2dHomography ( DListC<Point2dPairObsC> &matchList,
-			 RealT zh1, RealT zh2,
-			 RealT varScale,
-			 RealT chi2Thres,
-			 UIntT noRansacIterations,
-			 RealT ransacChi2Thres,
-			 RealT compatChi2Thres,
-			 UIntT noLevMarqIterations,
-			 RealT lambdaStart,
-			 RealT lambdaFactor )
+  // Shrink-wrap orthogonal regression line fitting function
+  const StateVectorLine2dC
+  OptimiseOrthogonalRegression ( DListC<Point2dObsC> &matchList,
+				 RealT varScale,
+				 RealT chi2Thres,
+				 UIntT noRansacIterations,
+				 RealT ransacChi2Thres,
+				 RealT compatChi2Thres,
+				 UIntT noLevMarqIterations,
+				 RealT lambdaStart,
+				 RealT lambdaFactor )
   {
     // build list of observations
     DListC<ObservationC> obsList;
-    for(DLIterC<Point2dPairObsC> it(matchList);it;it++)
-      obsList.InsLast(ObservationHomog2dPointC(it.Data().z1(), it.Data().Ni1(),
-					       it.Data().z2(), it.Data().Ni2(),
-					       varScale, chi2Thres));
+    for(DLIterC<Point2dObsC> it(matchList);it;it++)
+      obsList.InsLast(ObservationLine2dPointC(it.Data().z(), it.Data().Ni(),
+					      varScale, chi2Thres));
 
     // Build RANSAC components
     ObservationListManagerC obsManager(obsList);
-    FitHomog2dPointsC fitter(zh1, zh2);
+    FitLine2dPointsC fitter;
     EvaluateNumInliersC evaluator(ransacChi2Thres, compatChi2Thres);
   
-    // use RANSAC to fit homography
+    // use RANSAC to fit affine homography
     RansacC ransac(obsManager, fitter, evaluator);
 
     // select and evaluate the given number of samples
     for ( UIntT iteration=0; iteration < noRansacIterations; iteration++ )
-      ransac.ProcessSample(8);
+      ransac.ProcessSample(3);
 
     // select observations compatible with solution
     obsList = evaluator.CompatibleObservations(ransac.GetSolution(), obsList);
 
     // initialise Levenberg-Marquardt algorithm with Ransac solution
-    StateVectorHomog2dC stateVecInit = ransac.GetSolution();
+    StateVectorLine2dC stateVecInit = ransac.GetSolution();
     LevenbergMarquardtC lm = LevenbergMarquardtC(stateVecInit, obsList);
 
     // apply Levenberg-Marquardt iterations

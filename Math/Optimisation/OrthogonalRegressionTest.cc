@@ -13,6 +13,7 @@
 #include "Ravl/ObsVectorBiGaussian.hh"
 #include "Ravl/Random.hh"
 #include "Ravl/EntryPnt.hh"
+#include "Ravl/OptimiseOrthogonalRegression.hh"
 
 // RANSAC headers
 #include "Ravl/Ransac.hh"
@@ -86,14 +87,14 @@ static void
 #define OUTLIER_SIGMA 1.0
 
 static void
- PrintBestEstimate ( SArray1dC<VectorC> coords )
+ PrintBestEstimate ( SArray1dC<Vector2dC> coords )
 {
   RealT Sx=0.0, Sy=0.0, Sxx=0.0, Sxy=0.0, Syy=0.0;
   UIntT n=0;
 
   // compute solution by orthogonal regression
-  for(SArray1dIterC<VectorC> it(coords);it;it++) {
-    VectorC xy = it.Data();
+  for(SArray1dIterC<Vector2dC> it(coords);it;it++) {
+    Vector2dC xy = it.Data();
 
     Sx += xy[0]; Sy += xy[1];
     Sxx += xy[0]*xy[0]; Sxy += xy[0]*xy[1]; Syy += xy[1]*xy[1];
@@ -130,19 +131,19 @@ static void
 static bool
  TestLine2dFit()
 {
-  SArray1dC<VectorC> coords(NPOINTS);
+  SArray1dC<Vector2dC> coords(NPOINTS);
   DListC<ObservationC> obsList;
 
   // build arrays of x & y coordinates
   IntT i = 0;
-  for(SArray1dIterC<VectorC> it(coords);it;i++, it++) {
+  for(SArray1dIterC<Vector2dC> it(coords);it;i++, it++) {
     // x-coordinates evenly spaced
     RealT x = (RealT) i;
 
     // construct y = a*x^2 + b*y + c + w with added Gaussian noise w
-    it.Data() = VectorC ( x + SIGMA*RandomGauss(),
-			  -(LX_TRUE*x + LZ_TRUE*ZHOMOG)/LY_TRUE
-			  + SIGMA*RandomGauss() );
+    it.Data() = Vector2dC ( x + SIGMA*RandomGauss(),
+			    -(LX_TRUE*x + LZ_TRUE*ZHOMOG)/LY_TRUE
+			    + SIGMA*RandomGauss() );
   }
   
   // construct point observations and create list
@@ -150,7 +151,7 @@ static bool
   MatrixRSC Ni(2);
   Ni.Fill(0.0);
   Ni[0][0] = Ni[1][1] = 1.0/(SIGMA*SIGMA);
-  for(SArray1dIterC<VectorC> it(coords);it;it++, i++)
+  for(SArray1dIterC<Vector2dC> it(coords);it;it++, i++)
     obsList.InsLast(ObservationLine2dPointC(it.Data(), Ni));
 
   // list of compatible observations
@@ -194,25 +195,25 @@ static bool
 static bool
  TestLine2dRobustFit()
 {
-  SArray1dC<VectorC> coords(NPOINTS);
+  SArray1dC<Vector2dC> coords(NPOINTS);
   DListC<ObservationC> obsList;
   StateVectorLine2dC sv;
 
   // build arrays of x & y coordinates
   IntT i = 0;
-  for(SArray1dIterC<VectorC> it(coords);it;i++, it++) {
+  for(SArray1dIterC<Vector2dC> it(coords);it;i++, it++) {
     // x-coordinates evenly spaced
     RealT x = (RealT) i;
 
     if ( i >= 0 && i < 10 )
       // outlier point constructed using uniform distribution over x/y range
-      it.Data() = VectorC ( Random1()*((RealT)NPOINTS),
-			    -(Random1()*LX_TRUE*((RealT)NPOINTS) + LZ_TRUE*ZHOMOG)/LY_TRUE );
+      it.Data() = Vector2dC ( Random1()*((RealT)NPOINTS),
+			      -(Random1()*LX_TRUE*((RealT)NPOINTS) + LZ_TRUE*ZHOMOG)/LY_TRUE );
     else
       // construct y = a*x^2 + b*y + c with added Gaussian noise on x & y
-      it.Data() = VectorC ( x + SIGMA*RandomGauss(),
-			    -(LX_TRUE*x + LZ_TRUE*ZHOMOG)/LY_TRUE
-			    + SIGMA*RandomGauss() );
+      it.Data() = Vector2dC ( x + SIGMA*RandomGauss(),
+			      -(LX_TRUE*x + LZ_TRUE*ZHOMOG)/LY_TRUE
+			      + SIGMA*RandomGauss() );
 
 #if 0
     RealT s2 = LX_TRUE*LX_TRUE + LY_TRUE*LY_TRUE;
@@ -225,7 +226,7 @@ static bool
   MatrixRSC Ni(2);
   Ni.Fill(0.0);
   Ni[0][0] = Ni[1][1] = 1.0/(SIGMA*SIGMA);
-  for(SArray1dIterC<VectorC> it(coords);it;it++, i++)
+  for(SArray1dIterC<Vector2dC> it(coords);it;it++, i++)
     obsList.InsLast(ObservationLine2dPointC(it.Data(), Ni,
 					     Sqr(OUTLIER_SIGMA/SIGMA), 5.0));
 
@@ -267,6 +268,24 @@ static bool
   cout << "Final solution: lx=" << sv.GetLx() << " ly=" << sv.GetLy() << " lz=" << sv.GetLz() << endl;
   RealT s = sqrt(LX_TRUE*LX_TRUE + LY_TRUE*LY_TRUE);
   cout << "Ground truth: lx=" << LX_TRUE/s << " ly=" << LY_TRUE/s << " lz=" << LZ_TRUE/s << endl;
+  PrintInlierFlags(obsList);
+  cout << endl;
+
+  // Test shrink-wrapped function
+  cout << endl;
+  cout << "Testing shrink-wrap function" << endl;
+  DListC<Point2dObsC> matchList;
+  for(DLIterC<ObservationC> it(obsList);it;it++) {
+    ObservationLine2dPointC obs = it.Data();
+    Vector2dC z(obs.GetZ()[0],obs.GetZ()[1]);
+    matchList.InsLast(Point2dObsC(z,obs.GetNi()));
+  }
+  
+  sv = OptimiseOrthogonalRegression ( matchList,
+				      Sqr(OUTLIER_SIGMA/SIGMA),
+				      5.0, RANSAC_ITERATIONS,
+				      3.0, 10.0, 20, 100.0, 0.1 );
+  cout << "Final solution: lx=" << sv.GetLx() << " ly=" << sv.GetLy() << " lz=" << sv.GetLz() << endl;
   PrintInlierFlags(obsList);
   cout << endl;
 

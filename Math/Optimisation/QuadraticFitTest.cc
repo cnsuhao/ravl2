@@ -16,6 +16,7 @@
 #include "Ravl/Vector3d.hh"
 #include "Ravl/Matrix3d.hh"
 #include "Ravl/EntryPnt.hh"
+#include "Ravl/OptimiseQuadraticCurve.hh"
 
 // RANSAC headers
 #include "Ravl/Ransac.hh"
@@ -246,6 +247,27 @@ static bool
   }
 
   StateVectorQuadraticC sv = lm.GetSolution();
+  cout << "Final solution: a=" << sv.GetA() << " b=" << sv.GetB() << " c=" << sv.GetC() << " Residual=" << lm.GetResidual() << endl;
+  PrintInlierFlags(obsList);
+  cout << endl;
+
+  // Test shrink-wrapped function
+  cout << endl;
+  cout << "Testing shrink-wrap function" << endl;
+  DListC<Point2dObsC> matchList;
+  for(DLIterC<ObservationC> it(obsList);it;it++) {
+      ObservationQuadraticPointC obs = it.Data();
+      Vector2dC z(obs.GetXC(),obs.GetZ()[0]);
+      MatrixRSC Ni(2);
+      Ni.Fill(0.0);
+      Ni[1][1] = obs.GetNi()[0][0];
+      matchList.InsLast(Point2dObsC(z,Ni));
+  }
+  
+  sv = OptimiseQuadraticCurve ( matchList,
+				Sqr(OUTLIER_SIGMA/SIGMA),
+				5.0, RANSAC_ITERATIONS,
+				3.0, 10.0, 20, 100.0, 0.1 );
   cout << "Final solution: a=" << sv.GetA() << " b=" << sv.GetB() << " c=" << sv.GetC() << " Residual=" << lm.GetResidual() << endl;
   PrintInlierFlags(obsList);
   cout << endl;

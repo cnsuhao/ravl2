@@ -12,8 +12,8 @@
 namespace RavlN {
 
   //: static method to build observation vector from sub-vectors
-  VectorC ObsVectorPoint2dPairBodyC::BuildZ(const VectorC &nz1,
-					    const VectorC &nz2)
+  VectorC ObsVectorPoint2dPairBodyC::BuildZ(const Vector2dC &nz1,
+					    const Vector2dC &nz2)
   {
     VectorC z(4);
 
@@ -39,17 +39,17 @@ namespace RavlN {
   }
 
   //: Constructor
-  ObsVectorPoint2dPairBodyC::ObsVectorPoint2dPairBodyC(const VectorC &nz1,
+  ObsVectorPoint2dPairBodyC::ObsVectorPoint2dPairBodyC(const Vector2dC &nz1,
 						       const MatrixRSC &nNi1,
-						       const VectorC &nz2,
+						       const Vector2dC &nz2,
 						       const MatrixRSC &nNi2)
     : ObsVectorBodyC(BuildZ(nz1,nz2),BuildNi(nNi1,nNi2))
   {
   }
 
   //: static method to build observation vector from sub-vectors
-  VectorC ObsVectorBGPoint2dPairBodyC::BuildZ(const VectorC &nz1,
-					      const VectorC &nz2)
+  VectorC ObsVectorBGPoint2dPairBodyC::BuildZ(const Vector2dC &nz1,
+					      const Vector2dC &nz2)
   {
     VectorC z(4);
 
@@ -75,9 +75,9 @@ namespace RavlN {
   }
 
   //: Constructor
-  ObsVectorBGPoint2dPairBodyC::ObsVectorBGPoint2dPairBodyC(const VectorC &nz1,
+  ObsVectorBGPoint2dPairBodyC::ObsVectorBGPoint2dPairBodyC(const Vector2dC &nz1,
 							   const MatrixRSC &nNi1,
-							   const VectorC &nz2,
+							   const Vector2dC &nz2,
 							   const MatrixRSC &nNi2,
 							   RealT nvarScale,
 							   RealT nchi2Thres)

@@ -15,14 +15,14 @@ namespace RavlN {
 
   //: Constructor.
   ObservationLine2dPointBodyC::ObservationLine2dPointBodyC(
-				   const VectorC &nz, const MatrixRSC &nNi)
+				   const Vector2dC &nz, const MatrixRSC &nNi)
     : ObservationImplicitBodyC(ObsVectorC(nz,nNi),1)
   {
   }
 
   //: Constructor for robust bi-Gaussian observation.
   ObservationLine2dPointBodyC::ObservationLine2dPointBodyC(
-			     const VectorC &nz, const MatrixRSC &nNi,
+			     const Vector2dC &nz, const MatrixRSC &nNi,
 			     RealT nvarScale, RealT nchi2Thres)
     : ObservationImplicitBodyC(ObsVectorBiGaussianC(nz,nNi,nvarScale,nchi2Thres),1)
   {

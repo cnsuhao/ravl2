@@ -4,26 +4,25 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLMATH_OPTIMISE2DHOMOGRAPHY_HEADER
-#define RAVLMATH_OPTIMISE2DHOMOGRAPHY_HEADER 1
+#ifndef RAVLMATH_OPTIMISEQUADRATICCURVE_HEADER
+#define RAVLMATH_OPTIMISEQUADRATICCURVE_HEADER 1
 //! userlevel=Normal
 //! author="Phil McLauchlan"
 //! date="24/7/2002"
 //! rcsid="$Id$"
 //! docentry="Ravl.Math.Optimisation.Examples"
-//! example="Homography2dFitTest.cc"
+//! example="QuadraticFitTest.cc"
 //! lib=RavlOptimise
 
-#include "Ravl/StateVectorHomog2d.hh"
-#include "Ravl/Point2dPairObs.hh"
+#include "Ravl/StateVectorQuadratic.hh"
+#include "Ravl/Point2dObs.hh"
 #include "Ravl/DList.hh"
 
 namespace RavlN {
 
-  //: Shrink-wrap 2D homography fitting function
+  //: Shrink-wrap quadratic curve fitting function
   // <ul>
-  //  <li> matchList: A list of 2D point pair matches on two planes.
-  //  <li> zh1 and zh2: The 3rd homogeneous coordinates for planes 1 and 2.
+  //  <li> matchList: A list of 2D points.
   //  <li> varScale: The ratio of outlier and inlier error standard deviations.
   //  <li> noRansacIterations: The number of RANSAC iterations to perform.
   //  <li> ransacChi2Thres: The RANSAC inlier error threshold.
@@ -33,17 +32,16 @@ namespace RavlN {
   //  <li> lambdaStart: Starting value for the damping factor lambda.
   //  <li> lambdaFactor: Multiplication factor for damping factor lambda.
   // </ul>
-  const StateVectorHomog2dC
-  Optimise2dHomography ( DListC<Point2dPairObsC> &matchList,
-			 RealT zh1=1.0, RealT zh2=1.0,
-			 RealT varScale=10.0,
-			 RealT chi2Thres=5.0,
-			 UIntT noRansacIterations=100,
-			 RealT ransacChi2Thres=3.0,
-			 RealT compatChi2Thres=5.0,
-			 UIntT noLevMarqIterations=10,
-			 RealT lambdaStart=0.1,
-			 RealT lambdaFactor=0.1 );
+  const StateVectorQuadraticC
+  OptimiseQuadraticCurve ( DListC<Point2dObsC> &matchList,
+			   RealT varScale=10.0,
+			   RealT chi2Thres=5.0,
+			   UIntT noRansacIterations=100,
+			   RealT ransacChi2Thres=3.0,
+			   RealT compatChi2Thres=5.0,
+			   UIntT noLevMarqIterations=10,
+			   RealT lambdaStart=0.1,
+			   RealT lambdaFactor=0.1 );
 
 }  
 
