@@ -28,6 +28,6 @@ USESLIBS = RavlCore RavlOS RavlImage RavlOSIO RavlGUI RavlDPMT RavlGUI2D RavlGUI
 
 PROGLIBS = RavlDV.opt RavlImgIOV4L.opt RavlExtImgIO.opt RavlDPDisplay \
  RavlImageIO RavlVideoIO  CSPDriver.opt RavlURLIO.opt RavlLibMPEG2.opt \
- RavlImgIO1394dc.opt RavlImageProc RavlNet RavlDVDRead.opt
+ RavlImgIO1394dc.opt RavlImageProc RavlNet RavlDVDRead.opt RavlAVIFile.opt
 
 #EHT = exeVPlay.eht
