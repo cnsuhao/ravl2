@@ -51,8 +51,8 @@ sub Build () {
   my $MAILLOGS = $config{MAILLOGS};
   # run commands
   print "Starting $friendlyname\n";
-  if (system("$command >& $logfile") != 0) {
-    # failure!
+  if (system("$command > $logfile 2>&1") != 0) {
+# failure!
     my $message = "$friendlyname failed - tree $TREENO";
     # alert user
     print "$message \n" ;
