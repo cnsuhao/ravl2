@@ -35,6 +35,11 @@ namespace RavlN {
       : IndexRange2dC(oth)
       {}
     //: Base constructor.
+
+    ImageRectangleC(IntT rows,IntT cols)
+      : IndexRange2dC(0,rows,0,cols)
+      {}
+    //: Construct a rectangle of the given size with an origin of 0,0
     
     ImageRectangleC(const Index2dC &org,const Index2dC &end)
       : IndexRange2dC(org,end)
