@@ -23,9 +23,9 @@
 #else
 #define YYDEBUG 0
 #endif
-#if RAVL_COMPILER_MIPSPRO
+
 #include <stdlib.h>
-#endif 
+
 
 using namespace RavlN;
 using namespace RavlCxxDocN;

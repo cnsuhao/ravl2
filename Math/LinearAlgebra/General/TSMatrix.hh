@@ -562,7 +562,7 @@ namespace RavlN {
   template<class DataT>
   TSMatrixC<DataT> TSMatrixBodyC<DataT>::AAT() const { 
     int n = Rows();
-    TSMatrixC<DataT> out(*new TSMatrixSymmetricBodyC<DataT>(n));
+    TSMatrixC<DataT> out((TSMatrixBodyC<DataT> &)*new TSMatrixSymmetricBodyC<DataT>(n));
     const SizeT rdim = Rows();
     SArray1dC<Array1dC<DataT> > rowArr(rdim);
     for(UIntT c = 0;c < rdim;c++)
@@ -579,7 +579,7 @@ namespace RavlN {
   template<class DataT>
   TSMatrixC<DataT> TSMatrixBodyC<DataT>::ATA() const { 
     int n = Cols();
-    TSMatrixC<DataT> out(*new TSMatrixSymmetricBodyC<DataT>(n));
+    TSMatrixC<DataT> out((TSMatrixBodyC<DataT> &)*new TSMatrixSymmetricBodyC<DataT>(n));
     for(int i = 0;i < n;i++) {
       Slice1dC<DataT> sl = Col(i);
       out.Element(i,i,sl.SumOfSqr());

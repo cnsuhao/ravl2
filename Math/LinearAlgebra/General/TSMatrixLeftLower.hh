@@ -14,6 +14,7 @@
 //! file="Ravl/Math/LinearAlgebra/General/TSMatrixLeftLower.hh"
 
 #include "Ravl/TSMatrixPartial.hh"
+#include "Ravl/TSMatrixSymmetric.hh"
 #include "Ravl/Math.hh"
 
 namespace RavlN {

@@ -23,6 +23,7 @@
 #include "Ravl/IO.hh"
 
 #include <time.h>
+#include <stdlib.h>
 
 extern void InitFileFormatBinStream();
 extern void InitLineIO();

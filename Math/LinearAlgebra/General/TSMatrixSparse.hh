@@ -13,6 +13,7 @@
 //! docentry="Ravl.Math.Linear Algebra.Smart Matrix"
 
 #include "Ravl/TSMatrix.hh"
+#include "Ravl/TSMatrixSymmetric.hh"
 #include "Ravl/IntrDList.hh"
 #include "Ravl/IntrDLIter.hh"
 #include "Ravl/BfAcc2Iter.hh"

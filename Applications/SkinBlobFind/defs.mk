@@ -6,6 +6,7 @@
 # file-header-ends-here
 #! rcsid="$Id$"
 #! file="Ravl/Applications/SkinBlobFind/defs.mk"
+DONOT_SUPPORT=arm
 MAINS=SkinBlobFind.cc
 USESLIBS=RavlImage RavlImageIO RavlExtImgIO RavlOSIO RavlImageProc
 EHT=exeSkinBlobFind.eht
