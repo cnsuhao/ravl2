@@ -85,10 +85,10 @@ namespace RavlN {
   
   MatrixC SolvePD(const MatrixC &A,const MatrixC &B);
   //: Solve a general linear system  A*X = B where A is postive definite.
-  // This return's X, or a 0 by 0 matrix if it fails.
+  // This returns the solution X, or a 0 by 0 matrix if it fails.
   
   bool SolvePD_IP(MatrixC &A,MatrixC &B);
-  //: Solve a general linear system  A*X = B where A is postive definite in place.
+  //: Solve a general linear system  A*X = B in place, where A is postive definite.
   // A is modified to its LU form and B is replace by X.
   
   

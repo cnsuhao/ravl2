@@ -158,25 +158,27 @@ namespace RavlN {
   };
   
   
-  bool SolveIP(MatrixC &A,VectorC &b);
-  //: Solve a general linear system  A*x = b
-  // The input vector is b, which is replaced by the ouput x. <p>
-  // This matrix is altered to L-U factored form by the computation. <p>
-  // If the input matrix is singular, false is returned and
-  // true if the operation succeeded.
+  VectorC Solve(const MatrixC &A, const VectorC &b);
+  //: Solve a general linear system  A*<b>x</b> = <b>b</b>
+  // The solution vector <b>x</b> is the return value.<br>
+  // If A is singular a zero length vector is returned.
   
-  VectorC Solve(const MatrixC &A,const VectorC &b);
-  //: Solve a general linear system  A*x = b
-  // Where X is the returned vector.
-  // If matrix is singular a zero length vector is returned.
+  bool SolveIP(MatrixC &A, VectorC &b);
+  //: Solve a general linear system  A*<b>x</b> = <b>b</b> in place.
+  // The vector <b>b</b> is replaced by the solution vector <b>x</b>. <br> 
+  // The matrix A is replaced by the L-U factored form. <br> 
+  // If A is singular, the return value is false; otherwise the return value is true.<br> 
   
-  MatrixC Solve(const MatrixC &A,const MatrixC &B);
+  MatrixC Solve(const MatrixC &A, const MatrixC &B);
   //: Solve a general linear system  A*X = B
-  // This return's X, or a 0 by 0 matrix if it fails.
+  // The solution matrixX is the return value.<br>
+  // If A is singular a zero-sized matrix is returned.
   
-  bool SolveIP(MatrixC &A,MatrixC &B);
+  bool SolveIP(MatrixC &A, MatrixC &B);
   //: Solve a general linear system  A*X = B in place. 
-  // A is modified to LU form and B is overwritten with the result X.
+  // The matrix of vectors B is replaced by the solution matrix X. <br> 
+  // The matrix A is replaced by the L-U factored form. <br> 
+  // If A is singular, the return value is false; otherwise the return value is true.<br> 
   
   VectorC SVD(const MatrixC &M);
   //: Singular value decomposition, eg. M = U * D * V.T(). 
