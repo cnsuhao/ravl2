@@ -92,7 +92,7 @@ namespace RavlN {
     // Creates an invalid handle.
     
     RCHandleVC(const RCAbstractC &oth)
-      : RCHandleC<BodyT>(*dynamic_cast<BodyT *>(const_cast<RCBodyVC *> (&oth.Body())))
+      : RCHandleC<BodyT>(oth.IsValid() ? dynamic_cast<BodyT *>(const_cast<RCBodyVC *> (&oth.Body())) : (BodyT *) 0)
     {}
     //: Copy Constructor.
     // Creates a new reference to 'oth'
