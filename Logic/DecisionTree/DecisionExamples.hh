@@ -1,7 +1,14 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2001, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 #ifndef RAVLLOGIC_DECISIONEXAMPLES_HEADER
 #define RAVLLOGIC_DECISIONEXAMPLES_HEADER 1
 /////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
+//! lib=RavlLogic
 
 #include "Ravl/Histogram.hh"
 #include "Ravl/Hash.hh"
@@ -42,6 +49,10 @@ namespace RavlLogicN {
     //: Find the frequency of an example state and decision.
     
     HashC<LiteralC,HSetC<StateC> > &Examples()
+    { return examples; }
+    //: Access examples table, mapping decisions to examples.
+
+    const HashC<LiteralC,HSetC<StateC> > &Examples() const
     { return examples; }
     //: Access examples table, mapping decisions to examples.
     
@@ -87,6 +98,10 @@ namespace RavlLogicN {
     // Return's true if example is a new one.
     
     HashC<LiteralC,HSetC<StateC> > &Examples()
+    { return Body().Examples(); }
+    //: Access examples table.
+    
+    const HashC<LiteralC,HSetC<StateC> > &Examples() const
     { return Body().Examples(); }
     //: Access examples table.
     

@@ -1,7 +1,14 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2001, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 #ifndef RAVLLOGIC_DISCRIMINATOR_HEADER
 #define RAVLLOGIC_DISCRIMINATOR_HEADER 1
 //////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
+//! lib=RavlLogic
 
 #include "Ravl/Logic/DecisionExamples.hh"
 #include "Ravl/RefCounter.hh"
@@ -38,13 +45,33 @@ namespace RavlLogicN {
     DiscriminatorC()
     {}
     //: Constructor.
+
+    DiscriminatorC(bool)
+      : RCHandleC<DiscriminatorBodyC>(*new DiscriminatorBodyC())
+    {}
+    //: Construct a default discriminator.
     
+  protected:
+    DiscriminatorC(DiscriminatorBodyC &bod)
+      : RCHandleC<DiscriminatorBodyC>(bod)
+    {}
+    //: Body constructor.
+    
+    DiscriminatorBodyC &Body()
+    { return RCHandleC<DiscriminatorBodyC>::Body(); }
+    //: Access body.
+    
+    const DiscriminatorBodyC &Body() const
+    { return RCHandleC<DiscriminatorBodyC>::Body(); }
+    //: Access body.
+    
+  public:
     LiteralC Distinguish(const DecisionExamplesC &set1,const DecisionExamplesC &set2)
     { return Body().Distinguish(set1,set2); }
     //: Distinguish between the the two sets of examples.
     
     LiteralC BestDiscriminator(const DecisionExamplesC &set)
-    { return Body().Distinguish(set1,set2); }
+    { return Body().BestDiscriminator(set); }
     //: Choose the best distriminator to seperate the decisions made in 'set'. 
     
   };

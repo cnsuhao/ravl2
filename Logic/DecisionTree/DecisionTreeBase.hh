@@ -1,7 +1,14 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2001, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 #ifndef RAVLLOGIC_DECISIONTREEBASE_HEADER
 #define RAVLLOGIC_DECISIONTREEBASE_HEADER 1
 /////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
+//! lib=RavlLogic
 
 #include "Ravl/Logic/Literal.hh"
 #include "Ravl/Logic/DecisionTreeElement.hh"
@@ -17,7 +24,7 @@ namespace RavlLogicN {
     : public RCBodyC
   {
   public:
-    DecisionTreeBaseBodyC();
+    DecisionTreeBaseBodyC(const DiscriminatorC &desc);
     //: Default constructor.
     
     DecisionTreeLeafC Find(const StateC &state);
@@ -39,9 +46,14 @@ namespace RavlLogicN {
   {
   public:
     DecisionTreeBaseC()
-      {}
+    {}
     //: Default constructor.
     // creates an invalid handle.
+
+    DecisionTreeBaseC(const DiscriminatorC &desc)
+      : RCHandleC<DecisionTreeBaseBodyC>(* new DecisionTreeBaseBodyC(desc))
+    {}
+    //: Constructor.
     
   protected:
     DecisionTreeBaseC(DecisionTreeBaseBodyC &bod)
