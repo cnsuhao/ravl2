@@ -132,7 +132,7 @@ namespace RavlN {
     // returns its index.
 
     void Append(const DataSet2C<Sample1T,Sample2T> &data)
-    { return Body().Append(data); }
+    { Body().Append(data); }
     //: Append a data set to this one
     // Note that the elements are not copied
     
@@ -223,7 +223,7 @@ namespace RavlN {
       Swap(it.Data2(),samp2.Nth(entry));
     }
   }
-
+ 
 }
 
 #endif
