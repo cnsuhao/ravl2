@@ -122,7 +122,7 @@ docinit: docfiles
 
 doc: docinit $(INST_INCLUDE)/.dir $(TARG_DOCNODE)
 	$(SHOWIT)echo "--- Generating documentation" ; \
-	$(CXXDOC) $(PACKAGENAME_OPT) $(PACKAGEDESC_OPT) -p $(INSTALLHOME)	
+	$(CXXDOC) $(PACKAGENAME_OPT) $(PACKAGEDESC_OPT) -ih $(INSTALLHOME) -p $(INSTALLHOME)
 
 $(INST_EHT)/% : % $(INST_EHT)/.dir
 	$(SHOWIT)echo "--- Installing EHT $(@F) to $(INST_EHT)" ; \

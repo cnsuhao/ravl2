@@ -24,6 +24,8 @@ ifndef PAGER
  PAGER = more
 endif
 
+# The following is needed to avoid problems with
+SYNC=sync
 
 #########################
 # Include user make info.
@@ -647,13 +649,14 @@ $(INST_LIB)/lib$(PLIB)$(LIBEXT) :  $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) $(INST_LIB
 	  $(CC) $(LDLIBFLAGS) -o $(INST_LIB)/$(@F) $(TARG_OBJS) ; \
 	fi ; \
 	echo "---- Building object list " ; \
-	$(patsubst  %$(OBJEXT),echo %$(OBJEXT) >> $(INST_OBJS)/libObjs.txt ;,$(TARG_OBJS)) \
-	sort -u $(INST_OBJS)/libObjs.txt -o $(INST_OBJS)/libObjs.txt ; \
+	echo "$(patsubst %$(OBJEXT),%$(OBJEXT)@,$(TARG_OBJS))" | tr '@' '\n' >> $(INST_OBJS)/libObjs.txt ; \
+	sort -b -u $(INST_OBJS)/libObjs.txt -o $(INST_OBJS)/libObjs.txt ; \
 	echo "---- Resolve C++ symbols " ; \
 	if $(CXX) $(LDFLAGS) $(INST_LIB)/dummymain$(OBJEXT) $(TARG_OBJS) $(LIBS) -o $(WORKTMP)/a.out ; then \
 	  rm $(WORKTMP)/a.out ; \
 	  echo "---- Doing final build " ; \
 	  $(XARGS) $(CXX) $(LDLIBFLAGS) -o $(INST_LIB)/$(@F) < $(INST_OBJS)/libObjs.txt  ; \
+	  $(UNTOUCH) $(INST_LIB)/$(@F) $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) ; \
 	else \
 	  if [ -f $(WORKTMP)/a.out ] ; then \
 	    rm $(WORKTMP)/a.out ; \
@@ -714,6 +717,7 @@ $(TARG_EXE) : $(INST_BIN)/% : $(INST_OBJS)/%$(OBJEXT) $(INST_GENBIN)/% $(EXTRAOB
 	  $(CHMOD) +w $(INST_BIN)/$(@F) ; \
 	fi ; \
 	if $(CXX) $(LDFLAGS) $(INST_OBJS)/$(@F)$(OBJEXT) $(EXTRAOBJS) $(BINLIBS) -o $(INST_BIN)/$(@F) ; then \
+	  $(SYNC) ; \
 	  $(CHMOD) 555 $(INST_BIN)/$(@F) ; \
 	else \
 	  exit 1; \
@@ -738,6 +742,7 @@ endif
 $(TARG_TESTEXE) : $(INST_TESTBIN)/% : $(INST_OBJS)/%$(OBJEXT) $(TARG_LIBS) $(EXTRAOBJS) $(TARG_HDRCERTS) $(INST_TESTBIN)/.dir
 	$(SHOWIT)echo "--- Linking test program $(@F)  ( $(INST_TESTBIN)/$(@F) ) " ; \
 	if $(CXX) $(LDFLAGS) $(INST_OBJS)/$(@F)$(OBJEXT)  $(EXTRAOBJS) $(BINLIBS) -o $(INST_TESTBIN)/$(@F) ; then \
+	  $(SYNC) ; \
 	  $(CHMOD) 555 $(INST_BIN)/$(@F) ; \
 	  echo "$(@F)" >> $(INST_TESTDB) ; \
 	else \
@@ -778,6 +783,7 @@ $(INST_LIBDEF)/%.def : %.def $(INST_LIBDEF)/.dir
 	  $(CHMOD) +w $(INST_LIBDEF)/$(@F) ; \
 	fi ; \
 	$(CP) $< $(INST_LIBDEF)/$(@F) ; \
+        $(SYNC) ; \
 	$(CHMOD) 444 $(INST_LIBDEF)/$(@F)
 
 

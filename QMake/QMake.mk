@@ -26,6 +26,12 @@ ifdef USERBUILD
   export USERBUILD
 endif
 
+# Make sure PAGER is defined.
+
+ifndef PAGER 
+  PAGER=more
+endif
+
 export ARC
 export LOCALBIN := $(MAKEHOME)/../../../lib/RAVL/$(ARC)/bin
 export DPATH:=$(shell basename $(shell 'pwd'))
@@ -211,6 +217,7 @@ libbuild:
 #  3-Build executables.
 #  4-Build documentation
 
+
 fullbuild:
 	$(SHOWIT)if $(MAKEMO) $(FULLBUILDFLAGS) src_all NOINCDEFS=1 ; then true; \
         else \
@@ -219,21 +226,20 @@ fullbuild:
         fi ; \
 	if $(MAKEMD) $(FULLBUILDFLAGS) libbuild VAR=check TARGET=libbuild NOEXEBUILD=1 ; then true; \
         else \
-	  echo "QMAKE: Check library build failed. " ; \
+	  echo "QMAKE: check library build failed. " ; \
 	  exit 1; \
         fi ; \
-	echo "Check build complete. " ; \
 	if $(MAKEMD) $(FULLBUILDFLAGS) libbuild VAR=debug TARGET=libbuild NOEXEBUILD=1 ; then true; \
         else \
-	  echo "QMAKE: Debug library build failed. " ; \
+	  echo "QMAKE: debug library build failed. " ; \
 	  exit 1; \
-        fi ; \
-	if $(MAKEMD) $(FULLBUILDFLAGS) libbuild VAR=opt TARGET=libbuild NOEXEBUILD=1 ; then true; \
+        fi ; 
+	if $(MAKEMD) $(FULLBUILDFLAGS) libbuild VAR=shared TARGET=libbuild NOEXEBUILD=1 ; then true; \
         else \
 	  echo "QMAKE: opt library build failed. " ; \
 	  exit 1; \
         fi ; \
-	if $(MAKEMD) $(FULLBUILDFLAGS) fullbuild VAR=opt TARGET=fullbuild  ; then true; \
+	if $(MAKEMD) $(FULLBUILDFLAGS) fullbuild VAR=shared TARGET=fullbuild  ; then true; \
         else \
 	  echo "QMAKE: executable build failed. " ; \
 	  exit 1; \
@@ -366,11 +372,9 @@ notes:
 defs:
 	@$(PAGER) $(MAKEHOME)/Defs.txt
 
-#$(QCWD)/defs.mk:
-#	@echo "Checking out defs.mk "; \
-#	co -q -u $(QCWD)/defs.mk 
-
-include $(MAKEHOME)/rcs.mk
+defs.mk:
+	@echo "Can't find defs.mk in current directory, aborting. ";
+	@echo "Use 'qm defs' for more information. ";
 
 .DEFAULT help:
 	@$(PAGER) $(MAKEHOME)/Help.txt
