@@ -75,7 +75,7 @@ namespace RavlGUIN {
     //: Default constructor.
     // Creates an invalid handle.
 
-    PanedC(WidgetC &child1,WidgetC &child2,bool vertical = false)
+    PanedC(const WidgetC &child1,const WidgetC &child2,bool vertical = false)
       : WidgetC(*new PanedBodyC(child1,child2,vertical))
     {}
     //: Default constructor.
