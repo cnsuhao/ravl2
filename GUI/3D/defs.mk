@@ -18,6 +18,11 @@ ifeq ($(ARC),sol2)
 # to turn off ansi flag and make the compiler more forgiving.
 ANSIFLAG=-fpermissive
 endif
+ifeq ($(ARC),alpha)
+# The solaris x11 header files a broken, so we need
+# to turn off ansi flag and make the compiler more forgiving.
+ANSIFLAG=-fpermissive
+endif
 
 DESCRIPTION = Interface to open GL.
 
