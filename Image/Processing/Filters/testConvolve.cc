@@ -13,6 +13,8 @@
 #include "Ravl/Image/ConvolveVert2d.hh"
 #include "Ravl/Image/ConvolveSeparable2d.hh"
 #include "Ravl/Image/WarpScale.hh"
+#include "Ravl/Image/WarpAffine.hh"
+#include "Ravl/Image/WarpProjective.hh"
 #include "Ravl/Image/HistogramEqualise.hh"
 #include "Ravl/Image/Matching.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
@@ -33,6 +35,8 @@ int testMatching();
 
 #ifndef __sgi__
 template WarpScaleC<ByteRGBValueC,ByteRGBValueC>;
+template WarpAffineC<ByteT,ByteT>;
+template WarpProjectiveC<ByteT,ByteT>;
 #endif
 
 int main() {
