@@ -10,11 +10,12 @@
 PACKAGE=Ravl
 
 HEADERS= LineABC2d.hh Curve2d.hh Curve2dLine.hh Curve2dLineSegment.hh \
- Line2dIter.hh Affine2d.hh Moments2d2.hh LinePP2d.hh Projection2d.hh
+ Line2dIter.hh Affine2d.hh Moments2d2.hh LinePP2d.hh Projection2d.hh \
+ Point2d.hh
 
 SOURCES= LineABC2d.cc Curve2d.cc Curve2dLine.cc Curve2dLineFit.cc \
  Curve2dLineSegment.cc Line2dIter.cc Affine2d.cc Moments2d2.cc \
- LinePP2d.cc Projection2d.cc
+ LinePP2d.cc Projection2d.cc Point2d.cc
 
 PLIB=RavlMath
 

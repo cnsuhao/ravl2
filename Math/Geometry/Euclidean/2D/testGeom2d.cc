@@ -10,16 +10,22 @@
 
 #include "Ravl/Moments2d2.hh"
 #include "Ravl/Stream.hh"
+#include "Ravl/BinStream.hh"
+#include "Ravl/StrStream.hh"
 #include "Ravl/Matrix2d.hh"
 
 using namespace RavlN;
 
 int testMoments();
-
+int testBinIO();
 
 int main() {
   int ln;
   if((ln = testMoments()) != 0) {
+    cerr << "Test failed at " << ln << "\n";
+    return 1;
+  }
+  if((ln = testBinIO()) != 0) {
     cerr << "Test failed at " << ln << "\n";
     return 1;
   }
@@ -29,6 +35,7 @@ int main() {
 
 
 int testMoments() {
+  cerr << "Testing moments. \n";
   Moments2d2C mom;
   mom.AddPixel(Index2dC(9,19));
   mom.AddPixel(Index2dC(10,20));
@@ -46,4 +53,27 @@ int testMoments() {
   return 0;
 }
 
-
+int testBinIO() {
+  cerr << "Testing binary IO. \n";
+  StrOStreamC ostr;
+  Point2dC p1(0.12,0.34);
+  Point2dC p2(4.5,6.7);
+  Point2dC p3(8.9,10.11);
+  {
+    BinOStreamC bos(ostr);
+    bos << p1 << p2 << p3;
+  }
+  Point2dC ip1,ip2,ip3;
+  {
+    StrIStreamC istr(ostr.String());
+    BinIStreamC bis(istr);
+    bis >> ip1 >> ip2 >> ip3;
+  }
+  if((p1 - ip1).SumSqr() > 0.000000001)
+    return __LINE__;
+  if((p2 - ip2).SumSqr() > 0.000000001)
+    return __LINE__;
+  if((p3 - ip3).SumSqr() > 0.000000001)
+    return __LINE__;
+  return 0;
+}
