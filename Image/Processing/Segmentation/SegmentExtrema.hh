@@ -285,17 +285,17 @@ namespace RavlImageN {
     //cerr << "SegmentExtremaBaseC::GrowRegions() \n";
     FloodRegionC<PixelT> flood(img);
     
-    DListC<ImageC<IntT> > bounds;
+    DListC<ImageC<IntT> > masks;
     for(SArray1dIterC<ExtremaRegionC> it(regionMap,labelAlloc-1);it;it++) {
       if(it->nThresh > 0)
-	bounds += GrowRegionMask(*it,flood);
+        masks += GrowRegionMask(*it,flood);
       if(it->thresh != 0) {
-	delete [] it->thresh;
-	it->thresh = 0;
+        delete [] it->thresh;
+        it->thresh = 0;
       }
     }
-    
-    return bounds;
+
+    return masks;
   }
   
   template<class PixelT>
@@ -304,8 +304,8 @@ namespace RavlImageN {
     //cerr << " Thresholds=" << region.nThresh << "\n";
     for(int i = 0;i < region.nThresh;i++) {
       ImageC<IntT> mask;
-      if(flood.GrowRegionMask(region.minat,region.thresh[i].thresh,mask))
-	ret.InsLast(mask);
+      if(flood.GrowRegion(region.minat,region.thresh[i].thresh,mask))
+        ret.InsLast(mask);
     }
     return ret;
   }
