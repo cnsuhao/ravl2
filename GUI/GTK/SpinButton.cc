@@ -45,8 +45,7 @@ namespace RavlGUIN {
   //: Get current value.
   
   RealT SpinButtonBodyC::Value() { 
-    if(adj == 0)
-      return 0;
+    if(adj == 0) return 0;
     return GTK_ADJUSTMENT (adj)->value; 
   }
   
@@ -92,6 +91,10 @@ namespace RavlGUIN {
   // GUI thread only.
   
   bool SpinButtonBodyC::GUISetValue(RealT val) {
+    if(widget == 0) {
+      value = val;
+      return true;
+    }
     gtk_spin_button_set_value(GTK_SPIN_BUTTON(widget),val);
     //GTK_ADJUSTMENT (adj)->value = val;
     //gtk_signal_emit_by_name (GTK_OBJECT (adj), "changed");  
