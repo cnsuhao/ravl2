@@ -50,6 +50,10 @@ namespace RavlImageN {
     { Init(); }
     //: Constructor from Projection2dC.
     // Where orec is the size of the output rectangle.
+    //!param: orec - Output rectangle.
+    //!param: transform - Projective transform to use.
+    //!param: nFillBackground - If true background is filled with black.
+    //!param: mix - Pixel mixer instance to use.
     
     WarpProjectiveC(const Projection2dC &transform,
 		    bool nFillBackground = true,

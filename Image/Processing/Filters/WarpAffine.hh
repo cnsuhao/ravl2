@@ -43,7 +43,7 @@ namespace RavlImageN {
     {}
     //: Constructor.
     // 'ir' is the output rectangle.
-    // 'ntrans' is the transform to use.
+    // 'ntrans' is the transform to use. Maps output image pixel to one in input.
     
     void Apply(const ImageC<InT> &img,ImageC<OutT> &outImg);
     //: Interpolate input image working rectangle into
