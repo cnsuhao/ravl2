@@ -63,6 +63,18 @@ namespace RavlN {
     IntT operator--() { return --v; }
     //: Decrement
     
+    
+    UIntT operator-=(IntT oth) {
+      v -= oth;
+      return v;
+    }
+    //: Take another UIntT from this one.
+    
+    UIntT operator+=(IntT oth) {
+      v += oth;
+      return v;
+    }
+    //: Take another UIntT from this one.
     IntT v;
   };
   
@@ -109,10 +121,16 @@ namespace RavlN {
     
     UIntT operator--() { return --v; }
     //: Decrement
-
-    UIntT operator-=(const UIntC &oth) {
-      RavlAssert(v >= oth.v);
-      v -= oth.v;
+    
+    UIntT operator-=(UIntT oth) {
+      RavlAssert(v >= oth);
+      v -= oth;
+      return v;
+    }
+    //: Take another UIntT from this one.
+    
+    UIntT operator+=(UIntT oth) {
+      v += oth;
       return v;
     }
     //: Take another UIntT from this one.
