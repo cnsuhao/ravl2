@@ -57,7 +57,7 @@ namespace RavlCxxDocN {
     { return tab[name]; }
     //: Lookup object.
     
-    bool LookupI(const StringC &name,ObjectC &nxt,bool useInherit = true);
+    bool LookupI(const StringC &name,ObjectC &nxt,bool useInherit,HSetC<ScopeC> &done);
     //: Lookup name allowing for inheritance.
     // returns true if object has been found.
     
@@ -159,8 +159,15 @@ namespace RavlCxxDocN {
     { return Body().Lookup(name); }
     //: Append to list.
     
-    bool LookupI(const StringC &name,ObjectC &nxt,bool useInherit = true)
-    { return Body().LookupI(name,nxt,useInherit); }
+    bool LookupI(const StringC &name,ObjectC &nxt,bool useInherit,HSetC<ScopeC> &done)
+    { return Body().LookupI(name,nxt,useInherit,done); }
+    //: Lookup name allowing for inheritance.
+    // returns true if object has been found.
+    
+    bool LookupI(const StringC &name,ObjectC &nxt,bool useInherit = true) { 
+      HSetC<ScopeC> done; // Create table of checked scopes.
+      return Body().LookupI(name,nxt,useInherit,done); 
+    }
     //: Lookup name allowing for inheritance.
     // returns true if object has been found.
     

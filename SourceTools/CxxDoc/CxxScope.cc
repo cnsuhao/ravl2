@@ -70,7 +70,7 @@ namespace RavlCxxDocN
   //: Lookup name allowing for inheritance.
   // returns true if object has been found.
   
-  bool ScopeBodyC::LookupI(const StringC &name,ObjectC &ret,bool useInherit) {
+  bool ScopeBodyC::LookupI(const StringC &name,ObjectC &ret,bool useInherit,HSetC<ScopeC> &done) {
     ONDEBUG(cerr << "ScopeBodyC::LookupI(), In " << Name() << " of '" << name << "' Inherit:"  << useInherit << "\n");
     if(tab.Lookup(name,ret)) {
       ONDEBUG(cerr << "ScopeBodyC::LookupI(), Found " << name << " in '" << Name() << "' \n");	
@@ -78,8 +78,8 @@ namespace RavlCxxDocN
     }
     if(!useInherit)
       return false;
+    done += ScopeC(*this); // Done this one!
     // Check up inheritance hirachy for name.
-    HSetC<ScopeC> done;
     for(DLIterC<ObjectC> it(uses);it;it++) {
       InheritC inhrt(*it);
       if(!inhrt.IsValid())
@@ -88,14 +88,10 @@ namespace RavlCxxDocN
       ScopeC &scope = inhrt.From();
       if(!scope.IsValid())
 	continue;
-      if(&scope.Body() == this) {
-	cerr << "WARNING: Loop in inherit. for '" << name << "' in " << Name() << " \n";
-	return false;
-      }
       if(done[scope])
 	continue;
       done += scope;
-      if(scope.LookupI(name,ret,true)) {
+      if(scope.LookupI(name,ret,true,done)) {
 	ONDEBUG(cerr << "ScopeBodyC::LookupI(), Found " << name << " in '" << Name() << "' \n");	
 	return true;
       }
