@@ -48,7 +48,7 @@ sub cmain {
   chomp @lines;
   local $line;
   local $main = "main";                  # had to do it this way as I had trouble
-  local $amma = "AMMA\_ENTRY\_POINT";    # with unmatched bracket in regexp??
+  local $amma = "RAVL\_ENTRY\_POINT";    # with unmatched bracket in regexp??
   local $n=0;
 
   foreach $line (@lines) {
