@@ -8,6 +8,13 @@
 # $Id$
 #! rcsid="$Id$"
 
+ifeq ($(ARC),sol2)
+# The solaris x11 header files a broken, so we need
+# to turn off ansi flag and make the compiler more forgiving.
+ANSIFLAG=-fpermissive
+else
+endif
+
 PACKAGE = Ravl/GUI
 
 SUPPORT_ONLY = linux sol2 sgi
