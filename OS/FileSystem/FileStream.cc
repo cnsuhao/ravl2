@@ -97,6 +97,10 @@ namespace RavlN {
     IntT done = 0;
     do {
       int n = Read(&(data[done]),length - done);
+      if(n == 0) {
+	// Indicates end of file on linux, what about other platforms ?
+	return 0;
+      }
       if(n < 0) {
 	if(errno == EAGAIN || errno == EINTR) // Recoverable error?
 	  continue;
