@@ -16,7 +16,7 @@
 #endif
 
 #if RAVL_OS_SOLARIS
-//#define _POSIX_PTHREAD_SEMANTICS 1
+#define __EXTENSIONS__ 1
 #include <sys/time.h>
 #endif
 
