@@ -51,8 +51,10 @@ namespace RavlN {
       for(;it;it++)
 	sumsq += Sqr(*it);
       sumsq = 1/Sqrt(sumsq);
-      for(;it;it++)
-	*it *= sumsq;
+      if(sumsq != 0) {
+	for(;it;it++)
+	  *it *= sumsq;
+      }
     }
   }
   
@@ -63,8 +65,10 @@ namespace RavlN {
     for(UIntT i = 0;i < Cols();i++) {
       Slice1dC<RealT> col = SliceColumn(i);
       RealT sumsq = col.SumOfSqr();
-      sumsq = 1/Sqrt(sumsq);
-      col *= sumsq;
+      if(sumsq != 0) {
+	sumsq = 1/Sqrt(sumsq);
+	col *= sumsq;
+      }
     }
   }
 
