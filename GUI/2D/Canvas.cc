@@ -191,13 +191,13 @@ namespace RavlGUIN {
   // Call with GUI thread only!
   
   bool CanvasBodyC::GUIDrawImage(ImageC<ByteT> &img,Index2dC &ioffset) {
-    if(img.IsEmpty()) {
-      cerr << "CanvasBodyC::GUIDrawImage(), WARNING: Ask to render empty image. \n";
+    if(!IsReady()) {
+      ONDEBUG(cerr <<"CanvasBodyC::GUIDrawImage(), WARNING: Asked to render data before canvas is initialise. \n");
+      toDo.InsFirst(TriggerR(*this,&CanvasBodyC::GUIDrawImage,img,ioffset));
       return true;
     }
-    if(!IsReady()) {
-      ONDEBUG(cerr <<"CanvasBodyC::GUIDrawLine(), WARNING: Asked to render data before canvas is initialise. \n");
-      toDo.InsFirst(TriggerR(*this,&CanvasBodyC::GUIDrawImage,img,ioffset));
+    if(img.IsEmpty()) {
+      cerr << "CanvasBodyC::GUIDrawImage(), WARNING: Ask to render empty image. \n";
       return true;
     }
     ONDEBUG(cerr << "CanvasBodyC::GUIDrawImage(), Rendering image. \n");
@@ -233,7 +233,7 @@ namespace RavlGUIN {
       return true;
     }
     if(img.IsEmpty()) {
-      cerr << "GUIRenderRGBImageBodyC::Render(), WARNING: Ask to render empty image. \n";
+      cerr << "GUIRenderRGBImageBodyC::GUIDrawRGBImage(), WARNING: Ask to render empty image. \n";
       return true;
     }
     Index2dC off = ioffset + img.Rectangle().Origin();    
