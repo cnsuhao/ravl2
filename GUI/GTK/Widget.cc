@@ -22,6 +22,7 @@
 #include "Ravl/Tuple2.hh"
 #include "Ravl/Threads/Signal2.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
+#include "Ravl/GUI/TreeModel.hh"
 #include <gtk/gtk.h>
 #include <gdk/gdktypes.h>
 
@@ -96,6 +97,9 @@ namespace RavlGUIN {
 #define GTKSIG_DNDDATARECIEVED (GtkSignalFunc) WidgetBodyC::gtkDNDDataRecieved,SigTypeDNDData
 #define GTKSIG_INT      (GtkSignalFunc) WidgetBodyC::gtkInt,SigTypeInt
 #define GTKSIG_WIDGET_INT (GtkSignalFunc) WidgetBodyC::gtkWidgetInt,SigTypeWidgetInt
+#if RAVL_USE_GTK2
+#define GTKSIG_TREEROW (GtkSignalFunc) WidgetBodyC::gtkTreeRow,SigTypeTreeRow
+#endif
   //: Get init information about signals.
 
   Tuple2C<const char *,GTKSignalInfoC> *WidgetBodyC::SigInfoInit() {
@@ -146,6 +150,10 @@ namespace RavlGUIN {
       GTKSIG("drag_data_received"   ,GTKSIG_DNDDATARECIEVED),// gtkwidget
       GTKSIG("change-current-page"  ,GTKSIG_INT),// gtkNotebook
       GTKSIG("switch-page"          ,GTKSIG_WIDGET_INT),// gtkNotebook
+#if RAVL_USE_GTK2
+      GTKSIG("row-collapsed"        ,GTKSIG_TREEROW ), // GtkTreeView
+      GTKSIG("row-expanded"         ,GTKSIG_TREEROW ), // GtkTreeView
+#endif
       GTKSIG("destroy",GTKSIG_TERM)  // Duplicate first key to terminate array.
     };
     return signalInfo;
@@ -290,6 +298,23 @@ namespace RavlGUIN {
     sig(page);
     return 1;
   }
+
+#if RAVL_USE_GTK2
+  int WidgetBodyC::gtkTreeRow(GtkWidget *widget, GtkTreeIter *iter, GtkTreePath *path, Signal0C *sigptr) {
+    RavlAssert(sigptr != 0);
+    // Get signal
+    Signal2C<TreeModelIterC,TreeModelPathC> sig(*sigptr);
+    RavlAssert(sig.IsValid());
+    // Convert data
+    TreeModelIterC riter(iter,false);
+    TreeModelPathC rpath(path,false);
+    // Send signal
+    sig(riter,rpath);
+    // Done
+    return 1;
+  }
+#endif
+
 
   //: Default constructor.
   
@@ -442,6 +467,9 @@ namespace RavlGUIN {
       case SigTypeDNDData: { DNDDataInfoC dnd; ret = Signal1C<DNDDataInfoC>(dnd); } break;
       case SigTypeInt: 	ret = Signal1C<IntT>(0); break;
       case SigTypeWidgetInt: 	ret = Signal1C<UIntT>(0); break;
+#if RAVL_USE_GTK2
+      case SigTypeTreeRow:      ret = Signal2C<TreeModelIterC,TreeModelPathC>(TreeModelIterC(),TreeModelPathC()); break;
+#endif
       case SigTypeUnknown:
       default:
 	cerr << "WidgetBodyC::Signal(), ERROR Unknown signal type:" << nm << " Type:" << (IntT) (si.signalType) << "\n";
