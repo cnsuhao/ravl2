@@ -22,7 +22,7 @@ HEADERS = Parameters.hh Cost.hh CostInvert.hh CostFunction.hh CostFunction1d.hh 
 	Optimise.hh OptimiseDescent.hh OptimiseRandomUniform.hh \
 	OptimiseSobol.hh OptimiseBrent.hh OptimisePowell.hh OptimiseGrid.hh
 
-MAINS = testBrent.cc
+MAINS = 
 
 PLIB = Optimisation
 
@@ -38,3 +38,4 @@ LOCAL_FILES =
 
 DOCNODE = 
 
+TESTEXES = testBrent.cc
