@@ -32,7 +32,7 @@ namespace RavlGUIN {
       refreshQueued(false),
       vRuler(true),
       hRuler(false),
-      offset(0,0),
+      offset(size.Range1().Min(),size.Range2().Min()),
       lastMousePos(-1000,-1000)
   {}
   
@@ -41,8 +41,8 @@ namespace RavlGUIN {
   bool DPDisplayViewBodyC::Create() {
     ONDEBUG(cerr << "DPDisplayViewBodyC::Create(), Called \n");
     
-    int rows = winSize.RCol().V();
-    int cols = winSize.BRow().V();
+    int rows = winSize.Cols();
+    int cols = winSize.Rows();
     // Limit maximum inital size.
     if(rows > 700)
       rows = 700;
@@ -62,8 +62,13 @@ namespace RavlGUIN {
     
     DPDisplayViewC thisH(*this);
     
-    vSlider = SliderVR(1.0,0.0,100.0,1.0,*this,&DPDisplayViewBodyC::CallbackYOffset);
-    hSlider = SliderHR(1.0,0.0,100.0,1.0,*this,&DPDisplayViewBodyC::CallbackXOffset);
+    int r1min = winSize.Range1().Min().V();
+    int r2min = winSize.Range2().Min().V();
+    int r1max = winSize.Range1().Max().V();
+    int r2max = winSize.Range2().Max().V();
+    
+    vSlider = SliderVR(r1min,r1min,r1max,1.0,*this,&DPDisplayViewBodyC::CallbackYOffset);
+    hSlider = SliderHR(r2min,r2min,r2max,1.0,*this,&DPDisplayViewBodyC::CallbackXOffset);
     vSlider.SetDrawValue(false);
     hSlider.SetDrawValue(false);
     
@@ -179,7 +184,7 @@ namespace RavlGUIN {
     hSlider.UpdateRange(displaySize.Range2().Min().V(),hdiff);
     return true;
   }
-
+  
   //: Query position,
   
   bool DPDisplayViewBodyC::Query(Vector2dC pos,StringC &info) { 

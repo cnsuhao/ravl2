@@ -31,10 +31,16 @@ int main() {
     return 1;
   }
   
-  ImageC<ByteT> img2(100,200);
-  for(int x = 0;x < 100;x++)
-    for(int y = 0;y < 200;y++)
-      img2[x][y] =  (x+1) % (y+1);
+  IndexRangeC rr(-100,100);
+  IndexRangeC cr(-100,200);
+  ImageC<ByteT> img2(rr,cr);
+  for(int x = rr.Min().V();x < rr.Max();x++)
+    for(int y = cr.Min().V();y < cr.Max();y++) {
+      if(y != 0)
+	img2[x][y] =  (x) % (y);
+      else
+	img2[x][y] = x;
+    }
   
   if(!Save("@X:hello2",img2,"",true)) {
     cerr << "Failed to save image 2. \n";

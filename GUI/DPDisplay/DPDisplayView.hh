@@ -60,6 +60,10 @@ namespace RavlGUIN {
     { return offset; }
     //: Current offset for origin of window.
     
+    void Offset(const Vector2dC &vec2)
+    { offset = vec2; }
+    //: Set the offset.
+    
   protected:
     bool GUIRefresh();
     //: Refresh the display.
@@ -157,6 +161,11 @@ namespace RavlGUIN {
     bool Refresh()
     { return Body().Refresh(); }
     //: Refresh the display.
+    
+    void Offset(const Vector2dC &vec)
+    { Body().Offset(vec); }
+    //: Set the offset.
+
     friend class DPDisplayViewBodyC;
   };
 }

@@ -54,7 +54,8 @@ namespace RavlGUIN {
     WaitForGUIExit(); 
     
     // Create a window and display it.
-    win = WindowC(winSize.LCol().V()+10,winSize.BRow().V()+10,name);
+    win = WindowC(winSize.LCol().V()+10,
+		  winSize.BRow().V()+10,name);
     DPDisplayViewC nview(winSize);
     win.Add(nview);
     
