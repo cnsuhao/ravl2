@@ -25,10 +25,6 @@ namespace RavlN {
   // have the same origin, or be the same size, depending on the constructor.
   // The first array controls the number of elements visited.
   
-  // This will iterate through three rectangles.  The rectangles need not
-  // have the same origin, or be the same size, depending on the constructor.
-  // The first array controls the number of elements visited.
-  
   template<class Data1T,class Data2T,class Data3T>
   class Array2dIter3C 
     : public BufferAccess2dIter3C<Data1T,Data2T,Data3T>
