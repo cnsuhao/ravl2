@@ -21,6 +21,7 @@
 #include <gdk/gdkrgb.h>
 #include <stdio.h>
 #include <glib.h>
+#include <stdlib.h>
 
 #define DODEBUG 0
 
