@@ -62,12 +62,12 @@ namespace RavlN {
     //: Calculate the inverse of this matrix.
     // NB. This will only work for square matrixes.
     
-    FMatrixC<N,M> &InverseIP() {
+    bool InverseIP() {
       RavlAssertMsg(N == M,"FMatrixC::Inverse(), Matrix must be square to invert ");
-      minv(&(*this)[0][0],N);
-      return *this;
+      return (minv(&(*this)[0][0],N) == 0);
     }
     //: Calculate the inverse of this matrix in place.
+    // Returns true if matrix was non-singular (i.e. successful inversion). 
     // NB. This will only work for square matrixes.
     
     
