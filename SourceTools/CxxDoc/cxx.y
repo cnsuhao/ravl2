@@ -38,7 +38,6 @@
 %token PROTECTED     /* "protected" */
 %token PRIVATE       /* "private" */
 %token NAMESPACE     /* "namespace" */
-%token STATIC        /* "static" */
 %token STRING        /* "string" */
 %token CONSTANT      /* "string" */
 %token CPVIRTUAL     /* "virtual" */
@@ -46,8 +45,10 @@
 %token CPTYPEDEF     /* "typedef" */
 %token CPFRIEND      /* "friend" */
 %token CPOPERATOR    /* "operator" */
-%token TEMPLATE    /* "template" */
+%token TEMPLATE      /* "template" */
 %token CPTHROW       /* "throw" */
+%token CPTRY         /* "throw" */
+%token CPCATCH       /* "throw" */
 %token SCSPEC        /* "class" "struct" "union" */
 %token TYPENAME_KEYWORD  /* "typename" */
 %token USING       /* "throw" */
@@ -91,9 +92,6 @@ extdefs_opt: /* empty */ { ScopeC ol(STR(extdefs)); $$=ol; }
 extdef:   fndef            { $$=$1; }
         | datadef          { $$=$1; }
         | template_def     { $$=$1; }
-        | STATIC fndef     { $$=$2; $$.SetVar(STR(static),STR(1)); }
-        | STATIC datadef   { $$=$2; $$.SetVar(STR(static),STR(1)); }
-        | STATIC template_def { $$=$2; $$.SetVar(STR(static),STR(1)); }
         | ASM_KEYWORD '(' string ')' ';' { $$=ObjectC(); }  /* Ignore it.*/
         | NAMESPACE maybe_identifier '{' extdefs_opt '}' { $$=ScopeC($2.Name(),$4); 
 							   $$.UpdateComment($1.Comment());
@@ -132,10 +130,6 @@ datadef:
                                                                $$=TypedefC($3.Name(),$2); 
           				                       hookCommentObj = $$; 
                                                                $$.SetupLineNos($1,$7);
-                                                             }
-   | CPTYPEDEF TYPENAME_KEYWORD type_id IDENTIFIER ';'       { $$=TypedefC($4.Name(),$3); 
-                                                               $$.SetupLineNos($1,$5);
-          				                       hookCommentObj = $$;
                                                              }
    | CPTYPEDEF function_ptr_def ';'                          { DataTypeC dt($2);
                                                                $$=TypedefC(dt.Alias(),dt);
@@ -267,6 +261,28 @@ any_id:
         | CLCL unqualified_id { $$=ObjectC(strp_ColonColon + $2.Name()); } 
         ;
 
+/* ----- Scope id -----.  */
+
+scope_id: IDENTIFIER                             { $$=$1; }
+     | '~' IDENTIFIER                            { $$ = ObjectC(StringC("~") + $2.Name()); $$.CopyLineNo($2); }
+     | IDENTIFIER '<' template_inst_args_opt '>'     { $$ = ObjectTemplateC($1.Name(),$3); }
+
+/*     | '~' IDENTIFIER '<' template_inst_args '>' { $$ = ObjectC(StringC("~") + $2.Name() + StringC("<") + $4.Name() + ">"); } */
+;
+scope_resolved_id: scope_id          { ObjectListC ol($1.Name()); ol.Append($1); $$=ol; $$.CopyLineNo($1); }
+   | CLCL scope_id                   { ObjectListC ol($2.Name()); 
+                                       ObjectC newun(strp_ColonColon);
+                                       ol.Append(newun);
+				       ol.Append($2);
+				       $$ = ol;
+                                     }
+   | scope_resolved_id CLCL scope_id { ObjectListC ol($1); 
+				       ol.Append($3);
+				       ol.Name() = $3.Name();  // Give name of last component to list.
+				       $$ = ol;
+                                     }
+   ;
+
 /* ----- namespace ----- */
 
 namespace_alias:
@@ -347,7 +363,8 @@ parm: type_id maybe_identifier      { $$=$1;
 
 template_type_parm:
           SCSPEC maybe_identifier           { $$= DataTypeC(STR(class),$2); }
-	| TYPENAME_KEYWORD maybe_identifier { $$= DataTypeC(STR(typename),$2);  }
+	| TYPENAME_KEYWORD any_id { $$= DataTypeC(STR(typename),$2);  }
+        | type_id '(' maybe_identifier ')' '(' func_arg_list_all ')' func_qualifier { $$= DataTypeC($1.Name() + " (" + $3.Name() + ")(" + $6.Name() + ")" + $7.Name(),$3); }
 	;
 
 template_template_parm: /* FIXME:- This isn't really handled properly. */
@@ -447,7 +464,6 @@ expr_no_commas: '(' arg_expr_list_all ')' { $$=ObjectC(strp_OpenBracket + $2.Nam
    | '!' { $$=ObjectC("!"); }
    | ':' { $$=$1; }
    | CLCL       { $$=$1; }
-   | STATIC     { $$=$1; }
    | CPVIRTUAL  { $$=$1; }
    | ENUM       { $$=$1; }
    | CPTYPEDEF  { $$=$1; }
@@ -463,6 +479,7 @@ expr_no_commas: '(' arg_expr_list_all ')' { $$=ObjectC(strp_OpenBracket + $2.Nam
 type_id: type_id_bod                        { $$=$1; }
    | CV_QUALIFIER type_id_bod               { $$=$2; DataTypeC dt($2); dt.SetPreQual($1.Name()); }
    | CV_QUALIFIER CV_QUALIFIER type_id_bod  { $$=$3; DataTypeC dt($3); dt.SetPreQual($1.Name() + " " + $2.Name()); }
+   | CV_QUALIFIER CV_QUALIFIER CV_QUALIFIER type_id_bod  { $$=$4; DataTypeC dt($4); dt.SetPreQual($1.Name() + " " + $2.Name() + " " + $3.Name()); }
    ;
 
 type_id_bod:  scope_resolved_id type_id_qual     { $$=DataTypeC(StringC(""),$1,$2.Name()); 
@@ -494,6 +511,9 @@ type_id_bod:  scope_resolved_id type_id_qual     { $$=DataTypeC(StringC(""),$1,$
         | TYPEQUAL TYPEQUAL TYPEQUAL type_id_qual { $$=DataTypeC($1.Name() + " " + $2.Name(),$3,$4.Name()); 
 	                                           $$.SetupLineNos($1,$3,$4);
 	                                         }
+	| TYPENAME_KEYWORD any_id type_id_qual { $$= DataTypeC(STR(typename),$2,$3.Name());  
+	                                           $$.SetupLineNos($1,$2,$3);
+	                                         }
         ;
 
 var_name_list_opt: /*empty*/ { $$=ObjectListC(STR(VarNameList)); }
@@ -517,25 +537,6 @@ type_id_qual: /*empty*/             { $$=ObjectC(""); }
 	  | type_id_qual '&'        { $$=$1; $$.Name() += strp_ampersand;  }
 	  | type_id_qual CV_QUALIFIER { $$=$1; $$.Name() += $2.Name();  }
 ;
-scope_id: IDENTIFIER                             { $$=$1; }
-     | '~' IDENTIFIER                            { $$ = ObjectC(StringC("~") + $2.Name()); $$.CopyLineNo($2); }
-     | IDENTIFIER '<' template_inst_args_opt '>'     { $$ = ObjectTemplateC($1.Name(),$3); }
-
-/*     | '~' IDENTIFIER '<' template_inst_args '>' { $$ = ObjectC(StringC("~") + $2.Name() + StringC("<") + $4.Name() + ">"); } */
-;
-scope_resolved_id: scope_id          { ObjectListC ol($1.Name()); ol.Append($1); $$=ol; $$.CopyLineNo($1); }
-   | CLCL scope_id                   { ObjectListC ol($2.Name()); 
-                                       ObjectC newun(strp_ColonColon);
-                                       ol.Append(newun);
-				       ol.Append($2);
-				       $$ = ol;
-                                     }
-   | scope_resolved_id CLCL scope_id { ObjectListC ol($1); 
-				       ol.Append($3);
-				       ol.Name() = $3.Name();  // Give name of last component to list.
-				       $$ = ol;
-                                     }
-   ;
 /* --------------- Special Functions/Methods -------------------------------- */
 
 base_class_constructors_list: constructor_expr
@@ -553,7 +554,7 @@ arg_expr_list: arg_expr_list_item { $$=$1; }
 arg_expr_list_item:  '(' arg_expr_list_all ')' { $$=ObjectC(strp_OpenBracket + $2.Name() + strp_CloseBracket); }
    | IDENTIFIER | CONSTANT | BINOP
    | CLCL  | PUBLIC | PROTECTED | PRIVATE | NAMESPACE | CV_QUALIFIER 
-   | STATIC | STRING | CPVIRTUAL | ENUM | CPTYPEDEF | BUILTIN
+   |  STRING | CPVIRTUAL | ENUM | CPTYPEDEF | BUILTIN 
    | CPFRIEND | CPOPERATOR | TEMPLATE | CPTHROW | TYPENAME_KEYWORD | USING    
    | ':' { $$=ObjectC(strp_Colon); }
    | '<' { $$=ObjectC("<"); }
@@ -729,9 +730,9 @@ func_body_contents:  '{' func_body_contents_list '}'
    | '=' | '+' | '-' | '~' | '&' | '/' | '*' | '%' | '|' | '^' | '!' | ':'
    | '(' | ')' | '[' | ']' | ';' | ',' | '<' | '>' | BINOP
    | CLCL  | PUBLIC | PROTECTED | PRIVATE | NAMESPACE | CV_QUALIFIER 
-   | STATIC | STRING | CPVIRTUAL | ENUM | CPTYPEDEF | TYPEQUAL | BUILTIN
-   | CPFRIEND | CPOPERATOR | TEMPLATE | CPTHROW | TYPENAME_KEYWORD | USING 
-   | EXTERN | ASM_KEYWORD
+   | STRING | CPVIRTUAL | ENUM | CPTYPEDEF | TYPEQUAL | BUILTIN  
+   | CPFRIEND | CPOPERATOR | TEMPLATE | CPTHROW | CPTRY | CPCATCH | TYPENAME_KEYWORD | USING 
+   | EXTERN | ASM_KEYWORD | ELLIPSIS
 ;
 
 %%

@@ -102,7 +102,7 @@ SCHAR [^"\\\n]|{ESCAPE_SEQUENCE}
 <INITIAL>"protected"     { CommentUpdate(yylval,STR(protected),yylineno); return PROTECTED;  }
 <INITIAL>"private"       { CommentUpdate(yylval,STR(private)  ,yylineno); return PRIVATE;    }
 <INITIAL>"const"         { CommentUpdate(yylval,STR(const)    ,yylineno); return CV_QUALIFIER;  }
-<INITIAL>"static"        { CommentUpdate(yylval,STR(static)   ,yylineno); return STATIC;     }
+<INITIAL>"static"        { CommentUpdate(yylval,STR(const)    ,yylineno); return CV_QUALIFIER;  }
 <INITIAL>"virtual"       { CommentUpdate(yylval,STR(virtual)  ,yylineno); return CPVIRTUAL;  }
 
 <INITIAL>"enum"          { CommentUpdate(yylval,STR(enum)     ,yylineno); return ENUM;     }
@@ -111,6 +111,8 @@ SCHAR [^"\\\n]|{ESCAPE_SEQUENCE}
 <INITIAL>"operator"      { CommentUpdate(yylval,STR(operator) ,yylineno); return CPOPERATOR; }
 <INITIAL>"template"      { CommentUpdate(yylval,STR(template) ,yylineno); return TEMPLATE; }
 <INITIAL>"throw"         { CommentUpdate(yylval,STR(throw)    ,yylineno); return CPTHROW;    }
+<INITIAL>"catch"         { CommentUpdate(yylval,STR(throw)    ,yylineno); return CPCATCH;    }
+<INITIAL>"try"           { CommentUpdate(yylval,STR(throw)    ,yylineno); return CPTRY;    }
 <INITIAL>"namespace"     { CommentUpdate(yylval,STR(namespace),yylineno); return NAMESPACE;  }
 <INITIAL>"typename"      { CommentUpdate(yylval,STR(typename) ,yylineno); return TYPENAME_KEYWORD; }
 <INITIAL>"using"         { CommentUpdate(yylval,STR(using)    ,yylineno); return USING;    }

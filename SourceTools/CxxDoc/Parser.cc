@@ -203,7 +203,7 @@ int yylex() {
       case PROTECTED: cerr << "PROTECTED"; break;
       case PRIVATE: cerr << "PRIVATE"; break;
       case NAMESPACE: cerr << "NAMESPACE"; break;
-      case STATIC: cerr << "STATIC"; break;
+	//      case STATIC: cerr << "STATIC"; break;
       case STRING: cerr << "STRING"; break;
       case CPVIRTUAL: cerr << "CPVIRTUAL"; break;
       case ENUM: cerr << "ENUM"; break;

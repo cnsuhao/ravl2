@@ -493,7 +493,7 @@ namespace RavlCxxDocN {
     StringC refPattern;
     if(!Lookup("refPattern",refPattern))
       refPattern = filePattern;
-    if(!TypedefC::IsA(anObj))
+    if(!TypedefC::IsA(anObj) && !EnumC::IsA(anObj)) // FIXME:- This should be set in the template somewhere.
       ret += MakeFilename(refPattern,anObj,true);
     else { // Take care of typedef's
       if(anObj.HasParentScope()) {
