@@ -173,7 +173,8 @@ namespace RavlImageN {
 	at[0] *= iz;
 	at[1] *= iz;
 	do {
-	  mixer(*it,src.BiLinear(Point2dC((at[0]/at[2]) - 0.5,(at[1]/at[2])- 0.5)));
+	  BilinearInterpolation(src,Point2dC((at[0]/at[2]) - 0.5,(at[1]/at[2])- 0.5),tmp)
+	  mixer(*it,tmp);
 	  at += ldir;
 	} while(it.Next()) ;
       }
