@@ -21,6 +21,7 @@ namespace RavlN {
   class TriggerC;
   template<class DataT> class DListC;
   class AttributeCtrlInternalC;
+  class AttributeSetBodyC;
   class XMLIStreamC;
   class XMLOStreamC;
   
@@ -130,6 +131,8 @@ namespace RavlN {
     
   private:
     AttributeCtrlInternalC *attrInfo;
+    
+    friend class AttributeSetBodyC;
   };
   
   //! userlevel=Normal

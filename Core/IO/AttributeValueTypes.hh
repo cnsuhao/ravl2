@@ -202,7 +202,7 @@ namespace RavlN {
     //: Increment steps.
     
     ValueT Default() const
-    { return Body().DefaultValue(); }
+    { return Body().Default(); }
     //: DefaultValue value.
     
   };

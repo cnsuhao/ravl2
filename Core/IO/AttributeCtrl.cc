@@ -10,6 +10,7 @@
 
 #include "Ravl/DP/AttributeCtrl.hh"
 #include "Ravl/DP/AttributeType.hh"
+#include "Ravl/DP/AttributeCtrlInternal.hh"
 #include "Ravl/MTLocks.hh"
 #include "Ravl/Hash.hh"
 #include "Ravl/DList.hh"
@@ -25,82 +26,25 @@
 #endif
 
 namespace RavlN {
-
-  class AttributeCtrlInternalC {
-  public:
-    AttributeCtrlInternalC()
-      : trigIdAlloc(1)
-    {}
-    //: Default constructor.
-    
-    bool RegisterAttribute(const AttributeTypeC &attr) {
-      attribTypes[attr.Name()] = attr;
-      attribTypeList.InsLast(attr);
-      return true;
-    }
-    //: Register an attribute.
-    
-    bool GetAttrList(DListC<StringC> &list) const {
-      for(DLIterC<AttributeTypeC> it(attribTypeList);it;it++)
-	list.InsLast(it->Name());
-      return true;
-    }
-    //: Get list of attributes.
-    
-    bool GetAttrTypes(DListC<AttributeTypeC> &list) const {
-      for(DLIterC<AttributeTypeC> it(attribTypeList);it;it++)
-	list.InsLast(*it);
-      return true;
-    }
-    //: Get list of attribute info.
-    
-    AttributeTypeC GetAttrType(const StringC &attrName) const {
-      AttributeTypeC ret;
-      attribTypes.Lookup(attrName,ret);
-      return ret;
-    }
-    
-    void IssueChangedSignal(const StringC &attrName) {
-      for(DLIterC<TriggerC> it(name2trigList[attrName]);it;it++)
-	(*it).Invoke();
-    }
-    //: Issue attribute changed signal.
-    
-    IntT RegisterChangedSignal(const StringC &attrName,const TriggerC &trig) {
-      IntT id = trigIdAlloc++;
-      DListC<TriggerC> &list = name2trigList[attrName];
-      list.InsFirst(trig);
-      trigId2trig[id] = list;
-      return id;
-    }
-    //: Register a changed signal.
-    
-    bool RemoveChangedSignal(IntT id) {
-      DLIterC<TriggerC> *trig = trigId2trig.Lookup(id);
-      if(trig == 0) 
-	return false;
-      trig->Del();
-      trigId2trig.Del(id);
-      return true;
-    }
-    //: Remove changed signal.
-    
-    DListC<AttributeTypeC> &Attributes()
-    { return attribTypeList; }
-    //: Get list of attributes.
-    
-  protected:
-    //: Get type of a particular attribute. 
-    
-    HashC<StringC,AttributeTypeC> attribTypes;
-    DListC<AttributeTypeC> attribTypeList;
-
-    // Changed trigger.
-    
-    HashC<IntT,DLIterC<TriggerC> > trigId2trig;
-    HashC<StringC,DListC<TriggerC> > name2trigList;
-    IntT trigIdAlloc;
-  };
+  
+  //: Default constructor.
+  
+  AttributeCtrlInternalC::AttributeCtrlInternalC()
+    : trigIdAlloc(1)
+  {}
+  
+  //: Setup new schema.
+  
+  bool AttributeCtrlInternalC::SetSchema(const DListC<AttributeTypeC> &nattribTypeList) {
+    attribTypeList = nattribTypeList;
+    attribTypes.Empty();
+    for(DLIterC<AttributeTypeC> it(nattribTypeList);it;it++)
+      attribTypes[it->Name()] = *it;
+    return true;
+  }
+  
+  //:-----------------------------------------------------------------------
+  
   
   //: Default constructor.
   
