@@ -29,6 +29,22 @@ C.Galambos@eim.surrey.ac.uk
 INSTALLATION UNIX
 -----------------
 
+To install go the root RAVL directory and type:
+
+./install [location]
+
+Where [location] is the directory in which you want RAVL installed.
+
+Once RAVL is installed programs can be compiled with an alias similar
+to the following:
+
+alias qm gmake -f [location]/share/RAVL/QMake/QMake.mk PROJECT_OUT=$(HOME)/build
+
+if you've put RAVL's bin in the path there is also a 'qm'script which 
+invokes the make system in a simlar way.
+
+Some notes on installation:
+
 - The CxxDoc tools currently requires a daft amount of memory to compile,
   approximately 512MB.  If you don't have this much on your machine you 
   can stop the installation by going to the Ravl/SourceTools/defs.mk file
@@ -43,11 +59,12 @@ INSTALLATION UNIX
   Required modules for particular tools can be found in the documentation. 
   (Or will be soon...)
 
-- At the moment you have to manualy configure where to look
-  for the compiler. This is done by setting CC and CXX to the locations of
-  the C and C++ compilers respectively in the system configuration
-  file. The configuration file can be found in Ravl/QMake/config.$(ARC)
-  where arc is one of linux,sgi or sol2, depending on your machine.
+- By default the install process uses the compiler in your path, this
+  isn't always best and you may want to change it. This can be done by
+  setting CC and CXX to the locations of the C and C++ compilers
+  respectively in the system configuration file. The configuration
+  file can be found in Ravl/QMake/config.$(ARC) where arc is one of
+  linux,sgi or sol2, depending on your machine.
 
 - A version of the ccmath source code which will compile under QMake is
   included the RAVL releases and as a separate file available for download.
@@ -56,7 +73,7 @@ INSTALLATION UNIX
   It does make it much easier to install. If you don't wish to use this
   code remove the 'CCMath.r' from the NESTED line in the Ravl/defs.mk file.
 
-  RAVL can be made to use an external version of CCMath.  The code
+- RAVL can be made to use an external version of CCMath.  The code
   has been tested with version 2.2.1, but I would expect it to work with   
   older versions as well.  The location of the ccmath package is set
   in Ravl/Math/CCMath/CCMath.def, set the 'CCMATH' variable to appropriate
@@ -73,9 +90,6 @@ INSTALLATION UNIX
   directory, this can be done by modifying the defs.mk in this directory in 
   a similar way.
 
-To install go the root RAVL directory and type:
-
-./install [location]
 
 NOTE: Most of the development of RAVL is being done on a Redhat 7.2
 box with gcc-2.95.3, at this stage in development things are most
