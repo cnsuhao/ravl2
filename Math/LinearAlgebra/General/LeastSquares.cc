@@ -35,7 +35,26 @@ namespace RavlN {
     int f = 0;
     residual = qrlsq(&(A[0][0]),&(b[0]),A.Size1(),A.Size2(),&f);
     b = VectorC(SArray1dC<RealT>(b,A.Size2()));
-    return f == 0;
+    return f == 0 && residual >= 0;
   }
- 
+
+  //: Find a least squares solution to A*x = b
+  // Where the solution is of a known rank.
+  // From Appendix 5 of the Second edition of Multiple View Geometry by
+  // R. Hartly and A.Zisserman.
+  
+  VectorC LeastSquaresFixedRank(const MatrixC &A,const VectorC &b,UIntT rank) {
+    MatrixC U,V;
+    VectorC d = SVD(A,U,V);
+    VectorC b1 = U.TMul(b);
+    VectorC y(b1.Size());
+    for(UIntT i = 0;i < rank;i++)
+      y[i] = b1[i]/d[i];
+    for(UIntT i = rank;i < y.Size();i++)
+      y[i] = 0;
+    VectorC result = V * y;
+    return result;
+  }
+  
+  
 }

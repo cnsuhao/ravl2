@@ -35,6 +35,15 @@ namespace RavlN {
   // The residual is assigned to 'residual'.
   // Returns false if the rank of 'A' is insufficient.
   
+  VectorC LeastSquaresFixedRank(const MatrixC &A,const VectorC &b,UIntT rank);
+  //: Find least squares solution for x where A*x = b, with reduced rank.
+  //!param: A - Matrix
+  //!param: b - Vector.
+  //!param: rank - Limit to rank of solution.
+  // From Appendix 5 of the Second edition of Multiple View Geometry by
+  // R. Hartly and A.Zisserman.
+  
+  
 }
 
 #endif
