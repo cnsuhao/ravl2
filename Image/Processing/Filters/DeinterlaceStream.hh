@@ -22,31 +22,69 @@
 #include "Ravl/Array2dSqr311Iter3.hh"
 
 namespace RavlImageN {
+
+  //! userlevel=Develop
+  //: Deinterlace base class.
+  
+  class DeinterlaceStreamBaseC {
+  public:
+    DeinterlaceStreamBaseC(const DPSeekCtrlC &newSeekCtrl,bool evenFieldDom = false);
+    //: Constructor.
+    
+    virtual ~DeinterlaceStreamBaseC();
+    //: Destructor.
+    
+    bool HandleGetAttr(const StringC &attrName,bool &attrValue);
+    //: Get bool attribute.
+    
+    bool HandleSetAttr(const StringC &attrName,const bool &attrValue);
+    //: Set bool attribute.
+    
+    bool HandleGetAttr(const StringC &attrName,RealT &attrValue);
+    //: Get a stream attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling stream attributes such as frame rate, and compression ratios.
+    
+    bool HandleSetAttr(const StringC &attrName,const RealT &attrValue);
+    //: Set a stream attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling stream attributes such as frame rate, and compression ratios.
+    
+  protected:
+    void RegisterAttribs(AttributeCtrlC &attrCtrl);
+    //: Register attributes.
+    
+    DPSeekCtrlC seekCtrl;
+    bool evenFieldDominant;
+    IntT state; // Field number.
+    DPIPortBaseC inputBase; 
+  };
   
   //! userlevel=Develop
   //: Deinterlace an incoming stream of images.
   
   template<class PixelT>
   class DeinterlaceStreamBodyC
-    : public DPISPortBodyC<ImageC<PixelT> >
+    : public DPISPortBodyC<ImageC<PixelT> >,
+      public DeinterlaceStreamBaseC
   {
   public:
     DeinterlaceStreamBodyC(DPIPortC<ImageC<PixelT> > &inPort,bool nEvenFieldDominant = true)
       : DPISPortBodyC<ImageC<PixelT> >(inPort),
-	evenFieldDominant(nEvenFieldDominant),
+	DeinterlaceStreamBaseC(DPSeekCtrlAttachC(inPort,true),nEvenFieldDominant),
 	input(inPort)
-    {
-      state = 0;
-      seekCtrl = DPSeekCtrlAttachC(inPort,true);
+    { 
+      inputBase = input;
+      RegisterAttribs(inPort); 
     }
     //: Constructor.
     
     DeinterlaceStreamBodyC(DPISPortC<ImageC<PixelT> > &inPort,bool nEvenFieldDominant = true)
-      : evenFieldDominant(nEvenFieldDominant),
+      : DeinterlaceStreamBaseC(DPSeekCtrlAttachC((const DPSeekCtrlC &) inPort),nEvenFieldDominant),
 	input(inPort)
-    {
-      state = 0; 
-      seekCtrl = DPSeekCtrlAttachC((const DPSeekCtrlC &) inPort);
+    { 
+      inputBase = input;
+      RegisterAttribs(inPort); 
     }
     //: Constructor.
     
@@ -189,35 +227,33 @@ namespace RavlImageN {
     }
     //: Input plugs.
     
-    virtual bool GetAttr(const StringC &attrName,StringC &attrValue) {
-      if(attrName == "framerate") {
-	StringC tmp;
-	if(!input.GetAttr(attrName,tmp)) {
-	  attrValue = StringC("50"); // Guess at 50 Hz.
-	  return true;
-	}
-	// Double value before returning.
-	RealT fr = tmp.RealValue();
-	attrValue = StringC(fr * 2.0);
+    virtual bool GetAttr(const StringC &attrName,bool &attrValue) {
+      if(HandleGetAttr(attrName,attrValue))
 	return true;
-      }
-      // Just pass request back.
-      return input.GetAttr(attrName,attrValue);
+      return AttributeCtrlBodyC::GetAttr(attrName,attrValue);
+    }
+    //: Get bool attribute.
+    
+    virtual bool SetAttr(const StringC &attrName,const bool &attrValue) {
+      if(HandleSetAttr(attrName,attrValue))
+	return true;
+      return AttributeCtrlBodyC::SetAttr(attrName,attrValue);
+    }
+    //: Set bool attribute.
+    
+    virtual bool GetAttr(const StringC &attrName,RealT &attrValue) {
+      if(HandleSetAttr(attrName,attrValue))
+	return true;
+      return AttributeCtrlBodyC::GetAttr(attrName,attrValue);
     }
     //: Get a stream attribute.
     // Returns false if the attribute name is unknown.
     // This is for handling stream attributes such as frame rate, and compression ratios.
     
-    virtual bool SetAttr(const StringC &attrName,const StringC &attrValue) {
-      if(attrName == "framerate") {
-	// Half value.
-	RealT fr = attrValue.RealValue();
-	StringC tmp = StringC(fr * 2.0);
-	// Send it on back.
-	return input.SetAttr(attrName,tmp);
-      }     
-      // Just pass request back.
-      return input.SetAttr(attrName,attrValue);
+    virtual bool SetAttr(const StringC &attrName,const RealT &attrValue) {
+      if(HandleSetAttr(attrName,attrValue))
+	return true;
+      return AttributeCtrlBodyC::SetAttr(attrName,attrValue);
     }
     //: Set a stream attribute.
     // Returns false if the attribute name is unknown.
@@ -227,12 +263,7 @@ namespace RavlImageN {
     void Deinterlace(const ImageC<PixelT> &img,ImageC<PixelT> &field0,ImageC<PixelT> &field1);
     //: DeinterlaceStream a frame.
     
-    DPSeekCtrlAttachC seekCtrl;
-    
-    bool evenFieldDominant;
     ImageC<PixelT> fields[2];
-    IntT state; // Field number.
-    
     DPIPortC<ImageC<PixelT> > input; // Where to get data from.
   };
   

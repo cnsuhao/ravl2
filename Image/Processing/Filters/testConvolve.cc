@@ -108,10 +108,6 @@ int main() {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
-  if((ln = testWarpScale()) != 0) {
-    cerr << "Test failed on line " << ln << "\n";
-    return 1;
-  }
   if((ln = testHistogramEqualise()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
@@ -136,8 +132,12 @@ int main() {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
-#endif
   if((ln = testDCT()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  }
+#endif
+  if((ln = testWarpScale()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
@@ -290,18 +290,19 @@ int testConvolve2dMMX() {
 
 int testWarpScale() {
   cerr << "testWarpScale(), Started... \n";
-  ImageC<IntT> test(10,10);
-  IntT i = 0;
-  for(Array2dIterC<IntT> it(test);it;it++)
-    *it = i++;
-  //cerr << test << "\n";
-  ImageRectangleC resRect(0,19,0,19);
-  WarpScaleC<IntT,IntT> xyz(resRect);
-  ImageC<IntT> res = xyz.Apply(test);
-  if(res.Rectangle() != resRect) return __LINE__;
-  //cerr << res << "\n";
-  if(res[resRect.Origin()] != 0) return __LINE__;
-  
+  typedef RealT PixelT;
+  ImageC<PixelT> test(800,800);
+  for(int i = 0;i <100;i++) {
+    for(Array2dIterC<PixelT> it(test);it;it++)
+      *it = i++;
+    //cerr << test << "\n";
+    ImageRectangleC resRect(0,400,0,400);
+    WarpScaleC<PixelT,PixelT> xyz(resRect);
+    ImageC<PixelT> res = xyz.Apply(test);
+    if(res.Rectangle() != resRect) return __LINE__;
+    //cerr << res << "\n";
+    if(res[resRect.Origin()] != 0) return __LINE__;
+  }
   // Do some more checking here.
   return 0;
 }
@@ -502,7 +503,7 @@ int testGaussConvolve() {
 }
 
 int testDCT() {
-  ImageC<RealT> img(6,6);
+  ImageC<RealT> img(8,8);
   img.Fill(0);
   img[3][3] = 1;
   img[4][3] = 1;
@@ -510,14 +511,19 @@ int testDCT() {
   img[3][4] = 1;
   ImageC<RealT> res;
   DCT(img,res);
-  cerr << "Res=" << res << "\n";
-
+  //cerr << "Res=" << res << "\n";
+  
   ImageC<RealT> rimg;
   IDCT(res,rimg);
   
-  cerr << "rImg=" << rimg << " Err=" << (rimg - img).SumOfSqr() << "\n";
+  //cerr << "rImg=" << rimg << " Err=" << (rimg - img).SumOfSqr() << "\n";
 
   if((rimg - img).SumOfSqr() > 0.000001)
     return __LINE__;
+
+  ChanDCTC chandct(6);
+  ImageC<RealT> cimg = chandct.DCT(img);
+  //cerr << "CRes=" << cimg << "\n";
+  
   return 0;
 }

@@ -19,7 +19,7 @@ HEADERS= Convolve2d.hh ConvolveSeparable2d.hh ConvolveHorz2d.hh \
  DCT2d.hh
 
 SOURCES= HomomorphicFilter.cc Correlate2d.cc Matching.cc WarpThinPlateSpline.cc \
- GabourFilter2d.cc DCT2d.cc
+ GabourFilter2d.cc DCT2d.cc DeinterlaceStream.cc
 
 TESTEXES= testConvolve.cc
 
@@ -31,6 +31,7 @@ PLIB=RavlImageProc
 
 USESLIBS=RavlImageProc RavlMath
 
-PROGLIBS=RavlIO RavlImageIO RavlOSIO RavlOptimise  RavlDPDisplay.opt
+PROGLIBS=RavlIO RavlImageIO RavlOSIO RavlOptimise  
+#RavlDPDisplay.opt
 
 EHT= Ravl.Images.Filtering.html Ravl.Images.Warping.html
