@@ -45,7 +45,7 @@ MKDEPUP = echo -n '$$(INST_OBJS)/' > $(INST_DEPEND)/$*.d ; cat $(WORKTMP)/$*.d  
 # Universal flags.
 
 CFLAGS   = -Wall -pipe  
-CCFLAGS  = -pipe -Wall
+CCFLAGS  = -pipe -Wall -frepo
 CCPPFLAGS= -DGNU -Dunix
 CPPFLAGS = -DGNU -Dunix
 LDFLAGS = 
@@ -76,8 +76,8 @@ endif
 # 'opt' variant.
 
 ifeq ($(VAR),opt)
- CFLAGS += -O3 -funroll-loops -DNDEBUG
- CCFLAGS += -O3 -funroll-loops -DNDEBUG
+ CFLAGS += -O3  -ffast-math -funroll-loops -DNDEBUG
+ CCFLAGS += -O3  -ffast-math -funroll-loops -DNDEBUG
  LDFLAGS += -O3
 endif
 
@@ -105,7 +105,7 @@ endif
 # 'gprof' variant.
 
 ifeq ($(VAR),gprof)
- CFLAGS += -O2 -pg -DNDEBUG
- CCFLAGS += -O2 -pg -DNDEBUG
- LDFLAGS += -O2 -pg 
+ CFLAGS += -O3 -pg -ffast-math -funroll-loops -DNDEBUG
+ CCFLAGS += -O3 -pg -ffast-math -funroll-loops -DNDEBUG
+ LDFLAGS += -O3 -pg
 endif
