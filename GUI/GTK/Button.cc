@@ -27,6 +27,25 @@
 
 namespace RavlGUIN {
   
+  static void find_label_iter(GtkWidget *widget, gpointer data)
+  {
+    // Stop early if we already have our label
+    GtkWidget **label = (GtkWidget**)data;
+    if (*label != NULL)
+      return;
+    
+    // Keep checking containers
+    if (GTK_IS_CONTAINER(widget))
+    {
+      gtk_container_foreach(GTK_CONTAINER(widget), &find_label_iter, label);
+      return;
+    }
+    
+    // Do we have a label
+    if (GTK_IS_LABEL(widget))
+      *label = widget;
+  }
+  
   // Default constructor.
   
   ButtonBodyC::ButtonBodyC(const char *nlabel,const char *ntooltip)
@@ -68,16 +87,28 @@ namespace RavlGUIN {
   bool ButtonBodyC::GUISetLabel(const StringC &text) {
     label = text;
     GtkWidget *tb;
+    
+    // Check the button child
     GtkWidget *child = GTK_BIN(widget)->child;
-    if(child != 0) {
-      if(GTK_IS_LABEL(child)) { // Is a label widget already ?
-	gtk_label_set(GTK_LABEL(child),text.chars());
-	return true;
+    if (child != 0)
+    {
+      // Find the first label in the nest of children
+      GtkWidget *label = NULL;
+      if (GTK_IS_CONTAINER(child))
+        gtk_container_foreach(GTK_CONTAINER(child), &find_label_iter, &label);
+
+      // If a label was found, reset the text and leave
+      if (label != NULL)
+      {
+        gtk_label_set(GTK_LABEL(label), text.chars());
+        return true;
       }
-      gtk_container_remove(GTK_CONTAINER(widget),child);
+      
+      // Hmm, don't know what's there so delete the children and create a new label
+      gtk_container_remove(GTK_CONTAINER(widget), child);
     }
     tb = gtk_label_new(text.chars());
-    gtk_widget_show (tb);
+    gtk_widget_show(tb);
     gtk_container_add(GTK_CONTAINER(widget),tb);
     return true;
   }
