@@ -19,6 +19,9 @@
 #include <standards.h>
 #endif
 
+#include "Ravl/Threads/TimedTriggerQueue.hh"
+
+#if !USE_NEW_TIMEDTRIGGERQUEUE
 extern "C" {
 #include <unistd.h>
 #include <sys/types.h>
@@ -29,9 +32,8 @@ extern "C" {
 #include <sys/select.h>
 #include <string.h>
 };
+#endif
 
-
-#include "Ravl/Threads/TimedTriggerQueue.hh"
 #include "Ravl/Threads/LaunchThread.hh"
 #include "Ravl/Exception.hh"
 
@@ -55,11 +57,13 @@ namespace RavlN
     : eventCount(0),
       done(false)
   {
+#if !USE_NEW_TIMEDTRIGGERQUEUE
     int iofds[2];
     if(pipe(iofds) != 0) 
       throw ExceptionOperationFailedC("TimedTriggerQueueBodyC(), Failed to open pipe. \n");
     rfd = iofds[0];
     wfd = iofds[1];
+#endif
     LaunchThread(TimedTriggerQueueC(*this),&TimedTriggerQueueC::Process);
   }
   
@@ -74,9 +78,11 @@ namespace RavlN
   
   void TimedTriggerQueueBodyC::Shutdown() {
     done = true;
+#if !USE_NEW_TIMEDTRIGGERQUEUE
     IntT nEvent = 0;
     if(write(wfd,&nEvent,sizeof(IntT)) != sizeof(IntT))
       cerr << "TimedTriggerQueueBodyC::Schedule(), WARNING: Failed to write to schedule queue.  \n";
+#endif
     hasShutdown.Wait(); // Wait for shutdown to complete.
   }
   
@@ -105,8 +111,12 @@ namespace RavlN
     events[nEvent] = se;
     holdLock.Unlock();
     ONDEBUG(cerr << "TimedTriggerQueueBodyC::Schedule() Event " << nEvent << " at " << at.Text() << " \n");
+#if USE_NEW_TIMEDTRIGGERQUEUE
+    semaSched.Post();
+#else
     if(write(wfd,&nEvent,sizeof(IntT)) != sizeof(IntT))
       cerr << "TimedTriggerQueueBodyC::Schedule(), WARNING: Failed to write to schedule queue.  \n";
+#endif
     return eventCount;
   }
   
@@ -114,10 +124,12 @@ namespace RavlN
   
   bool TimedTriggerQueueBodyC::Process() {
     ONDEBUG(cerr << "TimedTriggerQueueBodyC::Process(), Called. \n");
-    struct timeval timeout;
+#if !USE_NEW_TIMEDTRIGGERQUEUE
     int reterr;
+    struct timeval timeout;
     fd_set readSet;
     FD_ZERO(&readSet);
+#endif
     MutexLockC holdLock(access);
     holdLock.Unlock();
     do {
@@ -126,6 +138,7 @@ namespace RavlN
       if(!schedule.IsElm()) { 
 	ONDEBUG(cerr << "Waiting for event to be scheduled. Size:" << schedule.Size() << "\n");
 	holdLock.Unlock();
+#if !USE_NEW_TIMEDTRIGGERQUEUE
 	FD_SET(rfd,&readSet);
 	reterr = select(rfd+1,&readSet,0,0,0);
 	// New events pending ?
@@ -136,6 +149,9 @@ namespace RavlN
 	      cerr << "WARNING: TimedTriggerQueueBodyC::Process() Failed to read event queue. \n";
 	  }
 	}
+#else
+	semaSched.Wait();
+#endif
 	ONDEBUG(cerr << "Re-checking event queue.\n");
 	continue; // Go back and check...
       }
@@ -155,6 +171,7 @@ namespace RavlN
       }
       holdLock.Unlock();
       // Wait for delay, or until a new event in scheduled.
+#if !USE_NEW_TIMEDTRIGGERQUEUE
       FD_SET(rfd,&readSet);
       timeout.tv_sec = toGo.TotalSeconds();
       timeout.tv_usec = toGo.USeconds();
@@ -166,6 +183,9 @@ namespace RavlN
 	    cerr << "WARNING: TimedTriggerQueueBodyC::Process() Failed to read event queue. \n";
 	}
       }
+#else
+      semaSched.Wait(toGo.Double());
+#endif
       ONDEBUG(cerr << "Time to check things out.\n");
     } while(!done);
     hasShutdown.Post();

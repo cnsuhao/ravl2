@@ -22,6 +22,10 @@
 #include "Ravl/Threads/ThreadEvent.hh"
 #include "Ravl/Calls.hh"
 
+#define USE_NEW_TIMEDTRIGGERQUEUE 1
+// The new timed trigger code doesn't rely the un*x select system call,
+// but seems to give worse timing errors.  
+
 namespace RavlN
 {
   class TimedTriggerQueueC;
@@ -73,7 +77,11 @@ namespace RavlN
     bool done;
     ThreadEventC hasShutdown;
     // Queue fd's
+#if USE_NEW_TIMEDTRIGGERQUEUE
+    SemaphoreC semaSched;
+#else
     int rfd,wfd;
+#endif
     
     friend class TimedTriggerQueueC;
   };
