@@ -10,6 +10,8 @@
 /*! file="Ravl/Core/Base/config.h" */
 /*! lib=RavlCore */
 
+#define USE_GCC30 0
+
 /******* AMMA/QMAKE COMPATIBILITY *******/
 #if !defined(RAVL_CHECK)
 #ifdef AMMA_CHECK
@@ -63,7 +65,11 @@
 #define RAVL_HAVE_ANSICPPHEADERS 1
 #if !defined(VISUAL_CPP)
 #define RAVL_HAVE_STREAMSIZE 1
+#if USE_GCC30
+#define RAVL_HAVE_IOS_SEEKDIR 1 /* use ios::seekdir */
+#else
 #define RAVL_HAVE_IOS_SEEKDIR 0 /* use ios::seekdir */
+#endif
 #else
 #define RAVL_HAVE_STREAMSIZE 0
 #define RAVL_HAVE_IOS_SEEKDIR 0 /* use ios::seekdir */
@@ -129,6 +135,5 @@
 #define RAVL_THROW3(x,y,z)
 #endif
 
-#define USE_GCC30 0
 
 #endif
