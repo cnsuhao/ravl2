@@ -49,7 +49,7 @@ namespace RavlImageN {
       SearchMinAbsDifferenceCreep(patch,mosaic,projLoc,rat,sum,searchSize);
       
       // Put matches in the list.
-      if(score < matchThreshold)
+      if(sum < matchThreshold)
 	ret.InsLast(PairC<Point2dC>(cpnt,rat));
     }
     
