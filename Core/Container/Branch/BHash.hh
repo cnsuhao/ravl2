@@ -97,6 +97,8 @@ namespace RavlN {
   
   template<class KeyT,class DataT>
   DataT *BHashC<KeyT,DataT>::Lookup(const KeyT &key) {
+    if(table.Size() == 0)
+      return 0;
     for(BListIterC<BHashEntryC<KeyT,DataT> > it(table[StdHash(key) % table.Size()]);it;it++)
       if(it.Data().Key() == key)
 	return &it.Data().Data();
@@ -105,6 +107,8 @@ namespace RavlN {
   
   template<class KeyT,class DataT>
   bool BHashC<KeyT,DataT>::Lookup(const KeyT &key,DataT &data) {
+    if(table.Size() == 0)
+      return 0;
     for(BListIterC<BHashEntryC<KeyT,DataT> > it(table[StdHash(key) % table.Size()]);it;it++) {
       if(it.Data().Key() == key) {
 	data = it.Data().Data();
