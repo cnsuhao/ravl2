@@ -14,7 +14,7 @@
 //! rcsid     = "$Id$"
 //! docentry  = "3D Surface.Rigid Body Transforms"
 
-#include "Ravl/Quartern3d.hh"
+#include "Ravl/Quatern3d.hh"
 #include "Ravl/Vector3d.hh"
 #include "Ravl/Matrix3d.hh"
 #include "Ravl/Vector.hh"
@@ -43,7 +43,7 @@ namespace RavlN {
     {}
     //: Null Constructor 
 
-    RigidTransform3dC(const Vector3dC &t, const Quartern3dC &q)
+    RigidTransform3dC(const Vector3dC &t, const Quatern3dC &q)
       : trans(t), rot(q)
     {}
     //: Constructor
@@ -66,7 +66,7 @@ namespace RavlN {
     //:---------------------------------------------------------
     //: Access
     
-    RigidTransform3dC & Set(const Vector3dC &t,const Quartern3dC &q)  {
+    RigidTransform3dC & Set(const Vector3dC &t,const Quatern3dC &q)  {
       rot = q; trans=t;
       return *this;
     }
@@ -84,11 +84,11 @@ namespace RavlN {
     }
     //: Set as specified
  
-    const Quartern3dC &Rotation(void) const
+    const Quatern3dC &Rotation(void) const
     { return rot; }
     //: Return the rotation as a quarternion
     
-    RigidTransform3dC & SetRotation(const Quartern3dC &q) {
+    RigidTransform3dC & SetRotation(const Quatern3dC &q) {
       rot=q;
       return *this;
     }
@@ -136,10 +136,10 @@ namespace RavlN {
     RigidTransform3dC Inverse(void) const;
     // Returns the inverse transform
     
-    RigidTransform3dC & ApplyRotationOnly(const Quartern3dC &q);
+    RigidTransform3dC & ApplyRotationOnly(const Quatern3dC &q);
     // Apply the specified rotation only to the rot (not the trans)
     
-    RigidTransform3dC & ApplyRotationPivot(const Quartern3dC &q, const Vector3dC &pivot);
+    RigidTransform3dC & ApplyRotationPivot(const Quatern3dC &q, const Vector3dC &pivot);
     // Apply the specified rotation around the specified pivot point
     
     RigidTransform3dC & ApplyTranslate(const Vector3dC &t);
@@ -153,7 +153,7 @@ namespace RavlN {
     Vector3dC ExportAxTheta() const
     { return rot.ExportAxTheta(); }
     // return rot as a unit vector axis times theta in radians
-    // Possible problems for angles near PI, see Quartern.hh
+    // Possible problems for angles near PI, see Quatern.hh
     
     double ExportRotationAngle() const
     { return rot.ExportRotationAngle(); }
@@ -165,7 +165,7 @@ namespace RavlN {
     //: Return rot as a unit vector axis around which rotated.
     // if Rotation matrix is identity return axis as (0,0,0) vector
     
-    const Quartern3dC &ExportRotationQuart() const
+    const Quatern3dC &ExportRotationQuart() const
     { return rot; }
     //: Return rotation as quarternion
     
@@ -207,7 +207,7 @@ namespace RavlN {
     
   protected:
     Vector3dC trans;
-    Quartern3dC rot;
+    Quatern3dC rot;
   };
   
   // -------------------------------------------------------------------------
@@ -216,7 +216,7 @@ namespace RavlN {
   VectorC ConvertRTtoV6(RigidTransform3dC rt);
   // Converts a RigidTrans to a 6 component vector containing 3 vector r
   // and 3 vector trans, note problems for angles near PI 
-  // (ExportAxTheta in Quartern.hh)
+  // (ExportAxTheta in Quatern.hh)
   
   RigidTransform3dC ConvertV6toRT(VectorC v);
   // Converts a 6 component vector containing 3 vector r and 3 vector trans

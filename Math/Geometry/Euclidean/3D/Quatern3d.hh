@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_Quartern3D_HEADER
-#define RAVL_Quartern3D_HEADER
+#ifndef RAVL_Quatern3D_HEADER
+#define RAVL_Quatern3D_HEADER
 //! date="13/11/95"
 //! author="Andrew Stoddart"
 //! lib=RavlMath
@@ -55,32 +55,32 @@ namespace RavlN {
   // during multiplication.
   // <p>
   
-  class Quartern3dC
+  class Quatern3dC
   {
   public:
     
     //:-------------------------------------
     //: Constructors
     
-    Quartern3dC()
+    Quatern3dC()
     { q[0]=1.0; q[1]=0.0; q[2]=0.0; q[3]=0.0; }
     //: Null Constructor, zero rotation, (1,0,0,0) 
     
-    Quartern3dC(RealT q0, RealT q1, RealT q2, RealT q3) 
+    Quatern3dC(RealT q0, RealT q1, RealT q2, RealT q3) 
     { q[0]=q0; q[1]=q1; q[2]=q2; q[3]=q3; }
     //: Constructor - quarternion is not tested for validity.
     
-    Quartern3dC(const Vector3dC &axtheta) 
+    Quatern3dC(const Vector3dC &axtheta) 
     { Set(axtheta); }
     //: Constructor from axis * angle in radians
     
-    Quartern3dC(const Vector3dC &axis, RealT theta) 
+    Quatern3dC(const Vector3dC &axis, RealT theta) 
     { Set(axis, theta); }
     //: Constructor 
     // If theta != zero then axis must be non zero
     //  the axis vector is normalized inside this routine!
     
-    Quartern3dC(const Matrix3dC &rotate, bool check= true)
+    Quatern3dC(const Matrix3dC &rotate, bool check= true)
     { Set(rotate,check); }
     //: Constructor 
     // matrix is checked for orthogonality if check!=0 
@@ -122,16 +122,16 @@ namespace RavlN {
     void Normalize(void);
     // impose the condition that norm=1
     
-    Quartern3dC Inverse() const
-      { return Quartern3dC(q[0], -q[1], -q[2], -q[3]); }
+    Quatern3dC Inverse() const
+      { return Quatern3dC(q[0], -q[1], -q[2], -q[3]); }
     // returns inverse of q, does not change q (Doesn't normalize q; is in fact 
     // the conjugate of q)
     
-    Quartern3dC Conjugate() const
-      { return Quartern3dC(q[0], -q[1], -q[2], -q[3]); }
+    Quatern3dC Conjugate() const
+      { return Quatern3dC(q[0], -q[1], -q[2], -q[3]); }
     //: Conjugate
     
-    Quartern3dC I() const;
+    Quatern3dC I() const;
     // returns inverse of q, does not change q
     
     Vector3dC  Rotate(Vector3dC  r) const;
@@ -187,11 +187,11 @@ namespace RavlN {
     RealT func_ups(const RealT& thres) const;
     //: functions used in DQuatDRotVec & DRotVecDQuat
     
-    MatrixC Dq0q1Dq(const Quartern3dC& q, const int& nr) const;
+    MatrixC Dq0q1Dq(const Quatern3dC& q, const int& nr) const;
     //: derivative of the product ('this' * 'q') with respect to 'this' (nr=0) 
     //  or 'q' (nr=1)
     
-    MatrixC Dq0q1q2Dq(const Quartern3dC& q1, const Quartern3dC& q2, const int& nr) const;
+    MatrixC Dq0q1q2Dq(const Quatern3dC& q1, const Quatern3dC& q2, const int& nr) const;
     //: derivative of the product ('this' * 'q1' * 'q2') with respect to 
     //  'this' (nr=0), 'q1' (nr=1) or 'q2' (nr=2)
     
@@ -204,23 +204,23 @@ namespace RavlN {
     void LongPrint() const;
     // detailed print out
     
-    Quartern3dC operator*(const Quartern3dC p) const;
+    Quatern3dC operator*(const Quatern3dC p) const;
     // returns q x p, quarternion multiplication
     // can return q[0] < 0
     
-    Quartern3dC operator*(const RealT& val) const
-    { return Quartern3dC(q[0]*val, q[1]*val, q[2]*val, q[3]*val); }
+    Quatern3dC operator*(const RealT& val) const
+    { return Quatern3dC(q[0]*val, q[1]*val, q[2]*val, q[3]*val); }
     //: returns q[i] = q1[i]*val, for i=0..3
     
-    Quartern3dC operator+(const Quartern3dC& p) const
-    { return Quartern3dC(p[0]+q[0], p[1]+q[1], p[2]+q[2], p[3]+q[3]); }
+    Quatern3dC operator+(const Quatern3dC& p) const
+    { return Quatern3dC(p[0]+q[0], p[1]+q[1], p[2]+q[2], p[3]+q[3]); }
     // returns q[i] = q1[i] + q2[i], for i=0..3
     
-    Quartern3dC operator-(const Quartern3dC& p) const
-      { return Quartern3dC(q[0]-p[0], q[1]-p[1], q[2]-p[2], q[3]-p[3]); }
+    Quatern3dC operator-(const Quatern3dC& p) const
+      { return Quatern3dC(q[0]-p[0], q[1]-p[1], q[2]-p[2], q[3]-p[3]); }
     // returns q[i] = q1[i] - q2[i], for i=0..3
     
-    friend ostream & operator<<(ostream & outS, const Quartern3dC & quartern);
+    friend ostream & operator<<(ostream & outS, const Quatern3dC & quartern);
     // ouput stream operator
     
   private:
@@ -232,7 +232,7 @@ namespace RavlN {
   // -------------------------------------------------------------------------
   
   
-    ostream & operator<<(ostream & outS, const Quartern3dC & quartern);
+  ostream & operator<<(ostream & outS, const Quatern3dC & quartern);
   // ouput stream operator
   
 }

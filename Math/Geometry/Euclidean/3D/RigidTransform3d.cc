@@ -15,7 +15,7 @@ namespace RavlN {
 
 #if 0   
   RigidTransform3dC::RigidTransform3dC(const HomtmC & h)
-    : trans(h.Pos()), rot(h.ExportQuartern())
+    : trans(h.Pos()), rot(h.ExportQuatern())
   {}
 #endif
   
@@ -28,7 +28,7 @@ namespace RavlN {
 
   RigidTransform3dC RigidTransform3dC::Abs() {
     Vector3dC v = trans.Abs();
-    Quartern3dC q;
+    Quatern3dC q;
     for (int j=0; j<4; j++) {
       if (rot[j]>0.0) q[j] = rot[j];
       else            q[j] = -rot[j]; 
@@ -48,13 +48,13 @@ namespace RavlN {
     rot.LongPrint();
   }
   
-  RigidTransform3dC &RigidTransform3dC::ApplyRotationOnly(const Quartern3dC &q) {
+  RigidTransform3dC &RigidTransform3dC::ApplyRotationOnly(const Quatern3dC &q) {
     rot = q * rot;
     return *this; 
   }
   
   
-  RigidTransform3dC &RigidTransform3dC::ApplyRotationPivot(const Quartern3dC &q,const Vector3dC &pivot) {
+  RigidTransform3dC &RigidTransform3dC::ApplyRotationPivot(const Quatern3dC &q,const Vector3dC &pivot) {
     trans = q.Rotate(trans - pivot) + pivot;
     rot = q * rot;
     return *this; 
@@ -67,7 +67,7 @@ namespace RavlN {
 
   RigidTransform3dC RigidTransform3dC::operator*(const RigidTransform3dC & p) {
     Vector3dC ntrans=trans + rot.Rotate(trans);
-    Quartern3dC nrot=rot * p.Rotation();
+    Quatern3dC nrot=rot * p.Rotation();
     nrot.MakePositive();
     RigidTransform3dC rt(ntrans, nrot);
     return rt;

@@ -10,7 +10,7 @@
 //! lib=RavlMath
 
 #include "Ravl/StdConst.hh"
-#include "Ravl/Quartern3d.hh"
+#include "Ravl/Quatern3d.hh"
 //#include "Ravl/Homtm.hh"
 
 #include <iomanip.h>
@@ -32,7 +32,7 @@ namespace RavlN {
   // If the length of the axis is less than this, an error is recorded
   // Export Angle and Export Axis are also affected.
   
-  void Quartern3dC::Set(const Vector3dC &axtheta) {
+  void Quatern3dC::Set(const Vector3dC &axtheta) {
     RealT theta=axtheta.Magnitude();
     if (theta<axthetaconv) {
       q[0]=1.0; 
@@ -49,19 +49,19 @@ namespace RavlN {
       q[i+1] = s * unitAxtheta[i];
     
     //MakePositive();
-    // Without "MakePositive()" Quartern3dC(vector v).ExporAxTheta gives back 
+    // Without "MakePositive()" Quatern3dC(vector v).ExporAxTheta gives back 
     //  the original vector v for |v| = phi < 360 deg
-    // With "MakePositive()" Quartern3dC(vector v).ExporAxTheta gives back 
+    // With "MakePositive()" Quatern3dC(vector v).ExporAxTheta gives back 
     // the original vector v for |v| = phi < 180 deg
   }  
   
-  void Quartern3dC::Set(const Vector3dC &axis, RealT theta) {
+  void Quatern3dC::Set(const Vector3dC &axis, RealT theta) {
     if (fabs(theta)<underflow) {
       q[0]=1.0; q[1]=0.0; q[2]=0.0; q[3]=0.0;
       return;
     }
     RavlAlwaysAssertMsg(axis.Magnitude() > underflow,
-		  "Construct Quartern3dC from axis and angle\n"
+		  "Construct Quatern3dC from axis and angle\n"
 		  "axis = (0,0,0) for non zero angle");
     
     Vector3dC unitAxis = axis.Unit();
@@ -75,7 +75,7 @@ namespace RavlN {
   
   // The angle of rotation is always 0-PI on exit, i.e. q[0] > 0
   
-  void Quartern3dC::Set(const Matrix3dC &rot,bool check) {
+  void Quatern3dC::Set(const Matrix3dC &rot,bool check) {
     // Error checking
     // --------------
     if (check) {
@@ -136,35 +136,35 @@ namespace RavlN {
   // Access to ith element of the quarternion
   
   
-  void Quartern3dC::MakePositive(void) {
+  void Quatern3dC::MakePositive(void) {
     if (q[0]<0) 
       for (int i=0; i<4; ++i) 
 	q[i] = - q[i];
   }
   
-  void Quartern3dC::Normalize(void) {
+  void Quatern3dC::Normalize(void) {
     RealT denom=sqrt(q[0]*q[0] + q[1]*q[1]+ q[2]*q[2]+ q[3]*q[3]);    
     for (int i=0; i<4; ++i) 
       q[i] = q[i]/denom;
   }
   
-  Quartern3dC Quartern3dC::I() const {
-    Quartern3dC qq = *this;
+  Quatern3dC Quatern3dC::I() const {
+    Quatern3dC qq = *this;
     RealT norm2 = q[0]*q[0] + q[1]*q[1]+ q[2]*q[2]+ q[3]*q[3];
     for (int i=0; i<4; ++i) 
       qq[i] = qq[i]/norm2;
-    return Quartern3dC(qq[0], -qq[1], -qq[2], -qq[3]);
+    return Quatern3dC(qq[0], -qq[1], -qq[2], -qq[3]);
   }
   
   // applies rotation q to v1 and returns the result
   
-  Vector3dC Quartern3dC::Rotate(Vector3dC  v1) const {
-    Quartern3dC v(0.0, v1[0], v1[1], v1[2]);
+  Vector3dC Quatern3dC::Rotate(Vector3dC  v1) const {
+    Quatern3dC v(0.0, v1[0], v1[1], v1[2]);
     v =   (*this)*v*(this->Inverse());
     return  v.ExportVector();
   }
   
-  Vector3dC Quartern3dC::ExportAxTheta() const {
+  Vector3dC Quatern3dC::ExportAxTheta() const {
     RealT theta=ExportRotationAngle();
     if (theta<axthetaconv) {
       // small angles
@@ -178,7 +178,7 @@ namespace RavlN {
     }
   }
   
-  RealT Quartern3dC::ExportRotationAngle() const {
+  RealT Quatern3dC::ExportRotationAngle() const {
     if ((q[0]>1.0000000001) || (q[0]<-1.0000000001)) {
       cerr << "Pathological quarternion in \n"  
 	   << "q[0]="        << q[0]           << "\n"
@@ -207,7 +207,7 @@ namespace RavlN {
     return theta;
   }
   
-  Vector3dC Quartern3dC::ExportRotationAxis() const {
+  Vector3dC Quatern3dC::ExportRotationAxis() const {
     RealT theta=ExportRotationAngle();
     
     if (theta<underflow) {
@@ -220,8 +220,8 @@ namespace RavlN {
     }
   }
     
-  Matrix3dC Quartern3dC::ExportRotationMatrix(bool normalize) const {
-    Quartern3dC t = (*this);
+  Matrix3dC Quatern3dC::ExportRotationMatrix(bool normalize) const {
+    Quatern3dC t = (*this);
     if (normalize) t.Normalize();
     
     Matrix3dC m;
@@ -239,7 +239,7 @@ namespace RavlN {
     return m;
   }
   
-  Matrix4dC Quartern3dC::ExportQuatMat() const {
+  Matrix4dC Quatern3dC::ExportQuatMat() const {
     Matrix4dC m;
     
     m[0][0] =  q[0];
@@ -265,7 +265,7 @@ namespace RavlN {
     return m;
   }
   
-  MatrixC Quartern3dC::ExportQuatMat2() const {
+  MatrixC Quatern3dC::ExportQuatMat2() const {
     MatrixC m(4, 4);
     
     m[0][0] =  q[0];
@@ -291,22 +291,22 @@ namespace RavlN {
     return m;
   }
   
-  Vector3dC Quartern3dC::ExportVector() const {
+  Vector3dC Quatern3dC::ExportVector() const {
     Vector3dC v(q[1], q[2], q[3]);
     return v;
   } 
   
 #if 0
-  Vector3dC Quartern3dC::ExportEuler() const {
+  Vector3dC Quatern3dC::ExportEuler() const {
     return HomtmC::RotToEuler(this->ExportRotationMatrix());
   }
   
-  Vector3dC Quartern3dC::ExportEuler(const JointT& jtype, const bool& premult) const {
+  Vector3dC Quatern3dC::ExportEuler(const JointT& jtype, const bool& premult) const {
     return HomtmC::RotToEuler(this->ExportRotationMatrix(), jtype, premult);
   }
 #endif
   
-  MatrixC Quartern3dC::DQuatDRotVec() const {
+  MatrixC Quatern3dC::DQuatDRotVec() const {
     RealT     theta  = ExportRotationAngle();
     Vector3dC rotvec = ExportAxTheta();
     Vector3dC qvec   = ExportVector();
@@ -321,7 +321,7 @@ namespace RavlN {
     return dqdr;
   }
   
-  MatrixC Quartern3dC::DRotVecDQuat() const {
+  MatrixC Quatern3dC::DRotVecDQuat() const {
     Vector3dC rotvec = ExportRotationAxis();
     Vector3dC qvec   = ExportVector();
     MatrixC   drdq(3,4);
@@ -338,7 +338,7 @@ namespace RavlN {
   
   const RealT s=1e-16; 
   
-  RealT Quartern3dC::func_alpha(const RealT& x, const RealT& thres) const {
+  RealT Quatern3dC::func_alpha(const RealT& x, const RealT& thres) const {
     if (x >= thres) return sin(x)/x;
     else {
       int n=1; RealT f=0.0; RealT d=1.0; 
@@ -353,7 +353,7 @@ namespace RavlN {
     return 0;
   }
   
-  RealT Quartern3dC::func_gRavl(const RealT& x, const RealT& thres) const {
+  RealT Quatern3dC::func_gRavl(const RealT& x, const RealT& thres) const {
     // equals d(func_alpha)d(x)
     
     if (x >= thres) return cos(x)/(x*x) - sin(x)/(x*x*x);
@@ -370,15 +370,15 @@ namespace RavlN {
     return 0;
   }
   
-  RealT Quartern3dC::func_kappa(const RealT& x, const RealT& thres) const {  
+  RealT Quatern3dC::func_kappa(const RealT& x, const RealT& thres) const {  
     return 0.5*func_alpha(0.5*x, thres);  
   }
 
-  RealT Quartern3dC::func_lambda(const RealT& x, const RealT& thres) const {  
+  RealT Quatern3dC::func_lambda(const RealT& x, const RealT& thres) const {  
     return func_gRavl(0.5*x, thres) / 8;  
   }
 
-  RealT Quartern3dC::func_tau(const RealT& thres) const {
+  RealT Quatern3dC::func_tau(const RealT& thres) const {
     RealT x = ExportVector().Magnitude();
     if (x >= thres) return 2*Sign(q[0])*asin(x)/x;
     else { 
@@ -394,7 +394,7 @@ namespace RavlN {
     return 0;
   }
   
-  RealT Quartern3dC::func_ups(const RealT& thres) const {
+  RealT Quatern3dC::func_ups(const RealT& thres) const {
     RealT x = ExportVector().Magnitude();
     if (x >= thres) 
       return (2*Sign(q[0])*(x*sqrt(1-x*x) - asin(x))/(x*x*x));
@@ -406,9 +406,9 @@ namespace RavlN {
   }
   
   
-  MatrixC Quartern3dC::Dq0q1Dq(const Quartern3dC& q1, const int& nr) const {
+  MatrixC Quatern3dC::Dq0q1Dq(const Quatern3dC& q1, const int& nr) const {
     int i,j;
-    Quartern3dC q;
+    Quatern3dC q;
     MatrixC   dq0q1dq(4,4); dq0q1dq.Fill(0);
     Matrix3dC cross; 
     cross.Fill(0);
@@ -432,22 +432,22 @@ namespace RavlN {
   }
   
   
-  MatrixC Quartern3dC::Dq0q1q2Dq(const Quartern3dC& q1, const Quartern3dC& q2, const int& nr) const {
-    Quartern3dC q3 = q1 * q2;
+  MatrixC Quatern3dC::Dq0q1q2Dq(const Quatern3dC& q1, const Quatern3dC& q2, const int& nr) const {
+    Quatern3dC q3 = q1 * q2;
     if (nr==0) return  Dq0q1Dq(q3, 0);
     if (nr==1) return (Dq0q1Dq(q3, 1) * q1.Dq0q1Dq(q2, 0));
     if (nr==2) return (Dq0q1Dq(q3, 1) * q1.Dq0q1Dq(q2, 1));
-    cout << "Error: Wrong input in Quartern3dC::Dq0q1q2Dq. \n";
+    cout << "Error: Wrong input in Quatern3dC::Dq0q1q2Dq. \n";
     return MatrixC();
   }
   
-  void Quartern3dC::KwikPrint(ostream & outS, int w, int p) const {
+  void Quatern3dC::KwikPrint(ostream & outS, int w, int p) const {
     outS.precision(p);
     outS << setw(w) << q[0] << " " << setw(w) << q[1] << " "
 	 << setw(w) << q[2] << " " << setw(w) << q[3];
   }
   
-  void Quartern3dC::Print() const {
+  void Quatern3dC::Print() const {
     RealT temp=ExportRotationAngle();
     
     cout << "The rotation is equivalent to a rotation of angle \n"
@@ -457,9 +457,9 @@ namespace RavlN {
   }
   
   
-  void Quartern3dC::LongPrint() const {
+  void Quatern3dC::LongPrint() const {
     Matrix3dC rot=ExportRotationMatrix();
-    cout << "Quartern3dC: The rotation matrix is \n" 
+    cout << "Quatern3dC: The rotation matrix is \n" 
 	 << rot << "\n";
     
     RealT temp=ExportRotationAngle();
@@ -479,14 +479,14 @@ namespace RavlN {
   
   // returns q x p, quarternion multiplication
   // Do NOT MakePositive, this causes errors in Rotate()
-  Quartern3dC Quartern3dC::operator*(const Quartern3dC p) const {
-    return Quartern3dC( q[0]*p.q[0] - q[1]*p.q[1] - q[2]*p.q[2] - q[3]*p.q[3],
+  Quatern3dC Quatern3dC::operator*(const Quatern3dC p) const {
+    return Quatern3dC( q[0]*p.q[0] - q[1]*p.q[1] - q[2]*p.q[2] - q[3]*p.q[3],
 			q[0]*p.q[1] + q[1]*p.q[0] + q[2]*p.q[3] - q[3]*p.q[2],
 			q[0]*p.q[2] + q[2]*p.q[0] + q[3]*p.q[1] - q[1]*p.q[3],
 			q[0]*p.q[3] + q[3]*p.q[0] + q[1]*p.q[2] - q[2]*p.q[1]);
   }
   
-  ostream & operator<<(ostream & outS, const Quartern3dC & quartern) {
+  ostream & operator<<(ostream & outS, const Quatern3dC & quartern) {
     outS << quartern.q[0] << " " << quartern.q[1] << " "
 	 << quartern.q[2] << " " << quartern.q[3];
     return outS;
