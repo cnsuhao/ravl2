@@ -14,6 +14,7 @@
 #include "Ravl/PatternRec/DesignFunctionUnsupervised.hh"
 #include "Ravl/PatternRec/GaussianMixture.hh"
 #include "Ravl/PatternRec/SampleVector.hh"
+#include "Ravl/PatternRec/DesignCluster.hh"
 
 namespace RavlN {
   
@@ -32,7 +33,7 @@ namespace RavlN {
     {}
     //: Default constructor.
     
-    DesignGaussianMixtureBodyC(UIntT mixes, bool isDiagonal);
+    DesignGaussianMixtureBodyC(UIntT mixes, bool isDiagonal,const DesignClusterC &initCluster = DesignClusterC());
     //: Number of centres for the EM algorithm
     
     DesignGaussianMixtureBodyC(istream &strm);
@@ -50,7 +51,18 @@ namespace RavlN {
     virtual FunctionC Apply(const SampleC<VectorC> &in);
     //: Build the EM model from the supplied data
         
-  protected:    
+  protected:
+    FunctionC ApplyWorkSpace(const SampleC<VectorC> &in);
+    //: Build the EM model from the supplied data
+    // Uses workspace approach. Faster for small datasets.
+    
+    FunctionC ApplyIterative(const SampleC<VectorC> &in);
+    //: Build the EM model from the supplied data
+    // Uses iterative approach.  Slower, but better for large datasets.
+    
+    GaussianMixtureC InitModel(const SampleVectorC & in);
+    //: General initialisating function.
+    
     GaussianMixtureC InitRandom(const SampleVectorC & in);
     //: initialise the mixture model
 
@@ -62,6 +74,10 @@ namespace RavlN {
     
     bool isDiagonal;
     //: Do you want to compute a full covariance matrix or diagonal
+    
+    DesignClusterC initCluster;
+    //: Clustering code use to initialise guassians.
+    
   };
   
   //! userlevel=Normal
@@ -80,8 +96,8 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    DesignGaussianMixtureC(UIntT mixes, bool isDiagonal=false)
-      : DesignFunctionUnsupervisedC(*new DesignGaussianMixtureBodyC(mixes, isDiagonal))
+    DesignGaussianMixtureC(UIntT mixes, bool isDiagonal=false,const DesignClusterC &initCluster = DesignClusterC())
+      : DesignFunctionUnsupervisedC(*new DesignGaussianMixtureBodyC(mixes, isDiagonal,initCluster))
     {}
     //: How many centres and do we want to use diagonal covariances
     

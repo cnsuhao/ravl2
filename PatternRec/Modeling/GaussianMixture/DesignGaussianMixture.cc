@@ -29,12 +29,12 @@ namespace RavlN {
   
   //: Default constructor.
   
-  DesignGaussianMixtureBodyC::DesignGaussianMixtureBodyC(UIntT mx, bool diag)
-    : DesignFunctionUnsupervisedBodyC()
-  {
-    mixes = mx;
-    isDiagonal = diag;
-  }
+  DesignGaussianMixtureBodyC::DesignGaussianMixtureBodyC(UIntT mx, bool diag,const DesignClusterC &nInitCluster)
+    : DesignFunctionUnsupervisedBodyC(),
+      mixes(mx),
+      isDiagonal(diag),
+      initCluster(nInitCluster)
+  {}
   
   //: Load from stream.
   
@@ -71,12 +71,19 @@ namespace RavlN {
   }
 
 
-  //: The actual EM algorithm
-  //: I have two algorithms which do the same thing.  I have just used a switch
-  //: to turn one off.  Each has its own advantages - just cant remember what they are
-
-#if 1
   FunctionC DesignGaussianMixtureBodyC::Apply(const SampleC<VectorC> &in) {
+    UIntT size = in.Size();
+    if(size < 10000)
+      return ApplyWorkSpace(in);
+    return ApplyIterative(in);
+  }
+  
+  
+  //: Build the EM model from the supplied data
+  // Uses workspace approach. Faster for small datasets.
+  
+  FunctionC DesignGaussianMixtureBodyC::ApplyWorkSpace(const SampleC<VectorC> &in) {
+    ONDEBUG(cerr << "DesignGaussianMixtureBodyC::ApplyWorkSpace(), Called with " << in.Size() << " samples. \n");
     if(in.IsEmpty()) // Empty sample ?
       return FunctionC(); 
     //: set some variables
@@ -87,7 +94,11 @@ namespace RavlN {
     RealT err_res = 2.0/(RealT)in.Size();
     bool done=false;
     UIntT iter=0;
-
+    
+    //: Get a good first guess by using the KMeans classifier
+    // Note, this may update 'mixes'.
+    GaussianMixtureC gm = InitModel(in);
+    
     //: lets set up some workspace
     MatrixC hij(in.Size(), mixes); 
     VectorC emptyVec(d);
@@ -98,8 +109,6 @@ namespace RavlN {
     emptyWeights.Fill(0.0);
     VectorC sum(mixes);
 
-    //: Get a good first guess by using the KMeans classifier
-    GaussianMixtureC gm = InitKMeans(in);
  
     //: now lets loop through until criterion reached
     while(!done) {
@@ -107,8 +116,8 @@ namespace RavlN {
       //: Lets do the expectation step
       likelihood=0.0;
       IntT count=0;
-      for(SampleIterC<VectorC>it(in);it;it++) {
-	VectorC post = gm.Apply(*it);
+      for(SampleIterC<VectorC> it(in);it;it++) {
+	VectorC post = gm.GaussianValues(*it);
 	RealT psum = post.Sum();
 	if(psum>0.0) {
 	  post/=psum;
@@ -190,26 +199,26 @@ namespace RavlN {
 	done=true;
       }
     }
-
-    return gm;
+    
+    return gm;    
   }
   
-#endif  
-
-#if 0
-  FunctionC DesignGaussianMixtureBodyC::Apply(const SampleC<VectorC> &data) {
-    if(in.IsEmpty()) // Empty sample ?
+  //: Build the EM model from the supplied data
+  // Uses iterative approach.  Slower, but better for large datasets.
+  
+  FunctionC DesignGaussianMixtureBodyC::ApplyIterative(const SampleC<VectorC> &data) {
+    if(data.IsEmpty()) // Empty sample ?
       return FunctionC(); 
     RealT epsilon = 0.0001;
     RealT likelihood, prev_likelihood=0.0;
-    SArray1dC<VectorC>prob(data.Size());
-    SampleIterC<VectorC>DataIt(data);
-    SampleIterC<VectorC>ProbIt(prob);
+    SArray1dC<VectorC> prob(data.Size());
+    SampleIterC<VectorC> DataIt(data);
+    SampleIterC<VectorC> ProbIt(prob);
     bool done=false;
     IntT iter=0;
     UIntT d = data.First().Size();
 
-    GaussianMixtureC gm = InitKMeans(data);
+    GaussianMixtureC gm = InitModel(data);
     VectorC emptyVec(d);
     MatrixRSC emptyMat(d);
     VectorC emptyWeights(mixes);
@@ -224,7 +233,7 @@ namespace RavlN {
       //: first lets do expectation step
       //-----------------------------------------
       for(DataIt.First();DataIt.IsElm();DataIt.Next()) {
-	VectorC post = gm.Apply(DataIt.Data());
+	VectorC post = gm.GaussianValues(DataIt.Data());
 	RealT sum = post.Sum();
 	if(sum>0.0) {
 	  post/=sum;
@@ -299,9 +308,26 @@ namespace RavlN {
     }
   
     return gm;
+    
   }
-#endif
 
+
+  //: General initialisating function.
+  
+  GaussianMixtureC DesignGaussianMixtureBodyC::InitModel(const SampleVectorC & data) {
+    if(!initCluster.IsValid())
+      initCluster = DesignKMeansC(mixes); // Default to k-means
+    SArray1dC<MeanCovarianceC> params = initCluster.Cluster(data);
+    mixes=params.Size();
+    ONDEBUG(cerr << "DesignGaussianMixtureBodyC::InitModel(), Mixtures=" << mixes << " Model=" << params << "\n");
+    SArray1dC<RealT> weights(mixes);
+    for(SArray1dIterC<RealT> it(weights);it;it++) 
+      *it=1.0/(RealT)mixes;
+    //: finally lets construct our model
+    GaussianMixtureC gm(params, weights, isDiagonal);
+    return gm;
+  }
+  
   GaussianMixtureC
   DesignGaussianMixtureBodyC::InitRandom(const SampleVectorC & data)
   {
@@ -341,14 +367,11 @@ namespace RavlN {
 
     return gm; 
   }  
-
-
-  GaussianMixtureC
-  DesignGaussianMixtureBodyC::InitKMeans(const SampleVectorC & data)
-  {
+  
+  GaussianMixtureC DesignGaussianMixtureBodyC::InitKMeans(const SampleVectorC & data) {
     DesignKMeansC ms(mixes);
-    SArray1dC<MeanCovarianceC>params = ms.Cluster(data);
-    SArray1dC<RealT>weights(mixes);
+    SArray1dC<MeanCovarianceC> params = ms.Cluster(data);
+    SArray1dC<RealT> weights(mixes);
     for(SArray1dIterC<RealT>it(weights);it;it++) *it=1.0/(RealT)mixes;
     //: finally lets construct our model
     GaussianMixtureC gm(params, weights, isDiagonal);
