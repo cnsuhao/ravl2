@@ -252,7 +252,7 @@ namespace RavlN {
 #else
     StringC streamHeader = streamHeaderBigEndian;
 #endif
-    SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunTransmit(), Sending header '" << streamHeader << "' \n";
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunTransmit(), Sending header '" << streamHeader << "' \n");
     
     // Write stream header.
     if(!WriteData(wfd,streamHeader,streamHeader.Size())) {
@@ -266,7 +266,7 @@ namespace RavlN {
       return false;
     }
     
-    SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunTransmit() Stream mode:" << streamType << "\n";
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunTransmit() Stream mode:" << streamType << "\n");
     
 #if RAVL_BINSTREAM_ENDIAN_LITTLE
     // Check peer protocol.
