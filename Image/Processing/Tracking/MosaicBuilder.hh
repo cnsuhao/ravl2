@@ -11,6 +11,7 @@
 //! date="24/7/2002"
 //! rcsid="$Id$"
 //! docentry="Ravl.Images.Tracking"
+//! file="Ravl/Image/Processing/Tracking/MosaicBuilder.hh"
 //! lib=RavlImageProc
 //! example="mosaic.cc"
 

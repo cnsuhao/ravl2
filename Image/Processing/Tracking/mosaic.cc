@@ -5,7 +5,8 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! rcsid="$Id$"
-//! lib=RavlOptimise
+//! file="Ravl/Image/Processing/Tracking/mosaic.cc"
+//! lib=RavlImageProc
 
 #include "Ravl/Option.hh"
 #include "Ravl/DP/SequenceIO.hh"
