@@ -20,6 +20,7 @@ namespace RavlN {
   {
     scale = (max - min) / ((RealT) steps - 1e-8);
     offset = min;
+    Reset();
   }
   
   //: Find the total number of votes cast.
@@ -52,6 +53,17 @@ namespace RavlN {
     for(SArray1dIterC<UIntC> it(*this);it;it++)
       sum += Pow((RealT) *it / total,2);
     return sum;
+  }
+
+  //: Evaluate histogram as a smoothed pdf.
+  
+  RealT RealHistogram1dC::SmoothedPDF(IntT bin) const {
+    RealT smoothedMeasure = 0.0;
+    for(SArray1dIterC<UIntC> it(*this);it;it++) {
+      RealT arg = (RealT) (it.Index() - bin) / scale;
+      smoothedMeasure += (RealT) *it * Exp(-RavlConstN::pi * Sqr(arg));
+    }
+    return smoothedMeasure / TotalVotes() * scale;
   }
 
   ostream &operator<<(ostream &strm,const RealHistogram1dC &hist) {

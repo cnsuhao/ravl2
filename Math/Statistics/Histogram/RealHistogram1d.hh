@@ -93,6 +93,9 @@ namespace RavlN {
     MeanVarianceC MeanVariance() const;
     //: Calculate the mean and variance for the signal.
     
+    RealT SmoothedPDF(IntT bin) const;
+    //: Evaluate histogram as a smoothed pdf.
+    
   protected:
     RealT scale; // Scale factor.
     RealT offset;   // Offset.
