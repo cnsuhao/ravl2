@@ -10,9 +10,15 @@ DESCRIPTION = Pattern Recognition Classifiers
 
 PACKAGE = Ravl/PatternRec
 
-HEADERS=ClassifyVector.hh KNearestNeighbour.hh AverageNearestNeighbour.hh
+HEADERS=ClassifyVector.hh DesignClassifyVector.hh \
+ DesignDiscriminantFunction.hh DesignKNearestNeighbour.hh \
+ ClassifyKNearestNeighbour.hh ClassifyAverageNearestNeighbour.hh \
+ ClassifyDiscriminantFunction.hh
 
-SOURCES=ClassifyVector.cc KNearestNeighbour.cc AverageNearestNeighbour.cc
+SOURCES=ClassifyVector.cc DesignClassifyVector.cc \
+ DesignDiscriminantFunction.cc DesignKNearestNeighbour.cc \
+ ClassifyKNearestNeighbour.cc ClassifyAverageNearestNeighbour.cc \
+ ClassifyDiscriminantFunction.cc
 
 PLIB = RavlPatternRec
 

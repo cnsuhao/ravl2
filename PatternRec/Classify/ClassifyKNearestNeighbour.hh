@@ -28,13 +28,13 @@ namespace RavlN {
   // Classify probe vector as the most common amoung its k nearest neighbours.
   // If there's a conflict the label with the smallest average distance is used.
   
-  class KNearestNeighbourBodyC 
+  class ClassifyKNearestNeighbourBodyC 
     : public ClassifyVectorBodyC
   {
   public:
-    KNearestNeighbourBodyC(const DataSet2C<SampleVectorC,SampleLabelC> &data,
-			   UIntT defaultK = 5,
-			   const DistanceC &xdistMetric = DistanceSqrEuclideanC());
+    ClassifyKNearestNeighbourBodyC(const DataSet2C<SampleVectorC,SampleLabelC> &data,
+				   UIntT defaultK = 5,
+				   const DistanceC &xdistMetric = DistanceSqrEuclideanC());
     //: Default constructor.
     
     virtual SArray1dC<Tuple2C<UIntT,RealT> > Search(const VectorC &ex,UIntT k) const;
@@ -66,27 +66,27 @@ namespace RavlN {
   // Classify probe vector as the most common amoung its k nearest neighbours.
   // If there's a conflict the label with the smallest average distance is used.
   
-  class KNearestNeighbourC 
+  class ClassifyKNearestNeighbourC 
     : public ClassifyVectorC
   {
   public:
-    KNearestNeighbourC(const DataSet2C<SampleVectorC,SampleLabelC> &data,UIntT defaultK = 5,const DistanceC &xdistMetric = DistanceSqrEuclideanC())
-      : ClassifyVectorC(*new KNearestNeighbourBodyC(data,defaultK,xdistMetric))
+    ClassifyKNearestNeighbourC(const DataSet2C<SampleVectorC,SampleLabelC> &data,UIntT defaultK = 5,const DistanceC &xdistMetric = DistanceSqrEuclideanC())
+      : ClassifyVectorC(*new ClassifyKNearestNeighbourBodyC(data,defaultK,xdistMetric))
     {}
     //: Constructor.
     
   protected:
-    KNearestNeighbourC(KNearestNeighbourBodyC &bod)
+    ClassifyKNearestNeighbourC(ClassifyKNearestNeighbourBodyC &bod)
       : ClassifyVectorC(bod)
     {}
     //: Body constructor.
     
-    KNearestNeighbourBodyC &Body()
-    { return static_cast<KNearestNeighbourBodyC &>(ClassifyVectorC::Body()); }
+    ClassifyKNearestNeighbourBodyC &Body()
+    { return static_cast<ClassifyKNearestNeighbourBodyC &>(ClassifyVectorC::Body()); }
     //: Access body.
     
-    const KNearestNeighbourBodyC &Body() const
-    { return static_cast<const KNearestNeighbourBodyC &>(ClassifyVectorC::Body()); }
+    const ClassifyKNearestNeighbourBodyC &Body() const
+    { return static_cast<const ClassifyKNearestNeighbourBodyC &>(ClassifyVectorC::Body()); }
     //: Access body.
     
   public:

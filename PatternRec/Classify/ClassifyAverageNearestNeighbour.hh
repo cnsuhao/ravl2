@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_AVERAGENEARESTNEIGHBOUR_HEADER
-#define RAVL_AVERAGENEARESTNEIGHBOUR_HEADER 1
+#ifndef RAVL_CLASSIFYAVERAGENEARESTNEIGHBOUR_HEADER
+#define RAVL_CLASSIFYAVERAGENEARESTNEIGHBOUR_HEADER 1
 /////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
@@ -13,21 +13,21 @@
 //! docentry="Ravl.Pattern Recognition.Classify"
 //! author="Charles Galambos"
 
-#include "Ravl/PatternRec/KNearestNeighbour.hh"
+#include "Ravl/PatternRec/ClassifyKNearestNeighbour.hh"
 
 namespace RavlN {
 
   //! userlevel=Develop
-  //: Average k nearest neighbour classifier.
+  //: ClassifyAverage k nearest neighbour classifier.
   // Amoung the k nearest neighours to the probe choose the label with the smallest average distance.
     
-  class AverageNearestNeighbourBodyC 
-    : public KNearestNeighbourBodyC
+  class ClassifyAverageNearestNeighbourBodyC 
+    : public ClassifyKNearestNeighbourBodyC
   {
   public:
-    AverageNearestNeighbourBodyC(const DataSet2C<SampleVectorC,SampleLabelC> &data,
-			   UIntT defaultK = 5,
-			   const DistanceC &xdistMetric = DistanceSqrEuclideanC());
+    ClassifyAverageNearestNeighbourBodyC(const DataSet2C<SampleVectorC,SampleLabelC> &data,
+					 UIntT defaultK = 5,
+					 const DistanceC &xdistMetric = DistanceSqrEuclideanC());
     //: Default constructor.
     
     virtual UIntT Classify(const VectorC &data) const;
@@ -42,30 +42,30 @@ namespace RavlN {
   };
   
   //! userlevel=Normal
-  //: Average k nearest neighbour classifier.
+  //: ClassifyAverage k nearest neighbour classifier.
   // Amoung the k nearest neighours to the probe choose the label with the smallest average distance.
   
-  class AverageNearestNeighbourC 
-    : public KNearestNeighbourC
+  class ClassifyAverageNearestNeighbourC 
+    : public ClassifyKNearestNeighbourC
   {
   public:
-    AverageNearestNeighbourC(const DataSet2C<SampleVectorC,SampleLabelC> &data,UIntT defaultK = 5,const DistanceC &xdistMetric = DistanceSqrEuclideanC())
-      : KNearestNeighbourC(*new AverageNearestNeighbourBodyC(data,defaultK,xdistMetric))
+    ClassifyAverageNearestNeighbourC(const DataSet2C<SampleVectorC,SampleLabelC> &data,UIntT defaultK = 5,const DistanceC &xdistMetric = DistanceSqrEuclideanC())
+      : ClassifyKNearestNeighbourC(*new ClassifyAverageNearestNeighbourBodyC(data,defaultK,xdistMetric))
     {}
     //: Constructor.
     
   protected:
-    AverageNearestNeighbourC(AverageNearestNeighbourBodyC &bod)
-      : KNearestNeighbourC(bod)
+    ClassifyAverageNearestNeighbourC(ClassifyAverageNearestNeighbourBodyC &bod)
+      : ClassifyKNearestNeighbourC(bod)
     {}
     //: Body constructor.
     
-    AverageNearestNeighbourBodyC &Body()
-    { return static_cast<AverageNearestNeighbourBodyC &>(ClassifyVectorC::Body()); }
+    ClassifyAverageNearestNeighbourBodyC &Body()
+    { return static_cast<ClassifyAverageNearestNeighbourBodyC &>(ClassifyVectorC::Body()); }
     //: Access body.
     
-    const AverageNearestNeighbourBodyC &Body() const
-    { return static_cast<const AverageNearestNeighbourBodyC &>(ClassifyVectorC::Body()); }
+    const ClassifyAverageNearestNeighbourBodyC &Body() const
+    { return static_cast<const ClassifyAverageNearestNeighbourBodyC &>(ClassifyVectorC::Body()); }
     //: Access body.
     
   public:

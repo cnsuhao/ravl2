@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 
-#include "Ravl/PatternRec/AverageNearestNeighbour.hh"
+#include "Ravl/PatternRec/ClassifyAverageNearestNeighbour.hh"
 #include "Ravl/PatternRec/DataSet2Iter.hh"
 #include "Ravl/StdConst.hh"
 #include "Ravl/Hash.hh"
@@ -25,17 +25,17 @@ namespace RavlN {
 
   //: Default constructor.
   
-  AverageNearestNeighbourBodyC::AverageNearestNeighbourBodyC(const DataSet2C<SampleVectorC,SampleLabelC> &ndata,
+  ClassifyAverageNearestNeighbourBodyC::ClassifyAverageNearestNeighbourBodyC(const DataSet2C<SampleVectorC,SampleLabelC> &ndata,
 						 UIntT defK,
 						 const DistanceC &xdistanceMetric)
-    : KNearestNeighbourBodyC(ndata,defK,xdistanceMetric)
+    : ClassifyKNearestNeighbourBodyC(ndata,defK,xdistanceMetric)
   {
-    ONDEBUG(cerr << "AverageNearestNeighbourBodyC::AverageNearestNeighbourBodyC(), Data=" << data.Size() <<" Labels=" << labels << "\n");
+    ONDEBUG(cerr << "ClassifyAverageNearestNeighbourBodyC::ClassifyAverageNearestNeighbourBodyC(), Data=" << data.Size() <<" Labels=" << labels << "\n");
   }
   
   //: Classify vector 'data' return the most likely label.
   
-  UIntT AverageNearestNeighbourBodyC::Classify(const VectorC &data) const {
+  UIntT ClassifyAverageNearestNeighbourBodyC::Classify(const VectorC &data) const {
     // Find the k nearest neighbours.
     
     SArray1dC<Tuple2C<UIntT,RealT> > res = Search(data,defaultK);
@@ -62,7 +62,7 @@ namespace RavlN {
     return minLab;
   }
   
-  VectorC AverageNearestNeighbourBodyC::Confidence(const VectorC &data) const {
+  VectorC ClassifyAverageNearestNeighbourBodyC::Confidence(const VectorC &data) const {
     SArray1dC<Tuple2C<UIntT,RealT> > res = Search(data,defaultK);
     VectorC ret(Labels());
     ret.Fill(0);

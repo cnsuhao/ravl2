@@ -8,8 +8,8 @@
 //! lib=RavlPatternRec
 
 
-#include "Ravl/PatternRec/KNearestNeighbour.hh"
-#include "Ravl/PatternRec/AverageNearestNeighbour.hh"
+#include "Ravl/PatternRec/ClassifyKNearestNeighbour.hh"
+#include "Ravl/PatternRec/ClassifyAverageNearestNeighbour.hh"
 
 using namespace RavlN;
 
@@ -54,7 +54,7 @@ int GenerateDataSet() {
 
 int testKNearestNeighbour() {
   cerr << "testKNearestNeighbour(), Called. \n";
-  KNearestNeighbourC knn(dataset,3);
+  ClassifyKNearestNeighbourC knn(dataset,3);
   int c = knn.Classify(VectorC(0.3,0.2));
   if(c != 1) return __LINE__;
   VectorC vec =  knn.Confidence(VectorC(0.3,0.2));
@@ -64,7 +64,7 @@ int testKNearestNeighbour() {
 
 int testAverageNearestNeighbour() {
   cerr << "testAverageNearestNeighbour(), Called. \n";
-  AverageNearestNeighbourC knn(dataset,3);
+  ClassifyAverageNearestNeighbourC knn(dataset,3);
   int c = knn.Classify(VectorC(0.3,0.2));
   if(c != 1) return __LINE__;
   VectorC vec =  knn.Confidence(VectorC(0.3,0.2));
