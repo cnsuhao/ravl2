@@ -199,6 +199,11 @@ namespace RavlN {
     { return *ref; }
     //: Access refrence element.
     // Advanced users only.
+    
+    const DataT &ReferenceElm() const
+    { return *ref; }
+    //: Access refrence element.
+    // Advanced users only.
   protected:
     IndexRangeC rng;// Range of valid index's
     IntT stride;    // Stride of data.
