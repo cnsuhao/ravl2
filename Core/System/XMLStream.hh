@@ -805,6 +805,7 @@ namespace RavlN {
   //: Write out a hash table.
   // This also serves as an example.
 
+/*
   template<class KeyT,class DataT>
   XMLIStreamC &operator>>(XMLIStreamC &strm,HashC<KeyT,DataT> &elem) {
     // Assume we've got the open tag.
@@ -815,7 +816,8 @@ namespace RavlN {
   } 
   //: Read in a hash table.
   // This also serves as an example.
-  
+*/  
+
 }
 
 #endif
