@@ -12,6 +12,7 @@
 //! date="25/02/99"
 //! rcsid="$Id$"
 //! docentry="default.Charles Galambos"
+//! lib=RavlCore
 
 #ifdef __cplusplus
 extern "C" {

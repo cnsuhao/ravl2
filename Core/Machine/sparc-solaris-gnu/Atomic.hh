@@ -11,6 +11,7 @@
 //! rcsid="$Id$"
 //! docentry="default.Charles Galambos"
 /* atomic.h: These still suck, but the I-cache hit rate is higher.
+//! lib=RavlCore
  *
  * Copyright (C) 1996 David S. Miller (davem@caip.rutgers.edu)
  */

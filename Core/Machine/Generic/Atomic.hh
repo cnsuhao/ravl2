@@ -14,6 +14,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Core.Misc"
 /********************************************************************
+//! lib=RavlCore
  * Dummy atomic operation file.
  */
 
