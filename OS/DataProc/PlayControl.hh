@@ -139,22 +139,22 @@ namespace RavlN {
     //: Check state of stream after get.
     // This assumes the input stream is locked by the calling function.
     
-    MutexC access;     // Access control.
-    IntT inc;          // Increments -ve and +ve  0==Stopped.  1=Normal play..
-    bool ok;       // Are operations succeding?
-    bool pause;    // Actively pause stream ?
-    SemaphoreC sema;   // Stream pause semaphore.  
-    DPSeekCtrlC ctrl;  // Seek control handle.
-    bool passEOS;  // Pass along End Of Stream.
-    UIntT start;       // Inital frame no.  (this is a valid frame. )
-    UIntT end;         // final frame no.   (this is a valid frame. )
+    MutexC access;    // Access control.
+    IntT inc;         // Increments -ve and +ve  0==Stopped.  1=Normal play..
+    bool ok;          // Are operations succeding?
+    bool pause;       // Actively pause stream ?
+    SemaphoreC sema;  // Stream pause semaphore.  
+    DPSeekCtrlC ctrl; // Seek control handle.
+    bool passEOS;     // Pass along End Of Stream.
+    UIntT start;      // Inital frame no.  (this is a valid frame. )
+    UIntT end;        // final frame no.   (this is a valid frame. )
     
-    IntT playMode;     // 0-Once through 1-Once through sub seq. 2-Repeat 3-back and forth.
-    IntT subStart;       // Inital frame no of sub sequence.  (this is a valid frame. )
-    IntT subEnd;         // final frame no of sub sequence.   (this is a valid frame. )
-    bool doneRev;  // Use in palindrome mode.
-    IntT at;           // Cache of input stream position.
-    IntT lastFrame;  // Last frame displayed.
+    IntT playMode;    // 0-Once through 1-Once through sub seq. 2-Repeat 3-back and forth.
+    IntT subStart;    // Inital frame no of sub sequence.  (this is a valid frame. )
+    IntT subEnd;      // final frame no of sub sequence.   (this is a valid frame. )
+    bool doneRev;     // Used in palindrome mode.
+    IntT at;          // Cache of input stream position.
+    IntT lastFrame;   // Last frame displayed.
   };
   
   //! userlevel=Normal

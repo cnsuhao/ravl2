@@ -82,11 +82,12 @@ namespace RavlN {
   //: Open new video stream.
   // Access must be locked when calling this function.
   bool DPPlayControlBodyC::Open(const DPSeekCtrlC &nCntrl) {
-    if(!nCntrl.IsValid())
-      return false;
     inc = 1;
     ok = true;
     ctrl = nCntrl;
+    playMode = 0;
+    subStart = 1;
+    subEnd = 1;
     // Preserve sequence limits ???
     if(!ctrl.IsValid()) {
       // Seek ctrl isn't valid.
@@ -96,6 +97,8 @@ namespace RavlN {
       return true;
     }
     start = ctrl.Start();
+    if(start == ((UIntT) -1))
+      start = 0;
     at = start;
     ctrl.Seek(start);
     UIntT sSize = ctrl.Size();
