@@ -25,7 +25,10 @@ namespace RavlN {
   //: Mean and covariance together in N-D space 
   // The class MeanCovarianceNdC serves for computation of the mean
   // and the covariance matrix of a set of N-dimensional data points.
-  // The object are able to share a memory with other objects.
+  // The object are able to share a memory with other objects. <br>
+  // Note it is more efficent to compute the mean and covariance of a
+  // data set using the SumsNd2C class than to accumlate statistics with 
+  // this class.
   
   class MeanCovarianceC {
   public:
@@ -63,7 +66,7 @@ namespace RavlN {
     // the data set represented by the 'mean'. The structure 'mean'
     // is shared.
     
-    MeanCovarianceC(SizeT  n, 
+    MeanCovarianceC(RealT n, 
 		    const VectorC & mean, 
 		    const MatrixRSC & ncov)
       : m(n,mean), 
@@ -86,7 +89,7 @@ namespace RavlN {
     // Information about an object
     // ---------------------------
 
-    SizeT Number() const
+    RealT Number() const
     { return m.Number(); }
     // Returns the number of data points which are represented by this object.
     

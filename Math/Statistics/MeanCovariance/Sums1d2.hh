@@ -77,6 +77,10 @@ namespace RavlN {
     { return n; }
     //: Number of data points.
     
+    UIntT N() const
+    { return n; }
+    //: Number of data points.
+    
     RealT Sum() const
     { return sum; }
     //: Sum of all data points.

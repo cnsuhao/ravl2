@@ -44,7 +44,7 @@ namespace RavlN {
     // All the vectors must have the same size, if
     // the list is empty a zero mean is generated.
     
-    MeanNdC(const SizeT dim)
+    MeanNdC(const UIntT dim)
       : VectorC(dim),
 	number(0)
     { VectorC::Fill(0); }
@@ -61,7 +61,7 @@ namespace RavlN {
     // the data set containing just one data point.
     // This object is attached to the memory of 'point'.
     
-    MeanNdC(SizeT n, const VectorC & mean)
+    MeanNdC(RealT n, const VectorC & mean)
       : VectorC(mean),
 	number(n)
     {}
@@ -77,7 +77,7 @@ namespace RavlN {
     //:---------------------------
     // Information about an object
 
-    inline SizeT Number() const
+    inline RealT Number() const
     { return number; }
     //: Returns number of points which were added into the object.
     
@@ -92,7 +92,7 @@ namespace RavlN {
     { VectorC::Fill(0); number = 0; }
     //: Reset all the counters to zero.
     
-    inline void Set(SizeT n, const VectorC & m)
+    inline void Set(RealT n, const VectorC & m)
     { VectorC::operator=(m); number = n; }
     //: Sets the new content of mean object. 
     // It will represent 'n' points with the mean location 'm'.
@@ -121,7 +121,7 @@ namespace RavlN {
     // Object representation
     // ---------------------
     
-    SizeT number;  // The number of points represented by mean object.
+    RealT number;  // The number of points represented by mean object.
 
     friend class MeanCovarianceC;
     friend istream & operator>>(istream & s, MeanNdC & mean);
