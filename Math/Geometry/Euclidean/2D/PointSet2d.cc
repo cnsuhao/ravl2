@@ -34,8 +34,8 @@ namespace RavlN {
       Vector2dC oBA = oPointA - oPointB;
       Vector2dC oBC = oPointC - oPointB;
       RealT cross = Abs(oBC.Cross(oBA));
-      if (cross != 0)
-	return 1;
+      if (cross < 1e-6)
+	cross = 1e-6;
       return (oBC.Dot(oBA) / cross);
    }
    
