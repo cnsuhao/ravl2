@@ -47,4 +47,4 @@ USESLIBS = RavlCore RavlGeom RavlGUI OpenGL Ravl3D x11
 
 EHT = Ravl.GUI.3D.html
 
-PROGLIBS = Ravl3DIO RavlOS RavlImageIO
+PROGLIBS = Ravl3DIO RavlOS RavlImageIO RavlExtImgIO

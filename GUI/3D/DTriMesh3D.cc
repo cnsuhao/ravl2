@@ -15,7 +15,7 @@
 #include "Ravl/SArray1dIter.hh"
 #include "GL/gl.h"
 
-#define DODEBUG 0
+#define DODEBUG 1
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -25,6 +25,47 @@
 #define USEMESHCOLOUR 1
 
 namespace RavlGUIN {
+  
+  //: Constructor.
+  
+  DTriMesh3DBodyC::DTriMesh3DBodyC(const TriMeshC &oTriMesh)
+    : model(oTriMesh),
+      doneCenter(false)
+  {}
+
+  //: Comput center and extent of mesh.
+  
+  void DTriMesh3DBodyC::ComputeInfo() {
+    doneCenter = true;
+    center = model.Centroid();
+    extent = 0;
+    for(SArray1dIterC<VertexC> it(model.Vertices());it;it++) {
+      RealT dist = it->Position().SqrEuclidDistance(center);
+      if(dist > extent)
+	extent = dist;
+    }
+    extent = Sqrt(extent);
+    ONDEBUG(cerr << "Center=" << center << " Extent=" << extent << "\n");
+  }
+
+
+  //: Get center of object.
+  // defaults to 0,0,0
+  
+  Vector3dC DTriMesh3DBodyC::Center() {
+    if(!doneCenter)
+      ComputeInfo();
+    return center;
+  }
+  
+  //: Get extent of object.
+  // defaults to 1
+  
+  RealT DTriMesh3DBodyC::Extent() {
+    if(!doneCenter)
+      ComputeInfo();
+    return extent;
+  }
   
   //: Render object.
   

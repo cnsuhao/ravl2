@@ -27,16 +27,29 @@ namespace RavlGUIN {
     : public DObject3DBodyC
   {
   public:
-    DTriMesh3DBodyC(const TriMeshC &oTriMesh)
-      : model(oTriMesh)
-    {}
+    DTriMesh3DBodyC(const TriMeshC &oTriMesh);
     //: Constructor.
     
     virtual bool Render(Canvas3DC &c3d);
     //: Render object.
     
+    virtual Vector3dC Center();
+    //: Get center of object.
+    // defaults to 0,0,0
+    
+    virtual RealT Extent();
+    //: Get extent of object.
+    // defaults to 1
+    
   protected:
     TriMeshC model;
+    
+    void ComputeInfo();
+    //: Comput center and extent of mesh.
+    
+    bool doneCenter;
+    Vector3dC center;
+    RealT extent;
   };
   
   //! userlevel=Normal
@@ -57,6 +70,11 @@ namespace RavlGUIN {
     //: Constructor.
     
   protected:
+    DTriMesh3DC(DTriMesh3DBodyC &bod)
+      : DObject3DC(bod)
+    {}
+    //: Body constructor.
+    
     DTriMesh3DBodyC &Body() 
     { return dynamic_cast<DTriMesh3DBodyC &>(DObject3DC::Body()); }
     

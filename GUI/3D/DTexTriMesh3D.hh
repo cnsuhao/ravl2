@@ -14,7 +14,7 @@
 //! author="James Smith"
 //! date="2/4/2001"
 
-#include "Ravl/GUI/DObject3D.hh"
+#include "Ravl/GUI/DTriMesh3D.hh"
 #include "Ravl/3D/TexTriMesh.hh"
 
 namespace RavlGUIN {
@@ -24,24 +24,19 @@ namespace RavlGUIN {
   //: Draw a TexTriMesh
   
   class DTexTriMesh3DBodyC
-    : public DObject3DBodyC
+    : public DTriMesh3DBodyC
   {
   public:
-    DTexTriMesh3DBodyC(const TexTriMeshC &oTexTriMesh)
-      : model(oTexTriMesh),
-	texNames(NULL)
-    {}
+    DTexTriMesh3DBodyC(const TexTriMeshC &oTexTriMesh);
     //: Constructor.
     
-    ~DTexTriMesh3DBodyC() {
-      if (texNames!=NULL) delete [] texNames;
-    }
-
+    ~DTexTriMesh3DBodyC();
+    
     virtual bool Render(Canvas3DC &c3d);
     //: Render object.
     
   protected:
-    TexTriMeshC model;
+    TexTriMeshC tmodel;
     GLuint* texNames;
   };
   
@@ -49,7 +44,7 @@ namespace RavlGUIN {
   //: Draw a TexTriMesh
   
   class DTexTriMesh3DC
-    : public DObject3DC
+    : public DTriMesh3DC
   {
   public:
     DTexTriMesh3DC()
@@ -58,7 +53,7 @@ namespace RavlGUIN {
     // creat an invalid handle.
     
     DTexTriMesh3DC(const TexTriMeshC &oTexTriMesh)
-      : DObject3DC(*new DTexTriMesh3DBodyC(oTexTriMesh))
+      : DTriMesh3DC(*new DTexTriMesh3DBodyC(oTexTriMesh))
     {}
     //: Constructor.
     

@@ -26,10 +26,22 @@
 
 namespace RavlGUIN {
   
+  DTexTriMesh3DBodyC::DTexTriMesh3DBodyC(const TexTriMeshC &oTexTriMesh)
+    :  DTriMesh3DBodyC(oTexTriMesh),
+       tmodel(oTexTriMesh),
+       texNames(NULL)
+  {}
+  //: Constructor.
+  
+  DTexTriMesh3DBodyC::~DTexTriMesh3DBodyC() {
+    if (texNames!=NULL)
+      delete [] texNames;
+  }
+  
   //: Render object.
   
   bool DTexTriMesh3DBodyC::Render(Canvas3DC &canvas) {
-    if (!model.IsValid())
+    if (!tmodel.IsValid())
       return true; // Don't do anything.
     
     // Setup GL texturing if it's not already done
@@ -37,11 +49,11 @@ namespace RavlGUIN {
       // Not sure what this line does...
       glPixelStorei(GL_UNPACK_ALIGNMENT,1);
       // Allocate textures
-      texNames = new GLuint[model.NumTextures()];
+      texNames = new GLuint[tmodel.NumTextures()];
       if (texNames==NULL) return false;
       // Create texture name
-      glGenTextures(model.NumTextures(),texNames);
-      for (int i=0; i<model.NumTextures(); i++) {	
+      glGenTextures(tmodel.NumTextures(),texNames);
+      for (int i=0; i<tmodel.NumTextures(); i++) {	
 	glBindTexture(GL_TEXTURE_2D,texNames[i]);
 	// Setup texture parameters
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
@@ -49,8 +61,9 @@ namespace RavlGUIN {
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 	// Setup texture image
-	glTexImage2D(GL_TEXTURE_2D,0,GL_RGB,model.Textures()[i].Cols(),model.Textures()[i].Rows(),0,GL_RGB,GL_UNSIGNED_BYTE,
-		     (void *) (model.Textures()[i].Row(model.Textures()[i].TRow())));
+	glTexImage2D(GL_TEXTURE_2D,0,GL_RGB,tmodel.Textures()[i].Cols(),tmodel.Textures()[i].Rows(),
+		     0,GL_RGB,GL_UNSIGNED_BYTE,
+		     (void *) (tmodel.Textures()[i].Row(tmodel.Textures()[i].TRow())));
       }
     }
 
@@ -65,7 +78,7 @@ namespace RavlGUIN {
     }
     // Render
     Canvas3DRenderMode eMode = canvas.GetRenderMode();
-    SArray1dC<VertexC> verts = model.Vertices();
+    SArray1dC<VertexC> verts = tmodel.Vertices();
     
 #if USEMESHCOLOUR
     glEnable(GL_COLOR_MATERIAL);
@@ -97,15 +110,15 @@ namespace RavlGUIN {
 	glDrawArrays(GL_POINTS,0,verts.Size());
       } break;
       case C3D_WIRE: {
-	for(SArray1dIterC<TriC> it(model.Faces());it;it++) {
+	for(SArray1dIterC<TriC> it(tmodel.Faces());it;it++) {
 	  glBindTexture(GL_TEXTURE_2D,texNames[it->TextureID()]);
 	  glBegin(GL_LINE_LOOP);
 	  GLTexCoord(it->TextureCoord(0));
-	  glArrayElement(model.Index(*it,0));
+	  glArrayElement(tmodel.Index(*it,0));
 	  GLTexCoord(it->TextureCoord(1));
-	  glArrayElement(model.Index(*it,1));
+	  glArrayElement(tmodel.Index(*it,1));
 	  GLTexCoord(it->TextureCoord(2));
-	  glArrayElement(model.Index(*it,2));
+	  glArrayElement(tmodel.Index(*it,2));
 	  glEnd();
 	}
       } break;
@@ -115,7 +128,7 @@ namespace RavlGUIN {
 	glGetIntegerv(GL_SHADE_MODEL,&eGLShadeModel);
 	glShadeModel(GL_FLAT); // Flat shading
 	// Draw filled polygon
-	for(SArray1dIterC<TriC> it(model.Faces());it;it++) {
+	for(SArray1dIterC<TriC> it(tmodel.Faces());it;it++) {
 #if USEMESHCOLOUR
 	  glColor3ubv(&(it->Colour()[0]));
 #endif
@@ -123,11 +136,11 @@ namespace RavlGUIN {
 	  glBindTexture(GL_TEXTURE_2D,texNames[it->TextureID()]);
 	  glBegin(GL_POLYGON);
 	  GLTexCoord(it->TextureCoord(0));
-	  glArrayElement(model.Index(*it,0));
+	  glArrayElement(tmodel.Index(*it,0));
 	  GLTexCoord(it->TextureCoord(1));
-	  glArrayElement(model.Index(*it,1));
+	  glArrayElement(tmodel.Index(*it,1));
 	  GLTexCoord(it->TextureCoord(2));
-	  glArrayElement(model.Index(*it,2));
+	  glArrayElement(tmodel.Index(*it,2));
 	  glEnd();
 	}
 	glShadeModel((GLenum)eGLShadeModel); // Restore old shade model
@@ -145,11 +158,11 @@ namespace RavlGUIN {
 	  glBindTexture(GL_TEXTURE_2D,texNames[it->TextureID()]);
 	  glBegin(GL_POLYGON);
 	  GLTexCoord(it->TextureCoord(0));
-	  glArrayElement(model.Index(*it,0));
+	  glArrayElement(tmodel.Index(*it,0));
 	  GLTexCoord(it->TextureCoord(1));
-	  glArrayElement(model.Index(*it,1));
+	  glArrayElement(tmodel.Index(*it,1));
 	  GLTexCoord(it->TextureCoord(2));
-	  glArrayElement(model.Index(*it,2));
+	  glArrayElement(tmodel.Index(*it,2));
 	  glEnd();
 	}
 	glShadeModel((GLenum)eGLShadeModel); // Restore old shade model
