@@ -19,4 +19,6 @@ LIBDEPS=RavlMathHistogram.def
 
 USESLIBS=RavlMath
 
+TEXTEXES=testHistogram.cc
+
 EXAMPLES=exHistogram.cc

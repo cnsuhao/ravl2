@@ -68,6 +68,15 @@ namespace RavlN {
     UIntT SumIntersection(const HistogramC<KeyT> &oth) const;
     //: Return the sum of the intersection between the two histograms.
     
+    UIntT LargestDifference(const HistogramC<KeyT> &oth,KeyT &lKey,IntT &ldiff);
+    //: Return key with largest difference between this and 'oth'.
+    // Returns the number of keys with an equal difference count. <p>
+    // The key is assigned to lKey, and the maximum difference to ldiff.
+
+    UIntT Size() const
+    { return HashC<KeyT,UIntC>::Size(); }
+    //: Number of key's in the histogram.
+    // Note: This is NOT the total number of votes.
   protected:
     UIntT total; // Total of count in all bins
   };
@@ -95,7 +104,7 @@ namespace RavlN {
     UIntT ret = 0;
     if(Size() > oth.Size())
       return oth.SumIntersection(*this); // Turn it around, its faster.
-    UIntT v;
+    UIntC v;
     for(HashIterC<KeyT,UIntC> it(*this);it;it++) {
       if(!oth.Lookup(it.Key(),v))
 	continue;
@@ -103,6 +112,48 @@ namespace RavlN {
     }
     return ret;
   }
+  
+  //: Return key with largest difference between this and 'oth'.
+  // Returns the number of keys with an equal difference count. <p>
+  // The key is assigned to lKey, and the maximum difference to ldiff.
+  
+  template<class KeyT>
+  UIntT HistogramC<KeyT>::LargestDifference(const HistogramC<KeyT> &oth,KeyT &lKey,IntT &ldiff) {
+    IntT maxDiff = -1;
+    UIntT matchCount =0;
+    for(HashIterC<KeyT,UIntC> it1(*this);it1;it1++) {
+      UIntC oc = 0;
+      oth.Lookup(it1.Key(),oc); // If not found oc will be 0
+      IntT diff = Abs((IntT) oc - (IntT) it1.Data());
+      if(diff < maxDiff)
+	continue;
+      if(diff == maxDiff) {
+	matchCount++;
+	continue;
+      }
+      matchCount = 1;
+      maxDiff = diff;
+      lKey = it1.Key();
+    }
+    for(HashIterC<KeyT,UIntC> it2(oth);it2;it2++) {
+      UIntC oc = 0;
+      if(Lookup(it2.Key(),oc)) 
+	continue; // Only interested in elements in oth only.
+      IntT diff = oc;
+      if(diff < maxDiff)
+	continue;
+      if(diff == maxDiff) {
+	matchCount++;
+	continue;
+      }
+      matchCount = 1;
+      maxDiff = diff;
+      lKey = it2.Key();      
+    }
+    ldiff = maxDiff;
+    return matchCount;
+  }
+
 }
 
 #endif
