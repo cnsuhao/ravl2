@@ -47,7 +47,7 @@ namespace RavlN {
     //: Default constructor.
     
     ClassifierFunc1ThresholdC(const Function1C &nfunc,RealT nthreshold)
-      : ClassifierC(*new ClassifierFunc1ThresholdC(nfunc,nthreshold))
+      : ClassifierC(*new ClassifierFunc1ThresholdBodyC(nfunc,nthreshold))
     {}
     //: Constructor.
     
