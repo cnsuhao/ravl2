@@ -16,6 +16,7 @@
 //! docentry="Ravl.Images.Pixel Types"
 
 #include "Ravl/Image/RealRGBValue.hh"
+#include "Ravl/Image/ByteRGBValue.hh"
 
 namespace RavlImageN {
   using namespace RavlN;
