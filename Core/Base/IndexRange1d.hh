@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLINDEXRANGE1D_HH
-#define RAVLINDEXRANGE1D_HH
+#ifndef RAVL_INDEXRANGE1D_HH
+#define RAVL_INDEXRANGE1D_HH
 //////////////////////////////////////////////////////////////////////////
 //! file="Ravl/Core/Base/IndexRange1d.hh"
 //! lib=RavlCore
@@ -59,66 +59,66 @@ namespace RavlN {
     //: Access to the object information.
     
     inline SizeT Size() const
-      { return (maxI-minI+1).V(); }
+    { return (maxI-minI+1).V(); }
     //: Returns the number of elements in the range.
     
     inline const IndexRangeC & Range() const
-      { return *this; }
+    { return *this; }
     //: Returns this object.
     
     inline const IndexC & Min()  const
-      { return minI; }
+    { return minI; }
     //: Returns the minimum index of the range.
     
     inline const IndexC & Max()  const
-      { return maxI; }
+    { return maxI; }
     //: Returns the maximum index of the range.
     
     inline IndexC & Min()
-      { return minI; }
+    { return minI; }
     //: Returns the minimum index of the range.
     
     inline IndexC & Max()
-      { return maxI; }
+    { return maxI; }
     //: Returns the maximum index of the range.
     
     inline IndexC Center() const
-      { return (Min() + Max() + 1)/2; }
+    { return (Min() + Max() + 1)/2; }
     //: Returns the index in the middle of the range, eg. (Max()+Min()+1)/2.
     
     inline IndexC CenterD() const
-      { return (Min() + Max())/2; }
+    { return (Min() + Max())/2; }
     //: Returns the index previous the middle of the range, eg. (Max()+Min())/2.
     
     inline IndexC Percentage(const RealT p) const
-      { return IntT((Max() - Min()) * p/100.0 + Min()+0.5); }
+    { return IntT((Max() - Min()) * p/100.0 + Min()+0.5); }
     //: Returns the index which is in the 'p' % of the whole range.
     
     //:-------------------
     //: Logical operations.
     
     inline bool IsEmpty() const
-      { return Min() > Max(); }
+    { return Min() > Max(); }
     //: Returns TRUE if the minimum limit is bigger than the maximum limit. 
 
     inline bool IsValid() const
-      { return Min() > Max(); }
+    { return Min() > Max(); }
     //: Returns TRUE if the minimum limit is bigger than the maximum limit. 
     
     inline bool Contains(IndexC i) const
-      { return (Min() <= i) && (i <= Max()); }
+    { return (Min() <= i) && (i <= Max()); }
     //: Returns TRUE if this range contains the index 'i'.
     
     inline bool Contains(const IndexRangeC & range) const
-      { return Contains(range.Min()) && Contains(range.Max()); }
+    { return Contains(range.Min()) && Contains(range.Max()); }
     //: Returns TRUE if this range contains the subrange 'range'.
     
     inline bool operator==(const IndexRangeC & range) const
-      { return (Min() == range.Min()) && (Max() == range.Max()); }
+    { return (Min() == range.Min()) && (Max() == range.Max()); }
     //: Returns TRUE if both index ranges have the same limits.
     
     inline bool operator!=(const IndexRangeC & range) const
-      { return (Min() != range.Min()) || (Max() != range.Max()); }
+    { return (Min() != range.Min()) || (Max() != range.Max()); }
     //: Returns TRUE if both the ranges have different limits.
     
     bool In(const IndexRangeC & range) const;
@@ -131,17 +131,12 @@ namespace RavlN {
     //:-------------------
     //: Special operations.
     
-    inline IndexRangeC operator+ (IndexC i) const
-      { return IndexRangeC(Min() + i, Max() + i); }
-    //: Returns a new range with both minimum and maximum limits 
-    //: shifted by adding the offset 'i'.
-
     inline IndexRangeC &operator++()
-      { Min()++; Max()++; return *this; }
+    { Min()++; Max()++; return *this; }
     //: Move both the max and min of the range along 1.
     
     inline IndexRangeC &operator--()
-      { Min()--; Max()--; return *this; }
+    { Min()--; Max()--; return *this; }
     //: Move both the max and min of the range back 1.
     
     inline const IndexRangeC & operator+=(IndexC i);
@@ -150,29 +145,37 @@ namespace RavlN {
     inline const IndexRangeC & operator-=(IndexC i);
     //: Both minimum and maximum limits are shifted by subtracting the offset 'i'.
     
+    inline IndexRangeC operator+(IndexC i) const
+    { return IndexRangeC(Min() + i,Max() + i); }
+    //: Create a new IndexRangeC with minimum and maximum limits shifted by adding the offset 'i'.
+    
+    inline IndexRangeC operator-(IndexC i) const
+    { return IndexRangeC(Min() - i,Max() - i); }
+    //: Create a new IndexRangeC with minimum and maximum limits shifted by subtracting the offset 'i'.
+    
     inline IndexRangeC & ClipBy(const IndexRangeC & r);
     //: This index range is clipped to contain at most the index range 'r'.
     
     inline IndexRangeC FirstHalf() const
-      { return IndexRangeC(Min(),Center()); }
+    { return IndexRangeC(Min(),Center()); }
     //: Returns the index range < Min(), (Max()+Min()+1)/2 >.
     
     inline IndexRangeC FirstHalfD() const
-      { return IndexRangeC(Min(),CenterD()); }
+    { return IndexRangeC(Min(),CenterD()); }
     //: Returns the index range < Min(), (Max()+Min())/2 >.
     
     inline IndexRangeC Enlarge(IndexC f) const
-      { return IndexRangeC(Min(), Min() + Size()*f - 1); }
+    { return IndexRangeC(Min(), Min() + Size()*f - 1); }
     //: Returns the index range whose number of elements is enlarged by
     //: the factor 'f'. The upper limits is changed.
     
     inline IndexRangeC Expand(IndexC n) const
-      { return IndexRangeC(minI - n,maxI + n); }
+    { return IndexRangeC(minI - n,maxI + n); }
     //: Returns the range extended by adding 'n' items on both limits of
     //: this range. 
     
     inline IndexRangeC Shrink(IndexC n) const
-      { return IndexRangeC(minI + n,maxI - n); }
+    { return IndexRangeC(minI + n,maxI - n); }
     //: Returns the range extended by adding 'n' items on both limits of
     //: this range. 
     

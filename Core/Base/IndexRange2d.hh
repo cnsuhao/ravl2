@@ -162,6 +162,14 @@ namespace RavlN {
     inline const IndexRange2dC & operator-=(const Index2dC & offset);
     //: Shifts the rectangle to the new position.
     
+    inline IndexRange2dC operator+(const Index2dC & offset) const
+    { return IndexRange2dC(Rows() + offset[0],Cols() + offset[1]); }
+    //: Shifts the rectangle to the new position.
+    
+    inline IndexRange2dC operator-(const Index2dC & offset) const
+    { return IndexRange2dC(Rows() - offset[0],Cols() - offset[1]); }
+    //: Shifts the rectangle to the new position.
+    
     inline const IndexRangeC & RowRange() const
     { return rows; }
     //: Access row range.

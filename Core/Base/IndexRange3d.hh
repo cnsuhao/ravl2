@@ -30,14 +30,14 @@ namespace RavlN {
   class IndexRange3dC {
   public:
     IndexRange3dC()
-      {}
+    {}
     //: Default constructor.
     
     IndexRange3dC(IndexC iNumber, IndexC jNumber, IndexC kNumber)
       : is(0, iNumber-1), 
-      js(0, jNumber-1),
-      ks(0, kNumber-1)
-      {}
+	js(0, jNumber-1),
+	ks(0, kNumber-1)
+    {}
     //: Constructor.
     
     IndexRange3dC(const IndexRangeC & iRange,
@@ -47,110 +47,110 @@ namespace RavlN {
     
     IndexRange3dC(const Index3dC &org,const Index3dC &end)
       : is(org.I(), end.I()), 
-      js(org.J(), end.J()), 
-      ks(org.K(), end.K())
-      {}
+	js(org.J(), end.J()), 
+	ks(org.K(), end.K())
+    {}
     //: Create an 3d range from corner points.
     
     IndexRange3dC(IndexC minI, IndexC maxI,
 		  IndexC minJ, IndexC maxJ,
 		  IndexC minK, IndexC maxK)
       : is(minI, maxI), 
-      js(minJ,maxJ),
-      ks(minK,maxK)
-      {}
+	js(minJ,maxJ),
+	ks(minK,maxK)
+    {}
     //: Create rectangle from individual values.
     
     inline Index3dC Origin() const
-      { return Index3dC(is.Min(),js.Min()); }
+    { return Index3dC(is.Min(),js.Min()); }
     //: Returns the origin index of the rectangle.
     
     inline Index3dC  End() const
-      { return Index3dC(is.Max(),js.Max()); }
+    { return Index3dC(is.Max(),js.Max()); }
     //: Returns the end index of the rectangle.
     
     inline Index3dC Center() const
-      { return Index3dC(is.Center(),js.Center(),ks.Center()); }
+    { return Index3dC(is.Center(),js.Center(),ks.Center()); }
     //: Returns the index which is in the middle of the rectangle
     
     inline IndexC MinI() const
-      { return is.Min(); }
+    { return is.Min(); }
     //: Returns the min value of I.
     
     inline IndexC MinJ() const
-      { return js.Min(); }
+    { return js.Min(); }
     //: Returns the min value of J.
 
     inline IndexC MinK() const
-      { return ks.Min(); }
+    { return ks.Min(); }
     //: Returns the min value of K.
     
     inline IndexC MaxI() const
-      { return is.Max(); }
+    { return is.Max(); }
     //: Returns the max value of I.
     
     inline IndexC MaxJ() const
-      { return js.Max(); }
+    { return js.Max(); }
     //: Returns the max value of J.
 
     inline IndexC MaxK() const
-      { return ks.Max(); }
+    { return ks.Max(); }
     //: Returns the max value of K.
     
     inline IndexC &MinI()
-      { return is.Min(); }
+    { return is.Min(); }
     //: Returns the min value of I.
     
     inline IndexC &MinJ()
-      { return js.Min(); }
+    { return js.Min(); }
     //: Returns the min value of J.
     
     inline IndexC &MinK()
-      { return ks.Min(); }
+    { return ks.Min(); }
     //: Returns the min value of K.
     
     inline IndexC &MaxI()
-      { return is.Max(); }
+    { return is.Max(); }
     //: Returns the max value of I.
     
     inline IndexC &MaxJ()
-      { return js.Max(); }
+    { return js.Max(); }
     //: Returns the max value of J.
 
     inline IndexC &MaxK()
-      { return ks.Max(); }
+    { return ks.Max(); }
     //: Returns the max value of K.
     
     inline SizeT Is() const
-      { return is.Size(); }
+    { return is.Size(); }
     //: The number of i's in the rectangle.
 
     inline SizeT Js() const
-      { return js.Size(); }
+    { return js.Size(); }
     //: The number of j's in the rectangle.
 
     inline SizeT Ks() const
-      { return ks.Size(); }
+    { return ks.Size(); }
     //: The number of k's in the rectangle.
     
     inline SizeT Volume() const
-      { return (SizeT) Is() * Js() * Ks(); }
-    // Returns the volume of the prism expressed in number of indexs.
+    { return (SizeT) Is() * Js() * Ks(); }
+    //: Returns the volume of the prism expressed in number of indexs.
     
     inline IndexRange3dC Dilate() const 
-      { return IndexRange3dC(is.Expand(1),js.Expand(1),ks.Expand(1)); }
+    { return IndexRange3dC(is.Expand(1),js.Expand(1),ks.Expand(1)); }
     //: Returns a new rectangle one index larger on each side.
     
     inline IndexRange3dC Erode() const
-      { return IndexRange3dC(is.Shrink(1),js.Shrink(1),ks.Shrink(1)); }
-    // Removes one index layer on each side.
+    { return IndexRange3dC(is.Shrink(1),js.Shrink(1),ks.Shrink(1)); }
+    //: Removes one index layer on each side.
     
     inline IndexRange3dC Expand(IndexC n) const
-      { return IndexRange3dC(is.Expand(n),js.Expand(n),ks.Expand(n)); }
+    { return IndexRange3dC(is.Expand(n),js.Expand(n),ks.Expand(n)); }
     // Expands the rectangle by adding 'n' indexs on each side.
     
     inline IndexRange3dC Shrink(IndexC n) const
-      { return IndexRange3dC(is.Shrink(n),js.Shrink(n),ks.Shrink(n)); }
+    { return IndexRange3dC(is.Shrink(n),js.Shrink(n),ks.Shrink(n)); }
     // Returns a new rectangle which has layer of the width of 'n' indexs
     // removed.
     
@@ -164,64 +164,72 @@ namespace RavlN {
 
     inline bool Contains(const Index3dC & oth) const
     { return Range1().Contains(oth[0]) && Range2().Contains(oth[1]) && Range3().Contains(oth[2]); }
-    // Returns true if this range contains the subrange 'oth'.
+    //: Returns true if this range contains the subrange 'oth'.
     
     inline bool Contains(const IndexRange3dC & oth) const
     { return Range1().Contains(oth.Range1()) && Range2().Contains(oth.Range2()) && Range3().Contains(oth.Range3()); }
-    // Returns true if this range contains the subrange 'oth'.
+    //: Returns true if this range contains the subrange 'oth'.
     
     inline const IndexRange3dC & operator+=(const Index3dC & offset);
-    // Shifts the rectangle to the new position.
+    //: Shifts the rectangle to the new position.
     
     inline const IndexRange3dC & operator-=(const Index3dC & offset);
-    // Shifts the rectangle to the new position.
+    //: Shifts the rectangle to the new position.
+
+    inline IndexRange3dC operator+(const Index3dC & offset) const
+    { return IndexRange3dC(is + offset[0],js + offset[1],ks + offset[2]); }
+    //: Shifts the rectangle to the new position.
+    
+    inline IndexRange3dC operator-(const Index3dC & offset) const
+    { return IndexRange3dC(is - offset[0],js - offset[1],ks - offset[2]); }
+    //: Shifts the rectangle to the new position.
     
     inline const IndexRangeC & IRange() const
-      { return is; }
+    { return is; }
     //: Access i range.
     
     inline const IndexRangeC & JRange() const
-      { return js; }
+    { return js; }
     //: Access j range.
 
     inline const IndexRangeC & KRange() const
-      { return ks; }
+    { return ks; }
     //: Access k range.
     
     inline IndexRangeC & IRange()
-      { return is; }
+    { return is; }
     //: Access i range.
     
     inline IndexRangeC & JRange()
-      { return js; }
+    { return js; }
     //: Access j range.
     
     inline IndexRangeC & KRange()
-      { return ks; }
+    { return ks; }
     //: Access k range.
     
     inline const IndexRangeC & Range1() const
-      { return is; }
+    { return is; }
     //: Access i range.
     
     inline const IndexRangeC & Range2() const
-      { return js; }
+    { return js; }
     //: Access j range.
 
     inline const IndexRangeC & Range3() const
-      { return ks; }
+    { return ks; }
     //: Access k range.
     
     inline IndexRangeC & Range1()
-      { return is; }
+    { return is; }
     //: Access i range.
     
     inline IndexRangeC & Range2()
-      { return js; }
+    { return js; }
     //: Access j range.
     
     inline IndexRangeC & Range3()
-      { return ks; }
+    { return ks; }
     //: Access k range.
     
     inline const IndexRange3dC &Involve(const Index3dC & index);
@@ -234,20 +242,20 @@ namespace RavlN {
     
     inline 
     bool IsValid() const 
-      { return is.IsValid() && js.IsValid() && ks.IsValid(); }
+    { return is.IsValid() && js.IsValid() && ks.IsValid(); }
     // Returns TRUE if this rectangle contains at least one index.
 
     bool operator==(const IndexRange3dC &oth) const
-      { return oth.Range1() == Range1() && oth.Range2() == Range2() && oth.Range3() == Range3(); }
+    { return oth.Range1() == Range1() && oth.Range2() == Range2() && oth.Range3() == Range3(); }
     //: Are two ranges equal ?
 
     bool operator!=(const IndexRange3dC &oth) const
-      { return oth.Range1() != Range1() || oth.Range2() != Range2() || oth.Range3() != Range3(); }
+    { return oth.Range1() != Range1() || oth.Range2() != Range2() || oth.Range3() != Range3(); }
     //: Are two ranges unequal ?
     
   protected:
     inline const IndexRange3dC & Range() const
-      { return(*this); }
+    { return(*this); }
     
   private:
     IndexRangeC is;
