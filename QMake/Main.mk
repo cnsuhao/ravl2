@@ -798,7 +798,9 @@ $(INST_LIBDEF)/$(LOCAL_DEFBASE).def: defs.mk $(INST_LIBDEF)/.dir $(HEADERS) $(SO
   endif
  endif
  ifdef PLIB
+  ifndef LIBDEPS
 	$(SHOWIT)echo 'EXELIB := -l$(PLIB) $$(EXELIB)' >> $(INST_LIBDEF)/$(@F) ;
+  endif
  endif
  ifdef MUSTLINK
 
