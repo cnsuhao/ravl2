@@ -18,6 +18,7 @@
 #include "Ravl/Threads/Signal2.hh"
 #include "Ravl/Threads/Signal1.hh"
 #include "Ravl/HashIter.hh"
+#include "Ravl/StringList.hh"
 
 #include  <gtk/gtk.h>
 
@@ -29,28 +30,27 @@ namespace RavlGUIN {
   //: Default constructor.
   
   TreeViewColumnC::TreeViewColumnC()
-    : renderer(0),
-      column(0),
-      treeViewBody(0)
+    : renderers(1),
+      column(0)
   {}
   
   //:---------------------------------------------------------------------------------
 
   static void tree_view_toggle_cb(GtkCellRendererToggle *cellrenderertoggle,gchar *arg1,gpointer treeCol) {
     //cerr << "tree_view_toggle(), Called. \n";
-    Signal1C<TreeModelIterC> sig = ((TreeViewColumnC *) treeCol)->SignalChanged();
+    Signal1C<TreeModelIterC> sig = ((TreeViewColumnRendererC *) treeCol)->SignalChanged();
     RavlAssert(sig.IsValid());
-    RavlAssert(((TreeViewColumnC *) treeCol)->TreeBody() != 0);
-    TreeModelIterC iter = ((TreeViewColumnC *) treeCol)->TreeBody()->Path2Iter(arg1);
+    RavlAssert(((TreeViewColumnRendererC *) treeCol)->TreeBody() != 0);
+    TreeModelIterC iter = ((TreeViewColumnRendererC *) treeCol)->TreeBody()->Path2Iter(arg1);
     sig(iter);
   }
   
   static void tree_view_edit_cb(GtkCellRendererToggle *cellrenderertoggle,gchar *arg1,gchar *arg2,gpointer treeCol) {
     //cerr << "tree_view_edit(), Called. \n";
-    Signal2C<TreeModelIterC,StringC> sig = ((TreeViewColumnC *) treeCol)->SignalChanged();
+    Signal2C<TreeModelIterC,StringC> sig = ((TreeViewColumnRendererC *) treeCol)->SignalChanged();
     RavlAssert(sig.IsValid());
-    RavlAssert(((TreeViewColumnC *) treeCol)->TreeBody() != 0);
-    TreeModelIterC iter = ((TreeViewColumnC *) treeCol)->TreeBody()->Path2Iter(arg1);
+    RavlAssert(((TreeViewColumnRendererC *) treeCol)->TreeBody() != 0);
+    TreeModelIterC iter = ((TreeViewColumnRendererC *) treeCol)->TreeBody()->Path2Iter(arg1);
     sig(iter,StringC(arg2));
   }
   
@@ -95,39 +95,70 @@ namespace RavlGUIN {
     displayColumns = SArray1dC<TreeViewColumnC>(dispList.Size());
     SArray1dIterC<TreeViewColumnC> ait(displayColumns);
     for(DLIterC<StringC> it(dispList);it;it++,ait++) {
-      UIntT sourceCol = treeModel.ColNumber(*it);
-      if(sourceCol == ((UIntT) -1)) {
-	cerr << "Unknown column '" << *it << "'\n";
-	continue;
-      }
+      StringListC subCols(*it,"|");
+      UIntT noSubCols = subCols.Size();
+      SArray1dC<TreeViewColumnRendererC> renderers(noSubCols);
       
-      AttributeTypeC colType = treeModel.ColumnType(sourceCol);
-      StringC renderType;
-      ait->Name(*it);
-      switch(colType.ValueType()) {
-      case AVT_Bool: 
-	renderType ="bool";
-	ait->Attributes()[attrActive] = Tuple2C<StringC,bool>(*it,true);
-	break;
-      case AVT_ByteRGBImage: 
-	renderType ="pixbuf";
-	ait->Attributes()[attrPixbuf] = Tuple2C<StringC,bool>(*it,true);
-	break;
-      case AVT_String:  
-      case AVT_Int: 
-      case AVT_Real:
-      case AVT_Enum: 
-	renderType ="text";
-	ait->Attributes()[attrText] = Tuple2C<StringC,bool>(*it,true);
-	break;
-      case AVT_Abstract:
-      case AVT_None:
-      case AVT_Invalid:
-      case AVT_Component:
-	break;
+      SArray1dIterC<TreeViewColumnRendererC> rit(renderers);
+      
+      for(DLIterC<StringC> sit(subCols);sit;sit++) {
+	StringC name = *sit;
+	//cerr << "Name=" << name << "\n";
+	RavlAssert(!name.IsEmpty());
+	char key = name[0];
+	bool mainName = false;
+	if(key == '@') {
+	  name = name.after(0);
+	  key = name[0];
+	} else
+	  mainName = true;
+	
+	if(key == '-' || key == '+') {
+	  name = name.after(0);
+	  rit->SetExpand(key == '+');
+	}
+	if(mainName)
+	  ait->Name(name); // Set the name of the column
+	
+	UIntT sourceCol = treeModel.ColNumber(name);
+	if(sourceCol == ((UIntT) -1)) {
+	  cerr << "Unknown column '" << name << "'\n";
+	  continue;
+	}
+	AttributeTypeC colType = treeModel.ColumnType(sourceCol);
+	StringC renderType;
+	switch(colType.ValueType()) {
+	case AVT_Bool: 
+	  renderType ="bool";
+	  // Get value from 'active' from column '*it'
+	  rit->Attributes()[attrActive] = Tuple2C<StringC,bool>(name,true);
+	  break;
+	case AVT_ByteRGBImage: 
+	  renderType ="pixbuf";
+	  // Get value from 'pixbuf' from column '*it'
+	  rit->Attributes()[attrPixbuf] = Tuple2C<StringC,bool>(name,true);
+	  break;
+	case AVT_String:  
+	case AVT_Int: 
+	case AVT_Real:
+	case AVT_Enum: 
+	  renderType ="text";
+	  // Get value from 'text' from column '*it'
+	  rit->Attributes()[attrText] = Tuple2C<StringC,bool>(name,true);
+	  break;
+	case AVT_Abstract:
+	case AVT_None:
+	case AVT_Invalid:
+	case AVT_Component:
+	  break;
+	}
+	rit->SetRenderType(renderType);
+	//cerr << "Setting '" << ait->Name() << "' to render type '" << ait->RenderType() << "'\n";
+
+	rit++;
       }
-      ait->RenderType(renderType);
-      //cerr << "Setting '" << ait->Name() << "' to render type '" << ait->RenderType() << "'\n";
+      renderers = SArray1dC<TreeViewColumnRendererC>(renderers,rit.Index().V());
+      ait->SetRenderers(renderers);
     }
   }
   
@@ -156,6 +187,14 @@ namespace RavlGUIN {
     displayColumns[colNum].Attributes()[key] = Tuple2C<StringC,bool>(value,proxy);
     return true;
   }
+  
+  //: Set an attribute for a column
+  // Possible keys include: "editable", "sortable", "activateable", "foreground", "background", "reorderable", "resizable"
+  
+  bool TreeViewBodyC::SetAttribute(UIntT colNum,UIntT subCol,const StringC &key,const StringC &value,bool proxy) {
+    displayColumns[colNum].Renderers()[subCol].Attributes()[key] = Tuple2C<StringC,bool>(value,proxy);
+    return true;
+  }
 
   //: Create with a widget supplied from elsewhere.
   
@@ -178,76 +217,75 @@ namespace RavlGUIN {
     UIntT i = 0;
     for(SArray1dIterC<TreeViewColumnC> it(displayColumns);it;it++,i++) {
       GtkCellRenderer *renderer = 0;
-      GtkTreeViewColumn *column = 0;
       IntT col_offset = 0;
       
-      if(it->RenderType() == "bool") {
-	renderer = gtk_cell_renderer_toggle_new (); 
-	// sourceCol = treeModel.ColNumber(it->Attributes()["active"]);
-	col_offset = gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (widget),
-								  -1, it->Name(),renderer,NULL);
-	if(it->SignalChanged().IsValid()) {
-	  g_signal_connect (G_OBJECT (renderer), "toggled",
-			    G_CALLBACK (tree_view_toggle_cb),
-			    &(*it));
-	  it->TreeBody(this);
-	}
-      } else if( it->RenderType() == "text") {
-	renderer = gtk_cell_renderer_text_new ();
-	// sourceCol = treeModel.ColNumber(it->Attributes()["text"]); 
-	col_offset = gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (widget),
-								  -1, it->Name(),renderer,NULL); 
+      GtkTreeViewColumn *column = gtk_tree_view_column_new ();
+      gtk_tree_view_column_set_title (column, it->Name());
+      col_offset = gtk_tree_view_append_column (GTK_TREE_VIEW (widget),
+						column);
+      
+      for(SArray1dIterC<TreeViewColumnRendererC> rit(it->Renderers());rit;rit++) {
+	const StringC &renderType = rit->RenderType();
 	
-	if(it->SignalChanged().IsValid()) {
-	  g_signal_connect (G_OBJECT (renderer), "edited",
-			    G_CALLBACK (tree_view_edit_cb),
-			    &(*it));
-	  it->TreeBody(this);
-	}
-      } else if( it->RenderType() == "pixbuf") {
-	renderer = gtk_cell_renderer_pixbuf_new ();
-	col_offset = gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (widget),
-								  -1, it->Name(),renderer,NULL);
-      } else {
-	cerr << "Unknown rendered type '" << it->RenderType() << "'\n";
-	RavlAssert(0);
-      }
-      
-      column = gtk_tree_view_get_column (GTK_TREE_VIEW (widget), col_offset - 1);
-      
-      // Setup attributes.
-      for(HashIterC<StringC,Tuple2C<StringC,bool> > ait(it->Attributes());ait;ait++) {
-	Tuple2C<StringC,bool> &at = ait.Data();
-	if(at.Data2()) { // Proxy ?
-	  UIntT sourceCol = treeModel.ColNumber(ait.Data().Data1());
-	  if(sourceCol == ((UIntT) -1))
-	    cerr << "Failed to find column '" << ait.Data() << "' \n";
-	  gtk_tree_view_column_add_attribute(column,renderer,ait.Key(),sourceCol);
+	if(renderType == "bool") { // Bool render
+	  renderer = gtk_cell_renderer_toggle_new (); 
+	  if(it->SignalChanged().IsValid()) {
+	    g_signal_connect (G_OBJECT (renderer), "toggled",
+			      G_CALLBACK (tree_view_toggle_cb),
+			      &(*rit));
+	    rit->TreeBody(this);
+	  }
+	  
+	} else if( renderType == "text") {
+	  renderer = gtk_cell_renderer_text_new ();
+	  if(it->SignalChanged().IsValid()) {
+	    g_signal_connect (G_OBJECT (renderer), "edited",
+			      G_CALLBACK (tree_view_edit_cb),
+			      &(*rit));
+	    rit->TreeBody(this);
+	  }
+	  
+	} else if( renderType == "pixbuf") {
+	  renderer = gtk_cell_renderer_pixbuf_new ();
+	  
 	} else {
-	  //cerr << "Setting attribute '" << ait.Key() << "' to '" << at.Data1() << "'\n";
-	  if(ait.Key() == "editable" || ait.Key() == "activatable") {
-	    gboolean val = (at.Data1() == "1") ? 1 : 0;
-	    g_object_set(G_OBJECT (renderer), ait.Key(),val,0);
+	  cerr << "Unknown rendered type '" << rit->RenderType() << "'\n";
+	  RavlAssert(0);
+	}
+	
+	gtk_tree_view_column_pack_start (column,
+					 renderer,
+					 rit->Expand());
+	
+	// Setup attributes.
+	for(HashIterC<StringC,Tuple2C<StringC,bool> > ait(rit->Attributes());ait;ait++) {
+	  Tuple2C<StringC,bool> &at = ait.Data();
+	  if(at.Data2()) { // Proxy ?
+	    UIntT sourceCol = treeModel.ColNumber(ait.Data().Data1());
+	    if(sourceCol == ((UIntT) -1))
+	      cerr << "Failed to find column '" << ait.Data() << "' \n";
+	    gtk_tree_view_column_add_attribute(column,renderer,ait.Key(),sourceCol);
+	  } else {
+	    //cerr << "Setting attribute '" << ait.Key() << "' to '" << at.Data1() << "'\n";
+	    if(ait.Key() == "editable" || ait.Key() == "activatable") {
+	      gboolean val = (at.Data1() == "1") ? 1 : 0;
+	      g_object_set(G_OBJECT (renderer), ait.Key(),val,0);
+	    }
+	    // Enable sorting
+	    else if (ait.Key() == "sortable") {
+	      gtk_tree_view_column_set_sort_column_id(GTK_TREE_VIEW_COLUMN (column), col_offset-1);
+	    }
+	    // Enable column reordering
+	    else if (ait.Key() == "reorderable") {
+	      gtk_tree_view_column_set_reorderable(GTK_TREE_VIEW_COLUMN (column), true);
+	    }	  
+	    // Enable column resizing
+	    else if (ait.Key() == "resizable") {
+	      gtk_tree_view_column_set_resizable(GTK_TREE_VIEW_COLUMN (column), true);
+	    }
 	  }
-	  // Enable sorting
-	  else if (ait.Key() == "sortable") {
-	    gtk_tree_view_column_set_sort_column_id(GTK_TREE_VIEW_COLUMN (column), col_offset-1);
-	  }
-	  // Enable column reordering
-	  else if (ait.Key() == "reorderable") {
-	    gtk_tree_view_column_set_reorderable(GTK_TREE_VIEW_COLUMN (column), true);
-	  }	  
-	  // Enable column resizing
-	  else if (ait.Key() == "resizable") {
-	    gtk_tree_view_column_set_resizable(GTK_TREE_VIEW_COLUMN (column), true);
-	  }	  
 	}
       }
-      
-      //g_object_set (G_OBJECT (renderer), "xalign", 0.0, NULL);
-      //gtk_tree_view_column_set_clickable (GTK_TREE_VIEW_COLUMN (column), TRUE);
-
-  
     }
     
     // Setup selection
@@ -274,13 +312,14 @@ namespace RavlGUIN {
   
   //: Access changed signal for a column
   
-  Signal0C &TreeViewBodyC::ChangedSignal(UIntT colNum) {
+  Signal0C &TreeViewBodyC::ChangedSignal(UIntT colNum,UIntT subColNo) {
     TreeViewColumnC &col = displayColumns[colNum];
-    Signal0C &sig = col.SignalChanged();
+    TreeViewColumnRendererC &colRender = col.Renderers()[subColNo];
+    Signal0C &sig = colRender.SignalChanged();
     if(!sig.IsValid()) {
-      if(col.RenderType() == "bool") {	
+      if(colRender.RenderType() == "bool") {	
 	sig = Signal1C<TreeModelIterC>(TreeModelIterC());
-      } else if(col.RenderType() == "text") {
+      } else if(colRender.RenderType() == "text") {
 	sig = Signal2C<TreeModelIterC,StringC>(TreeModelIterC(),StringC(""));
       }
     }

@@ -30,6 +30,12 @@ namespace RavlGUIN {
     ONDEBUG(cerr << "DeleteImageRef(), Called. \n");
     delete ((ImageC<ByteRGBValueC> *) data);
   }
+
+  //: Handle raw pixbuf.
+  
+  PixbufC::PixbufC(GdkPixbuf *rawPixBuf) 
+    : pixbuf(rawPixBuf)
+  { if(pixbuf != 0) gdk_pixbuf_ref(pixbuf); }
   
   //: Create from an image.
   
@@ -53,7 +59,8 @@ namespace RavlGUIN {
   //: Destructor.
   
   PixbufC::~PixbufC() {
-    gdk_pixbuf_unref(pixbuf);
+    if(pixbuf != 0)
+      gdk_pixbuf_unref(pixbuf);
   }
 
 #endif

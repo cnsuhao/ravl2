@@ -93,7 +93,7 @@ int main(int nargs,char **argv) {
   treeStore.AppendRow(iter2,iter);
   treeStore.SetValue(iter2,0,"igloo");
   treeStore.SetValue(iter2,1,"child");
-  treeStore.SetValue(iter2,2, map);
+  treeStore.SetValue(iter2,2, map); //GTK_STOCK_ADD
   treeStore.SetValue(iter2,3,false);
   treeStore.SetValue(iter2,4,"green");
 
@@ -109,7 +109,7 @@ int main(int nargs,char **argv) {
   // Make a list of columns we want to see from the store.
   
   DListC<StringC> cols;
-  cols.InsLast("Another");
+  cols.InsLast("@-AImage|Another"); // Put AImage in the same column with no expansion
   cols.InsLast("AString");
   cols.InsLast("AImage");
   cols.InsLast("ABool");

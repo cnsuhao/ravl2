@@ -32,57 +32,58 @@ namespace RavlGUIN {
   class TreeViewBodyC;
   class TreeViewC;
   
+  //: Renderer information.
   //! userlevel=Develop
   
-  class TreeViewColumnC {
-  public:
-    TreeViewColumnC();
+  class TreeViewColumnRendererC {
+  public:    
+    TreeViewColumnRendererC()
+      : expand(false),
+	renderer(0),
+	treeViewBody(0)
+    {}
     //: Default constructor.
     
-    HashC<StringC,Tuple2C<StringC,bool> > &Attributes()
-    { return attributes; }
-    //: Access column attributes.
-
-    GtkCellRenderer *Renderer()
-    { return renderer; }
-    //: Access renderer.
-    // Internal use only!
+    TreeViewColumnRendererC(const StringC &_renderType)
+      : expand(false),
+	renderType(_renderType),
+	renderer(0),
+	treeViewBody(0)
+    {}
+    //: Constructor.
     
-    GtkTreeViewColumn *ColumnView()
-    { return column; }
-    //: Access column view.
-    // Internal use only!
+    void SetRenderType(const StringC &newType)
+    { renderType = newType; }
+    //: Set render type.
     
-    void Renderer(GtkCellRenderer *newun)
-    {  renderer = newun; }
-    //: Set renderer.
-    // Internal use only!
-    
-    void ColumnView(GtkTreeViewColumn *newun)
-    { column = newun; }
-    //: Set column view.
-    // Internal use only!
-
-    const StringC &RenderType()
+    const StringC &RenderType() const
     { return renderType; }
     //: Access render type.
     
-    void RenderType(const StringC &rtype)
-    { renderType = rtype; }
-    //: Set render type.
+    HashC<StringC,Tuple2C<StringC,bool> > &Attributes()
+    { return attributes; }
+    //: Access attributes.
     
-    const StringC &Name()
-    { return name; }
-    //: Access column name,
+    GtkCellRenderer *Renderer()
+    { return renderer; }
+    //: Access renderer
     
-    void Name(const StringC &nname)
-    { name = nname; }
-    //: Access column name,
+    bool SetRenderer(GtkCellRenderer *newRenderer)
+    { renderer = newRenderer;  return true; }
+    //: Access renderer
+    
+    bool Expand() const
+    { return expand; }
+    //: Enable expantion ?
+    
+    bool SetExpand(bool val)
+    { expand = val; return true; }
+    //: Enable expantion ?
     
     Signal0C &SignalChanged()
     { return signalChanged; }
     //: Signal change to cell.
-    
+
     TreeViewBodyC *TreeBody()
     { return treeViewBody; }
     //: Tree view body
@@ -96,13 +97,92 @@ namespace RavlGUIN {
     // Internal use only!
     
   protected:
-    StringC name;
+    bool expand;
     StringC renderType;
     HashC<StringC,Tuple2C<StringC,bool> > attributes;
     GtkCellRenderer *renderer;
-    GtkTreeViewColumn *column;
     Signal0C signalChanged;
     TreeViewBodyC *treeViewBody;
+
+  };
+  
+  //: Column information.
+  //! userlevel=Develop
+  
+  class TreeViewColumnC {
+  public:
+    TreeViewColumnC();
+    //: Default constructor.
+        
+    GtkTreeViewColumn *ColumnView()
+    { return column; }
+    //: Access column view.
+    // Internal use only!
+
+    void ColumnView(GtkTreeViewColumn *newun)
+    { column = newun; }
+    //: Set column view.
+    // Internal use only!
+    
+    HashC<StringC,Tuple2C<StringC,bool> > &Attributes()
+    { return renderers[0].Attributes(); }
+    //: Access column attributes.
+    
+    void Renderer(GtkCellRenderer *newun)
+    { renderers[0].SetRenderer(newun); }
+    //: Set renderer.
+    // Internal use only!
+    
+    GtkCellRenderer *Renderer()
+    { return renderers[0].Renderer(); }
+    //: Access renderer.
+    // Internal use only!
+    
+    const StringC &RenderType()
+    { return renderers[0].RenderType(); }
+    //: Access render type.
+    
+    void RenderType(const StringC &rtype)
+    { renderers[0].SetRenderType(rtype); }
+    //: Set render type.
+    
+    Signal0C &SignalChanged()
+    { return renderers[0].SignalChanged(); }
+    //: Signal change to cell.
+    
+    SArray1dC<TreeViewColumnRendererC> &Renderers()
+    { return renderers; }
+    //: Access list of renderers for columns.
+    
+    bool SetRenderers(SArray1dC<TreeViewColumnRendererC> &renderInfo)
+    { renderers = renderInfo; return true; }
+    //: Access list of renderers for columns.
+    
+    const StringC &Name()
+    { return name; }
+    //: Access column name,
+    
+    void Name(const StringC &nname)
+    { name = nname; }
+    //: Access column name,
+    
+#if 0
+    TreeViewBodyC *TreeBody()
+    { return treeViewBody; }
+    //: Tree view body
+    // Part of hideous hack to get signals working,.
+    // Internal use only!
+    
+    void TreeBody(TreeViewBodyC *bod)
+    { treeViewBody = bod; }
+    //: Tree view body
+    // Part of hideous hack to get signals working,.
+    // Internal use only!
+#endif    
+  protected:
+    StringC name;
+    SArray1dC<TreeViewColumnRendererC> renderers;
+    GtkTreeViewColumn *column;
 
     friend class TreeViewBodyC;
   };
@@ -142,7 +222,11 @@ namespace RavlGUIN {
     //: Set an attribute for a column
     // Possible keys include: "editable", "sortable", "activateable", "foreground", "background", "reorderable", "resizable"
     
-    Signal0C &ChangedSignal(UIntT colNum);
+    bool SetAttribute(UIntT colNum,UIntT subCol,const StringC &key,const StringC &value,bool proxy = true);
+    //: Set an attribute for a column
+    // Possible keys include: "editable", "sortable", "activateable", "foreground", "background", "reorderable", "resizable"
+    
+    Signal0C &ChangedSignal(UIntT colNum,UIntT subColNo = 0);
     //: Access changed signal for a column
     
     TreeModelIterC Path2Iter(const char *pathName)
@@ -346,8 +430,13 @@ namespace RavlGUIN {
     //: Set an attribute for a column
     // Possible keys include: "editable", "sortable", "activateable", "foreground", "background", "reorderable", "resizable"
     
-    Signal0C &ChangedSignal(UIntT colNum)
-    { return Body().ChangedSignal(colNum); }
+    bool SetAttribute(UIntT colNum,UIntT subCol,const StringC &key,const StringC &value,bool proxy = true)
+    { return Body().SetAttribute(colNum,subCol,key,value,proxy); }
+    //: Set an attribute for a column
+    // Possible keys include: "editable", "sortable", "activateable", "foreground", "background", "reorderable", "resizable"
+    
+    Signal0C &ChangedSignal(UIntT colNum,UIntT subColNo = 0)
+    { return Body().ChangedSignal(colNum,subColNo); }
     //: Access changed signal for a column
     
     TreeModelIterC Path2Iter(const char *pathName)

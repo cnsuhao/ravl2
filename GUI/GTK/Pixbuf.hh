@@ -43,6 +43,9 @@ namespace RavlGUIN {
     PixbufC(const char **data);
     //: Create from XPM data.
     
+    PixbufC(GdkPixbuf *rawPixBuf);
+    //: Handle raw pixbuf.
+    
     ~PixbufC();
     //: Destructor.
     
