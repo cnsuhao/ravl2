@@ -52,6 +52,7 @@ namespace RavlN {
   {
     usedRavlMain=true;
     int ret;
+#if 0
     try {
       ret = func(argc,argv);
     } catch(exception &e) {
@@ -78,6 +79,9 @@ namespace RavlN {
       cerr << "Exiting program. \n";
       exit(-1);
     }
+#else
+    ret = func(argc,argv);    
+#endif
     usedRavlMain=false; // As we're not longer inside the catch.
     return ret;
   }
