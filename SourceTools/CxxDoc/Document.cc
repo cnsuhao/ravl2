@@ -570,6 +570,7 @@ namespace RavlCxxDocN {
     ret.gsub("%",anobj.ActualPath());
     ret.gsub("<","Lt");
     ret.gsub(">","Gt");
+    ret.gsub("&","Amp");
     ret.gsub(",","_");
     ret.gsub(" ","_");
     ret.gsub("::",".");
