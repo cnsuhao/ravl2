@@ -32,6 +32,25 @@ typedef unsigned int streamsize;
 
 namespace RavlN {
   
+  typedef StringC (*URLMapperFuncT)(const StringC &fn);
+  //: Pointer to URL mapping function.
+  
+  //! userlevel=Normal
+  
+  bool EnableURLMapper();
+  //: Enable url mapping of filenames.
+  // With the expection of 'file:' specifications this enabled the  changing of URL's 
+  // to a RAVL special files. i.e. 'http:' becomes '@http:'  This allows us to 
+  // implement handlers in seperate libraries which can link in as required.
+  // If the 'file:' if found not to have a domain specifier then the 'file:' is stripped
+  // off and the file is treated normally. <p>
+  // Note: At the moment the URL handling mechanism may not handle relative filenames
+  // correctly as it uses the program current working directory as a start point. If this
+  // becomes a problem some optional data maybe added to StreamC which holds a current directory.
+  
+  bool DisableURLMapper();
+  //: Dissable url mapping of filenames.
+  
   //! userlevel=Develop
   //: Reference counter IO stream base class.
   

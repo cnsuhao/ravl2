@@ -46,6 +46,9 @@ namespace RavlN {
 #if USE_GCC3
   using namespace std;
 #endif
+  // A hook to allow a method to map urls to be added by another module.
+  
+  URLMapperFuncT urlMapper = 0;
   
   //: Print diagnostic message about the streams state.
   
@@ -153,16 +156,21 @@ namespace RavlN {
   //: Open a file.
   // '-' is treated as cout.
   
-  OStreamC::OStreamC(const StringC &filename,bool binaryMod,bool buffered,bool append)
+  OStreamC::OStreamC(const StringC &sfilename,bool binaryMod,bool buffered,bool append)
     : out(0)
   {
     ofstream *ofstrm = 0;
     if(filename == "-") {
-    Init(out = &cout,filename,false);
+    Init(out = &cout,sfilename,false);
     if(!buffered) 
       cerr << "WARNING: OStreamC() Can't disable buffering on 'cout'. \n";
     return ;
-    } 
+    }
+    // Check if we're mapping url's.
+    
+    StringC filename;
+    if(urlMappingFunc != 0)
+      filename = urlMapper(sfilename);
     
     // Open a 'special file' ?
     
@@ -267,6 +275,12 @@ namespace RavlN {
 	cerr << "WARNING: IStreamC() Can't disable buffering on 'cin'. \n";
       return ;
     } 
+    
+    // Check if we're mapping url's.
+    
+    StringC filename;
+    if(urlMappingFunc != 0)
+      filename = urlMapper(sfilename);
     
     // Open a 'special file' ?
     

@@ -30,7 +30,7 @@ SOURCES=Assert.cc Exception.cc EntryPnt.cc Index.cc String.cc \
  Index2d.cc Index3d.cc IntC.cc StdConst.cc RCAbstract.cc \
  BinString.cc RCWrap.cc IndexRange3d.cc Math.cc RealC.cc \
  RealRange1d.cc RealRange2d.cc RealRange3d.cc TimeCode.cc \
- RCHandleV.cc
+ RCHandleV.cc URLMapper.cc
 
 PLIB=RavlCore
 
