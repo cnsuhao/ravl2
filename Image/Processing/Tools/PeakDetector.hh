@@ -12,9 +12,11 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Images.Misc"
 
-#include "Ravl/Image/Image.hh"
+#include "Ravl/Array2d.hh"
+#include "Ravl/Index2d.hh"
 
 namespace RavlImageN {
+  using namespace RavlN;
   
   template<class DataT>
   inline 
@@ -44,10 +46,6 @@ namespace RavlImageN {
     if(rt[-2] >= cent || rt[-1] >= cent || rt[1] >= cent || rt[2] >= cent)
       return false;
     
-    rt = &(img[cr-2][cc]);
-    if(rt[-1] >= cent || rt[0] >= cent || rt[1] >= cent)
-      return false;
-    
     rt = &(img[cr-1][cc]);
     if(rt[-2] >= cent || rt[-1] >= cent || rt[0] >= cent || rt[1] >= cent || rt[2] >= cent)
       return false;
@@ -55,7 +53,11 @@ namespace RavlImageN {
     rt = &(img[cr+1][cc]);
     if(rt[-2] >= cent || rt[-1] >= cent || rt[0] >= cent || rt[1] >= cent || rt[2] >= cent)
       return false;
-    
+
+    rt = &(img[cr-2][cc]);
+    if(rt[-1] >= cent || rt[0] >= cent || rt[1] >= cent)
+      return false;
+        
     rt = &(img[cr+2][cc]);
     if(rt[-1] >= cent || rt[0] >= cent || rt[1] >= cent)
       return false;
@@ -77,14 +79,6 @@ namespace RavlImageN {
     if(rt[-3] >= cent || rt[-2] >= cent || rt[-1] >= cent || rt[1] >= cent || rt[2] >= cent || rt[3] >= cent)
       return false;
     
-    rt = &(img[cr-3][cc]);
-    if(rt[-1] >= cent || rt[0] >= cent || rt[1] >= cent)
-      return false;
-    
-    rt = &(img[cr-2][cc]);
-    if(rt[-2] >= cent || rt[-1] >= cent || rt[0] >= cent || rt[1] >= cent || rt[2] >= cent)
-      return false;
-
     rt = &(img[cr-1][cc]);
     if(rt[-3] >= cent || rt[-2] >= cent || rt[-1] >= cent || rt[0] >= cent || rt[1] >= cent || rt[2] >= cent || rt[3] >= cent)
       return false;
@@ -93,10 +87,18 @@ namespace RavlImageN {
     if(rt[-3] >= cent || rt[-2] >= cent || rt[-1] >= cent || rt[0] >= cent || rt[1] >= cent || rt[2] >= cent || rt[3] >= cent)
       return false;
     
+    rt = &(img[cr-2][cc]);
+    if(rt[-2] >= cent || rt[-1] >= cent || rt[0] >= cent || rt[1] >= cent || rt[2] >= cent)
+      return false;
+    
     rt = &(img[cr+2][cc]);
     if(rt[-2] >= cent || rt[-1] >= cent || rt[0] >= cent || rt[1] >= cent || rt[2] >= cent)
       return false;
     
+    rt = &(img[cr-3][cc]);
+    if(rt[-1] >= cent || rt[0] >= cent || rt[1] >= cent)
+      return false;
+
     rt = &(img[cr+3][cc]);
     if(rt[-1] >= cent || rt[0] >= cent || rt[1] >= cent)
       return false;
