@@ -133,6 +133,7 @@ gprof: log
 chead:
 	$(SMAKEMD) cheadbuild FULLCHECKING=1 TARGET=cheadbuild  
 
+
 test: src log
 	@if [ ! -d $(INST_TESTBIN) ] ; then \
 	  $(MKDIR) $(INST_TESTBIN); \
@@ -140,15 +141,23 @@ test: src log
 	@if [ ! -d $(INST_TESTLOG) ] ; then \
 	  $(MKDIR) $(INST_TESTLOG); \
 	fi 
-	@touch $(INST_TESTDB)
-	$(SMAKEMD) VAR=check testbuild FULLCHECKING=1 NOEXEBUILD=1 TARGET=testbuild  
-	$(SMAKEMD) VAR=check testbuild FULLCHECKING=1 TARGET=testbuild  
-	@sort -u -o$(INST_TESTDB) $(INST_TESTDB)
-	@$(LOCALBIN)/Validate $(INST_TEST)	
+	$(SHOWIT)touch $(INST_TESTDB); \
+	if $(MAKEMD) VAR=check testbuild FULLCHECKING=1 NOEXEBUILD=1 TARGET=testbuild ; then true ; \
+	else \
+	  echo "test: Failed to do inital build for test. "; \
+	  exit 1 ; \
+	fi ; \
+	if $(MAKEMD) VAR=check testbuild FULLCHECKING=1 TARGET=testbuild ; then true ; \
+	else \
+	  echo "test: Failed to do executable build. " ; \
+	  exit 1 ; \
+	fi ; \
+	sort -u -o$(INST_TESTDB) $(INST_TESTDB); \
+	$(LOCALBIN)/Validate -v $(INST_TEST)
 
 retest:
 	$(SHOWIT)sort -u -o$(INST_TESTDB) $(INST_TESTDB) ; \
-	$(LOCALBIN)/Validate $(INST_TEST)	
+	$(LOCALBIN)/Validate -v $(INST_TEST)	
 
 
 
