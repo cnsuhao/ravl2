@@ -206,24 +206,22 @@ int doVPlay(int nargs,char *args[])
 	  );
   win.Show();
   
-  // Setup play stream.
+  // Get GUI going ...
+  
+  ONDEBUG(cerr << "Executing manager... \n");
+  Manager.Execute();
+  Sleep(0.1); // Give it a chance to setup the display before starting the video.
   
   ONDEBUG(cerr << "Starting video... \n");
   DPEventSetC es;  
   
+  // Setup play stream.
+  
   es += src >> DPGovernorC<ImageC<ByteRGBValueC> >(delay) >>= OMethod(vidout,&CanvasC::DrawRGBImage);
   
-  // Get GUI going ...
-  
-  ONDEBUG(cerr << "Executing manager... \n");
-  
-#if 0
-  Manager.Execute();
   es.Wait();
   Manager.Shutdown();
-#else
-  Manager.Start();
-#endif
+  
   ONDEBUG(cerr << "Terminating... \n");
   exit(0);
   return 0;
