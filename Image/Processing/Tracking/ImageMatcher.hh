@@ -56,7 +56,7 @@ namespace RavlImageN {
     // stored data
     ImageC<ByteT> imageTemplate;
     ImageTrackerC tracker;
-  };`'
+  };
 }
 
 
