@@ -87,6 +87,11 @@ if(defined($opt_v)) {
 # We need to find USESLIBS from HEADERS and SOURCES tags in defs.mk
 @SOURCES = findindefs($work_dir, "defs.mk", "SOURCES");
 @HEADERS = findindefs($work_dir, "defs.mk", "HEADERS");
+
+for $file (@SOURCES) {
+  $extrauseslibs .= $extrauseslibs . " " . getUseslibs($file);
+}
+
 push(@HEADERS, @SOURCES);
 
 for $file (@HEADERS) {
@@ -99,6 +104,7 @@ for $file (@HEADERS) {
 }
 
 $Libs = getLibs(keys %lut);
+$Libs .= $Libs . " " . $extrauseslibs;
 @words = split(' ', $Libs);
 @words = sort @words;
 
@@ -117,6 +123,8 @@ push(@MAINS, @TESTEXES);
 for $file (@MAINS) {
 #  print "opening file: $file\n";
   @incs = getInclude($work_dir, $file);
+  $tmpprog = getUseslibs($file);
+  $proguseslibs .= $proguseslibs . " " . $tmpprog;
   for $include (@incs) {
     if($lup{$include} != 1) {
       $lup{$include} = 1;
@@ -126,6 +134,7 @@ for $file (@MAINS) {
 
 
 $Libs = getLibs(keys %lup);
+$Libs .= $Libs . " " . $proguseslibs;
 @words = split(' ', $Libs);
 @words = sort @words;
 
@@ -251,6 +260,32 @@ sub getLib {
   for $line (@lines) {
     if($line =~ m/$beg/g) {
       if(($line =~ m/lib/g)) {
+	($pre, $lib) = split('=', $line);
+	#print "found lib: $lib\n";
+	return $lib;
+      }
+    }
+  }
+}
+
+#-------------------------------------------------
+# getUseslibs(name of source file)
+#
+# this routine looks through a file for the //! useslibs=
+# and returns the first one it finds
+sub getUseslibs {
+  local $lib;
+  local $line;
+  local $lines;
+
+  open FILE, $_[0] or die "can not open: $_[0]";
+  local @lines = <FILE>;
+  close FILE;
+  chomp @lines;
+  $beg = "//!";
+  for $line (@lines) {
+    if($line =~ m/$beg/g) {
+      if(($line =~ m/useslibs/g)) {
 	($pre, $lib) = split('=', $line);
 	#print "found lib: $lib\n";
 	return $lib;
