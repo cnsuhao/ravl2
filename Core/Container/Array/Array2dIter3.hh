@@ -43,8 +43,8 @@ namespace RavlN {
         dat3(arr3)
       { 
 	if(matching) {
-	  RavlAssert(dat1.Range() == dat2.Range());
-	  RavlAssert(dat1.Range() == dat3.Range());
+	  RavlAssert(dat1.Range().Size() == dat2.Range().Size());
+	  RavlAssert(dat1.Range().Size() == dat3.Range().Size());
 	}
 	First();
       }

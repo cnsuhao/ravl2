@@ -152,7 +152,7 @@ namespace RavlN {
       endOfRow = 0;
       return false;
     }
-    RavlAssert(rng1.Contains(rng2));
+    RavlAssert(rng1.Size() <= rng2.Size());
     at1 = const_cast<Data1T *>(&buff1[rng1.Min()]);
     at2 = const_cast<Data2T *>(&buff2[rng2.Min()]);
     endOfRow = &(at1[rng1.Size()]);

@@ -37,7 +37,7 @@ namespace RavlN {
         dat2(arr2)
       { 
 	if(matching) 
-	  RavlAssert(dat1.Range() == dat2.Range());
+	  RavlAssert(dat1.Range().Size() == dat2.Range().Size());
 	First();
       }
     //: Constructor.
