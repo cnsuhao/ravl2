@@ -79,6 +79,16 @@ int testMeanVar() {
   if(Abs(mv1.Mean() - mvo.Mean()) > small) return __LINE__;
   if(Abs(mv1.Variance() - mvo.Variance()) > small) return __LINE__;
   //cerr << mv1 << "\n";
+
+  SArray1dC<RealT> data(11);
+  RealT var = 0;
+  for(int i = 0;i < 11;i++) {
+    var += Sqr((RealT) i - 5);
+    data[i] = (RealT) i;
+  }
+  MeanVarianceC mv3(data);
+  if(Abs(mv3.Mean() - 5) > 0.00000001) return __LINE__;
+  if(Abs(mv3.Variance() - (var/10)) > 0.00000001) return __LINE__;  
   return 0;
 }
 
