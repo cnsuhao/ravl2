@@ -262,7 +262,7 @@ namespace RavlImageN {
     // Returns false if the attribute name is unknown.
     // This is for handling stream attributes such as frame rate, and compression ratios.
 
-    bool DeinteralaceFunc(const CallFunc3C<ImageC<PixelT>,ImageC<PixelT>,ImageC<PixelT> > &func)
+    bool DeinteralaceFunc(const CallFunc3C<const ImageC<PixelT>&,ImageC<PixelT>&,ImageC<PixelT>& > &func)
     { deinterlace = func; return deinterlace.IsValid(); }
     //: Set deinterlacing function.
     
@@ -309,7 +309,7 @@ namespace RavlImageN {
     //: Access body.
     
   public:    
-    bool DeinteralaceFunc(const CallFunc3C<ImageC<PixelT>,ImageC<PixelT>,ImageC<PixelT> > &func)
+    bool DeinteralaceFunc(const CallFunc3C<const ImageC<PixelT> &,ImageC<PixelT> &,ImageC<PixelT> &> &func)
     { return Body().DeinteralaceFunc(func); }
     //: Set deinterlacing function.
   };
@@ -345,3 +345,4 @@ namespace RavlImageN {
 }
 
 #endif
+
