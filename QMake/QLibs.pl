@@ -34,7 +34,7 @@ if ($res!=1)
 
 # First lets sort out the Lib Hints File
 if(!defined($opt_hf)) {
-  $libhints = "$QMAKE_INSTALL_DIR/../../libdep/libHints";
+  $libhints = "$QMAKE_INSTALL_DIR/../../../lib/RAVL/libdep";
 } else {
   if(-f $opt_hf) {
     $libhints = $opt_hf;
@@ -45,7 +45,7 @@ if(!defined($opt_hf)) {
 }
 
 # Next lets sort out the global project out
-$glob_proj = "$QMAKE_INSTALL_DIR/../../include";
+$glob_proj = "$QMAKE_INSTALL_DIR/../../../include";
 
 # Next we can sort out the local project out
 if(!defined($opt_p)) {
