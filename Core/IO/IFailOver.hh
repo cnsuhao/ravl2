@@ -7,12 +7,12 @@
 #ifndef RAVL_DPIFAILOVER_HEADER
 #define RAVL_DPIFAILOVER_HEADER 1
 /////////////////////////////////////////////////
-//! docentry="Ravl.Core.Data Processing"
+//! docentry="Ravl.Core.Data Processing.Fail Over"
 //! lib=RavlIO
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! file="Ravl/Core/IO/IFailOver.hh"
-//! date="25/08/98"
+//! date="25/08/1998"
 
 #include "Ravl/DP/Port.hh"
 #include "Ravl/DList.hh"

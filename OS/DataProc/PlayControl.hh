@@ -11,7 +11,7 @@
 //! lib=RavlDPMT
 //! author="Charles Galambos"
 //! date="16/03/99"
-//! docentry="Ravl.OS.Data Processing"
+//! docentry="Ravl.Core.Data Processing.Seekable Ports"
 //! rcsid="$Id$"
 
 #include "Ravl/Threads/Mutex.hh"

@@ -9,10 +9,10 @@
 ////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlDPMT
-//! docentry="Ravl.OS.Data Processing"
+//! docentry="Ravl.Core.Data Processing.Buffers"
 //! file="Ravl/OS/DataProc/Buffer.hh"
 //! author="Charles Galambos"
-//! date="02/10/98"
+//! date="02/10/1998"
 
 #include "Ravl/Threads/Mutex.hh"
 #include "Ravl/Threads/Semaphore.hh"

@@ -4,10 +4,10 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_PLUG_HEADER
-#define RAVL_PLUG_HEADER 1
+#ifndef RAVL_DPPLUG_HEADER
+#define RAVL_DPPLUG_HEADER 1
 ////////////////////////////////////////////////////
-//! docentry="Ravl.Core.Data Processing" 
+//! docentry="Ravl.Core.Data Processing.Ports" 
 //! rcsid="$Id$"
 //! file="Ravl/Core/IO/Plug.hh"
 //! lib=RavlIO
@@ -43,7 +43,7 @@ namespace RavlN {
     DPEntityC hold; // Make sure object is not deleted.
   };
   
-  //! userlevel=Normal
+  //! userlevel=Advanced
   //: Input plug base.
   
   class DPIPlugBaseC 
@@ -102,7 +102,7 @@ namespace RavlN {
     DPEntityC hold; // Make sure object is not deleted.
   };
   
-  //! userlevel=Normal
+  //! userlevel=Advanced
   //: Input plug base.
   
   class DPOPlugBaseC 
@@ -137,7 +137,7 @@ namespace RavlN {
 
   
   ////////////////////////////////////
-  //! userlevel=Normal
+  //! userlevel=Develop
   //: Plug.
   // Used for setting up inputs.
   
@@ -171,7 +171,7 @@ namespace RavlN {
   };
   
   ////////////////////////////////////
-  //! userlevel=Normal
+  //! userlevel=Advanced
   //: Plug.
   // Used for setting up inputs.
   
@@ -211,7 +211,7 @@ namespace RavlN {
   
   
   //////////////////////////////////////////////////////////////////////////
-  //! userlevel=Normal
+  //! userlevel=Develop
   //: Plug.
   // Used for setting up inputs.
   
@@ -241,7 +241,7 @@ namespace RavlN {
   };
   
   ////////////////////////////////////
-  //! userlevel=Normal
+  //! userlevel=Advanced
   //: Plug.
   // Used for setting up inputs.
   

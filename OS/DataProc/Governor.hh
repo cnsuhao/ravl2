@@ -4,11 +4,11 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_GOVERNOR_HEADER
-#define RAVL_GOVERNOR_HEADER
+#ifndef RAVL_DPGOVERNOR_HEADER
+#define RAVL_DPGOVERNOR_HEADER
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.OS.Data Processing"
+//! docentry="Ravl.Core.Data Processing.Extras"
 //! author="Charles Galambos"
 //! date="12/10/98"
 //! lib=RavlDPMT

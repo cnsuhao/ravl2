@@ -11,7 +11,7 @@
 //! file="Ravl/Core/IO/Event.hh"
 //! lib=RavlIO
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Data Processing"
+//! docentry="Ravl.Core.Data Processing.Events"
 
 #include "Ravl/DP/Entity.hh"
 
@@ -42,7 +42,7 @@ namespace RavlN {
     //: Write to output.
   };
   
-  //! userlevel=Develop
+  //! userlevel=Normal
   //: Event body.
   
   class DPEventC 

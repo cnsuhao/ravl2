@@ -13,7 +13,7 @@
 //! lib=RavlIO
 //! author="Charles Galambos"
 //! date="16/06/1998"
-//! docentry="Ravl.Core.Data Processing"
+//! docentry="Ravl.Core.Data Processing.Internal"
 //! rcsid="$Id$"
 
 #include "Ravl/RCHandleV.hh"

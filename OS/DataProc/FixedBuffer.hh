@@ -9,10 +9,10 @@
 ////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlDPMT
-//! docentry="Ravl.OS.Data Processing"
+//! docentry="Ravl.Core.Data Processing.Buffers"
 //! file="Ravl/OS/DataProc/FixedBuffer.hh"
 //! author="Charles Galambos"
-//! date="04/03/99"
+//! date="04/03/1999"
 
 #include "Ravl/DP/Port.hh"
 #include "Ravl/Threads/MessageQueue.hh"

@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLDPDATACONV_HEADER
-#define RAVLDPDATACONV_HEADER 1
+#ifndef RAVL_DPDATACONV_HEADER
+#define RAVL_DPDATACONV_HEADER 1
 /////////////////////////////////////////////////////////
 //! docentry="Ravl.Core.IO.Type Converter"
 //! lib=RavlIO

@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! example=exDPMultiplex.cc
-//! docentry="Ravl.Core.Data Processing" 
+//! docentry="Ravl.Core.Data Processing.Multiplexer" 
 //! file="Ravl/Core/IO/Multiplex.hh"
 //! lib=RavlIO
 //! author="Charles Galambos"

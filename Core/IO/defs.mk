@@ -9,6 +9,8 @@
 
 PACKAGE=Ravl/DP
 
+NESTED=doc.r
+
 HEADERS=Entity.hh Process.hh Port.hh SPort.hh SPortAttach.hh \
  StreamOp.hh IOJoin.hh ProcOStream.hh ProcIStream.hh Func2Proc.hh \
  FileIO.hh BinFileIO.hh FuncP2Proc.hh ProcCompose.hh ProcInfo.hh \
@@ -17,7 +19,7 @@ HEADERS=Entity.hh Process.hh Port.hh SPort.hh SPortAttach.hh \
  FileFormatGen.hh FileFormatIO.hh TypeConverter.hh FileFormatRegistry.hh \
  CoreIO.hh ComposeSingle.hh Compose.hh Func2Stream.hh IOConnect.hh \
  IFailOver.hh  IOTap.hh  Multiplex.hh SplitO.hh Event.hh EventSet.hh \
- Method2Proc.hh MethodIO.hh ContainerIO.hh Plug.hh
+ Method2Proc.hh MethodIO.hh ContainerIO.hh Plug.hh Tap.hh
 
 SOURCES=Entity.cc Process.cc Port.cc SPort.cc SPortAttach.cc ProcInfo.cc \
  Converter.cc TypeInfo.cc Pipes.cc FileFormat.cc FileFormDesc.cc \
@@ -37,7 +39,6 @@ TESTEXES=testFunc2Proc.cc testDataProc.cc testSPort.cc
 EXAMPLES = exComposeSingle.cc exDataProc.cc exFileFormat.cc
 
 EHT=Ravl.Core.IO.eht \
-    Ravl.Core.Data_Processing.eht \
     Ravl.Core.IO.Formats.html \
     Ravl.Core.IO.Type_Converter.html \
     Ravl.Core.IO.Virtual_Files.html

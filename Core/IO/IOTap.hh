@@ -7,12 +7,12 @@
 #ifndef RAVL_DPIOTAP_HEADER
 #define RAVL_DPIOTAP_HEADER 1
 ///////////////////////////////////////////////////
-//! docentry="Ravl.Core.Data Processing"
+//! docentry="Ravl.Core.Data Processing.Taps"
 //! rcsid="$Id$"
 //! file="Ravl/Core/IO/IOTap.hh"
 //! lib=RavlIO
 //! author="Charles Galambos"
-//! date="20/07/98"
+//! date="20/07/1998"
 
 #include "Ravl/DP/Port.hh"
 #include "Ravl/Tuple2.hh"

@@ -4,15 +4,15 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLDPSPORT_ATTACH_HEADER
-#define RAVLDPSPORT_ATTACH_HEADER 1
+#ifndef RAVL_DPSPORTATTACH_HEADER
+#define RAVL_DPSPORTATTACH_HEADER 1
 ////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Core.Data Processing" 
+//! docentry="Ravl.Core.Data Processing.Seekable Ports" 
 //! file="Ravl/Core/IO/SPortAttach.hh"
 //! lib=RavlIO
 //! author="Charles Galambos"
-//! date="08/04/99"
+//! date="08/04/1999"
 //! userlevel=Default
 
 #include "Ravl/DP/SPort.hh"
@@ -57,7 +57,7 @@ namespace RavlN {
   
   
   //////////////////////////////
-  //! userlevel=Normal
+  //! userlevel=Advanced
   //: Seek Control attach.
   
   class DPSeekCtrlAttachC
@@ -182,7 +182,7 @@ namespace RavlN {
   };
   
   ///////////////////////////////////
-  //! userlevel=Normal
+  //! userlevel=Advanced
   //: Seek control attach.
   
   template<class DataT>
@@ -287,7 +287,7 @@ namespace RavlN {
   };
   
   ///////////////////////////////////
-  //! userlevel=Normal
+  //! userlevel=Advanced
   //: Seek control attach.
   
   template<class DataT>

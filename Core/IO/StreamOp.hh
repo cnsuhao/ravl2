@@ -8,7 +8,7 @@
 #define RAVL_DPSTREAMOP_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Core.Data Processing" 
+//! docentry="Ravl.Core.Data Processing.Internal" 
 //! file="Ravl/Core/IO/StreamOp.hh"
 //! lib=RavlIO
 //! author="Charles Galambos"

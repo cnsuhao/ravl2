@@ -11,7 +11,7 @@
 //! lib=RavlIO
 //! author="Charles Galambos"
 //! date="07/07/1998"
-//! docentry="Ravl.Core.Data Processing"
+//! docentry="Ravl.Core.Data Processing.IO"
 
 #include "Ravl/DP/Port.hh"
 #include "Ravl/DList.hh"

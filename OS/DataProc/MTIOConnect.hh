@@ -10,8 +10,8 @@
 //! lib=RavlDPMT
 //! file="Ravl/OS/DataProc/MTIOConnect.hh"
 //! author="Charles Galambos"
-//! date="02/10/98"
-//! docentry="Ravl.OS.Data Processing"
+//! date="02/10/1998"
+//! docentry="Ravl.Core.Data Processing"
 //! rcsid="$Id$"
 
 #include "Ravl/Threads/LaunchThread.hh"
@@ -271,24 +271,29 @@ namespace RavlN {
     done.Post(); // Post event to all waiting funcs.
     return true;
   }
-  
+
+  //! userlevel=Normal
   //: Multi-threaded composition operators.
   
   template<class DataT>
   inline DPEventC operator>>= (const DPIPortC<DataT> &in,const DPOPortC<DataT> &out)
   { return DPMTIOConnectC<DataT>(in,out,true).EventComplete(); }
+  //: Pump data from an input into an output.
   
   template<class DataT,class OutT>
   inline DPIPortC<OutT> operator>>= (const DPIPortC<DataT> &in,const DPIOPortC<OutT,DataT> &out)
   { return DPIPipeC<OutT>(out,DPMTIOConnectC<DataT>(in,out,true)); }
+  //: Pump data from an input into an output.
   
   template<class InT,class DataT>
   inline DPOPortC<InT> operator>>= (const DPIOPortC<DataT,InT> &in,const DPOPortC<DataT> &out) 
   { return DPOPipeC<InT>(in,DPMTIOConnectC<DataT>(in,out,true)); }
+  //: Pump data from an input into an output.
   
   template<class InT,class DataT,class OutT>
   inline DPIOPortC<InT,OutT> operator>>= (const DPIOPortC<DataT,OutT> &in,const DPIOPortC<InT,DataT> &out) 
   { return DPIOPortJoin(out,in,DPMTIOConnectC<DataT>(in,out,true)); }
+  //: Pump data from an input into an output.
   
 }
 

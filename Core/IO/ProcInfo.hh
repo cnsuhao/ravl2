@@ -7,7 +7,7 @@
 #ifndef RAVLPROCINFO_HEADER
 #define RAVLPROCINFO_HEADER 1
 ///////////////////////////////////////////////////
-//! docentry="Ravl.Core.Data Processing" 
+//! docentry="Ravl.Core.Data Processing.Processes" 
 //! lib=RavlIO
 //! rcsid="$Id$"
 //! file="Ravl/Core/IO/ProcInfo.hh"

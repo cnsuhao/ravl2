@@ -4,15 +4,15 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLDPSPORT_HEADER
-#define RAVLDPSPORT_HEADER 1
+#ifndef RAVL_DPSPORT_HEADER
+#define RAVL_DPSPORT_HEADER 1
 /////////////////////////////////////////////////////
-//! docentry="Ravl.Core.Data Processing" 
+//! docentry="Ravl.Core.Data Processing.Seekable Ports" 
 //! rcsid="$Id$"
 //! file="Ravl/Core/IO/SPort.hh"
 //! lib=RavlIO
 //! author="Charles Galambos"
-//! date="27/10/98"
+//! date="27/10/1998"
 //! userlevel=Default
 
 #include "Ravl/DP/Port.hh"

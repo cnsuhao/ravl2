@@ -7,7 +7,7 @@
 #ifndef RAVL_DPMETHODIO_HEADER
 #define RAVL_DPMETHODIO_HEADER 1
 //////////////////////////////////////////////////////////
-//! docentry="Ravl.Core.Data Processing"
+//! docentry="Ravl.Core.Data Processing.IO"
 //! example=exDataProc.cc
 //! lib=RavlIO
 //! author="Charles Galambos"

@@ -9,10 +9,10 @@
 ////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlDPMT
-//! docentry="Ravl.OS.Data Processing"
+//! docentry="Ravl.Core.Data Processing.Threads"
 //! file="Ravl/OS/DataProc/ThreadPipe.hh"
 //! author="Charles Galambos"
-//! date="02/10/98"
+//! date="02/10/1998"
 
 #include "Ravl/DP/Port.hh"
 #include "Ravl/DP/Process.hh"

@@ -4,14 +4,14 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLDPIOPORTJOIN_HEADER
-#define RAVLDPIOPORTJOIN_HEADER 1
+#ifndef RAVL_DPIOPORTJOIN_HEADER
+#define RAVL_DPIOPORTJOIN_HEADER 1
 ///////////////////////////////////////////////////////
 //! file="Ravl/Core/IO/IOJoin.hh"
 //! lib=RavlIO
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Data Processing" 
-//! date="12/10/98"
+//! docentry="Ravl.Core.Data Processing.Ports" 
+//! date="12/10/1998"
 //! rcsid="$Id$"
 //! userlevel=Normal
 
@@ -89,7 +89,7 @@ namespace RavlN {
     DPEntityC hold; // User to hold structure ports may connect to.
   };
   
-  //! userlevel=Normal
+  //! userlevel=Advanced
   //: Join an IPort and a OPort
   
   template<class InT,class OutT>
