@@ -76,6 +76,13 @@ namespace RavlN {
     return J;
   }
 
+  //: Evalate the function and its jacobian at the same time.
+  // This method defaults to calling 'Apply' and 'Jacobian' sperately.
+  
+  VectorMatrixC FunctionBodyC::Evaluate(const VectorC &X) {
+    return VectorMatrixC(Apply(X),Jacobian(X));
+  }
+  
   //////////////////////////////////////////////////////////
   
   //: Apply transform to whole dataset.

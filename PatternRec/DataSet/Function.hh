@@ -15,6 +15,7 @@
 #include "Ravl/Vector.hh"
 #include "Ravl/Matrix.hh"
 #include "Ravl/RCHandleV.hh"
+#include "Ravl/VectorMatrix.hh"
 
 namespace RavlN {
   template<class DataT> class SampleC;
@@ -59,6 +60,10 @@ namespace RavlN {
     // Performs numerical estimation of the Jacobian using differences. This
     // function has and should be overloaded for all cases where the Jacobian
     // can be calculated analytically.
+    
+    virtual VectorMatrixC Evaluate(const VectorC &X);
+    //: Evalate the function and its jacobian at the same time.
+    // This method defaults to calling 'Apply' and 'Jacobian' sperately.
     
     inline UIntT InputSize() const
     { return inputSize; }
@@ -140,6 +145,11 @@ namespace RavlN {
     // Performs numerical estimation of the Jacobian using differences. This
     // function has and should be overloaded for all cases where the Jacobian
     // can be calculated analytically.
+    
+    inline VectorMatrixC Evaluate(const VectorC &X)
+    { return Body().Evaluate(X); }
+    //: Evalate the function and its jacobian at the same time.
+    // This method defaults to calling 'Apply' and 'Jacobian' sperately.
     
     inline UIntT InputSize() const
     { return Body().InputSize(); }
