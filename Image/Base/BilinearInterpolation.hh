@@ -51,7 +51,9 @@ namespace RavlImageN {
   // of the pixel is at 0,0.  This means that a 0.5 offset may
   // me needed if your co-oridnate systems is at the top left
   // of the pixel.
-  
+  //!param: img - The image 
+  //!param: ipnt - The point for wish the interpolated value is required (can be a Point2dC). 
+  //!param: pixVal - The result of the interpolation (pass by reference) 
 
   inline
   void BilinearInterpolation(const ImageC<ByteT> &img,const TFVectorC<RealT,2> &ipnt,ByteT &pixVal) {
@@ -80,6 +82,9 @@ namespace RavlImageN {
   // of the pixel is at 0,0.  This means that a 0.5 offset may
   // me needed if your co-oridnate systems is at the top left
   // of the pixel.
+  //!param: img - The image 
+  //!param: ipnt - The point for wish the interpolated value is required (can be a Point2dC). 
+  //!param: pixVal - The result of the interpolation (pass by reference) 
 
   //:-
   
@@ -96,7 +101,9 @@ namespace RavlImageN {
     void operator()(const ImageC<InT> &img,const TFVectorC<RealT,2> &ipnt,OutT &pixVal)
     { BilinearInterpolation(img,ipnt,pixVal); }
     //: Do bilinear interpolation
-    
+     //!param: img - The image 
+    //!param: ipnt - The point for wish the interpolated value is required (can be a Point2dC). 
+    //!param: pixVal - The result of the interpolation (pass by reference) 
   };
   
   //! userlevel=Normal
@@ -114,8 +121,10 @@ namespace RavlImageN {
       pixVal = static_cast<OutT>(img[Round(ipnt[0])][Round(ipnt[1])]);
 #endif
     }
-    //: Do bilinear interpolation
-    
+    //: Do nearest pixel interpolation
+    //!param: img - The image 
+    //!param: ipnt - The point for wish the interpolated value is required (can be a Point2dC). 
+    //!param: pixVal - The result of the interpolation (pass by reference) 
   };
 
 }
