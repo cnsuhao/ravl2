@@ -592,6 +592,13 @@ endif
 ###########################
 # compile objects.
 
+
+#define a name for the build type to be displayed to the user. 
+VAR_DISPLAY_NAME=$(VAR) ; 
+ifdef SHAREDBUILD 
+VAR_DISPLAY_NAME += " (shared) " ;
+endif 
+
  $(TARG_MUSTLINK_OBJS) : $(INST_FORCEOBJS)/%$(OBJEXT) : $(INST_OBJS)/%$(OBJEXT) $(INST_FORCEOBJS)/.dir
 	$(SHOWIT)echo "--- Must Link $(@F) " ; \
 	if [ -f $(INST_FORCEOBJS)/$(@F) ] ; then \
@@ -601,7 +608,7 @@ endif
 	$(CHMOD) a-w $(INST_FORCEOBJS)/$*$(OBJEXT) 
 
 $(INST_OBJS)/%$(OBJEXT) $(INST_DEPEND)/%.d : %$(CXXAUXEXT) $(INST_OBJS)/.dir $(INST_DEPEND)/.dir
-	$(SHOWIT)echo "--- Compile" $(VAR) $< ; \
+	$(SHOWIT)echo "--- Compile" $(VAR_DISPLAY_NAME) $< ; \
 	if [ -f $(WORKTMP)/$*.d ] ; then \
 	  rm $(WORKTMP)/$*.d ; \
 	fi ; \
@@ -612,7 +619,7 @@ $(INST_OBJS)/%$(OBJEXT) $(INST_DEPEND)/%.d : %$(CXXAUXEXT) $(INST_OBJS)/.dir $(I
 	fi ; \
 
 $(INST_OBJS)/%$(OBJEXT) $(INST_DEPEND)/%.d : %$(CXXEXT) $(INST_OBJS)/.dir $(INST_DEPEND)/.dir
-	$(SHOWIT)echo "--- Compile" $(VAR) $< ; \
+	$(SHOWIT)echo "--- Compile" $(VAR_DISPLAY_NAME) $< ; \
 	if [ -f $(WORKTMP)/$*.d ] ; then \
 	  rm $(WORKTMP)/$*.d ; \
 	fi ; \
@@ -623,7 +630,7 @@ $(INST_OBJS)/%$(OBJEXT) $(INST_DEPEND)/%.d : %$(CXXEXT) $(INST_OBJS)/.dir $(INST
 	fi 
 
 $(INST_OBJS)/%$(OBJEXT) $(INST_DEPEND)/%.d : %$(CEXT) $(INST_OBJS)/.dir $(INST_DEPEND)/.dir
-	$(SHOWIT)echo "--- Compile" $(VAR) $< ; \
+	$(SHOWIT)echo "--- Compile" $(VAR_DISPLAY_NAME) $< ; \
 	if [ -f $(WORKTMP)/$*.d ] ; then \
 	  rm $(WORKTMP)/$*.d ; \
 	fi ; \
@@ -634,7 +641,7 @@ $(INST_OBJS)/%$(OBJEXT) $(INST_DEPEND)/%.d : %$(CEXT) $(INST_OBJS)/.dir $(INST_D
 	fi 
 
 $(INST_OBJS)/%$(OBJEXT) : %.S $(INST_OBJS)/.dir
-	$(SHOWIT)echo "--- Assemble" $(VAR) $< ; \
+	$(SHOWIT)echo "--- Assemble" $(VAR_DISPLAY_NAME) $< ; \
 	$(CC) -c -D__ASSEMBLY__=1 $(CPPFLAGS) $(CFLAGS) $(CINCLUDES) -o $(INST_OBJS)/$(@F) $<
 
 # $(UNTOUCH) $(INST_LIB)/lib$(PLIB)$(LIBEXT)  ; \
@@ -745,7 +752,7 @@ $(INST_LIB)/lib$(PLIB)$(LIBEXT)(%$(OBJEXT)) : $(INST_OBJS)/%$(OBJEXT)
 	@true
 
 $(INST_LIB)/%$(OBJEXT) : $(INST_OBJS)/%$(OBJEXT)
-	$(SHOWIT)echo "--- MustLink $(VAR)" $*$(OBJEXT)  ; \
+	$(SHOWIT)echo "--- MustLink $(VAR_DISPLAY_NAME)" $*$(OBJEXT)  ; \
 	if [ -f $(INST_LIB)/$*$(OBJEXT) ] ; then \
 	  rm -f $(INST_LIB)/$*$(OBJEXT); \
 	fi ; \
@@ -792,7 +799,7 @@ $(TARG_PUREEXE) : $(INST_BIN)/pure_%$(EXEEXT) : $(INST_OBJS)/%$(OBJEXT) $(EXTRAO
 	purify -g++ -best-effort $(CXX) $(LDFLAGS) $(INST_OBJS)/$*$(OBJEXT) $(EXTRAOBJS) $(BINLIBS) -o $(INST_BIN)/$(@F)$(EXEEXT) ; 
 
 $(TARG_EXE) : $(INST_BIN)/%$(EXEEXT) : $(INST_OBJS)/%$(OBJEXT) $(INST_GENBIN)/% $(EXTRAOBJS) $(TARG_LIBS) $(INST_BIN)/.dir $(TARG_HDRCERTS)
-	$(SHOWIT)echo "--- Linking $(VAR) $(@F) ( $(INST_BIN)/$*$(EXEEXT) ) " ; \
+	$(SHOWIT)echo "--- Linking $(VAR_DISPLAY_NAME) $(@F) ( $(INST_BIN)/$*$(EXEEXT) ) " ; \
 	if [ -f $(INST_BIN)/$(@F) ] ; then \
 	  $(CHMOD) +w $(INST_BIN)/$(@F)$(EXEEXT) ; \
 	fi ; \
