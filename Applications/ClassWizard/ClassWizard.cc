@@ -309,13 +309,14 @@ namespace RavlN {
     for(InheritIterC it(bodyClass,SAPublic,true);it;it++) {
       if(!MethodC::IsA(*it)) // Only interested in methods here
 	continue;
-      if(it->Var("access") != "public")
+      if(it->Var("access") != "public") // Private ?
 	continue;
       if(it->Var("constructor") == "true") {
-	if(!it->Name().contains('~'))
-	  WriteHandleConstructor(sc,*it,mainBaseClass);
-      } else
-	WriteHandleMethod(sc,*it);
+        if(it->Name().contains('~')) // Ingore destructors.
+          continue;
+        WriteHandleConstructor(sc,*it,mainBaseClass);
+      } else 
+        WriteHandleMethod(sc,*it);
       sc += "";
     }
     sc.AddIndent(-1);
@@ -460,6 +461,8 @@ namespace RavlN {
 	continue;
       StringC handleName = it->Name();
       if(it->Var("constructor") == "true") {
+        if(it->Name().contains('~')) // Ingore destructors.
+          continue; 
 	isConstructor = true;
 	MethodC constructor = GenerateHandleConstructor(*it);
 	handleName = constructor.Name();
@@ -489,10 +492,9 @@ namespace RavlN {
 	  continue;
 	}
 	sc += "";
-	if(isConstructor) {
-	  if(!it->Name().contains('~'))
-	    WriteHandleConstructor(sc,*it,mainBaseClass);
-	} else
+	if(isConstructor) 
+          WriteHandleConstructor(sc,*it,mainBaseClass);
+        else
 	  WriteHandleMethod(sc,*it);
 	continue;
       }
