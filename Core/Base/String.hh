@@ -648,7 +648,7 @@ namespace RavlN {
     { return rep->len == 0; } 
     //: Test if string is empty.
     
-    inline int  IsEmpty() const
+    inline bool IsEmpty() const
     { return rep->len == 0; } 
     //: Test if the string is empty.
     
