@@ -200,6 +200,14 @@ namespace RavlGUIN {
     ConnectRef(ret.Activate(),dat,func);
     return ret;    
   } 
+
+  template<class ObjT,class DataT>
+  TextEntryC TextEntryR(const StringC &def,ObjT &obj,bool (ObjT::*func)(StringC &ref,DataT &dat),const DataT &dat,int maxLen = -1, bool sigAllChanges = false, bool editable = true, IntT xsize = -1, IntT ysize = -1)
+  { 
+    TextEntryC ret(def,maxLen,sigAllChanges,editable,xsize,ysize);
+    ConnectRef(ret.Activate(),obj,func,StringC(""),dat);
+    return ret;    
+  } 
   
   template<class DataT>
   TextEntryC TextEntry(const StringC &def,bool (*func)(StringC &ref,DataT &dat),const DataT &dat,int maxLen = -1,bool sigAllChanges = false, bool editable = true, IntT xsize = -1, IntT ysize = -1)
