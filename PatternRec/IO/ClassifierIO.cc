@@ -23,8 +23,10 @@
 #include "Ravl/Types.hh"
 
 namespace RavlN {
+
   void InitRavlClassifierIO()
-  {}
+  {
+  }
   
   //:- ClassifierC ------------------------------------------------------------------
   
