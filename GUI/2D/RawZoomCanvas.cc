@@ -121,7 +121,16 @@ namespace RavlGUIN {
 	  Index2dC at(QFloor(pat[0]),QFloor(pat[1]));
 	  if(image.Frame().Contains(at))
 	    *it = image[at];
-	  else *it = ByteRGBValueC(255,0,0);
+	  else {
+	    // Try get the closest pixel.
+	    if(!image.Frame().Range1().Contains(at[0]))
+	      at[0]++;
+	    if(!image.Frame().Range2().Contains(at[1]))
+	      at[1]++;
+	    if(image.Contains(at))
+	      *it = image[at];
+	    else *it = ByteRGBValueC(255,0,0);
+	  }
 	  pat[1] += inc[1];
 	} while(it.Next());
 	pat[0] += inc[0];
