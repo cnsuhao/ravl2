@@ -180,7 +180,7 @@ namespace RavlN
   //: Euler angle class
   //
   //  Specifies a vector of 3 successive 3D rotations about 
-  //  the 3 orthogonal axes.
+  //  the 3 co-ordinate axes.
   //  Such vectors are known as <i>Euler Angles</i>.  
   //  The sequence of axes about
   //  which rotations are done is important, and must be specified 
