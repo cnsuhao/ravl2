@@ -17,8 +17,8 @@ namespace RavlN {
 
   //: Constructor.
   
-  ObservationAffine2dPointBodyC::ObservationAffine2dPointBodyC(const VectorC &nz1, const MatrixRSC &nNi1,
-							       const VectorC &nz2, const MatrixRSC &nNi2)
+  ObservationAffine2dPointBodyC::ObservationAffine2dPointBodyC(const Vector2dC &nz1, const MatrixRSC &nNi1,
+							       const Vector2dC &nz2, const MatrixRSC &nNi2)
     : ObservationExplicitBodyC(ObsVectorC(nz2,nNi2))
   {
     z1 = nz1;
@@ -31,7 +31,7 @@ namespace RavlN {
     // we know that the state vector actually represents a 2D affine homography
     const StateVectorAffine2dC sv(stateVec);
     RavlAssert(sv.IsValid());
-    Vector2dC p = sv.GetAffine() * Vector2dC(z1[0],z1[1]);
+    Vector2dC p = sv.GetAffine() * z1;
     return VectorC(p);
   }
   
@@ -41,7 +41,7 @@ namespace RavlN {
     // we know that the state vector actually represents a 2D affine homography
     const StateVectorAffine2dC sv(stateVec);
     RavlAssert(sv.IsValid());
-    Vector2dC p = sv.GetAffine() * Vector2dC(z1[0],z1[1]);
+    Vector2dC p = sv.GetAffine() * z1;
     
     MatrixC H(2,6); // Jacobian matrix
     

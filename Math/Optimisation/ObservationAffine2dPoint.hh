@@ -24,8 +24,8 @@ namespace RavlN {
     : public ObservationExplicitBodyC
   {
   public:
-    ObservationAffine2dPointBodyC(const VectorC &nz1, const MatrixRSC &nNi1,
-				 const VectorC &nz2, const MatrixRSC &nNi2);
+    ObservationAffine2dPointBodyC(const Vector2dC &nz1, const MatrixRSC &nNi1,
+				  const Vector2dC &nz2, const MatrixRSC &nNi2);
     //: Constructor.
     
     virtual VectorC EvaluateFunctionH(const StateVectorC &stateVec);
@@ -34,7 +34,7 @@ namespace RavlN {
     virtual MatrixC EvaluateJacobianHx(const StateVectorC &stateVec);
     //: Evaluate the Jacobian of an observation for a single point
     
-    inline const VectorC& GetZ1() const
+    inline const Vector2dC& GetZ1() const
     { return z1; }
     //: Get point position on first plane
 
@@ -43,7 +43,7 @@ namespace RavlN {
     //: Get point position inverse covariance on first plane
 
   private:
-    VectorC z1; // point position on first plane
+    Vector2dC z1; // point position on first plane
     MatrixRSC Ni1; // point position inverse covariance on first plane    
   };
 
@@ -60,8 +60,8 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    ObservationAffine2dPointC(const VectorC &nz1, const MatrixRSC &nNi1,
-			     const VectorC &nz2, const MatrixRSC &nNi2)
+    ObservationAffine2dPointC(const Vector2dC &nz1, const MatrixRSC &nNi1,
+			      const Vector2dC &nz2, const MatrixRSC &nNi2)
       : ObservationExplicitC(*new ObservationAffine2dPointBodyC(nz1,nNi1,nz2,nNi2))
     {}
     //: Constructor.
@@ -89,7 +89,7 @@ namespace RavlN {
     //: Access body.
     
   public:
-    const VectorC& GetZ1() const
+    const Vector2dC& GetZ1() const
     { return Body().GetZ1(); }
     //: Get point position on first plane
 
