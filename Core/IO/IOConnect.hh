@@ -36,6 +36,9 @@ namespace RavlN {
     
     virtual bool Run();
     //: Run until a stream completes.
+
+    virtual bool Stop();
+    //: Attempt to stop stream processing.
     
     virtual bool Step();
     //: Do a single processing step.
@@ -43,6 +46,24 @@ namespace RavlN {
     virtual bool IsReady() const;
     //: Check if we're ready to run.
     
+    bool IsRunning() const
+    { return running; }
+    //: Check if we're already running.
+    
+    bool Running(bool state)
+    { return running = state; }
+    //: Set running state.
+
+    bool TryRun() {
+      if(running)
+	return false;
+      running = true;
+      return true;
+    }
+    //: Attempt to start running, fails if running already.
+    // FIXME :- Turn into an atomic operation.
+  protected:
+    volatile bool running;
   };
 
   //! userlevel=Develop
@@ -73,13 +94,25 @@ namespace RavlN {
     //: Access body.
     
   public:
-    inline bool Run()
+    bool Run()
     { return Body().Run(); }
     //: Do processing.
+    
+    bool Stop()
+    { return Body().Stop(); }
+    //: Attempt to stop stream processing.
+    
+    bool Step()
+    { return Body().Step(); }
+    //: Do a single processing step.
     
     bool IsReady() const
     { return Body().IsReady(); }
     //: Check if we're ready to run.
+    
+    bool IsRunning() const
+    { return Body().IsRunning(); }
+    //: Check if we're already running.
   };
   
   //////////////////////////
@@ -167,12 +200,19 @@ namespace RavlN {
     if(!from.IsValid() || !to.IsValid())
       return false;
     DataT buff;
-    while(1) {
-      if(!from.Get(buff))
-	break;
-      if(!to.Put(buff))
-	break;
+    Running(true);
+    try {
+      while(1) {
+	if(!from.Get(buff))
+	  break;
+	if(!to.Put(buff))
+	  break;
+      }
+    } catch(...) {
+      Running(false);
+      throw;
     }
+    Running(false);
     to.PutEOS(); // Put a termination marker.
     return true;
   }

@@ -60,6 +60,9 @@ namespace RavlN {
     virtual bool Run();
     //: Run until a stream completes.
     
+    virtual bool Stop();
+    //: Attempt to stop stream processing.
+    
     virtual bool Start();
     //: Do some async stuff.
     
@@ -68,7 +71,7 @@ namespace RavlN {
     //: Check if we're ready to run.
       
     bool useIsGetReady;
-    bool terminate;
+    volatile bool terminate;
     UIntT blockSize;
     ThreadEventC done;
   };
@@ -243,6 +246,8 @@ namespace RavlN {
       cerr << "WARNING: Attempt to start MTIOConnect with missing input or output. \n";
       return false;
     }
+    if(!TryRun())
+      return false;
     try {
       if(useIsGetReady) {
 	if(blockSize <= 1) {
@@ -311,6 +316,7 @@ namespace RavlN {
       cerr << "Halting thread. \n" << flush;
     }
     //cerr << "DPMTIOConnectBodyC<DataT>::Start(), Completed. Get:" << from.IsGetReady() << " Put:" << to.IsPutReady() << " Term:" << terminate << endl ;
+    Running(false);
     to.PutEOS(); // Put a termination marker.
     terminate = true;
     done.Post(); // Post event to all waiting funcs.
@@ -323,58 +329,56 @@ namespace RavlN {
       cerr << "WARNING: Attempt to start MTIOConnect with missing input or output. \n";
       return false;
     }
+    if(!TryRun())
+      return false;
     try {
       if(useIsGetReady) {
 	if(blockSize <= 1) {
 	  DataT buff;
-	  if(!from.Get(buff))
-	    return true;
-	  if(!to.Put(buff)) {
+	  if(from.Get(buff)) {
+	    if(!to.Put(buff)) {
 #if RAVL_CHECK
-	    if(to.IsPutReady()) {
-	      cerr << "DPMTIOConnectBodyC<DataT>::Start(), IsPutReady test failed. \n";
+	      if(to.IsPutReady()) {
+		cerr << "DPMTIOConnectBodyC<DataT>::Start(), IsPutReady test failed. \n";
 	      cerr << "  Type:" << typeid(*this).name() << endl;
 	      RavlAssert(0);
-	    }
+	      }
 #endif
-	    return true;
+	    }
 	  }
 	} else {
 	  // Use block processing.
 	  SArray1dC<DataT> buf(blockSize);
 	  int got = from.GetArray(buf);
-	  if(got == 0)
-	    return true;
-	  if(to.PutArray(buf) != got) {
+	  if(got > 0) {
+	    if(to.PutArray(buf) != got) {
 #if RAVL_CHECK
-	    if(to.IsPutReady()) {
-	      cerr << "DPMTIOConnectBodyC<DataT>::Start(), Failed to put all data. \n";
-	      cerr << "  Type:" << typeid(*this).name() << endl;
-	      RavlAssert(0);
-	    }
+	      if(to.IsPutReady()) {
+		cerr << "DPMTIOConnectBodyC<DataT>::Start(), Failed to put all data. \n";
+		cerr << "  Type:" << typeid(*this).name() << endl;
+		RavlAssert(0);
+	      }
 #endif
-	    return true;
+	    }
 	  }
 	}
       } else {
 	if(blockSize <= 1) {
-	  if(!to.Put(from.Get()))
-	    return true;
+	  to.Put(from.Get());
 	} else {
 	  // Use block processing.
 	  SArray1dC<DataT> buf(blockSize);
 	  int puts;
 	  IntT got = from.GetArray(buf);
-	  if(got < 0)
-	    return true;
-	  if(got < (IntT) blockSize) {
-	    SArray1dC<DataT> tb(buf,got);
-	    puts = to.PutArray(tb);
-	  } else
-	    puts = to.PutArray(buf);
-	  if(puts != got) {
-	    cerr << "DPMTIOConnectBodyC<DataT>::Start(), PutArray failed to output all data. \n";
-	    return true;
+	  if(got >= 0) {
+	    if(got < (IntT) blockSize) {
+	      SArray1dC<DataT> tb(buf,got);
+	      puts = to.PutArray(tb);
+	    } else
+	      puts = to.PutArray(buf);
+	    if(puts != got) {
+	      cerr << "DPMTIOConnectBodyC<DataT>::Start(), PutArray failed to output all data. \n";
+	    }
 	  }
 	}
       }
@@ -382,6 +386,7 @@ namespace RavlN {
       cerr << "An exception occured in: " << typeid(*this).name() << endl;
       cerr << "Halting thread. \n" << flush;
     }
+    Running(false);
     return true;
   }
   

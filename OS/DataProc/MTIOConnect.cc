@@ -63,10 +63,20 @@ namespace RavlN {
   bool DPMTIOConnectBaseBodyC::Run() {
     if(!IsReady())
       return false;
+    if(IsRunning())
+      return false;
+    terminate = false;
     LaunchThread(DPMTIOConnectBaseC(*this),&DPMTIOConnectBaseC::Start);
     return true;
   }
-
+  
+  //: Attempt to stop stream processing.
+  
+  bool DPMTIOConnectBaseBodyC::Stop() {
+    terminate = true;
+    return true;
+  }
+  
   //: Do some async stuff. 
   
   bool DPMTIOConnectBaseBodyC::Start() {

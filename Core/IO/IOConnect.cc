@@ -21,6 +21,12 @@ namespace RavlN {
     RavlAssertMsg(0,"DPIOConnectBaseBodyC::Run(), Abstract method called.");
     return false;
   }
+
+  //: Attempt to stop stream processing.
+  
+  bool DPIOConnectBaseBodyC::Stop() {
+    return false;
+  }
   
   //: Do a single processing step.
   
