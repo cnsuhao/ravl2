@@ -126,6 +126,10 @@ namespace RavlImageN {
     //: Calculate the diffrence between two rectangles one lying inside the other in the horizontal dimention.
     // This mid point is an absolute column location and should be within the rectangle.
     
+    const IndexRange2dC &ClipRange() const
+    { return clipRange; }
+    //: Return range of value positions. 
+    
   protected:
     IndexRange2dC clipRange;
   };

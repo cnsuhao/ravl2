@@ -46,8 +46,9 @@ namespace RavlImageN {
     template<class InT>
     inline static TFVectorC<DataT,2> SumAndSqr(const InT &data) { 
       TFVectorC<DataT,2> ret;
-      ret[0] = (DataT) data;
-      ret[1] = Sqr((DataT) data);
+      DataT val = static_cast<DataT>(data);
+      ret[0] = val;
+      ret[1] = Sqr(val);
       return ret;
     }
     //: Create vector containing value and its square.
@@ -171,7 +172,7 @@ namespace RavlImageN {
     { clipRange = nClipRange; }
     //: Set the clip range.
     
-    const IndexRange2dC &ClipRange()
+    const IndexRange2dC &ClipRange() const
     { return clipRange; }
     //: Return range of value positions. 
     
