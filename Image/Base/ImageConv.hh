@@ -146,7 +146,16 @@ namespace RavlImageN {
   
   ImageC<RealRGBValueC> RealHSVImageCT2RealRGBImageCT(const ImageC<RealHSVValueC> & dat) ;
   //: Real HLS -> Real RGB
-
+  
+  ImageC<RealT> FloatTImageCT2RealImageCT(const ImageC<FloatT> &dat);
+  //: FloatT -> RealT
+  
+  ImageC<FloatT> RealTImageCT2FloatImageCT(const ImageC<RealT> &dat);
+  //: RealT -> FloatT
+  
+  ImageC<FloatT> ByteRGBImageCT2FloatImageCT(const ImageC<ByteRGBValueC> &dat);
+  //: Byte Colour to double image.
+  
 };
 
 #endif
