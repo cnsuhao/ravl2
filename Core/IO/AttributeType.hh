@@ -41,6 +41,9 @@ namespace RavlN {
     
     virtual AttributeValueTypeT ValueType() const;
     //: Get hint about type of value attribute has.
+
+    virtual bool Save(ostream & strm) const ; 
+    //: Save the attribute to a stream 
     
     const StringC &Name() const
     { return name; }
@@ -64,6 +67,10 @@ namespace RavlN {
     bool canRead;  // Can be read.
     bool canWrite; // Can be written to
     
+
+    friend ostream & operator << (ostream & strm, const AttributeTypeBodyC & obj) ; 
+    //: output operator 
+
   };
   
   //! userlevel=Normal

@@ -40,5 +40,21 @@ namespace RavlN {
     RavlAssertMsg(0,"AttributeTypeBodyC::SetToDefault(), ERROR: Abstract method called. ");
     return false;
   }
+
+//: Save attribute to stream 
+bool AttributeTypeBodyC::Save(ostream & strm) const {
+  strm << name << "\t" << description << "\t" << canRead << "\t" << canWrite ; 
+  return true ; 
+}
+
+//: Output to stream 
+ostream & operator << (ostream & strm, const AttributeTypeBodyC & obj) 
+{ 
+obj.Save(strm) ; 
+return strm ; 
+}
+
   
 }
+
+
