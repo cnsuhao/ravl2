@@ -45,6 +45,9 @@ namespace RavlN {
     //: Start a child process.
     // where the first arg is the name of the program to run.
     
+    ~ChildOSProcessBodyC();
+    //: Destructor
+    
     bool Run(StringListC args,bool useStdOut = false,bool useStdErr = false,bool useStdIn = false);
     //: Run child process.
     // where the first arg is the name of the program to run.
@@ -135,6 +138,7 @@ namespace RavlN {
     IStreamC pstdout;
     IStreamC pstderr;
     OStreamC pstdin;
+    
     bool running; // Child process process running last time we looked ?
     bool exitok;  // Did child exit normally ?
     int exitcode;

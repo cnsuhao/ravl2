@@ -16,6 +16,7 @@
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/String.hh"
+#include "Ravl/RCHandleV.hh"
 //#include "Ravl/UserInfo.hh"
 
 namespace RavlN {
@@ -28,7 +29,7 @@ namespace RavlN {
   //: OSProcess body.
   
   class OSProcessBodyC 
-    : public RCBodyC
+    : public RCBodyVC
   {
   public:
     OSProcessBodyC(int npid = -1)

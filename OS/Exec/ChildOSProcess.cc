@@ -36,7 +36,6 @@ extern "C" {
 #include <signal.h>
 
 #define DODEBUG 0
-
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -47,33 +46,33 @@ extern "C" {
 namespace RavlN {
   
   ///////////////////////////////////////////////////////
-  //: Start a child process.
+//: Start a child process.
 
-  ChildOSProcessC::ChildOSProcessC(StringC cmd,bool useStdOut,bool useStdErr,bool useStdIn)
-    : OSProcessC(*new ChildOSProcessBodyC(cmd,useStdOut,useStdErr,useStdIn))
-    {}
+ChildOSProcessC::ChildOSProcessC(StringC cmd,bool useStdOut,bool useStdErr,bool useStdIn)
+  : OSProcessC(*new ChildOSProcessBodyC(cmd,useStdOut,useStdErr,useStdIn))
+{}
   
   //: Start a child process.
   
   ChildOSProcessC::ChildOSProcessC(StringC cmd,FilenameC out,bool redirectStderr,bool useStdIn)
     : OSProcessC(*new ChildOSProcessBodyC(cmd,out,redirectStderr,useStdIn))
-    {}
+  {}
   
   ///////////////////////////////////////////////////////
   //: Default constructor.
   
   ChildOSProcessBodyC::ChildOSProcessBodyC()
     : OSProcessBodyC(-1),
-    running(false),
-    exitok(false)
-    {}
-
+      running(false),
+      exitok(false)
+  {}
+  
   //: Start a child process.
   
   ChildOSProcessBodyC::ChildOSProcessBodyC(StringC cmd,FilenameC out,bool redirectStderr,bool useStdIn)
     : OSProcessBodyC(-1),
-    running(false),
-    exitok(false)
+      running(false),
+      exitok(false)
   {
     StringListC strlst(cmd);
     Run(strlst,out,redirectStderr,useStdIn);
@@ -83,8 +82,8 @@ namespace RavlN {
   
   ChildOSProcessBodyC::ChildOSProcessBodyC(StringC cmd,bool useStdOut,bool useStdErr,bool useStdIn)
     : OSProcessBodyC(-1),
-    running(false),
-    exitok(false)
+      running(false),
+      exitok(false)
   {
     StringListC strlst(cmd);
     Run(strlst,useStdOut,useStdErr,useStdIn);
@@ -95,12 +94,17 @@ namespace RavlN {
   
   ChildOSProcessBodyC::ChildOSProcessBodyC(StringListC args)
     : OSProcessBodyC(-1),
-    running(false),
-    exitok(false)
+      running(false),
+      exitok(false)
   {
     Run(args);
   }
-
+  
+  //: Destructor
+  
+  ChildOSProcessBodyC::~ChildOSProcessBodyC() {
+    ONDEBUG(cerr << "ChildOSProcessBodyC::~ChildOSProcessBodyC(), Called. \n");
+  }
 
   // Use the most appropriate fork for the architecture
   // for doing an exec.
@@ -112,6 +116,7 @@ namespace RavlN {
   // running.
   
   bool ChildOSProcessBodyC::Run(StringListC args,bool useStdOut,bool useStdErr,bool useStdIn) {
+    ONDEBUG(cerr << "ChildOSProcessBodyC::Run(), Called. \n");
     if(args.IsEmpty())
       return false; // No program to run.
     
@@ -156,7 +161,6 @@ namespace RavlN {
     
     // And run it.
     bool ret = Exec(args,stdinfd,stdoutfd,stderrfd);  
-    close(stdoutfd); // Don't need it anymore.
     return ret;
 #else
     throw ExceptionC("ChildOSProcessBodyC::Run() Not implemented. \n");
@@ -168,6 +172,7 @@ namespace RavlN {
   // if infd,outfd or errfd are negative there not changed.
   
   bool ChildOSProcessBodyC::Exec(StringListC args,int infd,int outfd,int errfd) {  
+    ONDEBUG(cerr << "ChildOSProcessBodyC::Exec(), Called. \n");
 #if !RAVL_COMPILER_VISUALCPP
     if(args.IsEmpty()) {
       cerr << "ChildOSProcessBodyC::Exec(), No program to run. \n";
@@ -181,7 +186,8 @@ namespace RavlN {
     // problems that may be caused by multithreading.
     char **arglst = new char *[args.Size()+1];
     char **place = arglst;
-    for(DLIterC<StringC> it(args);it.IsElm();it.Next(),place++)
+    
+    for(DLIterC<StringC> it(args);it;it++,place++)
       *place = const_cast<char *>(it.Data().chars());
     *place = 0; // Zero terminate list.
     
@@ -216,7 +222,14 @@ namespace RavlN {
       perror("ChildOSProcessBodyC::Run(): execvp failed ");
       _exit(-1);
     }
-    delete arglst; // Clean up.
+    // Close unneeded file descriptors.
+    if(infd >= 0)  close(infd);
+    if(outfd >= 0) close(outfd);
+    if(errfd >= 0) close(errfd);
+    
+    // Cleanup args.
+    
+    delete [] arglst;
     if(pid < 0) { // Did fork fail ?
       cerr << "ChildOSProcessBodyC::Exec(), Failed to fork. \n";
       running = false;
