@@ -17,9 +17,9 @@ SOURCES= Error.cc
 
 PLIB = RavlPatternRec
 
-TESTEXES=
+LIBDEPS = RavlPatternRecPerformance.def
 
-LIBDEPS = 
+TESTEXES=
 
 USESLIBS=Auto
 
