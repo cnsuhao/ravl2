@@ -204,10 +204,10 @@ ifndef NOINCDEFS
   ifneq ($(strip $(MAINS) $(TESTEXES)),)
    AUTOPROGLIBS := $(shell $(QLIBS) -prog -d -p $(ROOTDIR))
    ifdef LIBDEPS
-    ifdef PLIB
-     AUTOPROGLIBS := $(PLIB).def $(AUTOPROGLIBS)
-    endif
     AUTOPROGLIBS := $(filter-out $(LIBDEPS),$(AUTOPROGLIBS))
+   endif
+   ifdef PLIB
+    AUTOPROGLIBS := $(PLIB).def $(AUTOPROGLIBS)
    endif
    ifneq ($(strip $(AUTOPROGLIBS)),)
     include $(AUTOPROGLIBS)
