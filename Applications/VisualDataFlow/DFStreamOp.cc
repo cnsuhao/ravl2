@@ -1,0 +1,152 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2002, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
+//! rcsid="$Id$"
+//! lib=RavlVDF
+//! author="Charles Galambos"
+
+#include "Ravl/DF/DFStreamOp.hh"
+#include "Ravl/DF/GUIView.hh"
+#include "Ravl/DF/DFPort.hh"
+
+#define DODEBUG 0
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
+
+namespace RavlDFN {
+  
+  DFStreamOpBodyC::DFStreamOpBodyC(const StringC &nname,const DPStreamOpC &sop)
+    : DFObjectBodyC(nname),
+      packStacked(true)
+  { Init(sop); }
+  
+  //: Setup stream operator.
+  
+  bool DFStreamOpBodyC::Init(const DPStreamOpC &sop) {
+    streamOp = sop;
+    if(!streamOp.IsValid())
+      return false;
+    for(DLIterC<DPIPlugBaseC> it(sop.IPlugs());it;it++) {
+      DFIPlugC cobj(*it,"Unknown");
+      parts.InsLast(DFAttachC(cobj,ATTACH_RIGHT));
+    }
+    for(DLIterC<DPIPortBaseC> it(sop.IPorts());it;it++) {
+      DFIPortC cobj(*it,"Unknown");
+      parts.InsLast(DFAttachC(cobj,ATTACH_LEFT));
+    }
+    for(DLIterC<DPOPlugBaseC> it(sop.OPlugs());it;it++) {
+      DFOPlugC cobj(*it,"Unknown");
+      parts.InsLast(DFAttachC(cobj,ATTACH_RIGHT));
+    }
+    for(DLIterC<DPOPortBaseC> it(sop.OPorts());it;it++) {
+      DFOPortC cobj(*it,"Unknown");
+      parts.InsLast(DFAttachC(cobj,ATTACH_LEFT));
+    }
+    
+    return true;
+  }
+
+  //: Render object to view.
+  
+  bool DFStreamOpBodyC::Render(GUIViewBodyC &view,const Index2dC &at,DFRenderModeT mode) {
+    ONDEBUG(cerr << "DFStreamOpBodyC::Render(), Called. At=" << at << " Mode=" << (int)mode << "\n");
+    
+    Index2dC textSize = view.TextSize(view.DrawFont(),name);
+    Index2dC size = textSize + Index2dC(3,8);
+    GdkGC *fggc = view.DrawModeFG(mode);
+    
+    // Work out size.
+    int maxWidthl = 0;
+    int maxWidthr = 0;
+    
+    for(DLIterC<DFAttachC> it(parts);it;it++) {
+      Index2dC osize = it->Object().PackingSize().Size();
+      switch(it->Placement()) {
+      case ATTACH_LEFT:
+	if(maxWidthl < osize.Row().V())
+	  maxWidthl = osize.Row().V();
+	break;
+      case ATTACH_RIGHT:
+	if(maxWidthr < osize.Row().V())
+	  maxWidthr = osize.Row().V();
+	break;
+      default:
+      case ATTACH_TOP:
+      case ATTACH_BOTTOM:
+      case ATTACH_FLOAT:
+	break;
+      }
+    }
+    IntT width;
+    if(!packStacked)
+      width = (maxWidthl + maxWidthr);
+    else
+      width = Max(maxWidthl,maxWidthr);
+    
+    if(size.Row() < width)
+      size.Row() = width;
+    //cerr << "Width = " << width << "\n";
+    IndexRange2dC rect(Index2dC(0,0),size);
+    IndexRange2dC nrenderSize = rect;
+    
+    // Render components.
+    
+    IntT leftSide = size.Col().V();
+    IntT rightSide = size.Col().V();
+    //ONDEBUG(cerr << "Row=" << size.Row() << " Col=" << size.Col().V() << "\n");
+    for(DLIterC<DFAttachC> it(parts);it;it++) {
+      Index2dC osize = it->Object().PackingSize().Size();
+      Index2dC off;
+      switch(it->Placement()) {
+      case ATTACH_LEFT:
+	off = Index2dC((size.Row().V() - osize.Row().V())+3,leftSide);
+	leftSide += osize.Col().V() + 1;
+	break;
+      case ATTACH_RIGHT:
+	if(packStacked) {
+	  // Put them above each other.
+	  off = Index2dC(2,leftSide);
+	  leftSide += osize.Col().V() + 1;
+	} else {
+	  off = Index2dC(2,rightSide);
+	  rightSide += osize.Col().V() + 1;
+	}
+	break;
+      default:
+      case ATTACH_TOP:
+      case ATTACH_BOTTOM:
+      case ATTACH_FLOAT: off = it->Offset(); break;
+      }
+      //it->Object().Render(view,at + off,mode);
+      rect.Involve(it->Object().PackingSize() + off);
+      nrenderSize.Involve(it->Object().RenderSize() + off);
+      it->Offset() = off;
+    }
+    rect.BRow()++;
+    rect.RCol()++;    
+    nrenderSize.Involve(rect);
+    IndexRange2dC drawRect = rect + at;
+    view.DrawRectangle(view.DrawModeBG(mode),drawRect,true);
+    view.DrawRectangle(fggc,drawRect,false);
+    view.DrawText(fggc,view.DrawFont(),at + Index2dC(5,textSize[1]+5),name);
+    PackingSize(rect);
+    RenderSize(nrenderSize.Expand(1));
+    
+    //cerr << "PackingSize:" << rect << " RenderSize:" << nrenderSize << "\n";
+    //view.DrawRectangle(view.DrawGCGrey(),renderSize + at,false);
+    return true;
+  }
+  
+  //: Get list of attachment points.
+  
+  DListC<DFAttachC> DFStreamOpBodyC::Parts() const {
+    return parts;
+  }
+
+}
