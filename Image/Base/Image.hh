@@ -51,6 +51,11 @@ namespace RavlImageN {
       {}
     //: Construct an image with origin 0,0 and size rows cols.
 
+    ImageC(const IndexRangeC &rows,const IndexRangeC &cols)
+      : Array2dC<PixelT>(rows,cols)
+      {}
+    //: Construct an image with the given range of indexes.
+    
     ImageC(UIntT rows,UIntT cols,const BufferC<PixelT> &buf)
       : Array2dC<PixelT>(IndexRange2dC(0,rows-1,0,cols-1),buf)
       {}
