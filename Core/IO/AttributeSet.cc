@@ -123,8 +123,9 @@ namespace RavlN {
     }
     StringC value;
     if(!values.Lookup(attrName,value)) {
-      AttributeTypeStringC attrTypeInt(attrType);
-      attrValue = attrTypeInt.Default();
+      if(!attrType.IsValid())
+	return false;
+      attrValue = attrType.DefaultString();
       return true;
     }
     attrValue = value;
@@ -168,6 +169,8 @@ namespace RavlN {
     StringC value;
     if(!values.Lookup(attrName,value)) {
       AttributeTypeNumC<IntT> attrTypeInt(attrType);
+      if(!attrTypeInt.IsValid())
+	return false;
       attrValue = attrTypeInt.Default();
       return true;
     }
@@ -211,8 +214,10 @@ namespace RavlN {
     }
     StringC value;
     if(!values.Lookup(attrName,value)) {
-      AttributeTypeNumC<RealT> attrTypeInt(attrType);
-      attrValue = attrTypeInt.Default();
+      AttributeTypeNumC<RealT> attrTypeReal(attrType);
+      if(!attrTypeReal.IsValid())
+	return false;
+      attrValue = attrTypeReal.Default();
       return true;
     }
     attrValue = value.IntValue();
@@ -255,8 +260,10 @@ namespace RavlN {
     }
     StringC value;
     if(!values.Lookup(attrName,value)) {
-      AttributeTypeBoolC attrTypeInt(attrType);
-      attrValue = attrTypeInt.Default();
+      AttributeTypeBoolC attrTypeBool(attrType);
+      if(attrTypeBool.IsValid())
+	return false;
+      attrValue = attrTypeBool.Default();
       return true;
     }
     attrValue = (value.IntValue()!=0);

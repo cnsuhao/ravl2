@@ -52,6 +52,10 @@ namespace RavlN {
     virtual bool SetToDefault(AttributeCtrlC &ctrl) const;
     //: Set control to default value.
     
+    virtual StringC DefaultString() const
+    { return StringC(static_cast<IntT>(defaultValue)); }
+    //: Access default values as string.
+    
   protected:
     bool defaultValue;
   };
@@ -186,6 +190,10 @@ namespace RavlN {
     { return ctrl.SetAttr(name,defaultValue); }
     //: Set control to default value.
     
+    virtual StringC DefaultString() const
+    { return StringC(defaultValue); }
+    //: Access default values as string.
+    
   protected:
     ValueT minv;
     ValueT maxv;
@@ -301,6 +309,10 @@ namespace RavlN {
     virtual bool SetToDefault(AttributeCtrlC &ctrl) const;
     //: Set control to default value.
     
+    virtual StringC DefaultString() const
+    { return defaultValue; }
+    //: Access default values as string.
+    
   protected:
     StringC defaultValue;
     IntT maxLength;
@@ -399,6 +411,10 @@ namespace RavlN {
     
     virtual bool SetToDefault(AttributeCtrlC &ctrl) const;
     //: Set control to default value.
+    
+    virtual StringC DefaultString() const
+    { return defaultValue; }
+    //: Access default values as string.
     
   protected:
     StringC defaultValue;

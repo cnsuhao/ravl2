@@ -94,6 +94,10 @@ namespace RavlN {
     }
     //: Set value of canWrite - returns old value 
     
+    virtual StringC DefaultString() const
+    { return StringC(""); }
+    //: Access default values as string.
+    
   protected:
     StringC name;  // Name of attribute
     StringC description; // Optional discription
@@ -175,6 +179,10 @@ namespace RavlN {
     bool SetToDefault(AttributeCtrlC &ctrl) const
     { return Body().SetToDefault(ctrl); }
     //: Set control to default value.
+    
+    StringC DefaultString() const
+    { return Body().DefaultString(); }
+    //: Access default values as string.
     
   };
   
