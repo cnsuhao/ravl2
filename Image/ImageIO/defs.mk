@@ -16,20 +16,22 @@ HEADERS = ImgIOPNMB.hh ImgIOPNM.hh PNMFormat.hh ImgIO.hh
 
 SOURCES = ImgIOPNM.cc PNMFormat.cc ImgIOInt.cc ImgIOByte.cc \
  ImgIOUInt16.cc ImgIOByteRGB.cc ImgIOByteYUV.cc ImgIOReal.cc \
- ImgIORealRGB.cc ImgIOByteRGBA.cc
+ ImgIORealRGB.cc ImgIOByteRGBA.cc ImgIORealYUV.cc ImgIOUInt16RGB.cc
 
 #  \
-# ImgTypeCnv.cc ImgTypeCnv2.cc ImgCnvRGB.cc ImgCnvRGB16.cc \
+# ImgTypeCnv.cc ImgTypeCnv2.cc ImgCnvRGB.cc  \
 # ImgIOPixel.cc \
 #   \
-#  ImgIOU16RGB.cc \
-#  ImgIORealYUV.cc \
+#  ImgIOU16RGB.cc ImgCnvRGB16.cc\
+#   \
 # PixelIO.cc ImgFrameCnv.cc ImgIOByteVYU.cc \
 # ImgIOCompatRGB.cc ImgIOCompatYUV.cc ImgIOCompatY.cc
 
 #NumImageCnv.cc
 
 MUSTLINK = RavlImgIO.cc 
+
+LIBDEPS= RavlImageIO.def
 
 PLIB = RavlImage
 

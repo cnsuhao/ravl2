@@ -11,20 +11,19 @@
 
 #include "Ravl/DP/FileFormatStream.hh"
 #include "Ravl/DP/FileFormatBinStream.hh"
-//#include "Ravl/DP/Converter.hh"
 #include "Ravl/Image/Image.hh"
-//#include "Ravl/Array2dIter2.hh"
+#include "Ravl/Image/UInt16RGBValue.hh"
 #include "Ravl/TypeName.hh"
+//#include "Ravl/DP/Converter.hh"
+//#include "Ravl/Array2dIter2.hh"
 
 namespace RavlN {
 
-  void InitImgIOUInt16()
-    {}
+  void InitImgIOUInt16RGB()
+  {}
   
-  static TypeNameC type1(typeid(ImageC<Int16T>),"ImageC<Int16T>");  
-  static TypeNameC type2(typeid(ImageC<UInt16T>),"ImageC<UInt16T>");
-  
-  FileFormatStreamC<ImageC<UInt16T> > FileFormatStream_ImageC_UInt16T;
-  FileFormatBinStreamC<ImageC<UInt16T> > FileFormatBinStream_ImageC_UInt16T;
-  
+  static TypeNameC type1(typeid(ImageC<UInt16RGBValueC>),"ImageC<UInt16RGBValueC>");  
+
+  FileFormatStreamC<ImageC<UInt16RGBValueC> > FileFormatStream_ImageC_UInt16RGBValueC;
+  FileFormatBinStreamC<ImageC<UInt16RGBValueC> > FileFormatBinStream_ImageC_UInt16RGBValueC;
 }

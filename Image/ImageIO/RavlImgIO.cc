@@ -20,22 +20,22 @@ namespace RavlN {
 #endif    
     InitPNMFormat();
     InitImgIOInt();
-#if 0
     InitImgIOByte();
     InitImgIOReal();
     InitImgIOUInt16();
     
     InitImgIOByteRGB();
     InitImgIORealRGB();
-    InitImgIOU16RGB();
-    
     InitImgIOByteYUV();
-    InitImgIOByteVYU();
-    InitImgIORealYUV();
+    InitImgIORealYUV();    
+    InitImgIOUInt16RGB();
+    InitImgIOByteRGBA();
     
+#if 0    
     InitRGBImageCnv();
     InitRGB16ImageCnv();
     
+    InitImgIOByteVYU();
     InitCompatIORGB();
     InitCompatIOYUV();
     InitCompatIOY();

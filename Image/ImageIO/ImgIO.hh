@@ -23,11 +23,14 @@ namespace RavlN {
   extern void InitStdImageCnv3();
   extern void InitPNMFormat();
   extern void InitImgIOByte();
+  extern void InitImgIObool();
   extern void InitImgIOReal();
   extern void InitImgIOInt();
   extern void InitImgIOUInt16();
+  extern void InitImgIOUInt16RGB();
   extern void InitImgIOByteRGB();
   extern void InitImgIORealRGB();
+  extern void InitImgIOByteRGBA();
   extern void InitImgIOByteYUV();
   extern void InitImgIORealYUV();
   extern void InitRGBImageCnv();

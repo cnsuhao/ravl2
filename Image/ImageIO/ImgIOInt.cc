@@ -18,6 +18,9 @@
 
 namespace RavlN {
   
+  static TypeNameC type1(typeid(ImageC<IntT>),"ImageC<IntT>");  
+  static TypeNameC type2(typeid(ImageC<UIntT>),"ImageC<UIntT>");  
+  
   void InitImgIOInt()
   {}
   
@@ -48,8 +51,6 @@ namespace RavlN {
   DP_REGISTER_CONVERTION(UInt16TImageCT2UIntTImageCT,1);
   DP_REGISTER_CONVERTION(UIntTImageCT2UInt16TImageCT,2);
   
-  static TypeNameC type1(typeid(ImageC<IntT>),"ImageC<IntT>");  
-  static TypeNameC type2(typeid(ImageC<UIntT>),"ImageC<UIntT>");
   
   FileFormatStreamC<ImageC<IntT> > FileFormatStream_ImageC_IntT;
   FileFormatBinStreamC<ImageC<IntT> > FileFormatBinStream_ImageC_IntT;

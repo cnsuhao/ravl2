@@ -1,27 +1,29 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2001, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 ///////////////////////////////////////////////////
 //! author="Charles Galambos"
 //! rcsid="$Id$"
+//! lib=RavlImage
 
-#include "amma/DP/FileFormatStream.hh"
-#include "amma/DP/FileFormatBinStream.hh"
-#include "amma/DP/Converter.hh"
-#include "amma/BinIOYUVValue.hh"
-#include "amma/BinImgIO.hh"
-#include "amma/ReYUVImg.hh"
+#include "Ravl/DP/FileFormatStream.hh"
+#include "Ravl/DP/FileFormatBinStream.hh"
+#include "Ravl/Image/Image.hh"
+#include "Ravl/Image/RealYUVValue.hh"
+#include "Ravl/TypeName.hh"
+//#include "Ravl/DP/Converter.hh"
+//#include "Ravl/Array2dIter2.hh"
 
-void InitImgIORealYUV()
-{}
+namespace RavlN {
 
-namespace StdDP {
-  ImageC<YUVPointC> DPConvRealYUVImageC2ImageCT(const RealYUVImageC &dat)  
-  { return ImageC<YUVPointC>(dat); }
+  void InitImgIORealYUV()
+  {}
   
-  RealYUVImageC DPConvImageCT2RealYUVImageC(const ImageC<YUVPointC> &dat)  
-  { return RealYUVImageC(dat); }
-
-  DP_REGISTER_CONVERTION(DPConvRealYUVImageC2ImageCT,1);
-  DP_REGISTER_CONVERTION(DPConvImageCT2RealYUVImageC,1);
+  static TypeNameC type1(typeid(ImageC<RealYUVValueC>),"ImageC<RealYUVValueC>");  
   
-  FileFormatStreamC<ImageC<YUVPointC> > FileFormatStream_ImageC_YUVPointC;
-  FileFormatBinStreamC<ImageC<YUVPointC> > FileFormatBinStream_ImageC_YUVPointC;
+  FileFormatStreamC<ImageC<RealYUVValueC> > FileFormatStream_ImageC_RealYUVValueC;
+  FileFormatBinStreamC<ImageC<RealYUVValueC> > FileFormatBinStream_ImageC_RealYUVValueC;
 }

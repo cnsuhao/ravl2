@@ -19,10 +19,14 @@
 
 namespace RavlN {
   
+  void InitImgIOByteYUV() {
+  }
+  
+  static TypeNameC type3(typeid(ImageC<ByteYUVValueC>),"ImageC<ByteYUVValueC>");
+  
   FileFormatStreamC<ImageC<ByteYUVValueC> > FileFormatStream_ImageC_ByteYUVValueC;
   FileFormatBinStreamC<ImageC<ByteYUVValueC> > FileFormatBinStream_ImageC_ByteYUVValueC;
   
-
   ////////////////////////////////////////////////////////////
   // Accelerated IO routines...
   

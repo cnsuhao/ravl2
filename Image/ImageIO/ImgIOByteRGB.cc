@@ -23,7 +23,7 @@ namespace RavlN {
   void InitImgIOByteRGB()
     {}
 
-  static TypeNameC type1(typeid(ImageC<ByteT>),"ImageC<ByteRGBValueC>");  
+  static TypeNameC type1(typeid(ImageC<ByteRGBValueC>),"ImageC<ByteRGBValueC>");  
   
   FileFormatStreamC<ImageC<ByteRGBValueC> > FileFormatStream_ImageC_ByteRGBValueC;
   FileFormatBinStreamC<ImageC<ByteRGBValueC> > FileFormatBinStream_ImageC_ByteRGBValueC;
