@@ -186,7 +186,11 @@ if ($config{TEMPDIR}) {
   $ENV{DEFAULTTMP} = $config{TEMPDIR};
 }
 
-
+# Clean out temporary files
+if ($config{CLEANTEMP}) {
+  print ("\nPre Cleaning tempory files :$config{TEMPDIR}/$ENV{USER}/qm$BUILDTREE \n") ;
+  system("rm -rf $config{TEMPDIR}/$ENV{USER}/qm$BUILDTREE");
+}
 
 # If an install script exists, do full install
 if(-e "$SRCTREE/$PACKAGENAME/install") {
@@ -209,7 +213,7 @@ else {
 
 # Clean out temporary files
 if ($config{CLEANTEMP}) {
-  print ("Cleaning tempory files :$config{TEMPDIR}/$ENV{USER}/qm$BUILDTREE \n") ;
+  print ("\nPost Cleaning tempory files :$config{TEMPDIR}/$ENV{USER}/qm$BUILDTREE \n") ;
   system("rm -rf $config{TEMPDIR}/$ENV{USER}/qm$BUILDTREE");
 }
 
