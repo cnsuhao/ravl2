@@ -40,16 +40,23 @@ namespace RavlN {
     //: Called on startup.
     
     void SendTerminate()
-      { delay = -1; }
+    { delay = -1; }
     //: Set terminate.
     // Obsolete use Shutdown()
     
     void Shutdown()
-      { delay = -1; }
+    { delay = -1; }
     //: Shutdown ticker.
     
+    bool SetDelay(RealT ndelay) { 
+      delay = ndelay; 
+      return true; 
+    }
+    //: Set delay between events.
+    // Will be used for the wait following the current one.
+    
   protected:
-    RealT delay;
+    volatile RealT delay;
     DateC next;
     TriggerC se;
   };
@@ -82,13 +89,17 @@ namespace RavlN {
     
   public:
     void SendTerminate() 
-      { Body().SendTerminate(); }
+    { Body().SendTerminate(); }
     //: Send terminate.
     // Obsolete use Shutdown()
     
     void Shutdown() 
-      { Body().SendTerminate(); }
+    { Body().SendTerminate(); }
     //: Send terminate.
+    
+    bool SetDelay(RealT delay)
+    { return Body().SetDelay(delay); }
+    //: Set delay between events.
     
   };
   
