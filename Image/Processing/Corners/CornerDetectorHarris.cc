@@ -40,7 +40,7 @@ namespace RavlImageN {
       threshold(nTheshold)
   {
     Array1dC<IntT> mask = GenerateBinomial((IntT) 1,w,false,true);
-    filter = ConvolveSeparable2dC<IntT,TFVectorC<IntT,3>,TFVectorC<IntT,3>,TFVectorC<IntT,3> >(mask,mask);
+    filter = ConvolveSeparable2dC<TFVectorC<IntT,3>,TFVectorC<IntT,3>,IntT,TFVectorC<IntT,3> >(mask,mask);
     maskSum = (RealT) Sqr(mask.Sum());
     ONDEBUG(cerr << "Mask size=" << w << " Sum=" << maskSum << "\n");
     //ONDEBUG(cerr << "Mask=" << mask << "\n");

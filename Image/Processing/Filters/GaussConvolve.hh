@@ -44,9 +44,21 @@ namespace RavlImageN {
   // The default form of this function is setup to handle single channel images. (e.g. byte, real, int)
   // if you want to convolve multi channel images you should change the 'SumTypeT' template argument to
   // a type that can handle sums and multiplications without overflowing 
-  // e.g. If you wish to convolve a ByteRGBValueC SumTypeT should be set to RealRGBValueC.
-  
-  template<class InPixelT,class OutPixelT = InPixelT,class SumTypeT = RealT,class FilterT = RealT>
+  // e.g. If you wish to convolve a ByteRGBValueC SumTypeT should be set to RealRGBValueC. <p>
+  // <b>Template args:</b> <br>
+  // InPixelT = Type of pixel in input image. <br>
+  // OutPixelT = Type of pixel in output image. (Default = InPixelT) <br>
+  // KernelPixelT = Type of pixel in convolution kernel. (Default = InPixelT)  <br>
+  // SumTypeT = A type appropriate for summing the product of KernelPixelT and InPixelT. (Default = KernelPixelT <br>
+  // There are two main issues when choosing these types.<br>
+  // 1. Underflow and overflow of the sums and product operations. <br>
+  // 2. Handing multi-channel images. (Such as RGB.) <br>
+  // The exact requirements of these types depends on the gain and type of the filter being used.
+  // In multi-channel filters SumPixelT should be a multi-channel value as well. e.g.
+  // to filter an ImageC<ByteRGBValueC> you may use:
+  // InPixelT=ByteRGBValueC, OutPixelT=ByteRGBValueC,KernelPixelT=RealT,SumType=RealRGBValueC
+
+  template<class InPixelT,class OutPixelT = InPixelT,class KernelPixelT = RealT,class SumTypeT = OutPixelT>
   class GaussConvolveC {
   public:
     GaussConvolveC()
@@ -54,7 +66,7 @@ namespace RavlImageN {
     //: Default constructor.
     
     GaussConvolveC(UIntT order) {
-      binomial = GenerateBinomial((FilterT) 1.0, order, true,true);
+      binomial = GenerateBinomial((KernelPixelT) 1.0, order, true,true);
       conv.SetKernel(binomial, binomial);
     }
     //: Construct Gaussian with the given size.
@@ -67,14 +79,14 @@ namespace RavlImageN {
     //: Performs histogram equalisation on image 'in'.
     // Returns a new equalised image.
     
-    Array1dC<FilterT> &Filter()
+    Array1dC<KernelPixelT> &Filter()
     { return binomial; }
     //: Access current filter.
     // Note the save/load routines of this class do NOT save
     // the filter coefficients, just its order. So modifying
     // them and saving this class is pointless.
     
-    const Array1dC<FilterT> &Filter() const
+    const Array1dC<KernelPixelT> &Filter() const
     { return binomial; }
     //: Access current filter.
     
@@ -83,58 +95,58 @@ namespace RavlImageN {
     //: Get size of gausian.
 
 #if RAVL_NEW_ANSI_CXX_DRAFT
-    friend ostream &operator<< <>(ostream &s, const GaussConvolveC<InPixelT,OutPixelT,SumTypeT> &out);
+    friend ostream &operator<< <>(ostream &s, const GaussConvolveC<InPixelT,OutPixelT,KernelPixelT,SumTypeT> &out);
     //: output stream operator
     
-    friend istream &operator>> <>(istream &s, GaussConvolveC<InPixelT,OutPixelT,SumTypeT> &in);
+    friend istream &operator>> <>(istream &s, GaussConvolveC<InPixelT,OutPixelT,KernelPixelT,SumTypeT> &in);
     //: input stream operator
     
-    friend BinOStreamC &operator<< <>(BinOStreamC &s, const GaussConvolveC<InPixelT,OutPixelT,SumTypeT> &out);
+    friend BinOStreamC &operator<< <>(BinOStreamC &s, const GaussConvolveC<InPixelT,OutPixelT,KernelPixelT,SumTypeT> &out);
     //: output stream operator
     
-    friend BinIStreamC &operator>> <>(BinIStreamC &s, GaussConvolveC<InPixelT,OutPixelT,SumTypeT> &in);
+    friend BinIStreamC &operator>> <>(BinIStreamC &s, GaussConvolveC<InPixelT,OutPixelT,KernelPixelT,SumTypeT> &in);
     //: input stream operator
 #else
-    friend ostream &operator<< (ostream &s, const GaussConvolveC<InPixelT,OutPixelT,SumTypeT> &out);
+    friend ostream &operator<< (ostream &s, const GaussConvolveC<InPixelT,OutPixelT,KernelPixelT,SumTypeT> &out);
     //: output stream operator
     
-    friend istream &operator>> (istream &s, GaussConvolveC<InPixelT,OutPixelT,SumTypeT> &in);
+    friend istream &operator>> (istream &s, GaussConvolveC<InPixelT,OutPixelT,KernelPixelT,SumTypeT> &in);
     //: input stream operator
     
-    friend BinOStreamC &operator<< (BinOStreamC &s, const GaussConvolveC<InPixelT,OutPixelT,SumTypeT> &out);
+    friend BinOStreamC &operator<< (BinOStreamC &s, const GaussConvolveC<InPixelT,OutPixelT,KernelPixelT,SumTypeT> &out);
     //: output stream operator
     
-    friend BinIStreamC &operator>> (BinIStreamC &s, GaussConvolveC<InPixelT,OutPixelT,SumTypeT> &in);
+    friend BinIStreamC &operator>> (BinIStreamC &s, GaussConvolveC<InPixelT,OutPixelT,KernelPixelT,SumTypeT> &in);
     //: input stream operator
 #endif
     
   protected:
-    Array1dC<FilterT> binomial;
-    ConvolveSeparable2dC<FilterT, InPixelT,OutPixelT,SumTypeT> conv;
+    Array1dC<KernelPixelT> binomial;
+    ConvolveSeparable2dC<InPixelT,OutPixelT,KernelPixelT,SumTypeT> conv;
   };
   
-  template<class InPixelT,class OutPixelT,class SumTypeT>
-  ostream &operator<<(ostream &s, const GaussConvolveC<InPixelT,OutPixelT,SumTypeT> &out) {
+  template<class InPixelT,class OutPixelT,class KernelPixelT,class SumTypeT>
+  ostream &operator<<(ostream &s, const GaussConvolveC<InPixelT,OutPixelT,KernelPixelT,SumTypeT> &out) {
     s << out.binomial.Size() << endl;
     return s;
   }
 
-  template<class InPixelT,class OutPixelT,class SumTypeT>
-  istream &operator>>(istream &s, GaussConvolveC<InPixelT,OutPixelT,SumTypeT> &in) {
+  template<class InPixelT,class OutPixelT,class KernelPixelT,class SumTypeT>
+  istream &operator>>(istream &s, GaussConvolveC<InPixelT,OutPixelT,KernelPixelT,SumTypeT> &in) {
     UIntT sz;
     s >> sz;
     in = GaussConvolveC<InPixelT,OutPixelT,SumTypeT>(sz);
     return s;
   }
   
-  template<class InPixelT,class OutPixelT,class SumTypeT>
-  BinOStreamC &operator<<(BinOStreamC &s, const GaussConvolveC<InPixelT,OutPixelT,SumTypeT> &out) {
+  template<class InPixelT,class OutPixelT,class KernelPixelT,class SumTypeT>
+  BinOStreamC &operator<<(BinOStreamC &s, const GaussConvolveC<InPixelT,OutPixelT,KernelPixelT,SumTypeT> &out) {
     s << ((UIntT) out.binomial.Size());
     return s;
   }
   
-  template<class InPixelT,class OutPixelT,class SumTypeT>
-  BinIStreamC &operator>>(BinIStreamC &s, GaussConvolveC<InPixelT,OutPixelT,SumTypeT> &in) {
+  template<class InPixelT,class OutPixelT,class KernelPixelT,class SumTypeT>
+  BinIStreamC &operator>>(BinIStreamC &s, GaussConvolveC<InPixelT,OutPixelT,KernelPixelT,SumTypeT> &in) {
     UIntT sz;
     s >> sz;
     in = GaussConvolveC<InPixelT,OutPixelT,SumTypeT>(sz);

@@ -22,8 +22,21 @@ namespace RavlImageN {
   
   //! userlevel=Normal
   //: Separable 2D Convolution
+  // <b>Template args:</b> <br>
+  // InPixelT = Type of pixel in input image. <br>
+  // OutPixelT = Type of pixel in output image. (Default = InPixelT) <br>
+  // KernelPixelT = Type of pixel in convolution kernel. (Default = InPixelT)  <br>
+  // SumTypeT = A type appropriate for summing the product of KernelPixelT and InPixelT. (Default = KernelPixelT <br>
+  // There are two main issues when choosing these types.<br>
+  // 1. Underflow and overflow of the sums and product operations. <br>
+  // 2. Handing multi-channel images. (Such as RGB.) <br>
+  // The exact requirements of these types depends on the gain and type of the filter being used.
+  // In multi-channel filters SumPixelT should be a multi-channel value as well. e.g.
+  // to filter an ImageC<ByteRGBValueC> you may use:
+  // InPixelT=ByteRGBValueC, OutPixelT=ByteRGBValueC,KernelPixelT=RealT,SumType=RealRGBValueC
   
-  template<class KernelPixelT,class InPixelT = KernelPixelT,class OutPixelT = InPixelT,class SumTypeT = KernelPixelT>
+  
+  template<class InPixelT,class OutPixelT = InPixelT,class KernelPixelT = InPixelT,class SumTypeT = KernelPixelT>
   class ConvolveSeparable2dC {
   public:
     ConvolveSeparable2dC()
@@ -32,7 +45,7 @@ namespace RavlImageN {
 
     ConvolveSeparable2dC(const Array1dC<KernelPixelT> &nrowKernel,const Array1dC<KernelPixelT> &ncolKernel)
     { SetKernel(nrowKernel,ncolKernel); }
-    //: Default constructor.
+    //: Constructor.
     
     void SetKernel(const Array1dC<KernelPixelT> &nrowKernel,const Array1dC<KernelPixelT> &ncolKernel) { 
       horz.SetKernel(nrowKernel);
@@ -54,12 +67,12 @@ namespace RavlImageN {
     { Apply(in,result); }
     
   protected:
-    ConvolveVert2dC<KernelPixelT,InPixelT,SumTypeT,SumTypeT>  vert;
-    ConvolveHorz2dC<KernelPixelT,SumTypeT,OutPixelT,SumTypeT> horz;
+    ConvolveVert2dC<InPixelT,SumTypeT,KernelPixelT,SumTypeT>  vert;
+    ConvolveHorz2dC<SumTypeT,OutPixelT,KernelPixelT,SumTypeT> horz;
   };
   
-  template<class KernelPixelT,class InPixelT,class OutPixelT,class SumTypeT>
-  void ConvolveSeparable2dC<KernelPixelT,InPixelT,OutPixelT,SumTypeT>::Apply(const ImageC<InPixelT> &in,ImageC<OutPixelT> &result) const {
+  template<class InPixelT,class OutPixelT,class KernelPixelT,class SumTypeT>
+  void ConvolveSeparable2dC<InPixelT,OutPixelT,KernelPixelT,SumTypeT>::Apply(const ImageC<InPixelT> &in,ImageC<OutPixelT> &result) const {
     ImageC<SumTypeT> tmp;
     vert.Apply(in,tmp);
     horz.Apply(tmp,result);

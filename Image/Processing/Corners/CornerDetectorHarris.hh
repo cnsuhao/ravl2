@@ -50,7 +50,7 @@ namespace RavlImageN {
   private:
     const int w;
     const int threshold;
-    ConvolveSeparable2dC<IntT,TFVectorC<IntT,3>,TFVectorC<IntT,3>,TFVectorC<IntT,3> > filter;    
+    ConvolveSeparable2dC<TFVectorC<IntT,3>,TFVectorC<IntT,3>,IntT,TFVectorC<IntT,3> > filter;    
     RealT maskSum;
     
     // Working images, so we don't have to repeatedly allocate them.

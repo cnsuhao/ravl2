@@ -24,8 +24,20 @@ namespace RavlImageN {
   
   //! userlevel=Normal
   //: Vertontal 2D Convolution with a 1D filter.
-  
-  template<class KernelPixelT,class InPixelT = KernelPixelT,class OutPixelT = InPixelT,class SumTypeT = KernelPixelT>
+  // <b>Template args:</b> <br>
+  // InPixelT = Type of pixel in input image. <br>
+  // OutPixelT = Type of pixel in output image. (Default = InPixelT) <br>
+  // KernelPixelT = Type of pixel in convolution kernel. (Default = InPixelT)  <br>
+  // SumTypeT = A type appropriate for summing the product of KernelPixelT and InPixelT. (Default = KernelPixelT <br>
+  // There are two main issues when choosing these types.<br>
+  // 1. Underflow and overflow of the sums and product operations. <br>
+  // 2. Handing multi-channel images. (Such as RGB.) <br>
+  // The exact requirements of these types depends on the gain and type of the filter being used.
+  // In multi-channel filters SumPixelT should be a multi-channel value as well. e.g.
+  // to filter an ImageC<ByteRGBValueC> you may use:
+  // InPixelT=ByteRGBValueC, OutPixelT=ByteRGBValueC,KernelPixelT=RealT,SumType=RealRGBValueC
+
+  template<class InPixelT,class OutPixelT = InPixelT,class KernelPixelT = InPixelT,class SumTypeT = KernelPixelT>
   class ConvolveVert2dC {
   public:
     ConvolveVert2dC()
@@ -54,8 +66,8 @@ namespace RavlImageN {
     Array1dC<KernelPixelT> colKernel;
   };
   
-  template<class KernelPixelT,class InPixelT,class OutPixelT,class SumTypeT>
-  void ConvolveVert2dC<KernelPixelT,InPixelT,OutPixelT,SumTypeT>::Apply(const ImageC<InPixelT> &in,ImageC<OutPixelT> &result) const {
+  template<class InPixelT,class OutPixelT,class KernelPixelT,class SumTypeT>
+  void ConvolveVert2dC<InPixelT,OutPixelT,KernelPixelT,SumTypeT>::Apply(const ImageC<InPixelT> &in,ImageC<OutPixelT> &result) const {
     RavlAssertMsg(colKernel.Size() > 0,"Convolution kernel too small. ");
     ImageRectangleC resRect = in.Rectangle();
     resRect.TRow() -= colKernel.IMin();

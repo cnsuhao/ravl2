@@ -487,7 +487,7 @@ int testWarpThinPlateSpline() {
 }
 
 int testGaussConvolve() {
-  GaussConvolveC<ByteRGBValueC,ByteRGBValueC,RealRGBValueC> gc(3);
+  GaussConvolveC<ByteRGBValueC,ByteRGBValueC,RealT,RealRGBValueC> gc(3);
   ImageC<ByteRGBValueC> img(10,10);
   img.Fill(ByteRGBValueC(0,0,0));
   ImageC<ByteRGBValueC> res = gc.Apply(img);

@@ -11,6 +11,8 @@
 //! userlevel=Normal
 //! docentry="Ravl.Images.Filtering"
 
+//: Apply the homomorphic transform to an image.
+
 #include "Ravl/Option.hh"
 #include "Ravl/IO.hh"
 #include "Ravl/Image/HomomorphicFilter.hh"
