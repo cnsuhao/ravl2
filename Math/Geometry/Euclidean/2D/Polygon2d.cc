@@ -90,12 +90,12 @@ namespace RavlN {
       Point2dC pb(b.Data());
 
       // If 'pa' is a convex vertex ['pan' is left or on (pap, pa) ].
-      if (LinePP2dC(pap, pa).IsPointToLeftOn(pan))
-         return LinePP2dC(pa, pb).IsPointToLeft(pap) && LinePP2dC(pb, pa).IsPointToLeft(pan);
+      if (LinePP2dC(pap, pa).IsPointToRightOn(pan))
+         return LinePP2dC(pa, pb).IsPointToRight(pap) && LinePP2dC(pb, pa).IsPointToRight(pan);
       else
          // Assume (i-1,i,i+1) not collinear.
          // else 'pa' is reflex.
-         return !(LinePP2dC(pa, pb).IsPointToLeftOn(pan) && LinePP2dC(pb, pa).IsPointToLeftOn(pap));
+         return !(LinePP2dC(pa, pb).IsPointToRightOn(pan) && LinePP2dC(pb, pa).IsPointToRightOn(pap));
    }
 
    Polygon2dC Polygon2dC::ClipByConvex(const Polygon2dC &oth) {
@@ -115,8 +115,8 @@ namespace RavlN {
         DLIterC<Point2dC> st(*this);
         st.Last();
         for (DLIterC<Point2dC> pt(*this); pt; pt++) {
-          if (!line.IsPointToLeftOn(*pt)) {
-            if (!line.IsPointToLeftOn(*st)) {
+          if (!line.IsPointToRightOn(*pt)) {
+            if (!line.IsPointToRightOn(*st)) {
               ret.InsLast(*pt);
             }
             else {
@@ -125,7 +125,7 @@ namespace RavlN {
             }
           }
           else {
-            if (!line.IsPointToLeftOn(*st)) {
+            if (!line.IsPointToRightOn(*st)) {
               ret.InsLast(line.Intersection(LinePP2dC(*st,*pt)));
             }
           }
@@ -157,7 +157,7 @@ namespace RavlN {
       
       // Just something useful for later, check whether the last point lies
       // to the left or right of my testline
-      bool leftof = testLine.IsPointToLeft(Last());
+      bool leftof = testLine.IsPointToRight(Last());
       
       // For each edge (k,k+1) of this polygon count the instersection
       // with the polygon segments.
@@ -182,13 +182,13 @@ namespace RavlN {
          // at that vertex _and_ the vertex lies to the right of my test point
          // then we count that vertex twice
          else if (l2.ParIntersection(testLine) == 0 && p[0] <= l2.P1()[0]
-                  && leftof == testLine.IsPointToLeft(l2.P2()))
+                  && leftof == testLine.IsPointToRight(l2.P2()))
             count++;
     
          // Set the flag for the case of the line passing through 
          // the endpoint vertex
          if (l2.ParIntersection(testLine) ==1)
-            leftof = testLine.IsPointToLeft(l2.P1());
+            leftof = testLine.IsPointToRight(l2.P1());
       }
   
       return (count%2) == 1;

@@ -50,14 +50,14 @@ namespace RavlN {
     bool ClipBy(const RealRange2dC &rng);
     //: Clip line by given rectangle.
     // Returns false if no part of the line is in the rectangle.
-
-    bool IsPointToLeft(const Point2dC& pnt) const
+    
+    bool IsPointToRight(const Point2dC& pnt) const
     { return pnt.Area2(P1(),P2()) < 0; }
-    //: Checks if this point is to the left of the line
-
-    bool IsPointToLeftOn(const Point2dC& pnt) const 
+    //: Checks if this point is to the right of the line
+    
+    bool IsPointToRightOn(const Point2dC& pnt) const 
     { return pnt.Area2(P1(),P2()) <= 0; }
-    //: Checks if this point is to the left of , or exactly on the line
+    //: Checks if this point is to the right of, or exactly on the line
     
     bool IsPointOn(const Point2dC& pnt) const
     { return pnt.Area2(P1(),P2()) == 0; }

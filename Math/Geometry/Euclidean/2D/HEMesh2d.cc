@@ -66,13 +66,13 @@ namespace RavlN {
       bool found = true;
       for(eit++;eit;eit++) {
 	Point2dC x = eit->Vertex().Data();
-	if(!LinePP2dC(last,x).IsPointToLeft(pnt)) {
+	if(!LinePP2dC(last,x).IsPointToRight(pnt)) {
 	  found = false;
 	  break;
 	}
 	last = x;
       }
-      if(found && LinePP2dC(last,first).IsPointToLeft(pnt))
+      if(found && LinePP2dC(last,first).IsPointToRight(pnt))
 	return *it; // Found it !
       // Keep trying....
     }

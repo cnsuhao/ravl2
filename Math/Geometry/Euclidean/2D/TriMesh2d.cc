@@ -26,11 +26,11 @@ namespace RavlN {
       const  Point2dC &p1 = vertices[(*it)[0]];
       const  Point2dC &p2 = vertices[(*it)[1]];
       const  Point2dC &p3 = vertices[(*it)[2]];
-      if(!LinePP2dC(p1,p2).IsPointToLeft(pnt))
+      if(!LinePP2dC(p1,p2).IsPointToRight(pnt))
 	continue;
-      if(!LinePP2dC(p2,p3).IsPointToLeft(pnt))
+      if(!LinePP2dC(p2,p3).IsPointToRight(pnt))
 	continue;
-      if(!LinePP2dC(p3,p1).IsPointToLeft(pnt))
+      if(!LinePP2dC(p3,p1).IsPointToRight(pnt))
 	continue;
       return it.Index().V(); // Found !
     }
@@ -57,9 +57,9 @@ namespace RavlN {
     SArray1dIterC<Index3dC> it(faces);
     if(!it) 
       return true;    
-    clock = LinePP2dC(vertices[(*it)[0]],vertices[(*it)[1]]).IsPointToLeft(vertices[(*it)[2]]);
+    clock = LinePP2dC(vertices[(*it)[0]],vertices[(*it)[1]]).IsPointToRight(vertices[(*it)[2]]);
     for(it++;it;it++)
-      if(LinePP2dC(vertices[(*it)[0]],vertices[(*it)[1]]).IsPointToLeft(vertices[(*it)[2]]) != clock)
+      if(LinePP2dC(vertices[(*it)[0]],vertices[(*it)[1]]).IsPointToRight(vertices[(*it)[2]]) != clock)
 	return false;
     return true;
   }

@@ -77,8 +77,8 @@ namespace RavlN {
       THEMeshFaceEdgeIterC<Point2dC> eit(*it);
       for(;eit;eit++) {
 	LinePP2dC line((*eit).Prev().Vertex().Data(),eit->Vertex().Data());
-	//ONDEBUG(cerr << "FindFace(), " << (*eit).Prev().Vertex().Data() << " " << eit->Vertex().Data() << " -> " << !line.IsPointToLeftOn(pnt) << "\n");
-	if(!line.IsPointToLeftOn(pnt))
+	//ONDEBUG(cerr << "FindFace(), " << (*eit).Prev().Vertex().Data() << " " << eit->Vertex().Data() << " -> " << !line.IsPointToRightOn(pnt) << "\n");
+	if(!line.IsPointToRightOn(pnt))
 	  break;
 	if(line.IsPointIn(pnt)) {
 	  ONDEBUG(cerr << "Point is on a line. Point=" << pnt << " Line=" << line << "\n");
