@@ -160,6 +160,22 @@ namespace RavlN {
     { return Body().HasEdge(); }
     //: Is this vertex associated with any faces/edges ?
     
+    bool operator>(const HEMeshBaseVertexC &oth) const
+    { return body > oth.body; }
+    //: This provides an arbitary ordering on the vertex's.
+    
+    bool operator<(const HEMeshBaseVertexC &oth) const
+    { return body < oth.body; }
+    //: This provides an arbitary ordering on the vertex's.
+    
+    bool operator>=(const HEMeshBaseVertexC &oth) const
+    { return body >= oth.body; }
+    //: This provides an arbitary ordering on the vertex's.
+    
+    bool operator<=(const HEMeshBaseVertexC &oth) const
+    { return body <= oth.body; }
+    //: This provides an arbitary ordering on the vertex's.
+    
   private:
     HEMeshBaseVertexBodyC *body;    
     friend class HEMeshBaseBodyC;

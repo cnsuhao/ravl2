@@ -45,13 +45,21 @@ namespace RavlN {
     const HEMeshBaseFaceC Data() const
     { return HEMeshBaseFaceC(const_cast<HEMeshBaseFaceBodyC &>(IntrDLIterC<HEMeshBaseFaceBodyC>::Data())); }
     //: Access Face.
-
+    
     HEMeshBaseFaceC operator*()
     { return HEMeshBaseFaceC(IntrDLIterC<HEMeshBaseFaceBodyC>::Data()); }
     //: Access Face.
     
     const HEMeshBaseFaceC operator*() const
     { return HEMeshBaseFaceC(const_cast<HEMeshBaseFaceBodyC &>(IntrDLIterC<HEMeshBaseFaceBodyC>::Data())); }
+    //: Access Face.
+    
+    HEMeshBaseFaceBodyC *operator->()
+    { return &IntrDLIterC<HEMeshBaseFaceBodyC>::Data(); }
+    //: Access Face.
+    
+    const HEMeshBaseFaceC operator->() const
+    { return &IntrDLIterC<HEMeshBaseFaceBodyC>::Data(); }
     //: Access Face.
     
     bool CollapseEdge(HEMeshBaseEdgeC edge);

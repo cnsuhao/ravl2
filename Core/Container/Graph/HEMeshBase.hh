@@ -93,6 +93,9 @@ namespace RavlN {
     HEMeshBaseVertexC InsertVertex();
     //: Insert a new vertex into the mesh.
     
+    bool DeleteVertex(HEMeshBaseVertexC vert);
+    //: Remove a vertex and assoicated faces from the mesh.
+    // Note: This does not close the resulting face, so a hole will be left in the mesh.
     
   protected:
     virtual HEMeshBaseFaceC NewFace();
@@ -162,10 +165,15 @@ namespace RavlN {
     { return Body().NewEdge(vert.Body(),face.Body()); }
     //: Create a new edge.
     
-  public:
+  public:    
     HEMeshBaseVertexC InsertVertex()
     { return Body().InsertVertex(); }
     //: Insert a new vertex into the mesh.
+    
+    bool DeleteVertex(HEMeshBaseVertexC vert)
+    { return Body().DeleteVertex(vert); }
+    //: Remove a vertex and assoicated faces from the mesh.
+    // Note: This does not close the resulting face, so a hole will be left in the mesh.
     
     HEMeshBaseFaceC InsertFace(HEMeshBaseFaceC &face,
 			       const SArray1dC<HEMeshBaseVertexC> &vertices,

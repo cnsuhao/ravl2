@@ -52,6 +52,35 @@ namespace RavlN {
     //: Cosntructor.
     // the contents are left undefined.
     
+    const THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &Next() const
+    { return static_cast<const THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &>(DLinkC::Next()); }
+    //: Get next edge on face.
+    
+    const THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &Prev() const
+    { return static_cast<const THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &>(DLinkC::Prev()); }
+    //: Get previous edge on face.
+
+    THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &Next()
+    { return static_cast<THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &>(DLinkC::Next()); }
+    //: Get next edge on face.
+    
+    THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &Prev()
+    { return static_cast<THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &>(DLinkC::Prev()); }
+    //: Get previous edge on face.
+    
+    THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &Pair()
+    { return static_cast<THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &>(*pair); }
+    //: Edge pair.
+    // HasPair() must have return
+    // true before using this method.
+    
+    const THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &Pair() const
+    { return static_cast<const THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &>(*pair); }
+    //: Edge pair.
+    // HasPair() must have return
+    // true before using this method.
+
+    
     friend class THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT>;
     friend class THEMeshFaceBodyC<VertexDataT,FaceDataT,EdgeDataT>;
     friend class THEMeshBodyC<VertexDataT,FaceDataT,EdgeDataT>;
@@ -143,7 +172,7 @@ namespace RavlN {
     //: Access the face the edge lies on.
     
     THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> Pair()
-    { return THEMeshEdgeC(Body().Pair()); }
+    { return THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT>(Body().Pair()); }
     //: Access edge's apair.
     
     THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT> Vertex() const

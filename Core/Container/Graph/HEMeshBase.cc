@@ -413,5 +413,18 @@ namespace RavlN {
   HEMeshBaseEdgeC HEMeshBaseBodyC::NewEdge(HEMeshBaseVertexBodyC &vert,HEMeshBaseFaceBodyC &face) 
   { return HEMeshBaseEdgeC(vert,face); }
   
+  //: Remove a vertex and assoicated faces from the mesh.
+  // Note: This does not close the resulting face, so a hole will be left in the mesh.
+  
+  bool HEMeshBaseBodyC::DeleteVertex(HEMeshBaseVertexC vert) {
+    DListC<HEMeshBaseFaceC> faces;
+    for(HEMeshBaseVertexEdgeIterC it(vert);it;it++)
+      faces += it.Data().Face();
+    for(DLIterC<HEMeshBaseFaceC> it2(faces);it2;it2++)
+      delete &it2->Body();
+    delete &vert.Body();
+    return true;
+  }
+
   
 }

@@ -184,39 +184,49 @@ namespace RavlN {
       : HEMeshBaseFaceEdgeIterC(face)
     {}
     //: Construct from a face
+
+  protected:
+    THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &At()
+    { return static_cast<THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &>(*at); }
+    //: Access destination.
+
+    const THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &At() const
+    { return static_cast<THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &>(*at); }
+    //: Access destination.
     
+  public:
     THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> Data()
-    { return THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT>(*at); }
+    { return THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT>(At()); }
     //: Access edge.
     // Iterator must be at a valid element
     // before calling this method.
     
     const THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> Data() const
-    { return THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT>(*at); }
+    { return THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT>(At()); }
     //: Access edge.
     // Iterator must be at a valid element
     // before calling this method.
     
     const THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> operator *() const
-    { return THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT>(*at); }
+    { return THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT>(At()); }
     //: Access edge.
     // Iterator must be at a valid element
     // before calling this method.
     
     THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> operator *()
-    { return THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT>(*at); }
+    { return THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT>(At()); }
     //: Access edge.
     // Iterator must be at a valid element
     // before calling this method.
     
     const THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> *operator->() const
-    { return static_cast<THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> *>(at); }
+    { return &At(); }
     //: Access edge.
     // Iterator must be at a valid element
     // before calling this method.
     
     THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> *operator->()
-    { return static_cast<THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> *>(at); }
+    { return &At(); }
     //: Access edge.
     // Iterator must be at a valid element
     // before calling this method.
