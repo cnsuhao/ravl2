@@ -19,6 +19,7 @@
 #include "Ravl/RealRange2d.hh"
 #include "Ravl/Point2d.hh"
 #include "Ravl/LinePP2d.hh"
+#include "Ravl/Image/PixelMixer.hh"
 
 namespace RavlImageN {
   using namespace RavlN;
@@ -26,21 +27,22 @@ namespace RavlImageN {
   //! userlevel=Normal
   //: Scale an image using bi-Linear Interpolation.
   
-  template <class InT, class OutT = InT>
+  template <class InT, class OutT = InT,class MixerT = PixelMixerAssignC<InT,OutT> >
   class WarpAffineC
   {
   public:
-    WarpAffineC(const ImageRectangleC &ir,const Affine2dC &ntrans,bool nFillBackground = true)
+    WarpAffineC(const ImageRectangleC &ir,const Affine2dC &ntrans,bool nFillBackground = true,const MixerT &mix = MixerT())
       : rec(ir),
 	trans(ntrans),
 	itrans(ntrans.I()),
-	fillBackground(nFillBackground)
+	fillBackground(nFillBackground),
+	mixer(mix)
     {}
     //: Constructor.
     // 'ir' is the output rectangle.
     // 'ntrans' is the transform to use.
     
-    ImageC<OutT> Apply(const ImageC<InT> &img);
+    void Apply(const ImageC<InT> &img,ImageC<OutT> &outImg);
     //: Interpolate input image working rectangle into
     //: output image rectangle.
     // The output rectangle is specified in the constructor.
@@ -50,15 +52,17 @@ namespace RavlImageN {
     Affine2dC trans;       // Transform.
     Affine2dC itrans;      // Inverse transform
     bool fillBackground;   // Fill background with zero ?
+    MixerT mixer;
   };
   
   template <class InT, class OutT>
-  ImageC<OutT> WarpAffineC<InT, OutT>::Apply(const ImageC<InT> &src) {
+  void WarpAffineC<InT, OutT>::Apply(const ImageC<InT> &src,ImageC<OutT> &outImg) {
     RealRange2dC orng(rec);
     RealRange2dC irng(src.Frame());
-    ImageC<OutT> outImg(rec);
-    //cerr << "Trans0=" << trans * orng.TopRight() << " from " << orng.TopRight() << "\n";
+    if(!outImg.IsValid())
+      outImg = ImageC<OutT>(rec);
     
+    //cerr << "Trans0=" << trans * orng.TopRight() << " from " << orng.TopRight() << "\n";
     Matrix2dC invsr = trans.SRMatrix();
     Point2dC at = Point2dC(outImg.Frame().Origin()) + invsr * trans.Translation();
     const Matrix2dC &srm = trans.SRMatrix();
@@ -76,7 +80,7 @@ namespace RavlImageN {
       for(;it;) {
 	Point2dC pat = lstart;
 	do {
-	  *it = src.BiLinear(pat);
+	  mixer(*it,src.BiLinear(pat));
 	  pat += ldir;
 	} while(it.Next()) ;
 	lstart += sdir;
@@ -126,7 +130,7 @@ namespace RavlImageN {
       if(fillBackground) {
 	do {
 	  if(irng.Contains(pat))
-	    *it = src.BiLinear(pat);
+	    mixer(*it,src.BiLinear(pat));
 	  else
 	    SetZero(*it);
 	  pat += ldir;
@@ -134,7 +138,7 @@ namespace RavlImageN {
       } else {
 	do {
 	  if(irng.Contains(pat))
-	    *it = src.BiLinear(pat);
+	    mixer(*it,src.BiLinear(pat));
 	  pat += ldir;
 	} while(it.Next()) ;
       }

@@ -19,20 +19,22 @@
 #include "Ravl/Vector3d.hh"
 #include "Ravl/Point2d.hh"
 #include "Ravl/RealRange2d.hh"
+#include "Ravl/Image/PixelMixer.hh"
 
 namespace RavlImageN {
   
   //! userlevel=Normal
   //: Warp image with a projective transformation.
   
-  template <class InT, class OutT = InT>
+  template <class InT, class OutT = InT,class MixerT = PixelMixerAssignC<InT,OutT> >
   class WarpProjectiveC
   {
   public:
-    WarpProjectiveC(const Matrix3dC &transform,RealT nz = 1,bool nFillBackground = true)
+    WarpProjectiveC(const Matrix3dC &transform,RealT nz = 1,bool nFillBackground = true,const MixerT &mix = MixerT())
       : trans(transform),
 	z(nz),
-	fillBackground(nFillBackground)
+	fillBackground(nFillBackground),
+	mixer(mix)
     { Init(); }
     //: Constructor.
     // 'ir' is the output rectangle.
@@ -54,6 +56,7 @@ namespace RavlImageN {
     RealT z;
     ImageRectangleC rec;
     bool fillBackground;
+    MixerT mixer;
   };
 
   template <class InT, class OutT>
@@ -95,7 +98,7 @@ namespace RavlImageN {
       RealT beg = pat[1];
       for(;it;) {
 	do {
-	  *it = src.BiLinear(Project(pat));
+	  mixer(*it,src.BiLinear(Project(pat)));
 	  pat[1]++;
 	} while(it.Next()) ;
 	pat[1] = beg;
@@ -114,7 +117,7 @@ namespace RavlImageN {
       if(fillBackground) {
 	do {
 	  if(irng.Contains(pat))
-	    *it = src.BiLinear(Project(pat));
+	    mixer(*it,src.BiLinear(Project(pat)));
 	  else
 	    SetZero(*it);
 	  pat[1]++;
@@ -122,7 +125,7 @@ namespace RavlImageN {
       } else {
 	do {
 	  if(irng.Contains(pat))
-	    *it = src.BiLinear(Project(pat));
+	    mixer(*it,src.BiLinear(Project(pat)));
 	  pat[1]++;
 	} while(it.Next()) ;
       }
