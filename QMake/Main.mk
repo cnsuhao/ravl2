@@ -855,7 +855,7 @@ $(INST_LIBDEF)/$(LOCAL_DEFBASE).def: defs.mk $(INST_LIBDEF)/.dir $(HEADERS) $(SO
 	$(SHOWIT)echo 'EXELIB := $(MLOBJPATH) $$(EXELIB)' >> $(INST_LIBDEF)/$(@F) ;
  endif
  ifdef EXTPACKAGE
-        $(SHOWIT)echo 'INCLUDES := -I$$(INSTALLHOME)\inc\$(PACKAGE) $$(INCLUDES) '
+        $(SHOWIT)echo 'INCLUDES := -I$$(INSTALLHOME)\include\$(PACKAGE) $$(INCLUDES) '
         $(SHOWIT)echo 'ifneq ($(BASE_VAR),none)' ;
         $(SHOWIT)echo ' INCLUDES := -I$$(BASE_INC)\$(PACKAGE) $$(INCLUDES)' ;
         $(SHOWIT)echo 'endif' ;
