@@ -7,9 +7,10 @@
   <body>
 
 QMake by default does 'check' build.  There are many other operations QMake
-can do, the following is a summary of the commands and variables it understands.
+can do, the following is a summary of the commands and variables it understands. <br>
 
-<h2>Targets</h2>
+
+<h2>Commonly used commands</h2>
 
 <table>
 <tr><td><b>check     </b><td>Build binaries and libraries with consistancy checking (Default).
@@ -39,13 +40,8 @@ can do, the following is a summary of the commands and variables it understands.
                           recompute the library and file dependancies. </tr>
 <tr><td><b>distclean </b><td>Clean and remove all executables and libraries for current variant.</tr>
 <tr><td><b>doc      </b><td>Make automatic documentation.</tr>
-<tr><td><b>docentry </b><td>Make semantic documentation</tr>
 <tr><td><b>chead    </b><td>Check headers compile cleanly.</tr>
-<tr><td><b>ci	    </b><td>RCS- Check in directory tree. See 'notes' for details.</tr>
 <tr><td><b>lib_info </b><td>RCS- Tells you which libraries are needed/used to create an executable.</tr>
-<tr><td><b>listco   </b><td>RCS- List all files that are checked out in source tree.</tr>
-<tr><td><b>listoff  </b><td>List all directories that are turned off.</tr>
-<tr><td><b>listfix  </b><td>List all lines in source than contain 'FIXME'.</tr> 
 <tr><td><b>help     </b><td>Print this help on the QMake system. </tr>
 <tr><td><b>defs     </b><td>List of public def's files.</tr>
 <tr><td><b>test	    </b><td>Compile and run test executables.</tr>
@@ -60,6 +56,13 @@ can do, the following is a summary of the commands and variables it understands.
 <tr><td><b>  QMAKE_INFO=1   </b><td> Print command lines during make.  </tr>
 <tr><td><b>  USERCFLAGS=...</b><td> Pass extra options to the compiler. </tr>
 </table>
+
+<h2>Obsolete</h2>
+<tr><td><b>listco   </b><td>RCS- List all files that are checked out in source tree.</tr>
+<tr><td><b>listoff  </b><td>List all directories that are turned off.</tr>
+<tr><td><b>listfix  </b><td>List all lines in source than contain 'FIXME'.</tr> 
+<tr><td><b>ci	    </b><td>RCS- Check in directory tree. See 'notes' for details.</tr>
+<tr><td><b>docentry </b><td>Make semantic documentation</tr>
 
 <h2>Examples</h2>
 
