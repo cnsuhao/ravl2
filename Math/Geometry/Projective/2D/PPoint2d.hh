@@ -140,6 +140,12 @@ namespace RavlN {
     // Returns the projective line passing through this point
     // and the point 'p'.
     
+    RealT EuclidDistance(const PPoint2dC &other) const
+    { return Point2d().EuclidDistance(other.Point2d()); }
+    //: Get the euclidean distance between this point and another.
+    //!param: other - Point to measure distance to.
+    //!return: Euclidean distance between points.
+    
   protected:
 #if 0
     inline PPoint2dC(const Point3dC & p)
