@@ -33,6 +33,7 @@ Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #define USEREGEX 0 // Use regular expressions.
 
+#include "Ravl/config.h"
 #include <iostream.h>
 #include "Ravl/Types.hh"
 #include "Ravl/Index.hh"
