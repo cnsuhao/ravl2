@@ -122,11 +122,11 @@ namespace RavlImageN {
     Point2dC pat(src.Frame().Origin());
     pat[0] += 0.5;
     pat[1] += 0.5;
-
+    
     // adjust source window for area where bilinear interpolation can be
     // computed safely
-    irng.TRow() += 0.5; irng.BRow() -= 0.5;
-    irng.LCol() += 0.5; irng.RCol() -= 0.5;
+    irng.TRow() += 0.5; irng.BRow() -= 1.5;
+    irng.LCol() += 0.5; irng.RCol() -= 1.5;
     Array2dIterC<OutT> it(outImg);      
 
     if(irng.Contains(Project(orng.TopRight())) &&
