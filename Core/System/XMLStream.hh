@@ -27,7 +27,7 @@
 namespace RavlN {
 
   enum XMLTagOpsT 
-  { XMLEndTag, XMLContent, XMLIndent,XMLIndentDown, XMLEmptyTag, XMLBeginTag, XMLComment };
+    { XMLEndTag, XMLContent, XMLIndent,XMLIndentDown, XMLEmptyTag, XMLBeginTag, XMLComment };
   
   //! userlevel=Normal
   //: Exception issued when an parse error occurs.
@@ -38,12 +38,12 @@ namespace RavlN {
   public:
     ExceptionInvalidStreamC(const char *ntext)
       : ExceptionC(ntext)
-      {}
+    {}
     //: Constructor
     
     ExceptionInvalidStreamC(const char *ntext,bool copy)
       : ExceptionC(ntext,copy)
-      {}
+    {}
     //: Constructor.
     // if copy is true, make a copy of ntext.
   };
@@ -59,24 +59,24 @@ namespace RavlN {
   public:
     XMLAttributeC(const StringC &nm,DataT &ndat)
       : name(nm),
-      dat(ndat)
-      {}
+	dat(ndat)
+    {}
     //: Constructor.
     
     StringC &Name()
-      { return name; }
+    { return name; }
     //: Access name of attribute.
     
     const StringC &Name() const
-      { return name; }
+    { return name; }
     //: Access name of attribute.
     
     DataT &Data()
-      { return dat; }
+    { return dat; }
     //: Access data in attribute.
     
     const DataT &Data() const
-      { return dat; }
+    { return dat; }
     //: Access data in attribute.
     
   protected:
@@ -92,44 +92,44 @@ namespace RavlN {
   {
   public:
     XMLElementBodyC()
-      {}
+    {}
     //: Constructor.
 
     XMLElementBodyC(const StringC &nm,bool anEmptyTag = false)
       : name(nm),
         emptyTag(anEmptyTag)
-      {}
+    {}
     //: Constructor.
     
     XMLElementBodyC(const StringC &nm,const RCHashC<StringC,StringC> &attrs,bool anEmptyTag = false)
       : name(nm),
         attribs(attrs),
         emptyTag(anEmptyTag)
-      {}
+    {}
     //: Constructor.
     
     StringC &Name()
-      { return name; }
+    { return name; }
     //: Name of context.
     
     const StringC &Name() const
-      { return name; }
+    { return name; }
     //: Name of context.
     
     RCHashC<StringC,StringC> &Attributes()
-      { return attribs; }
+    { return attribs; }
     //: Get the current attributes.
     
     const RCHashC<StringC,StringC> &Attributes() const
-      { return attribs; }
+    { return attribs; }
     //: Get the current attributes.
     
     void SetEmptyTag(bool v)
-      { emptyTag = v; }
+    { emptyTag = v; }
     //: Set empty tag flag.
     
     bool IsEmptyTag() const
-      { return emptyTag; }
+    { return emptyTag; }
     //: Is tag empty ?
     
   protected:
@@ -146,41 +146,41 @@ namespace RavlN {
   {
   public:
     XMLElementC()
-      {}
+    {}
     //: Constructor.
 
     XMLElementC(const StringC &nm,bool anEmptyTag = false)
       : RCHandleC<XMLElementBodyC>(*new XMLElementBodyC(nm,anEmptyTag))
-      {}
+    {}
     //: Constructor.
     
     XMLElementC(const StringC &nm,const RCHashC<StringC,StringC> &attrs,bool anEmptyTag = false)
       : RCHandleC<XMLElementBodyC>(*new XMLElementBodyC(nm,attrs,anEmptyTag))
-      {}
+    {}
     //: Constructor.
     
     StringC &Name()
-      { return Body().Name(); }
+    { return Body().Name(); }
     //: Name of context.
     
     const StringC &Name() const
-      { return Body().Name(); }
+    { return Body().Name(); }
     //: Name of context.
     
     RCHashC<StringC,StringC> &Attributes()
-      { return Body().Attributes(); }
+    { return Body().Attributes(); }
     //: Get the current attributes.
     
     const RCHashC<StringC,StringC> &Attributes() const
-      { return Body().Attributes(); }
+    { return Body().Attributes(); }
     //: Get the current attributes.
     
     bool IsEmptyTag() const
-      { return Body().IsEmptyTag(); }
+    { return Body().IsEmptyTag(); }
     //: Is tag empty ?
     
     void SetEmptyTag(bool v)
-      { Body().SetEmptyTag(v); }
+    { Body().SetEmptyTag(v); }
     //: Set empty tag flag.
     
   };
@@ -197,7 +197,7 @@ namespace RavlN {
     //: Constructor.
     
     XMLElementC &Context()
-      { return context.Top(); }
+    { return context.Top(); }
     //: Access current context.
     
     bool IsContext() const
@@ -205,7 +205,7 @@ namespace RavlN {
     //: Are we in a valid context ? 
    
     const XMLElementC &Context() const
-      { return context.Top(); }
+    { return context.Top(); }
     //: Access current context.
 
     bool EndOfContext(const StringC &nm) {
@@ -247,21 +247,21 @@ namespace RavlN {
     //: Start a context.
     
     bool IsStrict() const
-      { return strict; }
+    { return strict; }
     //: In strict mode ?
     // if true issue errors if XML consitancy check fails in reading or writing.
     
     bool IsContent() const
-      { return contents; }
+    { return contents; }
     //: Got content ?
     // True if content has been found.
     
     void SetContent(bool cont)
-      { contents = cont; }
+    { contents = cont; }
     //: Set got content.
     
     UIntT LevelsNested() const
-      { return context.Size(); }
+    { return context.Size(); }
     //: Number of open elements in the stack.
     
     bool GetAttib(const StringC &name,StringC &val) {
@@ -280,11 +280,19 @@ namespace RavlN {
     }
     //: Set a string valued attribute.
     
+    bool AutoIndent() const
+    { return autoIndent; }
+    //: Auto indenting activated.
+    
+    bool AutoIndent(bool val)
+    { autoIndent = val; return val; }
+    //: Auto indenting activated.
+    
   protected:
     bool strict; // Be strict about usage.
     StackC<XMLElementC> context;
-    
     bool contents;
+    bool autoIndent;
   };
   
   //! userlevel=Advanced
@@ -292,17 +300,17 @@ namespace RavlN {
   // Stuff common to handling XML input and output.
   
   class XMLBaseC 
-  : public RCHandleC<XMLBaseBodyC>
+    : public RCHandleC<XMLBaseBodyC>
   {
   public:
     XMLBaseC()
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     
     XMLBaseC(bool)
       : RCHandleC<XMLBaseBodyC>(*new XMLBaseBodyC())
-      {}
+    {}
     //: Constructor.
     
     static StringC EncodeLitteral(const StringC &str);
@@ -312,7 +320,7 @@ namespace RavlN {
     //: Decode a string from its XML encoding to the original string.
     
     XMLElementC &Context()
-      { return Body().Context(); }
+    { return Body().Context(); }
     //: Access current context.
 
     bool IsContext() const
@@ -327,54 +335,62 @@ namespace RavlN {
     //: Get the name of the current context (the last open tag.)
     
     const XMLElementC &Context() const
-      { return Body().Context(); }
+    { return Body().Context(); }
     //: Access current context.
 
     bool StartContext(const StringC &str,bool emptyTag = false) 
-      { return Body().StartContext(str,emptyTag); }
+    { return Body().StartContext(str,emptyTag); }
     //: Start a new element.
     
     bool StartContext(const StringC &str,const RCHashC<StringC,StringC> &attrs,bool emptyTag = false) 
-      { return Body().StartContext(str,attrs,emptyTag); }
+    { return Body().StartContext(str,attrs,emptyTag); }
     //: Start a new element
     
     bool StartContext(const XMLElementC &elem) 
-      { return Body().StartContext(elem); }
+    { return Body().StartContext(elem); }
     //: Start a new element
     
     bool EndOfContext(const StringC &nm) 
-      { return Body().EndOfContext(nm); }
+    { return Body().EndOfContext(nm); }
     //: End the current context.
     
     bool EndOfContext() 
-      { return Body().EndOfContext(); }
+    { return Body().EndOfContext(); }
     //: End the current context.
     
     bool IsStrict() const
-      { return Body().IsStrict(); }
+    { return Body().IsStrict(); }
     //: In strict mode ?
     // if true issue errors if XML consitancy check fails in reading or writing.
     
     bool IsContent() const
-      { return Body().IsContent(); }
+    { return Body().IsContent(); }
     //: Got content ?
     // True if content has been found.
     
     void SetContent(bool cont)
-      { Body().SetContent(cont); }
+    { Body().SetContent(cont); }
     //: Set got content.
 
     UIntT LevelsNested() const
-      { return Body().LevelsNested(); }
+    { return Body().LevelsNested(); }
     //: Number of open elements in the stack.
     
     bool GetAttrib(const StringC &name,StringC &val) 
-      { return Body().GetAttib(name,val); }
+    { return Body().GetAttib(name,val); }
     //: Set string attribute.
     
     void SetAttrib(const StringC &name,const StringC &val) 
-      { Body().SetAttrib(name,val); }
+    { Body().SetAttrib(name,val); }
     //: Set a string valued attribute.
+    
+    bool AutoIndent() const
+    { return Body().AutoIndent(); }
+    //: Auto indenting activated.
+    
+    bool AutoIndent(bool val)
+    { return Body().AutoIndent(val); }
+    //: Auto indenting activated.
     
   protected:
   };
@@ -394,7 +410,7 @@ namespace RavlN {
     XMLIStreamC(const StringC &fn)
       : IStreamC(fn),
         XMLBaseC(true)
-      {}
+    {}
     //: Construct from an ordinary stream.
 
     
@@ -425,7 +441,7 @@ namespace RavlN {
     // return an empty string if an invalid characters is found.
     
     bool GetAttrib(const StringC &name,StringC &val)
-      { return XMLBaseC::GetAttrib(name,val); }
+    { return XMLBaseC::GetAttrib(name,val); }
     //: Get a string attribute for entity.
     // This can only be called between StartTag and StartContents.
     // This returns true if attribute is set.
@@ -481,8 +497,8 @@ namespace RavlN {
     
     XMLOStreamC(const StringC &fn)
       : OStreamC(fn),
-      XMLBaseC(true)
-      {}
+	XMLBaseC(true)
+    {}
     //: Construct from an ordinary stream.
     
     void StartTag(const StringC &name,
@@ -519,7 +535,7 @@ namespace RavlN {
     // operators. (ostream and istream)
 
     void SetAttrib(const StringC &name,const StringC &val)
-      { XMLBaseC::SetAttrib(name,val); }
+    { XMLBaseC::SetAttrib(name,val); }
     //: Set an integer attribute for entity.
     // This can only be called between StartTag and StartContents.
     
@@ -592,7 +608,7 @@ namespace RavlN {
   XMLOStreamC &operator<<(XMLOStreamC &strm,const SArray1dC<DataT> &arr) {
     strm << XMLStartTag("array")  << XMLAttribute("size",arr.Size()) << XMLContent;
     for(SArray1dIterC<DataT> it(arr);it;it++) {
-      strm << XMLIndent << XMLStartTag("data") << XMLContent << *it;
+      strm << XMLStartTag("data") << XMLContent << *it;
       strm << XMLEndTag;
     }
     strm << XMLIndentDown << XMLEndTag;
@@ -633,19 +649,19 @@ namespace RavlN {
 
   template<class KeyT,class DataT>
   XMLOStreamC &operator<<(XMLOStreamC &strm,const HashC<KeyT,DataT> &elem) {
-    strm << XMLIndent << XMLStartTag("hashmap") 
+    strm << XMLStartTag("hashmap") 
 	 << XMLAttribute("class",TypeName(typeid(HashC<KeyT,DataT>)))
 	 << XMLContent;
     
     for(HashIterC<KeyT,DataT> it(elem);it;it++) {
-      strm << XMLIndent << XMLStartTag("map") << XMLContent;
-      strm << XMLIndent << XMLStartTag("key") << XMLContent << it.Key();
+      strm << XMLStartTag("map") << XMLContent;
+      strm << XMLStartTag("key") << XMLContent << it.Key();
       strm << XMLEndTag;
-      strm << XMLIndent << XMLStartTag("data")  << XMLContent << it.Data();
+      strm << XMLStartTag("data")  << XMLContent << it.Data();
       strm << XMLEndTag;
-      strm << XMLIndentDown << XMLEndTag;
+      strm << XMLEndTag;
     }
-    strm << XMLIndentDown << XMLEndTag;
+    strm << XMLEndTag;
     return strm;
   } 
   //: Write out a hash table.

@@ -367,6 +367,8 @@ namespace RavlN {
       cerr << "XMLOStreamC::StartContents(), ERROR: Contents already started in '" << Context().Name() << "' \n";
       return;
     }
+    if(AutoIndent())
+      Indent(-1); // -1 because we're already in the tag.
     (*this) << '<' << Context().Name();
     for(HashIterC<StringC,StringC> it((RavlN::HashC<RavlN::StringC,RavlN::StringC> &)Context().Attributes());it;it++)
       (*this) << ' ' << it.Key() << "=\"" << it.Data() << "\"";
@@ -382,9 +384,15 @@ namespace RavlN {
   
   void XMLOStreamC::EndTag(const StringC &name) {
     //ONDEBUG(cerr << "XMLOStreamC::EndTag(StringC) : '" << name << "'\n");
-    if(Context().IsEmptyTag())
-      cerr << "XMLOStreamC::EndTag(), ERROR: EndTag Called on empty tag. '" << Context().Name() << "'\n";
-    (*this) << "</" << name << ">";
+    if(!IsContent()) {
+      Context().SetEmptyTag(true);
+      StartContents();
+    }
+    if(!Context().IsEmptyTag()) {
+      if(AutoIndent())
+	Indent(-1);
+      (*this) << "</" << name << ">";
+    }
     if(IsStrict()) {
       if(!EndOfContext(name)) {
 	ONDEBUG(cerr << "XMLOStreamC::EndTag()");
@@ -398,7 +406,15 @@ namespace RavlN {
   
   void XMLOStreamC::EndTag() {
     //ONDEBUG(cerr << "XMLOStreamC::EndTag() : '" << Context().Name() << "'\n");
-    (*this) << "</" << Context().Name() << ">";
+    if(!IsContent()) {
+      Context().SetEmptyTag(true);      
+      StartContents();
+    }
+    if(!Context().IsEmptyTag()) {
+      if(AutoIndent())
+	Indent(-1);
+      (*this) << "</" << Context().Name() << ">";
+    }
     EndOfContext();
   }
 
