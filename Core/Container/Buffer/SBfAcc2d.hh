@@ -139,7 +139,7 @@ namespace RavlN {
     // memory, this may miss other discontunities.
     
     IndexRange2dC Frame() const
-    { return IndexRange2dC(0,(IntT) size1-1,0,(IntT) size2-1); }
+    { return IndexRange2dC(0,(IntT) Size1()-1,0,(IntT) size2-1); }
     //: Return ranges of indexes
     
   protected:
