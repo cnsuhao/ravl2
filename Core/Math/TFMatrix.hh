@@ -126,42 +126,47 @@ namespace RavlN {
     //: Multiply vector by the matrix.
 
     template<unsigned int MT>
-      TFMatrixC<DataT,MT,M> operator*(const TFMatrixC<DataT,MT,N> & mat) const {
-      TFMatrixC<DataT,MT,M> ret;
-      for(UIntT i = 0;i < MT;i++)
-	for(UIntT j = 0;j < M;j++) {
+      TFMatrixC<DataT,M,MT> operator*(const TFMatrixC<DataT,N,MT> & mat) const
+    {
+      TFMatrixC<DataT,N,MT> ret;
+      for(UIntT i = 0;i < N;i++)
+	for(UIntT j = 0;j < MT;j++)
+	{
 	  DataT &val = ret[i][j];
 	  val = 0;
-	  for(UIntT k = 0;k < N;k++)
-	    val += data[k][j] * mat[i][k];
+	  for(UIntT k = 0;k < M;k++)
+	    val += data[i][k] * mat[k][j];
 	}
       return ret;
     }
     //: Mutiply two matrixes.
 
     template<unsigned int MT>
-      TFMatrixC<DataT,MT,N> TMul(const TFMatrixC<DataT,MT,M> & mat) const {
-      TFMatrixC<DataT,MT,N> ret;
-      for(UIntT i = 0;i < MT;i++)
-	for(UIntT j = 0;j < N;j++) {
+      TFMatrixC<DataT,M,MT> TMul(const TFMatrixC<DataT,N,MT> & mat) const 
+    {
+      TFMatrixC<DataT,M,MT> ret;
+      for(UIntT i = 0;i < M;i++)
+	for(UIntT j = 0;j < MT;j++)
+        {
 	  DataT &val = ret[i][j];
 	  val = 0;
-	  for(UIntT k = 0;k < M;k++)
-	    val += data[j][k] * mat[i][k];
+	  for(UIntT k = 0;k < N;k++)
+	    val += data[k][i] * mat[k][j];
 	}
       return ret;
     }
     //: Transpose this matrix and Multiply by 'mat'
     
-    template<unsigned int MT>
-      TFMatrixC<DataT,MT,M> MulT(const TFMatrixC<DataT,N,MT> & mat) const {
-      TFMatrixC<DataT,MT,M> ret;
-      for(UIntT i = 0;i < MT;i++)
-	for(UIntT j = 0;j < M;j++) {
+    template<unsigned int NT>
+      TFMatrixC<DataT,N,NT> MulT(const TFMatrixC<DataT,NT, M> & mat) const {
+      TFMatrixC<DataT,N,NT> ret;
+      for(UIntT i = 0;i < N;i++)
+	for(UIntT j = 0;j < NT;j++)
+	{
 	  DataT &val = ret[i][j];
 	  val = 0;
-	  for(UIntT k = 0;k < N;k++)
-	    val += data[k][j] * mat[k][i];
+	  for(UIntT k = 0; k < M;k++)
+	    val += data[i][k] * mat[j][k];
 	}
       return ret;
     }
