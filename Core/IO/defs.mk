@@ -29,7 +29,7 @@ SOURCES=Entity.cc Process.cc Port.cc SPort.cc SPortAttach.cc ProcInfo.cc \
  FileFormatStream.cc FileFormatBinStream.cc FileFormatGen.cc \
  FileFormatIO.cc TypeConverter.cc FileFormatRegistry.cc IndexIO.cc \
  Event.cc EventSet.cc Plug.cc StreamOp.cc StreamProcess.cc IOConnect.cc \
- FileFormatXMLStream.cc
+ FileFormatXMLStream.cc DataConv.cc
 
 MUSTLINK= CoreIO.cc
 # ProcInfo.cc

@@ -40,7 +40,7 @@ namespace RavlN {
   //! userlevel=Normal
   //: Convert between two types using the type conversion graph.
   // This is an example. Its not very useful since if both types are known at
-  // compile time the necessary methods can be invoked directly.
+  // compile time the necessary methods can be invoked directly which is much faster.
   
   template<class OutT>
   bool DPTypeConvert(const RCWrapAbstractC &in,OutT &outraw) {
