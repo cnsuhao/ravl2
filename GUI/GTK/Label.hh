@@ -57,6 +57,9 @@ namespace RavlGUIN {
     bool Label(const StringC &text);
     //: Update the text in the label.
     
+    bool GUISetLabel(StringC &txt);
+    //: Set label.
+
   protected:
 
     bool GUIJustify(GtkJustification& justify);
@@ -65,10 +68,7 @@ namespace RavlGUIN {
 
     bool GUIWrap(bool& wrap);
     //: Set line wrap mode
-
-    bool GUISetLabel(StringC &txt);
-    //: Set label.
-    
+        
     StringC text;
     
     friend class LabelC;
@@ -116,10 +116,6 @@ namespace RavlGUIN {
     { return static_cast<const LabelBodyC &>(WidgetC::Body()); }
     //: Access body.
     
-    bool GUISetLabel(StringC &txt)
-    { return Body().GUISetLabel(txt); }
-    //: Set label.
-    
     bool GUIJustify(GtkJustification& justify)
     { return Body().GUIJustify(justify); }
     //: Set justification mode
@@ -130,6 +126,10 @@ namespace RavlGUIN {
     //: Set line wrap mode
 
   public:
+    bool GUISetLabel(StringC &txt)
+    { return Body().GUISetLabel(txt); }
+    //: Set label.
+    
     StringC &Label() 
     { return Body().Label(); }
     //: Access string.
