@@ -30,9 +30,9 @@ namespace RavlGUIN {
 
   //: Constructor.
   
-  WindowBodyC::WindowBodyC(int nsx,int nsy,const char *ntitle,GtkWindowType nWinType,int nboarder,bool nrootWin)
+  WindowBodyC::WindowBodyC(int nsx,int nsy,const char *ntitle,GtkWindowType nWinType,int nborder,bool nrootWin)
     : sx(nsx), sy(nsy),
-      boarder(nboarder),
+      border(nborder),
       title(ntitle),
       rootWin(nrootWin),
       closeDown(false),
@@ -54,7 +54,7 @@ namespace RavlGUIN {
   //: Create the widget.
   
   bool WindowBodyC::Create() {
-    ONDEBUG(cerr << "WindowBodyC::Create(), Title=" << title << " Root=" << rootWin << " Type=" << ((int) winType) << " Boarder=" << boarder << "\n");
+    ONDEBUG(cerr << "WindowBodyC::Create(), Title=" << title << " Root=" << rootWin << " Type=" << ((int) winType) << " Border=" << border << "\n");
     if(widget == 0) {
       widget = gtk_window_new (winType);  
       if(rootWin && winType == GTK_WINDOW_TOPLEVEL) {
@@ -64,8 +64,8 @@ namespace RavlGUIN {
       
     if(title != 0)
       gtk_window_set_title (GTK_WINDOW (widget),title.chars());
-    if(boarder != 0)
-      gtk_container_set_border_width( GTK_CONTAINER (widget), boarder );    
+    if(border != 0)
+      gtk_container_set_border_width( GTK_CONTAINER (widget), border );    
     }
     if(child.IsValid()) {
       if(child.Create()) {
@@ -226,8 +226,8 @@ namespace RavlGUIN {
   //////////////////////////////////////////////
   //: Constructor.
   
-  WindowC::WindowC(int sx,int sy,const char *ntitle,GtkWindowType nWinType,int nboarder,bool nrootWin)
-    : OneChildC(*new WindowBodyC(sx,sy,ntitle,nWinType,nboarder,nrootWin))
+  WindowC::WindowC(int sx,int sy,const char *ntitle,GtkWindowType nWinType,int nborder,bool nrootWin)
+    : OneChildC(*new WindowBodyC(sx,sy,ntitle,nWinType,nborder,nrootWin))
   {}
 }
 

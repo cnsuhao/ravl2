@@ -28,38 +28,41 @@ namespace RavlGUIN {
   public:
     LBoxBodyC()
       : vert(true),
-	boarder(0),
+	border(0),
 	homogeneous(false),
 	spacing(0)
     {}
     //: Default constructor.
     
-    LBoxBodyC(const DListC<WidgetC> &widges,bool nvert = false,IntT nboarder = 0,bool nhomogeneous = false,IntT nspacing = 0)
+    LBoxBodyC(const DListC<WidgetC> &widges,bool nvert = false,IntT nborder = 0,bool nhomogeneous = false,IntT nspacing = 0)
       : ContainerWidgetBodyC(widges),
 	vert(nvert),
-	boarder(nboarder),
+	border(nborder),
 	homogeneous(nhomogeneous),
 	spacing(nspacing)
     {}
     //: Constructor
+    // Constructs box of list of widgets
     
-    LBoxBodyC(const WidgetC &widges,bool nvert = false,IntT nboarder = 0,bool nhomogeneous = false,IntT nspacing = 0)
+    LBoxBodyC(const WidgetC &widges,bool nvert = false,IntT nborder = 0,bool nhomogeneous = false,IntT nspacing = 0)
       : ContainerWidgetBodyC(),
 	vert(nvert),
-	boarder(nboarder),
+	border(nborder),
 	homogeneous(nhomogeneous),
 	spacing(nspacing)
     { children.InsLast(widges); }
     //: Constructor
+    // Constructs box around single widget
     
-    LBoxBodyC(bool nvert,IntT nboarder = 0,bool nhomogeneous = false,IntT nspacing = 0)
+    LBoxBodyC(bool nvert,IntT nborder = 0,bool nhomogeneous = false,IntT nspacing = 0)
       : ContainerWidgetBodyC(),
 	vert(nvert),
-	boarder(nboarder),
+	border(nborder),
 	homogeneous(nhomogeneous),
 	spacing(nspacing)
 	{}
     //: Constructor
+    // Constructs empty box
     
     virtual bool Create();
     //: Create the widget.
@@ -70,14 +73,14 @@ namespace RavlGUIN {
     //: Undo all references.
     
     bool vert; // Vertical layout ?
-    IntT boarder;
+    IntT border;
     bool homogeneous;
     IntT spacing;
   };
   
   //! userlevel=Normal
   //: Layout box
-
+  // A box that can contain a horizontal (default) or vertical list of widgets
 
   class LBoxC 
     : public ContainerWidgetC 
@@ -88,20 +91,23 @@ namespace RavlGUIN {
     //: Default constructor
     // Creates an invalid handle.
     
-    LBoxC(const DListC<WidgetC> &widges,bool vert = false,IntT nboarder = 0,bool nhomogeneous = false,IntT nspacing = 0)
-      : ContainerWidgetC(*new LBoxBodyC(widges,vert,nboarder,nhomogeneous,nspacing))
+    LBoxC(const DListC<WidgetC> &widges,bool vert = false,IntT nborder = 0,bool nhomogeneous = false,IntT nspacing = 0)
+      : ContainerWidgetC(*new LBoxBodyC(widges,vert,nborder,nhomogeneous,nspacing))
 	{}
     //: Constructor
-    
-    LBoxC(const WidgetC &widges,bool vert = false,IntT nboarder = 0,bool nhomogeneous = false,IntT nspacing = 0)
-      : ContainerWidgetC(*new LBoxBodyC(widges,vert,nboarder,nhomogeneous,nspacing))
+    // Constructs box containing widgets from list
+
+    LBoxC(const WidgetC &widget,bool vert = false,IntT nborder = 0,bool nhomogeneous = false,IntT nspacing = 0)
+      : ContainerWidgetC(*new LBoxBodyC(widget,vert,nborder,nhomogeneous,nspacing))
 	{}
     //:  Constructor
+    // Constructs box around single widget
     
-    LBoxC(bool vert,IntT nboarder = 0,bool nhomogeneous = false,IntT nspacing = 0)
-      : ContainerWidgetC(*new LBoxBodyC(vert,nboarder,nhomogeneous,nspacing))
+    LBoxC(bool vert,IntT nborder = 0,bool nhomogeneous = false,IntT nspacing = 0)
+      : ContainerWidgetC(*new LBoxBodyC(vert,nborder,nhomogeneous,nspacing))
 	{}
     //:  Constructor
+    // Constructs empty box for widgets
 
   protected:
     LBoxC(LBoxBodyC &bod)
@@ -120,41 +126,41 @@ namespace RavlGUIN {
   };
   
   inline 
-  LBoxC VBox(const DListC<WidgetC> &widges,int boarder = 0,bool nhomogeneous = false,IntT nspacing = 0)
-  { return LBoxC(widges,true,boarder,nhomogeneous,nspacing); }
-  //: Layout widgets in a vertical box.
-  // Helper function calls: LBoxC(widges,true,boarder,nhomogeneous,nspacing)
+  LBoxC VBox(const DListC<WidgetC> &widges,int border = 0,bool nhomogeneous = false,IntT nspacing = 0)
+  { return LBoxC(widges,true,border,nhomogeneous,nspacing); }
+  //: Lays out widgets in a vertical box.
+  // Helper function calls: LBoxC(widges,true,border,nhomogeneous,nspacing)
 
   inline 
-  LBoxC VBox(const WidgetC &widge,int boarder = 0,bool nhomogeneous = false,IntT nspacing = 0)
+  LBoxC VBox(const WidgetC &widge,int border = 0,bool nhomogeneous = false,IntT nspacing = 0)
   { 
     DListC<WidgetC> widges;
     widges.InsLast(widge);
-    return LBoxC(widges,true,boarder,nhomogeneous,nspacing); }
-  //: Layout widgets in a vertical box.
-  // Helper function calls: LBoxC(widges,true,boarder,nhomogeneous,nspacing)
+    return LBoxC(widges,true,border,nhomogeneous,nspacing); }
+  //: Puts a widget in a vertical box.
+  // Helper function calls: LBoxC(widges,true,border,nhomogeneous,nspacing)
   
   inline 
-  LBoxC HBox(const DListC<WidgetC> &widges,int boarder = 0,bool nhomogeneous = false,IntT nspacing = 0)
-  { return LBoxC(widges,false,boarder,nhomogeneous,nspacing); }
-  //: Layout horzontal in a vertical box.
-  // Helper function calls: LBoxC(widges,false,boarder,nhomogeneous,nspacing)
+  LBoxC HBox(const DListC<WidgetC> &widges,int border = 0,bool nhomogeneous = false,IntT nspacing = 0)
+  { return LBoxC(widges,false,border,nhomogeneous,nspacing); }
+  //: Lays out widgets in a horizontal box.
+  // Helper function calls: LBoxC(widges,false,border,nhomogeneous,nspacing)
 
   inline
-  LBoxC HBox(const WidgetC &widge,int boarder = 0,bool nhomogeneous = false,IntT nspacing = 0)
+  LBoxC HBox(const WidgetC &widge,int border = 0,bool nhomogeneous = false,IntT nspacing = 0)
   { 
     DListC<WidgetC> widges;
     widges.InsLast(widge);
-    return LBoxC(widges,false,boarder,nhomogeneous,nspacing); 
+    return LBoxC(widges,false,border,nhomogeneous,nspacing); 
   }
-  //: Layout horzontal in a vertical box.
-  // Helper function calls: LBoxC(widges,false,boarder,nhomogeneous,nspacing)
+  //: Puts a widget in a horizontal box.
+  // Helper function calls: LBoxC(widges,false,border,nhomogeneous,nspacing)
 
   inline 
-  LBoxC Box(const WidgetC &widge,int boarder = 0,bool nhomogeneous = false,IntT nspacing = 0)
-  { return LBoxC(widge,false,boarder,nhomogeneous,nspacing); }
-  //: Put a boarder around a widget.
-  // Helper function calls: LBoxC(widge,false,boarder,nhomogeneous,nspacing)
+  LBoxC Box(const WidgetC &widge,int border = 0,bool nhomogeneous = false,IntT nspacing = 0)
+  { return LBoxC(widge,false,border,nhomogeneous,nspacing); }
+  //: Put a border around a widget.
+  // Helper function calls: LBoxC(widge,false,border,nhomogeneous,nspacing)
   
 }
 

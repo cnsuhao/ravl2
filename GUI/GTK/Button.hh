@@ -123,7 +123,7 @@ namespace RavlGUIN {
     return ret;        
   }
   //: Create a button with no function attached.
-  // here just for consistancy.
+  // here just for consistency.
 
   template<class DataT>
   ButtonC Button(const char *label,bool (*func)(DataT &dat),const DataT &dat)

@@ -32,7 +32,7 @@ namespace RavlGUIN {
     FrameBodyC();
     //: Default constructor.
     
-    FrameBodyC(const WidgetC &widge,int nboarder,const StringC &ntitle = "");
+    FrameBodyC(const WidgetC &widge,int nborder,const StringC &ntitle = "");
     //: Constructor.
     
     virtual bool Create();
@@ -55,7 +55,7 @@ namespace RavlGUIN {
     // Values for shadow are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSHADOWTYPE">here</A>.
     
     StringC title;
-    int boarder;
+    int border;
     GtkShadowType shadow;
     GtkResizeMode resizeMode;
     
@@ -73,14 +73,14 @@ namespace RavlGUIN {
     {}
     //: Default constructor.
 
-    FrameC(const WidgetC &widge,const StringC &title,int boarder = 2)
-      : OneChildC(*new FrameBodyC(widge,boarder,title))
-    {}
+    FrameC(const WidgetC &widge,const StringC &title,int border = 2)
+      : OneChildC(*new FrameBodyC(widge,border,title))
+      {}
     //: Constructor.
     
-    FrameC(const WidgetC &widge,int boarder)
-      : OneChildC(*new FrameBodyC(widge,boarder))
-    {}
+    FrameC(const WidgetC &widge,int border)
+      : OneChildC(*new FrameBodyC(widge,border))
+      {}
     //: Constructor.
     
   protected:

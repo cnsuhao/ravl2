@@ -35,7 +35,7 @@ namespace RavlGUIN {
     : public OneChildBodyC
   {
   public:
-    WindowBodyC(int sx = 1,int sy = 1,const char *title = 0,GtkWindowType winType = GTK_WINDOW_TOPLEVEL,int nboarder = 0,bool rootWin = true);
+    WindowBodyC(int sx = 1,int sy = 1,const char *title = 0,GtkWindowType winType = GTK_WINDOW_TOPLEVEL,int nborder = 0,bool rootWin = true);
     //: Constructor.
     // Values for winType are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKWINDOWTYPE">here</A>.
     
@@ -111,7 +111,7 @@ namespace RavlGUIN {
     //: Show window on display.
     
     int sx,sy;
-    int boarder;
+    int border;
     StringC title;
     bool rootWin;
     bool closeDown; // Indicates close down is in progress or pending.
@@ -137,7 +137,7 @@ namespace RavlGUIN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    WindowC(int sx,int sy = 1,const char *ntitle = 0,GtkWindowType winType = GTK_WINDOW_TOPLEVEL,int nboarder = 0,bool rootWin = true);
+    WindowC(int sx,int sy = 1,const char *ntitle = 0,GtkWindowType winType = GTK_WINDOW_TOPLEVEL,int nborder = 0,bool rootWin = true);
     //: Constructor.
     // Values for winType are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKWINDOWTYPE">here</A>.
     

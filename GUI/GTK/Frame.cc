@@ -18,14 +18,14 @@ namespace RavlGUIN {
   //: Default constructor.
   
   FrameBodyC::FrameBodyC()
-    : boarder(0),
+    : border(0),
       shadow(GTK_SHADOW_ETCHED_IN)
   {}
   
-  FrameBodyC::FrameBodyC(const WidgetC &widge,int nboarder,const StringC &ntitle)
+  FrameBodyC::FrameBodyC(const WidgetC &widge,int nborder,const StringC &ntitle)
     : OneChildBodyC(widge),
       title(ntitle),
-      boarder(nboarder),
+      border(nborder),
       shadow(GTK_SHADOW_ETCHED_IN)
   {}
   
@@ -39,8 +39,8 @@ namespace RavlGUIN {
       widget = gtk_frame_new (0);
     else
       widget = gtk_frame_new (title.chars());
-    if(boarder != 0)
-      gtk_container_set_border_width (GTK_CONTAINER (widget), boarder);
+    if(border != 0)
+      gtk_container_set_border_width (GTK_CONTAINER (widget), border);
     gtk_frame_set_shadow_type (GTK_FRAME(widget),shadow);
     if(child.IsValid()) {
       if(!child.Create())

@@ -31,8 +31,8 @@ namespace RavlGUIN {
 	widget = gtk_vbox_new (homogeneous,spacing);
       else
 	widget = gtk_hbox_new (homogeneous,spacing);
-      if(boarder != 0)
-	gtk_container_set_border_width (GTK_CONTAINER (widget), boarder);
+      if(border != 0)
+	gtk_container_set_border_width (GTK_CONTAINER (widget), border);
     }
     
     for(DLIterC<WidgetC> it(children);it.IsElm();it.Next()) {

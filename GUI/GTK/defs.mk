@@ -55,3 +55,6 @@ PROGLIBS = RavlImageIO RavlExtImgIO
 
 EHT = Ravl.GUI.Control.eht  Ravl.GUI.Layout.eht  Ravl.GUI.eht  Ravl.GUI.Internal.eht
 #libRavlGUI.eht
+
+HTML = tutorial.html
+

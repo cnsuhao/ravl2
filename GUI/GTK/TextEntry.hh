@@ -81,8 +81,7 @@ namespace RavlGUIN {
   
 
   //! userlevel=Normal
-  //: TextEntry 
-  // This displays some text.
+  //: Display one line of text
   
   class TextEntryC 
     : public WidgetC

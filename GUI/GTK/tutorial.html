@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title></title>
+  </head>
+
+  <body>
+    <h1>Programming GUIs in RAVL</h1>
+
+    <p>The principle is that you lay out "widgets" - things like
+    buttons and canvases - in a window.  Then you hook up widgets to
+    functions so that, when you for example press a button, a
+    corresponding function gets called.</p>
+
+    <p>You start by creating a window (using WindowC).  On this you
+    put widgets.  There are two kinds of widgets: control widgets and
+    layout widgets.  Control widgets are things like buttons, sliders,
+    menus, canvases, etc. that link to functions that actually perform
+    tasks.  The layout widgets determine how the layout of the GUI
+    looks. </p>
+
+    <p>In principle you can only put one single widget in the main
+    WindowC window.  In practice several of the layout widgets allow
+    other widgets to be placed inside them.  For example, LBoxC can
+    contain an array of widgets, displayed either vertically or
+    horizontally.  Hence you can structure your window (a bit like a
+    Latex page).</p>
+
+    <p>If you hit a button, select a menu item, or move the mouse
+    across a canvas, you would I guess expect something to happen.
+    The mechanism is as follows:</p>
+    <ul>
+      <li>Um...</li>
+    </ul>
+
+    <p>The "hands-on" way to learn to use this library is by looking
+    at the examples for the <a
+    href="../Auto/Basic/Class/RavlGUIN.CanvasC.html">CanvasC</a>, <a
+    href="../Auto/Basic/Class/RavlGUIN.MenuC.html">MenuC</a> or <a
+    href="../Auto/Basic/Class/RavlGUIN.ButtonC.html">ButtonC</a> widgets.</p>
+
+    <hr>
+    <address><a href="mailto:w.christmas@ee.surrey.ac.uk">Bill Christmas</a></address>
+<!-- Created: Fri Dec 20 12:05:17 GMT 2002 -->
+<!-- hhmts start -->
+Last modified: Fri Jan  3 12:37:54 GMT 2003
+<!-- hhmts end -->
+  </body>
+</html>

@@ -3,11 +3,13 @@
 
 : Graphical User Interface.
 
-Tools for building graphical user interfaces.  These tools act
-as wrappers for the 'C' <a href="http://www.gtk.org">GTK</a> library.  The current 
-version is not complete, additional functions will be added on request. <p>
+Tools for building graphical user interfaces.  These tools act as
+wrappers for the 'C' <a href="http://www.gtk.org">GTK</a> library.
+The current version is not complete, additional functions will be
+added on request. <p>
 
-The best way to learn to use this library is by looking at the examples for
-the CanvasC,MenuC or ButtonC widgets. The <a href="http://www.gtk.org/tutorial">GTK tutorial</a>
+Newcomers to the RAVL GUI library should start with <a
+href="../../../html/tutorial.html">this tutorial</a>.  For advanced
+users, the <a href="http://www.gtk.org/tutorial">GTK tutorial</a>
  is also very helpful.
 
