@@ -139,10 +139,18 @@ namespace RavlN {
     MatrixC EvaluateJacobianFz(const StateVectorC &stateVec)
     { return Body().EvaluateJacobianFz(stateVec); }
     //: Evaluate the Jacobian dF/dz given x and z
+    // This may require that you call the EvaluateFunctionF method first,
+    // with the same stateVec parameter values, in order to set private
+    // values in the class. See the body class documentation of the derived
+    // class for more information.
 
     MatrixC EvaluateJacobianFx(const StateVectorC &stateVec)
     { return Body().EvaluateJacobianFx(stateVec); }
     //: Evaluate the Jacobian dF/dx given x and z
+    // This may require that you call the EvaluateFunctionF method first,
+    // with the same stateVec parameter values, in order to set private
+    // values in the class. See the body class documentation of the derived
+    // class for more information.
     
     const MatrixRSC &GetN() const
     { return Body().GetN(); }

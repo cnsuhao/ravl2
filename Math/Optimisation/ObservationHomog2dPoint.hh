@@ -41,6 +41,9 @@ namespace RavlN {
 
     virtual MatrixC EvaluateJacobianHx(const StateVectorC &stateVec);
     //: Evaluate the Jacobian of an observation for a single point
+    // This requires that you call the EvaluateFunctionH method first,
+    // with the same stateVec parameter values, in order to set private
+    // values in the class.
 
     inline const Vector2dC& GetZ1() const
     { return z1; }

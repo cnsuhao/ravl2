@@ -42,6 +42,9 @@ namespace RavlN {
 
     virtual MatrixC EvaluateJacobianFx(const StateVectorC &stateVec);
     //: Evaluate the Jacobian dF/dx given x and z
+    // This requires that you call the EvaluateFunctionF method first,
+    // with the same stateVec parameter values, in order to set private
+    // values in the class.
 #endif
   private:
     RealT F; // last evaluation of F(x,z)

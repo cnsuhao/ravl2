@@ -121,6 +121,11 @@ namespace RavlN {
     MatrixC EvaluateJacobianHx(const StateVectorC &stateVec)
     { return Body().EvaluateJacobianHx(stateVec); }
     //: Evaluate the Jacobian dh/dx given x
+    // This may require that you call the EvaluateFunctionH method first,
+    // with the same stateVec parameter values, in order to set private
+    // values in the class. See the body class documentation of the derived
+    // class for more information.
+    
 
   };
 }  

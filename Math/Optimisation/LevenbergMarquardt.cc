@@ -80,13 +80,9 @@ namespace RavlN {
       for ( i = (IntT)A.Rows()-1; i >= 0; i-- )
 	A[i][i] += lambda;
 
-    // compute inverse of the information matrix
-    Ainv = A.Inverse();
-    if(!Ainv.IsValid()) { // Is matrix singular ?
+    // solve for increment to state vector
+    if(!SolveIP(A,a))
       throw ExceptionC("LevenbergMarquardtC::Iteration(), Singular matrix detected. ");
-    }
-    // compute A^-1*a
-    a = Ainv*a;
 
     // add A^-1*a to state vector x
     stateVec.IncX(a);
