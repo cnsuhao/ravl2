@@ -17,8 +17,7 @@
 #include "Ravl/Threads/Signal.hh"
 #include "Ravl/HSet.hh"
 
-namespace RavlN 
-{
+namespace RavlN {
 
   //! userlevel=Develop
   //: Signal connection set body.
@@ -28,22 +27,22 @@ namespace RavlN
   {
   public:
     SignalConnectionSetBodyC()
-      {}
+    {}
     //: Constructor.
     
     ~SignalConnectionSetBodyC()
-      { DisconnectAll(); }
+    { DisconnectAll(); }
     //: Destructor.
     
     void DisconnectAll();
     //: Disconnect everything.
     
     void operator+=(const SignalConnectorC &c)
-      { cons += c; }
+    { cons += c; }
     //: Add a connection.
     
     void operator-=(const SignalConnectorC &c)
-      { cons -= c; }
+    { cons -= c; }
     //: Remove a connection.
     
   protected:
@@ -67,19 +66,19 @@ namespace RavlN
     
     SignalConnectionSetC()
       : RCHandleC<SignalConnectionSetBodyC>(*new SignalConnectionSetBodyC())
-      {}
+    {}
     //: Constructor.
     
     void DisconnectAll()
-     { Body().DisconnectAll(); }
+    { Body().DisconnectAll(); }
     //: Disconnect everything.
     
     void operator+=(const SignalConnectorC &c)
-      { Body().operator+=(c); }
+    { Body().operator+=(c); }
     //: Add a connection.
    
     void operator-=(const SignalConnectorC &c)
-      { Body().operator-=(c); }
+    { Body().operator-=(c); }
     //: Remove a connection.
     
   };

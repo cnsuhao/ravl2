@@ -63,18 +63,18 @@ namespace RavlN {
     //: Remove old conversion.
     
     GraphC<StringC,DPConverterBaseC> &Graph()
-      { return convGraph; }
+    { return convGraph; }
     //: Access converstion graph.
     
   protected:
     static RealT EdgeEval(const DPConverterBaseC &edge);
     
     GraphC<StringC,DPConverterBaseC> &ConvGraph()
-      { return convGraph; }
+    { return convGraph; }
     //: Access conversion graph.
     
     HashC<StringC,GraphNodeHC<StringC,DPConverterBaseC> > &NodeTab()
-      { return nodeTab; }
+    { return nodeTab; }
     //: Type -> Node mapping.
     
     GraphNodeHC<StringC,DPConverterBaseC> GetTypeNode(const type_info &inf);
@@ -106,38 +106,38 @@ namespace RavlN {
   {
   public:
     TypeConverterC()
-      {}
+    {}
     //: Default constructor.
 
     TypeConverterC(bool)
       : RCHandleC<TypeConverterBodyC>(*new TypeConverterBodyC())
-      {}
+    {}
     //: Constructor.
     
   public:
     DListC<DPConverterBaseC> FindConversion(const type_info &from,const type_info &to,RealT &finalCost)
-      { return Body().FindConversion(from,to,finalCost); }
+    { return Body().FindConversion(from,to,finalCost); }
     //: Find a conversion.
     // If found the cost of conversion is put into finalCost.
     
     DListC<DPConverterBaseC> FindConversion(const type_info &from,const type_info &to)
-      { return Body().FindConversion(from,to); }
+    { return Body().FindConversion(from,to); }
     //: Find a conversion.
     
     bool CanConvert(const type_info &from,const type_info &to)
-      { return Body().CanConvert(from,to); }
+    { return Body().CanConvert(from,to); }
     //: Test if conversion is possible.
     
     RCAbstractC DoConvertion(const RCAbstractC &dat,const type_info &from,const type_info &to)
-      { return Body().DoConvertion(dat,from,to); }
+    { return Body().DoConvertion(dat,from,to); }
     //: Do conversion through abstract handles.
     
     bool Insert(DPConverterBaseC &tc)
-      { return Body().Insert(tc); }
+    { return Body().Insert(tc); }
     //: Insert new conversion.
     
     bool Remove(DPConverterBaseC &tc)
-      { return Body().Remove(tc); }
+    { return Body().Remove(tc); }
     //: Remove old conversion.
     
     template<class InT,class OutT>
@@ -167,10 +167,10 @@ namespace RavlN {
     //: Do a conversion from an object held in an abstract handle.
     
     GraphC<StringC,DPConverterBaseC> &Graph()
-      { return Body().Graph(); }
+    { return Body().Graph(); }
     //: Access converstion graph.
   };
-
+  
   TypeConverterC &SystemTypeConverter();
   //: Default type converter used by the system.
   

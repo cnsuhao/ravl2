@@ -4,15 +4,15 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLDPCONVERTER_HEADER
-#define RAVLDPCONVERTER_HEADER 1
+#ifndef RAVL_DPCONVERTER_HEADER
+#define RAVL_DPCONVERTER_HEADER 1
 /////////////////////////////////////////////////////////
 //! docentry="Ravl.Core.IO.Type Converter"
 //! lib=RavlIO
 //! rcsid="$Id$"
 //! file="Ravl/Core/IO/Converter.hh"
 //! author="Charles Galambos"
-//! date="17/08/98"
+//! date="17/08/1998"
 //! userlevel=Advanced
 
 // This header contains the classes need to define a single type
@@ -62,7 +62,7 @@ namespace RavlN {
     //: Apply conversion.
 
     RealT Cost() const
-      { return cost; }
+    { return cost; }
     //: Cost of conversion.
     
   protected:
@@ -87,29 +87,29 @@ namespace RavlN {
   {
   public:
     DPConverterBaseC() 
-      {}
+    {}
     //: Default Constructor.
     
     template<class InT,class OutT>
-      DPConverterBaseC(OutT (*func)(const InT &in),RealT ncost = 1);
+    DPConverterBaseC(OutT (*func)(const InT &in),RealT ncost = 1);
     //: Function Constructor.
     
     static bool IsA(const DPEntityC &obj)
-      { return dynamic_cast<const DPConverterBaseBodyC *>(&(obj.Body())) != 0; }
+    { return dynamic_cast<const DPConverterBaseBodyC *>(&(obj.Body())) != 0; }
     //: Is widget a menu ?
     
   protected:
     DPConverterBaseC(DPConverterBaseBodyC &bod) 
       : DPProcInfoC(bod)
-      {}
+    {}
     //: Body Constructor.
     
     inline DPConverterBaseBodyC &Body() 
-      { return static_cast<DPConverterBaseBodyC & > (DPEntityC::Body()); }
+    { return static_cast<DPConverterBaseBodyC & > (DPEntityC::Body()); }
     //: Access body.
     
     inline const DPConverterBaseBodyC &Body() const
-      { return static_cast<const DPConverterBaseBodyC & > (DPEntityC::Body()); }
+    { return static_cast<const DPConverterBaseBodyC & > (DPEntityC::Body()); }
     //: Access body.
     
   public:
@@ -117,7 +117,7 @@ namespace RavlN {
     //: Get cost of conversion.
     
     inline RCAbstractC Apply(const RCAbstractC &dat)
-      { return Body().Apply(dat); }
+    { return Body().Apply(dat); }
     //: Apply conversion.
     
     friend class DPConverterBaseBodyC;
@@ -141,7 +141,7 @@ namespace RavlN {
     //: Constructor.
     
     virtual const type_info &ProcType() const
-      { return typeid(ProcT); }
+    { return typeid(ProcT); }
     //: Get type of process
     
     virtual DPProcessBaseC CreateProc() const { 
@@ -152,11 +152,11 @@ namespace RavlN {
     //: Create an instance of this converter.
     
     virtual DPIPortBaseC CreateIStream(const DPIPortBaseC &inp) const
-      { return DPProcIStreamC<InT,OutT>(DPProcessC<InT,OutT>(CreateProc()),DPIPortC<InT>(inp)); }
+    { return DPProcIStreamC<InT,OutT>(DPProcessC<InT,OutT>(CreateProc()),DPIPortC<InT>(inp)); }
     //: Create instance of process.
     
     virtual DPOPortBaseC CreateOStream(const DPOPortBaseC &outp) const
-      { return DPProcOStreamC<InT,OutT>(DPProcessC<InT,OutT>(CreateProc()),DPOPortC<OutT>(outp)); }
+    { return DPProcOStreamC<InT,OutT>(DPProcessC<InT,OutT>(CreateProc()),DPOPortC<OutT>(outp)); }
     //: Create instance of process.
     
     virtual RCAbstractC Apply(const DPProcessBaseC &proc,SArray1dC<RCAbstractC> dat) {
@@ -194,12 +194,12 @@ namespace RavlN {
   class DPConverterC : public DPConverterBaseC {
   public:
     DPConverterC() 
-      {}
+    {}
     //: Default constructor.
     
     DPConverterC(DPConverterBaseBodyC &bod)
       : DPConverterBaseC(bod)
-      {}
+    {}
     //: Body constructor.
   };
   
@@ -257,12 +257,12 @@ DPConverterBaseC DPConv_ ## func(RavlN::RegisterConversion(func,cost));
 #define DP_REGISTER_CONVERTION_NAMED(func,cost,fname) \
 DPConverterBaseC DPConv_ ## func(RavlN::RegisterConversion(func,cost,fname));
 #else
-// Labotomise automatic type conversion.
-// Where the conversion is required on use DP_REGISTER_CONVERTION_FT
+  // Labotomise automatic type conversion.
+  // Where the conversion is required on use DP_REGISTER_CONVERTION_FT
 #define DP_REGISTER_CONVERTION(func,cost)
 #endif
 
-// Fixed type conversion macro
+  // Fixed type conversion macro
 #define DP_REGISTER_CONVERTION_FT(InT,OutT,func,cost) \
 DPConverterFuncC<InT,OutT > DPConv_ ## func(func,cost);
 

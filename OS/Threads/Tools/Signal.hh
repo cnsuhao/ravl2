@@ -38,8 +38,8 @@ namespace RavlN {
   public:
     inline SignalConnector0BodyC()
       : sigbod(0),
-      ind(-1)
-      {}
+	ind(-1)
+    {}
     //: Constructor.
     
     inline SignalConnector0BodyC(Signal0BodyC &from);
@@ -58,7 +58,7 @@ namespace RavlN {
     //: Pass signal on.
     
     bool IsConnected() const 
-      { return ind >= 0; }
+    { return ind >= 0; }
     //: Test if connection is made
     
   protected:
@@ -76,42 +76,42 @@ namespace RavlN {
   {
   public:
     SignalConnectorC()
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     
     void Disconnect()
-      { Body().Disconnect(); }
+    { Body().Disconnect(); }
     //: Disconnect handle.
     
     bool Invoke()
-      { return Body().Invoke(); }
+    { return Body().Invoke(); }
     //: Pass signal on.
     
     bool IsConnected() const 
-      { return Body().IsConnected(); }
+    { return Body().IsConnected(); }
     //: Test if connection is made
     
     bool operator==(const SignalConnectorC &oth) const
-      { return &Body() == &oth.Body(); }
+    { return &Body() == &oth.Body(); }
     //: Are to connectors the same ?
     
     bool operator!=(const SignalConnectorC &oth) const
-      { return &Body() != &oth.Body(); }
+    { return &Body() != &oth.Body(); }
     //: Are to connectors different ?
 
     SignalConnector0BodyC  &Body()
-      { return RCHandleC<SignalConnector0BodyC>::Body(); }
+    { return RCHandleC<SignalConnector0BodyC>::Body(); }
     //: Access body.
 
     const SignalConnector0BodyC  &Body() const
-      { return RCHandleC<SignalConnector0BodyC>::Body(); }
+    { return RCHandleC<SignalConnector0BodyC>::Body(); }
     //: Access body.
     
   protected:
     SignalConnectorC(SignalConnector0BodyC &bod)
       : RCHandleC<SignalConnector0BodyC>(bod)
-      {}
+    {}
     //: Body constructor.  
     
     friend class Signal0BodyC;
@@ -134,7 +134,7 @@ namespace RavlN {
   public:
     SignalInterConnect0BodyC()
       : target(0)
-      {}
+    {}
     //: Constructor.
     
     SignalInterConnect0BodyC(Signal0BodyC &from,Signal0BodyC &targ);
@@ -181,14 +181,14 @@ namespace RavlN {
     //: Constructor.  
     
     SignalInterConnect0C()
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     
   protected:
     SignalInterConnect0C(SignalInterConnect0BodyC &bod)
       : SignalConnectorC(bod)
-      {}
+    {}
     //: Body constructor.
   
     friend class Signal0BodyC;
@@ -204,7 +204,7 @@ namespace RavlN {
   {
   public:
     Signal0BodyC()
-      {}
+    {}
     //: Default constructor.
     
     ~Signal0BodyC();
@@ -260,61 +260,61 @@ namespace RavlN {
     typedef bool (*FuncT)(void);
     
     Signal0C()
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     
     Signal0C(bool makeBod)
       : RCHandleC<Signal0BodyC>(*new Signal0BodyC())
-      {}
+    {}
     //: Constructor.
     
   protected:
     Signal0C(Signal0BodyC &bod)
       : RCHandleC<Signal0BodyC>(bod)
-      {}
+    {}
     //: Body constructor.
     
     inline 
-      Signal0BodyC &Body() 
-      { return RCHandleC<Signal0BodyC>::Body(); }
+    Signal0BodyC &Body() 
+    { return RCHandleC<Signal0BodyC>::Body(); }
     //: Access body.
     
     inline 
-      const Signal0BodyC &Body() const 
-      { return RCHandleC<Signal0BodyC>::Body(); }
+    const Signal0BodyC &Body() const 
+    { return RCHandleC<Signal0BodyC>::Body(); }
     //: Access body.
     
   public:
     SignalInterConnect0C FindInterConnect(const Signal0C &targ)
-      { return Body().FindInterConnect(targ); }
+    { return Body().FindInterConnect(targ); }
     //: Find interconnection between this and 'targ'.
     // 'targ' must be the target of the signal.
     
     inline bool Disconnect(Signal0C &targ)
-      { return Body().Disconnect(targ); }
+    { return Body().Disconnect(targ); }
     //: Disconnect other signal from this one.
     // 'targ' must be the target of the signal.
     
     inline void DisconnectAll()
-      { Body().DisconnectAll(); }
+    { Body().DisconnectAll(); }
     //: Disconnect all signals from this one.
     
     void DisconnectInputs()
-      { Body().DisconnectInputs(); }
+    { Body().DisconnectInputs(); }
     //: Disconnect all inputs to this signal.
     
     void DisconnectOutputs()
-      { Body().DisconnectOutputs(); }
+    { Body().DisconnectOutputs(); }
     //: Disconnect all outputs from this signal.
     
     inline bool Invoke()
-      { return Body().Invoke(); }
+    { return Body().Invoke(); }
     //: Send default signal.
     
     inline bool operator()()
-      { return Invoke(); }
-  //: Simple invokation.
+    { return Invoke(); }
+    //: Simple invokation.
     
     friend class SignalConnector0BodyC;
     friend class SignalInterConnect0C;
@@ -345,12 +345,12 @@ namespace RavlN {
     
     Signal0FuncBodyC(Signal0C &from,FuncT nFunc)
       : SignalConnector0BodyC(from),
-      func(nFunc)
-      {}
+	func(nFunc)
+    {}
     //: Constructor.
     
     virtual bool Invoke()
-      { return func(); }
+    { return func(); }
     //: Call function.
     
   protected:
@@ -366,7 +366,7 @@ namespace RavlN {
   public:
     Signal0FuncC(Signal0C &from,Signal0FuncBodyC::FuncT nFunc)
       : SignalConnectorC(*new Signal0FuncBodyC(from,nFunc))
-      {}
+    {}
     //: Constructor.
   };
   
@@ -386,13 +386,13 @@ namespace RavlN {
 		       const DataT &ndata,
 		       FuncT nFunc)
       : SignalConnector0BodyC(from),
-      data(ndata),
-      func(nFunc)
+	data(ndata),
+	func(nFunc)
     {}
     //: Constructor.
     
     virtual bool Invoke()
-      { return (data.*func)(); }
+    { return (data.*func)(); }
     //: Call function.
     
   protected:
@@ -412,7 +412,7 @@ namespace RavlN {
 		   const DataT &ndata,
 		   bool (DataT::*nFunc)())
       : SignalConnectorC(*new Signal0MethodBodyC<DataT>(from,ndata,nFunc))
-      {}
+    {}
     //: Constructor.
   };
   
@@ -435,13 +435,13 @@ namespace RavlN {
 			  DataT &ndata,
 			  FuncT nFunc)
       : SignalConnector0BodyC(from),
-      data(ndata),
-      func(nFunc)
-      {}
+	data(ndata),
+	func(nFunc)
+    {}
     //: Constructor.
     
     virtual bool Invoke()
-      { return (data.*func)(); }
+    { return (data.*func)(); }
     //: Call function.
     
   protected:
@@ -464,7 +464,7 @@ namespace RavlN {
 		      DataT &ndata,
 		      bool (DataT::*nFunc)())
       : SignalConnectorC(*new Signal0MethodRefBodyC<DataT>(from,ndata,nFunc))
-      {}
+    {}
     //: Constructor.
   };
   
