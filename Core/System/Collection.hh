@@ -37,7 +37,7 @@ namespace RavlN {
     //: Create an empty collection.
     // maxSize should be set to maximum number of 
     // elements the collection will contain. 'used' is the number
-    // of elements to be in the collection.
+    // of elements to be in the collection at the time of creation.
     
     CollectionBodyC(const SArray1dC<DataT> &dat)
       : data(dat),
@@ -167,13 +167,14 @@ namespace RavlN {
     //: Default constructor.
     // creates an invalid handle.
     
-    CollectionC(SizeT maxSize)
-      : RCHandleC<CollectionBodyC<DataT> >(*new CollectionBodyC<DataT>(maxSize))
+    CollectionC(SizeT maxSize,SizeT used = 0)
+      : RCHandleC<CollectionBodyC<DataT> >(*new CollectionBodyC<DataT>(maxSize,used))
       
     {}
     //: Creat an empty collection.
-    // maxSize should be set to maximum number of 
-    // elements the collection will contain.
+    // maxSize should be set to maximum number of elements the collection 
+    // will contain.  'used' is the number of elements to be in the collection 
+    // at the time of creation.
     
     CollectionC(const SArray1dC<DataT> &dat)
       : RCHandleC<CollectionBodyC<DataT> >(*new CollectionBodyC<DataT>(dat))
