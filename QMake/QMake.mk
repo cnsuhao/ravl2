@@ -376,7 +376,7 @@ listlocked:
 # Admin
 
 clean:
-	$(SMAKECL) clean TARGET=clean
+	-$(SMAKECL) clean TARGET=clean
 
 cleanlib:
 	$(SMAKECL) cleanlib TARGET=cleanlib
