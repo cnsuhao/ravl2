@@ -15,63 +15,142 @@
 //! lib=RavlImageProc
 //! example="mosaic.cc"
 
+#include "Ravl/Index.hh"
+#include "Ravl/Point2d.hh"
+#include "Ravl/SArray1d.hh"
+#include "Ravl/Matrix3d.hh"
 #include "Ravl/Image/PointTracker.hh"
 #include "Ravl/MatrixRS.hh"
-#include "Ravl/DP/SequenceIO.hh"
-#include "Ravl/DP/Converter.hh"
-#include "Ravl/EvaluateNumInliers.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
 #include "Ravl/Image/ByteRGBMedian.hh"
-#include "Ravl/RCHash.hh"
+#include "Ravl/Observation.hh"
 #include "Ravl/FitHomog2dPoints.hh"
-#include "Ravl/Matrix3d.hh"
+#include "Ravl/EvaluateNumInliers.hh"
+#include "Ravl/RCHash.hh"
+#include "Ravl/DP/SequenceIO.hh"
+#include "Ravl/DArray1d.hh"
 
 namespace RavlImageN {
   
+  typedef enum{none, onepass, twopass} autoResizeT;
+
   //! userlevel=Develop
   //! autoLink=on
-  //: Mosaic building class
+  //: Mosaic building class body
   
   class MosaicBuilderBodyC
-    : public RCBodyC
+    : public RCBodyVC
   {
   public:
-    MosaicBuilderBodyC(IntT cthreshold,
-		       IntT cwidth,
-		       IntT mthreshold,
-		       IntT mwidth,
-		       IntT lifeTime,
-		       IntT searchSize,
-		       IntT newFreq,
-		       IntT borderC, IntT borderR,
-		       RealT zhomog,
-		       IntT cropT, IntT cropB, IntT cropL, IntT cropR,
-		       const Point2dC &npointTL,
-		       const Point2dC &npointTR,
-		       const Point2dC &npointBL,
-		       const Point2dC &npointBR,
-		       IntT maxFrames,
-		       const ImageC<bool>& nMask);
+    MosaicBuilderBodyC(autoResizeT resize);
     //: Constructor
     // Initialises mosaic builder
+    //!param: resize - Determines how the mosaic expands; can take values: none, onepass, twopass
     
-    bool Apply(const ImageC<ByteRGBValueC> &img);
+    MosaicBuilderBodyC(
+	IntT cthreshold, IntT cwidth, IntT mthreshold, IntT mwidth,
+	IntT lifeTime, IntT searchSize, IntT newFreq,
+	IntT borderC, IntT borderR, RealT zhomog,
+	IntT cropT, IntT cropB, IntT cropL, IntT cropR,
+	const Point2dC &npointTL, const Point2dC &npointTR,
+	const Point2dC &npointBL, const Point2dC &npointBR,
+	IntT maxFrames, const ImageC<bool>& nMask);
+    //: Constructor
+    // Initialises mosaic builder
+    //!deprecated: use previous constructor + Set... methods
+
+    void SetTracker(IntT cthreshold, IntT cwidth, IntT mthreshold, IntT mwidth,
+		    IntT lifeTime, IntT searchSize, IntT newFreq)
+      { tracker = PointTrackerC(cthreshold,cwidth,mthreshold,mwidth,
+				lifeTime,searchSize,newFreq); }
+    //: Set tracker parameters
+    // Defaults are respectively: 30, 7, 20, 17, 8, 25, 1
+
+    void SetCropRegion(IntT ncropT, IntT ncropB, IntT ncropL, IntT ncropR)
+      { cropT=ncropT, cropB=ncropB, cropL=ncropL, cropR=ncropR; }
+    //: Set border region that is to be ignored
+    // This region is removed from the frames for tracking and building mosaic
+
+    void SetMask(const ImageC<bool>& nmask)
+      { mask = nmask; }
+    //: Set binary mask to exclude regions from tracker
+    // Pixels set to false are excluded.
+    // Unlike SetCropRegion, the mask regions are not excluded from the mosaic.
+
+    bool SetMask(const StringC& fileName);
+    //: Set binary mask to exclude regions from tracker
+    // Pixels set to zero are excluded.
+    // Unlike SetCropRegion, the mask regions are not excluded from the mosaic.
+
+    void SetCoordinates(const Point2dC &npointTL,
+			const Point2dC &npointTR,
+			const Point2dC &npointBL,
+			const Point2dC &npointBR)
+      { pointTL = npointTL, pointTR = npointTR,
+	pointBL = npointBL, pointBR = npointBR; }
+    //: Set the coordinate system of the mosaic
+    // It does this by defining projected positions of corners of first frame in sequence.<br>
+    // Uses the coordinate frame of the first frame in sequence as default.<br>
+    // Note: the units of the arguments are in fractions of image height / width.
+
+    void SetBorderExpansion(IndexC nborderR, IndexC nborderC)
+      { borderR = nborderR, borderC = nborderC; }
+    //: Set amount by which mosaic border is expanded 
+    // Mosaic border is initially set to projected position of first frame in sequence.
+
+    void SetProjectiveScale(RealT imageScale, RealT mosaicScale)
+      { zhomog = imageScale, mosaicZHomog = mosaicScale; }
+    //: Set the scales (i.e. 3rd, Z component) for the projective coordinate systems
+    // Should be set so that scale is commensurate with typical pixel coordinate values.  Can be set separately for video frame coordinates and mosaic coordinates . 
+
+    void SetLensCorrection(RealT nK1, RealT nK2, RealT ncx_ratio, RealT ncy_ratio, RealT nfx, RealT nfy)
+      { K1=nK1, K2=nK2, cx_ratio=ncx_ratio, cy_ratio=ncy_ratio, fx=nfx, fy=nfy; }
+    //: Applies lens correction to frames of sequence
+    //!param: K1 - cubic distortion coefficient; typical values for broadcast camera are 1..5 x 10^-7
+    //!param: K2 - quintic distortion coefficient
+    //!param: f1, f2 - focal lengths in pixels
+    //!param: cx_ratio, cy_ratio - image centre coordinates as ratio of image dimensions (default: image centre)
+
+    bool GrowMosaic(const StringC& ipFile, IntT startFrame, UIntT noOfFrames);
+    //: Creates the mosaic from a sequence
+    
+    bool Apply(ImageC<ByteRGBValueC> &img);
     //: Add an image to the mosaic.
-    
+    // Provides all of the per-frame functionality required
+
+    bool OpenSequence(const StringC& ipFile, IntT startFrame);
+    //: Open file for mosaicing and reset system
+
+    bool PrepareFrame(ImageC<ByteRGBValueC>& img);
+    //: Prepares frame for mosaicing
+    // If required, removes lens distortion<br>
+    // If first frame, computes border region.<br>
+    // Removes unwanted border from image.
+
+    bool FindProj(const ImageC<ByteRGBValueC> &img);
+    //: Computes homography between current frame and mosaic
+
+    bool WarpFrame(const ImageC<ByteRGBValueC>& croppedImg);
+    //: Warps current frame into mosaic coords and adds to mosaic
+    // Returns true if expansion of mosaic was requested and needed
+
     bool Reset(const ImageC<ByteRGBValueC> &img);
     //: Start new mosaic using 'img' as the initial frame.
     
-    Matrix3dC GetMotion(IntT frame) const
-    //: Returns the 2D projective motion of the specified frame relative to the first frame.
+    bool GenerateForeground(IntT startFrame, UIntT noOfFrames, DPOPortC<ImageC<ByteRGBValueC> >& outp, int fgThreshold);
+    //: Generates foreground image sequence
+
+    Matrix3dC GetMotion(IndexC frame) const
+    //: Returns the 2D projective motion of the specified frame relative to the mosaic.
     {
-      RavlAssertMsg(maxFrames>0 && frame>=0 && frame<=frameNo,
+      RavlAssertMsg(Parray.Size()>frame && frame>=0 && frame<=frameNo,
 		    "in MosaicBuilderBodyC::GetMotion()");
       return Parray[frame];
     }
     
-    SArray1dC<Matrix3dC> GetMotion() const 
+    DArray1dC<Matrix3dC> GetMotion() const 
+    //: Returns the 2D projective motions of all of the frames relative to the mosaic. 
     { return Parray; }
-    //: Returns the 2D projective motions of all of the frames relative to the first frame. 
 
     const ImageC<ByteRGBMedianC> & GetMosaic() const
     //: Returns the mosaic image
@@ -80,98 +159,195 @@ namespace RavlImageN {
     const IndexRange2dC & GetCropRect() const
     //: Returns the crop rectangle
     { return rect; }
-    
-  private:
+
+  protected:
+    bool MosaicBuilderBodyC::InvolveFrame(const IndexRange2dC& rect, const Matrix3dC& homog);
+    //: Expand mosaic rectangle to include projected frame corners
+
     // stored parameters
-    IntT borderC, borderR;
+    IndexC borderC, borderR;
+    autoResizeT resize;
     IntT cropT, cropB, cropL, cropR;
     Point2dC pointTL, pointTR, pointBL, pointBR;
-    IntT maxFrames;
-    ImageC<bool> mask;
-    RealT zhomog;
-    
+    RealT zhomog, mosaicZHomog;
+    RealT K1, K2, cx_ratio, cy_ratio, fx, fy;  // lens parameters
+
     // stored data
-    SArray1dC<Matrix3dC> Parray;
+    DArray1dC<Matrix3dC> Parray; // array of projections from mosaic coord frame into image coord frame (~ Psum * Pmosaic)
     PointTrackerC tracker;
+    ImageC<bool> mask;  // identifies regions to be ignored for tracking
     MatrixRSC epos;
     ImageC<ByteRGBValueC> img;
     FitHomog2dPointsC fitHomog2d;
+    DListC<ObservationC> compatibleObsList;
     EvaluateNumInliersC evalInliers;
-    IndexRange2dC rect, mosaicRect;
+    IndexRange2dC rect;  // rectangle for cropped image
+    IndexRange2dC mosaicRect;  // rectangle for mosaic
     ImageC<ByteT> greyImg;
     RCHashC<UIntT,PointTrackC> corners, last;
-    Matrix3dC Psum, Pmosaic;
-    ImageC<ByteRGBMedianC> mosaic;
-    int frameNo;
+    Matrix3dC Psum; // the accumulated motion as a product of the individual interframe motions
+    Matrix3dC Pmosaic;  // rescales the z component of a point
+    ImageC<ByteRGBMedianC> mosaic;  // the median of all of the warped images (& hence contains the pixels from all of these images)
+    DPISPortC<ImageC<ByteRGBValueC> > input; // i/p image stream
+    IndexC frameNo;
+
   };
 
   //! userlevel=Normal
   //! autoLink=on
   //: Mosaic building class
+
+  // Since the mosaic generally grows as images are added to it, MosaicBuilderC has a choice of strategies to deal with this:<ol>
+  // <li> The user decides in advance by how much to extend the image (using the SetBorderExpansion method).  Any growth of the mosaic beyond this will be clipped.</li>
+  // <li> Each time the mosaic needs to expand, the mosaic image is copied to a new, larger image.  This is done in a single pass, so that it can handle real-time video sources, but is a bit slow.</li>
+  // <li> Each time the mosaic needs to expand, the size required is noted.  In a second pass through the sequence, the mosaic is built.  This is faster than the one-pass method.</li>
+  // </ol>
   
   class MosaicBuilderC
     : public RCHandleC<MosaicBuilderBodyC>
   {
   public:
     MosaicBuilderC()
-    {}
+      {}
     //: Default constructor.
     // Creates an invalid handle.
 
-    MosaicBuilderC(IntT cthreshold,
-		   IntT cwidth,
-		   IntT mthreshold,
-		   IntT mwidth,
-		   IntT lifeTime,
-		   IntT searchSize,
-		   IntT newFreq,
-		   IntT borderC, IntT borderR,
-		   RealT zhomog,
-		   IntT cropT, IntT cropB, IntT cropL, IntT cropR,
-		   const Point2dC &npointTL,
-		   const Point2dC &npointTR,
-		   const Point2dC &npointBL,
-		   const Point2dC &npointBR,
-		   IntT maxFrames,
-		   const ImageC<bool>& nMask=ImageC<bool>())
-      : RCHandleC<MosaicBuilderBodyC>(*new 
-		MosaicBuilderBodyC(cthreshold, cwidth,
-				   mthreshold, mwidth,
-				   lifeTime, searchSize, newFreq,
-				   borderC, borderR,
-				   zhomog,
-				   cropT,  cropB,  cropL,  cropR,
-				   npointTL, npointTR, npointBL, npointBR,
-				   maxFrames, nMask
-				   ))
-    {}
+    MosaicBuilderC(autoResizeT resize=none)
+     : RCHandleC<MosaicBuilderBodyC>(*new MosaicBuilderBodyC(resize))
+      {}
     //: Constructor.
+    //!param: resize - Determines how the mosaic expands; can take values: none, onepass, twopass
+    
+    MosaicBuilderC(
+	IntT cthreshold, IntT cwidth, IntT mthreshold, IntT mwidth,
+	IntT lifeTime, IntT searchSize, IntT newFreq,
+	IntT borderC, IntT borderR, RealT zhomog,
+	IntT cropT, IntT cropB, IntT cropL, IntT cropR,
+	const Point2dC &npointTL, const Point2dC &npointTR,
+	const Point2dC &npointBL, const Point2dC &npointBR,
+	IntT maxFrames, const ImageC<bool>& nMask=ImageC<bool>())
+    : RCHandleC<MosaicBuilderBodyC>(*new MosaicBuilderBodyC(
+	cthreshold, cwidth, mthreshold, mwidth, lifeTime, searchSize, newFreq,
+	borderC, borderR, zhomog, cropT,  cropB,  cropL,  cropR,
+	npointTL, npointTR, npointBL, npointBR, maxFrames, nMask))
+    {}
+    //: Deprecated constructor.
+    //!deprecated: use previous constructor + Set... methods
     
   protected:
+    MosaicBuilderC(MosaicBuilderBodyC &bod)
+      : RCHandleC<MosaicBuilderBodyC>(bod)
+      {}
+    //: body constructor.
+  
     MosaicBuilderBodyC &Body()
-    { return RCHandleC<MosaicBuilderBodyC>::Body(); }
+      { return RCHandleC<MosaicBuilderBodyC>::Body(); }
     //: Access body.
     
     const MosaicBuilderBodyC &Body() const
-    { return RCHandleC<MosaicBuilderBodyC>::Body(); }
+      { return RCHandleC<MosaicBuilderBodyC>::Body(); }
     //: Access body.
     
   public:
-    bool Apply(const ImageC<ByteRGBValueC> &img)
-    { return Body().Apply(img); }
-    //: Add an image to the mosaic.
+    void SetTracker(IntT cthreshold,
+		       IntT cwidth,
+		       IntT mthreshold,
+		       IntT mwidth,
+		       IntT lifeTime,
+		       IntT searchSize,
+		       IntT newFreq)
+      { Body().SetTracker(cthreshold, cwidth, mthreshold, mwidth, lifeTime, searchSize, newFreq); }
+    //: Set tracker parameters
+
+    void SetCropRegion(IntT cropT, IntT cropB, IntT cropL, IntT cropR)
+      { Body().SetCropRegion(cropT, cropB, cropL, cropR); }
+    //: Set border region that is to be ignored
+    // This region is ignored for tracking and building mosaic
+
+    void SetMask(const ImageC<bool>& mask)
+      { Body().SetMask(mask); }
+    //: Set binary mask to exclude graphics regions and suchlike from the process
+    // Pixels set to false are excluded.
+    // Unlike SetCropRegion, the mask regions are not excluded from the mosaic.
+
+    bool SetMask(const StringC& fileName)
+      { return Body().SetMask(fileName); }
+    //: Set binary mask to exclude graphics regions and suchlike from the process
+    // Pixels set to zero are excluded.
+    // Unlike SetCropRegion, the mask regions are not excluded from the mosaic.
+
+    void SetCoordinates(const Point2dC &pointTL,
+			const Point2dC &pointTR,
+			const Point2dC &pointBL,
+			const Point2dC &pointBR)
+      { Body().SetCoordinates(pointTL, pointTR,	pointBL, pointBR); }
+    //: Set the coordinate system of the mosaic
+    // It does this by defining projected positions of corners of first frame in sequence.<br>
+    // Uses the coordinate frame of the first frame in sequence as default.<br>
+    // Note: the units of the arguments are in fractions of image height / width.
+
+    void SetBorderExpansion(IndexC borderR, IndexC borderC)
+      { Body().SetBorderExpansion(borderR, borderC); }
+    //: Set amount by which mosaic border is expanded 
+    // Mosaic border is initially set to projected position of first frame in sequence.
+
+    void SetProjectiveScale(RealT imageScale, RealT mosaicScale)
+      { Body().SetProjectiveScale(imageScale, mosaicScale); }
+    //: Set the scales (i.e. 3rd, Z component) for the projective coordinate systems
+    // Should be set so that scale is commensurate with typical pixel coordinate values.  Can be set separately for video frame coordinates and mosaic coordinates . 
+
+    void SetLensCorrection(RealT K1, RealT K2, RealT cx_ratio, RealT cy_ratio, RealT fx, RealT fy)
+      { Body().SetLensCorrection(K1, K2=0.0, cx_ratio=0.5, cy_ratio=0.5, fx=1.0, fy=1.0); }
+    //: Applies lens correction to frames of sequence
+    //!param: K1 - cubic distortion coefficient; typical values for broadcast camera are 1..5 x 10^-7
+    //!param: K2 - quintic distortion coefficient
+    //!param: f1, f2 - focal lengths in pixels
+    //!param: cx_ratio, cy_ratio - image centre coordinates as ratio of image dimensions (default: image centre)
+
+    bool GrowMosaic(const StringC& ipFile, IntT startFrame, UIntT noOfFrames)
+      { return Body().GrowMosaic(ipFile, startFrame, noOfFrames); }
+    //: Creates the mosaic from a sequence
     
+    bool Apply(ImageC<ByteRGBValueC> &img)
+      { return Body().Apply(img); }
+    //: Add an image to the mosaic.
+    // Provides all of the per-frame functionality required
+    
+    bool OpenSequence(const StringC& ipFile, IntT startFrame)
+      { return Body().OpenSequence(ipFile, startFrame); }
+    //: Open file for mosaicing and reset system
+
+    bool PrepareFrame(ImageC<ByteRGBValueC>& img)
+      {  return Body().PrepareFrame(img); }
+    //: Prepares frame for mosaicing
+    // If required, removes lens distortion<br>
+    // If first frame, computes border region.<br>
+    // Removes unwanted border from image.
+    
+    bool FindProj(const ImageC<ByteRGBValueC> &img)
+      { return Body().FindProj(img); }
+    //: computes homography between current frame and mosaic
+
+    bool WarpFrame(const ImageC<ByteRGBValueC>& croppedImg)
+      { return Body().WarpFrame(croppedImg); }
+    //: Warps current frame into mosaic coords and adds to mosaic
+    // Returns true if expansion of mosaic was requested and needed
+
     bool Reset(const ImageC<ByteRGBValueC> &img)
-    { return Body().Reset(img); }
+      { return Body().Reset(img); }
     //: Start new mosaic using 'img' as the initial frame.
     
-    Matrix3dC GetMotion(IntT frame) const
+    bool GenerateForeground(IntT startFrame, UIntT noOfFrames, DPOPortC<ImageC<ByteRGBValueC> >& outp, int fgThreshold)
+      {  return Body().GenerateForeground(startFrame, noOfFrames, outp, fgThreshold); }
+    //: Generates foreground image sequence
+
+    Matrix3dC GetMotion(IndexC frame) const
     { return Body().GetMotion(frame); }
-    //: Returns the 2D projective motion of the specified frame relative to the first frame.
+    //: Returns the 2D projective motion of the specified frame relative to the mosaic.
     
-    SArray1dC<Matrix3dC> GetMotion() const 
+    DArray1dC<Matrix3dC> GetMotion() const 
     {return Body().GetMotion();}
-    //: Returns the 2D projective motions of all of the frames relative to the first frame. 
+    //: Returns the 2D projective motions of all of the frames relative to the mosaic. 
 
     const ImageC<ByteRGBMedianC> & GetMosaic() const
     { return Body().GetMosaic(); }
