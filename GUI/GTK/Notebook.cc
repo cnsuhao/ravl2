@@ -200,7 +200,9 @@ namespace RavlGUIN {
 
   //: Append a new page.
   
-  bool NotebookBodyC::GUIAppendPage(WidgetC &page,WidgetC &tab) {
+  bool NotebookBodyC::GUIAppendPage(const WidgetC &_page,const WidgetC &_tab) {
+    WidgetC page(_page),tab(_tab);
+    
     tabWidges[page] = tab;
     children.InsLast(page);
     //cerr << "NotebookBodyC::GUIAppendPage(), this=" << ((void*) this ) << " PageWidget=" << page.Hash() << " Widget=" << widget << "\n";

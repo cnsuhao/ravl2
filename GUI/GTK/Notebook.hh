@@ -67,7 +67,7 @@ namespace RavlGUIN
     void RemovePage(WidgetC &pageNo);
     //: Remove page number 'pageNo'
     
-    bool GUIAppendPage(WidgetC &page,WidgetC &tab);
+    bool GUIAppendPage(const WidgetC &page,const WidgetC &tab);
     //: Append a new page.
     
     void AppendPage(const WidgetC &page,const WidgetC &tab);
@@ -171,7 +171,7 @@ namespace RavlGUIN
     { Body().RemovePage(page); }
     //: Remove page by widget.
     
-    bool GUIAppendPage(WidgetC &page,WidgetC &tab)
+    bool GUIAppendPage(const WidgetC &page,const WidgetC &tab)
     { return Body().GUIAppendPage(page,tab); }
     //: Append a new page.
     // GUI Thread only.
