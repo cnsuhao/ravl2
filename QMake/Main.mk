@@ -635,7 +635,7 @@ endif
 
 $(INST_LIB)/dummymain$(OBJEXT) :: $(MAKEHOME)/dummymain$(CEXT) $(INST_LIB)/.dir
 	$(SHOWIT)echo "--- Compile internal dummymain$(OBJEXT) " ; \
-	$(CC) -c $(MAKEHOME)/dummymain$(CEXT) -o $(INST_LIB)/dummymain$(OBJEXT)
+	$(CC) -c $(MAKEHOME)/dummymain$(CEXT) $(CFLAGS) $(CPPFLAGS) -o $(INST_LIB)/dummymain$(OBJEXT)
 
 
 # This lib update is nasty but fast, especialy if you have many objects.
