@@ -87,7 +87,7 @@ namespace RavlN {
     //: Look at the item most recently placed in the queue.
     
     inline void DelFirst();
-    //: Delete thing in buffer 
+    //: Delete first item in buffer 
     
     inline SizeT Size() const;
     //: No of items in the ring.
