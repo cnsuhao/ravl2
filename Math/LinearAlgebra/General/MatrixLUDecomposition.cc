@@ -28,7 +28,8 @@ namespace RavlN {
       return false;
     }
     SArray1dC<RealT> diag(n);
-    for(int i=0;i < n;i++) {
+    int i;
+    for(i=0;i < n;i++) {
       int k,j;
       RealT sum = mat[i][i];
       for(k = i-1;k >= 0;k--)
@@ -45,7 +46,7 @@ namespace RavlN {
 	mat[j][i] = sum/diag[i];
       }
     }
-    for(int i = 0;i < n;i++) {
+    for(i = 0;i < n;i++) {
       RealT v = diag[i];
       mat[i][i] = v;
       det *= v;
