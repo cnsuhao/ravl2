@@ -11,6 +11,7 @@
 #include "Ravl/PatternRec/FuncMeanProjection.hh"
 #include "Ravl/BinStream.hh"
 #include "Ravl/PatternRec/SampleVector.hh"
+#include "Ravl/PatternRec/SampleStreamVector.hh"
 #include "Ravl/Collection.hh"
 #include "Ravl/PatternRec/SampleIter.hh"
 #include "Ravl/MeanCovariance.hh"
@@ -197,6 +198,42 @@ namespace RavlN {
     pca = VectorMatrixC (Leigenvecs.Vector().From(0,numComponents),
 			 Leigenvecs.Matrix().SubMatrix(dim,numComponents).T());
     return FuncMeanProjectionC(mean,pca.Matrix());
+  }
+  
+  //: Create function from the given data.
+  
+  FunctionC DesignFuncPCABodyC::Apply(SampleStreamC<VectorC> &sample) {
+    RealT variation = varPreserved;
+    SampleStreamVectorC ssv(sample);
+    MeanCovarianceC stats = ssv.MeanCovariance();
+    mean = stats.Mean();
+    if(stats.Number() == 0)
+      return FunctionC();
+    
+    const UIntT dim = mean.Size();
+    VectorMatrixC Leigenvecs =  EigenVectors(stats.Covariance());
+    
+    //: need to sort matrix into order
+    Leigenvecs.Sort();
+
+    ONDEBUG(cerr << "Values=" << Leigenvecs.Vector() << "\n");
+    
+    RealT total = Leigenvecs.Vector().Sum();
+    RealT runningTotal = 0.0;
+    UIntT numComponents = 0;
+    
+    if (variation < 1.0) 
+      while ((runningTotal += Leigenvecs.Vector()[numComponents++]) < variation*total);
+    else {
+      numComponents = UIntT(variation < dim? variation: dim);
+      for (UIntT i = 0; i < numComponents; i++)
+	runningTotal += Leigenvecs.Vector()[i];
+    }
+    varPreserved = runningTotal / total;
+    
+    pca = VectorMatrixC (Leigenvecs.Vector().From(0,numComponents),
+			 Leigenvecs.Matrix().SubMatrix(dim,numComponents).T());
+    return FuncMeanProjectionC(mean,pca.Matrix());    
   }
 
 }

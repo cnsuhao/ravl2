@@ -45,6 +45,9 @@ namespace RavlN {
     virtual FunctionC Apply(const SampleC<VectorC> &in);
     //: Create function from the given data.
     
+    virtual FunctionC Apply(SampleStreamC<VectorC> &in);
+    //: Create function from the given data.
+    
     VectorMatrixC &Pca()
     { return pca; }
     //: Access eigen vectors and values.
