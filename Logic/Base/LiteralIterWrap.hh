@@ -21,7 +21,7 @@ namespace RavlLogicN {
   template<class IterT>
   class LiteralIterWrapBodyC 
     : public LiteralIterBodyC 
-{
+  {
   public:
     LiteralIterWrapBodyC(const IterT &nit)
       : it(nit)
@@ -66,8 +66,9 @@ namespace RavlLogicN {
     IterT it;
   };
 
-  //! userlevel=Normal
-  //: Abstract iterator through a set of literals.
+  //! userlevel=Advanced
+  //: Wrap a simple iterator with one derived from LiteralIterC.
+  // This can intended to be used with class such as DLIterC, Array1dIterC.
   
   template<class IterT>
   class LiteralIterWrapC 

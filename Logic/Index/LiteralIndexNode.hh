@@ -60,6 +60,8 @@ namespace RavlLogicN {
     LiteralIndexElementC none; // Used for tuples with arity smaller than term. 
   };
   
+  //! userlevel=Advanced
+  //: Literal index node.
   
   class LiteralIndexNodeC
     : public LiteralIndexElementC

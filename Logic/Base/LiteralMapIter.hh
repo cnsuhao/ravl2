@@ -14,6 +14,10 @@
 #include "Ravl/Logic/LiteralIter.hh"
 
 namespace RavlLogicN {
+
+  //! userlevel=Develop
+  //: Abstract literal map iterator.
+  // Abstract iterator for going through a map between a literal and another object.
   
   template<class DataT>
   class LiteralMapIterBodyC 
@@ -36,6 +40,10 @@ namespace RavlLogicN {
     }
     //: Access data.
   };
+  
+  //! userlevel=Normal
+  //: Abstract literal map iterator.
+  // Abstract iterator for going through a map between a literal and another object.
   
   template<class DataT>
   class LiteralMapIterC 

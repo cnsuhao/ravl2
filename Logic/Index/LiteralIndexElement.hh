@@ -19,6 +19,11 @@ namespace RavlLogicN
   class TupleC;
   class LiteralIndexLeafC;
   class LiteralIndexElementC;
+
+  //! userlevel=Develop
+  //: Index element.
+  // This class is an abstract base class for the two types of
+  // node found in an index tree, LiteralIndexNodeC and LiteralIndexLeafC.
   
   class LiteralIndexElementBodyC 
     : public RCBodyVC 
@@ -57,6 +62,11 @@ namespace RavlLogicN
     //: Access iterator for all branches from this node matching filter filt.
     
   };
+  
+  //! userlevel=Advanced
+  //: Index element.
+  // This class is an abstract base class for the two types of
+  // node found in an index tree, LiteralIndexNodeC and LiteralIndexLeafC.
   
   class LiteralIndexElementC 
     : public RCHandleC<LiteralIndexElementBodyC> 

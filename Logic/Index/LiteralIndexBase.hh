@@ -69,8 +69,7 @@ namespace RavlLogicN {
     friend class LiteralIndexLeafBodyIterC;
   };
   
-  
-  //! userlevel=Advanced
+  //! userlevel=Develop
   //: Base class for index access.
 
   class LiteralIndexBaseC

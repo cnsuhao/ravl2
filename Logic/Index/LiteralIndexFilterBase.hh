@@ -68,8 +68,10 @@ namespace RavlLogicN {
   };
   
   
-  //! userlevel=Advanced
+  //! userlevel=Develop
   //: Filter contents of an index.
+  // This implements most of the filter operations, and returns 
+  // the matching leafs in the index tree.
   
   class LiteralIndexFilterBaseBodyC 
   {

@@ -17,7 +17,8 @@
 namespace RavlLogicN {
   
   //! userlevel=Develop
-  //: Min term
+  //: Logical Minterm.
+  // This is a set of negative and positive conditions which are anded together.
   
   class MinTermBodyC 
     : public ConditionBodyC
@@ -62,7 +63,8 @@ namespace RavlLogicN {
   };
   
   //! userlevel=Normal
-  //: Min term
+  //: Logical Minterm.
+  // This is a set of negative and positive conditions which are anded together.
   
   class MinTermC 
     : public ConditionC

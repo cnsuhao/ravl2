@@ -64,7 +64,7 @@ namespace RavlLogicN {
   };
   
   //! userlevel=Normal
-  //: Coniditional Or.
+  //: Or a set of conditions.
   
   class OrC
     : public ConditionC

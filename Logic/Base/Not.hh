@@ -58,7 +58,8 @@ namespace RavlLogicN {
   };
 
   //! userlevel=Normal
-  //: Not operator.
+  //: Not a condition.
+  // Gives the inverse truth condition.
   
   class NotC
     : public ConditionC

@@ -19,7 +19,7 @@ namespace RavlLogicN {
   class ConditionC;
   
   //! userlevel=Develop
-  //: Condition
+  //: Abstract condition
   
   class ConditionBodyC
     : public LiteralBodyC
@@ -48,7 +48,7 @@ namespace RavlLogicN {
   };
   
   //! userlevel=Normal
-  //: Condition
+  //: Abstract condition
   
   class ConditionC
     : public LiteralC

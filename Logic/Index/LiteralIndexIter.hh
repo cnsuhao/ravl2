@@ -18,8 +18,8 @@
 
 namespace RavlLogicN {
   
-  //! userlevel=Advanced
-  //: LiteralIndexBase iterator.
+  //! userlevel=Develop
+  //: Iterate through the entire contents of LiteralIndexC.
   
   class LiteralIndexBaseIterC 
   {
@@ -75,7 +75,7 @@ namespace RavlLogicN {
   };
 
   //! userlevel=Normal
-  //: LiteralIndexBase iterator.
+  //: Iterate through the entire contents of LiteralIndexC.
   
   template<class DataT>
   class LiteralIndexIterC 

@@ -53,10 +53,11 @@ namespace RavlLogicN {
   protected:
     LiteralC key;
   };
-
   
   //! userlevel=Advanced
-  //: LiteralIndex leaf
+  //: Index leaf with user data.
+  // Internal class for a literal index which associates
+  // the user data with a leaf in the tree.
   
   class LiteralIndexLeafC
     : public LiteralIndexElementC
@@ -103,6 +104,7 @@ namespace RavlLogicN {
     
   };
   
+  //! userlevel=Develop
   //: LiteralIndex data.
   
   template<class DataT>
@@ -133,6 +135,11 @@ namespace RavlLogicN {
   protected:
     DataT data;
   };
+  
+  //! userlevel=Advanced
+  //: Index leaf with user data.
+  // Internal class for a literal index which associates
+  // the user data with a leaf in the tree.
   
   template<class DataT>
   class LiteralIndexLeafDataC

@@ -23,3 +23,5 @@ LIBDEPS=RavlLogicIndex.def
 USESLIBS=RavlLogic
 
 TESTEXES=testLiteralIndex.cc
+
+EHT=Ravl.Logic.Index.html

@@ -9,6 +9,7 @@
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlLogic
+//! docentry="Ravl.Logic.Index"
 
 #include "Ravl/Logic/LiteralIndexBase.hh"
 #include "Ravl/Logic/LiteralIndexLeaf.hh"
@@ -17,8 +18,9 @@ namespace RavlLogicN {
    
   template<class DataT> class LiteralIndexIterC;
   
-  //! userlevel=Normal
+  //! userlevel=Develop
   //: Literal index.
+  
   template<class DataT>
   class LiteralIndexBodyC
     : public LiteralIndexBaseBodyC
@@ -63,6 +65,13 @@ namespace RavlLogicN {
     //: Access data associated with a literal.
     
   };
+  
+  //! userlevel=Normal
+  //! autolink="on"
+  //: Literal index.
+  // This is an index of 'DataT's based on a Literal key. It maybe queryied directly
+  // with 'Lookup' or iterated through for data items matching a pattern with a 
+  // 'LiteralIndexFilterC'
   
   template<class DataT>
   class LiteralIndexC
