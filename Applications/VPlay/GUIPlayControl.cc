@@ -275,25 +275,45 @@ namespace RavlGUIN {
       if(pc.FixedEnd() != frameSlider.Upper())
 	updateSlider = true;
     }
+    bool updateRange = false;
+    RealT min = 0,max = 0;
+    
     if(pc.FixedStart() != frameSlider.Lower() || loc > frameSlider.Upper()) {
       ONDEBUG(cerr << "Setting slider range " << pc.FixedStart() << " " << loc << "\n");
-      frameSlider.UpdateRange(pc.FixedStart(),loc);
+      min = pc.FixedStart();
+      max = loc;
+      updateRange = true;
     } else {
       if(updateSlider) {
 	if(pc.FixedEnd() > loc) {
 	  ONDEBUG(cerr << "Setting slider range " << pc.FixedStart() << " " << pc.FixedEnd()+1 << "\n");
-	  frameSlider.UpdateRange(pc.FixedStart(),pc.FixedEnd());
+	  min = pc.FixedStart();
+	  max = pc.FixedEnd();
+	  updateRange = true;
 	} else {
 	  ONDEBUG(cerr << "Setting slider range " << pc.FixedStart() << " " << loc+1 << " (loc) \n");
-	  frameSlider.UpdateRange(pc.FixedStart(),loc);
+	  min = pc.FixedStart();
+	  max = loc;
+	  updateRange = true;
 	}
       }
     }
-    if(loc == lastUpdateFrameNo)
-      return true; // Its the same as lasttime!
-    lastUpdateFrameNo = loc;
-    frameSlider.UpdateValue(loc);
+    bool updateValue = false;
+    if(loc != lastUpdateFrameNo) {
+      lastUpdateFrameNo = loc;
+      updateValue = true;
+    }
     hold.Unlock();
+    // Do GUI updates outside of lock, to avoid deadlocks if GUI Queue() blocks.
+    if(updateRange) {
+      if(updateValue)
+	frameSlider.Update(loc,min,max);
+      else
+	frameSlider.UpdateRange(min,max);
+    } else {
+      if(updateValue)
+	frameSlider.UpdateValue(loc);
+    }
     sigUpdateFrameNo(loc); // Signal update.
     return true;
   }
