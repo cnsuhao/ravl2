@@ -39,6 +39,14 @@ namespace RavlN {
     THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT> Vertex() const
     { return THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT>(HEMeshBaseEdgeBodyC::Vertex()); }
     //: Access vertex this edge goes to
+
+    EdgeDataT &Data()
+    { return data; }
+    //: Access data.
+    
+    const EdgeDataT &Data() const
+    { return data; }
+    //: Access data.
     
   protected:
     
@@ -126,6 +134,14 @@ namespace RavlN {
     //: Access body.
     
   public:
+    EdgeDataT &Data()
+    { return Body().Data(); }
+    //: Access data.
+    
+    const EdgeDataT &Data() const
+    { return Body().Data(); }
+    //: Access data.
+    
     THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> Next()
     { return THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT>(Body().Next()); }
     //: Get next edge on face.
