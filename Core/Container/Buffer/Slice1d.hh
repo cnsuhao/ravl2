@@ -299,7 +299,7 @@ namespace RavlN {
     : rng(nrng),
       stride(1),
       buffer(nrng.Size())
-  { ref = &(buffer.ReferenceElm()[-nrng.Min().V()]); }
+  { ref = buffer.ReferenceElm() - nrng.Min().V(); }
   
   template<class DataT>
   DataT &Slice1dC<DataT>::operator[](IndexC i) { 
