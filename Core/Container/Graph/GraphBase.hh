@@ -119,7 +119,7 @@ namespace RavlN {
     inline GraphNodeBaseBodyC & Target()
     { return source.OtherNode(); }
     // Returns the target node of this edge.
-
+    
     inline const GraphNodeBaseBodyC & Node1() const
     { return Source(); }
     // Returns the first constant node of this edge.

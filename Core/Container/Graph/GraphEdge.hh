@@ -283,14 +283,14 @@ namespace RavlN {
   inline GraphNodeIterC<NodeT,EdgeT> 
   GraphEdgeIterC<NodeT,EdgeT>::Node1(void)  {
     RavlAssert(IsIterValid());
-    return GraphNodeIterC<NodeT,EdgeT>(Node1());
+    return GraphNodeIterC<NodeT,EdgeT>(GraphEdgeBaseC::Node1());
   }
   
   template<class NodeT,class EdgeT>
   inline GraphNodeIterC<NodeT,EdgeT> 
   GraphEdgeIterC<NodeT,EdgeT>::Node2(void) {
     RavlAssert(IsIterValid());
-    return GraphNodeIterC<NodeT,EdgeT>(Node2());
+    return GraphNodeIterC<NodeT,EdgeT>(GraphEdgeBaseC::Node2());
   }
   
   template<class NodeT,class EdgeT>
