@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLPERMITER_HEADER
-#define RAVLPERMITER_HEADER 1
+#ifndef RAVLPERMUTATIONITER_HEADER
+#define RAVLPERMUTATIONITER_HEADER 1
 ///////////////////////////////////////////////////////////////
 //! userlevel=Normal
 //! author="Charles Galambos"
@@ -51,14 +51,14 @@ namespace RavlN {
       { return iters[i]; }
     //: Access a given iterator.
     
-    inline void InsLast(UIntT i,const T &Item); 
+    inline void InsLast(UIntT i,const T &Item)
+      { iters[i].InsAft(Item); }
     //: Add item to end of list.
     
     inline void InsLast(const T &Item); 
     //: Add to all lists.
     
-    inline void InsLast(UIntT i,DListC<T> &Items)
-      { iters[i].InsAft(Item); }
+    inline void InsLast(UIntT i,DListC<T> &Items);
     //: Add items to end of list.
     
     inline void Del(UIntT i);             
@@ -115,9 +115,9 @@ namespace RavlN {
   }
   
   template<class T>
-  void PermutationIterC<T>::InsLast(UIntT i,DListC<T> &Items)  {
-    for(DLIterC<T> Iter(Items);Iter.IsElm();Iter.Next())
-      iters[i].InsAft(Iter.Data());
+  void PermutationIterC<T>::InsLast(UIntT i,DListC<T> &items)  {
+    for(DLIterC<T> it(items);it.IsElm();it.Next())
+      iters[i].InsAft(it.Data());
   }
   
   template<class T>
