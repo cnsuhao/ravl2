@@ -118,13 +118,39 @@ namespace RavlGUIN {
     friend class SpinButtonBodyC;
   };
   
+
+  template<class DataT>
+  SpinButtonC SpinButton(RealT nvalue,
+			 RealT nlower, 
+			 RealT nupper, 
+			 RealT nstep_increment,
+			 bool (*func)(RealT &value))
+  {
+    SpinButtonC ret(2,1,nvalue,nlower,nupper,nstep_increment);
+    Connect(ret.SigChanged(),obj,func,defVal,nvalue);
+    return ret;
+  }
+  //: Construct spin button with callback to class method.
+
+  template<class DataT,class ParamT>
+  SpinButtonC SpinButton(RealT nvalue,
+			 RealT nlower, 
+			 RealT nupper, 
+			 RealT nstep_increment,
+			 bool (*func)(RealT &value,ParamT &parm) = 0,const ParamT &parm)
+  {
+    SpinButtonC ret(2,1,nvalue,nlower,nupper,nstep_increment);
+    Connect(ret.SigChanged(),obj,func,nvalue,parm);
+    return ret;
+  }
+  //: Construct spin button with callback to class method.
   
   template<class DataT>
   SpinButtonC SpinButton(RealT nvalue,
 			 RealT nlower, 
 			 RealT nupper, 
 			 RealT nstep_increment,
-			 const DataT &obj,void (DataT::*func)(RealT &value),RealT defVal = 0)
+			 const DataT &obj,bool (DataT::*func)(RealT &value),RealT defVal = 0)
   {
     SpinButtonC ret(2,1,nvalue,nlower,nupper,nstep_increment);
     Connect(ret.SigChanged(),obj,func,defVal);
@@ -137,7 +163,7 @@ namespace RavlGUIN {
 			  RealT nlower, 
 			  RealT nupper, 
 			  RealT nstep_increment,
-			  DataT &obj,void (DataT::*func)(RealT &value),RealT defVal = 0)
+			  DataT &obj,bool (DataT::*func)(RealT &value),RealT defVal = 0)
   {
     SpinButtonC ret(2,1,nvalue,nlower,nupper,nstep_increment);
     ConnectRef(ret.SigChanged(),obj,func,defVal);
