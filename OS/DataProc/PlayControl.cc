@@ -131,9 +131,9 @@ namespace RavlN {
       cerr << "WARNING: Position mismatch: At:" << at << " Actual:" << ret << "\n";
       const_cast<DPPlayControlBodyC &>(*this).at = ret;
     }
+    // Unlock access here.
     return ret;
 #else
-    // Unlock access here.
     return at;
 #endif
   }

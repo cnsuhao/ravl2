@@ -308,7 +308,6 @@ namespace RavlN {
       CheckUpdate();
       RavlAssert(input.IsValid());
       DataT dat = input.Get();  // Possible exception.
-      lock.Unlock();
       return dat;
     }
     // Get next piece of data.
