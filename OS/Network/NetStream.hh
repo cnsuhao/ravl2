@@ -10,6 +10,7 @@
 //! rcsid="$Id$"
 //! lib=RavlNet
 //! author="Charles Galambos"
+//! example=exSocket.cc
 //! docentry="Ravl.OS.Network"
 //! file="Ravl/OS/Network/NetStream.hh"
 //! date="15/02/2000"
@@ -20,9 +21,9 @@
 namespace RavlN {
   ////////////////////////////
   //! userlevel=Normal
-  //: Output stream to memory.
-  // Wraps the standard library ostrstream class.
-  
+  //: Output stream to network port.
+  // It uses the standard ostream/istream for writing data over a network
+
   class NetOStreamC 
     : public OStreamC
   {
@@ -31,10 +32,12 @@ namespace RavlN {
       {}
     //: Default constructor.
     
-    NetOStreamC(const StringC &filename,bool buffered=true,bool server = false);
+    NetOStreamC(const StringC &addr,bool buffered=true,bool server = false);
     //: Open net connection for output.
+    //!param: addr - port address, e.g. <code>trinity.ee.surrey.ac.uk:4045</code> or (for a local network)  <code>trinity:4045</code>
+    //!param: server - true if server; false if client
     
-    NetOStreamC(const SocketC &nsock,bool buffered=true);
+    NetOStreamC(const SocketC &sock,bool buffered=true);
     //: Use a socket to build new handle.
     
     SocketC &Socket() 
@@ -47,8 +50,8 @@ namespace RavlN {
   
   ////////////////////////////
   //! userlevel=Normal
-  //: Input stream from memory.
-  // Wraps the standard library istrstream class.
+  //: Input stream from network port.
+  // It uses the standard ostream/istream for reading data over a network
   
   class NetIStreamC 
     : public IStreamC
@@ -58,10 +61,12 @@ namespace RavlN {
       {}
     //: Default constructor
     
-    NetIStreamC(const StringC &filename,bool buffered=true,bool server = false);
+    NetIStreamC(const StringC &addr,bool buffered=true,bool server = false);
     //: Open net connection for input
-    
-    NetIStreamC(const SocketC &nsock,bool buffered=true);
+    //!param: addr - port address, e.g. <code>trinity.ee.surrey.ac.uk:4045</code> or (for a local network)  <code>trinity:4045</code>
+    //!param: server - true if server; false if client
+
+    NetIStreamC(const SocketC &sock,bool buffered=true);
     //: Use a socket to build new handle.
     
     bool WaitForData(RealT timeout = -1);

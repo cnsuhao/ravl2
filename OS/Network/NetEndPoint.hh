@@ -41,19 +41,20 @@ namespace RavlN {
     : public RCBodyVC
   {
   public:
-    NetEndPointBodyC(SocketC &skt,bool nautoInit = true);
+    NetEndPointBodyC(SocketC &skt,bool autoInit = true);
     //: Constructor.
-    // If auto init is set to false, you must call the Ready() function
-    // when your ready to start processing network messages. If autoinit
-    // is true messages will start being processed as soon as the connection
-    // is established.
+    // If <code>autoInit</code> is set to false, you must call the
+    // Ready() function when you are ready to start processing network
+    // messages. If <code>nautoInit</code> is true messages will start
+    // being processed as soon as the connection is established.
+
     
-    NetEndPointBodyC(const StringC &address,bool nautoInit = true);
+    NetEndPointBodyC(const StringC &address,bool autoInit = true);
     //: Constructor.
-    // If auto init is set to false, you must call the Ready() function
-    // when your ready to start processing network messages. If autoinit
-    // is true messages will start being processed as soon as the connection
-    // is established. <br>
+    // If <code>autoInit</code> is set to false, you must call the
+    // Ready() function when you are ready to start processing network
+    // messages. If <code>nautoInit</code> is true messages will start
+    // being processed as soon as the connection is established. <br>
     // The 'address' has the format  'host:port' where port may be a
     // host name or its ip (dotted numbers) address and port is the 
     // number of the port to use.
@@ -113,7 +114,7 @@ namespace RavlN {
     //: Send init message.
     
     bool Send(UIntT id);
-    //: Send a 0 paramiter message.
+    //: Send a 0 parameter message.
     
     template<class Data1T>
     bool Send(UIntT id,const Data1T &dat1) {
@@ -123,7 +124,7 @@ namespace RavlN {
       Transmit(NetPacketC(os.Data()));
       return true;
     }
-    //: Send a 1 paramiter message.
+    //: Send a 1 parameter message.
     
     template<class Data1T,class Data2T>
     bool Send(UIntT id,const Data1T &dat1,const Data2T &dat2) {
@@ -133,7 +134,7 @@ namespace RavlN {
       Transmit(NetPacketC(os.Data()));
       return true;
     }
-    //: Send a 2 paramiter message.
+    //: Send a 2 parameter message.
 
     template<class Data1T,class Data2T,class Data3T>
     bool Send(UIntT id,const Data1T &dat1,const Data2T &dat2,const Data3T &dat3) {
@@ -143,7 +144,7 @@ namespace RavlN {
       Transmit(NetPacketC(os.Data()));
       return true;
     }
-    //: Send a 3 paramiter message.
+    //: Send a 3 parameter message.
     
     bool Register(const NetMsgRegisterC &nmsg);
     //: Register new message handler.
@@ -270,21 +271,21 @@ namespace RavlN {
     NetEndPointC(SocketC &skt,bool autoInit = true)
       : RCHandleC<NetEndPointBodyC>(*new NetEndPointBodyC(skt,autoInit))
     {}
-    //: Constructor.
-    // If auto init is set to false, you must call the Ready() function
-    // when your ready to start processing network messages. If autoinit
-    // is true messages will start being processed as soon as the connection
-    // is established.
+    //: Constructor.  
+    // If <code>autoInit</code> is set to false, you must call the
+    // Ready() function when you are ready to start processing network
+    // messages. If <code>autoInit</code> is true messages will start
+    // being processed as soon as the connection is established.
     
     NetEndPointC(const StringC &addr,bool autoInit = true)
       : RCHandleC<NetEndPointBodyC>(*new NetEndPointBodyC(addr,autoInit))
     {}
     //: Constructor.
-    // This connects to the given address. <p>
-    // If auto init is set to false, you must call the Ready() function
-    // when your ready to start processing network messages. If autoinit
-    // is true messages will start being processed as soon as the connection
-    // is established.
+    // This connects to the given port address. <p>
+    // If <code>autoInit</code> is set to false, you must call the
+    // Ready() function when you are ready to start processing network
+    // messages. If <code>autoInit</code> is true messages will start
+    // being processed as soon as the connection is established.
     
     explicit NetEndPointC(bool)
       : RCHandleC<NetEndPointBodyC>(*new NetEndPointBodyC())
@@ -370,22 +371,22 @@ namespace RavlN {
     
     bool Send(UIntT id)
     { return Body().Send(id); }
-    //: Send a 0 paramiter message.
+    //: Send a 0 parameter message.
     
     template<class Data1T>
     bool Send(UIntT id,const Data1T &dat1)
     { return Body().Send(id,dat1); }
-    //: Send a 1 paramiter message.
+    //: Send a 1 parameter message.
     
     template<class Data1T,class Data2T>
     bool Send(UIntT id,const Data1T &dat1,const Data2T &dat2)
     { return Body().Send(id,dat1,dat2); }
-    //: Send a 2 paramiter message.
+    //: Send a 2 parameter message.
 
     template<class Data1T,class Data2T,class Data3T>
     bool Send(UIntT id,const Data1T &dat1,const Data2T &dat2,const Data3T &dat3)
     { return Body().Send(id,dat1,dat2,dat3); }
-    //: Send a 3 paramiter message.
+    //: Send a 3 parameter message.
     
     template<class ObjT>
     bool RegisterR(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)())
