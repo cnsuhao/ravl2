@@ -23,6 +23,7 @@
 #include "Ravl/Stream.hh"
 #include "Ravl/StrStream.hh"
 #include "Ravl/MatrixRUT.hh"
+#include "Ravl/MeanCovariance.hh"
 
 using namespace RavlN;
 
@@ -152,6 +153,7 @@ int testSampleVector() {
   SampleVectorC sv;
   sv += VectorC(1,2,3);
   sv += VectorC(1,1,1);
+  if(sv.Size() != 2) return __LINE__;
   MatrixRUTC sop = sv.SumOuterProducts();
   sop.MakeSymmetric();
   MatrixC t(3,3);
@@ -159,7 +161,17 @@ int testSampleVector() {
   t += VectorC(1,2,3).OuterProduct();
   t += VectorC(1,1,1).OuterProduct();
   if((sop - t).SumOfSqr() > 0.0000001) return __LINE__;
-  cerr << "SOP=" << sop << "\n";;
+  //cerr << "SOP=" << sop << "\n";;
+  
+  // Check mean covariance computation.
+  MeanCovarianceC mc = sv.MeanCovariance();
+  MeanCovarianceC cmc(3);
+  cmc += VectorC(1,2,3);
+  cmc += VectorC(1,1,1);
+  if((mc.Covariance() - cmc.Covariance()).SumOfSqr() > 0.00001) return __LINE__;
+  if((mc.Mean() - cmc.Mean()).SumOfSqr() > 0.00001) return __LINE__;
+  if(mc.Number() != cmc.Number()) return __LINE__;
+  
   return 0;
 }
 
