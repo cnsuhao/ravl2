@@ -648,7 +648,7 @@ namespace RavlN {
   
   XMLOStreamC &operator<<(XMLOStreamC &strm,const StringC &str) {   
     if(!strm.IsContent())
-      strm << XMLEndTag; // End tag.
+      strm << XMLContent; // End tag.
     ((OStreamC &) strm) << XMLBaseC::EncodeLitteral(str);
     return strm;
   }
