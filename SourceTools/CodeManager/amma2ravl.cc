@@ -57,6 +57,12 @@ static bool CheckDirectory(StringC &dir,DefsMkFileC &defs) {
     theFile.GlobalSubst("\"amma/Date.hh\"","\"Ravl/OS/Date.hh\"");
     theFile.GlobalSubst("\"amma/StdTypes.hh\"","\"Ravl/Types.hh\"");
     theFile.GlobalSubst("\"amma/PThread/MsgPipe.hh\"","\"Ravl/Threads/MessageQueue.hh\"");
+    theFile.GlobalSubst("\"amma/PThread/MsgPipe.hh\"","\"Ravl/Threads/MessageQueue.hh\"");
+    theFile.GlobalSubst("\"amma/Date.hh\"","\"Ravl/OS/Date.hh\"");
+    theFile.GlobalSubst("\"amma/ImageIter.hh\"","\"Ravl/Array2dIter.hh\"");
+    theFile.GlobalSubst("\"amma/Image2Iter.hh\"","\"Ravl/Array2dIter2.hh\"");
+    theFile.GlobalSubst("\"amma/Image3Iter.hh\"","\"Ravl/Array2dIter3.hh\"");
+    
     
     if(guiUpdates) {
       theFile.GlobalSubst("GUIDEBUG","DODEBUG");
@@ -119,6 +125,9 @@ static bool CheckDirectory(StringC &dir,DefsMkFileC &defs) {
     }
     theFile.GlobalSubst("BodyRefCounterC","RCBodyC");
     theFile.GlobalSubst("BodyRefCounterVC","RCBodyVC");
+    theFile.GlobalSubst("ImageIterC","Array2dIterC");
+    theFile.GlobalSubst("Image2IterC","Array2dIter2C");
+    theFile.GlobalSubst("Image3IterC","Array2dIter3C");
     theFile.GlobalSubst("Launch(","ThreadLaunch(");
     theFile.GlobalSubst("MsgPipeC<","MessageQueueC<");
     theFile.GlobalSubst("SignalEvent(","Trigger(");

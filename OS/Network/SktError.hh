@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/OS/Network/SktError.hh"
-//! lib=RavlOS
+//! lib=RavlNet
 //! userlevel=Default
 //! docentry="Ravl.OS.Network"
 //! author="Charles Galambos"

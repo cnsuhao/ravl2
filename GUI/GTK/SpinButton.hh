@@ -1,10 +1,16 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2001, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 #ifndef RAVLGUISPINBUTTON_HEADER
 #define RAVLGUISPINBUTTON_HEADER 1
 //////////////////////////////////////////////////////////
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! file="Ravl/GUI/GTK/SpinButton.hh"
-//! lib=GUI
+//! lib=RavlGUI
 //! date="29/08/99"
 //! docentry="Ravl.GUI.Control"
 

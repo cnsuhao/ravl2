@@ -1,10 +1,16 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2001, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 #ifndef RAVLGUISIGNALINFO_HEADER
 #define RAVLGUISIGNALINFO_HEADER 1
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! userlevel=Develop
 //! file="Ravl/GUI/GTK/SignalInfo.hh"
-//! lib=GUI
+//! lib=RavlGUI
 //! userlevel=Advanced
 //! docentry="Ravl.GUI.Internal"
 //! author="Charles Galambos"

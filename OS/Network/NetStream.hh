@@ -8,7 +8,7 @@
 #define RAVLNETSTREAM_HEADER 1
 /////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! lib=RavlOS
+//! lib=RavlNet
 //! author="Charles Galambos"
 //! docentry="Ravl.OS.Network"
 //! file="Ravl/OS/Network/NetStream.hh"

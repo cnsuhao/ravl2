@@ -7,7 +7,7 @@
 /////////////////////////////////////////////////////////
 // $Id$
 //! rcsid="$Id$"
-//! lib=RavlOS
+//! lib=RavlNet
 //! file="Ravl/OS/Network/RavlSysNetworkML.cc"
 
 #include "Ravl/OS/NetStream.hh"

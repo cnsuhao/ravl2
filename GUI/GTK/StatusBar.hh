@@ -1,15 +1,21 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2001, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 #ifndef RAVLGUISTATUSBAR_HEADER
 #define RAVLGUISTATUSBAR_HEADER 1
 /////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/GUI/GTK/StatusBar.hh"
-//! lib=GUI
+//! lib=RavlGUI
 //! docentry="Ravl.GUI.Control"
 //! author="Charles Galambos"
 //! date="25/06/99"
 
-#include "Ravl/String.hh"
 #include "Ravl/GUI/Widget.hh"
+#include "Ravl/String.hh"
 #include "Ravl/Tuple2.hh"
 #include "Ravl/Assert.hh"
 

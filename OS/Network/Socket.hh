@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/OS/Network/Socket.hh"
-//! lib=RavlOS
+//! lib=RavlNet
 //! author="Charles Galambos"
 //! example=exSocket.cc
 //! date="15/02/2000"

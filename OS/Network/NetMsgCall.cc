@@ -6,7 +6,7 @@
 // file-header-ends-here
 //////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! lib=RavlOS
+//! lib=RavlNet
 //! file="Ravl/OS/Network/NetMsgCall.cc"
 
 #include "Ravl/OS/NetMsgCall.hh"

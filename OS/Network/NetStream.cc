@@ -6,7 +6,7 @@
 // file-header-ends-here
 /////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! lib=RavlOS
+//! lib=RavlNet
 //! file="Ravl/OS/Network/NetStream.cc"
 
 #include "Ravl/OS/NetStream.hh"

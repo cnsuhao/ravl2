@@ -6,7 +6,7 @@
 // file-header-ends-here
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! lib=RavlOS
+//! lib=RavlNet
 //! file="Ravl/OS/Network/Packet.cc"
 
 #include "Ravl/OS/Packet.hh"

@@ -1,8 +1,14 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2001, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 #ifndef RAVLGUISCROLLEDAREA_HEADER
 #define RAVLGUISCROLLEDAREA_HEADER 1
 /////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! lib=GUI
+//! lib=RavlGUI
 //! author="Charles Galambos"
 //! file="Ravl/GUI/GTK/ScrolledArea.hh"
 //! date="03/04/99"

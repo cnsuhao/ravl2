@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.OS.Network"
 //! file="Ravl/OS/Network/NetMsgCall.hh"
-//! lib=RavlOS
+//! lib=RavlNet
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! docentry="Ravl.OS.Network"

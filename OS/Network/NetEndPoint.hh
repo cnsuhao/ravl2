@@ -11,7 +11,7 @@
 //! rcsid="$Id$"
 //! example=exEndPoint.cc
 //! file="Ravl/OS/Network/NetEndPoint.hh"
-//! lib=RavlOS
+//! lib=RavlNet
 //! userlevel=Normal
 //! docentry="Ravl.OS.Network"
 //! author="Charles Galambos"

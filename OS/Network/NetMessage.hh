@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/OS/Network/NetMessage.hh"
-//! lib=RavlOS
+//! lib=RavlNet
 //! docentry="Ravl.OS.Network"
 //! date="14/11/2000"
 

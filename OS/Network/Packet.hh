@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/OS/Network/Packet.hh"
-//! lib=RavlOS
+//! lib=RavlNet
 //! author="Charles Galambos"
 //! date="13/12/2000"
 //! docentry="Ravl.OS.Network"

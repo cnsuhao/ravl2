@@ -6,7 +6,7 @@
 // file-header-ends-here
 ////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! lib=RavlOS
+//! lib=RavlNet
 //! file="Ravl/OS/Network/exSocket.cc"
 
 #include "Ravl/Option.hh"
