@@ -45,6 +45,13 @@ namespace RavlImageN {
       v = oth.V();
     }
     //: Construct from another component type.
+
+    void Set(const ByteT &ny,const SByteT &nu,const SByteT &nv) {
+      y =ny;
+      u =nu;
+      v =nv;
+    }
+    //: Set the values.
     
     inline const ByteT & Y() const
       { return y; }
