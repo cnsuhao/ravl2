@@ -50,7 +50,7 @@ namespace RavlImageN {
     RealT zhomogTemplate, zhomogImage;
 
     // stored data
-    const ImageC<ByteT> &imageTemplate;
+    ImageC<ByteT> imageTemplate;
     ImageTrackerC tracker;
   };
 }
