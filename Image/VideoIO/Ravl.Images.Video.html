@@ -115,5 +115,20 @@ USESLIBS = RavlVideoIO ....
     } 
     </pre>
 
+    
+    <h3> Sequence Attributes </h3> 
+    <p> Many classes for handling video sequence IO are derived from  <a href="../Class/RavlN.DPOPortC.html"> DPPortC </a> and therefore have support 
+      for the data processing <a href="Ravl.Core.Data_Processing.Attributes.html"> attribute system. </a>
+    </p> 
+
+    Some attributes are common to most video sequence classes. A list of common attributes are :-
+    <table border=1 cellspacing=10> 
+	<tr> <th> Attribute Name     </th> <th> Description </th> </tr> 
+	<tr> <td> timecode           </td> <td> Get a timecode from the video stream </td> </tr> 
+	<tr> <td> FrameBufferSize    </td> <td> Get/Set the size of the frame buffer </td> </tr> 
+	<tr> <td> framerate          </td> <td> Get/Set the frame rate for the stream </td> </tr> 
+    </table> 
+
+
   </body>
 </html>
