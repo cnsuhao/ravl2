@@ -15,7 +15,7 @@ HEADERS=ImageRectangle.hh Image.hh RGBValue.hh RGBAValue.hh YUVValue.hh \
  ByteYUVAValue.hh BGRAValue.hh ByteBGRAValue.hh YUV422Value.hh ByteYUV422Value.hh \
  ByteRGBMedian.hh RealRGBAverage.hh \
  Deinterlace.hh VYUValue.hh ByteVYUValue.hh DrawFrame.hh DrawCross.hh \
- Font.hh PSFFont.h DrawLine.hh DrawCircle.hh DrawPolygon.hh
+ Font.hh PSFFont.h DrawLine.hh DrawCircle.hh DrawPolygon.hh RealHSVValue.hh
 
 SOURCES=ImageRectangle.cc Image.cc ByteRGBValue.cc ByteYUVValue.cc RealRGBValue.cc \
  RealYUVValue.cc RGBcYUV.cc Font.cc
@@ -28,7 +28,7 @@ PROGLIBS=RavlImageIO RavlOS RavlMath RavlDPDisplay
 
 MAINS=imgdiff.cc
 
-TESTEXES=testImage.cc
+TESTEXES=testImage.cc testHSVValue.cc
 
 EXAMPLES= exImage.cc imgdiff.cc exDraw.cc
 
