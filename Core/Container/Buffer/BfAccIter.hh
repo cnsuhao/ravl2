@@ -77,6 +77,15 @@ namespace RavlN {
     //: Test if we're at the last valid element in the range.
     // Note: This is slightly slower than IsElm().
     
+    void SetEnd(int n) { 
+      const DataT *newEnd = &(at[n]); 
+      RavlAssert(newEnd <= endOfRow);
+      endOfRow = newEnd;
+    }
+    //: Set the end of iteration 'n' items after this one.
+    // Note: the end must be less than or equal to the old iteration
+    // end point.
+    
     inline operator bool() const
     { return at < endOfRow; }
     //: At valid element ?

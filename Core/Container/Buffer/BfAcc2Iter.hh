@@ -90,7 +90,12 @@ namespace RavlN {
       cit.First(*rit,rng);
     }
     //: Go back to the begining of this row.
-
+    
+    void SetColEnd(int n)
+    { cit.SetEnd(n); }
+    //: End the iteration of the current row n elements from current place.
+    // 'n' must be less than or equal to the number of elements left. 
+    
     bool NextRow() {
       rit.Next();
       if(!rit.IsElm())
@@ -126,6 +131,10 @@ namespace RavlN {
     { cit.Next(skip); }
     //: Go forward 'skip' columns, without checking for row change.
     // Use with care.
+    
+    bool IsColElm() const
+    { return cit.IsElm(); }
+    //: Is column element ?
     
     bool Next() { 
       cit.Next();
