@@ -18,6 +18,8 @@ CHMOD = chmod
 TOUCH=touch
 RM=rm
 
+EXEEXT=.exe#
+
 LIBPATHSWITCH = -Wl,-rpath=#
 
 AMKDEPFLAGS = -Wp,-MMD,$(WORKTMP)/$*.d

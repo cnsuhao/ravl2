@@ -4,7 +4,6 @@
 # Public License (GPL). See the gpl.licence file for details or
 # see http://www.gnu.org/copyleft/gpl.html
 # file-header-ends-here
-# $Id$
 #! rcsid="$Id$"
 #! file="Ravl/QMake/defs.mk"
 

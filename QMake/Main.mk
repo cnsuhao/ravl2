@@ -96,6 +96,11 @@ ifndef CHEXT
   CHEXT:=.h#
 endif
 
+# Extension expected on executables.
+ifndef EXEEXT
+  EXEEXT:=#
+endif
+
 
 ##########################
 # Clean up defs stuff.
@@ -271,10 +276,10 @@ ifeq ($(SUPPORT_OK),yes)
  endif
 #$(INST_DEPEND)/%.java.d
  TARG_DEFS=$(patsubst %,$(INST_LIBDEF)/%,$(LIBDEPS))
- TARG_EXE := $(patsubst %$(CEXT),$(INST_BIN)/%, $(patsubst %$(CXXEXT),$(INST_BIN)/%,$(filter-out %.java,$(MAINS))))
- TARG_PUREEXE := $(patsubst %$(CEXT),$(INST_BIN)/pure_%, $(patsubst %$(CXXEXT),$(INST_BIN)/pure_%,$(filter-out %.java,$(MAINS))))
+ TARG_EXE := $(patsubst %$(CEXT),$(INST_BIN)/%$(EXEEXT), $(patsubst %$(CXXEXT),$(INST_BIN)/%$(EXEEXT),$(filter-out %.java,$(MAINS))))
+ TARG_PUREEXE := $(patsubst %$(CEXT),$(INST_BIN)/pure_%$(EXEEXT), $(patsubst %$(CXXEXT),$(INST_BIN)/pure_%$(EXEEXT),$(filter-out %.java,$(MAINS))))
  TARG_EXEOBJS=$(patsubst %$(CEXT),$(INST_OBJS)/%$(OBJEXT),$(patsubst %$(CXXEXT),$(INST_OBJS)/%$(OBJEXT),$(filter-out %.java,$(MAINS))))
- TARG_TESTEXE := $(patsubst %$(CEXT),$(INST_TESTBIN)/%, $(patsubst %$(CXXEXT),$(INST_TESTBIN)/%,$(TESTEXES)))
+ TARG_TESTEXE := $(patsubst %$(CEXT),$(INST_TESTBIN)/%$(EXEEXT), $(patsubst %$(CXXEXT),$(INST_TESTBIN)/%,$(TESTEXES)))
  TARG_TESTEXEOBJS=$(patsubst %$(CEXT),$(INST_OBJS)/%$(OBJEXT),$(patsubst %$(CXXEXT),$(INST_OBJS)/%$(OBJEXT),$(TESTEXES)))
 ifndef NOEXEBUILD
  TARG_DEPEND:= $(patsubst %$(CXXAUXEXT),$(INST_DEPEND)/%.d, \
@@ -711,18 +716,18 @@ else
 #$(TARG_MUSTLINK_OBJS)
 endif
 
-$(TARG_PUREEXE) : $(INST_BIN)/pure_% : $(INST_OBJS)/%$(OBJEXT) $(EXTRAOBJS) $(TARG_LIBS) $(INST_BIN)/.dir $(TARG_HDRCERTS)
+$(TARG_PUREEXE) : $(INST_BIN)/pure_%$(EXEEXT) : $(INST_OBJS)/%$(OBJEXT) $(EXTRAOBJS) $(TARG_LIBS) $(INST_BIN)/.dir $(TARG_HDRCERTS)
 	$(SHOWIT)echo "--- Purify $(@F)  ( $(INST_BIN)/$(@F) ) " ; \
-	purify -g++ -best-effort $(CXX) $(LDFLAGS) $(INST_OBJS)/$*$(OBJEXT) $(EXTRAOBJS) $(BINLIBS) -o $(INST_BIN)/$(@F) ; 
+	purify -g++ -best-effort $(CXX) $(LDFLAGS) $(INST_OBJS)/$*$(OBJEXT) $(EXTRAOBJS) $(BINLIBS) -o $(INST_BIN)/$(@F)$(EXEEXT) ; 
 
-$(TARG_EXE) : $(INST_BIN)/% : $(INST_OBJS)/%$(OBJEXT) $(INST_GENBIN)/% $(EXTRAOBJS) $(TARG_LIBS) $(INST_BIN)/.dir $(TARG_HDRCERTS)
-	$(SHOWIT)echo "--- Linking $(VAR) $(@F)  ( $(INST_BIN)/$(@F) ) " ; \
+$(TARG_EXE) : $(INST_BIN)/%$(EXEEXT) : $(INST_OBJS)/%$(OBJEXT) $(INST_GENBIN)/% $(EXTRAOBJS) $(TARG_LIBS) $(INST_BIN)/.dir $(TARG_HDRCERTS)
+	$(SHOWIT)echo "--- Linking $(VAR) $(@F) ( $(INST_BIN)/$(@F)$(EXEEXT) ) " ; \
 	if [ -f $(INST_BIN)/$(@F) ] ; then \
-	  $(CHMOD) +w $(INST_BIN)/$(@F) ; \
+	  $(CHMOD) +w $(INST_BIN)/$(@F)$(EXEEXT) ; \
 	fi ; \
 	if $(CXX) $(LDFLAGS) $(INST_OBJS)/$(@F)$(OBJEXT) $(EXTRAOBJS) $(BINLIBS) -o $(INST_BIN)/$(@F) ; then \
 	  $(SYNC) ; \
-	  $(CHMOD) 555 $(INST_BIN)/$(@F) ; \
+	  $(CHMOD) 555 $(INST_BIN)/$(@F)$(EXEEXT) ; \
 	else \
 	  exit 1; \
 	fi
@@ -760,7 +765,7 @@ build_test:
 endif
 
 
-$(TARG_TESTEXE) : $(INST_TESTBIN)/% : $(INST_OBJS)/%$(OBJEXT) $(TARG_LIBS) $(EXTRAOBJS) $(TARG_HDRCERTS) $(INST_TESTBIN)/.dir
+$(TARG_TESTEXE) : $(INST_TESTBIN)/%$(EXEEXT) : $(INST_OBJS)/%$(OBJEXT) $(TARG_LIBS) $(EXTRAOBJS) $(TARG_HDRCERTS) $(INST_TESTBIN)/.dir
 	$(SHOWIT)echo "--- Linking test program $(@F)  ( $(INST_TESTBIN)/$(@F) ) " ; \
 	if $(CXX) $(LDFLAGS) $(INST_OBJS)/$(@F)$(OBJEXT)  $(EXTRAOBJS) $(BINLIBS) -o $(INST_TESTBIN)/$(@F) ; then \
 	  $(SYNC) ; \

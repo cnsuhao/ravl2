@@ -8,7 +8,7 @@
 
 # This is a little evil, but it saves changing the config all the time.
 
-#ifeq (x,z)
+ifeq (x,x)
 ifeq ($(shell which /usr/local/gcc-2.95.3/bin/gcc 2> /dev/null),/usr/local/gcc-2.95.3/bin/gcc)
 CC = /usr/local/gcc-2.95.3/bin/gcc
 CXX = /usr/local/gcc-2.95.3/bin/g++
@@ -21,10 +21,10 @@ CC = gcc
 CXX = g++
 endif
 endif
-#else
-#CC = /vol/vssp/develop/ees1cg/gcc-3.1/bin/gcc
-#CXX = /vol/vssp/develop/ees1cg/gcc-3.1/bin/g++
-#endif
+else
+CC = /vol/vssp/develop/ees1cg/gcc-3.1/bin/gcc
+CXX = /vol/vssp/develop/ees1cg/gcc-3.1/bin/g++
+endif
 
 MKDEPFLAGS = -MM
 
@@ -47,8 +47,8 @@ MKDEPUP = echo -n '$$(INST_OBJS)/' > $(INST_DEPEND)/$*.d ; cat $(WORKTMP)/$*.d  
 
 CFLAGS   = -Wall -pipe  
 CCFLAGS  = -pipe -Wall
-CCPPFLAGS= -DGNU -Dunix 
-CPPFLAGS = -DGNU -Dunix 
+CCPPFLAGS= -DGNU -Dunix
+CPPFLAGS = -DGNU -Dunix
 LDFLAGS = 
 PAR_MAKE = --jobs=$(PROCS)
 
