@@ -14,13 +14,18 @@
 //! lib=RavlIO
 //! file="Ravl/Core/IO/FileFormatRegistry.hh"
 
+#include "Ravl/config.h"
+#if RAVL_USE_IO_AUTO_TYPECONVERTER
 #include "Ravl/DP/TypeConverter.hh"
+#endif
 #include "Ravl/DP/FileFormat.hh"
 #include "Ravl/DList.hh"
 #include "Ravl/Hash.hh"
 
 namespace RavlN {
 
+  class RCWrapAbstractC;
+  
   //! userlevel=Develop
   //: Registry of file formats.
   
@@ -31,8 +36,10 @@ namespace RavlN {
     FileFormatRegistryBodyC();
     //: Default constructor.
 
+#if RAVL_USE_IO_AUTO_TYPECONVERTER
     FileFormatRegistryBodyC(const TypeConverterC &aTypeConveter);
     //: Constructor.
+#endif
 
     bool Insert(FileFormatBaseC &ff);
     //: Add a new format to the registry.
@@ -109,7 +116,9 @@ namespace RavlN {
     DListC<FileFormatBaseC> formats;
     HashC<StringC,DListC<FileFormatBaseC> > formatByName;
     
+#if RAVL_USE_IO_AUTO_TYPECONVERTER
     TypeConverterC typeConverter;
+#endif
     //: Type converter to use.
   };
 
@@ -131,10 +140,12 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
 
+#if RAVL_USE_IO_AUTO_TYPECONVERTER
     FileFormatRegistryC(const TypeConverterC &aTypeConveter)
       : RCHandleC<FileFormatRegistryBodyC>(*new FileFormatRegistryBodyC(aTypeConveter))
       {}
     //: Constructor.
+#endif
     
     bool Insert(FileFormatBaseC &ff)
       { return Body().Insert(ff); }

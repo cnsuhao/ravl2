@@ -10,7 +10,7 @@
 //! file="Ravl/Core/IO/FileFormatRegistry.cc"
 
 #include "Ravl/DP/FileFormatRegistry.hh"
-#include "Ravl/DP/TypeConverter.hh"
+
 #include "Ravl/TypeName.hh"
 #include "Ravl/StringList.hh"
 #include "Ravl/HSet.hh"
@@ -28,14 +28,18 @@ namespace RavlN {
   //: Default constructor.
   
   FileFormatRegistryBodyC::FileFormatRegistryBodyC() 
+#if RAVL_USE_IO_AUTO_TYPECONVERTER
     : typeConverter(SystemTypeConverter())
+#endif
   {}
   
+#if RAVL_USE_IO_AUTO_TYPECONVERTER
   //: Constructor.
   
   FileFormatRegistryBodyC::FileFormatRegistryBodyC(const TypeConverterC &aTypeConveter)
     : typeConverter(aTypeConveter)
   {}
+#endif
   
   //: Add a new format to the registry.
   
@@ -300,12 +304,14 @@ namespace RavlN {
       // Can we convert to requested type ?
       if(!conv.IsEmpty())
 	continue; // Don't bother if we've found a way already.    
+#if RAVL_USE_IO_AUTO_TYPECONVERTER
       new_conv = typeConverter.FindConversion(*ti,obj_type);
       if(!new_conv.IsEmpty()) {
 	form = it.Data();
 	conv = new_conv;
 	intype = ti;
       }
+#endif
     }
     if(!form.IsValid()) {
       ONDEBUG(cerr << "FindInputFormat(StringC), Can't identify stream. \n");
@@ -390,6 +396,7 @@ namespace RavlN {
 	}
 	continue;
       }
+#if RAVL_USE_IO_AUTO_TYPECONVERTER
       if(minCost == 0)
 	continue; // Found a format needing no conversion !
       RealT acost = -1;
@@ -403,6 +410,7 @@ namespace RavlN {
 	bestout = &ti;
 	bestPri = it.Data().Priority();
       }
+#endif
     }
     
     if(!minForm.IsValid()) {
@@ -469,12 +477,14 @@ namespace RavlN {
 	break;
       }
       // Can we convert to requested type ?
+#if RAVL_USE_IO_AUTO_TYPECONVERTER
       conv = typeConverter.FindConversion(ti,obj_type);
       if(conv.Size() > 0) {
 	form = it.Data();
 	bestin = &ti;
 	break;
       }
+#endif
     }
     if(!form.IsValid()) {
       ONDEBUG(cerr << "CreateInput(StreamC), Can't load stream. \n");
@@ -534,6 +544,7 @@ namespace RavlN {
 	  bestout = &ti;
 	}
       }
+#if RAVL_USE_IO_AUTO_TYPECONVERTER
       if(minCost == 0)
 	continue; // Conversion less format already found.
       RealT acost = -1;
@@ -547,6 +558,7 @@ namespace RavlN {
 	bestPri = it.Data().Priority();
 	bestout = &ti;
       }
+#endif
     }
     
     if(!minForm.IsValid()) {

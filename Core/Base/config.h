@@ -22,6 +22,13 @@
 #endif
 /****************************************/
 
+/* Set the following typedef to 1 to have the Ravl IO system
+ * to automatically use the type conversion mechanism when doing IO.
+ * This is add alot of flexibity to IO operations but comes at the
+ * price of larger executables and a slighty longer load times.
+ */
+#define RAVL_USE_IO_AUTO_TYPECONVERTER 0
+
 #if !defined(__sgi__)
 #define _GNU_SOURCE 1
 #define _POSIX_SOURCE 1
