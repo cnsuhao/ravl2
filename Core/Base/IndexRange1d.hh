@@ -165,6 +165,11 @@ namespace RavlN {
     inline const IndexRangeC & operator-=(IndexC i);
     //: Both minimum and maximum limits are shifted by subtracting the offset 'i'.
     // Returns a reference to this range.
+
+    inline const IndexRangeC & operator /= (IndexC i) ; 
+    //: Both minimum and maximum limites are divided by i 
+    // IndexC rounding rules apply 
+    // Returns a reference to this range. 
     
     inline const IndexRangeC & operator+=(IntT i)
     { return (*this) += IndexC(i); }
@@ -194,13 +199,18 @@ namespace RavlN {
     { return IndexRangeC(Min() - i,Max() - i); }
     //: Create a new IndexRangeC with minimum and maximum limits shifted by subtracting the offset 'i'.
     
+    inline IndexRangeC operator/ (IndexC i) const 
+      { return IndexRangeC(Min() / i, Max() / i ) ; } 
+    //: Create a new IndexRangeC with maximum and minimum limits divided by IndexC 
+    // IndexC rounding rules apply. 
+
     inline IndexRangeC operator+(IntT i) const
     { return IndexRangeC(Min() + i,Max() + i); }
     //: Create a new IndexRangeC with minimum and maximum limits shifted by adding the offset 'i'.
     
     inline IndexRangeC operator-(IntT i) const
     { return IndexRangeC(Min() - i,Max() - i); }
-    //: Create a new IndexRangeC with minimum and maximum limits shifted by subtracting the offset 'i'.
+    //: Create a new IndexRangeC with minimum and maximum limits shifted by subtracting the offset 'i'. 
 
     inline IndexRangeC operator+(UIntT i) const
     { return IndexRangeC(Min() + i,Max() + i); }
@@ -323,6 +333,12 @@ namespace RavlN {
     Min() -= i;
     Max() -= i;
     return *this;
+  }
+
+  inline const IndexRangeC & IndexRangeC::operator /= (IndexC i) {
+    Min() /= i ; 
+    Max() /= i ; 
+    return *this ; 
   }
   
   inline IndexRangeC &IndexRangeC::ClipBy(const IndexRangeC & r) {

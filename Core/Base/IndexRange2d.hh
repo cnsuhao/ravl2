@@ -211,6 +211,7 @@ namespace RavlN {
     inline const IndexRange2dC & operator-=(const Index2dC & offset);
     //: Shifts the rectangle to the new position.
     
+  
     inline IndexRange2dC operator+(const Index2dC & offset) const
     { return IndexRange2dC(Range1() + offset[0],Range2() + offset[1]); }
     //: Shifts the rectangle to the new position.
@@ -218,6 +219,11 @@ namespace RavlN {
     inline IndexRange2dC operator-(const Index2dC & offset) const
     { return IndexRange2dC(Range1() - offset[0],Range2() - offset[1]); }
     //: Shifts the rectangle to the new position.
+    
+    inline IndexRange2dC operator/( const IndexC & factor) const 
+      { return IndexRange2dC ( Range1() / factor, Range2()  / factor ) ; } 
+    //: Divide the ranges by a factor 
+    // IndexC rounding rules apply 
     
     inline const IndexRangeC & RowRange() const
     { return rows; }
@@ -304,6 +310,16 @@ namespace RavlN {
     //: Add the 'sr' to this rectangle.
     // This does TRow() += sr.TRow(), BRow() += sr.BRow().....
     
+
+    const IndexRange2dC & operator /= (const IndexC & factor ) { 
+      Range1() /= factor ; 
+      Range2() /= factor ; 
+      return *this ; 
+    }
+    //: Divides the ranges by a factor 
+    // IndexC rounding rules apply 
+
+
     IndexRange2dC operator-(const IndexRange2dC &sr) const {
       IndexRange2dC ret(*this);
       ret.TRow() -= sr.TRow();
@@ -314,6 +330,7 @@ namespace RavlN {
     }
     //: Subtract the 'sr' from this rectangle.
     // As operator-=(const IndexRange2dC &sr), but returns the modified rectangle.
+
 
     IndexRange2dC operator+(const IndexRange2dC &sr) const {
       IndexRange2dC ret(*this);
