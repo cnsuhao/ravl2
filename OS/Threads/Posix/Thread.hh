@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLPTHREADSTHREAD_HEADER
-#define RAVLPTHREADSTHREAD_HEADER 1
+#ifndef RAVL_THREADSTHREAD_HEADER
+#define RAVL_THREADSTHREAD_HEADER 1
 //////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/OS/Threads/Posix/Thread.hh"
