@@ -10,8 +10,8 @@ $(include:topbar.stmpl)
 
 $(//: **************** Put in bread crumbs *********************** )
 $(ifset:docentry:
-<table width=100% bgcolor="#C0C0C0"><tr>$(set:parent=)
-<td>$(for:.:$docentry:$(silent:
+<table width=100% bgcolor="#C0C0C0"><tr>$(set:parent=)$(set:maindocentry=$(before:;:$(docentry)))
+<td>$(for:.:$maindocentry:$(silent:
 		    $(ifset:parent:$(set:parent=$(parent).$(subst: :_:%arg%)))
 	            $(else:$(set:parent=$(subst: :_:%arg%)))
 )-<A HREF="../Tree/$(parent).html">%arg%</A>)-<b>$(FullName)</b>
