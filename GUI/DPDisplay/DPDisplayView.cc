@@ -167,7 +167,13 @@ namespace RavlGUIN {
       vdiff = 0;
     if(hdiff < 0)
       hdiff = 0;
+    if(vdiff == 0) 
+      vSlider.Hide();
+    else vSlider.Show();      
     vSlider.UpdateRange(0,vdiff);
+    if(hdiff == 0) 
+      hSlider.Hide();
+    else hSlider.Show();      
     hSlider.UpdateRange(0,hdiff);
     return true;
   }
