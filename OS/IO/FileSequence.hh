@@ -64,7 +64,6 @@ namespace RavlN {
     virtual UIntT Start() const
       { return start; }
     //: Find the offset where the stream begins, normally zero.
-    // Defaults to 0
     
     FilenameC Filename() const;
     //: Get the filename of the current file.
