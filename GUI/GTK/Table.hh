@@ -43,6 +43,23 @@ namespace RavlGUIN {
 		   );
     //: Add object to table.
     // Values for attach options are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKATTACHOPTIONS">here</A>.
+
+    bool GUIAddObject(const WidgetC &widge,
+		      UIntT left_attach,UIntT right_attach,
+		      UIntT top_attach,UIntT bottom_attach,
+		      GtkAttachOptions nxoptions= (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
+		      GtkAttachOptions nyoptions= (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
+		      UIntT nxpadding = 0,
+		      UIntT nypadding = 0)
+    { 
+      TableBodyC::WidgeInfoC wi(widge,left_attach,right_attach,top_attach,bottom_attach,
+				nxoptions,nyoptions,
+				nxpadding,nypadding);
+      return GUIAddObject(wi); 
+    }
+    //: Add object to table on GUI thread.
+    // Values for attach options are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKATTACHOPTIONS">here</A>.
+    // Call on the GUI thread only.
     
     
   protected:
