@@ -124,7 +124,7 @@ namespace RavlN {
   //: Load object from a binary stream via a virtual constructor
   
 #define RAVL_INITVIRTUALCONSTRUCTOR(bodyname) \
- static VirtualConstructorInstC<bodyname> vc_function(# bodyname );
+ static VirtualConstructorInstC<bodyname> vc_function_ ## bodyname(# bodyname );
 
   // Just initalise the virtual constructor.
 
