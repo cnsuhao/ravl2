@@ -10,6 +10,9 @@
 //! docentry="Ravl.Applications.VPlay"
 //! author="Charles Galambos"
 //! lib=RavlVPlay
+//! userlevel=Normal
+
+//: Video Player 
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteYUVValue.hh"
