@@ -21,7 +21,7 @@
 namespace Ravl3DN {
   
   //! userlevel=Develop
-  //: POVRay file IO - for POVRay meshes
+  //: Save TriMeshC to POVRay .pov files
   // POV-Ray is a free, high-quality, cross-platform raytracing program.
   // For more info, see <A HREF="http://www.povray.org">povray.org</A>
 
@@ -47,7 +47,7 @@ namespace Ravl3DN {
   };
   
   //! userlevel=Advanced
-  //: POVRay file IO - for POVRay meshes
+  //: Save TriMeshC to POVRay .pov files
   // POV-Ray is a free, high-quality, cross-platform raytracing program.
   // For more info, see <A HREF="http://www.povray.org">povray.org</A>
 
@@ -68,7 +68,7 @@ namespace Ravl3DN {
   };
   
   //! userlevel=Develop
-  //: POVRay file IO - for POVRay meshes
+  //: Save TexTriMeshC to POVRay .pov files
   // POV-Ray is a free, high-quality, cross-platform raytracing program.
   // For more info, see <A HREF="http://www.povray.org">povray.org</A>
   
@@ -92,7 +92,7 @@ namespace Ravl3DN {
   };
   
   //! userlevel=Advanced
-  //: POVRay file IO - for POVRay meshes
+  //: Save TexTriMeshC to POVRay .pov files
   // POV-Ray is a free, high-quality, cross-platform raytracing program.
   // For more info, see <A HREF="http://www.povray.org">povray.org</A>
 

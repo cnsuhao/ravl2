@@ -21,7 +21,7 @@
 namespace Ravl3DN {
   
   //! userlevel=Develop
-  //: Obj File format information.
+  //: OBJ file format information.
   
   class FileFormatObjBodyC 
     : public FileFormatBodyC 
@@ -62,8 +62,8 @@ namespace Ravl3DN {
   
   /////////////////////////////
   //! userlevel=Advanced
-  //: Create an instance of a Obj File Format.
-  
+
+  //: OBJ file format for TriMeshC
   class FileFormatObjC 
     : public FileFormatC<TriMeshC > {
   public:

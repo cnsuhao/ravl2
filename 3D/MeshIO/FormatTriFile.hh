@@ -21,7 +21,7 @@
 namespace Ravl3DN {
   
   //! userlevel=Develop
-  //: Tri File format information.
+  //: Tri file format information.
   
   class FileFormatTriBodyC 
     : public FileFormatBodyC 
@@ -62,8 +62,8 @@ namespace Ravl3DN {
   
   /////////////////////////////
   //! userlevel=Advanced
-  //: Create an instance of a Tri File Format.
   
+  //: Tri file format for TriMeshC  
   class FileFormatTriC 
     : public FileFormatC<TriMeshC > {
   public:

@@ -19,7 +19,7 @@
 namespace Ravl3DN {
   
   //! userlevel=Develop
-  //: Tri file IO.
+  //: Load TriMeshC from .tri files
   
   class DPITriFileBodyC
     : public DPIPortBodyC<TriMeshC>
@@ -43,7 +43,7 @@ namespace Ravl3DN {
   };
   
   //! userlevel=Advanced
-  //: Tri file IO.
+  //: Load TriMeshC from .tri files
 
   class DPITriFileC
     : public DPIPortC<TriMeshC>
@@ -63,7 +63,7 @@ namespace Ravl3DN {
 
   
   //! userlevel=Develop
-  //: Tri file IO.
+  //: Save TriMeshC to .tri files
   
   class DPOTriFileBodyC
     : public DPOPortBodyC<TriMeshC>
@@ -87,7 +87,7 @@ namespace Ravl3DN {
   };
   
   //! userlevel=Advanced
-  //: Tri file IO.
+  //: Save TriMeshC to .tri files
 
   class DPOTriFileC
     : public DPOPortC<TriMeshC>

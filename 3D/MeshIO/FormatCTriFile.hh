@@ -66,8 +66,8 @@ namespace Ravl3DN {
   
   /////////////////////////////
   //! userlevel=Advanced
-  //: Create an instance of a CTri File Format.
-  
+
+  //: CTri file format for TexTriMeshC
   class FileFormatCTriC 
     : public FileFormatC<TexTriMeshC > {
   public:

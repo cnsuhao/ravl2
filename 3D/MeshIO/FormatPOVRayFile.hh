@@ -20,7 +20,7 @@
 namespace Ravl3DN {
   
   //! userlevel=Develop
-  //: POVRay File format information.
+  //: POVRay file format information.
   
   class FileFormatPOVRayBodyC 
     : public FileFormatBodyC 
@@ -55,22 +55,23 @@ namespace Ravl3DN {
   
   /////////////////////////////
   //! userlevel=Advanced
-  //: Create an instance of a POVRay File Format.
-  
+
+  //: POVRay file format for TriMeshC  
   class FileFormatPOVRayC 
     : public FileFormatC<TriMeshC> {
   public:
     FileFormatPOVRayC()
       : FileFormatC<TriMeshC>(*new FileFormatPOVRayBodyC())
-      {}
+    {}
   };
   
+  //: POVRay file format for TexTriMeshC  
   class FileFormatTexPOVRayC 
     : public FileFormatC<TexTriMeshC> {
   public:
     FileFormatTexPOVRayC()
       : FileFormatC<TexTriMeshC>(*new FileFormatPOVRayBodyC())
-      {}
+    {}
   };
   
   

@@ -20,7 +20,7 @@
 namespace Ravl3DN {
   
   //! userlevel=Develop
-  //: CTri file IO.
+  //: Load TexTriMeshC from .ctri files
   
   class DPICTriFileBodyC
     : public DPIPortBodyC<TexTriMeshC>
@@ -42,7 +42,7 @@ namespace Ravl3DN {
   };
   
   //! userlevel=Advanced
-  //: CTri file IO.
+  //: Load TexTriMeshC from .ctri files
 
   class DPICTriFileC
     : public DPIPortC<TexTriMeshC>
@@ -57,7 +57,7 @@ namespace Ravl3DN {
 
   
   //! userlevel=Develop
-  //: CTri file IO.
+  //: Save TexTriMeshC to .ctri files
   
   class DPOCTriFileBodyC
     : public DPOPortBodyC<TexTriMeshC>
@@ -79,7 +79,7 @@ namespace Ravl3DN {
   };
   
   //! userlevel=Advanced
-  //: CTri file IO.
+  //: Save TexTriMeshC to .ctri files
 
   class DPOCTriFileC
     : public DPOPortC<TexTriMeshC>

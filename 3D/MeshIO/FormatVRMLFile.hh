@@ -20,7 +20,7 @@
 namespace Ravl3DN {
   
   //! userlevel=Develop
-  //: VRML File format information.
+  //: VRML file format information.
   
   class FileFormatVRMLBodyC 
     : public FileFormatBodyC 
@@ -69,8 +69,8 @@ namespace Ravl3DN {
   
   /////////////////////////////
   //! userlevel=Advanced
-  //: Create an instance of a VRML File Format.
   
+  //: VRML file format for TriMeshC  
   class FileFormatVRMLC 
     : public FileFormatC<TriMeshC> {
   public:
@@ -79,6 +79,7 @@ namespace Ravl3DN {
       {}
   };
   
+  //: VRML file format for TexTriMeshC  
   class FileFormatTexVRMLC 
     : public FileFormatC<TexTriMeshC> {
   public:

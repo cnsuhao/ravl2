@@ -21,7 +21,7 @@
 namespace Ravl3DN {
   
   //! userlevel=Develop
-  //: VRML file IO - for VRML indexed face sets.
+  //: Load TriMeshC from VRML files
   
   class DPIVRMLFileBodyC
     : public DPIPortBodyC<TriMeshC>
@@ -45,7 +45,7 @@ namespace Ravl3DN {
   };
   
   //! userlevel=Advanced
-  //: VRML file IO - for VRML indexed face sets.
+  //: Load TriMeshC from VRML files
 
   class DPIVRMLFileC
     : public DPIPortC<TriMeshC>
@@ -64,7 +64,7 @@ namespace Ravl3DN {
   };
 
   //! userlevel=Develop
-  //: VRML file IO - for textured VRML indexed face sets.
+  //: Load TexTriMeshC from VRML files
   
   class DPITexVRMLFileBodyC
     : public DPIPortBodyC<TexTriMeshC>
@@ -86,7 +86,7 @@ namespace Ravl3DN {
   };
   
   //! userlevel=Advanced
-  //: VRML file IO - for textured VRML indexed face sets.
+  //: Load TexTriMeshC from VRML files
 
   class DPITexVRMLFileC
     : public DPIPortC<TexTriMeshC>
@@ -100,7 +100,7 @@ namespace Ravl3DN {
 
   
   //! userlevel=Develop
-  //: VRML file IO - for VRML indexed face sets.
+  //: Save TriMeshC to VRML files
   
   class DPOVRMLFileBodyC
     : public DPOPortBodyC<TriMeshC>
@@ -124,7 +124,7 @@ namespace Ravl3DN {
   };
   
   //! userlevel=Advanced
-  //: VRML file IO - for VRML indexed face sets.
+  //: Save TriMeshC to VRML files
 
   class DPOVRMLFileC
     : public DPOPortC<TriMeshC>
@@ -143,7 +143,7 @@ namespace Ravl3DN {
   };
   
   //! userlevel=Develop
-  //: VRML file IO - for textured VRML indexed face sets.
+  //: Save TexTriMeshC to VRML files
   
   class DPOTexVRMLFileBodyC
     : public DPOPortBodyC<TexTriMeshC>
@@ -165,7 +165,7 @@ namespace Ravl3DN {
   };
   
   //! userlevel=Advanced
-  //: VRML file IO - for VRML indexed face sets.
+  //: Save TexTriMeshC to VRML files
 
   class DPOTexVRMLFileC
     : public DPOPortC<TexTriMeshC>
