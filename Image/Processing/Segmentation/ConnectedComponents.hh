@@ -301,7 +301,6 @@ namespace RavlImageN {
       lab=curr;
     }
 
-    cerr << "\n label table is " << labelTable << endl << endl ; 
     
     // find highest value in lable table , this assumes that they run in sequence. 
     UIntT maxLabel = 0 ; 
