@@ -14,7 +14,7 @@
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Array2dIter.hh"
 #include "Ravl/Array2dIter2.hh"
-
+#include "Ravl/OS/Filename.hh"
 
 using namespace RavlImageN;
 
@@ -27,7 +27,7 @@ int main(int argc,char **argv) {
   bool verbose = option.Boolean("v",false,"Verbose mode. ");
   option.Check();
   
-  //filename = filename.MkTemp();
+  filename = FilenameC(filename).MkTemp();
   
   //InitDPImageIO();
   

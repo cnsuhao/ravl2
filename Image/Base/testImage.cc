@@ -19,7 +19,7 @@
 #include "Ravl/Image/DrawLine.hh"
 #include "Ravl/Image/DrawFrame.hh"
 #include "Ravl/Image/DrawCircle.hh"
-
+#include "Ravl/OS/Filename.hh"
 #include "Ravl/IO.hh"
 
 using namespace RavlImageN;
@@ -152,9 +152,9 @@ int TestBasic()
 int TestIO()
 {
   cerr << "Starting IO test... \n";
-  StringC testFn("/tmp/testImage");
-  //testFn = testFn.MkTemp();
-  
+  FilenameC testFn("/tmp/testImage.zyx");
+  testFn = testFn.MkTemp();
+  cerr << "Using file '" << testFn << "'\n";
   // Create test image.
   
   ImageRectangleC rect(5,10,4,11);
@@ -209,10 +209,8 @@ int TestIO()
     }
   }
   
-#if 0
   if(testFn.Exists())
     testFn.Remove();
-#endif
   
   return 0;
 }

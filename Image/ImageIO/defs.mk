@@ -31,4 +31,6 @@ TESTEXES = testImgIO.cc
 
 USESLIBS = RavlCore RavlIO RavlImage
 
+PROGLIBS = RavlOS
+
 EHT = Ravl.Images.IO.html
