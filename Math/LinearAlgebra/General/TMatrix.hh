@@ -110,7 +110,15 @@ namespace RavlN {
     
     TVectorC<DataT> TMul(const TVectorC<DataT>& vec) const;
     //: Multiplication A.T() * vec
-
+    
+    TMatrixC<DataT> AAT() const 
+    { return MulT(*this); }      
+    //: Return  A * A.T().
+    
+    TMatrixC<DataT> ATA() const 
+    { return TMul(*this); }
+    //: Return  A.T() * A.
+    
     TMatrixC<DataT> T() const;
     //: Get transpose of matrix.
     
@@ -126,7 +134,7 @@ namespace RavlN {
     const TMatrixC<DataT> &AddDiagonal(const TVectorC<DataT> &d);
     //: Add a vector to the diagonal of this matrix.
     // If d.Size() != Cols() an error is given.
-
+    
     TMatrixC<DataT> SubMatrix(SizeT size1,SizeT size2)
     { return TMatrixC<DataT>(SArray2dC<DataT>(*this,size1,size2)); }
     //: Get sub matrix of size1,size2.
