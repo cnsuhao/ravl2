@@ -19,6 +19,8 @@
 
 namespace RavlImageN {
   
+  using namespace RavlN;
+
   class RealRGBValueC;
   
   //! userlevel=Normal
