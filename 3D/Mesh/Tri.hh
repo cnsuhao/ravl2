@@ -25,6 +25,13 @@ namespace Ravl3DN {
       : vertices(v)
     {}
     //: Construct from another vector.
+
+    TriC(VertexC &v0,VertexC &v1,VertexC &v2) {
+      vertices[0] = &v0;
+      vertices[1] = &v1;
+      vertices[2] = &v2;
+    }
+    //: Construct from vertices.
     
     void Flip(void);
     //: Flips the triangle.
@@ -49,6 +56,10 @@ namespace Ravl3DN {
     //: Access position of vertex.
     
     const Vector3dC &FaceNormal() const 
+    { return normal; }
+    //: Unit normal orthogonal to triangle plane
+    
+    Vector3dC &FaceNormal()
     { return normal; }
     //: Unit normal orthogonal to triangle plane
         
@@ -89,10 +100,19 @@ namespace Ravl3DN {
     { return texture; }
     //: Access texture co-ordinates.
     
+    TFVectorC<ByteT,3> &Colour()
+    { return colour; }
+    //: Colour of face.
+    
+    const TFVectorC<ByteT,3> &Colour() const
+    { return colour; }
+    //: Colour of face.
+    
   protected:
     TFVectorC<VertexC *,3> vertices;
     TFVectorC<Vector2dC,3> texture;
     Vector3dC normal;
+    TFVectorC<ByteT,3> colour;
   };
 
 }
