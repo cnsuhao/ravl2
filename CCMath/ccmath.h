@@ -718,7 +718,10 @@ struct xpr srt2={{0x3FFF,0xB504,0xF333,0xF9DE,0x6484,0x597D,0x89B3,0x754B}};
 
      struct complex cdef(double r,double i) ;
 
+#ifndef __sgi__
+     /* This conflicts with an existing function on sgi */
      double cabs(struct complex c) ;
+#endif
 
      double cnrm(struct complex z) ;
 
