@@ -24,16 +24,19 @@
 namespace RavlN {
   
   //! userlevel=Advanced
-  //: Go through source tree..
+  //: Base class for source tree processing tools.
+  // This class allows operations to be performed on the whole source tree,
+  // or sub-tree's of it..
   
   class SourceCodeManagerC
   {
   public:
     SourceCodeManagerC();
-    // Default constructor.
+    //: Default constructor.
     
     SourceCodeManagerC(const StringC &adir,bool enabled = true);
-    // Directory constructor.
+    //: Directory constructor
+    
 
     DefsMkFileC &DefsMkFile(const StringC &name);
     //: Access a defs file.
@@ -43,9 +46,7 @@ namespace RavlN {
     
     bool ForAllDirs(CallFunc2C<StringC,DefsMkFileC,bool> op,bool inActiveAsWell = false);
     //: For all directories in project do 'op'.
-    
-    bool LoadNested(bool recurse = true,bool loadAll = false,IntT CurDepth = 0);
-    //: Load all sub-directories.
+    // 
     
     bool MissingSubDir(const CallFunc1C<StringC,bool> &missingDir) { 
       onMissingDirectory = missingDir;
@@ -53,11 +54,6 @@ namespace RavlN {
     } 
     //: What to call if  sub directory is missing.
     
-    bool DoNested(const CallFunc2C<StringC,DefsMkFileC,bool> &doFor,bool all = false);
-    //: Call doFor on all source directories in project.
-    // if 'all' is true then even disabled directories 
-    // are processed. This routine will return true, if
-    // all the DoOp's succeded.
     
     bool IsVerbose() const { return verbose; }
     //: In verbose mode ?
