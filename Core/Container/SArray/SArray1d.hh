@@ -167,7 +167,9 @@ namespace RavlN {
     
     const SArray1dC<DataT> & operator/=(const DataT &number);
     //: Divides the array elements by the 'number'.
-
+    
+    DataT SumSqr() const;
+    //: Calculate the sum of the squares of all elements in the array
     
     //:-----------------------------------
     // Access to the object and its parts.
@@ -611,6 +613,20 @@ namespace RavlN {
     for(BufferAccessIterC<DataT> it(*this);it;it++)
       it.Data1() /= number;
     return *this;
+  }
+
+  template<class DataT>
+  DataT SArray1dC<DataT>::SumSqr() const {
+    if(Size() == 0) {
+      DataT ret;
+      SetZero(ret);
+      return ret;
+    }
+    BufferAccessIterC<DataT> it(*this);
+    DataT ret = Sqr(*it);
+    for(it++;it;it++)
+      ret += Sqr(*it);
+    return ret;
   }
   
   template<class DataT>

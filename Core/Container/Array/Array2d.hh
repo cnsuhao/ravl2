@@ -193,7 +193,10 @@ namespace RavlN {
     
     const Array2dC<DataT> & operator/=(const DataT &number);
     //: Divides the array elements by the 'number'.
-
+    
+    DataT SumSqr() const;
+    //: Calculate the sum of the squares of all elements in the array
+    
     Buffer2dC<DataT> &Buffer2d()
     { return data; }
     //: Access raw 2d buffer.
@@ -484,6 +487,15 @@ namespace RavlN {
     for(BufferAccess2dIterC<DataT> it(*this,Range2());it;it++)
       it.Data() /= number;
     return *this;
+  }
+
+  template<class DataT>
+  DataT Array2dC<DataT>::SumSqr() const {
+    DataT ret;
+    SetZero(ret);
+    for(BufferAccess2dIterC<DataT> it(*this,Range2());it;it++)
+      ret += Sqr(it.Data1());
+    return ret;
   }
   
 }

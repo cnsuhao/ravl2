@@ -186,7 +186,10 @@ namespace RavlN {
     
     DataT SumOfAbs() const;
     //: Return the sum of the absolute values of the matrix.
-
+    
+    DataT SumSqr() const;
+    //: Calculate the sum of the squares of all the elements in the matrix
+    
     inline bool Limit(const DataT &min,const DataT &max);
     //: Limit all values in this matrix to between min and max.
     // Returns true if all values in the matrix are between the limits.
@@ -391,18 +394,27 @@ namespace RavlN {
 	ret[j][i] = data[i][j];
     return ret;
   }
-
-  //: Return the sum of the absolute values of the matrix.
-
+  
   template<class DataT,unsigned int N,unsigned int M>
   DataT TFMatrixC<DataT,N,M>::SumOfAbs() const {
-    DataT ret = 0;
+    DataT ret;
+    SetZero(ret);
     for(UIntT i = 0;i < N;i++)
       for(UIntT j = 0;j < M;j++)
 	ret += Abs(data[i][j]);
     return ret;
   }
-
+  
+  template<class DataT,unsigned int N,unsigned int M>
+  DataT TFMatrixC<DataT,N,M>::SumSqr() const {
+    DataT ret;
+    SetZero(ret);
+    for(UIntT i = 0;i < N;i++)
+      for(UIntT j = 0;j < M;j++)
+	ret += Sqr(data[i][j]);
+    return ret;    
+  }
+  
   template<class DataT,unsigned int N,unsigned int M>
   inline bool TFMatrixC<DataT,N,M>::Limit(const DataT &min,const DataT &max) {
     bool ret = true;
