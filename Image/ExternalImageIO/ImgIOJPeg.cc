@@ -28,6 +28,8 @@ extern "C" {
 #include "Ravl/Image/ByteYUVValue.hh"
 
 namespace RavlImageN {
+  
+  const unsigned int DPImageIOJPegBaseC::defaultBufferSize = 4096;
 
   ///// ERROR HANDLING //////////////////////////////////////////////////
   

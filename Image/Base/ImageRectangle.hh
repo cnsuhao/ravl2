@@ -38,7 +38,7 @@ namespace RavlImageN {
     //: Base constructor.
 
     ImageRectangleC(IntT rows,IntT cols)
-      : IndexRange2dC(0,rows,0,cols)
+      : IndexRange2dC(0,rows-1,0,cols-1)
       {}
     //: Construct a rectangle of the given size with an origin of 0,0
     

@@ -57,7 +57,7 @@ namespace RavlImageN {
   {
     ONDEBUG(cerr << "DPOImageTIFFByteRGBABodyC(), Open stream '" << strm.Name() << "' \n");
     tif = TIFFClientOpen(outf.Name().chars(),"w",
-			 this,
+			 (thandle_t)this,
 			 &TIFFReadProc, &TIFFWriteProc,
 			 &TIFFSeekProc, &TIFFCloseProc,
 			 &TIFFSizeProc,
@@ -176,7 +176,7 @@ namespace RavlImageN {
   {
     ONDEBUG(cerr << "DPIImageTIFFByteRGBABodyC(), Open istream \n");
     tif = TIFFClientOpen(inf.Name().chars(),"r",
-			 this,
+			 (thandle_t)this,
 			 &TIFFReadProc, &TIFFWriteProc,
 			 &TIFFSeekProc, &TIFFCloseProc,
 			 &TIFFSizeProc,

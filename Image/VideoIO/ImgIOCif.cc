@@ -153,8 +153,8 @@ namespace RavlImageN {
     // Read data.
     for(Array2dIterC<ByteYUVValueC> it(head);it.IsElm();it.Next())
       it.Data().Y() = strm.get();
-    
-    for (IndexC r=0; r< rows;) {
+    IndexC r;
+    for (r=0; r< rows;) {
       ByteYUVValueC *r1,*r2,*eor;
       r1 = head.Row(r++);
       r2 = head.Row(r++);
@@ -171,7 +171,7 @@ namespace RavlImageN {
 	r2++;     
       }
     }
-    for (IndexC r=0; r< rows;) {
+    for ( r=0; r< rows;) {
       ByteYUVValueC *r1,*r2,*eor;
       r1 = head.Row(r++);
       r2 = head.Row(r++);
@@ -269,7 +269,8 @@ namespace RavlImageN {
     
     IntT v_offset = (rows - (IntT) Img.Rows()) / 2;
     IntT h_offset = (cols - (IntT) Img.Cols()) / 2;
-    for (IndexC r = -v_offset; r < rows-v_offset; ++r) { // Y component
+    IndexC r;
+    for (r = -v_offset; r < rows-v_offset; ++r) { // Y component
       if ((r >= 0) && (r < Img.Rows())) {
 	for (IndexC c = -h_offset; c < cols-h_offset; ++c) {
 	  if ((c >= 0) && (c < Img.Cols()))
@@ -281,7 +282,7 @@ namespace RavlImageN {
 	for (IndexC c = -h_offset; c < cols-h_offset; ++c)  strm.put(0);
       }
     }
-    for (IndexC r = -v_offset; r < rows-v_offset; r+=2) { // U component
+    for (r = -v_offset; r < rows-v_offset; r+=2) { // U component
       if ((r >= 0) && (r < Img.Rows())) {
 	for (IndexC c = -h_offset; c < cols-h_offset; c+=2) {
 	  if ((c >= 0) && (c < Img.Cols())) {
@@ -296,7 +297,7 @@ namespace RavlImageN {
 	for (IndexC c = -h_offset; c < cols-h_offset; c+=2)  strm.put(128);
       }
     }
-    for (IndexC r = -v_offset; r < rows-v_offset; r+=2) { // V component
+    for (r = -v_offset; r < rows-v_offset; r+=2) { // V component
       if ((r >= 0) && (r < Img.Rows())) {
 	for (IndexC c = -h_offset; c < cols-h_offset; c+=2) {
 	  if ((c >= 0) && (c < Img.Cols())) {

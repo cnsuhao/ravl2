@@ -49,7 +49,7 @@ namespace RavlImageN {
     
     typedef struct my_error_mgr * my_error_ptr;
     
-    const static unsigned int defaultBufferSize = 4096;
+    const static unsigned int defaultBufferSize;// = 4096;
     
     unsigned int BufferSize() const
       { return defaultBufferSize; }
@@ -206,14 +206,14 @@ namespace RavlImageN {
   
   template<class PixelT>
   DPIImageJPegBodyC<PixelT>::DPIImageJPegBodyC(const StringC &nfn) 
-    : DPImageIOJPegIBaseC(nfn)
-  {}
+    : DPImageIOJPegIBaseC(IStreamC(nfn))
+{}
   
   //: Constructor from stream.
   
   template<class PixelT>
   DPIImageJPegBodyC<PixelT>::DPIImageJPegBodyC(const IStreamC &in)
-    : DPImageIOJPegIBaseC(in)
+    : DPImageIOJPegIBaseC(IStreamC(in))
   {}
 
   //: Is valid data ?

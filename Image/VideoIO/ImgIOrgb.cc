@@ -14,7 +14,12 @@
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/Array2dIter.hh"
 #include "Ravl/TypeName.hh"
+#if RAVL_HAVE_UNISTD_H
 #include <unistd.h>
+#endif
+#if RAVL_HAVE_IO_H
+#include <io.h>
+#endif
 #include <fcntl.h>
 
 namespace RavlImageN {

@@ -19,6 +19,11 @@
 
 namespace RavlImageN {
   using namespace RavlN;
+#if RAVL_VISUAL_NAMSPACE_BUG
+  using RavlN::BinIStreamC;
+  using RavlN::BinOStreamC;
+  using RavlN::TFVectorC;
+#endif
   
   //! userlevel=Normal
   //: YUV Pixel base class.

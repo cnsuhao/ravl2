@@ -20,6 +20,7 @@
 #include "Ravl/Image/ImageRectangle.hh"
 
 namespace RavlImageN {
+  using namespace RavlN;
   
   //! userlevel=Normal
   //: Ya basic Image

@@ -19,6 +19,12 @@
 #include "Ravl/Image/RGBValue.hh"
 
 namespace RavlImageN {
+#if RAVL_VISUAL_NAMSPACE_BUG
+  using namespace RavlN;
+  using RavlN::BinIStreamC;
+  using RavlN::BinOStreamC;
+  using RavlN::TFVectorC;
+#endif
   
   //: RGBA Pixel.
   
