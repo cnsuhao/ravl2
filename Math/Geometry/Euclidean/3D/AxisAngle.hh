@@ -1,6 +1,17 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2002, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
+#ifndef RAVL_3D_AXIS_ANGLE_HH
+#define RAVL_3D_AXIS_ANGLE_HH
+//! rcsid="$Id$"
+//! lib=RavlMath
+//! date="7/12/2002"
+//! author="Joel Mitchelson"
+//! docentry="Ravl.Math.Geometry.3D"
 
-#ifndef _RAVL_3D_AXIS_ANGLE_HH_
-#define _RAVL_3D_AXIS_ANGLE_HH_
 
 #include "Ravl/Vector3d.hh"
 #include "Ravl/Matrix3d.hh"
