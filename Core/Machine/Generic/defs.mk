@@ -16,3 +16,4 @@ DONOT_SUPPORT=linux sol2 sgi
 
 HEADERS=Atomic.hh
 
+PLIB=RavlCore

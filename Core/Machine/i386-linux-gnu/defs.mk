@@ -14,3 +14,5 @@ PACKAGE=linux/Ravl
 SUPPORT_ONLY=linux
 
 HEADERS=Atomic.hh
+
+PLIB=RavlCore
