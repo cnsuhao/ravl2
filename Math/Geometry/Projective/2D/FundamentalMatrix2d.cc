@@ -104,7 +104,7 @@ namespace RavlN {
 				0   ,0   ,0)).MulT(v);
     
 #if RAVL_COMPILER_MIPSPRO 
-    static_cast<Matrix3dC &>(*this) = (Matrix3dC) (TFMatrixC<RealT,3,3>&) newf ; // help the compiler a bit  !
+    static_cast<Matrix3dC &>(*this) = (Matrix3dC) (TFMatrixC<RealT,3,3>) newf ; // help the compiler a bit  !
 #else 
     static_cast<Matrix3dC &>(*this) = (Matrix3dC)  newf;
 #endif 
