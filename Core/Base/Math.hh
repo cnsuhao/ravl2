@@ -195,6 +195,11 @@ namespace RavlN {
   }
   //: Computes sqrt(sqr(a)+sqr(b)) without destructive overflow or underflow.
   
+  inline RealT Hypot(RealT a, RealT b) 
+  { return Pythag(a,b); }
+  //: Computes sqrt(sqr(a)+sqr(b)) without destructive overflow or underflow.
+  // Alias for Pythag(a,b).
+  
   inline bool IsSmall(RealT a,RealT norm = 1,RealT isSmall =1e-8)
   { return ( (Abs(a/norm)) < isSmall );  }
   //: Is a small relative to 'norm' ?
