@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlImageProc
-//! docentry="Ravl.Images.Motion"
+//! docentry="Ravl.Images.Motion.Optical Flow"
 //! userlevel=Normal
 //! author="Bill Christmas"
 //! file="Ravl/Image/Processing/Motion/LMSGradient/exLMSOptic.cc"
