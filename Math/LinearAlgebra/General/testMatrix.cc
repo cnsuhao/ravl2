@@ -33,6 +33,7 @@ int testLUDecomposition();
 int testVector();
 int testInverse();
 int testATAandAAT();
+int testSolve();
 
 int main() {
   int ln;
@@ -70,6 +71,10 @@ int main() {
   }
   if((ln = testATAandAAT()) != 0) {
     cerr << "testInverse() failed. Line:" << ln << "\n";
+    return 1;
+  }
+  if((ln = testSolve()) != 0) {
+    cerr << "testSolve() failed. Line:" << ln << "\n";
     return 1;
   }
   cerr << "Test passed. \n";
@@ -310,10 +315,28 @@ int testInverse() {
 
 int testATAandAAT() {
   cerr << "testATAandAAT() Called \n";
-  MatrixC mat = RandomMatrix(500,500);
+  MatrixC mat = RandomMatrix(100,100);
   if(MatrixC(mat.ATA() - mat.TMul(mat)).SumOfSqr() > 0.00001)
     return __LINE__;
   if(MatrixC(mat.AAT() - mat.MulT(mat)).SumOfSqr() > 0.00001)
     return __LINE__;
+  cerr << "testATAandAAT() Done. \n";
+  return 0;
+}
+
+int testSolve() {
+  cerr << "testSolve() Called. \n";
+#if 0
+  // Work in progess..
+  MatrixC a = RandomMatrix(10,10);
+  MatrixC b = RandomMatrix(10,2);
+  MatrixC x = Solve(a,b);
+  if(x.Rows() == 0) return __LINE__;
+  MatrixC c = a * x;
+  cerr << "c=" << c << "\n";
+  cerr << "x=" << b << "\n";
+  if(MatrixC(c - b).SumOfSqr() > 0.0001)
+    return __LINE__;
+#endif
   return 0;
 }

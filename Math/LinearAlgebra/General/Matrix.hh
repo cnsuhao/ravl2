@@ -119,7 +119,7 @@ namespace RavlN {
   // If matrix is singular a zero length vector is returned.
   
   MatrixC Solve(const MatrixC &A,const MatrixC &B);
-  //: Solve a general linear system  A*X = b
+  //: Solve a general linear system  A*X = B
   // This return's X, or a 0 by 0 matrix if it fails.
   
   VectorC SVD(const MatrixC &M);

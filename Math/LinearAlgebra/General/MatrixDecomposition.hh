@@ -24,6 +24,7 @@ namespace RavlN {
   
   bool LUDecompositionPD(MatrixC &mat,RealT &det);
   //: LUDecomposition for positive definite matrices.
+  
 
 }
 
