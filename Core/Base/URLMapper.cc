@@ -2,6 +2,13 @@
 #include "Ravl/Stream.hh"
 #include "Ravl/StreamType.hh"
 
+#define DODEBUG 1
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
+
 namespace RavlN {
   
   extern URLMapperFuncT urlMapper;
@@ -12,6 +19,7 @@ namespace RavlN {
   // libraries which can link in as required.
   
   static StringC DefaultURLMapper(const StringC &fn) {
+    ONDEBUG(cerr << "DefaultURLMapper(), Called on '" << fn << "'\n");
     if(fn.length() < 1)
       return StringC(fn);
     if(fn[0] == '@') // Is this a RAVL special filename ?

@@ -34,8 +34,7 @@
 // put there because they rely on containers which are
 // compiled after this directory.
 
-#define DODEBUG 1
-
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -163,6 +162,7 @@ namespace RavlN {
   OStreamC::OStreamC(const StringC &sfilename,bool binaryMod,bool buffered,bool append)
     : out(0)
   {
+    ONDEBUG(cerr << "OStreamC::OStreamC(" << sfilename << "," << ((int) binaryMod) << ","  << (int) buffered << "," << (int) append << ") Called \n");
     ofstream *ofstrm = 0;
     if(sfilename == "-") {
       Init(out = &cout,sfilename,false);
@@ -175,6 +175,7 @@ namespace RavlN {
     StringC filename;
     if(urlMapper != 0)
       filename = urlMapper(sfilename);
+    else filename = sfilename;
     
     // Open a 'special file' ?
     
@@ -285,6 +286,7 @@ namespace RavlN {
     StringC filename;
     if(urlMapper != 0)
       filename = urlMapper(sfilename);
+    else filename = sfilename;
     
     // Open a 'special file' ?
     
