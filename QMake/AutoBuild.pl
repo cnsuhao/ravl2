@@ -32,6 +32,16 @@ my $BUILDINFOFILE = "$BUILDDIRECTORY/trees/.buildinfo_$PACKAGENAME";
 # Get tree number
 my $TREENO = 0;
 
+# find out the username, first check environment, then try whoami
+my $USERNAME ;
+if ($ENV{USER} ) 
+     { $USERNAME = $ENV{USER} ;}
+else
+     { print "\nenv is whoami" ;
+       $USERNAME = `whoami` ; }
+
+
+
 # Mail Error function
 # A function to mail the error to a user
 sub MailError () {
@@ -188,8 +198,8 @@ if ($config{TEMPDIR}) {
 
 # Clean out temporary files
 if ($config{CLEANTEMP}) {
-  print ("\nPre Cleaning tempory files :$config{TEMPDIR}/$ENV{USER}/qm$BUILDTREE \n") ;
-  system("rm -rf $config{TEMPDIR}/$ENV{USER}/qm$BUILDTREE");
+  print ("\nPre Cleaning tempory files :$config{TEMPDIR}/$USERNAME/qm$BUILDTREE \n") ;
+  system("rm -rf $config{TEMPDIR}/$USERNAME/qm$BUILDTREE");
 }
 
 # If an install script exists, do full install
@@ -211,11 +221,7 @@ else {
   & Build("gmake -f $config{RAVL_LOCATION}/share/RAVL/QMake/QMake.mk PROJECT_OUT=$BUILDTREE test","$BUILDTREE/test.log","test");
 }
 
-# Clean out temporary files
-if ($config{CLEANTEMP}) {
-  print ("\nPost Cleaning tempory files :$config{TEMPDIR}/$ENV{USER}/qm$BUILDTREE \n") ;
-  system("rm -rf $config{TEMPDIR}/$ENV{USER}/qm$BUILDTREE");
-}
+
 
 # it worked ok
 print "Clean compile, replacing symlinks. \n";
