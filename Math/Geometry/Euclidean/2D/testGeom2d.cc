@@ -17,6 +17,7 @@
 #include "Ravl/Circle2d.hh"
 #include "Ravl/Array1d.hh"
 #include "Ravl/Random.hh"
+#include "Ravl/DelaunyTriangulation2d.hh"
 
 using namespace RavlN;
 
@@ -24,6 +25,7 @@ int testMoments();
 int testBinIO();
 int testCircle2d();
 int testConvexHull2d();
+int testDelaunyTriangulation2d();
 
 int main() {
   int ln;
@@ -40,6 +42,10 @@ int main() {
     return 1;
   }
   if((ln = testConvexHull2d()) != 0) {
+    cerr << "Test failed at " << ln << "\n";
+    return 1;
+  }
+  if((ln = testDelaunyTriangulation2d()) != 0) {
     cerr << "Test failed at " << ln << "\n";
     return 1;
   }
@@ -145,5 +151,19 @@ int testConvexHull2d() {
     }
   }
   
+  return 0;
+}
+
+int testDelaunyTriangulation2d() {
+  for(int j = 0;j < 10;j++) {
+    SArray1dC<Point2dC> pnts(10 + j * 10);
+    
+    // Generate a point set.
+    for(UIntT i = 0;i < pnts.Size();i++)
+      pnts[i] = Point2dC(Random1() * 100,Random1() * 100);
+    
+    HEMesh2dC mesh = DelaunyTriangulation(pnts);
+    if(!IsDelaunyTriangulation(mesh)) return __LINE__;
+  }
   return 0;
 }

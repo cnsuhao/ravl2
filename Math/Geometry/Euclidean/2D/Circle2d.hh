@@ -41,6 +41,10 @@ namespace RavlN {
     {}
     //: Constructor.
     
+    Circle2dC(const Point2dC &p1,const Point2dC &p2,const Point2dC &p3)
+    { Fit(p1,p2,p3); }
+    //: Generate circle from 3 points on its circumference
+    
     inline Circle2dC(const Array1dC<Point2dC> &points) { 
       RealT tmp;
       FitLSQ(points,tmp); 
@@ -93,7 +97,7 @@ namespace RavlN {
     //: Distance to closest point on perimeter.
     
     bool Fit(const Point2dC &p1,const Point2dC &p2,const Point2dC &p3);
-    //: Fit a circle through 3 points.
+    //: Fit a circle from 3 points on its circumference
     // Returns false if the points are collinear.
   private:
     Point2dC centre;

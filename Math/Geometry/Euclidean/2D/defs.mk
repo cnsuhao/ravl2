@@ -12,13 +12,13 @@ PACKAGE=Ravl
 HEADERS= LineABC2d.hh Curve2d.hh Curve2dLine.hh Curve2dLineSegment.hh \
  Line2dIter.hh Affine2d.hh Moments2d2.hh LinePP2d.hh Projection2d.hh \
  Point2d.hh PointSet2d.hh Polygon2d.hh Circle2d.hh Arc2d.hh Curve2dCircle.hh \
- Curve2dArc.hh
+ Curve2dArc.hh HEMesh2d.hh DelaunyTriangulation2d.hh
 
 SOURCES= LineABC2d.cc Curve2d.cc Curve2dLine.cc Curve2dLineFit.cc \
  Curve2dLineSegment.cc Line2dIter.cc Affine2d.cc Moments2d2.cc \
  LinePP2d.cc Projection2d.cc Point2d.cc PointSet2d.cc Polygon2d.cc \
  Circle2d.cc FitCircle2d.cc Arc2d.cc Curve2dCircle.cc Curve2dArc.cc \
- FitLineABC2d.cc ConvexHullOfPointSet.cc
+ FitLineABC2d.cc ConvexHullOfPointSet.cc HEMesh2d.cc DelaunyTriangulation2d.cc
 
 PLIB=RavlMath
 
