@@ -498,7 +498,7 @@ namespace RavlN {
 
   template<class Data1T,class Data2T,class Data3T,class ObjT>
   inline
-  SignalConnectorC Connect(Signal0C &from,const ObjT &obj,bool (ObjT::* func)(Data1T &,Data2T &,Data3T &),const Data1T &def1,const Data2T &def2,const Data3T &def3) {
+  SignalConnectorC Connect(Signal0C &from,const ObjT &obj,bool (ObjT::* func)(Data1T &,Data2T &,Data3T &),const Data1T &def1 VCPPARGFIX(=Data1T()),const Data2T &def2 VCPPARGFIX(=Data2T()),const Data3T &def3 VCPPARGFIX(=Data3T())) {
     RavlAssert(from.IsValid());
     return Signal3MethodC<Data1T,Data2T,Data3T,ObjT>(from,obj,func,def1,def2,def3);
   }
@@ -507,7 +507,7 @@ namespace RavlN {
 
   template<class Data1T,class Data2T,class Data3T,class ObjT>
   inline
-  SignalConnectorC ConnectRef(Signal0C &from,ObjT &obj,bool (ObjT::* func)(Data1T &,Data2T &,Data3T &),const Data1T &def1,const Data2T &def2,const Data3T &def3) {
+  SignalConnectorC ConnectRef(Signal0C &from,ObjT &obj,bool (ObjT::* func)(Data1T &,Data2T &,Data3T &),const Data1T &def1 VCPPARGFIX(=Data1T()),const Data2T &def2 VCPPARGFIX(=Data2T()),const Data3T &def3 VCPPARGFIX(=Data3T())) {
     RavlAssert(from.IsValid());
     return Signal3MethodRefC<Data1T,Data2T,Data3T,ObjT>(from,obj,func,def1,def2,def3);
   }
