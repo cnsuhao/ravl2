@@ -103,6 +103,12 @@ namespace RavlImageN {
     //: Mirrors the image rectangle along its right edge.
     // Returns a reference to this rectangle.
     
+    RealT AspectRatio() {
+      return static_cast<RealT>(Cols())/static_cast<RealT>(Rows());
+    }
+    //: Calculate the aspect ratio of the image rectangle
+    // aspect = number of columns / number of rows
+
   };
   
 }
