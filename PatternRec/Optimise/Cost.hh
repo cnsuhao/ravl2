@@ -92,6 +92,9 @@ namespace RavlN {
     
     const ParametersC & GetParameters () const;
     //: Access to the parameter storage structure
+
+    void SetParameters(const ParametersC &parameters);
+    //: Change the parameter storage structure
     
     virtual bool Save (ostream &out) const;
     //: Writes object to stream, can be loaded using constructor
@@ -175,11 +178,17 @@ namespace RavlN {
     
     inline const ParametersC & GetParameters () const;
     //: Access to the parameter storage class
+
+    inline void SetParameters(const ParametersC &parameters);
+    //: Change the parameter storage structure
   };
   
   /////////////////////////////////////////////////////////
   const ParametersC & CostC::GetParameters () const
   { return Body().GetParameters (); }
+
+  void CostC::SetParameters (const ParametersC &parameters)
+  { Body().SetParameters (parameters); }
   
   RealT CostC::Cost (const VectorC &X) const
   { return Body().Cost (X); }

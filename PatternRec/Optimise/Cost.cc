@@ -72,6 +72,12 @@ namespace RavlN {
   
   const ParametersC & CostBodyC::GetParameters () const
   { return _parameters; }
+
+  void CostBodyC::SetParameters (const ParametersC &parameters)
+  {
+    InputSize (parameters.MinX().Size());
+    _parameters = parameters;
+  }
   
   const MatrixC CostBodyC::TransP2X () const
   { return _parameters.TransP2X (); }
