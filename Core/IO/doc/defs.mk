@@ -21,8 +21,8 @@ EHT= Ravl.Core.Data_Processing.Introduction.html \
      Ravl.Core.Data_Processing.Ports.html \
      Ravl.Core.Data_Processing.Attributes.html \
      Ravl.Core.Data_Processing.IO.html \
-     Ravl.Core.Data_Processing.Split.html \
      Ravl.Core.Data_Processing.Taps.html \
+     Ravl.Core.Data_Processing.Split.html \
      Ravl.Core.Data_Processing.Processes.html \
      Ravl.Core.Data_Processing.Buffers.html \
      Ravl.Core.Data_Processing.Multiplexer.html \

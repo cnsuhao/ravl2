@@ -4,20 +4,24 @@
 <!--! author="Charles Galambos" -->
 <html>
   <head>
-    <title>Spliting streams</title>
+    <title>Splitting streams</title>
   </head>
 
   <body>
-    Sometimes we wish to process some data in several ways, hence we wish to
-split the data stream into several independent channels.  We can do
-this using the `Split' classes.  This can be done on both input, with
-DPSplitIC&lt;&gt; and output streams with DPSplitOC&lt;&gt;, Figures
-<A HREF="Ravl.Core.Data_Processing.Split.html#fig:isplit">8</A> and <A HREF="Ravl.Core.Data_Processing.Split.html#fig:osplit">9</A> show these respectively.  There
-are advantages in splitting an input stream as it allows each channel
-to process data independently.  If one channel runs faster than the
-others the data will be read from the input and will be queued for processing
-on all the other channels.  Data is read from the input only when there
-is no other data queue on the requesting channel.  
+    Sometimes we wish to process some data in several ways, hence we
+    wish to split the data stream into several independent channels.
+    We can do this using the `Split' classes.  This can be done on
+    both input streams (Figure <A
+    HREF="Ravl.Core.Data_Processing.Split.html#fig:isplit">8</A>) and
+    output streams (Figure <A
+    HREF="Ravl.Core.Data_Processing.Split.html#fig:osplit">9</A>),
+    using DPSplitIC&lt;&gt; and DPSplitOC&lt;&gt; respectively.  There
+    are advantages in splitting an input stream as it allows each
+    channel to process data independently.  If one channel runs faster
+    than the others the data will be read from the input and will be
+    queued for processing on all the other channels.  Data is read
+    from the input only when there is no other data queue on the
+    requesting channel.
 
 <P>
 
@@ -40,7 +44,7 @@ is no other data queue on the requesting channel.
 
 <P>
 Following is an example using the input split class. The input stream
-is processed by two independant piplines, and the output is sent to
+is processed by two independent pipelines, and the output is sent to
 different files. Figure <A HREF="Ravl.Core.Data_Processing.Split.html#fig:exisplit">10</A> shows the structure generated
 by this code fragment.  `DPEventSetC' will be explained later, in
 Section <A HREF="Ravl.Core.Data_Processing.Events.html">Ravl.Core.Data_Processing.Events</A>

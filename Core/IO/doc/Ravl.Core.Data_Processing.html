@@ -55,7 +55,7 @@ of the pump we use a different symbol, &gt;&gt;= to make it clear where in
 the pipe the pump is located.
 
 <P>
-Since each input and output of all the comments are templated it is possible
+Since each input and output of all the components are templated it is possible
 to send almost any `C++' object through any part of the pipe. The only constraints,
 mentioned earlier, are having a copy constructor and an assignment operator. Since
 the processing pipe is built with template functions, the type of data can be
@@ -69,10 +69,10 @@ types match the user need not intervene.
 <CAPTION ALIGN="BOTTOM"><STRONG>Figure 1:</STRONG>
 Data processing Components</CAPTION>
 <TR><TD>
-  <IMG WIDTH="133" HEIGHT="67" ALIGN="BOTTOM" BORDER="0" SRC="../../../Images/DataProc/img1.png"  ALT="source.eps"> <td>
-  <IMG WIDTH="133" HEIGHT="67" ALIGN="BOTTOM" BORDER="0" SRC="../../../Images/DataProc/img2.png"  ALT="sink.eps"><td>
-  <IMG WIDTH="135" HEIGHT="26" ALIGN="BOTTOM" BORDER="0" SRC="../../../Images/DataProc/img3.png"  ALT="pump.eps"> <td> 
-  <IMG WIDTH="131" HEIGHT="88" ALIGN="BOTTOM" BORDER="0" SRC="../../../Images/DataProc/img4.png"  ALT="fifo.eps"> <td>
+  <IMG WIDTH="133" HEIGHT="67" ALIGN="BOTTOM" BORDER="0" SRC="../../../Images/DataProc/img1.png"  ALT="source.eps"> &nbsp; &nbsp;<td>
+  <IMG WIDTH="133" HEIGHT="67" ALIGN="BOTTOM" BORDER="0" SRC="../../../Images/DataProc/img2.png"  ALT="sink.eps"> &nbsp; &nbsp;<td>
+  <IMG WIDTH="135" HEIGHT="26" ALIGN="BOTTOM" BORDER="0" SRC="../../../Images/DataProc/img3.png"  ALT="pump.eps"> &nbsp; &nbsp; <td> 
+  <IMG WIDTH="131" HEIGHT="88" ALIGN="BOTTOM" BORDER="0" SRC="../../../Images/DataProc/img4.png"  ALT="fifo.eps"> &nbsp; &nbsp; <td>
   <IMG WIDTH="135" HEIGHT="55" ALIGN="BOTTOM" BORDER="0" SRC="../../../Images/DataProc/img5.png"  ALT="process.eps"><td>
 </tr><tr><td>(a) Data source <td>(b) Data sink <td> (c) Pump <td> (d) FIFO Buffer <td> (e) Process </td> </TR>
 </TABLE>
@@ -99,8 +99,8 @@ Simple data pipe.</CAPTION>
 <P>
 Here is an example of a pipe using this type of processing.  The source and sinks are
 classed derived from the templated classes DPIPortC&lt;x&gt; and DPOPortC&lt;x&gt;, they 
-convert data too and from the standard C++ text streams.  The following code takes
-a series of numbers from the file `in.dat' adds an offset of 2 and scales it by 3,
+convert data to and from the standard C++ text streams.  The following code takes
+a series of numbers from the file `in.dat', adds an offset of 2 and scales it by 3,
 calculates a running average of the data and outputs it to `out.dat'
 
 <P>

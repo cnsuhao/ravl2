@@ -19,31 +19,31 @@
 
     In `data flow' program design, the program is modelled as a flow
     of data through several processing operations.  This kind of
-    approach is used successfully in unix for piping text between Unix
+    approach is used successfully in Unix for piping text between Unix
     processes. <p>
 
     One of the key design features of the mechanisms described here is
     that they are designed to make the minimum impact on the user
     classes they work with.  The mechanisms work with all the built in
     types of C++, and only require a working copy constructor for most
-    of its operations. In addition the assignment operator is used for
+    of their operations. In addition the assignment operator is used for
     some but not all functionality.  Even if the user's classes do not
     meet weak constraints, it is still possible to use most of the
     mechanisms here, as all kinds of pointers work well within the
     framework.  If the user decides to use raw pointers, memory
     management is left to them. In order to make this possible the C++
-    RTTI (Real Time Type Informat) mechanism is used. <p>
+    RTTI (Run Time Type Information) mechanism is used. <p>
 
     The framework presented here is designed to work with the
-    RAVL. C++ programming library.  RAVL uses reference counting to
+    RAVL C++ programming library.  RAVL uses reference counting to
     manage all large data structures.  This means that the cost of
     using assignment operator and copy constructor can be assumed to
-    be low.  This has bearing on the choices made when passing data
+    be low.  This has a bearing on the choices made when passing data
     around.  The reference counting mechanism is also thread safe,
     which means several different threads can hold references to an
     object without any problems.  This does not ensure the objects
-    themselves are thread safe, however if the data processing model
-    is adhered to, the input to a process is never modified and if we
+    themselves are thread safe; however if the data processing model
+    is adhered to, the input to a process is never modified, and if we
     are only reading information from an object, no conflicts should
     arise. <p>
 
