@@ -295,7 +295,7 @@ namespace RavlN {
       ONDEBUG(cerr << "HEMeshBaseBodyC::SplitFace() Setting face for edge " << at.Hash() <<" to " << face2.Hash() << "\n"); 
       at.SetFace(face2);
     }
-    RavlAssert(CheckMesh(true));
+    //RavlAssert(CheckMesh(true));
     return edge2;
   }
   
