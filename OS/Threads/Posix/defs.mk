@@ -25,3 +25,5 @@ PLIB = RavlThreads
 USESLIBS = RavlCore posixThreads RavlOS
 
 TESTEXES = testRWLock.cc
+
+EXAMPLES = exThread.cc
