@@ -52,7 +52,7 @@ namespace RavlGUIN {
     //: Resize canvas.
     // The canvas will be resized on the next render event.
     
-    void GUIResize(int &nsx,int &nsy);
+    bool GUIResize(int &nsx,int &nsy);
     //: Resize canvas.
     // GUI Thread only
     
@@ -154,8 +154,8 @@ namespace RavlGUIN {
     { return Body().DrawArea(); }
     //: Get drawing area.
     
-    void GUIResize(int &nsx,int &nsy)
-    { Body().GUIResize(nsx,nsy); }
+    bool GUIResize(int &nsx,int &nsy)
+    { return Body().GUIResize(nsx,nsy); }
     //: Resize canvas.
     // Call with the GUI Thread only
     

@@ -296,13 +296,13 @@ namespace RavlGUIN {
   //: Resize canvas.
   // GUI Thread only
 
-  void CanvasBodyC::GUIResize(int &nsx,int &nsy) {
+  bool CanvasBodyC::GUIResize(int &nsx,int &nsy) {
     if(nsx == sx && nsy == sy)
-      return ; // No change!
+      return true; // No change!
     sx = nsx;
     sy = nsy;
     if(widget == 0)
-      return ;
+      return true;
     //: Make new pixmap....
     if(pixmap != 0)
       gdk_pixmap_unref(pixmap);
@@ -318,6 +318,7 @@ namespace RavlGUIN {
     //: Set size....
     configDone = true; 
     gtk_drawing_area_size (GTK_DRAWING_AREA (widget), sx, sy);  
+    return true;
   }
   
   //: Resize canvas.
