@@ -34,7 +34,7 @@ namespace RavlN {
   // class provides a way of handling processes as abstract entities.
   
   class DPProcessBaseBodyC 
-    : public DPEntityBodyC 
+    : virtual public DPEntityBodyC 
   {
   public:
     DPProcessBaseBodyC() 
@@ -205,11 +205,11 @@ namespace RavlN {
     //: Body ptr constructor.
     
     inline DPProcessBaseBodyC &Body() 
-    { return static_cast<DPProcessBaseBodyC & > (DPEntityC::Body()); }
+    { return dynamic_cast<DPProcessBaseBodyC & > (DPEntityC::Body()); }
     //: Access body.
     
     inline const DPProcessBaseBodyC &Body() const
-    { return static_cast<const DPProcessBaseBodyC & > (DPEntityC::Body()); }
+    { return dynamic_cast<const DPProcessBaseBodyC & > (DPEntityC::Body()); }
     //: Access body.
     
   public:
@@ -282,11 +282,11 @@ namespace RavlN {
     //: Body constructor.
     
     inline DPProcessBodyC<InT,OutT> &Body() 
-    { return static_cast<DPProcessBodyC<InT,OutT> & > (DPEntityC::Body()); }
+    { return dynamic_cast<DPProcessBodyC<InT,OutT> & > (DPEntityC::Body()); }
     //: Access body.
     
     inline const DPProcessBodyC<InT,OutT> &Body() const
-    { return static_cast<const DPProcessBodyC<InT,OutT> & > (DPEntityC::Body()); }
+    { return dynamic_cast<const DPProcessBodyC<InT,OutT> & > (DPEntityC::Body()); }
     //: Access body.
     
   public:  
@@ -318,7 +318,7 @@ namespace RavlN {
     //: Assignment operator
     
     inline const DPProcessC<InT,OutT> Copy() const 
-    { return DPProcessC<InT,OutT>(static_cast<DPProcessBodyC<InT,OutT> &>(Body().Copy())); }
+    { return DPProcessC<InT,OutT>(dynamic_cast<DPProcessBodyC<InT,OutT> &>(Body().Copy())); }
     //: Make a copy of this process.
     
     //: Some type defs.
