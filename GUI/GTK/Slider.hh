@@ -215,97 +215,97 @@ namespace RavlGUIN {
 
   template<class DataT,class ParmT>
   SliderC SliderV(RealT nvalue, 
-		     RealT nlower, 
-		     RealT nupper, 
-		     RealT nstep_increment,
-		     bool (*func)(RealT &value,ParmT &par),const ParmT &pt = ParmT())
-    {  
-      SliderC ret(true,nvalue,nlower,nupper,nstep_increment);
-      Connect(ret.SigChanged(),obj,func,nvalue,pt);
-      return ret;
-    }
+		  RealT nlower, 
+		  RealT nupper, 
+		  RealT nstep_increment,
+		  bool (*func)(RealT &value,ParmT &par),const ParmT &pt = ParmT())
+  {  
+    SliderC ret(true,nvalue,nlower,nupper,nstep_increment);
+    Connect(ret.SigChanged(),obj,func,nvalue,pt);
+    return ret;
+  }
   //: Vertical slider with call back to function.
 
   template<class DataT>
   SliderC SliderH(RealT nvalue, 
-		     RealT nlower, 
-		     RealT nupper, 
-		     RealT nstep_increment,
-		     const DataT &obj,bool (DataT::*func)(RealT &value),RealT defVal = 0)
-    {  
-      SliderC ret(false,nvalue,nlower,nupper,nstep_increment);
-      Connect(ret.SigChanged(),obj,func,defVal);
-      return ret;
-    }
+		  RealT nlower, 
+		  RealT nupper, 
+		  RealT nstep_increment,
+		  const DataT &obj,bool (DataT::*func)(RealT &value),RealT defVal = 0)
+  {  
+    SliderC ret(false,nvalue,nlower,nupper,nstep_increment);
+    Connect(ret.SigChanged(),obj,func,defVal);
+    return ret;
+  }
   //: Horizontal slider with call back to class.
 
   template<class DataT,class ParmT>
   SliderC SliderH(RealT nvalue, 
-		     RealT nlower, 
-		     RealT nupper, 
-		     RealT nstep_increment,
-		     bool (*func)(RealT &value,ParmT &par),const ParmT &pt = ParmT())
-    {  
-      SliderC ret(false,nvalue,nlower,nupper,nstep_increment);
-      Connect(ret.SigChanged(),obj,func,nvalue,pt);
-      return ret;
-    }
+		  RealT nlower, 
+		  RealT nupper, 
+		  RealT nstep_increment,
+		  bool (*func)(RealT &value,ParmT &par),const ParmT &pt = ParmT())
+  {  
+    SliderC ret(false,nvalue,nlower,nupper,nstep_increment);
+    Connect(ret.SigChanged(),obj,func,nvalue,pt);
+    return ret;
+  }
   //: Horizontal slider with call back to function.
 
   template<class DataT>
   SliderC SliderV(RealT nvalue, 
-		     RealT nlower, 
-		     RealT nupper, 
-		     RealT nstep_increment,
-		     bool (*func)(RealT &value,DataT &dat),
-		     const DataT &data = DataT())
-    {  
-      SliderC ret(true,nvalue,nlower,nupper,nstep_increment);
-      RealT tmp = 0;
-      Connect(ret.SigChanged(),func,tmp,data);
-      return ret;
-    }
+		  RealT nlower, 
+		  RealT nupper, 
+		  RealT nstep_increment,
+		  bool (*func)(RealT &value,DataT &dat),
+		  const DataT &data = DataT())
+  {  
+    SliderC ret(true,nvalue,nlower,nupper,nstep_increment);
+    RealT tmp = 0;
+    Connect(ret.SigChanged(),func,tmp,data);
+    return ret;
+  }
   //: Veritical slider with call back to function.
   
   template<class DataT>
   SliderC SliderH(RealT nvalue, 
-		     RealT nlower, 
-		     RealT nupper, 
-		     RealT nstep_increment,
-		     bool (*func)(RealT &value,DataT &dat),
-		     const DataT &data = DataT())
-    {  
-      SliderC ret(false,nvalue,nlower,nupper,nstep_increment);
-      RealT tmp = 0;
-      Connect(ret.SigChanged(),func,tmp,data);
-      return ret;
-    }
+		  RealT nlower, 
+		  RealT nupper, 
+		  RealT nstep_increment,
+		  bool (*func)(RealT &value,DataT &dat),
+		  const DataT &data = DataT())
+  {  
+    SliderC ret(false,nvalue,nlower,nupper,nstep_increment);
+    RealT tmp = 0;
+    Connect(ret.SigChanged(),func,tmp,data);
+    return ret;
+  }
   //: Horizontal slider with call back to function.
   
   template<class DataT>
   SliderC SliderVR(RealT nvalue, 
-		     RealT nlower, 
-		     RealT nupper, 
-		     RealT nstep_increment,
-		     DataT &obj,bool (DataT::*func)(RealT &value),RealT defVal = 0)
-    {
-      SliderC ret(true,nvalue,nlower,nupper,nstep_increment);
-      ConnectRef(ret.SigChanged(),obj,func,defVal);
-      return ret;
-    }
+		   RealT nlower, 
+		   RealT nupper, 
+		   RealT nstep_increment,
+		   DataT &obj,bool (DataT::*func)(RealT &value),RealT defVal = 0)
+  {
+    SliderC ret(true,nvalue,nlower,nupper,nstep_increment);
+    ConnectRef(ret.SigChanged(),obj,func,defVal);
+    return ret;
+  }
   //: Vertical slider with refrence call back to class.
 
   template<class DataT>
   SliderC SliderHR(RealT nvalue, 
-		     RealT nlower, 
-		     RealT nupper, 
-		     RealT nstep_increment,
-		     DataT &obj,bool (DataT::*func)(RealT &value),RealT defVal = 0)
-    {
-      SliderC ret(false,nvalue,nlower,nupper,nstep_increment);
-      ConnectRef(ret.SigChanged(),obj,func,defVal);
-      return ret;
-    }
+		   RealT nlower, 
+		   RealT nupper, 
+		   RealT nstep_increment,
+		   DataT &obj,bool (DataT::*func)(RealT &value),RealT defVal = 0)
+  {
+    SliderC ret(false,nvalue,nlower,nupper,nstep_increment);
+    ConnectRef(ret.SigChanged(),obj,func,defVal);
+    return ret;
+  }
   //: Horizontal slider with refrence call back to class.
   
 }

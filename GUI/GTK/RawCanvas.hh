@@ -30,6 +30,9 @@ namespace RavlGUIN {
       {}
     //: Default constructor.
     
+    GdkDrawable *DrawArea();
+    //: Access draw area.
+    
   protected:  
     virtual bool Create();
     //: Create the widget.
@@ -59,6 +62,24 @@ namespace RavlGUIN {
       : WidgetC(*new RawCanvasBodyC(sx,sy))
       {}
     //: Constructor.  
+
+  protected:
+    RawCanvasC(RawCanvasBodyC &body)
+      : WidgetC(body)
+    {}
+    //: Body constructor.
+    
+    RawCanvasBodyC &Body()
+    { return static_cast<RawCanvasBodyC &>(WidgetC::Body()); }
+    //: Access body.
+
+    const RawCanvasBodyC &Body() const
+    { return static_cast<const RawCanvasBodyC &>(WidgetC::Body()); }
+    //: Access body.
+  public:
+    GdkDrawable *DrawArea()
+    { return Body().DrawArea(); }
+    //: Access draw area.
     
   };
   

@@ -14,7 +14,7 @@
 #include <gtk/gtk.h>
 
 
-#define DODEBUG 0
+#define DODEBUG 1
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -57,13 +57,15 @@ namespace RavlGUIN {
   //: Create the widget.
   
   bool TextEntryBodyC::Create() {
-    ONDEBUG(cerr << "TextEntryBodyC::Create() MaxLen : " << maxLen << "\n");
+    ONDEBUG(cerr << "TextEntryBodyC::Create() MaxLen=" << maxLen << " Text='" << text << "'\n");
     if(maxLen > 0)
       widget = gtk_entry_new_with_max_length(maxLen);
     else
       widget = gtk_entry_new ();
     if(!text.IsEmpty())
       gtk_entry_set_text (GTK_ENTRY (widget), text);
+    ONDEBUG(cerr << "TextEntryBodyC::Create(), Size=" << GTK_ENTRY (widget)->text_size << " Used=" << GTK_ENTRY (widget)->text_length <<" Max=" << GTK_ENTRY (widget)->text_max_length <<"\n");
+    
     gtk_signal_connect(GTK_OBJECT(widget), "activate",
 		       GTK_SIGNAL_FUNC(enter_callback),
 		       this);

@@ -43,9 +43,9 @@ namespace RavlGUIN {
 	return false;
       }
     }
-    gtk_signal_connect_object( GTK_OBJECT(widge.Widget()), "motion_notify_event",
-			       (GtkSignalFunc)EVENT_METHOD(Widget(), motion_notify_event),
-			       GTK_OBJECT(Widget()) );
+    gtk_signal_connect_object(GTK_OBJECT(widge.Widget()), "motion_notify_event",
+			      (GtkSignalFunc)EVENT_METHOD(Widget(), motion_notify_event),
+			      GTK_OBJECT(Widget()) );
     gtk_widget_add_events(widge.Widget(), GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK );
     ConnectSignals();
     
@@ -58,9 +58,9 @@ namespace RavlGUIN {
   bool RulerBodyC::GUISetRange(RealT nlower,RealT nupper) {
     lower = nlower;
     upper = nupper;
-    gtk_ruler_set_range  (GTK_RULER(widget),
-			  lower,upper,
-			  position,max_size);
+    gtk_ruler_set_range(GTK_RULER(widget),
+			lower,upper,
+			position,max_size);
     return true;
   }
   

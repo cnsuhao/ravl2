@@ -23,4 +23,9 @@ namespace RavlGUIN {
     ConnectSignals();
     return true;
   }
+
+  GdkDrawable *RawCanvasBodyC::DrawArea()
+  { return widget->window; }
+    //: Access draw area.
+
 }

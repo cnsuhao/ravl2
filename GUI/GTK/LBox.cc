@@ -33,7 +33,7 @@ namespace RavlGUIN {
       if(boarder != 0)
 	gtk_container_set_border_width (GTK_CONTAINER (widget), boarder);
     }
-  
+    
     for(DLIterC<WidgetC> it(children);it.IsElm();it.Next()) {
       if(it.Data().Widget() == 0) {
 	if(!it.Data().Create()) 
