@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLBLKQUEUE_HEADER
-#define RAVLBLKQUEUE_HEADER
+#ifndef RAVL_BLKQUEUE_HEADER
+#define RAVL_BLKQUEUE_HEADER
 ///////////////////////////////////////////////////////////////////////////
 //! date="15/11/95"
 //-------------------------------------------------------------------------- 
@@ -207,7 +207,7 @@ namespace RavlN {
 	blkTotal += blkSize;
       }
     }
-    firstBlk->d[first]= data;
+    new(&firstBlk->d[first]) T(data);
   }
 }
 
