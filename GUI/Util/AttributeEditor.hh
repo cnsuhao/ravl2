@@ -59,6 +59,11 @@ namespace RavlGUIN {
     : public TableC
   {
   public:
+    AttributeEditorC()
+    {}
+    //: Default constructor.
+    // creates an invalid handle.
+    
     AttributeEditorC(const AttributeCtrlC &ctrl)
       : TableC(*new AttributeEditorBodyC(ctrl))
     {}
