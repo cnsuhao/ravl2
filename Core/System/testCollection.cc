@@ -16,6 +16,7 @@
 #include "Ravl/DArray1dIter.hh"
 #include "Ravl/DArray1dIter2.hh"
 #include "Ravl/DArray1dIter3.hh"
+#include "Ravl/DList.hh"
 
 using namespace RavlN;
 
