@@ -15,7 +15,7 @@
 
 #include "Ravl/config.h"
 
-#ifdef __sol2__
+#ifdef RAVL_OS_SOLARIS
 #define _POSIX_PTHREAD_SEMANTICS 1
 #endif
 
