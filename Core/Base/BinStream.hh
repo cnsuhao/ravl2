@@ -27,26 +27,30 @@ namespace RavlN  {
   // If we don't have byte swap define these.
   
   inline short bswap_16(const short &buf) {
-    short ret;
-    ((char *) &ret)[0] = ((const char *) &buf)[1];
-    ((char *) &ret)[1] = ((const char *) &buf)[0];
-    return ret;
+    union {
+      short s;
+      char c[2];
+    } ret,val = buf;
+    ret.c[0] = val.c[1];
+    ret.c[1] = val.c[0];
+    return ret.s;
   }
   //! userlevel=Advanced
   //: Swap bytes of a 16 bit number.
   
   inline int bswap_32(const int &buf) {
-    int ret;
-    ((char *) &ret)[0] = ((const char *) &buf)[3];
-    ((char *) &ret)[1] = ((const char *) &buf)[2];
-    ((char *) &ret)[2] = ((const char *) &buf)[1];
-    ((char *) &ret)[3] = ((const char *) &buf)[0];
-    return ret;
+    union {
+      short i;
+      char c[2];
+    } ret,val = buf;
+    ret.c[0] = val.c[3];
+    ret.c[1] = val.c[2];
+    ret.c[2] = val.c[1];
+    ret.c[3] = val.c[0];
+    return ret.i;
   }
   //! userlevel=Advanced
   //: Swap bytes of a 32 bit number.
-  
-  
 #endif
   
   //:-
@@ -56,6 +60,8 @@ namespace RavlN  {
   // UInt16T   2 
   // IntT      4
   // UIntT     4
+  // RealT     8
+  // FloatT    4
   
   //! userlevel=Normal
   //: Machine independant binary input stream.
@@ -65,25 +71,25 @@ namespace RavlN  {
   public:
     BinIStreamC(const IStreamC &nIn)
       : in(nIn)
-      {}
+    {}
     //: Constructor.
-  // From a IStreamC.
+    // From a IStreamC.
     
 #if RAVL_HAVE_INTFILEDESCRIPTORS
     BinIStreamC(int fd)
       : in(fd)
-      {}
+    {}
     //: Constructor.
     // From a file descriptor.
 #endif
     
     BinIStreamC(const StringC &nIn,bool buffered = true)
       : in(nIn,true,buffered) // Open binary stream.
-      {}
+    {}
     //: Constructor.
     
     BinIStreamC()
-      {}
+    {}
     //: Default construtor.
     
     inline BinIStreamC &IBuff(char *buff,IntT len); 
@@ -126,7 +132,7 @@ namespace RavlN  {
     //: Goto a position in the stream.
     
     inline const StringC &Name() const
-      { return in.Name(); }
+    { return in.Name(); }
     //: Returns the name of the stream.
     
     IStreamC &Stream() { return in; }
@@ -136,7 +142,7 @@ namespace RavlN  {
     //: Access underlying stream.
     
     inline bool IsEndOfStream() 
-      { return in.IsEndOfStream(); }
+    { return in.IsEndOfStream(); }
     //: Test if at end of the stream.
   
   protected:
@@ -145,7 +151,7 @@ namespace RavlN  {
     
     IStreamC in;
     IntT idAlloc;
-  //HashC<IntT,void *> ptrMap;
+    //HashC<IntT,void *> ptrMap;
   };
 
   //! userlevel=Normal
@@ -303,19 +309,31 @@ namespace RavlN  {
   inline 
   BinIStreamC &BinIStreamC::operator>>(FloatT &dat) {
     RavlAssert(sizeof(FloatT) == sizeof(IntT));
-    (*this) >> (*((IntT *) &dat));
+    union {
+      FloatT f;
+      IntT i;
+    } val;
+    (*this) >> val.i;
+    dat = val.f;
     return *this;
   }
   
   inline 
   BinIStreamC &BinIStreamC::operator>>(RealT &dat) {
     RavlAssert(sizeof(RealT) == (sizeof(IntT) * 2));
-    IntT *at = (IntT *) (&dat);
+    union {
+      RealT d;
+      IntT i[2];
+    } val;
 #if RAVL_BIGENDIANDOUBLES
-    (*this) >> at[0] >> at[1];
+    in.read((char *)&(val.i[0]),8);
 #else
-    (*this) >> at[1] >> at[0];
+    IntT buff[2];
+    in.read((char *)buff,8);
+    val.i[0] = bswap_32(buff[1]);
+    val.i[1] = bswap_32(buff[0]);
 #endif
+    dat = val.d;
     return *this;
   }
   
@@ -387,19 +405,32 @@ namespace RavlN  {
   inline 
   BinOStreamC &BinOStreamC::operator<<(FloatT dat) {
     RavlAssert(sizeof(FloatT) == sizeof(IntT));
-    (*this) << (*((IntT *) &dat));
+    union {
+      FloatT f;
+      IntT i;
+    } val;
+    val.f = dat;
+    (*this) << val.i;
     return *this;
   }
   
   inline 
   BinOStreamC &BinOStreamC::operator<<(RealT dat) {
     RavlAssert(sizeof(RealT) == (sizeof(IntT) * 2));
-    IntT *at = (IntT *) (&dat);
+    union {
+      RealT r;
+      IntT i[2];
+    } val;
+    val.r = dat;
+    IntT buff[2];
 #if RAVL_BIGENDIANDOUBLES
-    (*this) << at[0] << at[1];
+    buff[0] = val.i[0];
+    buff[1] = val.i[1];
 #else
-    (*this) << at[1] << at[0];
+    buff[0] = bswap_32(val.i[1]);
+    buff[1] = bswap_32(val.i[0]);
 #endif
+    out.write((char *) buff,8);
     return *this;
   }
   
