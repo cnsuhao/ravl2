@@ -70,11 +70,12 @@ LDFLAGS += $(EXTRA_LDFLAGS)
 PAR_MAKE = --jobs=$(PROCS)
 
 UNDEFSYMB = -u #
-#-fno-strict-aliasing
-#-fno-strict-aliasing
-OPTCFLAGS = -O3 -ffast-math -mcpu=pentium4  -mmmx -msse2
-OPTCCFLAGS = -O3 -ffast-math -mcpu=pentium4 -mmmx -msse2
-# -DQMAKE_CHECK
+
+OPTCFLAGS = -O2 
+# -O2 -ffast-math -mcpu=i686 -mmmx -msse
+
+OPTCCFLAGS = -O2 
+# -O2 -ffast-math -mcpu=i686 -mmmx -msse
 
 ############################
 # 'debug' variant.
