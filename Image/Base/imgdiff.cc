@@ -25,10 +25,10 @@ using namespace RavlImageN;
 
 int main(int nargs,char **argv) {
   OptionC opt(nargs,argv);
-  StringC fin1 = opt.String("","in1.pgm","Input image 1 ");
-  StringC fin2 = opt.String("","in1.pgm","Input image 2 ");
   StringC fout = opt.String("o","@X","Output image ");
   bool abs = opt.Boolean("a",false,"Calculate the absolute difference. ");
+  StringC fin1 = opt.String("","in1.pgm","Input image 1 ");
+  StringC fin2 = opt.String("","in1.pgm","Input image 2 ");
   opt.Check();
   ImageC<IntT> in1;
   ImageC<IntT> in2;
