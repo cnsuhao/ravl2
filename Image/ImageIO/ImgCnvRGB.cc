@@ -65,7 +65,7 @@ namespace RavlImageN
     for(Array2dIter2C<ByteRGBValueC,RealRGBValueC> it(ret,dat);it.IsElm();it.Next()) {
       RealRGBValueC v(it.Data2());
       v.Limit(0,255);
-      it.Data1() = ByteRGBValueC(v.Red(),v.Green(),v.Blue());
+      it.Data1() = ByteRGBValueC((ByteT)v.Red(),(ByteT)v.Green(),(ByteT)v.Blue());
     }
     return ret;
   }

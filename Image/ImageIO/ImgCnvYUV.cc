@@ -64,7 +64,7 @@ namespace RavlImageN
     for(Array2dIter2C<ByteYUVValueC,RealYUVValueC> it(ret,dat);it.IsElm();it.Next()) {
       RealYUVValueC v(it.Data2());
       v.Limit(0,255);
-      it.Data1() = ByteYUVValueC(v.Y(),v.U(),v.V());
+      it.Data1() = ByteYUVValueC((ByteT)v.Y(),(ByteT)v.U(),(ByteT)v.V());
     }
     return ret;
   }

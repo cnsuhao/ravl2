@@ -29,13 +29,13 @@
 
 ///// Some 'C' IO interface routines. /////////////////////////////////////
 
-extern "C" {
-  void my_png_filein(png_structp png_ptr, png_bytep data, png_size_t length);
-  void my_png_fileout(png_structp png_ptr, png_bytep data, png_size_t length);
-  void my_png_flush(png_structp png_ptr);
+extern "C" 
+{
+  static void my_png_filein(png_structp png_ptr, png_bytep data, png_size_t length);
+  static void my_png_fileout(png_structp png_ptr, png_bytep data, png_size_t length);
+  static void my_png_flush(png_structp png_ptr);
 }
 
-static
 void my_png_filein(png_structp png_ptr, png_bytep data, png_size_t length) {
   RavlN::IStreamC &is = *((RavlN::IStreamC *)png_get_io_ptr(png_ptr));
   assert(is.good());
@@ -44,7 +44,6 @@ void my_png_filein(png_structp png_ptr, png_bytep data, png_size_t length) {
     png_error(png_ptr, "Read Error");  
 }
 
-static
 void my_png_fileout(png_structp png_ptr, png_bytep data, png_size_t length) {
   RavlN::OStreamC &os = *((RavlN::OStreamC *)png_get_io_ptr(png_ptr));
   assert(os.good());
@@ -53,7 +52,6 @@ void my_png_fileout(png_structp png_ptr, png_bytep data, png_size_t length) {
     png_error(png_ptr, "Write Error");  
 }
 
-static
 void my_png_flush(png_structp png_ptr) {
   RavlN::OStreamC &os = *((RavlN::OStreamC *)png_get_io_ptr(png_ptr));
   os.os().flush();
