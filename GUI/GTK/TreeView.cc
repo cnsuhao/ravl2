@@ -389,7 +389,7 @@ namespace RavlGUIN {
   //: Create with a widget supplied from elsewhere.
   
   bool TreeViewBodyC::Create(GtkWidget *nwidget) {
-    SysLog(SYSLOG_DEBUG) << "TreeViewBodyC::Create()";
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "TreeViewBodyC::Create()";)
     widget = nwidget;
     
     // Setup tree model.
@@ -707,7 +707,7 @@ namespace RavlGUIN {
   // GUI thread only
   
   bool TreeViewBodyC::GUISelectIter(TreeModelIterC iter) {
-    SysLog(SYSLOG_DEBUG) << "TreeViewBodyC::GUISelectIter()";
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "TreeViewBodyC::GUISelectIter()";)
     if (selection == 0) {
       m_preselection = iter.TreeIter();
       return false;
