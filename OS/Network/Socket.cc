@@ -128,13 +128,28 @@ namespace RavlN {
       delete [] (char *) addr;
     addr = 0;
   }
-
+  
+  int GetTCPProtocolNumber() {
+#if RAVL_OS_LINUX
+    return SOL_TCP;
+#else
+    struct protoent entry;
+    char buffer[1024];
+    if(getprotobyname_r("tcp",&entry,buffer,1024) != 0) {
+      cerr << "WARNING: Failed to get tcp protocol number. Guessing a value of 6. \n";
+      return 6;
+    }
+    return entry.p_proto;
+#endif
+  }
+  
   //: Send data as soon as possible. 
   
   void SocketBodyC::SetNoDelay() {
     // Disable delays.
     int n = 1;
-    if(setsockopt(fd,SOL_TCP,TCP_NODELAY,&n,sizeof(int)) != 0) {
+    static int tcpprotocolno = GetTCPProtocolNumber();
+    if(setsockopt(fd,tcpprotocolno,TCP_NODELAY,&n,sizeof(int)) != 0) {
       cerr << "SocketBodyC::SetNoDelay(), Failed. errno=" << errno <<"\n";
     }
   }
