@@ -127,7 +127,7 @@ namespace RavlN {
     
     VectorC EigenValuesIP();
     //: Calculate the eigen values of this matrix.
-    // The contents of this matrix are destroyed. A vector of the eigen
+    // The contents of this matrix is destroyed. A vector of the eigen
     // values is returned.   <p>
     // If any errors occured a zero length vector is generated.
     
