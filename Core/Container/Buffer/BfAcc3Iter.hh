@@ -22,30 +22,30 @@ namespace RavlN {
   //! userlevel=Advanced
   //: 3D buffer iterator.
   
-  template <class DataC>
+  template <class DataT>
   class BufferAccess3dIterC {
   public:
     BufferAccess3dIterC()
-      {}
+    {}
     //: Default constructor.
     
-    BufferAccess3dIterC(const BufferAccessC<BufferAccessC<BufferAccessC<DataC> > > &pbuf,SizeT size1,SizeT size2,SizeT size3)
-      { First(pbuf,size1,size2,size3); }
+    BufferAccess3dIterC(const BufferAccessC<BufferAccessC<BufferAccessC<DataT> > > &pbuf,SizeT size1,SizeT size2,SizeT size3)
+    { First(pbuf,size1,size2,size3); }
     //: Constructor.
 
-    BufferAccess3dIterC(const BufferAccessC<BufferAccessC<BufferAccessC<DataC> > > &pbuf,const IndexRangeC &nrng1,const IndexRangeC &nrng2,const IndexRangeC &nrng3)
-      { First(pbuf,nrng1,nrng2,nrng3); }
+    BufferAccess3dIterC(const BufferAccessC<BufferAccessC<BufferAccessC<DataT> > > &pbuf,const IndexRangeC &nrng1,const IndexRangeC &nrng2,const IndexRangeC &nrng3)
+    { First(pbuf,nrng1,nrng2,nrng3); }
     //: Constructor.
     
-    BufferAccess3dIterC(const SizeBufferAccessC<BufferAccessC<BufferAccessC<DataC> > > &pbuf,SizeT size2,SizeT size3)
-      { First(pbuf,size2,size3); }
+    BufferAccess3dIterC(const SizeBufferAccessC<BufferAccessC<BufferAccessC<DataT> > > &pbuf,SizeT size2,SizeT size3)
+    { First(pbuf,size2,size3); }
     //: Constructor.
 
-    BufferAccess3dIterC(const RangeBufferAccessC<BufferAccessC<BufferAccessC<DataC> > > &pbuf,const IndexRangeC &nrng2,const IndexRangeC &nrng3)
-      { First(pbuf,nrng2,nrng3); }
+    BufferAccess3dIterC(const RangeBufferAccessC<BufferAccessC<BufferAccessC<DataT> > > &pbuf,const IndexRangeC &nrng2,const IndexRangeC &nrng3)
+    { First(pbuf,nrng2,nrng3); }
     //: Constructor.
     
-    bool First(const BufferAccessC<BufferAccessC<BufferAccessC<DataC> > > &pbuf,const IndexRangeC &nrng1,const IndexRangeC &nrng2,const IndexRangeC &nrng3) {
+    bool First(const BufferAccessC<BufferAccessC<BufferAccessC<DataT> > > &pbuf,const IndexRangeC &nrng1,const IndexRangeC &nrng2,const IndexRangeC &nrng3) {
       rng2 = nrng2;
       rng3 = nrng3;
       rit.First(pbuf,nrng1);
@@ -56,7 +56,7 @@ namespace RavlN {
     }
     //: Goto first element in the array
 
-    bool First(const RangeBufferAccessC<BufferAccessC<BufferAccessC<DataC> > > &pbuf,const IndexRangeC &nrng2,const IndexRangeC &nrng3) {
+    bool First(const RangeBufferAccessC<BufferAccessC<BufferAccessC<DataT> > > &pbuf,const IndexRangeC &nrng2,const IndexRangeC &nrng3) {
       rng2 = nrng2;
       rng3 = nrng3;
       rit.First(pbuf,pbuf.Range());
@@ -67,7 +67,7 @@ namespace RavlN {
     }
     //: Goto first element in the array
     
-    bool First(const BufferAccessC<BufferAccessC<BufferAccessC<DataC> > > &pbuf,SizeT size1,SizeT size2,SizeT size3) {
+    bool First(const BufferAccessC<BufferAccessC<BufferAccessC<DataT> > > &pbuf,SizeT size1,SizeT size2,SizeT size3) {
       rng2 = IndexRangeC(0,size2-1);
       rng3 = IndexRangeC(0,size3-1);
       rit.First(pbuf,size1);
@@ -78,7 +78,7 @@ namespace RavlN {
     }
     //: Goto first element in the array
 
-    bool First(const SizeBufferAccessC<BufferAccessC<BufferAccessC<DataC> > > &pbuf,SizeT size2,SizeT size3) {
+    bool First(const SizeBufferAccessC<BufferAccessC<BufferAccessC<DataT> > > &pbuf,SizeT size2,SizeT size3) {
       rng2 = IndexRangeC(0,size2-1);
       rng3 = IndexRangeC(0,size3-1);
       rit.First(pbuf,pbuf.Size());
@@ -90,7 +90,7 @@ namespace RavlN {
     //: Goto first element in the array
     
     void SliceStart() 
-      { sit.First(*rit,rng2,rng3); }
+    { sit.First(*rit,rng2,rng3); }
     //: Go back to the begining of this row.
     
     bool NextSlice() {
@@ -120,48 +120,56 @@ namespace RavlN {
     // the next row or at the end of the array.
     
     bool IsElm() const
-      { return sit.IsElm(); }
+    { return sit.IsElm(); }
     //: Test if iterator is at a valid element.
     
     operator bool() const
-      { return sit.IsElm(); }
+    { return sit.IsElm(); }
     //: Test if iterator is at a valid element.
     
     void operator++() 
-      { Next(); }
+    { Next(); }
     //: Goto next element.
 
     void operator++(int) 
-      { Next(); }
+    { Next(); }
     //: Goto next element.
     
-    DataC &operator*() 
-      { return *sit; }
+    DataT &operator*() 
+    { return *sit; }
     //: Access data of current element
     
-    const DataC &operator*() const
-      { return *sit; }
+    const DataT &operator*() const
+    { return *sit; }
     //: Access data of current element
 
-    DataC &Data() 
-      { return *sit; }
-    //: Access data of current element
-
-    const DataC &Data() const
-      { return *sit; }
-    //: Access data of current element
-
-    DataC &Data1() 
-      { return *sit; }
+    DataT *operator->() 
+    { return &(*sit); }
     //: Access data of current element
     
-    const DataC &Data1() const
-      { return *sit; }
+    const DataT *operator->() const
+    { return &(*sit); }
+    //: Access data of current element
+    
+    DataT &Data() 
+    { return *sit; }
+    //: Access data of current element
+
+    const DataT &Data() const
+    { return *sit; }
+    //: Access data of current element
+
+    DataT &Data1() 
+    { return *sit; }
+    //: Access data of current element
+    
+    const DataT &Data1() const
+    { return *sit; }
     //: Access data of current element
     
   protected:
-    BufferAccessIterC<BufferAccessC<BufferAccessC<DataC> > > rit;
-    BufferAccess2dIterC<DataC> sit;
+    BufferAccessIterC<BufferAccessC<BufferAccessC<DataT> > > rit;
+    BufferAccess2dIterC<DataT> sit;
     IndexRangeC rng2;
     IndexRangeC rng3;
   };

@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLRBFACC2ITER_HEADER
-#define RAVLRBFACC2ITER_HEADER 1
+#ifndef RAVL_RBFACC2ITER_HEADER
+#define RAVL_RBFACC2ITER_HEADER 1
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Core/Container/Buffer/BfAcc2Iter.hh"
@@ -27,23 +27,23 @@ namespace RavlN {
   class BufferAccess2dIterC {
   public:
     BufferAccess2dIterC()
-      {}
+    {}
     //: Default constructor.
 
     BufferAccess2dIterC(const BufferAccessC<BufferAccessC<DataT> > &pbuf,SizeT size1,SizeT size2)
-      { First(pbuf,size1,size2); }
+    { First(pbuf,size1,size2); }
     //: Constructor.    
     
     BufferAccess2dIterC(const SizeBufferAccessC<BufferAccessC<DataT> > &pbuf,SizeT size)
-      { First(pbuf,size); }
+    { First(pbuf,size); }
     //: Constructor.
     
     BufferAccess2dIterC(const RangeBufferAccessC<BufferAccessC<DataT> > &pbuf,const IndexRangeC &nrng2)
-      { First(pbuf,nrng2); }
+    { First(pbuf,nrng2); }
     //: Constructor.
 
     BufferAccess2dIterC(const BufferAccessC<BufferAccessC<DataT> > &pbuf,const IndexRangeC &nrng1,const IndexRangeC &nrng2)
-      { First(pbuf,nrng1,nrng2); }
+    { First(pbuf,nrng1,nrng2); }
     //: Constructor.
 
     bool First(const BufferAccessC<BufferAccessC<DataT> > &pbuf,SizeT size1,SizeT size2) {
@@ -71,7 +71,7 @@ namespace RavlN {
     //: Goto first element in the array.
 
     bool First(const BufferAccessC<BufferAccessC<DataT> > &pbuf,const IndexRangeC &nrng1,const IndexRangeC &nrng2) 
-      { return First(RangeBufferAccessC<BufferAccessC<DataT> >(nrng1,pbuf),nrng2); }
+    { return First(RangeBufferAccessC<BufferAccessC<DataT> >(nrng1,pbuf),nrng2); }
     //: Goto first element in the array.
     
     bool First(const RangeBufferAccessC<BufferAccessC<DataT> > &pbuf,const IndexRangeC &nrng) {
@@ -103,12 +103,12 @@ namespace RavlN {
     // if it is at the end of the array.
     
     void NextCol()
-      { cit.Next(); }
+    { cit.Next(); }
     //: Goto next column, without checking for row change.
     // Use with care.
 
     void NextCol(int skip)
-      { cit.Next(skip); }
+    { cit.Next(skip); }
     //: Go forward 'skip' columns, without checking for row change.
     // Use with care.
     
@@ -128,51 +128,59 @@ namespace RavlN {
     // the next row or at the end of the array.
     
     bool IsElm() const
-      { return cit.IsElm(); }
+    { return cit.IsElm(); }
     //: Test if iterator is at a valid element.
     
     operator bool() const
-      { return cit.IsElm(); }
+    { return cit.IsElm(); }
     //: Test if iterator is at a valid element.
     
     void operator++() 
-      { Next(); }
+    { Next(); }
     //: Goto next element.
 
     void operator++(int) 
-      { Next(); }
+    { Next(); }
     //: Goto next element.
     
     DataT &operator*() 
-      { return *cit; }
+    { return *cit; }
     //: Access data of current element
     
     const DataT &operator*() const
-      { return *cit; }
+    { return *cit; }
     //: Access data of current element
-
+    
+    DataT *operator->() 
+    { return &(*cit); }
+    //: Access data of current element
+    
+    const DataT *operator->() const
+    { return &(*cit); }
+    //: Access data of current element
+    
     DataT &Data() 
-      { return *cit; }
+    { return *cit; }
     //: Access data of current element
 
     const DataT &Data() const
-      { return *cit; }
+    { return *cit; }
     //: Access data of current element
 
     DataT &Data1() 
-      { return *cit; }
+    { return *cit; }
     //: Access data of current element
     
     const DataT &Data1() const
-      { return *cit; }
+    { return *cit; }
     //: Access data of current element
     
     RangeBufferAccessC<DataT> &Row()
-      { return RangeBufferAccessC<DataT>(rng,*rit); }
+    { return RangeBufferAccessC<DataT>(rng,*rit); }
     //: Access row we're currently iterating.
     
     const RangeBufferAccessC<DataT> &Row() const
-      { return RangeBufferAccessC<DataT>(rng,*rit); }
+    { return RangeBufferAccessC<DataT>(rng,*rit); }
     //: Access row we're currently iterating.
     
     Index2dC Index(const BufferAccessC<DataT> *rowBegin) const { 
@@ -183,7 +191,7 @@ namespace RavlN {
     // Has to be calculate, and so is slightly slow.
 		  
     void Invalidate()
-      { cit.Invalidate(); }
+    { cit.Invalidate(); }
     //: Invalidate this iterator.
     
   protected:
