@@ -15,6 +15,8 @@
 #include "Ravl/3D/HEMeshFace.hh"
 #include "Ravl/3D/HEMeshVertex.hh"
 #include "Ravl/3D/HEMeshEdge.hh"
+#include "Ravl/3D/HEMeshFaceIter.hh"
+#include "Ravl/3D/HEMeshVertexIter.hh"
 #include "Ravl/RefCounter.hh"
 #include "Ravl/DList.hh"
 #include "Ravl/InDList.hh"
@@ -141,14 +143,26 @@ namespace Ravl3DN {
     //: Check mesh structure is consistant.
     // Returns false if an inconsistancy is found.
     
-    IntrDListC<HEMeshFaceBodyC> &Faces()
-    { return Body().faces; }
+    HEMeshFaceIterC Faces()
+    { return HEMeshFaceIterC(Body().faces); }
     //: List of faces in the mesh.
+    // Use to create HEMeshFaceIterC.
     
-    IntrDListC<HEMeshVertexBodyC> Vertices()
-    { return Body().vertices; }
+    HEMeshVertexIterC Vertices()
+    { return HEMeshVertexIterC(Body().vertices); }
     //: List of vertices.
+    // Use to create HEMeshVertexIterC.
+
+    HEMeshFaceC FirstFace()
+    { return HEMeshFaceC(Body().faces.First()); }
+    //: Get the first face in the mesh.
+    // Note: The mesh must NOT be empty.
     
+    HEMeshVertexC FirstVirtex()
+    { return HEMeshVertexC(Body().vertices.First()); }
+    //: Get the first vertex in the mesh.
+    // Note: The mesh must NOT be empty.
+
   };
 
 }
