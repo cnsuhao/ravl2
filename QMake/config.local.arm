@@ -9,12 +9,16 @@
 
 ################ Install options #############################
 # This variable determines which kinds of library are built by the default installation (fullbuild)
+#These flags include check, debug and opt builds, along with their shared library counterparts (shared, optshared, debugshared). 
+#The ravl binaries are built if  'optbin' is set, this also builds 'opt' libraries. The 'doc' flag controls building of documentation. 
+ 
 FULLBUILD_TARGETS += check
 FULLBUILD_TARGETS += debug 
 FULLBUILD_TARGETS += opt
 FULLBUILD_TARGETS += shared
 #FULLBUILD_TARGETS += debugshared
 #FULLBUILD_TARGETS += optshared
+FULLBUILD_TARGETS += optbin
 FULLBUILD_TARGETS += doc
 
 
