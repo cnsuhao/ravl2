@@ -12,6 +12,7 @@
 //! date="22/04/2002"
 //! docentry="Ravl.Images"
 //! lib=RavlImage
+//! userlevel=Normal
 
 #include "Ravl/Image/Image.hh"
 
