@@ -248,9 +248,9 @@ namespace RavlImageN {
 	continue;
       }
       
-      // Check for mirror images.
+      // Check for mirror images or transforms with very high shear.
       
-      if(affine.SRMatrix()[0][0] * affine.SRMatrix()[1][1] < 0)
+      if(affine.OrthogonalCrossProduct() <= 0.0001)
 	continue; // Just ignore it.
       
       // Test hypothesis.
