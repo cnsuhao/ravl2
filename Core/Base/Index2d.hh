@@ -141,11 +141,11 @@ namespace RavlN {
     //: Logical conditions
     
     bool IsInside(const IndexRange2dC & range) const;
-    //: Returns TRUE, if this index is in the 'range'.
+    //: Returns true, if this index is in the 'range'.
     
     inline bool IsMoreUpperLeft(const Index2dC & i) const
     { return (Row() < i.Row()) || (Row() == i.Row() && Col() < i.Col()); }
-    //: Returns TRUE, if Row() < i.Row() or 
+    //: Returns true, if Row() < i.Row() or 
     //: (Row() == i.Row() and Col() < i.Col()).
 
     inline bool operator<(const Index2dC & i) const

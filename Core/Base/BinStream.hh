@@ -143,7 +143,7 @@ namespace RavlN  {
     
     IStreamC in;
     IntT idAlloc;
-  //HashARC<IntT,void *> ptrMap;
+  //HashC<IntT,void *> ptrMap;
   };
 
   //! userlevel=Normal
@@ -230,7 +230,7 @@ namespace RavlN  {
     
     OStreamC out;
     //IntT idAlloc;
-    //HashARC<void *,IntT> ptrMap;
+    //HashC<void *,IntT> ptrMap;
   };
 
   

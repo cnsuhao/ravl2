@@ -15,7 +15,7 @@
 //! file="Ravl/Core/Base/EntryPnt.hh"
 //! date=""
 
-// This head add makes sure all amma exceptions are caught and
+// This head add makes sure all Ravl exceptions are caught and
 // given to the user.  This avoids anonymous exits from the program.
 
 namespace RavlN {  

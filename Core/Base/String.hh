@@ -51,7 +51,7 @@ Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #if STRDEBUG
 #include <stdio.h>
-#include <assert.h>
+#include "Ravl/Assert.hh"
 #endif
 #undef OK
 

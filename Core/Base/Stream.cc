@@ -260,7 +260,7 @@ namespace RavlN {
   
   //: Get data from unix filehandle.
   
-  OStreamC::OStreamC(int fd,bool buffered) { 
+  OStreamC::OStreamC(int fd,bool binary,bool buffered) { 
 #if !RAVL_COMPILER_GCC3
     if(buffered)
       Init(out = new ofstream(fd),StringC(fd)); 
@@ -269,12 +269,15 @@ namespace RavlN {
 #else
     ofstream *ofs = new ofstream(); 
     // A horrible hack to allow us to open a file handle....
-    basic_fdfilebuf<ofstream::char_type,ofstream::traits_type>  *bfd = 
-      (basic_fdfilebuf<ofstream::char_type,ofstream::traits_type>  *) ofs->rdbuf(); 
-    if(!bfd->open(fd,ios_base::out | ios_base::binary))
-      ofs->setstate(ios_base::failbit);
+    basic_fdfilebuf<ofstream::char_type,ofstream::traits_type> *bfd = 
+      (basic_fdfilebuf<ofstream::char_type,ofstream::traits_type> *) ofs->rdbuf(); 
+    ios_base::openmode mode = ios_base::out;
+    if(binary)
+      mode |= ios_base::binary;
     if(!buffered)
       bfd->SetBuf(0,0);
+    if(!bfd->open(fd,mode))
+      ofs->setstate(ios_base::failbit);
     Init(out = ofs,StringC(fd)); 
 #endif
   }
@@ -357,7 +360,7 @@ namespace RavlN {
   
   //: Get data from unix filehandle.
   
-  IStreamC::IStreamC(int fd,bool buffered) {   
+  IStreamC::IStreamC(int fd,bool binary,bool buffered) {   
 #if !RAVL_COMPILER_GCC3
     if(buffered)
       Init(in = new ifstream(fd),StringC(fd));
@@ -369,14 +372,15 @@ namespace RavlN {
     basic_fdfilebuf<ifstream::char_type,ifstream::traits_type>  *bfd = 
       (basic_fdfilebuf<ifstream::char_type,ifstream::traits_type>  *) ifs->rdbuf(); 
     cerr << "Opening file descriptor " << fd << "\n";
-    if(bfd->open(fd,ios_base::in  | ios_base::binary) == 0) {
+    ios_base::openmode mode = ios_base::in;
+    if(binary)
+      mode |= ios_base::binary;
+    if(!buffered)
+      bfd->SetBuf(0,0);
+    if(bfd->open(fd,mode) == 0) {
       ifs->setstate(ios_base::failbit);
       cerr << "ERROR: Open of file descriptor failed. \n";
     }
-#if 0
-    if(!buffered)
-      bfd->SetBuf(0,0);
-#endif
     Init(in = ifs,StringC(fd)); 
 #endif
   }

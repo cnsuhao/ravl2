@@ -127,7 +127,7 @@ namespace RavlN {
     // type of expression is proper one.
     
     inline operator bool() const;
-    // Returns TRUE if the index value is different from 0.
+    // Returns true if the index value is different from 0.
     
     inline operator ByteT() const;
     // Truncates the index value and returns it as ByteT.
@@ -293,107 +293,107 @@ namespace RavlN {
     /* --------------------------------------*/
 
     inline bool operator==(IntT i ) const;
-    // Returns TRUE if the value of this index is equal to 
+    // Returns true if the value of this index is equal to 
     // the integer number 'i'.
 
     inline bool operator!=(IntT i ) const;
-    // Returns TRUE if the value of this index is not equal to 
+    // Returns true if the value of this index is not equal to 
     // the integer number 'i'.
 
     inline bool operator<(IntT i) const;
-    // Returns TRUE if the value of this index is smaller than
+    // Returns true if the value of this index is smaller than
     // the integer number 'i'.
 
     inline bool operator<=(IntT i) const;
-    // Returns TRUE if the value of this index is smaller than
+    // Returns true if the value of this index is smaller than
     // or equal to the integer number 'i'.
 
     inline bool operator>(IntT i) const;
-    // Returns TRUE if the value of this index is greater than
+    // Returns true if the value of this index is greater than
     // the integer number 'i'.
 
     inline bool operator>=(IntT i) const;
-    // Returns TRUE if the value of this index is greater than
+    // Returns true if the value of this index is greater than
     // or equal to the integer number 'i'.
 
     // <h2>Logical operators with unsigned integer numbers:</h2>
     /* -----------------------------------------------*/
 
     inline bool operator==(const UIntT i ) const;
-    // Returns TRUE if the value of this index is equal to 
+    // Returns true if the value of this index is equal to 
     // the integer number 'i'.
 
     inline bool operator!=(const UIntT i ) const;
-    // Returns TRUE if the value of this index is not equal to 
+    // Returns true if the value of this index is not equal to 
     // the integer number 'i'.
 
     inline bool operator<(const UIntT i) const;
-    // Returns TRUE if the value of this index is smaller than
+    // Returns true if the value of this index is smaller than
     // the integer number 'i'.
 
     inline bool operator<=(const UIntT i) const;
-    // Returns TRUE if the value of this index is smaller than
+    // Returns true if the value of this index is smaller than
     // or equal to the integer number 'i'.
 
     inline bool operator>(const UIntT i) const;
-    // Returns TRUE if the value of this index is greater than
+    // Returns true if the value of this index is greater than
     // the integer number 'i'.
 
     inline bool operator>=(const UIntT i) const;
-    // Returns TRUE if the value of this index is greater than
+    // Returns true if the value of this index is greater than
     // or equal to the integer number 'i'.
 
     // <h2>Logical operators with double numbers:</h2>
     /* -------------------------------------*/
 
     inline bool operator==(RealT i ) const;
-    // Returns TRUE if the value of this index is equal to 
+    // Returns true if the value of this index is equal to 
     // the integer number 'i'.
 
     inline bool operator!=(RealT i ) const;
-    // Returns TRUE if the value of this index is not equal to 
+    // Returns true if the value of this index is not equal to 
     // the integer number 'i'.
 
     inline bool operator<(RealT i) const;
-    // Returns TRUE if the value of this index is smaller than
+    // Returns true if the value of this index is smaller than
     // the double number 'i'.
 
     inline bool operator<=(RealT i) const;
-    // Returns TRUE if the value of this index is smaller than
+    // Returns true if the value of this index is smaller than
     // or equal to the double number 'i'.
 
     inline bool operator>(RealT i) const;
-    // Returns TRUE if the value of this index is greater than
+    // Returns true if the value of this index is greater than
     // the double number 'i'.
 
     inline bool operator>=(RealT i) const;
-    // Returns TRUE if the value of this index is greater than
+    // Returns true if the value of this index is greater than
     // or equal to the double number 'i'.
 
     // <h2>Logical operators with another index:</h2>
     /* ------------------------------------*/
 
     inline bool operator==(const IndexC & i ) const;
-    // Returns TRUE if the value of this index and index 'i' have got
+    // Returns true if the value of this index and index 'i' have got
     // the same value.
 
     inline bool operator!=(const IndexC & i ) const;
-    // Returns TRUE if the value of this index and index 'i' are different.
+    // Returns true if the value of this index and index 'i' are different.
 
     inline bool operator<(const IndexC & i) const;
-    // Returns TRUE if the value of this index is smaller than
+    // Returns true if the value of this index is smaller than
     // the value of index 'i'.
 
     inline bool operator<=(const IndexC & i) const;
-    // Returns TRUE if the value of this index is smaller than
+    // Returns true if the value of this index is smaller than
     // or equal to the value of index 'i'.
 
     inline bool operator>(const IndexC & i) const;
-    // Returns TRUE if the value of this index is greater than
+    // Returns true if the value of this index is greater than
     // the value of index 'i'.
 
     inline bool operator>=(const IndexC & i) const;
-    // Returns TRUE if the value of this index is greater than
+    // Returns true if the value of this index is greater than
     // or equal to the value of index 'i'.
 
     // <h2>Miscellaneous functions:</h2>
@@ -489,32 +489,32 @@ namespace RavlN {
   
   inline bool operator==(IntT i, const IndexC & j)
   { return i==j.V(); }
-  // Returns TRUE if the value of index 'j' is equal to 
+  // Returns true if the value of index 'j' is equal to 
   // the integer number 'i'.
   
   inline bool operator!=(IntT i, const IndexC & j)
   { return i!=j.V(); }
-  // Returns TRUE if the values of index 'j' is not equal to 
+  // Returns true if the values of index 'j' is not equal to 
   // the integer number 'i'.
   
   inline bool operator<(IntT i, const IndexC & j)
   { return i < j.V(); }
-  // Returns TRUE if the integer number 'i' is smaller than  
+  // Returns true if the integer number 'i' is smaller than  
   // the value of index 'j' .
   
   inline bool operator<=(IntT i, const IndexC & j)
   { return i <= j.V(); }
-  // Returns TRUE if the integer number 'i' is smaller than  
+  // Returns true if the integer number 'i' is smaller than  
   // or equal to the value of index 'j' .
   
   inline bool operator>(IntT i, const IndexC & j)
   { return i > j.V(); }
-  // Returns TRUE if the integer number 'i' is greater than  
+  // Returns true if the integer number 'i' is greater than  
   // the value of index 'j' .
   
   inline bool operator>=(IntT i, const IndexC & j)
   { return i >= j.V(); }
-  // Returns TRUE if the integer number 'i' is greater than  
+  // Returns true if the integer number 'i' is greater than  
   // or equal to the value of index 'j' .
   
   // Operations of unsigned integer numbers and indices
@@ -564,32 +564,32 @@ namespace RavlN {
   
   inline bool operator==(const UIntT i, const IndexC & j)
   { return IntT(i) == j.V(); }
-  // Returns TRUE if the value of index 'j' is equal to 
+  // Returns true if the value of index 'j' is equal to 
   // the integer number 'i'.
   
   inline bool operator!=(const UIntT i, const IndexC & j)
   { return IntT(i) != j.V(); }
-  // Returns TRUE if the values of index 'j' is not equal to 
+  // Returns true if the values of index 'j' is not equal to 
   // the integer number 'i'.
   
   inline bool operator<(const UIntT i, const IndexC & j)
   { return IntT(i) < j.V(); }
-  // Returns TRUE if the integer number 'i' is smaller than  
+  // Returns true if the integer number 'i' is smaller than  
   // the value of index 'j' .
   
   inline bool operator<=(const UIntT i, const IndexC & j)
   { return IntT(i) <= j.V(); }
-  // Returns TRUE if the integer number 'i' is smaller than  
+  // Returns true if the integer number 'i' is smaller than  
   // or equal to the value of index 'j' .
   
   inline bool operator>(const UIntT i, const IndexC & j)
   { return IntT(i) > j.V(); }
-  // Returns TRUE if the integer number 'i' is greater than  
+  // Returns true if the integer number 'i' is greater than  
   // the value of index 'j' .
   
   inline bool operator>=(const UIntT i, const IndexC & j)
   { return IntT(i) >= j.V(); }
-  // Returns TRUE if the integer number 'i' is greater than  
+  // Returns true if the integer number 'i' is greater than  
   // or equal to the value of index 'j' .
   
   // Operations of byte (unsigned char) numbers and indices
@@ -620,32 +620,32 @@ namespace RavlN {
   
   inline bool operator==(const UByteT i, const IndexC & j)
   { return IntT(i) == j.V(); }
-  // Returns TRUE if the value of index 'j' is equal to 
+  // Returns true if the value of index 'j' is equal to 
   // the byte number 'i'.
   
   inline bool operator!=(const UByteT i, const IndexC & j)
   { return IntT(i) != j.V(); }
-  // Returns TRUE if the values of index 'j' is not equal to 
+  // Returns true if the values of index 'j' is not equal to 
   // the byte number 'i'.
   
   inline bool operator<(const UByteT i, const IndexC & j)
   { return IntT(i) < j.V(); }
-  // Returns TRUE if the byte number 'i' is smaller than  
+  // Returns true if the byte number 'i' is smaller than  
   // the value of index 'j' .
   
   inline bool operator<=(const UByteT i, const IndexC & j)
   { return IntT(i) <= j.V(); }
-  // Returns TRUE if the byte number 'i' is smaller than  
+  // Returns true if the byte number 'i' is smaller than  
   // or equal to the value of index 'j' .
   
   inline bool operator>(const UByteT i, const IndexC & j)
   { return IntT(i) > j.V(); }
-  // Returns TRUE if the byte number 'i' is greater than  
+  // Returns true if the byte number 'i' is greater than  
   // the value of index 'j' .
   
   inline bool operator>=(const UByteT i, const IndexC & j)
   { return IntT(i) >= j.V(); }
-  // Returns TRUE if the byte number 'i' is greater than  
+  // Returns true if the byte number 'i' is greater than  
   // or equal to the value of index 'j' .
   
   // Operations of double numbers and indices
@@ -689,32 +689,32 @@ namespace RavlN {
   
   inline bool operator==(RealT i, const IndexC & j)
   { return i==j.V(); }
-  // Returns TRUE if the value of index 'j' is equal to 
+  // Returns true if the value of index 'j' is equal to 
   // the double number 'i'.
   
   inline bool operator!=(RealT i, const IndexC & j)
   { return i!=j.V(); }
-  // Returns TRUE if the values of index 'j' is not equal to 
+  // Returns true if the values of index 'j' is not equal to 
   // the double number 'i'.
   
   inline bool operator<(RealT i, const IndexC & j)
   { return i < j.V(); }
-  // Returns TRUE if the double number 'i' is smaller than  
+  // Returns true if the double number 'i' is smaller than  
   // the value of index 'j' .
   
   inline bool operator<=(RealT i, const IndexC & j)
   { return i <= j.V(); }
-  // Returns TRUE if the double number 'i' is smaller than  
+  // Returns true if the double number 'i' is smaller than  
   // or equal to the value of index 'j' .
   
   inline bool operator>(RealT i, const IndexC & j)
   { return i > j.V(); }
-  // Returns TRUE if the double number 'i' is greater than  
+  // Returns true if the double number 'i' is greater than  
   // the value of index 'j' .
   
   inline bool operator>=(RealT i, const IndexC & j)
   { return i >= j.V(); }
-  // Returns TRUE if the double number 'i' is greater than  
+  // Returns true if the double number 'i' is greater than  
   // or equal to the value of index 'j' .
   
   inline 

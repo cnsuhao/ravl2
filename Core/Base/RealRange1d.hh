@@ -91,33 +91,33 @@ namespace RavlN {
     
     inline bool IsEmpty() const
     { return Min() > Max(); }
-    //: Returns TRUE if the minimum limit is bigger than the maximum limit. 
+    //: Returns true if the minimum limit is bigger than the maximum limit. 
     
     inline bool IsValid() const
     { return Min() > Max(); }
-    //: Returns TRUE if the minimum limit is bigger than the maximum limit. 
+    //: Returns true if the minimum limit is bigger than the maximum limit. 
     
     inline bool Contains(RealT i) const
     { return (Min() <= i) && (i <= Max()); }
-    //: Returns TRUE if this range contains the index 'i'.
+    //: Returns true if this range contains the index 'i'.
     
     inline bool Contains(const RealRangeC & range) const
     { return Contains(range.Min()) && Contains(range.Max()); }
-    //: Returns TRUE if this range contains the subrange 'range'.
+    //: Returns true if this range contains the subrange 'range'.
     
     inline bool operator==(const RealRangeC & range) const
     { return (Min() == range.Min()) && (Max() == range.Max()); }
-    //: Returns TRUE if both index ranges have the same limits.
+    //: Returns true if both index ranges have the same limits.
     
     inline bool operator!=(const RealRangeC & range) const
     { return (Min() != range.Min()) || (Max() != range.Max()); }
-    //: Returns TRUE if both the ranges have different limits.
+    //: Returns true if both the ranges have different limits.
     
     bool In(const RealRangeC & range) const;
-    //: Returns TRUE if this range is inside of the 'range'.
+    //: Returns true if this range is inside of the 'range'.
     
     inline bool IsOverlapping(const RealRangeC & r) const;
-    //: Returns TRUE if this range contains at least one common index with 
+    //: Returns true if this range contains at least one common index with 
     //: the range 'r'.
     
     //:-------------------
@@ -214,7 +214,7 @@ namespace RavlN {
   
   inline bool IsInside(RealT i, const RealRangeC & range)
   { return (range.Min() <= i) && (i <= range.Max()); }
-  //: Returns TRUE if the index 'i' is inside the index range 'r'.
+  //: Returns true if the index 'i' is inside the index range 'r'.
   
   IndexRangeC operator*(const RealRangeC &realRange,const IndexRangeC &indexRange);
   //: Multiply an index range by a real range.

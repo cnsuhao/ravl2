@@ -78,11 +78,11 @@ namespace RavlN {
     
     inline bool IsValid() const
       { return true; }
-    // Returns always TRUE confirming that the pair exists.
+    // Returns always true confirming that the pair exists.
     
     inline bool Contains(const IndexC i) const
       { return (i>=0) && (i <= 1); }
-    // Returns TRUE if the pair contains an item with the index 'i'.
+    // Returns true if the pair contains an item with the index 'i'.
     
     // Special operations
     // ------------------

@@ -66,7 +66,7 @@ namespace RavlN {
       str = StringC();
       return in;
     }
-    //assert(len << 1000000); // More than a megabyte ??
+    //RavlAssert(len << 1000000); // More than a megabyte ??
     str = StringC("",0,len+2);
     char *buff = str.rep->s;
     in.IBuff(buff,len);

@@ -11,7 +11,7 @@
 
 #include "Ravl/EntryPnt.hh"
 #include "Ravl/Index.hh"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 using namespace RavlN;
 

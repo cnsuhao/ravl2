@@ -167,11 +167,11 @@ int testRawFD() {
   char let = 'a';
   cerr << "Writting data... \n";
   
-#if 1
+#if 0
   write(fds[1],&let,1);
   write(fds[1],&let,1);
 #else
-  OStreamC os(fds[1],true);
+  OStreamC os(fds[1],true,false);
   if(!os)  return __LINE__;
   os << let << let;
   os.os().flush();
@@ -179,7 +179,7 @@ int testRawFD() {
   cerr << "Read data... \n";
   
   char rlet1 = 0,rlet2 = 0;
-
+  
 #if 0
   FILE *inf = fdopen(fds[0],"r");
   fread(&rlet1,1,1,inf);
@@ -189,11 +189,11 @@ int testRawFD() {
   read(fds[0],&rlet1,1);
   read(fds[0],&rlet2,1);
 #else
-  IStreamC is(fds[0],true);
+  IStreamC is(fds[0],true,false);
   if(!is)  return __LINE__;
   cerr << "Reading byte1 \n";
   is >> rlet1;
-  cerr << "Reading byte1 done. \n";
+  cerr << "Reading byte1 done. Let=" << (int) rlet1 <<" \n";
   if(!is)  return __LINE__;  
   is >> rlet2;
   if(!is)  return __LINE__;  

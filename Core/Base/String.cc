@@ -42,7 +42,7 @@ Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
+#include "Ravl/Assert.hh"
 
 #if RAVL_HAVE_ANSICPPHEADERS
 #include <new>
@@ -1170,11 +1170,16 @@ namespace RavlN {
     if (!s.ipfx(0))
       return 0;
 #endif
-    int ch;
+    int ch = 0;
     int i = 0;
     x.rep = Sresize(x.rep, 80);
     register streambuf *sb = s.rdbuf();
-    while ((ch = sb->sbumpc()) != EOF) {
+#if RAVL_COMPILER_GCC3
+    const int eof = istream::traits_type::eof();
+#else
+    const int eof = EOF;
+#endif
+    while ((ch = sb->sbumpc()) != eof) {
       if (ch != terminator || !discard) {
 	if (i >= ((int) x.rep->sz) - 1)
 	  x.rep = Sresize(x.rep, i+1);
@@ -1185,7 +1190,8 @@ namespace RavlN {
     }
     x.rep->s[i] = 0;
     x.rep->len = i;
-    if (ch == EOF) s.clear(ios::eofbit|s.rdstate());
+    if (ch == eof)
+      s.setstate(ios::eofbit | ios::failbit);
     return i;
   }
   

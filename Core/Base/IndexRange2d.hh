@@ -258,7 +258,7 @@ namespace RavlN {
     
     inline bool IsValid() const 
     { return rows.IsValid() && cols.IsValid(); }
-    //: Returns TRUE if this rectangle contains at least one index.
+    //: Returns true if this rectangle contains at least one index.
 
     bool operator==(const IndexRange2dC &oth) const
     { return oth.Range1() == Range1() && oth.Range2() == Range2(); }
@@ -273,7 +273,7 @@ namespace RavlN {
     
     inline bool IsOverlapping(const IndexRange2dC & r) const
     { return Range1().IsOverlapping(r.Range1()) && Range2().IsOverlapping(r.Range2()); }
-    //: Returns TRUE if this range contains at least one common index with 
+    //: Returns true if this range contains at least one common index with 
     //: the range 'r'.
     
   protected:

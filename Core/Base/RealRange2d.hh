@@ -249,7 +249,7 @@ namespace RavlN {
     
     inline bool IsValid() const 
     { return rows.IsValid() && cols.IsValid(); }
-    //: Returns TRUE if this rectangle contains at least one index.
+    //: Returns true if this rectangle contains at least one index.
 
     bool operator==(const RealRange2dC &oth) const
     { return oth.Range1() == Range1() && oth.Range2() == Range2(); }

@@ -25,7 +25,7 @@
 
 namespace RavlN {
   //: Abstract handle class for any object derived from 
-  //: BodyRefCounterVC.
+  //: RCBodyVC.
   // See RCWrapC<> for example.
   
   class RCAbstractC 
