@@ -69,6 +69,7 @@ namespace RavlN {
   }
   
   MatrixC FunctionBodyC::Jacobian (const VectorC &X) const {
+    RavlAssert(X.Size() == inputSize);
     MatrixC J (outputSize,inputSize);
     VectorC dX (inputSize);
     dX.Fill(0);
