@@ -42,7 +42,7 @@ namespace RavlN {
   typedef float FloatT;
   //: Real value of at least 16 bits.
   
-  typedef char ByteT;
+  typedef unsigned char ByteT;
   //: Unigned byte of 8 bits
   
   typedef unsigned char UByteT;

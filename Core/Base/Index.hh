@@ -134,8 +134,10 @@ namespace RavlN {
     inline operator ByteT() const;
     // Truncates the index value and returns it as ByteT.
 
+#if 0
     inline operator UByteT() const;
     // Truncates the index value and returns it as UByteT.
+#endif
     
     inline operator SByteT() const;
     // Truncates the index value and returns it as SByteT.
@@ -755,15 +757,17 @@ namespace RavlN {
   inline 
   IndexC::operator bool() const
   { return v!=0; }
-  
+
+#if 0  
   inline 
   IndexC::operator UByteT() const
   { return (UByteT) v; }
+#endif
   
   inline 
   IndexC::operator ByteT() const
   { return (ByteT) v; }
-
+  
   inline 
   IndexC::operator SByteT() const
   { return (SByteT) v; }
