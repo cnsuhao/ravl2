@@ -267,10 +267,10 @@ namespace RavlGUIN {
     //: Set bool value.
     
     virtual bool SetValue(TreeModelIterC &rowIter,IntT col, const StringC &value);
-    //: Set bool value.
+    //: Set string value.
     
     virtual bool SetValue(TreeModelIterC &rowIter,IntT col, const PixbufC &value);
-    //: Set bool value.
+    //: Set pixbuf value.
     
     virtual void Empty();
     //: Clear store of all values.
@@ -384,7 +384,11 @@ namespace RavlGUIN {
     
     bool SetValue(TreeModelIterC &rowIter,IntT col, const StringC &value)
     { return Body().SetValue(rowIter,col,value); }
-    //: Set bool value.
+    //: Set string value.
+    
+    bool SetValue(TreeModelIterC &rowIter,IntT col, const char *value)
+    { return Body().SetValue(rowIter,col,StringC(value)); }
+    //: Set 'C' style string value.
     
     bool SetValue(TreeModelIterC &rowIter,IntT col, const PixbufC &value)
     { return Body().SetValue(rowIter,col,value); }

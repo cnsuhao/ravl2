@@ -72,39 +72,39 @@ int main(int nargs,char **argv) {
   TreeModelIterC iter;
   treeStore.AppendRow(iter);
   //treeStore.SetValue(iter,0,true);
-  treeStore.SetValue(iter,0,StringC("meep"));
-  treeStore.SetValue(iter,1,StringC("hello"));
+  treeStore.SetValue(iter,0,"meep");
+  treeStore.SetValue(iter,1,"hello");
   PixbufC map(xpmData_OpenFile);
   treeStore.SetValue(iter,2, map);
   treeStore.SetValue(iter,3,true);
-  treeStore.SetValue(iter,4,StringC("red"));
+  treeStore.SetValue(iter,4,"red");
   
   // Add another line to the tree store.
   TreeModelIterC iter1;
   treeStore.AppendRow(iter1);
-  treeStore.SetValue(iter1,0,StringC("foop"));
-  treeStore.SetValue(iter1,1,StringC("ping"));
+  treeStore.SetValue(iter1,0,"foop");
+  treeStore.SetValue(iter1,1,"ping");
   treeStore.SetValue(iter1,2, map);
   treeStore.SetValue(iter1,3,false);
-  treeStore.SetValue(iter1,4,StringC("green"));
+  treeStore.SetValue(iter1,4,"green");
 
   // Add another line to the tree store.
   TreeModelIterC iter2;
   treeStore.AppendRow(iter2,iter);
-  treeStore.SetValue(iter2,0,StringC("igloo"));
-  treeStore.SetValue(iter2,1,StringC("child"));
+  treeStore.SetValue(iter2,0,"igloo");
+  treeStore.SetValue(iter2,1,"child");
   treeStore.SetValue(iter2,2, map);
   treeStore.SetValue(iter2,3,false);
-  treeStore.SetValue(iter2,4,StringC("green"));
+  treeStore.SetValue(iter2,4,"green");
 
   // Add another line to the tree store.
   TreeModelIterC iter3;
   treeStore.AppendRow(iter3,iter);
-  treeStore.SetValue(iter3,0,StringC("boink"));
-  treeStore.SetValue(iter3,1,StringC("child"));
+  treeStore.SetValue(iter3,0,"boink");
+  treeStore.SetValue(iter3,1,"child");
   treeStore.SetValue(iter3,2, map);
   treeStore.SetValue(iter3,3,false);
-  treeStore.SetValue(iter3,4,StringC("yellow"));
+  treeStore.SetValue(iter3,4,"yellow");
   
   // Make a list of columns we want to see from the store.
   
