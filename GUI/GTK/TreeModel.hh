@@ -31,6 +31,9 @@ extern "C" {
 
 namespace RavlGUIN {
   
+  class TreeModelIterC;
+  class TreeModelC;
+  
   //! userlevel=Develop
   //: Handle to row in tree model.
   // Available on GTK+-2.0 and above only.
@@ -44,6 +47,12 @@ namespace RavlGUIN {
 
     TreeModelIterBodyC(GtkTreeIter *treeIter,bool canFree);
     //: Constructor.
+
+    TreeModelIterBodyC(TreeModelC &treeModel);
+    //: Construct from tree model.
+    
+    TreeModelIterBodyC(GtkTreeModel *model,GtkTreeIter *treeIter,bool canFree);
+    //: Constructor.
     
     ~TreeModelIterBodyC();
     //: Destructor.
@@ -51,8 +60,27 @@ namespace RavlGUIN {
     GtkTreeIter *TreeIter()
     { return treeIter; }
     //: Access tree store.
-
+    
+    bool Next();
+    //: Goto next element at current level.
+    // Returns true if succeeded.
+    
+    TreeModelIterC Children();
+    //: Return iterator for first child.
+    // Will return an invalid iterator if none.
+    
+    bool HasChildren();
+    //: Does current node have children ?
+    
+    TreeModelIterC Parent();
+    //: Get iterator for parent.
+    // Returns an invalid handle if none.
+    
+    TreeModelIterC Copy();
+    //: Create a copy of the iterator.
+    
   protected:
+    GtkTreeModel *model;
     GtkTreeIter *treeIter;
     bool canfree;
   };
@@ -69,8 +97,19 @@ namespace RavlGUIN {
       : RCHandleC<TreeModelIterBodyC>(*new TreeModelIterBodyC())
     {}
     //: Default constructor.
-
+    
+    TreeModelIterC(TreeModelC &treeModel)
+      : RCHandleC<TreeModelIterBodyC>(*new TreeModelIterBodyC(treeModel))
+    {}
+    //: Construct from tree.
+    // Create an iterator pointing to the first element in the tree.
+    
     TreeModelIterC(GtkTreeIter *treeIter,bool canFree)
+      : RCHandleC<TreeModelIterBodyC>(*new TreeModelIterBodyC(treeIter,canFree))
+    {}
+    //: Constructor.
+    
+    TreeModelIterC(GtkTreeModel *model,GtkTreeIter *treeIter,bool canFree)
       : RCHandleC<TreeModelIterBodyC>(*new TreeModelIterBodyC(treeIter,canFree))
     {}
     //: Constructor.
@@ -79,6 +118,28 @@ namespace RavlGUIN {
     { return Body().TreeIter(); }
     //: Access tree store.
     
+    bool Next()
+    { return Body().Next(); }
+    //: Goto next element at current level.
+    // Returns true if succeeded.
+    
+    TreeModelIterC Children()
+    { return Body().Children(); }
+    //: Return iterator for first child.
+    // Will return an invalid iterator if none.
+    
+    bool HasChildren()
+    { return Body().HasChildren(); }
+    //: Does current node have children ?
+    
+    TreeModelIterC Parent()
+    { return Body().Parent(); }
+    //: Get iterator for parent.
+    // Returns an invalid handle if none.
+    
+    TreeModelIterC Copy()
+    { return Body().Copy(); }
+    //: Create a copy of the iterator.
   };
   
   //:-------------------------------------------------------------------------------------
@@ -210,6 +271,8 @@ namespace RavlGUIN {
     GtkTreeModel        *model;
     SArray1dC<AttributeTypeC> colTypes;
     HashC<StringC,Signal2C<TreeModelPathC,TreeModelIterC> > signals;
+
+    friend class TreeModelIterBodyC;
   };
 
   
@@ -291,10 +354,10 @@ namespace RavlGUIN {
     
     Signal2C<TreeModelPathC,TreeModelIterC> &Signal(const char *name)
     { return Body().Signal(name); }
-    
     //: Access tree signal.
     // Where name is one of "row-changed", "row-deleted","row-has-child-toggled","row-inserted","rows-reordered"
     
+    friend class TreeModelIterBodyC;
   };
   
 }

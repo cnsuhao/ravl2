@@ -39,21 +39,77 @@ namespace RavlGUIN {
   //: Constructor.
   
   TreeModelIterBodyC::TreeModelIterBodyC() 
-    : treeIter(new GtkTreeIter),
+    : model(0),
+      treeIter(new GtkTreeIter),
       canfree(true)
   {}
 
   //: Constructor.
   
   TreeModelIterBodyC::TreeModelIterBodyC(GtkTreeIter *ntreeIter,bool nCanFree)
-    : treeIter(ntreeIter),
+    : model(0),
+      treeIter(ntreeIter),
       canfree(nCanFree)
   {}
+
+  //: Construct from tree model.
+  
+  TreeModelIterBodyC::TreeModelIterBodyC(TreeModelC &ntreeModel) 
+    : model(0),
+      treeIter(new GtkTreeIter),
+      canfree(true)
+  {
+    model = ntreeModel.Body().model;
+    gtk_tree_model_get_iter_first (model,treeIter);
+  }
   
   //: Destructor.
   
   TreeModelIterBodyC::~TreeModelIterBodyC() 
   { if(canfree && treeIter != 0) delete treeIter; }
+  
+  //: Goto next element at current level.
+  // Returns true if succeeded.
+  
+  bool TreeModelIterBodyC::Next() {
+    RavlAssert(model != 0);
+    return gtk_tree_model_iter_next (model,treeIter);
+  }
+
+  //: Return iterator for first child.
+  // Will return an invalid iterator if none.
+  
+  TreeModelIterC TreeModelIterBodyC::Children() {
+    RavlAssert(model != 0);
+    TreeModelIterC ret;
+    if(!gtk_tree_model_iter_children (model,ret.TreeIter(),treeIter))
+      ret.Invalidate();
+    return ret;
+  }
+  
+  //: Does current node have children ?
+  
+  bool TreeModelIterBodyC::HasChildren() {
+    RavlAssert(model != 0);
+    return gtk_tree_model_iter_has_child (model,treeIter);
+  }
+  
+  //: Get iterator for parent.
+  // Returns an invalid handle if none.
+  
+  TreeModelIterC TreeModelIterBodyC::Parent() {
+    TreeModelIterC ret;
+    if(!gtk_tree_model_iter_parent (model,ret.TreeIter(),treeIter))
+      ret.Invalidate();
+    return ret;
+  }
+  
+  //: Create a copy of the iterator.
+  
+  TreeModelIterC TreeModelIterBodyC::Copy() {
+    return TreeModelIterC(model,gtk_tree_iter_copy (treeIter),true);
+  }
+
   
   //:----------------------------------------------------------------------------
   
