@@ -19,6 +19,7 @@
 #include "Ravl/ScalMath.hh"
 #include "Ravl/Array2dIter2.hh"
 #include "Ravl/Array2dIter.hh"
+#include "Ravl/SArray1dIter2.hh"
 #include "Ravl/Image/SobolImage.hh"
 #include "Ravl/String.hh" 
 #include "Ravl/OS/Date.hh"
@@ -33,7 +34,6 @@
 #else
 #define ONDEBUG(x)
 #endif
-
 
 namespace RavlImageN {
 
@@ -142,9 +142,23 @@ namespace RavlImageN {
   
   inline IntT PPHoughTransformBodyC::GetThresh(IntT votes) {
     UIntT ind = votes >> 3;
-    if(ind > threshTab.Size()) {
+    if(ind >= threshTab.Size()) {
       cerr << "Warning... Over spill from threshold cache..." << ind << " \n";
-      return CalcThresh(votes);
+      
+      // Expand threshold table.
+      SArray1dC<IntT> newthreshTab = SArray1dC<IntT>(ind + 500);
+      
+      // Copy existing entries.
+      for(SArray1dIter2C<IntT,IntT> it(threshTab,newthreshTab);it;it++)
+	it.Data2() = it.Data1();
+      
+      // Generate new entries.
+      for(unsigned int i = threshTab.Size();i < newthreshTab.Size();i++) {
+	newthreshTab[i] = CalcThresh((i+1) << 3);
+	//cerr << ((i+1) << 3) << " " << threshTab[i] << "\n";
+      }
+      
+      threshTab = newthreshTab;
     }
     return threshTab[ind];
   }
