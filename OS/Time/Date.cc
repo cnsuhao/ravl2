@@ -169,16 +169,18 @@ namespace RavlN {
       sec += asec;
     } else {
       struct tm ttm;
-      ttm.tm_year = year;
-      ttm.tm_mon = month;
+      ttm.tm_year = year - 1900;
+      ttm.tm_mon = month-1;
       ttm.tm_mday = day;
       ttm.tm_hour = hour;
       ttm.tm_min = min;
       ttm.tm_sec = asec;
+      ttm.tm_wday = -1;
+      ttm.tm_yday = -1;
       ttm.tm_isdst = -1;
       sec = mktime(&ttm);
-      if(sec < 0)
-	cerr << "DateC::DateC(), Illegal date. \n";
+      if(sec == -1)
+	cerr << "DateC::DateC(), Illegal date. " << sec << "\n";
     }
   }
   
