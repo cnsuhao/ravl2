@@ -463,7 +463,7 @@ namespace RavlN {
   // Returns an id for the trigger, or -1 if operation fails.
   
   IntT AttributeCtrlBodyC::RegisterChangedSignal(const StringC &name,const TriggerC &trig) {
-    MTWriteLockC lock(2);
+    MTWriteLockC lock(3);
     if(attrInfo == 0)
       attrInfo = new AttributeCtrlInternalC();
     return attrInfo->RegisterChangedSignal(name,trig);
@@ -473,7 +473,7 @@ namespace RavlN {
   // Note: This method may not be implemented for all AttributeCtrl's.
   
   bool AttributeCtrlBodyC::RemoveChangedSignal(IntT id) {
-    MTWriteLockC lock(2);
+    MTWriteLockC lock(3);
     if(attrInfo == 0) // Nothing registered.
       return false;
     return attrInfo->RemoveChangedSignal(id);
@@ -482,7 +482,7 @@ namespace RavlN {
   //: Signal that an attribute has changed.
   
   bool AttributeCtrlBodyC::SignalChange(const StringC &attrName) {
-    MTReadLockC lock(2);
+    MTReadLockC lock(3);
     if(attrInfo == 0) // Can't be anything to do.
       return true; 
     attrInfo->IssueChangedSignal(attrName);
@@ -492,7 +492,7 @@ namespace RavlN {
   //: Register a new attribute type.
   
   bool AttributeCtrlBodyC::RegisterAttribute(const AttributeTypeC &attr) {
-    MTWriteLockC lock(2);
+    MTWriteLockC lock(3);
     if(attrInfo == 0)
       attrInfo = new AttributeCtrlInternalC();
     return attrInfo->RegisterAttribute(attr);
