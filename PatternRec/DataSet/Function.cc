@@ -54,6 +54,11 @@ namespace RavlN {
     return data;
   }
   
+  //: Apply function to two data vectors 
+
+  VectorC FunctionBodyC::Apply(const VectorC & data1, const VectorC & data2) const {
+    return Apply( data1.Join(data2) ) ; }
+
   //: Apply transform to whole dataset.
   
   SampleC<VectorC> FunctionBodyC::Apply(const SampleC<VectorC> &data) {

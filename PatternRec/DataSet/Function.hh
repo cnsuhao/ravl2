@@ -55,6 +55,11 @@ namespace RavlN {
     virtual VectorC Apply(const VectorC &data) const;
     //: Apply function to 'data'
     
+    virtual VectorC Apply(const VectorC & data1, const VectorC & data2) const ; 
+    //: Apply function to two data vectors 
+    // The default behaviour is to concatenate the two vectors  
+    // and then call the single vector version of Apply() 
+
     virtual SampleC<VectorC> Apply(const SampleC<VectorC> &data);
     //: Apply transform to whole dataset.
     
@@ -134,6 +139,12 @@ namespace RavlN {
     VectorC Apply(const VectorC &data) const
     { return Body().Apply(data); }
     //: Apply function to 'data'
+    
+    inline VectorC Apply(const VectorC & data1, const VectorC & data2) const
+      { return Body().Apply(data1, data2) ; }
+    //: Apply function to two data vectors 
+    // The default behaviour is to concatenate the two vectors  
+    // and then call the single vector version of Apply() 
     
     SampleC<VectorC> Apply(const SampleC<VectorC> &data);
     //: Apply transform to whole dataset.
