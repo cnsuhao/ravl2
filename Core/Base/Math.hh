@@ -20,6 +20,9 @@
 #include "Ravl/config.h"
 #include "Ravl/Types.hh"
 #include "Ravl/Assert.hh"
+#include "Ravl/StdConst.hh"
+#include "Ravl/CompilerHints.hh"
+
 #include <math.h>
 
 #if RAVL_HAVE_HYPOT
@@ -72,23 +75,16 @@ namespace RavlN {
   //: Returns the value 'a' with a sign of 'b'.
   
   inline IntT Round(RealT x)
-#if RAVL_HAVE_LRINT
-  { return lrint(x); }
-#else
-  { return (x >= 0) ? (IntT) (x+0.5) : (IntT) (x-0.5); }
-#endif
+  { return static_cast<IntT>((x >= 0) ? (x+0.5) : (x-0.5)); }
   //: Returns the value x rounded to the nearest integer.
   
   inline IntT Floor(RealT x) { 
     int y = static_cast<IntT>(x);
-    if(y >=0) return y;
-    return y + ((static_cast<double>(y) == x) ? 0 : -1);
+    if(x >=0) return y;
+    return y + (RAVL_EXPECT((static_cast<double>(y) == x),0) ? 0 : -1);
   }
   //: Returns the greatest integral  value  less  than  or equal  to  'x'.
-  // Note: This routine actually truncates to the size of the mantissa and
-  // then round down.  This means negative numbers that are very slightly below
-  // an integer will actually get rounded up.  This is routine is much faster
-  // than just using floor(), so we'll live with it.
+  // Note this is MUCH faster than using libm's floor()
   
   inline IntT Ceil(RealT x)
   { return (IntT) ceil(x); }

@@ -12,31 +12,9 @@
 
 #include "Ravl/QInt.hh"
 #include "Ravl/Option.hh"
+#include "Ravl/CompilerHints.hh"
 
 using namespace RavlN;
-
-
-#define FLOAT_TO_INT(in,out)  \
-                    __asm__ __volatile__ ("fistpl %0" : "=m" (out) : "t" (in) : "st") ;
-
-
-inline IntT LFloor(RealT x) {
-#if 1
-  int y = static_cast<IntT>(x);
-  if(y >=0) return y;
-  return y + ((static_cast<double>(y) == x) ? 0 : -1);
-#else
-  if(x >= 0) return x;
-  return static_cast<int>(1.0-x)*-1;
-#endif
-}
-//: Returns the greatest integral  value  less  than  or equal  to  'x'.
-
-inline IntT LRound(RealT x)
-{ 
-  //return x;
-  return lrint(x);
-}
 
 int main(int nargs,char **argv) {
   OptionC opt(nargs,argv);
@@ -58,7 +36,6 @@ int main(int nargs,char **argv) {
 	cerr << "Using Round. \n";
 	for(RealT v = -count;v < count;v += 0.013) {
 	  sum += Round(v);
-	  sum += Round(v);
 	}
       }
     } else {
@@ -70,22 +47,28 @@ int main(int nargs,char **argv) {
       } else {
 	cerr << "Using Floor. \n";
 	for(RealT v = -count;v < count;v += 0.013) {
-	  sum += LFloor(v);
+	  sum += Floor(v);
 	  //sum += floor(v);
 	}
       }
     }
     cerr << "Sum=" << sum << "\n";
   } else {
-    double values[] = { 0,0.1,-0.25,-3.6 , -3, 1.3,100000.01,1000,-1000,-0.00000000000001 };
-    for(int i = 0;i < 10;i++) {
-      cerr << "Round " << values[i] << " N=" << LRound(values[i])  << " Q=" << QRound(values[i]) << " round=" << round(values[i]) << "\n";
-      cerr << "Floor " << values[i] << " N=" << LFloor(values[i])  << " Q=" << QFloor(values[i]) << " floor=" << floor(values[i]) << "\n";
-      if(round(values[i]) != QRound(values[i])) {
-	cerr << "test failed. \n";
-      }
-      if(floor(values[i]) != QFloor(values[i])) {
-	cerr << "test failed. \n";
+    double values[] = { 0,0.1,1.1,-0.25,-3.6 , -3, 1.3,100000.01,1000,-1000,-1e-20 };
+    for(int i = 0;i < 11;i++) {
+      if(testFloor) {
+	cerr << "Floor " << values[i] << " N=" << Floor(values[i])  << " Q=" << QFloor(values[i]) << " floor=" << floor(values[i]) << "\n";
+	if(floor(values[i]) != QFloor(values[i])) {
+	  cerr << "*** QFloor test failed. *** \n";
+	}
+	if(floor(values[i]) != Floor(values[i])) {
+	  cerr << "*** Floor test failed. *** \n";
+	}
+      } else {
+	cerr << "Round " << values[i] << " N=" << Round(values[i])  << " Q=" << QRound(values[i]) << " round=" << round(values[i]) << "\n";
+	if(round(values[i]) != QRound(values[i])) {
+	  cerr << "test failed. \n";
+	}
       }
     }
     cerr << "test passed. \n";
