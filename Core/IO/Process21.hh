@@ -18,7 +18,7 @@
 
 namespace RavlN {
   
-  //! userlevel=Develop.
+  //! userlevel=Develop
   //: Process body with 2 inputs and one output.
   
   template<class In1T,class In2T,class Out1T>
@@ -76,7 +76,7 @@ namespace RavlN {
     
   };
 
-  //! userlevel=Develop.
+  //! userlevel=Advanced
   //: Process body with 2 inputs and one output.
   
   template<class In1T,class In2T,class Out1T>

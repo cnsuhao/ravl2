@@ -18,7 +18,7 @@
 
 namespace RavlN {
 
-  //! userlevel=Advanced.
+  //! userlevel=Advanced
   //: BlkStackC iterator.
   // Iterate back through the contents of a block stack.
   

@@ -30,7 +30,7 @@ namespace Ravl3DN {
   class HEMeshBodyC;
   class HEMeshFaceIterC;
   
-  //! userlevel=Develop.
+  //! userlevel=Develop
   //: Face in mesh.
   
   class HEMeshFaceBodyC 
@@ -97,7 +97,7 @@ namespace Ravl3DN {
     friend class HEMeshBodyC;
   };
 
-  //! userlevel=Normal.
+  //! userlevel=Normal
   //: Face in mesh.
   
   class HEMeshFaceC 

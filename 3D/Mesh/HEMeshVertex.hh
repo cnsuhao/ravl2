@@ -92,7 +92,7 @@ namespace Ravl3DN {
     friend class HEMeshEdgeBodyC;
   };
   
-  //! userlevel=Normal.
+  //! userlevel=Normal
   //: Vertex.
   
   class HEMeshVertexC {
