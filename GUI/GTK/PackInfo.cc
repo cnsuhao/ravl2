@@ -22,7 +22,7 @@ namespace RavlGUIN {
   }
     
   //: Constructor.
-  PackInfoBodyC::PackInfoBodyC(const WidgetC &widge,bool nexpand = true,bool nfill = true,IntT npadding = 0)
+  PackInfoBodyC::PackInfoBodyC(const WidgetC &widge,bool nexpand,bool nfill,IntT npadding)
     : OneChildBodyC(widge),
       expand(nexpand),
       fill(nfill),
