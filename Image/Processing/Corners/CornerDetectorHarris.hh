@@ -9,7 +9,7 @@
 //! rcsid="$Id$"
 //! userlevel=Normal
 //! date="1/10/1991"
-//! lib=RavlImage
+//! lib=RavlImageProc
 //! docentry="Ravl.Images.Corner Detection"
 //! example=exCorner.cc
 //! author="Radek Marik, modified by Charles Galambos"

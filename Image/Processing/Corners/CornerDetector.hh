@@ -1,3 +1,9 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2002, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 #ifndef RAVLIMAGE_CORNERDETECTOR_HEADER
 #define RAVLIMAGE_CORNERDETECTOR_HEADER 1
 ////////////////////////////////////////////////////////////////
@@ -5,6 +11,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Images.Corner Detection"
 //! date="20/7/2002"
+//! lib=RavlImageProc
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/DList.hh"

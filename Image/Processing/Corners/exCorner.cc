@@ -1,4 +1,11 @@
-
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2002, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
+//! rcsid="$Id$"
+//! lib=RavlImageProc
 
 #include "Ravl/Image/CornerDetectorHarris.hh"
 #include "Ravl/Option.hh"
@@ -9,7 +16,7 @@ using namespace RavlImageN;
 
 int main(int nargs,char **argv) {
   OptionC opt(nargs,argv);
-  int threshold = opt.Int("t",20,"Threshold. ");
+  int threshold = opt.Int("t",100,"Threshold. ");
   int w = opt.Int("w",3,"width of filter mask. ");
   StringC inf = opt.String("","test.ppm","Input image. ");
   StringC outf = opt.String("","out.ppm","Output image. ");

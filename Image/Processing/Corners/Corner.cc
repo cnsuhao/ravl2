@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! rcsid="$Id$"
-//! lib=RavlImage
+//! lib=RavlImageProc
 
 #include "Ravl/Image/Corner.hh"
 #include "Ravl/Stream.hh"

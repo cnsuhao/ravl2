@@ -12,7 +12,7 @@
 //! date="18/12/1995"
 //! docentry="Ravl.Images.Corner Detection"
 //! rcsid="$Id$"
-//! lib=RavlImage
+//! lib=RavlImageProc
 //! example=exCorner.cc
 
 #include "Ravl/Index2d.hh"
