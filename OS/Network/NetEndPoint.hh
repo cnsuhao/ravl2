@@ -560,6 +560,11 @@ namespace RavlN {
     { return Body().Send(id,dat1,dat2,dat3); }
     //: Send a 3 parameter message.
     
+    template<class Data1T,class Data2T,class Data3T,class Data4T>
+    bool Send(UIntT id,const Data1T &dat1,const Data2T &dat2,const Data3T &dat3,const Data4T &dat4)
+    { return Body().Send(id,dat1,dat2,dat3); }
+    //: Send a 4 parameter message.
+    
     template<class ObjT>
     bool RegisterR(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)())
     { return Body().RegisterR(mid,msgName,obj,func); }
@@ -588,6 +593,13 @@ namespace RavlN {
     // NB. This does not make a handle to 'obj', it is the users responsibility to 
     // ensure it is not deleted.
     
+    template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T>
+    bool RegisterR(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(Data1T,Data2T,Data3T,Data4T))
+    { return Body().RegisterR(mid,msgName,obj,func); }
+    //: Register new message handler.
+    // NB. This does not make a handle to 'obj', it is the users responsibility to 
+    // ensure it is not deleted.
+    
     template<class ObjT>
     bool Register(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)())
     { return Body().Register(mid,msgName,obj,func); }
@@ -608,6 +620,12 @@ namespace RavlN {
 
     template<class ObjT,class Data1T,class Data2T,class Data3T>
     bool Register(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(Data1T,Data2T,Data3T))
+    { return Body().Register(mid,msgName,obj,func); }
+    //: Register new message handler.
+    // Hold a handle to the object called.
+    
+    template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T>
+    bool Register(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(Data1T,Data2T,Data3T,Data4T))
     { return Body().Register(mid,msgName,obj,func); }
     //: Register new message handler.
     // Hold a handle to the object called.
