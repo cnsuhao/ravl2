@@ -176,7 +176,7 @@ namespace RavlN {
       (*this)++; 
       if(!IsElm()) (*this)++; 
     }
-    //: Goto next element.
+    //: Goto next element, circular
     // If the next element is the head of the list, loop
     // back to the begining of the list.
     
@@ -184,7 +184,7 @@ namespace RavlN {
       (*this)--; 
       if(!IsElm()) (*this)--; 
     }
-    //: Goto previous element.
+    //: Goto previous element, circular
     // If the next element is the head of the list, go
     // to the begining of the list.
     
@@ -274,6 +274,38 @@ namespace RavlN {
     }
     //: Access data before this element.
     // The iterator must not be on the first element in the list.
+    
+    DataT &NextCrcData() { 
+      if(IsLast())
+	return lst.First();
+      return NextData();
+    }
+    //: Access data following this element, circular
+    // If the iterator is on the last element of the list, get the first element.
+    
+    const DataT &NextCrcData() const { 
+      if(IsLast())
+	return lst.First();
+      return NextData();
+    }
+    //: Access data following this element, circular
+    // If the iterator is on the last element of the list, get the first element.
+    
+    DataT &PrevCrcData() { 
+      if(IsFirst())
+	return lst.Last();
+      return PrevData();
+    }
+    //: Access data before this element, circular
+    // If the iterator is on the first element of the list, get the last element.
+    
+    const DataT &PrevCrcData() const { 
+      if(IsFirst())
+	return lst.Last();
+      return PrevData();
+    }
+    //: Access data before this element, circular
+    // If the iterator is on the first element of the list, get the last element.
     
     DListC<DataT> Tail() {
       DListC<DataT> ret;
