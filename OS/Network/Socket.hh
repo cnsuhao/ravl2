@@ -128,6 +128,17 @@ namespace RavlN {
     //: Open a server socket.
     // Its then ready for listening.
     
+    bool WaitForRead();
+    //: Wait for read to be ready.
+    // Returns false on error.
+    
+    bool WaitForWrite();
+    //: Wait for write to be ready.
+    // Returns false on error.
+    
+    bool CheckErrors(const char *opName);
+    //: Check for recoverable errors.
+    
     int fd;
     bool server;
     struct sockaddr *addr; // Allocated as a char array.
