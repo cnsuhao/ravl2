@@ -9,7 +9,8 @@
 
 PACKAGE=Ravl/Logic
 
-MAINS= testLogic.cc
+MAINS= 
+#testLogic.cc
 
 HEADERS=Literal.hh Var.hh Unify.hh BindSet.hh Tuple.hh LList.hh Condition.hh \
  MinTerm.hh Or.hh And.hh Not.hh LiteralIter.hh LiteralIterWrap.hh LiteralMapIter.hh \

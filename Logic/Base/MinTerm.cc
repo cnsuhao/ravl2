@@ -89,7 +89,7 @@ namespace RavlLogicN {
   
   //: Setup terms.
   
-  void MinTermBodyC::SetTerms(const SArray1dC<LiteralC> &ts,const SArray1dC<LiteralC> &ns,bool useArrayDirectly = false) {
+  void MinTermBodyC::SetTerms(const SArray1dC<LiteralC> &ts,const SArray1dC<LiteralC> &ns,bool useArrayDirectly) {
     OrC orv(ns,useArrayDirectly);
     AndC xa(ts,useArrayDirectly);
     t = xa;

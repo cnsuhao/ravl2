@@ -195,7 +195,7 @@ namespace RavlLogicN {
   MinTermC operator*(const MinTermC &mt1,const LiteralC &mt2);
   //: And a min term and a literal.
   
-  MinTermC operator*(const LiteralC &mt2,const MinTermC &mt2);
+  MinTermC operator*(const LiteralC &lit1,const MinTermC &mt2);
   //: And a min term and a literal.
   
 }

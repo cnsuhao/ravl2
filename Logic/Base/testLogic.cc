@@ -137,7 +137,7 @@ int testCompose() {
   
   cerr << "And=" << land << "\n";
   // Check minterm.
-  MinTermC mt(land,false);
+  MinTermC mt((const LiteralC &)land,false);
   cerr << "MinTerm=" << mt << "\n";
   NotC nt(true,l3);
   mt *= nt;
