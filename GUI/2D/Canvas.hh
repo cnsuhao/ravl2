@@ -109,6 +109,10 @@ namespace RavlGUIN {
     }
     //: Is Canvas ready for drawing.
     
+    DListC<TriggerC> &ToDo()
+    { return toDo; }
+    //: Get todo list.
+    
   protected:
     
     virtual bool Create();

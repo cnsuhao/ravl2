@@ -88,10 +88,10 @@ namespace RavlGUIN {
     } 
     
   /* Take care of pending actions that require the pixmap. */
-#if 0
-    while(!body.doDo.IsEmpty()) {
-      body.doDo.First().Invoke();
-      body.doDo.DelFirst();
+#if 1
+    while(!body.ToDo().IsEmpty()) {
+      body.ToDo().First().Invoke();
+      body.ToDo().DelFirst();
     }
 #endif
     ONDEBUG(cerr <<"Configuring pixmap done. \n");
