@@ -23,6 +23,8 @@ PACKAGE = Ravl/VPlay
 MAINS= VPlay.cc 
 #VCopy.cc
 
+PLIB= RavlVPlay
+
 USESLIBS = RavlCore RavlOS RavlImage RavlOSIO RavlGUI RavlDPMT RavlGUI2D \
  RavlImageIO RavlVideoIO 
 
