@@ -21,7 +21,6 @@
 #include "Ravl/TFVector.hh"
 
 namespace RavlN  {
-#if RAVL_LITTLEENDIAN
 #if RAVL_HAVE_BYTESWAP
 #include <byteswap.h>
 #else
@@ -49,7 +48,7 @@ namespace RavlN  {
   
   
 #endif
-#endif
+  
   //:-
   
   // Type     Bytes.
