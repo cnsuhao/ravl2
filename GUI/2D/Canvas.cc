@@ -88,12 +88,11 @@ namespace RavlGUIN {
     } 
     
   /* Take care of pending actions that require the pixmap. */
-#if 1
     while(!body.ToDo().IsEmpty()) {
-      body.ToDo().First().Invoke();
-      body.ToDo().DelFirst();
+      ONDEBUG(cerr << "Catching up with stuff. \n");
+      body.ToDo().Last().Invoke();
+      body.ToDo().DelLast();
     }
-#endif
     ONDEBUG(cerr <<"Configuring pixmap done. \n");
     return true;
   }
@@ -192,19 +191,16 @@ namespace RavlGUIN {
   // Call with GUI thread only!
   
   bool CanvasBodyC::GUIDrawImage(ImageC<ByteT> &img,Index2dC &ioffset) {
-    if(!IsReady()) {
-      cerr <<"CanvasBodyC::GUIDrawLine(), WARNING: Asked to render data before canvas is initialise. \n";
-      toDo.InsFirst(TriggerR(*this,&CanvasBodyC::GUIDrawImage,img,ioffset));
-      return true;
-    }
     if(img.IsEmpty()) {
       cerr << "CanvasBodyC::GUIDrawImage(), WARNING: Ask to render empty image. \n";
       return true;
     }
-    if(widget == 0) {
-      cerr <<"CanvasBodyC::GUIDrawImage(), WARNING: Asked to render image before canvas is initialise. \n";
+    if(!IsReady()) {
+      ONDEBUG(cerr <<"CanvasBodyC::GUIDrawLine(), WARNING: Asked to render data before canvas is initialise. \n");
+      toDo.InsFirst(TriggerR(*this,&CanvasBodyC::GUIDrawImage,img,ioffset));
       return true;
     }
+    ONDEBUG(cerr << "CanvasBodyC::GUIDrawImage(), Rendering image. \n");
     Index2dC off = ioffset + img.Rectangle().Origin();    
     int atx = off.Row().V();
     int aty = off.Col().V();
@@ -232,7 +228,7 @@ namespace RavlGUIN {
   
   bool CanvasBodyC::GUIDrawRGBImage(ImageC<ByteRGBValueC> &img,Index2dC &ioffset) {
     if(!IsReady()) {
-      cerr <<"CanvasBodyC::GUIDrawLine(), WARNING: Asked to render data before canvas is initialise. \n";
+      ONDEBUG(cerr <<"CanvasBodyC::GUIDrawLine(), WARNING: Asked to render data before canvas is initialise. \n");
       toDo.InsFirst(TriggerR(*this,&CanvasBodyC::GUIDrawRGBImage,img,ioffset));
       return true;
     }
@@ -269,7 +265,7 @@ namespace RavlGUIN {
   
   bool CanvasBodyC::GUIDrawLine(IntT &x1,IntT &y1,IntT &x2,IntT &y2,IntT &c) {
     if(!IsReady()) {
-      cerr <<"CanvasBodyC::GUIDrawLine(), WARNING: Asked to render data before canvas is initialise. \n";
+      ONDEBUG(cerr <<"CanvasBodyC::GUIDrawLine(), WARNING: Asked to render data before canvas is initialise. \n");
       toDo.InsFirst(TriggerR(*this,&CanvasBodyC::GUIDrawLine,x1,y1,x2,y2,c));
       return true;
     }
@@ -293,7 +289,7 @@ namespace RavlGUIN {
   
   bool CanvasBodyC::GUIDrawText(IntT &x1,IntT &y1,StringC &text,IntT &c) {
     if(!IsReady()) {
-      cerr <<"CanvasBodyC::GUIDrawText(), WARNING: Asked to render data before canvas is initialise. \n";
+      ONDEBUG(cerr <<"CanvasBodyC::GUIDrawText(), WARNING: Asked to render data before canvas is initialise. \n");
       toDo.InsFirst(TriggerR(*this,&CanvasBodyC::GUIDrawText,x1,y1,text,c));
       return true;
     }
@@ -318,7 +314,7 @@ namespace RavlGUIN {
   
   bool CanvasBodyC::GUIRefresh() {
     if(widget == 0) {
-      cerr <<"CanvasBodyC::GUIRefresh(), WARNING: Asked to refresh before canvas is initialise. \n";
+      ONDEBUG(cerr <<"CanvasBodyC::GUIRefresh(), WARNING: Asked to refresh before canvas is initialise. \n");
       toDo.InsFirst(TriggerR(*this,&CanvasBodyC::GUIRefresh));
       return true;
     }
