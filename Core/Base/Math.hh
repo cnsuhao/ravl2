@@ -80,13 +80,6 @@ namespace RavlN {
   //: Returns the greatest integral  value  less  than  or equal  to  'x'.
   
   template<class DataT>
-  inline void SetToZero(DataT &dat)
-  { dat = 0; } 
-  //: Set 'dat' to zero.
-  // In cases where this doesn't work, a specialised version
-  // should be provided.
-
-  template<class DataT>
   inline DataT Sqr(const DataT &x)
   { return x * x; }
   //: Returns the square of 'x'.
