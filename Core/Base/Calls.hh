@@ -275,7 +275,7 @@ namespace RavlN {
     // equivelent of a assertion failure is called. Otherwise
     // the call returns silently.
     
-    CallFunc1C(RetT (*nfunc)(DataT),const Arg1T &dat = DataT())
+    CallFunc1C(RetT (*nfunc)(DataT),const Arg1T &dat = Arg1T())
       : CallFunc0C<RetT>(*new CallFunc1BodyC<DataT,RetT>(nfunc,dat))
     {}
     //: Default constructor.
@@ -452,7 +452,7 @@ namespace RavlN {
     // equivelent of a assertion failure is called. Otherwise
     // the call returns silently.
     
-    CallFunc2C(RetT (*nfunc)(Data1T,Data2T),const Arg1T &dat1 = Data1T(),const Arg2T &dat2 = Data2T())
+    CallFunc2C(RetT (*nfunc)(Data1T,Data2T),const Arg1T &dat1 = Arg1T(),const Arg2T &dat2 = Arg2T())
       : CallFunc1C<Data1T,RetT>(*new CallFunc2BodyC<Data1T,Data2T,RetT>(nfunc,dat1,dat2))
     {}
     //: Default constructor.
@@ -528,7 +528,7 @@ namespace RavlN {
     {}
     //: Default constructor.
     
-    CallFunc3BodyC(RetT (*nfunc)(Data1T,Data2T,Data3T),const Arg1T &ndat1 = Data1T(),const Arg2T &ndat2 = Data2T(),const Arg3T &ndat3 = Data3T())
+    CallFunc3BodyC(RetT (*nfunc)(Data1T,Data2T,Data3T),const Arg1T &ndat1 = Arg1T(),const Arg2T &ndat2 = Arg2T(),const Arg3T &ndat3 = Arg3T())
       : CallFunc2BodyC<Data1T,Data2T,RetT>((VoidFuncPtrT) nfunc,ndat1,ndat2),
 	dat3(ndat3)
     {}
@@ -630,7 +630,7 @@ namespace RavlN {
     // equivelent of a assertion failure is called. Otherwise
     // the call returns silently.
     
-    CallFunc3C(RetT (*nfunc)(Data1T,Data2T,Data3T),const Arg1T &dat1 = Data1T(),const Arg2T &dat2 = Data2T(),const Arg3T &dat3 = Data3T())
+    CallFunc3C(RetT (*nfunc)(Data1T,Data2T,Data3T),const Arg1T &dat1 = Arg1T(),const Arg2T &dat2 = Arg2T(),const Arg3T &dat3 = Arg3T())
       : CallFunc2C<Data1T,Data2T,RetT>(*new CallFunc3BodyC<Data1T,Data2T,Data3T,RetT>(nfunc,dat1,dat2,dat3))
     {}
     //: Default constructor.
@@ -816,7 +816,7 @@ namespace RavlN {
     // the call returns silently.
     
     CallFunc4C(RetT (*nfunc)(Data1T,Data2T,Data3T,Data4T),
-	       const Arg1T &dat1 = Data1T(),const Arg2T &dat2 = Data2T(),const Arg3T &dat3 = Data3T(),const Arg4T &dat4 = Data4T())
+	       const Arg1T &dat1 = Arg1T(),const Arg2T &dat2 = Arg2T(),const Arg3T &dat3 = Arg3T(),const Arg4T &dat4 = Arg4T())
       : CallFunc3C<Data1T,Data2T,Data3T,RetT>(*new CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT>(nfunc,dat1,dat2,dat3,dat4))
     {}
     //: Default constructor.
@@ -1019,11 +1019,11 @@ namespace RavlN {
     // is generated.
     
     CallFunc5C(RetT (*nfunc)(Data1T,Data2T,Data3T,Data4T,Data5T),
-	       const Arg1T &dat1 = Data1T(),
-	       const Arg2T &dat2 = Data2T(),
-	       const Arg3T &dat3 = Data3T(),
-	       const Arg4T &dat4 = Data4T(),
-	       const Arg5T &dat5 = Data5T())
+	       const Arg1T &dat1 = Arg1T(),
+	       const Arg2T &dat2 = Arg2T(),
+	       const Arg3T &dat3 = Arg3T(),
+	       const Arg4T &dat4 = Arg4T(),
+	       const Arg5T &dat5 = Arg5T())
       : CallFunc4C<Data1T,Data2T,Data3T,Data4T,RetT>(*new CallFunc5BodyC<Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(nfunc,dat1,dat2,dat3,dat4,dat5))
     {}
     //: Default constructor.
