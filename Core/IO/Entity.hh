@@ -74,7 +74,7 @@ namespace RavlN {
     DPEntityC(DPEntityBodyC &nbod) 
       : RCHandleVC<DPEntityBodyC>(nbod)
     {}
-    //: Constructor.
+    //: Body constructor.
 
     DPEntityC(const RCAbstractC &abst);
     //: Constructor from an abstract handle.

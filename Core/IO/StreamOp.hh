@@ -16,15 +16,102 @@
 //! userlevel=Default
 
 #include "Ravl/DP/Port.hh"
+#include "Ravl/DP/Plug.hh"
+#include "Ravl/DList.hh"
 
 namespace RavlN {
+  
+  //! userlevel=Develop
+  //: Abstract stream operation.
+  
+  class DPStreamOpBodyC
+    : virtual public DPEntityBodyC 
+  {
+  public:
+    DPStreamOpBodyC()
+    {}
+    //: Default constructor.
+    
+    virtual DListC<DPIPlugBaseC> IPlugs() const;
+    //: Input plugs.
+    
+    virtual DListC<DPOPlugBaseC> OPlugs() const;
+    //: Output plugs
+    
+    virtual DListC<DPIPortBaseC> IPorts() const;
+    //: Input ports.
+    
+    virtual DListC<DPOPortBaseC> OPorts() const;
+    //: Output ports
+    
+  };
+
+  //! userlevel=Normal
+  //: Abstract stream operation.
+  
+  class DPStreamOpC
+    : virtual public DPEntityC 
+  {
+  public:
+    DPStreamOpC()
+      : DPEntityC(true)
+    {}
+    //: Default constructor.
+    // Creates an invalid handle.
+  
+    DPStreamOpC(DPEntityC &ent)
+      : DPEntityC(ent)
+    {
+      if(dynamic_cast<DPStreamOpBodyC *>(&DPEntityC::Body()) == 0)
+	Invalidate();
+    }
+    //: Base class constructor.
+    // If object is not a DPStreamOpC then an invalid handle will
+    // be created.
+    
+  protected:
+    DPStreamOpC(DPStreamOpBodyC &bod)
+      : DPEntityC(bod)
+    {}
+    //: Body constructor.
+    
+    DPStreamOpBodyC &Body()
+    { return dynamic_cast<DPStreamOpBodyC &>(DPEntityC::Body()); }
+    //: Access body.
+    
+    const DPStreamOpBodyC &Body() const
+    { return dynamic_cast<const DPStreamOpBodyC &>(DPEntityC::Body()); }
+    //: Access body.
+    
+  public:
+    
+    DListC<DPIPlugBaseC> IPlugs() const
+    { return Body().IPlugs(); }
+    //: Input plugs.
+    
+    DListC<DPOPlugBaseC> OPlugs() const
+    { return Body().OPlugs(); }
+    //: Output plugs
+    
+    DListC<DPIPortBaseC> IPorts() const
+    { return Body().IPorts(); }
+    //: Input ports.
+    
+    DListC<DPOPortBaseC> OPorts() const
+    { return Body().OPorts(); }
+    //: Output ports
+    
+  };
+
+  
   ////////////////////////////////////////
   //! userlevel=Develop
   //: Stream operation base class.
   
   template<class InT,class OutT>
   class DPIStreamOpBodyC 
-    : public DPIPortBodyC<OutT>
+    : public DPIPortBodyC<OutT>,
+      public DPStreamOpBodyC
   {
   public:
     DPIStreamOpBodyC()
@@ -56,6 +143,20 @@ namespace RavlN {
     { return input; }
     //: What does this connect to ?
     
+    virtual DListC<DPIPortBaseC> IPorts() const {
+      DListC<DPIPortBaseC> lst = DPStreamOpBodyC::IPorts();
+      lst.InsLast(DPIPortBaseC((DPIPortBaseBodyC &)*this));
+      return lst;
+    }
+    //: Input ports.
+
+    virtual DListC<DPIPlugBaseC> IPlugs() const {
+      DListC<DPIPlugBaseC> lst = DPStreamOpBodyC::IPlugs();
+      lst.InsLast(DPIPlugC<InT>(input,DPEntityC((DPEntityBodyC &)*this)));
+      return lst;
+    }
+    //: Input plugs.
+    
   protected:
     DPIPortC<InT> input; // Where to get data from.
     
@@ -69,7 +170,10 @@ namespace RavlN {
   //: Stream operation handle class.
   
   template<class InT,class OutT>
-  class DPIStreamOpC : public DPIPortC<OutT> {
+  class DPIStreamOpC 
+    : public DPIPortC<OutT>,
+      public DPStreamOpC
+  {
   public:
     DPIStreamOpC() 
       : DPEntityC(true)
@@ -101,7 +205,8 @@ namespace RavlN {
   
   template<class InT,class OutT>
   class DPOStreamOpBodyC 
-    : public DPOPortBodyC<InT>
+    : public DPOPortBodyC<InT>,
+      public DPStreamOpBodyC
   {
   public:
     DPOStreamOpBodyC()
@@ -129,6 +234,20 @@ namespace RavlN {
     virtual DPPortC ConnectedTo() const
     { return output; }
     //: What does this connect to ?
+
+    virtual DListC<DPOPortBaseC> OPorts() const {
+      DListC<DPOPortBaseC> lst = DPStreamOpBodyC::OPorts();
+      lst.InsLast(DPOPortBaseC(const_cast<DPOStreamOpBodyC<InT,OutT> &>(*this)));
+      return lst;
+    }
+    //: Output ports.
+    
+    virtual DListC<DPOPlugBaseC> OPlugs() const {
+      DListC<DPOPlugBaseC> lst = DPStreamOpBodyC::OPlugs();
+      lst.InsLast(DPOPlugC<OutT>(output,DPEntityC((DPEntityBodyC &)*this)));
+      return lst;
+    }
+    //: Output plugs.
     
   protected:
     DPOPortC<OutT> output; // Where to put data to.
@@ -144,7 +263,8 @@ namespace RavlN {
   
   template<class InT,class OutT>
   class DPOStreamOpC 
-    : public DPOPortC<InT> 
+    : public DPOPortC<InT>,
+      public DPStreamOpC
   {
   public:
     DPOStreamOpC() 

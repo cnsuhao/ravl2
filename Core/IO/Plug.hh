@@ -1,3 +1,9 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2002, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 #ifndef RAVL_PLUG_HEADER
 #define RAVL_PLUG_HEADER 1
 ////////////////////////////////////////////////////
@@ -140,9 +146,9 @@ namespace RavlN {
     : public DPIPlugBaseBodyC
   {
   public:
-    explicit DPIPlugBodyC(DPIPortC<DataT> &nport,const DPEntityC &nhold)
+    explicit DPIPlugBodyC(const DPIPortC<DataT> &nport,const DPEntityC &nhold)
       : DPIPlugBaseBodyC(nhold),
-	port(nport)
+	port(const_cast<DPIPortC<DataT> &>(nport))
     {}
     //: Constructor.
     
@@ -154,8 +160,8 @@ namespace RavlN {
     { return port; }
     //: Access port.
     
-    virtual bool SetPort(const DPIPortBaseC &port) { 
-      port = DPIPortC<DataT>(port);
+    virtual bool SetPort(const DPIPortBaseC &nport) { 
+      port = DPIPortC<DataT>(const_cast<DPIPortBaseC &>(nport));
       return port.IsValid();
     }
     //: set port.
@@ -174,7 +180,7 @@ namespace RavlN {
     : public DPIPlugBaseC
   {
   public:
-    explicit DPIPlugC(DPIPortC<DataT> &nport,const DPEntityC &nhold = DPEntityC(true))
+    explicit DPIPlugC(const DPIPortC<DataT> &nport,const DPEntityC &nhold = DPEntityC(true))
       : DPIPlugBaseC(*new DPIPlugBodyC<DataT>(nport,nhold))
     {}
     //: Constructor.
@@ -214,9 +220,9 @@ namespace RavlN {
     : public DPOPlugBaseBodyC
   {
   public:
-    explicit DPOPlugBodyC(DPIPortC<DataT> &nport,const DPEntityC &nhold)
+    explicit DPOPlugBodyC(const DPOPortC<DataT> &nport,const DPEntityC &nhold)
       : DPOPlugBaseBodyC(nhold),
-	port(nport)
+	port(const_cast<DPOPortC<DataT> &>(nport))
     {}
     //: Constructor.
 
@@ -224,8 +230,8 @@ namespace RavlN {
     { return port; }
     //: Access handle to port.
     
-    virtual bool SetPort(const DPOPortBaseC &port) { 
-      port = DPOPortC<DataT>(port);
+    virtual bool SetPort(const DPOPortBaseC &nport) { 
+      port = DPOPortC<DataT>(const_cast<DPOPortBaseC &>(nport));
       return port.IsValid();
     }
     //: set port.
@@ -244,7 +250,7 @@ namespace RavlN {
     : public DPOPlugBaseC
   {
   public:
-    explicit DPOPlugC(DPIPortC<DataT> &nport,const DPEntityC &nhold = DPEntityC(true))
+    explicit DPOPlugC(const DPOPortC<DataT> &nport,const DPEntityC &nhold = DPEntityC(true))
       : DPOPlugBaseC(*new DPOPlugBodyC<DataT>(nport,nhold))
     {}
     //: Constructor.
