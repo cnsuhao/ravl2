@@ -212,14 +212,15 @@ namespace RavlN {
     // the result as a new array.
     
     Array1dC<DataT> operator*(const Array1dC<DataT> & arr) const;
-    // Mutliplies 2 numerical arrays. The operator returns the result as a new array.
+    // Multiplies 2 numerical arrays.
+    // The operator returns the result as a new array.
     
     Array1dC<DataT> operator/(const Array1dC<DataT> & arr) const;
-    // Devides 2 numerical arrays. The operator returns
+    // Divides 2 numerical arrays. The operator returns
     // the result as a new array.
     
     Array1dC<DataT> operator*(const DataT &number) const;
-    // Multiplys the array by the 'number'. The operator
+    // Multiplies the array by the 'number'. The operator
     // returns the result as a new array.
     
     Array1dC<DataT> operator/(const DataT &number) const;

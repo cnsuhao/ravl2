@@ -173,7 +173,7 @@ namespace RavlN {
     // The operator returns the result as a new array.
     
     Array2dC<DataT> operator*(const DataT &number) const;
-    //: Multiplys the array by the 'number'. 
+    //: Multiplies the array by the 'number'. 
     // The operator returns the result as a new array.
     
     Array2dC<DataT> operator/(const DataT &number) const;
