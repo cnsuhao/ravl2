@@ -266,7 +266,6 @@ namespace RavlN {
     bool RegisterAttribute(const AttributeTypeC &attr) 
     { return Body().RegisterAttribute(attr); }
     //: Register a new attribute type.
-    // Returns true if attribute of the same name already exists.
     
     bool SaveAttributes(XMLOStreamC &strm,bool useEnclosingTag = true) const
     { return Body().SaveAttributes(strm,useEnclosingTag); }
