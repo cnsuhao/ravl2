@@ -77,7 +77,7 @@ namespace RavlN
 	ip = DPISPortAttachC<DataT>(anIp);
     }
     //cerr << "Attach done. \n";
-    return TRUE;
+    return true;
   }
   //: Open a seekable input stream.
   // Note: Not all streams are seekable, the seek/tell functions are not garanteed to work
