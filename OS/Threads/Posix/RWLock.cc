@@ -29,8 +29,8 @@ namespace RavlN
   
   //: Print an error.
   
-  void RWLockC::Error(const char *msg) {
-    cerr << msg << " (errno=" << errno << ")\n";
+  void RWLockC::Error(const char *msg,int ret) {
+    cerr << msg << " (errno=" << errno << ") Return=" << ret << " \n";
   }
   
 }

@@ -61,16 +61,18 @@ namespace RavlN {
     //: Destructor.
     
   protected:
-    void Error(const char *msg);
+    void Error(const char *msg,int ret);
     //: Print an error.
     
   public:
     bool RdLock(void) { 
+      IntT ret;
+      errno = 0;
       do {
-	if(pthread_rwlock_rdlock(&id) == 0)
+	if((ret = pthread_rwlock_rdlock(&id)) == 0)
 	  return true;
-      } while(errno == EINTR) ;
-      Error("Failed to get RdLock");
+      } while(errno == EINTR || ret == EINTR) ;
+      Error("Failed to get RdLock",ret);
       return false;
     }
     //: Get a read lock.
@@ -80,11 +82,13 @@ namespace RavlN {
     //: Try and get a read lock.
     
     bool WrLock(void) { 
+      IntT ret;
+      errno = 0;
       do {
-	if(pthread_rwlock_wrlock(&id) == 0)
+	if((ret = pthread_rwlock_wrlock(&id)) == 0)
 	  return true;
-      } while(errno == EINTR) ;	
-      Error("Failed to get WrLock");
+      } while(errno == EINTR || ret == EINTR) ;	
+      Error("Failed to get WrLock",ret);
       return false;
     }
     //: Get a write lock.
