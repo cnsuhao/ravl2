@@ -50,6 +50,7 @@ namespace RavlN {
     
     virtual bool Seek(UIntT off) {
       Int64T newOff = startFrame + (Int64T) off * sampleRate;
+      pos = newOff;
       return sinput.Seek64(newOff);
     }
     //: Seek to position in stream.
@@ -59,7 +60,7 @@ namespace RavlN {
     //: Delta seek
     
     virtual UIntT Tell() const 
-    { return (pos - startFrame) / sampleRate; }
+    { return (sinput.Tell64() - startFrame) / sampleRate; }
     //: Get current position in stream.
     
     virtual UIntT Size() const 
@@ -72,6 +73,7 @@ namespace RavlN {
     
     virtual bool Seek64(Int64T off) {
       Int64T newOff = startFrame + off * sampleRate;
+      pos = newOff;
       return sinput.Seek64(newOff);
     }
     //: Seek to position in stream.
@@ -81,7 +83,7 @@ namespace RavlN {
     //: Delta seek
     
     virtual Int64T Tell64() const 
-    { return (pos - startFrame) / sampleRate; }
+    { return (sinput.Tell64() - startFrame) / sampleRate; }
     //: Get current position in stream.
     
     virtual Int64T Size64() const 
@@ -124,6 +126,7 @@ namespace RavlN {
     void Input(const DPIPortC<DataT> &ins) { 
       DPIStreamOpBodyC<DataT,DataT>::Input(ins);
       sinput = SPort(ins);
+      pos = sinput.Tell64();
     }
     // Setup input port.
 
