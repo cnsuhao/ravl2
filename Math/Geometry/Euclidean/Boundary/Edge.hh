@@ -12,7 +12,7 @@
 //! userlevel=Normal
 //! author="Radek Marik"
 //! date="26.10.1995"
-//! docentry="Ravl.Math.Geometry.2D.Boundry"
+//! docentry="Ravl.Images.Boundaries;Ravl.Math.Geometry.2D.Boundary"
 //! rcsid="$Id$"
 
 #include "Ravl/BVertex.hh"

@@ -21,3 +21,4 @@ LIBDEPS=RavlMathBoundry.def
 
 USESLIBS=RavlMath
 
+EHT = Boundary.html
