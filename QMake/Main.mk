@@ -167,56 +167,62 @@ ifdef USESLIBS
  endif
 endif
 
-ifndef NOINCDEFS
- ifdef USESLIBS
-  ifneq ($(USESLIBS),)
-   ifneq ($(USESLIBS),None)
-    ifeq ($(filter Auto,$(USESLIBS)),Auto)
-     AUTOUSELIBS := $(shell $(QLIBS) -use -d -p $(ROOTDIR))
-     EXTRA_USESLIBS = $(AUTOUSELIBS) $(patsubst %,%.def,$(filter-out Auto,$(USESLIBS)))
-     ifdef LIBDEPS
-      ifdef PLIB
-       AUTOUSELIBS := $(PLIB).def $(AUTOUSELIBS)
-      endif 
-     endif
-    else
-     EXTRA_USESLIBS = $(patsubst %,%.def,$(USESLIBS))
+ifdef USESLIBS
+ ifneq ($(USESLIBS),)
+  ifneq ($(USESLIBS),None)
+   ifeq ($(filter Auto,$(USESLIBS)),Auto)
+    AUTOUSELIBS := $(shell $(QLIBS) -use -d -p $(ROOTDIR))
+    EXTRA_USESLIBS = $(AUTOUSELIBS) $(patsubst %,%.def,$(filter-out Auto,$(USESLIBS)))
+    ifdef LIBDEPS
+     ifdef PLIB
+      AUTOUSELIBS := $(PLIB).def $(AUTOUSELIBS)
+     endif 
     endif
+   else
+    EXTRA_USESLIBS = $(patsubst %,%.def,$(USESLIBS))
+   endif
+   ifndef NOINCDEFS
     ifneq ($(strip $(EXTRA_USESLIBS)),)
      include $(EXTRA_USESLIBS)
     endif
    endif
   endif
- else
-  ifdef LIBDEPS
-#  -include $(patsubst %,$(INST_LIBDEF)/%,$(LIBDEPS))
-   -include $(LIBDEPS)
-  endif
  endif
- ifdef PLIB
-  EXELIB := $(MKMUSTLINK) -l$(PLIB) $(EXELIB)
+else
+ ifdef LIBDEPS
+# -include $(patsubst %,$(INST_LIBDEF)/%,$(LIBDEPS))
+  -include $(LIBDEPS)
  endif
- LIBLIBS := $(EXELIB)
+endif
+ifdef PLIB
+ EXELIB := $(MKMUSTLINK) -l$(PLIB) $(EXELIB)
+endif
+LIBLIBS := $(EXELIB)
+ifndef NOINCDEFS
  ifneq ($(strip $(PROGLIBS)),)
   include $(patsubst %,%.def,$(PROGLIBS))
  endif
- ifeq ($(filter Auto,$(USESLIBS)),Auto)
-  ifneq ($(strip $(MAINS) $(TESTEXES)),)
-   AUTOPROGLIBS := $(shell $(QLIBS) -prog -d -p $(ROOTDIR))
-   ifdef LIBDEPS
-    AUTOPROGLIBS := $(filter-out $(LIBDEPS),$(AUTOPROGLIBS))
-   endif
-   ifdef PLIB
-    AUTOPROGLIBS := $(PLIB).def $(AUTOPROGLIBS)
-   endif
+endif
+ifeq ($(filter Auto,$(USESLIBS)),Auto)
+ ifneq ($(strip $(MAINS) $(TESTEXES)),)
+  AUTOPROGLIBS := $(shell $(QLIBS) -prog -d -p $(ROOTDIR))
+  ifdef LIBDEPS
+   AUTOPROGLIBS := $(filter-out $(LIBDEPS),$(AUTOPROGLIBS))
+  endif
+  ifdef PLIB
+   AUTOPROGLIBS := $(PLIB).def $(AUTOPROGLIBS)
+  endif
+  ifndef NOINCDEFS
    ifneq ($(strip $(AUTOPROGLIBS)),)
     include $(AUTOPROGLIBS)
    endif
   endif
  endif
- LINKLIBS := $(EXELIB)
- EXELIB := $(LIBLIBS)
 endif
+
+LINKLIBS := $(EXELIB)
+EXELIB := $(LIBLIBS)
+
 
 VPATH = $(QCWD)
 
@@ -371,7 +377,7 @@ endif
 
 .PHONY : srcfiles build_subdirs build_testsubdirs build_purifydirs build_libs build_exe \
          all build_aux build_test test build_pureexe fullbuild testbuild purifybuild cheadbuild \
-         buildjavalibs libbuild
+         buildjavalibs libbuild localsrc
 
 all: srcfiles build_aux
 	@echo "Internal error: No valid build target "
@@ -384,9 +390,9 @@ libbuild: build_subdirs build_libs build_aux
 
 purifybuild: build_subdirs build_libs build_pureexe
 
-
-srcfiles: $(TARG_HDRS) $(TARG_DEFS) $(LOCAL_FILES) $(LOCALHEADERS) $(SOURCES) $(MAINS) $(AUXFILES) $(HEADERS) \
+srcfiles: $(TARG_DEFS) $(TARG_HDRS) $(LOCAL_FILES) $(LOCALHEADERS) $(SOURCES) $(MAINS) $(AUXFILES) $(HEADERS) \
  $(EXAMPLES) $(TESTEXES) $(DOCNODE) $(HTML) $(MAN1) $(MAN2) $(MAN3) $(EHT) $(MUSTLINK)
+
 
 ifdef FULLCHECKING
 cheadbuild: build_subdirs $(TARG_HDRCERTS)
@@ -435,7 +441,7 @@ else
 	@true
 endif
 
-src_all: srcfiles 
+src_all: srcfiles
 ifneq ($(strip $(TARG_NESTED)),)
 	+ $(SHOWIT)for SUBDIR in $(TARG_NESTED) ; do \
 	  if [ -d $$SUBDIR ] ; then \
