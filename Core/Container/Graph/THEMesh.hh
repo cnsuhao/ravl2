@@ -37,7 +37,7 @@ namespace RavlN {
     // Creates an empty mesh.
     
     THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT> InsertVertex(const VertexDataT &data) {
-      THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT> vert(data);
+      THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT> vert(data,allocVertexId++);
       vertices.InsLast(vert.Body());
       return vert;
     }
@@ -46,7 +46,7 @@ namespace RavlN {
     THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> InsertFace(const FaceDataT &data,
 							     const SArray1dC<HEMeshBaseVertexC> &vertices,
 							     HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> &edgeTab) {
-      THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> ret(data);
+      THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> ret(data,allocFaceId++);
       HEMeshBaseBodyC::InsertFace(ret,vertices,edgeTab);
       return ret;
     }
@@ -56,12 +56,11 @@ namespace RavlN {
 							     HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> &edgeTab) {
 #if 1
       static FaceDataT tmp;
-      THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> ret(tmp);
-      //THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> ret(*new THEMeshFaceBodyC<VertexDataT,FaceDataT,EdgeDataT>(tmp));
+      THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> ret(tmp,allocFaceId++);
 #else
       static FaceDataT tmp;
       //THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> ret = NewFace();
-      THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> ret(*new THEMeshFaceBodyC<VertexDataT,FaceDataT,EdgeDataT>(tmp));
+      THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> ret(*new THEMeshFaceBodyC<VertexDataT,FaceDataT,EdgeDataT>(tmp,allocFaceId++));
 #endif
       HEMeshBaseBodyC::InsertFace(ret,vertices,edgeTab);
       return ret;

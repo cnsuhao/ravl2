@@ -98,8 +98,8 @@ namespace RavlN {
     {}
     //: Body constructor.
     
-    THEMeshVertexC(const VertexDataT &data)
-      : HEMeshBaseVertexC(*new THEMeshVertexBodyC<VertexDataT,FaceDataT,EdgeDataT>(data))
+    THEMeshVertexC(const VertexDataT &data,UIntT nid = 0)
+      : HEMeshBaseVertexC(*new THEMeshVertexBodyC<VertexDataT,FaceDataT,EdgeDataT>(data,nid))
     {}
     //: Constructor.
     

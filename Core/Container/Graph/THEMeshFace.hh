@@ -129,8 +129,8 @@ namespace RavlN {
     {}
     //: Body constructor.
     
-    THEMeshFaceC(const FaceDataT &faceData)
-      : HEMeshBaseFaceC(new THEMeshFaceBodyC<VertexDataT,FaceDataT,EdgeDataT>(faceData))
+    THEMeshFaceC(const FaceDataT &faceData,UIntT nid = 0)
+      : HEMeshBaseFaceC(new THEMeshFaceBodyC<VertexDataT,FaceDataT,EdgeDataT>(faceData,nid))
     {}
     //: Construct a new face.
     
