@@ -20,6 +20,7 @@
 
 namespace RavlImageN {
   
+  //! userlevel=Normal
   //: Byte YUV value class.
   
   class ByteYUVValueC
@@ -76,14 +77,13 @@ namespace RavlImageN {
     ByteT  y;
     SByteT u;
     SByteT v;
-
   };
 
   inline
   istream &operator>>(istream &strm,ByteYUVValueC &val) { 
-    int u,v;
-    // Mess about so it works on SGI.
-    strm >> val.Y() >> u >> v;
+    int u,v,y;
+    strm >> y >> u >> v;
+    val.Y() = y;
     val.U() = u;
     val.V() = v; 
     return strm;
@@ -92,21 +92,9 @@ namespace RavlImageN {
   
   inline
   ostream &operator<<(ostream &strm,const ByteYUVValueC &val) 
-  { return strm << val.Y() << ' ' << val.U() << ' '  << val.V(); }
+  { return strm << ((int) val.Y()) << ' ' << ((int) val.U()) << ' '  << ((int) val.V()); }
   //: Stream output.
   
-#if 0
-  inline
-  BinIStreamC &operator>>(BinIStreamC &strm,ByteYUVValueC &val) 
-  { return strm >> val.Y() >> val.U() >> val.V(); }
-  //: Binary stream input.
-  
-  inline
-  BinOStreamC &operator<<(BinOStreamC &strm,const ByteYUVValueC &val) 
-  { return strm << val.Y() << val.U() << val.V(); }
-  //: Binary stream output
-#endif
-
 }
 
 #endif
