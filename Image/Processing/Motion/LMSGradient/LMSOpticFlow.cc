@@ -157,7 +157,7 @@ namespace RavlImageN {
     return ret;
   }
   
-  void LMSOpticFlowC::DrawMotion(const ImageC<RealT> &im,ImageC<ByteYUVValueC> &op) const {
+  void LMSOpticFlowC::DrawMotion(const ImageC<RealT> &im,const ImageC<Vector2dC> &motion,ImageC<ByteYUVValueC> &op) {
     // find max motion value
     RealT max(0.0);
     for (Array2dIterC<Vector2dC> i(motion); i.IsElm(); i.Next())

@@ -78,7 +78,12 @@ namespace RavlImageN {
     //: Return field of eigenvalues of spatial gradient outer product
     // Note, this is computed.
     
-    void DrawMotion(const ImageC<RealT> &im,ImageC<ByteYUVValueC> &op) const;
+    static void DrawMotion(const ImageC<RealT> &im,const ImageC<Vector2dC> &motion,ImageC<ByteYUVValueC> &op);
+    // Create an image where motion vectors are plotted as U/V components of
+    // colour image, with 1st original image as Y component
+    
+    void DrawMotion(const ImageC<RealT> &im,ImageC<ByteYUVValueC> &op)
+    { DrawMotion(im,motion,op); }
     // Create an image where motion vectors are plotted as U/V components of
     // colour image, with 1st original image as Y component
     

@@ -15,6 +15,7 @@
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/DP/FileFormatIO.hh"
 #include "Ravl/Image/LMSMultiScaleMotion.hh"
+#include "Ravl/Image/LMSOpticFlow.hh"
 #include "Ravl/Array1d.hh"
 #include "Ravl/StrStream.hh"
 #include "Ravl/Index.hh"
@@ -32,8 +33,10 @@ int main (int argc, char **argv) {
   StringC params = opt.String("p", "", "Motion parameter file");
   IntT region = opt.Int("r", 9, "Region size for hierarchical l.m.s. fit");
   bool verb(!opt.Boolean("nv", false, "Turn off verbose o/p"));
+  StringC opDisplay = opt.String("oi", "@X", "Output file name prefix");
   StringC inf1 = opt.String("", "", "1st image");
   StringC inf2 = opt.String("", "", "2nd image");
+  
   opt.CompulsoryArgs(2);
   opt.Check();
   
@@ -58,5 +61,13 @@ int main (int argc, char **argv) {
   optic.SetRegionSize(region);
   LMSMultiScaleMotionC motion(filter, optic);
   //if (verb) motion.Verbose(scale,subsample);
-  motion.Estimate(PairC<ImageC<RealT> >(im1, im2), n);
+  ImageC<Vector2dC> motionImg = motion.Estimate(PairC<ImageC<RealT> >(im1, im2), n);
+  
+  if(!opDisplay.IsEmpty()) {
+    
+    ImageC<ByteYUVValueC> img;
+    LMSOpticFlowC::DrawMotion(im1,motionImg,img);
+    Save(opDisplay,img);
+  }
+
 }
