@@ -65,7 +65,7 @@ namespace RavlN {
     return *this; 
   }
 
-  RigidTransform3dC RigidTransform3dC::operator*(const RigidTransform3dC & p) {
+  RigidTransform3dC RigidTransform3dC::operator*(const RigidTransform3dC & p) const {
     Vector3dC ntrans=trans + rot.Rotate(trans);
     Quatern3dC nrot=rot * p.Rotation();
     nrot.MakePositive();

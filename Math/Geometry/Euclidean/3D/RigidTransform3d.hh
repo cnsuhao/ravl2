@@ -182,22 +182,22 @@ namespace RavlN {
     RigidTransform3dC Abs();
     
     
-    RigidTransform3dC operator*(const RigidTransform3dC & p);
+    RigidTransform3dC operator*(const RigidTransform3dC & p) const;
     // returns q x p ie applies p then q
     
-    inline Vector3dC operator*(const Vector3dC & v) 
+    inline Vector3dC operator*(const Vector3dC & v) const 
     { return rot.Rotate(v) + trans; }
     //: Apply transform to v
     
-    RigidTransform3dC operator*(const RealT& val);
+    RigidTransform3dC operator*(const RealT& val) const;
     // returns trans[i] = p1.trans[i]*val (i=0..2) and rot[i] = p1.rot[i]*val (i=0..3)
     
-    inline RigidTransform3dC operator+(const RigidTransform3dC& p2)
+    inline RigidTransform3dC operator+(const RigidTransform3dC& p2) const
     { return RigidTransform3dC(trans + p2.trans,rot + p2.rot); }
     // returns trans[i] = p1.trans[i] + p2.trans[i] (i=0..2) and 
     //  rot[i] = p1.rot[i] + p2.rot[i] (i=0..3)
     
-    inline RigidTransform3dC operator-(const RigidTransform3dC& p2)
+    inline RigidTransform3dC operator-(const RigidTransform3dC& p2) const
     { return RigidTransform3dC(trans - p2.trans, rot - p2.rot); }
     // returns trans[i] = p1.trans[i] - p2.trans[i] (i=0..2) and 
     //  rot[i] = p1.rot[i] - p2.rot[i] (i=0..3)
