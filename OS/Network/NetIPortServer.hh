@@ -47,12 +47,12 @@ namespace RavlN {
     // Returns false if port is already in use..
     
     bool Disconnect();
-    //: Disonnect to an end point.
+    //: Disconnect end point.
     
     NetEndPointC &NetEndPoint()
     { return ep; }
     //: Access net end point.
-
+    
   protected:
     virtual bool Init();
     //: Initalise stream.
@@ -94,7 +94,7 @@ namespace RavlN {
   protected:
     bool Init();
     //: Initalise link.
-        
+    
     DPISPortC<DataT> iport;
   };
   
@@ -136,7 +136,7 @@ namespace RavlN {
     
     bool Disconnect()
     { return Body().Disconnect(); }
-    //: Disonnect to an end point.
+    //: Disconnect end point.
     
     StringC PortType()
     { return Body().PortType(); }
