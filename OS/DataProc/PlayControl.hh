@@ -10,7 +10,7 @@
 //! file="Ravl/OS/DataProc/PlayControl.hh"
 //! lib=RavlDPMT
 //! author="Charles Galambos"
-//! date="16/03/99"
+//! date="16/03/1999"
 //! docentry="Ravl.Core.Data Processing.Seekable Ports"
 //! rcsid="$Id$"
 
@@ -378,9 +378,14 @@ namespace RavlN {
     DPISPortC<DataT> input; // Where to get data from.
     
   public:
-    inline const DPISPortC<DataT> &Input() { return input; }
+    inline const DPISPortC<DataT> &Input() 
+    { return input; }
     // Access input port.
-    
+
+  private:
+    DPIPlayControlBodyC(const DPIPlayControlBodyC &oth)
+    { RavlAssert(0); }
+    //: Disable copy constructor.
   }; 
   
   ///////////////////////////////////
