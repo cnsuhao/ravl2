@@ -51,6 +51,15 @@ namespace RavlN {
     // Note: The data is NOT copied any operations done
     // on the sample may effect the contents of the original array.
     
+    SampleC(const DArray1dC<DataT> & dat)
+     : DArray1dC<DataT> (dat) 
+    {}
+    //: Create a sample of data from a DArray 
+
+    inline SampleC<DataT> Copy (void)
+    { return SampleC<DataT> ((static_cast<DArray1dC<DataT> > (*this) ).Copy() ) ;}
+    //: Make a copy of this object 
+
     SampleC<DataT> SubSample(const CollectionC<UIntT> &x);
     //: Take a subsample of the given indexes in x.
     
@@ -97,6 +106,16 @@ namespace RavlN {
     //: Pick a random item from the collection
     // Note: The order of the collection is NOT preserved.
     
+    inline const DataT & Sample(void) const 
+    { return Nth( RandomInt() % Size() ) ; } 
+    //: Access a random sample (const)  
+    // The sample is NOT removed 
+
+    inline DataT & Sample (void) 
+    { return Nth( RandomInt() % Size() ) ; } 
+    //: Access a random sample 
+    // The sample is NOT removed 
+
     DataT &operator[](IndexC ind)
     { return DArray1dC<DataT>::operator[](ind); }
     //: Access a sample.
