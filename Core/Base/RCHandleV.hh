@@ -11,7 +11,7 @@
 //! userlevel=Normal
 //! rcsid="$Id$"
 //! author="Charles Galambos"
-//! example=exRefCounter.cc
+//! example=exRefCounterInherit.cc
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/Exception.hh"
