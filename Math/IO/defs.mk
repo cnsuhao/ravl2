@@ -10,9 +10,7 @@ SOURCES= FixedVectorIO.cc FixedPointIO.cc FixedMatrixIO.cc
 
 MUSTLINK = MathIO.cc
 
-PLIB= RavlMath
-
-LIBDEPS = RavlMathIO.def
+PLIB= RavlMathIO
 
 USESLIBS = RavlMath RavlIO
 
