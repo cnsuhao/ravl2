@@ -22,13 +22,14 @@ using namespace RavlN;
 int CheckConsistant();
 int CheckIO();
 int CheckSleep();
+int CheckLocalTime();
 
-// Check dates are consistant.
 
 int main() 
 {
   int lineno;
   cerr << "Starting DateC tests... \n";
+#if 1
   if((lineno = CheckConsistant()) != 0) {
     cerr << "CheckConsistant(), Failed :" << lineno << "\n";
     return 1;
@@ -41,10 +42,36 @@ int main()
     cerr << "CheckSleep(), Failed :" << lineno << "\n";
     return 1;
   }
+#endif
+  if((lineno = CheckLocalTime()) != 0) {
+    cerr << "CheckLocalTime(), Failed :" << lineno << "\n";
+    return 1;
+  }
   cerr << "Test passed.\n";
   return 0;
 }
 
+
+int CheckLocalTime() {
+  IntT year = 2004;
+  IntT month = 7;
+  IntT day = 19;
+  IntT hour = 14;
+  IntT min = 46;
+  IntT sec = 12;
+  IntT usec = 0;
+  
+  DateC aTime(year,month,day,hour,min,sec,usec,true);
+  
+  if(aTime.Year() != year) return __LINE__;
+  if(aTime.Month() != month) return __LINE__;
+  if(aTime.DayInMonth() != day) return __LINE__;
+  if(aTime.Minute() != min) return __LINE__;
+  if(aTime.Hour() != hour) return __LINE__;
+  if(aTime.Seconds() != sec) return __LINE__;
+  
+  return 0;
+}
 
 int CheckConsistant()
 {
