@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlDPMT
-
+#include "Ravl/config.h"
 #include "Ravl/DP/Blackboard.hh"
 #include "Ravl/DP/TypeConverter.hh"
 #include "Ravl/HashIter.hh"
@@ -16,6 +16,10 @@
 #include "Ravl/TypeName.hh"
 #include "Ravl/DP/FileFormatStream.hh"
 #include "Ravl/DP/FileFormatBinStream.hh"
+
+#if RAVL_COMPILER_MIPSPRO 
+#pragma instantiate RavlN::DPIPortBodyC<RavlN::RCWrapAbstractC>
+#endif 
 
 namespace RavlN {
   

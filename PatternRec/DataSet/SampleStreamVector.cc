@@ -7,12 +7,17 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/DataSet/SampleStreamVector.cc"
-
+#include "Ravl/config.h" 
 #include "Ravl/PatternRec/SampleStreamVector.hh"
 #include "Ravl/DList.hh"
 #include "Ravl/MeanCovariance.hh"
 #include "Ravl/MatrixRUT.hh"
 #include "Ravl/PatternRec/SampleVector.hh"
+
+#if RAVL_COMPILER_MIPSPRO 
+#pragma instantiate RavlN::DPIPortBodyC<RavlN::VectorC>
+#endif
+
 
 #define DODEBUG 1
 #if DODEBUG
