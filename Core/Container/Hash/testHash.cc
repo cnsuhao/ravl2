@@ -16,6 +16,7 @@
 #include "Ravl/String.hh"
 #include "Ravl/BinStream.hh"
 #include "Ravl/Stream.hh"
+#include <stdlib.h> // rand()
 
 using namespace RavlN;
 
