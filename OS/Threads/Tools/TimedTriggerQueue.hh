@@ -4,15 +4,15 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLTIMEDTRIGGERQUEUE_HEADER
-#define RAVLTIMEDTRIGGERQUEUE_HEADER 1
+#ifndef RAVL_TIMEDTRIGGERQUEUE_HEADER
+#define RAVL_TIMEDTRIGGERQUEUE_HEADER 1
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/OS/Threads/Tools/TimedTriggerQueue.hh"
 //! lib=RavlThreads
-//! docentry="Ravl.OS.Threads"
+//! docentry="Ravl.OS.Time"
 //! author="Charles Galambos"
-//! date="23/09/99"
+//! date="23/09/1999"
 
 #include "Ravl/OS/Date.hh"
 #include "Ravl/PriQueue.hh"
@@ -85,9 +85,9 @@ namespace RavlN
     
     friend class TimedTriggerQueueC;
   };
-
+  
   //! userlevel=Normal
-  //: Timed event queue body.
+  //: Timed event queue.
   // This is a queue of routines to be triggered at some point in the future.
   // This class creates a new thread which triggers a list of routines
   // in the requested sequence.  A single thread is used to call all the

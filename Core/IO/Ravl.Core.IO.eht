@@ -3,11 +3,17 @@
 : Input Output system
 
 <p> There are two mechanisms for doing I/O in RAVL: via streams, and
-via the <code>Load()</code> / <code>Save()</code> functions.  The
-stream mechanism is general, whereas the <code>Load()</code> /
-<code>Save()</code> mechanism is useful where there is a choice of
-file formats, or where implicit data conversion is needed.
+via the <code>Load()</code> / <code>Save()</code> functions.  
 
+The standard c++ stream mechanism (See The C++ programming language by
+B.Stroustrup) will read and write objects in a format unique to RAVL
+the details for this mechanism and a variation that allows the
+creation of binary streams can be found in <a
+href="Ravl.Core.IO.Streams.html">Ravl.Core.IO.Streams</a>. Whereas
+<code>Load()</code> / <code>Save()</code> mechanism is useful where
+there is a choice of file formats, or where implicit data conversion
+is needed.
+<p>
 There is also a mechanism for dealing with sequences of objects a
 description of which can be found in <a
 href="Ravl.OS.Sequence.html">Ravl.OS.Sequence</a>.

@@ -1,4 +1,57 @@
 ! author="Charles Galambos"
 ! children="Pixel Types;IO;Edges;Segmentation;Morphology;Misc"
-: Image representation and processing
+: Image and video processing
+
+<p> The basic image class is the template class <a
+href="../Class/RavlImageN.ImageC.html">ImageC</a>, often templated on one of
+the <a href="Ravl.Images.Pixel_Types.html">pixel</a> classes.
+
+<p> In terms of its structure and functionality, ImageC and its derivatives can
+be considered as 2-D arrays.  If there is a difference in philosophy between <a
+href="../Class/RavlImageN.ImageC.html">ImageC</a> and <a
+href="../Class/RavlN.Array2dC.html">Array2dC</a>, it is that in ImageC there is a
+sense of neighbourhood, and spatial extent.  In particular an ImageC object
+contains one or more "image rectangles" (<a
+href="../Class/RavlImageN.ImageRectangleC.html">ImageRectangleC</a>).  When an image is
+constructed, it has one associated rectangle corresponding to the border of the
+image.  However other rectangles can also be attached, corresponding to
+subimages; they can also be moved around the image.  These can be useful for
+spatial filtering and other neighbourhood operations.
+
+<h4> Image IO:</h4>
+
+There is a comprehensive <a href="Ravl.Core.IO.html">I/O package</a> within
+RAVL, including <a href="Ravl.Images.IO.html">image I/O</a>.  It can deal with a
+large and expanding range of file formats.
+
+<h4> Indexing images:</h4>
+<ul>
+<li> <b>Simple C-style indexing</b>:
+
+<p>Simple image constructors [e.g. <a href="../Class/RavlImageN.ImageC.html#ImageCObUIntT_UIntTCb_">ImageC::ImageC(UIntT
+rows, UIntT columns)</a> ] will use a coordinate system whose origin is the top
+left-hand pixel.  However other coordinate systems are possible.  For instance,
+a spatial filtering operation using a 3x3 mask will typically produce an image
+that is smaller than the original - the whole image border has shrunk by one
+pixel.  The coordinate system of the new image will be such that corresponding
+pixels in the two images have the <em>same</em> coordinates.  Hence the
+coordinates of the top left-hand pixel of the old and new images will be
+respectively (0,0) and (1,1).  The programmer does not need to keep track of
+these changes though - use the <a href="../Class/RavlImageN.ImageRectangleC.html">image
+rectangle</a> or the border member functions [<a
+href="../Class/RavlImageN.ImageC.html#TRowObvoidCb_const">ImageC::TRow(), BRow(),
+LCol() and RCol()</a> ] to determine the image boundaries.  It is recommended
+to use <a href="../Class/RavlN.IndexC.html">IndexC</a>, <a
+href="../Class/RavlN.Index2dC.html">Index2dC</a> for indexing images, as these have
+division and modulo operators that behave sensibly for negative coordinates
+(unlike int).</p>
+
+<li> <b> Using RAVL image iterators</b>:
+
+The indexing philosophy just described can often be more compactly and
+speedily implemented using the  array <a href="Ravl.Core.Arrays.html">iterator mechanism</a>.  
+For an elementary example of its usage, look at the example in 
+<a href="../Class/RavlN.Array2dIterC.html">Array2dIterC</a>.
+
+</ul>
 

@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! file="Ravl/Core/Container/Buffer/SBfAcc3d.hh"
 //! lib=RavlCore
-//! userlevel=Normal
+//! userlevel=Develop
 //! author="Charles Galambos"
 //! date="24/01/2001"
 //! docentry="Ravl.Core.Arrays.Buffer"
@@ -28,6 +28,9 @@ namespace RavlN {
   class BinOStreamC;
   class BinIStreamC;
   
+  //! userlevel=Develop
+  //: Access for 3D array.
+  
   template <class DataT>
   class SizeBufferAccess3dC 
     : public SizeBufferAccessC<BufferAccessC<BufferAccessC<DataT > > >
@@ -35,22 +38,21 @@ namespace RavlN {
   public:
     SizeBufferAccess3dC()
       : size2(0),
-      size3(0)
-      {}
+	size3(0)
+    {}
     //: Default constructor.
-
-
+    
     SizeBufferAccess3dC(SizeT nsize2,SizeT nsize3)
       : size2(nsize2),
-      size3(nsize3)
-      {}
+	size3(nsize3)
+    {}
     //: Constructor.
 
     SizeBufferAccess3dC(const SizeBufferAccessC<BufferAccessC<BufferAccessC<DataT> > > &ab,SizeT nsize2,SizeT nsize3)
       : SizeBufferAccessC<BufferAccessC<BufferAccessC<DataT> > >(ab),
-      size2(nsize2),
-      size3(nsize3)
-      {}
+	size2(nsize2),
+	size3(nsize3)
+    {}
     //: Constructor.
     
     inline bool Contains(const Index3dC & i) const { 
@@ -85,15 +87,15 @@ namespace RavlN {
     //: return the item array[(i)]
     
     SizeT Size1() const
-      { return SizeBufferAccessC<BufferAccessC<BufferAccessC<DataT > > >::Size(); }
+    { return SizeBufferAccessC<BufferAccessC<BufferAccessC<DataT > > >::Size(); }
     //: Get size of dimension 1
     
     SizeT Size2() const
-      { return size2; }
+    { return size2; }
     //: Get size of dimension 2
     
     SizeT Size3() const
-      { return size3; }
+    { return size3; }
     //: Get size of dimension 3
     
     UIntT Size() const 
@@ -106,7 +108,6 @@ namespace RavlN {
   protected:
     SizeT size2;
     SizeT size3;
-    
   };
 
   template<class DataT>

@@ -9,6 +9,6 @@
 
 EHT= Ravl.Introduction.Debugging.html \
  Ravl.Introduction.Reference_Counting.html Ravl.Introduction.Naming_Conventions.html \
- Ravl.Introduction.Reference_Counting.Notes.html
+ Ravl.Introduction.Reference_Counting.Notes.html Ravl.Introduction.Coordinate_Systems.html
 
 HTML = search.html

@@ -4,16 +4,16 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef IMGIOINIT_HEADER
-#define IMGIOINIT_HEADER 1
+#ifndef RAVL_IMGIOINIT_HEADER
+#define RAVL_IMGIOINIT_HEADER 1
 //////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Image/ImageIO/ImgIO.hh"
 //! lib=RavlImageIO
-//! userlevel=Advanced
+//! userlevel=Develop
 //! docentry="Ravl.Images.IO"
 //! author="Charles Galambos"
-//! date="13/05/99"
+//! date="13/05/1999"
 
 namespace RavlImageN {
   extern void InitDPImageIO(); // This calls all the following functions.

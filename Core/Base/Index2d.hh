@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLINDEX2D_HH
-#define RAVLINDEX2D_HH
+#ifndef RAVL_INDEX2D_HH
+#define RAVL_INDEX2D_HH
 //////////////////////////////////////////////////////////////////////////
 //! file="Ravl/Core/Base/Index2d.hh"
 //! lib=RavlCore
@@ -18,6 +18,7 @@
 #include "Ravl/Index.hh"
 #include "Ravl/FIndex.hh"
 #include "Ravl/Assert.hh"
+#include "Ravl/Math.hh"
 
 namespace RavlN {
 
@@ -67,16 +68,22 @@ namespace RavlN {
     
     inline Index2dC(const FIndexC<2> &oth)
       : FIndexC<2>(oth)
-      {}
+    {}
     //: Creates index from its base class.
     
     inline Index2dC(const TFVectorC<IndexC,2> &oth)
       : FIndexC<2>(oth)
-      {}
+    {}
     //: Creates index from its base class.
     
+    inline Index2dC(const TFVectorC<RealT,2> &oth) {
+      data[0] = Round(oth[0]);
+      data[1] = Round(oth[1]);
+    }
+    //: Creates index from a real point.
+    
     explicit inline Index2dC(SizeT dim)
-      { RavlAssert(dim == 2); }
+    { RavlAssert(dim == 2); }
     //: Creates an index
     // This is for compatibilty with N-D indexes, which 
     // need to be told there dimentionality.
@@ -84,8 +91,8 @@ namespace RavlN {
     inline Index2dC(IndexC row, IndexC column);
     //: Creates index <row, column>.
     
-    // Object modification
-    // -------------------
+    //:-------------------
+    //: Object modification
     
     inline void Set(IndexC r, IndexC c);
     //: Sets this index to be <r,c>.

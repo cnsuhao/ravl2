@@ -9,5 +9,8 @@ destroyed automaticly.  The two common ways of getting around this
 problem are to either use a container class like GraphC which can cope
 with loopes of refrences or to make a parent class for the structure
 which manages the destruction of the object ensureing all the loops
-are broken when they are no longer needed.
+are broken when they are no longer needed. <p>
 
+For more information on refrence counting see <a
+href="Ravl.Introduction.Reference_Counting.html">Ravl.Introduction.Reference
+Counting</a>

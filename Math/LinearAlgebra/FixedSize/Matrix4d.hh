@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLMATRIX4D_HEADER
-#define RAVLMATRIX4D_HEADER 1
+#ifndef RAVL_MATRIX4D_HEADER
+#define RAVL_MATRIX4D_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Math/LinearAlgebra/FixedSize/Matrix4d.hh"
@@ -19,6 +19,7 @@
 
 namespace RavlN {
   
+  //! userlevel=Normal
   //: 4 by 4 matrix of real values.
   
   class Matrix4dC

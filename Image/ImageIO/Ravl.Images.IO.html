@@ -1,58 +1,77 @@
-<!--! author="Charles Galambos, Bill Christmas" -->
-: 
-
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
 <html>
-  <head>
-    <title>Image Input and Output</title>
-  </head>
-
-<body>
-
-<p> RAVL includes a comprehensive mechanism for reading and writing objects
-from and to files in a uniform and transparent fashion.  It is based around two
-global functions: <code>Load</code> and <code>Save</code>.  In particular,
-there is a set of routines to handle a variety of image file formats, together
-with the ability to convert between several different pixel representations.
-
-<p> The generic load/save mechanism is described <a href="Ravl.Core.IO.html">here</a>.  In order
-to invoke the libraries specific to image I/O, you need to:<ul> 
-<li> insert this header file:
-<pre>
+    <!--! author="Charles Galambos, Bill Christmas" -->
+    <head>
+      <title>Image Input and Output</title>
+    </head>
+    <body>      
+      RAVL includes a comprehensive mechanism for reading and writing objects
+      from and to files in a uniform and transparent fashion.  It is based around two
+      global functions: <code>Load</code> and <code>Save</code>.  In particular,
+      there is a set of routines to handle a variety of image file formats, together
+      with the ability to convert between several different pixel representations.
+      
+      <p> 
+	The generic load/save mechanism is described in <a href="Ravl.Core.IO.html">Ravl.Core.IO</a>.  In order to invoke
+	the libraries specific to image I/O, you need to:
+      </p>
+      <ul>
+	<li> insert this header file:
+	  <pre>
 #include "Ravl/IO.hh"
-</pre>
-<li> add this library in the <code>defs.mk</code>:
-<pre>
+	  </pre></li>
+	
+	<li> add this library in the <code>defs.mk</code>:
+	  <pre>
 USESLIBS = RavlImageIO ....
-</pre>
-</ul>
-Hopefully some of this paraphernalia will not be necessary in the future...
+	  </pre>
+      </ul>
+      
+      <p> 
+	The generic load/save call can then be used in the <a href="Ravl.Core.IO.html">usual way</a>.
+	
+	For an example of how to use the system with
+	images see <a href="../../../examples/exImgIO.cc">exImgIO.cc</a>.
+	(Remember: to compile this example you'll need the "RavlImageIO" library.)
+      </p>
+      <p> To find what file formats and conversions are available, use the
+	<code>conv</code> tool, with the following options:
+	
+	<dl>
+	  <dt><code>-lf</code> - list all known file formats</dt>
+	  <dt><code>-lc</code> - list all known conversions</dt>
+	  <dt><code>-lt</code> - list all known classes (?)</dt>
+	</dl>
+	
+	Here's a summary of currently supported formats. Supported natively
+	in ravl are:
+	<ul>
+	  <li><b>pgm</b> Grey scale images.</li>
+	  <li><b>ppm</b> RGB colour images.</li>
+	  <li><b>pbm</b> Bit image</li>
+	</ul>
+	
+	With <b>RavlExtImageIO</b> which uses various open source libraries you also get:
+	
+	<ul>
+	  <li><b>jpeg</b> Lossy compressed images. Colour and grey scale. (Supports sequences stored in a single file.)</li>
+	  <li><b>png</b> Lossless compressed images. Colour and grey scale.</li>
+	  <li><b>tiff</b> Lossless compressed images.</li>
+	</ul>
+	
+	
+	
+	<h3>Creating image converters</h3>
+	
+	If you wish to load and save your own image type as <code>ppm</code>,
+	<code>pgm</code> or any other file format that is already supported, and the
+	particular conversion you want is not currently available, it is
+	straightforward to add one to the collection (currently in
+	  <code>Ravl/Image/ImageIO/ImgTypeCnv.cc)</code>.  Following is an example for
+	converting a byte image into a double image.  For more information on writing
+	converters see <a href="Ravl.Core.IO.html">Ravl.Core.IO</a>
 
-<p> The generic load/save call can then be used in the <a
-href="Ravl.Core.IO.html">usual way</a>.
-
-For an example of how to use the system with
-images see <a href="../../../examples/exImgIO.cc">exImgIO.cc</a>.
-(Remember: to compile this example you'll need the "RavlImageIO" library.)
-
-<p> To find what file formats and conversions are available, use the <code>conv</code> tool, with the following options:
-<dl>
-<dt><code>-lf</code> - list all known file formats
-<dt><code>-lc</code> - list all known conversions
-<dt><code>-lt</code> - list all known classes (?)
-</dl>
-
-
-<h3>Creating image converters</h3>
-
-If you wish to load and save your own image type as <code>ppm</code>,
-<code>pgm</code> or any other file format that is already supported, and the
-particular conversion you want is not currently available, it is
-straightforward to add one to the collection (currently in
-<code>Ravl/Image/ImageIO/ImgTypeCnv.cc)</code>.  Following is an example for
-converting a byte image into a double image.  For more information on writing
-converters see <a href="Ravl.Core.IO.html">Ravl.Core.IO</a>
-<pre>
+	<pre>
 
 ImageC&lt RealT&gt DPConvImageC<ByteT>T2RealImageCT(const ImageC&lt ByteT&gt &dat)  
 { 
@@ -63,10 +82,14 @@ ImageC&lt RealT&gt DPConvImageC<ByteT>T2RealImageCT(const ImageC&lt ByteT&gt &da
 }
 
 DP_REGISTER_CONVERTION(ImageC<ByteT>T2RealImageCT, 1);
-</pre>
-The argument in the function call indicates (as a ratio of the number of bytes
-in the respective pixels) the amount of information lost in the conversion.  In
-this example, no information is lost, so the ratio is 1.  For double to char conversion, the ration would be 8.
+
+	</pre>
+
+	The argument in the function call indicates (as a ratio of the
+	number of bytes in the respective pixels) the amount of
+	information lost in the conversion.  In this example, no
+	information is lost, so the ratio is 1.  For double to char
+	conversion, the ration would be 8.
 
 </body>
 </html>

@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLARRAY2DITER_HEADER
-#define RAVLARRAY2DITER_HEADER 1
+#ifndef RAVL_ARRAY2DITER_HEADER
+#define RAVL_ARRAY2DITER_HEADER 1
 ///////////////////////////////////////////////////////////////////////
 //! file="Ravl/Core/Container/Array/Array2dIter.hh"
 //! lib=RavlCore
@@ -14,7 +14,7 @@
 //! docentry="Ravl.Core.Arrays.2D"
 //! rcsid="$Id$"
 //! example=exArray2.cc
-//! date="24/08/99"
+//! date="24/08/1999"
 
 #include "Ravl/BfAccIter.hh"
 #include "Ravl/Array2d.hh"

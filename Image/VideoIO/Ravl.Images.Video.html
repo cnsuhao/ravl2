@@ -3,11 +3,92 @@
   <head>
     <title>Video Sequences</title>
   </head>
-
   <body>
-    Sequences of images are handled in RAVL in the same way as
-    sequences of any other kind of object. Details of how stream work
-    can be found in <a
-    href="Ravl.OS.Sequence.html">Ravl.OS.Sequence</a>.
+    <p>
+      Sequences of images are handled in RAVL in a similar way to
+      sequences of any other kind of object. Details of how streams
+      work can be found in <a href="Ravl.OS.Sequence.html">Ravl.OS.Sequence</a>. 
+      The differences between image sequences and other RAVL sequences are
+
+<ul>
+<li> A variety of "standard" video formats are supported (see below).  Where 
+the data has a distinctive header (e.g. JPEG), this is used to determine the 
+format; otherwise (e.g. the CIF family) the filename suffix is used.
+<li> Where there is a mismatch between the pixel types in file and image (for 
+example when reading a CIF video file into ImageC&lt;RGBValueC&gt;), the 
+appropriate conversion is automatically done.
+</ul>
+
+    <p>
+      Here's a summary of currently supported formats. (For an exhaustive list
+      use the 'conv -lf' command.)
+    <ul>
+      <li><b>sqcif</b> Binary byte YUV420 images, 72 by 88
+      <li><b>qcif</b>  Binary byte YUV420 images, 144 by 176
+      <li><b>cif</b>  Binary byte YUV420 images, 288 by 352
+      <li><b>4cif</b>  Binary byte YUV420 images, 576 by 704
+      <li><b>16cif</b>  Binary byte YUV420 images, 1152 by 1408
+      <li><b>yuv</b> Binary byte YUV images, 576 by 720
+      <li><b>syuv</b> Binary byte YUV images, 576 by 720 one image to a file.
+      <li><b>rgb</b>  Binary byte RGB images, 242 by 360
+      <li><b>rgb2</b> Binary byte RGB images, 288 by 384
+      <li><b>frgb</b> Binary byte RGB images, 484 by 720
+      <li><b>frgb2</b> Binary byte RGB images, 576 by 768
+      <li><b>jpeg</b> The libjpeg libraries support the storage of a sequence of compressed images in a single file.
+    </ul>
+    Note: In YUV420, the colour is sampled at half the resolution of the intensity in both dimensions.
+    
+    <p> 
+      Before you can do video IO there are a few things you have to do:
+      
+    <ul>
+      <li> insert this header file:
+	<pre>
+#include "Ravl/DP/SequenceIO.hh"
+	</pre>
+      <li> add this library in the <code>defs.mk</code>:
+	<pre>
+USESLIBS = RavlVideoIO ....
+	</pre>
+    </ul>
+    
+    <p>
+      
+      Following is a example of how to use this mechanism to read and
+      write a sequence of images.
+      
+    <h3> Reading a sequence </h3>
+    
+    <pre>
+    DPIPortC&lt;ImageC&lt;IntT&gt;  &gt; in;
+    if(!OpenISequence(in,"myfile.cif")) {
+      // Failed to open input file.
+      // Report an error...
+    }
+    ImageC&lt;IntT&gt; value;
+    while(in.Get(value)) { // Get next image, stop if none.
+      
+      ... Process your image...
+      
+    }
+    </pre>
+    
+    <h3> Writting a sequence </h3>
+    <pre>
+    DPOPortC&lt;ImageC&lt;IntT&gt;  &gt; out;
+    if(!OpenOSequence(out,"myfile.cif")) {
+      // Failed to open output file.
+      // Report an error..
+    }
+
+    while(... more images to write ...) {
+      ImageC&lt;IntT&gt;  image; 
+     
+      ... Generate your images ....
+      
+      out.Put(image);
+    } 
+    </pre>
+
   </body>
 </html>

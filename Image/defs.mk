@@ -11,4 +11,4 @@ PACKAGE=Ravl/Image
 
 NESTED=Base.r ImageIO.r VideoIO.r ExternalImageIO.r Processing.r
 
-EHT=Ravl.Images.eht
+EHT=Ravl.Images.eht Ravl.Images.Converters.html

@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLMATH_HEADER
-#define RAVLMATH_HEADER 1
+#ifndef RAVL_MATH_HEADER
+#define RAVL_MATH_HEADER 1
 ////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Core.Math"
@@ -31,9 +31,9 @@ extern "C" {
 //: Ravl namespace.
 
 namespace RavlN {
-  // Basic algebraic functions
-  // -------------------------
-
+  //:-------------------------
+  //: Basic algebraic functions
+  
   template<class DataT>
   inline DataT Abs(const DataT &a)
   { return (a>=0) ? a : -a; }

@@ -4,13 +4,15 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLCALLMETHODREFS_HEADER
-#define RAVLCALLMETHODREFS_HEADER 1
+#ifndef RAVL_CALLMETHODREFS_HEADER
+#define RAVL_CALLMETHODREFS_HEADER 1
 //////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Core.Misc.Calls"
+//! docentry="Ravl.Core.Calls"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/CallMethodRefs.hh"
+//! author="Charles Galambos"
+//! date="24/01/2001"
 
 #include "Ravl/Calls.hh"
 

@@ -24,9 +24,7 @@
       <li>Supports Solaris, Linux, Irix, M$ VC++.</li>
       <li>Uses other libs iff they are under the LGPL.</li>
       <li>RAVL will be modular, so parts needed for a particular applications can be separated out easily.
-      <li>Archive to be maintained under <a
-	  href="http://www.gnu.org/software/cvs/
-	  ">CVS</a>.</li>
+      <li>Archive to be maintained under <a href="http://www.gnu.org/software/cvs/">CVS</a>.</li>. Details of how access this archive can be found at <a href="http://sourceforge.net/cvs/?group_id=24497">source forge</a>.
     </ul>
 
     <p>Some notes: </p>

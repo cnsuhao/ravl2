@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Calls and Triggers</title>
+  </head>
+
+  <body>
+    These classes provide a flexible method for handling function and
+    method pointers. They have many of the advantages of using 
+    <a href="Ravl.OS.Threads.Signals.html">Signals</a> in that you don't
+    have to know the exact form a function pointer, but without the
+    complexity.
+    
+    <h3>Using triggers </h3>
+    
+    Triggers are the simplest form of call. They allow an function
+    with arbitrary set of parameters to be called on an event. It is
+    used in classes such as 
+    <a href="../Class/RavlN.TimedTriggerQueueC.html">TimedTriggerQueueC</a>
+    to call a method after a fixed delay, and in 
+    <a href="../Class/RavlN.TickerTrigger.html">TickerTriggerC</a> which
+    calls a method repeatedly at a fixed frequency.
+    <p>
+      Creating a trigger is simple:
+<pre>
+#include "Ravl/Trigger.hh"
+
+TriggerC myTrigger;
+</pre>
+    
+    You can assign a function to it using the <b>Trigger</b> call.
+
+<pre>
+bool PrintNumber(int &amp;i) {
+  cout << "PrintNumber called with value " << i << "\n";
+  return true;
+}
+
+myTrigger = Trigger(&amp;PrintNumber,2);
+</pre>
+    
+   Calling the function can be done with the () operator.
+    
+<pre>
+myTrigger();
+</pre>
+    
+  </body>
+</html>

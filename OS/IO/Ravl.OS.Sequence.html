@@ -1,24 +1,40 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <title>IO for streams of objects</title>
+    <title>Sequence IO</title>
   </head>
-
+  
   <body>    
     <p>
-      Sequences or streams of objects are accessed in RAVL with two
-      classes <a href="../Class/RavlN.DPIPortC.html">DPIPortC&lt;&gt;
-      </a> and <a href="../Class/RavlN.DPOPortC.html">DPOPortC&lt;&gt;
+      Sequences or streams (not to be confused with c++ streams) of
+      objects are accessed in RAVL with two classes <a
+      href="../Class/RavlN.DPIPortC.html">DPIPortC&lt;&gt; </a> and <a
+      href="../Class/RavlN.DPOPortC.html">DPOPortC&lt;&gt;
       </a>. DPIPortC allows sequences of objects to be read in to a
       program and DPOPortC is used for writing them out.  You can
       initialise streams with the <a
       href="../Class/RavlN.OpenISequenceObDPIPortCLtDataTGt_Amp_const_StringC_Amp_const_StringC_Amp_boolCb.html">OpenISequence</a>
       and <a
       href="../Class/RavlN.OpenOSequenceObDPOPortCLtDataTGt_Amp_const_StringC_Amp_const_StringC_Amp_boolCb.html">OpenOSequence</a>
-      respectively. 
+      respectively.
     <p>
-      Following is a example of how to use these classes.      
+      A typical example of where this kind of IO is used is the processing of video
+      sequences <a href="Ravl.Images.Video.html">Ravl.Images.Video</a>.
     <p>
+      Following is a example of how to use these classes for reading
+      and writing a sequence of integers.
+    <p>
+      Before you can do anything you need to include the following header:
+    <pre>
+      #include "Ravl/DP/SequenceIO.hh"
+    </pre>
+    
+    You also have to include the appropriate library for handling the
+    sequences you wish to use. e.g. For video IO you needs to add
+    <b>RavlVideoIO</b> to your <a
+    href="Ravl.QMake.Defs.html#USESLIBS">USESLIBS line in the
+    defs.mk.</a>
+    
     <h3> Reading a sequence </h3>
     
     <pre>

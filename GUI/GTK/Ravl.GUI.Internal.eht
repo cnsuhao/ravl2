@@ -2,5 +2,6 @@
 ! docentry="Ravl.GUI.Internal"
 : Internal classes.
 
-Classes not directly used for building GUI interfaces.
+These classes are used internally for managing various aspects of the GUI system.
+
 

@@ -4,16 +4,16 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLIMAGECNV_HEADER
-#define RAVLIMAGECNV_HEADER 1
+#ifndef RAVL_IMAGECNV_HEADER
+#define RAVL_IMAGECNV_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Image/ImageIO/ImageConv.hh"
 //! lib=RavlImageIO
 //! userlevel=Normal
 //! author="Charles Galambos"
-//! date="16/03/99"
-//! docentry="Ravl.Images.IO"
+//! date="16/03/1999"
+//! docentry="Ravl.Images.Converters"
 
 #include "Ravl/Image/Image.hh"
 
@@ -25,42 +25,42 @@ namespace RavlImageN {
   class RealRGBValueC;
   class ByteRGBAValueC;
   
-  //: Image handleing namespace.
-  
   ImageC<ByteRGBValueC> ByteRGBAImageCT2ByteRGBImageCT(const ImageC<ByteRGBAValueC> &dat);
+  //: Byte RGBA to Byte RGB image
   
   ImageC<ByteRGBAValueC> ByteRGBImageCT2ByteRGBAImageCT(const ImageC<ByteRGBValueC> &dat);
-
+  //: Byte RGB to Byte RGBA image
+  
   ImageC<RealT> ByteImageCT2DoubleImageCT(const ImageC<ByteT> &dat);
-  // Byte to double image.
+  //: Byte to double image.
     
   ImageC<IntT> ByteImageCT2IntImageCT(const ImageC<ByteT> &dat);
-  // Byte to int image.
+  //: Byte to int image.
   
   ImageC<RealT> IntImageCT2DoubleImageCT(const ImageC<IntT> &dat);
-  // Int to double image.
+  //: Int to double image.
   
   ImageC<ByteRGBValueC> ByteImageCT2ByteRGBImageCT(const ImageC<ByteT> &dat);
-  // Byte grey level to colour image.
+  //: Byte grey level to colour image.
     
   ImageC<ByteYUVValueC> ByteImageCT2ByteYUVImageCT(const ImageC<ByteT> &dat);
   // Byte grey level to byte YUV colour image.
   
   ImageC<ByteT> DoubleImageCT2ByteImageCT(const ImageC<RealT> &dat) ; 
-  // Double -> Byte (clipped to fit)
+  //: Double -> Byte (clipped to fit)
   // This will clip, then round the double value (NOT floor!) to fit in a byte value 0 to 255.
   
   ImageC<RealRGBValueC> RealYUVImageCT2RealRGBImageCT(const ImageC<RealYUVValueC> &dat);
-  // Real YUV -> RGB
+  //: Real YUV -> RGB
   
   ImageC<RealYUVValueC> RealRGBImageCT2RealYUVImageCT(const ImageC<RealRGBValueC> &dat);
-  // Real RGB -> YUV
+  //: Real RGB -> YUV
 
   ImageC<ByteT> ByteYUVImageCT2ByteImageCT(const ImageC<ByteYUVValueC> &dat);
-  // Byte grey level to byte YUV colour image.
+  //: Byte grey level to byte YUV colour image.
   
   ImageC<ByteT> RGBImageCT2ByteImageCT(const ImageC<ByteRGBValueC> &dat);
-  // Byte colour to byte grey image.
+  //: Byte colour to byte grey image.
   
   ImageC<RealT> RGBImageCT2DoubleImageCT(const ImageC<ByteRGBValueC> &dat);
   //: Byte Colour to double image.

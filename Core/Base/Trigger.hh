@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLTRIGGER_HEADER
-#define RAVLTRIGGER_HEADER 1
+#ifndef RAVL_TRIGGER_HEADER
+#define RAVL_TRIGGER_HEADER 1
 //////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Core/Base/Trigger.hh"
@@ -13,7 +13,7 @@
 //! userlevel=Default
 //! author="Charles Galambos"
 //! date="24/01/2001"
-//! docentry="Ravl.Core.Misc"
+//! docentry="Ravl.Core.Calls"
 
 #include "Ravl/RefCounter.hh"
 
@@ -63,9 +63,13 @@ namespace RavlN {
     
   public:
     void Invoke()
-      { Body().Invoke(); }
-    //: Invoke signal.
-
+    { Body().Invoke(); }
+    //: Invoke the method.
+    
+    void operator()()
+    { Body().Invoke(); }
+    //: Invoke the method.
+    
   };
 
 

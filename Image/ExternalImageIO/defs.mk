@@ -4,12 +4,12 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
+#! file="Ravl/Image/ExternalImageIO/defs.mk"
 #! rcsid="$Id$"
 #
 # This directory contains software which interfaces Ravl to external
 # image IO libraries.  Edit ExtImgIO.hh to specify which libraries
 # are available.
-#! file="Ravl/Image/ExternalImageIO/defs.mk"
 
 DESCRIPTION = External Image IO routines... like jpeg,gif,tiff
 

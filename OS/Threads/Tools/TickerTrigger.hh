@@ -4,16 +4,16 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLTHREADLAUNCH_HEADER
-#define RAVLTHREADLAUNCH_HEADER 1
+#ifndef RAVL_THREADLAUNCH_HEADER
+#define RAVL_THREADLAUNCH_HEADER 1
 ////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/OS/Threads/Tools/TickerTrigger.hh"
 //! lib=RavlThreads
 //! userlevel=Default
-//! docentry="Ravl.OS.Threads"
+//! docentry="Ravl.OS.Time"
 //! author="Charles Galambos"
-//! date="02/07/99"
+//! date="02/07/1999"
 
 #include "Ravl/OS/Date.hh"
 #include "Ravl/Threads/Thread.hh"
@@ -23,7 +23,8 @@
 namespace RavlN {
   
   //! userlevel=Develop
-  //: Ticker event body.
+  //: Ticker body.
+  // This class triggers a method at repeatedly with a fixed delay between calls.
   
   class TickerTriggerBodyC 
     : public ThreadBodyC
@@ -54,7 +55,8 @@ namespace RavlN {
   };
   
   //! userlevel=Normal
-  //: Ticker event handle.
+  //: Ticker handle.
+  // This class triggers a method at repeatedly with a fixed delay between calls.
   
   class TickerTriggerC
     : public ThreadC

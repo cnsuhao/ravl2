@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLVECTOR4D_HEADER
-#define RAVLVECTOR4D_HEADER 1
+#ifndef RAVL_VECTOR4D_HEADER
+#define RAVL_VECTOR4D_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Math/LinearAlgebra/FixedSize/Vector4d.hh"
@@ -18,6 +18,9 @@
 #include "Ravl/FVector.hh"
 
 namespace RavlN {
+  
+  //! userlevel=Normal
+  //: 4D Vector
   
   class Vector4dC
     : public FVectorC<4>

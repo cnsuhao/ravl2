@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////////////////////
 //! file="Ravl/Core/Base/Index.hh"
 //! lib=RavlCore
-//! userlevel=Normal
+//! userlevel=Basic
 //! author="Radek Marik"
 //! date="2/1/1996"
 //! docentry="Ravl.Core.Indexing"

@@ -4,26 +4,20 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLMATHMEANND_HEADER
-#define RAVLMATHMEANND_HEADER 1
+#ifndef RAVL_MATHMEANND_HEADER
+#define RAVL_MATHMEANND_HEADER 1
 /////////////////////////////////////////////
 //! rcsid="$Id$"
 //! userlevel=Normal
 //! author="Radek Marik"
-//! date="26.05.1994"
-//! docentry="Ravl.Math.Statistics.N-D"
+//! date="26/05/1994"
+//! docentry="Ravl.Math.Statistics"
 //! lib=RavlMath
 //! file="Ravl/Math/Statistics/MeanCovariance/MeanNd.hh"
 
 #include "Ravl/Vector.hh"
 
 namespace RavlN {
-  
-  //: Mean in N-D space
-  // This class computes the mean of a set of vectors.
-  
-  // ******** MeanNdC *************************************************
-  // ------------------------------------------------------------------
   
   //: Mean in N-D space
   // The class MeanNdC serves for computation of the mean
