@@ -37,6 +37,15 @@ namespace RavlN {
     bool accept = false;
     int oc0 = ContainsCode(P1(),rng);
     int oc1 = ContainsCode(P2(),rng);
+#if 0
+    const RealT vscale = rng.Rows();
+    const RealT hscale = rng.Cols();
+    RealT diff = ;
+    //if(IsSmall(diff,hscale)) // Avoid division by zero. 
+    //  np[0] = 0;
+    //else
+#endif
+    
     do {
       if(!(oc0 | oc1)) {
 	accept = true;
@@ -47,17 +56,17 @@ namespace RavlN {
       Point2dC np;
       int oc = oc0 ? oc0 : oc1;
       if(oc & CTOP) {
-	np[0] = P1()[0] + (P2()[0] + P1()[0]) * (rng.BRow() - P1()[1]) / (P2()[1] - P1()[1]);
-	np[1] = rng.BRow();
-      } else if(oc & CBOTTOM) {
-	np[0] = P1()[0] + (P2()[0] + P1()[0]) * (rng.TRow() - P1()[1]) / (P2()[1] - P1()[1]);
-	np[1] = rng.TRow();
-      } else if(oc & CRIGHT) {
+	np[0] = rng.TRow();
 	np[1] = P1()[1] + (P2()[1] - P1()[1]) * (rng.RCol() - P1()[0]) / (P2()[0] - P1()[0]);
-	np[0] = rng.RCol();
-      } else {
+      } else if(oc & CBOTTOM) {
+	np[0] = rng.BRow();
 	np[1] = P1()[1] + (P2()[1] - P1()[1]) * (rng.LCol() - P1()[0]) / (P2()[0] - P1()[0]);
-	np[0] = rng.LCol();
+      } else if(oc & CRIGHT) {
+	np[0] = P1()[0] + (P2()[0] - P1()[0]) * (rng.BRow() - P1()[1]) / (P2()[1] - P1()[1]);
+	np[1] = rng.RCol();
+      } else { // CLEFT
+	np[0] = P1()[0] + (P2()[0] - P1()[0]) * (rng.TRow() - P1()[1]) / (P2()[1] - P1()[1]);
+	np[1] = rng.LCol();
       }
       if(oc == oc0) {
 	P1() = np;

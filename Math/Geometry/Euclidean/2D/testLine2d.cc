@@ -117,6 +117,13 @@ int testClip2d() {
   // Line entirely outside region.
   LinePP2dC l4(pnt3,pnt4);
   if(l4.ClipBy(rng)) return __LINE__;
-  
+
+  RealRange2dC rng2(0.51,239.49,0.51,239.49);
+  LinePP2dC l5(Point2dC(1.5,0.5),Point2dC(1.5,720.5));
+  //cerr << " CP1=" << l5.P1() << " CP2=" << l5.P2() << "\n";
+  if(!l5.ClipBy(rng2)) return __LINE__;
+  //cerr << " CP1=" << l5.P1() << " CP2=" << l5.P2() << "\n";
+  if(!rng2.Contains(l5.P1())) return __LINE__;
+  if(!rng2.Contains(l5.P2())) return __LINE__;
   return 0;
 }
