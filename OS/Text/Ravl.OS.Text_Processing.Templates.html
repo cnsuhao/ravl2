@@ -51,7 +51,7 @@
       <tr><td> <B>$(if:a:b)</B></td><td> If condition 'a' is true,
 	  expand 'b'. For a description of conditions see below. </td></tr>
       
-      <tr><td> <B>$(ifset:a)</B></td><td> If variable 'a' is set, then expand 'b'. </td></tr>
+      <tr><td> <B>$(ifset:a:b)</B></td><td> If variable 'a' is set, or not set <B>$(ifset:!a:b)</B>, then expand 'b'. </td></tr>
       
       <tr><td> <B>$(else:a)</B></td><td> If the last condition failed, expand 'a' </td></tr>
       
@@ -123,7 +123,7 @@
     <address><a href="mailto:ees1cg@syzygy.ee.surrey.ac.uk">Charles Galambos</a></address>
 <!-- Created: Tue Feb 29 08:53:27 GMT 2000 -->
 <!-- hhmts start -->
-Last modified: Sun Jan  5 10:26:51 GMT 2003
+Last modified: Mon May 12 11:51:41 BST 2003
 <!-- hhmts end -->
   </body>
 </html>
