@@ -2,6 +2,24 @@
 ! docentry="Ravl.OS.Threads"
 : POSIX based threading, and associated tools.
 
-These classes provide a machine independant interface to allow
-the creation and managment of threads within an application.
+  <p>These classes provide a machine independant interface to allow
+    the creation and managment of threads within an application.</p>
+
+  <p>For thread-safe operation, the following are the responsibility
+    of the programmer:</p>
+  <ul>
+    <li>All shared resources must be locked, e.g. using
+      <code>MutexC</code> or <code>MutexLockC</code>.</li>
+    
+    <li>Always lock shared resources in the same order.</li>
+    
+    <li>All variables of built-in type in shared memory must be
+      declared <code>volatile</code>.</li>
+    
+    <li>For efficient threading, lock shared resources for the minimum
+      possible time.</li>
+  </ul>
+  
+  <hr>
+
 
