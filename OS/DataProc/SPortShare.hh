@@ -30,7 +30,7 @@ namespace RavlN {
     {}
     //: Default constructor.
     
-    DPISPortShareBodyC(const DPISPortC<DataT> &ip)
+    explicit DPISPortShareBodyC(const DPISPortC<DataT> &ip)
       : input(ip)
     {}
     //: Constructor.
@@ -251,15 +251,21 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    DPISPortShareC(const DPISPortC<DataT> &ip)
+    explicit DPISPortShareC(const DPISPortC<DataT> &ip)
       : DPEntityC(*new DPISPortShareBodyC<DataT>(ip))
     {}
     //: Constructor.
-
-    DPISPortShareC(bool)
+    
+    explicit DPISPortShareC(bool)
       : DPEntityC(*new DPISPortShareBodyC<DataT>())
     {}
     //: Constructor.
+    
+    const DPISPortShareC<DataT> &operator=(const DPISPortShareC<DataT> &other) {
+      DPEntityC::operator=(other);
+      return *this;
+    }
+    //: Make sure assigment gets done right.
     
   protected:
     DPISPortShareC(DPISPortShareBodyC<DataT> &bod)
@@ -529,12 +535,12 @@ namespace RavlN {
     {}
     //: Default constructor.
 
-    DPISPortShareClientC(bool)
+    explicit DPISPortShareClientC(bool)
       : DPEntityC(*new DPISPortShareClientBodyC<DataT>())
     {}
     //: Constructor
     
-    DPISPortShareClientC(const DPISPortShareC<DataT> &sharedPort)
+    explicit DPISPortShareClientC(const DPISPortShareC<DataT> &sharedPort)
       : DPEntityC(*new DPISPortShareClientBodyC<DataT>(sharedPort))
     {}
     //: Constructor.
