@@ -44,8 +44,8 @@ namespace RavlN {
 		  0,0,0,
 		  0,0,0)
     {}
-    // Creates the zero projection. All points are projected into
-    // not-valid projective object.
+    // Creates the zero projection. All points are projected into an
+    // invalid projective object.
 
     inline PProjection2dC(const Matrix3dC & m)
       : Matrix3dC(m)
@@ -119,6 +119,10 @@ namespace RavlN {
     // Returns the composition of two projections. The result
     // projects projective objects in the same way as they would be
     // projected by projection 'p' at first and then by this projection.
+
+    inline bool IsValid() const
+    { return (((*this) != Matrix3dC(0,0,0,0,0,0,0,0,0)) && this->IsReal()); }
+    // True if not the zero projection and Matrix3dC is "real"
     
     SizeBufferAccessC<RealT> operator[](UIntT ind) 
     { return ((Matrix3dC &) (*this))[ind]; }
