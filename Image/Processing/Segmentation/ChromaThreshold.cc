@@ -6,8 +6,11 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlImage
+//! author="Joel Mitchelson"
 
-#include "ChromaThreshold.hh"
+#include "Ravl/Image/ChromaThreshold.hh"
+#include "Ravl/Array2dIter2.hh"
+#include "Ravl/Array2dIter3.hh"
 
 namespace RavlImageN
 {
@@ -18,10 +21,10 @@ namespace RavlImageN
 					   ByteT nlabel_no_match /* = 0 */,
 					   ByteT nlabel_black /* = 0 */ ) :
 
+    black_thresh(nblack_thresh),
     label_match(nlabel_match),
     label_no_match(nlabel_no_match),
-    label_black(nlabel_black),
-    black_thresh(nblack_thresh)
+    label_black(nlabel_black)
     
   {
     RealT r_mean = 0.0;
@@ -96,92 +99,74 @@ namespace RavlImageN
     bw = 1.0 / (3.0 * tolerance * var_b);
 
   }
-
-  void ChromaThresholdRGBC::Apply(ImageC<ByteT>& result, const ImageC<ByteRGBValueC>& image) const
-  {
+  
+  void ChromaThresholdRGBC::Apply(ImageC<ByteT>& result, const ImageC<ByteRGBValueC>& image) const {
     RavlAssert( result.Rows() == image.Rows() );
     RavlAssert( result.Cols() == image.Cols() );
     
-    UIntT sx = image.Cols();
-    UIntT sy = image.Rows();
-
     RealT scale_black_thresh = black_thresh * 3.0 * 255.0;
-
-    for (UIntT y = 0; y < sy; y++)
-    {
-      for (UIntT x = 0; x < sx; x++)
-      {
-        const ByteRGBValueC& pixel = image[y][x];
-
-        RealT r = pixel.Red();
-        RealT g = pixel.Green();
-        RealT b = pixel.Blue();
-        RealT I = r + g + b;
-	
-        if (I < scale_black_thresh)
-        {
-	  result[y][x] = label_black;
-	  continue;
-        }
-
-        RealT nr = r / I;
-        RealT ng = g / I;
-        RealT nb = b / I;
-
-        RealT C = rw*(nr-r0)*(nr-r0) + gw*(ng-g0)*(ng-g0) + bw*(nb-b0)*(nb-b0);
-        result[y][x] = ((C < 1.0) ? label_match : label_no_match);
+    
+    for(Array2dIter2C<ByteT,ByteRGBValueC> it(result,image);it;it++) {
+      const ByteRGBValueC& pixel = it.Data2();
+      
+      RealT r = pixel.Red();
+      RealT g = pixel.Green();
+      RealT b = pixel.Blue();
+      RealT I = r + g + b;
+      
+      if (I < scale_black_thresh) {
+	it.Data1() = label_black;
+	continue;
       }
+      
+      RealT nr = r / I;
+      RealT ng = g / I;
+      RealT nb = b / I;
+      
+      RealT C = rw*(nr-r0)*(nr-r0) + gw*(ng-g0)*(ng-g0) + bw*(nb-b0)*(nb-b0);
+      it.Data1() = ((C < 1.0) ? label_match : label_no_match);
     }
   }
-
+  
   void ChromaThresholdRGBC::Apply(ImageC<ByteT>& result, 
-			       const ImageC<ByteRGBAValueC>& image, 
-			       ImageC<ByteRGBAValueC>& auximage) const
+				  const ImageC<ByteRGBAValueC>& image, 
+				  ImageC<ByteRGBAValueC>& auximage) const
   {
     RavlAssert( result.Rows() == image.Rows() );
     RavlAssert( result.Cols() == image.Cols() );
     
-    UIntT sx = image.Cols();
-    UIntT sy = image.Rows();
-
     bool copy = (auximage.Size() > 0) ? true : false;
 
     RealT scale_black_thresh = black_thresh * 3.0 * 255.0;
 
-    for (UIntT y = 0; y < sy; y++)
-    {
-      for (UIntT x = 0; x < sx; x++)
-      {
-        const ByteRGBAValueC& pixel = image[y][x];
-
-        RealT r = pixel.Red();
-        RealT g = pixel.Green();
-        RealT b = pixel.Blue();
-        RealT I = r + g + b;
-	
-        if (I < scale_black_thresh)
-        {
-	  result[y][x] = label_black;
-	  if (copy)
-	    auximage[y][x][3] = label_black;
-	  continue;
-        }
-
-        RealT nr = r / I;
-        RealT ng = g / I;
-        RealT nb = b / I;
-
-        RealT C = rw*(nr-r0)*(nr-r0) + gw*(ng-g0)*(ng-g0) + bw*(nb-b0)*(nb-b0);
-        ByteT label  = ((C < 1.0) ? label_match : label_no_match);
-	result[y][x] = label;
+    for(Array2dIter3C<ByteT,ByteRGBAValueC,ByteRGBAValueC> it(result,image,auximage);it;it++) {
+      const ByteRGBAValueC& pixel = it.Data2();
+      
+      RealT r = pixel.Red();
+      RealT g = pixel.Green();
+      RealT b = pixel.Blue();
+      RealT I = r + g + b;
+      
+      if (I < scale_black_thresh) {
+	it.Data1() = label_black;
 	if (copy)
-	  auximage[y][x][3] = label;
+	  it.Data3()[3] = label_black;
+	continue;
       }
+      
+      RealT nr = r / I;
+      RealT ng = g / I;
+      RealT nb = b / I;
+      
+      RealT C = rw*(nr-r0)*(nr-r0) + gw*(ng-g0)*(ng-g0) + bw*(nb-b0)*(nb-b0);
+      ByteT label  = ((C < 1.0) ? label_match : label_no_match);
+      it.Data1() = label;
+      if (copy)
+	it.Data3()[3] = label;
     }
   }
-
-  ostream& operator<<(ostream& os, const ChromaThresholdRGBC& c)
-  {
+  
+  ostream& operator<<(ostream& os, const ChromaThresholdRGBC& c) {
     os << c.r0 << " " << c.g0 << " " << c.b0 << endl;
     os << c.rw << " " << c.gw << " " << c.bw << endl;
     os << c.black_thresh << endl;
@@ -189,12 +174,11 @@ namespace RavlImageN
     return os;
   }
 
-  istream& operator>>(istream& is, ChromaThresholdRGBC& c)
-  {
+  istream& operator>>(istream& is, ChromaThresholdRGBC& c) {
     is >> c.r0 >> c.g0 >> c.b0;
     is >> c.rw >> c.gw >> c.bw;
     is >> c.black_thresh;
-
+    
     int label_match, label_no_match, label_black;
     is >> label_match >> label_no_match >> label_black;
 

@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlImage
-
+//! author="Joel Mitchelson"
 #ifndef _CHROMA_THRESHOLD_HH_
 #define _CHROMA_THRESHOLD_HH_
 
@@ -23,34 +23,32 @@ namespace RavlImageN
 
   public:
     ChromaThresholdRGBC()
-    {
-    }
+    {}
     //: default constructor
 
     ChromaThresholdRGBC(RealT nr0, RealT ng0, RealT nb0,
-		    RealT nrw = 33.33, RealT ngw = 33.33, RealT nbw = 33.33,
-		    RealT nblack_thresh = 0.1,
-		    ByteT nlabel_match = 255,
-		    ByteT nlabel_no_match = 0,
-		     ByteT nlabel_black = 0) :
+			RealT nrw = 33.33, RealT ngw = 33.33, RealT nbw = 33.33,
+			RealT nblack_thresh = 0.1,
+			ByteT nlabel_match = 255,
+			ByteT nlabel_no_match = 0,
+			ByteT nlabel_black = 0) :
       r0(nr0), g0(ng0), b0(nb0),
       rw(nrw), gw(ngw), bw(nbw),
       black_thresh(nblack_thresh),
       label_match(nlabel_match),
       label_no_match(nlabel_no_match),
       label_black(nlabel_black)
-    {
-    } 
-    //: construct with user-specified params
-
+    {} 
+    //: Construct with user-specified params
+    
     ChromaThresholdRGBC(const ImageC<ByteRGBValueC>& image,
-		    RealT tolerance = 1.0,
-		    RealT black_thresh = 0.01,
-		    ByteT nlabel_match = 255,
-		    ByteT nlabel_no_match = 0,
-		    ByteT nlabel_black = 0);
-    //: construct from example image
-
+			RealT tolerance = 1.0,
+			RealT black_thresh = 0.01,
+			ByteT nlabel_match = 255,
+			ByteT nlabel_no_match = 0,
+			ByteT nlabel_black = 0);
+    //: Construct from example image
+    
   public:
     void Apply(ImageC<ByteT>& result, const ImageC<ByteRGBValueC>& image) const;
     //: perform threshold on RGB image and return binary result
