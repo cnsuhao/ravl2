@@ -99,6 +99,10 @@ namespace RavlGUIN {
   //: Set selection string.
   
   bool ComboBodyC::GUISetSelection(StringC &opt) {
+    if(widget == 0) {
+      selection = opt;
+      return false;
+    }
     gtk_entry_set_text (GTK_ENTRY (GTK_COMBO(widget)->entry), opt.chars());
     return true;
   }
@@ -125,6 +129,9 @@ namespace RavlGUIN {
       if(!editable)
 	gtk_entry_set_editable(GTK_ENTRY(GTK_COMBO(widget)->entry),0);
     }
+    if(!selection.IsEmpty())
+      gtk_entry_set_text (GTK_ENTRY (GTK_COMBO(widget)->entry), selection.chars());
+    
     ConnectSignals();
 #if 1
     gtk_signal_connect(GTK_OBJECT(GTK_COMBO(widget)->entry), "changed",

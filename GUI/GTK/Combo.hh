@@ -76,7 +76,7 @@ namespace RavlGUIN {
     HashC<StringC,GtkWidget *> cmap; // Widget map.
     bool editable;
     bool allowsignals;
-
+    StringC selection;
     Signal1C<StringC> sigSelected;
     //: Selection changed signal
     // This should be used instead of signals["combo_activate"],

@@ -14,10 +14,6 @@
 #include <gtk/gtk.h>
 
 namespace RavlGUIN {
-
-  static MutexC addObjectMutex; 
-  // Resolve race conditions
-  // This won't be locked to often, a global application lock should work fine.
   
   //: Add object to table.
   
@@ -27,37 +23,33 @@ namespace RavlGUIN {
 			     GtkAttachOptions nxoptions,GtkAttachOptions nyoptions,
 			     UIntT nxpadding,UIntT nypadding)
   {
-
-  WidgeInfoC wi(widge,left_attach,right_attach,top_attach,bottom_attach,
+    WidgeInfoC wi(widge,left_attach,right_attach,top_attach,bottom_attach,
 		  nxoptions,nyoptions,
 		  nxpadding,nypadding);
-    MutexLockC lock(addObjectMutex);
-    if(widget != 0) {
-            Manager.Queue(Trigger(TableC(*this),&TableC::GUIAddObject,wi));
-      return true;
-    }
-    children.InsLast(wi);
-    lock.Unlock();
+    Manager.Queue(Trigger(TableC(*this),&TableC::GUIAddObject,wi));
     return true;
- 
  }
 
   //: Add object to table.
   // Values for attach options are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKATTACHOPTIONS">here</A>.
   // Call on the GUI thread only.
-
+  
   bool TableBodyC::GUIAddObject(WidgeInfoC &wi) {
-    MutexLockC lock(addObjectMutex);
     children.InsLast(wi);
     if(widget == 0)
       return true;
+    if(wi.widge.Widget() == 0) {
+      if(!wi.widge.Create()) {
+	cerr << "TableBodyC::Create(), Widget create failed. \n";
+	return false;
+      }
+    }
     gtk_table_attach(GTK_TABLE(widget),
 		     wi.widge.Widget(),
 		     wi.left_attach,wi.right_attach,
 		     wi.top_attach,wi.bottom_attach,
 		     wi.xoptions,wi.yoptions,
 		     wi.xpadding,wi.ypadding);
-    lock.Unlock();
     gtk_widget_show (wi.widge.Widget());
     return true;
   }
@@ -66,7 +58,6 @@ namespace RavlGUIN {
   //: Create widget.
   
   bool TableBodyC::Create() {
-    MutexLockC lock(addObjectMutex);
     RavlAssert(widget == 0);
     widget = gtk_table_new(sx,sy,homogeneous);
     for(DLIterC<WidgeInfoC> it(children);it.IsElm();it.Next()) {
@@ -86,7 +77,6 @@ namespace RavlGUIN {
       gtk_widget_show (it.Data().widge.Widget());
     }
     children.Empty(); // Might as well free the memory.
-    lock.Unlock();
     ConnectSignals();
     return true;
   }
