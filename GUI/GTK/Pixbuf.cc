@@ -35,10 +35,12 @@ namespace RavlGUIN {
   
   PixbufC::PixbufC(const ImageC<ByteRGBValueC> &img) {
     ONDEBUG(cerr << "PixbufC::PixbufC(const ImageC<ByteRGBValueC> &), Called. \n");
-    void *imgHandle = new ImageC<ByteRGBValueC>(img); // Create a refrence to the image.
-    pixbuf = gdk_pixbuf_new_from_data ((guchar *) (&img[img.Frame().Origin()]),
-				       GDK_COLORSPACE_RGB,false,8,img.Cols(),img.Rows(),img.Stride() * sizeof(ByteRGBValueC),&DeleteImageRef,imgHandle);
-    gdk_pixbuf_ref(pixbuf);
+    if(img.Frame().Area() > 0) {
+      void *imgHandle = new ImageC<ByteRGBValueC>(img); // Create a refrence to the image.
+      pixbuf = gdk_pixbuf_new_from_data ((guchar *) (&img[img.Frame().Origin()]),
+					 GDK_COLORSPACE_RGB,false,8,img.Cols(),img.Rows(),img.Stride() * sizeof(ByteRGBValueC),&DeleteImageRef,imgHandle);
+      gdk_pixbuf_ref(pixbuf);
+    }
   }
   
   //: Create from XPM data.
