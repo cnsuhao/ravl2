@@ -30,6 +30,11 @@ namespace RavlN {
     {}
     //: Default constructor.
     // The contents of the line are undefined.
+
+    LinePP2dC(const FLinePPC<2> &base)
+      : FLinePPC<2>(base)
+    {}
+    //: Constructor from base class
     
     LinePP2dC(const Point2dC &start,const Point2dC &end)
       : FLinePPC<2>(start,end)
