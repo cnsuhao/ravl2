@@ -34,4 +34,4 @@ TESTEXES=testFunc2Proc.cc
 
 EXAMPLES = exComposeSingle.cc
 
-EHT=Ravl.Core.IO.eht Ravl.Core.Data_Processing.eht
+EHT=Ravl.Core.IO.eht Ravl.Core.Data_Processing.eht Ravl.Core.IO.Formats.html Ravl.Core.IO.Type_Converter.html
