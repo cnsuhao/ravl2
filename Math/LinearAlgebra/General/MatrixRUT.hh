@@ -66,6 +66,9 @@ namespace RavlN {
     void AddOuterProduct(const VectorC &vec);
     //: Add outer product of 'vec' with itself to this matrix.
     
+    void AddOuterProduct(const VectorC &vec,RealT a);
+    //: Add outer product of 'vec' with itself to this matrix multiplied by a
+    
     const MatrixRUTC &operator+=(const MatrixRUTC &mat);
     //: Add another right upper matrix to this one.
     
@@ -90,6 +93,9 @@ namespace RavlN {
 
   MatrixRUTC OuterProductRUT(const VectorC &vec);
   //: Return outer product of 'vec' as a right upper triangular matrix.
+  
+  MatrixRUTC OuterProductRUT(const VectorC &vec,RealT a);
+  //: Return outer product of 'vec' as a right upper triangular matrix multiplied by a.
   
   bool SolveIP(MatrixRUTC &A,VectorC &b);
   //: Solve a general linear system  A*x = b

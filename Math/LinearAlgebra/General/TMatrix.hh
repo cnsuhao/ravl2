@@ -118,6 +118,9 @@ namespace RavlN {
     const TMatrixC<DataT> &AddOuterProduct(const TVectorC<DataT> &vec1,const TVectorC<DataT> &vec2);
     //: Add outer product of vec1 and vec2 to this matrix.
     
+    const TMatrixC<DataT> &AddOuterProduct(const TVectorC<DataT> &vec1,const TVectorC<DataT> &vec2,const DataT &a);
+    //: Add outer product of vec1 and vec2 multiplied by a to this matrix .
+    
     const TMatrixC<DataT> &SetSmallToBeZero(const DataT &min);
     //: Set values smaller than 'min' to zero in vector.
   };
@@ -319,15 +322,34 @@ namespace RavlN {
     BufferAccess2dIterC<DataT> it(*this,Size2());
     while(it) {
       BufferAccessIterC<DataT> v2(vec2);
+      RealT r1 = (*v1);
       do {
-	*it += (*v1) * (*v2);
+	*it += r1 * (*v2);
 	v2++;
       } while(it.Next()) ;
       v1++;
     }
     return *this;
   }
-
+  
+  template<class DataT>
+  const TMatrixC<DataT> &TMatrixC<DataT>::AddOuterProduct(const TVectorC<DataT> &vec1,const TVectorC<DataT> &vec2,const DataT &a) {
+    RavlAssert(Size1() == vec1.Size());
+    RavlAssert(Size2() == vec2.Size());
+    BufferAccessIterC<DataT> v1(vec1);
+    BufferAccess2dIterC<DataT> it(*this,Size2());
+    while(it) {
+      BufferAccessIterC<DataT> v2(vec2);
+      DataT r1 = (*v1) * a;
+      do {
+	*it += r1 * (*v2);
+	v2++;
+      } while(it.Next()) ;
+      v1++;
+    }
+    return *this;    
+  }
+  
   template<class DataT>
   TMatrixC<DataT> TMatrixC<DataT>::Identity(UIntT n) {
     TMatrixC<DataT> ret(n,n);
@@ -370,8 +392,26 @@ namespace RavlN {
     BufferAccess2dIterC<DataT> it(ret,ret.Size2());
     while(it) {
       BufferAccessIterC<DataT> v2(a);
+      RealT r1 = (*v1);
       do {
-	*it = (*v1) * (*v2);
+	*it = r1 * (*v2);
+	v2++;
+      } while(it.Next()) ;
+      v1++;
+    }
+    return ret;
+  }
+  
+  template<class DataT>
+  TMatrixC<DataT> TVectorC<DataT>::OuterProduct(const TVectorC<DataT> &a,RealT b) const {
+    TMatrixC<DataT> ret(Size(),a.Size());
+    BufferAccessIterC<DataT> v1(*this);
+    BufferAccess2dIterC<DataT> it(ret,ret.Size2());
+    while(it) {
+      BufferAccessIterC<DataT> v2(a);
+      RealT r1 = (*v1) * b;
+      do {
+	*it = r1 * (*v2);
 	v2++;
       } while(it.Next()) ;
       v1++;

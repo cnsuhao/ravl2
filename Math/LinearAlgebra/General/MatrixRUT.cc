@@ -41,8 +41,22 @@ namespace RavlN {
     SArray2dIterC<RealT> mit(*this);
     int off = 0;
     for(BufferAccessIterC<RealT> it(vec);it;it++) {
+      const RealT v1 = (*it); 
       for(BufferAccessIterC<RealT> it2 = it;it2;it2++,mit.NextCol())
-	*mit += (*it) * (*it2);
+	*mit += v1 * (*it2);
+      mit.NextRow(++off);
+    }
+  }
+
+  //: Add outer product of 'vec' with itself to this matrix.
+  
+  void MatrixRUTC::AddOuterProduct(const VectorC &vec,RealT a) {
+    SArray2dIterC<RealT> mit(*this);
+    int off = 0;
+    for(BufferAccessIterC<RealT> it(vec);it;it++) {
+      const RealT v1 = *it * a;
+      for(BufferAccessIterC<RealT> it2 = it;it2;it2++,mit.NextCol())
+	*mit += v1 * (*it2);
       mit.NextRow(++off);
     }
   }
@@ -126,8 +140,24 @@ namespace RavlN {
     SArray2dIterC<RealT> mit(ret);
     int off = 0;
     for(BufferAccessIterC<RealT> it(vec);it;it++) {
+      const RealT v1 = (*it);
       for(BufferAccessIterC<RealT> it2 = it;it2;it2++,mit.NextCol())
-	*mit = (*it) * (*it2);
+	*mit = v1 * (*it2);
+      mit.NextRow(++off);
+    }
+    return ret;
+  }
+  
+  //: Return outer product of 'vec' as a right upper triangular matrix multiplied by a.
+  
+  MatrixRUTC OuterProductRUT(const VectorC &vec,RealT a) {
+    MatrixRUTC ret(vec.Size());
+    SArray2dIterC<RealT> mit(ret);
+    int off = 0;
+    for(BufferAccessIterC<RealT> it(vec);it;it++) {
+      const RealT v1 = *it * a;
+      for(BufferAccessIterC<RealT> it2 = it;it2;it2++,mit.NextCol())
+	*mit = v1 * (*it2);
       mit.NextRow(++off);
     }
     return ret;

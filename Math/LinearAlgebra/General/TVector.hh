@@ -91,6 +91,10 @@ namespace RavlN {
     //: Calculate the outer product of this vector and a.
     // To use the function you must also include 'Ravl/Matrix.hh'.
     
+    TMatrixC<DataT> OuterProduct(const TVectorC<DataT> &a,RealT b) const;
+    //: Calculate the outer product of this vector and a multiplied by b.
+    // To use the function you must also include 'Ravl/Matrix.hh'.
+    
     TMatrixC<DataT> OuterProduct() const;
     //: Calculate the outer product of this vector with itself.
     // To use the function you must also include 'Ravl/Matrix.hh'.

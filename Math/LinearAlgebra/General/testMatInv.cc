@@ -57,8 +57,10 @@ int testInverse(int n,int r,bool useNearSingular) {
     RealT det;
     if(!useNearSingular)
       y = x.Inverse();
-    else
-      y = MatrixRSC(x).NearSingularInverse(det);
+    else {
+      //y = MatrixRSC(x).NearSingularInverse(det);
+      y = x.PseudoInverse();
+    }
     MatrixC z = (y * x) - MatrixC::Identity(n);
     RealT ret = (z.SumOfAbs() * 100)/(n*n);
     cout <<" Remainder:" << ret << endl;
