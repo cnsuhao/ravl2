@@ -22,6 +22,7 @@
 #include "Ravl/Image/DrawLine.hh"
 #include "Ravl/Image/DrawFrame.hh"
 #include "Ravl/Image/DrawCircle.hh"
+#include "Ravl/Image/DrawEllipse.hh"
 #include "Ravl/Image/Reflect.hh"
 #include "Ravl/Image/BilinearInterpolation.hh"
 #include "Ravl/OS/Filename.hh"
@@ -283,6 +284,9 @@ int TestDraw() {
   if(img[0][0] != 255) return __LINE__;
   if(img[99][99] != 255) return __LINE__;
   if(img[15][10] != 0) return __LINE__;
+  Ellipse2dC ellipse(Point2dC(50,50),40,20,0);
+  DrawEllipse(img,(ByteT) 255,ellipse);
+  //Save("@X",img);
   return 0;
 }
 
