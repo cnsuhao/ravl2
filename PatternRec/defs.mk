@@ -9,6 +9,6 @@
 
 PACKAGE=Ravl
 
-NESTED=DataSet.r Distance.r DimensionReduction.r Classify.r
+NESTED=DataSet.r Distance.r Modeling.r DimensionReduction.r Classify.r
 
 EHT=Ravl.Pattern_Recognition.html
