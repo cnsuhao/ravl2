@@ -35,10 +35,13 @@ namespace RavlImageN {
     for(Array2dIter2C<ByteT,RealT> it(ret,img);it;it++)
       if((it.Data2() > upThr) && (it.Data1() == EDGE_UNPROC))
 	ret.LabelContour(it.Index());
-    
+
+#if 0 
+    // Don't really need to do this.
     for(Array2dIterC<ByteT> it(ret);it;it++)
       if(*it == EDGE_UNPROC)
 	*it = EDGE_PROC;
+#endif
     
     return ret;
   }

@@ -40,6 +40,9 @@ namespace RavlImageN {
     //: Apply sobol operator to 'img', put result in 'out'
     // This is a little slower than the Apply(inImg,outDx,outDy) for the moment,
     // this will be fixed eventually.
+
+    ImageC<RealT> EdgeMagnitude(const ImageC<RealT> &inImg);
+    //: Calculate the edge magnitude only
     
   protected:
     RealT omega,alpha; // User paramiters.
@@ -107,6 +110,10 @@ namespace RavlImageN {
     //: Apply sobol operator to 'img', put result in 'out'
     // This is a little slower than the Apply(inImg,outDx,outDy) for the moment,
     // this will be fixed eventually.
+    
+    ImageC<RealT> EdgeMagnitude(const ImageC<RealT> &inImg)
+    { return Body().EdgeMagnitude(inImg); }
+    //: Calculate the edge magnitude only
     
   protected:
     

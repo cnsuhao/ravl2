@@ -11,19 +11,22 @@ DESCRIPTION =Edge detection
 
 PACKAGE=Ravl/Image
 
-MAINS=
-#doEdgeDet.cc
+MAINS= doEdgeDet.cc
 
 HEADERS=EdgeSobel.hh EdgeDeriche.hh SqrComposition.hh \
- EdgeNonMaxSuppression.hh Edgel.hh EdgeLink.hh
+ EdgeNonMaxSuppression.hh Edgel.hh EdgeLink.hh \
+ EdgeDetector.hh
 
 SOURCES=EdgeSobel.cc EdgeDeriche.cc SqrComposition.cc \
- EdgeNonMaxSuppression.cc Edgel.cc EdgeLink.cc
+ EdgeNonMaxSuppression.cc Edgel.cc EdgeLink.cc \
+ EdgeDetector.cc
 
 PLIB=RavlImageProc
 
 LIBDEPS=RavlImageEdges.def
 
-USESLIBS=RavlImage RavlThreads
+USESLIBS=RavlImage RavlThreads RavlImageIO
+
+PROGLIBS= RavlDPMT RavlOSIO RavlVideoIO RavlIO RavlDPDisplay
 
 EHT=Ravl.Images.Edges.html

@@ -13,6 +13,7 @@
 #include "Ravl/StdMath.hh"
 #include "Ravl/Array2dIter2.hh"
 #include "Ravl/Array2dIter3.hh"
+#include "Ravl/Math.hh"
 
 #if RAVL_USE_PARALLEL
 #include "Ravl/Threads/LaunchThread.hh"
@@ -39,6 +40,19 @@ namespace RavlImageN {
     ONDEBUG(cerr << "EdgeDericheBodyC::EdgeDericheBodyC(), Omega " << omega << " Alpha:" << alpha << " \n");
   }
   
+  //: Calculate the edge magnitude only
+  
+  ImageC<RealT> EdgeDericheBodyC::EdgeMagnitude(const ImageC<RealT> &inImg) {
+    ImageC<RealT> dx(inImg.Rectangle());
+    ImageC<RealT> dy(inImg.Rectangle());
+    if(!Apply(inImg,dx,dy))
+      return ImageC<RealT>();
+    ImageC<RealT> ret(inImg.Rectangle());
+    for(Array2dIter3C<RealT,RealT,RealT> it(ret,dx,dy);it;it++)
+      it.Data1() = hypot(it.Data2(),it.Data3());    
+    return ret;
+  }
+    
 
   //: Compute filter paramiters.
   
@@ -57,6 +71,7 @@ namespace RavlImageN {
     an11 = cst * Sin(omega) * Exp(-alpha);
     return true;
   }
+
   
   ///// XDer ///////////////////////////////////////////////////////////////
   
