@@ -76,7 +76,7 @@ namespace RavlN {
   //: Returns the value x rounded to the nearest integer.
   
   inline IntT Floor(RealT x)
-  { return (IntT) floor(x); }
+  { return (IntT (x + ((x < 0) ? -1 : 0))); }
   //: Returns the greatest integral  value  less  than  or equal  to  'x'.
   
   inline IntT Ceil(RealT x)

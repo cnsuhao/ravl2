@@ -34,11 +34,7 @@
 #include "Ravl/config.h"
 #include <math.h>
 
-#define RAVL_QINT_WORKAROUND 1
-
-//#if defined (RAVL_IEEE_DOUBLE_FORMAT)
-// Bit of a hack...
-#if RAVL_OS_LINUX
+#if RAVL_HAVE_IEEE_DOUBLE
 
 /** Quick floating point to integer conversions.
     <p>
@@ -121,7 +117,7 @@
     format for "double" type, with the respective corrections for endianess.
 */
 
-#if RAVL_BIGENDIAN
+#if RAVL_BIGENDIANDOUBLES
 #  define RAVL_LOWER_WORD_BYTE	4
 #else
 #  define RAVL_LOWER_WORD_BYTE	0
@@ -162,8 +158,7 @@ static inline long QInt (double inval)
 }
 #endif
 
-// __tune_pentium4 is a GCC define indicating target processor.
-#ifdef __tune_pentium4__
+#if RAVL_CPU_IX86_PENTIUM4
 inline int QRound(double x)
 { return (int ( x+ ((x < 0) ? -0.5 : +0.5))); }
 #else
