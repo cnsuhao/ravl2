@@ -42,6 +42,14 @@ namespace RavlGUIN {
     GtkWidget *Widget(const StringC &widgetName);
     //: Find named widget.
     
+    const StringC &Filename() const
+    { return filename; }
+    //: Access filename.
+    
+    const StringC &RootWidgetName() const
+    { return rootWidgetName; }
+    //: Get name of root widget.
+    
   protected:
     bool Create();
     //: Create interface.
@@ -90,6 +98,14 @@ namespace RavlGUIN {
     GtkWidget *Widget(const StringC &widgetName)
     { return Body().Widget(widgetName); }
     //: Find named widget.
+    
+    const StringC &Filename() const
+    { return Body().Filename(); }
+    //: Access filename.
+    
+    const StringC &RootWidgetName() const
+    { return Body().RootWidgetName(); }
+    //: Get name of root widget.
     
   };
 }

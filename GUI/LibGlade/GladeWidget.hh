@@ -21,7 +21,7 @@ namespace RavlGUIN {
     : public WidgetBodyC
   {
   public:
-    GladeWidgetBodyC(const GladeXMLC &gladeXml,const StringC &widgetName);
+    GladeWidgetBodyC(const GladeXMLC &gladeXml,const StringC &widgetName,bool customWidget = true);
     //: Constructor
     
     virtual bool Create();
@@ -37,6 +37,7 @@ namespace RavlGUIN {
     GladeXMLC xml;
     StringC name;
     HashC<StringC,WidgetC> children;
+    bool customWidget;
   };
   
   //! userlevel=Normal
@@ -46,8 +47,8 @@ namespace RavlGUIN {
     : public WidgetC
   {
   public:
-    GladeWidgetC(const GladeXMLC &gladeXml,const StringC &widgetName)
-      : WidgetC(*new GladeWidgetBodyC(gladeXml,widgetName))
+    GladeWidgetC(const GladeXMLC &gladeXml,const StringC &widgetName,bool customWidget = true)
+      : WidgetC(*new GladeWidgetBodyC(gladeXml,widgetName,customWidget))
     {}
     //: Constructor
    

@@ -12,6 +12,13 @@
 #include <gtk/gtk.h>
 #include <glade/glade.h>
 
+#define DODEBUG 1
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
+
 namespace RavlGUIN {
   
   static bool gladeInitDone = false;
@@ -19,8 +26,10 @@ namespace RavlGUIN {
   static void CheckGladeInit() {
     if(gladeInitDone)
       return ;
+    ONDEBUG(cerr << "CheckGladeInit(), Called. \n");
     gladeInitDone = true;
     glade_init();
+    ONDEBUG(cerr << "CheckGladeInit(), Done. \n");
   }
   
   //: Default constructor.
@@ -32,13 +41,16 @@ namespace RavlGUIN {
   //: Create from a file.
   
   GladeXMLBodyC::GladeXMLBodyC(const StringC &nfilename) 
-    : filename(nfilename)
+    : xml(0),
+      filename(nfilename)
+      
   {}
-
+  
   //: Create part of interface from a file.
   
   GladeXMLBodyC::GladeXMLBodyC(const StringC &nfilename,const StringC &nwidgetName) 
-    : filename(nfilename),
+    : xml(0),
+      filename(nfilename),
       rootWidgetName(nwidgetName)
   {}
   
@@ -67,6 +79,7 @@ namespace RavlGUIN {
   //: Find named widget.
   
   GtkWidget *GladeXMLBodyC::Widget(const StringC &widgetName) {
+    ONDEBUG(cerr << "GladeXMLBodyC::Widget(), Called for '" << widgetName << "' in file " << filename <<  "\n");
     if(xml == 0) Create();
     return glade_xml_get_widget(xml, widgetName.chars());
   }

@@ -30,20 +30,29 @@ bool OnPress2() {
 int main(int nargs,char **argv) {
   Manager.Init(nargs,argv);
   OptionC opts(nargs,argv);
-  StringC xmlfile = opts.String("f","project1.glade","Interface description file. ");
+  StringC xmlfile = opts.String("f","exlibglade.glade","Interface description file. ");
   opts.Check();
   
+  cerr << "Create widgets. \n";
+
   GladeXMLC  glade(xmlfile);
-  
   GladeWidgetC mainWindow(glade,"window1");
+
+  GladeWidgetC SubWidget(glade,"AWidget");
   
   mainWindow.AddObject("button1",Button("Test",&OnPress1));
   mainWindow.AddObject("button2",Button("Test",&OnPress2));
+  mainWindow.AddObject("SubWidget",SubWidget);
+  
+  cerr << "Show widgets. \n";
   
   mainWindow.Show();
   
+  cerr << "Start GUI. \n";
+  
   Manager.Start();
 
+  cerr << "Done. \n";
   
   return 0;
 }
