@@ -95,9 +95,14 @@ namespace Ravl3DN {
     void OffsetScale(const Vector3dC &off,RealT scale);
     //: Offset and Scale mesh by given values.
     
+    bool HaveTextureCoord() const
+    { return haveTexture; }
+    //: Do we have texture co-ordinates?
+    
   protected:
     SArray1dC<VertexC> vertices; // Array of vertex positions.
     SArray1dC<TriC> faces;     // Array of triangles.
+    bool haveTexture;
   };
   
   
@@ -195,6 +200,10 @@ namespace Ravl3DN {
     void OffsetScale(const Vector3dC &off,RealT scale)
     { Body().OffsetScale(off,scale); }
     //: Offset and Scale mesh by given values.
+    
+    bool HaveTextureCoord() const
+    { return Body().HaveTextureCoord(); }
+    //: Do we have texture co-ordinates?
     
   };
 

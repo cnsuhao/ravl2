@@ -22,7 +22,8 @@ namespace Ravl3DN {
   
   TriMeshBodyC::TriMeshBodyC(const SArray1dC<Vector3dC> &v,const SArray1dC<UIntT> &faceInd) 
     : vertices(v.Size()),
-      faces(faceInd.Size()/3)
+      faces(faceInd.Size()/3),
+      haveTexture(false)
   {
     for(SArray1dIter2C<VertexC,Vector3dC> it(vertices,v);it;it++)
       it.Data1().Position() = it.Data2();
