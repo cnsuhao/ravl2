@@ -113,7 +113,7 @@ namespace RavlLogicN {
     UIntC allocCondID; // Starts from 1.
     // Allocation counter for condition ID's.
     
-    CallFunc2C<MinTermC,MinTermC,DListC<NLPStepC> > listSteps; // Goal condition, Full condition.
+    CallFunc2C<MinTermC&,MinTermC&,DListC<NLPStepC> > listSteps; // Goal condition, Full condition.
     //: List steps that might could be meet a goal condition.
     
     int maxSearch;   // How long to spend searching, Default:-1=Infinit.

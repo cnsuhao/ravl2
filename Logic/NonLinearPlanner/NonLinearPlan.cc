@@ -36,7 +36,7 @@ namespace RavlLogicN {
   
   NonLinearPlanBodyC::NonLinearPlanBodyC(const MinTermC &initCond,
 					 const MinTermC &goalCond,
-					 const CallFunc2C<MinTermC,MinTermC,DListC<NLPStepC> > &step) 
+					 const CallFunc2C<MinTermC&,MinTermC&,DListC<NLPStepC> > &step) 
     : bnds(true),
       steps(0),
       listSteps(step)

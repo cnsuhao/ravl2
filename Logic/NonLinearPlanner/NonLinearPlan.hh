@@ -43,7 +43,7 @@ namespace RavlLogicN {
   public:
     NonLinearPlanBodyC(const MinTermC &initCond,
 		       const MinTermC &goalCond,
-		       const CallFunc2C<MinTermC,MinTermC,DListC<NLPStepC> > &step);
+		       const CallFunc2C<MinTermC&,MinTermC&,DListC<NLPStepC> > &step);
     //: Constructor, 
     
     ~NonLinearPlanBodyC();
@@ -160,7 +160,7 @@ namespace RavlLogicN {
     { return steps; }
     //: Get the number of steps in the current plan.
     
-    CallFunc2C<MinTermC,MinTermC,DListC<NLPStepC> > &ListSteps()
+    CallFunc2C<MinTermC&,MinTermC&,DListC<NLPStepC> > &ListSteps()
     { return listSteps; }
     //: Access listStep methods.
     
@@ -197,7 +197,7 @@ namespace RavlLogicN {
     NLPStepNodeT goalNode;
     // Final node in plan.
     
-    CallFunc2C<MinTermC,MinTermC,DListC<NLPStepC> > listSteps; // Goal condition, Full condition.
+    CallFunc2C<MinTermC&,MinTermC&,DListC<NLPStepC> > listSteps; // Goal condition, Full condition.
     //: List steps that could satisfy meet a goal condition.
     
     friend class NLPAgendaOpenGoal;
@@ -220,7 +220,7 @@ namespace RavlLogicN {
     
     NonLinearPlanC(const MinTermC &initalCond,
 		   const MinTermC &goalCond,
-		   const CallFunc2C<MinTermC,MinTermC,DListC<NLPStepC> > &listSteps)
+		   const CallFunc2C<MinTermC&,MinTermC&,DListC<NLPStepC> > &listSteps)
       : RCHandleC<NonLinearPlanBodyC>(*new NonLinearPlanBodyC(initalCond,goalCond,listSteps))
     {}
     //: Create a new plan with the given inital and goal condition.
@@ -326,7 +326,7 @@ namespace RavlLogicN {
     // Heuristic ordering of steps, place the most likly to
     // be usefull first.
     
-    CallFunc2C<MinTermC,MinTermC,DListC<NLPStepC> > &ListSteps()
+    CallFunc2C<MinTermC&,MinTermC&,DListC<NLPStepC> > &ListSteps()
     { return Body().ListSteps(); }
     //: Access listStep methods.
 
