@@ -51,10 +51,7 @@ namespace RavlImageN {
   void Correlate2dC<KernelPixelT,InPixelT,OutPixelT,SumTypeT>::Apply(const ImageC<InPixelT> &in,ImageC<OutPixelT> &result) const {
     RavlAssertMsg(kernel.Frame().Area() > 0,"Convolution kernel too small. ");
     ImageRectangleC resRect = in.Rectangle();
-    resRect.TRow() -= kernel.Rectangle().TRow();
-    resRect.BRow() -= kernel.Rectangle().BRow();
-    resRect.LCol() -= kernel.Rectangle().LCol();
-    resRect.RCol() -= kernel.Rectangle().RCol();
+    resRect -= kernel.Rectangle();
     RavlAssertMsg(resRect.Area() > 0,"Convole2dC::Apply(), ERROR: Input rectangle too small.");
     if(!result.Rectangle().Contains(resRect)) // Check the result rectangle is large enough.
       result = ImageC<OutPixelT>(resRect); // If its not make another.
