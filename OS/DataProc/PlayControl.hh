@@ -459,6 +459,13 @@ namespace RavlN {
     //: Access body.
     
   public:  
+    DPIPlayControlC<DataT> &operator=(const DPIPlayControlC<DataT> &other) {
+      // Simplify the assigment for the compiler.
+      DPEntityC::operator=((DPEntityC &) other); 
+      return *this;
+    }
+    //: Assignment 
+    
     inline const DPISPortC<DataT> &Input() 
     { return Body().Input(); }
     //: Access input port.
