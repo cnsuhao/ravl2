@@ -71,7 +71,7 @@ namespace RavlN {
     
   public:
     void UnselectAllObservations()
-    { return Body().UnselectAllObservations(); }
+    { Body().UnselectAllObservations(); }
     //: Set the "selected" flag for all observations to false
 
     DListC<ObservationC> RandomSample(UIntT minNumConstraints)
