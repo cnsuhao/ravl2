@@ -29,6 +29,8 @@ namespace RavlLogicN {
   class LiteralC;
   class ExprC;
   class LiteralIterC;
+  class XMLIStreamC;
+  class XMLOStreamC;
   
   //! userlevel=Develop
   //: Literal body
