@@ -73,11 +73,11 @@ namespace RavlN {
     //: Construct a 3 x 3 matrix from given values.
     
     template<unsigned int N,unsigned int M>
-    TMatrixC(const TFMatrixC<DataT,N,M> &fmat)
-      : TMatrixC<DataT>(N,M)
+    TMatrixC(const TFMatrixC<DataT, N, M> &fmat)
+      : SArray2dC<DataT>(N,M)
     {
-      for(int i = 0;i < N;i++)
-	for(int j = 0;j < M;j++)
+      for(unsigned int i = 0;i < N;i++)
+	for(unsigned int j = 0;j < M;j++)
 	  (*this)[i][j] = fmat[i][j];
     }
     //: Construct from a fixed size matrix.
