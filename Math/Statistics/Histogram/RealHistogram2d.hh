@@ -96,6 +96,9 @@ namespace RavlN {
     MeanCovariance2dC MeanVariance() const;
     //: Calculate the mean and variance for the signal.
     
+    Point2dC Peak() const;
+    //: Look for the position of the largest value in the accumulator.
+    
   protected:
     Vector2dC scale; // Scale factor.
     Point2dC offset;   // Offset of 0,0 index.

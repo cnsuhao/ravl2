@@ -60,6 +60,20 @@ namespace RavlN {
       sum += Pow((RealT) *it / total,2);
     return sum;
   }
+
+  //: Look for the position of the largest value in the accumulator.
+  
+  Point2dC RealHistogram2dC::Peak() const {
+    RealT maxValue = -1;
+    Index2dC maxAt(0,0);
+    for(SArray2dIterC<UIntC> it(*this);it;it++) {
+      if(*it > maxValue) {
+	maxValue = *it;
+	maxAt = it.Index();
+      }
+    }
+    return MidBin(maxAt);
+  }
   
   ostream &operator<<(ostream &strm,const RealHistogram2dC &hist) {
     strm << hist.Offset() << ' ' << hist.Scale() << ' ' << (const SArray2dC<UIntC> &)(hist);

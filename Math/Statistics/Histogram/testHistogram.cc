@@ -97,6 +97,7 @@ int testRealHistogram2d() {
   RealHistogram2dC rhist(Point2dC(0,0),Point2dC(10,10),Index2dC(100,100));
   rhist.Vote(Point2dC(10,10));
   rhist.Vote(Point2dC(0,0));
-  if(rhist.TotalVotes() != 2) return __LINE__;
+  rhist.Vote(Point2dC(5,5));
+  if(rhist.TotalVotes() != 3) return __LINE__;
   return 0;
 }
