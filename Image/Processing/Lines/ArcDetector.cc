@@ -62,7 +62,7 @@ namespace RavlImageN {
   
   IntT ArcDetectorC::FindArcs(const Array1dC<Point2dC> &pixels,DListC<Arc2dSegmentC> &arcs) {
     IntT size = pixels.Size();
-    cerr << "ArcDetectorC::FindArcs(). Pixels=" << pixels.Size() << "\n";
+    //cerr << "ArcDetectorC::FindArcs(). Pixels=" << pixels.Size() << "\n";
     if(size < 8)
       return 0;
     IntT i = 0;
