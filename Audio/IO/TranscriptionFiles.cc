@@ -21,40 +21,13 @@ namespace RavlAudioN {
   //: Constructor.
   
   DPITranscriptionFilesBodyC::DPITranscriptionFilesBodyC(const StringC &fn)
-  { Load(fn); }
+    : DPIFileListBodyC(fn)
+  {}
 
   //: Constructor.
   
   DPITranscriptionFilesBodyC::DPITranscriptionFilesBodyC(const StringC &dirName,const StringC &transExt)
-  { Search(dirName,transExt); }
+    : DPIFileListBodyC(dirName,transExt)
+  {}
   
-  //: Search a directory tree for transcriptions
-    
-  bool DPITranscriptionFilesBodyC::Search(const StringC &dirName,const StringC &transExt) {
-    DirectoryC dir(dirName);
-    if(!dir.IsDirectory())
-      return false;
-    DListC<StringC> files = dir.SearchTree(StringC("*.") + transExt);
-    SetList(files);
-    return true;
-  }
-  
-  //: Load a file list
-  
-  bool DPITranscriptionFilesBodyC::Load(const StringC &fn) {
-    IStreamC inf(fn);
-    if(!inf)
-      return false;
-    inf.SkipWhiteSpace();
-    DListC<StringC> lst;
-    while(inf) {
-      StringC fileName = inf.ClipTo('\n').TopAndTail();
-      if(fileName.firstchar() == '#')
-	continue; // Skip comments.
-      lst.InsLast(fileName);
-    }
-    SetList(lst);
-    return true;
-  }
-
 }

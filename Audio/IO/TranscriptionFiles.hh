@@ -11,7 +11,7 @@
 //! rcsid="$Id$"
 //! lib=RavlAudioIO
 
-#include "Ravl/DP/ListIO.hh"
+#include "Ravl/DP/FileListIO.hh"
 #include "Ravl/String.hh"
 
 namespace RavlAudioN {
@@ -21,7 +21,7 @@ namespace RavlAudioN {
   //: List of trancription files.
   
   class DPITranscriptionFilesBodyC
-    : public DPISListBodyC<StringC >
+    : public DPIFileListBodyC
   {
   public:
     DPITranscriptionFilesBodyC();
@@ -33,21 +33,13 @@ namespace RavlAudioN {
     
     DPITranscriptionFilesBodyC(const StringC &fileList);
     //: Construct from file list
-    
-    bool Search(const StringC &dir,const StringC &transExt);
-    //: Search a directory tree for transcriptions
-    
-    bool Load(const StringC &fn);
-    //: Load a file list
-    // This assumes there is one filename per line.
-    // Lines begining with # are ignored.
   };
 
   //! userlevel=Normal
   //: List of trancription files
   
   class DPITranscriptionFilesC
-    : public DPISListC<StringC >
+    : public DPIFileListC
   {
   public:
     DPITranscriptionFilesC()
@@ -60,7 +52,7 @@ namespace RavlAudioN {
       : DPEntityC(*new DPITranscriptionFilesBodyC(dir,transExt))
     {}
     //: Constructor.
-      
+    
     DPITranscriptionFilesC(bool)
       : DPEntityC(*new DPITranscriptionFilesBodyC())
     {}
@@ -76,17 +68,6 @@ namespace RavlAudioN {
     //: Access body.
     
   public:
-    bool Load(const StringC &fn)
-    { return Body().Load(fn); }
-    //: Load a file list.
-    // This assumes there is one filename per line.
-    // Lines begining with # are ignored. <p>
-    // Returns true on success
-    
-    bool Search(const StringC &dir,const StringC &transExt);
-    //: Search a directory tree for transcriptions
-    // Directory tree 'dir' is searched for files with extention 'transExt' 
-    
     
   };
 

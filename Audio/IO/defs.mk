@@ -15,7 +15,7 @@ SOURCES=AudioSample.cc SphereIO.cc SphereFormat.cc TranscriptionFiles.cc \
 
 PLIB=RavlAudioIO
 
-USESLIBS=RavlAudioUtil RavlOS
+USESLIBS=RavlAudioUtil RavlOS RavlOSIO
 
 MUSTLINK=RavlAudioSample.cc
 
