@@ -21,6 +21,8 @@
 #include "Ravl/StdConst.hh"
 
 namespace RavlN {
+  template<unsigned int N> class FMeanCovarianceC ;
+  template<unsigned int N> istream & operator>>(istream & inS, FMeanCovarianceC<N> & meanCov);
   
   //! userlevel=Normal
   //: Mean and covariance together in N-D space 

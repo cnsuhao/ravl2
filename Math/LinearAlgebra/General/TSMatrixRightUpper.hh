@@ -33,11 +33,11 @@ namespace RavlN {
     //: Size of triangle with size i.
     
     inline SizeT ElementIndex(int i,int j) const
-    { return (i * Rows() - (i * (i + 1))/2 + j); }
+    { return (i * this->Rows() - (i * (i + 1))/2 + j); }
     //: Find index of element i,j
     
     inline SizeT RowStart(int i) const
-    { return i * (2 * Rows() + 1 - i) / 2; }
+    { return i * (2 * this->Rows() + 1 - i) / 2; }
     //: Address of row start.
     
     TSMatrixRightUpperBodyC(int i)
@@ -54,7 +54,7 @@ namespace RavlN {
     //: Construct by copying elements from a regular matrix.
     
     virtual RCBodyVC &Copy() const
-    { return *new TSMatrixRightUpperBodyC<DataT>(Rows(),data.Copy()); }
+    { return *new TSMatrixRightUpperBodyC<DataT>(this->Rows(),this->data.Copy()); }
     //: Create a copy of this matrix.
     
     virtual const type_info &MatrixType() const
@@ -64,7 +64,7 @@ namespace RavlN {
     virtual DataT Element(UIntT i,UIntT j) const { 
       if(j < i)
 	return 0;
-      return data[ElementIndex(i,j)];
+      return this->data[ElementIndex(i,j)];
     }
     //: Access element.
     
@@ -76,13 +76,13 @@ namespace RavlN {
 	}
 	return ;
       }
-      data[ElementIndex(i,j)] = val;
+      this->data[ElementIndex(i,j)] = val;
     }
     //: Set element.
     
     virtual Array1dC<DataT> Row(UIntT i) const
-    { return Array1dC<DataT>(const_cast<BufferC<DataT> &>(data.Buffer()),
-			     RangeBufferAccessC<DataT>(const_cast<DataT *>( &(data[RowStart(i)])),IndexRangeC(i,Cols()-1))); }
+    { return Array1dC<DataT>(const_cast<BufferC<DataT> &>(this->data.Buffer()),
+			     RangeBufferAccessC<DataT>(const_cast<DataT *>( &(this->data[RowStart(i)])),IndexRangeC(i,this->Cols()-1))); }
     //: Access a row from the matrix.
     
     virtual bool IsRowDirectAccess() const
@@ -195,10 +195,10 @@ namespace RavlN {
     : TSMatrixPartialBodyC<DataT>(ndata.Rows(),ndata.Cols(),SArray1dC<DataT>(TriangleSize(ndata.Rows())))
   {
     RavlAssert(ndata.Rows() == ndata.Cols());
-    DataT *at1 = &(data[0]);
-    for(UIntT j = 0;j < Rows();j++) {
+    DataT *at1 = &(this->data[0]);
+    for(UIntT j = 0;j < this->Rows();j++) {
       const DataT *at2 = &(ndata[j][j]);
-      DataT *end = &at1[Rows() - j];
+      DataT *end = &at1[this->Rows() - j];
       for(;at1 != end;at1++,at2++)
 	*at1 = *at2;
     }
@@ -220,9 +220,9 @@ namespace RavlN {
       SetZero(sum);
       return sum;
     }
-    const DataT *at = &data[ElementIndex(s,c)];
+    const DataT *at = &this->data[ElementIndex(s,c)];
     sum = (*at2) * (*at);
-    UIntT z = (Cols() - s) -1;
+    UIntT z = (this->Cols() - s) -1;
     at += z;
     for(z--,at2++;at2 != endp;at2++) {
       sum += (*at2) * (*at);
@@ -234,8 +234,8 @@ namespace RavlN {
   template<class DataT>
   Slice1dC<DataT> TSMatrixRightUpperBodyC<DataT>::Col(UIntT j) const {
     Slice1dC<DataT> ret(IndexRangeC(0,j));
-    const DataT *at = &data[j];
-    int i = Cols()-1;
+    const DataT *at = &this->data[j];
+    int i = this->Cols()-1;
     for(Slice1dIterC<DataT> it(ret);it;it++) {
       *it = *at;
       at += i--;
@@ -252,8 +252,8 @@ namespace RavlN {
       SetZero(sum);
       return sum;
     }
-    const DataT *at = &data[ElementIndex(rng.Min().V(),c)];
-    UIntT z = (Cols() - rng.Min().V()) -1;
+    const DataT *at = &this->data[ElementIndex(rng.Min().V(),c)];
+    UIntT z = (this->Cols() - rng.Min().V()) -1;
     Slice1dIterC<DataT> it(slice,rng);
     sum = (*it) * (*at);
     at += z--;
@@ -267,8 +267,8 @@ namespace RavlN {
   template<class DataT>
   TSMatrixC<DataT> TSMatrixRightUpperBodyC<DataT>::Mul(const TSMatrixC<DataT> &mat) const {
     if(mat.MatrixType() == typeid(TSMatrixRightUpperBodyC<DataT>)) {
-      RavlAssert(Cols() == mat.Rows());
-      const SizeT rdim = Rows();
+      RavlAssert(this->Cols() == mat.Rows());
+      const SizeT rdim = this->Rows();
       const SizeT cdim = mat.Cols();
       TSMatrixRightUpperC<DataT> out(rdim);
       SArray1dIterC<DataT> it(out.Data());
@@ -322,14 +322,14 @@ namespace RavlN {
   
   template<class DataT>
   TMatrixC<DataT> TSMatrixRightUpperBodyC<DataT>::TMatrix(bool) const {
-    TMatrixC<DataT> ret(Rows(),Cols());
-    const DataT *at1 = &(data[0]);
-    for(UIntT j = 0;j < Rows();j++) {
+    TMatrixC<DataT> ret(this->Rows(),this->Cols());
+    const DataT *at1 = &(this->data[0]);
+    for(UIntT j = 0;j < this->Rows();j++) {
       DataT *at2 = &(ret[j][0]);
       DataT *end2 = &(at2[j]);
       for(;at2 != end2;at2++)
 	SetZero(*at2);
-      const DataT *end = &at1[Rows() - j];
+      const DataT *end = &at1[this->Rows() - j];
       for(;at1 != end;at1++,at2++)
 	*at2 = *at1;
     }
@@ -342,8 +342,8 @@ namespace RavlN {
   
   template<class DataT>
   TVectorC<DataT> TSMatrixRightUpperBodyC<DataT>::Solve(const TVectorC<DataT> &b) {
-    TVectorC<DataT> ret(Rows());
-    for(int i = Rows()-1;i >= 0;i--) {
+    TVectorC<DataT> ret(this->Rows());
+    for(int i = this->Rows()-1;i >= 0;i--) {
       RealT sum = b[i];
       Array1dC<DataT> row = Row(i);
       

@@ -32,8 +32,8 @@ namespace RavlImageN {
     PixelClassifyMotionC()
     { threshold=0; }
     //: default constructor
-  
-    PixelClassifyMotionC(RealT threshold)
+    
+    PixelClassifyMotionC(RealT thr)
     { threshold=thr; }
     //: Constructor
   

@@ -145,7 +145,7 @@ namespace RavlN {
     //: access to the object
     
     inline void ShiftRows(IndexC offset)
-    { ShiftIndexes(-offset); }
+    { this->ShiftIndexes(-offset); }
     //: The array is shifted "vertically" by <code>offset</code> w.r.t. the coordinate origin.
     // In other words the row index of a given pixel will be <i>incremented</i> by <code>offset</code>.
     // Note: this affects the access for all arrays accessing this data, use
@@ -166,7 +166,7 @@ namespace RavlN {
 
     
     inline void ShiftIndexes1(IndexC offset)
-    { ShiftIndexes(offset); }
+    { this->ShiftIndexes(offset); }
     //: All indices of Range1() will be changed by 'offset'.
     // The range will be shifted by -offset.
     // Note: this affects the access for all arrays accessing this data, use
@@ -256,13 +256,13 @@ namespace RavlN {
     //: Calculate the sum of all elements in the array
 
     Index2dC IndexOfMax() const {
-      RavlAssertMsg(Frame().Area() > 0,"Array2dC::IndexOfMax() Called on an empty array");
-      Index2dC indexOfMax (Frame().Origin());
-      DataT valueOfMax = operator[](indexOfMax);
+      RavlAssertMsg(this->Frame().Area() > 0,"Array2dC::IndexOfMax() Called on an empty array");
+      Index2dC indexOfMax (this->Frame().Origin());
+      DataT valueOfMax = this->operator[](indexOfMax);
       for (BufferAccess2dIterC<DataT> i((*this),Range2()) ; i; i++) {
 	if (valueOfMax < *i) {
 	  valueOfMax = *i;
-	  indexOfMax = i.Index(ReferenceElm());
+	  indexOfMax = i.Index(this->ReferenceElm());
 	}
       }
       return indexOfMax;
@@ -287,6 +287,22 @@ namespace RavlN {
     //: Set sub array of this one. 
     // vals[0][0] will be places at 'origin'.
     // all of 'vals' must fit within this array.
+
+    inline const IndexRangeC &Range1() const
+    { return RangeBufferAccess2dC<DataT>::Range1(); }
+    //: Range of first index.
+    
+    inline const IndexRangeC &Range2() const
+    { return RangeBufferAccess2dC<DataT>::Range2(); }
+    //: Range of second index.
+
+    SizeT Size() const 
+    { return RangeBufferAccess2dC<DataT>::Size(); }
+    //: Get the total number of elements in the array.
+    
+    IntT Stride() const 
+    { return RangeBufferAccess2dC<DataT>::Stride(); }
+    //: Get number of elements between rows in the array.
     
   protected:
     void ConstructAccess(const IndexRangeC &rng1);
@@ -312,14 +328,14 @@ namespace RavlN {
   void Array2dC<DataT>::ShiftIndexes2(IndexC offset) {
     for(BufferAccessIterC<BufferAccessC<DataT> > it(*this);it.IsElm();it.Next()) 
       it.Data() += offset;
-    rng2 -= offset.V(); // Keep dim2 uptodate.
+    this->rng2 -= offset.V(); // Keep dim2 uptodate.
   }
   
   template <class DataT>
   void Array2dC<DataT>::ShiftCols(IndexC offset) {
     for(BufferAccessIterC<BufferAccessC<DataT> > it(*this);it.IsElm();it.Next()) 
       it.Data() -= offset;
-    rng2 += offset.V(); // Keep dim2 uptodate.
+    this->rng2 += offset.V(); // Keep dim2 uptodate.
   }
   
   template <class DataT>
@@ -418,7 +434,7 @@ namespace RavlN {
   
   template <class DataT>
   Array2dC<DataT> Array2dC<DataT>::Copy() const {
-    Array2dC<DataT> ret(Rectangle());
+    Array2dC<DataT> ret(this->Rectangle());
     for(BufferAccess2dIter2C<DataT,DataT> it(ret,ret.Range2(),*this,Range2());it;it++)
       it.Data1() = it.Data2();
     return ret;
@@ -428,7 +444,7 @@ namespace RavlN {
   Array2dC<DataT> Array2dC<DataT>::DeepCopy(UIntT levels) const{
     if (levels == 0) return *this ;
     if (levels == 1) return Copy() ; 
-    Array2dC<DataT> ret(Rectangle() ) ; 
+    Array2dC<DataT> ret(this->Rectangle() ) ; 
     --levels ; 
     for ( BufferAccess2dIter2C<DataT,DataT> it (ret, ret.Range2(), *this, Range2()) ; it ; it++ )
       it.Data1() = StdDeepCopy ( it.Data2(), levels ) ; 
@@ -453,8 +469,8 @@ namespace RavlN {
       SizeT offset = &((*this)[Range1().Min()][Range2().Min()]) - data.Data().ReferenceElm();
       return SArray2dC<DataT>(data.Data(),Range1().Size(),Range2().Size(),offset,(SizeT) Stride());
     }
-    if(!Contains(Index2dC(0,0))) {
-      RavlAssertMsg(Contains(Index2dC(0,0)),"Array2dC must contain the element 0,0 to convert to an SArray without shifting. "); // Cause assertion failure in debug/check mode
+    if(!this->Contains(Index2dC(0,0))) {
+      RavlAssertMsg(this->Contains(Index2dC(0,0)),"Array2dC must contain the element 0,0 to convert to an SArray without shifting. "); // Cause assertion failure in debug/check mode
       return SArray2dC<DataT>();
     }
     return SArray2dC<DataT>(data,*this,Range1().Max().V()+1,Range2().Max().V()+1);
@@ -492,7 +508,7 @@ namespace RavlN {
   
   template<class DataT>
   Array2dC<DataT> Array2dC<DataT>::operator+(const Array2dC<DataT> & arr) const {
-    Array2dC<DataT> ret(Rectangle());
+    Array2dC<DataT> ret(this->Rectangle());
     for(BufferAccess2dIter3C<DataT,DataT,DataT> it(ret,Range2(),
 						   *this,Range2(),
 						   arr,arr.Range2());
@@ -503,7 +519,7 @@ namespace RavlN {
   
   template<class DataT>
   Array2dC<DataT> Array2dC<DataT>::operator-(const Array2dC<DataT> & arr) const {
-    Array2dC<DataT> ret(Rectangle());
+    Array2dC<DataT> ret(this->Rectangle());
     for(BufferAccess2dIter3C<DataT,DataT,DataT> it(ret,Range2(),*this,Range2(),arr,arr.Range2());it;it++)
       it.Data1() = it.Data2() - it.Data3();
     return ret;
@@ -511,7 +527,7 @@ namespace RavlN {
   
   template<class DataT>
   Array2dC<DataT> Array2dC<DataT>::operator*(const Array2dC<DataT> & arr) const {
-    Array2dC<DataT> ret(Rectangle());
+    Array2dC<DataT> ret(this->Rectangle());
     for(BufferAccess2dIter3C<DataT,DataT,DataT> it(ret,Range2(),*this,Range2(),arr,arr.Range2());it;it++)
       it.Data1() = it.Data2() * it.Data3();
     return ret;
@@ -519,7 +535,7 @@ namespace RavlN {
   
   template<class DataT>
   Array2dC<DataT> Array2dC<DataT>::operator/(const Array2dC<DataT> & arr) const {
-    Array2dC<DataT> ret(Rectangle());
+    Array2dC<DataT> ret(this->Rectangle());
     for(BufferAccess2dIter3C<DataT,DataT,DataT> it(ret,Range2(),*this,Range2(),arr,arr.Range2());it;it++)
       it.Data1() = it.Data2() / it.Data3();
     return ret;
@@ -527,7 +543,7 @@ namespace RavlN {
   
   template<class DataT>
   Array2dC<DataT> Array2dC<DataT>::operator+(const DataT &number) const {
-    Array2dC<DataT> ret(Rectangle());
+    Array2dC<DataT> ret(this->Rectangle());
     for(BufferAccess2dIter2C<DataT,DataT> it(ret,ret.Range2(),(*this),Range2());it;it++)
       it.Data1() = it.Data2() + number;
     return ret;
@@ -535,7 +551,7 @@ namespace RavlN {
   
   template<class DataT>
   Array2dC<DataT> Array2dC<DataT>::operator-(const DataT &number) const {
-    Array2dC<DataT> ret(Rectangle());
+    Array2dC<DataT> ret(this->Rectangle());
     for(BufferAccess2dIter2C<DataT,DataT> it(ret,ret.Range2(),(*this),Range2());it;it++)
       it.Data1() = it.Data2() - number;
     return ret;
@@ -543,7 +559,7 @@ namespace RavlN {
   
   template<class DataT>
   Array2dC<DataT> Array2dC<DataT>::operator*(const DataT &number) const {
-    Array2dC<DataT> ret(Rectangle());
+    Array2dC<DataT> ret(this->Rectangle());
     for(BufferAccess2dIter2C<DataT,DataT> it(ret,Range2(),(*this),Range2());it;it++)
       it.Data1() = it.Data2() * number;
     return ret;
@@ -551,7 +567,7 @@ namespace RavlN {
   
   template<class DataT>
   Array2dC<DataT> Array2dC<DataT>::operator/(const DataT &number) const {
-    Array2dC<DataT> ret(Rectangle());
+    Array2dC<DataT> ret(this->Rectangle());
     for(BufferAccess2dIter2C<DataT,DataT> it(ret,Range2(),(*this),Range2());it;it++)
       it.Data1() = it.Data2() / number;
     return ret;
@@ -634,10 +650,10 @@ namespace RavlN {
   template <class DataT>
   SArray1dC<DataT> Array2dC<DataT>::AsVector(bool alwaysCopy) {
     if(!alwaysCopy && (Stride() == Range2().Size())) {
-      DataT *start = &((*this)[Frame().Origin()]);
-      return SArray1dC<DataT>(data.Data(),SizeBufferAccessC<DataT>(start,Frame().Area()));
+      DataT *start = &((*this)[this->Frame().Origin()]);
+      return SArray1dC<DataT>(data.Data(),SizeBufferAccessC<DataT>(start,this->Frame().Area()));
     }
-    SArray1dC<DataT> ret(Frame().Area());
+    SArray1dC<DataT> ret(this->Frame().Area());
     BufferAccessIterC<DataT> rit(ret);
     for(BufferAccess2dIterC<DataT> it(*this,Range2());it;it++,rit++)
       *rit = *it;
@@ -665,10 +681,10 @@ namespace RavlN {
   
   template <class DataT>
   void Array2dC<DataT>::SetSubArray(const Index2dC &origin,const Array2dC<DataT> &vals) {
-    IndexRange2dC srng = Frame();
+    IndexRange2dC srng = this->Frame();
     srng += origin;
     srng += vals.Frame().Origin();
-    srng.ClipBy(Frame());
+    srng.ClipBy(this->Frame());
     for(BufferAccess2dIter2C<DataT,DataT> it(vals,vals.Frame(),
 					     (*this),srng);it;it++)
       it.Data2() = it.Data1();
@@ -676,7 +692,7 @@ namespace RavlN {
   
   template <class DataT>
   bool Array2dC<DataT>::operator==(const Array2dC<DataT> &op) const {
-    if(Frame() != op.Frame()) return false;
+    if(this->Frame() != op.Frame()) return false;
     for(BufferAccess2dIter2C<DataT,DataT> it(*this,Range2(),op,op.Range2());it;it++)
       if(it.Data1() != it.Data2()) return false;
     return true;

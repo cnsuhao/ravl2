@@ -266,24 +266,7 @@ namespace RavlN {
     else
       Init(out = new ofstream(fd,0,0),StringC(fd)); 
 #else
-
-#if 0
-    ofstream *ofs = new ofstream(); 
-    // A horrible hack to allow us to open a file handle....
-    basic_fdfilebuf<ofstream::char_type,ofstream::traits_type> *bfd = 
-      (basic_fdfilebuf<ofstream::char_type,ofstream::traits_type> *) ofs->rdbuf(); 
-    ios_base::openmode mode = ios_base::out;
-#if RAVL_HAVE_IOS_BINARY
-    if(binary)
-      mode |= ios_base::binary;
-#endif
-    //if(!buffered)
-    // bfd->SetBuf(0,0);
-    if(!bfd->open(fd,mode))
-      ofs->setstate(ios_base::failbit);
-#else
     ofdstream *ofs = new ofdstream(fd); 
-#endif
     Init(out = ofs,StringC(fd)); 
 #endif
   }
@@ -361,7 +344,7 @@ namespace RavlN {
       fmode |= ios::binary;
 #endif
 
-#if RAVL_HAVE_INTFILEDESCRIPTORS
+#if RAVL_HAVE_INTFILEDESCRIPTORS 
     // We can't use the native open, because we need to be able to handle large files.
     //cerr << "USING NEW OPEN. \n";
     int mode = O_RDONLY | O_LARGEFILE;
@@ -399,33 +382,8 @@ namespace RavlN {
     else
       Init(in = new ifstream(fd,0,0),StringC(fd));
 #else
-#if 0
-    ifstream *ifs = new ifstream(); 
-    // A horrible hack to allow us to open a unix file descriptor.
-    basic_fdfilebuf<ifstream::char_type,ifstream::traits_type>  *bfd = 
-      (basic_fdfilebuf<ifstream::char_type,ifstream::traits_type>  *) ifs->rdbuf(); 
-    cerr << "Opening file descriptor " << fd << "\n";
-    ios_base::openmode mode = ios_base::in;
-#if RAVL_HAVE_IOS_BINARY
-    if(binary)
-      mode |= ios_base::binary;
-#endif
-    // This is be needed for the code to work on filehandles that
-    // aren't associated with files.
-    int flags = fcntl(fd,F_GETFL);  
-    fcntl(fd,F_SETFL,flags | O_NONBLOCK);
-    // Turning off buffering seems to break the new streams implementation.
-    //if(!buffered)
-    // bfd->SetBuf(0,0);
-    if(bfd->open(fd,mode) == 0) {
-      ifs->setstate(ios_base::failbit);
-      ONDEBUG(cerr << "ERROR: Open of file descriptor failed. \n");
-    }
-#else
     ifdstream *ifs = new ifdstream(fd);
     Init(in = ifs,StringC(fd));    
-#endif
-    Init(in = ifs,StringC(fd)); 
 #endif
   }
 #endif

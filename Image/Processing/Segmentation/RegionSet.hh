@@ -62,7 +62,7 @@ namespace RavlImageN {
     //: Returns the segmentation map in the form of a colour random image. The Y channel is left blank (e.g., for displaying the original data). The labels in the U and V channels are in the range 0 to 'max'.
     
     void SetMap(const ImageC<UIntT> & map)
-    { setmap = map; }
+    { this->setmap = map; }
     //: The segmentation map for this is changed to map; UpdateStats should be performed after this operation
     
     template<class ClassT, class PValueT> void UpdateStats(const ImageC<PValueT> & img);
@@ -73,6 +73,7 @@ namespace RavlImageN {
       for(HashIterC<UIntT,StatT> it(statset);it;it++)
 	newStats[newLabs[it.Key()]] = it.Data();
       statset = newLabs;
+      return statset.Size();
     }
     //: Compress newlabs and re-label segmentation.
     // this correctly resolves multilevel mappings.

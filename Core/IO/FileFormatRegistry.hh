@@ -18,6 +18,7 @@
 #include "Ravl/DP/TypeConverter.hh"
 #endif
 #include "Ravl/DP/FileFormat.hh"
+#include "Ravl/DP/FileFormatIO.hh"
 #include "Ravl/DList.hh"
 #include "Ravl/Hash.hh"
 
@@ -217,7 +218,7 @@ namespace RavlN {
 
     template<class DataT>
       bool Load(const StringC &filename,DataT &obj,StringC fileformat = "",bool verbose = false) {
-      DPIPortC<DataT> in(BaseLoad(filename,fileformat,typeid(DataT),verbose));
+      DPIPortC<DataT> in(RavlN::BaseLoad(filename,fileformat,typeid(DataT),verbose));
       if(!in.IsValid()) {
 #if RAVL_CHECK
 	if(verbose) 
@@ -236,7 +237,7 @@ namespace RavlN {
     
     template<class DataT>
       bool Save(const StringC &filename,const DataT &obj,StringC fileformat = "",bool verbose = false) {
-      DPOPortC<DataT> out(BaseSave(filename,fileformat,typeid(DataT),verbose));
+      DPOPortC<DataT> out(RavlN::BaseSave(filename,fileformat,typeid(DataT),verbose));
       if(!out.IsValid()) {
 #if RAVL_CHECK
 	if(verbose) 
@@ -260,7 +261,7 @@ namespace RavlN {
     
     template<class DataT>
       bool Load(IStreamC &is,DataT &obj,StringC fileformat = "",bool verbose = false) {
-      DPIPortC<DataT> in(BaseLoad(is,fileformat,typeid(DataT),verbose));
+      DPIPortC<DataT> in(RavlN::BaseLoad(is,fileformat,typeid(DataT),verbose));
       if(!in.IsValid()) {
       if(verbose) 
 	cerr << "RavlN::Load(), Failed to load object from stream.\n";
@@ -277,7 +278,7 @@ namespace RavlN {
     
     template<class DataT>
       bool Save(OStreamC &os,const DataT &obj,StringC fileformat = "",bool verbose = false) {
-      DPOPortC<DataT> out(BaseSave(os,fileformat,typeid(DataT),verbose));
+      DPOPortC<DataT> out(RavlN::BaseSave(os,fileformat,typeid(DataT),verbose));
       if(!out.IsValid()) {
 	if(verbose) 
 	  cerr << "RavlN::Save(), Failed to save object to stream\n";

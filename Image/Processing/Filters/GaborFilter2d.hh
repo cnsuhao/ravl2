@@ -226,7 +226,7 @@ namespace RavlImageN {
     // Scales = 0.125, 0.35 
     
     GaborFilter2dC(const SArray1dC<RealT> &angles,const SArray1dC<RealT> &scales,Index2dC size = Index2dC(0,0))
-      : GaborFilterBank2dC(*new GaborFilter2dBodyC<PixelT>(angels,scales,size))      
+      : GaborFilterBank2dC(*new GaborFilter2dBodyC<PixelT>(angles,scales,size))      
     {}
     //: Constructor.
     

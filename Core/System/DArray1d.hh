@@ -376,7 +376,7 @@ namespace RavlN {
     
 
     bool Save(ostream &strm) const { 
-      if(IsValid())
+      if(this->IsValid())
 	return Body().Save(strm); 
       cerr << "0\n";
       return true;
@@ -505,6 +505,14 @@ namespace RavlN {
     bool FindNthChunk(UIntT i,UIntT &at,IntrDLIterC<DChunkC<DataT> > &it) const
     { return Body().FindNthChunk(i,at,it); }    
     //: Find the chunk containing the interest.
+    
+    DArray1dBodyC<DataT> &Body()
+    { return RCHandleC<DArray1dBodyC<DataT> >::Body(); }
+    //: Access body
+    
+    const DArray1dBodyC<DataT> &Body() const
+    { return RCHandleC<DArray1dBodyC<DataT> >::Body(); }
+    //: Access body
     
     friend class DArray1dBodyC<DataT>;
     friend class DArray1dIterC<DataT>;

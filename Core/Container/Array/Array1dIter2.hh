@@ -77,16 +77,16 @@ namespace RavlN {
     //: Reset to position offset1 in the first array, and offset2 in the second.
     
     bool IsFirst() const
-    { return at1 == &dat1[dat1.IMin()]; }
+    { return this->at1 == &dat1[dat1.IMin()]; }
     //: Test if this is the first element in the range.
     // Note,this is slower than IsElm().
     
     IndexC Index() const
-    { return IndexC((IntT)(at1 - dat1.ReferenceElm())); }
+    { return IndexC((IntT)(this->at1 - dat1.ReferenceElm())); }
     //: Calculate the index we're at (In first array.)
     
     IndexC Index2() const 
-      { return IndexC( (IntT) (at2 - dat2.ReferenceElm()) ) ; } 
+      { return IndexC( (IntT) (this->at2 - dat2.ReferenceElm()) ) ; } 
     //: Calcualte the index we're at (In second array.) 
 
   protected:

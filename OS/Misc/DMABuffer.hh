@@ -31,7 +31,7 @@ namespace RavlN {
       raw = new char [((size * sizeof(DataT)) + (align-1))];
       void *aligned = (void *) ((((UIntT) raw) + (align-1)) & (~(align-1)));
       //cerr << "Raw:" << raw << " Aligned:" << aligned << "\n";
-      buff = ((DataT *)aligned);
+      this->buff = ((DataT *)aligned);
     }
     //: Construct an aligned buffer.
     // - align must be a power of 2. <p>
@@ -40,7 +40,7 @@ namespace RavlN {
     
     virtual ~DMABufferBodyC() {
       delete [] ((char *) raw);
-      buff = 0;
+      this->buff = 0;
     }
     //: Destructor.
     

@@ -58,32 +58,6 @@ namespace RavlImageN {
     UIntT Order() const
     { return binomial.Size(); }
     //: Get size of gausian.
-
-#if defined(RAVL_NEW_ANSI_CXX_DRAFT) && !defined(VISUAL_CPP)
-    friend ostream &operator<< <>(ostream &s, const GaussConvolveC<InPixelT,OutPixelT,KernelPixelT,SumTypeT> &out);
-    //: output stream operator
-    
-    friend istream &operator>> <>(istream &s, GaussConvolveC<InPixelT,OutPixelT,KernelPixelT,SumTypeT> &in);
-    //: input stream operator
-    
-    friend BinOStreamC &operator<< <>(BinOStreamC &s, const GaussConvolveC<InPixelT,OutPixelT,KernelPixelT,SumTypeT> &out);
-    //: output stream operator
-    
-    friend BinIStreamC &operator>> <>(BinIStreamC &s, GaussConvolveC<InPixelT,OutPixelT,KernelPixelT,SumTypeT> &in);
-    //: input stream operator
-#else
-    friend ostream &operator<< (ostream &s, const GaussConvolveC<InPixelT,OutPixelT,KernelPixelT,SumTypeT> &out);
-    //: output stream operator
-    
-    friend istream &operator>> (istream &s, GaussConvolveC<InPixelT,OutPixelT,KernelPixelT,SumTypeT> &in);
-    //: input stream operator
-    
-    friend BinOStreamC &operator<< (BinOStreamC &s, const GaussConvolveC<InPixelT,OutPixelT,KernelPixelT,SumTypeT> &out);
-    //: output stream operator
-    
-    friend BinIStreamC &operator>> (BinIStreamC &s, GaussConvolveC<InPixelT,OutPixelT,KernelPixelT,SumTypeT> &in);
-    //: input stream operator
-#endif
     
   protected:
     Array1dC<KernelPixelT> binomial;

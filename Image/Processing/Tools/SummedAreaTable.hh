@@ -45,7 +45,7 @@ namespace RavlImageN {
       IndexRange2dC rng(in.Frame());
       rng.LCol()--;
       rng.TRow()--;
-      if(Frame() != rng) {
+      if(this->Frame() != rng) {
 	DataT zero;
 	SetZero(zero); // We can't rely on '= 0' working.
 	(*this).Array2dC<DataT>::operator=(Array2dC<DataT>(rng));
@@ -80,7 +80,7 @@ namespace RavlImageN {
     DataT Sum(IndexRange2dC range) const {
       range.ClipBy(clipRange);
       if(range.Area() == 0)
-	return (*this)[Frame().Origin()]; // Return 0.
+	return (*this)[this->Frame().Origin()]; // Return 0.
       range.LCol()--;
       range.TRow()--;
       // Could speed this up by seperating out row accesses ?

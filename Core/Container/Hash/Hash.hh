@@ -25,6 +25,10 @@
 #include "Ravl/Types.hh"
 #include "Ravl/DeepCopy.hh"
 
+#if RAVL_COMPILER_GCC3_4
+#include "Ravl/BinStream.hh"
+#endif
+
 #define HASHC_DEBUG 0
 
 #if defined(HASHC_DEBUG) || RAVL_CHECK
@@ -42,6 +46,8 @@ namespace RavlN {
   
   template<class K,class T> ostream &operator<<(ostream &out,const HashC<K,T> &obj);
   template<class K,class T> istream &operator>>(istream &out,HashC<K,T> &obj);
+  template<class K,class T> BinOStreamC &operator<<(BinOStreamC &out,const HashC<K,T> &obj);
+  template<class K,class T> BinIStreamC &operator>>(BinIStreamC &ib,HashC<K,T> &obj);
   
 
   ///////////////////////////

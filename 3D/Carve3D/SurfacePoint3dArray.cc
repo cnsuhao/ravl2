@@ -30,11 +30,11 @@ namespace Ravl3DN {
   template<class VertexTypeC> void SurfacePoint3dArrayC<VertexTypeC>::Centroid(Vector3dC& c) const
   {
     c[0] = c[1] = c[2] = 0.0;
-    if(Size())
+    if(this->Size())
     {
       for (SArray1dIterC<VertexTypeC> i(*this); i; i++)
 	c += (*i).Position();
-      c *= 1.0 / Size();
+      c *= 1.0 / this->Size();
     }
   }
    

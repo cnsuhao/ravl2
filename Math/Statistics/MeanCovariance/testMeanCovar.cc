@@ -28,7 +28,7 @@ int testMeanCovar2d();
 
 const RealT small = 0.000000001;
 
-#ifndef __sgi__
+#if defined(__sgi__) && !RAVL_COMPILER_GCC3_4
 template FMeanC<2>;
 template FMeanCovarianceC<2>;
 #endif

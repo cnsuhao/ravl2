@@ -19,6 +19,11 @@
 #include "Ravl/DP/IOPort.hh"
 #include "Ravl/SArray1d.hh"
 
+#if RAVL_COMPILER_GCC3_4
+#include "Ravl/Stream.hh"
+#include "Ravl/BinStream.hh"
+#endif
+
 #define DPMDEBUG 0
 #if DPMDEBUG 
 #define ONDEBUG(x) x
@@ -54,9 +59,9 @@ namespace RavlN {
     {}
     //: Constructor.
     
-    DPMultiplexBodyC(istream &in)
-      : DPIOPortBodyC<InT,OutT>(strmin)
-    { strmin >> in >> out >> procs; }
+    DPMultiplexBodyC(istream &ins)
+      : DPIOPortBodyC<InT,OutT>(ins)
+    { ins >> in >> out >> procs; }
     //: Stream constructor.
     
     DPMultiplexBodyC(const DPMultiplexBodyC &oth);

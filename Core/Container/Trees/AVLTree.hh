@@ -143,7 +143,7 @@ namespace RavlN {
   template<class KeyT,class DataT>
   bool AVLTreeBodyC<KeyT,DataT>::Insert(const KeyT &key,const DataT &dat,bool overwrite) {
     try {
-      root = AVLInsert(root,key,dat,overwrite);
+      this->root = AVLInsert(root,key,dat,overwrite);
       return true;
     } catch(AVLTreeOverWriteC &) {}
     return false;
@@ -152,7 +152,7 @@ namespace RavlN {
   template<class KeyT,class DataT>
   BinaryTreeNodeC<KeyT,DataT> *AVLTreeBodyC<KeyT,DataT>::AVLInsert(BinaryTreeNodeC<KeyT,DataT> *node,const KeyT &key,const DataT &data,bool overwrite) {
     if(node == 0) {
-      size++;
+      this->size++;
       return new BinaryTreeNodeC<KeyT,DataT>(key,data);
     }
     if(key < node->Key()) {
@@ -181,7 +181,7 @@ namespace RavlN {
       if(!overwrite)   
 	throw AVLTreeOverWriteC();
     } else
-      size++;
+      this->size++;
     node->Data() = data;
     node->SetDeleted(false);
     return node;
@@ -189,10 +189,10 @@ namespace RavlN {
 #else
   template<class KeyT,class DataT>
   bool AVLTreeBodyC<KeyT,DataT>::Insert(const KeyT &key,const DataT &dat,bool overwrite) {
-    BinaryTreeNodeC<KeyT,DataT> *next,*place = root;
+    BinaryTreeNodeC<KeyT,DataT> *next,*place = this->root;
     if(place == 0) {
-      root = new BinaryTreeNodeC<KeyT,DataT>(key,dat);
-      size++;
+      this->root = new BinaryTreeNodeC<KeyT,DataT>(key,dat);
+      this->size++;
       return true;
     }
     BlkStackC<BinaryTreeNodeC<KeyT,DataT> *> stk;
@@ -203,7 +203,7 @@ namespace RavlN {
 	next = place->Child0();
 	if(next == 0) {
 	  place->Child0() = new BinaryTreeNodeC<KeyT,DataT>(key,dat);
-	  size++;
+	  this->size++;
 	  if(place->ChildBalance1() >= 0)
 	    return true; // No change in depth.
 	  place->Balance() = 1;
@@ -216,7 +216,7 @@ namespace RavlN {
 	next = place->Child1();
 	if(next == 0) {
 	  place->Child1() = new BinaryTreeNodeC<KeyT,DataT>(key,dat);
-	  size++;
+	  this->size++;
 	  if(place->ChildBalance0() >= 0)
 	    return true; // No change in depth.
 	  place->Balance() = 1;
@@ -228,7 +228,7 @@ namespace RavlN {
       // Found key in the tree.
       if(!overwrite && !place->IsDeleted()) 
 	return false;
-      size++;
+      this->size++;
       place->Data() = dat;
       place->SetDeleted(false);
       return true;
@@ -280,7 +280,7 @@ namespace RavlN {
 	  // put into the approprate place.
 	  stk.DelTop();
 	  if(stk.IsEmpty()) {
-	    root = place;
+	    this->root = place;
 	  } else {
 	    if(key < stk.Top()->Key()) 
 	      stk.Top()->Child0() = place;
@@ -294,7 +294,7 @@ namespace RavlN {
       next = place;
     }
     if(next != 0)
-      root = next;
+      this->root = next;
     return true;
   }
   
@@ -303,7 +303,7 @@ namespace RavlN {
   
   template<class KeyT,class DataT>
   bool AVLTreeBodyC<KeyT,DataT>::Remove(const KeyT &key) {
-    BinaryTreeNodeC<KeyT,DataT> *place = root;
+    BinaryTreeNodeC<KeyT,DataT> *place = this->root;
     BlkStackC<BinaryTreeNodeC<KeyT,DataT> *> stk;
     bool ret;
     for(;;) {
@@ -322,7 +322,7 @@ namespace RavlN {
       break; // Found it!
     }
     ret = !place->IsDeleted();
-    if(ret) size--;
+    if(ret) this->size--;
     place->SetDeleted(true);
 #if 1
     // Go back through path to node deleting as much as we can easly.
@@ -342,7 +342,7 @@ namespace RavlN {
       } else 
 	break; // Both are set, just leave it.
       if(stk.IsEmpty()) {
-	root = oth;
+	this->root = oth;
 	break;
       }
       BinaryTreeNodeC<KeyT,DataT> *top = stk.Top();

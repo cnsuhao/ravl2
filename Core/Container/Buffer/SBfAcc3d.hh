@@ -108,7 +108,7 @@ namespace RavlN {
     { return size3; }
     //: Get size of dimension 3
     
-    UIntT Size() const 
+    SizeT Size() const 
     { return Size1() * Size2() * Size3(); }
     //: Get the total number of elements in the array.
     

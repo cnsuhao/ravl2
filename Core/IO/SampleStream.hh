@@ -112,7 +112,7 @@ namespace RavlN {
 	}
 	// If seeking doesn't work, just discard some frames.
 	for(Int64T i = 1;i < sampleRate;i++)
-	  input.Discard();
+	  this->input.Discard();
       }
       return ret;
     }
@@ -128,7 +128,7 @@ namespace RavlN {
 	}
 	// If seeking doesn't work, just discard some frames.
 	for(Int64T i = 1;i < sampleRate;i++)
-	  if(!input.Discard())
+	  if(!this->input.Discard())
 	    cerr << "WARNING: SampleStreamC, Stream sync lost. \n";
       }
       return true;

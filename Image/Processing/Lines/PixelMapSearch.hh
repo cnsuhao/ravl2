@@ -20,6 +20,8 @@
 #include "Ravl/Image/PCPixelList.hh"
 #include "Ravl/Image/Image.hh"
 #include "Ravl/QInt.hh"
+#include "Ravl/Vector2d.hh"
+#include "Ravl/StdMath.hh"
 
 namespace RavlImageN {
 

@@ -39,15 +39,15 @@ namespace RavlN {
     //: Constructor.
     
     virtual OutT Get()  { 
-      RavlAssert(input.IsValid());
-      return func(input.Get()); 
+      RavlAssert(this->input.IsValid());
+      return func(this->input.Get()); 
     }
     //: Process next piece of data.
     
     virtual bool Get(OutT &outbuff) { 
       InT buff;
-      RavlAssert(input.IsValid());
-      if(!input.Get(buff))
+      RavlAssert(this->input.IsValid());
+      if(!this->input.Get(buff))
 	return false;
       outbuff = func(buff);
       return true;
@@ -55,9 +55,9 @@ namespace RavlN {
     //: Process some data.  
     
     virtual IntT GetArray(SArray1dC<OutT> &dest) {
-      RavlAssert(input.IsValid());
+      RavlAssert(this->input.IsValid());
       SArray1dC<InT> src(dest.Size());
-      int rem = input.GetArray(src);
+      int rem = this->input.GetArray(src);
       if(rem > 0)
 	src = SArray1dC<InT>(src,rem);
       for(SArray1dIter2C<InT,OutT> it(src,dest);it;it++)
@@ -87,15 +87,15 @@ namespace RavlN {
     //: Constructor.
     
     virtual OutT Get() { 
-      RavlAssert(input.IsValid());
-      return func(input.Get()); 
+      RavlAssert(this->input.IsValid());
+      return func(this->input.Get()); 
     }
     //: Process next piece of data.
     
     virtual bool Get(OutT &outbuff) { 
       InT buff;
-      RavlAssert(input.IsValid());
-      if(!input.Get(buff))
+      RavlAssert(this->input.IsValid());
+      if(!this->input.Get(buff))
 	return false;
       outbuff = func(buff);
       return true;
@@ -103,9 +103,9 @@ namespace RavlN {
     //: Process some data.  
     
     virtual IntT GetArray(SArray1dC<OutT> &dest) {
-      RavlAssert(input.IsValid());
+      RavlAssert(this->input.IsValid());
       SArray1dC<InT> src(dest.Size());
-      int rem = input.GetArray(src);
+      int rem = this->input.GetArray(src);
       if(rem > 0)
 	src = SArray1dC<InT>(src,dest.Size() - rem);
       for(SArray1dIter2C<InT,OutT> it(src,dest);it;it++)
@@ -135,8 +135,8 @@ namespace RavlN {
     //: Constructor.
   
     virtual bool Put(const InT &buff) { 
-      RavlAssert(output.IsValid());
-      return output.Put(func(buff)); 
+      RavlAssert(this->output.IsValid());
+      return this->output.Put(func(buff)); 
     }
     //: Process some data.  
     
@@ -144,7 +144,7 @@ namespace RavlN {
       SArray1dC<OutT> dest(src.Size());
       for(SArray1dIter2C<InT,OutT> it(src,dest);it;it++)
 	it.Data2() = func(it.Data1());
-      return output.PutArray(dest);
+      return this->output.PutArray(dest);
     }
     //: Put an array of data to stream.
     // returns the number of elements processed.
@@ -170,8 +170,8 @@ namespace RavlN {
     //: Constructor.
     
     virtual bool Put(const InT &buff) { 
-      RavlAssert(output.IsValid());
-      return output.Put(func(buff)); 
+      RavlAssert(this->output.IsValid());
+      return this->output.Put(func(buff)); 
     }
     //: Process some data.  
     
@@ -179,7 +179,7 @@ namespace RavlN {
       SArray1dC<OutT> dest(src.Size());
       for(SArray1dIter2C<InT,OutT> it(src,dest);it;it++)
 	it.Data2() = func(it.Data1());
-      return output.PutArray(dest);
+      return this->output.PutArray(dest);
     }
     //: Put an array of data to stream.
     // returns the number of elements processed

@@ -82,7 +82,7 @@ namespace RavlN {
     inline long   Size()    const;
     //: Get the number of elements in the stack.
     
-    void DbPrint(){printf("stack -> %d, %d, %p\n",top,blkSize,topBlk);}
+    void DbPrint(){printf("stack -> %d, %d, %p\n",top,blkSize,this->topBlk);}
     //: Usefull for debuging the stack
     // Not usefull for normal users.
   
@@ -235,27 +235,27 @@ namespace RavlN {
   
   template <class T>
   void  StackC<T>::AddBlk() {
-    typename StackC<T>::s_Blk * current = topBlk;
-    topBlk  = AllocBlk();
-    topBlk->link = current;
+    typename StackC<T>::s_Blk * current = this->topBlk;
+    this->topBlk  = this->AllocBlk();
+    this->topBlk->link = current;
   }
   
   template <class T>
   void StackC<T>::DelBlk() {
-    typename StackC<T>::s_Blk *last = topBlk->link;
-    delete [] ((char *) topBlk);
-    topBlk = last;
+    typename StackC<T>::s_Blk *last = this->topBlk->link;
+    delete [] ((char *) this->topBlk);
+    this->topBlk = last;
   }
   
   //--------------------------------------------------------------------------
   template <class T>
   inline void StackC<T>::Push(const T& data) {
-    if (top == blkSize) { // run out of space in current block 
-      blkSize += incrBlkSize;
+    if (this->top == this->blkSize) { // run out of space in current block 
+      this->blkSize += this->incrBlkSize;
       AddBlk();
-      top     =  0;
+      this->top     =  0;
     }
-    new(&topBlk->d[top++]) T(data);   // like a straightforward array impl.
+    new(&this->topBlk->d[this->top++]) T(data);   // like a straightforward array impl.
   }
 
   //--------------------------------------------------------------------------
@@ -263,47 +263,47 @@ namespace RavlN {
   template <class T>
   inline void
   StackC<T>::DecrTop() {
-    if (top == 0) { 
+    if (this->top == 0) { 
 #if RAVL_HAVE_EXCEPTIONS
-      if (IsEmpty())
+      if (this->IsEmpty())
 	throw ExceptionOutOfRangeC("Removing element from an empty stack!");
 #else
       RavlAssertMsg(!IsEmpty(),"Removing element from an empty stack!");
 #endif
       DelBlk();
-      blkSize -= incrBlkSize;
-      top       = blkSize ;
+      this->blkSize -= this->incrBlkSize;
+      this->top      = this->blkSize ;
     }
-    --top;
+    --this->top;
   }
   
   //--------------------------------------------------------------------------
   template <class T>
   inline void StackC<T>::DelTop() {
     DecrTop();
-    (&topBlk->d[top])->~T();
+    (&this->topBlk->d[this->top])->~T();
   }
   
   //--------------------------------------------------------------------------
   template <class T>
   inline T StackC<T>::Pop() {
     DecrTop();
-    T tmp=topBlk->d[top];
-    (&topBlk->d[top])->~T();
+    T tmp=this->topBlk->d[this->top];
+    (&this->topBlk->d[this->top])->~T();
     return tmp;
   }
 
   //--------------------------------------------------------------------------
   template <class T>
   void StackC<T>::Empty()  {
-    while(!IsEmpty()) 
+    while(!this->IsEmpty()) 
       DelTop(); 
     // leaves stack empty but with alloated blk.
     // remove the block, changed to the initial 
     // state  with nothing allocated 
-    if(blkSize>0) { 
+    if(this->blkSize>0) { 
       DelBlk();                 // Note:
-      blkSize=0;		// 1. if this wasn't done the destruct.
+      this->blkSize=0;		// 1. if this wasn't done the destruct.
     }                           // would leak
   }
   
@@ -313,30 +313,30 @@ namespace RavlN {
   StackC<T>::StackC(const StackC& s)
     : BaseStackC<T>(s) 
   {
-    if(blkSize != 0 ) { 
+    if(this->blkSize != 0 ) { 
       // stack in inital state, no copy needed
       // to prevent gcc 2.7.2 complaining about possible uninitialised use
       // s could still be empty, with top==0 and one alloc-ed block!
       typename StackC<T>::s_Blk *copiedBlk = s.topBlk;
-      topBlk = AllocBlk();
-      typename StackC<T>::s_Blk *firstBlk = topBlk;
+      this->topBlk = this->AllocBlk();
+      typename StackC<T>::s_Blk *firstBlk = this->topBlk;
       do {
-	while(top > 0) {                // copy one block
-	  --top;
-	  new(&topBlk->d[top]) T(copiedBlk->d[top]);  
+	while(this->top > 0) {                // copy one block
+	  --this->top;
+	  new(&this->topBlk->d[this->top]) T(copiedBlk->d[this->top]);  
 	}
 	copiedBlk    = copiedBlk->link;
 	if(copiedBlk == 0) break;    //**  loop exits here ***;
 	// at least one more block to copy..
-	blkSize     -= incrBlkSize;   
-	top          = blkSize;
-	topBlk->link = AllocBlk();
-	topBlk       = topBlk->link;
+	this->blkSize     -= this->incrBlkSize;   
+	this->top          = this->blkSize;
+	this->topBlk->link = this->AllocBlk();
+	this->topBlk       = this->topBlk->link;
       } while(1);
-      topBlk->link = 0;
-      topBlk       = firstBlk;
-      top     = s.top;
-      blkSize = s.blkSize;
+      this->topBlk->link = 0;
+      this->topBlk       = firstBlk;
+      this->top     = s.top;
+      this->blkSize = s.blkSize;
     }
   }
 }

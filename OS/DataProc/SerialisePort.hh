@@ -47,25 +47,25 @@ namespace RavlN {
     
     virtual DataT Get()  {
       MutexLockC lock(access);
-      return input.Get();
+      return this->input.Get();
     }
     //: Get next piece of data.
     
     virtual bool Get(DataT &buff) { 
       MutexLockC lock(access);
-      return input.Get(buff);
+      return this->input.Get(buff);
     }
     //: Try and get next piece of data.
     
     virtual IntT GetArray(SArray1dC<DataT> &data) {
       MutexLockC lock(access);
-      return input.GetArray(data);
+      return this->input.GetArray(data);
     }
     //: Get an array of data from stream.
     
     virtual bool Discard() { 
       MutexLockC lock(access);
-      return input.Discard();
+      return this->input.Discard();
     }
     //: Discard the next input datum.
     
@@ -74,7 +74,7 @@ namespace RavlN {
     
     virtual bool GetAttr(const StringC &attrName,StringC &attrValue) {
       MutexLockC lock(access);
-      return input.GetAttr(attrName,attrValue);
+      return this->input.GetAttr(attrName,attrValue);
     }
     //: Get a attribute.
     // Returns false if the attribute name is unknown.
@@ -82,7 +82,7 @@ namespace RavlN {
     
     virtual bool SetAttr(const StringC &attrName,const StringC &attrValue) {
       MutexLockC lock(access);
-      return input.SetAttr(attrName,attrValue);
+      return this->input.SetAttr(attrName,attrValue);
     }
     //: Set a attribute.
     // Returns false if the attribute name is unknown.
@@ -90,7 +90,7 @@ namespace RavlN {
     
     virtual bool GetAttr(const StringC &attrName,IntT &attrValue) {
       MutexLockC lock(access);
-      return input.GetAttr(attrName,attrValue);
+      return this->input.GetAttr(attrName,attrValue);
     }
     //: Get a attribute.
     // Returns false if the attribute name is unknown.
@@ -98,7 +98,7 @@ namespace RavlN {
     
     virtual bool SetAttr(const StringC &attrName,const IntT &attrValue) {
       MutexLockC lock(access);
-      return input.SetAttr(attrName,attrValue);
+      return this->input.SetAttr(attrName,attrValue);
     }
     //: Set a attribute.
     // Returns false if the attribute name is unknown.
@@ -106,7 +106,7 @@ namespace RavlN {
     
     virtual bool GetAttr(const StringC &attrName,RealT &attrValue) {
       MutexLockC lock(access);
-      return input.GetAttr(attrName,attrValue);
+      return this->input.GetAttr(attrName,attrValue);
     }
     //: Get a attribute.
     // Returns false if the attribute name is unknown.
@@ -114,7 +114,7 @@ namespace RavlN {
     
     virtual bool SetAttr(const StringC &attrName,const RealT &attrValue) {
       MutexLockC lock(access);
-      return input.SetAttr(attrName,attrValue);
+      return this->input.SetAttr(attrName,attrValue);
     }
     //: Set a attribute.
     // Returns false if the attribute name is unknown.
@@ -122,7 +122,7 @@ namespace RavlN {
     
     virtual bool GetAttr(const StringC &attrName,bool &attrValue) {
       MutexLockC lock(access);
-      return input.GetAttr(attrName,attrValue);
+      return this->input.GetAttr(attrName,attrValue);
     }
     //: Get a attribute.
     // Returns false if the attribute name is unknown.
@@ -130,7 +130,7 @@ namespace RavlN {
     
     virtual bool SetAttr(const StringC &attrName,const bool &attrValue) {
       MutexLockC lock(access);
-      return input.SetAttr(attrName,attrValue);
+      return this->input.SetAttr(attrName,attrValue);
     }
     //: Set a attribute.
     // Returns false if the attribute name is unknown.
@@ -138,21 +138,21 @@ namespace RavlN {
     
     virtual bool GetAttrList(DListC<StringC> &list) const {
       MutexLockC lock(access);
-      return input.GetAttrList(list);
+      return this->input.GetAttrList(list);
     }
     //: Get list of attributes available.
     // This method will ADD all available attribute names to 'list'.
     
     virtual bool GetAttrTypes(DListC<AttributeTypeC> &list) const {
       MutexLockC lock(access);
-      return input.GetAttrTypes(list);
+      return this->input.GetAttrTypes(list);
     }
     //: Get a list of available attribute types.
     
 #if 0
     virtual AttributeTypeC GetAttrType(const StringC &attrName) const {
       MutexLockC lock(access);
-      return input.GetAttrType(attrName);
+      return this->input.GetAttrType(attrName);
     }
     //: Get type of a particular attribute.
     // Returns an invalid handle if attribute is unknown.
@@ -160,7 +160,7 @@ namespace RavlN {
     
     virtual IntT RegisterChangedSignal(const StringC &attrName,const TriggerC &trig) {
       MutexLockC lock(access);
-      return input.RegisterChangedSignal(attrName,trig);
+      return this->input.RegisterChangedSignal(attrName,trig);
     }
     
     //: Register a value changed signal.
@@ -169,14 +169,14 @@ namespace RavlN {
     
     virtual bool RemoveChangedSignal(IntT id) {
       MutexLockC lock(access);
-      return input.RemoveChangedSignal(id);
+      return this->input.RemoveChangedSignal(id);
     }
     //: Remove a changed signal.
     // Note: This method may not be implemented for all AttributeCtrl's.
     
     virtual bool RegisterAttribute(const AttributeTypeC &attr) {
       MutexLockC lock(access);
-      return input.RegisterAttribute(attr);      
+      return this->input.RegisterAttribute(attr);      
     }
     //: Register a new attribute type.
     
@@ -222,26 +222,26 @@ namespace RavlN {
     
     virtual void PutEOS() {
       MutexLockC lock(access);
-      output.PutEOS();
+      this->output.PutEOS();
     }
     //: Put End Of Stream marker.
     
     virtual bool IsPutReady() const {
       MutexLockC lock(access);
-      return output.IsPutReady();
+      return this->output.IsPutReady();
     }
     //: Is port ready for data ?
     
     virtual bool Put(const DataT &data) { 
       MutexLockC lock(access);
-      return output.Put(data);
+      return this->output.Put(data);
     }
     //: Put data.
     // This function MUST be provided by client class.
     
     virtual IntT PutArray(const SArray1dC<DataT> &data) {
       MutexLockC lock(access);
-      return output.PutArray(data);
+      return this->output.PutArray(data);
     }
     //: Put an array of data to stream.
     
@@ -250,7 +250,7 @@ namespace RavlN {
     
     virtual bool GetAttr(const StringC &attrName,StringC &attrValue) {
       MutexLockC lock(access);
-      return input.GetAttr(attrName,attrValue);
+      return this->input.GetAttr(attrName,attrValue);
     }
     //: Get a attribute.
     // Returns false if the attribute name is unknown.
@@ -258,7 +258,7 @@ namespace RavlN {
     
     virtual bool SetAttr(const StringC &attrName,const StringC &attrValue) {
       MutexLockC lock(access);
-      return input.SetAttr(attrName,attrValue);
+      return this->input.SetAttr(attrName,attrValue);
     }
     //: Set a attribute.
     // Returns false if the attribute name is unknown.
@@ -266,7 +266,7 @@ namespace RavlN {
     
     virtual bool GetAttr(const StringC &attrName,IntT &attrValue) {
       MutexLockC lock(access);
-      return input.GetAttr(attrName,attrValue);
+      return this->input.GetAttr(attrName,attrValue);
     }
     //: Get a attribute.
     // Returns false if the attribute name is unknown.
@@ -274,7 +274,7 @@ namespace RavlN {
     
     virtual bool SetAttr(const StringC &attrName,const IntT &attrValue) {
       MutexLockC lock(access);
-      return input.SetAttr(attrName,attrValue);
+      return this->input.SetAttr(attrName,attrValue);
     }
     //: Set a attribute.
     // Returns false if the attribute name is unknown.
@@ -282,7 +282,7 @@ namespace RavlN {
     
     virtual bool GetAttr(const StringC &attrName,RealT &attrValue) {
       MutexLockC lock(access);
-      return input.GetAttr(attrName,attrValue);
+      return this->input.GetAttr(attrName,attrValue);
     }
     //: Get a attribute.
     // Returns false if the attribute name is unknown.
@@ -290,7 +290,7 @@ namespace RavlN {
     
     virtual bool SetAttr(const StringC &attrName,const RealT &attrValue) {
       MutexLockC lock(access);
-      return input.SetAttr(attrName,attrValue);
+      return this->input.SetAttr(attrName,attrValue);
     }
     //: Set a attribute.
     // Returns false if the attribute name is unknown.
@@ -298,7 +298,7 @@ namespace RavlN {
     
     virtual bool GetAttr(const StringC &attrName,bool &attrValue) {
       MutexLockC lock(access);
-      return input.GetAttr(attrName,attrValue);
+      return this->input.GetAttr(attrName,attrValue);
     }
     //: Get a attribute.
     // Returns false if the attribute name is unknown.
@@ -306,7 +306,7 @@ namespace RavlN {
     
     virtual bool SetAttr(const StringC &attrName,const bool &attrValue) {
       MutexLockC lock(access);
-      return input.SetAttr(attrName,attrValue);
+      return this->input.SetAttr(attrName,attrValue);
     }
     //: Set a attribute.
     // Returns false if the attribute name is unknown.
@@ -314,21 +314,21 @@ namespace RavlN {
     
     virtual bool GetAttrList(DListC<StringC> &list) const {
       MutexLockC lock(access);
-      return input.GetAttrList(list);
+      return this->input.GetAttrList(list);
     }
     //: Get list of attributes available.
     // This method will ADD all available attribute names to 'list'.
     
     virtual bool GetAttrTypes(DListC<AttributeTypeC> &list) const {
       MutexLockC lock(access);
-      return input.GetAttrTypes(list);
+      return this->input.GetAttrTypes(list);
     }
     //: Get a list of available attribute types.
     
 #if 0
     virtual AttributeTypeC GetAttrType(const StringC &attrName) const {
       MutexLockC lock(access);
-      return input.GetAttrType(attrName);
+      return this->input.GetAttrType(attrName);
     }
     //: Get type of a particular attribute.
     // Returns an invalid handle if attribute is unknown.
@@ -336,7 +336,7 @@ namespace RavlN {
     
     virtual IntT RegisterChangedSignal(const StringC &attrName,const TriggerC &trig) {
       MutexLockC lock(access);
-      return input.RegisterChangedSignal(attrName,trig);
+      return this->input.RegisterChangedSignal(attrName,trig);
     }
     
     //: Register a value changed signal.
@@ -345,14 +345,14 @@ namespace RavlN {
     
     virtual bool RemoveChangedSignal(IntT id) {
       MutexLockC lock(access);
-      return input.RemoveChangedSignal(id);
+      return this->input.RemoveChangedSignal(id);
     }
     //: Remove a changed signal.
     // Note: This method may not be implemented for all AttributeCtrl's.
     
     virtual bool RegisterAttribute(const AttributeTypeC &attr) {
       MutexLockC lock(access);
-      return input.RegisterAttribute(attr);      
+      return this->input.RegisterAttribute(attr);      
     }
     //: Register a new attribute type.
     

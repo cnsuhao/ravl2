@@ -38,7 +38,7 @@ namespace RavlN {
     //: Base constructor.
     
     bool First()
-    { return Seek(0); }
+    { return this->Seek(0); }
     //: Goto first element in list.
     
   protected:

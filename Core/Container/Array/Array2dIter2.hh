@@ -83,8 +83,8 @@ namespace RavlN {
 
     Index2dC Index() const { 
       RavlAssert(dat1.IsValid());
-      return Index2dC((IntT) (&(rit.Data1()) - dat1.ReferenceElm()),
-		      (IntT) (&(cit.Data1()) - rit.Data1().ReferenceElm()));
+      return Index2dC((IntT) (&(this->rit.Data1()) - dat1.ReferenceElm()),
+		      (IntT) (&(this->cit.Data1()) - this->rit.Data1().ReferenceElm()));
     }
     //: Get index of current location in 'arr1'.
     // Has to be calculated, and so is slightly slow.

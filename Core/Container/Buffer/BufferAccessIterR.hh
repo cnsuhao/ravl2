@@ -17,6 +17,7 @@
 
 #include "Ravl/BufferAccess.hh"
 #include "Ravl/Assert.hh"
+#include "Ravl/IndexRange1d.hh"
 
 namespace RavlN {
 
@@ -184,7 +185,7 @@ namespace RavlN {
     }
     DataT *ref = const_cast<DataT *>(buff.ReferenceElm());
     at = &ref[size-1];
-    endOfRow = &(ret[-1]);
+    endOfRow = &(ref[-1]);
     return true;
   }
   

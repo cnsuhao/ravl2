@@ -38,8 +38,8 @@ namespace RavlN {
     //: Constructor.
     
     virtual bool Put(const InT &dat) { 
-      RavlAssert(output.IsValid());
-      return output.Put(Apply(dat)); 
+      RavlAssert(this->output.IsValid());
+      return this->output.Put(Apply(dat)); 
     }
     //: Process next piece of data.  
     
@@ -50,7 +50,7 @@ namespace RavlN {
 #else
       RavlAssert((UIntT) ApplyArray(src,dest) == src.Size());
 #endif
-      return output.PutArray(dest);
+      return this->output.PutArray(dest);
     }
     //: Get Array of data.
     

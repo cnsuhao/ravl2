@@ -171,7 +171,7 @@ int StringTest() {
 
 int SimpleTest() {
   cerr << "SimpleTest(), Called. \n";
-
+  
   ByteT val;
   RealT rval = 0.5;
   FloatT fval = 0.7f;

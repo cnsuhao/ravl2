@@ -17,6 +17,10 @@
 
 #include "Ravl/Assert.hh"
 
+#if RAVL_COMPILER_GCC3_4
+#include "Ravl/Stream.hh"
+#endif
+
 #if RAVL_HAVE_ANSICPPHEADERS
 #include <new>
 #else

@@ -500,7 +500,7 @@ namespace RavlN {
     RavlAssert(Size() == slice.Size());
     if(Size() == 0)
       return ;
-    DataT *at = &((*this)[data.IMin()]);
+    DataT *at = &((*this)[IMin()]);
     for(Slice1dIterC<DataT> it(slice);it;it++,at++)
       *at = *it;
   }

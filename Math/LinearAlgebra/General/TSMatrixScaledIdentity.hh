@@ -34,7 +34,7 @@ namespace RavlN {
     //: Constructor.
     
     virtual RCBodyVC &Copy() const
-    { return *new TSMatrixScaledIdentityBodyC<DataT>(Rows(),scale); }
+    { return *new TSMatrixScaledIdentityBodyC<DataT>(this->Rows(),scale); }
     //: Create a copy of this matrix.
     
     virtual const type_info &MatrixType() const
@@ -171,7 +171,7 @@ namespace RavlN {
       : TSMatrixC<DataT>(base)
     {
       if(dynamic_cast<const TSMatrixScaledIdentityBodyC<DataT> *>(&TSMatrixC<DataT>::Body()) == 0)
-	Invalidate();
+	this->Invalidate();
     }
     //: Base constructor.
   protected:
@@ -227,7 +227,7 @@ namespace RavlN {
       TSMatrixScaledIdentityC<DataT> msi(mat);
       return TSMatrixScaledIdentityC<DataT>(msi.Rows(),scale * msi.Scale());
     }
-    const SizeT rdim = Rows();
+    const SizeT rdim = this->Rows();
     if(mat.IsRowDirectAccess()) {
       //cerr << "Using copy... \n";
       TSMatrixC<DataT> ret(mat.Copy()); // Use same type as input.
@@ -239,7 +239,7 @@ namespace RavlN {
       return ret;
     }
     //cerr << "Using direct... \n";
-    RavlAssert(Cols() == mat.Rows());
+    RavlAssert(this->Cols() == mat.Rows());
     const SizeT cdim = mat.Cols();
     TMatrixC<DataT> out(rdim, cdim);
     for (UIntT r = 0; r < rdim; r++) {
@@ -267,7 +267,7 @@ namespace RavlN {
   
   template<class DataT>
   TVectorC<DataT> TSMatrixScaledIdentityBodyC<DataT>::Mul(const TVectorC<DataT> &oth) const {
-    RavlAssert(Rows() == oth.Size());
+    RavlAssert(this->Rows() == oth.Size());
     TVectorC<DataT> ret(oth.Size());
     for(SArray1dIter2C<DataT,DataT> it(ret,oth);it;it++)
       it.Data1() = scale * it.Data2();
@@ -295,7 +295,7 @@ namespace RavlN {
   
   template<class DataT>
   TSMatrixC<DataT> TSMatrixScaledIdentityBodyC<DataT>::AAT() const {
-    return TSMatrixScaledIdentityC<DataT>(Rows(),Sqr(scale));
+    return TSMatrixScaledIdentityC<DataT>(this->Rows(),Sqr(scale));
   }
   
   template<class DataT>
@@ -305,9 +305,9 @@ namespace RavlN {
   
   template<class DataT>
   TMatrixC<DataT> TSMatrixScaledIdentityBodyC<DataT>::TMatrix(bool) const {
-    TMatrixC<DataT> ret(Rows(),Cols());
+    TMatrixC<DataT> ret(this->Rows(),this->Cols());
     ret.Fill(0);
-    for(UIntT i = 0;i < Rows();i++)
+    for(UIntT i = 0;i < this->Rows();i++)
       ret[i][i] = scale;
     return ret;
   }

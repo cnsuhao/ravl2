@@ -159,7 +159,7 @@ namespace RavlGUIN {
 			 bool (*func)(RealT &value))
   {
     SpinButtonC ret(2,1,nvalue,nlower,nupper,nstep_increment);
-    Connect(ret.SigChanged(),obj,func,nvalue);
+    Connect(ret.SigChanged(),func,nvalue);
     return ret;
   }
   //: Construct spin button with callback to class method.
@@ -172,7 +172,7 @@ namespace RavlGUIN {
 			 bool (*func)(RealT &value,ParamT &parm),const ParamT &parm)
   {
     SpinButtonC ret(2,1,nvalue,nlower,nupper,nstep_increment);
-    Connect(ret.SigChanged(),obj,func,nvalue,parm);
+    Connect(ret.SigChanged(),func,nvalue,parm);
     return ret;
   }
   //: Construct spin button with callback to class method.

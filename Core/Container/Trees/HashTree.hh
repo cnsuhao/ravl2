@@ -51,7 +51,7 @@ namespace RavlN {
     //: Test if node is a leaf in the tree.
     
     virtual ostream &Dump(ostream &out,int level = 0) const {
-      out << data;
+      out << this->data;
       return out;
     }
     //: Dump in a easly readable format.
@@ -161,7 +161,7 @@ namespace RavlN {
     //: Access table of children.
 
     virtual ostream &Dump(ostream &out,int level = 0) const {
-      out << data << "\n";
+      out << this->data << "\n";
       for(HashIterC<KeyT,HashTreeNodeC<KeyT,DataT> > it(children);it;it++){
 	out << it.Key() << " "; 
 	it.Data().Dump(out,level+1) << "\n";
@@ -199,7 +199,7 @@ namespace RavlN {
       : HashTreeNodeC<KeyT,DataT>(base)
     {
       if(dynamic_cast<HashTreeBodyC<KeyT,DataT> * >(&HashTreeNodeC<KeyT,DataT>::Body() ) == 0)
-	Invalidate();
+	this->Invalidate();
     }
     //: Base class constructor.
     
@@ -273,11 +273,11 @@ namespace RavlN {
     //: Constructor from tree.
     
     HashTreeC<KeyT,DataT> Tree()
-    { return HashTreeC<KeyT,DataT>(Data()); }
+    { return HashTreeC<KeyT,DataT>(this->Data()); }
     //: Access current node as tree.
 
     bool Go() {
-      HashTreeC<KeyT,DataT> tree(Data()); 
+      HashTreeC<KeyT,DataT> tree(this->Data()); 
       if(!tree.IsValid())
 	return false;
       HashIterC<KeyT, HashTreeNodeC<KeyT,DataT> >::operator=(tree.Children());

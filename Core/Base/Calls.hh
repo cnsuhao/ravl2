@@ -212,7 +212,7 @@ namespace RavlN {
     //: Access data.
 
     virtual RCBodyVC &Copy() const
-    { return *new CallFunc1BodyC<DataT,RetT>(func,dat1); }
+    { return *new CallFunc1BodyC<DataT,RetT>(this->func,this->dat1); }
     //: Copy call.
     
     static RetT NoOp(DataT) 
@@ -237,7 +237,7 @@ namespace RavlN {
     
     inline
     FuncT FuncPtr() const
-    { return (FuncT)(func); }
+    { return (FuncT)(this->func); }
     //: Function.
     
     Arg1T dat1;
@@ -285,6 +285,10 @@ namespace RavlN {
     {}
     //: Default constructor.
     // Creates an invalid handle.
+    
+    void Invalidate()
+    { RCHandleC<TriggerBodyC>::Invalidate(); }
+    //: Invalidate handle
     
   protected:
     CallFunc1C(CallFunc1BodyC<DataT,RetT> &body)
@@ -358,9 +362,9 @@ namespace RavlN {
     
     CallFunc2BodyC(bool issueErrorOnCall) {
       if(issueErrorOnCall)
-	func = (VoidFuncPtrT) &CallFunc2BodyC<Data1T,Data2T,RetT>::IssueError;
+	this->func = (VoidFuncPtrT) &CallFunc2BodyC<Data1T,Data2T,RetT>::IssueError;
       else
-	func = (VoidFuncPtrT) &CallFunc2BodyC<Data1T,Data2T,RetT>::NoOp;
+	this->func = (VoidFuncPtrT) &CallFunc2BodyC<Data1T,Data2T,RetT>::NoOp;
     }
     //: Constructor.
     // if issueErrorOnCall a function which causes the
@@ -368,11 +372,11 @@ namespace RavlN {
     // the call returns silently.
     
     virtual void Invoke()
-    { (*FuncPtr())(dat1,dat2); }
+    { (*FuncPtr())(this->dat1,dat2); }
     //: Invoke event.
 
     virtual RetT Call()
-    { return (*FuncPtr())(dat1,dat2); }
+    { return (*FuncPtr())(this->dat1,dat2); }
     //: Invoke event.
     
     virtual RetT Call(Arg1T &pd)
@@ -392,7 +396,7 @@ namespace RavlN {
     //: Access data.
 
     virtual RCBodyVC &Copy() const
-    { return *new CallFunc2BodyC<Data1T,Data2T,RetT>(func,dat1,dat2); }
+    { return *new CallFunc2BodyC<Data1T,Data2T,RetT>(this->func,this->dat1,dat2); }
     //: Copy call.
     
   protected:
@@ -420,7 +424,7 @@ namespace RavlN {
     
     inline
     FuncT FuncPtr() const
-    { return (FuncT)(func); }
+    { return (FuncT)(this->func); }
     //: Function.
     
   };
@@ -471,6 +475,9 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
     
+    void Invalidate()
+    { RCHandleC<TriggerBodyC>::Invalidate(); }
+    //: Invalidate handle
   protected:
     CallFunc2C(CallFunc2BodyC<Data1T,Data2T,RetT> &bod)
       : CallFunc1C<Data1T,RetT>(bod)
@@ -527,9 +534,9 @@ namespace RavlN {
     
     CallFunc3BodyC(bool issueErrorOnCall) {
       if(issueErrorOnCall)
-	func = (VoidFuncPtrT) &CallFunc3BodyC<Data1T,Data2T,RetT>::IssueError;
+	this->func = (VoidFuncPtrT) &CallFunc3BodyC<Data1T,Data2T,RetT>::IssueError;
       else
-	func = (VoidFuncPtrT) &CallFunc3BodyC<Data1T,Data2T,RetT>::NoOp;
+	this->func = (VoidFuncPtrT) &CallFunc3BodyC<Data1T,Data2T,RetT>::NoOp;
     }
     //: Constructor.
     // if issueErrorOnCall a function which causes the
@@ -553,15 +560,15 @@ namespace RavlN {
     //: void function ptr constructor.
     
     virtual void Invoke()
-    { (*FuncPtr())(dat1,dat2,dat3); }
+    { (*FuncPtr())(this->dat1,this->dat2,dat3); }
     //: Invoke event.
 
     virtual RetT Call()
-    { return (*FuncPtr())(dat1,dat2,dat3); }
+    { return (*FuncPtr())(this->dat1,this->dat2,dat3); }
     //: Invoke event.
     
     virtual RetT Call(Arg1T &pd)
-    { return (*FuncPtr())(pd,dat2,dat3); }
+    { return (*FuncPtr())(pd,this->dat2,dat3); }
     //: Invoke event, with paramiter.
     
     virtual RetT Call(Arg1T &pd1,Arg2T &pd2)
@@ -581,7 +588,7 @@ namespace RavlN {
     //: Access data.
 
     virtual RCBodyVC &Copy() const
-    { return *new CallFunc3BodyC<Data1T,Data2T,Data3T,RetT>(func,dat1,dat2,dat3); }
+    { return *new CallFunc3BodyC<Data1T,Data2T,Data3T,RetT>(this->func,this->dat1,this->dat2,dat3); }
     //: Copy call.
 
     static RetT NoOp(Data1T,Data2T,Data3T) { 
@@ -609,7 +616,7 @@ namespace RavlN {
     
     inline
     FuncT FuncPtr() const
-    { return (FuncT)(func); }
+    { return (FuncT)(this->func); }
     //: Function.
   };
   
@@ -657,6 +664,10 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
     
+    void Invalidate()
+    { RCHandleC<TriggerBodyC>::Invalidate(); }
+    //: Invalidate handle
+
   protected:
     CallFunc3C(CallFunc3BodyC<Data1T,Data2T,Data3T,RetT> &bod)
       : CallFunc2C<Data1T,Data2T,RetT>(bod)
@@ -725,9 +736,9 @@ namespace RavlN {
     
     CallFunc4BodyC(bool issueErrorOnCall) {
       if(issueErrorOnCall)
-	func = (VoidFuncPtrT) &CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT>::IssueError;
+	this->func = (VoidFuncPtrT) &CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT>::IssueError;
       else
-	func = (VoidFuncPtrT) &CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT>::NoOp;
+	this->func = (VoidFuncPtrT) &CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT>::NoOp;
     }
     //: Constructor.
     // if issueErrorOnCall a function which causes the
@@ -741,19 +752,19 @@ namespace RavlN {
     //: Constructor.
     
     virtual void Invoke()
-    { (*FuncPtr())(dat1,dat2,dat3,dat4); }
+    { (*FuncPtr())(this->dat1,this->dat2,this->dat3,dat4); }
     //: Invoke event.
 
     virtual RetT Call()
-    { return (*FuncPtr())(dat1,dat2,dat3,dat4); }
+    { return (*FuncPtr())(this->dat1,this->dat2,this->dat3,dat4); }
     //: Invoke event.
     
     virtual RetT Call(Arg1T &pd)
-    { return (*FuncPtr())(pd,dat2,dat3,dat4); }
+    { return (*FuncPtr())(pd,this->dat2,this->dat3,dat4); }
     //: Invoke event, with paramiter.
     
     virtual RetT Call(Arg1T &pd1,Arg2T &pd2)
-    { return (*FuncPtr())(pd1,pd2,dat3,dat4); }
+    { return (*FuncPtr())(pd1,pd2,this->dat3,dat4); }
     //: Invoke event, with paramiters.
     
     virtual RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3)
@@ -773,7 +784,7 @@ namespace RavlN {
     //: Access data.
 
     virtual RCBodyVC &Copy() const
-    { return *new CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT>(func,dat1,dat2,dat3,dat4); }
+    { return *new CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT>(this->func,this->dat1,this->dat2,this->dat3,dat4); }
     //: Copy call.
     
   protected:
@@ -801,7 +812,7 @@ namespace RavlN {
     
     inline
     FuncT FuncPtr() const
-    { return (FuncT)(func); }
+    { return (FuncT)(this->func); }
     //: Function.
   };
   
@@ -850,6 +861,10 @@ namespace RavlN {
     {}
     //: Default constructor.
     // Creates an invalid handle.
+    
+    void Invalidate()
+    { RCHandleC<TriggerBodyC>::Invalidate(); }
+    //: Invalidate handle
     
   protected:
     CallFunc4C(CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT> &bod)
@@ -910,9 +925,9 @@ namespace RavlN {
     
     CallFunc5BodyC(bool issueErrorOnCall) {
       if(issueErrorOnCall)
-	func = (VoidFuncPtrT) &CallFunc5BodyC<Data1T,Data2T,Data3T,Data4T,Data5T,RetT>::IssueError;
+	this->func = (VoidFuncPtrT) &CallFunc5BodyC<Data1T,Data2T,Data3T,Data4T,Data5T,RetT>::IssueError;
       else
-	func = (VoidFuncPtrT) &CallFunc5BodyC<Data1T,Data2T,Data3T,Data4T,Data5T,RetT>::NoOp;
+	this->func = (VoidFuncPtrT) &CallFunc5BodyC<Data1T,Data2T,Data3T,Data4T,Data5T,RetT>::NoOp;
     }
     //: Constructor.
     // if issueErrorOnCall a function which causes the
@@ -937,23 +952,23 @@ namespace RavlN {
     //: Constructor.
     
     virtual void Invoke()
-    { (*FuncPtr())(dat1,dat2,dat3,dat4,dat5); }
+    { (*FuncPtr())(this->dat1,this->dat2,this->dat3,this->dat4,dat5); }
     //: Invoke event.
 
     virtual RetT Call()
-    { return (*FuncPtr())(dat1,dat2,dat3,dat4,dat5); }
+    { return (*FuncPtr())(this->dat1,this->dat2,this->dat3,this->dat4,dat5); }
     //: Invoke event.
     
     virtual RetT Call(Arg1T &pd)
-    { return (*FuncPtr())(pd,dat2,dat3,dat4,dat5); }
+    { return (*FuncPtr())(pd,this->dat2,this->dat3,this->dat4,dat5); }
     //: Invoke event, with paramiter.
     
     virtual RetT Call(Arg1T &pd1,Arg2T &pd2)
-    { return (*FuncPtr())(pd1,pd2,dat3,dat4,dat5); }
+    { return (*FuncPtr())(pd1,pd2,this->dat3,this->dat4,dat5); }
     //: Invoke event, with paramiters.
     
     virtual RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3)
-    { return (*FuncPtr())(pd1,pd2,pd3,dat4,dat5); }
+    { return (*FuncPtr())(pd1,pd2,pd3,this->dat4,dat5); }
     //: Invoke event, with paramiters.
 
     virtual RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3,Arg4T &pd4)
@@ -973,7 +988,7 @@ namespace RavlN {
     //: Access data.
     
     virtual RCBodyVC &Copy() const
-    { return *new CallFunc5BodyC<Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(func,dat1,dat2,dat3,dat4,dat5); }
+    { return *new CallFunc5BodyC<Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(this->func,this->dat1,this->dat2,this->dat3,this->dat4,dat5); }
     //: Copy call.
     
   protected:
@@ -1006,7 +1021,7 @@ namespace RavlN {
     
     inline
     FuncT FuncPtr() const
-    { return (FuncT)(func); }
+    { return (FuncT)(this->func); }
     //: Function.
   };
   
@@ -1060,6 +1075,10 @@ namespace RavlN {
     {}
     //: Default constructor.
     // Creates an invalid handle.
+    
+    void Invalidate()
+    { RCHandleC<TriggerBodyC>::Invalidate(); }
+    //: Invalidate handle
     
   protected:
     CallFunc5C(CallFunc5BodyC<Data1T,Data2T,Data3T,Data4T,Data5T,RetT> &bod)

@@ -196,9 +196,9 @@ namespace RavlN {
   template<class Sample1T,class Sample2T,class Sample3T,class Sample4T>
   UIntT DataSet4BodyC<Sample1T,Sample2T,Sample3T,Sample4T>::Append(const Element1T &data1,const Element2T &data2,
 								   const Element3T &data3,const Element4T &data4) {
-    UIntT no1 = samp1.Append(data1);
-    UIntT no2 = samp2.Append(data2);
-    UIntT no3 = samp3.Append(data3);
+    UIntT no1 = this->samp1.Append(data1);
+    UIntT no2 = this->samp2.Append(data2);
+    UIntT no3 = this->samp3.Append(data3);
     UIntT no4 = samp4.Append(data4);
     RavlAssert(no1==no2 && no1==no3 && no1==no4);
     return no1;
@@ -206,21 +206,24 @@ namespace RavlN {
   
   template<class Sample1T,class Sample2T,class Sample3T,class Sample4T>
   void DataSet4BodyC<Sample1T,Sample2T,Sample3T,Sample4T>::Append(const DataSet4C<Sample1T,Sample2T,Sample3T,Sample4T> &data) {
-    samp1.Append(data.Sample1());
-    samp2.Append(data.Sample2());
-    samp3.Append(data.Sample3());
+    this->samp1.Append(data.Sample1());
+    this->samp2.Append(data.Sample2());
+    this->samp3.Append(data.Sample3());
     samp4.Append(data.Sample4());
   }
   
   template<class Sample1T,class Sample2T,class Sample3T,class Sample4T>
   DataSet4C<Sample1T,Sample2T,Sample3T,Sample4T> DataSet4BodyC<Sample1T,Sample2T,Sample3T,Sample4T>::ExtractSample(RealT proportion) {
     RavlAssert(proportion >= 0 && proportion <= 1);
-    UIntT size = Size();
+    UIntT size = this->Size();
     UIntT entries = (UIntT) (proportion * (RealT) size);
     DataSet4C<Sample1T,Sample2T,Sample3T,Sample4T> ret(size);
     for(;entries > 0;entries--) {
       UIntT entry = RandomInt() % size;
-      ret.Append(samp1.PickElement(entry),samp2.PickElement(entry),samp3.PickElement(entry),samp4.PickElement(entry));
+      ret.Append(this->samp1.PickElement(entry),
+                 this->samp2.PickElement(entry),
+                 this->samp3.PickElement(entry),
+                 samp4.PickElement(entry));
       size--;
     }
     return ret;
@@ -228,13 +231,16 @@ namespace RavlN {
   
   template<class Sample1T,class Sample2T,class Sample3T,class Sample4T>
   void DataSet4BodyC<Sample1T,Sample2T,Sample3T,Sample4T>::Shuffle() {
-    UIntT size = Size();
-    for(DArray1dIter4C<Element1T,Element2T,Element3T,Element4T> it(Sample1().DArray(),Sample2().DArray(),Sample3().DArray(),Sample4().DArray());
+    UIntT size = this->Size();
+    for(DArray1dIter4C<Element1T,Element2T,Element3T,Element4T> it(this->Sample1().DArray(),
+                                                                   this->Sample2().DArray(),
+                                                                   this->Sample3().DArray(),
+                                                                   Sample4().DArray());
 	it;it++) {
       UIntT entry = RandomInt() % size;
-      Swap(it.Data1(),samp1.Nth(entry));
-      Swap(it.Data2(),samp2.Nth(entry));
-      Swap(it.Data3(),samp3.Nth(entry));
+      Swap(it.Data1(),this->samp1.Nth(entry));
+      Swap(it.Data2(),this->samp2.Nth(entry));
+      Swap(it.Data3(),this->samp3.Nth(entry));
       Swap(it.Data4(),samp4.Nth(entry));
     }
   }

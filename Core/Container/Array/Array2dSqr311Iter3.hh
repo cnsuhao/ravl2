@@ -46,31 +46,31 @@ namespace RavlN {
     //: Constructor.
     
     bool First() {
-      rng1 = IndexRangeC(array1.Range2().Min()+1,array1.Range2().Max()-1);
-      rng2 = array2.Range2();
-      rng3 = array3.Range2();
-      rng2.ClipBy(rng1);
-      rng3.ClipBy(rng1);
+      this->rng1 = IndexRangeC(array1.Range2().Min()+1,array1.Range2().Max()-1);
+      this->rng2 = array2.Range2();
+      this->rng3 = array3.Range2();
+      this->rng2.ClipBy(this->rng1);
+      this->rng3.ClipBy(this->rng1);
       IndexRangeC srng1(array1.Range1().Min()+1,array1.Range1().Max()-1);
       IndexRangeC srng2 = array2.Range1();
       IndexRangeC srng3 = array3.Range1();
       srng2.ClipBy(srng1);
       srng3.ClipBy(srng1);
-      if(!rit.First(array1,srng1,
+      if(!this->rit.First(array1,srng1,
 		    array2,srng2,
 		    array3,srng3)) {
-	cit.Invalidate();
+	this->cit.Invalidate();
 	return false;
       }
-      cit.First(rit.Data1(),rng1,
-		rit.Data2(),rng2,
-		rit.Data3(),rng3);
-      if(!cit) {
-	cit.Invalidate();
+      this->cit.First(this->rit.Data1(),this->rng1,
+                      this->rit.Data2(),this->rng2,
+                      this->rit.Data3(),this->rng3);
+      if(!this->cit) {
+	this->cit.Invalidate();
 	return false;
       }
-      up = &((&(rit.Data1()))[-1][rng1.Min()]);
-      dn = &((&(rit.Data1()))[ 1][rng1.Min()]);
+      up = &((&(this->rit.Data1()))[-1][this->rng1.Min()]);
+      dn = &((&(this->rit.Data1()))[ 1][this->rng1.Min()]);
       return true;
     }
     //: Goto first element in the array.
@@ -78,27 +78,27 @@ namespace RavlN {
     bool Next() { 
       up++;
       dn++;
-      cit++;
-      if(cit)
+      this->cit++;
+      if(this->cit)
 	return true;
-      rit++;
-      if(!rit)
+      this->rit++;
+      if(!this->rit)
 	return false;
-      up = &((&(rit.Data1()))[-1][rng1.Min()]);
-      dn = &((&(rit.Data1()))[ 1][rng1.Min()]);
-      cit.First(rit.Data1(),rng1,
-		rit.Data2(),rng2,
-		rit.Data3(),rng3);
+      up = &((&(this->rit.Data1()))[-1][this->rng1.Min()]);
+      dn = &((&(this->rit.Data1()))[ 1][this->rng1.Min()]);
+      this->cit.First(this->rit.Data1(),this->rng1,
+                      this->rit.Data2(),this->rng2,
+                      this->rit.Data3(),this->rng3);
       return false;
     }
     //: Goto next element.
     
     bool IsElm() const
-    { return cit.IsElm(); }
+    { return this->cit.IsElm(); }
     //: Test if iterator is at a valid element.
     
     operator bool() const
-    { return cit.IsElm(); }
+    { return this->cit.IsElm(); }
     //: Test if iterator is at a valid element.
     
     void operator++() 
@@ -134,27 +134,27 @@ namespace RavlN {
     //: Access bottom right data element 
 
     Data1T &DataML1() 
-    { return (&(cit.Data1()))[-1]; }
+    { return (&(this->cit.Data1()))[-1]; }
     //: Access middle left data element 
     
     const Data1T &DataML1() const
-    { return (&(cit.Data1()))[-1]; }
+    { return (&(this->cit.Data1()))[-1]; }
     //: Access middle left data element 
     
     Data1T &DataMM1() 
-    { return cit.Data1(); }
+    { return this->cit.Data1(); }
     //: Access middle data element 
     
     const Data1T &DataMM1() const
-    { return cit.Data1(); }
+    { return this->cit.Data1(); }
     //: Access middle data element 
     
     Data1T &DataMR1() 
-    { return (&(cit.Data1()))[1]; }
+    { return (&(this->cit.Data1()))[1]; }
     //: Access middle right data element 
     
     const Data1T &DataMR1() const
-    { return (&(cit.Data1()))[1]; }
+    { return (&(this->cit.Data1()))[1]; }
     //: Access middle right data element 
 
     Data1T &DataTL1() 
@@ -182,19 +182,19 @@ namespace RavlN {
     //: Access top right data element
     
     Data2T &Data2() 
-    { return cit.Data2(); }
+    { return this->cit.Data2(); }
     //: Access middle data element of second array.
     
     const Data2T &Data2() const
-    { return cit.Data2(); }
+    { return this->cit.Data2(); }
     //: Access middle data element of second array.
 
     Data3T &Data3() 
-    { return cit.Data3(); }
+    { return this->cit.Data3(); }
     //: Access middle data element of 3rd array.
     
     const Data3T &Data3() const
-    { return cit.Data3(); }
+    { return this->cit.Data3(); }
     //: Access middle data element of 3rd array.
     
   protected:

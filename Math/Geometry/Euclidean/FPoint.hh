@@ -44,7 +44,7 @@ namespace RavlN {
     
     FPointC(const FIndexC<N> &oth) { 
       for(unsigned int i = 0; i < N;i++) 
-	data[i] = (RealT) oth[i];
+	this->data[i] = (RealT) oth[i];
     }
     //: Construct from an index.
     

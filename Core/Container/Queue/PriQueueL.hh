@@ -200,6 +200,15 @@ namespace RavlN {
     void Empty()
     { Body().Empty(); }
     //: Empty the queue of all its contents.
+
+  protected:
+    PriQueueLBodyC<KeyT,DataT> &Body()
+    { return RCHandleC<PriQueueLBodyC<KeyT,DataT> >::Body(); }
+    //: Access body
+    
+    const PriQueueLBodyC<KeyT,DataT> &Body() const
+    { return RCHandleC<PriQueueLBodyC<KeyT,DataT> >::Body(); }
+    //: Access body
     
   };
   

@@ -186,7 +186,15 @@ namespace RavlN {
     inline SArray1dC<DataT> & SArray1d()
       { return *this; }
     //: Access to the whole array.
-
+    
+    SizeT Size() const
+    { return SizeBufferAccessC<DataT>::Size(); }
+    //: Access size of array 
+    
+    IndexRangeC Range() const
+    { return SizeBufferAccessC<DataT>::Range(); }
+    //: Returns the usable range of indeces expressed by this object.
+    
     Slice1dC<DataT> Slice1d()
     { return Slice1dC<DataT>(buff,DataStart(),Size(),1); }
     //: Access array as a slice.
@@ -264,9 +272,9 @@ namespace RavlN {
     
     UIntT Hash() const;
     //: Compute a hash value for the array.
-
+    
     inline DataT * DataStart() const
-      { return SizeBufferAccessC<DataT>::ReferenceElm(); }
+    { return SizeBufferAccessC<DataT>::ReferenceElm(); }
     //: Returns the address of element 0.
     // If the array has zero length a null pointer may
     // be returned.
@@ -642,23 +650,23 @@ namespace RavlN {
   template<class DataT>
   IndexC SArray1dC<DataT>::IndexOfMax() const {
     RavlAssertMsg(Size() > 0,"SArray1dC::IndexOfMax() Called on an empty array");
-    const DataT *valueOfMax = &(operator[](0));
+    const DataT *valueOfMax = &(this->operator[](0));
     for (BufferAccessIterC<DataT> i(*this); i; i++) {
       if (*valueOfMax < *i)
 	valueOfMax = &(*i);
     }
-    return IndexC((IntT)(valueOfMax - ReferenceElm()));
+    return IndexC((IntT)(valueOfMax - this->ReferenceElm()));
   }
 
   template<class DataT>
   IndexC SArray1dC<DataT>::IndexOfMin() const {
     RavlAssertMsg(Size() > 0,"SArray1dC::IndexOfMin() Called on an empty array");
-    const DataT *valueOfMin = &(operator[](0));
+    const DataT *valueOfMin = &(this->operator[](0));
     for (BufferAccessIterC<DataT> i(*this); i; i++) {
       if (*valueOfMin > *i)
 	valueOfMin = &(*i);
     }
-    return IndexC((IntT)(valueOfMin - ReferenceElm()));
+    return IndexC((IntT)(valueOfMin - this->ReferenceElm()));
   }
 
 

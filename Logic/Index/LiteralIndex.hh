@@ -165,7 +165,7 @@ namespace RavlLogicN {
   
   template<class DataT>  
   istream &operator>>(istream &strm,LiteralIndexC<DataT> &index) {
-    strm >> ((const LiteralIndexBaseC &) index); 
+    strm >> ((LiteralIndexBaseC &) index); 
     return strm;
   }
   //: Input from stream.

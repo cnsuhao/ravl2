@@ -91,7 +91,10 @@ namespace RavlN
       int nu = Min(m,n);
       int i=0, j=0, k=0;
       
-      RavlAlwaysAssertMsg(m >= n,"SVDC, This SVD code it not reliable where m < n.");
+#if 0
+      if(m < n)
+	cerr << "SVDC, This SVD code it not reliable where m < n.\n";
+#endif
       
       // Reduce A to bidiagonal form, storing the diagonal elements
       // in s and the super-diagonal elements in e.

@@ -39,7 +39,7 @@ namespace RavlImageN {
     // Contents of pixels are left undefined.
     
     YUV422ValueC(const CompT &uv,const CompT &y)
-    { data[0] =uv; data[1] = y; }
+    { this->data[0] =uv; this->data[1] = y; }
     //: Construct from components.
     
     inline const CompT &UV() const

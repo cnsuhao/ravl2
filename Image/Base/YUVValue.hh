@@ -39,9 +39,9 @@ namespace RavlImageN {
     // Creates an undefined value.
 
     YUVValueC(const CompT &y,const CompT &u,const CompT &v) {
-      data[0] =y;
-      data[1] =u;
-      data[2] =v;
+      this->data[0] =y;
+      this->data[1] =u;
+      this->data[2] =v;
     }
     //: Construct from component values.
     
@@ -52,41 +52,41 @@ namespace RavlImageN {
     
     template<class OCompT>
     YUVValueC(YUVValueC<OCompT> &oth) {
-      data[0] = oth.Y();
-      data[1] = oth.U();
-      data[2] = oth.V();
+      this->data[0] = oth.Y();
+      this->data[1] = oth.U();
+      this->data[2] = oth.V();
     }
     //: Construct from another component type.
 
     void Set(const CompT &y,const CompT &u,const CompT &v) {
-      data[0] =y;
-      data[1] =u;
-      data[2] =v;
+      this->data[0] =y;
+      this->data[1] =u;
+      this->data[2] =v;
     }
     //: Set the values.
     
     inline const CompT & Y() const
-    { return data[0]; }
+    { return this->data[0]; }
     //: Returns the level of the Y component.
     
     inline const CompT & U() const
-    { return data[1]; }
+    { return this->data[1]; }
     //: Returns the level of the U component.
     
     inline const CompT & V() const
-    { return data[2]; }
+    { return this->data[2]; }
     //: Returns the level of the V component.
     
     inline CompT & Y() 
-    { return data[0]; }
+    { return this->data[0]; }
     //: Returns the level of the Y component.
     
     inline CompT & U()
-    { return data[1]; }
+    { return this->data[1]; }
     //: Returns the level of the U component.
     
     inline CompT & V()
-    { return data[2]; }
+    { return this->data[2]; }
     //: Returns the level of the V component.
 
   };

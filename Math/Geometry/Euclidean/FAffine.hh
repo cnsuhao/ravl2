@@ -81,15 +81,6 @@ namespace RavlN {
     FMatrixC<N,N> SR; // Scale/rotate.
     FVectorC<N> T;   // Translate.
     
-  private:
-#if RAVL_NEW_ANSI_CXX_DRAFT
-    friend istream & operator>> <N> (istream & inS, FAffineC<N> & vector);
-    friend ostream & operator<< <N> (ostream & outS, const FAffineC<N> & vector);
-#else   
-    friend istream & operator>> (istream & inS, FAffineC<N> & vector);
-    friend ostream & operator<< (ostream & outS, const FAffineC<N> & vector);
-#endif
-    
   };
   
   template<unsigned int N>

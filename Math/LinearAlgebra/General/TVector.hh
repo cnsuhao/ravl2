@@ -69,7 +69,7 @@ namespace RavlN {
     
     template<unsigned int N>
     operator TFVectorC<DataT,N> () const {
-      RavlAssertMsg(N == Size(),"Size mismatch converting to fixed size array. ");
+      RavlAssertMsg(N == this->Size(),"Size mismatch converting to fixed size array. ");
       TFVectorC<DataT,N> ret;
       DataT *at = &(ret[0]);
       for(BufferAccessIterC<DataT> it(*this);it;it++,at++)

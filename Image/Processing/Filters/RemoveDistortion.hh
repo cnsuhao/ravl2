@@ -268,7 +268,7 @@ namespace RavlImageN {
     }
 
     // compute distortion and remove it from camera coordinates
-    return (1.0 + R2*(K1 + R2*K2));
+    return (1.0 + this->R2*(K1 + this->R2*K2));
   }
 
   template <class InT, class OutT,class MixerT>

@@ -47,7 +47,7 @@ namespace RavlN {
 
     bool IsReal() const {
       for(UIntT i = 0;i < N;i++)
-	if(IsNan(data[i]) || IsInf(data[i]))
+	if(IsNan(this->data[i]) || IsInf(this->data[i]))
 	  return false;
       return true;
     }
@@ -56,7 +56,7 @@ namespace RavlN {
     // or infinite values are found.
     
     RealT Magnitude() const 
-    { return Sqrt(SumOfSqr()); }
+    { return Sqrt(this->SumOfSqr()); }
     //: Calculate the magintude of the vector.
     
     inline RealT EuclidDistance(const TFVectorC<RealT,N> & i) const
@@ -67,7 +67,7 @@ namespace RavlN {
       FVectorC<N> ret;
       RealT mag = Magnitude();
       for(UIntT i = 0;i < N;i++)
-	ret[i] = data[i] / mag;
+	ret[i] = this->data[i] / mag;
       return ret;
     }
     //: Create a unit vector with the same direction.
@@ -75,7 +75,7 @@ namespace RavlN {
     const FVectorC<N> &MakeUnit() { 
       RealT mag = Magnitude();
       for(UIntT i = 0;i < N;i++)
-	data[i] /= mag;
+	this->data[i] /= mag;
       return *this; 
     }
     //: Make this a unit vector.

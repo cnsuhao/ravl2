@@ -36,8 +36,8 @@ namespace RavlN {
     //: Constructor.
   
     DPOffsetScaleBodyC(istream &strm)
-      : DPProcessBodyC<NumTypeT,NumTypeT>(in)
-    { in >> fact >> offset; }
+      : DPProcessBodyC<NumTypeT,NumTypeT>(strm)
+    { strm >> factor >> offset; }
     //: Stream constructor.
   
     virtual NumTypeT Apply(const NumTypeT & arg)

@@ -65,9 +65,20 @@ namespace RavlN {
     
     // Access to the object
     // --------------------
+
+    inline DataT * ReferenceElm() const
+    { return this->buff; }
+    // Returns the pointer to the reference element of the attached buffer.
+    // The reference element need not to be the valid element of the buffer.
+    
+    inline void * ReferenceVoid() const
+    { return (void *) this->buff; }
+    // Returns the pointer to the reference element of the attached buffer.
+    // The reference element need not to be the valid element of the buffer.
+    // The function is intended to be used in printing.
     
     inline DataT * DataStart() const
-    { return buff; }
+    { return this->buff; }
     // Returns the address of the first element of the buffer.
     
     inline SizeT Size() const
@@ -172,7 +183,7 @@ namespace RavlN {
     // An error will be generated if the requested buffer isn't contains within this one.
 
     bool operator==(const SizeBufferAccessC<DataT> &ba) const
-    { return (buff == ba.buff) && (sz == ba.sz); }
+    { return (this->buff == ba.buff) && (this->sz == ba.sz); }
     //: Are two accesses the same ?
   protected:
     
@@ -272,7 +283,7 @@ namespace RavlN {
   const SizeBufferAccessC<DataT> & 
   SizeBufferAccessC<DataT>::Swap(SizeBufferAccessC<DataT> & a) {
     BufferAccessC<DataT>::Swap(a);
-    sz.Swap(a.sz);
+    Swap(sz,a.sz);
     return *this;
   }
   
@@ -296,7 +307,7 @@ namespace RavlN {
   SizeBufferAccessC<DataT> 
   SizeBufferAccessC<DataT>::operator+(SizeT i) const { 
     RavlAssert(i <= sz);
-    return SizeBufferAccessC<DataT>(buff + i, sz - i); 
+    return SizeBufferAccessC<DataT>(this->buff + i, sz - i); 
   }
   
   template <class DataT>

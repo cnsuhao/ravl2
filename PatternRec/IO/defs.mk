@@ -12,8 +12,8 @@ DESCRIPTION= Pattern recognition data IO.
 HEADERS= 
 #VectorIOText.hh
 
-SOURCES= SampleIO.cc DataSetIO.cc ClassifierIO.cc FunctionIO.cc \
- GaussianMixtureIO.cc DistanceIO.cc
+SOURCES= SampleIO.cc DataSetIO.cc ClassifierIO.cc Classifier2IO.cc \
+ FunctionIO.cc GaussianMixtureIO.cc DistanceIO.cc
 
 #VectorIOText.cc
 

@@ -50,7 +50,7 @@ namespace RavlAudioN {
     
     virtual bool Get(OutT &buff) {
       InT in;
-      if(!input.Get(in))
+      if(!this->input.Get(in))
 	return false;
       FilterT val = static_cast<FilterT>(in);
       buff = static_cast<OutT>(val - last * alpha);
@@ -61,7 +61,7 @@ namespace RavlAudioN {
     
     virtual IntT GetArray(SArray1dC<OutT> &data) {
       SArray1dC<InT> din(data.Size());
-      IntT elems = input.GetArray(din);
+      IntT elems = this->input.GetArray(din);
       FilterT val;
       for(SArray1dIter2C<InT,OutT> it(din,data);it;it++) {
 	val = static_cast<FilterT>(it.Data1());

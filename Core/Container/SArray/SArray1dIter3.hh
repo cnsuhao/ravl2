@@ -55,12 +55,12 @@ namespace RavlN {
     //: Access array.
     
     IndexC Index() const
-      { return (IntT) (at1 - &arr1[0]); }
+      { return (IntT) (this->at1 - &arr1[0]); }
     //: Get current index.
     // This is a little slow.
 
     bool IsFirst() const
-    { return at1 == &(arr1[0]); }
+    { return this->at1 == &(arr1[0]); }
     //: Test if this is the first element in the range.
     // Note,this is slower than IsElm().
     

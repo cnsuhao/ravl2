@@ -101,7 +101,7 @@ namespace RavlN {
     { return rng2; }
     //: Range of second index.
 
-    UIntT Size() const 
+    SizeT Size() const 
     { return Range1().Size() * Range2().Size(); }
     //: Get the total number of elements in the array.
     
@@ -127,8 +127,8 @@ namespace RavlN {
     IntT Stride() const {
       if(Range1().Size() <= 1)
 	return (IntT) rng2.Size();
-      return (IntT) (RangeBufferAccessC<BufferAccessC<DataT> >::operator[](IMin()+1).ReferenceElm() -  
-		     RangeBufferAccessC<BufferAccessC<DataT> >::operator[](IMin()).ReferenceElm());
+      return (IntT) (RangeBufferAccessC<BufferAccessC<DataT> >::operator[](this->IMin()+1).ReferenceElm() -  
+		     RangeBufferAccessC<BufferAccessC<DataT> >::operator[](this->IMin()).ReferenceElm());
     }
     //: Get the stride of the 2d array. 
     

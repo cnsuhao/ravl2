@@ -69,6 +69,15 @@ namespace RavlImageN {
       : RCHandleC<SegmentRegionBodyC<PixelT,StatT> >((SegmentRegionBodyC<PixelT,StatT> &)bod)
     {}
     //: Constructor from the body class
+    
+    SegmentRegionBodyC<PixelT,StatT> &Body()
+    { return RCHandleC<SegmentRegionBodyC<PixelT,StatT> >::Body(); }
+    //: Access body
+    
+    const SegmentRegionBodyC<PixelT,StatT> &Body() const
+    { return RCHandleC<SegmentRegionBodyC<PixelT,StatT> >::Body(); }
+    //: Access body
+    
   };
 
 }

@@ -39,11 +39,11 @@ namespace RavlN {
     //: Construct from data.
     
     DataT *BodyPtr()
-    { return body; }
+    { return this->body; }
     //: Access pointer to body.
     
     const DataT *BodyPtr() const
-    { return body; }
+    { return this->body; }
     //: Access pointer to body.
     
     DataT *operator->()
@@ -55,22 +55,22 @@ namespace RavlN {
     //: Access body.
     
     operator DataT *()
-    { return body; }
+    { return this->body; }
     //: Access body.
     
     operator const DataT *() const
-    { return body; }
+    { return this->body; }
     //: Access body.
     
     const SmartPtrC<DataT> &operator=(const DataT *other) {
       DataT *oth = const_cast<DataT *>(other);
       if(oth != 0)
 	oth->IncRefCounter();
-      if(body != 0) {
-	if(body->DecRefCounter())
-	  delete body;
+      if(this->body != 0) {
+	if(this->body->DecRefCounter())
+	  delete this->body;
       }
-      body = oth;
+      this->body = oth;
       return *this;
     }
     //: Assign handle.

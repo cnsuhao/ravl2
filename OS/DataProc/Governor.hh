@@ -143,27 +143,27 @@ namespace RavlN {
     //: Copy Constructor
     
     virtual DataT Get() { 
-      DataT ret = input.Get(); 
+      DataT ret = this->input.Get(); 
       WaitForTimeup();
       return ret;
     }
     //: Process next piece of data.
     
     virtual bool Get(DataT &outbuff) { 
-      bool ret = input.Get(outbuff);
+      bool ret = this->input.Get(outbuff);
       WaitForTimeup();
       return ret;
     }
     //: Process some data.  
     
     virtual bool IsGetReady() const {
-      RavlAssert(input.IsValid());
-      return input.IsGetReady(); 
+      RavlAssert(this->input.IsValid());
+      return this->input.IsGetReady(); 
     }
     
     virtual bool IsGetEOS() const { 
-      RavlAssert(input.IsValid());
-      return input.IsGetEOS(); 
+      RavlAssert(this->input.IsValid());
+      return this->input.IsGetEOS(); 
     }
     //: Has the End Of Stream been reached ?
     // true = yes.

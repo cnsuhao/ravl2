@@ -52,17 +52,17 @@ namespace RavlN {
     //: Access array.
     
     IndexC Index() const
-    { return (IntT) (&Data() - &arr[0]); }   //: Get current index.
+    { return (IntT) (&this->Data() - &arr[0]); }   //: Get current index.
     // This is a little slow.
     
     bool IsFirst() const
-    { return at == &arr[0]; }
+    { return this->at == &arr[0]; }
     //: Test if this is the first element in the range.
     // Note,this is slower than IsElm().
 
     void Goto(UIntT off) { 
-      at = &(arr[off]); 
-      RavlAssert(at <= endOfRow);
+      this->at = &(arr[off]); 
+      RavlAssert(this->at <= this->endOfRow);
     }
     //: Goto specific entry in array.
     // off must be within current array

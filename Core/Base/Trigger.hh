@@ -44,7 +44,7 @@ namespace RavlN {
   //: Signal Event handle
   
   class TriggerC
-    : public RCHandleVC<TriggerBodyC>
+    : public RCHandleVC< TriggerBodyC>
   {
   public:
     TriggerC()

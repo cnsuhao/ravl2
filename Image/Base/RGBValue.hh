@@ -41,17 +41,17 @@ namespace RavlImageN {
     // Creates an undefined value.
 
     RGBValueC(const CompT &r,const CompT &g,const CompT &b) {
-      data[0] =r;
-      data[1] =g;
-      data[2] =b;
+      this->data[0] =r;
+      this->data[1] =g;
+      this->data[2] =b;
     }
     //: Construct from component values.
     
     template<class OCompT>
     RGBValueC(RGBValueC<OCompT> &oth) {
-      data[0] = (CompT) oth.Red();
-      data[1] = (CompT) oth.Green();
-      data[2] = (CompT) oth.Blue();
+      this->data[0] = (CompT) oth.Red();
+      this->data[1] = (CompT) oth.Green();
+      this->data[2] = (CompT) oth.Blue();
     }
     //: Construct from another component type.
     
@@ -61,43 +61,43 @@ namespace RavlImageN {
     //: Constructor from base class.
     
     void Set(const CompT &r,const CompT &g,const CompT &b) {
-      data[0] =r;
-      data[1] =g;
-      data[2] =b;
+      this->data[0] =r;
+      this->data[1] =g;
+      this->data[2] =b;
     }
     //: Set the values.
     
     inline const CompT & Red() const
-      { return data[0]; }
+      { return this->data[0]; }
     //: Returns the level of the red component.
     
     inline const CompT & Green() const
-      { return data[1]; }
+      { return this->data[1]; }
     //: Returns the level of the green component.
     
     inline const CompT & Blue() const
-      { return data[2]; }
+      { return this->data[2]; }
     //: Returns the level of the blue component.
     
     inline CompT & Red() 
-      { return data[0]; }
+      { return this->data[0]; }
     //: Returns the level of the red component.
     
     inline CompT & Green()
-      { return data[1]; }
+      { return this->data[1]; }
     //: Returns the level of the green component.
     
     inline CompT & Blue()
-      { return data[2]; }
+      { return this->data[2]; }
     //: Returns the level of the blue component.
     
     inline CompT NTSC_Y()
-      { return (CompT)((RealT) 0.299 * data[0] + 0.587 * data[1] + 0.114 * data[2]); }
+      { return (CompT)((RealT) 0.299 * this->data[0] + 0.587 * this->data[1] + 0.114 * this->data[2]); }
     //: Get the pixel intensity of an NTSC colour system.
     // the NTSC RGB color system.
     
     CompT Y() const
-      { return (data[0] + data[1] + data[2])/3; }
+      { return (this->data[0] + this->data[1] + this->data[2])/3; }
     //: Calculate intensity of the pixel.
     // This returns the average of the red, green
     // and blue components.

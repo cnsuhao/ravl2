@@ -118,7 +118,7 @@ namespace RavlN {
     //: Constructor.
     
     virtual bool Invoke()
-    { return func(defaultVal); }
+    { return func(this->defaultVal); }
     //: Call function.
     // Use default value.
     
@@ -175,7 +175,7 @@ namespace RavlN {
     //: Constructor.
     
     virtual bool Invoke()
-    { return (obj.*func)(defaultVal); }
+    { return (obj.*func)(this->defaultVal); }
     //: Call function.
     
     virtual bool Invoke(Arg1T &val)
@@ -241,7 +241,7 @@ namespace RavlN {
     //: Constructor.
     
     virtual bool Invoke()
-    { return (obj.*func)(defaultVal); }
+    { return (obj.*func)(this->defaultVal); }
     //: Call function.
     
     virtual bool Invoke(Arg1T &val)
@@ -428,7 +428,7 @@ namespace RavlN {
   template<class DataT>
   inline
   bool SignalInterConnect1BodyC<DataT>::Invoke()
-  { return Invoke(defaultVal); }
+  { return Invoke(this->defaultVal); }
   
   template<class DataT>
   inline 
@@ -442,7 +442,7 @@ namespace RavlN {
   
   template<class DataT>  
   inline SignalConnectorC Connect(Signal0C &from,bool (*func)(DataT),
-				  const typename TraitsC<DataT>::BaseTypeT &def = TraitsC<DataT>::BaseTypeT()) {
+				  const typename TraitsC<DataT>::BaseTypeT &def = typename TraitsC<DataT>::BaseTypeT()) {
     RavlAssert(from.IsValid());
     return Signal1FuncC<DataT>(from,func,def);  
   }
@@ -452,7 +452,7 @@ namespace RavlN {
   template<class ObjT,class DataT>
   inline
   SignalConnectorC Connect(Signal0C &from,const ObjT &obj,bool (ObjT::* func)(DataT),
-			   const typename TraitsC<DataT>::BaseTypeT &def = TraitsC<DataT>::BaseTypeT()) { 
+			   const typename TraitsC<DataT>::BaseTypeT &def = typename TraitsC<DataT>::BaseTypeT()) { 
     RavlAssert(from.IsValid());
     return Signal1MethodC<DataT,ObjT>(from,const_cast<ObjT &>(obj),func,def);
   } 
@@ -462,7 +462,7 @@ namespace RavlN {
   template<class ObjT,class DataT>
   inline
   SignalConnectorC ConnectRef(Signal0C &from,ObjT &obj,bool (ObjT::* func)(DataT),
-			      const typename TraitsC<DataT>::BaseTypeT &def = TraitsC<DataT>::BaseTypeT()) { 
+			      const typename TraitsC<DataT>::BaseTypeT &def = typename TraitsC<DataT>::BaseTypeT()) { 
     RavlAssert(from.IsValid());
 #if RAVL_COMPILER_VISUALCPP 
     return Signal1MethodRefC<DataT,ObjT>(from,obj,func,def);
@@ -479,7 +479,7 @@ namespace RavlN {
   template<class ObjT,class DataT>
   inline
   SignalConnectorC ConnectR(Signal0C &from,ObjT &obj,bool (ObjT::* func)(DataT),
-			    const typename TraitsC<DataT>::BaseTypeT &def = TraitsC<DataT>::BaseTypeT()) { 
+			    const typename TraitsC<DataT>::BaseTypeT &def = typename TraitsC<DataT>::BaseTypeT()) { 
     RavlAssert(from.IsValid());
 #if RAVL_COMPILER_VISUALCPP 
     return Signal1MethodRefC<DataT,ObjT>(from,obj,func,def);

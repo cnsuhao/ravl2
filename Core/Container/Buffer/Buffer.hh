@@ -54,8 +54,8 @@ namespace RavlN {
     //: Construct from data.
     
     ~BufferBodyC() { 
-      if(buff != 0 && deletable)
-	delete [] buff;
+      if(this->buff != 0 && deletable)
+	delete [] this->buff;
     }
     //: Destructor.
     
@@ -103,7 +103,7 @@ namespace RavlN {
     //: Constant access to body.
     
   public:
-    UIntT Size() const
+    SizeT Size() const
     { return Body().Size(); }
     //: Access size of buffer.
     
@@ -135,10 +135,10 @@ namespace RavlN {
   {
     if(!copy)
       return ;
-    buff = new DataT[nsize];
-    DataT *place,*end = &buff[nsize];
+    this->buff = new DataT[nsize];
+    DataT *place,*end = &this->buff[nsize];
     const DataT *source = ndat;
-    for(place = buff;place != end;place++,source++)
+    for(place = this->buff;place != end;place++,source++)
       *place = *source;
   }
   

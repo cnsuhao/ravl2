@@ -34,66 +34,66 @@ namespace RavlImageN {
   {
   public:
     RGBAValueC()
-      {}
+    {}
     //: Default constructor.
     // Creates an undefined value.
     
     RGBAValueC(const CompT &r,const CompT &g,const CompT &b,const CompT &a = CompT()) {
-      data[0] =r;
-      data[1] =g;
-      data[2] =b;
-      data[3] =a;
+      this->data[0] =r;
+      this->data[1] =g;
+      this->data[2] =b;
+      this->data[3] =a;
     }
     //: Construct from component values.
     
     template<class OCompT>
     RGBAValueC(const RGBAValueC<OCompT> &oth) {
-      data[0] = oth.Red();
-      data[1] = oth.Green();
-      data[2] = oth.Blue();
-      data[3] = oth.Alpha();
+      this->data[0] = oth.Red();
+      this->data[1] = oth.Green();
+      this->data[2] = oth.Blue();
+      this->data[3] = oth.Alpha();
     }
     //: Construct from another component type.
     
     template<class OCompT>
     RGBAValueC(RGBValueC<OCompT> &oth,const CompT &alpha = CompT()) {
-      data[0] = oth.Red();
-      data[1] = oth.Green();
-      data[2] = oth.Blue();
-      data[3] = alpha;
+      this->data[0] = oth.Red();
+      this->data[1] = oth.Green();
+      this->data[2] = oth.Blue();
+      this->data[3] = alpha;
     }
     //: Construct from another 3 rgb pixel.
     
     inline const CompT & Red() const
-      { return data[0]; }
+    { return this->data[0]; }
     // Returns the level of the red component.
     
     inline const CompT & Green() const
-      { return data[1]; }
+    { return this->data[1]; }
     // Returns the level of the green component.
     
     inline const CompT & Blue() const
-      { return data[2]; }
+    { return this->data[2]; }
     // Returns the level of the blue component.
 
     inline const CompT & Alpha() const
-      { return data[3]; }
+    { return this->data[3]; }
     // Returns the level of the alpha component.
     
     inline CompT & Red() 
-      { return data[0]; }
+    { return this->data[0]; }
     // Returns the level of the red component.
     
     inline CompT & Green()
-      { return data[1]; }
+    { return this->data[1]; }
     // Returns the level of the green component.
     
     inline CompT & Blue()
-      { return data[2]; }
+    { return this->data[2]; }
     // Returns the level of the blue component.
 
     inline CompT & Alpha()
-      { return data[3]; }
+    { return this->data[3]; }
     // Returns the level of the alpha component.
 
   };

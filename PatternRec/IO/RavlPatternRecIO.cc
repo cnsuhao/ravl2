@@ -16,6 +16,7 @@ namespace RavlN {
   extern void InitRavlSampleIO();
   extern void InitRavlDataSetIO();
   extern void InitRavlClassifierIO();
+  extern void InitRavlClassifier2IO();
   extern void InitRavlFunctionIO();
   extern void InitRavlGaussianMixtureIO();
   extern void InitRavlDistanceIO();
@@ -24,6 +25,7 @@ namespace RavlN {
     InitRavlSampleIO();
     InitRavlDataSetIO();
     InitRavlClassifierIO();
+    InitRavlClassifier2IO();
     InitRavlFunctionIO();
     InitRavlGaussianMixtureIO();
     InitRavlDistanceIO();

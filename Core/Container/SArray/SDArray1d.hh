@@ -19,6 +19,11 @@
 #include "Ravl/Index.hh"
 #include "Ravl/Assert.hh"
 
+#if RAVL_COMPILER_GCC3_4
+#include "Ravl/Stream.hh"
+#include "Ravl/BinStream.hh"
+#endif
+
 #if RAVL_HAVE_ANSICPPHEADERS
 #include <new>
 #else
@@ -306,13 +311,13 @@ namespace RavlN {
   
   template<class T>
   bool SDArray1dC<T>::Compare(const SDArray1dC<T> &Oth) const {
-    if(&Oth == this) return True; // Short cut.
-    if(Oth.Used != Used) return False;
+    if(&Oth == this) return true; // Short cut.
+    if(Oth.Used != Used) return false;
     T *Place,*OPlace,*End = &((T *)Data)[Used];
     for(Place = (T *)Data,OPlace = (T *)Oth.Data;Place != End;Place++,OPlace++)
       if(!(*Place == *OPlace))
-	return False;
-    return True;
+	return false;
+    return true;
   }
   
   template<class T>

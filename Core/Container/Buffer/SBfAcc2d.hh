@@ -116,8 +116,8 @@ namespace RavlN {
     inline SizeT Size2() const
     { return size2; }
     //: Size.
-
-    UIntT Size() const 
+    
+    SizeT Size() const 
     { return Size1() * Size2(); }
     //: Get the total number of elements in the array.
     

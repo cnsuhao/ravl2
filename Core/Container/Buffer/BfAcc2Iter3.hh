@@ -144,7 +144,7 @@ namespace RavlN {
     // if it is at the end of the array. 
     
     bool SkipRow(IntT rowOffset) {
-      rit.Next(offset);
+      rit.Next(this->offset);
       if(!rit.IsElm())
 	return false;
       cit.First(rit.Data1(),rng1,

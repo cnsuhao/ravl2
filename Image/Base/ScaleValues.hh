@@ -46,7 +46,7 @@ namespace RavlImageN {
   
   template<class PixelT>
   ImageC<PixelT> ScaleValues(const ImageC<PixelT> &original,const PixelT &max,ImageC<PixelT> &result) {
-    if(result.Frame() != orignal.Frame())
+    if(result.Frame() != original.Frame())
       result = ImageC<RealT>(original.Fame());
     if(result.Frame().Area() < 1)
       return result;

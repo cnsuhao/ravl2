@@ -227,7 +227,7 @@ namespace RavlN
 	NumT scale = 0.0;
 	NumT h = 0.0;
 	for (int k = 0; k < i; k++) {
-	  scale = scale + abs(d[k]);
+	  scale = scale + Abs(d[k]);
 	}
 	if (scale == 0.0) {
 	  e[i] = d[i-1];
@@ -343,12 +343,12 @@ namespace RavlN
 
 	// Find small subdiagonal element
    
-	tst1 = max(tst1,abs(d[l]) + abs(e[l]));
+	tst1 = max(tst1,Abs(d[l]) + Abs(e[l]));
 	int m = l;
 
         // Original while-loop from Java code
 	while (m < n) {
-	  if (abs(e[m]) <= eps*tst1) {
+	  if (Abs(e[m]) <= eps*tst1) {
 	    break;
 	  }
 	  m++;
@@ -416,7 +416,7 @@ namespace RavlN
    
 	    // Check for convergence.
    
-	  } while (abs(e[l]) > eps*tst1);
+	  } while (Abs(e[l]) > eps*tst1);
 	}
 	d[l] = d[l] + f;
 	e[l] = 0.0;
@@ -463,7 +463,7 @@ namespace RavlN
    
 	NumT scale = 0.0;
 	for (int i = m; i <= high; i++) {
-	  scale = scale + abs(H[i][m-1]);
+	  scale = scale + Abs(H[i][m-1]);
 	}
 	if (scale != 0.0) {
    
@@ -544,7 +544,7 @@ namespace RavlN
     NumT cdivr, cdivi;
     void cdiv(NumT xr, NumT xi, NumT yr, NumT yi) {
       NumT r,d;
-      if (abs(yr) > abs(yi)) {
+      if (Abs(yr) > Abs(yi)) {
 	r = yi/yr;
 	d = yr + r*yi;
 	cdivr = (xr + r*xi)/d;
@@ -586,7 +586,7 @@ namespace RavlN
 	  e[i] = 0.0;
 	}
 	for (int j = max(i-1,0); j < nn; j++) {
-	  norm = norm + abs(H[i][j]);
+	  norm = norm + Abs(H[i][j]);
 	}
       }
    
@@ -599,11 +599,11 @@ namespace RavlN
    
 	int l = n;
 	while (l > low) {
-	  s = abs(H[l-1][l-1]) + abs(H[l][l]);
+	  s = Abs(H[l-1][l-1]) + Abs(H[l][l]);
 	  if (s == 0.0) {
 	    s = norm;
 	  }
-	  if (abs(H[l][l-1]) < eps * s) {
+	  if (Abs(H[l][l-1]) < eps * s) {
 	    break;
 	  }
 	  l--;
@@ -625,7 +625,7 @@ namespace RavlN
 	  w = H[n][n-1] * H[n-1][n];
 	  p = (H[n-1][n-1] - H[n][n]) / 2.0;
 	  q = p * p + w;
-	  z = sqrt(abs(q));
+	  z = sqrt(Abs(q));
 	  H[n][n] = H[n][n] + exshift;
 	  H[n-1][n-1] = H[n-1][n-1] + exshift;
 	  x = H[n][n];
@@ -646,7 +646,7 @@ namespace RavlN
 	    e[n-1] = 0.0;
 	    e[n] = 0.0;
 	    x = H[n][n-1];
-	    s = abs(x) + abs(z);
+	    s = Abs(x) + Abs(z);
 	    p = x / s;
 	    q = z / s;
 	    r = sqrt(p * p+q * q);
@@ -709,7 +709,7 @@ namespace RavlN
 	    for (int i = low; i <= n; i++) {
 	      H[i][i] -= x;
 	    }
-	    s = abs(H[n][n-1]) + abs(H[n-1][n-2]);
+	    s = Abs(H[n][n-1]) + Abs(H[n-1][n-2]);
 	    x = y = 0.75 * s;
 	    w = -0.4375 * s * s;
 	  }
@@ -745,16 +745,16 @@ namespace RavlN
 	    p = (r * s - w) / H[m+1][m] + H[m][m+1];
 	    q = H[m+1][m+1] - z - r - s;
 	    r = H[m+2][m+1];
-	    s = abs(p) + abs(q) + abs(r);
+	    s = Abs(p) + Abs(q) + Abs(r);
 	    p = p / s;
 	    q = q / s;
 	    r = r / s;
 	    if (m == l) {
 	      break;
 	    }
-	    if (abs(H[m][m-1]) * (abs(q) + abs(r)) <
-		eps * (abs(p) * (abs(H[m-1][m-1]) + abs(z) +
-				 abs(H[m+1][m+1])))) {
+	    if (Abs(H[m][m-1]) * (Abs(q) + Abs(r)) <
+		eps * (Abs(p) * (Abs(H[m-1][m-1]) + Abs(z) +
+				 Abs(H[m+1][m+1])))) {
 	      break;
 	    }
 	    m--;
@@ -775,7 +775,7 @@ namespace RavlN
 	      p = H[k][k-1];
 	      q = H[k+1][k-1];
 	      r = (notlast ? H[k+2][k-1] : 0.0);
-	      x = abs(p) + abs(q) + abs(r);
+	      x = Abs(p) + Abs(q) + Abs(r);
 	      if (x != 0.0) {
 		p = p / x;
 		q = q / x;
@@ -883,7 +883,7 @@ namespace RavlN
 		q = (d[i] - p) * (d[i] - p) + e[i] * e[i];
 		t = (x * s - z * r) / q;
 		H[i][n] = t;
-		if (abs(x) > abs(z)) {
+		if (Abs(x) > Abs(z)) {
 		  H[i+1][n] = (-r - w * t) / x;
 		} else {
 		  H[i+1][n] = (-s - y * t) / z;
@@ -892,7 +892,7 @@ namespace RavlN
    
 	      // Overflow control
    
-	      t = abs(H[i][n]);
+	      t = Abs(H[i][n]);
 	      if ((eps * t) * t > 1) {
 		for (int j = i; j <= n; j++) {
 		  H[j][n] = H[j][n] / t;
@@ -908,7 +908,7 @@ namespace RavlN
 
 	  // Last vector component imaginary so matrix is triangular
    
-	  if (abs(H[n][n-1]) > abs(H[n-1][n])) {
+	  if (Abs(H[n][n-1]) > Abs(H[n-1][n])) {
 	    H[n-1][n-1] = q / H[n][n-1];
 	    H[n-1][n] = -(H[n][n] - p) / H[n][n-1];
 	  } else {
@@ -947,13 +947,13 @@ namespace RavlN
 		vr = (d[i] - p) * (d[i] - p) + e[i] * e[i] - q * q;
 		vi = (d[i] - p) * 2.0 * q;
 		if ((vr == 0.0) && (vi == 0.0)) {
-		  vr = eps * norm * (abs(w) + abs(q) +
-				     abs(x) + abs(y) + abs(z));
+		  vr = eps * norm * (Abs(w) + Abs(q) +
+				     Abs(x) + Abs(y) + Abs(z));
 		}
 		cdiv(x*r-z*ra+q*sa,x*s-z*sa-q*ra,vr,vi);
 		H[i][n-1] = cdivr;
 		H[i][n] = cdivi;
-		if (abs(x) > (abs(z) + abs(q))) {
+		if (Abs(x) > (Abs(z) + Abs(q))) {
 		  H[i+1][n-1] = (-ra - w * H[i][n-1] + q * H[i][n]) / x;
 		  H[i+1][n] = (-sa - w * H[i][n] - q * H[i][n-1]) / x;
 		} else {
@@ -965,7 +965,7 @@ namespace RavlN
    
 	      // Overflow control
 
-	      t = max(abs(H[i][n-1]),abs(H[i][n]));
+	      t = max(Abs(H[i][n-1]),Abs(H[i][n]));
 	      if ((eps * t) * t > 1) {
 		for (int j = i; j <= n; j++) {
 		  H[j][n-1] = H[j][n-1] / t;

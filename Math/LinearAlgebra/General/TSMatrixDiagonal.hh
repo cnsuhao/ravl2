@@ -38,7 +38,7 @@ namespace RavlN {
     //: Construct diagonal from an array
     
     virtual RCBodyVC &Copy() const
-    { return *new TSMatrixDiagonalBodyC<DataT>(data.Copy()); }
+    { return *new TSMatrixDiagonalBodyC<DataT>(this->data.Copy()); }
     //: Create a copy of this matrix.
     
     virtual const type_info &MatrixType() const
@@ -47,7 +47,7 @@ namespace RavlN {
     
     virtual DataT Element(UIntT i,UIntT j) const { 
       if(i != j) return 0;
-      return data[i];
+      return this->data[i];
     } 
     //: Access element.
     
@@ -57,17 +57,17 @@ namespace RavlN {
 	  cerr << "Attempting to set off diagonal of diagonal matrix. \n";
 	return ;
       }
-      data[i] = val;
+      this->data[i] = val;
     }
     //: Set element.
     
     virtual Array1dC<DataT> Row(UIntT i) const
-    { return Array1dC<DataT>(const_cast<BufferC<DataT> &>(data.Buffer()),
-			     RangeBufferAccessC<DataT>(const_cast<DataT *>( &(data[i])),IndexRangeC(i,i))); }
+    { return Array1dC<DataT>(const_cast<BufferC<DataT> &>(this->data.Buffer()),
+			     RangeBufferAccessC<DataT>(const_cast<DataT *>( &(this->data[i])),IndexRangeC(i,i))); }
     //: Access a row from the matrix.
     
     virtual Slice1dC<DataT> Col(UIntT j) const { 
-      SArray1dC<DataT> &diag = const_cast<SArray1dC<DataT> &>(data);
+      SArray1dC<DataT> &diag = const_cast<SArray1dC<DataT> &>(this->data);
       return Slice1dC<DataT>(diag.Buffer(),&(diag[0]),IndexRangeC(j,j),1);
     }
     //: Access slice from matrix.
@@ -78,7 +78,7 @@ namespace RavlN {
 	SetZero(ret);
 	return ret;
       }
-      return slice[c] * data[c];      
+      return slice[c] * this->data[c];      
     }
     //: Multiply column by values from slice and sum them.
     
@@ -88,7 +88,7 @@ namespace RavlN {
 	SetZero(ret);
 	return ret;
       }
-      return dat[c] * data[c];
+      return dat[c] * this->data[c];
     }
     //: Multiply column by values from dat and sum them.
     
@@ -130,14 +130,14 @@ namespace RavlN {
     //: Get as full matrix.
     
     virtual void SetDiagonal(const TVectorC<DataT> &d) { 
-      RavlAssert(data.Size() == d.Size());
-      data = d.Copy(); 
+      RavlAssert(this->data.Size() == d.Size());
+      this->data = d.Copy(); 
     }
     //: Set the diagonal of this matrix.
     // If d.Size() != Cols() an error is given.
     
     virtual void AddDiagonal(const TVectorC<DataT> &d) {  
-      for(SArray1dIter2C<DataT,DataT> it(data,d);it;it++)
+      for(SArray1dIter2C<DataT,DataT> it(this->data,d);it;it++)
 	it.Data1() += it.Data2();
     }
     //: Add a vector to the diagonal of this matrix.
@@ -169,7 +169,7 @@ namespace RavlN {
       : TSMatrixPartialC<DataT>(mat)
     {
       if(dynamic_cast<TSMatrixDiagonalBodyC<DataT> *>(&TSMatrixC<DataT>::Body()) == 0)
-	Invalidate();
+	this->Invalidate();
     }
     //: Create a diagonal matrix from a vector.
     
@@ -202,17 +202,17 @@ namespace RavlN {
     if(mat.MatrixType() == typeid(TSMatrixDiagonalBodyC<DataT>)) {
       TSMatrixDiagonalC<DataT> diag(mat);
       TVectorC<DataT>  tmp(mat.Rows());
-      for(SArray1dIter3C<DataT,DataT,DataT> it(tmp,data,diag.Data());it;it++)
+      for(SArray1dIter3C<DataT,DataT,DataT> it(tmp,this->data,diag.Data());it;it++)
 	it.Data1() = it.Data2() * it.Data3();
       return TSMatrixDiagonalC<DataT>(tmp);
     }
-    RavlAssert(Cols() == mat.Rows());
-    const SizeT rdim = Rows();
+    RavlAssert(this->Cols() == mat.Rows());
+    const SizeT rdim = this->Rows();
     const SizeT cdim = mat.Cols();
     if(mat.IsRowDirectAccess()) {
       //cerr << "Using copy... \n";
       TSMatrixC<DataT> ret(mat.Copy()); // Use same type as input.
-      BufferAccessIterC<DataT> dit(data);
+      BufferAccessIterC<DataT> dit(this->data);
       for (UIntT r = 0; r < rdim; r++,dit++) {
 	Array1dC<DataT> ra = ret.Row(r);
 	for(BufferAccessIterC<DataT> it(ra);it;it++)
@@ -222,7 +222,7 @@ namespace RavlN {
     }
     //cerr << "Using direct... \n";
     TMatrixC<DataT> out(rdim, cdim);
-    BufferAccessIterC<DataT> dit(data);
+    BufferAccessIterC<DataT> dit(this->data);
     IndexRangeC crng(0,cdim-1);
     for (UIntT r = 0; r < rdim; r++,dit++) {
       Array1dC<DataT> ra = mat.Row(r);
@@ -253,9 +253,9 @@ namespace RavlN {
   
   template<class DataT>
   TVectorC<DataT> TSMatrixDiagonalBodyC<DataT>::Mul(const TVectorC<DataT> &oth) const {
-    RavlAssert(Rows() == oth.Size());
+    RavlAssert(this->Rows() == oth.Size());
     TVectorC<DataT> ret(oth.Size());
-    for(SArray1dIter3C<DataT,DataT,DataT> it(ret,data,oth);it;it++)
+    for(SArray1dIter3C<DataT,DataT,DataT> it(ret,this->data,oth);it;it++)
       it.Data1() = it.Data2() * it.Data3();
     return ret;
   }
@@ -277,8 +277,8 @@ namespace RavlN {
   
   template<class DataT>
   TSMatrixC<DataT> TSMatrixDiagonalBodyC<DataT>::AAT() const {
-    TSMatrixDiagonalC<DataT> diag(Rows());
-    for(SArray1dIter2C<DataT,DataT> it(diag.Data(),data);it;it++)
+    TSMatrixDiagonalC<DataT> diag(this->Rows());
+    for(SArray1dIter2C<DataT,DataT> it(diag.Data(),this->data);it;it++)
       it.Data1() = Sqr(it.Data2());
     return diag;
   }
@@ -290,11 +290,11 @@ namespace RavlN {
   
   template<class DataT>
   TSMatrixC<DataT> TSMatrixDiagonalBodyC<DataT>::IMul(const TSMatrixC<DataT> & mat) const {
-    RavlAssert(Cols() == mat.Rows());
-    const SizeT rdim = Rows();
+    RavlAssert(this->Cols() == mat.Rows());
+    const SizeT rdim = this->Rows();
     const SizeT cdim = mat.Cols();
     TMatrixC<DataT> out(rdim, cdim);
-    BufferAccessIterC<DataT> dit(data);
+    BufferAccessIterC<DataT> dit(this->data);
     for (UIntT r = 0; r < rdim; r++,dit++) {
       Array1dC<DataT> ra = mat.Row(r);
       for(BufferAccessIter2C<DataT,DataT> it(ra,RangeBufferAccessC<DataT>(out[r],IndexRangeC(0,cdim)));it;it++)
@@ -309,9 +309,9 @@ namespace RavlN {
   
   template<class DataT>
   TMatrixC<DataT> TSMatrixDiagonalBodyC<DataT>::TMatrix(bool) const {
-    TMatrixC<DataT> ret(Rows(),Cols());
+    TMatrixC<DataT> ret(this->Rows(),this->Cols());
     ret.Fill(0);
-    ret.SetDiagonal(data);
+    ret.SetDiagonal(this->data);
     return ret;
   }
 }

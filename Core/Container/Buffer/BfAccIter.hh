@@ -17,6 +17,7 @@
 
 #include "Ravl/BufferAccess.hh"
 #include "Ravl/Assert.hh"
+#include "Ravl/IndexRange1d.hh"
 
 namespace RavlN {
 

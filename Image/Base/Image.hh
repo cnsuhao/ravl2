@@ -112,27 +112,27 @@ namespace RavlImageN {
     //!param: deletable - If set to true the memory will be deleted with the 'delelte []' operator when is finished with. Otherwise it is the users responsibility to manage the memory.
     
     UIntT Rows() const
-    { return Range1().Size(); }
+    { return this->Range1().Size(); }
     //: Number of rows in image.
     
     UIntT Cols() const
-    { return Range2().Size(); }
+    { return this->Range2().Size(); }
     //: Number of rows in image.
     
     inline IndexC TRow() const
-    { return Range1().Min(); }
+    { return this->Range1().Min(); }
     // Returns the top row index.
     
     inline IndexC LCol() const
-    { return Range2().Min(); }
+    { return this->Range2().Min(); }
     // Returns the left side column index.
     
     inline IndexC BRow() const
-    { return Range1().Max(); }
+    { return this->Range1().Max(); }
     // Returns the bottom row index.
     
     inline IndexC RCol() const
-    { return Range2().Max(); }
+    { return this->Range2().Max(); }
     // Returns the right side column index.
 
     inline ImageRectangleC Frame() const
@@ -144,7 +144,7 @@ namespace RavlImageN {
     // Returns the frame of the image
 
     PixelT *Row(IndexC row) 
-    { return &(RangeBufferAccessC<BufferAccessC<PixelT> >::operator[](row)[rng2.Min()]); }
+    { return &(RangeBufferAccessC<BufferAccessC<PixelT> >::operator[](row)[this->rng2.Min()]); }
     //: Get a pointer to begining of row.
     //!param: row - Row for which the pointer is returned.
     
@@ -158,7 +158,7 @@ namespace RavlImageN {
   template <class PixelT>
   ImageC<PixelT> ImageC<PixelT>::Rotate180(Index2dC centre) const {    
     ImageC<PixelT> flipped(Rectangle().Rotate180(centre));
-    BufferAccess2dIterC<PixelT> it((*this),Range2());
+    BufferAccess2dIterC<PixelT> it((*this),this->Range2());
     IntT frow = flipped.BRow().V();
     PixelT *place = &(flipped[frow][flipped.RCol()]);
     while(it.IsElm()) {

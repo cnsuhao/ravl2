@@ -166,13 +166,13 @@ namespace RavlN {
   template<class DataT>
   void SArray3dC<DataT>::BuildAccess(SizeT size1) {
     Attach(data,size1);
-    const SizeT d3Size = Size3();
-    const SizeT d2Size = Size2();
+    const SizeT d3Size = this->Size3();
+    const SizeT d2Size = this->Size2();
     BufferAccessC<DataT>  *acc2 = data.DataIndex().ReferenceElm();
     DataT *atData = data.Data().ReferenceElm();
     for(BufferAccessIterC<BufferAccessC<BufferAccessC<DataT> > > it(*this,size1);it;it++,acc2 += d2Size) {
       *it = acc2;
-      for(BufferAccessIterC<BufferAccessC<DataT> > it2(*it,size2);it2;it2++,atData += d3Size)
+      for(BufferAccessIterC<BufferAccessC<DataT> > it2(*it,this->size2);it2;it2++,atData += d3Size)
 	*it2 = atData;
     }
   }
@@ -186,9 +186,9 @@ namespace RavlN {
   template<class DataT>
   SArray3dC<DataT> 
   SArray3dC<DataT>::Copy() const {
-    SArray3dC<DataT> newun(Size1(),size2,size3); // Allocate new array.
-    for(BufferAccess3dIter2C<DataT,DataT > it(*this,size2,size3,
-					      newun,size2,size3);
+    SArray3dC<DataT> newun(this->Size1(),this->size2,this->size3); // Allocate new array.
+    for(BufferAccess3dIter2C<DataT,DataT > it(*this,this->size2,this->size3,
+					      newun,this->size2,this->size3);
 	it;it++)
       it.Data2() = it.Data1();
     return newun;
@@ -197,9 +197,9 @@ namespace RavlN {
   
   template<class DataT>
   SArray3dC<DataT> SArray3dC<DataT>::operator+(const SArray3dC<DataT> & arr) const {
-    SArray3dC<DataT> ret(Size1(),Size2(),Size3());
-    for(BufferAccess3dIter3C<DataT,DataT,DataT> it(ret,size2,size3,
-						   *this,size2,size3,
+    SArray3dC<DataT> ret(this->Size1(),this->Size2(),this->Size3());
+    for(BufferAccess3dIter3C<DataT,DataT,DataT> it(ret,this->size2,this->size3,
+						   *this,this->size2,this->size3,
 						   arr,arr.Size2(),arr.Size3());
 	it;it++)
       it.Data1() = it.Data2() + it.Data3();
@@ -208,119 +208,119 @@ namespace RavlN {
   
   template<class DataT>
   SArray3dC<DataT> SArray3dC<DataT>::operator-(const SArray3dC<DataT> & arr) const {
-    SArray3dC<DataT> ret(Size1(),Size2(),Size3());
-    for(BufferAccess3dIter3C<DataT,DataT,DataT> it(ret,size2,size3,*this,size2,size3,arr,arr.Size2(),arr.Size3());it;it++)
+    SArray3dC<DataT> ret(this->Size1(),this->Size2(),this->Size3());
+    for(BufferAccess3dIter3C<DataT,DataT,DataT> it(ret,this->size2,this->size3,*this,this->size2,this->size3,arr,arr.Size2(),arr.Size3());it;it++)
       it.Data1() = it.Data2() - it.Data3();
     return ret;
   }
   
   template<class DataT>
   SArray3dC<DataT> SArray3dC<DataT>::operator*(const SArray3dC<DataT> & arr) const {
-    SArray3dC<DataT> ret(Size1(),Size2(),Size3());
-    for(BufferAccess3dIter3C<DataT,DataT,DataT> it(ret,size2,size3,*this,size2,size3,arr,arr.Size2(),arr.Size3());it;it++)
+    SArray3dC<DataT> ret(this->Size1(),this->Size2(),this->Size3());
+    for(BufferAccess3dIter3C<DataT,DataT,DataT> it(ret,this->size2,this->size3,*this,this->size2,this->size3,arr,arr.Size2(),arr.Size3());it;it++)
       it.Data1() = it.Data2() * it.Data3();
     return ret;
   }
   
   template<class DataT>
   SArray3dC<DataT> SArray3dC<DataT>::operator/(const SArray3dC<DataT> & arr) const {
-    SArray3dC<DataT> ret(Size1(),Size2(),Size3());
-    for(BufferAccess3dIter3C<DataT,DataT,DataT> it(ret,size2,size3,*this,size2,size3,arr,arr.Size2(),arr.Size3());it;it++)
+    SArray3dC<DataT> ret(this->Size1(),this->Size2(),this->Size3());
+    for(BufferAccess3dIter3C<DataT,DataT,DataT> it(ret,this->size2,this->size3,*this,this->size2,this->size3,arr,arr.Size2(),arr.Size3());it;it++)
       it.Data1() = it.Data2() / it.Data3();
     return ret;
   }
   
   template<class DataT>
   SArray3dC<DataT> SArray3dC<DataT>::operator+(const DataT &number) const {
-    SArray3dC<DataT> ret(Size1(),Size2(),Size3());
-    for(BufferAccess3dIter2C<DataT,DataT> it(ret,size2,size3,*this,Size2(),Size3());it;it++)
+    SArray3dC<DataT> ret(this->Size1(),this->Size2(),this->Size3());
+    for(BufferAccess3dIter2C<DataT,DataT> it(ret,this->size2,this->size3,*this,this->Size2(),this->Size3());it;it++)
       it.Data1() = it.Data2() + number;
     return ret;
   }
   
   template<class DataT>
   SArray3dC<DataT> SArray3dC<DataT>::operator-(const DataT &number) const {
-    SArray3dC<DataT> ret(Size1(),Size2(),Size3());
-    for(BufferAccess3dIter2C<DataT,DataT> it(ret,size2,size3,*this,Size2(),Size3());it;it++)
+    SArray3dC<DataT> ret(this->Size1(),this->Size2(),this->Size3());
+    for(BufferAccess3dIter2C<DataT,DataT> it(ret,this->size2,this->size3,*this,this->Size2(),this->Size3());it;it++)
       it.Data1() = it.Data2() - number;
     return ret;
   }
   
   template<class DataT>
   SArray3dC<DataT> SArray3dC<DataT>::operator*(const DataT &number) const {
-    SArray3dC<DataT> ret(Size1(),Size2(),Size3());
-    for(BufferAccess3dIter2C<DataT,DataT> it(ret,size2,size3,*this,Size2(),Size3());it;it++)
+    SArray3dC<DataT> ret(this->Size1(),this->Size2(),this->Size3());
+    for(BufferAccess3dIter2C<DataT,DataT> it(ret,this->size2,this->size3,*this,this->Size2(),this->Size3());it;it++)
       it.Data1() = it.Data2() * number;
     return ret;
   }
   
   template<class DataT>
   SArray3dC<DataT> SArray3dC<DataT>::operator/(const DataT &number) const {
-    SArray3dC<DataT> ret(Size1(),Size2(),Size3());
-    for(BufferAccess3dIter2C<DataT,DataT> it(ret,size2,size3,*this,Size2(),Size3());it;it++)
+    SArray3dC<DataT> ret(this->Size1(),this->Size2(),this->Size3());
+    for(BufferAccess3dIter2C<DataT,DataT> it(ret,this->size2,this->size3,*this,this->Size2(),this->Size3());it;it++)
       it.Data1() = it.Data2() / number;
     return ret;
   }
     
   template<class DataT>
   const SArray3dC<DataT> & SArray3dC<DataT>::operator+=(const SArray3dC<DataT> & arr) {
-    for(BufferAccess3dIter2C<DataT,DataT> it(*this,size2,size3,arr,arr.Size2(),arr.Size3());it;it++)
+    for(BufferAccess3dIter2C<DataT,DataT> it(*this,this->size2,this->size3,arr,arr.Size2(),arr.Size3());it;it++)
       it.Data1() += it.Data2();
     return *this;
   }
   
   template<class DataT>
   const SArray3dC<DataT> & SArray3dC<DataT>::operator-=(const SArray3dC<DataT> & arr) {
-    for(BufferAccess3dIter2C<DataT,DataT> it(*this,size2,size3,arr,arr.Size2(),arr.Size3());it;it++)
+    for(BufferAccess3dIter2C<DataT,DataT> it(*this,this->size2,this->size3,arr,arr.Size2(),arr.Size3());it;it++)
       it.Data1() -= it.Data2();
     return *this;
   }
     
   template<class DataT>
   const SArray3dC<DataT> & SArray3dC<DataT>::operator*=(const SArray3dC<DataT> & arr) {
-    for(BufferAccess3dIter2C<DataT,DataT> it(*this,size2,size3,arr,arr.Size2(),arr.Size3());it;it++)
+    for(BufferAccess3dIter2C<DataT,DataT> it(*this,this->size2,this->size3,arr,arr.Size2(),arr.Size3());it;it++)
       it.Data1() *= it.Data2();
     return *this;
   }
     
   template<class DataT>
   const SArray3dC<DataT> & SArray3dC<DataT>::operator/=(const SArray3dC<DataT> & arr) {
-    for(BufferAccess3dIter2C<DataT,DataT> it(*this,size2,size3,arr,arr.Size2(),arr.Size3());it;it++)
+    for(BufferAccess3dIter2C<DataT,DataT> it(*this,this->size2,this->size3,arr,arr.Size2(),arr.Size3());it;it++)
       it.Data1() /= it.Data2();
     return *this;
   }
   
   template<class DataT>
   const SArray3dC<DataT> & SArray3dC<DataT>::operator+=(const DataT &number) {
-    for(BufferAccess3dIterC<DataT> it(*this,size2,size3);it;it++)
+    for(BufferAccess3dIterC<DataT> it(*this,this->size2,this->size3);it;it++)
       it.Data1() += number;
     return *this;
   }
     
   template<class DataT>
   const SArray3dC<DataT> & SArray3dC<DataT>::operator-=(const DataT &number) {
-    for(BufferAccess3dIterC<DataT> it(*this,size2,size3);it;it++)
+    for(BufferAccess3dIterC<DataT> it(*this,this->size2,this->size3);it;it++)
       it.Data1() -= number;
     return *this;
   }
   
   template<class DataT>
   const SArray3dC<DataT> & SArray3dC<DataT>::operator*=(const DataT &number) {
-    for(BufferAccess3dIterC<DataT> it(*this,size2,size3);it;it++)
+    for(BufferAccess3dIterC<DataT> it(*this,this->size2,this->size3);it;it++)
       it.Data1() *= number;
     return *this;
   }
   
   template<class DataT>
   const SArray3dC<DataT> & SArray3dC<DataT>::operator/=(const DataT &number) {
-    for(BufferAccess3dIterC<DataT> it(*this,size2,size3);it;it++)
+    for(BufferAccess3dIterC<DataT> it(*this,this->size2,this->size3);it;it++)
       it.Data() /= number;
     return *this;
   }
   
   template<class DataT>
   DataT SArray3dC<DataT>::SumOfSqr() const {
-    BufferAccess3dIterC<DataT> it(*this,size2,size3);
+    BufferAccess3dIterC<DataT> it(*this,this->size2,this->size3);
     if(!it) {
       DataT ret;
       SetZero(ret);

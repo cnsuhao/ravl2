@@ -84,10 +84,10 @@ namespace RavlAudioN {
     // frameSeperation - Seperation of successive frames in samples.
     
     bool GetBlock(SArray1dC<InT> &blk) {
-      UIntT n = input.GetArray(blk);
-      while(n < blk.Size() && !input.IsGetEOS()) {
+      UIntT n = this->input.GetArray(blk);
+      while(n < blk.Size() && !this->input.IsGetEOS()) {
 	SArray1dC<InT> tmp = blk.From(n);
-	n += input.GetArray(tmp);
+	n += this->input.GetArray(tmp);
       }
       return n == blk.Size();
     }

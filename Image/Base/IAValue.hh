@@ -33,25 +33,25 @@ namespace RavlImageN {
     // Creates an undefined value.
     
     IAValueC(const CompT &i,const CompT &a) {
-      data[0] =i;
-      data[1] =a;
+      this->data[0] =i;
+      this->data[1] =a;
     }
     //: Construct from component values.
     
     inline const CompT & Intensity() const
-      { return data[0]; }
+      { return this->data[0]; }
     // Returns the level of the intensity component.
     
     inline const CompT & Alpha() const
-      { return data[1]; }
+      { return this->data[1]; }
     // Returns the level of the alpha component.
 
     inline CompT & Intensity()
-      { return data[0]; }
+      { return this->data[0]; }
     // Returns the level of the intensity component.
     
     inline CompT & Alpha()
-      { return data[1]; }
+      { return this->data[1]; }
     // Returns the level of the alpha component.
     
 

@@ -185,7 +185,7 @@ namespace RavlN {
       : TSMatrixC<DataT>(mat)
     {
       if(dynamic_cast<TSMatrixFullBodyC<DataT> *>(&TSMatrixC<DataT>::Body()) == 0)
-	Invalidate();
+	this->Invalidate();
     }
     //: Base constructor.
     
@@ -215,14 +215,14 @@ namespace RavlN {
   
   template<class DataT>  
   TSMatrixC<DataT> TSMatrixFullBodyC<DataT>::Add(const TSMatrixC<DataT> &oth) const {
-    RavlAssert(oth.Rows() == Rows() && oth.Cols() == Cols());
+    RavlAssert(oth.Rows() == this->Rows() && oth.Cols() == this->Cols());
     TSMatrixFullC<DataT> ts(oth);
     if(ts.IsValid())
       return TSMatrixC<DataT>(matrix + ts.FullTMatrix());
-    TMatrixC<DataT> ret(Rows(),Cols());
+    TMatrixC<DataT> ret(this->Rows(),this->Cols());
     // We know we'll need a full matrix for result.
     IndexC cmax = matrix.Size2()-1;
-    for(UIntT i = 0;i < Rows();i++) {
+    for(UIntT i = 0;i < this->Rows();i++) {
       Array1dC<DataT> row2 = oth.Row(i);
       if(row2.Range().Size() <= 0) {
 	for(BufferAccessIter2C<DataT,DataT> it(ret[i],matrix[i]);it;it++)
@@ -247,14 +247,14 @@ namespace RavlN {
   
   template<class DataT>  
   TSMatrixC<DataT> TSMatrixFullBodyC<DataT>::Sub(const TSMatrixC<DataT> &oth) const {
-    RavlAssert(oth.Rows() == Rows() && oth.Cols() == Cols());
+    RavlAssert(oth.Rows() == this->Rows() && oth.Cols() == this->Cols());
     TSMatrixFullC<DataT> ts(oth);
     if(ts.IsValid()) 
       return TSMatrixC<DataT>(matrix - ts.FullTMatrix());
-    TMatrixC<DataT> ret(Rows(),Cols());
+    TMatrixC<DataT> ret(this->Rows(),this->Cols());
     // We know we'll need a full matrix for result.
     IndexC cmax = matrix.Size2()-1;
-    for(UIntT i = 0;i < Rows();i++) {
+    for(UIntT i = 0;i < this->Rows();i++) {
       Array1dC<DataT> row2 = oth.Row(i);
       if(row2.Range().Size() <= 0) {
 	for(BufferAccessIter2C<DataT,DataT> it(ret[i],matrix[i]);it;it++)
@@ -284,8 +284,8 @@ namespace RavlN {
       matrix += ts.FullTMatrix();
       return ;
     }
-    RavlAssert(oth.Rows() == Rows() && oth.Cols() == Cols());
-    for(UIntT i = 0;i < Rows();i++) {
+    RavlAssert(oth.Rows() == this->Rows() && oth.Cols() == this->Cols());
+    for(UIntT i = 0;i < this->Rows();i++) {
       Array1dC<DataT> row2 = oth.Row(i);
       if(row2.Range().Size() <= 0)
 	continue;
@@ -301,8 +301,8 @@ namespace RavlN {
       matrix -= ts.FullTMatrix();
       return ;
     }
-    RavlAssert(oth.Rows() == Rows() && oth.Cols() == Cols());
-    for(UIntT i = 0;i < Rows();i++) {
+    RavlAssert(oth.Rows() == this->Rows() && oth.Cols() == this->Cols());
+    for(UIntT i = 0;i < this->Rows();i++) {
       Array1dC<DataT> row2 = oth.Row(i);
       if(row2.Range().Size() <= 0)
 	continue;
@@ -354,7 +354,7 @@ namespace RavlN {
       SetZero(ret);
       return ret;
     }
-    RavlAssert(IndexRangeC(0,Rows()-1).Contains(dat.Range()));
+    RavlAssert(IndexRangeC(0,this->Rows()-1).Contains(dat.Range()));
     const IndexRangeC &rng = dat.Range();
     BufferAccessIterC<DataT > it(dat);
     Slice1dIterC<DataT> sit(const_cast<TMatrixC<DataT> &>(matrix).SliceColumn(c),rng);
@@ -371,7 +371,7 @@ namespace RavlN {
       SetZero(ret);
       return ret;
     }
-    RavlAssert(IndexRangeC(0,Rows()-1).Contains(slice.Range()));
+    RavlAssert(IndexRangeC(0,this->Rows()-1).Contains(slice.Range()));
     Slice1dIter2C<DataT,DataT> it(const_cast<TMatrixC<DataT> &>(matrix).SliceColumn(c),
 				  slice,
 				  slice.Range());

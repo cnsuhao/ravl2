@@ -321,6 +321,15 @@ namespace RavlN {
     typedef CollectionIterC<DataT> IteratorT;
     //: Type of iterator.
 
+  protected:
+    CollectionBodyC<DataT> &Body()
+    { return RCHandleC<CollectionBodyC<DataT> >::Body(); }
+    //: Access body
+
+    const CollectionBodyC<DataT> &Body() const
+    { return RCHandleC<CollectionBodyC<DataT> >::Body(); }
+    //: Access body
+    
   };
 
   template<class DataT>

@@ -46,9 +46,9 @@ namespace RavlN {
       RavlAssert(nrng.Min() <= nrng.Max());
       if(!BufferAccess2dIterC<DataT>::First(array,nrng))
 	return false;
-      up = &(*cit);
-      if(!NextRow()) {
-	cit.Invalidate();
+      up = &(*this->cit);
+      if(!this->NextRow()) {
+	this->cit.Invalidate();
 	return false;
       }
       return true;
@@ -57,25 +57,25 @@ namespace RavlN {
     
     bool Next() { 
       up++;
-      cit++;
-      if(cit)
+      this->cit++;
+      if(this->cit)
 	return true;
-      up = &((*rit)[rng.Min()]);
-      rit++;
-      if(!rit)
+      up = &((*this->rit)[this->rng.Min()]);
+      this->rit++;
+      if(!this->rit)
 	return false;
-      cit.First(rit.Data(),rng);
+      this->cit.First(this->rit.Data(),this->rng);
       return false;
     }
     //: Goto next element.
     // Returns true if its on the same row.
     
     bool IsElm() const
-    { return cit.IsElm(); }
+    { return this->cit.IsElm(); }
     //: Test if iterator is at a valid element.
     
     operator bool() const
-    { return cit.IsElm(); }
+    { return this->cit.IsElm(); }
     //: Test if iterator is at a valid element.
     
     void operator++() 
@@ -87,27 +87,27 @@ namespace RavlN {
     //: Goto next element.
     
     DataT &operator*() 
-    { return *cit; }
+    { return *this->cit; }
     //: Access bottom right data element 
     
     const DataT &operator*() const
-    { return *cit; }
+    { return *this->cit; }
     //: Access bottom right data element 
     
     DataT &DataBR() 
-    { return *cit; }
+    { return *this->cit; }
     //: Access bottom right data element 
 
     const DataT &DataBR() const
-    { return *cit; }
+    { return *this->cit; }
     //: Access bottom right data element 
 
     DataT &DataBL() 
-    { return (&(*cit))[-1]; }
+    { return (&(*this->cit))[-1]; }
     //: Access bottom left data element 
 
     const DataT &DataBL() const
-    { return (&(*cit))[-1]; }
+    { return (&(*this->cit))[-1]; }
     //: Access bottom left data element 
     
     DataT &DataTR() 

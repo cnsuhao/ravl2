@@ -50,11 +50,11 @@ namespace RavlN {
     //: Access the stack we're iterating.
     
     T& Data() 
-    { return topBlk->d[top];}
+    { return this->topBlk->d[this->top];}
     //: Access the data.
 
     const T& Data() const
-    { return topBlk->d[top];}
+    { return this->topBlk->d[this->top];}
     //: Access the data.
     
     T& operator *()
@@ -86,7 +86,7 @@ namespace RavlN {
     //: Goto next element in stack.
     
     bool IsElm() const 
-    { return top>=0 ;} 
+    { return this->top>=0 ;} 
     //: Is this a valid element ?
     
     operator bool() const
@@ -94,23 +94,23 @@ namespace RavlN {
     //: Is this a valid element ?
     
     bool IsLast() const 
-    { return top==1 && blkSize==incrBlkSize;}
+    { return this->top==1 && this->blkSize==this->incrBlkSize;}
     //: Last item in stack.
     
     long Index() const 
-    { return Size() + 1;}
+    { return this->Size() + 1;}
     //: Position in stack.
     
   private:
     StackC<T>*         stack; // Stack we're iterating.
     
     inline void        DecrTop() { 
-      if(top==0) { 
-	blkSize -= incrBlkSize; 
-	top      = blkSize;
-	if (0 != topBlk) topBlk   = topBlk->link;
+      if(this->top==0) { 
+	this->blkSize -= this->incrBlkSize; 
+	this->top      = this->blkSize;
+	if (0 != this->topBlk) this->topBlk   = this->topBlk->link;
       }
-      --top;
+      --this->top;
     }
   };
 }

@@ -15,7 +15,7 @@
 #include "Ravl/config.h"
 #include "Ravl/Assert.hh"
 
-#if RAVL_COMPILER_GCC3
+#if RAVL_COMPILER_GCC3 && !RAVL_COMPILER_GCC3_4
 
 #include <fstream>
 #include <streambuf>

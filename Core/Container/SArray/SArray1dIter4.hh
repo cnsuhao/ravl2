@@ -35,11 +35,11 @@ namespace RavlN {
     //: Constructor.
     
     inline bool IsElm() const
-      { return at1 != endOfRow; }
+    { return this->at1 != this->endOfRow; }
     // At a valid element ?
     
     inline operator bool() const
-      { return at1 != endOfRow; }
+    { return this->at1 != this->endOfRow; }
     // At a valid element ?
     
     inline void First();
@@ -49,27 +49,27 @@ namespace RavlN {
     // Goto next element in arrays.
     
     inline void operator++()
-      { Next(); }
+    { Next(); }
     // Goto next element in arrays.
     
     inline void operator++(int)
-      { Next(); }
+    { Next(); }
     // Goto next element in arrays.
     
     inline Data1T &Data1()
-      { return *at1; }
+    { return *at1; }
     // Get data.
     
     inline const Data1T &Data1() const
-      { return *at1; }
+    { return *at1; }
     // Get data.
     
     inline Data2T &Data2()
-      { return *at2; }
+    { return *at2; }
     // Get data.
     
     inline const Data2T &Data2() const
-      { return *at2; }
+    { return *at2; }
     // Get data.
     
     inline Data3T &Data3()

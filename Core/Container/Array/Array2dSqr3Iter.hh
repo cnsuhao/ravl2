@@ -46,19 +46,19 @@ namespace RavlN {
     //: Constructor over limited range.
     
     bool First() {
-      rng = IndexRangeC(array.Range2().Min()+1,array.Range2().Max()-1);
+      this->rng = IndexRangeC(array.Range2().Min()+1,array.Range2().Max()-1);
       IndexRangeC srng(array.Range1().Min()+1,array.Range1().Max()-1);
-      if(!rit.First(array,srng)) {
-	cit.Invalidate();
+      if(!this->rit.First(array,srng)) {
+	this->cit.Invalidate();
 	return false;
       }
-      cit.First(*rit,rng);
-      if(!cit) {
-	cit.Invalidate();
+      this->cit.First(*this->rit,this->rng);
+      if(!this->cit) {
+	this->cit.Invalidate();
 	return false;
       }
-      up = &((&(*rit))[-1][rng.Min()]);
-      dn = &((&(*rit))[ 1][rng.Min()]);
+      up = &((&(*this->rit))[-1][this->rng.Min()]);
+      dn = &((&(*this->rit))[ 1][this->rng.Min()]);
       return true;
     }
     //: Goto first element in the array.
@@ -66,25 +66,25 @@ namespace RavlN {
     bool Next() { 
       up++;
       dn++;
-      cit++;
-      if(cit)
+      this->cit++;
+      if(this->cit)
 	return true;
-      rit++;
-      if(!rit)
+      this->rit++;
+      if(!this->rit)
 	return false;
-      up = &((&(*rit))[-1][rng.Min()]);
-      dn = &((&(*rit))[ 1][rng.Min()]);
-      cit.First(rit.Data(),rng);
+      up = &((&(*this->rit))[-1][this->rng.Min()]);
+      dn = &((&(*this->rit))[ 1][this->rng.Min()]);
+      this->cit.First(this->rit.Data(),this->rng);
       return false;
     }
     //: Goto next element.
     
     bool IsElm() const
-    { return cit.IsElm(); }
+    { return this->cit.IsElm(); }
     //: Test if iterator is at a valid element.
     
     operator bool() const
-    { return cit.IsElm(); }
+    { return this->cit.IsElm(); }
     //: Test if iterator is at a valid element.
     
     void operator++() 
@@ -120,27 +120,27 @@ namespace RavlN {
     //: Access bottom right data element 
 
     DataT &DataML() 
-    { return (&(*cit))[-1]; }
+    { return (&(*this->cit))[-1]; }
     //: Access middle left data element 
     
     const DataT &DataML() const
-    { return (&(*cit))[-1]; }
+    { return (&(*this->cit))[-1]; }
     //: Access middle left data element 
     
     DataT &DataMM() 
-    { return *cit; }
+    { return *this->cit; }
     //: Access middle data element 
     
     const DataT &DataMM() const
-    { return *cit; }
+    { return *this->cit; }
     //: Access middle data element 
     
     DataT &DataMR() 
-    { return (&(*cit))[1]; }
+    { return (&(*this->cit))[1]; }
     //: Access middle right data element 
     
     const DataT &DataMR() const
-    { return (&(*cit))[1]; }
+    { return (&(*this->cit))[1]; }
     //: Access middle right data element 
 
     DataT &DataTL() 

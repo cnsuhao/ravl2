@@ -188,7 +188,7 @@ namespace RavlN {
   
   template<class Sample1T,class Sample2T>
   UIntT DataSet2BodyC<Sample1T,Sample2T>::Append(const Element1T &data1,const Element2T &data2) {
-    UIntT no1 = samp1.Append(data1);
+    UIntT no1 = this->samp1.Append(data1);
     UIntT no2 = samp2.Append(data2);
     RavlAssert(no1==no2);
     return no1;
@@ -196,19 +196,19 @@ namespace RavlN {
 
   template<class Sample1T,class Sample2T>
   void DataSet2BodyC<Sample1T,Sample2T>::Append(const DataSet2C<Sample1T,Sample2T> &data) {
-    samp1.Append(data.Sample1());
+    this->samp1.Append(data.Sample1());
     samp2.Append(data.Sample2());
   }
 
   template<class Sample1T,class Sample2T>
   DataSet2C<Sample1T,Sample2T> DataSet2BodyC<Sample1T,Sample2T>::ExtractSample(RealT proportion) {
     RavlAssert(proportion >= 0 && proportion <= 1);
-    UIntT size = Size();
+    UIntT size = this->Size();
     UIntT entries = (UIntT) (proportion * (RealT) size);
     DataSet2C<Sample1T,Sample2T> ret(size);
     for(;entries > 0;entries--) {
       UIntT entry = RandomInt() % size;
-      ret.Append(samp1.PickElement(entry),samp2.PickElement(entry));
+      ret.Append(this->samp1.PickElement(entry),samp2.PickElement(entry));
       size--;
     }
     return ret;
@@ -216,10 +216,10 @@ namespace RavlN {
   
   template<class Sample1T,class Sample2T>
   void DataSet2BodyC<Sample1T,Sample2T>::Shuffle() {
-    UIntT size = Size();
-    for(DArray1dIter2C<Element1T,Element2T> it(Sample1().DArray(),Sample2().DArray());it;it++) {
+    UIntT size = this->Size();
+    for(DArray1dIter2C<Element1T,Element2T> it(this->Sample1().DArray(),Sample2().DArray());it;it++) {
       UIntT entry = RandomInt() % size;
-      Swap(it.Data1(),samp1.Nth(entry));
+      Swap(it.Data1(),this->samp1.Nth(entry));
       Swap(it.Data2(),samp2.Nth(entry));
     }
   }

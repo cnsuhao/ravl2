@@ -45,15 +45,15 @@ namespace RavlN {
     //: Copy Constructor.
     
     virtual OutT Get()  { 
-      RavlAssert(input.IsValid());
-      return Apply(input.Get()); 
+      RavlAssert(this->input.IsValid());
+      return Apply(this->input.Get()); 
     }
     //: Process next piece of data.
     
     virtual bool Get(OutT &outbuff) { 
       InT buff;
-      RavlAssert(input.IsValid());
-      if(!input.Get(buff))
+      RavlAssert(this->input.IsValid());
+      if(!this->input.Get(buff))
 	return false;
       outbuff = Apply(buff);
       return true;
@@ -62,7 +62,7 @@ namespace RavlN {
     
     virtual IntT GetArray(SArray1dC<OutT> &dest) {
       SArray1dC<InT> src(dest.Size());
-      IntT ret = input.GetArray(src);
+      IntT ret = this->input.GetArray(src);
       if(ret > 0)
 	src = SArray1dC<InT>(src,ret);
 //comment ap variable if assertions are not active
@@ -76,7 +76,7 @@ namespace RavlN {
     //: Get Array of data.
     
     virtual RCBodyVC &Copy() const { 
-      if(!IsStateless())
+      if(!this->IsStateless())
 	return *new DPProcIStreamBodyC(*this); 
       return const_cast<RCBodyVC &>((RCBodyVC &)*this);
     }

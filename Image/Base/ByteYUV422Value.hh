@@ -31,7 +31,7 @@ namespace RavlImageN {
   {
   public:
     ByteYUV422ValueC()
-      {}
+    {}
     //: Default constructor.
     // The value is left undefined.
     
@@ -42,8 +42,8 @@ namespace RavlImageN {
     
     template<class OCompT>
     ByteYUV422ValueC(YUV422ValueC<OCompT> &oth) {
-      y = oth.Y();
-      uv = oth.UV();
+      this->data[0] = oth.UV();
+      this->data[1] = oth.Y();
     }
     //: Construct from another component type.
   };

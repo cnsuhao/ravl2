@@ -74,12 +74,12 @@ namespace RavlN {
     //: Goto first element in the array.
     
     bool IsFirst() const
-    { return at1 == &dat1[dat1.IMin()]; }
+    { return this->at1 == &dat1[dat1.IMin()]; }
     //: Test if this is the first element in the range.
     // Note,this is slower than IsElm().
     
     IndexC Index() const
-    { return IndexC((IntT)(at1 - dat1.ReferenceElm())); }
+    { return IndexC((IntT)(this->at1 - dat1.ReferenceElm())); }
     //: Calculate the index we're at (In first array.)
     
   protected:

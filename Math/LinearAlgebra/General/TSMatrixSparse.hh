@@ -378,7 +378,7 @@ namespace RavlN {
       : TSMatrixC<DataT>(xyz)
     {
       if(dynamic_cast<TSMatrixSparseBodyC<DataT> *>(&TSMatrixC<DataT>::Body()) == 0)
-	Invalidate();
+	this->Invalidate();
     }
     //: Base constructor.
     
@@ -430,9 +430,9 @@ namespace RavlN {
   
   template<class DataT>
   RCBodyVC &TSMatrixSparseBodyC<DataT>::Copy() const {
-    TSMatrixSparseBodyC<DataT> &newBod = *new TSMatrixSparseBodyC<DataT>(Rows(),Cols());
+    TSMatrixSparseBodyC<DataT> &newBod = *new TSMatrixSparseBodyC<DataT>(this->Rows(),this->Cols());
     IndexDListC *rlist = &(newBod.rows[0]);
-    for(UIntT i = 0;i < Rows();i++,rlist++) {
+    for(UIntT i = 0;i < this->Rows();i++,rlist++) {
       for(IntrDLIterC<IndexDLinkC> it(rows[i]);it;it++) {
 	TSMatrixSparseEntryC<DataT> *entry = RowDLink2Entry(&(*it));
 	UIntT ncol = it->Index().V();
@@ -525,11 +525,11 @@ namespace RavlN {
   
   template<class DataT>
   TSMatrixC<DataT> TSMatrixSparseBodyC<DataT>::Mul(const TSMatrixC<DataT> &mat) const {
-    RavlAssert(Cols() == mat.Rows());
+    RavlAssert(this->Cols() == mat.Rows());
     if(mat.MatrixType() != typeid(TSMatrixSparseBodyC<DataT>))
       return TSMatrixBodyC<DataT>::Mul(mat);
     TSMatrixSparseC<DataT> smat(const_cast<TSMatrixC<DataT> &>(mat));
-    const SizeT rdim = Rows();
+    const SizeT rdim = this->Rows();
     const SizeT cdim = mat.Cols();
     TSMatrixSparseC<DataT> out(rdim, cdim);
     TSMatrixSparseBodyC<DataT> &outb = out.Body();
@@ -556,8 +556,8 @@ namespace RavlN {
   
   template<class DataT>
   TVectorC<DataT> TSMatrixSparseBodyC<DataT>::Mul(const TVectorC<DataT> &vector) const {
-    RavlAssert(vector.Size() == Cols());
-    const SizeT rdim = Rows();
+    RavlAssert(vector.Size() == this->Cols());
+    const SizeT rdim = this->Rows();
     TVectorC<DataT> out(rdim);
     for (UIntT i = 0; i < rdim; ++i) {
       DataT sum;
@@ -576,11 +576,11 @@ namespace RavlN {
 
   template<class DataT>
   TSMatrixC<DataT> TSMatrixSparseBodyC<DataT>::MulT(const TSMatrixC<DataT> & mat) const {
-    RavlAssert(Cols() == mat.Cols());
+    RavlAssert(this->Cols() == mat.Cols());
     if(mat.MatrixType() != typeid(TSMatrixSparseBodyC<DataT>)) 
       return TSMatrixBodyC<DataT>::MulT(mat);
     TSMatrixSparseC<DataT> smat(const_cast<TSMatrixC<DataT> &>(mat));
-    const SizeT rdim = Rows();
+    const SizeT rdim = this->Rows();
     const SizeT cdim = mat.Rows();
     TSMatrixSparseC<DataT> out(rdim, cdim);
     TSMatrixSparseBodyC<DataT> &outb = out.Body();
@@ -607,8 +607,8 @@ namespace RavlN {
   
   template<class DataT>
   TVectorC<DataT> TSMatrixSparseBodyC<DataT>::TMul(const TVectorC<DataT> & vector) const {
-    RavlAssert(vector.Size() == Rows());
-    const SizeT rdim = Cols();
+    RavlAssert(vector.Size() == this->Rows());
+    const SizeT rdim = this->Cols();
     TVectorC<DataT> out(rdim);
     for (UIntT i = 0; i < rdim; ++i) {
       DataT sum;
@@ -631,11 +631,11 @@ namespace RavlN {
   
   template<class DataT>
   TSMatrixC<DataT> TSMatrixSparseBodyC<DataT>::TMul(const TSMatrixC<DataT> & mat) const {
-    RavlAssert(Rows() == mat.Rows());
+    RavlAssert(this->Rows() == mat.Rows());
     if(mat.MatrixType() != typeid(TSMatrixSparseBodyC<DataT>))
       return TSMatrixBodyC<DataT>::TMul(mat);
     TSMatrixSparseC<DataT> smat(const_cast<TSMatrixC<DataT> &>(mat));
-    const SizeT rdim = Cols();
+    const SizeT rdim = this->Cols();
     const SizeT cdim = mat.Cols();
     TSMatrixSparseC<DataT> out(rdim, cdim);
     TSMatrixSparseBodyC<DataT> &outb = out.Body();
@@ -663,13 +663,13 @@ namespace RavlN {
   template<class DataT>
   void TSMatrixSparseBodyC<DataT>::AddIP(const TSMatrixC<DataT> &mat) {
     //cerr << "TSMatrixSparseBodyC<DataT>::AddIP(), Called. \n";
-    RavlAssert(Rows() == mat.Rows());
-    RavlAssert(Cols() == mat.Cols());
+    RavlAssert(this->Rows() == mat.Rows());
+    RavlAssert(this->Cols() == mat.Cols());
     if(mat.MatrixType() != typeid(TSMatrixSparseBodyC<DataT>)) {
       RavlAssert(0);
     }
     TSMatrixSparseC<DataT> smat(const_cast<TSMatrixC<DataT> &>(mat));
-    const SizeT rdim = Rows();
+    const SizeT rdim = this->Rows();
     for (UIntT r = 0; r < rdim; r++) {
       IntrDListC<IndexDLinkC> &rlist = rows[r]; 
       IntrDLIterC<IndexDLinkC> it1(rlist);
@@ -704,13 +704,13 @@ namespace RavlN {
   template<class DataT>
   void TSMatrixSparseBodyC<DataT>::SubIP(const TSMatrixC<DataT> &mat) {
     cerr << "TSMatrixSparseBodyC<DataT>::AddIP(), Called. \n";
-    RavlAssert(Rows() == mat.Rows());
-    RavlAssert(Cols() == mat.Cols());
+    RavlAssert(this->Rows() == mat.Rows());
+    RavlAssert(this->Cols() == mat.Cols());
     if(mat.MatrixType() != typeid(TSMatrixSparseBodyC<DataT>)) {
       RavlAssert(0);
     }
     TSMatrixSparseC<DataT> smat(const_cast<TSMatrixC<DataT> &>(mat));
-    const SizeT rdim = Rows();
+    const SizeT rdim = this->Rows();
     for (UIntT r = 0; r < rdim; r++) {
       IntrDListC<IndexDLinkC> &rlist = rows[r]; 
       IntrDLIterC<IndexDLinkC> it1(rlist);
@@ -744,10 +744,10 @@ namespace RavlN {
   
   template<class DataT>
   TSMatrixC<DataT> TSMatrixSparseBodyC<DataT>::T() const {
-    TSMatrixSparseC<DataT> ret(Cols(),Rows());
+    TSMatrixSparseC<DataT> ret(this->Cols(),this->Rows());
     TSMatrixSparseBodyC<DataT> &newBod = ret.Body();
     IndexDListC *rlist = &(newBod.rows[0]);
-    for(UIntT i = 0;i < Cols();i++,rlist++) {
+    for(UIntT i = 0;i < this->Cols();i++,rlist++) {
       for(IntrDLIterC<IndexDLinkC> it(cols[i]);it;it++) {
 	TSMatrixSparseEntryC<DataT> *entry = ColDLink2Entry(&(*it));
 	UIntT ncol = it->Index().V();
@@ -762,8 +762,8 @@ namespace RavlN {
   
   template<class DataT>
   TMatrixC<DataT> TSMatrixSparseBodyC<DataT>::TMatrix(bool) const {
-    TMatrixC<DataT> ret(Rows(),Cols());
-    for(UIntT i = 0;i < Rows();i++) {
+    TMatrixC<DataT> ret(this->Rows(),this->Cols());
+    for(UIntT i = 0;i < this->Rows();i++) {
       DataT *rstart = &(ret[i][0]);
       DataT *at = rstart;
       for(IntrDLIterC<IndexDLinkC> it(rows[i]);it;it++,at++) {
@@ -772,7 +772,7 @@ namespace RavlN {
 	  SetZero(*at);
 	*at = RowDLink2Entry(&(*it))->Data();
       }
-      DataT *eor = &(rstart[Cols()]);
+      DataT *eor = &(rstart[this->Cols()]);
       for(;at != eor;at++)
 	SetZero(*at);
     }

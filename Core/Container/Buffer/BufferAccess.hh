@@ -16,6 +16,10 @@
 //! docentry="Ravl.Core.Arrays.Buffer"
 
 #include "Ravl/Index.hh"
+#if RAVL_COMPILER_GCC3_4
+#include "Ravl/Stream.hh"
+#include "Ravl/BinStream.hh"
+#endif
 
 namespace RavlN {
 

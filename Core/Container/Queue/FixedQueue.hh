@@ -232,7 +232,7 @@ namespace RavlN {
       end = queue.tail -1;
       eoa = &((*this)[0]) - 1;
       if(end == eoa)
-	end = &(*this)[Size()-1]; 
+	end = &(*this)[this->Size()-1]; 
       Next();
     }
     //: Goto first element in queue.
@@ -254,7 +254,7 @@ namespace RavlN {
     void Next() {
       at--;
       if(at == eoa)
-	at = &(*this)[Size()-1];
+	at = &(*this)[this->Size()-1];
     }
     //: Goto next element.
     

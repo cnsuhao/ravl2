@@ -52,8 +52,8 @@ namespace RavlN {
     
     Index3dC Index() const { 
       RavlAssert(arr.IsValid());
-      Index2dC i2 = sit.Index(rit->ReferenceElm());
-      return Index3dC((IndexC) (&(*rit) - arr.ReferenceElm()),
+      Index2dC i2 = this->sit.Index(this->rit->ReferenceElm());
+      return Index3dC((IndexC) (&(*this->rit) - arr.ReferenceElm()),
 		      (IndexC) i2.Row(),
 		      (IndexC) i2.Col()); 
     }

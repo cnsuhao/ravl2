@@ -39,56 +39,56 @@ namespace RavlImageN {
     // Creates an undefined value.
 
     YUVAValueC(const CompT &y,const CompT &u,const CompT &v,const CompT &a) {
-      data[0] =y;
-      data[1] =u;
-      data[2] =v;
-      data[3] =a;
+      this->data[0] =y;
+      this->data[1] =u;
+      this->data[2] =v;
+      this->data[3] =a;
     }
     //: Construct from component values.
     
     YUVAValueC(const TFVectorC<CompT,4> &v)
       : TFVectorC<CompT,4>(v)
-      {}
+    {}
     //: Constructor from base class.
     
     template<class OCompT>
     YUVAValueC(YUVAValueC<OCompT> &oth) {
-      data[0] = oth.Y();
-      data[1] = oth.U();
-      data[2] = oth.V();
+      this->data[0] = oth.Y();
+      this->data[1] = oth.U();
+      this->data[2] = oth.V();
     }
     //: Construct from another component type.
     
     inline const CompT & Y() const
-      { return data[0]; }
+    { return this->data[0]; }
     // Returns the level of the Y component.
     
     inline const CompT & U() const
-      { return data[1]; }
+    { return this->data[1]; }
     // Returns the level of the U component.
     
     inline const CompT & V() const
-      { return data[2]; }
+    { return this->data[2]; }
     // Returns the level of the V component.
     
     inline const CompT & A() const
-      { return data[3]; }
+    { return this->data[3]; }
     // Returns the level of the V component.
     
     inline CompT & Y() 
-      { return data[0]; }
+    { return this->data[0]; }
     // Returns the level of the Y component.
     
     inline CompT & U()
-      { return data[1]; }
+    { return this->data[1]; }
     // Returns the level of the U component.
     
     inline CompT & V()
-      { return data[2]; }
+    { return this->data[2]; }
     // Returns the level of the V component.
 
     inline CompT & A()
-      { return data[3]; }
+    { return this->data[3]; }
     // Returns the level of the V component.
 
   };

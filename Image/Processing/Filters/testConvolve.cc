@@ -53,7 +53,7 @@ int testDCT();
 
 
 
-#if !RAVL_OS_IRIX
+#if !RAVL_OS_IRIX && !RAVL_COMPILER_GCC3_4
 template WarpScaleC<ByteRGBValueC,ByteRGBValueC>;
 template WarpAffineC<ByteT,ByteT>;
 template WarpProjectiveC<ByteT,ByteT>;
@@ -307,7 +307,7 @@ int testWarpScale() {
   return 0;
 }
 
-#ifndef __sgi__
+#if !defined(__sgi__) && !RAVL_COMPILER_GCC3_4
 template HistogramEqualiseC<RealT>;
 template HistogramEqualiseC<ByteT>;
 #endif

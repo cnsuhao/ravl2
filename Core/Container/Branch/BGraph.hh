@@ -72,10 +72,6 @@ namespace RavlN {
     { return Base.IsValid(); }
     // Check its valid handle.
     
-    inline void SetConst(void) 
-    { if(Base.IsValid()) Base->SetConst(); }
-    //: Lock-out changes.
-    
   protected:
     inline BGraphC(BGraphBaseC &BG);
     // Constructor.

@@ -42,7 +42,7 @@ namespace RavlN {
     //: Constructor.
     
     virtual RCBodyVC &Copy() const
-    { return *new TSMatrixSymmetricBodyC<DataT>(matrix.Copy()); }
+    { return *new TSMatrixSymmetricBodyC<DataT>(this->matrix.Copy()); }
     //: Create a copy of this matrix.
     
     virtual const type_info &MatrixType() const
@@ -50,8 +50,8 @@ namespace RavlN {
     //: Find the type of the matrix.    
     
     virtual void Element(UIntT i,UIntT j,const DataT &val) { 
-      matrix[i][j] = val; 
-      matrix[j][i] = val; 
+      this->matrix[i][j] = val; 
+      this->matrix[j][i] = val; 
     }
     //: Set element.
 
@@ -67,7 +67,7 @@ namespace RavlN {
     //: Multiplication A.T() * B
     
     virtual TSMatrixC<DataT> ATA() const
-    { return AAT(); }
+    { return this->AAT(); }
     //: Return  A.T() * A.
     
     TSMatrixLeftLowerC<DataT> Cholesky() const;
@@ -104,7 +104,7 @@ namespace RavlN {
       : TSMatrixFullC<DataT>(mat)
     {
       if(dynamic_cast<TSMatrixSymmetricBodyC<DataT> *>(&TSMatrixC<DataT>::Body()) == 0)
-	Invalidate();
+	this->Invalidate();
     }
     //: Base constructor.
     
@@ -139,12 +139,12 @@ namespace RavlN {
   template<class DataT>
   TSMatrixLeftLowerC<DataT> TSMatrixSymmetricBodyC<DataT>::Cholesky() const {
     // FIXME: This could be speeded up with more iterators and less indexing.
-    TSMatrixLeftLowerC<DataT> ret(Rows());
-    const int n = Rows();
+    TSMatrixLeftLowerC<DataT> ret(this->Rows());
+    const int n = this->Rows();
     for(int i =0;i < n ;i++) {
       Array1dC<DataT> rowi = ret.Row(i);
       for(int j = i;j< n;j++) {
-	RealT sum = matrix[i][j];
+	RealT sum = this->matrix[i][j];
 	Array1dC<DataT> rowj = ret.Row(j);
 	for(BufferAccessIter2C<DataT,DataT> it(rowi,rowj,IndexRangeC(0,i-1));it;it++)
 	  sum -= it.Data1() * it.Data2();

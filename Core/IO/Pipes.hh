@@ -217,7 +217,7 @@ namespace RavlN {
    
     virtual bool SetInput(const DPIPortBaseC &in) {
       DPIPortC<DataT> inport(in);
-      input = inport;
+      this->input = inport;
       return true;
     }
     //: Setup input.
@@ -225,9 +225,9 @@ namespace RavlN {
     virtual bool IsGetReady() const  {
       if(forceReady)
 	return true;
-      if(!input.IsValid())
+      if(!this->input.IsValid())
 	return false;
-      return input.IsGetReady(); 
+      return this->input.IsGetReady(); 
     }
     //: Is some data ready ?
     // true = yes.
@@ -235,9 +235,9 @@ namespace RavlN {
     virtual bool IsGetEOS() const {
       if(forceNotEOS)
 	return false;
-      if(!input.IsValid())
+      if(!this->input.IsValid())
 	return true;
-      return input.IsGetEOS(); 
+      return this->input.IsGetEOS(); 
     }
     //: Has the End Of Stream been reached ?
     // true = yes.
@@ -248,9 +248,9 @@ namespace RavlN {
 	if(!auxOp(IPB,hold))
 	  throw DataNotReadyC("DPIPipeBodyC<>::Get(), Auxilary function returned false. ");
       }
-      if(!input.IsValid())
+      if(!this->input.IsValid())
 	throw DataNotReadyC("DPIPipeBodyC<>::Get(), No input source. ");
-      return input.Get();
+      return this->input.Get();
     }
     //: Get next piece of data.
     // May block if not ready.
@@ -261,9 +261,9 @@ namespace RavlN {
 	if(!auxOp(IPB,hold))
 	  return false;
       }
-      if(!input.IsValid())
+      if(!this->input.IsValid())
 	return false;
-      return input.Get(buff);
+      return this->input.Get(buff);
     }
     //: Get next piece of data.
     // May block if not ready.
@@ -275,9 +275,9 @@ namespace RavlN {
 	  if(!auxOp(IPB,hold))
 	    return it.Index().V();
 	}
-	if(!input.IsValid())
+	if(!this->input.IsValid())
 	  return it.Index().V();
-	if(!input.Get(*it))
+	if(!this->input.Get(*it))
 	  return it.Index().V();
       }
       return data.Size();
@@ -318,7 +318,7 @@ namespace RavlN {
     
     virtual bool SetOutput(const DPOPortBaseC &out) {
       DPOPortC<DataT> outport(out);
-      output = outport;
+      this->output = outport;
       return true;
     }
     //: Setup output.
@@ -329,9 +329,9 @@ namespace RavlN {
 	if(!auxOp(OPB,hold))
 	  return false;
       }
-      if(!output.IsValid())
+      if(!this->output.IsValid())
 	return false;
-      return output.Put(buff);
+      return this->output.Put(buff);
     }
     //: Put an item of data.
     
@@ -342,9 +342,9 @@ namespace RavlN {
 	  if(!auxOp(OPB,hold))
 	    return it.Index().V();
 	}
-	if(!output.IsValid())
+	if(!this->output.IsValid())
 	  return it.Index().V();
-	if(!output.Put(*it))
+	if(!this->output.Put(*it))
 	  return it.Index().V();
       }
       return data.Size();
@@ -355,9 +355,9 @@ namespace RavlN {
     virtual bool IsPutReady() const  {
       if(forceReady)
 	return true;
-      if(!output.IsValid())
+      if(!this->output.IsValid())
 	return false;
-      return output.IsPutReady(); 
+      return this->output.IsPutReady(); 
     }
     //: Is some data ready ?
     // true = yes.
@@ -365,8 +365,8 @@ namespace RavlN {
     virtual void PutEOS() {
       if(forceNotEOS)
 	return ;
-      if(output.IsValid())
-	output.PutEOS();
+      if(this->output.IsValid())
+	this->output.PutEOS();
     }
     //: Put End Of Stream marker.
     

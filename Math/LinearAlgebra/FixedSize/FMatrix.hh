@@ -45,7 +45,7 @@ namespace RavlN {
     bool IsReal() const {
       for(UIntT i = 0;i < N;i++)
 	for(UIntT j = 0;j < M;j++)
-	  if(IsNan(data[i][j]) || IsInf(data[i][j]))
+	  if(IsNan(this->data[i][j]) || IsInf(this->data[i][j]))
 	    return false;
       return true;
     }
@@ -165,7 +165,7 @@ namespace RavlN {
   template<unsigned int N,unsigned int M>
   FVectorC<M> SVD_IP(FMatrixC<N,M> &mat,FMatrixC<N,N> & u, FMatrixC<M,M> & v) {
     FVectorC<M> ret;
-    if(!RawSVD(&ret[0],&tmp[0][0],&u[0][0],N,&v[0][0],M))
+    if(!RawSVD(&ret[0],&mat[0][0],&u[0][0],N,&v[0][0],M))
       throw ExceptionNumericalC("SVD failed.");  
     return ret;
   }

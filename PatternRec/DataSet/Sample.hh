@@ -15,6 +15,7 @@
 #include "Ravl/DArray1d.hh"
 #include "Ravl/DArray1dIter.hh"
 #include "Ravl/Collection.hh"
+#include "Ravl/CollectionIter.hh"
 
 namespace RavlN {
 
@@ -238,18 +239,18 @@ namespace RavlN {
   
   template <class DataT>
   DataT SampleC<DataT>::ExtractEntry(int ind) {
-    RavlAssert(Contains(ind));
+    RavlAssert(this->Contains(ind));
     DataT ret = (*this)[ind];
-    Remove(ind);
+    this->Remove(ind);
     return ret;
   }
   
   template <class DataT>
   DataT SampleC<DataT>::PickElement(UIntT i) {
-    DataT &val = Nth(i);
+    DataT &val = this->Nth(i);
     DataT ret = val;
     val = Last();
-    RemoveLast();
+    this->RemoveLast();
     return ret;
   }
 

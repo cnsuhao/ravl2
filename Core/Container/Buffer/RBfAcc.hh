@@ -90,6 +90,17 @@ namespace RavlN {
         
     //inline const BufferAccessC<DataT> & Access(void) const;
     // Returns this object.
+
+    inline DataT * ReferenceElm() const
+    { return this->buff; }
+    // Returns the pointer to the reference element of the attached buffer.
+    // The reference element need not to be the valid element of the buffer.
+    
+    inline void * ReferenceVoid() const
+    { return (void *) this->buff; }
+    // Returns the pointer to the reference element of the attached buffer.
+    // The reference element need not to be the valid element of the buffer.
+    // The function is intended to be used in printing.
     
     inline DataT * DataStart()
     { return ReferenceElm() + range.Min().V(); }
@@ -207,7 +218,7 @@ namespace RavlN {
     //: Reverse the order of elements in this array in place.
     
     bool operator==(const RangeBufferAccessC<DataT> &ba) const
-    { return (buff == ba.buff) && (range == ba.range); }
+    { return (this->buff == ba.buff) && (range == ba.range); }
     //: Are two accesses the same ?
     
     void CopyFrom(const Slice1dC<DataT> &slice);
@@ -382,8 +393,8 @@ namespace RavlN {
 
   template <class DataT>
   inline const RangeBufferAccessC<DataT> &RangeBufferAccessC<DataT>::Swap(RangeBufferAccessC<DataT> & a) {
-    DataT *tmp(buff);
-    buff = a.buff; 
+    DataT *tmp(this->buff);
+    this->buff = a.buff; 
     a.buff = tmp;
     range.Swap(a.range);
     return *this;
@@ -409,14 +420,14 @@ namespace RavlN {
 
   template <class DataT>
   inline const RangeBufferAccessC<DataT> &RangeBufferAccessC<DataT>::operator+=(SizeT i) {
-    buff -= i;
+    this->buff -= i;
     range += i;
     return *this;
   }
   
   template <class DataT>
   inline RangeBufferAccessC<DataT> RangeBufferAccessC<DataT>::operator+(SizeT i) const
-  { return RangeBufferAccessC<DataT>(buff - i, range + i); }
+  { return RangeBufferAccessC<DataT>(this->buff - i, range + i); }
   
   template <class DataT>
   inline void RangeBufferAccessC<DataT>::ShiftIndexes(IndexC offset) { 

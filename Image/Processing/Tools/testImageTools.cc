@@ -82,7 +82,7 @@ int testRectangle2dIter() {
   return 0;
 }
 
-#ifndef __sgi__
+#if !defined(__sgi__) && !RAVL_COMPILER_GCC3_4
 template SummedAreaTableC<UIntT>;
 #endif
 

@@ -31,10 +31,10 @@ namespace RavlImageN {
     { threshold = 0; } 
     //: default constructor
     
-    PixelClassifyGreyC(ValT threshold)
+    PixelClassifyGreyC(ValT thr)
     { threshold=thr; }
     //: Constructor
-
+    
     inline void Initialise()
     { mean=0, count=0; total=0; }
     //: Resets the statistics for the region

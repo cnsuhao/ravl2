@@ -122,7 +122,7 @@ namespace RavlN {
   
   template<class DataT>
   void TSMatrixPartialBodyC<DataT>::AddIP(const TSMatrixC<DataT> &oth) {
-    RavlAssert(Size() == oth.Size());
+    RavlAssert(this->Size() == oth.Size());
     if(MatrixType() != oth.MatrixType()) {
       TSMatrixBodyC<DataT>::AddIP(oth);
       return ;
@@ -134,7 +134,7 @@ namespace RavlN {
   
   template<class DataT>
   void TSMatrixPartialBodyC<DataT>::SubIP(const TSMatrixC<DataT> &oth) {
-    RavlAssert(Size() == oth.Size());
+    RavlAssert(this->Size() == oth.Size());
     if(MatrixType() != oth.MatrixType()) {
       TSMatrixBodyC<DataT>::SubIP(oth);
       return ;

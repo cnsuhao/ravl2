@@ -37,6 +37,7 @@
 #define RAVL_COMPILER_GCC defined(__GNUC__)                        /* GNU compiler ? */
 #define RAVL_COMPILER_GCC2 (defined(__GNUC__) && (__GNUC__ < 3))   /* gcc 2.x */
 #define RAVL_COMPILER_GCC3 (defined(__GNUC__) && (__GNUC__ >= 3))  /* gcc 3.x */
+#define RAVL_COMPILER_GCC3_4 (defined(__GNUC__) && (__GNUC__ >= 3) && (__GNUC_MINOR__ >= 4))  /* gcc 3.4.x or later. */
 #define RAVL_COMPILER_MIPSPRO (!defined(__GNUC__) && defined(__sgi))   /* MIPS Pro compiler */
 #define RAVL_COMPILER_VISUALCPP (!defined(__GNUC__) && defined(WIN32)) /* Visual C++ */
 #define RAVL_COMPILER_VISUALCPPNET (!defined(__GNUC__) && defined(WIN32) && (_MSC_VER >= 1300)) /* Visual C++ .NET*/

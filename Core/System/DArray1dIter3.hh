@@ -37,11 +37,11 @@ namespace RavlN {
     //: Constructor.
     
     bool First() {
-      if(!it1.First())
+      if(!this->it1.First())
 	return false;
-      if(it2.First() && it3.First())
+      if(this->it2.First() && this->it3.First())
 	return true;
-      it1.Invalidate();
+      this->it1.Invalidate();
       return false;
     }
     //: Goto first element in the array.
@@ -64,7 +64,7 @@ namespace RavlN {
     //: Goto next element.
     
     IndexC Index() 
-    { return it1.Index(); }
+    { return this->it1.Index(); }
     //: Get index of current element.
     
   protected:
@@ -74,10 +74,10 @@ namespace RavlN {
   
   template<class Data1T,class Data2T,class Data3T>
   inline bool DArray1dIter3C<Data1T,Data2T,Data3T>::Next() { 
-    if(!it1.Next()) return false;
-    if(it2.Next() && it3.Next())
+    if(!this->it1.Next()) return false;
+    if(this->it2.Next() && it3.Next())
       return true;
-    it1.Invalidate();
+    this->it1.Invalidate();
     return false;
   }
   

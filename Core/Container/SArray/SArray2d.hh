@@ -82,6 +82,13 @@ namespace RavlN {
     SArray2dC<DataT> Copy() const;
     //: Copy array.
     
+    inline SizeT Size1() const
+    { return SizeBufferAccess2dC<DataT>::Size1(); }
+    //: Size 1
+    
+    inline SizeT Size2() const
+    { return SizeBufferAccess2dC<DataT>::Size2(); }
+    //: Size.
     
     //:------------------
     // Special operations
@@ -173,7 +180,7 @@ namespace RavlN {
       return Slice1dC<DataT>(data.Data(),
 			     &((*this)[0][0]),
 			     Min(Size1(),Size2()),
-			     Stride()+1);
+			     this->Stride()+1);
     }
     //: Take a slice along the diagonal of the array.
     
@@ -186,7 +193,7 @@ namespace RavlN {
       return Slice1dC<DataT>(data.Data(),
 			     &((*this)[0][i]),
 			     Size1(),
-			     Stride());
+			     this->Stride());
     }
     //: Access column as 1d slice.
     // NB. Changes made to the slice will also affect this array!
@@ -259,7 +266,7 @@ namespace RavlN {
   void SArray2dC<DataT>::BuildAccess(UIntT offset,UIntT stride) {
     Attach(data);
     if(stride == 0)
-      stride = size2;
+      stride = this->size2;
     DataT *at = data.Data().ReferenceElm() + offset;
     for(BufferAccessIterC<BufferAccessC<DataT> > it(*this);
 	it;it++,at += stride)
@@ -314,9 +321,9 @@ namespace RavlN {
   
   template<class DataT>
   SArray2dC<DataT> SArray2dC<DataT>::Copy() const {
-    SArray2dC<DataT> newun(Size1(),size2); // Allocate new array.
-    for(BufferAccess2dIter2C<DataT,DataT > it(*this,size2,
-					      newun,size2);
+    SArray2dC<DataT> newun(Size1(),this->size2); // Allocate new array.
+    for(BufferAccess2dIter2C<DataT,DataT > it(*this,this->size2,
+					      newun,this->size2);
 	it;it++)
       it.Data2() = it.Data1();
     return newun;
@@ -324,7 +331,7 @@ namespace RavlN {
 
   template<class DataT>
   SArray1dC<DataT> SArray2dC<DataT>::AsVector(bool alwaysCopy) {
-    if(!alwaysCopy && ((UIntT) Stride() == Size2())) {
+    if(!alwaysCopy && ((UIntT) this->Stride() == Size2())) {
       DataT *start = &((*this)[0][0]);
       return SArray1dC<DataT>(data.Data(),SizeBufferAccessC<DataT>(start,Size1() * Size2()));
     }
@@ -338,8 +345,8 @@ namespace RavlN {
   template<class DataT>
   SArray2dC<DataT> SArray2dC<DataT>::operator+(const SArray2dC<DataT> & arr) const {
     SArray2dC<DataT> ret(Size1(),Size2());
-    for(BufferAccess2dIter3C<DataT,DataT,DataT> it(ret,size2,
-						   *this,size2,
+    for(BufferAccess2dIter3C<DataT,DataT,DataT> it(ret,this->size2,
+						   *this,this->size2,
 						   arr,arr.Size2());
 	it;it++)
       it.Data1() = it.Data2() + it.Data3();
@@ -349,7 +356,7 @@ namespace RavlN {
   template<class DataT>
   SArray2dC<DataT> SArray2dC<DataT>::operator-(const SArray2dC<DataT> & arr) const {
     SArray2dC<DataT> ret(Size1(),Size2());
-    for(BufferAccess2dIter3C<DataT,DataT,DataT> it(ret,size2,*this,size2,arr,arr.Size2());it;it++)
+    for(BufferAccess2dIter3C<DataT,DataT,DataT> it(ret,this->size2,*this,this->size2,arr,arr.Size2());it;it++)
       it.Data1() = it.Data2() - it.Data3();
     return ret;
   }
@@ -357,7 +364,7 @@ namespace RavlN {
   template<class DataT>
   SArray2dC<DataT> SArray2dC<DataT>::operator*(const SArray2dC<DataT> & arr) const {
     SArray2dC<DataT> ret(Size1(),Size2());
-    for(BufferAccess2dIter3C<DataT,DataT,DataT> it(ret,size2,*this,size2,arr,arr.Size2());it;it++)
+    for(BufferAccess2dIter3C<DataT,DataT,DataT> it(ret,this->size2,*this,this->size2,arr,arr.Size2());it;it++)
       it.Data1() = it.Data2() * it.Data3();
     return ret;
   }
@@ -365,7 +372,7 @@ namespace RavlN {
   template<class DataT>
   SArray2dC<DataT> SArray2dC<DataT>::operator/(const SArray2dC<DataT> & arr) const {
     SArray2dC<DataT> ret(Size1(),Size2());
-    for(BufferAccess2dIter3C<DataT,DataT,DataT> it(ret,size2,*this,size2,arr,arr.Size2());it;it++)
+    for(BufferAccess2dIter3C<DataT,DataT,DataT> it(ret,this->size2,*this,this->size2,arr,arr.Size2());it;it++)
       it.Data1() = it.Data2() / it.Data3();
     return ret;
   }
@@ -373,7 +380,7 @@ namespace RavlN {
   template<class DataT>
   SArray2dC<DataT> SArray2dC<DataT>::operator+(const DataT &number) const {
     SArray2dC<DataT> ret(Size1(),Size2());
-    for(BufferAccess2dIter2C<DataT,DataT> it(ret,size2,*this,Size2());it;it++)
+    for(BufferAccess2dIter2C<DataT,DataT> it(ret,this->size2,*this,Size2());it;it++)
       it.Data1() = it.Data2() + number;
     return ret;
   }
@@ -381,7 +388,7 @@ namespace RavlN {
   template<class DataT>
   SArray2dC<DataT> SArray2dC<DataT>::operator-(const DataT &number) const {
     SArray2dC<DataT> ret(Size1(),Size2());
-    for(BufferAccess2dIter2C<DataT,DataT> it(ret,size2,*this,Size2());it;it++)
+    for(BufferAccess2dIter2C<DataT,DataT> it(ret,this->size2,*this,Size2());it;it++)
       it.Data1() = it.Data2() - number;
     return ret;
   }
@@ -389,7 +396,7 @@ namespace RavlN {
   template<class DataT>
   SArray2dC<DataT> SArray2dC<DataT>::operator*(const DataT &number) const {
     SArray2dC<DataT> ret(Size1(),Size2());
-    for(BufferAccess2dIter2C<DataT,DataT> it(ret,size2,*this,Size2());it;it++)
+    for(BufferAccess2dIter2C<DataT,DataT> it(ret,this->size2,*this,Size2());it;it++)
       it.Data1() = it.Data2() * number;
     return ret;
   }
@@ -397,78 +404,78 @@ namespace RavlN {
   template<class DataT>
   SArray2dC<DataT> SArray2dC<DataT>::operator/(const DataT &number) const {
     SArray2dC<DataT> ret(Size1(),Size2());
-    for(BufferAccess2dIter2C<DataT,DataT> it(ret,size2,*this,Size2());it;it++)
+    for(BufferAccess2dIter2C<DataT,DataT> it(ret,this->size2,*this,Size2());it;it++)
       it.Data1() = it.Data2() / number;
     return ret;
   }
     
   template<class DataT>
   const SArray2dC<DataT> & SArray2dC<DataT>::operator+=(const SArray2dC<DataT> & arr) {
-    for(BufferAccess2dIter2C<DataT,DataT> it(*this,size2,arr,arr.Size2());it;it++)
+    for(BufferAccess2dIter2C<DataT,DataT> it(*this,this->size2,arr,arr.Size2());it;it++)
       it.Data1() += it.Data2();
     return *this;
   }
   
   template<class DataT>
   const SArray2dC<DataT> & SArray2dC<DataT>::operator-=(const SArray2dC<DataT> & arr) {
-    for(BufferAccess2dIter2C<DataT,DataT> it(*this,size2,arr,arr.Size2());it;it++)
+    for(BufferAccess2dIter2C<DataT,DataT> it(*this,this->size2,arr,arr.Size2());it;it++)
       it.Data1() -= it.Data2();
     return *this;
   }
     
   template<class DataT>
   const SArray2dC<DataT> & SArray2dC<DataT>::operator*=(const SArray2dC<DataT> & arr) {
-    for(BufferAccess2dIter2C<DataT,DataT> it(*this,size2,arr,arr.Size2());it;it++)
+    for(BufferAccess2dIter2C<DataT,DataT> it(*this,this->size2,arr,arr.Size2());it;it++)
       it.Data1() *= it.Data2();
     return *this;
   }
     
   template<class DataT>
   const SArray2dC<DataT> & SArray2dC<DataT>::operator/=(const SArray2dC<DataT> & arr) {
-    for(BufferAccess2dIter2C<DataT,DataT> it(*this,size2,arr,arr.Size2());it;it++)
+    for(BufferAccess2dIter2C<DataT,DataT> it(*this,this->size2,arr,arr.Size2());it;it++)
       it.Data1() /= it.Data2();
     return *this;
   }
   
   template<class DataT>
   const SArray2dC<DataT> & SArray2dC<DataT>::operator+=(const DataT &number) {
-    for(BufferAccess2dIterC<DataT> it(*this,size2);it;it++)
+    for(BufferAccess2dIterC<DataT> it(*this,this->size2);it;it++)
       it.Data1() += number;
     return *this;
   }
     
   template<class DataT>
   const SArray2dC<DataT> & SArray2dC<DataT>::operator-=(const DataT &number) {
-    for(BufferAccess2dIterC<DataT> it(*this,size2);it;it++)
+    for(BufferAccess2dIterC<DataT> it(*this,this->size2);it;it++)
       it.Data1() -= number;
     return *this;
   }
   
   template<class DataT>
   const SArray2dC<DataT> & SArray2dC<DataT>::operator*=(const DataT &number) {
-    for(BufferAccess2dIterC<DataT> it(*this,size2);it;it++)
+    for(BufferAccess2dIterC<DataT> it(*this,this->size2);it;it++)
       it.Data1() *= number;
     return *this;
   }
   
   template<class DataT>
   const SArray2dC<DataT> & SArray2dC<DataT>::operator/=(const DataT &number) {
-    for(BufferAccess2dIterC<DataT> it(*this,size2);it;it++)
+    for(BufferAccess2dIterC<DataT> it(*this,this->size2);it;it++)
       it.Data() /= number;
     return *this;
   }
   
   template<class DataT>
   bool SArray2dC<DataT>::operator==(const SArray2dC<DataT> &op) const {
-    if(Size() != op.Size()) return false;
-    for(BufferAccess2dIter2C<DataT,DataT> it(*this,size2,op,op.Size2());it;it++)
+    if(this->Size() != op.Size()) return false;
+    for(BufferAccess2dIter2C<DataT,DataT> it(*this,this->size2,op,op.Size2());it;it++)
       if(it.Data1() != it.Data2()) return false;
     return true;
   }
   
   template<class DataT>
   DataT SArray2dC<DataT>::Sum() const {
-    BufferAccess2dIterC<DataT> it(*this,size2);
+    BufferAccess2dIterC<DataT> it(*this,this->size2);
     if(!it) {
       DataT ret;
       SetZero(ret);
@@ -482,7 +489,7 @@ namespace RavlN {
   
   template<class DataT>
   DataT SArray2dC<DataT>::SumOfSqr() const {
-    BufferAccess2dIterC<DataT> it(*this,size2);
+    BufferAccess2dIterC<DataT> it(*this,this->size2);
     if(!it) {
       DataT ret;
       SetZero(ret);
@@ -499,7 +506,7 @@ namespace RavlN {
     RavlAssert(val.Size() == Size1());
     // Avoid including to many headers by just using a ptr, not a slice.
     DataT *d1 = &((*this)[0][i]); 
-    const int s = Stride();
+    const int s = this->Stride();
     for(BufferAccessIterC<DataT> it(val);it;it++,d1 += s)
       *d1 = *it;
   }

@@ -45,7 +45,7 @@ namespace RavlN {
     bool Top(DataT &buff) const {
       RWLockHoldC hold(access,RWLOCK_READONLY);
       if(queue.IsEmpty()) return false;
-      buff = root->Data(); 
+      buff = this->root->Data(); 
       return true;
     }
     //: Look at data on top of queue.
@@ -64,7 +64,7 @@ namespace RavlN {
     bool TopKey(KeyT &key) const { 
       RWLockHoldC hold(access,RWLOCK_READONLY);
       if(queue.IsEmpty()) return false;      
-      key = root->Key(); 
+      key = this->root->Key(); 
       return true;
     }
     //: Look at key on top of queue.

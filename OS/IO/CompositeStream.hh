@@ -19,6 +19,7 @@
 #include "Ravl/DP/PlayList.hh"
 #include "Ravl/DList.hh"
 #include "Ravl/DP/SequenceIO.hh"
+#include "Ravl/IO.hh"
 
 namespace RavlN {  
 

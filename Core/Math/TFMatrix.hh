@@ -151,7 +151,7 @@ namespace RavlN {
     TFVectorC<DataT,M> SliceRow(IndexC r) const {
       TFVectorC<DataT,M> ret;
       for(UIntT c = 0; c < M; c++)
-	ret[c] = data[r][c.V()];
+	ret[c] = data[r.V()][c];
       return ret;
     }
     //: Access to row as a vector

@@ -106,17 +106,17 @@ namespace RavlN {
     
   template<class InT,class InterT,class OutT>
   DPProcessBaseBodyC::ProcTypeT DPComposeProcessBodyC<InT,InterT,OutT>::OpType() const  {
-    if(p2.OpType() == LossyT)
-      return LossyT;
+    if(p2.OpType() == DPProcessBaseBodyC::LossyT)
+      return DPProcessBaseBodyC::LossyT;
     switch(p1.OpType()) {
-    case ConversionT:
+    case DPProcessBaseBodyC::ConversionT:
       return p2.OpType();
-    case ConversionLossyT:
-      return ConversionLossyT;
-    case LossyT:
-      return LossyT;
+    case DPProcessBaseBodyC::ConversionLossyT:
+      return DPProcessBaseBodyC::ConversionLossyT;
+    case DPProcessBaseBodyC::LossyT:
+      return DPProcessBaseBodyC::LossyT;
     }
-    return LossyT;
+    return DPProcessBaseBodyC::LossyT;
   }
   
 }

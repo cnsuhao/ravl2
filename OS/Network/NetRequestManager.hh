@@ -120,7 +120,8 @@ namespace RavlN {
       RCWrapC<Tuple2C<Data1T,Data2T> > wrap;
       if(!WaitForReq(id,(RCWrapAbstractC &) wrap))
 	return false;
-      data = wrap.Data();
+      data1 = wrap.Data().Data1();
+      data2 = wrap.Data().Data2();
       return true;
     }
     // Wait for a reply to a request.

@@ -242,7 +242,7 @@ namespace RavlGUIN {
 		  bool (*func)(RealT &value,ParmT &par),const ParmT &pt = ParmT())
   {  
     SliderC ret(true,nvalue,nlower,nupper,nstep_increment);
-    Connect(ret.SigChanged(),obj,func,nvalue,pt);
+    Connect(ret.SigChanged(),func,nvalue,pt);
     return ret;
   }
   //: Vertical slider with call back to function.
@@ -280,7 +280,7 @@ namespace RavlGUIN {
 		  bool (*func)(RealT &value,ParmT &par),const ParmT &pt = ParmT())
   {  
     SliderC ret(false,nvalue,nlower,nupper,nstep_increment);
-    Connect(ret.SigChanged(),obj,func,nvalue,pt);
+    Connect(ret.SigChanged(),func,nvalue,pt);
     return ret;
   }
   //: Horizontal slider with call back to function.

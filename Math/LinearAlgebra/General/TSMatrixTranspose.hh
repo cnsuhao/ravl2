@@ -30,11 +30,11 @@ namespace RavlN {
       : matrix(oth)
     {
       if(oth.IsValid()) {
-	size[0] = oth.Cols();
-	size[1] = oth.Rows();
+	this->size[0] = oth.Cols();
+	this->size[1] = oth.Rows();
       } else {
-	size[0] = 0;
-	size[1] = 0;
+	this->size[0] = 0;
+	this->size[1] = 0;
       }
     }
     //: Constructor.
@@ -217,7 +217,7 @@ namespace RavlN {
       : TSMatrixC<DataT>(base)
     {
       if(dynamic_cast<const TSMatrixTransposeBodyC<DataT> *>(&TSMatrixC<DataT>::Body()) == 0)
-	Invalidate();
+	this->Invalidate();
     }
     //: Base constructor.
   protected:

@@ -71,11 +71,11 @@ namespace RavlN {
     //: Pass signal on.
     
     virtual bool Invoke(Data1T &d1)
-    { return Invoke(d1,defaultVal2,defaultVal3); }
+    { return Invoke(d1,this->defaultVal2,defaultVal3); }
     //: Pass signal on, use default value.
     
     virtual bool Invoke()
-    { return Invoke(defaultVal,defaultVal2,defaultVal3); }
+    { return Invoke(this->defaultVal,this->defaultVal2,defaultVal3); }
     //: Pass signal on, use default value.
     
   protected:
@@ -154,16 +154,16 @@ namespace RavlN {
     //: Constructor.
     
     virtual bool Invoke()
-    { return func(defaultVal,defaultVal2,defaultVal3); }
+    { return func(this->defaultVal,this->defaultVal2,this->defaultVal3); }
     //: Call function.
     // Use default value.
     
     virtual bool Invoke(Arg1T &val)
-    { return func(val,defaultVal2,defaultVal3); }
+    { return func(val,this->defaultVal2,this->defaultVal3); }
     //: Call function.
     
     virtual bool Invoke(Arg1T &val1,Arg2T &val2)
-    { return func(val1,val2,defaultVal3); }
+    { return func(val1,val2,this->defaultVal3); }
     //: Call function.
     
     virtual bool Invoke(Arg1T &val1,Arg2T &val2,Arg3T &val3)
@@ -231,15 +231,15 @@ namespace RavlN {
     //: Constructor.
     
     virtual bool Invoke()
-    { return (obj.*func)(defaultVal,defaultVal2,defaultVal3); }
+    { return (obj.*func)(this->defaultVal,this->defaultVal2,this->defaultVal3); }
     //: Call function.
     
     virtual bool Invoke(Arg1T &val)
-    { return (obj.*func)(val,defaultVal2,defaultVal3); }
+    { return (obj.*func)(val,this->defaultVal2,this->defaultVal3); }
     //: Call function.
     
     virtual bool Invoke(Arg1T &val1,Arg2T &val2)
-    { return (obj.*func)(val1,val2,defaultVal3); }
+    { return (obj.*func)(val1,val2,this->defaultVal3); }
     //: Call function.
     
     virtual bool Invoke(Arg1T &val1,Arg2T &val2,Arg3T &val3)
@@ -371,13 +371,13 @@ namespace RavlN {
     
     inline 
     virtual bool Invoke(Data1T &v1,Data2T &v2,Data3T &v3) {
-      RWLockHoldC hold(access,true);
-      SArray1dIterC<SignalConnectorC> it(outputs);
+      RWLockHoldC hold(this->access,RWLOCK_READONLY);
+      SArray1dIterC<SignalConnectorC> it(this->outputs);
       hold.Unlock();
       // Flag that we're executing signal code.
       // This is used to ensure all threads have left the signal handlers
       // before they are disconnected.
-      RWLockHoldC holdExec(execLock,RWLOCK_READONLY);
+      RWLockHoldC holdExec(this->execLock,RWLOCK_READONLY);
       bool ret = true;
       for(;it;it++) {
 	SignalConnector3BodyC<Data1T,Data2T,Data3T> *sc3 = dynamic_cast<SignalConnector3BodyC<Data1T,Data2T,Data3T> *>(&it.Data().Body());
@@ -404,16 +404,16 @@ namespace RavlN {
     
     inline 
     virtual bool Invoke(Data1T &v1,Data2T &v2)
-    { return Signal3BodyC<Data1T,Data2T,Data3T>::Invoke(v1,v2,defaultVal3); }
+    { return Signal3BodyC<Data1T,Data2T,Data3T>::Invoke(v1,v2,this->defaultVal3); }
     //: Send signal with value.
     
     inline 
     virtual bool Invoke(Data1T &v1)
-    { return Signal3BodyC<Data1T,Data2T,Data3T>::Invoke(v1,defaultVal2,defaultVal3); }
+    { return Signal3BodyC<Data1T,Data2T,Data3T>::Invoke(v1,this->defaultVal2,this->defaultVal3); }
     //: Send signal with value.
     
     virtual bool Invoke()
-    { return Signal3BodyC<Data1T,Data2T,Data3T>::Invoke(defaultVal,defaultVal2,defaultVal3); }
+    { return Signal3BodyC<Data1T,Data2T,Data3T>::Invoke(this->defaultVal,this->defaultVal2,this->defaultVal3); }
     //: Send signal with default value where needed.
     
   protected:
@@ -503,17 +503,17 @@ namespace RavlN {
   template<class Data1T,class Data2T,class Data3T>
   inline 
   bool SignalInterConnect3BodyC<Data1T,Data2T,Data3T>::Invoke(Data1T &dat1,Data2T &dat2)
-  { return dynamic_cast<Signal3BodyC<Data1T,Data2T,Data3T> &>(Target()).Invoke(dat1,dat2,defaultVal3); }
+  { return dynamic_cast<Signal3BodyC<Data1T,Data2T,Data3T> &>(Target()).Invoke(dat1,dat2,this->defaultVal3); }
   
   template<class Data1T,class Data2T,class Data3T>
   inline
   bool SignalInterConnect3BodyC<Data1T,Data2T,Data3T>::Invoke(Data1T &dat1)
-  { return dynamic_cast<Signal3BodyC<Data1T,Data2T,Data3T> &>(Target()).Invoke(dat1,defaultVal2,defaultVal3); }
+  { return dynamic_cast<Signal3BodyC<Data1T,Data2T,Data3T> &>(Target()).Invoke(dat1,this->defaultVal2,this->defaultVal3); }
   
   template<class Data1T,class Data2T,class Data3T>
   inline
   bool SignalInterConnect3BodyC<Data1T,Data2T,Data3T>::Invoke()
-  { return Invoke(defaultVal,defaultVal2,defaultVal3); }
+  { return Invoke(this->defaultVal,this->defaultVal2,this->defaultVal3); }
   
   ///////////////////////
   
@@ -530,9 +530,9 @@ namespace RavlN {
   template<class Data1T,class Data2T,class Data3T>  
   inline 
   SignalConnectorC Connect(Signal0C &from,bool (*func)(Data1T,Data2T,Data3T),
-			   const typename TraitsC<Data1T>::BaseTypeT &def1 VCPPARGFIX(= TraitsC<Data1T>::BaseTypeT()),
-			   const typename TraitsC<Data2T>::BaseTypeT &def2 VCPPARGFIX(= TraitsC<Data2T>::BaseTypeT()),
-			   const typename TraitsC<Data3T>::BaseTypeT &def3 VCPPARGFIX(= TraitsC<Data3T>::BaseTypeT())
+			   const typename TraitsC<Data1T>::BaseTypeT &def1 VCPPARGFIX(= typename TraitsC<Data1T>::BaseTypeT()),
+			   const typename TraitsC<Data2T>::BaseTypeT &def2 VCPPARGFIX(= typename TraitsC<Data2T>::BaseTypeT()),
+			   const typename TraitsC<Data3T>::BaseTypeT &def3 VCPPARGFIX(= typename TraitsC<Data3T>::BaseTypeT())
 			   ) { 
     RavlAssert(from.IsValid());
     return Signal3FuncC<Data1T,Data2T,Data3T>(from,func,def1,def2,def3);
@@ -543,9 +543,9 @@ namespace RavlN {
   template<class Data1T,class Data2T,class Data3T,class ObjT>
   inline
   SignalConnectorC Connect(Signal0C &from,const ObjT &obj,bool (ObjT::* func)(Data1T,Data2T,Data3T),
-			   const typename TraitsC<Data1T>::BaseTypeT &def1 VCPPARGFIX(= TraitsC<Data1T>::BaseTypeT()),
-			   const typename TraitsC<Data2T>::BaseTypeT &def2 VCPPARGFIX(= TraitsC<Data2T>::BaseTypeT()),
-			   const typename TraitsC<Data3T>::BaseTypeT &def3 VCPPARGFIX(= TraitsC<Data3T>::BaseTypeT())
+			   const typename TraitsC<Data1T>::BaseTypeT &def1 VCPPARGFIX(= typename TraitsC<Data1T>::BaseTypeT()),
+			   const typename TraitsC<Data2T>::BaseTypeT &def2 VCPPARGFIX(= typename TraitsC<Data2T>::BaseTypeT()),
+			   const typename TraitsC<Data3T>::BaseTypeT &def3 VCPPARGFIX(= typename TraitsC<Data3T>::BaseTypeT())
 			   ) {
     RavlAssert(from.IsValid());
     return Signal3MethodC<Data1T,Data2T,Data3T,ObjT>(from,const_cast<ObjT &>(obj),func,def1,def2,def3);
@@ -556,9 +556,9 @@ namespace RavlN {
   template<class Data1T,class Data2T,class Data3T,class ObjT>
   inline
   SignalConnectorC ConnectRef(Signal0C &from,ObjT &obj,bool (ObjT::* func)(Data1T,Data2T,Data3T),
-			      const typename TraitsC<Data1T>::BaseTypeT &def1 VCPPARGFIX(= TraitsC<Data1T>::BaseTypeT()),
-			      const typename TraitsC<Data2T>::BaseTypeT &def2 VCPPARGFIX(= TraitsC<Data2T>::BaseTypeT()),
-			      const typename TraitsC<Data3T>::BaseTypeT &def3 VCPPARGFIX(= TraitsC<Data3T>::BaseTypeT())
+			      const typename TraitsC<Data1T>::BaseTypeT &def1 VCPPARGFIX(= typename TraitsC<Data1T>::BaseTypeT()),
+			      const typename TraitsC<Data2T>::BaseTypeT &def2 VCPPARGFIX(= typename TraitsC<Data2T>::BaseTypeT()),
+			      const typename TraitsC<Data3T>::BaseTypeT &def3 VCPPARGFIX(= typename TraitsC<Data3T>::BaseTypeT())
 			      ) {
     RavlAssert(from.IsValid());
 #if RAVL_COMPILER_VISUALCPP 
@@ -576,9 +576,9 @@ namespace RavlN {
   template<class Data1T,class Data2T,class Data3T,class ObjT>
   inline
   SignalConnectorC ConnectR(Signal0C &from,ObjT &obj,bool (ObjT::* func)(Data1T,Data2T,Data3T),
-			    const typename TraitsC<Data1T>::BaseTypeT &def1 VCPPARGFIX(= TraitsC<Data1T>::BaseTypeT()),
-			    const typename TraitsC<Data2T>::BaseTypeT &def2 VCPPARGFIX(= TraitsC<Data2T>::BaseTypeT()),
-			    const typename TraitsC<Data3T>::BaseTypeT &def3 VCPPARGFIX(= TraitsC<Data3T>::BaseTypeT())
+			    const typename TraitsC<Data1T>::BaseTypeT &def1 VCPPARGFIX(= typename TraitsC<Data1T>::BaseTypeT()),
+			    const typename TraitsC<Data2T>::BaseTypeT &def2 VCPPARGFIX(= typename TraitsC<Data2T>::BaseTypeT()),
+			    const typename TraitsC<Data3T>::BaseTypeT &def3 VCPPARGFIX(= typename TraitsC<Data3T>::BaseTypeT())
 			    ) {
     RavlAssert(from.IsValid());
 #if RAVL_COMPILER_VISUALCPP 

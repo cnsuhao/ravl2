@@ -117,11 +117,11 @@ namespace RavlN {
     //: Constructor.
     
     virtual void Invoke()
-    { (obj.*FuncPtr())(dat1); }
+    { (obj.*FuncPtr())(this->dat1); }
     //: Invoke event.
 
     virtual RetT Call()
-    { return (obj.*FuncPtr())(dat1); }
+    { return (obj.*FuncPtr())(this->dat1); }
     //: Invoke event, with paramiter.
     
     virtual RetT Call(Arg1T &pd)
@@ -130,7 +130,7 @@ namespace RavlN {
 
   protected:
     virtual RCBodyVC &Copy() const
-    { return *new CallMethod1BodyC<ObjT,DataT,RetT>(const_cast<BaseObjT &>(obj),FuncPtr(),dat1); }
+    { return *new CallMethod1BodyC<ObjT,DataT,RetT>(const_cast<BaseObjT &>(obj),FuncPtr(),this->dat1); }
     //: Copy call.
 
     FuncT mPtr;
@@ -197,15 +197,15 @@ namespace RavlN {
     //: Constructor.
     
     virtual void Invoke()
-    { (obj.*FuncPtr())(dat1,dat2); }
+    { (obj.*FuncPtr())(this->dat1,this->dat2); }
     //: Invoke event.
     
     virtual RetT Call()
-    { return (obj.*FuncPtr())(dat1,dat2); }
+    { return (obj.*FuncPtr())(this->dat1,this->dat2); }
     //: Invoke event, with paramiter.
     
     virtual RetT Call(Arg1T &pd)
-    { return (obj.*FuncPtr())(pd,dat2); }
+    { return (obj.*FuncPtr())(pd,this->dat2); }
     //: Invoke event, with paramiter.
 
     virtual RetT Call(Arg1T &pd1,Arg2T &pd2)
@@ -220,7 +220,7 @@ namespace RavlN {
     //: Function.
 
     virtual RCBodyVC &Copy() const
-    { return *new CallMethod2BodyC<ObjT,Data1T,Data2T,RetT>(const_cast<BaseObjT &>(obj),FuncPtr(),dat1,dat2); }
+    { return *new CallMethod2BodyC<ObjT,Data1T,Data2T,RetT>(const_cast<BaseObjT &>(obj),FuncPtr(),this->dat1,this->dat2); }
     //: Copy call.
     
     FuncT mPtr;
@@ -287,19 +287,19 @@ namespace RavlN {
     //: Constructor.
     
     virtual void Invoke()
-    { (obj.*FuncPtr())(dat1,dat2,dat3); }
+    { (obj.*FuncPtr())(this->dat1,this->dat2,this->dat3); }
     //: Invoke event.
     
     virtual RetT Call()
-    { return (obj.*FuncPtr())(dat1,dat2,dat3); }
+    { return (obj.*FuncPtr())(this->dat1,this->dat2,this->dat3); }
     //: Invoke event, with paramiter.
 
     virtual RetT Call(Arg1T &pd)
-    { return (obj.*FuncPtr())(pd,dat2,dat3); }
+    { return (obj.*FuncPtr())(pd,this->dat2,this->dat3); }
     //: Invoke event, with paramiter.
 
     virtual RetT Call(Arg1T &pd1,Arg2T &pd2)
-    { return (obj.*FuncPtr())(pd1,pd2,dat3); }
+    { return (obj.*FuncPtr())(pd1,pd2,this->dat3); }
     //: Invoke event, with paramiter.
     
     virtual RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3)
@@ -308,7 +308,7 @@ namespace RavlN {
     
   protected:
     virtual RCBodyVC &Copy() const
-    { return *new CallMethod3BodyC<ObjT,Data1T,Data2T,Data3T,RetT>(const_cast<BaseObjT &>(obj),FuncPtr(),dat1,dat2,dat3); }
+    { return *new CallMethod3BodyC<ObjT,Data1T,Data2T,Data3T,RetT>(const_cast<BaseObjT &>(obj),FuncPtr(),this->dat1,this->dat2,this->dat3); }
     //: Copy call.
     
     FuncT mPtr;
@@ -380,23 +380,23 @@ namespace RavlN {
     //: Constructor.
     
     virtual void Invoke()
-    { (obj.*FuncPtr())(dat1,dat2,dat3,dat4); }
+    { (obj.*FuncPtr())(this->dat1,this->dat2,this->dat3,this->dat4); }
     //: Invoke event.
 
     virtual RetT Call()
-    { return (obj.*FuncPtr())(dat1,dat2,dat3,dat4); }
+    { return (obj.*FuncPtr())(this->dat1,this->dat2,this->dat3,this->dat4); }
     //: Invoke event.
 
     virtual RetT Call(Arg1T &pd)
-    { return (obj.*FuncPtr())(pd,dat2,dat3,dat4); }
+    { return (obj.*FuncPtr())(pd,this->dat2,this->dat3,this->dat4); }
     //: Invoke event, with paramiters.
 
     virtual RetT Call(Arg1T &pd1,Arg2T &pd2)
-    { return (obj.*FuncPtr())(pd1,pd2,dat3,dat4); }
+    { return (obj.*FuncPtr())(pd1,pd2,this->dat3,this->dat4); }
     //: Invoke event, with paramiters.
     
     virtual RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3)
-    { return (obj.*FuncPtr())(pd1,pd2,pd3,dat4); }
+    { return (obj.*FuncPtr())(pd1,pd2,pd3,this->dat4); }
     //: Invoke event, with paramiters.
     
     virtual RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3,Arg4T &pd4)
@@ -405,7 +405,7 @@ namespace RavlN {
     
   protected:
     virtual RCBodyVC &Copy() const
-    { return *new CallMethod4BodyC<ObjT,Data1T,Data2T,Data3T,Data4T,RetT>(const_cast<BaseObjT &>(obj),FuncPtr(),dat1,dat2,dat3,dat4); }
+    { return *new CallMethod4BodyC<ObjT,Data1T,Data2T,Data3T,Data4T,RetT>(const_cast<BaseObjT &>(obj),FuncPtr(),this->dat1,this->dat2,this->dat3,this->dat4); }
     //: Copy call.
     
     FuncT mPtr;
@@ -484,27 +484,27 @@ namespace RavlN {
     //: Constructor.
     
     virtual void Invoke()
-    { (obj.*FuncPtr())(dat1,dat2,dat3,dat4,dat5); }
+    { (obj.*FuncPtr())(this->dat1,this->dat2,this->dat3,this->dat4,this->dat5); }
     //: Invoke event.
 
     virtual RetT Call()
-    { return (obj.*FuncPtr())(dat1,dat2,dat3,dat4,dat5); }
+    { return (obj.*FuncPtr())(this->dat1,this->dat2,this->dat3,this->dat4,this->dat5); }
     //: Invoke event.
 
     virtual RetT Call(Arg1T &pd)
-    { return (obj.*FuncPtr())(pd,dat2,dat3,dat4,dat5); }
+    { return (obj.*FuncPtr())(pd,this->dat2,this->dat3,this->dat4,this->dat5); }
     //: Invoke event, with paramiters.
 
     virtual RetT Call(Arg1T &pd1,Arg2T &pd2)
-    { return (obj.*FuncPtr())(pd1,pd2,dat3,dat4,dat5); }
+    { return (obj.*FuncPtr())(pd1,pd2,this->dat3,this->dat4,this->dat5); }
     //: Invoke event, with paramiters.
     
     virtual RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3)
-    { return (obj.*FuncPtr())(pd1,pd2,pd3,dat4,dat5); }
+    { return (obj.*FuncPtr())(pd1,pd2,pd3,this->dat4,this->dat5); }
     //: Invoke event, with paramiters.
     
     virtual RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3,Arg4T &pd4)
-    { return (obj.*FuncPtr())(pd1,pd2,pd3,pd4,dat5); }
+    { return (obj.*FuncPtr())(pd1,pd2,pd3,pd4,this->dat5); }
     //: Invoke event, with paramiters.
 
     virtual RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3,Arg4T &pd4,Arg5T &pd5)
@@ -515,7 +515,7 @@ namespace RavlN {
     FuncT mPtr;
     
     virtual RCBodyVC &Copy() const
-    { return *new CallMethod5BodyC<ObjT,Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(const_cast<BaseObjT &>(obj),FuncPtr(),dat1,dat2,dat3,dat4,dat5); }
+    { return *new CallMethod5BodyC<ObjT,Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(const_cast<BaseObjT &>(obj),FuncPtr(),this->dat1,this->dat2,this->dat3,this->dat4,this->dat5); }
     //: Copy call.
     
     inline

@@ -64,7 +64,7 @@ namespace RavlN {
   
   template<class NT,class ET>
   bool BDAGraphC<NT,ET>::TryEdge(BGraphTypesC::NodeHandleT fromNode,BGraphTypesC::NodeHandleT toNode) {
-    SArray1dC<bool> done(NoNodes());
+    SArray1dC<bool> done(this->NoNodes());
     done.Fill(false);
     if(fromNode == toNode)
       return false;
@@ -72,7 +72,7 @@ namespace RavlN {
     open.InsLast(toNode);
     done[toNode] = true;
     while (!open.IsEmpty()) {
-      for(BGraphAdjIterC<NT,ET> It(NodeObj(open.GetFirst()),Bkw);
+      for(BGraphAdjIterC<NT,ET> It(NodeObj(open.GetFirst()),this->Bkw);
 	  It.IsElm();
 	  It.Next()) {
 	BGraphTypesC::NodeHandleT NN = It.FarNodeH();

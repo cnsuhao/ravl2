@@ -34,12 +34,22 @@ namespace RavlN {
   ostream &operator<<(ostream &in,const TFVectorC<DataT,N> &dat);
   
   template<class DataT,unsigned int N>
-  inline
-  BinIStreamC &operator>>(BinIStreamC &in,TFVectorC<DataT,N> &dat);
+  inline BinIStreamC &operator>>(BinIStreamC &in,TFVectorC<DataT,N> &dat);
   
   template<class DataT,unsigned int N>
-  inline
-  BinOStreamC &operator<<(BinOStreamC &in,const TFVectorC<DataT,N> &dat);
+  inline BinOStreamC &operator<<(BinOStreamC &in,const TFVectorC<DataT,N> &dat);
+  
+  template<unsigned int N>
+  inline ostream &operator<<(ostream &out,const TFVectorC<ByteT,N> &dat);
+  
+  template<unsigned int N>
+  inline istream &operator>>(istream &in,TFVectorC<ByteT,N> &dat);
+  
+  template<unsigned int N>
+  inline ostream &operator<<(ostream &out,const TFVectorC<SByteT,N> &dat);
+  
+  template<unsigned int N>
+  inline istream &operator>>(istream &in,TFVectorC<SByteT,N> &dat);
   
   //! userlevel=Advanced
   //: Fixed size vector.
@@ -209,6 +219,12 @@ namespace RavlN {
     friend ostream &operator<< <>(ostream &in,const TFVectorC<DataT,N> &dat);  
     friend BinIStreamC &operator>> <>(BinIStreamC &in,TFVectorC<DataT,N> &dat);
     friend BinOStreamC &operator<< <>(BinOStreamC &in,const TFVectorC<DataT,N> &dat);
+#if RAVL_COMPILER_GCC3_4
+    friend ostream &operator<< <>(ostream &out,const TFVectorC<ByteT,N> &dat);
+    friend istream &operator>> <>(istream &in,TFVectorC<ByteT,N> &dat);
+    friend ostream &operator<< <>(ostream &out,const TFVectorC<SByteT,N> &dat);
+    friend istream &operator>> <>(istream &in,TFVectorC<SByteT,N> &dat);
+#endif
 #else
     friend istream &operator>> (istream &in,TFVectorC<DataT,N> &dat);  
     friend ostream &operator<< (ostream &in,const TFVectorC<DataT,N> &dat);  

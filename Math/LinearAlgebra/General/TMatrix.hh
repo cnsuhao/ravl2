@@ -97,11 +97,11 @@ namespace RavlN {
     //: Convert to fixed size matrix.
     
     inline SizeT Rows() const
-    { return Size1(); }
+    { return this->Size1(); }
     //: Return the number of rows
     
     inline SizeT Cols() const
-    { return Size2(); }
+    { return this->Size2(); }
     //: Return the number of columns
     
     TMatrixC<DataT> operator*(DataT val) const
@@ -188,7 +188,7 @@ namespace RavlN {
     : SArray2dC<DataT>(rows,cols)
   {
     const DataT *at = data;
-    for(BufferAccess2dIterC<DataT> it(*this,Size2());it;it++)
+    for(BufferAccess2dIterC<DataT> it(*this,this->Size2());it;it++)
       *it = *(at++);
   }
   
@@ -291,7 +291,7 @@ namespace RavlN {
     TMatrixC<DataT> out(Rows(), mat.Cols());
     if(Rows() == 0 || Cols() == 0)
       return out; // Nothing to do !
-    BufferAccess2dIterC<DataT> it1(*this,Size2());
+    BufferAccess2dIterC<DataT> it1(*this,this->Size2());
     BufferAccess2dIterC<DataT> it2(mat,mat.Size2());
     BufferAccess2dIterC<DataT> ot(out,mat.Size2());
     out.Fill(0);
@@ -321,7 +321,7 @@ namespace RavlN {
     TMatrixC<DataT> out(Rows(), mat.Rows());
     if(Rows() == 0 || Cols() == 0)
       return out; // Nothing to do.
-    BufferAccess2dIterC<DataT> it1(*this,Size2());
+    BufferAccess2dIterC<DataT> it1(*this,this->Size2());
     BufferAccess2dIterC<DataT> it2(mat,mat.Size2());
     BufferAccess2dIterC<DataT> ot(out,out.Size2());
     do {
@@ -356,7 +356,7 @@ namespace RavlN {
     TMatrixC<DataT> out(Cols(), mat.Cols());
     if(Rows() == 0 || Cols() == 0)
       return out; // Nothing to do.
-    BufferAccess2dIterC<DataT> it1(*this,Size2());
+    BufferAccess2dIterC<DataT> it1(*this,this->Size2());
     BufferAccess2dIterC<DataT> it2(mat,mat.Size2());
     BufferAccess2dIterC<DataT> ot(out,out.Size2());
     out.Fill(0);
@@ -429,7 +429,7 @@ namespace RavlN {
 
   template<class DataT>
   DataT TMatrixC<DataT>::SumOfAbs() const {
-    BufferAccess2dIterC<DataT> it(*this,Size2());
+    BufferAccess2dIterC<DataT> it(*this,this->Size2());
     if(!it)
       return DataT();
     DataT ret(*it);
@@ -440,10 +440,10 @@ namespace RavlN {
   
   template<class DataT>
   const TMatrixC<DataT> &TMatrixC<DataT>::AddOuterProduct(const TVectorC<DataT> &vec1,const TVectorC<DataT> &vec2) {
-    RavlAssert(Size1() == vec1.Size());
-    RavlAssert(Size2() == vec2.Size());
+    RavlAssert(this->Size1() == vec1.Size());
+    RavlAssert(this->Size2() == vec2.Size());
     BufferAccessIterC<DataT> v1(vec1);
-    BufferAccess2dIterC<DataT> it(*this,Size2());
+    BufferAccess2dIterC<DataT> it(*this,this->Size2());
     while(it) {
       BufferAccessIterC<DataT> v2(vec2);
       RealT r1 = (*v1);
@@ -458,10 +458,10 @@ namespace RavlN {
   
   template<class DataT>
   const TMatrixC<DataT> &TMatrixC<DataT>::AddOuterProduct(const TVectorC<DataT> &vec1,const TVectorC<DataT> &vec2,const DataT &a) {
-    RavlAssert(Size1() == vec1.Size());
-    RavlAssert(Size2() == vec2.Size());
+    RavlAssert(this->Size1() == vec1.Size());
+    RavlAssert(this->Size2() == vec2.Size());
     BufferAccessIterC<DataT> v1(vec1);
-    BufferAccess2dIterC<DataT> it(*this,Size2());
+    BufferAccess2dIterC<DataT> it(*this,this->Size2());
     while(it) {
       BufferAccessIterC<DataT> v2(vec2);
       DataT r1 = (*v1) * a;
@@ -476,8 +476,8 @@ namespace RavlN {
   
   template<class DataT>
   const TMatrixC<DataT> &TMatrixC<DataT>::MulAdd(const TMatrixC<DataT> & i,RealT a) {
-    RavlAssert(i.Size2() == Size2());
-    for(BufferAccess2dIter2C<DataT,DataT> it(*this,Size2(),i,i.Size2());it;it++)
+    RavlAssert(i.Size2() == this->Size2());
+    for(BufferAccess2dIter2C<DataT,DataT> it(*this,this->Size2(),i,i.Size2());it;it++)
       it.Data1() += it.Data2() * a;
     return *this;
   }
@@ -509,7 +509,7 @@ namespace RavlN {
 
   template<class DataT>
   const TMatrixC<DataT> &TMatrixC<DataT>::SetSmallToBeZero(const DataT &min) {
-    for(BufferAccess2dIterC<DataT> it(*this,Size2());it;it++)
+    for(BufferAccess2dIterC<DataT> it(*this,this->Size2());it;it++)
       if(Abs(*it) < min)
 	SetZero(*it);
     return (*this);
@@ -525,7 +525,7 @@ namespace RavlN {
   
   template<class DataT>
   TMatrixC<DataT> TVectorC<DataT>::OuterProduct(const TVectorC<DataT> &a) const { 
-    TMatrixC<DataT> ret(Size(),a.Size());
+    TMatrixC<DataT> ret(this->Size(),a.Size());
     BufferAccessIterC<DataT> v1(*this);
     BufferAccess2dIterC<DataT> it(ret,ret.Size2());
     while(it) {
@@ -542,7 +542,7 @@ namespace RavlN {
   
   template<class DataT>
   TMatrixC<DataT> TVectorC<DataT>::OuterProduct(const TVectorC<DataT> &a,RealT b) const {
-    TMatrixC<DataT> ret(Size(),a.Size());
+    TMatrixC<DataT> ret(this->Size(),a.Size());
     BufferAccessIterC<DataT> v1(*this);
     BufferAccess2dIterC<DataT> it(ret,ret.Size2());
     while(it) {
@@ -593,7 +593,7 @@ namespace RavlN {
   
   template<class DataT>
   void Mul(const TVectorC<DataT> &vec,const TMatrixC<DataT> &mat,TVectorC<DataT> &result) 
-  { result = vec * mat + add; }
+  { result = vec * mat; }
   //: Compute result = vec * mat;
   // For compatibility with the fixed length vectors
 

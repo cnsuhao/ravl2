@@ -31,11 +31,41 @@ namespace RavlN {
   class OStreamC;
   template <class DataC> class DListC;
 
+  
+  DPIPortBaseC BaseLoad(const StringC &filename,StringC fformat,const type_info &obj_type,bool verbose = false);
+  //! userlevel=Develop
+  //: Base load function.
+  // If fileformat string is empty, the file format is detected automaticly.
+  // When verbose flag is true, a message is printed to stdout describing the filename, the format
+  // used and the object type being loaded. 
+  
+  DPOPortBaseC BaseSave(const StringC &filename,StringC fformat,const type_info &obj_type,bool verbose = false);
+  //! userlevel=Develop
+  //: Base save function.
+  // If fileformat string is empty, the default file format for the type is used.
+  // When verbose flag is true, a message is printed to stdout describing the filename, the format
+  // used and the object type being saved. 
+  
+  DPIPortBaseC BaseLoad(IStreamC &is,StringC fformat,const type_info &obj_type,bool verbose = false);
+  //! userlevel=Develop
+  //: Base load function for streams.
+  // If fileformat string is empty, the file format is detected automaticly.
+  // When verbose flag is true, a message is printed to stdout describing the filename, the format
+  // used and the object type being loaded. 
+  
+  DPOPortBaseC BaseSave(OStreamC &os,StringC fformat,const type_info &obj_type,bool verbose = false);
+  //! userlevel=Develop
+  //: Base save function for streams
+  // If fileformat string is empty, the default file format for the type is used.
+  // When verbose flag is true, a message is printed to stdout describing the filename, the format
+  // used and the object type being saved. 
+  
+  
   //! userlevel=Normal
   
   template<class DataT>
   bool Load(const StringC &filename,DataT &obj,StringC fileformat = "",bool verbose = false) {
-    DPIPortC<DataT> in(BaseLoad(filename,fileformat,typeid(DataT),verbose));
+    DPIPortC<DataT> in(RavlN::BaseLoad(filename,fileformat,typeid(DataT),verbose));
     if(!in.IsValid()) {
 #if RAVL_CHECK
       if(verbose) 
@@ -54,7 +84,7 @@ namespace RavlN {
   
   template<class DataT>
     bool Save(const StringC &filename,const DataT &obj,StringC fileformat = "",bool verbose = false) {
-    DPOPortC<DataT> out(BaseSave(filename,fileformat,typeid(DataT),verbose));
+    DPOPortC<DataT> out(RavlN::BaseSave(filename,fileformat,typeid(DataT),verbose));
     if(!out.IsValid()) {
 #if RAVL_CHECK
       if(verbose) 
@@ -78,7 +108,7 @@ namespace RavlN {
 
   template<class DataT>
   bool Load(IStreamC &is,DataT &obj,StringC fileformat = "",bool verbose = false) {
-    DPIPortC<DataT> in(BaseLoad(is,fileformat,typeid(DataT),verbose));
+    DPIPortC<DataT> in(RavlN::BaseLoad(is,fileformat,typeid(DataT),verbose));
     if(!in.IsValid()) {
       if(verbose) 
 	cerr << "RavlN::Load(), Failed to load object from stream.\n";
@@ -156,35 +186,6 @@ namespace RavlN {
   //! userlevel=Normal
   //: Identify a stream.
   // If file format is unrecognised the returned FileFormatBaseC will be an invalid handle.
-  
-  DPIPortBaseC BaseLoad(const StringC &filename,StringC fformat,const type_info &obj_type,bool verbose = false);
-  //! userlevel=Develop
-  //: Base load function.
-  // If fileformat string is empty, the file format is detected automaticly.
-  // When verbose flag is true, a message is printed to stdout describing the filename, the format
-  // used and the object type being loaded. 
-  
-  DPOPortBaseC BaseSave(const StringC &filename,StringC fformat,const type_info &obj_type,bool verbose = false);
-  //! userlevel=Develop
-  //: Base save function.
-  // If fileformat string is empty, the default file format for the type is used.
-  // When verbose flag is true, a message is printed to stdout describing the filename, the format
-  // used and the object type being saved. 
-  
-  DPIPortBaseC BaseLoad(IStreamC &is,StringC fformat,const type_info &obj_type,bool verbose = false);
-  //! userlevel=Develop
-  //: Base load function for streams.
-  // If fileformat string is empty, the file format is detected automaticly.
-  // When verbose flag is true, a message is printed to stdout describing the filename, the format
-  // used and the object type being loaded. 
-  
-  DPOPortBaseC BaseSave(OStreamC &os,StringC fformat,const type_info &obj_type,bool verbose = false);
-  //! userlevel=Develop
-  //: Base save function for streams
-  // If fileformat string is empty, the default file format for the type is used.
-  // When verbose flag is true, a message is printed to stdout describing the filename, the format
-  // used and the object type being saved. 
-  
 };
 
 

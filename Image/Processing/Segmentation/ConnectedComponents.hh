@@ -127,6 +127,16 @@ namespace RavlImageN {
     Tuple2C<ImageC<UIntT>,UIntT> Apply (const ImageC<DataTypeT> &im)
     { return Body().Apply(im); }
     //: Performs the connected component labelling
+
+  protected:
+    ConnectedComponentsBodyC<DataTypeT,CompairT> &Body()
+    { return RCHandleC<ConnectedComponentsBodyC<DataTypeT,CompairT> >::Body(); }
+    //: Access body
+    
+    const ConnectedComponentsBodyC<DataTypeT,CompairT> &Body() const
+    { return RCHandleC<ConnectedComponentsBodyC<DataTypeT,CompairT> >::Body(); }
+    //: Access body
+    
   };
   
     

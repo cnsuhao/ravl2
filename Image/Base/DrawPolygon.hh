@@ -22,6 +22,7 @@
 #include "Ravl/DLIter.hh"
 #include "Ravl/Array2dIter.hh"
 #include "Ravl/Array1dIter.hh"
+#include "Ravl/SArray1dIter.hh"
 #include "Ravl/Polygon2d.hh"
 
 namespace RavlImageN {

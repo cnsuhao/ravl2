@@ -36,8 +36,8 @@ namespace RavlN {
     //: Constructor.
   
     DPRunningAverageBodyC(istream &strm)
-      : DPProcessBodyC<NumTypeT,NumTypeT>(in)
-    { in >> len >> total; }
+      : DPProcessBodyC<NumTypeT,NumTypeT>(strm)
+    { strm >> len >> total; }
     //: Stream constructor.
   
     virtual NumTypeT Apply(const NumTypeT & arg) {

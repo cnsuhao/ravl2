@@ -133,11 +133,11 @@ namespace RavlN {
     {}
     
     D1T &Data1()
-    { return Key(); }
+    { return this->Key(); }
     //: Access data1.
     
     D2T &Data2()
-    { return Data(); }
+    { return this->Data(); }
     //: Access data1.
   };
 }

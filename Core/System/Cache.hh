@@ -107,7 +107,7 @@ namespace RavlN {
       if(list.IsEmpty())
 	return false;
       delete DLink2Entry(list.Last());
-      CheckDel();
+      this->CheckDel();
       return true;
     }
     //: Remove oldest item from the cache.
@@ -119,7 +119,7 @@ namespace RavlN {
       key = entry->GetKey();
       data = entry->Data().Data();
       delete entry;
-      CheckDel();
+      this->CheckDel();
       return true;
     }
     //: Remove oldest item from the cache.
@@ -141,10 +141,10 @@ namespace RavlN {
       if(bump && Size() >= maxSize)
 	delete DLink2Entry(list.Last()); // Remove the oldest from the cache.
       else
-	CheckAdd();
-      const UIntT ind = hashVal % table.Size();
+	this->CheckAdd();
+      const UIntT ind = hashVal % this->table.Size();
       HashElemC<KeyT,CacheEntryC<DataT> > *he = new HashElemC<KeyT,CacheEntryC<DataT> >(key,hashVal,CacheEntryC<DataT>(data));
-      table[ind].InsFirst(*he);
+      this->table[ind].InsFirst(*he);
       list.InsFirst(he->Data().Link()); // Put it at the end of the age list.
       return false;  // Had to be added.
     }

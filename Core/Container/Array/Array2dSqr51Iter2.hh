@@ -38,28 +38,28 @@ namespace RavlN {
     
     bool First() {
       // Setup second index size for the two arrays.
-      rng1 = IndexRangeC(array1.Range2().Min()+2,array1.Range2().Max()-2);
-      rng2 = array2.Range2();
-      rng2.ClipBy(rng1);
+      this->rng1 = IndexRangeC(array1.Range2().Min()+2,array1.Range2().Max()-2);
+      this->rng2 = array2.Range2();
+      this->rng2.ClipBy(this->rng1);
       // Setup first index for the two arrays.
       IndexRangeC srng1(array1.Range1().Min()+2,array1.Range1().Max()-2);
       IndexRangeC srng2 = array2.Range1();
       srng2.ClipBy(srng1);
-      if(!rit.First(array1,srng1,
-		    array2,srng2)) {
-	cit.Invalidate();
+      if(!this->rit.First(array1,srng1,
+                          array2,srng2)) {
+	this->cit.Invalidate();
 	return false;
       }
-      cit.First(rit.Data1(),rng1,
-		rit.Data2(),rng2);
-      if(!cit) {
-	cit.Invalidate();
+      this->cit.First(this->rit.Data1(),this->rng1,
+                      this->rit.Data2(),this->rng2);
+      if(!this->cit) {
+	this->cit.Invalidate();
 	return false;
       }
-      up2 = &((&(rit.Data1()))[-2][rng1.Min()]);
-      up1 = &((&(rit.Data1()))[-1][rng1.Min()]);
-      dn1 = &((&(rit.Data1()))[ 1][rng1.Min()]);
-      dn2 = &((&(rit.Data1()))[ 2][rng1.Min()]);
+      up2 = &((&(this->rit.Data1()))[-2][this->rng1.Min()]);
+      up1 = &((&(this->rit.Data1()))[-1][this->rng1.Min()]);
+      dn1 = &((&(this->rit.Data1()))[ 1][this->rng1.Min()]);
+      dn2 = &((&(this->rit.Data1()))[ 2][this->rng1.Min()]);
       return true;
     }
     //: Goto first element in the array.
@@ -69,28 +69,28 @@ namespace RavlN {
       up1++;
       dn1++;
       dn2++;
-      cit++;
-      if(cit)
+      this->cit++;
+      if(this->cit)
 	return true;
-      rit++;
-      if(!rit)
+      this->rit++;
+      if(!this->rit)
 	return false;
-      up2 = &((&(rit.Data1()))[-2][rng1.Min()]);
-      up1 = &((&(rit.Data1()))[-1][rng1.Min()]);
-      dn1 = &((&(rit.Data1()))[ 1][rng1.Min()]);
-      dn2 = &((&(rit.Data1()))[ 2][rng1.Min()]);
-      cit.First(rit.Data1(),rng1,
-		rit.Data2(),rng2);
+      up2 = &((&(this->rit.Data1()))[-2][this->rng1.Min()]);
+      up1 = &((&(this->rit.Data1()))[-1][this->rng1.Min()]);
+      dn1 = &((&(this->rit.Data1()))[ 1][this->rng1.Min()]);
+      dn2 = &((&(this->rit.Data1()))[ 2][this->rng1.Min()]);
+      this->cit.First(this->rit.Data1(),this->rng1,
+                      this->rit.Data2(),this->rng2);
       return false;
     }
     //: Goto next element.
     
     bool IsElm() const
-    { return cit.IsElm(); }
+    { return this->cit.IsElm(); }
     //: Test if iterator is at a valid element.
     
     operator bool() const
-    { return cit.IsElm(); }
+    { return this->cit.IsElm(); }
     //: Test if iterator is at a valid element.
     
     void operator++() 
@@ -112,7 +112,7 @@ namespace RavlN {
     // Use with [] operator. Only use index's from -2 to 2. 
     
     Data1T *DataM0() 
-    { return &Data1(); }
+    { return &this->Data1(); }
     //: Access middle row
     // Use with [] operator. Only use index's from -2 to 2. 
     
@@ -127,11 +127,11 @@ namespace RavlN {
     // Use with [] operator. Only use index's from -2 to 2. 
     
     Data2T &Data2() 
-    { return cit.Data2(); }
+    { return this->cit.Data2(); }
     //: Access data from second array.
     
     const Data2T &Data2() const
-    { return cit.Data2(); }
+    { return this->cit.Data2(); }
     //: Access data from second array.
     
   protected:

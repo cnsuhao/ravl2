@@ -29,19 +29,19 @@ namespace RavlN {
     //: Default constructor.
     
     DataT Pop() {
-      DataT dat(list->Data());
-      RavlAssert(list.IsValid()); 
-      list = list.Next();
+      DataT dat(this->list->Data());
+      RavlAssert(this->list.IsValid()); 
+      this->list = this->list.Next();
       return dat;
     }
     //: Pop element off the top of the stack.
     
     void Push(const DataT &dat) 
-    { InsFirst(dat); }
+    { this->InsFirst(dat); }
     //: Push item onto the top of stack.
     
     const DataT &Top() const
-    { return First(); }
+    { return this->First(); }
     //: Access element at the top of the stack.
   };
 }

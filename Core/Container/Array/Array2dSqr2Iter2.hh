@@ -50,10 +50,10 @@ namespace RavlN {
       if(!BufferAccess2dIter2C<Data1T,Data2T>::First(array1,nrng1,
 						     array2,nrng2))
 	return false;
-      up1 = &(cit.Data1());
-      up2 = &(cit.Data2());
-      if(!NextRow()) {
-	cit.Invalidate();
+      up1 = &(this->cit.Data1());
+      up2 = &(this->cit.Data2());
+      if(!this->NextRow()) {
+	this->cit.Invalidate();
 	return false;
       }
       return true;
@@ -63,27 +63,27 @@ namespace RavlN {
     bool Next() { 
       up1++;
       up2++;
-      cit++;
-      if(cit)
+      this->cit++;
+      if(this->cit)
 	return true;
-      up1 = &(rit.Data1()[rng1.Min()]);
-      up2 = &(rit.Data2()[rng2.Min()]);
-      rit++;
-      if(!rit)
+      up1 = &(this->rit.Data1()[this->rng1.Min()]);
+      up2 = &(this->rit.Data2()[this->rng2.Min()]);
+      this->rit++;
+      if(!this->rit)
 	return false;
-      cit.First(rit.Data1(),rng1,
-		rit.Data2(),rng2);
+      this->cit.First(this->rit.Data1(),this->rng1,
+                      this->rit.Data2(),this->rng2);
       return false;
     }
     //: Goto next element.
     // Return true if pixel is on the same row.
     
     bool IsElm() const
-    { return cit.IsElm(); }
+    { return this->cit.IsElm(); }
     //: Test if iterator is at a valid element.
     
     operator bool() const
-    { return cit.IsElm(); }
+    { return this->cit.IsElm(); }
     //: Test if iterator is at a valid element.
     
     void operator++() 
@@ -95,19 +95,19 @@ namespace RavlN {
     //: Goto next element.
     
     Data1T &DataBR1() 
-    { return cit.Data1(); }
+    { return this->cit.Data1(); }
     //: Access bottom right data element 
 
     const Data1T &DataBR1() const
-    { return cit.Data1(); }
+    { return this->cit.Data1(); }
     //: Access bottom right data element 
 
     Data1T &DataBL1() 
-    { return (&(cit.Data1()))[-1]; }
+    { return (&(this->cit.Data1()))[-1]; }
     //: Access bottom left data element 
 
     const Data1T &DataBL1() const
-    { return (&(cit.Data1()))[-1]; }
+    { return (&(this->cit.Data1()))[-1]; }
     //: Access bottom left data element 
     
     Data1T &DataTR1() 
@@ -127,19 +127,19 @@ namespace RavlN {
     //: Access upper left data element
     
     Data2T &DataBR2() 
-    { return cit.Data2(); }
+    { return this->cit.Data2(); }
     //: Access bottom right data element 
 
     const Data2T &DataBR2() const
-    { return cit.Data2(); }
+    { return this->cit.Data2(); }
     //: Access bottom right data element 
 
     Data2T &DataBL2() 
-    { return (&(cit.Data2()))[-1]; }
+    { return (&(this->cit.Data2()))[-1]; }
     //: Access bottom left data element 
 
     const Data2T &DataBL2() const
-    { return (&(cit.Data2()))[-1]; }
+    { return (&(this->cit.Data2()))[-1]; }
     //: Access bottom left data element 
     
     Data2T &DataTR2() 
@@ -160,8 +160,8 @@ namespace RavlN {
     
     Index2dC Index() const { 
       RavlAssert(array1.IsValid());
-      return Index2dC((IntT) (&(rit.Data1()) - array1.ReferenceElm()),
-		      (IntT) (&(cit.Data1()) - rit.Data1().ReferenceElm()));
+      return Index2dC((IntT) (&(this->rit.Data1()) - array1.ReferenceElm()),
+		      (IntT) (&(this->cit.Data1()) - this->rit.Data1().ReferenceElm()));
     }
     //: Get index of current location.
     // Has to be calculate, and so is slightly slow.

@@ -156,6 +156,19 @@ namespace RavlN {
     { return data; }
     //: Access the buffer holding underlying data.
     // Advanced users only.
+
+    inline const IndexRangeC &Range1() const
+    { return RangeBufferAccess3dC<DataT>::Range1(); }
+    //: Range of first index.
+    
+    inline const IndexRangeC &Range2() const
+    { return RangeBufferAccess3dC<DataT>::Range2(); }
+    //: Range of second index.
+    
+    inline const IndexRangeC &Range3() const
+    { return RangeBufferAccess3dC<DataT>::Range3(); }
+    //: Range of second index.
+    
   protected:
     void ConstructAccess(const IndexRangeC &rng1);
     //: Construct access for buffer.
@@ -261,7 +274,7 @@ namespace RavlN {
   template <class DataT>
   Array3dC<DataT> 
   Array3dC<DataT>::Copy() const {
-    Array3dC<DataT> ret(Frame());
+    Array3dC<DataT> ret(this->Frame());
     for(BufferAccess3dIter2C<DataT,DataT> it(ret,ret.Range2(),ret.Range3(),
 					     (*this),Range2(),Range3());it;it++)
       it.Data1() = it.Data2();
@@ -300,7 +313,7 @@ namespace RavlN {
   
   template<class DataT>
   Array3dC<DataT> Array3dC<DataT>::operator+(const Array3dC<DataT> & arr) const {
-    Array3dC<DataT> ret(Frame());
+    Array3dC<DataT> ret(this->Frame());
     for(BufferAccess3dIter3C<DataT,DataT,DataT> it(ret,Range2(),Range3(),
 						   *this,Range2(),Range3(),
 						   arr,arr.Range2(),arr.Range3());
@@ -311,7 +324,7 @@ namespace RavlN {
   
   template<class DataT>
   Array3dC<DataT> Array3dC<DataT>::operator-(const Array3dC<DataT> & arr) const {
-    Array3dC<DataT> ret(Frame());
+    Array3dC<DataT> ret(this->Frame());
     for(BufferAccess3dIter3C<DataT,DataT,DataT> it(ret,Range2(),Range3(),
 						   *this,Range2(),Range3(),
 						   arr,arr.Range2(),arr.Range3());it;it++)
@@ -321,7 +334,7 @@ namespace RavlN {
   
   template<class DataT>
   Array3dC<DataT> Array3dC<DataT>::operator*(const Array3dC<DataT> & arr) const {
-    Array3dC<DataT> ret(Frame());
+    Array3dC<DataT> ret(this->Frame());
     for(BufferAccess3dIter3C<DataT,DataT,DataT> it(ret,Range2(),Range3(),
 						   *this,Range2(),Range3(),
 						   arr,arr.Range2(),arr.Range3());it;it++)
@@ -331,7 +344,7 @@ namespace RavlN {
   
   template<class DataT>
   Array3dC<DataT> Array3dC<DataT>::operator/(const Array3dC<DataT> & arr) const {
-    Array3dC<DataT> ret(Frame());
+    Array3dC<DataT> ret(this->Frame());
     for(BufferAccess3dIter3C<DataT,DataT,DataT> it(ret,Range2(),Range3(),
 						   *this,Range2(),Range3(),
 						   arr,arr.Range2(),arr.Range3());it;it++)
@@ -341,7 +354,7 @@ namespace RavlN {
   
   template<class DataT>
   Array3dC<DataT> Array3dC<DataT>::operator+(const DataT &number) const {
-    Array3dC<DataT> ret(Frame());
+    Array3dC<DataT> ret(this->Frame());
     for(BufferAccess3dIter2C<DataT,DataT> it(ret,Range2(),Range3(),
 					     (*this),Range2(),Range3());it;it++)
       it.Data1() = it.Data2() + number;
@@ -350,7 +363,7 @@ namespace RavlN {
   
   template<class DataT>
   Array3dC<DataT> Array3dC<DataT>::operator-(const DataT &number) const {
-    Array3dC<DataT> ret(Frame());
+    Array3dC<DataT> ret(this->Frame());
     for(BufferAccess3dIter2C<DataT,DataT> it(ret,Range2(),Range3(),
 					     (*this),Range2(),Range3());it;it++)
       it.Data1() = it.Data2() - number;
@@ -359,7 +372,7 @@ namespace RavlN {
   
   template<class DataT>
   Array3dC<DataT> Array3dC<DataT>::operator*(const DataT &number) const {
-    Array3dC<DataT> ret(Frame());
+    Array3dC<DataT> ret(this->Frame());
     for(BufferAccess3dIter2C<DataT,DataT> it(ret,Range2(),Range3(),
 					     (*this),Range2(),Range3());it;it++)
       it.Data1() = it.Data2() * number;
@@ -368,7 +381,7 @@ namespace RavlN {
   
   template<class DataT>
   Array3dC<DataT> Array3dC<DataT>::operator/(const DataT &number) const {
-    Array3dC<DataT> ret(Frame());
+    Array3dC<DataT> ret(this->Frame());
     for(BufferAccess3dIter2C<DataT,DataT> it(ret,Range2(),Range3(),
 					     (*this),Range2(),Range3());it;it++)
       it.Data1() = it.Data2() / number;

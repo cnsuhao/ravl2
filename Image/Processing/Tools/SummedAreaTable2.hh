@@ -60,7 +60,7 @@ namespace RavlImageN {
       IndexRange2dC rng(in.Frame());
       rng.LCol()--;
       rng.TRow()--;
-      if(Frame() != rng) {
+      if(this->Frame() != rng) {
 	TFVectorC<DataT,2> zero;
 	SetZero(zero);
 	(*this).Array2dC<TFVectorC<DataT,2> >::operator=(Array2dC<TFVectorC<DataT,2> >(rng));
@@ -95,7 +95,7 @@ namespace RavlImageN {
     TFVectorC<DataT,2> Sum(IndexRange2dC range) const {
       range.ClipBy(clipRange);
       if(range.Area() == 0)
-	return (*this)[Frame().Origin()]; // Return 0.
+	return (*this)[this->Frame().Origin()]; // Return 0.
       range.LCol()--;
       range.TRow()--;
       // Could speed this up by seperating out row accesses ?
@@ -106,7 +106,7 @@ namespace RavlImageN {
     RealT Sum1(IndexRange2dC range) const {
       range.ClipBy(clipRange);
       if(range.Area() == 0)
-	return (*this)[Frame().Origin()][0]; // Return 0.
+	return (*this)[this->Frame().Origin()][0]; // Return 0.
       range.LCol()--;
       range.TRow()--;
       // Could speed this up by seperating out row accesses ?

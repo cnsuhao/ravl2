@@ -59,8 +59,8 @@ namespace RavlN {
   template<class DataT>
   bool LoadFunctionPointer(BinIStreamC &strm,DataT &funcPtr) { 
     StringC fnName;
-    in >> fnName;
-    if(!LookupFunctionByName(fnName,func)) {
+    strm >> fnName;
+    if(!LookupFunctionByName(fnName,funcPtr)) {
       cerr << "Failed to find function '" << fnName << "\n";
       throw ExceptionOperationFailedC("Failed to find function pointer.");
     }
@@ -71,8 +71,8 @@ namespace RavlN {
   template<class DataT>
   bool LoadFunctionPointer(istream &strm,DataT &funcPtr) { 
     StringC fnName;
-    in >> fnName;
-    if(!LookupFunctionByName(fnName,func)) {
+    strm >> fnName;
+    if(!LookupFunctionByName(fnName,funcPtr)) {
       cerr << "Failed to find function '" << fnName << "\n";
       throw ExceptionOperationFailedC("Failed to find function pointer.");
     }

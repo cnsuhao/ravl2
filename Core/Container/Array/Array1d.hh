@@ -169,7 +169,7 @@ namespace RavlN {
     // when optimised is enabled an empty array will be returned. 
 
     Slice1dC<DataT> Slice1d()
-    { return Slice1dC<DataT>(buff,ReferenceElm(),Range(),1); }
+    { return Slice1dC<DataT>(buff,this->ReferenceElm(),Range(),1); }
     //: Access array as a slice.
     
     //:-----------------------------------
@@ -275,11 +275,11 @@ namespace RavlN {
 
     IndexC IndexOfMax() const {
       RavlAssertMsg(Size() > 0,"Array1dC::IndexOfMax() Called on an empty array");
-      const DataT *valueOfMax = &(operator[](0));
+      const DataT *valueOfMax = &(this->operator[](0));
       for (Array1dIterC<DataT> i(*this); i; i++)
 	if (*valueOfMax < *i)
 	  valueOfMax = &(*i);
-      return IndexC((IntT)(valueOfMax - ReferenceElm()));
+      return IndexC((IntT)(valueOfMax - this->ReferenceElm()));
     }
     //: Calculate the index of the maximum element in the array
     
@@ -318,24 +318,32 @@ namespace RavlN {
     // is returned.
 
     bool SetIMin(IndexC imin) {
-      IntT startIndex = buff.ReferenceElm() - ReferenceElm();
+      IntT startIndex = buff.ReferenceElm() - this->ReferenceElm();
       if(imin < startIndex)
 	return false;
-      range.Min() = imin;
+      this->range.Min() = imin;
       return true;
     }
     //: Attempt to change the start of the array.
     // This checks the index is within the allocated buffer.
     
     bool SetIMax(IndexC imax) {
-      IntT startIndex = buff.ReferenceElm() - ReferenceElm();
+      IntT startIndex = buff.ReferenceElm() - this->ReferenceElm();
       if(imax >= (startIndex + buff.Size()) )
 	return false;
-      range.Max() = imax;
+      this->range.Max() = imax;
       return true;      
     }
     //: Attempty to change the end of the array.
     // This checks the index is within the allocated buffer.
+
+    inline SizeT Size() const
+    { return RangeBufferAccessC<DataT>::Size(); }
+    // Returns the number of elements of the array.
+    
+    inline const IndexRangeC & Range() const
+    { return RangeBufferAccessC<DataT>::Range(); }
+    // Returns the usable range of indeces expressed by this object.
     
   private:
     BufferC<DataT> buff;  //: The reference counted storage.
@@ -386,26 +394,26 @@ namespace RavlN {
   Array1dC<DataT>::Array1dC(IntT min,IntT max) {
     if(min > max)
       return ; // Create a zero length array.
-    IndexRangeC range(min,max);
-    buff = BufferC<DataT>(range.Size());
-    Attach(buff,range); 
+    IndexRangeC newRange(min,max);
+    buff = BufferC<DataT>(newRange.Size());
+    Attach(buff,newRange); 
   }
   
   template <class DataT>
   Array1dC<DataT>::Array1dC(IndexC min,IndexC max) {
     if(min > max)
       return ; // Create a zero length array.
-    IndexRangeC range(min,max);
-    buff = BufferC<DataT>(range.Size());
-    Attach(buff,range); 
+    IndexRangeC newRange(min,max);
+    buff = BufferC<DataT>(newRange.Size());
+    Attach(buff,newRange); 
   }
   
   template <class DataT>
-  Array1dC<DataT>::Array1dC(const IndexRangeC & range) { 
-    if(range.Min() > range.Max())
+  Array1dC<DataT>::Array1dC(const IndexRangeC & newRange) { 
+    if(newRange.Min() > newRange.Max())
       return ; // Create a zero length array.
-    buff = BufferC<DataT>(range.Size());
-    Attach(buff,range); 
+    buff = BufferC<DataT>(newRange.Size());
+    Attach(buff,newRange); 
   }
   
   template <class DataT>
@@ -438,10 +446,10 @@ namespace RavlN {
   
   template <class DataT>
   Array1dC<DataT>::Array1dC(DataT * data, 
-			    const IndexRangeC & range,
+			    const IndexRangeC & newRange,
 			    bool    removable)
-    : RangeBufferAccessC<DataT>(data, range),
-      buff(range.Size(),data,false, removable)
+    : RangeBufferAccessC<DataT>(data, newRange),
+      buff(newRange.Size(),data,false, removable)
   {}
   
   template <class DataT>
@@ -510,7 +518,7 @@ namespace RavlN {
   template <class DataT>
   Array1dC<DataT> & 
   Array1dC<DataT>::Copy(const IndexC off, const Array1dC<DataT> & a) {
-    const SizeT mySize = (IMax() - off +1).V();
+    const SizeT mySize = (this->IMax() - off +1).V();
     DataT * myElm = &((*this)[off]);
     DataT const * aElm  = &(a[a.IMin()]);
     const DataT * myEnd  = mySize < a.Size() ? (myElm+mySize-1)
@@ -534,7 +542,7 @@ namespace RavlN {
   template <class DataT>
   Array1dC<DataT> 
   Array1dC<DataT>::Extend(const SizeT n) const {
-    IndexRangeC rng(IMin(),IMax() + n);
+    IndexRangeC rng(this->IMin(),this->IMax() + n);
     Array1dC<DataT> x(rng);
     x.Copy(*this);
     return x;
@@ -544,14 +552,14 @@ namespace RavlN {
   Array1dC<DataT> & 
   Array1dC<DataT>::Append(const Array1dC<DataT> & a) {
     if (!a.IsValid()) return *this;
-    if (!IsValid()) {
+    if (!this->IsValid()) {
       *this = a.Copy();
       return *this;
     }
-    const IndexRangeC newRange(IMin(), IMax() + a.Size());
+    const IndexRangeC newRange(this->IMin(), this->IMax() + a.Size());
     Array1dC<DataT>   newArr(newRange);
     newArr.Copy(*this);
-    newArr.Copy(IMax()+1,a);
+    newArr.Copy(this->IMax()+1,a);
     *this = newArr;
     return *this;
   }
@@ -560,19 +568,19 @@ namespace RavlN {
   inline 
   SArray1dC<DataT> Array1dC<DataT>::SArray1d(bool doShift) {
     if(doShift)
-      return SArray1dC<DataT>(buff,&((*this)[IMin()]),Size());
-    if(!Contains(0)) {
-      RavlAssert(Contains(0)); // Cause assertion failure in debug/check mode
+      return SArray1dC<DataT>(buff,&((*this)[this->IMin()]),Size());
+    if(!this->Contains(0)) {
+      RavlAssert(this->Contains(0)); // Cause assertion failure in debug/check mode
       return SArray1dC<DataT>();
     }
-    return SArray1dC<DataT>(buff,&((*this)[0]) ,IMax().V());
+    return SArray1dC<DataT>(buff,&((*this)[0]) ,this->IMax().V());
   }
 
   template <class DataT>
   ostream &
   operator<<(ostream & s, const Array1dC<DataT> & arr) {
-    const IndexRangeC range(arr.Range());
-    s << range << '\n'; 
+    const IndexRangeC newRange(arr.Range());
+    s << newRange << '\n';
     for(BufferAccessIterC<DataT> it(arr);it;it++)
       s  << ((const DataT &) *it) << '\n';
     return s;
@@ -582,10 +590,10 @@ namespace RavlN {
   template <class DataT>
   istream &
   operator>>(istream & s, Array1dC<DataT> & arr) {
-    IndexRangeC range(s);
+    IndexRangeC newRange(s);
     s.get(); // Get '\n' after size to avoid trouble with reading StringC's.
-    if (range != arr.Range()) {
-      Array1dC<DataT> brr(range);
+    if (newRange != arr.Range()) {
+      Array1dC<DataT> brr(newRange);
       arr = brr;
     }
     for(BufferAccessIterC<DataT> it(arr);it;it++)

@@ -26,12 +26,12 @@ namespace RavlN {
     const char *place,*eos,*lstart = 0;
     // Fill out delim table.
     for(place = rdelim;*place != 0;place++)
-      delim[*place] = true;
+      delim[(int) *place] = true;
     // Begin search of string.
     eos = &string.chars()[string.length()];
     for(place = string.chars();place != eos;) {
       // Skip spaces.
-      if(delim[*place]) {
+      if(delim[(int) *place]) {
 	place++;
 	continue;
       }
@@ -39,7 +39,7 @@ namespace RavlN {
       lstart = place;
       SizeT len = 0;
       for(;place != eos;place++) {
-	if(delim[*place])
+	if(delim[(int) *place])
 	  break;
 	len++;
       }

@@ -172,6 +172,7 @@ namespace RavlGUIN {
   RadioButtonC RadioButtonR(const char *label,const RadioButtonGroupT &group,ObjT &obj,bool (ObjT::*func)(bool &,DataT &dat),const DataT &dat)
   { 
     RadioButtonC ret = RadioButtonC(label,0,group);
+    bool initState = false;
     ConnectRef(ret.SigChanged(),obj,func,initState,dat);
     return ret;    
   }

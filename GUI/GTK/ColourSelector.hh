@@ -154,7 +154,7 @@ namespace RavlGUIN {
 			     const DataT &obj,
 			     bool (DataT::*func)(UInt16RGBValueC &colour),const UInt16RGBValueC &initialColour = UInt16RGBValueC(255,0,0))
   { 
-    ColourSelectorC ret(fsname,fn);
+    ColourSelectorC ret(fsname,initialColour);
     Connect(ret.Selected(),obj,func);
     return ret;    
   }  
@@ -195,7 +195,7 @@ namespace RavlGUIN {
 				  bool (DataT::*func)(UInt16RGBValueC &colour,ParamT &param),const UInt16RGBValueC &initialColour = UInt16RGBValueC(255,0,0),
 				  const ParamT &param = ParamT())
   { 
-    ColourSelectorC ret(fsname,fn);
+    ColourSelectorC ret(fsname,initialColour);
     ConnectRef(ret.Selected(),obj,func,UInt16RGBValueC(255,0,0),param);
     return ret;    
   }  

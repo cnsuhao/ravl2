@@ -87,12 +87,12 @@ namespace RavlLogicN {
     
     template<class DataT>
     UIntT AskAll(const LiteralC &key,DListC<Tuple2C<LiteralC,DataT> > &list) {
-      RWLockHoldC lock(rwlock,RWLOCK_READ);
+      RWLockHoldC lock(rwlock,RWLOCK_READONLY);
       for(LiteralIndexFilterC<RCWrapAbstractC> it(index,key);it;it++) {
-	RCWrapC<DataT> rcw(wrap,true);
+	RCWrapC<DataT> rcw(it.MappedData(),true);
 	if(!rcw.IsValid())
 	  return false;
-	list.InsLast(Tuple2C<LiteralC,DataT>(it.Key(),rcw.Data()));
+	list.InsLast(Tuple2C<LiteralC,DataT>(it.Data(),rcw.Data()));
       }
       return true;
     }
