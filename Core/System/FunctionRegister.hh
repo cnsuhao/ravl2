@@ -9,10 +9,13 @@
 //////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! author="Charles Galambos"
+//! docentry="Ravl.Core.IO.Function Register"
 //! lib=RavlCore
 
 #include "Ravl/Types.hh"
 #include "Ravl/BiHash.hh"
+#include "Ravl/FunctionRegister.hh"
+#include "Ravl/Stream.hh"
 
 #if RAVL_HAVE_ANSICPPHEADERS
 #include <typeinfo>
@@ -21,6 +24,9 @@
 #endif
 
 namespace RavlN {
+
+  class BinIStreamC;
+  class BinOStreamC;
   
   bool BaseFunctionRegister(const char *name,void *ptr,int size,const type_info &ti);
   //! userlevel=Develop
@@ -47,6 +53,55 @@ namespace RavlN {
   const char *LookupFunctionByPointer(DataT &funcPtr)
   { return BaseFunctionLookupByPointer((void *) &funcPtr,sizeof(funcPtr),typeid(DataT)); }
   //: Lookup function name by pointer.
+
+  template<class DataT>
+  bool LoadFunctionPointer(BinIStreamC &strm,DataT &funcPtr) { 
+    StringC fnName;
+    in >> fnName;
+    if(!LookupFunctionByName(fnName,func)) {
+      cerr << "Failed to find function '" << fnName << "\n";
+      throw ExceptionOperationFailedC("Failed to find function pointer.");
+    }
+    return true;
+  }
+  //: Load function pointer.
+  
+  template<class DataT>
+  bool LoadFunctionPointer(istream &strm,DataT &funcPtr) { 
+    StringC fnName;
+    in >> fnName;
+    if(!LookupFunctionByName(fnName,func)) {
+      cerr << "Failed to find function '" << fnName << "\n";
+      throw ExceptionOperationFailedC("Failed to find function pointer.");
+    }
+    return true;
+  }
+  //: Load function pointer.
+
+  template<class DataT>
+  bool SaveFunctionPointer(ostream &strm,DataT &funcPtr) { 
+    const char *fnName = LookupFunctionByPointer(funcPtr);
+    if(fnName == 0) {
+      cerr << "Internal error: Asked to save unregistered function. \n";
+      throw ExceptionOperationFailedC("Failed to find function name.");
+    }
+    strm << fnName << ' ';
+    return true;
+  }
+  //: Save function pointer.
+  
+  template<class DataT>
+  bool SaveFunctionPointer(BinOStreamC &strm,const DataT &funcPtr) { 
+    const char *fnName = LookupFunctionByPointer(funcPtr);
+    if(fnName == 0) {
+      cerr << "Internal error: Asked to save unregistered function. \n";
+      throw ExceptionOperationFailedC("Failed to find function name.");
+    }
+    strm << fnName;
+    return true;
+  }
+  //: Save function pointer.
+  
   
 }
 
