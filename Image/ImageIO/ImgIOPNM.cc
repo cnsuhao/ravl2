@@ -217,9 +217,9 @@ namespace RavlImageN {
       for(Array2dIterC<ByteRGBValueC> it(img);it.IsElm();it.Next())
 	outf.write((const char *) &it.Data(),3);   
     }
-
+    
 #ifndef VISUAL_CPP
-    // outf << flush; // Make sure is available ASAP.
+    //outf << flush; // Make sure is available ASAP.
     flush(outf);
 #else
     outf.os().flush();
