@@ -31,6 +31,10 @@ namespace RavlN {
     {}
     //: Create a cache entry.
     
+    CacheEntryC()
+    {}
+    //: Default constructor.
+    
     DataT &Data()
     { return data; }
     //: Access data.
