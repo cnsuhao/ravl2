@@ -42,7 +42,9 @@ namespace RavlImageN {
 	at(nat),
 	vel(0,0),
 	frame(frameNo),
-	templ(ntempl)
+	matchScore(0),
+	templ(ntempl),
+	live(true)
     {}
     //: Create new track.
     
