@@ -280,7 +280,7 @@ namespace RavlN {
   }
   
   template<class InT,class OutT>
-  void DPThreadPipeBodyC<InT,OutT>::ThreadThreadThreadThreadLaunch() {
+  void DPThreadPipeBodyC<InT,OutT>::ThreadLaunch() {
     if(running) {
       cerr << "DPThreadPipeBodyC<InT,OutT>::ThreadThreadThreadThreadLaunch(), ERROR:Pipe already live. \n";
       return ;
