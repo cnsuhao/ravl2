@@ -40,7 +40,7 @@ namespace RavlN {
     { in >> fact >> offset; }
     //: Stream constructor.
   
-    virtual NumTypeT Apply(const NumTypeT &)
+    virtual NumTypeT Apply(const NumTypeT & arg)
     { return (arg + offset) * factor;  }
     //: Apply operation.
 
