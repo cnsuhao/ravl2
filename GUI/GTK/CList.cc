@@ -137,6 +137,13 @@ namespace RavlGUIN {
     ConnectRef(Signal("select_row"),*this,&CListBodyC::GUIRowSelected,defaultInit);
     ConnectRef(Signal("unselect_row"),*this,&CListBodyC::GUIRowUnselected,defaultInit);
     ConnectSignals();
+    
+    while(!toDo.IsEmpty()) {
+      ONDEBUG(cerr << "Catching up with stuff. \n");
+      toDo.Last().Invoke();
+      toDo.DelLast();
+    }
+    
     return true;
   }
   
@@ -415,6 +422,76 @@ namespace RavlGUIN {
     IntT row,col;
     gtk_clist_get_selection_info (GTK_CLIST(widget),at[0].V(),at[1].V(),&row,&col);
     return  (IntT) gtk_clist_get_row_data(GTK_CLIST(widget),row);
+  }
+  
+  //: Set the column resize policy for 'colNo'
+  // If colNo is -1 all columns are changed.
+  
+  bool CListBodyC::SetColumnResizePolicy(IntT &colNo,CListColumnResizeModeT &policy) {
+    Manager.Queue(Trigger(CListC(*this),&CListC::GUISetColumnResizePolicy,colNo,policy));
+    return true;
+  }
+  
+  //: Set the column resize policy for 'colNo'
+  // If colNo is -1 all columns are changed.
+  
+  bool CListBodyC::GUISetColumnResizePolicy(IntT &colNo,CListColumnResizeModeT &policy) {
+    if(widget == 0) {
+      ONDEBUG(cerr << "CListBodyC::GUISetColumnResizePolicy(), WARNING: Widget not ready. ");
+      toDo.InsLast(Trigger(CListC(*this),&CListC::GUISetColumnResizePolicy,colNo,policy));
+      return true;
+    }
+    if(colNo < 0 && policy == CLIST_COLRESIZE_OPTIMAL) {
+      gtk_clist_columns_autosize(GTK_CLIST(widget));
+      return true;
+    }
+    int val,i = colNo;
+    int max = colNo;
+    if(colNo < 0) {
+      i = 0;
+      max = GTK_CLIST(widget)->columns;
+    }
+    for(;i < max;i++) {
+      switch(policy) {
+      case CLIST_COLRESIZE_FIXED: 
+	gtk_clist_set_column_auto_resize(GTK_CLIST(widget),i,false);
+	gtk_clist_set_column_resizeable (GTK_CLIST(widget),i,false);
+	break;
+      case CLIST_COLRESIZE_USER:
+	gtk_clist_set_column_resizeable (GTK_CLIST(widget),i,true);
+	gtk_clist_set_column_auto_resize(GTK_CLIST(widget),i,false);
+	break;
+      case CLIST_COLRESIZE_AUTO:
+	gtk_clist_set_column_resizeable (GTK_CLIST(widget),i,false);
+	gtk_clist_set_column_auto_resize(GTK_CLIST(widget),i,true);
+	break;
+      case CLIST_COLRESIZE_OPTIMAL:
+	val = gtk_clist_optimal_column_width (GTK_CLIST(widget),i);
+	gtk_clist_set_column_width (GTK_CLIST(widget),i,val);
+	break;
+      }
+    }
+    return true;
+  }
+
+  //: Set column width.
+  
+  bool CListBodyC::SetColumnWidth(IntT &colNo,IntT &width) {
+    Manager.Queue(Trigger(CListC(*this),&CListC::GUISetColumnWidth,colNo,width));
+    return true;
+  }
+  
+  //: Set column width.
+  // Use from the GUI thread only.
+  
+  bool CListBodyC::GUISetColumnWidth(IntT &colNo,IntT &width) {
+    if(widget == 0) {
+      ONDEBUG(cerr << "CListBodyC::GUISetColumnWidth(), WARNING: Widget not ready. ");
+      toDo.InsLast(Trigger(CListC(*this),&CListC::GUISetColumnWidth,colNo,width));
+      return true;
+    }
+    gtk_clist_set_column_width (GTK_CLIST(widget),colNo,width);
+    return true;
   }
   
   //: Undo all references.

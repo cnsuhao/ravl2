@@ -52,8 +52,6 @@ int main(int nargs,char *args[])
   val = 1;
   aList.GUIAppendLine(val,lineInfo);
   
-  
-  //aList.Add(StringC("Hi2"));
   Manager.Wait();
   
 }

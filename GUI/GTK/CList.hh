@@ -60,6 +60,13 @@ namespace RavlGUIN {
     PixmapC pixmap; // Can be invalid.
   };
   
+  enum CListColumnResizeModeT {
+    CLIST_COLRESIZE_FIXED,
+    CLIST_COLRESIZE_USER,
+    CLIST_COLRESIZE_AUTO,
+    CLIST_COLRESIZE_OPTIMAL 
+  };
+  
   //! userlevel=Develop
   //: CList widget body.
   
@@ -177,6 +184,22 @@ namespace RavlGUIN {
     IntT GUIFindRowID(const Index2dC &at);
     //: Find row ID at position.
     
+    bool SetColumnResizePolicy(IntT &colNo,CListColumnResizeModeT &policy);
+    //: Set the column resize policy for 'colNo'
+    // If colNo is -1 all columns are changed.
+    
+    bool GUISetColumnResizePolicy(IntT &colNo,CListColumnResizeModeT &policy);
+    //: Set the column resize policy for 'colNo'
+    // If colNo is -1 all columns are changed.
+    // Use from the GUI thread only.
+    
+    bool SetColumnWidth(IntT &colNo,IntT &width);
+    //: Set column width.
+    
+    bool GUISetColumnWidth(IntT &colNo,IntT &width);
+    //: Set column width.
+    // Use from the GUI thread only.
+    
   protected:
     virtual void Destroy();
     //: Undo all references.
@@ -197,11 +220,13 @@ namespace RavlGUIN {
     
     DListC<Tuple2C<IntT,SArray1dC<CListCellC> > > data;
     HSetC<IntT> selection; // current selection.    
-
+    
     Signal1C<IntT> selectionChanged;
     //: A signal that is sent when the selection changes. 
     // It contains the Row ID of the most recently-changed row
-
+    
+    DListC<TriggerC> toDo; // List of things to do as soon as we're initalised.
+    
     friend class CListC;
   };
   
@@ -350,7 +375,36 @@ namespace RavlGUIN {
     { return Body().selectionChanged; }
     //: This signal is sent when the selection is changed
     // This should be used rather than connecting directly to select_row or unselect_row events
-
+    
+    bool SetColumnResizePolicy(IntT colNo,CListColumnResizeModeT policy)
+    { return Body().SetColumnResizePolicy(colNo,policy); }
+    //: Set the column resize policy for 'colNo'
+    // If colNo is -1 all columns are changed. <br>
+    // Policies: <br>
+    // CLIST_COLRESIZE_FIXED - User fixed size <br>
+    // CLIST_COLRESIZE_USER - Allow user to change size <br>
+    // CLIST_COLRESIZE_AUTO - Automaticly set width to fit data <br>
+    // CLIST_COLRESIZE_OPTIMAL - Resize to current optimal now, (don't change the current mode.) <br>
+    
+    bool GUISetColumnResizePolicy(IntT &colNo,CListColumnResizeModeT &policy)
+    { return Body().GUISetColumnResizePolicy(colNo,policy); }
+    //: Set the column resize policy for 'colNo'
+    // If colNo is -1 all columns are changed. <br>
+    // Policies: <br>
+    // CLIST_COLRESIZE_FIXED - User fixed size <br> 
+    // CLIST_COLRESIZE_USER - Allow user to change size <br>
+    // CLIST_COLRESIZE_AUTO - Automaticly set width to fit data <br>
+    // CLIST_COLRESIZE_OPTIMAL - Resize to current optimal now, (don't change the current mode.) <br>
+    
+    bool SetColumnWidth(IntT colNo,IntT width)
+    { return Body().SetColumnWidth(colNo,width); }
+    //: Set column width.
+    
+    bool GUISetColumnWidth(IntT &colNo,IntT &width)
+    { return Body().SetColumnWidth(colNo,width); }
+    //: Set column width.
+    // Use from the GUI thread only.
+    
     friend class CListBodyC;
   };
 }
