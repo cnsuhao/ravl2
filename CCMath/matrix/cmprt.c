@@ -5,6 +5,7 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
+#include <stdio.h>
 #include "ccmath/complex.h"
 void cmprt(Cpx *a,int m,int n,char *f)
 { int i,j; Cpx *p;
