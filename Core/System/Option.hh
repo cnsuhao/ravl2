@@ -8,7 +8,7 @@
 #define RAVL_OPTION_HEADER 1
 //////////////////////////////////////////////////////////////////////////
 //! file="Ravl/Core/System/Option.hh"
-//! author="Charles Galambos" 
+//! author="Charles Galambos, Radek Marik, George Matas" 
 //! lib=RavlCore
 //! date="12/11/1993"
 //! userlevel=Basic

@@ -7,6 +7,8 @@
 ///////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCore
+//
+// Based on the idea's in C and C++ option library by George Matas and Radek Marik.
 
 #include "Ravl/Option.hh"
 #include "Ravl/StringList.hh"
