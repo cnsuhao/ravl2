@@ -1,0 +1,13 @@
+#!/bin/sh
+/bin/cp -f contents.png next_g.png next.png prev_g.png prev.png up_g.png up.png levmarq
+
+lst=`echo levmarq/node*.html levmarq/index.html levmarq/levmarq.html`
+
+for x in `echo $lst`
+do
+  	if sed -e 's@file:/usr/share/latex2html/icons/\([a-z_]*\).png@\1.png@g' $x > /tmp/rgb42hj; then
+        /bin/mv /tmp/rgb42hj $x
+	else
+	/bin/rm /tmp/rgb42hj
+	fi
+done

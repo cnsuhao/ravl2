@@ -1,0 +1,273 @@
+\def \Plucker {Pl\"{u}cker }
+\def \half    {\frac{1}{2}}
+
+\def \brj {{\scriptstyle (j)}}
+\def \brjm {{\scriptstyle (j-1)}}
+\def \brjso {{\scriptstyle (j_1)}}
+\def \brjp {{\scriptstyle (j')}}
+\def \brjst {{\scriptstyle (j_2)}}
+\def \brjsot {{\scriptstyle (j_1j_2)}}
+\def \brjpsj {{\scriptstyle (j'j)}}
+\def \brjsk {{\scriptstyle (jk)}}
+\def \brz {{\scriptstyle (0)}}
+\def \bro {{\scriptstyle (1)}}
+\def \brt {{\scriptstyle (2)}}
+\def \brh {{\scriptstyle (3)}}
+\def \brk {{\scriptstyle (k)}}
+\def \brzz {{\scriptstyle (0;0)}}
+\def \brkj {{\scriptstyle (k;j)}}
+\def \brkk {{\scriptstyle (k;k)}}
+\def \brkkm {{\scriptstyle (k;k-1)}}
+\def \brkmkm {{\scriptstyle (k-1;k-1)}}
+\def \brkm {{\scriptstyle (k-1)}}
+\def \brko {{\scriptstyle (k+1)}}
+\def \broo {{\scriptstyle (11)}}
+\def \brot {{\scriptstyle (12)}}
+\def \brtt {{\scriptstyle (22)}}
+\def \brth {{\scriptstyle (23)}}
+\def \brhh {{\scriptstyle (33)}}
+\def \brjj {{\scriptstyle (jj)}}
+\def \brkk {{\scriptstyle (kk)}}
+\def \brmm {{\scriptstyle (k-1\:k-1)}}
+\def \brnm {{\scriptstyle (k-2\:k-1)}}
+\def \brmk {{\scriptstyle (k-1\:k)}}
+
+\def \inv {^{-1}}
+\def \tr {^{\top}}
+\def \trinv {^{-\top}}
+\def \chol {{\mbox{Chol}}}
+\def \Fac {{\mbox{Fac}}}
+\def \redun {_{\mbox{red}}}
+\def \svd {{\mbox{SVD}}}
+\def \kw {k_{\mbox{w}}}
+
+\def \com {c=1,\ldots,m}
+\def \jok {j=1,\ldots,k}
+\def \ion {i=1,\ldots,n}
+\def \loq {l=1,\ldots,q}
+
+\def \Rm     {R}
+\def \Ricj  {R_{ic}(j)}
+\def \Riok  {R_{i1}(k)}
+\def \Rimk  {R_{im}(k)}
+\def \Rick  {R_{ic}(k)}
+\def \Rock  {R_{1c}(k)}
+\def \Rnck  {R_{nc}(k)}
+
+\def \Pff   {P_{ff}}
+
+\def \Pdd   {P_{dd}}
+\def \Pcd   {P_{cd}}
+\def \Pcc   {P_{cc}}
+\def \Pcf   {P_{cf}}
+\def \Pfc   {P_{fc}}
+\def \Pcl   {P_{cl}}
+\def \Pdc   {P_{dc}}
+\def \Plc   {P_{lc}}
+\def \Pdf   {P_{df}}
+\def \Pfd   {P_{fd}}
+\def \Pdl   {P_{dl}}
+\def \Pld   {P_{ld}}
+\def \Pll   {P_{ll}}
+\def \Plf   {P_{lf}}
+\def \Pfl   {P_{fl}}
+
+\def \Acc    {A_{cc}}
+\def \Acl    {A_{cl}}
+\def \Alc    {A_{lc}}
+\def \Acd    {A_{cd}}
+\def \Adc    {A_{dc}}
+\def \Acf    {A_{cf}}
+\def \Afc    {A_{fc}}
+\def \Aff    {A_{ff}}
+\def \Affj   {\Aff(j)}
+\def \Affk   {\Aff(k)}
+\def \Affo   {A_{ff\:1}}
+\def \Affm   {A_{ff\:m}}
+\def \Affc   {A_{ff\:c}}
+\def \Add    {A_{dd}}
+\def \Addo   {A_{dd\:1}}
+\def \Addk   {\Add(k)}
+\def \Addj   {\Add(j)}
+\def \Adf    {A_{df}}
+\def \Adfoo  {A_{df\:1}(1)}
+\def \Adfok  {A_{df\:1}(k)}
+\def \Adfmo  {A_{df\:m}(1)}
+\def \Adfmk  {A_{df\:m}(k)}
+\def \Adfcj  {A_{df\:c}(j)}
+\def \Adfck  {A_{df\:c}(k)}
+\def \Adfo   {\Adf(1)}
+\def \Adfj   {\Adf(j)}
+\def \Adfk   {\Adf(k)}
+\def \Afd    {A_{fd}}
+\def \Afdk   {\Afd(k)}
+\def \Afdj   {\Afd(j)}
+\def \Adl    {A_{dl}}
+\def \Adlo   {\Adl(1)}
+\def \Adlj   {\Adl(j)}
+\def \Adlk   {\Adl(k)}
+\def \Adloo  {A_{dl\:1}(1)}
+\def \Adlno  {A_{dl\:n}(1)}
+\def \Adlok  {A_{dl\:1}(k)}
+\def \Adlnk  {A_{dl\:n}(k)}
+\def \Adlij  {A_{dl\:i}(j)}
+\def \Adlik  {A_{dl\:i}(k)}
+\def \Ald    {A_{ld}}
+\def \Aldk   {\Ald(k)}
+\def \Aldj   {\Ald(j)}
+\def \All    {A_{ll}}
+\def \Allk   {\All(k)}
+\def \Allo   {A_{ll\:1}}
+\def \Alln   {A_{ll\:n}}
+\def \Alli   {A_{ll\:i}}
+\def \Alf    {A_{lf}}
+\def \Afl    {A_{fl}}
+\def \Aflicj {A_{fl\:ic}(j)}
+\def \Aflj   {\Afl(j)}
+\def \Aflk   {\Afl(k)}
+\def \Aflic  {A_{fl\:ic}}
+
+\def \Fff    {F_{ff}}
+\def \Fdd    {F_{dd}}
+\def \Fll    {F_{ll}}
+
+\def \hvec  {{\bf h}}
+\def \fvec  {{\bf f}}
+\def \kvec  {{\bf k}}
+\def \pvec  {{\bf p}}
+\def \hicj  {\hvec_{ic}(j)}
+\def \tvec  {{\bf t}}
+\def \Tvec  {{\bf T}}
+\def \Xvec  {{\bf X}}
+\def \Pvec  {{\bf P}}
+\def \xvec  {{\bf x}}
+\def \yvec  {{\bf y}}
+\def \zvec  {{\bf z}}
+\def \xhat  {\hat{\bf x}}
+\def \yhat  {\hat{\bf y}}
+\def \zhat  {\hat{\bf z}}
+\def \vecz  {{\bf 0}}
+\def \matz  {0}
+\def \matu  {1}
+\def \bvec  {{\bf b}}
+\def \rvec  {{\bf r}}
+\def \cvec  {{\bf c}}
+\def \Rvec  {{\bf R}}
+\def \Fvec  {{\bf F}}
+\def \Lvec  {{\bf L}}
+
+\def \RCW    {{R}}
+\def \TCW    {{\Tvec}}
+
+\def \beginm   {\left(\!\!\begin{array}}
+\def \endm     {\end{array}\!\!\right)}
+
+\def \uvec    {{\bf u}}
+\def \vvec    {{\bf v}}
+\def \wvec    {{\bf w}}
+\def \wvecicj {\wvec_{ic}(j)}
+
+\def \avec {{\bf a}}
+\def \ahat  {\hat{\bf a}}
+\def \af   {\avec_f}
+\def \afc  {\avec_{f\:c}}
+\def \afo  {\avec_{f\:1}}
+\def \afm  {\avec_{f\:m}}
+\def \afk  {\avec_f(k)}
+\def \ad   {\avec_d}
+\def \adj  {\avec_d(j)}
+\def \adk  {\avec_d(k)}
+\def \ado  {\avec_d(1)}
+\def \adk  {\avec_d(k)}
+\def \al   {\avec_l}
+\def \ali  {\avec_{l\:i}}
+\def \alo  {\avec_{l\:1}}
+\def \aln  {\avec_{l\:n}}
+\def \alk  {\avec_l(k)}
+\def \alik {\avec_{l\:i}(k)}
+\def \alok {\avec_{l\:1}(k)}
+\def \alnk {\avec_{l\:n}(k)}
+\def \ac   {\avec_c}
+\def \acl  {\avec_{c\:l}}
+\def \aco  {\avec_{c\:1}}
+\def \acq  {\avec_{c\:q}}
+\def \ack  {\avec_c(k)}
+
+\def \nvec {{\bf n}}
+\def \qvec {{\bf q}}
+\def \lvec {{\bf l}}
+\def \lhat {\hat{\bf l}}
+
+\def \xvecfc {\xvec_{f\:c}}
+\def \xvecfo {\xvec_{f\:1}}
+\def \xvecfm {\xvec_{f\:m}}
+\def \xvecd  {\xvec_d}
+\def \xvecdj {\xvec_d(j)}
+\def \xvecdo {\xvec_d(1)}
+\def \xvecdk {\xvec_d(k)}
+\def \xvecl  {\xvec_l}
+\def \xvecli {\xvec_{l\:i}}
+\def \xveclo {\xvec_{l\:1}}
+\def \xvecln {\xvec_{l\:n}}
+\def \xveccl {\xvec_{c\:l}}
+\def \xvecco {\xvec_{c\:1}}
+\def \xveccq {\xvec_{c\:q}}
+
+\def \xhatfc {\xhat_{f\:c}}
+\def \xhatfcz {\xhat_{f\:c0}}
+\def \xhatdjz {\xhat_{d\:0}(j)}
+\def \xhatdkz {\xhat_{d\:0}(k)}
+\def \xhatdj {\xhat_d(j)}
+\def \xhatli {\xhat_{l\:i}}
+\def \xhatliz {\xhat_{l\:i0}}
+\def \xhatcl {\xhat_{c\:l}}
+\def \xhatclz {\xhat_{c\:l0}}
+
+\def \Pffcz {P_{ff\:c0}}
+\def \Pddjz {P_{dd\:0}(j)}
+\def \Pddkz {P_{dd\:0}(k)}
+\def \Plliz {P_{ll\:i0}}
+\def \Pcclz {P_{cc\:l0}}
+
+\def \Hficj {H_{f\:ic}(j)}
+\def \Hdicj {H_{d\:ic}(j)}
+\def \Hdick {H_{d\:ic}(k)}
+\def \Hlicj {H_{l\:ic}(j)}
+\def \Hcicj {H_{c\:ic}(j)}
+\def \Hfick {H_{f\:ic}(k)}
+\def \Hlick {H_{l\:ic}(k)}
+\def \Hlock {H_{l\:1c}(k)}
+\def \Hlnck {H_{l\:nc}(k)}
+
+\def \nuvec {\mbox{\boldmath $\nu$}}
+\def \nuvecicj {\mbox{\boldmath $\nu$}_{ic}(j)}
+\def \nuvecick {\mbox{\boldmath $\nu$}_{ic}(k)}
+\def \lambdavec {\mbox{\boldmath $\lambda$}}
+\def \lambdahat  {\hat{\lambdavec}}
+
+\def \sumcm {\sum_{c=1}^m}
+\def \sumin {\sum_{i=1}^n}
+\def \sumjk {\sum_{j=1}^k}
+
+\def \XvW   {\Xvec_{{\rm W}}}
+\def \XvWo  {\Xvec_{{\rm W}1}}
+\def \XvWt  {\Xvec_{{\rm W}2}}
+\def \XvWi  {\Xvec_{{\rm W}\:i}}
+\def \XvWio {\Xvec_{{\rm W}\:i1}}
+\def \XvWit {\Xvec_{{\rm W}\:i2}}
+\def \XW    {X_{{\rm W}}}
+\def \YW    {Y_{{\rm W}}}
+\def \ZW    {Z_{{\rm W}}}
+\def \XvC   {\Xvec_{{\rm C}}}
+\def \XC    {X_{{\rm C}}}
+\def \YC    {Y_{{\rm C}}}
+\def \ZC    {Z_{{\rm C}}}
+\def \xvI   {\xvec_{{\rm I}}}
+\def \xvIi  {\xvec_{{\rm I}\:i}}
+\def \xI    {x_{{\rm I}}}
+\def \yI    {y_{{\rm I}}}
+\def \xIi   {x_{{\rm I}\:i}}
+\def \yIi   {y_{{\rm I}\:i}}
+\def \zI    {z_{{\rm I}}}
+
+\def \Cov {\rm Cov}
