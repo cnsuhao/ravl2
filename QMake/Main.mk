@@ -310,7 +310,7 @@ endif
  TARG_NESTED =$(patsubst %.r,%,$(filter %.r,$(NESTED)))
  TARG_SCRIPT =$(patsubst %,$(INST_GENBIN)/%,$(SCRIPTS))
  OBJS_DEPEND = $(patsubst %$(CEXT),$$(INST_OBJS)/%$(OBJEXT),$(patsubst %$(CXXEXT),$$(INST_OBJS)/%$(OBJEXT) ,$(SOURCES) $(MUSTLINK)))
- TARG_USESLIBS = $(patsubst %,%.def,$(USESLIBS))
+ TARG_USESLIBS = $(patsubst %,%.def,$(filter-out Auto,$(USESLIBS)))
  TARG_AUXFILES = $(patsubst %,$(INST_AUX)/%,$(AUXFILES))
 
  ifdef USESLIBS
