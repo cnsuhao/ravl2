@@ -16,6 +16,7 @@ namespace RavlN {
   //: Default constructor.
   
   DPIOConnectBaseBodyC::DPIOConnectBaseBodyC()
+    : running(false)
   {}
   
   //: Op type name.
