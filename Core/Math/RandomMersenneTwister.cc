@@ -20,6 +20,7 @@
 #include "Ravl/RandomMersenneTwister.hh"
 
 /* Period parameters */  
+#define N 624
 #define M 397
 #define MATRIX_A 0x9908b0dfUL   /* constant vector a */
 #define UPPER_MASK 0x80000000UL /* most significant w-r bits */

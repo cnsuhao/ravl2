@@ -74,8 +74,7 @@ namespace RavlN {
     
   protected:
 
-    const static unsigned int N = 624;
-    unsigned long mt[N]; /* the array for the state vector  */
+    unsigned long mt[624]; /* the array for the state vector  */
     unsigned long mti; /* mti==N+1 means mt[N] is not initialized */
 
   };
