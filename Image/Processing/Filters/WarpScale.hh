@@ -15,7 +15,10 @@
 //! file="Ravl/Image/Processing/Filters/WarpScale.hh"
 
 #include "Ravl/Image/Image.hh"
+#include "Ravl/Image/BilinearInterpolation.hh"
 #include "Ravl/Array2dIter.hh"
+#include "Ravl/Vector2d.hh"
+#include "Ravl/Point2d.hh"
 
 namespace RavlImageN {
   
@@ -42,7 +45,7 @@ namespace RavlImageN {
 	method(meth)
     {}
     //: Constructor.
-    // 'ir' is the output rectangle.
+    // 'or' is the output rectangle.
     // 'meth' is the method to use
     
     ImageC<OutT> Apply(const ImageC<InT> &img);
@@ -62,8 +65,15 @@ namespace RavlImageN {
     { return rec; }
     //: Access output rectangle.
     
+    ImageC<OutT> Apply(const ImageC<InT> &img,const Point2dC &off,const Vector2dC &size);
+    //: Scale.
+    // Return a scaled image 
+    //!param: img - Image to sample
+    //!param: off - offset to start sampling at.
+    //!param: size - size of rectangle to sample
+    
   protected:
-
+    
     ImageC<OutT> NearestNeighbour(const ImageC<InT> &img);
     //: Quick-scale input image working rectangle into
     //: output image rectangle.
@@ -88,7 +98,7 @@ namespace RavlImageN {
       return BiLinear(im);
     }
   }
-
+  
   template <class InT, class OutT>
   ImageC<OutT> WarpScaleC<InT, OutT>::NearestNeighbour(const ImageC<InT> &im)
   {
@@ -136,7 +146,26 @@ namespace RavlImageN {
     }
     return res;
   }
-
+  
+  template <class InT, class OutT>
+  ImageC<OutT> WarpScaleC<InT, OutT>::Apply(const ImageC<InT> &img,const Point2dC &off,const Vector2dC &rectSize) {
+    ImageC<OutT> res(rec);
+    Point2dC rowStart = off;
+    Vector2dC scale = rectSize / Point2dC(res.Frame().Rows(),res.Frame().Cols());
+    for(Array2dIterC<OutT> it(res);it;) {
+      Point2dC at = rowStart;
+      do {
+        BilinearInterpolation(img,at,*it);
+        at[1] += scale[1];
+      } while(it.Next()); // True while in same row.
+      rowStart[0] += scale[0];
+    }
+    return res;
+  }
+  
+  //: Scale.
+  // Return a scaled image 
+  
   template <class InT, class OutT>
   ImageC<OutT> WarpScaleC<InT, OutT>::BiLinear(const ImageC<InT> &im)
   {
