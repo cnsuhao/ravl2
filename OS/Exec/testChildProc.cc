@@ -12,6 +12,7 @@
 #include "Ravl/OS/ChildOSProcess.hh"
 #include "Ravl/Option.hh"
 #include "Ravl/OS/Filename.hh"
+#include <stdlib.h>
 #include <unistd.h>
 #include <sys/stat.h>
 

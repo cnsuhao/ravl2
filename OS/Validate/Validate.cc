@@ -15,6 +15,7 @@
 #include "Ravl/StringList.hh"
 #include "Ravl/DLIter.hh"
 #include "Ravl/Exception.hh"
+#include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
 #include <stdio.h>

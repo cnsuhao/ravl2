@@ -36,6 +36,8 @@
 #endif
 #endif
 
+#include <string.h>
+
 #include <stdlib.h>
 #include <errno.h>
 #if RAVL_HAVE_UNISTD_H
