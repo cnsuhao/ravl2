@@ -452,18 +452,18 @@ namespace RavlN {
 	it.Del(); // If so delete it.
 	return true;
       }
-      it->SetSubRange(it->IMin(),it->IMax()-1);
+      it->Data().SetSubRange(it->IMin(),it->IMax()-1);
       return true;
     }
     if(it->IMin() == i) { // At the beginnig of a chunk ?
-      it->SetSubRange(it->IMin()+1,it->IMax());
+      it->Data().SetSubRange(it->IMin()+1,it->IMax());
       return true;
     }
     // Cut the chunk in two removing the element.
     Array1dC<DataT> newArr = it->Data();
-    it->SetSubRange(it->IMin(),i-1);
+    it->Data().SetSubRange(it->IMin(),i-1);
     newArr.SetSubRange(i+1,it->IMax());
-    it->InsertAft(*new DChunkC<DataT>(newArr));
+    it.InsertAft(*new DChunkC<DataT>(newArr));
     return true;
   }
   
@@ -485,7 +485,7 @@ namespace RavlN {
       // Is max within the same chunk ?
       if(it->IMax() > max) { 
 	newArr.SetSubRange(max+1,it->IMax());
-	it->InsertAft(*new DChunkC<DataT>(newArr));
+	it.InsertAft(*new DChunkC<DataT>(newArr));
 	return true;
       }
     }
