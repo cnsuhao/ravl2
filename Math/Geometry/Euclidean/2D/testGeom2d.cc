@@ -84,7 +84,7 @@ int main() {
 
 
 int testMoments() {
-  cerr << "Testing moments. \n";
+  cerr << "testMoments Called.\n";
   Moments2d2C mom;
   mom.AddPixel(Index2dC(9,19));
   mom.AddPixel(Index2dC(10,20));
@@ -95,15 +95,15 @@ int testMoments() {
   if((Abs(cx - 10) > 0.001) || (Abs(cy - 20.3333) > 0.001))
      return __LINE__;
   Vector2dC principleAxis = mom.PrincipalAxisSize();
-  cerr << "PrincipleAxis=" << principleAxis  <<"\n"; 
+  //cerr << "PrincipleAxis=" << principleAxis  <<"\n"; 
   RealT elong = mom.Elongatedness(principleAxis);
-  cerr <<"Elong=" << elong << "\n";
+  //cerr <<"Elong=" << elong << "\n";
   if(Abs(elong - 0.984886) > 0.001) return __LINE__;
   return 0;
 }
 
 int testBinIO() {
-  cerr << "Testing binary IO. \n";
+  cerr << "testBinIO Called.\n";
   StrOStreamC ostr;
   Point2dC p1(0.12,0.34);
   Point2dC p2(4.5,6.7);
@@ -128,6 +128,7 @@ int testBinIO() {
 }
 
 int testCircle2d() {
+  cerr << "testCircle2d Called. \n";
   Array1dC<Point2dC> pnts(5);
   pnts[0] = Point2dC(1,0);
   pnts[1] = Point2dC(-1,2);
@@ -160,7 +161,7 @@ int testCircle2d() {
 }
 
 int testConvexHull2d() {
-  cerr << "testConvexHull2d() Called. \n";
+  cerr << "testConvexHull2d Called. \n";
   for(int j = 0;j < 10;j++) {
     DListC<Point2dC> pnts;
     
@@ -184,7 +185,7 @@ int testConvexHull2d() {
 }
 
 int testDelaunayTriangulation2d() {
-  cerr << "testDelaunayTriangulation2d() Called. \n";
+  cerr << "testDelaunayTriangulation2d Called. \n";
   
   // Try a mesh with a exactly aligned points.
   
@@ -225,7 +226,7 @@ int testDelaunayTriangulation2d() {
 }
 
 int testFitAffine() {
-  cerr << "testFitAffine(), Called. \n";
+  cerr << "testFitAffine Called. \n";
 
   // Try a simple case.
   
