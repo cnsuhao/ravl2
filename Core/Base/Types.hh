@@ -75,11 +75,11 @@ namespace RavlN {
   //: Type which can index any item in memory.
   
 #if RAVL_USE_LARGEFILESUPPORT
-  typedef UIntT StreamOffsetT;
+  typedef UInt64T StreamOffsetT;
   //: Type which can index any offset in a file.
   // This is used internally in RAVL.
 #else
-  typedef UInt64T StreamOffsetT;
+  typedef UIntT StreamOffsetT;
   //: Type which can index any offset in a file.
   // This is used internally in RAVL.  
 #endif

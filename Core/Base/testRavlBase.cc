@@ -25,6 +25,7 @@ public:
   {}
 };
 
+int testTypes();
 int testIndex();
 int testMisc();
 int testSubIndexRange2dIter();
@@ -33,6 +34,10 @@ int testSubIndexRange3dIter();
 int main()
 {
   int ln;
+  if((ln = testTypes()) != 0) {
+    cerr << "Test failed at line:" << ln << "\n";
+    return 1;
+  }
   if((ln = testIndex()) != 0) {
     cerr << "Test failed at line:" << ln << "\n";
     return 1;
@@ -50,6 +55,22 @@ int main()
     return 1;
   }
   cerr << "Test passed ok. \n";
+  return 0;
+}
+
+int testTypes()
+{
+  if(sizeof(Int16T) != 2) return __LINE__;
+  if(sizeof(UInt16T) != 2) return __LINE__;
+  if(sizeof(Int64T) != 8) return __LINE__;
+  if(sizeof(UInt64T) != 8) return __LINE__;
+#if RAVL_USE_LARGEFILESUPPORT
+  if(sizeof(StreamSizeT) < 8) return __LINE__;
+  if(sizeof(StreamOffsetT) < 8) return __LINE__;
+#else
+  if(sizeof(StreamSizeT) < 4) return __LINE__;
+  if(sizeof(StreamOffsetT) < 4) return __LINE__;
+#endif
   return 0;
 }
 
@@ -85,6 +106,7 @@ int testMisc() {
   UIntC y = 5;
   IntT v = Abs((int) x -  y);
   if(v != 1) return __LINE__;
+
   return 0;
 }
 
