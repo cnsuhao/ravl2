@@ -86,11 +86,12 @@ namespace RavlGUIN {
   
   //: Constructor.
   
-  TreeViewBodyC::TreeViewBodyC(const TreeModelC &tm,const DListC<StringC> &ndisplayColumns, GtkSelectionMode nselMode) 
+  TreeViewBodyC::TreeViewBodyC(const TreeModelC &tm,const DListC<StringC> &ndisplayColumns, GtkSelectionMode nselMode,
+                               bool ignoreInitialSelectionSignals) 
     : treeModel(tm),
       selection(0),
       selectionChanged(DListC<TreeModelIterC>()),
-      firstSelection(2),
+      firstSelection(ignoreInitialSelectionSignals ? 2 : 0),
       selMode(nselMode)
   {
     UIntT nCols = ndisplayColumns.Size();
@@ -179,21 +180,22 @@ namespace RavlGUIN {
   
   //: Constructor.
   
-  TreeViewBodyC::TreeViewBodyC(const TreeModelC &tm,const SArray1dC<TreeViewColumnC> &displayColumns, GtkSelectionMode nselMode) 
+  TreeViewBodyC::TreeViewBodyC(const TreeModelC &tm,const SArray1dC<TreeViewColumnC> &displayColumns, GtkSelectionMode nselMode,
+                               bool ignoreInitialSelectionSignals) 
     : treeModel(tm),
       selection(0),
       selectionChanged(DListC<TreeModelIterC>()),
       displayColumns(displayColumns),
-      firstSelection(2),
+      firstSelection(ignoreInitialSelectionSignals ? 2 : 0),
       selMode(nselMode)
   {}
   
   //: Default constructor.
   
-  TreeViewBodyC::TreeViewBodyC()
+  TreeViewBodyC::TreeViewBodyC(bool ignoreInitialSelectionSignals) 
     : selection(0),
       selectionChanged(DListC<TreeModelIterC>()),
-      firstSelection(2)
+      firstSelection(ignoreInitialSelectionSignals ? 2 : 0)
   {}
 
   static StringC FindMajorColumnName(const StringC &name) {

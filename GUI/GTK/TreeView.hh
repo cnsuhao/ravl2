@@ -39,16 +39,16 @@ namespace RavlGUIN {
   public:    
     TreeViewColumnRendererC()
       : expand(false),
-	renderer(0),
-	treeViewBody(0)
+        renderer(0),
+        treeViewBody(0)
     {}
     //: Default constructor.
     
     TreeViewColumnRendererC(const StringC &_renderType)
       : expand(false),
-	renderType(_renderType),
-	renderer(0),
-	treeViewBody(0)
+        renderType(_renderType),
+        renderer(0),
+        treeViewBody(0)
     {}
     //: Constructor.
     
@@ -231,14 +231,25 @@ namespace RavlGUIN {
     : public WidgetBodyC
   {
   public:
-    TreeViewBodyC(const TreeModelC &tm,const DListC<StringC> &displayColumns, GtkSelectionMode nselMode);
+    TreeViewBodyC(const TreeModelC &tm,const DListC<StringC> &displayColumns, GtkSelectionMode nselMode,
+                  bool ignoreInitialSelectionSignals = true);
     //: Constructor.
+    //  Set ignoreInitialSelectionSignals to true if your tree view starts off with the first item pre-selected and this
+    //  causes problems.  On the other hand, if this is set to true and you need two clicks to make the first selection
+    //  in your tree view then set it to false.
     
-    TreeViewBodyC(const TreeModelC &tm,const SArray1dC<TreeViewColumnC> &displayColumns, GtkSelectionMode nselMode);
+    TreeViewBodyC(const TreeModelC &tm,const SArray1dC<TreeViewColumnC> &displayColumns, GtkSelectionMode nselMode,
+                  bool ignoreInitialSelectionSignals = true);
     //: Constructor.
+    //  Set ignoreInitialSelectionSignals to true if your tree view starts off with the first item pre-selected and this
+    //  causes problems.  On the other hand, if this is set to true and you need two clicks to make the first selection
+    //  in your tree view then set it to false.
     
-    TreeViewBodyC();
+    TreeViewBodyC(bool ignoreInitialSelectionSignals = true);
     //: Default constructor.
+    //  Set ignoreInitialSelectionSignals to true if your tree view starts off with the first item pre-selected and this
+    //  causes problems.  On the other hand, if this is set to true and you need two clicks to make the first selection
+    //  in your tree view then set it to false.
     
     virtual bool Create();
     //: Create widget.
@@ -420,8 +431,8 @@ namespace RavlGUIN {
 
     bool FilterFirstSelections() { 
       if (firstSelection) {
-	firstSelection--;
-	return true;
+        firstSelection--;
+        return true;
       }
       return false;
     }
@@ -480,17 +491,25 @@ namespace RavlGUIN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    TreeViewC(const TreeModelC &treeModel,const DListC<StringC> &displayColumns = DListC<StringC>(), GtkSelectionMode nselMode = GTK_SELECTION_SINGLE)
-      : WidgetC(*new TreeViewBodyC(treeModel,displayColumns,nselMode))
+    TreeViewC(const TreeModelC &treeModel,const DListC<StringC> &displayColumns = DListC<StringC>(),
+              GtkSelectionMode nselMode = GTK_SELECTION_SINGLE, bool ignoreInitialSelectionSignals = true)
+      : WidgetC(*new TreeViewBodyC(treeModel,displayColumns,nselMode,ignoreInitialSelectionSignals))
     {}
     //: Constructor.
     // Creates an invalid handle.
+    //  Set ignoreInitialSelectionSignals to true if your tree view starts off with the first item pre-selected and this
+    //  causes problems.  On the other hand, if this is set to true and you need two clicks to make the first selection
+    //  in your tree view then set it to false.
     
-    TreeViewC(const TreeModelC &treeModel,const SArray1dC<TreeViewColumnC> &displayColumns, GtkSelectionMode nselMode = GTK_SELECTION_SINGLE)
-      : WidgetC(*new TreeViewBodyC(treeModel,displayColumns,nselMode))
+    TreeViewC(const TreeModelC &treeModel,const SArray1dC<TreeViewColumnC> &displayColumns,
+              GtkSelectionMode nselMode = GTK_SELECTION_SINGLE, bool ignoreInitialSelectionSignals = true)
+      : WidgetC(*new TreeViewBodyC(treeModel,displayColumns,nselMode,ignoreInitialSelectionSignals))
     {}
     //: Constructor.
     // Creates an invalid handle.
+    //  Set ignoreInitialSelectionSignals to true if your tree view starts off with the first item pre-selected and this
+    //  causes problems.  On the other hand, if this is set to true and you need two clicks to make the first selection
+    //  in your tree view then set it to false.
     
   protected:
     TreeViewC(TreeViewBodyC &bod)
