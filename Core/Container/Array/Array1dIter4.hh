@@ -44,7 +44,7 @@ namespace RavlN {
       if(matching) {
 	RavlAssertMsg(arr1.Range() == arr2.Range(),"Array1dIter4C, First and second array ranges don't match.");
 	RavlAssertMsg(arr1.Range() == arr3.Range(),"Array1dIter4C, First and third array ranges don't match.");
-	RavlAssertMsg(arr1.Range() == arr4.Range(),"Array1dIter4C, First and third array ranges don't match.");
+	RavlAssertMsg(arr1.Range() == arr4.Range(),"Array1dIter4C, First and fourth array ranges don't match.");
       }
     }
     //: Constructor.

@@ -4,8 +4,6 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-#*********************************************************************
-# $Id$
 #! rcsid="$Id$"
 #! file="Ravl/Core/Container/SArray/defs.mk"
 
@@ -26,7 +24,7 @@ SOURCES  =
 
 # HEADERS = all include files of this project to be exported
 HEADERS = SDArray1d.hh \
- SArray1d.hh SArray1dIter.hh SArray1dIter2.hh SArray1dIter3.hh SArray1dIter4.hh \
+ SArray1d.hh SArray1dIter.hh SArray1dIter2.hh SArray1dIter3.hh SArray1dIter4.hh SArray1dIter5.hh\
  SArray2d.hh SArray2dIter.hh SArray2dIter2.hh SArray2dIter3.hh \
  SArray3d.hh SArray3dIter.hh SArray3dIter2.hh SArray3dIter3.hh \
  SArray1dIterR.hh

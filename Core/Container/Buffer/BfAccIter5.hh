@@ -56,7 +56,7 @@ namespace RavlN {
 			      const RangeBufferAccessC<Data2T> &buff2,
 			      const RangeBufferAccessC<Data3T> &buff3,
 			      const RangeBufferAccessC<Data4T> &buff4,
-			      const RangeBufferAccessC<Data4T> &buff5
+			      const RangeBufferAccessC<Data5T> &buff5
 			      )
     { First(buff,buff2,buff3,buff4,buff5); }
     //: Constructor.

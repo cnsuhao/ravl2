@@ -17,6 +17,7 @@
 #include "Ravl/SArray1dIter2.hh"
 #include "Ravl/SArray1dIter3.hh"
 #include "Ravl/SArray1dIter4.hh"
+#include "Ravl/SArray1dIter5.hh"
 
 using namespace RavlN;
 
@@ -218,3 +219,4 @@ template class SArray1dIterC<UIntT>;
 template class SArray1dIter2C<UIntT,RealT>;
 template class SArray1dIter3C<UIntT,RealT,ByteT>;
 template class SArray1dIter4C<UIntT,RealT,ByteT,IntT>;
+template class SArray1dIter5C<UIntT,RealT,ByteT,IntT,Int16T>;
