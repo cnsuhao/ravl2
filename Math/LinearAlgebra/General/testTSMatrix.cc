@@ -74,7 +74,7 @@ int testBasic() {
   // cerr << "Res2=" << res2 << endl;
   if(MatrixC(res1 - res2.TMatrix()).SumOfAbs() > 0.000001)
     return __LINE__;
-
+  
   TSMatrixC<RealT> t1(2,2);
   t1.Element(0,0,1);
   t1.Element(0,1,2);

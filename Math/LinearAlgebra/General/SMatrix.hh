@@ -24,6 +24,11 @@ namespace RavlN {
     : public TSMatrixC<RealT>
   {
   public:
+    SMatrixC()
+    {}
+    //: Default constructor.
+    // Creates an invalid handle.
+    
     SMatrixC(const TSMatrixC<RealT> &mat)
       : TSMatrixC<RealT>(mat)
     {}

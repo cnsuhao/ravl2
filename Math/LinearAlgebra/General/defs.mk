@@ -31,5 +31,6 @@ TESTEXES=testTMatrix.cc testMatInv.cc testMatrix.cc testTSMatrix.cc
 
 PLIB=RavlMath
 
-USESLIBS=Math RavlCore ccmath
-#CCMath
+USESLIBS=Math RavlCore ccmath 
+
+PROGLIBS=RavlOS

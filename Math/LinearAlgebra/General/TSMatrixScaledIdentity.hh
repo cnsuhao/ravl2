@@ -28,7 +28,7 @@ namespace RavlN {
   {
   public:
     TSMatrixScaledIdentityBodyC(UIntT i,RealT nscale = 1.0)
-      : TSMatrixPartialBodyC<DataT>(i,i),
+      : TSMatrixBodyC<DataT>(i,i),
 	scale(nscale)
     {}
     //: Constructor.
@@ -100,6 +100,14 @@ namespace RavlN {
     virtual TMatrixC<DataT> TMatrix() const;
     //: Get as full matrix.
 
+    const DataT &Scale() const
+    { return scale; }
+    //: Get scale for matrix.
+    
+    DataT &Scale()
+    { return scale; }
+    //: Get scale for matrix.
+    
   protected:
     DataT scale;
   };
@@ -110,23 +118,25 @@ namespace RavlN {
   
   template<class DataT>
   class TSMatrixScaledIdentityC
-    : public TSMatrixPartialC<DataT>
+    : public TSMatrixC<DataT>
   {
   public:
-    TSMatrixScaledIdentityC(int i)
-      : TSMatrixPartialC<DataT>(*new TSMatrixScaledIdentityBodyC<DataT>(i))
+    TSMatrixScaledIdentityC(int i,const DataT &val)
+      : TSMatrixC<DataT>(*new TSMatrixScaledIdentityBodyC<DataT>(i,val))
     {}
     //: Create a diagonal matrix of size i by i .
     // The contents of the matrix are undefined.
     
-    TSMatrixScaledIdentityC(const TVectorC<DataT> &data)
-      : TSMatrixPartialC<DataT>(*new TSMatrixScaledIdentityBodyC<DataT>(data))
-    {}
-    //: Create a diagonal matrix from a vector.
-    
+    TSMatrixScaledIdentityC(const TSMatrixC<DataT> &base)
+      : TSMatrixC<DataT>(base)
+    {
+      if(dynamic_cast<const TSMatrixScaledIdentityBodyC<DataT> *>(&TSMatrixC<DataT>::Body()) == 0)
+	Invalidate();
+    }
+    //: Base constructor.
   protected:
     TSMatrixScaledIdentityC(TSMatrixScaledIdentityBodyC<DataT> &bod)
-      : TSMatrixPartialC<DataT>(bod)
+      : TSMatrixC<DataT>(bod)
     {}
     //: Body constructor.
     
@@ -140,11 +150,25 @@ namespace RavlN {
     
   public:
     friend class TSMatrixScaledIdentityBodyC<DataT>;
+    
+    const DataT &Scale() const
+    { return Body().Scale(); }
+    //: Get scale for matrix.
+    
+    DataT &Scale()
+    { return Body().Scale(); }
+    //: Get scale for matrix.
   };
   
   
   template<class DataT>
   TSMatrixC<DataT> TSMatrixScaledIdentityBodyC<DataT>::Mul(const TSMatrixC<DataT> &mat) const {
+    //cerr << "TSMatrixScaledIdentityBodyC<DataT>::Mul(Mat), Mat=" << mat.MatrixType().name() << "\n";
+    if(mat.MatrixType() == typeid(TSMatrixScaledIdentityBodyC<DataT>)) {
+      TSMatrixScaledIdentityC<DataT> msi(mat);
+      return TSMatrixScaledIdentityC<DataT>(msi.Rows(),scale * msi.Scale());
+    }
+    
     RavlAssert(Cols() == mat.Rows());
     const SizeT rdim = Rows();
     const SizeT cdim = mat.Cols();
@@ -157,7 +181,7 @@ namespace RavlN {
       const DataT *end2 = &(at[Cols()]);
       for(;at != start;at++)
 	SetZero(*at);
-      DataT *at2 = ra[ra.IMin().V];
+      DataT *at2 = &(ra[ra.IMin().V()]);
       for(;at != end1;at++,at2++)
 	*at = scale * (*at2);
       for(;at != end2;at++)
@@ -192,7 +216,7 @@ namespace RavlN {
   
   template<class DataT>
   TSMatrixC<DataT> TSMatrixScaledIdentityBodyC<DataT>::AAT() const {
-    return TSMatrixScaledIdentityBodyC<DataT>(Rows(),Sqr(scale));
+    return TSMatrixScaledIdentityC<DataT>(Rows(),Sqr(scale));
   }
   
   template<class DataT>
@@ -204,7 +228,7 @@ namespace RavlN {
   TMatrixC<DataT> TSMatrixScaledIdentityBodyC<DataT>::TMatrix() const {
     TMatrixC<DataT> ret(Rows(),Cols());
     ret.Fill(0);
-    for(int i = 0;i < Rows();i++)
+    for(UIntT i = 0;i < Rows();i++)
       ret[i][i] = scale;
     return ret;
   }

@@ -487,7 +487,7 @@ namespace RavlN {
   
   template<class DataT>
   void TSMatrixSparseBodyC<DataT>::AddIP(const TSMatrixC<DataT> &mat) {
-    cerr << "TSMatrixSparseBodyC<DataT>::AddIP(), Called. \n";
+    //cerr << "TSMatrixSparseBodyC<DataT>::AddIP(), Called. \n";
     RavlAssert(Rows() == mat.Rows());
     RavlAssert(Cols() == mat.Cols());
     if(mat.MatrixType() != typeid(TSMatrixSparseBodyC<DataT>)) {

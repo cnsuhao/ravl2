@@ -89,10 +89,10 @@ namespace RavlN {
     //: Get transpose of matrix.
     // This is a no-op.
 
-#if 0    
     virtual TSMatrixC<DataT> Mul(const TSMatrixC<DataT> &oth) const;
     //: Get this matrix times 'oth'.
     
+#if 0    
     virtual TVectorC<DataT> Mul(const TVectorC<DataT> &oth) const;
     //: Get this matrix times 'oth'.
     
@@ -203,13 +203,24 @@ namespace RavlN {
     return sum;
   }
   
-#if 0
   template<class DataT>
   TSMatrixC<DataT> TSMatrixRightUpperBodyC<DataT>::Mul(const TSMatrixC<DataT> &mat) const {
-    RavlAssert(0);
-    return TSMatrixC<DataT>();
+    if(MatrixType() != typeid(TSMatrixRightUpperBodyC<DataT>))
+      TSMatrixBodyC<DataT>::Mul(mat); // Use default.
+    RavlAssert(Cols() == mat.Rows());
+    const SizeT rdim = Rows();
+    const SizeT cdim = mat.Cols();
+    TSMatrixRightUpperC<DataT> out(rdim);
+    SArray1dIterC<DataT> it(out.Data());
+    for (UIntT r = 0; r < rdim; r++) {
+      Array1dC<DataT> row = Row(r);
+      for (UIntT c = r; c < cdim; c++,it++)
+	*it = mat.MulSumColumn(c,row);
+    }
+    return out;
   }
   
+#if 0  
   template<class DataT>
   TVectorC<DataT> TSMatrixRightUpperBodyC<DataT>::Mul(const TVectorC<DataT> &oth) const {
     RavlAssert(0);

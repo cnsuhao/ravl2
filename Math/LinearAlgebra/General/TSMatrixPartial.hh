@@ -59,6 +59,9 @@ namespace RavlN {
     virtual DataT SumOfAbs() const;
     //: Sum the absolute values of all members of the matrix.
     
+    virtual void Fill(const DataT &dat);
+    //: Fill matrix with values.
+    
     SArray1dC<DataT> &Data()
     { return data; }
     //: Access data.
@@ -131,7 +134,7 @@ namespace RavlN {
   void TSMatrixPartialBodyC<DataT>::SubIP(const TSMatrixC<DataT> &oth) {
     RavlAssert(Size() == oth.Size());
     if(MatrixType() != oth.MatrixType())
-      return TSMatrixBodyC<DataT>::AddIP(oth);
+      return TSMatrixBodyC<DataT>::SubIP(oth);
     TSMatrixPartialC<DataT> mp(oth);
     for(SArray1dIter2C<DataT,DataT> it(data,mp.Data());it;it++)
       it.Data1() -= it.Data2();
@@ -151,6 +154,11 @@ namespace RavlN {
     for(it++;it;it++)
       ret += *it;
     return ret;
+  }
+  
+  template<class DataT>
+  void TSMatrixPartialBodyC<DataT>::Fill(const DataT &dat) {
+    data.Fill(dat);
   }
   
 }

@@ -25,7 +25,8 @@
 #include "Ravl/Array1dIter.hh"
 
 namespace RavlN {
-  template<class DataT> class TSMatrixC ;
+  template<class DataT> class TSMatrixC;
+  template<class DataT> class TSMatrixFullBodyC;
   
   //! userlevel=Develop
   //: Smart Matrix Body.
@@ -142,6 +143,9 @@ namespace RavlN {
     { RavlAssert(0); return TMatrixC<DataT>(); }
     //: Access as a TMatrix.
     // Note, the returned matrix may not be a copy and should not be changed!
+    
+    virtual void Fill(const DataT &dat);
+    //: Fill matrix with values.
     
     const Index2dC &Size() const
     { return size; }
@@ -352,13 +356,26 @@ namespace RavlN {
     { Body().SwapRows(i,j); }
     //: Swap two rows in the matrix.
     
+    void Fill(const DataT &dat)
+    { Body().Fill(dat); }
+    //: Fill matrix with values.
+    
     friend class TSMatrixBodyC<DataT>;
   };
   
   template<class DataT>
   TSMatrixC<DataT> TSMatrixBodyC<DataT>::Add(const TSMatrixC<DataT> &oth) const {
     RavlAssert(Size() == oth.Size());
-    TSMatrixC<DataT> ret(static_cast<TSMatrixBodyC<DataT> &>(Copy()));
+    TSMatrixC<DataT> ret;
+    const type_info &thisType = MatrixType();
+      if(thisType == oth.MatrixType())
+      ret = TSMatrixC<DataT>(static_cast<TSMatrixBodyC<DataT> &>(Copy()));
+    else {
+      if(thisType == typeid(TSMatrixFullBodyC<DataT>))
+	ret = TSMatrixC<DataT>(TMatrix().Copy());
+      else
+	ret = TSMatrixC<DataT>(TMatrix());
+    }
     ret.AddIP(oth);
     return ret;
   }
@@ -366,7 +383,16 @@ namespace RavlN {
   template<class DataT>
   TSMatrixC<DataT> TSMatrixBodyC<DataT>::Sub(const TSMatrixC<DataT> &oth) const {
     RavlAssert(Size() == oth.Size());
-    TSMatrixC<DataT> ret(static_cast<TSMatrixBodyC<DataT> &>(Copy()));
+    TSMatrixC<DataT> ret;
+    const type_info &thisType = MatrixType();
+      if(thisType == oth.MatrixType())
+      ret = TSMatrixC<DataT>(static_cast<TSMatrixBodyC<DataT> &>(Copy()));
+    else {
+      if(thisType == typeid(TSMatrixFullBodyC<DataT>))
+	ret = TSMatrixC<DataT>(TMatrix().Copy());
+      else
+	ret = TSMatrixC<DataT>(TMatrix());
+    }
     ret.SubIP(oth);
     return ret;
   }
@@ -401,10 +427,11 @@ namespace RavlN {
     const SizeT rdim = Rows();
     const SizeT cdim = mat.Cols();
     TMatrixC<DataT> out(rdim, cdim);
+    SArray2dIterC<DataT> it(out);
     for (UIntT r = 0; r < rdim; r++) {
       Array1dC<DataT> row = Row(r);
-      for (UIntT c = 0; c < cdim; c++)
-	out[r][c] = mat.MulSumColumn(c,row);
+      for (UIntT c = 0; c < cdim; c++,it++)
+	*it = mat.MulSumColumn(c,row);
     }
     return TSMatrixC<DataT>(out);
   }
@@ -542,6 +569,14 @@ namespace RavlN {
 	ret += *it;
     }
     return ret;
+  }
+  
+  template<class DataT>
+  void TSMatrixBodyC<DataT>::Fill(const DataT &dat) {
+    for(UIntT i = 0;i < Rows();i++) {
+      for(Array1dIterC<DataT> it(Row(i));it;it++)
+	SetZero(*it);
+    }
   }
   
   template<class DataT>
