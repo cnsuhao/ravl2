@@ -30,14 +30,20 @@ namespace RavlN {
   class IndexRange2dC {
   public:
     IndexRange2dC()
-      {}
+    {}
     //: Default constructor.
     
     IndexRange2dC(IndexC rowNumber, IndexC colNumber)
       : rows(0, rowNumber-1), 
 	cols(0, colNumber-1)
     {}
-    //: Constructor.
+    //: Construct from rectangle size.
+
+    IndexRange2dC(IntT rowNumber,IntT colNumber)
+      : rows(0, rowNumber-1), 
+	cols(0, colNumber-1)
+    {}
+    //: Construct from rectangle size.
     
     IndexRange2dC(const IndexRangeC & rowRange,
 		  const IndexRangeC & colRange);
@@ -49,7 +55,7 @@ namespace RavlN {
     IndexRange2dC(const Index2dC &org,const Index2dC &end)
       : rows(org.Row(), end.Row()), 
 	cols(org.Col(),end.Col())
-      {}
+    {}
     //: Create an 2d range from corner points.
     
     IndexRange2dC(const Index2dC &center,SizeT size)
