@@ -8,6 +8,7 @@
 //! rcsid="$Id$"
 //! lib=RavlImage
 
+#include "Ravl/BinStream.hh"
 #include "Ravl/Image/PNMFormat.hh"
 #include "Ravl/Image/ImgIOPNM.hh"
 #include "Ravl/TypeName.hh"
