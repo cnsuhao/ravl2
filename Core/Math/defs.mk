@@ -40,7 +40,7 @@ PLIB = RavlCore
 USESLIBS = RavlCore
 
 # File of library dependencies
-LIBDEPS = RavlMath.def
+LIBDEPS = RavlCoreMath.def
 
 # Examples - programs demonstrating using of software in this directory.
 EXAMPLES = exComplx.cc
