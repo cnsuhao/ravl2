@@ -14,8 +14,7 @@
 #include <iostream.h>
 #include <gtk/gtk.h>
 
-#define DODEBUG 1
-
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -49,18 +48,17 @@ namespace RavlGUIN {
   bool  ButtonBodyC::Create() {
     if(widget != 0)
       return true;
-    
     if(pix.IsValid()) {
       widget = BuildWidget();
       pix.Create();
       GtkWidget *pixmapwid = pix.Widget();
       gtk_widget_show( pixmapwid );
-      if(label == 0) 
+      if(label.Size() == 0) 
 	gtk_container_add( GTK_CONTAINER(widget), pixmapwid);
       else {
 	GtkWidget *box = gtk_hbox_new (false, 0);
 	gtk_container_set_border_width (GTK_CONTAINER (box), 1);
-	GtkWidget *lw = gtk_label_new (label);
+	GtkWidget *lw = gtk_label_new (label.chars());
 	gtk_box_pack_start (GTK_BOX (box),pixmapwid, false, false, 3);      
 	gtk_box_pack_start (GTK_BOX (box), lw, false, false, 3);
 	gtk_container_add( GTK_CONTAINER(widget), box);
@@ -68,13 +66,14 @@ namespace RavlGUIN {
 	gtk_widget_show(box);
       }
     } else {
-      if(label == 0)
+      ONDEBUG(cerr << "ButtonBodyC::Create() Label:'" << label << "'\n");
+      if(label.Size() == 0)
 	widget = BuildWidget("?");
       else
 	widget = BuildWidget(label);
     }
     ConnectSignals();
-  return true;
+    return true;
   }
   
   ////////////////////////////////

@@ -79,7 +79,7 @@ namespace RavlGUIN {
     OneChildC(WidgetC &bod)
       : WidgetC(bod)
       {
-	if(dynamic_cast<WidgetBodyC *>(&Body()) == 0)
+	if(dynamic_cast<WidgetBodyC *>(&WidgetC::Body()) == 0)
 	  Invalidate();
       }
     //: Base class constructor

@@ -10,6 +10,7 @@
 //! lib=RavlGUI
 
 #include "Ravl/GUI/FileSelector.hh"
+#include "Ravl/OS/Filename.hh"
 #include <gtk/gtk.h>
 
 namespace RavlGUIN {
@@ -31,7 +32,7 @@ namespace RavlGUIN {
     : name(nname),
       defaultFN(filename),
       hideOnSelect(true),
-      selected(FilenameC(""))
+      selected(StringC(""))
   {}
   
   

@@ -12,6 +12,25 @@
 
 namespace RavlGUIN {
 
+  //: Default constructor.
+  PackInfoBodyC::PackInfoBodyC()
+    : expand(true),
+      fill(true),
+      padding(0)
+  {
+    //cerr << "PackInfoBodyC::PackInfoBodyC(), Called \n";
+  }
+    
+  //: Constructor.
+  PackInfoBodyC::PackInfoBodyC(const WidgetC &widge,bool nexpand = true,bool nfill = true,IntT npadding = 0)
+    : OneChildBodyC(widge),
+      expand(nexpand),
+      fill(nfill),
+      padding(npadding)
+  {
+    //cerr << "PackInfoBodyC::PackInfoBodyC(), Called " << expand <<" "<< fill <<" "<< padding <<"\n";
+  }
+
   //: Create the widget.
   
   bool PackInfoBodyC::Create() {
@@ -28,7 +47,7 @@ namespace RavlGUIN {
   void PackInfoBodyC::Destroy() {
     if(child.IsValid())
       child.Destroy();
-    widget = 0; // It'll be the childs widget....
+    widget = 0; // It'll be the child widget....
     WidgetBodyC::Destroy();
   }
   
@@ -37,7 +56,7 @@ namespace RavlGUIN {
   PackInfoC::PackInfoC(WidgetC &other)
     : OneChildC(other)
   {
-    if(!dynamic_cast<const PackInfoBodyC *>(&Body()) == 0)
+    if(dynamic_cast<PackInfoBodyC *>(&WidgetC::Body()) == 0)
       Invalidate();
   }
   

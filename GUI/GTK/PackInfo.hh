@@ -25,16 +25,10 @@ namespace RavlGUIN {
     : public OneChildBodyC
   {
   public:
-    PackInfoBodyC()
-      {}
+    PackInfoBodyC();
     //: Default constructor.
     
-    PackInfoBodyC(const WidgetC &widge,bool nexpand = true,bool nfill = true,IntT npadding = 0)
-      : OneChildBodyC(widge),
-      expand(nexpand),
-      fill(nfill),
-      padding(npadding)
-      {}
+    PackInfoBodyC(const WidgetC &widge,bool nexpand = true,bool nfill = true,IntT npadding = 0);
     //: Constructor.
     
     bool &Expand()

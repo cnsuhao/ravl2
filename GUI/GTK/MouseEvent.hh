@@ -102,6 +102,14 @@ namespace RavlGUIN {
     IntT RowID() const
       { return rowId; }
     //: Access row id.
+
+    MouseEventC &MouseEvent()
+      { return event; }
+    //: Access mouse event.
+
+    const MouseEventC &MouseEvent() const
+      { return event; }
+    //: Access mouse event.
     
     IntT rowId;
     IntT row;

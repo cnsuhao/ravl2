@@ -103,28 +103,26 @@ namespace RavlGUIN {
   //: Add new widget to list.
   
   bool ListBodyC::GUIAdd(WidgetC &widge) {
-    if(Widget() == 0) { // List created yet ?
+    if(widget == 0) { // List created yet ?
       children.InsLast(widge);
       return true;
     }
-    widge.GUIShow();
-    gtk_widget_show(widge.Widget());
+    if(widge.Widget() == 0) {
+      if(!widge.Create()) {
+	cerr << "WARNING: Failed to create list widget.\n";
+	return false; // Can't continue.
+      }
+    }
     GtkWidget *li = gtk_list_item_new();
     gtk_container_add(GTK_CONTAINER(li), widge.Widget());
+    gtk_widget_show(widge.Widget());
+    gtk_container_add (GTK_CONTAINER (widget), li);
+    gtk_widget_show (li);
     gtk_object_set_data(GTK_OBJECT(li),
 			ListItemKey,
 			(void *) widge.Name().chars());
     
-#if 1
-    gtk_container_add (GTK_CONTAINER (widget), li);
-#else
-    GList *dlist = 0;
-    dlist = g_list_prepend(dlist,li);
-    gtk_list_append_items(GTK_LIST(widget), dlist);
-    // Free list ???
-#endif
-    gtk_widget_show (li);
-    cerr << "Added " << widge.Name() << "\n";
+    cerr << "Added " << widge.Name() << " \n";
     return true;
   }
   
@@ -151,7 +149,7 @@ namespace RavlGUIN {
     
     widget = gtk_list_new();
     gtk_list_set_selection_mode(GTK_LIST(widget),selMode);  
-    for(DLIterC<WidgetC> it(children);it.IsElm();it.Next())
+    for(DLIterC<WidgetC> it(children);it;it++)
       GUIAdd(it.Data());
     //gtk_signal_connect(GTK_OBJECT(GTK_COMBO(widget)->entry), "changed",
     //GTK_SIGNAL_FUNC (combo_activate),& signals["combo_activate"]);

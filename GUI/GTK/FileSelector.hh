@@ -17,7 +17,6 @@
 
 #include "Ravl/GUI/Widget.hh"
 #include "Ravl/String.hh"
-#include "Ravl/OS/Filename.hh"
 #include "Ravl/Threads/Signal1.hh"
 #include "Ravl/Threads/Signal3.hh"
 
@@ -41,7 +40,7 @@ namespace RavlGUIN {
     bool HideOnSelect() const { return hideOnSelect; }
     //: Should file selector be hiden after selection ?
     
-    Signal1C<FilenameC> &Selected()
+    Signal1C<StringC> &Selected()
       { return selected; }
     //: Access selected signal.
     
@@ -53,7 +52,7 @@ namespace RavlGUIN {
     StringC defaultFN; // Default filename
     bool hideOnSelect; // Hide the fileselector after selection ?
     
-    Signal1C<FilenameC> selected;
+    Signal1C<StringC> selected;
     
     friend class FileSelectorC;
   };
@@ -85,7 +84,7 @@ namespace RavlGUIN {
     //: Access body.  
   public:
     
-    Signal1C<FilenameC> &Selected()
+    Signal1C<StringC> &Selected()
       { return Body().Selected(); }
     //: Access selected signal.
     
@@ -102,8 +101,8 @@ namespace RavlGUIN {
 
   inline
   FileSelectorC FileSelector(const StringC &fsname,
-			     bool (*func)(FilenameC &filename,FileSelectorC &),
-			     const FilenameC &filename = StringC())
+			     bool (*func)(StringC &filename,FileSelectorC &),
+			     const StringC &filename = StringC())
   { 
     FileSelectorC ret(fsname,filename);
     Connect(ret.Selected(),func,filename,ret);
@@ -114,8 +113,8 @@ namespace RavlGUIN {
 
   inline
   FileSelectorC FileSelector(const StringC &fsname,
-			     bool (*func)(FilenameC &filename),
-			     const FilenameC &filename = StringC())
+			     bool (*func)(StringC &filename),
+			     const StringC &filename = StringC())
   {
     FileSelectorC ret(fsname,filename);
     Connect(ret.Selected(),func,filename);
@@ -127,7 +126,7 @@ namespace RavlGUIN {
   template<class DataT>
   FileSelectorC FileSelector(const StringC &fsname,
 			     const DataT &obj,
-			     bool (DataT::*func)(FilenameC &filename),const StringC &fn = StringC())
+			     bool (DataT::*func)(StringC &filename),const StringC &fn = StringC())
   { 
     FileSelectorC ret(fsname,fn);
     Connect(ret.Selected(),obj,func);
@@ -140,11 +139,11 @@ namespace RavlGUIN {
   template<class DataT>
   FileSelectorC FileSelector(const StringC &fsname,
 			     const StringC &filename,
-			     bool (*func)(FilenameC &filename,FileSelectorC &,DataT &ref),
+			     bool (*func)(StringC &filename,FileSelectorC &,DataT &ref),
 			     const DataT &dat)
   { 
     FileSelectorC ret(fsname,filename);
-    FilenameC fn(filename); // Convert to a real filename.
+    StringC fn(filename); // Convert to a real filename.
     Connect(ret.Selected(),func,fn,ret,dat);
     return ret;    
   }  
@@ -155,7 +154,7 @@ namespace RavlGUIN {
   template<class DataT>
   FileSelectorC FileSelectorR(const StringC &fsname,
 			      DataT &obj,
-			      bool (DataT::*func)(FilenameC &filename),const StringC &fn = StringC())
+			      bool (DataT::*func)(StringC &filename),const StringC &fn = StringC())
   { 
     FileSelectorC ret(fsname,fn);
     ConnectRef(ret.Selected(),obj,func);

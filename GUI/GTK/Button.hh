@@ -51,7 +51,7 @@ namespace RavlGUIN
     
     bool state;
     PixmapC pix;
-    const char *label;    // 0 == none.
+    StringC label;    // length() = 0 == none
     friend class ButtonC;
   };
   

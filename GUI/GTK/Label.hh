@@ -29,7 +29,7 @@ namespace RavlGUIN {
   {
   public:
     LabelBodyC(const StringC &ntext)
-      : text(ntext)
+      : text(ntext.Copy())
       {}
     //: Constructor.
     

@@ -13,6 +13,13 @@
 #include <gtk/gtk.h>
 #include <iostream.h>
 
+#define DODEBUG 0
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x) 
+#endif
+
 namespace RavlGUIN {
 
   //: Create the widget.
@@ -33,6 +40,7 @@ namespace RavlGUIN {
 	  cerr << "LBoxBodyC::Create(), Widget create failed ! \n";
 	PackInfoC pi(it.Data());
 	if(pi.IsValid()) {
+	  ONDEBUG(cerr << "LBoxBodyC::Create(), Found pack info :" << pi.Expand() << " " << pi.Fill() << " " << pi.Padding() << "\n");
 	  gtk_box_pack_start (GTK_BOX (widget), it.Data().Widget(), 
 			      pi.Expand(), pi.Fill(), pi.Padding());
 	} else {

@@ -155,6 +155,14 @@ namespace RavlGUIN {
       { Body().Add(text); }
     //: Add new string to window.
     // Thread safe.
+
+    bool AddString(StringC &text) { 
+      Body().Add(text); 
+      return true;
+    }
+    //: Add new string to window.
+    // Thread safe.
+    // This is setup to be easly callable from a signal.
     
     void Add(WidgetC &text)
       { Body().Add(text); }
@@ -164,6 +172,14 @@ namespace RavlGUIN {
     void Del(const StringC &text)
       { Body().Del(text); }
     //: Add new string to window.
+    // Thread safe.
+
+    bool DelString(StringC &text) { 
+      Body().Del(text); 
+      return true;
+    }
+    //: Add new string to window.
+    // This is setup to be easly callable from a signal.
     // Thread safe.
     
     void Del(WidgetC &obj)

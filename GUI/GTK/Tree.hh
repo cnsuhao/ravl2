@@ -216,7 +216,7 @@ namespace RavlGUIN {
     TreeItemC(WidgetC &child)
       : OneChildC(child)
       {
-	if(dynamic_cast<TreeItemBodyC *>(&Body()) == 0)
+	if(dynamic_cast<TreeItemBodyC *>(&WidgetC::Body()) == 0)
 	  Invalidate();
 	//(*this) = TreeItemC(*new TreeItemBodyC(child));
       }
