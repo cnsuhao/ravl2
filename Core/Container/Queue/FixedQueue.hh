@@ -31,7 +31,7 @@ namespace RavlN {
   
   template<class T>
   class FixedQueueC 
-    : public SArray1dC<T> 
+    : protected SArray1dC<T> 
   {
   public:
     inline FixedQueueC(SizeT Size);
