@@ -48,6 +48,7 @@ static bool CheckDirectory(StringC &dir,DefsMkFileC &defs) {
   // Sort out info for license header.
   StringC name = defs["PACKAGENAME"].TopAndTail();	
   StringC desc = defs["DESCRIPTION"].TopAndTail();
+  ONDEBUG(cerr << "PackageName=" << name << " Description=" << desc << "\n");
   if(name.IsEmpty()) {
     name = defaultName;
     desc = defaultDesc;
