@@ -8,7 +8,7 @@
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/Classifier/ClassifierDiscriminantFunction.cc"
 
-#include "Ravl/PatternRec/ClassifierGuassianMixture.hh"
+#include "Ravl/PatternRec/ClassifierGaussianMixture.hh"
 #include "Ravl/VirtualConstructor.hh"
 #include "Ravl/BinStream.hh"
 #include "Ravl/SArray1dIter.hh"
