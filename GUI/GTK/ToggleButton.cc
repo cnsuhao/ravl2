@@ -78,6 +78,8 @@ namespace RavlGUIN {
   bool ToggleButtonBodyC::Create(GtkWidget *newwidget) {
     if(!ButtonBodyC::Create(newwidget))
        return false;
+    if(initState)  // Default state is off.
+      SetActive(initState); // This will actual cause a signal ??
     Connect(Signal("toggled"),ToggleButtonC(*this),&ToggleButtonC::SignalState);
     return true;
   }
