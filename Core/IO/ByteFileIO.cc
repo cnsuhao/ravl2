@@ -99,6 +99,7 @@ namespace RavlN {
   
   bool DPIByteFileBodyC::Seek(UIntT newOff) {
     in.Seek(dataStart + (streampos) newOff);
+    in.is().clear(); // Clear any end of stream errors.
     off = newOff;
     return true;
   }
@@ -119,6 +120,7 @@ namespace RavlN {
   
   bool DPIByteFileBodyC::Seek64(StreamPosT newOff) {
     in.Seek(dataStart +  newOff);
+    in.is().clear(); // Clear any end of stream errors.
     off = newOff;
     return true;
   }
