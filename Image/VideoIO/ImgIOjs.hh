@@ -135,6 +135,9 @@ namespace RavlImageN {
   public:
     DPOImageJSBodyC(const OStreamC &nStrm);
     //: Constructor from stream 
+
+    DPOImageJSBodyC(const StringC &nStrm);
+    //: Constructor from stream 
     
     virtual bool Seek(UIntT off);
     //: Seek to location in stream.

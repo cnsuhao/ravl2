@@ -114,12 +114,8 @@ namespace RavlImageN {
   
   DPOPortBaseC FileFormatJSBodyC::CreateOutput(const StringC &filename,const type_info &obj_type) const {
     ONDEBUG(cerr << "FileFormatJSBodyC::CreateOutput(const StringC &,const type_info &), Called. \n");
-    if(obj_type == typeid(ImageC<ByteYUV422ValueC>)) {
-      OStreamC strm(filename);
-      if(!strm)
-	return DPOPortBaseC();
-      return DPOImageJSC(strm);
-    }
+    if(obj_type == typeid(ImageC<ByteYUV422ValueC>))
+      return DPOImageJSC(filename);
     return DPOPortBaseC();
   }
   

@@ -241,6 +241,13 @@ namespace RavlImageN {
     //cerr << "DPOImageJSBodyC::DPOImageJSBodyC(OStreamC), Passed bad stream. \n";
   }
   
+  //: Constructor from stream 
+  
+  DPOImageJSBodyC::DPOImageJSBodyC(const StringC &fileName) 
+    : DPImageJSBaseBodyC(fileName,false),
+      doneHeader(false)
+  {}
+  
   //: Write js header.
   
   bool DPOImageJSBodyC::WriteHeader(const ImageRectangleC &wrect) {
