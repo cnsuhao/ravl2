@@ -291,6 +291,11 @@ ifndef FULLBUILD_TARGETS
 FULLBUILD_TARGETS = check opt shared optbin doc
 endif 
 
+# make sure opt libs get built before trying to build opt binaries 
+ifeq ($(strip $(filter-out $(FULLBUILD_TARGETS),optbin)),)
+FULLBUILD_TARGETS+=opt 
+endif 
+
 fullbuild:
 	+ $(SHOWIT)-rm $(LOCALTMP)/$(ARC)/*/shared/objs/libObjs.txt >& /dev/null;
 	+ $(SHOWIT)if $(MAKEMO) $(FULLBUILDFLAGS) src_all NOINCDEFS=1 ; then true; \
