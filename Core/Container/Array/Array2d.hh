@@ -143,13 +143,13 @@ namespace RavlN {
     inline void ShiftRows(IndexC offset)
     { ShiftIndexes(-offset); }
     //: The array is shifted "vertically" by <code>offset</code> w.r.t. the coordinate origin.
-    // In other words the row indices will be <i>decremented</i> by <code>offset</code>.
+    // In other words the row index of a given pixel will be <i>decremented</i> by <code>offset</code>.
     // Note: this affects the access for all arrays accessing this data, use
     // with care.
     
     void ShiftCols(IndexC offset);
     //: The array is shifted "horizontally" by <code>offset</code> w.r.t. the coordinate origin.
-    // In other words the column indices will be <i>decremented</i> by <code>offset</code>.
+    // In other words the column index of a given pixel will be <i>decremented</i> by <code>offset</code>.
     // Note: this affects the access for all arrays accessing this data, use
     // with care.
 
