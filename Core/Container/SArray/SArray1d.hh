@@ -102,6 +102,9 @@ namespace RavlN {
     // 'extend' extra elements initalised by the default constuctor
     // are appended to the end of the array.
     
+    void Copy(const Slice1dC<DataT> &slice);
+    //: Copy contents of slice into array.
+    
     inline const SArray1dC<DataT> & operator=(const SArray1dC<DataT> & vv);
     // Assigment, as for a BIG_OBJECT.
     
@@ -385,6 +388,14 @@ namespace RavlN {
     return ret;
   }
   
+  template <class DataT>
+  void SArray1dC<DataT>::Copy(const Slice1dC<DataT> &slice) {
+    RavlAssert(slice.Size() <= Size());
+    DataT *at = DataStart();
+    for(Slice1dIterC<DataT> it(slice);it;it++,at++)
+      *at = *it;    
+  }
+
   template <class DataT>
   SArray1dC<DataT> 
   SArray1dC<DataT>::Join(const SArray1dC<DataT> &Oth) const  {

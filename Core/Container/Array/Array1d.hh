@@ -144,6 +144,9 @@ namespace RavlN {
     // The first element of array 'a' is placed into the element 
     // of this array with index  'off'. The functio returns this array.
     
+    Array1dC<DataT> &Copy(const Slice1dC<DataT> &data);
+    //: Copy data from slice into this array.
+    
     const Array1dC<DataT> & operator=(const Array1dC<DataT> & vv);
     //: Assigment, as for a BIG_OBJECT.
     
@@ -491,6 +494,17 @@ namespace RavlN {
     return *this;
   }
   
+  //: Copy data from slice into this array.
+  
+  template <class DataT>
+  Array1dC<DataT> &Array1dC<DataT>::Copy(const Slice1dC<DataT> &data) {
+    RavlAssert(Contains(data.Range()));
+    DataT *at = &(*this)[data.Min()];
+    for(Slice1dIterC<DataT> it(slice);it;it++,at++)
+      *at = *it;
+    return *this;
+  }
+
   template <class DataT>
   Array1dC<DataT> 
   Array1dC<DataT>::Extend(const SizeT n) const {
