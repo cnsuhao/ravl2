@@ -36,6 +36,9 @@ namespace RavlGUIN {
     ComboBodyC(const DListC<StringC> &choices,bool editable = true);
     //: Constructor.
     
+    ComboBodyC(bool editable);
+    //: Constructor.
+    
     StringC Selected() const;
     //: Get currently selected string.
     

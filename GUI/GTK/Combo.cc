@@ -33,6 +33,18 @@ namespace RavlGUIN {
     signals["combo_activate"] = Signal1C<StringC>(StringC("-none-"));
     ConnectRef(signals["combo_activate"],*this,&ComboBodyC::FilterSignal);
   }
+
+  //: Constructor.
+  
+  ComboBodyC::ComboBodyC(bool neditable)
+    : editable(neditable),
+      allowsignals(true),
+      sigSelected(StringC()),
+      maxEntryLength(-1)
+  {
+    signals["combo_activate"] = Signal1C<StringC>(StringC("-none-"));
+    ConnectRef(signals["combo_activate"],*this,&ComboBodyC::FilterSignal);
+  }
   
   //: Get currently selected string.
   
