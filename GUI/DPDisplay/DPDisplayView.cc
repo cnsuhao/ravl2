@@ -162,21 +162,21 @@ namespace RavlGUIN {
   bool DPDisplayViewBodyC::UpdateSlider() {
     RWLockHoldC hold(lockDisplayList,RWLOCK_READONLY); // To protect access to displaySize.
     Index2dC canSize = canvas.Size();
-    int vdiff = displaySize.Rows() - canSize[0].V();
-    int hdiff = displaySize.Cols() - canSize[1].V();
+    int vdiff = displaySize.Range1().Max().V() - canSize[0].V();
+    int hdiff = displaySize.Range2().Max().V() - canSize[1].V();
     ONDEBUG(cerr << "DPDisplayViewBodyC::UpdateSlider(), Called. canSize=" << canSize <<" DisplaySize=" << displaySize.Rows() << " " << displaySize.Cols()<< " \n");
     if(vdiff < 0)
       vdiff = 0;
     if(hdiff < 0)
       hdiff = 0;
-    if(vdiff == 0) 
+    if(vdiff == 0 && displaySize.Range1().Min() >= 0) 
       vSlider.Hide();
     else vSlider.Show();      
-    vSlider.UpdateRange(0,vdiff);
-    if(hdiff == 0) 
+    vSlider.UpdateRange(displaySize.Range1().Min().V(),vdiff);
+    if(hdiff == 0 && displaySize.Range2().Min() >= 0)
       hSlider.Hide();
     else hSlider.Show();      
-    hSlider.UpdateRange(0,hdiff);
+    hSlider.UpdateRange(displaySize.Range2().Min().V(),hdiff);
     return true;
   }
 
