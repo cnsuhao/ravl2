@@ -31,6 +31,7 @@ namespace RavlN
   
   void RWLockC::Error(const char *msg,int ret) {
     cerr << msg << " (errno=" << errno << ") Return=" << ret << " \n";
+    RavlAssert(0); // Abort so we can get a stack trace.
   }
   
 }
