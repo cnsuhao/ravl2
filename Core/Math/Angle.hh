@@ -45,7 +45,12 @@ namespace RavlN {
     
     inline void Normalise()
     { angle -= Floor(angle/max) * max; }
-    //: Normalise the angle.
+    //: Normalise the angle to values between 0 and max.
+
+    inline RealT Normalise(RealT value) const
+    { return value - Floor(value/max) * max; }
+    //: Normalise the angle to values between 0 and max.
+    // Returns the normalised angle.
     
     inline AngleC operator- (const AngleC &val) const
     { return AngleC(angle - val.angle,max); }
@@ -68,6 +73,17 @@ namespace RavlN {
       return *this;
     }
     //: Add angles.
+
+    inline bool IsBetween(RealT angle1,RealT angle2) const {
+      RealT diff1 = Normalise(angle2  - angle1);
+      RealT diff2 = Normalise(Value() - angle1);
+      return (diff1 < diff2);
+    }
+    //: Test if this angle lies between angle1 and angle2.
+    
+    inline bool IsBetween(const AngleC &angle1,const AngleC &angle2) const 
+    { return IsBetween(angle1.Value(),angle2.Value()); }
+    //: Test if this angle lies between angle1 and angle2.
     
     inline RealT Diff(const AngleC &val) const;
     //: Find the difference between two angles.
