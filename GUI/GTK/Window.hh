@@ -19,6 +19,10 @@
 
 #include <gtk/gtkenums.h>
 
+#ifdef RAVL_USE_GTK2
+#define GTK_WINDOW_DIALOG GTK_WINDOW_TOPLEVEL
+#endif
+
 namespace RavlGUIN {
   
   class CursorC;
