@@ -49,7 +49,7 @@ namespace RavlN {
 	return true;
     }
     
-    StringC libName = defs["PLIB"];
+    StringC libName = defs["PLIB"].TopAndTail();
     if(!libName.IsEmpty()) {
       LibInfoC &li = libs[libName];
       if(!li.IsValid()) // Need to create it?
