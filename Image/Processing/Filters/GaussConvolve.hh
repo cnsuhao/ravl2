@@ -66,7 +66,7 @@ namespace RavlImageN {
   
   template<class InPixelT,class OutPixelT,class KernelPixelT,class SumTypeT>
   ostream &operator<<(ostream &s, const GaussConvolveC<InPixelT,OutPixelT,KernelPixelT,SumTypeT> &out) {
-    s << out.binomial.Size() << endl;
+    s << out.Filter().Size() << endl;
     return s;
   }
 
@@ -80,7 +80,7 @@ namespace RavlImageN {
   
   template<class InPixelT,class OutPixelT,class KernelPixelT,class SumTypeT>
   BinOStreamC &operator<<(BinOStreamC &s, const GaussConvolveC<InPixelT,OutPixelT,KernelPixelT,SumTypeT> &out) {
-    s << ((UIntT) out.binomial.Size());
+    s << ((UIntT) out.Filter().Size());
     return s;
   }
   
