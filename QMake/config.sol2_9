@@ -34,7 +34,7 @@ MKDIR = mkdir -p
 CP = cp
 CHMOD = chmod
 RM = rm
-XARGS = gxargs
+XARGS = xargs
 TOUCH = /usr/bin/touch
 LIBPATHSWITCH = -Wl,-R#
 
