@@ -70,19 +70,20 @@ namespace RavlImageN {
 
     if(!isVids && !isIavs ) 
       {
-	ONDEBUG(cerr << "ERROR: file: " << nfilename << " doesn't contain a video stream!\n");
+	cerr << "ERROR: file: " << nfilename << " doesn't contain a video stream!\n";
 	return typeid(void);
       }
     else
       {
 	in.read(token,4);
+	cerr << "codec: " << token[0] << token[1] << token[2] << token[3] << endl; 
 	if( (token[0] == (char)0) && (token[1] == (char)0) && (token[2] == (char)0) && (token[3] == (char)0) )
 	  return typeid(ImageC<ByteRGBValueC>);
 	if( (token[0] == 'd') && (token[1] == 'v') && (token[2] == 's') && (token[3] == 'd') )
 	  return typeid(DVFrameC);
 	else
 	  {
-	    ONDEBUG(cerr << "ERROR: video stream in file: " << nfilename << " is not a known video format\n";)
+	    cerr << "ERROR: video stream in file: " << nfilename << " is not a known video format\n";
 	    return typeid(void);
 	  }
       }
