@@ -126,7 +126,7 @@ namespace RavlN {
     //: Multiply vector by the matrix.
 
     template<unsigned int MT>
-      TFMatrixC<DataT,M,MT> operator*(const TFMatrixC<DataT,N,MT> & mat) const
+      TFMatrixC<DataT,N,MT> operator*(const TFMatrixC<DataT,M,MT> & mat) const
     {
       TFMatrixC<DataT,N,MT> ret;
       for(UIntT i = 0;i < N;i++)

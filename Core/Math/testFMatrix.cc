@@ -89,15 +89,15 @@ int Validate()
 
 int ValidateNS()
 {
-  TFMatrixC<RealT,2,3> m1;
+  TFMatrixC<RealT,3,2> m1;
   m1[0][0] =1;
   m1[0][1] =2;
-  m1[0][2] =3;
-  m1[1][0] =4;
-  m1[1][1] =5;
-  m1[1][2] =6;
+  m1[1][0] =3;
+  m1[1][1] =4;
+  m1[2][0] =5;
+  m1[2][1] =6;
   
-  TFMatrixC<RealT,3,2> m2 = m1.T();
+  TFMatrixC<RealT,2,3> m2 = m1.T();
   RealT error;
   TFMatrixC<RealT,3,3> testR;
   TFMatrixC<RealT,3,3> result = m1 * m2;
