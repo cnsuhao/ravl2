@@ -117,7 +117,7 @@ namespace RavlN {
     
     FVectorC<N> Vector() const
     { return point[1] - point[0]; } 
-    //: Returns the line segment as a free vector.
+    //: Returns the direction of the line segment as a free vector.
     
     FLinePPC<N> & FixStart(const FPointC<N> & p) {
       FVectorC<N> vec = point[1] - point[0];
