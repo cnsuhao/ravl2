@@ -150,6 +150,15 @@ namespace RavlN {
     {}
     //: Stream constructor.
     
+    AttributeCtrlC(const DPEntityC &base)
+      : DPEntityC(base)
+    {
+      if(dynamic_cast<AttributeCtrlBodyC *>(&DPEntityC::Body()) == 0)
+	Invalidate();
+    }
+    //: Create from base handle.
+    // Handle is invalid if object is not derived from AttributeCtrlC.
+    
   protected:
     AttributeCtrlC(AttributeCtrlBodyC &bod)
       : DPEntityC(bod)
