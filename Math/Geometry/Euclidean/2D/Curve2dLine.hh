@@ -1,7 +1,7 @@
 #ifndef RAVL_CURVE2DLINE_HEADER
 #define RAVL_CURVE2DLINE_HEADER 1
 //////////////////////////////////////////////////////
-//! docentry="Geometry.2-D"
+//! docentry="Ravl.Geometry.2D"
 //! userlevel=Normal
 //! rcsid="$Id$"
 //! file="amma/Geometry/AnGeo2/PCLine.hh"
@@ -44,7 +44,7 @@ namespace RavlN {
     inline Curve2dLineC(RealT row,RealT theta) {
       theta += RavlConstN::pi/2;
       Vector2dC ang(Cos(theta),Sin(theta)); // Direction of line.
-      LineABC2dC::operator= (LineABC2dC(Point2dC(row,0),ang));
+      ((LineABC2dC &) (*this)) = LineABC2dC(Point2dC(row,0),ang);
       MakeUnitNormal();
     }
     
@@ -77,7 +77,7 @@ namespace RavlN {
 #endif
     
     inline const Curve2dLineC &operator=(const LineABC2dC &It) {
-      LineABC2dC::operator= (It);
+      ((LineABC2dC &) (*this)) = It;
       MakeUnitNormal();
       return *this;
     }

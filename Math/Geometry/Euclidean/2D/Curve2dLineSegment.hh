@@ -1,7 +1,7 @@
 #ifndef RAVL_PCLINESEG_HEADER
 #define RAVL_PCLINESEG_HEADER 1
 //////////////////////////////////////////////////////
-//! docentry="Geometry.2-D"
+//! docentry="Ravl.Math.Geometry.2D"
 //! userlevel=Normal
 //! rcsid="$Id$"
 //! file="amma/Geometry/AnGeo2/PCLineSeg.hh"
