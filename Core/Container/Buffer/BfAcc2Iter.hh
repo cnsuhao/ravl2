@@ -189,7 +189,7 @@ namespace RavlN {
     void operator+=(UIntT n) {
       cit.Next(n);
       if(!cit.IsElm())
-	for (UIntT r(0); r<n; ++r) CNextRow();      
+	rit.CNextRow(n);
     }
     //: Goto next element when subsampling by a factor of n.
     //  That is, when used to iterate through a 2D array, it will subsample rows and columns by a factor of n
@@ -256,6 +256,9 @@ namespace RavlN {
   protected:
     void CNextRow();
     //: Non inlined next row method to encourage the compiler to get inlining of Next() right.
+
+    void CNextRow(IntT n);
+    //: Non inlined next row method to encourage the compiler to get inlining of Next() right.
     
     BufferAccessIterC<BufferAccessC<DataT> > rit;
     BufferAccessIterC<DataT> cit;
@@ -266,6 +269,13 @@ namespace RavlN {
   template <class DataT>
   void BufferAccess2dIterC<DataT>::CNextRow() {
     rit.Next();
+    if(rit.IsElm())
+      cit.First(rit.Data(),rng);
+  }
+  
+  template <class DataT>
+  void BufferAccess2dIterC<DataT>::CNextRow(IntT n) {
+    rit.Next(n);
     if(rit.IsElm())
       cit.First(rit.Data(),rng);
   }
