@@ -474,7 +474,8 @@ namespace RavlGUIN {
   {
     TreeModelIterC ret;
     ret.Model(model);
-    gtk_tree_model_get_iter_root(model, ret.TreeIter());
+    if(!gtk_tree_model_get_iter_root(model, ret.TreeIter()))
+      ret.Invalidate();
     return ret;
   }
     
