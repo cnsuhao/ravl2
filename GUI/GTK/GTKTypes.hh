@@ -37,6 +37,13 @@ extern "C" {
   typedef struct _GdkDrawable GdkWindow;
 #endif
   
+
+#if RAVL_USE_GTK2
+  typedef struct _GtkTreeModel GtkTreeModel;
+  typedef struct _GtkTreeIter GtkTreeIter;
+  typedef struct _GtkTreePath GtkTreePath;
+#endif
+
   typedef struct _GdkFont GdkFont;
   typedef struct _GdkCursor GdkCursor;
   typedef union  _GdkEvent  GdkEvent;
