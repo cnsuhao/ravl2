@@ -12,6 +12,13 @@
 #include "Ravl/DP/MTIOConnect.hh"
 #include "Ravl/Threads/LaunchThread.hh"
 
+#define DODEBUG 1
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
+
 namespace RavlN {
   
   class DPEventCompleteMTIOConnectBodyC 
@@ -61,11 +68,13 @@ namespace RavlN {
   //: Run until a stream completes.
   
   bool DPMTIOConnectBaseBodyC::Run() {
+    ONDEBUG(cerr << "DPMTIOConnectBaseBodyC::Run(), Called. \n");
     if(!IsReady())
       return false;
     if(IsRunning())
       return false;
     terminate = false;
+    ONDEBUG(cerr << "DPMTIOConnectBaseBodyC::Run(), Launching thread. \n");
     LaunchThread(DPMTIOConnectBaseC(*this),&DPMTIOConnectBaseC::Start);
     return true;
   }

@@ -48,6 +48,9 @@ namespace RavlN {
     //: Access frame count.
     
   protected:
+    void WaitForTimeup();
+    //: Wait for timeup.
+    
     void Dummy(void);
     //: Dummy func.
     
@@ -127,20 +130,14 @@ namespace RavlN {
     
     virtual DataT Get() { 
       DataT ret = input.Get(); 
-      next.Wait(); 
-      next.SetToNow();
-      next += delay;
-      frameCnt++;
+      WaitForTimeup();
       return ret;
     }
     //: Process next piece of data.
     
     virtual bool Get(DataT &outbuff) { 
       bool ret = input.Get(outbuff);
-      next.Wait();
-      next.SetToNow();
-      next += delay;
-      frameCnt++;
+      WaitForTimeup();
       return ret;
     }
     //: Process some data.  

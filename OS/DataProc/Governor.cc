@@ -20,4 +20,13 @@ namespace RavlN {
   void DPGovernorBaseBodyC::Dummy(void)
   {}
   
+  //: Wait for timeup.
+  
+  void DPGovernorBaseBodyC::WaitForTimeup() {
+    next.Wait();
+    next.SetToNow();
+    next += delay;
+    frameCnt++;    
+  }
+  
 }

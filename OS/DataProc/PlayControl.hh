@@ -322,11 +322,11 @@ namespace RavlN {
       // Something is corrupting the stack in gcc-3.2.x, so protect the mutex
       // with some space allocated in n[] and n1[]
 #if RAVL_GCC32FIX  
-      int n1[10]; // Hacky bug fix.
+      int n1[20]; // Hacky bug fix.
 #endif
       MutexLockC lock(access);
 #if RAVL_GCC32FIX  
-      int n[10];
+      int n[20];
 #endif
       //cerr << "Access a=" << ((void *) & access) << "\n";
       RavlAssert(&(lock.Mutex()) == &access);

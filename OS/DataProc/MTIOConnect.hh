@@ -447,7 +447,7 @@ namespace RavlN {
   //! userlevel=Normal
   //: Multi-threaded composition operators.
   
-    template<class DataT>
+  template<class DataT>
   inline DPEventC operator>>= (const DPIPortC<DataT> &in,const DPOPortC<DataT> &out)
   { return DPMTIOConnectC<DataT>(in,out,true).EventComplete(); }
   //: Pump data from an input into an output.

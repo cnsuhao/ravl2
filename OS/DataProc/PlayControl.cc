@@ -131,8 +131,8 @@ namespace RavlN {
   //: Where are we in the stream ?
   
   UIntT DPPlayControlBodyC::Tell() const { 
-    RavlAssert(ctrl.IsValid());
 #if FORCE_AT
+    RavlAssert(ctrl.IsValid());
     MutexLockC lock(access);
     UIntT ret =  ctrl.Tell();
     if((IntT) ret != at) {
