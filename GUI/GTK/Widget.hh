@@ -251,7 +251,7 @@ namespace RavlGUIN {
     static int gtkDNDDataGet(GtkWidget *widget,GdkDragContext *context,GtkSelectionData *sel,unsigned int info,unsigned int time,Signal0C *data);
     static int gtkDNDDataRecieved(GtkWidget *widget,GdkDragContext *context,int x,int y,GtkSelectionData *sel,unsigned int info,unsigned int time,Signal0C *data);
     static int gtkInt(GtkWidget *widget,int page, Signal0C *sigptr);
-    static int gtkWidgetInt(GtkWidget *widget,GtkWidget *widget, unsigned int page, Signal0C *sigptr);
+    static int gtkWidgetInt(GtkWidget *widget,GtkWidget *widgetarg, unsigned int page, Signal0C *sigptr);
 
     
     friend class ManagerC;
