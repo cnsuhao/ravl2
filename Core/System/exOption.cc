@@ -33,14 +33,14 @@ main(int argc, char **argv)
   IntT  d = option.Int("beta",a/10,"lower threshold");
   RealT f = option.Real("pi",3.14,"define you own pie");
   
-  char * filename  = option.CharArr("i","","input filename");
+  StringC filename  = option.String("i","","input filename");
   unsigned char sw = option.UnsignedChar("filter",'c',
 					 "switch selector for my filter");
   bool expand   = option.Boolean("expand",0,"expand my panel");
-  char * optionN    = option.CharArr("o", "", "option string");
+  StringC optionN    = option.String("o", "", "option string");
   DListC<StringC> opts = option.List("x","List of strings. ");
-  char * file1 = option.CharArr("","","test file 1");
-  char * file2 = option.CharArr("","","test file 2");
+  StringC file1 = option.String("","","test file 1");
+  StringC file2 = option.String("","","test file 2");
   //DListC<StringC> opts2 = option.List(0,"The rest ");
   
   option.CompulsoryArgs(1);
