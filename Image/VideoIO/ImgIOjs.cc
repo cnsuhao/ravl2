@@ -213,7 +213,7 @@ namespace RavlImageN {
     
     if(head.Rectangle() != rect) {
       head = ImageC<ByteYUV422ValueC>(rect);
-      if(strm.ReadAll((char *) &(head[rect.Origin()]),rect.Area() * sizeof(ByteYUV422ValueC)) < 0)
+      if(strm.ReadAll((char *) &(head[rect.Origin()]),rect.Area() * sizeof(ByteYUV422ValueC)) <= 0) // Zero indicates end of file.
 	return false;
     } else {
       IntT width = head.Cols() * sizeof(ByteYUV422ValueC);
@@ -221,7 +221,7 @@ namespace RavlImageN {
       IndexC offset = head.LCol();
       IndexC brow = head.BRow();
       for(;atrow <= brow;atrow++) {
-	if(strm.ReadAll((char *) &(head[atrow][offset]),width) < 0)
+	if(strm.ReadAll((char *) &(head[atrow][offset]),width) <= 0) // Zero indicates end of file.
 	  return false;
       }
     }
