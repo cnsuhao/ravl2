@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLIMAGERECTANGLE_HEADER
-#define RAVLIMAGERECTANGLE_HEADER 1
+#ifndef RAVLIMAGE_IMAGERECTANGLE_HEADER
+#define RAVLIMAGE_IMAGERECTANGLE_HEADER 1
 ////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Image/Base/ImageRectangle.hh"
@@ -36,23 +36,23 @@ namespace RavlImageN {
   {
   public:
     ImageRectangleC()
-      {}
+    {}
     //: Default constructor.
     // creates an undefined rectangle.
     
     ImageRectangleC(const IndexRange2dC &oth)
       : IndexRange2dC(oth)
-      {}
+    {}
     //: Base constructor.
 
     ImageRectangleC(IntT rows,IntT cols)
       : IndexRange2dC(0,rows-1,0,cols-1)
-      {}
+    {}
     //: Construct a rectangle of the given size with an origin of 0,0
     
     ImageRectangleC(const Index2dC &org,const Index2dC &end)
       : IndexRange2dC(org,end)
-      {}
+    {}
     //: Construct from corner points.
 
     ImageRectangleC(const Index2dC &center,SizeT size)
@@ -72,7 +72,7 @@ namespace RavlImageN {
     ImageRectangleC(IndexC minRow, IndexC maxRow,
 		    IndexC minCol, IndexC maxCol)
       : IndexRange2dC(minRow,maxRow,minCol,maxCol)
-      {}
+    {}
     //: Create rectangle from indvidual values.
 
     ImageRectangleC & ReflectUp() {
