@@ -11,10 +11,7 @@
 #include "Ravl/config.h"
 #include "Ravl/Types.hh"
 #include "Ravl/VariableLengthCode.hh"  
-
-#if RAVL_COMPILER_MIPSPRO
 #include <string.h>
-#endif 
 
 #define DODEBUG 0
 #if DODEBUG
