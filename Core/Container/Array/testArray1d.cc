@@ -138,7 +138,7 @@ int BasicTest() {
   }  
   Array1dC<IntT> s2 = s1.Copy();
   s1[3] = 5;
-  if(s2.Range() != ir && s2.Size() == ir.Size()) {
+  if(s2.Range() != ir && s2.Size() == (UIntT) ir.Size()) {
     cerr << "Array sub range check failed. \n";
     return __LINE__;
   }
@@ -162,7 +162,7 @@ int BasicTest() {
       ta = 0;
       count++;
     }
-    if(count != rng.Size()) {
+    if(count != (UIntT) rng.Size()) {
       cerr << "Iterator range size mis-match.\n";
       return __LINE__;
     }
