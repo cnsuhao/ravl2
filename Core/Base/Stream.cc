@@ -152,7 +152,7 @@ namespace RavlN {
       s(ns)
   {
     if(nDelOnClose)
-      SetDestructionOp(CallFunc1C<ostream *,bool>(&NukeOStream,ns));
+      SetDestructionOp(CallFunc1C<ostream *&,bool>(&NukeOStream,ns));
     else
       SetDestructionOp(TriggerC());
   }
@@ -164,7 +164,7 @@ namespace RavlN {
 
   {
     if(nDelOnClose)
-      SetDestructionOp(CallFunc1C<istream *,bool>(&NukeIStream,ns));
+      SetDestructionOp(CallFunc1C<istream *&,bool>(&NukeIStream,ns));
     else
       SetDestructionOp(TriggerC());
   }
@@ -177,7 +177,7 @@ namespace RavlN {
     name = afilename;
     s = ns;
     if(nDelOnClose)
-      SetDestructionOp(CallFunc1C<istream *,bool>(&NukeIStream,ns));
+      SetDestructionOp(CallFunc1C<istream *&,bool>(&NukeIStream,ns));
     else
       SetDestructionOp(TriggerC());
     return true;
@@ -191,7 +191,7 @@ namespace RavlN {
     name = afilename;
     s = ns;
     if(nDelOnClose)
-      SetDestructionOp(CallFunc1C<ostream *,bool>(&NukeOStream,ns));
+      SetDestructionOp(CallFunc1C<ostream *&,bool>(&NukeOStream,ns));
     else
       SetDestructionOp(TriggerC());
     return true;

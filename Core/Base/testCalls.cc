@@ -101,7 +101,7 @@ int TestCalls()
 #if !defined(__sgi__)
   TriggerC ctv = Trigger(ac,&ATestClassC::testVoid,2,let,f,d,t);
 #endif
-
+  
   TriggerC rct1 = TriggerR(ac,&ATestClassC::test1,1);
   TriggerC rct2 = TriggerR(ac,&ATestClassC::test2,2,let);
   TriggerC rct3 = TriggerR(ac,&ATestClassC::test3,2,let,f);
@@ -148,17 +148,17 @@ template class CallMethod3BodyC<TestC,int,ByteT,RealT,UIntT>;
 template class CallMethod4BodyC<TestC,int,ByteT,RealT,UIntT,float>;
 template class CallMethod5BodyC<TestC,int,ByteT,RealT,UIntT,float,bool>;
 
+template class CallMethod0C<TestC &,int>;
+template class CallMethod1C<TestC &,int,ByteT>;
+template class CallMethod2C<TestC &,int,ByteT,RealT>;
+template class CallMethod3C<TestC &,int,ByteT,RealT,UIntT>;
+template class CallMethod4C<TestC &,int,ByteT,RealT,UIntT,float>;
+template class CallMethod5C<TestC &,int,ByteT,RealT,UIntT,float,bool>;
 
-template class CallMethodRef0C<TestC,int>;
-template class CallMethodRef1C<TestC,int,ByteT>;
-template class CallMethodRef2C<TestC,int,ByteT,RealT>;
-template class CallMethodRef3C<TestC,int,ByteT,RealT,UIntT>;
-template class CallMethodRef4C<TestC,int,ByteT,RealT,UIntT,float>;
-template class CallMethodRef5C<TestC,int,ByteT,RealT,UIntT,float,bool>;
+template class CallMethod0BodyC<TestC &,int>;
+template class CallMethod1BodyC<TestC &,int,ByteT>;
+template class CallMethod2BodyC<TestC &,int,ByteT,RealT>;
+template class CallMethod3BodyC<TestC &,int,ByteT,RealT,UIntT>;
+template class CallMethod4BodyC<TestC &,int,ByteT,RealT,UIntT,float>;
+template class CallMethod5BodyC<TestC &,int,ByteT,RealT,UIntT,float,bool>;
 
-template class CallMethodRef0BodyC<TestC,int>;
-template class CallMethodRef1BodyC<TestC,int,ByteT>;
-template class CallMethodRef2BodyC<TestC,int,ByteT,RealT>;
-template class CallMethodRef3BodyC<TestC,int,ByteT,RealT,UIntT>;
-template class CallMethodRef4BodyC<TestC,int,ByteT,RealT,UIntT,float>;
-template class CallMethodRef5BodyC<TestC,int,ByteT,RealT,UIntT,float,bool>;

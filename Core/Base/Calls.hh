@@ -17,6 +17,7 @@
 
 #include "Ravl/Trigger.hh"
 #include "Ravl/Assert.hh"
+#include "Ravl/Traits.hh"
 
 namespace RavlN {
   
@@ -159,17 +160,19 @@ namespace RavlN {
   //! userlevel=Develop
   //: Signal Event handle
   
-  template<class DataT,class RetT = bool>
+  template<typename DataT,class RetT = bool>
   class CallFunc1BodyC
     : public CallFunc0BodyC<RetT>
   {
   public:
+    typedef typename TraitsC<DataT>::BaseTypeT Arg1T; //: Basic type of arg, ignore references and const's
+    
     CallFunc1BodyC() 
       : CallFunc0BodyC<RetT>((VoidFuncPtrT)&CallFunc1BodyC<DataT,RetT>::IssueError)
     {}
     //: Default constructor.
     
-    CallFunc1BodyC(RetT (*nfunc)(DataT &),const DataT &ndat)
+    CallFunc1BodyC(RetT (*nfunc)(DataT),const Arg1T &ndat)
       : CallFunc0BodyC<RetT>((VoidFuncPtrT) nfunc),
 	dat1(ndat)
     {}
@@ -194,15 +197,15 @@ namespace RavlN {
     { return (*FuncPtr())(dat1); }
     //: Call an function.
     
-    virtual RetT Call(DataT &pd)
+    virtual RetT Call(Arg1T &pd)
     { return (*FuncPtr())(pd); }
     //: Call event, with paramiter.
     
-    DataT &Data1()
+    Arg1T &Data1()
     { return dat1; }
     //: Access data.
     
-    const DataT &Data1() const
+    const Arg1T &Data1() const
     { return dat1; }
     //: Access data.
 
@@ -210,25 +213,24 @@ namespace RavlN {
     { return *new CallFunc1BodyC<DataT,RetT>(func,dat1); }
     //: Copy call.
     
-    static RetT NoOp(DataT &) { 
-      return RetT();
-    }
+    static RetT NoOp(DataT) 
+    { return RetT(); }
     //: NoOp function.
     
-    static RetT IssueError(DataT &) { 
+    static RetT IssueError(DataT) { 
       RavlN::IssueError(__FILE__,__LINE__,"NoOp CallFunc1 Called. ");
       return RetT(); 
     }
     //: Error function.
     
   protected:
-    CallFunc1BodyC(void (*nfunc)(),const DataT &ndat)
+    CallFunc1BodyC(void (*nfunc)(),const Arg1T &ndat)
       : CallFunc0BodyC<RetT>(nfunc),
 	dat1(ndat)
     {}
     //: Constructor.
     
-    typedef RetT (*FuncT)(DataT &);
+    typedef RetT (*FuncT)(DataT);
     //: Function ptr type.    
     
     inline
@@ -236,7 +238,7 @@ namespace RavlN {
     { return (FuncT)(func); }
     //: Function.
     
-    DataT dat1;
+    Arg1T dat1;
   };
   
   //! userlevel=Advanced
@@ -247,6 +249,9 @@ namespace RavlN {
     : public CallFunc0C<RetT>
   {
   public:
+    typedef typename TraitsC<DataT>::BaseTypeT Arg1T;
+    //: Basic type of arg, ignore references and const's
+    
     CallFunc1C()
     {}
     //: Default constructor.
@@ -270,7 +275,7 @@ namespace RavlN {
     // equivelent of a assertion failure is called. Otherwise
     // the call returns silently.
     
-    CallFunc1C(RetT (*nfunc)(DataT &),const DataT &dat = DataT())
+    CallFunc1C(RetT (*nfunc)(DataT),const Arg1T &dat = DataT())
       : CallFunc0C<RetT>(*new CallFunc1BodyC<DataT,RetT>(nfunc,dat))
     {}
     //: Default constructor.
@@ -295,11 +300,11 @@ namespace RavlN {
     { return Body().Call(); }
     //: Invoke event, with paramiter.
     
-    RetT Call(DataT &pd)
+    RetT Call(Arg1T &pd)
     { return Body().Call(pd); }
     //: Invoke event, with paramiter.
-
-    RetT operator()(DataT &pd)
+    
+    RetT operator()(Arg1T &pd)
     { return Body().Call(pd); }
     //: Call function with patamiter
     
@@ -307,11 +312,11 @@ namespace RavlN {
     { return CallFunc1C<DataT,RetT>(static_cast<CallFunc1BodyC<DataT,RetT> &>(Body().Copy())); }
     //: Copy func call.
     
-    DataT &Data1()
+    Arg1T &Data1()
     { return Body().Data1(); }
     //: Access data.
     
-    const DataT &Data1() const
+    const Arg1T &Data1() const
     { return Body().Data1(); }
     //: Access data.
     
@@ -327,17 +332,20 @@ namespace RavlN {
     : public CallFunc1BodyC<Data1T,RetT>
   {
   public:
+    typedef typename TraitsC<Data1T>::BaseTypeT Arg1T;  //: Basic type of arg, ignore references and const's
+    typedef typename TraitsC<Data2T>::BaseTypeT Arg2T;  //: Basic type of arg, ignore references and const's
+    
     CallFunc2BodyC() 
       : CallFunc1BodyC<Data1T,RetT>((VoidFuncPtrT) &CallFunc2BodyC<Data1T,Data2T,RetT>::IssueError)
     {}
     //: Default constructor.
     
-    CallFunc2BodyC(RetT (*nfunc)(Data1T &,Data2T &),const Data1T &ndat1,const Data2T &ndat2)
+    CallFunc2BodyC(RetT (*nfunc)(Data1T,Data2T),const Arg1T &ndat1,const Arg2T &ndat2)
       : CallFunc1BodyC<Data1T,RetT>((VoidFuncPtrT)nfunc,ndat1),
 	dat2(ndat2)
     {}
     //: Constructor.
-
+    
     CallFunc2BodyC(bool issueErrorOnCall) {
       if(issueErrorOnCall)
 	func = (VoidFuncPtrT) &CallFunc2BodyC<Data1T,Data2T,RetT>::IssueError;
@@ -356,20 +364,20 @@ namespace RavlN {
     virtual RetT Call()
     { return (*FuncPtr())(dat1,dat2); }
     //: Invoke event.
-
-    virtual RetT Call(Data1T &pd)
+    
+    virtual RetT Call(Arg1T &pd)
     { return (*FuncPtr())(pd,dat2); }
     //: Invoke event, with paramiter.
     
-    virtual RetT Call(Data1T &pd1,Data2T &pd2)
+    virtual RetT Call(Arg1T &pd1,Arg2T &pd2)
     { return (*FuncPtr())(pd1,pd2); }
     //: Invoke event, with paramiters.
     
-    Data2T &Data2()
+    Arg2T &Data2()
     { return dat2; }
     //: Access data.
     
-    const Data2T &Data2() const
+    const Arg2T &Data2() const
     { return dat2; }
     //: Access data.
 
@@ -378,27 +386,26 @@ namespace RavlN {
     //: Copy call.
     
   protected:
-    CallFunc2BodyC(void (*nfunc)(),const Data1T &ndat1,const Data2T &ndat2)
+    CallFunc2BodyC(void (*nfunc)(),const Arg1T &ndat1,const Arg2T &ndat2)
       : CallFunc1BodyC<Data1T,RetT>(nfunc,ndat1),
 	dat2(ndat2)
     {}
     //: Constructor.
     
+    Arg2T dat2;
     
-    Data2T dat2;
-
-    static RetT NoOp(Data1T &,Data2T &) { 
+    static RetT NoOp(Data1T,Data2T) { 
       return RetT(); 
     }
     //: NoOp function.
     
-    static RetT IssueError(Data1T &,Data2T &) { 
+    static RetT IssueError(Data1T,Data2T) { 
       RavlN::IssueError(__FILE__,__LINE__,"NoOp CallFunc2 Called. ");
       return RetT(); 
     }
     //: Error function.
     
-    typedef RetT (*FuncT)(Data1T &,Data2T &);
+    typedef RetT (*FuncT)(Data1T,Data2T);
     //: Function ptr type.    
     
     inline
@@ -416,6 +423,12 @@ namespace RavlN {
     : public CallFunc1C<Data1T,RetT>
   {
   public:
+    typedef typename TraitsC<Data1T>::BaseTypeT Arg1T;
+    //: Basic type of arg, ignore references and const's
+    
+    typedef typename TraitsC<Data2T>::BaseTypeT Arg2T;
+    //: Basic type of arg, ignore references and const's
+    
     CallFunc2C()
     {}
     //: Default constructor.
@@ -439,12 +452,12 @@ namespace RavlN {
     // equivelent of a assertion failure is called. Otherwise
     // the call returns silently.
     
-    CallFunc2C(RetT (*nfunc)(Data1T &,Data2T &),const Data1T &dat1 = Data1T(),const Data2T &dat2 = Data2T())
+    CallFunc2C(RetT (*nfunc)(Data1T,Data2T),const Arg1T &dat1 = Data1T(),const Arg2T &dat2 = Data2T())
       : CallFunc1C<Data1T,RetT>(*new CallFunc2BodyC<Data1T,Data2T,RetT>(nfunc,dat1,dat2))
     {}
     //: Default constructor.
     // Creates an invalid handle.
-   
+    
   protected:
     CallFunc2C(CallFunc2BodyC<Data1T,Data2T,RetT> &bod)
       : CallFunc1C<Data1T,RetT>(bod)
@@ -464,23 +477,23 @@ namespace RavlN {
     { return Body().Call(); }
     //: Call function.
    
-    RetT Call(Data1T &pd1,Data2T &pd2)
+    RetT Call(Arg1T &pd1,Arg2T &pd2)
     { return Body().Call(pd1,pd2); }
     //: Invoke event, with paramiters.
 
-    RetT operator()(Data1T &pd1,Data2T &pd2)
+    RetT operator()(Arg1T &pd1,Arg2T &pd2)
     { return Body().Call(pd1,pd2); }
     //: Call function with patamiters
-   
+    
     CallFunc2C<Data1T,Data2T,RetT> Copy() const
     { return CallFunc2C<Data1T,Data2T,RetT>(static_cast<CallFunc2BodyC<Data1T,Data2T,RetT> &>(Body().Copy())); }
     //: Copy func call.
-   
-    Data2T &Data2()
+    
+    Arg2T &Data2()
     { return Body().Data2(); }
     //: Access data.
    
-    const Data2T &Data2() const
+    const Arg2T &Data2() const
     { return Body().Data2(); }
     //: Access data.
   };
@@ -495,6 +508,10 @@ namespace RavlN {
     : public CallFunc2BodyC<Data1T,Data2T,RetT>
   {
   public:
+    typedef typename TraitsC<Data1T>::BaseTypeT Arg1T; //: Basic type of arg, ignore references and const's
+    typedef typename TraitsC<Data2T>::BaseTypeT Arg2T; //: Basic type of arg, ignore references and const's
+    typedef typename TraitsC<Data3T>::BaseTypeT Arg3T; //: Basic type of arg, ignore references and const's
+    
     CallFunc3BodyC(bool issueErrorOnCall) {
       if(issueErrorOnCall)
 	func = (VoidFuncPtrT) &CallFunc3BodyC<Data1T,Data2T,RetT>::IssueError;
@@ -505,13 +522,13 @@ namespace RavlN {
     // if issueErrorOnCall a function which causes the
     // equivelent of a assertion failure is called. Otherwise
     // the call returns silently.
-
+    
     CallFunc3BodyC() 
       : CallFunc2BodyC<Data1T,Data2T,RetT>((VoidFuncPtrT) &CallFunc3BodyC<Data1T,Data2T,Data3T,RetT>::IssueError)
     {}
     //: Default constructor.
     
-    CallFunc3BodyC(RetT (*nfunc)(Data1T &,Data2T &,Data3T &),const Data1T &ndat1 = Data1T(),const Data2T &ndat2 = Data2T(),const Data3T &ndat3 = Data3T())
+    CallFunc3BodyC(RetT (*nfunc)(Data1T,Data2T,Data3T),const Arg1T &ndat1 = Data1T(),const Arg2T &ndat2 = Data2T(),const Arg3T &ndat3 = Data3T())
       : CallFunc2BodyC<Data1T,Data2T,RetT>((VoidFuncPtrT) nfunc,ndat1,ndat2),
 	dat3(ndat3)
     {}
@@ -525,23 +542,23 @@ namespace RavlN {
     { return (*FuncPtr())(dat1,dat2,dat3); }
     //: Invoke event.
     
-    virtual RetT Call(Data1T &pd)
+    virtual RetT Call(Arg1T &pd)
     { return (*FuncPtr())(pd,dat2,dat3); }
     //: Invoke event, with paramiter.
     
-    virtual RetT Call(Data1T &pd1,Data2T &pd2)
+    virtual RetT Call(Arg1T &pd1,Arg2T &pd2)
     { return (*FuncPtr())(pd1,pd2,dat3); }
     //: Invoke event, with paramiters.
     
-    virtual RetT Call(Data1T &pd1,Data2T &pd2,Data3T &pd3)
+    virtual RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3)
     { return (*FuncPtr())(pd1,pd2,pd3); }
     //: Invoke event, with paramiters.
     
-    Data3T &Data3()
+    Arg3T &Data3()
     { return dat3; }
     //: Access data.
     
-    const Data3T &Data3() const
+    const Arg3T &Data3() const
     { return dat3; }
     //: Access data.
 
@@ -549,27 +566,27 @@ namespace RavlN {
     { return *new CallFunc3BodyC<Data1T,Data2T,Data3T,RetT>(func,dat1,dat2,dat3); }
     //: Copy call.
 
-    static RetT NoOp(Data1T &,Data2T &,Data3T &) { 
+    static RetT NoOp(Arg1T &,Arg2T &,Arg3T &) { 
       return RetT(); 
     }
     //: NoOp function.
     
-    static RetT IssueError(Data1T &,Data2T &,Data3T &) { 
+    static RetT IssueError(Arg1T &,Arg2T &,Arg3T &) { 
       RavlN::IssueError(__FILE__,__LINE__,"NoOp CallFunc3 Called. ");
       return RetT(); 
     }
     //: Error function.
     
   protected:
-    CallFunc3BodyC(void (*nfunc)(),const Data1T &ndat1,const Data2T &ndat2,const Data3T &ndat3)
+    CallFunc3BodyC(void (*nfunc)(),const Arg1T &ndat1,const Arg2T &ndat2,const Arg3T &ndat3)
       : CallFunc2BodyC<Data1T,Data2T,RetT>((VoidFuncPtrT) nfunc,ndat1,ndat2),
 	dat3(ndat3)
     {}
     //: Constructor.
     
-    Data3T dat3;
-        
-    typedef RetT (*FuncT)(Data1T &,Data2T &,Data3T &);
+    Arg3T dat3;
+    
+    typedef RetT (*FuncT)(Arg1T &,Arg2T &,Arg3T &);
     //: Function ptr type.    
     
     inline
@@ -586,6 +603,10 @@ namespace RavlN {
     : public CallFunc2C<Data1T,Data2T,RetT>
   {
   public:
+    typedef typename TraitsC<Data1T>::BaseTypeT Arg1T; //: Basic type of arg, ignore references and const's
+    typedef typename TraitsC<Data2T>::BaseTypeT Arg2T; //: Basic type of arg, ignore references and const's
+    typedef typename TraitsC<Data3T>::BaseTypeT Arg3T; //: Basic type of arg, ignore references and const's
+    
     CallFunc3C()
     {}
     //: Default constructor.
@@ -609,7 +630,7 @@ namespace RavlN {
     // equivelent of a assertion failure is called. Otherwise
     // the call returns silently.
     
-    CallFunc3C(RetT (*nfunc)(Data1T &,Data2T &,Data3T &),const Data1T &dat1 = Data1T(),const Data2T &dat2 = Data2T(),const Data3T &dat3 = Data3T())
+    CallFunc3C(RetT (*nfunc)(Data1T,Data2T,Data3T),const Arg1T &dat1 = Data1T(),const Arg2T &dat2 = Data2T(),const Arg3T &dat3 = Data3T())
       : CallFunc2C<Data1T,Data2T,RetT>(*new CallFunc3BodyC<Data1T,Data2T,Data3T,RetT>(nfunc,dat1,dat2,dat3))
     {}
     //: Default constructor.
@@ -634,11 +655,11 @@ namespace RavlN {
     { return Body().Call(); }
     //: Call function.
     
-    RetT Call(Data1T &pd1,Data2T &pd2,Data3T &pd3)
+    RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3)
     { return Body().Call(pd1,pd2,pd3); }
     //: Invoke event, with paramiters.
 
-    RetT operator()(Data1T &pd1,Data2T &pd2,Data3T &pd3)
+    RetT operator()(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3)
     { return Body().Call(pd1,pd2,pd3); }
     //: Call function with patamiters
 
@@ -646,11 +667,11 @@ namespace RavlN {
     { return CallFunc3C<Data1T,Data2T,Data3T,RetT>(static_cast<CallFunc3BodyC<Data1T,Data2T,Data3T,RetT> &>(Body().Copy())); }
     //: Copy func call.
 
-    Data3T &Data3()
+    Arg3T &Data3()
     { return Body().Data3(); }
     //: Access data.
    
-    const Data3T &Data3() const
+    const Arg3T &Data3() const
     { return Body().Data3(); }
     //: Access data.
     
@@ -666,6 +687,11 @@ namespace RavlN {
     : public CallFunc3BodyC<Data1T,Data2T,Data3T,RetT>
   {
   public:
+    typedef typename TraitsC<Data1T>::BaseTypeT Arg1T; //: Basic type of arg, ignore references and const's
+    typedef typename TraitsC<Data2T>::BaseTypeT Arg2T; //: Basic type of arg, ignore references and const's
+    typedef typename TraitsC<Data3T>::BaseTypeT Arg3T; //: Basic type of arg, ignore references and const's
+    typedef typename TraitsC<Data4T>::BaseTypeT Arg4T; //: Basic type of arg, ignore references and const's
+    
     CallFunc4BodyC() 
       : CallFunc3BodyC<Data1T,Data2T,Data3T,RetT>((VoidFuncPtrT) &CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT>::IssueError)
     {}
@@ -682,7 +708,7 @@ namespace RavlN {
     // equivelent of a assertion failure is called. Otherwise
     // the call returns silently.
     
-    CallFunc4BodyC(RetT (*nfunc)(Data1T &,Data2T &,Data3T &,Data4T &),const Data1T &ndat1,const Data2T &ndat2,const Data3T &ndat3,const Data4T &ndat4)
+    CallFunc4BodyC(RetT (*nfunc)(Data1T,Data2T,Data3T,Data4T),const Arg1T &ndat1,const Arg2T &ndat2,const Arg3T &ndat3,const Arg4T &ndat4)
       : CallFunc3BodyC<Data1T,Data2T,Data3T,RetT>((VoidFuncPtrT) nfunc,ndat1,ndat2,ndat3),
 	dat4(ndat4)
     {}
@@ -696,27 +722,27 @@ namespace RavlN {
     { return (*FuncPtr())(dat1,dat2,dat3,dat4); }
     //: Invoke event.
     
-    virtual RetT Call(Data1T &pd)
+    virtual RetT Call(Arg1T &pd)
     { return (*FuncPtr())(pd,dat2,dat3,dat4); }
     //: Invoke event, with paramiter.
     
-    virtual RetT Call(Data1T &pd1,Data2T &pd2)
+    virtual RetT Call(Arg1T &pd1,Arg2T &pd2)
     { return (*FuncPtr())(pd1,pd2,dat3,dat4); }
     //: Invoke event, with paramiters.
     
-    virtual RetT Call(Data1T &pd1,Data2T &pd2,Data3T &pd3)
+    virtual RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3)
     { return (*FuncPtr())(pd1,pd2,pd3,dat4); }
     //: Invoke event, with paramiters.
 
-    virtual RetT Call(Data1T &pd1,Data2T &pd2,Data3T &pd3,Data4T &pd4)
+    virtual RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3,Arg4T &pd4)
     { return (*FuncPtr())(pd1,pd2,pd3,pd4); }
     //: Invoke event, with paramiters.
 
-    Data4T &Data4()
+    Arg4T &Data4()
     { return dat4; }
     //: Access data.
     
-    const Data4T &Data4() const
+    const Arg4T &Data4() const
     { return dat4; }
     //: Access data.
 
@@ -725,26 +751,26 @@ namespace RavlN {
     //: Copy call.
     
   protected:
-    CallFunc4BodyC(void (*nfunc)(),const Data1T &ndat1,const Data2T &ndat2,const Data3T &ndat3,const Data4T &ndat4)
+    CallFunc4BodyC(void (*nfunc)(),const Arg1T &ndat1,const Arg2T &ndat2,const Arg3T &ndat3,const Arg4T &ndat4)
       : CallFunc3BodyC<Data1T,Data2T,Data3T,RetT>((VoidFuncPtrT) nfunc,ndat1,ndat2,ndat3),
 	dat4(ndat4)
     {}
     //: Constructor.
+    
+    Arg4T dat4;
 
-    Data4T dat4;
-
-    static RetT NoOp(Data1T &,Data2T &,Data3T &,Data4T &) { 
+    static RetT NoOp(Arg1T &,Arg2T &,Arg3T &,Arg4T &) { 
       return RetT();
     }
     //: NoOp function.
     
-    static RetT IssueError(Data1T &,Data2T &,Data3T &,Data4T &) { 
+    static RetT IssueError(Arg1T &,Arg2T &,Arg3T &,Arg4T &) { 
       RavlN::IssueError(__FILE__,__LINE__,"NoOp CallFunc4 Called. ");
       return RetT(); 
     }
     //: Error function.
 
-    typedef RetT (*FuncT)(Data1T &,Data2T &,Data3T &,Data4T &);
+    typedef RetT (*FuncT)(Arg1T &,Arg2T &,Arg3T &,Arg4T &);
     //: Function ptr type.    
     
     inline
@@ -761,6 +787,11 @@ namespace RavlN {
     : public CallFunc3C<Data1T,Data2T,Data3T,RetT>
   {
   public:
+    typedef typename TraitsC<Data1T>::BaseTypeT Arg1T; //: Basic type of arg, ignore references and const's
+    typedef typename TraitsC<Data2T>::BaseTypeT Arg2T; //: Basic type of arg, ignore references and const's
+    typedef typename TraitsC<Data3T>::BaseTypeT Arg3T; //: Basic type of arg, ignore references and const's
+    typedef typename TraitsC<Data4T>::BaseTypeT Arg4T; //: Basic type of arg, ignore references and const's
+    
     CallFunc4C()
     {}
     //: Default constructor.
@@ -784,8 +815,8 @@ namespace RavlN {
     // equivelent of a assertion failure is called. Otherwise
     // the call returns silently.
     
-    CallFunc4C(RetT (*nfunc)(Data1T &,Data2T &,Data3T &,Data4T &),
-	       const Data1T &dat1 = Data1T(),const Data2T &dat2 = Data2T(),const Data3T &dat3 = Data3T(),const Data4T &dat4 = Data4T())
+    CallFunc4C(RetT (*nfunc)(Data1T,Data2T,Data3T,Data4T),
+	       const Arg1T &dat1 = Data1T(),const Arg2T &dat2 = Data2T(),const Arg3T &dat3 = Data3T(),const Arg4T &dat4 = Data4T())
       : CallFunc3C<Data1T,Data2T,Data3T,RetT>(*new CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT>(nfunc,dat1,dat2,dat3,dat4))
     {}
     //: Default constructor.
@@ -810,11 +841,11 @@ namespace RavlN {
     { return Body().Call(); }
     //: Call function.
     
-    RetT Call(Data1T &pd1,Data2T &pd2,Data3T &pd3,Data4T &pd4)
+    RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3,Arg4T &pd4)
     { return Body().Call(pd1,pd2,pd3,pd4); }
     //: Invoke event, with paramiters.
 
-    RetT operator()(Data1T &pd1,Data2T &pd2,Data3T &pd3,Data4T &pd4)
+    RetT operator()(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3,Arg4T &pd4)
     { return Body().Call(pd1,pd2,pd3,pd4); }
     //: Call function with patamiters
     
@@ -822,11 +853,11 @@ namespace RavlN {
     { return CallFunc4C<Data1T,Data2T,Data3T,Data4T,RetT>(static_cast<CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT> &>(Body().Copy())); }
     //: Copy func call.
     
-    Data4T &Data4()
+    Arg4T &Data4()
     { return Body().Data4(); }
     //: Access data.
    
-    const Data4T &Data4() const
+    const Arg4T &Data4() const
     { return Body().Data4(); }
     //: Access data.
     
@@ -842,6 +873,12 @@ namespace RavlN {
     : public CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT>
   {
   public:
+    typedef typename TraitsC<Data1T>::BaseTypeT Arg1T; //: Basic type of arg, ignore references and const's
+    typedef typename TraitsC<Data2T>::BaseTypeT Arg2T; //: Basic type of arg, ignore references and const's
+    typedef typename TraitsC<Data3T>::BaseTypeT Arg3T; //: Basic type of arg, ignore references and const's
+    typedef typename TraitsC<Data4T>::BaseTypeT Arg4T; //: Basic type of arg, ignore references and const's
+    typedef typename TraitsC<Data5T>::BaseTypeT Arg5T; //: Basic type of arg, ignore references and const's
+    
     CallFunc5BodyC(bool issueErrorOnCall) {
       if(issueErrorOnCall)
 	func = (VoidFuncPtrT) &CallFunc5BodyC<Data1T,Data2T,Data3T,Data4T,Data5T,RetT>::IssueError;
@@ -859,12 +896,12 @@ namespace RavlN {
     //: Default constructor.
     
     
-    CallFunc5BodyC(RetT (*nfunc)(Data1T &,Data2T &,Data3T &,Data4T &,Data5T &),
-		   const Data1T &ndat1,
-		   const Data2T &ndat2,
-		   const Data3T &ndat3,
-		   const Data4T &ndat4,
-		   const Data5T &ndat5)
+    CallFunc5BodyC(RetT (*nfunc)(Data1T,Data2T,Data3T,Data4T,Data5T),
+		   const Arg1T &ndat1,
+		   const Arg2T &ndat2,
+		   const Arg3T &ndat3,
+		   const Arg4T &ndat4,
+		   const Arg5T &ndat5)
       : CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT>((VoidFuncPtrT) nfunc,ndat1,ndat2,ndat3,ndat4),
 	dat5(ndat5)
     {}
@@ -878,31 +915,31 @@ namespace RavlN {
     { return (*FuncPtr())(dat1,dat2,dat3,dat4,dat5); }
     //: Invoke event.
     
-    virtual RetT Call(Data1T &pd)
+    virtual RetT Call(Arg1T &pd)
     { return (*FuncPtr())(pd,dat2,dat3,dat4,dat5); }
     //: Invoke event, with paramiter.
     
-    virtual RetT Call(Data1T &pd1,Data2T &pd2)
+    virtual RetT Call(Arg1T &pd1,Arg2T &pd2)
     { return (*FuncPtr())(pd1,pd2,dat3,dat4,dat5); }
     //: Invoke event, with paramiters.
     
-    virtual RetT Call(Data1T &pd1,Data2T &pd2,Data3T &pd3)
+    virtual RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3)
     { return (*FuncPtr())(pd1,pd2,pd3,dat4,dat5); }
     //: Invoke event, with paramiters.
 
-    virtual RetT Call(Data1T &pd1,Data2T &pd2,Data3T &pd3,Data4T &pd4)
+    virtual RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3,Arg4T &pd4)
     { return (*FuncPtr())(pd1,pd2,pd3,pd4,dat5); }
     //: Invoke event, with paramiters.
 
-    virtual RetT Call(Data1T &pd1,Data2T &pd2,Data3T &pd3,Data4T &pd4,Data5T &pd5)
+    virtual RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3,Arg4T &pd4,Arg5T &pd5)
     { return (*FuncPtr())(pd1,pd2,pd3,pd4,pd5); }
     //: Invoke event, with paramiters.
     
-    Data5T &Data5()
+    Arg5T &Data5()
     { return dat5; }
     //: Access data.
     
-    const Data5T &Data5() const
+    const Arg5T &Data5() const
     { return dat5; }
     //: Access data.
     
@@ -912,30 +949,30 @@ namespace RavlN {
     
   protected:
     CallFunc5BodyC(void (*nfunc)(),
-		   const Data1T &ndat1,
-		   const Data2T &ndat2,
-		   const Data3T &ndat3,
-		   const Data4T &ndat4,
-		   const Data5T &ndat5)
+		   const Arg1T &ndat1,
+		   const Arg2T &ndat2,
+		   const Arg3T &ndat3,
+		   const Arg4T &ndat4,
+		   const Arg5T &ndat5)
       : CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT>(nfunc,ndat1,ndat2,ndat3,ndat4),
 	dat5(ndat5)
     {}
     //: Constructor.
     
-    Data5T dat5;
+    Arg5T dat5;
 
-    static RetT NoOp(Data1T &,Data2T &,Data3T &,Data4T &,Data5T &) { 
+    static RetT NoOp(Arg1T &,Arg2T &,Arg3T &,Arg4T &,Arg5T &) { 
       return RetT();
     }
     //: NoOp function.
     
-    static RetT IssueError(Data1T &,Data2T &,Data3T &,Data4T &,Data5T &) { 
+    static RetT IssueError(Arg1T &,Arg2T &,Arg3T &,Arg4T &,Arg5T &) { 
       RavlN::IssueError(__FILE__,__LINE__,"NoOp CallFunc5 Called. ");
       return RetT(); 
     }
     //: Error function.
 
-    typedef RetT (*FuncT)(Data1T &,Data2T &,Data3T &,Data4T &,Data5T &);
+    typedef RetT (*FuncT)(Arg1T &,Arg2T &,Arg3T &,Arg4T &,Arg5T &);
     //: Function ptr type.    
     
     inline
@@ -952,6 +989,12 @@ namespace RavlN {
     : public CallFunc4C<Data1T,Data2T,Data3T,Data4T,RetT>
   {
   public:
+    typedef typename TraitsC<Data1T>::BaseTypeT Arg1T; //: Basic type of arg, ignore references and const's
+    typedef typename TraitsC<Data2T>::BaseTypeT Arg2T; //: Basic type of arg, ignore references and const's
+    typedef typename TraitsC<Data3T>::BaseTypeT Arg3T; //: Basic type of arg, ignore references and const's
+    typedef typename TraitsC<Data4T>::BaseTypeT Arg4T; //: Basic type of arg, ignore references and const's
+    typedef typename TraitsC<Data5T>::BaseTypeT Arg5T; //: Basic type of arg, ignore references and const's
+    
     CallFunc5C()
     {}
     //: Default constructor.
@@ -975,12 +1018,12 @@ namespace RavlN {
     // If the base handle is of another type, and invalid handle
     // is generated.
     
-    CallFunc5C(RetT (*nfunc)(Data1T &,Data2T &,Data3T &,Data4T &,Data5T &),
-	       const Data1T &dat1 = Data1T(),
-	       const Data2T &dat2 = Data2T(),
-	       const Data3T &dat3 = Data3T(),
-	       const Data4T &dat4 = Data4T(),
-	       const Data5T &dat5 = Data5T())
+    CallFunc5C(RetT (*nfunc)(Data1T,Data2T,Data3T,Data4T,Data5T),
+	       const Arg1T &dat1 = Data1T(),
+	       const Arg2T &dat2 = Data2T(),
+	       const Arg3T &dat3 = Data3T(),
+	       const Arg4T &dat4 = Data4T(),
+	       const Arg5T &dat5 = Data5T())
       : CallFunc4C<Data1T,Data2T,Data3T,Data4T,RetT>(*new CallFunc5BodyC<Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(nfunc,dat1,dat2,dat3,dat4,dat5))
     {}
     //: Default constructor.
@@ -1005,11 +1048,11 @@ namespace RavlN {
     { return Body().Call(); }
     //: Call function.
     
-    RetT Call(Data1T &pd1,Data2T &pd2,Data3T &pd3,Data4T &pd4,Data5T &pd5)
+    RetT Call(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3,Arg4T &pd4,Arg5T &pd5)
     { return Body().Call(pd1,pd2,pd3,pd4,pd5); }
     //: Invoke event, with paramiters.
 
-    RetT operator()(Data1T &pd1,Data2T &pd2,Data3T &pd3,Data4T &pd4,Data5T &pd5)
+    RetT operator()(Arg1T &pd1,Arg2T &pd2,Arg3T &pd3,Arg4T &pd4,Arg5T &pd5)
     { return Body().Call(pd1,pd2,pd3,pd4,pd5); }
     //: Call function with patamiters
     
@@ -1017,11 +1060,11 @@ namespace RavlN {
     { return CallFunc5C<Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(static_cast<CallFunc5BodyC<Data1T,Data2T,Data3T,Data4T,Data5T,RetT> &>(Body().Copy())); }
     //: Copy func call.
     
-    Data5T &Data5()
+    Arg5T &Data5()
     { return Body().Data5(); }
     //: Access data.
    
-    const Data5T &Data5() const
+    const Arg5T &Data5() const
     { return Body().Data5(); }
     //: Access data.
 
@@ -1041,31 +1084,45 @@ namespace RavlN {
   template<class DataT,class RetT>
   inline
   CallFunc1C<DataT,RetT> 
-  Trigger(RetT (*nfunc)(DataT &dat),const DataT &dat)
+  Trigger(RetT (*nfunc)(DataT dat),const typename TraitsC<DataT>::BaseTypeT &dat)
   { return CallFunc1C<DataT,RetT>(nfunc,dat); }
   
   template<class Data1T,class Data2T,class RetT>
   inline
   CallFunc2C<Data1T,Data2T,RetT> 
-  Trigger(RetT (*nfunc)(Data1T &,Data2T &),const Data1T &dat1,const Data2T &dat2)
+  Trigger(RetT (*nfunc)(Data1T ,Data2T ),
+	  const typename TraitsC<Data1T>::BaseTypeT &dat1,
+	  const typename TraitsC<Data2T>::BaseTypeT &dat2)
   { return CallFunc2C<Data1T,Data2T,RetT>(nfunc,dat1,dat2); }
-
+  
   template<class Data1T,class Data2T,class Data3T,class RetT>
   inline
   CallFunc3C<Data1T,Data2T,Data3T,RetT> 
-  Trigger(RetT (*nfunc)(Data1T &,Data2T &,Data3T &),const Data1T &dat1,const Data2T &dat2,const Data3T &dat3)
+  Trigger(RetT (*nfunc)(Data1T,Data2T,Data3T),
+	  const typename TraitsC<Data1T>::BaseTypeT &dat1,
+	  const typename TraitsC<Data2T>::BaseTypeT &dat2,
+	  const typename TraitsC<Data3T>::BaseTypeT &dat3)
   { return CallFunc3C<Data1T,Data2T,Data3T,RetT>(nfunc,dat1,dat2,dat3); }
-
+  
   template<class Data1T,class Data2T,class Data3T,class Data4T,class RetT>
   inline
   CallFunc4C<Data1T,Data2T,Data3T,Data4T,RetT> 
-  Trigger(RetT (*nfunc)(Data1T &,Data2T &,Data3T &,Data4T &),const Data1T &dat1,const Data2T &dat2,const Data3T &dat3,const Data4T &dat4)
+  Trigger(RetT (*nfunc)(Data1T,Data2T,Data3T,Data4T),
+	  const typename TraitsC<Data1T>::BaseTypeT &dat1,
+	  const typename TraitsC<Data2T>::BaseTypeT &dat2,
+	  const typename TraitsC<Data3T>::BaseTypeT &dat3,
+	  const typename TraitsC<Data4T>::BaseTypeT &dat4)
   { return CallFunc4C<Data1T,Data2T,Data3T,Data4T,RetT>(nfunc,dat1,dat2,dat3,dat4); }
-
+  
   template<class Data1T,class Data2T,class Data3T,class Data4T,class Data5T,class RetT>
   inline
   CallFunc5C<Data1T,Data2T,Data3T,Data4T,Data5T,RetT> 
-  Trigger(RetT (*nfunc)(Data1T &,Data2T &,Data3T &,Data4T &,Data5T &),const Data1T &dat1,const Data2T &dat2,const Data3T &dat3,const Data4T &dat4,const Data5T &dat5)
+  Trigger(RetT (*nfunc)(Data1T,Data2T,Data3T,Data4T,Data5T),
+	  const typename TraitsC<Data1T>::BaseTypeT &dat1,
+	  const typename TraitsC<Data2T>::BaseTypeT &dat2,
+	  const typename TraitsC<Data3T>::BaseTypeT &dat3,
+	  const typename TraitsC<Data4T>::BaseTypeT &dat4,
+	  const typename TraitsC<Data5T>::BaseTypeT &dat5)
   { return CallFunc5C<Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(nfunc,dat1,dat2,dat3,dat4,dat5); }
   
 #else
@@ -1073,38 +1130,54 @@ namespace RavlN {
   // Doesn't template on return types.
   
   inline
-  CallFunc0C<bool> Trigger(bool (*nfunc)())
+  CallFunc0C<RetT> Trigger(bool (*nfunc)())
   { return CallFunc0C<bool>(nfunc); }
   
   template<class DataT>
   inline
   CallFunc1C<DataT,bool> 
-  Trigger(bool (*nfunc)(DataT &dat),const DataT &dat)
-  { return CallFunc1C<DataT,bool>(nfunc,dat); }
+  Trigger(RetT (*nfunc)(DataT dat),const typename TraitsC<DataT>::BaseTypeT &dat)
+  { return CallFunc1C<DataT,RetT>(nfunc,dat); }
   
   template<class Data1T,class Data2T>
   inline
   CallFunc2C<Data1T,Data2T,bool> 
-  Trigger(bool (*nfunc)(Data1T &,Data2T &),const Data1T &dat1,const Data2T &dat2)
-  { return CallFunc2C<Data1T,Data2T,bool>(nfunc,dat1,dat2); }
-
+  Trigger(RetT (*nfunc)(Data1T ,Data2T ),
+	  const typename TraitsC<Data1T>::BaseTypeT &dat1,
+	  const typename TraitsC<Data2T>::BaseTypeT &dat2)
+  { return CallFunc2C<Data1T,Data2T,RetT>(nfunc,dat1,dat2); }
+  
   template<class Data1T,class Data2T,class Data3T>
   inline
   CallFunc3C<Data1T,Data2T,Data3T,bool> 
-  Trigger(bool (*nfunc)(Data1T &,Data2T &,Data3T &),const Data1T &dat1,const Data2T &dat2,const Data3T &dat3)
-  { return CallFunc3C<Data1T,Data2T,Data3T,bool>(nfunc,dat1,dat2,dat3); }
-
+  Trigger(RetT (*nfunc)(Data1T,Data2T,Data3T),
+	  const typename TraitsC<Data1T>::BaseTypeT &dat1,
+	  const typename TraitsC<Data2T>::BaseTypeT &dat2,
+	  const typename TraitsC<Data3T>::BaseTypeT &dat3)
+  { return CallFunc3C<Data1T,Data2T,Data3T,RetT>(nfunc,dat1,dat2,dat3); }
+  
   template<class Data1T,class Data2T,class Data3T,class Data4T>
   inline
   CallFunc4C<Data1T,Data2T,Data3T,Data4T,bool> 
-  Trigger(bool (*nfunc)(Data1T &,Data2T &,Data3T &,Data4T &),const Data1T &dat1,const Data2T &dat2,const Data3T &dat3,const Data4T &dat4)
-  { return CallFunc4C<Data1T,Data2T,Data3T,Data4T,bool>(nfunc,dat1,dat2,dat3,dat4); }
-
+  Trigger(RetT (*nfunc)(Data1T,Data2T,Data3T,Data4T),
+	  const typename TraitsC<Data1T>::BaseTypeT &dat1,
+	  const typename TraitsC<Data2T>::BaseTypeT &dat2,
+	  const typename TraitsC<Data3T>::BaseTypeT &dat3,
+	  const typename TraitsC<Data4T>::BaseTypeT &dat4)
+  { return CallFunc4C<Data1T,Data2T,Data3T,Data4T,RetT>(nfunc,dat1,dat2,dat3,dat4); }
+  
   template<class Data1T,class Data2T,class Data3T,class Data4T,class Data5T>
   inline
   CallFunc5C<Data1T,Data2T,Data3T,Data4T,Data5T,bool> 
-  Trigger(bool (*nfunc)(Data1T &,Data2T &,Data3T &,Data4T &,Data5T &),const Data1T &dat1,const Data2T &dat2,const Data3T &dat3,const Data4T &dat4,const Data5T &dat5)
-  { return CallFunc5C<Data1T,Data2T,Data3T,Data4T,Data5T,bool>(nfunc,dat1,dat2,dat3,dat4,dat5); }
+  Trigger(RetT (*nfunc)(Data1T,Data2T,Data3T,Data4T,Data5T),
+	  const typename TraitsC<Data1T>::BaseTypeT &dat1,
+	  const typename TraitsC<Data2T>::BaseTypeT &dat2,
+	  const typename TraitsC<Data3T>::BaseTypeT &dat3,
+	  const typename TraitsC<Data4T>::BaseTypeT &dat4,
+	  const typename TraitsC<Data5T>::BaseTypeT &dat5)
+  { return CallFunc5C<Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(nfunc,dat1,dat2,dat3,dat4,dat5); }
+  
+  
   
 #endif
   
