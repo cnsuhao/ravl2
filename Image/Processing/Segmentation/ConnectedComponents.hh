@@ -10,6 +10,7 @@
 //! docentry="Image.Image Processing.Operators"
 //! rcsid="$Id$"
 //! author="Radek Marik, modified by Charles Galambos"
+//! docentry="Ravl.Images.Segmentation"
 //! lib=RavlImage
 //! date="17/10/2000"
 
@@ -61,7 +62,7 @@ namespace RavlImageN {
     {}
     //: Default constructor.
     
-    bool operator()(const DataTypeT &v1,const DataTypeT &v2)
+    inline bool operator()(const DataTypeT &v1,const DataTypeT &v2)
     { return v1 == v2; }
   };
 

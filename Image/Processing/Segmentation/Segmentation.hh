@@ -8,6 +8,7 @@
 #define RAVLIMAGE_SEGMENTATION_HEADER 1
 /////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
+//! docentry="Ravl.Images.Segmentation"
 //! lib=RavlImage
 
 #include "Ravl/Array2dSqr2Iter2.hh"
