@@ -317,6 +317,14 @@ namespace RavlN {
   }
   
   template<class DataT,unsigned int N>
+  inline TFVectorC<DataT,N> operator*(const DataT &alpha,const TFVectorC<DataT,N> & data) {
+    TFVectorC<DataT,N> ret;
+    for(UIntT i = 0;i < N;i++)
+      ret[i] = alpha * data[i];
+    return ret;    
+  }
+  
+  template<class DataT,unsigned int N>
   inline 
   TFVectorC<DataT,N> TFVectorC<DataT,N>::operator/(const DataT &alpha) const {
     TFVectorC<DataT,N> ret;
