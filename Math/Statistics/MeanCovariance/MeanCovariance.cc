@@ -12,41 +12,55 @@
 #include "Ravl/MeanNd.hh"
 #include "Ravl/Matrix.hh"
 #include "Ravl/Vector.hh"
-#include "Ravl/MeanCovarianceNd.hh"
+#include "Ravl/MeanCovariance.hh"
 #include "Ravl/SArray1d.hh"
 #include <iostream.h>
+
+#define DODEBUG 0
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
 
 namespace RavlN {
 
   //: Compute the mean and covariance of an array of vectors.
   
-  MeanCovarianceNdC::MeanCovarianceNdC(const SArray1dC<VectorC> & data) 
+  MeanCovarianceC::MeanCovarianceC(const SArray1dC<VectorC> & data) 
     : m(data)
   {
-    if(Number() == 0)
-      return ;
+    //ONDEBUG(cerr << "MeanCovarianceC::MeanCovarianceC(), Called with " << data.Size() << " elements. \n");
+    if(data.Size() == 0)
+      return;
+    m.number = data.Size();
     SArray1dIterC<VectorC> it(data);
     cov = it->OuterProduct();
+    m.Mean() = it->Copy();
     it++;
-    for(;it;it++)
+    RealT n = ((RealT) m.number);
+    for(;it;it++) {
+      m.Mean() += *it;
       cov += it->OuterProduct();
-    cov -= Mean().OuterProduct() * Number();
-    cov /= Number()-1;
+    }
+    m.Mean() /= n;
+    cov /= n;
+    cov -= Mean().OuterProduct();
   }
   
-  MeanCovarianceNdC MeanCovarianceNdC::Copy() const {
-    return MeanCovarianceNdC(Number(), m.Mean().Copy(), cov.Copy());
+  MeanCovarianceC MeanCovarianceC::Copy() const {
+    return MeanCovarianceC(Number(), m.Mean().Copy(), cov.Copy());
   }
   
   
-  const MeanCovarianceNdC & MeanCovarianceNdC::SetZero() {
+  const MeanCovarianceC & MeanCovarianceC::SetZero() {
     m.Fill(0);
     cov.Fill(0);
     return *this;
   }
   
-  const MeanCovarianceNdC & 
-  MeanCovarianceNdC::operator+=(const VectorC & point) {
+  const MeanCovarianceC & 
+  MeanCovarianceC::operator+=(const VectorC & point) {
     // Update the covariance matrix.
     const RealT number = (RealT) Number();
     const RealT p1 = number / (number+1.0);
@@ -60,8 +74,8 @@ namespace RavlN {
     return *this;
   }
   
-  const MeanCovarianceNdC & 
-  MeanCovarianceNdC::operator-=(const VectorC & point) {
+  const MeanCovarianceC & 
+  MeanCovarianceC::operator-=(const VectorC & point) {
     const RealT number = (RealT) Number();
     const RealT nDen   = number-1.0;
     if (nDen <= 0) {
@@ -79,8 +93,8 @@ namespace RavlN {
     return *this;
   }
   
-  const MeanCovarianceNdC & 
-  MeanCovarianceNdC::operator+=(const MeanNdC & mean) {
+  const MeanCovarianceC & 
+  MeanCovarianceC::operator+=(const MeanNdC & mean) {
     // Update the covariance matrix.
     const RealT number1 = (RealT) Number();
     const RealT number2 = (RealT) mean.Number();
@@ -99,8 +113,8 @@ namespace RavlN {
     return *this;
   }
   
-  const MeanCovarianceNdC &   
-  MeanCovarianceNdC::operator-=(const MeanNdC & mean) {
+  const MeanCovarianceC &   
+  MeanCovarianceC::operator-=(const MeanNdC & mean) {
     const RealT number1 = (RealT) Number();
     const RealT number2 = (RealT) mean.Number();
     const RealT nDen    = number1 - number2;
@@ -119,8 +133,8 @@ namespace RavlN {
     return *this;
   }
   
-  const MeanCovarianceNdC & 
-  MeanCovarianceNdC::operator+=(const MeanCovarianceNdC & meanCov) {
+  const MeanCovarianceC & 
+  MeanCovarianceC::operator+=(const MeanCovarianceC & meanCov) {
     // Update the covariance matrix.
     const RealT number1 = (RealT) Number();
     const RealT number2 = (RealT) meanCov.Number();
@@ -142,8 +156,8 @@ namespace RavlN {
     return *this;
   }
   
-  const MeanCovarianceNdC &  
-  MeanCovarianceNdC::operator-=(const MeanCovarianceNdC & meanCov) {
+  const MeanCovarianceC &  
+  MeanCovarianceC::operator-=(const MeanCovarianceC & meanCov) {
     const RealT number1 = (RealT) Number();
     const RealT number2 = (RealT) meanCov.Number();
     const RealT nDen    = number1 - number2;
@@ -165,8 +179,8 @@ namespace RavlN {
     return *this;
   }
   
-  const MeanCovarianceNdC & 
-  MeanCovarianceNdC::Add(const VectorC & point, const VectorC & var) {
+  const MeanCovarianceC & 
+  MeanCovarianceC::Add(const VectorC & point, const VectorC & var) {
     // Update the covariance matrix.
     const RealT number = (RealT) Number();
     const RealT p1 = number / (number+1.0);
@@ -181,7 +195,7 @@ namespace RavlN {
     return *this;
   }
   
-  const MeanCovarianceNdC & MeanCovarianceNdC::Remove(const VectorC & point, const VectorC & var) {
+  const MeanCovarianceC & MeanCovarianceC::Remove(const VectorC & point, const VectorC & var) {
     const RealT number = (RealT) Number();
     const RealT nDen   = number-1.0;
     if (nDen <= 0) {
@@ -200,21 +214,21 @@ namespace RavlN {
     return *this;
   }
   
-  const MeanCovarianceNdC & 
-  MeanCovarianceNdC::SetSum(const MeanCovarianceNdC & meanCov1,
-			    const MeanCovarianceNdC & meanCov2) {
+  const MeanCovarianceC & 
+  MeanCovarianceC::SetSum(const MeanCovarianceC & meanCov1,
+			    const MeanCovarianceC & meanCov2) {
     return *this = (meanCov1.Copy()+=meanCov2);
   }
   
   ostream & 
-  operator<<(ostream & outS, const MeanCovarianceNdC & meanCov) {
+  operator<<(ostream & outS, const MeanCovarianceC & meanCov) {
     outS << meanCov.Mean() << '\n' 
 	 << meanCov.Covariance() << '\n';
     return outS;
   }
   
   istream & 
-  operator>>(istream & inS, MeanCovarianceNdC & meanCov) {
+  operator>>(istream & inS, MeanCovarianceC & meanCov) {
     inS >> meanCov.m >> meanCov.cov;
     return inS;
   }

@@ -175,11 +175,10 @@ namespace RavlN {
     it->OuterProduct(cov);
     it++;
     FMatrixC<N,N> tmp;
-    for(;it;it++) {
+    for(;it;it++)
       cov += it->OuterProduct(tmp);
-    }
-    cov -= Mean().OuterProduct(tmp) * Number();
-    cov /= Number()-1;
+    cov /= (RealT) Number();
+    cov -= Mean().OuterProduct(tmp);
   }
   
   template<unsigned int N>

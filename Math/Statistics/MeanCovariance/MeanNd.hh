@@ -18,6 +18,8 @@
 #include "Ravl/Vector.hh"
 
 namespace RavlN {
+
+  class MeanCovarianceC;
   
   //: Mean in N-D space
   // The class MeanNdC serves for computation of the mean
@@ -116,6 +118,8 @@ namespace RavlN {
     
     SizeT number;  // The number of points represented by mean object.
 
+    friend class MeanCovarianceC;
+    
     friend istream & operator>>(istream & s, MeanNdC & mean);
   };
   
