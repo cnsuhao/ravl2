@@ -5,8 +5,11 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
+
+#include <math.h>
+
 int ruinv(double *a,int n)
-{ int j; double fabs();
+{ int j;
   double tt,z,*p,*q,*r,*s,*t;
   for(j=0,tt=0.,p=a; j<n ;++j,p+=n+1) if((z=fabs(*p))>tt) tt=z;
   tt*=1.e-16;

@@ -5,8 +5,11 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
+
+#include <math.h>
+
 int solvru(double *a,double *b,int n)
-{ int j,k; double fabs();
+{ int j,k;
   double s,t,*p,*q;
   for(j=0,s=0.,p=a; j<n ;++j,p+=n+1) if((t=fabs(*p))>s) s=t;
   s*=1.e-16;
