@@ -2,6 +2,7 @@ $(silent:
 $(ifset:!titleStart:$(set:titleStart=<FONT SIZE="+2" color="#23238E" FACE="arial,Helvetica">))
 $(ifset:!titleEnd:$(set:titleEnd=</FONT>))
 $(set:docentry_=$(subst: :_:$(docentry)))
+$(set:refPattern=../Class/%.html) 
 )
 <html><head><title>$(title) $(ifset:brief:- $(brief))</title><BASE TARGET="_parent" ></head>
 <body BGCOLOR=#FFFFFF>
