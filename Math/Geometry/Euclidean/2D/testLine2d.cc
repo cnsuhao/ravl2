@@ -29,6 +29,7 @@ int main() {
   
   for(RealT x = 0;x < RavlConstN::pi * 2; x += 0.1) {
     end = Index2dC(Round(Sin(x) * 10.0),Round(Cos(x) * 10.0));
+    c = 0;
     cerr << "From " << start << " to " << end << "\n";
     for(Line2dIterC it(start,end);it && c < 20;it++,c++) {
       cerr << "Line " << it.Data() << "\n";

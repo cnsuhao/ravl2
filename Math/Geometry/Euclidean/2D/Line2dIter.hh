@@ -9,6 +9,8 @@
 ////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! docentry="Ravl.Math.Geometry.2D"
+//! author="Charles Galambos"
 
 #include "Ravl/Point2d.hh"
 #include "Ravl/Index2d.hh"
@@ -16,6 +18,8 @@
 namespace RavlN {
   
   //: Iterate throught interger grid points along a 2d line.
+  // Uses a version of the midpoint algorithm to iterate all
+  // grid points on a line between two positions.
   
   class Line2dIterC {
   public:
@@ -25,11 +29,12 @@ namespace RavlN {
     void First(const Index2dC &start,const Index2dC &end);
     //: Start line again.
     
-    bool IsElm() const;
+    bool IsElm() const
+    { return isElm; }
     //: Still in line.
     
     operator bool() const
-    { return IsElm(); }
+    { return isElm; }
     //: At a pixel in line ?
     
     bool Next();
@@ -49,6 +54,7 @@ namespace RavlN {
     int x,y;
     int xe,ye;
     int xc,yc;
+    bool isElm;
   };
 }
 

@@ -10,7 +10,7 @@
 
 #include "Ravl/Line2dIter.hh"
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #include "Ravl/Stream.hh"
@@ -24,11 +24,6 @@ namespace RavlN {
   
   Line2dIterC::Line2dIterC(const Index2dC &start,const Index2dC &end)
   { First(start,end); }
-  
-  //: Still in line.
-  
-  bool Line2dIterC::IsElm() const
-  { return !(x == xe && y == ye); }
   
 
   //: Start line again.
@@ -61,6 +56,7 @@ namespace RavlN {
     y = start.Col().V();
     xe = end.Row().V();
     ye = end.Col().V();
+    isElm = true;
     ONDEBUG(cerr << "dx=" << dx <<" dy=" << dy << " incrE=" << incrE << " incrNE=" << incrNE << "\n");
   }
 
@@ -68,6 +64,10 @@ namespace RavlN {
   //: Goto next point.
   
   bool Line2dIterC::Next() {
+    if(x == xe && y == ye) {
+      isElm = false;
+      return false;
+    }
     if(dx >= dy) {
       if(d <= 0) {
 	d += incrE;
