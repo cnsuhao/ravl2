@@ -59,6 +59,13 @@ namespace RavlN {
     { return at == &arr[0]; }
     //: Test if this is the first element in the range.
     // Note,this is slower than IsElm().
+
+    void Goto(UIntT off) { 
+      at = &(arr[off]); 
+      RavlAssert(at <= endOfRow);
+    }
+    //: Goto specific entry in array.
+    // off must be within current array
     
   private:
     SArray1dC<DataT> arr;
