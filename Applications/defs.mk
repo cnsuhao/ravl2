@@ -9,4 +9,4 @@
 
 DESCRIPTION=RAVL Applications.
 
-NESTED= FileConverter.r
+NESTED= FileConverter.r VPlay.r

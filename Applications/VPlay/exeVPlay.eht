@@ -1,0 +1,8 @@
+! author="Charles Galambos"
+! docentry="Image.Video;Applications.Video"
+
+: Play a Video sequence.
+
+This program uses the VideoIn class to read a video sequence
+and display it using the GTK based GUI interface.
+
