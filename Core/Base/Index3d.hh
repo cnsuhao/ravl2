@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef Index3d_HH
-#define Index3d_HH
+#ifndef RAVLINDEX3D_HEADER
+#define RAVLINDEX3D_HEADER
 ///////////////////////////////////////////////////////////////////
 //! file="Ravl/Core/Base/Index3d.hh"
 //! lib=RavlCore
@@ -18,11 +18,8 @@
 #include "Ravl/FIndex.hh" 
 #include "Ravl/Assert.hh"
 
-//====================================================================
-//======= Index3dC ===================================================
-//====================================================================
-
 namespace RavlN {
+  
   //: Index of a 3-D array
   // The class Index3dC is a triple of integer values. It is usually used
   // as a three dimensional index of three dimensional arrays. <p>
@@ -36,7 +33,8 @@ namespace RavlN {
     // Constructor, assigment, copies, and destructor
     // ----------------------------------------------
     
-    explicit Index3dC(SizeT dim);
+    explicit Index3dC(SizeT dim)
+      { RavlAssert(dim == 3); }
     //: Creates an index
     // This is for compatibilty with N-D indexes, which 
     // need to be told there dimentionality.
@@ -60,22 +58,28 @@ namespace RavlN {
     // Access to the member items
     // --------------------------
     
-    inline IndexC I() const;
+    inline IndexC I() const
+      { return (*this)[0]; }
     // Returns the first index.
     
-    inline IndexC J() const;
+    inline IndexC J() const
+      { return (*this)[1]; }
     // Returns the second index.
     
-    inline IndexC K() const;
+    inline IndexC K() const
+      { return (*this)[2]; }
     // Returns the third index.
     
-    inline IndexC & I();
+    inline IndexC & I()
+      { return (*this)[0]; }
     // Access to the first index.
     
-    inline IndexC & J();
+    inline IndexC & J()
+      { return (*this)[1]; }
     // Access to the second index.
     
-    inline IndexC & K();
+    inline IndexC & K()
+      { return (*this)[2]; }
     // Access to the third index.    
     
     // Access to the neighbouring 3D indexes
@@ -109,45 +113,6 @@ namespace RavlN {
     // ------------------------
         
   };
-  
-  //====================================================================
-  //======= Index3dC ===================================================
-  //====================================================================
-  
-
-  inline 
-  Index3dC::Index3dC(SizeT dim) 
-  { RavlAssert(dim == 3); }
-  
-  inline
-  IndexC
-  Index3dC::I() const
-  { return (*this)[0]; }
-  
-  inline
-  IndexC
-  Index3dC::J() const
-  { return (*this)[1]; }
-  
-  inline
-  IndexC
-  Index3dC::K() const
-  { return (*this)[2]; }
-  
-  inline
-  IndexC &
-  Index3dC::I()
-  { return (*this)[0]; }
-
-  inline
-  IndexC &
-  Index3dC::J()
-  { return (*this)[1]; }
-
-  inline
-  IndexC &
-  Index3dC::K()
-  { return (*this)[2]; }
   
   inline
   void
