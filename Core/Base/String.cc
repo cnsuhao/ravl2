@@ -1401,13 +1401,21 @@ namespace RavlN {
   //: Interpret string as an integer.
   
   Int64T StringC::Int64Value() const {
+#if RAVL_COMPILER_VISUALCPP
+    return atol(chars());
+#else
     return atoll(chars());
+#endif
   }
   
   //: Interpret string as an integer.
   
   UInt64T StringC::UInt64Value() const {
+#if RAVL_COMPILER_VISUALCPP
+    return (UInt64T) atol(chars());
+#else
     return (UInt64T) atoll(chars());
+#endif
   }
   
   //: Interpret stream as a floating point value.
@@ -1425,13 +1433,21 @@ namespace RavlN {
   //: Interpret stream as an integer.
   
   UInt64T SubStringC::UInt64Value() const {
+#if RAVL_COMPILER_VISUALCPP
+    return (UInt64T) atol(chars());
+#else
     return (UInt64T) atoll(chars());
+#endif
   }
   
   //: Interpret string as an integer.
   
   Int64T SubStringC::Int64Value() const {
+#if RAVL_COMPILER_VISUALCPP
+    return atol(chars());
+#else
     return atoll(chars());
+#endif
   }
   
   //: Interpret string as a floating point value.

@@ -16,67 +16,14 @@
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/Exception.hh"
+#include "Ravl/RCAbstract.hh"
 
 namespace RavlN {
-  class RCAbstractC;
+//  class RCAbstractC;
  
   template<class BodyT> class RCHandleVC;  
   template<class BodyT> istream &operator>>(istream &strm,RCHandleVC<BodyT> &obj);  
   template<class BodyT> BinIStreamC &operator>>(BinIStreamC &strm,RCHandleVC<BodyT> &obj);
-  
-  //! userlevel=Normal
-  //: Base class for all reference counted objects, where derivation is expected.
-  // This holds a count of the number of handles that
-  // are available for this object.
-  
-  class RCBodyVC 
-    : public RCBodyC
-  {
-  public:
-    virtual ~RCBodyVC();
-    //: Destructor.
-    
-    virtual bool Save(ostream &out) const;
-    //: Save to stream 'out'.
-    
-    virtual bool Save(BinOStreamC &out) const;
-    //: Save to binary stream 'out'.
-    
-    virtual RCBodyVC &Copy() const;
-    //: Make copy of body.
-    // This should be provided in derived classes.
-    // this funtion will issue an assertion failure if called.
-
-    virtual RCBodyC &DeepCopy(UIntT levels = ((UIntT) -1)) const;
-    //: Make a deep copy of body.
-    // This should be provided in derived classes.
-    // this funtion will issue an assertion failure if called.
-
-  protected:
-    RCBodyVC()
-    {}
-    //: Default constructor.
-    // Creates a handle with 0 reference counts.
-    
-    RCBodyVC(istream &strm)
-    {}
-    //: Construct from a stream.
-    
-    RCBodyVC(BinIStreamC &strm)
-    {}
-    //: Construct from a binary stream.
-    
-    friend class RCAbstractC ;
-  };
-  
-  istream &operator>>(istream &,RCBodyVC &obj);
-  //: Input virtual body.
-  // No-op.
-
-  ostream &operator<<(ostream &,const RCBodyC &obj);
-  //: Output virtual body.
-  // No-op.
-  
   
   //! userlevel=Normal
   //: Handle from objects derived from RCBodyVC.
@@ -126,11 +73,11 @@ namespace RavlN {
     bool Save(BinOStreamC &out) const
     { return Body().Save(out); }
     //: Save to binary stream 'out'.
-#if !RAVL_COMPILER_VISUALCPP  
-    RCAbstractC Abstract() 
+//#if !RAVL_COMPILER_VISUALCPP  
+    RCAbstractC Abstract()
     { return RCAbstractC(Body()); }
     //: Create an abstract handle.    
-#endif    
+//#endif    
     RCHandleVC<BodyT> Copy() const
     { return RCHandleVC<BodyT>(Body().Copy()); }
     //: Make copy of body.

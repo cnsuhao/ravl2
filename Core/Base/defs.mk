@@ -21,7 +21,7 @@ HEADERS=Types.hh config.h Pair.hh Resource.hh \
  DeepCopy.hh StdHash.hh Const.hh IndexRange3d.hh Average.hh RealC.hh \
  SmartPtr.hh SubIndexRange2dIter.hh SubIndexRange3dIter.hh \
  RealRange1d.hh RealRange2d.hh RealRange3d.hh TimeCode.hh \
- RCHandleV.hh IndexRange2dIter.hh IndexRange3dIter.hh fdstreambuf.hh \
+ RCBodyV.hh RCHandleV.hh IndexRange2dIter.hh IndexRange3dIter.hh fdstreambuf.hh \
  fdstream.hh GenBinStream.hh Traits.hh FPNumber.hh QInt.hh CompilerHints.hh
 
 SOURCES=Assert.cc Exception.cc EntryPnt.cc Index.cc String.cc \
@@ -31,7 +31,7 @@ SOURCES=Assert.cc Exception.cc EntryPnt.cc Index.cc String.cc \
  Index2d.cc Index3d.cc IntC.cc StdConst.cc RCAbstract.cc \
  BinString.cc RCWrap.cc IndexRange3d.cc Math.cc RealC.cc \
  RealRange1d.cc RealRange2d.cc RealRange3d.cc TimeCode.cc \
- RCHandleV.cc URLMapper.cc GenBinStream.cc Resource.cc
+ RCBodyV.cc URLMapper.cc GenBinStream.cc Resource.cc
 
 PLIB=RavlCore
 

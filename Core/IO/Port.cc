@@ -29,8 +29,7 @@ namespace RavlN {
   //: Default constructor.
   
   DPPortBodyC::DPPortBodyC()
-    : portId(StringC("Port-") + StringC((UIntT) this >> 2))
-  {}
+  { portId = (StringC("Port-") + StringC((UIntT) this >> 2)); }
   
   //: Stream constructor.
 

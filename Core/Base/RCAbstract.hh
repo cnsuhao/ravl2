@@ -15,7 +15,7 @@
 //! rcsid="$Id$"
 //! date="28/05/1998"
 
-#include "Ravl/RCHandleV.hh"
+#include "Ravl/RCBodyV.hh"
 
 #if RAVL_HAVE_ANSICPPHEADERS
 #include <typeinfo>

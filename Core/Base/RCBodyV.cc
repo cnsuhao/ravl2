@@ -9,7 +9,7 @@
 //! lib=RavlCore
 //! file="Ravl/Core/Base/RCHandleV.cc"
 
-#include "Ravl/RCHandleV.hh"
+#include "Ravl/RCBodyV.hh"
 #include "Ravl/Stream.hh"
 #include "Ravl/BinStream.hh"
 

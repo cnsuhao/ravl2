@@ -235,7 +235,7 @@ namespace RavlN {
       attrValue = attrTypeInt.Default();
       return true;
     }
-    attrValue = value.IntValue();
+    attrValue = (value.IntValue()!=0);
     return true;
   }
   

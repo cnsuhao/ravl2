@@ -251,7 +251,7 @@ namespace RavlN {
   }
   //: Register a conversion function.
 
-#ifndef VISUAL_CPP
+#if !(RAVL_COMPILER_VISUALCPP && !RAVL_COMPILER_VISUALCPPNET)
 #define DP_REGISTER_CONVERSION(func,cost) \
 DPConverterBaseC DPConv_ ## func(RavlN::RegisterConversion(func,cost));
 #define DP_REGISTER_CONVERSION_NAMED(func,cost,fname) \
