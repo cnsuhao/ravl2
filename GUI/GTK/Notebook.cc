@@ -223,6 +223,22 @@ namespace RavlGUIN {
   //: Show a page from the notebook.
   // GUI Thread only.
   
+  bool NotebookBodyC::GUIShowPageNo(IntT pageNo) {
+    if(widget == 0) return true;
+    gtk_notebook_set_page(GTK_NOTEBOOK (widget),pageNo);
+    return true;
+  }
+  
+  //: Show a page from the notebook.
+  
+  bool NotebookBodyC::ShowPageNo(IntT pageNo) {
+    Manager.Queue(Trigger(NotebookC(*this),&NotebookC::GUIShowPageNo,pageNo));
+    return true;
+  }
+  
+  //: Show a page from the notebook.
+  // GUI Thread only.
+  
   bool NotebookBodyC::GUIShowPage(WidgetC &page) {
     if(widget == 0) {
       cerr << "NotebookBodyC::GUIShowPage(), ERROR: Called before widget initalised. \n";
@@ -257,8 +273,9 @@ namespace RavlGUIN {
   
   //: Show a page from the notebook.
   
-  void NotebookBodyC::ShowPage(WidgetC &page) {
+  bool NotebookBodyC::ShowPage(WidgetC &page) {
     Manager.Queue(Trigger(NotebookC(*this),&NotebookC::GUIShowPage,page));
+    return true;
   }
   
   //: Get the id of the current page being displayed.

@@ -77,9 +77,16 @@ namespace RavlGUIN
     //: Show a page from the notebook.
     // GUI Thread only.
     
-    void ShowPage(WidgetC &page);
+    bool ShowPage(WidgetC &page);
     //: Show a page from the notebook.
-
+    
+    bool GUIShowPageNo(IntT pageNo);
+    //: Show a page from the notebook.
+    // GUI Thread only.
+    
+    bool ShowPageNo(IntT pageNo);
+    //: Show a page from the notebook.
+    
     IntT GetCurrentPage();
     //: Get the id of the current page being displayed.
     
@@ -185,8 +192,17 @@ namespace RavlGUIN
     //: Show a page from the notebook.
     // GUI Thread only.
     
-    void ShowPage(WidgetC &page)
-    { Body().ShowPage(page); }
+    bool ShowPage(WidgetC &page)
+    { return Body().ShowPage(page); }
+    //: Show a page from the notebook.
+
+    bool GUIShowPageNo(IntT pageNo)
+    { return Body().GUIShowPageNo(pageNo); }
+    //: Show a page from the notebook.
+    // GUI Thread only.
+    
+    bool ShowPageNo(IntT pageNo)
+    { return Body().ShowPageNo(pageNo); }
     //: Show a page from the notebook.
     
     IntT GetCurrentPage()
