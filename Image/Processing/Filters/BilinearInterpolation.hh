@@ -21,7 +21,7 @@ namespace RavlImageN {
   //! userlevel=Normal
   //: Scale an image using bi-Linear Interpolation.
   
-  template <class InT, class OutT>
+  template <class InT, class OutT = InT>
   class BilinearInterpolationC
   {
   public:
@@ -137,10 +137,10 @@ namespace RavlImageN {
 	y2.Col() = iMinC;
 	y4.Col() = iMinC;
 	
-	it.Data() = (OutT)((im[y4] * (1.0-t) * (1.0-u)) + 
-			   (im[y3] *      t  * (1.0-u)) + 
-			   (im[y2] * (1.0-t) * u ) +
-			   (im[y1] *      t  * u ) 
+	it.Data() = (OutT)((im[y4] * ((1.0-t) * (1.0-u))) + 
+			   (im[y3] * (     t  * (1.0-u))) + 
+			   (im[y2] * ((1.0-t) *      u )) +
+			   (im[y1] * (     t  *      u )) 
 			   );
       } while(it.Next()); // True while in same row.
       
