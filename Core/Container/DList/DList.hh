@@ -273,8 +273,11 @@ namespace RavlN {
     : public RCHandleC<DListBodyC<DataT> > 
   {
   public:
-    typedef DLIterC<DataT> iterator;
-    //: Stl compatability
+    typedef DLIterC<DataT> IteratorT;
+    //: Make iterator type accessible.
+    
+    typedef DataT ElementT;
+    //: Make element type accessible.
     
     DListC()
       : RCHandleC<DListBodyC<DataT> >(*new DListBodyC<DataT>())
