@@ -143,7 +143,7 @@ namespace RavlGUIN {
     bool simpleControls;
     bool extendedControls;
     friend class PlayControlC;
-    
+    UIntT lastUpdateFrameNo; //: Frame number of last update.
   };
   
   ////////////////////////////

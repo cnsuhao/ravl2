@@ -270,7 +270,6 @@ namespace RavlGUIN {
     //cerr << "PlayControlBodyC::SliderUpdate(), Called at " << loc << "\n";
     if(loc == ((UIntT) -1)) 
       return true; // We don't have a clue!
-    sigUpdateFrameNo(loc); // Signal update.
     bool updateSlider = false;
     if(pc.FixedEnd() != ((UIntT)-1)) {
       if(pc.FixedEnd() != frameSlider.Upper())
@@ -290,7 +289,12 @@ namespace RavlGUIN {
 	}
       }
     }
+    if(loc == lastUpdateFrameNo)
+      return true; // Its the same as lasttime!
+    lastUpdateFrameNo = loc;
     frameSlider.UpdateValue(loc);
+    hold.Unlock();
+    sigUpdateFrameNo(loc); // Signal update.
     return true;
   }
   
@@ -305,7 +309,8 @@ namespace RavlGUIN {
       skip(1),
       sigUpdateFrameNo((IntT) 1),
       simpleControls(nsimpleControls),
-      extendedControls(nExtendedControls)
+      extendedControls(nExtendedControls),
+      lastUpdateFrameNo((UIntT) -1)
   { InitGUI(); }
   
   PlayControlBodyC::PlayControlBodyC(const DPPlayControlC &nctrl,bool nsimpleControls,bool nExtendedControls)
@@ -316,7 +321,8 @@ namespace RavlGUIN {
       skip(1),
       sigUpdateFrameNo((IntT) 1),
       simpleControls(nsimpleControls),
-      extendedControls(nExtendedControls)
+      extendedControls(nExtendedControls),
+      lastUpdateFrameNo((UIntT) -1)
   { InitGUI(); }
   
   //: Show/Hide extended controls.
