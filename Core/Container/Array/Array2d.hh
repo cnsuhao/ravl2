@@ -71,7 +71,7 @@ namespace RavlN {
     
     Array2dC(const IndexRange2dC & rect,const BufferC<DataT> &data);
     //: Create 2D array with the range covering indexes in 'rect' from data.
-    // NB. It is the users responsability to ensure that 'data' is
+    // Note: It is the users responsability to ensure that 'data' is
     // large enought to contain 'rect'.
     
     Array2dC(const Array2dC<DataT> &arr,const IndexRange2dC & rect);
@@ -82,12 +82,18 @@ namespace RavlN {
     // Note: This does NOT make a copy, it just creates
     // another access to the buffer.
     
+    Array2dC(const RangeBufferAccess2dC<DataT> &rbf,Buffer2dC<DataT> &buf);
+    //: Construct an array with buffer access 'rbf' and data area 'buf'
+    // Expert users only! This allows the creation of arrays that have
+    // unusual access structures. e.g. deinterlacing an image without 
+    // copying any data.
+    
     Array2dC<DataT> Copy() const;
     //: Make a copy of the array.
     
     inline SArray2dC<DataT> SArray2d(bool doShift = false);
     //: Create an access as an SArray.
-    // NB. This does NOT copy the data, it only make a new access to it.
+    // Note: This does NOT copy the data, it only make a new access to it.
     // If doShift is true element Range1().Min(),Range2().Min() will
     // become 0,0 of the sarray. Otherwise if the array does not 
     // contain element '0,0' an error will occure in check mode, 
@@ -96,7 +102,7 @@ namespace RavlN {
     Array1dC<DataT> SliceRow(IndexC i)
       { return Array1dC<DataT>(data.Data(),(*this)[i]); }
     //: Access row as 1d array.
-    // NB. Changes made to the slice will also affect this array!
+    // Note: Changes made to the slice will also affect this array!
     
     Slice1dC<DataT> SliceColumn(IndexC i) { 
       return Slice1dC<DataT>(data.Data(),
@@ -296,7 +302,13 @@ namespace RavlN {
     : RangeBufferAccess2dC<DataT>(sarr,IndexRangeC(0,sarr.Size1()-1),IndexRangeC(0,sarr.Size2()-1)),
       data(sarr.Buffer())
   {}
-
+  
+  template <class DataT>
+  Array2dC<DataT>::Array2dC(const RangeBufferAccess2dC<DataT> &rbf,Buffer2dC<DataT> &buf) 
+    : RangeBufferAccess2dC<DataT>(rbf),
+      data(buf)
+  {}
+  
   template <class DataT>
   Array2dC<DataT> Array2dC<DataT>::Copy() const {
     Array2dC<DataT> ret(Rectangle());
