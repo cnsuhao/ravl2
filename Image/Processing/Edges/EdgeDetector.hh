@@ -10,6 +10,7 @@
 //! userlevel=Normal
 //! rcsid="$Id$"
 //! lib=RavlImageProc
+//! docentry="Ravl.Images.Edges"
 
 #include "Ravl/Image/EdgeDeriche.hh"
 #include "Ravl/Image/EdgeSobel.hh"
@@ -52,7 +53,7 @@ namespace RavlImageN {
     bool eightConnect; // Use eight connectivity ?
   };
   
-  //! userlevel=Develop
+  //! userlevel=Normal
   //: Edge detector.
   // This class wraps up all the components you need to go from grey scale image
   // to a list of Edgels or pixel locations.
