@@ -14,6 +14,7 @@
 //! date="28/10/2002"
 //! userlevel=Normal
 //! docentry="Ravl.GUI.Styles"
+//! example="exStyle.cc"
 
 #include "Ravl/GUI/GTKTypes.hh"
 #include "Ravl/Image/Image.hh"
