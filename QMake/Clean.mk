@@ -68,6 +68,9 @@ TARG_NESTED =$(patsubst %.r,%,$(filter %.r,$(NESTED)))
 clean: subdirs
 	$(SHOWIT)if [ -d $(WORKTMP) ] ; then \
 	  $(RM) -r $(WORKTMP) ; \
+	fi ;  \
+	if [ -d $(INST_DEPEND) ] ; then \
+	  $(RM) -r $(INST_DEPEND)/*.d ; \
 	fi ; 
 
 cleanlib: subdirs
