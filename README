@@ -28,7 +28,11 @@ INSTALLATION
   for the compiler. This is done by setting CC and CXX to the locations of
   the C and C++ compilers respectively in the system configuration
   file. The configuration file can be found in Ravl/QMake/config.$(ARC)
-  where arc is one of linux,sgi or sol2, depending.
+  where arc is one of linux,sgi or sol2, depending on your machine.
+
+- The `Math' module requires the ccmath package to be installed. The code
+  has been tested with version 2.2.0, but I would expect it to work with   
+  older versions as well.
 
 - The appropriate version of perl must be in your default path.
 
