@@ -46,7 +46,8 @@ namespace RavlN {
     // 'copy' == true  ... leave argv, argc untouched, work on a copy
     
     OptionC(DListC<StringC> opts,OStreamC msgout = OStreamC(cerr));
-    //: Creates the option processing system.
+    //: Creates the option processing system for a list of strings.
+    // Note that the list has to mimic the "argv" list; hence it requires a dummy "main program" name as the first item
 
     void OfferLoadSave(); 
     //: Add optload and optsave to the command line.
