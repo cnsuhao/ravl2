@@ -80,6 +80,9 @@ namespace RavlN {
     Index2dC LPixel() const;
     //: Returns the pixel on the left side of the edge.
     
+    Point2dC MidPoint() const; 
+    //: Mid point along edge.
+    
     const BVertexC & Begin() const
     { return *this; }
     //: Returns the boundary vertex from which the elementary edge starts from.

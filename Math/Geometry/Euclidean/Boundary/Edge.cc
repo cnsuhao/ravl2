@@ -21,9 +21,9 @@ namespace RavlN {
     : BVertexC(begin)
   {
     if (begin.RightN() == end) crackCode = CR_RIGHT;
-    if (begin.LeftN() == end)  crackCode = CR_LEFT;
-    if (begin.UpN() == end)    crackCode = CR_UP;
-    if (begin.DownN() == end)  crackCode = CR_DOWN;
+    else if (begin.LeftN() == end)  crackCode = CR_LEFT;
+    else if (begin.UpN() == end)    crackCode = CR_UP;
+    else if (begin.DownN() == end)  crackCode = CR_DOWN;
   }
   
   EdgeC::EdgeC(const Index2dC &pxl, const CrackCodeC & cc)
@@ -36,6 +36,21 @@ namespace RavlN {
     case CR_LEFT : Right();        break;
     case CR_NODIR:                 break;
     }
+  }
+
+  //: Mid point along edge.
+  
+  Point2dC EdgeC::MidPoint() const {
+    switch(crackCode) {
+    case CR_DOWN : return Point2dC((RealT) Row() +0.5 ,(RealT) Col());
+
+    case CR_RIGHT: return Point2dC((RealT) Row()    ,(RealT) Col() + 0.5);
+    case CR_UP   : return Point2dC((RealT) Row() -0.5 ,(RealT) Col());
+    case CR_LEFT : return Point2dC((RealT) Row()      ,(RealT) Col() - 0.5);
+    case CR_NODIR: return Point2dC((RealT) Row()  +0.5    ,(RealT) Col() + 0.5);
+    }
+    RavlAssert(0);
+    return Point2dC(0,0);
   }
   
   // return the pixel on the right side of the edge.

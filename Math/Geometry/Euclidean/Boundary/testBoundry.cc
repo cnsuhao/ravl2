@@ -25,6 +25,7 @@ using namespace RavlN;
 
 int testBoundry();
 int testEdge();
+int testMidPoint();
 
 int main() {
   int ln;
@@ -33,6 +34,10 @@ int main() {
     return 1;
   }
   if((ln = testBoundry()) != 0) {
+    cerr << "Test failed at line " << ln << "\n";
+    return 1;
+  }
+  if((ln = testMidPoint()) != 0) {
     cerr << "Test failed at line " << ln << "\n";
     return 1;
   }
@@ -96,5 +101,17 @@ int testBoundry() {
   ONDEBUG(cerr << "Bounding box=" << bb << " Inv=" << tmpbb << "\n");
   if(bb != rect) return __LINE__;
   
+  return 0;
+}
+
+int testMidPoint() {
+  for(int i =0;i < 5;i++) {
+    BVertexC start(5,5);
+    EdgeC edge(start,(CrackCodeC) i);
+    //ONDEBUG(cerr << " Left=" << edge.LPixel() << " Right=" << edge.RPixel() << "\n");
+    Point2dC m1 = ((Point2dC(edge.RPixel()) + Point2dC(edge.LPixel())) / 2) + Point2dC(0.5,0.5);
+    //ONDEBUG(cerr << " Mid=" << edge.MidPoint() << " m1=" << m1 << " diff=" << (m1 - edge.MidPoint()) << "\n");
+    if((m1 - edge.MidPoint()).SumOfSqr() > 0.00001) return __LINE__;
+  }
   return 0;
 }
