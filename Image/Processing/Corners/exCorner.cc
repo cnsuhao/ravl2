@@ -16,6 +16,7 @@
 #include "Ravl/Option.hh"
 #include "Ravl/Image/DrawFrame.hh"
 #include "Ravl/IO.hh"
+#include "Ravl/DP/SequenceIO.hh"
 
 using namespace RavlImageN;
 
@@ -23,9 +24,12 @@ int main(int nargs,char **argv) {
   OptionC opt(nargs,argv);
   int threshold = opt.Int("t",100,"Threshold. ");
   int w = opt.Int("w",3,"width of filter mask. ");
+  bool useHarris = opt.Boolean("h",false,"Use harris corner detector, else ues susan. ");
+  bool seq = opt.Boolean("seq",false,"Process a sequence. ");
+  bool verb = opt.Boolean("v",false,"Verbose mode. ");
+  UIntT frameLimit = opt.Int("fl",-1,"Limit on the number of frames to process in a sequence. ");
   StringC inf = opt.String("","test.ppm","Input image. ");
   StringC outf = opt.String("","out.ppm","Output image. ");
-  bool useHarris = opt.Boolean("h",false,"Use harris corner detector, else ues susan. ");
   opt.Check();
   
   // Setup corner detector.
@@ -36,32 +40,67 @@ int main(int nargs,char **argv) {
   else
     cornerDet = CornerDetectorSusanC(threshold);
   
-  // Load an image.
-  
-  ImageC<ByteT> img;
-  if(!Load(inf,img)) {
-    cerr << "Failed to load image '" << inf << "'\n";
-    return 1;
+  if(!seq) {
+    // Process a signle image
+    
+    ImageC<ByteT> img;
+    if(!Load(inf,img)) { // Load an image.
+      cerr << "Failed to load image '" << inf << "'\n";
+      return 1;
+    }
+    
+    // Find the corners.
+    
+    DListC<CornerC> corners = cornerDet.Apply(img);
+    
+    // Draw boxes around the corners.
+    
+    ByteT val = 255;
+    for(DLIterC<CornerC> it(corners);it;it++) {
+      IndexRange2dC rect(it->Location(),5,5);
+      DrawFrame(img,val,rect);
+    }
+    
+    // Save image to a file.
+    
+    if(!Save(outf,img)) {
+      cerr << "Failed to save image '" << inf << "'\n";
+      return 1;
+    }
+  } else {
+    // Process a sequence
+    
+    DPIPortC<ImageC<ByteT> > imgIn;
+    if(!OpenISequence(imgIn,inf,"",verb)) {
+      cerr << "Failed to open input '" << inf << "' \n";
+      return 1;
+    }
+    
+    DPOPortC<ImageC<ByteT> > imgOut;
+    if(!OpenOSequence(imgOut,outf,"",verb)) {
+      cerr << "Failed to open input '" << outf << "' \n";
+      return 1;
+    }
+    
+    ImageC<ByteT> img;
+    while(imgIn.Get(img) && frameLimit-- != 0) {
+
+      // Find the corners.
+      
+      DListC<CornerC> corners = cornerDet.Apply(img);
+      
+      // Draw boxes around the corners.
+      
+      ByteT val = 255;
+      for(DLIterC<CornerC> it(corners);it;it++) {
+	IndexRange2dC rect(it->Location(),5,5);
+	DrawFrame(img,val,rect);
+      }
+      
+      // Write image out.
+      
+      imgOut.Put(img);
+    }
   }
-  
-  // Find the corners.
-  
-  DListC<CornerC> corners = cornerDet.Apply(img);
-  
-  // Draw boxes around the corners.
-  
-  ByteT val = 255;
-  for(DLIterC<CornerC> it(corners);it;it++) {
-    IndexRange2dC rect(it->Location(),5,5);
-    DrawFrame(img,val,rect);
-  }
-  
-  // Save image to a file.
-  
-  if(!Save(outf,img)) {
-    cerr << "Failed to save image '" << inf << "'\n";
-    return 1;
-  }
-  
   return 0;
 }
