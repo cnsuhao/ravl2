@@ -46,6 +46,14 @@ namespace RavlN {
     SizeT Size2() const
     { return M; }
     //: Get size of matrix in the second dimension
+
+    SizeT Rows() const
+    { return N; }
+    //: Get the number of rows in the matrix
+
+    SizeT Cols() const
+    { return M; }
+    //: Get the number of columns in the matrix
     
     bool Contains(const Index2dC &i) const
     { return ((UIntT) i.Row().V()) < Size1() && ((UIntT) i.Col().V()) < Size2(); }
@@ -59,7 +67,7 @@ namespace RavlN {
       return data[ind.Row().V()][ind.Col().V()]; 
     }
     //: Access item.
-
+    
     const DataT &operator[](const Index2dC &ind) const { 
 #if RAVL_CHECK
       if(!Contains(ind))
