@@ -766,6 +766,23 @@ namespace RavlN {
   void StringC::del(char c, int startpos) {
     del(search(startpos, length(), c), 1);
   }
+
+  //: Print to string using good old 'C' sytle formating.
+  // This isn't the saftest function, it uses a fixed
+  // buffer of 4096 bytes.  <p>
+  
+  int StringC::form(const char *format ...) {
+    const int formSize = 4096;
+    va_list args;
+    va_start(args,format);
+    char buff[formSize];
+    int x;
+    if((x = vsnprintf(buff,formSize,format,args)) < 0)
+      cerr << "WARNING: StringC::form(...), String truncated!! \n";
+    (*this) = StringC(buff);  // Slower, but saves memory.
+    va_end(args);
+    return x;
+  }
   
   /*
    * substring extraction

@@ -738,6 +738,11 @@ namespace RavlN {
     friend inline void     cat(const char*,const char*, const char*, StringC&);
     friend inline void     cat(const char*,const char*, char, StringC&);
     
+    int form(const char *format ...);
+    //: Print to string using good old 'C' sytle formating.
+    // This isn't the saftest function, it uses a fixed
+    // buffer of 4096 bytes.  <p>
+    
   };
   
   ////////////////////////////////
