@@ -33,6 +33,17 @@ namespace RavlImageN
     }
   }
 
+  void BlueScreenC::Apply(ImageC<ByteT>& mask, 
+			  const ImageC<ByteRGBAValueC> &image) const
+  {
+    const int const_thresh(thresh);
+    for(Array2dIter2C<ByteT,ByteRGBAValueC> i(mask,image); i; i++)
+    {
+      ByteRGBAValueC &px = i.Data2();
+      i.Data1() = ((((int) px.Blue() * 2) - ((int) px.Red() + px.Green())) < const_thresh) ? 255 : 0;
+    }
+  }
+
   void BlueScreenC::Apply(ImageC<ByteT>& mask,
 			  const ImageC<ByteYUV422ValueC> &image) const
   {

@@ -15,6 +15,7 @@
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
+#include "Ravl/Image/ByteRGBAValue.hh"
 #include "Ravl/Image/ByteYUV422Value.hh"
 
 namespace RavlImageN {
@@ -45,6 +46,11 @@ namespace RavlImageN {
     //: Produce a background/foreground mask from an RGB image
     //  255 is assigned to foreground, 0 otherwise
 
+    void Apply(ImageC<ByteT>& mask, 
+	       const ImageC<ByteRGBAValueC> &image) const;
+    //: Produce a background/foreground mask from an RGBA image
+    //  255 is assigned to foreground, 0 otherwise
+
     ImageC<ByteT> Apply(const ImageC<ByteRGBValueC> &image) const
     {
       ImageC<ByteT> ret(image.Frame());
@@ -52,6 +58,15 @@ namespace RavlImageN {
       return ret;
     }
     //: Produce a background/foreground mask from an RGB image
+    //  255 is assigned to foreground, 0 otherwise
+
+    ImageC<ByteT> Apply(const ImageC<ByteRGBAValueC> &image) const
+    {
+      ImageC<ByteT> ret(image.Frame());
+      Apply(ret, image);
+      return ret;
+    }
+    //: Produce a background/foreground mask from an RGBA image
     //  255 is assigned to foreground, 0 otherwise
     
     void Apply(ImageC<ByteT>& mask,
