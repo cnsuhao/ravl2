@@ -155,11 +155,6 @@ namespace RavlGUIN {
   //: Put a boarder around a widget.
   // Helper function calls: LBoxC(widge,false,boarder,nhomogeneous,nspacing)
   
-  inline 
-  LBoxC Box(const DListC<WidgetC> &widges,int boarder = 0,bool nhomogeneous = false,IntT nspacing = 0)
-  { return LBoxC(widges,false,boarder,nhomogeneous,nspacing); }
-  //: Put a boarder around a list of widgets.
-  // Helper function calls: LBoxC(widges,false,boarder,nhomogeneous,nspacing)
 }
 
 #endif
