@@ -217,8 +217,7 @@ namespace RavlN {
       ref(refElm),
       buffer(buff)
   {
-    UIntT noff = refElm - buffer.ReferenceElm();
-    RavlAssert(((nsize-1) * stride + noff) < buff.Size()); // Check it fits.    
+    RavlAssert(((nsize-1) * stride + (IntT)(refElm - buffer.ReferenceElm())) < buff.Size()); // Check it fits.    
   }
 								       
     //: Attach a vector to a buffer.
