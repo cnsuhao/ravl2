@@ -9,6 +9,7 @@
 ////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! userlevel=Normal
+//! docentry="Ravl.Source Tools"
 //! lib=RavlSourceTools
 
 #include "Ravl/RefCounter.hh"
@@ -19,6 +20,7 @@ namespace RavlN {
 
   class DefsMkFileC;
 
+  //! userlevel=Develop
   //: Header info. 
   // All you wanted to know about header files, but where
   // afraid to ask.
@@ -50,6 +52,7 @@ namespace RavlN {
     StringC src;     // Where it is in the source tree.
   };
   
+  //! userlevel=Normal
   //: Information about library.
   
   class LibInfoBodyC

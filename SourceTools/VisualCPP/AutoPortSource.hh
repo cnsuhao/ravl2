@@ -8,6 +8,7 @@
 #define RAVL_SOURCEAUTOPORT_HEADER 1
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
+//! docentry="Ravl.Source Tools.AutoPort"
 //! userlevel=Normal
 
 #include "Ravl/SourceTools/DefsFile.hh"

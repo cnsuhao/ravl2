@@ -8,7 +8,9 @@
 #define RAVLPROGINFO_HEADER 1
 ////////////////////////////////////////////////
 //! rcsid="$Id$"
+//! docentry="Ravl.Source Tools"
 //! lib=RavlSourceTools
+//! userlevel=Normal
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/String.hh"
@@ -17,6 +19,8 @@
 namespace RavlN {
 
   class DefsMkFileC;
+  
+  //! userlevel=Develop
   //: Information about library.
   
   class ProgInfoBodyC
@@ -48,6 +52,7 @@ namespace RavlN {
     DListC<StringC> sources;  // Source files in the program (fully qualified names).
   };
 
+  //! userlevel=Normal
   //: Information about program.
   
   class ProgInfoC

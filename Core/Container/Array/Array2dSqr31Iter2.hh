@@ -2,6 +2,7 @@
 #define RAVLARRAY2dSQR31ITER2_HEADER 1
 //////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
+//! docentry="Ravl.Core.Arrays.2D"
 //! author="Charles Galambos"
 
 #include "Ravl/Array2d.hh"

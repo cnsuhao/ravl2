@@ -3,6 +3,7 @@
 //////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! author="Charles Galambos"
+//! docentry="Ravl.Core.Arrays.2D"
 
 #include "Ravl/Array2d.hh"
 #include "Ravl/BfAcc2Iter.hh"

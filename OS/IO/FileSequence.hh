@@ -7,7 +7,7 @@
 #ifndef RAVLDPFILESEQUENCE_HEADER
 #define RAVLDPFILESEQUENCE_HEADER 1
 /////////////////////////////////////////////////////////
-//! docentry="Data Processing.Component"
+//! docentry="Ravl.OS.Sequence"
 //! rcsid="$Id$"
 //! file="Ravl/OS/IO/FileSequence.hh"
 //! lib=RavlOS
@@ -21,6 +21,7 @@
 
 namespace RavlN {
 
+  //! userlevel=Develop
   //: File Sequence body.
   // Designed to be a component in an input/output stream that 
   // uses seperate files.

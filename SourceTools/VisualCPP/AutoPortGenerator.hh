@@ -7,6 +7,7 @@
 #ifndef RAVLAUTOPORTGENERATOR_HEADER
 #define RAVLAUTOPORTGENERATOR_HEADER 1
 ///////////////////////////////////////////////////////
+//! docentry="Ravl.Source Tools.AutoPort"
 //! rcsid="$Id$"
 
 #include "Ravl/SourceTools/AutoPortSource.hh"

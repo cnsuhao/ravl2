@@ -8,6 +8,7 @@
 //! rcsid="$Id$"
 //! lib=RavlOS
 //! file="Ravl/OS/IO/SequenceIO.cc"
+//! userlevel=Normal
 
 #include "Ravl/DP/SequenceIO.hh"
 #include "Ravl/DP/FileSequence.hh"
