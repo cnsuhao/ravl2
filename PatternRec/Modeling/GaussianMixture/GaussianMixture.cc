@@ -21,7 +21,7 @@
 #if RAVL_COMPILER_MIPSPRO 
 #include "Ravl/VirtualConstructor.hh"
 #include "Ravl/BinStream.hh"
-#pragma instantiate RavlN::GaussianMixtureBodyC* instantiate RavlN::VCLoad(RavlN::BinIStreamC&,RavlN::GaussianMixtureBodyC*)
+#pragma instantiate RavlN::GaussianMixtureBodyC* RavlN::VCLoad(RavlN::BinIStreamC&,RavlN::GaussianMixtureBodyC*)
 #endif 
 
 namespace RavlN {
