@@ -30,7 +30,7 @@ namespace RavlImageN {
     FileFormatJPEGBodyC();
     //: Default constructor.
     
-    FileFormatJPEGBodyC(int comp,int pri,const StringC &name,const StringC &desc);
+    FileFormatJPEGBodyC(int comp,int pri,bool asSequence,const StringC &name,const StringC &desc);
     //: Constructor.
     
     const type_info &ChooseFormat(const type_info &obj_type) const;
@@ -68,7 +68,7 @@ namespace RavlImageN {
     //: Find the priority of the format. the higher the better.
     // Default is zero, this is better than the default (streams.)
     
-    virtual bool IsStream() const { return true; }
+    virtual bool IsStream() const { return asSequence; }
     //: Test if format is a fully streamable.
     // i.e. check if you can read/write more than object object.
     // jpeg supports sequences.. but not with this software for now...
@@ -76,6 +76,7 @@ namespace RavlImageN {
   protected:
     int compression;
     int pri;
+    bool asSequence;
   };
   
   /////////////////////////////
@@ -84,9 +85,9 @@ namespace RavlImageN {
   
   class FileFormatJPEGC : public FileFormatC<ImageC<ByteT> > {
   public:
-    FileFormatJPEGC(int comp,int pri,const StringC &name,const StringC &desc)
-      : FileFormatC<ImageC<ByteT> >(*new FileFormatJPEGBodyC(comp,pri,name,desc))
-      {}
+    FileFormatJPEGC(int comp,int pri,bool asSequence,const StringC &name,const StringC &desc)
+      : FileFormatC<ImageC<ByteT> >(*new FileFormatJPEGBodyC(comp,pri,asSequence,name,desc))
+    {}
   };
 }
 

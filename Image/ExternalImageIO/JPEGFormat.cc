@@ -38,10 +38,11 @@ namespace RavlImageN {
   
   //: Constructor.
   
-  FileFormatJPEGBodyC::FileFormatJPEGBodyC(int comp,int npri,const StringC &name,const StringC &desc)
+  FileFormatJPEGBodyC::FileFormatJPEGBodyC(int comp,int npri,bool nAsSequence,const StringC &name,const StringC &desc)
     : FileFormatBodyC(name,desc),
       compression(comp),
-      pri(npri)
+      pri(npri),
+      asSequence(nAsSequence)
   {}
   
   class DoubleImageC;
@@ -171,8 +172,11 @@ namespace RavlImageN {
   const type_info &FileFormatJPEGBodyC::DefaultType() const { 
     return typeid(ImageC<ByteRGBValueC>); 
   }
-   
-  FileFormatJPEGC RegisterFileFormatJPEG(100,0,"jpeg","JPEG image file format.  Default lossless compression.");
-  FileFormatJPEGC RegisterFileFormatJPEGL(75,-25,"jpegl","JPEG image file format.  Default 75% lossy compression.");
+  
+  FileFormatJPEGC RegisterFileFormatJPEG(100,0,false,"jpeg","JPEG image file format. 'Lossless' compression.");
+  FileFormatJPEGC RegisterFileFormatJPEGL(75,-25,false,"jpegl","JPEG image file format. 75% lossy compression.");
+  
+  FileFormatJPEGC RegisterFileFormatMJPEG(100,-1,true,"mjpeg","Motion JPEG image file format. 'lossless' compression.");
+  FileFormatJPEGC RegisterFileFormatMJPEGL(75,-26,true,"mjpegl","Motion JPEG image file format.  75% lossy compression.");
   
 }
