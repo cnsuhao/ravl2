@@ -316,6 +316,27 @@ namespace RavlGUIN {
     return true;
   }
   
+  //: Is the specified path expanded?
+  // GUI thread only
+  
+  bool TreeViewBodyC::GUIExpanded(TreeModelPathC path) {    
+    // Check validity of widget
+    if(widget == 0)
+      return false;
+    // Check status
+    return gtk_tree_view_row_expanded(GTK_TREE_VIEW(widget),path.TreePath());    
+  }
+  
+  //: Is the specified iterator expanded?
+  // GUI thread only
+  
+  bool TreeViewBodyC::GUIExpanded(TreeModelIterC iter) {
+    // Convert to path
+    TreeModelPathC path(iter);
+    // Check status
+    return GUIExpanded(path);
+  }
+
   //: Expand the entire tree
   
   void TreeViewBodyC::ExpandAll() {
