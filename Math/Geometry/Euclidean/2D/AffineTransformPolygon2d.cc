@@ -6,6 +6,8 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! author="Charles Galambos"
+//! file="Ravl/Math/Geometry/Euclidean/2D/AffineTransformPolygon2d.cc"
 
 #include "Ravl/Affine2d.hh"
 #include "Ravl/Polygon2d.hh"

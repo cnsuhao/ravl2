@@ -19,7 +19,7 @@ SOURCES= LineABC2d.cc Curve2d.cc Curve2dLine.cc Curve2dLineFit.cc \
  LinePP2d.cc Projection2d.cc Point2d.cc PointSet2d.cc Polygon2d.cc \
  Circle2d.cc FitCircle2d.cc Arc2d.cc Curve2dCircle.cc Curve2dArc.cc \
  FitLineABC2d.cc ConvexHullOfPointSet.cc HEMesh2d.cc DelaunayTriangulation2d.cc \
- TriMesh2d.cc AffineTransformPolygon2d.cc
+ TriMesh2d.cc AffineTransformPolygon2d.cc ProjectiveTransformPolygon2d.cc
 
 PLIB=RavlMath
 

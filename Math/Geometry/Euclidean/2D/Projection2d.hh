@@ -20,9 +20,12 @@
 #include "Ravl/Point2d.hh"
 
 namespace RavlN {
+  class PointSet2dC;
+  class Polygon2dC;
   
   //! userlevel=Normal
-  //: Projective transform.
+  //: 2D Projective transform.
+  // Represents a perspective projection in 2d space.
   
   class Projection2dC {
   public:
@@ -43,8 +46,6 @@ namespace RavlN {
     //!param: transform - the 2D projective transformation
     //!param: niz, noz - the normalisation values for the input and output vectors
     // The normalisation values are the values the last term in the vectors must have for correct normalisation.  This is ususally set = 1, but for some operations is better set to a value representative of typical components of the vector.
-
-
     
     inline
     Point2dC Project(const Point2dC &pnt) const {
@@ -89,6 +90,12 @@ namespace RavlN {
     Matrix3dC trans;
     RealT iz, oz;
   };
+  
+  PointSet2dC operator*(const Projection2dC &trans,const PointSet2dC &points);
+  //: Apply a projective transform to a point set
+  
+  Polygon2dC operator*(const Projection2dC &trans,const Polygon2dC &points);
+  //: Apply a projective transform to a polygon
   
   istream &operator>>(istream &s,Projection2dC &proj);  
   //: Read from a stream.

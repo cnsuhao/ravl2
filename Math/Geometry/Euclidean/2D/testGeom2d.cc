@@ -24,6 +24,7 @@
 #include "Ravl/DelaunayTriangulation2d.hh"
 #include "Ravl/HEMesh2d.hh"
 #include "Ravl/TriMesh2d.hh"
+#include "Ravl/Projection2d.hh"
 
 using namespace RavlN;
 
@@ -34,6 +35,7 @@ int testConvexHull2d();
 int testDelaunayTriangulation2d();
 int testFitAffine();
 int testHEMesh2d();
+int testProjective2d();
 
 int main() {
   int ln;
@@ -62,6 +64,10 @@ int main() {
     return 1;
   }
   if((ln = testFitAffine()) != 0) {
+    cerr << "Test failed at " << ln << "\n";
+    return 1;
+  }
+  if((ln = testProjective2d()) != 0) {
     cerr << "Test failed at " << ln << "\n";
     return 1;
   }
@@ -232,6 +238,17 @@ int testFitAffine() {
     if(((aff * ipnt[i]) - opnt[i]).SumOfSqr() > 0.001)
       return __LINE__;
 
+  // Check polygon transform.
+  
+  Polygon2dC poly;
+  
+  for(i = 0;i < 3;i++)
+    poly.InsLast(ipnt[i]);
+  Polygon2dC tpoly = aff * poly;
+  i = 0;
+  for(DLIterC<Point2dC> it(tpoly);it;it++,i++)
+    if((*it - opnt[i]).SumOfAbs() > 0.001) return __LINE__;
+  
   // Try some random cases.
   
   for(int j = 0;j < 100;j++) {
@@ -248,6 +265,8 @@ int testFitAffine() {
       }
     }
   }
+
+  
   return 0;
 }
 
@@ -280,6 +299,30 @@ int testHEMesh2d() {
   if(face.IsValid()) return __LINE__;
   
   if(!IsDelaunayTriangulation(mesh)) return __LINE__;
+  
+  return 0;
+}
+
+int testProjective2d() {
+  IntT i;
+  Projection2dC proj; // Create a unit projection.
+  
+  SArray1dC<Point2dC> ipnt(3);
+  ipnt[0] = Point2dC(1,1);
+  ipnt[1] = Point2dC(2,1);
+  ipnt[2] = Point2dC(1,3);
+  
+  SArray1dC<Point2dC> opnt = ipnt;
+  
+  // Check polygon transform.
+  Polygon2dC poly;
+  
+  for(i = 0;i < 3;i++)
+    poly.InsLast(ipnt[i]);
+  Polygon2dC tpoly = proj * poly;
+  i = 0;
+  for(DLIterC<Point2dC> it(tpoly);it;it++,i++)
+    if((*it - opnt[i]).SumOfAbs() > 0.001) return __LINE__;
   
   return 0;
 }
