@@ -42,7 +42,11 @@ namespace RavlImageN {
       botr += Sqr(n1);
       botl += Sqr(n2);
     }
-    return (top/(Sqrt(botl * botr)));
+    if(botl == 0 || botr == 0) // One of the images has zero variance.
+      return botl == 0 && botr == 0; // If both have, call it a match.
+    RealT bot = botl * botr;
+    RavlAssert(bot >= 0);
+    return (top/Sqrt(bot));
   }
   //: Compute the normalised correlation of two images.
   
