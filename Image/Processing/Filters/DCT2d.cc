@@ -150,11 +150,11 @@ namespace RavlImageN {
   {
     m = (unsigned int)Ceil(Log(size)/log(2.0));
     N = (unsigned int)Pow(2.0, m);
-    cosines = new float [N];
+    cosines = new RealT [N];
     makecosinetable();
 
-    scaleDC = 1.0/(float)N;
-    scaleMix = sqrt(2.0)/(float)N;
+    scaleDC = 1.0/(RealT)N;
+    scaleMix = sqrt(2.0)/(RealT)N;
     scaleAC = 2.0 * scaleDC;
   }
 
@@ -165,74 +165,91 @@ namespace RavlImageN {
   
   void ChanDCTC::dct_in_place(ImageC<RealT>& dest) const
   {
-    int n1,k,j,i,i1,l,n2,rows,cols,p;
+    int n1,k,j,i,i1,l,n2,rows,cols; //p
     double c,xt;
-
+    RealT *p;
     rowsinputmapping(dest);
     for (rows=0; rows<N; rows++) {
-      p=0;
+      RangeBufferAccessC<RealT > destrow = dest[rows]; 
+      p=cosines;
       n2 = N;
       for (k=1; k<m; k++) {
 	n1 = n2;
 	n2 = n2 >>1;
 	for (j=0; j<n2; j++) {
-	  c=cosines[p++];
-	  for (i=j; i<N; i+=n1) {
-	    l = i+n2;
-	    xt = dest[rows][i] - dest[rows][l];
-	    dest[rows][i] = dest[rows][i] + dest[rows][l];
-	    dest[rows][l] = 2*xt * c;
+	  c=*(p++);
+	  RealT *rowi = &(destrow[j]);
+	  for (i=j; i<N; i+=n1,rowi += n1) {
+	    RealT &rowl = (rowi)[n2];
+	    xt = *rowi - rowl;
+	    *rowi += rowl;
+	    rowl = 2*xt * c;
 	  }
 	}
       }
-      c = cosines[p++];
+      c = *(p++);
       for (i=0; i<N; i+=2) {
-	i1 = i+1;
-	xt = dest[rows][i];
-	dest[rows][i] += dest[rows][i1];
-	dest[rows][i1] = (xt-dest[rows][i1])* c;
+	RealT &rowi = destrow[i];
+	RealT &rowi1 = (&rowi)[1];
+	xt = rowi;
+	rowi += rowi1;
+	rowi1 = (xt-rowi1)* c;
       }
     }/* end of for rows */
+    
     rowsbitreversal(dest);
     rowspostadditions(dest);
-
     columnsinputmapping(dest);	
     for (cols=0; cols<N; cols++) {
-      p=0;
+      p = cosines;
       n2 = N;
       for (k=1; k<m; k++) {
 	n1 = n2;
 	n2 = n2 >>1;
 	for (j=0; j<n2; j++) {
-	  c=cosines[p++];
+	  c = *(p++);
 	  for (i=j; i<N; i+=n1) {
 	    l = i+n2;
-	    xt = dest[i][cols] - dest[l][cols];
-	    dest[i][cols] = dest[i][cols] + dest[l][cols];
-	    dest[l][cols] = 2*xt * c;
+	    RealT &coli = dest[i][cols];
+	    RealT &coll = dest[l][cols];
+	    xt = coli - coll;
+	    coli += coll;
+	    coll = 2*xt * c;	    
 	  }
 	}
       }
-      c = cosines[p++];
+      c = *(p++);
       for (i=0; i<N; i+=2) {
 	i1 = i+1;
-	xt = dest[i][cols];
-	dest[i][cols] += dest[i1][cols];
-	dest[i1][cols] = (xt-dest[i1][cols])* c;
+	RealT &coli = dest[i][cols];
+	RealT &coli1 = dest[i1][cols];
+	xt = coli;
+	coli += coli1;
+	coli1 = (xt-coli1)* c;
       }
     }/* end of for cols */
     columnsbitreversal(dest);
     columnspostadditions(dest);
     
-    //Scale coefficients
-    dest[0][0] *= scaleDC;
-    for (i = 1; i < N; i++)
-      dest[i][0] *= scaleMix;
-    for (j = 1; j < N; j++)
-      dest[0][j] *= scaleMix;
-    for (i = 1; i < N; i++)
-      for (j = 1; j < N; j++)
-	dest[i][j] *= scaleAC;
+    //////// Scale coefficients
+    
+    BufferAccess2dIterC<RealT> it(dest,dest.Range2());
+    *it *= scaleDC;
+    if(!it.Next())
+      return ; // Must be 1x1
+    // Do first row.
+    do {
+      *it *= scaleMix;
+    } while(it.Next());
+    
+    while(it) {
+      *it *= scaleMix;
+      if(!it.Next())
+	break;
+      do {
+	*it *= scaleAC;
+      } while(it.Next());
+    } 
   }
   
   void ChanDCTC::DCT(const ImageC<RealT>& src, ImageC<RealT>& dest) const
@@ -280,10 +297,13 @@ namespace RavlImageN {
 	loops = loops <<1;
 	for (j=0; j<(step>>1); j++) {
 	  l=ep;
-	  fi[l][cols] = fi[l][cols]/2;
-
+	  RealT *val = &fi[l][cols];
+	  *val /= 2;
+	  //	  fi[l][cols] = fi[l][cols]/2;
 	  for (i=1; i<loops; i++)  {
-	    fi[l+step][cols] = fi[l+step][cols] - fi[l][cols];
+	    RealT *valn = &fi[l+step][cols];
+	    *valn -= *val;
+	    val = valn;
 	    l =l+step;
 	  }
 	  ep +=1;
@@ -298,6 +318,7 @@ namespace RavlImageN {
 
     /* Postaditions for the columns */
     for (rows=0; rows<N; rows++) {
+      RangeBufferAccessC<RealT > destrow = fi[rows]; 
       step =N;
       loops = 1;
       for (k=1; k<m; k++)  {
@@ -306,10 +327,12 @@ namespace RavlImageN {
 	loops = loops <<1;
 	for (j=0; j<(step>>1); j++) {
 	  l=ep;
-	  fi[rows][l]= fi[rows][l]/2;
+	  RealT *val = &destrow[l];
+	  *val /= 2;
 	  for (i=1; i<loops;i++)  {
-	    fi[rows][l+step] = fi[rows][l+step]- fi[rows][l];
-	    l =l+step;
+	    RealT *valn = val + step;
+	    *valn -= *val;
+	    val = valn;
 	  }
 	  ep +=1;
 	}
@@ -325,6 +348,7 @@ namespace RavlImageN {
 
     /* revesre rows */
     for (cols =0; cols<N; cols ++) {   
+      RangeBufferAccessC<RealT > destrow = fi[cols]; 
       v1 = (m+1)/2; 
       v2 = 1 << v1; 
       v3 = N-1-v2;
@@ -337,9 +361,11 @@ namespace RavlImageN {
 	}
 	j +=k;
 	if(i<j){
-	  xt=fi[cols][j];
-	  fi[cols][j]= fi[cols][i];
-	  fi[cols][i]=xt;
+	  RealT &fij = destrow[j];
+	  RealT &fii = destrow[i];	  
+	  xt=fij;
+	  fij= fii;
+	  fii=xt;
 	}
       }
     }
@@ -363,9 +389,11 @@ namespace RavlImageN {
 	}
 	j +=k;
 	if(i<j){
-	  xt=fi[j][rows];
-	  fi[j][rows] =fi[i][rows];
-	  fi[i][rows] =xt;
+	  RealT &fij = fi[j][rows];
+	  RealT &fii = fi[i][rows];
+	  xt=fij;
+	  fij= fii;
+	  fii=xt;	  
 	}
       }
     }
@@ -373,13 +401,10 @@ namespace RavlImageN {
 
   void ChanDCTC::columnsinputmapping(ImageC<RealT>& fi) const
   {
-    int n1,n2,rows,n;
+    int rows,n;
     ImageC<RealT> s(fi.Frame()); //double s[512][512];
-
-    for(n1=0; n1 < N; n1++) 
-      for (n2=0; n2<N; n2++ ) 
-	s[n1][n2] = fi[n1][n2];
-
+    for(BufferAccess2dIter2C<RealT,RealT> it(s,s.Range2(),fi,fi.Range2());it;it++)
+      it.Data1() = it.Data2();
     for (rows=0; rows<N; rows++) {
       for(n=0; n < N/2; n++) {
 	fi[n][rows]     = s[2*n][rows];
@@ -390,20 +415,18 @@ namespace RavlImageN {
   
   void ChanDCTC::rowsinputmapping(ImageC<RealT>& fi) const
   {
-    int n1,n2,cols,n;
+    int cols,n;
     ImageC<RealT> s(fi.Frame()); //double s[512][512];
-
-    for(n1=0; n1 < N; n1++) 
-      for (n2=0; n2<N; n2++ )
-	s[n1][n2] = fi[n1][n2];
-
+    for(BufferAccess2dIter2C<RealT,RealT> it(s,s.Range2(),fi,fi.Range2());it;it++)
+      it.Data1() = it.Data2();    
     for (cols=0; cols<N; cols++) {
+      RangeBufferAccessC<RealT > firow = fi[cols]; 
+      RangeBufferAccessC<RealT > srow = s[cols]; 
       for(n=0; n < N/2; n++) {
-	fi[cols][n]     = s[cols][2*n];
-	fi[cols][N-n-1] = s[cols][2*n+1];
+	firow[n]     = srow[2*n];
+	firow[N-n-1] = srow[2*n+1];
       }
     }
-	
   }
 
   /***************************************************************************
@@ -564,7 +587,7 @@ namespace RavlImageN {
       for (j = 1; j < N0; j++)
 	dest[i][j] *= scaleAC;
     
-    dest = ImageC<RealT>(dest,IndexRange2dC(0,N0,0, N0)); //Inefficient
+    dest = ImageC<RealT>(dest,IndexRange2dC(0,N0-1,0, N0-1)); //Inefficient
   }
 
   void VecRadDCTC::DCT(const ImageC<RealT>& src, ImageC<RealT>& dest) const {

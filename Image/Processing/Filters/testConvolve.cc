@@ -85,7 +85,7 @@ static ObservationListManagerBodyC dummyvar11 (dummyvar9);
 
 int main() {
   int ln;
-#if 1
+#if 0
 #if !TESTMMX
   if((ln = testConvolve2d()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
@@ -132,12 +132,12 @@ int main() {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
-  if((ln = testDCT()) != 0) {
+  if((ln = testWarpScale()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
 #endif
-  if((ln = testWarpScale()) != 0) {
+  if((ln = testDCT()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
@@ -503,8 +503,11 @@ int testGaussConvolve() {
 }
 
 int testDCT() {
-  ImageC<RealT> img(8,8);
-  img.Fill(0);
+  ImageC<RealT> img(16,16);
+  //img.Fill(0);
+  for(Array2dIterC<RealT> it(img);it;it++)
+   *it = Random1();
+  
   img[3][3] = 1;
   img[4][3] = 1;
   img[4][4] = 1;
@@ -520,10 +523,22 @@ int testDCT() {
 
   if((rimg - img).SumOfSqr() > 0.000001)
     return __LINE__;
-
-  ChanDCTC chandct(6);
+  
+  ChanDCTC chandct(img.Rows());
   ImageC<RealT> cimg = chandct.DCT(img);
   //cerr << "CRes=" << cimg << "\n";
+  //cerr << "Error=" << (cimg - res).SumOfSqr()  << "\n";
+  if((cimg - res).SumOfSqr() > 0.000001)
+    return __LINE__;
+
+  for(int i = 0;i < 10000;i++)
+    cimg = chandct.DCT(img);
+  
+#if 0  
+  VecRadDCTC vrdct(8,8);
+  ImageC<RealT> cimg2 = vrdct.DCT(img);
+  cerr << "CRes=" << cimg2 << "\n";
+#endif
   
   return 0;
 }

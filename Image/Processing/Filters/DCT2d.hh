@@ -86,11 +86,11 @@ namespace RavlImageN {
   private:
     int N;
     int m;
-    float *cosines;
+    RealT *cosines;
 
-    float scaleDC;
-    float scaleMix;
-    float scaleAC;
+    RealT scaleDC;
+    RealT scaleMix;
+    RealT scaleAC;
 
     void makecosinetable();
     void columnspostadditions(ImageC<RealT>& fi) const;
