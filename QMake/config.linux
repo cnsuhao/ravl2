@@ -50,13 +50,15 @@ AMKDEPFLAGS = -Wp,-MMD,$(WORKTMP)/$*.d
 MKDEPUP = echo -n '$$(INST_OBJS)/' > $(INST_DEPEND)/$*.d ; cat $(WORKTMP)/$*.d  >> $(INST_DEPEND)/$*.d ; \
  rm $(WORKTMP)/$*.d
 
+NOLIBRARYPRELINK=1
+
 ############################
 # Universal flags.
 
-CFLAGS   = -Wall -pipe  
+CFLAGS   = -Wall -pipe -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE 
 CFLAGS   += $(EXTRA_CFLAGS) 
 
-CCFLAGS  = -pipe -Wall
+CCFLAGS  = -pipe -Wall -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
 CCFLAGS  += $(EXTRA_CCFLAGS)
 
 CCPPFLAGS= -DGNU -Dunix
@@ -68,20 +70,19 @@ LDFLAGS += $(EXTRA_LDFLAGS)
 PAR_MAKE = --jobs=$(PROCS)
 
 UNDEFSYMB = -u #
-
-OPTCFLAGS = -O2
-# -funroll-loops -ffast-math -mcpu=i686
-OPTCCFLAGS = -O2
-# -funroll-loops -ffast-math -mcpu=i686
+#-fno-strict-aliasing
+#-fno-strict-aliasing
+OPTCFLAGS = -O3 -ffast-math -mcpu=pentium4  -mmmx -msse2
+OPTCCFLAGS = -O3 -ffast-math -mcpu=pentium4 -mmmx -msse2
 # -DQMAKE_CHECK
 
 ############################
 # 'debug' variant.
 
 ifeq ($(VAR),debug)
- CFLAGS += -g -DQMAKE_CHECK -DQMAKE_PARANOID
+ CFLAGS += -g  -DQMAKE_CHECK -DQMAKE_PARANOID
  CCFLAGS += -g -DQMAKE_CHECK -DQMAKE_PARANOID
- LDFLAGS += -g 
+ LDFLAGS += -g  
 endif
 
 ############################
@@ -126,7 +127,7 @@ endif
 # 'gprof' variant.
 
 ifeq ($(VAR),gprof)
- CFLAGS += -pg $(OPTCFLAGS)
- CCFLAGS += -pg $(OPTCFLAGS)
- LDFLAGS += -pg -O2
+ CFLAGS += -pg -g   $(OPTCFLAGS)
+ CCFLAGS += -pg -g $(OPTCFLAGS)
+ LDFLAGS += -pg -g -O2
 endif

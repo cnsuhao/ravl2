@@ -11,8 +11,8 @@
 ################ Compiler ##################################
 
 # paths for cc and c++ compiler
-#RAVL_CC  = /opt/GNUdevelop/gcc-3.3-pre/bin/gcc
-#RAVL_CXX = /opt/GNUdevelop/gcc-3.3-pre/bin/g++
+#RAVL_CC  = /opt/GNUdevelop/gcc-3.3.2/bin/gcc
+#RAVL_CXX = /opt/GNUdevelop/gcc-3.3.2/bin/g++
 
 # extra CFLAGS (c)
 # EXTRA_CFLAGS =
@@ -24,7 +24,9 @@
 
 ## GTK 2.x #####################################
 
-# RESOURCES += libGTK2
+#RESOURCES += libGTK libGTK2
+
+#RESOURCES += libglade2
 
 ## GTK 1.x #####################################
 
@@ -105,3 +107,7 @@ RESOURCES += libAudioFile
 
 ## LIBTIFF_HOME ############################################
 #LIBTIFF_HOME=
+
+## DVD Read ############################################
+
+#RESOURCES += libdvdread

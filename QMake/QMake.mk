@@ -443,7 +443,7 @@ redoc:
 # Clean up.
 
 distclean:
-	@echo "--- Cleaning project out. \n"; \
+	@echo "--- Cleaning project out. "; \
 	rm -rf $(ROOTDIR)/* \
 	rm -rf $(LOCALTMP)/*
 
