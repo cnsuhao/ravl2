@@ -46,7 +46,7 @@ namespace RavlN {
     { return lit->Data(); }
     //: Access current data.
     
-    const DataT &Key() const
+    const KeyT &Key() const
     { return lit->Key(); }
     //: Access current data.
     
