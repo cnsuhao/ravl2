@@ -142,6 +142,10 @@ namespace RavlN {
     }
     //: Calculate the dot product of this and 'oth' vector.
     
+    inline bool Limit(const DataT &min,const DataT &max);
+    //: Limit all values in this vector to between min and max.
+    // Returns true if all values in the vector are between the limits.
+    
     // Distance calculations
     // ---------------------
     
@@ -312,6 +316,24 @@ namespace RavlN {
     TFVectorC<DataT,N> ret;
     for(UIntT i = 0;i < N;i++)
       ret[i] = data[i] / alpha;
+    return ret;
+  }
+
+  template<class DataT,unsigned int N>
+  inline 
+  bool TFVectorC<DataT,N>::Limit(const DataT &min,const DataT &max) {
+    bool ret = true;
+    for(UIntT i =0;i <N;i++) {
+      if(data[i] > max) {
+	data[i] = max;
+	ret = false;
+	continue;
+      }
+      if(data[i] < min) {
+	data[i] = min;
+	ret = false;
+      }
+    }
     return ret;
   }
   

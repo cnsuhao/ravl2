@@ -172,6 +172,10 @@ namespace RavlN {
     
     DataT SumOfAbs() const;
     //: Return the sum of the absolute values of the matrix.
+
+    inline bool Limit(const DataT &min,const DataT &max);
+    //: Limit all values in this matrix to between min and max.
+    // Returns true if all values in the matrix are between the limits.
     
   protected:
 
@@ -332,6 +336,25 @@ namespace RavlN {
   }
 
   template<class DataT,unsigned int N,unsigned int M>
+  inline bool TFMatrixC<DataT,N,M>::Limit(const DataT &min,const DataT &max) {
+    bool ret = true;
+    for(UIntT i = 0;i < N;i++)
+      for(UIntT j = 0;j < M;j++) {
+	if(data[i][j] > max) {
+	  data[i][j] = max;
+	  ret = false;
+	  continue;
+	}
+	if(data[i][j] < min) {
+	  data[i][j] = min;
+	  ret = false;
+	}
+      }
+    
+    return ret;
+  }
+
+  template<class DataT,unsigned int N,unsigned int M>
   TFMatrixC<DataT,N,M> operator*(const DataT & val,const TFMatrixC<DataT,N,M> &mat) {
     TFMatrixC<DataT,N,M> ret;
     for(UIntT i = 0;i < N;i++)
@@ -348,6 +371,7 @@ namespace RavlN {
 	ret[i][j] = val / mat[i][j];
     return ret;
   }
+
 
 
 }
