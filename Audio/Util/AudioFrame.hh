@@ -12,6 +12,7 @@
 //! docentry="Ravl.Audio.Audio IO"
 //! userlevel=Normal
 //! date="13/07/2003"
+//! file="Ravl/Audio/Util/AudioFrame.hh"
 
 #include "Ravl/Audio/Types.hh"
 #include "Ravl/SArray1d.hh"

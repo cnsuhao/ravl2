@@ -11,6 +11,7 @@
 //! date="28/1/2004"
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Statistics/MeanCovariance/SumsNd2.hh"
 
 #include "Ravl/MeanCovariance.hh"
 #include "Ravl/MatrixRUT.hh"

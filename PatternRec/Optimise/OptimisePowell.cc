@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=Optimisation
-//! file="Ravl/PatternRec/Optimise/OptimiseDescent.cc"
+//! file="Ravl/PatternRec/Optimise/OptimisePowell.cc"
 
 #include "Ravl/PatternRec/OptimisePowell.hh"
 #include "Ravl/StrStream.hh"

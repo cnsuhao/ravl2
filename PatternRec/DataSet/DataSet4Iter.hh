@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Pattern Recognition.Data Set"
 //! lib=RavlPatternRec
-//! file="Ravl/PatternRec/DataSet/DataSet3Iter.hh"
+//! file="Ravl/PatternRec/DataSet/DataSet4Iter.hh"
 
 #include "Ravl/PatternRec/DataSet4.hh"
 #include "Ravl/DArray1dIter4.hh"

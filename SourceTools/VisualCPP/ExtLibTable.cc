@@ -4,8 +4,8 @@
 // Public License (GPL). See the gpl.licence file for details or
 // file-header-ends-here
 //! rcsid="$Id$"
-//! lib=OmniFaceXml
-//! file="OmniSoft/Biometrics/Xml/ExtLibTable.cc"
+//! lib=RavlAutoPort
+//! file="Ravl/SourceTools/VisualCPP/ExtLibTable.cc"
 
 
 #include "Ravl/SourceTools/ExtLibTable.hh"

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Geometry/Projective/2D/testFundamentalMatrix2d.cc"
 
 #include "Ravl/FundamentalMatrix2d.hh"
 #include "Ravl/PProjection2d.hh"

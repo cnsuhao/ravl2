@@ -6,8 +6,9 @@
 // file-header-ends-here
 ///////////////////////////////////////////////////////
 //! lib=RavlImageProc
-//! file="Ravl/Image/Processing/Segmentation/exSegmentation.cc"
+//! file="Ravl/Image/Processing/Segmentation/exConnectedComponents.cc"
 //! author="Lee Gregory"
+//! rcsid="$Id$"
 
 #include "Ravl/Image/ConnectedComponents.hh"
 #include "Ravl/Option.hh" 

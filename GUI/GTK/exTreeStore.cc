@@ -8,6 +8,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.GUI.Control"
 //! lib=RavlGUI
+//! file="Ravl/GUI/GTK/exTreeStore.cc"
 
 //: Example of TreeStoreC
 // Available on GTK+-2.0 and above only.

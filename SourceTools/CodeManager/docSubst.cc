@@ -1,7 +1,15 @@
+// This file is part of CxxDoc, The RAVL C++ Documentation tool 
+// Copyright (C) 2004, University of Surrey
+// This code may be redistributed under the terms of the GNU General 
+// Public License (GPL). See the gpl.licence file for details or
+// see http://www.gnu.org/copyleft/gpl.html
+// file-header-ends-here
 ///////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! author="Charles Galambos"
 //! docentry="Ravl.Source Tools"
+//! lib=RavlSourceTools
+//! file="Ravl/SourceTools/CodeManager/docSubst.cc"
 
 #include "Ravl/Option.hh"
 #include "Ravl/EntryPnt.hh"

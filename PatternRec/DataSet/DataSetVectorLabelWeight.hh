@@ -8,7 +8,7 @@
 #define RAVL_DATASETVECTORLABELWEIGHT_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
-//! file="Ravl/PatternRec/DataSet/DataSetVectorLabel.hh"
+//! file="Ravl/PatternRec/DataSet/DataSetVectorLabelWeight.hh"
 //! docentry="Ravl.Pattern Recognition.Data Set"
 //! author="Charles Galambos"
 

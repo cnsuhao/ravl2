@@ -1,3 +1,9 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2004, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 #include "Ravl/Image/ImageRectangle.hh"
 #include "Ravl/Image/LMSMultiScaleMotion.hh"
 #include "Ravl/Image/BilinearInterpolation.hh"
@@ -13,6 +19,9 @@
 #include "Ravl/Array2dIter2.hh"
 #include "Ravl/Array2dIter5.hh"
 #include "Ravl/Array2dIter6.hh"
+//! rcsid="$Id$"
+//! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Motion/LMSGradient/LMSMultiScaleMotion.cc"
 
 
 namespace RavlImageN {

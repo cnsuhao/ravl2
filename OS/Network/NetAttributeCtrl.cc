@@ -7,6 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlNet
 //! author="Charles Galambos"
+//! file="Ravl/OS/Network/NetAttributeCtrl.cc"
 
 #include "Ravl/OS/NetAttributeCtrl.hh"
 #include "Ravl/DP/AttributeType.hh"

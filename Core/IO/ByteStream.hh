@@ -10,6 +10,7 @@
 //! docentry="Ravl.Core.Data Processing.IO" 
 //! rcsid="$Id$"
 //! lib=RavlIO
+//! file="Ravl/Core/IO/ByteStream.hh"
 
 #include "Ravl/DP/Port.hh"
 

@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! author="Charles Galambos"
-//! file="Ravl/PatternRec/Modeling/Basic/DesignBayesNormalLinear.cc"
+//! file="Ravl/PatternRec/Classify/DesignBayesNormalLinear.cc"
 
 #include "Ravl/PatternRec/SampleVector.hh"
 #include "Ravl/PatternRec/SampleIter.hh"

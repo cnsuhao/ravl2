@@ -6,7 +6,7 @@
 # file-header-ends-here
 ###############################################
 #! rcsid="$Id$"
-#! file="Ravl/Applications/VPlay/defs.mk"
+#! file="Ravl/Applications/AVPlay/defs.mk"
 
 DESCRIPTION = AVPlay - Audio / Video Player.
 

@@ -7,7 +7,7 @@
 #ifndef RAVLGUI_BUTTONBOX_HEADER
 #define RAVLGUI_BUTTONBOX_HEADER 1
 /////////////////////////////////////////////////
-//! file="Ravl/GUI/GTK/MessageBox.hh"
+//! file="Ravl/GUI/GTK/ButtonBox.hh"
 //! lib=RavlGUI
 //! author="Kieron Messer"
 //! date="22/10/2002"

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlChartDetector
+//! file="Ravl/Image/Processing/ChartDetector/CostAffineImageCorrelation.cc"
 
 //! author="Charles Galambos"
 

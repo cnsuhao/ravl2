@@ -8,6 +8,7 @@
 //! lib=RavlGUI
 //! author="Charles Galambos"
 //! date="23/9/2003"
+//! file="Ravl/GUI/GTK/TreeView.cc"
 
 #include "Ravl/GUI/TreeView.hh"
 

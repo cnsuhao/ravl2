@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlNet
+//! file="Ravl/OS/Network/testSocket.cc"
 
 #include "Ravl/Option.hh"
 #include "Ravl/Threads/LaunchThread.hh"

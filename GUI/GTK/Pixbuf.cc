@@ -8,6 +8,7 @@
 //! lib=RavlGUI
 //! author="Charles Galambos"
 //! date="24/9/2003"
+//! file="Ravl/GUI/GTK/Pixbuf.cc"
 
 #include "Ravl/GUI/Pixbuf.hh"
 

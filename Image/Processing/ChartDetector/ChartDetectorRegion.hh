@@ -10,6 +10,7 @@
 //! rcsid="$Id$"
 //! lib=RavlChartDetector
 //! docentry="Ravl.Images.Chart Detector"
+//! file="Ravl/Image/Processing/ChartDetector/ChartDetectorRegion.hh"
 
 #include "Ravl/Image/Segmentation.hh"
 #include "Ravl/Point2d.hh"

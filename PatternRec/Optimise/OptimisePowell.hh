@@ -12,7 +12,7 @@
 //! date="6/8/2003"
 //! userlevel=Normal
 //! example=testOptimise.cc
-//! file="Ravl/PatternRec/Optimise/OptimiseDescent.hh"
+//! file="Ravl/PatternRec/Optimise/OptimisePowell.hh"
 //! docentry="Ravl.Pattern Recognition.Optimisation.Implementation"
 //! rcsid="$Id$"
 

@@ -10,6 +10,7 @@
 //! lib=RavlClassWizard
 //! author="Charles Galambos"
 //! docentry="Ravl.Source Tools.Class Wizard"
+//! file="Ravl/Applications/ClassWizard/SourceCursor.hh"
 
 #include "Ravl/Text/TextBuffer.hh"
 #include "Ravl/Text/TextCursor.hh"

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlNet
+//! file="Ravl/OS/Network/NetAttributeCtrlServer.cc"
 
 #include "Ravl/OS/NetAttributeCtrlServer.hh"
 #include "Ravl/OS/NetAttributeCtrl.hh"

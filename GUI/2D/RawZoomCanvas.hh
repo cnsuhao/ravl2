@@ -11,6 +11,7 @@
 //! lib=RavlGUI2D
 //! docentry="Ravl.GUI.Control"
 //! example=exRawZoomCanvas.cc
+//! file="Ravl/GUI/2D/RawZoomCanvas.hh"
 
 #include "Ravl/GUI/RawCanvas.hh"
 #include "Ravl/Vector2d.hh"

@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! date="14/05/2002"
 //! lib=RavlCore
-//! file="Ravl/Core/Base/TimeCode.hh"
+//! file="Ravl/Core/System/TimeCode.hh"
 //! docentry="Ravl.Core.Misc"
 //! userlevel=Normal
 //! author="Kieron J Messer"

@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVL_ATOMIC_I386_WIN32_VC_HEADER
 #define RAVL_ATOMIC_I386_WIN32_VC_HEADER 1
-//! file="Ravl/Core/Machine/i386-linux-gnu/Atomic.hh"
+//! file="Ravl/Core/Machine/i386-win32-vc/Atomic.hh"
 //! userlevel=Default
 //! author="Charles Galambos"
 //! date="8/04/2004"

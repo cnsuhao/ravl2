@@ -5,6 +5,7 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 #! rcsid="$Id$"
+#! file="Ravl/GUI/LibGlade/defs.mk"
 
 REQUIRES=libglade2 libGTK2
 

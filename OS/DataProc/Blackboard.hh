@@ -10,6 +10,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlDPMT
+//! file="Ravl/OS/DataProc/Blackboard.hh"
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/RCHandleV.hh"

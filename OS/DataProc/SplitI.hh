@@ -8,7 +8,7 @@
 #define RAVL_DPSPLITI_HEADER 1
 /////////////////////////////////////////////////
 //! docentry="Ravl.Core.Data Processing.Split"
-//! lib=RavlIO
+//! lib=RavlDPMT
 //! example=exDPSplit.cc
 //! rcsid="$Id$"
 //! file="Ravl/OS/DataProc/SplitI.hh"

@@ -10,6 +10,7 @@
 //! lib=RavlDPMT
 //! docentry="Ravl.Core.Data Processing.Split"
 //! date="21/07/1998"
+//! file="Ravl/OS/DataProc/exDPSplit.cc"
 
 #include "Ravl/Option.hh"
 #include "Ravl/DP/FileIO.hh"

@@ -8,6 +8,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlOS
+//! file="Ravl/OS/Misc/exSysLog.cc"
 
 #include "Ravl/OS/SysLog.hh"
 #include "Ravl/Option.hh"

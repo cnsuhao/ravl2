@@ -8,6 +8,7 @@
 //! rcsid="$Id$"
 //! author="Charles Galambos"
 //! lib=RavlOS
+//! file="Ravl/OS/FileSystem/FileStream.cc"
 
 #include "Ravl/OS/FileStream.hh"
 

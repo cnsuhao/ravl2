@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! author="Charles Galambos"
-//! file="Ravl/PatternRec/Modeling/Basic/ClassifierBayesNormalLinear.cc"
+//! file="Ravl/PatternRec/Classify/ClassifierBayesNormalLinear.cc"
 
 #include "Ravl/PatternRec/ClassifierBayesNormalLinear.hh"
 #include "Ravl/SArray1dIter3.hh"

@@ -8,6 +8,7 @@
 //! lib=RavlGUI
 //! date="23/9/2003"
 //! author="Charles Galambos"
+//! file="Ravl/GUI/GTK/TreeStore.cc"
 
 #include "Ravl/GUI/TreeStore.hh"
 #include "Ravl/GUI/Pixmap.hh"

@@ -8,6 +8,7 @@
 //! lib=RavlGUI
 //! author="Charles Galambos"
 //! docentry="Ravl.GUI.Control"
+//! file="Ravl/GUI/GTK/exFileSelector.cc"
 
 #include "Ravl/GUI/Menu.hh"
 #include "Ravl/GUI/FileSelector.hh"

@@ -9,6 +9,7 @@
 //! docentry="Ravl.GUI.Control"
 //! lib=RavlGUI
 //! date="23/9/2003"
+//! file="Ravl/GUI/GTK/TreeModel.cc"
 
 #include "Ravl/GUI/TreeModel.hh"
 #include "Ravl/GUI/Manager.hh"

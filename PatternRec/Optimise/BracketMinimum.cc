@@ -7,7 +7,7 @@
 #include "Ravl/PatternRec/BracketMinimum.hh"
 //! rcsid="$Id$"
 //! lib=Optimisation
-//! file="Ravl/PatternRec/Optimise/Cost.cc"
+//! file="Ravl/PatternRec/Optimise/BracketMinimum.cc"
 
 namespace RavlN {
 

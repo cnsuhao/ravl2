@@ -11,6 +11,7 @@
 //! docentry="Ravl.OS.SysLog"
 //! rcsid="$Id$"
 //! lib=RavlOS
+//! file="Ravl/OS/Misc/SysLog.hh"
 
 #include "Ravl/Stream.hh"
 

@@ -10,6 +10,7 @@
 //! docentry="Ravl.Images"
 //! rcsid="$Id$"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Filters/NormalisedCorrelation.hh"
 
 #include "Ravl/Array2dIter2.hh"
 #include "Ravl/Image/Image.hh"

@@ -9,6 +9,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlNet
+//! file="Ravl/OS/Network/NetByteStream.hh"
 
 #include "Ravl/OS/Socket.hh"
 #include "Ravl/DP/ByteStream.hh"

@@ -1,3 +1,9 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2004, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 #include "Ravl/PatternRec/OptimiseBrent.hh"
 #include "Ravl/PatternRec/FuncOrthPolynomial.hh"
 #include "Ravl/PatternRec/DistanceEuclidean.hh"
@@ -5,6 +11,9 @@
 #include "Ravl/PatternRec/CostFunction1d.hh"
 #include "Ravl/PatternRec/OptimisePowell.hh"
 #include "Ravl/PatternRec/BracketMinimum.hh"
+//! rcsid="$Id$"
+//! lib=Optimisation
+//! file="Ravl/PatternRec/Optimise/testBrent.cc"
 
 using namespace RavlN;
 

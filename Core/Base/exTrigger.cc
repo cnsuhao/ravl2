@@ -7,6 +7,9 @@
 /////////////////////////////////////////////////////////////////
 //! author="Lee Gregory"
 //! docentry="Ravl.Core.Calls"
+//! rcsid="$Id$"
+//! lib=RavlCore
+//! file="Ravl/Core/Base/exTrigger.cc"
 
 #include "Ravl/Stream.hh"
 #include "Ravl/DList.hh" 

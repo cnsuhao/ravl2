@@ -10,7 +10,7 @@
 //! lib=RavlPatternRec
 //! author="Kieron Messer"
 //! docentry="Ravl.Pattern Recognition.Classifier.DesignClassifier"
-//! file="Ravl/PatternRec/Classifier/DesignBayesNormalLinear.hh"
+//! file="Ravl/PatternRec/Classify/DesignBayesNormalLinear.hh"
 
 #include "Ravl/PatternRec/DesignClassifierSupervised.hh"
 

@@ -12,6 +12,7 @@
 //! author="Charles Galambos"
 //! date="3/12/2003"
 //! userlevel=Normal
+//! file="Ravl/Core/IO/SampleStream.hh"
 
 #include "Ravl/DP/SPort.hh"
 #include "Ravl/DP/StreamOp.hh"

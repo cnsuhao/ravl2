@@ -7,6 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlOS
 //! author="Charles Galambos"
+//! file="Ravl/OS/Misc/SysLog.cc"
 
 #include "Ravl/OS/SysLog.hh"
 #include "Ravl/StrStream.hh"

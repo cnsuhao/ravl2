@@ -10,6 +10,7 @@
 //! docentry="Ravl.OS.Threads"
 //! rcsid="$Id$"
 //! lib=RavlThreads
+//! file="Ravl/OS/Threads/Tools/exLaunchThread.cc"
 
 #include "Ravl/Stream.hh"
 #include "Ravl/Calls.hh"

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Geometry/Euclidean/2D/Conic2d.cc
 
 #include "Ravl/Conic2d.hh"
 #include "Ravl/Matrix.hh"

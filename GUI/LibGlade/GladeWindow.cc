@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlLibGlade
+//! file="Ravl/GUI/LibGlade/GladeWindow.cc"
 
 #include "Ravl/GUI/GladeWindow.hh"
 #include "Ravl/GUI/Manager.hh"

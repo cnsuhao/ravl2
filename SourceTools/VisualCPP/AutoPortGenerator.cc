@@ -7,6 +7,7 @@
 ///////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/SourceTools/VisualCPP/AutoPortGenerator.cc"
+//! lib=RavlAutoPort
 
 #include "Ravl/SourceTools/AutoPortGenerator.hh"
 #include "Ravl/OS/Filename.hh"

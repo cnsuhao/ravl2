@@ -7,6 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlChartDetector
 //! docentry="Ravl.Images.Chart Detector"
+//! file="Ravl/Image/Processing/ChartDetector/chartdet.cc"
 
 //: Calibration Chart Detector
 // Locates a calibration chart in an image.

@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRecIO
-//! file="Ravl/PatternRec/IO/ClassifierIO.cc"
+//! file="Ravl/PatternRec/IO/Classifier2IO.cc"
 
 #include "Ravl/Vector.hh"
 #include "Ravl/PatternRec/Classifier.hh"

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlClassWizard
+//! file="Ravl/Applications/ClassWizard/ClassWizard.cc"
 
 #include "Ravl/SourceTools/ClassWizard.hh"
 #include "Ravl/SourceTools/SourceCodeManager.hh"

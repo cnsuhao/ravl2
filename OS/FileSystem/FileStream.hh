@@ -10,6 +10,7 @@
 //! rcsid="$Id$"
 //! author="Charles Galambos"
 //! lib=RavlOS
+//! file="Ravl/OS/FileSystem/FileStream.hh"
 
 #include "Ravl/Types.hh"
 #include "Ravl/String.hh"

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlNet
+//! file="Ravl/OS/Network/NetByteStream.cc"
 
 #include "Ravl/OS/NetByteStream.hh"
 #include "Ravl/StdConst.hh"

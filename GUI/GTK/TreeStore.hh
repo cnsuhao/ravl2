@@ -12,6 +12,7 @@
 //! lib=RavlGUI
 //! example=exTreeStore.cc
 //! date="23/9/2003"
+//! file="Ravl/GUI/GTK/TreeStore.hh"
 
 #include "Ravl/config.h"
 

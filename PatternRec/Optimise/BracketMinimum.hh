@@ -12,7 +12,7 @@
 //! date="8/8/2003"
 //! userlevel=Normal
 //! example=testCost.cc
-//! file="Ravl/PatternRec/Optimise/Cost.hh"
+//! file="Ravl/PatternRec/Optimise/BracketMinimum.hh"
 //! docentry="Ravl.Pattern Recognition.Optimisation.Cost Functions"
 //! rcsid="$Id$"
 

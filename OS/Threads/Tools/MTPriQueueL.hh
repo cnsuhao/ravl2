@@ -11,6 +11,7 @@
 //! docentry="Ravl.OS.Threads"
 //! rcsid="$Id$"
 //! lib=RavlThreads
+//! file="Ravl/OS/Threads/Tools/MTPriQueueL.hh"
 
 #include "Ravl/PriQueueL.hh"
 #include "Ravl/Threads/RWLock.hh"

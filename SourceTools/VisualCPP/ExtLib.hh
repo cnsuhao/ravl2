@@ -10,6 +10,8 @@
 //! docentry="Ravl.Source Tools.AutoPort"
 //! userlevel=Normal
 //! file="Ravl/SourceTools/VisualCPP/ExtLib.hh"
+//! rcsid="$Id$"
+//! lib=RavlAutoPort
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/XMLStream.hh"

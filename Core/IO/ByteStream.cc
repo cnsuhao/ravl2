@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlIO
+//! file="Ravl/Core/IO/ByteStream.cc"
 
 #include "Ravl/DP/ByteStream.hh"
 

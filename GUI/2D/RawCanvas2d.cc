@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlGUI2D
+//! file="Ravl/GUI/2D/RawCanvas2d.cc"
 
 #include "Ravl/GUI/RawCanvas.hh"
 #include <gtk/gtk.h>

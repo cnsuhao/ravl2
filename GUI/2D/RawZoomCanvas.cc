@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlGUI2D
+//! file="Ravl/GUI/2D/RawZoomCanvas.cc"
 
 #include "Ravl/GUI/RawZoomCanvas.hh"
 #include "Ravl/GUI/Manager.hh"

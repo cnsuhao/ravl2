@@ -6,7 +6,7 @@
 // file-header-ends-here
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/Applications/VPlay/AVPlay.cc"
+//! file="Ravl/Applications/AVPlay/AVPlay.cc"
 //! docentry="Ravl.Applications.Video;Ravl.Applications.Audio;"
 //! author="Charles Galambos"
 //! lib=RavlVPlay

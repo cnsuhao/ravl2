@@ -10,6 +10,7 @@
 //! docentry="Ravl.Images.Chart Detector"
 //! rcsid="$Id$"
 //! lib=RavlChartDetector
+//! file="Ravl/Image/Processing/ChartDetector/CostAffineImageCorrelation.hh"
 
 #include "Ravl/PatternRec/Cost.hh"
 #include "Ravl/Image/Image.hh"

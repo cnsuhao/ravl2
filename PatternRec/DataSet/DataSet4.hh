@@ -10,7 +10,7 @@
 //! author="Kieron Messer"
 //! docentry="Ravl.Pattern Recognition.Data Set"
 //! lib=RavlPatternRec
-//! file="Ravl/PatternRec/DataSet/DataSet3.hh"
+//! file="Ravl/PatternRec/DataSet/DataSet4.hh"
 
 #include "Ravl/PatternRec/DataSet3.hh"
 #include "Ravl/PatternRec/Sample.hh"

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlAudioUtil
+//! file="Ravl/Audio/Util/AudioFrame.cc"
 
 #include "Ravl/Audio/AudioFrame.hh"
 #include "Ravl/BinStream.hh"

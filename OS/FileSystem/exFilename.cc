@@ -9,6 +9,7 @@
 //! docentry="Ravl.OS.File System"
 //! rcsid="$Id$"
 //! lib=RavlOS
+//! file="Ravl/OS/FileSystem/exFilename.cc"
 
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/Option.hh"

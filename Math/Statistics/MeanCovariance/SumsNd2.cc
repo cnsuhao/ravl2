@@ -8,6 +8,7 @@
 //! docentry="Ravl.Math.Statistics"
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Statistics/MeanCovariance/SumsNd2.cc"
 
 #include "Ravl/SumsNd2.hh"
 #include "Ravl/Stream.hh"

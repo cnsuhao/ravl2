@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlChartDetector
+//! file="Ravl/Image/Processing/ChartDetector/ChartDetector.cc"
 
 #include "Ravl/Image/ChartDetector.hh"
 #include "Ravl/Array2dIter2.hh"

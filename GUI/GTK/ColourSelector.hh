@@ -13,6 +13,7 @@
 //! example=exColourSelector.cc
 //! rcsid="$Id$"
 //! docentry="Ravl.GUI.Control"
+//! file="Ravl/GUI/GTK/ColourSelector.hh"
 
 #include "Ravl/config.h"
 

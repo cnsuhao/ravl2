@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Geometry/Euclidean/2D/ScanPolygon2d.cc"
 
 #include "Ravl/ScanPolygon2d.hh"
 #include "Ravl/SArray1dIter2.hh"

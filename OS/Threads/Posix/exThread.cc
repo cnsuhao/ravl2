@@ -8,6 +8,9 @@
 //! author="Lee Gregory"
 //! userlevel=Advanced
 //! docentry="Ravl.OS.Threads"
+//! rcsid="$Id$"
+//! lib=RavlThreads
+//! file="Ravl/OS/Threads/Posix/exThread.cc"
 
 #include "Ravl/Threads/Thread.hh"
 #include "Ravl/OS/Date.hh"

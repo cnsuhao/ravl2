@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Geometry/Euclidean/2D/Ellipse2d.cc"
 
 #include "Ravl/Ellipse2d.hh"
 #include "Ravl/BinStream.hh"

@@ -5,8 +5,8 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! rcsid="$Id$"
-//! lib=OmniFaceXml
-//! file="OmniSoft/Biometrics/Xml/FaceInfo.cc"
+//! lib=RavlAutoPort
+//! file="Ravl/SourceTools/VisualCPP/ExtLib.cc"
 
 #include "Ravl/SourceTools/ExtLib.hh"
 #include "Ravl/DLIter.hh"

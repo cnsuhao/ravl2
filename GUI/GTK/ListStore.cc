@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlGUI
+//! file="Ravl/GUI/GTK/ListStore.cc"
 
 #include "Ravl/GUI/ListStore.hh"
 

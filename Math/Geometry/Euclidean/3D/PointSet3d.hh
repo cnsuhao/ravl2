@@ -8,7 +8,7 @@
 #define RAVL_POINTSET2D_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/Math/Geometry/Euclidean/2D/PointSet3d.hh"
+//! file="Ravl/Math/Geometry/Euclidean/3D/PointSet3d.hh"
 //! lib=RavlMath
 //! userlevel=Normal
 //! author="James Smith"

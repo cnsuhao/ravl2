@@ -10,6 +10,7 @@
 //! author="Charles Galambos"
 //! userlevel=Normal
 //! docentry="Ravl.Applications.Video"
+//! file="Ravl/Applications/VPlay/VCopy.cc"
 
 //: Copy a Video sequence.
 //

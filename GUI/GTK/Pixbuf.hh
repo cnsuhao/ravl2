@@ -11,6 +11,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.GUI.Layout"
 //! date="24/9/2003"
+//! file="Ravl/GUI/GTK/Pixbuf.hh"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteRGBValue.hh"

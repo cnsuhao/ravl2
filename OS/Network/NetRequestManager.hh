@@ -10,6 +10,7 @@
 //! lib=RavlNet
 //! author="Charles Galambos"
 //! docentry="Ravl.OS.Network"
+//! file="Ravl/OS/Network/NetRequestManager.hh"
 
 #include "Ravl/Threads/ThreadEvent.hh"
 #include "Ravl/Threads/Mutex.hh"

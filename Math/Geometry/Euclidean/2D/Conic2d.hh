@@ -11,6 +11,7 @@
 //! docentry="Ravl.Math.Geometry.2D"
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Geometry/Euclidean/2D/Conic2d.hh"
 
 #include "Ravl/Point2d.hh"
 #include "Ravl/SArray1d.hh"

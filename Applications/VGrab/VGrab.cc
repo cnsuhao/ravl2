@@ -6,7 +6,7 @@
 // file-header-ends-here
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/Applications/VideoGrab/VideoGrab.cc"
+//! file="Ravl/Applications/VGrab/VGrab.cc"
 //! docentry="Ravl.Applications.Video"
 //! author="Lee Gregory"
 //! userlevel=Normal

@@ -11,6 +11,7 @@
 //! docentry="Ravl.Source Tools.AutoPort"
 //! userlevel=Normal
 //! file="Ravl/SourceTools/VisualCPP/AutoPortSource.hh"
+//! lib=RavlAutoPort
 
 #include "Ravl/SourceTools/DefsFile.hh"
 #include "Ravl/SourceTools/LibInfo.hh"

@@ -8,6 +8,7 @@
 #define RAVLIMAGE_CHARTLOCALISE_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlChartDetector
+//! file="Ravl/Image/Processing/ChartDetector/ChartLocalise.hh"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Point2d.hh"

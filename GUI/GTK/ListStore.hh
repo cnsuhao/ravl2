@@ -11,6 +11,7 @@
 //! example=exTreeStore.cc
 //! lib=RavlGUI
 //! rcsid="$Id$"
+//! file="Ravl/GUI/GTK/ListStore.hh"
 
 #include "Ravl/config.h"
 

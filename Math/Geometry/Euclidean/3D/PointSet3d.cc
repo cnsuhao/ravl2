@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlMath
-//! file="Ravl/Math/Geometry/Euclidean/2D/PointSet2d.cc"
+//! file="Ravl/Math/Geometry/Euclidean/3D/PointSet3d.cc"
 
 #include "Ravl/PointSet3d.hh"
 #include "Ravl/DLIter.hh"

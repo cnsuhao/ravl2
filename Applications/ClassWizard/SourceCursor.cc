@@ -7,6 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlClassWizard
 //! docentry="Ravl.Source Tools.Class Wizard"
+//! file="Ravl/Applications/ClassWizard/SourceCursor.cc"
 
 #include "Ravl/SourceTools/SourceCursor.hh"
 #include <ctype.h>

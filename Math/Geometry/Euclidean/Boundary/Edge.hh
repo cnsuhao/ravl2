@@ -8,6 +8,7 @@
 #define RAVL_EDGE_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Geometry/Euclidean/Boundary/Edge.hh"
 
 #include "Ravl/Crack.hh"
 #if !defined(VISUAL_CPP)

@@ -10,6 +10,7 @@
 //! rcsid="$Id$"
 //! lib=RavlImage
 //! docentry="Ravl.Images.Drawing"
+//! file="Ravl/Image/Base/DrawEllipse.hh"
 
 #include "Ravl/Ellipse2d.hh"
 #include "Ravl/Image/DrawPolygon.hh"

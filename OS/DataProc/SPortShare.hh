@@ -11,6 +11,7 @@
 //! rcsid="$Id$"
 //! lib=RavlDPMT
 //! date="18/9/2003"
+//! file="Ravl/OS/DataProc/SPortShare.hh"
 
 #include "Ravl/DP/SPort.hh"
 #include "Ravl/DP/SPortAttach.hh"

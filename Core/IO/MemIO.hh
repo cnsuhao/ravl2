@@ -7,8 +7,8 @@
 #ifndef RAVL_MEMIO_HEADER
 #define RAVL_MEMIO_HEADER 1
 /////////////////////////////////////////////////////////////
-//! file="Ravl/Core/Base/Stream.hh"
-//! lib=RavlCore
+//! file="Ravl/Core/IO/MemIO.hh"
+//! lib=RavlIO
 //! date="03/12/2004"
 //! author="Charles Galambos"
 //! docentry="Ravl.Core.IO"

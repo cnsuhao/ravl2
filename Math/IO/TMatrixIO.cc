@@ -7,7 +7,7 @@
 /////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlMathIO
-//! file="Ravl/Math/IO/MatrixIO.cc"
+//! file="Ravl/Math/IO/TMatrixIO.cc"
 
 #include "Ravl/DP/Converter.hh"
 #include "Ravl/Matrix.hh"

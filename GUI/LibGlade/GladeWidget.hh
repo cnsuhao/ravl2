@@ -8,6 +8,7 @@
 #define RAVLGUI_GLADEWIDGET_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlLibGlade
+//! file="Ravl/GUI/LibGlade/GladeWidget.hh"
 
 #include "Ravl/GUI/Widget.hh"
 #include "Ravl/GUI/GladeXML.hh"

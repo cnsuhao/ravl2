@@ -8,6 +8,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlOS
+//! file="Ravl/OS/Exec/FileUser.cc"
 
 #define RAVL_USE_PAWD 0
 

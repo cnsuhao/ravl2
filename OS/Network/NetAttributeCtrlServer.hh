@@ -10,6 +10,7 @@
 //! lib=RavlNet
 //! docentry="Ravl.OS.Network.NetPort"
 //! author="Charles Galambos"
+//! file="Ravl/OS/Network/NetAttributeCtrlServer.hh"
 
 #include "Ravl/DP/AttributeCtrl.hh"
 #include "Ravl/OS/NetEndPoint.hh"

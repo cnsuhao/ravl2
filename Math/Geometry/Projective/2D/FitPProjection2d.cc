@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Geometry/Projective/2D/FitPProjection2d.cc"
 
 #include "Ravl/PProjection2d.hh"
 #include "Ravl/LeastSquares.hh"

@@ -8,6 +8,7 @@
 //! lib=RavlClassWizard
 //! docentry="Ravl.Source Tools.Class Wizard"
 //! author="Charles Galambos"
+//! file="Ravl/Applications/ClassWizard/cwiz.cc"
 
 #include "Ravl/SourceTools/ClassWizard.hh"
 #include "Ravl/Option.hh"

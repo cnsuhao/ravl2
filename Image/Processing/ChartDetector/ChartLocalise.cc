@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlChartDetector
+//! file="Ravl/Image/Processing/ChartDetector/ChartLocalise.cc"
 
 #include "Ravl/Optimise2dHomography.hh"
 #include "Ravl/Image/ChartLocalise.hh"

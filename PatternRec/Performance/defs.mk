@@ -5,7 +5,7 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 #! rcsid="$Id$"
-#! file="Ravl/PatternRec/Classify/defs.mk"
+#! file="Ravl/PatternRec/Performance/defs.mk"
 
 DESCRIPTION = Pattern Recognition Performance
 

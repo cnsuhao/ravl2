@@ -8,6 +8,7 @@
 //! lib=RavlGUI2D
 //! author="Charles Galambos"
 //! docentry="Ravl.GUI.Control"
+//! file="Ravl/GUI/2D/exRawZoomCanvas.cc"
 
 #include "Ravl/GUI/RawZoomCanvas.hh"
 #include "Ravl/Image/Image.hh"

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlNet
+//! file="Ravl/OS/Network/NetRequestManager.cc"
 
 #include "Ravl/OS/NetRequestManager.hh"
 #include "Ravl/OS/SysLog.hh"

@@ -6,10 +6,11 @@
 // file-header-ends-here
 /////////////////////////////////////////////////////////
 //! lib=RavlGUI
-//! file="Ravl/GUI/GTK/exButton.cc"
+//! file="Ravl/GUI/GTK/exCombo.cc"
 //! userlevel=Normal
 //! docentry="Ravl.GUI.Control"
 //! author="Lee Gregory"
+//! rcsid="$Id$"
 
 #include "Ravl/GUI/Window.hh"
 #include "Ravl/GUI/Combo.hh"

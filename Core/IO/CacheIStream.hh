@@ -9,6 +9,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlIO
+//! file="Ravl/Core/IO/CacheIStream.hh"
 
 #include "Ravl/DP/SPort.hh"
 #include "Ravl/DP/StreamOp.hh"

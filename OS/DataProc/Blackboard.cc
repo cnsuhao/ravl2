@@ -16,6 +16,7 @@
 #include "Ravl/TypeName.hh"
 #include "Ravl/DP/FileFormatStream.hh"
 #include "Ravl/DP/FileFormatBinStream.hh"
+//! file="Ravl/OS/DataProc/Blackboard.cc"
 
 #if RAVL_COMPILER_MIPSPRO 
 #pragma instantiate RavlN::DPIPortBodyC<RavlN::RCWrapAbstractC>

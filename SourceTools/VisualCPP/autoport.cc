@@ -10,6 +10,7 @@
 //! userlevel=Normal
 //! docentry="Ravl.Source Tools.AutoPort"
 //! author="Charles Galambos"
+//! lib=RavlAutoPort
 
 #include "Ravl/Option.hh"
 
