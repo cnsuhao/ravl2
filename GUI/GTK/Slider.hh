@@ -53,6 +53,15 @@ namespace RavlGUIN {
     
     bool Update(RealT val,RealT lower,RealT upper,RealT inc = 1);
     //: Update the slider value.
+
+    bool GUIUpdateValue(RealT &val);
+    //: Update the slider value.
+    
+    bool GUIUpdateRange(RealT &lower,RealT &upper);
+    //: Update the slider value.
+    
+    bool GUIUpdate(RealT &val,RealT &lower,RealT &upper,RealT &inc);
+    //: Update the slider value.
     
     inline
     RealT Upper() const 
@@ -79,14 +88,6 @@ namespace RavlGUIN {
     //: Access changed signal.
     
   protected:
-    bool GUIUpdateValue(RealT &val);
-    //: Update the slider value.
-    
-    bool GUIUpdateRange(RealT &lower,RealT &upper);
-    //: Update the slider value.
-    
-    bool GUIUpdate(RealT &val,RealT &lower,RealT &upper,RealT &inc);
-    //: Update the slider value.
     
     bool setConfig;
     
@@ -161,19 +162,19 @@ namespace RavlGUIN {
     { return static_cast<const SliderBodyC &>(WidgetC::Body()); }
     //: Access body.
     
-    bool GUIUpdateValue(RealT &val)
+  public:
+    bool GUIUpdateValue(RealT val)
     { return Body().GUIUpdateValue(val); }
     //: Update the slider value.
     
-    bool GUIUpdateRange(RealT &lower,RealT &upper)
+    bool GUIUpdateRange(RealT lower,RealT upper)
     { return Body().GUIUpdateRange(lower,upper); }
     //: Update the slider value.
     
-    bool GUIUpdate(RealT &val,RealT &lower,RealT &upper,RealT &inc)
+    bool GUIUpdate(RealT val,RealT lower,RealT upper,RealT inc)
     { return Body().GUIUpdate(val,lower,upper,inc); }
     //: Update the slider value.
     
-  public:
     void SetValuePosition(GtkPositionType pos)
     { Body().SetValuePosition(pos); }
     //: Set number position.

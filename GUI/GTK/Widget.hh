@@ -152,16 +152,16 @@ namespace RavlGUIN {
     //: Hide widget from the world.
     // Call only from GUI thread.
     
-    bool SetBackgroundColour(ByteRGBValueC &colour,GtkStateType &state);
+    bool SetBackgroundColour(const ByteRGBValueC &colour,GtkStateType &state);
     //: Set background colour.
     
-    bool SetForgroundColour(ByteRGBValueC &colour,GtkStateType &state);
+    bool SetForgroundColour(const ByteRGBValueC &colour,GtkStateType &state);
     //: Set background colour.
     
-    bool GUISetBackgroundColour(ByteRGBValueC &colour,GtkStateType &state);
+    bool GUISetBackgroundColour(const ByteRGBValueC &colour,GtkStateType &state);
     //: Set background colour.
     
-    bool GUISetForgroundColour(ByteRGBValueC &colour,GtkStateType &state);
+    bool GUISetForgroundColour(const ByteRGBValueC &colour,GtkStateType &state);
     //: Set background colour.
     
     static Tuple2C<const char *,GTKSignalInfoC> *SigInfoInit();
@@ -178,7 +178,7 @@ namespace RavlGUIN {
     virtual bool GUISetStyle(WidgetStyleC& style);
     //: Set style of widget.
 
-    bool GUISetState(GtkStateType &state);
+    bool GUISetState(GtkStateType state);
     //: Set state of widget.
     // Values for state are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSTATETYPE">here</A>.
     
@@ -304,7 +304,7 @@ namespace RavlGUIN {
   
   public: 
     
-    bool GUISetState(GtkStateType &state)
+    bool GUISetState(GtkStateType state)
     { return Body().GUISetState(state); }
     //: Set state of widget.
     // Values for state are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSTATETYPE">here</A>.
@@ -313,13 +313,13 @@ namespace RavlGUIN {
     { return Body().GUISetStyle(style); }
     //: Set style of widget.
     
-    bool GUISetUSize(IntT& x,IntT& y)
+    bool GUISetUSize(IntT x,IntT y)
     { return Body().GUISetUSize(x,y); }
     //: Set size of widget.
     // GUI thread only.
     // Setting values to -1 will leave it value unspecified
     
-    bool GUISetUPosition(int &width, int &height)
+    bool GUISetUPosition(int width, int height)
     { return Body().GUISetUPosition(width, height); }
     //: Set the widget position
     
@@ -461,7 +461,7 @@ namespace RavlGUIN {
     //: Make a shape mask for the widget.
     // GUI thread only.
     
-    void SetUPosition(int &width, int &height)
+    void SetUPosition(int width, int height)
     { Body().SetUPosition(width, height); }
     //: Set the widget position
     
@@ -479,12 +479,12 @@ namespace RavlGUIN {
     { return Body().SetForgroundColour(const_cast<ByteRGBValueC &>(colour),state); }
     //: Set the widgets forground colour.
     
-    bool GUISetBackgroundColour(ByteRGBValueC &colour,GtkStateType &state)
+    bool GUISetBackgroundColour(const ByteRGBValueC &colour,GtkStateType state)
     { return Body().GUISetBackgroundColour(colour,state); }
     //: Set the widgets background colour.
     // GUI thread only.
     
-    bool GUISetForgroundColour(ByteRGBValueC &colour,GtkStateType &state)
+    bool GUISetForgroundColour(const ByteRGBValueC &colour,GtkStateType state)
     { return Body().GUISetForgroundColour(colour,state); }
     //: Set the widgets forground colour.
     // GUI thread only.

@@ -394,7 +394,7 @@ namespace RavlGUIN {
   
   //: Set state 
   
-  bool WidgetBodyC::GUISetState(GtkStateType &state) {
+  bool WidgetBodyC::GUISetState(GtkStateType state) {
     reqState = state;
     if(widget == 0)
       return true;
@@ -796,21 +796,21 @@ namespace RavlGUIN {
   
   //: Set background colour.
   
-  bool WidgetBodyC::SetBackgroundColour(ByteRGBValueC &colour,GtkStateType &state) {
+  bool WidgetBodyC::SetBackgroundColour(const ByteRGBValueC &colour,GtkStateType &state) {
     Manager.Queue(Trigger(WidgetC(*this),&WidgetC::GUISetBackgroundColour,colour,state));
     return true;
   }
   
   //: Set background colour.
   
-  bool WidgetBodyC::SetForgroundColour(ByteRGBValueC &colour,GtkStateType &state) {
+  bool WidgetBodyC::SetForgroundColour(const ByteRGBValueC &colour,GtkStateType &state) {
     Manager.Queue(Trigger(WidgetC(*this),&WidgetC::GUISetForgroundColour,colour,state));
     return true;
   }
   
   //: Set background colour.
   
-  bool WidgetBodyC::GUISetBackgroundColour(ByteRGBValueC &colour,GtkStateType &state) {
+  bool WidgetBodyC::GUISetBackgroundColour(const ByteRGBValueC &colour,GtkStateType &state) {
     GdkColor color;
     color.red = (IntT) colour.Red() * 255;
     color.green = (IntT) colour.Green() * 255;
@@ -830,7 +830,7 @@ namespace RavlGUIN {
   
   //: Set background colour.
   
-  bool WidgetBodyC::GUISetForgroundColour(ByteRGBValueC &colour,GtkStateType &state) {
+  bool WidgetBodyC::GUISetForgroundColour(const ByteRGBValueC &colour,GtkStateType &state) {
     GdkColor color;
     color.red = (IntT) colour.Red() * 255;
     color.green = (IntT) colour.Green() * 255;
