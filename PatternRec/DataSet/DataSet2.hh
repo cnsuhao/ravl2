@@ -28,6 +28,8 @@ namespace RavlN {
     : public DataSet1BodyC<Sample1T>
   {
   public:
+    typedef typename Sample2T::ElementT Element2T;
+    
     DataSet2BodyC(UIntT sizeEstimate)
       : DataSet1BodyC<Sample1T>(sizeEstimate),
 	samp2(sizeEstimate)
@@ -38,8 +40,8 @@ namespace RavlN {
 		  const Sample2T & samp2);
     //: Create a dataset from a sample
 
-    UIntT Append(const typename Sample1T::ElementT &data1,
-		 const typename Sample2T::ElementT &data2);
+    UIntT Append(const Element1T &data1,
+		 const Element2T &data2);
     //: Append a data entry.
     // returns its index.
     
@@ -72,6 +74,8 @@ namespace RavlN {
     : public DataSet1C<Sample1T>
   {
   public:
+    typedef typename Sample2T::ElementT Element2T;
+    
     DataSet2C()
     {}
     //: Default constructor.
@@ -113,7 +117,7 @@ namespace RavlN {
     //{ return Body().Shuffle(); }
     //: Shuffle the samples in the dataset
     
-    UIntT Append(const typename Sample1T::ElementT &data1,const typename Sample2T::ElementT &data2)
+    UIntT Append(const Element1T &data1,const Element2T &data2)
     { return Body().Append(data1,data2); }
     //: Append a data entry.
     // returns its index.
@@ -135,7 +139,7 @@ namespace RavlN {
   {}
   
   template<class Sample1T,class Sample2T>
-  UIntT DataSet2BodyC<Sample1T,Sample2T>::Append(const typename Sample1T::ElementT &data1,const typename Sample2T::ElementT &data2) {
+  UIntT DataSet2BodyC<Sample1T,Sample2T>::Append(const Element1T &data1,const Element2T &data2) {
     UIntT no1 = samp1.Append(data1);
     UIntT no2 = samp2.Append(data2);
     RavlAssert(no1==no2);
@@ -159,7 +163,7 @@ namespace RavlN {
   template<class Sample1T,class Sample2T>
   void DataSet2BodyC<Sample1T,Sample2T>::Shuffle() {
     UIntT size = Size();
-    for(DArray1dIter2C<typename Sample1T::ElementT,typename Sample2T::ElementT> it(Sample1().DArray(),Sample2().DArray());it;it++) {
+    for(DArray1dIter2C<Element1T,Element2T> it(Sample1().DArray(),Sample2().DArray());it;it++) {
       UIntT entry = RandomInt() % size;
       Swap(it.Data1(),samp1.Nth(entry));
       Swap(it.Data2(),samp2.Nth(entry));

@@ -27,6 +27,8 @@ namespace RavlN {
     : public DataSetBaseBodyC
   {
   public:
+    typedef typename SampleT::ElementT Element1T;
+    
     DataSet1BodyC(UIntT sizeEstimate)
       : DataSetBaseBodyC(sizeEstimate),
 	samp1(sizeEstimate)
@@ -44,7 +46,7 @@ namespace RavlN {
     { return samp1; }
     //: Access sample.
     
-    UIntT Append(const typename SampleT::ElementT &data);
+    UIntT Append(const Element1T &data);
     //: Append a data entry.
     // returns its index.
     
@@ -74,6 +76,8 @@ namespace RavlN {
     : public DataSetBaseC
   {
   public:
+    typedef typename SampleT::ElementT Element1T;
+    
     DataSet1C()
     {}
     //: Default constructor.
@@ -111,7 +115,7 @@ namespace RavlN {
     { return Body().Sample1(); }
     //: Access complete sample.
     
-    UIntT Append(const typename SampleT::ElementT &data)
+    UIntT Append(const Element1T &data)
     { return Body().Append(data); }
     //: Append a data entry.
     // returns its index.
@@ -137,7 +141,7 @@ namespace RavlN {
   {}
   
   template<class SampleT>
-  UIntT DataSet1BodyC<SampleT>::Append(const typename SampleT::ElementT &data) {
+  UIntT DataSet1BodyC<SampleT>::Append(const Element1T &data) {
     return samp1.Append(data);
   }
   
@@ -158,7 +162,7 @@ namespace RavlN {
   template<class SampleT>
   void DataSet1BodyC<SampleT>::Shuffle() {
     UIntT size = Size();
-    for(DArray1dIterC<typename SampleT::ElementT> it(samp1.DArray());it;it++)
+    for(DArray1dIterC<Element1T> it(samp1.DArray());it;it++)
       Swap(*it,samp1.Nth(RandomInt() % size));
   }
   

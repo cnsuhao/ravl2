@@ -25,12 +25,18 @@ namespace RavlN {
     : public DArray1dIterC<typename SampleT::ElementT>
   {
   public:
+#if RAVL_VISUALCPP_TYPENAME_BUG
+    typedef SampleT::ElementT Element1T;
+#else
+    typedef typename SampleT::ElementT Element1T;
+#endif
+    
     DataSet1IterC()
     {}
     //: Default construtor.
     
     DataSet1IterC(const DataSet1C<SampleT> &nds)
-      : DArray1dIterC<typename SampleT::ElementT>(nds.Sample1().DArray())
+      : DArray1dIterC<Element1T>(nds.Sample1().DArray())
     {}
     //: Construct from a data set.
     

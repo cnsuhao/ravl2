@@ -28,6 +28,8 @@ namespace RavlN {
     : public DataSet2BodyC<Sample1T,Sample2T>
   {
   public:
+    typedef typename Sample3T::ElementT Element3T;
+    
     DataSet3BodyC(UIntT sizeEstimate)
       : DataSet2BodyC<Sample1T,Sample2T>(sizeEstimate),
 	samp3(sizeEstimate)
@@ -39,9 +41,9 @@ namespace RavlN {
 		  const Sample3T & samp3);
     //: Create a dataset from a sample
     
-    UIntT Append(const typename Sample1T::ElementT &data1,
-		 const typename Sample2T::ElementT &data2,
-		 const typename Sample3T::ElementT &data3);
+    UIntT Append(const Element1T &data1,
+		 const Element2T &data2,
+		 const Element3T &data3);
     //: Append a data entry.
     // returns its index.
     
@@ -74,6 +76,8 @@ namespace RavlN {
     : public DataSet2C<Sample1T,Sample2T>
   {
   public:
+    typedef typename Sample3T::ElementT Element3T;
+    
     DataSet3C()
     {}
     //: Default constructor.
@@ -111,7 +115,7 @@ namespace RavlN {
     { return Body().Sample3(); }
     //: Access complete sample.
     
-    UIntT Append(const typename Sample1T::ElementT &data1,const typename Sample2T::ElementT &data2,const typename Sample3T::ElementT &data3)
+    UIntT Append(const Element1T &data1,const Element2T &data2,const Element3T &data3)
     { return Body().Append(data1,data2,data3); }
     //: Append a data entry.
     // returns its index.
@@ -133,7 +137,7 @@ namespace RavlN {
   {}
   
   template<class Sample1T,class Sample2T,class Sample3T>
-  UIntT DataSet3BodyC<Sample1T,Sample2T,Sample3T>::Append(const typename Sample1T::ElementT &data1,const typename Sample2T::ElementT &data2,const typename Sample3T::ElementT &data3) {
+  UIntT DataSet3BodyC<Sample1T,Sample2T,Sample3T>::Append(const Element1T &data1,const Element2T &data2,const Element3T &data3) {
     UIntT no1 = samp1.Append(data1);
     UIntT no2 = samp2.Append(data2);
     UIntT no3 = samp3.Append(data3);
@@ -158,7 +162,7 @@ namespace RavlN {
   template<class Sample1T,class Sample2T,class Sample3T>
   void DataSet3BodyC<Sample1T,Sample2T,Sample3T>::Shuffle() {
     UIntT size = Size();
-    for(DArray1dIter3C<typename Sample1T::ElementT,typename Sample2T::ElementT,typename Sample3T::ElementT> it(Sample1().DArray(),Sample2().DArray(),Sample3().DArray());
+    for(DArray1dIter3C<Element1T,Element2T,Element3T> it(Sample1().DArray(),Sample2().DArray(),Sample3().DArray());
 	it;it++) {
       UIntT entry = RandomInt() % size;
       Swap(it.Data1(),samp1.Nth(entry));

@@ -25,19 +25,27 @@ namespace RavlN {
     : public DArray1dIter2C<typename Sample1T::ElementT,typename Sample2T::ElementT>
   {
   public:
+#if RAVL_VISUALCPP_TYPENAME_BUG
+    typedef Sample1T::ElementT Element1T;
+    typedef Sample2T::ElementT Element2T;
+#else
+    typedef typename Sample1T::ElementT Element1T;
+    typedef typename Sample2T::ElementT Element2T;
+#endif
+    
     DataSet2IterC()
     {}
     //: Default construtor.
     
     DataSet2IterC(const DataSet2C<Sample1T,Sample2T> &nds)
-      : DArray1dIter2C<typename Sample1T::ElementT,typename Sample2T::ElementT>(nds.Sample1().DArray(),
-										nds.Sample2().DArray())
+      : DArray1dIter2C<Element1T,Element2T>(nds.Sample1().DArray(),
+					    nds.Sample2().DArray())
     {}
     //: Construct from a data set.
-
+    
     DataSet2IterC(const Sample1T &s1,const Sample2T &s2)
-      : DArray1dIter2C<typename Sample1T::ElementT,typename Sample2T::ElementT>(s1.DArray(),
-										s2.DArray())
+      : DArray1dIter2C<Element1T,Element2T>(s1.DArray(),
+					    s2.DArray())
     {}
     //: Construct from two samples.
     
