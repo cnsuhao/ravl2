@@ -8,9 +8,11 @@
 #define RAVLIMAGE_CORNERHARRIS_HEADER 1
 //! rcsid="$Id$"
 //! userlevel=Normal
-//! date="16/9/1996"
+//! date="1/10/1991"
 //! lib=RavlImage
 //! docentry="Ravl.Images.Corner Detection"
+//! example=exCorner.cc
+//! author="Radek Marik, modified by Charles Galambos"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/Corner.hh"
@@ -20,6 +22,8 @@ namespace RavlImageN {
   
   //! userlevel=Normal
   //: Harris corner detector.
+  // Also known as the Plessey corner detector. Proposed by C.Harris in 1987.<p>
+  // Note: the implementation of this detector could be faster.
   
   class CornerDetectorHarrisC {
   public:

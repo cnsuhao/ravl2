@@ -13,6 +13,7 @@
 //! docentry="Ravl.Images.Corner Detection"
 //! rcsid="$Id$"
 //! lib=RavlImage
+//! example=exCorner.cc
 
 #include "Ravl/Index2d.hh"
 #include "Ravl/Vector2d.hh"

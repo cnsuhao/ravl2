@@ -6,6 +6,8 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlImage
+//! author="Radek Marik, modified by Charles Galambos"
+//! date="1/10/1991"
 
 #include "Ravl/Image/CornerDetectorHarris.hh"
 #include "Ravl/SArray1d.hh"
@@ -14,6 +16,7 @@
 #include "Ravl/Image/PeakDetector.hh"
 #include "Ravl/Image/Gradient.hh"
 #include "Ravl/MeanVariance.hh"
+
 namespace RavlImageN {
   
   ///////////////////////////////////
