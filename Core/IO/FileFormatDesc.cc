@@ -8,11 +8,11 @@
 //! docentry="Algorithms.Data Processing.IO" 
 //! lib=RavlIO
 //! author="Charles Galambos"
-//! date="13/08/98"
+//! date="13/08/1998"
 //! rcsid="$Id$"
 //! file="Ravl/Core/IO/FileFormDesc.cc"
 
-#include "Ravl/DP/FileFormDesc.hh"
+#include "Ravl/DP/FileFormatDesc.hh"
 #include "Ravl/CDLIter.hh"
 #include "Ravl/TypeName.hh"
 #include "Ravl/DP/SPort.hh"

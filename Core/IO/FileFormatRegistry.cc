@@ -14,7 +14,7 @@
 #include "Ravl/TypeName.hh"
 #include "Ravl/StringList.hh"
 #include "Ravl/HSet.hh"
-#include "Ravl/DP/FileFormDesc.hh"
+#include "Ravl/DP/FileFormatDesc.hh"
 
 #define DODEBUG 0
 #if DODEBUG

@@ -4,15 +4,15 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLFILEFORMATDESC_HEADER
-#define RAVLFILEFORMATDESC_HEADER 1
+#ifndef RAVL_FILEFORMATDESC_HEADER
+#define RAVL_FILEFORMATDESC_HEADER 1
 //////////////////////////////////////////////////
 //! docentry="Ravl.Core.IO.Formats" 
 //! lib=RavlIO
 //! author="Charles Galambos"
-//! date="13/08/98"
+//! date="13/08/1998"
 //! rcsid="$Id$"
-//! file="Ravl/Core/IO/FileFormDesc.hh"
+//! file="Ravl/Core/IO/FileFormatDesc.hh"
 //! userlevel=Default
 
 #include "Ravl/DList.hh"
