@@ -40,10 +40,10 @@ namespace RavlImageN {
     const PixelT* pixel2 = &(img)[fx+1][fy];
     const RealT onemt = (1.0-t);
     const RealT onemu = (1.0-u);
-    pixVal = (OutT)((pixel1[0] * (onemt*onemu)) + 
-		    (pixel1[1] * (t*onemu)) + 
-		    (pixel2[0] * (onemt*u)) +
-		    (pixel2[1] * (t*u)));
+    pixVal = static_cast<OutT>((pixel1[0] * (onemt*onemu)) + 
+			       (pixel1[1] * (t*onemu)) + 
+			       (pixel2[0] * (onemt*u)) +
+			       (pixel2[1] * (t*u)));
   }
   //: Do bilinear interpolation with different output pixel type.
   // Note: For efficency reasons this method assumes the CENTER
@@ -107,9 +107,9 @@ namespace RavlImageN {
     void operator()(const ImageC<InT> &img,const TFVectorC<RealT,2> &ipnt,OutT &pixVal)
     { 
 #if RAVL_USE_QUICKREAL2INT
-      pixVal = img[QRound(ipnt[0])][QRound(ipnt[1])]; 
+      pixVal = static_cast<OutT>(img[QRound(ipnt[0])][QRound(ipnt[1])]); 
 #else
-      pixVal = img[Round(ipnt[0])][Round(ipnt[1])];       
+      pixVal = static_cast<OutT>(img[Round(ipnt[0])][Round(ipnt[1])]);
 #endif
     }
     //: Do bilinear interpolation
