@@ -1,4 +1,5 @@
 # Dynamic library format   information.
+
 display  filePrefix @X      RavlDPDisplay
 csp      filePrefix @CSP    CSPDriver
 DIVO     filePrefix @DIVO   RavlDMedia
@@ -34,5 +35,50 @@ libaudio fileExt    au      RavlAudioFile
 libaudio fileExt    nextsnd RavlAudioFile
 libaudio fileExt    bicsf   RavlAudioFile
 mpeg2	 fileExt    mpeg    RavlMPEG2
-txt	 symb	    RavlN::SampleC<VectorC>  RavlPatternRecIO
+
+# DataSets
+
+abs	 symb	    RavlN::DataSet2C<SampleVectorC,SampleLabelC> RavlPatternRecIO
+
+# Samples
+
+txt	 symb	    RavlN::SampleC<VectorC>			RavlPatternRecIO
+abs	 symb	    RavlN::SampleC<UIntT>			RavlPatternRecIO
+abs	 symb	    RavlN::SampleC<VectorC>			RavlPatternRecIO
+abs	 symb	    RavlN::SampleVectorC			RavlPatternRecIO
+abs	 symb	    RavlN::SampleLabelC				RavlPatternRecIO
+abs	 symb	    RavlN::SArray1dC<VectorC>			RavlPatternRecIO
+
+# Classifiers.
+
+abs	 symb	    RavlN::ClassifierC				RavlPatternRecIO
+abs	 symb	    RavlN::ClassifierNearestNeighbourC		RavlPatternRecIO
+abs	 symb	    RavlN::ClassifierKNearestNeighbourC		RavlPatternRecIO
+abs	 symb	    RavlN::ClassifierAverageNearestNeighbourC	RavlPatternRecIO
+abs	 symb	    RavlN::ClassifierDiscriminantFunctionC	RavlPatternRecIO
+abs	 symb	    RavlN::ClassifierGuassianMixtureC		RavlPatternRecIO
+abs	 symb	    RavlN::ClassifierFunc1ThresholdC		RavlPatternRecIO
+abs	 symb	    RavlN::ClassifierWeakLinearC		RavlPatternRecIO
+abs	 symb	    RavlN::ClassifierLinearCombinationC		RavlPatternRecIO
+
+# Functions
+
+abs	 symb	    RavlN::FunctionC				RavlPatternRecIO
+abs	 symb	    RavlN::Function1C				RavlPatternRecIO
+abs	 symb	    RavlN::FuncMeanProjectionC			RavlPatternRecIO
+abs	 symb	    RavlN::FuncLinearC				RavlPatternRecIO
+abs	 symb	    RavlN::FuncQuadraticC			RavlPatternRecIO
+abs	 symb	    RavlN::FuncOrthPolynomialC			RavlPatternRecIO
+abs	 symb	    RavlN::FuncLinearCoeffC			RavlPatternRecIO
+abs	 symb	    RavlN::FuncPDFNormalC			RavlPatternRecIO
+abs	 symb	    RavlN::GaussianMixtureC			RavlPatternRecIO
+
+# Distances
+
+abs	 symb	    RavlN::DistanceC				RavlPatternRecIO
+abs	 symb	    RavlN::DistanceMahalanobisC			RavlPatternRecIO
+abs	 symb	    RavlN::DistanceEuclideanC			RavlPatternRecIO
+abs	 symb	    RavlN::DistanceSqrEuclideanC		RavlPatternRecIO
+abs	 symb	    RavlN::DistanceCityBlockC			RavlPatternRecIO
+abs	 symb	    RavlN::DistanceRobustC			RavlPatternRecIO
 
