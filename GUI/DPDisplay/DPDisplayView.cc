@@ -43,12 +43,12 @@ namespace RavlGUIN {
     int rows = winSize.RCol().V();
     int cols = winSize.BRow().V();
     // Limit maximum inital size.
-    if(rows > 400)
-      rows = 400;
+    if(rows > 700)
+      rows = 700;
     if(rows < 30)
       rows = 30;
-    if(cols > 400)
-      cols = 400;
+    if(cols > 800)
+      cols = 800;
     if(cols < 30)
        cols = 30;
     canvas = RawCanvasC(rows,cols);
