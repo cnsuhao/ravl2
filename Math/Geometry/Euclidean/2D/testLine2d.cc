@@ -18,6 +18,7 @@
 #include "Ravl/LineABC2d.hh"
 #include "Ravl/RealRange2d.hh"
 #include "Ravl/Array1d.hh"
+#include "Ravl/Random.hh"
 
 using namespace RavlN;
 
@@ -137,19 +138,29 @@ int testClip2d() {
 
 int testLineFitLSQ() {
   
-  Array1dC<Point2dC> points(4);
-  for(UIntT i = 0;i < points.Size();i++)
-    points[i] = Point2dC(i+1, i * 4);
-  LineABC2dC line;
-  RealT res;
-  line.FitLSQ(points,res);
-  cerr << "Line=" << line << " Res=" << res <<"\n";
-  
-  for(UIntT i = 0;i < points.Size();i++)
-    points[i] = Point2dC(i+1, i * 0.5);
-  RealT res;
-  line.FitLSQ(points,res);
-  cerr << "Line=" << line << " Res=" << res <<"\n";
+  Array1dC<Point2dC> points(10);
+  UIntT i;
+  RealT res,twoPi = RavlConstN::pi * 2;
+  for(RealT a = 0;a < twoPi;a += (twoPi/100)) {
+    RealT offx = Random1() * 100 - 50;
+    RealT offy = Random1() * 100 - 50;
+    RealT dx = Cos(a) * 50;
+    RealT dy = Sin(a) * 50;
+    //cerr << "Dx=" << dx << " Dy=" << dy << "\n";
+    for(i = 0;i < points.Size();i++)
+      points[i] = Point2dC(i * dx + offx + RandomGauss(), i * dy + offy + RandomGauss());
+    LineABC2dC line;
+    line.FitLSQ(points,res);
+    //cerr << "Line=" << line << " Res=" << res <<"\n";
+    for(i = 0;i < points.Size();i++) {
+      RealT dist = line.Distance(points[i]);
+      Point2dC at = line.Projection(points[i]);
+      RealT sep = at.EuclidDistance(points[i]);
+      if(Abs(sep - dist) > 0.0001) return __LINE__;
+      //cerr << "Dist=" << dist << "\n";
+      if(dist > 5) return __LINE__;
+    }
+  }
 
   return 0;
 }

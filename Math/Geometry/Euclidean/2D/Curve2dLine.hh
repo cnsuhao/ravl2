@@ -32,10 +32,10 @@ namespace RavlN {
     inline Curve2dLineC()
     {}
     //: Default constructor.
-    
+
     inline Curve2dLineC(const Array1dC<Point2dC> &points) { 
       RealT res;
-      FitLSQ(points,res); 
+      FitLSQ(points,res);  
     }
     //: Make a line that best fits the given points.
     
@@ -67,11 +67,21 @@ namespace RavlN {
     {}
     //: From paramiters.
     
+    bool FitLSQ(const Array1dC<Point2dC> &points,RealT &residual) {
+      bool ret = LineABC2dC::FitLSQ(points,residual);
+      MakeUnitNormal();
+      return ret;
+    }
+    //: Fit least squares.
+    
     inline RealT Fit(const Array1dC<Point2dC> &pnts) { 
       RealT tmp;
-      return FitLSQ(pnts,tmp); 
+      if(!FitLSQ(pnts,tmp))
+	return -1;
+      return tmp;
     }
     //: Default fitting method.
+    // Returns the residual from the fit.
     
     RealT AssessFit(const Array1dC<Point2dC> &points);
     //: Measure error for fit.
@@ -100,10 +110,8 @@ namespace RavlN {
     { return Normal(); }
     //: Get the unit normal.
     
-    inline Point2dC Point(RealT p) const {
-      return (Normal().Perpendicular()*p)-(Normal()*C()); 
-    }
-    
+    inline Point2dC Point(RealT p) const 
+    { return (Normal().Perpendicular()*p)-(Normal()*C()); }
     //: Localion of curve at p
     
     inline RealT Closest(Point2dC Pnt) const;
