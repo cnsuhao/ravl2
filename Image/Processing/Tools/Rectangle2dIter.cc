@@ -7,5 +7,5 @@
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 
-#include "Ravl/Image/Rectangle2DIter.hh"
+#include "Ravl/Image/Rectangle2dIter.hh"
 
