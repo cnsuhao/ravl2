@@ -34,7 +34,8 @@ namespace RavlImageN {
       // Create bounding box for polygon
       IndexRange2dC bbox = poly.BoundingRectangle().IndexRange();
       bbox.ClipBy(dat.Frame()); // Clip by image size.
-      
+      if(bbox.Area() == 0)
+	return ; // No pixels to iterate.
       // For each pixel inside bounding box...
       for (Array2dIterC<DataT> it(dat,bbox); it; it++) {
 	// Check if pixel is inside polygon
