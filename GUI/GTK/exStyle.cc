@@ -7,6 +7,7 @@
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/GUI/Window.hh"
 #include "Ravl/DP/FileFormatIO.hh"
+#include "Ravl/GUI/WidgetStyle.hh"
 
 using namespace RavlN;
 using namespace RavlGUIN;
@@ -22,10 +23,15 @@ int main(int nargs,char *args[]) {
   Load("/usr/share/doorman/misc/monkey.png",img);
 
   // Create main window
-  WindowC win(100,100,"exWindow");
+  WindowC win(100,100,"exStyle");
   win.Show();
+
+  // Set style
+  WidgetStyleC style(win);
+  win.SetStyle(style);
+
   // Set background
-  win.SetBackground(img);
+  style.SetBackground(img);
 
   // Start GUI
   Manager.Execute();
