@@ -10,6 +10,7 @@
 
 #include "Ravl/GUI/WaitForExit.hh"
 #include "Ravl/GUI/Manager.hh"
+#include <stdlib.h>
 
 namespace RavlGUIN {
   static bool noWaitForGUIExit = false;
