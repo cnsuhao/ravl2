@@ -7,8 +7,7 @@
  */
 #include "ccmath/ccmath.h"
 #include <math.h>
-double gaml(x)
-double x;
+double gaml(double  x)
 { double g,h;
   for(g=1.; x<30. ;g*=x,x+=1.); h=x*x;
   g=(x-.5)*log(x)-x+.918938533204672-log(g);

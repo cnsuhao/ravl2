@@ -24,7 +24,7 @@ namespace RavlN {
   // The table of precomputed factorials.   
 #else
   // FIXME :- Do better ?? 
-  RealT RavlPreComputedFactorial[32]
+  RealT RavlPreComputedFactorial[64]
   ={1.0, 1.0, 2.0, 6.0, 24.0, 120.0};
 #endif
 
