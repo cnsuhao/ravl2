@@ -62,7 +62,7 @@ namespace RavlN {
     TMatrixC<DataT> TMul(const TMatrixC<DataT> & B) const;
     //: Multiplication A.T() * B
     
-    TVector<DataT> TMul(const TVectorC<DataT>& vec) const;
+    TVectorC<DataT> TMul(const TVectorC<DataT>& vec) const;
     //: Multiplication A.T() * vec
 
     TMatrixC<DataT> T() const;
