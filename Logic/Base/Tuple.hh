@@ -55,8 +55,8 @@ namespace RavlLogicN {
 
     virtual StringC Name() const;
     //: Get the name of symbol.
-
-    virtual HSetC<LiteralC> SubLiterals() const;
+    
+    virtual void SubLiterals(HSetC<LiteralC> &lits) const;
     //: Get a set of all sub literals.
     
   protected:
@@ -153,6 +153,8 @@ namespace RavlLogicN {
     const LiteralC &operator[](UIntT n) const
     { return Body().Args()[n]; }
     //: Access an arg of the tuple.
+    
+    friend class TupleBodyC;
   };
   
   inline TupleC Tuple(const LiteralC &s1) {

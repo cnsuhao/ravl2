@@ -77,10 +77,8 @@ namespace RavlLogicN {
 
   //: Get a set of all sub literals.
   
-  HSetC<LiteralC> LiteralBodyC::SubLiterals() const {
-    HSetC<LiteralC> ret;
+  void LiteralBodyC::SubLiterals(HSetC<LiteralC> &ret) const {
     ret += LiteralC(const_cast<LiteralBodyC &>(*this)); // Just me.
-    return ret;
   }
   
   ////////////////////////////////////////////////////////////////

@@ -46,16 +46,11 @@ namespace RavlLogicN {
 
   //: Get a set of all sub literals.
   
-  HSetC<LiteralC>  TupleBodyC::SubLiterals() const {
-    SArray1dIterC<LiteralC> it(Args());
-    if(!it)
-      return HSetC<LiteralC>();
-    HSetC<LiteralC> ret = it->SubLiterals();
-    for(it++;it;it++) {
-      HSetC<LiteralC> x(it->SubLiterals());
-      ret.AddFrom(x);
-    }
-    return ret;
+  void TupleBodyC::SubLiterals(HSetC<LiteralC> &ret) const {
+    if(!ret.Insert(TupleC(const_cast<TupleBodyC &>(*this))))
+      return ; // Already added this.
+    for(SArray1dIterC<LiteralC> it(Args());it;it++)
+      it->SubLiterals(ret);
   }
   
   //: Unify with simple symb

@@ -73,7 +73,7 @@ namespace RavlLogicN {
     virtual LiteralIterC Solutions(const StateC &state,BindSetC &binds) const;
     //: Return iterator through possibile matches to this literal in 'state', if any.
     
-    virtual HSetC<LiteralC> SubLiterals() const;
+    virtual void SubLiterals(HSetC<LiteralC> &lits) const;
     //: Get a set of all sub literals.
   protected:
     virtual bool UnifyLiteral(const LiteralBodyC &oth,BindSetC &bs) const;
@@ -156,8 +156,8 @@ namespace RavlLogicN {
     LiteralIterC Solutions(const StateC &state,BindSetC &binds) const;
     //: Return iterator through possibile matches to this literal in 'state', if any.
     
-    HSetC<LiteralC> SubLiterals() const
-    { return Body().SubLiterals(); }
+    void SubLiterals(HSetC<LiteralC> &lits) const
+    {  Body().SubLiterals(lits); }
     //: Get a set of all sub literals.
     
     friend class LiteralBodyC;
