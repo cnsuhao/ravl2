@@ -16,13 +16,13 @@ HEADERS= DesignClassifierSupervised.hh  \
  ClassifierKNearestNeighbour.hh ClassifierAverageNearestNeighbour.hh \
  ClassifierDiscriminantFunction.hh \
   ClassifierGaussianMixture.hh DesignClassifierGaussianMixture.hh \
- ClassifierPreprocess.hh
+ ClassifierPreprocess.hh ClassifierFunc1Threshold.hh
 
 SOURCES= DesignClassifierSupervised.cc \
  DesignDiscriminantFunction.cc DesignKNearestNeighbour.cc \
  ClassifierKNearestNeighbour.cc ClassifierAverageNearestNeighbour.cc \
  ClassifierDiscriminantFunction.cc ClassifierGaussianMixture.cc DesignClassifierGaussianMixture.cc \
- ClassifierPreprocess.cc
+ ClassifierPreprocess.cc ClassifierFunc1Threshold.cc
 
 PLIB = RavlPatternRec
 
