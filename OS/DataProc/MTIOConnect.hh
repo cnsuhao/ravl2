@@ -111,7 +111,7 @@ namespace RavlN {
       : DPMTIOConnectBaseBodyC(nuseIsGetReady,nblockSize),
 	from(nfrom),
 	to(nto)
-    { Run(); }
+    {}
     //: Constructor.
     
     DPMTIOConnectBodyC(bool nuseIsGetReady = true,UIntT nblockSize = 1)
@@ -227,12 +227,12 @@ namespace RavlN {
   public:
     DPMTIOConnectC(const DPIPortC<DataT> &from,const DPOPortC<DataT> &to,bool nuseIsGetReady = true,bool deleteable = true,UIntT blockSize = 1)
       : DPEntityC(*new DPMTIOConnectBodyC<DataT>(from,to,nuseIsGetReady,blockSize))
-    {}
+    { Run(); }
     //: Constructor.
     
     DPMTIOConnectC(bool nuseIsGetReady = true,UIntT blockSize = 1)
       : DPEntityC(*new DPMTIOConnectBodyC<DataT>(nuseIsGetReady,blockSize))
-    {}
+    { Run(); }
     //: Constructor.
     
   protected: 
@@ -290,9 +290,12 @@ namespace RavlN {
 	    }
 	    // Process
 	    DataT buff;
-	    if(!from.Get(buff))
+	    if(!from.Get(buff)) {
+	      //cerr << "DPMTIOConnectBodyC<DataT>::Start(), Get failed. \n";
 	      break;
+	    }
 	    if(!to.Put(buff)) {
+	      //cerr << "DPMTIOConnectBodyC<DataT>::Start(), Put failed. \n";
 #if RAVL_CHECK
 	      if(to.IsPutReady()) {
 		cerr << "DPMTIOConnectBodyC<DataT>::Start(), IsPutReady test failed. \n";
