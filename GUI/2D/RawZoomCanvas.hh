@@ -61,7 +61,11 @@ namespace RavlGUIN {
     RealRange2dC World2GUI(const IndexRange2dC &at) const
     { return  RealRange2dC(World2GUI(at.Origin()),World2GUI(at.End())); }
     //: Convert world coordinates to GUI coordinates.
-
+    
+    RealRange2dC World2GUI(const RealRange2dC &at) const
+    { return  RealRange2dC(World2GUI(at.Origin()),World2GUI(at.End())); }
+    //: Convert world coordinates to GUI coordinates.
+    
     IndexRange2dC World2GUIi(const IndexRange2dC &at) const
     { return  IndexRange2dC(World2GUIi(at.Origin()),World2GUIi(at.End())); }
     //: Convert world coordinates to GUI coordinates.
@@ -147,7 +151,11 @@ namespace RavlGUIN {
     bool TranslateConfigureEvent(const GdkEvent* event,IndexRange2dC &widgeSize);
     //: Translate a configure event.
     // 'rect' is the new size for the widget.
-
+    
+    RealRange2dC DisplayArea() const
+    { return GUI2World(widgetSize); }
+    //: Get the size of the display area
+    
   protected:  
     virtual bool Create();
     //: Create the widget.
@@ -321,7 +329,11 @@ namespace RavlGUIN {
     RealRange2dC World2GUI(const IndexRange2dC &at) const
     { return Body().World2GUI(at); }
     //: Convert world coordinates to GUI coordinates.
-
+    
+    RealRange2dC World2GUI(const RealRange2dC &at) const
+    { return  Body().World2GUI(at); }
+    //: Convert world coordinates to GUI coordinates.
+    
     IndexRange2dC World2GUIi(const IndexRange2dC &at) const
     { return Body().World2GUIi(at); }
     //: Convert world coordinates to GUI coordinates.
@@ -333,7 +345,10 @@ namespace RavlGUIN {
     RealRange2dC GUI2World(const IndexRange2dC &at) const
     { return Body().GUI2World(at); }
     //: Convert world coordinates to GUI coordinates.
-
+    
+    RealRange2dC DisplayArea() const
+    { return Body().DisplayArea(); }
+    //: Get the size of the display area
     
     friend class RawZoomCanvasBodyC;
   };
