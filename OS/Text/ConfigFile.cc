@@ -48,6 +48,8 @@ namespace RavlN {
       cerr << "ERROR: Failed to load config file :'" << fn << "'\n";
       return false;
     }
+    if(name.IsEmpty())
+      name = fn;
     return Load(af,doChecking);
   }
   

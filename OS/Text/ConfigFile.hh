@@ -52,6 +52,12 @@ namespace RavlN {
     
     bool Load(TextFileC &af,bool doCheck = true);
     //: Read from a buffer.
+
+    const StringC &Name() const
+    { return name; }
+    //: Get name of configuration.
+    // In sections it will be the name of the current section,
+    // otherwise it will be set to the name of the file.
     
     virtual bool CheckTag(StringC tag);
     //: Check if a tag is valid.
@@ -186,6 +192,12 @@ namespace RavlN {
     // be created. <p>
     // **** Derived classes MUST overload this function to
     // ensure the correct class is created. ****
+    
+    const StringC &Name() const
+    { return Body().Name(); }
+    //: Get name of configuration.
+    // In sections it will be the name of the current section,
+    // otherwise it will be set to the name of the file.
     
     bool CheckTag(const StringC &tag)
     { return Body().CheckTag(tag); }
