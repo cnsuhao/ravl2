@@ -11,8 +11,9 @@
 //! docentry="Ravl.Pattern Recognition.Data Set"
 //! lib=RavlPatternRec
 
-#include"Ravl/PatternRec/Sample.hh"
-#include"Ravl/Vector.hh"
+#include "Ravl/PatternRec/DataSetBase.hh"
+#include "Ravl/PatternRec/Sample.hh"
+#include "Ravl/Vector.hh"
 
 namespace RavlN {
   template<class DataT> class DataSet1C;
@@ -22,7 +23,7 @@ namespace RavlN {
   
   template <class DataT> 
   class DataSet1BodyC 
-    : public RCBodyC
+    : public DataSetBaseBodyC
   {
     
   public:
@@ -33,8 +34,8 @@ namespace RavlN {
     //: Create a dataset from a sample and an index.
     
     DataSet1C<DataT> Shuffle() const;
-    //: Shuffle the data in the dataset
-
+    //: Create a new data set with a random order.
+    
     SampleC<DataT> &Sample1()
       { return samp1; }
     //: Access complete sample.
@@ -43,8 +44,6 @@ namespace RavlN {
     SampleC<DataT> samp1;
     //: the actual data
     
-    CollectionC<UIntT> index;
-    //: the index into the data
 
   };
 
@@ -53,35 +52,31 @@ namespace RavlN {
   
   template<class DataT>
   class DataSet1C
-    : public RCHandleC<DataSet1BodyC<DataT> >
+    : public DataSetBaseC
   {
   public:
     DataSet1C(const SampleC<DataT> & dat)
-      : RCHandleC<DataSet1BodyC<DataT> >(*new DataSet1BodyC<DataT>(dat))
+      : DataSetBaseC(*new DataSet1BodyC<DataT>(dat))
       {}
     //: Create a dataset from a sample
     
-    DataSet1C<DataT> Shuffle() const
-      { return Body().Shuffle(); }
-    //: Shuffle the samples in the dataset
-
   protected:
     DataSet1C(const SampleC<DataT> & dat,const CollectionC<UIntT> &nindex)
-      : RCHandleC<DataSet1BodyC<DataT> >(*new DataSet1BodyC<DataT>(dat,nindex))
+      : DataSetBaseC(*new DataSet1BodyC<DataT>(dat,nindex))
       {}
     //: Create a dataset from a sample and an index.
     
     DataSet1C(DataSet1BodyC<DataT> &bod)
-      : RCHandleC<DataSet1BodyC<DataT> >(bod)
+      : DataSetBaseC(bod)
       { }
     //: Body constructor.
     
     DataSet1BodyC<DataT> &Body()
-      { return RCHandleC<DataSet1BodyC<DataT> >::Body(); }
+      { return static_cast<DataSet1BodyC<DataT> &>(DataSetBaseC::Body()); }
     //: Access body.
 
     const DataSet1BodyC<DataT> &Body() const
-      { return RCHandleC<DataSet1BodyC<DataT> >::Body(); }
+    { return static_cast<const DataSet1BodyC<DataT> &>(DataSetBaseC::Body()); }
     //: Access body.
     
   public:
@@ -89,26 +84,31 @@ namespace RavlN {
       { return Body().Sample1(); }
     //: Access complete sample.
     
+    DataSet1C<DataT> Shuffle() const
+      { return Body().Shuffle(); }
+    //: Shuffle the samples in the dataset
+    
     friend class DataSet1BodyC<DataT>;
   };
   
 
   template<class DataT>
   DataSet1BodyC<DataT>::DataSet1BodyC(const SampleC<DataT> & sp)
-    : samp1(sp), 
-      index(sp.Size())
-  {
-    // Initialise index.
-    
-    for(UIntT i=0;i<sp.Size();i++)
-      index.Insert(i);
-  }
+    : DataSetBaseBodyC(sp.Size()),
+      samp1(sp)
+  {}
+
+  template<class DataT>
+  DataSet1BodyC<DataT>::DataSet1BodyC(const SampleC<DataT> & sp,const CollectionC<UIntT> &nindex)
+    : DataSetBaseBodyC(nindex),
+      samp1(sp)
+  {}
   
   template<class DataT>
   DataSet1C<DataT> DataSet1BodyC<DataT>::Shuffle() const {
     return DataSet1C<DataT>(samp,index.Shuffle());
   }
-
+  
 
 }
 

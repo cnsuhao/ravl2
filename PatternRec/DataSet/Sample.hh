@@ -46,6 +46,13 @@ namespace RavlN {
 	{ return CollectionC<DataT>::Size(); }
       //: Return the number of valid samples in the collection
       
+      DataT &operator[](IndexC ind)
+      { return CollectionC<DataT>::operator[](ind); }
+      //: Access a sample.
+      
+      const DataT &operator[](IndexC ind) const
+      { return CollectionC<DataT>::operator[](ind); }
+      //: Access a sample.
       
     }; // end of class SampleC 
 
