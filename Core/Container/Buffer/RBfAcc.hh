@@ -78,6 +78,9 @@ namespace RavlN {
 	range(0,sbf.Size()-1)
     {}
     //: Convert from a size buffer access.
+
+    inline RangeBufferAccessC<DataT> DeepCopy(UIntT levels) const ;
+    //: Make a deep copy 
     
     inline const RangeBufferAccessC<DataT> & operator=(DataT * bp);
     //: Changes the reference element to the element pointed by 'bp'.
@@ -327,6 +330,22 @@ namespace RavlN {
 		 r.Min().V(),r.Max().V(),ba.Range().Min().V(),ba.Range().Max().V());
 #endif
   }
+
+
+  template<class DataT> 
+  inline RangeBufferAccessC<DataT> RangeBufferAccessC<DataT>::DeepCopy(UIntT levels) const 
+{
+  if ( levels == 0) return *this ;
+  DataT * newBuf = new DataT[Size()];
+  RangeBufferAccessC<DataT> ret (newBuf, range);
+ 
+  const DataT *at = DataStart();
+  DataT *at2 = ret.DataStart();
+  const DataT *endOfRow = &at[range.Size()];
+  for(;at != endOfRow;at++,at2++)
+    *at2 = StdDeepCopy(*at,levels-1) ;
+  return ret;
+}
   
   ///////////////////////////////////////////////////////////
   
