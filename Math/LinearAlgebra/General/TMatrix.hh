@@ -168,6 +168,10 @@ namespace RavlN {
     const TMatrixC<DataT> &SetSmallToBeZero(const DataT &min);
     //: Set values smaller than 'min' to zero in vector.
     
+    const TMatrixC<DataT> &MulAdd(const TMatrixC<DataT> & i,RealT a);
+    //: Multiply i by a and add it to this matrix.
+    // Returns a refrence to this matrix.
+    
     void SwapRows(int i,int j);
     //: Swap two rows in the matrix.
   };
@@ -468,6 +472,14 @@ namespace RavlN {
       v1++;
     }
     return *this;    
+  }
+  
+  template<class DataT>
+  const TMatrixC<DataT> &TMatrixC<DataT>::MulAdd(const TMatrixC<DataT> & i,RealT a) {
+    RavlAssert(i.Size2() == Size2());
+    for(BufferAccess2dIter2C<DataT,DataT> it(*this,Size2(),i,i.Size2());it;it++)
+      it.Data1() += it.Data2() * a;
+    return *this;
   }
   
   template<class DataT>
