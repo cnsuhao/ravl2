@@ -84,12 +84,13 @@ namespace RavlN {
       return clusters;
     }
     
-    UIntT count = 0;
+    UIntT count;
     VectorC shift(in.First().Size());
     VectorC mean;
     for(SampleIterC<VectorC> sit(in);sit;sit++) { // Got through all possible start points.
 //      int i = 0;
       do {
+	count = 0;
 	mean = sit->Copy();
 	shift.Fill(0);
 	for(SampleIterC<VectorC> it(in);it;it++) {
@@ -127,11 +128,12 @@ namespace RavlN {
       return clusters;
     }
     
-    RealT count = 0;
+    RealT count;
     VectorC shift(in.First().Size());
     VectorC mean;
     for(SampleIterC<VectorC> sit(in);sit;sit++) { // Got through all possible start points.
       do {
+	count = 0;
 	mean = sit->Copy();
 	shift.Fill(0);
 	for(DataSet2IterC<SampleC<VectorC>,SampleC<RealT> > it(in,weights);it;it++) {
