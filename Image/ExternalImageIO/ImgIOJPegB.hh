@@ -143,7 +143,7 @@ namespace RavlImageN {
     struct jpeg_compress_struct cinfo;
   };
   
-//: Load a PPM image.
+  //: Load a JPEG image.
   
   template<class PixelT>
   class DPIImageJPegBodyC 
@@ -171,7 +171,7 @@ namespace RavlImageN {
     //: Read image data.
   };
   
-  //: Save a  image.
+  //: Save a JPEG image.
   
   template<class PixelT>
   class DPOImageJPegBodyC : 
