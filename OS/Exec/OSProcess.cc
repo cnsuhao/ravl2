@@ -11,8 +11,8 @@
 
 #include "Ravl/OS/OSProcess.hh"
 #include "Ravl/OS/Filename.hh"
-//#include "amma/UserInfo.hh"
 #include "Ravl/Stream.hh"
+//#include "Ravl/OS/UserInfo.hh"
 
 #ifndef _POSIX_C_SOURCE
 #define _POSIX_C_SOURCE 3
