@@ -294,6 +294,11 @@ fullbuild:
 	  echo "QMAKE: opt library build failed. " ; \
 	  exit 1; \
         fi ; \
+	if $(MAKEMD) $(FULLBUILDFLAGS) libbuild VAR=shared TARGET=libbuild NOEXEBUILD=1 ; then true; \
+        else \
+	  echo "QMAKE: shared library build failed. " ; \
+	  exit 1; \
+        fi ; \
 	if $(MAKEMD) $(FULLBUILDFLAGS) fullbuild VAR=opt TARGET=fullbuild  ; then true; \
         else \
 	  echo "QMAKE: executable build failed. " ; \
