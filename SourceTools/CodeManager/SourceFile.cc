@@ -294,7 +294,7 @@ namespace RavlN {
     const StringC &comStr = commentString[fileType];
     const StringC &comEndStr = commentEndString[fileType];
     if(comStr.IsEmpty())
-      return StringC(); // Don't know the comment string for this filetype.
+      return false; // Don't know the comment string for this filetype.
     StringC prefix = comStr + "! ";
     TextCursorC at((TextFileC &)me);
     while(at.SkipTo(prefix)) {

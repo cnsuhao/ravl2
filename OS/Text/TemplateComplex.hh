@@ -146,8 +146,9 @@ namespace RavlN {
     //: Get value of a variable.
     
     template<class ObjT>
-    void SetupCommand(const StringC &cmd,ObjT &obj,bool (ObjT::* func)(StringC &arg)) {
-      commands[cmd] = CallMethod1C<ObjT &,StringC &,bool>(obj,func,StringC());
+    void SetupCommand(const StringC &cmd,ObjT &obj,bool (ObjT::* func)(StringC &)) {
+      commands[cmd] = TriggerR(obj,func,StringC());
+      //commands[cmd] = CallMethod1C<ObjT &,StringC &,bool>(obj,func,StringC());
     }
     //: Setup new command.
     // NB. Obj is used as a reference, it is assumed to be a derived instance of this class.

@@ -137,10 +137,10 @@ namespace Ravl3DN {
 	  GetVectors(inf,triTex,numFacesTex,true);
 	}
       }
-    } catch (ExceptionEndOfStreamC &x) {
+    } catch (ExceptionEndOfStreamC &) {
       //cerr << "ERROR: Unexpected end of stream. \n";
       //return false;
-    } catch( ExceptionOutOfRangeC &x) {
+    } catch( ExceptionOutOfRangeC &) {
       cerr << "ERROR: Unexpected vector size. \n";
       return false;
     }

@@ -36,9 +36,9 @@ namespace RavlN {
     RCSVersionC() {}
     //: Default constructor.
     
-    RCSVersionC(RCSVersionC &oth)
+    RCSVersionC(const RCSVersionC &oth)
       : ver(oth.ver)
-      {}
+    {}
     //: Copy constructor.
     
     RCSVersionC(const StringC &frm);

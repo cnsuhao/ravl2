@@ -14,6 +14,7 @@
 #include "Ravl/GUI/Label.hh"
 #include "Ravl/GUI/LBox.hh"
 #include "Ravl/SArray1dIter.hh"
+#include <gtk/gtk.h>
 
 namespace RavlGUIN {
   
