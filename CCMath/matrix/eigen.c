@@ -6,6 +6,7 @@
  * ------------------------------------------------------------------------
  */
 #include <stdlib.h>
+#include "ccmath/ccmath.h"
 #include "ccmath/matutl.h"
 void eigen(double *a,double *ev,int n)
 { double *dp;
