@@ -261,7 +261,8 @@ namespace RavlDFN {
   
   //: Find the size of the font.
   
-  Index2dC GUIViewBodyC::TextSize(GdkFont *font,const StringC &txt) {    IntT width = gdk_text_width(font,txt.chars(),txt.Size());
+  Index2dC GUIViewBodyC::TextSize(GdkFont *font,const StringC &txt) {  
+    IntT width = gdk_text_width(font,txt.chars(),txt.Size());
     return Index2dC(width,10);
   }
   
