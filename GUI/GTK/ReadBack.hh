@@ -121,6 +121,7 @@ namespace RavlGUIN {
     ReadBackC lock; // Read back lock info.
     bool held;     // Is lock currently held ?
     bool released; // Has lock been released ?
+    IntT threadId;
   };
   
 }

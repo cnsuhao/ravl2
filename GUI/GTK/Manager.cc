@@ -59,23 +59,23 @@ namespace RavlGUIN {
   // Manage gtk locking in an exception safe way.
   class LockGtkThreadC {
   public:
-    LockGtkThreadC() 
-      : gotLock(true)
+    LockGtkThreadC(ManagerC &man) 
+      : manager(man),
+	gotLock(true)
     {
-      gdk_threads_enter();
+      man.ThreadEnterGUI(id);
     }
     //: Constructor.
     
     ~LockGtkThreadC() {
-      if(gotLock)
-	gdk_threads_leave();      
+      Unlock();
     }
     //: Destructor.
     
     void Unlock() {
       if(gotLock) {
 	gotLock = false;
-	gdk_threads_leave();      
+	manager.ThreadLeaveGUI(id);
       }
     }
     //: Unlock it.
@@ -83,12 +83,14 @@ namespace RavlGUIN {
     void Lock() {
       if(!gotLock) {
 	gotLock = true;
-	gdk_threads_enter();
+	manager.ThreadEnterGUI(id);
       }
     }
     //: Unlock it.
     
+    ManagerC &manager;
     bool gotLock;
+    IntT id;
   };
   
 #endif
@@ -259,7 +261,7 @@ namespace RavlGUIN {
     
 #if  RAVL_USE_GTKTHREADS
     // Get screen size from GDK
-    LockGtkThreadC  gtkLock;
+    LockGtkThreadC  gtkLock(*this);
     screensize.Set(gdk_screen_height(),gdk_screen_width());
     physicalScreensize = Point2dC(gdk_screen_height_mm(),gdk_screen_width_mm());
     gtkLock.Unlock();
@@ -368,7 +370,7 @@ namespace RavlGUIN {
 	gtk_main_quit ();
 	break;      
       }
-      LockGtkThreadC lock;
+      LockGtkThreadC lock(*this);
       ONDEBUG(cerr << "ManagerC::HandleNotify(), Event Start... \n");
       trig.Invoke();
       ONDEBUG(cerr << "ManagerC::HandleNotify(), Event Finished.. \n");
@@ -420,6 +422,26 @@ namespace RavlGUIN {
     GetRootWindow() = nw;
   }
   
+  
+  //: Enter GUI thread region.
+  
+  bool ManagerC::ThreadEnterGUI(IntT &oldId) {
+    gdk_threads_enter();
+      // Mark this thread as being GUI.
+    oldId = guiThreadID2;
+    guiThreadID2 = ThisThreadID();
+    return true;
+  }
+  
+  //: Leave GUI thread region.
+  
+  bool ManagerC::ThreadLeaveGUI(IntT &var) {
+    // Unmark the current thread.
+    guiThreadID2 = var;
+    gdk_threads_leave();
+    return true;
+  }
+  
   //: Queue an event for running in the GUI thread.
   
   void ManagerC::Queue(const TriggerC &se) {
@@ -432,10 +454,7 @@ namespace RavlGUIN {
 	gtk_main_quit ();
       ONDEBUG(cerr << "ManagerC::Queue(), Event Finished.. \n");
     } else  {
-      LockGtkThreadC lock;
-      // Mark this thread as being GUI.
-      UIntT oldId = guiThreadID2;
-      guiThreadID2 = ThisThreadID();
+      LockGtkThreadC lock(*this);
       
       ONDEBUG(cerr << "ManagerC::Queue(), Event Start... \n");
       if(se.IsValid())
@@ -443,9 +462,8 @@ namespace RavlGUIN {
       else
 	gtk_main_quit ();
       
-      // Unmark the current thread.
-      guiThreadID2 = oldId;
       ONDEBUG(cerr << "ManagerC::Queue(), Event Finished.. \n");
+      lock.Unlock();
     }
 #else
     if(shutdownFlag) {

@@ -29,9 +29,9 @@
 
 namespace RavlGUIN {
   using namespace RavlN;
-  
+  class ReadBackLockC;  
   class WindowC;
-  
+  class LockGtkThreadC;
   //! userlevel=Normal
   //: GUI Manager class
   // As a user you should never need to creat an instance of this
@@ -119,6 +119,12 @@ namespace RavlGUIN {
     
   protected:
     
+    bool ThreadEnterGUI(IntT &var);
+    //: Enter GUI thread region.
+    
+    bool ThreadLeaveGUI(IntT &var);
+    //: Leave GUI thread region.
+    
     IntT Register(WidgetBodyC &win);
     //: Register new window.
     
@@ -159,6 +165,8 @@ namespace RavlGUIN {
     Point2dC physicalScreensize;
     friend class WidgetBodyC;
     friend class WindowBodyC;
+    friend class ReadBackLockC;
+    friend class LockGtkThreadC;  
   };
   
   extern ManagerC Manager;

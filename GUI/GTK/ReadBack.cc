@@ -37,7 +37,7 @@ namespace RavlGUIN {
       return ;
     }
 #if RAVL_USE_GTKDIRECT 
-    gdk_threads_enter();
+    Manager.ThreadEnterGUI(threadId);
 #else
     Manager.Queue(Trigger(lock,&ReadBackC::Issue));
     if(waitForLock)
@@ -57,7 +57,7 @@ namespace RavlGUIN {
     if(held || released)
       return held;
 #if RAVL_USE_GTKDIRECT
-    gdk_threads_enter();
+    Manager.ThreadEnterGUI(threadId);
 #else 
     lock.WaitForLock();
 #endif
@@ -70,7 +70,7 @@ namespace RavlGUIN {
   bool ReadBackLockC::Unlock() {
     if(!released) {
 #if RAVL_USE_GTKDIRECT 
-      gdk_threads_leave();
+      Manager.ThreadLeaveGUI(threadId);
 #else
       lock.Release();
 #endif
