@@ -16,15 +16,13 @@
 #include "Ravl/Array2d.hh"
 #include "Ravl/Array2dIter.hh"
 #include "Ravl/Array2dIter2.hh"
-//#include "Ravl/VectorN.hh"
-//#include "Ravl/MatrixN.hh"
 #include "Ravl/DList.hh"
 #include "Ravl/TypeName.hh"
 #include "Ravl/StringList.hh"
 #include "Ravl/InDList.hh"
 #include "Ravl/RCHash.hh"
 #include "Ravl/HSet.hh"
-//#include "Ravl/Graph.hh"
+#include "Ravl/Option.hh"
 #include <string.h>
 
 
@@ -41,12 +39,11 @@ using namespace std;
 
 int testArray1();
 int testArray2();
-int testVectorN();
-int testMatrixN();
 int testDList();
 int testTypeName();
 int testStrList();
 int testIntrDList();
+int testOption();
 
 int testRavlCore(int argc,char **argv) {
   int line = 0;
@@ -58,16 +55,6 @@ int testRavlCore(int argc,char **argv) {
     cerr << "Array2 test failed line :" << line << "\n";
     return 1;
   }
-#if 0
-  if((line = testVectorN()) != 0) {
-    cerr << "VectorN test failed line :" << line << "\n";
-    return 1;
-  }
-  if((line = testMatrixN()) != 0) {
-    cerr << "MatrixN test failed line :" << line << "\n";
-    return 1;
-  }
-#endif
   if((line = testDList()) != 0) {
     cerr << "DList test failed line :" << line << "\n";
     return 1;
@@ -81,6 +68,10 @@ int testRavlCore(int argc,char **argv) {
     return 1;
   }
   if((line = testIntrDList()) != 0) {
+    cerr << "IntrDList test failed line :" << line << "\n";
+    return 1;
+  }
+  if((line = testOption()) != 0) {
     cerr << "IntrDList test failed line :" << line << "\n";
     return 1;
   }
@@ -125,36 +116,6 @@ int testArray2() {
   }
   return 0;
 }
-
-#if 0
-int testVectorN() {
-  
-  VectorNC<RealT> vec(10);
-  return 0;
-}
-
-int testMatrixN() {
-  cout << "Testing MatrixN \n";  
-  MatrixNC<RealT> m1(10,10);
-  MatrixNC<RealT> m2(10,10);
-  for(MatrixNIterC<RealT> it(m1);it;it++)
-    *it = 1;
-  if(m1.Sum() != 100) return __LINE__;
-  for(MatrixNIterNC<RealT,2> it(m1,m2);it;it++)
-    *it = it[1];
-
-  MatrixNC<RealT> m3 = m1.Copy();
-  for(MatrixNIterNC<RealT,2> it(m2,m3);it;it++)
-    if(*it != it[1]) return __LINE__;
-  m3.Fill(5);
-  for(MatrixNIterNC<RealT,2> it(m1,m3);it;it++)
-    if(it[0] == it[1]) return __LINE__;
-  m2 = m3;
-  for(MatrixNIterNC<RealT,2> it(m2,m3);it;it++)
-    if(*it != it[1]) return __LINE__;
-  return 0;
-}
-#endif
 
 static bool IntLessOrEqual(const int &v1,const int &v2)
 { return v1 <= v2; }
@@ -262,6 +223,25 @@ int testIntrDList() {
   it--;
   if(!it) return __LINE__;
   if(&it.Data() != &lst.Last()) return __LINE__;
+  return 0;
+}
+
+int testOption() {
+  cout << "Testing OptionC.\n";
+  // Do a quick check that OptionC is doing something sensible.
+  int nargs = 5;
+  char *argv[] = { "arg0","-d","0.3","-i","4",0 };
+  OptionC opt(nargs,argv);
+  RealT vd= opt.Real("d",0,"Read in a real. ");
+  RealT vd2= opt.Real("d2",0.4,"Read in a real. ");
+  IntT vi= opt.Int("i",1,"Read in a int. ");
+  opt.Check();
+  if(vd != 0.3) return __LINE__;
+  if(vi != 4) return __LINE__;
+  if(vd2 != 0.4) return __LINE__;
+  if(!opt.IsOnCommandLine("d")) return __LINE__;
+  if(opt.IsOnCommandLine("x")) return __LINE__;
+  
   return 0;
 }
 
