@@ -22,6 +22,7 @@ namespace RavlImageN {
 
   template<class PixelT>
   void SpatialDifferenceOrder1(const Array2dC<PixelT> &img,Array2dC<Vector2dC> &grad) {
+    RavlAssert(img.Frame().Area() > 0);
     if(grad.IsEmpty()) {
       ImageRectangleC ir = img.Rectangle();
       grad = ImageC<Vector2dC>(ir.Shrink(1));
@@ -36,6 +37,7 @@ namespace RavlImageN {
   
   template<class PixelT>
   void SpatialDifferenceOrder2(const Array2dC<PixelT> &img,Array2dC<Vector2dC> &grad) {
+    RavlAssert(img.Frame().Area() > 0);
     if(grad.IsEmpty()) {
       ImageRectangleC ir = img.Rectangle();
       grad = ImageC<Vector2dC>(ir.Shrink(2));
@@ -53,6 +55,7 @@ namespace RavlImageN {
   
   template<class PixelT>
   void SpatialDifferenceOrder3(const Array2dC<PixelT> &img,Array2dC<Vector2dC> &grad) {
+    RavlAssert(img.Frame().Area() > 0);
     if(grad.IsEmpty()) {
       ImageRectangleC ir = img.Rectangle();
       grad = ImageC<Vector2dC>(ir.Shrink(3));
@@ -74,6 +77,7 @@ namespace RavlImageN {
   
   template<class PixelT>
   void SpatialDifference(UIntT order,const Array2dC<PixelT> &img,Array2dC<Vector2dC> &grad) {
+    RavlAssert(img.Frame().Area() > 0);
     switch(order) {
     case 1: SpatialDifferenceOrder1(img,grad); break;
     case 2: SpatialDifferenceOrder2(img,grad); break;
