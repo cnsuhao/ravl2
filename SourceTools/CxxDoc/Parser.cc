@@ -20,11 +20,10 @@
 
 #if RAVL_HAVE_ANSICPPHEADERS
 #include <fstream>
-#include <stdlib>
 #else
 #include <fstream.h>
-#include <stdlib.h>
 #endif
+#include <stdlib.h>
 
 #include "cxx.tab.h"
 
