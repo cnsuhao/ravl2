@@ -33,7 +33,7 @@ namespace RavlN {
   
   template<class VertexDataT,class FaceDataT = EmptyC,class EdgeDataT = EmptyC>
   class THEMeshFaceBodyC 
-    : protected HEMeshBaseFaceBodyC
+    : public HEMeshBaseFaceBodyC
   {
   public:
     THEMeshFaceBodyC()
