@@ -32,7 +32,9 @@ namespace RavlN {
   //: Create a empty text buffer.
   
   TextBufferBodyC::TextBufferBodyC()
-    : noLines(0)
+    : noLines(0),
+      Modified(false),
+      Readonly(false)
   {}
   
   /////////////////////////////
@@ -225,6 +227,55 @@ namespace RavlN {
     IntT count = 0;
     for(DLIterC<TextFileLineC> It(lines);It.IsElm();It.Next())
       count += It.Data().Text().gsub(org,nv);
+    if(count > 0)
+      Modified = true;
+    return count;
+  }
+ 
+  //: Delete 'firstLine' to 'lastLine' inclusive.
+  // Note: this is based on the original lines numbers as loaded from
+  // the file. <br>
+  // Returns the number of lines removed.
+  
+  IntT TextBufferBodyC::Delete(IntT firstLine,IntT lastLine) {
+    RavlAssert(firstLine <= lastLine);
+    DLIterC<TextFileLineC> fit(lines);
+    for(;fit;fit++) {
+      if(fit->LineNo() >= firstLine && fit->LineNo() != ((UIntT) -1))
+	break;
+    } 
+    if(!fit || fit->LineNo() > lastLine) {
+      //cerr << "Failed to find first line. \n";
+      return 0;
+    }
+    DLIterC<TextFileLineC> lit(fit);
+    for(;lit;lit++) {
+      // If we hit a patch of newly inserted stuff, skip to end of it
+      // if we find a line included in the delete after, then include
+      // new stuff too, otherwise don't.
+      if(lit->LineNo() == ((UIntT) -1)) {
+	DLIterC<TextFileLineC> sit(lit);
+	for(;sit;sit++)
+	  if(sit->LineNo() != ((UIntT) -1))
+	    break;
+	if(!sit) {
+	  lit--;
+	  break;
+	}
+	if(lit->LineNo() > lastLine)
+	  break;
+	lit = sit;
+      }
+      if(lit->LineNo() > lastLine)
+	break;
+    }
+    //cerr << "Deleting lines... \n";
+    IntT count = 0;
+    // Delete upto lit
+    for(;fit != lit;fit++) {
+      count++;
+      fit.Del();
+    }
     if(count > 0)
       Modified = true;
     return count;

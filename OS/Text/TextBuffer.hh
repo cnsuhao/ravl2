@@ -62,6 +62,15 @@ namespace RavlN {
     //: Substute 'org' for 'nv' the whole buffer.
     // returns the number of substitutions done.
     
+    IntT Delete(IntT firstLine,IntT lastLine);
+    //: Delete 'firstLine' to 'lastLine' inclusive.
+    // Note: this is based on the original lines numbers as loaded from
+    // the file. <br>
+    // Returns the number of lines removed. <br>
+    // If we hit a patch of newly inserted lines, skip to end of it
+    // if we find a line included in the delete after, then delete
+    // new lines too, otherwise don't.
+    
     void Empty();
     //: Empty all contents, set name to noname
     
@@ -187,6 +196,16 @@ namespace RavlN {
     { return Body().GlobalSubst(org,nv); }
     //: Substute 'org' for 'nv' the whole buffer.
     // returns the number of substitutions done.
+    
+    IntT Delete(IntT firstLine,IntT lastLine)
+    { return Body().Delete(firstLine,lastLine); }
+    //: Delete 'firstLine' to 'lastLine' inclusive.
+    // Note: this is based on the original lines numbers as loaded from
+    // the file. <br>
+    // Returns the number of lines removed. <br>
+    // If we hit a patch of newly inserted lines, skip to end of it
+    // if we find a line included in the delete after, then delete
+    // new lines too, otherwise don't.
     
     void Empty()
     { Body().Empty(); }
