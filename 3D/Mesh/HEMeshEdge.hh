@@ -115,8 +115,9 @@ namespace Ravl3DN {
     HEMeshFaceC OpenEdge();
     //: Open an edge, merging the faces on either side.
     // This deletes the edge from the mesh and returns
-    // a handle to the new face.
-
+    // a handle to the new face. <p>
+    // NOT IMPLEMENTED
+    
     bool operator==(const HEMeshEdgeBodyC &bod) const
     { return this == &bod; }
     //: Is this the same body ?
@@ -285,9 +286,10 @@ namespace Ravl3DN {
     //: Is this not a handle to oth ?
 
     HEMeshVertexC CollapseEdge() { 
-      return Body().CollapseEdge(); 
+      HEMeshVertexC ret = Body().CollapseEdge(); 
       delete body;
       body = 0;
+      return ret;
     }
     //: Collapse edge to zero length.
     // This deletes the edge from the mesh and merges the vertex's
@@ -297,7 +299,8 @@ namespace Ravl3DN {
     HEMeshFaceC OpenEdge();
     //: Open an edge, merging the faces on either side.
     // This deletes the edge from the mesh and returns
-    // a handle to the new face.
+    // a handle to the new face. <p>
+    // NOT IMPLEMENTED
     
   private:
     HEMeshEdgeBodyC *body;
