@@ -150,7 +150,7 @@ namespace RavlImageN {
     
     // achromatic case 
     if( data[1] == 0 ) {
-      rgb.Red() = rgb.Green() = rgb.Blue() = data[1] ;
+      rgb.Red() = rgb.Green() = rgb.Blue() = data[2] ;
       return rgb;
     }
     
