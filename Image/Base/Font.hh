@@ -59,6 +59,10 @@ namespace RavlImageN {
     
     Index2dC Center(const StringC &text) const;
     //: Get the offset to the center of the string.
+    
+    Index2dC Size(const StringC &text) const;
+    //: Compute the size of image required to render 'text'.
+    
   protected:
     SArray1dC<ImageC<ByteT> > glyphs;
   };
@@ -79,6 +83,7 @@ namespace RavlImageN {
 		const StringC &text,
 		ImageC<DataT> &image) 
   {
+    RavlAssert(font.IsValid());
     Index2dC at(offset);
     const char *p = text.chars();
     const char *eos = &p[text.length()];
@@ -106,7 +111,10 @@ namespace RavlImageN {
 		const Index2dC &center,
 		const StringC &text,
 		ImageC<DataT> &image) 
-  { DrawText(font,value,center - font.Center(text),text,image); }
+  { 
+    RavlAssert(font.IsValid());
+    DrawText(font,value,center - font.Center(text),text,image); 
+  }
   //: Draw text on image, centred.  
   // Text is centred on "center".
 

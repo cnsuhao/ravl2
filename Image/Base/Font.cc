@@ -49,6 +49,12 @@ namespace RavlImageN {
   //: Get the offset to the center of the string.
   
   Index2dC FontC::Center(const StringC &text) const {
+    return Size(text)/2;
+  }
+
+  //: Compute the size of image required to render 'text'.
+  
+  Index2dC FontC::Size(const StringC &text) const {
     const char *at = text.chars();
     const char *eos = &(at[text.length()]);
     IntT maxHeight = 0;
@@ -59,7 +65,7 @@ namespace RavlImageN {
 	maxHeight = ind.Rows();
       cols += ind.Cols();
     }
-    return Index2dC(maxHeight,cols)/2;
+    return Index2dC(maxHeight,cols);    
   }
 
   ////////////////////////////////////////////////////////////////
