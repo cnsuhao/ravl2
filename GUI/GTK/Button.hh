@@ -150,7 +150,7 @@ namespace RavlGUIN {
   }
   
   template<class DataT>
-  ButtonC Button(const char *label,bool (*func)(DataT &dat),const DataT &dat)
+  ButtonC Button(const char *label,bool (*func)(DataT dat),const typename TraitsC<DataT>::BaseTypeT &dat)
   { 
     ButtonC ret = ButtonC(label);
     Connect(ret.Signal("clicked"),func,dat);
@@ -158,7 +158,7 @@ namespace RavlGUIN {
   }
   
   template<class Data1T,class Data2T>
-  ButtonC Button(const char *label,bool (*func)(Data1T &,Data2T &),const Data1T &dat1,const Data2T &dat2)
+  ButtonC Button(const char *label,bool (*func)(Data1T ,Data2T ),const typename TraitsC<Data1T>::BaseTypeT &dat1,const typename TraitsC<Data2T>::BaseTypeT &dat2)
   { 
     ButtonC ret = ButtonC(label);
     Connect(ret.Signal("clicked"),func,dat1,dat2);
@@ -166,7 +166,7 @@ namespace RavlGUIN {
   }
   
   template<class ObjT,class DataT>
-  ButtonC Button(const char *label,const ObjT &obj,bool (ObjT::*func)(DataT &dat),const DataT &dat)
+  ButtonC Button(const char *label,const ObjT &obj,bool (ObjT::*func)(DataT dat),const typename TraitsC<DataT>::BaseTypeT &dat)
   { 
     ButtonC ret = ButtonC(label);
     Connect(ret.Signal("clicked"),obj,func,dat);
@@ -174,7 +174,7 @@ namespace RavlGUIN {
   }
 
   template<class ObjT,class DataT>
-  ButtonC ButtonR(const char *label,ObjT &obj,bool (ObjT::*func)(DataT &dat),const DataT &dat )
+  ButtonC ButtonR(const char *label,ObjT &obj,bool (ObjT::*func)(DataT dat),const typename TraitsC<DataT>::BaseTypeT &dat )
   { 
     ButtonC ret = ButtonC(label);
     ConnectRef(ret.Signal("clicked"),obj,func,dat);
@@ -184,7 +184,7 @@ namespace RavlGUIN {
   // This does NOT make a reference to obj.
   
   template<class ObjT,class DataT>
-  ButtonC Button(const char *label,const char *tooltip,const ObjT &obj,bool (ObjT::*func)(DataT &dat),const DataT &dat)
+  ButtonC Button(const char *label,const char *tooltip,const ObjT &obj,bool (ObjT::*func)(DataT dat),const typename TraitsC<DataT>::BaseTypeT &dat)
   { 
     ButtonC ret = ButtonC(label,tooltip);
     Connect(ret.Signal("clicked"),obj,func,dat);
