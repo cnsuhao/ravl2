@@ -169,7 +169,7 @@ namespace RavlN {
     Matrix2dC Covariance() const;
     //: Return the covariance matrix.
     
-    Point2dC Centroid()
+    Point2dC Centroid() const
     { return Point2dC(CentroidX(),CentroidY()); }
     //: Calculate the centroid.
     
