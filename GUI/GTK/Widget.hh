@@ -153,7 +153,7 @@ namespace RavlGUIN {
     
   protected:
 
-    bool GUISetStyle(WidgetStyleC& style);
+    virtual bool GUISetStyle(WidgetStyleC& style);
     //: Set style of widget.
 
     bool GUISetState(GtkStateType &state);
