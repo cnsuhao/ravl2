@@ -124,7 +124,7 @@ namespace RavlN {
     //: Move the single item 'at' to the end of this list.
     // Leaves iterator pointing to the previous element.
     
-    typedef bool (*MergeSortCmpT)(DataT &l1,DataT &l2);
+    typedef bool (*MergeSortCmpT)(const DataT &l1,const DataT &l2);
     //: Comparison function for merge sort.
     
     bool operator==(const DListBodyC<DataT> &oth) const;
@@ -138,14 +138,14 @@ namespace RavlN {
     
   protected:    
     static bool MergeSortHelpCmp(DLinkC *l1,DLinkC *l2,void *dat) {
-      return ((MergeSortCmpT) dat)(static_cast<DLinkDataC<DataT> &>(*l1).Data(),
-				   static_cast<DLinkDataC<DataT> &>(*l2).Data());
+      return ((MergeSortCmpT) dat)(static_cast<const DLinkDataC<DataT> &>(*l1).Data(),
+				   static_cast<const DLinkDataC<DataT> &>(*l2).Data());
     }
     //: Comparison helper function.
     
   public:
     //MergeSortCmpT
-    void MergeSort(bool (*cmp)(DataT &l1,DataT &l2)) // 
+    void MergeSort(bool (*cmp)(const DataT &l1,const DataT &l2)) // 
       { DLinkHeadC::MergeSort(&DListBodyC<DataT>::MergeSortHelpCmp,(void *) cmp); }
     //: Merge sort the list with comparison function 'cmp'.
     
