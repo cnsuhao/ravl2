@@ -9,6 +9,6 @@
 
 DESCRIPTION = GUI Tools.
 
-SUPPORT_ONLY = linux sol2 sgi
+SUPPORT_ONLY = linux sol2 sgi alpha
 
 NESTED=GTK.r 2D.r 3D.r DPDisplay.r
