@@ -34,8 +34,7 @@ HEADERS = ObsVector.hh ObsVectorBiGaussian.hh ObsVectorPoint2dPair.hh \
 	  StoredState.hh LevenbergMarquardt.hh \
 	  Ransac.hh ObservationManager.hh FitToSample.hh EvaluateSolution.hh \
 	  EvaluateNumInliers.hh EvaluateLikelihood.hh \
-	  FitLine2dPoints.hh FitQuadraticPoints.hh FitHomog2dPoints.hh \
-	  WarpProjective.hh
+	  FitLine2dPoints.hh FitQuadraticPoints.hh FitHomog2dPoints.hh 
 
 MAINS=OrthogonalRegressionTest.cc QuadraticFitTest.cc Homography2dFitTest.cc Mosaic.cc
 
@@ -45,6 +44,6 @@ TESTEXES= OrthogonalRegressionTest.cc QuadraticFitTest.cc Homography2dFitTest.cc
 
 EXAMPLES= OrthogonalRegressionTest.cc QuadraticFitTest.cc Homography2dFitTest.cc Mosaic.cc
 
-USESLIBS=RavlCore RavlMath RavlImage RavlImageProc RavlOSIO RavlVideoIO RavlImageIO RavlDPDisplay
+USESLIBS=RavlCore RavlMath 
 
-PROGLIBS=RavlImage RavlImageProc RavlOSIO  RavlVideoIO RavlImageIO
+PROGLIBS=RavlImage RavlImageProc RavlOSIO  RavlVideoIO RavlImageIO RavlDPDisplay
