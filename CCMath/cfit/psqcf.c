@@ -6,9 +6,9 @@
  * ------------------------------------------------------------------------
  */
 #include <stdlib.h>
-#include "orpol.h"
+#include "ccmath/orpol.h"
 void psqcf(double *b,Opol *c,int m)
-{ int i,j,k; double *sm,*s,u,v;
+{ int i,j,k; double *sm,*s,v;
   if(m>1){
     sm=(double *)calloc(m*m,sizeof(double));
     sm[0]=sm[m+1]=1.; sm[1]= -c[0].df;

@@ -6,7 +6,7 @@
  * ------------------------------------------------------------------------
  */
 #include <math.h>
-#include "orpol.h"
+#include "ccmath/orpol.h"
 double evpsqv(double x,Opol *c,int m,double *v,double sig)
 { int i; double f,h,s,t,r,z;
   f=s=c[m-1].cf; t=0.;

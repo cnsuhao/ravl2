@@ -6,7 +6,7 @@
  * ------------------------------------------------------------------------
  */
 #include <stdlib.h>
-#include "orpol.h"
+#include "ccmath/orpol.h"
 void psqvar(double *v,double sig,Opol *c,int m)
 { int i,j,k; double *sm,*s,*s1,*u,w,x;
   if(m>1){

@@ -6,6 +6,7 @@
  * ------------------------------------------------------------------------
  */
 #include <stdlib.h>
+#include "ccmath/ccmath.h"
 void chpade(double *c,double *a,int m,double *b,int n)
 { double *mat,*ps; int r,s,k;
   mat=(double *)calloc(n*n,sizeof(double));

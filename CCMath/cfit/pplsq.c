@@ -6,7 +6,7 @@
  * ------------------------------------------------------------------------
  */
 #include <stdlib.h>
-#include "orpol.h"
+#include "ccmath/orpol.h"
 void plsq(double *x,double *y,int n,Opol *c,double *ss,int m);
 void psqcf(double *pc,Opol *cf,int m);
 double pplsq(double *x,double *y,int n,double *bc,int m)

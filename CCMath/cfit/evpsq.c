@@ -5,7 +5,7 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
-#include "orpol.h"
+#include "ccmath/orpol.h"
 double evpsq(double x,Opol *c,int m)
 { int i; double f,s,t;
   f=s=c[m-1].cf; t=0.;

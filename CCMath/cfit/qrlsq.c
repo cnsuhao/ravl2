@@ -7,8 +7,9 @@
  */
 #include <stdlib.h>
 #include <math.h>
+#include "ccmath/ccmath.h"
 double qrlsq(double *a,double *b,int m,int n,int *f)
-{ double *p,*q,*w,*v;
+{ double *p,*q,*w;
   double s,h,r;
   int i,j,k,mm,ms;
   if(m<n) return -1;
