@@ -12,6 +12,7 @@
 #include "Ravl/Array2dIter.hh"
 #include "Ravl/Array2dIter2.hh"
 #include "Ravl/Array2dIter3.hh"
+#include "Ravl/Array2dIter4.hh"
 #include "Ravl/Array2dSqr2Iter.hh"
 #include "Ravl/Array2dSqr2Iter2.hh"
 #include "Ravl/Array2dSqr3Iter.hh"
@@ -24,6 +25,7 @@
 using namespace RavlN;
 
 int testBasic();
+int testShift();
 int testSArrayConv();
 int testSqr2();
 int testSqr3();
@@ -36,6 +38,10 @@ int main()
 {
   int ln;
   if((ln = testBasic()) != 0) {
+    cerr << "Basic Array2d test failed line:" << ln << "\n";
+    return 1;
+  }
+  if((ln = testShift()) != 0) {
     cerr << "Basic Array2d test failed line:" << ln << "\n";
     return 1;
   }
@@ -120,7 +126,35 @@ int testBasic() {
     for(;it;it++)
       it.Data1() = it.Data2();
   }
+  {
+    Array2dIter4C<IntT,IntT,IntT,IntT> it(arr1,arr1,arr1,arr1);
+    if(it.Index() != arr1.Rectangle().Origin()) {
+      cerr << "Index check 4 failed. \n";
+      return __LINE__;
+    }
+    for(;it;it++)
+      it.Data1() = it.Data2();
+  }
 
+  return 0;
+}
+
+int testShift() {
+  Array2dC<IntT> arr(IndexRangeC(1,2),IndexRangeC(3,4));
+  int c = 0;
+  for(Array2dIterC<IntT> it(arr);it;it++)
+    *it = c++;
+  //cerr << "Org=" << arr << "\n";
+  Array2dC<IntT> shift0(arr.CopyAccess());
+  for(Array2dIter2C<IntT,IntT> it(arr,shift0);it;it++)
+    if(it.Data1() != it.Data2()) return __LINE__;
+  Array2dC<IntT> shift1(arr.CopyAccess(-1,-1));
+  for(Array2dIter2C<IntT,IntT> it2(arr,shift1);it2;it2++)
+    if(it2.Data1() != it2.Data2()) return __LINE__;
+  Array2dC<IntT> shift2(arr,arr.Frame(),Index2dC(0,0));
+  for(Array2dIter2C<IntT,IntT> it3(arr,shift1);it3;it3++)
+    if(it3.Data1() != it3.Data2()) return __LINE__;
+  // cerr << shift2;
   return 0;
 }
 

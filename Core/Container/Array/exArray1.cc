@@ -11,7 +11,7 @@
 #include "Ravl/Array1d.hh"
 #include "Ravl/Array1dIter.hh"
 #include "Ravl/EntryPnt.hh"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 using namespace RavlN;
 

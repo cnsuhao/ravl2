@@ -11,7 +11,7 @@
 #include "Ravl/Array3d.hh"
 #include "Ravl/Array3dIter.hh"
 #include "Ravl/EntryPnt.hh"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 using namespace RavlN;
 

@@ -14,6 +14,7 @@
 #include "Ravl/Array1dIter.hh"
 #include "Ravl/Array1dIter2.hh"
 #include "Ravl/Array1dIter3.hh"
+#include "Ravl/Array1dIter4.hh"
 #include "Ravl/Stream.hh"
 
 using namespace RavlN;
@@ -208,3 +209,4 @@ template class Array1dC<IntT>;
 template class Array1dIterC<IntT>;
 template class Array1dIter2C<IntT,RealT>;
 template class Array1dIter3C<IntT,RealT,ByteT>;
+template class Array1dIter4C<IntT,RealT,ByteT,bool>;

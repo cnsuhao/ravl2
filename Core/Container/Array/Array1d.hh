@@ -261,6 +261,9 @@ namespace RavlN {
     DataT SumSqr() const;
     //: Calculate the sum of the squares of all elements in the array
     
+    DataT Sum() const;
+    //: Calculate the sum of all elements in the array
+    
     Array1dC<DataT> Apply(DataT (*op)(const DataT &func)) const;
     //: Apply a function to each item in the array.
     // The results are put in a new array.
@@ -720,10 +723,29 @@ namespace RavlN {
   
   template<class DataT>
   DataT Array1dC<DataT>::SumSqr() const {
+    BufferAccessIterC<DataT> it(*this);
     DataT ret;
-    SetZero(ret);
-    for(BufferAccessIterC<DataT> it(*this);it;it++)
+    if(!it) { // Zero length array ?
+      SetZero(ret);
+      return ret;
+    }
+    ret = Sqr(*it);
+    for(it++;it;it++)
       ret += Sqr(it.Data1());
+    return ret;
+  }
+  
+  template<class DataT>
+  DataT Array1dC<DataT>::Sum() const {
+    BufferAccessIterC<DataT> it(*this);
+    DataT ret;
+    if(!it) { // Zero length array.
+      SetZero(ret);
+      return ret;
+    }
+    ret = StdCopy(*it); // Need to copy in case its a refrence counted object. 
+    for(it++;it;it++)
+      ret += *it;
     return ret;
   }
   

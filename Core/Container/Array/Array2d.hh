@@ -76,6 +76,10 @@ namespace RavlN {
     Array2dC(const Array2dC<DataT> &arr,const IndexRange2dC & rect);
     //: Create a sub array of 'arr' covering indexes 'rect'.
     
+    Array2dC(const Array2dC<DataT> &arr,const IndexRange2dC & rect,const Index2dC &newOrigin);
+    //: Create a sub array of 'arr' covering indexes 'rect', with origin 'newOrigin'.
+    // This copies the access.
+    
     Array2dC(const SArray2dC<DataT> &sarr);
     //: Construct 2d array from sarray.
     // Note: This does NOT make a copy, it just creates
@@ -138,10 +142,18 @@ namespace RavlN {
     inline void ShiftIndexes1(IndexC offset);
     //: All indexes of Range1() will be changed by 'offset'.
     // The range will be shifted by -offset.
+    // Note: this affects the access for all arrays accessing this data, use
+    // with care.
     
     void ShiftIndexes2(IndexC offset);
     //: All indexes of Range2() will be changed by 'offset'.
     // The range will be shifted by -offset.
+    // Note: this affects the access for all arrays accessing this data, use
+    // with care.
+    
+    Array2dC<DataT> CopyAccess(IndexC shift1 = 0,IndexC shift2 = 0);
+    //: This will create a copy of the access structure without copying the data itself.
+    // The access is shifted by shift1 in dimention 1 and shift2 in dimention 2. 
     
     Array2dC<DataT> operator+(const Array2dC<DataT> & arr) const;
     //: Sums 2 numerical arrays. 
@@ -304,6 +316,21 @@ namespace RavlN {
     : RangeBufferAccess2dC<DataT> (arr,rect),
       data(arr.data)
   {}
+  
+  //: Create a sub array of 'arr' covering indexes 'rect', with origin 'newOrigin'.
+  // This copies the access.
+  
+  template <class DataT>
+  Array2dC<DataT>::Array2dC(const Array2dC<DataT> &arr,const IndexRange2dC & rect,const Index2dC &newOrigin) 
+    : RangeBufferAccess2dC<DataT>(IndexRangeC(newOrigin[1],newOrigin[1] + rect.Range2().Size() -1)),
+      data(const_cast<Array2dC<DataT> &>(arr).Buffer2d().Data(),rect.Range1().Size())
+  {
+    IndexC shift2 = newOrigin[1] - rect.Range2().Min();
+    IndexRangeC rind1(newOrigin[0],newOrigin[0] + rect.Range1().Size() - 1);
+    Attach(data,rind1);
+    for(BufferAccessIter2C<BufferAccessC<DataT>,BufferAccessC<DataT> > it(*this,const_cast<Array2dC<DataT> &>(arr).BufferFrom(rect.Range1().Min(),rect.Range1().Size()));it;it++)
+      it.Data1() = it.Data2() - shift2;
+  }
 
   template <class DataT>
   Array2dC<DataT>::Array2dC(const SArray2dC<DataT> &sarr)
@@ -324,6 +351,16 @@ namespace RavlN {
       it.Data1() = it.Data2();
     return ret;
   }
+  
+  template <class DataT>
+  Array2dC<DataT> Array2dC<DataT>::CopyAccess(IndexC shift1,IndexC shift2) {
+    Buffer2dC<DataT> buf(data.Data(),Range1().Size());
+    RangeBufferAccess2dC<DataT> rba(buf,Range1() + shift1,Range2() + shift2);
+    for(BufferAccessIter2C<BufferAccessC<DataT>,BufferAccessC<DataT> > it(rba,*this);it;it++)
+      it.Data1() = it.Data2() - shift2;
+    return Array2dC<DataT>(rba,buf);
+  }
+  
 
   template <class DataT>
   inline SArray2dC<DataT> Array2dC<DataT>::SArray2d(bool doShift) {

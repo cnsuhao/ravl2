@@ -12,7 +12,7 @@
 #include "Ravl/Array2d.hh"
 #include "Ravl/Array2dIter.hh"
 #include "Ravl/EntryPnt.hh"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 using namespace RavlN;
 
