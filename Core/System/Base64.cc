@@ -108,8 +108,14 @@ namespace RavlN {
     IntT i;
     while(at != end) {
       for(i = 0;i < 4;i++,at++){
-	if(at == end) 
+	if(at == end) {
+	  if(i == 0) { // Just some white space at the end of the string ?
+	    // Easier just to return here, rather than escape from the loop.
+	    UIntT size = it.Index().V();
+	    return SArray1dC<char>(ret,size);
+	  }
 	  throw ExceptionOperationFailedC("Base64C::Decode(), Unexpected end of string. ");
+	}
 	ByteT dc = decodeTable[(IntT) *at];
 	if(dc & 0x80) {
 	  i--;

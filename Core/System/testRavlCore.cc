@@ -436,11 +436,12 @@ int testIndexRange2dSet() {
 
 int testBase64() {
   cerr << "Testing Base64C. \n";
-  for(int i = 0;i <10;i++) {
+  for(int i = 0;i <100;i++) {
     SArray1dC<char> data(RandomInt() % 400);
     for(SArray1dIterC<char> it(data);it;it++)
       *it = RandomInt() % 256;
     StringC enc = Base64C::Encode(data);
+    enc = " \n  " + enc + "\n";
     //cerr << "Encoded string=" << enc << "\n";
     SArray1dC<char> data2 = Base64C::Decode(enc);
     if(data2.Size() != data.Size()) return __LINE__;
