@@ -60,8 +60,8 @@ namespace RavlN {
     typedef IndexC KeyT;
     //: Allow function templates to find type of index.
     
-    typedef Array1dIterC<DataC> InteratorT;
-    //: Interator for this container.
+    typedef Array1dIterC<DataC> IteratorT;
+    //: Iterator for this container.
     
     //typedef Array1dIterC<DataC> IteratorT;
     //: Type of iterator.
