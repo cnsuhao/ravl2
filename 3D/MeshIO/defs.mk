@@ -30,3 +30,6 @@ PLIB=Ravl3DIO
 USESLIBS=Ravl3D RavlIO RavlOS
 
 EHT= Ravl.3D.IO.html
+
+AUXDIR = share/RAVL/data
+AUXFILES = cube.tri
