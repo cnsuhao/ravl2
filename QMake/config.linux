@@ -8,6 +8,10 @@
 
 # This is a little evil, but it saves changing the config all the time.
 ifeq (x,x)
+ifeq ($(shell which /opt/GNUdevelop/gcc-3.2/bin/gcc 2> /dev/null),/opt/GNUdevelop/gcc-3.2/bin/gcc)
+CC = /opt/GNUdevelop/gcc-3.2/bin/gcc
+CXX = /opt/GNUdevelop/gcc-3.2/bin/g++
+else
 ifeq ($(shell which /usr/local/gcc-2.95.3/bin/gcc 2> /dev/null),/usr/local/gcc-2.95.3/bin/gcc)
 CC = /usr/local/gcc-2.95.3/bin/gcc
 CXX = /usr/local/gcc-2.95.3/bin/g++
@@ -18,6 +22,7 @@ CXX = /opt/GNUdevelop/gcc-2.95.3/bin/g++
 else
 CC = gcc
 CXX = g++
+endif
 endif
 endif
 else
