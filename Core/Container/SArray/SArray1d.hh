@@ -241,6 +241,8 @@ namespace RavlN {
 
     bool operator==(const SArray1dC<DataT> & vv);
     //: Comparison operator
+    // Returns true if the two arrays are the same length and
+    // their contents are identical.
     
     UIntT Hash() const;
     //: Compute a hash value for the array.
@@ -637,6 +639,8 @@ namespace RavlN {
 
   template<class DataT>
   bool SArray1dC<DataT>::operator==(const SArray1dC<DataT> & vv) {
+    if(Size() != vv.Size())
+      return false;
     for(BufferAccessIter2C<DataT,DataT> it(*this,vv);it;it++)
       if(it.Data1() != it.Data2())
 	return false;
