@@ -47,7 +47,7 @@ namespace RavlLogicN {
     virtual LiteralIterC List() const;
     //: List contents of state.
     
-    virtual LiteralIterC ListFilter(const LiteralC &it,BindSetC &bnds) const;
+    virtual LiteralIterC Filter(const LiteralC &it,BindSetC &bnds) const;
     //: Search state for matching literals.
     
     virtual MinTermC Difference(const StateC &oth) const;
@@ -129,8 +129,8 @@ namespace RavlLogicN {
     { return Body().List(); }
     //: List contents of state.
     
-    LiteralIterC ListFilter(const LiteralC &it,BindSetC &bnds) const
-      { return Body().ListFilter(it,bnds); }
+    LiteralIterC Filter(const LiteralC &it,BindSetC &bnds) const
+    { return Body().Filter(it,bnds); }
     //: Search state for matching literals.
     
     MinTermC Difference(const StateC &oth) const

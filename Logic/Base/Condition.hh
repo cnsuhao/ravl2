@@ -13,7 +13,7 @@
 //! file="Ravl/Logic/Base/Condition.hh"
 
 #include "Ravl/RefCounter.hh"
-#include "Ravl/Logic/Literal.hh"
+#include "Ravl/Logic/Tuple.hh"
 
 namespace RavlLogicN {
 
@@ -24,10 +24,20 @@ namespace RavlLogicN {
   //: Abstract condition
   
   class ConditionBodyC
-    : public LiteralBodyC
+    : public TupleBodyC
   {
   public:
     ConditionBodyC()
+    {}
+    //: Default constructor.
+
+    ConditionBodyC(const SArray1dC<LiteralC> &lits)
+      : TupleBodyC(lits)
+    {}
+    //: Default constructor.
+
+    ConditionBodyC(UIntT arity)
+      : TupleBodyC(arity)
     {}
     //: Default constructor.
     
@@ -59,7 +69,7 @@ namespace RavlLogicN {
   //: Abstract condition
   
   class ConditionC
-    : public LiteralC
+    : public TupleC
   {
   public:
     ConditionC()
@@ -69,7 +79,7 @@ namespace RavlLogicN {
     
   protected:
     ConditionC(ConditionBodyC &bod)
-      : LiteralC(bod)
+      : TupleC(bod)
     {}
     //: Body constructor.
     
@@ -83,7 +93,7 @@ namespace RavlLogicN {
     
   public:
     ConditionC(const LiteralC &term)
-      : LiteralC(term)
+      : TupleC(term)
     {
       if(dynamic_cast<const ConditionBodyC *>(&LiteralC::Body()) == 0)
 	Invalidate();

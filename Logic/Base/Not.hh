@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLLOGICNOT_HEADER
-#define RAVLLOGICNOT_HEADER 1
+#ifndef RAVLLOGIC_NOT_HEADER
+#define RAVLLOGIC_NOT_HEADER 1
 ///////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Logic.Condition"
@@ -26,21 +26,19 @@ namespace RavlLogicN {
     : public ConditionBodyC
   {
   public:
-    NotBodyC()
-    {}
+    NotBodyC();
     //: Default constructor.
     
-    NotBodyC(const LiteralC &nterm)
-      : term(nterm)
-    {}
+    NotBodyC(const LiteralC &nterm);
     //: Constructor.
     
     LiteralC &Term()
-    { return term; }
+    { return args[1]; }
     //: Access set of terms.
- 
-    virtual UIntT Hash() const;
-    //: Generate hash value for condition.
+    
+    const LiteralC &Term() const
+    { return args[1]; }
+    //: Access set of terms.
     
     virtual bool IsEqual(const LiteralC &oth) const;
     //: Is this equal to another condition ?
@@ -60,8 +58,6 @@ namespace RavlLogicN {
     virtual LiteralIterC Solutions(const StateC &state,BindSetC &binds) const;
     //: Return iterator through possibile matches to this literal in 'state', if any.
    
-  protected:
-    LiteralC term;
   };
 
   //! userlevel=Normal
@@ -105,7 +101,7 @@ namespace RavlLogicN {
     NotC(const LiteralC &term)
       : ConditionC(term)
     {
-      if(dynamic_cast<const NotBodyC *>(&ConditionC::Body()) == 0)
+      if(dynamic_cast<const NotBodyC *>(&LiteralC::Body()) == 0)
 	Invalidate();
     }
     //: Constructor from a single term.

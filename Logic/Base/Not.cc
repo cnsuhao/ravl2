@@ -15,14 +15,24 @@
 #include "Ravl/Logic/State.hh"
 
 namespace RavlLogicN {
-
-  //: Generate hash value for condition.
   
-  UIntT NotBodyC::Hash() const {
-    UIntT ret = 0;
-    if(term.IsValid())
-      ret += term.Hash() ^ 0xf0f0f0f0;
-    return ret;
+  static LiteralC literalNot("not");
+
+  //: Default constructor.
+  
+  NotBodyC::NotBodyC()
+    : ConditionBodyC(2)
+  {
+    args[0] = literalNot;
+  }
+  
+  //: Constructor.
+  
+  NotBodyC::NotBodyC(const LiteralC &nterm)
+    : ConditionBodyC(2)
+  {
+    args[0] = literalNot;
+    args[1] = nterm;
   }
   
   //: Is this equal to another condition ?
@@ -31,20 +41,20 @@ namespace RavlLogicN {
     NotC isNot(oth);
     if(!isNot.IsValid())
       return false;
-    return term.IsEqual(isNot.Term());
+    return Term().IsEqual(isNot.Term());
   }
 
   //: Is this a simple expression with no variables ?
   bool NotBodyC::IsGrounded() const {
-    if(!term.IsValid())
+    if(!Term().IsValid())
       return true;
-    return term.IsGrounded();
+    return Term().IsGrounded();
   }
   
   //: Unify with another variable.
   bool NotBodyC::Unify(const LiteralC &oth,BindSetC &bs) const {
     BindMarkT bm = bs.Mark();
-    if(term.Unify(oth,bs)) {
+    if(Term().Unify(oth,bs)) {
       bs.Undo(bm);
       return false;
     }
@@ -54,14 +64,14 @@ namespace RavlLogicN {
   //: Get the name of symbol.
   
   StringC NotBodyC::Name() const {
-    return StringC("!") + term.Name(); 
+    return StringC("!") + Term().Name(); 
   }
 
   //: Test if condition is true in 'state'.
   
   bool NotBodyC::Test(const StateC &state,BindSetC &binds) const {
-    RavlAssert(term.IsValid());
-    return !term.Test(state,binds);
+    RavlAssert(Term().IsValid());
+    return !Term().Test(state,binds);
   }
 
   //: Return iterator through possibile matches to this literal in 'state', if any.

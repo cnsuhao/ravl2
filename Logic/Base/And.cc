@@ -15,7 +15,7 @@
 #include "Ravl/Logic/BindSet.hh"
 #include "Ravl/Logic/StateAndIter.hh"
 
-#define DODEBUG 0
+#define DODEBUG 1
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -23,14 +23,15 @@
 #endif
 
 namespace RavlLogicN {
-
-  //: Generate hash value for condition.
   
-  UIntT AndBodyC::Hash() const {
-    UIntT ret = 2;
-    for(SArray1dIterC<LiteralC> it(terms);it;it++)
-      ret += it->Hash();
-    return ret;
+  static LiteralC literalAnd("and");
+  
+  //: Constructor.
+  
+  AndBodyC::AndBodyC(const SArray1dC<LiteralC> &set)
+    : ConditionBodyC(set)
+  {
+    ONDEBUG(cerr << "AndBodyC::AndBodyC(), Name=" << Name() << "\n");
   }
   
   //: Is this equal to another condition ?
@@ -43,18 +44,11 @@ namespace RavlLogicN {
     return false;
   }
   
-  //: Is this a simple expression with no variables ?
-  bool AndBodyC::IsGrounded() const { 
-    for(SArray1dIterC<LiteralC> it(terms);it;it++)
-      if(!it->IsGrounded())
-	return false;
-    return true; 
-  }
   
   //: Unify with another variable.
   bool AndBodyC::Unify(const LiteralC &oth,BindSetC &bs) const {
     BindMarkT bm = bs.Mark();
-    for(SArray1dIterC<LiteralC> it(terms);it;it++) {
+    for(SArray1dIterC<LiteralC> it(args);it;it++) {
       if(!it->Unify(oth,bs)) {
 	bs.Undo(bm);
 	return false;
@@ -63,22 +57,6 @@ namespace RavlLogicN {
     return true;
   }
   
-  //: Get the name of symbol.
-  StringC AndBodyC::Name() const {
-    StringC ret("and(");
-    SArray1dIterC<LiteralC> it(terms);
-    if(it) {
-      ret += it->Name();
-      it++;
-      for(;it;it++) {
-	ret += ',';
-	ret += it->Name();
-      }
-    }
-    ret +=')';
-    return ret;
-  }
-
   //: Return iterator through possibile matches to this literal in 'state', if any.
   
   LiteralIterC AndBodyC::Solutions(const StateC &state,BindSetC &binds) const {
@@ -89,7 +67,7 @@ namespace RavlLogicN {
   //: And two terms.
   // FIXME :- Do more simplification.
   
-  ConditionC operator*(const LiteralC &l1,const LiteralC &l2) {
+  TupleC operator*(const LiteralC &l1,const LiteralC &l2) {
     SizeT size = 0;
     ONDEBUG(cerr << "operator*(LiteralC,LiteralC) Called for " << l1 << " and " << l2 << "\n");
     AndC a1(l1);
@@ -102,16 +80,17 @@ namespace RavlLogicN {
       size += a2.Size();
     else
       size++;
-    SArray1dC<LiteralC> arr(size);
-    UIntT at = 0;
+    SArray1dC<LiteralC> arr(size+1);
+    arr[0] = literalAnd;
+    UIntT at = 1;
     if(a1.IsValid()) {
-      for(SArray1dIter2C<LiteralC,LiteralC> it(a1.Terms(),arr);it;it++)
+      for(SArray1dIter2C<LiteralC,LiteralC> it(a1.Terms().After(0),arr.From(at));it;it++)
 	it.Data2() = it.Data1();
       at += a1.Size();
     } else
       arr[at++] = l1;
     if(a2.IsValid()) {
-      for(SArray1dIter2C<LiteralC,LiteralC> it(a1.Terms().From(at),arr);it;it++)
+      for(SArray1dIter2C<LiteralC,LiteralC> it(a2.Terms().After(0),arr.From(at));it;it++)
 	it.Data2() = it.Data1();
     } else
       arr[at] = l2;

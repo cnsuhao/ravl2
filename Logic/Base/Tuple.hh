@@ -29,6 +29,11 @@ namespace RavlLogicN {
     {}
     //: Create expression with given arity.
     
+    TupleBodyC(const SArray1dC<LiteralC> &arr)
+      : args(arr)
+    {}
+    //: Create a tuple from an array of literals.
+    
     virtual bool Unify(const LiteralC &oth,BindSetC &bs) const;
     //: Unify with another variable.
 
@@ -59,6 +64,9 @@ namespace RavlLogicN {
     
     virtual void SubLiterals(HSetC<LiteralC> &lits) const;
     //: Get a set of all sub literals.
+
+    virtual LiteralIterC Solutions(const StateC &state,BindSetC &binds) const;
+    //: Return iterator through possibile matches to this literal in 'state', if any.
     
   protected:
     virtual bool UnifyLiteral(const LiteralBodyC &oth,BindSetC &bs) const;

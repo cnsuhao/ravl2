@@ -58,7 +58,7 @@ namespace RavlLogicN {
   
   //: Search state for matching literals.
   
-  LiteralIterC StateBodyC::ListFilter(const LiteralC &it,BindSetC &bnds) const {
+  LiteralIterC StateBodyC::Filter(const LiteralC &it,BindSetC &bnds) const {
     RavlAssertMsg(0,"StateBodyC::ListFilter(), Abstract method called. ");
     return LiteralIterC();
   }

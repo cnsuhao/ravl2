@@ -49,7 +49,7 @@ namespace RavlLogicN {
     virtual LiteralIterC List() const;
     //: List contents of state.
     
-    virtual LiteralIterC ListFilter(const LiteralC &it,BindSetC &bnds) const;
+    virtual LiteralIterC Filter(const LiteralC &it,BindSetC &bnds) const;
     //: Search state for matching literals.
     
 #if 0

@@ -14,10 +14,11 @@
 //! file="Ravl/Logic/Base/StateOrIter.hh"
 
 #include "Ravl/Logic/LiteralIter.hh"
-#include "Ravl/Logic/Or.hh"
 #include "Ravl/Logic/State.hh"
 
 namespace RavlLogicN {
+  
+  class OrC;
   
   //! userlevel=Develop
   //: Iterate through possible solutions in a state for a 'or' condition.
@@ -58,7 +59,7 @@ namespace RavlLogicN {
     //: Goto next valid solution.
     
     StateC state;
-    OrC lOr;
+    SArray1dC<LiteralC> lOr;
     BindSetC binds;
     SArray1dIterC<LiteralC> it;
     LiteralIterC solIt; // Solutions within the state.

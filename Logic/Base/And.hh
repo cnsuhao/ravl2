@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLLOGICAND_HEADER
-#define RAVLLOGICAND_HEADER 1
+#ifndef RAVLLOGIC_AND_HEADER
+#define RAVLLOGIC_AND_HEADER 1
 ///////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Logic.Condition"
@@ -13,7 +13,6 @@
 //! file="Ravl/Logic/Base/And.hh"
 
 #include "Ravl/Logic/Condition.hh"
-#include "Ravl/SArray1d.hh"
 
 namespace RavlLogicN {
 
@@ -24,43 +23,33 @@ namespace RavlLogicN {
     : public ConditionBodyC
   {
   public:
-    AndBodyC()
-    {}
+    AndBodyC();
     //: Default constructor.
     
-    AndBodyC(const SArray1dC<LiteralC> &set)
-      : terms(set)
-	{ }
+    AndBodyC(const SArray1dC<LiteralC> &set);
     //: Constructor.
     
     SArray1dC<LiteralC> &Terms()
-	{ return terms; }
+    { return args; }
     //: Access set of terms.
 
-    virtual UIntT Hash() const;
-    //: Generate hash value for condition.
+    const SArray1dC<LiteralC> &Terms() const
+    { return args; }
+    //: Access set of terms.
     
     virtual bool IsEqual(const LiteralC &oth) const;
     //: Is this equal to another condition ?
     
-    virtual bool IsGrounded() const;
-    //: Is this a simple expression with no variables ?
-
     virtual bool Unify(const LiteralC &oth,BindSetC &bs) const;
     //: Unify with another variable.
-
-    virtual StringC Name() const;
-    //: Get the name of symbol.
     
     SizeT Size() const
-    { return terms.Size(); }
+    { return args.Size()-1; }
     //: Get the number of terms to be anded together.
 
     virtual LiteralIterC Solutions(const StateC &state,BindSetC &binds) const;
     //: Return iterator through possibile matches to this literal in 'state', if any.
     
-  protected:
-    SArray1dC<LiteralC> terms;
   };
   
   //! userlevel=Normal
@@ -111,6 +100,10 @@ namespace RavlLogicN {
     SArray1dC<LiteralC> &Terms()
     { return Body().Terms(); }
     //: Access set of terms.
+
+    const SArray1dC<LiteralC> &Terms() const
+    { return Body().Terms(); }
+    //: Access set of terms.
     
     SizeT Size() const
     { return Body().Size(); }
@@ -119,7 +112,7 @@ namespace RavlLogicN {
     friend class AndBodyC;
   };
   
-  ConditionC operator*(const LiteralC &l1,const LiteralC &l2);
+  TupleC operator*(const LiteralC &l1,const LiteralC &l2);
   //: And operator.
 
 

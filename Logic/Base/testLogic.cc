@@ -65,6 +65,7 @@ int main() {
 //: Test basic literal operations and unification.
 
 int testBasic() {
+  cout << "testBasic() Started. \n";  
   
   if(!Literal().IsValid()) return __LINE__;
   if(!Var().IsValid()) return __LINE__;
@@ -104,7 +105,7 @@ int testBasic() {
 // Test BindSetC.
 
 int testBind() {
-  
+  cout << "testBind() Started. \n";  
   BindSetC test(true);
   if(!test.IsValid()) return __LINE__;
   VarC v1(true);
@@ -139,6 +140,7 @@ int testBind() {
 // Test BindSetC.
 
 int testStateSet() {
+  cout << "testStateSet() Started. \n";
   StateSetC state(true);
   if(!state.IsValid()) return __LINE__;
   LiteralC l1(true);
@@ -152,7 +154,7 @@ int testStateSet() {
   // Check filter on unbound var.
   VarC v1(true);
   BindSetC binds(true);
-  LiteralIterC it = state.ListFilter(v1,binds);
+  LiteralIterC it = state.Filter(v1,binds);
   int count = 0;
   for(;it;it++) {
     if(!binds.IsBound(v1)) return __LINE__;
@@ -162,7 +164,7 @@ int testStateSet() {
   // Check filter on bound var.
   count = 0;
   binds.Bind(v1,l1);
-  it = state.ListFilter(v1,binds);
+  it = state.Filter(v1,binds);
   for(;it;it++) {
     count++;
     if(it.Data() != l1) return __LINE__;
@@ -176,6 +178,7 @@ int testStateSet() {
 
 
 int testStateOr() {
+  cout << "testStateOr() Started. \n";
   //cerr << "testStateOr() \n";
   StateSetC state(true);
   LiteralC l1(true);
@@ -190,7 +193,7 @@ int testStateOr() {
   state.Tell(t2);
   state.Tell(t3);
   
-  ConditionC orTest(Tuple(v1,l3) + Tuple(l1,v1));
+  LiteralC orTest(Tuple(v1,l3) + Tuple(l1,v1));
   //cerr << "testStateOr() Creating iter.\n";
   BindSetC binds(true);
   int count = 0;
@@ -209,6 +212,7 @@ int testStateOr() {
 }
 
 int testStateAnd() {
+  cout << "testStateAnd() Started. \n";
   //cerr << "testStateAnd() \n";
   StateSetC state(true);
   LiteralC l1(true);
@@ -226,7 +230,7 @@ int testStateAnd() {
   state.Tell(t3);
   state.Tell(t4);
   
-  ConditionC andTest(Tuple(v1,l3) * Tuple(l1,v2));
+  LiteralC andTest(Tuple(v1,l3) * Tuple(l1,v2));
   //cerr << "testStateAnd() Creating iter.\n";
   BindSetC binds(true);
   int count = 0;
@@ -241,6 +245,7 @@ int testStateAnd() {
 }
 
 int testStateNot() {
+  cout << "testStateNot() Started. \n";
   //cerr << "testStateAnd() \n";
   StateSetC state(true);
   LiteralC l1(true);
@@ -257,7 +262,7 @@ int testStateNot() {
   state.Tell(t3);
   state.Tell(t4);
   
-  ConditionC notTest = !(Tuple(l1,l3) + Tuple(l2,v1));
+  LiteralC notTest = !(Tuple(l1,l3) + Tuple(l2,v1));
   //cerr << "testStateAnd() Creating iter.\n";
   BindSetC binds(true);
   int count = 0;

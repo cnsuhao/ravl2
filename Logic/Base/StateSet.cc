@@ -61,7 +61,7 @@ namespace RavlLogicN {
   
   //: Search state for matching literals.
   
-  LiteralIterC StateSetBodyC::ListFilter(const LiteralC &it,BindSetC &bnds) const {
+  LiteralIterC StateSetBodyC::Filter(const LiteralC &it,BindSetC &bnds) const {
     return LiteralFilterIterC(LiteralIterWrapC<HSetIterC<LiteralC> >(data,bnds),it);
   }
   

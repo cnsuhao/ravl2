@@ -23,16 +23,29 @@
 #endif
 
 namespace RavlLogicN {
+
+  static LiteralC literalOr("or");
+
+  //: Default constructor.
   
-  //: Generate hash value for condition.
+  OrBodyC::OrBodyC()
+  {}
   
-  UIntT OrBodyC::Hash() const {
-    UIntT ret = 1;
-    for(SArray1dIterC<LiteralC> it(terms);it;it++)
-      ret += it->Hash();
-    return ret;
+  //:  constructor.
+  
+  OrBodyC::OrBodyC(const SArray1dC<LiteralC> &nterms) 
+    : ConditionBodyC(nterms)
+  {}
+  
+  //: Constructor.
+
+  OrBodyC::OrBodyC(const LiteralC &term) 
+    : ConditionBodyC(2)
+  {
+    args[0] = literalOr;
+    args[1] = term;
   }
-    
+  
   //: Is this equal to another condition ?
   
   bool OrBodyC::IsEqual(const LiteralC &oth) const {    
@@ -44,20 +57,11 @@ namespace RavlLogicN {
 
   }
   
-  //: Is this a simple expression with no variables ?
-  
-  bool OrBodyC::IsGrounded() const {
-    for(SArray1dIterC<LiteralC> it(terms);it;it++)
-      if(!it->IsGrounded())
-	return false;
-    return true; 
-  }
-
   //: Unify with another variable.
   
   bool OrBodyC::Unify(const LiteralC &oth,BindSetC &bs) const {
     BindMarkT bm = bs.Mark();
-    for(SArray1dIterC<LiteralC> it(terms);it;it++) {
+    for(SArray1dIterC<LiteralC> it(args);it;it++) {
       if(it->Unify(oth,bs))
 	return true;
       bs.Undo(bm);
@@ -65,23 +69,6 @@ namespace RavlLogicN {
     return false;
   }
   
-  //: Get the name of symbol.
-  
-  StringC OrBodyC::Name() const {
-    StringC ret("or(");
-    SArray1dIterC<LiteralC> it(terms);
-    if(it) {
-      ret += it->Name();
-      it++;
-      for(;it;it++) {
-	ret += ',';
-	ret += it->Name();
-      }
-    }
-    ret +=')';
-    return ret;
-  }
-
   //: Return iterator through possibile matches to this literal in 'state', if any.
   
   LiteralIterC OrBodyC::Solutions(const StateC &state,BindSetC &binds) const {
@@ -93,7 +80,8 @@ namespace RavlLogicN {
   //: Or two literals.
   // FIXME :- Do more simplification.
   
-  ConditionC operator+(const LiteralC &l1,const LiteralC &l2) {
+  TupleC operator+(const LiteralC &l1,const LiteralC &l2) {
+    ONDEBUG(cerr << "operator+(LiteralC,LiteralC) Called for " << l1 << " and " << l2 << "\n");
     SizeT size = 0;
     OrC a1(l1);
     if(a1.IsValid())
@@ -105,19 +93,22 @@ namespace RavlLogicN {
       size += a2.Size();
     else
       size++;
-    SArray1dC<LiteralC> arr(size);
-    UIntT at = 0;
+    SArray1dC<LiteralC> arr(size+1);
+    arr[0] = literalOr;
+    UIntT at = 1;
     if(a1.IsValid()) {
-      for(SArray1dIter2C<LiteralC,LiteralC> it(a1.Terms(),arr);it;it++)
+      for(SArray1dIter2C<LiteralC,LiteralC> it(a1.Terms().After(0),arr.After(0));it;it++)
 	it.Data2() = it.Data1();
       at += a1.Size();
     } else
       arr[at++] = l1;
+    
     if(a2.IsValid()) {
-      for(SArray1dIter2C<LiteralC,LiteralC> it(a1.Terms().From(at),arr);it;it++)
+      for(SArray1dIter2C<LiteralC,LiteralC> it(a2.Terms().After(0),arr.From(at));it;it++)
 	it.Data2() = it.Data1();
     } else
       arr[at] = l2;    
+    ONDEBUG(cerr << "operator+(LiteralC,LiteralC) Result=" << arr << "\n");
     return OrC(arr); 
   }
  

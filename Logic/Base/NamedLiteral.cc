@@ -32,8 +32,12 @@ namespace RavlLogicN {
   }
 
   //---------------------------------------------------------------------
+
   
-  static HashC<StringC,LiteralC> namedLiterals;
+  HashC<StringC,LiteralC> &NamedLiterals() { 
+    static HashC<StringC,LiteralC> namedLiterals;
+    return namedLiterals;
+  }
   
   //: Constructor.
   
@@ -41,13 +45,13 @@ namespace RavlLogicN {
   {
     LiteralC ret;
     MTReadLockC rlock(3);
-    if(namedLiterals.Lookup(name,ret)) {
+    if(NamedLiterals().Lookup(name,ret)) {
       (*this) = ret;
       return ;
     }
     rlock.Unlock();
     MTWriteLockC wlock(3);
-    LiteralC &tmp = namedLiterals[name];
+    LiteralC &tmp = NamedLiterals()[name];
     if(tmp.IsValid()) { // Make sure its not been setup while we swapped locks.
       (*this) = tmp;
       return ;

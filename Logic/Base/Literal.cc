@@ -73,7 +73,7 @@ namespace RavlLogicN {
   
   LiteralIterC LiteralBodyC::Solutions(const StateC &state,BindSetC &binds) const {
     LiteralC me(const_cast<LiteralBodyC &>(*this));
-    return state.ListFilter(me,binds);
+    return state.Filter(me,binds);
   }
 
   //: Get a set of all sub literals.

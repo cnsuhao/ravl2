@@ -19,7 +19,7 @@ HEADERS=Literal.hh Var.hh Unify.hh BindSet.hh Tuple.hh LList.hh Condition.hh \
 SOURCES=Literal.cc Var.cc Unify.cc BindSet.cc Tuple.cc LList.cc Condition.cc \
  MinTerm.cc Or.cc And.cc Not.cc LiteralIter.cc State.cc LiteralIter1.cc \
  StateOrIter.cc StateSet.cc  LiteralFilterIter.cc StateAndIter.cc \
- NamedLiteral.cc NamedVar.cc
+ NamedLiteral.cc NamedVar.cc 
 
 TESTEXES=testLogic.cc
 

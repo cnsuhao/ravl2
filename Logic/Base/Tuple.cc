@@ -13,6 +13,7 @@
 #include "Ravl/SArr1Iter2.hh"
 #include "Ravl/SArr1Iter.hh"
 #include "Ravl/Logic/BindSet.hh"
+#include "Ravl/Logic/LiteralIter.hh"
 
 namespace RavlLogicN {
 
@@ -52,6 +53,12 @@ namespace RavlLogicN {
       return ; // Already added this.
     for(SArray1dIterC<LiteralC> it(Args());it;it++)
       it->SubLiterals(ret);
+  }
+
+  //: Return iterator through possibile matches to this literal in 'state', if any.
+  
+  LiteralIterC TupleBodyC::Solutions(const StateC &state,BindSetC &binds) const {
+    return LiteralBodyC::Solutions(state,binds);
   }
   
   //: Unify with simple symb

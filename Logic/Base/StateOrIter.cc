@@ -11,6 +11,7 @@
 
 #include "Ravl/Logic/StateOrIter.hh"
 #include "Ravl/Logic/LiteralIter1.hh"
+#include "Ravl/Logic/Or.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -23,10 +24,12 @@ namespace RavlLogicN {
   
   StateOrIterBodyC::StateOrIterBodyC(const StateC &nstate,const OrC &nor,const BindSetC &bs) 
     : state(nstate),
-      lOr(nor),
+      lOr(nor.Terms()),
       binds(bs)
   {
-    it = lOr.Terms();
+    lOr = lOr.After(0);
+    it = lOr;
+    RavlAssert(it);
     if(!binds.IsValid())
       binds = BindSetC(true);
     First();
@@ -36,7 +39,7 @@ namespace RavlLogicN {
   
   bool StateOrIterBodyC::NextValid() {
     for(;it;it++) {
-      solIt = state.ListFilter(*it,binds);
+      solIt = state.Filter(*it,binds);
       RavlAssert(solIt.IsValid());
       if(solIt) {
 	ONDEBUG(cerr << "StateOrIterBodyC::NextValid(), Found:" << solIt.Data() << " in or term " << it.Index() << " " << *it << "\n");

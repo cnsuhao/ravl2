@@ -14,11 +14,12 @@
 //! file="Ravl/Logic/Base/StateAndIter.hh"
 
 #include "Ravl/Logic/LiteralIter.hh"
-#include "Ravl/Logic/And.hh"
 #include "Ravl/Logic/State.hh"
 #include "Ravl/Stack.hh"
 
 namespace RavlLogicN {
+  
+  class AndC;
   
   //! userlevel=Develop
   //: Backtrack point for StateAndIterC.
@@ -32,9 +33,9 @@ namespace RavlLogicN {
     
     StateAndBackTrackPointC(BindMarkT &bm,int ntermNo,const LiteralIterC &niter)
       : mark(bm),
-      termNo(ntermNo),
-      iter(niter)
-      {}
+	termNo(ntermNo),
+	iter(niter)
+    {}
     
     BindMarkT mark;
     int termNo;
@@ -51,6 +52,9 @@ namespace RavlLogicN {
   {
   public:
     StateAndIterBodyC(const StateC &nstate,const AndC &nand,const BindSetC &bs);
+    //: Constructor.
+
+    StateAndIterBodyC(const StateC &nstate,const SArray1dC<LiteralC> &nand,const BindSetC &bs);
     //: Constructor.
     
     virtual bool Next();
@@ -81,7 +85,7 @@ namespace RavlLogicN {
     // return false if not found.
     
     StateC state;
-    AndC lAnd;
+    SArray1dC<LiteralC> lAnd;
     BindSetC binds;
     BindMarkT initalBm;
     StackC<StateAndBackTrackPointC> stack;

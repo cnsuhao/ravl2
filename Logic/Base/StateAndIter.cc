@@ -11,6 +11,7 @@
 
 #include "Ravl/Logic/StateAndIter.hh"
 #include "Ravl/Logic/LiteralIter1.hh"
+#include "Ravl/Logic/And.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -21,7 +22,21 @@
 
 namespace RavlLogicN {
   
+  //: Constructor.
+  
   StateAndIterBodyC::StateAndIterBodyC(const StateC &nstate,const AndC &nand,const BindSetC &bs) 
+    : state(nstate),
+      lAnd(nand.Terms()),
+      binds(bs)
+  {
+    lAnd = lAnd.After(0);
+    initalBm = binds.Mark();
+    First();
+  }
+
+  //: Constructor.
+  
+  StateAndIterBodyC::StateAndIterBodyC(const StateC &nstate,const SArray1dC<LiteralC> &nand,const BindSetC &bs)
     : state(nstate),
       lAnd(nand),
       binds(bs)
@@ -41,7 +56,7 @@ namespace RavlLogicN {
 	nextTerm = stack.Top().termNo + 1;
 	BindMarkT mark = binds.Mark();
 	ONDEBUG(cerr << "StateAndIterBodyC::NextValid(), Iterating term " << nextTerm <<" " << lAnd.Terms()[nextTerm] << " \n");
-	LiteralIterC lit = state.ListFilter(lAnd.Terms()[nextTerm],binds);
+	LiteralIterC lit = state.Filter(lAnd[nextTerm],binds);
 	ONDEBUG(cerr << "Binds= " << binds << "\n");
 	if(!lit.IsElm()) {
 	  stack.DelTop(); // Back track.
@@ -88,7 +103,7 @@ namespace RavlLogicN {
     stack.Empty();
     binds.Undo(initalBm);
     ONDEBUG(cerr << "StateAndIterBodyC::First(), Iterating term " << 0 <<" " << lAnd.Terms()[0] << " \n");
-    stack.Push(StateAndBackTrackPointC(initalBm,0,state.ListFilter(lAnd.Terms()[0],binds)));
+    stack.Push(StateAndBackTrackPointC(initalBm,0,state.Filter(lAnd[0],binds)));
     ONDEBUG(cerr << "Binds= " << binds << "\n");
     return NextValid();
   }
