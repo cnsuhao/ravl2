@@ -32,14 +32,15 @@ namespace RavlN {
     DataSet2BodyC(const Sample1T & samp1,const Sample2T & samp2,const CollectionC<UIntT> &nindex);
     //: Create a dataset from a sample and an index.
     
-    DataSet2C<Sample1T,Sample2T> Shuffle() const;
-    //: Create a new data set with a random order.
-    
     Sample2T &Sample2()
       { return samp2; }
     //: Access complete sample.
     
-  private:
+    UIntT Append(const typename Sample1T::ElementT &data1,const typename Sample2T::ElementT &data2);
+    //: Append a data entry.
+    // returns its index.
+    
+  protected:
     Sample2T samp2;
     //: the actual data
   };
@@ -52,6 +53,10 @@ namespace RavlN {
     : public DataSet1C<Sample1T>
   {
   public:
+    DataSet2C()
+    {}
+    //: Default constructor.
+    
     DataSet2C(const Sample1T & dat1,const Sample2T & dat2)
       : DataSet1C<Sample1T>(*new DataSet2BodyC<Sample1T,Sample2T>(dat1,dat2))
       {}
@@ -85,6 +90,11 @@ namespace RavlN {
       { return Body().Shuffle(); }
     //: Shuffle the samples in the dataset
     
+    UIntT Append(const typename Sample1T::ElementT &data1,const typename Sample2T::ElementT &data2)
+    { return Body().Append(data1,data2); }
+    //: Append a data entry.
+    // returns its index.
+    
     friend class DataSet2BodyC<Sample1T,Sample2T>;
   };
   
@@ -102,8 +112,11 @@ namespace RavlN {
   {}
   
   template<class Sample1T,class Sample2T>
-  DataSet2C<Sample1T,Sample2T> DataSet2BodyC<Sample1T,Sample2T>::Shuffle() const {
-    return DataSet2C<Sample1T,Sample2T>(samp1,samp2,index.Shuffle());
+  UIntT DataSet2BodyC<Sample1T,Sample2T>::Append(const typename Sample1T::ElementT &data1,const typename Sample2T::ElementT &data2) {
+    UIntT no1 = samp1.Append(data1);
+    UIntT no2 = samp2.Append(data2);
+    RavlAssert(no1==no2);
+    return no1;
   }
   
 

@@ -4,15 +4,15 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLSAMPLE_HEADER
-#define RAVLSAMPLE_HEADER 1
+#ifndef RAVL_SAMPLE_HEADER
+#define RAVL_SAMPLE_HEADER 1
 //! rcsid="$Id$"
 //! author="Kieron Messer"
 //! docentry="Ravl.Pattern Recognition.Data Set"
 //! lib=RavlPatternRec
 
-#include"Ravl/Collection.hh"
-
+#include "Ravl/DArray1d.hh"
+#include "Ravl/Collection.hh"
 namespace RavlN {
   
   //! userlevel=Normal
@@ -20,45 +20,60 @@ namespace RavlN {
   
   template <class DataT> 
   class SampleC 
-    : protected CollectionC<DataT>
+    : protected DArray1dC<DataT>
   {
   public:
-  
     typedef DataT ElementT;
     //: Type of data in sample.
     
     SampleC(SizeT maxSize=10)
-      : CollectionC<DataT>(maxSize)
-    {}  
+      //: DArray1dC()
+    {}
     //: Create a sample of data with a maximum size
     
     SampleC(const SArray1dC<DataT> & dat)
-      : CollectionC<DataT>(dat)
+      : DArray1dC<DataT>(dat)
     {}
     //: Create a sample of data from an array
     
-    void Insert(const DataT & dat)
-      { CollectionC<DataT>::Insert(dat); }
+    SampleC<DataT> SubSample(const CollectionC<UIntT> &x);
+    //: Take a subsample of the given indexes in x.
+    
+    UIntT Append(const DataT & dat)
+    { return DArray1dC<DataT>::Append(dat).V(); }
     //: Insert a single sample into sample
     
+#if 0
     DataT Pick()
       { return CollectionC<DataT>::Pick(); }
     //: Pick a random item from the collection
+#endif
     
     SizeT Size() const
-      { return CollectionC<DataT>::Size(); }
+      { return DArray1dC<DataT>::Size(); }
     //: Return the number of valid samples in the collection
     
     DataT &operator[](IndexC ind)
-      { return CollectionC<DataT>::operator[](ind); }
+      { return DArray1dC<DataT>::operator[](ind); }
     //: Access a sample.
     
     const DataT &operator[](IndexC ind) const
-      { return CollectionC<DataT>::operator[](ind); }
+      { return DArray1dC<DataT>::operator[](ind); }
     //: Access a sample.
     
   }; // end of class SampleC 
 
+
+  //: Take a subsample of this set.
+  
+  template <class DataT>
+  SampleC<DataT> SampleC<DataT>::SubSample(const CollectionC<UIntT> &x) {
+    SampleC<DataT> ret(x.Size());
+    for(CollectionIterC<UIntT> it(x);it;it++)
+      ret.Insert((*this)[*it]);
+    return ret;
+  }
+  
 }
 
 #endif

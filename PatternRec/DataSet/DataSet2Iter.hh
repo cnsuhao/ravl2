@@ -4,15 +4,15 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLDATASET2ITER_HEADER
-#define RAVLDATASET2ITER_HEADER 1
+#ifndef RAVL_DATASET2ITER_HEADER
+#define RAVL_DATASET2ITER_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Pattern Recognition.Data Set"
 //! lib=RavlPatternRec
 
 #include "Ravl/PatternRec/DataSet2.hh"
-#include "Ravl/CollectionIter.hh"
+#include "Ravl/DArray1dIter2.hh"
 
 namespace RavlN {
   
@@ -20,57 +20,19 @@ namespace RavlN {
   //: Iterate through a data set.
   
   template<class Sample1T,class Sample2T>
-  class DataSet2IterC {
+  class DataSet2IterC 
+    : public DArray1dIter2C<Sample1T::ElementT,Sample2T::ElementT>
+  {
   public:
     DataSet2IterC()
     {}
     //: Default construtor.
     
     DataSet2IterC(DataSet2C<Sample1T,Sample2T> &nds)
-      : ds(nds),
-      index(nds.Index())
+      : it(nds.Sample1(),nds.Sample2())
     {}
     //: Construct from a data set.
     
-    bool IsElm() const
-    { return index.IsElm(); }
-    //: At a valid element ?
-    
-    operator bool() const
-    { return index.IsElm(); }
-    //: At a valid element ?
-    
-    typename Sample1T::ElementT &Data1()
-    { return ds.Sample1()[*index]; }
-    //: Access sample.
-    
-    typename Sample2T::ElementT &Data2()
-    { return ds.Sample2()[*index]; }
-    //: Access sample.
-    
-    const typename Sample1T::ElementT &Data1() const
-    { return ds.Sample1()[*index]; }
-    //: Access sample.
-    
-    const typename Sample2T::ElementT &Data2() const
-    { return ds.Sample2()[*index]; }
-    //: Access sample.
-    
-    void Next() 
-    { index.Next(); }
-    //: Goto next element.
-    
-    void operator++(int)
-    { index++; }
-    //: Goto next element.
-    
-    void First() 
-    { index.First(); }
-    //: Goto first element.
-    
-  protected:
-    DataSet2C<Sample1T,Sample2T> ds;
-    CollectionIterC<UIntT> index;
   };
   
 }

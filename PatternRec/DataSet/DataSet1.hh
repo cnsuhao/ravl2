@@ -4,15 +4,14 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLDATASET1_HEADER
-#define RAVLDATASET1_HEADER 1
+#ifndef RAVL_DATASET1_HEADER
+#define RAVL_DATASET1_HEADER 1
 //! rcsid="$Id$"
 //! author="Kieron Messer"
 //! docentry="Ravl.Pattern Recognition.Data Set"
 //! lib=RavlPatternRec
 
 #include "Ravl/PatternRec/DataSetBase.hh"
-#include "Ravl/PatternRec/Sample.hh"
 #include "Ravl/Vector.hh"
 
 namespace RavlN {
@@ -26,20 +25,24 @@ namespace RavlN {
     : public DataSetBaseBodyC
   {
   public:
+    DataSet1BodyC()
+    {}
+    //: Create an empty dataset.
+    
     DataSet1BodyC(const SampleT & samp);
     //: Create a dataset from a sample
     
     DataSet1BodyC(const SampleT & samp,const CollectionC<UIntT> &nindex);
     //: Create a dataset from a sample and an index.
     
-    DataSet1C<SampleT> Shuffle() const;
-    //: Create a new data set with a random order.
-    
     SampleT &Sample1()
       { return samp1; }
-    //: Access complete sample.
+    //: Access sample.
     
-  private:
+    UIntT Append(const typename SampleT::ElementT &data);
+    //: Append a data entry.
+    // returns its index.
+  protected:
     SampleT samp1;
     //: the actual data
     
@@ -53,6 +56,15 @@ namespace RavlN {
     : public DataSetBaseC
   {
   public:
+    DataSet1C()
+    {}
+    //: Default constructor.
+
+    DataSet1C(bool)
+      : DataSetBaseC(*new DataSet1BodyC<SampleT>())
+    {}
+    //: Default constructor.
+    
     DataSet1C(const SampleT & dat)
       : DataSetBaseC(*new DataSet1BodyC<SampleT>(dat))
       {}
@@ -82,9 +94,10 @@ namespace RavlN {
       { return Body().Sample1(); }
     //: Access complete sample.
     
-    DataSet1C<SampleT> Shuffle() const
-      { return Body().Shuffle(); }
-    //: Shuffle the samples in the dataset
+    UIntT Append(const typename SampleT::ElementT &data)
+    { return Body().Append(data); }
+    //: Append a data entry.
+    // returns its index.
     
     friend class DataSet1BodyC<SampleT>;
   };
@@ -101,10 +114,13 @@ namespace RavlN {
     : DataSetBaseBodyC(nindex),
       samp1(sp)
   {}
+
+  //: Append a data entry.
+  // returns its index.
   
   template<class SampleT>
-  DataSet1C<SampleT> DataSet1BodyC<SampleT>::Shuffle() const {
-    return DataSet1C<SampleT>(samp,index.Shuffle());
+  UIntT DataSet1BodyC<SampleT>::Append(const typename SampleT::ElementT &data) {
+    return samp1.Append(data);
   }
   
 

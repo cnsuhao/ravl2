@@ -4,14 +4,15 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLDATASETBASE_HEADER
-#define RAVLDATASETBASE_HEADER 1
+#ifndef RAVL_DATASETBASE_HEADER
+#define RAVL_DATASETBASE_HEADER 1
 //! rcsid="$Id$"
 //! author="Kieron Messer"
 //! docentry="Ravl.Pattern Recognition.Data Set"
 //! lib=RavlPatternRec
 
 #include "Ravl/Collection.hh"
+#include "Ravl/PatternRec/Sample.hh"
 
 namespace RavlN {
   
@@ -21,7 +22,7 @@ namespace RavlN {
   //: Data set 
   
   class DataSetBaseBodyC 
-    : public RCBodyC
+    : public RCBodyVC
   {
     
   public:
@@ -29,25 +30,12 @@ namespace RavlN {
     {}
     //: Default constructor.
     
-    DataSetBaseBodyC(const CollectionC<UIntT> &nindex)
-      : index(nindex)
-    {}
-    //: Default constructor.
-    
-    void ShuffleIP();
-    //: In Place shuffle.
-    // Randomise the order of this dataset.
-    
-    CollectionC<UIntT> &Index()
-    { return index; }
-    //: Access the data index
+    static CollectionC<UIntT> RandomIndexSet(UIntT size);
+    //: Generate a random index set from this collection of with the given size.
+    // Size is limited to the size of this set.
     
   protected:
-    DataSetBaseBodyC(SizeT size);
-    //: Setup for sample of 'size' elements.
     
-    CollectionC<UIntT> index;
-    //: the index into the data
   };
   
   
@@ -58,13 +46,11 @@ namespace RavlN {
     : public RCHandleC<DataSetBaseBodyC >
   {
   public:
+    DataSetBaseC()
+    {}
+    //: Default dataset base constructor.
     
-  protected:
-    DataSetBaseC(const CollectionC<UIntT> &nindex)
-      : RCHandleC<DataSetBaseBodyC >(*new DataSetBaseBodyC(nindex))
-      {}
-    //: Create a dataset from a sample and an index.
-    
+  protected:    
     DataSetBaseC(DataSetBaseBodyC &bod)
       : RCHandleC<DataSetBaseBodyC >(bod)
       { }
@@ -80,14 +66,6 @@ namespace RavlN {
     
   public:
 
-    CollectionC<UIntT> &Index()
-    { return Body().Index(); }
-    //: Access the data index
-    
-    void ShuffleIP()
-    { Body().ShuffleIP(); }
-    //: In Place shuffle.
-    // Randomise the order of this dataset.
     
     friend class DataSetBaseBodyC;
   };

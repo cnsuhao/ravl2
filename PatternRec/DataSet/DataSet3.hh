@@ -32,12 +32,9 @@ namespace RavlN {
     DataSet3BodyC(const Sample1T & samp1,const Sample2T & samp2,const Sample3T & samp3,const CollectionC<UIntT> &nindex);
     //: Create a dataset from a sample and an index.
     
-    DataSet3C<Sample1T,Sample2T,Sample3T> Shuffle() const;
-    //: Create a new data set with a random order.
-    
-    Sample3T &Sample3()
-      { return samp3; }
-    //: Access complete sample.
+    UIntT Append(const Sample1T::ElementT &data1,const Sample2T::ElementT &data2,const Sample3T::ElementT &data3);
+    //: Append a data entry.
+    // returns its index.
     
   private:
     Sample3T samp3;
@@ -52,6 +49,10 @@ namespace RavlN {
     : public DataSet2C<Sample1T,Sample2T>
   {
   public:
+    DataSet3C()
+    {}
+    //: Default constructor.
+    
     DataSet3C(const Sample1T & dat1,const Sample2T & dat2,const Sample3T & dat3)
       : DataSet2C<Sample1T,Sample2T>(*new DataSet3BodyC<Sample1T,Sample2T,Sample3T>(dat1,dat2,dat3))
       {}
@@ -76,14 +77,15 @@ namespace RavlN {
       { return static_cast<const DataSet3BodyC<Sample1T,Sample2T,Sample3T> &>(DataSetBaseC::Body()); }
     //: Access body.
     
-  public:
+  protected:
     Sample3T &Sample3()
       { return Body().Sample3(); }
     //: Access complete sample.
     
-    DataSet3C<Sample1T,Sample2T,Sample3T> Shuffle() const
-      { return Body().Shuffle(); }
-    //: Shuffle the samples in the dataset
+    UIntT Append(const Sample1T::ElementT &data1,const Sample2T::ElementT &data2,const Sample3T::ElementT &data3)
+    { return Body().Append(data1,data2,data3); }
+    //: Append a data entry.
+    // returns its index.
     
     friend class DataSet3BodyC<Sample1T,Sample2T,Sample3T>;
   };
@@ -102,8 +104,12 @@ namespace RavlN {
   {}
   
   template<class Sample1T,class Sample2T,class Sample3T>
-  DataSet3C<Sample1T,Sample2T,Sample3T> DataSet3BodyC<Sample1T,Sample2T,Sample3T>::Shuffle() const {
-    return DataSet3C<Sample1T,Sample2T,Sample3T>(samp1,samp2,samp3,index.Shuffle());
+  UIntT DataSet3BodyC<Sample1T,Sample2T,Sample3T>::Append(const Sample1T::ElementT &data1,const Sample2T::ElementT &data2,const Sample3T::ElementT &data3) {
+    UIntT no1 = samp1.Append(data1);
+    UIntT no2 = samp2.Append(data2);
+    UIntT no3 = samp3.Append(data3);
+    RavlAssert(no1==no2 && no1==no3);
+    return no1;
   }
   
 

@@ -9,6 +9,7 @@
 //! lib=RavlPatternRec
 
 #include "Ravl/PatternRec/DataSetBase.hh"
+#include "Ravl/HSet.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -18,23 +19,30 @@
 #endif
 
 namespace RavlN {
-
-  //: Default constructor.
   
-  DataSetBaseBodyC::DataSetBaseBodyC(SizeT size) 
-    : index(size)
-  {
-    ONDEBUG(cerr << "DataSetBaseBodyC::DataSetBaseBodyC(SizeT), Index of " << size << " elements. \n");
-    // Initialise index.
-    for(UIntT i=0;i<size;i++)
-      index.Insert(i);
-  }
+  //: Generate a random index set from this collection of with the given size.
+  // Size is limited to the size of this set.
   
-  //: In Place shuffle.
-  // Randomise the order of this dataset.
-  
-  void DataSetBaseBodyC::ShuffleIP() {
-    index.ShuffleIP();
+  CollectionC<UIntT> DataSetBaseBodyC::RandomIndexSet(UIntT size) {
+    CollectionC<UIntT> ret(size);
+#if 0
+    if(size < (UIntT) ((RealT) Size() * 0.8)) {
+      for(UIntT i = 0;i < Size();i++)
+	ret.InsertRandom(i);
+      // Take the first size elements from the collection.
+      return CollectionC<UIntT>(SArray1dC<UIntT>(ret.Array(),size));
+    }
+    
+    HSetC<UIntT> done;
+    while(ret.Size() < size) {
+      UIntT ni = (UIntT)((RealT) Random1() * Size());
+      if(done[ni])
+	continue;
+      ret.Insert(ni);
+      done += ni;
+    }
+#endif
+    return ret;
   }
   
 }

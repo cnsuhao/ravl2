@@ -21,14 +21,16 @@ int main() {
   VectorC v(2);
   v[0] = 0.0; v[1] = 1.0;
   
-  input.Insert(v);
-  output.Insert(0);
+  input.Append(v);
+  output.Append(0);
 
   cerr << "Input size: " << input.Size() << "\n";
   cerr << "Output size: " << output.Size() << "\n";
   
+#if 0
   cout << input.Pick() << endl;
   cout << output.Pick() << endl;
+#endif
   
   return 0;
 }

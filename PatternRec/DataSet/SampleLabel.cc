@@ -9,28 +9,9 @@
 //! rcsid="$Id$"
 
 #include "Ravl/PatternRec/SampleLabel.hh"
-#include "Ravl/CollectionIter.hh"
+#include "Ravl/DArray1dIter.hh"
 
 namespace RavlN {
 
-  //: List all the instances (by sample no) of each Label in the sample.
-  // If index is set, only search the sample no's given there.
-  
-  RCHashC<UIntT,CollectionC<UIntT> > SampleLabelC::ListInstancesOfLabels() const {
-    RCHashC<UIntT,CollectionC<UIntT> > ret;
-    for(CollectionConstIterC<UIntT> it(*this);it;it++)
-      ret[(UIntT) it.Index().V()].Insert(*it);
-    return ret;
-  }
-
-  //: List all the instances (by sample no) of each Label in the sample.
-  // If index is set, only search the sample no's given there.
-  
-  RCHashC<UIntT,CollectionC<UIntT> > SampleLabelC::ListInstancesOfLabels(const CollectionC<UIntT> &index) const {
-    RCHashC<UIntT,CollectionC<UIntT> > ret;
-    for(CollectionConstIterC<UIntT> it(index);it;it++)
-      ret[(*this)[*it]].Insert(*it);
-    return ret;
-  }
   
 }

@@ -11,9 +11,7 @@
 //! docentry="Ravl.Pattern Recognition.Data Set"
 //! lib=RavlPatternRec
 
-#include "Ravl/PatternRec/Sample.hh"
-#include "Ravl/Vector.hh"
-#include "Ravl/RCHash.hh"
+#include "Ravl/PatternRec/SampleDiscrete.hh"
 
 namespace RavlN {
   
@@ -21,27 +19,20 @@ namespace RavlN {
   //: Sample of labels.
   
   class SampleLabelC 
-    : public SampleC<UIntT>
+    : public SampleDiscreteC<UIntT>
   {
   public:
     SampleLabelC(SizeT maxSize=10)
-      : SampleC<UIntT>(maxSize)
+      : SampleDiscreteC<UIntT>(maxSize)
       {}
     //: Create a sample of data with a maximum size
     
     SampleLabelC(const SArray1dC<UIntT> & dat)
-      : SampleC<UIntT>(dat)
+      : SampleDiscreteC<UIntT>(dat)
       {}
     //: Create a sample of data from an array
     
-    RCHashC<UIntT,CollectionC<UIntT> > ListInstancesOfLabels() const;
-    //: List all the instances (by sample no) of each Label in the sample.
-    
-    RCHashC<UIntT,CollectionC<UIntT> > ListInstancesOfLabels(const CollectionC<UIntT> &index) const;
-    //: List all the instances (by sample no) of each Label in the sample.
-    // If index is set, only search the sample no's given in it.
-    
-  }; // end of class SampleVectorC 
+  }; 
   
 }
 

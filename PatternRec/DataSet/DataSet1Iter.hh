@@ -12,7 +12,7 @@
 //! lib=RavlPatternRec
 
 #include "Ravl/PatternRec/DataSet1.hh"
-#include "Ravl/CollectionIter.hh"
+#include "Ravl/DArray1dIter.hh"
 
 namespace RavlN {
   
@@ -20,57 +20,19 @@ namespace RavlN {
   //: Iterate through a data set.
   
   template<class SampleT>
-  class DataSet1IterC {
+  class DataSet1IterC 
+    : public DArray1dIterC<SampleT::ElementT>
+  {
   public:
     DataSet1IterC()
     {}
     //: Default construtor.
     
     DataSet1IterC(DataSet1C<SampleT> &nds)
-      : ds(nds),
-      index(nds.Index())
+      : it(nds.Sample())
     {}
     //: Construct from a data set.
     
-    bool IsElm() const
-    { return index.IsElm(); }
-    //: At a valid element ?
-    
-    operator bool() const
-    { return index.IsElm(); }
-    //: At a valid element ?
-    
-    typename SampleT::ElementT &Data()
-    { return ds.Sample1()[*index]; }
-    //: Access sample.
-
-    const typename SampleT::ElementT &Data() const
-    { return ds.Sample1()[*index]; }
-    //: Access sample.
-    
-    typename SampleT::ElementT &operator*()
-      { return Data(); }
-    //: Pointer like access to sample.
-    
-    const typename SampleT::ElementT &operator*() const
-      { return Data(); }
-    //: Pointer like access to sample.
-    
-    void Next() 
-    { index.Next(); }
-    //: Goto next element.
-    
-    void operator++(int)
-    { index++; }
-    //: Goto next element.
-    
-    void First() 
-    { index.First(); }
-    //: Goto first element.
-    
-  protected:
-    DataSet1C<SampleT> ds;
-    CollectionIterC<UIntT> index;
   };
   
 }

@@ -8,14 +8,14 @@
 //! lib=RavlPatternRec
 
 #include "Ravl/PatternRec/SampleVector.hh"
-#include "Ravl/SArr1Iter.hh"
+#include "Ravl/DArray1dIter.hh"
 
 namespace RavlN {
 
   //: Find the mean vector.
   
   VectorC SampleVectorC::Mean() {
-    SArray1dIterC<VectorC> it(Array());
+    DArray1dIterC<VectorC> it(*this);
     if(!it)
       return VectorC();
     VectorC total = *it;
