@@ -14,6 +14,7 @@
 #include "Ravl/Array2dIter.hh"
 #include "Ravl/Array2dIter2.hh"
 #include "Ravl/Image/RGBcYUV.hh"
+#include "Ravl/Image/Deinterlace.hh"
 #include <fstream.h>
 
 using namespace RavlImageN;
@@ -21,6 +22,7 @@ using namespace RavlImageN;
 int TestBasic();
 int TestIO();
 int TestColorCnv();
+int TestDeinterlace();
 
 template class ImageC<int>; // Make sure all functions are compiled.
 
@@ -37,6 +39,10 @@ int main()
      return 1;
   }
   if((lineno = TestColorCnv()) != 0) {
+    cerr << "Image io test failed : " << lineno << "\n";
+     return 1;
+  }
+  if((lineno = TestDeinterlace()) != 0) {
     cerr << "Image io test failed : " << lineno << "\n";
      return 1;
   }
@@ -205,5 +211,23 @@ int TestColorCnv() {
   cerr << "yuv2=" << yuv2 << "\n";
   RealT diff = (yuv - yuv2).SumSqr();
   if(diff > 0.002) return __LINE__;
+  return 0;
+}
+
+int TestDeinterlace() {
+  cerr << "TestDeinterlace(), Called \n";
+  ImageC<IntT> img(10,10);
+  img.Fill(0);
+  ImageC<IntT> res = Deinterlace(img);
+  if(res.RowPtr(0) != img.RowPtr(0)) return __LINE__;
+  if(res.RowPtr(1) != img.RowPtr(5)) return __LINE__;
+  if(res.RowPtr(2) != img.RowPtr(1)) return __LINE__;
+  if(res.RowPtr(3) != img.RowPtr(6)) return __LINE__;
+  if(res.RowPtr(4) != img.RowPtr(2)) return __LINE__;
+  if(res.RowPtr(5) != img.RowPtr(7)) return __LINE__;
+  if(res.RowPtr(6) != img.RowPtr(3)) return __LINE__;
+  if(res.RowPtr(7) != img.RowPtr(8)) return __LINE__;
+  if(res.RowPtr(8) != img.RowPtr(4)) return __LINE__;
+  if(res.RowPtr(9) != img.RowPtr(9)) return __LINE__;
   return 0;
 }
