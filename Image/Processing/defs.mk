@@ -7,5 +7,5 @@
 # $Id$
 #! rcsid="$Id$"
 
-NESTED=Tools.r Edges.r Segmentation.r Morphology.r
+NESTED=Tools.r Edges.r Segmentation.r Morphology.r Lines.r
 
