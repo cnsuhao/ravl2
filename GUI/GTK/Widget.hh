@@ -68,6 +68,9 @@ namespace RavlGUIN {
     virtual bool Create();
     //: Create the widget.
     
+    virtual bool Create(GtkWidget *widget);
+    //: Create with a widget supplied from elsewhere.
+    
     GtkWidget *Widget() { return widget; }
     //: Access widget.
     
@@ -214,7 +217,7 @@ namespace RavlGUIN {
     HashC<const char *,Signal0C> signals;
     //: Table of created signals.
     
-    GtkWidget *widget;     
+    GtkWidget *widget;  
     int widgetId;      // Id for widget.
     
     GtkStateType reqState; // requested state.
@@ -368,6 +371,10 @@ namespace RavlGUIN {
     bool Create()
     { return Body().Create(); }
     //: Create the widget.
+    
+    bool Create(GtkWidget *widget)
+    { return Body().Create(widget); }
+    //: Create with a widget supplied from elsewhere.
     
     bool Show()
     { return Body().Show(); }

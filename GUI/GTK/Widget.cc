@@ -358,6 +358,15 @@ namespace RavlGUIN {
     return true;
   }
   
+  //: Create with a widget supplied from elsewhere.
+  
+  bool WidgetBodyC::Create(GtkWidget *newWidget) {
+    cerr << "bool WidgetBodyC::Create(GtkWidget *), Called.. \n";
+    widget = newWidget;
+    ConnectSignals();
+    return false;
+  }
+  
   //: Set state 
   
   bool WidgetBodyC::GUISetState(GtkStateType &state) {

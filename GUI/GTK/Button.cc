@@ -118,6 +118,14 @@ namespace RavlGUIN {
     ConnectSignals();
     return true;
   }
+
+  //: Create with a widget supplied from elsewhere.
+  
+  bool ButtonBodyC::Create(GtkWidget *newWidget) {
+    widget = newWidget;
+    ConnectSignals();
+    return true;
+  }
   
   ////////////////////////////////
   //: Create a button.
