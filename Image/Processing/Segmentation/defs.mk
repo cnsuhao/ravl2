@@ -29,6 +29,6 @@ USESLIBS=RavlImageProc
 
 PROGLIBS=RavlImageIO RavlVideoIO RavlMathIO RavlDPDisplay.opt RavlImgIOV4L.opt RavlExtImgIO.opt
 
-EXAMPLES=extrema.cc exSegmentation.cc
+EXAMPLES=extrema.cc exSegmentation.cc exConnectedComponents.cc 
 
 EHT=Ravl.Images.Segmentation.html

@@ -13,6 +13,7 @@
 //! lib=RavlImageProc
 //! date="17/10/2000"
 //! file="Ravl/Image/Processing/Segmentation/ConnectedComponents.hh"
+//! example=exConnectedComponents.cc 
 
 #include "Ravl/Types.hh"
 #include "Ravl/Tuple2.hh"
