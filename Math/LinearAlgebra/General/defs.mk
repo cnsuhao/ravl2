@@ -12,11 +12,11 @@ PACKAGE=Ravl
 DESCRIPTION= General Linear Algebra
 
 HEADERS = TVector.hh TMatrix.hh Matrix.hh Vector.hh MatrixRUT.hh \
- MatrixRS.hh
+ MatrixRS.hh LeastSquares.hh
 
 SOURCES = TMatrix.cc Matrix.cc MatrixInverse.cc MatrixSVD.cc \
  MatrixEigen.cc MatrixSolve.cc MatrixRUT.cc MatrixRS.cc Vector.cc \
- MatrixNearSingular.cc
+ MatrixNearSingular.cc LeastSquares.cc
 #EXAMPLES = exVMT.cc
 
 TESTEXES=testTMatrix.cc testMatInv.cc 
