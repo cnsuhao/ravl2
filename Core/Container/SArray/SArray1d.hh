@@ -54,14 +54,14 @@ namespace RavlN {
     typedef SArray1dIterC<DataT> IteratorT;
     //: Type of iterator.
     
+    //:---------------------------------------
     // Constructors, assigment, and destructor
-    // ---------------------------------------
     
     SArray1dC();
-    // Empty array.
+    //: Create an array of zero length
     
     SArray1dC(const SizeT dim);
-    // Creates an uninitialized array with the range <0, 'dim'-1>.
+    //: Creates an uninitialized array with the range <0, 'dim'-1>.
     
     SArray1dC(const Slice1dC<DataT> &slice,bool alwaysCopy = true);
     //: Make an array from a slice.
@@ -70,17 +70,18 @@ namespace RavlN {
     // a copy is done.
     
     SArray1dC(const PairC<DataT> & pr);
-    // Creates an array with two elements from a PairC object.
+    //: Creates an array with two elements from a PairC object.
     
     SArray1dC(const SArray1dC<DataT> & vv);
-    // Another access to the array 'vv'.
+    //: Another access to the array 'vv'.
     
     SArray1dC(DataT *      data,
 	      const SizeT  dim,
 	      bool     removable = true);
-    // The array is created from the memory location 'data' with the range
-    // of access in <0, 'dim'-1>. If flag 'removable' is false,
-    // 'data' is not deallocated during destructing of the array.
+    //: The array is created from the memory location 'data' with the range
+    //: of access in <0, 'dim'-1>. 
+    // If flag 'removable' is false, 'data' is not deallocated during 
+    // destructing of the array.
     
     SArray1dC(BufferC<DataT> & bf,SizeT dim,SizeT offsetInBuff = 0);
     //: Creates the array of size 'dim' using the buffer 'bf'.
@@ -104,78 +105,87 @@ namespace RavlN {
     
     void Copy(const Slice1dC<DataT> &slice);
     //: Copy contents of slice into array.
+    // The first element of the slice is copied to element
+    // 0 of this array, second to 1 etc.  If this array isn't
+    // large enough an exception is thrown.
     
     inline const SArray1dC<DataT> & operator=(const SArray1dC<DataT> & vv);
-    // Assigment, as for a BIG_OBJECT.
+    //: Assign this handle to the data in VV.
     
     SArray1dC<DataT> operator+(const SArray1dC<DataT> & arr) const;
-    // Sums 2 numerical arrays. The operator returns the result as a new array.
+    //: Sums 2 numerical arrays. 
+    // The operator returns the result as a new array.
     
     SArray1dC<DataT> operator-(const SArray1dC<DataT> & arr) const;
-    // Subtracts 2 numerical arrays. The operator returns
-    // the result as a new array.
+    //: Subtract 2 numerical arrays. 
+    // The operator returns the result as a new array.
     
     SArray1dC<DataT> operator*(const SArray1dC<DataT> & arr) const;
-    // Mutliplies 2 numerical arrays. The operator returns the result as a new array.
+    //: Mutliplies 2 numerical arrays. 
+    // The operator returns the result as a new array.
     
     SArray1dC<DataT> operator/(const SArray1dC<DataT> & arr) const;
-    // Devides 2 numerical arrays. The operator returns
-    // the result as a new array.
+    //: Divides 2 numerical arrays. 
+    // The operator returns the result as a new array.
     
     SArray1dC<DataT> operator*(const DataT &number) const;
-    // Multiplys the array by the 'number'. The operator
-    // returns the result as a new array.
+    //: Multiplys the array by the 'number'. 
+    // The operator returns the result as a new array.
     
     SArray1dC<DataT> operator/(const DataT &number) const;
-    // Divides all array items by the 'number'. The operator 
-    // returns the result as a new array.
+    //: Divides all array items by the 'number'. 
+    // The operator returns the result as a new array.
     
     SArray1dC<DataT> operator+(const DataT &number) const;
-    // Adds 'number' to the array. The operator
-    // returns the result as a new array.
+    //: Adds 'number' to the array. 
+    // The operator returns the result as a new array.
     
     SArray1dC<DataT> operator-(const DataT &number) const;
-    // Subtracts 'number' from all array items. The operator 
-    // returns the result as a new array.
+    //: Subtracts 'number' from all array items.
+    // The operator  returns the result as a new array.
     
     const SArray1dC<DataT> & operator+=(const SArray1dC<DataT> & arr);
-    // Adds the 2nd array to this array.
+    //: Adds the 2nd array to this array.
     
     const SArray1dC<DataT> & operator-=(const SArray1dC<DataT> & arr);
-    // Subtracts the 2nd array from this array.
+    //: Subtracts the 2nd array from this array.
     
     const SArray1dC<DataT> & operator*=(const SArray1dC<DataT> & arr);
-    // Multiplies the 2nd array to this array.
+    //: Multiplies the 2nd array to this array.
     
     const SArray1dC<DataT> & operator/=(const SArray1dC<DataT> & arr);
-    // Divides the 2nd array from this array.
+    //: Divides the 2nd array from this array.
     
     const SArray1dC<DataT> & operator+=(const DataT &number);
-    // Adds 'number' to all array items.
+    //: Adds 'number' to all array items.
     
     const SArray1dC<DataT> & operator-=(const DataT &number);
-    // Subtracts 'number' from all array items.
+    //: Subtracts 'number' from all array items.
     
     const SArray1dC<DataT> & operator*=(const DataT &number);
-    // Multiplies the array by the 'number'.
+    //: Multiplies the array by the 'number'.
     
     const SArray1dC<DataT> & operator/=(const DataT &number);
-    // Divides the array elements by the 'number'.
+    //: Divides the array elements by the 'number'.
 
     
+    //:-----------------------------------
     // Access to the object and its parts.
-    // -----------------------------------
     
     inline const SArray1dC<DataT> & SArray1d() const
       { return *this; }
-    // Access to the whole constant array.
+    //: Access to the whole constant array.
     
     inline SArray1dC<DataT> & SArray1d()
       { return *this; }
-    // Access to the whole array.
+    //: Access to the whole array.
+
+    Slice1dC<DataT> Slice1d()
+    { return Slice1dC<DataT>(buff,DataStart(),Size(),1); }
+    //: Access array as a slice.
     
+    //:-----------------------------------
     // Modifications of the representation
-    // -----------------------------------
         
     inline SArray1dC<DataT> & Append(const SArray1dC<DataT> & a);
     // This array is extended by the length of the array 'a' and the contents
@@ -202,8 +212,8 @@ namespace RavlN {
     // If offset is larger than the array an empty array
     // is returned,
     
+    //:------------------
     // Special operations
-    // ------------------
     
     BufferC<DataT> &Buffer()
       { return buff; }
@@ -225,25 +235,20 @@ namespace RavlN {
     
     UIntT Hash() const;
     //: Compute a hash value for the array.
-    
+
+    inline DataT * DataStart() const
+      { return SizeBufferAccessC<DataT>::ReferenceElm(); }
+    //: Returns the address of element 0.
+    // If the array has zero length a null pointer may
+    // be returned.
   protected:
     SArray1dC(BufferC<DataT> & bf,DataT *start, const SizeT dim);
     //: Creates the array of size 'dim' using the buffer 'bf', with
     //: 0'th element at start.
     // Used for building SArray's from Arrays.
     
-    // Special operations
-    // ------------------
-    
-    inline DataT * DataStart() const
-      { return SizeBufferAccessC<DataT>::ReferenceElm(); }
-    // Returns the address of the first item if exists.
-    
   private:
-    
-    // Object representation
-    // ---------------------
-    
+        
     BufferC<DataT> buff;  // The reference counted storage.
     
     friend class SArray1dIterC<DataT>;

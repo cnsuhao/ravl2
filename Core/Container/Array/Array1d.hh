@@ -46,8 +46,8 @@ namespace RavlN {
     : public RangeBufferAccessC<DataT> 
   { 
   public:  
+    //:----------------
     // Type definitions.
-    // -----------------
     
     enum ExtensionT {
       SoftExt, // The new values are taken from a father array if it exists.
@@ -66,8 +66,8 @@ namespace RavlN {
     //typedef Array1dIterC<DataT> IteratorT;
     //: Type of iterator.
     
+    //:---------------------------------------------
     // Constructors, copy, assigment, and destructor
-    // ---------------------------------------------
     
     Array1dC();
     //: Creates an empty array.
@@ -168,9 +168,13 @@ namespace RavlN {
     // SArray while the size stays the same. Otherwise if the array 
     // does not contain element '0' an error will occure in check mode, 
     // when optimised is enabled an empty array will be returned. 
+
+    Slice1dC<DataT> Slice1d()
+    { return Slice1dC<DataT>(buff,ReferenceElm(),Range(),1); }
+    //: Access array as a slice.
     
+    //:-----------------------------------
     // Array representation modifications.
-    // -----------------------------------
     
     Array1dC<DataT> Extend(SizeT n) const;
     //: Returns the array whose range is extended by adding 'n' items with
@@ -191,8 +195,8 @@ namespace RavlN {
     //: Returns true if this array and the array 'arr' are subarrays of the
     //: the same array.
     
+    //:-------------------
     // Special operations.
-    // -------------------
     
     BufferC<DataT> &Buffer()
       { return buff; }
@@ -301,11 +305,7 @@ namespace RavlN {
     // This checks the index is within the allocated buffer.
     
   private:
-    
-    // Object representation
-    // ---------------------
-    
-    BufferC<DataT> buff;  // The reference counted storage.
+    BufferC<DataT> buff;  //: The reference counted storage.
   };
   
   template <class DataT>

@@ -143,7 +143,7 @@ namespace RavlN {
     Slice1dC<DataT> SliceColumn(IndexC i) { 
       return Slice1dC<DataT>(data.Data(),
 			     &((*this)[0][i]),
-			     Min(Size1(),Size2()),
+			     Size1(),
 			     Stride());
     }
     //: Access columb as 1d slice.

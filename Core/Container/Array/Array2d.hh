@@ -99,8 +99,8 @@ namespace RavlN {
     
     Slice1dC<DataT> SliceColumn(IndexC i) { 
       return Slice1dC<DataT>(data.Data(),
-			     &((*this)[Range1().Min()][i]),
-			     Min(Range1().Size(),Range2().Size()),
+			     &((*this)[Range1().Min()][i]) - (Range1().Min() * Stride()),
+			     Range1(),
 			     Stride());
     }
     //: Access columb as 1d slice.
