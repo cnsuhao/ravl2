@@ -188,18 +188,6 @@ namespace RavlN {
     return *this;
   }
     
-  //: Count the number of frames to a timecode
-  IntT TimeCodeC::NumberOfFramesTo(const TimeCodeC & tc_In) {
-    return Abs(m_liFrame - tc_In.m_liFrame);
-  }
-
-  
-  //: Checks whether the timecode holds valid data
-  bool TimeCodeC::IsValid() {
-    return ((m_liFrame>=0) && (frameRate>0.0));
-  }
-
-  
   //: Return a string  representation of timecode
   StringC TimeCodeC::ToText() const {
     IntT hour,minute,second,frame;

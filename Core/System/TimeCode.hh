@@ -127,10 +127,11 @@ namespace RavlN {
     StringC ToText() const;
     //: Return a string  representation of timecode
     
-    IntT NumberOfFramesTo(const TimeCodeC &in);
+    IntT NumberOfFramesTo(const TimeCodeC &in) const 
+      { return Abs(m_liFrame - tc_In.m_liFrame); }    
     //: Count the number of frames to a timecode
     
-    bool IsValid();
+    bool IsValid() const  { return ((m_liFrame>=0) && (frameRate>0.0)); }
     //: Checks whether the timecode holds valid data
         
     long int getFrameCount() const {return m_liFrame;}
@@ -154,7 +155,7 @@ namespace RavlN {
     { return frameRate; }
     //: Access the frame rate
 
-  public:
+  protected:
     
     // long int m_liFrame;
     IntT m_liFrame ; 
