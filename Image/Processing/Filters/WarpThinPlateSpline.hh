@@ -31,14 +31,21 @@ namespace RavlImageN {
     WarpThinPlateSplineBaseC(RealT nSigma,bool nFillBackground = true)
       : sigma(nSigma),
 	fillBackground(nFillBackground)
-    {}
+    { 
+      sigma2_2 = Sqr(sigma) * 2;
+      log_sigma2 = Log(Sqr(sigma)); 
+    }
     //: Constructor.
     
     inline RealT U(RealT dist2) const { 
-      dist2 = Sqrt(dist2);
       if(dist2 == 0)
 	return 0; // Avoid Log(0).
-      return Sqr(dist2/sigma) * Log(dist2/sigma); 
+#if 1
+      return (dist2 * (Log(dist2) - log_sigma2))/ sigma2_2;
+#else
+      RealT dist = Sqrt(dist2);
+      return Sqr(dist/sigma) * Log(dist/sigma);
+#endif
     }
     // Compute U(x).
     
@@ -50,6 +57,8 @@ namespace RavlImageN {
     
   protected:
     RealT sigma;
+    RealT sigma2_2; // Sqr(sigma) * 2
+    RealT log_sigma2; // Log(Sqr(sigma))
     bool fillBackground;
   };
   

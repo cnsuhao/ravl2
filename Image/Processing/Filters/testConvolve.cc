@@ -422,33 +422,30 @@ int testWarpThinPlateSpline() {
   
   ImageC<ByteT> inImg(10,10);
   inImg.Fill(0);
-  Array1dC<Point2dC> orgPnts(7);
+  Array1dC<Point2dC> orgPnts(5);
   orgPnts[0] = Point2dC(10,10);
   orgPnts[1] = Point2dC(100,200);
   orgPnts[2] = Point2dC(200,200);
-  orgPnts[3] = Point2dC(10,200);
-  orgPnts[4] = Point2dC(200,10);
-  orgPnts[5] = Point2dC(50,50);
-  orgPnts[6] = Point2dC(60,60);
+  orgPnts[3] = Point2dC(200,100);
+  orgPnts[4] = Point2dC(50,50);
   
-  Array1dC<Point2dC> newPnts(7);
+  Array1dC<Point2dC> newPnts(5);
   newPnts[0] = Point2dC(10,11);
-  newPnts[1] = Point2dC(100,201);
-  newPnts[2] = Point2dC(200,201);
-  newPnts[3] = Point2dC(10,201);
-  newPnts[4] = Point2dC(200,11);
-  newPnts[5] = Point2dC(50,51);
-  newPnts[6] = Point2dC(60,62);
+  newPnts[1] = Point2dC(102,201);
+  newPnts[2] = Point2dC(204,201);
+  newPnts[3] = Point2dC(200,106);
+  orgPnts[4] = Point2dC(55,55);
   
   WarpThinPlateSplineC<ByteT> warp(sigma);
   
   
   MatrixC w = warp.ComputeW(newPnts,orgPnts);
-  
+  //cerr << "w=" << w << "\n";
   for(Array1dIter2C<Point2dC,Point2dC> it(orgPnts,newPnts);it;it++) {
     Point2dC at;
     warp.ComputeWUd(orgPnts,it.Data2(),w,at);
-    if(at.EuclidDistance(it.Data1()) > 1)
+    //cerr << it.Data1() << " " << it.Data2() << " " << at << "\n";
+    if(at.EuclidDistance(it.Data1()) > 0.01)
       return __LINE__;
   }
   return 0;

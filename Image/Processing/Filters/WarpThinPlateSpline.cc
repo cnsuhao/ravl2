@@ -12,7 +12,7 @@
 #include "Ravl/Image/WarpThinPlateSpline.hh"
 #include "Ravl/MatrixRS.hh"
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -47,7 +47,7 @@ namespace RavlImageN {
   //: Compute weight matrix.
   
   MatrixC WarpThinPlateSplineBaseC::ComputeW(const Array1dC<Point2dC> &orgPos,const Array1dC<Point2dC> &newPos) const {
-    ONDEBUG(cerr << "WarpThinPlateSplineBaseC::ComputeW(), Sigma=" << sigma << "\n");
+    ONDEBUG(cerr << "WarpThinPlateSplineBaseC::ComputeW(), Sigma=" << sigma << " Size="  << newPos.Size() << "\n");
     IntT size = (IntT) newPos.Size();
     RavlAssert((IntT) orgPos.Size() == size);
     MatrixC Ld(size+3,size+3);
@@ -55,25 +55,26 @@ namespace RavlImageN {
     int i;
     for(i = 0;i < size;i++) {
       const Point2dC &pos = orgPos[i];
-      for(int j = i;j < size;j++) {
-	RealT v = U(pos.SqrEuclidDistance(newPos[j]));
-	Ld[i][j] = v;
-	Ld[j][i] = v;
+      for(int j = 0;j < size;j++) {
+	Ld[i][j] = U(pos.SqrEuclidDistance(newPos[j]));
       }
       Ld[i][size] = 1;
       Ld[i][size+1] = pos[0];
       Ld[i][size+2] = pos[1];
       
-      Ld[size][i] = 1;
+      Ld[size][i] = pos[1];
       Ld[size+1][i] = pos[0];
-      Ld[size+2][i] = pos[1];
+      Ld[size+2][i] = 1;
+      
       const Point2dC &npos = newPos[i];
       w[i][0] = npos[0];
       w[i][1] = npos[1];
     }
+    ONDEBUG(cerr << "Ld=" << Ld << "\n");
     for(int i = size;i < size+3;i++) {
       w[i][0] = 0;
       w[i][1] = 0;
+      
       for(int j = size;j < size+3;j++)
 	Ld[i][j] = 0;
     }
