@@ -19,7 +19,7 @@
 namespace RavlN {
   
   //! userlevel=Develop
-  //: Function.
+  //: Map an input vector to an output vector.
   
   class FunctionBodyC
     : public RCBodyVC
@@ -72,7 +72,7 @@ namespace RavlN {
   };
   
   //! userlevel=Develop
-  //: Function.
+  //: Map an input vector to an output vector.
   
   class FunctionC
     : public RCHandleVC<FunctionBodyC>
