@@ -270,6 +270,9 @@ int doVPlay(int nargs,char *args[])
   ONDEBUG(cerr << "Setting up GUI ... \n");
   
   WindowC win(sx,sy,infile);
+  
+  Connect(win.Signal("delete_event"),gui_quit,vpCtrl);
+
   CanvasC vidout(sx,sy,directDraw);  
   
   StringC strinfile(infile);
