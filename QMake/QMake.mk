@@ -435,7 +435,8 @@ redoc:
 
 distclean:
 	@echo "--- Cleaning project out. \n"; \
-	rm -rf $(ROOTDIR)/*
+	rm -rf $(ROOTDIR)/* \
+	rm -rf $(LOCALTMP)/*
 
 ###############################################
 # Misc
