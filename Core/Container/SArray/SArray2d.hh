@@ -487,8 +487,8 @@ namespace RavlN {
 
   template<class DataT>
   void SArray2dC<DataT>::SetSubArray(const Index2dC &origin,const SArray2dC<DataT> &vals) {
-    IndexRangeC trng1(origin[0],origin[0] + vals.Size1());
-    IndexRangeC trng2(origin[1],origin[1] + vals.Size1());
+    IndexRangeC trng1(origin[0],(origin[0] + vals.Size1()) - 1);
+    IndexRangeC trng2(origin[1],(origin[1] + vals.Size2()) - 1);
     RavlAssert(trng1.Max() < Size1());
     RavlAssert(trng2.Max() < Size2());
     for(BufferAccess2dIter2C<DataT,DataT> it(*this,trng1,trng2,
