@@ -8,7 +8,7 @@
 
 DESCRIPTION = Core Ravl code that interacts with the Operating System
 
-NESTED=Time.r FileSystem.r Exec.r Validate.r Threads.r Network.r Text.r
+NESTED=Time.r FileSystem.r Exec.r Validate.r Threads.r Network.r Text.r IO.r
 
 PACKAGE=Ravl
 
