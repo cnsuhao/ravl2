@@ -20,7 +20,7 @@
 #include "Ravl/Option.hh"
 #include "Ravl/DP/FileFormatIO.hh"
 #include "Ravl/Pair.hh"
-#include "Ravl/Image/LMSMotionRegionMatch.hh"
+#include "Ravl/Image/LMSRegionMotion.hh"
 #include "Ravl/Array1d.hh"
 #include "Ravl/Image/ConvolveSeparable2d.hh"
 
@@ -68,7 +68,7 @@ int main (int argc, char **argv)
   }
   
   // compute motion
-  LMSMotionRegionMatchC motion(filtered);
+  LMSRegionMotionC motion(filtered);
   if (opt.IsOnCommandLine("r"))
     cout << "Motion vector: " << motion.Estimate(regions, region_id) << '\n';
   else {

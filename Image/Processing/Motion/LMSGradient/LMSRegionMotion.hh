@@ -4,14 +4,14 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLIMAGE_LMSMOTIONREGIONMATCH_HEADER
-#define RAVLIMAGE_LMSMOTIONREGIONMATCH_HEADER
-//! file="Ravl/Image/Motion/LMSGradient/LMSRegionMatch.hh"
+#ifndef RAVLIMAGE_LMSREGIONMOTION_HEADER
+#define RAVLIMAGE_LMSREGIONMOTION_HEADER
+//! file="Ravl/Image/Motion/LMSGradient/LMSRegionMotion.hh"
 //! userlevel=Normal
 //! rcsid="$Id$"
 //! author="Bill Christmas"
 //! date="07/12/1999"
-//! example=exLMSMotionRegion.cc
+//! example=exLMSRegionMotion.cc
 //! lib=RavlImageProc
 
 #include "Ravl/Types.hh"
@@ -35,15 +35,15 @@ namespace RavlImageN {
   // The covariance matrix for the motion vector and the variance of the fit are
   // also available.  The default noise parameter value = 1.0.
   
-  class LMSMotionRegionMatchC {
+  class LMSRegionMotionC {
 
   public:
-    LMSMotionRegionMatchC (bool verbose=false)
+    LMSRegionMotionC (bool verbose=false)
       : noise (1.0),
 	verbose (verbose)
     {}
     
-    LMSMotionRegionMatchC (const PairC<ImageC<RealT> > &im, bool verbose=false);
+    LMSRegionMotionC (const PairC<ImageC<RealT> > &im, bool verbose=false);
     // Constructor from <i> filtered</i> image pair
 
     Vector2dC Estimate(const ImageC<IntT> & mask, IntT label);

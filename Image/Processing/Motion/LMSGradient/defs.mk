@@ -10,17 +10,19 @@ PACKAGE = Ravl/Image
 
 MAINS = 
 
-SOURCES = LMSOpticFlow.cc LMSMultiScaleMotion.cc LMSMotionRegionMatch.cc
+SOURCES = LMSOpticFlow.cc LMSMultiScaleMotion.cc LMSRegionMotion.cc
 
-HEADERS = LMSOpticFlow.hh LMSMultiScaleMotion.hh LMSMotionRegionMatch.hh
+HEADERS = LMSOpticFlow.hh LMSMultiScaleMotion.hh LMSRegionMotion.hh
+
+LOCALHEADERS = LMSRegressionEngine.hh
 
 PLIB = RavlImageProc
 
 LIBDEPS=RavlImageLMSMotion.def
 
-USESLIBS = RavlImageIO Auto
+USESLIBS = RavlImageProc
 
-PROGLIBS = RavlDPDisplay
+PROGLIBS = RavlDPDisplay RavlImageIO
 
-EXAMPLES = exLMSOptic.cc exLMSMultiScale.cc exLMSMotionRegion.cc
+EXAMPLES = exLMSOptic.cc exLMSMultiScale.cc exLMSRegionMotion.cc
 

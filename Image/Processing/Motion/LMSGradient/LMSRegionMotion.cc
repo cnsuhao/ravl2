@@ -7,8 +7,8 @@
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 
-#include "Ravl/Image/LMSMotionRegionMatch.hh"
-#include "Ravl/Image/LMSOpticFlow.hh"
+#include "Ravl/Image/LMSRegionMotion.hh"
+#include "LMSRegressionEngine.hh"
 
 #include "Ravl/StdConst.hh"
 #include "Ravl/Vector2d.hh"
@@ -33,7 +33,7 @@ namespace RavlImageN {
   
   // Constructor from image pair
   
-  LMSMotionRegionMatchC::LMSMotionRegionMatchC (const PairC<ImageC<RealT> > &im, bool Verbose)
+  LMSRegionMotionC::LMSRegionMotionC (const PairC<ImageC<RealT> > &im, bool Verbose)
     : image(im),
       noise (1.0),
       verbose (Verbose)
@@ -73,7 +73,7 @@ namespace RavlImageN {
   
   // Estimates motion for region with mask value "label"
   
-  Vector2dC LMSMotionRegionMatchC::Estimate(const ImageC<IntT> & mask, IntT label) {
+  Vector2dC LMSRegionMotionC::Estimate(const ImageC<IntT> & mask, IntT label) {
     
     // find the sums of products witin region
     // ======================================

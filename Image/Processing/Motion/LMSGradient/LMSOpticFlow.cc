@@ -26,6 +26,8 @@
 #include "Ravl/Image/ScaleValues.hh"
 #include "Ravl/Image/SpatialDifference.hh"
 
+#include "LMSRegressionEngine.hh"
+
 namespace RavlImageN {
 
 
