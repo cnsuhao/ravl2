@@ -96,7 +96,7 @@ namespace RavlN {
       DataT ret = sinput.Get();
       if(!sinput.DSeek(sampleRate-1)) {
 	if(sampleRate < 0)
-	  return false;
+	  return ret;
 	for(Int64T i = 1;i < sampleRate;i++)
 	  input.Discard();
       }
@@ -153,6 +153,7 @@ namespace RavlN {
   {
   public:
     DPISampleStreamC()
+      : DPEntityC(true)
     {}
     //: Default constructor.
     // Creates an invalid handle.
@@ -169,11 +170,11 @@ namespace RavlN {
     
   protected:
     DPISampleStreamBodyC<DataT> &Body()
-    { return static_cast<DPISampleStreamBodyC<DataT> &>(DPEntityC::Body()); }
+    { return dynamic_cast<DPISampleStreamBodyC<DataT> &>(DPEntityC::Body()); }
     //: Access body.
     
     const DPISampleStreamBodyC<DataT> &Body() const
-    { return static_cast<const DPISampleStreamBodyC<DataT> &>(DPEntityC::Body()); }
+    { return dynamic_cast<const DPISampleStreamBodyC<DataT> &>(DPEntityC::Body()); }
     //: Access body.
     
   public:
