@@ -32,7 +32,10 @@ INSTALLATION
 
 - The `Math' module requires the ccmath package to be installed. The code
   has been tested with version 2.2.0, but I would expect it to work with   
-  older versions as well.
+  older versions as well.  The location of the ccmath package is set
+  in Ravl/Math/CCMath/CCMath.def, set the 'CCMATH' variable to appropriate
+  directory uncomment two lines following it, and comment out any other
+  'EXELIB' lines later in the file. 
 
 - The appropriate version of perl must be in your default path.
 
