@@ -72,12 +72,21 @@ namespace RavlN {
     inline void SetUnSelected()
     { selected = false; }
     //: Set the "selected" flag to false
-
+    
+    inline UIntT ID() const
+    { return id; }
+    //: Access observation ID.
+    
+    inline void SetID(UIntT nid)
+    { id = nid; }
+    //: Set observation ID.
+    
   protected:
     ObsVectorC obs_vec; //: Observation vector
 
   private:
     bool selected;
+    UIntT id; // Observation ID, not used internally.
   };
 
   //! userlevel=Normal
@@ -217,6 +226,16 @@ namespace RavlN {
     // observations which should be ignored for the purposes of a specific
     // observation.
 
+    inline UIntT ID() const
+    { return Body().ID(); }
+    //: Access observation ID.
+    // ID for observation, not used internally.
+    
+    inline void SetID(UIntT nid)
+    { Body().SetID(nid); }
+    //: Set observation ID.
+    // ID for observation, not used internally.
+    
   };
 }
 
