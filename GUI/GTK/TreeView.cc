@@ -190,9 +190,18 @@ namespace RavlGUIN {
       firstSelection(2)
   {}
 
+  //: Get the column number for a given name 
+  // Returns -1 if not found.
+  
+  IntT TreeViewBodyC::ColumnName2Number(const StringC &name) const {
+    for(SArray1dIterC<TreeViewColumnC> it(displayColumns);it;it++)
+      if(it->Name() == name) return it.Index().V();
+    return -1;
+  }
+  
   //: Set an attribute for a column
   
-  bool TreeViewBodyC::SetAttribute(UIntT colNum,const StringC &key,const StringC &value,bool proxy) {
+  bool TreeViewBodyC::SetAttribute(IntT colNum,const StringC &key,const StringC &value,bool proxy) {
     displayColumns[colNum].Attributes()[key] = Tuple2C<StringC,bool>(value,proxy);
     return true;
   }
@@ -200,11 +209,35 @@ namespace RavlGUIN {
   //: Set an attribute for a column
   // Possible keys include: "editable", "sortable", "activateable", "foreground", "background", "reorderable", "resizable"
   
-  bool TreeViewBodyC::SetAttribute(UIntT colNum,UIntT subCol,const StringC &key,const StringC &value,bool proxy) {
+  bool TreeViewBodyC::SetAttribute(IntT colNum,UIntT subCol,const StringC &key,const StringC &value,bool proxy) {
     displayColumns[colNum].Renderers()[subCol].Attributes()[key] = Tuple2C<StringC,bool>(value,proxy);
     return true;
   }
-
+  
+  //: Set an attribute for a column
+  // Possible keys include: "editable", "sortable", "activateable", "foreground", "background", "reorderable", "resizable"
+  
+  bool TreeViewBodyC::SetAttribute(const StringC &colName,const StringC &key,const StringC &value,bool proxy) {
+    IntT colNum = ColumnName2Number(colName);
+    if(colNum < 0) {
+      cerr << "TreeViewBodyC::SetAttribute(), Unknown column '" << colName << "' \n";
+      return false;
+    }
+    return SetAttribute(colNum,key,value,proxy);
+  }
+  
+  //: Set an attribute for a column
+  // Possible keys include: "editable", "sortable", "activateable", "foreground", "background", "reorderable", "resizable"
+  
+  bool TreeViewBodyC::SetAttribute(const StringC &colName,UIntT subCol,const StringC &key,const StringC &value,bool proxy) {
+    IntT colNum = ColumnName2Number(colName);
+    if(colNum < 0) {
+      cerr << "TreeViewBodyC::SetAttribute(), Unknown column '" << colName << "' \n";
+      return false;
+    }    
+    return SetAttribute(colNum,subCol,key,value,proxy);
+  }
+  
   //: Create with a widget supplied from elsewhere.
   
   bool TreeViewBodyC::Create(GtkWidget *nwidget) {
@@ -343,7 +376,7 @@ namespace RavlGUIN {
   //: Sort treeview by column colNum.
   
   void TreeViewBodyC::Sort(UIntT colNum, bool bAscending) {
-    Manager.Queue(Trigger(TreeViewC(*this),&TreeViewC::GUISort,colNum,bAscending));
+    Manager.Queue(Trigger(TreeViewC(*this),&TreeViewC::GUISortNum,colNum,bAscending));
   }
 
   //: Sort treeview by column colNum.
@@ -357,7 +390,25 @@ namespace RavlGUIN {
 					   bAscending ? GTK_SORT_ASCENDING : GTK_SORT_DESCENDING);
     return true;
   }
-
+  
+  //: Sort treeview by named column
+  
+  void TreeViewBodyC::Sort(const StringC &colName, bool bAscending) {
+    Manager.Queue(Trigger(TreeViewC(*this),&TreeViewC::GUISortNamed,colName,bAscending));
+  }
+  
+  //: Sort treeview by named column 
+  // GUI thread only
+  
+  bool TreeViewBodyC::GUISort(const StringC &colName, bool bAscending) {
+    IntT colNum = ColumnName2Number(colName);
+    if(colNum < 0) {
+      cerr << "TreeViewBodyC::GUISort(), Unknown column '" << colName << "' \n";
+      return false;
+    }
+    return GUISort(colNum,bAscending);
+  }
+  
   //: Expand to the specified path
   
   void TreeViewBodyC::Expand(TreeModelPathC path) {

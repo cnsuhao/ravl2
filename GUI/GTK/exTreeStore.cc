@@ -121,7 +121,7 @@ int main(int nargs,char **argv) {
   treeView.SetAttribute(1,"foreground","Colour"); 
   
   // Always set the editable flag to true for column 1.
-  treeView.SetAttribute(1,"editable","1",false);  
+  treeView.SetAttribute("AString","editable","1",false);  // You can also use column names for setting attributes.
   
   // Always set the activatable flag to true for column 3.
   treeView.SetAttribute(3,"activatable","1",false);

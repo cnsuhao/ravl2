@@ -232,11 +232,23 @@ namespace RavlGUIN {
     { return selectionChanged; }
     //: Access selection changed signal.
     
-    bool SetAttribute(UIntT colNum,const StringC &key,const StringC &value,bool proxy = true);
+    IntT ColumnName2Number(const StringC &name) const;
+    //: Get the column number for a given name 
+    // Returns -1 if not found.
+    
+    bool SetAttribute(IntT colNum,const StringC &key,const StringC &value,bool proxy = true);
     //: Set an attribute for a column
     // Possible keys include: "editable", "sortable", "activateable", "foreground", "background", "reorderable", "resizable"
     
-    bool SetAttribute(UIntT colNum,UIntT subCol,const StringC &key,const StringC &value,bool proxy = true);
+    bool SetAttribute(IntT colNum,UIntT subCol,const StringC &key,const StringC &value,bool proxy = true);
+    //: Set an attribute for a column
+    // Possible keys include: "editable", "sortable", "activateable", "foreground", "background", "reorderable", "resizable"
+    
+    bool SetAttribute(const StringC &colName,const StringC &key,const StringC &value,bool proxy = true);
+    //: Set an attribute for a column
+    // Possible keys include: "editable", "sortable", "activateable", "foreground", "background", "reorderable", "resizable"
+    
+    bool SetAttribute(const StringC &colName,UIntT subCol,const StringC &key,const StringC &value,bool proxy = true);
     //: Set an attribute for a column
     // Possible keys include: "editable", "sortable", "activateable", "foreground", "background", "reorderable", "resizable"
     
@@ -252,6 +264,13 @@ namespace RavlGUIN {
         
     bool GUISort(UIntT colNum, bool bAscending);
     //: Sort treeview by column colNum.
+    // GUI thread only
+    
+    void Sort(const StringC &colName, bool bAscending);
+    //: Sort treeview by named column
+    
+    bool GUISort(const StringC &colName, bool bAscending);
+    //: Sort treeview by named column 
     // GUI thread only
     
     void Expand(TreeModelPathC path);
@@ -313,7 +332,7 @@ namespace RavlGUIN {
 
     DListC<TreeModelIterC> GUISelected();
     //: Get list of selected rows.    
-
+    
     void Deselect(TreeModelPathC path);
     //: Deselect the specified path
 
@@ -446,6 +465,16 @@ namespace RavlGUIN {
     const TreeViewBodyC &Body() const
     { return static_cast<const TreeViewBodyC &>(WidgetC::Body()); }
     //: Access body.
+
+    bool GUISortNamed(const StringC &colName, bool bAscending)
+    { return Body().GUISort(colName,bAscending); }
+    //: Sort treeview by named column 
+    // GUI thread only
+    
+    bool GUISortNum(UIntT colNum, bool bAscending)
+    { return Body().GUISort(colNum,bAscending); }
+    //: Sort treeview by column colNum.
+    // GUI thread only
     
   public:
     
@@ -461,13 +490,28 @@ namespace RavlGUIN {
     { return Body().SelectionChanged(); }
     //: Access selection changed signal.
     
-    bool SetAttribute(UIntT colNum,const StringC &key,const StringC &value,bool proxy = true)
+    IntT ColumnName2Number(const StringC &name) const
+    { return Body().ColumnName2Number(name); }
+    //: Get the column number for a given name 
+    // Returns -1 if not found.
+    
+    bool SetAttribute(IntT colNum,const StringC &key,const StringC &value,bool proxy = true)
     { return Body().SetAttribute(colNum,key,value,proxy); }
     //: Set an attribute for a column
     // Possible keys include: "editable", "sortable", "activateable", "foreground", "background", "reorderable", "resizable"
     
-    bool SetAttribute(UIntT colNum,UIntT subCol,const StringC &key,const StringC &value,bool proxy = true)
+    bool SetAttribute(IntT colNum,UIntT subCol,const StringC &key,const StringC &value,bool proxy = true)
     { return Body().SetAttribute(colNum,subCol,key,value,proxy); }
+    //: Set an attribute for a column
+    // Possible keys include: "editable", "sortable", "activateable", "foreground", "background", "reorderable", "resizable"
+    
+    bool SetAttribute(const StringC &colName,const StringC &key,const StringC &value,bool proxy = true)
+    { return Body().SetAttribute(colName,key,value,proxy); }
+    //: Set an attribute for a column
+    // Possible keys include: "editable", "sortable", "activateable", "foreground", "background", "reorderable", "resizable"
+    
+    bool SetAttribute(const StringC &colName,UIntT subCol,const StringC &key,const StringC &value,bool proxy = true)
+    { return Body().SetAttribute(colName,subCol,key,value,proxy); }
     //: Set an attribute for a column
     // Possible keys include: "editable", "sortable", "activateable", "foreground", "background", "reorderable", "resizable"
     
@@ -486,6 +530,15 @@ namespace RavlGUIN {
     bool GUISort(UIntT colNum, bool bAscending)
     { return Body().GUISort(colNum,bAscending); }
     //: Sort treeview by column colNum.
+    // GUI thread only
+    
+    void Sort(const StringC &colName, bool bAscending)
+    { Body().Sort(colName,bAscending); }
+    //: Sort treeview by named column 
+
+    bool GUISort(const StringC &colName, bool bAscending)
+    { return Body().GUISort(colName,bAscending); }
+    //: Sort treeview by named column.
     // GUI thread only
     
     void Expand(TreeModelPathC path)
