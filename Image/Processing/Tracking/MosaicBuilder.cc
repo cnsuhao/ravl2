@@ -197,7 +197,6 @@ namespace RavlImageN {
 	obsList.InsLast(ObservationHomog2dPointC(
             Vector2dC(loc1[0],loc1[1]),epos,Vector2dC(loc2[0],loc2[1]),epos));
       }
-      else cerr << "Exclude " << loc1 << endl;
     }
     
     last = corners;
