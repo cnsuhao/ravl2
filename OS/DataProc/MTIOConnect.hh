@@ -38,6 +38,8 @@ namespace RavlN {
     inline DPMTIOConnectBaseBodyC(bool nuseIsGetReady = true,UIntT nblockSize = 1)
       : useIsGetReady(nuseIsGetReady),
 	terminate(false),
+	pause(false),
+	resume(0),
 	blockSize(nblockSize)
     {}
     //: Default Constructor.
@@ -66,12 +68,29 @@ namespace RavlN {
     virtual bool Start();
     //: Do some async stuff.
     
+    virtual bool Pause() {
+      pause = true;
+      return true;
+    }
+    //: Temporarily pause stream processing;
+
+    virtual bool Resume() { 
+      if (pause) {
+	pause = false;
+	resume.Post();
+      }
+      return true;
+    }
+    //: Carry on after a Pause()
+
   protected:
     virtual bool IsReady() const;
     //: Check if we're ready to run.
       
     bool useIsGetReady;
     volatile bool terminate;
+    volatile bool pause;
+    SemaphoreC resume;
     UIntT blockSize;
     ThreadEventC done;
   };
@@ -181,6 +200,15 @@ namespace RavlN {
     bool Start()
     { return Body().Start(); }
     //: Do some async stuff.
+
+    bool Pause()
+    { return Body().Pause(); }
+    //: Temporarily pause stream processing;
+
+    bool Resume() 
+    { return Body().Resume(); }
+    //: Carry on after a Pause()
+
   };
   
 
@@ -252,6 +280,11 @@ namespace RavlN {
       if(useIsGetReady) {
 	if(blockSize <= 1) {
 	  while(!terminate) {
+	    // Pause
+	    while (pause) {
+	      resume.Wait();
+	    }
+	    // Process
 	    DataT buff;
 	    if(!from.Get(buff))
 	      break;
@@ -270,6 +303,11 @@ namespace RavlN {
 	  // Use block processing.
 	  SArray1dC<DataT> buf(blockSize);
 	  while(!terminate) {
+	    // Pause
+	    while (pause) {
+	      resume.Wait();
+	    }
+	    // Process
 	    int got = from.GetArray(buf);
 	    if(got == 0)
 	      break;
@@ -288,6 +326,11 @@ namespace RavlN {
       } else {
 	if(blockSize <= 1) {
 	  while(!terminate) {
+	    // Pause
+	    while (pause) {
+	      resume.Wait();
+	    }
+	    // Process
 	    if(!to.Put(from.Get()))
 	      break;
 	  }
@@ -296,6 +339,11 @@ namespace RavlN {
 	  SArray1dC<DataT> buf(blockSize);
 	  int puts;
 	  while(!terminate) {
+	    // Pause
+	    while (pause) {
+	      resume.Wait();
+	    }
+	    // Process
 	    IntT got = from.GetArray(buf);
 	    if(got < 0)
 	      continue;
