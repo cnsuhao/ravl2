@@ -32,7 +32,7 @@ namespace RavlN {
     if(!centre)
       fnc = Array1dC<DataT>(size);
     else {
-      fnc = Array1dC<DataT>(-(size/2),((size-1)/2));
+      fnc = Array1dC<DataT>(-(static_cast<IntT>(size)/2),((static_cast<IntT>(size)-1)/2));
       RavlAssertMsg(size == fnc.Size(),"GenerateBinomial(), size must be odd to centre. ");
     }
     BufferAccessIterC<DataT> it(fnc);
