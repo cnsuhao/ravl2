@@ -68,6 +68,7 @@ namespace RavlGUIN {
     
     void GUIDrawText(GdkGC *gc,GdkFont *font,Index2dC at,const StringC &txt);
     //: Draw text.
+    // 'at' is the bottom left of the text to be drawn.
     
     Index2dC GUITextSize(GdkFont *font,const StringC &txt);
     //: Find the size of 'text' rendered in 'font'.
