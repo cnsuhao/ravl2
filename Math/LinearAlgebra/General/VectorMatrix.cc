@@ -41,11 +41,14 @@ namespace RavlN {
     
     for (UIntT i=0; i<vn-1; i++) {
       // Find the maximum item in the rest of the vector.
-      UIntT   maxIndex = i;
+      UIntT maxIndex = i;
       RealT maxValue = Vector()[i];
-      for (UIntT j=i+1; j<vn; j++)
-	if (Vector()[j] > maxValue) 
-	  maxValue = Vector()[maxIndex=j];
+      for (UIntT j=i+1; j<vn; j++) {
+	if (Vector()[j] > maxValue) {
+	  maxIndex = j;
+	  maxValue = Vector()[maxIndex];
+	}
+      }
       
       if (maxIndex != i) { 
 	// Swap columns of the matrices and items of the vector.
@@ -53,42 +56,11 @@ namespace RavlN {
 	Vector()[i]=maxValue;
 	for (UIntT j=0; j<vn; j++)  { 
 	  // Swap two elements of the matrix.
-	  RealT value    = Matrix()[j][i];
-	  Matrix()[j][i] = Matrix()[j][maxIndex];
-	  Matrix()[j][maxIndex]=value;
+	  RavlN::Swap((Matrix()[j][i]),(Matrix()[j][maxIndex]));
 	}
       }
     }
   }
-  
-#if 0
-  void VectorMatrixC::BubbleSort() {
-    // bubble sorting according to vector values
-    // the first value of the result vector is the biggest one
-    MatrixC & m     = Matrix();
-    VectorC & v     = Vector();
-    const SizeT dim = v.Size();
-    bool  change;
-    do {
-      change = false;
-      for (UIntT i = 0; i < dim-1; ++i) {
-	if (v[i] < v[i+1]) {
-	  UIntT i1 = i+1;
-	  for (UIntT j = 0; j < dim; ++j) {
-	    RealT ee = m[j][i];
-	    m[j][i] = m[j][i1];
-	    m[j][i1] = ee;
-	  }
-	  RealT ev = v[i];
-	  v[i] = v[i1];
-	  v[i1] = ev;
-	  change = true;
-	}
-      }
-    }while(change);
-    return *this;
-  }
-#endif
   
   //--------------------------------------------------------------------
   // *************** Input - Output ************************************
