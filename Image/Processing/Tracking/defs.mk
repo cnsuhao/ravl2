@@ -10,10 +10,10 @@
 PACKAGE=Ravl/Image
 
 HEADERS=PointTrack.hh PointTrackModel.hh PointTracker.hh MosaicBuilder.hh \
- MatchPatch.hh ImageTracker.hh ImageMatcher.hh
+ MatchPatch.hh ImageTracker.hh ImageMatcher.hh MatchNormalisedCorrelation.hh
 
 SOURCES=PointTrack.cc PointTrackModel.cc PointTracker.cc MosaicBuilder.cc \
- ImageTracker.cc ImageMatcher.cc
+ ImageTracker.cc ImageMatcher.cc MatchNormalisedCorrelation.cc
 
 PLIB=RavlImageProc
 
@@ -25,7 +25,7 @@ EHT= Ravl.Images.Tracking.html
 
 EXAMPLES=tracker.cc
 
-TESTEXES=
+TESTEXES=testTracking.cc
 #testImageTracker.cc
 
 USESLIBS=RavlImage RavlImageProc RavlOptimise RavlImageIO

@@ -36,6 +36,7 @@ namespace RavlImageN {
     scoreMap[minAt] = minScore;
     
     Index2dC lastMin;
+    int maxLoop = 10;
     do {
       //cerr << "Center at " << minAt << "\n";
       lastMin = minAt;
@@ -51,7 +52,7 @@ namespace RavlImageN {
 	  minAt = *it;
 	}
       }
-    } while(minAt != lastMin);
+    } while(minAt != lastMin && (maxLoop-- > 0));
     rat = LocatePeakSubPixel(scoreMap,minAt,0.25);
     rat = minAt;
     rminScore = minScore;
