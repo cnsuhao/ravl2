@@ -32,7 +32,8 @@ EHT=Ravl.OS.Network.html Ravl.OS.Network.NetPort.html
 
 EXAMPLES = exSocket.cc exEndPoint.cc exNetPort.cc
 
-TESTEXES=testNetPort.cc
+TESTEXES=testNetPort.cc testSocket.cc
 
 USESLIBS = RavlOS RavlCore Socket RavlThreads RavlIO
 
+PROGLIBS= RavlThreads

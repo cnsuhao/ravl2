@@ -325,14 +325,24 @@ namespace RavlN {
   
   int SocketBodyC::OpenClient(const char *name,IntT portNo) {
     struct sockaddr_in sin = {PF_INET};
-    if(!GetHostByName(name,sin))
-      return -1;    
-    if((fd = OpenSocket(sin,portNo)) < 0)
+    if(!GetHostByName(name,sin)) {
+      cerr << "Failed to lookup hostname '" << name << "'\n";
       return -1;
+    }
+    if((fd = OpenSocket(sin,portNo)) < 0)
+      return -1; 
     sin.sin_port = htons(portNo);
-    if(connect(fd, (sockaddr*)&sin, sizeof(sin)) < 0) {
+    int retryLimit = 10;
+    while(connect(fd, (sockaddr*)&sin, sizeof(sin)) < 0) {
+      // Sometimes its worth trying a again a few times.
+      if((errno == EAGAIN || errno == EINTR || errno == ECONNREFUSED || errno==ETIMEDOUT) && retryLimit-- > 0) {
+	ONDEBUG(cerr << "Connect failed, EAGAIN. \n");
+	Sleep(0.1);
+	continue;
+      }
+      cerr << "ERROR: failed to connect socket " << errno << ".\n";
+      Close();
 #if DODEBUG
-      cerr << "Failed to connect socket " << errno << ":";
       if(errno == EADDRINUSE) {
 	cerr << "Address in use.\n";
 	return -1;
@@ -343,7 +353,6 @@ namespace RavlN {
       }
       cerr << " \n";
 #endif
-      Close();
       return -1;
     }
     if(addr != 0)
@@ -445,7 +454,7 @@ namespace RavlN {
   bool SocketBodyC::SetNonBlocking(bool block) {
     long flags = fcntl(fd,F_GETFL);
     if(flags < 0) {
-      cerr << "SocketBodyC::SetNonBlocking(), WARNING: Get flags failed. \n";
+      cerr << "SocketBodyC::SetNonBlocking(), WARNING: Get flags failed. errno=" << errno << " fd=" << fd << "\n";
       return false;
     }
     long newFlags;
@@ -464,6 +473,7 @@ namespace RavlN {
   //: Read some bytes from a stream.
   
   IntT SocketBodyC::Read(char *buff,UIntT size) {
+    //ONDEBUG(cerr << "SocketBodyC::Read(), Buff=" << ((void *) buff) << " Size=" << size << "\n");
     UIntT at = 0;
     fd_set rfds;
     FD_ZERO(&rfds);
@@ -527,7 +537,7 @@ namespace RavlN {
     fd_set wfds;
     FD_ZERO(&wfds);
     
-    do {
+    while(fd >= 0) {
       FD_SET(fd,&wfds);
       if(select(fd+1,&wfds,0,0,0) == 0)
 	continue;
@@ -545,22 +555,24 @@ namespace RavlN {
 	return false;
       }
       // Temporary failure, try again.
-    } while(fd >= 0);
+    }
     if(at == total) return at; // All done ?
     
-    SysLog(SYSLOG_WARNING) << "SocketBodyC::ReadV(), Socket read interupted, attempting to recover. (Relatively untested code.) \n";
+    ONDEBUG(SysLog(SYSLOG_WARNING) << "SocketBodyC::ReadV(), Socket read interupted, at=" << at << " Blocks=" << n << " attempting to recover. \n");
     
     // Read in 1 lump failed, break it up.
     int b = 0,xat = 0;
     do {
-      for(b = 0;b < n;b++) {
+      for(;b < n;b++) {
+	ONDEBUG(cerr << "len[" << b << "]=" << len[b] << " xat=" << xat << "\n");
 	xat += len[b];
-	if(at < xat) //In this block ?
+	if(at <= xat) //In this block ?
 	  break;
       }
-      if(xat < at){
+      if(at < xat){
 	IntT toGo = xat - at;
 	IntT done = len[b] - toGo;
+	ONDEBUG(cerr << "Reading " << toGo << " bytes to complete the block " << b << " xat=" << xat << " done=" << done << " toGo=" << toGo << "\n");
 	IntT x = Read(&(buffer[b][done]),toGo);
 	if(x < 0) { 
 	  if(n > 100) free(vecp);
@@ -572,9 +584,13 @@ namespace RavlN {
 	  return at; // Some serious error must have occured to stop 'Read'
 	}
       }
+      ONDEBUG(cerr << "Reading vector b=" << b << " n=" << n << " \n");
       RavlAssert(xat == at);
       b++;
-      int x = readv(fd,&(vecp[b]),n - b);
+      int blocksToGo = n - b;
+      if(blocksToGo == 0)
+	break; // We're done!
+      int x = readv(fd,&(vecp[b]),blocksToGo);
       if(x < 0) {
 	if(errno != EINTR && errno != EAGAIN) {
 #if RAVL_OS_LINUX
@@ -619,12 +635,12 @@ namespace RavlN {
     fd_set wfds;
     FD_ZERO(&wfds);
     
-    do {
+    while(fd >= 0) {
       FD_SET(fd,&wfds);
       timeout.tv_sec = 60; // Time-out of a minute...
       timeout.tv_usec = 0;
       if((rn = select(fd+1,0,&wfds,0,&timeout)) == 0) {
-	SysLog(SYSLOG_WARNING) << "SocketBodyC::Write(), Timeout writting to socket. :" << errno;
+	SysLog(SYSLOG_WARNING) << "SocketBodyC::Write(), Timeout writting to socket. : " << errno;
 	return at;
       }
       if(rn < 0) {
@@ -638,6 +654,8 @@ namespace RavlN {
 #endif
 	return at;
       }
+      if(fd < 0)
+	break;
       //cerr << "writev(" << fd << "," << (void *) vecp << "," << n << ");\n";
       if((at = writev(fd,vecp,n)) > 0)
 	break;
@@ -652,20 +670,20 @@ namespace RavlN {
 	return false;
       }
       // Temporary failure, try again.
-    } while(fd >= 0);
-    if(at == total) return at; // All done ?
+    } 
+    if(at == total || fd < 0) return at; // All done ?
     
     SysLog(SYSLOG_WARNING) << "SocketBodyC::WriteV(), Socket write interupted, attempting to recover. (Relatively untested code.) \n";
     
     // Write in 1 lump failed, break it up.
     int b = 0,xat = 0;
     do {
-      for(b = 0;b < n;b++) {
+      for(;b < n;b++) {
 	xat += len[b];
-	if(at < xat) //In this block ?
+	if(at <= xat) //In this block ?
 	  break;
       }
-      if(xat < at){
+      if(at < xat){
 	IntT toGo = xat - at;
 	IntT done = len[b] - toGo;
 	IntT x = Write(&(buffer[b][done]),toGo);
@@ -681,10 +699,19 @@ namespace RavlN {
       }
       RavlAssert(xat == at);
       b++;
+      int blocksToGo = n - b;
+      if(blocksToGo == 0)
+	break; // We're done!
       timeout.tv_sec = 60; // Time-out of a minute...
       timeout.tv_usec = 0;
-      
-      int x = writev(fd,&(vecp[b]),n - b);
+      FD_SET(fd,&wfds);
+      if((rn = select(fd+1,0,&wfds,0,&timeout)) == 0) {
+	SysLog(SYSLOG_WARNING) << "SocketBodyC::Write(), Timeout writting to socket. : " << errno;
+	return at;
+      }
+      if(fd < 0)
+	break; // Closed file descriptor ?
+      int x = writev(fd,&(vecp[b]),blocksToGo);
       if(x < 0) {
 	if(errno != EINTR && errno != EAGAIN) {
 #if RAVL_OS_LINUX
