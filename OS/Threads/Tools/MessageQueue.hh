@@ -103,6 +103,10 @@ namespace RavlN
     inline T Get();
     //: Get data from queue.
     
+    inline bool Get(T &data,RealT maxWait);
+    //: Get data from queue, with maximum wait time in seconds.
+    // If success full the data is assigned to 'data' and true is returned.
+    
     inline bool TryGet(T &Data);
     //: Try and get data from queue.
     // Ret:false = No data available.
@@ -203,6 +207,26 @@ namespace RavlN
     lock.Unlock();
     putSema.Post();
     return Ret;
+  }
+  
+  //: Get data from queue, with maximum wait.
+  // If success full the data is assigned to 'data' and true is returned.
+
+  template<class T>
+  bool MessageQueueC<T>::Get(T &val,RealT maxWait) {
+    if(!ready.Wait(maxWait))
+      return false;
+    MutexLockC lock(access);
+    RavlAssert(!IsEmptyBase());
+    val = data[tail]; // Possible exception.
+    // If copy failed we're in trouble anyway.
+    data[tail].~T(); // Possible exception.
+    tail++;
+    if(tail >= MaxSize())
+      tail = 0; 
+    lock.Unlock();
+    putSema.Post();
+    return true;
   }
   
   ///////////////////////////
