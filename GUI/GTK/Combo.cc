@@ -14,6 +14,8 @@
 #include "Ravl/GUI/WidgetStyle.hh"
 #include "Ravl/GUI/Combo.hh"
 #include "Ravl/GUI/Manager.hh"
+#include "Ravl/GUI/ReadBack.hh"
+
 #include <gtk/gtk.h>
 
 namespace RavlGUIN {
@@ -33,6 +35,7 @@ namespace RavlGUIN {
   //: Get currently selected string.
   
   StringC ComboBodyC::Selected() const { 
+    ReadBackLockC lock(true);
     return StringC(gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(widget)->entry)));
   }
   

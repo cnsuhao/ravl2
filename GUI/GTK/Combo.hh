@@ -4,15 +4,15 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLGUICOMBO_HEADER
-#define RAVLGUICOMBO_HEADER 1
+#ifndef RAVLGUI_COMBO_HEADER
+#define RAVLGUI_COMBO_HEADER 1
 //////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/GUI/GTK/Combo.hh"
 //! lib=RavlGUI
 //! docentry="Ravl.GUI.Control"
 //! author="Charles Galambos"
-//! date="25/06/99"
+//! date="25/06/1999"
 
 #include "Ravl/GUI/GTKTypes.hh"
 #include "Ravl/GUI/Widget.hh"
@@ -41,7 +41,6 @@ namespace RavlGUIN {
     
     StringC Selected() const;
     //: Get currently selected string.
-    // Should only be called by the GUI thread !
     
     bool Clear();
     //: Clear all entries from combo list.
@@ -110,7 +109,7 @@ namespace RavlGUIN {
   {
   public:
     ComboC()
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     
@@ -131,28 +130,27 @@ namespace RavlGUIN {
   protected:
     ComboC(ComboBodyC &bod)
       : WidgetC(bod)
-      {}
+    {}
     //: Body constructor.
     
     ComboBodyC &Body()
-      { return static_cast<ComboBodyC &>(WidgetC::Body()); }
+    { return static_cast<ComboBodyC &>(WidgetC::Body()); }
     //: Access body.
     
     const ComboBodyC &Body() const
-      { return static_cast<const ComboBodyC &>(WidgetC::Body()); }
+    { return static_cast<const ComboBodyC &>(WidgetC::Body()); }
     //: Access body.
     
   public:
     Signal0C &SigSelected()
-      { return Body().sigSelected; }
+    { return Body().sigSelected; }
     //: Short cut clicked signal.
     // This should be used instead of signals["combo_activate"],
     // as it filters unwanted GTK signals
     
     StringC Selected() const 
-      { return Body().Selected(); }
+    { return Body().Selected(); }
     //: Get currently selected string.
-    // Should only be called by the GUI thread !
     
     bool Clear()
     { return Body().Clear(); }
