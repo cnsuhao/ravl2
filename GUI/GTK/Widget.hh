@@ -102,7 +102,8 @@ namespace RavlGUIN {
     
     bool SetUSize(IntT x,IntT y);
     //: Set size of widget.
-
+    // Setting values to -1 will leave it value unspecified
+    
     IndexRange2dC Rectangle() const;
     //: Widget position and extent within its parent window.
     
@@ -187,6 +188,7 @@ namespace RavlGUIN {
     bool GUISetUSize(IntT& x,IntT& y);
     //: Set size of widget.
     // GUI thread only.
+    // Setting values to -1 will leave it value unspecified
     
     void GUIGrabFocus();
     //: Grab keyboard focus.
@@ -315,6 +317,7 @@ namespace RavlGUIN {
     { return Body().GUISetUSize(x,y); }
     //: Set size of widget.
     // GUI thread only.
+    // Setting values to -1 will leave it value unspecified
     
     bool GUISetUPosition(int &width, int &height)
     { return Body().GUISetUPosition(width, height); }
@@ -407,6 +410,7 @@ namespace RavlGUIN {
     bool SetUSize(IntT x,IntT y)
     { return Body().SetUSize(x,y); }
     //: Set size of widget.
+    // Setting values to -1 will leave it value unspecified
     
     void SetState(GtkStateType state)
     { Body().SetState(state); }
