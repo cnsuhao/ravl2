@@ -142,7 +142,6 @@ namespace RavlN {
   
     bool BinCompare(const FilenameC &oth) const;
     //: Are two files identical. byte wise comparison.
-    // NB. Currently uses diff, may not be true binary comparison.
     
     FilenameC Absolute(bool removeAMD = true) const;
     //: Make an absolute path.
