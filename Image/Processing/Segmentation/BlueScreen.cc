@@ -36,7 +36,7 @@ namespace RavlImageN
   void BlueScreenC::Apply(ImageC<ByteT>& mask,
 			  const ImageC<ByteYUV422ValueC> &image) const
   {
-    const int const_thresh(100*thresh);
+    const int const_thresh(100*thresh+49920);
     Array2dIterC<ByteT> idest(mask);
     Array2dIterC<ByteYUV422ValueC> isrc(image);
 
@@ -46,12 +46,12 @@ namespace RavlImageN
       isrc++;
       int v = (*isrc).UV();
       isrc++;
-      ByteT b = ((100*u-23*v) < const_thresh) ? 255 : 0;
+      ByteT b = ((445*u-56*v) < const_thresh) ? 255 : 0;
       idest.Data() = b;
       idest++;
       idest.Data() = b;
       idest++;
-      
     }
+
   }
 }
