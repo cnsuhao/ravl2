@@ -12,6 +12,7 @@
 #include "Ravl/DelaunayTriangulation2d.hh"
 #include "Ravl/THEMeshFaceIter.hh"
 #include "Ravl/SArray1dIter2.hh"
+#include "Ravl/Array1dIter3.hh"
 #include "Ravl/Array1dIter2.hh"
 #include "Ravl/Array1dIter.hh"
 #include "Ravl/Circle2d.hh"
@@ -98,12 +99,25 @@ namespace RavlN {
   
   //: Create a delaunay triangulation of the given set of points.
   
-  HEMesh2dC DelaunayTriangulation(const SArray1dC<Point2dC> &points)
-  { return  DelaunayTriangulation(points); }
+  HEMesh2dC DelaunayTriangulation(const SArray1dC<Point2dC> &points) { 
+    Array1dC<IntT> idMap;
+    return DelaunayTriangulation(Array1dC<Point2dC>(points),idMap); 
+  }
+  
+  
+  //: Create a delaunay triangulation of the given set of points.
+  // The vertices in the created mesh are in same order as the
+  // appear in 'points'.
+  
+  HEMesh2dC DelaunayTriangulation(const Array1dC<Point2dC> &points) {
+    Array1dC<IntT> idMap;
+    return DelaunayTriangulation(points,idMap);
+  }
+  
   
   //: Create a delaunay triangulation of the given set of points.
   
-  HEMesh2dC DelaunayTriangulation(const Array1dC<Point2dC> &points) {
+  HEMesh2dC DelaunayTriangulation(const Array1dC<Point2dC> &points,Array1dC<IntT> &idMap) {
     HEMesh2dC ret(true);
     ONDEBUG(cerr << "DelaunayTriangulation(), Called. \n");
     
@@ -123,6 +137,9 @@ namespace RavlN {
     tempFace[1] = ret.InsertVertex(Point2dC(box.End()[0],box.End()[1] + off[1]));
     tempFace[2] = ret.InsertVertex(Point2dC(box.End()[0] + off[0],box.End()[1]));
     
+    UIntT vertIds = ret.NumberOfVertexIds();
+    idMap = Array1dC<IntT>(vertIds,vertIds+points.Size());
+    
     HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> edgeTab;
     THEMeshFaceC<Point2dC> firstFace =ret.InsertFace(tempFace,edgeTab); // Insert initial face.
     
@@ -132,6 +149,8 @@ namespace RavlN {
     for(Array1dIter2C<Point2dC,HEMeshBaseVertexC> it(points,vertices);it;it++) {
       // Insert new vertex.
       THEMeshVertexC<Point2dC> vertex = ret.InsertVertex(it.Data1());
+      idMap[vertex.Id()] = it.Index().V();
+      
       it.Data2() = vertex;
       HEMeshBaseEdgeC me;
       THEMeshFaceC<Point2dC> face = FindFace(ret,me,it.Data1());

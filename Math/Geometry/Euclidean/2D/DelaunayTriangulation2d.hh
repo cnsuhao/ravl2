@@ -17,13 +17,25 @@
 
 namespace RavlN {
   
-  HEMesh2dC DelaunayTriangulation(const Array1dC<Point2dC> &points);
+  HEMesh2dC DelaunayTriangulation(const Array1dC<Point2dC> &points,Array1dC<IntT> &idMap);
   //: Create a delaunay triangulation of the given set of points.
+  //!param: points - Array of points to triangulate.
+  //!param: idMap - Array to store mapping from mesh vertices to an index into the original point array.
+  //!return: Triangulated mesh.
   // The vertices in the created mesh are in same order as the
   // appear in 'points'.
   
   HEMesh2dC DelaunayTriangulation(const SArray1dC<Point2dC> &points);
   //: Create a delaunay triangulation of the given set of points.
+  //!param: points - Array of points to triangulate.
+  //!return: Triangulated mesh.
+  // The vertices in the created mesh are in same order as the
+  // appear in 'points'.
+
+  HEMesh2dC DelaunayTriangulation(const SArray1dC<Point2dC> &points);
+  //: Create a delaunay triangulation of the given set of points.
+  //!param: points - Array of points to triangulate.
+  //!return: Triangulated mesh.
   // The vertices in the created mesh are in same order as the
   // appear in 'points'.
   
