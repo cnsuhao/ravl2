@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLMATRIX2D_HEADER
-#define RAVLMATRIX2D_HEADER 1
+#ifndef RAVL_MATRIX2D_HEADER
+#define RAVL_MATRIX2D_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Math/LinearAlgebra/FixedSize/Matrix2d.hh"
@@ -69,7 +69,15 @@ namespace RavlN {
     result[0] = R[0][0]*x[0] + R[0][1]*x[1];
     result[1] = R[1][0]*x[0] + R[1][1]*x[1];
   }
-
+  
+  inline
+  void MulM(const TFMatrixC<RealT,2,2> & R1, const TFMatrixC<RealT,2,2>
+&R2, TFMatrixC<RealT,2,2> & result) {
+    result[0][0] = R1[0][0]*R2[0][0] + R1[0][1]*R2[1][0];
+    result[0][1] = R1[0][0]*R2[0][1] + R1[0][1]*R2[1][1];
+    result[1][0] = R1[1][0]*R2[0][0] + R1[1][1]*R2[1][0];
+    result[1][1] = R1[1][0]*R2[0][1] + R1[1][1]*R2[1][1];
+  }
 }
 
 #endif

@@ -84,7 +84,12 @@ namespace RavlN {
     // Error checking
     // --------------
     if (check) {
-      Matrix3dC temp=rot * rot.T();
+      Matrix3dC temp; //=rot * rot.T();
+#if RAVL_COMPILER_VISUALCPP
+      MulM<RealT,3,3,3>(rot,rot.T(),temp);
+#else
+      MulM(rot,rot.T(),temp);
+#endif
       RealT error=0.0;
       int i,j;
       for (i=0; i<3; ++i) {

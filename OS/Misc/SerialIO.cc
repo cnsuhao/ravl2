@@ -9,19 +9,25 @@
 //! lib=RavlOS
 //! file="Ravl/OS/Misc/SerialIO.cc"
 
-#ifdef __sol2__
+#include  "Ravl/OS/SerialIO.hh"
+
+#ifdef RAVL_OS_SOLARIS
 #include <sys/open.h>
 #endif
 
-#include  "Ravl/OS/SerialIO.hh"
-
-#include <sys/termios.h>
+#if RAVL_HAVE_UNISTD_H
+#include <unistd.h>
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#endif
+
+#if RAVL_HAVE_TERMIOS
+#include <sys/termios.h>
+#endif
+
 #include <ctype.h>
 #include <stdio.h>
-#include <unistd.h>
 #include <string.h>
 
 namespace RavlOSN {
@@ -31,6 +37,7 @@ namespace RavlOSN {
   
   int SerialCtrlC::SpeedSetting(int bitrate) {
     int speedVal = -1;
+#if RAVL_HAVE_TERMIOS
     switch(bitrate)
       {
       case 0:  speedVal = B0; break;
@@ -64,6 +71,7 @@ namespace RavlOSN {
       case 460800: speedVal = B460800; break;
 #endif
       }
+#endif
     return speedVal;
   }
   
@@ -73,6 +81,7 @@ namespace RavlOSN {
   
 
   SerialCtrlC::SerialCtrlC(const char *dev, const char * perm) {
+#if RAVL_HAVE_TERMIOS
 #ifndef O_NDELAY
     int openFlags = O_NONBLOCK | O_NOCTTY;
 #else
@@ -93,23 +102,37 @@ namespace RavlOSN {
     if (fid<0) { 
       cout << "ERROR: Failed to open serial port '" << dev << "' "<<endl;
     }
+#else
+    cerr << "WARNING: Control of serial ports is not currently supported on this platform. ";
+#endif
   }
   
   //: Set input bit rate.
   
   inline
-  bool SerialCtrlC::SetISpeed(termios &pb,IntT bitrate)
-  { return cfsetispeed(&pb, SpeedSetting(bitrate)) >= 0; }
+  bool SerialCtrlC::SetISpeed(termios &pb,IntT bitrate) { 
+#if RAVL_HAVE_TERMIOS
+    return cfsetispeed(&pb, SpeedSetting(bitrate)) >= 0; 
+#else
+    return false;
+#endif
+}
   
   //: Set ouput bit rate.
   
   inline 
-  bool SerialCtrlC::SetOSpeed(termios &pb,IntT bitrate) 
-  { return cfsetospeed(&pb, SpeedSetting(bitrate)) >= 0; }
+  bool SerialCtrlC::SetOSpeed(termios &pb,IntT bitrate) { 
+#if RAVL_HAVE_TERMIOS
+    return cfsetospeed(&pb, SpeedSetting(bitrate)) >= 0; 
+#else
+    return false;
+#endif
+  }
   
   //: Set bit rate.
   
   bool SerialCtrlC::SetCharSize(termios &pb,IntT bits) {  
+#if RAVL_HAVE_TERMIOS
     pb.c_cflag &= ~(CSIZE);
     switch(bits)
       {
@@ -123,11 +146,15 @@ namespace RavlOSN {
 	return false;
       }
     return true;
+#else
+    return false;
+#endif
   }
   
   //: Set number of stop bits.
   
   bool SerialCtrlC::SetStopBits(termios &pb,IntT bits) {
+#if RAVL_HAVE_TERMIOS
     switch(bits)
       {
       case 1: pb.c_cflag &= ~(CSTOPB); break;
@@ -137,11 +164,15 @@ namespace RavlOSN {
 	return false;
       }
     return true;
+#else
+    return false;
+#endif
   }
   
   //: parity type: Odd or Even or None or 1
   
   bool SerialCtrlC::SetParity(termios &pb,ParityT parity_type) {
+#if RAVL_HAVE_TERMIOS
     switch(parity_type)
       {
       case PARITY_ODD:
@@ -163,6 +194,9 @@ namespace RavlOSN {
 	break;
       } 
     return true;
+#else
+    return false;
+#endif
   }
   
   //: Setup the port.
@@ -176,6 +210,7 @@ namespace RavlOSN {
 			  IntT char_size)
     
   {
+#if RAVL_HAVE_TERMIOS
     if (fid < 0) {
       cerr << "SerialCtrlC::Setup(), No file descriptor for port, can't configure. \n";
       return false;
@@ -213,6 +248,9 @@ namespace RavlOSN {
       return false;
     }
     return true;  
+#else
+    return false;
+#endif
   }
   
   bool SerialCtrlC::SerialInit(IntT fd,IntT i_speed,IntT o_speed,IntT stop_bits,ParityT par,IntT char_size) {
@@ -221,6 +259,7 @@ namespace RavlOSN {
   }
   
   bool SerialCtrlC::SetISpeed(const IntT i_speed) {
+#if RAVL_HAVE_TERMIOS
     termios pb;
     if (tcgetattr(fid,&pb) < 0) { 
       cerr << "SerialCtrlC::SetISpeed(), Failed to read port paramiters. \n";
@@ -229,9 +268,13 @@ namespace RavlOSN {
     if(!SetISpeed(pb,i_speed))
       return false;
     return tcsetattr( fid, TCSANOW, &pb ) >= 0;
+#else
+    return false;
+#endif
   }
   
   bool SerialCtrlC::SetOSpeed(const IntT o_speed) {
+#if RAVL_HAVE_TERMIOS
     termios pb;
     if (tcgetattr(fid,&pb) < 0) { 
       cerr << "SerialCtrlC::SetOSpeed(), Failed to read port paramiters. \n";
@@ -240,10 +283,14 @@ namespace RavlOSN {
     if(!SetOSpeed(pb,o_speed))
       return false;
     return tcsetattr( fid, TCSANOW, &pb ) >= 0;
+#else
+    return false;
+#endif
   }
 
   
   bool SerialCtrlC::SetStopBits(const IntT stop_bit) {  
+#if RAVL_HAVE_TERMIOS
     termios pb;
     if (tcgetattr(fid,&pb) < 0) { 
       cerr << "SerialCtrlC::SetStopBits(), Failed to read port paramiters. \n";
@@ -252,10 +299,14 @@ namespace RavlOSN {
     if(!SetStopBits(pb,stop_bit))
       return false;
     return tcsetattr( fid, TCSANOW, &pb ) >= 0;
+#else
+    return false;
+#endif
   }
   
   
   bool SerialCtrlC::SetCharSize(const IntT char_size) {
+#if RAVL_HAVE_TERMIOS
     termios pb;
     if (tcgetattr(fid,&pb) < 0) { 
       cerr << "SerialCtrlC::SetCharSize(), Failed to read port paramiters. \n";
@@ -264,10 +315,14 @@ namespace RavlOSN {
     if(!SetCharSize(pb,char_size))
       return false;
     return tcsetattr( fid, TCSANOW, &pb ) >= 0;
+#else
+    return false;
+#endif
   }
   
   
   bool SerialCtrlC::SetParity(ParityT parity_type){
+#if RAVL_HAVE_TERMIOS
     termios pb;
     if (tcgetattr(fid,&pb) < 0) { 
       cerr << "SerialCtrlC::SetParity(), Failed to read port paramiters. \n";
@@ -276,6 +331,9 @@ namespace RavlOSN {
     if(!SetParity(pb,parity_type))
       return false;
     return tcsetattr( fid, TCSANOW, &pb ) >= 0;
+#else
+    return false;
+#endif
   }
   
   IntT SerialCtrlC::Getfd()
@@ -286,9 +344,11 @@ namespace RavlOSN {
   //: Open a output serial stream.
   
   OSerialC::OSerialC(const char *dev, bool buffered)  {
+#if RAVL_HAVE_TERMIOS
     IntT fd = open(dev,O_WRONLY);
     SerialInit(fd);
     ((OStreamC &)(*this)) = OStreamC(fid,buffered);
+#endif
   }
   
   //////// ISerialC ///////////////////////////////////////////////////////////////
@@ -297,21 +357,24 @@ namespace RavlOSN {
   //: Open an input serial stream.
   
   ISerialC::ISerialC (const char *dev, bool buffered) {
+#if RAVL_HAVE_TERMIOS
     IntT fd = open(dev,O_RDONLY);
     SerialInit(fd);
     ((IStreamC &)(*this)) = IStreamC(fid,buffered);  
+#endif
   }
   
   //////////////////////////////////////////////////////////
   
   //: Open an input serial stream.
   
-  IOSerialC::IOSerialC (const char *dev, bool buffered) 
-  {
+  IOSerialC::IOSerialC (const char *dev, bool buffered) {
+#if RAVL_HAVE_TERMIOS
     IntT fd = open(dev,O_RDWR);
     SerialInit(fd);
     ((IStreamC &)(*this)) = IStreamC(fid,buffered);  
     ((OStreamC &)(*this)) = OStreamC(fid,buffered);  
+#endif
   }
   
 }

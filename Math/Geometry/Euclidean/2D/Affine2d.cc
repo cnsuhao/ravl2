@@ -11,10 +11,15 @@
 
 namespace RavlN {
   
-  
   void Affine2dC::Rotate(RealT A) {
-    RealT TC = Cos(A),TS = Sin(A);
-    SR = SR * Matrix2dC(TC,-TS,TS,TC);
+    RealT TC = Cos(A),TS = Sin(A);    
+    Matrix2dC result;
+#if !RAVL_COMPILER_VISUALCPP
+    MulM(SR,Matrix2dC(TC,-TS,TS,TC),SR);
+#else
+    MulM<RealT,2,2,2>(SR,Matrix2dC(TC,-TS,TS,TC),SR);
+#endif
+    SR = result;
   }
-
+  
 }
