@@ -132,10 +132,11 @@ int testSplitFace() {
   HEMeshBaseEdgeC e1 = face.FindEdge(tempFace[0]);
   HEMeshBaseEdgeC e2 = face.FindEdge(tempFace[2]);
   
-  mesh.SplitFace(e1,e2);
-  
+  HEMeshBaseEdgeC ne = mesh.SplitFace(e1,e2);
+  if(!ne.IsValid()) return __LINE__;
   if(!mesh.CheckMesh(true)) return __LINE__;
-  
+  if(!mesh.OpenEdge(ne)) return __LINE__;
+  if(!mesh.CheckMesh(true)) return __LINE__;
   return 0;
 }
 

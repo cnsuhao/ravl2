@@ -75,6 +75,9 @@ namespace RavlN {
     // between the vertex's they point to.  The new edge that is adjacent to the
     // new face is returned.
     
+    bool OpenEdge(HEMeshBaseEdgeC edge);
+    //: Remove an edge from between two faces, merge the faces into one.
+    
     UIntT NoFaces() const
     { return faces.Size(); }
     //: Get the number of faces.
@@ -200,6 +203,10 @@ namespace RavlN {
     // Edges from and to must be on the same face. The new edge is placed
     // between the vertex's they point to.  The new edge that is adjacent to the
     // new face is returned.
+    
+    bool OpenEdge(HEMeshBaseEdgeC edge)
+    { return Body().OpenEdge(edge); }
+    //: Remove an edge from between two faces, merge the faces into one.
     
     UIntT NoFaces() const
     { return Body().NoFaces(); }

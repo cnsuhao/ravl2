@@ -248,6 +248,44 @@ namespace RavlN {
     return edge2;
   }
   
+  //: Remove an edge from between two faces, merge the faces into one.
+  
+  bool HEMeshBaseBodyC::OpenEdge(HEMeshBaseEdgeC edge) {
+    ONDEBUG(cerr << "HEMeshBaseBodyC::OpenEdge() Called on " << edge.Hash() << "\n");
+    RavlAssert(edge.IsValid());
+    
+    HEMeshBaseFaceC face1 = edge.Face();
+    
+    if(!edge.HasPair()) { // Just delete the face.
+      delete &(face1.Body());
+      face1.Invalidate();
+      return true;
+    }
+    HEMeshBaseEdgeC edgep = edge.Pair();
+    HEMeshBaseFaceC face2 = edgep.Face();
+    
+    // Prepair edges for removal.
+    edge.Body().CorrectVertexEdgePtr();
+    edgep.Body().CorrectVertexEdgePtr();
+    
+    // Change all the face pointers for face we're going to remove.
+    for(HEMeshBaseEdgeC at = edgep.Next();at != edgep;at = at.Next())
+      at.SetFace(face1);
+    
+    edge.Body().CutPaste(edgep.Next().Body(),edgep.Body());
+    face1.SetEdge(edge.Next()); // Make sure face uses a valid edge.
+    
+    // Delete stuff
+    
+    delete &(edge.Body());
+    delete &(edgep.Body());
+    face2.Body().edge = 0;
+    ONDEBUG(cerr << "Deleting face " << face2.Hash() << "\n");
+    delete &(face2.Body());
+    
+    return true;
+  }
+
   //: Check mesh structure is consistant.
   // Returns false if an inconsistancy is found.
   

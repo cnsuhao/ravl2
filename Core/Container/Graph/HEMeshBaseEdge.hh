@@ -172,6 +172,7 @@ namespace RavlN {
     
     friend class HEMeshBaseEdgeC;
     friend class HEMeshBaseFaceBodyC;
+    friend class HEMeshBaseBodyC;
   };
   
   //! userlevel=Normal

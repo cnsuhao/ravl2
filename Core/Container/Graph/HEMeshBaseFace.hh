@@ -112,7 +112,7 @@ namespace RavlN {
     bool IsValid() const
     { return body != 0; }
     //: Is this a valid handle ?
-
+    
   protected:
     HEMeshBaseFaceC(HEMeshBaseFaceBodyC &bod)
       : body(&bod)
