@@ -47,10 +47,25 @@ namespace RavlGUIN {
     const StringC &Label() const { return text; }
     //: Access string.
     
+    bool Justify(GtkJustification& justify);
+    //: Set justification mode
+    // Values for justify are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKJUSTIFICATION">here</A>.
+
+    bool Wrap(bool& wrap);
+    //: Set line wrap mode
+
     bool Label(const StringC &text);
     //: Update the text in the label.
     
   protected:
+
+    bool GUIJustify(GtkJustification& justify);
+    //: Set justification mode
+    // Values for justify are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKJUSTIFICATION">here</A>.
+
+    bool GUIWrap(bool& wrap);
+    //: Set line wrap mode
+
     bool GUISetLabel(StringC &txt);
     //: Set label.
     
@@ -96,6 +111,15 @@ namespace RavlGUIN {
     { return Body().GUISetLabel(txt); }
     //: Set label.
     
+    bool GUIJustify(GtkJustification& justify)
+    { return Body().GUIJustify(justify); }
+    //: Set justification mode
+    // Values for justify are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKJUSTIFICATION">here</A>.
+
+    bool GUIWrap(bool& wrap)
+    { return Body().GUIWrap(wrap); }
+    //: Set line wrap mode
+
   public:
     StringC &Label() 
     { return Body().Label(); }
@@ -109,6 +133,15 @@ namespace RavlGUIN {
     { return Body().Label(text); }
     //: Update the text in the label.
     
+    bool Justify(GtkJustification& justify)
+    { return Body().Justify(justify); }    
+    //: Set justification mode
+    // Values for justify are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKJUSTIFICATION">here</A>.
+
+    bool Wrap(bool& wrap)
+    { return Body().Wrap(wrap); }    
+    //: Set line wrap mode
+
     friend class LabelBodyC;
   };
   

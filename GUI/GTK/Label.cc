@@ -44,4 +44,31 @@ namespace RavlGUIN  {
     return true;
   }
   
+  bool LabelBodyC::GUIJustify(GtkJustification& justify) {
+    if(widget != 0) // Maybe on shutdown ?
+      gtk_label_set_justify (GTK_LABEL(widget),justify);
+    else 
+      Manager.Queue(Trigger(LabelC(*this),&LabelC::GUIJustify,justify));
+    return true;
+  }
+
+  bool LabelBodyC::Justify(GtkJustification& justify) {
+    Manager.Queue(Trigger(LabelC(*this),&LabelC::GUIJustify,justify));
+    return true;
+  }
+  
+  bool LabelBodyC::GUIWrap(bool& wrap) {
+    if(widget != 0) // Maybe on shutdown ?
+      gtk_label_set_line_wrap (GTK_LABEL(widget),wrap);
+    else 
+      Manager.Queue(Trigger(LabelC(*this),&LabelC::GUIWrap,wrap));
+    return true;    
+  }
+
+  bool LabelBodyC::Wrap(bool& wrap) {
+    Manager.Queue(Trigger(LabelC(*this),&LabelC::GUIWrap,wrap));
+    return true;
+  }
+
+
 }
