@@ -20,8 +20,11 @@
 #include <stdio.h>
 #include "ccmath/ccmath.h"
 #include "Ravl/Stream.hh"
-
+#include "Ravl/config.h"
 using namespace RavlN;
+#if RAVL_COMPILER_MIPSPRO
+ExceptionC dummyvar ("dummy") ;
+#endif
 
 int main(int na,char **av)
 {  
@@ -46,3 +49,5 @@ int main(int na,char **av)
   cout << "Test passed. \n";
   return 0;
 }
+
+
