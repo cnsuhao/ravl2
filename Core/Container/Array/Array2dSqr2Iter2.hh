@@ -76,6 +76,7 @@ namespace RavlN {
       return false;
     }
     //: Goto next element.
+    // Return true if pixel is on the same row.
     
     bool IsElm() const
     { return cit.IsElm(); }
