@@ -263,19 +263,19 @@ namespace RavlN {
     // Caution: if default string is shorter than 'len' the contents
     // of the resulting string are undefined.
     
-    StringC(const IndexC n);
+    explicit StringC(const IndexC n);
     //: Create a string from IndexC
     
-    StringC(IntT n);
+    explicit StringC(IntT n);
     //: Create a string from Int
     
-    StringC(UIntT n);
+    explicit StringC(UIntT n);
     //: Create a string from unsigned int
     
-    StringC(RealT val); 
+    explicit StringC(RealT val); 
     //: Create a string from real value
     
-    StringC(char c)
+    explicit StringC(char c)
       : rep(Salloc(0, &c, 1, 1)) 
     {}
     //: Create a string from char "c"
