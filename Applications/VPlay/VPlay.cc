@@ -174,6 +174,7 @@ int doVPlay(int nargs,char *args[])
   bool directDraw = option.Boolean("dd",false,"Direct draw. (For realtime playback of large images) ");
   bool deinterlace = option.Boolean("di",false,"Deinterlace incoming images. ");
   bool verb = option.Boolean("v",false,"Verbose mode. ");
+  bool simpleOnly = option.Boolean("sc",false,"Display Simple Controls only. ");
   //bool deInterlace = option.Boolean("di",false,"De-interlace. (Subsample by 2) ");
   DListC<StringC> attribs = option.List("a","List of attributes to set. ");
   StringC formatIn = option.String("if","","Input format. ");
@@ -286,7 +287,7 @@ int doVPlay(int nargs,char *args[])
   
   guiFrameRate.Text(StringC(frameRate));
   
-  PlayControlC guiPlayControl(vpCtrl);
+  PlayControlC guiPlayControl(vpCtrl,simpleOnly);
   
   Connect(guiPlayControl.SigUpdateFrameNo(),&DisplayTimeCode,1,guiTimeCode);
 

@@ -287,21 +287,23 @@ namespace RavlGUIN {
   
   //: Default constructor.
   
-  PlayControlBodyC::PlayControlBodyC()
+  PlayControlBodyC::PlayControlBodyC(bool nsimpleControls)
     : LBoxBodyC(true,5,true),
       doneAdd(false),
       baseSpeed(1),
       skip(1),
-      sigUpdateFrameNo((IntT) 1)
+      sigUpdateFrameNo((IntT) 1),
+      simpleControls(nsimpleControls)
   { InitGUI(); }
   
-  PlayControlBodyC::PlayControlBodyC(const DPPlayControlC &nctrl)
+  PlayControlBodyC::PlayControlBodyC(const DPPlayControlC &nctrl,bool nsimpleControls)
     : LBoxBodyC(true,5,true),
       pc(nctrl),
       doneAdd(false),
       baseSpeed(1),
       skip(1),
-      sigUpdateFrameNo((IntT) 1)
+      sigUpdateFrameNo((IntT) 1),
+      simpleControls(nsimpleControls)
   { InitGUI(); }
   
   //: Show/Hide extended controls.
@@ -321,6 +323,8 @@ namespace RavlGUIN {
   
   bool PlayControlBodyC::EnableExtended(bool &enable)  {
     ONDEBUG(cerr << "PlayControlBodyC::EnableExtended(), Called. \n");
+    if(!enableextras.IsValid())
+      return true;
     if(enable) {
       enableextras.Show();
     } else
@@ -394,30 +398,43 @@ namespace RavlGUIN {
     ONDEBUG(cerr <<  "Sequence, Start:" << theStart << " Max:" << maxSize << " End:" << theEnd << "\n");
     
     frameSlider = SliderH(theStart,theStart,maxSize,1,PlayControlC(*this),&PlayControlC::SliderCallback); 
-    
-    Add(PackInfoC(HBox(HBox(Button(PixmapC(rewind_xpm),PlayControlC(*this),&PlayControlC::Rewind,"Go to first frame") +
-			    Button(PixmapC(fback_xpm) ,PlayControlC(*this),&PlayControlC::Backx2,"Reverse at double speed") +
-			    Button(PixmapC(back_xpm)  ,PlayControlC(*this),&PlayControlC::Back,"Reverse") +
-			    Button(PixmapC(jogbkw_xpm),PlayControlC(*this),&PlayControlC::JBkw,"Back one frame") +
-			    Button(PixmapC(stop_xpm)  ,PlayControlC(*this),&PlayControlC::Stop,"Stop") +
-			    Button(PixmapC(jogfwd_xpm),PlayControlC(*this),&PlayControlC::JFwd,"Forward one frame") +
-			    Button(PixmapC(play_xpm)  ,PlayControlC(*this),&PlayControlC::Play,"Play") + 
-			    Button(PixmapC(ff_xpm)    ,PlayControlC(*this),&PlayControlC::Playx2,"Play at double speed") +
-			    Button(PixmapC(theend_xpm),PlayControlC(*this),&PlayControlC::TheEnd,"Go to last frame"),
+
+    DListC<WidgetC> buttons;
+    if(simpleControls) {
+      buttons =
+	Button(PixmapC(back_xpm)  ,PlayControlC(*this),&PlayControlC::Back,"Reverse") +
+	Button(PixmapC(jogbkw_xpm),PlayControlC(*this),&PlayControlC::JBkw,"Back one frame") +
+	Button(PixmapC(stop_xpm)  ,PlayControlC(*this),&PlayControlC::Stop,"Stop") +
+	Button(PixmapC(jogfwd_xpm),PlayControlC(*this),&PlayControlC::JFwd,"Forward one frame") +
+	Button(PixmapC(play_xpm)  ,PlayControlC(*this),&PlayControlC::Play,"Play");
+    } else {
+      buttons = 
+	Button(PixmapC(rewind_xpm),PlayControlC(*this),&PlayControlC::Rewind,"Go to first frame") +
+	Button(PixmapC(fback_xpm) ,PlayControlC(*this),&PlayControlC::Backx2,"Reverse at double speed") +
+	Button(PixmapC(back_xpm)  ,PlayControlC(*this),&PlayControlC::Back,"Reverse") +
+	Button(PixmapC(jogbkw_xpm),PlayControlC(*this),&PlayControlC::JBkw,"Back one frame") +
+	Button(PixmapC(stop_xpm)  ,PlayControlC(*this),&PlayControlC::Stop,"Stop") +
+	Button(PixmapC(jogfwd_xpm),PlayControlC(*this),&PlayControlC::JFwd,"Forward one frame") +
+	Button(PixmapC(play_xpm)  ,PlayControlC(*this),&PlayControlC::Play,"Play") + 
+	Button(PixmapC(ff_xpm)    ,PlayControlC(*this),&PlayControlC::Playx2,"Play at double speed") +
+	Button(PixmapC(theend_xpm),PlayControlC(*this),&PlayControlC::TheEnd,"Go to last frame");
+    }
+    Add(PackInfoC(HBox(HBox(buttons,
 			    0,false)),
 		  false,false,2) +
 	PackInfoC(frameSlider,false,true,2)
 	);
     
     textSkip = TextEntryR(StringC(skip),*this,&PlayControlBodyC::SetSkip,-1,true);
-    enableextras = CheckButtonR("Extended controls","Show extended control panel",false,*this,&PlayControlBodyC::ShowExtended);
-    Add(PackInfoC(enableextras,false,false));
-    
-    extraControls = PackInfoC(VBox(HBox(LabelC("skip:") + textSkip) +
-				   HBox(LabelC("Start:") + TextEntryR(StringC(skip),*this,&PlayControlBodyC::SetSubStart,-1,true)) +
-				   HBox(LabelC("End:") + TextEntryR(StringC(skip),*this,&PlayControlBodyC::SetSubEnd,-1,true)) +
-				   ComboR(StringListC("Full Single Loop Palindrome"),*this,&PlayControlBodyC::SetRepeatMode,false)
-				   ),false,true);
+    if(!simpleControls) {
+      enableextras = CheckButtonR("Extended controls","Show extended control panel",false,*this,&PlayControlBodyC::ShowExtended);
+      Add(PackInfoC(enableextras,false,false));
+      extraControls = PackInfoC(VBox(HBox(LabelC("skip:") + textSkip) +
+				     HBox(LabelC("Start:") + TextEntryR(StringC(skip),*this,&PlayControlBodyC::SetSubStart,-1,true)) +
+				     HBox(LabelC("End:") + TextEntryR(StringC(skip),*this,&PlayControlBodyC::SetSubEnd,-1,true)) +
+				     ComboR(StringListC("Full Single Loop Palindrome"),*this,&PlayControlBodyC::SetRepeatMode,false)
+				     ),false,true);
+    }
     sliderUpdate = TickerTrigger(0.2,PlayControlC(*this),&PlayControlC::SliderUpdate);
   }
   
