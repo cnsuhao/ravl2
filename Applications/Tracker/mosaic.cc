@@ -15,17 +15,20 @@
 //
 // <p>Runs as a batch process, in contrast to <a href=xmosaic.html>xmosaic</a>.</p>
 // <p>Main operations are:</p> <ul>
+// <li> corrects for lens distortion (optional)</li>
 // <li> applies Harris corner detector to each frame</li>
-// <li> tracks corners through sequence
+// <li> tracks corners through sequence</li>
 // <li> uses RANSAC on corners to compute a homography</li>
 // <li> uses Levenberg-Marquart to improve homography </li>
 // <li> uses homography to warp each frame into a reference frame</li>
 // <li> median filter applied to warped frames to create the mosaic</li>
+// <li> warps mosaic into each frame and subtract from frame to generate foreground objects (optional)</li>
 // </ul>
 
 #include "Ravl/config.h"
 #include "Ravl/Option.hh"
 #include "Ravl/StdConst.hh"
+#include "Ravl/DP/SPort.hh"
 #include "Ravl/DP/SequenceIO.hh"
 #include "Ravl/Image/MosaicBuilder.hh"
 #include "Ravl/Image/WarpProjective.hh"
@@ -52,9 +55,11 @@
 using namespace RavlN;
 using namespace RavlImageN;
 
-
-#define IMAGE_ZHOMOG 100.0
-#define MOSAIC_ZHOMOG 1.0
+// These are the 3rd vector components in the respective homogeneous
+// coordinate systems  - the normalising components (i.e. doesn't always have
+// to be 1)
+#define IMAGE_ZHOMOG 100.0 // used for video frame coordinates
+#define MOSAIC_ZHOMOG 1.0 // used for mosaic coordinate system (however this one makes absolutely no difference whatever.)
 
   
 int Mosaic(int nargs,char **argv) {
@@ -84,10 +89,10 @@ int Mosaic(int nargs,char **argv) {
   opt.Comment("Mosaic:");
   int borderC    = opt.Int("bc", 200, "Width of horizontal border around initial mosaic image");
   int borderR    = opt.Int("br", 200, "Width of vertical border around initial mosaic image");
-  Point2dC pointTL = opt.Point2d("ptl", 0.0, 0.0, "Top-left coordinates of projection of first image");
-  Point2dC pointTR = opt.Point2d("ptr", 0.0, 1.0, "Top-right coordinates of projection of first image");
-  Point2dC pointBL = opt.Point2d("pbl", 1.0, 0.0, "Bottom-left coordinates of projection of first image");
-  Point2dC pointBR = opt.Point2d("pbr", 1.0, 1.0, "Bottom-right coordinates of projection of first image");
+  Point2dC pointTL = opt.Point2d("ptl", 0.0, 0.0, "Top-left coordinates of projection of first image (in units of picture size)");
+  Point2dC pointTR = opt.Point2d("ptr", 0.0, 1.0, "Top-right coordinates of projection of first image (in units of picture size)");
+  Point2dC pointBL = opt.Point2d("pbl", 1.0, 0.0, "Bottom-left coordinates of projection of first image (in units of picture size)");
+  Point2dC pointBR = opt.Point2d("pbr", 1.0, 1.0, "Bottom-right coordinates of projection of first image (in units of picture size)");
   StringC mosaicFile = opt.String("mo", "/tmp/mosaic.ppm", "Output file for mosaic");
   StringC homogFile = opt.String("hf", "", "Output file for interframe projections used to construct mosaic (default: no output)");
   opt.Comment("Foreground image generation:");
@@ -102,11 +107,13 @@ int Mosaic(int nargs,char **argv) {
   if (maxFrames < 0) maxFrames = 200;  // a hack; currently program fails if default is used.
 
   // Open an input stream.
-  DPIPortC<ImageC<ByteRGBValueC> > inp;
+  DPISPortC<ImageC<ByteRGBValueC> > inp;
   if(!OpenISequence(inp,ifn)) {
     cerr << "Failed to open input '" << ifn << "'\n";
     return 1;
   }
+  inp.Seek(startFrame);
+
   // Open mask image
   ImageC<bool> mask;
   if(!maskName.IsEmpty()) {
@@ -123,7 +130,6 @@ int Mosaic(int nargs,char **argv) {
   inp.SetAttr("FrameBufferSize","2");
 #endif
   ImageC<ByteRGBValueC> img;
-  for (IntT i(0); i<startFrame; ++i) inp.Discard();  // skip to start frame
 
   // Create a mosaic class instance
   MosaicBuilderC mosaicBuilder(cthreshold, cwidth, mthreshold, mwidth,
@@ -170,9 +176,8 @@ int Mosaic(int nargs,char **argv) {
 #endif
   }
 
+  // construct mosaic image from median image & save it
   ImageC<ByteRGBValueC> mosaicRGB = ByteRGBMedianImageC2ByteRGBImageCT(mosaicBuilder.GetMosaic());
-
-  // save constructed mosaic
   Save(mosaicFile,mosaicRGB);
 
   // save interframe projections if required
@@ -222,27 +227,28 @@ int Mosaic(int nargs,char **argv) {
   // compute foreground segmented image
   for(IntT frameNo = 0;frameNo < maxFrames;frameNo++) {
     // Read an image from the input.
-    if(!inp.Get(img))
+    if(!inp.Get(img)) {
+      cerr << "Could not read image for frame " << frameNo << endl;
       break;
-    cout << "Projection for frame " << frameNo << endl;
+    }
 
     // convert image to grey level
     ImageC<ByteT> imgGrey = RGBImageCT2ByteImageCT(img);
 
-    // match image to mosaic and update the motion
+    // match image to mosaic and update the motion "proj"
     if(!matcher.Apply(imgGrey, proj))
       continue;
 
     Matrix3dC P = mosaicBuilder.GetMotion(frameNo).Inverse();
     P /= P[2][2];
+    // WARNING: this matrix never actually gets used.  Maybe it was intended to use it to update proj before matching?
 
-    cout << "Mosaic: (" << P[0][0] << " " << P[0][1] << " " << P[0][2] << ")" << endl;
-    cout << "        (" << P[1][0] << " " << P[1][1] << " " << P[1][2] << ")" << endl;
-    cout << "        (" << P[2][0] << " " << P[2][1] << " " << P[2][2] << ")" << endl;
+    cout << "P:\n" << P << endl;
+    cerr << "proj after * P\n"<<proj.Matrix() * P<<endl;
 
-    // crop image to ensure it fits withing mosaic
+    // crop image to ensure it fits within mosaic
     img = ImageC<ByteRGBValueC>(img,mosaicBuilder.GetCropRect()).Copy();
-    // (The .Copy() is a temporary fix to get round DPOPort / @X bug 
+    // (The .Copy() is a temporary fix to get round DPOPort / @X bug)
 
     // warp mosaic onto image
     ImageC<ByteRGBValueC> warped_img(mosaicBuilder.GetCropRect());
