@@ -18,8 +18,10 @@
 #include "Ravl/XMLStream.hh"
 #include "Ravl/HashTree.hh"
 #include "Ravl/RCHash.hh"
+#include "Ravl/DList.hh"
 
 namespace RavlN {
+  class XMLTreeC;
   
   //! userlevel=Develop
   //: XML parse tree.
@@ -41,6 +43,12 @@ namespace RavlN {
     {}
     //: Construct from a name and an attribute table.
     
+    XMLTreeBodyC(const StringC &nname) 
+      : isPI(false),
+	name(nname)
+    {}
+    //: Construct from a name and an attribute table.
+    
     XMLTreeBodyC(XMLIStreamC &in);
     //: Construct from an XMLStream.
     
@@ -57,10 +65,22 @@ namespace RavlN {
     bool IsPI() const
     { return isPI; }
     //: Is this a processing instruction.
+    
+    bool Add(const StringC &name,const XMLTreeC &subtree);
+    //: Add subtree to node.
+    
+    DListC<XMLTreeC> &Children()
+    { return children; }
+    //: Access list of children.
+    
+    const DListC<XMLTreeC> &Children() const
+    { return children; }
+    //: Access list of children.
   protected:
     static ostream &Indent(ostream &out,int level);
     bool isPI; // Is this a processing instruction ?
     StringC name;
+    DListC<XMLTreeC> children; // Ordered list of children.
   };
   
   //! userlevel=Normal
@@ -82,6 +102,11 @@ namespace RavlN {
     
     XMLTreeC(const StringC &name,RCHashC<StringC,StringC> &attrs)
       : HashTreeC<StringC,RCHashC<StringC,StringC> >(*new XMLTreeBodyC(name,attrs))
+    {}
+    //: Constructor.
+    
+    XMLTreeC(const StringC &name)
+      : HashTreeC<StringC,RCHashC<StringC,StringC> >(*new XMLTreeBodyC(name))
     {}
     //: Constructor.
     
@@ -126,6 +151,18 @@ namespace RavlN {
     bool IsPI() const
     { return Body().IsPI(); }
     //: Is this a processing instruction.
+
+    bool Add(const StringC &name,const XMLTreeC &subtree)
+    { return Body().Add(name,subtree); }
+    //: Add subtree to node.
+    
+    DListC<XMLTreeC> &Children()
+    { return Body().Children(); }
+    //: Access list of children.
+    
+    const DListC<XMLTreeC> &Children() const
+    { return Body().Children(); }
+    //: Access list of children.
 
     friend class XMLTreeBodyC;
   };
