@@ -18,7 +18,7 @@
 namespace RavlN {
   class MatrixRUTC;
   
-  //! userlevel=Normal
+  //! userlevel=Develop
   //: Design function with Least Squares Fitting.
   
   class DesignFuncLSQBodyC
