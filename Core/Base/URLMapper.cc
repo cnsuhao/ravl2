@@ -41,8 +41,8 @@ namespace RavlN {
       SubStringC theRest = StringC(fn).after(sep);
       if(theRest.length() < 2 || theRest[0] != '/')
 	return StringC(theRest);
-      if(theRest[1] != '/') // Hasn't got an internet qualification.   
-	return theRest;
+      if(theRest[1] == '/' && theRest[0] == '/')
+	return theRest.after(1);
       // Fall through and use 'StreamTypeC' to handle..
     }
     if(StreamTypeC::Find(urltype.chars()) != 0)
