@@ -16,7 +16,7 @@ HEADERS=BLink.hh BList.hh BListIter.hh BHash.hh BHashIter.hh BStack.hh \
 
 SOURCES=BGraphBase.cc BGraphBaseIter.cc BGraphLinearIter.cc
 
-PLIB=RavlCore 
+PLIB=RavlCore
 
 TESTEXES= testBGraph.cc testBranch.cc
 
