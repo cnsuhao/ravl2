@@ -239,7 +239,7 @@ namespace RavlN {
   template<class DataT>
   TVectorC<DataT> TMatrixC<DataT>::operator*(const TVectorC<DataT> & vector) const {
     const SizeT rdim = Rows();
-    RavlAssert(vector.Size() == Cols());
+    RavlAssertMsg(vector.Size() == Cols(),"TMatrixC<DataT>::operator*(VectorC &), Vector size must equal the number of columns in the matrix.");
     TVectorC<DataT> out(rdim);
     if(rdim == 0)
       return out;
@@ -257,7 +257,7 @@ namespace RavlN {
   template<class DataT>
   TVectorC<DataT> TMatrixC<DataT>::TMul(const TVectorC<DataT>& vector) const {
     const SizeT rdim = Cols();
-    RavlAssert(vector.Size() == Rows());
+    RavlAssertMsg(vector.Size() == Rows(),"TMatrixC<DataT>::TMul(), Vector size must equal number of rows in the matrix.");
     TVectorC<DataT> out(rdim);
     if(rdim == 0)
       return out;
