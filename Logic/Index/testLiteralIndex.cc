@@ -5,7 +5,6 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 /////////////////////////////////////////////////////////
-//! rcsi="$Id$"
 //! rcsid="$Id$"
 //! lib=RavlLogic
 //! file="Ravl/Logic/Index/testLiteralIndex.cc"
