@@ -45,14 +45,25 @@ namespace RavlGUIN {
     bool Aspect(RealT ratio);
     //: Set aspect ratio.
     
+    RealT Aspect() const
+    { return aspect; }
+    //: Get current aspect ratio.
+    // Only really safe on the GUI thread.
+    
     void GUIObeyChild(bool obeyChild);
     //: Set obey child.
+    
+    void SetUseTrueAspect(bool _useTrueAspect)
+    { useTrueAspect = _useTrueAspect; }
+    //: Set use true aspect ratio flag
     
   protected:
     RealT alignx;
     RealT aligny;
+    RealT screenCorrection;
     RealT aspect;
     bool obeyChild;
+    bool useTrueAspect; // Display so aspect is relative screen, not pixels
     friend class AspectFrameC;
   };
   
@@ -113,9 +124,18 @@ namespace RavlGUIN {
     { return Body().Aspect(ratio); }
     //: Set aspect ratio.
     
+    RealT Aspect() const
+    { return Body().Aspect(); }
+    //: Get current aspect ratio.
+    // Only really safe on the GUI thread.
+    
     void GUIObeyChild(bool obeyChild)
     { Body().GUIObeyChild(obeyChild); }
     //: Set obey child.
+    
+    void SetUseTrueAspect(bool _useTrueAspect)
+    { Body().SetUseTrueAspect(_useTrueAspect); }
+    //: Set use true aspect ratio flag
     
     friend class AspectFrameBodyC;
   };

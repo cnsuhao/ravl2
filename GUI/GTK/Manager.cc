@@ -185,7 +185,7 @@ namespace RavlGUIN {
     
     // Get screen size from GDK
     screensize.Set(gdk_screen_height(),gdk_screen_width());
-
+    physicalScreensize = Point2dC(gdk_screen_height_mm(),gdk_screen_width_mm());
     // Setup IO...
     
     guiThreadID = ThisThreadID();

@@ -25,6 +25,7 @@
 #include "Ravl/Threads/ThreadEvent.hh"
 #include "Ravl/Threads/MessageQueue.hh"
 #include "Ravl/Index2d.hh"
+#include "Ravl/Point2d.hh"
 
 namespace RavlGUIN {
   using namespace RavlN;
@@ -110,7 +111,12 @@ namespace RavlGUIN {
     { return screensize; }
     //: Get the current screen resolution
     // Only meaningful after the manager has been started.
-
+    
+    Point2dC PhysicalScreenSize() const 
+    { return physicalScreensize; }
+    //: Get the current screen size in mm
+    // Only meaningful after the manager has been started.
+    
   protected:
     
     IntT Register(WidgetBodyC &win);
@@ -149,7 +155,7 @@ namespace RavlGUIN {
     ThreadEventC startupDone;
     UIntT guiThreadID;
     Index2dC screensize;
-
+    Point2dC physicalScreensize;
     friend class WidgetBodyC;
     friend class WindowBodyC;
   };

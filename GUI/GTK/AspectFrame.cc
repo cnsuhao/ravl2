@@ -12,7 +12,7 @@
 
 #include "Ravl/GUI/AspectFrame.hh"
 #include "Ravl/GUI/Manager.hh"
-#include "Ravl/GUI/Manager.hh"
+#include "Ravl/Vector2d.hh"
 #include <gtk/gtk.h>
 
 
@@ -23,16 +23,20 @@ namespace RavlGUIN {
   AspectFrameBodyC::AspectFrameBodyC()
     : alignx(0.5),
       aligny(0.5),
+      screenCorrection(1),
       aspect(1),
-      obeyChild(false)
+      obeyChild(false),
+      useTrueAspect(false)
   {}
   
   AspectFrameBodyC::AspectFrameBodyC(const WidgetC &widge,RealT naspect,int nborder,const StringC &ntitle)
     : FrameBodyC(widge,nborder,ntitle),
       alignx(0.5),
       aligny(0.5),
+      screenCorrection(1),
       aspect(naspect),
-      obeyChild(false)
+      obeyChild(false),
+      useTrueAspect(false)
   {}
   
   //: Create the widget.
@@ -41,6 +45,16 @@ namespace RavlGUIN {
     if(widget != 0)
       return true;
     //cerr << "EventBoxBodyC::Create(), Called. \n";
+    
+    {
+      Vector2dC sizePix(Manager.ScreenSize()[0].V(),Manager.ScreenSize()[1].V());
+      Vector2dC sizemm = Manager.PhysicalScreenSize();
+      Vector2dC pixelSize = sizemm/sizePix;
+      screenCorrection = pixelSize[0] / pixelSize[1]; // row/col
+      cerr << "Correction=" << screenCorrection << "\n";
+      // Used: xsize/ysize
+    }
+    
     if(title == "")
       widget = gtk_aspect_frame_new(0,alignx,aligny,aspect,obeyChild);
     else
@@ -56,6 +70,7 @@ namespace RavlGUIN {
     }
     //gtk_container_set_resize_mode(resizeMode);
     ConnectSignals();
+    
     return true;
   }
 
@@ -65,7 +80,10 @@ namespace RavlGUIN {
     obeyChild = nobeyChild;
     if(widget == 0)
       return ;
-    gtk_aspect_frame_set (GTK_ASPECT_FRAME(widget),alignx,aligny,aspect,obeyChild);
+    RealT uar = aspect;
+    if(useTrueAspect)
+      uar *= screenCorrection;
+    gtk_aspect_frame_set (GTK_ASPECT_FRAME(widget),alignx,aligny,uar,obeyChild);
   }
   
   //: Set aspect ratio.
@@ -75,15 +93,17 @@ namespace RavlGUIN {
     aspect = ratio;
     if(widget == 0)
       return true;
-    gtk_aspect_frame_set (GTK_ASPECT_FRAME(widget),alignx,aligny,aspect,obeyChild);
+    RealT useRatio = aspect;
+    if(useTrueAspect)
+      useRatio *= screenCorrection;
+    gtk_aspect_frame_set (GTK_ASPECT_FRAME(widget),alignx,aligny,useRatio,obeyChild);
     return true;
   }
   
   //: Set aspect ratio.
   
   bool AspectFrameBodyC::Aspect(RealT ratio) {
-    Manager.Queue(Trigger(AspectFrameC(*this),&AspectFrameC::Aspect,ratio));
-    
+    Manager.Queue(Trigger(AspectFrameC(*this),&AspectFrameC::GUIAspect,ratio));
     return true;
   }
  
