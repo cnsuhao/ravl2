@@ -177,7 +177,7 @@ namespace RavlN {
     //: Convert to int.
     
     operator double() const
-    { return (((RealT) n.V()) / ((RealT) (1 << N))); }
+    { return (((RealT) v) / ((RealT) (1 << N))); }
     //: Convert to double.
     
     IntT &V()
