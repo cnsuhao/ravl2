@@ -22,7 +22,7 @@
 namespace RavlN {
   //: Reference counted auto-resizing hash table.
   // This is a BIG OBJECT.
-  // See HashC for more details. <p>
+  // See <a href="RavlN.HashC.html">HashC</a> for more details. <p>
   // NB. This class requires the standard stream operators to
   // be implemented. ie.  operator<<(ostream &os,xxx) etc...
   
