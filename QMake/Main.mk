@@ -18,11 +18,8 @@ export TARGET
 
 MAKEFLAGS += --no-print-directory -r 
 
-#ifndef ARC
-# ARC=$(shell $(MAKEHOME)/config.arc)#
-#endif
 ifndef QCWD
- QCWD := $(shell 'pwd')
+ QCWD :=$(shell sh -c "if [ -x /usr/bin/pawd ] ; then /usr/bin/pawd ; else pwd ; fi")
 endif
 
 # Setup default pager.
@@ -496,7 +493,8 @@ $(TARG_HDRS) : $(INST_HEADER)/% : % $(INST_HEADER)/.dir
 	if [ -f $(INST_HEADER)/$(@F) ] ; then \
 	  $(CHMOD) +w $(INST_HEADER)/$(@F) ; \
 	fi ; \
-	$(CP)  $< $(INST_HEADER)/$(@F) ; \
+	echo "#line 1 \"$(QCWD)/$(@F)\"" > $(INST_HEADER)/$(@F) ; \
+	cat  $< >> $(INST_HEADER)/$(@F) ; \
 	$(CHMOD) a-w,a+r,a-x $(INST_HEADER)/$(@F)
 
 build_aux: $(TARG_AUXFILES)
