@@ -50,8 +50,6 @@ namespace Ravl3DN {
   }
   
   const type_info & FileFormatVRMLBodyC::ProbeSave(const StringC &filename,const type_info &obj_type,bool forceFormat ) const {
-    // NOT IMPLEMENTED YET!
-    return typeid(void);
     ONDEBUG(cerr << "FileFormatVRMLBodyC::ProbeSave() on '" << filename << "' Ext='" << Extension(filename) << "'\n");
     if(forceFormat)
       return typeid(TriMeshC);
