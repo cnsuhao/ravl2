@@ -359,11 +359,12 @@ namespace RavlN {
     while(!timesUp) {
       ONDEBUG(cerr << "Waiting for signal. " << ((void *) this) << " \n");
       RealT rem = Remaining();
-      if(rem <= 0.0000001) // No meaning-full time left ?
+      if(rem <= 0.0000001) {// No meaning-full time left ?
+	const_cast<DeadLineTimerC &>(*this).timesUp = true; // Make sure the timesup flag is set appropriatly.
 	break;
+      }
       if(rem <= 0.001) { // Less than 1/1000 of a second to go ?
 	// Just procrastinate a little...
-	// Spin a bit if there's not much time left!
 #if RAVL_HAVE_SCHED_YIELD
 	sched_yield();
 #elif RAVL_HAVE_YIELD
