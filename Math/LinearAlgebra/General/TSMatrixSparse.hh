@@ -9,6 +9,8 @@
 //! rcsid="$Id$"
 //! lib=RavlMath
 //! file="Ravl/Math/LinearAlgebra/General/TSMatrixSparse.hh"
+//! author="Charles Galambos"
+//! docentry="Ravl.Math.Linear Algebra.Smart Matrix"
 
 #include "Ravl/TSMatrix.hh"
 #include "Ravl/InDList.hh"
@@ -143,6 +145,9 @@ namespace RavlN {
     IntrDLIterC<IndexDLinkC> it1;
     IntrDLIterC<IndexDLinkC> it2;
   };
+
+  //! userlevel=Develop
+  //: Entry in a sparse matrix.
   
   template<class DataT>
   class TSMatrixSparseEntryC
@@ -343,7 +348,7 @@ namespace RavlN {
   };
 
   //! userlevel=Normal
-  //: Sparse matrix
+  //: General sparse matrix
   
   template<class DataT>
   class TSMatrixSparseC 

@@ -90,6 +90,26 @@ int MatrixTest(SMatrixC mat1,SMatrixC mat2) {
   testR = mat1.MulT(mat2);
   error = MatrixC(testR.TMatrix() - gt).SumOfAbs();
   if(error > 0.000000001) return __LINE__;
+
+  cerr << "Check ATA. \n";
+  gt = mat1.TMatrix().ATA();
+  testR = mat1.ATA();
+  error = MatrixC(testR.TMatrix() - gt).SumOfAbs();
+  if(error > 0.000000001) {
+    cerr << "gt  =" << gt << "\n";
+    cerr << "test=" << testR.TMatrix() << "\n";
+    return __LINE__;
+  }
+
+  cerr << "Check AAT. \n";
+  gt = mat1.TMatrix().AAT();
+  testR = mat1.AAT();
+  error = MatrixC(testR.TMatrix() - gt).SumOfAbs();
+  if(error > 0.000000001) {
+    cerr << "gt  =" << gt << "\n";
+    cerr << "test=" << testR.TMatrix() << "\n";
+    return __LINE__;
+  }
   
   cerr << "Check Mul(VectorC)\n";
   VectorC vec = RandomVector(mat1.Cols());

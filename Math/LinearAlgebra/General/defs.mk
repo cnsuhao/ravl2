@@ -15,20 +15,23 @@ HEADERS = TVector.hh TMatrix.hh Matrix.hh Vector.hh MatrixRUT.hh \
  MatrixRS.hh LeastSquares.hh VectorMatrix.hh MatrixDecomposition.hh \
  TSMatrix.hh TSMatrixFull.hh TSMatrixPartial.hh TSMatrixDiagonal.hh \
  TSMatrixRightUpper.hh TSMatrixLeftLower.hh TSMatrixSparse.hh \
- TSMatrixScaledIdentity.hh TSMatrixSymmetric.hh SMatrix.hh \
- TSMatrixTranspose.hh
+ TSMatrixScaledIdentity.hh TSMatrixSymmetric.hh TSMatrixTranspose.hh \
+ SMatrix.hh SMatrixSparse.hh SMatrixSymmetric.hh SMatrixDiagonal.hh \
+ SMatrixLeftLower.hh SMatrixRightUpper.hh SMatrixScaledIdentity.hh
 
 SOURCES = TMatrix.cc Matrix.cc MatrixInverse.cc MatrixSVD.cc \
  MatrixEigen.cc MatrixSolve.cc MatrixRUT.cc MatrixRS.cc Vector.cc \
  MatrixNearSingular.cc LeastSquares.cc VectorMatrix.cc MatrixRandom.cc \
  MatrixDeterminant.cc MatrixLUDecomposition.cc TSMatrixSparse.cc \
- SMatrix.cc
+ SMatrix.cc 
 
 MAINS= benchmarkSMatrix.cc
 #EXAMPLES = exVMT.cc
 
 TESTEXES=testTMatrix.cc testMatInv.cc testMatrix.cc testTSMatrix.cc
 #testSVD.cc
+
+EHT= Ravl.Math.Linear_Algebra.Smart_Matrix.html
 
 PLIB=RavlMath
 

@@ -109,11 +109,11 @@ namespace RavlN {
 #endif
     
     virtual TSMatrixC<DataT> AAT() const
-    { return AAT(); }
+    { return matrix.AAT(); }
     //: Return  A * A.T().
     
     virtual TSMatrixC<DataT> ATA() const
-    { return ATA(); }
+    { return matrix.ATA(); }
     //: Return  A.T() * A.
     
     virtual void SetDiagonal(const TVectorC<DataT> &d)

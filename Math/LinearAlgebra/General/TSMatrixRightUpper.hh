@@ -149,6 +149,11 @@ namespace RavlN {
     : public TSMatrixPartialC<DataT>
   {
   public:
+    TSMatrixRightUpperC()
+    {}
+    //: Default constructor.
+    // Creates an invalid handle.
+    
     TSMatrixRightUpperC(int i)
       : TSMatrixPartialC<DataT>(*new TSMatrixRightUpperBodyC<DataT>(i))
     {}

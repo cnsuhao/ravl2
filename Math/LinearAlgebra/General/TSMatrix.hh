@@ -419,6 +419,7 @@ namespace RavlN {
 }
 
 #include "Ravl/TSMatrixTranspose.hh"
+#include "Ravl/TSMatrixSymmetric.hh"
 
 namespace RavlN {
   
@@ -574,12 +575,36 @@ namespace RavlN {
   }
   
   template<class DataT>
-  TSMatrixC<DataT> TSMatrixBodyC<DataT>::AAT() const 
-  { return MulT(TSMatrixC<DataT>(const_cast<TSMatrixBodyC<DataT> &>(*this))); }
+  TSMatrixC<DataT> TSMatrixBodyC<DataT>::AAT() const { 
+    int n = Rows();
+    TSMatrixSymmetricC<DataT> out(n);
+    const SizeT rdim = Rows();
+    SArray1dC<Array1dC<DataT> > rowArr(rdim);
+    for(UIntT c = 0;c < rdim;c++)
+      rowArr[c] = Row(c);
+    for(int i = 0;i < n;i++) {
+      Array1dC<DataT> &sl = rowArr[i];
+      out.Element(i,i,sl.SumSqr());
+      for(int j = i+1;j < n;j++)
+	out.Element(i,j,MultiplySum(sl,rowArr[j]));
+    }
+    return out;
+  }
   
   template<class DataT>
-  TSMatrixC<DataT> TSMatrixBodyC<DataT>::ATA() const 
-  { return TMul(TSMatrixC<DataT>(const_cast<TSMatrixBodyC<DataT> &>(*this))); }
+  TSMatrixC<DataT> TSMatrixBodyC<DataT>::ATA() const { 
+    int n = Cols();
+    TSMatrixSymmetricC<DataT> out(n);
+    for(int i = 0;i < n;i++) {
+      Slice1dC<DataT> sl = Col(i);
+      out.Element(i,i,sl.SumOfSqr());
+      for(int j = i+1;j < n;j++) {
+	DataT v = MulSumColumn(j,sl);
+	out.Element(i,j,v);
+      }
+    }
+    return out;
+  }
   
   template<class DataT>
   void TSMatrixBodyC<DataT>::SetDiagonal(const TVectorC<DataT> &d) {

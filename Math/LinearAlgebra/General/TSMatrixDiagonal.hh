@@ -173,6 +173,11 @@ namespace RavlN {
     }
     //: Create a diagonal matrix from a vector.
     
+    TSMatrixDiagonalC()
+    {}
+    //: Default constructor.
+    // Creates an invalid handle.
+    
   protected:
     TSMatrixDiagonalC(TSMatrixDiagonalBodyC<DataT> &bod)
       : TSMatrixPartialC<DataT>(bod)

@@ -14,10 +14,11 @@
 //! file="Ravl/Math/LinearAlgebra/General/TSMatrixFull.hh"
 
 #include "Ravl/TSMatrixFull.hh"
-#include "Ravl/TSMatrixRightUpper.hh"
-#include "Ravl/TSMatrixLeftLower.hh"
 
 namespace RavlN {
+  
+  template<class DataT> class TSMatrixLeftLowerC;
+  
   //! userlevel=Develop
   //: Symmetric positive definite matrix.
   
@@ -107,12 +108,16 @@ namespace RavlN {
     //: Access body.
     
   public:
-    TSMatrixLeftLowerC<DataT> Cholesky() const
-    { return Body().Cholesky(); }
+    TSMatrixLeftLowerC<DataT> Cholesky() const;
     //: Perform Cholesky decomposition on this matrix.
     // Find L such that L * L.T() = this matrix.
   };
 
+}
+
+#include "Ravl/TSMatrixLeftLower.hh"
+
+namespace RavlN {
   
   template<class DataT>
   TSMatrixLeftLowerC<DataT> TSMatrixSymmetricBodyC<DataT>::Cholesky() const {
@@ -136,6 +141,11 @@ namespace RavlN {
     return ret;
   }
   
+  //////////////////////////////////////////////////////////////
+  
+  template<class DataT>
+  TSMatrixLeftLowerC<DataT> TSMatrixSymmetricC<DataT>::Cholesky() const
+  { return Body().Cholesky(); }
   
 }
 
