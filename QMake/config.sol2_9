@@ -29,13 +29,19 @@ else
  AR = ar
 endif 
 
+ifndef XARGS 
+ XARGS = gxargs 
+endif 
+
+ifndef TR 
+ TR = tr 
+endif 
+
 ARFLAGS = ruc
 MKDIR = mkdir -p
 CP = cp
 CHMOD = chmod
 RM = rm
-XARGS = xargs
-TR = /usr/bin/tr 
 TOUCH = /usr/bin/touch
 LIBPATHSWITCH = -Wl,-R#
 

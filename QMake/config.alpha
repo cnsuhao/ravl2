@@ -26,6 +26,14 @@ else
  AR = ar
 endif 
 
+ifndef XARGS 
+ XARGS = xargs 
+endif 
+
+ifndef TR 
+ TR = tr 
+endif 
+
 ARFLAGS = rusc
 MKDIR = mkdir -p
 CP = cp
