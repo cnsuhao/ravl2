@@ -97,7 +97,7 @@ int testTypes()
 }
 
 int testEndian() {
-  int x = 0x1234;
+  UInt16T x = 0x1234;
 #if RAVL_LITTLEENDIAN
   if(((char *)(&x))[0] != 0x34) return __LINE__;
   if(((char *)(&x))[1] != 0x12) return __LINE__;
