@@ -584,12 +584,12 @@ namespace RavlN {
     { return *new CallFunc3BodyC<Data1T,Data2T,Data3T,RetT>(func,dat1,dat2,dat3); }
     //: Copy call.
 
-    static RetT NoOp(Arg1T &,Arg2T &,Arg3T &) { 
+    static RetT NoOp(Data1T,Data2T,Data3T) { 
       return RetT(); 
     }
     //: NoOp function.
     
-    static RetT IssueError(Arg1T &,Arg2T &,Arg3T &) { 
+    static RetT IssueError(Data1T,Data2T,Data3T) { 
       RavlN::IssueError(__FILE__,__LINE__,"NoOp CallFunc3 Called. ");
       return RetT(); 
     }
@@ -604,8 +604,8 @@ namespace RavlN {
     
     Arg3T dat3;
     
-    typedef RetT (*FuncT)(Arg1T &,Arg2T &,Arg3T &);
-    //: Function ptr type.    
+    typedef RetT (*FuncT)(Data1T,Data2T,Data3T);
+    //: Function ptr type.
     
     inline
     FuncT FuncPtr() const
@@ -785,19 +785,19 @@ namespace RavlN {
     
     Arg4T dat4;
 
-    static RetT NoOp(Arg1T &,Arg2T &,Arg3T &,Arg4T &) { 
+    static RetT NoOp(Data1T,Data2T,Data3T,Data4T) { 
       return RetT();
     }
     //: NoOp function.
     
-    static RetT IssueError(Arg1T &,Arg2T &,Arg3T &,Arg4T &) { 
+    static RetT IssueError(Data1T,Data2T,Data3T,Data4T) { 
       RavlN::IssueError(__FILE__,__LINE__,"NoOp CallFunc4 Called. ");
       return RetT(); 
     }
     //: Error function.
 
-    typedef RetT (*FuncT)(Arg1T &,Arg2T &,Arg3T &,Arg4T &);
-    //: Function ptr type.    
+    typedef RetT (*FuncT)(Data1T,Data2T,Data3T,Data4T);
+    //: Function ptr type. 
     
     inline
     FuncT FuncPtr() const
@@ -989,19 +989,19 @@ namespace RavlN {
     //: Constructor.
     
     Arg5T dat5;
-
-    static RetT NoOp(Arg1T &,Arg2T &,Arg3T &,Arg4T &,Arg5T &) { 
+    
+    static RetT NoOp(Data1T,Data2T,Data3T,Data4T,Data5T) { 
       return RetT();
     }
     //: NoOp function.
     
-    static RetT IssueError(Arg1T &,Arg2T &,Arg3T &,Arg4T &,Arg5T &) { 
+    static RetT IssueError(Data1T,Data2T,Data3T,Data4T,Data5T) { 
       RavlN::IssueError(__FILE__,__LINE__,"NoOp CallFunc5 Called. ");
       return RetT(); 
     }
     //: Error function.
-
-    typedef RetT (*FuncT)(Arg1T &,Arg2T &,Arg3T &,Arg4T &,Arg5T &);
+    
+    typedef RetT (*FuncT)(Data1T,Data2T,Data3T,Data4T,Data5T);
     //: Function ptr type.    
     
     inline
