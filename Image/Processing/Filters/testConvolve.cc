@@ -30,6 +30,7 @@
 #include "Ravl/Image/RealRGBValue.hh"
 #include "Ravl/Image/DCT2d.hh"
 #include "Ravl/Image/ImageExtend.hh"
+#include "Ravl/Image/ImagePyramid.hh"
 #include "Ravl/Random.hh"
 #include "Ravl/config.h"
 
@@ -52,7 +53,7 @@ int testSpatialDifference();
 int testSumRectangles();
 int testDCT();
 int testImageExtend();
-
+int testImagePyramid();
 
 
 #if !RAVL_OS_IRIX && !RAVL_COMPILER_GCC3_4
@@ -144,6 +145,10 @@ int main() {
     return 1;
   }
   if((ln = testImageExtend()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  }
+  if((ln = testImagePyramid()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
@@ -569,5 +574,25 @@ int testImageExtend() {
   if(result[result.Frame().Origin()] != img[img.Frame().End()]) return __LINE__;
   if(result[result.Frame().End()] != img[img.Frame().Origin()]) return __LINE__;
   
+  return 0;
+}
+
+int testImagePyramid() {
+  cerr << "testImagePyramid() \n";
+  ImageC<RealT> img(10,10);
+  RealT v = 1;
+  for(Array2dIterC<RealT> it(img);it;it++)
+    *it = v++;
+  
+  ImagePyramidC<RealT> pyramid(img,3,false);
+  if(pyramid.Images().Size() != 3) return __LINE__;
+  
+#if 0
+  cerr << "Images:\n";
+  for(CollectionIterC<Tuple3C<RealT,RealT,ImageC<RealT> > > it(pyramid.Images());it;it++) {
+    cerr << it->Data3() << "\n";
+  }
+#endif
+
   return 0;
 }
