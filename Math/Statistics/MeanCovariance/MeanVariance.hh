@@ -41,20 +41,26 @@ namespace RavlN {
     //: Constructor.
     
     RealT StdDeviation() const
-      { return Sqrt(var); }
+    { return Sqrt(var); }
     //: Get the standard deviation.
     
     RealT Variance() const
-      { return var; }
+    { return var; }
     //: Access the variance.
     
     SizeT Number() const
-      { return n; }
+    { return n; }
     //: Access the number of samples.
     
     RealT Mean() const
-      { return mean; }
+    { return mean; }
     //: Access the mean.
+    
+    RealT Probability(RealT low,RealT high);
+    //: Find the probability of getting a sample with a values between low and high.
+    
+    RealT Gauss(RealT x);
+    //: Value of the gauss distribution at x.
     
     MeanVarianceC &operator+=(const MeanVarianceC &mv);
     //: Add another MeanVariance to this one.
@@ -67,23 +73,9 @@ namespace RavlN {
     RealT mean;
     RealT var; 
   };
-
-
-  inline
-  ostream& operator<<(ostream &s,const MeanVarianceC &mv) {
-    s << mv.Number() << ' ' << mv.Mean() << ' ' << mv.Variance();
-    return s;
-  }
-
-  inline
-  istream& operator>>(istream &s, MeanVarianceC &mv) {
-    SizeT n;
-    RealT v1,v2;
-    s >> n >> v1 >> v2;
-    mv = MeanVarianceC(n,v1,v2);
-    return s;
-  }
   
+  ostream& operator<<(ostream &s,const MeanVarianceC &mv);
+  istream& operator>>(istream &s, MeanVarianceC &mv);
 }
 
 

@@ -18,7 +18,7 @@
 
 namespace RavlN {
   
-  RealT StatNormalQ(RealT val);
+  RealT StatNormalQ(RealT x);
   //: Integral from x to infinity of the standard normal distribution.
   // return value: Qn(x) = integral of normal density from x to infinity
   
@@ -49,7 +49,7 @@ namespace RavlN {
   // a,b = distribution parameters (a,b > 0) <p>
   // return value: x = value of x at which Qb(x,a,b)=pc
   //  x=-1 -> pc outside limits
-
+  
   RealT StatNonCentralGamaQ(RealT x,RealT a,RealT d);
   //: Compute the non-central gamma cumulative distribution function.
   // x = value of argument (x > 0) <p>

@@ -10,7 +10,10 @@
 //! file="Ravl/Math/Statistics/MeanCovariance/MeanVariance.cc"
 
 #include "Ravl/MeanVariance.hh"
+#include "Ravl/Statistics.hh"
 #include "Ravl/SArr1Iter.hh"
+#include "Ravl/StdConst.hh"
+#include "Ravl/StdMath.hh"
 
 namespace RavlN {
   
@@ -28,6 +31,8 @@ namespace RavlN {
     var = (var - Sqr(mean)/(RealT)n)/((RealT)n-1);
   }
 
+  //: Add another MeanVariance to this one.
+  
   MeanVarianceC &MeanVarianceC::operator+=(const MeanVarianceC &mv) {
     if(mv.Number() == 0)
       return *this;
@@ -46,8 +51,9 @@ namespace RavlN {
     n += mv.Number();
     return *this;
   }
-  //: Add another MeanVariance to this one.
 
+  //: Remove another MeanVariance from this one.
+  
   MeanVarianceC &MeanVarianceC::operator-=(const MeanVarianceC &mv) { 
     if(mv.Number() == 0)
       return *this;
@@ -67,8 +73,34 @@ namespace RavlN {
     
     n -= mv.Number();
     return *this;
-    }
-  //: Remove another MeanVariance from this one.
+  }
+  
+  //: Value of the gauss distribution at x.
+  
+  RealT MeanVarianceC::Gauss(RealT x) {
+    RealT sig = Sqrt(var);
+    return Exp(-0.5 * Sqr((x-mean)/sig)) /(sig * RavlConstN::sqrt2Pi);
+  }
 
+  //: Find the probability of getting a sample with value 'at' +/- delta.
+  
+  RealT MeanVarianceC::Probability(RealT low,RealT high) {
+    RealT sig = Sqrt(var);
+    return (StatNormalQ(low/sig) - StatNormalQ(high/sig))/sig;
+  }
+  
+
+  ostream& operator<<(ostream &s,const MeanVarianceC &mv) {
+    s << mv.Number() << ' ' << mv.Mean() << ' ' << mv.Variance();
+    return s;
+  }
+
+  istream& operator>>(istream &s, MeanVarianceC &mv) {
+    SizeT n;
+    RealT v1,v2;
+    s >> n >> v1 >> v2;
+    mv = MeanVarianceC(n,v1,v2);
+    return s;
+  }
   
 }
