@@ -120,8 +120,9 @@ namespace RavlN {
     //: Constructor.
     
 #if RAVL_CHECK
-    ~DPMTIOConnectBodyC() 
-    { cerr << "~DPMTIOConnectBodyC(), Called. Type:" << typeid(*this).name() << "\n"; }
+    ~DPMTIOConnectBodyC() { 
+      //cerr << "~DPMTIOConnectBodyC(), Called. Type:" << typeid(*this).name() << "\n"; 
+    }
     //: Destructor.
 #endif
     

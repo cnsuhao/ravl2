@@ -8,28 +8,38 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlDPMT
+//! docentry="Ravl.Core.Data Processing.Split"
+//! date="21/07/1998"
 
 #include "Ravl/Option.hh"
-#include "Ravl/DP/RunningAve.hh"
 #include "Ravl/DP/FileIO.hh"
 #include "Ravl/DP/OffsetScale.hh"
 #include "Ravl/DP/Compose.hh"
 #include "Ravl/DP/SplitI.hh"
-#include "Ravl/DP/TaskList.hh"
+#include "Ravl/DP/MTIOConnect.hh"
+
+using namespace RavlN;
+
+RealT Monitor(const RealT &val) {
+  //cerr << val << " " ;
+  return val;
+}
 
 int main(int argc,char **argv) {  
   OptionC option(argc,argv,true);
-  FilenameC infile = option.CharArr("i","in.dat","Input filename");
-  FilenameC outfile = option.CharArr("o","out.dat","Output filename");
+  StringC infile = option.String("i","in.dat","Input filename");
+  StringC outfile = option.String("o","out.dat","Output filename");
   option.Check();
   DPSplitIC<RealT> split;
   
-  DPIFileC<RealT>(infile) >> split >> DPOffsetScale(2.0,2.0) >> DPRunningAverage(1.0,5) >>= DPOFileC<RealT>(outfile);
-  split >> DPOffsetScale(2.0,2.0) >>= DPOFileC<RealT>(outfile+".xxx");
-
-  //calc.Out1() >> xx >> xxx.Input2();
+  cout << "Setting up pipes.\n";
   
-  DPTaskListC::GlobalTaskRun();
-
+  DPEventC event1 = DPIFileC<RealT>(infile,false) >> Process(&Monitor) >> split >> DPOffsetScale(2.0,2.0) >>= DPOFileC<RealT>(outfile);
+  DPEventC event2 = split >> DPOffsetScale(2.0,2.0) >>= DPOFileC<RealT>(outfile+".xxx");
+  cout << "Waiting for processing to complete.\n";
+  
+  event1.Wait();
+  event2.Wait();
+  cout << "Done.\n";
   return 1;
 }
