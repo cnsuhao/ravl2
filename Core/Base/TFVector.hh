@@ -174,10 +174,8 @@ namespace RavlN {
     //: Limit all values in this vector to between min and max.
     // Returns true if all values in the vector are between the limits.
     
-    //:-
-    
-    // Distance calculations
-    // ---------------------
+    //:---------------------
+    //: Distance calculations
     
     inline DataT MaxValueDistance(const TFVectorC<DataT,N> & i) const;
     //: Returns the distance of two indexes in maximum value metric.
@@ -193,6 +191,9 @@ namespace RavlN {
     
     DataT SumOfSqr() const;
     //: Calculate the sum of the squares of all the vector elements.
+    
+    DataT SumOfAbs() const;
+    //: Calculate the sum of the absolute values of all the vector elements.
     
     inline const TFMatrixC<DataT,1,N> &T() const;
     //: Transpose vector.
@@ -477,6 +478,15 @@ namespace RavlN {
     DataT ret = RavlN::Sqr(data[0]);
     for(UIntT i = 1;i<N;i++)
       ret += RavlN::Sqr(data[i]);
+    return ret;
+  }
+
+  template<class DataT,unsigned int N>
+  inline
+  DataT TFVectorC<DataT,N>::SumOfAbs() const {
+    DataT ret = RavlN::Abs(data[0]);
+    for(UIntT i = 1;i<N;i++)
+      ret += RavlN::Abs(data[i]);
     return ret;
   }
   
