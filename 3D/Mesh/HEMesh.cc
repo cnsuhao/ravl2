@@ -20,6 +20,18 @@
 #endif
 
 namespace Ravl3DN {
+
+  //: Destructor.
+  // Needed to ensure faces are removed before vertices.
+  
+  HEMeshBodyC::~HEMeshBodyC() {
+    while(!faces.IsEmpty()) {
+      HEMeshFaceBodyC *face = &faces.First();
+      face->DestroyFace();
+      delete face;
+    }
+    vertices.Empty(); 
+  }
   
   //: Insert face defined by vertices.
   

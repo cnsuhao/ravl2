@@ -54,6 +54,9 @@ namespace Ravl3DN {
     { return edge; }
     //: Access first edge.
     
+    void DestroyFace();
+    //: Destroy the face without worrying about mesh consistancy.
+    
   public:
     void SetEdge(HEMeshEdgeBodyC *nedge)
     { edge = nedge; }
@@ -86,6 +89,7 @@ namespace Ravl3DN {
     friend class HEMeshFaceEdgeIterC;
     friend class HEMeshFaceC;
     friend class HEMeshEdgeBodyC;
+    friend class HEMeshBodyC;
   };
 
   //! userlevel=Normal.

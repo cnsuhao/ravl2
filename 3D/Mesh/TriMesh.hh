@@ -62,7 +62,7 @@ namespace Ravl3DN {
 	haveTexture(haveTextureCoord)
     {}
     //: Construct from an array of vertexes and an array of tri's.
-    // The TriC's must refer to elements in 'v'
+    // NOTE: The vertices referred to in the TriC's must be elements of array 'v'.
     
     RCBodyVC& Copy() const;
     //: Make a copy of the mesh.

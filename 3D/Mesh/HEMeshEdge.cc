@@ -22,8 +22,10 @@ namespace Ravl3DN {
   //: Correct edge's vertex pointer.
   
   void HEMeshEdgeBodyC::CorrectVertexEdgePtr() {
+    if(vertex == 0)
+      return ;
     // Make sure the vertex doesn't link to this edge.
-    if(vertex->edge != this) 
+    if(vertex->edge != this)
       return ;
     vertex->edge = vertex->edge->Next().pair;
     if(vertex->edge != 0) 
@@ -62,6 +64,7 @@ namespace Ravl3DN {
 	face->edge = &Prev();
       Unlink();
     }
+    SetSelfPointing(); // To avoid problems in destructor.
     // Clean up pointers, for debugging mainly.
     pair = 0;
     vertex = 0;

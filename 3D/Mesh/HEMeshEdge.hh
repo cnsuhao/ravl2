@@ -236,7 +236,7 @@ namespace Ravl3DN {
     // is linked in after this edge.
     
     void Unlink()
-    { Body().Unlink(); }
+    { Body().Unlink(); Body().SetSelfPointing(); }
     //: Unlink the edge from a faces edge list.
     
     bool HasPair() const

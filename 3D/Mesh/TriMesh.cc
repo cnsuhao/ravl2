@@ -28,15 +28,25 @@ namespace Ravl3DN {
       faces(faceInd.Size()/3),
       haveTexture(false)
   {
-    for(SArray1dIter2C<VertexC,Vector3dC> it(vertices,v);it;it++)
+    Vector3dC zero(0,0,0);
+    for(SArray1dIter2C<VertexC,Vector3dC> it(vertices,v);it;it++) {
       it.Data1().Position() = it.Data2();
+      it.Data1().Normal() = zero;
+    }
     RavlAssert(faceInd.Size() == (faces.Size() * 3));
     SArray1dIterC<UIntT> iit(faceInd);
+    /* Create vertex pointers, and some inital vertex normals. */
     for(SArray1dIterC<TriC> fit(faces);fit;fit++) {
-      for(int i = 0;i < 3;i++,iit++)
+      int i;
+      for(i = 0;i < 3;i++,iit++)
 	fit.Data1().VertexPtr(i) = &(vertices[*iit]);
+      Vector3dC norm = fit->FaceNormal();
+      for( i = 0;i < 3;i++)
+	fit->Normal(i) += norm;
     }
-    UpdateVertexNormals();    
+    /* Make unit normals. */
+    for(SArray1dIterC<VertexC> itv(vertices);itv;itv++)
+      itv->Normal().MakeUnit();
   }
 
   //: Make a copy of the mesh.
@@ -118,8 +128,9 @@ namespace Ravl3DN {
   //: Recalculate vertex normals.
   
   void TriMeshBodyC::UpdateVertexNormals() {
+    Vector3dC zero(0,0,0);
     for(SArray1dIterC<VertexC> it(vertices);it;it++)
-      it->Normal() = Vector3dC(0,0,0);
+      it->Normal() = zero;
     for(SArray1dIterC<TriC> itf(faces);itf;itf++) {
       Vector3dC norm = itf->FaceNormal();
       for(int i = 0;i < 3;i++)

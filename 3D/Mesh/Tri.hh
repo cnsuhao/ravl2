@@ -16,8 +16,12 @@
 #include "Ravl/3D/Vertex.hh"
 
 namespace Ravl3DN {
+#if RAVL_VISUALCPP_NAMESPACE_BUG
   using namespace RavlN;
-  
+  using RavlN::TFVectorC;
+  using RavlN::Vector2dC;
+  using RavlN::ByteT;
+#endif
   //! userlevel=Normal
   //: Triangle in TriMesh.
   // Tri's must be associated with a tri set, in the parent

@@ -23,21 +23,36 @@ namespace Ravl3DN {
   HEMeshFaceBodyC::~HEMeshFaceBodyC() {
     ONDEBUG(cerr << "HEMeshFaceBodyC::~HEMeshFaceBodyC(). \n");
     if(edge != 0) {
+      // Remove all edges around the face.
       while(1) {
 	HEMeshEdgeBodyC *eb = &(edge->Next());
-	if(eb == edge)
-	  break;
 	eb->CorrectVertexEdgePtr();
 	if(eb->HasPair())
-	  eb->Pair().pair = 0;
+	  eb->Pair().pair = 0; // Clear pair pointers.
 	delete eb;
+	if(eb == edge) // Are we finished ?
+	  break;
       }
-      edge->CorrectVertexEdgePtr();
-      delete edge;
       edge = 0;
     }
   }
   
+  //: Destroy the face without worrying about mesh consistancy.
+  
+  void HEMeshFaceBodyC::DestroyFace() {
+    ONDEBUG(cerr << "HEMeshFaceBodyC::DestroyFace(). \n");
+    if(edge == 0)
+      return;
+    // Remove all edges around the face.
+    while(1) {
+      HEMeshEdgeBodyC *eb = &(edge->Next());
+      delete eb;
+      if(eb == edge) // Are we finished ?
+	break;
+    }
+    edge = 0;
+  }
+
   //: Get number of edges on face.
   
   UIntT HEMeshFaceBodyC::Sides() const {

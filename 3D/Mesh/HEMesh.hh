@@ -45,6 +45,9 @@ namespace Ravl3DN {
     
     HEMeshBodyC(const TriMeshC &mesh);
     //: Construct from a TriMesh
+
+    ~HEMeshBodyC();
+    //: Destructor.
     
     HEMeshVertexC InsertVertex(const Vector3dC &position,const Vector3dC &norm) {
       HEMeshVertexC vert(position,norm);

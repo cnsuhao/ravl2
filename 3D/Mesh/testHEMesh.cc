@@ -14,10 +14,15 @@
 using namespace Ravl3DN;
 
 int testTri2HEMesh();
+int testAssign();
 
 int main() {
   int ln;
   if((ln = testTri2HEMesh()) != 0) {
+    cerr << "Test failed at line " << ln << "\n";
+    return 1;
+  }
+  if((ln = testAssign()) != 0) {
     cerr << "Test failed at line " << ln << "\n";
     return 1;
   }
@@ -59,5 +64,43 @@ int testTri2HEMesh() {
   if(mesh.NoFaces() != 2) return __LINE__;
   if(mesh.NoVertices() != 3) return __LINE__;
   
+  return 0;
+}
+
+int testAssign() {
+  
+  SArray1dC<Vector3dC> verts(4);
+#if 0
+  verts[0] = Point3dC(0,0,0);
+  verts[1] = Point3dC(0,0,1);
+  verts[2] = Point3dC(0,1,0);
+  verts[3] = Point3dC(1,0,0);
+  
+  SArray1dC<UIntT> ind(4 * 3);
+  ind[0] = 0; ind[1]  = 1; ind[2]  = 2;
+  ind[3] = 3; ind[4]  = 1; ind[5]  = 0;
+  ind[6] = 3; ind[7]  = 0; ind[8]  = 2;
+  ind[9] = 3; ind[10] = 2; ind[11] = 1;
+  
+  TriMeshC oMesh(verts,ind);
+  
+  {
+    //HEMeshC oHEMesh(oMesh);
+    // IF YOU DO THIS
+    {
+      //TriMeshC oNewMesh = oHEMesh.TriMesh();
+    }
+    // OR IF YOU DO THIS
+    // {
+    // // Construct a hash table to retrieve the indices of the HEMesh vertices
+    // HashC<HEMeshVertexC,UIntT> oVIndex;
+    // UIntT iIndex=0;
+    // HEMeshVertexIterC itHEVert(oHEMesh.Vertices());
+    // for (; itHEVert; itHEVert++, iIndex++) {
+    // oVIndex[itHEVert.Data()] = iIndex;
+    // }
+    // }
+  } 
+#endif
   return 0;
 }
