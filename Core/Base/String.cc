@@ -1192,16 +1192,28 @@ namespace RavlN {
     int i = 0;
     x.rep = Sresize(x.rep, 20);
     register streambuf *sb = s.rdbuf();
+    int new_state;
+    // Skip spaces.
     while ((ch = sb->sbumpc()) != EOF) {
-      if (isspace(ch))
+      if (!isspace(ch))
 	break;
-      if (i >= ((int) x.rep->sz) - 1)
-	x.rep = Sresize(x.rep, i+1);
-      x.rep->s[i++] = ch;
+    }
+    // Get rest of string.
+    if(ch != EOF) {
+      x.rep->s[i++] = ch;// Store first charactor.
+      
+      // Get string.
+      while ((ch = sb->sbumpc()) != EOF) {
+	if (isspace(ch))
+	  break;
+	if (i >= ((int) x.rep->sz) - 1)
+	  x.rep = Sresize(x.rep, i+1);
+	x.rep->s[i++] = ch;
+      }
     }
     x.rep->s[i] = 0;
     x.rep->len = i;
-    int new_state = s.rdstate();
+    new_state = s.rdstate();
     if (i == 0) new_state |= ios::failbit;
     if (ch == EOF) new_state |= ios::eofbit;
 #if RAVL_COMPILER_GCC3
