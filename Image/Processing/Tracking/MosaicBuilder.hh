@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLMATH_MOSAICBUILDER_HEADER
-#define RAVLMATH_MOSAICBUILDER_HEADER 1
+#ifndef RAVLIMAGE_MOSAICBUILDER_HEADER
+#define RAVLIMAGE_MOSAICBUILDER_HEADER 1
 //! userlevel=Normal
 //! author="Phil McLauchlan"
 //! date="24/7/2002"
@@ -27,7 +27,6 @@
 #include "Ravl/Matrix3d.hh"
 
 namespace RavlImageN {
-  using namespace RavlImageN;
   
   //! userlevel=Normal
   //! autoLink=on
