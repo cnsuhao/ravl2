@@ -46,7 +46,7 @@ namespace RavlN {
   ///////////////////////////
   //! userlevel=Develop
   //: Base class for table.
-  // BIG OBJECT!
+  // SMALL OBJECT!
   // <p>
   // Use HashART<K,T> in HashAR.hh in preference to this, in nearly
   // every case its faster. 
@@ -90,6 +90,8 @@ namespace RavlN {
   ///////////////////////////////
   //! userlevel=Normal
   //: General hash table.
+  // Note this is a SMALL OBJECT, assignment of these hash tables creates a new copy of the object. 
+  // RCHashC is a fully refrence counted version of this class. <br>
   // Type K is the hash key, it mush define a function<p>
   //   unsigned int K::Hash();  which returns a number fairly unique to the key.
   //    or a global function of the form UIntT StdHash(const K &x) which returns the key. <p>
@@ -171,14 +173,14 @@ namespace RavlN {
     //: Get value, add default if its not there. Return reference anyway.
     
     inline T &operator[](const K &Key) 
-      { return Update(Key); }
+    { return Update(Key); }
     //: Associative array style interface.
     
     inline const T &operator[](const K &Key) const;
     //: Associative array style of access.
     
     inline bool Insert(const K &Key,const T &Data) 
-      { return Update(Key,Data); }
+    { return Update(Key,Data); }
     //: Default insertion operation, same as Update(K,T);
     
     inline T &Access(const K &key,const T &def = T());
@@ -293,7 +295,7 @@ namespace RavlN {
 #endif
       if(allowResize) {
 	if(elements < (Bins() >> 3)
-	 && elements >= (7 << 1))
+	   && elements >= (7 << 1))
 	  Resize(NextPrime(elements >> 1));
       }
     }
@@ -461,25 +463,25 @@ namespace RavlN {
     return in;
   }
   
-   template<class K,class T>
-   HashC<K,T>::HashC(istream &in)  {
-     UIntT size;
-     in >> size;
-     for(;size > 0;size--) {
-       HashElemC<K,T> t(in);
-       Add(t.GetKey(),t.Data());
-     }
-   }
+  template<class K,class T>
+  HashC<K,T>::HashC(istream &in)  {
+    UIntT size;
+    in >> size;
+    for(;size > 0;size--) {
+      HashElemC<K,T> t(in);
+      Add(t.GetKey(),t.Data());
+    }
+  }
   
-   template<class K,class T>
-   HashC<K,T>::HashC(BinIStreamC &in)  {
-     UIntT size;
-     in >> size;
-     for(;size > 0;size--) {
-       HashElemC<K,T> t(in);
-       Add(t.GetKey(),t.Data());
-     }
-   }
+  template<class K,class T>
+  HashC<K,T>::HashC(BinIStreamC &in)  {
+    UIntT size;
+    in >> size;
+    for(;size > 0;size--) {
+      HashElemC<K,T> t(in);
+      Add(t.GetKey(),t.Data());
+    }
+  }
   
   template<class K,class T>
   HashC<K,T> HashC<K,T>::Copy() const  
