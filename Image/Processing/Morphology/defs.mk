@@ -17,3 +17,5 @@ LIBDEPS=RavlImageMorphology.def
 USESLIBS=RavlImage 
 
 EHT=Ravl.Images.Morphology.html
+
+TESTEXES=testMorphology.cc

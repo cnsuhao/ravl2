@@ -13,50 +13,40 @@
 //! docentry="Ravl.Images.Morphology"
 
 #include "Ravl/Image/Image.hh"
+#include "Ravl/Image/Rectangle2dIter.hh"
+#include "Ravl/Array2dIter2.hh"
+#include "Ravl/Array2dIter.hh"
 
 namespace RavlImageN
 {
-  template<class DataT> void Dilate(ImageC<DataT>& result, const ImageC<DataT>& image, const ImageC<DataT>& kernel)
+  template<class DataT> 
+  void BinaryDilate(const ImageC<DataT>& image, const ImageC<DataT>& kernel,ImageC<DataT>& result,DataT inRegion = 1)
   {
-    RavlAssert(result.Cols() == image.Cols());
-    RavlAssert(result.Rows() == image.Rows());
-    RavlAssert(kernel.Cols() % 2 == 1); // odd number of cols
-    RavlAssert(kernel.Rows() % 2 == 1); // odd number of rows
-
-    UIntT sx = image.Cols();
-    UIntT sy = image.Rows();
-
-    UIntT kx = kernel.Cols() / 2;
-    UIntT ky = kernel.Rows() / 2;
+    ImageRectangleC resRect(image.Rectangle());
+    resRect.TRow() -= kernel.Rectangle().TRow();
+    resRect.BRow() -= kernel.Rectangle().BRow();
+    resRect.LCol() -= kernel.Rectangle().LCol();
+    resRect.RCol() -= kernel.Rectangle().RCol();
+    RavlAssertMsg(resRect.Area() > 0,"Dilate, ERROR: Rectangle too small.");
+    if(!result.Rectangle().Contains(resRect)) // Check the result rectangle is large enough.
+      result = ImageC<DataT>(resRect); // If its not make another.
     
-    UIntT i_end_max = sx - kx - 1;
-    UIntT j_end_max = sy - ky - 1;
-
-    for (UIntT y = 0; y < sy; y++)
-    {
-      UIntT j_start = ((y < ky) ? 0 : (y-ky));
-      UIntT j_end = ((y > j_end_max) ? j_end_max : (y+ky));
-
-      for (UIntT x = 0; x < sx; x++)
-      {
-	UIntT i_start = ((x < kx) ? 0 : (x-kx));
-	UIntT i_end = ((x > i_end_max) ? i_end_max : (x+kx));
-
-	result[y][x] = 0;
-
-	for (UIntT j = j_start; j <= j_end && !result[y][x]; j++)
-	{
-	  for (UIntT i = i_start; i <= i_end && !result[y][x]; i++)
-	  {
-	    if (kernel[ky+j-y][kx+i-x] && image[j][i])
-	      result[y][x] = 255;
-	  }
+    Array2dIterC<DataT> res(result,resRect);
+    for(Rectange2dIterC rit(image.Frame(),kernel.Frame());rit;rit++,res++) {
+      *res = 0;
+      for(Array2dIter2C<DataT,DataT> it(kernel,Array2dC<DataT>(image,rit.Window()));it;it++) {
+	if(it.Data1() && it.Data2()) {
+	  *res = inRegion;
+	  break;
 	}
       }
     }
   }
-  //: image dilation
-
+  //: Binary dilation
+  // This code does not deal with boundry conditions. It will write the output into the appropriate
+  // place in 'results', if results is doesn't contain the appropriate range of pixels it will be
+  // reallocated.
+  
 }
 
 #endif
