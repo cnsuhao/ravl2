@@ -28,7 +28,8 @@ namespace RavlN {
   
   NetPortManagerBodyC::NetPortManagerBodyC(const StringC &nname)
     : name(nname),
-      managerOpen(false)
+      managerOpen(false),
+      ready(0)
   {}
   
   //: Open manager at address.
@@ -51,8 +52,7 @@ namespace RavlN {
     managerOpen = true;
     NetPortManagerC manager(*this);
     LaunchThread(manager,&NetPortManagerC::Run);
-    Sleep(0.1);
-    // FIXME:- Should wait till we know its started before returning ?
+    ready.Wait();
     return true;
   }
 
@@ -63,6 +63,7 @@ namespace RavlN {
     ONDEBUG(cerr << "NetPortManagerBodyC::Run(), Called. \n");
     RavlAssert(sktserv.IsOpen());
     NetPortManagerC manager(*this);
+    ready.Post();
     while(1) {
       SocketC skt = sktserv.Listen();
       // When a socket connects, make and end point and send a 'hello' message.
