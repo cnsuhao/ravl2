@@ -23,6 +23,7 @@
 
 namespace RavlN {
   static const UInt16T RAVLBinaryID = 0x4143; // AB Ravl Binary file id.
+  static const UInt16T RAVLInvBinaryID = 0x4341; // Swapped endian id.
   
   /////////////////////////////////////////////
   //! userlevel=Develop
@@ -35,7 +36,7 @@ namespace RavlN {
   {
   public:
     DPOBinFileBodyC() 
-      {}
+    {}
     //: Default constructor.
     
     DPOBinFileBodyC(const StringC &nfname,bool useHeader=false)
@@ -53,7 +54,7 @@ namespace RavlN {
     
     inline DPOBinFileBodyC(BinOStreamC &strmout,bool useHeader=false)
       : out(strmout),
-      version(0)
+	version(0)
     {
 #ifdef RAVL_CHECK
       if(!out.Stream().good()) 
@@ -103,11 +104,11 @@ namespace RavlN {
     // returns the number of elements processed.
     
     virtual bool IsPutReady() const 
-      { return out.Stream().good(); }
+    { return out.Stream().good(); }
     //: Is port ready for data ?
     
     virtual bool Save(ostream &sout) const 
-      { sout << out.Name(); return true; }
+    { sout << out.Name(); return true; }
     //: Save to ostream.
     
   private:
@@ -142,11 +143,23 @@ namespace RavlN {
 	StringC classname;
 	UInt16T id;
 	in >> id;
-	if(id != RavlN::RAVLBinaryID)	
-	  cerr << "DPIBinFileC ERROR: Bad file id. \n";
+	if(id == RAVLInvBinaryID) {
+#if RAVL_ENDIAN_COMPATILIBITY
+	  in.UseNativeEndian(!in.NativeEndian());
+#else
+	  throw ExceptionOperationFailedC("Stream is incompible. endian mismatch. ");
+#endif
+	} else {
+	  if(id != RavlN::RAVLBinaryID){
+	    cerr << "DPIBinFileC ERROR: Bad file id. \n";
+	    throw ExceptionOperationFailedC("Bad file id. ");
+	  }
+	}
 	in >> classname >> version;  // Read class name & version
-	if(classname != TypeName(typeid(DataT))) 
+	if(classname != TypeName(typeid(DataT))) {
 	  cerr << "DPIBinFileC ERROR: Bad file type: " << classname << " Expected:" << TypeName(typeid(DataT)) << " \n";
+	  throw ExceptionOperationFailedC("File type mismatch. ");
+	}
       }
       dataStart = in.Tell(); // Remember where data starts.
     }
@@ -161,11 +174,23 @@ namespace RavlN {
 	StringC classname; 
 	UInt16T id;
 	in >> id;
-	if(id != RavlN::RAVLBinaryID)	
-	  cerr << "DPIBinFileC ERROR: Bad file id. \n";
+	if(id == RAVLInvBinaryID) {
+#if RAVL_ENDIAN_COMPATILIBITY
+	  in.UseNativeEndian(!in.NativeEndian());
+#else
+	  throw ExceptionOperationFailedC("Stream is incompible. endian mismatch. ");
+#endif
+	} else {
+	  if(id != RavlN::RAVLBinaryID) {
+	    cerr << "DPIBinFileC ERROR: Bad file id. \n";
+	    throw ExceptionOperationFailedC("Bad file id. ");
+	  }
+	}
 	in >> classname >> version;  // Read class name & version
-	if(classname != TypeName(typeid(DataT))) 
+	if(classname != TypeName(typeid(DataT))) {
 	  cerr << "DPIBinFileC ERROR: Bad file type. " << classname << " Expected:" << TypeName(typeid(DataT)) << " \n";
+	  throw ExceptionOperationFailedC("File type mismatch. ");
+	}
       }
       dataStart = in.Tell(); // Remember where data starts.
     }
@@ -252,12 +277,12 @@ namespace RavlN {
     
     inline DPOBinFileC(BinOStreamC &strm,bool useHeader=false)
       : DPEntityC(*new DPOBinFileBodyC<DataT>(strm,useHeader))
-      {}
+    {}
     //: Stream constructor.
     
     inline DPOBinFileC(const StringC &fname,bool useHeader=false) 
       : DPEntityC(*new DPOBinFileBodyC<DataT>(fname,useHeader))
-      {}
+    {}
     
     //: Filename constructor.  
   };
@@ -278,12 +303,12 @@ namespace RavlN {
     
     inline DPIBinFileC(BinIStreamC &strm,bool useHeader=false)
       : DPEntityC(*new DPIBinFileBodyC<DataT>(strm,useHeader))
-      {}
+    {}
     //: Stream constructor.
     
     inline DPIBinFileC(const StringC &afname,bool useHeader=false)
       : DPEntityC(*new DPIBinFileBodyC<DataT>(afname,useHeader))
-      {}
+    {}
     //: Filename constructor.  
   };
 }

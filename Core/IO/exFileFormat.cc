@@ -24,19 +24,22 @@ int main(int argc,char **argv)
 {  
   OptionC option(argc,argv);
   StringC fn = option.String("i","/tmp/fsin","Input filename");
-  bool verb = option.Boolean("v",false,"Verbose. \n");
+  StringC streamType = option.String("t","stream","Type of stream to use. ");
+  bool loadOnly = option.Boolean("l",false,"Load only. ");
+  bool verb = option.Boolean("v",false,"Verbose. ");
   option.Check();
   
   RealT val;
   val = 21;
   
-  //: Save a value into file 'fn' from local variable 'val'.
-  
-  if(!Save(fn,val,"stream",verb)) {
-    cerr << "Failed to save data. \n";
-    return 1;
+  if(!loadOnly) {
+    //: Save a value into file 'fn' from local variable 'val'.
+    
+    if(!Save(fn,val,streamType,verb)) {
+      cerr << "Failed to save data. \n";
+      return 1;
+    }
   }
-  
   val = 0;
 
   //: Load a value from file 'fn' into local variable 'val'.

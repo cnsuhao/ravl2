@@ -40,13 +40,15 @@ namespace RavlN {
       UInt16T id;
       // Check magic number.
       bin >> id;
-      if(id != RavlN::RAVLBinaryID) {
+      if(id != RavlN::RAVLBinaryID && id != RavlN::RAVLInvBinaryID) {
 	//cerr << "ID Mis-match. " << id << " " << RAVLBinaryID <<" \n";
 	bin.Seek(mark);
 	return typeid(void);
       }
       // Check class name.
       StringC classname;
+      if(id == RavlN::RAVLInvBinaryID)
+	bin.UseNativeEndian(!bin.NativeEndian());
       bin >> classname;
       //cout << "Stream Probe: '" << classname << "' Looking for: '" << TypeName(typeid(DataT)) << "'\n";
       bin.Seek(mark);
