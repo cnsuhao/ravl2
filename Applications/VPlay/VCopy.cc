@@ -76,6 +76,12 @@ int main(int nargs,char *args[])
       exit(1);
     }
     
+    if (!vidIn.IsGetReady()) {
+      if (verb) 
+	cout << "STATUS: Open failed. \n" << flush;
+      exit(1);
+    }
+
     if(netExport) {
       if(!NetExport(outfile,vidIn)) {
 	cerr << "ERROR: Failed to export '" << outfile << "' \n";
@@ -93,7 +99,7 @@ int main(int nargs,char *args[])
       exit(1);
     }
     
-    if (!(vidIn.IsGetReady() && vidOut.IsPutReady())) {
+    if (!vidOut.IsPutReady()) {
       if (verb) 
 	cout << "STATUS: Open failed. \n" << flush;
       exit(1);
@@ -116,6 +122,12 @@ int main(int nargs,char *args[])
       exit(1);
     }
     
+    if (!vidIn.IsGetReady()) {
+      if (verb) 
+	cout << "STATUS: Open failed. \n" << flush;
+      exit(1);
+    }
+
     if(netExport) {
       if(!NetExport(outfile,vidIn)) {
 	cerr << "ERROR:  Failed to export '" << outfile << "' \n";
@@ -133,7 +145,7 @@ int main(int nargs,char *args[])
       exit(1);
     }
 
-    if (!(vidIn.IsGetReady() && vidOut.IsPutReady())) {
+    if (!vidOut.IsPutReady()) {
       if (verb) 
 	cout << "STATUS: Open failed. \n" << flush;
       exit(1);
