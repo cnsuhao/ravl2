@@ -59,7 +59,7 @@ namespace RavlN {
       LibDepends(*it,list,done);
     }
     if(!info.IsDummy())
-      list.InsFirst(StringC("-l" + lib);
+      list.InsFirst(StringC("-l") + lib);
     if(!info.MustLink().IsEmpty()) {
       StringC ml = info.MustLink();
       int i;
