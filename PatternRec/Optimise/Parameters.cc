@@ -8,10 +8,9 @@
 //! lib=Optimisation
 
 #include "Ravl/PatternRec/Parameters.hh"
-#include "Ravl/config.h" 
-#if RAVL_COMPILER_MIPSPRO 
-#include <stdlib.h> 
-#endif 
+#include "Ravl/config.h"
+#include <stdlib.h>
+
 namespace RavlN {
 
   ParametersBodyC::ParametersBodyC (const VectorC &minP,
