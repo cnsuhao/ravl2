@@ -204,7 +204,8 @@ namespace RavlN {
 	break;
     }
     pause = true; 
-    ONDEBUG(cerr << "DPPlayControlBodyC::Pause(), Done. @" << ctrl.Tell() << "\n");
+    
+    ONDEBUG(if(ctrl.IsValid()) cerr << "DPPlayControlBodyC::Pause(), Done. @" << ctrl.Tell() << "\n");
   }
   
   //: Continue playing.
