@@ -38,12 +38,12 @@ namespace RavlImageN {
       { mask = nmask; }
     //: Set binary mask to exclude graphics regions and suchlike from the process
     // Mask coordinate system should match that of image sequence.
-    // Pixels set to false are excluded from tracker and foreground.
+    // Pixels set to false are excluded from tracker.
 
     bool SetMask(const StringC& fileName);
     //: Set binary mask to exclude graphics regions and suchlike from the process
     // Mask coordinate system should match that of image sequence.
-    // Pixels set to false are excluded from tracker and foreground.
+    // Pixels set to false are excluded from tracker.
 
     void SetProjectiveScale(RealT scale)
       { 
@@ -97,14 +97,14 @@ namespace RavlImageN {
     { Body().SetMask(nmask); }
     //: Set binary mask to exclude graphics regions and suchlike from the process
     // Mask coordinate system should match that of image sequence.
-    // Pixels set to false are excluded from tracker and foreground.
+    // Pixels set to false are excluded from tracker.
     //!cwiz:author
     
     bool SetMask(const StringC & fileName) 
     { return Body().SetMask(fileName); }
     //: Set binary mask to exclude graphics regions and suchlike from the process
     // Mask coordinate system should match that of image sequence.
-    // Pixels set to false are excluded from tracker and foreground.
+    // Pixels set to false are excluded from tracker.
     //!cwiz:author
     
     void SetProjectiveScale(RealT scale) 
