@@ -14,6 +14,13 @@
                 Numerical Analysis Toolkit Header File
                       ELF Shared Library Version
 */
+/*! license=own */
+/*
+//! userlevel="Develop"
+//! docentry="Ravl.Math.Internal"
+//! author="Daniel A. Atkinson" 
+*/
+
 #ifdef __cplusplus
 extern "C" {
 #endif
