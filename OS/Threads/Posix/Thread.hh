@@ -31,7 +31,7 @@ namespace RavlN
 {
   //! userlevel=Normal
   
-  void Yield();
+  void OSYield();
   //: Yield control of processor
   // call if you wish a brief delay in execution.  
   // Particularly useful if you are forced to poll for an event.

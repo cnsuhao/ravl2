@@ -17,7 +17,12 @@
 #include "Ravl/Threads/Thread.hh"
 #include "Ravl/Math.hh"
 
+#if defined(VISUAL_CPP)
+#include <time.h>
+#else
 #include <sys/time.h>
+#endif
+
 #if RAVL_HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -33,7 +38,7 @@ namespace RavlN
   ConditionalMutexC::~ConditionalMutexC() { 
     int maxRetry = 100;
     while(pthread_cond_destroy(&cond) && --maxRetry > 0) 
-      Yield();
+      OSYield();
     if(maxRetry <= 0)
       Error("WARNING: ConditionalMutexC::~ConditionalMutexC(), destroy failed. \n");
   }

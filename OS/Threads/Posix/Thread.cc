@@ -27,12 +27,9 @@
 #include <sched.h>
 #endif
 
-
 #include "Ravl/Threads/Thread.hh"
 #include "Ravl/Exception.hh"
 #include "Ravl/Assert.hh"
-
-
 
 namespace RavlN {
   extern void IncPThreadSysDBLock();
@@ -40,7 +37,7 @@ namespace RavlN {
   void DummyIncFunc() 
   { IncPThreadSysDBLock(); }
   
-  void Yield() {
+  void OSYield() {
 #if defined(__sol2__)
     thr_yield();
 #endif

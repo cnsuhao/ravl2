@@ -51,7 +51,7 @@
 #define RAVL_HAVE_IOS_BINARY 0
 #endif
 
-#if !defined(__sol2__)
+#if !defined(__sol2__) && !defined(VISUAL_CPP)
 #define RAVL_HAVE_POSIX_THREADS_RWLOCK 1
 #else
 #define RAVL_HAVE_POSIX_THREADS_RWLOCK 0

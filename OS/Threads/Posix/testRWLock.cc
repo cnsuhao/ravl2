@@ -57,10 +57,10 @@ int RWLTestBodyC::Start(void) {
 	pass = false;
       if(Val2 != Val3)
 	pass = false;
-      Yield();
+      OSYield();
       if(Val1 != Val3)
 	pass = false;
-      Yield();
+      OSYield();
       if(Val1 != Val3)
 	pass = false;
       ARWLock->UnlockRd();
@@ -69,15 +69,15 @@ int RWLTestBodyC::Start(void) {
       
       ARWLock->WrLock();  // Write new values.
       Val1 = rand();
-      Yield();
+      OSYield();
       Val2 = Val1;
-      Yield();
+      OSYield();
       Val3 = Val2;
-      Yield();
+      OSYield();
       ARWLock->UnlockWr();
       
     }
-    Yield();
+    OSYield();
   }
   Done->Post();
   return 0;

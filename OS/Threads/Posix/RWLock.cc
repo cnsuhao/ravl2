@@ -21,7 +21,7 @@ namespace RavlN
     int x = 100;
     // This could fail if lock is held.
     while(pthread_rwlock_destroy(&id) && x-- > 0)
-      Yield();
+      OSYield();
     if(x == 0) 
       cerr << "WARNING: Failed to destory RWLock. \n";
   }

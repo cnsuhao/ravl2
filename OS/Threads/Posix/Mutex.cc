@@ -31,8 +31,6 @@ namespace RavlN
 #else
 #if defined(PTHREAD_MUTEX_ERRORCHECK_NP)
     pthread_mutexattr_settype(&mutAttr,PTHREAD_MUTEX_ERRORCHECK_NP);
-#else
-    mutAttr.__mutexkind = PTHREAD_MUTEX_ERRORCHECK_NP;
 #endif
 #endif
     if(pthread_mutex_init(&mutex,&mutAttr) != 0)
@@ -63,7 +61,7 @@ namespace RavlN
 	if(pthread_mutex_destroy(&mutex) == 0)
 	  break; // It worked ok..
       }
-      Yield();
+      OSYield();
     }
     if(maxRetry <= 0)
       cerr << "WARNING: MutexC::~MutexC(), destroy failed. \n";
