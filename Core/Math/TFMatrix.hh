@@ -34,6 +34,10 @@ namespace RavlN {
     TFMatrixC()
       {}
     //: Default constructor.
+
+    TFMatrixC(const DataT *init);
+    //: Constructor.
+    // Initalise matrix with values from 'init'.
     
     SizeT Size1() const
       { return N; }
@@ -193,8 +197,15 @@ namespace RavlN {
 	s >> oth[i][j];
     return s;
   }
+
+  template<class DataT,unsigned int N,unsigned int M>
+  TFMatrixC<DataT,N,M>::TFMatrixC(const DataT *init) {
+    const DataT *place = init;
+    for(UIntT i = 0;i < N;i++)
+      for(UIntT j = 0;j < M;j++)
+	data[i][j] = *(place++);
+  }
   
-  //: Fill array with value 'dat'.
   template<class DataT,unsigned int N,unsigned int M>
   inline 
   void TFMatrixC<DataT,N,M>::Fill(const DataT &dat) {

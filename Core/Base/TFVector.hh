@@ -48,6 +48,14 @@ namespace RavlN {
     TFVectorC()
       {}
     //: Default constructor.
+    // Note: The default constructor of 'DataT' is used to contruct
+    // the elements of the vector, for builtin types this means
+    // their values will be undefined.
+    
+    TFVectorC(const DataT *init);
+    //: Value constructor.
+    // Copy values from 'init'. It is the user's responsibility
+    // to ensure that data has at least 'N' elements. 
     
     UIntT Size() const
       { return N; }
@@ -165,6 +173,12 @@ namespace RavlN {
   };
   
 
+  template<class DataT,unsigned int N>
+  TFVectorC<DataT,N>::TFVectorC(const DataT *init) {
+    for(UIntT i = 0;i < N;i++)
+      data[i] = init[i];
+  }
+  
   template<class DataT,unsigned int N>
   inline 
   bool TFVectorC<DataT,N>::operator==(const TFVectorC<DataT,N> & ind) const {
