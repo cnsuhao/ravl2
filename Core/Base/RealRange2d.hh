@@ -269,6 +269,10 @@ namespace RavlN {
     RealRange2dC Rotate180(TFVectorC<RealT,2> centre);
     //: Rotate rectangle 180 degree's around the given center.
     
+    IndexRange2dC IndexRange() const
+    { return IndexRange2dC(rows.IndexRange(),cols.IndexRange());  }
+    //: Get the smallest integer range containing the real range.
+
   protected:
     inline const RealRange2dC & Range() const
     { return(*this); }

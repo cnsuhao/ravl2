@@ -262,6 +262,10 @@ namespace RavlN {
     { return oth.Range1() != Range1() || oth.Range2() != Range2() || oth.Range3() != Range3(); }
     //: Are two ranges unequal ?
     
+    IndexRange3dC IndexRange() const
+    { return IndexRange3dC(is.IndexRange(),js.IndexRange(),ks.IndexRange());  }
+    //: Get the smallest integer range containing the real range.
+    
   protected:
     inline const RealRange3dC & Range() const
     { return(*this); }

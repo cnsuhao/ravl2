@@ -16,6 +16,7 @@
 
 #include "Ravl/Types.hh"
 #include "Ravl/IndexRange1d.hh"
+#include "Ravl/Math.hh"
 
 namespace RavlN {
 #if RAVL_VISUALCPP_NAMESPACE_BUG && RAVL_HAVE_STDNAMESPACE
@@ -211,6 +212,10 @@ namespace RavlN {
       return *this;
     }
     //: Modify this range to ensure subRange is contained within it.
+    
+    IndexRangeC IndexRange() const
+    { return IndexRangeC(Floor(min),Ceil(max));  }
+    //: Get the smallest integer range containing the real range.
     
   private:
     RealT min; // Minimum index.
