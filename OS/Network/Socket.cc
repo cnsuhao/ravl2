@@ -290,9 +290,21 @@ namespace RavlN {
   //: Get host name 
   
   StringC SocketBodyC::ConnectedHost() { 
-    if(addr == 0)
+    StringC ret("-failed-");
+    if(fd == 0)
+      return ret;
+    socklen_t namelen = sizeof(sockaddr) + 256;
+    struct sockaddr *name = (struct sockaddr *) new char[namelen];
+    if(getpeername(fd,name,&namelen) != 0) {
+      cerr << "SocketBodyC::ConnectedHost(), gerpeername failed. Error=" << errno << "\n";
       return StringC("unknown");
-    return StringC("notimplemented.");
+    }
+    char hostname[1024];
+    if(getnameinfo(name,namelen,hostname,1024,0,0,0) == 0) //NI_NOFQDN
+      ret = StringC(hostname);
+    ONDEBUG(cerr << "Hostname=" << hostname << "\n");
+    delete [] (char*) name;
+    return ret;
   }
   
   //: Get other port number.
