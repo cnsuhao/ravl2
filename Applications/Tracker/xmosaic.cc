@@ -263,7 +263,7 @@ int xmosaic(int nargs,char **argv) {
   int cthreshold = opt.Int("ct",30,"Corner threshold. ");
   int cwidth     = opt.Int("cw",7,"Corner filter width. ");
   int mthreshold = opt.Int("mt",20,"Match threshold. ");
-  int mwidth     = opt.Int("mw",17,"Tracker feature width. ");
+  int mwidth     = opt.Int("mw",17,"Tracker feature width (i.e. minimum distance between features). ");
   int lifeTime   = opt.Int("ml",8,"Lifetime of a point without a match in the incoming images. ");
   int searchSize = opt.Int("ss",25,"Search size. How far to look from the predicted position of the feature.");
   RealT cx_ratio = opt.Real("cx",0.5,"Image centre x coordinate as ratio of image width. ");

@@ -30,10 +30,10 @@ int main(int nargs,char **argv) {
   int cthreshold = opt.Int("ct",30,"Corner threshold. ");
   int cwidth     = opt.Int("cw",7,"Corner filter width. ");
   RealT mthreshold = opt.Int("mt",20,"Matching threshold. ");
-  int mwidth     = opt.Int("mw",15,"Tracker feature width. ");
+  int mwidth     = opt.Int("mw",15,"Tracker feature width (i.e. minimum distance between features). ");
   int lifeTime   = opt.Int("ml",8,"Lifetime of a point without a match in the incoming images. ");
   int searchSize = opt.Int("ss",25,"Search size. How far to look from the predicted position of the feature.");
-  bool noop      = opt.Boolean("no",false,"No output, usefull for benchmarking. ");
+  bool noop      = opt.Boolean("no",false,"No output, useful for benchmarking. ");
   bool normCorr  = opt.Boolean("nc",false,"Use normalised correlation. ");
   UIntT maxFrames = (UIntT) opt.Int("mf",-1,"Maximum frames to process. ");
   UIntT newFreq = opt.Int("nf",5,"Renew frequency. ");
