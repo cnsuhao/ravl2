@@ -8,6 +8,7 @@
 #define RAVL_REDUCESUBSET_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! docentry="Ravl.Pattern Recognition.Dimension Reduction"
 //! author="Charles Galambos"
 
 #include "Ravl/PatternRec/Reduce.hh"
