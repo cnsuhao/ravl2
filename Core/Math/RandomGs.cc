@@ -4,21 +4,10 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-// IAPS - Image analysis program system
-// 
-// File name  : RandomGs.cc
-// Description: 
-// Last change: 26.04.1995
-// Author     : Andrew Stoddart (A.Stoddart@ee.surrey.ac.uk)
-// Libraries  : Mstd
-// ------------------------------------------------------------------------
-//
-// Modifications:
-//
-//
-//
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! date="26.04.1995"
+//! author="Andrew Stoddart"
 //! file="Ravl/Core/Math/RandomGs.cc"
 
 #include "Ravl/StdMath.hh" // sqrt(), log()

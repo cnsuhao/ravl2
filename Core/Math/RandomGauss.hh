@@ -11,8 +11,8 @@
 //! userlevel=Normal
 //! file="Ravl/Core/Math/RandomGauss.hh"
 //! lib=RavlCore
-//! author="Charles Galambos"
-//! date="24/01/2001"
+//! author="Andrew Stoddart"
+//! date="26/04/1995"
 //! docentry="Ravl.Core.Math"
 
 #include "Ravl/Random.hh"
