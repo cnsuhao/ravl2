@@ -41,7 +41,7 @@ namespace RavlN {
   bool UsingRavlMain()
   { return usedRavlMain; }
   
-  //: Are we using AMMA_ENTRY_POINT.
+  //: Are we using RAVL_ENTRY_POINT.
   // Used to decide how to handle some internal errors.
 
   int RavlMain(int argc, char* argv[],int (*func)(int argc, char* argv[]))

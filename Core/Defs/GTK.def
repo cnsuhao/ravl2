@@ -18,7 +18,8 @@ GLIBPATH = /opt/PDgtk/glib-1.2.7
 GTKPPATH = /opt/PDgtk/gtk+-1.2.7
 endif
 
-GTKCONFIG = $(GTKPPATH)/bin/gtk-config
+#GTKCONFIG = $(GTKPPATH)/bin/gtk-config
+GTKCONFIG = gtk-config
 
 GTKCFLAGS = `$(GTKCONFIG) --cflags`
 GTKLIBS =  `$(GTKCONFIG) --libs`

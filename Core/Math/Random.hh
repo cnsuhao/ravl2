@@ -35,19 +35,19 @@ namespace RavlN {
   long int RandomInt(RandomSeedT & idum) { 
     return nrand48(idum);
   }
-  // Returns an integer between 0 and RandomIntMax.
+  // Returns an integer between 0 and RandomIntMaxValue.
   
   long int RandomInt();
-  // Returns an integer between 0 and AMMA_RandomIntMax.
+  // Returns an integer between 0 and RandomIntMaxValue.
   
   inline
   double Random1(RandomSeedT & idum){ 
     return  erand48(idum); 
   }
-  // Returns a uniform random number between 0 and 1.
+  // Returns a random number between 0 and 1 with a uniform distribution.
 
   double Random1();
-  // Returns a uniform random number between 0 and 1.
+  // Returns a random number between 0 and 1 with a uniform distribution.
   
   float  RandomGauss();
   // Returns a Gaussian distributed zero mean random

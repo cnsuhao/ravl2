@@ -49,7 +49,7 @@ namespace RavlN {
     DListBodyC()
       {}
     //: Default constructor.
-
+    
     ~DListBodyC()
       { Empty(); }
     //: Destructor.
