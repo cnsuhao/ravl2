@@ -5,19 +5,15 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 #! rcsid="$Id$"
-#! file="Ravl/Math/Geometry/Euclidean/defs.mk"
 
 PACKAGE=Ravl
 
-NESTED=2D.r 3D.r
+HEADERS= LinePP3d.hh  LinePV3d.hh  PlaneABCD3d.hh  PlanePVV3d.hh Point3d.hh
 
-HEADERS=FPoint.hh Point2d.hh  Point3d.hh  Point4d.hh
-
-SOURCES=Point2d.cc
+SOURCES= LinePP3d.cc  LinePV3d.cc  PlaneABCD3d.cc  PlanePVV3d.cc
 
 PLIB=RavlMath
 
-LIBDEPS=RavlGeom.def
+LIBDEPS=RavlMath3D.def
 
-USESLIBS=RavlMath RavlCore 
-
+USESLIBS=RavlMath
