@@ -100,7 +100,7 @@ namespace RavlGUIN {
   //: Set text to edit.
   // This should only be called within the GUI thread.
   
-  bool TextEntryBodyC::GUISetText(StringC &txt) {
+  bool TextEntryBodyC::GUISetText(const StringC &txt) {
     MutexLockC lock(access);
     text=txt;
     lock.Unlock();
@@ -135,20 +135,20 @@ namespace RavlGUIN {
     return true;
   }
 
-  bool TextEntryBodyC::GUIHideText(bool& hide) {
+  bool TextEntryBodyC::GUIHideText(bool hide) {
     bPasswdMode = hide;
     if(widget == 0)
       return true;
     gtk_entry_set_visibility (GTK_ENTRY (widget), !hide);
     return true;
   }
-
-  bool TextEntryBodyC::HideText(const bool& hide) {
+  
+  bool TextEntryBodyC::HideText(bool hide) {
     Manager.Queue(Trigger(TextEntryC(*this),&TextEntryC::GUIHideText,hide));
     return true;
   }
 
-  bool TextEntryBodyC::GUISetEditable (bool & editable) 
+  bool TextEntryBodyC::GUISetEditable (bool editable) 
   {
     isEditable = editable ; 
     if (widget == 0)
@@ -159,7 +159,7 @@ namespace RavlGUIN {
 
 
 
-  bool TextEntryBodyC::SetEditable (const bool & editable) 
+  bool TextEntryBodyC::SetEditable (bool editable) 
   {
     Manager.Queue(Trigger(TextEntryC(*this),&TextEntryC::GUISetEditable,editable)) ;
     return true ; 

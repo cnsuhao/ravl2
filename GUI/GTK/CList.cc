@@ -164,7 +164,7 @@ namespace RavlGUIN {
   //: Append a line entry.  
   // GUI thread only.
   
-  bool CListBodyC::GUIAppendCLine(int &id,SArray1dC<CListCellC> &line) {
+  bool CListBodyC::GUIAppendCLine(int id,SArray1dC<CListCellC> line) {
     if(widget == 0) {
       data.InsLast(Tuple2C<IntT,SArray1dC<CListCellC> >(id,line));
       return true;
@@ -202,7 +202,7 @@ namespace RavlGUIN {
   //: Append a line entry.  
   // GUI thread only.
   
-  bool CListBodyC::GUIAppendLine(int &id,SArray1dC<StringC> &line) {
+  bool CListBodyC::GUIAppendLine(int id,const SArray1dC<StringC> &line) {
     if(widget == 0) {
       SArray1dC<CListCellC> newLine(cols);
       for(SArray1dIter2C<CListCellC,StringC> it(newLine,line);it;it++)
@@ -229,7 +229,7 @@ namespace RavlGUIN {
   //: Remove a line entry.  
   // GUI thread only.
   
-  bool CListBodyC::GUIRemoveLine(int &id) {
+  bool CListBodyC::GUIRemoveLine(int id) {
     if(widget == 0) {
       //cerr << "CListBodyC::GUIRemoveLine(), WARNING: Called before widget constructed. \n";
       for(DLIterC<Tuple2C<IntT,SArray1dC<CListCellC> > > it2(data);it2;it2++) {
@@ -250,7 +250,7 @@ namespace RavlGUIN {
   
   //: Remove a line entry.  
   
-  void CListBodyC::RemoveLine(int &id) {
+  void CListBodyC::RemoveLine(int id) {
     Manager.Queue(Trigger(CListC(*this),&CListC::GUIRemoveLine,id));
   }
 
@@ -258,7 +258,7 @@ namespace RavlGUIN {
   // Each line in the CList has to be given a unique 'id'.
   // If the 'id' is already present that row will be replaced by this method.
   
-  bool CListBodyC::GUIInsertCLine(int &id,int &rowNo,SArray1dC<CListCellC> &line) {
+  bool CListBodyC::GUIInsertCLine(int id,int rowNo,SArray1dC<CListCellC> line) {
     if(widget == 0) {
       toDo.InsLast(Trigger(CListC(*this),&CListC::GUIInsertCLine,id,rowNo,line));
       return true;
@@ -311,7 +311,7 @@ namespace RavlGUIN {
   // Each line in the CList has to be given a unique 'id'.
   // If the 'id' is already present that row will be replaced by this method.
   
-  bool CListBodyC::GUIInsertLine(int &id,int &rowNo,SArray1dC<StringC> &line) {
+  bool CListBodyC::GUIInsertLine(int id,int rowNo,const SArray1dC<StringC> &line) {
     if(widget == 0) {
       toDo.InsLast(Trigger(CListC(*this),&CListC::GUIInsertLine,id,rowNo,line));
       return true;
@@ -340,12 +340,12 @@ namespace RavlGUIN {
   // Each line in the CList has to be given a unique 'id'.
   // If the 'id' is already present that row will be replaced by this method.
   
-  bool CListBodyC::InsertLine(int &id,int &rowNo,SArray1dC<CListCellC> &line) {
+  bool CListBodyC::InsertLine(int id,int rowNo,const SArray1dC<CListCellC> &line) {
     Manager.Queue(Trigger(CListC(*this),&CListC::GUIInsertCLine,id,rowNo,line));
     return true;
   }
 
-  bool CListBodyC::InsertLine(int &id,int &rowNo,SArray1dC<StringC> &line) {
+  bool CListBodyC::InsertLine(int id,int rowNo,const SArray1dC<StringC> &line) {
     Manager.Queue(Trigger(CListC(*this),&CListC::GUIInsertLine,id,rowNo,line));
     return true;
   }
@@ -353,7 +353,7 @@ namespace RavlGUIN {
   
   //: Test if an ID exists.
   
-  IntT CListBodyC::RowOfId(int &id) {
+  IntT CListBodyC::RowOfId(int id) {
     ReadBackLockC lock; // Get lock on GUI thread.
     return gtk_clist_find_row_from_data (GTK_CLIST(widget),(void *) id);
   }
@@ -361,27 +361,27 @@ namespace RavlGUIN {
   //: Append a line entry.  
   // GUI thread only.
   
-  void CListBodyC::AppendLine(int &id,SArray1dC<CListCellC> &line) {
+  void CListBodyC::AppendLine(int id,const SArray1dC<CListCellC> &line) {
     Manager.Queue(Trigger(CListC(*this),&CListC::GUIAppendCLine,id,line));
   }
   
   //: Append a line entry.  
   // GUI thread only.
   
-  void CListBodyC::AppendLine(int &id,SArray1dC<StringC> &line) {
+  void CListBodyC::AppendLine(int id,const SArray1dC<StringC> &line) {
     Manager.Queue(Trigger(CListC(*this),&CListC::GUIAppendLine,id,line));
   }
   
   //: Set the contents of a cell to a string.
   
-  bool CListBodyC::SetCellText(int &row,int &col,StringC &val) {
+  bool CListBodyC::SetCellText(int row,int col,const StringC &val) {
     Manager.Queue(Trigger(CListC(*this),&CListC::GUISetCellText,row,col,val));
     return true;
   }
   
   //: Set the contents of a cell to a string.
   
-  bool CListBodyC::GUISetCellText(int &row,int &col,StringC &val) {
+  bool CListBodyC::GUISetCellText(int row,int col,const StringC &val) {
     if(widget == 0) {
       toDo.InsLast(Trigger(CListC(*this),&CListC::GUISetCellText,row,col,val));
       return true;
@@ -393,7 +393,7 @@ namespace RavlGUIN {
   //: Set the contents of a cell to a string.
   // Select row by ID.
   
-  bool CListBodyC::SetCellIDText(int &rowId,int &col,StringC &val) {
+  bool CListBodyC::SetCellIDText(int rowId,int col,const StringC &val) {
     Manager.Queue(Trigger(CListC(*this),&CListC::GUISetCellIDText,rowId,col,val));
     return true;
   }
@@ -401,7 +401,7 @@ namespace RavlGUIN {
   //: Set the contents of a cell to a string.
   // Select row by ID.
   
-  bool CListBodyC::GUISetCellIDText(int &rowId,int &col,StringC &val) {
+  bool CListBodyC::GUISetCellIDText(int rowId,int col,const StringC &val) {
     if(widget == 0) {
       toDo.InsLast(Trigger(CListC(*this),&CListC::GUISetCellIDText,rowId,col,val));
       return true;
@@ -415,26 +415,27 @@ namespace RavlGUIN {
   
   //: Set the contents of a cell to a string.
   
-  bool CListBodyC::SetCellPixmap(int &row,int &col,PixmapC &pm) {
+  bool CListBodyC::SetCellPixmap(int row,int col,const PixmapC &pm) {
     Manager.Queue(Trigger(CListC(*this),&CListC::GUISetCellPixmap,row,col,pm));
     return true;
   }
   
   //: Set the contents of a cell to a string.
   
-  bool CListBodyC::GUISetCellPixmap(int &row,int &col,PixmapC &pm) {
+  bool CListBodyC::GUISetCellPixmap(int row,int col,const PixmapC &pm) {
     if(widget == 0) {
       toDo.InsLast(Trigger(CListC(*this),&CListC::GUISetCellPixmap,row,col,pm));
       return true;
     }
-    gtk_clist_set_pixmap (GTK_CLIST(widget),row,col,pm.Pixmap(),pm.Mask());
+    PixmapC &xpm = const_cast<PixmapC &>(pm);
+    gtk_clist_set_pixmap (GTK_CLIST(widget),row,col,xpm.Pixmap(),xpm.Mask());
     return true;
   }
   
   //: Set the contents of a cell to a string.
   // Select row by ID.
   
-  bool CListBodyC::SetCellIDPixmap(int &rowId,int &col,PixmapC &pm) {
+  bool CListBodyC::SetCellIDPixmap(int rowId,int col,const PixmapC &pm) {
     Manager.Queue(Trigger(CListC(*this),&CListC::GUISetCellIDPixmap,rowId,col,pm));
     return true;
   }
@@ -442,7 +443,7 @@ namespace RavlGUIN {
   //: Set the contents of a cell to a string.
   // Select row by ID.
   
-  bool CListBodyC::GUISetCellIDPixmap(int &rowId,int &col,PixmapC &pm) {
+  bool CListBodyC::GUISetCellIDPixmap(int rowId,int col,const PixmapC &pm) {
     if(widget == 0) {
       toDo.InsLast(Trigger(CListC(*this),&CListC::GUISetCellIDPixmap,rowId,col,pm));
       return true;
@@ -450,13 +451,14 @@ namespace RavlGUIN {
     int rowNo = gtk_clist_find_row_from_data (GTK_CLIST(widget),(void *) rowId);
     if(rowNo < 0)
       return true; // Not found.
-    gtk_clist_set_pixmap (GTK_CLIST(widget),rowNo,col,pm.Pixmap(),pm.Mask());
+    PixmapC &xpm = const_cast<PixmapC &>(pm);
+    gtk_clist_set_pixmap (GTK_CLIST(widget),rowNo,col,xpm.Pixmap(),xpm.Mask());
     return true;
   }
   
   //: Force an item to be selected.
   
-  bool CListBodyC::GUISelect(int &id) {
+  bool CListBodyC::GUISelect(int id) {
     if(widget == 0) {
       // FIXME:- This should be handled properly....
       cerr << "WARNING: CListBodyC::GUISelect() called before widget created. \n";
@@ -471,7 +473,7 @@ namespace RavlGUIN {
   
   //: Force an item to be unselected.
   
-  bool CListBodyC::GUIUnselect(int &id) {
+  bool CListBodyC::GUIUnselect(int id) {
     if(widget == 0) {
       // FIXME:- This should be handled properly.
       cerr << "WARNING: CListBodyC::GUIUnselect() called before widget created. \n";
@@ -511,14 +513,14 @@ namespace RavlGUIN {
   
   //: Force an item to be selected.
   
-  bool CListBodyC::Select(int &id) {
+  bool CListBodyC::Select(int id) {
     Manager.Queue(Trigger(CListC(*this),&CListC::GUISelect,id));
     return true;
   }
   
   //: Force an item to be unselected.
   
-  bool CListBodyC::Unselect(int &id) {
+  bool CListBodyC::Unselect(int id) {
     Manager.Queue(Trigger(CListC(*this),&CListC::GUIUnselect,id));
     return true;
   }
@@ -539,7 +541,7 @@ namespace RavlGUIN {
 
   //: Move the row with the given id to the rowNo .
   
-  bool CListBodyC::GUIMoveID2Row(int &id,int &rowNo) {
+  bool CListBodyC::GUIMoveID2Row(int id,int rowNo) {
     if(widget == 0) {
       // FIXME:- This should be handled properly.
       ONDEBUG(cerr << "WARNING: CListBodyC::GUIMoveID2Row() called before widget created. \n");
@@ -658,7 +660,7 @@ namespace RavlGUIN {
   //: Set the column resize policy for 'colNo'
   // If colNo is -1 all columns are changed.
   
-  bool CListBodyC::SetColumnResizePolicy(IntT &colNo,CListColumnResizeModeT &policy) {
+  bool CListBodyC::SetColumnResizePolicy(IntT colNo,CListColumnResizeModeT policy) {
     Manager.Queue(Trigger(CListC(*this),&CListC::GUISetColumnResizePolicy,colNo,policy));
     return true;
   }
@@ -666,7 +668,7 @@ namespace RavlGUIN {
   //: Set the column resize policy for 'colNo'
   // If colNo is -1 all columns are changed.
   
-  bool CListBodyC::GUISetColumnResizePolicy(IntT &colNo,CListColumnResizeModeT &policy) {
+  bool CListBodyC::GUISetColumnResizePolicy(IntT colNo,CListColumnResizeModeT policy) {
     if(widget == 0) {
       ONDEBUG(cerr << "CListBodyC::GUISetColumnResizePolicy(), WARNING: Widget not ready. ");
       toDo.InsLast(Trigger(CListC(*this),&CListC::GUISetColumnResizePolicy,colNo,policy));
@@ -707,7 +709,7 @@ namespace RavlGUIN {
 
   //: Set column width.
   
-  bool CListBodyC::SetColumnWidth(IntT &colNo,IntT &width) {
+  bool CListBodyC::SetColumnWidth(IntT colNo,IntT width) {
     Manager.Queue(Trigger(CListC(*this),&CListC::GUISetColumnWidth,colNo,width));
     return true;
   }
@@ -715,7 +717,7 @@ namespace RavlGUIN {
   //: Set column width.
   // Use from the GUI thread only.
   
-  bool CListBodyC::GUISetColumnWidth(IntT &colNo,IntT &width) {
+  bool CListBodyC::GUISetColumnWidth(IntT colNo,IntT width) {
     if(widget == 0) {
       ONDEBUG(cerr << "CListBodyC::GUISetColumnWidth(), WARNING: Widget not ready. ");
       toDo.InsLast(Trigger(CListC(*this),&CListC::GUISetColumnWidth,colNo,width));

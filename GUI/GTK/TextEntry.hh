@@ -53,7 +53,7 @@ namespace RavlGUIN {
     Signal1C<StringC> &Activate() { return activate; }
     //: Activate, called when text is changed.
     
-    bool HideText(const bool& hide);
+    bool HideText(bool hide);
     //: Hides text entered into this field
     // If the argument is true, text in this field will be displayed as *s
 
@@ -62,18 +62,18 @@ namespace RavlGUIN {
     //: Set text to edit.
     // This should only be called within the GUI thread.
     
-    bool GUISetText(StringC &txt);
+    bool GUISetText(const StringC &txt);
     //: Set text to edit.
     // This should only be called within the GUI thread.
     
-    bool SetEditable (const bool & editable); 
+    bool SetEditable (bool editable); 
     //: Sets the to be widget editable/not editable  
 
-    bool GUISetEditable (bool & editable) ; 
+    bool GUISetEditable (bool editable) ; 
     //: Sets the widget to be editable/not edtiable 
     // GUI Thread only 
 
-    bool GUIHideText(bool& hide);
+    bool GUIHideText(bool hide);
     //: Hides text entered into this field
     // GUI Thread only
 
@@ -140,41 +140,41 @@ namespace RavlGUIN {
     //: Set text to edit.
     // This should only be called within the GUI thread.
     
-    bool GUIHideText(bool& hide)
+    bool GUIHideText(bool hide)
     { return Body().GUIHideText(hide); }
     //: Hides text entered into this field
     // GUI thread only
     
-    bool SetEditable (const bool & editable)
+    bool SetEditable (bool editable)
     { return Body().SetEditable(editable) ; }  
     //: Sets the to be widget editable/not editable  
     
-    bool GUISetEditable (bool & editable)
+    bool GUISetEditable (bool editable)
     { return Body().GUISetEditable(editable) ; } 
     //: Sets the widget to be editable/not edtiable 
     // GUI Thread only
 
-    bool HideText(const bool& hide) 
+    bool HideText(bool hide) 
     { return Body().HideText(hide); }
     //: Hides text entered into this field
     // If the argument is true, text in this field will be displayed as *s
 
     StringC Text() 
-      { return Body().Text(); }
+    { return Body().Text(); }
     //: Access text
     
     bool Text(const StringC &txt)
-      { return Body().Text(txt); }
+    { return Body().Text(txt); }
     //: Update text.
     // This is thread safe, with respect to the GUI thread.
     
-    void SetText(StringC &txt)
-      { Body().Text(txt); }
+    void SetText(const StringC &txt)
+    { Body().Text(txt); }
     //: Update text, for signal functions.
     // This is thread safe, with respect to the GUI thread.
     
     Signal1C<StringC> &Activate() 
-      { return Body().Activate(); }
+    { return Body().Activate(); }
     //: Activate, called when text is changed.
     
     friend class TextEntryBodyC;

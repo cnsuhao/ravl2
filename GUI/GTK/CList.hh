@@ -89,93 +89,92 @@ namespace RavlGUIN {
     virtual bool Create();
     //: Create the widget.
     
-    bool GUIAppendLine(int &id,SArray1dC<StringC> &line);
+    bool GUIAppendLine(int id,const SArray1dC<StringC> &line);
     //: Append a line entry.  
     // GUI thread only. <br>
     // Each line in the CList has to be given a unique 'id'.
     // If the 'id' is already present that row will be replaced by this method.
     
-    bool GUIAppendCLine(int &id,SArray1dC<CListCellC> &line);
+    bool GUIAppendCLine(int id,SArray1dC<CListCellC> line);
     //: Append a line entry.  
     // GUI thread only. <br>
     // Each line in the CList has to be given a unique 'id'.
     // If the 'id' is already present that row will be replaced by this method.
     
-    
-    void AppendLine(int &id,SArray1dC<CListCellC> &line);
+    void AppendLine(int id,const SArray1dC<CListCellC> &line);
     //: Append a line entry.  
     // Each line in the CList has to be given a unique 'id'.
     // If the 'id' is already present that row will be replaced by this method.
     
-    void AppendLine(int &id,SArray1dC<StringC> &line);
+    void AppendLine(int id,const SArray1dC<StringC> &line);
     //: Append a line entry.  
     // Each line in the CList has to be given a unique 'id'.
     // If the 'id' is already present that row will be replaced by this method.
     
-    bool GUIInsertCLine(int &id,int &rowNo,SArray1dC<CListCellC> &line);
+    bool GUIInsertCLine(int id,int rowNo,SArray1dC<CListCellC> line);
     //: Insert a line entry at the given row.
     // Each line in the CList has to be given a unique 'id'.
     // If the 'id' is already present that row will be replaced by this method.
     
-    bool GUIInsertLine(int &id,int &rowNo,SArray1dC<StringC> &line);
+    bool GUIInsertLine(int id,int rowNo,const SArray1dC<StringC> &line);
     //: Insert a line entry at the given row.
     // Each line in the CList has to be given a unique 'id'.
     // If the 'id' is already present that row will be replaced by this method.
     
-    bool InsertLine(int &id,int &rowNo,SArray1dC<CListCellC> &line);
+    bool InsertLine(int id,int rowNo,const SArray1dC<CListCellC> &line);
     //: Insert a line entry at the given row.
     // Each line in the CList has to be given a unique 'id'.
     // If the 'id' is already present that row will be replaced by this method.
     
-    bool InsertLine(int &id,int &rowNo,SArray1dC<StringC> &line);
+    bool InsertLine(int id,int rowNo,const SArray1dC<StringC> &line);
     //: Insert a line entry at the given row.
     // Each line in the CList has to be given a unique 'id'.
     // If the 'id' is already present that row will be replaced by this method.
     
-    bool GUIRemoveLine(int &id);
+    bool GUIRemoveLine(int id);
     //: Remove a line with given 'id'.  
     // GUI thread only.
     
-    void RemoveLine(int &id);
+    void RemoveLine(int id);
     //: Remove a line with given 'id'.  
     
-    IntT RowOfId(int &id);
+    IntT RowOfId(int id);
     //: Find the row number an id is associated with.
     // If the id is unknown -1 is returned.
     
-    bool SetCellText(int &row,int &col,StringC &val);
+    bool SetCellText(int row,int col,const StringC &val);
     //: Set the contents of a cell to a string.
     
-    bool GUISetCellText(int &row,int &col,StringC &val);
+    bool GUISetCellText(int row,int col,const StringC &val);
     //: Set the contents of a cell to a string.
     
-    bool SetCellIDText(int &rowId,int &col,StringC &val);
-    //: Set the contents of a cell to a string.
-    // Select row by ID.
-    
-    bool GUISetCellIDText(int &rowId,int &col,StringC &val);
+    bool SetCellIDText(int rowId,int col,const StringC &val);
     //: Set the contents of a cell to a string.
     // Select row by ID.
     
-    bool SetCellPixmap(int &row,int &col,PixmapC &val);
-    //: Set the contents of a cell to a string.
-    
-    bool GUISetCellPixmap(int &row,int &col,PixmapC &val);
-    //: Set the contents of a cell to a string.
-    
-    bool SetCellIDPixmap(int &rowId,int &col,PixmapC &val);
+    bool GUISetCellIDText(int rowId,int col,const StringC &val);
     //: Set the contents of a cell to a string.
     // Select row by ID.
     
-    bool GUISetCellIDPixmap(int &rowId,int &col,PixmapC &val);
+    bool SetCellPixmap(int row,int col,const PixmapC &val);
+    //: Set the contents of a cell to a string.
+    
+    bool GUISetCellPixmap(int row,int col,const PixmapC &val);
+    //: Set the contents of a cell to a string.
+    
+    bool SetCellIDPixmap(int rowId,int col,const PixmapC &val);
     //: Set the contents of a cell to a string.
     // Select row by ID.
     
-    bool GUISelect(int &id);
+    bool GUISetCellIDPixmap(int rowId,int col,const PixmapC &val);
+    //: Set the contents of a cell to a string.
+    // Select row by ID.
+    
+    bool GUISelect(int id);
     //: Force an item to be selected.
     // Use from the GUI thread only.
     
-    bool GUIUnselect(int &id);
+    bool GUIUnselect(int id);
     //: Force line with given 'id' to be unselected.
     // Use from the GUI thread only.
     
@@ -187,13 +186,13 @@ namespace RavlGUIN {
     //: Remove all entries from the selection.
     // Use from the GUI thread only.
 
-    bool Select(int &id);
+    bool Select(int id);
     //: Force an item to be selected.
 
     bool SelectAll();
     //: Force all items to be selected.
     
-    bool Unselect(int &id);
+    bool Unselect(int id);
     //: Force an item to be unselected.
     
     bool UnselectAll();
@@ -209,7 +208,7 @@ namespace RavlGUIN {
     DListC<IntT> Selection();
     //: Access current selection.
     
-    bool GUIMoveID2Row(int &id,int &rowNo);
+    bool GUIMoveID2Row(int id,int rowNo);
     //: Move the row with the given id to the rowNo .
     // Use from the GUI thread only.
     
@@ -247,19 +246,19 @@ namespace RavlGUIN {
     IntT RowID(IntT rowNo);
     //: Retrieve the ID of a given row.
     
-    bool SetColumnResizePolicy(IntT &colNo,CListColumnResizeModeT &policy);
+    bool SetColumnResizePolicy(IntT colNo,CListColumnResizeModeT policy);
     //: Set the column resize policy for 'colNo'
     // If colNo is -1 all columns are changed.
     
-    bool GUISetColumnResizePolicy(IntT &colNo,CListColumnResizeModeT &policy);
+    bool GUISetColumnResizePolicy(IntT colNo,CListColumnResizeModeT policy);
     //: Set the column resize policy for 'colNo'
     // If colNo is -1 all columns are changed.
     // Use from the GUI thread only.
     
-    bool SetColumnWidth(IntT &colNo,IntT &width);
+    bool SetColumnWidth(IntT colNo,IntT width);
     //: Set column width.
     
-    bool GUISetColumnWidth(IntT &colNo,IntT &width);
+    bool GUISetColumnWidth(IntT colNo,IntT width);
     //: Set column width.
     // Use from the GUI thread only.
     
@@ -342,54 +341,54 @@ namespace RavlGUIN {
     //: Access body.
     
   public:
-    bool GUIAppendLine(int &id,SArray1dC<StringC> &line)
+    bool GUIAppendLine(int id,const SArray1dC<StringC> &line)
     { return Body().GUIAppendLine(id,line); }
     //: Append a line entry.
     // GUI thread only.
     
-    bool GUIAppendCLine(int &id,SArray1dC<CListCellC> &line)
+    bool GUIAppendCLine(int id,const SArray1dC<CListCellC> &line)
     { return Body().GUIAppendCLine(id,line); }
     //: Append a line entry.
     // GUI thread only.
     
-    void AppendLine(int &id,SArray1dC<CListCellC> line)
+    void AppendLine(int id,const SArray1dC<CListCellC> &line)
     { Body().AppendLine(id,line); }
     //: Append a line entry.  
     
-    void AppendLine(int &id,SArray1dC<StringC> line)
+    void AppendLine(int id,const SArray1dC<StringC> &line)
     { Body().AppendLine(id,line); }
     //: Append a line entry.  
     
-    bool GUIInsertCLine(int &id,int &rowNo,SArray1dC<CListCellC> &line)
+    bool GUIInsertCLine(int id,int rowNo,const SArray1dC<CListCellC> &line)
     { return Body().GUIInsertCLine(id,rowNo,line); }
     //: Insert a line entry at the given row.
     // Each line in the CList has to be given a unique 'id'.
     // If the 'id' is already present that row will be replaced by this method.
-
-    bool GUIInsertLine(int &id,int &rowNo,SArray1dC<StringC> &line)
+    
+    bool GUIInsertLine(int id,int rowNo,const SArray1dC<StringC> &line)
     { return Body().GUIInsertLine(id,rowNo,line); }
     //: Insert a line entry at the given row.
     // Each line in the CList has to be given a unique 'id'.
     // If the 'id' is already present that row will be replaced by this method.
     
-    bool InsertLine(int id,int rowNo,SArray1dC<CListCellC> &line)
+    bool InsertLine(int id,int rowNo,const SArray1dC<CListCellC> &line)
     { return Body().InsertLine(id,rowNo,line); }
     //: Insert a line entry at the given row.
     // Each line in the CList has to be given a unique 'id'.
     // If the 'id' is already present that row will be replaced by this method.
     
-    bool InsertLine(int id,int rowNo,SArray1dC<StringC> &line)
+    bool InsertLine(int id,int rowNo,const SArray1dC<StringC> &line)
     { return Body().InsertLine(id,rowNo,line); }
     //: Insert a line entry at the given row.
     // Each line in the CList has to be given a unique 'id'.
     // If the 'id' is already present that row will be replaced by this method.
     
-    bool GUIRemoveLine(int &id)
+    bool GUIRemoveLine(int id)
     { return Body().GUIRemoveLine(id); }
     //: Remove a line entry.  
     // GUI thread only.
     
-    void RemoveLine(int &id)
+    void RemoveLine(int id)
     { Body().RemoveLine(id); }
     //: Remove a line entry.  
     
@@ -400,47 +399,47 @@ namespace RavlGUIN {
     // Note, this function suspends the GUI for a brief time and should be used
     // sparingly.
     
-    bool SetCellText(int &row,int &col,StringC &val)
+    bool SetCellText(int row,int col,const StringC &val)
     { return Body().SetCellText(row,col,val); }
     //: Set the contents of a cell to a string.
     
-    bool GUISetCellText(int &row,int &col,StringC &val)
+    bool GUISetCellText(int row,int col,const StringC &val)
     { return Body().GUISetCellText(row,col,val); }
     //: Set the contents of a cell to a string.
     
-    bool SetCellIDText(int &rowId,int &col,StringC &val)
+    bool SetCellIDText(int rowId,int col,const StringC &val)
     { return Body().SetCellText(rowId,col,val); }
     //: Set the contents of a cell to a string.
     // Row is indexed by ID.
     
-    bool GUISetCellIDText(int &rowId,int &col,StringC &val)
+    bool GUISetCellIDText(int rowId,int col,const StringC &val)
     { return Body().SetCellIDText(rowId,col,val); }
     //: Set the contents of a cell to a string.
     // Row is indexed by ID.
     
-    bool SetCellPixmap(int &row,int &col,PixmapC &val)
+    bool SetCellPixmap(int row,int col,const PixmapC &val)
     { return Body().SetCellPixmap(row,col,val); }
     //: Set the contents of a cell to a string.
     
-    bool GUISetCellPixmap(int &row,int &col,PixmapC &val)
+    bool GUISetCellPixmap(int row,int col,const PixmapC &val)
     { return Body().GUISetCellPixmap(row,col,val); }
     //: Set the contents of a cell to a string.
     
-    bool SetCellIDPixmap(int &rowId,int &col,PixmapC &val)
+    bool SetCellIDPixmap(int rowId,int col,const PixmapC &val)
     { return Body().SetCellPixmap(rowId,col,val); }
     //: Set the contents of a cell to a string.
     // Row is indexed by ID.
     
-    bool GUISetCellIDPixmap(int &rowId,int &col,PixmapC &val)
+    bool GUISetCellIDPixmap(int rowId,int col,const PixmapC &val)
     { return Body().SetCellIDPixmap(rowId,col,val); }
     //: Set the contents of a cell to a string.
     // Row is indexed by ID.
     
-    bool GUISelect(int &id)
+    bool GUISelect(int id)
     { return Body().GUISelect(id); }
     //: Force an item to be selected.
     
-    bool GUIUnselect(int &id)
+    bool GUIUnselect(int id)
     { return Body().GUIUnselect(id); }
     //: Force an item to be unselected.
     
@@ -452,11 +451,11 @@ namespace RavlGUIN {
     { return Body().GUISelectAll(); }
     //: Add all entries to the selection.
     
-    bool Select(int &id)
+    bool Select(int id)
     { return Body().Select(id); }
     //: Force an item to be selected.
     
-    bool Unselect(int &id)
+    bool Unselect(int id)
     { return Body().Unselect(id); }
     //: Force an item to be unselected.
     
@@ -480,7 +479,7 @@ namespace RavlGUIN {
     { return Body().Selection(); }
     //: Access current selection.
     
-    bool GUIMoveID2Row(int &id,int &rowNo)
+    bool GUIMoveID2Row(int id,int rowNo)
     { return Body().GUIMoveID2Row(id,rowNo); }
     //: Move the row with the given id to the rowNo .
     
@@ -539,7 +538,7 @@ namespace RavlGUIN {
     // CLIST_COLRESIZE_AUTO - Automaticly set width to fit data <br>
     // CLIST_COLRESIZE_OPTIMAL - Resize to current optimal now, (don't change the current mode.) <br>
     
-    bool GUISetColumnResizePolicy(IntT &colNo,CListColumnResizeModeT &policy)
+    bool GUISetColumnResizePolicy(IntT colNo,CListColumnResizeModeT policy)
     { return Body().GUISetColumnResizePolicy(colNo,policy); }
     //: Set the column resize policy for 'colNo'
     // If colNo is -1 all columns are changed. <br>
@@ -553,7 +552,7 @@ namespace RavlGUIN {
     { return Body().SetColumnWidth(colNo,width); }
     //: Set column width.
     
-    bool GUISetColumnWidth(IntT &colNo,IntT &width)
+    bool GUISetColumnWidth(IntT colNo,IntT width)
     { return Body().GUISetColumnWidth(colNo,width); }
     //: Set column width.
     // Use from the GUI thread only.
