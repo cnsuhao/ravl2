@@ -27,7 +27,7 @@ namespace RavlN {
   
   void Signal0BodyC::Connect(SignalConnector0BodyC &con) {
     RWLockHoldC hold(access,false); //
-    // Make new array 1 bigger than old.
+    // Make new array 1 bigger than old one.
     SArray1dC<SignalConnectorC> newouts(outputs.Size() + 1);
     for(SArray1dIter2C<SignalConnectorC,SignalConnectorC> it(outputs,newouts);it;it++)
       it.Data2() = it.Data1();   // Copy existing...
@@ -44,7 +44,11 @@ namespace RavlN {
     int ind = con.ind;
     if(ind < 0)
       return ; // Disconnected already.
-    // Make new array 1 bigger than old.
+    
+#if 0
+#endif
+    
+    // Make new array 1 smaller than old one.
     SArray1dC<SignalConnectorC> newouts(outputs.Size() - 1);
     for(int j = 0;j < ind;j++)
       newouts[j] = outputs[j];
@@ -79,9 +83,14 @@ namespace RavlN {
   //: Send default signal.
   
   bool Signal0BodyC::Invoke() {
-    RWLockHoldC hold(access,true); //
+    // Lock output list while we obtain a handle to it.
+    RWLockHoldC hold(access,RWLOCK_READONLY); 
     SArray1dIterC<SignalConnectorC> it(outputs);
     hold.Unlock();
+    // Flag that we're executing signal code.
+    // This is used to ensure all threads have left the signal handlers
+    // before they are disconnected.
+    RWLockHoldC holdExec(execLock,RWLOCK_READONLY);
     bool ret = true;
     for(;it;it++) 
       ret &= it.Data().Invoke();
@@ -141,6 +150,11 @@ namespace RavlN {
       hold.LockRd();
       SArray1dIterC<SignalConnectorC> it(outputs);
       hold.Unlock();
+      // Prevent threads from running while we disconnect the outputs.
+      // Note this may create a deadlock if the thread is being disconnect
+      // from by a currently running signal.
+      
+      RWLockHoldC holdExec(execLock,RWLOCK_WRITE); 
       for(;it;it++) 
 	it.Data().Disconnect();
     } while(outputs.Size() > 0) ;    

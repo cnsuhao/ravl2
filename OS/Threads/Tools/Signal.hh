@@ -243,6 +243,7 @@ namespace RavlN {
     //: Disconnect an input.
     
     RWLockC access; // Access control for structure.
+    RWLockC execLock; // Execution control, used to manage disconnection.
     SArray1dC<SignalConnectorC> outputs; // List of outputs.
     IntrDListC<SignalInterConnect0BodyC > inputs; // List of inputs.
     

@@ -288,6 +288,10 @@ namespace RavlN {
       RWLockHoldC hold(access,true);
       SArray1dIterC<SignalConnectorC> it(outputs);
       hold.Unlock();
+      // Flag that we're executing signal code.
+      // This is used to ensure all threads have left the signal handlers
+      // before they are disconnected.
+      RWLockHoldC holdExec(execLock,RWLOCK_READONLY);
       bool ret = true;
       for(;it;it++) {
 	SignalConnector3BodyC<Data1T,Data2T,Data3T> *sc3 = dynamic_cast<SignalConnector3BodyC<Data1T,Data2T,Data3T> *>(&it.Data().Body());
