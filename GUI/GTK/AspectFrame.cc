@@ -51,7 +51,7 @@ namespace RavlGUIN {
       Vector2dC sizemm = Manager.PhysicalScreenSize();
       Vector2dC pixelSize = sizemm/sizePix;
       screenCorrection = pixelSize[0] / pixelSize[1]; // row/col
-      cerr << "Correction=" << screenCorrection << "\n";
+      //cerr << "Correction=" << screenCorrection << "\n";
       // Used: xsize/ysize
     }
     
