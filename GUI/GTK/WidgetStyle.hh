@@ -34,6 +34,7 @@ namespace RavlGUIN {
 
   using namespace RavlImageN;
 
+  //! userlevel=Normal
   enum WidgetColourTypeT {
     WIDGET_COLOUR_FG,
     WIDGET_COLOUR_BG,
@@ -45,6 +46,7 @@ namespace RavlGUIN {
     WIDGET_COLOUR_BLACK,
     WIDGET_COLOUR_WHITE
   };
+  //: Specifies which colour to set
   
   //! userlevel=Develop
   //: Widget style
