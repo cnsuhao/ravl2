@@ -594,9 +594,9 @@ endif
 
 
 #define a name for the build type to be displayed to the user. 
-VAR_DISPLAY_NAME=$(VAR) ; 
+VAR_DISPLAY_NAME=$(VAR) 
 ifdef SHAREDBUILD 
-VAR_DISPLAY_NAME += " (shared) " ;
+VAR_DISPLAY_NAME += " (shared) " 
 endif 
 
  $(TARG_MUSTLINK_OBJS) : $(INST_FORCEOBJS)/%$(OBJEXT) : $(INST_OBJS)/%$(OBJEXT) $(INST_FORCEOBJS)/.dir
