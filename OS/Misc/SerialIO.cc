@@ -350,7 +350,7 @@ namespace RavlN {
 #if RAVL_HAVE_TERMIOS
     IntT fd = open(dev,O_WRONLY);
     SerialInit(fd);
-    ((OStreamC &)(*this)) = OStreamC(fid,buffered);
+    ((OStreamC &)(*this)) = OStreamC(fid,true,buffered);
 #endif
   }
   
@@ -363,7 +363,7 @@ namespace RavlN {
 #if RAVL_HAVE_TERMIOS
     IntT fd = open(dev,O_RDONLY);
     SerialInit(fd);
-    ((IStreamC &)(*this)) = IStreamC(fid,buffered);  
+    ((IStreamC &)(*this)) = IStreamC(fid,true,buffered);  
 #endif
   }
   
@@ -375,8 +375,8 @@ namespace RavlN {
 #if RAVL_HAVE_TERMIOS
     IntT fd = open(dev,O_RDWR);
     SerialInit(fd);
-    ((IStreamC &)(*this)) = IStreamC(fid,buffered);  
-    ((OStreamC &)(*this)) = OStreamC(fid,buffered);  
+    ((IStreamC &)(*this)) = IStreamC(fid,true,buffered);  
+    ((OStreamC &)(*this)) = OStreamC(fid,true,buffered);  
 #endif
   }
   

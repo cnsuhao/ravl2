@@ -56,14 +56,14 @@ namespace RavlN {
       if(!sock.IsValid())
 	return ;
     }
-    (*this).OStreamC::operator=(OStreamC(sock.Fd(),buffered));
+    (*this).OStreamC::operator=(OStreamC(sock.Fd(),true,buffered));
     sock.SetDontClose(true);
   }
   
   //: Use a socket to build new handle.
   
   NetOStreamC::NetOStreamC(const SocketC &nsock,bool buffered)
-    : OStreamC(nsock.Fd(),buffered),
+    : OStreamC(nsock.Fd(),true,buffered),
       sock(nsock)
   {
     sock.SetDontClose(true);
@@ -84,14 +84,14 @@ namespace RavlN {
       if(!sock.IsValid())
 	return ;
     }
-    (*this).IStreamC::operator=(IStreamC(sock.Fd(),buffered));
+    (*this).IStreamC::operator=(IStreamC(sock.Fd(),true,buffered));
     sock.SetDontClose(true);
   }
   
   //: Use a socket to build new handle.
   
   NetIStreamC::NetIStreamC(const SocketC &nsock,bool buffered) 
-    : IStreamC(nsock.Fd(),buffered),
+    : IStreamC(nsock.Fd(),true,buffered),
       sock(nsock)
   { sock.SetDontClose(true); }
   
