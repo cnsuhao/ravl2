@@ -97,7 +97,7 @@ namespace RavlImageN {
       return;
     }    
 #if 0
-    Vector2dC endv = ldir * ((RealT) orng.Cols());
+    Vector2dC endv(0,((RealT) orng.Cols()));
     // This attempts to be clever project the line back into
     // the source space, clipping it and the projecting it back
     // again.
