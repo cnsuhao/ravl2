@@ -72,9 +72,14 @@ namespace RavlN {
     }
     //: Create a unit vector with the same direction.
     
-    const FVectorC<N> &MakeUnit()
-    { (*this) = Unit(); return *this; }
+    const FVectorC<N> &MakeUnit() { 
+      RealT mag = Magnitude();
+      for(UIntT i = 0;i < N;i++)
+	ret[i] /= mag;
+      return *this; 
+    }
     //: Make this a unit vector.
+    // In place operation.
     
   };
 }
