@@ -31,10 +31,43 @@ namespace RavlGUIN {
       xml = GladeXMLC(gladeXml.Filename(),name);
   }
   
+  //: Constructor
+  
+  GladeWidgetBodyC::GladeWidgetBodyC(const StringC &widgetName,bool aCustomWidget) 
+    : name(widgetName),
+      customWidget(aCustomWidget)
+  {
+  }
+  
+  
+  
+  bool GladeWidgetBodyC::SetXML(const GladeXMLC &gladeXml)
+  {
+    if (xml.IsValid())
+    {
+      ONDEBUG(cerr << "GladeWidgetBodyC::SetXML already set" << endl;)
+      return true;
+    }
+    
+    if(customWidget)
+      xml = GladeXMLC(gladeXml.Filename(),name);
+    else
+      xml = gladeXml;
+    
+    return true;
+  }
+
   //: Create the widget.
   
   bool GladeWidgetBodyC::Create() {
     ONDEBUG(cerr << "GladeWidgetBodyC::Create(), Called. Name=" << name << "\n");
+
+    if (!xml.IsValid())
+    {
+      cerr << "GladeWidgetBodyC::Create called with no XML set" << endl;
+      return false;
+    }
+
     if(widget != 0)
       return true;
     widget = xml.Widget(name);
@@ -62,6 +95,13 @@ namespace RavlGUIN {
   
   bool GladeWidgetBodyC::Create(GtkWidget *newWidget) {
     ONDEBUG(cerr << "GladeWidgetBodyC::Create(GtkWidget *), Called. Name=" << name << " \n");
+
+    if (!xml.IsValid())
+    {
+      cerr << "GladeWidgetBodyC::Create called with no XML set" << endl;
+      return false;
+    }
+
     if(widget != 0)
       return true;
     widget = newWidget;

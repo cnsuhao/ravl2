@@ -22,10 +22,13 @@ class CustomWidgetBodyC :
   public GladeWidgetBodyC
 {
 public:
-  CustomWidgetBodyC(const GladeXMLC &gladeXml) :
-    GladeWidgetBodyC(gladeXml, "vbox1", true),
+  CustomWidgetBodyC() :
+    GladeWidgetBodyC("vbox1", true),
     m_signal(true)    
-  {}
+  {
+    // Demonstrate deferred GladeXML set
+    SetXML(GladeXMLC("exlibgladecustomwidget.glade"));
+  }
   //: Constructor.
   
   virtual bool Create()
@@ -64,8 +67,8 @@ public:
   //: Default constructor.
   // Creates an invalid handle.
 
-  CustomWidgetC(const GladeXMLC &gladeXml) :
-    GladeWidgetC(*new CustomWidgetBodyC(gladeXml))
+  CustomWidgetC(bool) :
+    GladeWidgetC(*new CustomWidgetBodyC())
   {}
   //: Constructor.
   
@@ -123,9 +126,8 @@ int main(int nargs,char **argv) {
   Connect(mainWindow.Signal("delete_event"), &OnQuit);
 
   // Create the custom widgets
-  GladeXMLC gladeCustom("exlibgladecustomwidget.glade");
-  CustomWidgetC custom1(gladeCustom);
-  CustomWidgetC custom2(gladeCustom);
+  CustomWidgetC custom1(true);
+  CustomWidgetC custom2(true);
   Connect(custom1.SigClicked(), &OnPressC1);
   Connect(custom2.SigClicked(), &OnPressC2);
   

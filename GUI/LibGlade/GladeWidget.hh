@@ -24,6 +24,14 @@ namespace RavlGUIN {
     GladeWidgetBodyC(const GladeXMLC &gladeXml,const StringC &widgetName,bool customWidget = true);
     //: Constructor
     
+    GladeWidgetBodyC(const StringC &widgetName,bool customWidget = true);
+    //: Constructor
+    // NOTE: If using this constructor a Glade XML object must be set with SetXML()
+    
+    bool SetXML(const GladeXMLC &gladeXml);
+    //: Set a Glade XML object to use
+    // NOTE: Will be ignored if one has already been set
+    
     virtual bool Create();
     //: Create the widget.
     
@@ -47,15 +55,21 @@ namespace RavlGUIN {
     : public WidgetC
   {
   public:
+    GladeWidgetC()
+    {}
+    //: Default constructor
+    // Creates an invalid handle.
+    
     GladeWidgetC(const GladeXMLC &gladeXml,const StringC &widgetName,bool customWidget = true)
       : WidgetC(*new GladeWidgetBodyC(gladeXml,widgetName,customWidget))
     {}
     //: Constructor
     
-    GladeWidgetC()
+    GladeWidgetC(const StringC &widgetName,bool customWidget = true)
+      : WidgetC(*new GladeWidgetBodyC(widgetName,customWidget))
     {}
-    //: Default constructor
-    // Creates an invalid handle.
+    //: Constructor
+    // NOTE: If using this constructor a Glade XML object must be set with SetXML()
     
   protected:
     GladeWidgetC(GladeWidgetBodyC &body)
