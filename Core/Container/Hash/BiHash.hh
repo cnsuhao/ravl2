@@ -10,7 +10,7 @@
 //! file="Ravl/Core/Container/Hash/BiHash.hh"
 //! lib=RavlCore
 //! author="Charles Galambos"
-//! date="1/9/96"
+//! date="1/9/1996"
 //! example=exBiHash.cc
 //! docentry="Ravl.Core.Hash Tables"
 //! rcsid="$Id$"
@@ -34,16 +34,16 @@ namespace RavlN {
   public:
     BiHashC(UIntT nBins = 23) 
       : hmap1(nBins),
-      hmap2(nBins)
-      {}
+	hmap2(nBins)
+    {}
     //: Constructor.
     
     D2T &Map1(const D1T &key)
-      { return hmap1[key]; }
+    { return hmap1[key]; }
     //: Do a lookup on data type 1
     
     D2T &Fwd(const D1T &key)
-      { return hmap1[key]; }
+    { return hmap1[key]; }
     //: Do a lookup on data type 1
     
     bool LookupFwd(const D1T &key,D2T &data)
@@ -54,15 +54,15 @@ namespace RavlN {
     // false and data is unaffected.
     
     bool IsFwd(const D1T &key) const
-      { return hmap1.IsElm(key); }
+    { return hmap1.IsElm(key); }
     //: Do we have a forward mapping.
     
     D1T &Map2(const D2T &key)
-      { return hmap2[key]; }
+    { return hmap2[key]; }
     //: Do a lookup on data type 2;
     
     D1T &Bkw(const D2T &key)
-      { return hmap2[key]; }
+    { return hmap2[key]; }
     //: Do a lookup on data type 2
 
     bool LookupBkw(const D2T &key,D1T &data)
@@ -73,7 +73,7 @@ namespace RavlN {
     // false and data is unaffected.
     
     bool IsBkw(const D2T &key) const
-      { return hmap2.IsElm(key); }
+    { return hmap2.IsElm(key); }
     //: Do we have a forward mapping.
     
     bool Insert(const D1T &d1,const D2T &d2) {
@@ -105,7 +105,7 @@ namespace RavlN {
     //: Delete a mapping from the table, using d2 as the key.
     
     UIntT Size() const
-      { return hmap1.Size(); }
+    { return hmap1.Size(); }
     //: Get number of mappings.
     
   protected:
@@ -125,14 +125,14 @@ namespace RavlN {
   public:
     BiHashIterC(const BiHashC<D1T,D2T> &bihash)
       : HashIterC<D1T,D2T>(bihash.hmap1)
-      {}
+    {}
     
     D1T &Data1()
-      { return Key(); }
+    { return Key(); }
     //: Access data1.
     
     D2T &Data2()
-      { return Data(); }
+    { return Data(); }
     //: Access data1.
   };
 }
