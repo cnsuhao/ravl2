@@ -14,13 +14,14 @@
 //! docentry="Ravl.Core.Hash Tables"
 //! example=WordFreq.cc
 //! rcsid="$Id$"
-//! userlevel=Default
+//! userlevel=Normal
 
 #include "Ravl/SArray1d.hh"
 #include "Ravl/InDList.hh"
 #include "Ravl/InDLIter.hh"
 #include "Ravl/SArr1Iter.hh"
 #include "Ravl/Tuple2.hh"
+#include "Ravl/StdHash.hh"
 
 #include <iostream.h>
 
@@ -39,84 +40,6 @@ namespace RavlN {
   template<class K,class T> ostream &operator<<(ostream &out,const HashC<K,T> &obj);
   template<class K,class T> istream &operator>>(istream &out,HashC<K,T> &obj);
   
-  // Default hash function.
-  
-  template<class K>
-  inline UIntT StdHash(const K &dat) 
-  { return dat.Hash(); }
-  
-  template<class K>
-  inline K StdCopy(const K &dat)
-  { return dat.Copy(); }
-  
-  template<class K>
-  inline bool HashIsEqual(const K &d1,const K &d2) 
-  { return (bool) (d1 == d2); }
-  
-  // Misc //////////////////////
-  
-  inline long double StdCopy(long double x) { return x; }
-  inline double StdCopy(double x) { return x; }
-  inline float StdCopy(float x) { return x; }
-  
-  /////////////////
-  
-  bool HashIsEqual(const char *d1,const char *d2);
-  UIntT StdHash(const char *dat);
-  
-  inline const char *StdCopy(const char *dat)
-  { return dat; } 
-  // No point in copying a constant string.
-  // If otherwise you should use StringC intead.
-
-  ///////////////
-  
-  inline UIntT StdHash(const short dat) 
-  { return (UIntT) (dat >> 7) ^ dat; }
-  
-  inline short StdCopy(short x)
-  { return x; }
-
-  ///////////////
-  
-  inline UIntT StdHash(const unsigned short dat) 
-  { return (UIntT) (dat >> 7) ^ dat; }
-  
-  inline unsigned short StdCopy(unsigned short x)
-  { return x; }
-
-  ///////////////
-  
-  inline UIntT StdHash(const int dat) 
-  { return (UIntT) (dat >> 11) ^ dat; }
-
-  inline int StdCopy(int x)
-  { return x; }
-
-  ///////////////
-
-  inline UIntT StdHash(const unsigned int dat) 
-  { return (UIntT) (dat >> 11) ^ dat; }
-
-  inline unsigned int StdCopy(unsigned int x)
-  { return x; }
-
-  ///////////////
-
-  inline UIntT StdHash(const long dat) 
-  { return (UIntT) (dat >> 11) ^ dat; }
-
-  inline long StdCopy(long x)
-  { return x; }
-
-  ///////////////
- 
-  inline UIntT StdHash(const unsigned long dat) 
-  { return (UIntT) (dat >> 11) ^ dat; }
-
-  inline unsigned long StdCopy(unsigned long x)
-  { return x; }
-
 
   ///////////////////////////
   //! userlevel=Develop
