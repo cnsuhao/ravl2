@@ -166,8 +166,12 @@ namespace RavlN {
     //cerr << "TextBufferBodyC::AppendLine '" << text << "'\n";
     StringC newLine(text);
     if(!noFinalRet) {
-      if(newLine.lastchar() != '\n')
+      if(newLine.IsEmpty())
 	newLine += '\n';
+      else {
+	if(newLine.lastchar() != '\n')
+	  newLine += '\n';
+      }
     }
     lines.InsLast(TextFileLineC(++noLines,newLine));
     return noLines;
