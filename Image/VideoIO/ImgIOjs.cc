@@ -37,23 +37,55 @@ namespace RavlImageN {
       offset(0)
   { }
 
+  //: Constructor.
+  
+  DPImageJSBaseBodyC::DPImageJSBaseBodyC(const StringC &filename,bool read)
+    : frameSize(0),
+      frameNo(0),
+      seqSize((UIntT) -1),
+      blockSize(16384),
+      offset(0),
+      strm(filename,read,!read)
+  {}
+  
+
   //: Read header from stream.
   
-  bool DPImageJSBaseBodyC::ReadHeader(IStreamC &is) {
-    FilenameC fn(is.Name());
+  bool DPImageJSBaseBodyC::ReadHeader() {
+    if(!strm.Good()) {
+      cerr << "DPImageJSBaseBodyC::ReadHeader(), Bad stream. \n";
+      return false;
+    }
     ByteT magic[4];
-    is.read((char *) magic,4);
-    BinIStreamC bis(is);
+    strm.Seek(0);
+    if(strm.ReadAll(magic,4) < 0) {
+      cerr << "DPImageJSBaseBodyC::ReadHeader(), Failed to read magic bytes. \n";
+      return false;
+    }
+#if DODEBUG
+    for(int i = 0;i < 4;i++)
+      cerr << hex << (int) magic[i] << ' ';
+    cerr << "\n";
+#endif
     if((((int) magic[0]) != 0) || (((int) magic[1]) != 0x6) || 
        (((int) magic[2]) != 0x9) || (((int) magic[3]) != ((int) 0xce))) {
       cerr << "DPImageJSBaseBodyC::ReadHeader(), Bad magic number. \n";
       return false;
     }
+    
     UIntT header[11];
+    
     int i;
-    for(i = 0;i < 9;i++)
-      bis >> header[i];
-
+    for(i = 0;i < 9;i++) {
+      UIntT x = 0;
+      if(!strm.Read(&x,4))
+	return false;
+#if RAVL_ENDIAN_LITTLE
+      x = bswap_32(x);
+#endif
+      header[i] = x;
+    }
+    
 #if DODEBUG
     cerr << "Header :\n";
     for(i = 0;i < 9;i++) {
@@ -83,11 +115,9 @@ namespace RavlImageN {
     
     rect = ImageRectangleC(height,width);
     SetupIO();
-    ONDEBUG(cerr << " BlockSize=" << blockSize << " Width=" << width << " Height=" << height << "  Filename='" << fn << "'\n");
-    if(fn.Exists())  {
-      seqSize = (StreamSizeT) ((fn.FileSize() / (StreamSizeT) frameSize)) - 1;
-      ONDEBUG(cerr << "DPIImageJSBodyC::ReadHeader(), Sequence size=" << seqSize << " Filesize=" << fn.FileSize() << "\n");      
-    }
+    ONDEBUG(cerr << " BlockSize=" << blockSize << " Width=" << width << " Height=" << height << " \n");
+    seqSize = (StreamSizeT) ((strm.Size() / (StreamSizeT) frameSize)) - 1;
+    ONDEBUG(cerr << "DPIImageJSBodyC::ReadHeader(), Sequence size=" << seqSize << " Filesize=" << strm.Size() << "\n");      
     
     return true;
   }
@@ -117,23 +147,16 @@ namespace RavlImageN {
   //: Constructor from stream 
 
   DPIImageJSBodyC::DPIImageJSBodyC(const IStreamC &nStrm)
-    : strm(nStrm)
-  {
-    if(!strm) {
-      cerr << "DPIImageJSBodyC::DPIImageJSBodyC(IStreamC), Passed bad stream. \n";
-      return ;
-    }
-    ReadHeader(strm);
+  { 
+    RavlAssertMsg(0,"Not supported. ");
+    //ReadHeader();
   }
-
+  
   //: Constructor from a file.
-
+  
   DPIImageJSBodyC::DPIImageJSBodyC(const StringC &fileName) 
-    : strm(fileName)
-  {
-    ReadHeader(strm);
-  }
-
+    : DPImageJSBaseBodyC(fileName,true)
+  { ReadHeader(); }
   
   ///////////////////////////
   //: Seek to location in stream.
@@ -183,27 +206,25 @@ namespace RavlImageN {
   //: Get next image.
   
   bool DPIImageJSBodyC::Get(ImageC<ByteYUV422ValueC> &head) { 
-    strm.is().clear(); // Clear any errors.
     strm.Seek(CalcOffset(frameNo));
-    if(!strm.good())
-      return false;
     
     // Check input image.
     
     if(head.Rectangle() != rect) {
       head = ImageC<ByteYUV422ValueC>(rect);
-      strm.read((char *) &(head[rect.Origin()]),rect.Area() * sizeof(ByteYUV422ValueC));
+      if(strm.ReadAll((char *) &(head[rect.Origin()]),rect.Area() * sizeof(ByteYUV422ValueC)) < 0)
+	return false;
     } else {
       IntT width = head.Cols() * sizeof(ByteYUV422ValueC);
       IndexC atrow = head.TRow();
       IndexC offset = head.LCol();
       IndexC brow = head.BRow();
-      for(;atrow <= brow;atrow++)
-	strm.read((char *) &(head[atrow][offset]),width);
+      for(;atrow <= brow;atrow++) {
+	if(strm.ReadAll((char *) &(head[atrow][offset]),width) < 0)
+	  return false;
+      }
     }
     //ONDEBUG(cerr << "Reading image... \n");
-    if(!strm.good())
-      return false;
     frameNo++;
     return true; 
   }
@@ -213,13 +234,13 @@ namespace RavlImageN {
   //: Constructor from stream.  
   
   DPOImageJSBodyC::DPOImageJSBodyC(const OStreamC &nStrm)
-    :  doneHeader(false),
-       strm(nStrm)
+    :  doneHeader(false)
   {
-    if(!strm)
-      cerr << "DPOImageJSBodyC::DPOImageJSBodyC(OStreamC), Passed bad stream. \n";
+    RavlAssertMsg(0,"Not supported. ");
+    //if(!strm.Good())
+    //cerr << "DPOImageJSBodyC::DPOImageJSBodyC(OStreamC), Passed bad stream. \n";
   }
-
+  
   //: Write js header.
   
   bool DPOImageJSBodyC::WriteHeader(const ImageRectangleC &wrect) {
@@ -227,29 +248,36 @@ namespace RavlImageN {
       return true;
     doneHeader = true;
     rect = wrect;
-    BinOStreamC bos(strm);
-    strm.os().clear(); // Clear any errors.
-    bos.Seek(0);
-
+    strm.Seek(0);
     
     ByteT magic[4];
     magic[0] = 0;
     magic[1] = 0x6;
     magic[2] = 0x9;
     magic[3] = 0xce;
-    strm.write((char *) magic,4);
+    if(strm.WriteAll((char *) magic,4) < 0)
+      return false;
     
     int datatype = 3,width = wrect.Cols(),height = wrect.Rows();
-    bos << datatype;      // Typical 3.
-    bos << ((int) 3007);  // Typical 3007 2989 ...
-    bos << blockSize;     // 16384, offset of first frame.
-    bos << ((int) 1);     // Typical 1
-    bos << width;         // width.
-    bos << height;        // height.
-    bos << ((int) 1008);  // Typical 1008
-    bos << ((int) 14656); // Typical 14656
-    bos << ((UIntT) 0xe0000000); // Typical.
     
+    UIntT header[11];
+    
+    header[0]= datatype;      // Typical 3.
+    header[1]= ((int) 3007);  // Typical 3007 2989 ...
+    header[2]= blockSize;     // 16384, offset of first frame.
+    header[3]= ((int) 1);     // Typical 1
+    header[4]= width;         // width.
+    header[5]= height;        // height.
+    header[6]= ((int) 1008);  // Typical 1008
+    header[7]= ((int) 14656); // Typical 14656
+    header[8]= ((UIntT) 0xe0000000); // Typical.
+    
+#if RAVL_ENDIAN_LITTLE
+    for(int i = 0;i < 9;i++)
+      header[i] = bswap_32(header[i]);
+#endif
+    if(strm.WriteAll(header,4 * 9) < 0)
+      return false;
     SetupIO();
     return true;
   }
@@ -299,26 +327,26 @@ namespace RavlImageN {
   
   bool DPOImageJSBodyC::Put(const ImageC<ByteYUV422ValueC> &img) {
     if(!doneHeader)
-      WriteHeader(img.Rectangle());
+      if(!WriteHeader(img.Rectangle()))
+	return false;
     RavlAssert(img.Rectangle() == rect); // Expected image size ?
-    strm.os().clear(); // Clear any errors.
     strm.Seek(CalcOffset(frameNo));
-    if(!strm.good())
-      return false;
     if(&(img[rect.TRow()][rect.RCol()]) == (&(img[rect.TRow()+1][rect.LCol()]))+1) {
-      strm.write((char *) &(img[rect.Origin()]),rect.Area() * sizeof(ByteYUV422ValueC));
+      if(strm.WriteAll((char *) &(img[rect.Origin()]),rect.Area() * sizeof(ByteYUV422ValueC)) < 0)
+	return false;
     } else {
       IntT width = img.Cols() * sizeof(ByteYUV422ValueC);
       IndexC atrow = img.TRow();
       IndexC offset = img.LCol();
       IndexC brow = img.BRow();
       for(;atrow <= brow;atrow++) 
-	strm.write((char *) &(img[atrow][offset]),width);
+	if(strm.WriteAll((char *) &(img[atrow][offset]),width) < 0)
+	  return false;
     }
     frameNo++;
     if(frameNo > seqSize)
       seqSize = frameNo;
-    return strm.good();
+    return true;
   }
   
   

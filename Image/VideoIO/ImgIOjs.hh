@@ -15,6 +15,7 @@
 //! file="Ravl/Image/VideoIO/ImgIOjs.hh"
 
 #include "Ravl/DP/SPort.hh"
+#include "Ravl/OS/FileStream.hh"
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteYUV422Value.hh"
 #include "Ravl/Stream.hh"
@@ -32,7 +33,10 @@ namespace RavlImageN {
     //: Constructor.
     // This constructs with the basic yuv format.
     
-    bool ReadHeader(IStreamC &is);
+    DPImageJSBaseBodyC(const StringC &filename,bool read);
+    //: Constructor.
+    
+    bool ReadHeader();
     //: Read header from stream.
     
     inline StreamOffsetT CalcOffset(UIntT frameNo) const {
@@ -63,6 +67,8 @@ namespace RavlImageN {
     UIntT seqSize;  // Number of frames in sequence, ((UIntT) -1) if unknown
     UIntT blockSize;  
     StreamOffsetT offset;  // Offset of start.
+    
+    FileStreamC strm;
   };
   
   ///////////////////////////////////
@@ -103,18 +109,19 @@ namespace RavlImageN {
     //: Get next image.
     
     virtual bool IsGetReady() const 
-      { return strm.good(); }
+    { return strm.Good(); }
     //: Is some data ready ?
     // TRUE = yes.
     // Defaults to !IsGetEOS().
     
     virtual bool IsGetEOS() const
-      { return strm.good(); }
+    { return strm.Good(); }
     //: Has the End Of Stream been reached ?
   // TRUE = yes.
     
   protected:
-    IStreamC strm;
+    
+    //IStreamC strm; // Can't use stdc++ streams, the don't support 64 bit offsets.
   };
   
   ///////////////////////////////////
@@ -149,7 +156,7 @@ namespace RavlImageN {
     //: Put image to a stream.
     
     virtual bool IsPutReady() const 
-      { return strm.good(); }
+      { return strm.Good(); }
     //: Read to write some data ?
     // TRUE = yes.
     
@@ -161,7 +168,6 @@ namespace RavlImageN {
     //: Write js header.
     
     bool doneHeader;
-    OStreamC strm;
   };
 
   //! userlevel=Normal

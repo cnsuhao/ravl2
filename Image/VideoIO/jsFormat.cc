@@ -77,10 +77,12 @@ namespace RavlImageN {
   
   DPIPortBaseC FileFormatJSBodyC::CreateInput(IStreamC &in,const type_info &obj_type) const {
     ONDEBUG(cerr << "FileFormatJSBodyC::CreateInput(IStreamC &,const type_info &), Called. \n");
+#if 0
     if(!in.good())
       return DPIPortBaseC();
     if(obj_type == typeid(ImageC<ByteYUV422ValueC>))
       return DPIImageJSC(in);
+#endif
     return DPIPortBaseC();
   }
   
@@ -88,10 +90,12 @@ namespace RavlImageN {
   // Will create an Invalid port if not supported.
   
   DPOPortBaseC FileFormatJSBodyC::CreateOutput(OStreamC &out,const type_info &obj_type) const  {
+#if 0
     if(!out.good())
       return DPOPortBaseC();
     if(obj_type == typeid(ImageC<ByteYUV422ValueC>))
       return DPOImageJSC(out);
+#endif
     return DPOPortBaseC();
   }
   
