@@ -114,6 +114,11 @@ namespace RavlN {
     // NB. In the current implementation 'text' may not contain a carrage
     // return unless its the last character in the string.
     
+    StringC ClipTo(char letter,bool orToEOF = false);
+    //: Clip all text in file from the cursor to letter.
+    // if letter is not found in the file an empty string is returned.
+    // the iterator is left after the found letter.
+    
     bool Skip(const Regex &exp);
     //: Skip the text described by exp.
     // Returns True if expression was matched.

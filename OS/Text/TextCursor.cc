@@ -207,7 +207,35 @@ namespace RavlN {
       return ret;
     return StringC();
   }
-
+  
+  //: Clip all text in file from the cursor to letter.
+  // if letter is not found in the file an empty string is returned.
+  // the iterator is left after the found letter.
+  
+  StringC TextCursorC::ClipTo(char letter,bool orToEOF) {
+    StringC ret;
+    DLIterC<TextFileLineC> itl(line);
+    IntT at = Col;
+    for(;itl;itl++) {
+      IntT ind = itl->Text().index(letter,at);
+      if(ind >= 0) {
+	if(itl == line) {
+	  ret = itl->Text().from(at);
+	  ret = ret.before(ind-at);
+	} else
+	  ret += itl->Text().before(ind);
+	Col = ((int) ind) + 1;
+	line = itl;
+	return ret;
+      }
+      ret += itl->Text().from(at);
+      at = 0;
+    }
+    if(orToEOF)
+      return ret;
+    return StringC();    
+  }
+  
   //: Skip all characters in table.
   // the table can be created by BuildClipTable.
   // Returns True if left at a valid place.
