@@ -57,8 +57,31 @@ int testSummedAreaTable() {
   Array2dC<IntT> img(5,5);
   img.Fill(1);
   SummedAreaTableC<UIntT> tab(img);
-  //cerr << "Sum=" << tab.Sum(img.Frame()) << "\n";
-  if(tab.Sum(img.Frame()) != 25) return __LINE__;
   //cerr << tab << "\n";
+  if(tab.Sum(img.Frame()) != 25) return __LINE__;
+  IndexRange2dC srect(img.Frame());
+  srect = srect.Erode();
+  if(tab.Sum(srect) != 9) return __LINE__;
+  
+  // Build a more interesting image.
+  IntT sum = 1;
+  for(Array2dIterC<IntT> it(img);it;it++)
+    *it = sum++;
+  tab.BuildTable(img);
+  //cerr << img << "\n";
+  //cerr << tab << "\n";
+  IndexRange2dC rec2(0,1,0,1);
+  //cerr <<"Sum=" << tab.Sum(rec2) << "\n";
+  if(tab.Sum(rec2) != 16) return __LINE__;
+  
+  IndexRange2dC rec3(0,1,1,2);
+  //cerr <<"Sum=" << tab.Sum(rec3) << "\n";
+  if(tab.Sum(rec3) != 20) return __LINE__;
+  
+  IndexRange2dC rec4(1,2,1,2);
+  //cerr <<"Sum=" << tab.Sum(rec4) << "\n";
+  if(tab.Sum(rec4) != 40) return __LINE__;
+  
+  
   return 0;
 }

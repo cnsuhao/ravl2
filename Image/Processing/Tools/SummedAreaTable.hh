@@ -58,8 +58,8 @@ namespace RavlImageN {
       it.DataBL1() = it.DataTL1() + rowSum;
       // Do first row.
       do {
-	it.DataTR1() = it.DataTL1() + (DataT) it.DataTL2();
-	rowSum += (DataT) it.DataBL2();
+	it.DataTR1() = it.DataTL1() + (DataT) it.DataTR2();
+	rowSum += (DataT) it.DataBR2();
 	it.DataBR1() = it.DataTR1() + rowSum;
       } while(it.Next()) ;
       // Do rest of image.
@@ -69,7 +69,7 @@ namespace RavlImageN {
 	it.DataBL1() = it.DataTL1() + rowSum;
 	// Do rest of row.
 	do {
-	  rowSum += (DataT) it.DataBL2();
+	  rowSum += (DataT) it.DataBR2();
 	  it.DataBR1() = it.DataTR1() + rowSum;
 	} while(it.Next()) ;
       }
