@@ -149,6 +149,9 @@ namespace RavlN {
     // This will return false if either nan's (Not an number) 
     // or infinite values are found.
     
+    void Dump() const;
+    //: Dump to cout in a human readable format.
+    
   };
   
   VectorC RandomVector(int n,RealT scale = 1);

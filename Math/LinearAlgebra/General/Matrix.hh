@@ -108,6 +108,9 @@ namespace RavlN {
 
     RealT Det() const;
     //: Calculate the determinant of the matrix.
+    
+    void Dump() const;
+    //: Dump to cout in a human readable format.
   };
   
   

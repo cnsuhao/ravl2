@@ -26,6 +26,20 @@ namespace RavlN {
 	return false;
     return true;
   }
+
+
+  //: Dump to cout .
+  
+  void MatrixC::Dump() const {
+    cout << Rows() << ' ' << Cols() << "\n";
+    for(BufferAccess2dIterC<RealT> it(*this,Size2());it;) {
+      do {
+	cout << *it << ' ';
+      } while(it.Next()) ;
+      cout << "\n";
+    }
+  }
+  
   
 #ifdef __sgi__
   // Help the compiler a bit...

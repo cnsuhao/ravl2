@@ -26,7 +26,15 @@ namespace RavlN {
 	return false;
     return true;
   }
- 
+
+  //: Dump to cout in a human readable format.
+  
+  void VectorC::Dump() const {
+    cout << Size();
+    for(BufferAccessIterC<RealT> it(*this);it;it++)
+      cout << ' ' << *it ;
+  }
+  
 #ifdef __sgi__
   // Help the compiler a bit...
   template ostream &operator<<(ostream&,const TVectorC<double>&);
