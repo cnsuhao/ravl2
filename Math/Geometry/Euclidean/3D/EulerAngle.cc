@@ -24,7 +24,7 @@ namespace RavlN
     RealT cc = cos(a[2]);
 
   // epsilon
-#define SMALL_ANGLE (FLT_EPSILON*16)
+#define SMALL_ANGLE (RavlConstN::minReal*16)
 
   //---------------------------------------------
   // C-style euler angle -> matrix conversions
