@@ -14,64 +14,67 @@
 //! author="Charles Galambos"
 
 #include "Ravl/Image/Image.hh"
-
+#include "Ravl/Array1dIter.hh"
+#include "Ravl/Array2dIter.hh"
 
 namespace RavlImageN {
   
   //! userlevel=Normal
   
+  
+
+
+
+  
+  
   template<class PixelT>
-  ImageC<PixelT> SubSample(const ImageC<PixelT> & img,  const UIntT factor =2) {    
+  ImageC<PixelT> SubSample(const  ImageC<PixelT> & img,  const UIntT factor =2) {    
     ImageRectangleC oldRect  (img.Rectangle() ) ; 
     ImageRectangleC newRect = oldRect / factor ; 
     ImageC<PixelT>  subSampled (newRect) ;
-
-    // iterate through rows 
-    IndexC oldRow,oldCol, newRow, newCol ;
-    for ( oldRow = oldRect.TRow() , newRow=newRect.TRow() ; oldRow <= oldRect.BRow() && newRow <= newRect.BRow() ; ++newRow , oldRow+=factor ) 
+    Array2dIterC<PixelT> newImage  ( subSampled ) ; 
+    IndexC oldRow ;
+    for ( oldRow = oldRect.TRow() , newImage.First() ; (oldRow <= oldRect.BRow()) && (newImage.IsElm()) ; oldRow+= factor  ) 
       {
-	// lets get the whole rows
-	RangeBufferAccessC<PixelT> oldRowBuffer = img[oldRow] ; 
-	RangeBufferAccessC<PixelT>  newRowBuffer = subSampled[newRow] ; 
-	
-	// now go through columns and copy the pixels
-	for ( oldCol = oldRect.LCol() , newCol = newRect.LCol() ;  oldCol <= oldRect.RCol() && newCol <= newRect.RCol() ; ++newCol, oldCol += factor ) 
-	  newRowBuffer[newCol]  = oldRowBuffer[oldCol] ;   
+	for ( BufferAccessIterC<PixelT> oldCol = img [oldRow] ; (oldCol.IsElm()) && (newImage.IsElm()) ; oldCol += factor, ++newImage  ) 
+	  newImage.Data() = oldCol.Data() ;
       }
     return subSampled ; 
-  }
+  }; 
   //: Subsamples the image by the given factor 
   // Pixel at origin is always sampled first. 
+  
+
+
+
 
   template <class PixelT> 
   ImageC <PixelT> UpSample ( const ImageC<PixelT> & img, const UIntT factor=2 ) {
     ImageRectangleC oldRect (img.Rectangle() ) ; 
     ImageRectangleC newRect ( oldRect * factor ) ; 
     ImageC<PixelT> upSampled ( newRect ) ;  
-
-    // iterate through rows of original image 
-    IndexC oldRow, oldCol, newRow, newCol ; 
-    UIntT counter ; 
-    for ( oldRow = oldRect.TRow(), newRow = newRect.TRow()  ; oldRow <= oldRect.BRow() ; ++ oldRow  ) 
-      {
-	RangeBufferAccessC<PixelT> oldRowBuffer = img[oldRow] ; 
-	// iterate through rows of upsampled image 
-    for (  UIntT rowCounter = 1 ; (newRow <= newRect.BRow()) && (rowCounter <= factor)  ; ++newRow, ++rowCounter  ) 
-      {
-	RangeBufferAccessC<PixelT> newRowBuffer = upSampled[newRow] ; 
-	// iterate through cols and do the copy 
-	for ( oldCol = oldRect.LCol() , newCol = newRect.LCol()  ; oldCol <= oldRect.RCol()  ; ++ oldCol  ) // for each pixel in the old row
-	    // iterate through cols of new images 
-	  {
-	  for (  counter = 1 ; newCol <= newRect.RCol() && counter <= factor ; ++ newCol, ++ counter ) // copy to desired number of pixels along new row 
-	    { newRowBuffer[newCol] = oldRowBuffer[oldCol] ; }
-	  } }}
     
+    // iterate thougth rows of origial image 
+    IndexC oldRow , newRow ; 
+    UIntT counter ; 
+    for ( oldRow = oldRect.TRow() , newRow = newRect.TRow() ; oldRow <= oldRect.BRow() ; ++ oldRow ) 
+      {
+	// iterate through rows of upsampled image 
+	for ( UIntT rowCounter = 1 ; (newRow <= newRect.BRow() ) && ( rowCounter <= factor) ; ++ newRow , ++ rowCounter )
+	  {
+	    BufferAccessIterC<PixelT> newCol ( upSampled [newRow] ) ; 
+	    BufferAccessIterC<PixelT>  oldCol ( img[oldRow] ) ; 
+	    // now iterate the cols and do the copy 
+	    for (  ; oldCol.IsElm() ; oldCol++ ) // each pixel in the old row  
+	      // iterate through cols of the new image 
+	      for ( counter = 1 ; newCol && counter <= factor ; ++ counter,  newCol++  ) 
+		newCol.Data() = oldCol.Data() ; 
+	  }
+      }
     return upSampled ;     
   }
   //: Up-Samples an image by the given factor. 
-   
-
+  
 
 }
 
