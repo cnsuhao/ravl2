@@ -101,6 +101,7 @@ namespace RavlGUIN {
     // Each line in the CList has to be given a unique 'id'.
     // If the 'id' is already present that row will be replaced by this method.
     
+    
     void AppendLine(int &id,SArray1dC<CListCellC> &line);
     //: Append a line entry.  
     // Each line in the CList has to be given a unique 'id'.
@@ -111,13 +112,27 @@ namespace RavlGUIN {
     // Each line in the CList has to be given a unique 'id'.
     // If the 'id' is already present that row will be replaced by this method.
     
+    bool GUIInsertLine(int &id,int &rowNo,SArray1dC<StringC> &line);
+    //: Insert a line entry at the given row.
+    // Each line in the CList has to be given a unique 'id'.
+    // If the 'id' is already present that row will be replaced by this method.
+    
+    bool InsertLine(int &id,int &rowNo,SArray1dC<StringC> &line);
+    //: Insert a line entry at the given row.
+    // Each line in the CList has to be given a unique 'id'.
+    // If the 'id' is already present that row will be replaced by this method.
+    
     bool GUIRemoveLine(int &id);
     //: Remove a line with given 'id'.  
     // GUI thread only.
     
     void RemoveLine(int &id);
     //: Remove a line with given 'id'.  
-
+    
+    IntT RowOfId(int &id);
+    //: Find the row number an id is associated with.
+    // If the id is unknown -1 is returned.
+    
     bool SetCellText(int &row,int &col,StringC &val);
     //: Set the contents of a cell to a string.
     
@@ -157,7 +172,7 @@ namespace RavlGUIN {
     bool GUIUnselectAll();
     //: Remove all entries from the selection.
     // Use from the GUI thread only.
-
+    
     bool GUISelectAll();
     //: Remove all entries from the selection.
     // Use from the GUI thread only.
@@ -327,6 +342,18 @@ namespace RavlGUIN {
     { Body().AppendLine(id,line); }
     //: Append a line entry.  
     
+    bool GUIInsertLine(int &id,int &rowNo,SArray1dC<StringC> &line)
+    { return Body().GUIInsertLine(id,rowNo,line); }
+    //: Insert a line entry at the given row.
+    // Each line in the CList has to be given a unique 'id'.
+    // If the 'id' is already present that row will be replaced by this method.
+    
+    bool InsertLine(int id,int rowNo,SArray1dC<StringC> &line)
+    { return Body().InsertLine(id,rowNo,line); }
+    //: Insert a line entry at the given row.
+    // Each line in the CList has to be given a unique 'id'.
+    // If the 'id' is already present that row will be replaced by this method.
+    
     bool GUIRemoveLine(int &id)
     { return Body().GUIRemoveLine(id); }
     //: Remove a line entry.  
@@ -335,6 +362,13 @@ namespace RavlGUIN {
     void RemoveLine(int &id)
     { Body().RemoveLine(id); }
     //: Remove a line entry.  
+    
+    IntT RowOfId(int id)
+    { return Body().RowOfId(id); }
+    //: Find the row number an id is associated with.
+    // If the id is unknown -1 is returned.
+    // Note, this function suspends the GUI for a brief time and should be used
+    // sparingly.
     
     bool SetCellText(int &row,int &col,StringC &val)
     { return Body().SetCellText(row,col,val); }

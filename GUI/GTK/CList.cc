@@ -12,6 +12,7 @@
 #include "Ravl/GUI/CList.hh"
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/SArray1dIter2.hh"
+#include "Ravl/GUI/ReadBack.hh"
 #include <gtk/gtk.h>
 
 #define DODEBUG 0
@@ -241,7 +242,52 @@ namespace RavlGUIN {
   void CListBodyC::RemoveLine(int &id) {
     Manager.Queue(Trigger(CListC(*this),&CListC::GUIRemoveLine,id));
   }
+
+  //: Insert a line entry at the given row.
+  // Each line in the CList has to be given a unique 'id'.
+  // If the 'id' is already present that row will be replaced by this method.
   
+  bool CListBodyC::GUIInsertLine(int &id,int &rowNo,SArray1dC<StringC> &line) {
+    if(widget == 0) {
+      toDo.InsLast(Trigger(CListC(*this),&CListC::GUIInsertLine,id,rowNo,line));
+      return true;
+    }    
+    
+    int oldRowNo = gtk_clist_find_row_from_data (GTK_CLIST(widget),(void *) id);
+    if(rowNo >= 0) { // Got row already ? 
+      // if so remove it.
+      gtk_clist_remove (GTK_CLIST(widget),oldRowNo);
+      if(oldRowNo < rowNo)
+	rowNo--; // Correct target row number.
+    }
+    
+    // Add new row.
+    char **tlist = new char *[cols];
+    for(int i = 0;i < cols;i++)
+      tlist[i] = (char *) line[i].chars();  
+    rowNo = gtk_clist_insert(GTK_CLIST(widget),rowNo,tlist);
+    gtk_clist_set_row_data (GTK_CLIST(widget),rowNo,(void *) id);
+    delete [] tlist;
+    
+    return true;
+  }
+  
+  //: Insert a line entry at the given row.
+  // Each line in the CList has to be given a unique 'id'.
+  // If the 'id' is already present that row will be replaced by this method.
+  
+  bool CListBodyC::InsertLine(int &id,int &rowNo,SArray1dC<StringC> &line) {
+    Manager.Queue(Trigger(CListC(*this),&CListC::GUIInsertLine,id,rowNo,line));
+    return true;
+  }
+  
+  
+  //: Test if an ID exists.
+  
+  IntT CListBodyC::RowOfId(int &id) {
+    ReadBackLockC lock; // Get lock on GUI thread.
+    return gtk_clist_find_row_from_data (GTK_CLIST(widget),(void *) id);
+  }
   
   //: Append a line entry.  
   // GUI thread only.
