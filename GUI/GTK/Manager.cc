@@ -427,6 +427,7 @@ namespace RavlGUIN {
   
   void ManagerC::Queue(const TriggerC &se) {
 #if RAVL_USE_GTKTHREADS
+    RavlAssertMsg(initCalled,"MangerC::Init(...) must be called before an other method. ");
     if(IsGUIThread()) {
       ONDEBUG(cerr << "ManagerC::Queue(), Event Start... \n");
       if(se.IsValid())
