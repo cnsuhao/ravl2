@@ -13,7 +13,7 @@
 //! userlevel=Normal
 //! example=testOptimise.cc
 //! file="Ravl/PatternRec/Optimise/Optimise.hh"
-//! docentry="Optimisation;Numerical Methods.Optimisation"
+//! docentry="Ravl.Optimisation"
 //! rcsid="$Id$"
 
 #include "Ravl/RCHandleV.hh"
