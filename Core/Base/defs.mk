@@ -30,6 +30,8 @@ SOURCES=Assert.cc Exception.cc EntryPnt.cc Index.cc String.cc \
 
 PLIB=RavlCore
 
+MUSTLINK=atexit.cc
+
 USESLIBS=Math
 
 TESTEXES= testRavlBase.cc testCalls.cc testString.cc testStream.cc testTFVector.cc
