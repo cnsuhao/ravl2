@@ -92,7 +92,7 @@ namespace RavlN {
     if(minDistance>=99999.0) {
       cerr << "Error: Min distance not found (DesignKohonenNetB::Classify)" << endl;
       cerr << "Try normalising data before using this algorithm" << endl;
-      exit(-1);
+      RavlAssert(0);
     }
     
     return label;
