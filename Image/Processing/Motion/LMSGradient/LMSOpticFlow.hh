@@ -24,7 +24,7 @@
 
 namespace RavlImageN {
   
-  //! docentry="Images.Motion.Estimation.Optical Flow"
+  //! docentry="Images.Motion.Optical Flow"
   //: Least-mean-squared gradient method for optical flow
   // Computes optical flow field from spatial and temporal gradient images using simple least-mean-squared gradient method
   //<p>

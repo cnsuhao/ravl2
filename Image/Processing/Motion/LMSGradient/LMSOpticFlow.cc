@@ -92,7 +92,7 @@ namespace RavlImageN {
     // find the sums of products
     // ======================
     
-    IndexRange2dC mask(Index2dC(0,0),region,region);
+    IndexRange2dC mask(Index2dC(0,0),region,region); // Create mask of region by region centered on 0,0 
     
     ImageC<Matrix2dC> sum_grad_grad;
     SumRectangles(grad_grad,mask,sum_grad_grad);
@@ -102,10 +102,10 @@ namespace RavlImageN {
     
     ImageC<RealT> sum_dt_sq;
     SumRectangles(dt_sq,mask,sum_dt_sq);
-        
-
+    
     // hence solve for motion and covariance fields
     // ============================================
+    
     ImageRectangleC sum_rect (sum_grad_grad.Rectangle());
     if (!sum_rect.IsValid()) {
       if (verbose) cerr << "Images too small or filters too large to compute motion\n";
