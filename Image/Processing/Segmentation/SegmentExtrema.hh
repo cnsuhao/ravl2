@@ -75,6 +75,7 @@ namespace RavlImageN {
 
   //! userlevel=Normal
   //: Extremal region segmentation.
+  // Refrence: J Matas. BMVC 2002
   
   class SegmentExtremaC {
   public:
