@@ -145,5 +145,23 @@ int testDArray1dMore() {
   if(test1.Size() != 8) return __LINE__;
   for(i = 0;i < 8;i++)
     if(test1[i] != i) return __LINE__;
+  
+  // More checks for append.
+  
+  DArray1dC<int> dset(10,true);
+  dset.Append(1);
+  dset.Append(2);
+  //cout << "dset=" << dset << endl;
+  DArray1dC<int> dset2(10,true);
+  dset2.Append(dset);
+  //  cout << "dset2=" << dset2 << endl;
+  if(dset2.Size() != 2) return __LINE__;
+  int count = 0;
+  for(DArray1dIterC<int> it(dset2);it;it++) {
+    if(*it != (count+1)) return __LINE__;
+    count++;
+  }
+  if(count != (IntT) dset2.Size()) return __LINE__;
+  
   return 0;
 }

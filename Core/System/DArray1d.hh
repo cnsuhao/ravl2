@@ -41,7 +41,7 @@ namespace RavlN {
       : data(dat)
     {}
     //: Constructor.
-    
+        
     IndexC Offset() const
     { return data.Range().Min(); }
     //: Offset from start of list.
@@ -174,6 +174,9 @@ namespace RavlN {
 	chunks.InsLast(*new DChunkC<DataT>(arr)); 
     }
     //: Construct from a normal array.
+    
+    bool Save(ostream &strm) const;
+    //: Save to stream.
     
     DArray1dC<DataT> Copy() const;
     //: Make a copy of this DArray.
@@ -343,6 +346,14 @@ namespace RavlN {
     //: SArray constructor.
     // Creates an array of the given size starting from index 0.
     
+    bool Save(ostream &strm) const { 
+      if(IsValid())
+	return Body().Save(strm); 
+      cerr << "0\n";
+      return true;
+    }
+    //: Save to stream.
+    
     DArray1dC<DataT> Copy() const
     { return Body().Copy(); }
     //: Make a copy of this DArray.
@@ -471,6 +482,22 @@ namespace RavlN {
   };
 
 
+  template<class DataT>
+  ostream &operator<<(ostream &s,const DArray1dC<DataT> &obj) {
+    obj.Save(s);
+    return s;
+  }
+  
+  //: Save to stream.
+  
+  template<class DataT>
+  bool DArray1dBodyC<DataT>::Save(ostream &s) const {
+    s << chunks.Size() << "\n";
+    for(IntrDLIterC<DChunkC<DataT> > it(chunks);it;it++)
+      s << it->Data() << "\n";
+    return true;
+  }
+  
   
   template<class DataT>
   bool DArray1dBodyC<DataT>::FindChunk(int i,IntrDLIterC<DChunkC<DataT> > &it) const {
@@ -567,8 +594,20 @@ namespace RavlN {
       return 0;
     if(chunks.IsEmpty())
       chunks.InsLast(*new DChunkC<DataT>(0,newData));
-    else
-      chunks.InsLast(*new DChunkC<DataT>(chunks.Last().IMax()+1,newData));
+    else {
+      do {
+	DChunkC<DataT> &last = chunks.Last();
+	if(last.Size() == 0) { // Is last chunk empty ?
+	  chunks.PopLast();
+	  if(chunks.IsEmpty()) {
+	    chunks.InsLast(*new DChunkC<DataT>(0,newData));
+	    break;
+	  }
+	  continue;
+	}
+	chunks.InsLast(*new DChunkC<DataT>(last.IMax()+1,newData));
+      } while(0);
+    }
     lastBlk = Array1dC<DataT>(); // Empty last block holder.
     return newData.Size();
   }
@@ -580,14 +619,33 @@ namespace RavlN {
     if(newData.IsEmpty())
       return 0;
     IntrDLIterC<DChunkC<DataT> > it(newData.Body().chunks);
+    RavlAssert(it); // IsEmpty() passed, it should be a valid iterator.
+    // Skip any empty blocks.
+    for(;it;it++) 
+      if(it->Size() > 0)
+	break;
     if(!it) return 0;
     UIntT size = 0;
-    if(chunks.IsEmpty())
+    if(chunks.IsEmpty()) // Nothing in the current set ?
       chunks.InsLast(*new DChunkC<DataT>(it->Data()));
-    else
-      chunks.InsLast(*new DChunkC<DataT>(chunks.Last().IMax()+1,it->Data()));
+    else {
+      do {
+	DChunkC<DataT> &last = chunks.Last();
+	if(last.Size() == 0) { // Is last chunk empty ?
+	  chunks.PopLast();
+	  if(chunks.IsEmpty()) {
+	    chunks.InsLast(*new DChunkC<DataT>(0,it->Data()));
+	    break;
+	  }
+	  continue;
+	}
+	chunks.InsLast(*new DChunkC<DataT>(last.IMax()+1,it->Data()));
+      } while(0);      
+    }
     size += it->Size();
     for(it++;it;it++) {
+      if(it->Size() == 0)
+	continue;
       size += it->Size();
       chunks.InsLast(*new DChunkC<DataT>(chunks.Last().IMax()+1,it->Data()));
     }
