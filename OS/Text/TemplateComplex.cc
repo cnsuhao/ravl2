@@ -126,7 +126,7 @@ namespace RavlN {
       if(at < 0)
 	continue;
       StringC var = ip.before(at);
-    //cerr << "Got data:'" << ip <<"'  Var: '" << var << "'\n";
+      //cerr << "Got data:'" << ip <<"'  Var: '" << var << "'\n";
       if(!presets.IsMember(var))
 	continue;
       StringC value = ip.after(at);
@@ -143,8 +143,10 @@ namespace RavlN {
     TextFileC subTextBuff(str,true,true);
     if(!BuildSub(subTextBuff))
       cerr << "WARNING: BuildSub of '" << str << "' in template '" << templFile.Filename() << "' failed.\n";
+    StringC ret = outStr.String();
+    ONDEBUG(cerr << "TemplateComplexBodyC::Interpret(), '" << str << "' -> '" << ret << "'\n");
     output.DelTop();
-    return outStr.String();
+    return ret;
   }
   
   
@@ -164,7 +166,8 @@ namespace RavlN {
     }
     
     StringC value = data.after(eqSign).TopAndTail();
-    if(value != "")
+    ONDEBUG(cerr << "Value='" << value << "'\n");
+    if(value != "") 
       vars.Top()[varName] = Interpret(value);
     else
       vars.Top().Del(varName); // Remove variable.
@@ -391,6 +394,7 @@ namespace RavlN {
       return false;
     }
     data = Interpret(data);
+    ONDEBUG(cerr << "Include after interpret '" << data << "'\n");
     TextFileC subTextBuff;
     TextFileC *stb = component.Lookup(data);
     if(stb == 0) {
@@ -562,7 +566,7 @@ namespace RavlN {
   //: Make sure text will be taken literally in html.
   
   bool TemplateComplexBodyC::HtmlSafe(StringC &value) {
-    ONDEBUG(cerr << "Set '" << data << "'\n");  
+    ONDEBUG(cerr << "HtmlSafe '" << value << "'\n");  
     if(value == "") 
       return true;
     
@@ -633,7 +637,6 @@ namespace RavlN {
   bool TemplateComplexBodyC::BuildSub(TextFileC &subtempl) {
     TemplateFileC tf(subtempl ,output.Top());
     bool ret = true;
-    
     while(tf.IsElm()) {
       StringC &ip = tf.Next();
       if(ip.IsEmpty())
@@ -643,6 +646,7 @@ namespace RavlN {
       if(at == -1) {
 	StringC buff;
 	if(Lookup(ip,buff)) {
+	  ONDEBUG(cerr << "TemplateComplexBodyC::BuildSub(), Adding '" << buff << "'\n");
 	  output.Top() << buff;
 	  continue;
 	}

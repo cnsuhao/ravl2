@@ -26,16 +26,14 @@ LOCAL_FILES = template.x template2.x test.conf
 EXAMPLES = exTemplateFile.cc exTemplateComplex.cc exConfigFile.cc
 # exText.cc 
 
-TESTEXES = 
+TESTEXES = testTextFile.cc
 #exConfig.cc
 
 PLIB=RavlOS
 
 LIBDEPS=RavlOSText.def
 
-USESLIBS=RavlCore
-
-PROGLIBS=
+USESLIBS=RavlOS RavlCore
 
 EHT= Ravl.OS.Text_Processing.html Ravl.OS.Text_Processing.Templates.html
 

@@ -14,7 +14,6 @@
 #include "Ravl/EntryPnt.hh"
 
 #define DODEBUG 0
-
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -79,6 +78,7 @@ namespace RavlN {
       SubStringC cl = at.RestOfLine();
       // Do a quick check...
       if((where = cl.index("$(")) < 0) {
+	ONDEBUG(cerr << "TemplateFileC::Next(), Passing on '" << cl << "'  Len=" << cl.length() << " (1) \n");
 	out << cl; // Just output and goto the next line.
 	if(!at.NextLine())
 	  return point;
@@ -86,6 +86,7 @@ namespace RavlN {
       }
       if(where > 0) { // Stuffed ?
 	out << cl.before(where); // Output begining of line.
+	ONDEBUG(cerr << "TemplateFileC::Next(), Passing on '" << cl.before(where) << "' (2) \n");	
 	if(cl[where-1] == '$') {
 	  at.GotoCol(at.ColNum() + where+1); // Unstuff '$'
 	  continue;
@@ -106,7 +107,7 @@ namespace RavlN {
 	break;
       }
       // Print out macro value. 
-      ONDEBUG(cerr << "TemplateFileC::Next(), Subst label '" << point <<"' with '" << vars[point] << "' \n");
+      ONDEBUG(cerr << "TemplateFileC::Next(), Subst label '" << point <<"' with '" << *varVal << "' \n");
       out << *varVal;
       point = StringC(); // Delt with this label.
     }
