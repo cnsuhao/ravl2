@@ -61,7 +61,7 @@ namespace RavlImageN {
     //: Do an inplace dct of im.
     
     ImageC<RealT> operator()(const ImageC<RealT>& im) const
-    { return dct(im); }
+    { return DCT(im); }
     //: Compute the dct of im.
     
     ImageC<RealT> DCT(const ImageC<RealT>& im) const;
@@ -125,7 +125,7 @@ namespace RavlImageN {
     void dct_in_place(ImageC<RealT>& im) const;
     
     ImageC<RealT> operator()(const ImageC<RealT>& im) const
-    { return dct(im); }
+    { return DCT(im); }
     
     ImageC<RealT> DCT(const ImageC<RealT>& im) const;
     //: Compute the DCT of img.

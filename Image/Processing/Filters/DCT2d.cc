@@ -211,14 +211,14 @@ namespace RavlImageN {
 	dest[i][j] *= scaleAC;
   }
   
-  void ChanDCTC::dct(const ImageC<RealT>& src, ImageC<RealT>& dest) const
+  void ChanDCTC::DCT(const ImageC<RealT>& src, ImageC<RealT>& dest) const
   {
     RavlAssert( src.Cols() == (SizeT) N && src.Rows() == (SizeT) N ); 
     dest = src;
     dct_in_place(dest);
   }
 
-  ImageC<RealT> ChanDCTC::dct(const ImageC<RealT>& im) const
+  ImageC<RealT> ChanDCTC::DCT(const ImageC<RealT>& im) const
   {
     ImageC<RealT> ret(im);
     dct_in_place(ret);
@@ -392,7 +392,7 @@ namespace RavlImageN {
   
   VecRadDCTC::VecRadDCTC(unsigned int size, unsigned int pts)
   {
-    initialise(size, pts);
+    Initialise(size, pts);
   }
 
   VecRadDCTC::VecRadDCTC()
@@ -402,7 +402,7 @@ namespace RavlImageN {
     N0 = 0;
   }
 
-  void VecRadDCTC::initialise(unsigned int size, unsigned int pts)
+  void VecRadDCTC::Initialise(unsigned int size, unsigned int pts)
   {
     m = (unsigned int)Ceil(Log(size)/Log(2.0));
     N = (unsigned int)Pow(2.0, (float)m);
@@ -543,13 +543,13 @@ namespace RavlImageN {
     dest = ImageC<RealT>(dest,IndexRange2dC(0,N0,0, N0)); //Inefficient
   }
 
-  void VecRadDCTC::dct(const ImageC<RealT>& src, ImageC<RealT>& dest) const {
+  void VecRadDCTC::DCT(const ImageC<RealT>& src, ImageC<RealT>& dest) const {
     RavlAssert( src.Cols() == (SizeT) N && src.Rows() == (SizeT)N );
     dest = src;
     dct_in_place(dest);
   }
 
-  ImageC<RealT> VecRadDCTC::dct(const ImageC<RealT>& im) const {
+  ImageC<RealT> VecRadDCTC::DCT(const ImageC<RealT>& im) const {
     ImageC<RealT> ret(im);
     dct_in_place(ret);
     return ret;
@@ -860,5 +860,4 @@ namespace RavlImageN {
     }
      
   }
-#endif
 }
