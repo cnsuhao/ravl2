@@ -11,9 +11,12 @@
 //! docentry="Ravl.Images.Segmentation"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Segmentation/Segmentation.hh"
+//! author="Charles Galambos"
 
 #include "Ravl/Array2dSqr2Iter2.hh"
 #include "Ravl/Image/Image.hh"
+#include "Ravl/Image/ByteRGBValue.hh"
+#include "Ravl/Image/ByteYUVValue.hh"
 #include "Ravl/SArray1d.hh"
 #include "Ravl/RefCounter.hh"
 #include "Ravl/HSet.hh"
@@ -30,6 +33,11 @@ namespace RavlImageN {
     : public RCBodyVC
   {
   public:
+    SegmentationBodyC()
+      : labels(0)
+    {}
+    //: Default constructor.
+    
     SegmentationBodyC(ImageC<UIntT> nsegmap,UIntT nlabels)
       : segmap(nsegmap),
 	labels(nlabels)
@@ -86,6 +94,18 @@ namespace RavlImageN {
     //: Compute moments for each of the segmented regions.
     // if ignoreZero is true, region labeled 0 is ignored.
     
+    ImageC<ByteT> ByteImage() const;
+    //: Returns the segmentation map in the form of a ByteImageC
+    // Note: if there are more than 255 labels in the image, some may be used twice.
+    
+    ImageC<ByteRGBValueC> RandomImage() const;
+    //: Returns the segmentation map in the form of a colour random image; this means that segmentation maps with more than 255 labels can be saved to disk
+    
+    ImageC<ByteYUVValueC> RandomTaintImage(ByteT max=100) const;
+    //: Returns the segmentation map in the form of a colour random image.
+    // The Y channel is left blank (e.g., for displaying the original data).
+    // The labels in the U and V channels are in the range 0 to 'max'.
+    
   protected:
     UIntT RelabelTable(SArray1dC<UIntT> &labelTable, UIntT currentMaxLabel);
     //: Compress labels.
@@ -118,6 +138,11 @@ namespace RavlImageN {
 
     
   protected:
+    SegmentationC(SegmentationBodyC &bod)
+      : RCHandleC<SegmentationBodyC>(bod)
+    {}
+    //: Body constructor.
+    
     SegmentationBodyC &Body()
     { return RCHandleC<SegmentationBodyC>::Body(); }
     //: Access body.
@@ -168,7 +193,20 @@ namespace RavlImageN {
     { return Body().ComputeMoments(ignoreZero); }
     //: Compute moments for each of the segmented regions.
     // if ignoreZero is true, region labeled 0 is ignored.
+
+    inline ImageC<ByteT> ByteImage() const
+    { return Body().ByteImage(); }
+    //: Returns the segmentation map in the form of a ImageC<ByteT>
     
+    inline  ImageC<ByteRGBValueC> RandomImage() const
+    { return Body().RandomImage(); }
+    //: Returns the segmentation map in the form of a colour random image
+    
+    inline  ImageC<ByteYUVValueC> RandomTaintImage(ByteT max=100) const
+    { return Body().RandomTaintImage(max); }
+    //: Returns the segmentation map in the form of a colour random image. 
+    // The Y channel is left blank (e.g., for displaying the original data). 
+    // The labels in the U and V channels are in the range 0 to 'max'.
   };
 
   //: Merge simlar components smaller than 'thrSize'.

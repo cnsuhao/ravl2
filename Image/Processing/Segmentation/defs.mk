@@ -10,10 +10,12 @@
 PACKAGE=Ravl/Image
 
 HEADERS=ChromaThreshold.hh  Segmentation.hh ConnectedComponents.hh \
- BlueScreen.hh SegmentExtrema.hh FloodRegion.hh
+ BlueScreen.hh SegmentExtrema.hh FloodRegion.hh SegmentRegion.hh \
+ RegionSet.hh RegionGrow.hh RegionGrowSteal.hh PixelSelectStack.hh \
+ PixelClassifyGrey.hh PixelClassifyColour.hh PixelClassifyMotion.hh
 
 SOURCES=ChromaThreshold.cc Segmentation.cc ConnectedComponents.cc \
- BlueScreen.cc SegmentExtrema.cc
+ BlueScreen.cc SegmentExtrema.cc PixelSelectStack.cc
 
 MAINS=extrema.cc
 
@@ -27,6 +29,6 @@ USESLIBS=RavlImageProc
 
 PROGLIBS=RavlImageIO RavlVideoIO RavlMathIO RavlDPDisplay.opt RavlImgIOV4L.opt RavlExtImgIO.opt
 
-EXAMPLES=extrema.cc
+EXAMPLES=extrema.cc exSegmentation.cc
 
 EHT=Ravl.Images.Segmentation.html

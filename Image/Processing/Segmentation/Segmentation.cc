@@ -15,6 +15,8 @@
 #include "Ravl/SArray1dIter.hh"
 #include "Ravl/SArray1dIter2.hh"
 #include "Ravl/Array2dIter.hh"
+#include "Ravl/Array2dIter2.hh"
+#include "Ravl/SobolSequence.hh"
 
 namespace RavlImageN {
 
@@ -237,15 +239,57 @@ namespace RavlImageN {
     if(ignoreZero) {
       // Ignore regions with label 0.
       for(Array2dIterC<UIntT> it(segmap);it;it++) {
-      if(*it == 0)
-	continue;
-      ret[*it].AddPixel(it.Index());
+	if(*it == 0)
+	  continue;
+	ret[*it].AddPixel(it.Index());
       }
     } else {
       for(Array2dIterC<UIntT> it(segmap);it;it++) 
 	ret[*it].AddPixel(it.Index());
     }
     return ret;
+  }
+
+
+  ImageC<ByteT> SegmentationBodyC::ByteImage() const {
+    ImageC<ByteT> byteimage(segmap.Rectangle());
+    Array2dIter2C<UIntT, ByteT> seg_it(segmap, byteimage);
+    for(seg_it.First(); seg_it.IsElm(); seg_it.Next())
+      seg_it.Data2() = (unsigned char)seg_it.Data1();
+    return byteimage;
+  }
+  
+  ImageC<ByteRGBValueC> SegmentationBodyC::RandomImage() const {
+    //generate Sobol sequence
+    SobolSequenceC sobel_sequence(3);
+    SArray1dC<ByteRGBValueC> colours(labels);    
+    sobel_sequence.First();
+    for (SArray1dIterC<ByteRGBValueC> it(colours);it;it++,sobel_sequence.Next())
+      *it = ByteRGBValueC((ByteT) (sobel_sequence.Data()[0]*255), 
+			  (ByteT) (sobel_sequence.Data()[1]*255),
+			  (ByteT) (sobel_sequence.Data()[2]*255));
+    
+    //create RGBImage
+    ImageC<ByteRGBValueC> rgbimage(segmap.Frame());
+    for(Array2dIter2C<UIntT, ByteRGBValueC> seg_it(segmap, rgbimage); seg_it; seg_it++)
+      seg_it.Data2() = colours[seg_it.Data1()];
+    
+    return rgbimage;
+  }
+  
+  ImageC<ByteYUVValueC> SegmentationBodyC::RandomTaintImage(ByteT max) const {
+    //generate Sobol sequence
+    SobolSequenceC sobol_sequence(2);
+    
+    SArray1dC<ByteYUVValueC> colours(labels);    
+    for (SArray1dIterC<ByteYUVValueC> it(colours);it;it++,sobol_sequence.Next())
+      *it = ByteYUVValueC(127, (ByteT) (sobol_sequence.Data()[0]*max), (ByteT)( sobol_sequence.Data()[1]*max));
+    
+    //create RGBImage
+    ImageC<ByteYUVValueC> yuvimage(segmap.Rectangle());
+    for(Array2dIter2C<UIntT, ByteYUVValueC> seg_it(segmap, yuvimage); seg_it; seg_it++)
+      seg_it.Data2() = colours[seg_it.Data1()];
+    return yuvimage;
   }
   
 }
