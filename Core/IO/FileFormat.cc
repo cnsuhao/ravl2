@@ -77,7 +77,7 @@ namespace RavlN {
   // Will create an Invalid port if not supported.
   
   DPIPortBaseC FileFormatBodyC::CreateInput(const StringC &filename,const type_info &obj_type) const  { 
-    IStreamC in(filename);
+    IStreamC in(filename,true); // Open in binary mode by default.
     if(!in) // File opened ok ?
       return DPIPortBaseC();
     return CreateInput(in,obj_type);
@@ -88,7 +88,7 @@ namespace RavlN {
   // Will create an Invalid port if not supported.
   
   DPOPortBaseC FileFormatBodyC::CreateOutput(const StringC &filename,const type_info &obj_type) const  { 
-    OStreamC out(filename);
+    OStreamC out(filename,true); // Open in binary mode by default.
     if(!out) // File opened ok ?
       return DPOPortBaseC();
     return CreateOutput(out,obj_type);

@@ -241,7 +241,7 @@ namespace RavlN {
     }
     
     // Open file to start probe..
-    IStreamC in(filename);
+    IStreamC in(filename,true); // Open in binary mode, particularly for windows.
     if(!in.good() && filename[0] != '@') {
       cerr << "Can't open file '" << filename << "'\n";
       return false;
