@@ -8,6 +8,7 @@
 //! lib=RavlNet
 //! file="Ravl/OS/Network/testNetPort.cc"
 //! docentry="Ravl.OS.Network.NetPort"
+//! userlevel=Normal
 //! author="Charles Galambos"
 
 #include "Ravl/OS/NetIPort.hh"
@@ -35,6 +36,8 @@ int main() {
 
 int testNetPort() {
   cerr << "testNetPort(), Test started. \n";
+
+  // ********************** SERVER SIDE ************************************
   // Setup some data.
   DListC<IntT> lst;
   lst.InsLast(1);
@@ -51,23 +54,31 @@ int testNetPort() {
   // Setup server IPort.
   cerr << "testNetPort(), Setup server IPort. \n";
   DPIPortC<IntT> op = DPIContainer(lst);
-  
+
+  // Export the stream 'op' as test1
   if(!NetExport("test1",op)) {
     cerr << "Failed to export 'test1' \n";
     return __LINE__;
   }
   
-  // Setup IPort.
-  cerr << "testNetPort(), Setup  NetIPort. \n";
+  // ********************** CLIENT SIDE ******************************
   
+  cerr << "testNetPort(), Setup  NetIPort. \n";
+
+  // Make a connection to the server.
   NetISPortC<IntT>  isp (server,"test1");
+  
+  // Should check it succeeded here.
   
   DListC<IntT> lst2;
   
-  // Transfer data.
+  // Transfer data from server to lst2
+  
   cerr << "testNetPort(), Transfer data. \n";
-  //Sleep(0.1);
+  
   isp >> DPOContainer(lst2);
+  
+  // ********************** CHECK IT WORKED ************************
   
   cerr << "testNetPort(), Check data. Elements=" << lst2.Size() << "\n";
   // Check the results.

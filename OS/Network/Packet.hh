@@ -21,7 +21,7 @@ namespace RavlN
 {
   class NetMessageC;
   
-  //! userlevel=Normal
+  //! userlevel=Advanced
   //: Packet of stream encoded data.
   
   class NetPacketC

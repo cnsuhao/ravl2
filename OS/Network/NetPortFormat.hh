@@ -20,6 +20,8 @@ namespace RavlN {
 
   //! userlevel=Develop
   //: Data format for NetPort's.
+  // By instantiating this class as a static variable you can allow net ports
+  // to be open with the standard 'Load' or 'OpenISequence' methods.
   
   template<class DataT>
   class NetPortFormatBodyC 
@@ -89,7 +91,11 @@ namespace RavlN {
 
 
   //! userlevel=Normal
-  //: Data format for NetPort's.
+  //: File format information for NetPort's.
+  // By instantiating this class as a static variable you can allow net ports
+  // to be open with the standard 'Load' or 'OpenISequence' methods. <br>
+  // You have to make an instance of this class for each type you wish to
+  // handle.
   
   template<class DataT>
   class NetPortFormatC 

@@ -12,6 +12,7 @@
 //! lib=RavlNet
 //! docentry="Ravl.OS.Network.NetPort"
 //! file="Ravl/OS/Network/NetIPort.hh"
+//! example=exNetPort.cc
 
 #include "Ravl/DP/SPort.hh"
 #include "Ravl/OS/NetEndPoint.hh"
@@ -27,7 +28,11 @@ namespace RavlN {
   {
   public:
     NetISPortBaseC(const StringC &server,const StringC &portName,const type_info &ndataType);
-    //: Default constructor.
+    //: Constructor.
+    // The 'server' has the format  'host:port' where port may be a
+    // host name or its ip (dotted numbers) address and port is the 
+    // number of the port to use. <br>
+    // 'portName' is the namer of the stream on the server.
     
     ~NetISPortBaseC();
     //: Destructor.
@@ -67,10 +72,14 @@ namespace RavlN {
       public NetISPortBaseC
   {
   public:
-    NetISPortBodyC(const StringC &server,const StringC &portName)
-      : NetISPortBaseC(server,portName,typeid(DataT))
+    NetISPortBodyC(const StringC &address,const StringC &portName)
+      : NetISPortBaseC(address,portName,typeid(DataT))
     { Init(); }
     //: Constructor.
+    // The 'address' has the format  'host:port' where port may be a
+    // host name or its ip (dotted numbers) address and port is the 
+    // number of the port to use. <br>
+    // 'portName' is the namer of the stream on the server.
     
     virtual bool Seek(UIntT off) { 
       gotEOS = false; // Reset end of stream flag.
@@ -159,7 +168,11 @@ namespace RavlN {
       : DPEntityC(*new NetISPortBodyC<DataT>(server,portName))
     {}
     //: Constructor.
-
+    // The 'address' has the format  'host:port' where port may be a
+    // host name or its ip (dotted numbers) address and port is the 
+    // number of the port to use. <br>
+    // 'portName' is the namer of the stream on the server.
+    
   protected:
     NetISPortC(NetISPortBodyC<DataT> &bod)
       : DPEntityC(bod)
@@ -230,8 +243,6 @@ namespace RavlN {
       throw DataNotReadyC("Get failed. ");
     return tmp;
   }
-
-  
   
 }
 

@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLNETSOCKET_HEADER
-#define RAVLNETSOCKET_HEADER 1
+#ifndef RAVL_SOCKET_HEADER
+#define RAVL_SOCKET_HEADER 1
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/OS/Network/Socket.hh"
@@ -31,7 +31,7 @@ namespace RavlN {
 
   //! userlevel=Develop
   //: Socket connection body class.
-  // For dealing with stream sockets.
+  // For dealing with low level stream sockets.
   
   class SocketBodyC 
     : public RCBodyC
@@ -39,6 +39,9 @@ namespace RavlN {
   public:
     SocketBodyC(StringC name,bool server = false);
     //: Open socket.
+    // The 'name' has the format  'host:port' where port may be a
+    // host name or its ip (dotted numbers) address and port is the 
+    // number of the port to use.
     
     SocketBodyC(StringC name,UIntT portno,bool server = false);
     //: Open socket.
@@ -50,11 +53,11 @@ namespace RavlN {
     //: Open socket.
     
     int Fd() const
-      { return fd; }
+    { return fd; }
     //: Access file descriptor.
     
     bool IsOpen() const
-      { return fd >= 0; }
+    { return fd >= 0; }
     //: Test if socket is open.
     
     SocketC Listen(bool block = true,int backLog = 1);
@@ -67,14 +70,14 @@ namespace RavlN {
     //: Close the socket.
     
     void SetDontClose(bool ndontClose)
-      { dontClose = ndontClose; }
+    { dontClose = ndontClose; }
     //: Setup don't close flag.
     
     StringC ConnectedHost();
-    //: Get host name 
+    //: Get the name of the host at the other end of the connection.
     
     IntT ConnectedPort();
-    //: Get other port number.
+    //: Get the port number at the other end of the connection.
     
     void SetNoDelay();
     //: Send data as soon as possible. 
@@ -110,48 +113,53 @@ namespace RavlN {
   
   //! userlevel=Normal
   //: Socket connection handle.
-  // For dealing with stream sockets.
+  // For dealing with low level stream sockets.
   
   class SocketC 
     : public RCHandleC<SocketBodyC>
   {
   public:
     SocketC()
-      {}
+    {}
     //: Default constructor.
     // creates an invalid handle.
     
-    SocketC(StringC name,bool server = false)
-      : RCHandleC<SocketBodyC>(*new SocketBodyC(name,server))
-      {}
+    SocketC(StringC address,bool server = false)
+      : RCHandleC<SocketBodyC>(*new SocketBodyC(address,server))
+    {}
     //: Open socket.
+    // The 'address' has the format  'host:port' where port may be a
+    // host name or its ip (dotted numbers) address and port is the 
+    // number of the port to use.
     
-    SocketC(StringC name,UIntT portno,bool server = false)
-      : RCHandleC<SocketBodyC>(*new SocketBodyC(name,portno,server))
-      {}
+    SocketC(StringC host,UIntT portno,bool server = false)
+      : RCHandleC<SocketBodyC>(*new SocketBodyC(host,portno,server))
+    {}
     //: Open socket.
+    // 'host' is the host name to connect to or its ip address (dotted numbers)
+    // 'port' is the port number to use.
     
   protected:
     SocketC(struct sockaddr *addr,int nfd,bool server = false)
       : RCHandleC<SocketBodyC>(*new SocketBodyC(addr,nfd,server))
-      {}
+    {}
     //: Open socket.
     
     SocketBodyC &Body()
-      { return RCHandleC<SocketBodyC>::Body(); }
+    { return RCHandleC<SocketBodyC>::Body(); }
     //: Access body.
     
     const SocketBodyC &Body() const
-      { return RCHandleC<SocketBodyC>::Body(); }
+    { return RCHandleC<SocketBodyC>::Body(); }
     //: Access body.
     
   public:
     int Fd() const
-      { return Body().Fd(); }
+    { return Body().Fd(); }
     //: Access file descriptor.
     
     bool IsOpen() const
-      { return Body().IsOpen(); }
+    { return Body().IsOpen(); }
     //: Test if socket is open.
     
     inline SocketC Listen(bool block = true,int backLog = 1)

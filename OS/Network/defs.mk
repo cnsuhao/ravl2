@@ -26,7 +26,7 @@ PLIB = RavlNet
 
 EHT=Ravl.OS.Network.html Ravl.OS.Network.NetPort.html
 
-EXAMPLES = exSocket.cc exEndPoint.cc
+EXAMPLES = exSocket.cc exEndPoint.cc exNetPort.cc
 
 TESTEXES=testNetPort.cc
 

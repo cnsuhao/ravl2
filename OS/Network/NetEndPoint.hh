@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLNETSERVER_HEADER
-#define RAVLNETSERVER_HEADER 1
+#ifndef RAVL_NETENDPOINT_HEADER
+#define RAVL_NETENDPOINT_HEADER 1
 //////////////////////////////////////////////////////////////////
 //! docentry="Basic Types.Network"
 //! rcsid="$Id$"
@@ -48,13 +48,17 @@ namespace RavlN {
     // is true messages will start being processed as soon as the connection
     // is established.
     
-    NetEndPointBodyC(const StringC &skt,bool nautoInit = true);
+    NetEndPointBodyC(const StringC &address,bool nautoInit = true);
     //: Constructor.
     // If auto init is set to false, you must call the Ready() function
     // when your ready to start processing network messages. If autoinit
     // is true messages will start being processed as soon as the connection
-    // is established.
+    // is established. <br>
+    // The 'address' has the format  'host:port' where port may be a
+    // host name or its ip (dotted numbers) address and port is the 
+    // number of the port to use.
     
+
     NetEndPointBodyC();
     //: Default constructor.
     

@@ -11,6 +11,7 @@
 //! author="Charles Galambos"
 //! lib=RavlNet
 //! docentry="Ravl.OS.Network.NetPort"
+//! example=exNetPort.cc
 //! file="Ravl/OS/Network/NetIPortServer.hh"
 
 #include "Ravl/OS/NetEndPoint.hh"
@@ -85,7 +86,7 @@ namespace RavlN {
     DPISPortC<DataT> iport;
   };
   
-  //! userlevel=Normal
+  //! userlevel=Advanced
   //: Input port server base.
 
   class NetISPortServerBaseC
@@ -130,7 +131,7 @@ namespace RavlN {
 
   };
   
-  //! userlevel=Normal
+  //! userlevel=Advanced
   //: Input port.
   // This class manages the information needed to serve a particular port.
   
@@ -154,23 +155,23 @@ namespace RavlN {
 
   bool NetExportBase(const StringC &name,NetISPortServerBaseC &isp);
   //! userlevel=Develop
-  //: Export a port.
+  //: Export  port.
   
   template<class DataT>
-  bool NetExport(const StringC &name,DPISPortC<DataT> &port) {
-    NetISPortServerC<DataT> ips(port,name);
-    return NetExportBase(name,ips);
+  bool NetExport(const StringC &portName,DPISPortC<DataT> &port) {
+    NetISPortServerC<DataT> ips(port,portName);
+    return NetExportBase(portName,ips);
   }
   //! userlevel=Normal 
-  //: Export an SPort with a given name.
+  //: Export an SPort with a given portName.
   
   template<class DataT>
-  bool NetExport(const StringC &name,DPIPortC<DataT> &port) {
-    NetISPortServerC<DataT> ips(SPort(port),name);
-    return NetExportBase(name,ips);
+  bool NetExport(const StringC &portName,DPIPortC<DataT> &port) {
+    NetISPortServerC<DataT> ips(SPort(port),portName);
+    return NetExportBase(portName,ips);
   }
   //! userlevel=Normal 
-  //: Export an SPort with a given name.
+  //: Export an SPort with a given portName.
   
   ///////////////////////////////////////////////////
   

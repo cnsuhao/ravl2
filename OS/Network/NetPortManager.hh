@@ -12,6 +12,7 @@
 //! lib=RavlNet
 //! docentry="Ravl.OS.Network.NetPort"
 //! file="Ravl/OS/Network/NetPortManager.hh"
+//! example=exNetPort.cc
 
 #include "Ravl/String.hh"
 #include "Ravl/OS/Socket.hh"
@@ -129,9 +130,15 @@ namespace RavlN {
   
   NetPortManagerC &GlobalNetPortManager();
   //: Access global net port manager.
-
-  bool NetPortOpen(const StringC &addr);
+  
+  //! userlevel=Normal
+  
+  bool NetPortOpen(const StringC &address);
   //: Open net port manager.
+  // The 'address' has the format  'host:port' where port may be a
+  // host name or its ip (dotted numbers) address and port is the 
+  // number of the port to use.
+  
 }
 
 #endif

@@ -47,7 +47,7 @@ namespace RavlN {
     friend class NetPortClientC;
   };
   
-  //! userlevel=Normal
+  //! userlevel=Advanced
   //: NetPortClient.
   // This class is a server side object that manages incoming connection
   // requests on a per client basis
