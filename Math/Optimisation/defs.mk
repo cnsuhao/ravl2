@@ -38,15 +38,14 @@ HEADERS = ObsVector.hh ObsVectorBiGaussian.hh ObsVectorPoint2dPair.hh \
 	  FitLine2dPoints.hh FitQuadraticPoints.hh FitHomog2dPoints.hh  \
 	  ObservationAffine2dPoint.hh StateVectorAffine2d.hh FitAffine2dPoints.hh
 
-MAINS=OrthogonalRegressionTest.cc QuadraticFitTest.cc Homography2dFitTest.cc Mosaic.cc
+MAINS=OrthogonalRegressionTest.cc QuadraticFitTest.cc Homography2dFitTest.cc
 
 EHT=Ravl.Math.Optimisation.html Ravl.Math.Optimisation.Examples.html
 
 TESTEXES= OrthogonalRegressionTest.cc QuadraticFitTest.cc Homography2dFitTest.cc
 
-EXAMPLES= OrthogonalRegressionTest.cc QuadraticFitTest.cc Homography2dFitTest.cc Mosaic.cc
+EXAMPLES= OrthogonalRegressionTest.cc QuadraticFitTest.cc Homography2dFitTest.cc
 
-USESLIBS=RavlCore RavlMath 
+USESLIBS=RavlCore RavlMath
 
-PROGLIBS=RavlImage RavlImageProc RavlOSIO  RavlVideoIO RavlImageIO RavlDPDisplay 
-#RavlImgIOV4L
+PROGLIBS=RavlImage RavlImageProc RavlOSIO  RavlVideoIO RavlImageIO RavlDPDisplay

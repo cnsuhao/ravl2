@@ -9,22 +9,23 @@
 
 PACKAGE=Ravl/Image
 
-HEADERS=PointTrack.hh PointTrackModel.hh PointTracker.hh
+HEADERS=PointTrack.hh PointTrackModel.hh PointTracker.hh MosaicBuilder.hh
 
-SOURCES=PointTrack.cc PointTrackModel.cc PointTracker.cc
+SOURCES=PointTrack.cc PointTrackModel.cc PointTracker.cc MosaicBuilder.cc
 
 PLIB=RavlImageProc
 
 LIBDEPS=RavlImageProcTracker.def
 
-MAINS=tracker.cc
+MAINS=tracker.cc mosaic.cc
 
 EHT= Ravl.Images.Tracking.html
 
 EXAMPLES=tracker.cc
 
-USESLIBS=RavlImage RavlImageProc
+USESLIBS=RavlImage RavlImageProc RavlOptimise RavlImageIO
+# CSPDriver
 
-PROGLIBS=RavlDPDisplay RavlVideoIO RavlImageIO
+PROGLIBS=RavlDPDisplay RavlVideoIO
 # RavlImgIOV4L
 

@@ -272,6 +272,8 @@ namespace RavlN {
     // This function will reorder the collection so that elements 0...k-1
     // are <= element k and elements k+1...Size()-1 are >= element k. 
     // Based on algorithm in Numerical Recipes in C, second edition.
+    // <p>
+    // Note: This method re-orders the contents of the collection.
 
     DataT &operator[](IndexC ind)
     { return Body().operator[](ind); }

@@ -48,6 +48,21 @@ namespace RavlImageN {
     //: Mix operator
   };
   
+  //! userlevel=Normal
+  //: Pixel mixer, recursively computed.
+  // This updates the pixel with a recursive combination of the pixel values.
+  
+  template<class InT,class OutT>
+  class PixelMixerRecursiveC {
+  public:
+    PixelMixerRecursiveC()
+    {}
+    //: Default constructor.
+    
+    void operator()(OutT &pixel,const InT &mixin)
+    { pixel.Combine(mixin); }
+    //: Mix operator
+  };
 }
 
 
