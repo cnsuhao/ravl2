@@ -16,6 +16,9 @@
 #include "Ravl/VectorMatrix.hh"
 #include "Ravl/Eigen.hh"
 
+#define RAVL_USE_CCMATH_EIGEN 1
+// Note this switch is for experiment use, it doesn't switch all functions accross.
+
 // matrix functions.
 
 namespace RavlN {
@@ -37,13 +40,27 @@ namespace RavlN {
   }
   
   VectorC EigenVectors(const MatrixC &mat,MatrixC &E) {
+#if RAVL_USE_CCMATH_EIGEN
     E = mat.Copy();
     return EigenVectorsIP(E);
+#else
+    cerr << "Using new EigenValue code. \n";
+    EigenValueC<RealT> ev(mat);
+    E = ev.EigenVectors();
+    return ev.EigenValues();
+#endif
   }
 
   VectorMatrixC EigenVectors(const MatrixC &mat) {
+#if RAVL_USE_CCMATH_EIGEN
     MatrixC ret = mat.Copy();
     VectorC vec =  EigenVectorsIP(ret);
+#else
+    cerr << "Using new EigenValue code. \n";
+    EigenValueC<RealT> ev(mat);
+    MatrixC ret = ev.EigenVectors();
+    VectorC vec = ev.EigenValues();
+#endif
     return VectorMatrixC(vec,ret);
   }
   
