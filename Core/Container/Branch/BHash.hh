@@ -170,7 +170,9 @@ namespace RavlN {
     for(BListIterC<BHashEntryC<KeyT,DataT> > it(list);it;it++)
       if(it.Data().Key() == key)
 	return it.Data().Data();
-    throw ExceptionOutOfRangeC("Attempt to access item not in BHashC. ");
+    RavlAssertMsg(0,"Attempt to access item with operator[] thats not in the table. ");
+    static DataT dummy;
+    return dummy;
   }
   
   template<class KeyT,class DataT>
