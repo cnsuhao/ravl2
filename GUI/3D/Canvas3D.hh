@@ -41,7 +41,6 @@ namespace RavlGUIN {
     C3D_SMOOTH
   };
   
-  
   //! userlevel=Develop
   //: 3D Canvas body.
   
@@ -73,13 +72,13 @@ namespace RavlGUIN {
     //: clears the buffers 
     // depth buffer and color buffer is cleared
     
-    void SetTextureMode(bool& bTexture) {m_bTexture = bTexture;}
+    bool SetTextureMode(bool& bTexture) {m_bTexture = bTexture; return true;}
     //: Enable or disable texturing
     
-    void SetLightingMode(bool& bLighting); 
+    bool SetLightingMode(bool& bLighting); 
     //: Enable or disable lighting
     
-    void SetRenderMode(Canvas3DRenderMode eRenderMode) {m_eRenderMode = eRenderMode;}
+    bool SetRenderMode(Canvas3DRenderMode& eRenderMode) {m_eRenderMode = eRenderMode; return true;}
     //: Set rendering mode
     
     bool GetTextureMode(void) {return m_bTexture;}
@@ -109,14 +108,14 @@ namespace RavlGUIN {
     //: Attribute list. 
     // see GUI/3D/gdkgl.h for a list of attributes.
     // the attribute list should be terminated with
-    // GDK_GL_NONE.  
+    // GDK_GL_NONE.
     
-    int sx,sy; // Size of view port.
-    friend class Canvas3DC;
-    
+    int sx,sy; 
+    // Size of view port.
+    // Only neede for widget creation
+
     Canvas3DRenderMode m_eRenderMode;
     //: Rendering mode
-
     bool m_bTexture;
     //: Texture mode
     // true = use texture when rendering.
@@ -125,8 +124,11 @@ namespace RavlGUIN {
     // true = Use lighting when rendering.
     
   private:
+
     Canvas3DBodyC(const Canvas3DBodyC &);
-    //: Don't do this.
+    //: Never do this.
+    
+    friend class Canvas3DC;
     
   };
   
@@ -281,13 +283,13 @@ namespace RavlGUIN {
     // Clears color buffer and depth buffer
     // Thread safe
     
-    void SetTextureMode(bool& bTexture) {Body().SetTextureMode(bTexture);}
+    bool SetTextureMode(bool& bTexture) {return Body().SetTextureMode(bTexture);}
     //: Enable or disable texturing
     
-    void SetLightingMode(bool& bLighting) {Body().SetLightingMode(bLighting);}
+    bool SetLightingMode(bool& bLighting) {return Body().SetLightingMode(bLighting);}
     //: Enable or disable lighting
     
-    void SetRenderMode(Canvas3DRenderMode eRenderMode) {Body().SetRenderMode(eRenderMode);}
+    bool SetRenderMode(Canvas3DRenderMode eRenderMode) {return Body().SetRenderMode(eRenderMode);}
     //: Set rendering mode
     
     bool GetTextureMode(void) {return Body().GetTextureMode();}

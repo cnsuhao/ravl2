@@ -45,7 +45,7 @@ namespace RavlGUIN {
     bool ret = gdk_gl_query(); 
     if(!ret) {
 #if defined(__sgi__)
-      cerr << "No native OpenGL not supported on this display. \n";
+      cerr << "No native OpenGL supported on this display. \n";
       cerr << "You could try: 'setenv LD_LIBRARY_PATH /opt/PDmesa/Mesa-3.1/lib' \n";
       cerr << "Then restarting your program. \n";
       RavlAssertMsg(0,"OpenGL not supported. ");
@@ -161,9 +161,10 @@ namespace RavlGUIN {
   
   //: Enable or disable lighting
   //: Put End Of Stream marker.
-  void Canvas3DBodyC::SetLightingMode(bool& bLighting) {
+  bool Canvas3DBodyC::SetLightingMode(bool& bLighting) {
     m_bLighting = bLighting; 
     Put(DOpenGLC(CallMethod0C<Canvas3DC>(Canvas3DC(*this),&Canvas3DC::DoLighting)));
+    return true;
   }
   
   
@@ -171,11 +172,11 @@ namespace RavlGUIN {
   
   bool Canvas3DBodyC::BeginGL() {
     if(widget == 0) {
-      cerr << "Canvas3DBodyC::BeginGL(), ERROR: Called with invalid widget. \n";
+      ONDEBUG(cerr << "Canvas3DBodyC::BeginGL(), ERROR: Called with invalid widget. \n");
       return false;
     }
     if (!gtk_gl_area_make_current(GTK_GL_AREA(widget))) {
-      cerr << "WARNING: Canvas3DBodyC::BeginGL(), Failed. \n";
+      ONDEBUG(cerr << "WARNING: Canvas3DBodyC::BeginGL(), Failed. \n");
       return false;
     }
     return true;
