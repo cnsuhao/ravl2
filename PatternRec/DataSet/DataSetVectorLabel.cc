@@ -36,6 +36,18 @@ namespace RavlN {
     return means;
   }
 
+  DataSetVectorLabelC DataSetVectorLabelBodyC::ClassMeansLabels() const {
+    SampleVectorC means(Sample2().MaxValue()+1);
+    SampleLabelC  labels(Sample2().MaxValue()+1);
+    SArray1dC<SampleVectorC> samps = SeperateLabels();
+    UIntT counter = 0;
+    for (SArray1dIterC<SampleVectorC> it (samps); it; it++) {
+      means.Append(it.Data().Mean());
+      labels.Append(counter++);
+    }
+    return DataSetVectorLabelC(means, labels);
+  }
+
   SArray1dC<UIntT> DataSetVectorLabelBodyC::ClassNums ()  const {
     SArray1dC<UIntT> nums(Sample2().MaxValue()+1);
     SArray1dC<SampleVectorC> samps = SeperateLabels();

@@ -42,6 +42,9 @@ namespace RavlN {
 
     SArray1dC<VectorC> ClassMeans () const;
     //: Returns mean of input vectors for each label value
+  
+     DataSetVectorLabelC ClassMeansLabels () const;
+    //: Returns mean of input vectors for each label along with the label
 
     SArray1dC<UIntT> ClassNums () const;
     //: Returns array containing the count of each label value
@@ -103,10 +106,13 @@ namespace RavlN {
     { return Body().ClassMeans(); }
     //: Returns mean of input vectors for each label value
 
+    DataSetVectorLabelC ClassMeansLabels () const
+    { return Body().ClassMeansLabels(); }
+    //: Returns mean of input vectors for each label along with the label
+
     SArray1dC<UIntT> ClassNums () const
     { return Body().ClassNums(); }
     //: Returns array containing the count of each label value
-
 
     SArray1dC<MeanCovarianceC> ClassStats () const
     { return Body().ClassStats(); }
