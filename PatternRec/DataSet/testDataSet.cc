@@ -15,6 +15,7 @@
 #include "Ravl/PatternRec/DataSet2Iter.hh"
 #include "Ravl/PatternRec/DataSet3Iter.hh"
 #include "Ravl/PatternRec/SampleIO.hh"
+#include "Ravl/PatternRec/SampleIter.hh"
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/OS/Date.hh"
 #include <iostream.h>

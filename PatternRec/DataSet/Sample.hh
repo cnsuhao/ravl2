@@ -20,6 +20,7 @@ namespace RavlN {
   template<class SampleT> class DataSet1IterC;
   template<class Sample1T,class Sample2T> class DataSet2IterC;
   template<class Sample1T,class Sample2T,class Sample3T> class DataSet3IterC;
+  template<class SampleT> class SampleIterC;
   
   //! userlevel=Normal
   //: Sample of DataT's
