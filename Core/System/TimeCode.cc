@@ -89,7 +89,7 @@ namespace RavlN {
     IntT frame = items.PopFirst().IntValue();
     if ((hour<24) && (hour>=0) && (min<60)  && (min>=0)
 	&& (sec<60) && (sec>=0) && (frame<(IntT) frameRate) && (frame>=0)) 
-      return true;
+   return ConvertFrom(hour,min,sec,frame) ;
     else {
       frameRate = RavlConstN::nanReal;
       return false;
@@ -101,7 +101,6 @@ namespace RavlN {
     return ConvertFrom(StringC(p));
   }
 
-  
   //: Checks for equals assignment
   bool TimeCodeC::operator==(const TimeCodeC &in) const {
     return (m_liFrame == in.m_liFrame);
