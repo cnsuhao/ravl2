@@ -84,6 +84,13 @@ namespace RavlN {
       return v;
     }
     //: Divide in place by another value.
+    
+    IntT operator*=(IntT oth) {
+      v *= oth;
+      return v;
+    }
+    //: Multiply in place by another value.
+    
     IntT v;
   };
   
