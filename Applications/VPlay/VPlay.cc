@@ -291,7 +291,7 @@ int doVPlay(int nargs,char *args[])
 						      guiData
 						      );
 
-  AttributeEditorWindowC attributeEditor(infile,vidIn);
+  AttributeEditorWindowC attributeEditor(infile,vpCtrl);
   
   // Setup menu.
   MenuBarC menuBar(MenuC("File",
