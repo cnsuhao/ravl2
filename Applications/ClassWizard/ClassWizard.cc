@@ -127,10 +127,16 @@ namespace RavlN {
   //: Append comment to text buffer.
   
   bool ClassWizardBodyC::WriteComment(SourceCursorC &sc,ObjectC &obj,bool markAsAuto) {
-    if(!obj.Comment().Header().IsEmpty())
-      sc += StringC("//:") + obj.Comment().Header();
-    if(!obj.Comment().Text().IsEmpty())
-      sc += StringC("//") + obj.Comment().Text();
+    if(!obj.Comment().Header().IsEmpty()) {
+      StringListC lines(obj.Comment().Header(),"\n"); // Split up into seperate lines.
+      for(DLIterC<StringC> it(lines);it;it++)
+	sc += StringC("//:") + *it;
+    }
+    if(!obj.Comment().Text().IsEmpty()) {
+      StringListC lines(obj.Comment().Text(),"\n"); // Split up into sperate lines.
+      for(DLIterC<StringC> it(lines);it;it++)
+	sc += StringC("//") + *it;
+    }
     for(HashIterC<StringC,StringC> it(obj.Comment().Locals());it;it++) {
       if(it.Data().contains("\n")) {
 	StringListC slist(it.Data(),"\n");
@@ -267,7 +273,7 @@ namespace RavlN {
       }
       if(!iname.contains("BodyC",-1))
 	continue; // Ingore inheritance from non-big objects.
-      StringC handleName = iname.before("BodyC");
+      StringC handleName = iname.before("BodyC") + "C";
       baseClasses.InsLast(handleName);
     }
     
