@@ -20,6 +20,9 @@
 #include "Ravl/Vector3d.hh"
 #include "Ravl/FLinePP.hh"
 
+#if RAVL_COMPILER_MIPSPRO
+#include "Ravl/BinStream.hh"
+#endif 
 namespace RavlN {
 
   class Line3dPVC;
