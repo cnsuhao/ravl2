@@ -16,34 +16,43 @@
 //! file="Ravl/Image/Base/DrawFrame.hh"
 
 #include "Ravl/Image/Image.hh"
+#include "Ravl/IndexRange2dIter.hh"
 
 namespace RavlImageN {
   
   template<class DataT>
-  void DrawFrame(Array2dC<DataT> &dat,const DataT &value,const IndexRange2dC &rect) {
+  void DrawFrame(Array2dC<DataT> &dat,const DataT &value,const IndexRange2dC &rect, bool fill=false) {
     IndexRange2dC dr(rect);
     dr.ClipBy(dat.Frame());
     if(dr.Area() <= 0)
       return ; // Nothing to draw around.
-    DataT *it1,*it2,*eor;
-    
-    it1 = &(dat[dr.TRow()][dr.LCol().V()]);
-    it2 = &(dat[dr.BRow()][dr.LCol().V()]);
-    IntT ColN = dr.Cols();
-    eor = &(it1[ColN]);
-    for(;it1 != eor;) {
-      *(it1++) = value;
-      *(it2++) = value;
+
+    if (fill) {
+       for (IndexRange2dIterC it(rect); it; it++) {
+          dat[*it] = value;
+       }
     }
-    ColN--;
-    for(IndexC r = dr.Origin().Row()+1; r < dr.End().Row(); r++) {
-      it1 = &(dat[r][dr.LCol().V()]);
-      it1[0] = value;
-      it1[ColN] = value;
+    else {
+       DataT *it1,*it2,*eor;
+       
+       it1 = &(dat[dr.TRow()][dr.LCol().V()]);
+       it2 = &(dat[dr.BRow()][dr.LCol().V()]);
+       IntT ColN = dr.Cols();
+       eor = &(it1[ColN]);
+       for(;it1 != eor;) {
+          *(it1++) = value;
+          *(it2++) = value;
+       }
+       ColN--;
+       for(IndexC r = dr.Origin().Row()+1; r < dr.End().Row(); r++) {
+          it1 = &(dat[r][dr.LCol().V()]);
+          it1[0] = value;
+          it1[ColN] = value;
+       }
     }
   }
   //: Draw a rectangle in an image.
-  
+
 }
 
 #endif
