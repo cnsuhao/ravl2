@@ -10,14 +10,13 @@
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Hash/testHash.cc"
 
-// Test the new HashARC tables.
-
 #include "Ravl/Hash.hh"
 #include "Ravl/BiHash.hh"
 #include "Ravl/HashIter.hh"
 #include <iostream.h>
 #include <stdlib.h>
 #include "Ravl/String.hh"
+#include "Ravl/BinStream.hh"
 
 using namespace RavlN;
 

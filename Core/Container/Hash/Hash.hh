@@ -33,6 +33,9 @@
 
 namespace RavlN {
   
+  class BinOStreamC;
+  class BinIStreamC;
+  
   template<class K,class T> class HashIterC;
   template<class K,class T> class HashC;
   template<class K,class T> class HashElemC;
@@ -106,7 +109,9 @@ namespace RavlN {
   //    evenly over the range of hash values. <p>
   
   template<class K,class T>
-  class HashC : public HashBaseC {
+  class HashC 
+    : public HashBaseC 
+  {
   public:
     typedef T ElementT;
     //: Allow function templates to find type of array.
@@ -135,6 +140,9 @@ namespace RavlN {
     // the first key. (i.e. == must return true between them)
     
     HashC(istream &in);
+    //: Recreate from stream.
+    
+    HashC(BinIStreamC &in);
     //: Recreate from stream.
     
     HashC<K,T> Copy() const;
@@ -299,8 +307,10 @@ namespace RavlN {
     //  friend HashIterT<K,T>;
 #if !defined(__sgi__) && !defined(VISUAL_CPP)
     friend ostream &operator<< <> (ostream &out,const HashC<K,T> &obj);
+    friend BinOStreamC &operator<< <> (BinOStreamC &out,const HashC<K,T> &obj);
 #else
     friend ostream &operator<<(ostream &out,const HashC<K,T> &obj);
+    friend BinOStreamC &operator<<(BinOStreamC &out,const HashC<K,T> &obj);
 #endif
   };
   
@@ -321,6 +331,9 @@ namespace RavlN {
     // To keep the compiler happy.
     
     inline HashElemC(istream &in);
+    //: Load from stream.
+    
+    inline HashElemC(BinIStreamC &in);
     //: Load from stream.
     
     HashElemC(const K &nKey,const T &Data) 
@@ -371,6 +384,12 @@ namespace RavlN {
     in >> Key >> Hold;
     hashVal = StdHash(Key); 
   }
+  
+  template<class K,class T>
+  inline HashElemC<K,T>::HashElemC(BinIStreamC &in) { 
+    in >> Key >> Hold;
+    hashVal = StdHash(Key); 
+  }
 
   template<class K,class T>
   ostream &operator<<(ostream &out,const HashElemC<K,T> &obj) {  
@@ -383,9 +402,21 @@ namespace RavlN {
     obj = HashElemC<K,T>(in);
     return obj;
   }
+
+  template<class K,class T>
+  BinOStreamC &operator<<(BinOStreamC &out,const HashElemC<K,T> &obj) {  
+    out << obj.GetKey() << obj.Data(); 
+    return out;
+  }
   
+  template<class K,class T>
+  BinIStreamC &operator>>(BinIStreamC &in,HashElemC<K,T> &obj) { 
+    obj = HashElemC<K,T>(in);
+    return obj;
+  }
   
   ///////////////////////////////////////////////////////////////////
+  
   template<class K,class T>
   HashC<K,T>::HashC(Tuple2C<K,T> *data) 
     : table(1)
@@ -414,8 +445,35 @@ namespace RavlN {
     return in;
   }
 
+  template<class K,class T>
+  BinOStreamC &operator<<(BinOStreamC &out,const HashC<K,T> &obj) { 
+    out << obj.elements;
+    for(SArray1dIterC<IntrDListC<HashElemC<K,T> > > it(obj.table);it;it++) {
+      for(IntrDLIterC<HashElemC<K,T> > place(*it);place;place++)
+	out << *place;
+    }
+    return out; 
+  }
+  
+  
+  template<class K,class T>
+  BinOStreamC &operator>>(BinOStreamC &in,HashC<K,T> &obj) { 
+    obj = HashC<K,T>(in);
+    return in;
+  }
+  
    template<class K,class T>
    HashC<K,T>::HashC(istream &in)  {
+     UIntT size;
+     in >> size;
+     for(;size > 0;size--) {
+       HashElemC<K,T> t(in);
+       Add(t.GetKey(),t.Data());
+     }
+   }
+  
+   template<class K,class T>
+   HashC<K,T>::HashC(BinIStreamC &in)  {
      UIntT size;
      in >> size;
      for(;size > 0;size--) {

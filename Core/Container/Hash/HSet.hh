@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLHSET_HEADER
-#define RAVLHSET_HEADER 1
+#ifndef RAVL_HSET_HEADER
+#define RAVL_HSET_HEADER 1
 ///////////////////////////////////////////////////////////////
 //! file="Ravl/Core/Container/Hash/HSet.hh"
 //! lib=RavlCore
@@ -34,7 +34,7 @@ namespace RavlN {
   public:
     inline HSetC()
       : set(true)
-      { RavlAssert(set.IsValid()); }
+    { RavlAssert(set.IsValid()); }
     //: Default constructor.
     
     inline HSetC(istream &in);
@@ -47,35 +47,35 @@ namespace RavlN {
     //: Make a Shallow copy of the set.
     
     inline bool IsMember(const T &It) const
-      { return set.IsElm(It); }
+    { return set.IsElm(It); }
     //: Is 'It' a member of the set ?
 
     inline bool Contains(const T &It) const
-      { return set.IsElm(It); }
+    { return set.IsElm(It); }
     //: Is 'It' a member of the set ?
     
     inline bool operator[](const T &It) const
-      { return set.IsElm(It); }
+    { return set.IsElm(It); }
     //: Is 'It' a member of the set ?
     
     inline bool Insert(const T &It)
-      { return !set.Insert(It,EmptyC()); }
+    { return !set.Insert(It,EmptyC()); }
     //: Insert an element into the set.
     // Ret = False, member already present.
     //       True, new member added.
     
     inline bool Remove(const T &It)
-      { return set.Del(It);  }
+    { return set.Del(It);  }
     //: Remove an item from the set.
     // Ret = True, item removed.
     //       False, item not in set.
     
     inline void Empty()
-      { set.Empty(); }
+    { set.Empty(); }
     //: Remove everthing from the set.
     
     inline UIntT Size() const
-      { return set.Size(); }
+    { return set.Size(); }
     //: Number of elements in set.
     
     inline HSetC<T> &operator+=(const T &dat);
@@ -103,7 +103,7 @@ namespace RavlN {
     // set it not empty when this function is called.
     
     inline bool IsEmpty() const
-      { return set.IsEmpty(); }
+    { return set.IsEmpty(); }
     //: Test if the set is empty.
     
     inline HSetC<T> Union(const HSetC<T> &Oth) const;
@@ -131,14 +131,14 @@ namespace RavlN {
     //: is oth a subset of this ?
     
     inline bool Contains(const HSetC<T> &ss) const
-      { return IsSubset(ss); }
+    { return IsSubset(ss); }
     //: is ss a subset of this one.
     
     bool operator==(const HSetC<T> &oth) const;
     //: Is equal, ie contains all the same members ?
     
     inline bool operator!=(const HSetC<T> &oth) const
-      { return !operator==(oth); }
+    { return !operator==(oth); }
     //: Is not equal, ie contains different members ?
     
     inline void AddFrom(HSetC<T> &oth)
@@ -169,7 +169,7 @@ namespace RavlN {
   class HSetIterC {
   public:
     HSetIterC()
-      {}
+    {}
     //: Default constructor.
     
     HSetIterC(const HSetIterC<T> &oth);
@@ -179,15 +179,15 @@ namespace RavlN {
     //: Constructor.
     
     inline bool IsElm() const
-      { return iter.IsElm(); }
+    { return iter.IsElm(); }
     //: At valid element ?
     
     inline operator bool() const
-      { return iter.IsElm(); }
+    { return iter.IsElm(); }
     //: At valid element ?
     
     inline bool First()
-      { return iter.First(); }
+    { return iter.First(); }
     //: Goto first element.
     
     inline bool Next()
@@ -195,23 +195,23 @@ namespace RavlN {
     //: Goto next element.
     
     inline bool operator++(int)
-      { return iter.Next(); }
+    { return iter.Next(); }
     //: Goto next element.
     
     inline const T &Data() const
-      { return iter.Key(); }
+    { return iter.Key(); }
     //: Access data element.
     
     inline const T &operator*() const
-      { return iter.Key(); }
+    { return iter.Key(); }
     //: Access data element.
     
     inline const T *operator->() const
-      { return &iter.Key(); }
+    { return &iter.Key(); }
     //: Access data element.
     
     inline bool IsInSet(const HSetC<T> &oth) const 
-      { return (oth.set == set); }
+    { return (oth.set == set); }
     //: Is iterator going through set 'oth' ?
     
   private:

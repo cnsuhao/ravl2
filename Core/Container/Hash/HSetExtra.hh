@@ -4,15 +4,15 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef HSETCEXTRAS_HEADER
-#define HSETCEXTRAS_HEADER 1
+#ifndef RAVL_HSETCEXTRAS_HEADER
+#define RAVL_HSETCEXTRAS_HEADER 1
 ///////////////////////////////////////////////////
 //! userlevel=Normal
 //! file="Ravl/Core/Container/Hash/HSetExtra.hh"
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! docentry="Ravl.Core.Hash Tables"
-//! date="31/07/98"
+//! date="31/07/1998"
 //! rcsid="$Id$"
 
 #include "Ravl/HSet.hh"
