@@ -127,6 +127,9 @@ namespace RavlGUIN {
     virtual bool Create();
     //: Create widget.
     
+    virtual bool Create(GtkWidget *widget);
+    //: Create with a widget supplied from elsewhere.
+    
     TreeModelC &TreeModel()
     { return treeModel; }
     //: Access tree model.

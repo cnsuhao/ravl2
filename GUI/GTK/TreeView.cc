@@ -154,17 +154,18 @@ namespace RavlGUIN {
     displayColumns[colNum].Attributes()[key] = Tuple2C<StringC,bool>(value,proxy);
     return true;
   }
+
+  //: Create with a widget supplied from elsewhere.
   
-  //: Create widget.
-  
-  bool TreeViewBodyC::Create() {
-    if(widget != 0)
-      return true; // Already constructed.
+  bool TreeViewBodyC::Create(GtkWidget *nwidget) {
+    widget = nwidget;
+    
+    // Setup tree model.
+    
     RavlAssert(treeModel.IsValid());
     treeModel.Create();
+    gtk_tree_view_set_model(GTK_TREE_VIEW (widget),treeModel.TreeModel());
     
-    widget = gtk_tree_view_new_with_model(treeModel.TreeModel());
-
     // Build view 
     
     UIntT cols = displayColumns.Size();
@@ -260,7 +261,15 @@ namespace RavlGUIN {
     ConnectSignals();
     return true;
   }
-
+  
+  //: Create widget.
+  
+  bool TreeViewBodyC::Create() {
+    if(widget != 0)
+      return true; // Already constructed.
+    return Create(gtk_tree_view_new());
+  }
+  
   //: Access changed signal for a column
   
   Signal0C &TreeViewBodyC::ChangedSignal(UIntT colNum) {
