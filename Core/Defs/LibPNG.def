@@ -13,9 +13,9 @@ include zlib.def
 EXELIB := -lpng $(EXELIB)
 
 ifeq ($(ARC),sgi)
-LIBPNG_HOME=/opt/freeware
+LIBPNG_HOME=/opt/PDlibs/
 INCLUDES += -I$(LIBPNG_HOME)/include 
-EXELIB := -Wl,-rpath,$(LIBPNG_HOME)/lib32 -L$(LIBPNG_HOME)/lib32  $(EXELIB)
+EXELIB := -Wl,-rpath,$(LIBPNG_HOME)/lib -L$(LIBPNG_HOME)/lib  $(EXELIB)
 else
 ifeq ($(ARC),sol2)
 LIBPNG_HOME=/opt/PDlibs
