@@ -22,7 +22,6 @@
 #include "Ravl/DP/SequenceIO.hh"
 #include "Ravl/IO.hh"
 
-
 #include <time.h>
 
 extern void InitFileFormatBinStream();
@@ -32,8 +31,9 @@ extern void InitEdgeIO();
 using namespace RavlImageN;
 using namespace RavlN;
 
-#ifndef __sgi__
-static DPOPortBodyC<PCPixMappingC<Curve2dLineSegmentC> > out3;
+#ifdef __sgi__
+static DPOPortBodyC<PCPixMappingC<Curve2dLineSegmentC> > fix_sgi_bug3;
+static DPOPortC<PCPixMappingC<Curve2dLineSegmentC> > fix_sgi_bug1;
 #endif
 
 int doPPHT(int argc,char **argv) 
