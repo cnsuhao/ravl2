@@ -59,6 +59,9 @@ int main()
 
 int testFFT2d() {
   cerr << "testFFT2d(), Started. \n";
+
+  //: Check x - ifft(fft(x)) = 0
+  //============================
   SArray2dC<ComplexC> indat(30,20);
   int i = 0;
   for(SArray2dIterC<ComplexC> it(indat);it;it++)
@@ -80,6 +83,59 @@ int testFFT2d() {
     if(Abs(rit.Data1().Im() - rit.Data2().Im()) > 0.000001)
       return __LINE__;
   }
+
+  //: Check forward FFT is as expected for known values
+  //===================================================
+  SArray2dC<ComplexC> a(2,3);
+  RealT increment = 0;
+  for(SArray2dIterC<ComplexC> it(a); it; it++)
+    *it = ComplexC(increment+=0.5, increment+=0.5);
+
+  //cout << "a: " << a << endl;
+
+  FFT2dC fftf2nd(a.Size1(), a.Size2(), false); // create forward transform.
+  SArray2dC<ComplexC> A = fftf2nd.Apply(a);
+
+  //cout << "A: " << A << endl;
+  A *= a.Size1() * a.Size2();
+  //cout << "A after multiplying by number of elements: " << A << endl;
+
+  // Values from MatLab v6
+  SArray2dC<ComplexC> groundTruthA(2,3);
+  groundTruthA[0][0] = ComplexC(18.0000, 21.0000);
+  groundTruthA[0][1] = ComplexC(-4.73205080756888, -1.26794919243112);
+  groundTruthA[0][2] = ComplexC(-1.26794919243112, -4.73205080756888);
+  groundTruthA[1][0] = ComplexC(-9.0000, -9.0000);
+  groundTruthA[1][1] = ComplexC( 0,       0);
+  groundTruthA[1][2] = ComplexC( 0,       0);
+
+  //cout << "groundTruthA: " << groundTruthA << endl;
+
+  for(SArray2dIter2C<ComplexC,ComplexC> rit(A,groundTruthA);rit;rit++) {
+    if(Abs(rit.Data1().Re() - rit.Data2().Re()) > 0.000001)
+      return __LINE__;
+    if(Abs(rit.Data1().Im() - rit.Data2().Im()) > 0.000001)
+      return __LINE__;
+  }
+
+  //: Check inverse FFT is as expected for known values
+  //===================================================
+  A /= a.Size1() * a.Size2();
+  //cout << "A for ifft to get return_a: " << A << endl;
+
+  FFT2dC ffti2nd(A.Size1(), A.Size2(), true); // create inverse transform.
+  SArray2dC<ComplexC> return_a = ffti2nd.Apply(A);
+
+  //cout << "return_a: " << return_a << endl;
+
+  // Check by differencing a and return_a
+  for(SArray2dIter2C<ComplexC,ComplexC> rit(a, return_a);rit;rit++) {
+    if(Abs(rit.Data1().Re() - rit.Data2().Re()) > 0.000001)
+      return __LINE__;
+    if(Abs(rit.Data1().Im() - rit.Data2().Im()) > 0.000001)
+      return __LINE__;
+  }
+
   return 0;
 }
 
