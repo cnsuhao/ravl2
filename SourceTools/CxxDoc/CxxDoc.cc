@@ -11,8 +11,10 @@
 //! docentry="Ravl.Source Tools.CxxDoc"
 //! author="Charles Galambos"
 //! userlevel=Normal
-//! brief="CxxDoc. Documentation generator. "
-//! detailed="CxxDoc. Documentation generator. "
+
+//: C++ Documentation Tool
+// This executable is designed to work the QMake 'doc' command to produce
+// documentation for C++ libraries and applications.
 
 #include "Ravl/CxxDoc/Parser.hh"
 #include "Ravl/CxxDoc/Document.hh"
@@ -86,8 +88,15 @@ bool ReadExeCode(const StringC &fileName,ExeTypeT et,RavlCxxDocN::ParserC &pt) {
   }
   
   tf.GetDocVars(oexe.Comment().Vars());
-  oexe.Comment().Header() = oexe.Comment().Vars()["brief"];
-  oexe.Comment().Text() = oexe.Comment().Vars()["detail"];
+  if(!tf.LeadingComment(oexe.Comment().Header(),oexe.Comment().Text())) {
+    //    cerr << "Failed to find leading comment for '" << fileName << "'\n";
+    // Check if vars set.
+    oexe.Comment().Header() = oexe.Comment().Vars()["brief"];
+    oexe.Comment().Text() = oexe.Comment().Vars()["detail"];
+  } else {
+    oexe.Comment().Vars()["brief"] = oexe.Comment().Header();
+    oexe.Comment().Vars()["detail"] = oexe.Comment().Text();
+  }
   pt.Data().Append(oexe);
   return true;
 }

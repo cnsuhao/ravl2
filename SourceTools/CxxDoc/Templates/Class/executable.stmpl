@@ -21,12 +21,25 @@ $(silent:
 $(set:autoLink=on)
 $(set:refPattern=../Basic/Class/%.html)
 )
-<h2>
-$(brief)
-</h2>
-<h3>Type : <B>$(exetype)</B></h3>
+$(set:tabTitle=<tr><td align="right"><font size="+2" color="#23238E" FACE="arial,Helvetica">  )
+$(set:tabData=<td align="left"><font size="+2" color="#23238E" FACE="arial,Helvetica">)
+<center>
+<table bgcolor="#EFEFEF"   cellspacing=0 border=0>
+<tr><td COLSPAN="2" align=center><font size="+3" color="#23238E" FACE="arial,Helvetica"><b>&nbsp;&nbsp;&nbsp;$(FullName)&nbsp;&nbsp;&nbsp;</b></font>
+<tr><td COLSPAN="2">&nbsp;</tr>
+$(ifset:brief:<tr><td align=center COLSPAN="2"><font size="+2" color="#23238E" FACE="arial,Helvetica">$(brief)</font>
+<tr><td COLSPAN="2">&nbsp;</tr>
+)
+$(ifset:date:     $(tabTitle)Created:$(tabData)$(date)&nbsp;</tr>
+)$(if:$pagemode=develop:$(ifset:file:$(tabTitle)Source file:$(tabData)<B>$(file)</B></tr>
+))                $(tabTitle)User Level:$(tabData)<b>$(userlevel)</b></tr>
+$(ifset:lib:      $(tabTitle)Library:$(tabData)<b>$(lib)</b></tr>
+)                 $(tabTitle)Type:$(tabData)<B>$(exetype)</B></tr>
+</table><p>
+</center>
+
 <p>
-$(detailed)
+$(detail)
 <p>
 $(if:$exetype=example:
 $(silent:

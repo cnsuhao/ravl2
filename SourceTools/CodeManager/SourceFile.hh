@@ -71,6 +71,10 @@ namespace RavlN {
     { return fileType; }
     //: Access file type.
     
+    bool LeadingComment(StringC &title,StringC &detail);
+    //: Extract leading comment from source file 
+    // if there is one...
+    
   protected:
     StringC IdFile();
     //: Id the current file.
@@ -202,6 +206,11 @@ namespace RavlN {
     bool GetDocVars(HashC<StringC,StringC> &vars)
     { return Body().GetDocVars(vars); }
     //: Retrieve all documentation variables from the file.
+    
+    bool LeadingComment(StringC &title,StringC &detail)
+    { return Body().LeadingComment(title,detail); }
+    //: Extract leading comment from source file 
+    // if there is one...
     
     friend class SourceFileBodyC;
   };

@@ -135,7 +135,7 @@ namespace RavlN {
     //const StringC &comEndStr = commentEndString[fileType];
     SourceFileC me(*this);
     TextCursorC at((TextFileC &)me);
-
+    
     // This is a bit of a hack at the moment. We ought to distinguish between
     // types of file more clearly, and make sure each is handled correctly.
     
@@ -366,4 +366,43 @@ namespace RavlN {
     SetModified();    
     return true;
   }
+  
+  //: Extract leading comment from source file 
+  // if there is one...
+  
+  bool SourceFileBodyC::LeadingComment(StringC &title,StringC &detail) {
+    SourceFileC me(*this);
+    TextCursorC at((TextFileC &)me);
+    const StringC &comStr = commentString[fileType];
+    const StringC &comEndStr = commentEndString[fileType];
+    StringC leadStart = comStr + ":";
+    //cerr << "LeadStart='" << leadStart <<"'\n";
+    title = StringC();
+    detail = StringC();
+    // Find title.
+    while(at.IsElm()) {
+      if(at.LineText().index(leadStart) == 0)
+	break;
+      at.NextLine();
+    }
+    if(!at.IsElm()) return false; // Start not found.
+    //cerr << "Title='" << at.LineText() <<"'\n";
+    // Read in title.
+    while(at.IsElm()) {
+      if(at.LineText().index(leadStart) != 0)
+	break;
+      title += at.LineText().after(leadStart);
+      at.NextLine();
+    }
+    //cerr << "Detail='" << at.LineText() <<"'\n";
+    // Read in detail.
+    while(at.IsElm()) {
+      if(at.LineText().index(comStr) != 0) 
+	break;
+      detail += at.LineText().after(comStr);
+      at.NextLine();
+    }
+    return true;
+  }
+
 }
