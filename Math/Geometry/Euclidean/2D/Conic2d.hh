@@ -44,8 +44,11 @@ namespace RavlN {
     //: Construct from parameters
     
     Conic2dC(Matrix3dC &matrix);
-    //: Construct from matrix.
-    //!param: matrix - 3 x 3 symetric matrix.
+    //: Construct from matrix C in projective ellipse equation x.T() * C * x = 0.
+    // Thus matrix stores parameters as:<pre>
+    //      (  a  b/2 d/2 )
+    //  C = ( b/2  c  e/2 )
+    //      ( d/2 e/2  f  )</pre>
     
     bool IsOnCurve(const Point2dC &pnt) const
     { return IsSmall(Residue(pnt)); }
@@ -61,7 +64,8 @@ namespace RavlN {
 	p[5];
     }
     //: Compute the residue
-    // Compute a * Sqr(row) + b * row * col + c * Sqr(col) + d * row + e * col + f 
+    // Compute x.T() * C * x, where x is projective version of pnt. <br>
+    // Hence gives a measure of distance of point from curve
     
     Matrix3dC C() const;
     //: Get the coefficient matrix. 'C'

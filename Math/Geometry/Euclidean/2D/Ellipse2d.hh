@@ -21,17 +21,18 @@ namespace RavlN {
   
   //! userlevel=Normal
   //: Ellipse 
+  // This uses a form of inverted Euclidean representation, in contrast to the general 2-D conic <a href="RavlN.Conic2dC.html">Conic2dC</a>.<br>  The representation is the affine transform that transforms (scales, rotates, translates) a point from the unit circle to the "corresponding" point on the ellipse.
   
   class Ellipse2dC {
   public:
     Ellipse2dC()
     {}
     //: Default constructor.
-    // The paramiters of the ellipse are left undefined.
+    // The parameters of the ellipse are left undefined.
     
     Ellipse2dC(const TFVectorC<RealT,6> &conicParams);
     //: Create from conic parameters.
-    //!param: conicParams - Conic paramiters a to f, where a * Sqr(row) + b * row * col + c * Sqr(col) + d * row + e * col + f = 0
+    //!param: conicParams - Conic parameters a to f, where a * Sqr(row) + b * row * col + c * Sqr(col) + d * row + e * col + f = 0
     
     Ellipse2dC(const Affine2dC &np)
       : p(p)
@@ -94,6 +95,7 @@ namespace RavlN {
   //! docentry="Ravl.Math.Statistics;Ravl.Math.Geometry.2D"
   Ellipse2dC EllipseMeanCovariance(const Matrix2dC &covar,const Point2dC &mean,RealT stdDev = 1.0);
   //: Compute an ellipse from a 2d covariance matrix, mean, and standard deviation.
+  // The ellipse is the contour of a 2-D Gaussian random variable which lies "stdDev" standard deviations from the mean.
   
   //:-
   //! docentry="Ravl.Math.Geometry.2D"
