@@ -45,7 +45,7 @@ namespace RavlGUIN {
     bool Add(const DListC<WidgetC> &widges);
     //: Add children.
     
-    bool GUIAdd(WidgetC &widge);
+    virtual bool GUIAdd(WidgetC &widge);
     //: Add widget.
     // GUI thread only.
     
