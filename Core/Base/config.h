@@ -22,12 +22,21 @@
 #endif
 /****************************************/
 
-/* Set the following typedef to 1 to have the Ravl IO system
+/* Set the following define to 1 to have the Ravl IO system
  * to automatically use the type conversion mechanism when doing IO.
  * This is add alot of flexibity to IO operations but comes at the
  * price of larger executables and a slighty longer load times.
  */
 #define RAVL_USE_IO_AUTO_TYPECONVERTER 1
+
+/* Setting the following define to 1 will switch various routines to
+ * use multi-thread implementations. Unfortunately this may mean changing
+ * the USESLIBS to include the RavlThreads library for the directories
+ * concerned. This is off by default as it generates slower code for single 
+ * processor systems.
+ */
+#define RAVL_USE_PARALLEL 0
+
 
 #if !defined(__sgi__)
 #define _GNU_SOURCE 1
