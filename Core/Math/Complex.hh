@@ -31,51 +31,54 @@ namespace RavlN {
     // -------------
     
     inline ComplexC();
-    // Creates the complex number (0,0).
+    //: Creates the complex number (0,0).
     
     inline ComplexC(RealT real);
-    // Creates the complex number (real, 0).
+    //: Creates the complex number (real, 0).
     
     inline ComplexC(RealT real, RealT imaginary);
-    // Create the complex number (real, imaginary).
+    //: Create the complex number (real, imaginary).
     
     inline ComplexC(const ComplexC & x);
-    // Copy constructor.
+    //: Copy constructor.
+
+    inline ComplexC DeepCopy(const UIntT levels = (UIntT) -1) const; 
+    //: Perform a DeepCopy
     
     // Access to the parts of a complex number.
     // ----------------------------------------
     
     inline RealT &  Re()
     { return re; }
-    // Returns the real part.
+    //: Returns the real part.
     
     inline RealT    Re() const
     { return re; }
-    // Returns the real part.
+    //: Returns the real part.
     
     inline RealT &  Im()
     { return im; }
-    // Returns the imaginary part of the complex number.
+    //: Returns the imaginary part of the complex number.
     
     inline RealT    Im() const
     { return im; }
-    // Returns the imaginary part of the complex number.
+    //: Returns the imaginary part of the complex number.
     
     inline RealT    Mag() const
     { return Sqrt(re*re + im*im); }
-    //: The maginude
+    //:: The maginude
 
     inline RealT    Arg() const
     { return ATan2(im,re); }
-    //: The angle
+    //:: The angle
     
     inline ComplexC I() const 
     { return ComplexC(-im, re); }
-    //: Inverse.
+    //:: Inverse.
     
     inline ComplexC Conj() const
     { return ComplexC(re, -im); }
-    //: Get the complex conjugate.
+    //:: Get the complex conjugate.
     
     
     inline const ComplexC & operator+=(RealT a);
@@ -139,6 +142,9 @@ namespace RavlN {
     : re(x.re), im(x.im)
   {}
   
+  ComplexC ComplexC::DeepCopy(const UIntT levels) const  
+{ return *this ;} 
+
   inline
   const ComplexC &
   ComplexC::operator+=(RealT a) {
