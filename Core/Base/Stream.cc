@@ -15,6 +15,8 @@
 
 #if RAVL_COMPILER_GCC3 
 #include "Ravl/fdstream.hh"
+#include "Ravl/stdio_fdstream.hh"
+#include <ext/stdio_filebuf.h>
 #endif
 
 #if RAVL_HAVE_ANSICPPHEADERS
@@ -207,7 +209,7 @@ namespace RavlN {
       out(0)
   {
     ONDEBUG(cerr << "OStreamC::OStreamC(" << sfilename << "," << ((int) binaryMod) << ","  << (int) buffered << "," << (int) append << ") Called \n");
-    ofstream *ofstrm = 0;
+    ostream *ofstrm = 0;
     if(sfilename == "-") {
       Init(out = &cout,sfilename,false);
       if(!buffered)
@@ -251,21 +253,35 @@ namespace RavlN {
     if(append)
       fmode |= ios::app;  
 #if RAVL_COMPILER_GCC3
+#if RAVL_HAVE_INTFILEDESCRIPTORS 
+    // We can't use the native open, because we need to be able to handle large files.
+    int mode = O_WRONLY | O_CREAT | O_LARGEFILE;
+    if(append)
+      mode |= O_APPEND;
+    else
+      mode |= O_TRUNC;
+    
+    static int defaultPermissions = 0644;
+    IntT fd = open(filename.chars(),mode,defaultPermissions); 
+    ofstrm = new stdofdstream(fd);
+    Init(out = ofstrm,filename);     
+#else    
     Init(ofstrm = new ofstream(filename.chars(),(std::_Ios_Openmode) fmode),filename);
     if(!buffered) {
       cerr << "WARNING: Unbuffered streams are not currently supported under gcc3.\n";
     }
-#else
+#endif
+#else // RAVL_COMPILER_GCC3
     Init(ofstrm = new ofstream(filename.chars(),fmode),filename);
 #if RAVL_COMPILER_VISUALCPP
     if(!buffered) {
       cerr << "WARNING: Unbuffered streams are not currently supported under windows.\n";
     }
-#else
+#else // RAVL_COMPILER_VISUALCPP
     if(!buffered) 
       ofstrm->setbuf(0,0);
-#endif
-#endif
+#endif // RAVL_COMPILER_VISUALCPP
+#endif // RAVL_COMPILER_GCC3
     out = ofstrm;
   }
   
@@ -280,6 +296,7 @@ namespace RavlN {
     else
       Init(out = new ofstream(fd,0,0),StringC(fd)); 
 #else
+
 #if 0
     ofstream *ofs = new ofstream(); 
     // A horrible hack to allow us to open a file handle....
@@ -332,7 +349,6 @@ namespace RavlN {
   IStreamC::IStreamC(const StringC &sfilename,bool binary,bool buffered) 
     : StreamBaseC(sfilename)
   {
-    ifstream *ifstrm = 0;
     if(sfilename == "-") {
       Init(in = &cin,sfilename,false);
       if(!buffered) 
@@ -369,14 +385,26 @@ namespace RavlN {
   }
     
     // Normal open.
-    
+    int fmode = ios::in;
 #if RAVL_HAVE_IOS_BINARY
     if(binary)
-      Init(ifstrm = new ifstream(filename,ios::binary | ios::in),filename);
-    else 
+      fmode |= ios::binary;
 #endif
-      Init(ifstrm = new ifstream(filename),filename);
+
+#if RAVL_HAVE_INTFILEDESCRIPTORS
+    // We can't use the native open, because we need to be able to handle large files.
+    //cerr << "USING NEW OPEN. \n";
+    int mode = O_RDONLY | O_LARGEFILE;
+    int fd = open(filename.chars(),mode);
+    istream *ifs = new stdifdstream(fd,static_cast<std::ios_base::openmode>(fmode));
+    Init(ifs ,filename);
+    in = ifs;
+#else        
+    ifstream *ifstrm = 0;
+    Init(ifstrm = new ifstream(filename,static_cast<std::ios_base::openmode>(fmode)),filename);
     in = ifstrm;
+#endif //  RAVL_HAVE_INTFILEDESCRIPTORS
+    
 #if RAVL_COMPILER_VISUALCPPNET || RAVL_COMPILER_GCC3
     if(!buffered) {
       cerr << "WARNING: Unbuffered streams are not currently supported under windows or gcc3.\n";	
