@@ -84,6 +84,27 @@ namespace RavlN {
     }
     //: Constructor.
     // Iterate through 'rect' in all arrays. 'rect' must be within both arr1, arr2 and arr3.
+
+    Array2dIter5C(const Array2dC<Data1T> &arr1,const IndexRange2dC &irng1,
+		  const Array2dC<Data2T> &arr2,const IndexRange2dC &irng2,
+		  const Array2dC<Data3T> &arr3,const IndexRange2dC &irng3,
+		  const Array2dC<Data4T> &arr4,const IndexRange2dC &irng4,
+		  const Array2dC<Data5T> &arr5,const IndexRange2dC &irng5)
+      : dat1(arr1,irng1),
+        dat2(arr2,irng2),
+        dat3(arr3,irng3),
+        dat4(arr4,irng4),
+        dat5(arr5,irng5)
+    { BufferAccess2dIter5C<Data1T,Data2T,Data3T,Data4T,Data5T>::First(dat1,dat1.Range2(),
+								      dat2,dat2.Range2(),
+								      dat3,dat3.Range2(),
+								      dat4,dat4.Range2(),
+								      dat5,dat5.Range2());
+    }
+    //: Constructor.
+    // Iterate through indicated sub range in all arrays. irng1 should have the same or smaller
+    // overall size than the rest of the ranges
+    
     
     inline bool First() {
       return BufferAccess2dIter5C<Data1T,Data2T,Data3T,Data4T,Data5T>::First(dat1,dat1.Range2(),

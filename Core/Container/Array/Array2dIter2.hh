@@ -57,6 +57,17 @@ namespace RavlN {
     }
     //: Constructor.
     // Iterate through 'rect' in both arrays. 'rect' must be within both arr1 and arr2.
+
+    Array2dIter2C(const Array2dC<Data1T> &arr1,const IndexRange2dC &irng1,
+		  const Array2dC<Data2T> &arr2,const IndexRange2dC &irng2)
+      : dat1(arr1,irng1),
+        dat2(arr2,irng2)
+    { BufferAccess2dIter2C<Data1T,Data2T>::First(dat1,dat1.Range2(),
+						 dat2,dat2.Range2()); 
+    }
+    //: Constructor.
+    // Iterate through 'rect' in both arrays. irng1 should have the same or smaller
+    // overall size than irng2.
     
     inline bool First() {
       return BufferAccess2dIter2C<Data1T,Data2T>::First(dat1,dat1.Range2(),

@@ -60,6 +60,21 @@ namespace RavlN {
 	dat4(arr4,rng)
     {}
     //: Constructor.
+
+    Array1dIter4C(const Array1dC<Data1T> &arr1,const IndexRangeC &rng1,
+		  const Array1dC<Data2T> &arr2,const IndexRangeC &rng2,
+		  const Array1dC<Data3T> &arr3,const IndexRangeC &rng3,
+		  const Array1dC<Data4T> &arr4,const IndexRangeC &rng4)
+      : BufferAccessIter4C<Data1T,Data2T,Data3T,Data4T>(arr1,rng1,
+							arr2,rng2,
+							arr3,rng3,
+							arr4,rng4),
+	dat1(arr1,rng1),
+	dat2(arr2,rng2),
+	dat3(arr3,rng3),
+	dat4(arr4,rng4)
+    {}
+    //: Constructor.
     
     inline void First() 
     { BufferAccessIter4C<Data1T,Data2T,Data3T,Data4T>::First(dat1,dat2,dat3,dat4); }

@@ -55,6 +55,16 @@ namespace RavlN {
 	dat3(arr3,rng)
     {}
     //: Constructor.
+
+    Array1dIter3C(const Array1dC<Data1T> &arr1,const IndexRangeC &rng1,
+		  const Array1dC<Data2T> &arr2,const IndexRangeC &rng2,
+		  const Array1dC<Data3T> &arr3,const IndexRangeC &rng3)
+      : BufferAccessIter3C<Data1T,Data2T,Data3T>(arr1,rng1,arr2,rng2,arr3,rng3),
+	dat1(arr1,rng1),
+	dat2(arr2,rng2),
+	dat3(arr3,rng3)
+    {}
+    //: Constructor with ranges for each array.
     
     inline void First() 
     { BufferAccessIter3C<Data1T,Data2T,Data3T>::First(dat1,dat2,dat3); }
