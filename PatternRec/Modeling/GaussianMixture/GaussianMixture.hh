@@ -48,9 +48,9 @@ namespace RavlN {
     
     virtual VectorC Apply(const VectorC &data) const;
     //: Reduce the dimension of 'data'.
-
+    
     RealT DensityValue(const VectorC & X) const
-      { return Apply(X).Sum(); }
+    { return Apply(X).Sum(); }
     //: Return the denisty value at point X
 
   protected:
@@ -131,7 +131,7 @@ namespace RavlN {
     
   public:
     RealT DensityValue(const VectorC & X) const
-      { return Body().DensityValue(X); }
+    { return Body().DensityValue(X); }
     //: Return the density value at point X
 
   };
