@@ -86,6 +86,11 @@ namespace RavlN {
     static bool WriteGFHeader(ostream &Out);
     //: Write GF file.  
     
+    Point2dC PointOnLine( RealT offset );
+    //: Get a point on the list a distance 'offset' from 'StartPnt.
+    // End is in the positive direction and the distance is in the 
+    // same units as the co-oridinate system (unlike the Point() method.)
+    
   private:
     RealT Ends[2];
   };

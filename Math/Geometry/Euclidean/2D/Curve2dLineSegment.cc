@@ -61,6 +61,12 @@ namespace RavlN {
     return Min(d1,d2);
   }
   
+  Point2dC Curve2dLineSegmentC::PointOnLine( RealT offset ) {
+    Point2dC diff = Point(End()) - Point(Start());
+    diff /= Length();
+    return Point(Start()) + diff*offset;
+  }
+
   ///////////////////////
     
   // Write GF file.
