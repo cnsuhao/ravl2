@@ -250,11 +250,11 @@ namespace RavlN {
     //: Access k range.
     
     inline const IndexRange3dC &Involve(const Index3dC & index);
-    //: Checks and changes, if necessary, the 2 dimensional range
+    //: Checks and changes, if necessary, the 3 dimensional range
     //: to contain the 'index'.
     
     inline const IndexRange3dC &Involve(const IndexRange3dC & subRange);
-    //: Checks and changes, if necessary, the 2 dimensional range
+    //: Checks and changes, if necessary, the 3 dimensional range
     //: to contain the 'subRange'.
     
     inline 
