@@ -114,10 +114,11 @@ namespace RavlN {
     //: Make this filename unique by appending a unique string
     //: and checking if it doesn't exist already. 
     // If it does try another, if process failes more than 
-    // maxretry times, then an ExceptionOperationFailedC is thrown
-    // If maxretry  is negative infinite retries are alowed.
-    // Digits should be betwee 0 and 6.
-  
+    // maxretry times, then an ExceptionOperationFailedC is thrown. <br>
+    // If maxretry  is negative infinite retries are alowed. <br>
+    // Digits should be betwee 0 and 6. <br>
+    // If the filename contains an extension the numbers will be added before it.
+    
     DateC LastAccessTime() const;
     //: Get last file access.
     

@@ -169,8 +169,12 @@ namespace RavlN {
 #endif
       throw ExceptionOutOfRangeC("FilenameC::MkTemp(), Digits must be between 0 and 6. \n");
     }
+    StringC ext = Extension(); // Find extention.
+    if(!ext.IsEmpty())
+      ext = StringC('.') + ext;
+    StringC base = const_cast<FilenameC &>(*this).before((int) Size() - (int) ext.Size()); // We know it won't modify the string.
     do {
-      FilenameC newun = (*this) + StringC((UIntT) RandomInt()).before(Digits);
+      FilenameC newun = base + StringC((UIntT) RandomInt()).before(Digits) + ext;
       if(!newun.Exists())
 	return newun;
       if(maxretry > 0)
