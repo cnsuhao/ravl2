@@ -45,6 +45,19 @@ namespace RavlGUIN {
   }
   
   //: Constructor.
+
+  PixmapBodyC::PixmapBodyC(const ImageC<ByteRGBValueC>& im,const WidgetC &rwin) 
+    : rootWin(rwin),
+      pixmap(0),
+      mask(0),
+      data(0),
+      image(im)
+  {
+    ONDEBUG(cerr << "PixmapBodyC::PixmapBodyC() image constructor\n");
+  }
+
+
+  //: Constructor.
   
   PixmapBodyC::PixmapBodyC(int nwidth,int nheight,int ndepth) 
     : pixmap(0),
@@ -58,6 +71,9 @@ namespace RavlGUIN {
   //: Create the widget.
   
   bool PixmapBodyC::Create() {  
+
+    cerr << "poo" << endl;
+
     if(widget != 0)
       return true; // Shown already.
     
@@ -70,21 +86,35 @@ namespace RavlGUIN {
     
     /* now for the pixmap from gdk */
     
-    if(filename == "") {
-      if(data != 0)
-	pixmap = gdk_pixmap_create_from_xpm_d(window,  &mask,
-					      &style->bg[GTK_STATE_NORMAL],
-					      (gchar **)data );
-    } else {
-      if(filename != "") {
-	pixmap = gdk_pixmap_create_from_xpm(window,  &mask,
+    if(data != 0) {
+      pixmap = gdk_pixmap_create_from_xpm_d(window,  &mask,
 					    &style->bg[GTK_STATE_NORMAL],
-					    filename );
-      } else {
-	pixmap = gdk_pixmap_new(window,width,height,depth);
+					    (gchar **)data );
+    } else if (!filename.IsEmpty()) {
+      pixmap = gdk_pixmap_create_from_xpm(window,  &mask,
+					  &style->bg[GTK_STATE_NORMAL],
+					  filename );
+    } else if (!image.IsEmpty()) {
+      // Create new pixmap
+      pixmap = gdk_pixmap_new(rootWin.Widget()->window,
+			      image.Cols(),
+			      image.Rows(),
+			      -1);
+      // Load image into pixmap
+      if (pixmap && style->black_gc) {
+	gdk_draw_rgb_image(pixmap,
+			   style->black_gc,
+			   0,0,
+			   image.Cols(),image.Rows(),
+			   GDK_RGB_DITHER_NORMAL,
+			   (unsigned char *) image.Row(image.TRow()),
+			   image.Cols() * 3);
       }
-      
     }
+    else {
+      pixmap = gdk_pixmap_new(window,width,height,depth);
+    }
+
     if(pixmap == 0) {
       // As a last resort... 
       cerr << "PixmapBodyC::Create(), No pixmap specified. \n";
@@ -120,7 +150,7 @@ namespace RavlGUIN {
     "                ",
     "   ......       ",
     "   .XXX.X.      ",
-"   .XXX.XX.     ",
+    "   .XXX.XX.     ",
     "   .XXX.XXX.    ",
     "   .XXX.....    ",
     "   .XXXXXXX.    ",
@@ -134,5 +164,3 @@ namespace RavlGUIN {
     "                ",
     "                "};
 }
-
-

@@ -16,12 +16,16 @@
 
 #include "Ravl/GUI/Widget.hh"
 #include "Ravl/String.hh"
+#include "Ravl/Image/Image.hh"
+#include "Ravl/Image/ByteRGBValue.hh"
 
 struct _GdkVisual;
 typedef struct _GdkVisual        GdkVisual;
 
 namespace RavlGUIN {
   
+  using namespace RavlImageN;
+
   //! userlevel=Develop
   //: Pixmap body
   
@@ -35,6 +39,10 @@ namespace RavlGUIN {
     PixmapBodyC(const StringC &filename,const WidgetC &rwin = WidgetC());
     //: Constructor.
     // Currently this will ONLY load xpm's
+    
+    PixmapBodyC(const ImageC<ByteRGBValueC>& im,const WidgetC &rwin = WidgetC());
+    //: Constructor.
+    // This will load a pixmap from an RGB image
     
     PixmapBodyC(int width,int height,int depth);
     //: Constructor.
@@ -63,6 +71,7 @@ namespace RavlGUIN {
     StringC filename;
     const char **data;
     int width,height,depth;
+    ImageC<ByteRGBValueC> image;
   };
   
   
@@ -85,6 +94,11 @@ namespace RavlGUIN {
     {}
     //: Constructor
     
+    PixmapC(const WidgetC &rootWin, const ImageC<ByteRGBValueC>& im) 
+      : WidgetC(*new PixmapBodyC(im,rootWin))
+    {}
+    //: Constructor.
+
     explicit PixmapC(char **data)
       : WidgetC(*new PixmapBodyC((const char **) data))
     {}
@@ -95,6 +109,11 @@ namespace RavlGUIN {
     {}
     //: Constructor
     
+    explicit PixmapC(const ImageC<ByteRGBValueC>& im)
+      : WidgetC(*new PixmapBodyC(im))
+    {}
+    //: Constructor.
+
     explicit PixmapC(int width,int height,int depth)
       : WidgetC(*new PixmapBodyC(width,height,depth))
     {}
