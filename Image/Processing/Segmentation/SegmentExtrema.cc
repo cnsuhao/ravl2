@@ -116,7 +116,7 @@ namespace RavlImageN {
     region.maxValue = valueRange.Max().V();
     region.minat = Index2dC(offset / stride,offset % stride);
     if(region.hist == 0)
-      region.hist = new IntT [limitMaxValue];
+      region.hist = new IntT [limitMaxValue+2];
     memset(&(region.hist[level]),0,((valueRange.Max().V() + 1) - level) * sizeof(IntT));
     region.hist[level] = 1;
     region.total = 1;
@@ -191,8 +191,8 @@ namespace RavlImageN {
   
   void SegmentExtremaBaseC::Thresholds2() {
     cerr << "SegmentExtremaBaseC::Thresholds2() Called. Margin=" << minMargin << "\n";
-    Array1dC<IntT> chist(0,256);
-    Array1dC<RealT> nhist(0,256);
+    Array1dC<IntT> chist(0,limitMaxValue);
+    Array1dC<RealT> nhist(0,limitMaxValue);
     for(SArray1dIterC<ExtremaRegionC> it(regionMap,labelAlloc);it;it++) {
       if(it->total < minSize) {
 	it->nThresh = 0;// Ingore these regions.
@@ -249,9 +249,9 @@ namespace RavlImageN {
   
   void SegmentExtremaBaseC::Thresholds() {
     //cerr << "SegmentExtremaBaseC::Thresholds() ********************************************** \n";
-    ExtremaThresholdC thresh[257];
+    SArray1dC<ExtremaThresholdC> thresh(limitMaxValue + 2);
     IntT nthresh;
-    Array1dC<IntT> chist(0,257);
+    Array1dC<IntT> chist(0,limitMaxValue + 2);
     chist.Fill(0);
     int half_perimeter_i;
     

@@ -20,6 +20,7 @@ int main(int nargs,char **argv) {
   OptionC opt(nargs,argv);
   IntT minSize = opt.Int("ms",10,"Minimum region size. ");
   RealT minMargin = opt.Real("mm",10,"Minimum margin. ");
+  IntT limit = opt.Int("l",256,"Limit on difference to consider.");
   bool seq = opt.Boolean("s",false,"Process a sequence. ");
   bool drawResults = opt.Boolean("d",false,"Draw results into a window.");
   StringC fn = opt.String("","test.pgm","Input image. ");
@@ -28,7 +29,7 @@ int main(int nargs,char **argv) {
   
   ImageC<ByteT> img;
   
-  SegmentExtremaC<ByteT> lst(minSize,minMargin);
+  SegmentExtremaC<ByteT> lst(minSize,minMargin,limit);
   
   // Open image source.
   DPIPortC<ImageC<ByteT> > inp;
