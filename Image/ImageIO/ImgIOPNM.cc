@@ -49,7 +49,7 @@ namespace RavlImageN {
       return false;
     }
     header = inb[1];
-    switch(header)
+    switch(header) 
       {
       case '1': // PBM ascii
       case '4': // PBM raw
@@ -78,12 +78,16 @@ namespace RavlImageN {
       ONDEBUG(cerr << "LoadHeader: Failed to get Y size.\n");
       return false;
     }
-    // Discard maxval.
-    IntT t;
-    if(!GetNumber(inf,t)) {
-      ONDEBUG(cerr << "LoadHeader: Failed to get max value.\n");
-      return false;
-    }
+ 
+    if (header != '4' && header != '1') // dont do this step for PBM files !  
+      {
+	// Discard maxval.
+	IntT t;
+	if(!GetNumber(inf,t)) {
+	  ONDEBUG(cerr << "LoadHeader: Failed to get max value.\n");
+	  return false;
+	}
+}
     return true;
   }
   
