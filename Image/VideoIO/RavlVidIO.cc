@@ -9,18 +9,11 @@
 //! lib=RavlVideoIO
 //! file="Ravl/Image/VideoIO/RavlVidIO.cc"
 
-//#include "Ravl/Image/VidIO.hh"
+#include "Ravl/Image/VidIO.hh"
 #include "Ravl/Image/ImgIO.hh"
 
 namespace RavlImageN {
-
-  //extern void InitDPImageIO();
-  extern void InitRawIOFormat();
-  extern void InitCifFormat();
-  extern void InitYUVFormat();
-  extern void InitRGBFormat();
-  extern void InitSYUVFormat();
-
+  
   void InitVidIO() {
     //InitDPImageIO();
     InitRawIOFormat();
@@ -28,6 +21,7 @@ namespace RavlImageN {
     InitYUVFormat();
     InitRGBFormat();
     InitSYUVFormat();
+    InitJSFormat();
     // InitImgIOComposites(); 
   }
 }

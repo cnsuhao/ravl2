@@ -4,20 +4,19 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef VIDIOINIT_HEADER
-#define VIDIOINIT_HEADER 1
+#ifndef RAVL_VIDIOINIT_HEADER
+#define RAVL_VIDIOINIT_HEADER 1
 //////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="amma/Image/VidIO/VidIO.hh"
-//! lib=RavlImage
+//! lib=RavlVideoIO
 //! docentry="Ravl.Images.Video.Formats"
 //! userlevel=Develop
-//! example=exImgSeq.cc
 //! author="Charles Galambos"
 //! date="13/05/1999"
 
 namespace RavlImageN {
-
+  
   extern void InitVidIO(); // This calls all the following functions.
   
   extern void InitCifFormat(); // Cif file formats
@@ -26,6 +25,7 @@ namespace RavlImageN {
   extern void InitRawIOFormat(); // raw image formats.
   extern void InitSYUVFormat(); // Abekas Sequence in a single file
   extern void InitImgIOComposites(); // Composite image streams.
+  extern void InitJSFormat(); // Initalise format for js files. 
   
 }
 #endif
