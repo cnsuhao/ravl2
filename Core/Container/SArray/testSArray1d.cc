@@ -13,6 +13,7 @@
 #include "Ravl/StrStream.hh"
 #include "Ravl/SArray1d.hh"
 #include "Ravl/SArray1dIter.hh"
+#include "Ravl/SArray1dIterR.hh"
 #include "Ravl/SArray1dIter2.hh"
 #include "Ravl/SArray1dIter3.hh"
 #include "Ravl/SArray1dIter4.hh"
@@ -21,6 +22,7 @@ using namespace RavlN;
 
 int testBasic();
 int testSort();
+int testReverse();
 int testIO();
 
 int  main()
@@ -187,6 +189,25 @@ int testIO() {
     if((v - v2).SumOfSqr() > 0.000001)
       return __LINE__;
   }
+  return 0;
+}
+
+int testReverse() {
+  cerr << "Reverse test. \n";
+  SArray1dC<IntT> arr(3);
+  for(IntT i = 0;i < (IntT) arr.Size();i++)
+    arr[i] = i;
+  SArray1dIterRC<IntT> it(arr);
+  if(!it) return __LINE__;
+  if(*it != 2) return __LINE__;
+  it--;
+  if(!it) return __LINE__;
+  if(*it != 1) return __LINE__;
+  it--;
+  if(!it) return __LINE__;
+  if(*it != 0) return __LINE__;
+  it--;
+  if(it) return __LINE__;
   return 0;
 }
 

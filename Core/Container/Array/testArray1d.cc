@@ -12,6 +12,7 @@
 #include "Ravl/Array1d.hh"
 #include "Ravl/SArray1d.hh"
 #include "Ravl/Array1dIter.hh"
+#include "Ravl/Array1dIterR.hh"
 #include "Ravl/Array1dIter2.hh"
 #include "Ravl/Array1dIter3.hh"
 #include "Ravl/Array1dIter4.hh"
@@ -21,7 +22,7 @@ using namespace RavlN;
 
 int BasicTest();
 int ApplyTest();
-
+int ReverseTest();
 
 int  main()
 {
@@ -32,6 +33,10 @@ int  main()
   }
   
   if((err = ApplyTest()) != 0) {
+    cerr << "Apply test failed at line " << err << "\n";
+    return 1;
+  }
+  if((err = ReverseTest()) != 0) {
     cerr << "Apply test failed at line " << err << "\n";
     return 1;
   }
@@ -201,12 +206,32 @@ int ApplyTest() {
   return 0;
 }
 
+int ReverseTest() {
+  cerr << "Reverse test. \n";
+  Array1dC<IntT> arr(3);
+  for(IntT i = 0;i < (IntT) arr.Size();i++)
+    arr[i] = i;
+  Array1dIterRC<IntT> it(arr);
+  if(!it) return __LINE__;
+  if(*it != 2) return __LINE__;
+  it--;
+  if(!it) return __LINE__;
+  if(*it != 1) return __LINE__;
+  it--;
+  if(!it) return __LINE__;
+  if(*it != 0) return __LINE__;
+  it--;
+  if(it) return __LINE__;
+  return 0;
+}
+
 #include "Ravl/Slice1d.hh"
 
 // Force everything to be instantiated to check it at least compiles ok.
 
 template class Array1dC<IntT>;
 template class Array1dIterC<IntT>;
+template class Array1dIterRC<IntT>;
 template class Array1dIter2C<IntT,RealT>;
 template class Array1dIter3C<IntT,RealT,ByteT>;
 template class Array1dIter4C<IntT,RealT,ByteT,bool>;
