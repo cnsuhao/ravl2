@@ -114,6 +114,35 @@ namespace RavlImageN {
     return ret;
   }
   
+  ImageC<ByteYUV422ValueC> ByteRGBImageCT2ByteYUV422ImageCT(const ImageC<ByteRGBValueC> &dat) { 
+    ImageRectangleC outRect = dat.Rectangle();
+    if(outRect.Area() == 0)
+      return ImageC<ByteYUV422ValueC>();
+    // Make sure we're aligned correctly.
+    if(outRect.LCol().V() & 1)
+      outRect.LCol().V()++; // Start on even boundry in image.
+    if(!(outRect.RCol().V() & 1))
+      outRect.RCol().V()--; // End on odd boundry in image.
+    RavlAssert(outRect.LCol() < outRect.RCol()); // Make sure there's something left!
+    
+    ImageC<ByteYUV422ValueC> ret(outRect);
+    UIntT i(0);
+    for(Array2dIter2C<ByteYUV422ValueC,ByteRGBValueC> it(ret,dat);it;it++,i++) {
+      
+      RealYUVValueC pix(RealRGBValueC(it.Data2()));
+      it.Data1().Y() = (ByteT)pix[0];
+      RealT uv = ((i & 1) ? pix[2] : pix[1]) + 128.0;
+      if (uv < 0.0)
+	it.Data1().UV() = 0;
+      else if (uv > 255.0)
+	it.Data1().UV() = 255;
+      else
+	it.Data1().UV() = (ByteT)(uv+0.5);
+    }
+    return ret;
+  }
+  
+
   DP_REGISTER_CONVERTION_NAMED(ByteYUV422ImageCT2ByteYUVImageCT,1,
 			       "ImageC<ByteYUVValueC> RavlImageN::Convert(const ImageC<ByteYUV422ValueC> &)");
   
@@ -126,6 +155,9 @@ namespace RavlImageN {
   
   DP_REGISTER_CONVERTION_NAMED(ByteImageCT2ByteYUV422ImageCT,1,
 			       "ImageC<ByteYUV422ValueC> RavlImageN::Convert(const ImageC<ByteT> &)");
+
+  DP_REGISTER_CONVERTION_NAMED(ByteRGBImageCT2ByteYUV422ImageCT,1,
+			       "ImageC<ByteYUV422ValueC> RavlImageN::Convert(const ImageC<ByteRGBValueC> &)");
   
   FileFormatStreamC<ImageC<ByteYUV422ValueC> > FileFormatStream_ImageC_ByteYUV422ValueC;
   FileFormatBinStreamC<ImageC<ByteYUV422ValueC> > FileFormatBinStream_ImageC_ByteYUV422ValueC;
