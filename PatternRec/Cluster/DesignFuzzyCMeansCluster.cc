@@ -58,7 +58,7 @@ namespace RavlN {
     }
     // Next determine corresponding class centres
     _centres = SArray1dC<VectorC> (sizeY);
-    for(SArray1dIterC<VectorC> i2(_centres);i2;i2++) {                         // Calc class centres
+    for(SArray1dIterC<VectorC> i2(_centres);i2;i2++) {  // Calc class centres
       ;
       VectorC numerator (sizeX); 
       numerator.Fill(0);
@@ -76,7 +76,8 @@ namespace RavlN {
   {
     if (_initialised != true) 
       Initialise (sizeY,trainX);
-    SArray1dC<VectorC> outU (trainX.Size ());
+    RealT trainXsize = trainX.Size();
+    SArray1dC<VectorC> outU ((SizeT) trainXsize);
     for(SArray1dIterC<VectorC> it(outU);it;it++)
       *it = VectorC (sizeY); 
     RealT cost = 0.0,oldcost;
@@ -96,7 +97,7 @@ namespace RavlN {
 	  cost += Pow (value,_m) * Pow(_distance.Magnitude (e2.Data() - *it1),2.0);
 	}
       }
-      cost /= trainX.Size();
+      cost /= trainXsize;
       for(Array1dIterC<VectorC> it3(_centres);it3;it3++) { // i2
 	// Calc class centres
 	VectorC numerator (sizeX); numerator.Fill (0);
