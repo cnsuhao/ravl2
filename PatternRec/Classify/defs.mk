@@ -18,6 +18,8 @@ PLIB = RavlPatternRec
 
 TESTEXES=testClassify.cc
 
-LIBDEPS = RavlPatternRecClassify.def
+LIBDEPS = RavlPatternRecClassify.def 
 
 USESLIBS=RavlPatternRec
+
+EHT = Ravl.Pattern_Recognition.Classify.html

@@ -9,6 +9,8 @@
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! docentry="Ravl.Pattern Recognition.Classify"
+//! author="Charles Galambos"
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/Vector.hh"

@@ -9,6 +9,8 @@
 /////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! userlevel=Normal
+//! docentry="Ravl.Pattern Recognition.Classify"
 //! author="Charles Galambos"
 
 #include "Ravl/PatternRec/KNearestNeighbour.hh"

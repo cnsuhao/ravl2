@@ -10,6 +10,8 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! author="Charles Galambos"
+//! userlevel=Normal
+//! docentry="Ravl.Pattern Recognition.Classify"
 
 #include "Ravl/PatternRec/Distance.hh"
 #include "Ravl/PatternRec/DataSet2.hh"
