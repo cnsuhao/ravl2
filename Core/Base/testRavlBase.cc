@@ -11,6 +11,7 @@
 //! docentry="Ravl.Core"
 
 #include "Ravl/RefCounter.hh"
+#include "Ravl/BinStream.hh"
 #include "Ravl/RCWrap.hh"
 #include "Ravl/IndexRange1d.hh"
 #include "Ravl/IntC.hh"

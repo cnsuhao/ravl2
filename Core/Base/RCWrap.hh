@@ -105,9 +105,12 @@ namespace RavlN {
     {}
     //: Constructor.
     
-    RCWrapBodyC(istream &in) {
-      in >> data;
-    }
+    RCWrapBodyC(istream &in) 
+    { in >> data; }
+    //: Construct from a stream.
+    
+    RCWrapBodyC(BinIStreamC &in) 
+    { in >> data; }
     //: Construct from a stream.
     
 #if 0
@@ -200,6 +203,11 @@ namespace RavlN {
       : RCWrapAbstractC(*new RCWrapBodyC<DataT>(in))
     {}
     //: Construct from a stream.
+
+    RCWrapC(BinIStreamC &in)
+      : RCWrapAbstractC(*new RCWrapBodyC<DataT>(in))
+    {}
+    //: Construct from a stream.
     
   protected:
     RCWrapC(RCWrapBodyC<DataT> &bod)
@@ -261,6 +269,23 @@ namespace RavlN {
 
   template<class DataT>
   istream &operator>>(istream &strm,RCWrapC<DataT> &data) {
+    DataT tmp;
+    strm >> tmp;
+    data = RCWrapC<DataT>(tmp);
+    return strm;
+  }
+  //: istream operator.
+  
+  template<class DataT>
+  BinOStreamC &operator<<(BinOStreamC &strm,const RCWrapC<DataT> &data) {
+    RavlAssert(data.IsValid());
+    strm << data.Data();
+    return strm;
+  }
+  //: ostream operator.
+  
+  template<class DataT>
+  BinIStreamC &operator>>(BinIStreamC &strm,RCWrapC<DataT> &data) {
     DataT tmp;
     strm >> tmp;
     data = RCWrapC<DataT>(tmp);
