@@ -1,4 +1,17 @@
 #!/bin/sh
+
+# Run latex and bibtex
+latex levmarq.tex
+bibtex levmarq.tex
+latex levmarq.tex
+
+# Generate PDF file
+dvipdf levmarq.dvi levmarq.pdf
+
+# Run latex2html
+latex2html levmarq.tex
+
+# copy navigation icons
 /bin/cp -f contents.png next_g.png next.png prev_g.png prev.png up_g.png up.png levmarq
 
 lst=`echo levmarq/node*.html levmarq/index.html levmarq/levmarq.html`
