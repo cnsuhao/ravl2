@@ -204,11 +204,11 @@ namespace RavlN {
     //: Shifts the rectangle to the new position.
     
     inline IndexRange2dC operator+(const Index2dC & offset) const
-    { return IndexRange2dC(Rows() + offset[0],Cols() + offset[1]); }
+    { return IndexRange2dC(Range1() + offset[0],Range2() + offset[1]); }
     //: Shifts the rectangle to the new position.
     
     inline IndexRange2dC operator-(const Index2dC & offset) const
-    { return IndexRange2dC(Rows() - offset[0],Cols() - offset[1]); }
+    { return IndexRange2dC(Range1() - offset[0],Range2() - offset[1]); }
     //: Shifts the rectangle to the new position.
     
     inline const IndexRangeC & RowRange() const
