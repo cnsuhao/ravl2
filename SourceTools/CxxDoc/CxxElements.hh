@@ -1103,7 +1103,7 @@ namespace RavlCxxDocN {
     StringC ScopeDef();
     //: Scope definition as a string.
 
-    StringC ScopeDef(RCHashC<StringC,ObjectC> &str);
+    StringC ScopeDef(RCHashC<StringC,ObjectC> &str) const;
     //: Scope definition as a string.
 
     bool Resolve();
@@ -1113,6 +1113,10 @@ namespace RavlCxxDocN {
       { return templSub; }
     //: Access template subsitutions.
     
+    virtual StringC FullName(RCHashC<StringC,ObjectC> &templSub,DesciptionGeneratorC &dg = defaultDescGen,int maxDepth = 60) const;
+    //: Get full name of object
+    // template args and all.
+    
   protected:
     ScopeAccessT scopeAccess; // Access permissions to parent scope.
     ObjectC inheritDef;  // Definition for object we inherit from in the form of a path.
@@ -1120,7 +1124,7 @@ namespace RavlCxxDocN {
     bool virt;           // Virtual inheritance ?
     bool resolveFailed;  // Did we succeed in resolving it ?
     bool useNamespace;   // Is this a using namespace ?
-    RCHashC<StringC,ObjectC> templSub; // Template substutions, where needed.
+    RCHashC<StringC,ObjectC> templSub; // Template substitutions, where needed.
   };
 
   //! userlevel=Normal

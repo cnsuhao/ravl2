@@ -88,6 +88,10 @@ namespace RavlCxxDocN
       ScopeC &scope = inhrt.From();
       if(!scope.IsValid())
 	continue;
+      if(&scope.Body() == this) {
+	cerr << "WARNING: Loop in inherit. for '" << name << "' in " << Name() << " \n";
+	return false;
+      }
       if(done[scope])
 	continue;
       done += scope;
@@ -350,7 +354,6 @@ namespace RavlCxxDocN
 	SetVar(STR(detail),comment.Text());
       }
     }
-    ONDEBUG(cerr << "Setting docentry to '" << newun << "'\n");
     return true;
   }
   

@@ -385,6 +385,7 @@ namespace RavlCxxDocN {
       return true;
     }
     if(InheritC::IsA(obj.Top())) {
+#if 0
       InheritC atype(obj.Top());
       ONDEBUG(cerr << "Got inherit:" << obj.Top().Name() << " ScopeDef:'" << atype.ScopeDef(templArgSub.Top()) << "'\n");
       if(arg == "link") {
@@ -395,6 +396,13 @@ namespace RavlCxxDocN {
 	}
       }
       out << MakeHtml(atype.ScopeDef(templArgSub.Top()));
+#else
+      if(arg == "link") {
+	out << obj.Top().FullName(templArgSub.Top(),*this);
+	return true;
+      }
+      out << MakeHtml(obj.Top().FullName(templArgSub.Top()));
+#endif
       return true;
     }
     out << obj.Top().Name();

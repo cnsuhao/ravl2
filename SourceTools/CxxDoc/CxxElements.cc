@@ -563,7 +563,7 @@ namespace RavlCxxDocN
 
   //: Scope definition as a string.
   
-  StringC InheritBodyC::ScopeDef(RCHashC<StringC,ObjectC> &ts) {
+  StringC InheritBodyC::ScopeDef(RCHashC<StringC,ObjectC> &ts) const {
     if(!inheritDef.IsValid())
       return "(NULL)";
     if(!ObjectListC::IsA(inheritDef))
@@ -586,7 +586,7 @@ namespace RavlCxxDocN
   //: Attempt to resolve parent class.
   
   bool InheritBodyC::Resolve() {
-    ONDEBUG(cerr << "InheritBodyC::Resolve(), " << Name() << "\n");
+    ONDEBUG(cerr << "InheritBodyC::Resolve(), " << Name() << " templSub=" << templSub << "\n");
     if(inheritFrom.IsValid()) 
       return true;
     if(!HasParentScope()) {
@@ -632,6 +632,19 @@ namespace RavlCxxDocN
     ONDEBUG(cerr << "InheritBodyC::Resolve(), '" << Name() << "' found '" << inheritFrom.Name() <<  "'\n");
     return true;
   }
+
+  //: Get full name of object
+  // template args and all.
+  
+  StringC InheritBodyC::FullName(RCHashC<StringC,ObjectC> &allTemplSub,DesciptionGeneratorC &dg = defaultDescGen,int maxDepth = 60) const {
+    ScopeC fromScope = const_cast<InheritBodyC &>(*this).From();
+    RCHashC<StringC,ObjectC> lsub = templSub;
+    cerr << "InheritBodyC::FullName(), Subst=" << templSub << " Path=" << inheritDef.FullName(lsub,dg,maxDepth) << "\n";
+    if(!fromScope.IsValid())
+      return const_cast<InheritBodyC &>(*this).ScopeDef(lsub) + StringC(" *1*");
+    return fromScope.FullName(lsub,dg,maxDepth)  + StringC(" *2*");
+  }
+  
   
   //////// DerivedBodyC ///////////////////////////////////////////////////////////
   

@@ -63,8 +63,8 @@ $(ifset:detail:$(titleStart)Comments:$(titleEnd)<br>$(detail)</p>
 )$(ifset:classbugs:$(titleStart)Bugs:$(titleEnd)<b><i><br><font color="red"> $(classbugs) </font></p></i></b>
 )$(ifany:inherit:$(titleStart)Parent Classes:$(titleEnd)
 <ul>
-$(forall:inherit:$(access) $(ifset:!resolveFailed:$(GotoInherit:$(//:<A HREF="$(mkhref:)">)</A>)$(HtmlTypeName:link)
-)$(else:$(classname))<br>)</ul>)
+$(forall:inherit:$(access) $(ifset:!resolveFailed:$(//:<A HREF="$(GotoInherit:$(mkhref:))">)</A>)$(HtmlTypeName:link)
+$(else:$(classname))<br>)</ul>)
 $(ifany:derived:
 $(titleStart)Derived Classes:$(titleEnd)
 <ul>

@@ -936,7 +936,7 @@ int yydebug;			/*  nonzero means print parse trace	*/
 /*  YYINITDEPTH indicates the initial size of the parser's stacks	*/
 
 #ifndef	YYINITDEPTH
-#define YYINITDEPTH 200
+#define YYINITDEPTH 1000
 #endif
 
 /*  YYMAXDEPTH is the maximum size the stacks can grow to
@@ -1153,6 +1153,7 @@ yynewstate:
 #ifndef YYSTACK_USE_ALLOCA
       yyfree_stacks = 1;
 #endif
+      printf("\nXXXXXXXXXXXXXXXX COPYING XXXXXXXXXXXXXXXXXXXXXXX \n\n");
       yyss = (short *) YYSTACK_ALLOC (yystacksize * sizeof (*yyssp));
       __yy_memcpy ((char *)yyss, (char *)yyss1,
 		   size * (unsigned int) sizeof (*yyssp));

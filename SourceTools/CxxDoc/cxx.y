@@ -1,4 +1,4 @@
-/* Simple C++ parser. */
+/* Hacked C++ parser. */
 %{
 #include <stdlib.h>
 #include <iostream.h>

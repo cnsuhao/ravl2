@@ -94,7 +94,7 @@ namespace RavlCxxDocN {
     // Actually set of other scopes, used by this one.
     // its the inherit list for classes.
     
-    HashC<StringC,ObjectC> tab;
+    HashC<StringC,ObjectC> tab; // Mapping of names to object definitions.
   };
   
   //! userlevel=Normal
