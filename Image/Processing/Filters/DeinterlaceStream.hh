@@ -193,6 +193,40 @@ namespace RavlImageN {
     }
     //: Input plugs.
     
+    virtual bool GetAttr(const StringC &attrName,StringC &attrValue) {
+      if(attrName == "framerate") {
+	StringC tmp;
+	if(!input.GetAttr(attrName,tmp)) {
+	  attrValue = StringC("50"); // Guess at 50 Hz.
+	  return true;
+	}
+	// Double value before returning.
+	RealT fr = tmp.RealValue();
+	attrValue = StringC(fr * 2.0);
+	return true;
+      }
+      // Just pass request back.
+      return input.GetAttr(attrName,attrValue);
+    }
+    //: Get a stream attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling stream attributes such as frame rate, and compression ratios.
+    
+    virtual bool SetAttr(const StringC &attrName,const StringC &attrValue) {
+      if(attrName == "framerate") {
+	// Half value.
+	RealT fr = attrValue.RealValue();
+	StringC tmp = StringC(fr * 2.0);
+	// Send it on back.
+	return input.SetAttr(attrName,tmp);
+      }     
+      // Just pass request back.
+      return input.SetAttr(attrName,attrValue);
+    }
+    //: Set a stream attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling stream attributes such as frame rate, and compression ratios.
+
   protected:
     void Deinterlace(const ImageC<PixelT> &img,ImageC<PixelT> &field0,ImageC<PixelT> &field1);
     //: DeinterlaceStream a frame.
