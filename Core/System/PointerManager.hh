@@ -207,10 +207,16 @@ namespace RavlN {
     { return id2ptr.Lookup(id); }
     //: Lookup object by id.
     
-    void Insert(UIntT id,IOPtrC &obj)
-    { obj.Actions()->Store(id2ptr[id],obj); }
+    void Insert(UIntT id,IOPtrC &obj) { 
+      //RavlAssert(id == idAlloc); // Check sequence.
+      //idAlloc++;
+      obj.Actions()->Store(id2ptr[id],obj);
+    }
     //: Store by id.
     
+    UIntT IdAlloc() const
+    { return idAlloc; }
+    //: Access current alloc id.
   protected:
     UIntT idAlloc;
     HashC<UIntT,StoredPointerC> id2ptr;
@@ -278,6 +284,9 @@ namespace RavlN {
     { Body().Insert(id,obj); }
     //: Store by id.
     
+    UIntT IdAlloc() const
+    { return Body().IdAlloc(); }
+    //: Access current alloc id.
   };
   
   //! userlevel=Develop
