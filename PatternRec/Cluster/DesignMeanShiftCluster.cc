@@ -20,7 +20,7 @@
 #include "Ravl/BinStream.hh"
 #include "Ravl/VirtualConstructor.hh"
 
-#define DODEBUG 0
+#define DODEBUG 1
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -86,6 +86,7 @@ namespace RavlN {
     VectorC shift(in.First().Size());
     VectorC mean;
     for(SampleIterC<VectorC> sit(in);sit;sit++) { // Got through all possible start points.
+      int i = 0;
       do {
 	mean = sit->Copy();
 	shift.Fill(0);
@@ -108,6 +109,7 @@ namespace RavlN {
 	if(distance.Measure(mean,*cit) < (k * 0.2))
 	  break; // Already got cluster.
       }
+      
       if(!cit) // Cluster not found.
 	clusters.InsLast(mean.Copy());
     }
@@ -128,6 +130,7 @@ namespace RavlN {
   //: Compute cluster means.
 
   SArray1dC<MeanCovarianceC> DesignMeanShiftClusterBodyC::Cluster(const SampleC<VectorC> &in) {
+    ONDEBUG(cerr << "DesignMeanShiftClusterBodyC::Cluster(), Called with " << in.Size() << " vectors. K=" << k << "\n");
     DListC<VectorC> clusters = FindMeans(in);
     SArray1dC<MeanCovarianceC> ret(clusters.Size());
     DLIterC<VectorC> lit(clusters);

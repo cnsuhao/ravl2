@@ -53,6 +53,10 @@ namespace RavlN {
     virtual FunctionC Apply(const SampleC<VectorC> &in,const SampleC<VectorC> &out,const SampleC<RealT> &weight);
     //: Create function from the given data, and sample weights.
     
+    virtual FunctionC Apply(SampleStream2C<VectorC,VectorC > &in);
+    //: Create function from the given data.
+    // Note: Construction from a sample stream may not be implemented by all designers.
+    
     SArray1dC<IntT> FindCorrelatedParameters(const MatrixRUTC &mat,RealT thresh = 1e-6);
     //: Find correlated paramiters.
     // The array contains -1 if the paramiter is independant or the number of the 

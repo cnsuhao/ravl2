@@ -15,6 +15,7 @@
 #include "Ravl/PatternRec/Function.hh"
 #include "Ravl/PatternRec/Sample.hh"
 #include "Ravl/PatternRec/Designer.hh"
+#include "Ravl/PatternRec/SampleStream.hh"
 
 namespace RavlN {
   
@@ -46,6 +47,14 @@ namespace RavlN {
     
     virtual FunctionC Apply(const SampleC<VectorC> &in,const SampleC<VectorC> &out,const SampleC<RealT> &weight);
     //: Create function from the given data, and sample weights.
+    
+    virtual FunctionC Apply(SampleStream2C<VectorC,VectorC > &in);
+    //: Create function from the given data.
+    // Note: Construction from a sample stream may not be implemented by all designers.
+    
+    virtual FunctionC Apply(SampleStream3C<VectorC,VectorC,RealT> &in);
+    //: Create function from the given data, and sample weights.
+    // Note: Construction from a sample stream may not be implemented by all designers.
     
   };
   
@@ -94,6 +103,16 @@ namespace RavlN {
     FunctionC Apply(const SampleC<VectorC> &in,const SampleC<VectorC> &out,const SampleC<RealT> &weight)
     { return Body().Apply(in,out,weight); }
     //: Create function from the given data, and sample weights.
+    
+    FunctionC Apply(SampleStream2C<VectorC,VectorC > &in)
+    { return Body().Apply(in); }
+    //: Create function from the given data (in,out)
+    // Note: Construction from a sample stream may not be implemented by all designers.
+    
+    FunctionC Apply(SampleStream3C<VectorC,VectorC,RealT> &in)
+    { return Body().Apply(in); }
+    //: Create function from the given data, and sample weights. (in,out,weight)
+    // Note: Construction from a sample stream may not be implemented by all designers.
     
   };
   

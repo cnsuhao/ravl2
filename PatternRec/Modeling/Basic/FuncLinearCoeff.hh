@@ -14,6 +14,7 @@
 //! file="Ravl/PatternRec/Modeling/Basic/FuncLinearCoeff.hh"
 
 #include "Ravl/PatternRec/Function.hh"
+#include "Ravl/PatternRec/SampleStream.hh"
 
 namespace RavlN {
   class MatrixRUTC;
@@ -69,6 +70,9 @@ namespace RavlN {
     // Advanced users only.
     
     virtual bool ComputeSums(const SampleC<VectorC> &in,const SampleC<VectorC> &out,MatrixRUTC &aaTu,MatrixC &aTb);
+    //: Compute matrix's directly from vectors.
+    
+    virtual bool ComputeSums(SampleStream2C<VectorC,VectorC> &in,MatrixRUTC &aaTu,MatrixC &aTb);
     //: Compute matrix's directly from vectors.
     
   protected:
@@ -146,6 +150,10 @@ namespace RavlN {
     
     bool ComputeSums(const SampleC<VectorC> &in,const SampleC<VectorC> &out,MatrixRUTC &aaTu,MatrixC &aTb)
     { return Body().ComputeSums(in,out,aaTu,aTb); }
+    //: Compute matrix's directly from vectors.
+
+    bool ComputeSums(SampleStream2C<VectorC,VectorC> &in,MatrixRUTC &aaTu,MatrixC &aTb)
+    { return Body().ComputeSums(in,aaTu,aTb); }
     //: Compute matrix's directly from vectors.
   };
   

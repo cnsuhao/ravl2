@@ -145,16 +145,16 @@ namespace RavlN {
       cerr << "DesignFuncLSQBodyC::Apply(), ERROR: Failed to create new function. \n";
       return func;
     }
-    SampleVectorC coeffs(vin.Size());
     
+#if 0 
+    SampleVectorC coeffs(vin.Size());
     //: Build a sample set of coefficents.
     
     for(SampleIterC<VectorC> cit(in);cit;cit++)
       coeffs += func.MakeInput(*cit);
     
     //cerr << "Coeffs=" << coeffs << "\n";
-    
-#if 0 
+
     // Do a few sums.
     MatrixRUTC aaTu = coeffs.SumOuterProducts();
     aaTu.MakeSymmetric();
@@ -248,6 +248,62 @@ namespace RavlN {
     func.SetTransform(A);
     return func;
   }
+
+  //: Create function from the given data.
+  // Note: Construction from a sample stream may not be implemented by all designers.
+  
+  FunctionC DesignFuncLSQBodyC::Apply(SampleStream2C<VectorC,VectorC > &in) {
+#if 1
+    Tuple2C<VectorC,VectorC> tup;
+    if(!in.Get(tup)) {
+      cerr << "DesignFuncLSQBodyC::Apply(), WARNING: Dataset empty. ";
+      return FunctionC();
+    }
+    
+    UIntT inSize = tup.Data1().Size();
+    UIntT outSize = tup.Data2().Size();
+    in.First(); // Reset to the first element.
+    
+    FuncLinearCoeffC func = CreateFunc(inSize,outSize);
+    if(!func.IsValid()) {
+      cerr << "DesignFuncLSQBodyC::Apply(), ERROR: Failed to create new function. \n";
+      return func;
+    }
+    
+    // Do some sums without duplicating data.
+    MatrixRUTC aaTu;
+    MatrixC aTb;
+    func.ComputeSums(in,aaTu,aTb);
+    //func.ComputeSums(in,out,aaTu,aTb);
+    aaTu.MakeSymmetric();
+    MatrixRSC aaT = aaTu.Copy();
+    
+    ONDEBUG(cerr << "DesignFuncLSQBodyC::Apply(), Solving equations.. \n");
+#if 1
+    if(!aaT.InverseIP()) {
+      // Try and recover....
+      cerr << "DesignFuncLSQBodyC::Apply(), WARNING: Covariance of input has singular values. \n";
+      aaT = aaTu.PseudoInverse();
+    }
+    MatrixC A =  (aaT * aTb).T();
+#else
+    MatrixC At = Solve(aaTu,aTb);
+    MatrixC A;
+    if(!At.IsValid()) {
+      // Try and recover....
+      cerr << "DesignFuncLSQBodyC::Apply(), WARNING: Covariance of input has singular values. \n";
+      aaT = aaTu.PseudoInverse();
+      A = (aaT * aTb).T();
+    } else
+      A = At.T();
+#endif
+    func.SetTransform(A);    
+    return func;
+#else
+    return FunctionC();
+#endif    
+  }
+
 
   ////////////////////////////////////////////////////////////////////////
   

@@ -100,6 +100,7 @@ namespace RavlN {
     SampleVectorC vout(out);
     
     DataSet2IterC<SampleVectorC,SampleVectorC> it(in,out);
+    
     VectorC vec = MakeInput(it.Data1());
     aTb = vec.OuterProduct(it.Data2());
     aaTu = OuterProductRUT(vec);
@@ -109,6 +110,26 @@ namespace RavlN {
       aTb.AddOuterProduct(vec,it.Data2());
     }
     
+    return true;
+  }
+
+  //: Compute matrix's directly from vectors.
+  
+  bool FuncLinearCoeffBodyC::ComputeSums(SampleStream2C<VectorC,VectorC> &in,MatrixRUTC &aaTu,MatrixC &aTb) {
+    Tuple2C<VectorC,VectorC> tup;
+    if(!in.Get(tup))
+      return false;
+    
+    VectorC vec = MakeInput(tup.Data1());
+    aTb = vec.OuterProduct(tup.Data2());
+    aaTu = OuterProductRUT(vec);
+    while(1) {
+      if(!in.Get(tup))
+	break;
+      vec = MakeInput(tup.Data1());
+      aaTu.AddOuterProduct(vec);
+      aTb.AddOuterProduct(vec,tup.Data2());
+    }
     return true;
   }
 

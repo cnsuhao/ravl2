@@ -46,6 +46,21 @@ namespace RavlN {
     RavlAssertMsg(0,"DesignFunctionUnsupervisedBodyC::Apply(const SampleC<VectorC> &,const SampleC<RealT> &), Abstract method called. \n");
     return FunctionC();
   }
+  
+  //: Create function from the given data.
+  
+  FunctionC DesignFunctionUnsupervisedBodyC::Apply(SampleStreamC<VectorC> &in) {
+    RavlAssertMsg(0,"DesignFunctionUnsupervisedBodyC::Apply(const SampleStreamC<VectorC> &), Abstract method called. \n");
+    return FunctionC();
+  }
+  
+  //: Create function from the given data, and sample weights.
+  
+  FunctionC DesignFunctionUnsupervisedBodyC::Apply(SampleStream2C<VectorC,RealT> &in) {
+    RavlAssertMsg(0,"DesignFunctionUnsupervisedBodyC::Apply(const SampleStreamC<VectorC,RealT> &), Abstract method called. \n");
+    return FunctionC();
+  }
+
 
   ////////////////////////////////////////////////////////////////
   
