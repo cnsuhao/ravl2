@@ -138,6 +138,24 @@ namespace RavlImageN {
 		    (pixel2[1] * t*u));
   }
 
+  template <class PixelT,class OutT>
+  void BiLinear(const ImageC<PixelT> &img,const TFVectorC<RealT,2> &ipnt,OutT &pixVal) {
+    TFVectorC<RealT,2> pnt = ipnt;
+    IntT fx = Floor(pnt[0]); // Row
+    IntT fy = Floor(pnt[1]); // Col
+    RealT u = pnt[0] - fx;
+    RealT t = pnt[1] - fy;
+    const PixelT* pixel1 = &(img)[fx][fy];
+    const PixelT* pixel2 = &(img)[fx+1][fy];
+    const RealT onemt = (1.0-t);
+    const RealT onemu = (1.0-u);
+    pixVal = (OutT)((pixel1[0] * onemt*onemu) + 
+		    (pixel1[1] * t*onemu) + 
+		    (pixel2[0] * onemt*u) +
+		    (pixel2[1] * t*u));
+  }
+  //: Do bilinear interpolation with different output pixel type.
+  
   template <class PixelT>
   ImageC<PixelT> ImageC<PixelT>::Rotate180(Index2dC centre) const {    
     ImageC<PixelT> flipped(Rectangle().Rotate180(centre));
