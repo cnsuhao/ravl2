@@ -39,6 +39,7 @@ namespace RavlN {
   bool FFT1dBodyC::Init(int nn,bool iinv) {
     // Remeber settings in case we asked...
     inv = iinv;
+    pwr2 = IsPow2(nn);
     n = nn;
     nf = pfac(n,primeFactors,'o');
     return true;
@@ -52,6 +53,7 @@ namespace RavlN {
     SArray1dC<ComplexC> ret = dat.Copy();
     SArray1dC<complex *> ptrArr(n);
     //cerr << dat <<  "\n";
+    // FIXME :- Would it be quicker to copy the array and use fft2 if length is a power of two ?
     if(inv)
       fftgc((complex **) ((void *)&(ptrArr[0])),
 	    (complex *) ((void *)&(ret[0])),

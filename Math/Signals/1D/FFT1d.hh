@@ -53,6 +53,7 @@ namespace RavlN {
   protected:
     IntT n;  // Size of the transform.
     bool inv; // Is the transform backward ??
+    bool pwr2; // Is length a power of two ?
     
     int primeFactors[32];
     int nf; // Number of factors. Sufficent for all 32-bit lengths.
