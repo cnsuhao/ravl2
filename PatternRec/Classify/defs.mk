@@ -15,13 +15,15 @@ HEADERS=Classifier.hh DesignClassifierSupervised.hh  DesignClassifierUnsupervise
  DesignDiscriminantFunction.hh DesignKNearestNeighbour.hh \
  ClassifierKNearestNeighbour.hh ClassifierNearestNeighbour.hh ClassifierAverageNearestNeighbour.hh \
  ClassifierDiscriminantFunction.hh DesignKMeans.hh DesignMeanShiftCluster.hh \
- DesignCluster.hh
+ DesignCluster.hh ClassifierGaussianMixture.hh DesignClassifierGaussianMixture.hh \
+ ClassifierPreprocess.hh
 
 SOURCES=Classifier.cc DesignClassifierSupervised.cc DesignClassifierUnsupervised.cc \
  DesignDiscriminantFunction.cc DesignKNearestNeighbour.cc \
  ClassifierKNearestNeighbour.cc ClassifierNearestNeighbour.cc ClassifierAverageNearestNeighbour.cc \
  ClassifierDiscriminantFunction.cc DesignKMeans.cc DesignMeanShiftCluster.cc \
- DesignCluster.cc
+ DesignCluster.cc ClassifierGaussianMixture.cc DesignClassifierGaussianMixture.cc \
+ ClassifierPreprocess.cc
 
 PLIB = RavlPatternRec
 

@@ -10,6 +10,7 @@
 
 #include "Ravl/PatternRec/ClassifierKNearestNeighbour.hh"
 #include "Ravl/PatternRec/ClassifierAverageNearestNeighbour.hh"
+#include "Ravl/PatternRec/DesignClassifierGaussianMixture.hh"
 #include "Ravl/PatternRec/DesignKMeans.hh"
 #include "Ravl/PatternRec/SampleIter.hh"
 #include "Ravl/HSet.hh"
@@ -20,6 +21,7 @@ int GenerateDataSet();
 int testKNearestNeighbour();
 int testAverageNearestNeighbour();
 int testDesignKMeans();
+int testDesignClassifierGaussianMixture();
 
 int main() {
   int ln;
@@ -39,6 +41,10 @@ int main() {
     cerr << "Error line " << ln << "\n";
     return 1;
   }
+  if((ln = testDesignClassifierGaussianMixture()) != 0) {
+    cerr << "Error line " << ln << "\n";
+    return 1;
+  }
   cerr << "Test passed ok. \n";
   return 0;
 }
@@ -47,18 +53,25 @@ DataSet2C<SampleVectorC,SampleLabelC> dataset(true);
 
 int GenerateDataSet() {
   
-  dataset.Append(VectorC(0.1,0.1),1);
-  dataset.Append(VectorC(0.3,0.2),1);
-  dataset.Append(VectorC(0.2,0.1),1);
-  dataset.Append(VectorC(0.4,0.9),2);
-  dataset.Append(VectorC(0.3,0.8),2);
-  dataset.Append(VectorC(0.5,0.9),2);
-  dataset.Append(VectorC(0.9,0.3),3);
-  dataset.Append(VectorC(0.9,0.2),3);
-  dataset.Append(VectorC(0.9,0.4),3);
-  if(dataset.Size() != 9) return __LINE__;
+  dataset.Append(VectorC(0.10,0.10),1);
+  dataset.Append(VectorC(0.11,0.11),1);
+  dataset.Append(VectorC(0.30,0.20),1);
+  dataset.Append(VectorC(0.20,0.10),1);
+  dataset.Append(VectorC(0.23,0.12),1);
+  dataset.Append(VectorC(0.40,0.90),2);
+  dataset.Append(VectorC(0.30,0.80),2);
+  dataset.Append(VectorC(0.32,0.81),2);
+  dataset.Append(VectorC(0.50,0.90),2);
+  dataset.Append(VectorC(0.51,0.92),2);
+  dataset.Append(VectorC(0.90,0.30),3);
+  dataset.Append(VectorC(0.90,0.20),3);
+  dataset.Append(VectorC(0.93,0.24),3);
+  dataset.Append(VectorC(0.90,0.40),3);
+  dataset.Append(VectorC(0.95,0.42),3);
+  if(dataset.Size() != 15) return __LINE__;
   return 0;
 }
+
 
 int testKNearestNeighbour() {
   cerr << "testKNearestNeighbour(), Called. \n";
@@ -84,6 +97,20 @@ int testDesignKMeans() {
   cerr << "testDesignKMeans(), Called. \n";
   DesignKMeansC kmeans(3);
   ClassifierC cv = kmeans.Apply(dataset.Sample1());
+  HSetC<UIntT> labels;
+  for(SampleIterC<VectorC> it(dataset.Sample1());it;it++) {
+    UIntT label = cv.Classify(*it);
+    labels += label;
+    //cerr << "Label=" << label << "\n";
+  }
+  if(labels.Size() != 3) return __LINE__;
+  return 0;
+}
+
+int testDesignClassifierGaussianMixture() {
+  cerr << "testDesignClassifierGaussianMixture(), Called. \n";  
+  DesignClassifierGaussianMixtureC gm(1);
+  ClassifierC cv = gm.Apply(dataset.Sample1(),dataset.Sample2());
   HSetC<UIntT> labels;
   for(SampleIterC<VectorC> it(dataset.Sample1());it;it++) {
     UIntT label = cv.Classify(*it);
