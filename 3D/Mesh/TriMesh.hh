@@ -44,9 +44,10 @@ namespace Ravl3DN {
     // The length of faceInd should be a power of 3, success triples are taken
     // from it to form the faces in the mesh.
     
-    TriMeshBodyC(const SArray1dC<VertexC> &v,const SArray1dC<TriC> &nfaces)
+    TriMeshBodyC(const SArray1dC<VertexC> &v,const SArray1dC<TriC> &nfaces,bool haveTextureCoord=false)
       : vertices(v),
-	faces(nfaces)
+	faces(nfaces),
+	haveTexture(haveTextureCoord)
     {}
     //: Construct from an array of vertexes and an array of tri's.
     // The TriC's must refer to elements in 'v'
@@ -97,7 +98,11 @@ namespace Ravl3DN {
     
     bool HaveTextureCoord() const
     { return haveTexture; }
-    //: Do we have texture co-ordinates?
+    //: Do we have texture coordinates?
+
+    void SetTextureCoord(bool val)
+    { haveTexture = val; }
+    //: Set have texture coordinates flag.
     
   protected:
     SArray1dC<VertexC> vertices; // Array of vertex positions.
@@ -125,8 +130,8 @@ namespace Ravl3DN {
     // The length of faceInd should be a power of 3, success triples are taken
     // from it to form the faces in the mesh.
 
-    TriMeshC(const SArray1dC<VertexC> &v,const SArray1dC<TriC> &nfaces)
-      : RCHandleC<TriMeshBodyC>(*new TriMeshBodyC(v,nfaces))
+    TriMeshC(const SArray1dC<VertexC> &v,const SArray1dC<TriC> &nfaces,bool haveTextureCoord=false)
+      : RCHandleC<TriMeshBodyC>(*new TriMeshBodyC(v,nfaces,haveTextureCoord))
     {}
     //: Construct from an array of vertexes and an array of tri's.
     // The TriC's must refer to elements in 'v'
@@ -204,6 +209,10 @@ namespace Ravl3DN {
     bool HaveTextureCoord() const
     { return Body().HaveTextureCoord(); }
     //: Do we have texture co-ordinates?
+    
+    void SetTextureCoord(bool val)
+    { Body().SetTextureCoord(val); }
+    //: Set have texture coordinates flag.
     
   };
 
