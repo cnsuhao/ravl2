@@ -30,7 +30,7 @@ namespace RavlLogicN {
   {
   public:
     LiteralIterBodyC()
-      {}
+    {}
     //: Default constructor.
     
     virtual bool Next();
@@ -67,67 +67,67 @@ namespace RavlLogicN {
   {
   public:
     LiteralIterC()
-      {}
+    {}
     //: Default constructor.
     // creates an invalid handle.
 
   protected:
     LiteralIterC(LiteralIterBodyC &bod)
       : RCHandleC<LiteralIterBodyC>(bod)
-      {}
+    {}
     //: Body constructor.
     
     LiteralIterBodyC &Body()
-      { return RCHandleC<LiteralIterBodyC>::Body(); }
+    { return RCHandleC<LiteralIterBodyC>::Body(); }
     //: Access body.
 
     const LiteralIterBodyC &Body() const
-      { return RCHandleC<LiteralIterBodyC>::Body(); }
+    { return RCHandleC<LiteralIterBodyC>::Body(); }
     //: Access body.
     
   public:
     bool Next()
-      { return Body().Next(); }
+    { return Body().Next(); }
     //: Goto next data element.
     // returns true if next element is valid.
     
     bool operator++(int)
-      { return Body().Next(); }
+    { return Body().Next(); }
     //: Goto next data element.
     // returns true if next element is valid.
     
     bool First()
-      { return Body().First(); }
+    { return Body().First(); }
     //: Goto first data element.
     // returns true if next element is valid.
     
-    bool IsElm() const
-      { return Body().IsElm(); }
+    bool IsElm() const 
+    { return Body().IsElm(); }
     //: At a valid element ?
     // returns true if iterator is at a valid
     // element.
     
-    operator bool() const
-      { return Body().IsElm(); }
+    operator bool() const 
+    { return Body().IsElm(); }
     //: At a valid element ?
     // returns true if iterator is at a valid
     // element.
     
     LiteralC Data()
-      { return Body().Data(); }
+    { return Body().Data(); }
     //: At a valid element.
 
     LiteralC operator*()
-      { return Body().Data(); }
+    { return Body().Data(); }
     //: Goto next data element.
     // returns true if next element is valid.
     
     BindSetC &Binds()
-      { return Body().Binds(); }
+    { return Body().Binds(); }
     //: Access binds associated with solution.
 
     const BindSetC &Binds() const
-      { return Body().Binds(); }
+    { return Body().Binds(); }
     //: Access binds associated with solution.
 
   };
