@@ -36,8 +36,8 @@ namespace RavlN {
     //: Default constructor.
     
     RealRange2dC(RealT rowNumber, RealT colNumber)
-      : rows(0, rowNumber-1), 
-	cols(0, colNumber-1)
+      : rows(0, rowNumber), 
+	cols(0, colNumber)
     {}
     //: Constructor.
     
