@@ -109,8 +109,24 @@ namespace RavlImageN {
     //: Calculate the aspect ratio of the image rectangle
     // aspect = number of columns / number of rows
 
+    Index2dC Nearest(const Index2dC& pixel) const;
+    //: Nearest pixel to rectangle
+    // If pixel is outside rectangle, returns nearest pixel to rectangle; otherwise returns pixel
+
   };
   
+  //: Nearest pixel to rectangle
+  inline Index2dC ImageRectangleC::Nearest(const Index2dC& pixel) const {
+    Index2dC nearest(pixel);
+    if (this->Contains(pixel)) return nearest;
+    if(nearest[0] < TRow())  nearest[0] = TRow();
+    if(nearest[0] > BRow())  nearest[0] = BRow();
+    if(nearest[1] < LCol())  nearest[1] = LCol();
+    if(nearest[1] > RCol())  nearest[1] = RCol();
+    return nearest;
+  }
+
+
 }
 
 
