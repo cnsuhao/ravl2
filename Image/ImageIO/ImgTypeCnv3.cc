@@ -12,19 +12,22 @@
 #include "Ravl/DP/Converter.hh"
 #include "Ravl/Image/ImageConv.hh"
 #include "Ravl/Array2dIter2.hh"
-
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Types.hh"
 #include "Ravl/Image/ByteRGBMedian.hh"
 #include "Ravl/Image/RealRGBAverage.hh"
 #include "Ravl/Image/RealHSVValue.hh"
-
+#include "Ravl/TypeName.hh"
 
 namespace RavlImageN
 {
   void InitStdImageCnv3()
   {}
 
+  static TypeNameC type1(typeid(ImageC<RealRGBAverageC>),"ImageC<RealRGBAverageC>");  
+  static TypeNameC type2(typeid(ImageC<ByteRGBMedianC>),"ImageC<ByteRGBMedianC>");  
+  static TypeNameC type3(typeid(ImageC<RealHSVValueC>),"ImageC<RealHSVValueC>");  
+  
   // Real RGB rolling average -> RGB
 
   ImageC<ByteRGBValueC>  RealRGBAverageImageC2ByteRGBImageCT(const ImageC<RealRGBAverageC> &dat)   { 
