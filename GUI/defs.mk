@@ -11,6 +11,6 @@ DESCRIPTION = GUI Tools.
 
 SUPPORT_ONLY = linux sol2_7 sol2_9 sgi alpha
 
-REQUIRES= libGTK
+#REQUIRES= libGTK
 
 NESTED=GTK.r 2D.r 3D.r DPDisplay.r
