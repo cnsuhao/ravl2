@@ -12,7 +12,7 @@
 #include "Ravl/EntryPnt.hh"
 #include "Ravl/Types.hh"
 #include "Ravl/SBfAcc.hh"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 using namespace RavlN;
 

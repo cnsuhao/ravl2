@@ -57,7 +57,7 @@ namespace RavlN {
     const BufferC<DataT> &Data() const
     { return data; }
     //: Access data buffer.
-
+    
     SizeT Size1() const
     { return BufferBodyC<BufferAccessC<DataT> >::Size(); }
     //: Get size 1

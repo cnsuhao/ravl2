@@ -33,7 +33,7 @@ namespace RavlN {
 			      const BufferAccessC<Data3T> &buff3,
 			      const BufferAccessC<Data4T> &buff4,
  			      SizeT size)
-    { First(buff,buff2,buff3,size); }
+    { First(buff,buff2,buff3,buff4,size); }
     //: Constructor.
 
     inline BufferAccessIter4C(const BufferAccessC<Data1T> &buff1,const IndexRangeC &rng1,
@@ -43,7 +43,8 @@ namespace RavlN {
 			      )
     { First(buff1,rng1,
 	    buff2,rng2,
-	    buff3,rng3); 
+	    buff3,rng3, 
+	    buff4,rng4); 
     }
     //: Constructor.
     
@@ -52,7 +53,7 @@ namespace RavlN {
 			      const RangeBufferAccessC<Data3T> &buff3,
 			      const RangeBufferAccessC<Data4T> &buff4
 			      )
-    { First(buff,buff2,buff3); }
+    { First(buff,buff2,buff3,buff4); }
     //: Constructor.
 
     inline BufferAccessIter4C(const SizeBufferAccessC<Data1T> &buff,
@@ -60,7 +61,7 @@ namespace RavlN {
 			      const SizeBufferAccessC<Data3T> &buff3,
 			      const SizeBufferAccessC<Data4T> &buff4
 			      )
-    { First(buff,buff2,buff3); }
+    { First(buff,buff2,buff3,buff4); }
     //: Constructor.
     
     inline bool First(const BufferAccessC<Data1T> &buff1,const IndexRangeC &rng1,
@@ -163,8 +164,8 @@ namespace RavlN {
     
     inline void Invalidate();
     //: Make IsElm() return false.
-    
-  private:
+
+  protected:    
     Data1T *at1;
     Data2T *at2;
     Data3T *at3;

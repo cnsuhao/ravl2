@@ -302,7 +302,7 @@ namespace RavlN {
   {
 #if RAVL_CHECK
     if ((!r.In(ba.Range()) && (r.Size() > 0)) || !ba.Range().Contains(r.Min()))
-      IssueError(__FILE__,__LINE__,"Index range %d to %d out of  range 0 - %u  ",
+      IssueError(__FILE__,__LINE__,"Index range %d to %d out of  range %d - %d  ",
 		 r.Min().V(),r.Max().V(),ba.Range().Min().V(),ba.Range().Max().V());
 #endif
   }
@@ -320,7 +320,7 @@ namespace RavlN {
   inline const DataT &RangeBufferAccessC<DataT>::operator[](IndexC i) const {
 #if RAVL_CHECK
     if (!Contains(i)) 
-      IssueError(__FILE__,__LINE__,"Index  %d  out of  range 0 - %u  ",
+      IssueError(__FILE__,__LINE__,"Index  %d  out of  range %d - %d  ",
 		 i.V(),Range().Min().V(),Range().Max().V());
 #endif
     return BufferAccessC<DataT>::operator[](i);
@@ -330,7 +330,7 @@ namespace RavlN {
   inline DataT & RangeBufferAccessC<DataT>::operator[](IndexC i) {
 #if RAVL_CHECK
     if (!Contains(i)) 
-      IssueError(__FILE__,__LINE__,"Index  %d  out of  range 0 - %u  ",
+      IssueError(__FILE__,__LINE__,"Index  %d  out of  range %d - %d  ",
 		 i.V(),Range().Min().V(),Range().Max().V());
 #endif
     return BufferAccessC<DataT>::operator[](i);
@@ -421,13 +421,13 @@ namespace RavlN {
   template<class DataT>
   RangeBufferAccessC<DataT> RangeBufferAccessC<DataT>::BufferFrom(IndexC first) {
     RavlAssert(Range().Contains(first));
-    return RangeBufferAccessC<DataT>(&((this)[first]),IndexRangeC(first,Range().Max()));
+    return RangeBufferAccessC<DataT>(&((*this)[first]),IndexRangeC(first,Range().Max()));
   }
   
   template<class DataT>
   RangeBufferAccessC<DataT> RangeBufferAccessC<DataT>::BufferFrom(IndexC first,UIntT len) {
-    RavlAssert(Range().Contains(first) && Range().Contains(first + len));
-    return RangeBufferAccessC<DataT>(&((this)[first]),IndexRangeC(first,(first+len)-1));
+    RavlAssert(Range().Contains(first) && Range().Contains((first + len) - 1));
+    return RangeBufferAccessC<DataT>(&((*this)[first]),IndexRangeC(first,(first+len)-1));
   }
   
 }
