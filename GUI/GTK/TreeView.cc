@@ -241,7 +241,7 @@ namespace RavlGUIN {
     // Setup selection
     
     selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (widget));
-    gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
+    gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
     g_signal_connect (G_OBJECT (selection), "changed",
 		      G_CALLBACK (tree_selection_changed_cb),
 		      this);
