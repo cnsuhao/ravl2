@@ -84,6 +84,18 @@ namespace RavlN {
     }
     //: return the item array[(i)]
     
+    inline SizeBufferAccess2dC<DataT> operator[](int i) {
+      return SizeBufferAccess2dC<DataT>(BufferAccessC<BufferAccessC<BufferAccessC<DataT > > >::operator[](i),
+					size2,size3);
+    }
+    //: access to the item array[(i)]
+    
+    inline const SizeBufferAccess2dC<DataT> operator[](int i) const {
+      return SizeBufferAccess2dC<DataT>(BufferAccessC<BufferAccessC<BufferAccessC<DataT > > >::operator[](i),
+					size2,size3);
+    }
+    //: return the item array[(i)]
+    
     SizeT Size1() const
     { return SizeBufferAccessC<BufferAccessC<BufferAccessC<DataT > > >::Size(); }
     //: Get size of dimension 1
@@ -112,6 +124,38 @@ namespace RavlN {
   void SizeBufferAccess3dC<DataT>::Fill(const DataT &d) {
     for(BufferAccess3dIterC<DataT> it(*this,size2,size3);it;it++)
       *it = d;
+  }
+  
+  template <class DataT>
+  ostream & operator<<(ostream & s, const SizeBufferAccess3dC<DataT> & arr) {
+    for(BufferAccess3dIterC<DataT> it(arr,arr.Size2(),arr.Size3());it;) {
+      s << *it;
+      for(;it.Next();) 
+	s << ' ' << *it;
+      s << '\n';
+    }    
+    return s;
+  }
+  
+  template <class DataT>
+  istream & operator>>(istream & s, SizeBufferAccess3dC<DataT> & arr) {
+    for(BufferAccess3dIterC<DataT> it(arr,arr.Size2(),arr.Size3());it;it++) 
+      s >> *it;
+    return s;
+  }
+  
+  template<class DataT>
+  BinOStreamC &operator<<(BinOStreamC & s, const SizeBufferAccess3dC<DataT> & arr) {
+    for(BufferAccess3dIterC<DataT> it(arr,arr.Size2(),arr.Size3());it;it++)
+      s << *it;
+    return s;
+  }
+  
+  template<class DataT>
+  BinIStreamC &operator>>(BinIStreamC & s, SizeBufferAccess3dC<DataT> & arr) {
+    for(BufferAccess3dIterC<DataT> it(arr,arr.Size2(),arr.Size3());it;it++)
+      s >> *it;
+    return s;
   }
   
 }

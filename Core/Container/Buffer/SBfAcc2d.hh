@@ -100,6 +100,14 @@ namespace RavlN {
     { return SizeBufferAccessC<DataT>(SizeBufferAccessC<BufferAccessC<DataT> >::operator[](i),size2); }
     //: return the item array[(i)]
     
+    inline SizeBufferAccessC<DataT> operator[](int i)
+    { return SizeBufferAccessC<DataT>(SizeBufferAccessC<BufferAccessC<DataT> >::operator[](i),size2); }
+    //: access to the item array[(i)]
+    
+    inline const SizeBufferAccessC<DataT> operator[](int i) const
+    { return SizeBufferAccessC<DataT>(SizeBufferAccessC<BufferAccessC<DataT> >::operator[](i),size2); }
+    //: return the item array[(i)]
+    
     inline SizeT Size1() const
     { return SizeBufferAccessC<BufferAccessC<DataT> >::Size(); }
     //: Size.
