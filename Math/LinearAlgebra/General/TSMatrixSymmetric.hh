@@ -74,7 +74,7 @@ namespace RavlN {
     // Creates an invalid handle.
     
     TSMatrixSymmetricC(UIntT n)
-      : TSMatrixFullC<DataT>(*new TSMatrixSymmetricBodyC<DataT>(mat))
+      : TSMatrixFullC<DataT>(*new TSMatrixSymmetricBodyC<DataT>(n))
     {}
     //: Create a new symmetric matrix of size n.
     // Note: The contents of the matrix are undefined.
