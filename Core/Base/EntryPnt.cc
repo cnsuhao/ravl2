@@ -32,7 +32,7 @@
 
 namespace RavlN {
   
-#if defined(VISUAL_CPP)
+#if RAVL_HAVE_STDNAMESPACE
   using namespace std;
 #endif
   

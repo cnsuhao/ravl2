@@ -13,7 +13,7 @@
 #include "Ravl/Calls.hh"
 
 #if RAVL_HAVE_ANSICPPHEADERS
-#if USE_GCC30
+#if USE_GCC3
 #include <sstream>
 #else
 #include <strstream>

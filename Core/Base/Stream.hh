@@ -20,6 +20,7 @@
 #include "Ravl/HandleRefCounter.hh"
 #include "Ravl/Exception.hh"
 #include <stdarg.h>
+
 #if RAVL_HAVE_ANSICPPHEADERS
 #include <iostream>
 #else

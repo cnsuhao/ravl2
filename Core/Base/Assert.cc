@@ -25,7 +25,9 @@
 #include <stdio.h>
 
 namespace RavlN {  
+#if RAVL_HAVE_STDNAMESPACE
   using namespace std;
+#endif
 
   static bool assertThrowException = false;
   

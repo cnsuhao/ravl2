@@ -18,9 +18,16 @@
 #include "Ravl/Stream.hh"
 #include "Ravl/String.hh"
 
-#if !USE_GCC3
+#if RAVL_HAVE_STREAMASCLASS
+#if RAVL_HAVE_STDNAMESPACE
+namespace std {
+  class ostrstream;
+  class istrstream;
+}
+#else
 class ostrstream;
 class istrstream;
+#endif
 #else
 #ifndef VISUAL_CPP
 #if RAVL_HAVE_ANSICPPHEADERS

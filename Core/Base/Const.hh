@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLCONST_HEADER
-#define RAVLCONST_HEADER 1
+#ifndef RAVL_CONST_HEADER
+#define RAVL_CONST_HEADER 1
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCore

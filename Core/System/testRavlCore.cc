@@ -35,7 +35,9 @@
 #endif
 
 using namespace RavlN;
+#if RAVL_HAVE_STDNAMESPACE
 using namespace std;
+#endif
 
 int testArray1();
 int testArray2();

@@ -42,7 +42,7 @@
 #endif
 
 namespace RavlN {
-#if USE_GCC3
+#if RAVL_HAVE_STDNAMESPACE
   using namespace std;
 #endif
   // A hook to allow a method to map urls to be added by another module.

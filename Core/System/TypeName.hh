@@ -24,7 +24,7 @@
 #endif
 
 namespace RavlN {
-#if USE_GCC30
+#if RAVL_HAVE_STDNAMESPACE
   using namespace std;
 #endif
   

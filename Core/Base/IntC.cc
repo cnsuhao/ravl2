@@ -14,11 +14,7 @@
 #include "Ravl/BinStream.hh"
 
 namespace RavlN {
-
-#if RAVL_STRICT_NAMESPACES
-  //using namespace std;
-#endif
-
+  
   ostream &operator<<(ostream &out,const IntC &x) {
     out << ((int) x.v);
     return out;

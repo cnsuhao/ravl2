@@ -17,9 +17,16 @@
 #include "Ravl/config.h"
 // Common forward declarations
 
-#if !USE_GCC30 
+#if RAVL_HAVE_STREAMASCLASS
+#if RAVL_HAVE_STDNAMESPACE
+namespace std {
+  class istream;
+  class ostream;
+}
+#else
 class istream;
 class ostream;
+#endif
 #else
 #if RAVL_HAVE_ANSICPPHEADERS
 #include <iostream>
@@ -33,7 +40,7 @@ class ostream;
 // This namespace contains all the core ravl functionality.
 
 namespace RavlN {  
-#if USE_GCC30 
+#if RAVL_HAVE_STDNAMESPACE
   using namespace std;
 #endif  
   
