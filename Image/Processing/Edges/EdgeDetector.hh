@@ -86,6 +86,14 @@ namespace RavlImageN {
     bool Apply(const ImageC<RealT> &img,EdgeLinkC &edgeMap,ImageC<RealT> &edgeDx,ImageC<RealT> &edgeDy,ImageC<RealT> &edgeMag)
     { return Body().Apply(img,edgeMap,edgeDx,edgeDy,edgeMag); }
     //: Apply the edge detector to 'img', generate an edge link image.
+
+    bool Apply(const ImageC<RealT> &img,EdgeLinkC &edgeMap) { 
+      ImageC<RealT> edgeDx;
+      ImageC<RealT> edgeDy;
+      ImageC<RealT> edgeMag;
+      return Body().Apply(img,edgeMap,edgeDx,edgeDy,edgeMag); 
+    }
+    //: Apply the edge detector to 'img', generate an edge link image.
     
     bool Apply(const ImageC<RealT> &img,SArray1dC<EdgelC> &edges)
     { return Body().Apply(img,edges); }
