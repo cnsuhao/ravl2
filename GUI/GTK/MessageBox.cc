@@ -18,11 +18,12 @@
 namespace RavlGUIN {
   
   //: Constructor.  
-  MessageBoxBodyC::MessageBoxBodyC(StringC message, bool bYesNo, const char *title)
+  MessageBoxBodyC::MessageBoxBodyC(StringC message, bool bYesNo, const char *title, const WindowC* parent)
     : WindowBodyC(200,100,title,GTK_WINDOW_DIALOG,0,false),
       m_strMessage(message),
       m_bYesNo(bYesNo),
-      sigDone(false)
+      sigDone(false),
+      m_pwParent(parent)
   {
     // Make sure this isn't deleted before the buttons have been clicked
     IncRefCounter();
@@ -45,8 +46,17 @@ namespace RavlGUIN {
     // Set positioning
     GtkWindowPosition pos(GTK_WIN_POS_CENTER);
     GUISetPositioning(pos);
+
     // Create window
-    return WindowBodyC::Create();
+    if (!WindowBodyC::Create()) 
+      return false;
+
+    // Make Transient if we have a parent pointer
+    if (m_pwParent)
+      MakeTransient(const_cast<WindowC&>(*m_pwParent));
+
+    // Done
+    return true;
   }
   
   bool MessageBoxBodyC::OnClick(bool& bResult) {

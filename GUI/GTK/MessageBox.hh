@@ -32,8 +32,9 @@ namespace RavlGUIN {
     : public WindowBodyC
   {
   public:
-    MessageBoxBodyC(StringC message, bool bYesNo = false, const char *title = 0);
+    MessageBoxBodyC(StringC message, bool bYesNo = false, const char *title = 0, const WindowC* parent = NULL);
     //: Constructor.
+    // If parent is not NULL, the dialog will be kept above it by the window manager
     
     virtual bool Create();
     //: Create the widget.
@@ -50,6 +51,8 @@ namespace RavlGUIN {
     bool m_bYesNo;
     Signal1C<bool> sigDone;
 
+    const WindowC* m_pwParent; // Used only during create
+
     friend class MessageBoxC;
   };
   
@@ -65,10 +68,11 @@ namespace RavlGUIN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    MessageBoxC(StringC message, bool bYesNo = false, const char *title = 0)
-      : WindowC( *new MessageBoxBodyC(message,bYesNo,title))
+    MessageBoxC(StringC message, bool bYesNo = false, const char *title = 0, const WindowC* parent = NULL)
+      : WindowC( *new MessageBoxBodyC(message,bYesNo,title,parent))
     {}
     //: Constructor.
+    // If parent is not NULL, the dialog will be kept above it by the window manager
     
   protected:
     MessageBoxC(MessageBoxBodyC &bod)
@@ -99,62 +103,62 @@ namespace RavlGUIN {
   };
 
   inline
-  MessageBoxC QuestionBox(StringC message,bool (*func)(bool &result))
+  MessageBoxC QuestionBox(StringC message,bool (*func)(bool &result), const WindowC* parent = NULL)
   { 
-    MessageBoxC ret = MessageBoxC(message,true,"Question");
+    MessageBoxC ret = MessageBoxC(message,true,"Question",parent);
     Connect(ret.SigDone(),func);
     ret.Show();
     return ret;
   }
   
   template<class ObjT>
-  MessageBoxC QuestionBox(StringC message,const ObjT &obj,bool (ObjT::*func)(bool &result))
+  MessageBoxC QuestionBox(StringC message,const ObjT &obj,bool (ObjT::*func)(bool &result), const WindowC* parent = NULL)
   { 
-    MessageBoxC ret = MessageBoxC(message,true,"Question");
+    MessageBoxC ret = MessageBoxC(message,true,"Question",parent);
     Connect(ret.SigDone(),obj,func);
     ret.Show();
     return ret;
   }
 
   template<class ObjT,class DataT>
-  MessageBoxC QuestionBoxR(StringC message,ObjT &obj,bool (ObjT::*func)(bool &result))
+  MessageBoxC QuestionBoxR(StringC message,ObjT &obj,bool (ObjT::*func)(bool &result), const WindowC* parent = NULL)
   { 
-    MessageBoxC ret = MessageBoxC(message,true,"Question");
+    MessageBoxC ret = MessageBoxC(message,true,"Question",parent);
     ConnectRef(ret.SigDone(),obj,func);
     ret.Show();
     return ret;
   }
   
   inline
-  MessageBoxC AlertBox(StringC message)
+  MessageBoxC AlertBox(StringC message, const WindowC* parent = NULL)
   { 
-    MessageBoxC ret = MessageBoxC(message,false,"Alert");
+    MessageBoxC ret = MessageBoxC(message,false,"Alert",parent);
     ret.Show();
     return ret;
   }
 
   inline
-  MessageBoxC AlertBox(StringC message,bool (*func)())
+  MessageBoxC AlertBox(StringC message,bool (*func)(), const WindowC* parent = NULL)
   { 
-    MessageBoxC ret = MessageBoxC(message,false,"Alert");
+    MessageBoxC ret = MessageBoxC(message,false,"Alert",parent);
     Connect(ret.SigDone(),func);
     ret.Show();
     return ret;
   }
   
   template<class ObjT>
-  MessageBoxC AlertBox(StringC message,const ObjT &obj,bool (ObjT::*func)())
+  MessageBoxC AlertBox(StringC message,const ObjT &obj,bool (ObjT::*func)(), const WindowC* parent = NULL)
   { 
-    MessageBoxC ret = MessageBoxC(message,false,"Alert");
+    MessageBoxC ret = MessageBoxC(message,false,"Alert",parent);
     Connect(ret.SigDone(),obj,func);
     ret.Show();
     return ret;
   }
 
   template<class ObjT>
-  MessageBoxC AlertBoxR(StringC message,ObjT &obj,bool (ObjT::*func)())
+  MessageBoxC AlertBoxR(StringC message,ObjT &obj,bool (ObjT::*func)(), const WindowC* parent = NULL)
   { 
-    MessageBoxC ret = MessageBoxC(message,false,"Alert");
+    MessageBoxC ret = MessageBoxC(message,false,"Alert",parent);
     ConnectRef(ret.SigDone(),obj,func);
     ret.Show();
     return ret;
