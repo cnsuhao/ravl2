@@ -4,12 +4,15 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#include "Ravl/Image/Image.hh"
+#ifndef RAVLIMAGE_ERODE_HEADER
+#define RAVLIMAGE_ERODE_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlImage
 //! author="Joel Mitchelson"
 //! userlevel=Normal
 //! docentry="Ravl.Images.Morphology"
+
+#include "Ravl/Image/Image.hh"
 
 namespace RavlImageN
 {
@@ -54,3 +57,5 @@ namespace RavlImageN
   }
   //: image erosion
 }
+
+#endif
