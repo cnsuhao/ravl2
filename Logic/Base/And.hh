@@ -41,7 +41,7 @@ namespace RavlLogicN {
     
     virtual bool IsEqual(const LiteralC &oth) const;
     //: Is this equal to another condition ?
-
+    
     virtual bool IsGrounded() const;
     //: Is this a simple expression with no variables ?
 
@@ -54,6 +54,10 @@ namespace RavlLogicN {
     SizeT Size() const
     { return terms.Size(); }
     //: Get the number of terms to be anded together.
+    
+    virtual LiteralIterC Solutions(const StateC &state,BindSetC &binds) const;
+    //: Return iterator through possibile matches to this literal in 'state', if any.
+    
   protected:
     SArray1dC<LiteralC> terms;
   };
@@ -110,6 +114,8 @@ namespace RavlLogicN {
     SizeT Size() const
     { return Body().Size(); }
     //: Get the number of terms to be anded together.
+    
+    friend class AndBodyC;
   };
   
   ConditionC operator*(const LiteralC &l1,const LiteralC &l2);

@@ -9,6 +9,8 @@
 //! lib=RavlLogic
 
 #include "Ravl/Logic/Literal.hh"
+#include "Ravl/Logic/LiteralIter.hh"
+#include "Ravl/Logic/State.hh"
 #include "Ravl/Assert.hh"
 #include <iostream.h>
 
@@ -58,4 +60,27 @@ namespace RavlLogicN {
   
   StringC LiteralBodyC::Name() const
   { return StringC("L:") + StringC((UIntT) this); }
+  
+  //: Test if condition is true in 'state'.
+  
+  bool LiteralBodyC::Test(const StateC &state,BindSetC &binds) const {
+    LiteralC me(const_cast<LiteralBodyC &>(*this));
+    return state.Ask(me);
+  }
+
+  //: Return iterator through possibile matches to this literal in 'state', if any.
+  
+  LiteralIterC LiteralBodyC::Solutions(const StateC &state,BindSetC &binds) const {
+    LiteralC me(const_cast<LiteralBodyC &>(*this));
+    return state.ListFilter(me,binds);
+  }
+  
+  ////////////////////////////////////////////////////////////////
+  
+  //: Return iterator through possibile solutions, if any.
+  
+  LiteralIterC LiteralC::Solutions(const StateC &state,BindSetC &binds) const
+   { return Body().Solutions(state,binds); }
+
+
 }

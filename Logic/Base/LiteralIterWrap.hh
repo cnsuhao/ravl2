@@ -12,8 +12,10 @@
 //! lib=RavlLogic
 
 #include "Ravl/Logic/LiteralIter.hh"
+#include "Ravl/RCAbstract.hh"
 
 namespace RavlLogicN {
+  using namespace RavlN;
   
   //! userlevel=Develop
   //: Abstract iterator through a set of literals.
@@ -24,17 +26,24 @@ namespace RavlLogicN {
   {
   public:
     LiteralIterWrapBodyC(const IterT &nit)
-      : it(nit)
+      : it(nit),
+      binds(true)
+      {}
+    //: Default constructor.
+
+    LiteralIterWrapBodyC(const IterT &nit,const BindSetC &nbs)
+      : it(nit),
+      binds(nbs)
       {}
     //: Default constructor.
     
     virtual bool Next()
-    { return it.Next(); }
+      {  it.Next(); return it.IsElm(); }
     //: Goto next data element.
     // returns true if next element is valid.
     
     virtual bool First()
-    { return it.First(); }
+      { it.First(); return it.IsElm(); }
     //: Goto first data element.
     // returns true if next element is valid.
     
@@ -49,7 +58,7 @@ namespace RavlLogicN {
     //: At a valid element.
     
     virtual RCAbstractC MapTo()
-    { return RCAbstractC(); }
+      { return RCAbstractC(); }
     //: Used for iterating mappings.
     // If no valid mapping exists, an invalid handle
     // will be returned
@@ -62,8 +71,17 @@ namespace RavlLogicN {
     { return it; }
     //: Access iterator.
 
+    virtual BindSetC &Binds()
+      { return binds; }
+    //: Access binds associated with solution.
+    
+    virtual const BindSetC &Binds() const
+      { return binds; }
+    //: Access binds associated with solution.
+
   protected:
     IterT it;
+    BindSetC binds;
   };
 
   //! userlevel=Advanced
@@ -78,8 +96,12 @@ namespace RavlLogicN {
     LiteralIterWrapC(const IterT &nit)
       : LiteralIterC(*new LiteralIterWrapBodyC<IterT>(nit))
       {}
-    //: Default constructor.
-    // creates an invalid handle.
+    //: Constructor.
+
+    LiteralIterWrapC(const IterT &nit,const BindSetC &nbs)
+      : LiteralIterC(*new LiteralIterWrapBodyC<IterT>(nit,nbs))
+      {}
+    //: Constructor.
     
   protected:
     LiteralIterWrapC(LiteralIterWrapBodyC<IterT> &bod)

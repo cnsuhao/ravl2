@@ -53,6 +53,12 @@ namespace RavlLogicN {
   StringC NotBodyC::Name() const {
     return StringC("!") + term.Name(); 
   }
+
+  //: Test if condition is true in 'state'.
+  
+  bool NotBodyC::Test(const StateC &state,BindSetC &binds) const {
+    return !term.Test(state,binds);
+  }
   
   //: Not operator.
   // FIXME :- Do more simplification.
@@ -63,6 +69,7 @@ namespace RavlLogicN {
       return xnot.Term(); // Double not simplifies.
     return NotC(lit);
   }
+
   
   
 }

@@ -17,7 +17,7 @@
 
 namespace RavlLogicN {
   using namespace RavlN;
-  
+  class StateC;
   StringC Indent(int level);
   //: Helper function for producing debug output.
   // create a string with 'level' spaces.
@@ -27,7 +27,8 @@ namespace RavlLogicN {
   class BindSetC;
   class LiteralC;
   class ExprC;
-
+  class LiteralIterC;
+  
   //! userlevel=Develop
   //: Literal body
 
@@ -62,6 +63,12 @@ namespace RavlLogicN {
     
     virtual bool IsEqual(const LiteralC &oth) const;
     //: Is this equial to another LiteralC ?
+    
+    virtual bool Test(const StateC &state,BindSetC &binds) const;
+    //: Test if condition is true in 'state'.
+    
+    virtual LiteralIterC Solutions(const StateC &state,BindSetC &binds) const;
+    //: Return iterator through possibile matches to this literal in 'state', if any.
     
   protected:
     virtual bool UnifyLiteral(const LiteralBodyC &oth,BindSetC &bs) const;
@@ -136,6 +143,13 @@ namespace RavlLogicN {
     void Dump(ostream &out)
       { Body().Dump(out); }
     //: Dump info in human readable format to stream 'out'.
+
+    bool Test(const StateC &state,BindSetC &binds) const
+    { return Body().Test(state,binds); }
+    //: Test if condition is true in 'state'.
+    
+    LiteralIterC Solutions(const StateC &state,BindSetC &binds) const;
+    //: Return iterator through possibile matches to this literal in 'state', if any.
     
     friend class LiteralBodyC;
     friend class VarBodyC;

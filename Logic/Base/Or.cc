@@ -12,6 +12,14 @@
 #include "Ravl/SArr1Iter.hh"
 #include "Ravl/SArr1Iter2.hh"
 #include "Ravl/Logic/BindSet.hh"
+#include "Ravl/Logic/StateOrIter.hh"
+
+#define DODEBUG 1
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
 
 namespace RavlLogicN {
   
@@ -71,6 +79,12 @@ namespace RavlLogicN {
     }
     ret +=')';
     return ret;
+  }
+
+  //: Return iterator through possibile matches to this literal in 'state', if any.
+  
+  LiteralIterC OrBodyC::Solutions(const StateC &state,BindSetC &binds) const {
+    return StateOrIterC(state,OrC(const_cast<OrBodyC &>(*this)),binds);
   }
   
   //////////////////////////////////////////////////////////////////////

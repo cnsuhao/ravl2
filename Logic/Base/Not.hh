@@ -52,6 +52,9 @@ namespace RavlLogicN {
     
     virtual StringC Name() const;
     //: Get the name of symbol.
+
+    virtual bool Test(const StateC &state,BindSetC &binds) const;
+    //: Test if condition is true in 'state'.
    
   protected:
     LiteralC term;

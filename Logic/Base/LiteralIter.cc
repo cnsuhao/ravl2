@@ -12,7 +12,6 @@
 
 namespace RavlLogicN {
   
-
   //: At a valid element ?
   
   bool LiteralIterBodyC::IsElm() const { 
@@ -42,4 +41,21 @@ namespace RavlLogicN {
     return false;
   }
   
+  //: Access binds associated with solution.
+  
+  BindSetC &LiteralIterBodyC::Binds() { 
+    RavlAssertMsg(0,"LiteralIterBodyC::Binds(), Abstract method called. ");
+    static BindSetC binds;
+    return binds; 
+  }
+    
+  //: Access binds associated with solution.
+  
+  const BindSetC &LiteralIterBodyC::Binds() const { 
+    RavlAssertMsg(0,"LiteralIterBodyC::Binds() const, Abstract method called. ");
+    static BindSetC binds;
+    return binds; 
+  }
+    
+
 }

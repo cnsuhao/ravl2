@@ -22,7 +22,7 @@ namespace RavlLogicN {
   
   //: Copy constructor.
   
-  BindSetC::BindSetC(const BindSetC &oth) 
+  BindSetBodyC::BindSetBodyC(const BindSetC &oth) 
     : HashC<LiteralC,BindC>(NextPrime(oth.Size()+1))
   {
     BindMarkT place = oth.Mark();
@@ -48,7 +48,7 @@ namespace RavlLogicN {
   
   //: Attempty to bind a value to var.
   
-  bool BindSetC::Bind(const LiteralC &var,const LiteralC &val) {
+  bool BindSetBodyC::Bind(const LiteralC &var,const LiteralC &val) {
     RavlAssert(var.IsValid());
     RavlAssert(var.IsVariable());
 
@@ -65,7 +65,7 @@ namespace RavlLogicN {
 
   //: Undo bindings to marked place.
   
-  void BindSetC::Undo(BindMarkT bm) {
+  void BindSetBodyC::Undo(BindMarkT bm) {
     ONDEBUG(cerr << "Undo to :" << ((void *) bm) << "\n");
     while(top != bm) {
       ONDEBUG(cerr << "top :" << ((void *) top) << "\n");
@@ -79,7 +79,7 @@ namespace RavlLogicN {
   
   //: Undo bindings done after and including var.
   
-  void BindSetC::Undo(LiteralC var) {
+  void BindSetBodyC::Undo(LiteralC var) {
     ONDEBUG(cerr << "Undo to :" << ((void *) bm) << "\n");
     while(top->GetKey() != var) {
       ONDEBUG(cerr << "top :" << ((void *) top) << "\n");
@@ -97,9 +97,30 @@ namespace RavlLogicN {
 
   //: Remove all bindings from set.
   
-  void BindSetC::Empty() {
+  void BindSetBodyC::Empty() {
     HashC<LiteralC,BindC>::Empty();
     top = 0;
   }
+
+  
+  ostream &operator<<(ostream &s,const BindSetC &binds) {
+    if(!binds.IsValid()) {
+      s << "(NIL)";
+      return s;
+    }
+      
+    HashIterC<LiteralC,BindC> it(const_cast<BindSetC &>(binds).Iter());
+    for(;it;it++) {
+      s << '(' << it.Key() << "->" << it.Data() << ')';
+    }
+    return s;
+  }
+  //: output stream 
+  
+  istream &operator>>(istream &s,BindSetC &binds) {
+    RavlAssertMsg(0,"operator<<(istream &s,BindSetC &binds), Not implemented. ");
+    return s;
+  }
+  //: input stream 
   
 }

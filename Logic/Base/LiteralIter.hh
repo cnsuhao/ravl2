@@ -12,9 +12,13 @@
 //! lib=RavlLogic
 
 #include "Ravl/Logic/Literal.hh"
+#include "Ravl/Logic/BindSet.hh"
+
+namespace RavlN {
+  class RCAbstractC;
+}
 
 namespace RavlLogicN {
-  class RCAbstractC;
   
   //! userlevel=Develop
   //: Abstract iterator through a set of literals.
@@ -41,10 +45,18 @@ namespace RavlLogicN {
     // element.
     
     virtual LiteralC Data();
-    //: At a valid element.
-        
+    //: Get current literal.
+    
+    virtual BindSetC &Binds();
+    //: Access binds associated with solution.
+    
+    virtual const BindSetC &Binds() const;
+    //: Access binds associated with solution.
+    
+    
+  protected:
   };
-
+  
   //! userlevel=Normal
   //: Abstract iterator through a set of literals.
   
@@ -108,6 +120,14 @@ namespace RavlLogicN {
     //: Goto next data element.
     // returns true if next element is valid.
     
+    BindSetC &Binds()
+      { return Body().Binds(); }
+    //: Access binds associated with solution.
+
+    const BindSetC &Binds() const
+      { return Body().Binds(); }
+    //: Access binds associated with solution.
+
   };
 }
 

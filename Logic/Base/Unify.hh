@@ -22,7 +22,7 @@ namespace RavlLogicN {
   // any extra binding needed will be added to bs.
 
   inline bool Unify(const LiteralC &s1,const LiteralC &s2) {
-    BindSetC bs;
+    BindSetC bs(true);
     return s1.Unify(s2,bs);
   }
   //: Test if s1 and s2 can be unified.

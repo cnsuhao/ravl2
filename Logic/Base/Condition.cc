@@ -9,6 +9,8 @@
 //! lib=RavlLogic
 
 #include "Ravl/Logic/Condition.hh"
+#include "Ravl/Logic/BindSet.hh"
+#include "Ravl/Logic/LiteralIter.hh"
 
 namespace RavlLogicN {
 
@@ -44,5 +46,26 @@ namespace RavlLogicN {
   StringC ConditionBodyC::Name() const {
     return StringC("Condition:") + StringC((UIntT) this);
   }
+
+  //: Test if condition is true in 'state'.
   
+  bool ConditionBodyC::Test(const StateC &state,BindSetC &binds) const {
+    BindMarkT mark = binds.Mark();
+    LiteralIterC ret = Solutions(state,binds);
+    RavlAssert(ret.IsValid());
+    if(!ret.IsElm()) {
+      binds.Undo(mark);
+      return false;
+    }
+    return true;
+  }
+  
+  //: Return iterator through possibile matches to this literal in 'state', if any.
+  
+  LiteralIterC ConditionBodyC::Solutions(const StateC &state,BindSetC &binds) const {
+    LiteralIterC ret;
+    RavlAssertMsg(0,"ConditionBodyC::Solutions(), Abstract method called. ");
+    return ret;
+  }
+
 }

@@ -88,6 +88,33 @@ namespace RavlLogicN {
     }
     //: Base class constructor.
     // if x isn't an Tuple an invalid handle is created.
+
+    TupleC(const LiteralC &a1,const LiteralC &a2)
+      : LiteralC(*new TupleBodyC(2))
+      {
+	SetArg(0,a1);
+	SetArg(1,a2);
+      }
+    //: Create a tuple containing two literals.
+
+    TupleC(const LiteralC &a1,const LiteralC &a2,const LiteralC &a3)
+      : LiteralC(*new TupleBodyC(3))
+      {
+	SetArg(0,a1);
+	SetArg(1,a2);
+	SetArg(2,a3);
+      }
+    //: Create a tuple containing two literals.
+
+    TupleC(const LiteralC &a1,const LiteralC &a2,const LiteralC &a3,const LiteralC &a4)
+      : LiteralC(*new TupleBodyC(4))
+      {
+	SetArg(0,a1);
+	SetArg(1,a2);
+	SetArg(2,a3);
+	SetArg(3,a4);
+      }
+    //: Create a tuple containing two literals.
     
   protected:
     TupleC(TupleBodyC &bod)

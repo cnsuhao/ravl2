@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLLOGICSUMOFPRODUCTS_HEADER
-#define RAVLLOGICSUMOFPRODUCTS_HEADER 1
+#ifndef RAVLLOGICOR_HEADER
+#define RAVLLOGICOR_HEADER 1
 ///////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Logic.Condition"
@@ -59,6 +59,10 @@ namespace RavlLogicN {
     SizeT Size() const
     { return terms.Size(); }
     //: Numnber of terms in or.
+
+    virtual LiteralIterC Solutions(const StateC &state,BindSetC &binds) const;
+    //: Return iterator through possibile matches to this literal in 'state', if any.
+
   protected:
     SArray1dC<LiteralC> terms;
   };
@@ -115,6 +119,8 @@ namespace RavlLogicN {
     SizeT Size() const
     { return Body().Size(); }
     //: Numnber of terms in or.
+
+    friend class OrBodyC;
   };
 
   ConditionC operator+(const LiteralC &l1,const LiteralC &l2);

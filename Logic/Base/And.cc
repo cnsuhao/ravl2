@@ -12,6 +12,7 @@
 #include "Ravl/SArr1Iter.hh"
 #include "Ravl/SArr1Iter2.hh"
 #include "Ravl/Logic/BindSet.hh"
+#include "Ravl/Logic/StateAndIter.hh"
 
 namespace RavlLogicN {
 
@@ -69,6 +70,13 @@ namespace RavlLogicN {
     ret +=')';
     return ret;
   }
+
+  //: Return iterator through possibile matches to this literal in 'state', if any.
+  
+  LiteralIterC AndBodyC::Solutions(const StateC &state,BindSetC &binds) const {
+    return StateAndIterC(state,AndC(const_cast<AndBodyC &>(*this)),binds);    
+  }
+
   
   //: And two terms.
   // FIXME :- Do more simplification.

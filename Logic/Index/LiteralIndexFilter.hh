@@ -48,6 +48,14 @@ namespace RavlLogicN {
     virtual LiteralC Data()
     { return LiteralIndexFilterBaseBodyC::Data().Key(); }
     //: At a valid element.
+
+    virtual BindSetC &Binds()
+      { return binds; }
+    //: Access binds associated with solution.
+    
+    virtual const BindSetC &Binds() const
+      { return binds; }
+    //: Access binds associated with solution.
     
     virtual DataT &MappedData()
     { return LiteralIndexLeafDataC<DataT>(LiteralIndexFilterBaseBodyC::Data()).Data(); }
