@@ -73,7 +73,7 @@ namespace RavlN {
     : public NetOSPortServerBaseBodyC
   {
   public:
-    NetOSPortServerBodyC(const DPISPortC<DataT> &noport,const StringC &portName)
+    NetOSPortServerBodyC(const DPOSPortC<DataT> &noport,const StringC &portName)
       : NetOSPortServerBaseBodyC(noport,portName),
 	oport(noport)
     {}
@@ -144,7 +144,7 @@ namespace RavlN {
     NetEndPointC &NetEndPoint()
     { return Body().NetEndPoint(); }
     //: Access net end point.
-
+    
   };
   
   //! userlevel=Advanced
@@ -161,7 +161,7 @@ namespace RavlN {
     //: Default constructor.
     // creates an invalid handle.
     
-    NetOSPortServerC(const DPISPortC<DataT> &oport,const StringC &portName)
+    NetOSPortServerC(const DPOSPortC<DataT> &oport,const StringC &portName)
       : NetOSPortServerBaseC(*new NetOSPortServerBodyC<DataT>(oport,portName))
     {}
     //: Constructor.
@@ -180,8 +180,8 @@ namespace RavlN {
     { return static_cast<const NetOSPortServerBodyC<DataT> &>(NetOSPortServerBaseC::Body()); }
     //: Access body.
     
-    bool ReqData(UIntT &pos)
-    { return Body().ReqData(pos); }
+    bool PutData(UIntT &pos,DataT &data)
+    { return Body().PutData(pos,data); }
     //: Request information on the stream.. 
     
     friend class NetOSPortServerBodyC<DataT>;
