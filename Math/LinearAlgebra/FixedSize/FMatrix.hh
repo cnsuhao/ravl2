@@ -180,7 +180,7 @@ namespace RavlN {
     RavlAssertMsg(N == M,"MatrixTFC::EigenValues() Matrix must be square. ");
     FMatrixC<N,M> tmp(mat);
     eigval(&tmp[0][0],&vec[0],N);
-    return ret;
+    return ;
   }
   //: Calculate the eigen values of a real symmetric matrix.
   // This matrix remains unchanged. A vector of the eigen
