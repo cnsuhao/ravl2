@@ -28,7 +28,7 @@ SOURCES = ImgIOCif.cc CifFormat.cc \
 MUSTLINK =
 # VidIO.cc
 
-LIBDEPS=RavlImageVideoIO.def
+LIBDEPS=RavlVideoIO.def
 
 PLIB = RavlImage
 
