@@ -9,7 +9,7 @@
 
 PACKAGE=Ravl/3D
 
-HEADERS= MeshIO.hh \
+HEADERS= RavlMeshIO.hh \
          VRMLFileIO.hh FormatVRMLFile.hh \
          CTriFileIO.hh FormatCTriFile.hh \
          TriFileIO.hh FormatTriFile.hh \

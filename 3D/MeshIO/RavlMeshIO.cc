@@ -8,7 +8,7 @@
 //! lib=Ravl3DIO
 //! file="Ravl/3D/MeshIO/RavlMeshIO.cc"
 
-#include "Ravl/3D/MeshIO.hh"
+#include "Ravl/3D/RavlMeshIO.hh"
 
 namespace Ravl3DN {
   
