@@ -107,6 +107,9 @@ namespace RavlGUIN {
     bool GUIMakeTransient(WindowC& parent);
     //: Makes this window transient for the parent
 
+    virtual bool GUIShow();
+    //: Show window on display.
+    
     int sx,sy;
     int boarder;
     StringC title;

@@ -119,7 +119,7 @@ namespace RavlGUIN {
 
 
   bool WindowBodyC::GUIUpdateCursor(CursorC &newCursor) {
-    if(widget == 0 && newCursor.IsValid())
+    if(widget != 0 && newCursor.IsValid())
       newCursor.SetWindow(widget->window);
     cursor = newCursor;
     return true;
@@ -134,6 +134,17 @@ namespace RavlGUIN {
     return true;
   }
 
+  //: Show widget to the world.
+  // Call only from GUI thread.
+  
+  bool WindowBodyC::GUIShow() {
+    if(!WidgetBodyC::GUIShow())
+      return true;
+    if(cursor.IsValid() && widget != 0)
+      cursor.SetWindow(widget->window);    
+    return false;
+  }
+  
   //: Set the title of the window.
   
   void WindowBodyC::SetTitle(const StringC &str) {

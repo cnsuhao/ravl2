@@ -37,22 +37,8 @@ int main(int nargs,char *args[])
   win.Create();
   win.ShapeCombineMask(pm.Mask());
   win.Show();
-
-  BitmapC otherbm(100,100);
-  otherbm.Clear();
-  GdkGC *agc = gdk_gc_new(&otherbm.Bitmap());
-  GdkColor col;
-  col.pixel = 1;
-  col.red = 0xffff;
-  col.green = 0xffff;
-  col.blue = 0xffff;
-
-  gdk_gc_set_foreground(agc,&col);
-  gdk_draw_rectangle(&otherbm.Bitmap(),agc,1,4,4,10,10);
-  win.ShapeCombineMask(&otherbm.Bitmap());
   
   Manager.Start();
-  
 }
 
 

@@ -137,7 +137,7 @@ namespace RavlGUIN {
     // name="text/uri-list" info=1 <br>
     // name="STRING" info=2 <br>
     
-    bool GUIShow();
+    virtual bool GUIShow();
     //: Show widget to the world.
     // Call only from GUI thread.
     
