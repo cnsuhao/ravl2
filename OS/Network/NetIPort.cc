@@ -36,6 +36,7 @@ namespace RavlN {
   bool NetISPortBaseC::Init() {
     ONDEBUG(cerr << "NetISPortBaseC::Init(), Called for '" << portName << "'\n");
     if(!ep.IsOpen()) {
+      cerr << "NetISPortBaseC::Init(), WARNING: No connection. \n";
       gotEOS = true;
       return false;
     }

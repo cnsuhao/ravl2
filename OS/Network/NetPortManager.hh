@@ -55,9 +55,9 @@ namespace RavlN {
     // Table of iports.
     HashC<StringC,NetISPortServerBaseC> iports;
     RWLockC access;
-    
     bool managerOpen;
     SocketC sktserv;
+    SemaphoreC ready;
     
     friend class NetPortManagerC;
   };
