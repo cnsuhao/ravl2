@@ -301,7 +301,7 @@ namespace RavlN {
     : BufferAccessC<DataT>(ba), range(r)
   {
 #if RAVL_CHECK
-    if (!r.In(ba.Range()))
+    if ((!r.In(ba.Range()) && (r.Size() > 0)) || !ba.Range().Contains(r.Min()))
       IssueError(__FILE__,__LINE__,"Index range %d to %d out of  range 0 - %u  ",
 		 r.Min().V(),r.Max().V(),ba.Range().Min().V(),ba.Range().Max().V());
 #endif
