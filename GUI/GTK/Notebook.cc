@@ -68,6 +68,7 @@ namespace RavlGUIN {
       gtk_notebook_set_show_border(GTK_NOTEBOOK (widget), showborder);
     
     gtk_widget_show(widget);
+    MutexLockC lock(access);
     for(DLIterC<WidgetC> it(children);it;it++) {
       WidgetC tab;    
       // Check we have a tab widget.
@@ -79,6 +80,7 @@ namespace RavlGUIN {
       }
       FixupPage(*it,tab);
     }
+    lock.Unlock();
     ConnectSignals();
     return true;
   }
