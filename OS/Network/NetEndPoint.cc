@@ -30,22 +30,24 @@ namespace RavlN {
   
   //: Constructor.
 
-  NetEndPointBodyC::NetEndPointBodyC(const StringC &addr) 
+  NetEndPointBodyC::NetEndPointBodyC(const StringC &addr,bool nautoInit) 
     : skt(addr,false),
       transmitQ(15),
       receiveQ(5),
-      shutdown(false)
+      shutdown(false),
+      autoInit(nautoInit)
   { Init(skt); }
   
   //:  Constructor.
-
-  NetEndPointBodyC::NetEndPointBodyC(SocketC &nskt) 
+  
+  NetEndPointBodyC::NetEndPointBodyC(SocketC &nskt,bool nautoInit)
     : skt(nskt),
       transmitQ(15),
       receiveQ(5),
-      shutdown(false)
+      shutdown(false),
+      autoInit(nautoInit)
   { Init(nskt); }
-
+  
   
   //: Default constructor.
   
@@ -106,11 +108,13 @@ namespace RavlN {
     
     RegisterR(1,"Init",*this,&NetEndPointBodyC::MsgInit);
     
-    const char *un = getenv("USER"); // This isn't really secure!!
-    if(un == 0)
-      un = "*unknown*";
-    StringC auser(un);
-    SndInit(auser);
+    if(autoInit) {
+      const char *un = getenv("USER"); // This isn't really secure!!
+      if(un == 0)
+	un = "*unknown*";
+      StringC auser(un);
+      SndInit(auser);
+    }
     
     //Transmit(initMsg);
     
@@ -118,6 +122,22 @@ namespace RavlN {
     LaunchThread(me,&NetEndPointC::RunReceive);
     LaunchThread(me,&NetEndPointC::RunTransmit);
     LaunchThread(me,&NetEndPointC::RunDecode);
+    return true;
+  }
+
+  //: Initalise link.
+  
+  bool NetEndPointBodyC::Ready() {
+    if(autoInit)
+      return true;
+    autoInit = true;
+    
+    const char *un = getenv("USER"); // This isn't really secure!!
+    if(un == 0)
+      un = "*unknown*";
+    StringC auser(un);
+    SndInit(auser);
+    
     return true;
   }
 

@@ -40,11 +40,19 @@ namespace RavlN {
     : public RCBodyVC
   {
   public:
-    NetEndPointBodyC(SocketC &skt);
+    NetEndPointBodyC(SocketC &skt,bool nautoInit = true);
     //: Constructor.
+    // If auto init is set to false, you must call the Ready() function
+    // when your ready to start processing network messages. If autoinit
+    // is true messages will start being processed as soon as the connection
+    // is established.
     
-    NetEndPointBodyC(const StringC &skt);
+    NetEndPointBodyC(const StringC &skt,bool nautoInit = true);
     //: Constructor.
+    // If auto init is set to false, you must call the Ready() function
+    // when your ready to start processing network messages. If autoinit
+    // is true messages will start being processed as soon as the connection
+    // is established.
     
     NetEndPointBodyC();
     //: Default constructor.
@@ -80,6 +88,9 @@ namespace RavlN {
     
     bool MsgInit(StringC &user);
     //: Init message.
+
+    bool Ready();
+    //: Initalise link.
 
     void SndInit(StringC &user);
     //: Send init message.
@@ -206,6 +217,7 @@ namespace RavlN {
     StringC remoteUser;
     HashC<UIntT,NetMsgRegisterC> msgReg;  // Local register of decoding routines.
     friend class NetEndPointC;
+    bool autoInit;
   };
   
   //! userlevel=Normal
@@ -220,16 +232,24 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
 
-    NetEndPointC(SocketC &skt)
-      : RCHandleC<NetEndPointBodyC>(*new NetEndPointBodyC(skt))
-      {}
+    NetEndPointC(SocketC &skt,bool autoInit = true)
+      : RCHandleC<NetEndPointBodyC>(*new NetEndPointBodyC(skt,autoInit))
+    {}
     //: Constructor.
+    // If auto init is set to false, you must call the Ready() function
+    // when your ready to start processing network messages. If autoinit
+    // is true messages will start being processed as soon as the connection
+    // is established.
     
-    NetEndPointC(const StringC &addr)
-      : RCHandleC<NetEndPointBodyC>(*new NetEndPointBodyC(addr))
-      {}
+    NetEndPointC(const StringC &addr,bool autoInit = true)
+      : RCHandleC<NetEndPointBodyC>(*new NetEndPointBodyC(addr,autoInit))
+    {}
     //: Constructor.
-    // This connects to the given address.
+    // This connects to the given address. <p>
+    // If auto init is set to false, you must call the Ready() function
+    // when your ready to start processing network messages. If autoinit
+    // is true messages will start being processed as soon as the connection
+    // is established.
     
     NetEndPointC(bool)
       : RCHandleC<NetEndPointBodyC>(*new NetEndPointBodyC())
@@ -276,6 +296,10 @@ namespace RavlN {
     //: Setup a connection.
     // This should only be used if net end point 
     // has been created by the default constructor.
+    
+    bool Ready()
+    { return Body().Ready(); }
+    //: Call when your ready to recieved data from the network..
     
     bool WaitSetupComplete()
     { return Body().WaitSetupComplete(); }
