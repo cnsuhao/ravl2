@@ -149,7 +149,8 @@ namespace RavlN {
 
   template<class DataT>
   class DPISampleStreamC
-    : public DPIStreamOpC<DataT,DataT>
+    : public DPIStreamOpC<DataT,DataT>,
+      public DPSeekCtrlC
   {
   public:
     DPISampleStreamC()
