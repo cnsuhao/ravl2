@@ -16,7 +16,14 @@
 #include "Ravl/EntryPnt.hh"
 #include "Ravl/SArr1Iter2.hh"
 
+// RANSAC headers
+#include "Ravl/Ransac.hh"
+#include "Ravl/FitHomog2dPoints.hh"
+#include "Ravl/EvaluateNumInliers.hh"
+
 using namespace RavlN;
+
+#define RANSAC_ITERATIONS 100
 
 // ground-truth 2D homography
 const Matrix3dC HomogTrue = Matrix3dC(1.1, 0.0,  3.0,
@@ -24,16 +31,27 @@ const Matrix3dC HomogTrue = Matrix3dC(1.1, 0.0,  3.0,
 				      0.0, 0.0,  1.0);
 
 // Initialisation function for state vector for 2D homography fitting
-static bool
+static const StateVectorHomog2dC
  InitialiseHomography ( DListC<ObservationC> &obs_list, // observation list
-			VectorC &x ) // state vector to be initialised
+			RealT zh1, RealT zh2, // 3rd homogeneous plane coordinates
+			DListC<ObservationC> &compatible_obs_list ) // output list of compatible observations
 {
-  // This should be using RANSAC. For now use identity
-  x[0] = 1.0; x[1] = 0.0; x[2] = 0.0;
-  x[3] = 0.0; x[4] = 1.0; x[5] = 0.0;
-  x[6] = 0.0; x[7] = 0.0; x[8] = 1.0;
+  UIntT iteration;
+  ObservationListManagerC obs_manager(obs_list);
+  FitHomog2dPointsC fitter(zh1, zh2);
+  EvaluateNumInliersC evaluator(3.0, 10.0);
+  
+  // use RANSAC to fit homography
+  RansacC ransac(obs_manager, fitter, evaluator);
 
-  return true;
+  // select and evaluate the given number of samples
+  for ( iteration=0; iteration < RANSAC_ITERATIONS; iteration++ )
+    ransac.ProcessSample(8);
+
+  // select observations compatible with solution
+  compatible_obs_list = evaluator.CompatibleObservations(ransac.GetSolution(),
+							 obs_list);
+  return ransac.GetSolution();
 }
 
 // number of points
@@ -106,7 +124,7 @@ static bool
       it.Data2() = VectorC ( p2[0] + SIGMA*RandomGauss(),
 			     p2[1] + SIGMA*RandomGauss() );
     else
-#if 1
+#if 0
       it.Data2() = VectorC ( p2[0] + OUTLIER_SIGMA*RandomGauss(),
 			     p2[1] + OUTLIER_SIGMA*RandomGauss() );
 #else
@@ -124,20 +142,31 @@ static bool
 					      Sqr(OUTLIER_SIGMA/SIGMA), 5.0));
   }
 
-  // initialise Levenberg-Marquardt algorithm
-  VectorC x = VectorC(9);
-  InitialiseHomography(obs_list, x);
+  // list of compatible observations
+  DListC<ObservationC> compatible_obs_list;
 
-  StateVectorHomog2dC state_vec_init(x, ZHOMOG1, ZHOMOG2, GAUGE_WEIGHT);
-  LevenbergMarquardtC lm = LevenbergMarquardtC(state_vec_init,obs_list);
+  // fit homography using RANSAC
+  StateVectorHomog2dC state_vec_init =
+    InitialiseHomography(obs_list, ZHOMOG1, ZHOMOG2, compatible_obs_list);
+
+  // initialise Levenberg-Marquardt algorithm
+  LevenbergMarquardtC lm = LevenbergMarquardtC(state_vec_init,
+					       compatible_obs_list);
 
   cout << "2D homography fitting test (explicit): Initial residual=" << lm.GetResidual() << endl;
+  cout << "Selected " << compatible_obs_list.Size() << " observations using RANSAC" << endl;
+  VectorC x = lm.SolutionVector();
+  x *= 1.0/x[8];
+
+  cout << "Initial: (" << x[0] << " " << x[1] << " " << x[2] << ")" << endl;
+  cout << "         (" << x[3] << " " << x[4] << " " << x[5] << ")" << endl;
+  cout << "         (" << x[6] << " " << x[7] << " " << x[8] << ")" << endl;
   PrintInlierFlags(obs_list);
 
   // apply iterations
   RealT lambda = 100.0;
   for ( i = 0; i < 20; i++ ) {
-    bool accepted = lm.Iteration(obs_list, lambda);
+    bool accepted = lm.Iteration(compatible_obs_list, lambda);
     if ( accepted )
       // iteration succeeded in reducing the residual
       lambda /= 10.0;
@@ -155,7 +184,9 @@ static bool
   cout << "Solution: (" << x[0] << " " << x[1] << " " << x[2] << ")" << endl;
   cout << "          (" << x[3] << " " << x[4] << " " << x[5] << ")" << endl;
   cout << "          (" << x[6] << " " << x[7] << " " << x[8] << ")" << endl;
-  cout << "True:" << HomogTrue;
+  cout << "True:" << HomogTrue[0][0] << " " << HomogTrue[0][1] << " " << HomogTrue[0][2] << ")" << endl;
+  cout << "     " << HomogTrue[1][0] << " " << HomogTrue[1][1] << " " << HomogTrue[1][2] << ")" << endl;
+  cout << "     " << HomogTrue[2][0] << " " << HomogTrue[2][1] << " " << HomogTrue[2][2] << ")" << endl;
 
   PrintInlierFlags(obs_list);
   cout << endl;
@@ -196,12 +227,7 @@ static bool
       it.Data1()[1] += SIGMA*RandomGauss();
     }
     else {
-      it.Data2() = VectorC ( p2[0] + OUTLIER_SIGMA*RandomGauss(),
-			     p2[1] + OUTLIER_SIGMA*RandomGauss() );
-
-      // add noise to first image as well
-      it.Data1()[0] += OUTLIER_SIGMA*RandomGauss();
-      it.Data1()[1] += OUTLIER_SIGMA*RandomGauss();
+      it.Data2() = VectorC ( Random1()*IMAGE_SIZE, Random1()*IMAGE_SIZE );
     }
 
     // construct observation and add it to list
@@ -216,20 +242,31 @@ static bool
 						 5.0));
   }
 
-  // initialise Levenberg-Marquardt algorithm
-  VectorC x = VectorC(9);
-  InitialiseHomography(obs_list, x);
+  // list of compatible observations
+  DListC<ObservationC> compatible_obs_list;
 
-  StateVectorHomog2dC state_vec_init(x, ZHOMOG1, ZHOMOG2, GAUGE_WEIGHT);
-  LevenbergMarquardtC lm = LevenbergMarquardtC(state_vec_init,obs_list);
+  // fit homography using RANSAC
+  StateVectorHomog2dC state_vec_init =
+    InitialiseHomography(obs_list, ZHOMOG1, ZHOMOG2, compatible_obs_list);
+
+  // initialise Levenberg-Marquardt algorithm
+  LevenbergMarquardtC lm = LevenbergMarquardtC(state_vec_init,
+					       compatible_obs_list);
 
   cout << "2D homography fitting test (implicit): Residual=" << lm.GetResidual() << endl;
+  cout << "Selected " << compatible_obs_list.Size() << " observations using RANSAC" << endl;
+  VectorC x = lm.SolutionVector();
+  x *= 1.0/x[8];
+
+  cout << "Initial: (" << x[0] << " " << x[1] << " " << x[2] << ")" << endl;
+  cout << "         (" << x[3] << " " << x[4] << " " << x[5] << ")" << endl;
+  cout << "         (" << x[6] << " " << x[7] << " " << x[8] << ")" << endl;
   PrintInlierFlags(obs_list);
 
   // apply iterations
   RealT lambda = 0.1;
   for ( i = 0; i < 20; i++ ) {
-    bool accepted = lm.Iteration(obs_list, lambda);
+    bool accepted = lm.Iteration(compatible_obs_list, lambda);
     if ( accepted )
       // iteration succeeded in reducing the residual
       lambda /= 10.0;

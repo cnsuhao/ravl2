@@ -11,42 +11,81 @@
 //! date="24/7/2002"
 //! rcsid="$Id$"
 //! docentry="Ravl.Math.Optimisation"
-//! example="OrthogonalRegressionTest.cc"
+//! example="OrthogonalRegressionTest.cc Homography2dFitTest.cc"
 
 #include <Ravl/StoredState.hh>
+#include <Ravl/ObservationManager.hh>
+#include <Ravl/FitToSample.hh>
+#include <Ravl/EvaluateSolution.hh>
 
 namespace RavlN {
   
   //! userlevel=Normal
   //! autoLink=on
   //: RANSAC algorithm class
-  // This is a generic implementation of RANSAC based on the original
-  // idea of maximising the number of inlier measurements over a number of
-  // samples
+  // This is a generic implementation of RANSAC, which fits a model to data.
+  // The assumption is that the data are corrupted by outlers.
+  // RANSAC takes repeated samples, and for each sample computes a candidate
+  // model. The samples are usually (but not always) chosen the minimum size
+  // that allows the model parameters to be computed.
+  // The model computed from the sample is then evaluates using some kind of
+  // voting scheme over the whole set of observations. The model that gets
+  // the best vote is chosen as the solution.
+  // <p>
+  // In Ravl, the model is represented by a StateVectorC class, and the
+  // candidate observations by instances of the ObservationC class.
+  // Once you have chosen from Ravl or derived yourself the relevant
+  // sub-classes of these base-class that you need for your problem,
+  // you should specify:
+  // <ul>
+  //   <li> An "observation manager" which defines how samples are taken from
+  //        the set of candidate observations, and how to generate a list of
+  //        candidate observations to be evaluated. To do this you will need
+  //        to create an instance of the ObservationManagerC class.
+  //        If all the candidate observations are available in memory as a
+  //        single list, you can use the ObservationListManagerC class,
+  //        which also provides a default random sampling scheme.
+  //   <li> A method for fitting the model parameters to a sample of
+  //        observations. This is defined by the FitToSampleC class, from
+  //        which you should derive a class that fits your model to a list
+  //        of observations.
+  //   <li> An evaluator which computes a "vote" for a candidate solution,
+  //        typically by summing votes from the individual observations.
+  //        The base class for evaluators is EvaluateSolutionC.
+  //        The EvaluateNumInliersC class provides an evaluator that counts
+  //        the number of inlier observations given a threshold on the errors,
+  //        which was the original RANSAC algorithm. Summing the log-likelihood
+  //        function is the alternative MLESAC algorithm by Philip Torr,
+  //        where the observations need to be provided with robust
+  //        error distribution models.
+  // </ul>
   class RansacC
     : public StoredStateC
   {
   public:
-    RansacC();
+    RansacC(ObservationManagerC &obs_manager,
+	    FitToSampleC &model_fitter,
+	    EvaluateSolutionC &evaluator);
     //: Constructor.
 
     virtual ~RansacC(){}
     //: Virtual destructor,
 
-    virtual StateVectorC SampleSolution();
-    //: Generate a solution computed from a RANSAC sample
-
-    virtual UIntT SampleVote(StateVectorC &state_vec);
-    //: Compute vote (number of inliers) for given sample state vector
+    bool ProcessSample(UIntT min_num_constraints);
+    //: Generate sample, compute vote and update best solution and vote
+    // This creates and evaluates a single sample. Call ProcessSample()
+    // multiple times to guarantee as far as possible that you get at least
+    // one uncorrupted sample. The simplest way to run RANSAC is to call
+    // ProcessSample() a fixed number of times.
 
   private:
-    UIntT vote; // best vote so far
+    ObservationManagerC &obs_manager; // observation manager
+    FitToSampleC &model_fitter; // for fitting model parameters to samples
+    EvaluateSolutionC &evaluator; // for evaluating the vote for a solution
+    RealT highest_vote; // best vote so far
 
   public:
-    bool ProcessSample();
-    //: Generate sample, compute vote and update best solution and vote
-
-    RealT GetVote() const;
+    RealT GetHighestVote() const;
     //: Return the highes vote found so far 
   };
 }

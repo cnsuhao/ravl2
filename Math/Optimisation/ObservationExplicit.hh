@@ -33,11 +33,17 @@ namespace RavlN {
     RealT Residual(const StateVectorC &state_vec);
     //: Compute the residual (negative log-likelihood) of the observation
 
+    RealT NonRobustResidual(const StateVectorC &state_vec);
+    //: Compute the non-robust residual (negative log-likelihood)
+
     bool IncrementLS(const StateVectorC &state_vec,
 		     MatrixRSC &A,
 		     VectorC &a);
     //: Increment the linear system
 
+    UIntT GetNumConstraints() const;
+    //: Returns the number of constraints imposed on the state
+    
     virtual VectorC EvaluateFunctionH(const StateVectorC &state_vec);
     //: Evaluate the observation function h(x) given x
 

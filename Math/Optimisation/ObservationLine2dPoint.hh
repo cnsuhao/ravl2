@@ -43,6 +43,7 @@ namespace RavlN {
     //: Evaluate the Jacobian dF/dx given x and z
 #endif
   private:
+    RealT F; // last evaluation of F(x,z)
   };
 
   //! userlevel=Normal

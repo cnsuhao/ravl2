@@ -6,34 +6,32 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 
-#include "Ravl/RansacLine2d.hh"
+#include "Ravl/FitLine2dPoints.hh"
 #include "Ravl/StateVectorLine2d.hh"
 #include "Ravl/ObservationLine2dPoint.hh"
 
 namespace RavlN {
 
-  //: Constructor
-  RansacLine2dC::RansacLine2dC(DListC<ObservationC> obs_list,
-			       RealT chi2_thres, RealT nzh)
-    : RansacObsListSamplingC(obs_list,2,chi2_thres)
+  //: Constructor.
+  FitLine2dPointsC::FitLine2dPointsC(RealT nzh)
+    : FitToSampleC::FitToSampleC()
   {
     zh = nzh;
   }
 
-  //: Constructor
-  RansacLine2dC::RansacLine2dC(DListC<ObservationC> obs_list,
-			       RealT chi2_thres)
-    : RansacObsListSamplingC(obs_list,2,chi2_thres)
+  //: Constructor.
+  FitLine2dPointsC::FitLine2dPointsC()
+    : FitToSampleC::FitToSampleC()
   {
     zh = 1.0;
   }
 
-  //: Fit line parameters to sample of two or more points
-  StateVectorC RansacLine2dC::FitToSample(DListC<ObservationC> sample)
+  //: Fit parameters to sample of observations
+  StateVectorC FitLine2dPointsC::FitModel(DListC<ObservationC> sample)
   {
     // we need at least two points to fit a 2D line
     if ( sample.Size() < 2 )
-      throw ExceptionC("Sample size to small in RansacLine2dC::FitToSample(). ");
+      throw ExceptionC("Sample size too small in FitLine2dPointsC::FitModel(). ");
 
     if ( sample.Size() == 2 ) {
       // initialise line lx*x + ly*y + lz*zh by fitting to two points (x1,y1)
@@ -50,9 +48,6 @@ namespace RavlN {
       RealT ly = zh*(x1-x2);
       RealT lz = x2*y1-x1*y2;
       
-      // convert to lx*x + ly*y + lz*zh = 0
-      lz /= zh;
-
       StateVectorLine2dC sv(lx, ly, lz, zh);
       return sv;
     }
@@ -61,7 +56,7 @@ namespace RavlN {
     RealT Sx=0.0, Sy=0.0, Sxx=0.0, Sxy=0.0, Syy=0.0;
     UIntT n=0;
 
-    for(SArray1dIterC<ObservationC> it(obs_array);it;it++) {
+    for(DLIterC<ObservationC> it(sample);it;it++) {
       ObservationLine2dPointC obs = it.Data();
       VectorC xy = obs.GetZ();
 
@@ -90,7 +85,6 @@ namespace RavlN {
     // convert to lx*x + ly*y + lz*zh = 0
     lz /= zh;
 
-    StateVectorLine2dC sv(lx, ly, lz, zh);
-    return sv;
+    return StateVectorLine2dC(lx, ly, lz, zh);
   }
 }

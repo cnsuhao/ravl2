@@ -143,7 +143,12 @@ namespace RavlN {
     const ObservationQuadraticPointBodyC &Body() const
     { return static_cast<const ObservationQuadraticPointBodyC &>(ObservationExplicitC::Body()); }
     //: Access body.
-    
+
+  public:
+    RealT GetXC() const
+    { return Body().GetXC(); }
+    //: Return x-coordinate of point
+
   };
 }  
 

@@ -35,6 +35,10 @@ namespace RavlN {
   // for a applying a damped Levenberg-Marquardt iteration, which should be
   // successively applied until convergence, and methods for returning the
   // state and covariance results.
+  // <p>
+  // Initialisation of the state parameters needs to be implemented separately
+  // in the user program. This class only deals with optimisation of the
+  // parameters after reasonably good values are available.
   class LevenbergMarquardtC
     : public StoredStateC
   {
@@ -49,7 +53,8 @@ namespace RavlN {
     // direct minimisation to achieve the global minimum. Levenberg-Marquardt
     // always goes downhill!
 
-    bool Iteration ( DListC<ObservationC> obs_list, RealT lambda );
+    bool Iteration ( DListC<ObservationC> obs_list, RealT lambda,
+		     bool rescale_diagonal=false);
     //: Apply an iteration
     // Process observations in the provided list (obs_list) to build the
     // inverse covariance matrix A and vector a in the
@@ -61,6 +66,14 @@ namespace RavlN {
     // false otherwise. In the latter case, the state vector is not adjusted,
     // and the user program should reduce the value of lambda before calling
     // this method again.
+    // <p>
+    // If rescale_diagonal is passed as false, the damping factor is added
+    // to the diagonal elements of the inverse covariance matrix in order to
+    // damp it. The is the algorithm as given by Marquardt. If it is passed as
+    // true, the diagonal elements are instead multiplied by 1+lambda, as
+    // given by Numerical Recipes. The former should be preferred if the
+    // parameters are scaled reasonable homogeneously, and is the default
+    // if the parameter is excluded.
 
     const VectorC &SolutionVector() const;
     // Latest estimate of solution parameters

@@ -44,7 +44,7 @@ namespace RavlN {
   // Returns true if the iteration succeeded in reducing the residual,
   // false otherwise.
   bool LevenbergMarquardtC::Iteration ( DListC<ObservationC> obs_list,
-					RealT lambda )
+					RealT lambda, bool rescale_diagonal )
   {
     VectorC a = state_vec.GetX().Copy();
 
@@ -70,15 +70,14 @@ namespace RavlN {
     state_vec.IncrementLS ( A, a );
 
     IntT i;
-#if 1
-    // add lambda*I to A
-    for ( i = (IntT)A.Rows()-1; i >= 0; i-- )
-      A[i][i] += lambda;
-#else
-    // scale diagonal of A by 1+lambda
-    for ( i = (IntT)A.Rows()-1; i >= 0; i-- )
-      A[i][i] = (1.0+lambda)*A[i][i];
-#endif
+    if ( rescale_diagonal )
+      // scale diagonal of A by 1+lambda
+      for ( i = (IntT)A.Rows()-1; i >= 0; i-- )
+	A[i][i] = (1.0+lambda)*A[i][i];
+    else
+      // add lambda*I to A
+      for ( i = (IntT)A.Rows()-1; i >= 0; i-- )
+	A[i][i] += lambda;
 
     // compute inverse of the information matrix
     Ainv = A.Inverse();

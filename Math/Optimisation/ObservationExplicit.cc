@@ -36,6 +36,21 @@ namespace RavlN {
     return obs_vec.Residual(v, obs_vec.GetNi());
   }
 
+  //: Compute the non-robust residual (negative log-likelihood)
+  RealT ObservationExplicitBodyC::NonRobustResidual(const StateVectorC &state_vec) {
+    // evaluate observation
+    VectorC h = EvaluateFunctionH(state_vec);
+
+    // compute innovation vector v=z-h(x)
+    VectorC v = GetZ() - h;
+
+    // compute N^-1*v
+    VectorC Niv = GetNi()*v;
+
+    // compute and return v^T*N^-1*v
+    return Niv.Dot(v);
+  }
+
   //: Increment the linear system
   bool ObservationExplicitBodyC::IncrementLS(const StateVectorC &state_vec,
 					     MatrixRSC &A,
@@ -74,6 +89,12 @@ namespace RavlN {
     }
 
     return true;
+  }
+
+  //: Returns the number of constraints imposed on the state
+  UIntT ObservationExplicitBodyC::GetNumConstraints() const
+  {
+    return GetZ().Size();
   }
 
   //: Evaluate the observation function h(x) given x.

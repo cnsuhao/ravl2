@@ -16,122 +16,36 @@
 #include "Ravl/Matrix3d.hh"
 #include "Ravl/EntryPnt.hh"
 
+// RANSAC headers
+#include "Ravl/Ransac.hh"
+#include "Ravl/FitQuadraticPoints.hh"
+#include "Ravl/EvaluateNumInliers.hh"
+
 using namespace RavlN;
 
+#define RANSAC_ITERATIONS 100
+
 // Initialisation function for state vector
-static bool
- InitialiseQuadratic ( DListC<ObservationC> &obs_list, // observation list
-		       RealT &a, RealT &b, RealT &c ) // quadratic parameters
+static StateVectorQuadraticC
+ InitialiseQuadratic ( DListC<ObservationC> &obs_list, // input observation list
+		       DListC<ObservationC> &compatible_obs_list ) // output list of compatible observations
 {
-  Matrix3dC Am = Matrix3dC();
-  Vector3dC bv = Vector3dC();
+  UIntT iteration;
+  ObservationListManagerC obs_manager(obs_list);
+  FitQuadraticPointsC fitter;
+  EvaluateNumInliersC evaluator(3.0, 10.0);
+  
+  // use RANSAC to fit line
+  RansacC ransac(obs_manager, fitter, evaluator);
 
-  // we need at least three points to fit a quadratic
-  if ( obs_list.Size() < 3 ) return false;
+  // select and evaluate the given number of samples
+  for ( iteration=0; iteration < RANSAC_ITERATIONS; iteration++ )
+    ransac.ProcessSample(3);
 
-  // initialise quadratic by interpolating three points: the first, middle and
-  // last point in the list of point observations. We construct equations
-  //
-  //     (y1)   (x1*x1 x1 1) (a)
-  //     (y2) = (x2*x2 x2 1) (b) = A * b for 3x3 matrix A and 3-vector b
-  //     (y3)   (x3*x3 x3 1) (c)
-  //
-  //  and solve the equations by direct matrix inversion (not pretty...) to
-  //  obtain our first estimate of a, b, c given points (x1,y1), (x2,y2) and
-  //  (x3,y3).
-
-  // dummy state vector
-  StateVectorQuadraticC state_vec(0.0,0.0,0.0);
-
-  // first point
-  {
-    ObservationQuadraticPointC obs = obs_list.First();
-    MatrixC Hx = obs.EvaluateJacobianHx(state_vec); // evaluate Jacobian
-    Am[0][0] = Hx[0][0]; Am[0][1] = Hx[0][1]; Am[0][2] = Hx[0][2]; // first row
-    bv[0] = obs.GetZ()[0]; // fill first entry in b vector
-  }
-
-  // middle point
-  {
-    ObservationQuadraticPointC obs = obs_list.Nth(obs_list.Size()/2-1);
-    MatrixC Hx = obs.EvaluateJacobianHx(state_vec); // evaluate Jacobian
-    Am[1][0] = Hx[0][0]; Am[1][1] = Hx[0][1]; Am[1][2] = Hx[0][2]; //second row
-    bv[1] = obs.GetZ()[0]; // fill second entry in b vector
-  }
-    
-  // last point
-  {
-    ObservationQuadraticPointC obs = obs_list.Last();
-    MatrixC Hx = obs.EvaluateJacobianHx(state_vec); // evaluate Jacobian
-    Am[2][0] = Hx[0][0]; Am[2][1] = Hx[0][1]; Am[2][2] = Hx[0][2]; // third row
-    bv[2] = obs.GetZ()[0]; // fill third entry in b vector */
-  }
-
-  // invert matrix and solve (don't do this at home)
-  Matrix3dC Ainv = Am.Inverse();
-  Vector3dC Ainvb = Ainv*bv;
-  a = Ainvb[0];
-  b = Ainvb[1];
-  b = Ainvb[2];
-  return true;
-}
-
-// Initialisation function for state vector from implicit observations
-static bool
- InitialiseImpQuadratic ( DListC<ObservationC> &obs_list, // observation list
-			  RealT &a, RealT &b, RealT &c ) //quadratic parameters
-{
-  Matrix3dC Am = Matrix3dC();
-  Vector3dC bv = Vector3dC();
-
-  // we need at least three points to fit a quadratic
-  if ( obs_list.Size() < 3 ) return false;
-
-  // initialise quadratic by interpolating three points: the first, middle and
-  // last point in the list of point observations. We construct equations
-  //
-  //     (y1)   (x1*x1 x1 1) (a)
-  //     (y2) = (x2*x2 x2 1) (b) = A * b for 3x3 matrix A and 3-vector b
-  //     (y3)   (x3*x3 x3 1) (c)
-  //
-  //  and solve the equations by direct matrix inversion (not pretty...) to
-  //  obtain our first estimate of a, b, c given points (x1,y1), (x2,y2) and
-  //  (x3,y3).
-
-  // dummy state vector
-  StateVectorQuadraticC state_vec(0.0,0.0,0.0);
-
-  // first point
-  {
-    ObservationImpQuadraticPointC obs = obs_list.First();
-    MatrixC Hx = obs.EvaluateJacobianFx(state_vec); // evaluate Jacobian
-    Am[0][0] = Hx[0][0]; Am[0][1] = Hx[0][1]; Am[0][2] = Hx[0][2]; // first row
-    bv[0] = obs.GetZ()[0]; // fill first entry in b vector
-  }
-
-  // middle point
-  {
-    ObservationImpQuadraticPointC obs = obs_list.Nth(obs_list.Size()/2-1);
-    MatrixC Hx = obs.EvaluateJacobianFx(state_vec); // evaluate Jacobian
-    Am[1][0] = Hx[0][0]; Am[1][1] = Hx[0][1]; Am[1][2] = Hx[0][2]; //second row
-    bv[1] = obs.GetZ()[0]; // fill second entry in b vector
-  }
-
-  // last point
-  {
-    ObservationImpQuadraticPointC obs = obs_list.Last();
-    MatrixC Hx = obs.EvaluateJacobianFx(state_vec); // evaluate Jacobian
-    Am[2][0] = Hx[0][0]; Am[2][1] = Hx[0][1]; Am[2][2] = Hx[0][2]; // third row
-    bv[2] = obs.GetZ()[0]; // fill third entry in b vector */
-  }
-
-  // invert matrix and solve (don't do this at home)
-  Matrix3dC Ainv = Am.Inverse();
-  Vector3dC Ainvb = Ainv*bv;
-  a = Ainvb[0];
-  b = Ainvb[1];
-  c = Ainvb[2];
-  return true;
+  // select observations compatible with solution
+  compatible_obs_list = evaluator.CompatibleObservations(ransac.GetSolution(),
+							 obs_list);
+  return ransac.GetSolution();
 }
 
 static void
@@ -230,11 +144,15 @@ static bool
     obs_list.InsLast(ObservationQuadraticPointC(xy[0], xy[1], SIGMA));
   }
 
+  // list of compatible observations
+  DListC<ObservationC> compatible_obs_list;
+
+  // fit initial quadratic parameters using RANSAC, selecting observations
+  // compatible with initial quadratic parameters
+  StateVectorQuadraticC state_vec_init = InitialiseQuadratic(obs_list, compatible_obs_list);
+
   // initialise Levenberg-Marquardt algorithm
-  RealT a, b, c;
-  InitialiseQuadratic(obs_list, a, b, c);
-  StateVectorQuadraticC state_vec_init(a,b,c);
-  LevenbergMarquardtC lm = LevenbergMarquardtC(state_vec_init,obs_list);
+  LevenbergMarquardtC lm = LevenbergMarquardtC(state_vec_init, obs_list);
 
   cout << "Explicit quadratic test: Initial residual=" << lm.GetResidual();
   cout << endl;
@@ -253,7 +171,7 @@ static bool
     StateVectorQuadraticC sv = lm.GetSolution();
     cout << " a=" << sv.GetA() << " b=" << sv.GetB() << " c=" << sv.GetC();
     cout << " Accepted=" << accepted << " Residual=" << lm.GetResidual();
-    cout << " DOF=" << NPOINTS-3 << endl;
+    cout << " DOF=" << obs_list.Size()-3 << endl;
   }
 
   StateVectorQuadraticC sv = lm.GetSolution();
@@ -295,20 +213,25 @@ static bool
 					Sqr(OUTLIER_SIGMA/SIGMA), 5.0));
   }
 
-  // initialise Levenberg-Marquardt algorithm
-  RealT a, b, c;
+  // list of compatible observations
+  DListC<ObservationC> compatible_obs_list;
 
-  InitialiseQuadratic(obs_list, a, b, c);
-  StateVectorQuadraticC state_vec_init(a,b,c);
-  LevenbergMarquardtC lm = LevenbergMarquardtC(state_vec_init,obs_list);
+  // fit initial quadratic parameters using RANSAC, selecting observations
+  // compatible with initial quadratic parameters
+  StateVectorQuadraticC state_vec_init = InitialiseQuadratic(obs_list, compatible_obs_list);
+
+  // initialise Levenberg-Marquardt algorithm
+  LevenbergMarquardtC lm = LevenbergMarquardtC(state_vec_init,
+					       compatible_obs_list);
 
   cout << "Explicit robust quadratic test: Initial residual=" << lm.GetResidual() << endl;
+  cout << "Selected " << compatible_obs_list.Size() << " observations using RANSAC" << endl;
   PrintInlierFlags(obs_list);
 
   // apply iterations
   RealT lambda = 10.0;
   for ( i = 0; i < 10; i++ ) {
-    bool accepted = lm.Iteration(obs_list, lambda);
+    bool accepted = lm.Iteration(compatible_obs_list, lambda);
     if ( accepted )
       // iteration succeeded in reducing the residual
       lambda /= 10.0;
@@ -319,7 +242,7 @@ static bool
     StateVectorQuadraticC sv = lm.GetSolution();
     cout << " a=" << sv.GetA() << " b=" << sv.GetB() << " c=" << sv.GetC();
     cout << " Accepted=" << accepted << " Residual=" << lm.GetResidual();
-    cout << " DOF=" << NPOINTS-3 << endl;
+    cout << " DOF=" << compatible_obs_list.Size()-3 << endl;
   }
 
   StateVectorQuadraticC sv = lm.GetSolution();
@@ -355,11 +278,14 @@ static bool
     obs_list.InsLast(ObservationImpQuadraticPointC(xy[0], xy[1], SIGMA));
   }
 
-  // initialise Levenberg-Marquardt algorithm
-  RealT a, b, c;
+  // list of compatible observations
+  DListC<ObservationC> compatible_obs_list;
 
-  InitialiseImpQuadratic(obs_list, a, b, c);
-  StateVectorQuadraticC state_vec_init(a,b,c);
+  // fit initial quadratic parameters using RANSAC, selecting observations
+  // compatible with initial quadratic parameters
+  StateVectorQuadraticC state_vec_init = InitialiseQuadratic(obs_list, compatible_obs_list);
+
+  // initialise Levenberg-Marquardt algorithm
   LevenbergMarquardtC lm = LevenbergMarquardtC(state_vec_init,obs_list);
 
   cout << "Implicit quadratic test: Initial residual=" << lm.GetResidual();
@@ -379,7 +305,7 @@ static bool
     StateVectorQuadraticC sv = lm.GetSolution();
     cout << " a=" << sv.GetA() << " b=" << sv.GetB() << " c=" << sv.GetC();
     cout << " Accepted=" << accepted << " Residual=" << lm.GetResidual();
-    cout << " DOF=" << NPOINTS-3 << endl;
+    cout << " DOF=" << obs_list.Size()-3 << endl;
   }
 
   StateVectorQuadraticC sv = lm.GetSolution();

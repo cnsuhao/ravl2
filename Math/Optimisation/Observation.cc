@@ -15,11 +15,18 @@ namespace RavlN {
   ObservationBodyC::ObservationBodyC(const ObsVectorC &nobs_vec)
   {
     obs_vec = nobs_vec;
+    selected = false;
   }
 
   //: Compute the residual (negative log-likelihood) of the observation
   RealT ObservationBodyC::Residual(const StateVectorC &state_vec) {
     RavlAssertMsg(0,"ObservationBodyC::GetResidual(const VectorC &), Abstract method called ");
+    return 0;
+  }
+  
+  //: Compute the residual (negative log-likelihood) of the observation
+  RealT ObservationBodyC::NonRobustResidual(const StateVectorC &state_vec) {
+    RavlAssertMsg(0,"ObservationBodyC::GetNonRobustResidual(const VectorC &), Abstract method called ");
     return 0;
   }
   
@@ -31,6 +38,13 @@ namespace RavlN {
     return false;
   }
   
+  //: Get the number of constraints imposed on the state vector
+  UIntT ObservationBodyC::GetNumConstraints() const
+  {
+    RavlAssertMsg(0,"ObservationBodyC::GetNumConstraints() const, Abstract method called ");
+    return 0;
+  }
+
   //: Get observation vector
   const VectorC& ObservationBodyC::GetZ() const
   {
@@ -47,5 +61,23 @@ namespace RavlN {
   const ObsVectorC& ObservationBodyC::GetObsVec() const
   {
     return obs_vec;
+  }
+
+  //: Return observation "selected" flag
+  bool ObservationBodyC::GetSelected() const
+  {
+    return selected;
+  }
+  
+  //: Set the "selected" flag to true
+  void ObservationBodyC::SetSelected()
+  {
+    selected = true;
+  }
+
+  //: Set the "selected" flag to false
+  void ObservationBodyC::SetUnSelected()
+  {
+    selected = false;
   }
 }

@@ -20,7 +20,7 @@ namespace RavlN {
     var_inv_scale = 1.0/nvar_scale;
     chi2_thres = nchi2_thres;
     chi2_offset = (1.0 - var_inv_scale)*chi2_thres;
-    outlier = previous_outlier_flag = false;
+    outlier = previous_outlier_flag = true;
   }
 
   //: Constructor
@@ -34,7 +34,7 @@ namespace RavlN {
     var_inv_scale = 1.0/nvar_scale;
     chi2_thres = nchi2_thres;
     chi2_offset = (1.0 - var_inv_scale)*chi2_thres;
-    outlier = previous_outlier_flag = false;
+    outlier = previous_outlier_flag = true;
   }
 
   //: Return residual adjusted for robust aspects to the observation
@@ -92,4 +92,15 @@ namespace RavlN {
     return outlier;
   }
 
+  //: Set observation to be an inlier
+  void ObsVectorBiGaussianBodyC::SetAsInlier()
+  {
+    outlier = false;
+  }
+
+  //: Set observation to be an outlier
+  void ObsVectorBiGaussianBodyC::SetAsOutlier()
+  {
+    outlier = true;
+  }
 }

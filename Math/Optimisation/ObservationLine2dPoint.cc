@@ -15,7 +15,7 @@ namespace RavlN {
   //: Constructor.
   ObservationLine2dPointBodyC::ObservationLine2dPointBodyC(
 				   const VectorC &nz, const MatrixRSC &nNi)
-    : ObservationImplicitBodyC(ObsVectorC(nz,nNi))
+    : ObservationImplicitBodyC(ObsVectorC(nz,nNi),1)
   {
   }
 
@@ -23,7 +23,7 @@ namespace RavlN {
   ObservationLine2dPointBodyC::ObservationLine2dPointBodyC(
 			     const VectorC &nz, const MatrixRSC &nNi,
 			     RealT nvar_scale, RealT nchi2_thres)
-    : ObservationImplicitBodyC(ObsVectorBiGaussianC(nz,nNi,nvar_scale,nchi2_thres))
+    : ObservationImplicitBodyC(ObsVectorBiGaussianC(nz,nNi,nvar_scale,nchi2_thres),1)
   {
   }
 
@@ -36,10 +36,17 @@ namespace RavlN {
     
     const VectorC &z = GetZ(); // 2D image point
 
-    // compute lx*xc + ly*yc + lz*zh
-    VectorC F(1);
-    F[0] = sv.GetLx()*z[0] + sv.GetLy()*z[1] + sv.GetLz()*sv.GetZH();
-    return F;
+    // compute F = (lx*xc + ly*yc + lz*zh)/sqrt(lx*lx + ly*ly)
+    // but assuming lx*lx + ly*ly = 1
+    VectorC Fv(1);
+    Fv[0] = sv.GetLx()*z[0] + sv.GetLy()*z[1] + sv.GetLz()*sv.GetZH();
+#if 0
+    cout << "l=(" << sv.GetLx() << " " << sv.GetLy() << " " << sv.GetLz() << " (x,y)= " << z[0] << " " << z[1] << " F=" << Fv[0] << endl;
+#endif
+    // store computed function value
+    F = Fv[0];
+
+    return Fv;
   }
 #if 1
   //: Evaluate the Jacobian of an observation for a single point w.r.t. the
@@ -70,8 +77,8 @@ namespace RavlN {
     MatrixC Fx(1,3); // Jacobian matrix
 
     // evaluate Jacobian
-    Fx[0][0] = z[0];
-    Fx[0][1] = z[1];
+    Fx[0][0] = z[0] - sv.GetLx()*F;
+    Fx[0][1] = z[1] - sv.GetLy()*F;
     Fx[0][2] = sv.GetZH();
     return Fx;
   }

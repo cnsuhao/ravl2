@@ -10,6 +10,17 @@
 
 namespace RavlN {
 
+  //: static method to build state vector from homography matrix
+  VectorC StateVectorHomog2dBodyC::StateVecFromHomog(const Matrix3dC &P)
+  {
+    VectorC x(9);
+
+    x[0] = P[0][0]; x[1] = P[0][1]; x[2] = P[0][2];
+    x[3] = P[1][0]; x[4] = P[1][1]; x[5] = P[1][2];
+    x[6] = P[2][0]; x[7] = P[2][1]; x[8] = P[2][2];
+    return x;
+  }
+
   //: Constructor
   StateVectorHomog2dBodyC::StateVectorHomog2dBodyC(const VectorC &nx,
 						   RealT nzh1, RealT nzh2,
@@ -28,6 +39,31 @@ namespace RavlN {
 						   RealT ngauge_weight,
 						   const VectorC &nxstep)
     : StateVectorBodyC(nx,nxstep)
+  {
+    zh1 = nzh1;
+    zh2 = nzh2;
+    gauge_weight = ngauge_weight;
+    Postprocess();
+  }
+
+  //: Constructor
+  StateVectorHomog2dBodyC::StateVectorHomog2dBodyC(const Matrix3dC &P,
+						   RealT nzh1, RealT nzh2,
+						   RealT ngauge_weight)
+    : StateVectorBodyC(StateVecFromHomog(P))
+  {
+    zh1 = nzh1;
+    zh2 = nzh2;
+    gauge_weight = ngauge_weight;
+    Postprocess();
+  }
+
+  //: Constructor
+  StateVectorHomog2dBodyC::StateVectorHomog2dBodyC(const Matrix3dC &P,
+						   RealT nzh1, RealT nzh2,
+						   RealT ngauge_weight,
+						   const VectorC &nxstep)
+    : StateVectorBodyC(StateVecFromHomog(P),nxstep)
   {
     zh1 = nzh1;
     zh2 = nzh2;

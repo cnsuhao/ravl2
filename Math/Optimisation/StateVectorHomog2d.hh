@@ -39,6 +39,15 @@ namespace RavlN {
 			    const VectorC &xstep);
     //: Constructor.
     
+    StateVectorHomog2dBodyC(const Matrix3dC &P, RealT zh1, RealT zh2,
+			    RealT gauge_weight);
+    //: Constructor.
+    
+    StateVectorHomog2dBodyC(const Matrix3dC &P, RealT zh1, RealT zh2,
+			    RealT gauge_weight,
+			    const VectorC &xstep);
+    //: Constructor.
+    
     StateVectorHomog2dBodyC(const VectorC &x, RealT zh1, RealT zh2,
 			    RealT gauge_weight, const VectorC &xstep,
 			    const Matrix3dC &Pnew);
@@ -67,6 +76,10 @@ namespace RavlN {
     RealT zh1, zh2; // 3rd homogeneous coordinates in planes 1 & 2
     Matrix3dC P; // 2D homography
     RealT gauge_weight; // weight of gauge condition observation
+
+  private:
+    static VectorC StateVectorHomog2dBodyC::StateVecFromHomog(const Matrix3dC &P);
+    //: static method to build state vector from homography matrix
   };
 
   //! userlevel=Normal
@@ -172,10 +185,10 @@ namespace RavlN {
     {}
     //: Constructor
     // Sets the 3rd homogeneous image coordinates to 1 and uses the default
-    // gauge condition weighting. The vector xstep, which should be the same
-    // size as x, specifies the step sizes to use when calculating
+    // gauge condition weighting. The vector xstep, which should have nine
+    // elements, specifies the step sizes to use when calculating
     // numerical derivatives with respect to the elements of x, overriding
-    // the default step size (1e-6).
+    // the default step size.
 
     StateVectorHomog2dC(const VectorC &x, RealT zh1, RealT zh2,
 			const VectorC &xstep)
@@ -183,10 +196,10 @@ namespace RavlN {
     {}
     //: Constructor
     // Uses the provided 3rd homogeneous image coordinates with the default
-    // gauge condition weighting. The vector xstep, which should be the same
-    // size as x, specifies the step sizes to use when calculating
+    // gauge condition weighting. The vector xstep, which should have nine
+    // elements, specifies the step sizes to use when calculating
     // numerical derivatives with respect to the elements of x, overriding
-    // the default step size (1e-6).
+    // the default step size.
 
     StateVectorHomog2dC(const VectorC &x, RealT gauge_weight,
 			const VectorC &xstep)
@@ -194,10 +207,10 @@ namespace RavlN {
     {}
     //: Constructor
     // Sets the 3rd homogeneous image coordinates to 1 and uses the provided
-    // gauge condition weighting. The vector xstep, which should be the same
-    // size as x, specifies the step sizes to use when calculating
+    // gauge condition weighting. The vector xstep, which should be have nine
+    // elements, specifies the step sizes to use when calculating
     // numerical derivatives with respect to the elements of x, overriding
-    // the default step size (1e-6).
+    // the default step size.
 
     StateVectorHomog2dC(const VectorC &x, RealT zh1, RealT zh2,
 			RealT gauge_weight, const VectorC &xstep)
@@ -205,10 +218,80 @@ namespace RavlN {
     {}
     //: Constructor
     // Uses the provided 3rd homogeneous image coordinates and gauge condition
-    // weighting. The vector xstep, which should be the same
-    // size as x, specifies the step sizes to use when calculating
+    // weighting. The vector xstep, which should be have nine
+    // elements, specifies the step sizes to use when calculating
     // numerical derivatives with respect to the elements of x, overriding
-    // the default step size (1e-6).
+    // the default step size.
+    StateVectorHomog2dC(const Matrix3dC &P)
+      : StateVectorC(*new StateVectorHomog2dBodyC(P,1.0,1.0,DEFAULT_GAUGE_WEIGHT))
+    {}
+    //: Constructor
+    // Sets the 3rd homogeneous image coordinates to 1 and uses the default
+    // gauge condition weighting.
+
+    StateVectorHomog2dC(const Matrix3dC &P, RealT zh1, RealT zh2)
+      : StateVectorC(*new StateVectorHomog2dBodyC(P,zh1,zh2,DEFAULT_GAUGE_WEIGHT))
+    {}
+    //: Constructor
+    // Uses the provided 3rd homogeneous image coordinates with the default
+    // gauge condition weighting.
+
+    StateVectorHomog2dC(const Matrix3dC &P, RealT gauge_weight)
+      : StateVectorC(*new StateVectorHomog2dBodyC(P,1.0,1.0,gauge_weight))
+    {}
+    //: Constructor
+    // Sets the 3rd homogeneous image coordinates to 1 and uses the provided
+    // gauge condition weighting.
+
+    StateVectorHomog2dC(const Matrix3dC &P, RealT zh1, RealT zh2,
+			RealT gauge_weight)
+      : StateVectorC(*new StateVectorHomog2dBodyC(P,zh1,zh2,gauge_weight))
+    {}
+    //: Constructor
+    // Uses the provided 3rd homogeneous image coordinates and gauge condition
+    // weighting.
+
+    StateVectorHomog2dC(const Matrix3dC &P, const VectorC &xstep)
+      : StateVectorC(*new StateVectorHomog2dBodyC(P,1.0,1.0,DEFAULT_GAUGE_WEIGHT,xstep))
+    {}
+    //: Constructor
+    // Sets the 3rd homogeneous image coordinates to 1 and uses the default
+    // gauge condition weighting. The vector xstep, which should be have nine
+    // elements, specifies the step sizes to use when calculating
+    // numerical derivatives with respect to the elements of x, overriding
+    // the default step size.
+
+    StateVectorHomog2dC(const Matrix3dC &P, RealT zh1, RealT zh2,
+			const VectorC &xstep)
+      : StateVectorC(*new StateVectorHomog2dBodyC(P,zh1,zh2,DEFAULT_GAUGE_WEIGHT,xstep))
+    {}
+    //: Constructor
+    // Uses the provided 3rd homogeneous image coordinates with the default
+    // gauge condition weighting. The vector xstep, which should be have nine
+    // elements, specifies the step sizes to use when calculating
+    // numerical derivatives with respect to the elements of x, overriding
+    // the default step size.
+
+    StateVectorHomog2dC(const Matrix3dC &P, RealT gauge_weight,
+			const VectorC &xstep)
+      : StateVectorC(*new StateVectorHomog2dBodyC(P,1.0,1.0,gauge_weight,xstep))
+    {}
+    //: Constructor
+    // Sets the 3rd homogeneous image coordinates to 1 and uses the provided
+    // gauge condition weighting. The vector xstep, which should be have nine
+    // elements, specifies the step sizes to use when calculating
+    // numerical derivatives with respect to the elements of x, overriding
+    // the default step size.
+
+    StateVectorHomog2dC(const Matrix3dC &P, RealT zh1, RealT zh2,
+			RealT gauge_weight, const VectorC &xstep)
+      : StateVectorC(*new StateVectorHomog2dBodyC(P,zh1,zh2,gauge_weight,xstep))
+    {}
+    //: Constructor
+    // Uses the provided 3rd homogeneous image coordinates and gauge condition
+    // weighting. The vector xstep, which should be have nine elements,
+    // specifies the step sizes to use when calculating numerical derivatives
+    // with respect to the elements of x, overriding the default step size.
 
     StateVectorHomog2dC(const StateVectorC &state_vec)
       : StateVectorC(state_vec)

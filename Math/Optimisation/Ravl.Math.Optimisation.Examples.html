@@ -41,5 +41,18 @@
   such as for fitting the epipolar geometry between two images.
   The other observation sub-classes use the ObsVectorC or ObsVectorBiGaussianC
   observation vector classes directly.
+  <p>
+  To implement RANSAC we need further classes that fit a state vector
+  to a sample of observations, as sub-classes of FitToSampleC. The relevant
+  classes are
+  <ol>
+     <li> FitLine2dPointsC fits a line to a sample of two or more points on
+          a plane, represented by ObservationLine2dPointC objects.
+     <li> FitHomog2dPointsC fits a homography to a sample of four or more
+          point pairs on two planes, represented by either
+	  ObservationHomog2dPointC or ObservationImpHomog2dPointC objects.
+     <li> FitQuadraticPointsC fits a quadratic curve to 2D points, represented
+          by ObservationQuadraticPointC objects.
+  </ol>
   </body>
 </html>

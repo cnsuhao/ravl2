@@ -27,17 +27,23 @@ namespace RavlN {
     ObservationImplicitBodyC();
     //: Default constructor.
     
-    ObservationImplicitBodyC(const ObsVectorC &nobs_vec);
+    ObservationImplicitBodyC(const ObsVectorC &nobs_vec, UIntT Fsize);
     //: Constructor
 
     RealT Residual(const StateVectorC &state_vec);
     //: Compute the residual (negative log-likelihood) of the observation
+
+    RealT NonRobustResidual(const StateVectorC &state_vec);
+    //: Compute the non-robust residual (negative log-likelihood)
 
     bool IncrementLS(const StateVectorC &state_vec,
 		     MatrixRSC &A,
 		     VectorC &a);
     //: Increment the linear system
 
+    UIntT GetNumConstraints() const;
+    //: Returns the number of constraints imposed on the state
+    
     virtual VectorC EvaluateFunctionF(const StateVectorC &state_vec);
     //: Evaluate the observation function F(x,z) given x and z
 
@@ -55,6 +61,7 @@ namespace RavlN {
 
   protected:
     MatrixRSC N; //: Observation covariance
+    UIntT Fsize; //: Size of F vector
   };
 
   //! userlevel=Normal
@@ -94,8 +101,8 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    ObservationImplicitC(const ObsVectorC &nobs_vec)
-      : ObservationC(*new ObservationImplicitBodyC(nobs_vec))
+    ObservationImplicitC(const ObsVectorC &nobs_vec, UIntT Fsize)
+      : ObservationC(*new ObservationImplicitBodyC(nobs_vec,Fsize))
     {}
     //: Constructor
 

@@ -44,6 +44,12 @@ namespace RavlN {
     const bool Outlier() const;
     //: Get outlier flag
 
+    void SetAsInlier();
+    //: Set observation to be an inlier
+
+    void SetAsOutlier();
+    //: Set observation to be an outlier
+
   protected:
     RealT var_inv_scale; // inverse scaling of outlier covariance
     RealT chi2_thres; // cut-off point for chi^2 to switch to outlier
@@ -120,6 +126,13 @@ namespace RavlN {
     { return Body().Outlier(); }
     //: Get outlier flag
 
+    void SetAsInlier()
+    { Body().SetAsInlier(); }
+    //: Set observation to be an inlier
+
+    void SetAsOutlier()
+    { Body().SetAsOutlier(); }
+    //: Set observation to be an outlier
   };
 }  
 

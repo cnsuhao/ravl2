@@ -37,10 +37,16 @@ namespace RavlN {
     virtual RealT Residual(const StateVectorC &state_vec);
     //: Compute the residual (negative log-likelihood) of the observation
     
+    virtual RealT NonRobustResidual(const StateVectorC &state_vec);
+    //: Compute the residual (negative log-likelihood) of the observation
+    
     virtual bool IncrementLS(const StateVectorC &state_vec,
 			     MatrixRSC &A,
 			     VectorC &a);
     //: Increment the linear system
+
+    virtual UIntT GetNumConstraints() const;
+    //: Returns the number of constraints imposed on the state
 
     const VectorC& GetZ() const;
     //: Get observation vector z
@@ -51,8 +57,20 @@ namespace RavlN {
     const ObsVectorC& GetObsVec() const;
     //: Get observation vector/inverse covariance object
 
+    bool GetSelected() const;
+    //: Return observation "selected" flag
+
+    void SetSelected();
+    //: Set the "selected" flag to true
+
+    void SetUnSelected();
+    //: Set the "selected" flag to false
+
   protected:
     ObsVectorC obs_vec; //: Observation vector
+
+  private:
+    bool selected;
   };
 
   //! userlevel=Normal
@@ -107,7 +125,7 @@ namespace RavlN {
     {}
     //: Constructor
     
-  protected:
+  public:
     ObservationC(ObservationBodyC &bod)
       : RCHandleC<ObservationBodyC>(bod)
     {}
@@ -130,6 +148,17 @@ namespace RavlN {
     // for a single observation. This is a virtual method, and
     // has specific implementations for explicit and implicit observations in
     // the ObservationExplicitC and ObservationImplicitC subclasses.
+    // <p>
+    // Incorporates any robust aspects of the observation into the calculation.
+
+    RealT NonRobustResidual(const StateVectorC &state_vec)
+    { return Body().NonRobustResidual(state_vec); }
+    //: Compute the residual (negative log-likelihood) of the observation
+    // Treats the observation as a non-robust observation whether it is robust
+    // or not. Use this function when using RANSAC (but use Residual() for
+    // MLESAC). This is a virtual method, and has specific implementations for
+    // explicit and implicit observations in the ObservationExplicitC and
+    // ObservationImplicitC subclasses.
 
     bool IncrementLS(const StateVectorC &state_vec,
 		     MatrixRSC &A,
@@ -144,6 +173,10 @@ namespace RavlN {
     // has specific implementations for explicit and implicit observations in
     // the ObservationExplicitC and ObservationImplicitC subclasses.
 
+    UIntT GetNumConstraints() const
+    { return Body().GetNumConstraints(); }
+    //: Returns the number of constraints imposed on the state
+
     const VectorC &GetZ() const
     { return Body().GetZ(); }
     //: Get observation vector z
@@ -155,6 +188,28 @@ namespace RavlN {
     const ObsVectorC& GetObsVec() const
     { return Body().GetObsVec(); }
     //: Get observation vector/inverse covariance object
+
+    bool GetSelected() const
+    { return Body().GetSelected(); }
+    //: Return observation "selected" flag
+    // This flag can be used by RANSAC and other algorithms for flagging
+    // observations which should be ignored for the purposes of a specific
+    // observation.
+
+    void SetSelected()
+    { Body().SetSelected(); }
+    //: Set the "selected" flag to true
+    // This flag can be used by RANSAC and other algorithms for flagging
+    // observations which should be ignored for the purposes of a specific
+    // observation.
+
+    void SetUnSelected()
+    { Body().SetUnSelected(); }
+    //: Set the "selected" flag to false
+    // This flag can be used by RANSAC and other algorithms for flagging
+    // observations which should be ignored for the purposes of a specific
+    // observation.
+
   };
 }
 

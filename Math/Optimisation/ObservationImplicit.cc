@@ -21,11 +21,14 @@ namespace RavlN {
   }
 
   //: Constructor
-  ObservationImplicitBodyC::ObservationImplicitBodyC(const ObsVectorC &nobs_vec)
+  ObservationImplicitBodyC::ObservationImplicitBodyC(const ObsVectorC &nobs_vec, UIntT nFsize)
     : ObservationBodyC(nobs_vec)
   {
     // compute covariance matrix from inverse
     N = nobs_vec.GetNi().Inverse();
+
+    // store size of F vector
+    Fsize = nFsize;
   }
 
   //: Compute the residual (negative log-likelihood) of the observation
@@ -33,6 +36,7 @@ namespace RavlN {
     // evaluate observation F(x,z) identified with the negation of innovation v
     // and the Jacobian dF/dz
     VectorC F = EvaluateFunctionF(state_vec);
+    RavlAssertMsg(F.Size()==Fsize,"ObservationImplicitBodyC::Residual(const StateVectorC &state_vec), Inconsistent size of F ");
     MatrixC Fz = EvaluateJacobianFz(state_vec);
 
     // compute Fz*N*Fz^T
@@ -47,6 +51,29 @@ namespace RavlN {
     return obs_vec.Residual(F, Nip);
   }
 
+  //: Compute the non-robust residual (negative log-likelihood)
+  RealT ObservationImplicitBodyC::NonRobustResidual(const StateVectorC &state_vec) {
+    // evaluate observation F(x,z) identified with the negation of innovation v
+    // and the Jacobian dF/dz
+    VectorC F = EvaluateFunctionF(state_vec);
+    RavlAssertMsg(F.Size()==Fsize,"ObservationImplicitBodyC::NonRobustResidual(const StateVectorC &state_vec), Inconsistent size of F ");
+    MatrixC Fz = EvaluateJacobianFz(state_vec);
+
+    // compute Fz*N*Fz^T
+    MatrixC NFzT = GetN()*Fz.T();
+    MatrixC FzNFzT = Fz*NFzT;
+    MatrixRSC FNFT(FzNFzT);
+
+    // invert observation covariance
+    MatrixRSC Nip = FNFT.Inverse();
+
+    // compute Np^-1*F
+    VectorC NipF = Nip*F;
+
+    // compute and return F^T*Np^-1*F
+    return NipF.Dot(F);
+  }
+
   //: Increment the linear system
   bool ObservationImplicitBodyC::IncrementLS(const StateVectorC &state_vec,
 					     MatrixRSC &A,
@@ -55,6 +82,7 @@ namespace RavlN {
     // evaluate observation F(x,z) identified with the negation of innovation v
     // and the Jacobians Fz=dF/dz and Fx=dF/dx
     VectorC F = EvaluateFunctionF(state_vec);
+    RavlAssertMsg(F.Size()==Fsize,"ObservationImplicitBodyC::IncrementLS(), Inconsistent size of F ");
     MatrixC Fz = EvaluateJacobianFz(state_vec);
     MatrixC Fx = EvaluateJacobianFx(state_vec);
 
@@ -93,6 +121,12 @@ namespace RavlN {
     }
 
     return true;
+  }
+
+  //: Returns the number of constraints imposed on the state
+  UIntT ObservationImplicitBodyC::GetNumConstraints() const
+  {
+    return Fsize;
   }
 
   //: Evaluate the observation function F(x,z) given x and z

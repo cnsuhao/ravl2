@@ -8,13 +8,22 @@
   <body>
   This set of classes covers non-linear optimisation of a vector of parameters
   using a combination of multiple observations.
-  Currently the Levenberg-Marquardt least squares
-  algorithm is supported, with the added feature of allowing robust
-  observations. There is a
-  <a href="../../../LevenbergMarquardt/levmarq.pdf">PDF document</a> describing the theory underlying this implementation of
-  Levenberg-Marquardt,
-  which is also available in
-  <a href="../../../LevenbergMarquardt/levmarq.html">HTML</a>,
+  Currently the supported algorithms are
+  <ul>
+    <li> Levenberg-Marquardt least squares minimisation, with the added feature
+         of allowing robust observations. There is a
+	 <a href="../../../LevenbergMarquardt/levmarq.pdf">PDF document</a>
+	 describing the theory underlying this implementation of
+	 Levenberg-Marquardt, which is also available in
+	 <a href="../../../LevenbergMarquardt/levmarq.html">HTML</a>,
+	 The LevenbergMarquardtC class implements a standard
+	 Levenberg-Marquardt damped least-squares iteration, given a
+	 state vector and a list of observations.
+    <li> RANSAC robust model fitting using randomised sampling.
+         The RansacC class constitutes a generic implementation
+	 of RANSAC, with user-defined classes for sampling, fitting the
+	 model to a sample and evaluating model parameters.
+  </ul>
   <p>
   The major principle embodied in the design of these classes is the need
   for separating the role of the four major classes of objects involved in
@@ -57,14 +66,9 @@
 	 a method to compute them; otherwise the default is to compute them
 	 numerically.
     <li> The optimisation algorithm used to fit the model. Levenberg-Marquardt
-         is the only algorithm currently implemented, and provides an example
-	 for building optimisation routines using the above classes.
-	 The LevenbergMarquardtC class implements a standard
-	 Levenberg-Marquardt damped least-squares iteration, given a
-	 state vector and a list of observations.
+         and RANSAC are the currently implemented algorithms,
+	 and provide examples for building optimisation routines using the
+	 above classes.
   </ol>
-  Initialisation of the state parameters needs to be implemented separately in
-  the user program. These classes only deal with optimisation of the parameters
-  after reasonably good values are available.
   </body>
 </html>

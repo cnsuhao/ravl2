@@ -12,28 +12,38 @@
 #include "Ravl/ObsVectorBiGaussian.hh"
 #include "Ravl/Random.hh"
 #include "Ravl/EntryPnt.hh"
-#include "Ravl/RansacLine2d.hh"
+
+// RANSAC headers
+#include "Ravl/Ransac.hh"
+#include "Ravl/FitLine2dPoints.hh"
+#include "Ravl/EvaluateNumInliers.hh"
 
 using namespace RavlN;
 
 #define ZHOMOG 100.0
-#define RANSAC_ITERATIONS 1000
+#define RANSAC_ITERATIONS 100
 
 // Initialisation function for 2D line state vector
-static StateVectorLine2dC
+static const StateVectorLine2dC
  InitialiseLine2d ( DListC<ObservationC> &obs_list, // observation list
-		    RealT zh ) // 3rd homogeneous plane coordinate
+		    RealT zh, // 3rd homogeneous plane coordinate
+		    DListC<ObservationC> &compatible_obs_list ) // output list of compatible observations
 {
-  ObservationLine2dPointC obs;
   UIntT iteration;
-
+  ObservationListManagerC obs_manager(obs_list);
+  FitLine2dPointsC fitter(zh);
+  EvaluateNumInliersC evaluator(3.0, 10.0);
+  
   // use RANSAC to fit line
-  RansacLine2dC ransac(obs_list, 3.0, zh);
+  RansacC ransac(obs_manager, fitter, evaluator);
 
   // select and evaluate the given number of samples
-  for ( iteration=0; iteration < 1000; iteration++ )
-    ransac.ProcessSample();
+  for ( iteration=0; iteration < RANSAC_ITERATIONS; iteration++ )
+    ransac.ProcessSample(2);
 
+  // select observations compatible with solution
+  compatible_obs_list = evaluator.CompatibleObservations(ransac.GetSolution(),
+							 obs_list);
   return ransac.GetSolution();
 }
 
@@ -142,8 +152,14 @@ static bool
   for(SArray1dIterC<VectorC> it(coords);it;it++, i++)
     obs_list.InsLast(ObservationLine2dPointC(it.Data(), Ni));
 
+  // list of compatible observations
+  DListC<ObservationC> compatible_obs_list;
+
+  // fit the line parameters using RANSAC
+  StateVectorLine2dC state_vec_init = InitialiseLine2d(obs_list,ZHOMOG,
+						       compatible_obs_list);
+
   // initialise Levenberg-Marquardt algorithm
-  StateVectorLine2dC state_vec_init = InitialiseLine2d(obs_list,ZHOMOG);
   LevenbergMarquardtC lm = LevenbergMarquardtC(state_vec_init,obs_list);
 
   cout << "Line 2D fitting test: Initial residual=" << lm.GetResidual();
@@ -163,7 +179,7 @@ static bool
     StateVectorLine2dC sv = lm.GetSolution();
     cout << " a=" << sv.GetLx() << " b=" << sv.GetLy() << " c=" << sv.GetLz();
     cout << " Accepted=" << accepted << " Residual=" << lm.GetResidual();
-    cout << " DOF=" << NPOINTS-2 << endl;
+    cout << " DOF=" << obs_list.Size()-2 << endl;
   }
 
   StateVectorLine2dC sv = lm.GetSolution();
@@ -179,6 +195,7 @@ static bool
 {
   SArray1dC<VectorC> coords(NPOINTS);
   DListC<ObservationC> obs_list;
+  StateVectorLine2dC sv;
 
   // build arrays of x & y coordinates
   IntT i = 0;
@@ -187,15 +204,19 @@ static bool
     RealT x = (RealT) i;
 
     if ( i >= 0 && i < 10 )
-      // outlier point
-      it.Data() = VectorC ( x + OUTLIER_SIGMA*RandomGauss(),
-			  -(LX_TRUE*x + LZ_TRUE*ZHOMOG)/LY_TRUE
-			  + OUTLIER_SIGMA*RandomGauss() );
+      // outlier point constructed using uniform distribution over x/y range
+      it.Data() = VectorC ( Random1()*((RealT)NPOINTS),
+			    -(Random1()*LX_TRUE*((RealT)NPOINTS) + LZ_TRUE*ZHOMOG)/LY_TRUE );
     else
-      // construct y = a*x^2 + b*y + c + w with added Gaussian noise w
+      // construct y = a*x^2 + b*y + c with added Gaussian noise on x & y
       it.Data() = VectorC ( x + SIGMA*RandomGauss(),
 			    -(LX_TRUE*x + LZ_TRUE*ZHOMOG)/LY_TRUE
 			    + SIGMA*RandomGauss() );
+
+#if 0
+    RealT s2 = LX_TRUE*LX_TRUE + LY_TRUE*LY_TRUE;
+    cout << "x=" << it.Data()[0] << " y=" << it.Data()[1] << " Distance^2 = " << Sqr(LX_TRUE*it.Data()[0] + LY_TRUE*it.Data()[1] + LZ_TRUE*ZHOMOG)/s2 << endl;
+#endif
   }
   
   // construct point observations and create list
@@ -207,18 +228,27 @@ static bool
     obs_list.InsLast(ObservationLine2dPointC(it.Data(), Ni,
 					     Sqr(OUTLIER_SIGMA/SIGMA), 5.0));
 
+  // list of compatible observations
+  DListC<ObservationC> compatible_obs_list;
+
+  // fit the line parameters using RANSAC
+  StateVectorLine2dC state_vec_init = InitialiseLine2d(obs_list,ZHOMOG,
+						       compatible_obs_list);
+
   // initialise Levenberg-Marquardt algorithm
-  StateVectorLine2dC state_vec_init = InitialiseLine2d(obs_list, ZHOMOG);
-  LevenbergMarquardtC lm = LevenbergMarquardtC(state_vec_init,obs_list);
+  LevenbergMarquardtC lm = LevenbergMarquardtC(state_vec_init,compatible_obs_list);
 
   cout << "Line 2D robust fitting test: Initial residual=" << lm.GetResidual();
   cout << endl;
+  cout << "Selected " << compatible_obs_list.Size() << " observations using RANSAC" << endl;
+  sv = lm.GetSolution();
+  cout << "RANSAC solution: lx=" << sv.GetLx() << " ly=" << sv.GetLy() << " lz=" << sv.GetLz() << endl;
   PrintInlierFlags(obs_list);
 
   // apply iterations
   RealT lambda = 10.0;
   for ( i = 0; i < 10; i++ ) {
-    bool accepted = lm.Iteration(obs_list, lambda);
+    bool accepted = lm.Iteration(compatible_obs_list, lambda);
     if ( accepted )
       // iteration succeeded in reducing the residual
       lambda /= 10.0;
@@ -226,14 +256,16 @@ static bool
       // iteration failed to reduce the residual
       lambda *= 10.0;
 
-    StateVectorLine2dC sv = lm.GetSolution();
+    sv = lm.GetSolution();
     cout << " lx=" << sv.GetLx() << " ly=" << sv.GetLy() << " lz=" << sv.GetLz();
     cout << " Accepted=" << accepted << " Residual=" << lm.GetResidual();
-    cout << " DOF=" << NPOINTS-2 << endl;
+    cout << " DOF=" << compatible_obs_list.Size()-2 << endl;
   }
 
-  StateVectorLine2dC sv = lm.GetSolution();
+  sv = lm.GetSolution();
   cout << "Final solution: lx=" << sv.GetLx() << " ly=" << sv.GetLy() << " lz=" << sv.GetLz() << endl;
+  RealT s = sqrt(LX_TRUE*LX_TRUE + LY_TRUE*LY_TRUE);
+  cout << "Ground truth: lx=" << LX_TRUE/s << " ly=" << LY_TRUE/s << " lz=" << LZ_TRUE/s << endl;
   PrintInlierFlags(obs_list);
   cout << endl;
 

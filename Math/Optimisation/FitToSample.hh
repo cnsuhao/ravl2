@@ -4,35 +4,33 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLMATH_RANSACOBSLIST_HEADER
-#define RAVLMATH_RANSACOBSLIST_HEADER 1
+#ifndef RAVLMATH_FITTOSAMPLE_HEADER
+#define RAVLMATH_FITTOSAMPLE_HEADER 1
 //! userlevel=Normal
 //! author="Phil McLauchlan"
 //! date="24/7/2002"
 //! rcsid="$Id$"
 //! docentry="Ravl.Math.Optimisation"
-//! example="OrthogonalRegressionTest.cc"
+//! example="OrthogonalRegressionTest.cc Homography2dFitTest.cc FitQuadraticTest.cc"
 
-#include "Ravl/Ransac.hh"
+#include <Ravl/StateVector.hh>
+#include <Ravl/Observation.hh>
 #include "Ravl/DList.hh"
-#include "Ravl/Observation.hh"
-#include "Ravl/Array1d.hh"
 
 namespace RavlN {
   
   //! userlevel=Normal
   //! autoLink=on
-  //: RANSAC algorithm class for 2D line fitting
-  // RANSAC using a list of observations as the data to be fitted to
-  class RansacObsListC
-    : public RansacC
- {
- public:
-   RansacObsListC(DListC<ObservationC> obs_list);
-   //: Constructor.
+  //: This class fits a state parameter model to a sample of observations.
+  class FitToSampleC
+  {
+  public:
+    FitToSampleC();
+    //: Constructor.
 
- protected:
-   SArray1dC<ObservationC> obs_array; // array of observations
+    virtual StateVectorC FitModel(DListC<ObservationC> sample);
+    //: Fit model parameters to sample of observations
+    // Supply this function in a sub-class.
   };
 }
 

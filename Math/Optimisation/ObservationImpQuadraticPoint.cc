@@ -37,7 +37,7 @@ namespace RavlN {
 								RealT nxc,
 								RealT nyc,
 								RealT nsigma)
-    : ObservationImplicitBodyC(ObsVectorC(BuildZ(nxc,nyc),BuildNi(nsigma)))
+    : ObservationImplicitBodyC(ObsVectorC(BuildZ(nxc,nyc),BuildNi(nsigma)),1)
   {
   }
 
@@ -48,7 +48,7 @@ namespace RavlN {
 							     RealT nsigma,
 							     RealT nvar_scale,
 							     RealT nchi2_thres)
-    : ObservationImplicitBodyC(ObsVectorBiGaussianC(BuildZ(nxc,nyc),BuildNi(nsigma),nvar_scale,nchi2_thres))
+    : ObservationImplicitBodyC(ObsVectorBiGaussianC(BuildZ(nxc,nyc),BuildNi(nsigma),nvar_scale,nchi2_thres),1)
   {
   }
 

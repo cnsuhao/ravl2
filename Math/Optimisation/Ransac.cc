@@ -11,39 +11,44 @@
 namespace RavlN {
 
   //: Constructor for RANSAC
-  RansacC::RansacC()
-    : StoredStateC::StoredStateC()
+  RansacC::RansacC(ObservationManagerC &nobs_manager,
+		   FitToSampleC &nmodel_fitter,
+		   EvaluateSolutionC &nevaluator)
+    : StoredStateC::StoredStateC(),
+		    obs_manager(nobs_manager),
+		    model_fitter(nmodel_fitter),
+		    evaluator(nevaluator)
   {
-    vote = 0;
+    highest_vote = DBL_MIN;
   }
 
-  //: Generate a solution computed from a RANSAC sample
-  StateVectorC RansacC::SampleSolution() {
-    RavlAssertMsg(0,"RansacC::SampleSolution(), Abstract method called ");
-    return StateVectorC();
-  }
-
-  //: Compute vote for given sample state vector
-  UIntT RansacC::SampleVote(StateVectorC &state_vec) {
-    RavlAssertMsg(0,"RansacC::SampleVote(StateVectorC &state_vec), Abstract method called ");
-    return UINT_MAX;
-  }
- 
   //: Generate sample, compute vote and update best solution and vote
-  bool RansacC::ProcessSample() {
-    StateVectorC sv = SampleSolution();
-    UIntT new_vote = SampleVote(sv);
+  bool RansacC::ProcessSample(UIntT min_num_constraints)
+  {
+    // reset "selected" flags
+    obs_manager.UnselectAllObservations();
 
-    if ( new_vote > vote ) {
+    // generate sample
+    DListC<ObservationC> sample = obs_manager.RandomSample(min_num_constraints);
+
+    // fit model
+    StateVectorC sv = model_fitter.FitModel(sample);
+
+    // generate list of observations to be evaluated
+    DListC<ObservationC> obs_list = obs_manager.ObservationList(sv);
+    RealT new_vote = evaluator.SolutionScore(sv, obs_list);
+
+    if ( new_vote > highest_vote ) {
       state_vec = sv.Copy();
-      vote = new_vote;
+      highest_vote = new_vote;
     }
 
     return true;
   }
 
   //: Return the highest vote found so far 
-  RealT RansacC::GetVote() const {
-    return vote;
+  RealT RansacC::GetHighestVote() const
+  {
+    return highest_vote;
   }
 }

@@ -11,8 +11,10 @@ SOURCES = ObsVector.cc ObsVectorBiGaussian.cc ObsVectorPoint2dPair.cc \
 	  ObservationImplicit.cc ObservationLine2dPoint.cc \
 	  ObservationImpQuadraticPoint.cc \
 	  ObservationHomog2dPoint.cc ObservationImpHomog2dPoint.cc \
-	  StoredState.cc LevenbergMarquardt.cc Ransac.cc Mlesac.cc \
-	  RansacObsList.cc RansacObsListSampling.cc RansacLine2d.cc
+	  StoredState.cc LevenbergMarquardt.cc \
+	  Ransac.cc ObservationManager.cc FitToSample.cc EvaluateSolution.cc \
+	  EvaluateNumInliers.cc EvaluateLikelihood.cc \
+	  FitLine2dPoints.cc FitQuadraticPoints.cc FitHomog2dPoints.cc
 
 HEADERS = ObsVector.hh ObsVectorBiGaussian.hh ObsVectorPoint2dPair.hh \
 	  StateVector.hh StateVectorLine2d.hh StateVectorQuadratic.hh \
@@ -21,8 +23,10 @@ HEADERS = ObsVector.hh ObsVectorBiGaussian.hh ObsVectorPoint2dPair.hh \
 	  ObservationImplicit.hh ObservationLine2dPoint.hh \
 	  ObservationImpQuadraticPoint.hh \
 	  ObservationHomog2dPoint.hh ObservationImpHomog2dPoint.hh \
-	  StoredState.hh LevenbergMarquardt.hh Ransac.hh Mlesac.hh \
-          RansacObsList.hh RansacObsListSampling.hh RansacLine2d.hh
+	  StoredState.hh LevenbergMarquardt.hh \
+	  Ransac.hh ObservationManager.hh FitToSample.hh EvaluateSolution.hh \
+	  EvaluateNumInliers.hh EvaluateLikelihood.hh \
+	  FitLine2dPoints.hh FitQuadraticPoints.hh FitHomog2dPoints.hh
 
 MAINS=OrthogonalRegressionTest.cc QuadraticFitTest.cc Homography2dFitTest.cc
 

@@ -17,7 +17,7 @@ namespace RavlN {
   ObservationImpHomog2dPointBodyC::ObservationImpHomog2dPointBodyC(
 			     const VectorC &nz1, const MatrixRSC &nNi1,
 			     const VectorC &nz2, const MatrixRSC &nNi2)
-    : ObservationImplicitBodyC(ObsVectorPoint2dPairC(nz1,nNi1,nz2,nNi2))
+    : ObservationImplicitBodyC(ObsVectorPoint2dPairC(nz1,nNi1,nz2,nNi2),2)
   {
   }
 
@@ -27,7 +27,8 @@ namespace RavlN {
 			     const VectorC &nz2, const MatrixRSC &nNi2,
 			     RealT nvar_scale, RealT nchi2_thres)
     : ObservationImplicitBodyC(ObsVectorBGPoint2dPairC(nz1,nNi1,nz2,nNi2,
-						       nvar_scale,nchi2_thres))
+						       nvar_scale,nchi2_thres),
+			       2)
   {
   }
 
