@@ -67,7 +67,8 @@ namespace RavlN {
     //:---------------------------------------------
     // Constructors, copy, assigment, and destructor
     
-    Array1dC();
+    Array1dC()
+    {}
     //: Creates an empty array.
     
     Array1dC(const Slice1dC<DataT> &slice,bool alwaysCopy = true);
@@ -359,43 +360,37 @@ namespace RavlN {
   }
   
   template <class DataT>
-  Array1dC<DataT>::Array1dC()
-    : RangeBufferAccessC<DataT>(),
-      buff()
-  {}
-  
-  template <class DataT>
   Array1dC<DataT>::Array1dC(const SizeT dim)
-    : RangeBufferAccessC<DataT>(),
-      buff(dim)
+    : buff(dim)
   { Attach(buff,dim); }
 
   
   template <class DataT>
-  Array1dC<DataT>::Array1dC(IntT min,IntT max)
-    : RangeBufferAccessC<DataT>(),
-      buff(IndexRangeC(min,max).Size())
-  {
-    RavlAssert(min <= max);
-    Attach(buff,IndexRangeC(min,max)); 
+  Array1dC<DataT>::Array1dC(IntT min,IntT max) {
+    if(min > max)
+      return ; // Create a zero length array.
+    IndexRangeC range(min,max);
+    buff = BufferC<DataT>(range.Size());
+    Attach(buff,range); 
   }
   
   template <class DataT>
-  Array1dC<DataT>::Array1dC(IndexC min,IndexC max)
-    : RangeBufferAccessC<DataT>(),
-      buff(IndexRangeC(min,max).Size())
-  {
-    RavlAssert(min <= max);
-    Attach(buff,IndexRangeC(min,max)); 
+  Array1dC<DataT>::Array1dC(IndexC min,IndexC max) {
+    if(min > max)
+      return ; // Create a zero length array.
+    IndexRangeC range(min,max);
+    buff = BufferC<DataT>(range.Size());
+    Attach(buff,range); 
   }
   
   template <class DataT>
-  Array1dC<DataT>::Array1dC(const IndexRangeC & range)
-    : RangeBufferAccessC<DataT>(),
-      buff(range.Size())
-  { Attach(buff,range); }
+  Array1dC<DataT>::Array1dC(const IndexRangeC & range) { 
+    if(range.Min() > range.Max())
+      return ; // Create a zero length array.
+    buff = BufferC<DataT>(range.Size());
+    Attach(buff,range); 
+  }
   
-
   template <class DataT>
   Array1dC<DataT>::Array1dC(const Array1dC<DataT> & vv)
     : RangeBufferAccessC<DataT>(vv),
