@@ -105,7 +105,7 @@ namespace RavlN {
       
       DLIterC<VectorC> cit(clusters);
       for(;cit;cit++) {
-	if(distance.Measure(mean,*cit) < termiter)
+	if(distance.Measure(mean,*cit) < (k * 0.2))
 	  break; // Already got cluster.
       }
       if(!cit) // Cluster not found.
