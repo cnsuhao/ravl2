@@ -27,7 +27,7 @@
 #include "Ravl/Image/Dilate.hh"
 #include "Ravl/Image/ImageConv.hh"
 #include "Ravl/Image/RealRGBValue.hh"
-#include "Ravl/Image/ConvolveSeparable2d.hh"
+#include "Ravl/Image/GaussConvolve.hh"
 
 using namespace RavlN;
 using namespace RavlImageN;
@@ -212,13 +212,11 @@ int Mosaic(int nargs,char **argv) {
     pwarp.Apply(mosaicRGB,warped_img);
 
     // smooth both images to suppress artefacts
-    Array1dC<RealT> lpfkernel(-1,1); 
-    lpfkernel[-1] = lpfkernel[1] = 0.25; lpfkernel[0] = 0.5;
-    ConvolveSeparable2dC<RealT, ByteRGBValueC, ByteRGBValueC, RGBValueC<RealT> > lpf(lpfkernel,lpfkernel);
-    for(IntT i=0; i < 3; i++) {
-      img = lpf.Apply(img);
-      warped_img = lpf.Apply(warped_img);
-    }
+    GaussConvolveC<ByteRGBValueC, ByteRGBValueC, RealRGBValueC, RealT> lpf(7);
+    img = lpf.Apply(img);
+    warped_img = lpf.Apply(warped_img);
+
+
 
     // subtract and threshold
     ImageC<bool> mask(mosaicBuilder.GetCropRect());
