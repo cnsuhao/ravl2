@@ -24,7 +24,7 @@ HEADERS =  FilePermission.hh Filename.hh Directory.hh UserInfo.hh
 # SOURCES = all C modules, not containing main separated by space. The compiled
 #   code of these modules is stored in the project library.
 SOURCES  = FilePermission.cc Filename.cc Directory.cc FileSearch.cc \
- UserInfo.cc FileOwner.cc FileUser.cc
+ UserInfo.cc FileOwner.cc 
 
 
 MUSTLINK = 
