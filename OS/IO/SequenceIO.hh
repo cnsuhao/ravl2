@@ -47,9 +47,9 @@ namespace RavlN
     op = DPOSPortC<DataT>(anOp);
     if(!op.IsValid()) {
       if(sc.IsValid())
-	op = DPOSPortAttachC<DataT>(anOp,sc);
+	op = DPOSPortAttachC<DataT>((DPOPortC<DataT> &)anOp,sc);
       else
-	op = DPOSPortAttachC<DataT>(anOp);
+	op = DPOSPortAttachC<DataT>((DPOPortC<DataT> &)anOp);
     }
     return true;
   }
