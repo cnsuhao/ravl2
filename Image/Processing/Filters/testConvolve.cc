@@ -12,7 +12,7 @@
 #include "Ravl/Image/ConvolveHorz2d.hh"
 #include "Ravl/Image/ConvolveVert2d.hh"
 #include "Ravl/Image/ConvolveSeparable2d.hh"
-#include "Ravl/Image/BilinearInterpolation.hh"
+#include "Ravl/Image/WarpScale.hh"
 #include "Ravl/Image/HistogramEqualise.hh"
 #include "Ravl/Image/Matching.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
@@ -27,12 +27,12 @@ int testConvolveVert2d();
 int testConvolveSeparable2d();
 int testConvolve2dMMX();
 
-int testBilinearInterpolation();
+int testWarpScale();
 int testHistogramEqualise();
 int testMatching();
 
 #ifndef __sgi__
-template BilinearInterpolationC<ByteRGBValueC,ByteRGBValueC>;
+template WarpScaleC<ByteRGBValueC,ByteRGBValueC>;
 #endif
 
 int main() {
@@ -59,7 +59,7 @@ int main() {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
-  if((ln = testBilinearInterpolation()) != 0) {
+  if((ln = testWarpScale()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
@@ -218,15 +218,15 @@ int testConvolve2dMMX() {
 
 // Tag this on the end for the moment.
 
-int testBilinearInterpolation() {
-  cerr << "testBilinearInterpolation(), Started... \n";
+int testWarpScale() {
+  cerr << "testWarpScale(), Started... \n";
   ImageC<IntT> test(10,10);
   IntT i = 0;
   for(Array2dIterC<IntT> it(test);it;it++)
     *it = i++;
   //cerr << test << "\n";
   ImageRectangleC resRect(0,19,0,19);
-  BilinearInterpolationC<IntT,IntT> xyz(resRect);
+  WarpScaleC<IntT,IntT> xyz(resRect);
   ImageC<IntT> res = xyz.Apply(test);
   if(res.Rectangle() != resRect) return __LINE__;
   //cerr << res << "\n";

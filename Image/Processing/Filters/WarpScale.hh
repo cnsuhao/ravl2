@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLIMAGE_BILINEARINTERPOLATION_HEADER
-#define RAVLIMAGE_BILINEARINTERPOLATION_HEADER 1
+#ifndef RAVLIMAGE_WARPSCALE_HEADER
+#define RAVLIMAGE_WARPSCALE_HEADER 1
 ///////////////////////////////////////////////////////////////
 //! docentry="Ravl.Images.Warping"
 //! lib=RavlImageProc
@@ -23,10 +23,10 @@ namespace RavlImageN {
   //: Scale an image using bi-Linear Interpolation.
   
   template <class InT, class OutT = InT>
-  class BilinearInterpolationC
+  class WarpScaleC
   {
   public:
-    BilinearInterpolationC(const ImageRectangleC &ir)
+    WarpScaleC(const ImageRectangleC &ir)
       : rec(ir)
     {}
     //: Constructor.
@@ -42,7 +42,7 @@ namespace RavlImageN {
   };
   
   template <class InT, class OutT>
-  ImageC<OutT> BilinearInterpolationC<InT, OutT>::Apply(const ImageC<InT> &im)
+  ImageC<OutT> WarpScaleC<InT, OutT>::Apply(const ImageC<InT> &im)
   {
     ImageC<OutT> res(rec);
     
