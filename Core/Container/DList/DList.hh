@@ -30,8 +30,15 @@ namespace RavlN {
   template<class DataT> class DListBodyC;
   template<class DataT> ostream &operator<<(ostream &,const DListBodyC<DataT> &);
   template<class DataT> istream &operator>>(istream &,DListBodyC<DataT> &);
+  
   //! userlevel=Develop
   //: Double linked list body.
+  // Implementation:<p>
+  // The list contains a head element and a chain of
+  // elements. Empty list contains just its head element.
+  // Because of efficiency references to elements of a list are not
+  // checked if they are proper elements of a list or its head.
+  // The class serves as a base class for reference counted double-linked list. 
   
   template<class DataT>
   class DListBodyC
@@ -234,8 +241,6 @@ namespace RavlN {
   // elements. Empty list contains just its head element.
   // Because of efficiency references to elements of a list are not
   // checked if they are proper elements of a list or its head.
-  // Checking can be switched on by the macro CHECK.
-  // The class serves as a base class for reference counted double-linked list. 
   //
   // <p> To iterate through a list efficiently, you need to use on of the list
   // iterator class <a href="Ravl.DLIterC.html">DLIterC</a>
