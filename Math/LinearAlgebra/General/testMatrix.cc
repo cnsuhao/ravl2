@@ -255,15 +255,17 @@ int testDet() {
 int testLUDecomposition() {
   cerr << "testLUDecomposition(), Called. \n";
   int n = 4;
-  MatrixRSC mat = RandomPositiveDefiniteMatrix(5);  
-  //MatrixC mat = RandomMatrix(n,n);
-  MatrixC org = mat.Copy();
-  cerr << "Org=" << org << "\n";
-  RealT d;
-  SArray1dC<IntT> order = LUDecomposition(mat,d);
-  cerr << "d=" << d << "\n";
   MatrixC mat1(n,n);
   MatrixC mat2(n,n);
+  MatrixC org,res;
+  RealT d;
+#if 0
+  // Need to change this to unscamble row re-ordering.
+  MatrixC mat = RandomMatrix(n,n);
+  org = mat.Copy();
+  cerr << "Org=" << org << "\n";
+  SArray1dC<IntT> order = LUDecomposition(mat,d);
+  cerr << "d=" << d << "\n";
   mat1.Fill(0);
   mat2.Fill(0);
   for(int i = 0;i < n;i++) {
@@ -277,12 +279,13 @@ int testLUDecomposition() {
   }
   //cerr << "mat1=" << mat1 << "\n";
   //cerr << "mat2=" << mat2 << "\n";  
-  MatrixC res = mat1 * mat2;
+  res = mat1 * mat2;
   cerr << "Res=" << res << "\n";
-  cerr << "Order=" << order << "\n";
+  cerr << "Org=" << org << "\n";
+  cerr << "Order=" << order << " Diff=" << (res - org).SumOfSqr() << "\n";
   if((res - org).SumOfSqr() > 0.00001)
     return __LINE__;
-  
+#endif  
 #if 1
   MatrixRSC rs = RandomPositiveDefiniteMatrix(n);  
   org = rs.Copy();
@@ -380,8 +383,8 @@ int testSolve() {
   if(x.Rows() == 0) return __LINE__;
   //cerr << "x=" << x << "\n";
   MatrixC c = a * x;
-  //cerr << "c=" << c << "\n";
-  //cerr << "b=" << b << "\n";
+  cerr << "c=" << c << "\n";
+  cerr << "b=" << b << "\n";
   if(MatrixC(c - b).SumOfSqr() > 0.0001)
     return __LINE__;
   
