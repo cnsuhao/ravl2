@@ -40,7 +40,9 @@ namespace RavlN {
 	  RavlAssert(arr1.Range() == arr2.Range());
       }
     //: Constructor.
-
+    // If you don't intend to iterator over the same range for each array set the 'matching' paramiter to 
+    // false.  This will disable the check.
+    
     Array1dIter2C(const Array1dC<Data1T> &arr1,const Array1dC<Data2T> &arr2,const IndexRangeC &rng)
       : dat1(arr1,rng),
         dat2(arr2,rng)
