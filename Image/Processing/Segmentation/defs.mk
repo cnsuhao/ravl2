@@ -15,6 +15,8 @@ HEADERS=ChromaThreshold.hh  Segmentation.hh ConnectedComponents.hh \
 SOURCES=ChromaThreshold.cc Segmentation.cc ConnectedComponents.cc \
  BlueScreen.cc SegmentExtrema.cc
 
+MAINS=extrema.cc
+
 PLIB=RavlImageProc
 
 LIBDEPS=RavlImageSegmentation.def
