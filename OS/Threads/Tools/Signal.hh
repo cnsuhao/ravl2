@@ -223,6 +223,12 @@ namespace RavlN {
     void DisconnectAll();
     //: Disconnect all signals.
     
+    void DisconnectInputs();
+    //: Disconnect all inputs to this signal.
+    
+    void DisconnectOutputs();
+    //: Disconnect all outputs from this signal.
+    
   protected:
     void Connect(SignalConnector0BodyC &con);
     //: Connect a new output.
@@ -293,6 +299,14 @@ namespace RavlN {
     inline void DisconnectAll()
       { Body().DisconnectAll(); }
     //: Disconnect all signals from this one.
+    
+    void DisconnectInputs()
+      { Body().DisconnectInputs(); }
+    //: Disconnect all inputs to this signal.
+    
+    void DisconnectOutputs()
+      { Body().DisconnectOutputs(); }
+    //: Disconnect all outputs from this signal.
     
     inline bool Invoke()
       { return Body().Invoke(); }

@@ -117,10 +117,10 @@ namespace RavlN {
     inter.Disconnect();
     return true;
   }
+
+  //: Disconnect all inputs to this signal.
   
-  //: Disconnect all signals.
-  
-  void Signal0BodyC::DisconnectAll() {
+  void Signal0BodyC::DisconnectInputs() {
     RWLockHoldC hold(access,false); 
     while(!inputs.IsEmpty()) {
       SignalInterConnect0C con(inputs.First());
@@ -128,7 +128,13 @@ namespace RavlN {
       con.Disconnect();
       con.Invalidate(); // Make sure its released here..
       hold.LockWr();
-    }
+    }    
+  }
+  
+  //: Disconnect all outputs from this signal.
+  
+  void Signal0BodyC::DisconnectOutputs() {
+    RWLockHoldC hold(access,false); 
     // Disconnect all outputs.
     hold.Unlock();
     do {
@@ -137,7 +143,14 @@ namespace RavlN {
       hold.Unlock();
       for(;it;it++) 
 	it.Data().Disconnect();
-    } while(outputs.Size() > 0) ;
+    } while(outputs.Size() > 0) ;    
+  }
+  
+  //: Disconnect all signals.
+  
+  void Signal0BodyC::DisconnectAll() {
+    DisconnectInputs();
+    DisconnectOutputs();
   }
   
   //// SignalIterConnect0 ////////////////////////////////////////////////
