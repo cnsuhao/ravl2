@@ -48,13 +48,12 @@ namespace RavlN
     SVDC (const TMatrixC<NumT> &Arg,TVectorC<NumT> &ns,TMatrixC<NumT> &nU,TMatrixC<NumT> &nV) {
       m = Arg.Size1();
       n = Arg.Size2();
-      int nu = Min(m,n);
       
       int nss = Min(m+1,n);
       RavlAssert(nss >= (int) ns.Size());
       s = TVectorC<NumT>(SArray1dC<NumT>(ns,nss));
       
-      RavlAssert((int) nU.Size1() == m && (int) nU.Size2() == nu);
+      RavlAssert((int) nU.Size1() == m && (int) nU.Size2() == Min(m,n));
       U = nU;
       U.Fill(0);
       
