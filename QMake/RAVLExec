@@ -4,4 +4,4 @@ if test -z "${ARC}" ; then
   ARC=`${RAVL_INSTALL}/share/RAVL/config.arc`
 fi
 LD_LIBRARY_PATH=${RAVL_INSTALL}/lib/RAVL/${ARC}/shared\:${LD_LIBRARY_PATH}
-exec ${RAVL_INSTALL}/lib/RAVL/${ARC}/bin/`basename $0` $@
+exec ${RAVL_INSTALL}/lib/RAVL/${ARC}/bin/`basename $0` "$@"
