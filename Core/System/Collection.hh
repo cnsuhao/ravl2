@@ -35,9 +35,19 @@ namespace RavlN {
     {}
     //: Create a collection from an array of data.
     
+    CollectionC<DataT> Copy() const;
+    //: Create a copy of this collection.
+    
     inline
     void Insert(const DataT &dat);
     //: Add a data item to the collection.
+    //  NB. This may cause the storage array to 
+    // be reallocated which will invalidate any iterators
+    // held on the collection.
+    
+    inline
+    void InsertRandom(const DataT &dat);
+    //: Add a data item to the collection in a random place.
     //  NB. This may cause the storage array to 
     // be reallocated which will invalidate any iterators
     // held on the collection.
@@ -48,6 +58,12 @@ namespace RavlN {
     // It is the users responsiblity to ensure the
     // set is not empty when this method is called.
     // See 'IsEmpty()'
+    
+    CollectionC<DataT> Shuffle() const;
+    //: Create a shuffled version of this collection.
+    
+    void ShuffleIP();
+    //: Shuffle collection in place.
     
     void Merge(const CollectionC<DataT> &x);
     //: Merge collection 'x' into this one.
@@ -90,6 +106,7 @@ namespace RavlN {
     CollectionC<DataT> Sample(SizeT ne) const;
     //: Take a random sample from the collection.
     // This collection is not modified.
+
     
   protected:
     SArray1dC<DataT> data;
@@ -124,6 +141,10 @@ namespace RavlN {
     {}
     //: Create a collection from an array of data.
     
+    CollectionC<DataT> Copy() const
+      { return Body().Copy(); }
+    //: Create a copy of this collection.
+    
     inline
     void Insert(const DataT &dat)
     { Body().Insert(dat); }
@@ -139,7 +160,15 @@ namespace RavlN {
     // It is the users responsiblity to ensure the
     // set is not empty when this method is called.
     // See 'IsEmpty()'
-
+    
+    CollectionC<DataT> Shuffle() const
+      { return Body().Shuffle(); }
+    //: Create a shuffled version of this collection.
+    
+    void ShuffleIP()
+      { Body().ShuffleIP(); }
+    //: Shuffle collection in place.
+    
     void Merge(const CollectionC<DataT> &x)
     { Body().Merge(x); }
     //: Merge collection 'x' into this one.
@@ -188,8 +217,7 @@ namespace RavlN {
     // This collection is not modified.  There is no
     // garantee that an element will be picked only once.
     // 'ne' may be bigger than the size of this collection.
-    
-    
+
   };
 
   template<class DataT>
@@ -207,15 +235,29 @@ namespace RavlN {
   }
   
   template<class DataT>
+  CollectionC<DataT> CollectionBodyC<DataT>::Copy() const {
+    return CollectionC<DataT>(Array().Copy());
+  }
+  
+  template<class DataT>
   inline
   void CollectionBodyC<DataT>::Insert(const DataT &dat) {
     if(n >= data.Size())
-      data = data.Copy(data.Size()); // Double the size of the collection.
+      data = data.Copy(data.Size() * 2); // Double the size of the collection.
     data[n++] = dat;
   } 
-  
-  //: Pick a random item from the collection.
-  // the element will be removed from the set.
+
+  template<class DataT>
+  inline
+  void CollectionBodyC<DataT>::InsertRandom(const DataT &dat) {
+    if(n >= data.Size())
+      data = data.Copy(data.Size() * 2); // Double the size of the collection.
+    SizeT p = (SizeT)((RealT) Random1() * n);
+    if(p > n-1)
+      p = n-1; // Incase of rounding errors.
+    data[n++] = data[p];
+    data[p] = dat;
+  }
   
   template<class DataT>
   DataT CollectionBodyC<DataT>::Pick() {
@@ -255,6 +297,26 @@ namespace RavlN {
     for(SizeT i = 0;i < ne;i++)
       ret.Insert(Pick());
     return ret;
+  }
+  
+  template<class DataT>
+  CollectionC<DataT>  CollectionBodyC<DataT>::Shuffle() const {
+    CollectionC<DataT> ret(n);
+    for(BufferAccessIterC<DataT> it(data);it;it++)
+      ret.InsertRandom(*it);
+    return ret;
+  }
+
+  template<class DataT>
+  void CollectionBodyC<DataT>::ShuffleIP() {
+    for(BufferAccessIterC<DataT> it(data);it;it++) {
+      SizeT p = (SizeT)((RealT) Random1() * n);
+      if(p > n-1)
+	p = n-1; // Incase of rounding errors.
+      DataT tmp = *it;
+      *it = data[p];
+      data[p] = tmp;
+    }
   }
   
   template<class DataT>
