@@ -106,7 +106,7 @@ sub main {
     if(/\A-64/ || /\A-n32/) { # Ignore these.
       next;
     }
-    if(/\A-[WRLuIOvV][^ ]*/ )  { # Ignore these.
+    if(/\A-[WRLuIOvVgr][^ ]*/ )  { # Ignore these.
       next ;
     }
     if(/\A[^-][^ ]*/) { # Ingore direct dependancy on object files
