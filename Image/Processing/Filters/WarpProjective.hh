@@ -115,7 +115,6 @@ namespace RavlImageN {
     RealRange2dC irng(src.Frame());
     if(!outImg.Frame().Contains(rec))
       outImg = ImageC<OutT>(rec);
-    RealRange2dC orng(outImg.Frame());
     //cerr << "Trans0=" << trans * orng.TopRight() << " from " << orng.TopRight() << "\n";
     
     // adjust source window for area where bilinear interpolation can be
@@ -123,6 +122,34 @@ namespace RavlImageN {
     // boundary are not used, for safety.
     irng.TRow() += 0.51; irng.BRow() -= 0.51;
     irng.LCol() += 0.51; irng.RCol() -= 0.51;
+
+    // If the output maps entirely within input, we don't have to do any checking.
+    
+    Vector3dC ldir(inv[0][1] * iz,inv[1][1] * iz,inv[2][1]);
+
+#if 0    
+    RealRange2dC orng(outImg.Frame());
+    if(irng.Contains(Project(orng.TopRight())) &&
+       irng.Contains(Project(orng.TopLeft())) &&
+       irng.Contains(Project(orng.BottomRight())) &&
+       irng.Contains(Project(orng.BottomLeft()))) {
+      Point2dC pat(outImg.Frame().Origin());
+      pat[0] += 0.5;
+      pat[1] += 0.5;
+
+      Array2dIterC<OutT> it(outImg);  
+      for(;it;pat[0]++) {
+	Vector3dC at = inv * Vector3dC(pat[0],pat[1],oz);
+	at[0] *= iz;
+	at[1] *= iz;
+	do {
+	  mixer(*it,src.BiLinear(Point2dC((at[0]/at[2]) - 0.5,(at[1]/at[2])- 0.5)));
+	  at += ldir;
+	} while(it.Next()) ;
+      }
+      return;
+    }
+#endif
     
     ImageC<OutT> workingOutImg;
     if(!fillBackground) {
@@ -147,29 +174,9 @@ namespace RavlImageN {
     Point2dC pat(workingOutImg.Frame().Origin());
     pat[0] += 0.5;
     pat[1] += 0.5;
-
-    Vector3dC ldir(inv[0][1] * iz,inv[1][1] * iz,inv[2][1]);
     
     Array2dIterC<OutT> it(workingOutImg);  
     
-    // If the output maps entirely within input, we don't have to do any checking.
-    
-    if(irng.Contains(Project(orng.TopRight())) &&
-       irng.Contains(Project(orng.TopLeft())) &&
-       irng.Contains(Project(orng.BottomRight())) &&
-       irng.Contains(Project(orng.BottomLeft()))) {
-      for(;it;) {
-	Vector3dC at = inv * Vector3dC(pat[0],pat[1],oz);
-	at[0] *= iz;
-	at[1] *= iz;
-	do {
-	  mixer(*it,src.BiLinear(Point2dC((at[0]/at[2]) - 0.5,(at[1]/at[2])- 0.5)));
-	  at += ldir;
-	} while(it.Next()) ;
-	pat[0]++;
-      }
-      return;
-    }
     
 #if 0
     // Do simple check for each pixel that its contained in the input image.
