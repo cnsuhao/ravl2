@@ -83,7 +83,7 @@ namespace RavlImageN {
       endRow = startRow + chunkSize;
       if(endRow > rect.BRow())
 	endRow = rect.BRow().V();
-      events[i] = ThreadLaunch(me,&EdgeNonMaxSuppressionC::DoNonMaxSupp,res,meanValues[i],countValues[i],imgs,startRow,endRow);
+      events[i] = ThreadThreadThreadThreadLaunch(me,&EdgeNonMaxSuppressionC::DoNonMaxSupp,res,meanValues[i],countValues[i],imgs,startRow,endRow);
       startRow = endRow+1;
     }
     // Wait for everything to finish.
