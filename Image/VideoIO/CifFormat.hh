@@ -4,12 +4,12 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLCIFFORMAT_HEADER
-#define RAVLCIFFORMAT_HEADER 1
+#ifndef RAVLIMAGE_CIFFORMAT_HEADER
+#define RAVLIMAGE_CIFFORMAT_HEADER 1
 ////////////////////////////////////////////////////////////
 //! author="Charles Galambos"
-//! docentry="Ravl.Images.IO.Formats"
-//! date="29/10/98"
+//! docentry="Ravl.Images.Video.Formats"
+//! date="29/10/1998"
 //! rcsid="$Id$"
 //! file="Ravl/Image/VideoIO/CifFormat.hh"
 //! example=exImgSeq.cc

@@ -4,11 +4,11 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLYUVFORMAT_HEADER
-#define RAVLYUVFORMAT_HEADER 1
+#ifndef RAVLIMAGE_YUVFORMAT_HEADER
+#define RAVLIMAGE_YUVFORMAT_HEADER 1
 ////////////////////////////////////////////////////////////
 //! author="Charles Galambos"
-//! docentry="Ravl.Images.IO.Formats"
+//! docentry="Ravl.Images.Video.Formats"
 //! date="29/10/98"
 //! rcsid="$Id$"
 //! file="Ravl/Image/VideoIO/yuvFormat.hh"

@@ -10,11 +10,11 @@
 //! rcsid="$Id$"
 //! file="amma/Image/VidIO/VidIO.hh"
 //! lib=RavlImage
-//! docentry="Ravl.Images.IO.Formats"
-//! userlevel=Normal
+//! docentry="Ravl.Images.Video.Formats"
+//! userlevel=Develop
 //! example=exImgSeq.cc
 //! author="Charles Galambos"
-//! date="13/05/99"
+//! date="13/05/1999"
 
 namespace RavlImageN {
 

@@ -4,12 +4,12 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLIMGIORGB_HEADER
-#define RAVLIMGIORGB_HEADER 1
+#ifndef RAVLIMAGE_IMGIORGB_HEADER
+#define RAVLIMAGE_IMGIORGB_HEADER 1
 ////////////////////////////////////////////////////
 //! file="Ravl/Image/VideoIO/ImgIOrgb.hh"
 //! lib=RavlVideoIO
-//! docentry="Ravl.Images.IO.Formats"
+//! docentry="Ravl.Images.Video.Formats"
 //! example=exImgSeq.cc
 //! rcsid="$Id$"
 //! author="Charles Galambos"

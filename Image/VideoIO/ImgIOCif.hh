@@ -4,16 +4,16 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLIMGIOCIF_HEADER
-#define RAVLIMGIOCIF_HEADER 1
+#ifndef RAVLIMAGE_IMGIOCIF_HEADER
+#define RAVLIMAGE_IMGIOCIF_HEADER 1
 ////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Image/VideoIO/ImgIOCif.hh"
 //! lib=RavlVideoIO
 //! example=exImgSeq.cc
-//! docentry="Ravl.Images.IO.Formats"
+//! docentry="Ravl.Images.Video.Formats"
 //! author="Bill Christmas, Charles Galambos"
-//! date="08/04/99"
+//! date="08/04/1999"
 
 #include "Ravl/DP/SPort.hh"
 #include "Ravl/Image/Image.hh"

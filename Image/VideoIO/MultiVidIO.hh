@@ -1,3 +1,5 @@
+#ifndef RAVLIMAGE_MULTI_VID_IO_HH_
+#define RAVLIMAGE_MULTI_VID_IO_HH_
 // This file is part of RAVL, Recognition And Vision Library 
 // Copyright (C) 2001, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
@@ -6,9 +8,8 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlVideoIO
-
-#ifndef _MULTI_VID_IO_HH_
-#define _MULTI_VID_IO_HH_
+//! author="Joel Mitchelson"
+//! docentry="Ravl.Images.Video"
 
 #include "Ravl/DP/FileFormat.hh"
 #include "Ravl/Image/Image.hh"
@@ -26,21 +27,19 @@ namespace RavlImageN
   using namespace RavlN;
   using namespace RavlImageN;
 
-  //!userlevel:Develop
+  //! userlevel=Develop
   //: Multi-view video sequence input body class
 
   template<class PixelC> class DPIMultiVidBodyC 
     : public DPISPortBodyC< SArray1dC< ImageC< PixelC > > >
   {
   public:
-    DPIMultiVidBodyC(const StringC &fnBase, const StringC& fnFormat)
-    {
+    DPIMultiVidBodyC(const StringC &fnBase, const StringC& fnFormat) {
       frame = 0;
       numviews = 0;
       numframes = 0;
 
-      while (1)
-      {
+      while (1) {
 	// look for sequence files
 	StrOStreamC fnSequence;
 	fnSequence << fnBase << "." << setw(1) << numviews << ".%05d." << fnFormat;
@@ -50,9 +49,7 @@ namespace RavlImageN
 
 	// open sequence
 	if (!OpenISequence(port, fnSequence.String()))
-	{
 	  break;
-	} 
 	
 	// if not ready, can't use this sequence
 	if (!port.IsGetReady())
@@ -134,18 +131,14 @@ namespace RavlImageN
     // if an error occurered (Seek returned False) then stream
     // position will not be changed.
     
-    virtual bool DSeek(IntT off)
-    {
+    virtual bool DSeek(IntT off) {
       // cerr << "DSeek: " << frame << " + " << off << endl;
-      if (off < 0)
-      {
+      if (off < 0) {
 	UIntT neg_off = (UIntT)(-off);
 	if (neg_off > frame)
 	  return false;
 	frame -= neg_off;
-      }
-      else
-      {
+      } else {
 	if (off + frame >= numframes)
 	  return false;
 	frame += off;
@@ -156,29 +149,23 @@ namespace RavlImageN
     //: Delta Seek, goto location relative to the current one.
     
     virtual UIntT Tell() const
-    {
-      return frame;
-    } 
+    { return frame; } 
     //: Find current location in stream.
     
     virtual UIntT Size() const
-    {
-      return numframes;
-    }
+    { return numframes; }
     //: Find the total size of the stream.
     
-    virtual SArray1dC< ImageC<PixelC> > Get()
-    {
+    virtual SArray1dC< ImageC<PixelC> > Get() {
       SArray1dC< ImageC<PixelC> > view(numviews);
       Get(view);
       return view;
     }
     //: Get next image.
     
-    virtual bool Get(SArray1dC< ImageC<PixelC> > &buff)
-    {
+    virtual bool Get(SArray1dC< ImageC<PixelC> > &buff) {
       // cerr << "Get()" << endl;
-
+      
       if (!IsGetReady())
 	return false;
 
@@ -186,15 +173,14 @@ namespace RavlImageN
 
       RavlAssert(buff.Size() == 0 || buff.Size() == numviews); // only know how to deal with these
       
-      if (buff.Size() == 0)
-      {
+      if (buff.Size() == 0) {
 	// cerr << "resizing array" << endl;
 	buff = SArray1dC< ImageC<PixelC> > (numviews);
       }
-
+      
       for (UIntT iview = 0; iview < numviews; iview++)
 	array_port[iview].Get(buff[iview]);
-
+      
       ++frame;
       SyncViews();
       return true;
@@ -202,19 +188,18 @@ namespace RavlImageN
     //: Get next image.
     
     virtual bool IsGetReady() const 
-      { return (frame < numframes); }
+    { return (frame < numframes); }
     //: Is some data ready ?
     // TRUE = yes.
     // Defaults to !IsGetEOS().
     
     virtual bool IsGetEOS() const
-      { return (frame >= numframes); }
+    { return (frame >= numframes); }
     //: Has the End Of Stream been reached ?
     // TRUE = yes.
 
   protected:
-    void SyncViews()
-    {
+    void SyncViews() {
       for (UIntT iview = 0; iview < numviews; iview++)
 	array_port[iview].Seek(frame);
     }
@@ -226,23 +211,23 @@ namespace RavlImageN
     SDArray1dC< DPISPortC< ImageC<PixelC> > > array_port;
   };
 
-  //!userlevel:Develop
+  //! userlevel=Develop
   //:Multi-view video sequence input port
   //
   // Used for reading syncronised multi-view video sequences
-  // from disk or from frame grabbers. 
+  // from disk or from frame grabbers. <p>
   //
-  // Expects sequences of the form basename.C.FFFFF.type
-  // Where:
-  //   basename is a text id for the file
-  //   C        is a 1 digit view number
-  //   FFFFF    is a 5 digit frame number
-  //   type     is the file type, such as "tif", "ppm", etc
+  // Expects sequences of the form basename.C.FFFFF.type <br>
+  // Where:<br>
+  //   basename is a text id for the file<br>
+  //   C        is a 1 digit view number<br>
+  //   FFFFF    is a 5 digit frame number<br>
+  //   type     is the file type, such as "tif", "ppm", etc<br>
   //
-  // To open a sequence from disk use: 
+  // To open a sequence from disk use: <br>
   //
-  //   DPISPortC< SArray1dC< ImageC<DataT> > > port;
-  //   OpenISequence(port, "@multiview:basename:type");
+  //   DPISPortC< SArray1dC< ImageC<DataT> > > port;<br>
+  //   OpenISequence(port, "@multiview:basename:type");<br>
   //
   // Sequences are expected to start from frame 0, view 0
   // If no type is specified, tif is assumed
@@ -253,11 +238,10 @@ namespace RavlImageN
   public:
     DPIMultiVidC(const StringC &fnBase, const StringC& fnFormat)
       : DPEntityC(*new DPIMultiVidBodyC<PixelC>(fnBase, fnFormat))
-    {
-    }
+    { }
   };
 
-  //!userlevel:Develop
+  //! userlevel=Develop
   //: Multi-view video sequence output body class
 
   template<class PixelC> class DPOMultiVidBodyC 
@@ -269,14 +253,11 @@ namespace RavlImageN
       fnFormat(nfnFormat),
       done_init(false),
       frame(0)
-    {
-    }
+    {}
     //: Constructor from filename
     
     virtual bool Seek(UIntT off)
-    {
-      return false;
-    }
+    { return false; }
     //: Seek to location in stream.
     // Returns FALSE, if seek failed. (Maybe because its
     // not implemented.)
@@ -284,21 +265,15 @@ namespace RavlImageN
     // position will not be changed.
     
     virtual bool DSeek(IntT off)
-    {
-      return false;
-    }
+    { return false; }
     //: Delta Seek, goto location relative to the current one.
     
     virtual UIntT Tell() const
-    {
-      return frame;
-    }
+    { return frame; }
     //: Find current location in stream.
     
     virtual UIntT Size() const
-    {
-      return frame;
-    }
+    { return frame; }
     //: Find the total size of the stream.
     
     bool Put(const SArray1dC< ImageC<PixelC> > &buff)
@@ -309,10 +284,8 @@ namespace RavlImageN
 	array_port = SArray1dC< DPOSPortC< ImageC<PixelC> > > (buff.Size());
       }
 
-      if (!done_init)
-      {
-	for (UIntT iview = 0; iview < array_port.Size(); iview++)
-	{
+      if (!done_init) {
+	for (UIntT iview = 0; iview < array_port.Size(); iview++) {
 	  StrOStreamC fnSequence;
 	  fnSequence << fnBase << "." << setw(1) << iview << ".%05d." << fnFormat;
 	  OpenOSequence(array_port[iview], fnSequence.String());
@@ -332,17 +305,15 @@ namespace RavlImageN
     }
     //: Put image to a stream.
     
-    virtual bool IsPutReady() const 
-    {
+    virtual bool IsPutReady() const {
       if (!done_init)
 	return true;
 
-      for (UIntT iview = 0; iview < array_port.Size(); iview++)
-      {
+      for (UIntT iview = 0; iview < array_port.Size(); iview++) {
 	if (!array_port[iview].IsPutReady())
 	  return false;
       }
-
+      
       return true;
     }
     //: Read to write some data ?
@@ -358,25 +329,25 @@ namespace RavlImageN
     SArray1dC< DPOSPortC< ImageC<PixelC> > > array_port;
     UIntT frame;
    };
-
-  //!userlevel:Develop
+  
+  //! userlevel=Advanced
   //:Multi-view video sequence output port
   //
-  // Used for saving multi-view video sequences to disk
+  // Used for saving multi-view video sequences to disk<p>
   //
-  // Saves sequences of the form basename.C.FFFFF.type
-  // Where:
-  //   basename is a text id for the file
-  //   C        is a 1 digit view number
-  //   FFFFF    is a 5 digit frame number
-  //   type     is the file type, such as "tif", "ppm", etc
+  // Saves sequences of the form basename.C.FFFFF.type <br>
+  // Where:<br>
+  //   basename is a text id for the file<br>
+  //   C        is a 1 digit view number<br>
+  //   FFFFF    is a 5 digit frame number<br>
+  //   type     is the file type, such as "tif", "ppm", etc<p>
   //
-  // To save a sequence to disk use: 
+  // To save a sequence to disk use: <br>
   //
-  //   DPOSPortC< SArray1dC< ImageC<DataT> > > port;
-  //   OpenOSequence(port, "@multiview:basename:type");
+  //   DPOSPortC< SArray1dC< ImageC<DataT> > > port;<br>
+  //   OpenOSequence(port, "@multiview:basename:type");<p>
   //
-  // Sequences start at frame 0, view 0
+  // Sequences start at frame 0, view 0<br>
   // If no type is specified, tif is assumed
 
   template<class PixelC> class DPOMultiVidC 
@@ -388,8 +359,9 @@ namespace RavlImageN
     {
     }
   };
-
-  //!userlevel:Develop
+  
+  //! docentry="Ravl.Images.Video.Formats"
+  //! userlevel=Develop
   //:Multi-view video sequence format body
 
   template<class PixelC>  class FileFormatMultiVidBodyC : public FileFormatBodyC
@@ -397,56 +369,43 @@ namespace RavlImageN
   public:
     FileFormatMultiVidBodyC() :
       FileFormatBodyC("multiview-video-sequence")
-    {
-    }
-
-   virtual const type_info &ProbeLoad(IStreamC &in,const type_info &obj_type) const
-   {
-     return typeid(void);
-   }
+    {}
+    
+    virtual const type_info &ProbeLoad(IStreamC &in,const type_info &obj_type) const
+    { return typeid(void); }
     //: always return 0 - cannot determine type from stream
     
-    virtual const type_info &ProbeLoad(const StringC &filename,IStreamC &in,const type_info &obj_type) const
-    {
+    virtual const type_info &ProbeLoad(const StringC &filename,IStreamC &in,const type_info &obj_type) const {
       if (downcase(filename).contains("@multiview:") &&
 	  obj_type == typeid(SArray1dC< ImageC< PixelC > >))
-      {
-	return obj_type;
-      }
-
+      { return obj_type; }
       return typeid(void);
     }
     //: Probe for load.  
     
-    virtual const type_info &ProbeSave(const StringC &filename,const type_info &obj_type,bool forceFormat) const
-    {
+    virtual const type_info &ProbeSave(const StringC &filename,const type_info &obj_type,bool forceFormat) const {
       if (downcase(filename).contains("@multiview:") &&
 	  obj_type == typeid(SArray1dC< ImageC< PixelC > >))
-      {
-	return obj_type;
-      }
-
-      return typeid(void);    }
+	return obj_type; 
+      return typeid(void);    
+    }
     //: Probe for Save.
     
-    virtual DPIPortBaseC CreateInput(IStreamC &in,const type_info &obj_type) const
-    {
+    virtual DPIPortBaseC CreateInput(IStreamC &in,const type_info &obj_type) const {
       DPIPortC< ImageC<PixelC> > null_port;
       return null_port;
     }
     //: Create a input port for loading.
     // Will create an Invalid port if not supported.
     
-    virtual DPOPortBaseC CreateOutput(OStreamC &out,const type_info &obj_type) const
-    {
+    virtual DPOPortBaseC CreateOutput(OStreamC &out,const type_info &obj_type) const {
       DPOPortC< ImageC<PixelC> > null_port;
       return null_port;
     }
     //: Create a output port for saving.
     // Will create an Invalid port if not supported.
     
-    virtual DPIPortBaseC CreateInput(const StringC &filename,const type_info &obj_type) const
-    {
+    virtual DPIPortBaseC CreateInput(const StringC &filename,const type_info &obj_type) const {
       StringC fnBase;
       StringC fnFormat;
       ParsePathName(filename, fnBase, fnFormat);
@@ -455,8 +414,7 @@ namespace RavlImageN
     //: Create a input port for loading from file 'filename'.
     // Will create an Invalid port if not supported. <p>
     
-    virtual DPOPortBaseC CreateOutput(const StringC &filename,const type_info &obj_type) const
-    {
+    virtual DPOPortBaseC CreateOutput(const StringC &filename,const type_info &obj_type) const {
       StringC fnBase;
       StringC fnFormat;
       ParsePathName(filename, fnBase, fnFormat);
@@ -466,9 +424,7 @@ namespace RavlImageN
     // Will create an Invalid port if not supported. <p>
     
     virtual const type_info &DefaultType() const
-    { 
-      return typeid( SArray1dC< ImageC< PixelC > > ); 
-    };
+    { return typeid( SArray1dC< ImageC< PixelC > > ); }
     //: Get prefered IO type.
     
     virtual IntT Priority() const { return 0; }
@@ -480,29 +436,25 @@ namespace RavlImageN
     // i.e. check if you can read/write more than object object.
 
   protected:
-    static bool ParsePathName(const StringC& filename, StringC& fnBase, StringC& fnFormat)
-    {
+    static bool ParsePathName(const StringC& filename, StringC& fnBase, StringC& fnFormat) {
       StringC fnBaseLong = StringC(filename).after(':');
 
       // base is first iterm after @multiview
-      if (fnBaseLong.contains(':'))
-      {
+      if (fnBaseLong.contains(':')) {
 	fnBase = fnBaseLong.before(':');
 	fnFormat = fnBaseLong.after(':');
-      }
-      else
-      {
+      } else {
 	fnBase = fnBaseLong;
 	fnFormat = "tif"; // default format
       }
-
       return true;
     }
     //: work out video file base name and file format from specified path
 
   };
 
-  //!userlevel:Develop
+  //! docentry="Ravl.Images.Video.Formats"
+  //! userlevel=Advanced
   //:Multi-view video sequence format definition class
 
   template<class PixelC> class FileFormatMultiVidC 
@@ -511,11 +463,10 @@ namespace RavlImageN
   public:
     FileFormatMultiVidC()
       : FileFormatC< SArray1dC< ImageC<PixelC> > >(*new FileFormatMultiVidBodyC<PixelC>())
-    {
-    }    
+    {}
   };
-
-  //!userlevel:Develop
+  
+  //! userlevel=Develop
   //:Initialise multi-view video sequence IO 
   // See DPIMultiVidC and DPOMultiVidC for details
   void InitMultiVidIO();

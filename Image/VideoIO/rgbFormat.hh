@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLRGBFORMAT_HEADER
-#define RAVLRGBFORMAT_HEADER 1
+#ifndef RAVLIMAGE_RGBFORMAT_HEADER
+#define RAVLIMAGE_RGBFORMAT_HEADER 1
 ////////////////////////////////////////////////////////////
 //! author="Charles Galambos"
 //! docentry="Ravl.Images.IO.Formats"
@@ -14,7 +14,6 @@
 //! file="Ravl/Image/VideoIO/rgbFormat.hh"
 //! example=exImgSeq.cc
 //! lib=RavlVideoIO
-
 
 #include "Ravl/DP/FileFormat.hh"
 #include "Ravl/Image/Image.hh"
