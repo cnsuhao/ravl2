@@ -262,6 +262,7 @@ namespace RavlN {
   
   bool FitProjection(const SArray1dC<Point2dC> &from,const SArray1dC<Point2dC> &to,const SArray1dC<RealT> &weight,Matrix3dC &proj) {
     RavlAssert(from.Size() == to.Size());
+    RavlAssert(from.Size() == weight.Size());
     UIntT neq = from.Size();
     if(neq < 4) return false;
     
@@ -277,25 +278,31 @@ namespace RavlN {
     Matrix3dC toNorm;
     Normalise(to,toN,toNorm);
     
+    // Compute normalisation for weights.
+    
+    RealT meanWeight = weight.Sum() / static_cast<RealT>(weight.Size());
+    if(meanWeight <= 0)
+      meanWeight = 1;
+    
     // Build matrix.
     
     MatrixC A(neq * 2,9);
     IntT i = 0;
     for(SArray1dIter3C<Point2dC,Point2dC,RealT> it(toN,fromN,weight);it;it++) {
       const Point2dC &x = it.Data2();
-      
+      RealT w = it.Data3() / meanWeight; // Normalise weight.
       SizeBufferAccessC<RealT> row1 = A[i++];
       
-      RealT r = it.Data1()[0] * it.Data3();
-      RealT c = it.Data1()[1] * it.Data3();
+      RealT r = it.Data1()[0] * w;
+      RealT c = it.Data1()[1] * w;
       
       row1[0] = 0;
       row1[1] = 0;
       row1[2] = 0;
       
-      row1[3] = x[0] * -1 * it.Data3();
-      row1[4] = x[1] * -1 * it.Data3();
-      row1[5] = -it.Data3();
+      row1[3] = x[0] * -1 * w;
+      row1[4] = x[1] * -1 * w;
+      row1[5] = -w;
       
       row1[6] = x[0] * c;
       row1[7] = x[1] * c;
@@ -303,9 +310,9 @@ namespace RavlN {
       
       SizeBufferAccessC<RealT> row2 = A[i++];
       
-      row2[0] = x[0] * it.Data3();
-      row2[1] = x[1] * it.Data3();
-      row2[2] = it.Data3();
+      row2[0] = x[0] * w;
+      row2[1] = x[1] * w;
+      row2[2] = w;
       
       row2[3] = 0;
       row2[4] = 0;
