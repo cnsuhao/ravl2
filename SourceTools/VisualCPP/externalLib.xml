@@ -8,24 +8,24 @@
 <libpath>C:\Program Files\GnuWin32\lib\</libpath>
 <libpath>C:\GTKWIN32\lib\</libpath>
 <lib>libpng.lib</lib>
-<lib>libz.lib</lib>
+<lib>zdll.lib</lib>
 </extlib>
 
 <extlib name="LibJPEG">
-<includepath>H:\src\thirdparty\include</includepath>
-<libpath>H:\src\thirdparty\lib</libpath>
+<includepath>Z:\include</includepath>
+<libpath>Z:\lib\</libpath>
 <lib>jpeg.lib</lib>
 </extlib>
 
 <extlib name="LibTIFF">
-<includepath>H:\src\thirdparty\include</includepath>
-<libpath>H:\src\thirdparty\lib</libpath>
+<includepath>Z:\include</includepath>
+<libpath>Z:\lib</libpath>
 <lib>libtiff.lib</lib>
 </extlib>
 
 <extlib name="LibJasper">
-<includepath>H:\src\thirdparty\include</includepath>
-<libpath>H:\src\thirdparty\lib</libpath>
+<includepath>Z:\include</includepath>
+<libpath>Z:\lib</libpath>
 <lib>libjasper.lib</lib>
 </extlib>
 
