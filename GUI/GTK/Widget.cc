@@ -672,6 +672,19 @@ namespace RavlGUIN {
     static SArray1dC<GtkTargetEntry> te = InitCommonTargetEntries();
     return te;
   }
+
+  //: Set the widget position    
+  bool WidgetBodyC::GUISetUPosition(int &width, int &height) {
+    if(widget != 0)
+      gtk_widget_set_uposition (GTK_WIDGET (widget), width, height);
+    return true;
+  }
+
+  //: Set the widget position  
+  void WidgetBodyC::SetUPosition(int &width, int &height) {
+    Manager.Queue(Trigger(WidgetC(*this),&WidgetC::GUISetUPosition,width,height));
+  }
+  
   
 }
 

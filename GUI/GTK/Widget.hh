@@ -134,6 +134,12 @@ namespace RavlGUIN {
     void ShapeCombineMask(GdkBitmap *mask,int off_x = 0,int off_y = 0);
     //: Make a shape mask for the widget.
     
+    void SetUPosition(int &width, int &height);
+    //: Set the widget position
+    
+    bool GUISetUPosition(int &width, int &height);
+    //: Set the widget position
+    
     void GUIGrabFocus();
     //: Grab keyboard focus.
     
@@ -360,6 +366,14 @@ namespace RavlGUIN {
     { Body().ShapeCombineMask(mask,off_x,off_y); }
     //: Make a shape mask for the widget.
     // GUI thread only.
+    
+    void SetUPosition(int &width, int &height)
+    { Body().SetUPosition(width, height); }
+    //: Set the widget position
+    
+    bool GUISetUPosition(int &width, int &height)
+    { return Body().GUISetUPosition(width, height); }
+    //: Set the widget position
     
     void GUIGrabFocus()
     { Body().GUIGrabFocus(); }
