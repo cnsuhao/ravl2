@@ -17,7 +17,6 @@
 #include "Ravl/StrStream.hh"
 #include "Ravl/DP/SPort.hh"
 #include "Ravl/DP/SequenceIO.hh"
-
 #include <iomanip.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -78,8 +77,8 @@ namespace RavlImageN
       {
 	while (1)
 	{
-#ifdef __linux__
 	  StrOStreamC str_frame; 
+#ifdef __linux__
 	  str_frame
 	    << fnBase 
 	    << ".0."
@@ -87,16 +86,13 @@ namespace RavlImageN
 	    << fnFormat;
 	  if (access(str_frame.String(), R_OK) != 0)
 	    break;
-#else
-	  char str_frame[256];
-	  snprintf(str_frame, 
-		   256, 
-		   "%s.0.%05d.%s",
-		   (const char*)fnBase,
-		   numframes,
-		   (const char*)fnFormat);
+#else	  
+	  str_frame.form("%s.0.%05d.%s",
+			 (const char*)fnBase,
+			 numframes,
+			 (const char*)fnFormat);
 	    // cerr << "Looking for: " << str_frame.String() << endl;
-	  if (access(str_frame, R_OK) != 0)
+	  if (access(str_frame.String(), R_OK) != 0)
 	    break;
 #endif
 	  ++numframes;
