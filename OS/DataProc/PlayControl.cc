@@ -303,7 +303,7 @@ namespace RavlN {
       }
     } else {
       // inc is negative
-      if(lastFrame == end)
+      if((UIntT) lastFrame == end)
 	at += inc; // If we're at the end the stream won't be one beyond.
       else
 	at += (inc-1);
