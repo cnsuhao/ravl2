@@ -22,6 +22,7 @@
 namespace RavlLogicN {
 
   BinOStreamC &operator<<(BinOStreamC &s,const BindC &bind) { 
+    ONDEBUG(cerr << "operator<<(BinOStreamC &,BindC &) \n");
     s << ObjIO(bind.Value());
     return s;
   }
@@ -29,6 +30,7 @@ namespace RavlLogicN {
   //: output stream 
   
   BinIStreamC &operator>>(BinIStreamC &s,BindC &bind) {
+    ONDEBUG(cerr << "operator>>(BinIStreamC &,BindC &) \n");
     s >> ObjIO(bind.Value());
     return s;
   }
@@ -36,12 +38,14 @@ namespace RavlLogicN {
   //: input stream 
   
   BinOStreamC &operator<<(BinOStreamC &out,const HashElemC<LiteralC,BindC> &obj) {  
+    ONDEBUG(cerr << "operator<<(BinOStreamC &,const HashElemC<LiteralC,BindC> &) \n");
     out << ObjIO(obj.GetKey()) << ObjIO(obj.Data().Value()); 
     return out;
   }
   
   BinIStreamC &operator>>(BinIStreamC &in,HashElemC<LiteralC,BindC> &obj) { 
-    in >> ObjIO(obj.GetKey()) >>  ObjIO(obj.Data().Value()); 
+    ONDEBUG(cerr << "operator>>(BinIStreamC &,HashElemC<LiteralC,BindC> &) \n");
+    in >> ObjIO(obj.GetKey()) >> ObjIO(obj.Data().Value()); 
     return in;
   }
   
@@ -62,18 +66,22 @@ namespace RavlLogicN {
       throw ExceptionOutOfRangeC("Unexpected version number in binary stream");
     UIntT size;
     strm >> size;
-    static_cast<HashC<LiteralC,BindC> &>(*this) = HashC<LiteralC,BindC>(size);
+    //cerr << "Size=" << size << "\n";
+    table = SArray1dC<IntrDListC<HashElemC<LiteralC,BindC> > >(NextPrime(size));
+    BindMarkT *lastPtr = &top;
     for(UIntT i = 0;i < size;i++) {
       // Load entry.
-      BindMarkT tmp;
+      BindMarkT tmp = 0;
       strm >> ObjIO(tmp);
-      
+      *lastPtr = tmp;
+      lastPtr = &(tmp->Data().Next());
       // Put object into hash table.
       const UIntT hashVal = StdHash(tmp->GetKey());
       tmp->HashVal(hashVal);
       const UIntT ind = hashVal % table.Size();
       table[ind].InsFirst(*tmp);
     }
+    *lastPtr = 0;
   }
   
   //: Save to binary stream 'out'.
@@ -96,7 +104,7 @@ namespace RavlLogicN {
   //: Copy constructor.
   
   BindSetBodyC::BindSetBodyC(const BindSetC &oth) 
-    : HashC<LiteralC,BindC>(NextPrime(oth.Size()+1))
+    : HashC<LiteralC,BindC>(NextPrime(oth.Size()))
   {
     BindMarkT place = oth.Mark();
     if(place == 0)
@@ -200,7 +208,7 @@ namespace RavlLogicN {
     
     HashIterC<LiteralC,BindC> it(const_cast<BindSetC &>(binds).Iter());
     for(;it;it++) {
-      s << '(' << it.Key() << "->" << it.Data() << ')';
+      s << '(' << it.Key().Name() << "->" << it.Data().Value().Name() << ')';
     }
     return s;
   }

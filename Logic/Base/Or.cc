@@ -150,7 +150,7 @@ namespace RavlLogicN {
   // FIXME :- Do more simplification.
   
   TupleC operator+(const LiteralC &l1,const LiteralC &l2) {
-    ONDEBUG(cerr << "operator+(LiteralC,LiteralC) Called for " << l1 << " and " << l2 << "\n");
+    ONDEBUG(cerr << "operator+(LiteralC,LiteralC) Called for " << l1.Name() << " and " << l2.Name() << "\n");
     SizeT size = 0;
     OrC a1(l1);
     if(a1.IsValid())
@@ -162,11 +162,12 @@ namespace RavlLogicN {
       size += a2.Size();
     else
       size++;
+    ONDEBUG(cerr << "Size=" << size << "\n");
     SArray1dC<LiteralC> arr(size+1);
     arr[0] = literalOr;
     UIntT at = 1;
     if(a1.IsValid()) {
-      for(SArray1dIter2C<LiteralC,LiteralC> it(a1.Terms().After(0),arr.After(0));it;it++)
+      for(SArray1dIter2C<LiteralC,LiteralC> it(a1.Terms().After(0),arr.From(at));it;it++)
 	it.Data2() = it.Data1();
       at += a1.Size();
     } else
@@ -178,7 +179,7 @@ namespace RavlLogicN {
     } else
       arr[at] = l2;    
     ONDEBUG(cerr << "operator+(LiteralC,LiteralC) Result=" << arr << "\n");
-    return OrC(arr); 
+    return OrC(arr,true); 
   }
   
   RAVL_INITVIRTUALCONSTRUCTOR_FULL(OrBodyC,OrC,ConditionC);

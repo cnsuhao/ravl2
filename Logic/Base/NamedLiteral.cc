@@ -38,8 +38,9 @@ namespace RavlLogicN {
   //: Save to binary stream 'out'.
   
   bool NamedLiteralBodyC::Save(BinOStreamC &out) const { 
+    if(!LiteralBodyC::Save(out)) return false;
     out << name;
-    return LiteralBodyC::Save(out); 
+    return true; 
   }
 
   //: Get the name of symbol.

@@ -15,6 +15,7 @@
 #include "Ravl/SArray1dIter.hh"
 #include "Ravl/Logic/BindSet.hh"
 #include "Ravl/VirtualConstructor.hh"
+#include "Ravl/PointerManager.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -110,7 +111,7 @@ namespace RavlLogicN {
   
   MinTermBodyC::MinTermBodyC(BinIStreamC &strm)
     : AndBodyC(strm)
-  {}
+  { strm >> ObjIO(t) >> ObjIO(n); }
   
   //: Save to binary stream 'out'.
   
@@ -119,8 +120,12 @@ namespace RavlLogicN {
   
   //: Save to binary stream 'out'.
   
-  bool MinTermBodyC::Save(BinOStreamC &out) const 
-  { return AndBodyC::Save(out); }
+  bool MinTermBodyC::Save(BinOStreamC &out) const { 
+    if(!AndBodyC::Save(out)) 
+      return false;
+    out << ObjIO(t) << ObjIO(n);
+    return true;
+  }
   
   //: Copy minterm.
   

@@ -234,7 +234,8 @@ namespace RavlLogicN {
   // Uses virtual constructor.
   
   inline ostream &operator<<(ostream &out,const LiteralC &obj) {
-    obj.Save(out);
+    //obj.Save(out);
+    out << obj.Name();
     return out;
   }
   //: Save to a stream.

@@ -121,7 +121,7 @@ namespace RavlLogicN {
     //: Construct from a binary stream.
     
     bool Save(ostream &out) const;
-    //: Save to binary stream 'out'.
+    //: Save to stream 'out'.
     
     bool Save(BinOStreamC &out) const;
     //: Save to binary stream 'out'.
@@ -215,6 +215,16 @@ namespace RavlLogicN {
     {}
     //: Construct from a table of mappings.
     
+    BindSetC(istream &strm)
+      : RCHandleC<BindSetBodyC>(*new BindSetBodyC(strm))
+    {}
+    //: Construct from a stream.
+    
+    BindSetC(BinIStreamC &strm)
+      : RCHandleC<BindSetBodyC>(*new BindSetBodyC(strm))
+    {}
+    //: Construct from a binary stream.
+    
   protected:    
     BindSetBodyC &Body()
     { return RCHandleC<BindSetBodyC>::Body(); }
@@ -225,6 +235,14 @@ namespace RavlLogicN {
     //: Access body.
     
   public:
+    bool Save(ostream &out) const
+    { return Body().Save(out); }
+    //: Save to stream 'out'.
+    
+    bool Save(BinOStreamC &out) const
+    { return Body().Save(out); }
+    //: Save to binary stream 'out'.
+    
     bool IsBound(const LiteralC &var) const 
     { return Body().IsBound(var); }
     //: Is variable bound ?
@@ -284,6 +302,21 @@ namespace RavlLogicN {
   
   istream &operator<<(istream &s,BindSetC &binds);
   //: input stream 
+  
+  inline BinIStreamC &operator>>(BinIStreamC &strm,BindSetC &obj) {
+    obj = BindSetC(strm);
+    return strm;
+  }
+  //: Load from a binary stream.
+  // Uses virtual constructor.
+  
+  inline BinOStreamC &operator<<(BinOStreamC &out,const BindSetC &obj) {
+    RavlAssert(obj.IsValid());
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
   
 }
 

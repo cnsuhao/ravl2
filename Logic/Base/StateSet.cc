@@ -34,6 +34,7 @@ namespace RavlLogicN {
   {
     UIntT size;
     strm >> size;
+    //cerr << "StateSetBodyC::StateSetBodyC(), Loading " << size << "\n";
     for(UIntT i = 0;i <size;i++) {
       LiteralC lit;
       strm >> ObjIO(lit);

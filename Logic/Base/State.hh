@@ -39,8 +39,8 @@ namespace RavlLogicN {
     //: Construct from a binary stream.
     
     virtual bool Save(ostream &out) const;
-    //: Save to binary stream 'out'.
-
+    //: Save to stream 'out'.
+    
     virtual bool Save(BinOStreamC &out) const;
     //: Save to binary stream 'out'.
     
@@ -125,6 +125,14 @@ namespace RavlLogicN {
     //: Access body.
 
   public:
+
+    bool Save(ostream &out) const
+    { return Body().Save(out); }
+    //: Save to stream 'out'.
+    
+    bool Save(BinOStreamC &out) const
+    { return Body().Save(out); }
+    //: Save to binary stream 'out'.
     
     StateC Copy() const
       { return StateC(static_cast<StateBodyC &>(Body().Copy())); }
@@ -190,6 +198,21 @@ namespace RavlLogicN {
   
   istream &operator>>(istream &out,StateC &stae);
   //: Read in from stream.
+  
+  inline BinIStreamC &operator>>(BinIStreamC &strm,StateC &obj) {
+    obj = StateC(strm);
+    return strm;
+  }
+  //: Load from a binary stream.
+  // Uses virtual constructor.
+  
+  inline BinOStreamC &operator<<(BinOStreamC &out,const StateC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+
 }
 
 #endif

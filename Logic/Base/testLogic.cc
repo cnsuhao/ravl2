@@ -20,6 +20,7 @@
 #include "Ravl/Logic/Not.hh"
 #include "Ravl/Logic/LiteralIO.hh"
 #include "Ravl/StrStream.hh"
+#include "Ravl/BinStream.hh"
 
 using namespace RavlLogicN;
 
@@ -38,9 +39,11 @@ int testStateOr();
 int testStateAnd();
 int testStateNot();
 int testLiteralIO();
+int testBinaryIO();
 
 int main() {
   int err;
+#if 1
   if((err = testBasic()) != 0) {
     cerr << "testBasic failed at : " << err << "\n";
     return 1;
@@ -53,7 +56,6 @@ int main() {
     cerr << "testBasic failed at : " << err << "\n";
     return 1;
   }
-#if 1
   if((err = testStateSet()) != 0) {
     cerr << "testStateSet failed at : " << err << "\n";
     return 1;
@@ -75,6 +77,10 @@ int main() {
     return 1;
   }
 #endif
+  if((err = testBinaryIO()) != 0) {
+    cerr << "testBinaryIO failed at : " << err << "\n";
+    return 1;
+  }
   cerr << "Test passed. \n";
   return 0;
 }
@@ -335,5 +341,61 @@ int testLiteralIO() {
   if(!LoadState(is,state)) return __LINE__;
   if(state.Size() != 3) return __LINE__;
   state.Dump(cerr);
+  return 0;
+}
+
+int testBinaryIO() {
+  cerr << "Testing binary IO. \n";
+  LiteralC l1(true);
+  LiteralC l2(true);
+  LiteralC l3(true);
+  VarC v1(true);
+  VarC v2(true);
+  StateC state1(true);
+  OrC anor = l2 + v1;
+  TupleC t1(l1,l2,v1,l1);
+  StrOStreamC os;
+  BinOStreamC bos(os);
+  LiteralC lt1 = l1 * l2 + v1 + !l3;
+  MinTermC mt1(l1 * l3,anor);
+  BindSetC bs1(true);
+  bs1.Bind(v1,l2);
+  bs1.Bind(v2,l3);
+  state1.Tell(l1);
+  state1.Tell(l2);
+  if(!state1.Ask(t1[0])) return __LINE__;
+  
+  bos << t1 << lt1 << bs1 << state1 << mt1;
+  
+  //cerr << "Reloading.\n";
+  
+  StringC data = os.String();
+  StrIStreamC is(data);
+  BinIStreamC bis(is);
+  
+#if 0
+  OStreamC fileOut("test.dat");
+  fileOut.write(data.chars(),data.Size());
+  fileOut.os() << flush;
+#endif
+  MinTermC mt2;
+  TupleC t2;
+  LiteralC lt2;
+  BindSetC bs2;
+  StateC state2;
+  
+  bis >> t2 >> lt2 >> bs2 >> state2 >> mt2;
+  
+  // cout << "Binds=" << bs2 <<"\n";
+  //cout << "l1=" << t2[0].Name() <<"\n";
+  //cout << mt1.Name() << "\n";
+  //cout << mt2.Name() << "\n";
+  
+  if(!t2[2].IsVariable()) return __LINE__;
+  if(t2[0] != t2[3]) return __LINE__;
+  if(t2[0] == t2[1]) return __LINE__;
+  if(!state2.Ask(t2[0])) return __LINE__;
+  
+  cerr << "Done.\n";
   return 0;
 }

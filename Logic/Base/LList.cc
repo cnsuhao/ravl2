@@ -65,7 +65,7 @@ namespace RavlLogicN
   bool LListBodyC::UnifyLiteral(const LiteralBodyC &oth,BindSetC &bs) const {
     return false;
   }
-
+  
   RAVL_INITVIRTUALCONSTRUCTOR_FULL(LListBodyC,LListC,LiteralC);
 
 }

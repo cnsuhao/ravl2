@@ -37,8 +37,10 @@ namespace RavlLogicN {
   //: Save to binary stream 'out'.
   
   bool NamedVarBodyC::Save(BinOStreamC &out) const { 
+    if(!LiteralBodyC::Save(out))
+      return false;
     out << name;
-    return LiteralBodyC::Save(out); 
+    return true; 
   }
   
   //: Get the name of symbol.
@@ -57,7 +59,7 @@ namespace RavlLogicN {
   bool NamedVarBodyC::IsEqual(const LiteralC &oth) const {
     return oth.Name() == name;
   }
-
+  
   RAVL_INITVIRTUALCONSTRUCTOR_FULL(NamedVarBodyC,NamedVarC,LiteralC);
   
 }
