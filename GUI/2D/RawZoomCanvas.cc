@@ -8,6 +8,7 @@
 //! lib=RavlGUI2D
 
 #include "Ravl/GUI/RawZoomCanvas.hh"
+#include "Ravl/GUI/Manager.hh"
 #include "Ravl/Image/WarpScale.hh"
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
@@ -57,6 +58,18 @@ namespace RavlGUIN {
     scale = nscale;
   }
   
+  //: Access current offset.
+  
+  void RawZoomCanvasBodyC::SetOffset(const Vector2dC &off) {
+    Manager.Queue(Trigger(RawZoomCanvasC(*this),&RawZoomCanvasC::GUISetOffset,off));
+  }
+  
+  //: Access current scale.
+  
+  void RawZoomCanvasBodyC::SetScale(const Vector2dC &scale) {
+    Manager.Queue(Trigger(RawZoomCanvasC(*this),&RawZoomCanvasC::GUISetScale,scale));
+  }
+
   //: Draw a line.
   
   void RawZoomCanvasBodyC::GUIDrawLine(GdkGC *gc,Point2dC p1,Point2dC p2) 

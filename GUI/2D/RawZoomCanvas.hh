@@ -18,6 +18,7 @@
 #include "Ravl/RealRange2d.hh"
 
 namespace RavlGUIN {
+  class RawZoomCanvasC;
   
   //! userlevel=Developer
   //: Raw Zoomable Canvas.
@@ -41,6 +42,12 @@ namespace RavlGUIN {
     //: Access current offset.
     
     void GUISetScale(const Vector2dC &scale);
+    //: Access current scale.
+    
+    void SetOffset(const Vector2dC &off);
+    //: Access current offset.
+    
+    void SetScale(const Vector2dC &scale);
     //: Access current scale.
     
     Point2dC World2GUI(const Point2dC &at) const
@@ -203,6 +210,14 @@ namespace RavlGUIN {
     { Body().GUISetScale(scale); }
     //: Access current scale.
     
+    void SetOffset(const Vector2dC &off)
+    { Body().SetOffset(off); }
+    //: Access current offset.
+    
+    void SetScale(const Vector2dC &scale)
+    { Body().SetScale(scale); }
+    //: Access current scale.
+    
     void GUIDrawLine(GdkGC *gc,Point2dC p1,Point2dC p2)
     { Body().GUIDrawLine(gc,p1,p2); }
     //: Draw a line.
@@ -295,6 +310,7 @@ namespace RavlGUIN {
     //: Translate a configure event.
     // 'rect' is the new size for the widget.
     
+    friend class RawZoomCanvasBodyC;
   };
   
 }
