@@ -156,6 +156,12 @@ namespace RavlImageN {
   ImageC<FloatT> ByteRGBImageCT2FloatImageCT(const ImageC<ByteRGBValueC> &dat);
   //: Byte Colour to double image.
   
+  ImageC<ByteT> BoolImage2ByteImage(const ImageC<bool> &dat);
+  //: Convert an image of bool's to a byte image.
+  
+  ImageC<bool> ByteImage2BoolImage(const ImageC<ByteT> &dat);
+  //: Convert an image of byte's to a bool image.
+  
 };
 
 #endif

@@ -36,5 +36,22 @@ namespace RavlImageN {
     return ret;
   }
   //: Byte Colour to float image.
+
+
+  ImageC<ByteT> BoolImage2ByteImage(const ImageC<bool> &dat) {
+    ImageC<ByteT> ret(dat.Frame());
+    for(Array2dIter2C<ByteT,bool> it(ret,dat);it;it++)
+      it.Data1() = it.Data2();
+    return ret;
+  }
+  //: Convert an image of bool's to a byte image.
+  
+  ImageC<bool> ByteImage2BoolImage(const ImageC<ByteT> &dat) {
+    ImageC<bool> ret(dat.Frame());
+    for(Array2dIter2C<ByteT,bool> it(dat,ret);it;it++)
+      it.Data2() = it.Data1();
+    return ret;
+  }
+  //: Convert an image of byte's to a bool image.
   
 }

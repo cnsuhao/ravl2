@@ -32,4 +32,9 @@ namespace RavlImageN
   DP_REGISTER_CONVERSION_NAMED(ByteRGBImageCT2FloatImageCT,2.8,
 			       "RavlImageN::ImageC<FloatT>  RavlImageN::Convert(const RavlImageN::ImageC<ByteRGBValueC> &)");
   
+  DP_REGISTER_CONVERSION_NAMED(BoolImage2ByteImage,1,
+			       "RavlImageN::ImageC<ByteT>  RavlImageN::Convert(const RavlImageN::ImageC<bool> &)");
+  
+  DP_REGISTER_CONVERSION_NAMED(ByteImage2BoolImage,8,
+			       "RavlImageN::ImageC<bool>  RavlImageN::Convert(const RavlImageN::ImageC<ByteT> &)");
 }
