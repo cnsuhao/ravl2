@@ -12,6 +12,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Core.Queues"
 
+#include "Ravl/BinStream.hh"
 #include "Ravl/PriQueueL.hh"
 #include "Ravl/Random.hh"
 #include "Ravl/Stream.hh"

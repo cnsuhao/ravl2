@@ -12,6 +12,7 @@
 //! docentry="Ravl.Core.Queues"
 //! userlevel=Develop
 
+#include "Ravl/BinStream.hh"
 #include "Ravl/PriQueue.hh"
 #include "Ravl/Random.hh"
 #include "Ravl/Stream.hh"
