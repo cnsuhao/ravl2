@@ -85,8 +85,9 @@ namespace RavlGUIN {
     friend class TreeC;
   };
   
-  //! userlevel=Normal
+  //! userlevel=Obsolete
   //: Tree 
+  // OBSOLETE! The gtk widget this relies on doesn't work.
   
   class TreeC
     : public WidgetC
