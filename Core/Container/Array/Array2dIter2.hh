@@ -22,8 +22,8 @@ namespace RavlN {
   
   //! userlevel=Normal
   //: dual Array2dC iterator.
-  // This will iterate through two rectangles of the same size.  The rectangles need not
-  // have the same origin.  
+  // This will iterate through two rectangles.  The rectangles need not
+  // have the same origin, or be the same size, depending on the constructor.
   // The first array controls the number of elements visited.
   
   template<class Data1T,class Data2T>
@@ -49,10 +49,11 @@ namespace RavlN {
       }	
       First();
     }
-    //: Constructor.
-    // If 'matching' is true, the rectangles must be of the same size. <br>
-    // If 'matching' is set to false the size of the rectangle is set to that of the first array, 'arr1'
-    // arr1 MUST have a size equal to or smaller than arr2 in both dimensions.
+    //: Constructor for which the rectangles can be offset from each other.  
+    // The iterator iterates relative to the top left corner of each rectangle, and always iterates through the whole of 'arr1'.<br>
+    // If 'matching' is true, the rectangles MUST be of the same size. Hence in this case, the iterator will iterate through the whole of both rectangles.<br>
+    // If 'matching' is false, 
+    // 'arr2' MUST be as big or bigger than 'arr1' in both dimensions (but need not contain 'arr1').
     
     Array2dIter2C(const Array2dC<Data1T> &arr1,const Array2dC<Data2T> &arr2,const IndexRange2dC &rect)
       : dat1(arr1,rect),
@@ -60,8 +61,8 @@ namespace RavlN {
     { BufferAccess2dIter2C<Data1T,Data2T>::First(dat1,dat1.Range2(),
 						 dat2,dat2.Range2()); 
     }
-    //: Constructor.
-    // Iterate through 'rect' in both arrays. 'rect' must be within both arr1 and arr2.
+    //: Constructor that iterates through the same subrange 'rect' in both arrays. 
+    // Therefore 'rect' MUST be within both arrays.
 
     Array2dIter2C(const Array2dC<Data1T> &arr1,const IndexRange2dC &irng1,
 		  const Array2dC<Data2T> &arr2,const IndexRange2dC &irng2)
@@ -70,15 +71,14 @@ namespace RavlN {
     { BufferAccess2dIter2C<Data1T,Data2T>::First(dat1,dat1.Range2(),
 						 dat2,dat2.Range2()); 
     }
-    //: Constructor.
-    // Iterate through 'rect' in both arrays. irng1 should have the same or smaller
-    // overall size than irng2.
+    //: Constructor. Iterates through indicated subranges in both arrays.
+    // 'irng2' defines the starting point for iterating through 'arr2'.  Hence care must be taken that 'irng1' does not cause the iterator to go outside 'arr2'.
     
     inline bool First() {
       return BufferAccess2dIter2C<Data1T,Data2T>::First(dat1,dat1.Range2(),
 							dat2,dat2.Range2()); 
     }
-    //: Goto first element in the array.
+    //: Goto first elements in the arrays.
     // Return TRUE if there actually is one.
 
     Index2dC Index() const { 
@@ -86,8 +86,8 @@ namespace RavlN {
       return Index2dC((IntT) (&(rit.Data1()) - dat1.ReferenceElm()),
 		      (IntT) (&(cit.Data1()) - rit.Data1().ReferenceElm()));
     }
-    //: Get index of current location.
-    // Has to be calculate, and so is slightly slow.
+    //: Get index of current location in 'arr1'.
+    // Has to be calculated, and so is slightly slow.
         
   protected:
     Array2dC<Data1T> dat1;
