@@ -51,7 +51,7 @@ namespace RavlImageN {
     //: Construct a rectangle of the given size with an origin of 0,0
     
     ImageRectangleC(const Index2dC &org,const Index2dC &end)
-      : IndexRange2dC(origin,end)
+      : IndexRange2dC(org,end)
     {}
     //: Construct from corner points.
 
