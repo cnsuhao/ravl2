@@ -1,8 +1,10 @@
 <hello/>
 <!-- a comment -->
 <?xml fred="1" ?>
-<test Fred="1">Some data... 
+<test Fred="1">test data
 <bean>
+in been
 </bean>
+before endtest
 </test>
 
