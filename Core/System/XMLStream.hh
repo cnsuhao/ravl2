@@ -462,7 +462,7 @@ namespace RavlN {
     // This returns true if attribute is set.
     
     template<class DataT>
-    bool GetAttrib(const StringC &name,const DataT &val) {
+    bool GetAttrib(const StringC &name,DataT &val) {
       StringC strval;
       if(!XMLBaseC::GetAttrib(name,strval))
 	return false;
