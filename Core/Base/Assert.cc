@@ -74,7 +74,7 @@ namespace RavlN {
   //: Called if assertion failed.
   
   void AssertFailed(char *file,int lineNo) {
-    cerr << "Ravl assertion failed " << file <<":" << lineNo << "\n";
+    cerr << "Ravl assertion failed " << file <<":" << dec << lineNo << "\n";
 #if RAVL_HAVE_EXCEPTIONS
     if(assertThrowException) 
       throw ExceptionAssertionFailedC("Ravl assertion failed. ");
@@ -86,7 +86,7 @@ namespace RavlN {
   //: Called if assertion failed, with message.
   
   void AssertFailed(char *file,int lineNo,char *msg) {
-    cerr << "Ravl assertion failed " << file <<":" << lineNo << ".\n";
+    cerr << "Ravl assertion failed " << file <<":" << dec << lineNo << ".\n";
     cerr << "Reason: " << msg << "\n";
 #if RAVL_HAVE_EXCEPTIONS
     if(assertThrowException)
