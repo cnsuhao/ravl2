@@ -12,11 +12,12 @@
 namespace RavlImageN {
 
   //: Default constructor.
-  
-  ArcDetectorC::ArcDetectorC()
-    : arcTolerance(2),
-      minRadius(4),
-      maxRadius(200)
+
+  ArcDetectorC::ArcDetectorC(RealT nActTolerance,RealT nMinRadius,RealT nMaxRadius,RealT nMaxOverlap)
+    : arcTolerance(nActTolerance),
+      minRadius(nMinRadius),
+      maxRadius(nMaxRadius),
+      maxOverlap(nMaxOverlap)
   {}
   
   //: Convert index list to point arrays.
@@ -61,8 +62,6 @@ namespace RavlImageN {
   IntT ArcDetectorC::FindArcs(const Array1dC<Point2dC> &pixels,DListC<Arc2dSegmentC> &arcs) {
     IntT size = pixels.Size();
     cerr << "ArcDetectorC::FindArcs(). Pixels=" << pixels.Size() << "\n";
-    SArray1dC<bool> arcStarts(size);
-    arcStarts.Fill(false);
     if(size < 8)
       return 0;
     IntT i = 0;
@@ -85,9 +84,8 @@ namespace RavlImageN {
 	  continue;
 	}
 	
-	IntT arcEnd = CheckArc(arc,pixels,i);	
-	bool &as = arcStarts[arcEnd];
-	if(!as && arcEnd > minEnd) {
+	IntT arcEnd = CheckArc(arc,pixels,i);  
+	if(arcEnd > minEnd) {
 	  // This must be the longest arc for this end point.
 	  //cerr << "Arc: i=" << i << " j=" << j << " k=" << k << " End=" << arcEnd << "\n";
 	  int len = arcEnd - i;
@@ -109,8 +107,7 @@ namespace RavlImageN {
 	k += 2; 	
       }
       if(maxLen > 0) {
-	cerr << "Arc: i=" << maxArc.IMin() << " k=" << maxArc.IMax() << " Size=" << maxArc.Edges().Size() <<"\n";
-	arcStarts[maxArc.IMax()] = true;
+	//cerr << "Arc: i=" << maxArc.IMin() << " k=" << maxArc.IMax() << " Size=" << maxArc.Edges().Size() <<"\n";
 	arcs.InsLast(maxArc);
       }
       // Try next start position.
@@ -124,14 +121,46 @@ namespace RavlImageN {
     return 0;
   }
   
+  static bool CompareArcs(const Arc2dSegmentC &arc1,const Arc2dSegmentC &arc2) {
+    return arc1.Size() > arc2.Size();
+  }
   
+  //: Find longest set of arcs.
+  
+  IntT ArcDetectorC::MaxArcs(DListC<Arc2dSegmentC> &arcs,DListC<Arc2dSegmentC> &list) {
+    // Sort arcs so we can deal with longest first.
+    arcs.MergeSort(&CompareArcs);
+    DLIterC<Arc2dSegmentC> it(arcs);
+    if(!it)
+      return 0;
+    list.MoveLast(it);
+    DLIterC<Arc2dSegmentC> cit(list);
+    for(it++;it;it++) {
+      IntT overLap = Floor(it->Range().Size() * maxOverlap);
+      for(cit.First();cit;cit++) {
+	IndexRangeC rng(it->Range());
+	rng.ClipBy(cit->Range());
+	if(rng.Size() < overLap) {
+	  list.MoveLast(it);
+	  break;
+	}
+      }
+    }
+    return 0;
+  }
+
   //: Given a set of edge lists create a set of arc's.
   
   DListC<Arc2dSegmentC> ArcDetectorC::Apply(DListC<DListC<Index2dC> > edges) {
     DListC<Arc2dSegmentC> ret;
+    DListC<Arc2dSegmentC> tmpList;
     DListC<Array1dC<Point2dC> > arrLst = List2PntArray(edges,8);
-    for(DLIterC<Array1dC<Point2dC> > it(arrLst);it;it++)
-      FindArcs(*it,ret);
+    DListC<Arc2dSegmentC> list;
+    for(DLIterC<Array1dC<Point2dC> > it(arrLst);it;it++) {
+      FindArcs(*it,list);
+      MaxArcs(list,tmpList);
+      ret.MoveLast(tmpList);
+    }
     return ret;
   }
   

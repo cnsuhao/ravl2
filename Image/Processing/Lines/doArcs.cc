@@ -48,9 +48,9 @@ int main(int nargs,char **argv) {
     cerr << "Edge chains=" << edgeChains.Size() << "\n";
     DListC<Arc2dSegmentC> arcs = arcDet.Apply(edgeChains);
     cerr << "Found " << arcs.Size() << " arcs:\n";
-#if 0
-    for(DLIterC<Arc2dSegmentCC> it(arcs);it;it++) {
-      cerr << " " << it->Centre() << " " << it->Radius() << "\n";
+#if 1
+    for(DLIterC<Arc2dSegmentC> it(arcs);it;it++) {
+      cerr << " " << it->Range() << "\n";
     }
 #endif
   }

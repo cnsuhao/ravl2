@@ -32,7 +32,8 @@ namespace RavlImageN {
     
     Arc2dSegmentC(const Arc2dC &arc,const Array1dC<Point2dC> &nEdges)
       : Arc2dC(arc),
-	edges(nEdges)
+	edges(nEdges),
+	size(nEdges.Size())
     {}
     //: Construct from an arc and a set of edges.
     
@@ -51,18 +52,28 @@ namespace RavlImageN {
     IntT IMin() const
     { return edges.IMin().V(); }
     //: Maximum index.
+
+    const IndexRangeC &Range() const
+    { return edges.Range(); }
+    //: Range of values.
+    
+    IntT Size() const
+    { return size; }
+    //: Get length of arc.
     
   protected:
     Array1dC<Point2dC> edges;
+    IntT size;
   };
   
   //! userlevel=Normal
   //: Circular Arc Detector.
-  // !!EXPERIMENTAL!!
+  // !!EXPERIMENTAL!! <br>
+  // This returns a set of circular arcs found in the edge segments passed to the apply method.
   
   class ArcDetectorC {
   public:
-    ArcDetectorC();
+    ArcDetectorC(RealT actTolerance = 1.5,RealT minRadius = 4,RealT maxRadius = 300,RealT maxOverlap = 0.5);
     //: Default constructor.
     
     DListC<Arc2dSegmentC> Apply(DListC<DListC<Index2dC> > edges);
@@ -78,9 +89,13 @@ namespace RavlImageN {
     IntT CheckArc(const Arc2dC &arc,const Array1dC<Point2dC> &pixels,int start);
     //: Check candate arc.
     
+    IntT MaxArcs(DListC<Arc2dSegmentC> &arcs,DListC<Arc2dSegmentC> &list);
+    //: Find longest set of arcs.
+    
     RealT arcTolerance; // Tolarance for arc in pixels.
     RealT minRadius;    // Minimum radius.
     RealT maxRadius;    // Maximum radius.
+    RealT maxOverlap;
   };
 }
 
