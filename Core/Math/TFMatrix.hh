@@ -130,11 +130,10 @@ namespace RavlN {
     {
       TFMatrixC<DataT,N,MT> ret;
       for(UIntT i = 0;i < N;i++)
-	for(UIntT j = 0;j < MT;j++)
-	{
+	for(UIntT j = 0;j < MT;j++) {
 	  DataT &val = ret[i][j];
-	  val = 0;
-	  for(UIntT k = 0;k < M;k++)
+	  val = data[i][0] * mat[0][j];
+	  for(UIntT k = 1;k < M;k++)
 	    val += data[i][k] * mat[k][j];
 	}
       return ret;
@@ -146,11 +145,10 @@ namespace RavlN {
     {
       TFMatrixC<DataT,M,MT> ret;
       for(UIntT i = 0;i < M;i++)
-	for(UIntT j = 0;j < MT;j++)
-        {
+	for(UIntT j = 0;j < MT;j++) {
 	  DataT &val = ret[i][j];
-	  val = 0;
-	  for(UIntT k = 0;k < N;k++)
+	  val = data[0][i] * mat[0][j];
+	  for(UIntT k = 1;k < N;k++)
 	    val += data[k][i] * mat[k][j];
 	}
       return ret;
@@ -161,11 +159,10 @@ namespace RavlN {
     TFMatrixC<DataT,N,NT> MulT(const TFMatrixC<DataT,NT, M> & mat) const {
       TFMatrixC<DataT,N,NT> ret;
       for(UIntT i = 0;i < N;i++)
-	for(UIntT j = 0;j < NT;j++)
-	{
+	for(UIntT j = 0;j < NT;j++) {
 	  DataT &val = ret[i][j];
-	  val = 0;
-	  for(UIntT k = 0; k < M;k++)
+	  val = data[i][0] * mat[j][0];
+	  for(UIntT k = 1; k < M;k++)
 	    val += data[i][k] * mat[j][k];
 	}
       return ret;
@@ -177,8 +174,8 @@ namespace RavlN {
       TFVectorC<DataT,M> ret;
       for(UIntT i = 0; i < M; i++)
       {
-	ret[i] = 0.0;
-	for(UIntT j = 0; j < N;j++)
+	ret[i] = data[0][i] * vec[0];
+	for(UIntT j = 1; j < N;j++)
 	  ret[i] += data[j][i] * vec[j];
       }
       return ret;
@@ -197,12 +194,37 @@ namespace RavlN {
     
     static TFMatrixC<DataT,N,M> I();
     //: Create an identity matrix.
+
   protected:
 
     DataT data[N][M];
 
     //friend class TFMatrixC<DataT,M,N>; // Make the transpose a friend.
   };
+
+  template<class DataT,unsigned int N,unsigned int M>
+  void MulAdd(const TFMatrixC<DataT,1,M> &mat,const TFVectorC<DataT,N> &vec,const TFVectorC<DataT,N> &add,TFVectorC<DataT,N> &result) {
+    for(unsigned int i = 0;i < N;i++) {
+      result[i] = add[i] + mat[i][0]*vec[0];
+      for(unsigned int j = 1;j < M;j++) 
+	result[i] += mat[i][j]*vec[j];
+    }
+  }
+  //: Compute result = vec * mat + add;
+  // Unfortunatly return my value is a little slow, this gets around that by passind the location to store
+  // the result.
+  
+  template<class DataT,unsigned int N,unsigned int M>
+  void Mul(const TFMatrixC<DataT,N,M> &mat,const TFVectorC<DataT,N> &vec,TFVectorC<DataT,N> &result) {
+    for(unsigned int i = 0;i < N;i++) {
+      result[i] = mat[i][0]*vec[0];
+      for(unsigned int j = 1;j < M;j++) 
+	result[i] += mat[i][j]*vec[j];
+    }
+  }
+  //: Compute result = vec * mat;
+  // Unfortunatly return my value is a little slow, this gets around that by passind the location to store
+  // the result.
   
   template<class DataT,unsigned int N,unsigned int M>
   ostream &operator<<(ostream &s,const TFMatrixC<DataT,N,M> &oth) {
@@ -344,14 +366,10 @@ namespace RavlN {
   template<class DataT,unsigned int N,unsigned int M>
   TFVectorC<DataT,N> TFMatrixC<DataT,N,M>::operator*(const TFVectorC<DataT,M> & vec) const {
     TFVectorC<DataT,N> ret; // N=r M=c
-    for(UIntT i = 0;i < N;i++) {
-      ret[i] = 0;
-      for(UIntT j = 0;j < M;j++)
-	ret[i] += data[i][j] * vec[j];
-    }
+    Mul(*this,vec,ret);
     return ret;
   }
-
+  
   template<class DataT,unsigned int N,unsigned int M>
   TFMatrixC<DataT,M,N> TFMatrixC<DataT,N,M>::T() const {
     TFMatrixC<DataT,M,N> ret;
@@ -417,8 +435,7 @@ namespace RavlN {
 	ret[i][j] = (i == j)?1.0:0.0;
     return ret;
   }
-
-
+  
   //// TFVectorC methods that use TFMatrixC.
   
   template<class DataT,unsigned int N>
@@ -436,8 +453,8 @@ namespace RavlN {
   }
   //: Vector multiply a matrix.
   // The implementation for this can be found in "Ravl/TFMatrix.hh"
-
-
+  
+  
 }
 
 #endif
