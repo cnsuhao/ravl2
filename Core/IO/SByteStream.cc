@@ -16,5 +16,11 @@ namespace RavlN {
   DPOSByteStreamBodyC::DPOSByteStreamBodyC()
   {}
   
+  //---------------------------------------------------------------
+  
+  //: Default constructor.
+
+  DPISByteStreamBodyC::DPISByteStreamBodyC()
+  {}
 
 }
