@@ -21,20 +21,20 @@ int main(int nargs,char *args[])
   
   WindowC win(100,100,"Hello");
   using namespace RavlGUIN;
-  DListC<StringC> sel;
-  sel.InsFirst("Hello1");
-  sel.InsFirst("Hello2");
-  sel.InsFirst("Hello3");
-  sel.InsFirst("A longer message");
+  DListC<Tuple2C<IntT,StringC> > sel;
+  sel.InsFirst(Tuple2C<IntT,StringC>(1,"Hello1"));
+  sel.InsFirst(Tuple2C<IntT,StringC>(2,"Hello2"));
+  sel.InsFirst(Tuple2C<IntT,StringC>(3,"Hello3"));
+  sel.InsFirst(Tuple2C<IntT,StringC>(4,"A longer message"));
   //MenuBarC menuBar;
   //menuBar +
   ListC aList(sel);
-  aList.Add(StringC("Hi!!!"));
+  aList.AppendLine(6,StringC("Hi!!!"));
   win.Add(aList);
+  aList.AppendLine(5,StringC("Hi2"));
   
   win.Show();
-  
-  aList.Add(StringC("Hi2"));
+  aList.RemoveLine(2);
   Manager.Start();
   
 }

@@ -32,17 +32,17 @@ namespace RavlGUIN {
   
   //: Constructor.
   
-  ListBodyC::ListBodyC(const DListC<StringC> &nChoices,GtkSelectionMode nSelMode)
+  ListBodyC::ListBodyC(const DListC<Tuple2C<IntT,StringC> > &nChoices,GtkSelectionMode nSelMode)
     : selMode(nSelMode)
   {
     //signals["list_activate"] = Signal1C<StringC>("-none-");
-    for(ConstDLIterC<StringC> it(nChoices);it.IsElm();it.Next()) 
-      Add(it.Data());
+    for(ConstDLIterC<Tuple2C<IntT,StringC> > it(nChoices);it.IsElm();it.Next()) 
+      AppendLine(it->Data1(),it->Data2());
   }
   
   //: Constructor from a list of strings.
   
-  ListBodyC::ListBodyC(const DListC<WidgetC> &lst,GtkSelectionMode nSelMode)
+  ListBodyC::ListBodyC(const DListC<Tuple2C<IntT,WidgetC> > &lst,GtkSelectionMode nSelMode)
     : children(lst),
       selMode(nSelMode)    
   {}
@@ -55,21 +55,17 @@ namespace RavlGUIN {
 
   //: Get currently selected string.
   
-  DListC<StringC> ListBodyC::Selected() const {
-    DListC<StringC> ret; 
+  DListC<IntT> ListBodyC::Selected() const {
+    DListC<IntT> ret; 
     GList   *dlist=GTK_LIST(widget)->selection;
     
-    /* Get the list item from the doubly linked list
-     * and then query the data associated with list_item_data_key.
-     * We then just print it */
     while (dlist) {
       GtkObject       *list_item;
-      gchar           *item_data_string;
       
       list_item=GTK_OBJECT(dlist->data);
-      item_data_string=(gchar *)gtk_object_get_data(list_item,
-						    ListItemKey);    
-      ret.InsLast(StringC(item_data_string));
+      IntT id =(IntT)gtk_object_get_data(list_item,
+						    ListItemKey); 
+      ret.InsLast(id);
       dlist=dlist->next;
     }
     return ret;
@@ -77,35 +73,28 @@ namespace RavlGUIN {
   
   //: Add new widget to list.
   
-  void ListBodyC::Add(WidgetC &widge) {
-    Manager.Queue(Trigger(ListC(*this),&ListC::GUIAdd,widge));
+  void ListBodyC::AppendLine(IntT id,WidgetC &widge) {
+    Manager.Queue(Trigger(ListC(*this),&ListC::GUIAppendLine,id,widge));
   }
   
   //: Del string from list.
   
-  void ListBodyC::Del(const StringC &text) {
-    Manager.Queue(Trigger(ListC(*this),&ListC::GUIDelS,const_cast<StringC &>(text)));
+  void ListBodyC::RemoveLine(IntT id) {
+    Manager.Queue(Trigger(ListC(*this),&ListC::GUIRemoveLine,id));
   }
-  
-  //: Del widget from list.
-  
-  void ListBodyC::Del(WidgetC &widge) {
-    Manager.Queue(Trigger(ListC(*this),&ListC::GUIDel,widge));
-  }
-  
   
   //: Add new string to window.
   
-  void ListBodyC::Add(const StringC &text)  { 
+  void ListBodyC::AppendLine(IntT id,const StringC &text)  { 
     LabelC lab(text);
-    Add(lab);
+    AppendLine(id,lab);
   }
   
   //: Add new widget to list.
   
-  bool ListBodyC::GUIAdd(WidgetC &widge) {
+  bool ListBodyC::GUIAppendLine(IntT &id,WidgetC &widge) {
     if(widget == 0) { // List created yet ?
-      children.InsLast(widge);
+      children.InsLast(Tuple2C<IntT,WidgetC>(id,widge));
       return true;
     }
     if(widge.Widget() == 0) {
@@ -121,24 +110,33 @@ namespace RavlGUIN {
     gtk_widget_show (li);
     gtk_object_set_data(GTK_OBJECT(li),
 			ListItemKey,
-			(void *) widge.Name().chars());
+			(void *) id);
     
     cerr << "Added " << widge.Name() << " \n";
     return true;
   }
   
-  
-  //: Del string from list.
-  
-  bool ListBodyC::GUIDelS(StringC &text) {
-    cerr << "ListBodyC::GUIDel(const StringC &), Not implemented \n";
-    return true;
-  }
-  
   //: Del widget from list.
   
-  bool ListBodyC::GUIDel(WidgetC &widge) {
-    cerr << "ListBodyC::GUIDel(WidgetC&), Not implemented. \n";
+  bool ListBodyC::GUIRemoveLine(IntT &id) {
+    //ONDEBUG(cerr << "CListBodyC::GUIRemoveLine(), ID:" << id << " \n");
+    GList   *dlist=GTK_LIST(widget)->children;    
+    while (dlist) {
+      GtkObject       *list_item;
+      
+      list_item=GTK_OBJECT(dlist->data);
+      IntT rid =(IntT)gtk_object_get_data(list_item,
+					  ListItemKey); 
+      if(rid == id) {	
+	GList   static_dlist;
+	static_dlist.data=list_item;
+	static_dlist.next=NULL;
+	static_dlist.prev=NULL;
+	gtk_list_remove_items (GTK_LIST(widget),&static_dlist);
+	return true;
+      }
+      dlist=dlist->next;
+    }
     return true;
   }
   
@@ -150,8 +148,8 @@ namespace RavlGUIN {
     
     widget = gtk_list_new();
     gtk_list_set_selection_mode(GTK_LIST(widget),selMode);  
-    for(DLIterC<WidgetC> it(children);it;it++)
-      GUIAdd(it.Data());
+    for(DLIterC<Tuple2C<IntT,WidgetC> > it(children);it;it++)
+      GUIAppendLine(it->Data1(),it->Data2());
     //gtk_signal_connect(GTK_OBJECT(GTK_COMBO(widget)->entry), "changed",
     //GTK_SIGNAL_FUNC (combo_activate),& signals["combo_activate"]);
     ConnectSignals();
@@ -161,8 +159,8 @@ namespace RavlGUIN {
   //: Undo all refrences.
   
   void ListBodyC::Destroy()  {
-    for(DLIterC<WidgetC> it(children);it.IsElm();it.Next())
-      it.Data().Destroy();
+    for(DLIterC<Tuple2C<IntT,WidgetC> > it(children);it;it++)
+      it->Data2().Destroy();
     WidgetBodyC::Destroy();
   }
 

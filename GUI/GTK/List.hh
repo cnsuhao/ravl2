@@ -4,14 +4,14 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLGUILIST_HEADER
-#define RAVLGUILIST_HEADER 1
+#ifndef RAVLGUI_LIST_HEADER
+#define RAVLGUI_LIST_HEADER 1
 //////////////////////////////////////////////////
 //! file="Ravl/GUI/GTK/List.hh"
 //! lib=RavlGUI
 //! author="Charles Galambos"
 //! rcsid="$Id$"
-//! date="02/07/99"
+//! date="02/07/1999"
 //! example=exList.cc
 //! docentry="Ravl.GUI.Control"
 
@@ -38,10 +38,10 @@ namespace RavlGUIN {
     : public WidgetBodyC
   {
   public:
-    ListBodyC(const DListC<StringC> &choices,GtkSelectionMode selMode = GTK_SELECTION_SINGLE);
+    ListBodyC(const DListC<Tuple2C<IntT,StringC> > &choices,GtkSelectionMode selMode = GTK_SELECTION_SINGLE);
     //: Constructor from a list of strings.
     
-    ListBodyC(const DListC<WidgetC> &lst,GtkSelectionMode selMode = GTK_SELECTION_SINGLE);
+    ListBodyC(const DListC<Tuple2C<IntT,WidgetC> > &lst,GtkSelectionMode selMode = GTK_SELECTION_SINGLE);
     //: Constructor from a list of strings.
     
     ListBodyC(GtkSelectionMode selMode = GTK_SELECTION_SINGLE);
@@ -50,37 +50,33 @@ namespace RavlGUIN {
     virtual bool Create();
     //: Create the widget.
     
-    DListC<StringC> Selected() const;
+    DListC<IntT> Selected() const;
     //: Get current selection
     // Should only be called by the GUI thread !
     
-    bool GUIAdd(WidgetC &widge);
+    bool GUIAppendLine(IntT &id,WidgetC &widge);
     //: Add new widget to list.
     
-    bool GUIDelS(StringC &text);
-    //: Del string from list.
-  
-    bool GUIDel(WidgetC &widge);
-    //: Del widget from list.
+    bool GUIRemoveLine(IntT &id);
+    //: Del line from list.
     
-    void Add(const StringC &text);
+    void AppendLine(IntT id,const StringC &text);
     //: Add new string to list.
     
-    void Add(WidgetC &widge);
+    void AppendLine(IntT id,WidgetC &widge);
     //: Add new widget to list.
     
-    void Del(const StringC &text);
-    //: Del string from list.
-  
-    void Del(WidgetC &widge);
-    //: Del widget from list.
+    void RemoveLine(IntT id);
+    //: Delete line id from list.
     
+    void RemoveLine(WidgetC &widge);
+    //: Del widget from list.
     
   protected:
     virtual void Destroy();
     //: Undo all refrences.
     
-    DListC<WidgetC> children;
+    DListC<Tuple2C<IntT,WidgetC> > children;
     GtkSelectionMode selMode;
     friend class ListC;
   };
@@ -93,16 +89,16 @@ namespace RavlGUIN {
   {
   public:
     ListC()
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     
-    ListC(DListC<StringC> lst,GtkSelectionMode selMode = GTK_SELECTION_SINGLE)
+    ListC(DListC<Tuple2C<IntT,StringC> > lst,GtkSelectionMode selMode = GTK_SELECTION_SINGLE)
       : WidgetC(*new ListBodyC(lst,selMode))
-      {}
+    {}
     //: Create a List box.
     
-    ListC(const DListC<WidgetC> &lst,GtkSelectionMode selMode = GTK_SELECTION_SINGLE)
+    ListC(const DListC<Tuple2C<IntT,WidgetC> > &lst,GtkSelectionMode selMode = GTK_SELECTION_SINGLE)
       : WidgetC(*new ListBodyC(lst,selMode))
     {}
     //: Constructor from a list of strings.
@@ -110,80 +106,67 @@ namespace RavlGUIN {
     ListC(GtkSelectionMode selMode)
       : WidgetC(*new ListBodyC(selMode))
     {}
-  //: Create an empty List box.
+    //: Create an empty List box.
   
   protected:
     ListC(ListBodyC &bod)
       : WidgetC(bod)
-      {}
+    {}
     //: Body constructor.
     
     ListBodyC &Body()
-      { return static_cast<ListBodyC &>(WidgetC::Body()); }
+    { return static_cast<ListBodyC &>(WidgetC::Body()); }
     //: Access body.
     
     const ListBodyC &Body() const
-      { return static_cast<const ListBodyC &>(WidgetC::Body()); }
+    { return static_cast<const ListBodyC &>(WidgetC::Body()); }
     //: Access body.
     
-    bool GUIAdd(WidgetC &text)
-      { return Body().GUIAdd(text); }
+    bool GUIAppendLine(IntT &id,WidgetC &widget)
+    { return Body().GUIAppendLine(id,widget); }
     //: Add new string to window.
     // GUI Thread only.
     
-    bool GUIDelS(StringC &text)
-      { return Body().GUIDelS(text); }
-    //: Add new string to window.
-    // GUI Thread only.
-    
-    bool GUIDel(WidgetC &obj)
-      { return Body().GUIDel(obj); }
+    bool GUIRemoveLine(IntT &id)
+    { return Body().GUIRemoveLine(id); }
     //: Add new string to window.
     // GUI Thread only.
     
   public:
     Signal0C &SigSelected()
-      { return Body().Signal("list_activate"); }
+    { return Body().Signal("list_activate"); }
     //: Short cut clicked signal.
     
-    DListC<StringC> Selected() const 
-      { return Body().Selected(); }
+    DListC<IntT> Selected() const 
+    { return Body().Selected(); }
     //: Get currently selected string.
     // Should only be called by the GUI thread !
     
-    void Add(const StringC &text)
-      { Body().Add(text); }
+    void AppendLine(IntT id,const StringC &text)
+    { Body().AppendLine(id,text); }
     //: Add new string to window.
     // Thread safe.
 
-    bool AddString(StringC &text) { 
-      Body().Add(text); 
+    bool AddString(IntT id,StringC &text) { 
+      Body().AppendLine(id,text); 
       return true;
     }
     //: Add new string to window.
     // Thread safe.
     // This is setup to be easly callable from a signal.
     
-    void Add(WidgetC &text)
-      { Body().Add(text); }
+    void AppendLine(IntT id,WidgetC &text)
+    { Body().AppendLine(id,text); }
     //: Add new string to window.
     // Thread safe.
     
-    void Del(const StringC &text)
-      { Body().Del(text); }
+    void RemoveLine(IntT line)
+    { Body().RemoveLine(line); }
     //: Add new string to window.
-    // Thread safe.
-
-    bool DelString(StringC &text) { 
-      Body().Del(text); 
-      return true;
-    }
-    //: Add new string to window.
-    // This is setup to be easly callable from a signal.
     // Thread safe.
     
-    void Del(WidgetC &obj)
-      { Body().Del(obj); }
+    void RemoveLine(WidgetC &obj)
+    { Body().RemoveLine(obj); }
     //: Add new string to window.
     // Thread safe.
     
@@ -192,16 +175,14 @@ namespace RavlGUIN {
   
   
   template<class DataT>
-  ListC List(const DListC<StringC> &lst,void (*func)(ListC &, DataT &ref),const DataT &dat = DataT())
-  { 
+  ListC List(const DListC<Tuple2C<IntT,StringC> > &lst,void (*func)(ListC &, DataT &ref),const DataT &dat = DataT()) { 
     ListC ret(lst);
     Connect(ret.SigSelected(),func,ret,dat);
     return ret;    
   }  
 
   template<class DataT>
-  ListC List(const DListC<StringC> &lst,const DataT &dat,void (DataT::*func)(StringC &ref))
-  { 
+  ListC List(const DListC<Tuple2C<IntT,StringC> > &lst,const DataT &dat,void (DataT::*func)(StringC &ref)) { 
     ListC ret(lst);
     Connect(ret.SigSelected(),dat,func);
     return ret;    
