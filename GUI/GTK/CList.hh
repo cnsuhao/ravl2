@@ -260,7 +260,10 @@ namespace RavlGUIN {
     
     bool GUISetColumnWidth(IntT colNo,IntT width);
     //: Set column width.
-    // Use from the GUI thread only.
+    
+    void SetColumnVisibility(IntT colNo,bool bVisible);
+    //: Set column visibility
+    //!bug: Not working at the moment - seems to in fact hide the entire widget
     
   protected:
     virtual void Destroy();
@@ -271,6 +274,10 @@ namespace RavlGUIN {
     
     bool GUIRowSelected(CListEventC &);
     //: Called when row is selected.
+    
+    bool GUISetColumnVisibility(IntT& colNo,bool& bVisible);
+    //: Set column visibility
+    //!bug: Not working at the moment - seems to in fact hide the entire widget
     
     GtkSelectionMode  selMode;
     
@@ -548,6 +555,11 @@ namespace RavlGUIN {
     // CLIST_COLRESIZE_AUTO - Automaticly set width to fit data <br>
     // CLIST_COLRESIZE_OPTIMAL - Resize to current optimal now, (don't change the current mode.) <br>
     
+    void SetColumnVisibility(IntT colNo,bool bVisible)
+    { return Body().SetColumnVisibility(colNo,bVisible); }
+    //: Set column visibility
+    //!bug: Not working at the moment - seems to in fact hide the entire widget
+
     bool SetColumnWidth(IntT colNo,IntT width)
     { return Body().SetColumnWidth(colNo,width); }
     //: Set column width.
@@ -556,7 +568,14 @@ namespace RavlGUIN {
     { return Body().GUISetColumnWidth(colNo,width); }
     //: Set column width.
     // Use from the GUI thread only.
+
+  protected:
     
+    bool GUISetColumnVisibility(IntT& colNo,bool& bVisible)
+    { return Body().GUISetColumnVisibility(colNo,bVisible); }
+    //: Set column visibility
+    //!bug: Not working at the moment - seems to in fact hide the entire widget
+
     friend class CListBodyC;
   };
 }

@@ -726,6 +726,20 @@ namespace RavlGUIN {
     gtk_clist_set_column_width (GTK_CLIST(widget),colNo,width);
     return true;
   }
+
+  void CListBodyC::SetColumnVisibility(IntT colNo,bool bVisible) {
+    Manager.Queue(Trigger(CListC(*this),&CListC::GUISetColumnVisibility,colNo,bVisible));
+  }
+  
+  bool CListBodyC::GUISetColumnVisibility(IntT& colNo,bool& bVisible) {
+    if(widget == 0) {
+      ONDEBUG(cerr << "CListBodyC::GUISetColumnVisibility(), WARNING: Widget not ready. ");
+      toDo.InsLast(Trigger(CListC(*this),&CListC::GUISetColumnVisibility,colNo,bVisible));
+      return true;
+    }
+    gtk_clist_set_column_visibility (GTK_CLIST(widget),colNo,bVisible);
+    return true;
+  }
   
   //: Undo all references.
   
