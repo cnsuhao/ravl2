@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLCOLLECTIONITER_HEADER
-#define RAVLCOLLECTIONITER_HEADER 1
+#ifndef RAVL_COLLECTIONITER_HEADER
+#define RAVL_COLLECTIONITER_HEADER 1
 //////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Core.Misc"
