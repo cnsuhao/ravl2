@@ -71,16 +71,14 @@ namespace RavlN {
     //: Multiply columb by values from dat and sum them.
     
     virtual void AddIP(const TSMatrixC<DataT> &oth) {
-      RavlAssert(0);
-      return matrix;      
+      RavlAssertMsg(0,"TSMatrixTransposeBodyC::AddIP(), not implemented. ");
     }
     //: Add this matrix to 'oth' and return the result.
     // Note the default implementation only works where Row(UIntT), returns a real access
     // to the data in the matrix.
     
     virtual void SubIP(const TSMatrixC<DataT> &oth) {
-      RavlAssert(0);
-      return matrix;      
+      RavlAssertMsg(0,"TSMatrixTransposeBodyC::SubIP(), not implemented. ");
     }
     //: Subtract 'oth' from this matrix and return the result.
     // Note the default implementation only works where Row(UIntT), returns a real access
@@ -94,7 +92,7 @@ namespace RavlN {
     // This is a no-op.
     
     virtual TSMatrixC<DataT> Mul(const TSMatrixC<DataT> &oth) const
-    { return matrix.TMul(out); }
+    { return matrix.TMul(oth); }
     //: Get this matrix times 'oth'.
     
     virtual TVectorC<DataT> Mul(const TVectorC<DataT> &oth) const
@@ -160,7 +158,7 @@ namespace RavlN {
     //: Set values smaller than 'min' to zero in vector.
     
     virtual DataT SumOfAbs() const
-    { return matrix.SubOfAbs(); }
+    { return matrix.SumOfAbs(); }
     //: Sum the absolute values of all members of the matrix.
     
     virtual void SwapRows(int i,int j)
