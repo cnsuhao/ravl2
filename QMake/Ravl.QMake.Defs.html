@@ -53,6 +53,7 @@
   <li><a href="#PROGLIBS">PROGLIBS</A>
   <li><a href="#EXAMPLES">EXAMPLES</A>
   <li><a href="#TESTEXES">TESTEXES</A>
+  <li><a href="#AUXFILES">AUXFILES,AUXDIR</A>
   <li><a href="#LOCAL_FILES">LOCAL_FILES</A>
   <li><a href="#LIBDEPS">LIBDEPS</A>
   <li><a href="#SUPPORT_ONLY">SUPPORT_ONLY</A>
@@ -181,7 +182,7 @@ variables are provided:
 </UL>
 
 <LI><DT><A NAME="REQUIRES"></A><B>REQUIRES</B></DT>
-<DD>A space seperated list of features required to compile the module. For example:
+<DD>A space-separated list of features required to compile the module. For example:
  <PRE>REQUIRES = libGTK</PRE> means that this directory and its subdirectories
 can only be compiled if resource libGTK is available. A list of available resources
 is generated in the config.local.$(ARC) file and placed in the RESOURCES variable. <br>
@@ -235,7 +236,7 @@ linked when using a library. The suffixes play the same role as in the variable 
 <P>
 The name of files specified in MUSTLINK, must be unique with respect
 to all other files specified in MUSTLINK throughout RAVL.  This directive
-can be used to force files to be included into executables, where dependancies
+can be used to force files to be included into executables, where dependencies
 alone would not caused it to be linked.   This mechanism is used where constructors
 for global variables modify or add to global databases. An example of this is
 the file format register in the RavlIO library.
@@ -255,7 +256,7 @@ HEADERS = headerfile.hh
 Thus to #include the header file, you need to put: 
 <pre>#include "Ravl/headerfile.hh"</pre> 
 
-if PACKAGE is not set you can include headerfiles as normal.
+if PACKAGE is not set you can include header files as normal.
 
 (For a more structured global header file system, see <a
 href="#PACKAGE">PACKAGE</a>.)  </DD><P>
@@ -330,7 +331,7 @@ You need only specify libraries you use explicitly; any others will be
 automatically included.</ul>
 
  <P>
- ATTENTION: If this variable is set the .def file is ALWAYS automaticly
+ ATTENTION: If this variable is set the .def file is ALWAYS automatically
  generated. If LIBDEPS is set as well then this is used as the name of the
  generated file. if you have library which depends on nothing else, but you
  wish to set USESLIBS you can use the dummy library 'None'. Example,
@@ -399,15 +400,19 @@ stored in a log during testing to help trace bugs.  Testing done using the 'qm t
 The directory can contain special files which should be extracted from the
 database of source files. They can be examples of data input, etc. The size of
 these file should be kept to a minimum. The following variables can be used for
-a specification of these file:
+a specification of these files:
 </P>
 
 <UL>
-<LI><DT><A NAME="LOCAL_FILES"></A><B>LOCAL_FILES</B></DT>
-<DD>All files which do not fit to any other category of variables of defs.mk
- file. These file are extracted to the current directory from the database of
- sources and regularly updated.
+<LI><DT><A NAME="AUXFILES"></A><B>AUXFILES, AUXDIR</B></DT>
+<DD>Use these for data files that need to end up somewhere where your program
+will always find them.  All files listed in AUXFILES are installed in
+$PROJECT_OUT/AUXDIR.  If AUXDIR is not used, the files are installed in $PROJECT_OUT.  Thus:<PRE>
+AUXFILES = mask.png
+AUXDIR = share/data
+</PRE> will install the file mask.png in the directory $PROJECT_OUT/share/data.  Any necessary subdirectories are automatically created.
 </DD>
+
 </UL>
 
 
@@ -427,12 +432,12 @@ List of EHT files for creating extra documentation for nodes in the tree. <p>
 Nodes in the tree should be named for the path in the documentation tree. e.g. the extra
 documentation for arrays has the name 'Containers.Arrays.eht'.
 Executables MUST start with the prefix exe, followed by the name of
-the executable, with a extention of '.eht' or '.html'.
+the executable, with an extension of '.eht' or '.html'.
 <p>
 
 </DD><P>
 <LI><DT><A NAME="DOCNODE"></A><B>DOCNODE</B></DT>
-<DD>Specifies additional files required by <b>EHT</b> files, ie images.</DD><P>
+<DD>Specifies additional files required by <b>EHT</b> files, i.e. images.</DD><P>
 <LI><DT><A NAME="HTML"></A><B>HTML</B></DT>
 <DD>Contains the names of documentation written in plain hypertext.</DD><P>
 <LI><DT><A NAME="MAN1"></A><B>MAN1</B></DT>
@@ -444,27 +449,27 @@ the executable, with a extention of '.eht' or '.html'.
 
 <LI><DT><A NAME="CHXX"></A><B>CHXX</B></DT>
 <DD>
-Extention expected for C++ header files. Defaults to '.hh'. Can be set in config.(arc) files
+Extension expected for C++ header files. Defaults to '.hh'. Can be set in config.(arc) files
 as well.
 </DD><P>
 <LI><DT><A NAME="CXXEXT"></A><B>CXXEXT</B></DT>
 <DD>
-Extention expected for C++ source files. Defaults to '.cc'. Can be set in config.(arc) files
+Extension expected for C++ source files. Defaults to '.cc'. Can be set in config.(arc) files
 as well.
 </DD><P>
 <LI><DT><A NAME="CXXAUXEXT"></A><B>CXXAUXEXT</B></DT>
 <DD>
-Auxillary extention for C++ source files. Defaults to '.cxx'. Can be set in config.(arc) files
+Auxiliary extension for C++ source files. Defaults to '.cxx'. Can be set in config.(arc) files
 as well.
 </DD><P>
 <LI><DT><A NAME="CEXT"></A><B>CEXT</B></DT>
 <DD>
-Extention expected for C source files. Defaults to '.c'. Can be set in config.(arc) files
+Extension expected for C source files. Defaults to '.c'. Can be set in config.(arc) files
 as well.
 </DD><P>
 <LI><DT><A NAME="CHEXT"></A><B>CHEXT</B></DT>
 <DD>
-Extention expected for C header files. Defaults to '.h'. Can be set in config.(arc) files
+Extension expected for C header files. Defaults to '.h'. Can be set in config.(arc) files
 as well.
 </DD><P>
 </UL>
