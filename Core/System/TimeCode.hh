@@ -53,7 +53,7 @@ namespace RavlN {
     TimeCodeC(const StringC & string, RealT frameRate = 25.00) ; 
     //: Construct from a Ravl string representation 
     
-    TimeCodeC()
+    inline TimeCodeC()
       : m_liFrame(0),
 	frameRate(25.0)
     {}
@@ -83,14 +83,14 @@ namespace RavlN {
     TimeCodeC operator+(const TimeCodeC & in) const;
     //: Adds timecodes
     
-    TimeCodeC operator+(const IntT & frames) const
+    inline TimeCodeC operator+(const IntT & frames) const
       { return TimeCodeC(m_liFrame+frames, frameRate); }
     //: Adds no. of frames  to timecode
     
     TimeCodeC operator-(const TimeCodeC & in) const;
     //: Subtracts timecodes
     
-    TimeCodeC operator-(const IntT & frames) const
+    inline TimeCodeC operator-(const IntT & frames) const
       { return TimeCodeC(m_liFrame-frames, frameRate); }
     //: Subtracts no. of frames from timecode
     
@@ -118,23 +118,27 @@ namespace RavlN {
     //:----------------------
     //: Member Functions
     
-    UIntT Hash() const { return (UIntT) m_liFrame; }
+    inline UIntT Hash() const
+      { return (UIntT) m_liFrame; }
     //:: the hash key
     
-    inline IntT bcd(ByteT in) { return (in >> 4) * 10  + (in & 0xf);}
+    inline IntT bcd(ByteT in)
+      { return (in >> 4) * 10  + (in & 0xf);}
     //: Routine to convert binary coded decimal to int
     
     StringC ToText() const;
     //: Return a string  representation of timecode
     
-    IntT NumberOfFramesTo(const TimeCodeC &in) const 
+    inline IntT NumberOfFramesTo(const TimeCodeC &in) const 
       { return Abs(m_liFrame - tc_In.m_liFrame); }    
     //: Count the number of frames to a timecode
     
-    bool IsValid() const  { return ((m_liFrame>=0) && (frameRate>0.0)); }
+    inline bool IsValid() const
+      { return ((m_liFrame>=0) && !IsNan(frameRate) && (frameRate>0.0)); }
     //: Checks whether the timecode holds valid data
         
-    long int getFrameCount() const {return m_liFrame;}
+    inline int getFrameCount() const
+      {return m_liFrame;}
     //: Access frame count.
 
     bool ConvertTo(IntT &hr, IntT &min, IntT &sec, IntT &fr) const;
@@ -151,8 +155,8 @@ namespace RavlN {
     //: Convert from a string
     // expects format hh:mm:ss:ff 
 
-    RealT FrameRate() const
-    { return frameRate; }
+    inline RealT FrameRate() const
+      { return frameRate; }
     //: Access the frame rate
 
   protected:

@@ -143,14 +143,14 @@ namespace RavlN {
   //: Adds timecodes
   TimeCodeC TimeCodeC::operator+(const TimeCodeC & in) const {
     IntT newFrameCount = m_liFrame + in.m_liFrame;
-    return TimeCodeC(newFrameCount);
+    return TimeCodeC(newFrameCount, frameRate);
   }
 
   
   //: Subtracts timecodes
   TimeCodeC TimeCodeC::operator-(const TimeCodeC & in) const {
     IntT newFrameCount = m_liFrame - in.m_liFrame;
-    return TimeCodeC(newFrameCount);
+    return TimeCodeC(newFrameCount, frameRate);
   }
 
 
