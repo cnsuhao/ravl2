@@ -109,7 +109,7 @@ debug: log
 	$(SMAKEMD) fullbuild VAR=debug TARGET=fullbuild  
 
 debugall: log
-	$(SMAKEMD) fullbuild VAR=debug AMMA_VAR=debug GAMA_VAR=debug TARGET=fullbuild  
+	$(SMAKEMD) fullbuild VAR=debug BASE_VAR=debug TARGET=fullbuild  
 
 check: log
 	$(SMAKEMD) fullbuild VAR=check TARGET=fullbuild  
@@ -199,32 +199,34 @@ fullbuild:
 	  echo "QMAKE: Installation of header files failed. " ; \
 	  exit 1; \
         fi ; \
-	if $(MAKEMD) $(FULLBUILDFLAGS) fullbuild VAR=check  TARGET=fullbuild NOEXEBUILD=1 ; then true; \
+	if $(MAKEMD) $(FULLBUILDFLAGS) fullbuild VAR=check TARGET=fullbuild NOEXEBUILD=1 ; then true; \
         else \
 	  echo "QMAKE: Check library build failed. " ; \
 	  exit 1; \
         fi ; \
-	if $(MAKEMD) $(FULLBUILDFLAGS) fullbuild VAR=debug  TARGET=fullbuild NOEXEBUILD=1 ; then true; \
+	if $(MAKEMD) $(FULLBUILDFLAGS) fullbuild VAR=debug TARGET=fullbuild NOEXEBUILD=1 ; then true; \
         else \
 	  echo "QMAKE: Debug library build failed. " ; \
 	  exit 1; \
         fi ; \
-	if $(MAKEMD) $(FULLBUILDFLAGS) fullbuild VAR=shared TARGET=fullbuild NOEXEBUILD=1 ; then true; \
-        else \
-	  echo "QMAKE: Shared library build failed. " ; \
-	  exit 1; \
-        fi ; \
-	if $(MAKEMD) $(FULLBUILDFLAGS) fullbuild VAR=opt    TARGET=fullbuild NOEXEBUILD=1 ; then true; \
+	if $(MAKEMD) $(FULLBUILDFLAGS) fullbuild VAR=opt TARGET=fullbuild NOEXEBUILD=1 ; then true; \
         else \
 	  echo "QMAKE: opt library build failed. " ; \
 	  exit 1; \
         fi ; \
-	if $(MAKEMD) $(FULLBUILDFLAGS) fullbuild VAR=opt    TARGET=fullbuild 2>&1 ; then true; \
+	if $(MAKEMD) $(FULLBUILDFLAGS) fullbuild VAR=opt TARGET=fullbuild 2>&1 ; then true; \
         else \
 	  echo "QMAKE: executable build failed. " ; \
 	  exit 1; \
         fi ; \
 	$(MAKEDC) $(FULLBUILDFLAGS) doc 2>&1 | tee $(PROJECT_OUT)/log/buildDoc.log
+
+fullshared:
+	if $(MAKEMD) $(FULLBUILDFLAGS) fullbuild VAR=shared TARGET=fullbuild NOEXEBUILD=1 ; then true; \
+        else \
+	  echo "QMAKE: Shared library build failed. " ; \
+	  exit 1; \
+        fi ; \
 
 fulldoc:
 	$(SMAKEDC) doc    $(FULLBUILDFLAGS)

@@ -29,6 +29,7 @@ ifndef PAGER
  PAGER = more
 endif
 
+
 #########################
 # Include user make info.
 
@@ -111,6 +112,8 @@ ifdef USESLIBS
 endif
 
 AUXDIR:=$(strip $(AUXDIR))#
+
+UNTOUCH:=$(MAKEHOME)/../../$(ARC)/bin/untouch
 
 ###########################
 # Platform supported ?
@@ -262,12 +265,12 @@ JAVA_SRC = $(filter %.java,$(SOURCES) $(MAINS))
 ifeq ($(SUPPORT_OK),yes)
  TARG_MUSTLINK_OBJS=$(patsubst %$(CEXT),$(INST_FORCEOBJS)/%$(OBJEXT), \
     $(patsubst %$(CXXEXT),$(INST_FORCEOBJS)/%$(OBJEXT), $(MUSTLINK)))
- TARG_OBJS=$(patsubst %$(CXXAUXEXT),$(INST_OBJS)/%$(OBJEXT), \
-    $(patsubst %$(CEXT),$(INST_OBJS)/%$(OBJEXT), \
+ TARG_BASEOBJS=$(patsubst %$(CEXT),$(INST_OBJS)/%$(OBJEXT), \
     $(patsubst %.S,$(INST_OBJS)/%$(OBJEXT), \
     $(patsubst %.y,$(INST_OBJS)/%.tab$(OBJEXT), \
     $(patsubst %.l,$(INST_OBJS)/%.yy$(OBJEXT), \
-    $(patsubst %$(CXXEXT),$(INST_OBJS)/%$(OBJEXT),$(SOURCES)))))))
+    $(patsubst %$(CXXEXT),$(INST_OBJS)/%$(OBJEXT),$(SOURCES))))))
+ TARG_OBJS=$(patsubst %$(CXXAUXEXT),$(INST_OBJS)/%$(OBJEXT),$(TARG_BASEOBJS))
  TARG_HDRS:=$(patsubst %,$(INST_HEADER)/%,$(HEADERS))
  ifdef FULLCHECKING
   TARG_HDRCERTS:=$(patsubst %$(CHXXEXT),$(INST_HEADERCERT)/%$(CHXXEXT),$(HEADERS)) $(patsubst %$(CHEXT),$(INST_HEADERCERT)/%$(CHEXT),$(HEADERS))
@@ -311,7 +314,7 @@ ifeq ($(SUPPORT_OK),yes)
  endif
 
  ifneq (,$(PLIB))
-  TARG_LIBS=$(patsubst %,$(INST_LIB)/lib%$(LIBEXT),$(PLIB)) 
+  TARG_LIBS=$(strip $(patsubst %,$(INST_LIB)/lib%$(LIBEXT),$(PLIB)))#
  else
   TARG_LIBS=
  endif
@@ -400,7 +403,8 @@ endif
 # Nested directories
 
 build_subdirs: srcfiles
-	$(SHOWIT)for SUBDIR in stupid_for_loop_thing $(TARG_NESTED) ; do \
+ifneq ($(strip $(TARG_NESTED)),)
+	$(SHOWIT)for SUBDIR in $(TARG_NESTED) ; do \
 	  if [ -d $$SUBDIR ] ; then \
 	   echo "------ Making $(DPATH)/"$$SUBDIR ; \
 	   if ( $(MAKEMD) $(TARGET) TARGET=$(TARGET) -C $$SUBDIR DPATH=$(DPATH)/$$SUBDIR ) ; then \
@@ -409,11 +413,17 @@ build_subdirs: srcfiles
 	     echo "Error making $(QCWD)/"$$SUBDIR ; \
 	     exit 1 ; \
 	   fi \
+	  else \
+	   echo "----- Directory $$SUBDIR not found, skipping. " ; \
 	  fi \
 	done
+else
+	@true
+endif
 
 src_all: srcfiles
-	$(SHOWIT)for SUBDIR in stupid_for_loop_thing $(TARG_NESTED) ; do \
+ifneq ($(strip $(TARG_NESTED)),)
+	$(SHOWIT)for SUBDIR in $(TARG_NESTED) ; do \
 	  if [ -d $$SUBDIR ] ; then \
 	   echo "------ Source $(DPATH)/"$$SUBDIR; \
 	   if ( $(MAKEMO) src_all -C $$SUBDIR DPATH=$(DPATH)/$$SUBDIR ) ; then \
@@ -422,8 +432,13 @@ src_all: srcfiles
 	     echo "Error sourcing $(QCWD)/"$$SUBDIR ; \
 	     exit 1 ; \
 	   fi \
+	  else \
+	   echo "----- Directory $$SUBDIR not found, skipping. " ; \
 	  fi \
 	done
+else
+	@true
+endif
 
 ###########################
 # Source header files.
@@ -525,7 +540,7 @@ $(INST_OBJS)/%$(OBJEXT) $(INST_DEPEND)/%.d : %$(CXXAUXEXT) $(INST_OBJS)/.dir $(I
 	  $(MKDEPUP) ; \
 	else \
 	  false ; \
-	fi 
+	fi ; \
 
 $(INST_OBJS)/%$(OBJEXT) $(INST_DEPEND)/%.d : %$(CXXEXT) $(INST_OBJS)/.dir $(INST_DEPEND)/.dir
 	$(SHOWIT)echo "--- Compile" $(VAR) $< ; \
@@ -553,6 +568,8 @@ $(INST_OBJS)/%$(OBJEXT) : %.S $(INST_OBJS)/.dir
 	$(SHOWIT)echo "--- Assemble" $(VAR) $< ; \
 	$(CC) -c -D__ASSEMBLY__=1 $(CPPFLAGS) $(CFLAGS) $(CINCLUDES) -o $(INST_OBJS)/$(@F) $<
 
+# $(UNTOUCH) $(INST_LIB)/lib$(PLIB)$(LIBEXT)  ; \
+
 # Sort out some default.
 
 ifndef BISON
@@ -579,9 +596,15 @@ endif
 
 ifneq ($(strip $(TARG_JAVA)),)
 build_libs: $(TARG_LIBS) buildjavalibs
+#build_libs: $(TARG_LIBS) $(strip $(TARG_LIBS))($(strip $(TARG_BASEOBJS))) buildjavalibs
 else
+ifneq ($(strip $(PLIB)),)
 ifneq ($(strip $(SOURCES)),)
-build_libs: $(TARG_LIBS)
+build_libs: $(TARG_LIBS) $(TARG_LIBS)
+#build_libs: $(TARG_LIBS) $(strip $(TARG_LIBS))($(strip $(TARG_BASEOBJS)))
+else
+build_libs:
+endif
 else
 build_libs:
 endif
@@ -600,13 +623,17 @@ ifndef XARGS
 endif
 
 ifneq ($(VAR),shared)
-$(INST_LIB)/lib$(PLIB)$(LIBEXT) :  $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) $(INST_LIB)/dummymain$(OBJEXT) $(INST_LIB)/.dir
+#$(INST_LIB)/lib$(PLIB)$(LIBEXT)($(INST_LIB)/%.o) : $(INST_OBJS)/%.o $(INST_LIB)/dummymain$(OBJEXT) $(INST_LIB)/.dir
+#	$(SHOWIT)echo "--- Adding" $*.o ; \
+#	$(AR) $(ARFLAGS) $(INST_LIB)/$(@F) $(TARG_OBJS) ; \
+
+$(INST_LIB)/lib$(PLIB)$(LIBEXT) : $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) $(INST_LIB)/dummymain$(OBJEXT) $(INST_LIB)/.dir
 	$(SHOWIT)echo "--- Building" $(@F) ; \
 	$(AR) $(ARFLAGS) $(INST_LIB)/$(@F) $(TARG_OBJS) ; \
 	if $(CXX) $(LDFLAGS) $(INST_LIB)/dummymain$(OBJEXT) $(TARG_OBJS) $(LIBS) -o $(WORKTMP)/a.out ; then \
 	  rm $(WORKTMP)/a.out ; \
 	  $(AR) $(ARFLAGS) $(INST_LIB)/$(@F) $(TARG_OBJS) ; \
-	  $(TOUCH) $(INST_LIB)/$(@F) ; \
+	  $(UNTOUCH) $(INST_LIB)/$(@F) $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) ; \
 	else \
 	  if [ -f $(WORKTMP)/a.out ] ; then \
 	    rm $(WORKTMP)/a.out ; \
@@ -622,7 +649,7 @@ $(INST_LIB)/lib$(PLIB)$(LIBEXT) :  $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) $(INST_LIB
 	echo "---- Building object list " ; \
 	$(patsubst  %$(OBJEXT),echo %$(OBJEXT) >> $(INST_OBJS)/libObjs.txt ;,$(TARG_OBJS)) \
 	sort -u $(INST_OBJS)/libObjs.txt -o $(INST_OBJS)/libObjs.txt ; \
-	echo "---- Resolve C++ symbs " ; \
+	echo "---- Resolve C++ symbols " ; \
 	if $(CXX) $(LDFLAGS) $(INST_LIB)/dummymain$(OBJEXT) $(TARG_OBJS) $(LIBS) -o $(WORKTMP)/a.out ; then \
 	  rm $(WORKTMP)/a.out ; \
 	  echo "---- Doing final build " ; \

@@ -13,7 +13,7 @@ DESCRIPTION = Quick Make System
 
 LICENSE= GPL
 
-MAINS=SysConf.cc
+MAINS=SysConf.cc untouch.cc
 
 AUXDIR=Tools/QMake
 
