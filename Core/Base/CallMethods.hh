@@ -46,6 +46,10 @@ namespace RavlN {
     { (obj.*FuncPtr())(); }
     //: Invoke event.
     
+    virtual RetT Call()
+    { return (obj.*FuncPtr())(); }
+    //: Call signal
+    
   protected:
     virtual RCBodyVC &Copy() const
     { return *new CallMethod0BodyC<ObjT,RetT>(const_cast<BaseObjT &>(obj),FuncPtr()); }
