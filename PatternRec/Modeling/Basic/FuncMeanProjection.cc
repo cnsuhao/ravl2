@@ -23,6 +23,11 @@
 #endif 
 
 namespace RavlN {
+
+  //: Default constructor.
+  
+  FuncMeanProjectionBodyC::FuncMeanProjectionBodyC()
+  {}
   
   //: Default constructor.
   

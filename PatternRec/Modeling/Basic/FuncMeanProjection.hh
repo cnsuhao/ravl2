@@ -26,8 +26,7 @@ namespace RavlN {
     : public FunctionBodyC
   {
   public:
-    FuncMeanProjectionBodyC()
-    {}
+    FuncMeanProjectionBodyC();
     //: Default constructor.
     
     FuncMeanProjectionBodyC(const VectorC &nMean,const MatrixC &nProj);
