@@ -41,8 +41,9 @@ namespace RavlLogicN {
       return false;
     return Term().IsEqual(isNot.Term());
   }
-
+  
   //: Is this a simple expression with no variables ?
+  
   bool NotBodyC::IsGrounded() const {
     if(!Term().IsValid())
       return true;
@@ -50,6 +51,7 @@ namespace RavlLogicN {
   }
   
   //: Unify with another variable.
+  
   bool NotBodyC::Unify(const LiteralC &oth,BindSetC &bs) const {
     BindMarkT bm = bs.Mark();
     if(Term().Unify(oth,bs)) {
@@ -70,8 +72,9 @@ namespace RavlLogicN {
     RavlAssert(Term().IsValid());
     return !Term().Test(state,binds);
   }
-
+  
   //: Return iterator through possibile matches to this literal in 'state', if any.
+  
   LiteralIterC NotBodyC::Solutions(const StateC &state,BindSetC &binds) const {
     NotC me(const_cast<NotBodyC &>(*this));
     return LiteralFilterIterC(state.List(),me);

@@ -34,20 +34,22 @@ namespace RavlLogicN {
   
   //:  constructor.
   
-  OrBodyC::OrBodyC(const SArray1dC<LiteralC> &nterms) {
+  OrBodyC::OrBodyC(const SArray1dC<LiteralC> &nterms,bool useArrayDirectly) {
+    if(useArrayDirectly) {
+      RavlAssert(nterms.Size() > 0);
+      RavlAssert(nterms[0] == literalOr);
+      args = nterms;
+      return ;
+    }
     if(nterms.Size() == 0) {
       args = SArray1dC<LiteralC>(1);
       args[0] = literalOr;
       return ;
     }
-      
-    if(nterms[0] != literalOr) {
-      args = SArray1dC<LiteralC>(nterms.Size() + 1);
-      args[0] = literalOr;
-      for(BufferAccessIter2C<LiteralC,LiteralC> it(nterms,args.BufferFrom(1,nterms.Size()));it;it++)
-	it.Data2() = it.Data1();
-    } else
-      args = nterms;
+    args = SArray1dC<LiteralC>(nterms.Size() + 1);
+    args[0] = literalOr;
+    for(BufferAccessIter2C<LiteralC,LiteralC> it(nterms,args.BufferFrom(1,nterms.Size()));it;it++)
+      it.Data2() = it.Data1();
     ONDEBUG(cerr << "OrBodyC::OrBodyC(), Name=" << Name() << "\n");    
   }
   

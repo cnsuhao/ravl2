@@ -15,7 +15,7 @@
 #include "Ravl/SArr1Iter.hh"
 #include "Ravl/Logic/BindSet.hh"
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -27,46 +27,72 @@ namespace RavlLogicN {
   //: Default constructor.
   
   MinTermBodyC::MinTermBodyC() 
-    : AndBodyC(3)
-  {}
+    : AndBodyC(3),
+      t(true),
+      n(true)
+  {
+    args[1] = t;
+    args[2] = !n;
+    ONDEBUG(cerr << "MinTermBodyC::MinTermBodyC() = " << Name() << "\n");
+  }
+
+  //: Constructor.
+  
+  MinTermBodyC::MinTermBodyC(const AndC &at,const OrC &ot) 
+    : AndBodyC(3),
+      t(at),
+      n(ot)
+  {
+    if(!n.IsValid())
+      n = OrC(true);
+    if(!t.IsValid())
+      t = AndC(true);
+    args[1] = t;
+    args[2] = !n;
+    ONDEBUG(cerr << "MinTermBodyC::MinTermBodyC(const AndC &,const OrC &) = " << Name() << "\n");
+  }
   
   //: Construct from a single literal.
-  // Effectively add NotC(lit) if negate is true.
+  // Effectively add !lit if negate is true.
   
   MinTermBodyC::MinTermBodyC(const LiteralC &lit,bool negate) 
-    : AndBodyC(3)
+    : AndBodyC(3),
+      t(true),
+      n(true)
   {
-    if(negate) {
-      NotC nt(lit);
-      // args[1] = ; 
-      args[2] = nt;
-      n = nt.Args().From(1,1);
-    } else {
-      args[1] = lit;
-      // args[2] = ; 
-      t = args.From(1,1);
-    }
+    
+    args[1] = t;
+    args[2] = !n;
+    if(negate)
+      AndNotAdd(lit);
+    else
+      AndAdd(lit);
+    ONDEBUG(cerr << "MinTermBodyC::MinTermBodyC(const LiteralC &,bool) Lit=" << lit << " this=" << Name() << "\n");  
   }
   
   //: Constructor
   
-  MinTermBodyC::MinTermBodyC(const SArray1dC<LiteralC> &ts,const SArray1dC<LiteralC> &ns) 
-  { SetTerms(ts,ns); }
+  MinTermBodyC::MinTermBodyC(const SArray1dC<LiteralC> &ts,const SArray1dC<LiteralC> &ns,bool useArrayDirectly) 
+    : AndBodyC(3),
+      t(true),
+      n(true)
+  {
+    args[1] = t;
+    args[2] = !n;
+    SetTerms(ts,ns,useArrayDirectly); 
+    ONDEBUG(cerr << "MinTermBodyC::MinTermBodyC(const SArray1dC<LiteralC> &,const SArray1dC<LiteralC> &,bool) = " << Name() << "\n");  
+  }
   
   //: Setup terms.
   
-  void MinTermBodyC::SetTerms(const SArray1dC<LiteralC> &ts,const SArray1dC<LiteralC> &ns) {
-    OrC orv(ns);
-    if(args.Size() < 2) {
-      args[0] = literalAnd;
-      args = SArray1dC<LiteralC>(3);
-    }
-    n = orv.Args().From(1,orv.Args().Size()-1);
-    args[2] = NotC(orv);
-    AndC xa(ts);
-    args[1] = xa; 
-    t = xa.Terms().From(1);
-    n = orv.Terms().From(1);
+  void MinTermBodyC::SetTerms(const SArray1dC<LiteralC> &ts,const SArray1dC<LiteralC> &ns,bool useArrayDirectly = false) {
+    OrC orv(ns,useArrayDirectly);
+    AndC xa(ts,useArrayDirectly);
+    t = xa;
+    n = !orv;
+    args[1] = t;
+    args[2] = n;
+    ONDEBUG(cerr << "MinTermBodyC::SetTerms(), " << Name() << "\n");
   }
   
   //: Copy minterm.
@@ -81,46 +107,46 @@ namespace RavlLogicN {
   bool MinTermBodyC::AndAdd(const LiteralC &lit) {
     if(!lit.IsValid())
       return true;
-    NotC nt(lit);
-    ONDEBUG(cerr << "MinTermBodyC::AndAdd(), Add '" << lit.Name() << "'\n");
-    if(nt.IsValid()) {
-      if(!nt.Term().IsValid())
-	return true; // No term to add.
-      NotC tn(args[2]);
-      if(tn.IsValid()) {
-	if(tn.Term().IsValid()) {
-	  OrC on(tn.Term());
-	  RavlAssert(on.IsValid());
-	  on.OrAdd(nt.Term());
-	  n = on.Terms().From(1);
-	} else {
-	  OrC on(true);
-	  on.OrAdd(nt.Term());
-	  on.OrAdd(tn.Term());
-	  tn.Term() = on;
-	  n = on.Terms().From(1);
-	} 
-      } else {
-	OrC on(true);
-	on += nt.Term();
-	args[2] = NotC(true,on);
-	n = on.Terms().From(1);	
-      }
-    } else {
-      if(args[2].IsValid()) {
-	AndC an(args[2]);
-	an.AndAdd(lit);
-	t = an.Terms().From(1);
-      } else {
-	AndC an(true);
-	an.AndAdd(lit);
-	args[2] = an;
-	t = an.Terms().From(1);
-      }
+    ONDEBUG(cerr << "MinTermBodyC::AndAdd(),'" << Name() << "' * '" << lit.Name() << "'\n");
+    AndC andt(lit);
+    if(andt.IsValid()) {
+      SArray1dIterC<LiteralC> it(andt.Terms());
+      RavlAssert(it);
+      it++;
+      bool ret = true;
+      for(;it;it++)
+	ret &= AndAdd(*it);
+      return ret;
     }
+    
+    NotC nt(lit);
+    if(nt.IsValid()) {
+      AndNotAdd(nt.Term());
+    } else
+      t.AndAdd(lit);
+    ONDEBUG(cerr << "MinTermBodyC::AndAdd(), Add '" << lit.Name() << "' = '" << Name() << "'\n");
     return true;
   }
-
+  
+  //: Add a negated term to the minterm.
+  
+  bool MinTermBodyC::AndNotAdd(const LiteralC &lit) {
+    if(!lit.IsValid())
+      return true;
+    NotC nt(lit);
+    if(nt.IsValid())
+      return AndAdd(nt.Term());
+    AndC andt(lit);
+    if(andt.IsValid()) {
+      SArray1dIterC<LiteralC> it(andt.Terms());
+      RavlAssert(it);
+      for(it++;it;it++) 
+	n.OrAdd(*it);
+      return true;
+    }
+    n.OrAdd(lit);
+    return true;
+  }
 
   //: Does this minterm cover all terms of mt ?
   
@@ -128,9 +154,15 @@ namespace RavlLogicN {
     BindMarkT ibm = bs.Mark();
     // FIXME:- Do some kind of backtracking.
     // Check positive terms.
-    for(SArray1dIterC<LiteralC> it(mt.Pos());it;it++) {
+    SArray1dIterC<LiteralC> it(mt.Pos());
+    RavlAssert(it);
+    it++;
+    for(;it;it++) {
       bool found = false;
-      for(SArray1dIterC<LiteralC> it2(t);it2;it2++) {
+      SArray1dIterC<LiteralC> it2(t.Args());
+      RavlAssert(it2);
+      it2++;
+      for(;it2;it2++) {
 	if(it2->Unify(*it,bs)) {
 	  found = true;
 	  break;
@@ -142,9 +174,15 @@ namespace RavlLogicN {
       }
     }
     // Check negative terms.
-    for(SArray1dIterC<LiteralC> it(mt.Neg());it;it++) { 
+    it = mt.Neg();
+    RavlAssert(it);
+    it++;
+    for(;it;it++) { 
       bool found = false;
-      for(SArray1dIterC<LiteralC> it2(t);it2;it2++) {
+      SArray1dIterC<LiteralC> it2(t.Args());
+      RavlAssert(it2);
+      it2++;
+      for(;it2;it2++) {
 	if(it2->Unify(*it,bs)) {
 	  found = true;
 	  break;
@@ -157,5 +195,42 @@ namespace RavlLogicN {
     }
     return true;
   }
+
+
+  MinTermC operator*(const MinTermC &mt1,const MinTermC &mt2) {
+    MinTermC ret(mt1.PosTerm(),mt1.NegTerm());
+    ret.NegTerm().OrAdd(mt2.Neg());
+    ret.PosTerm().AndAdd(mt2.Pos());
+    return ret;
+  }
+  //: And two min-terms.
+  
+  MinTermC operator*(const MinTermC &mt1,const LiteralC &t2) {
+    MinTermC xt(t2);
+    if(xt.IsValid())
+      return mt1 * xt;
+    MinTermC ret(mt1.PosTerm(),mt1.NegTerm());
+    NotC nt(t2);
+    if(nt.IsValid())
+      ret.NegTerm().OrAdd(nt.Term());	    
+    else
+      ret.PosTerm().AndAdd(t2);
+    return ret;
+  }
+  //: And a min term and a literal.
+  
+  MinTermC operator*(const LiteralC &t1,const MinTermC &mt2) {
+    MinTermC xt(t1);
+    if(xt.IsValid())
+      return xt * mt2;
+    MinTermC ret(mt2.PosTerm(),mt2.NegTerm());
+    NotC nt(t1);
+    if(nt.IsValid())
+      ret.NegTerm().OrAdd(nt.Term());	    
+    else
+      ret.PosTerm().AndAdd(t1);
+    return ret;    
+  }
+  //: And a min term and a literal.
   
 }

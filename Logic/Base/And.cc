@@ -40,21 +40,23 @@ namespace RavlLogicN {
   
   //: Constructor.
   
-  AndBodyC::AndBodyC(const SArray1dC<LiteralC> &set)
-  {
-    if(set.Size() == 0) {
+  AndBodyC::AndBodyC(const SArray1dC<LiteralC> &nterms,bool useArrayDirectly) {
+    if(useArrayDirectly) {
+      RavlAssert(nterms.Size() > 0);
+      RavlAssert(nterms[0] == literalAnd);
+      args = nterms;
+      return ;
+    }
+    if(nterms.Size() == 0) {
       args = SArray1dC<LiteralC>(1);
       args[0] = literalAnd;
       return ;
     }
-    if(set[0] != literalAnd) {
-      args =SArray1dC<LiteralC>(set.Size() + 1);
-      args[0] = literalAnd;
-      for(BufferAccessIter2C<LiteralC,LiteralC> it(set,args.BufferFrom(1,set.Size()));it;it++)
-	it.Data2() = it.Data1();
-    } else
-      args = set;
-    ONDEBUG(cerr << "AndBodyC::AndBodyC(), Name=" << Name() << "\n");
+    args = SArray1dC<LiteralC>(nterms.Size() + 1);
+    args[0] = literalAnd;
+    for(BufferAccessIter2C<LiteralC,LiteralC> it(nterms,args.BufferFrom(1,nterms.Size()));it;it++)
+      it.Data2() = it.Data1();
+    ONDEBUG(cerr << "AndBodyC::AndBodyC(), Name=" << Name() << "\n");    
   }
   
   //: Is this equal to another condition ?
@@ -69,6 +71,7 @@ namespace RavlLogicN {
   
   
   //: Unify with another variable.
+  
   bool AndBodyC::Unify(const LiteralC &oth,BindSetC &bs) const {
     BindMarkT bm = bs.Mark();
     for(SArray1dIterC<LiteralC> it(args);it;it++) {
@@ -86,7 +89,7 @@ namespace RavlLogicN {
     // FIXME :- Try and minimize
     AndC an(lit);
     if(an.IsValid()) 
-      AndAdd(an.Terms());
+      AndAdd(an.Terms().After(0));
     else
       AddTerm(lit);
   }
@@ -104,13 +107,27 @@ namespace RavlLogicN {
     return StateAndIterC(state,AndC(const_cast<AndBodyC &>(*this)),binds);    
   }
 
-  
+}
+
+#include "Ravl/Logic/Or.hh"
+#include "Ravl/Logic/MinTerm.hh"
+
+namespace RavlLogicN
+{
   //: And two terms.
   // FIXME :- Do more simplification.
   
   TupleC operator*(const LiteralC &l1,const LiteralC &l2) {
     SizeT size = 0;
-    ONDEBUG(cerr << "operator*(LiteralC,LiteralC) Called for " << l1 << " and " << l2 << "\n");
+    ONDEBUG(cerr << "operator*(LiteralC,LiteralC) Called for '" << l1 << "' and '" << l2 << "'\n");
+    // Can we use something more specific ?
+    MinTermC mt1(l1);
+    if(mt1.IsValid())
+      return mt1 * l2;
+    MinTermC mt2(l2);
+    if(mt2.IsValid())
+      return l1 * mt2;
+    // What about plane ands  ?
     AndC a1(l1);
     if(a1.IsValid())
       size += a1.Size();
@@ -135,8 +152,9 @@ namespace RavlLogicN {
 	it.Data2() = it.Data1();
     } else
       arr[at] = l2;
-    ONDEBUG(cerr << "operator*(LiteralC,LiteralC) Result=" << arr << "\n");
-    return AndC(arr); 
+    AndC ret(arr,true); 
+    ONDEBUG(cerr << "operator*(LiteralC,LiteralC) Result=" << ret.Name() << "\n");
+    return ret;
   }
   //: And operator.
 

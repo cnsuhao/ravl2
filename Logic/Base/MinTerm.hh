@@ -15,6 +15,7 @@
 
 #include "Ravl/SArray1d.hh"
 #include "Ravl/Logic/And.hh"
+#include "Ravl/Logic/Or.hh"
 
 namespace RavlLogicN {
 
@@ -31,19 +32,22 @@ namespace RavlLogicN {
     MinTermBodyC();
     //: Default constructor.
     
-    MinTermBodyC(const SArray1dC<LiteralC> &ts,const SArray1dC<LiteralC> &ns);
+    MinTermBodyC(const SArray1dC<LiteralC> &ts,const SArray1dC<LiteralC> &ns,bool useArrayDirectly = false);
     //: Constructor
+    
+    MinTermBodyC(const AndC &at,const OrC &ot);
+    //: Constructor.
     
     MinTermBodyC(const LiteralC &lit,bool negate);
     //: Construct from a single literal.
     // Effectively add NotC(lit) if negate is true.
     
     const SArray1dC<LiteralC> &Pos() const
-    { return t; }
+    { return t.Args(); }
     //: Positive terms.
     
     const SArray1dC<LiteralC> &Neg() const
-    { return n; }
+    { return n.Args(); }
     //: Negated terms.
     
     RCBodyVC &Copy() const;
@@ -51,16 +55,35 @@ namespace RavlLogicN {
     
     bool AndAdd(const LiteralC &lit);
     //: Add another term to the minterm.
+
+    bool AndNotAdd(const LiteralC &lit);
+    //: Add a negated term to the minterm.
     
     bool Covers(const MinTermC &mt,BindSetC &bs) const;
     //: Does this minterm cover all terms of mt ?
     
+    const AndC &PosTerm() const
+    { return t; }
+    //: Positive terms.
+    
+    const OrC &NegTerm() const
+    { return n; }
+    //: Negated terms.
+
+    AndC &PosTerm()
+    { return t; }
+    //: Positive terms.
+    
+    OrC &NegTerm()
+    { return n; }
+    //: Negated terms.
+    
   protected:
-    void SetTerms(const SArray1dC<LiteralC> &nt,const SArray1dC<LiteralC> &nn);
+    void SetTerms(const SArray1dC<LiteralC> &nt,const SArray1dC<LiteralC> &nn,bool useArrayDirectly = false);
     //: Setup terms.
     
-    SArray1dC<LiteralC> t;
-    SArray1dC<LiteralC> n;
+    AndC t;
+    OrC n;
   };
   
   //! userlevel=Normal
@@ -75,11 +98,22 @@ namespace RavlLogicN {
     {}
     //: Default constructor
     
-    MinTermC(const SArray1dC<LiteralC> &ts,const SArray1dC<LiteralC> &ns)
-      : AndC(*new MinTermBodyC(ts,ns)) 
+    MinTermC(bool)
+      : AndC(*new MinTermBodyC())
+    {}
+    //: Constructor
+    // Creates a valid but empty minterm.
+    
+    MinTermC(const SArray1dC<LiteralC> &ts,const SArray1dC<LiteralC> &ns,bool useArrayDirectly = false)
+      : AndC(*new MinTermBodyC(ts,ns,useArrayDirectly)) 
     {}
     //: Contructor
-
+    
+    MinTermC(const AndC &at,const OrC &ot)
+      : AndC(*new MinTermBodyC(at,ot))
+    {}
+    //: Constructor.
+    
     MinTermC(const LiteralC &lit,bool negate) 
       : AndC(*new MinTermBodyC(lit,negate))
     {}
@@ -90,7 +124,7 @@ namespace RavlLogicN {
       : AndC(lit)
     {
       if(dynamic_cast<const MinTermBodyC *>(&LiteralC::Body()) == 0)
-	(*this) = MinTermC(lit,false);
+	Invalidate();
     }
     //: Base constructor
     
@@ -116,10 +150,33 @@ namespace RavlLogicN {
     const SArray1dC<LiteralC> &Neg() const
     { return Body().Neg(); }
     //: Negated terms.
+
+    const AndC &PosTerm() const
+    { return Body().PosTerm(); }
+    //: Positive terms.
     
-    MinTermC Copy() const
-    { return MinTermC(static_cast<MinTermBodyC &>(Body().Copy())); }
+    const OrC &NegTerm() const
+    { return Body().NegTerm(); }
+    //: Negated terms.
+    
+    AndC &PosTerm()
+    { return Body().PosTerm(); }
+    //: Positive terms.
+    
+    OrC &NegTerm()
+    { return Body().NegTerm(); }
+    //: Negated terms.
+    
+    MinTermC Copy() const { 
+      if(!IsValid())
+	return MinTermC();
+      return MinTermC(static_cast<MinTermBodyC &>(Body().Copy()));
+    }
     //: Copy this min term.
+    
+    bool AndNotAdd(const LiteralC &lit) 
+    { return Body().AndNotAdd(lit); }
+    //: Add a negated term to the minterm.
     
     const MinTermC &operator*=(const LiteralC &lit) { 
       Body().AndAdd(lit); 
@@ -131,6 +188,16 @@ namespace RavlLogicN {
     //: Does this minterm cover all terms of mt ?
 
   };
+  
+  MinTermC operator*(const MinTermC &mt1,const MinTermC &mt2);
+  //: And two min-terms.
+  
+  MinTermC operator*(const MinTermC &mt1,const LiteralC &mt2);
+  //: And a min term and a literal.
+  
+  MinTermC operator*(const LiteralC &mt2,const MinTermC &mt2);
+  //: And a min term and a literal.
+  
 }
 
 #endif

@@ -28,8 +28,10 @@ namespace RavlLogicN {
     OrBodyC();
     //: Default constructor.
     
-    OrBodyC(const SArray1dC<LiteralC> &nterms);
-    //:  constructor.
+    OrBodyC(const SArray1dC<LiteralC> &nterms,bool useArrayDirectly = false);
+    //: Constructor.
+    // If useArrayDirectly is true then use the array directly, the first
+    // element must be literalOr.
     
     OrBodyC(const LiteralC &term);
     //: Constructor.
@@ -80,10 +82,12 @@ namespace RavlLogicN {
     {}
     //: Constructor from a single term.
     
-    OrC(const SArray1dC<LiteralC> &nterms)
-      : ConditionC(*new OrBodyC(nterms))
+    OrC(const SArray1dC<LiteralC> &nterms,bool useArrayDirectly = false)
+      : ConditionC(*new OrBodyC(nterms,useArrayDirectly))
     {}
     //: Construct from an array of Literals.
+    // If useArrayDirectly is true then use the array directly, the first
+    // element must be literalOr.
     
   protected:
     OrC(OrBodyC &bod)

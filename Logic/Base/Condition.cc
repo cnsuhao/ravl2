@@ -34,8 +34,8 @@ namespace RavlLogicN {
     SArray1dC<LiteralC> newun(args.Size() + terms.Size());
     for(BufferAccessIter2C<LiteralC,LiteralC> it(args,newun);it;it++)
       it.Data2() = it.Data1();
-    for(BufferAccessIter2C<LiteralC,LiteralC> it(args.From(args.Size()),terms);it;it++)
-      it.Data2() = it.Data1();
+    for(BufferAccessIter2C<LiteralC,LiteralC> it(newun.From(args.Size()),terms);it;it++)
+      it.Data1() = it.Data2();
     args = newun;
   }
   

@@ -30,8 +30,10 @@ namespace RavlLogicN {
     AndBodyC(UIntT arity);
     //: Create an and term with 'arity' elements.
     
-    AndBodyC(const SArray1dC<LiteralC> &set);
+    AndBodyC(const SArray1dC<LiteralC> &set,bool useArrayDirectly = false);
     //: Constructor.
+    // If useArrayDirectly is true then use the array directly, the first
+    // element must be literalAnd.
     
     SArray1dC<LiteralC> &Terms()
     { return args; }
@@ -74,10 +76,12 @@ namespace RavlLogicN {
     //: Default constructor.
     // creates an invalid handle.
     
-    AndC(const SArray1dC<LiteralC> &set)
-      : ConditionC(*new AndBodyC(set))
+    AndC(const SArray1dC<LiteralC> &set,bool useArrayDirectly = false)
+      : ConditionC(*new AndBodyC(set,useArrayDirectly))
     {}
     //: Constructor from a single term.
+    // If useArrayDirectly is true then use the array directly, the first
+    // element must be literalAnd.
     
     AndC(bool)
       : ConditionC(*new AndBodyC())

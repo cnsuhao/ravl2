@@ -137,11 +137,14 @@ int testCompose() {
   
   cerr << "And=" << land << "\n";
   // Check minterm.
-  MinTermC mt(land);
+  MinTermC mt(land,false);
   cerr << "MinTerm=" << mt << "\n";
   NotC nt(true,l3);
   mt *= nt;
   cerr << "MinTerm=" << mt << "\n";
+  
+  LiteralC goalSymb = l1 * !l2 * !l3;
+  cerr << "Term=" << goalSymb << "\n";
   return 0;
 }
 
