@@ -30,6 +30,7 @@ namespace RavlImageN {
   class ByteRGBMedianC;
   class RealRGBAverageC;
   class UInt16RGBValueC;
+  class RealHSVValueC ; 
 
   ImageC<ByteRGBValueC> ByteRGBAImageCT2ByteRGBImageCT(const ImageC<ByteRGBAValueC> &dat);
   //: Byte RGBA to Byte RGB image
@@ -139,7 +140,13 @@ namespace RavlImageN {
 
   ImageC<UInt16T> UIntTImageCT2UInt16TImageCT(const ImageC<UIntT> &dat);
   //: UIntT -> UInt16T
+
+  ImageC<RealHSVValueC> RealRGBImageCT2RealHSVImageCT(const ImageC<RealRGBValueC> & dat) ;
+  //: Real RGB -> Real HLS 
   
+  ImageC<RealRGBValueC> RealHSVImageCT2RealRGBImageCT(const ImageC<RealHSVValueC> & dat) ;
+  //: Real HLS -> Real RGB
+
 };
 
 #endif
