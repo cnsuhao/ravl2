@@ -82,8 +82,31 @@ namespace RavlN {
     // Returns the intensity of this color according to
     // the NTSC RGB color system.
 
-    
   };
+  
+  template<class CompT>
+  inline
+  istream &operator>>(istream &strm,RGBValueC<CompT> &val) 
+    { return strm >> ((TFVectorC<CompT,3> &)(val)); }
+  //: Stream input.
+  
+  template<class CompT>
+  inline
+  ostream &operator<<(ostream &strm,const RGBValueC<CompT> &val) 
+    { return strm << ((const TFVectorC<CompT,3> &)(val)); }
+  //: Stream output.
+  
+  template<class CompT>
+  inline
+  BinIStreamC &operator>>(BinIStreamC &strm,RGBValueC<CompT> &val) 
+    { return strm >> ((TFVectorC<CompT,3> &)(val)); }
+  //: Binary stream input.
+  
+  template<class CompT>
+  inline
+  BinOStreamC &operator<<(BinOStreamC &strm,const RGBValueC<CompT> &val) 
+    { return strm << ((const TFVectorC<CompT,3> &)(val)); }
+  //: Binary stream output
 }
 
 #endif
