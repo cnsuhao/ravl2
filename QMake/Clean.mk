@@ -70,7 +70,7 @@ clean: subdirs
 	  $(RM) -r $(WORKTMP) ; \
 	fi ;  \
 	if [ -d $(INST_DEPEND) ] ; then \
-	  $(RM) -r $(INST_DEPEND)/*.d ; \
+	  $(RM) -rf $(INST_DEPEND)/*.d ; \
 	fi ; 
 
 cleanlib: subdirs
@@ -83,7 +83,7 @@ cleanlib: subdirs
 
 cleandep: subdirs
 	$(SHOWIT)if [ -d $(INST_DEPEND) ] ; then \
-	  $(RM) -r $(INST_DEPEND)/*.d ; \
+	  $(RM) -rf $(INST_DEPEND)/*.d ; \
 	fi ; 
 
 cleandoc: 
