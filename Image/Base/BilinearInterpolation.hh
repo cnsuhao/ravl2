@@ -40,10 +40,10 @@ namespace RavlImageN {
     const PixelT* pixel2 = &(img)[fx+1][fy];
     const RealT onemt = (1.0-t);
     const RealT onemu = (1.0-u);
-    pixVal = static_cast<OutT>((pixel1[0] * (onemt*onemu)) + 
-			       (pixel1[1] * (t*onemu)) + 
-			       (pixel2[0] * (onemt*u)) +
-			       (pixel2[1] * (t*u)));
+    pixVal = OutT((pixel1[0] * (onemt*onemu)) + 
+		  (pixel1[1] * (t*onemu)) + 
+		  (pixel2[0] * (onemt*u)) +
+		  (pixel2[1] * (t*u)));
   }
   //: Do bilinear interpolation with different output pixel type.
   // Note: For efficency reasons this method assumes the CENTER
