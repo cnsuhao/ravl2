@@ -22,3 +22,7 @@ LIBDEPS=RavlMathBoundry.def
 USESLIBS=RavlMath
 
 EHT = Boundary.html
+
+AUXFILES = Boundary.png
+
+AUXDIR = share/doc/RAVL/Auto/Basic/Tree

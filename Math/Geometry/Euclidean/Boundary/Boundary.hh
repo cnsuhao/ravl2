@@ -64,12 +64,12 @@ namespace RavlN {
     
     IntT Area() const;
     //: Get the area of the region which is determined by the 'boundary'.
-    // Note: The area of the region can be negative, If it is a 'hole' in
+    // Note: The area of the region can be negative, if it is a 'hole' in
     // a plane. This can be inverted with the BReverse() method.
     
     DListC<BoundaryC> OrderEdges() const;
     //: Generate a list of boundaries.
-    // Each item in the list corresponds to a single boundary contour.<br>
+    // Each item in the list corresponds to a single complete boundary contour.<br>
     // The edges in each boundary are ordered along the boundary.<br> 
     // The direction of the boundaries is determined by the constructor.<br>
     // Boundaries that terminate at the edge of the array/image are left open.<br>
@@ -80,8 +80,8 @@ namespace RavlN {
     bool Orient() const
     { return orientation; }
     //: Return the orientation of the boundary.
-    // true means that an object is on the left side of edges
-    // and false that is on the right.
+    // true: object is on the left side of edges relative to their
+    // direction;<br> false: on the right.
     
     void Invert()
     { orientation = !orientation; }
