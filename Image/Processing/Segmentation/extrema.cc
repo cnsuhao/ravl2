@@ -23,6 +23,7 @@ int main(int nargs,char **argv) {
   IntT limit = opt.Int("l",256,"Limit on difference to consider.");
   bool seq = opt.Boolean("s",false,"Process a sequence. ");
   bool drawResults = opt.Boolean("d",false,"Draw results into a window.");
+  bool drawBlack = opt.Boolean("db",false,"Draw results into a black background.");
   bool invert = opt.Boolean("inv",false,"Invert image before processing. ");
   StringC fn = opt.String("","test.pgm","Input image. ");
   StringC ofn = opt.String("","","Output boundries. ");  
@@ -58,11 +59,19 @@ int main(int nargs,char **argv) {
     
     DListC<BoundaryC> bounds = lst.Apply(pimg);
     if(drawResults) {
+      ImageC<ByteT> res;
+      if(!drawBlack)
+	res = ImageC<ByteT>(img.Copy());
+      else {
+	res = ImageC<ByteT>(img.Frame());
+	res.Fill(0);
+      }
+      
       // Draw boundries into image and display.
       for(DLIterC<BoundaryC> bit(bounds);bit;bit++)
 	for(DLIterC<EdgeC> it(*bit);it;it++)
-	  img[it->LPixel()] = 255;
-      Save("@X",img);
+	  res[it->LPixel()] = 255;
+      Save("@X",res);
     }
     if(outp.IsValid()) {
       if(!outp.Put(bounds)) {
