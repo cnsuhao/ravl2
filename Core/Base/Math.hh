@@ -157,8 +157,7 @@ namespace RavlN {
   }
   //: Computes sqrt(sqr(a)+sqr(b)) without destructive overflow or underflow.
 
-  inline
-  bool IsSmall(RealT a,RealT norm,RealT isSmall =1e-8)
+  inline bool IsSmall(RealT a,RealT norm,RealT isSmall =1e-8)
   { return ( (Abs(a/norm)) < isSmall );  }
   //: Is a small relative to 'norm' ?
   // This code used to be as follows, but it was changed because
@@ -167,7 +166,13 @@ namespace RavlN {
   
   //  float b = (float) ((double) Abs(a) + norm);
   //  return (b == (float) norm);
-    template<class DataT>
+
+  inline bool IsAlmostZero(RealT v,RealT threshold = 1.0e-12) 
+  { return Abs(v) < threshold; }
+  //: Test is a real value is near zero.
+  // Use with care. 
+
+  template<class DataT>
   inline  DataT MinComponent(DataT a)
   { return a; }
   //: Returns the smallest component from 'a'.
