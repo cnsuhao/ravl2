@@ -24,7 +24,10 @@ namespace RavlN {
     
     bool Forall(StringC &data);
     //: For all template function.
-
+    
+    bool dos(StringC &data);
+    //: Generate a DOS filename.
+    
     virtual bool Lookup(const StringC &varname,StringC &buff);
     //: Lookup variable.
     // if found put value into 'buff' and return true.
@@ -95,7 +98,7 @@ namespace RavlN {
     StringC target; // Current target.
     StringC filePattern;
     StringC fileObject;
-    StringC output;
+    StringC outputDir;
     AutoPortSourceC src; // Info about source.
   };
   

@@ -10,7 +10,7 @@ namespace RavlN {
   
   AutoPortGeneratorBodyC::AutoPortGeneratorBodyC(AutoPortSourceC &nsrc,StringC &templLoc,StringC &noutput) 
     : TemplateComplexBodyC(templLoc),
-      output(noutput),
+      outputDir(noutput),
       src(nsrc)
   {
     Init();
@@ -29,8 +29,9 @@ namespace RavlN {
 
     // Setup commands ?
     SetupCommand("forall",*this,&AutoPortGeneratorBodyC::Forall);
+    SetupCommand("dos",*this,&AutoPortGeneratorBodyC::dos);
   }
-
+  
   //: Lookup variable.
   // if found put value into 'buff' and return true.
   // otherwise return false.
@@ -59,6 +60,15 @@ namespace RavlN {
     if(TemplateComplexBodyC::Lookup(varname,buff))
       return true;
     
+    return true;
+  }
+
+  //: Generate a DOS filename.
+  
+  bool AutoPortGeneratorBodyC::dos(StringC &data) {
+    StringC newstuff = Interpret(data);
+    newstuff.gsub("/","\\");
+    output.Top() << newstuff;
     return true;
   }
   
@@ -149,7 +159,11 @@ namespace RavlN {
 
   //: Make a file name for an object.
   StringC AutoPortGeneratorBodyC::MakeFilename(const StringC &obj) {
-    StringC ret = filePattern.Copy();
+    StringC ret;
+    if(!outputDir.IsEmpty())
+      ret = outputDir + filenameSeperator + filePattern;
+    else
+      ret = filePattern.Copy();
     ret.gsub("%",obj);
     return ret;
   }
