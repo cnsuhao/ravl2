@@ -77,10 +77,16 @@ namespace RavlN {
       { return data[2]; }
     //: Returns the level of the blue component.
     
-    inline CompT Intensity()
+    inline CompT NTSC_Y()
       { return (CompT)((RealT) 0.299 * data[0] + 0.587 * data[1] + 0.114 * data[2]); }
-    // Returns the intensity of this color according to
+    //: Get the pixel intensity of an NTSC colour system.
     // the NTSC RGB color system.
+    
+    CompT Y() const
+      { return (data[0] + data[1] + data[2])/3; }
+    //: Calculate intensity of the pixel.
+    // This returns the average of the red, green
+    // and blue components.
 
   };
   

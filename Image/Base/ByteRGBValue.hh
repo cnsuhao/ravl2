@@ -30,12 +30,23 @@ namespace RavlN {
     //: Default constructor.
     // creates an undefined RGB pixel.
 
+    ByteRGBValueC(ByteT r,ByteT g, ByteT b)
+      : RGBValueC<ByteT>(r,g,b)
+      {}
+    //: Construct from components.
+
     ByteRGBValueC(const RGBValueC<ByteT> &oth)
       : RGBValueC<ByteT>(oth)
       {}
     //: Default constructor.
     // creates an undefined RGB pixel.
     
+    ByteT Y() const
+      { return (ByteT)( ((int) data[0] + (int)data[1] + (int)data[2])/3); }
+    //: Calculate intensity of the pixel.
+    // This returns the average of the red, green
+    // and blue components.
+
   };
   
   inline
