@@ -10,10 +10,14 @@
 PACKAGE=Ravl/DP
 
 HEADERS=FileSequence.hh SequenceIO.hh FileListIO.hh CompositeStream.hh \
- FileFormatComposite.hh  PlayList.hh  SubSequenceSpec.hh EditSpec.hh
+ FileFormatComposite.hh  PlayList.hh  SubSequenceSpec.hh EditSpec.hh  \
+ FileFormatDynamic.hh DynamicLink.hh
 
 SOURCES=FileSequence.cc SequenceIO.cc FileListIO.cc CompositeStream.cc  \
- FileFormatComposite.cc  PlayList.cc  SubSequenceSpec.cc EditSpec.cc
+ FileFormatComposite.cc  PlayList.cc  SubSequenceSpec.cc EditSpec.cc \
+ FileFormatDynamic.cc DynamicLink.cc 
+
+MUSTLINK=RavlOSIOMustLink.cc
 
 PLIB=RavlOSIO
 
@@ -21,6 +25,6 @@ USESLIBS=RavlOS RavlIO
 
 TESTEXES= testSequenceIO.cc
 
-EXAMPLES=  exCompositeStream.cc
+EXAMPLES=  exCompositeStream.cc exDynamicLink.cc exDynamicFormat.cc 
 
 EHT=Ravl.OS.Sequence.html Ravl.OS.Sequence.Numbered_Files.html

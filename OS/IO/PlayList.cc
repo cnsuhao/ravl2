@@ -6,6 +6,7 @@
 // file-header-ends-here
 /////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
+//! lib=RavlOSIO
 
 #include "Ravl/DP/PlayList.hh"
 #include "Ravl/StringList.hh"

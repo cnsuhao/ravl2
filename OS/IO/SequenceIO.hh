@@ -25,13 +25,13 @@ namespace RavlN
   bool OpenISequenceBase(DPIPortBaseC &ip,DPSeekCtrlC &sc,const StringC &filename,const StringC &fileformat,const type_info &obj_type,bool verbose = false);
   //! userlevel=Develop
   //: Open input stream base.
-  // Returns TRUE on succcess.
+  // Returns true on succcess.
   
   
   bool OpenOSequenceBase(DPOPortBaseC &op,DPSeekCtrlC &sc,const StringC &filename,const StringC &fileformat,const type_info &obj_type,bool verbose = false);
   //! userlevel=Develop
   //: Open output stream base.
-  // Returns TRUE on succcess.
+  // Returns true on succcess.
 
   
   template<class DataT>
@@ -57,7 +57,7 @@ namespace RavlN
   // - Not all streams are seekable, the seek/tell functions are not garanteed to work
   // for all formats. <p>
   // - If a fileformat is a zero length string, all formats are considered.
-  // Returns TRUE on succcess.
+  // Returns true on succcess.
   
   template<class DataT>
   bool OpenISequence(DPISPortC<DataT> &ip,const StringC &fn,const StringC &fileformat = "",bool verbose = false)
@@ -86,7 +86,7 @@ namespace RavlN
   // Note: Not all streams are seekable, the seek/tell functions are not garanteed to work
   // for all formats. <p>
   // - If a fileformat is a zero length string, all formats are considered.
-  // Returns TRUE on succcess.
+  // Returns true on succcess.
 
   
   template<class DataT>
@@ -103,7 +103,7 @@ namespace RavlN
   //! userlevel=Normal
   //: Open a normal output stream
   // - If a fileformat is a zero length string, all formats are considered.
-  // Returns TRUE on succcess.
+  // Returns true on succcess.
   
   template<class DataT>
   bool OpenISequence(DPIPortC<DataT> &ip,const StringC &fn,const StringC &fileformat = "",bool verbose = false)
@@ -119,7 +119,7 @@ namespace RavlN
   //! userlevel=Normal
   //: Open a normal input stream
   // - If a fileformat is a zero length string, all formats are considered.
-  // Returns TRUE on succcess.
+  // Returns true on succcess.
 }
 
 

@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/StdType/DataConv/PlayList.hh"
-//! lib=DataConv
+//! lib=RavlOSIO
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! date="13/12/2000"

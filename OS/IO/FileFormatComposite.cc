@@ -6,6 +6,7 @@
 // file-header-ends-here
 ///////////////////////////////////////////////////////
 //! rcsid="$Id$"
+//! lib=RavlOSIO
 
 #include "Ravl/DP/FileFormatComposite.hh"
 #include "Ravl/DP/FileFormatStream.hh"

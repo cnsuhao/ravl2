@@ -8,7 +8,7 @@
 #define RAVL_FILEFORMATCOMPOSITE_HEADER 1
 ////////////////////////////////////////////////////////
 //! docentry="Ravl.Core.Data Processing.Composite" 
-//! lib=DataConv
+//! lib=RavlOSIO
 //! rcsid="$Id$"
 //! file="Ravl/StdType/DataConv/FileFormatComposite.hh"
 //! author="Charles Galambos"

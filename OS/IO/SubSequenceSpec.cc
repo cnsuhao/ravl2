@@ -6,6 +6,7 @@
 // file-header-ends-here
 /////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
+//! lib=RavlOSIO
 
 #include "Ravl/DP/SubSequenceSpec.hh"
 #include "Ravl/BinStream.hh"

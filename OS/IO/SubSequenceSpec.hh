@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/StdType/DataConv/SubSequenceSpec.hh"
-//! lib=DataConv
+//! lib=RavlOSIO
 //! userlevel=Default
 //! author="Charles Galambos"
 //! date="13/12/2000"

@@ -8,6 +8,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! docentry="Ravl.Core.Data Processing.Composite" 
+//! lib=RavlOSIO
 
 #include "Ravl/Option.hh"
 #include "Ravl/DP/FileFormatComposite.hh"
