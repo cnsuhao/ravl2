@@ -16,7 +16,7 @@
 //! file="Ravl/Image/Base/DrawFrame.hh"
 
 #include "Ravl/Image/Image.hh"
-#include "Ravl/IndexRange2dIter.hh"
+#include "Ravl/Array2dIter.hh"
 
 namespace RavlImageN {
   
@@ -28,8 +28,8 @@ namespace RavlImageN {
       return ; // Nothing to draw around.
 
     if (fill) {
-       for (IndexRange2dIterC it(rect); it; it++) {
-          dat[*it] = value;
+       for (Array2dIterC<DataT> it(dat,rect); it; it++) {
+          *it = value;
        }
     }
     else {
