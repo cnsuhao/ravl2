@@ -82,8 +82,8 @@ namespace RavlGUIN {
 
     void Lock() {
       if(!gotLock) {
-	gotLock = false;
-	gdk_threads_leave();
+	gotLock = true;
+	gdk_threads_enter();
       }
     }
     //: Unlock it.
@@ -424,7 +424,7 @@ namespace RavlGUIN {
   
   void ManagerC::Queue(const TriggerC &se) {
 #if RAVL_USE_GTKDIRECT       
-    if(!g_mutex_trylock(gdk_threads_mutex)) {
+    if(IsGUIThread()) {
       ONDEBUG(cerr << "ManagerC::Queue(), Event Start... \n");
       if(se.IsValid())
 	const_cast<TriggerC &>(se).Invoke();
@@ -432,7 +432,7 @@ namespace RavlGUIN {
 	gtk_main_quit ();
       ONDEBUG(cerr << "ManagerC::Queue(), Event Finished.. \n");
     } else  {
-      //gdk_threads_enter();
+      LockGtkThreadC lock;
       // Mark this thread as being GUI.
       UIntT oldId = guiThreadID2;
       guiThreadID2 = ThisThreadID();
@@ -446,7 +446,6 @@ namespace RavlGUIN {
       // Unmark the current thread.
       guiThreadID2 = oldId;
       ONDEBUG(cerr << "ManagerC::Queue(), Event Finished.. \n");
-      gdk_threads_leave();      
     }
 #else
     if(shutdownFlag) {
@@ -480,12 +479,10 @@ namespace RavlGUIN {
   //: Ensure that an unref takes place for pixmap on the GUIThread.
   
   void ManagerC::UnrefPixmap(GdkPixmap *pixmap) {
-#if !RAVL_USE_GTKDIRECT 
     if(IsGUIThread()) {  // Do this ASAP, to free space in the X server.
       gdk_pixmap_unref(pixmap);
       return ;
     }
-#endif
     Queue(Trigger(&doUnrefPixmap,pixmap));
   }
   
@@ -504,19 +501,11 @@ namespace RavlGUIN {
   //: Test if we're in the GUI thread.
   
   bool ManagerC::IsGUIThread() const { 
-#if RAVL_USE_GTKDIRECT 
-    if(g_mutex_trylock (gdk_threads_mutex)) {
-      g_mutex_unlock (gdk_threads_mutex);
-      return false;
-    }
-    return true;
-#else
     UIntT cid = ThisThreadID();
     // Only one of either the native gtk thread or event handling
     // thread will be in GUI code at a time. So if we're on either 
     // we've got an exclusive lock on gtk functions.
     return !managerStarted || guiThreadID1 == cid || guiThreadID2 == cid; 
-#endif
   }
   
   //: Register new window.

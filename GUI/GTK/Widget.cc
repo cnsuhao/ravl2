@@ -687,15 +687,14 @@ namespace RavlGUIN {
   //: Setup widget as drag and drop source.
   
   bool WidgetBodyC::GUIDNDSource(ModifierTypeT flags,const SArray1dC<GtkTargetEntry> &entries,DragActionT actions) {
-    if(widget == 0) {
-      if(dndInfo == 0)
-	dndInfo = new WidgetDndInfoC();
-      dndInfo->isSource = true;
-      dndInfo->SrcFlags = flags;
-      dndInfo->SrcEntries = entries;
-      dndInfo->SrcActions = actions;
+    if(dndInfo == 0)
+      dndInfo = new WidgetDndInfoC();
+    dndInfo->isSource = true;
+    dndInfo->SrcFlags = flags;
+    dndInfo->SrcEntries = entries;
+    dndInfo->SrcActions = actions;
+    if(widget == 0)
       return true;
-    }
     gtk_drag_source_set(widget, 
 			(GdkModifierType) flags,
 			&(entries[0]),
@@ -717,15 +716,14 @@ namespace RavlGUIN {
   //: Setup widget as drag and drop target.
   
   bool WidgetBodyC::GUIDNDTarget(DestDefaultsT flags,const SArray1dC<GtkTargetEntry> &entries,DragActionT actions) {
-    if(widget == 0) {
-      if(dndInfo == 0)
-	dndInfo = new WidgetDndInfoC();
-      dndInfo->TargFlags = flags;
-      dndInfo->TargEntries = entries;
-      dndInfo->TargActions = actions;
-      dndInfo->isTarget = true;
+    if(dndInfo == 0)
+      dndInfo = new WidgetDndInfoC();
+    dndInfo->TargFlags = flags;
+    dndInfo->TargEntries = entries;
+    dndInfo->TargActions = actions;
+    dndInfo->isTarget = true;
+    if(widget == 0) 
       return true;
-    }
     gtk_drag_dest_set(widget,
 		      (GtkDestDefaults) flags,
 		      &(entries[0]),
@@ -741,6 +739,35 @@ namespace RavlGUIN {
       dndInfo->isSource = false;
     if(widget != 0)
       gtk_drag_dest_unset(widget);
+    return true;
+  }
+  
+  //: Initiate a drag operation.
+  //!param: button - Button that started the drag.
+  //!param: event - Event that started the drag.
+  //!return: true, Drag started ok.
+  
+  bool WidgetBodyC::GUIDNDBegin(IntT button,GdkEvent *event) {
+    if(dndInfo == 0) {
+      cerr << "WidgetBodyC::GUIDNDBegin, ERROR: Drag and drop not setup. \n";
+      return false;
+    }
+    if(widget == 0) {
+      cerr << "WidgetBodyC::GUIDNDBegin, ERROR: No widget! \n";
+      return false;
+    }
+
+    GtkTargetList *targList = gtk_target_list_new(&(dndInfo->SrcEntries[0]),
+						   dndInfo->SrcEntries.Size());
+    
+    GdkDragContext *dndCtxt = gtk_drag_begin(widget,
+					     targList,
+					     (GdkDragAction)dndInfo->SrcActions,
+					     button,
+					     event);
+    
+    if(dndCtxt == 0)
+      return false;
     return true;
   }
   

@@ -25,8 +25,9 @@
 #include <gtk/gtkenums.h>
 
 // Namespace fix for Visual C++
-#ifdef RAVL_COMPILER_VISUALCPP6
+#if RAVL_COMPILER_VISUALCPP6
 #ifndef RavlGUIN
+#error EEeek!
 #define RavlGUIN RavlN
 #endif
 #endif
@@ -206,6 +207,12 @@ namespace RavlGUIN {
     bool GUIDNDTargetDisable();
     //: Disable widget as a drag and drop source.
     
+    bool GUIDNDBegin(IntT button,GdkEvent *event);
+    //: Initiate a drag operation.
+    //!param: button - Button that started the drag.
+    //!param: event - Event that started the drag.
+    //!return: true, Drag started ok.
+    
     virtual void Destroy();
     //: Undo all references.
     // Used to avoid problems with circluar references.
@@ -353,6 +360,13 @@ namespace RavlGUIN {
     bool GUIDNDTargetDisable()
     { return Body().GUIDNDTargetDisable(); }
     //: Disable widget as a drag and drop source.
+    
+    bool GUIDNDBegin(IntT button,GdkEvent *event)
+    { return Body().GUIDNDBegin(button,event); }
+    //: Initiate a drag operation.
+    //!param: button - Button that started the drag.
+    //!param: event - Event that started the drag.
+    //!return: true : Drag started ok.
     
     bool GUIShow()
     { return Body().GUIShow(); }
