@@ -99,24 +99,30 @@ LOCALTMP:=$(TMP)/$(LOGNAME)/qm/$(PROJ_ID)/
 ifndef ROOTDIR
   ROOTDIR:=$(PROJECT_OUT)
 endif
-ifndef BUILDDIR
-  ifeq ($(BASE_VAR),none) # Is amma version irrelavent ?
-    BUILDDIR:=$(PROJECT_OUT)/$(ARC)/$(VAR)
-  else
-    BUILDDIR:=$(PROJECT_OUT)/$(ARC)/$(BASE_VERSION)/$(VAR)
-  endif
-endif
+#ifndef BUILDDIR
+## The following is useful if you have several versions of
+## code which you want test e.g. alpha/beta/release 
+#  ifeq ($(BASE_VAR),none) # Is amma version irrelavent ?
+#    BUILDDIR:=$(PROJECT_OUT)/$(ARC)/$(VAR)
+#  else
+#    BUILDDIR:=$(PROJECT_OUT)/$(ARC)/$(BASE_VERSION)/$(VAR)
+#  endif
+#endif
+
+BUILDDIR:=$(PROJECT_OUT)/$(ARC)/$(VAR)
 
 ############################
 # include info on amma system.
 
 #INCLUDES=
 
-ifeq ($(BASE_VAR),none) # Is amma version irrelavent ?
-  WORKTMP=$(LOCALTMP)/$(ARC)/$(BASENAME)/$(VAR)
-else
-  WORKTMP=$(LOCALTMP)/$(ARC)/$(BASENAME)/$(BASE_VERSION)/$(VAR)
-endif
+#ifeq ($(BASE_VAR),none) # Is amma version irrelavent ?
+#  WORKTMP=$(LOCALTMP)/$(ARC)/$(BASENAME)/$(VAR)
+#else
+#  WORKTMP=$(LOCALTMP)/$(ARC)/$(BASENAME)/$(BASE_VERSION)/$(VAR)
+#endif
+
+WORKTMP=$(LOCALTMP)/$(ARC)/$(BASENAME)/$(VAR)
 
 # Were to look for .def files, First in the current directory,
 # then the   current PROJECT_OUT def's and finally those that 
