@@ -36,7 +36,7 @@ namespace Ravl3DN {
     s << ts.Faces().Size(); 
     const VertexC *x = &(ts.Vertices()[0]);
     for(SArray1dIterC<TriC> it(ts.Faces());it;it++) {
-      s << (it->VertexPtr(0) - x)  << (it->VertexPtr(1) - x) << (it->VertexPtr(2) - x);
+      s << (int) (it->VertexPtr(0) - x)  << (int) (it->VertexPtr(1) - x) << (int) (it->VertexPtr(2) - x);
       s << it->TextureCoords();
       s << it->Colour();
     }
