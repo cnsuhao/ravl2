@@ -18,6 +18,7 @@
 #include "Ravl/SArray1d.hh"
 #include "Ravl/Array1d.hh"
 #include "Ravl/Array1dIter.hh"
+#include "Ravl/SArray1dIter.hh"
 
 namespace RavlImageN {
   using namespace RavlN;
