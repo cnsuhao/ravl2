@@ -27,7 +27,7 @@ namespace RavlN {
     if ( samples < 3 )
       throw ExceptionC("Sample size too small in FitAffine2dPointsC::FitModel(). ");
     
-    MatrixC A(6,6);
+    MatrixC A(samples*2,6);
     A.Fill(0.0);
     VectorC b(6);
     UIntT i = 0;
