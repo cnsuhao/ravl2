@@ -11,6 +11,12 @@
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/GUI/ReadBack.hh"
 
+#define RAVL_USE_GTKDIRECT 0
+
+#if RAVL_USE_GTKDIRECT
+#include <gtk/gtk.h>
+#endif
+
 namespace RavlGUIN {
   using namespace RavlN;
   
@@ -26,9 +32,13 @@ namespace RavlGUIN {
       released = true;
       return ;
     }
+#if RAVL_USE_GTKDIRECT 
+    gdk_threads_enter();
+#else
     Manager.Queue(Trigger(lock,&ReadBackC::Issue));
     if(waitForLock)
       Wait();
+#endif
   }
   
   //: Release a lock, if held.
@@ -42,7 +52,11 @@ namespace RavlGUIN {
   bool ReadBackLockC::Wait() {
     if(held || released)
       return held;
+#if RAVL_USE_GTKDIRECT
+    gdk_threads_enter();
+#else 
     lock.WaitForLock();
+#endif
     held = true;
     return true;
   }
@@ -51,7 +65,11 @@ namespace RavlGUIN {
   
   bool ReadBackLockC::Unlock() {
     if(!released) {
+#if RAVL_USE_GTKDIRECT 
+      gdk_threads_leave();
+#else
       lock.Release();
+#endif
       released = true;
       return true;
     }

@@ -153,7 +153,8 @@ namespace RavlGUIN {
     volatile bool shutdownFlag;
     ThreadEventC shutdownDone;
     ThreadEventC startupDone;
-    UIntT guiThreadID;
+    UIntT guiThreadID1;
+    UIntT guiThreadID2;
     Index2dC screensize;
     Point2dC physicalScreensize;
     friend class WidgetBodyC;

@@ -10,6 +10,7 @@
 //! file="Ravl/GUI/GTK/Manager.cc"
 
 #define RAVL_USE_GTKTHREADS 1  /* Use thread based event handling stratagy. */
+#define RAVL_USE_GTKDIRECT  0
 
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/GUI/Window.hh"
@@ -28,13 +29,17 @@
 #include <fcntl.h>
 #endif
 
+#if RAVL_USE_GTKTHREADS
+#include <glib/gthread.h>
+#endif
+
 #include <gtk/gtk.h>
 #include <gdk/gdkrgb.h>
 #include <stdio.h>
 #include <glib.h>
 #include <stdlib.h>
 
-#define DODEBUG 1
+#define DODEBUG 0
 
 #if DODEBUG
 #define ONDEBUG(x) x
@@ -61,7 +66,8 @@ namespace RavlGUIN {
       initCalled(false),
       managerStarted(false),
       shutdownFlag(false),
-      guiThreadID(0)
+      guiThreadID1((UIntT)-1),
+      guiThreadID2((UIntT)-1)
   {
     InitDone() = true;
 #if !RAVL_USE_GTKTHREADS
@@ -127,10 +133,11 @@ namespace RavlGUIN {
   //: Initalise system.
   
   void ManagerC::Init(int &nargs,char *args[])  {
+    ONDEBUG(cerr << "ManagerC::Init(), Called. \n");
     RavlAssert(!initCalled); // Init should only be called once.
 
 #if  RAVL_USE_GTKTHREADS
-    g_thread_init(NULL);
+    g_thread_init(0);
     gdk_threads_init();
 #endif
     
@@ -146,6 +153,7 @@ namespace RavlGUIN {
     gtk_widget_set_default_visual (gdk_rgb_get_visual ());
     if(!guiGlobalToolTips.Create())
       cerr << "ManagerC::Init(), ERROR : Failed to creat global tool tips. \n";
+    ONDEBUG(cerr << "ManagerC::Init(), Done. \n");
   }
   
   
@@ -180,6 +188,7 @@ namespace RavlGUIN {
   //: Handle over control to manager.
   
   void ManagerC::Start()  {
+    ONDEBUG(cerr << "ManagerC::Start(), Called.\n");
     // Make sure only one manager is started...
     
     MutexLockC lock(access);
@@ -205,7 +214,12 @@ namespace RavlGUIN {
     physicalScreensize = Point2dC(gdk_screen_height_mm(),gdk_screen_width_mm());
     gdk_threads_leave();
     
+    guiThreadID1 = ThisThreadID();
+#if !RAVL_USE_GTKDIRECT    
     LaunchThreadR(*this,&ManagerC::HandleNotify);
+#else
+    startupDone.Post();
+#endif
     ONDEBUG(cerr << "ManagerC::Start(), Starting gtk_main().\n");
     gdk_threads_enter();
     gtk_main();
@@ -218,7 +232,7 @@ namespace RavlGUIN {
     
     // Setup IO...
     
-    guiThreadID = ThisThreadID();
+    guiThreadID1 = ThisThreadID();
     GIOChannel *channel = g_io_channel_unix_new(ifp);
     g_io_add_watch_full(channel,G_PRIORITY_DEFAULT_IDLE+10,G_IO_IN,manager_input_callback, this,0);
     g_io_channel_unref (channel);
@@ -277,7 +291,7 @@ namespace RavlGUIN {
   //: Notify interface of event.
   
   bool ManagerC::Notify(IntT id) {
-#if RAVL_USE_GTKTHREADS
+#if !RAVL_USE_GTKTHREADS
     if(write(ofp,&id,sizeof(IntT)) != sizeof(id)) {
       perror("ManagerC::Notify(),  Failed ");
       return false;
@@ -291,8 +305,8 @@ namespace RavlGUIN {
   
   bool ManagerC::HandleNotify() {
 #if RAVL_USE_GTKTHREADS
-    guiThreadID = ThisThreadID();
-    ONDEBUG(cerr << "ManagerC::HandleNotify(), Started. ThreadID=" << guiThreadID << "\n");
+    guiThreadID2 = ThisThreadID();
+    ONDEBUG(cerr << "ManagerC::HandleNotify(), Started. ThreadID1=" << guiThreadID1 << " ThreadID2=" << guiThreadID2 << "\n");
     startupDone.Post();
     Sleep(0.2);
     while(!shutdownFlag) {
@@ -355,8 +369,27 @@ namespace RavlGUIN {
   //: Queue an event for running in the GUI thread.
   
   void ManagerC::Queue(const TriggerC &se) {
+#if RAVL_USE_GTKDIRECT    
+    if(IsGUIThread()) {
+      ONDEBUG(cerr << "ManagerC::Queue(), Event Start... \n");
+      if(se.IsValid())
+	const_cast<TriggerC &>(se).Invoke();
+      else 
+	gtk_main_quit ();
+      ONDEBUG(cerr << "ManagerC::Queue(), Event Finished.. \n");
+    } else {
+      gdk_threads_enter();
+      ONDEBUG(cerr << "ManagerC::Queue(), Event Start... \n");
+      if(se.IsValid())
+	const_cast<TriggerC &>(se).Invoke();
+      else
+	gtk_main_quit ();
+      ONDEBUG(cerr << "ManagerC::Queue(), Event Finished.. \n");
+      gdk_threads_leave();      
+    }
+#else
     if(shutdownFlag) {
-      cerr << "ManagerC::Queue(), Called after shutdown started. \n";
+      cerr << "ManagerC::Queue(), WARNING: Called after shutdown started. \n";
       return ;
     }
     if(!events.TryPut(se)) {
@@ -374,6 +407,7 @@ namespace RavlGUIN {
       eventProcPending = true;
       Notify(1);
     }
+#endif
 #endif
   }
   
@@ -406,8 +440,13 @@ namespace RavlGUIN {
   
   //: Test if we're in the GUI thread.
   
-  bool ManagerC::IsGUIThread() const 
-  { return !managerStarted || guiThreadID == ThisThreadID(); }
+  bool ManagerC::IsGUIThread() const { 
+    UIntT cid = ThisThreadID();
+    // Only one of either the native gtk thread or event handling
+    // thread will be in GUI code at a time. So if we're on either 
+    // we've got an exclusive lock on gtk functions.
+    return !managerStarted || guiThreadID1 == cid || guiThreadID2 == cid; 
+  }
   
   //: Register new window.
   
