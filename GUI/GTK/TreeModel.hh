@@ -54,6 +54,9 @@ namespace RavlGUIN {
     TreeModelIterBodyC(GtkTreeModel *model,GtkTreeIter *treeIter,bool canFree);
     //: Constructor.
     
+    TreeModelIterBodyC(GtkTreeModel *model,GtkTreePath *treePath,bool canFree);
+    //: Constructor.
+    
     ~TreeModelIterBodyC();
     //: Destructor.
     
@@ -118,7 +121,12 @@ namespace RavlGUIN {
     //: Constructor.
     
     TreeModelIterC(GtkTreeModel *model,GtkTreeIter *treeIter,bool canFree)
-      : RCHandleC<TreeModelIterBodyC>(*new TreeModelIterBodyC(treeIter,canFree))
+      : RCHandleC<TreeModelIterBodyC>(*new TreeModelIterBodyC(model,treeIter,canFree))
+    {}
+    //: Constructor.
+
+    TreeModelIterC(GtkTreeModel *model,GtkTreePath *treePath,bool canFree)
+      : RCHandleC<TreeModelIterBodyC>(*new TreeModelIterBodyC(model,treePath,canFree))
     {}
     //: Constructor.
     

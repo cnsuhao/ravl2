@@ -63,6 +63,25 @@ namespace RavlGUIN {
   {
     model = ntreeModel.Body().model;
     gtk_tree_model_get_iter_first (model,treeIter);
+  }    
+
+
+
+  TreeModelIterBodyC::TreeModelIterBodyC(GtkTreeModel *nmodel,GtkTreeIter *treeIter,bool canFree)
+    : model(model),
+      treeIter(treeIter),
+      canfree(canFree)
+  {
+  }
+
+  //: Construct from tree model and path.
+  
+  TreeModelIterBodyC::TreeModelIterBodyC(GtkTreeModel *nmodel,GtkTreePath *treePath,bool canFree)
+    : model(nmodel),
+      treeIter(new GtkTreeIter),
+      canfree(canFree)
+  {    
+    gtk_tree_model_get_iter (model,treeIter,treePath);
   }
   
   //: Destructor.
