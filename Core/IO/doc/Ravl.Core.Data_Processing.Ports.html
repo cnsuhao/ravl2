@@ -18,12 +18,15 @@ IsPutReady()' tests if a stream is ready to accept data and `bool
 Put(const DataT &amp;dat)' to send it.
 
 <P>
-There are several implementations of input and output in AMMA.  These
+There are several implementations of input and output in RAVL.  These
 include ones that use the standard C++ istream and ostream.  There is
 a binary version of these operators, BinIStreamC and BinOStreamC,
 for a more compact (machine independent) representation.  In addition
 there are numerous type-specific formats which will be discussed in section
 <A HREF="Ravl.Core.IO.Formats.html">Ravl.Core.IO.Formats</A>.
+
+<P> 
+All data processing port objects inherit an <a href="Ravl.Core.Data_Processing.Attributes.html"> attribute handling mechanism. </a>  
 
 <P>
 Typical examples of such routines are DPOFileC&lt;&gt; and DPIFileC&lt;&gt;
