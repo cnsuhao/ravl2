@@ -14,6 +14,8 @@
 #include "Ravl/IO.hh"
 #include "Ravl/SquareIter.hh"
 #include "Ravl/Image/PeakDetector.hh"
+#include "Ravl/Image/CornerDetectorSusan.hh"
+#include "Ravl/Image/CornerDetectorHarris.hh"
 
 #define DODEBUG 0
 #if DODEBUG 
@@ -70,7 +72,8 @@ namespace RavlImageN {
   PointTrackerC::PointTrackerC(int cthreshold,int cwidth,int nmthreshold,int nmwidth,int nlifeTime,int nsearchSize)
     : idAlloc(1),
       frameCount(1),
-      cornerDet(cthreshold,cwidth),
+      cornerDet(CornerDetectorHarrisC(cthreshold,cwidth)),
+      //cornerDet(CornerDetectorSusanC(cthreshold)),
       mwidth(nmwidth),
       mthreshold(nmthreshold),
       lifeTime(nlifeTime),

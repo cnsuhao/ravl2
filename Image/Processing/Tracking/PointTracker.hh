@@ -16,7 +16,7 @@
 //! example="tracker.cc"
 
 #include "Ravl/Image/Image.hh"
-#include "Ravl/Image/CornerDetectorHarris.hh"
+#include "Ravl/Image/CornerDetector.hh"
 #include "Ravl/DList.hh"
 #include "Ravl/Image/PointTrack.hh"
 #include "Ravl/Image/PointTrackModel.hh"
@@ -28,7 +28,12 @@ namespace RavlImageN {
   
   class PointTrackerC {
   public:
-    PointTrackerC(int cthreshold,int mwidth = 9,int nmthreshold = 10,int nthreshold = 50,int lifeTime = 2,int searchSize = 25);
+    PointTrackerC(int cthreshold,
+		  int mwidth = 9,
+		  int nmthreshold = 10,
+		  int nthreshold = 50,
+		  int lifeTime = 2,
+		  int searchSize = 25);
     //: Constructor.
     // Matching width.
     
@@ -49,7 +54,7 @@ namespace RavlImageN {
   protected:
     UIntT idAlloc;
     IntT frameCount;
-    CornerDetectorHarrisC cornerDet;
+    CornerDetectorC cornerDet;
     IntT mwidth;
     IntT mthreshold;
     IntT lifeTime;
