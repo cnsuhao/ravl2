@@ -18,6 +18,7 @@
 #include "Ravl/Image/Font.hh"
 #include "Ravl/Image/DrawLine.hh"
 #include "Ravl/Image/DrawFrame.hh"
+#include "Ravl/Image/DrawCircle.hh"
 
 #include "Ravl/IO.hh"
 
@@ -267,5 +268,6 @@ int TestDraw() {
   if(img[50][50] != 255) return __LINE__;
   if(img[from] != 255) return __LINE__;
   if(img[to] != 255) return __LINE__;
+  DrawCircle(img,(ByteT) 254,Index2dC(50,50),30);
   return 0;
 }

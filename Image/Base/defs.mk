@@ -14,7 +14,7 @@ HEADERS=ImageRectangle.hh Image.hh RGBValue.hh RGBAValue.hh YUVValue.hh \
  RealRGBValue.hh RealYUVValue.hh UInt16RGBValue.hh RGBcYUV.hh YUVAValue.hh \
  ByteYUVAValue.hh BGRAValue.hh ByteBGRAValue.hh YUV422Value.hh ByteYUV422Value.hh \
  Deinterlace.hh VYUValue.hh ByteVYUValue.hh DrawFrame.hh DrawCross.hh \
- Font.hh PSFFont.h DrawLine.hh
+ Font.hh PSFFont.h DrawLine.hh DrawCircle.hh
 
 SOURCES=ImageRectangle.cc Image.cc ByteRGBValue.cc ByteYUVValue.cc RealRGBValue.cc \
  RealYUVValue.cc RGBcYUV.cc Font.cc
