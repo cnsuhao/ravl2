@@ -70,6 +70,27 @@ namespace RavlN {
       return ret;
     }
     //: Convert to a fixed size vector.
+#else
+    VectorC(const TFVectorC<RealT,2> &dat)
+      : TVectorC<RealT>(2)
+    {
+      (*this)[0] = dat[0];
+      (*this)[1] = dat[1];
+    }
+    //: Construct from a 2d vector.
+    // This is a hack for Visual C++ which doesn't
+    // support templated member functions properly.
+    
+    VectorC(const TFVectorC<RealT,3> &dat)
+      : TVectorC<RealT>(3)
+    {
+      (*this)[0] = dat[0];
+      (*this)[1] = dat[1];
+      (*this)[2] = dat[2];
+    }
+    //: Construct from a 3d vector.
+    // This is a hack for Visual C++ which doesn't
+    // support templated member functions properly.
 #endif
     
     VectorC(RealT v1,RealT v2)

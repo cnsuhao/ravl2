@@ -14,5 +14,7 @@
 #include "Ravl/VectorMatrix3d.hh"
 
 namespace RavlN {
+#if !RAVL_COMPILER_VISUAL_CPP
   template class FVectorMatrixC<3>;
+#endif
 }
