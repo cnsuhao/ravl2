@@ -83,10 +83,7 @@ namespace RavlImageN {
     if(!(outRect.RCol().V() & 1))
       outRect.RCol().V()--; // End on odd boundry in image.
     RavlAssert(outRect.LCol() < outRect.RCol()); // Make sure there's something left!
-    
-    cerr << "\n\noriginal rectangle " << dat.Rectangle() 
-	 << "\n\nout      rectangle " << outRect ; 
-
+   
     ImageC<ByteRGBValueC> ret(outRect);
     for(Array2dIter2C<ByteRGBValueC,ByteYUV422ValueC> it(ret,outRect,dat,outRect);it;it++) {
       // Read the first pixel.
