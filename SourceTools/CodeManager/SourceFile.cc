@@ -127,7 +127,52 @@ namespace RavlN {
     fileType = IdFile();
     return ret;
   }
+  
+  //: Insert variable line in file at an appropriate place.
+  
+  bool SourceFileBodyC::InsertVar(const StringC &line) {
+    const StringC &comStr = commentString[fileType];
+    //const StringC &comEndStr = commentEndString[fileType];
+    SourceFileC me(*this);
+    TextCursorC at((TextFileC &)me);
 
+    // This is a bit of a hack at the moment. We ought to distinguish between
+    // types of file more clearly, and make sure each is handled correctly.
+    
+    while(at.IsElm()) {
+      if(at.LineText().contains("#",0) > 0) {
+	//cerr << "Skip1:" << at.LineText();
+	at.NextLine();
+	continue; // After other macro defs a top of file.
+      }
+      if(at.LineText().contains("/*",0) > 0) {
+	at.SkipTo("/*");
+	if(!at.SkipTo("*/")) {
+	  cerr << "WARNING: End of 'C' comment not found. ";
+	  at.GotoCol(0);
+	  // Insert variable before comment.
+	  break;
+	}
+	if(!at.RestOfLine().contains("/*")) {
+	  at.NextLine();
+	  break;
+	}
+	continue;
+      }
+      if(at.LineText().contains(comStr,0) > 0) {
+	//cerr << "Skip2:" << at.LineText();
+	at.NextLine();
+	continue; // After comment bar.
+      }
+      if(at.LineText().contains(comStr + "! ",0) > 0) {
+	//cerr << "Skip3:" << at.LineText();
+	at.NextLine();
+	continue; // After other variables.
+      }
+      break;
+    }
+    return at.InsertLine(line);
+  }
 
   //: Check variable exists in hdr file.
   // if 'force' is true then update variable regardless if is there 
@@ -159,37 +204,13 @@ namespace RavlN {
       
       if(update) {
 	if(theLine != newline) {
-	  theLine = comStr + "! " + var + '=' + value + '\n';
+	  theLine = comStr + "! " + var + '=' + value + comEndStr;
 	  SetModified();
 	}
       }
       return true;
     }
-    SourceFileC me(*this);
-    TextCursorC at((TextFileC &)me);
-    while(at.IsElm()) {
-      if(at.LineText().contains("#",0) > 0) {
-	//cerr << "Skip1:" << at.LineText();
-	at.NextLine();
-	continue; // After other macro defs a top of file.
-      }
-      if(at.LineText().contains("/*",0) > 0) {
-	at.NextLine();
-	continue; // After comment bar.
-      }
-      if(at.LineText().contains(comStr,0) > 0) {
-	//cerr << "Skip2:" << at.LineText();
-	at.NextLine();
-	continue; // After comment bar.
-      }
-      if(at.LineText().contains(comStr + "! ",0) > 0) {
-	//cerr << "Skip3:" << at.LineText();
-	at.NextLine();
-	continue; // After other variables.
-      }
-      break;
-    }
-    return at.InsertLine(newline);
+    return InsertVar(newline);
   }
   
   bool SourceFileBodyC::CheckDocVarSub(const StringC &var,const StringC &subs,const StringC &value,bool force) {
@@ -223,33 +244,9 @@ namespace RavlN {
       //cerr << "Doing subst on " << subs << " " << buff[atline] <<endl;
       (*this)[atline] = newline;
       SetModified();
-      return true;    
+      return true;
     }
-    SourceFileC me(*this);
-    TextCursorC at((TextFileC &)me);
-    while(at.IsElm()) {
-      if(at.LineText().contains("#",0) > 0) {
-	//cerr << "Skip1:" << at.LineText();
-	at.NextLine();
-	continue; // After other macro defs a top of file.
-      }
-      if(at.LineText().contains("/*",0) > 0) {
-	at.NextLine();
-	continue; // After comment bar.
-      }
-      if(at.LineText().contains(comStr,0) > 0) {
-	//cerr << "Skip2:" << at.LineText();
-	at.NextLine();
-	continue; // After comment bar.
-      }
-      if(at.LineText().contains(comStr + "! ",0) > 0) {
-	//cerr << "Skip3:" << at.LineText();
-	at.NextLine();
-	continue; // After other variables.
-      }
-      break;
-    }
-    return at.InsertLine(newline);
+    return InsertVar(newline);
   }
   
   ////////////////////////////

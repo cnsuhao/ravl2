@@ -72,6 +72,9 @@ namespace RavlN {
     StringC IdFile();
     //: Id the current file.
     
+    bool InsertVar(const StringC &line);
+    //: Insert variable line in file at an appropriate place.
+		    
     StringC fileType; 
     // "Unknown"=Completely unknown.
     // "Text"=Unknown text file.
