@@ -4,14 +4,14 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLGUITREE_HEADER
-#define RAVLGUITREE_HEADER 1
+#ifndef RAVLGUI_TREE_HEADER
+#define RAVLGUI_TREE_HEADER 1
 //////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/GUI/GTK/Tree.hh"
 //! lib=RavlGUI
 //! author="Charles Galambos"
-//! date="23/09/99"
+//! date="23/09/1999"
 //! example=exTree.cc
 //! docentry="Ravl.GUI.Control"
 
@@ -53,7 +53,7 @@ namespace RavlGUIN {
     // GUI thread only.
     
     bool IsRoot() const
-      { return root; }
+    { return root; }
     //: Is root of tree ?
     
     bool IsExpanded() const;
@@ -93,51 +93,51 @@ namespace RavlGUIN {
   {
   public:
     TreeC()
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     
     TreeC(bool rootOfTree)
       : WidgetC(*new TreeBodyC(rootOfTree))
-      {}
+    {}
     //: Construct tree root.
     
   protected:
     TreeC(TreeBodyC &bod)
       : WidgetC(bod)
-      {}
+    {}
     //: Body constructor.
     
     TreeBodyC &Body()
-      { return static_cast<TreeBodyC &>(WidgetC::Body()); }
+    { return static_cast<TreeBodyC &>(WidgetC::Body()); }
     //: Access.
     
     const TreeBodyC &Body() const
-      { return static_cast<const TreeBodyC &>(WidgetC::Body()); }
+    { return static_cast<const TreeBodyC &>(WidgetC::Body()); }
     //: Access.
     
   public:
     Signal0C &TreeSignal(const char *nm)
-      { return Body().TreeSignal(nm); }
+    { return Body().TreeSignal(nm); }
     //: Get handle for named signal in Tree.
     
     bool GUIAddChild(TreeItemC &child)
-      { return Body().GUIAddChild(child); }
+    { return Body().GUIAddChild(child); }
     //: Add child to tree.
     // GUI thread only.
     
     bool GUIDelChild(TreeItemC &child)
-      { return Body().GUIDelChild(child); }
+    { return Body().GUIDelChild(child); }
     //: Add child to tree.
     // GUI thread only.
     
     void AddChild(const TreeItemC &child)
-      { Body().AddChild(child); }
+    { Body().AddChild(child); }
     //: Add child to tree.
     // Thread safe, after .Show() is called!
     
     void DelChild(const TreeItemC &child)
-      { Body().DelChild(child); }
+    { Body().DelChild(child); }
     //: Add child to tree.
     // Thread safe.
     
@@ -146,12 +146,12 @@ namespace RavlGUIN {
     // Thread safe, after .Show() is called!
     
     bool IsExpanded() const
-      { return Body().IsExpanded(); }
+    { return Body().IsExpanded(); }
     //: Is node exanded.
     // NB. Always true of root.
     
     bool IsVisible() const
-      { return Body().IsVisible(); }
+    { return Body().IsVisible(); }
     //: Is node visible ?
     // True if all nodes up to root are expanded.
     
@@ -168,12 +168,12 @@ namespace RavlGUIN {
   {
   public:
     TreeItemBodyC()
-      {}
+    {}
     //: Default constructor
     
     TreeItemBodyC(const WidgetC &nchild)
       : OneChildBodyC(nchild)
-      {}
+    {}
     //: Constuctor.
     
     TreeItemBodyC(const StringC &text);
@@ -203,52 +203,52 @@ namespace RavlGUIN {
   {
   public:
     TreeItemC()
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     
     TreeItemC(const StringC &text)
       : OneChildC(*new TreeItemBodyC(text))
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     
     TreeItemC(WidgetC &child)
       : OneChildC(child)
-      {
-	if(dynamic_cast<TreeItemBodyC *>(&WidgetC::Body()) == 0)
-	  Invalidate();
-	//(*this) = TreeItemC(*new TreeItemBodyC(child));
-      }
+    {
+      if(dynamic_cast<TreeItemBodyC *>(&WidgetC::Body()) == 0)
+	Invalidate();
+      //(*this) = TreeItemC(*new TreeItemBodyC(child));
+    }
     //: Base class constructor.
     
     TreeItemC(const WidgetC &child,bool)
       : OneChildC(*new TreeItemBodyC(child))
-      {}
+    {}
     //: Sub widget...
     
     TreeItemC(const StringC &text,const TreeC &subTree)
       : OneChildC(*new TreeItemBodyC(text,subTree))
-      {}
+    {}
     //: Subtree Constuctor.
     
   protected:
     TreeItemC(TreeItemBodyC &bod)
       : OneChildC(bod)
-      {}
+    {}
     //: Body constructor.
     
     
     TreeItemBodyC &Body()
-      { return static_cast<TreeItemBodyC &>(WidgetC::Body()); }
+    { return static_cast<TreeItemBodyC &>(WidgetC::Body()); }
     //: Access.
     
     const TreeItemBodyC &Body() const
-      { return static_cast<const TreeItemBodyC &>(WidgetC::Body()); }
+    { return static_cast<const TreeItemBodyC &>(WidgetC::Body()); }
     //: Access.
     
     void AddSubTree()
-      { Body().AddSubTree(); }
+    { Body().AddSubTree(); }
     //: Add sub tree.
   public:
     
