@@ -345,7 +345,7 @@ namespace RavlN {
     
     DLinkDataC<DataT> &Extract() {
       RavlAssert(*this); // Have to be at a valid element.
-      DLinkDataC<DataT> &cur(DLinkData());
+      DLinkDataC<DataT> &cur = DLinkData();
       place->Unlink();
       place = &cur.Prev();
       return cur;
@@ -354,7 +354,7 @@ namespace RavlN {
 
     DLinkDataC<DataT> &ExtractNext() {
       RavlAssert(*this); // Have to be at a valid element.
-      DLinkDataC<DataT> &cur(DLinkData());
+      DLinkDataC<DataT> &cur = DLinkData();
       place->Unlink();
       place = &cur.Next();
       return cur;
