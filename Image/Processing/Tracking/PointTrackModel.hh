@@ -83,6 +83,13 @@ namespace RavlImageN {
     { return matchScore; }
     //: Get the last match score.
     
+    bool IsLive() const
+    { return live; }
+    //: Is this a live track ?
+    
+    void SetLive(bool nlive)
+    { live = nlive; }
+    //: Set live flag for track.
   protected:
     UIntT id;      // Point ID.
     Point2dC at;  // Point at which it was last seen.
@@ -90,6 +97,7 @@ namespace RavlImageN {
     UIntT frame;   // Frame number.
     IntT matchScore; // Last match score.
     Array2dC<ByteT> templ; // Template of feature.
+    bool live;   // Is this a live track ?
   };
   
 }
