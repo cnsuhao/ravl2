@@ -34,6 +34,7 @@ namespace RavlGUIN {
   //: Default constructor.
   
   DPWindowFormatBodyC::DPWindowFormatBodyC()
+    : FileFormatBodyC("gui","Display data in a window. ")
   {}
     
   //: Probe for Save.
