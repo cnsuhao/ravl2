@@ -46,7 +46,7 @@ LOCAL_FILES = info.xpm
 EXAMPLES = exButton.cc exMenu.cc exCList.cc exList.cc \
  exSlider.cc exRadioButton.cc exRuler.cc exWheel.cc \
  exNotebook.cc exCursor.cc exFixed.cc exTree.cc exTextBox.cc \
- exMessageBox.cc exStyle.cc exLBox.cc exFrame.cc
+ exMessageBox.cc exStyle.cc exLBox.cc exFrame.cc exScrolledArea.cc
 
 #  exGUI.cc exCanvas.cc   exGraph1d.cc \
 

@@ -57,14 +57,18 @@ namespace RavlGUIN {
       return true; // Done already!
     
     widget = gtk_scrolled_window_new(0,0);
+    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (widget),
+				   hpolicy,vpolicy);
+    
     if(child.IsValid()) {
-      child.GUIShow();
+      if(child.Widget() == 0)
+	if(!child.Create())
+	  return false;
       gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW(widget),
 					     child.Widget());
+      child.GUIShow();
     }
-    gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (widget),
-				   hpolicy,vpolicy );
-
+    
     if(isx >= 0 || isy >= 0) {
       if(isy < 0)
 	isy = 0;
