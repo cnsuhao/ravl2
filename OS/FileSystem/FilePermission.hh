@@ -20,7 +20,7 @@
 #include "Ravl/Types.hh"
 
 namespace RavlN {
-#ifdef VISUAL_CPP
+#if RAVL_COMPILER_VISUALCPP
   typedef unsigned long ulong_t;
   typedef ulong_t mode_t;
   typedef long uid_t;

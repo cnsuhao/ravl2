@@ -30,17 +30,13 @@
 
 #include <stdlib.h>
 
-#ifndef VISUAL_CPP
+#if !RAVL_COMPILER_VISUALCPP
 #include <sys/time.h>
 #include <unistd.h>
 #else
 #include <string.h>
 
-#include <sys/select.h>
-
-#include <sys/time.h>
 #include <sys/types.h>
-#include <unistd.h>
 
 char *ctime_r(const time_t *s,char *buff) {
   strcpy(buff,ctime(s));
@@ -166,7 +162,7 @@ namespace RavlN {
   //: Set value of variable to now!
   
   void DateC::SetToNow(bool useVirt)  {
-#ifndef VISUAL_CPP
+#if !RAVL_COMPILER_VISUALCPP
     if(useVirt) {
       usec = clock(); // FIXME :- This will fail after about 36 mintes.
       sec = 0;
@@ -323,6 +319,7 @@ namespace RavlN {
   //: Wait until this time.
   
   bool DateC::Wait() const {
+#if !RAVL_COMPILER_VISUALCPP
     struct timeval timeout;
     int reterr;
 #if RAVL_OS_LINUX
@@ -350,6 +347,9 @@ namespace RavlN {
       reterr = select(0,0,0,0,&timeout);
       // A signal may throw us out of select early.
     } while(1);
+#endif
+#else
+    throw ExceptionC("DateC::SetToNow(), Not implemented. ");
 #endif
     return true;
   }

@@ -24,7 +24,7 @@ extern "C" {
 #endif
 
 #include <sys/types.h>
-#ifndef VISUAL_CPP
+#if !RAVL_COMPILER_VISUALCPP
 #include <sys/wait.h>
 #include <unistd.h>
 #else
@@ -135,7 +135,7 @@ namespace RavlN {
   //: Run, sending output to a file.
   
   bool ChildOSProcessBodyC::Run(StringListC args,FilenameC out,bool redirectStderr,bool useStdIn) {
-#ifndef VISUAL_CPP
+#if !RAVL_COMPILER_VISUALCPP
     if(args.IsEmpty())
       return false; // No program to run.
     
@@ -168,7 +168,7 @@ namespace RavlN {
   // if infd,outfd or errfd are negative there not changed.
   
   bool ChildOSProcessBodyC::Exec(StringListC args,int infd,int outfd,int errfd) {  
-#ifndef VISUAL_CPP
+#if !RAVL_COMPILER_VISUALCPP
     if(args.IsEmpty()) {
       cerr << "ChildOSProcessBodyC::Exec(), No program to run. \n";
       return false; // No program to run.
@@ -236,7 +236,7 @@ namespace RavlN {
   // If failed returns -1.
   
   int ChildOSProcessBodyC::SetupPipe(IStreamC &strm) {
-#ifndef VISUAL_CPP
+#if !RAVL_COMPILER_VISUALCPP
     int fds[2];
     if(pipe(fds) != 0) { // 0-Read 1-Write
       cerr << "ChildOSProcessBodyC::SetupIPipe(), Failed to create pipe. \n";
@@ -257,7 +257,7 @@ namespace RavlN {
   // If failed returns -1.
   
   int ChildOSProcessBodyC::SetupPipe(OStreamC &strm) {
-#ifndef VISUAL_CPP
+#if !RAVL_COMPILER_VISUALCPP
     int fds[2];
     if(pipe(fds) != 0) { // 0-Read 1-Write
       cerr << "ChildOSProcessBodyC::SetupOPipe(), Failed to create pipe. \n";
@@ -276,7 +276,7 @@ namespace RavlN {
   //: Call if you get the exit code from OSProcessC::WaitForChild()
   
   bool ChildOSProcessBodyC::GotExitCode(int code) {
-#ifndef VISUAL_CPP
+#if !RAVL_COMPILER_VISUALCPP
     if(WIFEXITED(code)) { // Exited normaly ?
       exitcode = WEXITSTATUS(code);
       exitok = true;
@@ -296,7 +296,7 @@ namespace RavlN {
   //: Check exit status of child.
 
   bool ChildOSProcessBodyC::CheckExit(bool block) {
-#ifndef VISUAL_CPP
+#if !RAVL_COMPILER_VISUALCPP
     int stat,id;
     int opt = WNOHANG;
 #if RAVL_OS_LINUX
@@ -328,7 +328,7 @@ namespace RavlN {
   //: Wait for program to exit.
   
   bool ChildOSProcessBodyC::Wait() {
-#ifndef VISUAL_CPP
+#if !RAVL_COMPILER_VISUALCPP
     int stat,id;
     id = waitpid(pid,&stat,0);
     if(id < 0) {

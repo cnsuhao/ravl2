@@ -16,9 +16,9 @@
 
 #include "Ravl/CallMethods.hh"
 
-#if RAVL_COMPILER_VISUALCPPNET
+#if RAVL_COMPILER_VISUALCPP
 
-namespace RavlN {
+namespace RavlN { 
   //////////////////////////////////////////////////////
   
   //! userlevel=Develop
@@ -30,8 +30,9 @@ namespace RavlN {
   {
   public:
     typedef typename TraitsC<ObjT>::BaseTypeT BaseObjT; //: Basic type of object, ignore references and const's
-    
-    CallMethodRef0BodyC(const BaseObjT &nobj,RetT (ObjT::*nfunc)())
+    typedef RetT (ObjT::*FuncT)();    //: Function ptr type.
+        
+    CallMethodRef0BodyC(const BaseObjT &nobj,FuncT nfunc)
       : CallFunc0BodyC<RetT>((VoidFuncPtrT) 0),
 	mPtr(nfunc),
 	obj(const_cast<BaseObjT &>(nobj))
@@ -43,9 +44,6 @@ namespace RavlN {
     //: Invoke event.
     
   protected:
-    typedef RetT (ObjT::*FuncT)();
-    //: Function ptr type.
-    
     virtual RCBodyVC &Copy() const
     { return *new CallMethodRef0BodyC<ObjT,RetT>(const_cast<BaseObjT &>(obj),FuncPtr()); }
     //: Copy call.
@@ -69,13 +67,14 @@ namespace RavlN {
   {
   public:
     typedef typename TraitsC<ObjT>::BaseTypeT BaseObjT; //: Basic type of object, ignore references and const's
+    typedef RetT (ObjT::*FuncT)();    //: Function ptr type.
     
     CallMethodRef0C()
     {}
     //: Default constructor.
     // Creates an invalid handle.
     
-    CallMethodRef0C(const BaseObjT &nobj,RetT (ObjT::*nfunc)())
+    CallMethodRef0C(const BaseObjT &nobj,FuncT nfunc)
       : CallFunc0C<RetT>(*new CallMethodRef0BodyC<ObjT,RetT>(nobj,nfunc))
     {}
     //:  Constructor.
@@ -93,8 +92,9 @@ namespace RavlN {
   public:
     typedef typename TraitsC<ObjT>::BaseTypeT BaseObjT; //: Basic type of object, ignore references and const's
     typedef typename TraitsC<DataT>::BaseTypeT Arg1T; //: Basic type of arg, ignore references and const's
-    
-    CallMethodRef1BodyC(const BaseObjT &nobj,RetT (ObjT::*nfunc)(DataT),const Arg1T &ndat)
+    typedef RetT (ObjT::*FuncT)(DataT);    //: Function ptr type.
+   
+    CallMethodRef1BodyC(const BaseObjT &nobj,FuncT nfunc,const Arg1T &ndat)
       : CallFunc1BodyC<DataT,RetT>((VoidFuncPtrT) 0,ndat),
 	mPtr(nfunc),
         obj(const_cast<BaseObjT &>(nobj))
@@ -114,9 +114,6 @@ namespace RavlN {
     //: Invoke event, with paramiter.
 
   protected:
-    typedef RetT (ObjT::*FuncT)(DataT);
-    //: Function ptr type.
-    
     virtual RCBodyVC &Copy() const
     { return *new CallMethodRef1BodyC<ObjT,DataT,RetT>(const_cast<BaseObjT &>(obj),FuncPtr(),dat1); }
     //: Copy call.
@@ -141,13 +138,14 @@ namespace RavlN {
   public:
     typedef typename TraitsC<ObjT>::BaseTypeT BaseObjT; //: Basic type of object, ignore references and const's
     typedef typename TraitsC<DataT>::BaseTypeT Arg1T; //: Basic type of arg, ignore references and const's
+    typedef RetT (ObjT::*FuncT)(DataT);    //: Function ptr type.
     
     CallMethodRef1C()
     {}
     //: Default constructor.
     // Creates an invalid handle.
     
-    CallMethodRef1C(const BaseObjT &nobj,RetT (ObjT::*nfunc)(DataT), const Arg1T &dat = Arg1T())
+    CallMethodRef1C(const BaseObjT &nobj,FuncT nfunc, const Arg1T &dat = Arg1T())
       : CallFunc1C<DataT,RetT>(*new CallMethodRef1BodyC<ObjT,DataT,RetT>(nobj,nfunc,dat))
     {}
     //: Constructor.
@@ -218,13 +216,14 @@ namespace RavlN {
     typedef typename TraitsC<ObjT>::BaseTypeT BaseObjT; //: Basic type of object, ignore references and const's
     typedef typename TraitsC<Data1T>::BaseTypeT Arg1T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data2T>::BaseTypeT Arg2T; //: Basic type of arg, ignore references and const's
+    typedef RetT (ObjT::*FuncT)(Data1T,Data2T);    //: Function ptr type.
     
     CallMethodRef2C()
     {}
     //: Default constructor.
     // Creates an invalid handle.
     
-    CallMethodRef2C(const BaseObjT &nobj,RetT (ObjT::*nfunc)(Data1T,Data2T),
+    CallMethodRef2C(const BaseObjT &nobj,FuncT nfunc,
 		 const Arg1T &ndat1 = Arg1T(),const Arg2T &ndat2 = Arg2T())
       : CallFunc2C<Data1T,Data2T,RetT>(*new CallMethodRef2BodyC<ObjT,Data1T,Data2T,RetT>(nobj,nfunc,ndat1,ndat2))
     {}
@@ -246,8 +245,9 @@ namespace RavlN {
     typedef typename TraitsC<Data1T>::BaseTypeT Arg1T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data2T>::BaseTypeT Arg2T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data3T>::BaseTypeT Arg3T; //: Basic type of arg, ignore references and const's
+    typedef RetT (ObjT::*FuncT)(Data1T,Data2T,Data3T);    //: Function ptr type.
     
-    CallMethodRef3BodyC(const BaseObjT &nobj,RetT (ObjT::*nfunc)(Data1T,Data2T,Data3T),
+    CallMethodRef3BodyC(const BaseObjT &nobj,FuncT nfunc,
 		     const Arg1T &ndat1,const Arg2T &ndat2,const Arg3T &ndat3)
       : CallFunc3BodyC<Data1T,Data2T,Data3T,RetT>((VoidFuncPtrT) 0,ndat1,ndat2,ndat3),
 	mPtr(nfunc),
@@ -276,9 +276,6 @@ namespace RavlN {
     //: Invoke event, with paramiter.
     
   protected:
-    typedef RetT (ObjT::*FuncT)(Data1T,Data2T,Data3T);
-    //: Function ptr type.
-
     virtual RCBodyVC &Copy() const
     { return *new CallMethodRef3BodyC<ObjT,Data1T,Data2T,Data3T,RetT>(const_cast<BaseObjT &>(obj),FuncPtr(),dat1,dat2,dat3); }
     //: Copy call.
@@ -305,13 +302,14 @@ namespace RavlN {
     typedef typename TraitsC<Data1T>::BaseTypeT Arg1T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data2T>::BaseTypeT Arg2T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data3T>::BaseTypeT Arg3T; //: Basic type of arg, ignore references and const's
+    typedef RetT (ObjT::*FuncT)(Data1T,Data2T,Data3T);    //: Function ptr type.
     
     CallMethodRef3C()
     {}
     //: Default constructor.
     // Creates an invalid handle.
     
-    CallMethodRef3C(const BaseObjT &nobj,RetT (ObjT::*nfunc)(Data1T,Data2T,Data3T),
+    CallMethodRef3C(const BaseObjT &nobj,FuncT nfunc,
 		 const Arg1T &ndat1 = Arg1T(),const Arg2T &ndat2 = Arg2T(),const Arg3T &ndat3 = Arg3T())
       : CallFunc3C<Data1T,Data2T,Data3T,RetT>(*new CallMethodRef3BodyC<ObjT,Data1T,Data2T,Data3T,RetT>(nobj,nfunc,ndat1,ndat2,ndat3))
     {}
@@ -333,8 +331,9 @@ namespace RavlN {
     typedef typename TraitsC<Data2T>::BaseTypeT Arg2T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data3T>::BaseTypeT Arg3T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data4T>::BaseTypeT Arg4T; //: Basic type of arg, ignore references and const's
+    typedef RetT (ObjT::*FuncT)(Data1T,Data2T,Data3T,Data4T);    //: Function ptr type.
     
-    CallMethodRef4BodyC(const BaseObjT &nobj,RetT (ObjT::*nfunc)(Data1T,Data2T,Data3T,Data4T),const Arg1T &ndat1,const Arg2T &ndat2,const Arg3T &ndat3,const Arg4T &ndat4)
+    CallMethodRef4BodyC(const BaseObjT &nobj,FuncT nfunc,const Arg1T &ndat1,const Arg2T &ndat2,const Arg3T &ndat3,const Arg4T &ndat4)
       : CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT>((VoidFuncPtrT) 0,ndat1,ndat2,ndat3,ndat4),
 	mPtr(nfunc),
 	obj(const_cast<BaseObjT &>(nobj))
@@ -366,9 +365,6 @@ namespace RavlN {
     //: Invoke event, with paramiters.
     
   protected:
-    typedef RetT (ObjT::*FuncT)(Data1T,Data2T,Data3T,Data4T);
-    //: Function ptr type.
-
     virtual RCBodyVC &Copy() const
     { return *new CallMethodRef4BodyC<ObjT,Data1T,Data2T,Data3T,Data4T,RetT>(const_cast<BaseObjT &>(obj),FuncPtr(),dat1,dat2,dat3,dat4); }
     //: Copy call.
@@ -396,13 +392,14 @@ namespace RavlN {
     typedef typename TraitsC<Data2T>::BaseTypeT Arg2T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data3T>::BaseTypeT Arg3T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data4T>::BaseTypeT Arg4T; //: Basic type of arg, ignore references and const's
+    typedef RetT (ObjT::*FuncT)(Data1T,Data2T,Data3T,Data4T);    //: Function ptr type.
     
     CallMethodRef4C()
     {}
     //: Default constructor.
     // Creates an invalid handle.
     
-    CallMethodRef4C(const BaseObjT &nobj,RetT (ObjT::*nfunc)(Data1T,Data2T,Data3T,Data4T),
+    CallMethodRef4C(const BaseObjT &nobj,FuncT nfunc,
 		 const Arg1T &ndat1 = Arg1T(),const Arg2T &ndat2 = Arg2T(),const Arg3T &ndat3 = Arg3T(),const Arg4T &ndat4 = Arg4T())
       : CallFunc4C<Data1T,Data2T,Data3T,Data4T,RetT>(*new CallMethodRef4BodyC<ObjT,Data1T,Data2T,Data3T,Data4T,RetT>(nobj,nfunc,ndat1,ndat2,ndat3,ndat4))
     {}
@@ -425,8 +422,9 @@ namespace RavlN {
     typedef typename TraitsC<Data3T>::BaseTypeT Arg3T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data4T>::BaseTypeT Arg4T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data5T>::BaseTypeT Arg5T; //: Basic type of arg, ignore references and const's
+    typedef RetT (ObjT::*FuncT)(Data1T,Data2T,Data3T,Data4T,Data5T);    //: Function ptr type.
     
-    CallMethodRef5BodyC(const BaseObjT &nobj,RetT (ObjT::*nfunc)(Data1T,Data2T,Data3T,Data4T,Data5T),
+    CallMethodRef5BodyC(const BaseObjT &nobj,FuncT nfunc,
 		     const Arg1T &ndat1 = Arg1T(),
 		     const Arg2T &ndat2 = Arg2T(),
 		     const Arg3T &ndat3 = Arg3T(),
@@ -467,9 +465,6 @@ namespace RavlN {
     //: Invoke event, with paramiters.
     
   protected:
-    typedef RetT (ObjT::*FuncT)(Data1T,Data2T,Data3T,Data4T,Data5T);
-    //: Function ptr type.
-    
     FuncT mPtr;
     
     virtual RCBodyVC &Copy() const
@@ -498,13 +493,14 @@ namespace RavlN {
     typedef typename TraitsC<Data3T>::BaseTypeT Arg3T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data4T>::BaseTypeT Arg4T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data5T>::BaseTypeT Arg5T; //: Basic type of arg, ignore references and const's
+    typedef RetT (ObjT::*FuncT)(Data1T,Data2T,Data3T,Data4T,Data5T);    //: Function ptr type.
     
     CallMethodRef5C()
     {}
     //: Default constructor.
     // Creates an invalid handle.
     
-    CallMethodRef5C(const BaseObjT &nobj,RetT (ObjT::*nfunc)(Data1T,Data2T,Data3T,Data4T,Data5T),const Arg1T &ndat1,const Arg2T &ndat2,const Arg3T &ndat3,const Arg4T &ndat4,const Arg5T &ndat5)
+    CallMethodRef5C(const BaseObjT &nobj,FuncT nfunc,const Arg1T &ndat1,const Arg2T &ndat2,const Arg3T &ndat3,const Arg4T &ndat4,const Arg5T &ndat5)
       :  CallFunc5C<Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(*new CallMethodRef5BodyC<ObjT,Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(nobj,nfunc,ndat1,ndat2,ndat3,ndat4,ndat5))
     {}
     //: Constructor.
@@ -512,63 +508,63 @@ namespace RavlN {
 
 
   //:-
-  // Refrence methods.
+  // Reference methods.
   
-  template<class ObjT>
+  template<class ObjT,class RetT>
   inline
-  CallMethodRef0C<ObjT &,bool> 
+  CallMethodRef0C<ObjT,RetT> 
   TriggerR(const ObjT &nobj,RetT (ObjT::*nfunc)())
-  { return CallMethodRef0C<ObjT &,bool>(nobj,nfunc); }
+  { return CallMethodRef0C<ObjT,RetT>(nobj,nfunc); }
   //: Create a call 
   // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
-  template<class ObjT,class DataT>
+  template<class ObjT,class DataT,class RetT>
   inline
-  CallMethodRef1C<ObjT &,DataT,bool> 
+  CallMethodRef1C<ObjT,DataT,RetT> 
   TriggerR(const ObjT &nobj,RetT (ObjT::*nfunc)(DataT),const typename TraitsC<DataT>::BaseTypeT &defaultArg)
-  { return CallMethodRef1C<ObjT &,DataT,bool>(nobj,nfunc,dat); }
+  { return CallMethodRef1C<ObjT,DataT,RetT>(nobj,nfunc,defaultArg); }
   //: Create a call 
   // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
-  template<class ObjT,class Data1T,class Data2T>
+  template<class ObjT,class Data1T,class Data2T,class RetT>
   inline
-  CallMethodRef2C<ObjT &,Data1T,Data2T,bool> 
+  CallMethodRef2C<ObjT,Data1T,Data2T,RetT> 
   TriggerR(const ObjT &nobj,RetT (ObjT::*nfunc)(Data1T,Data2T),
 	  const typename TraitsC<Data1T>::BaseTypeT &defaultArg1,
 	  const typename TraitsC<Data2T>::BaseTypeT &defaultArg2
 	  )
-  { return CallMethodRef2C<ObjT &,Data1T,Data2T,bool>(nobj,nfunc,defaultArg1,defaultArg2); }
+  { return CallMethodRef2C<ObjT,Data1T,Data2T,RetT>(nobj,nfunc,defaultArg1,defaultArg2); }
   //: Create a call 
   // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
-  template<class ObjT,class Data1T,class Data2T,class Data3T>
+  template<class ObjT,class Data1T,class Data2T,class Data3T,class RetT>
   inline
-  CallMethodRef3C<ObjT &,Data1T,Data2T,Data3T,bool>
+  CallMethodRef3C<ObjT,Data1T,Data2T,Data3T,RetT>
   TriggerR(const ObjT &nobj,RetT (ObjT::*nfunc)(Data1T,Data2T,Data3T),
 	  const typename TraitsC<Data1T>::BaseTypeT &defaultArg1,
 	  const typename TraitsC<Data2T>::BaseTypeT &defaultArg2,
 	  const typename TraitsC<Data3T>::BaseTypeT &defaultArg3
 	  )
-  { return CallMethodRef3C<ObjT &,Data1T,Data2T,Data3T,bool>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3); }
+  { return CallMethodRef3C<ObjT,Data1T,Data2T,Data3T,RetT>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3); }
   //: Create a call 
   // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
-  template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T>
+  template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T,class RetT>
   inline
-  CallMethodRef4C<ObjT &,Data1T,Data2T,Data3T,Data4T,bool>
+  CallMethodRef4C<ObjT,Data1T,Data2T,Data3T,Data4T,RetT>
   TriggerR(const ObjT &nobj,RetT (ObjT::*nfunc)(Data1T,Data2T,Data3T,Data4T),
 	  const typename TraitsC<Data1T>::BaseTypeT &defaultArg1,
 	  const typename TraitsC<Data2T>::BaseTypeT &defaultArg2,
 	  const typename TraitsC<Data3T>::BaseTypeT &defaultArg3,
 	  const typename TraitsC<Data4T>::BaseTypeT &defaultArg4
 	  )
-  { return CallMethodRef4C<ObjT &,Data1T,Data2T,Data3T,Data4T,bool>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4); }
+  { return CallMethodRef4C<ObjT,Data1T,Data2T,Data3T,Data4T,RetT>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4); }
   //: Create a call 
   // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
-  template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T,class Data5T>
+  template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T,class Data5T,class RetT>
   inline
-  CallMethodRef5C<ObjT &,Data1T,Data2T,Data3T,Data4T,Data5T,bool>
+  CallMethodRef5C<ObjT,Data1T,Data2T,Data3T,Data4T,Data5T,RetT>
   TriggerR(const ObjT &nobj,RetT (ObjT::*nfunc)(Data1T,Data2T,Data3T,Data4T,Data5T),
 	   const typename TraitsC<Data1T>::BaseTypeT &defaultArg1,
 	   const typename TraitsC<Data2T>::BaseTypeT &defaultArg2,
@@ -576,7 +572,7 @@ namespace RavlN {
 	   const typename TraitsC<Data4T>::BaseTypeT &defaultArg4,
 	   const typename TraitsC<Data5T>::BaseTypeT &defaultArg5
 	   )
-  { return CallMethodRef5C<ObjT &,Data1T,Data2T,Data3T,Data4T,Data5T,bool>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4,defaultArg5); }
+  { return CallMethodRef5C<ObjT,Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4,defaultArg5); }
   //: Create a call 
   // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
 

@@ -9,8 +9,10 @@
 //! lib=RavlOS
 //! file="Ravl/OS/Exec/ChildOSProcessWait.cc"
 
+#include"Ravl/config.h"
+
 #include <sys/types.h>
-#ifndef VISUAL_CPP
+#if !RAVL_COMPILER_VISUALCPP
 #include <unistd.h>
 #include <sys/wait.h>
 #endif
@@ -32,7 +34,7 @@ namespace RavlN {
   // if it is negative it won't time out.
   
   bool ChildOSProcessBodyC::Wait(double maxTime)  {
-#ifndef VISUAL_CPP
+#if !RAVL_COMPILER_VISUALCPP
     if(maxTime < 0)
       return Wait();
     int stat;

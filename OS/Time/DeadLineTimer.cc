@@ -94,7 +94,7 @@ namespace RavlN {
   static int virtAlarmsUsed = 0;
   
   void deadLineAlarmHandler(int sig)  {
-#ifndef VISUAL_CPP
+#if !RAVL_COMPILER_VISUALCPP
     DateC now;
     DateC next;
     bool another = false;

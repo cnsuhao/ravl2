@@ -19,7 +19,7 @@
 #include "Ravl/OS/ChildOSProcess.hh"
 #endif
 
-#ifndef VISUAL_CPP
+#if !RAVL_COMPILER_VISUALCPP
 #include <unistd.h>
 #else
 #include <direct.h>

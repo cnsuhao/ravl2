@@ -25,7 +25,7 @@ namespace RavlN {
   class ExceptionOperationFailedC;
   template<class DataT> class DListC;
   
-#ifdef VISUAL_CPP
+#if RAVL_COMPILER_VISUALCPP
   const char filenameSeperator ='\\';
 #else
   const char filenameSeperator ='/';

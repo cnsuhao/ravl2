@@ -20,7 +20,7 @@
 #endif
 
 #include <sys/types.h>
-#ifndef VISUAL_CPP
+#if !RAVL_COMPILER_VISUALCPP
 #include <sys/wait.h>
 #include <unistd.h>
 #endif
@@ -60,7 +60,7 @@ namespace RavlN {
   //: Send a signal to the process.
   
   bool OSProcessBodyC::Signal(IntT signo) {
-#ifndef VISUAL_CPP
+#if !RAVL_COMPILER_VISUALCPP
     if(kill(pid,signo) < 0)
       return false;
     return true;
@@ -73,7 +73,7 @@ namespace RavlN {
   //: Kill the child process.
   
   bool OSProcessBodyC::Kill(bool hard){ 
-#ifndef VISUAL_CPP
+#if !RAVL_COMPILER_VISUALCPP
     if(hard) {
       if(!Signal(SIGKILL))
 	return false;
@@ -95,7 +95,7 @@ namespace RavlN {
   //  0 = No children.
   
   int OSProcessC::WaitForChild(int &status) { 
-#ifndef VISUAL_CPP
+#if !RAVL_COMPILER_VISUALCPP
     return waitpid(0,&status,0); 
 #else
     throw ExceptionC("OSProcessC::WaitForChild(), Not implemented. ");

@@ -29,7 +29,7 @@
 #include <string.h>
 #include <errno.h>
 
-#ifdef VISUAL_CPP
+#if RAVL_COMPILER_VISUALCPP
 #include <direct.h>
 #include <memory.h>
 #include <io.h>
@@ -61,7 +61,7 @@ namespace RavlN {
 	  return false;
       }
     }
-#ifndef VISUAL_CPP
+#if !RAVL_COMPILER_VISUALCPP
     if(mkdir(chars(),Acc.Mode()) == 0)
 #else
       if(_mkdir(chars()) == 0)

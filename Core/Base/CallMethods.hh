@@ -28,14 +28,14 @@ namespace RavlN {
     : public CallFunc0BodyC<RetT>
   {
   public:
-#if !RAVL_COMPILER_VISUALCPPNET
     typedef typename TraitsC<ObjT>::BaseTypeT BaseObjT; //: Basic type of object, ignore references and const's
-#else
-    // Labotimise for Visual C++
-    typedef typename ObjT BaseObjT; //: Basic type of object, ignore references and const's
+#if !RAVL_COMPILER_VISUALCPP
+    typedef RetT (BaseObjT::*FuncT)();    //: Function ptr type.
+#else // Lobotomize for Visual C++
+    typedef RetT (ObjT::*FuncT)();    //: Function ptr type.
 #endif
     
-    CallMethod0BodyC(const BaseObjT &nobj,RetT (BaseObjT::*nfunc)())
+    CallMethod0BodyC(const BaseObjT &nobj,FuncT nfunc)
       : CallFunc0BodyC<RetT>((VoidFuncPtrT) 0),
 	mPtr(nfunc),
 	obj(const_cast<BaseObjT &>(nobj))
@@ -47,9 +47,6 @@ namespace RavlN {
     //: Invoke event.
     
   protected:
-    typedef RetT (BaseObjT::*FuncT)();
-    //: Function ptr type.
-    
     virtual RCBodyVC &Copy() const
     { return *new CallMethod0BodyC<ObjT,RetT>(const_cast<BaseObjT &>(obj),FuncPtr()); }
     //: Copy call.
@@ -72,11 +69,11 @@ namespace RavlN {
     : public CallFunc0C<RetT>
   {
   public:
-#if !RAVL_COMPILER_VISUALCPPNET
     typedef typename TraitsC<ObjT>::BaseTypeT BaseObjT; //: Basic type of object, ignore references and const's
-#else
-    // Labotimise for Visual C++
-    typedef typename ObjT BaseObjT; //: Basic type of object, ignore references and const's
+#if !RAVL_COMPILER_VISUALCPP
+    typedef RetT (BaseObjT::*FuncT)();    //: Function ptr type.
+#else // Lobotomize for Visual C++
+    typedef RetT (ObjT::*FuncT)();    //: Function ptr type.
 #endif
     
     CallMethod0C()
@@ -84,7 +81,7 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    CallMethod0C(const BaseObjT &nobj,RetT (BaseObjT::*nfunc)())
+    CallMethod0C(const BaseObjT &nobj,FuncT nfunc)
       : CallFunc0C<RetT>(*new CallMethod0BodyC<ObjT,RetT>(nobj,nfunc))
     {}
     //:  Constructor.
@@ -100,15 +97,15 @@ namespace RavlN {
     : public CallFunc1BodyC<DataT,RetT>
   {
   public:
-#if !RAVL_COMPILER_VISUALCPPNET
     typedef typename TraitsC<ObjT>::BaseTypeT BaseObjT; //: Basic type of object, ignore references and const's
-#else
-    // Labotimise for Visual C++
-    typedef typename ObjT BaseObjT; //: Basic type of object, ignore references and const's
-#endif
     typedef typename TraitsC<DataT>::BaseTypeT Arg1T; //: Basic type of arg, ignore references and const's
+#if !RAVL_COMPILER_VISUALCPP
+    typedef RetT (BaseObjT::*FuncT)(DataT);    //: Function ptr type.
+#else // Lobotomize for Visual C++
+    typedef RetT (ObjT::*FuncT)(DataT);    //: Function ptr type.
+#endif
     
-    CallMethod1BodyC(const BaseObjT &nobj,RetT (BaseObjT::*nfunc)(DataT),const Arg1T &ndat)
+    CallMethod1BodyC(const BaseObjT &nobj,FuncT nfunc,const Arg1T &ndat)
       : CallFunc1BodyC<DataT,RetT>((VoidFuncPtrT) 0,ndat),
 	mPtr(nfunc),
         obj(const_cast<BaseObjT &>(nobj))
@@ -128,9 +125,6 @@ namespace RavlN {
     //: Invoke event, with paramiter.
 
   protected:
-    typedef RetT (BaseObjT::*FuncT)(DataT);
-    //: Function ptr type.
-    
     virtual RCBodyVC &Copy() const
     { return *new CallMethod1BodyC<ObjT,DataT,RetT>(const_cast<BaseObjT &>(obj),FuncPtr(),dat1); }
     //: Copy call.
@@ -153,20 +147,20 @@ namespace RavlN {
     : public CallFunc1C<DataT,RetT>
   {
   public:
-#if !RAVL_COMPILER_VISUALCPPNET
     typedef typename TraitsC<ObjT>::BaseTypeT BaseObjT; //: Basic type of object, ignore references and const's
-#else
-    // Labotimise for Visual C++
-    typedef typename ObjT BaseObjT; //: Basic type of object, ignore references and const's
-#endif
     typedef typename TraitsC<DataT>::BaseTypeT Arg1T; //: Basic type of arg, ignore references and const's
+#if !RAVL_COMPILER_VISUALCPP
+    typedef RetT (BaseObjT::*FuncT)(DataT);    //: Function ptr type.
+#else // Lobotomize for Visual C++
+    typedef RetT (ObjT::*FuncT)(DataT);    //: Function ptr type.
+#endif
     
     CallMethod1C()
     {}
     //: Default constructor.
     // Creates an invalid handle.
     
-    CallMethod1C(const BaseObjT &nobj,RetT (BaseObjT::*nfunc)(DataT), const Arg1T &dat = Arg1T())
+    CallMethod1C(const BaseObjT &nobj,FuncT nfunc, const Arg1T &dat = Arg1T())
       : CallFunc1C<DataT,RetT>(*new CallMethod1BodyC<ObjT,DataT,RetT>(nobj,nfunc,dat))
     {}
     //: Constructor.
@@ -182,15 +176,14 @@ namespace RavlN {
     : public CallFunc2BodyC<Data1T,Data2T,RetT>
   {
   public:
-#if !RAVL_COMPILER_VISUALCPPNET
     typedef typename TraitsC<ObjT>::BaseTypeT BaseObjT; //: Basic type of object, ignore references and const's
-#else
-    // Labotimise for Visual C++
-    typedef typename ObjT BaseObjT; //: Basic type of object, ignore references and const's
-#endif
     typedef typename TraitsC<Data1T>::BaseTypeT Arg1T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data2T>::BaseTypeT Arg2T; //: Basic type of arg, ignore references and const's
+#if !RAVL_COMPILER_VISUALCPP
     typedef RetT (BaseObjT::*FuncT)(Data1T,Data2T);    //: Function ptr type.
+#else // Lobotomize for Visual C++
+    typedef RetT (ObjT::*FuncT)(Data1T,Data2T);    //: Function ptr type.
+#endif
     
     CallMethod2BodyC(const BaseObjT &nobj,FuncT nfunc,const Arg1T &ndat1,const Arg2T &ndat2)
       : CallFunc2BodyC<Data1T,Data2T,RetT>((VoidFuncPtrT) 0,ndat1,ndat2),
@@ -239,21 +232,21 @@ namespace RavlN {
     : public CallFunc2C<Data1T,Data2T,RetT>
   {
   public:
-#if !RAVL_COMPILER_VISUALCPPNET
     typedef typename TraitsC<ObjT>::BaseTypeT BaseObjT; //: Basic type of object, ignore references and const's
-#else
-    // Labotimise for Visual C++
-    typedef typename ObjT BaseObjT; //: Basic type of object, ignore references and const's
-#endif
     typedef typename TraitsC<Data1T>::BaseTypeT Arg1T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data2T>::BaseTypeT Arg2T; //: Basic type of arg, ignore references and const's
+#if !RAVL_COMPILER_VISUALCPP
+    typedef RetT (BaseObjT::*FuncT)(Data1T,Data2T);    //: Function ptr type.
+#else // Lobotomize for Visual C++
+    typedef RetT (ObjT::*FuncT)(Data1T,Data2T);    //: Function ptr type.
+#endif
     
     CallMethod2C()
     {}
     //: Default constructor.
     // Creates an invalid handle.
     
-    CallMethod2C(const BaseObjT &nobj,RetT (BaseObjT::*nfunc)(Data1T,Data2T),
+    CallMethod2C(const BaseObjT &nobj,FuncT nfunc,
 		 const Arg1T &ndat1 = Arg1T(),const Arg2T &ndat2 = Arg2T())
       : CallFunc2C<Data1T,Data2T,RetT>(*new CallMethod2BodyC<ObjT,Data1T,Data2T,RetT>(nobj,nfunc,ndat1,ndat2))
     {}
@@ -271,17 +264,17 @@ namespace RavlN {
     : public CallFunc3BodyC<Data1T,Data2T,Data3T,RetT>
   {
   public:
-#if !RAVL_COMPILER_VISUALCPPNET
     typedef typename TraitsC<ObjT>::BaseTypeT BaseObjT; //: Basic type of object, ignore references and const's
-#else
-    // Labotimise for Visual C++
-    typedef typename ObjT BaseObjT; //: Basic type of object, ignore references and const's
-#endif
     typedef typename TraitsC<Data1T>::BaseTypeT Arg1T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data2T>::BaseTypeT Arg2T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data3T>::BaseTypeT Arg3T; //: Basic type of arg, ignore references and const's
+#if !RAVL_COMPILER_VISUALCPP
+    typedef RetT (BaseObjT::*FuncT)(Data1T,Data2T,Data3T);    //: Function ptr type.
+#else // Lobotomize for Visual C++
+    typedef RetT (ObjT::*FuncT)(Data1T,Data2T,Data3T);    //: Function ptr type.
+#endif
     
-    CallMethod3BodyC(const BaseObjT &nobj,RetT (BaseObjT::*nfunc)(Data1T,Data2T,Data3T),
+    CallMethod3BodyC(const BaseObjT &nobj,FuncT nfunc,
 		     const Arg1T &ndat1,const Arg2T &ndat2,const Arg3T &ndat3)
       : CallFunc3BodyC<Data1T,Data2T,Data3T,RetT>((VoidFuncPtrT) 0,ndat1,ndat2,ndat3),
 	mPtr(nfunc),
@@ -310,9 +303,6 @@ namespace RavlN {
     //: Invoke event, with paramiter.
     
   protected:
-    typedef RetT (BaseObjT::*FuncT)(Data1T,Data2T,Data3T);
-    //: Function ptr type.
-
     virtual RCBodyVC &Copy() const
     { return *new CallMethod3BodyC<ObjT,Data1T,Data2T,Data3T,RetT>(const_cast<BaseObjT &>(obj),FuncPtr(),dat1,dat2,dat3); }
     //: Copy call.
@@ -335,22 +325,22 @@ namespace RavlN {
     : public CallFunc3C<Data1T,Data2T,Data3T,RetT>
   {
   public:
-#if !RAVL_COMPILER_VISUALCPPNET
     typedef typename TraitsC<ObjT>::BaseTypeT BaseObjT; //: Basic type of object, ignore references and const's
-#else
-    // Labotimise for Visual C++
-    typedef typename ObjT BaseObjT; //: Basic type of object, ignore references and const's
-#endif
     typedef typename TraitsC<Data1T>::BaseTypeT Arg1T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data2T>::BaseTypeT Arg2T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data3T>::BaseTypeT Arg3T; //: Basic type of arg, ignore references and const's
+#if !RAVL_COMPILER_VISUALCPP
+    typedef RetT (BaseObjT::*FuncT)(Data1T,Data2T,Data3T);    //: Function ptr type.
+#else // Lobotomize for Visual C++
+    typedef RetT (ObjT::*FuncT)(Data1T,Data2T,Data3T);    //: Function ptr type.
+#endif
     
     CallMethod3C()
     {}
     //: Default constructor.
     // Creates an invalid handle.
     
-    CallMethod3C(const BaseObjT &nobj,RetT (BaseObjT::*nfunc)(Data1T,Data2T,Data3T),
+    CallMethod3C(const BaseObjT &nobj,FuncT nfunc,
 		 const Arg1T &ndat1 = Arg1T(),const Arg2T &ndat2 = Arg2T(),const Arg3T &ndat3 = Arg3T())
       : CallFunc3C<Data1T,Data2T,Data3T,RetT>(*new CallMethod3BodyC<ObjT,Data1T,Data2T,Data3T,RetT>(nobj,nfunc,ndat1,ndat2,ndat3))
     {}
@@ -367,18 +357,18 @@ namespace RavlN {
     : public CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT>
   {
   public:
-#if !RAVL_COMPILER_VISUALCPPNET
     typedef typename TraitsC<ObjT>::BaseTypeT BaseObjT; //: Basic type of object, ignore references and const's
-#else
-    // Labotimise for Visual C++
-    typedef typename ObjT BaseObjT; //: Basic type of object, ignore references and const's
-#endif
     typedef typename TraitsC<Data1T>::BaseTypeT Arg1T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data2T>::BaseTypeT Arg2T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data3T>::BaseTypeT Arg3T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data4T>::BaseTypeT Arg4T; //: Basic type of arg, ignore references and const's
+#if !RAVL_COMPILER_VISUALCPP
+    typedef RetT (BaseObjT::*FuncT)(Data1T,Data2T,Data3T,Data4T);    //: Function ptr type.
+#else // Lobotomize for Visual C++
+    typedef RetT (ObjT::*FuncT)(Data1T,Data2T,Data3T,Data4T);    //: Function ptr type.
+#endif
     
-    CallMethod4BodyC(const BaseObjT &nobj,RetT (BaseObjT::*nfunc)(Data1T,Data2T,Data3T,Data4T),const Arg1T &ndat1,const Arg2T &ndat2,const Arg3T &ndat3,const Arg4T &ndat4)
+    CallMethod4BodyC(const BaseObjT &nobj,FuncT nfunc,const Arg1T &ndat1,const Arg2T &ndat2,const Arg3T &ndat3,const Arg4T &ndat4)
       : CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT>((VoidFuncPtrT) 0,ndat1,ndat2,ndat3,ndat4),
 	mPtr(nfunc),
 	obj(const_cast<BaseObjT &>(nobj))
@@ -410,9 +400,6 @@ namespace RavlN {
     //: Invoke event, with paramiters.
     
   protected:
-    typedef RetT (BaseObjT::*FuncT)(Data1T,Data2T,Data3T,Data4T);
-    //: Function ptr type.
-
     virtual RCBodyVC &Copy() const
     { return *new CallMethod4BodyC<ObjT,Data1T,Data2T,Data3T,Data4T,RetT>(const_cast<BaseObjT &>(obj),FuncPtr(),dat1,dat2,dat3,dat4); }
     //: Copy call.
@@ -435,23 +422,23 @@ namespace RavlN {
     : public CallFunc4C<Data1T,Data2T,Data3T,Data4T,RetT>
   {
   public:
-#if !RAVL_COMPILER_VISUALCPPNET
     typedef typename TraitsC<ObjT>::BaseTypeT BaseObjT; //: Basic type of object, ignore references and const's
-#else
-    // Labotimise for Visual C++
-    typedef typename ObjT BaseObjT; //: Basic type of object, ignore references and const's
-#endif
     typedef typename TraitsC<Data1T>::BaseTypeT Arg1T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data2T>::BaseTypeT Arg2T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data3T>::BaseTypeT Arg3T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data4T>::BaseTypeT Arg4T; //: Basic type of arg, ignore references and const's
+#if !RAVL_COMPILER_VISUALCPP
+    typedef RetT (BaseObjT::*FuncT)(Data1T,Data2T,Data3T,Data4T);    //: Function ptr type.
+#else // Lobotomize for Visual C++
+    typedef RetT (ObjT::*FuncT)(Data1T,Data2T,Data3T,Data4T);    //: Function ptr type.
+#endif
     
     CallMethod4C()
     {}
     //: Default constructor.
     // Creates an invalid handle.
     
-    CallMethod4C(const BaseObjT &nobj,RetT (BaseObjT::*nfunc)(Data1T,Data2T,Data3T,Data4T),
+    CallMethod4C(const BaseObjT &nobj,FuncT nfunc,
 		 const Arg1T &ndat1 = Arg1T(),const Arg2T &ndat2 = Arg2T(),const Arg3T &ndat3 = Arg3T(),const Arg4T &ndat4 = Arg4T())
       : CallFunc4C<Data1T,Data2T,Data3T,Data4T,RetT>(*new CallMethod4BodyC<ObjT,Data1T,Data2T,Data3T,Data4T,RetT>(nobj,nfunc,ndat1,ndat2,ndat3,ndat4))
     {}
@@ -468,19 +455,19 @@ namespace RavlN {
     : public CallFunc5BodyC<Data1T,Data2T,Data3T,Data4T,Data5T,RetT>
   {
   public:
-#if !RAVL_COMPILER_VISUALCPPNET
     typedef typename TraitsC<ObjT>::BaseTypeT BaseObjT; //: Basic type of object, ignore references and const's
-#else
-    // Labotimise for Visual C++
-    typedef typename ObjT BaseObjT; //: Basic type of object, ignore references and const's
-#endif
     typedef typename TraitsC<Data1T>::BaseTypeT Arg1T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data2T>::BaseTypeT Arg2T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data3T>::BaseTypeT Arg3T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data4T>::BaseTypeT Arg4T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data5T>::BaseTypeT Arg5T; //: Basic type of arg, ignore references and const's
+#if !RAVL_COMPILER_VISUALCPP
+    typedef RetT (BaseObjT::*FuncT)(Data1T,Data2T,Data3T,Data4T,Data5T);    //: Function ptr type.
+#else // Lobotomize for Visual C++
+    typedef RetT (ObjT::*FuncT)(Data1T,Data2T,Data3T,Data4T,Data5T);    //: Function ptr type.
+#endif
     
-    CallMethod5BodyC(const BaseObjT &nobj,RetT (BaseObjT::*nfunc)(Data1T,Data2T,Data3T,Data4T,Data5T),
+    CallMethod5BodyC(const BaseObjT &nobj,FuncT nfunc,
 		     const Arg1T &ndat1 = Arg1T(),
 		     const Arg2T &ndat2 = Arg2T(),
 		     const Arg3T &ndat3 = Arg3T(),
@@ -521,9 +508,6 @@ namespace RavlN {
     //: Invoke event, with paramiters.
     
   protected:
-    typedef RetT (BaseObjT::*FuncT)(Data1T,Data2T,Data3T,Data4T,Data5T);
-    //: Function ptr type.
-    
     FuncT mPtr;
     
     virtual RCBodyVC &Copy() const
@@ -546,32 +530,30 @@ namespace RavlN {
     : public  CallFunc5C<Data1T,Data2T,Data3T,Data4T,Data5T,RetT>
   {
   public:
-#if !RAVL_COMPILER_VISUALCPPNET
     typedef typename TraitsC<ObjT>::BaseTypeT BaseObjT; //: Basic type of object, ignore references and const's
-#else
-    // Labotimise for Visual C++
-    typedef typename ObjT BaseObjT; //: Basic type of object, ignore references and const's
-#endif
     typedef typename TraitsC<Data1T>::BaseTypeT Arg1T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data2T>::BaseTypeT Arg2T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data3T>::BaseTypeT Arg3T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data4T>::BaseTypeT Arg4T; //: Basic type of arg, ignore references and const's
     typedef typename TraitsC<Data5T>::BaseTypeT Arg5T; //: Basic type of arg, ignore references and const's
+#if !RAVL_COMPILER_VISUALCPP
+    typedef RetT (BaseObjT::*FuncT)(Data1T,Data2T,Data3T,Data4T,Data5T);    //: Function ptr type.
+#else // Lobotomize for Visual C++
+    typedef RetT (ObjT::*FuncT)(Data1T,Data2T,Data3T,Data4T,Data5T);    //: Function ptr type.
+#endif
     
     CallMethod5C()
     {}
     //: Default constructor.
     // Creates an invalid handle.
     
-    CallMethod5C(const BaseObjT &nobj,RetT (BaseObjT::*nfunc)(Data1T,Data2T,Data3T,Data4T,Data5T),const Arg1T &ndat1,const Arg2T &ndat2,const Arg3T &ndat3,const Arg4T &ndat4,const Arg5T &ndat5)
+    CallMethod5C(const BaseObjT &nobj,FuncT nfunc,const Arg1T &ndat1,const Arg2T &ndat2,const Arg3T &ndat3,const Arg4T &ndat4,const Arg5T &ndat5)
       :  CallFunc5C<Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(*new CallMethod5BodyC<ObjT,Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(nobj,nfunc,ndat1,ndat2,ndat3,ndat4,ndat5))
     {}
     //: Constructor.
   };
 
   //! userlevel=Normal
-
-#if !(RAVL_COMPILER_VISUALCPP && !RAVL_COMPILER_VISUALCPPNET)
 
   template<class ObjT,class RetT>
   inline
@@ -641,6 +623,8 @@ namespace RavlN {
   //:-
   // Refrence methods.
   
+#if !RAVL_COMPILER_VISUALCPP
+
   template<class ObjT,class RetT>
   inline
   CallMethod0C<ObjT &,RetT> 
@@ -707,83 +691,19 @@ namespace RavlN {
   //: Create a call 
   // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
   
+}
+
 #else
   
 }
+// Lobotomize for Visual C++
+// VC++ does not interpret BaseObjT as a class and so does not allow BaseObjT::
+// The labotomized version of FuncT useing ObjT:: does not then allow 
+// templating on references so we have to deal with this separately.
 
 #include "Ravl/CallMethodRefs.hh"
 
-namespace RavlN {
-  
-  template<class ObjT>
-  inline
-  CallMethod0C<ObjT,bool> 
-  Trigger(const ObjT &nobj,bool (ObjT::*nfunc)())
-  { return CallMethod0C<ObjT,bool>(const_cast<ObjT &>(nobj),nfunc); }
-  //: Create a call 
-  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
-  
-  template<class ObjT,class DataT>
-  inline
-  CallMethod1C<ObjT,DataT,bool> 
-  Trigger(const ObjT &nobj,RetT (ObjT::*nfunc)(DataT),const typename TraitsC<DataT>::BaseTypeT &defaultArg)
-  { return CallMethod1C<ObjT,DataT,bool>(const_cast<ObjT &>(nobj),nfunc,defaultArg); }
-  //: Create a call 
-  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
-  
-  template<class ObjT,class Data1T,class Data2T>
-  inline
-  CallMethod2C<ObjT,Data1T,Data2T,bool> 
-  Trigger(const ObjT &nobj,RetT (ObjT::*nfunc)(Data1T,Data2T),
-	  const typename TraitsC<Data1T>::BaseTypeT &defaultArg1,
-	  const typename TraitsC<Data2T>::BaseTypeT &defaultArg2
-	  )
-  { return CallMethod2C<ObjT,Data1T,Data2T,bool>(nobj,nfunc,defaultArg1,defaultArg2); }
-  //: Create a call 
-  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
-  
-  template<class ObjT,class Data1T,class Data2T,class Data3T>
-  inline
-  CallMethod3C<ObjT,Data1T,Data2T,Data3T,bool>
-  Trigger(const ObjT &nobj,RetT (ObjT::*nfunc)(Data1T,Data2T,Data3T),
-	  const typename TraitsC<Data1T>::BaseTypeT &defaultArg1,
-	  const typename TraitsC<Data2T>::BaseTypeT &defaultArg2,
-	  const typename TraitsC<Data3T>::BaseTypeT &defaultArg3
-	  )
-  { return CallMethod3C<ObjT,Data1T,Data2T,Data3T,bool>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3); }
-  //: Create a call 
-  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
-  
-  template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T>
-  inline
-  CallMethod4C<ObjT,Data1T,Data2T,Data3T,Data4T,bool>
-  Trigger(const ObjT &nobj,RetT (ObjT::*nfunc)(Data1T,Data2T,Data3T,Data4T),
-	  const typename TraitsC<Data1T>::BaseTypeT &defaultArg1,
-	  const typename TraitsC<Data2T>::BaseTypeT &defaultArg2,
-	  const typename TraitsC<Data3T>::BaseTypeT &defaultArg3,
-	  const typename TraitsC<Data4T>::BaseTypeT &defaultArg4
-	  )
-  { return CallMethod4C<ObjT,Data1T,Data2T,Data3T,Data4T,bool>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4); }
-  //: Create a call 
-  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
-
-  template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T,class Data5T>
-  inline
-  CallMethod5C<ObjT,Data1T,Data2T,Data3T,Data4T,Data5T,bool>
-  Trigger(const ObjT &nobj,RetT (ObjT::*nfunc)(Data1T,Data2T,Data3T,Data4T,Data5T),
-	  const typename TraitsC<Data1T>::BaseTypeT &defaultArg1,
-	  const typename TraitsC<Data2T>::BaseTypeT &defaultArg2,
-	  const typename TraitsC<Data3T>::BaseTypeT &defaultArg3,
-	  const typename TraitsC<Data4T>::BaseTypeT &defaultArg4,
-	  const typename TraitsC<Data5T>::BaseTypeT &defaultArg5
-	  )
-  { return CallMethod5C<ObjT,Data1T,Data2T,Data3T,Data4T,Data5T,bool>(nobj,nfunc,defaultArg1,defaultArg2,defaultArg3,defaultArg4,defaultArg5); }  
-  //: Create a call 
-  // See <a href="../Tree/Ravl.Core.Calls.html"><b>Calls and Triggers</b></a> for details.
-
 #endif
-
-}
 
 
 #endif

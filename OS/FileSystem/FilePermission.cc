@@ -11,7 +11,7 @@
 
 #include "Ravl/OS/FilePermission.hh"
 
-#ifndef VISUAL_CPP
+#if !RAVL_COMPILER_VISUALCPP
 #include <unistd.h>
 #endif
 #include <stdio.h>
@@ -25,7 +25,7 @@ namespace RavlN {
   // Do we have read permission ?
   
   bool FilePermissionC::IsReadable() const {
-#ifndef VISUAL_CPP
+#if !RAVL_COMPILER_VISUALCPP
     if((Mode() & S_IROTH) != 0)
       return true;
     if((Mode() & S_IRUSR) != 0 && getuid() == Owner())
@@ -52,7 +52,7 @@ namespace RavlN {
   // Do we have read permission for this process ?
   
   bool FilePermissionC::IsWritable() const {
-#ifndef VISUAL_CPP
+#if !RAVL_COMPILER_VISUALCPP
     if((Mode() & S_IWOTH) != 0)
       return true;
     if((Mode() & S_IWUSR) != 0 && getuid() == Owner())
@@ -79,7 +79,7 @@ namespace RavlN {
   //: Does owner have write access ?
   
   bool FilePermissionC::IsOwnerWritable() const {
-#ifndef VISUAL_CPP
+#if !RAVL_COMPILER_VISUALCPP
     if((Mode() & S_IWUSR) != 0)
       return true;
     return false;
@@ -92,7 +92,7 @@ namespace RavlN {
   //: Does world have write access ?
   
   bool FilePermissionC::IsWorldWritable() const {
-#ifndef VISUAL_CPP
+#if !RAVL_COMPILER_VISUALCPP
     if((Mode() & S_IWOTH) != 0)
       return true;
     return false;
@@ -105,7 +105,7 @@ namespace RavlN {
   // Set the process mask to this mode.
   
   FilePermissionC FilePermissionC::SetUMask() const {
-#ifndef VISUAL_CPP
+#if !RAVL_COMPILER_VISUALCPP
     return FilePermissionC(umask(Mode()));
 #else
     return FilePermissionC();
