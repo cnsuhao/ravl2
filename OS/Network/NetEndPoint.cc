@@ -568,10 +568,10 @@ namespace RavlN {
 
 #if RAVL_COMPILER_MIPSPRO // ignore Tell() = -1 on MIPS 
   	if(  ((UIntT) is.Tell() != pkt.Size()) && (is.Tell() != -1) )  
-	  { SysLog(SYSLOG_ERR) << "WARNING: Not all of packet processed Stream:" << is.Tell() << " Packet size:" << pkt.Size(); }
+	  { SysLog(SYSLOG_ERR) << "WARNING: Not all of packet processed Stream:" << is.Tell() << " Packet size:" << pkt.Size() << " Message id=" << msgTypeID; }
 #else
-	if((UIntT) is.Tell() != pkt.Size()) 
-	  { SysLog(SYSLOG_ERR) << "WARNING: Not all of packet processed Stream:" << is.Tell() << " Packet size:" << pkt.Size(); }
+	if((UIntT) is.Tell() != pkt.Size())
+	  { SysLog(SYSLOG_ERR) << "WARNING: Not all of packet processed Stream:" << is.Tell() << " Packet size:" << pkt.Size() << " Message id=" << msgTypeID; }
 #endif 
       }
     } catch(ExceptionOperationFailedC &ex) {
