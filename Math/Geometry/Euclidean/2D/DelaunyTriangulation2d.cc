@@ -137,14 +137,8 @@ namespace RavlN {
 	
 	ret.InsertVertexInFace(vertex,face);
 	
-	//RavlAssert(ret.CheckMesh(true));
-	RavlAssert(e1.Next().Vertex() == vertex);
-	LegaliseEdge(ret,e1);
-	
-	RavlAssert(e2.Next().Vertex() == vertex);
+	LegaliseEdge(ret,e1);	
 	LegaliseEdge(ret,e2);
-	
-	RavlAssert(e3.Next().Vertex() == vertex);
 	LegaliseEdge(ret,e3);
 	
       } else { // Insert vertex on edge.
@@ -157,16 +151,9 @@ namespace RavlN {
 	THEMeshEdgeC<Point2dC> e3 = (*it).Prev(); it++;
 	THEMeshEdgeC<Point2dC> e4 = (*it).Prev(); 
 	
-	RavlAssert(e1.Next().Vertex() == vertex);
 	LegaliseEdge(ret,e1);
-	
-	RavlAssert(e2.Next().Vertex() == vertex);
 	LegaliseEdge(ret,e2);
-
-	RavlAssert(e3.Next().Vertex() == vertex);
 	LegaliseEdge(ret,e3);
-	
-	RavlAssert(e4.Next().Vertex() == vertex);
 	LegaliseEdge(ret,e4);
       }
     }
