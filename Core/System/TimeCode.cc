@@ -55,6 +55,7 @@ namespace RavlN {
 
   //: Convert to hours, minutes, seconds, frame
   bool TimeCodeC::ConvertTo(IntT &hour, IntT &minute, IntT &second, IntT &frame) const {
+    if (frameRate == 0.0) return false;
     ldiv_t hr = ldiv(m_liFrame,(IntT) (frameRate * 3600.0) );
     //hour = Floor( 
 
@@ -202,10 +203,12 @@ namespace RavlN {
   //: Return a string  representation of timecode
   StringC TimeCodeC::ToText() const {
     IntT hour,minute,second,frame;
-    ConvertTo(hour,minute,second,frame);
-    char buff[16];
-    sprintf(buff, "%.2d:%.2d:%.2d:%.2d", hour, minute, second, frame);
-    return StringC(buff);
+    if (ConvertTo(hour,minute,second,frame)) {
+      char buff[16];
+      sprintf(buff, "%.2d:%.2d:%.2d:%.2d", hour, minute, second, frame);
+      return StringC(buff);
+    }
+    else return StringC("--:--:--:--");
   }
 
   
