@@ -106,7 +106,7 @@ namespace RavlN {
   bool NetEndPointBodyC::Init(SocketC &nskt) {
     skt = nskt;
     if(!skt.IsOpen()) {
-      cerr << "NetEndPointBodyC::Init(), Socket not opened. \n";
+      ONDEBUG(cerr << "NetEndPointBodyC::Init(), Socket not opened. \n");
       return false;
     }
     
