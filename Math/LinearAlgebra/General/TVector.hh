@@ -40,9 +40,6 @@ namespace RavlN {
     inline TVectorC(SizeT n);
     //: Constructor.
     
-    TVectorC<DataT> & operator/=(const TVectorC<DataT> &vec);
-    //: (*this)[index] = (*this)[index]/vec[index]
-    
     DataT Sum() const;      
     //: Returns the sum all elements of the vector.
     

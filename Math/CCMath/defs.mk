@@ -16,3 +16,5 @@ HEADERS= CCMath.hh
 LIBDEPS= CCMath.def
 
 PLIB= RavlMath
+
+USESLIBS=RavlCore ccmath
