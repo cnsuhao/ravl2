@@ -39,6 +39,11 @@ namespace RavlN {
 	oz(noz)
     {}
     //: Construct a projective transform.
+    //!param: transform - the 2D projective transformation
+    //!param: niz, noz - the normalisation values for the input and output vectors
+    // The normalisation values are the values the last term in the vectors must have for correct normalisation.  This is ususally set = 1, but for some operations is better set to a value representative of typical components of the vector.
+
+
     
     inline
     Point2dC Project(const Point2dC &pnt) const {
