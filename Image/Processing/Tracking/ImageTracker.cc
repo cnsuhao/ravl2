@@ -28,7 +28,7 @@ namespace RavlImageN {
     : cornerDet(10),
       patchSize(nPatchSize),
       searchSize(aSearchSize),
-      matchThreshold(nMatchThreshold),
+      matchThreshold(nMatchThreshold)
   {}
   
   DListC<PairC<Point2dC> > ImageTrackerC::TrackImage(const ImageC<ByteT> &mosaic,const ImageC<ByteT> &data,const Projection2dC &proj) {
