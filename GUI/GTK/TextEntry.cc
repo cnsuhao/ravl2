@@ -65,7 +65,7 @@ namespace RavlGUIN {
     if(maxLen > 0)
       widget = gtk_entry_new_with_max_length(maxLen);
     else
-      widget = gtk_entry_new ();
+      widget = gtk_entry_new();
     if(!text.IsEmpty())
       gtk_entry_set_text (GTK_ENTRY (widget), text);
     GUISetUSize( xsize, ysize ) ; 
@@ -94,6 +94,8 @@ namespace RavlGUIN {
     gtk_signal_connect(GTK_OBJECT(widget), "activate",
 		       GTK_SIGNAL_FUNC(enter_callback),
 		       this);
+    if(!text.IsEmpty())
+      gtk_entry_set_text (GTK_ENTRY (widget), text);
     changed = Signal("changed");
     RavlAssert(changed.IsValid());
     ConnectSignals();
