@@ -108,8 +108,8 @@ namespace RavlN {
       {}
     //: Default constructor.
     // creates an invalid handle.
-
-    TextFileC(bool)
+    
+    explicit TextFileC(bool)
       : TextBufferC(*new TextFileBodyC())
       {}
     //: Constructor.

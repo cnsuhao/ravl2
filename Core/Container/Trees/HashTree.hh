@@ -188,8 +188,8 @@ namespace RavlN {
     {}
     //: Default constructor.
     // creates an invalid handle.
-
-    HashTreeC(bool)
+    
+    explicit HashTreeC(bool)
       : HashTreeNodeC<KeyT,DataT>(*new HashTreeBodyC<KeyT,DataT>())
     {}
     //: Constructor.
@@ -202,8 +202,8 @@ namespace RavlN {
 	Invalidate();
     }
     //: Base class constructor.
-
-    HashTreeC(const DataT &data)
+    
+    explicit HashTreeC(const DataT &data)
       : HashTreeNodeC<KeyT,DataT>(*new HashTreeBodyC<KeyT,DataT>(data))      
     {}
     

@@ -129,8 +129,8 @@ namespace RavlN {
     HEMeshBaseC()
     {}
     //: Default constructor.
-
-    HEMeshBaseC(bool)
+    
+    explicit HEMeshBaseC(bool)
       : RCHandleC<HEMeshBaseBodyC>(*new HEMeshBaseBodyC())
     {}
     //: Constructor.

@@ -85,9 +85,9 @@ namespace RavlLogicN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    LiteralIndexC(bool)
+    explicit LiteralIndexC(bool)
       : LiteralIndexBaseC(*new LiteralIndexBodyC<DataT>())
-      {}
+    {}
     //: Constructor.
     
   protected:

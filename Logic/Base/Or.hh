@@ -80,7 +80,7 @@ namespace RavlLogicN {
     //: Default constructor.
     // creates an invalid handle.
     
-    OrC(bool)
+    explicit OrC(bool)
       : ConditionC(*new OrBodyC())
     {}
     //: Constructor from a single term.

@@ -160,7 +160,7 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    TSMatrixRightUpperC(int i)
+    explicit TSMatrixRightUpperC(int i)
       : TSMatrixPartialC<DataT>(*new TSMatrixRightUpperBodyC<DataT>(i))
     {}
     //: Create a diagonal matrix of size i by i .

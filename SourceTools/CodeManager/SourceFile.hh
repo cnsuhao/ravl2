@@ -111,8 +111,8 @@ namespace RavlN {
     {}
     //: Default constructor.
     // Creates an in valid handle.
-
-    SourceFileC(bool)
+    
+    explicit SourceFileC(bool)
       : TextFileC(*new SourceFileBodyC())
     {}
     //: Default constructor.

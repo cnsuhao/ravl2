@@ -154,7 +154,7 @@ namespace RavlN {
     : public TSMatrixPartialC<DataT>
   {
   public:
-    TSMatrixDiagonalC(int i)
+    explicit TSMatrixDiagonalC(int i)
       : TSMatrixPartialC<DataT>(*new TSMatrixDiagonalBodyC<DataT>(i))
     {}
     //: Create a diagonal matrix of size i by i .
@@ -164,7 +164,7 @@ namespace RavlN {
       : TSMatrixPartialC<DataT>(*new TSMatrixDiagonalBodyC<DataT>(data))
     {}
     //: Create a diagonal matrix from a vector.
-
+    
     TSMatrixDiagonalC(const TSMatrixC<DataT> &mat)
       : TSMatrixPartialC<DataT>(mat)
     {

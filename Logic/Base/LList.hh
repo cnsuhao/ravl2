@@ -56,7 +56,7 @@ namespace RavlLogicN {
     //: Default constructor.
     // Creates invalid handle.
     
-    LListC(bool)
+    explicit LListC(bool)
       : LiteralC(*new LListBodyC())
     {}
     //: Constructor.

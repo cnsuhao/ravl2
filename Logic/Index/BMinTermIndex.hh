@@ -31,8 +31,6 @@ namespace RavlLogicN {
   class BMinTermIndexC {
   public:
     inline BMinTermIndexC()
-      : pos(true),
-	neg(true)
     { neg.UseIndex(pos.IdIndex()); } // Share index.
     //: Default constructor.
     

@@ -33,7 +33,7 @@ namespace RavlN {
     {}
     //: Default constructor.
     
-    MatrixRSC(UIntT size)
+    explicit MatrixRSC(UIntT size)
       : MatrixC(size,size)
     {}
     //: Create a new matrix of size * size.

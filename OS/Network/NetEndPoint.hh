@@ -263,7 +263,7 @@ namespace RavlN {
     // is true messages will start being processed as soon as the connection
     // is established.
     
-    NetEndPointC(bool)
+    explicit NetEndPointC(bool)
       : RCHandleC<NetEndPointBodyC>(*new NetEndPointBodyC())
     {}
     //: Create an uninitalised end point.

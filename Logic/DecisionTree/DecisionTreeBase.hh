@@ -70,12 +70,12 @@ namespace RavlLogicN {
     //: Default constructor.
     // creates an invalid handle.
     
-    DecisionTreeBaseC(bool)
+    explicit DecisionTreeBaseC(bool)
       : RCHandleC<DecisionTreeBaseBodyC>(* new DecisionTreeBaseBodyC())
     {}
     //: Constructor.
     // Create a decision tree with the default discriminator.
-
+    
     DecisionTreeBaseC(const DiscriminatorC &desc)
       : RCHandleC<DecisionTreeBaseBodyC>(* new DecisionTreeBaseBodyC(desc))
     {}

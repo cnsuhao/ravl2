@@ -35,7 +35,7 @@ namespace RavlN {
     : protected SArray1dC<T> 
   {
   public:
-    inline FixedQueueC(SizeT Size);
+    explicit inline FixedQueueC(SizeT Size);
     //: Constructor.
     
     inline bool IsSpace();

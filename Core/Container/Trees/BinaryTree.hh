@@ -233,8 +233,8 @@ namespace RavlN {
     {}
     //: Default constructor.
     // NB. Creates an invalid handle.
-
-    BinaryTreeC(bool)
+    
+    explicit BinaryTreeC(bool)
       : RCHandleC<BinaryTreeBodyC<KeyT,DataT> >(*new BinaryTreeBodyC<KeyT,DataT>())
     {}
     //: Default constructor.

@@ -85,7 +85,7 @@ namespace RavlLogicN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    StateSetC(bool)
+    explicit StateSetC(bool)
       : StateC(*new StateSetBodyC())
       {}
     //: Constructor.

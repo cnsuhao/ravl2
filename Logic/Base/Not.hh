@@ -81,7 +81,7 @@ namespace RavlLogicN {
     //: Default constructor.
     // creates an invalid handle.
     
-    NotC(bool)
+    explicit NotC(bool)
       : ConditionC(*new NotBodyC())
     {}
     //: Constructor from a single term.

@@ -124,7 +124,7 @@ namespace RavlN {
     {}
     //: Body constructor.
     
-    HEMeshBaseFaceC(bool)
+    explicit HEMeshBaseFaceC(bool)
       : body(new HEMeshBaseFaceBodyC())
     {}
     //: Construct a new face.

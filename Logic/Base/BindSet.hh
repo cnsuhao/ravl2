@@ -176,7 +176,7 @@ namespace RavlLogicN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    BindSetC(bool)
+    explicit BindSetC(bool)
       : RCHandleC<BindSetBodyC>(*new BindSetBodyC())
       {}
     //: Constructor.

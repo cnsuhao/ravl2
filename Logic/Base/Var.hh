@@ -75,7 +75,7 @@ namespace RavlLogicN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    VarC(bool)
+    explicit VarC(bool)
       : LiteralC(*new VarBodyC())
     {}
     //: Constructor.

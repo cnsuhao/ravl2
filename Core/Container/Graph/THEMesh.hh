@@ -97,7 +97,7 @@ namespace RavlN {
     {}
     //: Default constructor.
 
-    THEMeshC(bool)
+    explicit THEMeshC(bool)
       : HEMeshBaseC(*new THEMeshBodyC<VertexDataT,FaceDataT,EdgeDataT>())
     {}
     //: Constructor.

@@ -111,7 +111,7 @@ namespace RavlN {
     //: Invalidate this handle to the vertex body.
     
   protected:
-    HEMeshBaseVertexC(bool)
+    explicit HEMeshBaseVertexC(bool)
       : body(new HEMeshBaseVertexBodyC())
     {}
     //: Constructor.

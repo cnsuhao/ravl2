@@ -107,8 +107,8 @@ namespace RavlLogicN {
     LiteralC()
     {}
     //: Default constructor.
-
-    LiteralC(bool)
+    
+    explicit LiteralC(bool)
       : RCHandleC<LiteralBodyC>(*new LiteralBodyC())
     {}
     //: Constructor.

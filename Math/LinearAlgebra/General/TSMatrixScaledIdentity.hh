@@ -27,7 +27,7 @@ namespace RavlN {
     : public TSMatrixBodyC<DataT>
   {
   public:
-    TSMatrixScaledIdentityBodyC(UIntT i,const DataT &nscale = 1.0)
+    explicit TSMatrixScaledIdentityBodyC(UIntT i,const DataT &nscale = 1.0)
       : TSMatrixBodyC<DataT>(i,i),
 	scale(nscale)
     {}

@@ -200,7 +200,7 @@ namespace RavlN {
     //: Invalidate this handle.
     
   protected:
-    HEMeshBaseEdgeC(bool)
+    explicit HEMeshBaseEdgeC(bool)
       : body(new HEMeshBaseEdgeBodyC())
     {}
     //: Constructor.

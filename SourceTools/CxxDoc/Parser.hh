@@ -89,7 +89,7 @@ namespace RavlCxxDocN
     : public RCHandleC<ParserBodyC>
   {
   public:
-    ParserC(bool)
+    explicit ParserC(bool)
       : RCHandleC<ParserBodyC>(*new ParserBodyC())
     {}
     //: Constructor.  

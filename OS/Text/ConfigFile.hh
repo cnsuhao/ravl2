@@ -152,7 +152,7 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    ConfigFileC(bool) 
+    explicit ConfigFileC(bool) 
       : RCHandleVC<ConfigFileBodyC>(*new ConfigFileBodyC())
     {}
     //: Constructor.

@@ -54,8 +54,8 @@ namespace RavlLogicN {
     DiscriminatorC()
     {}
     //: Constructor.
-
-    DiscriminatorC(bool)
+    
+    explicit DiscriminatorC(bool)
       : RCHandleC<DiscriminatorBodyC>(*new DiscriminatorBodyC())
     {}
     //: Construct a default discriminator.

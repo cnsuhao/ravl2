@@ -31,7 +31,7 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    HEMesh2dC(bool);
+    explicit HEMesh2dC(bool);
     //: Constructor.
     // Creates an empty mesh.
     

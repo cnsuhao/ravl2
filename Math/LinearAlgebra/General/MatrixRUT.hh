@@ -37,8 +37,8 @@ namespace RavlN {
     MatrixRUTC()
     {}
     //: Default constructor.
-
-    MatrixRUTC(UIntT size)
+    
+    explicit MatrixRUTC(UIntT size)
       : MatrixC(size,size)
     {}
     //: Create a new matrix of size * size.

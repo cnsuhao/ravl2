@@ -109,7 +109,7 @@ namespace RavlLogicN {
     {}
     //: Default constructor
     
-    MinTermC(bool)
+   explicit  MinTermC(bool)
       : AndC(*new MinTermBodyC())
     {}
     //: Constructor

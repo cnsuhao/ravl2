@@ -149,7 +149,7 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid header.
     
-    TSMatrixLeftLowerC(int i)
+    explicit TSMatrixLeftLowerC(int i)
       : TSMatrixPartialC<DataT>(*new TSMatrixLeftLowerBodyC<DataT>(i))
     {}
     //: Create a diagonal matrix of size i by i .

@@ -94,8 +94,7 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
     
-
-    AVLTreeC(bool)
+    explicit AVLTreeC(bool)
       : BinaryTreeC<KeyT,DataT>(*new AVLTreeBodyC<KeyT,DataT>())
     {}
     //: Default constructor.

@@ -105,8 +105,8 @@ namespace RavlLogicN {
     {}
     //: Default constructor.
     // Creates an invalid handle.
-
-    DecisionExamplesC(bool)
+    
+    explicit DecisionExamplesC(bool)
       : RCHandleC<DecisionExamplesBodyC>(*new DecisionExamplesBodyC())
     {}
     //: Constructor.

@@ -87,7 +87,7 @@ namespace RavlLogicN {
     // If useArrayDirectly is true then use the array directly, the first
     // element must be literalAnd.
     
-    AndC(bool)
+    explicit AndC(bool)
       : ConditionC(*new AndBodyC())
     {}
     //: Constructor.

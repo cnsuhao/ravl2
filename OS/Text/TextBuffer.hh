@@ -123,8 +123,8 @@ namespace RavlN {
     {}
     //: Default constructor.
     // creates an invalid handle to a text buffer.
-
-    TextBufferC(bool)
+    
+    explicit TextBufferC(bool)
       : RCHandleC<TextBufferBodyC>(*new TextBufferBodyC())
     {}
     //: Default constructor.

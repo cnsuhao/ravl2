@@ -29,7 +29,7 @@ namespace RavlImageN {
     //: Default constructor.
     // Creates an empty font.
     
-    FontC(bool);
+    explicit FontC(bool);
     //: Load default font.
     
     FontC(SArray1dC<ImageC<ByteT> > &nGlyphs)

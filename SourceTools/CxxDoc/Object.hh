@@ -337,8 +337,8 @@ namespace RavlCxxDocN {
     ObjectC()
     {}
     //: Default Constructor.
-
-    ObjectC(bool)
+    
+    explicit ObjectC(bool)
       : RCHandleC<ObjectBodyC>(*new ObjectBodyC())
     {}
     //: Constructor.

@@ -64,12 +64,12 @@ namespace RavlLogicN {
     //: Default constructor.
     // creates an invalid handle.
     
-    DecisionTreeBranchBinaryC(bool)
+    explicit DecisionTreeBranchBinaryC(bool)
       : DecisionTreeBranchC(*new DecisionTreeBranchBinaryBodyC())
     {}
     //: Constructor.
     
-    DecisionTreeBranchBinaryC(const LiteralC &test)
+    explicit DecisionTreeBranchBinaryC(const LiteralC &test)
       : DecisionTreeBranchC(*new DecisionTreeBranchBinaryBodyC(test))
     {}
     //: Construct with a test.
