@@ -255,6 +255,12 @@ namespace RavlN {
     //: Comparison operator
     // Returns true if the two arrays are the same length and
     // their contents are identical.
+
+    bool operator!=(const SArray1dC<DataT> & vv) const
+    { return operator==(vv); }
+    //: Comparison operator
+    // Returns true if the two arrays have different lengths or
+    // contents..
     
     UIntT Hash() const;
     //: Compute a hash value for the array.

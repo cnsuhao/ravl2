@@ -238,6 +238,13 @@ namespace RavlN {
     const Array2dC<DataT> & operator/=(const DataT &number);
     //: Divides the array elements by the 'number'.
     
+    bool operator==(const Array2dC<DataT> &op) const;
+    //: Do arrays have identical ranges and contents ?
+    
+    bool operator!=(const Array2dC<DataT> &op) const
+    { return !operator==(op); }
+    //: Do arrays have different ranges and contents ?
+    
     DataT SumOfSqr() const;
     //: Calculate the sum of the squares of all elements in the array
     
@@ -661,6 +668,14 @@ namespace RavlN {
     for(BufferAccess2dIter2C<DataT,DataT> it(vals,vals.Frame(),
 					     (*this),srng);it;it++)
       it.Data2() = it.Data1();
+  }
+  
+  template <class DataT>
+  bool Array2dC<DataT>::operator==(const Array2dC<DataT> &op) const {
+    if(Frame() != op.Frame()) return false;
+    for(BufferAccess2dIter2C<DataT,DataT> it(*this,Range2(),op,op.Range2());it;it++)
+      if(it.Data1() != it.Data2()) return false;
+    return true;
   }
   
 }
