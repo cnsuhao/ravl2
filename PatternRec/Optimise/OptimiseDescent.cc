@@ -46,7 +46,7 @@ namespace RavlN {
       // descent to find a local minima
       X = iterX.Copy();
       RealT iterCost = domain.Cost (X);      // Evaluate current cost
-      cout << "X=" << X << "\tcurrentcost = " << iterCost <<  "\n";
+      //cout << "X=" << X << "\tcurrentcost = " << iterCost <<  "\n";
       RealT currentCost = iterCost;
       dYdX = domain.Jacobian(X).SliceRow(0); // Determine current Jacobian
 
@@ -64,7 +64,7 @@ namespace RavlN {
 	}
       }
     } while (dYdX.Modulus () > _tolerance && counter++ < _iterations && VectorC(iterX - X).Modulus () > _tolerance); 
-    cout << "\n";
+    //cout << "\n";
     return domain.ConvertX2P (X);            // Return final estimate
   }
   
