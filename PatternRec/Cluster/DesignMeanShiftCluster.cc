@@ -87,15 +87,17 @@ namespace RavlN {
     
     UIntT count;
     VectorC shift(in.First().Size());
-    VectorC mean;
+    VectorC mean(shift.Size());
+    VectorC diff(shift.Size());
     for(DataSet2IterC<SampleC<VectorC>,SampleC<UIntT> > sit(in,labels);sit;sit++) { // Got through all possible start points.
-//      int i = 0;
-      mean = sit.Data1().Copy();
+      for(BufferAccessIter2C<RealT,RealT> vit(mean,sit.Data1());vit;vit++)
+	vit.Data1() = vit.Data2();
       do {
 	count = 0;
 	shift.Fill(0);
 	for(SampleIterC<VectorC> it(in);it;it++) {
-	  VectorC diff = *it - mean ;
+	  for(BufferAccessIter3C<RealT,RealT,RealT> vit(diff,it.Data(),mean);vit;vit++)
+	    vit.Data1() = vit.Data2() - vit.Data3();
 	  RealT mag = distance.Magnitude(diff);
 	  if(mag > k)
 	    continue;
@@ -115,7 +117,7 @@ namespace RavlN {
 	  break; // Already got cluster.
       }
       if(!cit) // Cluster not found.
-	clusters.InsLast(mean); // Create new cluster center
+	clusters.InsLast(mean.Copy()); // Create new cluster center
       sit.Data2() = n; // Record cluster id for this sample element
     }
     return clusters;
@@ -133,19 +135,24 @@ namespace RavlN {
     
     RealT count;
     VectorC shift(in.First().Size());
-    VectorC mean;
+    VectorC mean(shift.Size());
+    VectorC diff(shift.Size());
     for(DataSet2IterC<SampleC<VectorC>,SampleC<UIntT> > sit(in,labels);sit;sit++) { // Got through all possible start points.
-      mean = sit.Data1().Copy();
+      for(BufferAccessIter2C<RealT,RealT> vit(mean,sit.Data1());vit;vit++)
+	vit.Data1() = vit.Data2();
       do {
 	count = 0;
 	shift.Fill(0);
 	for(DataSet2IterC<SampleC<VectorC>,SampleC<RealT> > it(in,weights);it;it++) {
-	  VectorC diff = it.Data1() - mean ;
+	  for(BufferAccessIter3C<RealT,RealT,RealT> vit(diff,it.Data1(),mean);vit;vit++)
+	    vit.Data1() = vit.Data2() - vit.Data3();
 	  RealT mag = distance.Magnitude(diff);
 	  if(mag > k)
 	    continue;
-	  shift += diff * it.Data2();
-	  count += it.Data2();
+	  RealT weight = it.Data2();
+	  for(BufferAccessIter2C<RealT,RealT> vit(shift,diff);vit;vit++)
+	    vit.Data1() += vit.Data2() * weight;
+	  count += weight;
 	}
 	shift /= count;
 	if(distance.Magnitude(shift) < termiter)
@@ -161,7 +168,7 @@ namespace RavlN {
       }
       
       if(!cit) // Cluster not found.
-	clusters.InsLast(mean); // Create new cluster center
+	clusters.InsLast(mean.Copy()); // Create new cluster center
       sit.Data2() = n;  // Record cluster id for this sample element
     }
     return clusters;

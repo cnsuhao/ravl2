@@ -70,13 +70,13 @@ namespace RavlN {
     //: Access size of kernel
     
   protected:
-    DListC<VectorC> FindMeans(const SampleC<VectorC> &in,SampleC<UIntT> &labels);
+    virtual DListC<VectorC> FindMeans(const SampleC<VectorC> &in,SampleC<UIntT> &labels);
     //: Find means for 'in'.
     //!param: in - Set of vectors to process, must be all of the same length.
     //!param: labels - Data set of labels in which the member ship of each sample is stored
     //!return: Set of cluster centers
     
-    DListC<VectorC> FindMeans(const SampleC<VectorC> &in,const SampleC<RealT> &weights,SampleC<UIntT> &labels);
+    virtual DListC<VectorC> FindMeans(const SampleC<VectorC> &in,const SampleC<RealT> &weights,SampleC<UIntT> &labels);
     //: Find weighted means for 'in'.
     //!param: in - Set of vectors to process, must be all of the same length.
     //!param: labels - Data set of labels in which the member ship of each sample is stored
