@@ -245,6 +245,9 @@ namespace RavlN {
       if(gethostbyaddr_r((const char *) &((sockaddr_in &)sin).sin_addr,sinLen,AF_INET,&ent,(struct hostent_data *)hostentData) == 0)
 	break;
       error = h_errno;
+#elif RAVL_OS_IRIX 
+      ulong tmp_addr = ((sockaddr_in &)sin).sin_addr.s_addr ; 
+      gethostbyaddr_r ((const char *) & tmp_addr, sizeof(tmp_addr), AF_INET, &ent, hostentData, buffSize, &error) ; 
 #else
       gethostbyaddr_r((const char *) &((sockaddr_in &)sin).sin_addr,sinLen,AF_INET,&ent,hostentData,buffSize,&error);
 #endif
