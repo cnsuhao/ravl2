@@ -40,18 +40,18 @@ namespace RavlN {
   // to have a default constructor, a copy constructor, and an assigment.
   // The class SArray1dC is a big object, eg. it has a reference counter.
   
-  template <class DataC>
+  template <class DataT>
   class SArray1dC
-    : public SizeBufferAccessC<DataC> 
+    : public SizeBufferAccessC<DataT> 
   { 
   public:
-    typedef DataC ElementT;
+    typedef DataT ElementT;
     //: Allow function templates to find type of array.
     
     typedef IndexC KeyT;
     //: Allow function templates to find type of index.
     
-    typedef SArray1dIterC<DataC> IteratorT;
+    typedef SArray1dIterC<DataT> IteratorT;
     //: Type of iterator.
     
     // Constructors, assigment, and destructor
@@ -63,134 +63,134 @@ namespace RavlN {
     SArray1dC(const SizeT dim);
     // Creates an uninitialized array with the range <0, 'dim'-1>.
     
-    SArray1dC(const Slice1dC<DataC> &slice,bool alwaysCopy = true);
+    SArray1dC(const Slice1dC<DataT> &slice,bool alwaysCopy = true);
     //: Make an array from a slice.
     // This will create an array with the values from the slice.
     // if the stride of the slice is not 1, and alwaysCopy is true the
     // a copy is done.
     
-    SArray1dC(const PairC<DataC> & pr);
+    SArray1dC(const PairC<DataT> & pr);
     // Creates an array with two elements from a PairC object.
     
-    SArray1dC(const SArray1dC<DataC> & vv);
+    SArray1dC(const SArray1dC<DataT> & vv);
     // Another access to the array 'vv'.
     
-    SArray1dC(DataC *      data,
+    SArray1dC(DataT *      data,
 	      const SizeT  dim,
 	      bool     removable = true);
     // The array is created from the memory location 'data' with the range
     // of access in <0, 'dim'-1>. If flag 'removable' is false,
     // 'data' is not deallocated during destructing of the array.
     
-    SArray1dC(BufferC<DataC> & bf,SizeT dim,SizeT offsetInBuff = 0);
+    SArray1dC(BufferC<DataT> & bf,SizeT dim,SizeT offsetInBuff = 0);
     //: Creates the array of size 'dim' using the buffer 'bf'.
     // Use buffer 'bf',  make access of 'dim' elements. 
     // the start of the buffer should be 'offsetInBuff' elements into
     // the buffer.
     
-    SArray1dC(const SArray1dC<DataC> & vv, const SizeT dim,SizeT offsetInBuff = 0);
+    SArray1dC(const SArray1dC<DataT> & vv, const SizeT dim,SizeT offsetInBuff = 0);
     //: The subarray of the 'vv' with size 'dim'.
     
-    SArray1dC<DataC> Copy() const;
+    SArray1dC<DataT> Copy() const;
     //: Creates a new physical copy of the array.
     
-    SArray1dC<DataC> Copy(UIntT extend) const;
+    SArray1dC<DataT> Copy(UIntT extend) const;
     //: Creates a new physical copy of the array.
     // 'extend' extra elements initalised by the default constuctor
     // are appended to the end of the array.
     
-    inline const SArray1dC<DataC> & operator=(const SArray1dC<DataC> & vv);
+    inline const SArray1dC<DataT> & operator=(const SArray1dC<DataT> & vv);
     // Assigment, as for a BIG_OBJECT.
     
-    SArray1dC<DataC> operator+(const SArray1dC<DataC> & arr) const;
+    SArray1dC<DataT> operator+(const SArray1dC<DataT> & arr) const;
     // Sums 2 numerical arrays. The operator returns the result as a new array.
     
-    SArray1dC<DataC> operator-(const SArray1dC<DataC> & arr) const;
+    SArray1dC<DataT> operator-(const SArray1dC<DataT> & arr) const;
     // Subtracts 2 numerical arrays. The operator returns
     // the result as a new array.
     
-    SArray1dC<DataC> operator*(const SArray1dC<DataC> & arr) const;
+    SArray1dC<DataT> operator*(const SArray1dC<DataT> & arr) const;
     // Mutliplies 2 numerical arrays. The operator returns the result as a new array.
     
-    SArray1dC<DataC> operator/(const SArray1dC<DataC> & arr) const;
+    SArray1dC<DataT> operator/(const SArray1dC<DataT> & arr) const;
     // Devides 2 numerical arrays. The operator returns
     // the result as a new array.
     
-    SArray1dC<DataC> operator*(const DataC &number) const;
+    SArray1dC<DataT> operator*(const DataT &number) const;
     // Multiplys the array by the 'number'. The operator
     // returns the result as a new array.
     
-    SArray1dC<DataC> operator/(const DataC &number) const;
+    SArray1dC<DataT> operator/(const DataT &number) const;
     // Divides all array items by the 'number'. The operator 
     // returns the result as a new array.
     
-    SArray1dC<DataC> operator+(const DataC &number) const;
+    SArray1dC<DataT> operator+(const DataT &number) const;
     // Adds 'number' to the array. The operator
     // returns the result as a new array.
     
-    SArray1dC<DataC> operator-(const DataC &number) const;
+    SArray1dC<DataT> operator-(const DataT &number) const;
     // Subtracts 'number' from all array items. The operator 
     // returns the result as a new array.
     
-    const SArray1dC<DataC> & operator+=(const SArray1dC<DataC> & arr);
+    const SArray1dC<DataT> & operator+=(const SArray1dC<DataT> & arr);
     // Adds the 2nd array to this array.
     
-    const SArray1dC<DataC> & operator-=(const SArray1dC<DataC> & arr);
+    const SArray1dC<DataT> & operator-=(const SArray1dC<DataT> & arr);
     // Subtracts the 2nd array from this array.
     
-    const SArray1dC<DataC> & operator*=(const SArray1dC<DataC> & arr);
+    const SArray1dC<DataT> & operator*=(const SArray1dC<DataT> & arr);
     // Multiplies the 2nd array to this array.
     
-    const SArray1dC<DataC> & operator/=(const SArray1dC<DataC> & arr);
+    const SArray1dC<DataT> & operator/=(const SArray1dC<DataT> & arr);
     // Divides the 2nd array from this array.
     
-    const SArray1dC<DataC> & operator+=(const DataC &number);
+    const SArray1dC<DataT> & operator+=(const DataT &number);
     // Adds 'number' to all array items.
     
-    const SArray1dC<DataC> & operator-=(const DataC &number);
+    const SArray1dC<DataT> & operator-=(const DataT &number);
     // Subtracts 'number' from all array items.
     
-    const SArray1dC<DataC> & operator*=(const DataC &number);
+    const SArray1dC<DataT> & operator*=(const DataT &number);
     // Multiplies the array by the 'number'.
     
-    const SArray1dC<DataC> & operator/=(const DataC &number);
+    const SArray1dC<DataT> & operator/=(const DataT &number);
     // Divides the array elements by the 'number'.
 
     
     // Access to the object and its parts.
     // -----------------------------------
     
-    inline const SArray1dC<DataC> & SArray1d() const
+    inline const SArray1dC<DataT> & SArray1d() const
       { return *this; }
     // Access to the whole constant array.
     
-    inline SArray1dC<DataC> & SArray1d()
+    inline SArray1dC<DataT> & SArray1d()
       { return *this; }
     // Access to the whole array.
     
     // Modifications of the representation
     // -----------------------------------
         
-    inline SArray1dC<DataC> & Append(const SArray1dC<DataC> & a);
+    inline SArray1dC<DataT> & Append(const SArray1dC<DataT> & a);
     // This array is extended by the length of the array 'a' and the contents
     // of both arrays are copied to it. Empty arrays are handled correctly.
     
-    SArray1dC<DataC> Join(const SArray1dC<DataC> &Oth) const;
+    SArray1dC<DataT> Join(const SArray1dC<DataT> &Oth) const;
     // Join this Array and another into a new Array which
     // is returned. This does not change either of its arguments.
     // This is placed in the array first, followed by 'Oth'.
     
-    SArray1dC<DataC> From(UIntT offset) { 
+    SArray1dC<DataT> From(UIntT offset) { 
       if(offset >= Size())
-	return SArray1dC<DataC>(); // Empty array.
+	return SArray1dC<DataT>(); // Empty array.
       SizeT nsize = Size() - offset;
-      return SArray1dC<DataC>(*this,nsize,offset); 
+      return SArray1dC<DataT>(*this,nsize,offset); 
     }
     //: Return array from offset to the end of the array.
     // If offset is larger than the array an empty array
     // is returned,
     
-    SArray1dC<DataC> After(UIntT offset) 
+    SArray1dC<DataT> After(UIntT offset) 
     { return From(offset+1); }
     //: Return array after offset to the end of the array.
     // If offset is larger than the array an empty array
@@ -199,12 +199,12 @@ namespace RavlN {
     // Special operations
     // ------------------
     
-    BufferC<DataC> &Buffer()
+    BufferC<DataT> &Buffer()
       { return buff; }
     //: Access base data buffer.
     // Experts only.
 
-    const BufferC<DataC> &Buffer() const
+    const BufferC<DataT> &Buffer() const
       { return buff; }
     //: Constant access base data buffer.
     // Experts only.
@@ -214,14 +214,14 @@ namespace RavlN {
     // This does a simple bubble sort.
     // FIXME:- we could do with something better!
 
-    bool operator==(const SArray1dC<DataC> & vv);
+    bool operator==(const SArray1dC<DataT> & vv);
     //: Comparison operator
     
     UIntT Hash() const;
     //: Compute a hash value for the array.
     
   protected:
-    SArray1dC(BufferC<DataC> & bf,DataC *start, const SizeT dim);
+    SArray1dC(BufferC<DataT> & bf,DataT *start, const SizeT dim);
     //: Creates the array of size 'dim' using the buffer 'bf', with
     //: 0'th element at start.
     // Used for building SArray's from Arrays.
@@ -229,8 +229,8 @@ namespace RavlN {
     // Special operations
     // ------------------
     
-    inline DataC * DataStart() const
-      { return SizeBufferAccessC<DataC>::ReferenceElm(); }
+    inline DataT * DataStart() const
+      { return SizeBufferAccessC<DataT>::ReferenceElm(); }
     // Returns the address of the first item if exists.
     
   private:
@@ -238,62 +238,62 @@ namespace RavlN {
     // Object representation
     // ---------------------
     
-    BufferC<DataC> buff;  // The reference counted storage.
+    BufferC<DataT> buff;  // The reference counted storage.
     
-    friend class SArray1dIterC<DataC>;
-    friend class Array1dC<DataC>;
+    friend class SArray1dIterC<DataT>;
+    friend class Array1dC<DataT>;
   };
   
-  template <class DataC>
-  BinOStreamC & operator<<(BinOStreamC & s, const SArray1dC<DataC> & arr);
+  template <class DataT>
+  BinOStreamC & operator<<(BinOStreamC & s, const SArray1dC<DataT> & arr);
   // Prints array into the stream 's'.
   
-  template <class DataC>
-  BinIStreamC & operator>>(BinIStreamC& s, SArray1dC<DataC> & arr);
+  template <class DataT>
+  BinIStreamC & operator>>(BinIStreamC& s, SArray1dC<DataT> & arr);
   // Assigns the values into the array 'arr'.
   
-  template <class DataC>
-  SArray1dC<DataC> & BubbleSort(SArray1dC<DataC> & arr);
+  template <class DataT>
+  SArray1dC<DataT> & BubbleSort(SArray1dC<DataT> & arr);
   // Sorts arr using operator <.
   
-  template <class DataC>
-  istream & operator>>(istream & s, SArray1dC<DataC> & arr);
+  template <class DataT>
+  istream & operator>>(istream & s, SArray1dC<DataT> & arr);
   // Assigns the values into the array 'arr'.
   
-  template <class DataC>
-  SArray1dC<DataC> & BubbleSort(SArray1dC<DataC> & arr);
+  template <class DataT>
+  SArray1dC<DataT> & BubbleSort(SArray1dC<DataT> & arr);
   // Sorts arr using operator <.
   
   /////////////////////////////////////////////////////////////////////////////
   
-  template <class DataC>
+  template <class DataT>
   inline
-  const SArray1dC<DataC> &
-  SArray1dC<DataC>::operator=(const SArray1dC<DataC> & vv) {
+  const SArray1dC<DataT> &
+  SArray1dC<DataT>::operator=(const SArray1dC<DataT> & vv) {
     if (this == &vv) return *this;
-    SizeBufferAccessC<DataC>::operator=(vv);
+    SizeBufferAccessC<DataT>::operator=(vv);
     buff=vv.buff;
     return *this;
   }
   
   
-  template <class DataC>
+  template <class DataT>
   inline 
-  SArray1dC<DataC> & 
-  SArray1dC<DataC>::Append(const SArray1dC<DataC> & a)  {
+  SArray1dC<DataT> & 
+  SArray1dC<DataT>::Append(const SArray1dC<DataT> & a)  {
     (*this) = Join(a);
     return *this;
   }
   
-  template <class DataC>
-  SArray1dC<DataC>::SArray1dC()
-    : SizeBufferAccessC<DataC>(),
+  template <class DataT>
+  SArray1dC<DataT>::SArray1dC()
+    : SizeBufferAccessC<DataT>(),
       buff()
   {}
 
-  template <class DataC>
-  SArray1dC<DataC>::SArray1dC(const PairC<DataC> & pr)
-    : SizeBufferAccessC<DataC>(),
+  template <class DataT>
+  SArray1dC<DataT>::SArray1dC(const PairC<DataT> & pr)
+    : SizeBufferAccessC<DataT>(),
       buff(2)
   {
     Attach(buff,2);
@@ -301,124 +301,124 @@ namespace RavlN {
     (*this)[1] = pr[1];
   }
 
-  template <class DataC>
-  SArray1dC<DataC>::SArray1dC(const Slice1dC<DataC> &slice,bool alwaysCopy) {
+  template <class DataT>
+  SArray1dC<DataT>::SArray1dC(const Slice1dC<DataT> &slice,bool alwaysCopy) {
     if(!alwaysCopy && slice.Stride() == 1) {
       buff = slice.Buffer();
-      RangeBufferAccessC<DataC>::operator=(RangeBufferAccessC<DataC>(&slice[0],slice.Size()));
+      RangeBufferAccessC<DataT>::operator=(RangeBufferAccessC<DataT>(&slice[0],slice.Size()));
       return ;
     }
-    buff = BufferC<DataC>(slice.Size());
+    buff = BufferC<DataT>(slice.Size());
     Attach(buff,slice.Size());
     // Copy data.
-    DataC *at = buff.ReferenceElm();
-    for(Slice1dIterC<DataC> it(slice);it;it++,at++)
+    DataT *at = buff.ReferenceElm();
+    for(Slice1dIterC<DataT> it(slice);it;it++,at++)
       *at = *it;
 
   }
   
-  template <class DataC>
-  SArray1dC<DataC>::SArray1dC(const SizeT dim)
-    : SizeBufferAccessC<DataC>(),
+  template <class DataT>
+  SArray1dC<DataT>::SArray1dC(const SizeT dim)
+    : SizeBufferAccessC<DataT>(),
       buff(dim)
   { Attach(buff,dim); }
   
-  template <class DataC>
-  SArray1dC<DataC>::SArray1dC(const SArray1dC<DataC> & vv)
-    : SizeBufferAccessC<DataC>(vv),
+  template <class DataT>
+  SArray1dC<DataT>::SArray1dC(const SArray1dC<DataT> & vv)
+    : SizeBufferAccessC<DataT>(vv),
       buff(vv.buff)
   {}
 
-  template <class DataC>
-  SArray1dC<DataC>::SArray1dC(DataC *data, 
+  template <class DataT>
+  SArray1dC<DataT>::SArray1dC(DataT *data, 
 			      SizeT dim,
 			      bool removable)
-    : SizeBufferAccessC<DataC>(data, dim),
+    : SizeBufferAccessC<DataT>(data, dim),
       buff(dim,data,false, removable)
   {}
   
-  template <class DataC>
-  SArray1dC<DataC>::SArray1dC(BufferC<DataC> & bf,SizeT dim,SizeT offsetInBuff)
-    : SizeBufferAccessC<DataC>(bf.Access() + offsetInBuff, dim),
+  template <class DataT>
+  SArray1dC<DataT>::SArray1dC(BufferC<DataT> & bf,SizeT dim,SizeT offsetInBuff)
+    : SizeBufferAccessC<DataT>(bf.Access() + offsetInBuff, dim),
       buff(bf)
   {}
 
-  template <class DataC>
-  SArray1dC<DataC>::SArray1dC(BufferC<DataC> & bf,
-			      DataC *start, 
+  template <class DataT>
+  SArray1dC<DataT>::SArray1dC(BufferC<DataT> & bf,
+			      DataT *start, 
 			      const SizeT dim)
-    : SizeBufferAccessC<DataC>(start, dim),
+    : SizeBufferAccessC<DataT>(start, dim),
       buff(bf)
   {}
 
-  template <class DataC>
-  SArray1dC<DataC>::SArray1dC(const SArray1dC<DataC> & vv, 
+  template <class DataT>
+  SArray1dC<DataT>::SArray1dC(const SArray1dC<DataT> & vv, 
 			      const SizeT             dim,
 			      SizeT offsetInBuff)
-  : SizeBufferAccessC<DataC>(vv.SAccess() + offsetInBuff, dim),
+  : SizeBufferAccessC<DataT>(vv.SAccess() + offsetInBuff, dim),
     buff(vv.buff)
   {
     RavlAssert(vv.Size() >= (offsetInBuff + dim)); // Make sure its big enought.
   }
 
-  template <class DataC>
-  SArray1dC<DataC> SArray1dC<DataC>::Copy() const {
-    return SArray1dC<DataC>(SizeBufferAccessC<DataC>::Copy().ReferenceElm(), 
+  template <class DataT>
+  SArray1dC<DataT> SArray1dC<DataT>::Copy() const {
+    return SArray1dC<DataT>(SizeBufferAccessC<DataT>::Copy().ReferenceElm(), 
 			    Size(),true);
   }
 
-  template <class DataC>
-  SArray1dC<DataC> SArray1dC<DataC>::Copy(UIntT extend) const {
-    SArray1dC<DataC> ret(Size() + extend);
-    for(BufferAccessIter2C<DataC,DataC> it(*this,ret);it;it++)
+  template <class DataT>
+  SArray1dC<DataT> SArray1dC<DataT>::Copy(UIntT extend) const {
+    SArray1dC<DataT> ret(Size() + extend);
+    for(BufferAccessIter2C<DataT,DataT> it(*this,ret);it;it++)
       it.Data2() = it.Data1();
     return ret;
   }
   
-  template <class DataC>
-  SArray1dC<DataC> 
-  SArray1dC<DataC>::Join(const SArray1dC<DataC> &Oth) const  {
+  template <class DataT>
+  SArray1dC<DataT> 
+  SArray1dC<DataT>::Join(const SArray1dC<DataT> &Oth) const  {
     // FIXME :- Do this more efficently, with ptrs.
     const SizeT len1 = Size();
     const SizeT len2 = Oth.Size();
-    SArray1dC<DataC> newarr(Len1 + Len2);
-    for(BufferAccessIter2C<DataC,DataC> it(*this,newarr);it;it++)
+    SArray1dC<DataT> newarr(Len1 + Len2);
+    for(BufferAccessIter2C<DataT,DataT> it(*this,newarr);it;it++)
       it.Data2() = it.Data1();
-    for(BufferAccessIter2C<DataC,DataC> it(Oth,newarr,0,len1);it;it++)
+    for(BufferAccessIter2C<DataT,DataT> it(Oth,newarr,0,len1);it;it++)
       it.Data2() = it.Data1();
     return newarr;
   }
 
-  template <class DataC>
+  template <class DataT>
   ostream &
-  operator<<(ostream & s, const SArray1dC<DataC> & arr) {
+  operator<<(ostream & s, const SArray1dC<DataT> & arr) {
     s << arr.Size() << '\n'; 
-    for(BufferAccessIterC<DataC> it(arr);it;it++)
-      s << ((const DataC &) *it) << '\n';
+    for(BufferAccessIterC<DataT> it(arr);it;it++)
+      s << ((const DataT &) *it) << '\n';
     return s;
   }
   
-  template <class DataC>
+  template <class DataT>
   istream &
-  operator>>(istream & s, SArray1dC<DataC> & arr) { 
+  operator>>(istream & s, SArray1dC<DataT> & arr) { 
     SizeT n = 0;
     s >> n;
     if (n != arr.Size()) {
-      SArray1dC<DataC> brr(n);
+      SArray1dC<DataT> brr(n);
       arr = brr;
     }
-    for(BufferAccessIterC<DataC> it(arr);it;it++)
+    for(BufferAccessIterC<DataT> it(arr);it;it++)
       s >> *it;
     return s;
   }
 
-  template <class DataC>
-  SArray1dC<DataC> &
-  BubbleSort(SArray1dC<DataC> & arr) {
+  template <class DataT>
+  SArray1dC<DataT> &
+  BubbleSort(SArray1dC<DataT> & arr) {
     IndexC    low = 0;
     IndexC    upp = arr.Size()-1;
     bool  change;
-    DataC     ev;
+    DataT     ev;
     do {
       change = false;
       for (IndexC i = low; i < upp; ++i) {
@@ -435,153 +435,153 @@ namespace RavlN {
   }
   
   
-  template<class DataC>
+  template<class DataT>
   BinOStreamC &
-  operator<<(BinOStreamC & s, const SArray1dC<DataC> & arr) {
+  operator<<(BinOStreamC & s, const SArray1dC<DataT> & arr) {
     s << arr.Size();
-    for(BufferAccessIterC<DataC> it(arr);it;it++)
+    for(BufferAccessIterC<DataT> it(arr);it;it++)
       s << it.Data();
     return s;
   }
   
-  template<class DataC>
+  template<class DataT>
   BinIStreamC &
-  operator>>(BinIStreamC & s, SArray1dC<DataC> & arr) {
+  operator>>(BinIStreamC & s, SArray1dC<DataT> & arr) {
     UIntT size;
     s >> size;
-    arr = SArray1dC<DataC>(size);
-    for(BufferAccessIterC<DataC> it(arr);it;it++)
+    arr = SArray1dC<DataT>(size);
+    for(BufferAccessIterC<DataT> it(arr);it;it++)
       s >> it.Data();
     return s;
   }
 
-  template<class DataC>
-  SArray1dC<DataC> SArray1dC<DataC>::operator+(const SArray1dC<DataC> & arr) const {
-    SArray1dC<DataC> ret(Size());
-    for(BufferAccessIter3C<DataC,DataC,DataC> it(ret,*this,arr);it;it++)
+  template<class DataT>
+  SArray1dC<DataT> SArray1dC<DataT>::operator+(const SArray1dC<DataT> & arr) const {
+    SArray1dC<DataT> ret(Size());
+    for(BufferAccessIter3C<DataT,DataT,DataT> it(ret,*this,arr);it;it++)
       it.Data1() = it.Data2() + it.Data3();
     return ret;
   }
   
-  template<class DataC>
-  SArray1dC<DataC> SArray1dC<DataC>::operator-(const SArray1dC<DataC> & arr) const {
-    SArray1dC<DataC> ret(Size());
-    for(BufferAccessIter3C<DataC,DataC,DataC> it(ret,*this,arr);it;it++)
+  template<class DataT>
+  SArray1dC<DataT> SArray1dC<DataT>::operator-(const SArray1dC<DataT> & arr) const {
+    SArray1dC<DataT> ret(Size());
+    for(BufferAccessIter3C<DataT,DataT,DataT> it(ret,*this,arr);it;it++)
       it.Data1() = it.Data2() - it.Data3();
     return ret;
   }
   
-  template<class DataC>
-  SArray1dC<DataC> SArray1dC<DataC>::operator*(const SArray1dC<DataC> & arr) const {
-    SArray1dC<DataC> ret(Size());
-    for(BufferAccessIter3C<DataC,DataC,DataC> it(ret,*this,arr);it;it++)
+  template<class DataT>
+  SArray1dC<DataT> SArray1dC<DataT>::operator*(const SArray1dC<DataT> & arr) const {
+    SArray1dC<DataT> ret(Size());
+    for(BufferAccessIter3C<DataT,DataT,DataT> it(ret,*this,arr);it;it++)
       it.Data1() = it.Data2() * it.Data3();
     return ret;
   }
   
-  template<class DataC>
-  SArray1dC<DataC> SArray1dC<DataC>::operator/(const SArray1dC<DataC> & arr) const {
-    SArray1dC<DataC> ret(Size());
-    for(BufferAccessIter3C<DataC,DataC,DataC> it(ret,*this,arr);it;it++)
+  template<class DataT>
+  SArray1dC<DataT> SArray1dC<DataT>::operator/(const SArray1dC<DataT> & arr) const {
+    SArray1dC<DataT> ret(Size());
+    for(BufferAccessIter3C<DataT,DataT,DataT> it(ret,*this,arr);it;it++)
       it.Data1() = it.Data2() / it.Data3();
     return ret;
   }
   
-  template<class DataC>
-  SArray1dC<DataC> SArray1dC<DataC>::operator+(const DataC &number) const {
-    SArray1dC<DataC> ret(Size());
-    for(BufferAccessIter2C<DataC,DataC> it(ret,*this);it;it++)
+  template<class DataT>
+  SArray1dC<DataT> SArray1dC<DataT>::operator+(const DataT &number) const {
+    SArray1dC<DataT> ret(Size());
+    for(BufferAccessIter2C<DataT,DataT> it(ret,*this);it;it++)
       it.Data1() = it.Data2() + number;
     return ret;
   }
   
-  template<class DataC>
-  SArray1dC<DataC> SArray1dC<DataC>::operator-(const DataC &number) const {
-    SArray1dC<DataC> ret(Size());
-    for(BufferAccessIter2C<DataC,DataC> it(ret,*this);it;it++)
+  template<class DataT>
+  SArray1dC<DataT> SArray1dC<DataT>::operator-(const DataT &number) const {
+    SArray1dC<DataT> ret(Size());
+    for(BufferAccessIter2C<DataT,DataT> it(ret,*this);it;it++)
       it.Data1() = it.Data2() - number;
     return ret;
   }
   
-  template<class DataC>
-  SArray1dC<DataC> SArray1dC<DataC>::operator*(const DataC &number) const {
-    SArray1dC<DataC> ret(Size());
-    for(BufferAccessIter2C<DataC,DataC> it(ret,*this);it;it++)
+  template<class DataT>
+  SArray1dC<DataT> SArray1dC<DataT>::operator*(const DataT &number) const {
+    SArray1dC<DataT> ret(Size());
+    for(BufferAccessIter2C<DataT,DataT> it(ret,*this);it;it++)
       it.Data1() = it.Data2() * number;
     return ret;
   }
   
-  template<class DataC>
-  SArray1dC<DataC> SArray1dC<DataC>::operator/(const DataC &number) const {
-    SArray1dC<DataC> ret(Size());
-    for(BufferAccessIter2C<DataC,DataC> it(ret,*this);it;it++)
+  template<class DataT>
+  SArray1dC<DataT> SArray1dC<DataT>::operator/(const DataT &number) const {
+    SArray1dC<DataT> ret(Size());
+    for(BufferAccessIter2C<DataT,DataT> it(ret,*this);it;it++)
       it.Data1() = it.Data2() / number;
     return ret;
   }
   
-  template<class DataC>
-  const SArray1dC<DataC> & SArray1dC<DataC>::operator+=(const SArray1dC<DataC> & arr) {
-    for(BufferAccessIter2C<DataC,DataC> it(*this,arr);it;it++)
+  template<class DataT>
+  const SArray1dC<DataT> & SArray1dC<DataT>::operator+=(const SArray1dC<DataT> & arr) {
+    for(BufferAccessIter2C<DataT,DataT> it(*this,arr);it;it++)
       it.Data1() += it.Data2();
     return *this;
   }
   
-  template<class DataC>
-  const SArray1dC<DataC> & SArray1dC<DataC>::operator-=(const SArray1dC<DataC> & arr) {
-    for(BufferAccessIter2C<DataC,DataC> it(*this,arr);it;it++)
+  template<class DataT>
+  const SArray1dC<DataT> & SArray1dC<DataT>::operator-=(const SArray1dC<DataT> & arr) {
+    for(BufferAccessIter2C<DataT,DataT> it(*this,arr);it;it++)
       it.Data1() -= it.Data2();
     return *this;
   }
     
-  template<class DataC>
-  const SArray1dC<DataC> & SArray1dC<DataC>::operator*=(const SArray1dC<DataC> & arr) {
-    for(BufferAccessIter2C<DataC,DataC> it(*this,arr);it;it++)
+  template<class DataT>
+  const SArray1dC<DataT> & SArray1dC<DataT>::operator*=(const SArray1dC<DataT> & arr) {
+    for(BufferAccessIter2C<DataT,DataT> it(*this,arr);it;it++)
       it.Data1() *= it.Data2();
     return *this;
   }
     
-  template<class DataC>
-  const SArray1dC<DataC> & SArray1dC<DataC>::operator/=(const SArray1dC<DataC> & arr) {
-    for(BufferAccessIter2C<DataC,DataC> it(*this,arr);it;it++)
+  template<class DataT>
+  const SArray1dC<DataT> & SArray1dC<DataT>::operator/=(const SArray1dC<DataT> & arr) {
+    for(BufferAccessIter2C<DataT,DataT> it(*this,arr);it;it++)
       it.Data1() /= it.Data2();
     return *this;
   }
   
-  template<class DataC>
-  const SArray1dC<DataC> & SArray1dC<DataC>::operator+=(const DataC &number) {
-    for(BufferAccessIterC<DataC> it(*this);it;it++)
+  template<class DataT>
+  const SArray1dC<DataT> & SArray1dC<DataT>::operator+=(const DataT &number) {
+    for(BufferAccessIterC<DataT> it(*this);it;it++)
       it.Data1() += number;
     return *this;
   }
   
   
-  template<class DataC>
-  const SArray1dC<DataC> & SArray1dC<DataC>::operator-=(const DataC &number) {
-    for(BufferAccessIterC<DataC> it(*this);it;it++)
+  template<class DataT>
+  const SArray1dC<DataT> & SArray1dC<DataT>::operator-=(const DataT &number) {
+    for(BufferAccessIterC<DataT> it(*this);it;it++)
       it.Data1() -= number;
     return *this;
   }
   
-  template<class DataC>
-  const SArray1dC<DataC> & SArray1dC<DataC>::operator*=(const DataC &number) {
-    for(BufferAccessIterC<DataC> it(*this);it;it++)
+  template<class DataT>
+  const SArray1dC<DataT> & SArray1dC<DataT>::operator*=(const DataT &number) {
+    for(BufferAccessIterC<DataT> it(*this);it;it++)
       it.Data1() *= number;
     return *this;
   }
   
-  template<class DataC>
-  const SArray1dC<DataC> & SArray1dC<DataC>::operator/=(const DataC &number) {
-    for(BufferAccessIterC<DataC> it(*this);it;it++)
+  template<class DataT>
+  const SArray1dC<DataT> & SArray1dC<DataT>::operator/=(const DataT &number) {
+    for(BufferAccessIterC<DataT> it(*this);it;it++)
       it.Data1() /= number;
     return *this;
   }
   
-  template<class DataC>
-  void SArray1dC<DataC>::Sort() {
-    BufferAccessIterC<DataC> it(*this);
+  template<class DataT>
+  void SArray1dC<DataT>::Sort() {
+    BufferAccessIterC<DataT> it(*this);
     if(!it)
       return ; // Empty, so we're done.
-    DataC *lv;
+    DataT *lv;
     bool changed = true;
     do {
       changed = false;
@@ -590,7 +590,7 @@ namespace RavlN {
       it++;
       for(;it;it++) {
 	if(*lv < *it) {
-	  DataC t = *lv;
+	  DataT t = *lv;
 	  *lv = *it;
 	  *it = t;
 	  changed = true;
@@ -600,18 +600,18 @@ namespace RavlN {
     return ;
   }
 
-  template<class DataC>
-  bool SArray1dC<DataC>::operator==(const SArray1dC<DataC> & vv) {
-    for(BufferAccessIter2C<DataC,DataC> it(*this,arr);it;it++)
+  template<class DataT>
+  bool SArray1dC<DataT>::operator==(const SArray1dC<DataT> & vv) {
+    for(BufferAccessIter2C<DataT,DataT> it(*this,arr);it;it++)
       if(it.Data1() != it.Data2())
 	return false;
     return true;
   }
   
-  template<class DataC>
-  UIntT SArray1dC<DataC>::Hash() const {
+  template<class DataT>
+  UIntT SArray1dC<DataT>::Hash() const {
     UIntT ret = Size();
-    for(BufferAccessIterC<DataC> it(*this);it;it++)
+    for(BufferAccessIterC<DataT> it(*this);it;it++)
       ret += StdHash(it.Data()) ^ (ret >> 1) ;
     return ret;
   }
