@@ -10,27 +10,27 @@ LIBTIFF_DEF = 1
 include Math.def
 include zlib.def
 
-ifndef LIBTIFF_HOME
-  ifeq ($(ARC),linux)
-#    LIBTIFF_HOME=
-  else
-    ifeq ($(ARC),sgi)
-      LIBTIFF_HOME=/opt/freeware
-    else
-      LIBTIFF_HOME=/opt/PDlibs/tiff-v3.4beta037
-    endif
-  endif
-endif
+  ifndef LIBTIFF_HOME
+   EXELIB := -ltiff $(EXELIB)
+  else 
+   INCLUDES += -I$(LIBTIFF_HOME)/include 
 
-ifndef LIBTIFF_HOME
-  EXELIB := -ltiff $(EXELIB)
-else
-  INCLUDES += -I$(LIBTIFF_HOME)/include 
-  ifeq ($(ARC),sgi)
-    EXELIB := -Wl,-rpath,$(LIBTIFF_HOME)/lib32 -L$(LIBTIFF_HOME)/lib32 -ltiff $(EXELIB)
-  else
-    EXELIB := -L$(LIBTIFF_HOME)/lib -ltiff $(EXELIB)
-  endif
-endif
+     ifeq ($(ARC),linux)
+       EXELIB := -Wl,-rpath,$(LIBTIFF_HOME)/lib32 -L$(LIBTIFF_HOME)/lib32 -ltiff $(EXELIB)
+     else
 
-endif
+       ifeq ($(ARC),sgi) 
+         EXELIB := -R $(LIBTIFF_HOME)/lib32 -L$(LIBTIFF_HOME)/lib32 -ltiff $(EXELIB)
+       else
+
+         ifneq ($(filter $(ARC), sol2_7 sol2_9),)
+           EXELIB := -R $(LIBTIFF_HOME)/lib32 -L$(LIBTIFF_HOME)/lib32 -ltiff $(EXELIB)
+         else
+
+           EXELIB := -L$(LIBTIFF_HOME)/lib -ltiff $(EXELIB)
+         endif 
+       endif 
+     endif 
+  endif 
+endif 
+

@@ -9,15 +9,15 @@ JAVASCRIPT_DEF=1
 ################################################
 # $Id$
 
-ifndef JAVASCRIPT_HOME
-  JAVASCRIPT_HOME = /opt/PDmesa/libvrml97-0.8.2
-endif
+  ifndef JAVASCRIPT_HOME
+    EXELIB := -lvrml97js  $(EXELIB)
+  else 
+    INCLUDES += -I$(JAVASCRIPT_HOME)/include
 
-INCLUDES += -I$(JAVASCRIPT_HOME)/include
-EXELIB := -L$(JAVASCRIPT_HOME)/lib -lvrml97js  $(EXELIB)
-
-ifeq ($(ARC),linux)
-EXELIB := -Wl,-rpath=$(JAVASCRIPT_HOME)/lib  $(EXELIB)
-endif
-
-endif
+    ifeq ($(ARC),linux)
+      EXELIB := -Wl,-rpath=$(JAVASCRIPT_HOME)/lib  $(EXELIB)
+    else 
+      EXELIB := -L$(JAVASCRIPT_HOME)/lib -lvrml97js  $(EXELIB)
+    endif 
+  endif
+endif 
