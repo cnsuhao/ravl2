@@ -1,0 +1,23 @@
+# This file is part of RAVL, Recognition And Vision Library 
+# Copyright (C) 2001, University of Surrey
+# This code may be redistributed under the terms of the GNU Lesser
+# General Public License (LGPL). See the lgpl.licence file for details or
+# see http://www.gnu.org/copyleft/lesser.html
+# file-header-ends-here
+#! rcsid="$Id$"
+
+PACKAGE=Ravl/Logic
+
+MAINS= testLogic.cc
+
+HEADERS=Literal.hh Var.hh Unify.hh BindSet.hh Tuple.hh LList.hh Condition.hh \
+ MinTerm.hh Or.hh And.hh Not.hh LiteralIter.hh LiteralIterWrap.hh LiteralMapIter.hh
+
+SOURCES=Literal.cc Var.cc Unify.cc BindSet.cc Tuple.cc LList.cc Condition.cc \
+ MinTerm.cc Or.cc And.cc Not.cc LiteralIter.cc
+
+TESTEXES=testLogic.cc
+
+PLIB=RavlLogic
+
+USESLIBS=RavlCore
