@@ -162,8 +162,17 @@ int testBasic() {
       it.Data1() = it.Data2();
   }
 
+
+  Array2dC<int> test1(10,10);
+  test1.Fill(0);
+  Array2dC<int> test2(IndexRangeC(2,4),IndexRangeC(3,5));
+  test2.Fill(1);
+  test1.SetSubArray(Index2dC(1,1),test2);
+  //cerr << test1 << "\n";
+  if(test1.Sum() != 9) return __LINE__;
   return 0;
 }
+
 int testSlice() {
   Array2dC<int> test(3,3);
   int i = 0;

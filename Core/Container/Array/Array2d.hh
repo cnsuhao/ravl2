@@ -610,11 +610,12 @@ namespace RavlN {
   
   template <class DataT>
   void Array2dC<DataT>::SetSubArray(const Index2dC &origin,const Array2dC<DataT> &vals) {
-    IndexRange2dC srng = vals.Frame();
-    srng.SetOrigin(origin);
-    RavlAssert(Frame().Contains(srng));
-    for(BufferAccess2dIter2C<DataT,DataT> it(vals,srng,
-					     (*this),Frame());it;it++)
+    IndexRange2dC srng = Frame();
+    srng += origin;
+    srng += vals.Frame().Origin();
+    srng.ClipBy(Frame());
+    for(BufferAccess2dIter2C<DataT,DataT> it(vals,vals.Frame(),
+					     (*this),srng);it;it++)
       it.Data2() = it.Data1();
   }
   
