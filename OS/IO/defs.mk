@@ -17,4 +17,6 @@ PLIB=RavlOSIO
 
 USESLIBS=RavlOS RavlIO
 
+TESTEXES= testSequenceIO.cc
+
 EHT=Ravl.OS.Sequence.html
