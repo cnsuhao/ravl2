@@ -155,7 +155,8 @@ int testConvexHull2d() {
 }
 
 int testDelaunyTriangulation2d() {
-#if 0
+  cerr << "testDelaunyTriangulation2d() Called. \n";
+#if 1
   for(int j = 0;j < 10;j++) {
     SArray1dC<Point2dC> pnts(10 + j * 10);
     

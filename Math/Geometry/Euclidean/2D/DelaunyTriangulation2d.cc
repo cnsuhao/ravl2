@@ -15,7 +15,7 @@
 #include "Ravl/HSet.hh"
 #include "Ravl/LinePP2d.hh"
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -26,72 +26,41 @@ namespace RavlN {
 
   static bool testLegal(const Point2dC &pi,const Point2dC &pj,const Point2dC &pk,const Point2dC &pr) {
     Circle2dC cir;
-    ONDEBUG(cerr << "testLegal(), Fit. i=" << pi << " j=" << pj << " k=" << pk << " r=" << pr);
+    //ONDEBUG(cerr << "testLegal(), Fit. i=" << pi << " j=" << pj << " k=" << pk << " r=" << pr);
     if(!cir.Fit(pi,pj,pk)) {
-      ONDEBUG(cerr << " Fit failed. \n");
+      //ONDEBUG(cerr << " Fit failed. \n");
       return true;
     }
-    ONDEBUG(cerr << " IsInside=" << cir.IsInside(pr) << " \n");
-    return cir.IsInside(pr);
+    //ONDEBUG(cerr << " IsInside=" << cir.IsInside(pr) << " \n");
+    return !cir.IsInside(pr);
   }
   
-  static void LegaliseEdge(HEMesh2dC &mesh,THEMeshEdgeC<Point2dC> edge,const HSetC<THEMeshVertexC<Point2dC> > &special) {
+  static void LegaliseEdge(HEMesh2dC &mesh,THEMeshEdgeC<Point2dC> edge) {
     ONDEBUG(cerr << "LegaliseEdge(), Called. Edge=" << edge.Hash() << " \n");
     
     if(!edge.HasPair())
       return ; // Must be legal, nothing to change it with!
     
     THEMeshVertexC<Point2dC> pi = edge.Prev().Vertex();
-    RavlAssert(pi.IsValid());
-    bool spi = special[pi];
-    
-    THEMeshVertexC<Point2dC> pj = edge.Vertex();
-    RavlAssert(pj.IsValid());
-    bool spj = special[pj];
-    
-    if(spi && spj) return ;
-    
+    THEMeshVertexC<Point2dC> pj = edge.Vertex();    
     THEMeshVertexC<Point2dC> pr = edge.Next().Vertex(); // Find point being inserted.
-    RavlAssert(pr.IsValid());
-    bool spr = special[pr];
-    
     THEMeshVertexC<Point2dC> pk = edge.Pair().Next().Vertex();
-    RavlAssert(pk.IsValid());
-    bool spk = special[pk];
     
-    int count = (int) spr + (int) spk + (int) spi + (int) spj;
-    ONDEBUG(cerr << "LegaliseEdge(), Count=" << count << " \n");
-    
-    switch(count)
-      {
-      case 0:
-	if(testLegal(pi.Data(),pj.Data(),pk.Data(),pr.Data()))
-	  return ; // Edge is legal, we're done.
-	break;
-      case 1:
-	if(!spi && !spj) return ;
-	break;
-      case 2: {
-	THEMeshVertexC<Point2dC> a,b;
-	if(spi) a = pi;
-	else a = pj;
-	if(spr) b = pr;
-	else  b = pk;
-	cerr << "a=" << a.Hash() << " b=" << b.Hash() << "\n";
-	RavlAssert(!(a == b));
-	if(a > b) return ;
-      } break;
-      default: // Should never happen.
-	RavlAssert(0);
-      }
+    if(testLegal(pi.Data(),pj.Data(),pk.Data(),pr.Data()))
+      return ; // Edge is legal, we're done.
     
     // Twist edge in the face.
     mesh.TwistEdge(edge,edge.Next(),edge.Pair().Next());
-    RavlAssert(mesh.CheckMesh(true));
+    //RavlAssert(mesh.CheckMesh(true));
     
     // Check resulting triangles are ok.
-    LegaliseEdge(mesh,edge.Next(),special);
-    LegaliseEdge(mesh,edge.Pair().Prev(),special);
+    RavlAssert(edge.Next().Next().Vertex() == pr);
+    
+    THEMeshEdgeC<Point2dC> tmp = edge.Pair().Prev();
+    LegaliseEdge(mesh,edge.Next());
+    
+    RavlAssert(tmp.Next().Vertex() == pr);
+    LegaliseEdge(mesh,tmp);
   }
   
   //: Find face containing point 'pnt'.
@@ -100,30 +69,29 @@ namespace RavlN {
   static THEMeshFaceC<Point2dC> FindFace(HEMesh2dC &mesh,HEMeshBaseEdgeC &me,const Point2dC &pnt) {
     ONDEBUG(cerr << "FindFace(), Point= " << pnt << "\n");
     for(THEMeshFaceIterC<Point2dC> it(mesh.Faces());it;it++) {
+      //ONDEBUG(cerr << "FindFace(), Face= " << (*it).Hash() << "\n");      
       RavlAssert((*it).IsValid());
       THEMeshFaceEdgeIterC<Point2dC> eit(*it);
-      if(!eit) continue; // Faces has no edges!
-      Point2dC last = eit->Vertex().Data();
-      Point2dC first = last;
-      bool found = true;
-      for(eit++;eit;eit++) {
-	Point2dC pnt = eit->Vertex().Data();
-	if(LinePP2dC(last,pnt).IsPointToLeft(pnt)) {
-	  found = false;
+      for(;eit;eit++) {
+	LinePP2dC line((*eit).Prev().Vertex().Data(),eit->Vertex().Data());
+	//ONDEBUG(cerr << "FindFace(), " << (*eit).Prev().Vertex().Data() << " " << eit->Vertex().Data() << " -> " << line.IsPointToLeft(pnt) << "\n");
+	if(!line.IsPointToLeftOn(pnt))
 	  break;
+	if(line.IsPointOn(pnt)) {
+	  me = *eit;
+	  return *it;
 	}
-	last = pnt;
       }
-      if(found && !LinePP2dC(last,first).IsPointToLeft(pnt)) {
-	// Check for point on edge ?
-	
+      if(!(eit)) { 
+	//ONDEBUG(cerr << "FindFace(), Found!\n");
 	return *it; // Found it !
-      }
-      // Keep trying....
+      } //else
+	//ONDEBUG(cerr << "FindFace(), Reject. \n");
+	// Keep trying....
     }
     return THEMeshFaceC<Point2dC>();
   }
-
+  
   
   //: Create a delauny triangulation of the given set of points.
   
@@ -131,16 +99,19 @@ namespace RavlN {
     HEMesh2dC ret(true);
     ONDEBUG(cerr << "DelaunyTriangulation(), Called. \n");
     
+    SArray1dIterC<Point2dC> xit(points);
+    RealRange2dC box(*xit,0);
+    for(xit++;xit;xit++)
+      box.Involve(*xit);
+    
+    Point2dC off(box.RowRange().Size() * 100,box.ColRange().Size() * 100 );
+    
     // Create initial face.
     
     SArray1dC<HEMeshBaseVertexC> tempFace(3);
-    HSetC<THEMeshVertexC<Point2dC> > init;
-    tempFace[0] = ret.InsertVertex(Point2dC(0,1000));
-    tempFace[1] = ret.InsertVertex(Point2dC(1000,0));
-    tempFace[2] = ret.InsertVertex(Point2dC(-1000,-1000));
-    int i;
-    for(i = 0;i < 3;i++)
-      init += tempFace[i];
+    tempFace[0] = ret.InsertVertex(box.Origin() - off);
+    tempFace[2] = ret.InsertVertex(Point2dC(box.End()[0],box.End()[1] + off[1]));
+    tempFace[1] = ret.InsertVertex(Point2dC(box.End()[0] + off[0],box.End()[1]));
     
     HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> edgeTab;
     THEMeshFaceC<Point2dC> firstFace =ret.InsertFace(tempFace,edgeTab); // Insert initial face.
@@ -157,42 +128,50 @@ namespace RavlN {
       if(!face.IsValid())
 	face = firstFace;
       if(!me.IsValid()) { // Insert vertex in face.
+	ONDEBUG(cerr << "HEMesh2dC DelaunyTriangulation(), Inserting vertex in face. \n");
 	RavlAssert(face.Sides() == 3);
 	THEMeshFaceEdgeIterC<Point2dC> eit(face);
 	THEMeshEdgeC<Point2dC> e1 = *eit; eit++;
 	THEMeshEdgeC<Point2dC> e2 = *eit; eit++;
-	THEMeshEdgeC<Point2dC> e3 = *eit; eit++;
+	THEMeshEdgeC<Point2dC> e3 = *eit; 
 	
 	ret.InsertVertexInFace(vertex,face);
-	RavlAssert(ret.CheckMesh(true));
-	RavlAssert(e1.Next().Vertex() == it.Data2());
-	RavlAssert(e2.Next().Vertex() == it.Data2());
-	RavlAssert(e3.Next().Vertex() == it.Data2());
-	LegaliseEdge(ret,e1,init);
-	LegaliseEdge(ret,e2,init);
-	LegaliseEdge(ret,e3,init);
+	
+	//RavlAssert(ret.CheckMesh(true));
+	RavlAssert(e1.Next().Vertex() == vertex);
+	LegaliseEdge(ret,e1);
+	
+	RavlAssert(e2.Next().Vertex() == vertex);
+	LegaliseEdge(ret,e2);
+	
+	RavlAssert(e3.Next().Vertex() == vertex);
+	LegaliseEdge(ret,e3);
+	
       } else { // Insert vertex on edge.
+	ONDEBUG(cerr << "HEMesh2dC DelaunyTriangulation(), Inserting vertex in edge. \n");
+	
 	ret.InsertVertexInEdgeTri(vertex,me);
 	THEMeshVertexEdgeIterC<Point2dC> it(vertex);
-	RavlAssert(it);
 	THEMeshEdgeC<Point2dC> e1 = (*it).Prev(); it++;
-	RavlAssert(it);
 	THEMeshEdgeC<Point2dC> e2 = (*it).Prev(); it++;
-	RavlAssert(it);
 	THEMeshEdgeC<Point2dC> e3 = (*it).Prev(); it++;
-	RavlAssert(it);
 	THEMeshEdgeC<Point2dC> e4 = (*it).Prev(); 
 	
-	LegaliseEdge(ret,e1,init);
-	LegaliseEdge(ret,e2,init);
-	LegaliseEdge(ret,e3,init);
-	LegaliseEdge(ret,e4,init);
+	RavlAssert(e1.Next().Vertex() == vertex);
+	LegaliseEdge(ret,e1);
+	
+	RavlAssert(e2.Next().Vertex() == vertex);
+	LegaliseEdge(ret,e2);
+
+	RavlAssert(e3.Next().Vertex() == vertex);
+	LegaliseEdge(ret,e3);
+	
+	RavlAssert(e4.Next().Vertex() == vertex);
+	LegaliseEdge(ret,e4);
       }
     }
-#if 0
-    for(i = 0;i < 3;i++)
+    for(int i = 0;i < 3;i++)
       ret.DeleteVertex(tempFace[i]);
-#endif
     return ret;
   }
 
@@ -207,13 +186,9 @@ namespace RavlN {
 	THEMeshEdgeC<Point2dC> edge = eit.Data();
 	if(edge.Vertex() > edge.Next().Vertex()) { // Only have to check one edge from each pair.
 	  THEMeshVertexC<Point2dC> pi = edge.Prev().Vertex();
-	  RavlAssert(pi.IsValid());
 	  THEMeshVertexC<Point2dC> pj = edge.Vertex();
-	  RavlAssert(pj.IsValid());
 	  THEMeshVertexC<Point2dC> pr = edge.Next().Vertex(); // Find point being inserted.
-	  RavlAssert(pr.IsValid());
 	  THEMeshVertexC<Point2dC> pk = edge.Pair().Next().Vertex();
-	  RavlAssert(pk.IsValid());
 	  if(!testLegal(pi.Data(),pj.Data(),pk.Data(),pr.Data()))
 	    return false;
 	}

@@ -21,8 +21,11 @@ int main(int nargs,char **argv) {
   OptionC opt(nargs,argv);
   StringC file = opt.String("f","@X","Output file. ");
   IntT npnts = opt.Int("p",5,"Number of points to use. ");
+  IntT seed = opt.Int("rs",1,"Random number seed. ");
   Index2dC size = opt.Index2d("s",300,300,"Size of image. ");
   opt.Check();
+  
+  RandomSeedDefault(seed);
   
   ImageC<ByteT> img(size[0],size[1]);
   img.Fill(0);
