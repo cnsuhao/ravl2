@@ -58,18 +58,22 @@ namespace RavlN {
     
     RealT DensityValue(const VectorC & X) const;
     //: Return the denisty value at point X
-
+    
+    IntT NoGaussians() const
+    { return weights.Size(); }
+    //: Return the number of gaussians in the model.
+    
   protected:
     void precompute(bool regularise=true);
     //: precompute the inverse covariances, determinants e.t.c.
     
-    SArray1dC<MeanCovarianceC>params; 
+    SArray1dC<MeanCovarianceC> params; 
     //: The parameters of the distribution
     
-    SArray1dC<RealT>weights;
+    SArray1dC<RealT> weights;
     //: Mixing coefficients of the distribution
     
-    SArray1dC<MatrixRSC>invCov;
+    SArray1dC<MatrixRSC> invCov;
     //: We pre-compute inverse of covariance matrix
 
     SArray1dC<RealT> det;
@@ -142,6 +146,10 @@ namespace RavlN {
     VectorC GaussianValues(const VectorC &data) const
     { return Body().GaussianValues(data); }
     //: Get vector of individual values.
+    
+    IntT NoGaussians() const
+    { return Body().NoGaussians(); }
+    //: Return the number of gaussians in the model.
 
   };
 
