@@ -23,30 +23,36 @@ namespace RavlImageN {
   enum EdgeStateT { EDGE_PROC = 9,EDGE_UNPROC,EDGE_JUNCT,EDGE_INSTRING };
   enum FBOrientationT { FB_FORWARD,FB_BACKWARD };
   
-  class EdgeMapC
+  class EdgeLinkC
     : public ImageC<ByteT>
   {
   public:
-    EdgeMapC()
+    EdgeLinkC()
+      : edgeCount(0)
     {}
     //: Default constructor.
     
-    EdgeMapC(const IndexRange2dC &rect)
-      : ImageC<ByteT>(rect)
+    EdgeLinkC(const IndexRange2dC &rect)
+      : ImageC<ByteT>(rect),
+	edgeCount(0)
     {}
     //: Constructor.
     
-    EdgeMapC(const ImageC<ByteT> &x)
-      : ImageC<ByteT>(x)
+    EdgeLinkC(const ImageC<ByteT> &x)
+      : ImageC<ByteT>(x),
+	edgeCount(0)
     {}
     //: Construct from ByteT image.
     
     void LabelContour(const Index2dC &start);
-    // Label contours.
+    //: Label contours.
     
     DListC<DListC<Index2dC> > LinkEdges();
-    // Generate a set of egde lists.
-
+    //: Generate a set of egde lists.
+    
+    SArray1dC<Index2dC> ListEdges();
+    //: List all edges in image
+    
   protected:
     static NeighbourOrderT GetDir(ByteT val, FBOrientationT oo) 
     { return (NeighbourOrderT)((val >> (oo==FB_FORWARD) ? 2 : 5) & 7); }
@@ -81,10 +87,10 @@ namespace RavlImageN {
     bool IsNotExpanded(const Index2dC &pxl) 
     { return GetState((*this)[pxl]) == EDGE_UNPROC; }
     
-
+    UIntT edgeCount; // Count of edges in the map.
   };
   
-  EdgeMapC HysterisisThreshold(const ImageC<RealT> &img,RealT upThr,RealT downThr);
+  EdgeLinkC HysterisisThreshold(const ImageC<RealT> &img,RealT upThr,RealT downThr);
 
 }
 

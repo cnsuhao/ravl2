@@ -12,12 +12,13 @@
 #include "Ravl/Image/EdgeLink.hh"
 #include "Ravl/Array2dIter2.hh"
 #include "Ravl/Array2dIter.hh"
+#include "Ravl/SArr1Iter.hh"
 #include "Ravl/Image/DrawFrame.hh"
 
 namespace RavlImageN {
 
-  EdgeMapC HysterisisThreshold(const ImageC<RealT> &img,RealT upThr,RealT downThr) {
-    EdgeMapC ret(img.Rectangle());
+  EdgeLinkC HysterisisThreshold(const ImageC<RealT> &img,RealT upThr,RealT downThr) {
+    EdgeLinkC ret(img.Rectangle());
     
     for(Array2dIter2C<ByteT,RealT> it(ret,img);it;it++)
       it.Data1() = (it.Data2() <= downThr) ? EDGE_PROC : EDGE_UNPROC;
@@ -36,13 +37,13 @@ namespace RavlImageN {
   }
   
   
-  void EdgeMapC::LabelContour(const Index2dC &spxl) {
+  void EdgeLinkC::LabelContour(const Index2dC &spxl) {
     Index2dC pxl(spxl);
     StackC<Index2dC> stack;
     
     stack.Push(pxl);
     PutState(pxl,EDGE_INSTRING); // to avoid loops
-    
+    edgeCount++;
     NeighbourOrderT dir[8];
     
     while (!stack.IsEmpty()) {
@@ -66,21 +67,37 @@ namespace RavlImageN {
 	if (IsNotExpanded(pxlNext)) {
 	  stack.Push(pxlNext);
 	  PutState(pxlNext,EDGE_INSTRING);
+	  edgeCount++;
 	}
       }
       
       // label edge point according to the number of neighbours.
+      ByteT &val = (*this)[pxl];
       if(neighbours <= 1 || neighbours > 2)
-	(*this)[pxl] = EDGE_JUNCT;
+	PutState(val,EDGE_JUNCT);
       else {
-	ByteT &val = (*this)[pxl];
 	PutDir(val, dir[0], FB_FORWARD);
 	PutDir(val, dir[1], FB_BACKWARD);
       }
     }
   }
+
+  //: List all edges in image
   
-  DListC<DListC<Index2dC> >  EdgeMapC::LinkEdges() {
+  SArray1dC<Index2dC> EdgeLinkC::ListEdges() {
+    SArray1dC<Index2dC> ret(edgeCount);
+    SArray1dIterC<Index2dC> rit(ret);
+    for(Array2dIterC<ByteT> it(*this);it;it++) {
+      if(*it == EDGE_PROC) {
+	RavlAssert(rit);
+	*rit = it.Index();
+	rit++;
+      }
+    }
+    return ret;
+  }
+  
+  DListC<DListC<Index2dC> >  EdgeLinkC::LinkEdges() {
     DListC<DListC<Index2dC> > strings;
     for(Array2dIterC<ByteT> it(*this);it;it++) {
       if(GetState(*it) != EDGE_INSTRING) 
@@ -103,7 +120,7 @@ namespace RavlImageN {
 	    string.InsFirst(pxlNext);
 	  else
 	    string.InsLast(pxlNext);
-	  NeighbourOrderT old_dir = Back(dir);
+	  NeighbourOrderT old_dir = RavlN::Reverse(dir);
 	  dir = GetDir(pval, FB_FORWARD);
 	  if (dir == old_dir) // Check we're not going back.
 	    dir = GetDir(pval, FB_BACKWARD);
