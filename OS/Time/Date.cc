@@ -21,6 +21,7 @@
 #if defined(__linux__) && !defined(_GNU_SOURCE)
 #define _GNU_SOURCE 1
 #endif
+#include <time.h>
 
 #include "Ravl/config.h"
 
@@ -35,7 +36,6 @@
 #include <unistd.h>
 #else
 #include <string.h>
-#include <time.h>
 
 char *ctime_r(const time_t *s,char *buff) {
   strcpy(buff,ctime(s));
