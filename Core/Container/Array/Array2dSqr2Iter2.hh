@@ -155,6 +155,15 @@ namespace RavlN {
     const Data2T &DataTL2() const
       { return up2[-1]; }
     //: Access upper left data element
+
+
+    Index2dC Index() const { 
+      assert(array1.IsValid());
+      return Index2dC((IntT) (&(rit.Data1()) - array1.ReferenceElm()),
+		      (IntT) (&(cit.Data1()) - rit.Data1().ReferenceElm()));
+      }
+    //: Get index of current location.
+    // Has to be calculate, and so is slightly slow.
     
   protected:
     Array2dC<Data1T> array1;

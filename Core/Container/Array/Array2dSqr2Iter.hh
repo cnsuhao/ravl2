@@ -67,6 +67,7 @@ namespace RavlN {
       return false;
     }
     //: Goto next element.
+    // Returns true if its on the same row.
     
     bool IsElm() const
       { return cit.IsElm(); }
@@ -123,6 +124,13 @@ namespace RavlN {
     const DataT &DataTL() const
       { return up[-1]; }
     //: Access upper left data element
+
+    Index2dC Index() const { 
+      assert(array.IsValid());
+      return BufferAccess2dIterC<DataT>::Index(array.ReferenceElm());
+    }
+    //: Get index of current location.
+    // Has to be calculate, and so is slightly slow.
     
   protected:
     Array2dC<DataT> array;
