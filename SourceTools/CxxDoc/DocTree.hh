@@ -4,8 +4,8 @@
 // Public License (GPL). See the gpl.licence file for details or
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
-#ifndef RAVLDOCTREE_HEADER
-#define RAVLDOCTREE_HEADER 1
+#ifndef RAVLCXXDOC_DOCTREE_HEADER
+#define RAVLCXXDOC_DOCTREE_HEADER 1
 ////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/SourceTools/CxxDoc/DocTree.hh"
@@ -28,7 +28,7 @@ namespace RavlCxxDocN {
   {
   public:
     DocTreeBodyC()
-      {}
+    {}
     //: Default constructor.
 
     DocTreeBodyC(const StringC &nProjName);
@@ -58,9 +58,16 @@ namespace RavlCxxDocN {
     //: Insert a documentation leaf into the tree.
     
     DocNodeC &Root()
-      { return root; }
+    { return root; }
     //: Root of docnode tree.
     
+    void Dump(ostream &out) { 
+      if(root.IsValid())
+	root.Dump(out); 
+      else
+	out << "(NULL)\n";
+    }
+    //: Dump tree to ostream.
   protected:
     StringC projName;
     DocNodeC root; // Root node for documentation.
@@ -74,47 +81,51 @@ namespace RavlCxxDocN {
   {
   public:
     DocTreeC()
-      {}
+    {}
     //: Default constructor.
     // creates an invalid handle.
 
     DocTreeC(const StringC &projName)
       : RCHandleC<DocTreeBodyC>(*new DocTreeBodyC(projName))
-      {}
+    {}
     //: Constructor.
     
     bool ReadDocentries(const StringC &fn)
-      { return Body().ReadDocentries(fn); }
+    { return Body().ReadDocentries(fn); }
     //: Read a docentries file.
     // This creates the appropriate doc node structure.
 
     bool ReadEHT(const StringC &fn)
-      { return Body().ReadEHT(fn); }
+    { return Body().ReadEHT(fn); }
     //: Read a EHT file.
     // Puts information into the appropriate node.
     
     bool ReadHTML(const StringC &fn)
-      { return Body().ReadHTML(fn); }
+    { return Body().ReadHTML(fn); }
     //: Read a html doc node file.
     // Puts information into the appropriate node.
     
     bool ReadEHTSet(const StringC &dir)
-      { return Body().ReadEHTSet(dir); }
+    { return Body().ReadEHTSet(dir); }
     //: Read a set of EHT files from a directory.
     
     bool InsertDocLeaf(const StringC &node,const StringC &nm,const StringC &userlevel,const StringC &brief,const StringC &docFilename,const StringC &nodeType = StringC("class"))
-      { return Body().InsertDocLeaf(node,nm,userlevel,brief,docFilename,nodeType); }
+    { return Body().InsertDocLeaf(node,nm,userlevel,brief,docFilename,nodeType); }
     //: Insert a documentation leaf into the tree.
     
     bool InsertDocLeaf(DListC<StringC> &node,const StringC &pos,const StringC &nm,const StringC &userlevel,const StringC &brief,const StringC &docFilename,const StringC &nodeType = StringC("class"))
-      { return Body().InsertDocLeaf(node,pos,nm,userlevel,brief,docFilename,nodeType); }
+    { return Body().InsertDocLeaf(node,pos,nm,userlevel,brief,docFilename,nodeType); }
     //: Insert a documentation leaf into the tree.
     // Note: If the path 'node' doesn't contain the project name 'projName' it will
     // be added both to the path and to 'pos' before its used.
     
     DocNodeC &Root()
-      { return Body().Root(); }
+    { return Body().Root(); }
     //: Root of docnode tree.
+    
+    void Dump(ostream &out)
+    { Body().Dump(out); }
+    //: Dump tree to ostream.
     
   };
   

@@ -69,11 +69,7 @@ int BuildCxx(int argc, char **argv)
   StringC installHome = opt.String("ih",PROJECT_OUT,"Install home.");
   StringC templFiles = opt.String("tc",installHome + "/share/RAVL/CxxDoc/Class", "Directory of template files for class pages, or single template file");
   
-#if 1
   StringC docNodeFiles = opt.String("td",installHome + "/share/RAVL/CxxDoc/DocNode", "Directory of template files for doc node page, or single template file");
-#else
-  StringC docNodeFiles = opt.String("td","", "Directory of template files for doc node page, or single template file");
-#endif
   
   stopOnError = opt.Boolean("s",false,"Stop on error. ");
   bool noParse = opt.Boolean("np",false,"Don't do a header parse. ");
@@ -96,11 +92,18 @@ int BuildCxx(int argc, char **argv)
   pt.Resolve();
   
   DocTreeC docTree(projName);
-  if(ehtFiles != "") 
+  if(ehtFiles != "") {
+    if(verbose)
+      cerr << "Reading EHT files. \n";
     docTree.ReadEHTSet(ehtFiles);
+  }
   
-  if(dump)
+  if(dump) {
+    cerr << "C++ Tree:\n";
     pt.Dump(cout); // Dump parse tree.
+    cerr << "Docnodes:\n";
+    docTree.Dump(cout);
+  }
   
   if(verbose)
     cerr << "Building documentation.\n";

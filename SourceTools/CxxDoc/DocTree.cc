@@ -200,33 +200,42 @@ namespace RavlCxxDocN {
     if(!tf.Load(fn)) 
       return false;
     StringC brief,children,docentry,detail,author,userlevel("Default");
+    HashC<StringC,StringC> vars;
     
     TextCursorC it(tf);
     ONDEBUG(cerr << "Extracting variables. \n");
     while(it.IsElm()) {
       if(!it.SkipTo("<!--! "))
 	break; // Not found.
-      int ind = it.LineText().index('=',it.ColNum());
+      StringC varLine = it.ClipTo("-->");
+      int ind = varLine.index('=');
       if(ind < 0)
 	continue;
-      StringC varName = StringC(it.LineText().before(ind)).TopAndTail();
+      StringC varName = varLine.before(ind).TopAndTail();
       if(varName == "")
 	continue; // No name found.
-      it.GotoCol(ind);
-      StringC value = it.ClipTo("-->").TopAndTail();
-      if(value == "author") {
+      StringC value = varLine.after(ind).TopAndTail();
+      if(value.length() > 1) {
+	// Quoted value ?
+	if(value.firstchar() == '"' && value.lastchar() == '"') {
+	  value = value.after(0);
+	  value = value.before('"',-1);
+	}
+      }
+      vars[varName] = value;
+      if(varName == "author") {
 	author = value;
 	continue;
       }
-      if(value == "userlevel") {
+      if(varName == "userlevel") {
 	userlevel = value;
 	continue;
       }
-      if(value == "docentry") {
+      if(varName == "docentry") {
 	docentry = value;
 	continue;
       }
-      if(value == "children") {
+      if(varName == "children") {
 	children = value;
 	continue;
       }
@@ -262,6 +271,7 @@ namespace RavlCxxDocN {
       if(path.First() != projName)
 	path.InsFirst(projName);
       DocNodeC node = root.AddNode(path,true); // Find parent node.
+      node.UpdateVars(vars);
       if(userlevel!="")
 	node.SetUserlevel(userlevel);
       if(detail != "")

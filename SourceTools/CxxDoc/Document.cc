@@ -223,7 +223,8 @@ namespace RavlCxxDocN {
   //: Document list of files.
   
   void DocumentBodyC::Document(ObjectListC &ol) {
-    root = ol;
+    if(!root.IsValid())
+      root = ol;
     
     //cerr << "FileObject : '" << fileObject << "'\n";
     if(fileObject == "none")  // Generate nothing!
@@ -979,13 +980,11 @@ namespace RavlCxxDocN {
   
   //: Automaticly put links in some text.
   
-  bool DocumentBodyC::AutoLink(StringC &rawtext) {
+  bool DocumentBodyC::AutoLink(StringC &rawtext) {    
     StringC text = Interpret(rawtext);    
-    StringC linkModeTxt;
+    StringC linkModeTxt,linkContext;
     int linkMode = -1;
     ScopeC parentScope;
-    
-    StringC linkContext;
     
     // See if the context is set explicity.
     
@@ -1015,7 +1014,7 @@ namespace RavlCxxDocN {
     }
     
     if(!parentScope.IsValid()) {
-      cerr << "DocumentBodyC::AutoLink(), No parent scope for object. \n";
+      cerr << "DocumentBodyC::AutoLink(), No parent scope for object. Root=" << root.Name() << "\n";
       Output() << text;
       return false;
     }

@@ -4,8 +4,8 @@
 // Public License (GPL). See the gpl.licence file for details or
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
-#ifndef RAVLCXXPARSER_HEADER
-#define RAVLCXXPARSER_HEADER 1
+#ifndef RAVLCXXDOC_PARSER_HEADER
+#define RAVLCXXDOC_PARSER_HEADER 1
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/SourceTools/CxxDoc/Parser.hh"
