@@ -48,27 +48,27 @@ namespace RavlN {
     
     Slice1dC(BufferC<DataT> &buff,SizeT size,UIntT off,IntT stride = 1);
     //: Attach a vector to a buffer.
-    // size   - Number of elements in the slice.
     // buff   - Buffer in which data is held.
+    // size   - Number of elements in the slice.
     // off    - Offset into buffer of first element.
     // stride - distance between successive elements in slice.
     // Element 0 is at 'off' in buffer, and use the given stride.
 
     Slice1dC(BufferC<DataT> &buff,DataT *refElm,SizeT size,IntT stride = 1);
     //: Attach a vector to a buffer.
-    // size   - Number of elements in the slice.
     // buff   - Buffer in which data is held.
-    // elm    - Reference to first element in the slice.
+    // size   - Number of elements in the slice.
+    // refElm - Pointer to first element in the slice.
     // stride - distance between successive elements in slice.
-    // Element 0 is at 'off' in buffer, and use the given stride.
+    // Element 0 is at 'refElm' in buffer, and use the given stride.
     
     Slice1dC(BufferC<DataT> &buff,DataT *refElm,IndexRangeC range,IntT stride = 1);
     //: Attach a vector to a buffer.
-    // size   - Number of elements in the slice.
     // buff   - Buffer in which data is held.
-    // elm    - Reference to first element in the slice.
+    // refElm - Pointer to element 0 in the slice. (even if its not in 'range')
+    // range  - Range of indexes to map data to.
     // stride - distance between successive elements in slice.
-    // Element 0 is at 'off' in buffer, and use the given stride.
+    // Element '*refElm' is at index 0 in buffer, and use the given stride.
     
     SizeT Size() const
       { return rng.Size(); }
