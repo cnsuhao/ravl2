@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 #ifndef RAVL_FEATURESELECTASYMMETRICADABOOST_HEADER
-#define RAVL_FEATUERSELECTASYMMETRICADABOOST_HEADER 1
+#define RAVL_FEATURESELECTASYMMETRICADABOOST_HEADER 1
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
