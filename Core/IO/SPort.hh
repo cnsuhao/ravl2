@@ -274,6 +274,16 @@ namespace RavlN {
     { return DPIPortBodyC<DataT>::Save(out); }
     //: Save to ostream.
     
+    virtual bool GetAt(StreamPosT off,DataT &buffer) {
+      if(!Seek64(off)) return false;
+      return Get(buffer);
+    }
+    //: Get data from the given offset.
+    //!param: off - Offset to retrieve data from.
+    //!param: buffer - buffer to store retrieved data in.
+    //!return: true if data retrieved successfully.
+    // Note: The position next get in stream after this operation is not garanteed.
+    
   };
   
   //////////////////////////////////////////////////
@@ -293,6 +303,17 @@ namespace RavlN {
     virtual bool Save(ostream &out) const 
     { return DPOPortBodyC<DataT>::Save(out); }
     //: Save to ostream.
+    
+    virtual bool PutAt(StreamPosT off,const DataT &buffer) {
+      if(!Seek64(off)) return false;
+      return Put(buffer);
+    }
+    //: Put data to givem given offset.
+    //!param: off - Offset to retrieve data from.
+    //!param: buffer - buffer to store retrieved data from
+    //!return: true if data retrieved successfully.
+    // Note: The position next put in stream after this operation is not garanteed.
+    
   };
 
   //////////////////////////////////////////////////
@@ -328,6 +349,23 @@ namespace RavlN {
       return *this;
     }
     //: Assigment.  
+    
+    bool GetAt(StreamPosT off,DataT &buffer) 
+    { return Body().GetAt(off,buffer); }
+    //: Get data from the given offset.
+    //!param: off - Offset to retrieve data from.
+    //!param: buffer - buffer to store retrieved data in.
+    //!return: true if data retrieved successfully.
+    // Note: The position next get in stream after this operation is not garanteed.
+    
+  protected:
+    DPISPortBodyC<DataT> &Body()
+    { return dynamic_cast<DPISPortBodyC<DataT> &>(DPEntityC::Body()); }
+    //: Access body.
+    
+    const DPISPortBodyC<DataT> &Body() const
+    { return dynamic_cast<const DPISPortBodyC<DataT> &>(DPEntityC::Body()); }
+    //: Access body.
   };
   
   //////////////////////////////////////////////////
@@ -363,6 +401,23 @@ namespace RavlN {
       return *this;
     }
     //: Assigment.
+    
+    bool PutAt(StreamPosT off,const DataT &buffer) 
+    { return Body().PutAt(off,buffer); }
+    //: Put data to givem given offset.
+    //!param: off - Offset to retrieve data from.
+    //!param: buffer - buffer to store retrieved data from
+    //!return: true if data retrieved successfully.
+    // Note: The position next put in stream after this operation is not garanteed.
+    
+  protected:
+    DPOSPortBodyC<DataT> &Body()
+    { return dynamic_cast<DPOSPortBodyC<DataT> &>(DPEntityC::Body()); }
+    //: Access body.
+    
+    const DPOSPortBodyC<DataT> &Body() const
+    { return dynamic_cast<const DPOSPortBodyC<DataT> &>(DPEntityC::Body()); }
+    //: Access body.
   };
 }
 
