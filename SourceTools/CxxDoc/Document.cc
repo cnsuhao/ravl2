@@ -334,7 +334,7 @@ namespace RavlCxxDocN {
       if(fileObject == ol.TypeName()) {
 	FilenameC fn = MakeFilename(ol);
 	if(verbose) 
-	  cerr << "Writting docnode file '" << fn << "' \n";
+	  cerr << "Writing docnode file '" << fn << "' \n";
 	obj.Push(ol);
 	Build(fn);
 	obj.DelTop();
