@@ -121,6 +121,7 @@ namespace RavlN {
   MatrixC Solve(const MatrixC &A,const MatrixC &B);
   //: Solve a general linear system  A*X = B
   // This return's X, or a 0 by 0 matrix if it fails.
+  // NOT IMPLEMENTED
   
   VectorC SVD(const MatrixC &M);
   //: Singular value decomposition, eg. M = U * D * V.T(). 

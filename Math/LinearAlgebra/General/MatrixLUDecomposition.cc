@@ -46,7 +46,9 @@ namespace RavlN {
       }
     }
     for(int i = 0;i < n;i++) {
-      mat[i][i] = diag[i];
+      RealT v = diag[i];
+      mat[i][i] = v;
+      det *= v;
       for(int j = i+1;j < n;j++)
 	mat[i][j] = 0;
     }
@@ -136,9 +138,9 @@ namespace RavlN {
     IntT i,n = lu.Rows();
     for(i = 0;i < n;i++) {
       sum = b[i];
-      for(BufferAccessIter2C<RealT,RealT> it(lu[i],b,IndexRangeC(1,i-1));it;it++)
+      for(BufferAccessIter2C<RealT,RealT> it(lu[i],b,IndexRangeC(0,i-1));it;it++)
 	sum -= it.Data1() * it.Data2();
-      b[i] = sum;// / lu[i][i];
+      b[i] = sum;
     }
     for(i = n-1;i > 0;i--) {
       sum = b[i];
@@ -150,22 +152,20 @@ namespace RavlN {
   }
   
   void LUBackSubstitute(const MatrixC &lu,const SArray1dC<IntT> &index,SArray1dC<RealT> &b) {
-    RealT sum;
     IntT i,n = lu.Rows();
     for(i = 0;i < n;i++) {
       IntT in = index[i];
-      sum = b[in];
+      RealT sum = b[in];
       b[in] = b[i];
-      for(BufferAccessIter2C<RealT,RealT> it(lu[i],b,IndexRangeC(1,i-1));it;it++)
+      for(BufferAccessIter2C<RealT,RealT> it(lu[i],b,IndexRangeC(0,i-1));it;it++)
 	sum -= it.Data1() * it.Data2();
-      b[i] = sum;// / lu[i][i];
+      b[i] = sum;
     }
     for(i = n-1;i > 0;i--) {
-      sum = b[i];
+      RealT sum = b[i];
       for(BufferAccessIter2C<RealT,RealT> it(lu[i],b,IndexRangeC(i+1,n-1));it;it++)
 	sum -= it.Data1() * it.Data2();
-      RealT v = sum/lu[i][i];
-      b[i] = v;
+      b[i] = sum/lu[i][i];
     }
   }
   

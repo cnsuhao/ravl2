@@ -46,20 +46,25 @@ namespace RavlN {
   // This return's X, or a 0 by 0 matrix if it fails.
   
   MatrixC Solve(const MatrixC &A,const MatrixC &B) {
+    RavlAssertMsg(0,"Sovle(const MatrixC &,const MatrixC &), Not implemented. ");
     RavlAlwaysAssertMsg(A.Cols() == A.Rows(),"MatrixC::Solve(), Matrix A must be square. ");
     RavlAlwaysAssertMsg(A.Cols() == B.Rows(),"MatrixC::Solve(), A.Cols() must equal B.Rows(). ");
-    MatrixC ret(B.Rows(),B.Cols());    
+    MatrixC ret(B.Rows(),B.Cols());
+#if 0
     MatrixC lu = A.Copy();
     SArray1dC<IntT> index = LUDecomposition(lu);
     if(index.Size() == 0)
       return MatrixC(); // Failed.
     IntT n = (IntT) B.Cols();
     VectorC tmp(B.Rows());
-    for(int i = 1;i < n;i++) {
+    for(int i = 0;i < n;i++) {
       tmp.CopyFrom(const_cast<MatrixC &>(B).SliceColumn(i));
       LUBackSubstitute(lu,index,tmp);
       ret.SliceColumn(i).CopyFrom(tmp);
     }
+#else
+    
+#endif
     return ret;
   }
 

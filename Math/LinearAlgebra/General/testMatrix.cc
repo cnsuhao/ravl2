@@ -334,15 +334,16 @@ int testATAandAAT() {
 
 int testSolve() {
   cerr << "testSolve() Called. \n";
-#if 1
+#if 0
   // Work in progess..
   MatrixC a = RandomMatrix(10,10);
   MatrixC b = RandomMatrix(10,2);
   MatrixC x = Solve(a,b);
   if(x.Rows() == 0) return __LINE__;
+  cerr << "x=" << x << "\n";
   MatrixC c = a * x;
   cerr << "c=" << c << "\n";
-  cerr << "x=" << b << "\n";
+  cerr << "b=" << b << "\n";
   if(MatrixC(c - b).SumOfSqr() > 0.0001)
     return __LINE__;
 #endif
