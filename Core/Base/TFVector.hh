@@ -332,10 +332,10 @@ namespace RavlN {
   }
   
   template<class DataT,unsigned int N>
-  istream &operator<<(istream &in,TFVectorC<DataT,N> &dat) {
+  istream &operator>>(istream &in,TFVectorC<DataT,N> &dat) {
     for(UIntT i = 0;i < N;i++)
       in >> dat[i];
-    return out;
+    return in;
   }
 
   template<class DataT,unsigned int N>
@@ -346,10 +346,10 @@ namespace RavlN {
   }
   
   template<class DataT,unsigned int N>
-  BinIStreamC &operator<<(BinIStreamC &in,TFVectorC<DataT,N> &dat) {
+  BinIStreamC &operator>>(BinIStreamC &in,TFVectorC<DataT,N> &dat) {
     for(UIntT i = 0;i < N;i++)
       in >> dat[i];
-    return out;
+    return in;
   }
 
 }
