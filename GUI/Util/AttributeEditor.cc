@@ -165,7 +165,7 @@ namespace RavlGUIN {
 	  if(attr.CanWrite()) {
 	    ComboC cb(attr.Values());
 	    cb.SetSelection(val);	
-	    ConnectRef(cb.SigSelected(),*this,&AttributeEditorBodyC::SetAttribString,val,it->Name());
+	    ConnectRef(cb.SigSelected(),*this,&AttributeEditorBodyC::SetAttribEnum,val,it->Name());
 	    widge = cb;
 	    updateTrigger = TriggerR(*this,&AttributeEditorBodyC::UpdateAttribEnum,it->Name(),widge);
 	  } else {
@@ -218,6 +218,28 @@ namespace RavlGUIN {
     return true;
   }
   
+  //: Set a enum attribute.
+  
+  bool AttributeEditorBodyC::SetAttribEnum(StringC &val,StringC &name) {
+    ONDEBUG(cerr << "AttributeEditorBodyC::SetAttribEnum(), Called. Name=" << name << " Value=" << val << " \n");
+    AttributeTypeEnumC attrType = attribCtrl.GetAttrType(name);
+    if(!attrType.IsValid()) {
+      cerr << "INTERNAL ERROR: '" << name << "' not an enum .\n";
+      return true;
+    }
+    DLIterC<StringC> it(attrType.Values());
+    for(;it;it++) {
+      if(*it == val)
+	break;
+    }
+    if(it.IsElm()) { // Is it a valid value ?
+      attribCtrl.SetAttr(name,val);
+    } else {
+      // Reset it to some valid ?
+    }
+    return true;
+  }
+
   //: Set a bool attribute.
   
   bool AttributeEditorBodyC::SetAttribBool(bool &val,StringC &name) {

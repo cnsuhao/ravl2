@@ -43,6 +43,9 @@ namespace RavlGUIN {
     bool SetAttribString(StringC &val,StringC &name);
     //: Set a string attribute.
     
+    bool SetAttribEnum(StringC &val,StringC &name);
+    //: Set a enum attribute.
+    
     bool SetAttribReal(RealT &val,StringC &name);
     //: Set a string attribute.
 
