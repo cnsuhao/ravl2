@@ -61,6 +61,12 @@ namespace RavlImageN {
   FontC LoadPSF1(const StringC &fontFile);
   //: Load PSF1 font.
 
+  FontC LoadPSF2(const StringC &fontFile);
+  //: Load PSF2 font.
+  
+  FontC &DefaultFont();
+  //: Access default font.
+  
   template<class DataT>
   void DrawFrame(const FontC &font,
 		 ImageC<DataT> &image,

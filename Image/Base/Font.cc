@@ -13,21 +13,51 @@
 #include "Ravl/SArray1d.hh"
 #include "Ravl/SArr1Iter.hh"
 
+
+#define DODEBUG 0
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
+
 namespace RavlImageN {
 
+  //: Load the default font.
+  
+  static FontC LoadDefaultFont() {
+#if 1
+    static char *fontName = PROJECT_OUT "/Tools/Fonts/default8x16.psf";
+#else
+    static char *fontName = "gr737-9x14.psf";
+#endif
+    FontC defaultFont = LoadPSF1(fontName);
+    if(!defaultFont.IsValid())
+      cerr << "WARNING: Can't load default font '" << fontName << "'\n";
+    return defaultFont;
+  }
+  
+  //: Access default font.
+  
+  FontC &DefaultFont() {
+    static FontC defaultFont = LoadDefaultFont();
+    return defaultFont;
+  }
+  
   //: Load default font.
   
   FontC::FontC(bool)
   {
-    (*this) = LoadPSF1(PROJECT_OUT "/Tools/Fonts/default8x16.psf");
+    (*this) = DefaultFont();
   }
   
   FontC LoadPSF1(const StringC &fontFile) {
+    ONDEBUG(cerr << "LoadPSF1() Loading font " << fontFile << "\n");
     psf1_header hdr; //: psf file
     
     IStreamC inf(fontFile);
     if(!inf) {
-      cerr << "FontC::LoadPsf(), Failed to open font file '" << fontFile << "'\n";
+      cerr << "LoadPSF1(), Failed to open font file '" << fontFile << "'\n";
       return FontC();
     }
     
@@ -50,9 +80,56 @@ namespace RavlImageN {
       inf.read((char *) &(buf[0]),height);
       for(IntT i=0;i < height;i++) {
 	int dat = buf[i]; 
-	for(IntT j = 7;j >= 0;j--) 
-	  if((dat >> j) & 1) 
-	    img[i][7-j]=255;
+	for(IntT j = 0;j < 8;j++) {
+	  if((dat >> (7-j)) & 1) 
+	    img[i][j]=255;
+	  else
+	    img[i][j]=0;
+	}
+      }
+    }
+    
+    return FontC(glyphs);
+  }
+
+  //: Load PSF2 font.
+  // This routine is untested, use with caution.
+  
+  FontC LoadPSF2(const StringC &fontFile) {
+    ONDEBUG(cerr << "LoadPSF2() Loading font " << fontFile << "\n");
+    IStreamC inf(fontFile);
+    if(!inf) {
+      cerr << "LoadPSF2(), Failed to open font file '" << fontFile << "'\n";
+      return FontC();
+    }
+    psf2_header hdr;    
+    inf.read((char *) &hdr,sizeof(hdr));
+    if(hdr.magic[0] != PSF2_MAGIC0 || hdr.magic[1] != PSF2_MAGIC1 ||
+       hdr.magic[2] != PSF2_MAGIC2 || hdr.magic[3] != PSF2_MAGIC3) {
+      return FontC(); // Not a PSF2 font.
+    }
+    
+    // Should byteswap header here if needed.
+    
+    SArray1dC<ImageC<ByteT> > glyphs(hdr.length);
+    SArray1dC<ByteT > buf(hdr.charsize); 
+    inf.seekg(hdr.headersize);
+    for(SArray1dIterC<ImageC<ByteT> > it(glyphs);it;it++) {
+      // Read glyph
+      ImageC<ByteT> img(hdr.height,hdr.width);
+      *it = img;
+      inf.read((char *) &(buf[0]),hdr.charsize);
+      int at = 0;
+      // The following loop could be much faster, will do
+      // something about it if anyone is interested.
+      for(UIntT i=0;i < hdr.height;i++) {
+	for(UIntT j = 0;j < hdr.width;j++) {
+	  char dat = buf[at + (j/8)];
+	  if((dat >> (j % 8)) & 1) 
+	    img[i][j]=255;
+	  else
+	    img[i][j]=0;
+	}
       }
     }
     

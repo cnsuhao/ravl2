@@ -1,5 +1,5 @@
-#ifndef RAVL_PSFFONT_HEADER
-#define RAVL_PSFFONT_HEADER 1
+#ifndef RAVLIMAGE_PSFFONT_HEADER
+#define RAVLIMAGE_PSFFONT_HEADER 1
 /*! rcsid="$Id$" */
 /*! lib=RavlImage */
 /*! license=own */
