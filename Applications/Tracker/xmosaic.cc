@@ -229,10 +229,10 @@ bool XMosaicBodyC::BuilderThread() {
     
     RWLockHoldC holdMosaic(accessMosaic,RWLOCK_WRITE);
     if(resetMosaic) {
-      mosaicBuilder.Reset(img);
+      mosaicBuilder.Reset();
       resetMosaic = false;
-    } else
-      mosaicBuilder.Apply(img);
+    } 
+    mosaicBuilder.Apply(img);
     holdMosaic.Unlock(); // Finished updating mosaic.
     
     //: Get updated part of image...

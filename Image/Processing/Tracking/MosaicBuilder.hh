@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_MOSAICBUILDER_HEADER
 #define RAVLIMAGE_MOSAICBUILDER_HEADER 1
 //! userlevel=Normal
-//! author="Phil McLauchlan"
+//! author="Phil McLauchlan, Bill Christmas"
 //! date="24/7/2002"
 //! rcsid="$Id$"
 //! docentry="Ravl.Images.Mosaic"
@@ -17,16 +17,12 @@
 
 #include "Ravl/Index.hh"
 #include "Ravl/Matrix3d.hh"
-#include "Ravl/Image/PointTracker.hh"
-#include "Ravl/MatrixRS.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
 #include "Ravl/Image/ByteRGBMedian.hh"
-#include "Ravl/Observation.hh"
-#include "Ravl/FitHomog2dPoints.hh"
-#include "Ravl/EvaluateNumInliers.hh"
 #include "Ravl/RCHash.hh"
 #include "Ravl/DP/SequenceIO.hh"
 #include "Ravl/DArray1d.hh"
+#include "Ravl/Image/TrackingHomog.hh"
 
 namespace RavlImageN {
   
@@ -64,8 +60,8 @@ namespace RavlImageN {
 
     void SetTracker(IntT cthreshold, IntT cwidth, IntT mthreshold, IntT mwidth,
 		    IntT lifeTime, IntT searchSize, IntT newFreq)
-      { tracker = PointTrackerC(cthreshold,cwidth,mthreshold,mwidth,
-				lifeTime,searchSize,newFreq); }
+      { trackingHomogs.SetTracker(cthreshold,cwidth,mthreshold,mwidth,
+				  lifeTime,searchSize,newFreq); }
     //: Set tracker parameters
     // Defaults are respectively: 30, 7, 20, 17, 8, 25, 1
 
@@ -75,14 +71,16 @@ namespace RavlImageN {
     // This region is removed from the frames for tracking and building mosaic
 
     void SetMask(const ImageC<bool>& nmask)
-      { mask = nmask; }
-    //: Set binary mask to exclude regions from tracker
-    // Pixels set to false are excluded.
+      { mask = nmask; trackingHomogs.SetMask(nmask); }
+    //: Set binary mask to exclude graphics regions and suchlike from the process
+    // Mask coordinate system should match that of image sequence.
+    // Pixels set to false are excluded from tracker and foreground.
     // Unlike SetCropRegion, the mask regions are not excluded from the mosaic.
 
     bool SetMask(const StringC& fileName);
-    //: Set binary mask to exclude regions from tracker
-    // Pixels set to zero are excluded.
+    //: Set binary mask to exclude graphics regions and suchlike from the process
+    // Mask coordinate system should match that of image sequence.
+    // Pixels set to false are excluded from tracker and foreground.
     // Unlike SetCropRegion, the mask regions are not excluded from the mosaic.
 
     void SetCoordinates(const Point2dC &npointTL,
@@ -104,7 +102,7 @@ namespace RavlImageN {
     void SetProjectiveScale(RealT imageScale, RealT mosaicScale)
       { 
 	zhomog = imageScale, mosaicZHomog = mosaicScale;
-	fitHomog2d = FitHomog2dPointsC(zhomog, zhomog);
+	trackingHomogs.SetProjectiveScale(imageScale);
 	Pmosaic = Matrix3dC(1.0,0.0,0.0,
 			    0.0,1.0,0.0,
 			    0.0,0.0,zhomog);
@@ -203,6 +201,10 @@ namespace RavlImageN {
 	return true;
       }
 
+    void Reset()
+      { frameNo = 0; }
+    //: Resets whole mosaicing process
+
   protected:
     // stored parameters
     IndexC borderC, borderR;
@@ -214,16 +216,11 @@ namespace RavlImageN {
     UIntT filterSubsample; //median filter temporal subsample factor
 
     // stored data
-    DArray1dC<Matrix3dC> Parray; // array of projections from mosaic coord frame into image coord frame (~ Psum * Pmosaic)
-    PointTrackerC tracker;
+    TrackingHomogC trackingHomogs; // engine that generates interframe homographies from tracked corners
     ImageC<bool> mask;  // identifies regions to be ignored for tracking
-    MatrixRSC epos;
-    FitHomog2dPointsC fitHomog2d;
-    DListC<ObservationC> compatibleObsList;
-    EvaluateNumInliersC evalInliers;
+    DArray1dC<Matrix3dC> Parray; // array of projections from mosaic coord frame into image coord frame (~ Psum * Pmosaic)
     IndexRange2dC cropRect;  // rectangle for cropped image
     IndexRange2dC mosaicRect;  // rectangle for mosaic
-    RCHashC<UIntT,PointTrackC> corners, last;
     Matrix3dC Psum; // the accumulated motion as a product of the individual interframe motions
     Matrix3dC Pmosaic;  // rescales the z component of a point
     ImageC<ByteRGBMedianC> mosaic;  // the median of all of the warped images (& hence contains the pixels from all of these images)
@@ -316,13 +313,15 @@ namespace RavlImageN {
     void SetMask(const ImageC<bool>& mask)
       { Body().SetMask(mask); }
     //: Set binary mask to exclude graphics regions and suchlike from the process
-    // Pixels set to false are excluded.
+    // Mask coordinate system should match that of image sequence.
+    // Pixels set to false are excluded from tracker and foreground.
     // Unlike SetCropRegion, the mask regions are not excluded from the mosaic.
 
     bool SetMask(const StringC& fileName)
       { return Body().SetMask(fileName); }
     //: Set binary mask to exclude graphics regions and suchlike from the process
-    // Pixels set to zero are excluded.
+    // Mask coordinate system should match that of image sequence.
+    // Pixels set to false are excluded from tracker and foreground.
     // Unlike SetCropRegion, the mask regions are not excluded from the mosaic.
 
     void SetCoordinates(const Point2dC &pointTL,
@@ -432,6 +431,9 @@ namespace RavlImageN {
       { return Body().WarpFrame(croppedImg); }
     //: Warps current frame into mosaic coords and adds to mosaic
 
+    void Reset()
+      { return Body().Reset(); }
+    //: Resets whole mosaicing process
   };
   
 }

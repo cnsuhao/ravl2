@@ -11,15 +11,8 @@
 #include "Ravl/Array2dIter2.hh"
 #include "Ravl/Array2dIter3.hh"
 #include "Ravl/Projection2d.hh"
-#include "Ravl/Ransac.hh"
-#include "Ravl/HashIter.hh"
-#include "Ravl/ObservationHomog2dPoint.hh"
-#include "Ravl/LevenbergMarquardt.hh"
-#include "Ravl/ObservationManager.hh"
-#include "Ravl/StateVectorHomog2d.hh"
 #include "Ravl/Image/MosaicBuilder.hh"
 #include "Ravl/Image/ImageMatcher.hh"
-#include "Ravl/Image/ImageConv.hh"
 #include "Ravl/Image/ForegroundSep.hh"
 #include "Ravl/Image/WarpProjective.hh"
 #include "Ravl/Image/RemoveDistortion.hh"
@@ -50,20 +43,13 @@ namespace RavlImageN {
       pointBL(1.0, 0.0), pointBR(1.0, 1.0),
       zhomog(100), mosaicZHomog(1),
       K1(0), K2(0), cx_ratio(0.5), cy_ratio(0.5), fx(1.0), fy(1.0),
-      filterSubsample(1), Parray(0),
-      tracker(30,7,20,17,8,25,1),
-      epos(2),
-      fitHomog2d(zhomog,zhomog),
-      evalInliers(1.0,2.0),
+      filterSubsample(1), trackingHomogs(nVerbose), Parray(0),
       Pmosaic(1.0,0.0,0.0,
 	      0.0,1.0,0.0,
 	      0.0,0.0,zhomog),
       frameNo(0),
       verbose(nVerbose)
-  {
-    // set corner error covariance matrix to 2x2 identity
-    epos[0][0] = 1; epos[1][1] = 1; epos[1][0] = 0; epos[0][1] = 0;
-  }
+  { }
   
 
   //: Deprecated constructor
@@ -80,19 +66,13 @@ namespace RavlImageN {
     pointTL(npointTL), pointTR(npointTR), pointBL(npointBL), pointBR(npointBR),
     zhomog(nzhomog), mosaicZHomog(1), 
     K1(0), K2(0), cx_ratio(0.5), cy_ratio(0.5), fx(1), fy(1),
-    Parray(0),
-    tracker(cthreshold,cwidth,mthreshold,mwidth,lifeTime,searchSize,newFreq),
-    mask(nMask), epos(2), fitHomog2d(zhomog,zhomog), evalInliers(1.0,2.0),
+    filterSubsample(1), trackingHomogs(nVerbose), Parray(0),
     Pmosaic(1.0,0.0,0,
             0.0,1.0,0,
 	    0.0,0.0,zhomog),
     frameNo(0),
     verbose(nVerbose)
-  {
-    // set corner error covariance matrix to 2x2 identity
-    epos[0][0] = 1; epos[1][1] = 1; epos[1][0] = 0; epos[0][1] = 0;
-
-  }
+  { }
 
 
   //: Set binary mask to exclude regions from tracker
@@ -101,6 +81,7 @@ namespace RavlImageN {
       cerr << "Failed to load file: " << fileName << endl;
       return false;
     }
+    trackingHomogs.SetMask(mask);
     return true;
   }
 
@@ -221,98 +202,21 @@ namespace RavlImageN {
 
   //: computes homography between current frame and mosaic
   bool MosaicBuilderBodyC::FindProj(const ImageC<ByteRGBValueC> &img) {
-    // Apply tracker to luminance image.
-    corners = tracker.Apply(RGBImageCT2ByteImageCT(img));
     // frame 0 is a special case
     if (frameNo == 0)  {
-      last = corners;
-      Matrix3dC homog(Im2Mosaic(img));
-      Parray.Append(homog);
-      if (verbose) cout << "Initial homography:\n"<< Parray[0]<<endl;
-      return homog.IsReal();
+      trackingHomogs.Reset(RGBImageCT2ByteImageCT(img));
+      Matrix3dC mosaicHomog(Im2Mosaic(img));
+      Parray.Append(mosaicHomog);
+      if (verbose) cout << "Mosaic homography:\n"<< Parray[0]<<endl;
+      return mosaicHomog.IsReal();
     }
-    // Generate an observation set for tracked points.
-    DListC<ObservationC> obsList;
-    for(HashIterC<UIntT,PointTrackC> it(corners);it;it++) {
-      //      cout << "Confidence: " << it->Confidence() << endl;
-      if(it->Confidence() < 0.1)
-	continue; // Filter out points we haven't got recent info on.
-      PointTrackC lat;
-      if(!last.Lookup(it->ID(),lat))
-	continue; // Matching point not found.
-      
-      const Point2dC& loc1=lat.Location();
-      const Point2dC& loc2=it->Location();
-      if (mask.IsEmpty() || (mask.Contains(loc1) && mask[Index2dC(loc1)])) {
-	obsList.InsLast(ObservationHomog2dPointC(
-            Vector2dC(loc1[0],loc1[1]),epos,Vector2dC(loc2[0],loc2[1]),epos));
-      }
+    else {
+      Matrix3dC P = trackingHomogs.Apply(RGBImageCT2ByteImageCT(img));
+      // accumulate homography
+      Psum = P*Psum;
+      Parray.Append(Psum*Pmosaic);
+      return P.IsReal();
     }
-    
-    last = corners;
-
-    ObservationListManagerC obsListManager(obsList);
-    RansacC ransac(obsListManager,fitHomog2d,evalInliers);
-
-    for(int i = 0;i <100;i++) {
-      ransac.ProcessSample(8);
-    }
-
-    // carry on optimising solution if Ransac succeeding
-    if(!ransac.GetSolution().IsValid()) {
-      
-      cerr << "Failed to find a solution" << endl;
-      frameNo = -1;
-      return false;
-    }
-
-    // select observations compatible with solution
-    compatibleObsList = evalInliers.CompatibleObservations(ransac.GetSolution(),obsList);
-
-    // initialise Levenberg-Marquardt algorithm
-    StateVectorHomog2dC sv = ransac.GetSolution();
-    LevenbergMarquardtC lm = LevenbergMarquardtC(sv, compatibleObsList);
-      
-    if (verbose) {
-      cout << "2D homography fitting: Initial residual=" << lm.GetResidual()
-	   << "\nSelected " << compatibleObsList.Size()
-	   << " observations using RANSAC" << endl;
-    }
-    VectorC x = lm.SolutionVector();
-    x /= x[8];
-    try {
-      // apply iterations
-      RealT lambda = 100.0;
-      for ( int i = 0; i < 4; i++ ) {
-	bool accepted = lm.Iteration(compatibleObsList, lambda);
-	if ( accepted )
-	  // iteration succeeded in reducing the residual
-	  lambda /= 10.0;
-	else
-	  // iteration failed to reduce the residual
-	  lambda *= 10.0;
-	  
-	if (verbose) {
-	  cout << " Accepted=" << accepted << " Residual=" << lm.GetResidual()
-	       << " DOF=" << 2*compatibleObsList.Size()-8 << endl;
-	}
-      }
-    } catch(...) {
-      // Failed to find a solution.
-      cerr << "Caught exception from LevenbergMarquardtC. \n";
-      return false;
-    }
-
-    // get solution homography
-    sv = lm.GetSolution();
-    Matrix3dC P = sv.GetHomog();
-    P /= P[2][2];
-    if (verbose)  cout << "Solution:\n" << P << endl;
-
-    // accumulate homography
-    Psum = P*Psum;
-    Parray.Append(Psum*Pmosaic);
-    return true;
   }
 
 
