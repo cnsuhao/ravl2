@@ -96,22 +96,18 @@ namespace RavlImageN {
   
   template <class PixelT>
   PixelT ImageC<PixelT>::BiLinear(const TFVectorC<RealT,2> &pnt) const {
-    RealT fx = Floor(pnt[0]); // Row
-    RealT fy = Floor(pnt[1]); // Col
+    IntT fx = Floor(pnt[0]); // Row
+    IntT fy = Floor(pnt[1]); // Col
     RealT u = pnt[0] - fx;
     RealT t = pnt[1] - fy;
-    IndexC ifx = fx;
-    IndexC ify = fy;
-    Index2dC y1(ifx+1,ify+1);
-    Index2dC y2(ifx+1,ify);
-    Index2dC y3(ifx,ify+1);
-    Index2dC y4(ifx,ify);
-    
-    return (PixelT)(((1.0-t) * (1.0-u) * (*this)[y4]) + 
-		    (t*(1.0-u)*(*this)[y3]) + 
-		    ((1.0-t)*u*(*this)[y2]) +
-		    (t*u*(*this)[y1]) 
-		    );
+    const PixelT* pixel1 = &image[fx][fy];
+    const PixelT* pixel2 = &image[fx+1][fy];
+    const RealT onemt = (1.0-t);
+    const RealT onemu = (1.0-u);
+    return (PixelT)((onemt*onemu*pixel1[0]) + 
+		    (t*onemu*pixel1[1]) + 
+		    (onemt*u*pixel2[0]) +
+		    (t*u*pixel2[1]));
   }
   
 }
