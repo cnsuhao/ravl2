@@ -43,11 +43,16 @@ template IntrDLIterC<StuffC>; // Force instanciation of all methods.
 
 int testDListBinIO();
 int testIntrDList();
+int testDLIter();
 
 int main(int nargs,char *argv[])
 {
   int lineno;
   if((lineno = testIntrDList()) != 0) {
+    cerr << "testIntrDListC test failed on line "<< lineno << "\n";
+    return 1;
+  }
+  if((lineno = testDLIter()) != 0) {
     cerr << "testIntrDListC test failed on line "<< lineno << "\n";
     return 1;
   }
@@ -116,3 +121,51 @@ int testDListBinIO() {
   return 0;
 }
 
+int testDLIter() {
+  DListC<IntT> list;
+  for(int i = 0;i < 10;i++)
+    list.InsLast(i);
+  DLIterC<IntT> it(list);
+  if(!it) return __LINE__;
+  if((*it) != 0) return __LINE__;
+  it++;
+  if(!it) return __LINE__;
+  if((*it) != 1) return __LINE__;
+  DLIterC<IntT> ita = it;
+  it++;
+  if(!it) return __LINE__;
+  if((*it) != 2) return __LINE__;
+  it++;
+  if(!it) return __LINE__;
+  if((*it) != 3) return __LINE__;
+  DLIterC<IntT> itb = it;
+  it++;
+  if(!it) return __LINE__;
+  if((*it) != 4) return __LINE__;
+  it++;
+  if(!it) return __LINE__;
+  if((*it) != 5) return __LINE__;
+  
+  DListC<IntT> incHead = ita.Head();
+  DListC<IntT> incTail = itb.InclusiveTail();
+  if(list.Size() != 3) return __LINE__;
+  if(incTail.Size() != 6) return __LINE__;
+  if(incHead.Size() != 1) return __LINE__;
+  
+  DLIterC<IntT> itc = list;
+  DLIterC<IntT> itd = itc;
+  itd++;
+  DListC<IntT> xyz = itc.Head();
+  if(xyz.Size() != 0) return __LINE__;
+  if(list.Size() != 3) return __LINE__;
+  DListC<IntT> la = itd.InclusiveTail();
+
+  // Check taking the head and tail of an empty list works.
+  
+  DListC<IntT> emptyList;
+  DLIterC<IntT> itz(emptyList);
+  itz.Tail();
+  itz.Head();
+  
+  return 0;
+}

@@ -32,7 +32,6 @@ namespace RavlN {
     DLIterC()
     { place = &lst.Head(); }
     //: Default constructor.
-    // Creates an invalid iterator.
     
     bool IsValid() const
     { return lst.IsValid(); }
@@ -317,6 +316,7 @@ namespace RavlN {
     
     DListC<DataT> Head() {
       DListC<DataT> ret;
+      //if(place != &(lst.Body().FirstLink()))
       ret.Body().Head().CutPaste(lst.Body().FirstLink(),*place);
       return ret;
     }
@@ -325,6 +325,7 @@ namespace RavlN {
     
     DListC<DataT> InclusiveTail() {
       DListC<DataT> ret;
+      RavlAssert(IsElm()); // Must be on a valid element.
       DLinkC *nv = &place->Prev();
       ret.Body().Head().CutPaste(*place,lst.Body().LastLink());
       place = nv;
@@ -337,6 +338,7 @@ namespace RavlN {
     
     DListC<DataT> InclusiveHead() {
       DListC<DataT> ret;
+      RavlAssert(IsElm()); // Must be on a valid element.
       DLinkC *nv = &place->Next();
       ret.Body().Head().CutPaste(lst.Body().FirstLink(),*nv);
       place = nv;
