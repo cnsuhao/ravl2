@@ -131,6 +131,14 @@ namespace RavlN {
       { return IndexRangeC(Min() + i, Max() + i); }
     // Returns a new range with both minimum and maximum limits 
     // shifted by adding the offset 'i'.
+
+    inline IndexRangeC &operator++()
+      { Min()++; Max()++; return *this; }
+    //: Move both the max and min of the range along 1.
+    
+    inline IndexRangeC &operator--()
+      { Min()--; Max()--; return *this; }
+    //: Move both the max and min of the range back 1.
     
     inline const IndexRangeC & operator+=(IndexC i);
     //: Both minimum and maximum limits are shifted by adding the offset 'i'.
