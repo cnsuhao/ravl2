@@ -63,7 +63,7 @@ namespace RavlN
   {
   public:
     EigenValueC(const TMatrixC<NumT> &A) {
-      n = A.dim2();
+      n = A.Size2();
       V = TMatrixC<NumT>(n,n);
       d = TVectorC<NumT>(n);
       e = TVectorC<NumT>(n);
@@ -108,11 +108,8 @@ namespace RavlN
     //: Check for symmetry, then construct the eigenvalue decomposition
     // @param A    Square real (non-complex) matrix
     
-    
-    void getV (TMatrixC<NumT> &V_) {
-      V_ = V;
-      return;
-    }
+    TMatrixC<NumT> &EigenVectors()
+    { return V; }
     //: Return the eigenvector matrix
     
     void getNumTEigenvalues (TVectorC<NumT> &d_) {
@@ -120,6 +117,10 @@ namespace RavlN
       return ;
     }
     //: Return the real parts of the eigenvalues
+    
+    TVectorC<NumT> &EigenValues()
+    { return d; }
+    //: Access vector of the real part of the eigen values.
     
     void getImagEigenvalues (TVectorC<NumT> &e_) {
       e_ = e;
@@ -171,6 +172,10 @@ namespace RavlN
     // 
     // Paramiter D: upon return, the matrix is filled with the block diagonal 
     // eigenvalue matrix.
+    
+    bool IsSymmetric() const
+    { return issymmetric; }
+    //: Was the input matrix symmetric ?
     
   protected:
     int n;
