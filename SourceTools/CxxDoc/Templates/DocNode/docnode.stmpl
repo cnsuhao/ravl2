@@ -11,8 +11,9 @@ $(include:../Class/topbar.stmpl)
 $(ifset:docentry:
 <table width=100% bgcolor="#C0C0C0"><tr>
 <td>
-$(set:parent=)
-$(for:.:$docentry:$(silent:
+$(set:parent=)$(set:maindocentry=$(before:;:$(docentry)))
+$(set:tmp=$(before:.:$(maindocentry)))$(if:$tmp!=$projectName:$(set:maindocentry=$(projectName).$(maindocentry)))
+$(for:.:$maindocentry:$(silent:
 		    $(ifset:parent:$(set:parent=$(parent).$(subst: :_:%arg%)))
 	            $(else:$(set:parent=$(subst: :_:%arg%)))
 )$(if:$docentry_!=$parent:<A HREF="$(parent).html">%arg%</A> - )$(else:<b>%arg%</b>)

@@ -139,7 +139,7 @@ namespace RavlCxxDocN {
   
   //: Default contructor.
 
-  DocumentBodyC::DocumentBodyC(const FilenameC &tmplName,const StringC &outDir,const DocTreeC &ndocTree)
+  DocumentBodyC::DocumentBodyC(const FilenameC &tmplName,const StringC &outDir,const DocTreeC &ndocTree,const StringC &projName,const StringC &projDesc)
     : TemplateComplexBodyC(tmplName),
       outputDir(outDir),
       fileObject("class"),
@@ -151,6 +151,8 @@ namespace RavlCxxDocN {
     if(!tmplName.Exists())
       cerr << "WARNING: Can't open template file '" << tmplName << "' \n";
     Init();
+    SetVar("projectName",projName);
+    SetVar("projectDesc",projDesc);
   }
 
   //: If there's a substituation use it.

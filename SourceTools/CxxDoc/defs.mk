@@ -7,7 +7,7 @@
 #! rcsid="$Id$"
 #! file="Ravl/SourceTools/CxxDoc/defs.mk"
 
-PACKAGENAME = CxxDoc
+PACKAGENAME = Ravl
 
 DESCRIPTION = The RAVL C++ Documentation tool
 

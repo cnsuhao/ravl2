@@ -40,7 +40,7 @@ namespace RavlCxxDocN {
       public DesciptionGeneratorC
   {
   public:
-    DocumentBodyC(const FilenameC &tmplName,const StringC &outDir,const DocTreeC &docTree = DocTreeC());
+    DocumentBodyC(const FilenameC &tmplName,const StringC &outDir,const DocTreeC &docTree = DocTreeC(),const StringC &projName = StringC(),const StringC &projDesc = StringC());
     //: Default contructor.
     
     bool Foralli(StringC &data,bool ifAny = false,bool inClassScope = false);
@@ -148,8 +148,8 @@ namespace RavlCxxDocN {
     //: Default contructor.
     // Creates an invalid handle.
     
-    DocumentC(const FilenameC &tmplName,const StringC &outDir,const DocTreeC &docTree = DocTreeC())
-      : TemplateComplexC(*new DocumentBodyC(tmplName,outDir,docTree))
+    DocumentC(const FilenameC &tmplName,const StringC &outDir,const DocTreeC &docTree = DocTreeC(),const StringC &projName = StringC(),const StringC &projDesc = StringC())
+      : TemplateComplexC(*new DocumentBodyC(tmplName,outDir,docTree,projName,projDesc))
       {}
     //: Contructor.
     // Create a documentor

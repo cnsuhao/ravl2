@@ -172,6 +172,10 @@ namespace RavlCxxDocN {
     for(;pit;pit++) {
       ONDEBUG(cerr << "Updating node '" << *pit << "'\n");
       StringListC path(*pit,".");
+      if(path.IsEmpty())
+	path.InsFirst(projName);
+      if(path.First() != projName)
+	path.InsFirst(projName);
       DocNodeC node = root.AddNode(path); // Find parent node.
       node.UpdateVars(vars);
       if(userlevel!="")
@@ -244,7 +248,7 @@ namespace RavlCxxDocN {
     
     ONDEBUG(cerr << "Adding node. '"<< docentry <<"' Brief:'"  << brief << "'\n");
     
-    StringListC locations(docentry,";");
+    StringListC locations(docentry,";");    
     DLIterC<StringC> pit(locations);
     DListC<StringC> oc;
     if(children != "")
@@ -253,6 +257,8 @@ namespace RavlCxxDocN {
       ONDEBUG(cerr << "Updating node '" << *pit << "'\n");
       StringC pathnm = pit->Copy();
       StringListC path(pathnm,".");
+      if(path.IsEmpty())
+	path.InsFirst(projName);
       if(path.First() != projName)
 	path.InsFirst(projName);
       DocNodeC node = root.AddNode(path,true); // Find parent node.
@@ -327,8 +333,13 @@ namespace RavlCxxDocN {
   //: Insert a documentation leaf into the tree.
   
   bool DocTreeBodyC::InsertDocLeaf(const StringC &path,const StringC &nm,const StringC &userlevel,const StringC &brief,const StringC &docFilename,const StringC &nodeType) {
-    StringListC npath(path,".");
-    return InsertDocLeaf(npath,path,nm,userlevel,brief,docFilename,nodeType);
+    StringListC places(path,";");
+    for(DLIterC<StringC> it(places);it;it++) {
+      StringListC npath(*it,".");
+      if(!InsertDocLeaf(npath,path,nm,userlevel,brief,docFilename,nodeType))
+	return false;
+    }
+    return true;
   }
 
 }

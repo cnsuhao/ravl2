@@ -36,6 +36,9 @@ extern "C" {
 extern bool stopOnError;
 extern bool verbose;
 
+StringC projName;
+StringC projDesc;
+
 void BuildTemplates(FilenameC templFile,RavlCxxDocN::ObjectListC &ol,StringC &outFile,DocTreeC &dt) {
   if(templFile.IsDirectory()) {
     DirectoryC dir(templFile);
@@ -45,7 +48,7 @@ void BuildTemplates(FilenameC templFile,RavlCxxDocN::ObjectListC &ol,StringC &ou
     return;
   }
   
-  RavlCxxDocN::DocumentC doc(templFile,outFile,dt);
+  RavlCxxDocN::DocumentC doc(templFile,outFile,dt,projName,projDesc);
   doc.Document(ol);
 }
 
@@ -57,7 +60,7 @@ int BuildCxx(int argc, char **argv)
     prjo = PROJECT_OUT; // Hmmm ... where else ?
   
   OptionC opt(argc,argv);
-  StringC projName = opt.String("pn","Ravl","Project Name. ");
+  projName = opt.String("pn","Ravl","Project Name. ").TopAndTail();
   StringC localProjOut = opt.String("p",prjo,"Project out. ");
   StringC inFiles = opt.String("i",localProjOut + "/inc" , "Directory containing header files");
   StringC outFile = opt.String("o",localProjOut + "/doc/Auto", "output document");
