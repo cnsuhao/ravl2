@@ -20,6 +20,7 @@
 #include <sys/stat.h>
 #include <assert.h>
 #include <fstream.h>
+#include <string.h>
 
 #ifdef VISUAL_CPP
 #include <direct.h>
