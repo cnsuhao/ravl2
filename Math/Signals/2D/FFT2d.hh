@@ -70,7 +70,10 @@ namespace RavlN {
   
   //! userlevel=Normal
   //: 2d FFT.
-  
+  // Will assert if FFT row or column size has a prime factor > 101. This
+  // appears to be a limitation of the CCMath prime factor function but not the
+  // CCMath general radix FFT functions. 
+ 
   class FFT2dC
     : public RCHandleC<FFT2dBodyC>
   {
