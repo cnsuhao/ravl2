@@ -31,7 +31,7 @@ namespace RavlN {
       DataT sum = 0;
       const DataT *at = start;
       const DataT *at2 = &(arr2[arr2.IMax()]);
-      const DataT *end2 = &(at2[-arr2.Size()]);
+      const DataT *end2 = at2 - arr2.Size();
       for(;at2 != end2;at++,at2--)
 	sum += *at2 * *at;
       *itr = sum;
