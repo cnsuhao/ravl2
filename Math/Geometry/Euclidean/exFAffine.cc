@@ -7,9 +7,14 @@
 //! rcsid="$Id$"
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Euclidean/exFAffine.cc"
+//! docentry="Ravl.Math.Geometry"
+//! author="Charles Galambos"
+//! userlevel=Normal
 
 #include "Ravl/FAffine.hh"
 #include "Ravl/Stream.hh"
+
+//: Maybe not such a great example
 
 using namespace RavlN;
 

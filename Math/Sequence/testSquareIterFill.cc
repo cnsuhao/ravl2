@@ -7,7 +7,9 @@
 //! rcsid="$Id$"
 //! lib=RavlMath
 //! file="Ravl/Math/Sequence/testSquareIterFill.cc"
-
+//! author="Charles Galambos"
+//! docentry="Ravl.Math.Sequences"
+//! userlevel=Develop
 
 #include "Ravl/EntryPnt.hh"
 #include "Ravl/SquareIter.hh"

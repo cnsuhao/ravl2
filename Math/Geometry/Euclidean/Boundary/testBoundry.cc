@@ -7,7 +7,9 @@
 //! rcsid="$Id$"
 //! lib=RavlMath
 //! file="Ravl/Math/Geometry/Euclidean/Boundary/testBoundry.cc"
-
+//! userlevel=Develop
+//! author="Radek Marik"
+//! docentry="Ravl.Math.Geometry.2D.Boundry"
 
 #include "Ravl/Boundary.hh"
 #include "Ravl/Stream.hh"

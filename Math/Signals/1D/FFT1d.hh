@@ -8,10 +8,11 @@
 #define RAVLFFT1D_HEADER 1
 ////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Math.Signals.1D"
-//! example=exFFT1d.cc
 //! lib=RavlMath
 //! file="Ravl/Math/Signals/1D/FFT1d.hh"
+//! example=exFFT1d.cc
+//! author="Charles Galambos"
+//! docentry="Ravl.Math.Signals.1D"
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/Complex.hh"

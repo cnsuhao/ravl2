@@ -7,6 +7,9 @@
 //! rcsid="$Id$"
 //! lib=RavlMath
 //! file="Ravl/Math/Signals/1D/exFFT1d.cc"
+//! author="Charles Galambos"
+//! docentry="Ravl.Math.Signals.1D"
+//! userlevel=Normal
 
 #include "Ravl/FFT1d.hh"
 #include "Ravl/Random.hh"

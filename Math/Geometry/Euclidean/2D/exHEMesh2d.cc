@@ -6,6 +6,9 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! author="Charles Galambos"
+//! docentry="Ravl.Math.Geometry.2D"
+//! userlevel=Normal
 
 #include "Ravl/HEMesh2d.hh"
 #include "Ravl/Option.hh"

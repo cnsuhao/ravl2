@@ -7,6 +7,9 @@
 //! rcsid="$Id$"
 //! lib=RavlMath
 //! file="Ravl/Math/Signals/1D/testSignal1d.cc"
+//! author="Charles Galambos"
+//! docentry="Ravl.Math.Signals.1D"
+//! userlevel=Develop
 
 #include "Ravl/Convolution1d.hh"
 #include "Ravl/Correlation1d.hh"

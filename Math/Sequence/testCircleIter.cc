@@ -7,6 +7,9 @@
 //! rcsid="$Id$"
 //! lib=RavlMath
 //! file="Ravl/Math/Sequence/testCircleIter.cc"
+//! author="Charles Galambos"
+//! docentry="Ravl.Math.Sequences"
+//! userlevel=Develop
 
 #include "Ravl/CircleIter.hh"
 #include "Ravl/Point2d.hh"

@@ -6,6 +6,9 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! author="Joel Mitchelson"
+//! docentry="Ravl.Math.Geometry.3D"
+//! userlevel=Develop
 
 #include "Ravl/EulerAngle.hh"
 #include "Ravl/AxisAngle.hh"

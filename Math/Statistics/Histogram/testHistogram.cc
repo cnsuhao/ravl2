@@ -7,6 +7,9 @@
 //! rcsid="$Id$"
 //! lib=RavlMath
 //! file="Ravl/Math/Statistics/Histogram/testHistogram.cc"
+//! author="Charles Galambos"
+//! docentry="Ravl.Math.Statistics.Histogram"
+//! userlevel=Develop
 
 #include "Ravl/Histogram.hh"
 #include "Ravl/RealHistogram1d.hh"

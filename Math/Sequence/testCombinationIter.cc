@@ -8,6 +8,9 @@
 //! rcsid="$Id$"
 //! lib=RavlMath
 //! file="Ravl/Math/Sequence/testCombinationIter.cc"
+//! author="Charles Galambos"
+//! docentry="Ravl.Math.Sequences"
+//! userlevel=Develop
 
 #include "Ravl/CombinationIter.hh"
 #include "Ravl/Stream.hh"
