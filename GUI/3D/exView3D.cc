@@ -45,8 +45,9 @@ int main(int nargs,char *args[])
   cerr << "Starting gui. \n";
   Manager.Execute();
 
-  view.Put(DTexTriMesh3DC(mesh));
-  
+  view.Add(DTexTriMesh3DC(mesh));
+  view.SceneComplete();
+
   Manager.Wait();
 
   return 0;
