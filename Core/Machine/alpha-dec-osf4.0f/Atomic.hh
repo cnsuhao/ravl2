@@ -22,71 +22,71 @@ typedef volatile long int ravl_atomic_t;
 #define ravl_atomic_read(v)		(*v)
 #define ravl_atomic_set(v,i)		((*v) = (i))
 
-static inline void ravl_atomic_inc(ravl_atomic_t *v)
-{
+static inline void ravl_atomic_inc(ravl_atomic_t *v) {
   register int val = 1;
-  register int result;
+  register int tmp;
   __asm__ __volatile__ (
 	"1:\t"
 	"ldl_l	%0,%2\n\t"
 	"addl	%0,%3,%0\n\t"
 	"stl_c	%0,%1\n\t"
-	"beq	%0,2f\n\t"
-	"br	1b\n\t"
-	"2:\t"
-	"mb\n\t"
-	: "=&r"(result), "=m"(*v)
-	: "m" (*v), "r"(val));
-}
-
-static inline void ravl_atomic_dec(ravl_atomic_t *v)
-{
-  int val = -1;
-  register int result;
-  __asm__ __volatile__ (
-	"1:\t"
-	"ldl_l	%0,%2\n\t"
-	"addl	%0,%3,%0\n\t"
-	"stl_c	%0,%1\n\t"
-	"beq	%0,2f\n\t"
-	"br	1b\n\t"
-	"2:\t"
-	"mb\n\t"
-	: "=&r"(result), "=m"(*v)
-	: "m" (*v), "r"(val));
-}
-
-static inline int ravl_atomic_inc_return(ravl_atomic_t *v) {
-    int val = 1;
-  register int result;
-  __asm__ __volatile__ (
-	"1:\t"
-	"ldl_l	%0,%2\n\t"
-	"addl	%0,%3,%0\n\t"
-	"stl_c	%0,%1\n\t"
-	"beq	%0,2f\n\t"
+	"bne	%0,2f\n\t"
 	"br	1b\n"
 	"2:\t"
 	"mb\n\t"
-	: "=&r"(result), "=m"(*v)
-	: "m" (*v), "r"(val));
+	: "=&r"(tmp), "=m"(*v)
+	: "1" (*v), "r"(val));
+}
+
+static inline void ravl_atomic_dec(ravl_atomic_t *v) {
+  register int val = 1;
+  register int tmp;
+  __asm__ __volatile__ (
+	"1:\t"
+	"ldl_l	%0,%2\n\t"
+	"subl	%0,%3,%0\n\t"
+	"stl_c	%0,%1\n\t"
+	"bne	%0,2f\n\t"
+	"br	1b\n\t"
+	"2:\t"
+	"mb\n\t"
+	: "=&r"(tmp), "=m"(*v)
+	: "1" (*v), "r"(val));
+}
+
+static inline int ravl_atomic_inc_return(ravl_atomic_t *v) {
+  register int val = 1;
+  register int tmp,result;
+  __asm__ __volatile__ (
+	"1:\t"
+	"ldl_l	%0,%3\n\t"
+	"addl	%0,%4,%2\n\t"
+	"addl	%0,%4,%0\n\t"
+	"stl_c	%0,%1\n\t"
+	"bne	%0,2f\n\t"
+	"br	1b\n"
+	"2:\t"
+	"mb\n\t"
+	: "=&r"(tmp), "=m"(*v), "=&r" (result)
+	: "1" (*v), "r"(val));
   return result;
 }
 
 static inline int ravl_atomic_dec_and_test(ravl_atomic_t *v) {  
-  int val = -1;
-  register int result;
+  register int val = 1;
+  register int tmp,result;
   __asm__ __volatile__ (
 	"1:\t"
-	"ldl_l	%0,%2\n\t"
-	"addl	%0,%3,%0\n\t"
+	"ldl_l	%0,%3\n\t"
+	"subl	%0,%4,%2\n\t"
+	"subl	%0,%4,%0\n\t"
 	"stl_c	%0,%1\n\t"
-	"beq	%0,2f\n\t"
+	"bne	%0,2f\n\t"
 	"br	1b\n\t"
 	"2:\t"
 	"mb\n\t"
-	: "=&r"(result), "=m"(*v)
-	: "m" (*v), "r"(val));
+	: "=&r"(tmp), "=m"(*v), "=&r" (result)
+	: "1" (*v), "r"(val));
   return result == 0;
 }
 
