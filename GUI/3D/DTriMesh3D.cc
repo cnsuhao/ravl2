@@ -14,6 +14,8 @@
 #define ONDEBUG(x)
 #endif
 
+#define USEMESHCOLOUR 1
+
 namespace RavlGUIN {
   
   //: Render object.
@@ -28,13 +30,18 @@ namespace RavlGUIN {
       GLfloat diffuse[]  = {0.9,0.9,0.9,1.0};
       glMaterialfv(GL_FRONT_AND_BACK,GL_AMBIENT,ambient);
       glMaterialfv(GL_FRONT_AND_BACK,GL_DIFFUSE,diffuse);
-    } else 
+    } else {
       glColor3f(1.0,1.0,1.0);
+    }
     // Render
     Canvas3DRenderMode eMode = canvas.GetRenderMode();
     SArray1dC<VertexC> verts = model.Vertices();
-
-
+    
+#if USEMESHCOLOUR
+    glEnable(GL_COLOR_MATERIAL);
+    glColorMaterial(GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE);
+#endif
+    
     switch(eMode) {
     case C3D_SMOOTH:
     case C3D_POINT:
@@ -69,6 +76,9 @@ namespace RavlGUIN {
 	glShadeModel(GL_FLAT); // Flat shading
 	// Draw filled polygon
 	for(SArray1dIterC<TriC> it(model.Faces());it;it++) {
+#if USEMESHCOLOUR
+	  glColor3ubv(&(it->Colour()[0]));
+#endif
 	  GLNormal(it->FaceNormal());
 	  glBegin(GL_POLYGON);
 	  glArrayElement(model.Index(*it,0));
@@ -85,6 +95,9 @@ namespace RavlGUIN {
 	glShadeModel(GL_SMOOTH); // Flat shading
 	// Draw filled polygon
 	for(SArray1dIterC<TriC> it(model.Faces());it;it++) {
+#if USEMESHCOLOUR
+	  glColor3ubv(&(it->Colour()[0]));
+#endif
 	  glBegin(GL_POLYGON);
 	  glArrayElement(model.Index(*it,0));
 	  glArrayElement(model.Index(*it,1));
@@ -104,6 +117,9 @@ namespace RavlGUIN {
       glDisableClientState(GL_VERTEX_ARRAY);
       break;
     }
+#if USEMESHCOLOUR
+    glDisable(GL_COLOR_MATERIAL);
+#endif
     return true;
   }
   
