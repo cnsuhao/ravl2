@@ -37,7 +37,8 @@ EXAMPLES = exImgSeq.cc
 
 USESLIBS = RavlImageIO RavlOSIO
 
-PROGLIBS= RavlDPDisplay
+PROGLIBS= 
+#RavlDPDisplay
 
 EHT=Ravl.Images.Video.html Ravl.Images.Video.Formats.html
 #PROGLIBS = Mopt
