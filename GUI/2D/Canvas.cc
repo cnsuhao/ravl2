@@ -407,6 +407,13 @@ namespace RavlGUIN {
     return true;
   }
 
+  //: Refresh display.
+  
+  bool CanvasBodyC::Refresh() {
+    Manager.Queue(Trigger(CanvasC(*this),&CanvasC::GUIRefresh));
+    return true;
+  }
+  
   //: Resize canvas.
   // GUI Thread only
 

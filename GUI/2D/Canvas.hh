@@ -145,6 +145,10 @@ namespace RavlGUIN {
     
     bool GUIRefresh();
     //: Refresh display.
+    // GUI Thread only.
+    
+    bool Refresh();
+    //: Refresh display.
     
   protected:
     
@@ -316,6 +320,10 @@ namespace RavlGUIN {
     { return Body().GUIRefresh(); }
     //: Refresh display.
     // Call with GUI thread only!
+    
+    bool Refresh()
+    { return Body().Refresh(); }
+    //: Refresh display.
     
     friend class CanvasBodyC;
   };
