@@ -210,6 +210,22 @@ namespace RavlGUIN {
     Manager.Queue(Trigger(CanvasC(*this),&CanvasC::GUIDrawRectangle,x1,y1,x2,y2,c));
   }
   
+  //: Turn auto refresh after draw routines on/off.
+  
+  bool CanvasBodyC::GUIAutoRefresh(bool &val) { 
+    ONDEBUG(cerr << "CanvasBodyC::GUIAutoRefresh(bool). Val=" << val << "\n");
+    if(!autoRefresh && val)
+      GUIRefresh();
+    autoRefresh = val;
+    return true;
+  }
+  
+  //: Turn auto refresh after draw routines on/off.
+  
+  void CanvasBodyC::AutoRefresh(bool val) {
+    Manager.Queue(Trigger(CanvasC(*this),&CanvasC::GUIAutoRefresh,val));
+  }
+  
   //: Draw an image on the canvas.
   // Call with GUI thread only!
   
@@ -308,6 +324,7 @@ namespace RavlGUIN {
 		   x1, y1,
 		   x2, y2);
 
+    ONDEBUG(cerr <<"CanvasBodyC::GUIDrawLine(), AutoRefresh=" << autoRefresh << "\n");
     if(autoRefresh)
       GUIRefresh();
     return true;

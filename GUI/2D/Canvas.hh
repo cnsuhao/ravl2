@@ -130,13 +130,21 @@ namespace RavlGUIN {
     { return toDo; }
     //: Get todo list.
     
-    void AutoRefresh(bool val)
-    { autoRefresh = val; }
+    bool GUIAutoRefresh(bool &val);
     //: Turn auto refresh after draw routines on/off.
+    // Call with GUI thread only!
+    // Note: Turning autorefresh on, automaticly refreshes the display.
+    
+    void AutoRefresh(bool val);
+    //: Turn auto refresh after draw routines on/off.
+    // Note: Turning autorefresh on, automaticly refreshes the display.
     
     bool AutoRefresh() const
     { return autoRefresh; }
     //: Is auto refresh on ?
+    
+    bool GUIRefresh();
+    //: Refresh display.
     
   protected:
     
@@ -147,8 +155,6 @@ namespace RavlGUIN {
     //: Called when the underlying widget it destroyed.
     // The default version of this method simpily 0's the widget ptr.
     
-    bool GUIRefresh();
-    //: Refresh display.
     
     int sx,sy;
     bool direct;
@@ -280,6 +286,12 @@ namespace RavlGUIN {
     //: Draw some text.
     // Call with GUI thread only!
     
+    bool GUIAutoRefresh(bool &val)
+    { return Body().GUIAutoRefresh(val); }
+    //: Turn auto refresh after draw routines on/off.
+    // Call with GUI thread only!
+    // Note: Turning autorefresh on, automaticly refreshes the display.
+    
     bool GUIClear()
     { return Body().GUIClear(); }
     //: Clear canvas to given colour.
@@ -299,6 +311,11 @@ namespace RavlGUIN {
     bool AutoRefresh() const
     { return Body().AutoRefresh(); }
     //: Is auto refresh on ?
+
+    bool GUIRefresh()
+    { return Body().GUIRefresh(); }
+    //: Refresh display.
+    // Call with GUI thread only!
     
     friend class CanvasBodyC;
   };
