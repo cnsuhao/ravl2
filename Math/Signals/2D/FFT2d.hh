@@ -59,10 +59,8 @@ namespace RavlN {
     bool base2;    // Are both dimensions a power of 2?    
     
     int primeFactors1[32];
-    int nf1; // Number of factors. Sufficent for all 32-bit lengths.
 
     int primeFactors2[32];
-    int nf2; // Number of factors. Sufficent for all 32-bit lengths.
     
     SArray2dC<ComplexC> tmp1;
     SArray2dC<ComplexC *> tmp1Ptr;

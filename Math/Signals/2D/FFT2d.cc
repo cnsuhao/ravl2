@@ -61,8 +61,8 @@ namespace RavlN {
     } else {
       ONDEBUG(cerr << "FFT2dBodyC::Init(), Initalise arbitary size transform. \n");
       base2 = false;
-      nf1 = pfac(size[0].V(),primeFactors1,'o');
-      nf2 = pfac(size[1].V(),primeFactors2,'o');
+      int nf1 = pfac(size[0].V(),primeFactors1,'o');
+      int nf2 = pfac(size[1].V(),primeFactors2,'o');
 
       // CCMath pfac (prime factor) function does not work for prime factors > 101.
       StringC errTxt0 = ((StringC)"FFT2dBodyC::Init(), row size of "    +  size[0].V() + (StringC)" has a prime factor > 101.");
