@@ -65,7 +65,7 @@ namespace RavlImageN {
     
     virtual bool Get(ImageC<PixelT> &buff) {
       ImageC<PixelT> img;
-      cerr << "State=" << state << "\n";
+      //cerr << "State=" << state << "\n";
       switch(state) 
 	{
 	case 0:
@@ -106,7 +106,7 @@ namespace RavlImageN {
       if(!seekCtrl.Seek(off/2))
 	return false;
       state = evenFieldDominant ? (off % 2) : ((off+1) % 2);
-      cerr << "Seek to " << off << " State=" << state << "\n";
+      //cerr << "Seek to " << off << " State=" << state << "\n";
       return true;
     }
     //: Seek to location in stream.
@@ -116,7 +116,7 @@ namespace RavlImageN {
     
     virtual bool DSeek(IntT off) {
       IntT at = (IntT) Tell();
-      cerr << "DSeek to " << off << " " << at  << " State=" << state << "\n";
+      //cerr << "DSeek to " << off << " " << at  << " State=" << state << "\n";
       // There may be slight more efficent ways of doing this, but
       // it will work for now.
       at += off;
