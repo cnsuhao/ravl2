@@ -39,7 +39,7 @@ namespace RavlN {
   //: Destructor.
   
   NetISPortBaseC::~NetISPortBaseC() { 
-    ep.Close(); // Make sure NetEndPointC is closed before we complete close.
+    ONDEBUG(cerr << "NetISPortBaseC::~NetISPortBaseC(), Called. \n");
   }
   
   bool NetISPortBaseC::Init() {

@@ -81,8 +81,13 @@ namespace RavlN {
     // number of the port to use. <br>
     // 'portName' is the namer of the stream on the server.
     
-    ~NetISPortBodyC()
-    { ep.Close(); }
+    ~NetISPortBodyC() { 
+      if(ep.IsOpen()) {
+	ep.Send(15);
+	ep.WaitTransmitQClear();
+      }
+      ep.Close(); 
+    }
     //: Destructor.
     
     virtual bool Seek(UIntT off) { 

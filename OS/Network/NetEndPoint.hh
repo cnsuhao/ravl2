@@ -152,6 +152,9 @@ namespace RavlN {
     bool WaitSetupComplete();
     //: Wait for setup to complete.
     
+    bool WaitTransmitQClear();
+    //: Wait for the transmit queue to clear.
+    
     bool Close();
     //: Close connection.
 
@@ -463,6 +466,11 @@ namespace RavlN {
     bool WaitSetupComplete()
     { return Body().WaitSetupComplete(); }
     //: Wait for setup to complete.
+    
+    bool WaitTransmitQClear()
+    { return Body().WaitTransmitQClear(); }
+    //: Wait for the transmit queue to clear.
+    // Will return immediatly if the NetEndPoint is closed.
     
     bool Close()
     { return Body().Close(); }

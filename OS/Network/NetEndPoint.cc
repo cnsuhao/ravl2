@@ -16,6 +16,7 @@
 #include "Ravl/OS/NetMsgCall.hh"
 #include "Ravl/Threads/LaunchThread.hh"
 #include "Ravl/OS/SysLog.hh"
+#include "Ravl/OS/Date.hh"
 
 //#include "Ravl/BinStream.hh"
 //#include "Ravl/BinString.hh"
@@ -194,6 +195,15 @@ namespace RavlN {
     return true;
   }
   
+  //: Wait for the transmit queue to clear.
+  
+  bool NetEndPointBodyC::WaitTransmitQClear() {
+    transmitQ.Put(NetPacketC()); // Put an empty packet to ensure all is sent before we return.
+    while(IsOpen() && !transmitQ.IsEmpty())
+      Sleep(0.1);
+    return true;
+  }
+
   //: Send a 0 paramiter message.
   
   bool NetEndPointBodyC::Send(UIntT id) {
@@ -211,7 +221,6 @@ namespace RavlN {
     if(!shutdown) {
       MutexLockC lock(accessMsgReg);
       msgReg.Empty(); 
-      connectionBroken.Invalidate();
       shutdown = true;
       skt.Close();
       receiveQ.Put(NetPacketC()); // Put an empty packet to indicate shutdown.
@@ -292,7 +301,7 @@ namespace RavlN {
 	  continue;
 #if RAVL_OS_LINUX
 	char buff[256];
-	SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::ReadData(), Error reading from socket :" << errno << " '" << strerror_r(errno,buff,256) << "'\n";
+	SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::ReadData(), Error reading from socket :" << errno << " '" << strerror_r(errno,buff,256) << "'";
 #else
 	SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::ReadData(), Error reading from socket :" << errno;
 #endif
@@ -336,7 +345,7 @@ namespace RavlN {
       return true; // Everything done ok.
     // Write of all data failed, try and sort things out.
     // Does this ever really happen ??
-    SysLog(SYSLOG_WARNING) << "WARNING: Partial data write in NetEndPointBodyC::WriteData(). \n";
+    SysLog(SYSLOG_WARNING) << "WARNING: Partial data write in NetEndPointBodyC::WriteData(). ";
     if(at < size1) { // Written all of first packet ?
       if(!WriteData(nfd,&(buff1[at]),size1-at))
 	return false;
@@ -443,8 +452,10 @@ namespace RavlN {
     MutexLockC lock(accessMsgReg);
     if(connectionBroken.IsValid()) { // Got a callback ?
       TriggerC call = connectionBroken; // Make copy of trigger in case its overwritten.
+      connectionBroken.Invalidate(); // Not needed after this.
       lock.Unlock();
       call.Invoke();
+      MutexLockC lock(accessMsgReg);
     } else
       lock.Unlock();
     Close();

@@ -43,6 +43,10 @@ namespace RavlN {
     
     bool Connect(NetEndPointC &ep);
     //: Connect to an end point.
+    // Returns false if port is already in use..
+    
+    bool Disconnect();
+    //: Disonnect to an end point.
     
     NetEndPointC &NetEndPoint()
     { return ep; }
@@ -75,22 +79,21 @@ namespace RavlN {
     {}
     //: Constructor.
     
-    ~NetISPortServerBodyC() {
-      // If we're closing down, make sure net end point doesn't call DataReq.
-      ep.Close();
-    }
+    ~NetISPortServerBodyC() 
+    {}
+    //: Destructor
     
     virtual StringC PortType()
     { return TypeName(typeid(DataT)); }
     //: Get the port type.
     
-  protected:
-    bool Init();
-    //: Initalise link.
-    
     bool ReqData(UIntT &pos);
     //: Request information on the stream.. 
     
+  protected:
+    bool Init();
+    //: Initalise link.
+        
     DPISPortC<DataT> iport;
   };
   
@@ -128,6 +131,11 @@ namespace RavlN {
     bool Connect(NetEndPointC &ep)
     { return Body().Connect(ep); }
     //: Connect to an end point.
+    // Returns false if port is already in use..
+    
+    bool Disconnect()
+    { return Body().Disconnect(); }
+    //: Disonnect to an end point.
     
     StringC PortType()
     { return Body().PortType(); }
@@ -157,6 +165,26 @@ namespace RavlN {
       : NetISPortServerBaseC(*new NetISPortServerBodyC<DataT>(iport,portName))
     {}
     //: Constructor.
+    
+  protected:
+    NetISPortServerC(NetISPortServerBodyC<DataT> &bod)
+      : NetISPortServerBaseC(bod)
+    {}
+    //: Body constructor.
+
+    NetISPortServerBodyC<DataT> &Body()
+    { return static_cast<NetISPortServerBodyC<DataT> &>(NetISPortServerBaseC::Body()); }
+    //: Access body.
+    
+    const NetISPortServerBodyC<DataT> &Body() const
+    { return static_cast<const NetISPortServerBodyC<DataT> &>(NetISPortServerBaseC::Body()); }
+    //: Access body.
+    
+    bool ReqData(UIntT &pos)
+    { return Body().ReqData(pos); }
+    //: Request information on the stream.. 
+    
+    friend class NetISPortServerBodyC<DataT>;
   };
 
   ///////////////////////////////////////////////////
@@ -185,7 +213,8 @@ namespace RavlN {
   
   template<class DataT>  
   bool NetISPortServerBodyC<DataT>::Init() {
-    ep.RegisterR(4,"ReqData",*this,&NetISPortServerBodyC<DataT>::ReqData);
+    NetISPortServerC<DataT> me(*this);
+    ep.Register(4,"ReqData",me,&NetISPortServerC<DataT>::ReqData);
     return NetISPortServerBaseBodyC::Init();
   }
   

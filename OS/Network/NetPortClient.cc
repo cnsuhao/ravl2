@@ -28,11 +28,20 @@ namespace RavlN {
       manager(nManager)
   { Init(); }
   
+  //: Destructor.
+  
+  NetPortClientBodyC::~NetPortClientBodyC() {
+    ONDEBUG(cerr << "NetPortClientBodyC::~NetPortClientBodyC() Called. \n");
+    // Make sure connections closed before destructing.
+    Close();
+  }
+  
   //: Initalise connection.
   
   bool NetPortClientBodyC::Init() {
     ONDEBUG(cerr << "NetPortClientBodyC::Init(), Called. \n");
     RegisterR(10,"ConnectTo",*this,&NetPortClientBodyC::MsgConnectTo);
+    RegisterR(15,"Close",*this,&NetPortClientBodyC::MsgClose);
     Ready();
     WaitSetupComplete();
     return true;
@@ -55,10 +64,29 @@ namespace RavlN {
     }
     // Connect something ?
     NetPortClientC me(*this);
-    isport.Connect(me);
-    
+    if(!isport.Connect(me)) {
+      cerr << "NetPortClientBodyC::MsgConnectTo(), Failed, Already connected. \n";
+      Send(6,1); // End of stream.
+      // Return a failed message ?
+      return true;
+    }
+    connectionName = port;
     manager.RegisterConnection(isport);
     return true;
   }
 
+  //: Handle close message.
+  // Close down an established connection.
+  
+  bool NetPortClientBodyC::MsgClose() {
+    ONDEBUG(cerr << "NetPortClientBodyC::MsgClose(), Called. \n");
+    Close();
+    if(!connectionName.IsEmpty()) {
+      NetISPortServerBaseC isport = manager.Lookup(connectionName);
+      if(isport.IsValid())
+	isport.Disconnect();
+    }
+    return true;
+  }
+  
 }

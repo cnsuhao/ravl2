@@ -98,10 +98,11 @@ namespace RavlN {
   //: Unregister port.
   
   bool NetPortManagerBodyC::Unregister(const StringC &name) {
+    ONDEBUG(cerr << "NetPortManagerBodyC::Unregister(), Called. Name='" << name << "'\n");
     RWLockHoldC hold(access,RWLOCK_WRITE);
     return iports.Del(name);
   }
-
+  
   //: Called when a connection is established.
   
   bool NetPortManagerBodyC::RegisterConnection(NetISPortServerBaseC &isport) {

@@ -33,6 +33,9 @@ namespace RavlN {
     NetPortClientBodyC(SocketC &skt,NetPortManagerC &manager);
     //: Construct from open socket.
     
+    ~NetPortClientBodyC();
+    //: Destructor.
+    
   protected:
     bool Init();
     //: Initalise connection.
@@ -42,8 +45,14 @@ namespace RavlN {
     // This will lookup the relavent NetIPortServer class
     // and complete the connection.
     
+    bool MsgClose();
+    //: Handle close message.
+    // Close down an established connection.
+    
     NetPortManagerC manager;
-
+    
+    StringC connectionName;
+    
     friend class NetPortClientC;
   };
   
