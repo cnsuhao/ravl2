@@ -27,6 +27,8 @@ namespace RavlN {
   template<class DataT>
   Array1dC<DataT> GenerateBinomial(DataT seed,SizeT size, bool doNorm = false,bool center = false) {
     Array1dC<DataT> fnc;
+    if(size == 0)
+      return Array1dC<DataT>();
     if(!center)
       fnc = Array1dC<DataT>(size);
     else {
