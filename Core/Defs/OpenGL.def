@@ -13,16 +13,16 @@ ifndef MESAHOME
   MESAHOME=/opt/PDmesa/Mesa-3.2.1
 endif
 
-EXELIB := -L$(MESAHOME)/lib -lGL -lGLU $(EXELIB)
+#EXELIB := -L$(MESAHOME)/lib -lGL -lGLU $(EXELIB)
 INCLUDES := -I$(MESAHOME)/include $(INCLUDES)
 
 ifeq ($(ARC),linux)
-EXELIB := -Wl,-rpath=$(MESAHOME)/lib -L$(MESAHOME)/lib $(EXELIB)
+EXELIB := -Wl,-rpath=$(MESAHOME)/lib -L$(MESAHOME)/lib -lGL -lGLU $(EXELIB)
 else
 ifneq ($(ARC),sgi)
-EXELIB := -R$(MESAHOME)/lib -L$(MESAHOME)/lib $(EXELIB)
+EXELIB := -R$(MESAHOME)/lib -L$(MESAHOME)/lib -lGL -lGLU $(EXELIB)
 else
-EXELIB := -L$(MESAHOME)/lib $(EXELIB)
+EXELIB := -L$(MESAHOME)/lib -lGL -lGLU $(EXELIB)
 endif
 endif
 

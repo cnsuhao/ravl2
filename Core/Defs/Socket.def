@@ -10,8 +10,11 @@ SocketDEF=1
 # Lib's needed for socket io.
 # $Id$
 
-ifeq ($(ARC),sol2)
-  EXELIB := -lsocket -lnsl -lposix4 $(EXELIB)
+
+ifneq ($(filter $(ARC), sol2_7 sol2_9),)
+EXELIB := -lsocket -lnsl -lposix4 $(EXELIB)
+else
+
 endif
 
 endif
