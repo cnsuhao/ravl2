@@ -117,6 +117,39 @@ namespace RavlN {
     for(BufferAccess3dIterC<DataT> it(*this,rng2,rng3);it;it++)
       *it = d;
   }
+
+  
+  template <class DataT>
+  ostream & operator<<(ostream & s, const RangeBufferAccess3dC<DataT> & arr) {
+    for(BufferAccess3dIterC<DataT> it(arr,arr.Range2(),arr.Range3());it;) {
+      s << *it;
+      for(;it.Next();) 
+	s << ' ' << *it;
+      s << '\n';
+    }    
+    return s;
+  }
+  
+  template <class DataT>
+  istream & operator>>(istream & s, RangeBufferAccess3dC<DataT> & arr) {
+    for(BufferAccess3dIterC<DataT> it(arr,arr.Range2(),arr.Range3());it;it++) 
+      s >> *it;
+    return s;
+  }
+
+  template<class DataT>
+  BinOStreamC &operator<<(BinOStreamC & s, const RangeBufferAccess3dC<DataT> & arr) {
+    for(BufferAccess3dIterC<DataT> it(arr,arr.Range2(),arr.Range3());it;it++)
+      s << *it;
+    return s;
+  }
+  
+  template<class DataT>
+  BinIStreamC &operator>>(BinIStreamC & s, RangeBufferAccess3dC<DataT> & arr) {
+    for(BufferAccess3dIterC<DataT> it(arr,arr.Range2(),arr.Range3());it;it++)
+      s >> *it;
+    return s;
+  }
   
 }
 

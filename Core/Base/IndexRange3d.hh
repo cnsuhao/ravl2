@@ -257,13 +257,13 @@ namespace RavlN {
 
   inline
   ostream &operator<<(ostream &s,const IndexRange3dC &ir) {
-    s << ir.Range1() << ' ' << ir.Range2();
+    s << ir.Range1() << ' ' << ir.Range2() << ' ' << ir.Range3();
     return s;
   }
   
   inline
   istream &operator>>(istream &s,IndexRange3dC &ir) {
-    s >> ir.Range1() >> ir.Range2();
+    s >> ir.Range1() >> ir.Range2() >> ir.Range3();
     return s;
   }
 
