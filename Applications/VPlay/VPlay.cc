@@ -29,6 +29,7 @@
 
 #include "Ravl/GUI/Window.hh"
 #include "Ravl/GUI/Canvas.hh"
+#include "Ravl/GUI/Button.hh"
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/GUI/LBox.hh"
 #include "Ravl/GUI/Menu.hh"
@@ -41,6 +42,8 @@
 
 #include "Ravl/DP/SequenceIO.hh"
 #include "Ravl/DP/MethodIO.hh"
+#include "Ravl/DP/Func2Stream.hh"
+#include "Ravl/IO.hh"
 
 #include <stdlib.h>
 
@@ -56,12 +59,48 @@ using namespace RavlN;
 using namespace RavlGUIN;
 using namespace RavlImageN;
 
+
 static bool gui_quit(DPIPlayControlC<ImageC<ByteRGBValueC> > &pc) 
 {
   pc.Continue();
   Manager.Quit(); // Initate shutdown.
   return true;
 }
+
+////////// CODE FOR FRAME GRAB //////////////////////////////////////////
+
+ImageC<ByteRGBValueC> frameCache;
+MutexC frameCacheLock;
+ImageC<ByteRGBValueC> frameGrabbed;
+MutexC frameGrabLock;
+
+bool GrabFrame(StringC &filename) {
+  MutexLockC lock(frameGrabLock);
+  if(!Save(filename,frameGrabbed)) {
+    cerr << "ERROR: Failed to save file '" << filename << "'\n";
+  }
+  return true;
+}
+
+bool GetFileForGrab() {
+  MutexLockC lock1(frameGrabLock);
+  MutexLockC lock2(frameCacheLock);
+  frameGrabbed = frameCache;
+  lock2.Unlock();
+  lock1.Unlock();
+  static FileSelectorC fs = FileSelector(StringC("Grab frame."),
+					 &GrabFrame);
+  fs.Show();
+  return true;
+}
+
+ImageC<ByteRGBValueC> CacheFrame(const ImageC<ByteRGBValueC> &frame) {
+  MutexLockC lock(frameCacheLock);
+  frameCache = frame;
+  return frame;
+}
+
+////////////////////////////////////////////////////
 
 static bool file_selector(StringC &filename,FileSelectorC &fs,Tuple2C<DPIPlayControlC<ImageC<ByteRGBValueC> > ,CanvasC>  &pc) 
 {
@@ -207,7 +246,8 @@ int doVPlay(int nargs,char *args[])
   
   win.Add(VBox(PackInfoC(menuBar,false,true) + 
 	       PackInfoC(Box(vidout,5,true),false,false) + 
-	       PackInfoC(PlayControlC(vpCtrl),false,true)
+	       PackInfoC(PlayControlC(vpCtrl),false,true) +
+	       PackInfoC(Button("Grab Frame",GetFileForGrab),false,false)
 	       )
 	  );
   win.Show();
@@ -223,7 +263,7 @@ int doVPlay(int nargs,char *args[])
   
   // Setup play stream.
   
-  es += src >> DPGovernorC<ImageC<ByteRGBValueC> >(delay) >>= OMethod(vidout,&CanvasC::DrawRGBImage);
+  es += src >> DPGovernorC<ImageC<ByteRGBValueC> >(delay) >> CacheFrame >>=  OMethod(vidout,&CanvasC::DrawRGBImage);
   
   es.Wait();
   Manager.Shutdown();
