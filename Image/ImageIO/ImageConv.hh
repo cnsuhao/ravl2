@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 #ifndef RAVLIMAGE_IMAGECONV_HEADER
-#define RAVLIMAEG_IMAGECONV_HEADER 1
+#define RAVLIMAGE_IMAGECONV_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Image/ImageIO/ImageConv.hh"
