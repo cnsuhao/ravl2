@@ -203,7 +203,7 @@ namespace RavlN {
 	      break;
 	    }
 	    if(tc.Char() != '\n') {
-	      if(tc.Char() != '"' && tc.Char() != '$') {
+	      if(tc.Char() != '"' && tc.Char() != '$' && tc.Char() != '#' && tc.Char() != '\\') {
 		cerr << "Escaped : " <<  ((int) tc.Char()) << " " << ((int) '\\') << endl;
 		cerr << " '" << tc.LineText() << "'\n";
 		for(unsigned int i = 0;i < tc.LineText().length();i++) {

@@ -14,7 +14,7 @@
 //! rcsid="$Id$"
 //! date="14/05/1998"
 //! example=exConfigFile.cc
-//! docentry="Ravl.OS.Text Processing"
+//! docentry="Ravl.OS.Configuration Files"
 
 #include "Ravl/Hash.hh"
 #include "Ravl/RCHandleV.hh"
