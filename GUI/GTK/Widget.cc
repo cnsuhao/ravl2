@@ -300,13 +300,13 @@ namespace RavlGUIN {
   }
 
 #if RAVL_USE_GTK2
-  int WidgetBodyC::gtkTreeRow(GtkWidget *widget, GtkTreeIter *iter, GtkTreePath *path, Signal0C *sigptr) {
+  int WidgetBodyC::gtkTreeRow(GtkWidget *widge, GtkTreeIter *iter, GtkTreePath *path, Signal0C *sigptr) {
     RavlAssert(sigptr != 0);
     // Get signal
     Signal2C<TreeModelIterC,TreeModelPathC> sig(*sigptr);
     RavlAssert(sig.IsValid());
     // Convert data
-    TreeModelIterC riter(iter,false);
+    TreeModelIterC riter(gtk_tree_view_get_model(GTK_TREE_VIEW(widge)),iter,false);
     TreeModelPathC rpath(path,false);
     // Send signal
     sig(riter,rpath);
