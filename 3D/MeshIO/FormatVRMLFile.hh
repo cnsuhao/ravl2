@@ -79,15 +79,5 @@ namespace Ravl3DN {
       {}
   };
   
-  //: VRML file format for TexTriMeshC  
-  class FileFormatTexVRMLC 
-    : public FileFormatC<TexTriMeshC> {
-  public:
-    FileFormatTexVRMLC()
-      : FileFormatC<TexTriMeshC>(*new FileFormatVRMLBodyC())
-      {}
-  };
-  
-  
 }
 #endif

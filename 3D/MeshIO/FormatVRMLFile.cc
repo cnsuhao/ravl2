@@ -106,6 +106,4 @@ namespace Ravl3DN {
   //: Register file IO for VRML format.
   FileFormatVRMLC RegisterFileFormatVRML;
   
-  //: Register file IO for VRML format with texture.
-  FileFormatVRMLC RegisterFileFormatTexVRML;
 }
