@@ -45,7 +45,7 @@ namespace RavlN {
     // process)  Otherwise a SIGKILL is sent.
     
     bool SigStop();
-    //: Stop this process.  (Like Ctrl-z)
+    //: Stop this process.  (As Ctrl-z)
     
     bool SigContinue();
     //: Continue this process. 
