@@ -54,15 +54,15 @@ converting a byte image into a double image.  For more information on writing
 converters see <a href="Ravl.Core.IO.html">Basic Types.IO</a>
 <pre>
 
-ImageC&lt RealT&gt DPConvByteImageCT2RealImageCT(const ImageC&lt ByteT&gt &dat)  
+ImageC&lt RealT&gt DPConvImageC<ByteT>T2RealImageCT(const ImageC&lt ByteT&gt &dat)  
 { 
   ImageC&lt RealT&gt ret(dat.Rectangle());
-  for(Image2IterC&lt RealT,ByteT&gt it(ret,dat);it;it++) 
+  for(Array2dIter2C&lt RealT,ByteT&gt it(ret,dat);it;it++) 
     it.Data1() = (RealT) it.Data2();
   return ret;
 }
 
-DP_REGISTER_CONVERTION(ByteImageCT2RealImageCT, 1);
+DP_REGISTER_CONVERTION(ImageC<ByteT>T2RealImageCT, 1);
 </pre>
 The argument in the function call indicates (as a ratio of the number of bytes
 in the respective pixels) the amount of information lost in the conversion.  In

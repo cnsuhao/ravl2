@@ -1,61 +1,66 @@
+/////////////////////////////////////////////////////////////////
+//! rcsid="$Id$"
 
-#include "amma/DP/Converter.hh"
-#include "amma/Image/ImageConv.hh"
-#include "amma/Image2Iter.hh"
+#include "Ravl/DP/Converter.hh"
+#include "Ravl/Image/ImageConv.hh"
+#include "Ravl/Array2dIter2.hh"
 
-#include "amma/Image.hh"
-#include "amma/GreyVal.hh"
-#include "amma/RGBValue.hh"
-#include "amma/YUVValue.hh"
+#include "Ravl/Image/Image.hh"
+#include "Ravl/Types.hh"
+#include "Ravl/Image/ByteRGBValue.hh"
+#include "Ravl/Image/ByteYUVValue.hh"
+#include "Ravl/Image/RealRGBValue.hh"
+#include "Ravl/Image/RealYUVValue.hh"
+#include "Ravl/Image/RGBcYUV.hh"
 
-void InitStdImageCnv2()
-{}
 
-namespace StdImageN
+namespace RavlImageN
 {
+  void InitStdImageCnv2()
+  {}
   
 
   // Real YUV -> RGB
   
-  ImageC<RGBPointC> RealYUVImageCT2RealRGBImageCT(const ImageC<YUVPointC> &dat) {
-    ImageC<RGBPointC> ret(dat.Rectangle());
-    for(Image2IterC<RGBPointC,YUVPointC> it(ret,dat);it.IsElm();it.Next()) 
-      it.Data1() = RGBPointC(it.Data2());
+  ImageC<RealRGBValueC> RealYUVImageCT2RealRGBImageCT(const ImageC<RealYUVValueC> &dat) {
+    ImageC<RealRGBValueC> ret(dat.Rectangle());
+    for(Array2dIter2C<RealRGBValueC,RealYUVValueC> it(ret,dat);it.IsElm();it.Next()) 
+      it.Data1() = RealRGBValueC(it.Data2());
     return ret;
   }
 
 
   // Real RGB -> YUV
 
-  ImageC<YUVPointC> RealRGBImageCT2RealYUVImageCT(const ImageC<RGBPointC> &dat) {
-    ImageC<YUVPointC> ret(dat.Rectangle());
-    for(Image2IterC<YUVPointC,RGBPointC> it(ret,dat);it.IsElm();it.Next()) 
-      it.Data1() = RGBPointC(it.Data2());
+  ImageC<RealYUVValueC> RealRGBImageCT2RealYUVImageCT(const ImageC<RealRGBValueC> &dat) {
+    ImageC<RealYUVValueC> ret(dat.Rectangle());
+    for(Array2dIter2C<RealYUVValueC,RealRGBValueC> it(ret,dat);it.IsElm();it.Next()) 
+      it.Data1() = RealRGBValueC(it.Data2());
     return ret;
   }
 
 
   // Byte grey level to byte YUV colour image.
-  ImageC<ByteGreyValueT> ByteYUVImageCT2ByteImageCT(const ImageC<ByteYUVValueC> &dat) { 
-    ImageC<ByteGreyValueT> ret(dat.Rectangle());
-    for(Image2IterC<ByteGreyValueT,ByteYUVValueC> it(ret,dat);it.IsElm();it.Next())
+  ImageC<ByteT> ByteYUVImageCT2ByteImageCT(const ImageC<ByteYUVValueC> &dat) { 
+    ImageC<ByteT> ret(dat.Rectangle());
+    for(Array2dIter2C<ByteT,ByteYUVValueC> it(ret,dat);it.IsElm();it.Next())
       it.Data1() = it.Data2().Y();
     return ret;  
   }
 
   // Byte colour to byte grey image.
   
-  ImageC<ByteGreyValueT> RGBImageCT2ByteImageCT(const ImageC<ByteRGBValueC> &dat) {
-    ImageC<ByteGreyValueT> ret(dat.Rectangle());
-    for(Image2IterC<ByteGreyValueT,ByteRGBValueC> it(ret,dat);it.IsElm();it.Next()) 
-      it.Data1() = (ByteGreyValueT) ((IntT) ((IntT) it.Data2().Red() + it.Data2().Green() + it.Data2().Blue()) / 3);
+  ImageC<ByteT> RGBImageCT2ByteImageCT(const ImageC<ByteRGBValueC> &dat) {
+    ImageC<ByteT> ret(dat.Rectangle());
+    for(Array2dIter2C<ByteT,ByteRGBValueC> it(ret,dat);it.IsElm();it.Next()) 
+      it.Data1() = (ByteT) ((IntT) ((IntT) it.Data2().Red() + it.Data2().Green() + it.Data2().Blue()) / 3);
     return ret;
   }
   // Byte Colour to double image.
 
-  ImageC<DoubleImageValueT> RGBImageCT2DoubleImageCT(const ImageC<ByteRGBValueC> &dat)  { 
-    ImageC<DoubleImageValueT> ret(dat.Rectangle());
-    for(Image2IterC<DoubleImageValueT,ByteRGBValueC> it(ret,dat);it.IsElm();it.Next()) 
+  ImageC<RealT> RGBImageCT2DoubleImageCT(const ImageC<ByteRGBValueC> &dat)  { 
+    ImageC<RealT> ret(dat.Rectangle());
+    for(Array2dIter2C<RealT,ByteRGBValueC> it(ret,dat);it.IsElm();it.Next()) 
       it.Data1() = (RealT) ((RealT) it.Data2().Red() + it.Data2().Green() + it.Data2().Blue()) / 3;
     return ret;
   }
@@ -64,9 +69,10 @@ namespace StdImageN
 
   ImageC<ByteRGBValueC> YUVImageCT2RGBImageCT(const ImageC<ByteYUVValueC> &dat) {
     ImageC<ByteRGBValueC> ret(dat.Rectangle());
-    for(Image2IterC<ByteRGBValueC,ByteYUVValueC> it(ret,dat);it.IsElm();it.Next()) {
-      RGBPointC p(YUVValueC(it.Data2()));
-      it.Data1() = p.Cut();
+    for(Array2dIter2C<ByteRGBValueC,ByteYUVValueC> it(ret,dat);it.IsElm();it.Next()) {
+      RealRGBValueC p(RealYUVValueC(it.Data2()));
+      p.Limit(0,255);
+      it.Data1() = ByteRGBValueC(p.Red(),p.Green(),p.Blue());
     }
     return ret;
   }
@@ -75,8 +81,11 @@ namespace StdImageN
   
   ImageC<ByteYUVValueC> RGBImageCT2YUVImageCT(const ImageC<ByteRGBValueC> &dat) {
     ImageC<ByteYUVValueC> ret(dat.Rectangle());
-    for(Image2IterC<ByteYUVValueC,ByteRGBValueC> it(ret,dat);it.IsElm();it.Next())
-      it.Data1() = YUVValueC(RGBPointC(it.Data2())).Cut();
+    for(Array2dIter2C<ByteYUVValueC,ByteRGBValueC> it(ret,dat);it.IsElm();it.Next()) {
+      RealYUVValueC v(RealRGBValueC(it.Data2()));
+      v.Limit(0,255);
+      it.Data1() = ByteYUVValueC(v.Y(),v.U(),v.V());
+    }
     return ret;
   }
 

@@ -9,26 +9,16 @@
 
 PACKAGE = Ravl/Image
 
-DESCRIPTION =  File IO stuff.
+DESCRIPTION =  File IO methods.
 
-HEADERS = ImgIOPNMB.hh ImgIOPNM.hh PNMFormat.hh ImgIO.hh
-#  \
-# ImageConv.hh 
+HEADERS = ImgIOPNMB.hh ImgIOPNM.hh PNMFormat.hh ImgIO.hh ImageConv.hh
 
 SOURCES = ImgIOPNM.cc PNMFormat.cc ImgIOInt.cc ImgIOByte.cc \
  ImgIOUInt16.cc ImgIOByteRGB.cc ImgIOByteYUV.cc ImgIOReal.cc \
- ImgIORealRGB.cc ImgIOByteRGBA.cc ImgIORealYUV.cc ImgIOUInt16RGB.cc
+ ImgIORealRGB.cc ImgIOByteRGBA.cc ImgIORealYUV.cc ImgIOUInt16RGB.cc \
+ ImgIOByteYUVA.cc ImgCnvRGB.cc ImgCnvYUV.cc ImgTypeCnv.cc ImgTypeCnv2.cc 
 
-#  \
-# ImgTypeCnv.cc ImgTypeCnv2.cc ImgCnvRGB.cc  \
-# ImgIOPixel.cc \
-#   \
-#  ImgIOU16RGB.cc ImgCnvRGB16.cc\
-#   \
-# PixelIO.cc ImgFrameCnv.cc ImgIOByteVYU.cc \
-# ImgIOCompatRGB.cc ImgIOCompatYUV.cc ImgIOCompatY.cc
-
-#NumImageCnv.cc
+# ImgIOPixel.cc  PixelIO.cc 
 
 MUSTLINK = RavlImgIO.cc 
 
@@ -36,13 +26,10 @@ LIBDEPS= RavlImageIO.def
 
 PLIB = RavlImage
 
-EXAMPLES = 
-#exImgIO.cc
+EXAMPLES = exImgIO.cc
 
 TESTEXES = testImgIO.cc
 
 USESLIBS = RavlCore RavlIO
 
 EHT = Ravl.Images.IO.html
-
-#EHT = Image.Image_IO.eht

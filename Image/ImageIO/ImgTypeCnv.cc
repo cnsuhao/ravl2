@@ -2,66 +2,64 @@
 //! rcsid="$Id$"
 
 #include "Ravl/DP/Converter.hh"
-#include "amma/Image/ImageConv.hh"
-#include "amma/Image2Iter.hh"
+#include "Ravl/Image/ImageConv.hh"
+#include "Ravl/Array2dIter2.hh"
 
-#include "amma/Image.hh"
-#include "amma/GreyVal.hh"
-#include "amma/RGBValue.hh"
-#include "amma/YUVValue.hh"
+#include "Ravl/Image/Image.hh"
+#include "Ravl/Types.hh"
+#include "Ravl/Image/ByteRGBValue.hh"
+#include "Ravl/Image/ByteYUVValue.hh"
 
-extern void InitStdImageCnv2();
-
-void InitStdImageCnv()
-{ InitStdImageCnv2(); }
+namespace RavlImageN
+{
+  void InitStdImageCnv()
+  {}
 
 //ByteYUVValueC
 // Some type conversions for standard images.
 
-namespace StdImageN
-{
   // Byte to double image.
 
-  ImageC<DoubleImageValueT> ByteImageCT2DoubleImageCT(const ImageC<ByteGreyValueT> &dat) { 
-    ImageC<DoubleImageValueT> ret(dat.Rectangle());
-    for(Image2IterC<DoubleImageValueT,ByteGreyValueT> it(ret,dat);it.IsElm();it.Next()) 
-      it.Data1() = (DoubleImageValueT) it.Data2();
+  ImageC<RealT> ByteImageCT2DoubleImageCT(const ImageC<ByteT> &dat) { 
+    ImageC<RealT> ret(dat.Rectangle());
+    for(Array2dIter2C<RealT,ByteT> it(ret,dat);it.IsElm();it.Next()) 
+      it.Data1() = (RealT) it.Data2();
     return ret;
   }
   
   // Byte to int image.
   
-  ImageC<IntT> ByteImageCT2IntImageCT(const ImageC<ByteGreyValueT> &dat) { 
+  ImageC<IntT> ByteImageCT2IntImageCT(const ImageC<ByteT> &dat) { 
     ImageC<IntT> ret(dat.Rectangle());
-    for(Image2IterC<IntT,ByteGreyValueT> it(ret,dat);it.IsElm();it.Next()) 
+    for(Array2dIter2C<IntT,ByteT> it(ret,dat);it.IsElm();it.Next()) 
       it.Data1() = (IntT) it.Data2();
     return ret;
   }
 
   // Int to double image.
   
-  ImageC<DoubleImageValueT> IntImageCT2DoubleImageCT(const ImageC<IntT> &dat)   { 
-    ImageC<DoubleImageValueT> ret(dat.Rectangle());
-    for(Image2IterC<DoubleImageValueT,IntT> it(ret,dat);it.IsElm();it.Next()) 
-      it.Data1() = (DoubleImageValueT) it.Data2();
+  ImageC<RealT> IntImageCT2DoubleImageCT(const ImageC<IntT> &dat)   { 
+    ImageC<RealT> ret(dat.Rectangle());
+    for(Array2dIter2C<RealT,IntT> it(ret,dat);it.IsElm();it.Next()) 
+      it.Data1() = (RealT) it.Data2();
     return ret;
   }
 
 
   // Byte grey level to colour image.
   
-  ImageC<ByteRGBValueC> ByteImageCT2ByteRGBImageCT(const ImageC<ByteGreyValueT> &dat) { 
+  ImageC<ByteRGBValueC> ByteImageCT2ByteRGBImageCT(const ImageC<ByteT> &dat) { 
     ImageC<ByteRGBValueC> ret(dat.Rectangle());
-    for(Image2IterC<ByteRGBValueC,ByteGreyValueT> it(ret,dat);it.IsElm();it.Next()) 
+    for(Array2dIter2C<ByteRGBValueC,ByteT> it(ret,dat);it.IsElm();it.Next()) 
       it.Data1() = ByteRGBValueC(it.Data2(),it.Data2(),it.Data2());
     return ret;  
   }
   
   // Byte grey level to byte YUV colour image.
   
-  ImageC<ByteYUVValueC> ByteImageCT2ByteYUVImageCT(const ImageC<ByteGreyValueT> &dat) { 
+  ImageC<ByteYUVValueC> ByteImageCT2ByteYUVImageCT(const ImageC<ByteT> &dat) { 
     ImageC<ByteYUVValueC> ret(dat.Rectangle());
-    for(Image2IterC<ByteYUVValueC,ByteGreyValueT> it(ret,dat);it.IsElm();it.Next())
+    for(Array2dIter2C<ByteYUVValueC,ByteT> it(ret,dat);it.IsElm();it.Next())
       it.Data1() = ByteYUVValueC(it.Data2(),0,0);
     return ret;  
   }
@@ -69,10 +67,10 @@ namespace StdImageN
   // Double -> Byte (clipped to fit)
   // This will clip, then round the double value (NOT floor!) to fit in a byte value 0 to 255.
   
-  ImageC< ByteGreyValueT> DoubleImageCT2ByteImageCT(const ImageC< DoubleImageValueT> &dat) { 
-    ImageC< ByteGreyValueT> ret(dat.Rectangle());
-    for(Image2IterC< ByteGreyValueT,DoubleImageValueT> it(ret,dat);it.IsElm();it.Next()) {
-      it.Data1() = (it.Data2()>255.0) ? 255 : (it.Data2()<0.0) ? 0 : ((ByteGreyValueT) (it.Data2() + 0.5));
+  ImageC< ByteT> DoubleImageCT2ByteImageCT(const ImageC< RealT> &dat) { 
+    ImageC< ByteT> ret(dat.Rectangle());
+    for(Array2dIter2C< ByteT,RealT> it(ret,dat);it.IsElm();it.Next()) {
+      it.Data1() = (it.Data2()>255.0) ? 255 : (it.Data2()<0.0) ? 0 : ((ByteT) (it.Data2() + 0.5));
     }
     return ret;
   }

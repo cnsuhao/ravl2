@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 #ifndef RAVLIAVALUE_HEADER
-#define RAVLIAVALUE_HEADER
+#define RAVLIAVALUE_HEADER 1
 ////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Image/Base/IAValue.hh"
@@ -18,6 +18,7 @@
 #include "Ravl/TFVector.hh"
 
 namespace RavlImageN {
+  using namespace RavlN;
   
   //: Image & Alpha Pixel.
   

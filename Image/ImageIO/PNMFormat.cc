@@ -69,7 +69,7 @@ namespace RavlImageN {
   FileFormatPPMBodyC::ProbeLoad(const StringC &nfilename,IStreamC &in,const type_info &obj_type) const {
     //StringC filename(nfilename);
     //  if(obj_type != typeid(ImageC<ByteRGBValueC>))
-    //    return FALSE; // Can only deal with rgb at the moment.
+    //    return false; // Can only deal with rgb at the moment.
     // For Load, use stream probe its more reliable than extentions.
     return ProbeLoad(in,obj_type);
   }
