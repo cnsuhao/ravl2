@@ -12,6 +12,7 @@
 
 #include "Ravl/Stream.hh"
 #include "Ravl/VectorMatrix.hh"
+#include "Ravl/BinStream.hh"
 
 namespace RavlN {
 
@@ -101,6 +102,24 @@ namespace RavlN {
   }
   
   istream &operator>>(istream & s, VectorMatrixC & vm) {
+    VectorC & v = vm.Vector();
+    MatrixC & m = vm.Matrix();
+    s >> v >> m;
+    return s;
+  }
+
+  //: Writes the object 'vm' into the output stream.
+  
+  BinOStreamC & operator<<(BinOStreamC & s, const VectorMatrixC & vm) {
+    const VectorC & v = vm.Vector();
+    const MatrixC & m = vm.Matrix();
+    s << v << m;
+    return s;
+  }
+  
+  //: Sets the object 'vm' according to the object saved in the input stream.
+  
+  BinIStreamC & operator>>(BinIStreamC & s, VectorMatrixC & vm) {
     VectorC & v = vm.Vector();
     MatrixC & m = vm.Matrix();
     s >> v >> m;

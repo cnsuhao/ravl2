@@ -79,6 +79,12 @@ namespace RavlN {
   
   istream & operator>>(istream & s, VectorMatrixC & vm);
   //: Sets the object 'vm' according to the object saved in the input stream.
+  
+  BinOStreamC & operator<<(BinOStreamC & s, const VectorMatrixC & vm);
+  //: Writes the object 'vm' into the output stream.
+  
+  BinIStreamC & operator>>(BinIStreamC & s, VectorMatrixC & vm);
+  //: Sets the object 'vm' according to the object saved in the input stream.
     
 }
 
