@@ -73,6 +73,18 @@ namespace RavlN {
     }
     //: Project a point through the transform.
     
+    Projection2dC operator*(const Projection2dC &oth) const {
+      Matrix3dC diag(Matrix3dC::I());
+      diag[2][2] = oth.oz/iz;
+      Matrix3dC transform = trans * diag * oth.trans;
+      return Projection2dC(transform, oth.iz, oz);
+    }
+    //: Combine two transforms
+    //!param: oth - the other transform to be combined with this one
+    //!return: the result of cascading this transform with the other one
+    // Note that the average iz and oz value of the two transforms are used
+    // for the resultant one.
+
     Point2dC operator*(const Point2dC &pnt) const
     { return Project(pnt); }
     //: Project a point through the transform.
