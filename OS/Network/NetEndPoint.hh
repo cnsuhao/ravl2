@@ -174,8 +174,11 @@ namespace RavlN {
     { return remoteUser; }
     //: Access name of remote user.
     
-    void Transmit(const NetPacketC &pkt)
-    { transmitQ.Put(pkt); }
+    bool Transmit(const NetPacketC &pkt) { 
+      if(shutdown) return false; // Don't Q new stuff if we're shutting down.
+      transmitQ.Put(pkt);
+      return true;
+    }
     //: Queue a packet for transmition.
     
     bool MsgInit(StringC &user,NetClientInfoC &info);
@@ -196,8 +199,7 @@ namespace RavlN {
       BinOStreamC bos(os);
       bos.UseBigEndian(useBigEndianBinStream);
       bos << id << dat1;
-      Transmit(NetPacketC(os.Data()));
-      return true;
+      return Transmit(NetPacketC(os.Data()));
     }
     //: Send a 1 parameter message.
     
@@ -207,8 +209,7 @@ namespace RavlN {
       BinOStreamC bos(os);
       bos.UseBigEndian(useBigEndianBinStream);
       bos << id << dat1 << dat2;
-      Transmit(NetPacketC(os.Data()));
-      return true;
+      return Transmit(NetPacketC(os.Data()));
     }
     //: Send a 2 parameter message.
 
@@ -218,8 +219,7 @@ namespace RavlN {
       BinOStreamC bos(os);
       bos.UseBigEndian(useBigEndianBinStream);
       bos << id << dat1 << dat2  << dat3;
-      Transmit(NetPacketC(os.Data()));
-      return true;
+      return Transmit(NetPacketC(os.Data()));
     }
     //: Send a 3 parameter message.
     
@@ -343,6 +343,12 @@ namespace RavlN {
     
     bool WriteData(int nfd,const char *buff1,UIntT size1,const char *buff2,UIntT size2);
     //: Write 2 buffers to file descriptor.
+    
+    void CloseTransmit();
+    //: Close down for transmit thread.
+    
+    void CloseDecode();
+    //: Close down for decode thread.
     
     SocketC skt;
     MessageQueueC<NetPacketC> transmitQ; // Transmition Q.
@@ -483,8 +489,8 @@ namespace RavlN {
     { return Body().Close(); }
     //: Close connection.
     
-    void Transmit(const NetPacketC &pkt)
-    { Body().Transmit(pkt); }
+    bool Transmit(const NetPacketC &pkt)
+    { return Body().Transmit(pkt); }
     //: Queue a packet for transmition.
     
     bool MsgInit(StringC &user,NetClientInfoC &info)
