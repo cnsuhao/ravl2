@@ -17,14 +17,14 @@
 
 namespace RavlN {
   
-  template<class VertexDataT,class EdgeDataT,class FaceDataT> class THEMeshC;
+  template<class VertexDataT,class FaceDataT,class EdgeDataT> class THEMeshC;
   
   //! userlevel=Normal
   //: Mesh vertex iterator.
   // Note: It is the users responsibility to ensure the current vertex of the interator is NOT
   // deleted until the iterator is moved to another element. 
   
-  template<class VertexDataT,class EdgeDataT,class FaceDataT>  
+  template<class VertexDataT,class FaceDataT = EmptyC,class EdgeDataT = EmptyC>  
   class THEMeshVertexIterC 
     : public HEMeshBaseVertexIterC  
   {
@@ -38,25 +38,25 @@ namespace RavlN {
     {}
     //: Constructor from a IntrDListC.
     
-    THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT> Data()
-    { return THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT>(HEMeshBaseVertexIterC::Data()); }
+    THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT> Data()
+    { return THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT>(HEMeshBaseVertexIterC::Data()); }
     //: Access Vertex.
 
-    const THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT> Data() const
-    { return THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT>(HEMeshBaseVertexIterC::Data()); }
+    const THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT> Data() const
+    { return THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT>(HEMeshBaseVertexIterC::Data()); }
     //: Access Vertex.
 
-    THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT> operator*()
-    { return THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT>(HEMeshBaseVertexIterC::Data()); }
+    THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT> operator*()
+    { return THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT>(HEMeshBaseVertexIterC::Data()); }
     //: Access Vertex.
     
-    const THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT> operator*() const
-    { return THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT>(HEMeshBaseVertexIterC::Data()); }
+    const THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT> operator*() const
+    { return THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT>(HEMeshBaseVertexIterC::Data()); }
     //: Access Vertex.
     
   protected:
     
-    friend class THEMeshC<VertexDataT,EdgeDataT,FaceDataT>;
+    friend class THEMeshC<VertexDataT,FaceDataT,EdgeDataT>;
   };
   
 }

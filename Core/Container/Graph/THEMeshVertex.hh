@@ -13,32 +13,33 @@
 //! author="Charles Galambos"
 
 #include "Ravl/HEMeshBaseVertex.hh"
+#include "Ravl/Empty.hh"
 
 namespace RavlN {
   
-  template<class VertexDataT,class EdgeDataT,class FaceDataT> class THEMeshVertexC;
-  template<class VertexDataT,class EdgeDataT,class FaceDataT> class THEMeshEdgeC;
-  template<class VertexDataT,class EdgeDataT,class FaceDataT> class THEMeshFaceC;
-  template<class VertexDataT,class EdgeDataT,class FaceDataT> class THEMeshC;
-  template<class VertexDataT,class EdgeDataT,class FaceDataT> class THEMeshFaceEdgeIterC;
-  template<class VertexDataT,class EdgeDataT,class FaceDataT> class THEMeshEdgeBodyC;
-  template<class VertexDataT,class EdgeDataT,class FaceDataT> class THEMeshBodyC;
-  template<class VertexDataT,class EdgeDataT,class FaceDataT> class THEMeshVertexIterC;
+  template<class VertexDataT,class FaceDataT,class EdgeDataT> class THEMeshVertexC;
+  template<class VertexDataT,class FaceDataT,class EdgeDataT> class THEMeshEdgeC;
+  template<class VertexDataT,class FaceDataT,class EdgeDataT> class THEMeshFaceC;
+  template<class VertexDataT,class FaceDataT,class EdgeDataT> class THEMeshC;
+  template<class VertexDataT,class FaceDataT,class EdgeDataT> class THEMeshFaceEdgeIterC;
+  template<class VertexDataT,class FaceDataT,class EdgeDataT> class THEMeshEdgeBodyC;
+  template<class VertexDataT,class FaceDataT,class EdgeDataT> class THEMeshBodyC;
+  template<class VertexDataT,class FaceDataT,class EdgeDataT> class THEMeshVertexIterC;
   
   //! userlevel=Develop
   //: Vertex body.
   
-  template<class VertexDataT,class EdgeDataT,class FaceDataT>  
+  template<class VertexDataT,class FaceDataT = EmptyC,class EdgeDataT = EmptyC>  
   class THEMeshVertexBodyC
     : public HEMeshBaseVertexBodyC // Link in list of all vertexes
   {
   public:    
-    THEMeshEdgeC<VertexDataT,EdgeDataT,FaceDataT> FindEdge(const THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT> &oth) const;
+    THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> FindEdge(const THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT> &oth) const;
     //: Look for a connection from this vertex to oth.
     // Returns an invalid handle if ones is not found.
     
 #if 0
-    THEMeshEdgeC<VertexDataT,EdgeDataT,FaceDataT> Link(THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT> newVert,THEMeshFaceC<VertexDataT,EdgeDataT,FaceDataT> face)
+    THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> Link(THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT> newVert,THEMeshFaceC<VertexDataT,EdgeDataT,FaceDataT> face)
     { return Link(newVert,face); }
     //: Link this vertex to newVert on indicated face
     // Both vertexes must share the face. This will effectively
@@ -65,14 +66,14 @@ namespace RavlN {
     
     VertexDataT data;
     
-    friend class THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT>;
-    friend class THEMeshEdgeBodyC<VertexDataT,EdgeDataT,FaceDataT>;
+    friend class THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT>;
+    friend class THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT>;
   };
   
   //! userlevel=Normal
   //: Vertex.
   
-  template<class VertexDataT,class EdgeDataT,class FaceDataT>  
+  template<class VertexDataT,class FaceDataT,class EdgeDataT>
   class THEMeshVertexC 
     : public HEMeshBaseVertexC // Link in list of all vertexes
   {
@@ -82,39 +83,39 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    THEMeshEdgeC<VertexDataT,EdgeDataT,FaceDataT> FindEdge(const THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT> &oth) const;
+    THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> FindEdge(const THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT> &oth) const;
     //: Look for a connection from this vertex to oth.
     // Returns an invalid handle if ones is not found.
     
   protected:
     
-    THEMeshVertexC(THEMeshVertexBodyC<VertexDataT,EdgeDataT,FaceDataT> &nbody)
+    THEMeshVertexC(THEMeshVertexBodyC<VertexDataT,FaceDataT,EdgeDataT> &nbody)
       : HEMeshBaseVertexC(&nbody)
     {}
     //: Body constructor.
     
     THEMeshVertexC(const VertexDataT &data)
-      : HEMeshBaseVertexC(*new THEMeshVertexBodyC<VertexDataT,EdgeDataT,FaceDataT>(data))
+      : HEMeshBaseVertexC(*new THEMeshVertexBodyC<VertexDataT,FaceDataT,EdgeDataT>(data))
     {}
     //: Constructor.
     
-    THEMeshVertexBodyC<VertexDataT,EdgeDataT,FaceDataT> &Body()
-    { return static_cast<THEMeshVertexBodyC<VertexDataT,EdgeDataT,FaceDataT> &>(HEMeshBaseVertexC::Body()); }
+    THEMeshVertexBodyC<VertexDataT,FaceDataT,EdgeDataT> &Body()
+    { return static_cast<THEMeshVertexBodyC<VertexDataT,FaceDataT,EdgeDataT> &>(HEMeshBaseVertexC::Body()); }
     //: Access body.
     
-    const THEMeshVertexBodyC<VertexDataT,EdgeDataT,FaceDataT> &Body() const
-    { return static_cast<const THEMeshVertexBodyC<VertexDataT,EdgeDataT,FaceDataT> &>(HEMeshBaseVertexC::Body()); }
+    const THEMeshVertexBodyC<VertexDataT,FaceDataT,EdgeDataT> &Body() const
+    { return static_cast<const THEMeshVertexBodyC<VertexDataT,FaceDataT,EdgeDataT> &>(HEMeshBaseVertexC::Body()); }
     //: Access body.
     
   public:
     
   private:
-    friend class THEMeshBodyC<VertexDataT,EdgeDataT,FaceDataT>;
-    friend class THEMeshVertexBodyC<VertexDataT,EdgeDataT,FaceDataT>;
-    friend class THEMeshEdgeC<VertexDataT,EdgeDataT,FaceDataT>;
-    friend class THEMeshEdgeBodyC<VertexDataT,EdgeDataT,FaceDataT>;
-    friend class THEMeshVertexIterC<VertexDataT,EdgeDataT,FaceDataT>;
-    friend class THEMeshC<VertexDataT,EdgeDataT,FaceDataT>;
+    friend class THEMeshBodyC<VertexDataT,FaceDataT,EdgeDataT>;
+    friend class THEMeshVertexBodyC<VertexDataT,FaceDataT,EdgeDataT>;
+    friend class THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT>;
+    friend class THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT>;
+    friend class THEMeshVertexIterC<VertexDataT,FaceDataT,EdgeDataT>;
+    friend class THEMeshC<VertexDataT,FaceDataT,EdgeDataT>;
   };
   
   

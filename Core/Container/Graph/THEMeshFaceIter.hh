@@ -17,7 +17,7 @@
 
 namespace RavlN {
   
-  template<class VertexDataT,class EdgeDataT,class FaceDataT>
+  template<class VertexDataT,class FaceDataT,class EdgeDataT>
   class THEMeshC;
 
   //! userlevel=Normal
@@ -26,7 +26,7 @@ namespace RavlN {
   // deleted until the iterator is moved to another element.  Methods such as CollapseEdge()
   // are provided to help ensure this.
   
-  template<class VertexDataT,class EdgeDataT,class FaceDataT>
+  template<class VertexDataT,class FaceDataT = EmptyC,class EdgeDataT = EmptyC>
   class THEMeshFaceIterC 
     : HEMeshBaseFaceIterC 
   {
@@ -42,23 +42,23 @@ namespace RavlN {
     //: Constructor.
 #endif
     
-    THEMeshFaceC<VertexDataT,EdgeDataT,FaceDataT> Data()
-    { return THEMeshFaceC<VertexDataT,EdgeDataT,FaceDataT>(HEMeshBaseFaceIterC::Data()); }
+    THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> Data()
+    { return THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT>(HEMeshBaseFaceIterC::Data()); }
     //: Access Face.
 
-    const THEMeshFaceC<VertexDataT,EdgeDataT,FaceDataT> Data() const
-    { return THEMeshFaceC<VertexDataT,EdgeDataT,FaceDataT>(HEMeshBaseFaceIterC::Data()); }
+    const THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> Data() const
+    { return THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT>(HEMeshBaseFaceIterC::Data()); }
     //: Access Face.
     
-    THEMeshFaceC<VertexDataT,EdgeDataT,FaceDataT> operator*()
-    { return THEMeshFaceC<VertexDataT,EdgeDataT,FaceDataT>(HEMeshBaseFaceIterC::Data()); }
+    THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> operator*()
+    { return THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT>(HEMeshBaseFaceIterC::Data()); }
     //: Access Face.
     
-    const THEMeshFaceC<VertexDataT,EdgeDataT,FaceDataT> operator*() const
-    { return THEMeshFaceC<VertexDataT,EdgeDataT,FaceDataT>(HEMeshBaseFaceIterC::Data()); }
+    const THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> operator*() const
+    { return THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT>(HEMeshBaseFaceIterC::Data()); }
     //: Access Face.
     
-    bool CollapseEdge(THEMeshEdgeC<VertexDataT,EdgeDataT,FaceDataT> edge)
+    bool CollapseEdge(THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> edge)
     { return HEMeshBaseFaceIterC::CollapseEdge(edge); }
     //: Collapse an edge on the current face.
     // If the face is deleted in the process the iterator is moved
@@ -67,7 +67,7 @@ namespace RavlN {
     
   protected:
     
-    friend class THEMeshC<VertexDataT,EdgeDataT,FaceDataT>;
+    friend class THEMeshC<VertexDataT,FaceDataT,EdgeDataT>;
   };
   
 }

@@ -18,16 +18,14 @@
 #include "Ravl/THEMeshFaceIter.hh"
 #include "Ravl/THEMeshVertexIter.hh"
 #include "Ravl/HEMeshBase.hh"
+#include "Ravl/Empty.hh"
 
 namespace RavlN {
-  
-  template<class VertexDataT,class EdgeDataT,class FaceDataT>
-  class THEMeshC;
   
   //! userlevel=Develop
   //: Half Edge Mesh Body
   
-  template<class VertexDataT,class EdgeDataT,class FaceDataT>
+  template<class VertexDataT,class FaceDataT = EmptyC,class EdgeDataT = EmptyC>
   class THEMeshBodyC 
     : public HEMeshBaseBodyC
   {
@@ -37,24 +35,33 @@ namespace RavlN {
     //: Default constructor.
     // Creates an empty mesh.
     
-    THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT> InsertVertex(const VertexDataT &data) {
-      THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT> vert(data);
+    THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT> InsertVertex(const VertexDataT &data) {
+      THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT> vert(data);
       vertices.InsLast(vert.Body());
       return vert;
     }
     //: Insert a new vertex into the mesh.
     
-    THEMeshFaceC<VertexDataT,EdgeDataT,FaceDataT> InsertFace(const FaceDataT &data,
+    THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> InsertFace(const FaceDataT &data,
 							     const SArray1dC<HEMeshBaseVertexC> &vertices,
 							     HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> &edgeTab) {
-      THEMeshFaceC<VertexDataT,EdgeDataT,FaceDataT> ret(data);
+      THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> ret(data);
+      HEMeshBaseBodyC::InsertFace(ret,vertices,edgeTab);
+      return ret;
+    }
+    //: Insert face defined by vertices.
+
+    THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> InsertFace(const SArray1dC<HEMeshBaseVertexC> &vertices,
+							     HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> &edgeTab) {
+      static FaceDataT tmp;
+      THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> ret(tmp);
       HEMeshBaseBodyC::InsertFace(ret,vertices,edgeTab);
       return ret;
     }
     //: Insert face defined by vertices.
     
   protected:
-    friend class THEMeshC<VertexDataT,EdgeDataT,FaceDataT>;
+    friend class THEMeshC<VertexDataT,FaceDataT,EdgeDataT>;
   };
   
 
@@ -62,7 +69,7 @@ namespace RavlN {
   //: Half Edge Mesh
   // Reference counted handle to mesh.
   
-  template<class VertexDataT,class EdgeDataT,class FaceDataT>
+  template<class VertexDataT,class FaceDataT = EmptyC,class EdgeDataT = EmptyC>
   class THEMeshC 
     : public HEMeshBaseC
   {
@@ -72,52 +79,57 @@ namespace RavlN {
     //: Default constructor.
 
     THEMeshC(bool)
-      : HEMeshBaseC(*new THEMeshBodyC<VertexDataT,EdgeDataT,FaceDataT>())
+      : HEMeshBaseC(*new THEMeshBodyC<VertexDataT,FaceDataT,EdgeDataT>())
     {}
     //: Constructor.
     
   protected:
-    THEMeshBodyC<VertexDataT,EdgeDataT,FaceDataT> &Body()
-    { return static_cast<THEMeshBodyC<VertexDataT,EdgeDataT,FaceDataT> &>(HEMeshBaseC::Body()); }
+    THEMeshBodyC<VertexDataT,FaceDataT,EdgeDataT> &Body()
+    { return static_cast<THEMeshBodyC<VertexDataT,FaceDataT,EdgeDataT> &>(HEMeshBaseC::Body()); }
     //: Access body.
     
-    const THEMeshBodyC<VertexDataT,EdgeDataT,FaceDataT> &Body() const
-    { return static_cast<const THEMeshBodyC<VertexDataT,EdgeDataT,FaceDataT> &>(HEMeshBaseC::Body()); }
+    const THEMeshBodyC<VertexDataT,FaceDataT,EdgeDataT> &Body() const
+    { return static_cast<const THEMeshBodyC<VertexDataT,FaceDataT,EdgeDataT> &>(HEMeshBaseC::Body()); }
     //: Access body.
     
   public:
     
-    THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT> InsertVertex(const VertexDataT &data)
+    THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT> InsertVertex(const VertexDataT &data)
     { return Body().InsertVertex(data); }
     //: Insert a new vertex into the mesh.
     
-    THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT> InsertVertexOnEdge(THEMeshEdgeC<VertexDataT,EdgeDataT,FaceDataT> &edge)
+    THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT> InsertVertexOnEdge(THEMeshEdgeC<VertexDataT,EdgeDataT,FaceDataT> &edge)
     { return Body().InsertVertexOnEdge(edge); }
     //: Insert a vertex on an edge.
     
-    THEMeshFaceC<VertexDataT,EdgeDataT,FaceDataT> InsertFace(const FaceDataT &data,
+    THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> InsertFace(const FaceDataT &data,
 							     const SArray1dC<HEMeshBaseVertexC> &vertices,
 							     HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> &edgeTab)
     { return Body().InsertFace(data,vertices,edgeTab); }
     //: Insert face defined by vertices.
+
+    THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> InsertFace(const SArray1dC<HEMeshBaseVertexC> &vertices,
+							     HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> &edgeTab)
+    { return Body().InsertFace(vertices,edgeTab); }
+    //: Insert face defined by vertices.
     
-    THEMeshFaceIterC<VertexDataT,EdgeDataT,FaceDataT> Faces()
-    { return THEMeshFaceIterC<VertexDataT,EdgeDataT,FaceDataT>(Body().faces); }
+    THEMeshFaceIterC<VertexDataT,FaceDataT,EdgeDataT> Faces()
+    { return THEMeshFaceIterC<VertexDataT,FaceDataT,EdgeDataT>(Body().faces); }
     //: List of faces in the mesh.
     // Use to create THEMeshFaceIterC.
     
-    THEMeshVertexIterC<VertexDataT,EdgeDataT,FaceDataT> Vertices()
-    { return THEMeshVertexIterC<VertexDataT,EdgeDataT,FaceDataT>(Body().vertices); }
+    THEMeshVertexIterC<VertexDataT,FaceDataT,EdgeDataT> Vertices()
+    { return THEMeshVertexIterC<VertexDataT,FaceDataT,EdgeDataT>(Body().vertices); }
     //: List of vertices.
     // Use to create THEMeshVertexIterC.
 
-    THEMeshFaceC<VertexDataT,EdgeDataT,FaceDataT> FirstFace()
-    { return THEMeshFaceC<VertexDataT,EdgeDataT,FaceDataT>(Body().faces.First()); }
+    THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> FirstFace()
+    { return THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT>(Body().faces.First()); }
     //: Get the first face in the mesh.
     // Note: The mesh must NOT be empty.
     
-    THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT> FirstVirtex()
-    { return THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT>(Body().vertices.First()); }
+    THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT> FirstVirtex()
+    { return THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT>(Body().vertices.First()); }
     //: Get the first vertex in the mesh.
     // Note: The mesh must NOT be empty.
 

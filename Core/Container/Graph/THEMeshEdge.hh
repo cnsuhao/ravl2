@@ -17,21 +17,20 @@
 
 namespace RavlN {
   
-  template<class VertexDataT,class EdgeDataT,class FaceDataT> class THEMeshFaceC;
-  template<class VertexDataT,class EdgeDataT,class FaceDataT> class THEMeshFaceBodyC;
-  template<class VertexDataT,class EdgeDataT,class FaceDataT> class THEMeshC;
-  template<class VertexDataT,class EdgeDataT,class FaceDataT> class THEMeshFaceEdgeIterC;
-  template<class VertexDataT,class EdgeDataT,class FaceDataT> class THEMeshFaceBodyC;  
-  template<class VertexDataT,class EdgeDataT,class FaceDataT> class THEMeshEdgeBodyC;
-  template<class VertexDataT,class EdgeDataT,class FaceDataT> class THEMeshBodyC;
-  template<class VertexDataT,class EdgeDataT,class FaceDataT> class THEMeshFaceBodyC;
-  template<class VertexDataT,class EdgeDataT,class FaceDataT> class THEMeshVertexEdgeIterC;
-  template<class VertexDataT,class EdgeDataT,class FaceDataT> class THEMeshToVertexEdgeIterC;
+  template<class VertexDataT,class FaceDataT,class EdgeDataT> class THEMeshC;
+  template<class VertexDataT,class FaceDataT,class EdgeDataT> class THEMeshFaceC;
+  template<class VertexDataT,class FaceDataT,class EdgeDataT> class THEMeshFaceBodyC;
+  template<class VertexDataT,class FaceDataT,class EdgeDataT> class THEMeshFaceEdgeIterC;
+  template<class VertexDataT,class FaceDataT,class EdgeDataT> class THEMeshFaceBodyC;  
+  template<class VertexDataT,class FaceDataT,class EdgeDataT> class THEMeshBodyC;
+  template<class VertexDataT,class FaceDataT,class EdgeDataT> class THEMeshFaceBodyC;
+  template<class VertexDataT,class FaceDataT,class EdgeDataT> class THEMeshVertexEdgeIterC;
+  template<class VertexDataT,class FaceDataT,class EdgeDataT> class THEMeshToVertexEdgeIterC;
   
   //! userlevel=Develop
   //: Half edge in mesh.
   
-  template<class VertexDataT,class EdgeDataT,class FaceDataT>
+  template<class VertexDataT,class FaceDataT = EmptyC,class EdgeDataT = EmptyC>
   class THEMeshEdgeBodyC 
     : public HEMeshBaseEdgeBodyC
   {
@@ -44,13 +43,13 @@ namespace RavlN {
     //: Default cosntructor.
     // the contents are left undefined.
 
-    THEMeshEdgeBodyC(THEMeshVertexBodyC<VertexDataT,EdgeDataT,FaceDataT> &vert,THEMeshFaceBodyC<VertexDataT,EdgeDataT,FaceDataT> &nface)
+    THEMeshEdgeBodyC(THEMeshVertexBodyC<VertexDataT,FaceDataT,EdgeDataT> &vert,THEMeshFaceBodyC<VertexDataT,EdgeDataT,FaceDataT> &nface)
     {}
     //: Cosntructor.
     // the contents are left undefined.
     
-    friend class THEMeshEdgeC<VertexDataT,EdgeDataT,FaceDataT>;
-    friend class THEMeshFaceBodyC<VertexDataT,EdgeDataT,FaceDataT>;
+    friend class THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT>;
+    friend class THEMeshFaceBodyC<VertexDataT,FaceDataT,EdgeDataT>;
     
     EdgeDataT data;
   };
@@ -58,7 +57,7 @@ namespace RavlN {
   //! userlevel=Normal
   //: Half edge in mesh.
   
-  template<class VertexDataT,class EdgeDataT,class FaceDataT>
+  template<class VertexDataT,class FaceDataT = EmptyC,class EdgeDataT = EmptyC>
   class THEMeshEdgeC 
     : public HEMeshBaseEdgeC
   {
@@ -69,58 +68,58 @@ namespace RavlN {
     // Creates an invalid handle.
     
   protected:
-    THEMeshEdgeC(THEMeshVertexBodyC<VertexDataT,EdgeDataT,FaceDataT> &vert,THEMeshFaceBodyC<VertexDataT,EdgeDataT,FaceDataT> &face)
-      : HEMeshBaseEdgeC(*new THEMeshEdgeBodyC<VertexDataT,EdgeDataT,FaceDataT>(vert,face))
+    THEMeshEdgeC(THEMeshVertexBodyC<VertexDataT,FaceDataT,EdgeDataT> &vert,THEMeshFaceBodyC<VertexDataT,EdgeDataT,FaceDataT> &face)
+      : HEMeshBaseEdgeC(*new THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT>(vert,face))
     {}
     //: Constructor.
     
-    THEMeshEdgeC(THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT> vert,
-		 THEMeshFaceC<VertexDataT,EdgeDataT,FaceDataT> face);
+    THEMeshEdgeC(THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT> vert,
+		 THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> face);
     //: Constructor.
     
-    THEMeshEdgeC(THEMeshEdgeBodyC<VertexDataT,EdgeDataT,FaceDataT> &bod)
+    THEMeshEdgeC(THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &bod)
       : HEMeshBaseEdgeC(bod)
     {}
     //: Body constructor.
     
-    THEMeshEdgeBodyC<VertexDataT,EdgeDataT,FaceDataT> &Body()
-    { return static_cast<THEMeshEdgeBodyC<VertexDataT,EdgeDataT,FaceDataT> &> (HEMeshBaseEdgeC::Body()); }
+    THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &Body()
+    { return static_cast<THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &> (HEMeshBaseEdgeC::Body()); }
     //: Access body.
     
-    const THEMeshEdgeBodyC<VertexDataT,EdgeDataT,FaceDataT> &Body() const
-    { return static_cast<const THEMeshEdgeBodyC<VertexDataT,EdgeDataT,FaceDataT> &> (HEMeshBaseEdgeC::Body()); }
+    const THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &Body() const
+    { return static_cast<const THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &> (HEMeshBaseEdgeC::Body()); }
     //: Access body.
     
   public:
-    THEMeshEdgeC<VertexDataT,EdgeDataT,FaceDataT> Next()
-    { return THEMeshEdgeC<VertexDataT,EdgeDataT,FaceDataT>(Body().Next()); }
+    THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> Next()
+    { return THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT>(Body().Next()); }
     //: Get next edge on face.
     
-    THEMeshEdgeC<VertexDataT,EdgeDataT,FaceDataT> Prev()
-    { return THEMeshEdgeC<VertexDataT,EdgeDataT,FaceDataT>(Body().Prev()); }
+    THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> Prev()
+    { return THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT>(Body().Prev()); }
     //: Get previous edge on face.
     
-    THEMeshEdgeC<VertexDataT,EdgeDataT,FaceDataT> Next() const
-    { return THEMeshEdgeC<VertexDataT,EdgeDataT,FaceDataT>(const_cast<THEMeshEdgeBodyC<VertexDataT,EdgeDataT,FaceDataT> &>(Body().Next())); }
+    THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> Next() const
+    { return THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT>(const_cast<THEMeshEdgeBodyC<VertexDataT,EdgeDataT,FaceDataT> &>(Body().Next())); }
     //: Get next edge on face.
     
-    THEMeshEdgeC<VertexDataT,EdgeDataT,FaceDataT> Prev() const
-    { return THEMeshEdgeC<VertexDataT,EdgeDataT,FaceDataT>(const_cast<THEMeshEdgeBodyC<VertexDataT,EdgeDataT,FaceDataT> &>(Body().Prev())); }
+    THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> Prev() const
+    { return THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT>(const_cast<THEMeshEdgeBodyC<VertexDataT,EdgeDataT,FaceDataT> &>(Body().Prev())); }
     //: Get previous edge on face.
     
-    void LinkAfter(THEMeshEdgeC<VertexDataT,EdgeDataT,FaceDataT> &edge) 
+    void LinkAfter(THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> &edge) 
     { Body().LinkAfter(edge.Body()); }
     //: Link 'edge' after this one.
     // If the edge is already in a chain it MUST
     // be unlinked first with Unlink().
     
-    void LinkBefore(THEMeshEdgeC<VertexDataT,EdgeDataT,FaceDataT> &edge) 
+    void LinkBefore(THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> &edge) 
     { Body().LinkBefore(edge.Body()); }
     //: Link 'edge' before this one.
     // If the edge is already in a chain it MUST
     // be unlinked first with Unlink().
 
-    void CutPaste(THEMeshEdgeC<VertexDataT,EdgeDataT,FaceDataT> firstCut, THEMeshEdgeC<VertexDataT,EdgeDataT,FaceDataT> firstNotCut) 
+    void CutPaste(THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> firstCut, THEMeshEdgeC<VertexDataT,EdgeDataT,FaceDataT> firstNotCut) 
     { Body().CutPaste(firstCut.Body(),firstNotCut.Body()); }
     //: Splice edges between firstCut, and firstNotCut into this list.
     // Cuts the chain of edges starting at 'firstCut' and
@@ -128,30 +127,30 @@ namespace RavlN {
     // The rest of the chain is linked together again. The cut part
     // is linked in after this edge.
     
-    void SetPair(THEMeshEdgeC<VertexDataT,EdgeDataT,FaceDataT> edge)
+    void SetPair(THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> edge)
     { Body().SetPair(edge.Body()); }
     //: Set edge pair.
     
-    void SetFace(THEMeshFaceC<VertexDataT,EdgeDataT,FaceDataT> face);
+    void SetFace(THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> face);
     //: Set the face associated with the edge.
     
-    inline THEMeshFaceC<VertexDataT,EdgeDataT,FaceDataT> Face();
+    inline THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> Face();
     //: Access the face the edge lies on.
     
-    THEMeshEdgeC<VertexDataT,EdgeDataT,FaceDataT> Pair()
+    THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> Pair()
     { return THEMeshEdgeC(Body().Pair()); }
     //: Access edge's apair.
     
-    THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT> Vertex() const
+    THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT> Vertex() const
     { return Body().Vertex(); }
     //: Access vertex this edge goes to
     
-    THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT> SourceVertex() const 
+    THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT> SourceVertex() const 
     { return Prev().SourceVertex(); }
     //: Access vertex this edge comes from.
     
-    THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT> CollapseEdge() { 
-      THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT> ret = Body().CollapseEdge(); 
+    THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT> CollapseEdge() { 
+      THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT> ret = Body().CollapseEdge(); 
       delete body;
       body = 0;
       return ret;
@@ -161,7 +160,7 @@ namespace RavlN {
     // at either end.  The new vertex is returned. The edge is deleted,
     // and the handle becomes invalid after the call completes.
     
-    THEMeshFaceC<VertexDataT,EdgeDataT,FaceDataT> OpenEdge();
+    THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> OpenEdge();
     //: Open an edge, merging the faces on either side.
     // This deletes the edge from the mesh and returns
     // a handle to the new face. <p>
@@ -169,14 +168,14 @@ namespace RavlN {
     
   private:
     
-    friend class THEMeshBodyC<VertexDataT,EdgeDataT,FaceDataT>;
-    friend class THEMeshVertexBodyC<VertexDataT,EdgeDataT,FaceDataT>;
-    friend class THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT>;
-    friend class THEMeshVertexEdgeIterC<VertexDataT,EdgeDataT,FaceDataT>;
-    friend class THEMeshToVertexEdgeIterC<VertexDataT,EdgeDataT,FaceDataT>;
-    friend class THEMeshFaceC<VertexDataT,EdgeDataT,FaceDataT>;
-    friend class THEMeshFaceEdgeIterC<VertexDataT,EdgeDataT,FaceDataT>;
-    friend class THEMeshFaceBodyC<VertexDataT,EdgeDataT,FaceDataT>;
+    friend class THEMeshBodyC<VertexDataT,FaceDataT,EdgeDataT>;
+    friend class THEMeshVertexBodyC<VertexDataT,FaceDataT,EdgeDataT>;
+    friend class THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT>;
+    friend class THEMeshVertexEdgeIterC<VertexDataT,FaceDataT,EdgeDataT>;
+    friend class THEMeshToVertexEdgeIterC<VertexDataT,FaceDataT,EdgeDataT>;
+    friend class THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT>;
+    friend class THEMeshFaceEdgeIterC<VertexDataT,FaceDataT,EdgeDataT>;
+    friend class THEMeshFaceBodyC<VertexDataT,FaceDataT,EdgeDataT>;
   };
   
   //////////////////////////////////////////////////////////////////////////
@@ -185,7 +184,7 @@ namespace RavlN {
   //: Iterate through edges around a vertex. 
   // This goes through all the half edges pointing away from the vertex.
   
-  template<class VertexDataT,class EdgeDataT,class FaceDataT>
+  template<class VertexDataT,class FaceDataT = EmptyC,class EdgeDataT = EmptyC>
   class THEMeshVertexEdgeIterC 
     : public HEMeshBaseVertexEdgeIterC
   {
@@ -194,47 +193,47 @@ namespace RavlN {
     {}
     //: Default constructor.
 
-    THEMeshVertexEdgeIterC(THEMeshVertexBodyC<VertexDataT,EdgeDataT,FaceDataT> &vert) 
+    THEMeshVertexEdgeIterC(THEMeshVertexBodyC<VertexDataT,FaceDataT,EdgeDataT> &vert) 
       : HEMeshBaseVertexEdgeIterC(vert)
     {}
     //: Construct from a face
     
-    THEMeshVertexEdgeIterC(THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT> &vert) 
+    THEMeshVertexEdgeIterC(THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT> &vert) 
       : HEMeshBaseVertexEdgeIterC(vert)
     {}
     //: Construct from a face
     
-    THEMeshEdgeBodyC<VertexDataT,EdgeDataT,FaceDataT> &Data()
+    THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &Data()
     { return *at; }
     //: Access edge.
     // Iterator must be at a valid element
     // before calling this method.
     
-    const THEMeshEdgeBodyC<VertexDataT,EdgeDataT,FaceDataT> &Data() const
+    const THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &Data() const
     { return *at; }
     //: Access edge.
     // Iterator must be at a valid element
     // before calling this method.
     
-    const THEMeshEdgeBodyC<VertexDataT,EdgeDataT,FaceDataT> &operator *() const
+    const THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &operator *() const
     { return *at; }
     //: Access edge.
     // Iterator must be at a valid element
     // before calling this method.
     
-    THEMeshEdgeBodyC<VertexDataT,EdgeDataT,FaceDataT> &operator *()
+    THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &operator *()
     { return *at; }
     //: Access edge.
     // Iterator must be at a valid element
     // before calling this method.
 
-    const THEMeshEdgeBodyC<VertexDataT,EdgeDataT,FaceDataT> *operator ->() const
+    const THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> *operator ->() const
     { return at; }
     //: Access edge.
     // Iterator must be at a valid element
     // before calling this method.
     
-    THEMeshEdgeBodyC<VertexDataT,EdgeDataT,FaceDataT> *operator ->()
+    THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> *operator ->()
     { return at; }
     //: Access edge.
     // Iterator must be at a valid element
@@ -248,7 +247,7 @@ namespace RavlN {
   //: Iterate through edges around a vertex. 
   // This goes through all the half edges pointing to a vertex.
   
-  template<class VertexDataT,class EdgeDataT,class FaceDataT>
+  template<class VertexDataT,class FaceDataT = EmptyC,class EdgeDataT = EmptyC>
   class THEMeshToVertexEdgeIterC 
     : public HEMeshBaseToVertexEdgeIterC
   {
@@ -257,47 +256,47 @@ namespace RavlN {
     {}
     //: Default constructor.
     
-    THEMeshToVertexEdgeIterC(THEMeshVertexBodyC<VertexDataT,EdgeDataT,FaceDataT> &vert)
+    THEMeshToVertexEdgeIterC(THEMeshVertexBodyC<VertexDataT,FaceDataT,EdgeDataT> &vert)
       : HEMeshBaseToVertexEdgeIterC(vert)
     {}
     //: Construct from a face
     
-    THEMeshToVertexEdgeIterC(THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT> &vert) 
+    THEMeshToVertexEdgeIterC(THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT> &vert) 
       : HEMeshBaseToVertexEdgeIterC(vert)
     {}
     //: Construct from a face
     
-    THEMeshEdgeBodyC<VertexDataT,EdgeDataT,FaceDataT> &Data()
+    THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &Data()
     { return *at; }
     //: Access edge.
     // Iterator must be at a valid element
     // before calling this method.
     
-    const THEMeshEdgeBodyC<VertexDataT,EdgeDataT,FaceDataT> &Data() const
+    const THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &Data() const
     { return *at; }
     //: Access edge.
     // Iterator must be at a valid element
     // before calling this method.
     
-    const THEMeshEdgeBodyC<VertexDataT,EdgeDataT,FaceDataT> &operator *() const
+    const THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &operator *() const
     { return *at; }
     //: Access edge.
     // Iterator must be at a valid element
     // before calling this method.
     
-    THEMeshEdgeBodyC<VertexDataT,EdgeDataT,FaceDataT> &operator *()
+    THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> &operator *()
     { return *at; }
     //: Access edge.
     // Iterator must be at a valid element
     // before calling this method.
 
-    const THEMeshEdgeBodyC<VertexDataT,EdgeDataT,FaceDataT> *operator ->() const
+    const THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> *operator ->() const
     { return at; }
     //: Access edge.
     // Iterator must be at a valid element
     // before calling this method.
     
-    THEMeshEdgeBodyC<VertexDataT,EdgeDataT,FaceDataT> *operator ->()
+    THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> *operator ->()
     { return at; }
     //: Access edge.
     // Iterator must be at a valid element
