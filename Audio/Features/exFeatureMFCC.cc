@@ -10,10 +10,14 @@
 //! docentry="Ravl.Audio.Feature Extraction"
 //! userlevel=Normal
 //! file="Ravl/Audio/Features/exFeatureMFCC.cc"
-
+#include "Ravl/config.h" 
 #include "Ravl/Option.hh"
 #include "Ravl/Audio/FeatureMFCC.hh"
 #include "Ravl/DP/SequenceIO.hh"
+
+#if RAVL_COMPILER_MIPSPRO 
+#pragma instantiate RavlN::DPOPortBodyC<RavlN::VectorC>
+#endif
 
 using namespace RavlN;
 using namespace RavlAudioN;
