@@ -52,6 +52,20 @@ namespace RavlGUIN {
     return GTK_ADJUSTMENT (adj)->value; 
 #endif
   }
+
+  //: Create with a widget supplied from elsewhere.
+  
+  bool SpinButtonBodyC::Create(GtkWidget *nwidget) {
+    widget = nwidget;
+    
+    adj = GTK_OBJECT (gtk_spin_button_get_adjustment(GTK_SPIN_BUTTON(widget)));
+    
+    gtk_signal_connect (GTK_OBJECT (adj), "value_changed",
+			GTK_SIGNAL_FUNC (spinbutton_value_changed), this);
+    
+    ConnectSignals();
+    return true;
+  }
   
   //: Create widget.
   

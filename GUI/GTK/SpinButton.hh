@@ -56,6 +56,9 @@ namespace RavlGUIN {
   protected:
     virtual bool Create();
     //: Create widget.
+
+    virtual bool Create(GtkWidget *widget);
+    //: Create with a widget supplied from elsewhere.
     
     virtual void Destroy();
     //: Undo all references.

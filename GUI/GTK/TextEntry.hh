@@ -117,7 +117,14 @@ namespace RavlGUIN {
     
     TextEntryC(const StringC &text,IntT nMaxLen = -1,bool sigAllChanges = false, bool editable = true, IntT xsize = -1, IntT ysize = -1)
       : WidgetC(*new TextEntryBodyC(text,nMaxLen,sigAllChanges,editable,xsize,ysize))
-      {}
+    {}
+    //: Constructor
+    // The inital content of the entry is set to ntext.
+    // If MaxLen is set to a negative number, the length is unlimited.
+
+    TextEntryC(const char *text,IntT nMaxLen = -1,bool sigAllChanges = false, bool editable = true, IntT xsize = -1, IntT ysize = -1)
+      : WidgetC(*new TextEntryBodyC(text,nMaxLen,sigAllChanges,editable,xsize,ysize))
+    {}
     //: Constructor
     // The inital content of the entry is set to ntext.
     // If MaxLen is set to a negative number, the length is unlimited.

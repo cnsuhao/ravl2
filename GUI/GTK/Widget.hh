@@ -288,6 +288,11 @@ namespace RavlGUIN {
     {}
     //: Copy constructor.
     
+    WidgetC(bool) 
+      : RCHandleC<WidgetBodyC>(*new WidgetBodyC())
+    {}
+    //: Create an abstract widget handle.
+    
   protected:
     WidgetC(WidgetBodyC &bod) 
       : RCHandleC<WidgetBodyC>(bod)

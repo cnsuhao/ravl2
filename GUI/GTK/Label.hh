@@ -88,6 +88,11 @@ namespace RavlGUIN {
     {}
     //: Constructor
     
+    LabelC(const char *text)
+      : WidgetC(*new LabelBodyC(text))
+    {}
+    //: Constructor
+    
     LabelC()
     {}
     //: Default constructor.
