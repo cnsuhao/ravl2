@@ -96,7 +96,6 @@ namespace RavlConstN {
   const double realPrecision = DBL_EPSILON;
   //: Maximum real number X for which 1.0 + X = 1.0
 #else
-#error "DBL_EPSILON not defined."
   const double realPrecision = 1.0e-9;
   //: Maximum real number X for which 1.0 + X = 1.0
 #endif
