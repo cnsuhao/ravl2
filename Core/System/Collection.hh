@@ -9,6 +9,7 @@
 //////////////////////////////////////////////////////
 //! rcsid=$Id$
 //! docentry="Ravl.Core.Misc"
+//! author="Charles Galambos"
 //! lib=RavlCore
 
 #include "Ravl/SArray1d.hh"
@@ -115,8 +116,9 @@ namespace RavlN {
     
     CollectionC<DataT> Sample(SizeT ne) const;
     //: Take a random sample from the collection.
-    // This collection is not modified.
-
+    // This collection is not modified. NOTE: Items
+    // may be taken more than once.
+    
     DataT &operator[](IndexC ind) { 
       RavlAssertMsg(ind < n,"Index out of range.");
       return data[ind];

@@ -11,7 +11,8 @@ PACKAGE=Ravl
 
 HEADERS=StringList.hh Option.hh TypeName.hh BufStream.hh \
  SubStringList.hh XMLStream.hh XMLTree.hh \
- Collection.hh CollectionIter.hh IO.hh
+ Collection.hh CollectionIter.hh IO.hh \
+ DArray1d.hh DArray1dIter.hh DArray1dIter2.hh DArray1dIter3.hh
 
 SOURCES=StringList.cc Option.cc TypeName.cc BufStream.cc \
  SubStringList.cc XMLStream.cc XMLTree.cc StreamParse.cc

@@ -9,6 +9,7 @@
 //////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Core.Misc"
+//! author="Charles Galambos"
 //! lib=RavlCore
 
 #include "Ravl/Collection.hh"
