@@ -18,7 +18,7 @@
 #include "Ravl/Image/ByteRGBValue.hh"
 #include "Ravl/Image/RealRGBValue.hh"
 #include "Ravl/Image/ConvolveSeparable2d.hh"
-#include "Ravl/Matrix3d.hh"
+#include "Ravl/Projection2d.hh"
 
 namespace RavlImageN {
 
@@ -58,18 +58,11 @@ namespace RavlImageN {
     //: Set width of Gaussian low-pass filter
     // Default is 7 (i.e. a  s.d. of about 1.2)
 
-    void SetProjectiveScale(RealT imageScale, RealT mosaicScale);
-    //: Set the scales (i.e. 3rd, Z component) for the projective coordinate systems
-    // Should be set so that scale is commensurate with typical pixel coordinate values.  Can be set separately for video frame coordinates and mosaic coordinates . <br>
-    // Default is 100, 1.
-
-    ImageC<ByteRGBValueC> Apply(const ImageC<ByteRGBValueC>& img, Matrix3dC& homog);
+    ImageC<ByteRGBValueC> Apply(const ImageC<ByteRGBValueC>& img, Projection2dC& homog);
     //: Computes foreground image for corresponding input image and homography
     
   protected:
     ImageC<ByteRGBValueC> mosaic;
-    RealT mosaicZHomog;
-    RealT imageZHomog;
     ImageC<bool> kernel;
     RealT fgThreshold;  
     ImageC<bool> mask;

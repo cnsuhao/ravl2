@@ -10,7 +10,6 @@
 
 #include "Ravl/Image/ForegroundSep.hh"
 #include "Ravl/Image/ImageConv.hh"
-#include "Ravl/Matrix3d.hh"
 #include "Ravl/Image/WarpProjective.hh"
 #include "Ravl/Image/GaussConvolve2d.hh"
 #include "Ravl/Array2dIter2.hh"
@@ -25,7 +24,7 @@ namespace RavlImageN {
   using namespace RavlN;
   
   ForegroundSepC::ForegroundSepC(const ImageC<ByteRGBValueC>& nmosaic, RealT nfgThreshold, bool nprogressive) 
-    : mosaic(nmosaic), mosaicZHomog(1), imageZHomog(100),
+    : mosaic(nmosaic),
       fgThreshold(Sqr(nfgThreshold)*3), // saves computation later
       progressive(nprogressive)
 { 
@@ -96,18 +95,11 @@ void ForegroundSepC::SetFilter(IntT Width) {
 }
 
 
-//: Set the scales (i.e. 3rd, Z component) for the projective coordinate systems
-void ForegroundSepC::SetProjectiveScale(RealT imageScale, RealT mosaicScale) {
-  mosaicZHomog=mosaicScale,  imageZHomog=imageScale;
-}
-
-
 //: Computes foreground image for corresponding input image and homography
-ImageC<ByteRGBValueC> ForegroundSepC::Apply(const ImageC<ByteRGBValueC>& img,  Matrix3dC& homog) {
+ImageC<ByteRGBValueC> ForegroundSepC::Apply(const ImageC<ByteRGBValueC>& img,  Projection2dC& homog) {
     // warp mosaic into image space
     ImageC<ByteRGBValueC> warped_img(img.Rectangle());
-    Projection2dC proj(homog,imageZHomog,mosaicZHomog);
-    WarpProjectiveC<ByteRGBValueC,ByteRGBValueC> pwarp(img.Rectangle(),proj);
+    WarpProjectiveC<ByteRGBValueC,ByteRGBValueC> pwarp(img.Rectangle(),homog);
     pwarp.Apply(mosaic,warped_img);
     //Save("@X:mosaic", mosaic); Save("@X:image", img); Save("@X:warp", warped_img);
     

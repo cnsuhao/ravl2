@@ -44,13 +44,9 @@ namespace RavlImageN {
       zhomog(100), mosaicZHomog(1),
       K1(0), K2(0), cx_ratio(0.5), cy_ratio(0.5), fx(1.0), fy(1.0),
       filterSubsample(1), trackingHomogs(nVerbose), Parray(0),
-      Pmosaic(1.0,0.0,0.0,
-	      0.0,1.0,0.0,
-	      0.0,0.0,zhomog),
       frameNo(0),
       verbose(nVerbose)
-  { }
-  
+  { SetProjectiveScale(zhomog, mosaicZHomog); }
 
   //: Deprecated constructor
   MosaicBuilderBodyC::MosaicBuilderBodyC(
@@ -67,12 +63,9 @@ namespace RavlImageN {
     zhomog(nzhomog), mosaicZHomog(1), 
     K1(0), K2(0), cx_ratio(0.5), cy_ratio(0.5), fx(1), fy(1),
     filterSubsample(1), trackingHomogs(nVerbose), Parray(0),
-    Pmosaic(1.0,0.0,0,
-            0.0,1.0,0,
-	    0.0,0.0,zhomog),
     frameNo(0),
     verbose(nVerbose)
-  { }
+  { SetProjectiveScale(zhomog, mosaicZHomog); }
 
 
   //: Set binary mask to exclude regions from tracker
@@ -131,7 +124,7 @@ namespace RavlImageN {
       // If we are resizing the mosaic as we go, and mosaic rectangle needs 
       // expanding, then we need to copy mosaic to a new, bigger image.
       if (InvolveFrame(img.Rectangle(),Parray[frameNo]) && (resize==onepass)) {
-	if (verbose)  cout << "Mosaic was expanded" << endl;
+	if (verbose)  cout << "Mosaic was expanded to " << img.Rectangle() << endl;
 	ExpandMosaic();
       }
       WarpFrame(img);
@@ -205,24 +198,24 @@ namespace RavlImageN {
     // frame 0 is a special case
     if (frameNo == 0)  {
       trackingHomogs.Reset(RGBImageCT2ByteImageCT(img));
-      Matrix3dC mosaicHomog(Im2Mosaic(img));
+      Projection2dC mosaicHomog(Im2Mosaic(img));
       Parray.Append(mosaicHomog);
       if (verbose) cout << "Mosaic homography:\n"<< Parray[0]<<endl;
-      return mosaicHomog.IsReal();
+      return mosaicHomog.IsValid();
     }
     else {
-      Matrix3dC P = trackingHomogs.Apply(RGBImageCT2ByteImageCT(img));
+      Projection2dC P = trackingHomogs.Apply(RGBImageCT2ByteImageCT(img));
       // accumulate homography
       Psum = P*Psum;
       Parray.Append(Psum*Pmosaic);
-      return P.IsReal();
+      return P.IsValid();
     }
   }
 
 
   //: Expand mosaic rectangle to include projected frame corners
-  bool MosaicBuilderBodyC::InvolveFrame(const IndexRange2dC& rect, const Matrix3dC& homog) {
-    Projection2dC warp(homog.Inverse(), mosaicZHomog, zhomog);
+  bool MosaicBuilderBodyC::InvolveFrame(const IndexRange2dC& rect, const Projection2dC& homog) {
+    Projection2dC warp(homog.Inverse());
     if (frameNo == 0) { 
       // initialise rectangle at pixel guaranteed in projected image
       mosaicRect = IndexRange2dC(warp.Project(rect.Center()), 1); 
@@ -258,7 +251,7 @@ namespace RavlImageN {
     if (frameNo == 0) {
       mosaic = ImageC<ByteRGBMedianC>(mosaicRect);
     }
-    WarpProjectiveC<ByteRGBValueC,ByteRGBMedianC,PixelMixerRecursiveC<ByteRGBValueC,ByteRGBMedianC> > pwarp(mosaic.Rectangle(),Parray[frameNo].Inverse(),zhomog,1.0,false);
+    WarpProjectiveC<ByteRGBValueC,ByteRGBMedianC,PixelMixerRecursiveC<ByteRGBValueC,ByteRGBMedianC> > pwarp(mosaic.Rectangle(),Parray[frameNo].Inverse(),false);
     pwarp.Apply(img,mosaic);
   }
 
@@ -278,7 +271,7 @@ namespace RavlImageN {
       if(!input.Get(img))  break;
       PrepareFrame(img) ;
       // Separate out the f/g
-      Matrix3dC homog (GetMotion(frameNo));
+      Projection2dC homog (GetMotion(frameNo));
       img = fgSep.Apply(img, homog);
       // Write an image out.
       outp.Put(img);
@@ -287,7 +280,7 @@ namespace RavlImageN {
   }
 
   //: Computes the homography between the first frame and the mosaic
-  Matrix3dC MosaicBuilderBodyC::Im2Mosaic(const ImageC<ByteRGBValueC> &img) {    
+  Projection2dC MosaicBuilderBodyC::Im2Mosaic(const ImageC<ByteRGBValueC> &img) {    
     // initialise accumulated motion Psum by solving for transformation
     // from mosaic coords to image coords
     //  p1 is array of frame corners
@@ -327,9 +320,9 @@ namespace RavlImageN {
     
     // solve for solution vector
     SolveIP(A,b);
-    Psum = Matrix3dC(b[0], b[1], b[2],
+    Psum = Projection2dC(Matrix3dC(b[0], b[1], b[2],
 		     b[3], b[4], b[5],
-		     b[6], b[7], 1.0);
+		     b[6], b[7], 1.0), zhomog, zhomog);
     Psum = Psum.Inverse();
     return Psum*Pmosaic;    
     // So at this point, the result will transform a point from mosaic coords to frame 0 coords, using the "mosaic" coordinate system

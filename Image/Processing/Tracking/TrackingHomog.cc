@@ -13,7 +13,7 @@ namespace RavlImageN {
 
   TrackingHomogBodyC::TrackingHomogBodyC(bool nVerbose)
     : tracker(30,7,20,17,8,25,1),
-      zhomog(100), fitHomog2d(zhomog,zhomog),
+      zhomog(100), fitHomog2d(zhomog,zhomog), // 100 is default projective scale
       epos(2), evalInliers(1.0,2.0),
       verbose(nVerbose)
   {
@@ -31,10 +31,7 @@ namespace RavlImageN {
   }
 
 
-  Matrix3dC TrackingHomogBodyC::Apply(const ImageC<ByteT> &img) {
-    // for failed homography
-    Matrix3dC nan;
-    nan.Fill(RavlConstN::nanReal);
+  Projection2dC TrackingHomogBodyC::Apply(const ImageC<ByteT> &img) {
     // Apply tracker to image.
     corners = tracker.Apply(img);
     // Generate an observation set for tracked points.
@@ -61,14 +58,20 @@ namespace RavlImageN {
     RansacC ransac(obsListManager,fitHomog2d,evalInliers);
 
     for(int i = 0;i <100;i++) {
-      ransac.ProcessSample(8);
+      try {
+	ransac.ProcessSample(8);
+      }
+      catch (ExceptionC ex) {
+	cerr << "Ravl Exception caught in RansacC::ProcessSample\n"
+	     << ex.Text() << endl;
+      }  
     }
 
     // carry on optimising solution if Ransac succeeding
     if(!ransac.GetSolution().IsValid()) {
       
       cerr << "Failed to find a solution" << endl;
-      return nan;
+      return Projection2dC();  // null projection
     }
 
     // select observations compatible with solution
@@ -105,7 +108,7 @@ namespace RavlImageN {
     } catch(...) {
       // Failed to find a solution.
       cerr << "Caught exception from LevenbergMarquardtC. \n";
-      return nan;
+      return Projection2dC();  // null projection
     }
 
     // get solution homography
@@ -115,7 +118,7 @@ namespace RavlImageN {
 
     if (verbose)  cout << "Solution:\n" << P << endl;
 
-    return P;
+    return Projection2dC(P, zhomog, zhomog);
   }
 
 }

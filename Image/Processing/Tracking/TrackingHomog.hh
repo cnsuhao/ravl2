@@ -12,7 +12,7 @@
 #include "Ravl/FitHomog2dPoints.hh"
 #include "Ravl/EvaluateNumInliers.hh"
 #include "Ravl/Image/Image.hh"
-#include "Ravl/Matrix3d.hh"
+#include "Ravl/Projection2d.hh"
 
 namespace RavlImageN {
 
@@ -53,18 +53,22 @@ namespace RavlImageN {
 	zhomog = scale;
 	fitHomog2d = FitHomog2dPointsC(zhomog, zhomog);
       }
-    //: Set the scale (i.e. 3rd, Z component) for the projective coordinate systems
+    //: Set the projective scale (i.e. 3rd, Z component) for the projective coordinate systems
     // Should be set so that scale is commensurate with typical pixel coordinate values.  <br>
     // Default is 100.
+
+    RealT ProjectiveScale() const 
+      { return zhomog; }
+    //: Returns projective scale
 
     void Reset(const ImageC<ByteT> &img)
       { last = tracker.Apply(img); }
     //: Initialise the tracker with first image
     // <b>Must</b> be called before Apply() is used
 
-    Matrix3dC Apply(const ImageC<ByteT> &img);
+    Projection2dC Apply(const ImageC<ByteT> &img);
     //: Compute homography between "img" and previous one
-    // The result will map pixels from the previous image into the corresponding location in the current image.
+    // The result will map points from the previous image into the corresponding location in the current image.
 
 
   protected:
@@ -124,13 +128,17 @@ namespace RavlImageN {
     // Default is 100.
     //!cwiz:author
     
+    RealT ProjectiveScale() const 
+    { return Body().ProjectiveScale(); }
+    //: Returns projective scale
+
     void Reset(const ImageC<ByteT> & img) 
     { Body().Reset(img); }
     //: Initialise the tracker with first image 
     // <b>Must</b> be called before Apply() is used
     //!cwiz:author
     
-    Matrix3dC Apply(const ImageC<ByteT> & img) 
+    Projection2dC Apply(const ImageC<ByteT> & img) 
     { return Body().Apply(img); }
     //: Compute homography between "img" and previous one 
     // The result will map pixels from the previous image into the corresponding location in the current image.

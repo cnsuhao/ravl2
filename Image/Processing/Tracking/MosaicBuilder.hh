@@ -16,7 +16,7 @@
 //! example="mosaic.cc"
 
 #include "Ravl/Index.hh"
-#include "Ravl/Matrix3d.hh"
+#include "Ravl/Projection2d.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
 #include "Ravl/Image/ByteRGBMedian.hh"
 #include "Ravl/RCHash.hh"
@@ -103,9 +103,7 @@ namespace RavlImageN {
       { 
 	zhomog = imageScale, mosaicZHomog = mosaicScale;
 	trackingHomogs.SetProjectiveScale(imageScale);
-	Pmosaic = Matrix3dC(1.0,0.0,0.0,
-			    0.0,1.0,0.0,
-			    0.0,0.0,zhomog);
+	Pmosaic = Projection2dC::I(zhomog, mosaicZHomog);
       }
     //: Set the scales (i.e. 3rd, Z component) for the projective coordinate systems
     // Should be set so that scale is commensurate with typical pixel coordinate values.  Can be set separately for video frame coordinates and mosaic coordinates . <br>
@@ -142,7 +140,7 @@ namespace RavlImageN {
     //: Methods to get information from the mosaic builder
     // They can be called while the mosaic is being built to get partial information
 
-    Matrix3dC GetMotion(IndexC frame) const
+    Projection2dC GetMotion(IndexC frame) const
     //: Returns the 2D projective motion of the specified frame relative to the mosaic.
     {
       RavlAssertMsg(Parray.Size()>frame && frame>=0 && frame<=frameNo,
@@ -150,7 +148,7 @@ namespace RavlImageN {
       return Parray[frame];
     }
     
-    DArray1dC<Matrix3dC> GetMotion() const 
+    DArray1dC<Projection2dC> GetMotion() const 
     //: Returns the 2D projective motions of all of the frames relative to the mosaic. 
     { return Parray; }
 
@@ -177,7 +175,7 @@ namespace RavlImageN {
     bool FindProj(const ImageC<ByteRGBValueC> &img);
     //: Computes homography between current frame and mosaic
 
-    bool InvolveFrame(const IndexRange2dC& rect, const Matrix3dC& homog);
+    bool InvolveFrame(const IndexRange2dC& rect, const Projection2dC& homog);
     //: Expand mosaic rectangle to include projected frame corners
 
     void ExpandMosaic();
@@ -187,7 +185,7 @@ namespace RavlImageN {
     //: Warps current frame into mosaic coords and adds to mosaic
     // Returns true if expansion of mosaic was requested and needed
 
-    Matrix3dC Im2Mosaic(const ImageC<ByteRGBValueC> &img);
+    Projection2dC Im2Mosaic(const ImageC<ByteRGBValueC> &img);
     //: Computes the homography between the first frame and the mosaic
     
     bool GetImage(ImageC<ByteRGBValueC>& img)
@@ -218,11 +216,11 @@ namespace RavlImageN {
     // stored data
     TrackingHomogC trackingHomogs; // engine that generates interframe homographies from tracked corners
     ImageC<bool> mask;  // identifies regions to be ignored for tracking
-    DArray1dC<Matrix3dC> Parray; // array of projections from mosaic coord frame into image coord frame (~ Psum * Pmosaic)
+    DArray1dC<Projection2dC> Parray; // array of projections from mosaic coord frame into image coord frame (~ Psum * Pmosaic)
     IndexRange2dC cropRect;  // rectangle for cropped image
     IndexRange2dC mosaicRect;  // rectangle for mosaic
-    Matrix3dC Psum; // the accumulated motion as a product of the individual interframe motions
-    Matrix3dC Pmosaic;  // rescales the z component of a point
+    Projection2dC Psum; // the accumulated motion as a product of the individual interframe motions
+    Projection2dC Pmosaic;  // rescales the z component of a point
     ImageC<ByteRGBMedianC> mosaic;  // the median of all of the warped images (& hence contains the pixels from all of these images)
     DPISPortC<ImageC<ByteRGBValueC> > input; // i/p image stream
     IndexC frameNo;
@@ -378,11 +376,11 @@ namespace RavlImageN {
     //: Methods to get information from the mosaic builder
     // They can be called while the mosaic is being built to get partial information
 
-    Matrix3dC GetMotion(IndexC frame) const
+    Projection2dC GetMotion(IndexC frame) const
     { return Body().GetMotion(frame); }
     //: Returns the 2D projective motion of the specified frame relative to the mosaic.
     
-    DArray1dC<Matrix3dC> GetMotion() const 
+    DArray1dC<Projection2dC> GetMotion() const 
     {return Body().GetMotion();}
     //: Returns the 2D projective motions of all of the frames relative to the mosaic. 
 
@@ -414,11 +412,11 @@ namespace RavlImageN {
       { return Body().FindProj(img); }
     //: Computes homography between current frame and mosaic
 
-    Matrix3dC Im2Mosaic(const ImageC<ByteRGBValueC> &img)
+    Projection2dC Im2Mosaic(const ImageC<ByteRGBValueC> &img)
       { return Body().Im2Mosaic(img); }
     //: Computes the homography between the first frame and the mosaic
     
-    bool InvolveFrame(const IndexRange2dC& rect, const Matrix3dC& homog)
+    bool InvolveFrame(const IndexRange2dC& rect, const Projection2dC& homog)
       { return Body().InvolveFrame(rect, homog); }
     //: Expand mosaic rectangle to include projected frame corners
     // Returns true if expansion of mosaic was requested and needed
