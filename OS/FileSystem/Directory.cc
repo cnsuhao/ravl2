@@ -205,6 +205,32 @@ namespace RavlN {
     return *filt == 0; // Must have found end of input, is filter there as well ?
   }
   
+  //: Search a directory tree for files matching 'filter'
+  // Returns a list of absolute paths to matching files. The filter
+  // is the same as 'FiltList'
+  
+  DListC<StringC> DirectoryC::SearchTree(const StringC &filter) const {
+    DListC<StringC> ret;
+    DListC<StringC> list = DirectoryC::List();
+    DirectoryC file;  
+    for(DLIterC<StringC> it(list);it;it++) {
+      ONDEBUG(cerr << "DirectoryC::SearchTree() Testing:" << it.Data() << "\n");
+      if(it->lastchar() != '/')
+	file = (*this) + '/' + *it;
+      else
+	file = (*this) + *it;
+      if(file.IsDirectory()) {
+	DListC<StringC> lst = file.SearchTree(filter);
+	ret.MoveLast(lst);
+      }
+      else { // Don't match directories...
+	if(MatchFilt(filter.chars(),it.Data().chars()))
+	  ret.InsLast(file);
+      }
+    }
+    return ret;
+  }
+
   /////////////////////////////////////
   //: Copy all files in this directory into 'othDir'.
   // This will make 'othDir' if necissary. When 'rec' is true

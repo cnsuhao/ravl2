@@ -59,8 +59,14 @@ namespace RavlN {
     DListC<StringC> FiltList(const StringC &filter) const;
     //: List contents of directory, returning only files matching
     //: the given filter.
+    // The wild cards are the usual UNIX ones: '*','?' and '\' to escape.  <br>
+    // '*' Matches any string. '?' matches any single charactor. <br>
     // '..' and '.' are not returned in the list. 
     
+    DListC<StringC> SearchTree(const StringC &filter) const;
+    //: Search a directory tree for files matching 'filter'
+    // Returns a list of absolute paths to matching files. The filter
+    // is the same as 'FiltList'
     
     bool Copy(const FilenameC &othDir,bool rec = true,bool lazy = false,bool sync = false,bool verb = false);
     //: Copy all files in this directory into 'othDir'.
