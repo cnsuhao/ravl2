@@ -9,6 +9,7 @@
 //! author="Charles Galambos"
 //! lib=RavlNet
 
+#include "Ravl/OS/Date.hh"
 #include "Ravl/OS/NetPortManager.hh"
 #include "Ravl/OS/NetPortClient.hh"
 #include "Ravl/Threads/LaunchThread.hh"
@@ -33,7 +34,7 @@ namespace RavlN {
   
   bool NetPortManagerBodyC::Open(const StringC &addr) {
     ONDEBUG(cerr << "NetPortManagerBodyC::Open(), Called for " << addr << " \n");
-
+    
     RWLockHoldC hold(access,false);
     if(managerOpen) {
       cerr << "NetPortManagerBodyC::Open(), Attempt to re-open port manager at '" << addr << "'\n";
@@ -49,7 +50,8 @@ namespace RavlN {
     managerOpen = true;
     NetPortManagerC manager(*this);
     LaunchThread(manager,&NetPortManagerC::Run);
-    
+    Sleep(0.1);
+    // FIXME:- Should wait till we know its started before returning ?
     return true;
   }
 
@@ -68,7 +70,7 @@ namespace RavlN {
     }
     return true;
   }
-
+  
   //: Search for port in table.
   
   NetISPortServerBaseC NetPortManagerBodyC::Lookup(const StringC &name) {
@@ -106,8 +108,7 @@ namespace RavlN {
   
   //: Open net port manager.
   
-  bool NetPortOpen(const StringC &addr) {
-    return GlobalNetPortManager().Open(addr);
-  }
+  bool NetPortOpen(const StringC &addr) 
+  { return GlobalNetPortManager().Open(addr); }
 
 }

@@ -37,19 +37,17 @@ int testNetPort() {
   lst.InsLast(1);
   lst.InsLast(2);
   lst.InsLast(3);
-
-  cerr << "testNetPort(), Start port sever.. \n";
+  
+  cerr << "testNetPort(), Start port server. \n";
   
   StringC server = "localhost:4045";  
   if(!NetPortOpen(server)) {
     cerr << "Failed to open netPortManager. \n";
     return __LINE__;
   }
-  
   // Setup server IPort.
   cerr << "testNetPort(), Setup server IPort. \n";
   DPIPortC<IntT> op = DPIContainer(lst);
-  
   
   if(!NetExport("test1",op)) {
     cerr << "Failed to export 'test1' \n";
