@@ -16,6 +16,7 @@
 //! userlevel=Normal
 
 #include "Ravl/DP/Port.hh"
+#include "Ravl/DP/IOPort.hh"
 
 namespace RavlN {
   //! userlevel=Develop

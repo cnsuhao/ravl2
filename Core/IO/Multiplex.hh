@@ -16,6 +16,7 @@
 //! date="04/07/1998"
 
 #include "Ravl/DP/Port.hh"
+#include "Ravl/DP/IOPort.hh"
 #include "Ravl/SArray1d.hh"
 
 #define DPMDEBUG 0

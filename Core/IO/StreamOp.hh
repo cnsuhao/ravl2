@@ -41,6 +41,10 @@ namespace RavlN {
       : DPEntityBodyC(in)
     {}
     //: Binary stream constructor.
+
+    virtual StringC OpName() const
+    { return StringC("generic"); }
+    //: Op type name.
     
     virtual DListC<DPIPlugBaseC> IPlugs() const;
     //: Input plugs.
@@ -94,6 +98,9 @@ namespace RavlN {
     //: Access body.
     
   public:
+    StringC OpName() const
+    { return Body().OpName(); }
+    //: Op type name.
     
     DListC<DPIPlugBaseC> IPlugs() const
     { return Body().IPlugs(); }

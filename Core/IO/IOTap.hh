@@ -15,6 +15,7 @@
 //! date="20/07/1998"
 
 #include "Ravl/DP/Port.hh"
+#include "Ravl/DP/IOPort.hh"
 #include "Ravl/Tuple2.hh"
 #include "Ravl/Assert.hh"
 

@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLDPFUNC2STREAM_HEADER
-#define RAVLDPFUNC2STREAM_HEADER 1
+#ifndef RAVL_DPFUNC2STREAM_HEADER
+#define RAVL_DPFUNC2STREAM_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Core.Data Processing.Internal" 

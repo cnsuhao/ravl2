@@ -296,41 +296,7 @@ namespace RavlN {
     }
     return data.Size();
   }
-  
-  //! userlevel=Develop
-  //: Input/Output port body.
-  
-  template<class InT,class OutT>
-  class DPIOPortBodyC 
-    : public DPIPortBodyC<InT>, 
-      public DPOPortBodyC<OutT> 
-  {
-  public:
-    DPIOPortBodyC() 
-    {}
-    //: Default constructor.
     
-    DPIOPortBodyC(const StringC &nportId)
-      : DPIPortBodyC<InT>(nportId),
-	DPOPortBodyC<OutT>(nportId)
-    {}
-    //: Constructor with a port id.
-    
-    DPIOPortBodyC(istream &in) 
-      : DPIPortBodyC<InT>(in),
-	DPOPortBodyC<OutT>(in)
-    {}
-    //: Stream constructor.
-    
-    virtual bool Save(ostream &out) const  {
-      if(!DPIPortBodyC<InT>::Save(out))
-	return false;
-      return DPOPortBodyC<OutT>::Save(out);
-    }
-    //: Save to ostream.
-    
-  };
-  
   template<class DataT> class DPPlugC;
   
   ///////////////////////////
@@ -686,76 +652,5 @@ namespace RavlN {
     return s; 
   }
   
-  //////////////////////////////
-  //! userlevel=Normal
-  //: Input/Output port.
-  
-  template<class InT,class OutT>
-  class DPIOPortC 
-    : public DPIPortC<InT>, 
-      public DPOPortC<OutT> 
-  {
-  public:
-    DPIOPortC() 
-      : DPEntityC(true)
-    {}
-    // Default constructor.
-    
-    DPIOPortC(const DPIOPortC<InT,OutT> &oth) 
-      : DPEntityC(oth),
-	DPIPortC<InT>(oth),
-	DPOPortC<OutT>(oth)
-    {}
-    //: Copy constructor.
-    
-    DPIOPortC(DPIOPortBodyC<InT,OutT> &bod) 
-      : DPEntityC(bod),
-	DPIPortC<InT>(bod),
-	DPOPortC<OutT>(bod)
-    {}
-    //: Body constructor.
-    
-    DPIOPortC(istream &in) 
-      : DPEntityC(in)
-    {}
-    //: Stream constructor.
-    
-    inline const DPIOPortC<InT,OutT> Copy() const  { 
-      if(!IsValid())
-	return DPIOPortC<InT,OutT>(); // Nothing to copy.
-      return DPIOPortC<InT,OutT>(dynamic_cast<DPIOPortBodyC<InT,OutT> &>(Body().Copy())); 
-    }
-    //: Make a copy of this process.
-    
-    DPIPortC<InT> &In() { return *this; }
-    //: Use as input port.
-    // (Get from.)
-    
-    DPOPortC<OutT> &Out() { return *this; }
-    //: Use as output port.
-    // (Put to.)
-    
-  protected:
-    DPIOPortBodyC<InT,OutT> &Body() 
-    { return dynamic_cast<DPIOPortBodyC<InT,OutT> &>(DPEntityC::Body()); }
-    //: Access body.
-    
-    const DPIOPortBodyC<InT,OutT> &Body() const
-    { return dynamic_cast<const DPIOPortBodyC<InT,OutT> &>(DPEntityC::Body()); }
-    //: Access body.
-  };
-  
-  template <class InT,class OutT>
-  ostream & operator<<(ostream & s,const DPIOPortC<InT,OutT> &port) { 
-    port.Save(s); 
-    return s; 
-  }
-  
-  template <class InT,class OutT>
-  istream & operator>>(istream & s, DPIOPortC<InT,OutT> &port) { 
-    DPIOPortC<InT,OutT> nport(s); 
-    port = nport; 
-    return s; 
-  }
 }
 #endif

@@ -38,6 +38,7 @@ int conv(const int &val) {
 }
 
 template class DPFunc2ProcC<int,int,conv>;
+template class DPIOPortBodyC<int,int>;
 
 int testSimple(); 
 int testMultiplex();
