@@ -69,11 +69,13 @@ namespace RavlN  {
     //: Constructor.
   // From a IStreamC.
     
+#if RAVL_HAVE_INTFILEDESCRIPTORS
     BinIStreamC(int fd)
       : in(fd)
       {}
     //: Constructor.
     // From a file descriptor.
+#endif
     
     BinIStreamC(const StringC &nIn,bool buffered = true)
       : in(nIn,true,buffered) // Open binary stream.
@@ -157,11 +159,13 @@ namespace RavlN  {
     {}
     //: Constructor.
     
+#if RAVL_HAVE_INTFILEDESCRIPTORS
     BinOStreamC(int fd)
       : out(fd)
     {}
     //: Constructor.
     // From a file descriptor.
+#endif
     
     BinOStreamC(const StringC &nOut,bool buffered = true)
       : out(nOut,true,buffered) // Open binary stream.

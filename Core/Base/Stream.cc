@@ -310,7 +310,11 @@ namespace RavlN {
     va_list args;
     va_start(args,format);
     char buff[formSize];
+#if RAVL_OS_WIN32
+    int x = vsprintf(buff,format,args);
+#else
     int x = vsnprintf(buff,formSize,format,args);
+#endif
     if(x < 0) 
       cerr << "OStreamC::form(...), WARNING: Output string is over buffer length. \n";
     else

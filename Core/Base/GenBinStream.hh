@@ -35,11 +35,13 @@ namespace RavlN  {
     //: Constructor.
     // From a IStreamC, swapEndian is true if you want to switch between big and little endian.
     
+#if RAVL_HAVE_INTFILEDESCRIPTORS
     GenBinIStreamC(int fd, const bool swapEndian = false)
       : in(fd)
       {toSwap = swapEndian;}
     //: Constructor.
     // From a file descriptor, swapEndian is true if you want to switch between big and little endian.
+#endif
 
     GenBinIStreamC(const StringC &nIn, const bool swapEndian = false ,bool buffered = true)
       : in(nIn,true,buffered) // Open binary stream.
@@ -126,11 +128,13 @@ namespace RavlN  {
     //: Constructor. 
     // From an OstreamC object. swapEndian is true if you want to switch between big and little endian.
 
+#if RAVL_HAVE_INTFILEDESCRIPTORS
     GenBinOStreamC(int fd, const bool swapEndian = false)
       : out(fd)
     {toSwap = swapEndian;}
     //: Constructor.
     // From a file descriptor, swapEndian is true if you want to switch between big and little endian.
+#endif
     
     GenBinOStreamC(const StringC &nOut, const bool swapEndian = false, bool buffered = true)
       : out(nOut,true,buffered) // Open binary stream.

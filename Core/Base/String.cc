@@ -777,9 +777,16 @@ namespace RavlN {
     va_start(args,format);
     char buff[formSize];
     int x;
+#if RAVL_OS_WIN32
+    if((x = vsprintf(buff,format,args)) < 0)
+      cerr << "WARNING: StringC::form(...), String truncated!! \n";
+    StringC oth(buff);
+    (*this) = oth;  // Slower, but saves memory.
+#else
     if((x = vsnprintf(buff,formSize,format,args)) < 0)
       cerr << "WARNING: StringC::form(...), String truncated!! \n";
     (*this) = StringC(buff);  // Slower, but saves memory.
+#endif
     va_end(args);
     return x;
   }
