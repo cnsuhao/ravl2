@@ -13,13 +13,15 @@ HEADERS= MeshIO.hh \
          VRMLFileIO.hh FormatVRMLFile.hh \
          CTriFileIO.hh FormatCTriFile.hh \
          TriFileIO.hh FormatTriFile.hh \
-         MeshIOObj.hh FormatMeshObj.hh
+         MeshIOObj.hh FormatMeshObj.hh \
+	 POVRayFileIO.hh FormatPOVRayFile.hh
 
 SOURCES= VRMLFileIO.cc FormatVRMLFile.cc \
 	 CTriFileIO.cc FormatCTriFile.cc \
 	 TriFileIO.cc FormatTriFile.cc \
          MeshIOObj.cc FormatMeshObj.cc \
-	 TriMeshIO.cc TexTriMeshIO.cc
+	 TriMeshIO.cc TexTriMeshIO.cc \
+	 POVRayFileIO.cc FormatPOVRayFile.cc
 
 MUSTLINK= RavlMeshIO.cc
 
