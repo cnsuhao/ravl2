@@ -319,8 +319,8 @@ namespace RavlDFN {
       return ; // Nowhere to render to yet.
     gdk_draw_rectangle(widget->window,
 		       widget->style->white_gc,1,
-		       area.TRow().V(),area.LCol().V(),
-		       area.Range1().Size(),area.Range2().Size());
+		       area.LCol().V(),area.TRow().V(),
+		       area.Range2().Size(),area.Range1().Size());
     
     for(DLIterC<ViewElementC> it(elements);it;it++) {
       //ONDEBUG(cerr << "GUIViewBodyC::Render(const IndexRange2dC &), Obj=" << it->Object().Name() << " At=" << it->AttachPoint() << " Intersect=" << it->Intersects(area) << "\n");
@@ -626,8 +626,9 @@ namespace RavlDFN {
 		       expose.area.x,expose.area.y,
 		       expose.area.width + expose.area.x,
 		       expose.area.height + expose.area.y);
-    IndexRange2dC area(expose.area.x,expose.area.width + expose.area.x,
-		       expose.area.y,expose.area.height + expose.area.y
+    
+    IndexRange2dC area(expose.area.y,expose.area.height + expose.area.y,
+		       expose.area.x,expose.area.width + expose.area.x
 		       );
     Render(area);
     return true;

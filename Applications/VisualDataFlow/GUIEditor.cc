@@ -76,8 +76,8 @@ namespace RavlDFN {
 			MenuItemR("quit",*this,&DFEditorBodyC::Quit)
 			) +
 		  MenuC("Insert",
-			MenuItemShow("Output port",fileSelInput) +
-			MenuItemShow("Input port" ,fileSelOutput)
+			MenuItemShow("Output port",fileSelOutput) +
+			MenuItemShow("Input port" ,fileSelInput)
 			) +
 		  MenuC("Options",
 			MenuCheckItemR("Auto Convert",viewGUI.AutoConvert(),viewGUI,&GUIViewC::SetAutoConvert)
