@@ -78,7 +78,7 @@ namespace RavlN {
   GaussianMixtureBodyC::GaussianMixtureBodyC(istream &strm) 
     : FunctionBodyC(strm) { 
     strm >> params >> weights >> isDiagonal; 
-    precompute();
+    precompute(false); //: should of already regularised before writing to file, no need to do it again
   }
   
   
@@ -94,7 +94,7 @@ namespace RavlN {
   GaussianMixtureBodyC::GaussianMixtureBodyC(BinIStreamC &strm) 
     : FunctionBodyC(strm) { 
     strm >> params  >> weights >> isDiagonal;     
-    precompute();
+    precompute(false); //: should of already regularised before writing to file
   }
 
   //: Writes object to binary stream.  
@@ -122,7 +122,7 @@ namespace RavlN {
   }
 
   //: Precompute the inverse matrices e.t.c..
-  void GaussianMixtureBodyC::precompute()
+  void GaussianMixtureBodyC::precompute(bool regularise)
   {
 
     //: For speed, lets precompute some stuff
@@ -133,13 +133,14 @@ namespace RavlN {
     RealT smallVariance = 0.001;
     RealT smallDeterminant = 1e-20;
 
-
     //: lets regularise our model
-    //: this has effect of increasing the distance slighty in all orhogonal directions
+    //: this has effect of increasing the distance slighty in all orthogonal directions
     //: not great, bit of  a hack
-    for(SArray1dIterC<MeanCovarianceC> paramIt(params);paramIt;paramIt++)  {
-      for (UIntT i=0; i<inputSize; i++)
-	paramIt.Data().Covariance()[i][i] += smallVariance;
+    if(regularise) {
+      for(SArray1dIterC<MeanCovarianceC> paramIt(params);paramIt;paramIt++)  {
+	for (UIntT i=0; i<inputSize; i++)
+	  paramIt.Data().Covariance()[i][i] += smallVariance;
+      }
     }
     
     //: make room for the arrays

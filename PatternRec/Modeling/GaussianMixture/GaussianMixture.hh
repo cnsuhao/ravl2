@@ -15,6 +15,7 @@
 #include "Ravl/PatternRec/Function.hh"
 #include "Ravl/MeanCovariance.hh"
 
+
 namespace RavlN {
 
   //! userlevel=Develop
@@ -48,13 +49,13 @@ namespace RavlN {
     
     virtual VectorC Apply(const VectorC &data) const;
     //: Reduce the dimension of 'data'.
-    
+
     RealT DensityValue(const VectorC & X) const
-    { return Apply(X).Sum(); }
+      { return Apply(X).Sum(); }
     //: Return the denisty value at point X
 
   protected:
-    void precompute();
+    void precompute(bool regularise=true);
     //: precompute the inverse covariances, determinants e.t.c.
     
     SArray1dC<MeanCovarianceC>params; 
@@ -131,7 +132,7 @@ namespace RavlN {
     
   public:
     RealT DensityValue(const VectorC & X) const
-    { return Body().DensityValue(X); }
+      { return Body().DensityValue(X); }
     //: Return the density value at point X
 
   };
