@@ -76,6 +76,11 @@ namespace RavlN {
     // held on the collection. <p>
     // The index at which the item was placed is returned.
     
+    inline void Delete(IndexC ind)
+    { data[ind] = data[--n]; }
+    //: Remove item at 'ind' from the collection.
+    // Note the last item in the collection will be moved
+    // to replace element at 'ind'
     
     DataT Pick();
     //: Pick a random item from the collection.
@@ -217,7 +222,11 @@ namespace RavlN {
     //  NB. This may cause the storage array to 
     // be reallocated which will invalidate any iterators
     // held on the collection.
-
+    
+    void Delete(IndexC ind)
+    { Body().Delete(ind); }
+    //: Remove item at 'ind' from the collection.
+    
     void operator+=(const DataT &dat)
     { Body().Insert(dat); }
     //: Add data item to the collection.
@@ -391,7 +400,7 @@ namespace RavlN {
     if(i >= n-1)
       i = n-1; // Incase of rounding errors.
     DataT ret = data[i];
-    data[i] = data[--n];
+    Delete(i);
     return ret;
   }
 
