@@ -74,7 +74,7 @@ namespace RavlGUIN {
   // Call on the GUI thread only.
   
   bool ComboBodyC::GUIDelEntry(StringC &opt) {
-    RavlAssertMsg(0,"ComboBodyC::GUIDelEntry(), Not implemented. ");
+    //    RavlAssertMsg(0,"ComboBodyC::GUIDelEntry(), Not implemented. ");
     GtkWidget *li;
     if(!cmap.Lookup(opt,li))
       return true; // item not in list.
