@@ -1074,7 +1074,7 @@ namespace RavlCxxDocN {
       {}
     //: Default constructor.
     
-    InheritBodyC(ScopeAccessT nscopeAccess);
+    InheritBodyC(ScopeAccessT nscopeAccess,bool useNamespace = false);
     //: Constructor.
 
     virtual const char *TypeName() const 
@@ -1108,7 +1108,7 @@ namespace RavlCxxDocN {
 
     bool Resolve();
     //: Attempt to resolve parent class.
-
+    
     RCHashC<StringC,ObjectC> &TemplateSubs()
       { return templSub; }
     //: Access template subsitutions.
@@ -1119,7 +1119,7 @@ namespace RavlCxxDocN {
     ScopeC inheritFrom;  // Scope we inherit from.
     bool virt;           // Virtual inheritance ?
     bool resolveFailed;  // Did we succeed in resolving it ?
-    
+    bool useNamespace;   // Is this a using namespace ?
     RCHashC<StringC,ObjectC> templSub; // Template substutions, where needed.
   };
 
@@ -1135,8 +1135,8 @@ namespace RavlCxxDocN {
     //: Default Constructor.
     // creates an invalid object.
     
-    InheritC(ScopeAccessT nscopeAccess)
-      : ObjectC(*new InheritBodyC(nscopeAccess))
+    InheritC(ScopeAccessT nscopeAccess,bool useNamespace = false)
+      : ObjectC(*new InheritBodyC(nscopeAccess,useNamespace))
       {}
     //: Constructor.
     

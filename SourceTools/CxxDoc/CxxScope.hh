@@ -52,10 +52,14 @@ namespace RavlCxxDocN {
     
     virtual void Append(ObjectC &obj);
     //: Append to scope.
-    
-    ObjectC &Lookup(const StringC &name) 
-      { return tab[name]; }
+   
+    ObjectC &Lookup(const StringC &name)
+    { return tab[name]; }
     //: Lookup object.
+    
+    bool LookupI(const StringC &name,ObjectC &nxt,bool useInherit = true);
+    //: Lookup name allowing for inheritance.
+    // returns true if object has been found.
     
     bool Merge(const ScopeC &oth);
     //: Merge this scope with another.
@@ -63,10 +67,10 @@ namespace RavlCxxDocN {
     bool Merge(const ObjectC &oth);
     //: Merge this scope with another.
     
-    ObjectC ResolveName(const StringC &str);
+    ObjectC ResolveName(const StringC &str,bool useInherit = true);
     //: Resolve a path
     
-    ObjectC ResolveName(DListC<ObjectC> path,RCHashC<StringC,ObjectC> &tempTab);
+    ObjectC ResolveName(DListC<ObjectC> path,RCHashC<StringC,ObjectC> &tempTab,bool useInherit = true);
     //: Resolve a path
     // templSub contains any template paramiter subsitutions found when 
     // resolving the path. 
@@ -152,33 +156,38 @@ namespace RavlCxxDocN {
     
   public:
     ObjectC &Lookup(const StringC &name) 
-      { return Body().Lookup(name); }
+    { return Body().Lookup(name); }
     //: Append to list.
     
+    bool LookupI(const StringC &name,ObjectC &nxt,bool useInherit = true)
+    { return Body().LookupI(name,nxt,useInherit); }
+    //: Lookup name allowing for inheritance.
+    // returns true if object has been found.
+    
     DListC<ObjectC> &Uses() 
-      { return Body().Uses(); }
+    { return Body().Uses(); }
     //: Access inherit from list.
     
     bool Merge(const ScopeC &oth)
-      { return Body().Merge(oth); }
+    { return Body().Merge(oth); }
     //: Merge this scope with another.
     
     bool Merge(const ObjectC &oth)
-      { return Body().Merge(oth); }
+    { return Body().Merge(oth); }
     //: Merge this scope with another.
     
-    ObjectC ResolveName(const StringC &str)
-      { return Body().ResolveName(str); }
+    ObjectC ResolveName(const StringC &str,bool useInherit = true)
+    { return Body().ResolveName(str,useInherit); }
     //: Resolve a name.
     
-    ObjectC ResolveName(DListC<ObjectC> path,RCHashC<StringC,ObjectC> &templSub)
-      { return Body().ResolveName(path,templSub); }
+    ObjectC ResolveName(DListC<ObjectC> path,RCHashC<StringC,ObjectC> &templSub,bool useInherit = true)
+    { return Body().ResolveName(path,templSub,useInherit); }
     //: Resolve a name.
     // templSub contains any template paramiter subsitutions found when 
     // resolving the path. 
     
     void Resolve()
-      { Body().Resolve(); }
+    { Body().Resolve(); }
     //: Resolve links in input data.
     
     friend class ScopeBodyC;

@@ -242,11 +242,6 @@ namespace RavlCxxDocN
   
   ObjectC DataTypeBodyC::Subst(RCHashC<StringC,ObjectC> &subst) const {
     ONDEBUG(cerr << "DataTypeBodyC::Subst(), Called '" << Name() << "' \n");
-#if DODEBUG
-    cerr << "Subst:";
-    for(HashIterC<StringC,ObjectC> sit(subst);sit;sit++)
-      cerr << " " << sit.Key() << " -> " << sit.Data().Name() << "\n";
-#endif    
     if(scopePath.IsValid() && !subst.IsEmpty()) {
       if(scopePath.List().Size() == 1) {
 	// Check for a possible short cut....
@@ -530,11 +525,12 @@ namespace RavlCxxDocN
   
   //: Constructor.
   
-  InheritBodyC::InheritBodyC(ScopeAccessT nscopeAccess)
+  InheritBodyC::InheritBodyC(ScopeAccessT nscopeAccess,bool nuseNamespace)
     : ObjectBodyC("Inherit:"),
       scopeAccess(nscopeAccess),
       virt(false),
-      resolveFailed(false)
+      resolveFailed(false),
+      useNamespace(nuseNamespace)
   {
     switch(nscopeAccess) {
     case SAPrivate:   SetVar("access","private");   break;
@@ -590,6 +586,7 @@ namespace RavlCxxDocN
   //: Attempt to resolve parent class.
   
   bool InheritBodyC::Resolve() {
+    ONDEBUG(cerr << "InheritBodyC::Resolve(), " << Name() << "\n");
     if(inheritFrom.IsValid()) 
       return true;
     if(!HasParentScope()) {
@@ -604,9 +601,20 @@ namespace RavlCxxDocN
     } else
       path.InsFirst(inheritDef);
     
-    ObjectC rs=ParentScope().ResolveName(path,templSub);
+    ScopeC ps = ParentScope(); // Get scope we're for.
+    if(ps.IsValid())
+      ps = ps.ParentScope(); // Then get the scope of the object to inherit into.
+    if(!ps.IsValid()) {
+      cerr << "InheritBodyC::Resolve(), WARNING: Out of parent scopes can't resolve '" << PathName(path) << "' \n";
+      SetVar("resolveFailed","1");
+      resolveFailed = true;
+      return false; 
+    }
+    ObjectC rs=ps.ResolveName(path,templSub,
+			      !useNamespace); // Don't use inheritance to resolve namespaces.
     if(!rs.IsValid()) {
-      cerr << "Can't resolve name '" << PathName(path) << "'\n";
+      cerr << "Can't resolve name '" << PathName(path) << "' \n";
+      ONDEBUG(cerr << " Parent scope '" << ParentScope().Name() << "'. \n");
       SetVar("resolveFailed","1");
       resolveFailed = true;
       return false;
@@ -621,6 +629,7 @@ namespace RavlCxxDocN
     inheritFrom = as;
     DerivedC deriveMark(scopeAccess,ParentScope().PathList());
     inheritFrom.Append(deriveMark);
+    ONDEBUG(cerr << "InheritBodyC::Resolve(), '" << Name() << "' found '" << inheritFrom.Name() <<  "'\n");
     return true;
   }
   

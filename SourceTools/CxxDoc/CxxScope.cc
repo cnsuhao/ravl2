@@ -16,6 +16,7 @@
 #include "Ravl/HashIter.hh"
 #include "Ravl/StringList.hh"
 #include "Ravl/HSet.hh"
+#include "Ravl/BlkQueue.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -65,9 +66,41 @@ namespace RavlCxxDocN
     return true;
   }
   
+  //: Lookup name allowing for inheritance.
+  // returns true if object has been found.
+  
+  bool ScopeBodyC::LookupI(const StringC &name,ObjectC &ret,bool useInherit) {
+    ONDEBUG(cerr << "ScopeBodyC::LookupI(), In " << Name() << " of '" << name << "' Inherit:"  << useInherit << "\n");
+    if(tab.Lookup(name,ret)) {
+      ONDEBUG(cerr << "ScopeBodyC::LookupI(), Found " << name << " in '" << Name() << "' \n");	
+      return true;
+    }
+    if(!useInherit)
+      return false;
+    // Check up inheritance hirachy for name.
+    HSetC<ScopeC> done;
+    for(DLIterC<ObjectC> it(uses);it;it++) {
+      InheritC inhrt(*it);
+      if(!inhrt.IsValid())
+	continue;
+      ONDEBUG(cerr << "Inherit : '" << inhrt.Name() << "'\n");
+      ScopeC &scope = inhrt.From();
+      if(!scope.IsValid())
+	continue;
+      if(done[scope])
+	continue;
+      done += scope;
+      if(scope.LookupI(name,ret,true)) {
+	ONDEBUG(cerr << "ScopeBodyC::LookupI(), Found " << name << " in '" << Name() << "' \n");	
+	return true;
+      }
+    }
+    return false;
+  }
+  
   //: Resolve a name.
   
-  ObjectC ScopeBodyC::ResolveName(const StringC &str) {
+  ObjectC ScopeBodyC::ResolveName(const StringC &str,bool useInherit = true) {
     ObjectC start(*this);
     if(str == "::") // Start at root ?
       return RootScope();
@@ -78,9 +111,11 @@ namespace RavlCxxDocN
       if(!ScopeC::IsA(start))
 	break;
       ScopeC tmpScope(start);
-      ObjectC place = tmpScope.Lookup(str);
-      if(place.IsValid())
-	return place;
+      ObjectC place;
+      if(tmpScope.LookupI(str,place,useInherit)) {
+	if(place.IsValid())
+	  return place;
+      }
       // Goto parent scope and try to resolve the path again.
       if(!start.HasParentScope()) 
 	break; // No more parents.
@@ -91,9 +126,10 @@ namespace RavlCxxDocN
   
   //: Resolve a name.
   
-  ObjectC ScopeBodyC::ResolveName(DListC<ObjectC> path,RCHashC<StringC,ObjectC> &templSub) {
+  ObjectC ScopeBodyC::ResolveName(DListC<ObjectC> path,RCHashC<StringC,ObjectC> &templSub,bool useInherit = true) {
     ObjectC start(*this);
     DLIterC<ObjectC> it(path);
+    // Go back through parent scopes looking for an object that matches 'path'.
     do {
       it.First();
       if(!it.IsElm()) {
@@ -104,7 +140,7 @@ namespace RavlCxxDocN
 	start = RootScope();
 	it.Next();
       }
-      //cerr << "ScopeBodyC::ResolveName() Start Scope: '" << start.Name() << "'  Looking for:'" << PathName(path) << "'\n"; 
+      ONDEBUG(cerr << "ScopeBodyC::ResolveName() Start Scope: '" << start.Name() << "'  Looking for:'" << PathName(path) << "'\n"); 
       templSub.Empty(); // Remove any existing subsitutions.
       ObjectC place(start);
       bool failed = false;
@@ -114,20 +150,16 @@ namespace RavlCxxDocN
 	  break;
 	}
 	ScopeC tmpScope(place);
-	place = tmpScope.Lookup(it->BaseName());
+	if(!tmpScope.LookupI(it->BaseName(),place,useInherit)) {
+	  failed = true;
+	  break;
+	}
 	
 	// Specification for a templated object ?
 	if(ClassTemplateC::IsA(place)) {
 	  // Look for subtitutions for template paramiters.
 	  ClassTemplateC ct(place);
-#if 1
 	  MatchTemplateArgs(ct,*it,templSub);
-#else
-	  if(!MatchTemplateArgs(ct,*it,templSub)) {
-	    failed = true; // Template arg match failed!
-	    break;
-	  }
-#endif
 	}
       }
       if(!failed && !it.IsElm() && place.IsValid() && !DataTypeC::IsA(place)) {
@@ -178,7 +210,6 @@ namespace RavlCxxDocN
       }
       return ;
     }
-    
     if(InheritC::IsA(obj))
       uses.InsLast(obj);
     
@@ -312,17 +343,23 @@ namespace RavlCxxDocN
   //: Resolve links in input data.
   
   void ScopeBodyC::Resolve() {
-    //cerr << "ScopeBodyC::Resolve() " << Name() << "\n";
-    for(DLIterC<ObjectC> it(list);it.IsElm();it.Next()) {
-      if(ScopeC::IsA(it.Data())) {
-	ScopeC scope(it.Data());
-	scope.Resolve();
-	continue;
-      }
-      if(InheritC::IsA(it.Data())) {
-	InheritC ihr(it.Data());
-	ihr.Resolve();
-	continue;
+    ONDEBUG(cerr << "ScopeBodyC::Resolve() '" << Name() << "' \n");
+    BlkQueueC<ScopeC> todo;
+    todo.InsLast(ScopeC(*this));
+    // Resolve width first.
+    while(!todo.IsEmpty()) {
+      ScopeC here(todo.Pop());
+      for(DLIterC<ObjectC> it(here.List());it.IsElm();it.Next()) {
+	if(ScopeC::IsA(it.Data())) {
+	  ScopeC scope(it.Data());
+	  todo.InsLast(scope);
+	  continue;
+	}
+	if(InheritC::IsA(it.Data())) {
+	  InheritC ihr(it.Data());
+	  ihr.Resolve();
+	  continue;
+	}
       }
     }
   }

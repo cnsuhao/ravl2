@@ -101,7 +101,7 @@ extdef:   fndef            { $$=$1; }
 	                                                 }
 	| namespace_alias  { $$=ObjectC(); }  /* Ignore it.*/
 	| using_decl ';'   { $$=ObjectC(); }  /* Ignore it.*/
-	| using_directive  { $$=ObjectC(); }  /* Ignore it.*/
+	| using_directive  { $$=$1; }  
 	| error ';'        { $$=ObjectC(); }  /* Ignore it.*/
         | error '{' func_body_contents_list '}' { $$=ObjectC(); }  /* try and keep '{' '}' balance. */
         | ';'              { $$=ObjectC(); }  /* Ignore it.*/
@@ -273,7 +273,11 @@ namespace_alias:
 	;
 
 using_directive:
-	  USING NAMESPACE any_id ';'
+	  USING NAMESPACE any_id ';' {
+	    InheritC inh(SAPublic,true);
+	    inh.SetScopeDef($3);  
+	    $$ = inh;
+	  }
 	;
 
 using_decl:
