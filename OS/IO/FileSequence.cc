@@ -326,8 +326,8 @@ namespace RavlN {
     DirectoryC dir(dirName);
     IntT len = -1;
     bool dif(false);
-    DListC<FilenameC> files = dir.List(prefix,postfix);
-    for(DLIterC<FilenameC> it(files);it.IsElm();it.Next()) {
+    DListC<StringC> files = dir.List(prefix,postfix);
+    for(DLIterC<StringC> it(files);it.IsElm();it.Next()) {
       // Monitor length;
       IntT nlen = it.Data().length();
       if(nlen != len) {
@@ -374,7 +374,7 @@ namespace RavlN {
     FilenameC baseName = tf.NameComponent();
     StringC prefix = baseName.before(subst);
     StringC postfix = baseName.after(subst);
-    DListC<FilenameC> files = dir.List(prefix,postfix);  
+    DListC<StringC> files = dir.List(prefix,postfix);  
     
     ONDEBUG(cerr << "DPFileSequenceBaseBodyC::ProbeRange(),  Matching files:" << files.Size() << "\n");
     // Got anything ?
@@ -406,7 +406,7 @@ namespace RavlN {
     const int spost = postfix.Size();
     int min = ((1<<((sizeof(int)*8)-2))-1) * 2+1;
     int max = 0;
-    for(DLIterC<FilenameC> it(files);it.IsElm();it.Next()) {
+    for(DLIterC<StringC> it(files);it.IsElm();it.Next()) {
       // Check num is only digits.
       const int len = it.Data().length();
       const int numend = (len - spost);

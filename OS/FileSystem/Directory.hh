@@ -42,19 +42,19 @@ namespace RavlN {
       { return FilenameC::IsDirectory(); }
     //: Is this really a directory ?
     
-    DListC<FilenameC> List() const;
+    DListC<StringC> List() const;
     //: List contents of directory.
     // Will return an empty list if anything goes wrong.
     // Gives names of contents relative to this directory
     // , without any leading or trailing "/"
     
-    DListC<FilenameC> List(const StringC &pre,const StringC &post) const;
+    DListC<StringC> List(const StringC &pre,const StringC &post) const;
     //: List contents of directory, returning only files with the given
     //: prefix and postfix.
     // Either (or both) pre and post maybe empty strings..
     // Will return an empty list if anything goes wrong. 
     
-    DListC<FilenameC> FiltList(const StringC &filter) const;
+    DListC<StringC> FiltList(const StringC &filter) const;
     //: List contents of directory, returning only files matching
     //: the given filter.
     

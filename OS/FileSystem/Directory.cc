@@ -49,9 +49,9 @@ namespace RavlN {
   //////////////////////////////////////////////////////
   //: List contents of directory.
   
-  DListC<FilenameC> DirectoryC::List() const  {
+  DListC<StringC> DirectoryC::List() const  {
 #if RAVL_HAVE_UNIXDIRFUNCS
-    DListC<FilenameC> ret;
+    DListC<StringC> ret;
     struct dirent *entry;
     DIR *dinf = opendir(chars());
     if(dinf == NULL)
@@ -93,9 +93,9 @@ namespace RavlN {
   // Will return an empty list if anything goes wrong. 
   // This could be faster, we could filter as we build the list. Later.
   
-  DListC<FilenameC> DirectoryC::List(const StringC &pre,const StringC &post) const { 
-    DListC<FilenameC> ret = DirectoryC::List();
-    for(DLIterC<FilenameC> it(ret);it.IsElm();it.Next()) {
+  DListC<StringC> DirectoryC::List(const StringC &pre,const StringC &post) const { 
+    DListC<StringC> ret = DirectoryC::List();
+    for(DLIterC<StringC> it(ret);it.IsElm();it.Next()) {
       // Filter out files we're not interested in..
       ONDEBUG(cerr << "DirectoryC::List() Testing:" << it.Data() << "\n");
       if(!pre.IsEmpty()) {
@@ -117,9 +117,9 @@ namespace RavlN {
   //: List contents of directory, returning only files matching
   //: the given filter.
   
-  DListC<FilenameC> DirectoryC::FiltList(const StringC &filter) const {
-    DListC<FilenameC> ret = DirectoryC::List();
-    for(DLIterC<FilenameC> it(ret);it.IsElm();it.Next()) {
+  DListC<StringC> DirectoryC::FiltList(const StringC &filter) const {
+    DListC<StringC> ret = DirectoryC::List();
+    for(DLIterC<StringC> it(ret);it.IsElm();it.Next()) {
       ONDEBUG(cerr << "DirectoryC::FiltList() Testing:" << it.Data() << "\n");
       if(!MatchFilt(filter.chars(),it.Data().chars()))
 	it.Del();
@@ -181,11 +181,11 @@ namespace RavlN {
     }
     bool ret = true;
     HSetC<FilenameC> fileset;
-    DListC<FilenameC> lst(List());
-    for(DLIterC<FilenameC> it(lst);it.IsElm();it.Next()) {
+    DListC<StringC> lst(List());
+    for(DLIterC<StringC> it(lst);it.IsElm();it.Next()) {
       FilenameC lookat((*this) + '/' + it.Data());
       FilenameC target(othDir + '/' + it.Data());
-      if(it.Data().IsDirectory()) {
+      if(lookat.IsDirectory()) {
 	if(!rec) // Recursive copy ?
 	  continue; // Ignore sub-directories
 	DirectoryC sub(lookat);
@@ -215,8 +215,8 @@ namespace RavlN {
       return ret;
     // Check all files in target directory should actual be there....
     DirectoryC odir(othDir);
-    DListC<FilenameC> tLst(List());
-    for(DLIterC<FilenameC> it2(tLst);it2.IsElm();it2.Next()) {
+    DListC<StringC> tLst(List());
+    for(DLIterC<StringC> it2(tLst);it2.IsElm();it2.Next()) {
       if(fileset.IsMember(it2.Data()))
 	continue;
       FilenameC target(othDir + '/' + it2.Data());
