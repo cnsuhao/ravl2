@@ -496,5 +496,12 @@ namespace RavlN {
 	 << quartern.q[2] << " " << quartern.q[3];
     return outS;
   }
+  
+  //: input stream operator
+  
+  istream & operator>>(istream &s,Quatern3dC & quartern) {
+    s >> quartern.q[0] >> quartern.q[1] >> quartern.q[2] >> quartern.q[3];
+    return s;
+  }
 
 }

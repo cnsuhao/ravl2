@@ -218,7 +218,10 @@ namespace RavlN {
       { return Quatern3dC(q[0]-p[0], q[1]-p[1], q[2]-p[2], q[3]-p[3]); }
     // returns q[i] = q1[i] - q2[i], for i=0..3
     
-    friend ostream & operator<<(ostream & outS, const Quatern3dC & quartern);
+    friend ostream & operator<<(ostream &s, const Quatern3dC & quartern);
+    // ouput stream operator
+
+    friend istream & operator>>(istream &s, Quatern3dC & quartern);
     // ouput stream operator
     
   private:
@@ -229,9 +232,11 @@ namespace RavlN {
  
   // -------------------------------------------------------------------------
   
+  ostream & operator<<(ostream &s, const Quatern3dC & quartern);
+  //: ouput stream operator
   
-  ostream & operator<<(ostream & outS, const Quatern3dC & quartern);
-  // ouput stream operator
+  istream & operator>>(istream &s,Quatern3dC & quartern);
+  //: input stream operator
   
 }
 #endif
