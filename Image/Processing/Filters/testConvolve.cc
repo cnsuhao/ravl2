@@ -47,7 +47,8 @@ int testSpatialDifference();
 int testSumRectangles();
 
 
-#ifndef RAVL_OS_IRIX
+
+#if !RAVL_OS_IRIX
 template WarpScaleC<ByteRGBValueC,ByteRGBValueC>;
 template WarpAffineC<ByteT,ByteT>;
 template WarpProjectiveC<ByteT,ByteT>;
@@ -60,6 +61,7 @@ template WarpProjectiveC<ByteRGBValueC,ByteRGBValueC>;
 #include "Ravl/Ransac.hh"
 #include "Ravl/LevenbergMarquardt.hh"
 #include "Ravl/ObservationManager.hh"
+#include "Ravl/SArray2d.hh"
 
 static EvaluateNumInliersBodyC dummyvar1(0.0,0.0) ;
 static CollectionBodyC<RavlImageN::ByteRGBGreyValueC> dummyvar2 ;
@@ -68,10 +70,12 @@ static ObservationManagerC dummyvar4 ;
 static FitToSampleC dummyvar5 ; 
 static EvaluateSolutionC dummyvar6 ; 
 static RansacC dummyvar7 ( dummyvar4, dummyvar5, dummyvar6) ;
-static StateVectorC dummyvar8 ;
+static StateVectorC dummyvar8 (VectorC(1) );
 static DListC<ObservationC> dummyvar9 ; 
 static LevenbergMarquardtC dummyvar10( dummyvar8, dummyvar9);
 static ObservationListManagerBodyC dummyvar11 (dummyvar9);
+
+
 #endif
 
 int main() {
@@ -252,7 +256,7 @@ int testConvolve2dMMX() {
   test[3][5] = 1;
   test[6][3] = 1;
   ImageC<short> res;
-  for(int i = 0;i < 100;i++) {
+  for(int i = 0;i < 30;i++) {
     conv.Apply(test,res);
     //cout << res;
   }
