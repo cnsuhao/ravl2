@@ -181,8 +181,8 @@ namespace RavlImageN {
     IntT maxValue = labels[0]->total;
     
     // Find largest region.
-    
-    for(int i = 1;i < n;i++) {
+    int i;
+    for(i = 1;i < n;i++) {
       IntT tot = labels[i]->total;
       if(maxValue < tot) {
 	max = labels[i];
@@ -192,7 +192,7 @@ namespace RavlImageN {
     
     // Merge regions, and finalise
     ExtremaRegionC &nr = *max;
-    for(int i = 0;i < n;i++) {
+    for(i = 0;i < n;i++) {
       if(labels[i] == max)
 	continue;
       ExtremaRegionC &oldr = *labels[i];
@@ -362,18 +362,18 @@ namespace RavlImageN {
 	if(thresh[0].margin > thresh[1].margin)
 	  newthresh[nt++] = thresh[0];
       }
-      for(int i = 1;i < nthresh-1;i++) {
+      for(int j = 1;j < nthresh-1;j++) {
 	//cerr << " Threshold=" << thresh[i].margin << "\n";
 #if 1
-	ExtremaThresholdC &next = thresh[i+1];
-	ExtremaThresholdC &cur = thresh[i];
-	ExtremaThresholdC &prev = thresh[i-1];
+	ExtremaThresholdC &next = thresh[j+1];
+	ExtremaThresholdC &cur = thresh[j];
+	ExtremaThresholdC &prev = thresh[j-1];
 	if(next.margin < cur.margin && prev.margin < cur.margin) {
 	  //cerr << " Using=" << thresh[i].margin << "\n";
 	  newthresh[nt++] = cur;
 	}
 #else
-      newthresh[nt++] = thresh[i];
+	newthresh[nt++] = thresh[j];
 #endif
       }
       if(nthresh > 2) {

@@ -148,8 +148,10 @@ namespace RavlImageN {
       Psum = Psum.Inverse();
 
       // projective warp of first image
-      Matrix3dC Psm=Psum*Pmosaic;
-      if(maxFrames>0)Parray[0]=Psm;
+      Matrix3dC Psm;
+      MulM<RealT,3,3,3>(Psum,Pmosaic,Psm); // Odd format for Visual C++ fix..
+      
+      if(maxFrames>0) Parray[0]=Psm;
       Psm = Psm.Inverse();
       WarpProjectiveC<ByteRGBValueC,ByteRGBMedianC,PixelMixerRecursiveC<ByteRGBValueC,ByteRGBMedianC> > pwarp(mosaic_rect,Psm,zhomog,1.0,false);
       pwarp.Apply(cropped_img,mosaic);
@@ -177,7 +179,11 @@ namespace RavlImageN {
       PointTrackC lat;
       if(!last.Lookup(it->ID(),lat))
 	continue; // Matching point not found.
-      obsList.InsLast(ObservationHomog2dPointC(lat.Location(),epos,it->Location(),epos));
+      
+      const Point2dC& loc1=lat.Location();
+      const Point2dC& loc2=it->Location();
+      obsList.InsLast(ObservationHomog2dPointC(VectorC(loc1[0],loc1[1]),epos,
+					       VectorC(loc2[0],loc2[1]),epos));
     }
     
     last = corners;
@@ -239,30 +245,36 @@ namespace RavlImageN {
     cout << "          (" << P[2][0] << " " << P[2][1] << " " << P[2][2] << ")" << endl;
 
     // accumulate homography
-    Psum = P*Psum;
-
+    // Psum = P*Psum; Line changed to the following to help Visual C++.
+    Matrix3dC temp;
+    MulM<RealT,3,3,3>(P,Psum,temp);
+    Psum = temp;
+    
     // compute homography to map image onto mosaic
 
     // projective warp, combining new image with mosaic
-    Matrix3dC Psm=Psum*Pmosaic;
+    //Matrix3dC Psm=Psum*Pmosaic;  Line changed to the following to help Visual C++.
+    Matrix3dC Psm;
+    MulM<RealT,3,3,3>(Psum,Pmosaic,Psm);
+    
     if(maxFrames>0)Parray[frameNo]=Psm;
     Psm = Psm.Inverse();
     WarpProjectiveC<ByteRGBValueC,ByteRGBMedianC,PixelMixerRecursiveC<ByteRGBValueC,ByteRGBMedianC> > pwarp(mosaic_rect,Psm,zhomog,1.0,false);
     pwarp.Apply(cropped_img,mosaic);
-
+    
 #if DODEBUG
     ImageC<ByteRGBValueC> timg(img.Copy());
 
     // Draw red boxes around the corners.
     ByteRGBValueC val(255,0,0);
-    for(HashIterC<UIntT,PointTrackC> it(corners);it;it++) {
-      DrawCross(timg,val,it->Location());
+    for(HashIterC<UIntT,PointTrackC> cit(corners);cit;cit++) {
+      DrawCross(timg,val,cit->Location());
     }
-
+    
     // Draw green crosses around the selected corners
     val = ByteRGBValueC(0,255,0);
-    for(DLIterC<ObservationC> it(compatible_obs_list);it;it++) {
-      const VectorC &z=it->GetZ();
+    for(DLIterC<ObservationC> oit(compatible_obs_list);oit;oit++) {
+      const VectorC &z=oit->GetZ();
       Point2dC p(z[0],z[1]);
       IndexRange2dC rect(p,5,5);
       DrawFrame(timg,val,rect);

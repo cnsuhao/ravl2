@@ -29,8 +29,9 @@ namespace RavlImageN {
   using RavlN::BufferC;
   using RavlN::TFVectorC;
   using RavlN::RealT;
+  using RavlN::ByteT;
 #endif
-
+  
   //! userlevel=Normal
   //: Basic Image
   

@@ -25,7 +25,7 @@
 #include "Ravl/FitHomog2dPoints.hh"
 #include "Ravl/Matrix3d.hh"
 
-namespace RavlN {
+namespace RavlImageN {
   using namespace RavlImageN;
   
   //! userlevel=Normal
