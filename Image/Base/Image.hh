@@ -49,46 +49,67 @@ namespace RavlImageN {
       : Array2dC<PixelT>(oth)
     {}
     //: Base constructor.
+    //!param: oth - Array to be treated as an image.
+    // Note: the array is NOT copied.
     
     ImageC(const IndexRange2dC &rng)
       : Array2dC<PixelT>(rng)
     {}
     //: Create an image of size 'rng'
+    //!param: rng - 2d range of accesses to create the image over
     
     ImageC(const IndexRange2dC &rng,const PixelT &val)
       : Array2dC<PixelT>(rng)
     { Fill(val); }
     //: Create an image of size 'rng' filled with value 'val'
+    //!param: rng - 2d range of accesses to create the image over
+    //!param: val - Value to fill the image with.
     
     ImageC(const Array2dC<PixelT> &oth,const IndexRange2dC &rect)
       : Array2dC<PixelT>(oth,rect)
     {}
     //: Construct an image as a sub rectangle 'rect' on oth.
+    //!param: oth - Original image.
+    //!param: rect - Sub rectangle within the original image which will accessed by the new handle.
+    // Note: This does NOT copy the image area, it just creates a more limited access to the existing image.
     
     ImageC(UIntT rows,UIntT cols)
       : Array2dC<PixelT>(rows,cols)
     {}
     //: Construct an image with origin 0,0 and size rows cols.
+    //!param: rows - Number of rows in the image.
+    //!param: cols - Number of column's in the image
     
     ImageC(IndexC rows,IndexC cols)
       : Array2dC<PixelT>(rows.V(),cols.V())
     {}
     //: Construct an image with origin 0,0 and size rows cols.
+    //!param: rows - Number of rows in the image.
+    //!param: cols - Number of column's in the image
     
     ImageC(const IndexRangeC &rows,const IndexRangeC &cols)
       : Array2dC<PixelT>(rows,cols)
     {}
     //: Construct an image with the given range of indexes.
+    //!param: rows - Range of rows to construct image over.
+    //!param: cols - Range of column's to construct image over.
     
     ImageC(UIntT rows,UIntT cols,const BufferC<PixelT> &buf)
       : Array2dC<PixelT>(IndexRange2dC(0,rows-1,0,cols-1),buf)
     {}
     //: Construct an image with origin 0,0 and size rows cols with space in 'buf'
+    //!param: rows - Number of rows in the image.
+    //!param: cols - Number of column's in the image
+    //!param: buf - Raw pixel buffer, must contain at least row * cols elements.
     
     ImageC(UIntT rows,UIntT cols,PixelT *data,bool deletable = true)
       : Array2dC<PixelT>(IndexRange2dC(0,rows-1,0,cols-1),BufferC<PixelT>(rows * cols,data,false,deletable))
     {}
     //: Construct an image with origin 0,0 and size rows cols with space in 'buf'
+    //!param: rows - Number of rows in the image.
+    //!param: cols - Number of column's in the image
+    //!param: data - Pointer to continuous array of memory containing image data (rows * cols pixels).
+    //!param: deletable - If set to true the memory will be deleted with the 'delelte []' operator when is finished with. Otherwise it is the users responsibility to manage the memory.
     
     UIntT Rows() const
     { return Range1().Size(); }
@@ -125,10 +146,13 @@ namespace RavlImageN {
     PixelT *Row(IndexC row) 
     { return &(RangeBufferAccessC<BufferAccessC<PixelT> >::operator[](row)[rng2.Min()]); }
     //: Get a pointer to begining of row.
+    //!param: row - Row for which the pointer is returned.
     
     ImageC<PixelT> Rotate180(Index2dC centre = Index2dC(0,0)) const;
     //: Create a copy of the image which is rotated 180 degree's.
     // The image is rotated around the center given.
+    //!param: centre - Center arround which to rotate.
+    
   };
   
   template <class PixelT>
