@@ -37,7 +37,7 @@ namespace RavlN {
     //: Creates he line determined by the equation aa*x+bb*y+cc = 0.
     
     inline LineABC2dC(const Point2dC & a, const Point2dC  & b)
-      : normal(Vector2dC(b-a).Perpendicular()), d(-normal.Dot(b))
+      : normal(Vector2dC(a-b).Perpendicular()), d(-normal.Dot(b))
     {}
     //: Creates the line passing through two points 'a' and 'b'.
     

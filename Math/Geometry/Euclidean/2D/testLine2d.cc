@@ -11,10 +11,12 @@
 #include "Ravl/StdMath.hh"
 #include "Ravl/Stream.hh"
 #include "Ravl/Moments2d2.hh"
+#include "Ravl/Curve2dLineSegment.hh"
+#include "Ravl/StdConst.hh"
 
 using namespace RavlN;
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -23,6 +25,7 @@ using namespace RavlN;
 
 int testMoments();
 int testLines();
+int testLine2d();
 
 int main() {
   int ln;
@@ -30,6 +33,11 @@ int main() {
     cerr << "Test failed line " << ln << "\n";
     return 1;
   }
+  if((ln = testLine2d()) != 0) {
+    cerr << "Test failed line " << ln << "\n";
+    return 1;
+  }
+  cerr << "Test passed ok. \n";
   return 0;
 }
 
@@ -54,3 +62,16 @@ int testLines() {
   return 0;
 }
 
+int testLine2d() {
+  
+  Point2dC org(321,123);
+  for(int i = 0;i < 360;i++) {
+    RealT angle = ((RealT) i/180.0) * RavlConstN::pi;
+    Vector2dC vec = Angle2Vector2d(angle) * 4.3;
+    Point2dC end(org + vec);
+    Curve2dLineSegmentC line1(org,end);
+    //cerr << "End=" << line1.Closest(line1.EndPnt()) - line1.Start()  << "\n";
+    if(line1.Closest(line1.EndPnt()) - line1.Start() <= 0) return __LINE__;
+  }
+  return 0;
+}

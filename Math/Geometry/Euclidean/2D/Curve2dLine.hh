@@ -134,7 +134,7 @@ namespace RavlN {
   inline RealT Curve2dLineC::Closest(Point2dC Pnt) const { 
     // FIXME :- Could this be simplified ??
     Point2dC Where = Projection(Pnt); // Get a point actualy on the line.
-    if(fabs(B()) > fabs(A()))
+    if(Abs(B()) > Abs(A()))
       return ((Where.X() + (A() * C())) / -B());
     return ((Where.Y() + (B() * C())) / A());  
   }
