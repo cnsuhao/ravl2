@@ -10,10 +10,14 @@
 PACKAGE=Ravl/OS
 
 HEADERS = SktError.hh Socket.hh NetStream.hh Packet.hh \
- NetMessage.hh NetEndPoint.hh NetMsgCall.hh
+ NetMessage.hh NetEndPoint.hh NetMsgCall.hh NetIPort.hh \
+ NetIPortServer.hh NetPortManager.hh NetPortClient.hh \
+ NetPortFormat.hh
 
 SOURCES = Socket.cc NetStream.cc SocketStrm.cc Packet.cc \
- NetMessage.cc    NetEndPoint.cc NetMsgCall.cc
+ NetMessage.cc NetEndPoint.cc NetMsgCall.cc NetIPort.cc \
+ NetIPortServer.cc NetPortManager.cc NetPortClient.cc \
+ NetPortFormat.cc
 
 MUSTLINK = RavlSysNetworkML.cc
 
@@ -23,5 +27,7 @@ EHT=Ravl.OS.Network.html
 
 EXAMPLES = exSocket.cc exEndPoint.cc
 
-USESLIBS = RavlOS RavlCore Socket RavlThreads
+TESTEXES=testNetPort.cc
+
+USESLIBS = RavlOS RavlCore Socket RavlThreads RavlIO
 

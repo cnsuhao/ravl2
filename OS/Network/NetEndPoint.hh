@@ -83,7 +83,10 @@ namespace RavlN {
 
     void SndInit(StringC &user);
     //: Send init message.
-
+    
+    bool Send(UIntT id);
+    //: Send a 0 paramiter message.
+    
     template<class Data1T>
     bool Send(UIntT id,const Data1T &dat1) {
       BufOStreamC os;
@@ -294,6 +297,10 @@ namespace RavlN {
       { return Body().Register(nmsg); }
     //: Register new message handler.
     
+    bool Send(UIntT id)
+    { return Body().Send(id); }
+    //: Send a 0 paramiter message.
+    
     template<class Data1T>
     bool Send(UIntT id,const Data1T &dat1)
       { return Body().Send(id,dat1); }
@@ -329,6 +336,13 @@ namespace RavlN {
     //: Register new message handler.
     // NB. This does not make a handle to 'obj', it is the users responsibility to 
     // ensure it is not deleted.
+
+    template<class ObjT,class Data1T,class Data2T,class Data3T>
+    bool RegisterR(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(Data1T &,Data2T &,Data3T &))
+      { return Body().RegisterR(mid,msgName,obj,func); }
+    //: Register new message handler.
+    // NB. This does not make a handle to 'obj', it is the users responsibility to 
+    // ensure it is not deleted.
     
     template<class ObjT>
     bool Register(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)())
@@ -344,6 +358,12 @@ namespace RavlN {
     
     template<class ObjT,class Data1T,class Data2T>
     bool Register(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(Data1T &,Data2T &))
+      { return Body().Register(mid,msgName,obj,func); }
+    //: Register new message handler.
+    // Hold a handle to the object called.
+
+    template<class ObjT,class Data1T,class Data2T,class Data3T>
+    bool Register(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(Data1T &,Data2T &,Data3T &))
       { return Body().Register(mid,msgName,obj,func); }
     //: Register new message handler.
     // Hold a handle to the object called.

@@ -4,21 +4,14 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-/////////////////////////////////////////////////////////
-// $Id$
 //! rcsid="$Id$"
 //! lib=RavlNet
-//! file="Ravl/OS/Network/RavlSysNetworkML.cc"
 
-#include "Ravl/OS/NetStream.hh"
+#include "Ravl/OS/NetPortFormat.hh"
 
 namespace RavlN {
+  void NetPortFormat_MustLink() 
+  {}
   
-  extern void NetPortFormat_MustLink();
-  extern void StreamType_NetStream_MustLink();
-  
-  void RavlSysNetworkMustLink() {
-    StreamType_NetStream_MustLink();
-    NetPortFormat_MustLink();
-  }
+  static NetPortFormatC<IntT> netFormat;
 }

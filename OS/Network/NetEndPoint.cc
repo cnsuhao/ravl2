@@ -128,6 +128,17 @@ namespace RavlN {
     return true;
   }
 
+  //: Send a 0 paramiter message.
+  
+  bool NetEndPointBodyC::Send(UIntT id) {
+    BufOStreamC os;
+    BinOStreamC bos(os);
+    bos << id ;
+    Transmit(NetPacketC(os.Data()));
+    return true;
+  }
+
+
   //: Close connection.
   
   bool NetEndPointBodyC::Close() {
