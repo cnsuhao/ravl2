@@ -165,6 +165,7 @@ namespace RavlN {
       if(*it > max) {
 	diff = *it - max;
 	key = it.Key();
+	max = *it ; 
       } else if(*it == max)
 	diff = 0; // More than one key with this count.
     }
