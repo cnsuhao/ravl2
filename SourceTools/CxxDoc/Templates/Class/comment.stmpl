@@ -3,6 +3,7 @@
 <TR><TD>$(subst: - :</TD><TD>:$(subst:
 :</TD></TR><TR><TD>:$(param)))</TD></TR>
 </TABLE>
+)$(ifset:return:RETURN:$(return)
 )$(ifset:detail:$(if:$detail!=:$(AutoLink:$(detail))<br>)
 )$(ifset:deprecated:<FONT COLOR="red">DEPRECATED:$(deprecated)</FONT><br>
 )$(ifset:bug:<FONT COLOR="red">BUG:$(bug)</FONT><br>
