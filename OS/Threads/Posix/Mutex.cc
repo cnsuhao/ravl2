@@ -15,7 +15,9 @@
 
 #include <string.h>
 
-#define DODEBUG 0
+#include <unistd.h>
+
+#define DODEBUG 1
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -25,16 +27,17 @@
 namespace RavlN
 {
   
-  MutexC::MutexC(void) { 
+  MutexC::MutexC(void) 
+  { 
 #if defined(NDEBUG)
-    ONDEBUG(cerr << "MutexC::MutexC(), Constructing normal mutex. \n");
+    ONDEBUG(cerr << "MutexC::MutexC(), Constructing normal mutex. (@:" << ((void*) this) << ") \n");
     // Build a fast mutex.
     int rc;
     if((rc = pthread_mutex_init(&mutex,0)) != 0)
       Error("Failed to create mutex.",errno,rc); 
 #else
 #if defined(PTHREAD_MUTEX_ERRORCHECK) || defined(PTHREAD_MUTEX_ERRORCHECK_NP) || RAVL_OS_LINUX
-    ONDEBUG(cerr << "MutexC::MutexC(), Constructing debuging mutex. \n");
+    ONDEBUG(cerr << "MutexC::MutexC(), Constructing debuging mutex. (@:" << ((void*) this) << ") \n");
 #else
     ONDEBUG(cerr << "MutexC::MutexC(), Attempting to construct debuging mutex but don't know how. \n");
 #endif
@@ -53,7 +56,7 @@ namespace RavlN
       Error("Failed to create mutex.",errno,rc); 
     pthread_mutexattr_destroy(&mutAttr);
 #endif
-    ONDEBUG(cerr << "MutexC::MutexC(), Construction complete. \n");
+    //ONDEBUG(cerr << "MutexC::MutexC(), Construction complete. \n");
   }
   //: Constructor.
   
@@ -65,13 +68,15 @@ namespace RavlN
   //: Report an error, with an error number.
   
   void MutexC::Error(const char *msg,int anerrno,int rc) {
-    cerr << "MutexC::Error() " << anerrno << " (" << strerror(anerrno) << ") rc=" << rc << ":" << msg << " \n";
+    cerr << "MutexC::Error() err=" << anerrno << " (" << strerror(anerrno) << ") : " << msg << " \n";
+    cerr << "MutexC::Error()  rc=" << rc << " (" << strerror(rc) << ") \n";
+    cerr << "MutexC::Error() @:" << ((void*) this) << "\n";
     RavlAssert(0);
   }
   
   //: Destructor.
   MutexC::~MutexC() { 
-    ONDEBUG(cerr << "MutexC::~MutexC(), Destroying mutex. \n");
+    ONDEBUG(cerr << "MutexC::~MutexC(), Destroying mutex. (@:" << ((void*) this) << ")\n");
     int maxRetry = 100;
     while(--maxRetry > 0) {
       if(TryLock()) { // Try get an exclusive lock.
@@ -90,8 +95,11 @@ namespace RavlN
   
   bool MutexC::Lock(void) {
     int rc;
-    if((rc = pthread_mutex_lock(&mutex)) == 0)
+    //ONDEBUG(cerr << "MutexC::Lock() Start @:" << ((void*) this) << " \n");
+    if((rc = pthread_mutex_lock(&mutex)) == 0) {
+      //ONDEBUG(cerr << "MutexC::Lock() Obtained @:" << ((void*) this) << " \n");
       return true;
+    }
     Error("Lock failed",errno,rc);
     return false;
   }
@@ -100,10 +108,13 @@ namespace RavlN
   
   bool MutexC::TryLock(void) {
     int rc;
-    if((rc = pthread_mutex_trylock(&mutex)) == 0)
+    //ONDEBUG(cerr << "MutexC:TryLock() @:" << ((void*) this) << " \n");
+    if((rc = pthread_mutex_trylock(&mutex)) == 0) {
+      //ONDEBUG(cerr << "MutexC:TryLock() Succeeded. @:" << ((void*) this) << "  \n");
       return true;
-    if(errno != EPERM && errno != EBUSY && errno != EINTR && 
-       rc != EBUSY && errno != EAGAIN && rc !=  EDEADLK)
+    }
+    //ONDEBUG(cerr << "MutexC:TryLock() Failed. @:" << ((void*) this) << "  rc=" << rc << "\n");
+    if(rc != EBUSY && rc != EDEADLK)
       Error("Trylock failed for unexpected reason.",errno,rc);
     return false;
   }
@@ -111,10 +122,14 @@ namespace RavlN
   //: Unlock mutex.
   
   bool MutexC::Unlock(void) {
-    RavlAssertMsg(!TryLock(),"MutexC::Unlock() called on an unlocked mutex.");
+    //RavlAssertMsg(!TryLock(),"MutexC::Unlock() called on an unlocked mutex.");
+    
     int rc;
-    if((rc = pthread_mutex_unlock(&mutex)) == 0)
+    //ONDEBUG(cerr << "MutexC:Unlock() @:" << ((void*) this) << "\n");
+    if((rc = pthread_mutex_unlock(&mutex)) == 0) {
+      //ONDEBUG(cerr << "MutexC::Unlock() Released @:" << ((void*) this) << " \n");
       return true;
+    }
     Error("Unlock failed.",errno,rc);
     return false;
   }

@@ -13,7 +13,7 @@
 //! userlevel=Normal
 //! docentry="Ravl.OS.Threads"
 //! author="Charles Galambos"
-//! date="02/07/99"
+//! date="02/07/1999"
 
 #include "Ravl/config.h"
 
@@ -95,6 +95,10 @@ namespace RavlN
     // Returns false, if timeout occures.
     
   private:
+    ConditionalMutexC(const ConditionalMutexC &)
+    {}
+    //: This is just a bad idea.
+    
 #if RAVL_HAVE_PTHREAD_COND 
     pthread_cond_t cond;
 #endif

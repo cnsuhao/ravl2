@@ -96,6 +96,12 @@ namespace RavlN
     //: Report an error, with an error number.
     
   private:
+    MutexC &operator=(const MutexC &) { 
+      RavlAssert(0); 
+      return *this;
+    }
+    //: Make sure there's no assignment.
+    
     MutexC(const MutexC &)
     { RavlAssert(0); }
     //: Make sure there's no attempt to use the copy constructor.
@@ -117,20 +123,14 @@ namespace RavlN
   public:
     MutexLockC(MutexC &m)
     : mutex(m),
-      locked(false)
-    { 
-      locked = mutex.Lock(); 
-      RavlAssert(locked);
-    }
+      locked(true)
+    { mutex.Lock(); }
     //: Create a lock on a mutex.
     
     MutexLockC(const MutexC &m)
       : mutex(const_cast<MutexC &>(m)),
-	locked(false)
-    { 
-      locked = mutex.Lock(); 
-      RavlAssert(locked);
-    }
+	locked(true)
+    { mutex.Lock(); }
     //: Create a lock on a mutex.
     // This may not seem like a good idea,
     // but it allows otherwise constant functions to
@@ -143,8 +143,10 @@ namespace RavlN
     { 
       if(tryLock)
 	locked = mutex.TryLock(); 
-      else
-	locked = mutex.Lock();
+      else {
+	mutex.Lock();
+	locked = true;
+      }
     }
     //: Try and create a lock on a mutex.
     // This may not seem like a good idea,
@@ -160,15 +162,15 @@ namespace RavlN
     
     void Unlock() {
       RavlAssert(locked);
-      locked = !mutex.Unlock(); 
-      RavlAssert(!locked);
+      mutex.Unlock();
+      locked = false;
     }
     //: Unlock the mutex.
     
     void Lock() {
       RavlAssert(!locked);
-      locked = mutex.Lock(); 
-      RavlAssert(locked);
+      mutex.Lock();
+      locked = true;
     }
     //: re Lock the mutex.
     
@@ -179,12 +181,18 @@ namespace RavlN
   protected:
     MutexC &mutex;
     bool locked;
-
+    
   private:
     MutexLockC(const MutexLockC &x)
       : mutex(x.mutex)
     { RavlAssert(0); }
     //: Dissable copy constructor.
+    
+    MutexLockC &operator=(const MutexLockC &) { 
+      RavlAssert(0); 
+      return *this;
+    }
+    //: Make sure there's no assignment.
   };
   
 }

@@ -36,11 +36,10 @@ namespace RavlN
     // Create a semaphore with an inital count of 'initVal'.
     
     SemaphoreC(const SemaphoreC &oth) 
-      : count(oth.count)
+      : count(oth.Count())
     {}
     //: Copy Constructor.
-    // Create a semaphore with the same count as this
-    // one.  Its not clear how useful this really is.
+    // This just creates a semaphore with the same count.
     
     bool Wait();
     //: Wait for semaphore.
@@ -48,7 +47,8 @@ namespace RavlN
     // if it does decrement it and return.
     // If the count is 0, then wait until it a call
     // to Post() increments it, then decrement it
-    // and return true.
+    // and return. <br>
+    // This function always returns true.
     
     bool Wait(RealT maxDelay);
     //: Wait for semaphore.
@@ -96,6 +96,7 @@ namespace RavlN
     //: Read semaphore count.
     
   private:
+    
     ConditionalMutexC cond;
     int count;
   };
