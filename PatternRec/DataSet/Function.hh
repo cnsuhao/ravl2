@@ -98,7 +98,7 @@ namespace RavlN {
     UIntT outputSize; // (Y in amma speak.)
   };
   
-  //! userlevel=Develop
+  //! userlevel=Normal
   //: Map an input vector to an output vector.
   
   class FunctionC
