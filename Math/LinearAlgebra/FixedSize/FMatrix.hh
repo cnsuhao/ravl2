@@ -136,8 +136,8 @@ namespace RavlN {
   // NB. This function destory's the contents of this matrix!
   
   template<unsigned int N,unsigned int M>
-  FVectorC<N> SVD(const FMatrixC<N,M> &mat,FMatrixC<N,M> & u, FMatrixC<N,M> & v) {
-    FVectorC<N> ret;
+  FVectorC<M> SVD(const FMatrixC<N,M> &mat,FMatrixC<N,N> & u, FMatrixC<M,M> & v) {
+    FVectorC<M> ret;
     FMatrixC<N,M> tmp(mat);
     if(N > M * 2) { // Pick the best routine.
       if(sv2uv(&ret[0],&tmp[0][0],&u[0][0],N,&v[0][0],M) != 0)
@@ -156,9 +156,9 @@ namespace RavlN {
   // If the operation failes an exception will be thrown.
   
   template<unsigned int N,unsigned int M>
-  FVectorC<N> SVD_IP(FMatrixC<N,M> &mat,FMatrixC<N,M> & u, FMatrixC<N,M> & v) {
-    FVectorC<N> ret;
-    if(N > M * 2) { // Pick the best routine.
+  FVectorC<M> SVD_IP(FMatrixC<N,M> &mat,FMatrixC<N,N> & u, FMatrixC<M,M> & v) {
+    FVectorC<M> ret;
+    if(N > (M * 2)) { // Pick the best routine.
       if(sv2uv(&ret[0],&mat[0][0],&u[0][0],N,&v[0][0],M) != 0)
 	throw ExceptionNumericalC("SVD failed.");
     } else {
