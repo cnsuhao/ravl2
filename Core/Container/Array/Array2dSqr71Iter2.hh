@@ -142,6 +142,14 @@ namespace RavlN {
     //: Access lowest row
     // Use with [] operator. Only use index's from -3 to 3. 
     
+    Data2T &Data2() 
+    { return cit.Data2(); }
+    //: Access data from second array.
+    
+    const Data2T &Data2() const
+    { return cit.Data2(); }
+    //: Access data from second array.
+    
   protected:
     Array2dC<Data1T> array1;
     Array2dC<Data2T> array2;
