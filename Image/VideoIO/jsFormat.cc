@@ -54,6 +54,7 @@ namespace RavlImageN {
   FileFormatJSBodyC::ProbeLoad(const StringC &nfilename,IStreamC &in,const type_info &obj_type) const {
     StringC suffix = Extension(nfilename);
     ONDEBUG(cerr << "FileFormatJSBodyC::ProbeLoad() Called. Filename:'"<<nfilename <<"' Ext:'" << suffix << "'  LoadType:'" << TypeName(obj_type) << "'\n");
+    // FIXME :- Check magic number.
     if (suffix != "js")
       return typeid(void);
     return typeid(ImageC<ByteYUV422ValueC>);
