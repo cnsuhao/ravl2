@@ -199,7 +199,7 @@ namespace RavlN {
     
     RavlAssert(vertFrom.Next() != vertTo);
     RavlAssert(vertFrom.Prev() != vertTo);
-    RavlAssert(vertFrom.Vertex() != vertTo.Vertex());
+    RavlAssertMsg(vertFrom.Vertex() != vertTo.Vertex(),"HEMeshBaseBodyC::TwistEdge(), Called with identical source and destination vertices. ");
     
     RavlAssert(edgep != vertFrom);
     RavlAssert(edgep != vertTo);
