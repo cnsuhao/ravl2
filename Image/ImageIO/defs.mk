@@ -22,9 +22,7 @@ SOURCES = ImgIOPNM.cc PNMFormat.cc ImgIOInt.cc ImgIOByte.cc \
 
 MUSTLINK = RavlImgIO.cc 
 
-LIBDEPS= RavlImageIO.def
-
-PLIB = RavlImage
+PLIB = RavlImageIO
 
 EXAMPLES = exImgIO.cc
 
