@@ -11,9 +11,9 @@
 //! docentry="Ravl.Core.Reference Counting"
 //! file="Ravl/Core/Base/RCWrap.hh"
 //! lib=RavlCore
-//! userlevel=Default
-//! author=""
-//! date=""
+//! userlevel=Normal
+//! author="Charles Galambos"
+//! date="06/05/1998"
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/RCAbstract.hh"
