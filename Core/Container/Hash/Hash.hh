@@ -89,7 +89,7 @@ namespace RavlN {
   
   ///////////////////////////////
   //! userlevel=Normal
-  //: General hash table.
+  //: General hash table. (auto-resizing) 
   // Note this is a SMALL OBJECT, assignment of these hash tables creates a new copy of the object. 
   // RCHashC is a fully refrence counted version of this class. <br>
   // Type K is the hash key, it mush define a function<p>
