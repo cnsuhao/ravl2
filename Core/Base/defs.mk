@@ -45,6 +45,7 @@ TESTEXES= testRavlBase.cc testCalls.cc testString.cc testStream.cc testTFVector.
 EXAMPLES = exIndex.cc exRefCounter.cc exRefCounterInherit.cc exQInt.cc exTrigger.cc 
 
 EHT=Ravl.Core.Indexing.eht Ravl.Core.Error_Handling.eht Ravl.Core.Misc.eht Ravl.Core.Reference_Counting.eht \
- Ravl.Core.Strings.html Ravl.Core.IO.Streams.html Ravl.Core.Calls.html Ravl.Core.Math.QInt.html
+ Ravl.Core.Strings.html Ravl.Core.IO.Streams.html Ravl.Core.Calls.html Ravl.Core.Math.QInt.html Ravl.Core.Locks.html
+
 
 
