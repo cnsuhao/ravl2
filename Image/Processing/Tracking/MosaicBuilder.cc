@@ -249,8 +249,8 @@ namespace RavlImageN {
     if (mosaic.IsValid()) {
       for(Array2dIter2C<ByteRGBMedianC,ByteRGBMedianC> it(mosaic, newMosaic, mosaic.Rectangle()); it;it++ )
 	it.Data2() = it.Data1();
-      mosaic = newMosaic;
     }
+    mosaic = newMosaic;
   }
 
   //: Warps current frame into mosaic coords
