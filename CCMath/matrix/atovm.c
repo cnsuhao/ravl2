@@ -5,6 +5,7 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
+#include "ccmath/ccmath.h"
 void atovm(double *v,int n)
 { double *p0,*q0,*p,*q,*qq;
   double h,s;

@@ -5,6 +5,7 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
+#include "ccmath/ccmath.h"
 double dcspl(double x,double *u,double *v,double *z,int m)
 { int i,k; double h,d;
   if(x>u[m] || x<u[0]) return 0.;

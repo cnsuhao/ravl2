@@ -7,6 +7,7 @@
  */
 #include <math.h>
 #include <stdlib.h>
+#include "ccmath/ccmath.h"
 void csplp(double *x,double *y,double *z,int m,double tn)
 { double h,s,t,u,*pa,*pb,*pc,*a,*b,*c;
   int j;

@@ -9,7 +9,7 @@
    C version of the routine for a multiplicative
    generator modulo 2^31-1.
 */
-
+#include "ccmath/ccmath.h"
 static unsigned int m=16807U,k=0xffffU,j=0xfffeU;
 static unsigned int u=0x80000000U,v=0x7fffffffU;
 unsigned int lrana(unsigned int s)

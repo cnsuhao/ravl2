@@ -5,7 +5,7 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
-
+#include "ccmath/ccmath.h"
 #include <math.h>
 
 int solvru(double *a,double *b,int n)

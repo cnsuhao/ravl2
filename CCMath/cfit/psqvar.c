@@ -7,6 +7,7 @@
  */
 #include <stdlib.h>
 #include "ccmath/orpol.h"
+#include "ccmath/ccmath.h"
 void psqvar(double *v,double sig,Opol *c,int m)
 { int i,j,k; double *sm,*s,*s1,*u,w,x;
   if(m>1){

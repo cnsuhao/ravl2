@@ -5,6 +5,7 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
+#include "ccmath/ccmath.h"
 #include <math.h>
 int qrbdi(double *dm,double *em,int m)
 { int i,j,k,n;

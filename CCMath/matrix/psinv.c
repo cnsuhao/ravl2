@@ -5,6 +5,7 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
+#include "ccmath/ccmath.h"
 #include <math.h>
 #include "ccmath/matutl.h"
 int psinv(double *v,int n)

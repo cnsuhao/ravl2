@@ -5,8 +5,8 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
-struct complex {double re,im;};
-int ftuns(struct complex **pt,int n)
+#include "ccmath/ccmath.h"
+void ftuns(struct complex **pt,int n)
 { struct complex **p,**q; int j; double x,y,u,v,h=2.;
   p=pt+1; q=pt+n-1;
   if(n%2==0) n/=2; else n=n/2+1;
@@ -16,5 +16,4 @@ int ftuns(struct complex **pt,int n)
     (*p)->re=x; (*p++)->im=y;
     (*q)->re=u; (*q--)->im=v;
    }
-  return 0;
 }

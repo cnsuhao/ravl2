@@ -5,6 +5,7 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
+#include "ccmath/ccmath.h"
 void vmul(double *vp,double *mat,double *v,int n)
 { double s,*q; int k,i;
   for(k=0; k<n ;++k){

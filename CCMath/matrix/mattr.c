@@ -5,6 +5,7 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
+#include "ccmath/ccmath.h"
 void mattr(double *a,double *b,int m,int n)
 { double *p; int i,j;
   for(i=0; i<n ;++i,++b)

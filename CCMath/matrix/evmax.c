@@ -5,6 +5,7 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
+#include "ccmath/ccmath.h"
 #include <math.h>
 #include <stdlib.h>
 double evmax(double *a,double *u,int n)

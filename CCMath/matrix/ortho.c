@@ -5,6 +5,7 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
+#include "ccmath/ccmath.h"
 #include <math.h>
 static double tpi=6.28318530717958647;
 void ortho(double *e,int n)

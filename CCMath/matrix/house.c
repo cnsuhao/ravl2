@@ -5,6 +5,7 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
+#include "ccmath/ccmath.h"
 #include <stdlib.h>
 #include <math.h>
 void house(double *a,double *d,double *dp,int n)

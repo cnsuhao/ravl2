@@ -5,6 +5,7 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
+#include "ccmath/ccmath.h"
 #include <stdlib.h>
 void rmmult(double *rm,double *a,double *b,int n,int m,int l)
 { double z,*q0,*p,*q; int i,j,k;

@@ -5,9 +5,10 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
+#include "ccmath/ccmath.h"
 #include <math.h>
 int qreval(double *ev,double *dp,int n)
-{ double cc,sc,d,x,y,h,tzr=1.e-15;
+{ double cc,sc = 0,d,x,y,h,tzr=1.e-15;
   int j,k,m,mqr=8*n;
   for(j=0,m=n-1;;++j){
     while(1){ if(m<1) return 0; k=m-1;

@@ -5,6 +5,7 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
+#include "ccmath/ccmath.h"
 double csfit(double w,double *x,double *y,double *z,int m)
 { double s,t; int j,k;
   if(w<x[0] || w>x[m]) return 0.;

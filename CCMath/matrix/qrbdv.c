@@ -5,6 +5,7 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
+#include "ccmath/ccmath.h"
 #include <math.h>
 int qrbdv(double *dm,double *em,double *um,int mm,double *vm,int m)
 { int i,j,k,n,jj,nm;

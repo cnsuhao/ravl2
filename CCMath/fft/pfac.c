@@ -5,6 +5,7 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
+#include "ccmath/ccmath.h"
 static int kpf[26]={2,3,5,7,11,13,17,19,23,29,31,37,
   41,43,47,53,59,61,67,71,73,79,83,89,97,101};
 int pfac(int n,int *kk,int fe)

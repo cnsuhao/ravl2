@@ -5,6 +5,7 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
+#include "ccmath/ccmath.h"
 #include "ccmath/complex.h"
 #include "ccmath/matutl.h"
 void cmmul(Cpx *c,Cpx *a,Cpx *b,int n)

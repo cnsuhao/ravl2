@@ -6,8 +6,7 @@
  * ------------------------------------------------------------------------
  */
 #include <stdlib.h>
-void vmul(double *x,double *v,double *y,int n);
-void smgen(double *var,double *y,double *v,int n);
+#include "ccmath/ccmath.h"
 double lsqsv(double *x,int *pr,double *var,double *d,double *b,double *v,
 		int m,int n,double th)
 { double ssq,sig,*y,*p;

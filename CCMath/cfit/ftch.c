@@ -5,6 +5,7 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
+#include "ccmath/ccmath.h"
 double ftch(double x,double *a,int m,double *b,int n)
 { double *p,y,t,tf,nu,de;
   y=2.*x; t=tf=0.;

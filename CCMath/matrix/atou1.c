@@ -6,6 +6,7 @@
  * ------------------------------------------------------------------------
  */
 #include <stdlib.h>
+#include "ccmath/ccmath.h"
 void atou1(double *a,int m,int n)
 { double *p0,*p,*q,*w;
   int i,j,k,mm;

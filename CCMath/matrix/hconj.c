@@ -5,6 +5,7 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
+#include "ccmath/ccmath.h"
 #include "ccmath/complex.h"
 void hconj(Cpx *a,int n)
 { Cpx s,*p,*q;

@@ -6,7 +6,8 @@
  * ------------------------------------------------------------------------
  */
 #include <stdlib.h>
-int smoo(double *x,int n,int m)
+#include "ccmath/ccmath.h"
+void smoo(double *x,int n,int m)
 { double *p,*q,*pmax,*pmin,*pa,*pb,*ph;
   int ms; double s,t;
   ms=2*m+1; ph=x+n/2;
@@ -22,5 +23,4 @@ int smoo(double *x,int n,int m)
    }
   for(pa=ph-1,pb=ph+1; pa>x ;) *pb++ = *pa--;
   free(pmin);
-  return 0;
 }

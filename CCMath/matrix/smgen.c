@@ -5,6 +5,7 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
+#include "ccmath/ccmath.h"
 void smgen(double *a,double *eval,double *evec,int n)
 { double *p,*q,*ps,*r,*s,*t,*v=evec+n*n;
   for(ps=a,p=evec; p<v ;p+=n){

@@ -7,6 +7,7 @@
  */
 #include <math.h>
 #include <stdlib.h>
+#include "ccmath/ccmath.h"
 double seqlsq(double *x,double *y,int n,double *par,double *var,int m,
 		double de,double (*func)(double,double*),int kf)
 { double *pd,*pc,*pmax,*p,*q,*r,*s,*t;

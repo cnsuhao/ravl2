@@ -5,6 +5,7 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
+#include "ccmath/ccmath.h"
 #include <stdlib.h>
 void otrma(double *c,double *a,double *b,int n)
 { double z,*q0,*p,*s,*t;

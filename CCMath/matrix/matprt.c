@@ -5,6 +5,7 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
+#include "ccmath/ccmath.h"
 #include <stdio.h>
 void matprt(double *a,int n,int m,char *fmt)
 { int i,j; double *p;

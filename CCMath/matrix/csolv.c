@@ -5,6 +5,7 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
+#include "ccmath/ccmath.h"
 #include <stdlib.h>
 #include "ccmath/complex.h"
 int csolv(Cpx *a,Cpx *b,int n)

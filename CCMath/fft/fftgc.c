@@ -5,6 +5,7 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
+#include "ccmath/ccmath.h"
 #include "ccmath/complex.h"
 #include <stdlib.h>
 void pshuf(Cpx **pa,Cpx **pb,int *kk,int n);

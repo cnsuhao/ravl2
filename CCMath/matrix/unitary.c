@@ -5,32 +5,12 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
+#include "ccmath/ccmath.h"
 #include <stdlib.h>
 #include "ccmath/complex.h"
 
 static double tpi=6.283185307179586;
 double unfl();
-
-static void ortho(double *g,int n)
-{ int i,j,k,m;
-  double *p,*q,c,s,a;
-  for(i=0,p=g; i<n ;++i){
-    for(j=0; j<n ;++j){
-      if(i==j) *p++ =1.; else *p++ =0.;
-     }
-   }
-  for(i=0,m=n-1; i<m ;++i){
-    for(j=i+1; j<n ;++j){
-      a=tpi*unfl();
-      c=cos(a); s=sin(a);
-      p=g+n*i; q=g+n*j;
-      for(k=0; k<n ;++k){
-        a=*p*c+ *q*s; *q=*q*c- *p*s;
-        *p++ =a; ++q;
-       }
-     }
-   }
-}
 
 void unitary(Cpx *u,int n)
 { int i,j,k,m; Cpx h,*v,*e,*p,*r;

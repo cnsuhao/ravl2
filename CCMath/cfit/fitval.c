@@ -7,6 +7,7 @@
  */
 #include <math.h>
 #include <stdlib.h>
+#include "ccmath/ccmath.h"
 static double *h,dl=1.e-8;
 double fitval(double x,double *s,double *par,double (*fun)(double,double*),
 	  double *v,int n)

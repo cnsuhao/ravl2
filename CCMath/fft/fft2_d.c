@@ -6,9 +6,10 @@
  * ------------------------------------------------------------------------
  */
 #include <stdlib.h>
+#include "ccmath/ccmath.h"
 #include "ccmath/complex.h"
 void fft2(struct complex *ff,int k,int j);
-int fft2_d(struct complex *a,int m,int n,int f)
+void fft2_d(struct complex *a,int m,int n,int f)
 { register int md,nd,i,j; struct complex *p,*q;
   register struct complex *r,*s;
   md=1<<m; nd=1<<n;
@@ -22,5 +23,4 @@ int fft2_d(struct complex *a,int m,int n,int f)
     for(r=q,s=p++,j=0; j<md ;++j) *(s+=nd)= *r++;
    }
   free(q);
-  return 0;
 }

@@ -5,6 +5,7 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
+#include "ccmath/ccmath.h"
 void mcopy(double *a,double *b,int m)
 { double *p,*q; int k;
   for(p=a,q=b,k=0; k<m ;++k) *p++ = *q++;

@@ -5,6 +5,7 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
+#include "ccmath/ccmath.h"
 static unsigned int s;
 unsigned int lrana(unsigned int);
 unsigned int lrand()

@@ -5,7 +5,7 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
-int ruinv(double *v,int n);
+#include "ccmath/ccmath.h"
 double qrvar(double *v,int m,int n,double ssq)
 { int j,k;
   double z,*p,*q,*r,*s,*t;

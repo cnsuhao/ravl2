@@ -7,6 +7,7 @@
  */
 #include <stdlib.h>
 #include <math.h>
+#include "ccmath/ccmath.h"
 void ldvmat(double *a,double *v,int n);
 int qrbdbv(double *d,double *e,double *b,double *v,int n);
 int svdlsq(double *d,double *a,double *b,int m,double *v,int n)

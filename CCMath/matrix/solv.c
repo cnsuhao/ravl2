@@ -5,6 +5,7 @@
  *  public license. ( See the gpl.license file for details.)
  * ------------------------------------------------------------------------
  */
+#include "ccmath/ccmath.h"
 #include <stdlib.h>
 #include <math.h>
 int solv(double *a,double *b,int n)

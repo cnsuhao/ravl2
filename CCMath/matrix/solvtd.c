@@ -5,6 +5,7 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
+#include "ccmath/ccmath.h"
 void solvtd(double *a,double *b,double *c,double *x,int m)
 { double s; int j;
   for(j=0; j<m ;++j){ s=b[j]/a[j];

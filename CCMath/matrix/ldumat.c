@@ -5,6 +5,7 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
+#include "ccmath/ccmath.h"
 #include <stdlib.h>
 void ldumat(double *a,double *u,int m,int n)
 { double *p0,*q0,*p,*q,*w;

@@ -6,6 +6,7 @@
  * ------------------------------------------------------------------------
  */
 #include <math.h>
+#include "ccmath/ccmath.h"
 double tnsfit(double w,double *x,double *y,double *z,int m,double tn)
 { double s,t,u,a=sinh(tn); int j,k;
   if(w<x[0] || w>x[m]) return 0.;

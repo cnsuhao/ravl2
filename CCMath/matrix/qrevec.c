@@ -5,9 +5,10 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
+#include "ccmath/ccmath.h"
 #include <math.h>
 int qrevec(double *ev,double *evec,double *dp,int n)
-{ double cc,sc,d,x,y,h,tzr=1.e-15;
+{ double cc,sc = 0,d,x,y,h,tzr=1.e-15;
   int i,j,k,m,mqr=8*n;
   double *p;
   for(j=0,m=n-1;;++j){

@@ -5,6 +5,7 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
+#include "ccmath/ccmath.h"
 static unsigned int a=69069U,c=244045795U;
 static unsigned int s,h,sbuf[256];
 double unfl()

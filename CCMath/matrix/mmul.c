@@ -5,6 +5,7 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
+#include "ccmath/ccmath.h"
 #include "ccmath/matutl.h"
 void mmul(double *c,double *a,double *b,int n)
 { double *p,*q,s; int i,j,k;

@@ -6,6 +6,7 @@
  * ------------------------------------------------------------------------
  */
 #include <math.h>
+#include "ccmath/ccmath.h"
 int qrbdbv(double *d,double *e,double *b,double *v,int n)
 { int i,j,k,nn,jj,nm;
   double u,x,y,f,g,c,s,t,w,*p,*q;
