@@ -57,8 +57,10 @@ For an elementary example of its usage, look at the example in
 
 <h4> Some notes on image processing operators:</h4>
 <ul>
-  <li> <b> Filter boundaries </b> To keep the core RAVL image  processing routines simple and fast 
- they have been written deal with boundary cases by shrinking the image results are written into.
+  <li> <b> Filter boundaries </b> 
+ To keep the core RAVL image processing routines simple and fast, they
+ have been written to deal with boundary cases by shrinking the image
+ that the results are written into.
  This means the result images will often be smaller than the input. 
  This has been done for two reasons, the correct handling of boundaries depends on the application, and to keep
  the core routines as simple as possible.  To allow the boundary cases to be handled the core routines will write
