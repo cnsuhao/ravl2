@@ -12,7 +12,7 @@
 //! lib=RavlPatternRec
 //! docentry="Ravl.Pattern Recognition.Cluster"
 
-#include "Ravl/PatternRec/DesignClassifierUnsupervised.hh"
+#include "Ravl/PatternRec/DesignCluster.hh"
 #include "Ravl/PatternRec/DistanceSqrEuclidean.hh"
 
 namespace RavlN {
@@ -22,7 +22,7 @@ namespace RavlN {
   //: Cluster with mean shift.
   
   class DesignMeanShiftClusterBodyC
-    : public DesignClassifierUnsupervisedBodyC
+    : public DesignClusterBodyC
   {
   public:
     DesignMeanShiftClusterBodyC(RealT nk,RealT ntermiter = 1.0,const DistanceC &distanceMetric = DistanceSqrEuclideanC())
@@ -45,15 +45,21 @@ namespace RavlN {
     
     virtual bool Save (BinOStreamC &out) const;
     //: Writes object to stream, can be loaded using constructor
-
+    
     virtual FunctionC Apply(const SampleC<VectorC> &in);
     //: Create a clasifier.
+    
+    virtual SArray1dC<MeanCovarianceC> Cluster(const SampleC<VectorC> &in);
+    //: Compute cluster means.
     
     RealT K() const
     { return k; }
     //: Access size of kernel
     
   protected:
+    DListC<VectorC> FindMeans(const SampleC<VectorC> &in);
+    //: Find means for 'in'.
+
     DistanceC distance;
     RealT k;
     RealT termiter;
@@ -63,7 +69,7 @@ namespace RavlN {
   //: Cluster with mean shift.
   
   class DesignMeanShiftClusterC 
-    : public  DesignClassifierUnsupervisedC
+    : public  DesignClusterC
   {
   public:
     DesignMeanShiftClusterC()
@@ -72,7 +78,7 @@ namespace RavlN {
     // Creates an invalid constructor.
     
     DesignMeanShiftClusterC(RealT k,RealT ntermiter = 1.0,const DistanceC &distanceMetric = DistanceSqrEuclideanC())
-      : DesignClassifierUnsupervisedC(*new DesignMeanShiftClusterBodyC(k,ntermiter,distanceMetric))
+      : DesignClusterC(*new DesignMeanShiftClusterBodyC(k,ntermiter,distanceMetric))
     {}
     //: Default constructor.
     // Creates an invalid constructor.
@@ -85,12 +91,12 @@ namespace RavlN {
     
   protected:
     DesignMeanShiftClusterC(DesignMeanShiftClusterBodyC &bod)
-      : DesignClassifierUnsupervisedC(bod)
+      : DesignClusterC(bod)
     {}
     //: Body constructor.
 
     DesignMeanShiftClusterC(DesignMeanShiftClusterBodyC *bod)
-      : DesignClassifierUnsupervisedC(bod)
+      : DesignClusterC(bod)
     {}
     //: Body ptr constructor.
     

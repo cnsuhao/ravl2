@@ -32,7 +32,7 @@ namespace RavlN {
   //: Load from stream.
   
   DesignMeanShiftClusterBodyC::DesignMeanShiftClusterBodyC(istream &strm) 
-    : DesignClassifierUnsupervisedBodyC(strm)
+    : DesignClusterBodyC(strm)
   {
     IntT version;
     strm >> version;
@@ -44,7 +44,7 @@ namespace RavlN {
   //: Load from binary stream.
   
   DesignMeanShiftClusterBodyC::DesignMeanShiftClusterBodyC(BinIStreamC &strm) 
-    : DesignClassifierUnsupervisedBodyC(strm)
+    : DesignClusterBodyC(strm)
   {
     IntT version;
     strm >> version;
@@ -56,7 +56,7 @@ namespace RavlN {
   //: Writes object to stream, can be loaded using constructor
   
   bool DesignMeanShiftClusterBodyC::Save (ostream &out) const {
-    if(!DesignClassifierUnsupervisedBodyC::Save(out))
+    if(!DesignClusterBodyC::Save(out))
       return false;
     IntT version = 0;
     out << ' ' << version << ' ' << distance << ' ' << k << ' ' << termiter;
@@ -66,27 +66,23 @@ namespace RavlN {
   //: Writes object to stream, can be loaded using constructor
   
   bool DesignMeanShiftClusterBodyC::Save (BinOStreamC &out) const {
-    if(!DesignClassifierUnsupervisedBodyC::Save(out))
+    if(!DesignClusterBodyC::Save(out))
       return false;
     IntT version = 0;
     out << version << distance << k << termiter;
     return true;
   }
   
+  //: Find means for 'in'.
   
-  //: Create a clasifier.
-  
-  FunctionC DesignMeanShiftClusterBodyC::Apply(const SampleC<VectorC> &in) {
-    ONDEBUG(cerr << "DesignMeanShiftClusterBodyC::Apply(), Called with " << in.Size() << " vectors. K=" << k << "\n");
-    
+  DListC<VectorC> DesignMeanShiftClusterBodyC::FindMeans(const SampleC<VectorC> &in) {
+    DListC<VectorC> clusters;
     if(in.Size() == 0) {
       cerr << "DesignMeanShiftClusterBodyC::Apply(), WARNING: No data samples given. \n";
-      return FunctionC();
+      return clusters;
     }
     
-    DListC<VectorC> clusters;
     UIntT count = 0;
-    
     VectorC shift(in.First().Size());
     VectorC mean;
     for(SampleIterC<VectorC> sit(in);sit;sit++) { // Got through all possible start points.
@@ -115,14 +111,32 @@ namespace RavlN {
       if(!cit) // Cluster not found.
 	clusters.InsLast(mean.Copy());
     }
-    
+    return clusters;
+  }
+  
+  //: Create a clasifier.
+  
+  FunctionC DesignMeanShiftClusterBodyC::Apply(const SampleC<VectorC> &in) {
+    ONDEBUG(cerr << "DesignMeanShiftClusterBodyC::Apply(), Called with " << in.Size() << " vectors. K=" << k << "\n");
+    DListC<VectorC> clusters = FindMeans(in);    
     SampleC<VectorC> newMeans(clusters.Size());
     for(DLIterC<VectorC> cit(clusters);cit;cit++)
       newMeans.Append(*cit);
     return ClassifierNearestNeighbourC(newMeans,distance);
   }
+
+  //: Compute cluster means.
+
+  SArray1dC<MeanCovarianceC> DesignMeanShiftClusterBodyC::Cluster(const SampleC<VectorC> &in) {
+    DListC<VectorC> clusters = FindMeans(in);
+    SArray1dC<MeanCovarianceC> ret(clusters.Size());
+    DLIterC<VectorC> lit(clusters);
+    for(SArray1dIterC<MeanCovarianceC> ait(ret);ait;ait++,lit++)
+      *ait = *lit;
+    return ret;
+  }
   
-  RAVL_INITVIRTUALCONSTRUCTOR_FULL(DesignMeanShiftClusterBodyC,DesignMeanShiftClusterC,DesignClassifierUnsupervisedC);
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(DesignMeanShiftClusterBodyC,DesignMeanShiftClusterC,DesignClusterC);
 
 }
 

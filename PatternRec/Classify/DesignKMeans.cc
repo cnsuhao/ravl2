@@ -30,7 +30,7 @@ namespace RavlN {
   //: Load from stream.
   
   DesignKMeansBodyC::DesignKMeansBodyC(istream &strm)
-    : DesignClassifierUnsupervisedBodyC(strm)
+    : DesignClusterBodyC(strm)
   { 
     IntT version;
     strm >> version;
@@ -41,7 +41,7 @@ namespace RavlN {
   //: Load from binary stream.
   
   DesignKMeansBodyC::DesignKMeansBodyC(BinIStreamC &strm)
-    : DesignClassifierUnsupervisedBodyC(strm)
+    : DesignClusterBodyC(strm)
   {
     IntT version;
     strm >> version;
@@ -52,7 +52,7 @@ namespace RavlN {
   //: Writes object to stream, can be loaded using constructor
   
   bool DesignKMeansBodyC::Save (ostream &out) const {
-    if(!DesignClassifierUnsupervisedBodyC::Save(out))
+    if(!DesignClusterBodyC::Save(out))
       return false;
     IntT version = 0;
     out << ' ' << version << ' ' << distance << ' ' <<  k;
@@ -62,7 +62,7 @@ namespace RavlN {
   //: Writes object to stream, can be loaded using constructor
   
   bool DesignKMeansBodyC::Save (BinOStreamC &out) const {
-    if(!DesignClassifierUnsupervisedBodyC::Save(out))
+    if(!DesignClusterBodyC::Save(out))
       return false;
     IntT version = 0;
     out << version << distance << k;
@@ -72,15 +72,39 @@ namespace RavlN {
   //: Create a clasifier.
   
   FunctionC DesignKMeansBodyC::Apply(const SampleC<VectorC> &in) {
+    SArray1dC<VectorC> means = FindMeans(in);
+    if(means.Size() == 0)
+      return FunctionC();
+    return ClassifierNearestNeighbourC(SampleC<VectorC>(means),distance);
+  }
+
+  //: Create a clasifier.
+  
+  SArray1dC<MeanCovarianceC> DesignKMeansBodyC::Cluster(const SampleC<VectorC> &in) {
+    SArray1dC<VectorC> means = FindMeans(in);
+    SArray1dC<MeanCovarianceC> ret(means.Size());
+    for(SArray1dIter2C<VectorC,MeanCovarianceC> it(means,ret);it;it++)
+      it.Data2() = MeanCovarianceC(1,it.Data1(),MatrixC::Identity(it.Data1().Size()));
+    return ret;
+  }
+
+  //: Find means for 'in'.
+  
+  SArray1dC<VectorC> DesignKMeansBodyC::FindMeans(const SampleC<VectorC> &in) {
     ONDEBUG(cerr << "DesignKMeansBodyC::Apply(), Called with " << in.Size() << " vectors. K=" << k << "\n");
     SArray1dC<VectorC> means(k);
     if(in.Size() == 0) {
       cerr << "DesignKMeansBodyC::Apply(), WARNING: No data samples given. \n";
-      return ClassifierC();
+      return SArray1dC<VectorC>();
     }
     if(in.Size() <= k) {
       cerr << "DesignKMeansBodyC::Apply(), WARNING: Fewer samples than means. \n";
-      return ClassifierNearestNeighbourC(in,distance);
+      //return ClassifierNearestNeighbourC(in,distance);
+      means = SArray1dC<VectorC>(in.Size());
+      SampleIterC<VectorC> sit(in);
+      for(SArray1dIterC<VectorC> it(means);it;it++,sit++)
+	*it = *sit;
+      return means;
     }
     
     // Pick some random points from the set to use as initial means.
@@ -152,10 +176,12 @@ namespace RavlN {
       ONDEBUG(cerr <<"Iteration complete. Cost=" << cost << " Oldcost=" << oldcost << "\n");
     } while(iters < 3 || ((oldcost - cost) > 1e-6) );
     
-    return ClassifierNearestNeighbourC(SampleC<VectorC>(means),distance);
+    return means;
   }
+
+
   
-  RAVL_INITVIRTUALCONSTRUCTOR_FULL(DesignKMeansBodyC,DesignKMeansC,DesignClassifierUnsupervisedC);
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(DesignKMeansBodyC,DesignKMeansC,DesignClusterC);
 
   
 }

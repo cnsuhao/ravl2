@@ -12,7 +12,7 @@
 //! docentry="Ravl.Pattern Recognition.Cluster"
 //! example=exKMeansCluster.cc
 
-#include "Ravl/PatternRec/DesignClassifierUnsupervised.hh"
+#include "Ravl/PatternRec/DesignCluster.hh"
 #include "Ravl/PatternRec/DistanceSqrEuclidean.hh"
 
 namespace RavlN {
@@ -21,7 +21,7 @@ namespace RavlN {
   //: Design a k means classifer.
   
   class DesignKMeansBodyC
-    : public DesignClassifierUnsupervisedBodyC
+    : public DesignClusterBodyC
   {
   public:
     DesignKMeansBodyC(UIntT nk,const DistanceC &distanceMetric = DistanceSqrEuclideanC())
@@ -45,11 +45,17 @@ namespace RavlN {
     virtual FunctionC Apply(const SampleC<VectorC> &in);
     //: Create a clasifier.
     
+    SArray1dC<MeanCovarianceC> Cluster(const SampleC<VectorC> &in);
+    //: Compute cluster means.
+    
     UIntT K() const
     { return k; }
     //: Access number of clusters.
     
   protected:
+    SArray1dC<VectorC> FindMeans(const SampleC<VectorC> &in);
+    //: Find means for 'in'.
+    
     DistanceC distance;
     UIntT k;
   };
@@ -58,7 +64,7 @@ namespace RavlN {
   //: Design a k means classifer.
   
   class DesignKMeansC 
-    : public  DesignClassifierUnsupervisedC
+    : public  DesignClusterC
   {
   public:
     DesignKMeansC()
@@ -67,7 +73,7 @@ namespace RavlN {
     // Creates an invalid constructor.
     
     DesignKMeansC(UIntT k,const DistanceC &distanceMetric = DistanceSqrEuclideanC())
-      : DesignClassifierUnsupervisedC(*new DesignKMeansBodyC(k,distanceMetric))
+      : DesignClusterC(*new DesignKMeansBodyC(k,distanceMetric))
     {}
     //: Default constructor.
     // Creates an invalid constructor.
@@ -80,21 +86,21 @@ namespace RavlN {
     
   protected:
     DesignKMeansC(DesignKMeansBodyC &bod)
-      : DesignClassifierUnsupervisedC(bod)
+      : DesignClusterC(bod)
     {}
     //: Body constructor.
 
     DesignKMeansC(DesignKMeansBodyC *bod)
-      : DesignClassifierUnsupervisedC(bod)
+      : DesignClusterC(bod)
     {}
     //: Body ptr constructor.
     
     DesignKMeansBodyC &Body()
-    { return static_cast<DesignKMeansBodyC &>(DesignClassifierUnsupervisedC::Body()); }
+    { return static_cast<DesignKMeansBodyC &>(DesignFunctionUnsupervisedC::Body()); }
     //: Access body.
-
+    
     const DesignKMeansBodyC &Body() const
-    { return static_cast<const DesignKMeansBodyC &>(DesignClassifierUnsupervisedC::Body()); }
+    { return static_cast<const DesignKMeansBodyC &>(DesignFunctionUnsupervisedC::Body()); }
     //: Access body.
     
   public:
