@@ -366,6 +366,10 @@ namespace RavlN {
     //: Add the 'sr' to this rectangle.
     // As operator+=(const IndexRange2dC &sr), but returns the modified rectangle.
     
+    IndexRange2dC AlignWithin(IntT alignment) const 
+    { return IndexRange2dC(Range1().AlignWithin(alignment),Range2().AlignWithin(alignment)); }
+    //: Return a range within this range that has start and end points which are integer multples of 'alignment' 
+    
   protected:
     inline const IndexRange2dC & Range() const
     { return(*this); }

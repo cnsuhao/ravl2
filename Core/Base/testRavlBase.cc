@@ -160,6 +160,23 @@ int testIndex()
   xr1.ClipBy(xr2);
   if(xr1.Size() != 0) return __LINE__;
   
+  if((IndexC(-4) % 3) != 2) return __LINE__;
+  
+  // Check align within 
+  for(int i = 1;i < 8;i++) {
+    for(int j = 0;j < 10;j++) {
+      for(int k = -10;k < 10;k++) {
+        IndexRangeC rng(j,j+k);
+        IndexRangeC srng = rng.AlignWithin(i);
+        //cerr << "I=" << i << " Rng=" << rng << " SRng=" << srng << " Size=" << srng.Size() <<"\n";
+        if(srng.Size() > 0) {
+          if(!rng.Contains(srng)) return __LINE__;
+          if(srng.Min() % i != 0) return __LINE__;
+          if(srng.Size() % i != 0) return __LINE__;
+        }
+      }
+    }
+  }
   return 0;
 }
 

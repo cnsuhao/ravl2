@@ -296,6 +296,12 @@ namespace RavlN {
     bool operator!=(const IndexRange3dC &oth) const
     { return oth.Range1() != Range1() || oth.Range2() != Range2() || oth.Range3() != Range3(); }
     //: Are two ranges unequal ?
+
+    IndexRange3dC AlignWithin(IntT alignment) const 
+    { return IndexRange3dC(Range1().AlignWithin(alignment),
+                           Range2().AlignWithin(alignment),
+                           Range3().AlignWithin(alignment)); }
+    //: Return a range within this range that has start and end points which are integer multples of 'alignment' 
     
   protected:
     inline const IndexRange3dC & Range() const

@@ -310,6 +310,14 @@ namespace RavlN {
     //: Subtract ranges.
     // returns minI - subRange.minI, maxI - subRange.maxI
     
+    IndexRangeC AlignWithin(IntT alignment) const {
+      IndexRangeC ret((Min() % alignment) == 0 ? Min() : (Min() + alignment - Min() % alignment),
+                      Max() - (Max()+1) % alignment);
+      if(ret.Min() > ret.Max()) ret.Max() = ret.Min()-1;
+      return ret;
+    }
+    //: Return a range within this range that has start and end points which are integer multples of 'alignment' 
+    
   private:    
     IndexC minI; // Minimum index.
     IndexC maxI; // Maximum index.
