@@ -14,6 +14,7 @@
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/Vector.hh"
+#include "Ravl/PatternRec/Function1.hh"
 
 namespace RavlN {
   
@@ -21,7 +22,7 @@ namespace RavlN {
   //: Distance body.
   
   class DistanceBodyC
-    : public RCBodyVC
+    : public Function1BodyC
   {
   public:
     DistanceBodyC()
@@ -34,13 +35,15 @@ namespace RavlN {
     virtual RealT Magnitude(const VectorC &d1) const;
     //: Measure the magnitude of d1.
     
+    virtual RealT Apply1(const VectorC &data) const;
+    //: Apply function to 'data'
   };
   
   //! userlevel=Normal
   //: Distance Metric
   
   class DistanceC
-    : public RCHandleC<DistanceBodyC>
+    : public Function1C
   {
   public:
     DistanceC()
@@ -50,16 +53,16 @@ namespace RavlN {
     
   protected:
     DistanceC(DistanceBodyC &bod)
-      : RCHandleC<DistanceBodyC>(bod)
-      {}
+      : Function1C(bod)
+    {}
     //: Body constructor.
     
     DistanceBodyC &Body()
-      { return RCHandleC<DistanceBodyC>::Body(); }
+    { return static_cast<DistanceBodyC &>(FunctionC::Body()); }
     //: Access body.
     
     const DistanceBodyC &Body() const
-      { return RCHandleC<DistanceBodyC>::Body(); }
+    { return static_cast<const DistanceBodyC &>(FunctionC::Body()); }
     //: Access body.
     
   public:

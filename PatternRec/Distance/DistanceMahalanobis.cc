@@ -27,4 +27,21 @@ namespace RavlN {
     return Sqrt(x.Dot(iCovar * x));
   }
   
+  //: Measure the magnitude of d1.
+  
+  RealT DistanceMahalanobisBodyC::Magnitude(const VectorC &x) const {
+    return Sqrt(x.Dot(iCovar * x));
+  }
+
+  // dS/dX = (X^T CxdI^T + X^T CxdI)/(2 sqrt(X^T CxdI X))
+  // using multiplication rule since S = sqrt(X^T CxdI X)
+  // where CxdI is the inverted covariance matrix
+  
+  MatrixC DistanceMahalanobisBodyC::Jacobian (const VectorC &X) const {
+    MatrixC V = X;
+    RealT divisor = 1/(2.0*sqrt(X.Dot (iCovar * X)));
+    MatrixC dSdX = (V.TMul (iCovar.T()) + V.TMul (iCovar)) * divisor;
+    return dSdX;
+  }
+  
 }

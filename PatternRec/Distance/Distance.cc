@@ -28,4 +28,12 @@ namespace RavlN {
     return Measure(zero,d1);
   }
   
+  //: Apply function to 'data'
+  // FIXME:- Rename all the Magnitude() methods to Apply1() and
+  // change the Magnitude() method of the handle to call Apply1().
+  
+  RealT DistanceBodyC::Apply1(const VectorC &data) const {
+    return Magnitude(data);
+  }
+  
 }

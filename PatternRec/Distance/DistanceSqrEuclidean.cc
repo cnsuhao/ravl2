@@ -19,4 +19,18 @@ namespace RavlN {
     return VectorC(d1 - d2).SumOfSqr();
   }
   
+  //: Measure the magnitude of d1.
+  
+  RealT DistanceSqrEuclideanBodyC::Magnitude(const VectorC &x) const {
+    return x.SumOfSqr();
+  }
+  
+  //: Calculates Jacobian matrix at X
+  
+  MatrixC DistanceSqrEuclideanBodyC::Jacobian (const VectorC &X) const {
+    // dS/dX = 2X^T using chain rule since S=X.X
+    MatrixC dSdX = MatrixC(X).T() * 2.0;
+    return dSdX;
+  }
+  
 }

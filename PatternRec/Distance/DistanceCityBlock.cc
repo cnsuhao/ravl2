@@ -19,4 +19,19 @@ namespace RavlN {
     return VectorC(d1 - d2).SumOfAbs();
   }
   
+  //: Measure the magnitude of d1.
+  
+  RealT DistanceCityBlockBodyC::Magnitude(const VectorC &d1) const {
+    return d1.SumOfAbs();
+  }
+  
+  //: Calculates Jacobian matrix at X
+  
+  MatrixC DistanceCityBlockBodyC::Jacobian (const VectorC &X) const {
+    MatrixC dSdX (1,X.Size());
+    for(int i = 0;i < (int) X.Size();i++)
+      dSdX[0][i] = Sign(X[i]);
+    return dSdX;
+  }
+  
 }

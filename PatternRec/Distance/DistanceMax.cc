@@ -19,4 +19,19 @@ namespace RavlN {
     return VectorC(d1 - d2).MaxMagintude();
   }
   
+  //: Measure the magnitude of d1.
+  
+  RealT DistanceMaxBodyC::Magnitude(const VectorC &d1) const {
+    return d1.MaxMagintude();
+  }
+
+  //: Calculates Jacobian matrix at X
+  
+  MatrixC DistanceMaxBodyC::Jacobian (const VectorC &X) const {
+    MatrixC dSdX (1,X.Size()); 
+    dSdX.Fill(0);
+    dSdX[0][X.MaxAbsIndex()] = Sign (X[X.MaxAbsIndex()]);
+    return dSdX;
+  }
+  
 }
