@@ -14,13 +14,13 @@
 #include "Ravl/OS/Directory.hh"
 #include "Ravl/DLIter.hh"
 #include "Ravl/StdMath.hh"
+#include "Ravl/TypeName.hh"
 
 #include <stdlib.h>
 #include <ctype.h>
 
-#define DPDEBUG 0
+#define DPDEBUG 1
 #if DPDEBUG
-#include "Ravl/TypeName.hh"
 #define ONDEBUG(x) x
 #else
 #define ONDEBUG(x)
@@ -441,7 +441,7 @@ namespace RavlN {
     return (start != ((UIntT)-1)); // If we found the start, good enough.
   }
   
-  //////////////////////////////////////////////////
+  ////////////// DPIFileSequenceBodyC //////////////////////////////////////////////////
   
   //: Constructor.
   
@@ -484,10 +484,10 @@ namespace RavlN {
       auxFun.SetInput(DPIPortBaseC());
       return true; // Its normal to get to the end of a sequence.
     }
-    
-    DPIPortBaseC ipb = fs.Format().CreateInput(fs.NextName(),fs.LoadType());
+    StringC nextName = fs.NextName();
+    DPIPortBaseC ipb = fs.Format().CreateInput(nextName,fs.LoadType());
     if(!ipb.IsValid()) {
-      cerr << "DPIFileSequenceBodyC::AuxFunction(), WARNING: Failed to create input. \n";
+      cerr << "DPIFileSequenceBodyC::AuxFunction(), WARNING: Failed to create input '" << nextName << "' of type " << TypeName(fs.LoadType()) << " \n";
       return false;
     }
     //ONDEBUG(cerr << " TN:" << TypeName(typeid(auxFun.DPEntityC::Body())) << " CI:" << TypeName(typeid(ipb.DPEntityC::Body())) << "\n");
@@ -496,7 +496,7 @@ namespace RavlN {
     return ret;
   }
   
-  //////////////////////////////////////////////////
+  //// DPOFileSequenceBodyC /////////////////////////////////////////////////////////////////////////////////
   
   //: Constructor.
   
@@ -539,9 +539,10 @@ namespace RavlN {
       auxFun.SetOutput(DPOPortBaseC());
       return true; // Its normal to get to the end of a sequence.
     }
-    DPOPortBaseC ipb = fs.Format().CreateOutput(fs.NextName(),fs.SaveType());
+    StringC nextName = fs.NextName();
+    DPOPortBaseC ipb = fs.Format().CreateOutput(nextName,fs.SaveType());
     if(!ipb.IsValid()) {
-      cerr << "DPOFileSequenceBodyC::AuxFunction(), Failed to create input. \n";
+      cerr << "DPOFileSequenceBodyC::AuxFunction(), Failed to create output '" << nextName << "' of type " << TypeName(fs.SaveType()) << " \n";
       return false; 
     }
     //ONDEBUG(cerr << " TN:" << TypeName(typeid(auxFun.DPEntityC::Body())) << " CI:" << TypeName(typeid(ipb.DPEntityC::Body())) << "\n");
