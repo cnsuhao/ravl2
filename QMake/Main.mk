@@ -47,7 +47,11 @@ ifndef VAR
 endif
 
 # Include a local system file
+ifdef CONFIGFILE
+include ${CONFIGFILE}
+else
 include $(MAKEHOME)/config.local.$(ARC)
+endif
 
 # Include system stuff.
 
