@@ -17,7 +17,7 @@
 #include "Ravl/TypeName.hh"
 #include "Ravl/DP/DynamicIO.hh"
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -174,7 +174,7 @@ namespace RavlN {
 
   bool FileFormatDynamicBodyC::Load(const DynEntryC &entry) const {
     ONDEBUG(cerr << "Requesting load of entry '" << entry.key << "' \n");
-    for(DLIterC<StringC> it(entry.libs);it.IsElm();it.Next()) {
+    for(DLIterC<StringC> it(entry.libs);it;it++) {
       StringC lib = StringC("lib") + it.Data() + ".so";
       ONDEBUG(cerr << "  loading '" << it.Data() << "' (" << lib << ") \n");
       DynamicLinkLoad(lib);
