@@ -18,6 +18,7 @@
 #include "Ravl/Types.hh"
 #include "Ravl/FMean.hh"
 #include "Ravl/FMatrix.hh"
+#include "Ravl/StdConst.hh"
 
 namespace RavlN {
   
@@ -141,7 +142,10 @@ namespace RavlN {
     //: Calculate the product of the two probability density functions.
     // This assumes the estimates of the distributions are accurate. (The number
     // of samples is ignored) 
-
+    
+    RealT Gauss(const FVectorC<N> & point) const;
+    //: Evaulate value of normal distribution at given point.
+    
   protected:
     FMeanC<N> m;   // The mean vector of this data set.
     FMatrixC<N,N> cov; // the covariance matrix of this data set.
@@ -374,6 +378,16 @@ namespace RavlN {
     return FMeanCovarianceC<N>(Number() + oth.Number(),
 			       mean,
 			       Covariance() * sumCov * oth.Covariance());
+  }
+
+  template<unsigned int N>
+  RealT FMeanCovarianceC<N>::Gauss(const FVectorC<N> & point) const {
+    FMatrixC<N,N> invCov = Covariance();
+    invCov.InverseIP();
+    FVectorC<N> diff = point - m;
+    RealT e =  diff.Dot(invCov * diff) / -2;
+    RealT a = Pow(2 * RavlConstN::pi,(RealT) N / 2) * Sqrt(Determinant(cov)) ;
+    return Exp(e)/a;
   }
   
 }

@@ -153,6 +153,9 @@ namespace RavlN {
     // This assumes the estimates of the distributions are accurate. (The number
     // of samples is ignored) 
     
+    RealT Gauss(const VectorC &vec) const;
+    //: Evaluate the value of guassian distribution at 'vec'.
+    
   protected:
     MeanNdC m;   // The mean vector of this data set.
     MatrixC cov; // the covariance matrix of this data set.

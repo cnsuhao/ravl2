@@ -15,6 +15,7 @@
 #include "Ravl/MeanCovariance.hh"
 #include "Ravl/SArray1d.hh"
 #include "Ravl/Stream.hh"
+#include "Ravl/StdConst.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -231,6 +232,17 @@ namespace RavlN {
     VectorC mean = oth.Covariance() * sumCov * Mean();
     mean += Covariance() * sumCov * oth.Mean();
     return MeanCovarianceC(Number() + oth.Number(),mean,newCov);
+  }
+  
+  //: Evaluate the value of guassian distribution at 'vec'.
+  
+  RealT MeanCovarianceC::Gauss(const VectorC &vec) const {
+    MatrixC invCov = Covariance();
+    invCov.InverseIP();
+    VectorC diff = vec - m;
+    RealT e =  diff.Dot(invCov * diff) / -2;
+    RealT a = Pow(2 * RavlConstN::pi,(RealT) vec.Size() / 2) * Sqrt(cov.Det()) ;
+    return Exp(e)/a;
   }
   
   

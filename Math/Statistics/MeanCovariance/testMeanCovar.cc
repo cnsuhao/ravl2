@@ -142,7 +142,10 @@ int testMeanCovar2d() {
   //cerr << "Product=" << mc3 << "\n";
   if((mc3.Mean() - Vector2dC(0.2,0.2)).SumOfSqr() > 0.000001) return __LINE__;
   if((mc3.Covariance() - Matrix2dC(0.1,0,0,0.1)).SumOfSqr() > 0.000001) return __LINE__;
-  
+
+  Vector2dC at(0.5,0.5);
+  RealT val = mc1.Gauss(at);
+  cerr << "Guass=" << val << "\n";
   return 0;
 }
 
