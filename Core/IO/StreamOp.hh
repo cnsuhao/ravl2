@@ -195,7 +195,11 @@ namespace RavlN {
     
   public:
     inline DPIPortC<InT> &Input() { return input; }
-    // Access input port.
+    //: Access input port.
+    
+    virtual void Input(const DPIPortC<InT> &ins) 
+    { input = ins; }
+    //: Setup input port.
   }; 
   
   ///////////////////////////////////
@@ -231,10 +235,22 @@ namespace RavlN {
     {}
     //: Body constructor.
     
+    DPIStreamOpBodyC<InT,OutT> &Body()
+    { return dynamic_cast<DPIStreamOpBodyC<InT,OutT> & >(DPEntityC::Body()); }
+    //: Access body.
+    
+    const DPIStreamOpBodyC<InT,OutT> &Body() const
+    { return dynamic_cast<const DPIStreamOpBodyC<InT,OutT> & >(DPEntityC::Body()); }
+    //: Access body.
+    
   public:  
     inline DPIPortC<InT> &Input() 
-    { return dynamic_cast<DPIStreamOpBodyC<InT,OutT> & >(DPEntityC::Body()).Input(); }
-    // Access input port.
+    { return Body().Input(); }
+    //: Access input port.
+    
+    void Input(const DPIPortC<InT> &ins) 
+    { Body().Input(ins); }
+    //: Setup input port.
     
   };
   
@@ -295,7 +311,7 @@ namespace RavlN {
     
   public:
     inline DPOPortC<OutT> &Output() { return output; }
-    // Access output port.
+    //: Access output port.
   }; 
   
   ///////////////////////////////////
@@ -340,7 +356,7 @@ namespace RavlN {
   
   template<class InT,class OutT>
   DPIPortC<OutT> operator>>(const DPIPortC<InT> &in,DPIStreamOpC<InT,OutT> dat) {
-    dat.Input() = in;
+    dat.Input(in);
     return dat;
   }
 

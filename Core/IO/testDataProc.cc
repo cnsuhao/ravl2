@@ -33,6 +33,7 @@
 #include "Ravl/DP/StreamOp31.hh"
 #include "Ravl/DP/OffsetScale.hh"
 #include "Ravl/DP/RunningAverage.hh"
+#include "Ravl/DP/SampleStream.hh"
 #include "Ravl/config.h"
 using namespace RavlN;
 
@@ -50,6 +51,7 @@ int testContainerIO();
 int testCompose(); 
 int testFunc2Proc();
 int testSPort();
+int testSampleStream();
 
 int main(int nargs,char **argv) {
   int ln;
@@ -70,6 +72,10 @@ int main(int nargs,char **argv) {
     return 1;
   }
   if((ln = testSPort()) != 0) {
+    cerr << "Error in testFunc2Proc(), Line:" << ln << "\n";
+    return 1;
+  }
+  if((ln = testSampleStream()) != 0) {
     cerr << "Error in testFunc2Proc(), Line:" << ln << "\n";
     return 1;
   }
@@ -187,6 +193,19 @@ int testSPort() {
   if(!asc3.IsValid()) return __LINE__;
   DPSeekCtrlC asc2(ip);
   if(asc2.IsValid()) return __LINE__;
+  return 0;
+}
+
+int testSampleStream() {
+  DListC<IntT> lst1;
+  DListC<IntT> lst2;
+  for(int i = 0;i < 100;i++)
+    lst1.InsLast(i);
+  
+  cerr << "Testing sample stream. \n";
+  DPIContainer(lst1) >> DPISampleStreamC<IntT>(5) >> DPOContainer(lst2);
+  //cerr << "SampleStream:" << lst2 << "\n";
+  if(lst2.Size() != 20) return __LINE__;
   return 0;
 }
 
