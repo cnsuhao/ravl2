@@ -118,6 +118,12 @@ namespace RavlN  {
     inline BinIStreamC &operator>>(UIntT &dat);  
     //: Read in an unsigned 32 bit integer.
     
+    inline BinIStreamC &operator>>(Int64T &dat);
+    //: Read in an signed 64 bit integer.
+
+    inline BinIStreamC &operator>>(UInt64T &dat);
+    //: Read in an signed 64 bit integer.
+    
     inline BinIStreamC &operator>>(FloatT &dat);  
     //: Read in a floating point number.
     
@@ -208,6 +214,12 @@ namespace RavlN  {
     
     inline BinOStreamC &operator<<(UIntT dat);  
     //: Write a 32 bit unsigned integer.
+    
+    inline BinOStreamC &operator<<(Int64T dat);
+    //: Read in an signed 64 bit integer.
+    
+    inline BinOStreamC &operator<<(UInt64T dat);
+    //: Read in an signed 64 bit integer.
     
     inline BinOStreamC &operator<<(FloatT dat);  
     //: Write a floating point number.
@@ -307,6 +319,38 @@ namespace RavlN  {
 #endif
     return *this; 
   }
+
+  inline 
+  BinIStreamC &BinIStreamC::operator>>(Int64T &dat) {
+#if RAVL_BIGENDIAN
+    in.read((char *)&dat,8);
+#else
+    union {
+      Int64T lli;
+      IntT i[2];
+    } val;
+    (*this) >> val.i[1];
+    (*this) >> val.i[0];
+    dat = val.lli;
+#endif
+    return *this;
+  }
+
+  inline 
+  BinIStreamC &BinIStreamC::operator>>(UInt64T &dat) {
+#if RAVL_BIGENDIAN
+    in.read((char *)&dat,8);
+#else
+    union {
+      UInt64T lli;
+      UIntT i[2];
+    } val;
+    (*this) >> val.i[1];
+    (*this) >> val.i[0];
+    dat = val.lli;
+#endif
+    return *this;
+  }
   
   inline 
   BinIStreamC &BinIStreamC::operator>>(FloatT &dat) {
@@ -404,6 +448,36 @@ namespace RavlN  {
     return *this; 
   }
   
+  BinOStreamC &BinOStreamC::operator<<(Int64T dat) {
+#if RAVL_BIGENDIAN
+    out.write((char *)&dat,8);
+#else
+    union {
+      Int64T lli;
+      UIntT i[2];
+    } val;
+    val.lli = dat;
+    (*this) << val.i[1];
+    (*this) << val.i[0];
+#endif
+    return *this;
+  }
+  
+  BinOStreamC &BinOStreamC::operator<<(UInt64T dat) {
+#if RAVL_BIGENDIAN
+    out.write((char *)&dat,8);
+#else
+    union {
+      UInt64T lli;
+      UIntT i[2];
+    } val;
+    val.lli = dat;
+    (*this) << val.i[1];
+    (*this) << val.i[0];
+#endif
+    return *this;     
+  }
+
   inline 
   BinOStreamC &BinOStreamC::operator<<(FloatT dat) {
     RavlAssert(sizeof(FloatT) == sizeof(IntT));
