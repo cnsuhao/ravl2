@@ -262,7 +262,7 @@ SCHAR [^"\\\n]|{ESCAPE_SEQUENCE}
 <INITIAL>"//"(.)*[\n<<EOF>>]  { comment.Text() += &yytext[2]; }
 
     /*==============> Skip preprocessor directives <==============*/
-<INITIAL>"#"[acdeimpsuw ]  { BEGIN (PREPARSER); }
+<INITIAL>"#"[acdeimpsuwl ] { BEGIN (PREPARSER); }
 <PREPARSER>"/*"		   { BEGIN (PPCOMMENT); }
 <PPCOMMENT>"*/"            { BEGIN (PREPARSER); }
 <PREPARSER>"\\\n"	   {}

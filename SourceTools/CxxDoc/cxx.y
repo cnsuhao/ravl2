@@ -693,6 +693,7 @@ func_arg_list: func_arg_def         { ObjectListC ol(STR(FuncArgList)); $$= ol; 
 func_arg_def: type_id      { $$=$1; }
    | type_id var_name_elem { $$=$1; DataTypeC dt($1); dt.SetAlias($2.Name()); }
    | function_ptr_def      { $$=$1; }
+   | ELLIPSIS              { $$= DataTypeC("..."); }
 
 ;
 function_ptr_def: type_id '(' '*' maybe_identifier ')' '(' func_arg_list_all ')' func_qualifier 
