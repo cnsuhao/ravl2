@@ -191,6 +191,12 @@ namespace RavlN {
     }
     //: This index range is clipped to contain at most the index range 'r'.
 
+    inline Index3dC Clip(const Index3dC & i) {
+      Index3dC result(Range1().Clip(i[0]), Range2().Clip(i[1]), Range3().Clip(i[2]));
+      return result;
+    }
+    //: The value 'i' is clipped to be within this range.
+    
     inline bool Contains(const Index3dC & oth) const
     { return Range1().Contains(oth[0]) && Range2().Contains(oth[1]) && Range3().Contains(oth[2]); }
     //: Returns true if this range contains the subrange 'oth'.

@@ -189,6 +189,12 @@ namespace RavlN {
     }
     //: This index range is clipped to contain at most the index range 'r'.
     
+    inline Index2dC Clip(const Index2dC & i) {
+      Index2dC result(Range1().Clip(i[0]), Range2().Clip(i[1]));
+      return result;
+    }
+    //: The value 'i' is clipped to be within this range.
+    
     inline IndexRange2dC Intersection(const IndexRange2dC & r) const 
     { IndexRange2dC ret = (*this); ret.ClipBy(r); return ret; }
     //: Return the intersection of this range and range 'r'.

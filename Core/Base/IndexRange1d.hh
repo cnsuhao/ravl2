@@ -231,6 +231,12 @@ namespace RavlN {
     inline IndexRangeC & ClipBy(const IndexRangeC & r);
     //: This index range is clipped to contain at most the index range 'r'.
     
+    inline IndexC Clip(const IndexC & i) {
+      IndexC lower = Min() > i? Min(): i;
+      return lower < Max()? lower: Max();
+    }
+    //: The value 'i' is clipped to be within this range.
+    
     inline IndexRangeC FirstHalf() const
     { return IndexRangeC(Min(),Center()); }
     //: Returns the index range < Min(), (Max()+Min()+1)/2 >.

@@ -184,6 +184,14 @@ namespace RavlN {
       return *this;
     }
     //: This index range is clipped to contain at most the index range 'r'.
+
+    inline TFVectorC<RealT,2> Clip(const TFVectorC<RealT,2> & r) {
+      TFVectorC<RealT,2> result;
+      result[0] = Range1().Clip(r[0]);
+      result[1] = Range2().Clip(r[1]);
+      return result;
+    }
+    //: The value 'r' is clipped to be within this range.
     
     inline bool Contains(const RealRange2dC & oth) const
     { return Range1().Contains(oth.Range1()) && Range2().Contains(oth.Range2()); }
