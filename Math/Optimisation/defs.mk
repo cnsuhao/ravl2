@@ -46,4 +46,4 @@ EXAMPLES= OrthogonalRegressionTest.cc QuadraticFitTest.cc Homography2dFitTest.cc
 
 USESLIBS=RavlCore RavlMath 
 
-PROGLIBS=RavlImage RavlImageProc RavlOSIO  RavlVideoIO RavlImageIO RavlDPDisplay
+PROGLIBS=RavlImage RavlImageProc RavlOSIO  RavlVideoIO RavlImageIO RavlDPDisplay RavlImgIOV4L

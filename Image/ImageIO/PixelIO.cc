@@ -19,5 +19,5 @@ DListC<Point2dC> DPConvDListC_Pixel2DListC_Point2d(const DListC<PixelC> &dat)
   return ret;; 
 }
 
-DP_REGISTER_CONVERTION(DPConvPixel2Point2d,1);
-DP_REGISTER_CONVERTION(DPConvDListC_Pixel2DListC_Point2d,1);
+DP_REGISTER_CONVERSION(DPConvPixel2Point2d,1);
+DP_REGISTER_CONVERSION(DPConvDListC_Pixel2DListC_Point2d,1);

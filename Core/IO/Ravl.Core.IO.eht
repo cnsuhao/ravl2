@@ -109,7 +109,7 @@ byte).
 RealT DPConvIntT2RealT(const IntT &val) 
 { return (RealT) val; }
 
-DP_REGISTER_CONVERTION(DPConvIntT2RealT,1);
+DP_REGISTER_CONVERSION(DPConvIntT2RealT,1);
 </pre>
 
 <h4>Creating a new file format</h4>

@@ -53,7 +53,7 @@ namespace RavlN {
     bool CanConvert(const type_info &from,const type_info &to);
     //: Test if conversion is possible.
     
-    RCAbstractC DoConvertion(const RCAbstractC &dat,const type_info &from,const type_info &to);
+    RCAbstractC DoConversion(const RCAbstractC &dat,const type_info &from,const type_info &to);
     //: Do conversion through abstract handles.
     
     bool Insert(DPConverterBaseC &tc);
@@ -128,8 +128,8 @@ namespace RavlN {
     { return Body().CanConvert(from,to); }
     //: Test if conversion is possible.
     
-    RCAbstractC DoConvertion(const RCAbstractC &dat,const type_info &from,const type_info &to)
-    { return Body().DoConvertion(dat,from,to); }
+    RCAbstractC DoConversion(const RCAbstractC &dat,const type_info &from,const type_info &to)
+    { return Body().DoConversion(dat,from,to); }
     //: Do conversion through abstract handles.
     
     bool Insert(DPConverterBaseC &tc)
@@ -142,7 +142,7 @@ namespace RavlN {
     
     template<class InT,class OutT>
     bool TypeConvert(const InT &inraw,OutT &outraw) {
-      RCAbstractC result = DoConvertion(RCWrapC<InT>(inraw).Abstract(),typeid(InT),
+      RCAbstractC result = DoConversion(RCWrapC<InT>(inraw).Abstract(),typeid(InT),
 					typeid(OutT));
       RCWrapC<OutT> out(result);
       if(!out.IsValid())
@@ -156,7 +156,7 @@ namespace RavlN {
     
     template<class OutT>
     bool TypeConvert(const RCWrapAbstractC &in,OutT &outraw) {
-      RCAbstractC result = DoConvertion(const_cast<RCWrapAbstractC &>(in).Abstract(),in.DataType(),
+      RCAbstractC result = DoConversion(const_cast<RCWrapAbstractC &>(in).Abstract(),in.DataType(),
 					typeid(OutT));
       RCWrapC<OutT> out(result);
       if(!out.IsValid())

@@ -206,7 +206,7 @@ Int16T UInt2Int16(const UIntT &v)
 { return (Int16T) v; } 
 
 namespace RavlN {
-  DP_REGISTER_CONVERTION(UInt2Int16,2);
+  DP_REGISTER_CONVERSION(UInt2Int16,2);
 }
 
 ///////////////////////////////////////////////////////////////////////////

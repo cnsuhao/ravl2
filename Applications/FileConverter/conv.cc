@@ -32,7 +32,7 @@
 using namespace RavlN;
 
 void ListFormats();        // List all know formats.
-void ListConvertions();    // List all know conversions
+void ListConversions();    // List all know conversions
 void ListClassTypes();    // List all know class types.
 int DoIdent(FilenameC fn); // Identify file.
 
@@ -63,7 +63,7 @@ int FileConv(int argc,char **argv)
   if(listForm)
     ListFormats();
   if(listConv)
-    ListConvertions();
+    ListConversions();
   if(listTypes)
     ListClassTypes();
   if(listConv || listForm || listTypes) 
@@ -256,7 +256,7 @@ void ListFormats() {
 
 // List all know conversions.
 
-void ListConvertions() {
+void ListConversions() {
   cout << "Type conversions:\n";
   for(GraphEdgeIterC<StringC,DPConverterBaseC> it(SystemTypeConverter().Graph());
       it.IsElm();it.Next()) {

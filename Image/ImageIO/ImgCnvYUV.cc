@@ -43,9 +43,9 @@ namespace RavlImageN
   }
 
   // Register conversions...
-  DP_REGISTER_CONVERTION_NAMED(ByteYUVAImageCT2ByteYUVImageCT,1.25,
+  DP_REGISTER_CONVERSION_NAMED(ByteYUVAImageCT2ByteYUVImageCT,1.25,
 			       "ImageC<ByteYUVValueC> RavlImageN::Convert(const ImageC<ByteYUVAValueC> &)");
-  DP_REGISTER_CONVERTION_NAMED(ByteYUVImageCT2ByteYUVAImageCT,1,
+  DP_REGISTER_CONVERSION_NAMED(ByteYUVImageCT2ByteYUVAImageCT,1,
 			       "ImageC<ByteYUVAValueC> RavlImageN::Convert(const ImageC<ByteYUVValueC> &)");
   
   //////////////////////////////////////////////////////////////////////////////////////////
@@ -72,9 +72,9 @@ namespace RavlImageN
     return ret;
   }
   
-  DP_REGISTER_CONVERTION_NAMED(ByteYUVImageCT2RealYUVImageCT ,1,
+  DP_REGISTER_CONVERSION_NAMED(ByteYUVImageCT2RealYUVImageCT ,1,
 			       "ImageC<RealYUVValueC> RavlImageN::Convert(const ImageC<ByteYUVValueC> &)");
-  DP_REGISTER_CONVERTION_NAMED(RealYUVImageCT2ByteYUVImageCT ,8,
+  DP_REGISTER_CONVERSION_NAMED(RealYUVImageCT2ByteYUVImageCT ,8,
 			       "ImageC<ByteYUVValueC> RavlImageN::Convert(const ImageC<RealYUVValueC> &)");
   
 }

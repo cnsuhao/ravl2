@@ -397,10 +397,10 @@ int Mosaic(int nargs,char **argv) {
   return 0;
 }
 
-DP_REGISTER_CONVERTION_NAMED(DPConvRealRGBAverageImageC2ByteRGBValueImageCT,1,
+DP_REGISTER_CONVERSION_NAMED(DPConvRealRGBAverageImageC2ByteRGBValueImageCT,1,
 			     "ImageC<ByteRGBValueC>  RavlImageN::Convert(const ImageC<RealRGBAverageC> &)");
 
-DP_REGISTER_CONVERTION_NAMED(DPConvByteRGBMedianImageC2ByteRGBValueImageCT,1,
+DP_REGISTER_CONVERSION_NAMED(DPConvByteRGBMedianImageC2ByteRGBValueImageCT,1,
 			     "ImageC<ByteRGBValueC>  RavlImageN::Convert(const ImageC<ByteRGBMedianC> &)");
 
 RAVL_ENTRY_POINT(Mosaic)

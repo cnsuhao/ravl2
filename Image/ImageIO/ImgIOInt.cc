@@ -49,11 +49,11 @@ namespace RavlImageN {
     return ret;
   }
   
-  DP_REGISTER_CONVERTION_NAMED(UIntTImageCT2DoubleImageCT,1,
+  DP_REGISTER_CONVERSION_NAMED(UIntTImageCT2DoubleImageCT,1,
 			       "ImageC<RealT> RavlImageN::Convert(const ImageC<UIntT> &)");
-  DP_REGISTER_CONVERTION_NAMED(UInt16TImageCT2UIntTImageCT,1,
+  DP_REGISTER_CONVERSION_NAMED(UInt16TImageCT2UIntTImageCT,1,
 			       "ImageC<UIntT> RavlImageN::Convert(const ImageC<UInt16T> &)");
-  DP_REGISTER_CONVERTION_NAMED(UIntTImageCT2UInt16TImageCT,2,
+  DP_REGISTER_CONVERSION_NAMED(UIntTImageCT2UInt16TImageCT,2,
 			       "ImageC<UInt16T> RavlImageN::Convert(const ImageC<UIntT> &)");
   
   FileFormatStreamC<ImageC<IntT> > FileFormatStream_ImageC_IntT;

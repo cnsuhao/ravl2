@@ -38,7 +38,7 @@ namespace RavlDFN {
     return DFStreamOpC(streamOp.OpName(),streamOp);
   }
   
-  DP_REGISTER_CONVERTION_NAMED(DPStreamOp2DFObject,1,"DFObjectC RavlDFN::Convert(const DPStreamOpC &)");
+  DP_REGISTER_CONVERSION_NAMED(DPStreamOp2DFObject,1,"DFObjectC RavlDFN::Convert(const DPStreamOpC &)");
   
   
   /////////////////////////////////////////////////////////////////////////////////////

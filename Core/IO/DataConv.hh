@@ -23,13 +23,13 @@ namespace RavlN {
   //! userlevel=Normal
   //: Test if conversion is possible.
   
-  extern RCAbstractC DPDoConvertion(const RCAbstractC &dat,const type_info &from,const type_info &to);
+  extern RCAbstractC DPDoConversion(const RCAbstractC &dat,const type_info &from,const type_info &to);
   //! userlevel=Normal
   //: Do conversion through abstract handles.
   
   template<class InT,class OutT>
   bool DPTypeConvert(const InT &inraw,OutT &outraw) {
-    RCAbstractC result = DPDoConvertion(RCWrapC<InT>(inraw).Abstract(),typeid(InT),
+    RCAbstractC result = DPDoConversion(RCWrapC<InT>(inraw).Abstract(),typeid(InT),
 					typeid(OutT));
     RCWrapC<OutT> out(result);
     if(!out.IsValid())
@@ -44,7 +44,7 @@ namespace RavlN {
   
   template<class OutT>
   bool DPTypeConvert(const RCWrapAbstractC &in,OutT &outraw) {
-    RCAbstractC result = DPDoConvertion(const_cast<RCWrapAbstractC &>(in).Abstract(),in.DataType(),
+    RCAbstractC result = DPDoConversion(const_cast<RCWrapAbstractC &>(in).Abstract(),in.DataType(),
 					typeid(OutT));
     RCWrapC<OutT> out(result);
     if(!out.IsValid())

@@ -41,7 +41,7 @@ namespace RavlImageN {
     return ret;
   }
   
-  DP_REGISTER_CONVERTION_NAMED(DPConvBoolImageC2ByteImageCT,1,
+  DP_REGISTER_CONVERSION_NAMED(DPConvBoolImageC2ByteImageCT,1,
 			       "ImageC<ByteT>  RavlImageN::Convert(const ImageC<bool> &)");
   
   FileFormatStreamC<ImageC<ByteT> > FileFormatStream_ImageC_ByteT;

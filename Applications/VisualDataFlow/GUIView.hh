@@ -114,11 +114,11 @@ namespace RavlDFN {
     
     bool AutoConvert() const
     { return autoConvert; }
-    //: Auto convertion enabled ?
+    //: Auto conversion enabled ?
     
     bool SetAutoConvert(bool nautoConvert)
     { return autoConvert = nautoConvert; }
-    //: Set auto convertion
+    //: Set auto conversion
     
   protected:
     bool AttachSystem(const DFSystemC &nsys);
@@ -250,11 +250,11 @@ namespace RavlDFN {
     
     bool AutoConvert() const
     { return Body().AutoConvert(); }
-    //: Auto convertion enabled ?
+    //: Auto conversion enabled ?
     
     bool SetAutoConvert(bool &nautoConvert)
     { return Body().SetAutoConvert(nautoConvert); }
-    //: Set auto convertion.
+    //: Set auto conversion.
     
   };
 }

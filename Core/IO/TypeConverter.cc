@@ -75,7 +75,7 @@ namespace RavlN {
 #endif
     
     if(conv.IsEmpty()) {
-      ONDEBUG(cout << "No convertion from " << from.name() << " to " << to.name() << endl);
+      ONDEBUG(cout << "No conversion from " << from.name() << " to " << to.name() << endl);
       return DListC<DPConverterBaseC>(); // Failed to find conversion.
     }
     DListC<DPConverterBaseC> ret;

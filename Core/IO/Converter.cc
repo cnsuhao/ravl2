@@ -77,5 +77,5 @@ namespace RavlN {
   static IntT ConvByte2Int(const ByteT &v)
   { return (IntT) v; }
   
-  DP_REGISTER_CONVERTION_NAMED(ConvByte2Int,1,"IntT RavlN::Convert(const ByteT &)");
+  DP_REGISTER_CONVERSION_NAMED(ConvByte2Int,1,"IntT RavlN::Convert(const ByteT &)");
 }
