@@ -16,7 +16,7 @@
 //! docentry="Ravl.Core.Misc"
 //! rcsid="$Id$"
 //
-// Based on the idea's in C and C++ option library by George Matas and Radek Marik.
+// Based on the ideas in C and C++ option library by George Matas and Radek Marik.
 
 #include "Ravl/String.hh"
 #include "Ravl/DList.hh"
@@ -30,29 +30,35 @@ namespace RavlN {
   //! userlevel=Basic
   //: The class OptionC is a simple parser of a command line. 
   // This is a small object. <br>
-  // Note: Unnamed arguments MUST be process last for this class to work
-  // correctly.
+  // The syntax of the command line tags uses the Unix convention of a single
+  // dash followed by one or more alpha-numeric characters. <br>
+
+  // Note: "Unnamed" arguments (i.e. arguments without a tag) MUST be
+  // processed last in the code for this class to work correctly.
+  // On the other hand they can appear anywhere in the command line.
   
   class OptionC {
   public:
-    OptionC(int argc, char ** argv, bool copy,OStreamC msgout);
+    OptionC(int argc, char ** argv, bool copy, OStreamC msgout);
     //: Creates the option processing system
-    // 'copy' == false ... options and pars. are removed from agrv, argc<br>
-    // 'copy' == true  ... leave argv, argc untouched, work on a copy
-    
+    //!param: 'copy' == false - options and pars. are removed from argv, argc
+    //!param: 'copy' == true  - leave argv, argc untouched, work on a copy
+    //!param: msgout - Where to send messages about option processing.
+
     OptionC(int argc, char ** argv, bool copy = false);
     //: Creates the option processing system
-    // 'copy' == false ... options and pars. are removed from agrv, argc<br>
-    // 'copy' == true  ... leave argv, argc untouched, work on a copy
-    
+    //!param: 'copy' == false - options and pars. are removed from argv, argc
+    //!param: 'copy' == true  - leave argv, argc untouched, work on a copy
+
     OptionC(DListC<StringC> opts,OStreamC msgout = OStreamC(cerr));
-    //: Creates the option processing system for a list of strings.
+    //: Creates the option processing system from a list of strings.
     // Note that the list has to mimic the "argv" list; hence it requires a dummy "main program" name as the first item
+    //!param: msgout - Where to send messages about option processing.
 
     void OfferLoadSave(); 
     //: Add optload and optsave to the command line.
     // This adds the options to both load and save options to the command line.
-    // When used this should be called before any other options are processed.
+    // When used, this should be called before any other options are processed.
     
     bool IsOnCommandLine(const char * option) const;
     // Returns true if the 'option' was on the command line. 
