@@ -94,6 +94,9 @@ namespace RavlGUIN {
       cent += it.Data().Center();
       count++;
     }
+    // Avoid divide-by-zero
+    if (count == 0)
+      count = 1;
     center = cent / count;
     gotCenter = true;
     return center; 
@@ -110,6 +113,7 @@ namespace RavlGUIN {
       if(dist > maxDist)
 	maxDist = dist;
     }
+    if (maxDist == 0) maxDist = 1;
     extent = maxDist;
     gotExtent = true;
     return extent; 
