@@ -102,9 +102,14 @@ namespace RavlN {
     // different routine is used to do the inversion.  
     
     MatrixC PseudoInverse(RealT thresh = 1e-5) const;
-    //: Do a pseudo inverse 
-    // Uses singular value decomposition to decompose the matrix, and sets
-    // the singular values smaller than 'thesh' to zero.
+    //: Calculate the pseudo inverse 
+    // <p>Uses <a href="RavlN.SVDC.html">singular value decomposition</a> to
+    // decompose the matrix, and sets
+    // the singular values smaller than 'thresh' to zero.</p>
+    // <p>If the m x n matrix is not square, ensure m &gt; n.</p>
+    // <p>If the rank of the matrix M is r, and the pseudo-inverse is denoted
+    // M~, then M~ * M is a unit matrix of size r.  On the other hand, M * M~
+    // is not a unit matrix.</p>
 
     RealT Det() const;
     //: Calculate the determinant of the matrix.
