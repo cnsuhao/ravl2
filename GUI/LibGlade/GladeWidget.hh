@@ -51,8 +51,18 @@ namespace RavlGUIN {
       : WidgetC(*new GladeWidgetBodyC(gladeXml,widgetName,customWidget))
     {}
     //: Constructor
-   
+    
+    GladeWidgetC()
+    {}
+    //: Default constructor
+    // Creates an invalid handle.
+    
   protected:
+    GladeWidgetC(GladeWidgetBodyC &body)
+      : WidgetC(body)
+    {}
+    //: Body constructor
+    
     GladeWidgetBodyC &Body()
     { return static_cast<GladeWidgetBodyC &>(WidgetC::Body()); }
     //: Access widget body.

@@ -11,7 +11,7 @@
 #include "Ravl/HashIter.hh"
 #include <gtk/gtk.h>
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -43,7 +43,7 @@ namespace RavlGUIN {
       RavlAssert(0);
       return false;
     }
-    cerr << " Setting up children. \n";
+    ONDEBUG(cerr << " Setting up children. \n");
     for(HashIterC<StringC,WidgetC> it(children);it;it++) {
       GtkWidget *childWidget = xml.Widget(it.Key());
       if(childWidget == 0) {
@@ -52,7 +52,7 @@ namespace RavlGUIN {
       }
       it.Data().Create(childWidget);
     }
-    cerr << " Connecting signals \n";
+    ONDEBUG(cerr << " Connecting signals \n");
     ConnectSignals();
     ONDEBUG(cerr << "GladeWidgetBodyC::Create(), Done. Name=" << name << "\n");
     return true;
@@ -71,7 +71,7 @@ namespace RavlGUIN {
 	RavlAssert(0);
 	return false;
       }
-      cerr << "Adding custom child widget '" << name << "' into parent. \n";  
+      ONDEBUG(cerr << "Adding custom child widget '" << name << "' into parent. \n");  
       GtkWidget *childWidget = xml.Widget(name);
       gtk_widget_show (childWidget);
       gtk_container_add(GTK_CONTAINER(widget),childWidget);
