@@ -27,6 +27,7 @@
 #include "Ravl/Projection2d.hh"
 #include "Ravl/Conic2d.hh"
 #include "Ravl/Ellipse2d.hh"
+#include "Ravl/Angle.hh"
 
 using namespace RavlN;
 
@@ -44,6 +45,7 @@ int testEllipse2dB();
 
 int main() {
   int ln;
+#if 1
   if((ln = testMoments()) != 0) {
     cerr << "Test failed at " << ln << "\n";
     return 1;
@@ -80,6 +82,7 @@ int main() {
     cerr << "Test failed at " << ln << "\n";
     return 1;
   }
+#endif
   if((ln = testEllipse2dA()) != 0) {
     cerr << "Test failed at " << ln << "\n";
     return 1;
@@ -395,29 +398,41 @@ int testEllipse2dA() {
 }
 
 int testEllipse2dB() {
-  Point2dC gtc(50,50);
-  Ellipse2dC ellipse(gtc,40,20,0);
-  //  cerr << "Ellipse1=" << ellipse << "\n";
-  RealT step = RavlConstN::pi/5;
-  SArray1dC<Point2dC> points(10);
-  IntT i = 0;
-  for(RealT a = 0;i < 10;a += step,i++) {
-    points[i] = ellipse.Point(a);
+  for(RealT tangle = 0;tangle < RavlConstN::pi;tangle += RavlConstN::pi/10) {
+    Point2dC gtc(50,50);
+    Ellipse2dC ellipse(gtc,40,20,tangle);
+    //  cerr << "Ellipse1=" << ellipse << "\n";
+    RealT step = RavlConstN::pi/5;
+    SArray1dC<Point2dC> points(10);
+    IntT i = 0;
+    for(RealT a = 0;i < 10;a += step,i++) {
+      points[i] = ellipse.Point(a);
+    }
+    Conic2dC conic;
+    if(!FitEllipse(points,conic)) 
+      return __LINE__;
+    //cerr << "Conic=" << conic.C() << "\n";
+    Point2dC centre;
+    RealT min,maj,ang;
+    conic.EllipseParameters(centre,maj,min,ang);
+    //cerr << "C Paramiters=" << centre << " " << maj << " " << min << " " << ang << "   Diff=" << AngleC(ang,RavlConstN::pi).Diff(AngleC(tangle,RavlConstN::pi)) << "\n";
+    if((centre - gtc).SumOfAbs() > 0.00000001) return __LINE__;
+    if(Abs(maj - 40) > 0.000000001) return __LINE__;
+    if(Abs(min - 20) > 0.000000001) return __LINE__;
+    if(Abs(AngleC(ang,RavlConstN::pi).Diff(AngleC(tangle,RavlConstN::pi))) > 0.000001) return __LINE__;
+    Ellipse2dC ellipse2;
+    if(!FitEllipse(points,ellipse2)) {
+      cerr << "Failed to fit ellipse. \n";
+      return __LINE__;
+    }
+    
+    ellipse2.EllipseParameters(centre,maj,min,ang);
+    //cerr << "E Paramiters=" << centre << " " << maj << " " << min << " " << ang << "  Diff=" << AngleC(ang,RavlConstN::pi).Diff(AngleC(tangle,RavlConstN::pi)) << "\n";
+    if((centre - gtc).SumOfAbs() > 0.00000001) return __LINE__;
+    if(Abs(maj - 40) > 0.000000001) return __LINE__;
+    if(Abs(min - 20) > 0.000000001) return __LINE__;
+    if(Abs(AngleC(ang,RavlConstN::pi).Diff(AngleC(tangle,RavlConstN::pi))) > 0.000001) return __LINE__;
   }
-  Conic2dC conic;
-  if(!FitEllipse(points,conic)) 
-    return __LINE__;
-  //cerr << "Conic=" << conic.C() << "\n";
-  Point2dC centre;
-  RealT min,maj,ang;
-  conic.EllipseParameters(centre,maj,min,ang);
-  if((centre - gtc).SumOfAbs() > 0.00000001) return __LINE__;
-  if(Abs(maj - 40) > 0.000000001) return __LINE__;
-  if(Abs(min - 20) > 0.000000001) return __LINE__;
-  //cerr << "Paramiters=" << centre << " " << min << " " << maj << " " << ang << "\n";
-  Ellipse2dC ellipse2;
-  if(!FitEllipse(points,ellipse2))
-    return __LINE__;
   //cerr << "Ellipse2=" << ellipse2 << "\n";
   return 0;
 }

@@ -191,13 +191,12 @@ namespace RavlN {
     Matrix2dC t;
     if(!ComputeEllipse(centre,t))
       return false;
-    angle = atan2(2*t[0][1],t[0][0]-t[1][1])/2;
+    angle = -atan2(2*t[0][1],t[0][0]-t[1][1])/2;
     RealT cosa=Cos(angle);
     RealT sina=Sin(angle);
     RealT w = 2*t[0][1]*cosa*sina;
-    minor =Sqrt(1.0/(-t[0][0]*cosa*cosa-w-t[1][1]*sina*sina));
-    major =Sqrt(1.0/(-t[0][0]*sina*sina+w-t[1][1]*cosa*cosa));
-    
+    major =Sqrt(1.0/(-t[0][0]*cosa*cosa+w-t[1][1]*sina*sina));
+    minor =Sqrt(1.0/(-t[0][0]*sina*sina-w-t[1][1]*cosa*cosa));
     ONDEBUG(cerr << "Center=" << c << " Major=" << major << " Minor=" << minor << " Angle=" << angle << "\n");
     return true;
     

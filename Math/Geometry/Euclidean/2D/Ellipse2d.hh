@@ -63,6 +63,19 @@ namespace RavlN {
     
     bool IsOnCurve(const Point2dC &pnt) const;
     //: Is point on the curve ?
+    
+    bool EllipseParameters(Point2dC &centre,RealT &major,RealT &minor,RealT &angle) const;
+    //: Compute various ellipse parameters.
+    //!param: centre - Centre of ellipse.
+    //!param: major - Size of major axis.
+    //!param: minor - Size of minor axis
+    //!param: angle - Angle of major axis.
+    
+    bool Size(RealT &major,RealT &minor) const;
+    //: Compute the size of major and minor axis.
+    //!param: major - Size of major axis.
+    //!param: minor - Size of minor axis
+    
   protected:    
     Affine2dC p; // Projection from unit circle.
   };
@@ -71,6 +84,9 @@ namespace RavlN {
   //: Fit ellipse to points.
   // Based on method presented in 'Numerically Stable Direct Least Squares Fitting of Ellipses' 
   // by Radim Halir and Jan Flusser.
+  
+  Ellipse2dC EllipseMeanCovar(const Matrix2dC &covar,const Point2dC &mean,RealT stdDev);
+  //: Compute an ellipse from a covariance matrix, mean, and standard deviation.
   
   ostream &operator<<(ostream &s,const Ellipse2dC &obj);
   //: Write ellipse to text stream.

@@ -52,9 +52,48 @@ namespace RavlN {
   bool Ellipse2dC::IsOnCurve(const Point2dC &pnt) const {
     Point2dC mp = p.Inverse() * pnt;
     RealT d = mp.SumOfSqr() - 1;
-    cerr << "d=" << d << "\n";
+    //cerr << "d=" << d << "\n";
     return IsSmall(d);
   }
+
+  //: Compute various ellipse parameters.
+  //!param: centre - Centre of ellipse.
+  //!param: major - Size of major axis.
+  //!param: minor - Size of minor axis
+  //!param: angle - Angle of major axis.
+  
+  bool Ellipse2dC::EllipseParameters(Point2dC &centre,RealT &major,RealT &minor,RealT &angle) const {
+    centre = p.Translation();
+    FMatrixC<2,2> E;
+    FVectorC<2> d;
+    EigenVectors(p.SRMatrix(),E,d);
+    angle = atan2(-E[0][1],-E[0][0]);
+    major = d[0];
+    minor = d[1];
+    ONDEBUG(cerr << "Center=" << centre << " Major=" << major << " Minor=" << minor << " Angle=" << angle << "\n");
+    return true;
+  }
+  
+  //: Compute the size of major and minor axis.
+  //!param: major - Size of major axis.
+  //!param: minor - Size of minor axis
+  
+  bool Ellipse2dC::Size(RealT &major,RealT &minor) const {
+    FVectorC<2> vec;
+    EigenValues(p.SRMatrix(),vec);
+    major = vec[0];
+    minor = vec[1];
+    return true;
+  }
+  
+
+  //: Compute an ellipse from a covariance matrix, mean, and standard deviation.
+  
+  Ellipse2dC EllipseMeanCovar(const Matrix2dC &covar,const Point2dC &mean,RealT stdDev) {
+    return Ellipse2dC();
+  }
+
+
   
   //: Write ellipse to text stream.
   
