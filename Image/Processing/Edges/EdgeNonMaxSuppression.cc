@@ -148,7 +148,7 @@ namespace RavlImageN {
     rect.Origin().Row() = startRow;
     rect.End().Row() = endRow;
     
-    DrawFrame(res,0.0,res.Frame()); // Fill boundry with zero's
+    DrawFrame(res,0.0,res.Frame()); // Fill boundary with zeros
     
     // Search of local maxima with linear interpolation
     // =================================================

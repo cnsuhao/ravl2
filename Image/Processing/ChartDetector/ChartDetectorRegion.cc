@@ -34,8 +34,8 @@ namespace RavlImageN {
   
   void ChartDetectorRegionBodyC::UpdateStats() {
     // Compute the number of holes in the region.
-    BoundaryC boundry(static_cast<Array2dC<UIntT> >(segmentation.SegMap()),1);
-    DListC<BoundaryC> edges = boundry.OrderEdges();
+    BoundaryC boundary(static_cast<Array2dC<UIntT> >(segmentation.SegMap()),1);
+    DListC<BoundaryC> edges = boundary.OrderEdges();
     if(edges.Size() == 0) {
       Save("@X:Region",segmentation.SegMap());
       cerr << "ChartDetectorRegionBodyC::UpdateStats(), WARNING: Zero boundries for region ?!? \n";
