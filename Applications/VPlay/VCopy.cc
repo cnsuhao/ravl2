@@ -1,25 +1,40 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2003, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 //////////////////////////////////////////////////////
 //! rcsid="$Id$"
+//! lib=RavlVPlay
+//! author="Charles Galambos"
+//! userlevel=Normal
+//! docentry="Ravl.Applications.Video"
+
+//: Copy a Video sequence.
+//
+// This program uses the RAVL sequence handling to copy a 
+// video sequence.
 
 #include "Ravl/Option.hh"
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/Image/Image.hh"
-#include "Ravl/DP/FrameInfo.hh"
-
-#include "Ravl/Image/SubSamp2Intl.hh"
-
 #include "Ravl/DP/Compose.hh"
 #include "Ravl/DP/MTIOConnect.hh"
 #include "Ravl/DP/EventSet.hh"
-
 #include "Ravl/DP/SequenceIO.hh"
-
-#include "Ravl/DP/Buffer.hh"
-
+#include "Ravl/DP/FixedBuffer.hh"
 #include "Ravl/Image/ByteYUVValue.hh"
+#include "Ravl/Image/ByteRGBValue.hh"
+#include "Ravl/OS/NetPortManager.hh"
+#include "Ravl/OS/NetIPortServer.hh"
+#include "Ravl/OS/NetPortFormat.hh"
+#include "Ravl/OS/Date.hh"
 
-using namespace StdDP;
-using namespace DPComposeMT; // Using multi-threaded namespace.
+using namespace RavlImageN;
+
+NetPortFormatC<ImageC<ByteRGBValueC> > formatNetRGBImage;
+NetPortFormatC<ImageC<ByteYUVValueC> > formatNetYUVImage;
 
 int main(int nargs,char *args[]) 
 {
@@ -28,24 +43,43 @@ int main(int nargs,char *args[])
   bool verb = option.Boolean("v",false,"Verbose mode. ");
   StringC formatIn = option.String("if","","Input format. ");
   StringC formatOut = option.String("of","","Output format. ");
-  FilenameC infile = option.String("","","Input filename");
-  FilenameC outfile = option.String("","","Output filename");
-  bool yuvMode = option.Boolean("yuv",false,"Use yuv type. \n");
+  bool netExport = option.Boolean("e",false,"Export to network. ");
+  IntT bufferSize = option.Int("b",10,"Buffer size.");
+  StringC serverAddress = option.String("a","localhost:4046","Video server address. ");
+  bool yuvMode = option.Boolean("yuv",false,"Use yuv type. ");
 #ifndef __linux__
   pthread_setconcurrency(option.Int("cc",4,"pthread concurrentcy."));
 #endif
   
+  FilenameC infile = option.String("","","Input filename");
+  FilenameC outfile = option.String("","","Output filename");
   option.Check();
   
   DPEventSetC es;
+  if(netExport) {
+    if(!NetPortOpen(serverAddress)) {
+      cerr << "Failed to open NetPortManager." << serverAddress << " \n";
+      return __LINE__;
+    }
+  }
   
   if(!yuvMode) {
-    DPISPortC<FrameC<ImageC<ByteRGBValueC> > > vidIn;
-    DPOSPortC<FrameC<ImageC<ByteRGBValueC> > > vidOut;
+    DPISPortC<ImageC<ByteRGBValueC> > vidIn;
+    DPOSPortC<ImageC<ByteRGBValueC> > vidOut;
     
     if(!OpenISequence(vidIn,infile,formatIn,verb)) {
       cerr << "ERROR: Failed to open input '" << infile << "'\n";
       exit(1);
+    }
+    
+    if(netExport) {
+      if(!NetExport(outfile,vidIn)) {
+	cerr << "ERROR: Failed to export '" << outfile << "' \n";
+	return __LINE__;
+      }
+      while(1)
+	Sleep(1000);
+      return 0;
     }
     
     if(!OpenOSequence(vidOut,outfile,formatOut,verb)) {
@@ -53,16 +87,26 @@ int main(int nargs,char *args[])
       exit(1);
     }
     
-    es += vidIn >>= DPBufferC<FrameC<ImageC<ByteRGBValueC > > >(true) 
+    es += vidIn >>= DPFixedBufferC<ImageC<ByteRGBValueC > >(bufferSize)
 		>>= vidOut;
-  
+    
   } else {
-    DPISPortC<FrameC<ImageC<ByteYUVValueC> > > vidIn;
-    DPOSPortC<FrameC<ImageC<ByteYUVValueC> > > vidOut;
+    DPISPortC<ImageC<ByteYUVValueC> > vidIn;
+    DPOSPortC<ImageC<ByteYUVValueC> > vidOut;
     
     if(!OpenISequence(vidIn,infile,formatIn,verb)) {
       cerr << "ERROR: Failed to open input '" << infile << "'\n";
       exit(1);
+    }
+    
+    if(netExport) {
+      if(!NetExport(outfile,vidIn)) {
+	cerr << "ERROR:  Failed to export '" << outfile << "' \n";
+	return __LINE__;
+      }
+      while(1)
+	Sleep(1000);
+      return 0;
     }
     
     if(!OpenOSequence(vidOut,outfile,formatOut,verb)) {
@@ -70,7 +114,7 @@ int main(int nargs,char *args[])
       exit(1);
     }
     
-    es += vidIn >>= DPBufferC<FrameC<ImageC<ByteYUVValueC > > >(true) 
+    es += vidIn >>= DPFixedBufferC<ImageC<ByteYUVValueC > >(bufferSize) 
 		>>= vidOut;
   }
   es.Wait();
