@@ -69,7 +69,12 @@ namespace RavlN {
     { RavlAssert(size == N); }
     //: This constructor is for compatibility with arbitrarily sized vectors.
     // Used by some templates.
-    
+  
+    TFVectorC<DataT,N> Copy(void) const
+      { return *this ; }
+    //: return a copy of this vector 
+
+  
     UIntT Size() const
     { return N; }
     //: Get size of array
