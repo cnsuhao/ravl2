@@ -13,12 +13,14 @@
 #include "Ravl/Hash.hh"
 #include "Ravl/String.hh"
 #include "Ravl/MTLocks.hh"
+#include "Ravl/RCWrap.hh"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 
 namespace RavlN {
+  
   typedef const char *(*TypeNameMapT)(const type_info &type);
   extern TypeNameMapT TypeNameMap;
   
@@ -64,6 +66,8 @@ namespace RavlN {
   
   static TypeNameC type14(typeid(bool),"bool");
   static TypeNameC type15(typeid(RCBodyVC),"RCBodyVC");
+  
+  static TypeNameC type16(typeid(RCWrapAbstractC),"RavlN::RCWrapAbstractC");
   
   const char *TypeName(const char *name) { 
     MTReadLockC lock;
