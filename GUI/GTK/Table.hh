@@ -17,6 +17,8 @@
 #include "Ravl/GUI/Widget.hh"
 
 namespace RavlGUIN {
+  class TableC;
+  
   //! userlevel=Develop
   //: Table body
   
@@ -40,6 +42,7 @@ namespace RavlGUIN {
 		   );
     //: Add object to table.
     // Values for attach options are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKATTACHOPTIONS">here</A>.
+    
     
   protected:
     virtual bool Create();
@@ -78,7 +81,15 @@ namespace RavlGUIN {
       UIntT	ypadding;
     };
     
+    bool GUIAddObject(WidgeInfoC &wi);
+    
+    //: Add object to table.
+    // Values for attach options are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKATTACHOPTIONS">here</A>.
+    // Call on the GUI thread only.
+    
     DListC<WidgeInfoC> children;
+    
+    friend class TableC;
   };
   
   //! userlevel=Normal
@@ -128,7 +139,31 @@ namespace RavlGUIN {
     }
     //: Add object to table.
     // Values for attach options are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKATTACHOPTIONS">here</A>.
-
+    
+    bool GUIAddObject(const WidgetC &widge,
+		      UIntT left_attach,UIntT right_attach,
+		      UIntT top_attach,UIntT bottom_attach,
+		      GtkAttachOptions nxoptions= (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
+		      GtkAttachOptions nyoptions= (GtkAttachOptions) (GTK_FILL | GTK_EXPAND),
+		      UIntT nxpadding = 0,
+		      UIntT nypadding = 0)
+    { 
+      TableBodyC::WidgeInfoC wi(widge,left_attach,right_attach,top_attach,bottom_attach,
+				nxoptions,nyoptions,
+				nxpadding,nypadding);
+      return Body().GUIAddObject(wi); 
+    }
+    //: Add object to table.
+    // Values for attach options are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKATTACHOPTIONS">here</A>.
+    // Call on the GUI thread only.
+    
+    bool GUIAddObject(TableBodyC::WidgeInfoC &wi)
+    { return Body().GUIAddObject(wi); }
+    //: Add object to table.
+    // Values for attach options are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKATTACHOPTIONS">here</A>.
+    // Call on the GUI thread only.
+    
+    friend class TableBodyC;
   };
 
 }
