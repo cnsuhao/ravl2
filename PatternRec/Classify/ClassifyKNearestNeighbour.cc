@@ -33,8 +33,8 @@ namespace RavlN {
       data(ndata)
   {
     if(data.Size() > 0)
-      labels = ndata.Sample2().MaxValue()+1;
-    ONDEBUG(cerr << "ClassifyKNearestNeighbourBodyC::ClassifyKNearestNeighbourBodyC(), Data=" << data.Size() <<" Labels=" << labels << "\n");
+      NoLabels(ndata.Sample2().MaxValue()+1);
+    ONDEBUG(cerr << "ClassifyKNearestNeighbourBodyC::ClassifyKNearestNeighbourBodyC(), Data=" << data.Size() <<" Labels=" << NoLabels() << "\n");
   }
   
   //: Classify vector 'data' return the most likely label.
@@ -93,7 +93,7 @@ namespace RavlN {
   
   VectorC ClassifyKNearestNeighbourBodyC::Confidence(const VectorC &data) const {
     SArray1dC<Tuple2C<UIntT,RealT> > res = Search(data,defaultK);
-    VectorC ret(Labels());
+    VectorC ret(NoLabels());
     ret.Fill(0);
     RealT sumDist = res.Size();
     // Generate normalised vector.

@@ -31,7 +31,7 @@ namespace RavlN {
 						 const DistanceC &xdistanceMetric)
     : ClassifyKNearestNeighbourBodyC(ndata,defK,xdistanceMetric)
   {
-    ONDEBUG(cerr << "ClassifyAverageNearestNeighbourBodyC::ClassifyAverageNearestNeighbourBodyC(), Data=" << data.Size() <<" Labels=" << labels << "\n");
+    ONDEBUG(cerr << "ClassifyAverageNearestNeighbourBodyC::ClassifyAverageNearestNeighbourBodyC(), Data=" << data.Size() <<" Labels=" << NoLabels() << "\n");
   }
   
   //: Classify vector 'data' return the most likely label.
@@ -65,7 +65,7 @@ namespace RavlN {
   
   VectorC ClassifyAverageNearestNeighbourBodyC::Confidence(const VectorC &data) const {
     SArray1dC<Tuple2C<UIntT,RealT> > res = Search(data,defaultK);
-    VectorC ret(Labels());
+    VectorC ret(NoLabels());
     ret.Fill(0);
     // Generate normalised vector.
     HashC<UIntT,MeanC > tab;

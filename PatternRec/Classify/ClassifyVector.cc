@@ -15,23 +15,24 @@ namespace RavlN {
   //: Default constructor.
   
   ClassifyVectorBodyC::ClassifyVectorBodyC(UIntT maxLabels)
-    : labels(maxLabels)
+    : FunctionBodyC(0,maxLabels)
   {}
   
   //: Classify vector 'data' return the most likely label.
   
   UIntT ClassifyVectorBodyC::Classify(const VectorC &data) const {
+    RavlAssertMsg(0,"ClassifyVectorBodyC::Classify(), Abstract method called. ");
     return 0;
   }
-    
+  
   //: Generate a probability for each label.
   // Note: Not all classifiers return a true probablility vector.
   
-  VectorC ClassifyVectorBodyC::Confidence(const VectorC &data) const {
-    VectorC ret(labels);
+  VectorC ClassifyVectorBodyC::Apply(const VectorC &data) const {
+    VectorC ret(NoLabels());
     ret.Fill(0);
     UIntT res = Classify(data);
-    RavlAssert(res < labels);
+    RavlAssert(res < NoLabels());
     ret[res] = 1;
     return ret;
   }

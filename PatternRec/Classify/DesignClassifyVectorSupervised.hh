@@ -18,6 +18,7 @@
 #include "Ravl/Vector.hh"
 #include "Ravl/PatternRec/Sample.hh"
 #include "Ravl/PatternRec/ClassifyVector.hh"
+#include "Ravl/PatternRec/DesignFunctionSupervised.hh"
 
 namespace RavlN {
   
@@ -25,7 +26,7 @@ namespace RavlN {
   //: Abstract supervised classifer designer.
   
   class DesignClassifyVectorSupervisedBodyC
-    : public RCBodyVC
+    : public DesignFunctionSupervisedBodyC
   {
   public:
     DesignClassifyVectorSupervisedBodyC()
@@ -44,7 +45,7 @@ namespace RavlN {
   //: Abstract supervised classifer designer.
   
   class DesignClassifyVectorSupervisedC
-    : public RCHandleC<DesignClassifyVectorSupervisedBodyC>
+    : public DesignFunctionSupervisedC
   {
   public:
     DesignClassifyVectorSupervisedC()
@@ -54,16 +55,16 @@ namespace RavlN {
     
   protected:
     DesignClassifyVectorSupervisedC(DesignClassifyVectorSupervisedBodyC &bod)
-      : RCHandleC<DesignClassifyVectorSupervisedBodyC>(bod)
+      : DesignFunctionSupervisedC(bod)
     {}
     //: Body constructor.
     
     DesignClassifyVectorSupervisedBodyC &Body()
-    { return RCHandleC<DesignClassifyVectorSupervisedBodyC>::Body(); }
+    { return static_cast<DesignClassifyVectorSupervisedBodyC &>(DesignFunctionSupervisedC::Body()); }
     //: Access body.
     
     const DesignClassifyVectorSupervisedBodyC &Body() const
-    { return RCHandleC<DesignClassifyVectorSupervisedBodyC>::Body(); }
+    { return static_cast<const DesignClassifyVectorSupervisedBodyC &>(DesignFunctionSupervisedC::Body()); }
     //: Access body.
     
   public:

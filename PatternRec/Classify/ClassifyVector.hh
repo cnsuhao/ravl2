@@ -13,7 +13,7 @@
 //! author="Charles Galambos"
 //! file="Ravl/PatternRec/Classify/ClassifyVector.hh"
 
-#include "Ravl/RefCounter.hh"
+#include "Ravl/PatternRec/Function.hh"
 #include "Ravl/Vector.hh"
 
 namespace RavlN {
@@ -22,72 +22,80 @@ namespace RavlN {
   //: Generic classifier body.
   
   class ClassifyVectorBodyC
-    : public RCBodyVC
+    : public FunctionBodyC
   {
   public:
     ClassifyVectorBodyC(UIntT nmaxLabels = 0);
-    //: Default constructor.
+    //: Constructor.
     
     virtual UIntT Classify(const VectorC &data) const;
     //: Classify vector 'data' return the most likely label.
     
-    virtual VectorC Confidence(const VectorC &data) const;
-     //: Estimate the confidence for each label.
+    virtual VectorC Apply(const VectorC &data) const;
+    //: Estimate the confidence for each label.
     // The meaning of the confidence assigned to each label depends
     // on the classifier used. The higher the confidence the more likely
     // it is the label is correct.
     
-    UIntT Labels() const
-      { return labels; }
+    UIntT NoLabels() const
+    { return outputSize; }
     //: Returns the maximum number of output labels.
+    // Identical to OutputSize().
+    
+    UIntT NoLabels(UIntT labels)
+    { return OutputSize(labels); }
+    //: Returns the maximum number of output labels.
+    // Identical to OutputSize().
     
   protected:
-    UIntT labels; // Number of output labels
-    
-    
   };
 
   //! userlevel=Normal
   //: Generic classifier.
   
   class ClassifyVectorC 
-    : public RCHandleC<ClassifyVectorBodyC>
+    : public FunctionC
   {
   public:
     ClassifyVectorC()
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     
   protected:
     ClassifyVectorC(ClassifyVectorBodyC &bod)
-      : RCHandleC<ClassifyVectorBodyC>(bod)
+      : FunctionC(bod)
     {}
     //: Body constructor.
     
     ClassifyVectorBodyC &Body()
-      { return RCHandleC<ClassifyVectorBodyC>::Body(); }
+    { return static_cast<ClassifyVectorBodyC &>(FunctionC::Body()); }
     //: Access body.
     
     const ClassifyVectorBodyC &Body() const
-      { return RCHandleC<ClassifyVectorBodyC>::Body(); }
+    { return static_cast<const ClassifyVectorBodyC &>(FunctionC::Body()); }
     //: Access body.
     
   public:
     UIntT Classify(const VectorC &data) const
-      { return Body().Classify(data); }
+    { return Body().Classify(data); }
     //: Classify vector 'data' return the most likely label.
     
     VectorC Confidence(const VectorC &data) const
-      { return Body().Confidence(data); }
+    { return Body().Apply(data); }
     //: Estimate the confidence for each label.
     // The meaning of the confidence assigned to each label depends
     // on the classifier used. The higher the confidence the more likely
-    // it is the label is correct.
-     
-    UIntT Labels() const
-      { return Body().Labels(); }
+    // it is the label is correct. <p>
+    // The result is identical to that of the apply method.
+    
+    UIntT NoLabels() const
+    { return Body().NoLabels(); }
     //: Returns the maximum number of output labels.
+    
+    UIntT NoLabels(UIntT labels)
+    { return Body().NoLabels(labels); }
+    //: Set the number of labels
     
   };
   

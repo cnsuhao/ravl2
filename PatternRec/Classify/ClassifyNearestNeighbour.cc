@@ -34,9 +34,9 @@ namespace RavlN {
       vlabels(nlabels)
   {
     if(vlabels.Size() > 0)
-      labels = vlabels.MaxValue()+1;
+      NoLabels(vlabels.MaxValue()+1);
     else
-      labels = nvectors.Size();
+      NoLabels(nvectors.Size());
     ONDEBUG(cerr << "ClassifyNearestNeighbourBodyC::ClassifyNearestNeighbourBodyC(), Data=" << vectors.Size() <<" Labels=" << labels << "\n");
   }
   
@@ -47,8 +47,8 @@ namespace RavlN {
     : distanceMetric(xdistMetric),
       vectors(nvectors)
   {
-    labels = nvectors.Size();
-    ONDEBUG(cerr << "ClassifyNearestNeighbourBodyC::ClassifyNearestNeighbourBodyC(), Data=" << vectors.Size() <<" Labels=" << labels << " vlabels=" << vlabels.Size() << "\n");
+    NoLabels(nvectors.Size());
+    ONDEBUG(cerr << "ClassifyNearestNeighbourBodyC::ClassifyNearestNeighbourBodyC(), Data=" << vectors.Size() <<" Labels=" << NoLabels() << " vlabels=" << vlabels.Size() << "\n");
   }
 
   //: Classify vector 'data' return the most likely label.
