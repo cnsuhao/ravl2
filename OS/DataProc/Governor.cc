@@ -15,11 +15,6 @@
 
 namespace RavlN {
   
-  //: Dummy func.
-  
-  void DPGovernorBaseBodyC::Dummy(void)
-  {}
-  
   //: Wait for timeup.
   
   void DPGovernorBaseBodyC::WaitForTimeup() {

@@ -19,7 +19,7 @@
 #include "Ravl/DP/StreamOp.hh"
 #include "Ravl/DP/SPort.hh"
 
-#define RAVL_GCC3FIX 1
+#define RAVL_GCC3FIX 0
 
 void HelpDebugger();
 

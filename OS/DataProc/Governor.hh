@@ -51,9 +51,6 @@ namespace RavlN {
     void WaitForTimeup();
     //: Wait for timeup.
     
-    void Dummy(void);
-    //: Dummy func.
-    
     DateC next;
     RealT delay;
     UIntT frameCnt; // Frame count,can be used to measure frame rate.
