@@ -53,8 +53,8 @@ namespace RavlImageN {
       }
     }
   }
+  //: Draw a single-colour polygon into the image
 
-  //: This function requires that DataT has a working operator*(double) function
   template<class DataT>
   void DrawPolygon(Array2dC<DataT> &dat,const DListC<DataT>& values,const Polygon2dC &poly, bool fill=false) {
     // Draw shaded polygon
@@ -89,13 +89,14 @@ namespace RavlImageN {
 	}
       }
     }
-    else {
-      // Draw individual lines in the first colour specified
-      for (DLIterC<Point2dC> it(poly); it; it++) {
-	DrawLine(dat,values.First(),it.Data(),it.NextCrcData());
-      }
-    }      
+    // Draw individual lines
+    DLIterC<DataT> val(values);
+    for (DLIterC<Point2dC> pnt(poly); pnt && val; pnt++, val++) {
+      DrawLine(dat,val.Data(),val.NextCrcData(),pnt.Data(),pnt.NextCrcData());
+    }
   }
+  //: Draw a shaded polygon into the image
+  // This function requires that DataT has a working operator*(double) function
   
 }
 

@@ -36,7 +36,29 @@ namespace RavlImageN {
     }
   }
   //: Draw a line in an image.
-  
+
+  template<class DataT>
+  void DrawLine(Array2dC<DataT> &dat,const DataT &valuefrom,const DataT &valueto,const Index2dC &from,const Index2dC &to) {
+    RealT length = sqrt(static_cast<double>((to - from).SumOfSqr().V()));
+    // FIXME: It would be much better to clip the line here, but for now just check pixels before writing them.
+    if(dat.Frame().Contains(from) && dat.Frame().Contains(to)) {
+      // If both start and end are inside the image, all pixels in between are.
+      for(Line2dIterC it(from,to);it;it++) {
+	RealT alpha = sqrt(static_cast<double>((it.Data() - from).SumOfSqr().V())) / length;
+	dat[*it] = DataT((valuefrom*(1-alpha)) + (valueto*alpha));
+      }
+      return ;
+    }
+    for(Line2dIterC it(from,to);it;it++) {
+      if(!dat.Contains(*it)) 
+	continue;
+      RealT alpha = sqrt(static_cast<double>((it.Data() - from).SumOfSqr().V())) / length;
+      dat[*it] = DataT((valuefrom*(1-alpha)) + (valueto*alpha));
+    }
+  }
+  //: Draw a line in an image, shaded between two colours
+  // This function requires that DataT has a working operator*(double) function
+
 }
 
 #endif
