@@ -232,13 +232,13 @@ for global variables modify or add to global databases.
 
 <LI><DT><A NAME="HEADERS"></A><B>HEADERS</B></DT> <DD>All the public header
 files, i.e. those which are needed globally.  They are exported to the
-directory $PROJECT_OUT/inc/amma ($PROJECT_OUT/inc/gama), to make them available
+directory $PROJECT_OUT/inc/local, to make them available
 to other.  E.g. if you have a file <code>headerfile.hh</code> to export, the
 line will be
 
 <pre>HEADERS = headerfile.hh</pre> 
 Thus to #include the header file, you need to put: 
-<pre>#include "amma/headerfile.hh"</pre> 
+<pre>#include "local/headerfile.hh"</pre> 
 
 (For a more structured global header file system, see <a
 href="#PACKAGE">PACKAGE</a>.)  </DD><P>
@@ -251,14 +251,13 @@ header files are not exported.
 <LI><DT><A NAME="PACKAGE"></A><B>PACKAGE</B></DT> <DD>Advanced users only.  The
 name of the package to which the directory belongs. In fact, it is a part of
 the subdirectory path where public header files are copied. For example,
-<PRE>PACKAGE = amma/Surf3d</PRE> means that all public header files will be
-copied into the directory $PROJECT_OUT/inc/amma/Surf3d and a header file must
+<PRE>PACKAGE = Ravl/Surf3d</PRE> means that all public header files will be
+copied into the directory $PROJECT_OUT/inc/Ravl/Surf3d and a header file must
 be included in an implementation file as
 
-<PRE>#include "amma/Surf3d/Curve3d.hh"</PRE> 
+<PRE>#include "Ravl/Surf3d/Curve3d.hh"</PRE> 
 
-The default value of PACKAGE variable is "amma" or "gama" according to the
-system under which the directory is located.
+The default value of PACKAGE variable is "local".
 
 <P>
 <font size = +1>ATTENTION!!</font> Variables defined by PACKAGE should be
@@ -316,8 +315,8 @@ automatically included.</ul>
  wish to set USESLIBS you can use the dummy library 'None'. Example,
  <PRE>
   USESLIBS = None
- </PRE> For details on how .def files work see
- <a href="file://localhost/vol/vssp/local.sun4/amma/doc/html/ammaMake.html#LibDepFile">library dependencies file</a></P>
+ </PRE>
+<!-- For details on how .def files work see <a href="file://localhost/vol/vssp/local.sun4/amma/doc/html/ammaMake.html#LibDepFile">library dependencies file</a></P> -->
 </DD><P>
 
 <LI><DT><A NAME="PROGLIBS"></A><B>PROGLIBS</B></DT> <DD>The name of the
@@ -364,7 +363,7 @@ source files demonstrating the use of the software in the directory.  They are
 copied into the documentation area.  The example sources must be compilable; to
 check compilation, include them temporarily in the "MAINS" list, e.g.:
 <pre>
-am "MAINS = example.cc"
+qm "MAINS = example.cc"
 </pre>   
 </DD><P>
 
