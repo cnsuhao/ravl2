@@ -214,9 +214,8 @@ namespace RavlN {
   
   template<class DataT>  
   bool NetOSPortServerBodyC<DataT>::Init() {
-    NetOSPortServerC<DataT> me(*this);
     RavlAssert(ep.IsValid());
-    ep.Register(NPMsg_Data,"Data",me,&NetOSPortServerC<DataT>::PutData);
+    ep.RegisterR(NPMsg_Data,"Data",*this,&NetOSPortServerBodyC<DataT>::PutData);
     bool ret =NetOSPortServerBaseBodyC::Init();
     return ret;
   }

@@ -214,8 +214,7 @@ namespace RavlN {
   
   template<class DataT>  
   bool NetISPortServerBodyC<DataT>::Init() {
-    NetISPortServerC<DataT> me(*this);
-    ep.Register(NPMsg_ReqData,"ReqData",me,&NetISPortServerC<DataT>::ReqData);
+    ep.RegisterR(NPMsg_ReqData,"ReqData",*this,&NetISPortServerBodyC<DataT>::ReqData);
     return NetISPortServerBaseBodyC::Init();
   }
   
