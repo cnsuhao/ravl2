@@ -25,4 +25,6 @@ TESTEXES=testDataSet.cc
 
 USESLIBS=RavlCore RavlMath
 
+PROGLIBS=RavlOS
+
 EHT=Ravl.Pattern_Recognition.Data_Set.html
