@@ -96,34 +96,18 @@ namespace RavlImageN {
   
   
   int CornerDetectorHarrisBodyC::Peak(ImageC<IntT> &result,const ImageC<ByteT> &in,DListC<CornerC> &cornLst) {
-    IndexRange2dC rect(result.Frame().Shrink(3));
-    IntT last = 0;
-    Index2dC at;
-    bool peak = false;
+    IndexRange2dC rect(result.Frame().Shrink(4));
     int n = 0;
     for(Array2dIterC<IntT> it(result,rect);it;it++) {
-      if(*it < threshold) {
-	last = 0;
-	peak = false;
+      if(*it < threshold)
 	continue;
+      Index2dC at = it.Index();
+      if(PeakDetect7(result,at)) {
+	Point2dC pat = LocatePeakSubPixel(result,at,0.25);
+	cornLst.InsLast(CornerC(pat,SobelGradient3(in,at),in[at]));
+	n++;
       }
-      if(*it >= last) {
- 	last = *it;
-	at = it.Index();
-	peak = false;
-	continue;
-      }
-      if(last >= threshold && !peak) {
-	if(PeakDetect7(result,at)) {
-	  Point2dC pat = LocatePeakSubPixel(result,at,0.25);
-	  cornLst.InsLast(CornerC(pat,SobelGradient3(in,at),in[at]));
-	  n++;
-	  peak = true;
-	}
-      }
-      last = *it;
     }
     return n; 
-  }
-  
+  }  
 }
