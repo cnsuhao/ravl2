@@ -50,7 +50,7 @@ namespace RavlN {
       return ret;
     }
     //: Insert face defined by vertices.
-
+    
     THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> InsertFace(const SArray1dC<HEMeshBaseVertexC> &vertices,
 							     HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> &edgeTab) {
       static FaceDataT tmp;
@@ -122,7 +122,17 @@ namespace RavlN {
     { return THEMeshVertexIterC<VertexDataT,FaceDataT,EdgeDataT>(Body().vertices); }
     //: List of vertices.
     // Use to create THEMeshVertexIterC.
-
+    
+    THEMeshFaceIterC<VertexDataT,FaceDataT,EdgeDataT> Faces() const
+    { return THEMeshFaceIterC<VertexDataT,FaceDataT,EdgeDataT>(Body().faces); }
+    //: List of faces in the mesh.
+    // Use to create THEMeshFaceIterC.
+    
+    THEMeshVertexIterC<VertexDataT,FaceDataT,EdgeDataT> Vertices() const
+    { return THEMeshVertexIterC<VertexDataT,FaceDataT,EdgeDataT>(Body().vertices); }
+    //: List of vertices.
+    // Use to create THEMeshVertexIterC.
+    
     THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> FirstFace()
     { return THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT>(Body().faces.First()); }
     //: Get the first face in the mesh.

@@ -32,7 +32,7 @@ namespace RavlN {
     {}
     //: Default constructor.
 
-    HEMeshBaseVertexIterC(IntrDListC<HEMeshBaseVertexBodyC> &iter)
+    HEMeshBaseVertexIterC(const IntrDListC<HEMeshBaseVertexBodyC> &iter)
       : IntrDLIterC<HEMeshBaseVertexBodyC>(iter)
     {}
     //: Constructor from a IntrDListC.

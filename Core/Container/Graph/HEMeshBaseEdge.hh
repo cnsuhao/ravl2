@@ -102,6 +102,14 @@ namespace RavlN {
     { return HEMeshBaseVertexC(const_cast<HEMeshBaseVertexBodyC &>(*vertex)); }
     //: Access vertex this edge goes to
     
+    const HEMeshBaseVertexBodyC *VertexPtr() const
+    { return const_cast<HEMeshBaseVertexBodyC *>(vertex); }
+    //: Access vertex this edge goes to
+    
+    HEMeshBaseVertexBodyC *VertexPtr()
+    { return const_cast<HEMeshBaseVertexBodyC *>(vertex); }
+    //: Access vertex this edge goes to
+    
     HEMeshBaseVertexC SourceVertex() const 
     { return Prev().Vertex(); }
     //: Access vertex this edge comes from.

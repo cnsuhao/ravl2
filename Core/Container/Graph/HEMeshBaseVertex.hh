@@ -105,6 +105,10 @@ namespace RavlN {
     //: Access edge.
     // This is always an edge going to this vertex.
     
+    void Invalidate()
+    { body = 0; }
+    //: Invalidate this handle to the vertex body.
+    
   protected:
     
     HEMeshBaseVertexC(HEMeshBaseVertexBodyC &nbody)

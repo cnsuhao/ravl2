@@ -73,7 +73,7 @@ namespace RavlN {
   //! userlevel=Normal
   //: Vertex.
   
-  template<class VertexDataT,class FaceDataT,class EdgeDataT>
+  template<class VertexDataT,class FaceDataT = EmptyC,class EdgeDataT = EmptyC>
   class THEMeshVertexC 
     : public HEMeshBaseVertexC // Link in list of all vertexes
   {
@@ -86,6 +86,14 @@ namespace RavlN {
     THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> FindEdge(const THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT> &oth) const;
     //: Look for a connection from this vertex to oth.
     // Returns an invalid handle if ones is not found.
+    
+    THEMeshVertexC(const HEMeshBaseVertexC &base)
+      : HEMeshBaseVertexC(base)
+    {
+      if(dynamic_cast<THEMeshVertexBodyC<VertexDataT,FaceDataT,EdgeDataT> *>(&HEMeshBaseVertexC::Body()) == 0)
+	Invalidate();
+    }
+    //: Base constructor.
     
   protected:
     
@@ -108,6 +116,14 @@ namespace RavlN {
     //: Access body.
     
   public:
+    
+    VertexDataT &Data()
+    { return Body().Data(); }
+    //: Access data.
+    
+    const VertexDataT &Data() const
+    { return Body().Data(); }
+    //: Access data.
     
   private:
     friend class THEMeshBodyC<VertexDataT,FaceDataT,EdgeDataT>;

@@ -51,6 +51,10 @@ namespace RavlN {
     HEMeshBaseEdgeBodyC *FirstEdge()
     { return edge; }
     //: Access first edge.
+
+    const HEMeshBaseEdgeBodyC *FirstEdge() const
+    { return edge; }
+    //: Access first edge.
     
     void DestroyFace();
     //: Destroy the face without worrying about mesh consistancy.
@@ -136,8 +140,12 @@ namespace RavlN {
     HEMeshBaseEdgeBodyC *FirstEdge()
     { return Body().FirstEdge(); }
     //: Access first edge.
+
+    const HEMeshBaseEdgeBodyC *FirstEdge() const
+    { return Body().FirstEdge(); }
+    //: Access first edge.
     
-  public:
+  public:    
     void SetEdge(HEMeshBaseEdgeC nedge)
     { Body().SetEdge(&nedge.Body()); }
     //: Set first edge.
@@ -180,6 +188,10 @@ namespace RavlN {
     //: Delete face from mesh.
     // This operation leaves the mesh open.
     
+    void Invalidate()
+    { body = 0; }
+    //: Invalidate handle to edge.
+    
   protected:
     HEMeshBaseFaceBodyC *body;
     friend class HEMeshBaseFaceEdgeIterC;
@@ -201,9 +213,9 @@ namespace RavlN {
     {}
     //: Default constructor.
     
-    HEMeshBaseFaceEdgeIterC(HEMeshBaseFaceC &face)
-      : first(face.FirstEdge()),
-	at(face.FirstEdge())
+    HEMeshBaseFaceEdgeIterC(const HEMeshBaseFaceC &face)
+      : first(const_cast<HEMeshBaseEdgeBodyC *>(face.FirstEdge())),
+	at(const_cast<HEMeshBaseEdgeBodyC *>(face.FirstEdge()))
     {}
     //: Construct from a face
 

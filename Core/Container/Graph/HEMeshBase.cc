@@ -93,6 +93,15 @@ namespace RavlN {
     return ret;
   }
 
+
+  //: Insert a vertex into a face, link all vertexes already in the face to it.
+  
+  bool HEMeshBaseBodyC::InsertVertexInFace(HEMeshBaseVertexC &vert,HEMeshBaseFaceC &face) {
+    RavlAssertMsg(0,"HEMeshBaseBodyC::InsertVertexInFace(), Not Implemented.");
+    
+    return true;
+  }
+
   //: Check mesh structure is consistant.
   // Returns false if an inconsistancy is found.
   

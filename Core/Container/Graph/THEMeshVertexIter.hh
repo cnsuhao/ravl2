@@ -32,8 +32,8 @@ namespace RavlN {
     THEMeshVertexIterC()
     {}
     //: Default constructor.
-
-    THEMeshVertexIterC(IntrDListC<HEMeshBaseVertexBodyC> &iter)
+    
+    THEMeshVertexIterC(const IntrDListC<HEMeshBaseVertexBodyC> &iter)
       : HEMeshBaseVertexIterC(iter)
     {}
     //: Constructor from a IntrDListC.

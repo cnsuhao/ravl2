@@ -17,8 +17,7 @@
 
 namespace RavlN {
   
-  template<class VertexDataT,class FaceDataT,class EdgeDataT>
-  class THEMeshC;
+  template<class VertexDataT,class FaceDataT,class EdgeDataT> class THEMeshC;
 
   //! userlevel=Normal
   //: Mesh face iterator.
@@ -28,19 +27,17 @@ namespace RavlN {
   
   template<class VertexDataT,class FaceDataT = EmptyC,class EdgeDataT = EmptyC>
   class THEMeshFaceIterC 
-    : HEMeshBaseFaceIterC 
+    : public HEMeshBaseFaceIterC 
   {
   public:
     THEMeshFaceIterC()
     {}
     //: Default constructor.
-
-#if 0    
-    THEMeshFaceIterC(IntrDListC<HEMeshFaceBodyC> &iter)
-      : IntrDLIterC<THEMeshFaceBodyC>(iter)
+    
+    THEMeshFaceIterC(const IntrDListC<HEMeshBaseFaceBodyC> &iter)
+      : HEMeshBaseFaceIterC(iter)
     {}
     //: Constructor.
-#endif
     
     THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> Data()
     { return THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT>(HEMeshBaseFaceIterC::Data()); }

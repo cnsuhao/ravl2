@@ -51,6 +51,9 @@ namespace RavlN {
 			       HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> &edgeTab);
     //: Insert face defined by vertices.
     
+    bool InsertVertexInFace(HEMeshBaseVertexC &vert,HEMeshBaseFaceC &face);
+    //: Insert a vertex into a face, link all vertexes already in the face to it.
+    
     UIntT NoFaces() const
     { return faces.Size(); }
     //: Get the number of faces.
@@ -122,6 +125,11 @@ namespace RavlN {
 			       HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> &edgeTab)
     { return Body().InsertFace(face,vertices,edgeTab); }
     //: Insert face defined by vertices.
+    
+    bool InsertVertexInFace(HEMeshBaseVertexC &vert,HEMeshBaseFaceC &face)
+    { return Body().InsertVertexInFace(vert,face); }
+    //: Insert a vertex into a face, link all vertexes already in the face to it.
+    // This method assumes 'vert' is not connected to a mesh.
     
     UIntT NoFaces() const
     { return Body().NoFaces(); }

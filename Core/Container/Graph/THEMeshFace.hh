@@ -92,6 +92,14 @@ namespace RavlN {
     THEMeshFaceC()
     {}
     //: Default constructor
+
+    THEMeshFaceC(const HEMeshBaseFaceC &base)
+      : HEMeshBaseFaceC(base)
+    {
+      if(dynamic_cast<THEMeshFaceBodyC<VertexDataT,FaceDataT,EdgeDataT> *>(&HEMeshBaseFaceC::Body()) == 0)
+	Invalidate();
+    }
+    //: Base constructor.
     
   protected:
     THEMeshFaceBodyC<VertexDataT,FaceDataT,EdgeDataT> &Body()
@@ -166,7 +174,7 @@ namespace RavlN {
     {}
     //: Default constructor.
     
-    THEMeshFaceEdgeIterC(THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> &face)
+    THEMeshFaceEdgeIterC(const THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> &face)
       : HEMeshBaseFaceEdgeIterC(face)
     {}
     //: Construct from a face
@@ -200,14 +208,14 @@ namespace RavlN {
     // Iterator must be at a valid element
     // before calling this method.
     
-    const THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> *operator ->() const
-    { return at; }
+    const THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> *operator->() const
+    { return static_cast<THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> *>(at); }
     //: Access edge.
     // Iterator must be at a valid element
     // before calling this method.
     
     THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> *operator->()
-    { return at; }
+    { return static_cast<THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT> *>(at); }
     //: Access edge.
     // Iterator must be at a valid element
     // before calling this method.
