@@ -30,7 +30,7 @@ namespace RavlN {
   template<class T>
   class PermutationIterC {
   public:
-    PermutationIterC(UIntT nArity = 0,const DListC<T> &items)
+    PermutationIterC(UIntT nArity,const DListC<T> &items)
       : iters(nArity) 
     {
       for(DLIterC<T> it(items);it;it++)
