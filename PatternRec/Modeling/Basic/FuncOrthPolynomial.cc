@@ -6,9 +6,11 @@ namespace RavlN {
   
   //: Construct an orthogonal polynomial of given 'order'.
   
-  FuncOrthPolynomialBodyC::FuncOrthPolynomialBodyC(UIntT norder)
-    : order(norder)
+  FuncOrthPolynomialBodyC::FuncOrthPolynomialBodyC(int inSize,int outSize,UIntT norder)
+    : FuncLinearCoeffBodyC(inSize,outSize),
+      order(norder)
   {
+    noCoeffs = NumberCoeffs(inSize);
   }
   
   //: Calculate the number of coefficents for a given input size.

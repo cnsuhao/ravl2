@@ -23,8 +23,11 @@ namespace RavlN {
     : public FuncLinearCoeffBodyC
   {
   public:
-    FuncQuadraticBodyC()
-    {}
+    FuncQuadraticBodyC(int inSize,int outSize)
+      : FuncLinearCoeffBodyC(inSize,outSize)
+    {
+      noCoeffs = NumberCoeffs(inSize);
+    }
     //: Constructor.
     
     virtual VectorC MakeInput (const VectorC &X) const;
@@ -51,11 +54,11 @@ namespace RavlN {
   class FuncQuadraticC
     : public FuncLinearCoeffC
   {
-  public:
-    FuncQuadraticC()
+  public:    
+    FuncQuadraticC(int inSize,int outSize)
+      : FuncLinearCoeffC(*new FuncQuadraticBodyC(inSize,outSize))
     {}
-    //: Default constructor.
-    // Creates an invalid handle.
+    //: Constructor.
     
   protected:
     FuncQuadraticC(FuncQuadraticBodyC &bod)

@@ -16,7 +16,7 @@ namespace RavlN {
     : public FuncLinearCoeffBodyC
   {
   public:
-    FuncOrthPolynomialBodyC(UIntT order);
+    FuncOrthPolynomialBodyC(int inSize,int outSize,UIntT order);
     //: Construct an orthogonal polynomial of given 'order'.
     
     virtual VectorC MakeInput (const VectorC &X) const;
@@ -58,9 +58,9 @@ namespace RavlN {
     {}
     //: Default constructor.
     // Creates an invalid handle.
-
-    FuncOrthPolynomialC(UIntT order)
-      : FuncLinearCoeffC(*new FuncOrthPolynomialBodyC(order))
+    
+    FuncOrthPolynomialC(int inSize,int outSize,UIntT order)
+      : FuncLinearCoeffC(*new FuncOrthPolynomialBodyC(inSize,outSize,order))
     {}
     //: Construct an orthogonal polynomial of given 'order'.
     

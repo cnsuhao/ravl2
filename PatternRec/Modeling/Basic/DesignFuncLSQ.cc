@@ -3,6 +3,8 @@
 #include "Ravl/PatternRec/SampleVector.hh"
 #include "Ravl/PatternRec/SampleIter.hh"
 #include "Ravl/PatternRec/FuncLinear.hh"
+#include "Ravl/PatternRec/FuncQuadratic.hh"
+#include "Ravl/PatternRec/FuncOrthPolynomial.hh"
 #include "Ravl/MatrixRUT.hh"
 #include "Ravl/MatrixRS.hh"
 
@@ -25,9 +27,12 @@ namespace RavlN {
 	cerr << "Warning: Order 0 model. \n";
 	return FuncLinearCoeffC();
       case 1: // Linear.
-	return  FuncLinearC(inSize,outSize);
+	return FuncLinearC(inSize,outSize);
       case 2: // Quadratic
-	break;
+	if(!orthogonal)
+	  return FuncQuadraticC(inSize,outSize);
+      default:
+	return FuncOrthPolynomialC(inSize,outSize,order);
       };
     return FuncLinearCoeffC();
   }
@@ -63,9 +68,10 @@ namespace RavlN {
     // Do a few sums.
     MatrixRUTC aaTu = coeffs.SumOuterProducts();
     aaTu.MakeSymmetric();
-    MatrixC aaT(aaTu);
+    MatrixRSC aaT(aaTu);
     if(!aaT.InverseIP()) {
-      cerr << "DesignFuncLSQBodyC::Apply(), ERROR: Inverse failed, not enough data to complete design. \n";
+      cerr << "DesignFuncLSQBodyC::Apply(), ERROR: Inverse failed. \n";
+      // We should try and recover....
       return FunctionC();
     }
     MatrixC aTb = coeffs.TMul(vout);

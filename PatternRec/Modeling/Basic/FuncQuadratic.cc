@@ -30,7 +30,7 @@ namespace RavlN {
       *it = *it2;
     for(it2.First();it2;it2++) {
       for(SArray1dIterC<RealT> it3(it2);it3;it3++,it++)
-	*it = *it2 * *it3;
+	*it = (*it2) * (*it3);
     }
     RavlAssert(!it.IsElm());
     return ret;
