@@ -25,11 +25,15 @@ package</a> within RAVL, including <a href="Ravl.Images.IO.html">image
 I/O</a>.  It can deal with a large and expanding range of file
 formats.</p>
 
-<p>The underlying mechanism used to convert between the file format
-and the image pixel type can also be used to convert from <a href =
-"Ravl.Core.IO.Type_Converter.html">one image type to another</a>.</p>
+<p>The underlying mechanism used to convert between the file format and the
+image pixel type can also be used to convert from <a href =
+"Ravl.Core.IO.Type_Converter.html">one image type to another</a>.  If you find
+this baffling, you can use these (rather verbose) <a
+href="Ravl.Images.Converters.html"> explicit conversion functions</a>.</p>
 
 <h4> Indexing images:</h4>
+
+<p> First, note that ImageC, like all 2-D RAVL structures, uses the standard RAVL <a href="Ravl.Introduction.Coordinate_Systems.html">index ordering convention</a>. </p>
 <ul>
 <li> <b>Simple C-style indexing</b>:
 
