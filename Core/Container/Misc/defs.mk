@@ -24,4 +24,6 @@ USESLIBS=RavlCore
 
 TESTEXES=testStack.cc testBlkStack.cc testBinTable.cc
 
+EXAMPLES=exStack.cc
+
 EHT=Ravl.Core.Stacks.eht Ravl.Core.Tuples.eht

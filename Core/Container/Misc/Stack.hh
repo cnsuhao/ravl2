@@ -4,14 +4,10 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLSTACKC_HEADER
-#define RAVLSTACKC_HEADER
-//! date="05/10/95"
+#ifndef RAVL_STACKC_HEADER
+#define RAVL_STACKC_HEADER
+//! date="05/10/1995"
 //! userlevel=Default
-//-------------------------------------------------------------------------- 
-//  Copyright (c) 1995 by George (Jiri) Matas        g.matas@ee.surrey.ac.uk
-//  All rights reserved.
-//--------------------------------------------------------------------------
 //! file="Ravl/Core/Container/Misc/Stack.hh"
 //! lib=RavlCore
 //! author="George (Jiri) Matas"
