@@ -26,6 +26,6 @@ TESTEXES=testLogic.cc
 
 PLIB=RavlLogic
 
-USESLIBS=RavlCore
+USESLIBS=RavlCore RavlPatternRec
 
 EHT=Ravl.Logic.Condition.html

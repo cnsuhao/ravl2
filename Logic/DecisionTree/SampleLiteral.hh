@@ -28,6 +28,11 @@ namespace RavlLogicN {
     SampleLiteralC()
     {}
     //: Default constructor.
+    
+    SampleLiteralC(SizeT sizeEst)
+      : SampleDiscreteC<LiteralC>(sizeEst)
+    {}
+    //: Constructor.
 
     HSetC<LiteralC> Components() const;
     //: Make a list of all LiteralC and sub LiteralC's in the sample.

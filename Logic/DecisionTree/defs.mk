@@ -31,6 +31,6 @@ EHT=Ravl.Logic.Decision_Tree.html
 
 LIBDEPS=RavlLogicDecisionTree.def
 
-USESLIBS=RavlLogic
+USESLIBS=RavlLogic 
 
 

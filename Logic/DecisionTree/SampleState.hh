@@ -27,6 +27,11 @@ namespace RavlLogicN {
     SampleStateC()
     {}
     //: Default constructor.
+
+    SampleStateC(UIntT estSize)
+      : SampleDiscreteC<StateC>(estSize)
+    {}
+    //: Constructor.
     
   };
   
