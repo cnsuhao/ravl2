@@ -7,7 +7,7 @@
 ///////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlLogic
-//! file="Ravl/Logic/Index/LiteralIndexLeafIter.cc"
+//! file="Ravl/Logic/Index/LiteralIndexLeafVarIter.cc"
 
 #include "Ravl/Logic/LiteralIndexLeafVarIter.hh"
 
