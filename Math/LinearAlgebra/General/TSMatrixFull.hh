@@ -18,7 +18,7 @@
 #include "Ravl/Slice1dIter.hh"
 #include "Ravl/Slice1dIter2.hh"
 
-#define RAVL_TSMATERIXFULL_DEFAULT 0
+#define RAVL_TSMATRIXFULL_DEFAULT 0
 
 namespace RavlN {
   //! userlevel=Develop
@@ -91,7 +91,7 @@ namespace RavlN {
     { return TSMatrixC<DataT>(matrix.T()); }
     //: Get transpose of matrix.
     
-#if !RAVL_TSMATERIXFULL_DEFAULT    
+#if !RAVL_TSMATRIXFULL_DEFAULT    
     virtual TSMatrixC<DataT> Mul(const TSMatrixC<DataT> &oth) const;
     //: Get this matrix times 'oth'.
     
@@ -311,7 +311,7 @@ namespace RavlN {
     }
   }
   
-#if !RAVL_TSMATERIXFULL_DEFAULT    
+#if !RAVL_TSMATRIXFULL_DEFAULT    
   template<class DataT>  
   TSMatrixC<DataT> TSMatrixFullBodyC<DataT>::Mul(const TSMatrixC<DataT> &oth) const {
     TSMatrixFullC<DataT> ts(oth);
@@ -335,6 +335,7 @@ namespace RavlN {
   template<class DataT>  
   TSMatrixC<DataT> TSMatrixFullBodyC<DataT>::TMul(const TSMatrixC<DataT> & B) const {
     TSMatrixFullC<DataT> ts(B);
+    cerr << "TSMatrixFullBodyC<DataT>::TMul(const TSMatrixC<DataT> &). Called. " << ((int) ts.IsValid()) << " \n";
     if(!ts.IsValid())
       return TSMatrixBodyC<DataT>::TMul(B); // Use default
     return TSMatrixC<DataT>(matrix.TMul(ts.FullTMatrix()));

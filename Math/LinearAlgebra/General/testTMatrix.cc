@@ -161,13 +161,44 @@ int ValidateNS()
   if(error > 0.000000001)
     return __LINE__;
   
-  // Test 2.
+  // Test 2.C
   testR = (m1.MulT(m2.T()));
   error = TMatrixC<RealT>(testR - result).SumOfAbs();
   cerr << "MulTT:" << error << "\n";
   if(error > 0.000000001)
     return __LINE__;
 #endif
+
+  TMatrixC<RealT> m3(2,2);
+  m3[0][0] =1;
+  m3[0][1] =2;
+  m3[1][0] =3;
+  m3[1][1] =4;
+
+  result = m3.T() * m1;
+  
+  // Test 1.
+  testR = (m3.TMul(m1));
+  error = TMatrixC<RealT>(testR - result).SumOfAbs();
+  cerr << "TT2Mul:" << error << "\n";
+  if(error > 0.000000001) {
+    cerr << "Mat1=" << m3.T() << "\n";
+    cerr << "Mat2=" << m1 << "\n";
+    cerr << "Result=" << result << "\n";
+    cerr << "Test  =" << testR << "\n";
+    return __LINE__;
+  }
+  
+  result = m3 * m1;
+  
+  // Test 2.
+  testR = (m3.MulT(m1.T()));
+  cerr << "Result=" << result  << "\n";
+  error = TMatrixC<RealT>(testR - result).SumOfAbs();
+  cerr << "Mul2TT:" << error << "\n";
+  if(error > 0.000000001)
+    return __LINE__;
+  
   return 0;
 }
 

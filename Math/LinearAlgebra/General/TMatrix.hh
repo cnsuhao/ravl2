@@ -308,7 +308,7 @@ namespace RavlN {
       } while(1);
       if(!ot.IsElm())
 	break;
-      it2.First(mat,Size2());
+      it2.First(mat,mat.Size2());
       it1.NextRow();
     } while(1) ;
     return out;
@@ -326,8 +326,8 @@ namespace RavlN {
     if(Rows() == 0 || Cols() == 0)
       return out; // Nothing to do.
     BufferAccess2dIterC<DataT> it1(*this,Size2());
-    BufferAccess2dIterC<DataT> it2(mat,Size2());
-    BufferAccess2dIterC<DataT> ot(out,Size2());
+    BufferAccess2dIterC<DataT> it2(mat,mat.Size2());
+    BufferAccess2dIterC<DataT> ot(out,out.Size2());
     out.Fill(0);
     do {
       do {
@@ -343,7 +343,7 @@ namespace RavlN {
       if(!it1.IsElm())
 	break;
       it2.NextRow();
-      ot.First(out,Size2());
+      ot.First(out,out.Size2());
     } while(1) ;
     return(out);
   }

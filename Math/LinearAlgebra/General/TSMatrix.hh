@@ -491,6 +491,7 @@ namespace RavlN {
     RavlAssert(Cols() == mat.Rows());
     const SizeT rdim = Rows();
     const SizeT cdim = mat.Cols();
+    cerr << "TSMatrixBodyC<DataT>::Mul(const TSMatrixC<DataT> &), Called. " << rdim << " " << cdim << " Cols()=" << Cols() << "  \n";
     TMatrixC<DataT> out(rdim, cdim);
     SArray2dIterC<DataT> it(out);
     for (UIntT r = 0; r < rdim; r++) {
@@ -520,6 +521,7 @@ namespace RavlN {
     RavlAssert(Cols() == mat.Cols());
     const SizeT rdim = Rows();
     const SizeT cdim = mat.Rows();
+    cerr << "TSMatrixBodyC<DataT>::MulT(const TSMatrixC<DataT> &), Called. " << rdim << " " << cdim << " Rows=" << Rows() << "  \n";
     SArray1dC<Array1dC<DataT> > rowArr(cdim);
     for(UIntT c = 0;c < cdim;c++)
       rowArr[c] = mat.Row(c);
@@ -537,10 +539,11 @@ namespace RavlN {
     RavlAssert(Rows() == mat.Rows());
     const SizeT rdim = Cols();
     const SizeT cdim = mat.Cols();
+    cerr << "TSMatrixBodyC<DataT>::TMul(const TSMatrixC<DataT> &), Called. " << rdim << " " << cdim << " Rows=" << Rows() << "  \n";
     TMatrixC<DataT> out(rdim, cdim);
     for (UIntT r = 0; r < rdim; r++) {
       Slice1dC<DataT> col = Col(r);
-      for (UIntT c = 0; c < cdim; c++) 
+      for (UIntT c = 0; c < cdim; c++)
 	out[r][c] = mat.MulSumColumn(c,col);
     }
     return TSMatrixC<DataT>(out);

@@ -25,7 +25,7 @@
 
 using namespace RavlN;
 
-#define DODEBUG 0
+#define DODEBUG 1
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -75,10 +75,10 @@ int main() {
 }
 
 
-int MatrixTest(SMatrixC mat1,SMatrixC mat2) {
+int MatrixTest(SMatrixC mat1,SMatrixC mat2,bool mat1Square = true,bool mat2Square = true) {
   ONDEBUG(cerr <<"mat1=" << mat1.TMatrix() << "\n");
   ONDEBUG(cerr <<"mat2=" << mat2.TMatrix() << "\n");
-
+  
   ONDEBUG(cerr << "Check Copy. \n");
   SMatrixC cp = mat1.Copy();
   RealT error = MatrixC(cp.TMatrix() - mat1.TMatrix()).SumOfAbs();
@@ -97,25 +97,29 @@ int MatrixTest(SMatrixC mat1,SMatrixC mat2) {
     cerr << "test=" << testR.TMatrix() << "\n";
     return __LINE__;
   } 
-  
-  ONDEBUG(cerr << "Check TMul. \n");
-  gt = mat1.TMatrix().T() * mat2.TMatrix();
-  testR = mat1.TMul(mat2);
-  error = MatrixC(testR.TMatrix() - gt).SumOfAbs();
-  if(error > 0.000000001) {
-    cerr << "gt  =" << gt << "\n";
-    cerr << "test=" << testR.TMatrix() << "\n";
-    return __LINE__;
+  if(mat1Square) {
+    ONDEBUG(cerr << "Check TMul. \n");
+    gt = mat1.TMatrix().T() * mat2.TMatrix();
+    testR = mat1.TMul(mat2);
+    error = MatrixC(testR.TMatrix() - gt).SumOfAbs();
+    if(error > 0.000000001) {
+      cerr << "gt  =" << gt << "\n";
+      cerr << "test=" << testR.TMatrix() << "\n";
+      cerr << "Extra=" << mat1.TMatrix().TMul(mat2.TMatrix()) << "\n";
+      return __LINE__;
+    }
   }
   
-  ONDEBUG(cerr << "Check MulT. \n");
-  gt = mat1.TMatrix() * mat2.TMatrix().T();
-  testR = mat1.MulT(mat2);
-  error = MatrixC(testR.TMatrix() - gt).SumOfAbs();
-  if(error > 0.000000001) { 
-    cerr << "gt  =" << gt << "\n";
-    cerr << "test=" << testR.TMatrix() << "\n";
-    return __LINE__;
+  if(mat2Square) {
+    ONDEBUG(cerr << "Check MulT. \n");
+    gt = mat1.TMatrix() * mat2.TMatrix().T();
+    testR = mat1.MulT(mat2);
+    error = MatrixC(testR.TMatrix() - gt).SumOfAbs();
+    if(error > 0.000000001) { 
+      cerr << "gt  =" << gt << "\n";
+      cerr << "test=" << testR.TMatrix() << "\n";
+      return __LINE__;
+    }
   }
   
   ONDEBUG(cerr << "Check ATA. \n");
@@ -150,16 +154,18 @@ int MatrixTest(SMatrixC mat1,SMatrixC mat2) {
     return __LINE__;
   }
   
-  ONDEBUG(cerr << "Check TMul(VectorC)\n");
-  vec = RandomVector(mat1.Rows());
-  tres = mat1.TMul(vec);
-  vgt = mat1.TMatrix().TMul(vec);
-  error = VectorC(tres - vgt).SumOfAbs();
-  if(error > 0.000000001) {
-    cerr << "Error=" << error << "\n";
-    cerr << "Res=" << tres << "\n";
-    cerr << "gt =" << vgt << "\n";
-    return __LINE__;
+  if(mat1Square) {
+    ONDEBUG(cerr << "Check TMul(VectorC)\n");
+    vec = RandomVector(mat1.Rows());
+    tres = mat1.TMul(vec);
+    vgt = mat1.TMatrix().TMul(vec);
+    error = VectorC(tres - vgt).SumOfAbs();
+    if(error > 0.000000001) {
+      cerr << "Error=" << error << "\n";
+      cerr << "Res=" << tres << "\n";
+      cerr << "gt =" << vgt << "\n";
+      return __LINE__;
+    }
   }
   
   return 0;
@@ -320,9 +326,9 @@ SMatrixC createMatrix(UIntT size,IntT type) {
 
 int testCombinations() {
   cerr << "testCombinations() \n";
-  IntT matSize = 7;
-  IntT ln;
-  for(int i = 0;i < noMatrixTypes;i++) {
+  IntT matSize = 2;
+  IntT ln,i;
+  for(i = 0;i < noMatrixTypes;i++) {
     SMatrixC mat1 = createMatrix(matSize,i);
     for(int j = 0;j < noMatrixTypes;j++) {
       cout << "." << flush;
@@ -346,5 +352,21 @@ int testCombinations() {
     }
     cout << "\n";
   }
+
+  // Test operations with non-square matricies.
+  
+  SMatrixC mat1a(RandomMatrix(matSize+1,matSize));
+  SMatrixC mat1b(RandomMatrix(matSize,matSize+1));
+  for(i = 0;i < noMatrixTypes;i++) {
+    SMatrixC mat2 = createMatrix(matSize,i);
+    if((ln = MatrixTest(mat1a,mat2,false,true)) > 0) {
+      cerr << "Failed non-square A at " << i << "\n";
+      return ln;
+    }
+    if((ln = MatrixTest(mat2,mat1b,true,false)) > 0)
+      cerr << "Failed non-square B at " << i << "\n";
+      return ln;
+  }
+  
   return 0;
 }
