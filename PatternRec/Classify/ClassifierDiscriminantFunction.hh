@@ -67,6 +67,11 @@ namespace RavlN {
     : public ClassifierC
   {
   public:
+    ClassifierDiscriminantFunctionC()
+    {}
+    //: Default constructor.
+    // Creates an invalid handle.
+    
     ClassifierDiscriminantFunctionC(const FunctionC &nfunc)
       : ClassifierC(*new ClassifierDiscriminantFunctionBodyC(nfunc))
     {}

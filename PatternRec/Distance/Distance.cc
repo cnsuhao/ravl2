@@ -57,7 +57,7 @@ namespace RavlN {
   RealT DistanceBodyC::Apply1(const VectorC &data) const {
     return Magnitude(data);
   }
-
+  
   ////////////////////////////////////////////////////////////////////
   
   //: Load from stream.

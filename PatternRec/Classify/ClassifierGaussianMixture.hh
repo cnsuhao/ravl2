@@ -67,6 +67,11 @@ namespace RavlN {
     : public ClassifierC
   {
   public:
+    ClassifierGuassianMixtureC()
+    {}
+    //: Default constructor.
+    // Creates an invalid handle.
+    
     ClassifierGuassianMixtureC(const SArray1dC<GaussianMixtureC> &model)
       : ClassifierC(*new ClassifierGuassianMixtureBodyC(model))
     {}

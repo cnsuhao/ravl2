@@ -80,6 +80,11 @@ namespace RavlN {
     // nClipLimit is maximum difference in one dimension, metric
     // is the metric to use on the limited values.
     
+    DistanceRobustC()
+    {}
+    //: Default constructor.
+    // creates an invalid handle.
+    
     DistanceRobustC(istream &strm);
     //: Load from stream.
     

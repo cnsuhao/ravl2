@@ -21,7 +21,10 @@
 #endif
 
 namespace RavlN {
-
+  
+  void InitPattenRecFuncLinear()
+  {}
+  
   //: Construct from a transform matrix.
   
   FuncLinearBodyC::FuncLinearBodyC() {

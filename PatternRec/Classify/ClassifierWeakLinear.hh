@@ -85,6 +85,11 @@ namespace RavlN {
     : public ClassifierC
   {
   public:
+    ClassifierWeakLinearC()
+    {}
+    //: Default constructor
+    // Creates an invalid handle.
+    
     ClassifierWeakLinearC(RealT threshold, RealT parity)
       : ClassifierC(*new ClassifierWeakLinearBodyC(threshold,parity))
     {}

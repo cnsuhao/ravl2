@@ -70,6 +70,11 @@ namespace RavlN {
     : public ClassifierC
   {
   public:
+    ClassifierNearestNeighbourC()
+    {}
+    //: Default constructor.
+    // Creates an invalid handle.
+    
     ClassifierNearestNeighbourC(const SampleVectorC &vectors,
 			      const SampleLabelC &labels,
 			      const DistanceC &xdistMetric = DistanceSqrEuclideanC())

@@ -71,6 +71,11 @@ namespace RavlN {
     {}
     //: Constructor.
     
+    FuncQuadraticC()
+    {}
+    //: Default constructor
+    // creates an invalid handle.
+    
     FuncQuadraticC(istream &strm);
     //: Load from stream.
     

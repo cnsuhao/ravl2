@@ -62,7 +62,12 @@ namespace RavlN {
     DistanceMahalanobisC(const MatrixC &covVar)
       : DistanceC(*new DistanceMahalanobisBodyC(covVar))
     {}
+    //: Constructor.
+    
+    DistanceMahalanobisC()
+    {}
     //: Default constructor.
+    // creates an invalid handle.
     
     DistanceMahalanobisC(istream &strm);
     //: Load from stream.

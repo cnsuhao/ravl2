@@ -24,7 +24,8 @@ namespace RavlN {
   static TypeNameC type2(typeid(SampleC<VectorC>),"RavlN::SampleC<VectorC>");
   static TypeNameC type3(typeid(SampleVectorC),"RavlN::SampleVectorC");
   static TypeNameC type4(typeid(SampleLabelC),"RavlN::SampleLabelC");
-
+  static TypeNameC type5(typeid(SArray1dC<VectorC>),"RavlN::SArray1dC<VectorC>");
+  
   FileFormatStreamC<SampleC<UIntT> > FileFormatStream_SampelC_UIntT;
   FileFormatStreamC<SampleC<VectorC> > FileFormatStream_SampelC_VectorC;
   
@@ -33,7 +34,10 @@ namespace RavlN {
   
   SampleC<VectorC> SampleVectorClassToTemplate(const SampleVectorC &sv)
   { return const_cast<SampleC<VectorC> &>((SampleC<VectorC> &)sv); }
-
+  
+  SampleC<VectorC> SArray1dC_Vector2Sample_Vector(const SArray1dC<VectorC> &sv)
+  { return SampleC<VectorC>(sv); }
+  
   SampleVectorC SampleVectorTemplateToClass(const SampleC<VectorC> &sv)
   { return SampleVectorC(sv); }
   
@@ -43,10 +47,10 @@ namespace RavlN {
   SampleLabelC SampleLabelTemplateToClass(const SampleC<UIntT> &sv)
   { return SampleLabelC(sv); }
   
-  DP_REGISTER_CONVERSION_NAMED(SampleVectorClassToTemplate,1,"RavlN::SampleVectorClassToTemplate(const SampleVectorC &)");
-  DP_REGISTER_CONVERSION_NAMED(SampleVectorTemplateToClass,1,"RavlN::SampleVectorTemplateToClass(const SampleC<VectorC> &)");
-  
-  DP_REGISTER_CONVERSION_NAMED(SampleLabelClassToTemplate,1,"RavlN::SampleLabelClassToTemplate(const SampleLabelC &)");
-  DP_REGISTER_CONVERSION_NAMED(SampleLabelTemplateToClass,1,"RavlN::SampleLabelTemplateToClass(const SampleC<UIntT> &)");
+  DP_REGISTER_CONVERSION_NAMED(SampleVectorClassToTemplate,1,"RavlN::SampleC<VectorC> RavlN::Convert(const SampleVectorC &)");
+  DP_REGISTER_CONVERSION_NAMED(SArray1dC_Vector2Sample_Vector,1,"RavlN::SampleC<VectorC> RavlN::Convert(const SArray1dC<VectorC> &)");
+  DP_REGISTER_CONVERSION_NAMED(SampleVectorTemplateToClass,1,"RavlN::SampleVectorC RavlN::Convert(const SampleC<VectorC> &)");
+  DP_REGISTER_CONVERSION_NAMED(SampleLabelClassToTemplate,1,"RavlN::SampleC<UIntT> RavlN::Convert(const SampleLabelC &)");
+  DP_REGISTER_CONVERSION_NAMED(SampleLabelTemplateToClass,1,"RavlN::SampleLabelC RavlN::Convert(const SampleC<UIntT> &)");
   
 }

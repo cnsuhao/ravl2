@@ -81,7 +81,8 @@ namespace RavlN {
   public:
     ClassifierLinearCombinationC()
     {}
-    //: Default constructor creates invalid handle
+    //: Default constructor 
+    // Creates an invalid handle.
 
     ClassifierLinearCombinationC(SArray1dC<ClassifierC> weakClassifiers, SArray1dC<RealT> weights)
       : ClassifierC(*new ClassifierLinearCombinationBodyC(weakClassifiers,weights))
