@@ -104,5 +104,53 @@ namespace RavlGUIN {
     //gtk_signal_emit_by_name (GTK_OBJECT (adj), "changed");  
     return true;
   }
+
+  //: Set range of spin button
+  // If current value is outside range, it is clipped to be inside.
+  
+  void SpinButtonBodyC::SetRange(RealT nlower, RealT nupper) {
+    Manager.Queue(Trigger(SpinButtonC(*this),&SpinButtonC::GUISetRange,nlower,nupper));    
+  }
+
+  //: Set range of spin button
+  // GUI thread only
+  // If current value is outside range, it is clipped to be inside.
+
+  bool SpinButtonBodyC::GUISetRange(RealT nlower, RealT nupper) {
+
+    // Store
+    lower = nlower;
+    upper = nupper;      
+
+    if(adj == 0) {
+      return true;
+    }
+
+    // Clip new value
+    bool bValueChanged(false);
+    RealT val = Value();
+    if (val > nupper) {
+      val = nupper;
+      bValueChanged = true;
+    }
+    else if (val < nlower) {
+      val = nlower;
+      bValueChanged = true;
+    }
+
+    // Modify adjustment
+    GTK_ADJUSTMENT(adj)->lower = lower;
+    GTK_ADJUSTMENT(adj)->upper = upper;
+    gtk_adjustment_changed(GTK_ADJUSTMENT(adj));
+    gtk_spin_button_update(GTK_SPIN_BUTTON(widget));
+
+    // Update value
+    if (bValueChanged)
+      GUISetValue(val);
+
+    // Done
+    return true;
+  }
+
 }
   

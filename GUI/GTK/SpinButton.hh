@@ -44,6 +44,15 @@ namespace RavlGUIN {
     RealT Value();
     //: Get current value.
     
+    void SetRange(RealT nlower, RealT nupper);
+    //: Set range of spin button
+    // If current value is outside range, it is clipped to be inside.
+
+    bool GUISetRange(RealT nlower, RealT nupper);
+    //: Set range of spin button
+    // GUI thread only
+    // If current value is outside range, it is clipped to be inside.
+
   protected:
     virtual bool Create();
     //: Create widget.
@@ -124,6 +133,17 @@ namespace RavlGUIN {
     { return Body().Value(); }
     //: Get current value.
     
+    void SetRange(RealT nlower, RealT nupper)
+    { Body().SetRange(nlower,nupper); }
+    //: Set range of spin button
+    // If current value is outside range, it is clipped to be inside.
+
+    bool GUISetRange(RealT nlower, RealT nupper)
+    { return Body().GUISetRange(nlower,nupper); }
+    //: Set range of spin button
+    // GUI thread only
+    // If current value is outside range, it is clipped to be inside.
+
     friend class SpinButtonBodyC;
   };
   
