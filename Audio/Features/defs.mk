@@ -25,4 +25,4 @@ TESTEXES=testAudioFeatures.cc
 
 EXAMPLES= exFeatureMFCC.cc
 
-PROGLIBS=RavlDevAudio.opt  RavlAudioIO RavlAudioFile.opt
+PROGLIBS=RavlOSIO RavlDevAudio.opt  RavlAudioIO RavlAudioFile.opt
