@@ -303,6 +303,7 @@ namespace RavlImageN {
 	if(chist[i] >= minSize) break; 
       // Find thresholds.
       nthresh = 0;
+      int margin;
       //cerr << "Min=" << minValue << " Max=" << maxValue << " Init=" << i << "\n";
       for(up=i+1; up < maxValue; i++) {
 	int area_i = chist[i];
