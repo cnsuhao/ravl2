@@ -10,6 +10,7 @@
 //! author="James Smith"
 //! docentry="Ravl.GUI.Dialogs"
 //! userlevel=Normal
+//! lib=RavlGUI
 
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/GUI/MessageBox.hh"
