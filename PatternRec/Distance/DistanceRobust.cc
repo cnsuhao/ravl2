@@ -108,9 +108,9 @@ namespace RavlN {
 	it.Data1() = it.Data2(); 
     }
     MatrixC dSdX = metric.Jacobian (vec);
-    for(SArray1dIterC<RealT> it(X);it;it++)
-      if(Abs(*it) > clipLimit)
-	dSdX[0][it.Index()] = 0.0;    
+    for(SArray1dIterC<RealT> itr(X);itr;itr++)
+      if(Abs(*itr) > clipLimit)
+	dSdX[0][itr.Index()] = 0.0;    
     return dSdX;
   }
 
