@@ -20,6 +20,7 @@
 #endif
 
 #include <stdio.h>
+#include <fcntl.h>
 
 // Note: The implementation of the stream parsing functions
 //
@@ -273,8 +274,8 @@ namespace RavlN {
     if(binary)
       mode |= ios_base::binary;
 #endif
-    if(!buffered)
-      bfd->SetBuf(0,0);
+    //if(!buffered)
+    // bfd->SetBuf(0,0);
     if(!bfd->open(fd,mode))
       ofs->setstate(ios_base::failbit);
     Init(out = ofs,StringC(fd)); 
@@ -377,11 +378,16 @@ namespace RavlN {
     if(binary)
       mode |= ios_base::binary;
 #endif
-    if(!buffered)
-      bfd->SetBuf(0,0);
+    // This is be needed for the code to work on filehandles that
+    // aren't associated with files.
+    int flags = fcntl(fd,F_GETFL);  
+    fcntl(fd,F_SETFL,flags | O_NONBLOCK);
+    // Turning off buffering seems to break the new streams implementation.
+    //if(!buffered)
+    // bfd->SetBuf(0,0);
     if(bfd->open(fd,mode) == 0) {
       ifs->setstate(ios_base::failbit);
-      cerr << "ERROR: Open of file descriptor failed. \n";
+      ONDEBUG(cerr << "ERROR: Open of file descriptor failed. \n");
     }
     Init(in = ifs,StringC(fd)); 
 #endif
