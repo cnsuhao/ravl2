@@ -115,8 +115,8 @@ namespace RavlN {
         DLIterC<Point2dC> st(*this);
         st.Last();
         for (DLIterC<Point2dC> pt(*this); pt; pt++) {
-          if (!line.IsPointToRightOn(*pt)) {
-            if (!line.IsPointToRightOn(*st)) {
+          if (line.IsPointToRight(*pt)) {
+            if (line.IsPointToRight(*st)) {
               ret.InsLast(*pt);
             }
             else {
@@ -125,7 +125,7 @@ namespace RavlN {
             }
           }
           else {
-            if (!line.IsPointToRightOn(*st)) {
+            if (line.IsPointToRight(*st)) {
               ret.InsLast(line.Intersection(LinePP2dC(*st,*pt)));
             }
           }
