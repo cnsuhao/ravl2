@@ -173,8 +173,16 @@ namespace RavlN {
   
   Projection2dC FitProjection(const DListC<Point2dC> &org,const DListC<Point2dC> &newPos,RealT &residual);
   //: Fit a projective transform given to the mapping between original and newPos.
-
+  // Note: In the current version of the routine 'residual' isn't currently computed.
+  
   Projection2dC FitProjection(const DListC<Point2dC> &org,const DListC<Point2dC> &newPos);
+  //: Fit a projective transform given to the mapping between original and newPos.
+  
+  Projection2dC FitProjection(const SArray1dC<Point2dC> &org,const SArray1dC<Point2dC> &newPos,RealT &residual);
+  //: Fit a projective transform given to the mapping between original and newPos.
+  // Note: In the current version of the routine 'residual' isn't currently computed.
+  
+  Projection2dC FitProjection(const SArray1dC<Point2dC> &org,const SArray1dC<Point2dC> &newPos);
   //: Fit a projective transform given to the mapping between original and newPos.
   
   bool FitProjection(const SArray1dC<Point2dC> &from,const SArray1dC<Point2dC> &to,Matrix3dC &proj);

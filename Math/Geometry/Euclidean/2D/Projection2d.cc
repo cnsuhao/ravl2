@@ -45,14 +45,22 @@ namespace RavlN {
   
   //: Fit a projective transform given to the mapping between original and newPos.
   
+  Projection2dC FitProjection(const SArray1dC<Point2dC> &org,const SArray1dC<Point2dC> &newPos) {
+    RealT residual;
+    return FitProjection(org,newPos,residual);    
+  }
+  
+  //: Fit a projective transform given to the mapping between original and newPos.
+  
   Projection2dC FitProjection(const SArray1dC<Point2dC> &org,const SArray1dC<Point2dC> &newPos,RealT &residual) {
     RavlAssertMsg(org.Size() == newPos.Size(),"Projection2dC FitProjection(), Point arrays must have the same size.");
     // we need at least four points to fit a 2D line
     if (org.Size() < 4)
       throw ExceptionC("Sample size too small in Projection2dC. ");
-
     RealT zh1 = 1.0,zh2 = 1.0;
     if (org.Size() == 4) {
+      // FIXME:- Pick better values for zh1 and zh2 !!
+      
       // initialise homography P by fitting to four point pairs, assuming that
       // bottom-right element P[2][2] is not zero.
 
@@ -81,48 +89,42 @@ namespace RavlN {
       // solve for solution vector
       if(!SolveIP(A,b))
         throw ExceptionNumericalC("Dependent linear equations in Projection2dC FitProjection(). ");
-
+      residual = 0.0;
       Matrix3dC P(b[0], b[1], b[2],
                   b[3], b[4], b[5],
                   b[6], b[7], 1.0);
       return Projection2dC (P,zh1,zh2);
     }
-
-#if 0
-    // compute solution for homography parameters using symmetric eigensystem
-    // method
-    throw ExceptionC("Null-space method not implemented in Projection2dC FitProjection(). ");
-    Matrix3dC P(1.0,0.0,0.0,
-                0.0,1.0,0.0,
-                0.0,0.0,1.0);
-    return Projection2dC (P,zh1,zh2);
-#else
+    
+    residual = -1.0; // Make it obvious we're not computing it!
     Matrix3dC P(1.0,0.0,0.0,
                 0.0,1.0,0.0,
                 0.0,0.0,1.0);
     FitProjection(org,newPos,P);
     return Projection2dC (P,zh1,zh2);
-#endif
   }
   
   //: Fit a projective transform given to the mapping between original and newPos.
   
   Projection2dC FitProjection(const DListC<Point2dC> &org,const DListC<Point2dC> &newPos,RealT &residual) {
-    RavlAssertMsg(org.Size() == newPos.Size(),"Projection2dC FitProjection(), Point arrays must have the same size.");
-    // we need at least four points to fit a 2D line
-    if (org.Size() < 4)
+    SizeT size = org.Size();
+    RavlAssertMsg(size == newPos.Size(),"Projection2dC FitProjection(), Point arrays must have the same size.");
+    // we need at least four points to do a fit 
+    if (size < 4)
       throw ExceptionC("Sample size too small in Projection2dC. ");
-
+    
     RealT zh1 = 1.0,zh2 = 1.0;
-    if (org.Size() == 4) {
+    if (size == 4) {
       // initialise homography P by fitting to four point pairs, assuming that
       // bottom-right element P[2][2] is not zero.
-
+      
+      // FIXME:- Pick better values for zh1 and zh2 !!
+      
       // Construct 8x8 matrix of linear equations
       MatrixC A(8,8);
       A.Fill(0.0);
       VectorC b(8);
-
+      
       // distinguish between explicit and implicit forms of point observations
       IntT i=0;
       DLIterC<Point2dC> it1(org);
@@ -143,22 +145,15 @@ namespace RavlN {
       // solve for solution vector
       if(!SolveIP(A,b))
         throw ExceptionNumericalC("Dependent linear equations in Projection2dC FitProjection(). ");
-
+      residual = 0.0;
       Matrix3dC P(b[0], b[1], b[2],
                   b[3], b[4], b[5],
                   b[6], b[7], 1.0);
       return Projection2dC (P,zh1,zh2);
     }
-#if 0
-    // compute solution for homography parameters using symmetric eigensystem
-    // method
-    throw ExceptionC("Null-space method not implemented in Projection2dC FitProjection(). ");
-    Matrix3dC P(1.0,0.0,0.0,
-                0.0,1.0,0.0,
-                0.0,0.0,1.0);
-    return Projection2dC (P,zh1,zh2);
-#else
-    UIntT size= org.Size();
+    residual = -1.0; // Make it obvious its not being computed!
+    
+    // Do a least squares fit.
     
     SArray1dC<Point2dC> afrom(size);
     SArray1dIterC<Point2dC> ait = afrom;
@@ -175,7 +170,6 @@ namespace RavlN {
                 0.0,0.0,1.0);
     FitProjection(afrom,ato,P);
     return Projection2dC (P,zh1,zh2);
-#endif
   }
   
   
