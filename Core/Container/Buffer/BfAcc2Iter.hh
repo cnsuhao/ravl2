@@ -17,6 +17,7 @@
 
 #include "Ravl/BfAccIter.hh"
 #include "Ravl/IndexRange1d.hh"
+#include "Ravl/IndexRange2d.hh"
 #include "Ravl/Index2d.hh"
 
 namespace RavlN {
@@ -45,7 +46,11 @@ namespace RavlN {
     BufferAccess2dIterC(const BufferAccessC<BufferAccessC<DataT> > &pbuf,const IndexRangeC &nrng1,const IndexRangeC &nrng2)
     { First(pbuf,nrng1,nrng2); }
     //: Constructor.
-
+    
+    BufferAccess2dIterC(const BufferAccessC<BufferAccessC<DataT> > &pbuf,const IndexRange2dC &nrng)
+    { First(pbuf,nrng.Range1(),nrng.Range2()); }
+    //: Constructor.
+    
     bool First(const BufferAccessC<BufferAccessC<DataT> > &pbuf,SizeT size1,SizeT size2) {
       rit.First(pbuf,size1);
       rng = IndexRangeC(0,size2-1);
