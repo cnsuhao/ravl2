@@ -71,7 +71,7 @@ namespace RavlImageN {
       w[i][1] = npos[1];
     }
     ONDEBUG(cerr << "Ld=" << Ld << "\n");
-    for(int i = size;i < size+3;i++) {
+    for(i = size;i < size+3;i++) {
       w[i][0] = 0;
       w[i][1] = 0;
       

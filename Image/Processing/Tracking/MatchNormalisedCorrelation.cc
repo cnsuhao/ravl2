@@ -65,8 +65,8 @@ namespace RavlImageN {
     IndexRange2dC clippedSearchArea = searchArea;
     clippedSearchArea.ClipBy(searchImg.Frame());
     
-    for(Rectangle2dIterC it(clippedSearchArea,templ.Frame());it;it++) {
-      IndexRange2dC rect = it.Window();
+    for(Rectangle2dIterC itr(clippedSearchArea,templ.Frame());itr;itr++) {
+      IndexRange2dC rect = itr.Window();
       RangeBufferAccess2dC<ByteT> subImg(searchImg,rect);
       IntT sumxy = SumOfProducts(templ,subImg);
       
@@ -84,7 +84,7 @@ namespace RavlImageN {
       // Compair it to pervious scores.
       if(curScore > score) { // Best so far ?
 	score = curScore;
-	at = it.Window().Center();
+	at = itr.Window().Center();
       }
     }
     

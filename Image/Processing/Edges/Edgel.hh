@@ -24,6 +24,8 @@ namespace RavlImageN {
   using RavlN::ATan2;
   using RavlN::Sqr;
   using RavlN::Sqrt;
+  using RavlN::BinIStreamC;
+  using RavlN::BinOStreamC;
 #endif
 
   //! userlevel=Normal

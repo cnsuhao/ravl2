@@ -6,6 +6,10 @@
 #include "Ravl/BinStream.hh"
 
 namespace RavlImageN {
+#if RAVL_VISUALCPP_NAMESPACE_BUG
+  using namespace RavlN;
+#endif
+
   void InitEdgeIO() {}
   //: Init edge io.
   

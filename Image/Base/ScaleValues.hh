@@ -34,8 +34,8 @@ namespace RavlImageN {
 	omax = *it;
     }
     RealT scale = ((RealT) max - (RealT) min) / ((RealT) omax - (RealT) omin);
-    for(Array2dIter2C<PixelT,PixelT> it(result,original);it;it++)
-      it.Data1() = (it.Data2() - omin) * scale + min;
+    for(Array2dIter2C<PixelT,PixelT> itr(result,original);itr;itr++)
+      itr.Data1() = (itr.Data2() - omin) * scale + min;
     return result;
   }
   //! userlevel=Normal

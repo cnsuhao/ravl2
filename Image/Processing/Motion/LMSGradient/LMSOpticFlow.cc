@@ -169,8 +169,8 @@ namespace RavlImageN {
     ScaleOffsetValues(ImageC<RealT>(im,motion.Frame()),0.0,128.0,scaled);
     
     op = ImageC<ByteYUVValueC>(motion.Rectangle());
-    for (Array2dIter3C<ByteYUVValueC,Vector2dC,RealT> i(op, motion, scaled);i;i++)
-      i.Data1() = ByteYUVValueC((IntT) i.Data3() + 128,(IntT) (i.Data2()[0]*factor), (IntT) (i.Data2()[1]*factor));
+    for (Array2dIter3C<ByteYUVValueC,Vector2dC,RealT> it(op, motion, scaled);it;it++)
+      it.Data1() = ByteYUVValueC((IntT) it.Data3() + 128,(IntT) (it.Data2()[0]*factor), (IntT) (it.Data2()[1]*factor));
     // add a colour circle key
     
     IndexC keysize(op.Cols()/10);
@@ -179,10 +179,10 @@ namespace RavlImageN {
     IndexRange2dC rect(op.TRow(), op.TRow()+keysize-1, op.RCol()-keysize+1, op.RCol());
     ImageC<ByteYUVValueC> key(op, rect);
     Index2dC centre(rect.Center());
-    for (Array2dIterC<ByteYUVValueC> i(key); i.IsElm(); i.Next()) {
-      i.Data().Y() = 255;
-      i.Data().U() = (SByteT) ((i.Index()-centre)[0]*255.0/keysize);
-      i.Data().V() = (SByteT) ((i.Index()-centre)[1]*255.0/keysize);
+    for (Array2dIterC<ByteYUVValueC> itk(key); itk.IsElm(); itk.Next()) {
+      itk.Data().Y() = 255;
+      itk.Data().U() = (SByteT) ((itk.Index()-centre)[0]*255.0/keysize);
+      itk.Data().V() = (SByteT) ((itk.Index()-centre)[1]*255.0/keysize);
     }
   }
 

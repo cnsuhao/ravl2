@@ -22,6 +22,11 @@
 
 namespace RavlImageN {
   using namespace RavlN;
+#if RAVL_VISUALCPP_NAMESPACE_BUG
+  using RavlN::PairC;
+  using RavlN::Vector2dC;
+  using RavlN::Matrix2dC;
+#endif
   
   //! example="exLMSRegionMotion.cc"
   //! lib=LMSMotion

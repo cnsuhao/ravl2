@@ -18,6 +18,7 @@
 #include "Ravl/Array1dIter.hh"
 
 namespace RavlImageN {
+  using namespace RavlN;
   
   //! userlevel=Normal
   //: A circular arc and associated edgels.

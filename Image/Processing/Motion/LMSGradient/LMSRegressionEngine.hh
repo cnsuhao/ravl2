@@ -40,7 +40,7 @@ namespace RavlImageN {
     // A_inv = E * Matrix2dC(l_inv0, 0.0, 0.0, l_inv1).MulT(E);
     Matrix2dC mtmp(l_inv0 * E[0][0] ,l_inv1 * E[0][1],
 		   l_inv0 * E[1][0] ,l_inv1 * E[1][1]);
-    MulT(mtmp,E,A_inv);
+    MulT<RealT,2,2,2>(mtmp,E,A_inv);
     
     // hence compute motion vector
     Vector2dC v (A_inv * b);
