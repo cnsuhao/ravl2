@@ -92,7 +92,7 @@ namespace RavlN {
   //:-----------------------------------------------------------------------------------
   
   //! userlevel=Develop
-  //: Integer attribute value type.
+  //: Numerical attribute value type.
   
   template<typename ValueT> 
   class AttributeTypeNumBodyC
@@ -147,8 +147,8 @@ namespace RavlN {
   };
 
 
-  //! userlevel=Develop
-  //: Integer attribute value type.
+  //! userlevel=Normal
+  //: Numerical attribute value type.
   
   template<typename ValueT> 
   class AttributeTypeNumC
@@ -211,7 +211,7 @@ namespace RavlN {
   //:-----------------------------------------------------------------------------------
   
   //! userlevel=Develop
-  //: Boolean attribute type.
+  //: String attribute type.
   
   class AttributeTypeStringBodyC
     : public AttributeTypeBodyC
@@ -241,7 +241,7 @@ namespace RavlN {
   };
   
   //! userlevel=Normal
-  //: Boolean attribute type.
+  //: String attribute type.
   
   class AttributeTypeStringC
     : public AttributeTypeC
@@ -295,7 +295,7 @@ namespace RavlN {
   //:-----------------------------------------------------------------------------------
   
   //! userlevel=Develop
-  //: Boolean attribute type.
+  //: Enumerated attribute type.
   
   class AttributeTypeEnumBodyC
     : public AttributeTypeBodyC
@@ -325,7 +325,7 @@ namespace RavlN {
   };
   
   //! userlevel=Normal
-  //: Boolean attribute type.
+  //: Enumerated attribute type.
   
   class AttributeTypeEnumC
     : public AttributeTypeC
