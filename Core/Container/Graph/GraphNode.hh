@@ -238,7 +238,7 @@ namespace RavlN {
       : Node(&((GraphNodeIterC<NodeT,EdgeT>(ANode)).NodeDat())) {}
     // Construct from a base node iterator.
     
-    UIntT Hash() const { return (IntT) Node >> 2; }
+    UIntT Hash() const { return (UIntT) Node >> 2; }
     // Get hash value for node.
     
   private:
