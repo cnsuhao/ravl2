@@ -82,6 +82,25 @@ namespace RavlN {
     result[2] = R[2][0]*x[0] + R[2][1]*x[1] + R[2][2]*x[2];
   }
   
+  inline
+  void Mul(const TFMatrixC<RealT,3,3> & R1, const TFMatrixC<RealT,3,3> &R2,TFMatrixC<RealT,3,3> & result) {
+    result[0][0] = R1[0][0]*R2[0][0] + R1[0][1]*R2[1][0] + R1[0][2]*R2[2][0];
+    result[0][1] = R1[0][0]*R2[0][1] + R1[0][1]*R2[1][1] + R1[0][2]*R2[2][1];
+    result[0][2] = R1[0][0]*R2[0][2] + R1[0][1]*R2[1][2] + R1[0][2]*R2[2][2];
+    result[1][0] = R1[1][0]*R2[0][0] + R1[1][1]*R2[1][0] + R1[1][2]*R2[2][0];
+    result[1][1] = R1[1][0]*R2[0][1] + R1[1][1]*R2[1][1] + R1[1][2]*R2[2][1];
+    result[1][2] = R1[1][0]*R2[0][2] + R1[1][1]*R2[1][2] + R1[1][2]*R2[2][2];
+    result[2][0] = R1[2][0]*R2[0][0] + R1[2][1]*R2[1][0] + R1[2][2]*R2[2][0];
+    result[2][1] = R1[2][0]*R2[0][1] + R1[2][1]*R2[1][1] + R1[2][2]*R2[2][1];
+    result[2][2] = R1[2][0]*R2[0][2] + R1[2][1]*R2[1][2] + R1[2][2]*R2[2][2];
+  }
+  
+  inline
+  void TMul(const TFMatrixC<RealT,3,3> & R,const TFVectorC<RealT,3> & x,TFVectorC<RealT,3> &result) {
+    result[0] = R[0][0]*x[0] + R[1][0]*x[1] + R[2][0]*x[2];
+    result[1] = R[0][1]*x[0] + R[1][1]*x[1] + R[2][1]*x[2];
+    result[2] = R[0][2]*x[0] + R[1][2]*x[1] + R[2][2]*x[2];
+  }
 }
 
 #endif
