@@ -16,6 +16,7 @@
 #include "Ravl/BiHash.hh"
 #include "Ravl/FunctionRegister.hh"
 #include "Ravl/Stream.hh"
+#include "Ravl/BinStream.hh"
 
 #if RAVL_HAVE_ANSICPPHEADERS
 #include <typeinfo>
