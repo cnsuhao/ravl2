@@ -76,8 +76,7 @@ namespace RavlImageN {
 //: Set width of Gaussian low-pass filter
 void ForegroundSepC::SetFilter(IntT Width) { 
   if (progressive) {
-    filterWidth = Width; 
-    lpf = GaussConvolve2dC<ByteRGBValueC, ByteRGBValueC, RealT, RealRGBValueC>(filterWidth);
+    lpf = GaussConvolve2dC<ByteRGBValueC, ByteRGBValueC, RealT, RealRGBValueC>(Width);
   }
   else { // interlaced (field-based)
     if (Width%2 == 0) {
@@ -93,6 +92,7 @@ void ForegroundSepC::SetFilter(IntT Width) {
       vkernel[vkernel.IMin() + 2*i] = vcoeff[i];
     lpf = ConvolveSeparable2dC<ByteRGBValueC,ByteRGBValueC,RealT,RealRGBValueC>(vkernel,hkernel);
   }
+  filterWidth = Width; 
 }
 
 
