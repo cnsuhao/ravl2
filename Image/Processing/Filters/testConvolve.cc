@@ -47,7 +47,7 @@ template WarpProjectiveC<ByteRGBValueC,ByteRGBValueC>;
 
 int main() {
   int ln;
-#if 0
+#if 1
 #if !TESTMMX
   if((ln = testConvolve2d()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
@@ -348,8 +348,9 @@ int testSumRectangles() {
     *it = i++;
   IndexRange2dC mask(-1,1,-1,1);
   Array2dC<IntT> result;
+#if 1
   SumRectangles(test,mask,result);
-  //cerr << "Result=" << result << "\n";
+  //cerr << "Result1=" << result << "\n";
   
   if(result[1][1] != 54)
     return __LINE__;
@@ -369,5 +370,19 @@ int testSumRectangles() {
     return __LINE__;
   if(result[3][3] != 162)
     return __LINE__;
+#endif
+  
+  IndexRange2dC mask2(-2,2,-2,2);
+  Array2dC<IntT> test2(9,9);
+  test2.Fill(2);
+  test2[1][1] = 3;
+  result = Array2dC<IntT>();
+  SumRectangles(test2,mask2,result);
+#if 1
+  if(result[2][2] != 51) return __LINE__;
+  if(result[2][3] != 51) return __LINE__;
+  if(result[6][6] != 50) return __LINE__;
+#endif
+  //cerr << "Result2=" << result << "\n";
   return 0;
 }

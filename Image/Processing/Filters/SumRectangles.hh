@@ -36,7 +36,7 @@ namespace RavlImageN {
       resultFrame.ClipBy(result.Frame());
     
     IndexRange2dC initialRect = mask;
-    initialRect.SetOrigin(img.Frame().Origin());
+    initialRect.SetOrigin(resultFrame.Origin() + mask.Origin());
     
     Array1dC<OutT> vsum(img.Range2());
     
@@ -53,7 +53,9 @@ namespace RavlImageN {
     
     OutT sum;
     SetZero(sum);
-    IndexRangeC initRange(img.Frame().LCol(),result.Frame().LCol());
+    IndexRangeC initRange = initialRect.Range2();
+    initRange.Max()--;
+    
     for(BufferAccessIterC<OutT> itbfr(vsum,initRange);itbfr;itbfr++)
       sum += *itbfr;
     
