@@ -468,6 +468,16 @@ namespace RavlGUIN {
     return ret;
   }
 
+  //: Get the root iterator
+
+  TreeModelIterC TreeModelBodyC::GetRoot()
+  {
+    TreeModelIterC ret;
+    ret.Model(model);
+    gtk_tree_model_get_iter_root(model, ret.TreeIter());
+    return ret;
+  }
+    
 }
 
 #endif

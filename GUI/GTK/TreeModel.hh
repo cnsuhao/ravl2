@@ -327,6 +327,9 @@ namespace RavlGUIN {
     TreeModelIterC Path2Iter(const char *pathName);
     //: Get iterator from path text.
     
+    TreeModelIterC GetRoot();
+    //: Get the root iterator
+    
   protected:
     void ConnectUp(StringC name);
     //: Create a new signal.
@@ -491,6 +494,10 @@ namespace RavlGUIN {
     TreeModelIterC Path2Iter(const char *pathName) 
     { return Body().Path2Iter(pathName); }
     //: Get iterator from path text.
+    
+    TreeModelIterC GetRoot()
+    { return Body().GetRoot(); }
+    //: Get the root iterator
     
     friend class TreeModelBodyC;
     friend class TreeModelIterBodyC;
