@@ -333,5 +333,44 @@ int testBitStream() {
   for(i = 1;i < 32;i++)
     if(bi.ReadUInt(i) != (UIntT) i) return __LINE__;
   
+  // Gordon's test.
+  
+  StrOStreamC ostr2;
+  {
+    BitOStreamC test(ostr2);
+    test.WriteUInt(777);
+    test.WriteUInt(9,5);
+    for(int i = 0;i < 3;i++) {
+      test.WriteBit(0);
+      test.WriteBit(0);
+      test.WriteBit(1);
+      test.WriteBit(0);
+      test.WriteBit(1);
+      test.WriteBit(1);
+    }
+    test.WriteUByte(156);
+    test.WriteUByte(4);
+    test.WriteUInt(555,12);
+    test.Flush();
+  }
+  {
+    StrIStreamC istr2(ostr2.String());
+    BitIStreamC in(istr2);
+    if(in.ReadUInt() != 777) return __LINE__;
+    if(in.ReadUInt(5) != 9) return __LINE__;
+    
+    for(int i = 0;i < 3;i++) {
+      if(in.ReadBit() != 0) return __LINE__;
+      if(in.ReadBit() != 0) return __LINE__;
+      if(in.ReadBit() != 1) return __LINE__;
+      if(in.ReadBit() != 0) return __LINE__;
+      if(in.ReadBit() != 1) return __LINE__;
+      if(in.ReadBit() != 1) return __LINE__;
+    }
+    if(in.ReadUByte() != 156) return __LINE__;
+    if(in.ReadUByte() != 4) return __LINE__;
+    if(in.ReadUInt(12) != 555) return __LINE__;
+  }
+  
   return 0;
 }
