@@ -222,7 +222,7 @@ namespace RavlGUIN {
   
   bool PlayControlBodyC::SliderCallback(RealT &val) {
     //ONDEBUG(cerr <<  "From:" << pc.Tell());
-    Pause();
+    //    Pause();
     Speed(0);
     Seek((UIntT) val);
     //ONDEBUG(cerr << " Seeking to :" << val << " At " << pc.Tell() << "\n");
