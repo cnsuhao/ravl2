@@ -30,31 +30,31 @@ namespace RavlN {
   class DLIterC  {
   public:
     DLIterC()
-      { place = &lst.Head(); }
+    { place = &lst.Head(); }
     //: Default constructor.
     // Creates an invalid iterator.
     
     bool IsValid() const
-      { return lst.IsValid(); }
+    { return lst.IsValid(); }
     //: Is a valid iterator ?
     
     void First() 
-      { place = &lst.Head().Next(); }
+    { place = &lst.Head().Next(); }
     //: Goto first item in list.
-
+    
     void Last() 
-      { place = &lst.Head().Prev(); }
+    { place = &lst.Head().Prev(); }
     //: Goto last item in list.
     
     DLIterC(const DListC<DataT> &nlst)
       : lst(nlst)
-      { First(); }
+    { First(); }
     //: Construct an iterator from a list.
     // The iterator is placed at the first
     // element in the list. If there is any.
         
     const DListC<DataT> &List() const
-      { return lst; }
+    { return lst; }
     //: Access list we're iterating.
     
     DListC<DataT> Copy() const
@@ -62,48 +62,52 @@ namespace RavlN {
     //: Make a copy of this list.
 
     operator bool() const
-      { return place != &lst.Head(); }
+    { return place != &lst.Head(); }
     //: Is iterator at a valid position ?
     
     bool operator!() const
-      { return place == &lst.Head(); }
+    { return place == &lst.Head(); }
     //: Is iterator at a invalid position ?
     
     void operator++(int) 
-      { place = &place->Next(); }
+    { place = &place->Next(); }
     //: Goto next element.
-
+    
     void operator++() 
-      { place = &place->Next(); }
+    { place = &place->Next(); }
     //: Goto next element.
     
     void operator--(int) 
-      { place = &place->Prev(); }
+    { place = &place->Prev(); }
     //: Goto previous element.
     
     void operator--() 
-      { place = &place->Prev(); }
+    { place = &place->Prev(); }
     //: Goto previous element.
     
     void InsertBef(const DataT &dat)
-      { place->LinkBef(*new DLinkDataC<DataT>(dat)); }
+    { place->LinkBef(*new DLinkDataC<DataT>(dat)); }
     //: Insert data before current element.
     // if at the head of the list  (i.e. operator bool() failes.)
     // then add at end.
     
     void InsertAft(const DataT &dat)
-      { place->LinkAft(*new DLinkDataC<DataT>(dat)); }
+    { place->LinkAft(*new DLinkDataC<DataT>(dat)); }
     //: Insert data after current element.
     // if at the head of the list  (i.e. operator bool() failes.)
     // then add at begining.
     
-    void MoveBef(DLIterC<DataT> &it) 
-      { place->LinkBef(it.Extract()); }
+    void MoveBef(DLIterC<DataT> &it) { 
+      if(it.place != place)
+	place->LinkBef(it.Extract()); 
+    }
     //: Move the list element indicated by 'it' to before
     //: the element in this list.
     
-    void MoveAft(DLIterC<DataT> &it) 
-      { place->LinkAft(it.Extract()); }
+    void MoveAft(DLIterC<DataT> &it) { 
+      if(it.place != place)
+	place->LinkAft(it.Extract());      
+    }
     //: Move the list element indicated by 'it' to before
     //: the element in this list.
     
@@ -136,37 +140,37 @@ namespace RavlN {
     // NB. The iterator must be pointing to a valid element.    
     
     DataT &operator*()
-      { return DLinkData().Data(); }
+    { return DLinkData().Data(); }
     //: Access data.
     
     const DataT &operator*() const
-      { return DLinkData().Data(); }
+    { return DLinkData().Data(); }
     //: Constant access to data.
     
     DataT *operator->()
-      { return &DLinkData().Data(); }
+    { return &DLinkData().Data(); }
     //: Access member function of data..
     
     const DataT *operator->() const
-      { return &DLinkData().Data(); }
+    { return &DLinkData().Data(); }
     //: Constant access to member function of data..
     
     bool operator==(const DLIterC<DataT> &oth) const
-      { return place == oth.place; }
-    //: Are these iterators equal.
+    { return place == oth.place; }
+    //: Are these iterators equal ?
     // True if both iterators point to the same element
     // in the same list.  False otherwise.
     
     bool operator!=(const DLIterC<DataT> &oth) const
-      { return place != oth.place; }
-    //: Are these iterators unequal.
+    { return place != oth.place; }
+    //: Are these iterators unequal ?
     // True if the iterators point to different elements
     // in any lists.  False otherwise.
 
     bool IsElm() const
-      { return place != &lst.Head(); }
+    { return place != &lst.Head(); }
     //: Is iterator at a valid position ?
-    // AMMA compatibility function, use cast to bool instread ie if(iter) {..}
+    // AMMA compatibility function, use cast to bool instead ie if(iter) {..}
     
     inline bool IsFirst() const
     { return &(lst.Head().Next()) == place; }
@@ -177,16 +181,18 @@ namespace RavlN {
     //: Returns true if the current element is the last in the list.
     
     void Next()
-      { (*this)++; }
+    { (*this)++; }
     //: Goto next element.
     // AMMA compatibility function, use ++ operator.
     
     void Prev()
-      { (*this)--; }
+    { (*this)--; }
     //: Goto next element.
     // AMMA compatibility function, use -- operator.
     
     DLIterC<DataT> &RelNth(IntT n) {
+      if(n==0)
+	return (*this);
       if (n > 0)
 	while (n--) Next();
       else
@@ -201,23 +207,27 @@ namespace RavlN {
     // Returns a refrence to this iterator.
     
     DLIterC<DataT> &Nth(IntT n) {
-      First();
+      if(n >= 0) {
+	First();
+      } else {
+	n += 1;
+	Last();
+      }
       return RelNth(n);
     }
     //: Sets to the n-th element of the list. 
-    // The index 'n' can be 
-    // negative. The first element of the list has the index 0,
-    // the last element has the index -1. It does not skip the head
-    // of the list.<p>
+    // The index 'n' can be negative. The first element of the list 
+    // has the index 0, the last element has the index -1. It does 
+    // not skip the head of the list.<p>
     // Returns a refrence to this iterator.
     
     DataT &Data()
-      { return DLinkData().Data(); }
+    { return DLinkData().Data(); }
     //: Access data 
     // AMMA compatibility function, use unary * operator.
 
     const DataT &Data() const
-      { return DLinkData().Data(); }
+    { return DLinkData().Data(); }
     //: Constant access to data.
     // AMMA compatibility function, use unary * operator.
 
@@ -306,15 +316,15 @@ namespace RavlN {
   protected:
     DLIterC(const DListBodyC<DataT> &nlst)
       : lst(const_cast<DListBodyC<DataT> &>(nlst)) // A bit evil, but it make life alot easier.
-      { First(); }
+    { First(); }
     //: Construct from a list body.
     
     DLinkDataC<DataT> &DLinkData()
-      { return static_cast<DLinkDataC<DataT> &>(*place); }
+    { return static_cast<DLinkDataC<DataT> &>(*place); }
     //: Access as data element.
     
     const DLinkDataC<DataT> &DLinkData() const
-      { return static_cast<const DLinkDataC<DataT> &>(*place); }
+    { return static_cast<const DLinkDataC<DataT> &>(*place); }
     //: Access as data element.
     
     DLinkDataC<DataT> &Extract() {

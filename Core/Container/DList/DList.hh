@@ -219,6 +219,16 @@ namespace RavlN {
       { return DLinkHeadC::Head(); }
     //: Get head of list.
     
+    DataT &Nth(int n);
+    //: Find the nth element in the list.
+    // 0 is the first element, 2 the second etc.
+    // -1 is the last, -2 second from last.
+    
+    const DataT &Nth(int n) const;
+    //: Find the nth element in the list.
+    // 0 is the first element, 2 the second etc.
+    // -1 is the last, -2 second from last.
+    
     friend class DListC<DataT>;
     friend class DLIterC<DataT>;
     
@@ -281,39 +291,39 @@ namespace RavlN {
     
     DListC()
       : RCHandleC<DListBodyC<DataT> >(*new DListBodyC<DataT>())
-      {}
+    {}
     //: Default constructor.
     // This creates an empty list.
     
   protected:
     DListC(DListBodyC<DataT> &bod)
       : RCHandleC<DListBodyC<DataT> >(bod)
-      {}
+    {}
     //: Body constructor.
     
     DListBodyC<DataT> &Body()
-      { return RCHandleC<DListBodyC<DataT> >::Body(); }
+    { return RCHandleC<DListBodyC<DataT> >::Body(); }
     //: Access body.
 
     const DListBodyC<DataT> &Body() const
-      { return RCHandleC<DListBodyC<DataT> >::Body(); }
+    { return RCHandleC<DListBodyC<DataT> >::Body(); }
     //: Constant access to body.
     
     DLinkC &Head()
-      { return Body().Head(); }
+    { return Body().Head(); }
     //: Get head of list.
     
     const DLinkC &Head() const
-      { return Body().Head(); }
+    { return Body().Head(); }
     //: Get head of list.
     
   public:
     bool IsEmpty() const
-      { return Body().IsEmpty(); }
+    { return Body().IsEmpty(); }
     //: Test is the list is empty.
     
     UIntT Size() const
-      { return Body().Size(); }
+    { return Body().Size(); }
     //: Count the number of elements in the list.
     // This is slow! It goes through the list counting the elements.
     
@@ -322,52 +332,52 @@ namespace RavlN {
     //: Reverse the order of the list.
     
     DListC<DataT> Copy() const
-      { return DListC<DataT>(static_cast<DListBodyC<DataT> &>(Body().Copy())); }
+    { return DListC<DataT>(static_cast<DListBodyC<DataT> &>(Body().Copy())); }
     //: Make a copy of this list.
     
     void InsFirst(const DataT &dat)
-      { Body().InsFirst(dat); }
+    { Body().InsFirst(dat); }
     //: Push element onto the begining of the list.
     
     void InsLast(const DataT &dat)
-      { Body().InsLast(dat); }
+    { Body().InsLast(dat); }
     //: Push element onto the end of the list.
     
     DataT PopFirst()  
-      { return Body().PopFirst(); }
+    { return Body().PopFirst(); }
     //: Pop item off front of list.
     
     DataT PopLast()  
-      { return Body().PopLast(); }
+    { return Body().PopLast(); }
     //: Pop item off end of list.
     
     void DelFirst()
-      { Body().PopFirst(); }
+    { Body().PopFirst(); }
     //: Delete the first element from the list.
     
     void DelLast()
-      { Body().PopLast(); }
+    { Body().PopLast(); }
     //: Delete the last element from the list.
     
     void Empty()
-      { Body().Empty(); }
+    { Body().Empty(); }
     //: Empty the list of all its contents.
     
     DListC<DataT> &operator+=(const DataT &dat)
-      { Body().InsLast(dat); return *this; }
+    { Body().InsLast(dat); return *this; }
     //: Add element to the end of the list.
     
     DListC<DataT> & operator+=(const DListC<DataT> &dat)
-      { Body() += dat; return *this; }
+    { Body() += dat; return *this; }
     //: Copy contents of other list to end of this one.
     
     void MoveFirst(DListC<DataT> & lst)
-      { Body().MoveFirst(lst); }
+    { Body().MoveFirst(lst); }
     //: Move the entire contents of 'lst' to the beginning of this one.
     // this leaves 'lst' empty.
     
     void MoveLast(DListC<DataT> & lst)
-      { Body().MoveLast(lst); }
+    { Body().MoveLast(lst); }
     //: Move the entire contents of 'lst' to the end of this one.
     // this leaves 'lst' empty.
 
@@ -376,11 +386,11 @@ namespace RavlN {
     //: Move the single item 'at' to the beginning of this list.
     
     void MoveLast(DLIterC<DataT> & at)
-      { Body().MoveLast(at); }
+    { Body().MoveLast(at); }
     //: Move the single item 'at' to the end of this list.
     
     void MergeSort(DListBodyC<DataT>::MergeSortCmpT cmp)
-      { Body().MergeSort(cmp); }
+    { Body().MergeSort(cmp); }
     //: Merge sort the list with comparison function 'cmp'.
 
     bool operator==(const DListC<DataT> &oth) const;
@@ -388,40 +398,52 @@ namespace RavlN {
     // Test if lists have identical content.
     
     bool operator!=(const DListC<DataT> &oth) const
-      { return !((*this) == oth); }
+    { return !((*this) == oth); }
     //: Are lists different ?
     // Test if lists have different content.
     
     DataT &First() 
-      { return Body().First(); }
+    { return Body().First(); }
     //: Get first element in list.
     // NB. List MUST be non-empty.
     
     DataT &Last() 
-      { return  Body().Last(); }
+    { return  Body().Last(); }
     //: Get first element in list.
     // NB. List MUST be non-empty.
     
     const DataT &First() const 
-      { return Body().First(); }
+    { return Body().First(); }
     //: Get first element in list.
     // NB. List MUST be non-empty.
     
     const DataT &Last() const 
-      { return Body().Last(); }
+    { return Body().Last(); }
     //: Get first element in list.
     // NB. List MUST be non-empty.
     
     bool Del(const DataT &x)
-      { return Body().Del(x); }
+    { return Body().Del(x); }
     //: Remove first instance of 'x' found in list.
     // returns true if the item is found and removed, 
     // false otherwise.
     
     bool Contains(const DataT &x)
-      { return Body().Contains(x); }
+    { return Body().Contains(x); }
     //: Test if this list contains an element == to 'x'.
-
+    
+    DataT &Nth(int n)
+    { return Body().Nth(n); }
+    //: Find the nth element in the list.
+    // 0 is the first element, 2 the second etc.
+    // -1 is the last, -2 second from last.
+    
+    const DataT &Nth(int n) const
+    { return Body().Nth(n); }
+    //: Find the nth element in the list.
+    // 0 is the first element, 2 the second etc.
+    // -1 is the last, -2 second from last.
+    
     friend class DLIterC<DataT>;
     friend class DListBodyC<DataT>;
 
@@ -490,6 +512,23 @@ namespace RavlN {
 	return true;
     return false;
   }
+
+  template<class DataT> 
+  DataT &DListBodyC<DataT>::Nth(int n) {
+    DLIterC<DataT> it(*this);
+    it.Nth(n);
+    RavlAlwaysAssertMsg(it.IsElm(),"DListC::Nth(int), Invalid index.");
+    return *it;
+  }
+  
+  template<class DataT> 
+  const DataT &DListBodyC<DataT>::Nth(int n) const {
+    DLIterC<DataT> it(*this);
+    it.Nth(n);
+    RavlAlwaysAssertMsg(it.IsElm(),"DListC::Nth(int), Invalid index.");
+    return *it;    
+  }
+  
   
   template<class DataT>
   ostream &operator<<(ostream &strm,const DListBodyC<DataT> &lst) {
