@@ -27,7 +27,8 @@ namespace RavlN {
   // has some draw backs however, there is no garantee when the
   // data held on the stack will have its destructor called, nor
   // are there any garantees in what order they well happen. If
-  // this is a problem used StackC instead as it handles it properly.
+  // this is a problem use StackC instead as it handles these cases
+  // properly.
   
   template<class DataT>
   class BlkStackC
