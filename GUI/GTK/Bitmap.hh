@@ -10,7 +10,6 @@
 //! rcsid="$Id$"
 //! file="Ravl/GUI/GTK/Bitmap.hh"
 //! lib=RavlGUI
-//! userlevel=Normal
 //! docentry="Ravl.GUI.Layout"
 //! author="Charles Galambos"
 //! date="17/08/2000"
@@ -18,6 +17,7 @@
 #include "Ravl/GUI/Widget.hh"
 
 namespace RavlGUIN {
+  //! userlevel=Develop
   //: Bitmap body.
   
   class BitmapBodyC 
@@ -42,6 +42,7 @@ namespace RavlGUIN {
     GdkBitmap *bmp;
   };
   
+  //! userlevel=Normal
   //: Bitmap.
   // Hold a binary image. often used as a mask.
   

@@ -6,6 +6,18 @@
 
   <body>
 
+   The RAVL signal system has been inspired by <a href="http://libsigc.sourceforge.net/">libsigc++</a>, but
+written to work with RAVL style reference counting. <p>
+
+   Important features:
+    <ul>
+      <li> Signal objects are refrence counted.
+      <li> Adding and removing connections is thread safe.
+      <li> The default implementation makes copies of the objects the signal will be delived to,
+ enabling it to call methods of refrence counted objects safely.
+    </ul>
+
+
 
   </body>
 </html>
