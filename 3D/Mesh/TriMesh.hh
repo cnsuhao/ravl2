@@ -113,7 +113,7 @@ namespace Ravl3DN {
     //: Find largest and smallest for each compoent of all vertices.
     
     void UpdateVertexNormals();
-    //: Recalculate vertex normals.
+    //: Recalculate vertex and face normals from actual angle of faces.
     
     void OffsetScale(const Vector3dC &off,RealT scale);
     //: Offset and Scale mesh by given values.

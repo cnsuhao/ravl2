@@ -178,6 +178,7 @@ namespace Ravl3DN {
     for(SArray1dIterC<VertexC> it(vertices);it;it++)
       it->Normal() = zero;
     for(SArray1dIterC<TriC> itf(faces);itf;itf++) {
+      itf->UpdateFaceNormal();
       Vector3dC norm = itf->FaceNormal();
       for(int i = 0;i < 3;i++)
 	itf->Normal(i) += norm;
