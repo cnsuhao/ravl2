@@ -196,6 +196,9 @@ namespace RavlN {
       { return buff; }
     //: Access buffer in which data is stored.
 
+    void Reverse();
+    //: Reverse the order of elements in this array in place.
+    
     Array1dC<DataC> operator+(const Array1dC<DataC> & arr) const;
     // Sums 2 numerical arrays. The operator returns the result as a new array.
     
