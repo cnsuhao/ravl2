@@ -19,6 +19,7 @@
 
 using namespace RavlN;
 
+int testSimple();
 int testRandom();
 int testFMatrixSimple();
 int testFMatrixValidate();
@@ -29,6 +30,11 @@ int testFMatrixScalMath();
 
 int main() {
   int line;
+  
+  if((line = testSimple()) != 0) {
+    cerr << "Error on line: " << line << "\n";
+    return 1;
+  }
   if((line = testRandom()) != 0) {
     cerr << "Error on line: " << line << "\n";
     return 1;
@@ -54,6 +60,15 @@ int main() {
     return 1;
   }
   cerr << "Test passed ok. \n";
+  return 0;
+}
+
+int testSimple() {
+  cerr <<"Checking math functions. \n";
+  RealT cuberoot = Cbrt(8); // Really here to check if cbrt() exists.
+  if(Abs(cuberoot - 2.0) > 1e-6) return __LINE__;
+  cuberoot = Cbrt(-8); // Cbrt should handle negative numbers.
+  if(Abs(cuberoot + 2.0) > 1e-6) return __LINE__;
   return 0;
 }
 

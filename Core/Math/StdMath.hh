@@ -64,7 +64,9 @@ namespace RavlN {
     RealT dem = 3.0;  // Sometimes get a compile warning unless we do this.
     return pow(r, 1.0/dem);
 #else
-    return pow(r, 1.0/3.0);
+    if(r >= 0)
+      return pow(r, 1.0/3.0);
+    return -pow(-r, 1.0/3.0);
 #endif
 #endif
   }
