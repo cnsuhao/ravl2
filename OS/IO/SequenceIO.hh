@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLSEQUENCEIO_HEADERS
-#define RAVLSEQUENCEIO_HEADERS 1
+#ifndef RAVL_SEQUENCEIO_HEADERS
+#define RAVL_SEQUENCEIO_HEADERS 1
 //////////////////////////////////////////////////////////////
 //! docentry="Ravl.OS.Sequence"
 //! rcsid="$Id$"
@@ -13,7 +13,7 @@
 //! file="Ravl/OS/IO/SequenceIO.hh"
 //! lib=RavlOSIO
 //! author="Charles Galambos"
-//! date="08/04/99"
+//! date="08/04/1999"
 
 #include "Ravl/DP/SPort.hh"
 #include "Ravl/DP/SPortAttach.hh"

@@ -94,14 +94,19 @@ namespace RavlN {
     sc.Invalidate();
     FileFormatDescC  fmtInfo;
     if(!SystemFileFormatRegistry().FindOutputFormat(fmtInfo,fn,fileformat,obj_type,verbose)) {
+      if(verbose)
+	cerr << "Can't find output format for '" << fn <<"' \n";
       ONDEBUG(cerr << "OpenOSequenceBase(), Failed to find format for '" << fn << "' \n");
       return false; // Failed to find format.
     }
-    if(verbose)
-      fmtInfo.DumpConv(cerr);
     if(fmtInfo.Format().IsStream() || fn == "-" || fn[0] == '@') { // Is stream already ?
       op = fmtInfo.CreateOutput(fn,sc);
-      return op.IsValid();
+      if(!op.IsValid()) {
+	if(verbose)
+	  cerr << "Failed to create output pipe for '" << fn <<"' in format '" << fmtInfo.Format().Name() << "' \n";
+	return false;
+      }
+      return true;
     }
     // Use a file sequence.
     DPOFileSequenceC fileSeq(fn);
@@ -110,6 +115,8 @@ namespace RavlN {
       cerr << "OpenISequenceBase(), Failed to setup file sequence... \n";
       return false;
     }
+    if(verbose)
+      fmtInfo.DumpConv(cerr);
     op = fmtInfo.BuildOutputConv(opipe); 
     sc = fileSeq;   // So caller can attach seekable port into stream.
     ONDEBUG(cerr << "OpenOSequenceBase(), Building stream done. Final type:" << TypeName(op.OutputType()) << " \n");
