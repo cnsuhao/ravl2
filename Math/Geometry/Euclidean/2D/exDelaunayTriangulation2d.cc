@@ -40,10 +40,17 @@ int main(int nargs,char **argv) {
   HEMesh2dC mesh = DelaunayTriangulation(pnts);
   
   for(THEMeshFaceIterC<Point2dC> mit(mesh.Faces());mit;mit++) {
-    for(THEMeshFaceEdgeIterC<Point2dC> eit(*mit);eit;eit++)
-      RavlImageN::DrawLine(img,(ByteT) 255,
-			   Index2dC((*eit).Vertex().Data()),
-			   Index2dC((*eit).Prev().Vertex().Data()));
+    for(THEMeshFaceEdgeIterC<Point2dC> eit(*mit);eit;eit++) {
+      if(!eit->HasPair()) {
+	RavlImageN::DrawLine(img,(ByteT) 255,
+			     Index2dC((*eit).Vertex().Data()),
+			     Index2dC((*eit).Prev().Vertex().Data()));
+      } else {
+	RavlImageN::DrawLine(img,(ByteT) 128,
+			     Index2dC((*eit).Vertex().Data()),
+			     Index2dC((*eit).Prev().Vertex().Data()));
+      }
+    }
   }
   
   Save(file,img);

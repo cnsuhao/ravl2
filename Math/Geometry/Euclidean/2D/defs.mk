@@ -29,6 +29,6 @@ USESLIBS=RavlMath
 
 PROGLIBS=RavlIO RavlDPDisplay.opt
 
-TESTEXES=testLine2d.cc testGeom2d.cc
+TESTEXES=testLine2d.cc testGeom2d.cc 
 
 EXAMPLES= exDelaunayTriangulation2d.cc

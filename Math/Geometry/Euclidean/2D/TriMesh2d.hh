@@ -68,7 +68,10 @@ namespace RavlN {
     
     RealRange2dC BoundingRectangle() const;
     //: Compute the bounding rectangle for the points in the mesh.
-
+    
+    bool IsFlat() const;
+    //: Check that all faces in the mesh are oriented in the same direction.
+    
   protected:
     SArray1dC<Point2dC> vertices;
     SArray1dC<Index3dC> faces;

@@ -49,6 +49,20 @@ namespace RavlN {
     return ret;
   }
   
+  //: Check that all faces in the mesh are oriented in the same direction.
+  
+  bool TriMesh2dC::IsFlat() const {
+    bool clock;
+    SArray1dIterC<Index3dC> it(faces);
+    if(!it) 
+      return true;    
+    clock = LinePP2dC(vertices[(*it)[0]],vertices[(*it)[1]]).IsPointToLeft(vertices[(*it)[2]]);
+    for(it++;it;it++)
+      if(LinePP2dC(vertices[(*it)[0]],vertices[(*it)[1]]).IsPointToLeft(vertices[(*it)[2]]) != clock)
+	return false;
+    return true;
+  }
+
 
   ostream & operator<<(ostream & outS, const TriMesh2dC & mesh) {
     outS << mesh.Vertices() << ' ' << mesh.Faces();

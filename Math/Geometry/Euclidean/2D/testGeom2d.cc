@@ -20,6 +20,7 @@
 #include "Ravl/Random.hh"
 #include "Ravl/DelaunayTriangulation2d.hh"
 #include "Ravl/HEMesh2d.hh"
+#include "Ravl/TriMesh2d.hh"
 
 using namespace RavlN;
 
@@ -163,7 +164,6 @@ int testConvexHull2d() {
 
 int testDelaunayTriangulation2d() {
   cerr << "testDelaunayTriangulation2d() Called. \n";
-#if 1
   for(int j = 0;j < 10;j++) {
     SArray1dC<Point2dC> pnts(10 + j * 10);
     
@@ -173,8 +173,15 @@ int testDelaunayTriangulation2d() {
     
     HEMesh2dC mesh = DelaunayTriangulation(pnts);
     if(!IsDelaunayTriangulation(mesh)) return __LINE__;
+    
+    // Convert it into a tri mesh.
+    
+    TriMesh2dC triMesh = mesh.TriMesh();
+    
+    // Check faces are all oriented correctly.
+    
+    if(!triMesh.IsFlat()) return __LINE__;
   }
-#endif
   return 0;
 }
 
