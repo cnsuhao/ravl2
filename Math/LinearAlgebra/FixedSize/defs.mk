@@ -9,9 +9,12 @@
 PACKAGE=Ravl
 
 HEADERS= FVector.hh Vector2d.hh Vector3d.hh Vector4d.hh \
-        FMatrix.hh Matrix2d.hh Matrix3d.hh Matrix4d.hh
+        FMatrix.hh Matrix2d.hh Matrix3d.hh Matrix4d.hh \
+	FVectorMatrix.hh VectorMatrix2d.hh VectorMatrix3d.hh \
+        VectorMatrix4d.hh
 
-SOURCES= Vector2d.cc Matrix3d.cc
+SOURCES= Vector2d.cc Matrix3d.cc \
+        VectorMatrix2d.cc VectorMatrix3d.cc VectorMatrix4d.cc
 
 PLIB=RavlMath
 
