@@ -8,7 +8,8 @@
 
 PACKAGE=Ravl/3D
 
-HEADERS= TriFileIO.hh FormatTriFile.hh \
+HEADERS= MeshIO.hh \
+         TriFileIO.hh FormatTriFile.hh \
          MeshIOObj.hh FormatMeshObj.hh
 
 SOURCES= TriFileIO.cc FormatTriFile.cc TriMeshIO.cc \
