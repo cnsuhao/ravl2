@@ -16,6 +16,7 @@
 #include "Ravl/Polygon2d.hh"
 #include "Ravl/Circle2d.hh"
 #include "Ravl/Array1d.hh"
+#include "Ravl/Affine2d.hh"
 #include "Ravl/Random.hh"
 #include "Ravl/DelaunyTriangulation2d.hh"
 
@@ -26,6 +27,7 @@ int testBinIO();
 int testCircle2d();
 int testConvexHull2d();
 int testDelaunyTriangulation2d();
+int testFitAffine();
 
 int main() {
   int ln;
@@ -46,6 +48,10 @@ int main() {
     return 1;
   }
   if((ln = testDelaunyTriangulation2d()) != 0) {
+    cerr << "Test failed at " << ln << "\n";
+    return 1;
+  }
+  if((ln = testFitAffine()) != 0) {
     cerr << "Test failed at " << ln << "\n";
     return 1;
   }
@@ -168,5 +174,26 @@ int testDelaunyTriangulation2d() {
     if(!IsDelaunyTriangulation(mesh)) return __LINE__;
   }
 #endif
+  return 0;
+}
+
+int testFitAffine() {
+  cerr << "testFitAffine(), Called. \n";
+  SArray1dC<Point2dC> ipnt(3);
+  ipnt[0] = Point2dC(1,1);
+  ipnt[1] = Point2dC(2,1);
+  ipnt[2] = Point2dC(1,3);
+  
+  SArray1dC<Point2dC> opnt(3);
+  opnt[0] = Point2dC(2,2);
+  opnt[1] = Point2dC(3,2);
+  opnt[2] = Point2dC(2,3);
+  
+  Affine2dC aff = FitAffine(ipnt,opnt);
+  
+  for(int i=0;i < 3;i++)
+    if(((aff * ipnt[i]) - opnt[i]).SumOfSqr() > 0.001)
+      return __LINE__;
+  
   return 0;
 }

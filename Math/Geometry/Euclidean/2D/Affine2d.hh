@@ -20,7 +20,9 @@
 #include "Ravl/FAffine.hh"
 
 namespace RavlN {
-
+  template<class DataT> class SArray1dC;
+  class Point2dC;
+  
   //! userlevel=Normal
   //: 2-D affine transformation
   
@@ -65,6 +67,9 @@ namespace RavlN {
     //: Add rotation <code>Angle</code> to transformation
     
   };
+  
+  Affine2dC FitAffine(SArray1dC<Point2dC> org,SArray1dC<Point2dC> newPos);
+  //: Fit an affine transform given to the mapping between original and newPos.
   
   /////////////////////////////////
   
