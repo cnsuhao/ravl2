@@ -32,7 +32,7 @@ namespace RavlN {
     if(!it)
       return VectorC();
     VectorC total = it->Copy();
-    for(;it;it++)
+    for(it++;it;it++)
       total += *it;
     return total/ ((RealT) Size());
   }
