@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/perl -w
 # AutoBuild.pl
 
 use strict;
@@ -9,9 +9,13 @@ my %config;
 # Parse config file info $config
 open(FILE, $cfgfile) || die "Failed to read config file $cfgfile\n";
 while (<FILE>) {
-  next if (/^(#.*|\s*)$/);
-  my($key, $val) = split(/\s+/, $_, 2);
-  $config{$key} = eval($val);
+  if(/^([^#]*)(#.*|\s*)$/) {
+    $_ = $1;
+  }
+  next if(/^\s*$/) ;
+  /^\s*((\s*[^\s]+)*)\s*$/;
+  my($key, $val) = split(/\s+/, $1, 2);
+  $config{$key} = $val;
   die "Error on line $.:\n$@\n" if ($@);
 }
 close(FILE);
@@ -153,7 +157,7 @@ print "Checking out source tree.\n";
 & Checkout($PACKAGENAME);
 
 # Check out extra packages
-if ($config{EXTRAPKG} ne "") {
+if ($config{EXTRAPKG}) {
   & ChDir("$SRCTREE/$PACKAGENAME");
   & Checkout($config{EXTRAPKG});
 }
