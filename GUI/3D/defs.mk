@@ -52,10 +52,8 @@ PLIB = RavlGUI3D
 EXAMPLES = exCanvas3D.cc
 # exView3D.cc
 
-USESLIBS = RavlCore RavlGeom RavlGUI OpenGL Ravl3D Ravl3DIO
-#GUI OpenGL Polops tri DispMap
+USESLIBS = RavlCore RavlGeom RavlGUI OpenGL Ravl3D 
 
 EHT = Ravl.GUI.3D.html
 
-PROGLIBS = 
-#DPSurf3DIO
+PROGLIBS = Ravl3DIO RavlOS
