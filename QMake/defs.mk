@@ -27,7 +27,7 @@ AUXFILES =  QMake.mk \
   RAVLExec AutoBuild.pl AutoBuild.sample.conf
 
 EHT= exeSysConf.eht Ravl.QMake.html Ravl.QMake.Defs.html Ravl.QMake.Commands.html \
- Ravl.QMake.Build_Structure.html
+ Ravl.QMake.Build_Structure.html Ravl.QMake.AutoBuild.html
 
 SCRIPTS=qm QLibs
 

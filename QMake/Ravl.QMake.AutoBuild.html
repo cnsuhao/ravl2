@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+  <head>
+    <title>AutoBuild.pl script</title>
+  </head>
+
+  <body>
+<pre>
+  Autobuild.pl /path/to/AutoBuild.conf
+</pre>
+
+<P>
+<B>Autobuild.pl</B> is a script capable of performing checkouts and builds of RAVL or RAVL-based codebases. This makes it particularly suitable for nightly automated builds. To run the script, you must specify a configuration file as shown above. The configuration file consists of a number of options. A sample config file is shown below:
+</P>
+<PRE>
+# AutoBuild.pl sample configuration file
+# Customise as required
+# IMPORTANT - you need to write @ as \@, because I don't know enough Perl to fix that
+
+# Packages
+PACKAGENAME 	"Ravl"     	  # The name of the main package
+EXTRAPKG 	"Contrib"  	  # The name of any extra package
+
+# CVS config
+CVSROOT 	":pserver:anonymous\@cvs.ravl.sourceforge.net:/cvsroot/ravl"
+
+# Build details
+BUILDDIRECTORY  "/vol/soft/"
+BUILDTREES 	3		  # The build history to keep
+CLEANTEMP	1		  # Clean up temporary files
+#RAVL_LOCATION	"/vol/soft/Ravl/" # Location of an existing RAVL install for builds that need it
+				  # i.e. not RAVL installs
+
+# Email options
+MAILLOGS	1		  # Should the script mail full logs on failure?
+MAILONSUCCESS	0		  # Should the script email on success, or just on failure?
+SENDMAIL 	"/usr/sbin/sendmail"
+MAILTO   	"root\@localhost"
+SUBJECT		"RAVL AutoBuild results"
+</PRE>
+<P>
+The function of the various commands are as follows:
+</P>
+<TABLE COLS="3">
+<TR><TH>Command</TH><TH>Optional?</TH><TH>Description</TH></TR>
+<TR>
+	<TD>PACKAGENAME</TD>
+	<TD>no</TD>
+	<TD>The package name to check out from CVS.</TD>
+</TR>
+<TR>
+	<TD>EXTRAPKG</TD>
+	<TD>yes</TD>
+	<TD>An extra package to get form CVS. Will be checked out into the main package directory.</TD>
+</TR>
+<TR>
+	<TD>CVSSROOT</TD>
+	<TD>no</TD>
+	<TD>The CVSROOT to check out from - the one above is good for normal RAVL builds.</TD>
+</TR>
+<TR>
+	<TD>BUILDDIRECTORY</TD>
+	<TD>no</TD>
+	<TD>Where to build the package. The final location of the install will be BUILDDIRECTORY/PACKAGENAME</TD>
+</TR>
+<TR>
+	<TD>BUILDTREES</TD>
+	<TD>no</TD>
+	<TD>How many build trees to cycle through. It is recommended to use at least 2 trees, so that in case of build failures, the active tree is not deleted.</TD>
+</TR>
+<TR>
+	<TD>CLEANTEMP</TD>
+	<TD>no</TD>
+	<TD>Should temporary files built to /tmp/username/qm/BUILDDIRECTORY be deleted after build is complete?</TD>
+</TR>
+<TR>
+	<TD>RAVL_LOCATION</TD>
+	<TD>yes</TD>
+	<TD>For builds that depend on RAVL, you need to specify the current RAVL install location here.</TD>
+</TR>
+<TR>
+	<TD>MAILLOGS</TD>
+	<TD>no</TD>
+	<TD>If the build fails, should the script email full logs detailing the failure point?</TD>
+</TR>
+<TR>
+	<TD>MAILONSUCCESS</TD>
+	<TD>no</TD>
+	<TD>Should the script mail the specified user on success, or only on failure?</TD>
+</TR>
+<TR>
+	<TD>SENDMAIL</TD>
+	<TD>no</TD>
+	<TD>Location of sendmail program</TD>
+</TR>
+<TR>
+	<TD>MAILTO</TD>
+	<TD>no</TD>
+	<TD>Who to mail with build results</TD>
+</TR>
+<TR>
+	<TD>SUBJECT</TD>
+	<TD>no</TD>
+	<TD>The subject for emails</TD>
+</TR>
+	
+</TABLE>
+
+<P>
+Both the perl script and a sample configuration file can be found in the <I>share/RAVL/QMake</I> directory of a RAVL install, or in the Ravl/QMake directory in the CVS tree.
+</P>
+
+</body>
+</html>
