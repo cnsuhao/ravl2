@@ -52,7 +52,7 @@ if(!defined($opt_p)) {
   $loc_proj = "$ENV{'PROJECT_OUT'}/inc";
 } else {
   if(-d $opt_p) {
-    $loc_proj = $opt_p;
+    $loc_proj = "$opt_p/inc";
   } else {
 #    print "Error no such directory exists for local project out: $opt_p\n";
     exit(-1);
