@@ -22,8 +22,7 @@ PLIB= RavlVDF
 
 MAINS=vdf.cc
 
-USESLIBS=RavlGUI RavlIO RavlImageIO RavlDPDisplay RavlOSIO RavlImgIOV4L \
- RavlDPMT
+USESLIBS=RavlGUI RavlIO RavlImageIO RavlDPDisplay RavlOSIO RavlDPMT
 
 EHT = Ravl.Applications.VDF.html
 
