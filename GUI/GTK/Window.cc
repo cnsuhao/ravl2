@@ -15,10 +15,6 @@
 #include "Ravl/CallMethods.hh"
 #include <gtk/gtk.h>
 
-#ifndef RAVL_USE_GTK2
-#include <gdk/gdkx.h>
-#endif
-
 #define DODEBUG 0
 
 #if DODEBUG
