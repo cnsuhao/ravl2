@@ -19,6 +19,8 @@
 
 namespace RavlN {
   
+  template<unsigned int N> class FVectorC;
+  
   //! userlevel=Normal
   //: Vector of real values.
   
@@ -57,6 +59,17 @@ namespace RavlN {
       : TVectorC<RealT>(dat)
     {}
     //: Construct from a fixed size array.
+    
+    template<unsigned int N>
+    operator FVectorC<N> () {
+      RavlAssertMsg(N == Size(),"Size mismatch converting to fixed size array. ");
+      FVectorC<N> ret;
+      DataT *at = &(ret[0]);
+      for(BufferAccessIterC<RealT> it(*this);it;it++,at++)
+	*at = *it;
+      return ret;
+    }
+    //: Convert to a fixed size vector.
 #endif
     
     VectorC(RealT v1,RealT v2)

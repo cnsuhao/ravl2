@@ -61,9 +61,9 @@ namespace RavlN {
     //: Create from a fixed size vector.
     
     template<unsigned int N>
-    operator TFVectorC<RealT,N> () {
+    operator TFVectorC<DataT,N> () {
       RavlAssertMsg(N == Size(),"Size mismatch converting to fixed size array. ");
-      TFVectorC<RealT,N> ret;
+      TFVectorC<DataT,N> ret;
       DataT *at = &(ret[0]);
       for(BufferAccessIterC<DataT> it(*this);it;it++,at++)
 	*at = *it;

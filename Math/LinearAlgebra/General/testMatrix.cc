@@ -278,6 +278,10 @@ int testVector() {
   int i = 1;
   for(SArray2dIterC<RealT> it(wtoi);it;it++)
     *it = i++;
+#if !RAVL_COMPILER_MIPSPRO
+  // This MIPS pro compiler doesn't seem to pickup on the conversion
+  // between a TVectorC<RealT> and a FVectorC<N>.  Should put a bug report in....
+  
   FVectorC<3> worldpoint;  
   worldpoint[0] = 1;
   worldpoint[1] = 2;
@@ -286,6 +290,7 @@ int testVector() {
   // cerr << "Result=" << pixelvalue << "\n";
   if(pixelvalue[0] != 14) return __LINE__;
   if(pixelvalue[1] != 32) return __LINE__;
+#endif
   return 0;
 }
 
