@@ -28,6 +28,18 @@ namespace RavlN {
     ClassifyVectorBodyC(UIntT nmaxLabels = 0);
     //: Constructor.
     
+    ClassifyVectorBodyC(istream &strm);
+    //: Load from stream.
+    
+    ClassifyVectorBodyC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
+    virtual bool Save (ostream &out) const;
+    //: Writes object to stream, can be loaded using constructor
+    
+    virtual bool Save (BinOStreamC &out) const;
+    //: Writes object to stream, can be loaded using constructor
+    
     virtual UIntT Classify(const VectorC &data) const;
     //: Classify vector 'data' return the most likely label.
     
@@ -61,6 +73,12 @@ namespace RavlN {
     {}
     //: Default constructor.
     // Creates an invalid handle.
+    
+    ClassifyVectorC(istream &strm);
+    //: Load from stream.
+    
+    ClassifyVectorC(BinIStreamC &strm);
+    //: Load from binary stream.
     
   protected:
     ClassifyVectorC(ClassifyVectorBodyC &bod)
@@ -98,6 +116,34 @@ namespace RavlN {
     //: Set the number of labels
     
   };
+  
+  inline istream &operator>>(istream &strm,ClassifyVectorC &obj) {
+    obj = ClassifyVectorC(strm);
+    return strm;
+  }
+  //: Load from a stream.
+  // Uses virtual constructor.
+  
+  inline ostream &operator<<(ostream &out,const ClassifyVectorC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+  
+  inline BinIStreamC &operator>>(BinIStreamC &strm,ClassifyVectorC &obj) {
+    obj = ClassifyVectorC(strm);
+    return strm;
+  }
+  //: Load from a binary stream.
+  // Uses virtual constructor.
+  
+  inline BinOStreamC &operator<<(BinOStreamC &out,const ClassifyVectorC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
   
 }
 

@@ -18,6 +18,30 @@ namespace RavlN {
     : FunctionBodyC(0,maxLabels)
   {}
   
+  //: Load from stream.
+  
+  ClassifyVectorBodyC::ClassifyVectorBodyC(istream &strm) 
+    : FunctionBodyC(strm)
+  {}
+  
+  //: Load from binary stream.
+  
+  ClassifyVectorBodyC::ClassifyVectorBodyC(BinIStreamC &strm) 
+    : FunctionBodyC(strm)
+  {}
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool ClassifyVectorBodyC::Save (ostream &out) const {
+    return FunctionBodyC::Save(out);
+  }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool ClassifyVectorBodyC::Save (BinOStreamC &out) const {
+    return FunctionBodyC::Save(out);
+  }
+  
   //: Classify vector 'data' return the most likely label.
   
   UIntT ClassifyVectorBodyC::Classify(const VectorC &data) const {
@@ -37,4 +61,19 @@ namespace RavlN {
     return ret;
   }
   
+  
+  ///////////////////////////////////////////////////////////
+  
+  //: Load from stream.
+  
+  ClassifyVectorC::ClassifyVectorC(istream &strm)
+    : FunctionC(RAVL_VIRTUALCONSTRUCTOR(strm,ClassifyVectorBodyC))    
+  {}
+  
+  //: Load from binary stream.
+  
+  ClassifyVectorC::ClassifyVectorC(BinIStreamC &strm)
+    : FunctionC(RAVL_VIRTUALCONSTRUCTOR(strm,ClassifyVectorBodyC))
+  {}
+
 }
