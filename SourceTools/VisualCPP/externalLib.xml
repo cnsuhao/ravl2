@@ -59,6 +59,13 @@
 <extlib name="posixThreads">
 </extlib>
 
+<extlib name="DynLink">
+</extlib>
+
+<extlib name="Auto">
+</extlib>
+
+
 <extlib name="SentinelSuperPro">
 <includepath>C:\Program Files\Rainbow Technologies\SuperPro\6.3\MSVCDev\include\</includepath>
 <libpath>C:\Program Files\Rainbow Technologies\SuperPro\6.3\MSVCDev\lib\MD\</includepath>
