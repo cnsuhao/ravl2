@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_PPROJECTION2d_HH
-#define RAVL_PPROJECTION2d_HH 1
+#ifndef RAVL_PPROJECTION2D_HH
+#define RAVL_PPROJECTION2D_HH 1
 ////////////////////////////////////////////////////////////////////////
 //! file="Ravl/Math/Geometry/Projective/2D/PProjection2d.hh"
 //! lib=RavlMath
@@ -27,14 +27,13 @@ namespace RavlN {
   // represented by a 3 x 3 matrix. The indexes start from 0.
 
   class PProjection2dC
-    : private Matrix3dC
+    : public Matrix3dC
   {
-
   public:
-  
+    
+    //:----------------------------------------
     // Constructors, assigment, and destructor.
-    // ----------------------------------------
-  
+    
     inline PProjection2dC()
       : Matrix3dC(0,0,0,
 		  0,0,0,
@@ -74,7 +73,7 @@ namespace RavlN {
     inline PProjection2dC & PProjection2d()
     { return *this; }
     // Access to the object.
-  
+    
     PLine2dC Plane(IndexC i) const;
     // Returns the row 'i'.
     

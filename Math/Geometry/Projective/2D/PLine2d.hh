@@ -109,7 +109,8 @@ namespace RavlN {
     
     //:------------------------
     // Arithmetical operations.
-  
+
+#if 0  
     inline const PLine2dC & operator*=(RealT alpha) {
       PPointLine2dC::operator*=(alpha);
       return *this;
@@ -129,24 +130,31 @@ namespace RavlN {
     inline PLine2dC operator/(RealT alpha) const
     { return PPointLine2dC::operator/(alpha); }
     // Returns the line which coordinates are divided by 'alpha'.
+#endif
     
+    //:--------------------------
     // Geometrical constructions.
-    // --------------------------
-  
+    
     PPoint2dC Intersection(const PLine2dC & l) const;
     // Returns the projective point that is the intersection of both lines.
-  
+    
+    RealT Distance(const PPoint2dC &p) const;
+    //: Compute the distance of p from this line.
+    
+#if 0  
     friend inline PLine2dC operator*(RealT lambda, const PLine2dC & p);
     //friend inline PLine2dC operator/(RealT lambda, const PLine2dC & p);
+#endif
     friend istream & operator>>(istream & inS, PLine2dC & point);
   };
 
+  
+#if 0
   inline
   PLine2dC operator*(RealT lambda, const PLine2dC & l)
   { return l * lambda; }
   // Returns the line which is the 'lambda' multiplication of 'l'.
 
-#if 0
   inline
   PLine2dC operator/(RealT lambda, const PLine2dC & p)
   { return ::operator/(lambda, (PPointLine2dC) p ); }

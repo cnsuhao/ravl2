@@ -22,19 +22,12 @@ MAINS	   =
 
 # SOURCES = all C modules, not containing main separated by space. The compiled
 #   code of these modules is stored in the project library.
-SOURCES   = PPointLine2d.cc   \
-            PPoint2d.cc  \
-            PLine2d.cc   \
-            PLinePP2d.cc   \
-            PProjection2d.cc   \
-            PPerspective2d.cc     
+SOURCES   = PPointLine2d.cc PPoint2d.cc PLine2d.cc PLinePP2d.cc \
+            PProjection2d.cc PPerspective2d.cc  FundamentalMatrix2d.cc
 
 # HEADERS = all include files of this project to be exported
-HEADERS = PPointLine2d.hh   \
-          PPoint2d.hh  \
-          PLine2d.hh   \
-          PProjection2d.hh   \
-          PPerspective2d.hh  \
+HEADERS = PPointLine2d.hh PPoint2d.hh PLine2d.hh PProjection2d.hh  \
+          PPerspective2d.hh FundamentalMatrix2d.hh
 
 # PLIB = the project library ... where the objects will be archived
 PLIB = RavlMath
@@ -43,4 +36,4 @@ LIBDEPS = RavlMathProj2d.def
 
 USESLIBS=RavlMath
 
-
+TESTEXES= testFundamentalMatrix2d.cc

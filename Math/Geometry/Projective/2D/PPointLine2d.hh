@@ -30,7 +30,7 @@ namespace RavlN {
   // starts from 0.
   
   class PPointLine2dC
-    : private Point3dC
+    : public Point3dC
   {  
   public:
     //:----------------------------------------------
@@ -80,7 +80,8 @@ namespace RavlN {
     
     //:---------------------------
     // Access to the object items.
-    
+
+#if 0    
     inline const RealT & operator[](UIntT i) const
     { return Point3dC::operator[](i); }
     // Returns the value of the i-th coordinate.
@@ -88,6 +89,7 @@ namespace RavlN {
     inline RealT & operator[](UIntT i)
     { return Point3dC::operator[](i); }
     // Access the value of the i-th coordinate.
+#endif
     
     inline RealT Scale() const
     { return P3(); }
@@ -118,14 +120,14 @@ namespace RavlN {
     // Returns the value of the 3rd coordinate.
     
     inline RealT Row() const {
-      RavlAssertMsg(IsIdealPoint(),"an ideal point or a bad projective line.");
+      RavlAssertMsg(!IsIdealPoint(),"an ideal point or a bad projective line.");
       return P1()/Scale();
     }
     // Returns the value of the  1. Cartesian coordinate. The function
     // does not check if the point/line is ideal or not.
 
     inline RealT Col() const {
-      RavlAssertMsg(IsIdealPoint(),"an ideal point or a bad projective line.");
+      RavlAssertMsg(!IsIdealPoint(),"an ideal point or a bad projective line.");
       return P2()/Scale();
     }
     // Returns the value of the 2. Cartesian coordinate. The function
@@ -142,6 +144,7 @@ namespace RavlN {
     //:-------------------
     // Logical conditions.
     
+#if 0
     inline bool operator==(const PPointLine2dC & p) const
     { return Point3dC::operator==(p); }
     // Returns true iff 2 points/lines are the same projective point/line.
@@ -153,10 +156,11 @@ namespace RavlN {
     // Returns true iff 2 points/lines are different projective points/lines.
     // Two projective points/lines are different iff they are not
     // equal in the sense of the operator '=='.
+#endif
     
     inline bool IsIdealPoint() const{
-      const RealT sum = Point3dC::SumOfAbs();
-      return IsAlmostZero(sum) ? false : IsSmall(Scale(),sum);
+      const RealT sum = SumOfAbs();
+      return IsAlmostZero(sum) ? false : IsAlmostZero(Scale()/sum);
     }
     // Returns true iff this point/line represents an ideal projective point.
     // The point is an ideal projective point if the absolute value of
@@ -179,7 +183,8 @@ namespace RavlN {
     
     //:------------------------
     // Arithmetical operations.
-    
+
+#if 0    
     inline RealT Sum() const
     { return Point3dC::Sum(); }
     // Returns the sum of coordinates.
@@ -224,7 +229,8 @@ namespace RavlN {
     inline PPointLine2dC operator/(RealT alpha) const
     { return Point3dC::operator/(alpha); }
     // Returns the point/line which coordinates are divided by 'alpha'.
-
+#endif
+    
     //:-----------------------
     // Geometrical operations.
     
@@ -233,14 +239,27 @@ namespace RavlN {
 
     // Returns the projective line/point determined by this point/line
     // and the point/line 'p'.
+
+    inline PPointLine2dC(const Point3dC & p)
+      : Point3dC(p)
+    {}
+    // Creates the projective point/line in 2D space from values of 
+    // the point 'p'.
+    
+    inline PPointLine2dC(const RavlN::TFVectorC<RealT, 3> & p)
+      : Point3dC(p)
+    {}
+    // Creates the projective point/line in 2D space from values of 
+    // the point 'p'.
     
   protected:
 
     //:------------------
     // Special functions.
-
+#if 0
     inline PPointLine2dC Translation(const PPointLine2dC & newOrigin) const
     { return Point3dC::operator+(newOrigin); }
+#endif
     
     // Returns the point/line with projective coordinates related
     // to the new origin 'newOrigin'.
@@ -249,29 +268,19 @@ namespace RavlN {
 			    const RealT p10, const RealT p11) 
     { return p00*p11-p01*p10; }
     
-    inline PPointLine2dC(const Point3dC & p)
-      : Point3dC(p)
-    {}
-    // Creates the projective point/line in 2D space from values of 
-    // the point 'p'.
-
-    inline PPointLine2dC(const RavlN::TFVectorC<RealT, 3> & p)
-      : Point3dC(p)
-    {}
-    // Creates the projective point/line in 2D space from values of 
-    // the point 'p'.
-
+#if 0
     friend inline PPointLine2dC operator*(RealT lambda, const PPointLine2dC & p);
     friend inline PPointLine2dC operator/(RealT lambda, const PPointLine2dC & p);
+#endif
     friend istream & operator>>(istream & inS, PPointLine2dC & point);
     friend class PProjection2dC;
   };
 
+#if 0
   inline PPointLine2dC operator*(RealT lambda, const PPointLine2dC & p)
   { return p * lambda; }
   // Returns the point/line which is the 'lambda' multiplication of 'p'.
 
-#if 0
   inline
   PPointLine2dC operator/(RealT lambda, const PPointLine2dC & p)
   { return operator/(lambda, (Point3dC) p ); }

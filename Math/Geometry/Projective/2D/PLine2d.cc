@@ -20,6 +20,11 @@ namespace RavlN {
   PPoint2dC PLine2dC::Intersection(const PLine2dC & l) const
   { return PPoint2dC(*this, l); }
   
+  RealT PLine2dC::Distance(const PPoint2dC &p) const { 
+    return RavlN::Abs(p.Dot(*this)) / 
+      Sqrt(Sqr((*this)[0]) + Sqr((*this)[1])); 
+  }
+  
   ostream & operator<<(ostream & outS, const PLine2dC & p) {
     outS << p.P1() << ' ' << p.P2() << ' ' << p.P3();
     return outS;

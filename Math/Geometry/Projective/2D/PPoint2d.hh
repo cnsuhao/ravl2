@@ -101,56 +101,41 @@ namespace RavlN {
     // Returns true iff this point and the points 'q2' and 'q3' are
     // colinear.
     
+    //:------------------------
     // Arithmetical operations.
-    // ------------------------
-    
-    inline const PPoint2dC & operator+=(const PPoint2dC & point) {
-      PPointLine2dC::operator+=(point);
+
+    inline const PPoint2dC & operator+=(const Vector2dC & trans) {
+      (*this)[0] += trans[0] * Scale();
+      (*this)[1] += trans[1] * Scale();
       return *this;
     }
-    // Adds the values of the coordinates of the 'point' to this point.
+    //: Translate this point by 'trans'
     
-    inline const PPoint2dC & operator-=(const PPoint2dC & point) {
-      PPointLine2dC::operator-=(point);
+    inline const PPoint2dC & operator-=(const Vector2dC & trans) {
+      (*this)[0] -= trans[0] * Scale();
+      (*this)[1] -= trans[1] * Scale();
       return *this;
     }
-    // Subtracts the values of the coordinates of the 'point' from this point.
+    //: Translate this point by -'trans'
     
-    inline const PPoint2dC & operator*=(const RealT alpha)  {
-      PPointLine2dC::operator*=(alpha);
-      return *this;
-    }
-    // Multiplies both coordinates by 'alpha'.
-    
-    inline const PPoint2dC & operator/=(const RealT alpha) {
-      PPointLine2dC::operator/=(alpha);
-      return *this;
-    }
-    // Divides both coordinates by 'alpha'.
-    
-    inline PPoint2dC operator+(const PPoint2dC & point) const
-    { return PPointLine2dC::operator+(point); }
-    // Returns the point which is the sum of this point and the 'point'.
-    
-    inline PPoint2dC operator*(const RealT alpha) const
-    { return PPointLine2dC::operator*(alpha); }
-    // Returns the point which coordinates are multiplied by 'alpha'.
-  
-    inline PPoint2dC operator/(const RealT alpha) const
-    { return PPointLine2dC::operator/(alpha); }
-    // Returns the point which coordinates are divided by 'alpha'.
     
     //:-----------------------
     // Geometrical operations.
-    
+
+#if 0    
     inline PPoint2dC Translation(const PPoint2dC & newOrigin) const
     { return PPointLine2dC::Translation(newOrigin); }
     // Returns the point with projective coordinates related to the new origin
     // 'newOrigin'.
+#endif
     
     PLine2dC PLine(const PPoint2dC & p) const;
     // Returns the projective line passing through this point
     // and the point 'p'.
+    
+    inline PPoint2dC(const RavlN::TFVectorC<RealT, 3> & p)
+      : PPointLine2dC(p)
+    {}
     
   protected:
 #if 0
@@ -160,10 +145,6 @@ namespace RavlN {
     // Creates the projective point in 2D space from values of 
     // the point 'p'.
 #endif
-    
-    inline PPoint2dC(const RavlN::TFVectorC<RealT, 3> & p)
-      : PPointLine2dC(p)
-    {}
     
     friend inline PPoint2dC operator*(RealT lambda, const PPoint2dC & p);
     friend inline PPoint2dC operator/(RealT lambda, const PPoint2dC & p);

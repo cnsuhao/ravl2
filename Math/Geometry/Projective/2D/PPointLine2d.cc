@@ -10,6 +10,7 @@
 //! file="Ravl/Math/Geometry/Projective/2D/PPointLine2d.cc"
 
 #include "Ravl/PPointLine2d.hh"
+#include "Ravl/Vector3d.hh"
 
 namespace RavlN {
   ostream & operator<<(ostream & outS, const PPointLine2dC & p) {
