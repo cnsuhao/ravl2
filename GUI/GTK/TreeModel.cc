@@ -67,9 +67,9 @@ namespace RavlGUIN {
 
 
 
-  TreeModelIterBodyC::TreeModelIterBodyC(GtkTreeModel *nmodel,GtkTreeIter *treeIter,bool canFree)
-    : model(model),
-      treeIter(treeIter),
+  TreeModelIterBodyC::TreeModelIterBodyC(GtkTreeModel *nmodel,GtkTreeIter *ntreeIter,bool canFree)
+    : model(nmodel),
+      treeIter(ntreeIter),
       canfree(canFree)
   {
   }
@@ -147,6 +147,8 @@ namespace RavlGUIN {
     :  treePath(0),
        canfree(true)
   {
+    RavlAssertMsg(treeIter.Model()!=0, "TreeModelPathBodyC::TreeModelPathBodyC(TreeModelIterC) - tree iterator has an invalid model!");
+    RavlAssertMsg(treeIter.TreeIter()!=0, "TreeModelPathBodyC::TreeModelPathBodyC(TreeModelIterC) - tree iterator is invalid!");
     treePath = gtk_tree_model_get_path(treeIter.Model(), treeIter.TreeIter());
   }
   //: Constructor.
