@@ -436,7 +436,7 @@ namespace RavlCxxDocN {
     // Put the common characters in pre-built strings.
     static StringC amp("&amp;");
     static StringC lt("&lt;");
-    static StringC gt(">");
+    static StringC gt("&gt;");
     static StringC comma(",");
     static StringC lb("(");
     static StringC rb(")");

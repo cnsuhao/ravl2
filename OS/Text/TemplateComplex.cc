@@ -551,7 +551,7 @@ namespace RavlN {
     StringC ret = StringC(name);
     ret.gsub("&","&amp;");
     ret.gsub("<","&lt;");
-    //str.gsub(">","&gt;");    
+    ret.gsub(">","&gt;");    
     return ret;
   }
 
@@ -559,7 +559,7 @@ namespace RavlN {
     StringC ret = str.Copy();
     ret.gsub("&","&amp;");
     ret.gsub("<","&lt;");
-    //str.gsub(">","&gt;");    
+    ret.gsub(">","&gt;");    
     return ret;
 }
   
