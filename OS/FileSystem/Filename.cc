@@ -163,7 +163,7 @@ namespace RavlN {
     if(Digits < 1)
       maxretry = 0; // If we can't change the name, no point retrying.
     if(Digits > 6 || Digits < 0) {
-#ifdef AMMA_CHECK
+#ifdef QMAKE_CHECK
       cerr << "FilenameC::MkTemp(), Value out of range Digits=" << Digits << "  should be between 0 and 6 \n";
       assert(0);
 #endif
