@@ -81,6 +81,10 @@ namespace RavlN {
     // number of the port to use. <br>
     // 'portName' is the namer of the stream on the server.
     
+    ~NetISPortBodyC()
+    { ep.Close(); }
+    //: Destructor.
+    
     virtual bool Seek(UIntT off) { 
       gotEOS = false; // Reset end of stream flag.
       at = off; 

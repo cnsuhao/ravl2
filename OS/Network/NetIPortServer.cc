@@ -28,6 +28,11 @@ namespace RavlN {
       seekCtrl(nSeekCtrl),
       at(0)
   {}
+
+  //: Destructor.
+  
+  NetISPortServerBaseBodyC::~NetISPortServerBaseBodyC() 
+  { ep.Close(); }
   
   //: Get the port type.
   

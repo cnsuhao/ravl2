@@ -31,6 +31,9 @@ namespace RavlN {
     NetISPortServerBaseBodyC(const DPSeekCtrlC &seekCtrl,const StringC &portName);
     //: Default constructor.
     
+    ~NetISPortServerBaseBodyC();
+    //: Destructor.
+    
     const StringC &Name() const
     { return portName; }
     //: Access port name.
@@ -71,6 +74,11 @@ namespace RavlN {
 	iport(niport)
     {}
     //: Constructor.
+    
+    ~NetISPortServerBodyC() {
+      // If we're closing down, make sure net end point doesn't call DataReq.
+      ep.Close();
+    }
     
     virtual StringC PortType()
     { return TypeName(typeid(DataT)); }
@@ -183,6 +191,10 @@ namespace RavlN {
   
   template<class DataT>
   bool NetISPortServerBodyC<DataT>::ReqData(UIntT &pos) {
+    if(!iport.IsValid()) {
+      ep.Send(6,1); // Report end of stream.
+      return true;
+    }
     if(at != pos && pos != (UIntT)(-1)) {
       iport.Seek(pos);
     }
