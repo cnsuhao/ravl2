@@ -8,6 +8,7 @@
 //! date="26/8/2003"
 //! rcsid="$Id$"
 //! lib=RavlIO
+//! file="Ravl/Core/IO/AttributeCtrlXML.cc"
 
 #include "Ravl/DP/AttributeCtrl.hh"
 #include "Ravl/DP/AttributeType.hh"

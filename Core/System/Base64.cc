@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/System/Base64.cc"
 
 // Based on code from BASE64 by John Walker (http://www.fourmilab.ch/)
 

@@ -8,7 +8,7 @@
 #define RAVL_INDEXRANGE2DSET_HEADER 1
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/StdType/StdList/RectSet.hh"
+//! file="Ravl/Core/System/IndexRange2dSet.hh"
 //! lib=RavlCore
 //! docentry="Ravl.Core.Indexing"
 //! author="Charles Galambos"

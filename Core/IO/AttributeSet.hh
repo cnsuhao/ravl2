@@ -10,6 +10,7 @@
 //! rcsid="$Id$"
 //! lib=RavlIO
 //! docentry="Ravl.Core.Data_Processing.Attributes"
+//! file="Ravl/Core/IO/AttributeSet.hh"
 
 #include "Ravl/DP/AttributeCtrl.hh"
 #include "Ravl/Hash.hh"

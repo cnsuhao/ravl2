@@ -7,6 +7,7 @@
 #include "Ravl/config.h"
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Math/Erf.cc"
 
 #if !RAVL_HAVE_ERF
 

@@ -56,6 +56,39 @@ can however be found either in the namespace page, or in page listing
 related classes.
 </ul>
 
+<h3>Pointer Manager</h3>
+
+Often is is necessary to load and save complex structures where
+several objects have handles to some common data objects. With plain streams
+the data structure will be 'flattened' and the common data will be saved
+to the stream each time it is found in the structure.  In the best case
+this causes file bloat, and worst in can destroy important information that
+is need to reuse the data structures after they are loaded again. 
+
+<p> To help with this problem binary streams (and eventually istream/ostream) 
+have a feature to manage pointers or refrences so that the objects the 
+represent are only saved once to file.  To ensure an object is only saved
+once to a stream you wrap the variable in a IOPtr() call. 
+
+<p> To save:
+<pre>
+BinOStreamC os;
+DListC<int> list1;
+DListC<int> list2 = list1;
+os << ObjIO(list1) << ObjIO(list2);
+</pre>
+
+<p> To load:
+<pre>
+BinIStreamC is;
+DListC<int> list1;
+DListC<int> list2;
+os >> ObjIO(list1) >> ObjIO(list2);
+</pre>
+
+Using this mechanism the list will only be saved once, and upon load list1 and list2
+will be handles to the same object as when they were saved. See 
+<a href="../../Examples/exObjIO.cc.html">exObjIO.cc</a> for a more complete example.
 
   </body>
 </html>

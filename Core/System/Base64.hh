@@ -9,6 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! docentry="Ravl.Core.Misc"
+//! file="Ravl/Core/System/Base64.hh"
 
 #include "Ravl/String.hh"
 #include "Ravl/SArray1d.hh"

@@ -8,7 +8,7 @@
 #define RAVL_VARIABLELENGTHCODING_HEADER 1
 //////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/Tools/Misc/VarLenCode.hh"
+//! file="Ravl/Core/System/VariableLengthCode.hh"
 //! lib=RavlCore
 //! docentry="Ravl.Core.Misc"
 //! author="Charles Galambos"

@@ -7,6 +7,7 @@
 ///////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/System/VariableLengthCode.cc"
 
 #include "Ravl/config.h"
 #include "Ravl/Types.hh"

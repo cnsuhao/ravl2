@@ -9,6 +9,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Core.Misc"
 //! date="07/06/1999"
+//! file="Ravl/Core/System/exVariableLengthCode.cc"
 
 #include "Ravl/VariableLengthCode.hh"  
 #include "Ravl/DList.hh"

@@ -8,6 +8,7 @@
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! docentry="Ravl.Core.Math.QInt"
+//! file="Ravl/Core/Base/exQInt.cc"
 
 #include "Ravl/QInt.hh"
 #include "Ravl/Option.hh"

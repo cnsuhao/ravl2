@@ -7,6 +7,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlIO
+//! file="Ravl/Core/IO/AttributeSet.cc"
 
 #include "Ravl/DP/AttributeSet.hh"
 #include "Ravl/DP/AttributeType.hh"

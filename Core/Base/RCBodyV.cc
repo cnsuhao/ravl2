@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! author="Charles Galambos"
 //! lib=RavlCore
-//! file="Ravl/Core/Base/RCHandleV.cc"
+//! file="Ravl/Core/Base/RCBodyV.cc"
 
 #include "Ravl/RCBodyV.hh"
 #include "Ravl/Stream.hh"

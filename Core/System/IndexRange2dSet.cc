@@ -7,6 +7,7 @@
 //////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/System/IndexRange2dSet.cc"
 
 #include "Ravl/IndexRange2dSet.hh"
 #include "Ravl/DLIter.hh"

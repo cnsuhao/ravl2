@@ -9,6 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! author="Charles Galambos"
+//! file="Ravl/Core/Base/CompilerHints.hh"
 
 #include "Ravl/config.h"
 

@@ -37,6 +37,7 @@
 #include "Ravl/Base64.hh"
 #include "Ravl/Random.hh"
 #include "Ravl/SArray1dIter2.hh"
+#include "Ravl/PointerManager.hh"
 
 #include <string.h>
 
@@ -66,6 +67,7 @@ int testStringArrayIO();
 int testSArrayIO();
 int testIndexRange2dSet();
 int testBase64();
+int testObjIO();
 
 int testRavlCore(int argc,char **argv) {
   int line = 0;
@@ -118,6 +120,10 @@ int testRavlCore(int argc,char **argv) {
     return 1;
   }
   if((line = testBase64()) != 0) {
+    cerr << "Base64 io test failed line :" << line << "\n";
+    return 1;
+  }
+  if((line = testObjIO()) != 0) {
     cerr << "Base64 io test failed line :" << line << "\n";
     return 1;
   }
@@ -455,6 +461,46 @@ int testBase64() {
       }
     }
   }
+  return 0;
+}
+
+
+int testObjIO() {
+  int x = 2;
+  int *val = &x;
+  
+  cerr << "Testing ObjIO. \n";
+  DListC<int> alist;
+  alist.InsLast(1);
+  alist.InsLast(2);
+  alist.InsLast(3);
+  
+  // cerr << "&x=" << ((void *)&x) << " &val=" << ((void *) &val) << "\n";
+  StrOStreamC os;
+  BinOStreamC bos(os);
+  
+  bos << ObjIO(val) << ObjIO(val) << ObjIO(alist) << ObjIO(alist);
+  
+  StringC data = os.String();
+  //OStreamC file("test.abs");
+  //file.write(data.chars(),data.Size());
+  
+  StrIStreamC is(data);
+  BinIStreamC bis(is);
+  
+  int *valx = 0;
+  int *valy = 0;
+
+  DListC<int> list1;
+  DListC<int> list2;
+  
+  bis >> ObjIO(valx) >> ObjIO(valy) >> ObjIO(list1) >> ObjIO(list2);
+
+  if(valx != valy) return __LINE__;
+  
+  //cerr << "List1=" << list1.Hash() << " List2=" << list2.Hash() << "\n";
+  if(list1.Hash() != list2.Hash()) return __LINE__;
+  
   return 0;
 }
 
