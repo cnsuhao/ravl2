@@ -35,7 +35,7 @@ namespace RavlImageN {
 
   template<class InPixelT,class OutPixelT = InPixelT,class KernelPixelT = InPixelT,class SumTypeT = KernelPixelT>
   class Convolve2dC 
-    : protected Correlate2dC<KernelPixelT,InPixelT,OutPixelT,SumTypeT>
+    : protected Correlate2dC<InPixelT,OutPixelT,KernelPixelT,SumTypeT>
   {
   public:
     Convolve2dC()
@@ -49,13 +49,13 @@ namespace RavlImageN {
     
     void SetKernel(const ImageC<KernelPixelT> &nkernel) { 
       // The apply method actualy does correlation.
-      Correlate2dC<KernelPixelT,InPixelT,OutPixelT,SumTypeT>::SetKernel(nkernel.Rotate180());
+      Correlate2dC<InPixelT,OutPixelT,KernelPixelT,SumTypeT>::SetKernel(nkernel.Rotate180());
     }
     //: Set the convolution kernel.
     // Note: This method flips the kernel, so does take some time.
     
     void Apply(const ImageC<InPixelT> &in,ImageC<OutPixelT> &result) const
-    { Correlate2dC<KernelPixelT,InPixelT,OutPixelT,SumTypeT>::Apply(in,result); }
+    { Correlate2dC<InPixelT,OutPixelT,KernelPixelT,SumTypeT>::Apply(in,result); }
     //: Do convolution on image 'in', put the output in 'result' 
     
     void operator()(const ImageC<InPixelT> &in,ImageC<OutPixelT> &result) const

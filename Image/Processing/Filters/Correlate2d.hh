@@ -23,7 +23,7 @@ namespace RavlImageN {
   //! userlevel=Normal
   //: 2D Convolution
   
-  template<class KernelPixelT,class InPixelT = KernelPixelT,class OutPixelT = InPixelT,class SumTypeT = KernelPixelT>
+  template<class InPixelT,class OutPixelT = InPixelT,class KernelPixelT = InPixelT,class SumTypeT = KernelPixelT>
   class Correlate2dC {
   public:
     Correlate2dC()
@@ -48,8 +48,8 @@ namespace RavlImageN {
     ImageC<KernelPixelT> kernel;
   };
   
-  template<class KernelPixelT,class InPixelT,class OutPixelT,class SumTypeT>
-  void Correlate2dC<KernelPixelT,InPixelT,OutPixelT,SumTypeT>::Apply(const ImageC<InPixelT> &in,ImageC<OutPixelT> &result) const {
+  template<class InPixelT,class OutPixelT,class KernelPixelT,class SumTypeT>
+  void Correlate2dC<InPixelT,OutPixelT,KernelPixelT,SumTypeT>::Apply(const ImageC<InPixelT> &in,ImageC<OutPixelT> &result) const {
     RavlAssertMsg(kernel.Frame().Area() > 0,"Convolution kernel too small. ");
     ImageRectangleC resRect = in.Rectangle();
     resRect -= kernel.Rectangle();
