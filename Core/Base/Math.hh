@@ -93,7 +93,7 @@ namespace RavlN {
   inline RealT Pow(RealT x, RealT y)
   { return pow(x,y); }
   //: Returns 'x' raised to the power 'y'.
-
+  
   RealT Pow(RealT x, IntT y);
   //: Returns 'x' raised to the power 'y' where y is an integer..
   
