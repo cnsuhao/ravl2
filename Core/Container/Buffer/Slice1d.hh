@@ -414,7 +414,7 @@ namespace RavlN {
     DataT ret;
     Slice1dIterC<DataT> it(*this);
     if(!it) {
-      SetZero(*it);
+      SetZero(ret);
       return ret;
     }
     ret = Sqr(*it);
