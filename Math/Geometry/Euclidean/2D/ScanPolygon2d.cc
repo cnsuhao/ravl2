@@ -89,7 +89,7 @@ namespace RavlN {
     // Make an array of lines and points
     
     UIntT size = poly.Size();
-    SArray1dC<Point2dC> points(size);
+    points = SArray1dC<Point2dC>(size);
     SArray1dC<Point2dC *> ptrs(size);
     SArray1dIter2C<Point2dC,Point2dC *> lit(points,ptrs);
     

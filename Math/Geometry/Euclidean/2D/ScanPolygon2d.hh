@@ -110,6 +110,7 @@ namespace RavlN {
     DLIterC<PairC<LineSegmentC> > spans; // Current set of spans.
     const Point2dC *firstPnt,*lastPnt;
     SArray1dIterC<Point2dC *> pit;
+    SArray1dC<Point2dC> points;
   };
   
 }
