@@ -43,13 +43,13 @@ namespace RavlImageN {
     {}
     //: Default constructor.
 
-    ConvolveSeparable2dC(const Array1dC<KernelPixelT> &nrowKernel,const Array1dC<KernelPixelT> &ncolKernel)
-    { SetKernel(nrowKernel,ncolKernel); }
-    //: Constructor.
+    ConvolveSeparable2dC(const Array1dC<KernelPixelT> &nvertKernel,const Array1dC<KernelPixelT> &nhorzKernel)
+    { SetKernel(nvertKernel,nhorzKernel); }
+    //: Constructor on vertical and horizontal kernels respectively.
     
-    void SetKernel(const Array1dC<KernelPixelT> &nrowKernel,const Array1dC<KernelPixelT> &ncolKernel) { 
-      horz.SetKernel(nrowKernel);
-      vert.SetKernel(ncolKernel);
+    void SetKernel(const Array1dC<KernelPixelT> &nvertKernel,const Array1dC<KernelPixelT> &nhorzKernel) { 
+      vert.SetKernel(nvertKernel);
+      horz.SetKernel(nhorzKernel);
     }
     //: Set the convolution kernel.
     
