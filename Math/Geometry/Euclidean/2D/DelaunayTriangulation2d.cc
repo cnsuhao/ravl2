@@ -80,7 +80,7 @@ namespace RavlN {
 	if(!line.IsPointToLeftOn(pnt))
 	  break;
 	if(line.IsPointIn(pnt)) {
-	  cerr << "Point is on a line. Point=" << pnt << " Line=" << line << "\n";
+	  ONDEBUG(cerr << "Point is on a line. Point=" << pnt << " Line=" << line << "\n");
 	  me = *eit;
 	  return *it;
 	}
