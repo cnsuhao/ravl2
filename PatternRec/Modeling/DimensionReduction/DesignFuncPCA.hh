@@ -48,6 +48,18 @@ namespace RavlN {
     VectorMatrixC &Pca()
     { return pca; }
     //: Access eigen vectors and values.
+
+    const VectorMatrixC &Pca() const
+    { return pca; }
+    //: Access eigen vectors and values.
+    
+    VectorC &Mean()
+    { return mean; }
+    //: Access mean vector.
+
+    const VectorC &Mean() const
+    { return mean; }
+    //: Access mean vector.
     
   protected:
     
@@ -98,6 +110,18 @@ namespace RavlN {
     VectorMatrixC &Pca()
     { return Body().Pca(); }
     //: Access eigen vectors and values.
+
+    const VectorMatrixC &Pca() const
+    { return Body().Pca(); }
+    //: Access eigen vectors and values.
+    
+    VectorC &Mean()
+    { return Body().Mean(); }
+    //: Access mean vector.
+    
+    const VectorC &Mean() const
+    { return Body().Mean(); }
+    //: Access mean vector.
   };
 
 }
