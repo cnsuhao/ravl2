@@ -118,6 +118,10 @@ int StringTest() {
     for (int i=0; i<5; i++) {
       os << i << " " << strings[i] << " ";
     }
+    if(!os) {
+      cerr << "Failed output stream bad after write. \n";
+      return __LINE__;
+    }
   }
   
   {
@@ -168,7 +172,7 @@ int SimpleTest() {
     }
     is >> val;
     if(val != 1) {
-      cerr << "Test failed. \n";
+      cerr << "Test failed. " << ((int) val) << "\n";
       return __LINE__; 
     }
   }
