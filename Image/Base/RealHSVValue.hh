@@ -1,27 +1,26 @@
 // This file is part of RAVL, Recognition And Vision Library 
-// Copyright (C) 2001, University of Surrey
+// Copyright (C) 2002, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_RGBVALUE_HEADER
+#ifndef RAVL_HSVVALUE_HEADER
 #define RAVL_HSVVALUE_HEADER 1
 ////////////////////////////////////////////////////////////////////
 //! file="Ravl/Image/Base/HSVValue.hh"
 //! lib=RavlImage
 //! userlevel=Normal
 //! author="Lee Gregory"
-//! date="12/10/02
+//! date="12/10/2002"
 //! docentry="Ravl.Images.Pixel Types"
+//! rcsid="$Id$"
 
 #include "Ravl/TFVector.hh"
 #include "Ravl/Stream.hh"
 #include "Ravl/Image/RGBValue.hh"
 #include "Ravl/Image/RealRGBValue.hh"
 
-
 //class RGBValueC ; 
-
 
 namespace RavlImageN {
   

@@ -7,6 +7,7 @@
 /////////////////////////////////////////////////////////
 //! lib=RavlImage
 //! file="Ravl/Image/Base/testHSVValue.cc"
+//! rcsid="$Id$"
 
 #include "Ravl/Random.hh"
 #include "Ravl/Image/RealHSVValue.hh"
