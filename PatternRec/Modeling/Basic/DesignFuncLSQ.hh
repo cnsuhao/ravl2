@@ -20,12 +20,22 @@ namespace RavlN {
     DesignFuncLSQBodyC(UIntT norder,bool northogonal);
     //: Create least squares designer.
     
+    virtual FuncLinearCoeffC CreateFunc(UIntT nin,UIntT nout);
+    //: Create new function.
+    
     virtual FunctionC Apply(const SampleC<VectorC> &in,const SampleC<VectorC> &out);
     //: Create function from the given data.
     
     virtual FunctionC Apply(const SampleC<VectorC> &in,const SampleC<VectorC> &out,const SampleC<RealT> &weight);
     //: Create function from the given data, and sample weights.
-
+    
+    static bool IsMarginal (const MatrixC &m, SArray1dC<int> invalid,bool verbose = false);
+    //: Tests whether matrix is singular.
+    // IsMarginal is used to determine whether or not the matrix m is singular 
+    // and would therefore be impossible to invert. It is used by
+    // LeastSquaresModelC to detemine which parameters or model weights to
+    // incorporate.
+    
   protected:
     UIntT order;
     bool orthogonal;
@@ -52,12 +62,6 @@ namespace RavlN {
     
   };
   
-  bool IsMarginal (MatrixC m, SArray1dC<int> invalid);
-  //: Tests whether matrix is singular.
-  // IsMarginal is used to determine whether or not the matrix m is singular 
-  // and would therefore be impossible to invert. It is used by
-  // LeastSquaresModelC to detemine which parameters or model weights to
-  // incorporate.
 }
 
 

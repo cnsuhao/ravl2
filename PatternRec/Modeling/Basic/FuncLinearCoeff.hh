@@ -26,6 +26,11 @@ namespace RavlN {
     FuncLinearCoeffBodyC();
     //: Default constructor.
     
+    FuncLinearCoeffBodyC(UIntT inSize,UIntT outSize)
+      : FunctionBodyC(inSize,outSize)
+    {}
+    //: Create a function with the given number of inputs and outputs.
+    
     virtual VectorC Apply(const VectorC &data) const;
     //: Apply function to 'data'
     
@@ -40,7 +45,9 @@ namespace RavlN {
     
     virtual UIntT NumberCoeffs(UIntT inputSize) const;
     //: Calculate the number of coefficents for a given input size.
-    
+
+    bool SetTransform(const MatrixC &a);
+    //: Attempt to set transform matrix.
   protected:
     MatrixC a;
   };
@@ -72,6 +79,9 @@ namespace RavlN {
     //: Access body.
     
   public:
+    bool SetTransform(const MatrixC &a)
+    { return Body().SetTransform(a); }
+    //: Attempt to set transform matrix.
     
     VectorC MakeInput(const VectorC &X) const
     { return Body().MakeInput(X); }

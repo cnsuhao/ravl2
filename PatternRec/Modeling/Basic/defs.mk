@@ -19,3 +19,5 @@ PLIB=RavlPatternRec
 LIBDEPS=RavlPatternRecModelBasic.def
 
 USESLIBS=RavlPatternRec
+
+TESTEXES=testBasicModels.cc

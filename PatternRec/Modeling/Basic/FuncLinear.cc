@@ -9,19 +9,27 @@
 
 #include "Ravl/PatternRec/FuncLinear.hh"
 
+#define DODEBUG 1
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
+
 namespace RavlN {
 
   //: Construct from a transform matrix.
   
-  FuncLinearBodyC::FuncLinearBodyC() 
-  {}
+  FuncLinearBodyC::FuncLinearBodyC() {
+    ONDEBUG(cerr << "FuncLinearBodyC::FuncLinearBodyC(), Called. \n");
+  }
   
   //: Expand vector to linear coefficients.
   
   VectorC FuncLinearBodyC::MakeInput(const VectorC &X) const {
     VectorC ret(X.Size() + 1);
-    for(SArray1dIter2C<RealT,RealT> it(ret,X);it;it++)
-      it.Data1() = it.Data2();
+    for(SArray1dIter2C<RealT,RealT> it(X,ret);it;it++)
+      it.Data2() = it.Data1();
     ret[X.Size()] = 1;
     return ret;
   }

@@ -1,6 +1,10 @@
 
 #include "Ravl/PatternRec/DesignFuncLSQ.hh"
 #include "Ravl/PatternRec/SampleVector.hh"
+#include "Ravl/PatternRec/SampleIter.hh"
+#include "Ravl/PatternRec/FuncLinear.hh"
+#include "Ravl/MatrixRUT.hh"
+#include "Ravl/MatrixRS.hh"
 
 namespace RavlN {
   
@@ -12,38 +16,77 @@ namespace RavlN {
   {
   }
   
+  //: Create new function.
+  
+  FuncLinearCoeffC DesignFuncLSQBodyC::CreateFunc(UIntT inSize,UIntT outSize) {
+    switch(order) 
+      {
+      case 0: 
+	cerr << "Warning: Order 0 model. \n";
+	return FuncLinearCoeffC();
+      case 1: // Linear.
+	return  FuncLinearC(inSize,outSize);
+      case 2: // Quadratic
+	break;
+      };
+    return FuncLinearCoeffC();
+  }
+  
   //: Create function from the given data.
   
   FunctionC DesignFuncLSQBodyC::Apply(const SampleC<VectorC> &in,const SampleC<VectorC> &out) {
-    FuncLinearCoeffC func;
     SampleVectorC vin(in);
     SampleVectorC vout(out);
     
     if(in.IsEmpty() || out.IsEmpty()) {
       cerr << "DesignFuncLSQBodyC::Apply(), WARNING: Asked to design a function without any data. ";
-      return func;
+      return FuncLinearCoeffC();
     }
+    
     UIntT inSize = vin.VectorSize();
     UIntT outSize = vout.VectorSize();
-    func.InputSize(inSize);
-    func.OutputSize(outSize);
-    UIntT coeffs = func.NumberCoeffs(inSize);
     
-    MatrixC Y(outSize,vout.Size());
-    MatrixC X(coeffs,vin.Size());
+    FuncLinearCoeffC func = CreateFunc(inSize,outSize);
+    if(!func.IsValid()) {
+      cerr << "DesignFuncLSQBodyC::Apply(), ERROR: Failed to create new function. \n";
+      return func;
+    }
+    SampleVectorC coeffs(vin.Size());
+    
+    //: Build a sample set of coefficents.
+    
+    for(SampleIterC<VectorC> cit(in);cit;cit++)
+      coeffs += func.MakeInput(*cit);
+    
+    //cerr << "Coeffs=" << coeffs << "\n";
+    
+    // Do a few sums.
+    MatrixRUTC aaTu = coeffs.SumOuterProducts();
+    aaTu.MakeSymmetric();
+    MatrixC aaT(aaTu);
+    if(!aaT.InverseIP()) {
+      cerr << "DesignFuncLSQBodyC::Apply(), ERROR: Inverse failed, not enough data to complete design. \n";
+      return FunctionC();
+    }
+    MatrixC aTb = coeffs.TMul(vout);
+    MatrixC A =  (aaT * aTb).T();
+    func.SetTransform(A);
     
 #if 0
+    MatrixC Y(outSize,vout.Size());
+    MatrixC X(coeffs,vin.Size());
     IndexT index = 0;
     for (ConstDLIterC<NumVVDataC> elem (train); elem.IsElm (); elem.Next ()) {
       Y.SetCol (index, elem.Data().Output(), SizeY());
       X.SetCol (index++, MakeInput (elem.Data().Input()), Xdim);
     }
-    SArray1dC<int> _invalidX (Xdim);
-    _invalidX.Fill (1);
-    if (!IsMarginal (X.MulT(X),_invalidX))
-      _A = Y*X.TMul((X.MulT(X)).I());
+    SArray1dC<int> invalidX (Xdim);
+    invalidX.Fill(1);
+    MatrixC xxT = X.MulT(X);
+    if (!IsMarginal (xxT,invalidX))
+      _A = Y*X.TMul(xxT.I());
     else {
-      _invalidX.Fill (0);
+      invalidX.Fill (0);
       MatrixC Xcopy (X.RDim(),X.CDim());
       Xcopy.SetZero ();
       VectorC blank (train.Size());
@@ -64,7 +107,7 @@ namespace RavlN {
       _A = Y*Xcopy.TMul((Xcopy.MulT(Xcopy)).I());
     }
 #endif
-    return FunctionC();
+    return func;
   }
   
   //: Create function from the given data, and sample weights.
@@ -74,34 +117,36 @@ namespace RavlN {
     return FunctionC();
   }
   
-  
-#if 0
-  bool IsMarginal (MatrixC m, SArray1dC<int> invalid) {
-    MatrixC temp = m.I()*m;
+  bool DesignFuncLSQBodyC::IsMarginal(const MatrixC &m, SArray1dC<int> invalid,bool verbose) {
+    MatrixC temp = m.Inverse()*m;
     temp.SetSmallToBeZero (1e-9);
-    FOR_SARRAY1 (invalid,i)
-      if (!invalid[i])
-	temp.P(i,i) = 1.0;
-    double sum = 0.0;
-    //  cout << temp <<"\n";
-    FOR_MATRIX (temp,i1,i2)
-      sum += temp.G(i1,i2);
-    double diagsum = temp.GetDiag().Sum();
-    double diagprod = temp.DiagonalProduct();
-    double offdiagsum = (sum - temp.RDim()) / (temp.RDim()*temp.CDim());
-    if (::Abs(diagsum-temp.RDim())>1e-6) {
-      cout << "Diagonal Sum: " << ::Abs(diagsum-temp.RDim()) << "\n";
+    for(SArray1dIterC<int> it(invalid);it;it++) {
+      if(!*it) {
+	IndexC i = it.Index(); 
+	temp[i][i] = 1.0;
+      }
+    }
+    double sum = temp.Sum();
+    Slice1dC<RealT> slice = temp.Diagonal();
+    double diagsum = slice.Sum();
+    double diagprod = slice.Product();
+    double offdiagsum = (sum - temp.Rows()) / (temp.Rows()*temp.Cols());
+    
+    if (Abs(diagsum-temp.Rows())>1e-6) {
+      if(verbose)
+	cout << "IsMarginal(), Diagonal Sum: " << Abs(diagsum-temp.Rows()) << "\n";
       return true;
     }
-    if (::Abs(diagprod-1.0)>1e-6) {
-      cout << "Diagonal Product: " << ::Abs(diagprod-1.0) << "\n";
+    if (Abs(diagprod-1.0)>1e-6) {
+      if(verbose)      
+	cout << "IsMarginal(), Diagonal Product: " << Abs(diagprod-1.0) << "\n";
       return true;
     }
-    if (::Abs(offdiagsum)>1e-6) {
-      cout << "Off-diagonal sum: " << offdiagsum << "\n";
+    if (Abs(offdiagsum)>1e-6) {
+      if(verbose)
+	cout << "IsMarginal(), Off-diagonal sum: " << offdiagsum << "\n";
       return true;
     }
     return false;
   }
-#endif  
 }

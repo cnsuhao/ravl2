@@ -16,6 +16,13 @@ namespace RavlN {
   FuncLinearCoeffBodyC::FuncLinearCoeffBodyC()
   {}
   
+  //: Attempt to set transform matrix.
+  
+  bool FuncLinearCoeffBodyC::SetTransform(const MatrixC &na) {
+    a = na;
+    return true;
+  }
+
   //: Apply function to 'data'
   
   VectorC FuncLinearCoeffBodyC::Apply(const VectorC &data) const 

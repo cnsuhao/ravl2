@@ -20,11 +20,16 @@ namespace RavlN {
   //: Linear function.
   
   class FuncLinearBodyC 
-    : public FunctionBodyC
+    : public FuncLinearCoeffBodyC
   {
   public:
     FuncLinearBodyC();
     //: Construct from a transform matrix.
+    
+    FuncLinearBodyC(UIntT inSize,UIntT outSize)
+      : FuncLinearCoeffBodyC(inSize,outSize)
+    {}
+    //: Construct with an input and output size.
     
     virtual VectorC MakeInput (const VectorC &X) const;
     //: Expand vector to linear coefficients.
@@ -42,16 +47,22 @@ namespace RavlN {
   //: Linear function.
   
   class FuncLinearC 
-    : public FunctionC
+    : public FuncLinearCoeffC
   {
   public:
     FuncLinearC()
     {}
     //: Default constructor.
     
+    FuncLinearC(UIntT inSize,UIntT outSize)
+      : FuncLinearCoeffC(*new FuncLinearBodyC(inSize,outSize))
+    {}
+    //: Construct a linear function with given input and output size.
+    // The transform itsself is left undefined.
+    
   protected:
     FuncLinearC(FuncLinearBodyC &bod)
-      : FunctionC(bod)
+      : FuncLinearCoeffC(bod)
     {}
     //: Body constructor.
     
