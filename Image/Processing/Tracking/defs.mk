@@ -19,7 +19,7 @@ PLIB=RavlImageProc
 
 LIBDEPS=RavlImageProcTracker.def
 
-MAINS=tracker.cc mosaic.cc
+MAINS=tracker.cc mosaic.cc xmosaic.cc
 
 EHT= Ravl.Images.Tracking.html
 
@@ -31,6 +31,6 @@ TESTEXES=
 USESLIBS=RavlImage RavlImageProc RavlOptimise RavlImageIO
 # CSPDriver
 
-PROGLIBS=RavlDPDisplay RavlVideoIO 
-# RavlImgIOV4L
+PROGLIBS=RavlDPDisplay RavlVideoIO RavlGUI2D 
+#RavlImgIOV4L
 
