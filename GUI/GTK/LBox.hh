@@ -60,7 +60,7 @@ namespace RavlGUIN {
 	border(nborder),
 	homogeneous(nhomogeneous),
 	spacing(nspacing)
-	{}
+    {}
     //: Constructor
     // Constructs empty box
     
@@ -69,7 +69,7 @@ namespace RavlGUIN {
     
   protected:
     virtual void Destroy()
-	{ ContainerWidgetBodyC::Destroy(); }
+    { ContainerWidgetBodyC::Destroy(); }
     //: Undo all references.
     
     bool vert; // Vertical layout ?
@@ -93,22 +93,23 @@ namespace RavlGUIN {
     
     LBoxC(const DListC<WidgetC> &widges,bool vert = false,IntT nborder = 0,bool nhomogeneous = false,IntT nspacing = 0)
       : ContainerWidgetC(*new LBoxBodyC(widges,vert,nborder,nhomogeneous,nspacing))
-	{}
+    {}
     //: Constructor
     // Constructs box containing widgets from list
 
     LBoxC(const WidgetC &widget,bool vert = false,IntT nborder = 0,bool nhomogeneous = false,IntT nspacing = 0)
       : ContainerWidgetC(*new LBoxBodyC(widget,vert,nborder,nhomogeneous,nspacing))
-	{}
+    {}
     //:  Constructor
-    // Constructs box around single widget
+    // Constructs box around single widget.
     
     LBoxC(bool vert,IntT nborder = 0,bool nhomogeneous = false,IntT nspacing = 0)
       : ContainerWidgetC(*new LBoxBodyC(vert,nborder,nhomogeneous,nspacing))
-	{}
+    {}
     //:  Constructor
     // Constructs empty box for widgets
-
+    // If 'vert' is true a vertical layout box is created.
+    
   protected:
     LBoxC(LBoxBodyC &bod)
       : ContainerWidgetC(bod)
@@ -116,11 +117,11 @@ namespace RavlGUIN {
     //: Body constructor.
     
     LBoxBodyC &Body()
-	{ return static_cast<LBoxBodyC &>(WidgetC::Body()); }
+    { return static_cast<LBoxBodyC &>(WidgetC::Body()); }
     //: Access body.
 
     const LBoxBodyC &Body() const
-      { return static_cast<const LBoxBodyC &>(WidgetC::Body()); }
+    { return static_cast<const LBoxBodyC &>(WidgetC::Body()); }
     //: Access body.
     
   };
