@@ -96,8 +96,8 @@ namespace RavlN {
   
   int NullFunc(int v)
   { return v; };
-  
-  static bool x = RegisterFunction("NullFunc",&NullFunc);
+
+  static RegisterFuncionC registerNullFunc("NullFunc(int)",&NullFunc);
   
   DListC<FunctionPointerEntryC> &FunctionPointerEntries() {
     static DListC<FunctionPointerEntryC> t;

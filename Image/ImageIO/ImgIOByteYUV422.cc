@@ -114,10 +114,18 @@ namespace RavlImageN {
     return ret;
   }
   
-  DP_REGISTER_CONVERTION(ByteYUV422ImageCT2ByteYUVImageCT,1);
-  DP_REGISTER_CONVERTION(ByteYUV422ImageCT2ByteRGBImageCT,1.1); // There is some data loss as the colour cubes don't entirely overlap.
-  DP_REGISTER_CONVERTION(ByteYUV422ImageCT2ByteImageCT,2);
-  DP_REGISTER_CONVERTION(ByteImageCT2ByteYUV422ImageCT,1);
+  DP_REGISTER_CONVERTION_NAMED(ByteYUV422ImageCT2ByteYUVImageCT,1,
+			       "ImageC<ByteYUVValueC> RavlImageN::Convert(const ImageC<ByteYUV422ValueC> &)");
+  
+  // There is some data loss as the colour cubes don't entirely overlap.
+  DP_REGISTER_CONVERTION_NAMED(ByteYUV422ImageCT2ByteRGBImageCT,1.1,
+			       "ImageC<ByteRGBValueC> RavlImageN::Convert(const ImageC<ByteYUV422ValueC> &)");
+  
+  DP_REGISTER_CONVERTION_NAMED(ByteYUV422ImageCT2ByteImageCT,2,
+			       "ImageC<ByteT> RavlImageN::Convert(const ImageC<ByteYUV422ValueC> &)");
+  
+  DP_REGISTER_CONVERTION_NAMED(ByteImageCT2ByteYUV422ImageCT,1,
+			       "ImageC<ByteYUV422ValueC> RavlImageN::Convert(const ImageC<ByteT> &)");
   
   FileFormatStreamC<ImageC<ByteYUV422ValueC> > FileFormatStream_ImageC_ByteYUV422ValueC;
   FileFormatBinStreamC<ImageC<ByteYUV422ValueC> > FileFormatBinStream_ImageC_ByteYUV422ValueC;

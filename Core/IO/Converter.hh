@@ -28,6 +28,7 @@
 #include "Ravl/DP/ProcIStream.hh"
 #include "Ravl/DP/ProcOStream.hh"
 #include "Ravl/DP/TypeInfo.hh"
+#include "Ravl/FunctionRegister.hh"
 
 namespace RavlN {
   class DPConverterBaseC;  
@@ -241,13 +242,18 @@ namespace RavlN {
   {}
   
   template<class InT,class OutT>
-  DPConverterFuncC<InT,OutT> RegisterConversion(OutT (*func)(const InT &in),RealT ncost = 1)
-  { return DPConverterFuncC<InT,OutT>(func,ncost); }
+  DPConverterFuncC<InT,OutT> RegisterConversion(OutT (*func)(const InT &in),RealT ncost = 1,const char *funcName = 0) { 
+    if(funcName != 0)
+      RegisterFunction(funcName,func);
+    return DPConverterFuncC<InT,OutT>(func,ncost); 
+  }
   //: Register a conversion function.
 
 #ifndef VISUAL_CPP
 #define DP_REGISTER_CONVERTION(func,cost) \
 DPConverterBaseC DPConv_ ## func(RavlN::RegisterConversion(func,cost));
+#define DP_REGISTER_CONVERTION_NAMED(func,cost,fname) \
+DPConverterBaseC DPConv_ ## func(RavlN::RegisterConversion(func,cost,fname));
 #else
 // Labotomise automatic type conversion.
 // Where the conversion is required on use DP_REGISTER_CONVERTION_FT
@@ -257,6 +263,9 @@ DPConverterBaseC DPConv_ ## func(RavlN::RegisterConversion(func,cost));
 // Fixed type conversion macro
 #define DP_REGISTER_CONVERTION_FT(InT,OutT,func,cost) \
 DPConverterFuncC<InT,OutT > DPConv_ ## func(func,cost);
+
+#define DP_REGISTER_CONVERTION_FT_NAMED(InT,OutT,func,cost,fname) \
+DPConverterFuncC<InT,OutT > DPConv_ ## func(func,cost,fname);
 
 }
 #endif

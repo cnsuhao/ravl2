@@ -27,7 +27,7 @@ namespace RavlImageN
 // Some type conversions for standard images.
 
   // Byte to double image.
-
+  
   ImageC<RealT> ByteImageCT2DoubleImageCT(const ImageC<ByteT> &dat) { 
     ImageC<RealT> ret(dat.Rectangle());
     for(Array2dIter2C<RealT,ByteT> it(ret,dat);it.IsElm();it.Next()) 
@@ -75,7 +75,7 @@ namespace RavlImageN
   // Double -> Byte (clipped to fit)
   // This will clip, then round the double value (NOT floor!) to fit in a byte value 0 to 255.
   
-  ImageC< ByteT> DoubleImageCT2ByteImageCT(const ImageC< RealT> &dat) { 
+  ImageC<ByteT> DoubleImageCT2ByteImageCT(const ImageC< RealT> &dat) { 
     ImageC< ByteT> ret(dat.Rectangle());
     for(Array2dIter2C< ByteT,RealT> it(ret,dat);it.IsElm();it.Next()) {
       it.Data1() = (it.Data2()>255.0) ? 255 : (it.Data2()<0.0) ? 0 : ((ByteT) (it.Data2() + 0.5));
@@ -87,11 +87,16 @@ namespace RavlImageN
   
   // Handle converters.
   
-  DP_REGISTER_CONVERTION(ByteImageCT2ByteRGBImageCT   ,1);
-  DP_REGISTER_CONVERTION(ByteImageCT2ByteYUVImageCT   ,1);
-  DP_REGISTER_CONVERTION(ByteImageCT2IntImageCT       ,1);
-  
-  DP_REGISTER_CONVERTION(ByteImageCT2DoubleImageCT          ,1);
-  DP_REGISTER_CONVERTION(DoubleImageCT2ByteImageCT    ,8);
-  DP_REGISTER_CONVERTION(IntImageCT2DoubleImageCT     ,1);
+  DP_REGISTER_CONVERTION_NAMED(ByteImageCT2ByteRGBImageCT   ,1,
+			       "ImageC<ByteRGBValueC> RavlImageN::Convert(const ImageC<ByteT> &)");
+  DP_REGISTER_CONVERTION_NAMED(ByteImageCT2ByteYUVImageCT   ,1,
+			       "ImageC<ByteYUVValueC> RavlImageN::Convert(const ImageC<ByteT> &)");
+  DP_REGISTER_CONVERTION_NAMED(ByteImageCT2IntImageCT       ,1,
+			       "ImageC<IntT> RavlImageN::Convert(const ImageC<ByteT> &)");
+  DP_REGISTER_CONVERTION_NAMED(ByteImageCT2DoubleImageCT    ,1,
+			       "ImageC<RealT> RavlImageN::Convert(const ImageC<ByteT> &)");
+  DP_REGISTER_CONVERTION_NAMED(DoubleImageCT2ByteImageCT    ,8,
+			       "ImageC<ByteT> RavlImageN::Convert(const ImageC<RealT> &)");
+  DP_REGISTER_CONVERTION_NAMED(IntImageCT2DoubleImageCT     ,1,
+			       "ImageC<RealT> RavlImageN::Convert(const ImageC<IntT> &)");
 }

@@ -103,6 +103,23 @@ namespace RavlN {
   }
   //: Save function pointer.
   
+  //! userlevel=Normal
+  //: Register function pointer.
+  // Class to make it easy to register functions. Use as global
+  // variables. <p>
+  // e.g. for class xyzC declare the following as global
+  // in a .cc file preferably in the same file as the definition of XyzC <p>
+  //  static TypeNameC typeNameXyz(typeinfo(XyzC),"XyzC");
+  
+  class RegisterFuncionC {
+  public:
+    template<class DataT>
+    RegisterFuncionC(const char *newname,DataT func) 
+    { RegisterFunction(newname,func); }
+    //: Constructor.
+    
+  };
+
   
 }
 

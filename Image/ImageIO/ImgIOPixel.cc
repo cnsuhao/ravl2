@@ -24,16 +24,3 @@ FileFormatBinStreamC<DListC<PixelC > > FileFormatBinStream_DListC_PixelC;
 FileFormatBinStreamC<DListC<DListC<PixelC > > > FileFormatBinStream_DListC_DListC_PixelC;
 
 
-#if 0
-#include "amma/pixchain.hh"
-
-CannyStringSetC DPConvDListC_PixelC2CannyStringSetC(const DListC<DListC<PixelC> > &dat)
-{ return CannyStringSetC(dat);  }
-
-DListC<DListC<PixelC> > DPConvCannyStringSetC2DListC_PixelC(const DCannyStringSetC &dat)  
-{ return DListC<DListC<PixelC> >(dat);  }
-
-DP_REGISTER_CONVERTION(DPConvDListC_PixelC2CannyStringSetC,1);
-DP_REGISTER_CONVERTION(DPConvCannyStringSetC2DListC_PixelC,1);
-#endif
-

@@ -258,7 +258,7 @@ int testFunctionRegister() {
   
   int (*afunc)(int);
   
-  if(!LookupFunctionByName("NullFunc",afunc)) return __LINE__;
+  if(!LookupFunctionByName("NullFunc(int)",afunc)) return __LINE__;
   if(afunc(2) != 2) return __LINE__;
   return 0;
 }

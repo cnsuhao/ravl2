@@ -39,8 +39,10 @@ namespace RavlImageN {
     return ret;
   }
   
-  DP_REGISTER_CONVERTION(ByteVYUImageCT2ByteYUVImageCT,1);
-  DP_REGISTER_CONVERTION(ByteYUVImageCT2ByteVYUImageCT,1);
+  DP_REGISTER_CONVERTION_NAMED(ByteVYUImageCT2ByteYUVImageCT,1,
+			       "ImageC<ByteYUVValueC> RavlImageN::Convert(const ImageC<ByteVYUValueC> &)");
+  DP_REGISTER_CONVERTION_NAMED(ByteYUVImageCT2ByteVYUImageCT,1,
+			       "ImageC<ByteVYUValueC> RavlImageN::Convert(const ImageC<ByteYUVValueC> &)");
   
   
   FileFormatStreamC<ImageC<ByteVYUValueC> > FileFormatStream_ImageC_ByteVYUValueC;

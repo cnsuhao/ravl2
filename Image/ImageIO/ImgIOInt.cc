@@ -16,6 +16,7 @@
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Array2dIter2.hh"
 #include "Ravl/TypeName.hh"
+#include "Ravl/FunctionRegister.hh"
 
 namespace RavlImageN {
   
@@ -48,10 +49,12 @@ namespace RavlImageN {
     return ret;
   }
   
-  DP_REGISTER_CONVERTION(UIntTImageCT2DoubleImageCT,1);
-  DP_REGISTER_CONVERTION(UInt16TImageCT2UIntTImageCT,1);
-  DP_REGISTER_CONVERTION(UIntTImageCT2UInt16TImageCT,2);
-  
+  DP_REGISTER_CONVERTION_NAMED(UIntTImageCT2DoubleImageCT,1,
+			       "ImageC<RealT> RavlImageN::Convert(const ImageC<UIntT> &)");
+  DP_REGISTER_CONVERTION_NAMED(UInt16TImageCT2UIntTImageCT,1,
+			       "ImageC<UIntT> RavlImageN::Convert(const ImageC<UInt16T> &)");
+  DP_REGISTER_CONVERTION_NAMED(UIntTImageCT2UInt16TImageCT,2,
+			       "ImageC<UInt16T> RavlImageN::Convert(const ImageC<UIntT> &)");
   
   FileFormatStreamC<ImageC<IntT> > FileFormatStream_ImageC_IntT;
   FileFormatBinStreamC<ImageC<IntT> > FileFormatBinStream_ImageC_IntT;
