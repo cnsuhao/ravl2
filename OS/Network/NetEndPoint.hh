@@ -169,7 +169,7 @@ namespace RavlN {
     //: Register new message handler.
     // NB. This does not make a handle to 'obj', it is the users responsibility to 
     // ensure it is not deleted.
-
+    
     template<class ObjT,class Data1T,class Data2T,class Data3T>
     bool RegisterR(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(Data1T,Data2T,Data3T)) {
       return Register(NetMsgCall3C<Data1T,Data2T,Data3T>(mid,msgName,CallMethod3C<ObjT &,Data1T,Data2T,Data3T,bool>(obj,func))); 
@@ -375,21 +375,21 @@ namespace RavlN {
     // ensure it is not deleted.
     
     template<class ObjT,class DataT>
-    bool RegisterR(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(DataT &))
+    bool RegisterR(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(DataT ))
       { return Body().RegisterR(mid,msgName,obj,func); }
     //: Register new message handler.
     // NB. This does not make a handle to 'obj', it is the users responsibility to 
     // ensure it is not deleted.
 
     template<class ObjT,class Data1T,class Data2T>
-    bool RegisterR(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(Data1T &,Data2T &))
+    bool RegisterR(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(Data1T ,Data2T ))
       { return Body().RegisterR(mid,msgName,obj,func); }
     //: Register new message handler.
     // NB. This does not make a handle to 'obj', it is the users responsibility to 
     // ensure it is not deleted.
 
     template<class ObjT,class Data1T,class Data2T,class Data3T>
-    bool RegisterR(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(Data1T &,Data2T &,Data3T &))
+    bool RegisterR(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(Data1T ,Data2T ,Data3T ))
       { return Body().RegisterR(mid,msgName,obj,func); }
     //: Register new message handler.
     // NB. This does not make a handle to 'obj', it is the users responsibility to 
@@ -402,19 +402,19 @@ namespace RavlN {
     // Hold a handle to the object called.
     
     template<class ObjT,class DataT>
-    bool Register(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(DataT &))
+    bool Register(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(DataT ))
       { return Body().Register(mid,msgName,obj,func); }
     //: Register new message handler.
     // Hold a handle to the object called.
     
     template<class ObjT,class Data1T,class Data2T>
-    bool Register(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(Data1T &,Data2T &))
+    bool Register(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(Data1T,Data2T))
       { return Body().Register(mid,msgName,obj,func); }
     //: Register new message handler.
     // Hold a handle to the object called.
 
     template<class ObjT,class Data1T,class Data2T,class Data3T>
-    bool Register(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(Data1T &,Data2T &,Data3T &))
+    bool Register(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(Data1T,Data2T,Data3T))
       { return Body().Register(mid,msgName,obj,func); }
     //: Register new message handler.
     // Hold a handle to the object called.
