@@ -291,8 +291,8 @@ namespace RavlGUIN {
       ret.InsLast(widge);
       return ret;
     }
-    //: Add into list.
-
+    //: Add a widget into a list.
+    
     Signal0C &Signal(const char *nm)
     { return Body().Signal(nm); }
     //: Get handle for named signal.
@@ -335,6 +335,9 @@ namespace RavlGUIN {
     lst.InsLast(widge);
     return lst;
   }
+  //! docentry="Ravl.GUI.Layout"
+  //! userlevel=Normal
+  //: Add a widget into a widget list.
 
 }
 #endif

@@ -9,6 +9,9 @@
 //////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Math/CCMath/CCMath.hh"
+//! userlevel=Develop
+//! docentry="Ravl.Math.Internal"
+//! author="Daniel A. Atkinson"
 
 extern "C" {
   

@@ -29,17 +29,25 @@
 
 namespace RavlN
 {
+  //! userlevel=Normal
+  
   void Yield();
   //: Yield control of processor
   // call if you wish a brief delay in execution.  
   // Particularly useful if you are forced to poll for an event.
-  
+   
+  //! userlevel=Normal
   UIntT CurrentThreadID();
   //: Get ID of current running thread.
-  
+
   extern void *StartThread(void *Data);
+  //! userlevel=Develop
+  //: Use internally to start threads.
+  
   extern void cancellationHandler(void *data);
-    
+  //! userlevel=Develop
+  //: Called when a thread is cancelled.
+  
   //! userlevel=Develop
   //: Thread body.
   

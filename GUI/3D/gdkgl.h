@@ -1,6 +1,3 @@
-/*! rcsid="$Id$" */
-/*! lib=RavlGUI3D */
-/*! license=own */
 /* 
  * Copyright (C) 1998 Janne Löf <jlof@mail.student.oulu.fi>
  *
@@ -18,6 +15,11 @@
  * License along with this library; if not, write to the Free
  * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
+/*! rcsid="$Id$" */
+/*! lib=RavlGUI3D */
+/*! license=own */
+/*! userlevel=Develop */
+/*! docentry="Ravl.GUI.3D.Internal" */
 
 #ifndef __GDK_GL_H__
 #define __GDK_GL_H__

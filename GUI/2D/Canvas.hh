@@ -7,7 +7,7 @@
 #ifndef RAVLGUICANVAS_HEADER
 #define RAVLGUICANVAS_HEADER 1
 ////////////////////////////////////////////////
-//! docentry="GUI.Widget"
+//! docentry="Ravl.GUI.Control"
 //! file="Ravl/GUI/GTK/Canvas.hh"
 //! lib=RavlGUI2D
 //! author="Charles Galambos"

@@ -49,5 +49,7 @@ EXAMPLES = exCanvas3D.cc
 USESLIBS = RavlCore RavlGeom RavlGUI OpenGL
 #GUI OpenGL Polops tri DispMap
 
+EHT = Ravl.GUI.3D.html
+
 PROGLIBS = 
 #DPSurf3DIO

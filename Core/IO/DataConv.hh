@@ -11,7 +11,7 @@
 //! lib=RavlIO
 //! rcsid="$Id$"
 //! file="Ravl/Core/IO/DataConv.hh"
-//! userlevel=Default
+//! userlevel=Normal
 //! author="Charles Galambos"
 //! date="17/08/98"
 
@@ -20,9 +20,11 @@
 
 namespace RavlN {
   extern bool DPCanConvert(const type_info &from,const type_info &to);
+  //! userlevel=Normal
   //: Test if conversion is possible.
   
   extern RCAbstractC DPDoConvertion(const RCAbstractC &dat,const type_info &from,const type_info &to);
+  //! userlevel=Normal
   //: Do conversion through abstract handles.
   
   template<class InT,class OutT>
@@ -35,6 +37,10 @@ namespace RavlN {
     outraw = out.Data();
     return true;
   }
+  //! userlevel=Normal
+  //: Convert between two types using the type conversion graph.
+  // This is an example. Its not very useful since if both types are known at
+  // compile time the necessary methods can be invoked directly.
   
   template<class OutT>
   bool DPTypeConvert(const RCWrapAbstractC &in,OutT &outraw) {
@@ -46,6 +52,8 @@ namespace RavlN {
     outraw = out.Data();
     return true;
   }
+  //! userlevel=Normal
+  //: Convert between a abstract handle to an object and a known type.
 }
 
 

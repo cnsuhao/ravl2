@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! file="Ravl/OS/Network/SktError.hh"
 //! lib=RavlNet
-//! userlevel=Default
+//! userlevel=Advanced
 //! docentry="Ravl.OS.Network"
 //! author="Charles Galambos"
 //! date="15/02/2000"
@@ -18,6 +18,7 @@
 #include "Ravl/Exception.hh"
 
 namespace RavlN {
+  //! userlevel=Advanced
   //: Networking exception.
   
   class ExceptionNetC

@@ -11,6 +11,8 @@
 //! example=exRadioButton.cc
 //! docentry="Ravl.GUI.Control"
 //! lib=RavlGUI
+//! userlevel=Normal
+//! author="Charles Galambos"
 
 #include "Ravl/GUI/ToggleButton.hh"
 
@@ -21,10 +23,10 @@ namespace RavlGUIN {
 
   class RadioButtonC;
   class RadioButtonBodyC;
+  typedef DListC<RadioButtonBodyC *> RadioButtonGroupT;
+  
   //! userlevel=Normal
   //: Radio button
-  
-  typedef DListC<RadioButtonBodyC *> RadioButtonGroupT;
   
   class RadioButtonC
     : public ToggleButtonC
@@ -105,10 +107,14 @@ namespace RavlGUIN {
   { return Body().Group(); }
   //: Access button group.
   
+  /////////////////////////////////////////////////////////////////////////////////////////
+  //! userlevel=Normal
+  
   inline
   RadioButtonC RadioButton(const char *label,const RadioButtonGroupT &group)
   { return  RadioButtonC(label,0,group); }
-  //: Construct a toggle button.
+  //! userlevel=Normal
+  //: Create a radio button in 'group'
   
   template<class ObjT>
   RadioButtonC RadioButton(const char *label,const RadioButtonGroupT &group,const ObjT &obj,bool (ObjT::*func)(bool &))
@@ -117,6 +123,8 @@ namespace RavlGUIN {
     Connect(ret.SigChanged(),obj,func);
     return ret;    
   }
+  //! userlevel=Normal
+  //: Create a radio button in 'group'
   
   inline
   RadioButtonC RadioButton(const char *label,const RadioButtonGroupT &group,bool (*func)(bool &))
@@ -125,6 +133,8 @@ namespace RavlGUIN {
     Connect(ret.SigChanged(),func);
     return ret;    
   }
+  //! userlevel=Normal
+  //: Create a radio button in 'group'
   
   template<class DataT>
   RadioButtonC RadioButton(const char *label,const RadioButtonGroupT &group,bool (*func)(bool &,DataT &),const DataT &v)
@@ -133,6 +143,8 @@ namespace RavlGUIN {
     Connect(ret.SigChanged(),func,v);
     return ret;    
   }
+  //! userlevel=Normal
+  //: Create a radio button in 'group'
   
   template<class ObjT>
   RadioButtonC RadioButton(const char *label,const char *tooltip,const RadioButtonGroupT &group,const ObjT &obj,bool (ObjT::*func)(bool))
@@ -142,9 +154,9 @@ namespace RavlGUIN {
     Connect(ret.SigChanged(),obj,func);
     return ret;    
   }
+  //! userlevel=Normal
+  //: Create a radio button in 'group'
   
-  ///// Refrence //////////////////////////
-
   template<class ObjT>
   RadioButtonC RadioButtonR(const char *label,const RadioButtonGroupT &group,ObjT &obj,bool (ObjT::*func)(bool &))
   { 
@@ -152,6 +164,8 @@ namespace RavlGUIN {
     ConnectRef(ret.SigChanged(),obj,func);
     return ret;    
   }
+  //! userlevel=Normal
+  //: Create a radio button in 'group'
   
   template<class ObjT,class DataT>
   RadioButtonC RadioButtonR(const char *label,const RadioButtonGroupT &group,ObjT &obj,bool (ObjT::*func)(bool &,DataT &dat),const DataT &dat)
@@ -160,6 +174,8 @@ namespace RavlGUIN {
     ConnectRef(ret.SigChanged(),obj,func,initState,dat);
     return ret;    
   }
+  //! userlevel=Normal
+  //: Create a radio button in 'group'
   
   template<class ObjT>
   RadioButtonC RadioButtonR(const char *label,const char *tooltip,const RadioButtonGroupT &group,bool initState,ObjT &obj,bool (ObjT::*func)(bool))
@@ -169,6 +185,8 @@ namespace RavlGUIN {
     ConnectRef(ret.SigChanged(),obj,func);
     return ret;    
   }
+  //! userlevel=Normal
+  //: Create a radio button in 'group'
   
 }
 

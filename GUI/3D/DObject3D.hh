@@ -196,7 +196,7 @@ namespace RavlGUIN {
     RealT extent;
   };
   
-  //! userlevel=Develop
+  //! userlevel=Normal
   //: OpenGL code invokation class.
   
   class DOpenGLC
@@ -214,8 +214,13 @@ namespace RavlGUIN {
     //: Constructor.
   };
   
+  //! userlevel=Normal
+  
   ostream &operator<<(ostream &strm,const DOpenGLC &);
+  //: Write an DOpenGLC to a stream.
+  
   istream &operator>>(istream &strm,DOpenGLC &);
+  //: Read an DOpenGLC from a stream.
   
   ////////////////////////////////////
   
@@ -288,8 +293,13 @@ namespace RavlGUIN {
     //: Add object into list.
   };
   
+  //! userlevel=Normal
+  
   ostream &operator<<(ostream &strm,const DObjectSet3DC &);
+  //: Write an object set to a stream.
+  
   istream &operator>>(istream &strm,DObjectSet3DC &);
+  //: Read an object set to a stream.
 
 }
 #endif

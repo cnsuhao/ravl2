@@ -9,6 +9,8 @@
 ////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! userlevel=Normal
+//! author="Charles Galambos"
+//! docentry="Ravl.Core.Data Processing"
 //! lib=RavlIO
 
 #include "Ravl/DP/ProcCompose.hh"

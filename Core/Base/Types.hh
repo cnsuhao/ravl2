@@ -8,12 +8,11 @@
 #define RAVLTYPES_HEADER 1
 /////////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Core"
+//! docentry="Ravl.Core.Misc"
 //! file="Ravl/Core/Base/Types.hh"
 //! lib=RavlCore
-//! userlevel=Default
-//! author=""
-//! date=""
+//! userlevel=Normal
+//! author="Charles Galambos"
 
 #include "Ravl/config.h"
 // Common forward declarations

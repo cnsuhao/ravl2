@@ -9,12 +9,14 @@
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! docentry="Ravl.Core.Misc"
+//! author="Charles Galambos"
 
 #include "Ravl/Assert.hh"
 
 namespace RavlN {
   
-  //! userlevel=Advanced
+  //! userlevel=Develop
   //: Constant flag mix-in class.
   // This class can be used to ensure that an object
   // is not modified if some other class requires that

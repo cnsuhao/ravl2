@@ -83,7 +83,7 @@ namespace RavlN {
   };
 
   ///////////////////////////
-  //! userlevel=Normal
+  //! userlevel=Advanced
   //: class for signal interconnector with 1 arg.
   
   template<class DataT>
@@ -128,7 +128,7 @@ namespace RavlN {
     Func1T func;
   };
   
-  //! userlevel=Normal
+  //! userlevel=Advanced
   //: Signal a function
   
   template<class DataT>
@@ -181,7 +181,7 @@ namespace RavlN {
     Func1T func;
   };
   
-  //! userlevel=Normal
+  //! userlevel=Advanced
   //: Signal a method.
   
   template<class DataT,class ObjT>
@@ -241,7 +241,7 @@ namespace RavlN {
   };
   
   ///////////////////////////////
-  //! userlevel=Normal
+  //! userlevel=Advanced
   //: Signal a method.
   // Uses refrence to object not instance. <p>
   // NB. It is the users responsibility to ensure the object
@@ -313,7 +313,7 @@ namespace RavlN {
   };
   
   //! userlevel=Normal
-  //: Signal 1 handle.
+  //: Signal with 1 argument
   
   template<class DataT>
   class Signal1C
@@ -411,8 +411,8 @@ namespace RavlN {
     RavlAssert(oth.IsValid());
     return SignalInterConnect1C<DataT>(from,oth);  
   }
-  
-  // Connect to another signal
+  //! userlevel=Normal  
+  //: Connect two signals together.
   
   template<class DataT>  
   inline 
@@ -420,15 +420,17 @@ namespace RavlN {
     RavlAssert(from.IsValid());
     return Signal1FuncC<DataT>(from,func,def);  
   }
-  //: Connect to a function.
-
+  //! userlevel=Normal  
+  //: Connect a signal to a function.
+  
   template<class ObjT,class DataT>
   inline
   SignalConnectorC Connect(Signal0C &from,const ObjT &obj,bool (ObjT::* func)(DataT &arg),const DataT &def = DataT()) { 
     RavlAssert(from.IsValid());
     return Signal1MethodC<DataT,ObjT>(from,obj,func,def);
-  }
-  //:Connect to a method.
+  } 
+  //! userlevel=Normal  
+  //: Connect a signal to a method.
   
   template<class ObjT,class DataT>
   inline
@@ -436,7 +438,8 @@ namespace RavlN {
     RavlAssert(from.IsValid());
     return Signal1MethodRefC<DataT,ObjT>(from,obj,func,def);
   }
-  //:Connect to a method.
+  //! userlevel=Normal  
+  //: Connect a signal to a method.
   // Uses refrence to object not instance. <p>
   // NB. It is the users responsibility to ensure the object
   // remains valid while being used.

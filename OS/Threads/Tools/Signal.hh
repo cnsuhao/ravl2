@@ -68,7 +68,7 @@ namespace RavlN {
     friend class Signal0BodyC;
   };
   
-  //! userlevel=Normal
+  //! userlevel=Advanced
   //: Signal connector handle.
   
   class SignalConnectorC
@@ -119,6 +119,9 @@ namespace RavlN {
   };
   
   ostream &operator<<(ostream &os,const SignalConnectorC &sc);
+  //! userlevel=Normal
+  //: Output to a stream.
+  //Only usefull for debugging.
   
   ////////////////////////////////////////////////////////////////
   //! userlevel=Develop
@@ -167,7 +170,7 @@ namespace RavlN {
     friend class Signal0BodyC;
   };
   
-  //! userlevel=Normal
+  //! userlevel=Advanced
   //: class for signal interconnector with 0 args.
   
   class SignalInterConnect0C
@@ -310,6 +313,10 @@ namespace RavlN {
     RavlAssert(0); // Not implemented.
     return out;
   }
+  //! userlevel=Normal
+  //: Output to a stream.
+  // Not implemented, only here to keep some templates that 
+  // require an output operator happy.
   
   ////////////////////////////////////////////////////////////////
   
@@ -336,7 +343,7 @@ namespace RavlN {
     FuncT func;
   };
   
-  //! userlevel=Normal
+  //! userlevel=Advanced
   //: Signal a function
   
   class Signal0FuncC 
@@ -379,7 +386,7 @@ namespace RavlN {
     FuncT func;
   };
   
-  //! userlevel=Normal
+  //! userlevel=Advanced
   //: Signal a method.
 
   template<class DataT>
@@ -428,7 +435,7 @@ namespace RavlN {
     FuncT func;
   };
   
-  //! userlevel=Normal
+  //! userlevel=Advanced
   //: Signal a method.
   // Uses refrence to object not instance. <p>
   // NB. It is the users responsibility to ensure the object
@@ -469,6 +476,7 @@ namespace RavlN {
     RavlAssert(to.IsValid());
     return SignalInterConnect0C(from,to); 
   }
+  //! userlevel=Normal
   //: Connect signal to another signal.
   
   inline 
@@ -476,6 +484,7 @@ namespace RavlN {
     RavlAssert(from.IsValid());
     return Signal0FuncC(from,func); 
   }
+  //! userlevel=Normal
   //: Connect signal to a function with 0 args.
   
   template<class DataT>
@@ -484,6 +493,7 @@ namespace RavlN {
     RavlAssert(from.IsValid());
     return Signal0MethodC<DataT>(from,obj,func); 
   }
+  //! userlevel=Normal
   //: Connect signal to a method with 0 args.
   // This holds a handle to the class to be called.
   
@@ -493,6 +503,7 @@ namespace RavlN {
     RavlAssert(from.IsValid());
     return Signal0MethodRefC<DataT>(from,obj,func); 
   }
+  //! userlevel=Normal
   //: Connect signal to a method with 0 args.
   // This holds a REFRENCE to the class to be called.
   // <p>

@@ -8,7 +8,7 @@
 #define RAVLDPFUNC2STREAM_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Data Processing"
+//! docentry="Ravl.Core.Data Processing" 
 //! file="Ravl/StdType/DataProc/Func2Stream.hh"
 //! lib=RavlIO
 //! author="Charles Galambos"

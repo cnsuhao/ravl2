@@ -14,7 +14,7 @@
 //! author="Charles Galambos"
 //! date="13/12/2000"
 //! docentry="Ravl.GUI.Control"
-//! example= exCList.cc
+//! example=exCList.cc
 
 #include "Ravl/GUI/Widget.hh"
 #include "Ravl/Threads/RWLock.hh"
@@ -30,7 +30,9 @@
 
 namespace RavlGUIN {
 
+  //! userlevel=Advanced
   //: Cell info.
+  
   class CListCellC {
   public:
     CListCellC()
@@ -48,6 +50,7 @@ namespace RavlGUIN {
     PixmapC pixMask;  // Can be invalid.
   };
   
+  //! userlevel=Develop
   //: CList widget body.
   
   class CListBodyC
@@ -127,7 +130,7 @@ namespace RavlGUIN {
     //HasARC<IntT,IntT> idMap; // Maps an ID to a row.
   };
   
-  
+  //! userlevel=Normal
   //: CList widget.
   
   class CListC

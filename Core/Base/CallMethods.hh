@@ -10,6 +10,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Core.Misc.Calls"
 //! lib=RavlCore
+//! author="Charles Galambos"
 //! file="Ravl/Core/Base/CallMethods.hh"
 
 #include "Ravl/Calls.hh"
@@ -454,6 +455,8 @@ namespace RavlN {
       {}
     //: Constructor.
   };
+
+  //! userlevel=Normal
 
 #if !defined(VISUAL_CPP)
 

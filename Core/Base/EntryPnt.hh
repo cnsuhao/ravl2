@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////////////////////////////////
 //! userlevel=Normal
 //! author="Charles Galambos"
-//! docentry="Ravl.Core"
+//! docentry="Ravl.Core.Misc"
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/EntryPnt.hh"

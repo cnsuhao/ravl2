@@ -13,7 +13,7 @@
 //! date="12/11/1993"
 //! userlevel=Basic
 //! example=exOption.cc
-//! docentry="Ravl.Core"
+//! docentry="Ravl.Core.Misc"
 //! example=exOption.cc
 //! rcsid="$Id$"
 //

@@ -35,8 +35,11 @@ namespace RavlN {
   extern MTLockFuncT MTUnlockWr;
   extern MTThreadIDFuncT MTGetThreadID;
     
-  //: Get thread id.
   int MTThreadID();
+  //! userlevel=Advanced
+  //: Get current thread id.
+  
+  //:-
   
   //: Lock system for reading.
   // This class provides exceptions safe system DB locking.

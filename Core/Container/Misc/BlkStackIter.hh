@@ -9,7 +9,9 @@
 /////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! author="Charles Galambos"
+//! docentry="Ravl.Core.Stacks"
 //! lib=RavlCore
+//! date="26/08/2001"
 
 #include "Ravl/BlkStack.hh"
 

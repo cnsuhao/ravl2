@@ -16,6 +16,7 @@
 //! date="26/10/98"
 
 #include "Ravl/Types.hh"
+#include "Ravl/Assert.hh"
 
 //: Ravl namespace.
 
@@ -108,6 +109,13 @@ namespace RavlN {
     
     UIntT operator--() { return --v; }
     //: Decrement
+
+    UIntT operator-=(const UIntC &oth) {
+      RavlAssert(v >= oth.v);
+      v -= oth.v;
+      return v;
+    }
+    //: Take another UIntT from this one.
     
     UIntT v;
   };

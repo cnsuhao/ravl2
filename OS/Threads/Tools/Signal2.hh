@@ -65,7 +65,7 @@ namespace RavlN {
   };
   
   //! userlevel=Develop
-  //: Signal 1 inter connector.
+  //: Signal 2 inter connector.
   
   template<class Data1T,class Data2T>
   class SignalInterConnect2BodyC
@@ -91,7 +91,7 @@ namespace RavlN {
   };
   
   ///////////////////////////
-  //! userlevel=Normal
+  //! userlevel=Advanced
   //: class for signal interconnector with 1 arg.
   
   template<class Data1T,class Data2T>
@@ -141,7 +141,7 @@ namespace RavlN {
     Func2T func;
   };
   
-  //! userlevel=Normal
+  //! userlevel=Advanced
   //: Signal a function
   
   template<class Data1T,class Data2T>
@@ -196,7 +196,7 @@ namespace RavlN {
     Func2T func;
   };
   
-  //! userlevel=Normal
+  //! userlevel=Advanced
   //: Signal a method.
   
   template<class Data1T,class Data2T,class ObjT>
@@ -258,7 +258,7 @@ namespace RavlN {
     Func2T func;
   };
   
-  //! userlevel=Normal
+  //! userlevel=Advanced
   //: Signal a method.
   // Uses refrence to object not instance. <p>
   // NB. It is the users responsibility to ensure the object
@@ -331,7 +331,7 @@ namespace RavlN {
   };
   
   //! userlevel=Normal
-  //: Signal 1 handle.
+  //: Signal with 2 arguments
   
   template<class Data1T,class Data2T>
   class Signal2C
@@ -399,6 +399,7 @@ namespace RavlN {
     RavlAssert(0); // Not implemented.
     return out;
   }
+  //! userlevel=Normal
   //: IO Operator.
   // Not implemented
   
@@ -410,10 +411,7 @@ namespace RavlN {
       SignalConnector1BodyC<Data1T>(from),
       SignalInterConnect0BodyC(from,targ)
   {}
-  
-  
-  //: Invoke signal, with value.
-  
+    
   template<class Data1T,class Data2T>
   inline 
   bool SignalInterConnect2BodyC<Data1T,Data2T>::Invoke(Data1T &dat1,Data2T &dat2) {
@@ -436,13 +434,13 @@ namespace RavlN {
   ///////////////////////
   
   template<class Data1T,class Data2T>
-  inline 
-  SignalConnectorC Connect(Signal0C &from,Signal2C<Data1T,Data2T> &oth) { 
+  inline SignalConnectorC Connect(Signal0C &from,Signal2C<Data1T,Data2T> &oth) { 
     RavlAssert(from.IsValid());
     RavlAssert(oth.IsValid());
     return SignalInterConnect2C<Data1T,Data2T>(from,oth);
   }
-  //: Connect to another signal.
+  //! userlevel=Normal
+  //: Connect a signal to another signal.
   
   template<class Data1T,class Data2T>  
   inline 
@@ -450,7 +448,8 @@ namespace RavlN {
     RavlAssert(from.IsValid());
     return Signal2FuncC<Data1T,Data2T>(from,func,def1,def2);  
   }
-  //: Connect to a function.
+  //! userlevel=Normal
+  //: Connect a signal to a function.
 
   template<class Data1T,class Data2T,class ObjT>
   inline
@@ -458,7 +457,8 @@ namespace RavlN {
     RavlAssert(from.IsValid());
     return Signal2MethodC<Data1T,Data2T,ObjT>(from,obj,func,def1,def2); 
   }
-  //: Connect to a method.
+  //! userlevel=Normal
+  //: Connect a signal to a method.
 
   template<class Data1T,class Data2T,class ObjT>
   inline
@@ -466,6 +466,7 @@ namespace RavlN {
     RavlAssert(from.IsValid());
     return Signal2MethodRefC<Data1T,Data2T,ObjT>(from,obj,func,def1,def2); 
   }
+  //! userlevel=Normal
   //: Connect to a method.
   // Uses refrence to object not instance. <p>
   // NB. It is the users responsibility to ensure the object

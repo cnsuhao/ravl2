@@ -11,7 +11,7 @@
 //! docentry="Ravl.Core.Tuples"
 //! file="Ravl/Core/Base/TFVector.hh"
 //! lib=RavlCore
-//! userlevel=Default
+//! userlevel=Advanced
 //! author="Charles Galambos"
 //! date="24/01/2001"
 

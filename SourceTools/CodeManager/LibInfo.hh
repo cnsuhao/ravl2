@@ -52,7 +52,7 @@ namespace RavlN {
     StringC src;     // Where it is in the source tree.
   };
   
-  //! userlevel=Normal
+  //! userlevel=Develop
   //: Information about library.
   
   class LibInfoBodyC
@@ -91,6 +91,7 @@ namespace RavlN {
     DListC<HeaderInfoC > headers; // Headers for the library.
   };
 
+  //! userlevel=Normal
   //: Information about library.
   
   class LibInfoC

@@ -453,6 +453,8 @@ namespace RavlN {
     // Creates an invalid handle.
   };
 
+
+  //! userlevel=Normal
 #if !defined(VISUAL_CPP)
 
   template<class ObjT,class RetT>

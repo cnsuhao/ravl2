@@ -18,6 +18,7 @@
 #include "Ravl/GUI/OneChild.hh"
 
 namespace RavlGUIN {
+  //! userlevel=Develop
   //: Event box widget.
   
   class EventBoxBodyC
@@ -37,6 +38,7 @@ namespace RavlGUIN {
     //: Create the widget.
   };
   
+  //! userlevel=Normal
   //: Event box.
   
   class EventBoxC

@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCore
-//! docentry="Core.XML"
+//! docentry="Ravl.Core.XML"
 //! author="Charles Galambos"
 //! file="Ravl/Core/System/XMLStream.hh"
 

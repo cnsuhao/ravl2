@@ -2,7 +2,7 @@
 #define RAVLSTRING_HEADER 1
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! docentry="Ravl.Core"
+//! docentry="Ravl.Core.Strings"
 //! file="Ravl/Core/Base/String.hh"
 //! lib=RavlCore
 //! license=own
@@ -56,17 +56,45 @@ namespace RavlN {
   class SubStringC;
   class IndexC;
 
+  //! userlevel=Normal
+  
   BinOStreamC &operator<<(BinOStreamC &out,const StringC &str);
+  //: Write a string to a binary stream.
+  
   BinOStreamC &operator<<(BinOStreamC &out,const SubStringC &str);
+  //: Write a substring to a binary stream.
+  
   BinIStreamC &operator>>(BinIStreamC &in,StringC &str);
+  //: Read a string from a binary stream.
   
   int compare(const StringC&    x, const StringC&     y);
+  //: Compair two strings
+  // Returns 0 if equal, and +ve or -ve value depending on alphabetic order.
+  
   int compare(const StringC&    x, const SubStringC&  y);
+  //: Compair two strings
+  // Returns 0 if equal, and +ve or -ve value depending on alphabetic order.
+
   int compare(const StringC&    x, const char* y);
+  //: Compair two strings
+  // Returns 0 if equal, and +ve or -ve value depending on alphabetic order.
+
   int compare(const SubStringC& x, const StringC&     y);
+  //: Compair two strings
+  // Returns 0 if equal, and +ve or -ve value depending on alphabetic order.
+  
   int compare(const SubStringC& x, const SubStringC&  y);
+  //: Compair two strings
+  // Returns 0 if equal, and +ve or -ve value depending on alphabetic order.
+
   int compare(const SubStringC& x, const char* y);
-  int fcompare(const StringC&   x, const StringC&     y); // ignore case
+  //: Compair two strings
+  // Returns 0 if equal, and +ve or -ve value depending on alphabetic order.
+  
+  int fcompare(const StringC&   x, const StringC&     y);
+  //! userlevel=Normal
+  //: Compair two strings ignoring case.
+  // Returns 0 if equal, and +ve or -ve value depending on alphabetic order.
   
   /////////////////////////////////////
   //! userlevel=Develop

@@ -13,6 +13,7 @@
 //! author="Radek Marik"
 //! date="2/1/1996"
 //! docentry="Ravl.Core.Indexing"
+//! example=exIndex.cc
 //! rcsid="$Id$"
 
 #include "Ravl/Types.hh"

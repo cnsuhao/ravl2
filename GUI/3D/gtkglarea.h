@@ -18,6 +18,8 @@
 /*! rcsid="$Id$" */
 /*! lib=RavlGUI3D */
 /*! license=own */
+/*! userlevel=Develop */
+/*! docentry="Ravl.GUI.3D.Internal" */
 
 
 #ifndef __GTK_GL_AREA_H__

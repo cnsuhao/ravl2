@@ -26,8 +26,7 @@ struct AccessC
   DataC * ptr;
 };
 
-int 
-exIndex(int, char * [] )
+int exIndex(int, char * [] )
 {
   cout << "Index access example\n"
        << "====================\n";
