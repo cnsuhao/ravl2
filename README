@@ -57,7 +57,7 @@ INSTALLATION UNIX
   code remove the 'CCMath.r' from the NESTED line in the Ravl/defs.mk file.
 
   RAVL can be made to use an external version of CCMath.  The code
-  has been tested with version 2.2.0, but I would expect it to work with   
+  has been tested with version 2.2.1, but I would expect it to work with   
   older versions as well.  The location of the ccmath package is set
   in Ravl/Math/CCMath/CCMath.def, set the 'CCMATH' variable to appropriate
   directory uncomment two lines following it, and comment out any other
@@ -77,10 +77,10 @@ To install go the root RAVL directory and type:
 
 ./install [location]
 
-NOTE: Most of the development of RAVL is being done on a Redhat 6.2
-box with gcc-2.95.2, at this stage in development things are most
+NOTE: Most of the development of RAVL is being done on a Redhat 7.2
+box with gcc-2.95.3, at this stage in development things are most
 likely to work on a similar box.  The installation system should be 
-changed to use a 'configure' script, its on my todo list, somewhere.
+changed to use a 'configure' script, its on my todo list.
 
 
 INSTALLATION FOR VISUAL C++
