@@ -16,12 +16,12 @@
 #include "Ravl/DP/FileFormatBinStream.hh"
 
 namespace RavlN {
-  static TypeNameC type1(typeid(MatrixC),"MatrixC");
-  static TypeNameC type2(typeid(VectorC),"VectorC");
-  static TypeNameC type3(typeid(VectorMatrixC),"VectorMatrixC");
-  static TypeNameC type4(typeid(SArray1dC<MatrixC>),"SArray1dC<MatrixC>");
-  static TypeNameC type5(typeid(SArray1dC<VectorC>),"SArray1dC<VectorC>");
-  static TypeNameC type6(typeid(SArray1dC<VectorMatrixC>),"SArray1dC<VectorMatrixC>");
+  static TypeNameC type1(typeid(MatrixC),"RavlN::MatrixC");
+  static TypeNameC type2(typeid(VectorC),"RavlN::VectorC");
+  static TypeNameC type3(typeid(VectorMatrixC),"RavlN::VectorMatrixC");
+  static TypeNameC type4(typeid(SArray1dC<MatrixC>),"RavlN::SArray1dC<MatrixC>");
+  static TypeNameC type5(typeid(SArray1dC<VectorC>),"RavlN::SArray1dC<VectorC>");
+  static TypeNameC type6(typeid(SArray1dC<VectorMatrixC>),"RavlN::SArray1dC<VectorMatrixC>");
   
   void InitMatrixIO()
   {}
