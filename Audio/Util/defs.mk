@@ -8,12 +8,14 @@
 
 PACKAGE=Ravl/Audio
 
-HEADERS=AudioIO.hh  Types.hh
+HEADERS=AudioIO.hh  Types.hh WindowSignal.hh
 
-SOURCES=AudioIO.cc
+SOURCES=AudioIO.cc WindowSignal.cc
 
 PLIB=RavlAudioUtil
 
 USESLIBS=RavlIO
 
 EHT= Ravl.Audio.IO.html
+
+TESTEXES= testAudioUtil.cc
