@@ -187,6 +187,11 @@ namespace RavlN {
     //: Set the values in the row i to those in 'val'.
     // 'val' must have a size equal to the number of columns
     
+    void SetSubArray(const Index2dC &origin,const SArray2dC<DataT> &vals);
+    //: Set sub array of this one. 
+    // The origin of 'vals' will be places at 'origin' of this array.
+    // NOTE: all of vals must fit within this array.
+    
   protected:
     SArray2dC(Buffer2dC<DataT> & bf, 
 	      const BufferAccessC<BufferAccessC<DataT> > &ab,
@@ -477,6 +482,18 @@ namespace RavlN {
   void SArray2dC<DataT>::SetRow(IndexC i,const SArray1dC<DataT> &val) {
     RavlAssert(val.Size() == Size2());
     for(BufferAccessIter2C<DataT,DataT> it((*this)[i],val);it;it++)
+      it.Data1() = it.Data2();
+  }
+
+  template<class DataT>
+  void SArray2dC<DataT>::SetSubArray(const Index2dC &origin,const SArray2dC<DataT> &vals) {
+    IndexRangeC trng1(origin[0],origin[0] + vals.Size1());
+    IndexRangeC trng2(origin[1],origin[1] + vals.Size1());
+    RavlAssert(trng1.Max() < Size1());
+    RavlAssert(trng2.Max() < Size2());
+    for(BufferAccess2dIter2C<DataT,DataT> it(*this,trng1,trng2,
+					     vals,IndexRangeC(0,vals.Size1()-1),IndexRangeC(0,vals.Size2()-1));
+	it;it++)
       it.Data1() = it.Data2();
   }
   
