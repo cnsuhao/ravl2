@@ -14,6 +14,10 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.GUI.Control"
 
+#include "Ravl/config.h"
+
+#if RAVL_USE_GTK2
+
 #include "Ravl/GUI/Widget.hh"
 #include "Ravl/String.hh"
 #include "Ravl/Threads/Signal1.hh"
@@ -197,6 +201,10 @@ namespace RavlGUIN {
   }  
 
 }
+
+#else 
+#warning ColourSelectorC is not supported (requires gtk2) 
+#endif
 
 
 #endif
