@@ -181,6 +181,11 @@ namespace Ravl3DN {
 	cerr << "ERROR: Mismatch in number of faces and number of texture coords. \n";
 	return false;
       }
+      if(numFaces != numFacesTex) {
+	cerr << "WARNING: Mismatch in number of faces (" << numFaces << ") and number of texture coords.(" << numFacesTex << ") \n";
+	return false;
+      }
+
       DLIterC<Index3dC> tit(triVert);
       DLIterC<Index3dC> ttit(triTex);
       for(;tait;tait++,tit++,ttit++) {
@@ -382,6 +387,7 @@ namespace Ravl3DN {
   {
     path = FilenameC(fn).PathComponent();
     if (!path.IsEmpty()) path += filenameSeperator ;
+    fullname = fn;
   }
   
   //: Put data.
@@ -404,14 +410,28 @@ namespace Ravl3DN {
     outf << "\tchildren [\n";
     const SArray1dC<VertexC>& verts = dat.Vertices();
     UByteT texid;
+    StringC tmpName = FilenameC(fullname).NameComponent();
+    IntT pnt = tmpName.index('.',-1);
+    if(pnt > 0)
+      tmpName = tmpName.before('.');
+    tmpName += '-';
+    
     SArray1dIter2C<ImageC<ByteRGBValueC>,StringC> itTex(dat.Textures(),dat.TexFilenames());
+    int tn = 0;
     for (texid=0; itTex; texid++, itTex++) {
+      StringC texName = itTex.Data2();
+      if(texName.IsEmpty()) {
+	texName = tmpName + StringC(tn) + StringC(".jpg");
+	tn++;
+      }
+      ONDEBUG(cerr << "Saving texture '" << texName << "'\n");
       // Output IFS
+      
       outf << "\tShape {\n";
       outf << "\t\tappearance Appearance {\n";
       // Output the texture name
       outf << "\t\t\ttexture ImageTexture {\n";
-      outf << "\t\t\t\turl \"" << itTex.Data2() << "\"\n";
+      outf << "\t\t\t\turl \"" << texName << "\"\n";
       outf << "\t\t\t}\n";
       outf << "\t\t}\n";
       outf << "\t\tgeometry IndexedFaceSet {\n";
@@ -520,7 +540,7 @@ namespace Ravl3DN {
       outf << "\t\t}\n";
       outf << "\t}\n";
       // Save the texture image
-      if (!RavlN::Save(path + itTex.Data2(),itTex.Data1())) {
+      if (!RavlN::Save(path + texName,itTex.Data1())) {
         cerr << "Error: Could not save texture\n";
         done = true;
         return false;

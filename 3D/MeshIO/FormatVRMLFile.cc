@@ -37,9 +37,9 @@ namespace Ravl3DN {
     // NOT IMPLEMENTED YET!
     //return typeid(void);
     ONDEBUG(cerr << "FileFormatVRMLBodyC::ProbeLoad(), IStreamC, ok \n");
-    if (obj_type == typeid(TexTriMeshC)) 
-      return typeid(TexTriMeshC);
-    return typeid(TriMeshC);
+    if (obj_type == typeid(TriMeshC)) 
+      return obj_type;
+    return typeid(TexTriMeshC);
   }
   
   const type_info & FileFormatVRMLBodyC::ProbeLoad(const StringC &nfilename,IStreamC &in,const type_info &obj_type) const {
@@ -55,9 +55,9 @@ namespace Ravl3DN {
       return typeid(TriMeshC);
     if(Extension(filename) != StringC("wrl") && filename != "-")
       return typeid(void);
-    if (obj_type == typeid(TexTriMeshC)) 
-      return typeid(TexTriMeshC);
-    return typeid(TriMeshC);
+    if (obj_type == typeid(TriMeshC)) 
+      return obj_type;
+    return typeid(TexTriMeshC);
   }
   
   //: Create a input port for loading from file 'filename'.
@@ -100,7 +100,7 @@ namespace Ravl3DN {
   
   //: Get prefered IO type.
   const type_info &FileFormatVRMLBodyC::DefaultType() const 
-  { return typeid(TriMeshC); }
+  { return typeid(TexTriMeshC); }
   
   
   //////////////////////////////////////////////////////////////////

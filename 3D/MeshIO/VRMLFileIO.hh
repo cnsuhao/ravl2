@@ -163,6 +163,7 @@ namespace Ravl3DN {
     OStreamC outf;
     bool done;
     StringC path;
+    StringC fullname;
   };
   
   //! userlevel=Advanced
