@@ -22,30 +22,41 @@ namespace RavlGUIN {
   // Render object.
   bool DPointSet3DBodyC::Render(Canvas3DC& canvas) 
   {
+    ONDEBUG(cerr << "DPointSet3DBodyC::Render(), Called. \n");
     // cerr << "Point set render number: " << pointSet.RenderNumber() << endl;
 
-    if (!pointSet.IsValid())
-    {
+    if (!pointSet.IsValid()) {
       cerr << "invalid point set" << endl;
       return true; // Don't do anything.
     }
-
+    
     SArray1dC<VertexC>& verts = pointSet.Vertices();
-
-#if 1
-    glColor3d(1.0,1.0,1.0);
-    glBegin(GL_POINTS);
-    for (UIntT ipoint = 0; ipoint < verts.Size(); ipoint++)
-    {
-      Vector3dC v = verts[ipoint].Position();
-      glVertex3d(v[0],v[1],v[2]);
-      // cerr << "v: " << v << endl;
-      // glVertex3dv(&verts[ipoint].Position()[0]);
+    if(pointSet.HaveColour()) {
+      SArray1dC<ByteRGBValueC> colours = pointSet.Colours();
+      glBegin(GL_POINTS);
+      for (UIntT ipoint = 0; ipoint < verts.Size(); ipoint++) {
+	Vector3dC &v = verts[ipoint].Position();
+	ByteRGBValueC &rgb = colours[ipoint];
+	glColor3d(rgb[0]/255.0,rgb[1]/255.0,rgb[2]/255.0);
+	glVertex3d(v[0],v[1],v[2]);
+	// cerr << "v: " << v << endl;
+	// glVertex3dv(&verts[ipoint].Position()[0]);
+      }
+      glEnd();
+      
+    } else {
+      glColor3d(1.0,1.0,1.0);
+      glBegin(GL_POINTS);
+      for (UIntT ipoint = 0; ipoint < verts.Size(); ipoint++) {
+	Vector3dC &v = verts[ipoint].Position();
+	glVertex3d(v[0],v[1],v[2]);
+	// cerr << "v: " << v << endl;
+	// glVertex3dv(&verts[ipoint].Position()[0]);
+      }
+      glEnd();
     }
-    glEnd();
-#endif
 
-
+    
 #if 0
     
     cerr << "vertex[0].Position(): " << verts[0].Position() << endl;
