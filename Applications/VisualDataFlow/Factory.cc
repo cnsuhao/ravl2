@@ -11,6 +11,7 @@
 
 #include "Ravl/DF/Factory.hh"
 #include "Ravl/DF/DFPump.hh"
+#include "Ravl/DF/DFStreamOp.hh"
 #include "Ravl/IO.hh"
 #include "Ravl/StringList.hh"
 #include "Ravl/DP/SequenceIO.hh"
@@ -19,6 +20,9 @@
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
 #include "Ravl/GUI/DPDisplayObj.hh"
+#include "Ravl/Image/EdgeDeriche.hh"
+#include "Ravl/DP/Method2Proc.hh"
+#include "Ravl/DP/ProcIStream.hh"
 
 #define DODEBUG 1
 #if DODEBUG
@@ -66,7 +70,13 @@ namespace RavlDFN {
       }
       return DFObjectC();
     }
-    
+    if(format == "proc") {
+      if(file == "EdgeDericheC") {
+	EdgeDericheC edgeDet;
+	DPProcIStreamC<ImageC<RealT>,ImageC<RealT> > proc(Process(edgeDet,&EdgeDericheC::EdgeMagnitude));
+	return DFStreamOpC("EdgeDericheC",proc);
+      }
+    }
     Load(file,ret,format);
     return ret;
   }
