@@ -57,10 +57,10 @@ namespace RavlN {
     virtual void Invoke()
     { (*FuncPtr())(); }
     //: Invoke event.
-    
+
     virtual RetT Call()
-      { return (*FuncPtr())(); }
-    //: Invoke event.
+      {  return (*FuncPtr())(); }
+    //: Call signal
     
   protected:
     VoidFuncPtrT func; // Function ptr.
@@ -83,6 +83,11 @@ namespace RavlN {
       FuncT FuncPtr() const
       { return (FuncT)(func); }
     //: Function.
+
+    virtual RCBodyVC &Copy() const
+      { return *new CallFunc0BodyC<RetT>(func); }
+    //: Copy call.
+
   };
   
   //! userlevel=Advanced
@@ -144,6 +149,10 @@ namespace RavlN {
     RetT operator()()
       { return Body().Call(); }
     //: Call function.
+    
+    CallFunc0C<RetT> Copy() const
+      { return CallFunc0C<RetT>(static_cast<CallFunc0BodyC<RetT> &>(Body().Copy())); }
+    //: Copy func call.
   };
 
   //////////////////////////////////////////////////////
@@ -190,12 +199,24 @@ namespace RavlN {
       { return (*FuncPtr())(pd); }
     //: Call event, with paramiter.
     
+    DataT &Data1()
+      { return dat1; }
+    //: Access data.
+    
+    const DataT &Data1() const
+      { return dat1; }
+    //: Access data.
+    
   protected:
     CallFunc1BodyC(RetT (*nfunc)(),const DataT &ndat)
       : CallFunc0BodyC<RetT>(nfunc),
 	dat1(ndat)
       {}
     //: Constructor.
+    
+    virtual RCBodyVC &Copy() const
+      { return *new CallFunc1BodyC<DataT,RetT>(func,dat1); }
+    //: Copy call.
 
     static RetT NoOp(DataT &) { 
       return RetT();
@@ -282,6 +303,19 @@ namespace RavlN {
     RetT operator()(DataT &pd)
       { return Body().Call(pd); }
     //: Call function with patamiter
+    
+    CallFunc1C<DataT,RetT> Copy() const
+      { return CallFunc1C<DataT,RetT>(static_cast<CallFunc1BodyC<DataT,RetT> &>(Body().Copy())); }
+    //: Copy func call.
+    
+    DataT &Data1()
+      { return Body().Data1(); }
+    //: Access data.
+    
+    const DataT &Data1() const
+      { return Body().Data1(); }
+    //: Access data.
+    
   };
 
   //////////////////////////////////////////////////////
@@ -332,12 +366,24 @@ namespace RavlN {
       { return (*FuncPtr())(pd1,pd2); }
     //: Invoke event, with paramiters.
     
+    Data2T &Data2()
+      { return dat2; }
+    //: Access data.
+    
+    const Data2T &Data2() const
+      { return dat2; }
+    //: Access data.
+    
   protected:
     CallFunc2BodyC(RetT (*nfunc)(),const Data1T &ndat1,const Data2T &ndat2)
       : CallFunc1BodyC<Data1T,RetT>(nfunc,ndat1),
 	dat2(ndat2)
       {}
     //: Constructor.
+    
+    virtual RCBodyVC &Copy() const
+      { return *new CallFunc2BodyC<Data1T,Data2T,RetT>(func,dat1,dat2); }
+    //: Copy call.
     
     Data2T dat2;
 
@@ -425,6 +471,18 @@ namespace RavlN {
     RetT operator()(Data1T &pd1,Data2T &pd2)
       { return Body().Call(pd1,pd2); }
     //: Call function with patamiters
+   
+    CallFunc2C<Data1T,Data2T,RetT> Copy() const
+      { return CallFunc2C<Data1T,Data2T,RetT>(static_cast<CallFunc2BodyC<Data1T,Data2T,RetT> &>(Body().Copy())); }
+    //: Copy func call.
+   
+    Data2T &Data2()
+      { return Body().Data2(); }
+    //: Access data.
+   
+    const Data2T &Data2() const
+      { return Body().Data2(); }
+    //: Access data.
   };
   
   //////////////////////////////////////////////////////
@@ -479,12 +537,24 @@ namespace RavlN {
       { return (*FuncPtr())(pd1,pd2,pd3); }
     //: Invoke event, with paramiters.
     
+    Data3T &Data3()
+      { return dat3; }
+    //: Access data.
+    
+    const Data3T &Data3() const
+      { return dat3; }
+    //: Access data.
+    
   protected:
     CallFunc3BodyC(RetT (*nfunc)(),const Data1T &ndat1,const Data2T &ndat2,const Data3T &ndat3)
       : CallFunc2BodyC<Data1T,Data2T,RetT>((VoidFuncPtrT) nfunc,ndat1,ndat2),
 	dat3(ndat3)
       {}
     //: Constructor.
+    
+    virtual RCBodyVC &Copy() const
+      { return *new CallFunc3BodyC<Data1T,Data2T,Data3T,RetT>(func,dat1,dat2,dat3); }
+    //: Copy call.
     
     Data3T dat3;
 
@@ -571,6 +641,18 @@ namespace RavlN {
     RetT operator()(Data1T &pd1,Data2T &pd2,Data3T &pd3)
       { return Body().Call(pd1,pd2,pd3); }
     //: Call function with patamiters
+
+    CallFunc3C<Data1T,Data2T,Data3T,RetT> Copy() const
+      { return CallFunc3C<Data1T,Data2T,Data3T,RetT>(static_cast<CallFunc3BodyC<Data1T,Data2T,Data3T,RetT> &>(Body().Copy())); }
+    //: Copy func call.
+
+    Data3T &Data3()
+      { return Body().Data3(); }
+    //: Access data.
+   
+    const Data3T &Data3() const
+      { return Body().Data3(); }
+    //: Access data.
     
   };
 
@@ -629,6 +711,14 @@ namespace RavlN {
     virtual RetT Call(Data1T &pd1,Data2T &pd2,Data3T &pd3,Data4T &pd4)
       { return (*FuncPtr())(pd1,pd2,pd3,pd4); }
     //: Invoke event, with paramiters.
+
+    Data4T &Data4()
+      { return dat4; }
+    //: Access data.
+    
+    const Data4T &Data4() const
+      { return dat4; }
+    //: Access data.
     
   protected:
     CallFunc4BodyC(RetT (*nfunc)(),const Data1T &ndat1,const Data2T &ndat2,const Data3T &ndat3,const Data4T &ndat4)
@@ -636,6 +726,10 @@ namespace RavlN {
 	dat4(ndat4)
       {}
     //: Constructor.
+
+    virtual RCBodyVC &Copy() const
+      { return *new CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT>(func,dat1,dat2,dat3,dat4); }
+    //: Copy call.
     
     Data4T dat4;
 
@@ -724,6 +818,18 @@ namespace RavlN {
       { return Body().Call(pd1,pd2,pd3,pd4); }
     //: Call function with patamiters
     
+    CallFunc4C<Data1T,Data2T,Data3T,Data4T,RetT> Copy() const
+      { return CallFunc4C<Data1T,Data2T,Data3T,Data4T,RetT>(static_cast<CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT> &>(Body().Copy())); }
+    //: Copy func call.
+    
+    Data4T &Data4()
+      { return Body().Data4(); }
+    //: Access data.
+   
+    const Data4T &Data4() const
+      { return Body().Data4(); }
+    //: Access data.
+    
   };
 
   //////////////////////////////////////////////////////
@@ -792,6 +898,14 @@ namespace RavlN {
       { return (*FuncPtr())(pd1,pd2,pd3,pd4,pd5); }
     //: Invoke event, with paramiters.
     
+    Data5T &Data5()
+      { return dat5; }
+    //: Access data.
+    
+    const Data5T &Data5() const
+      { return dat5; }
+    //: Access data.
+    
   protected:
     CallFunc5BodyC(RetT (*nfunc)(),
 		   const Data1T &ndat1,
@@ -803,6 +917,10 @@ namespace RavlN {
 	dat5(ndat5)
       {}
     //: Constructor.
+    
+    virtual RCBodyVC &Copy() const
+      { return *new CallFunc5BodyC<Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(func,dat1,dat2,dat3,dat4,dat5); }
+    //: Copy call.
     
     Data5T dat5;
 
@@ -895,6 +1013,18 @@ namespace RavlN {
       { return Body().Call(pd1,pd2,pd3,pd4,pd5); }
     //: Call function with patamiters
     
+    CallFunc5C<Data1T,Data2T,Data3T,Data4T,Data5T,RetT> Copy() const
+      { return CallFunc5C<Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(static_cast<CallFunc5BodyC<Data1T,Data2T,Data3T,Data4T,Data5T,RetT> &>(Body().Copy())); }
+    //: Copy func call.
+    
+    Data5T &Data5()
+      { return Body().Data5(); }
+    //: Access data.
+   
+    const Data5T &Data5() const
+      { return Body().Data5(); }
+    //: Access data.
+
   };
 
 

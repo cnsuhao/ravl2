@@ -40,6 +40,10 @@ namespace RavlN {
   protected:
     typedef RetT (ObjT::*FuncT)();
     //: Function ptr type.
+
+    virtual RCBodyVC &Copy() const
+      { return *new CallMethodRef0BodyC<ObjT,RetT>(obj,FuncPtr()); }
+    //: Copy call.
     
     FuncT mPtr;
     
@@ -105,6 +109,10 @@ namespace RavlN {
   protected:
     typedef RetT (ObjT::*FuncT)(DataT &);
     //: Function ptr type.
+
+    virtual RCBodyVC &Copy() const
+      { return *new CallMethodRef1BodyC<ObjT,DataT,RetT>(obj,FuncPtr(),dat1); }
+    //: Copy call.
 
     FuncT mPtr;
     
@@ -179,6 +187,10 @@ namespace RavlN {
       { return mPtr; }
     //: Function.
     
+    virtual RCBodyVC &Copy() const
+      { return *new CallMethodRef2BodyC<ObjT,Data1T,Data2T,RetT>(obj,FuncPtr(),dat1,dat2); }
+    //: Copy call.
+    
     FuncT mPtr;
     
     ObjT &obj;
@@ -244,6 +256,10 @@ namespace RavlN {
   protected:
     typedef RetT (ObjT::*FuncT)(Data1T &,Data2T &,Data3T &);
     //: Function ptr type.
+
+    virtual RCBodyVC &Copy() const
+      { return *new CallMethodRef3BodyC<ObjT,Data1T,Data2T,Data3T,RetT>(obj,FuncPtr(),dat1,dat2,dat3); }
+    //: Copy call.
     
     FuncT mPtr;
     
@@ -319,6 +335,10 @@ namespace RavlN {
   protected:
     typedef RetT (ObjT::*FuncT)(Data1T &,Data2T &,Data3T &,Data4T &);
     //: Function ptr type.
+
+    virtual RCBodyVC &Copy() const
+      { return *new CallMethodRef4BodyC<ObjT,Data1T,Data2T,Data3T,Data4T,RetT>(obj,FuncPtr(),dat1,dat2,dat3,dat4); }
+    //: Copy call.
     
     FuncT mPtr;
 
@@ -398,6 +418,10 @@ namespace RavlN {
   protected:
     typedef RetT (ObjT::*FuncT)(Data1T &,Data2T &,Data3T &,Data4T &,Data5T &);
     //: Function ptr type.
+
+    virtual RCBodyVC &Copy() const
+      { return *new CallMethodRef5BodyC<ObjT,Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(obj,FuncPtr(),dat1,dat2,dat3,dat4,dat5); }
+    //: Copy call.
     
     FuncT mPtr;
     

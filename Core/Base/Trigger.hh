@@ -32,6 +32,7 @@ namespace RavlN {
     
     virtual void Invoke();
     //: Trigger event.
+
   };
   
   //! userlevel=Normal
@@ -64,6 +65,7 @@ namespace RavlN {
     void Invoke()
       { Body().Invoke(); }
     //: Invoke signal.
+
   };
 
 
