@@ -97,11 +97,11 @@ namespace RavlN {
     //: Get the last ilink in the list.
     
     const DataT &First() const
-      { return static_cast<DataT &>(head.Next()); }
+      { return static_cast<const DataT &>(head.Next()); }
     //: Get first link in list.
     
     const DataT &Last() const
-      { return static_cast<DataT &>(head.Prev()); }
+      { return static_cast<const DataT &>(head.Prev()); }
     //: Get the last ilink in the list.
     
     //---------- Elementary changes in the list -------------
