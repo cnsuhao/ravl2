@@ -275,8 +275,8 @@ namespace RavlCxxDocN {
     FilenameC adir(fn);
     if(adir.IsDirectory()) {
       DirectoryC dir(adir);
-      DListC<FilenameC> fl = dir.List();
-      for(DLIterC<FilenameC> it(fl);it;it++) {
+      DListC<StringC> fl = dir.List();
+      for(DLIterC<StringC> it(fl);it;it++) {
 	FilenameC efn(adir + filenameSeperator + *it);
 	ONDEBUG(cerr << "DocTreeBodyC::ReadEHTSet(), Found file '" << efn << "' \n");
 	if(!efn.IsRegular())

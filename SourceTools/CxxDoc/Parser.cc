@@ -63,8 +63,8 @@ namespace RavlCxxDocN
     if(rootFilename == "")
       rootFilename = fn;
     DirectoryC dir(fn);
-    DListC<FilenameC> files = dir.List();
-    for(DLIterC<FilenameC> it(files);it.IsElm();it.Next()) {
+    DListC<StringC> files = dir.List();
+    for(DLIterC<StringC> it(files);it.IsElm();it.Next()) {
       if(it.Data() == "." || it.Data() == "..")
 	continue;
       FilenameC newFn(fn + '/' + it.Data());

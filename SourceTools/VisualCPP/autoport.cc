@@ -33,8 +33,8 @@ void BuildTemplates(StringC &templFile,AutoPortSourceC &src,StringC &outFile) {
   if(FilenameC(templFile).IsDirectory()) {
     ONDEBUG(cerr << "Processing templates in :'" << templFile << "'\n");
     DirectoryC dir(templFile);
-    DListC<FilenameC> fl = dir.FiltList("*.tmpl");
-    for(DLIterC<FilenameC> it(fl);it;it++) {
+    DListC<StringC> fl = dir.FiltList("*.tmpl");
+    for(DLIterC<StringC> it(fl);it;it++) {
       StringC subDir = dir + filenameSeperator + *it;
       BuildTemplates(subDir,src,outFile);
     }

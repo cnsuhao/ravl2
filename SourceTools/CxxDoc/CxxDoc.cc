@@ -39,8 +39,8 @@ extern bool verbose;
 void BuildTemplates(FilenameC templFile,RavlCxxDocN::ObjectListC &ol,StringC &outFile,DocTreeC &dt) {
   if(templFile.IsDirectory()) {
     DirectoryC dir(templFile);
-    DListC<FilenameC> fl = dir.FiltList("*.tmpl");
-    for(DLIterC<FilenameC> it(fl);it;it++) 
+    DListC<StringC> fl = dir.FiltList("*.tmpl");
+    for(DLIterC<StringC> it(fl);it;it++) 
       BuildTemplates(dir + filenameSeperator + *it,ol,outFile,dt);
     return;
   }

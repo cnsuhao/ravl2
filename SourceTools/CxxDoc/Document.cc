@@ -307,13 +307,13 @@ namespace RavlCxxDocN {
 	StringC searchDir = outputDir + theRest.before('/',-1);
 	DirectoryC dir(searchDir);
 	StringC filterStr = theRest.after('/',-1);
-	DListC<FilenameC> files = dir.FiltList(filterStr);
+	DListC<StringC> files = dir.FiltList(filterStr);
 	cerr << "Found " << files.Size() << " files in " << searchDir << "/" << theRest.after('/',-1) << "\n";
-	for(DLIterC<FilenameC> it(files);it;it++) {
+	for(DLIterC<StringC> it(files);it;it++) {
 	  if(it->firstchar() == '.' && filterStr.firstchar() != '.')
 	    continue; // Ignore dot files if its not in the filter.
 	  FilenameC fn(outputDir + filePattern);
-	  StringC cfn = it->NameComponent();
+	  StringC cfn = FilenameC(*it).NameComponent();
 	  fn.gsub("%",cfn);
 	  cerr << "******* GENERATING FILE " << fn << " for '" << *it << "' ********** \n";
 	  DocNodeC docNode(cfn,"Examples","Default","",*it);
