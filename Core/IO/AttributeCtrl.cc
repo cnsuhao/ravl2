@@ -10,6 +10,9 @@
 
 #include "Ravl/DP/AttributeCtrl.hh"
 #include "Ravl/DP/AttributeType.hh"
+#include "Ravl/Hash.hh"
+#include "Ravl/DList.hh"
+#include "Ravl/DLIter.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -20,17 +23,78 @@
 #endif
 
 namespace RavlN {
+
+  class AttributeCtrlInternalC {
+  public:
+    AttributeCtrlInternalC()
+    {}
+    //: Default constructor.
+    
+    bool RegisterAttribute(const AttributeTypeC &attr) {
+      attribTypes[attr.Name()] = attr;
+      attribTypeList.InsLast(attr);
+      return true;
+    }
+    //: Register an attribute.
+    
+    bool GetAttrList(DListC<StringC> &list) const {
+      for(DLIterC<AttributeTypeC> it(attribTypeList);it;it++)
+	list.InsLast(it->Name());
+      return true;
+    }
+    //: Get list of attributes.
+    
+    bool GetAttrTypes(DListC<AttributeTypeC> &list) const {
+      for(DLIterC<AttributeTypeC> it(attribTypeList);it;it++)
+	list.InsLast(*it);
+      return true;
+    }
+    //: Get list of attribute info.
+    
+    AttributeTypeC GetAttrType(const StringC &attrName) const {
+      AttributeTypeC ret;
+      attribTypes.Lookup(attrName,ret);
+      return ret;
+    }
+    //: Get type of a particular attribute. 
+    
+    HashC<StringC,AttributeTypeC> attribTypes;
+    DListC<AttributeTypeC> attribTypeList;
+  };
+
+  //: Default constructor.
+  
+  AttributeCtrlBodyC::AttributeCtrlBodyC()
+    : attrInfo(0)
+  {}
   
   //: Stream constructor.
   
   AttributeCtrlBodyC::AttributeCtrlBodyC(istream &in) 
-    : DPEntityBodyC(in)
+    : DPEntityBodyC(in),
+      attrInfo(0)
   {}
+  
+  //: Copy constructor.
+  
+  AttributeCtrlBodyC::AttributeCtrlBodyC(const AttributeCtrlBodyC &bod)
+    : attrInfo(0)
+  {
+    RavlAssertMsg(0,"Not implemented. ");
+  }
   
   //: Destructor.
   
-  AttributeCtrlBodyC::~AttributeCtrlBodyC()
-  {}
+  AttributeCtrlBodyC::~AttributeCtrlBodyC() {
+    if(attrInfo != 0)
+      delete attrInfo;
+  }
+  
+  //: Assignment operator.
+  AttributeCtrlBodyC &AttributeCtrlBodyC::operator=(const AttributeCtrlBodyC &) {
+    RavlAssertMsg(0,"Not implemented. ");
+    return *this;
+  }
   
   //: Get Parent attribute control.
   
@@ -182,6 +246,8 @@ namespace RavlN {
   //: Get list of attributes available.
   
   bool AttributeCtrlBodyC::GetAttrList(DListC<StringC> &list) const {
+    if(attrInfo != 0)
+      attrInfo->GetAttrList(list);
     AttributeCtrlC parent = ParentCtrl();
     // Try pasing it back along the processing chain.
     if(parent.IsValid())
@@ -192,6 +258,8 @@ namespace RavlN {
   //: Get a list of available attribute types.
   
   bool AttributeCtrlBodyC::GetAttrTypes(DListC<AttributeTypeC> &list) const {
+    if(attrInfo != 0)
+      attrInfo->GetAttrTypes(list);
     AttributeCtrlC parent = ParentCtrl();
     // Try pasing it back along the processing chain.
     if(parent.IsValid())
@@ -203,6 +271,11 @@ namespace RavlN {
   // Returns an invalid handle if attribute is unknown.
   
   AttributeTypeC AttributeCtrlBodyC::GetAttrType(const StringC &attrName) const {
+    if(attrInfo != 0) {
+      AttributeTypeC attr;
+      if((attr = attrInfo->GetAttrType(attrName)).IsValid())
+	return attr;
+    }
     AttributeCtrlC parent = ParentCtrl();
     // Try pasing it back along the processing chain.
     if(parent.IsValid())
@@ -223,6 +296,20 @@ namespace RavlN {
   
   bool AttributeCtrlBodyC::RemoveChangedSignal(IntT id) {
     return false;
+  }
+  
+  //: Signal that an attribute has changed.
+  
+  bool AttributeCtrlBodyC::SignalChange(const StringC &attrName) {
+    return false;
+  }
+  
+  //: Register a new attribute type.
+  
+  bool AttributeCtrlBodyC::RegisterAttribute(const AttributeTypeC &attr) {
+    if(attrInfo == 0)
+      attrInfo = new AttributeCtrlInternalC();
+    return attrInfo->RegisterAttribute(attr);
   }
   
   //--------------------------------------------------------------------------

@@ -20,6 +20,7 @@ namespace RavlN {
   class AttributeCtrlC;
   class TriggerC;
   template<class DataT> class DListC;
+  class AttributeCtrlInternalC;
   
   //! userlevel=Develop
   //: Interface for reading and writting attribute values.
@@ -28,15 +29,20 @@ namespace RavlN {
     : virtual public DPEntityBodyC 
   {
   public:
-    AttributeCtrlBodyC()
-    {}
+    AttributeCtrlBodyC();
     //: Default constructor.
     
     AttributeCtrlBodyC(istream &in);
     //: Stream constructor.
     
+    AttributeCtrlBodyC(const AttributeCtrlBodyC &bod);
+    //: Copy constructor.
+    
     virtual ~AttributeCtrlBodyC();
     //: Destructor.
+    
+    AttributeCtrlBodyC &operator=(const AttributeCtrlBodyC &);
+    //: Assignment operator.
     
     virtual AttributeCtrlC ParentCtrl() const;
     //: Get Parent attribute control.
@@ -103,7 +109,16 @@ namespace RavlN {
     virtual bool RemoveChangedSignal(IntT id);
     //: Remove a changed signal.
     // Note: This method may not be implemented for all AttributeCtrl's.
+
+    virtual bool RegisterAttribute(const AttributeTypeC &attr);
+    //: Register a new attribute type.
+
+  protected:
+    virtual bool SignalChange(const StringC &attrName);
+    //: Signal that an attribute has changed.
     
+  private:
+    AttributeCtrlInternalC *attrInfo;
   };
   
   //! userlevel=Normal
@@ -214,6 +229,11 @@ namespace RavlN {
     { return Body().RemoveChangedSignal(id); }
     //: Remove a changed signal.
     // Note: This method may not be implemented for all AttributeCtrl's.
+    
+    bool RegisterAttribute(const AttributeTypeC &attr) 
+    { return Body().RegisterAttribute(attr); }
+    //: Register a new attribute type.
+    // Returns true if attribute of the same name already exists.
     
     friend class AttributeCtrlBodyC;
   };
