@@ -118,7 +118,6 @@ namespace RavlN {
     
     bool Del(void);
     //: Delete current item from table, move to next.
-    // -> this breaks HashAR, if required I'll make a new non-constant iterator which can do this. <br>
     // Returns true if at a valid element.
     
     HashIterC<K,T> &operator=(const HashC<K,T> &oth) { 
@@ -167,9 +166,8 @@ namespace RavlN {
   template<class K,class T>
   bool HashIterC<K,T>::Del(void) {
     lIt.Del();// Delete old member from list.
-    lIt.Next(); // Goto next element.
-    hashtable->CheckDel(false); // Make sure element cound is decremented.
-    return CheckValid(); 
+    hashtable->CheckDel(false); // Make sure element count is decremented, but don't resize the table.
+    return Next(); // Goto next element.
   }
   
 }

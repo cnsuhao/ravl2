@@ -17,6 +17,7 @@
 using namespace RavlN;
 
 int BasicTest();
+int IntersectTest();
 
 int main(int nargs,char *argv[])
 {
@@ -24,6 +25,10 @@ int main(int nargs,char *argv[])
   if((errline = BasicTest()) != 0) {
     cerr << "HSetC test failed on line " << errline << "\n";
     return 1;
+  }
+  if((errline = IntersectTest()) != 0) {
+    cerr << "HSetC test failed on line " << errline << "\n";
+    return 1;    
   }
   cerr << "Test passed. \n";
   return 0;
@@ -61,6 +66,24 @@ int BasicTest() {
   if(set1.Size() != 2) return __LINE__; // Copy worked ok ?
   set1.Empty();
   if(set1.Size() != 0) return __LINE__;
+  return 0;
+}
+
+int IntersectTest() {
+  HSetC<StringC> set1;
+  set1 += "one";
+  set1 += "two";
+  set1 += "three";
+  set1 += "four";
+  HSetC<StringC> set2;
+  set2 += "two";
+  set2 += "three";
+  set1.IntersectIP(set2);
+  if(set1.Size() != 2) return __LINE__;
+  if(!set1["two"]) return __LINE__;
+  if(!set1["three"]) return __LINE__;
+  if(set1["one"]) return __LINE__;
+  if(set1["four"]) return __LINE__;
   return 0;
 }
 

@@ -245,6 +245,22 @@ int testHashMisc() {
     istr >> test;
     if(test.Lookup(1,v)) return __LINE__;
   }
+  
+#if 0
+  HashC<StringC,StringC> tab;
+  StringC s1("hello");
+  cerr << "S1="<< (void *) &(s1[0]) << "\n";
+  StringC s2("hello");
+  StringC s3("hello");
+  cerr << "S2="<< (void *) &(s2[0]) << "\n";
+  tab[s1] = s1;
+  tab.NormaliseKey(s2);
+  cerr << "N S2="<< (void *) &(s2[0]) << "\n";
+  cerr << "S3="<< (void *) &(s3[0]) << "\n";
+  tab.NormaliseKey(s3);
+  cerr << "N S3="<< (void *) &(s3[0]) << "\n";
+#endif
+  
   return 0;
 }
 

@@ -221,6 +221,11 @@ namespace RavlN {
     { return (oth.set == set); }
     //: Is iterator going through set 'oth' ?
     
+    inline bool Del()
+    { return iter.Del(); }
+    //: Delete current element, and leave iterator pointing to next element.
+    // Returns true if iterator is left on a valid element.
+    
   private:
     RCHashC<T,EmptyC> set;   // Make a handle to set.
     HashIterC<T,EmptyC> iter;
@@ -344,10 +349,14 @@ namespace RavlN {
   }
   
   template<class T>
-  bool HSetC<T>::IntersectIP(const HSetC<T> &Oth) {
-    for(HSetIterC<T> Iter(*this);Iter.IsElm();Iter.Next()) 
-      if(!Oth.IsMember(Iter.Data()))
-	Remove(Iter.Data());
+  bool HSetC<T>::IntersectIP(const HSetC<T> &oth) {
+    HSetIterC<T> it(*this);
+    while(it) {
+      if(!oth.IsMember(it.Data()))
+	it.Del();
+      else
+        it.Next();
+    }
     return !IsEmpty();
   }
   
