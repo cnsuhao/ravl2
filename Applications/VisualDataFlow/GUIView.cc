@@ -416,11 +416,14 @@ namespace RavlDFN {
     ONDEBUG(cerr << "GUIViewBodyC::CreateLink(ViewElementC &,ViewElementC &), Called. \n");
     if(!system.IsValid())
       return true;
-    if(!elm1.Object().IsValid() || !elm2.Object().IsValid())
+    DFObjectC obj1 = elm1.Object();
+    DFObjectC obj2 = elm2.Object(); 
+    if(!obj1.IsValid() || !obj2.IsValid())
       return false;
-    ret = DFObjectC(obj1).LinkTo(DFObjectC(obj2),autoConvert);
-    if(ret.IsValid())
-      system.AddObject(ret);
+    DFObjectC newun = DFObjectC(obj1).LinkTo(DFObjectC(obj2),autoConvert);
+    if(!newun.IsValid())
+      return false;
+    system.AddObject(newun);
     return true;
   }
   
