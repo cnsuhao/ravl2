@@ -21,6 +21,7 @@
 #include "Ravl/Image/Image.hh"
 #include "Ravl/TimeCode.hh"
 
+#include "Ravl/OS/Date.hh"
 using namespace RavlN ; 
 using namespace RavlImageN ; 
 
@@ -50,7 +51,11 @@ int VGrab(int argc, char ** argv)
 
   //: create a name for the timecode file 
   // -------------------------------------
-  FilenameC tcFile = outFile.BaseNameComponent()+".tc" ; 
+  FilenameC tcFile ; 
+  if ( outFile.PathComponent() == "" ) tcFile = outFile.BaseNameComponent()+".tc" ;
+  else 
+    tcFile = outFile.PathComponent()  + "/" + outFile.BaseNameComponent()+".tc" ; 
+  cerr << "tcFile -= " << tcFile ; 
   OStreamC tcStream(tcFile) ; 
 
 
@@ -66,27 +71,7 @@ int VGrab(int argc, char ** argv)
 
 
 
-  // check timecode support for device 
-  // -------------------------
-  cerr << "\n   -  Checking Timecode Support .... " ; 
-  bool hasTimecode = false; 
-  DListC<StringC> attList ; 
-  inStream.GetAttrList(attList) ; 
-  for ( DLIterC<StringC> iter(attList) ; iter ; iter++ ) 
-    if ( iter.Data() == "timecode" ) 
-      { hasTimecode = true ; break ; } 
-  if ( !hasTimecode && ( (start != "now") || ( opts.IsOnCommandLine("end") ) ) ) 
-    // if we dont understand timecodes then capture must start now and must count frames 
-    RavlIssueError ( StringC("\n   -  The device " + device + "does not support timecodes. Please specify number of frames instead" ) ) ; 
-  
-  if ( start != "now" && opts.IsOnCommandLine("n") ) 
-    RavlIssueError ( "\n    -  -n Cannot be used with -start timecode other than 'now' " ) ; 
-  
-  cerr << "\t\t\t\t\tOK ! Device has timecode support " ; 
-  
-
-
-  // setup some variables 
+ // setup some variables 
   // -----------------------  
   ImageT tmpImage  = inStream.Get(); 
   TimeCodeC timeNow   = inStream.GetAttr("timecode") ;
@@ -94,14 +79,39 @@ int VGrab(int argc, char ** argv)
   DListC<TimeCodeC> tcList ; 
 
 
-
+  // check timecode support for device 
+  // -------------------------
+  cerr << "\n   -  Checking Timecode Support .... " ;
+  bool hasTimecode = false ; 
+  bool useTimecode = false ;
+  
+  // does device support it 
+  DListC<StringC> attList ; 
+  inStream.GetAttrList(attList) ; 
+  for ( DLIterC<StringC> iter(attList) ; iter ; iter++ ) 
+    if ( iter.Data() == "timecode" ) 
+      { hasTimecode = true ; break ; } 
+  
   // See if a timecode can be found ; 
-  // --------------------------------
-  cerr << "\n   -  Checking if Timecodes can be read .... " ; 
-  if ( hasTimecode && (timeNow=="") )
-    RavlIssueError ("\n   -  Error no timecodes present on video stream, please do not use timecodes with this channel ") ; 
-  cerr << "\t\t\t\tOK !" ; 
+  if (timeNow!="00:00:00:00" && timeNow!="")  //: BUG - What if the timecode really is 00:00:00:00 ! 
+    useTimecode = true ; 
 
+  // display some status 
+  if ( hasTimecode ) 
+    cerr << "\n     -  Device supports timecodes " ; 
+  else 
+    cerr << "\n     -  Device does not support timecodes " ; 
+  
+  if ( useTimecode ) 
+    cerr << "\n     -  Timecode read successfully from video stream " ; 
+  else 
+    cerr << "\n     -  Unable to read timecode from video stream " ; 
+
+  
+  // do some checks 
+  if ( !useTimecode && ( opts.IsOnCommandLine("end") || start != "now" ) ) 
+    RavlIssueError ("\n   -  Error unable to use timecodes, specify frame count instead and set -start to 'now' ") ; 
+  
 
   
   //: Show Current timecode 
@@ -140,7 +150,7 @@ int VGrab(int argc, char ** argv)
     TimeCodeC timeLeft (0) ;
     if (statusStep >= 100 ) {
       timeLeft = TimeCodeC(start) - timeNow ; 
-      cerr << "\n    -  Time now:" << timeNow.ToText()  << "\t Waiting for:" << (TimeCodeC(start)-1).ToText() << "\t\tTime remaining" 
+      cerr << "\n    -  Time now: " << timeNow.ToText()  << "\t Waiting for: " << (TimeCodeC(start)-1).ToText() << "\t\tTime remaining: " 
 	   << timeLeft.ToText() ;  
       statusStep = 0 ; } 
   }
@@ -154,36 +164,45 @@ int VGrab(int argc, char ** argv)
   // -----------------
   // -----------------
   cerr << "\n\n   - Starting capture " ; 
-  TimeCodeC endTime = end, nextGrab = start ;
-  UIntT count = 1 ; 
-  //  imgList.InsLast(tmpImage) ; 
-  //tcList.InsLast(timeNow ) ; 
+ 
   
   // using timecodes 
   // ----------------
-  if ( opts.IsOnCommandLine("end") ) 
-    while ( true ) 
+  if ( useTimecode  ) 
+    {
+      TimeCodeC nextGrab = timeNow + 1 ; 
+      TimeCodeC endTime = end ; 
+      if ( opts.IsOnCommandLine("n") ) endTime = nextGrab + howMany ; 
+      cerr << "\n   -  First Grab will be: " << nextGrab.ToText() << "  \t and endtime is: " << endTime.ToText() ; 
+
+      while ( true ) 
       {
-	if (timeNow >= end) break ; 
+	Sleep ( .5) ; 
+	//cerr << "\n Time now " << timeNow.ToText() << "end is " << endTime.ToText() << " cond = " << (timeNow>=nextGrab) ; 
+	if (timeNow >= endTime) break ; 
 	tmpImage = inStream.Get() ; 
 	timeNow =  inStream.GetAttr("timecode") ;  
 	// decide if we want this frame 
 	if ( timeNow >= nextGrab ) 
 	  {
+	    if (verbose) cerr << "\n     -  Grabbed frame " << timeNow.ToText() << "\t expected: " << nextGrab.ToText() ; 
+
 	    if ( timeNow != nextGrab ) {
 	      cerr << "\n  *** Dropped frame with timecode " << nextGrab.ToText() 
-		   << "\t Grabbing " << timeNow << " instead !" ; 
+		   << "\t Grabbing " << timeNow.ToText() << " instead !" ; 
 	      nextGrab = timeNow ; 
 	    }
 	    imgList.InsLast(tmpImage) ; 
 	    tcList.InsLast(timeNow) ; 
 	    nextGrab += frameStep ; 
-	  } }
-  
+	  } 
+      }
+    }
   
   else { 
     // just count frames 
     // -----------------
+    UIntT count = 1 ; 
     UIntT stepCount = frameStep ; 
     while (true) 
       {
@@ -201,9 +220,9 @@ int VGrab(int argc, char ** argv)
 	else 
 	  ++ stepCount ; 
       }
-    nextGrab = timeNow + frameStep ; 
-      tmpImage = inStream.Get() ; 
-      timeNow = inStream.GetAttr("timecode") ;  
+    //nextGrab = timeNow + frameStep ; 
+    tmpImage = inStream.Get() ; 
+    timeNow = inStream.GetAttr("timecode") ;  
     }
   
 
