@@ -232,11 +232,7 @@ namespace RavlGUIN {
     bool GUISetModal(bool& modal) 
     { return Body().GUISetModal(modal); }
     //: Makes the window modal
-
-    bool GUIMakeTransient(WindowC& parent)
-    { return Body().GUIMakeTransient(parent); }
-    //: Makes this window transient for the parent
- 
+    
  public:
     void Destroy() { 
       WidgetC::Destroy(); 
@@ -294,6 +290,10 @@ namespace RavlGUIN {
     void SetCursor(CursorC &cur)
     { Body().SetCursor(cur); }
     //: Set cursor.
+    
+    bool GUIMakeTransient(WindowC& parent)
+    { return Body().GUIMakeTransient(parent); }
+    //: Makes this window transient for the parent
     
     friend class WindowBodyC;
   };
