@@ -123,8 +123,9 @@ namespace RavlN {
     DataT &KthHighest(UIntT k);
     //: k'th highest element of a collection
     // k should be between 0 and Size()-1. For the median use k = Size()/2.
-    // The DataT type class must have the < and > operators defined on them.
-
+    // The DataT type class must have the < and > operators defined on them. <p>
+    // Note: This method re-orders the contents of the collection.
+    
     DataT &operator[](IndexC ind) { 
       RavlAssertMsg(ind < n,"Index out of range.");
       return data[ind];
@@ -399,81 +400,78 @@ namespace RavlN {
     return ret;
   }
 
-#define SWAP_ELEMENTS(i,j) {DataT tmp=data[i]; data[i]=data[j]; data[j]=tmp;}
-
   template<class DataT>
-  DataT& CollectionBodyC<DataT>::KthHighest(UIntT k)
-  {
-    RavlAssert(k < Size());
-    UIntT low=0, high=Size()-1;
-
+  DataT& CollectionBodyC<DataT>::KthHighest(UIntT ik) {
+    DataT *k = &data[ik];
+    DataT *low = &data[0];
+    DataT *high = &data[Size()-1];
+    
     for(;;) {
       // if low and high element are the same, we're done
       if ( low == high ) {
 	RavlAssert(low == k);
-	return data[k];
+	return *k;
       }
-
+      
       // if low and high are consecutive, choose one of them
       if ( low == high-1 ) {
-	if ( data[low] > data[high] ) SWAP_ELEMENTS(low,high)
-
+	if ( *low > *high ) 
+	  Swap(*low,*high);
 	RavlAssert(low == k || high == k);
-	return data[k];
+	return *k;
       }
-
+      
       // choose a comparison element as median of low, high and middle
       // element of current sub-array
-      UIntT middle = (low+high) >> 1;
-
+      DataT *middle = low + ((high - low) / 2);
+      
       // move median element to position low+1, and swap around low and high
       // elements if necessary to maintain their order
-      if ( data[low] < data[high] ) {
-	if ( data[high] < data[middle] )
+      if ( *low < *high ) {
+	if ( *high < *middle )
 	  // high is the median of the three; swap with middle element
-	  SWAP_ELEMENTS(high,middle)
-	else if ( data[low] > data[middle] )
+	  Swap(*high,*middle);
+	else if ( *low > *middle )
 	  // low is the median of the three
-	  SWAP_ELEMENTS(low,middle)
+	  Swap(*low,*middle);
       }
       else {
 	// first swap low and high to put them in order
-	SWAP_ELEMENTS(low,high)
-	if ( data[high] < data[middle] )
+	Swap(*low,*high);
+	if ( *high < *middle )
 	  // high is the median of the three; swap with middle element
-	  SWAP_ELEMENTS(high,middle)
-	else if ( data[low] > data[middle] )
+	  Swap(*high,*middle);
+	else if ( *low > *middle )
 	  /* low is the median of the three */
-	  SWAP_ELEMENTS(low,middle)
+	  Swap(*low,*middle);
       }
 
       // move median element into position low+1
       if ( middle != low+1 ) {
-	SWAP_ELEMENTS(low+1,middle)
+	Swap(*(low+1),*middle);
 	middle = low+1;
       }
-
+      
       // initialise indices of lower and upper elements
-      UIntT x = middle;
-      UIntT y = high;
+      DataT *x = middle;
+      DataT *y = high;
       for(;;) {
-	do x++; while (data[x] < data[middle]);
-	do y--; while (data[y] > data[middle]);
+	do x++; while (*x < *middle);
+	do y--; while (*y > *middle);
 	if (x>y) break; // terminate when indices cross
-	SWAP_ELEMENTS(x,y)
+	Swap(*x,*y);
       }
-
+      
       if (y != middle)
-	SWAP_ELEMENTS(middle,y) // place partitioning element into position
-
-      if (y == k) return data[k];
+	Swap(*middle,*y); // place partitioning element into position
+      
+      if (y == k) return *k;
       if (y > k) high=y-1;
       if (y < k) low = (x==y+2) ? x-1 : x;
       RavlAssert(low <= k && high >= k);
     }
   }
-
-#undef SWAP_ELEMENTS
+  
 }
 
 #endif
