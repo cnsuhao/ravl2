@@ -327,6 +327,7 @@ namespace RavlGUIN {
     
     TreeModelIterC Path2Iter(const char *pathName);
     //: Get iterator from path text.
+    // GUI Thread only!
     
     TreeModelIterC GetRoot();
     //: Get the root iterator
@@ -495,6 +496,7 @@ namespace RavlGUIN {
     TreeModelIterC Path2Iter(const char *pathName) 
     { return Body().Path2Iter(pathName); }
     //: Get iterator from path text.
+    // GUI Thread only
     
     TreeModelIterC GetRoot()
     { return Body().GetRoot(); }
