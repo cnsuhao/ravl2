@@ -62,6 +62,14 @@ namespace RavlN {
     // stride - distance between successive elements in slice.
     // Element 0 is at 'off' in buffer, and use the given stride.
     
+    Slice1dC(BufferC<DataT> &buff,DataT *refElm,IndexRangeC range,IntT stride = 1);
+    //: Attach a vector to a buffer.
+    // size   - Number of elements in the slice.
+    // buff   - Buffer in which data is held.
+    // elm    - Refrence to first element in the slice.
+    // stride - distance between successive elements in slice.
+    // Element 0 is at 'off' in buffer, and use the given stride.
+    
     SizeT Size() const
       { return rng.Size(); }
     //: Size of vector.
@@ -219,13 +227,18 @@ namespace RavlN {
   {
     RavlAssert(((nsize-1) * stride + (IntT)(refElm - buffer.ReferenceElm())) < buff.Size()); // Check it fits.    
   }
-								       
-    //: Attach a vector to a buffer.
-    // size   - Number of elements in the slice.
-    // buff   - Buffer in which data is held.
-    // elm    - Refrence to first element in the slice.
-    // stride - distance between successive elements in slice.
-    // Element 0 is at 'off' in buffer, and use the given stride.
+
+  template<class DataT>
+  Slice1dC<DataT>::Slice1dC(BufferC<DataT> &buff,DataT *refElm,IndexRangeC range,IntT stride = 1) 
+    : rng(range),
+      stride(nstride),
+      ref(refElm),
+      buffer(buff)
+  {
+    RavlAssert(rng.Min() <= rng.Max());
+    RavlAssert(((rng.Min()) * stride + (IntT)(refElm - buffer.ReferenceElm())) >= 0); // Check it fits.    
+    RavlAssert(((rng.Max()) * stride + (IntT)(refElm - buffer.ReferenceElm())) < buff.Size()); // Check it fits.    
+  }								       
   
   template<class DataT>
   Slice1dC<DataT>::Slice1dC(SizeT nsize) 
