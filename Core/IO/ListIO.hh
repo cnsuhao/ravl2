@@ -19,7 +19,6 @@
 #include "Ravl/DLIter.hh"
 
 #define DODEBUG 0
-
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -126,7 +125,7 @@ namespace RavlN {
     const DataT &dat = iter.Data();
     iter++;
     next++;
-    cerr << "DPISListC::Get -  next frame = " << next << endl;
+    ONDEBUG(cerr << "DPISListC::Get -  next frame = " << next << endl);
     return dat;
   }
   
@@ -188,7 +187,8 @@ namespace RavlN {
     return 0;
   }
 
-
+#undef ONDEBUG
+#undef DODEBUG
   
 }
 
