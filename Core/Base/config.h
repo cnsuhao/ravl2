@@ -75,6 +75,7 @@
 #define RAVL_CPU_SPARC 0
 #define RAVL_CPU_MIPS  0
 #define RAVL_CPU_ALPHA 0
+#define RAVL_CPU_ARM   0
 
 #define RAVL_OS_LINUX   0
 #define RAVL_OS_WIN32   1
@@ -147,9 +148,12 @@
 /********************************************************************************/
 /****** Processor properties ****************************************************/
 
-#define RAVL_LITTLEENDIAN RAVL_CPU_IX86    /* Little endian machine. */
-#define RAVL_BIGENDIAN    !RAVL_CPU_IX86   /* Big endian machine. */
+#define RAVL_LITTLEENDIAN (RAVL_CPU_IX86 || RAVL_CPU_ARM)    /* Little endian machine. */
+#define RAVL_BIGENDIAN    !RAVL_LITTLEENDIAN   /* Big endian machine. */
 /* Yes there are other endian machines, but I've never actually met one. */
+
+#define RAVL_BIGENDIANDOUBLES (RAVL_BIGENDIAN || RAVL_CPU_ARM)
+/* ARM acts big-endian on it's double word ordering */
 
 /* Setting the follow define to 1 will enable the use of MMX code. */
 #define RAVL_USE_MMX (RAVL_CPU_IX86 && RAVL_COMPILER_GCC)

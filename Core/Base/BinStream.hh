@@ -306,7 +306,7 @@ namespace RavlN  {
   BinIStreamC &BinIStreamC::operator>>(RealT &dat) {
     RavlAssert(sizeof(RealT) == (sizeof(IntT) * 2));
     IntT *at = (IntT *) (&dat);
-#if RAVL_BIGENDIAN
+#if RAVL_BIGENDIANDOUBLES
     (*this) >> at[0] >> at[1];
 #else
     (*this) >> at[1] >> at[0];
@@ -390,7 +390,7 @@ namespace RavlN  {
   BinOStreamC &BinOStreamC::operator<<(RealT dat) {
     RavlAssert(sizeof(RealT) == (sizeof(IntT) * 2));
     IntT *at = (IntT *) (&dat);
-#if RAVL_BIGENDIAN
+#if RAVL_BIGENDIANDOUBLES
     (*this) << at[0] << at[1];
 #else
     (*this) << at[1] << at[0];
