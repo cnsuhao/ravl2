@@ -6,7 +6,7 @@
 # file-header-ends-here
 #! rcsid="$Id$"
 
-REQUIRES=libglade2 libGTK2
+#REQUIRES=libglade2 libGTK2
 
 PACKAGE=Ravl/GUI
 

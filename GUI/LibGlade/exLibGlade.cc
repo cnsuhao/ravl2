@@ -11,6 +11,7 @@
 #include "Ravl/GUI/Button.hh"
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/GUI/LBox.hh"
+#include "Ravl/GUI/Menu.hh"
 #include "Ravl/Option.hh"
 
 #include "Ravl/GUI/GladeWidget.hh"
@@ -24,6 +25,12 @@ bool OnPress1() {
 
 bool OnPress2() {
   cerr << "Pressed 2. \n";
+  return true;
+}
+
+bool OnQuit() 
+{
+  Manager.Quit(); // Initate shutdown.
   return true;
 }
 
@@ -42,6 +49,7 @@ int main(int nargs,char **argv) {
   
   mainWindow.AddObject("button1",Button("Test",&OnPress1));
   mainWindow.AddObject("button2",Button("Test",&OnPress2));
+  mainWindow.AddObject("quit1",MenuItem("Quit",&OnQuit));
   mainWindow.AddObject("SubWidget",SubWidget);
   
   cerr << "Show widgets. \n";
