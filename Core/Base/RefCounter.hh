@@ -242,9 +242,14 @@ namespace RavlN {
     RCAbstractC Abstract() 
       { return RCAbstractC(Body()); }
     //: Create an abstract handle.    
-      
+    
+#if RAVL_NEW_ANSI_CXX_DRAFT
+    friend ostream &operator<< <>(ostream &strm,const RCHandleC<BodyT> &obj);
+    friend istream &operator>> <>(istream &strm,RCHandleC<BodyT> &obj);
+#else
     friend ostream &operator<<(ostream &strm,const RCHandleC<BodyT> &obj);
     friend istream &operator>>(istream &strm,RCHandleC<BodyT> &obj);
+#endif
  
   };
 
