@@ -110,7 +110,7 @@ namespace RavlN {
   // variables. <p>
   // e.g. for class xyzC declare the following as global
   // in a .cc file preferably in the same file as the definition of XyzC <p>
-  //  static TypeNameC typeNameXyz(typeinfo(XyzC),"XyzC");
+  //  static TypeNameC typeNameXyz(typeid(XyzC),"XyzC");
   
   class RegisterFuncionC {
   public:
