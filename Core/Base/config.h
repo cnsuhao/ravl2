@@ -128,7 +128,7 @@
 #define RAVL_HAVE_GETPW_RET_PW !RAVL_OS_OSF       /* Pass pointer to result ptr as last argument for  getpwuid_r, getpwnam_r */
 #define RAVL_HAVE_GETPW_WITH_RESULT  RAVL_OS_IRIX /* Pass pointer to result ptr as last argument for  getpwuid_r, getpwnam_r */
 #define RAVL_HAVE_HSTRERROR    (RAVL_OS_IRIX || RAVL_OS_LINUX)  /* have hstrerror, otherwise use strerror. */
-#define RAVL_HAVE_SOCKETLEN_T  !RAVL_OS_OSF       /* Have socklen_t */
+#define RAVL_HAVE_SOCKLEN_T    (RAVL_OS_LINUX || RAVL_OS_SOLARIS)  /* Have socklen_t */
 
 /********************************************************************************/
 /****** Processor properties ****************************************************/
