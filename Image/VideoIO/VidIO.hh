@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! file="Ravl/Image/VideoIO/VidIO.hh"
 //! lib=RavlVideoIO
-//! docentry="Ravl.Images.Video.Formats"
+//! docentry="Ravl.Images.Video.Video IO"
 //! userlevel=Develop
 //! author="Charles Galambos"
 //! date="13/05/1999"

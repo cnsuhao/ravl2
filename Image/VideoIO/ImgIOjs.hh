@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGE_IMGIOJS_HEADER
 #define RAVLIMAGE_IMGIOJS_HEADER 1
 ////////////////////////////////////////////////////
-//! docentry="Ravl.Images.Video.Formats"
+//! docentry="Ravl.Images.Video.Video IO"
 //! rcsid="$Id$"
 //! author="Charles Galambos"
 //! date="24/03/2002"

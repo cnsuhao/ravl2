@@ -11,7 +11,7 @@
 //! file="Ravl/Image/VideoIO/BGRFrmIOAvi.hh"
 //! lib=RavlVideoIO
 //! example=exImgSeq.cc
-//! docentry="Ravl.Images.Video.Formats"
+//! docentry="Ravl.Images.Video.Video IO"
 //! author="Daniele Muntoni"
 //! date="20/03/2003"
 

@@ -9,7 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlVideoIO
 //! author="Joel Mitchelson"
-//! docentry="Ravl.Images.Video"
+//! docentry="Ravl.Images.Video.Video IO"
 //! file="Ravl/Image/VideoIO/MultiVidIO.hh"
 
 #include "Ravl/DP/FileFormat.hh"
@@ -420,7 +420,7 @@ namespace RavlImageN
     UIntT frame;
    };
   
-  //! userlevel=Advanced
+  //! userlevel=Normal
   //:Multi-view video sequence output port
   //
   // Used for saving multi-view video sequences to disk<p>
@@ -465,7 +465,7 @@ namespace RavlImageN
     //  Actual opening of streams is delayed until the first Put(...) operation.  
   };
   
-  //! docentry="Ravl.Images.Video.Formats"
+  //! docentry="Ravl.Images.Video.Video IO"
   //! userlevel=Develop
   //:Multi-view video sequence format body
 
@@ -593,7 +593,7 @@ namespace RavlImageN
     //: work out list of files from specified path
   };
 
-  //! docentry="Ravl.Images.Video.Formats"
+  //! docentry="Ravl.Images.Video.Video IO"
   //! userlevel=Advanced
   //:Multi-view video sequence format definition class
 

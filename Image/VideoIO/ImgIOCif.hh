@@ -11,7 +11,7 @@
 //! file="Ravl/Image/VideoIO/ImgIOCif.hh"
 //! lib=RavlVideoIO
 //! example=exImgSeq.cc
-//! docentry="Ravl.Images.Video.Formats"
+//! docentry="Ravl.Images.Video.Video IO"
 //! author="Bill Christmas, Charles Galambos"
 //! date="08/04/1999"
 

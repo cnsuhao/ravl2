@@ -8,7 +8,7 @@
 #define RAVLIMAGE_CIFFORMAT_HEADER 1
 ////////////////////////////////////////////////////////////
 //! author="Charles Galambos"
-//! docentry="Ravl.Images.Video.Formats"
+//! docentry="Ravl.Images.Video.Video IO"
 //! date="29/10/1998"
 //! rcsid="$Id$"
 //! file="Ravl/Image/VideoIO/CifFormat.hh"

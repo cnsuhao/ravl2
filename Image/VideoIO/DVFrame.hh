@@ -11,7 +11,7 @@
 //! file="Ravl/Image/VideoIO/DVFrame.hh"
 //! lib=RavlVideoIO
 //! example=exImgSeq.cc
-//! docentry="Ravl.Images.Video"
+//! docentry="Ravl.Images.Video.Video_IO"
 //! author="Daniele Muntoni"
 //! date="20/03/2003"
 

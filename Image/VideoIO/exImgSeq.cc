@@ -10,6 +10,7 @@
 //! file="Ravl/Image/VideoIO/exImgSeq.cc"
 //! example=exImgSeq.cc
 //! docentry="Ravl.Images.Video"
+//! userlevel=Normal
 //! author="Bill Christmas, Charles Galambos"
 //! date="08/04/1999"
 
