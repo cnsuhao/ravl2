@@ -148,8 +148,13 @@ int testDLIter() {
   
   DListC<IntT> incHead = ita.Head();
   DListC<IntT> incTail = itb.InclusiveTail();
-  if(list.Size() != 3) return __LINE__;
-  if(incTail.Size() != 6) return __LINE__;
+#if 0
+  cerr << "IncHead=" << incHead << "\n";
+  cerr << "IncTail=" << incTail << "\n";
+  cerr << "list=" << list << "\n";
+#endif
+  if(list.Size() != 2) return __LINE__;
+  if(incTail.Size() != 7) return __LINE__;
   if(incHead.Size() != 1) return __LINE__;
   
   DLIterC<IntT> itc = list;
@@ -157,9 +162,11 @@ int testDLIter() {
   itd++;
   DListC<IntT> xyz = itc.Head();
   if(xyz.Size() != 0) return __LINE__;
-  if(list.Size() != 3) return __LINE__;
-  DListC<IntT> la = itd.InclusiveTail();
-
+  if(list.Size() != 2) return __LINE__;
+  DListC<IntT> la = itc.Tail();
+  //cerr << "la=" << la << " itc=" << *itc << "\n";
+  if(la.Size() != 1) return __LINE__;
+  if(la.First() != 2) return __LINE__;
   // Check taking the head and tail of an empty list works.
   
 #if 0

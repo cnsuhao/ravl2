@@ -308,7 +308,7 @@ namespace RavlN {
     
     DListC<DataT> Tail() {
       DListC<DataT> ret;
-      ret.Body().Head().CutPaste(place->Next(),lst.Body().LastLink());
+      ret.Body().Head().CutPaste(place->Next(),lst.Body().Head());
       return ret;
     }
     //: Clip out the tail of the list.
@@ -327,7 +327,7 @@ namespace RavlN {
       DListC<DataT> ret;
       RavlAssert(IsElm()); // Must be on a valid element.
       DLinkC *nv = &place->Prev();
-      ret.Body().Head().CutPaste(*place,lst.Body().LastLink());
+      ret.Body().Head().CutPaste(*place,lst.Body().Head());
       place = nv;
       return ret;
     }
