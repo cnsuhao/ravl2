@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLRGBCYUV_HEADER
-#define RAVLRGBCYUV_HEADER 1
+#ifndef RAVL_RGBCYUV_HEADER
+#define RAVL_RGBCYUV_HEADER 1
 /////////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! userlevel=Normal
@@ -16,7 +16,6 @@
 #include "Ravl/TFMatrix.hh"
 #include "Ravl/Image/RealYUVValue.hh"
 #include "Ravl/Image/RealRGBValue.hh"
-#include "Ravl/Matrix3d.hh"
 
 namespace RavlImageN {
   extern const TFMatrixC<RealT,3,3> ImageYUVtoRGBMatrix;
@@ -28,7 +27,6 @@ namespace RavlImageN {
   extern const TFMatrixC<RealT,3,3> ImageRGBtoYUVMatrix;
   // Matrix to convert YUV values to RGB.
   
-
   inline RealYUVValueC::RealYUVValueC(const RealRGBValueC &v) 
   { Mul(ImageRGBtoYUVMatrixStd,v,*this); }
   

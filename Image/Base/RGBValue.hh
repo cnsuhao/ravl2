@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLRGBVALUE_HEADER
-#define RAVLRGBVALUE_HEADER
+#ifndef RAVL_RGBVALUE_HEADER
+#define RAVL_RGBVALUE_HEADER
 ////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Image/Base/RGBValue.hh"
@@ -24,6 +24,7 @@ namespace RavlImageN {
   using RavlN::BinIStreamC;
   using RavlN::BinOStreamC;
   using RavlN::TFVectorC;
+  using RavlN::ByteT;
 #endif
 
   
