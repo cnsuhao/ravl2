@@ -727,8 +727,9 @@ namespace RavlGUIN {
     return true;
   }
 
-  void CListBodyC::SetColumnVisibility(IntT colNo,bool bVisible) {
+  bool CListBodyC::SetColumnVisibility(IntT colNo,bool bVisible) {
     Manager.Queue(Trigger(CListC(*this),&CListC::GUISetColumnVisibility,colNo,bVisible));
+    return true ; 
   }
   
   bool CListBodyC::GUISetColumnVisibility(IntT& colNo,bool& bVisible) {

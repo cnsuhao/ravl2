@@ -261,7 +261,7 @@ namespace RavlGUIN {
     bool GUISetColumnWidth(IntT colNo,IntT width);
     //: Set column width.
     
-    void SetColumnVisibility(IntT colNo,bool bVisible);
+    bool SetColumnVisibility(IntT colNo,bool bVisible);
     //: Set column visibility
     //!bug: Not working at the moment - seems to in fact hide the entire widget
     
@@ -555,7 +555,7 @@ namespace RavlGUIN {
     // CLIST_COLRESIZE_AUTO - Automaticly set width to fit data <br>
     // CLIST_COLRESIZE_OPTIMAL - Resize to current optimal now, (don't change the current mode.) <br>
     
-    void SetColumnVisibility(IntT colNo,bool bVisible)
+    bool SetColumnVisibility(IntT colNo,bool bVisible)
     { return Body().SetColumnVisibility(colNo,bVisible); }
     //: Set column visibility
     //!bug: Not working at the moment - seems to in fact hide the entire widget
