@@ -19,6 +19,7 @@
 #include "Ravl/DLIter.hh"
 #include "Ravl/SArray1d.hh"
 #include "Ravl/Assert.hh"
+#include "Ravl/SArray1dIter2.hh"
 
 namespace RavlN {
 
@@ -106,6 +107,10 @@ namespace RavlN {
     
     DListC<T> Data(void) const;
     //: Make a list.
+    
+    void Data(SArray1dC<T> &arr) const;
+    //: Current data item as an array
+    // This will reuse the array passed if it is of the correct size.
     
     DListC<T> operator*() const
     { return Data(); }
@@ -198,6 +203,17 @@ namespace RavlN {
     for(UIntT i = 0;i < iters.Size();i++)
       Ret.InsLast(iters[i].Data());
     return Ret;
+  }
+  
+  
+  template<class T>
+  void PermutationIterC<T>::Data(SArray1dC<T> &arr) const {
+    // Make sure array is appropriately sized.
+    if(arr.Size() != iters.Size())
+      arr = SArray1dC<T>(iters.Size());
+    // Copy in data.
+    for(SArray1dIter2C<T,DLIterC<T> > it(arr,iters);it;it++)
+      it.Data1() = it.Data2().Data();
   }
   
   template<class T>
