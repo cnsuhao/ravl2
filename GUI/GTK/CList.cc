@@ -258,6 +258,59 @@ namespace RavlGUIN {
   // Each line in the CList has to be given a unique 'id'.
   // If the 'id' is already present that row will be replaced by this method.
   
+  bool CListBodyC::GUIInsertCLine(int &id,int &rowNo,SArray1dC<CListCellC> &line) {
+    if(widget == 0) {
+      toDo.InsLast(Trigger(CListC(*this),&CListC::GUIInsertCLine,id,rowNo,line));
+      return true;
+    }    
+    
+    int oldRowNo = gtk_clist_find_row_from_data (GTK_CLIST(widget),(void *) id);
+    if(rowNo >= 0) { // Got row already ? 
+      // if so remove it.
+      gtk_clist_remove (GTK_CLIST(widget),oldRowNo);
+      if(oldRowNo < rowNo)
+	rowNo--; // Correct target row number.
+    }
+    
+    // Add new row.
+    char **tlist = new char *[cols];
+    for(int i = 0;i < cols;i++)
+      tlist[i] = (char *) line[i].text.chars();  
+
+    rowNo = gtk_clist_insert(GTK_CLIST(widget),rowNo,tlist);
+
+    for(int i = 0;i < cols;i++) {
+      // Look for pixmaps.
+      PixmapC &pm = line[i].pixmap;
+      if(pm.IsValid()) {
+	ONDEBUG(cerr << "CListBodyC::GUIAppendCLine(), Setting pixmap.Row=" << rowNo << " Cell=" << i << "\n");
+	if(!pm.Create())
+	  cerr << "CListBodyC::GUIAppendCLine(), Failed to create pixmap. \n";
+	else {
+	  gtk_clist_set_pixmap (GTK_CLIST(widget),rowNo,i,pm.Pixmap(),pm.Mask());
+	  int width, height;
+	  if (pm.GUIGetSize(width,height)) {
+	    if (height > m_iHeight) {
+	      m_iHeight = height;
+	      gtk_clist_set_row_height(GTK_CLIST(widget),m_iHeight);
+	    }
+	  }    
+	}
+      }
+    }
+
+    gtk_clist_set_row_data (GTK_CLIST(widget),rowNo,(void *) id);
+    delete [] tlist;
+
+    
+    
+    return true;
+  }
+  
+  //: Insert a line entry at the given row.
+  // Each line in the CList has to be given a unique 'id'.
+  // If the 'id' is already present that row will be replaced by this method.
+  
   bool CListBodyC::GUIInsertLine(int &id,int &rowNo,SArray1dC<StringC> &line) {
     if(widget == 0) {
       toDo.InsLast(Trigger(CListC(*this),&CListC::GUIInsertLine,id,rowNo,line));
@@ -287,6 +340,11 @@ namespace RavlGUIN {
   // Each line in the CList has to be given a unique 'id'.
   // If the 'id' is already present that row will be replaced by this method.
   
+  bool CListBodyC::InsertLine(int &id,int &rowNo,SArray1dC<CListCellC> &line) {
+    Manager.Queue(Trigger(CListC(*this),&CListC::GUIInsertCLine,id,rowNo,line));
+    return true;
+  }
+
   bool CListBodyC::InsertLine(int &id,int &rowNo,SArray1dC<StringC> &line) {
     Manager.Queue(Trigger(CListC(*this),&CListC::GUIInsertLine,id,rowNo,line));
     return true;
