@@ -4,8 +4,6 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-/////////////////////////////////////////////////////
-// $Id$
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Array/testArray2d.cc"
@@ -19,6 +17,8 @@
 #include "Ravl/Array2dSqr3Iter.hh"
 #include "Ravl/Array2dSqr31Iter2.hh"
 #include "Ravl/Array2dSqr311Iter3.hh"
+#include "Ravl/Array2dSqr3111Iter4.hh"
+#include "Ravl/Array2dSqr3311Iter4.hh"
 
 using namespace RavlN;
 
@@ -27,6 +27,7 @@ int testSqr2();
 int testSqr3();
 int testSqr31();
 int testSqr311();
+int testSqr3111();
 
 int main()
 {
@@ -49,6 +50,10 @@ int main()
   }
   if((ln = testSqr311()) != 0) {
     cerr << "Sqr311Iter3 Array2d test failed line:" << ln << "\n";
+    return 1;
+  }
+  if((ln = testSqr3111()) != 0) {
+    cerr << "Sqr3111Iter4 Array2d test failed line:" << ln << "\n";
     return 1;
   }
   cerr << "Test passed ok. \n";
@@ -203,6 +208,33 @@ int testSqr311() {
     *ita = count++;
   
   Array2dSqr311Iter3C<IntT,IntT,IntT> it(data,data,data);
+  if(!it) return __LINE__;
+  if(!it.First()) return __LINE__;
+  IntT sqrs = 0;
+  count = 0;
+  for(;it;it++,sqrs++)
+    count += 
+      it.DataBR1() + it.DataBM1() + it.DataBL1() + 
+      it.DataMR1() + it.DataMM1() + it.DataML1() + 
+      it.DataTR1() + it.DataTM1() + it.DataTL1();
+  //cerr << "Count:" << count << "\n";
+  if(count != 1053) return __LINE__;
+  if(sqrs != 9) return __LINE__;
+  return 0;
+}
+
+
+// Test 3x3 iterators.
+
+int testSqr3111() {
+  Array2dC<IntT> data(5,5);
+  data.Fill(1);
+
+  IntT count = 1;
+  for(Array2dIterC<IntT> ita(data);ita;ita++)
+    *ita = count++;
+  
+  Array2dSqr3111Iter4C<IntT,IntT,IntT,IntT> it(data,data,data,data);
   if(!it) return __LINE__;
   if(!it.First()) return __LINE__;
   IntT sqrs = 0;

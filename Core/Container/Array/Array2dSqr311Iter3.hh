@@ -190,11 +190,11 @@ namespace RavlN {
 
     Data3T &Data3() 
       { return cit.Data3(); }
-    //: Access middle data element of second array.
+    //: Access middle data element of 3rd array.
     
     const Data3T &Data3() const
       { return cit.Data3(); }
-    //: Access middle data element of second array.
+    //: Access middle data element of 3rd array.
     
   protected:
     Array2dC<Data1T> array1;

@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLARRAY2dSQR3111ITER4_HEADER
-#define RAVLARRAY2dSQR3111ITER4_HEADER 1
+#ifndef RAVLARRAY2dSQR3311ITER4_HEADER
+#define RAVLARRAY2dSQR3311ITER4_HEADER 1
 //////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Core.Arrays.2D"
@@ -27,15 +27,15 @@ namespace RavlN {
   // for the first array.
   
   template<class Data1T,class Data2T,class Data3T,class Data4T>
-  class Array2dSqr3111Iter4C 
+  class Array2dSqr3311Iter4C 
     : protected BufferAccess2dIter4C<Data1T,Data2T,Data3T,Data4T>
   {
   public:
-    Array2dSqr3111Iter4C()
+    Array2dSqr3311Iter4C()
       {}
     //: Default constructor.
     
-    Array2dSqr3111Iter4C(const Array2dC<Data1T> &narray1,
+    Array2dSqr3311Iter4C(const Array2dC<Data1T> &narray1,
 			 const Array2dC<Data2T> &narray2,
 			 const Array2dC<Data3T> &narray3,
 			 const Array2dC<Data4T> &narray4
@@ -79,20 +79,26 @@ namespace RavlN {
 	cit.Invalidate();
 	return false;
       }
-      up = &((&(rit.Data1()))[-1][rng1.Min()]);
-      dn = &((&(rit.Data1()))[ 1][rng1.Min()]);
+      up1 = &((&(rit.Data1()))[-1][rng1.Min()]);
+      dn1 = &((&(rit.Data1()))[ 1][rng1.Min()]);
+      up2 = &((&(rit.Data2()))[-1][rng2.Min()]);
+      dn2 = &((&(rit.Data2()))[ 1][rng2.Min()]);
       return true;
     }
     //: Goto first element in the array.
     
     bool Next() { 
-      up++;
-      dn++;
+      up1++;
+      dn1++;
+      up2++;
+      dn2++;
       cit++;
       if(cit)
 	return true;
-      up = &((rit.Data1())[rng1.Min()]);
-      dn = &((&(rit.Data1()))[2][rng1.Min()]);
+      up1 = &((rit.Data1())[rng1.Min()]);
+      dn1 = &((&(rit.Data1()))[2][rng1.Min()]);
+      up1 = &((rit.Data2())[rng2.Min()]);
+      dn1 = &((&(rit.Data2()))[2][rng2.Min()]);
       rit++;
       if(!rit)
 	return false;
@@ -122,93 +128,165 @@ namespace RavlN {
     //: Goto next element.
     
     Data1T &DataBL1() 
-      { return dn[-1]; }
-    //: Access bottom left data element 
+      { return dn1[-1]; }
+    //: Access bottom left data element from array 1
 
     const Data1T &DataBL1() const
-      { return dn[-1]; }
-    //: Access bottom left data element 
+      { return dn1[-1]; }
+    //: Access bottom left data element from array 1 
 
     Data1T &DataBM1() 
-      { return *dn; }
-    //: Access bottom mid data element 
+      { return *dn1; }
+    //: Access bottom mid data element from array 1
 
     const Data1T &DataBM1() const
-      { return *dn; }
-    //: Access bottom mid data element 
+      { return *dn1; }
+    //: Access bottom mid data element from array 1
 
     Data1T &DataBR1() 
-      { return dn[1]; }
-    //: Access bottom right data element 
+      { return dn1[1]; }
+    //: Access bottom right data element from array 1
 
     const Data1T &DataBR1() const
-      { return dn[1]; }
-    //: Access bottom right data element 
+      { return dn1[1]; }
+    //: Access bottom right data element from array 1
 
     Data1T &DataML1() 
       { return (&(cit.Data1()))[-1]; }
-    //: Access middle left data element 
+    //: Access middle left data element from array 1
     
     const Data1T &DataML1() const
       { return (&(cit.Data1()))[-1]; }
-    //: Access middle left data element 
+    //: Access middle left data element from array 1
     
     Data1T &DataMM1() 
       { return cit.Data1(); }
-    //: Access middle data element 
+    //: Access middle data element from array 1
     
     const Data1T &DataMM1() const
       { return cit.Data1(); }
-    //: Access middle data element 
+    //: Access middle data element from array 1
     
     Data1T &Data1() 
       { return cit.Data1(); }
-    //: Access middle data element 
+    //: Access middle data element from array 1
     
     const Data1T &Data1() const
       { return cit.Data1(); }
-    //: Access middle data element 
+    //: Access middle data element from array 1
     
     Data1T &DataMR1() 
       { return (&(cit.Data1()))[1]; }
-    //: Access middle right data element 
+    //: Access middle right data element from array 1
     
     const Data1T &DataMR1() const
       { return (&(cit.Data1()))[1]; }
-    //: Access middle right data element 
+    //: Access middle right data element from array 1
 
     Data1T &DataTL1() 
-      { return up[-1]; }
-    //: Access top left data element.
+      { return up1[-1]; }
+    //: Access top left data element from array 1
     
     const Data1T &DataTL1() const
-      { return up[-1]; }
-    //: Access top left data element
+      { return up1[-1]; }
+    //: Access top left data element from array 1
 
     Data1T &DataTM1() 
-      { return *up; }
-    //: Access top middle element 
+      { return *up1; }
+    //: Access top middle element from array 1
     
     const Data1T &DataTM1() const
-      { return *up; }
-    //: Access top middle element
+      { return *up1; }
+    //: Access top middle element from array 1
     
     Data1T &DataTR1() 
-      { return up[1]; }
-    //: Access top right data element 
+      { return up1[1]; }
+    //: Access top right data element from array 1
     
     const Data1T &DataTR1() const
-      { return up[1]; }
-    //: Access top right data element
+      { return up1[1]; }
+    //: Access top right data element from array 1
     
-    Data2T &Data2() 
-      { return cit.Data2(); }
-    //: Access middle data element of second array.
-    
-    const Data2T &Data2() const
-      { return cit.Data2(); }
-    //: Access middle data element of second array.
+    Data1T &DataBL2() 
+      { return dn2[-1]; }
+    //: Access bottom left data element from array 2 
 
+    const Data1T &DataBL2() const
+      { return dn2[-1]; }
+    //: Access bottom left data element from array 2
+
+    Data1T &DataBM2() 
+      { return *dn2; }
+    //: Access bottom mid data element from array 2
+
+    const Data1T &DataBM2() const
+      { return *dn2; }
+    //: Access bottom mid data element from array 2
+
+    Data1T &DataBR2() 
+      { return dn2[1]; }
+    //: Access bottom right data element from array 2
+
+    const Data1T &DataBR2() const
+      { return dn2[1]; }
+    //: Access bottom right data element from array 2
+
+    Data1T &DataML2() 
+      { return (&(cit.Data2()))[-1]; }
+    //: Access middle left data element from array 2
+    
+    const Data1T &DataML2() const
+      { return (&(cit.Data2()))[-1]; }
+    //: Access middle left data element from array 2
+    
+    Data1T &DataMM2() 
+      { return cit.Data2(); }
+    //: Access middle data element from array 2
+    
+    const Data1T &DataMM2() const
+      { return cit.Data2(); }
+    //: Access middle data element from array 2
+    
+    Data1T &Data2() 
+      { return cit.Data2(); }
+    //: Access middle data element from array 2
+    
+    const Data1T &Data2() const
+      { return cit.Data2(); }
+    //: Access middle data element from array 2
+    
+    Data1T &DataMR2() 
+      { return (&(cit.Data2()))[1]; }
+    //: Access middle right data element from array 2
+    
+    const Data1T &DataMR2() const
+      { return (&(cit.Data2()))[1]; }
+    //: Access middle right data element from array 2
+
+    Data1T &DataTL2() 
+      { return up2[-1]; }
+    //: Access top left data element from array 2
+    
+    const Data1T &DataTL2() const
+      { return up2[-1]; }
+    //: Access top left data element from array 2
+
+    Data1T &DataTM2() 
+      { return *up2; }
+    //: Access top middle element from array 2
+    
+    const Data1T &DataTM2() const
+      { return *up2; }
+    //: Access top middle element from array 2
+    
+    Data1T &DataTR2() 
+      { return up2[1]; }
+    //: Access top right data element from array 2
+    
+    const Data1T &DataTR2() const
+      { return up2[1]; }
+    //: Access top right data element from array 2
+    
     Data3T &Data3() 
       { return cit.Data3(); }
     //: Access middle data element of 3rd array.
@@ -230,8 +308,10 @@ namespace RavlN {
     Array2dC<Data2T> array2;
     Array2dC<Data3T> array3;
     Array2dC<Data4T> array4;
-    Data1T *up;
-    Data1T *dn;
+    Data1T *up1;
+    Data1T *dn1;
+    Data1T *up2;
+    Data1T *dn2;
   };
 }
 
