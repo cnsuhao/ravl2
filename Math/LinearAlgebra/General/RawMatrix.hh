@@ -11,6 +11,7 @@
 //! rcsid="$Id$"
 //! lib=RavlMath
 //! file="Ravl/Math/LinearAlgebra/General/RawMatrix.hh"
+//! docentry="Ravl.Math.Linear Algebra"
 
 #include "Ravl/Types.hh"
 
