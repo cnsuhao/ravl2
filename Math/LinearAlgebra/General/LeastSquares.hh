@@ -47,6 +47,7 @@ namespace RavlN {
   //: Find least squares solution to X * v = 0, contraining the solutions to |V] == 1 
   //!param: X - Equation matrix.
   //!param: rv - Result vector.
+  //!return: true if solution found.
   
   
   
