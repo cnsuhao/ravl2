@@ -297,8 +297,10 @@ namespace RavlN {
     StateVectorHomog2dC(const StateVectorC &state_vec)
       : StateVectorC(state_vec)
     {
-      if(dynamic_cast<StateVectorHomog2dBodyC *>(&StateVectorC::Body()) == 0)
-	Invalidate();
+      if(IsValid()) {
+	if(dynamic_cast<StateVectorHomog2dBodyC *>(&StateVectorC::Body()) == 0)
+	  Invalidate();
+      }
     }
     //: Base class constructor.
     
