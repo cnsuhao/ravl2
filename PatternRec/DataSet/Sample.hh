@@ -48,6 +48,8 @@ namespace RavlN {
       : DArray1dC<DataT>(dat)
     {}
     //: Create a sample of data from an array
+    // Note: The data is NOT copied any operations done
+    // on the sample may effect the contents of the original array.
     
     SampleC<DataT> SubSample(const CollectionC<UIntT> &x);
     //: Take a subsample of the given indexes in x.
@@ -62,9 +64,10 @@ namespace RavlN {
     UIntT Append(const SampleC<DataT> &newData)
     { return DArray1dC<DataT>::Append(newData); }
     //: Append data to this array.
-    // Note the data is not copied!
+    // Note: The data is NOT copied any operations done
+    // on the sample may effect the contents of the original array. <br>
     // The number of items appended is returned.
-
+    
     UIntT operator+=(const DataT & dat)
     { return Append(dat); }
     //: Indentical to Append().
