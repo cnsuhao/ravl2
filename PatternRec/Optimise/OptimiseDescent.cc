@@ -38,35 +38,42 @@ namespace RavlN {
   //
   VectorC OptimiseDescentBodyC::MinimalX (const CostC &domain)
   {
-    VectorC X = domain.StartX().Copy();      // Copy start into temporary var
     VectorC dYdX;                            // Jacobian or gradient at location
     UIntT counter = 0;
-    VectorC iterX = X.Copy();
+    VectorC iterX = domain.StartX();         // Copy start into temporary var;
+    RealT gradSize = 0;
+    RealT stepSize = 1;
+#if 0
+    cerr << "ClipX=" << domain.ClipX (iterX) << "\n";
+    cerr << "    X=" << iterX << "\n";
+#endif
+    UIntT maxSteps = 15;
+    RealT currentCost = domain.Cost (iterX);      // Evaluate current cost
     do {
       // perform something like a binary search along the direction of steepest
       // descent to find a local minima
-      X = iterX.Copy();
-      RealT iterCost = domain.Cost (X);      // Evaluate current cost
       //cout << "X=" << X << "\tcurrentcost = " << iterCost <<  "\n";
-      RealT currentCost = iterCost;
-      dYdX = domain.Jacobian(X).SliceRow(0); // Determine current Jacobian
-
+      dYdX = domain.Jacobian(iterX).SliceRow(0); // Determine current Jacobian
+      dYdX /= dYdX.Modulus(); // Normalise to unit step.
+      //cerr << "Jacobian=" << dYdX << "\n";
       VectorC Xstep;
-      for (UIntT i = 0; i < 4; i++) {
-	Xstep = domain.ClipX (iterX-dYdX);   // Step in dir of steepest descent
+      for (UIntT i = 0; i < maxSteps; i++) {
+	Xstep = domain.ClipX (iterX-(dYdX * stepSize));   // Step in dir of steepest descent
 	RealT stepCost = domain.Cost (Xstep);// Evaluate cost after step
 	if (stepCost < currentCost) {        // If cost is best so far
 	  iterX = Xstep;                     // then keep going with bigger step
 	  currentCost = stepCost;
-	  dYdX *= 2;
-	}
-	else {                               // otherwise go back a bit
-	  dYdX *= 0.25;
+	  stepSize *= 2;
+	} else {                               // otherwise go back a bit
+	  stepSize *= 0.25;
 	}
       }
-    } while (dYdX.Modulus () > _tolerance && counter++ < _iterations && VectorC(iterX - X).Modulus () > _tolerance); 
+      maxSteps = 4; // Only 4 after the first iteration.
+      gradSize = dYdX.Modulus ();
+      //      cerr << "GradSize=" << gradSize << " StepSize=" << stepSize << "\n";
+    } while (gradSize > _tolerance && counter++ < _iterations &&  stepSize > _tolerance); 
     //cout << "\n";
-    return domain.ConvertX2P (X);            // Return final estimate
+    return domain.ConvertX2P (iterX);            // Return final estimate
   }
   
   const StringC OptimiseDescentBodyC::GetInfo () const
