@@ -27,17 +27,17 @@ namespace RavlN
   class ThreadEventC {
   public:
     ThreadEventC()
-      : occured(false),
+      : occurred(false),
 	waiting(0)
     {}
     
     bool Post() {
       cond.Lock();
-      if(occured) {
+      if(occurred) {
 	cond.Unlock();
 	return false;
       }
-      occured = true;
+      occurred = true;
       cond.Unlock();
       cond.Broadcast();
       return true;
@@ -46,7 +46,7 @@ namespace RavlN
     // Returns true, if event has been posted by this thread.
     
     ~ThreadEventC()  { 
-      if(!occured)
+      if(!occurred)
 	Post(); 
       if(waiting != 0) 
 	cerr << "PThread::~ThreadEvent(), WARNING: Called while threads waiting. \n";
@@ -54,11 +54,11 @@ namespace RavlN
     //: Destructor.
     
     void Wait() {
-      if(occured) // Check before we bother with locking.
+      if(occurred) // Check before we bother with locking.
 	return ; 
       cond.Lock();
       waiting++;
-      while(!occured)
+      while(!occurred)
 	cond.Wait();
       waiting--;
       if(waiting == 0) {
@@ -82,20 +82,20 @@ namespace RavlN
     // Returns false if timed out.
     
     operator bool() const 
-    { return occured; }
-    //: Test if the event has occured.
+    { return occurred; }
+    //: Test if the event has occurred.
     
-    bool Occured() const
-    { return occured; }
+    bool Occurred() const
+    { return occurred; }
     //: Test if event has occrued.
     
     void Reset()
-    { occured = false; }
+    { occurred = false; }
     //: Reset an event.
     
   protected:
     ConditionalMutexC cond;
-    volatile bool occured;
+    volatile bool occurred;
     volatile IntT waiting; // Count of number of threads waiting on this...
   };
 };

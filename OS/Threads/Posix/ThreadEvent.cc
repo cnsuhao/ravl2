@@ -17,11 +17,11 @@ namespace RavlN
   // Returns false if timed out.
   
   bool ThreadEventC::Wait(RealT maxTime) {
-    if(occured) // Check before we bother with locking.
+    if(occurred) // Check before we bother with locking.
       return true;
     bool ret(true);
     cond.Lock();
-    while(!occured && ret) 
+    while(!occurred && ret) 
       ret = cond.Wait(maxTime);
     cond.Unlock();
     return ret;
