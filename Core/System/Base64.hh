@@ -21,10 +21,10 @@ namespace RavlN {
   
   class Base64C {
   public:    
-    static StringC Encode(const SArray1dC<ByteT> &buffer);
+    static StringC Encode(const SArray1dC<char> &buffer);
     //: Encode buffer.
     
-    static SArray1dC<ByteT> Decode(const StringC &buffer);
+    static SArray1dC<char> Decode(const StringC &buffer);
     //: Decode a string into raw binary.
   };
 }

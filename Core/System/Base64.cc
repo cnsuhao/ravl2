@@ -66,13 +66,13 @@ namespace RavlN {
   
   //: Encode buffer.
   
-  StringC Base64C::Encode(const SArray1dC<ByteT> &buffer) {
+  StringC Base64C::Encode(const SArray1dC<char> &buffer) {
     StringC ret;
     ByteT igroup[3];
     StringC tmp("1234");
     ByteT *ogroup = (ByteT *) &(tmp[0]);
     int n,ln = 0;
-    for(SArray1dIterC<ByteT> it(buffer);it;) {
+    for(SArray1dIterC<char> it(buffer);it;) {
       igroup[0] = igroup[1]= igroup[2]= 0;
       for(n= 0;n<3 && it;n++,it++)
 	igroup[n]= *it;
@@ -87,7 +87,7 @@ namespace RavlN {
 	}
       }
       ret += tmp;
-      if(ln++ >= 19) {
+      if(ln++ >= 18) {
 	ln = 0;
 	ret += '\n';
       }
@@ -97,11 +97,11 @@ namespace RavlN {
   
   //: Decode a string into raw binary.
   
-  SArray1dC<ByteT> Base64C::Decode(const StringC &buffer) {
+  SArray1dC<char> Base64C::Decode(const StringC &buffer) {
     if(buffer.Size() == 0)
-      return SArray1dC<ByteT>();
-    SArray1dC<ByteT> ret(Floor((RealT) buffer.Size() * 1.34)+1);
-    SArray1dIterC<ByteT> it(ret);
+      return SArray1dC<char>();
+    SArray1dC<char> ret(Floor((RealT) buffer.Size() * 1.34)+1);
+    SArray1dIterC<char> it(ret);
     const char *at = &(buffer[0]);
     const char *end = &(at[buffer.Size()]);
     ByteT a[4],b[4];
@@ -125,7 +125,7 @@ namespace RavlN {
       *it = (b[2]<<6)|b[3]; it++;
     }
     UIntT size = it.Index().V();
-    return SArray1dC<ByteT>(ret,size);
+    return SArray1dC<char>(ret,size);
   }
   
 }

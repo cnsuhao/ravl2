@@ -437,16 +437,16 @@ int testIndexRange2dSet() {
 int testBase64() {
   cerr << "Testing Base64C. \n";
   for(int i = 0;i <10;i++) {
-    SArray1dC<ByteT> data(RandomInt() % 400);
-    for(SArray1dIterC<ByteT> it(data);it;it++)
+    SArray1dC<char> data(RandomInt() % 400);
+    for(SArray1dIterC<char> it(data);it;it++)
       *it = RandomInt() % 256;
     StringC enc = Base64C::Encode(data);
     //cerr << "Encoded string=" << enc << "\n";
-    SArray1dC<ByteT> data2 = Base64C::Decode(enc);
+    SArray1dC<char> data2 = Base64C::Decode(enc);
     if(data2.Size() != data.Size()) return __LINE__;
     //cerr << "1= " << data << "\n";
     //cerr << "2= " << data2 << "\n";
-    for(SArray1dIter2C<ByteT,ByteT> it(data,data2);it;it++) {
+    for(SArray1dIter2C<char,char> it(data,data2);it;it++) {
       //cerr  << (int) it.Data1() << " != " << (int) it.Data2() << " \n";
       if(it.Data1() != it.Data2())  {
 	cerr << "Mismatch at " << it.Index() << " :  " << (int) it.Data1() << " != " << (int) it.Data2() << " \n";
