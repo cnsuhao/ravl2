@@ -59,6 +59,7 @@ namespace RavlN {
 
   NetEndPointBodyC::~NetEndPointBodyC() {
     //cerr << "NetEndPointBodyC::~NetEndPointBodyC(), Called. \n";
+    setupComplete.Post(); // Make sure nothings waiting for setup to complete.
   }
   
   //: Setup and startup the aproprate threads.
@@ -102,7 +103,6 @@ namespace RavlN {
       cerr << "NetEndPointBodyC::Init(), Socket not opened. \n";
       return false;
     }
-    NetEndPointC me(*this);
     
     RegisterR(1,"Init",*this,&NetEndPointBodyC::MsgInit);
     
@@ -113,16 +113,38 @@ namespace RavlN {
     SndInit(auser);
     
     //Transmit(initMsg);
+    
+    NetEndPointC me(*this);
     LaunchThread(me,&NetEndPointC::RunReceive);
     LaunchThread(me,&NetEndPointC::RunTransmit);
     LaunchThread(me,&NetEndPointC::RunDecode);
     return true;
   }
+
+  //: Wait for setup to complete.
+  
+  bool NetEndPointBodyC::WaitSetupComplete() {
+    setupComplete.Wait();
+    return true;
+  }
+
+  //: Close connection.
+  
+  bool NetEndPointBodyC::Close() {
+    if(!shutdown) {
+      shutdown = true;
+      skt.Close();
+      receiveQ.Put(NetPacketC()); // Put an empty packet to indicate shutdown.
+      transmitQ.Put(NetPacketC()); // Put an empty packet to indicate shutdown.
+    }
+    return true;
+  }
+  
   
   //: Handle packet transmition.
   
   bool NetEndPointBodyC::RunTransmit() {
-    ONetStreamC nos(skt,false);
+    NetOStreamC nos(skt,false);
     ONDEBUG(cerr << "NetEndPointBodyC::RunTransmit(), Started. \n");
     if(!nos) {
       cerr << "NetEndPointBodyC::RunTransmit(), ERROR: No connection. \n";    
@@ -152,7 +174,7 @@ namespace RavlN {
     } catch(...) {
       cerr << "NetEndPointBodyC::RunTransmit(), Exception caught, terminating link. \n";
     }
-    shutdown = true;
+    Close();
     if(!nos)
       cerr << "NetEndPointBodyC::RunTransmit(), Connection broken \n";    
     ONDEBUG(cerr << "NetEndPointBodyC::RunTransmit(), Terminated \n"); 
@@ -163,7 +185,7 @@ namespace RavlN {
   //: Handle packet reception.
   
   bool NetEndPointBodyC::RunReceive() {
-    INetStreamC nis(skt,false);
+    NetIStreamC nis(skt,false);
     ONDEBUG(cerr << "NetEndPointBodyC::RunReceive(), Started. \n");
     if(!nis) {
       cerr << "NetEndPointBodyC::RunReceive(), ERROR: No connection. \n";    
@@ -178,7 +200,9 @@ namespace RavlN {
     ONDEBUG(cerr << "NetEndPointBodyC::RunReceive(), Connection type confirmed. '" << x << "'\n");
     BinIStreamC bis(nis);
     try {
-      while(!shutdown && nis) {
+      while(!shutdown && nis) {	
+	if(!nis.WaitForData())
+	  continue; // Check for shutdown.
 	NetPacketC pkt(bis);
 	if(pkt.IsValid()) {
 	  ONDEBUG(cerr << "Got packet. size :" << pkt.Data().Size() << "\n");
@@ -194,11 +218,9 @@ namespace RavlN {
     } catch(...) {
       cerr << "NetEndPointBodyC::RunRecieve(), Exception caught, terminating link. \n";
     }
-    shutdown = true;
     if(!nis)
       cerr << "NetEndPointBodyC::RunReceive(), Connection broken \n";
-    receiveQ.Put(NetPacketC()); // Put an empty packet to indicate shutdown.
-    transmitQ.Put(NetPacketC()); // Put an empty packet to indicate shutdown.
+    Close();
     ONDEBUG(cerr << "NetEndPointBodyC::RunRecieve(), Terminated \n"); 
     return true;
   }
@@ -256,8 +278,9 @@ namespace RavlN {
   //: Init message.
   
   bool NetEndPointBodyC::MsgInit(StringC &user) {
-    cerr << "NetEndPointBodyC::MsgInit(), Called. User:" << user << "\n";
+    ONDEBUG(cerr << "NetEndPointBodyC::MsgInit(), Called. User:" << user << "\n");
     remoteUser = user;
+    setupComplete.Post();
     return true;
   }
 

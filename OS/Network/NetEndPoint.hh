@@ -22,10 +22,12 @@
 #include "Ravl/RefCounter.hh"
 #include "Ravl/Calls.hh"
 #include "Ravl/Threads/MessageQueue.hh"
+#include "Ravl/Threads/ThreadEvent.hh"
 #include "Ravl/OS/NetMessage.hh"
 #include "Ravl/OS/NetMsgCall.hh"
 #include "Ravl/CallMethodRefs.hh"
 #include "Ravl/CallMethods.hh"
+#include "Ravl/Threads/Thread.hh"
 
 namespace RavlN {
 
@@ -61,6 +63,16 @@ namespace RavlN {
     //: Setup a connection.
     // This should only be used if net end point 
     // has been created by the default constructor.
+    
+    bool WaitSetupComplete();
+    //: Wait for setup to complete.
+    
+    bool Close();
+    //: Close connection.
+    
+    const StringC &RemoteUser() const
+    { return remoteUser; }
+    //: Access name of remote user.
     
     void Transmit(const NetPacketC &pkt)
       { transmitQ.Put(pkt); }
@@ -172,7 +184,6 @@ namespace RavlN {
     // NB. This does not make a handle to 'obj', it is the users responsibility to 
     // ensure it is not deleted.
     
-    
   protected:
     
     bool RunTransmit();
@@ -188,9 +199,9 @@ namespace RavlN {
     MessageQueueC<NetPacketC> transmitQ; // Transmition Q.
     MessageQueueC<NetPacketC> receiveQ; // Recieve Q.
     volatile bool shutdown;   // Shutdown system ?
+    ThreadEventC setupComplete;
     StringC remoteUser;
     HashC<UIntT,NetMsgRegisterC> msgReg;  // Local register of decoding routines.
-    //HashC<UIntT,CallFunc0C<bool> > msgSigHandle;   // Table of signals to send on a message
     friend class NetEndPointC;
   };
   
@@ -253,11 +264,23 @@ namespace RavlN {
     { return Body().IsOpen(); }
     //: Is Connections open ?
     
+    const StringC &RemoteUser() const
+    { return Body().RemoteUser(); }
+    //: Access name of remote user.
+    
     bool Init(SocketC &skt)
     { return Body().Init(skt); }
     //: Setup a connection.
     // This should only be used if net end point 
     // has been created by the default constructor.
+    
+    bool WaitSetupComplete()
+    { return Body().WaitSetupComplete(); }
+    //: Wait for setup to complete.
+    
+    bool Close()
+    { return Body().Close(); }
+    //: Close connection.
     
     void Transmit(const NetPacketC &pkt)
       { Body().Transmit(pkt); }
