@@ -15,6 +15,7 @@
 #include "Ravl/DP/AttributeType.hh"
 #include "Ravl/Hash.hh"
 #include "Ravl/DLIter.hh"
+#include "Ravl/AMutex.hh"
 
 namespace RavlN {
   
@@ -25,6 +26,9 @@ namespace RavlN {
   public:
     AttributeCtrlInternalC();
     //: Default constructor.
+    
+    ~AttributeCtrlInternalC();
+    //: Destructor.
     
     bool RegisterAttribute(const AttributeTypeC &attr) {
       attribTypes[attr.Name()] = attr;
@@ -56,10 +60,10 @@ namespace RavlN {
     void IssueChangedSignal(const StringC &attrName);
     //: Issue attribute changed signal.
     
-    IntT RegisterChangedSignal(const StringC &attrName,const TriggerC &trig);
+    IntT RegisterChangedSignal(const StringC &attrName,const TriggerC &trig,const AttributeCtrlC &parent);
     //: Register a changed signal.
     
-    bool RemoveChangedSignal(IntT id);
+    bool RemoveChangedSignal(IntT id,const AttributeCtrlC &parent);
     //: Remove changed signal.
     
     DListC<AttributeTypeC> &Attributes()
@@ -73,16 +77,34 @@ namespace RavlN {
     { return attribTypes.IsElm(name); }
     //: Test if attribute exists.
     
+    bool RemoveChangedSignals();
+    //: Remove all currently registered changed signals from parent.
+    
+    bool RemapChangedSignals(const AttributeCtrlC &parentAttrCtrl);
+    //: Remapall currently registered changed signals to the new parent.
+    
+    bool IssueRefreshSignal();
+    //: Signal updates on all registered callbacks
+    
   protected:
+    bool CBHandleChangeSignal(StringC &sigName);
+    //: Handle an update signal from the parent object.
+    
+    // Manage access to structures.
+    AMutexC access;
+    
     //: Get type of a particular attribute. 
     
     HashC<StringC,AttributeTypeC> attribTypes;
     DListC<AttributeTypeC> attribTypeList;
-
+    
     // Changed trigger.
     
     HashC<IntT,DLIterC<TriggerC> > trigId2trig;
     HashC<StringC,DListC<TriggerC> > name2trigList;
+    HashC<StringC,IntT> parentSignalMap;
+    AttributeCtrlC parentAttrCtrl;
+    
     IntT trigIdAlloc;
   };
 

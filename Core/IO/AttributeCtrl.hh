@@ -134,6 +134,12 @@ namespace RavlN {
     virtual bool SignalChange(const StringC &attrName);
     //: Signal that an attribute has changed.
     
+    bool ReparentAttributeCtrl(const AttributeCtrlC &newParent);
+    //: Let the attribute ctrl know its parent has changed.
+    
+    bool SignalAttributeRefresh();
+    //: Signal refresh for all registered attributes.
+    
   private:
     AttributeCtrlInternalC *attrInfo;
     

@@ -27,12 +27,6 @@
 
 namespace RavlN {
   
-  //: Default constructor.
-  
-  AttributeCtrlInternalC::AttributeCtrlInternalC()
-    : trigIdAlloc(1)
-  {}
-  
   //: Setup new schema.
   
   bool AttributeCtrlInternalC::SetSchema(const DListC<AttributeTypeC> &nattribTypeList) {
@@ -430,20 +424,33 @@ namespace RavlN {
   // Returns an id for the trigger, or -1 if operation fails.
   
   IntT AttributeCtrlBodyC::RegisterChangedSignal(const StringC &name,const TriggerC &trig) {
+    AttributeCtrlC parent = ParentCtrl();
     MTWriteLockC lock(3);
     if(attrInfo == 0)
       attrInfo = new AttributeCtrlInternalC();
-    return attrInfo->RegisterChangedSignal(name,trig);
+    lock.Unlock();
+    return attrInfo->RegisterChangedSignal(name,trig,parent);
   }
   
   //: Remove a changed signal.
   // Note: This method may not be implemented for all AttributeCtrl's.
   
   bool AttributeCtrlBodyC::RemoveChangedSignal(IntT id) {
+    AttributeCtrlC parent = ParentCtrl();
     MTWriteLockC lock(3);
     if(attrInfo == 0) // Nothing registered.
       return false;
-    return attrInfo->RemoveChangedSignal(id);
+    return attrInfo->RemoveChangedSignal(id,parent);
+  }
+
+  //: Let the attribute ctrl know its parent has changed.
+  
+  bool AttributeCtrlBodyC::ReparentAttributeCtrl(const AttributeCtrlC &newParent) {
+    if(attrInfo == 0) // Nothing registered.
+      return false;
+    attrInfo->RemapChangedSignals(newParent);
+    attrInfo->IssueRefreshSignal();    
+    return true;
   }
   
   //: Signal that an attribute has changed.
@@ -457,12 +464,24 @@ namespace RavlN {
     return true;
   }
   
+  //: Signal refresh for all registered attributes.
+  
+  bool AttributeCtrlBodyC::SignalAttributeRefresh() {
+    MTReadLockC lock(3);
+    if(attrInfo == 0) // Can't be anything to do.
+      return true; 
+    lock.Unlock(); // Don't hold lock while issueing signal.
+    attrInfo->IssueRefreshSignal();
+    return true;    
+  }
+  
   //: Register a new attribute type.
   
   bool AttributeCtrlBodyC::RegisterAttribute(const AttributeTypeC &attr) {
     MTWriteLockC lock(3);
     if(attrInfo == 0)
       attrInfo = new AttributeCtrlInternalC();
+    lock.Unlock();
     return attrInfo->RegisterAttribute(attr);
   }
   
