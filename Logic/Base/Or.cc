@@ -35,6 +35,12 @@ namespace RavlLogicN {
   //:  constructor.
   
   OrBodyC::OrBodyC(const SArray1dC<LiteralC> &nterms) {
+    if(nterms.Size() == 0) {
+      args = SArray1dC<LiteralC>(1);
+      args[0] = literalOr;
+      return ;
+    }
+      
     if(nterms[0] != literalOr) {
       args = SArray1dC<LiteralC>(nterms.Size() + 1);
       args[0] = literalOr;
@@ -87,6 +93,8 @@ namespace RavlLogicN {
   
   void OrBodyC::OrAdd(const LiteralC &lit) {
     // FIXME :- Try and minimize
+    if(!lit.IsValid())
+      return ;
     OrC on(lit);
     if(on.IsValid()) 
       OrAdd(on.Terms());

@@ -52,6 +52,9 @@ namespace RavlLogicN {
     bool AndAdd(const LiteralC &lit);
     //: Add another term to the minterm.
     
+    bool Covers(const MinTermC &mt,BindSetC &bs) const;
+    //: Does this minterm cover all terms of mt ?
+    
   protected:
     void SetTerms(const SArray1dC<LiteralC> &nt,const SArray1dC<LiteralC> &nn);
     //: Setup terms.
@@ -122,6 +125,11 @@ namespace RavlLogicN {
       Body().AndAdd(lit); 
       return *this;
     }
+    
+    bool Covers(const MinTermC &mt,BindSetC &bs) const
+    { return Body().Covers(mt,bs); }
+    //: Does this minterm cover all terms of mt ?
+
   };
 }
 

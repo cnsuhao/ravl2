@@ -42,6 +42,11 @@ namespace RavlLogicN {
   
   AndBodyC::AndBodyC(const SArray1dC<LiteralC> &set)
   {
+    if(set.Size() == 0) {
+      args = SArray1dC<LiteralC>(1);
+      args[0] = literalAnd;
+      return ;
+    }
     if(set[0] != literalAnd) {
       args =SArray1dC<LiteralC>(set.Size() + 1);
       args[0] = literalAnd;

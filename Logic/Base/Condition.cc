@@ -14,33 +14,6 @@
 #include "Ravl/Logic/LiteralIter.hh"
 
 namespace RavlLogicN {
-
-  //: Generate hash value for condition.
-  
-  UIntT ConditionBodyC::Hash() const {
-    RavlAssert(0); // Abstract method called.
-    return 0;
-  }
-  
-  //: Is this equal to another condition ?
-  
-  bool ConditionBodyC::IsEqual(const ConditionC &oth) const {
-    return this == &oth.Body();
-  }
-  
-  
-  //: Is this a simple expression with no variables ?
-  bool ConditionBodyC::IsGrounded() const { 
-    RavlAssertMsg(0,"ConditionBodyC::IsGrounded(), Abstract function called. ");
-    return true; 
-  }
-  
-  //: Unify with another variable.
-  
-  bool ConditionBodyC::Unify(const LiteralC &oth,BindSetC &bs) const {
-    RavlAssertMsg(0,"ConditionBodyC::Unify(), Abstract function called. ");
-    return false;
-  }
   
   //: Test if condition is true in 'state'.
   
@@ -55,14 +28,6 @@ namespace RavlLogicN {
     return true;
   }
   
-  //: Return iterator through possibile matches to this literal in 'state', if any.
-  
-  LiteralIterC ConditionBodyC::Solutions(const StateC &state,BindSetC &binds) const {
-    LiteralIterC ret;
-    RavlAssertMsg(0,"ConditionBodyC::Solutions(), Abstract method called. ");
-    return ret;
-  }
-
   //: Add some terms.
   
   void ConditionBodyC::AddTerms(const SArray1dC<LiteralC> &terms) {

@@ -42,23 +42,8 @@ namespace RavlLogicN {
     {}
     //: Default constructor.
     
-    virtual UIntT Hash() const;
-    //: Generate hash value for condition.
-    
-    virtual bool IsEqual(const ConditionC &oth) const;
-    //: Is this equal to another condition ?
-
-    virtual bool IsGrounded() const;
-    //: Is this a simple expression with no variables ?
-
-    virtual bool Unify(const LiteralC &oth,BindSetC &bs) const;
-    //: Unify with another variable.
-    
     virtual bool Test(const StateC &state,BindSetC &binds) const;
     //: Test if condition is true in 'state'.
-    
-    virtual LiteralIterC Solutions(const StateC &state,BindSetC &binds) const;
-    //: Return iterator through possibile matches to this literal in 'state', if any.
     
   protected:
     void AddTerms(const SArray1dC<LiteralC> &terms);
