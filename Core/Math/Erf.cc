@@ -13,14 +13,10 @@
 #include "Ravl/Assert.hh"
 #include "Ravl/Types.hh"
 #include "Ravl/StdMath.hh"
-#if !RAVL_HAVE_FLOAT_H 
- // Have to assume some values for floating point precision and range
- #define DBL_EPSILON     2.2204460492503131e-016 /* smallest such that 1.0+DBL_EPSILON != 1.0 */
- #define DBL_MAX         1.7976931348623158e+308 /* max value */
- #define DBL_MIN         2.2250738585072014e-308 /* min positive value */
-#endif
-#include <math.h>
+#include "Ravl/StdConst.hh"
+
 namespace RavlN {
+  using namespace RavlConstN;
 
 // *******************************************************************
 //
@@ -74,14 +70,14 @@ RealT calerf(RealT arg, IntT jint)
 //------------------------------------------------------------------
 //  Machine-dependent constants
 //------------------------------------------------------------------
-  static const RealT XMIN = DBL_MIN;
+  static const RealT XMIN = minReal;
   // the smallest positive floating-point number.
-  static const RealT XINF = DBL_MAX;
+  static const RealT XINF = maxReal;
   // the largest positive finite floating-point number.
   static const RealT XNEG = -Sqrt(Log(XINF/2.0));
   // the largest negative argument acceptable to ERFCX
   // the negative of the solution to the equation 2*exp(x*x) = XINF.
-  static const RealT XSMALL = DBL_EPSILON;
+  static const RealT XSMALL = realPrecision;
   // argument below which erf(x) may be represented by  2*x/sqrt(pi)
   // and above which  x*x  will not underflow.
   // a conservative value is the largest machine number X such that 1.0 + X = 1.0
