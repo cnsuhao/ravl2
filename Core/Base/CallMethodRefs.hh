@@ -52,7 +52,7 @@ namespace RavlN {
       { return mPtr; }
     //: Function.
     
-    ObjT obj;
+    ObjT &obj;
   };
   
   //! userlevel=Advanced
