@@ -562,7 +562,7 @@ namespace RavlN {
     
     template<class Data1T,class Data2T,class Data3T,class Data4T>
     bool Send(UIntT id,const Data1T &dat1,const Data2T &dat2,const Data3T &dat3,const Data4T &dat4)
-    { return Body().Send(id,dat1,dat2,dat3); }
+    { return Body().Send(id,dat1,dat2,dat3,dat4); }
     //: Send a 4 parameter message.
     
     template<class ObjT>
