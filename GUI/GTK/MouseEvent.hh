@@ -52,7 +52,12 @@ namespace RavlGUIN {
     //: Get Y component of position.
     
     Index2dC Position() const { return Index2dC(x,y); }
+    //: Get position in GTK co-ordinates.
+    // This method is depricated, use At() instead.
+    
+    Index2dC At() const { return Index2dC(y,x); }
     //: Get position.
+    // Position of mouse click in RAVL co-ordinates.
     
     bool IsPressed(IntT buttonNo = 0) const;
     //: Test if a button is pessed.
