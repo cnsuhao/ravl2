@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!--! autoLinkContext=RavlImageN -->
+<!--! autoLink=on -->
+<html>
+  <head>
+    <title>How to write a simple program with RAVL in Visual C++.</title>
+  </head>
+
+  <body>
+
+
+This page shows how to write and compile a simple console application under MS VC++ using RAVL. <p>
+
+
+<h3>Setting up a workspace</h3>
+
+<ol>
+<li> Create a new Win32 Console Application as an empty application. </li>
+<li> Insert the following projects into the workspace from Ravl/MSVC/
+RavlCore, ccmath, RavlMath, RavlIO, RavlImage, RavlImageIO, RavlExtImgIO, RavlImageProc </li>
+<li> Create a file for the main program e.g main.cc in the application project. </li>
+</ol>
+
+<h3>Workspace settings</h3>
+
+<ol>
+<li> Set the include path to the Ravl headers in the application project: <br>
+From Project Settings goto the C++ tab and the preprocessor category and add
+Ravl/ProjectOut/inc to the additional include directories  </li>
+<li> Link the external image libraries to the application: <br>
+From Project Settings goto the Link tab and the input category and replace
+the Object/library modules with libjpeg.lib libtiff.lib libpng.lib and add
+Ravl/winlibs/lib in the additional library path.  </li>
+<li> Set the MS VC++ flag in the application project: <br>
+From Project Settings goto the C++ tab and the preprocessor category and add
+VISUAL_CPP in Preprocessor definitions.  </li>
+<li> Add .cc,.hh recognition to the application project: <br>
+From Project Settings goto the C++ tab and add /TP to the Project Options  </li>
+<li> Link your application to the Ravl libraries using the Project Dependencies. </li>
+</ol>
+
+NOTE: Do not set the RAVL dependencies, the libraries are currently static and
+setting the dependencies will link the libraries into each other leading to
+large libraries and multiply defined symbols. However this means that the Ravl
+libraries need to be compiled individually in the correct order. <p>
+
+<h3>Create a main program</h3>
+
+The following code does some basic command line parsing and loads an image.
+
+<code>
+<pre>
+
+// RAVL includes
+#include "Ravl/Option.hh"
+#include "Ravl/DP/FileFormatIO.hh"
+#include "Ravl/Image/Image.hh"
+#include "Ravl/Image/ByteRGBValue.hh"
+#include "Ravl/Image/ImgIO.hh"
+#include "Ravl/Image/ExtImgIO.hh"
+
+using namespace RavlN;
+using namespace RavlImageN;
+
+// Definitions to initialise file formats
+extern void RavlImageN::InitPNGFormat();
+extern void RavlImageN::InitJPEGFormat();
+extern void RavlImageN::InitTIFFFormat();
+
+int main(int argc, char* argv[])
+{
+  // Link image formats
+  InitDPImageIO();
+  RavlImageN::InitPNGFormat();
+  RavlImageN::InitJPEGFormat();
+  RavlImageN::InitTIFFFormat();
+
+  // Get the command line
+  OptionC opt(argc,argv);
+  StringC infile = opt.String("i","infile.ppm","Input filename");
+  opt.Check();
+
+  ImageC&lt;ByteRGBValueC&gt; img;
+  if(!Load(infile,img)) {
+    cerr << "Failed to load file " << infile << "\n";
+    return 1;
+  } else {
+  cerr << "Successfully loaded image " << infile << "\n";
+  }
+
+  //.... Process img here ....
+
+  return 0;
+}
+</pre></code><p>
+
+<h3>Compile and run</h3>
+
+
+<ol>
+<li> Compile the Ravl libraries in the following order: <br>
+RavlCore, ccmath, RavlMath, RavlIO, RavlImage, RavlImageIO, RavlExtImgIO, RavlImageProc
+<li> Compile the application </li>
+<li> Run from a command prompt  <br>
+
+e.g. To get the command line options use <br>
+app --help <br>
+e.g. To run the application on an image use <br>
+app -i img.jpg <br>
+</li>
+</ol>
+
+NOTE: Ravl does not support automatic image conversion under MS VC++, so to load a tiff image you need to use ImageC<ByteRGBAValueC> and to load a grey level image use ImageC&lt;ByteT&gt;. <p>
+
