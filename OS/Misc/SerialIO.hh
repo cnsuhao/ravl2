@@ -21,6 +21,7 @@ struct termios ;
 namespace RavlOSN {
   using namespace RavlN;
   
+  //! userlevel=Normal
   //: Class to control unix serial ports.
   
   class SerialCtrlC
