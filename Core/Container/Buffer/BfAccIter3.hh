@@ -43,6 +43,15 @@ namespace RavlN {
 	    buff3,rng3); 
     }
     //: Constructor.
+
+    inline BufferAccessIter3C(const BufferAccessC<Data1T> &buff1,
+			      const BufferAccessC<Data2T> &buff2,
+			      const BufferAccessC<Data3T> &buff3,const IndexRangeC &rng)
+    { First(buff1,rng,
+	    buff2,rng,
+	    buff3,rng); 
+    }
+    //: Constructor.
     
     inline BufferAccessIter3C(const RangeBufferAccessC<Data1T> &buff,
 			      const RangeBufferAccessC<Data2T> &buff2,
