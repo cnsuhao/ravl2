@@ -41,7 +41,7 @@ int testNetPort() {
   
   cerr << "testNetPort(), Start port server. \n";
   
-  StringC server = "localhost:4045";  
+  StringC server = "localhost:4046";  
   if(!NetPortOpen(server)) {
     cerr << "Failed to open netPortManager. \n";
     return __LINE__;
