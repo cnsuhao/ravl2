@@ -11,33 +11,54 @@
 //! file="Ravl/Core/Container/Buffer/BfAcc2Iter.hh"
 //! docentry="Ravl.Core.Arrays.Buffer"
 //! lib=RavlCore
-//! userlevel=Default
+//! userlevel=Advanced
 //! author="Charles Galambos"
 //! date="24/01/2001"
 
 #include "Ravl/BfAccIter.hh"
 #include "Ravl/IndexRange1d.hh"
+#include "Ravl/Index2d.hh"
 
 namespace RavlN {
   //! userlevel=Advanced
   //: 2d buffer iterator.
   
-  template <class DataC>
+  template <class DataT>
   class BufferAccess2dIterC {
   public:
     BufferAccess2dIterC()
       {}
     //: Default constructor.
+
+    BufferAccess2dIterC(const BufferAccessC<BufferAccessC<DataT> > &pbuf,SizeT size1,SizeT size2)
+      { First(pbuf,size1,size2); }
+    //: Constructor.    
     
-    BufferAccess2dIterC(const SizeBufferAccessC<BufferAccessC<DataC> > &pbuf,SizeT size)
+    BufferAccess2dIterC(const SizeBufferAccessC<BufferAccessC<DataT> > &pbuf,SizeT size)
       { First(pbuf,size); }
     //: Constructor.
     
-    BufferAccess2dIterC(const RangeBufferAccessC<BufferAccessC<DataC> > &pbuf,const IndexRangeC &nrng2)
+    BufferAccess2dIterC(const RangeBufferAccessC<BufferAccessC<DataT> > &pbuf,const IndexRangeC &nrng2)
       { First(pbuf,nrng2); }
     //: Constructor.
+
+    BufferAccess2dIterC(const BufferAccessC<BufferAccessC<DataT> > &pbuf,const IndexRangeC &nrng1,const IndexRangeC &nrng2)
+      { First(pbuf,nrng1,nrng2); }
+    //: Constructor.
+
+    bool First(const BufferAccessC<BufferAccessC<DataT> > &pbuf,SizeT size1,SizeT size2) {
+      rit.First(pbuf,size1);
+      rng = IndexRangeC(0,size2-1);
+      if(size2 > 0 && rit.IsElm()) {
+	cit.First(*rit,rng);
+	return true;
+      }
+      cit.Invalidate();
+      return false;
+    }
+    //: Goto first element in the array.
     
-    bool First(const SizeBufferAccessC<BufferAccessC<DataC> > &pbuf,SizeT size) {
+    bool First(const SizeBufferAccessC<BufferAccessC<DataT> > &pbuf,SizeT size) {
       rit = pbuf;
       rng = IndexRangeC(0,size-1);
       if(rng.Size() > 0 && rit.IsElm()) {
@@ -48,8 +69,12 @@ namespace RavlN {
       return false;
     }
     //: Goto first element in the array.
+
+    bool First(const BufferAccessC<BufferAccessC<DataT> > &pbuf,const IndexRangeC &nrng1,const IndexRangeC &nrng2) 
+      { return First(RangeBufferAccessC<BufferAccessC<DataT> >(nrng1,pbuf),nrng2); }
+    //: Goto first element in the array.
     
-    bool First(const RangeBufferAccessC<BufferAccessC<DataC> > &pbuf,const IndexRangeC &nrng) {
+    bool First(const RangeBufferAccessC<BufferAccessC<DataT> > &pbuf,const IndexRangeC &nrng) {
       rit = pbuf;
       rng = nrng;
       if(rng.Size() > 0 && rit.IsElm()) {
@@ -113,41 +138,52 @@ namespace RavlN {
       { Next(); }
     //: Goto next element.
     
-    DataC &operator*() 
+    DataT &operator*() 
       { return *cit; }
     //: Access data of current element
     
-    const DataC &operator*() const
+    const DataT &operator*() const
       { return *cit; }
     //: Access data of current element
 
-    DataC &Data() 
+    DataT &Data() 
       { return *cit; }
     //: Access data of current element
 
-    const DataC &Data() const
+    const DataT &Data() const
       { return *cit; }
     //: Access data of current element
 
-    DataC &Data1() 
+    DataT &Data1() 
       { return *cit; }
     //: Access data of current element
     
-    const DataC &Data1() const
+    const DataT &Data1() const
       { return *cit; }
     //: Access data of current element
     
-    RangeBufferAccessC<DataC> &Row()
-      { return RangeBufferAccessC<DataC>(rng,*rit); }
+    RangeBufferAccessC<DataT> &Row()
+      { return RangeBufferAccessC<DataT>(rng,*rit); }
     //: Access row we're currently iterating.
     
-    const RangeBufferAccessC<DataC> &Row() const
-      { return RangeBufferAccessC<DataC>(rng,*rit); }
+    const RangeBufferAccessC<DataT> &Row() const
+      { return RangeBufferAccessC<DataT>(rng,*rit); }
     //: Access row we're currently iterating.
+    
+    Index2dC Index(const BufferAccessC<DataT> *rowBegin) const { 
+      return Index2dC((IntT) (&(*rit) - rowBegin),
+		      (IntT) (&(*cit) - rit->ReferenceElm()));
+    }
+    //: Get index of current location.
+    // Has to be calculate, and so is slightly slow.
+		  
+    void Invalidate()
+      { cit.Invalidate(); }
+    //: Invalidate this iterator.
     
   protected:
-    BufferAccessIterC<BufferAccessC<DataC> > rit;
-    BufferAccessIterC<DataC> cit;
+    BufferAccessIterC<BufferAccessC<DataT> > rit;
+    BufferAccessIterC<DataT> cit;
     IndexRangeC rng;
   };
 }

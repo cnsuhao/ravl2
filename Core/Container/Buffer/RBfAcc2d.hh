@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! file="Ravl/Core/Container/Buffer/RBfAcc2d.hh"
 //! lib=RavlCore
-//! userlevel=Default
+//! userlevel=Normal
 //! author="Charles Galambos"
 //! date="24/01/2001"
 //! docentry="Ravl.Core.Arrays.Buffer"
@@ -18,7 +18,7 @@
 #include "Ravl/RBfAcc.hh"
 #include "Ravl/BfAcc2Iter.hh"
 #include "Ravl/Index2d.hh"
-#include <assert.h>
+#include "Ravl/Assert.hh"
 
 class istream;
 class ostream;
@@ -56,6 +56,19 @@ namespace RavlN {
       rng2(rect.Range2())
       {}
     //: Construct a access to a rectangle within 'ab' with indexs 'rect'.
+
+    RangeBufferAccess2dC(const RangeBufferAccessC<BufferAccessC<DataC> > &ab,const IndexRangeC &r1,const IndexRangeC &r2)
+      : RangeBufferAccessC<BufferAccessC<DataC> >(ab,r1),
+      rng2(r2)
+      {}
+    //: Construct a access to a rectangle within 'ab' with ranges r1 and r2.
+    
+    RangeBufferAccess2dC(const BufferAccessC<BufferAccessC<DataC> > &ab,const IndexRangeC &r1,const IndexRangeC &r2)
+      : RangeBufferAccessC<BufferAccessC<DataC> >(r1,ab),
+      rng2(r2)
+      {}
+    //: Construct a access to a rectangle within 'ab' with ranges r1 and r2.
+    // All the offsets for the buffers should already be setup.
     
     RangeBufferAccess2dC()
       : rng2(0,-1)
@@ -92,8 +105,12 @@ namespace RavlN {
     
     void Fill(const DataC &d);
     //: Fill array with value.
-
+    
     IndexRange2dC Rectangle() const
+      { return IndexRange2dC(Range1(),Range2()); }
+    //: Return ranges of indexes
+    
+    IndexRange2dC Frame() const
       { return IndexRange2dC(Range1(),Range2()); }
     //: Return ranges of indexes
 
@@ -118,6 +135,10 @@ namespace RavlN {
     bool IsEmpty() const
       { return (Range1().Size() <= 0) || (Range2().Size() <= 0); }
     //: Is rectangle empty ?
+    
+    BufferAccess2dIterC<DataC> Iter()
+      { return BufferAccess2dIterC<DataC>(*this,rng2); }
+    //: Creat an iterator for this buffer.
     
   protected:
     IndexRangeC rng2;

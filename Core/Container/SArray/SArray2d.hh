@@ -188,7 +188,7 @@ namespace RavlN {
   template<class DataT>
   BinIStreamC &operator>>(BinIStreamC & s, SArray2dC<DataT> & arr) {
     SizeT size1,size2,x1,x2;
-    s >> size1 >> size2;
+    s >> size1 >> x1 >> size2 >> x2;
     RavlAssert(x1 == 0 && x2 == 0); // Only accept arrays starting at origin.
     arr = SArray2dC<DataT>(size1,size2);
     return s >> ((SizeBufferAccess2dC<DataT> &) arr);
@@ -269,7 +269,7 @@ namespace RavlN {
   template<class DataT>
   SArray2dC<DataT> SArray2dC<DataT>::operator+(const DataT &number) const {
     SArray2dC<DataT> ret(Size1(),Size2());
-    for(BufferAccess2dIter2C<DataT,DataT> it(ret,size2,size2,arr,arr.Size2());it;it++)
+    for(BufferAccess2dIter2C<DataT,DataT> it(ret,size2,*this,Size2());it;it++)
       it.Data1() = it.Data2() + number;
     return ret;
   }
@@ -277,7 +277,7 @@ namespace RavlN {
   template<class DataT>
   SArray2dC<DataT> SArray2dC<DataT>::operator-(const DataT &number) const {
     SArray2dC<DataT> ret(Size1(),Size2());
-    for(BufferAccess2dIter2C<DataT,DataT> it(ret,size2,arr,arr.Size2());it;it++)
+    for(BufferAccess2dIter2C<DataT,DataT> it(ret,size2,*this,Size2());it;it++)
       it.Data1() = it.Data2() - number;
     return ret;
   }
@@ -285,7 +285,7 @@ namespace RavlN {
   template<class DataT>
   SArray2dC<DataT> SArray2dC<DataT>::operator*(const DataT &number) const {
     SArray2dC<DataT> ret(Size1(),Size2());
-    for(BufferAccess2dIter2C<DataT,DataT> it(ret,size2,arr,arr.Size2());it;it++)
+    for(BufferAccess2dIter2C<DataT,DataT> it(ret,size2,*this,Size2());it;it++)
       it.Data1() = it.Data2() * number;
     return ret;
   }
@@ -293,7 +293,7 @@ namespace RavlN {
   template<class DataT>
   SArray2dC<DataT> SArray2dC<DataT>::operator/(const DataT &number) const {
     SArray2dC<DataT> ret(Size1(),Size2());
-    for(BufferAccess2dIter2C<DataT,DataT> it(ret,size2,arr,arr.Size2());it;it++)
+    for(BufferAccess2dIter2C<DataT,DataT> it(ret,size2,*this,Size2());it;it++)
       it.Data1() = it.Data2() / number;
     return ret;
   }

@@ -22,25 +22,47 @@ namespace RavlN {
   //! userlevel=Advanced
   //: Iterate through a 2d buffer.
   
-  template <class Data1C,class Data2C>
+  template <class Data1T,class Data2T>
   class BufferAccess2dIter2C {
   public:
     BufferAccess2dIter2C()
       {}
     //: Default constructor.
     
-    BufferAccess2dIter2C(const SizeBufferAccessC<BufferAccessC<Data1C> > &pbuf1,SizeT size1,
-			 const SizeBufferAccessC<BufferAccessC<Data2C> > &pbuf2,SizeT size2)
+    BufferAccess2dIter2C(const SizeBufferAccessC<BufferAccessC<Data1T> > &pbuf1,SizeT size1,
+			 const SizeBufferAccessC<BufferAccessC<Data2T> > &pbuf2,SizeT size2)
       { First(pbuf1,size1,pbuf2,size2); }
     //: Constructor.
     
-    BufferAccess2dIter2C(const RangeBufferAccessC<BufferAccessC<Data1C> > &pbuf1,const IndexRangeC &nrng1,
-			 const RangeBufferAccessC<BufferAccessC<Data2C> > &pbuf2,const IndexRangeC &nrng2)
+    BufferAccess2dIter2C(const RangeBufferAccessC<BufferAccessC<Data1T> > &pbuf1,const IndexRangeC &nrng1,
+			 const RangeBufferAccessC<BufferAccessC<Data2T> > &pbuf2,const IndexRangeC &nrng2)
       { First(pbuf1,nrng1,pbuf2,nrng2); }
     //: Constructor.
+
+    BufferAccess2dIter2C(const BufferAccessC<BufferAccessC<Data1T> > &pbufa,const IndexRangeC &nrng1a,const IndexRangeC &nrng2a,
+			 const BufferAccessC<BufferAccessC<Data2T> > &pbufb,const IndexRangeC &nrng1b,const IndexRangeC &nrng2b)
+      { First(pbufa,nrng1a,nrng2a,
+	      pbufn,nrng1b,nrng2b); 
+      }
+    //: Constructor.
+
+    bool First(const BufferAccessC<BufferAccessC<Data1T> > &pbufa,const IndexRangeC &nrng1a,const IndexRangeC &nrng2a,
+	       const BufferAccessC<BufferAccessC<Data2T> > &pbufb,const IndexRangeC &nrng1b,const IndexRangeC &nrng2b) {
+      rng1 = nrng2a;
+      rng2 = nrng2b;
+      rit.First(pbufa,nrng1a,
+		pbufb,nrng1b);
+      if(rng1.Size() > 0 && rit.IsElm())
+	return cit.First(rit.Data1(),rng1,
+			 rit.Data2(),rng2);
+      cit.Invalidate();
+      return false;
+    }
+    //: Goto first element.
+    // returns true if there is one.
     
-    bool First(const RangeBufferAccessC<BufferAccessC<Data1C> > &pbuf1,const IndexRangeC &nrng1,
-	       const RangeBufferAccessC<BufferAccessC<Data2C> > &pbuf2,const IndexRangeC &nrng2) {
+    bool First(const RangeBufferAccessC<BufferAccessC<Data1T> > &pbuf1,const IndexRangeC &nrng1,
+	       const RangeBufferAccessC<BufferAccessC<Data2T> > &pbuf2,const IndexRangeC &nrng2) {
       rit.First(pbuf1,pbuf2);
       rng1 = nrng1;
       rng2 = nrng2;
@@ -49,11 +71,11 @@ namespace RavlN {
       cit.Invalidate();
       return false;
     }
-    // Goto first element.
+    //: Goto first element.
     // returns true if there is one.
     
-    bool First(const SizeBufferAccessC<BufferAccessC<Data1C> > &pbuf1,SizeT size1,
-	       const SizeBufferAccessC<BufferAccessC<Data2C> > &pbuf2,SizeT size2) {
+    bool First(const SizeBufferAccessC<BufferAccessC<Data1T> > &pbuf1,SizeT size1,
+	       const SizeBufferAccessC<BufferAccessC<Data2T> > &pbuf2,SizeT size2) {
       rit.First(pbuf1,pbuf2);
       rng1 = IndexRangeC(0,size1-1);
       rng2 = IndexRangeC(0,size2-1);
@@ -62,7 +84,7 @@ namespace RavlN {
       cit.Invalidate();
       return false;
     }
-    // Goto first element.
+    //: Goto first element.
     // returns true if there is one.
     
     bool Next() { 
@@ -99,31 +121,42 @@ namespace RavlN {
     
     void operator++() 
       { Next(); }
-    // Goto next element.
+    //: Goto next element.
 
     void operator++(int) 
       { Next(); }
-    // Goto next element.
+    //: Goto next element.
     
-    Data1C &Data1() 
+    Data1T &Data1() 
       { return cit.Data1(); }
-    // Access data.
+    //: Access data.
 
-    const Data1C &Data1() const
+    const Data1T &Data1() const
       { return cit.Data1(); }
-    // Access data.
+    //: Access data.
 
-    Data2C &Data2() 
+    Data2T &Data2() 
       { return cit.Data2(); }
-    // Access data.
+    //: Access data.
     
-    const Data2C &Data2() const
+    const Data2T &Data2() const
       { return cit.Data2(); }
-    // Access data.
-        
+    //: Access data.
+    
+    Index2dC Index(const BufferAccessC<Data1T> *row1Begin) const { 
+      return Index2dC((IntT) (&(rit.Data1()) - row1Begin),
+		      (IntT) (&(cit.Data1()) - rit.Data1().ReferenceElm()));
+    }
+    //: Get index of current location.
+    // Has to be calculate, and so is slightly slow.
+    
+    void Invalidate()
+      { cit.Invalidate(); }
+    //: Invalidate this iterator.
+    
   protected:
-    BufferAccessIter2C<BufferAccessC<Data1C>,BufferAccessC<Data2C> > rit;
-    BufferAccessIter2C<Data1C,Data2C> cit;
+    BufferAccessIter2C<BufferAccessC<Data1T>,BufferAccessC<Data2T> > rit;
+    BufferAccessIter2C<Data1T,Data2T> cit;
     IndexRangeC rng1;
     IndexRangeC rng2;
   };

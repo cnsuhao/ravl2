@@ -4,69 +4,70 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLARRAY2DITER_HEADER
-#define RAVLARRAY2DITER_HEADER 1
+#ifndef RAVLARRAY3DITER_HEADER
+#define RAVLARRAY3DITER_HEADER 1
 ///////////////////////////////////////////////////////////////////////
-//! file="Ravl/Core/Container/Array/Array2dIter.hh"
+//! file="Ravl/Core/Container/Array/Array3dIter.hh"
 //! lib=RavlCore
 //! userlevel=Basic
 //! author="Charles Galambos"
-//! docentry="Ravl.Core.Arrays.2D"
+//! docentry="Ravl.Core.Arrays.3D"
 //! rcsid="$Id$"
 //! example=exArray2.cc
 //! date="24/08/99"
 
-#include "Ravl/BfAccIter.hh"
-#include "Ravl/Array2d.hh"
+#include "Ravl/BfAcc3Iter.hh"
+#include "Ravl/Array3d.hh"
 
 namespace RavlN {
   
-  template <class DataC> class Array2dC;
+  template <class DataC> class Array3dC;
   
   //! userlevel=Normal
   //: Array1dC iterator.
   
   template<class DataT>
-  class Array2dIterC  
-    : public BufferAccess2dIterC<DataT>
+  class Array3dIterC  
+    : public BufferAccess3dIterC<DataT>
   {
   public:
-    Array2dIterC()
+    Array3dIterC()
       {}
     //: Default constructor.
     
-    Array2dIterC(const Array2dC<DataT> &arr,const IndexRange2dC &rng)
+    Array3dIterC(const Array3dC<DataT> &arr,const IndexRange3dC &rng)
       : dat(arr,rng)
       { First(); }
     //: Constructor.
-
-    Array2dIterC(const Array2dC<DataT> &arr)
+    
+    Array3dIterC(const Array3dC<DataT> &arr)
       : dat(arr)
       { First(); }
     //: Constructor.
     
     inline bool First() 
-      { return BufferAccess2dIterC<DataT>::First(dat,dat.Range2()); }
-    
+      { return BufferAccess3dIterC<DataT>::First(dat,dat.Range2(),dat.Range3()); }
     //: Goto first element in the array.
     // Return TRUE if there actually is one.
     
-    const Array2dIterC<DataT> &operator=(const Array2dC<DataT> &arr) {
+    const Array3dIterC<DataT> &operator=(const Array3dC<DataT> &arr) {
       dat = arr;
       First();
       return *this;
     }
     //: Assign to another array.
-
-    Index2dC Index() const { 
+    
+    Index3dC Index() const { 
       assert(dat.IsValid());
-      return BufferAccess2dIterC<DataT>::Index(dat.ReferenceElm());
+      Index2dC i2 = sit.Index(rit->ReferenceElm());
+      return Index3dC((IndexC) (&(*rit) - dat.ReferenceElm()),
+		      (IndexC) i2.Row(),
+		      (IndexC) i2.Col()); 
     }
     //: Get index of current location.
     // Has to be calculate, and so is slightly slow.
-    
   protected:
-    Array2dC<DataT> dat;
+    Array3dC<DataT> dat;
   };
   
 }

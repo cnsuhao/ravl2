@@ -1,168 +1,70 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2001, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 #ifndef RAVLSARR3ITER_HEADER
 #define RAVLSARR3ITER_HEADER 1
 ////////////////////////////////////////////////////////////
 //! docentry="Ravl.Core.Arrays.3D"
 //! rcsid="$Id$
-//! file="amma/Contain/Array/SArray/SArr3Iter.hh"
-//! lib=MSArr1
-//! author="Manuel Segovia"
-//! date="12/11/98"
-//! userlevel=Normal
+//! file="Ravl/Core/Container/SArray/SArr2Iter.hh"
+//! lib=RavlCore
+//! author="Charles Galambos"
+//! date="10/09/98"
+//! userlevel=Advanced
 
 #include "Ravl/SArray3d.hh"
-#include "Ravl/SArr1Iter.hh"
-#include "Ravl/BfAccIter.hh"
+#include "Ravl/BfAcc3Iter.hh"
+#include "Ravl/Index3d.hh"
 
 namespace RavlN {
-  //: Simple 3d array iterator.
-  // A fast iterator to deal with 3d arrays
-  
-  template <class DataT> class SArray3dC;
+
+  //! userlevel=Advanced
+  //: SArray3dC iterator.
+  // Simple 3d array iterator.
   
   template<class DataT>
-  class SArray3dIterC {
+  class SArray3dIterC 
+  : public BufferAccess3dIterC<DataT>
+  {
   public:
     SArray3dIterC()
       {}
     //: Default constructor.
     
-    SArray3dIterC(SArray3dC<DataT> &arr);
+    SArray3dIterC(const SArray3dC<DataT> &narr)
+      : arr(narr)
+      { First(); }
     //: Constructor.
     
-    /*  const SArray3dIterC<DataT> & operator=(SArray3dC<DataT> &arr);
-	//: Assignment to an array.*/
+    const SArray3dIterC<DataT> &operator=(SArray3dC<DataT> &narr) {
+      arr = narr;
+      First();
+      return *this;
+    }
+    //: Assignment to an array.
     
-    inline bool IsElm() const
-      { return it3.IsElm(); }  
-    //: At a valid element ?
-    
-    inline operator bool() const
-      { return it3.IsElm(); }  
-    //: At a valid element ?
-    
-    inline void First();
+    inline void First()
+      { BufferAccess3dIterC<DataT>::First(arr,arr.Size2(),arr.Size3()); }
     //: Goto first element in array.
     
-    inline void Next();
-    //: Goto next element in array.
+    Index3dC Index() const { 
+      assert(arr.IsValid());
+      Index2dC i2 = sit.Index(rit->ReferenceElm());
+      return Index3dC((IndexC) (&(*rit) - arr.ReferenceElm()),
+		      (IndexC) i2.Row(),
+		      (IndexC) i2.Col()); 
+    }
+    //: Get index of current location.
+    // Has to be calculate, and so is slightly slow.
     
-    inline void operator++() 
-      { Next(); }
-    //: Goto next element in array.
-    
-    inline void operator++(int) 
-      { Next(); }
-    //: Goto next element in array.
-    
-    inline void Slice(unsigned int i);
-    //: Goto slice number i
-    
-    inline void NextSameSlice();
-    //: goto next element of the current Slice
-    
-    inline DataT &Data()
-      { return it3.Data(); }
-    //: Access data.
-    
-    inline const DataT &Data() const
-      { return it3.Data(); }
-    //: Const access to data.
-    
-    inline DataT &operator *()
-      { return it3.Data(); }
-    //: Access data.
-    
-    inline const DataT &operator *() const
-      { return it3.Data(); }
-    //: Const access to data.
-    
-    inline DataT &Data1()
-      { return it3.Data(); }
-    //: Access data.
-    //: Equivalent to .Data(), for compatability with other iterators.
-    
-    inline const DataT &Data1() const
-      { return it3.Data(); }
-    //: Const access to data.
-    //: Equivalent to .Data(), for compatability with other iterators.
-    
-  private:
-    SArray1dIterC<SizeBufferAccessC<SizeBufferAccessC<DataT> > > it1;
-    BufferAccessIterC<SizeBufferAccessC<DataT> > it2;
-    BufferAccessIterC<DataT> it3;
+  protected:
+    SArray3dC<DataT> arr;
   };
   
-  ////////////////////////////////////////////////////////////////
-  
-  template<class DataT>
-  inline void 
-  SArray3dIterC<DataT>::First() {
-    it1.First();
-    if(it1.IsElm())
-      {it2 = it1.Data();
-      if(it2.IsElm())
-	it3 = it2.Data();
-      else
-	it3.Invalidate();
-      }
-    else 
-      it2.Invalidate();
-  }
-  
-  template<class DataT>
-  SArray3dIterC<DataT>::SArray3dIterC(SArray3dC<DataT> &arr)
-    : it1(arr)
-  {
-    if(it1.IsElm()) {
-      it2 = it1.Data();
-      if(it2.IsElm())
-	it3 = it2.Data();
-    }
-  }
-  
-  template<class DataT>
-  inline 
-  void 
-  SArray3dIterC<DataT>::Next() { 
-    it3.Next();
-    if(it3.IsElm())
-      return;
-    it2.Next();
-    if(it2.IsElm()){
-      it3 = it2.Data();
-      return;
-    }
-    it1.Next();
-    if(!it1.IsElm())
-      return ;
-    it2 = it1.Data();
-    it3 = it2.Data();
-  }
-  
-  template<class DataT>
-  inline
-  void
-  SArray3dIterC<DataT>::Slice(unsigned int i) {
-    First();
-    for(unsigned int j = 0; j < i; j++) it1.Next();
-    if(!it1.IsElm())
-      return;
-    it2 = it1.Data();
-    it3 = it2.Data();
-  }
-  
-  template<class DataT>
-  inline
-  void
-  SArray3dIterC<DataT>::NextSameSlice() {
-    it3.Next();
-    if(it3.IsElm())
-      return;
-    it2.Next();
-    if(!it2.IsElm())
-      return;
-    it3 = it2.Data();
-  }
   
 }
+
 #endif

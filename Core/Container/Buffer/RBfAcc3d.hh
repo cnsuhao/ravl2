@@ -1,0 +1,111 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2001, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
+#ifndef RAVL_RBFACC3D_HEADER
+#define RAVL_RBFACC3D_HEADER 1
+///////////////////////////////////////////////////////////
+//! rcsid="$Id$"
+//! file="Ravl/Core/Container/Buffer/RBfAcc3d.hh"
+//! lib=RavlCore
+//! userlevel=Normal
+//! author="Charles Galambos"
+//! date="24/01/2001"
+//! docentry="Ravl.Core.Arrays.Buffer"
+
+#include "Ravl/RBfAcc.hh"
+#include "Ravl/RBfAcc2d.hh"
+#include "Ravl/Index3d.hh"
+#include "Ravl/IndexRange3d.hh"
+#include "Ravl/BfAcc3Iter.hh"
+
+class istream;
+class ostream;
+
+namespace RavlN {
+  
+  class BinOStreamC;
+  class BinIStreamC;
+  
+  //! userlevel=Advanced
+  //: Access to 3d buffer.
+  
+  template <class DataT>
+  class RangeBufferAccess3dC 
+    : public RangeBufferAccessC<BufferAccessC<BufferAccessC<DataT > > >
+  {
+  public:
+    RangeBufferAccess3dC()
+      : rng2(0,-1),
+      rng3(0,-1)
+      {}
+    //: Default constructor.
+
+    RangeBufferAccess3dC(const IndexRangeC &nrng2,const IndexRangeC &nrng3)
+      : rng2(nrng2),
+      rng3(nrng3)
+      {}
+    //: Constructor.
+    
+    inline bool Contains(const Index3dC & i) const
+      { return Range1().Contains(i.I()) && Range2().Contains(i.J()) && Range3().Contains(i.J()); }
+    //: Returns true if there is an item of the £D array
+    
+    inline DataT & operator[](const Index3dC & i) { 
+      RavlAssertMsg(rng2.Contains(i.J()),"j index out of range");
+      RavlAssertMsg(rng3.Contains(i.K()),"k index out of range");
+      return RangeBufferAccessC<BufferAccessC<BufferAccessC<DataT> > >::operator[](i.I())[i.J()][i.K()]; 
+    }
+    //: access to the item array[(i)]
+    
+    inline const DataT & operator[](const Index3dC & i) const { 
+      RavlAssertMsg(rng2.Contains(i.J()),"j index out of range");
+      RavlAssertMsg(rng3.Contains(i.K()),"k index out of range");
+      return RangeBufferAccessC<BufferAccessC<BufferAccessC<DataT> > >::operator[](i.I())[i.J()][i.K()]; 
+    }
+    //: return the item array[(i)]
+
+    inline RangeBufferAccess2dC<DataT> operator[](IndexC i)
+      { return RangeBufferAccess2dC<DataT>(RangeBufferAccessC<BufferAccessC<BufferAccessC<DataT> > >::operator[](i),rng2,rng3); }
+    //: access to the item array[(i)]
+    
+    inline const RangeBufferAccess2dC<DataT> operator[](IndexC i) const
+      { return RangeBufferAccess2dC<DataT>(RangeBufferAccessC<BufferAccessC<BufferAccessC<DataT> > >::operator[](i),rng2,rng3); }
+    //: return the item array[(i)]
+
+    inline const IndexRangeC &Range1() const
+      { return Range(); }
+    //: Range of first index.
+    
+    inline const IndexRangeC &Range2() const
+      { return rng2; }
+    //: Range of second index.
+    
+    inline const IndexRangeC &Range3() const
+      { return rng3; }
+    //: Range of second index.
+    
+    IndexRange3dC Frame() const
+      { return IndexRange3dC(Range1(),Range2(),Range3()); }
+    //: Return ranges of indexes
+    
+    void Fill(const DataT &d);
+    //: Fill array with value.
+    
+  protected:
+    IndexRangeC rng2;
+    IndexRangeC rng3;
+    
+  };
+
+  template<class DataT>
+  void RangeBufferAccess3dC<DataT>::Fill(const DataT &d) {
+    for(BufferAccess3dIterC<DataT> it(*this,rng2,rng3);it;it++)
+      *it = d;
+  }
+  
+}
+
+#endif

@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef ARRAY2D_HH
-#define ARRAY2D_HH
+#ifndef RAVLARRAY2D_HH
+#define RAVLARRAY2D_HH
 ///////////////////////////////////////////////////////////////////////
 //! file="Ravl/Core/Container/Array/Array2d.hh"
 //! lib=RavlCore
@@ -114,9 +114,6 @@ namespace RavlN {
     void ShiftIndexes2(IndexC offset);
     //: All indexes of Range2() will be changed by 'offset'.
     // The range will be shifted by -offset.
-    
-    // Logical conditions.
-    // -------------------
     
     Array2dC<DataC> operator+(const Array2dC<DataC> & arr) const;
     //: Sums 2 numerical arrays. 

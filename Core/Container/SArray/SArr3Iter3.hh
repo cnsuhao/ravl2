@@ -1,100 +1,71 @@
-#ifndef RAVLSARR3ITER3_HEADER
-#define RAVLSARR3ITER3_HEADER 
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2001, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
+#ifndef RAVLSARR2ITER3_HEADER
+#define RAVLSARR2ITER3_HEADER 1
 ////////////////////////////////////////////////////////////
 //! docentry="Ravl.Core.Arrays.3D"
 //! rcsid="$Id$
-//! file="amma/Contain/Array/SArray/SArr3Iter3.hh"
-//! lib=MSArr1
+//! file="Ravl/Core/Container/SArray/SArr2Iter3.hh"
+//! lib=RavlCore
 //! author="Charles Galambos"
-//! date="13/11/98"
+//! date="10/09/98"
+//! userlevel=Advanced
 
 #include "Ravl/SArray3d.hh"
-#include "Ravl/SArr3Iter.hh"
 
 namespace RavlN {
-  //! userlevel=Normal
+  //! userlevel=Advanced
   //: Triple SArray3dC iterator.
   // Triple Simple 3d array iterator.
   
-  template<class Data1T,class Data2T, class Data3T>
-  class SArray3dIter3C {
+  template<class Data1T,class Data2T,class Data3T>
+  class SArray3dIter3C 
+    : public BufferAccess3dIter3C<Data1T,Data2T,Data3T>
+  {
   public:
     SArray3dIter3C()
       {}
     //: Default constructor.
     
-    SArray3dIter3C(SArray3dC<Data1T> &arr1, SArray3dC<Data2T> &arr2, SArray3dC<Data3T> &arr3);
+    SArray3dIter3C(const SArray3dC<Data1T> &arr,
+		   const SArray3dC<Data2T> &narr2,
+		   const SArray3dC<Data3T> &narr3)
+      : arr1(arr),
+      arr2(narr2),
+      arr3(narr3)
+      { First(); }
     //: Constructor.
     
-    inline bool IsElm() const
-      { return iter1.IsElm() && iter2.IsElm() && iter3.IsElm(); }
-    //: At a valid element ?
+    inline bool First() {
+      return BufferAccess3dIter3C<Data1T,Data2T,Data3T>::First(arr1,arr1.Size2(),arr1.Size3(),
+							       arr2,arr2.Size2(),arr2.Size3(),
+							       arr3,arr3.Size2(),arr3.Size3());
+    }
+    //: Goto first element in array.
+    // returns true if there is a first element.
+    
+    Index3dC Index() const { 
+      assert(arr1.IsValid());
+      Index2dC i2 = sit.Index(rit.Data1().ReferenceElm());
+      return Index3dC((IndexC) (&(rit.Data1()) - arr1.ReferenceElm()),
+		      (IndexC) i2.Row(),
+		      (IndexC) i2.Col());
+    }
+    //: Get index of current location.
+    // Has to be calculate, and so is slightly slow.
 
-    operator bool()
-      { return iter1.IsElm() && iter2.IsElm() && iter3.IsElm(); }
-    //: At a valid element ?
-    
-    inline void First();
-    //: Goto first element in arrays.
-    
-    inline void Next();
-    //: Goto next element in arrays.
-    
-    inline Data1T &Data1()
-      { return iter1.Data(); }
-    //: Get data from first array.
-    
-    inline const Data1T &Data1() const
-      { return iter1.Data(); }
-    //: Get data from first array.
-    
-    inline Data2T &Data2()
-      { return iter2.Data(); }
-    //: Get data from second array.
-    
-    inline const Data2T &Data2() const
-      { return iter2.Data(); }
-    //: Get data from second array.
-    
-    inline Data3T &Data3()
-      { return iter3.Data(); }
-    //: Get data from third array.
-    
-    inline const Data3T &Data3() const
-      { return iter3.Data(); }
-    //: Get data from third array.
-    
-  private:
-    SArray3dIterC<Data1T> iter1;
-    SArray3dIterC<Data2T> iter2;  
-    SArray3dIterC<Data3T> iter3;
+  protected:    
+    SArray3dC<Data1T> arr1;
+    SArray3dC<Data2T> arr2;
+    SArray3dC<Data3T> arr3;
   };
   
-  ////////////////////////////////////////////////////////////////
-  
-  template<class Data1T,class Data2T, class Data3T>
-  SArray3dIter3C<Data1T,Data2T,Data3T>::SArray3dIter3C( SArray3dC<Data1T> &arr1, SArray3dC<Data2T> &arr2, SArray3dC<Data3T> &arr3)
-    : iter1(arr1), 
-      iter2(arr2), 
-      iter3(arr3)
-  {}
-
-  template<class Data1T,class Data2T,class Data3T>
-  inline void 
-  SArray3dIter3C<Data1T,Data2T, Data3T>::First() {
-    iter1.First();
-    iter2.First();
-    iter3.First();
-  }
-  
-  template<class Data1T,class Data2T,class Data3T>
-  inline 
-  void 
-  SArray3dIter3C<Data1T,Data2T,Data3T>::Next() { 
-    iter1.Next();
-    iter2.Next();
-    iter3.Next();
-  }
+  ////////////////////////////////////////////////////////////////  
   
 }
+
 #endif

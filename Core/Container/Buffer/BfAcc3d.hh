@@ -61,7 +61,7 @@ namespace RavlN {
       {}
     //: Default constructor.
     
-    inline bool Contains(const Index2dC &i) const { 
+    inline Contains(const Index2dC &i)  { 
       return (((UIntT) i.Col().V()) < size2) && 
 	(((UIntT) i.Row().V()) < Size1()); 
       }
