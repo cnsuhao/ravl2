@@ -31,7 +31,8 @@ namespace RavlGUIN {
 
   //: Constructor.
   
-  WindowBodyC::WindowBodyC(int nsx,int nsy,const char *ntitle,GtkWindowType nWinType,int nborder,bool nrootWin)
+  WindowBodyC::WindowBodyC(int nsx,int nsy,const char *ntitle,GtkWindowType nWinType,int nborder,bool nrootWin,
+                           bool nconnectDeleteEvent)
     : sx(nsx), sy(nsy),
       border(nborder),
       title(ntitle),
@@ -41,7 +42,8 @@ namespace RavlGUIN {
       userresizable(true),
       m_bDecorated(true),
       winType(nWinType),
-      isFullscreen(false)
+      isFullscreen(false),
+      connectDeleteEvent(nconnectDeleteEvent)
   {
     if(rootWin)
       Manager.GetRootWindow() = WindowC(*this);
@@ -64,7 +66,9 @@ namespace RavlGUIN {
       if(rootWin && winType == GTK_WINDOW_TOPLEVEL) {
         rootWinCount++;
       }
-      ConnectRef(Signal("delete_event"),*this,&WindowBodyC::Close);
+      if (connectDeleteEvent) {
+        ConnectRef(Signal("delete_event"),*this,&WindowBodyC::Close);
+      }
       if(title != 0)
         gtk_window_set_title (GTK_WINDOW (widget),title.chars());
       if(border != 0)
@@ -329,8 +333,8 @@ namespace RavlGUIN {
   //////////////////////////////////////////////
   //: Constructor.
   
-  WindowC::WindowC(int sx,int sy,const char *ntitle,GtkWindowType nWinType,int nborder,bool nrootWin)
-    : OneChildC(*new WindowBodyC(sx,sy,ntitle,nWinType,nborder,nrootWin))
+  WindowC::WindowC(int sx,int sy,const char *ntitle,GtkWindowType nWinType,int nborder,bool nrootWin,bool nconnectDeleteEvent)
+    : OneChildC(*new WindowBodyC(sx,sy,ntitle,nWinType,nborder,nrootWin,nconnectDeleteEvent))
   {}
 
 }
