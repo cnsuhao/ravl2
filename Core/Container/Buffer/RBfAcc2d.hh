@@ -125,8 +125,8 @@ namespace RavlN {
     IntT Stride() const {
       if(Range1().Size() < 1)
 	return (IntT) rng2.Size();
-      return (IntT) (RangeBufferAccessC<BufferAccessC<DataC> >::operator[](1).ReferenceElm() -  
-		     RangeBufferAccessC<BufferAccessC<DataC> >::operator[](0).ReferenceElm());
+      return (IntT) (RangeBufferAccessC<BufferAccessC<DataC> >::operator[](IMin()+1).ReferenceElm() -  
+		     RangeBufferAccessC<BufferAccessC<DataC> >::operator[](IMin()).ReferenceElm());
     }
     //: Get the stide of the 2d array. 
     
