@@ -38,13 +38,13 @@ namespace RavlN {
     //: Construct from data.
     
     DataT *BodyPtr()
-    { return &RCHandleC<DataT>::Body(); }
-    //: Access body.
+    { return body; }
+    //: Access pointer to body.
     
     const DataT *BodyPtr() const
-    { return &RCHandleC<DataT>::Body(); }
-    //: Access body.
-
+    { return body; }
+    //: Access pointer to body.
+    
     DataT *operator->()
     { return &RCHandleC<DataT>::Body(); }
     //: Access body.
@@ -54,11 +54,11 @@ namespace RavlN {
     //: Access body.
     
     operator DataT *()
-    { return &RCHandleC<DataT>::Body(); }
+    { return body; }
     //: Access body.
     
     operator const DataT *() const
-    { return &RCHandleC<DataT>::Body(); }
+    { return body; }
     //: Access body.
     
     const SmartPtrC<DataT> &operator=(const DataT *other) {
