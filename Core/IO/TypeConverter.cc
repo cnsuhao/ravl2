@@ -33,6 +33,27 @@ namespace RavlN {
     ret = ConvGraph().InsNode(typeName);
     return ret;
   }
+
+  //: Test if conversion is possible.
+  
+  bool TypeConverterBodyC::CanConvert(const type_info &from,const type_info &to) {
+    if(from == to)
+      return true;
+    DListC<GraphEdgeIterC<StringC,DPConverterBaseC> > conv;
+#ifndef VISUAL_CPP
+    RealT finalCost;
+    // Visual C++ can't handle ptr's to functions with reference args.
+    // hopefull we'll find a way aroung this but for now its out.
+    conv = GraphBestRoute(ConvGraph(),
+			  GetTypeNode(from),
+			  GetTypeNode(to),
+			  finalCost,
+			  &TypeConverterBodyC::EdgeEval);
+#else
+    RavlAssert(0);
+#endif
+    return !conv.IsEmpty();
+  }
   
   //: Find a conversion.
   // If found the cost of conversion is put into finalCost.
