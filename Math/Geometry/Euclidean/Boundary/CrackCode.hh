@@ -22,7 +22,7 @@
 
 namespace RavlN {
   
-  //: CrackCode 
+  //: Crack code 
   // Symbol names of crack code, ordered counter-clockwise.
   
   enum  CrackCodeT {
@@ -33,7 +33,7 @@ namespace RavlN {
     CR_NODIR = 4
   };
   
-  //: Relative crackCode 
+  //: Relative crack code 
   // Symbol names of crack code, ordered counter-clockwise.
   
   enum  RelativeCrackCodeT {
@@ -50,7 +50,7 @@ namespace RavlN {
   //:-
   
   //! userlevel=Normal
-  //: Crackcode or Freeman code 
+  //: Crack code or Freeman code 
   
   class CrackCodeC {
   public:
@@ -93,8 +93,8 @@ namespace RavlN {
       return(*this);
     }
     //: Add a relative crack code.
-    // The crackcode 'cc' is taken as a relative crackcode. The relative
-    // crackcode is added to this crackcode.
+    // The crack code 'cc' is taken as a relative crack code. The relative
+    // crack code is added to this crack code.
 
     inline const CrackCodeC & operator-=(const CrackCodeC & cc) { 
       IntT result = crackCode - cc.crackCode + 4;
@@ -102,8 +102,8 @@ namespace RavlN {
       return(*this);
     }
     //: Subtract a relative crack code.
-    // The crackcode 'cc' is taken as a relative crackcode. 
-    // The relative crackcode is subtracted from this crackcode.
+    // The crack code 'cc' is taken as a relative crack code. 
+    // The relative crack code is subtracted from this crack code.
     
     const CrackCodeC &operator=(const CrackCodeC & cc) {
       crackCode=cc.crackCode;
@@ -121,18 +121,18 @@ namespace RavlN {
 
     inline CrackCodeC & TurnClock()
     { crackCode = clockWiseTurn[crackCode]; return *this; }
-    //: Turns the crackcode clockwise.
-    // This is an inplace operation.
+    //: Turns the crack code clockwise.
+    // This is an in-place operation.
     
     inline CrackCodeC & TurnCClock()
     { crackCode = cClockWiseTurn[crackCode]; return *this; }
-    //: Turns the crackcode counterclockwise.
-    // This is an inplace operation.
+    //: Turns the crack code counterclockwise.
+    // This is an in-place operation.
     
     inline CrackCodeC & TurnBack()
     { crackCode = backTurn[crackCode]; return *this; }
-    //: Turns the crackcode backward.
-    // This is an inplace operation.
+    //: Turns the crack code backward.
+    // This is an in-place operation.
     
     Index2dC Next(const Index2dC &pixel) const {
       return Index2dC(pixel.Row() + offsetRow[crackCode],

@@ -35,11 +35,11 @@ namespace RavlN {
   {
   public:
     //:------------------------------------------------
-    //: Constructors, copies, assigment, and destructor.
+    //: Constructors, copies, assignment, and destructor.
     
     BoundaryC(bool orient = true);
     //: Empty boundary with orientation 'orient'.
-    // If orient is true, the object is on the left of the boundry.
+    // If orient is true, the object is on the left of the boundary.
     
     BoundaryC(const Array2dC<IntT> &emask,IntT inLabel);
     //: Create a boundary from the edges between 'inLabel' pixels an other values
@@ -49,16 +49,16 @@ namespace RavlN {
     
     BoundaryC(const DListC<EdgeC> & edgeList, bool orient);
     //: Create the boundary from the list of edges with a appropriate orientation. 
-    // The 'edgelist' will be a part of boundary.  If orient is true, the object
-    // is on the left of the boundry.
+    // The 'edgeList' will be a part of boundary.  If orient is true, the object
+    // is on the left of the boundary.
     
     BoundaryC(const DListC<DLIterC<EdgeC> > & edgeList, bool orient = true);
     //: Creates the boundary from the list of pointers to the elementary edges.
-    // If orient is true, the object is on the left of the boundry.
+    // If orient is true, the object is on the left of the boundary.
     
     BoundaryC(const IndexRange2dC & rect,bool asHole = true);
     //: The boundary of the rectangle.
-    // The boundry goes clockwise around the rectancle. If asHole is true, 
+    // The boundary goes clockwise around the rectangle. If asHole is true, 
     // then the rectangle is 'outside' the region. otherwise its inside. 
     
     IntT Area() const;
@@ -67,7 +67,7 @@ namespace RavlN {
     // a plane. This can be inverted with the BReverse() method.
     
     DListC<BoundaryC> Order(const EdgeC & firstEdge, bool orient = true);
-    //: Order boundry from edge.
+    //: Order boundary from edge.
     // Note: There is a bug in this code which can cause an infinite loop
     // for some edge patterns. In particular where the two edges go through
     // the same vertex. <br>
@@ -77,7 +77,7 @@ namespace RavlN {
     // 'firstEdge' and 'orient' are ignored.
     
     DListC<BoundaryC> OrderEdges() const;
-    //: Generate an order list of boundries.
+    //: Generate an order list of boundaries.
     
     bool Orient() const
     { return orientation; }
@@ -87,7 +87,7 @@ namespace RavlN {
     
     void Invert()
     { orientation = !orientation; }
-    //: Invert the boundry.
+    //: Invert the boundary.
     
     BoundaryC & BReverse();
     //: Reverse the order of the edges.
@@ -113,12 +113,12 @@ namespace RavlN {
     // an object is on the left side of edges.
     
     RCHashC<BVertexC, PairC<BVertexC> > CreateHashtable() const;
-    // Returns the hashtable for the boundary; all end points which are only
+    // Returns the hash table for the boundary; all end points which are only
     // connected to one other point will have at least one invalid
     // neighbour (-1, -1).
 
     BoundaryC OrderContinuous(const RCHashC<BVertexC, PairC<BVertexC> > & hashtable, const EdgeC & firstEdge, bool orient) const;
-    // Returns a continous boundary; if the boundary is open, 'orient' will be 
+    // Returns a continuous boundary; if the boundary is open, 'orient' will be 
     // ignored and 'firstEdge' must be one of the end points of the boundary.
     
     DListC<BVertexC> FindEndpoints(const RCHashC<BVertexC, PairC<BVertexC> > & hashtable) const;
