@@ -4,8 +4,8 @@
 // Public License (GPL). See the gpl.licence file for details or
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
-#ifndef RAVLSRCCHECK_HEADER 
-#define RAVLSRCCHECK_HEADER 1
+#ifndef RAVL_SRCCHECK_HEADER 
+#define RAVL_SRCCHECK_HEADER 1
 /////////////////////////////////////////////////////////////
 //! file="Ravl/SourceTools/CodeManager/SourceCodeManager.hh"
 //! author="Charles Galambos"
@@ -37,7 +37,6 @@ namespace RavlN {
     SourceCodeManagerC(const StringC &adir,bool enabled = true);
     //: Directory constructor
     
-
     DefsMkFileC &DefsMkFile(const StringC &name);
     //: Access a defs file.
     // 'name' should be the path to the directory starting from

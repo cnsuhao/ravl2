@@ -319,7 +319,12 @@ namespace RavlN {
 	cerr << "WARNING: End of header marker more than 30 lines into the file. (" << eohAt <<") \n";
 	return false;
       }
+#if 1
+      // Don't replace existing header.
+      return true;
+#else
       it2.Nth(eohAt).Head(); // Goto the last line, and remove the head of the list.
+#endif
     }
     // Copy in new section.
     it2.First();
