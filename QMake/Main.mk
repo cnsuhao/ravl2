@@ -748,6 +748,7 @@ $(INST_GENBIN)/RAVLExec : $(INST_GENBIN)/.dir $(MAKEHOME)/RAVLExec $(ROOTDIR)/sh
 	perl $(MAKEHOME)/Install.pl $(PROJECT_OUT)/share/RAVL/QMake $(PROJECT_OUT) $(MAKEHOME)/RAVLExec $(INST_GENBIN)/RAVLExec ; \
 	$(CHMOD) 555 $(INST_GENBIN)/RAVLExec
 
+# This rule to be a hard link to RAVLExec, but it causes problems on some systems.
 
 $(INST_GENBIN)/% : $(INST_GENBIN)/RAVLExec
 	$(SHOWIT)echo "--- Creating redirect for $(@F)." ; \
@@ -755,7 +756,8 @@ $(INST_GENBIN)/% : $(INST_GENBIN)/RAVLExec
 	  $(CHMOD) +w $(INST_GENBIN)/$(@F) ; \
 	  $(RM) $(INST_GENBIN)/$(@F) ; \
 	fi ; \
-	ln -f $(INST_GENBIN)/RAVLExec $(INST_GENBIN)/$(@F)
+	$(CP) $(INST_GENBIN)/RAVLExec $(INST_GENBIN)/$(@F) ; \
+	$(CHMOD) 555 $(INST_GENBIN)/$(@F)
 
 ifndef NOEXEBUILD
 build_test: $(TARG_TESTEXE)
