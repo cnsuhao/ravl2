@@ -146,6 +146,11 @@ namespace Ravl3DN {
       it->VertexPtr(2) = &(verts[i3]);
       it->UpdateFaceNormal();
     }
+    // If there is no texture info generate a texture
+    if (!bHaveTexture) {
+      ts = TexTriMeshC(verts,faces);
+      return s;
+    }
     // Read the texture info
     UIntT nTex;
     s >> nTex;

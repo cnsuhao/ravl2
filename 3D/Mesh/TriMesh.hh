@@ -15,6 +15,7 @@
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/SArray1d.hh"
+#include "Ravl/DList.hh"
 #include "Ravl/3D/Tri.hh"
 
 namespace Ravl3DN {
@@ -59,6 +60,10 @@ namespace Ravl3DN {
     // The length of faceInd should be a power of 3, success triples are taken
     // from it to form the faces in the mesh.
     
+    TriMeshBodyC(const DListC<Vector3dC> &v,const DListC<UIntT> &faceInd);
+    //: Construct from a list of vertices and a list of indices.
+    // The length of faceInd should be a power of 3, success triples are taken
+
     TriMeshBodyC(const SArray1dC<VertexC> &v,const SArray1dC<TriC> &nfaces,bool haveTextureCoord=false)
       : vertices(v),
 	faces(nfaces),
@@ -147,6 +152,12 @@ namespace Ravl3DN {
     //: Construct from an array of vertices and an array of indices.
     // The length of faceInd should be a power of 3, success triples are taken
     // from it to form the faces in the mesh.
+
+    TriMeshC(const DListC<Vector3dC> &v,const DListC<UIntT> &faceInd)
+      : RCHandleC<TriMeshBodyC>(*new TriMeshBodyC(v,faceInd))
+    {}
+    //: Construct from a list of vertices and a list of indices.
+    // The length of faceInd should be a power of 3, success triples are taken
 
     TriMeshC(const SArray1dC<VertexC> &v,const SArray1dC<TriC> &nfaces,bool haveTextureCoord=false)
       : RCHandleC<TriMeshBodyC>(*new TriMeshBodyC(v,nfaces,haveTextureCoord))

@@ -51,6 +51,45 @@ namespace Ravl3DN {
       itv->Normal().MakeUnit();
   }
 
+  //: Construct from a list of vertexes and a list of indices.
+  // The length of faceInd should be a power of 3, success triples are taken
+  // from it to form the faces in the mesh.
+  
+  TriMeshBodyC::TriMeshBodyC(const DListC<Vector3dC> &v,const DListC<UIntT> &faceInd) 
+    : vertices(v.Size()),
+      faces(faceInd.Size()/3),
+      haveTexture(false)
+  {
+    // Create the vertices from the vertex positions v
+    Vector3dC zero(0,0,0);
+    DLIterC<Vector3dC> itPos(v);
+    SArray1dIterC<VertexC> itVerts(vertices);
+    for (; itPos; itPos++, itVerts++) {
+      itVerts.Data().Position() = itPos.Data();
+      itVerts.Data().Normal() = zero;
+    }
+    // Create the tri faces from the face vertex indices
+    RavlAssert(faceInd.Size() == (faces.Size() * 3));
+    DLIterC<UIntT> iit(faceInd);
+    SArray1dIterC<TriC> fit(faces);
+    /* Create vertex pointers, and some inital vertex normals. */
+    for(;fit;fit++) {
+      int i;
+      for(i = 0;i < 3;i++,iit++) {
+        fit.Data().VertexPtr(i) = &(vertices[*iit]);
+      }
+      fit->UpdateFaceNormal();
+      Vector3dC norm = fit->FaceNormal();
+      for( i = 0;i < 3;i++)
+        fit->Normal(i) += norm;
+    }
+    /* Make unit normals. */
+    SArray1dIterC<VertexC> itv(vertices);
+    for(; itv; itv++)
+      itv->Normal().MakeUnit();
+  }
+
+
   //: Copy constructor
 
   TriMeshBodyC::TriMeshBodyC(const TriMeshBodyC& oth)
