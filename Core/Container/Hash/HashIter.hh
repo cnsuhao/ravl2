@@ -21,7 +21,7 @@
 namespace RavlN {
   
   //: Hash table iterator.
-  // This iterator works with both HashC and HashARC. <p>
+  // This iterator works with both HashC and RCHashC. <p>
   // Small object !
   
   template<class K,class T>
