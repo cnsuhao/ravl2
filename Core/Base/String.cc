@@ -1169,16 +1169,14 @@ namespace RavlN {
     // Should check what this does before just disabling it.
     if (!s.ipfx(0))
       return 0;
+    const int eof = EOF;
+#else
+    const int eof = istream::traits_type::eof();
 #endif
     int ch = 0;
     int i = 0;
     x.rep = Sresize(x.rep, 80);
     register streambuf *sb = s.rdbuf();
-#if RAVL_COMPILER_GCC3
-    const int eof = istream::traits_type::eof();
-#else
-    const int eof = EOF;
-#endif
     while ((ch = sb->sbumpc()) != eof) {
       if (ch != terminator || !discard) {
 	if (i >= ((int) x.rep->sz) - 1)
@@ -1190,8 +1188,13 @@ namespace RavlN {
     }
     x.rep->s[i] = 0;
     x.rep->len = i;
+#if RAVL_COMPILER_GCC3
+    if (ch == EOF) 
+      s.clear(ios::eofbit|s.rdstate());
+#else
     if (ch == eof)
       s.setstate(ios::eofbit | ios::failbit);
+#endif
     return i;
   }
   
