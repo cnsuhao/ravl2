@@ -18,6 +18,14 @@ namespace RavlN {
   //: Wait for timeup.
   
   void DPGovernorBaseBodyC::WaitForTimeup() {
+    DateC now(true);
+    RealT diff = (next - now).Double();
+    if(diff < minDelay) {
+      if(minDelay > 0) {
+	next = now;
+	next += minDelay;
+      }
+    }
     next.Wait();
     next.SetToNow();
     next += delay;

@@ -26,15 +26,17 @@ namespace RavlN {
     : virtual public DPEntityBodyC
   {
   public:
-    DPGovernorBaseBodyC(double ndelay)
+    DPGovernorBaseBodyC(double ndelay,RealT nMinDelay = 0)
       : delay(ndelay),
-	frameCnt(0)
+	frameCnt(0),
+	minDelay(nMinDelay)
     {}
     //: Constructor
     
     DPGovernorBaseBodyC(const DPGovernorBaseBodyC &oth) 
       : delay(oth.delay),
-	frameCnt(0)
+	frameCnt(0),
+	minDelay(0)
     {}
     //: Copy Constructor
     
@@ -47,6 +49,12 @@ namespace RavlN {
     RealT &Delay() { return delay; }
     //: Access frame count.
     
+    RealT MinDelay() const { return minDelay; }
+    //: Access frame count.
+    
+    RealT &MinDelay() { return minDelay; }
+    //: Access frame count.
+    
   protected:
     void WaitForTimeup();
     //: Wait for timeup.
@@ -54,6 +62,7 @@ namespace RavlN {
     DateC next;
     RealT delay;
     UIntT frameCnt; // Frame count,can be used to measure frame rate.
+    RealT minDelay; // Minimum delay to insert.
   };
   
   ////////////////////////////////////
@@ -101,6 +110,14 @@ namespace RavlN {
     RealT &Delay()
     { return Body().Delay(); }
     //: Access delay
+
+    RealT MinDelay() const 
+    { return Body().MinDelay(); }
+    //: Access delay
+    
+    RealT &MinDelay()
+    { return Body().MinDelay(); }
+    //: Access delay
     
   };
   
@@ -114,8 +131,8 @@ namespace RavlN {
       public DPGovernorBaseBodyC 
   {
   public:
-    DPGovernorBodyC(double ndelay)
-      : DPGovernorBaseBodyC(ndelay)
+    DPGovernorBodyC(double ndelay,RealT nMinDelay = 0)
+      : DPGovernorBaseBodyC(ndelay,nMinDelay)
     {}
     //: Constructor
     
@@ -171,8 +188,8 @@ namespace RavlN {
       public DPGovernorBaseC 
   {
   public:
-    DPGovernorC(double ndelay)
-      : DPEntityC(*new DPGovernorBodyC<DataT>(ndelay))
+    DPGovernorC(double ndelay,RealT nminDelay = 0)
+      : DPEntityC(*new DPGovernorBodyC<DataT>(ndelay,nminDelay))
     {}
     //: Constructor  
   };
