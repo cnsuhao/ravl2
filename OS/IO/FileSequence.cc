@@ -170,6 +170,7 @@ namespace RavlN {
   // Returns false if fail.
   
   bool DPFileSequenceBaseBodyC::ProbeImplicit(FilenameC rootFn) {
+    ONDEBUG(cerr << "DPFileSequenceBaseBodyC::ProbeImplicit('" << rootFn << "') \n");
     // Try and find a sequence.
     FilenameC nameComp = rootFn.NameComponent();
     FilenameC pathComp = rootFn.PathComponent();
@@ -191,6 +192,7 @@ namespace RavlN {
     if(digits == -1) 
       digits = ProbeDigits(rootFn.PathComponent(),prefix,postfix);
     // Only worked if we found the number of digits..
+    ONDEBUG(cerr << "DPFileSequenceBaseBodyC::ProbeImplicit(), Digits=" << digits << "  0=Failed. \n");
     return digits >= 0;
   }
   
@@ -198,6 +200,7 @@ namespace RavlN {
   // Returns false if fail.
   
   bool DPFileSequenceBaseBodyC::ProbeTemplate(FilenameC rootFn) {
+    ONDEBUG(cerr << "DPFileSequenceBaseBodyC::ProbeTemplate('" << rootFn << "') \n");
     int at = 0;
     int done = 0;
     StringC prefix;
@@ -257,6 +260,7 @@ namespace RavlN {
     templateFile = prefix + "%d" + postfix;
     subst = "%d";
     
+    ONDEBUG(cerr << "DPFileSequenceBaseBodyC::ProbeTemplate(), Found. \n");
     return true;
   }
   
@@ -264,6 +268,7 @@ namespace RavlN {
   // Returns false if fail.
   
   bool DPFileSequenceBaseBodyC::ProbeExample(FilenameC rootFn) {
+    ONDEBUG(cerr << "DPFileSequenceBaseBodyC::ProbeExample('" << rootFn << "') \n");
     if(!rootFn.Exists()) // Does the root file name exist ?
       return false;
     int i;
@@ -309,6 +314,7 @@ namespace RavlN {
       if(!forLoad || !Filename(digits,no-1).Exists()) 
 	start = no;  // Yep it was.
     }
+    ONDEBUG(cerr << "DPFileSequenceBaseBodyC::ProbeExample(), Found. \n");
     return true; // It worked !
   }
   
@@ -326,12 +332,12 @@ namespace RavlN {
     }
     DirectoryC dir(dirName);
     IntT len = -1;
-    bool dif(false);
+    bool dif = false;
     DListC<StringC> files = dir.List(prefix,postfix);
     for(DLIterC<StringC> it(files);it.IsElm();it.Next()) {
       // Monitor length;
-      IntT nlen = it.Data().length();
-      if(nlen != len) {
+      IntT nlen = it.Data().length(); 
+      if(nlen != len) { // Are there matching files with different lengths ?
 	if(len != -1) {
 	  dif = true;
 	  break;
@@ -340,13 +346,20 @@ namespace RavlN {
       }
     }
     if(len == -1) {
-    ONDEBUG(cerr << "DPFileSequenceBaseBodyC::ProbeDigits() No files found. Pre:'" << prefix << "' Post:'" << postfix << "'\n");
-    return -1;
+      ONDEBUG(cerr << "DPFileSequenceBaseBodyC::ProbeDigits() No files found. Pre:'" << prefix << "' Post:'" << postfix << "'\n");
+      return -1;
     }
-    if(dif)
+    if(dif) {
+      ONDEBUG(cerr << "DPFileSequenceBaseBodyC::ProbeDigits(), Failed. No matching files. \n");
       return 0;
+    }
+    IntT dig = len - (prefix.length() + postfix.length());
+    if(dig == 0) {
+      ONDEBUG(cerr << "DPFileSequenceBaseBodyC::ProbeDigits(), Failed. No files with digits found. \n");
+      return -1;
+    }
     ONDEBUG(cerr << "DPFileSequenceBaseBodyC::ProbeDigits() Found, Len:" << len <<" Pre:" << prefix.length() << " Post:" << postfix.length() << "\n");
-    return len - (prefix.length() + postfix.length());
+    return dig;
   }
   
   //: See if we can find the length of the sequence.

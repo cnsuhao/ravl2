@@ -29,7 +29,7 @@
 #endif
 
 namespace RavlN {
-
+  
   //: Open input stream base.
   
   bool OpenISequenceBase(DPIPortBaseC &ip,DPSeekCtrlC &sc,const StringC &fn,const StringC &fileformat,const type_info &obj_type,bool verbose) {   
@@ -73,7 +73,7 @@ namespace RavlN {
       if(!SystemFileFormatRegistry().FindInputFormat(fmtInfo,fileSeq.Filename(),fileformat,obj_type,verbose))
 	return false; // Failed to find format.
     }
-    ONDEBUG(cerr << "OpenISequenceBase(), Building ouput stream.... \n");
+    ONDEBUG(cerr << "OpenISequenceBase(), Building output stream.... \n");
     
     DPIPortBaseC ipipe(fileSeq.Setup(fmtInfo));
     // Try a file sequence.
