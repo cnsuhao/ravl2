@@ -7,6 +7,11 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/DataSet/exSample.cc"
+//! author="Kieron Messer"
+//! docentry="Ravl.Pattern Recognition.Data Set"
+//! userlevel=Normal
+
+//: Using SampleC and related classes.
 
 #include"Ravl/PatternRec/SampleVector.hh"
 #include"Ravl/PatternRec/SampleLabel.hh"
@@ -15,7 +20,6 @@ using namespace RavlN;
 
 int main() {
 
-  
   SampleVectorC input;
   SampleLabelC output;
   
@@ -27,11 +31,6 @@ int main() {
 
   cerr << "Input size: " << input.Size() << "\n";
   cerr << "Output size: " << output.Size() << "\n";
-  
-#if 0
-  cout << input.Pick() << endl;
-  cout << output.Pick() << endl;
-#endif
   
   return 0;
 }
