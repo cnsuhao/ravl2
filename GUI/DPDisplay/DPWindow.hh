@@ -57,7 +57,7 @@ namespace RavlGUIN {
     
   protected:    
     StringC name;
-    static MutexC setupMutex; // Make sure window is only setup at once.
+    MutexC setupMutex; // Make sure window is only setup at once.
     WindowC win;
     IndexRange2dC winSize;
     DPDisplayViewC view;

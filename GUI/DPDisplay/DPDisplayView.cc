@@ -136,7 +136,7 @@ namespace RavlGUIN {
       refreshQueued = false;
       return false;
     }
-    RWLockHoldC hold(lockDisplayList,RWLOCK_WRITE);
+    RWLockHoldC hold(lockDisplayList,RWLOCK_READONLY);
     refreshQueued = false;
     for(DLIterC<DPDisplayObjC> it(displayList);it;it++)
       it->Draw(*this);

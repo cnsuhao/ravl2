@@ -62,8 +62,8 @@ namespace RavlGUIN {
     StringC device = ExtractDevice(filename);
     
     // See if the window already exists.
-    RWLockHoldC hold(windowsLock,RWLOCK_WRITE);
     DPWindowC win;
+    RWLockHoldC hold(windowsLock,RWLOCK_WRITE);
     if(!windows.Lookup(winName,win)) {
       win = DPWindowC(winName);
       windows[winName] = win;
