@@ -58,6 +58,11 @@ namespace RavlImageN {
     // FIXME :- Check magic number.
     if (suffix != "js")
       return typeid(void);
+    // Try and load the header to make sure everything's ok.
+    DPImageJSBaseBodyC jsInfo(nfilename,true);
+    if(!jsInfo.ReadHeader())
+      return typeid(void);
+    // All seems fine.
     return typeid(ImageC<ByteYUV422ValueC>);
   }
   
