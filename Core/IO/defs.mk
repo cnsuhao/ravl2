@@ -16,7 +16,7 @@ HEADERS=Entity.hh Process.hh Port.hh SPort.hh SPortAttach.hh \
  Converter.hh DataConv.hh TypeInfo.hh Pipes.hh FileFormat.hh \
  FileFormDesc.hh FileFormatStream.hh FileFormatBinStream.hh \
  FileFormatGen.hh FileFormatIO.hh TypeConverter.hh FileFormatRegistry.hh \
- CoreIO.hh
+ CoreIO.hh ComposeSingle.hh Compose.hh Func2Stream.hh
 
 SOURCES=Entity.cc Process.cc Port.cc SPort.cc SPortAttach.cc ProcInfo.cc \
  Converter.cc TypeInfo.cc Pipes.cc FileFormat.cc FileFormDesc.cc \
@@ -31,5 +31,7 @@ PLIB=RavlIO
 USESLIBS=RavlCore
 
 TESTEXES=testFunc2Proc.cc
+
+EXAMPLES = exComposeSingle.cc
 
 EHT=Ravl.Core.IO.eht Ravl.Core.Data_Processing.eht

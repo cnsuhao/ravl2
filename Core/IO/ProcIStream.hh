@@ -45,7 +45,7 @@ namespace RavlN {
     }
     //: Process next piece of data.
     
-    virtual bool Get(OutT &outbuff) { 
+   virtual bool Get(OutT &outbuff) { 
       InT buff;
       RavlAssert(input.IsValid());
       if(!input.Get(buff))

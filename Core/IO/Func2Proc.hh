@@ -64,9 +64,7 @@ namespace RavlN {
       {}
     //: Default constructor.
   };
-  
-#if 0
-#endif
+    
 }
 
 #endif
