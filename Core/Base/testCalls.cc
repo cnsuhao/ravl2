@@ -78,20 +78,20 @@ int TestCalls()
   
   CallFunc0C<int> func = Trigger(&test0);
   if(func.Call() != 1) return __LINE__;
-  CallFunc1C<int,int> t1 = Trigger(&test1,1);
+  CallFunc1C<int&,int> t1 = Trigger(&test1,1);
   if(t1.Call() != 1) return __LINE__;
   char let = 1;
-  CallFunc2C<int,char,char> t2 = Trigger(&test2,2,let);
+  CallFunc2C<int&,char&,char> t2 = Trigger(&test2,2,let);
   if(t2.Call() != let) return __LINE__;
   float f = 0.1;
-  CallFunc3C<int,char,float,bool> t3 = Trigger(&test3,2,let,f);
+  CallFunc3C<int&,char&,float&,bool> t3 = Trigger(&test3,2,let,f);
   if(!t3.Call()) return __LINE__;
   double d = 0.3;
-  CallFunc4C<int,char,float,double,float> t4 = Trigger(&test4,2,let,f,d);
+  CallFunc4C<int&,char&,float&,double&,float> t4 = Trigger(&test4,2,let,f,d);
   if(t4.Call() != f) 
     return __LINE__;
   bool t = true;
-  CallFunc5C<int,char,float,double,bool,double> t5 = Trigger(&test5,2,let,f,d,t);
+  CallFunc5C<int&,char&,float&,double&,bool&,double> t5 = Trigger(&test5,2,let,f,d,t);
   if(t5.Call() != d) return __LINE__;
 
   ATestClassC ac;
