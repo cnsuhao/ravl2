@@ -173,6 +173,7 @@ namespace RavlGUIN {
   bool CanvasBodyC::Create(GtkWidget *nwidget) {
     widget = nwidget;
     ONDEBUG(cerr <<"CanvasBodyC::Create() start. \n");
+    gtk_drawing_area_size (GTK_DRAWING_AREA (widget), sx, sy);  
     if(!direct) {
       gtk_signal_connect (GTK_OBJECT (widget), "expose_event",
                           (GtkSignalFunc) win_expose_event,(gpointer) this);
