@@ -11,6 +11,6 @@ DONOT_SUPPORT=cygwin
 
 DESCRIPTION=RAVL Applications.
 
-NESTED= FileConverter.r VPlay.r SkinBlobFind.r VisualDataFlow.r
+NESTED= FileConverter.r VPlay.r SkinBlobFind.r VisualDataFlow
 
 EHT=Ravl.Applications.html
