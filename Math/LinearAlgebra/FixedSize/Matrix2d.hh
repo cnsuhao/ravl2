@@ -16,6 +16,7 @@
 //! docentry="Ravl.Math.Geometry.2D"
 
 #include "Ravl/FMatrix.hh"
+#include "Ravl/Vector2d.hh"
 
 namespace RavlN {
   
@@ -128,6 +129,52 @@ namespace RavlN {
   //: Calculate the outer product of this vector with av.
   // The output is assigned to 'result'. A reference to 'result' is
   // returned. <p>
+  
+  inline
+  const TFMatrixC<RealT,2,2> &TFMatrixC<RealT,2,2>::operator+=(const TFMatrixC<RealT,2,2> & mat) {
+    data[0][0] += mat.data[0][0];
+    data[0][1] += mat.data[0][1];
+    data[1][0] += mat.data[1][0];
+    data[1][1] += mat.data[1][1];
+    return *this;
+  }
+  
+  inline
+  const TFMatrixC<RealT,2,2> &TFMatrixC<RealT,2,2>::operator-=(const TFMatrixC<RealT,2,2> & mat) {
+    data[0][0] -= mat.data[0][0];
+    data[0][1] -= mat.data[0][1];
+    data[1][0] -= mat.data[1][0];
+    data[1][1] -= mat.data[1][1];
+    return *this;
+  }
+  
+  void EigenValues(const FMatrixC<2,2> &mat,FVectorC<2> &vec);
+  //: Calculate the eigen values of a real symmetric matrix.
+  // This matrix remains unchanged. A vector of the eigen
+  // values is assigned to 'vec'.
+  
+  inline
+  void EigenValuesIP(FMatrixC<2,2> &mat,FVectorC<2> &vec) 
+  { EigenValues(mat,vec); }
+  //: Calculate the eigen values of a real symmetric matrix.
+  // The contents of this matrix may be destroyed. The vector 
+  // is placed in 'vec'.
+  
+  void EigenVectors(const FMatrixC<2,2> &mat,FMatrixC<2,2> &E,FVectorC<2> &D); 
+  //: Calculate the eigen values and vectors of a real symmetric matrix.
+  // A = E*D*E~ where D is the diagonal matrix of eigenvalues
+  //   D[i,j] = ret[i] if i=j and 0 otherwise. 
+  
+  inline
+  void EigenVectorsIP(FMatrixC<2,2> &mat,FVectorC<2> &D) {
+    Matrix2dC tmp;
+    EigenVectors(mat,tmp,D);
+    mat = tmp;
+  }
+  //: Calculate the eigen values and vectors of a real symmetric matrix.
+  // This matrix is filed with the eigen vectors
+  // A = E*D*E~ where D is the diagonal matrix of eigenvalues
+  //   D[i,j] = ret[i] if i=j and 0 otherwise. 
   
 }
 

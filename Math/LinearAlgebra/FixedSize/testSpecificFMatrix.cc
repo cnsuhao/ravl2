@@ -9,6 +9,7 @@
 
 #include "Ravl/Matrix3d.hh"
 #include "Ravl/Matrix2d.hh"
+#include "Ravl/Vector2d.hh"
 
 using namespace RavlN;
 
@@ -39,6 +40,16 @@ int testMatrix2d() {
   
   if(((y * x) - Matrix2dC(1,0,0,1)).SumOfSqr() > 0.0000001)
     return __LINE__;
+
+  Matrix2dC z(3,5,5,2);
+  Vector2dC v;
+  EigenVectors(z,x,v);
+  //cout << "x=" << x << " v=" << v << "\n";
+  
+  Matrix2dC md(v[0],0,0,v[1]);
+  Matrix2dC m = x * md * x.Inverse();
+  //  cerr << "m=" << m << "\n";
+  if((m - z).SumOfSqr() > 0.0000001) return __LINE__;
   
   return 0;
 }
