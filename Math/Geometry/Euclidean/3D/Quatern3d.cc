@@ -14,6 +14,7 @@
 #include "Ravl/Quatern3d.hh"
 //#include "Ravl/Homtm.hh"
 #include "Ravl/Stream.hh"
+#include "Ravl/BinStream.hh"
 #include "Ravl/config.h"
 
 //#include <iomanip.h>
