@@ -99,7 +99,9 @@ namespace RavlN {
 	  return ret;
 	for(Int64T i = 1;i < sampleRate;i++)
 	  input.Discard();
-      }
+	pos += sampleRate;
+      } else
+	pos = sinput.Tell64();
       return ret;
     }
     //: Get next piece of data.
@@ -112,8 +114,9 @@ namespace RavlN {
 	  return false;
 	for(Int64T i = 1;i < sampleRate;i++)
 	  input.Discard();
-      }
-      pos += sampleRate;      
+	pos += sampleRate;
+      } else
+	pos = sinput.Tell64();
       return true;
     }
     //: Try and get next piece of data.
