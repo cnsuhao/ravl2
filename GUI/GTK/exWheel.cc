@@ -39,8 +39,8 @@ int main(int nargs,char *args[])
   fixed.Add(pm);
   pm.Show();
   win.Create();
-  win.ShapeCombineMask(pm.Mask());
-  win.Show();
+  win.GUIShapeCombineMask(pm.Mask());
+  win.GUIShow();
   
   Manager.Start();
 }
