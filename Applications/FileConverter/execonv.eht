@@ -1,5 +1,5 @@
 ! author="Charles Galambos"
-! docentry="Basic Types.IO;Image.Image IO;Image.Video"
+! docentry="Ravl.Core.IO"
 
 : File/Sequence convertion.
 
