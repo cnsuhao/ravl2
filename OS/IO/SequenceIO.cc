@@ -49,7 +49,15 @@ namespace RavlN {
 	sc = DPSeekCtrlC(ip); // This may or maynot work...
 	return true;
       }
-      fileSeq = DPIFileSequenceC(fn); // Not a single file, so try a sequence.
+      fileSeq = DPIFileSequenceC(StringC("")); // Not a single file, so try a sequence.
+      if(!fileSeq.ProbeFormat(fn)) { 
+	// If its not a sequence then just return stream 'as is'.
+	ip = fmtInfo.CreateInput(fn);
+	if(!ip.IsValid()) 
+	  return false;
+	sc = DPSeekCtrlC(true); // Put in a dummy seek control.
+	return true;
+      }
     } else {
       // If requested file does not exists, it MUST be a file sequence, or a mistake.
       fileSeq = DPIFileSequenceC(fn);

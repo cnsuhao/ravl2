@@ -130,6 +130,7 @@ namespace RavlN {
   
   bool DPFileSequenceBaseBodyC::ProbeFormat(FilenameC rootFn) {
     FilenameC test(rootFn);
+    templateFile = rootFn;
     ONDEBUG(cerr << "DPFileSequenceBaseBodyC::ProbeFormat(), Called for '" << rootFn << "'\n");
     
     if(forLoad) {

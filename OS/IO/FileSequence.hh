@@ -102,11 +102,11 @@ namespace RavlN {
     bool IsOk() const { return ok; }
     //: Is the file sequence setup ok ?
     
-  protected:
     bool ProbeFormat(FilenameC rootFn);
     //: See if we can find the format.
     // Returns false if fail.
     
+  protected:
     bool ProbeExample(FilenameC rootFn);
     //: See if we can find the format from an example
     // Returns false if fail.
@@ -165,6 +165,10 @@ namespace RavlN {
     //: Access body.
     
   public:
+    bool ProbeFormat(FilenameC rootFn)
+      { return Body().ProbeFormat(rootFn); }
+    //: See if we can find the format.
+    // Returns false if fail.
     
     inline FilenameC Filename() const
       { return Body().Filename(); }
