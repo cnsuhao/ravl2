@@ -8,7 +8,7 @@
 #define RAVLIMAGE_EDGELINK_HEADER 1
 ///////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! authors="George Matas, Radek Marik and Charles Galambos"
+//! authors="George Matas, Radek Marik, Charles Galambos"
 //! date="04/07/2000"
 //! docentry="Ravl.Images.Edges"
 //! lib=RavlImageProc
@@ -54,7 +54,7 @@ namespace RavlImageN {
     //: Label contours.
     
     DListC<DListC<Index2dC> > LinkEdges();
-    //: Generate a set of egde lists.
+    //: Generate a set of edge lists.
     
     SArray1dC<Index2dC> ListEdges();
     //: List edge positions in the image
@@ -62,12 +62,12 @@ namespace RavlImageN {
     SArray1dC<EdgelC> ArrayOfEdgels(const ImageC<RealT> & inDrIm, 
 				    const ImageC<RealT> & inDcIm,  
 				    const ImageC<RealT> & inGrad);
-    //: Generate an array of all edgles in image
+    //: Generate an array of all edgels in image
     
     DListC<EdgelC> ListOfEdgels(const ImageC<RealT> & inDrIm, 
 				const ImageC<RealT> & inDcIm,  
 				const ImageC<RealT> & inGrad);
-    //: Generate a list of all edgles in image
+    //: Generate a list of all edgels in image
     
   protected:
     static NeighbourOrderT GetDir(ByteT val, FBOrientationT oo) 
@@ -108,8 +108,7 @@ namespace RavlImageN {
     UIntT edgeCount; // Count of edges in the map.
   };
   
-  EdgeLinkC HysterisisThreshold(const ImageC<RealT> &img,RealT upThr,RealT downThr);
-  
+  EdgeLinkC HysteresisThreshold(const ImageC<RealT> &img,RealT upThr,RealT downThr);
 }
 
 

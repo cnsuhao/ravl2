@@ -44,7 +44,7 @@ namespace RavlImageN {
     IntT edgels;
     nonMaxSup.Apply(edgeDx,edgeDy,edgeMag,nonMax,mean,edgels);
     
-    edgeMap = HysterisisThreshold(nonMax,minHyst,maxHyst);
+    edgeMap = HysteresisThreshold(nonMax,minHyst,maxHyst);
     
     return true;
   }

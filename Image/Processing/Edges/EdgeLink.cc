@@ -25,7 +25,7 @@
 
 namespace RavlImageN {
 
-  EdgeLinkC HysterisisThreshold(const ImageC<RealT> &img,RealT upThr,RealT downThr) {
+  EdgeLinkC HysteresisThreshold(const ImageC<RealT> &img,RealT upThr,RealT downThr) {
     EdgeLinkC ret(img.Rectangle());
     Array2dIter2C<ByteT,RealT> it(ret,img);
     for(;it;it++)
@@ -189,7 +189,7 @@ namespace RavlImageN {
       }
       strings.InsLast(string); 
     }
-    // the upper six bit contain information about neigbouring edge direction
+    // the upper six bits contain information about neigbouring edge direction
     // remove the information                                                
     for(it.First();it;it++) {
       // Remove the information about
