@@ -44,9 +44,35 @@ namespace RavlN {
     //: Constructor.
     
     inline RealT Det() const 
-      { return data[0][0]*data[1][1] - data[0][1]*data[1][0]; }
+    { return data[0][0]*data[1][1] - data[0][1]*data[1][0]; }
     //: Returns the value of the determinant of this matrix.
-
+    
+    bool Invert(Matrix2dC &op) const {
+      RealT det = Det();
+      if(det == 0)
+	return false;
+      op[0][0] =  data[1][1]/det; 
+      op[0][1] = -data[0][1]/det;
+      op[1][0] = -data[1][0]/det; 
+      op[1][1] =  data[0][0]/det;
+      return true;
+    }
+    //: Invert this matrix put the result in 'op'
+    // Returns false if matrix is singular.
+    
+    Matrix2dC Invert() const {
+      Matrix2dC ret;
+      Invert(ret);
+      return ret;
+    }
+    //: Invert matrix and return result.
+    
+    bool InvertIP() {
+      Matrix2dC org = (*this);
+      return org.Invert(*this);
+    }
+    //: Invert matrix in place.
+    
   };
 
 

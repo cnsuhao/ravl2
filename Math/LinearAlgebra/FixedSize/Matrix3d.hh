@@ -57,6 +57,24 @@ namespace RavlN {
 	+ data[2][0] * (data[0][1]*data[1][2] - data[0][2]*data[1][1]);
     }
     
+    bool Invert(Matrix3dC &op) const;
+    //: Invert this matrix put the result in 'op'
+    // Returns false if matrix is singular.
+    // Note 'op' must no be this matrix.
+    
+    Matrix3dC Invert() const {
+      Matrix3dC ret;
+      Invert(ret);
+      return ret;
+    }
+    //: Invert matrix and return result.
+    
+    bool InvertIP() {
+      Matrix3dC org = (*this);
+      return org.Invert(*this);
+    }
+    //: Invert matrix in place.
+    
   protected:
   };
 

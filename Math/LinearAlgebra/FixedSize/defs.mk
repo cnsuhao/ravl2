@@ -16,6 +16,8 @@ HEADERS= FVector.hh Vector2d.hh Vector3d.hh Vector4d.hh \
 SOURCES= Vector2d.cc Matrix3d.cc \
         VectorMatrix2d.cc VectorMatrix3d.cc VectorMatrix4d.cc
 
+TESTEXES= testSpecificFMatrix.cc
+
 PLIB=RavlMath
 
 LIBDEPS=RavlFSLinear.def
