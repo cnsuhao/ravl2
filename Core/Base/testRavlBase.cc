@@ -208,7 +208,7 @@ int testFPNumber() {
   FPNumberC<8> p8 = 1;
   if(p8 != 1) return __LINE__;
   if(!(p8 == 1)) return __LINE__;
-  FPNumberC<6> p6 = p8;
+  FPNumberC<6> p6(p8);
   if(p6 != 1) return __LINE__;
   if(!(p6 == 1)) return __LINE__;
   if(!(p6 == p8)) return __LINE__;
