@@ -17,9 +17,11 @@
 #include "Ravl/PatternRec/SampleIO.hh"
 #include "Ravl/PatternRec/SampleVector.hh"
 #include "Ravl/PatternRec/SampleIter.hh"
+#include "Ravl/PatternRec/Function1.hh"
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/OS/Date.hh"
 #include "Ravl/Stream.hh"
+#include "Ravl/StrStream.hh"
 #include "Ravl/MatrixRUT.hh"
 
 using namespace RavlN;
@@ -221,5 +223,6 @@ int testSpeed() {
   
   return 0;
 }
+
 
 #endif

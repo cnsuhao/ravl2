@@ -30,17 +30,23 @@ namespace RavlN {
     {}
     //: Default constructor.
     
-    FunctionBodyC(istream &strm);
-    //: Load from stream.
-    
-    FunctionBodyC(BinIStreamC &strm);
-    //: Load from binary stream.
-    
     FunctionBodyC(UIntT inSize,UIntT outSize)
       : inputSize(inSize),
 	outputSize(outSize)
     {}
     //: Create function with given number of inputs and outputs.
+    
+    FunctionBodyC(istream &strm);
+    //: Load from stream.
+    
+    FunctionBodyC(BinIStreamC &strm);
+    //: Load from binary stream.
+
+    virtual bool Save (ostream &out) const;
+    //: Writes object to stream, can be loaded using constructor
+    
+    virtual bool Save (BinOStreamC &out) const;
+    //: Writes object to stream, can be loaded using constructor
     
     virtual VectorC Apply(const VectorC &data) const;
     //: Apply function to 'data'
@@ -61,12 +67,6 @@ namespace RavlN {
     inline UIntT OutputSize() const
     { return outputSize; }
     //: Size of output vectors
-    
-    virtual bool Save (ostream &out) const;
-    //: Writes object to stream, can be loaded using constructor
-    
-    virtual bool Save (BinOStreamC &out) const;
-    //: Writes object to stream, can be loaded using constructor
     
     virtual UIntT InputSize(UIntT inSize)
     { return inputSize = inSize; }
@@ -96,12 +96,23 @@ namespace RavlN {
     {}
     //: Default constructor.
     // Creates an invalid handle.
+    
+    FunctionC(istream &strm);
+    //: Load from stream.
 
+    FunctionC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
   protected:
     FunctionC(FunctionBodyC &bod)
       : RCHandleVC<FunctionBodyC>(bod)
     {}
     //: Body constructor.
+    
+    FunctionC(FunctionBodyC *bod)
+      : RCHandleVC<FunctionBodyC>(bod)
+    {}
+    //: Body ptr constructor.
     
     FunctionBodyC &Body()
     { return RCHandleC<FunctionBodyC>::Body(); }
@@ -151,6 +162,35 @@ namespace RavlN {
     // an existing function has undefined effects.
     
   };
+
+  
+  inline istream &operator>>(istream &strm,FunctionC &obj) {
+    obj = FunctionC(strm);
+    return strm;
+  }
+  //: Load from a stream.
+  // Uses virtual constructor.
+  
+  inline ostream &operator<<(ostream &out,const FunctionC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+  
+  inline BinIStreamC &operator>>(BinIStreamC &strm,FunctionC &obj) {
+    obj = FunctionC(strm);
+    return strm;
+  }
+  //: Load from a binary stream.
+  // Uses virtual constructor.
+  
+  inline BinOStreamC &operator<<(BinOStreamC &out,const FunctionC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
 }
 
 #endif

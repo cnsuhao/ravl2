@@ -26,21 +26,21 @@ namespace RavlN {
   RCBodyVC::~RCBodyVC()
   {}
   
-  const char *(*HandleNameMap)(const type_info &type) = 0;
+  const char *(*TypeNameMap)(const type_info &type) = 0;
   
   //: Save to stream out.
   
   bool RCBodyVC::Save(ostream &out) const {
-    RavlAssert(HandleNameMap != 0);
-    out << HandleNameMap(typeid(*this));
+    RavlAssert(TypeNameMap != 0);
+    out << TypeNameMap(typeid(*this)) << " ";
     return true;
   }
   
   //: Save to stream out.
   
   bool RCBodyVC::Save(BinOStreamC &out) const {
-    RavlAssert(HandleNameMap != 0);
-    out << HandleNameMap(typeid(*this));
+    RavlAssert(TypeNameMap != 0);
+    out << TypeNameMap(typeid(*this));
     return true; 
   }
   

@@ -32,6 +32,18 @@ namespace RavlN {
     DistanceRobustBodyC(RealT nClipLimit,const DistanceC &metric);
     //: Constructor.
     
+    DistanceRobustBodyC(istream &strm);
+    //: Load from stream.
+    
+    DistanceRobustBodyC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
+    virtual bool Save (ostream &out) const;
+    //: Writes object to stream, can be loaded using constructor
+    
+    virtual bool Save (BinOStreamC &out) const;
+    //: Writes object to stream, can be loaded using constructor
+
     virtual RealT Measure(const VectorC &d1,const VectorC &d2) const;
     //: Measure the distance from d1 to d2.
     // Each value of d2 is limited to be within 'clipLimit' of d1.
@@ -67,6 +79,41 @@ namespace RavlN {
     // nClipLimit is maximum difference in one dimension, metric
     // is the metric to use on the limited values.
     
+    DistanceRobustC(istream &strm);
+    //: Load from stream.
+    
+    DistanceRobustC(BinIStreamC &strm);
+    //: Load from binary stream.
+
   };
+  
+  inline istream &operator>>(istream &strm,DistanceRobustC &obj) {
+    obj = DistanceRobustC(strm);
+    return strm;
+  }
+  //: Load from a stream.
+  // Uses virtual constructor.
+  
+  inline ostream &operator<<(ostream &out,const DistanceRobustC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+  
+  inline BinIStreamC &operator>>(BinIStreamC &strm,DistanceRobustC &obj) {
+    obj = DistanceRobustC(strm);
+    return strm;
+  }
+  //: Load from a binary stream.
+  // Uses virtual constructor.
+  
+  inline BinOStreamC &operator<<(BinOStreamC &out,const DistanceRobustC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+
 }
 #endif

@@ -20,6 +20,10 @@
 
 namespace RavlN {
   
+  class DPEntityC;
+  
+  istream &operator>>(istream &strm,DPEntityC &obj);
+  
   //! userlevel=Develop
   //: Data processing entity body.
   // This is the base class for most of the classes in
@@ -40,11 +44,20 @@ namespace RavlN {
     //: Copy constructor.
     
     DPEntityBodyC(istream &in) 
+      : RCBodyVC(in)
     {}
     //: Stream constructor.
     
+    DPEntityBodyC(BinIStreamC &in) 
+      : RCBodyVC(in)
+    {}
+    //: Binary stream constructor.
+    
     virtual bool Save(ostream &out) const; 
     //: Save to ostream.  
+    
+    virtual bool Save(BinOStreamC &out) const; 
+    //: Save to binary stream.  
     
     virtual RCBodyVC &Copy() const;
     //: Creat a copy of this object.
@@ -81,6 +94,9 @@ namespace RavlN {
     
     DPEntityC(istream &in);
     //: Load from stream using virtual constructor.
+
+    DPEntityC(BinIStreamC &in);
+    //: Load from stream using virtual constructor.
     
     inline const DPEntityC &operator= (const DPEntityC &dat) 
     { RCHandleC<DPEntityBodyC>::operator= (dat); return *this; }
@@ -94,21 +110,40 @@ namespace RavlN {
     { return RCHandleC<DPEntityBodyC>::Body(); }
     //: Access body.
     
-    inline bool Save(ostream &out) const
-    { return Body().Save(out); }
+  protected:
+    DPEntityC(DPEntityBodyC *nbod) 
+      : RCHandleVC<DPEntityBodyC>(nbod)
+    {}
+    //: Body ptr constructor.
   };
   
-  // Stream operators.
-  
-  inline istream &operator>>(istream &in,DPEntityC &obj) {
-    obj = DPEntityC(in);
-    return in;
+  inline istream &operator>>(istream &strm,DPEntityC &obj) {
+    obj = DPEntityC(strm);
+    return strm;
   }
+  //: Load from a stream.
+  // Uses virtual constructor.
   
   inline ostream &operator<<(ostream &out,const DPEntityC &obj) {
     obj.Save(out);
     return out;
   }
+  //: Save to a stream.
+  // Uses virtual constructor.
+  
+  inline BinIStreamC &operator>>(BinIStreamC &strm,DPEntityC &obj) {
+    obj = DPEntityC(strm);
+    return strm;
+  }
+  //: Load from a binary stream.
+  // Uses virtual constructor.
+  
+  inline BinOStreamC &operator<<(BinOStreamC &out,const DPEntityC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
   
 }
 #endif

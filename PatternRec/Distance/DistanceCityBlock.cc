@@ -9,9 +9,32 @@
 //! file="Ravl/PatternRec/Distance/DistanceCityBlock.cc"
 
 #include "Ravl/PatternRec/DistanceCityBlock.hh"
+#include "Ravl/VirtualConstructor.hh"
 
 namespace RavlN {
 
+  //: Load from stream.
+  
+  DistanceCityBlockBodyC::DistanceCityBlockBodyC(istream &strm)
+    : DistanceBodyC(strm)
+  {}
+  
+  //: Load from binary stream.
+
+  DistanceCityBlockBodyC::DistanceCityBlockBodyC(BinIStreamC &strm)
+    : DistanceBodyC(strm)
+  {}
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool DistanceCityBlockBodyC::Save (ostream &out) const  
+  { return DistanceBodyC::Save(out); }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool DistanceCityBlockBodyC::Save (BinOStreamC &out) const
+  { return DistanceBodyC::Save(out); }
+ 
   
   //: Measure the distance from d1 to d2.
   
@@ -33,5 +56,9 @@ namespace RavlN {
       dSdX[0][i] = Sign(X[i]);
     return dSdX;
   }
+
+  /////////////////////////////////////////////////////////////////////////////////
+  
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(DistanceCityBlockBodyC,DistanceCityBlockC,DistanceC);
   
 }

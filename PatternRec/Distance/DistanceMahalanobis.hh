@@ -27,6 +27,18 @@ namespace RavlN {
     DistanceMahalanobisBodyC(const MatrixC &covVar);
     //: Constructor.
     
+    DistanceMahalanobisBodyC(istream &strm);
+    //: Load from stream.
+    
+    DistanceMahalanobisBodyC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
+    virtual bool Save (ostream &out) const;
+    //: Writes object to stream, can be loaded using constructor
+    
+    virtual bool Save (BinOStreamC &out) const;
+    //: Writes object to stream, can be loaded using constructor
+    
     virtual RealT Measure(const VectorC &d1,const VectorC &d2) const;
     //: Measure the distance from d1 to d2.
     
@@ -52,9 +64,43 @@ namespace RavlN {
     {}
     //: Default constructor.
     
+    DistanceMahalanobisC(istream &strm);
+    //: Load from stream.
+    
+    DistanceMahalanobisC(BinIStreamC &strm);
+    //: Load from binary stream.
     
   };
   
+  inline istream &operator>>(istream &strm,DistanceMahalanobisC &obj) {
+    obj = DistanceMahalanobisC(strm);
+    return strm;
+  }
+  //: Load from a stream.
+  // Uses virtual constructor.
+  
+  inline ostream &operator<<(ostream &out,const DistanceMahalanobisC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+  
+  inline BinIStreamC &operator>>(BinIStreamC &strm,DistanceMahalanobisC &obj) {
+    obj = DistanceMahalanobisC(strm);
+    return strm;
+  }
+  //: Load from a binary stream.
+  // Uses virtual constructor.
+  
+  inline BinOStreamC &operator<<(BinOStreamC &out,const DistanceMahalanobisC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+
+
 }
 
 

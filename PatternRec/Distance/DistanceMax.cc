@@ -9,9 +9,31 @@
 //! file="Ravl/PatternRec/Distance/DistanceMax.cc"
 
 #include "Ravl/PatternRec/DistanceMax.hh"
+#include "Ravl/VirtualConstructor.hh"
 
 namespace RavlN {
 
+  //: Load from stream.
+  
+  DistanceMaxBodyC::DistanceMaxBodyC(istream &strm)
+    : DistanceBodyC(strm)
+  {}
+  
+  //: Load from binary stream.
+  
+  DistanceMaxBodyC::DistanceMaxBodyC(BinIStreamC &strm)
+    : DistanceBodyC(strm)
+  {}
+
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool DistanceMaxBodyC::Save (ostream &out) const 
+  { return DistanceBodyC::Save(out); }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool DistanceMaxBodyC::Save (BinOStreamC &out) const 
+  { return DistanceBodyC::Save(out); }
   
   //: Measure the distance from d1 to d2.
   
@@ -33,5 +55,9 @@ namespace RavlN {
     dSdX[0][X.MaxAbsIndex()] = Sign (X[X.MaxAbsIndex()]);
     return dSdX;
   }
+  
+  ////////////////////////////////////////////////////////////////////////
+  
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(DistanceMaxBodyC,DistanceMaxC,DistanceC);
   
 }

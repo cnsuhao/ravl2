@@ -24,8 +24,20 @@ namespace RavlN {
   {
   public:
     DistanceEuclideanBodyC()
-      {}
+    {}
     //: Default constructor.
+    
+    DistanceEuclideanBodyC(istream &strm);
+    //: Load from stream.
+    
+    DistanceEuclideanBodyC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
+    virtual bool Save (ostream &out) const;
+    //: Writes object to stream, can be loaded using constructor
+    
+    virtual bool Save (BinOStreamC &out) const;
+    //: Writes object to stream, can be loaded using constructor
     
     virtual RealT Measure(const VectorC &d1,const VectorC &d2) const;
     //: Measure the distance from d1 to d2.
@@ -47,11 +59,54 @@ namespace RavlN {
   public:
     DistanceEuclideanC()
       : DistanceC(*new DistanceEuclideanBodyC())
-      {}
+    {}
     //: Default constructor.
     
+    DistanceEuclideanC(istream &strm);
+    //: Load from stream.
+    
+    DistanceEuclideanC(BinIStreamC &strm);
+    //: Load from binary stream.
+
+    DistanceEuclideanC(DistanceC &base)
+      : DistanceC(base)
+    {
+      if(IsValid())
+	if(dynamic_cast<DistanceEuclideanBodyC *>(&DistanceC::Body()) == 0)
+	  Invalidate();
+    }
+    //: Base class constructor.
+    // Creates an invalid handle if 'base' is not a DistanceEuclideanC.
     
   };
+  
+  inline istream &operator>>(istream &strm,DistanceEuclideanC &obj) {
+    obj = DistanceEuclideanC(strm);
+    return strm;
+  }
+  //: Load from a stream.
+  // Uses virtual constructor.
+  
+  inline ostream &operator<<(ostream &out,const DistanceEuclideanC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+  
+  inline BinIStreamC &operator>>(BinIStreamC &strm,DistanceEuclideanC &obj) {
+    obj = DistanceEuclideanC(strm);
+    return strm;
+  }
+  //: Load from a binary stream.
+  // Uses virtual constructor.
+  
+  inline BinOStreamC &operator<<(BinOStreamC &out,const DistanceEuclideanC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
   
 }
 

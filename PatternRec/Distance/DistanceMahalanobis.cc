@@ -9,6 +9,8 @@
 //! file="Ravl/PatternRec/Distance/DistanceMahalanobis.cc"
 
 #include "Ravl/PatternRec/DistanceMahalanobis.hh"
+#include "Ravl/VirtualConstructor.hh"
+#include "Ravl/BinStream.hh"
 
 namespace RavlN {
 
@@ -18,6 +20,36 @@ namespace RavlN {
   DistanceMahalanobisBodyC::DistanceMahalanobisBodyC(const MatrixC &covVar)
   {
     iCovar = covVar.Inverse();
+  }
+
+  //: Load from stream.
+  
+  DistanceMahalanobisBodyC::DistanceMahalanobisBodyC(istream &strm)
+    : DistanceBodyC(strm)
+  { strm >> iCovar; }
+  
+  //: Load from binary stream.
+  
+  DistanceMahalanobisBodyC::DistanceMahalanobisBodyC(BinIStreamC &strm)
+    : DistanceBodyC(strm)
+  { strm >> iCovar; }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool DistanceMahalanobisBodyC::Save (ostream &out) const {
+    if(!DistanceBodyC::Save(out))
+      return false;
+    out << iCovar << ' ';
+    return true;
+  }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool DistanceMahalanobisBodyC::Save (BinOStreamC &out) const {
+    if(!DistanceBodyC::Save(out))
+      return false;
+    out << iCovar;
+    return true;
   }
   
   //: Measure the distance from d1 to d2.
@@ -43,5 +75,9 @@ namespace RavlN {
     MatrixC dSdX = (V.TMul (iCovar.T()) + V.TMul (iCovar)) * divisor;
     return dSdX;
   }
+
+  //////////////////////////////////////////////////////////////////////
+  
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(DistanceMahalanobisBodyC,DistanceMahalanobisC,DistanceC);
   
 }

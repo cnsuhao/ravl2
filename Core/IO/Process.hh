@@ -50,9 +50,11 @@ namespace RavlN {
     {}
     //: Copy constructor.
     
-    virtual bool Save(ostream &out) const 
-    { return DPEntityBodyC::Save(out); }
+    virtual bool Save(ostream &out) const;
     //: Save to ostream.
+    
+    virtual bool Save(BinOStreamC &out) const;
+    //: Save to binary stream.  
     
     virtual const type_info &InputType() const;
     //: Get input type.
@@ -158,6 +160,9 @@ namespace RavlN {
     DPProcessBaseC(istream &in);
     //: Stream constructor.
     
+    DPProcessBaseC(BinIStreamC &in);
+    //: Stream constructor.
+    
     ~DPProcessBaseC() 
     {}
     //: Destructor.
@@ -167,6 +172,11 @@ namespace RavlN {
       : DPEntityC(oth)
     {}
     //: Body constructor.
+    
+    DPProcessBaseC(DPProcessBaseBodyC *oth) 
+      : DPEntityC(oth)
+    {}
+    //: Body ptr constructor.
     
     inline DPProcessBaseBodyC &Body() 
     { return static_cast<DPProcessBaseBodyC & > (DPEntityC::Body()); }

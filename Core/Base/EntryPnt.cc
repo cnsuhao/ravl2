@@ -35,6 +35,8 @@ namespace RavlN {
 #if defined(VISUAL_CPP)
   using namespace std;
 #endif
+  
+  extern const char *(*TypeNameMap)(const type_info &type);
 
   bool usedRavlMain = false;
   
@@ -52,6 +54,17 @@ namespace RavlN {
       ret = func(argc,argv);
     } catch(exception &e) {
       cerr << "C++ Exception :'" << e.what() << "'\n";
+      cerr << "Exiting program. \n";
+      exit(-1);
+    }catch(ExceptionErrorCastC &e) {
+      cerr << "Ravl Exception :'" << e.what() << "'\n";
+      if(TypeNameMap == 0) {
+	cerr << " Casting " << e.From().name() << " to " << e.To().name() << "\n";
+      } else {
+	cerr << " Casting " 
+	     << TypeNameMap(e.From()) << " (" << e.From().name() << ") to " 
+	     << TypeNameMap(e.To()) << " (" << e.To().name() << ")\n";
+      }
       cerr << "Exiting program. \n";
       exit(-1);
     } catch(ExceptionC &e) {

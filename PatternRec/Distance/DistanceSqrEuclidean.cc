@@ -9,8 +9,27 @@
 //! file="Ravl/PatternRec/Distance/DistanceSqrEuclidean.cc"
 
 #include "Ravl/PatternRec/DistanceSqrEuclidean.hh"
+#include "Ravl/VirtualConstructor.hh"
 
 namespace RavlN {
+
+  DistanceSqrEuclideanBodyC::DistanceSqrEuclideanBodyC(istream &strm)
+    : DistanceBodyC(strm)
+  {}
+  //: Load from stream.
+  
+  DistanceSqrEuclideanBodyC::DistanceSqrEuclideanBodyC(BinIStreamC &strm)
+    : DistanceBodyC(strm)
+  {}
+  //: Load from binary stream.
+  
+  bool DistanceSqrEuclideanBodyC::Save (ostream &out) const
+  { return DistanceBodyC::Save(out); }
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool DistanceSqrEuclideanBodyC::Save (BinOStreamC &out) const 
+  { return DistanceBodyC::Save(out); }
+  //: Writes object to stream, can be loaded using constructor
 
   
   //: Measure the distance from d1 to d2.
@@ -33,4 +52,8 @@ namespace RavlN {
     return dSdX;
   }
   
+  ////////////////////////////////////////////////////////////
+  
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(DistanceSqrEuclideanBodyC,DistanceSqrEuclideanC,DistanceC);
+
 }

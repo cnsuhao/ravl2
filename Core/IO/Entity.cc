@@ -15,6 +15,7 @@
 #include "Ravl/DP/Entity.hh"
 #include "Ravl/RCAbstract.hh"
 #include "Ravl/TypeName.hh"
+#include "Ravl/VirtualConstructor.hh"
 #include <iostream.h>
 
 #if RAVL_HAVE_ANSICPPHEADERS
@@ -29,11 +30,13 @@ namespace RavlN {
   
   
   bool DPEntityBodyC::Save(ostream &out) const  { 
-    // RCBodyVC::Save(out) is made before TypeName code.
-    // and so can't use the standard typenames. Hence we have
-    // to write the class name for the virtual constructor here.
-    out << TypeName(typeid(*this).name()) << "\n";
-    return out.good();
+    return RCBodyVC::Save(out);
+  }
+
+  //: Save to binary stream.  
+  
+  bool DPEntityBodyC::Save(BinOStreamC &out) const {
+    return RCBodyVC::Save(out);    
   }
   
   //: Creat a copy of this object.
@@ -46,15 +49,25 @@ namespace RavlN {
   
   ///// DPEntityC /////////////////////////////////////////////////////////
 
-  // Constructor from stream.
-
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(DPEntityBodyC,DPEntityC,RCHandleVC<DPEntityBodyC>);
   
-  DPEntityC::DPEntityC(istream &in)
 #if 0
-    : RCHandleC<DPEntityBodyC> (VirtualConstructorC::DynLoad(in))
-  { CheckHandleType(Body()); } 
-#else
+  // Constructor from stream.
+  
+  DPEntityC::DPEntityC(istream &strm)
+    : RCHandleVC<DPEntityBodyC>(RAVL_VIRTUALCONSTRUCTOR(strm,DPEntityBodyC))
   {}
+  
+  //: Load from stream using virtual constructor.
+  
+  DPEntityC::DPEntityC(BinIStreamC &strm)
+    : RCHandleVC<DPEntityBodyC>(RAVL_VIRTUALCONSTRUCTOR(strm,DPEntityBodyC))
+  {}
+
+  // This isn't really nessary, but is here as an example for making a class
+  // with a virtual constructor.
+  
+  RAVL_INITVIRTUALCONSTRUCTOR(DPEntityBodyC);
 #endif
   
   // Construct from abstract handle.
@@ -63,5 +76,5 @@ namespace RavlN {
     : RCHandleVC<DPEntityBodyC>(abst) 
   { CheckHandleType(Body()); }
   
-
+  
 }

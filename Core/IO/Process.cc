@@ -13,6 +13,17 @@
 #include "Ravl/DP/Process.hh"
 
 namespace RavlN {
+
+  //: Save to ostream.
+  
+  bool DPProcessBaseBodyC::Save(ostream &out) const 
+  { return DPEntityBodyC::Save(out); }
+  
+  //: Save to binary stream.  
+  
+  bool DPProcessBaseBodyC::Save(BinOStreamC &out) const
+  { return DPEntityBodyC::Save(out); }
+
   //: Get input type.
   
   const type_info &DPProcessBaseBodyC::InputType() const  { 
@@ -35,8 +46,14 @@ namespace RavlN {
   
   //: Stream constructor.
   
-  DPProcessBaseC::DPProcessBaseC(istream &in) 
-    : DPEntityC(in) 
-  { CheckHandleType(Body()); }
+  DPProcessBaseC::DPProcessBaseC(istream &strm) 
+    : DPEntityC(RAVL_VIRTUALCONSTRUCTOR(strm,DPProcessBaseBodyC))
+  {}
+  
+  
+  DPProcessBaseC::DPProcessBaseC(BinIStreamC &strm)
+    : DPEntityC(RAVL_VIRTUALCONSTRUCTOR(strm,DPProcessBaseBodyC))
+  {}
+
 }
 

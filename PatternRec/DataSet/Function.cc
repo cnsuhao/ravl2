@@ -12,6 +12,7 @@
 #include "Ravl/BinStream.hh"
 #include "Ravl/PatternRec/Sample.hh"
 #include "Ravl/DArray1dIter2.hh"
+#include "Ravl/VirtualConstructor.hh"
 
 namespace RavlN {
 
@@ -32,7 +33,7 @@ namespace RavlN {
   bool FunctionBodyC::Save (ostream &out) const {
     if(!RCBodyVC::Save(out))
       return false;
-    out << ' ' << inputSize << ' ' << outputSize;
+    out << inputSize << ' ' << outputSize << ' ';
     return true;
   }
   
@@ -82,4 +83,22 @@ namespace RavlN {
   SampleC<VectorC> FunctionC::Apply(const SampleC<VectorC> &data)
   { return Body().Apply(data); }
 
+  //: Load from stream.
+  
+  FunctionC::FunctionC(istream &strm) 
+    : RCHandleVC<FunctionBodyC>(RAVL_VIRTUALCONSTRUCTOR(strm,FunctionBodyC))
+  {}
+    
+  //: Load from binary stream.
+  
+  FunctionC::FunctionC(BinIStreamC &strm) 
+    : RCHandleVC<FunctionBodyC>(RAVL_VIRTUALCONSTRUCTOR(strm,FunctionBodyC))    
+  {}
+  
+  //: Setup virtual constructor.
+  // As this is an abstract class its not really needed, but its usefull to
+  // have an example of how it should work here.
+  
+  //RAVL_INITVIRTUALCONSTRUCTOR(FunctionBodyC);
+  
 }

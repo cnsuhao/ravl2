@@ -185,10 +185,18 @@ namespace RavlN {
     { body->IncRefCounter(); }
     //: Body constructor.
     
+    RCHandleC(BodyT *bod)
+      : body(bod)
+    { if(body != 0) body->IncRefCounter(); }
+    //: Body base constructor.
+    // This is used where the body may be a null ptr, such as
+    // in the virtual constructor after a failed load.
+    
     RCHandleC(RCBodyC &bod)
       : body(&static_cast<BodyT &>(bod))
     { body->IncRefCounter(); }
     //: Body base constructor.
+
     
     BodyT &Body() { 
       RAVL_PARANOID(RavlAssertMsg(IsValid(),"Attempt to access invalid handle. "));

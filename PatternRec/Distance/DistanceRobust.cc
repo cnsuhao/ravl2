@@ -8,7 +8,10 @@
 //! lib=RavlPatternRec
 
 #include "Ravl/PatternRec/DistanceRobust.hh"
+#include "Ravl/VirtualConstructor.hh"
 #include "Ravl/SArr1Iter3.hh"
+#include "Ravl/BinStream.hh"
+#include "Ravl/Stream.hh"
 
 namespace RavlN {
   
@@ -18,6 +21,51 @@ namespace RavlN {
     : clipLimit(nClipLimit),
       metric(nmetric)
   {}
+
+  //: Load from stream.
+  
+  DistanceRobustBodyC::DistanceRobustBodyC(istream &strm) 
+    : DistanceBodyC(strm)
+  { 
+    int ver;
+    // We might change this in the future, so add version info.
+    strm >> ver;
+    if(ver != 1)
+      cerr << "DistanceRobustBodyC::DistanceRobustBodyC(), WARNING: Unknown format version. \n";
+    strm >> clipLimit >> metric; 
+  }
+  
+  //: Load from binary stream.
+  
+  DistanceRobustBodyC::DistanceRobustBodyC(BinIStreamC &strm) 
+    : DistanceBodyC(strm)
+  { 
+    char ver;
+    strm >> ver;
+    if(ver != 1)
+      cerr << "DistanceRobustBodyC::DistanceRobustBodyC(), WARNING: Unknown format version. \n";    
+    strm >> clipLimit >> metric; 
+  }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool DistanceRobustBodyC::Save (ostream &out) const {
+    if(!DistanceBodyC::Save(out))
+      return false;
+    int ver = 1;
+    out << ver << ' ' << clipLimit << metric << ' ';
+    return true;
+  }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool DistanceRobustBodyC::Save (BinOStreamC &out) const {
+    if(!DistanceBodyC::Save(out))
+      return false;
+    char ver = 1;
+    out << ver << clipLimit << metric;    
+    return true;
+  }
   
   //: Measure the distance from d1 to d2.
   // Each value of d2 is limited to be within 'clipLimit' of d1.
@@ -65,5 +113,9 @@ namespace RavlN {
 	dSdX[0][it.Index()] = 0.0;    
     return dSdX;
   }
+
+  //////////////////////////////////////////////////////////////////////
+  
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(DistanceRobustBodyC,DistanceRobustC,DistanceC);
 
 }

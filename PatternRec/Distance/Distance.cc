@@ -12,7 +12,29 @@
 #include "Ravl/Assert.hh"
 
 namespace RavlN {
-
+  
+  //: Load from stream.
+  
+  DistanceBodyC::DistanceBodyC(istream &strm)
+    : Function1BodyC(strm)
+  {}
+  
+  //: Load from binary stream.
+  
+  DistanceBodyC::DistanceBodyC(BinIStreamC &strm) 
+    : Function1BodyC(strm)
+  {}
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool DistanceBodyC::Save (ostream &out) const 
+  { return Function1BodyC::Save(out); }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool DistanceBodyC::Save (BinOStreamC &out) const 
+  { return Function1BodyC::Save(out); }
+  
   //: Measure the distance from d1 to d2.
   
   RealT DistanceBodyC::Measure(const VectorC &d1,const VectorC &d2) const {
@@ -35,5 +57,19 @@ namespace RavlN {
   RealT DistanceBodyC::Apply1(const VectorC &data) const {
     return Magnitude(data);
   }
+
+  ////////////////////////////////////////////////////////////////////
+  
+  //: Load from stream.
+  
+  DistanceC::DistanceC(istream &strm)
+    : Function1C(RAVL_VIRTUALCONSTRUCTOR(strm,DistanceBodyC))
+  {}
+  
+  //: Load from binary stream.
+  
+  DistanceC::DistanceC(BinIStreamC &strm)
+    : Function1C(RAVL_VIRTUALCONSTRUCTOR(strm,DistanceBodyC))
+  {}
   
 }

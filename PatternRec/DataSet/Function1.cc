@@ -9,8 +9,39 @@
 
 
 #include "Ravl/PatternRec/Function1.hh"
+#include "Ravl/VirtualConstructor.hh"
 
 namespace RavlN {
+  
+  //: Load from stream.
+
+  Function1BodyC::Function1BodyC(istream &strm) 
+    : FunctionBodyC(strm)
+  {}
+  
+  //: Load from binary stream.
+  
+  Function1BodyC::Function1BodyC(BinIStreamC &strm) 
+    : FunctionBodyC(strm)
+  {}
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool Function1BodyC::Save (ostream &out) const {
+    if(!FunctionBodyC::Save(out))
+      return false;
+    //...
+    return true;
+  }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool Function1BodyC::Save (BinOStreamC &out) const {
+    if(!FunctionBodyC::Save(out))
+      return false;
+    //...
+    return true;
+  }
   
   //: Apply function to 'data'
   
@@ -27,5 +58,26 @@ namespace RavlN {
     return 0;
   }
 
+  ///////////////////////////////////////////////////////////
+
+  //: Load from stream.
+  
+  Function1C::Function1C(istream &strm)
+    : FunctionC(RAVL_VIRTUALCONSTRUCTOR(strm,Function1BodyC))    
+  {}
+  
+  //: Load from binary stream.
+  
+  Function1C::Function1C(BinIStreamC &strm)
+    : FunctionC(RAVL_VIRTUALCONSTRUCTOR(strm,Function1BodyC))
+  {}
+
+  //: Setup virtual constructor.
+  // As this is an abstract class its not really needed, but its usefull to
+  // have an example of how it should work here.
+  
+  //RAVL_INITVIRTUALCONSTRUCTOR(Function1BodyC);
+  
 }
+
   

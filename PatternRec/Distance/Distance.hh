@@ -26,9 +26,21 @@ namespace RavlN {
   {
   public:
     DistanceBodyC()
-      {}
+    {}
     //: Default constructor.
     
+    DistanceBodyC(istream &strm);
+    //: Load from stream.
+    
+    DistanceBodyC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
+    virtual bool Save (ostream &out) const;
+    //: Writes object to stream, can be loaded using constructor
+    
+    virtual bool Save (BinOStreamC &out) const;
+    //: Writes object to stream, can be loaded using constructor
+
     virtual RealT Measure(const VectorC &d1,const VectorC &d2) const;
     //: Measure the distance from d1 to d2.
     
@@ -47,15 +59,26 @@ namespace RavlN {
   {
   public:
     DistanceC()
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
+    
+    DistanceC(istream &strm);
+    //: Load from stream.
+    
+    DistanceC(BinIStreamC &strm);
+    //: Load from binary stream.
     
   protected:
     DistanceC(DistanceBodyC &bod)
       : Function1C(bod)
     {}
     //: Body constructor.
+
+    DistanceC(DistanceBodyC *bod)
+      : Function1C(bod)
+    {}
+    //: Body ptr constructor.
     
     DistanceBodyC &Body()
     { return static_cast<DistanceBodyC &>(FunctionC::Body()); }
@@ -76,6 +99,34 @@ namespace RavlN {
     //: Measure the magnitude of d1.
     
   };
+  
+  inline istream &operator>>(istream &strm,DistanceC &obj) {
+    obj = DistanceC(strm);
+    return strm;
+  }
+  //: Load from a stream.
+  // Uses virtual constructor.
+  
+  inline ostream &operator<<(ostream &out,const DistanceC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+  
+  inline BinIStreamC &operator>>(BinIStreamC &strm,DistanceC &obj) {
+    obj = DistanceC(strm);
+    return strm;
+  }
+  //: Load from a binary stream.
+  // Uses virtual constructor.
+  
+  inline BinOStreamC &operator<<(BinOStreamC &out,const DistanceC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
   
 }
 

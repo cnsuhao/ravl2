@@ -24,9 +24,21 @@ namespace RavlN {
   {
   public:
     DistanceSqrEuclideanBodyC()
-      {}
+    {}
     //: Default constructor.
     
+    DistanceSqrEuclideanBodyC(istream &strm);
+    //: Load from stream.
+    
+    DistanceSqrEuclideanBodyC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
+    virtual bool Save (ostream &out) const;
+    //: Writes object to stream, can be loaded using constructor
+    
+    virtual bool Save (BinOStreamC &out) const;
+    //: Writes object to stream, can be loaded using constructor
+
     virtual RealT Measure(const VectorC &d1,const VectorC &d2) const;
     //: Measure the distance from d1 to d2.
     
@@ -50,9 +62,42 @@ namespace RavlN {
       {}
     //: Default constructor.
     
+    DistanceSqrEuclideanC(istream &strm);
+    //: Load from stream.
+    
+    DistanceSqrEuclideanC(BinIStreamC &strm);
+    //: Load from binary stream.
     
   };
   
+  inline istream &operator>>(istream &strm,DistanceSqrEuclideanC &obj) {
+    obj = DistanceSqrEuclideanC(strm);
+    return strm;
+  }
+  //: Load from a stream.
+  // Uses virtual constructor.
+  
+  inline ostream &operator<<(ostream &out,const DistanceSqrEuclideanC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+  
+  inline BinIStreamC &operator>>(BinIStreamC &strm,DistanceSqrEuclideanC &obj) {
+    obj = DistanceSqrEuclideanC(strm);
+    return strm;
+  }
+  //: Load from a binary stream.
+  // Uses virtual constructor.
+  
+  inline BinOStreamC &operator<<(BinOStreamC &out,const DistanceSqrEuclideanC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+ 
 }
 
 

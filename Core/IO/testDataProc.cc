@@ -105,3 +105,9 @@ int testMultiplex() {
 #endif
   return 0;
 }
+
+int testVirtualConstructor() {
+  
+  return 0;
+}
+

@@ -25,8 +25,20 @@ namespace RavlN {
   {
   public:
     DistanceCityBlockBodyC()
-      {}
+    {}
     //: Default constructor.
+    
+    DistanceCityBlockBodyC(istream &strm);
+    //: Load from stream.
+    
+    DistanceCityBlockBodyC(BinIStreamC &strm);
+    //: Load from binary stream.
+
+    virtual bool Save (ostream &out) const;
+    //: Writes object to stream, can be loaded using constructor
+    
+    virtual bool Save (BinOStreamC &out) const;
+    //: Writes object to stream, can be loaded using constructor
     
     virtual RealT Measure(const VectorC &d1,const VectorC &d2) const;
     //: Measure the distance from d1 to d2.
@@ -49,12 +61,45 @@ namespace RavlN {
   public:
     DistanceCityBlockC()
       : DistanceC(*new DistanceCityBlockBodyC())
-      {}
+    {}
     //: Default constructor.
     
+    DistanceCityBlockC(istream &strm);
+    //: Load from stream.
+    
+    DistanceCityBlockC(BinIStreamC &strm);
+    //: Load from binary stream.
     
   };
   
+  inline istream &operator>>(istream &strm,DistanceCityBlockC &obj) {
+    obj = DistanceCityBlockC(strm);
+    return strm;
+  }
+  //: Load from a stream.
+  // Uses virtual constructor.
+  
+  inline ostream &operator<<(ostream &out,const DistanceCityBlockC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+  
+  inline BinIStreamC &operator>>(BinIStreamC &strm,DistanceCityBlockC &obj) {
+    obj = DistanceCityBlockC(strm);
+    return strm;
+  }
+  //: Load from a binary stream.
+  // Uses virtual constructor.
+  
+  inline BinOStreamC &operator<<(BinOStreamC &out,const DistanceCityBlockC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+
 }
 
 
