@@ -176,6 +176,12 @@ namespace RavlN {
     }
     //: Check handle type. Throw an expception if not.
     
+    void *VoidPtr() const
+    { return body; }
+    //: Access unique address for this object.
+    // Used in PointerManagerC.  Not for general use
+    // this interface may changed in future releases.
+    
   private:
     BodyT *body;
     
