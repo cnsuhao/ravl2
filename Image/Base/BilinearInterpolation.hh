@@ -15,14 +15,25 @@
 
 #include "Ravl/Image/Image.hh"
 
+#define RAVL_USE_QUICKREAL2INT 1
+
+#if RAVL_USE_QUICKREAL2INT
+#include "Ravl/QInt.hh"
+#endif
+
 namespace RavlImageN {
   
   template <class PixelT,class OutT>
   inline
   void BilinearInterpolation(const ImageC<PixelT> &img,const TFVectorC<RealT,2> &ipnt,OutT &pixVal) {
     TFVectorC<RealT,2> pnt = ipnt;
+#if RAVL_USE_QUICKREAL2INT
+    IntT fx = QFloor(pnt[0]); // Row
+    IntT fy = QFloor(pnt[1]); // Col
+#else
     IntT fx = Floor(pnt[0]); // Row
     IntT fy = Floor(pnt[1]); // Col
+#endif
     RealT u = pnt[0] - fx;
     RealT t = pnt[1] - fy;
     const PixelT* pixel1 = &(img)[fx][fy];
@@ -44,8 +55,13 @@ namespace RavlImageN {
   inline
   void BilinearInterpolation(const ImageC<ByteT> &img,const TFVectorC<RealT,2> &ipnt,ByteT &pixVal) {
     TFVectorC<RealT,2> pnt = ipnt;
+#if RAVL_USE_QUICKREAL2INT
+    IntT fx = QFloor(pnt[0]); // Row
+    IntT fy = QFloor(pnt[1]); // Col
+#else
     IntT fx = Floor(pnt[0]); // Row
-    IntT fy = Floor(pnt[1]); // Col
+    IntT fy = Floor(pnt[1]); // Col    
+#endif
     RealT u = pnt[0] - fx;
     RealT t = pnt[1] - fy;
     const ByteT* pixel1 = &(img)[fx][fy];
@@ -89,7 +105,13 @@ namespace RavlImageN {
   {
   public:    
     void operator()(const ImageC<InT> &img,const TFVectorC<RealT,2> &ipnt,OutT &pixVal)
-    { pixVal = img[Round(ipnt[0])][Round(ipnt[1])]; }
+    { 
+#if RAVL_USE_QUICKREAL2INT
+      pixVal = img[QRound(ipnt[0])][QRound(ipnt[1])]; 
+#else
+      pixVal = img[Round(ipnt[0])][Round(ipnt[1])];       
+#endif
+    }
     //: Do bilinear interpolation
     
   };
