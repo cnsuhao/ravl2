@@ -307,7 +307,8 @@ namespace RavlGUIN {
       eventMask(GDK_EXPOSURE_MASK),
       tooltip(0),
       gotRef(false),
-      dndInfo(0)
+      dndInfo(0),
+      destroySigId(-1)
   {}
   
   WidgetBodyC::WidgetBodyC(const char *ntooltip)
@@ -325,8 +326,12 @@ namespace RavlGUIN {
   WidgetBodyC::~WidgetBodyC() { 
     ONDEBUG(cerr << "WidgetBodyC::~WidgetBodyC(), Started  " << ((void *) this) << " Name=" << WidgetName() << "\n");
     //RavlAssert(IsValidObject());
+
+
     if(widget != 0) {
       if(GTK_IS_WIDGET(widget)) { // Incase it was destroyed within GTK.
+        if(destroySigId >= 0)
+          gtk_signal_disconnect (widget, destroySigId);
 	gtk_widget_hide (widget);
 	if(gotRef) {
 	  gtk_object_unref(GTK_OBJECT(widget));
@@ -523,8 +528,7 @@ namespace RavlGUIN {
     }
     if(eventMask & (GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK))
       GTK_WIDGET_SET_FLAGS(widget,GTK_CAN_FOCUS);    
-    gtk_signal_connect (GTK_OBJECT (widget), "destroy",
-			(GtkSignalFunc) gtkDestroy, this);
+    destroySigId = gtk_signal_connect (GTK_OBJECT (widget), "destroy",(GtkSignalFunc) gtkDestroy, this);
     for(HashIterC<const char *,Signal0C> it(signals);it.IsElm();it.Next())
       ConnectUp(it.Key(),it.Data());
     if(tooltip != 0) {

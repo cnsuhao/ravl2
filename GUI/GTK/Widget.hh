@@ -242,6 +242,8 @@ namespace RavlGUIN {
     
     WidgetDndInfoC *dndInfo; // Drag and drop info.
     
+    IntT destroySigId;
+    
   private:
     WidgetBodyC(const WidgetBodyC &)
     { RavlAssertMsg(0,"WidgetBodyC's can't be copied. "); }

@@ -79,7 +79,6 @@ namespace RavlGUIN {
       gtk_notebook_set_show_border(GTK_NOTEBOOK (widget), showborder);
     
     gtk_widget_show(widget);
-    MutexLockC lock(access);
     //cerr << "NotebookBodyC::Create(), Creating pages. Widget=" << ((void *) this) << "\n";
     for(DLIterC<WidgetC> it(children);it;it++) {
       WidgetC tab;    
@@ -93,8 +92,7 @@ namespace RavlGUIN {
       FixupPage(*it,tab);
     }
     //cerr << "NotebookBodyC::Create(), Done with pages. \n";
-    lock.Unlock();
-
+    
     gtk_signal_connect(GTK_OBJECT(widget), "switch-page", GTK_SIGNAL_FUNC(notebook_switch_page), this);
     
     ConnectSignals();
@@ -203,10 +201,8 @@ namespace RavlGUIN {
   //: Append a new page.
   
   bool NotebookBodyC::GUIAppendPage(WidgetC &page,WidgetC &tab) {
-    MutexLockC lock(access);
     tabWidges[page] = tab;
     children.InsLast(page);
-    lock.Unlock();
     //cerr << "NotebookBodyC::GUIAppendPage(), this=" << ((void*) this ) << " PageWidget=" << page.Hash() << " Widget=" << widget << "\n";
     if(widget == 0)
       return true;

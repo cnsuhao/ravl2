@@ -45,11 +45,17 @@ namespace RavlGUIN {
     bool Add(const DListC<WidgetC> &widges);
     //: Add children.
     
-    virtual bool GUIAdd(WidgetC &widge);
+    bool GUIAddList(const DListC<WidgetC> &widges);
+    //: Add children.
+    
+    virtual bool GUIAdd(const WidgetC &widge);
     //: Add widget.
     // GUI thread only.
+
+    bool Remove(WidgetC &widge);
+    //: Remove a child widget.
     
-    virtual bool Remove(WidgetC &widge);
+    virtual bool GUIRemove(WidgetC &widge);
     //: Remove a child widget.
     
   protected:
@@ -61,7 +67,6 @@ namespace RavlGUIN {
     // The function is called by the root window in its
     // destructor.
     
-    MutexC access;   // Access control to widget list.
     DListC<WidgetC> children; // Child widgets.
     
     friend class ContainerWidgetC;
@@ -100,23 +105,31 @@ namespace RavlGUIN {
     { return static_cast<const ContainerWidgetBodyC &>(WidgetC::Body()); }
     //: Access body.
     
-    bool GUIAdd(WidgetC &widge)
-    { return Body().GUIAdd(widge); }
-    //: Add widget.
-    // GUI thread only.
-    
   public:  
     bool Add(const WidgetC &widge)
     { return Body().Add(widge); }
     //: Add child widget.
-
+    
     bool Remove(WidgetC &widge)
     { return Body().Remove(widge); }
+    //: Remove child widget.
+    
+    bool GUIRemove(WidgetC &widge)
+    { return Body().GUIRemove(widge); }
     //: Remove child widget.
     
     bool Add(const DListC<WidgetC> &widges)
     { return Body().Add(widges); }
     //: Add child widget.
+    
+    bool GUIAddList(const DListC<WidgetC> &widges)
+    { return Body().GUIAddList(widges); }
+    //: Add children.
+    
+    bool GUIAdd(const WidgetC &widge)
+    { return Body().GUIAdd(widge); }
+    //: Add widget.
+    // GUI thread only.
     
     bool operator+=(const WidgetC &widge)
     { return Body().Add(widge); }

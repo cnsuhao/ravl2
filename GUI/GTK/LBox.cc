@@ -22,40 +22,71 @@
 #endif
 
 namespace RavlGUIN {
+  
 
   //: Create the widget.
   
   bool LBoxBodyC::Create() {
-    if(widget == 0) {
-      if(vert)
-	widget = gtk_vbox_new (homogeneous,spacing);
-      else
-	widget = gtk_hbox_new (homogeneous,spacing);
-      if(border != 0)
-	gtk_container_set_border_width (GTK_CONTAINER (widget), border);
-    }
+    if(widget != 0) 
+      return true;
+    
+    if(vert)
+      widget = gtk_vbox_new (homogeneous,spacing);
+    else
+      widget = gtk_hbox_new (homogeneous,spacing);
+    
+    if(border != 0)
+      gtk_container_set_border_width (GTK_CONTAINER (widget), border);
     
     for(DLIterC<WidgetC> it(children);it.IsElm();it.Next()) {
       if(!it->IsValid()) {
 	cerr << "LBoxBodyC::Create(), WARNING: Invalid widget in child list. \n";
 	continue;
       }
-      if(it.Data().Widget() == 0) {
-	if(!it.Data().Create()) 
-	  cerr << "LBoxBodyC::Create(), Widget create failed ! \n";
-	PackInfoC pi(it.Data());
-	if(pi.IsValid()) {
-	  ONDEBUG(cerr << "LBoxBodyC::Create(), Found pack info :" << pi.Expand() << " " << pi.Fill() << " " << pi.Padding() << "\n");
-	  gtk_box_pack_start (GTK_BOX (widget), it.Data().Widget(), 
-			      pi.Expand(), pi.Fill(), pi.Padding());
-	} else {
-	  gtk_box_pack_start (GTK_BOX (widget), it.Data().Widget(), 
-			      true, true, 0);
-	}
-	gtk_widget_show (it.Data().Widget());
+      WidgetC &child = *it;
+      if(child.Widget() == 0) {
+        if(!child.Create()) {
+          cerr << "LBoxBodyC::Create(), WARNING: Widget create failed ! \n";
+          continue;
+        }
       }
+      RavlAssert(child.Widget() != 0);
+      PackInfoC pi(child);
+      if(pi.IsValid()) {
+        ONDEBUG(cerr << "LBoxBodyC::Create(), Found pack info :" << pi.Expand() << " " << pi.Fill() << " " << pi.Padding() << "\n");
+        gtk_box_pack_start(GTK_BOX (widget), child.Widget(),pi.Expand(), pi.Fill(), pi.Padding());
+      } else {
+        gtk_box_pack_start(GTK_BOX (widget), child.Widget(), true, true, 0);
+      }
+      gtk_widget_show (child.Widget());
     }
     ConnectSignals();
+    return true;
+  }
+
+  //: Add widget.
+  // GUI thread only.
+  
+  bool LBoxBodyC::GUIAdd(const WidgetC &achild) {
+    children.InsLast(achild);
+    WidgetC &child = children.Last();
+    if(widget == 0) 
+      return true;
+    if(child.Widget() == 0) {
+      if(!child.Create()) {
+        cerr << "LBoxBodyC::Create(), Widget create failed ! \n";
+        return false;
+      }
+    }
+    PackInfoC pi(child);
+    if(pi.IsValid()) {
+      ONDEBUG(cerr << "LBoxBodyC::Create(), Found pack info :" << pi.Expand() << " " << pi.Fill() << " " << pi.Padding() << "\n");
+      gtk_box_pack_start(GTK_BOX (widget), child.Widget(), 
+                          pi.Expand(), pi.Fill(), pi.Padding());
+    } else {
+      gtk_box_pack_start(GTK_BOX (widget), child.Widget(), true, true, 0);
+    }
+    gtk_widget_show (child.Widget());
     return true;
   }
   

@@ -66,6 +66,10 @@ namespace RavlGUIN {
     
     virtual bool Create();
     //: Create the widget.
+
+    virtual bool GUIAdd(const WidgetC &widge);
+    //: Add widget.
+    // GUI thread only.
     
   protected:
     virtual void Destroy()

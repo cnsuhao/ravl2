@@ -22,7 +22,6 @@ namespace RavlGUIN {
   //: Create the widget.
   
   bool ContainerWidgetBodyC::Create() {
-    MutexLockC lock(access);
     for(DLIterC<WidgetC> it(children);it.IsElm();it.Next()) 
       it.Data().Create();
     return true;
@@ -44,10 +43,10 @@ namespace RavlGUIN {
   //: Add widget.
   // GUI thread only.
   
-  bool ContainerWidgetBodyC::GUIAdd(WidgetC &widge) {
-    MutexLockC lock(access);
+  bool ContainerWidgetBodyC::GUIAdd(const WidgetC &awidge) {
+    children.InsLast(awidge);
+    WidgetC &widge = children.Last();
     if(widget == 0) {
-      cerr << "ContainerWidgetBodyC::GUIAdd(), ERROR: Widget not created. \n";
       return true;
     }
     RavlAssert(widge.IsValid());
@@ -64,42 +63,46 @@ namespace RavlGUIN {
   //: Add child widget.
   
   bool ContainerWidgetBodyC::Add(const WidgetC &widge) {
-    MutexLockC lock(access);
-    children.InsLast(widge);
-    if(widget == 0)
-      return true; // Done !
-    lock.Unlock();
     Manager.Queue(Trigger(ContainerWidgetC(*this),&ContainerWidgetC::GUIAdd,widge));
+    return true;
+  }
+  
+  
+  //: Remove a child widget.
+  
+  bool ContainerWidgetBodyC::Remove(WidgetC &widge)  {
+    Manager.Queue(Trigger(ContainerWidgetC(*this),&ContainerWidgetC::GUIRemove,widge));
     return true;
   }
   
   //: Remove a child widget.
   
-  bool ContainerWidgetBodyC::Remove(WidgetC &widge)  {
-    MutexLockC lock(access);
+  bool ContainerWidgetBodyC::GUIRemove(WidgetC &widge) {
     for(DLIterC<WidgetC> it(children);it.IsElm();it.Next()) {
       if(it.Data() == widge) {
 	it.Del();
 	break;
       }
     }
-    if(widget == 0)
+    if(widget == 0 || widge.Widget() == 0)
       return true; // Done !
     gtk_container_remove(GTK_CONTAINER(widget),widge.Widget());
     return true;
   }
+
+  //: Add children.
   
+  bool ContainerWidgetBodyC::GUIAddList(const DListC<WidgetC> &widges) {
+    for(ConstDLIterC<WidgetC> it(widges);it.IsElm();it.Next())
+      GUIAdd(it.Data());
+    return true;
+  }
+
   //: Add children.
   
   bool ContainerWidgetBodyC::Add(const DListC<WidgetC> &widges) {
-    for(ConstDLIterC<WidgetC> it(widges);it.IsElm();it.Next())
-      Add(it.Data());
+    Manager.Queue(Trigger(ContainerWidgetC(*this),&ContainerWidgetC::GUIAddList,widges));
     return true;
   }
   
 }
-
-
-
-
-
