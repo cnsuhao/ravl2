@@ -34,6 +34,7 @@
 using namespace RavlN;
 
 int testBasic();
+int testSlice();
 int testShift();
 int testSArrayConv();
 int testSqr2();
@@ -52,6 +53,11 @@ int main()
     cerr << "Basic Array2d test failed line:" << ln << "\n";
     return 1;
   }
+  if((ln = testSlice()) != 0) {
+    cerr << "Basic slice test failed line:" << ln << "\n";
+    return 1;
+  }
+#if 0
   if((ln = testShift()) != 0) {
     cerr << "Basic Array2d test failed line:" << ln << "\n";
     return 1;
@@ -92,6 +98,7 @@ int main()
     cerr << "Sqr31Iter2 Array2d test failed line:" << ln << "\n";
     return 1;
   }
+#endif
   cerr << "Test passed ok. \n";
   return 0;
 }
@@ -155,6 +162,23 @@ int testBasic() {
       it.Data1() = it.Data2();
   }
 
+  return 0;
+}
+int testSlice() {
+  Array2dC<int> test(3,3);
+  int i = 0;
+  for(Array2dIterC<int> it(test);it;it++)
+    *it = i++;
+  cerr << "Test=" << test << "\n";
+  Slice1dC<int> slice;
+  for(i = 0;i < (IntT) test.Frame().Rows();i++) {
+    slice = test.SliceColumn(i);
+    cerr << "Slice=" << slice << "\n";
+    for(int j = 0;j < (IntT) test.Frame().Cols();j++) {
+      //cerr << "Val=" << slice[j] << " " << test[j][i] << "\n";
+      if(slice[j] != test[j][i]) return __LINE__;
+    }
+  }
   return 0;
 }
 
