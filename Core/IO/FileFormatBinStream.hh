@@ -4,14 +4,14 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLFILEFORMATBINSTREAM
-#define RAVLFILEFORMATBINSTREAM 1
+#ifndef RAVL_FILEFORMATBINSTREAM_HEADER
+#define RAVL_FILEFORMATBINSTREAM_HEADER 1
 ////////////////////////////////////////////////////////
 //! docentry="Ravl.Core.IO.Formats" 
 //! lib=RavlIO
 //! file="Ravl/Core/IO/FileFormatBinStream.hh"
 //! author="Charles Galambos"
-//! date="12/08/98"
+//! date="12/08/1998"
 //! rcsid="$Id$"
 //! userlevel=Default
 
@@ -117,11 +117,11 @@ namespace RavlN {
     // Will create an Invalid port if not supported.
     
     virtual const type_info &DefaultType() const 
-      { return typeid(DataT); }
+    { return typeid(DataT); }
     //: Get prefered IO type.
 
     virtual bool IsStream() const
-      { return true; }
+    { return true; }
     //: Just to make it clear its a streamable format.
   
   };

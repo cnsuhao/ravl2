@@ -4,15 +4,15 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLFILEFORMATSTREAM
-#define RAVLFILEFORMATSTREAM 1
+#ifndef RAVL_FILEFORMATSTREAM_HEADER
+#define RAVL_FILEFORMATSTREAM_HEADER 1
 ////////////////////////////////////////////////////////
 //! docentry="Ravl.Core.IO.Formats" 
 //! lib=RavlIO
 //! rcsid="$Id$"
 //! file="Ravl/Core/IO/FileFormatStream.hh"
 //! author="Charles Galambos"
-//! date="12/08/98"
+//! date="12/08/1998"
 //! userlevel=Default
 
 #include "Ravl/DP/FileFormat.hh"
@@ -32,7 +32,7 @@ namespace RavlN {
   public:
     FileFormatStreamBodyC()
       : FileFormatBodyC("stream","Standard C++ iostream headed with the class name. ")
-      {}
+    {}
     //: Default constructor.
     
     virtual const type_info &ProbeLoad(IStreamC &in,const type_info &obj_type) const  {
@@ -86,8 +86,12 @@ namespace RavlN {
     // Will create an Invalid port if not supported.
     
     virtual const type_info &DefaultType() const 
-      { return typeid(DataT); }
+    { return typeid(DataT); }
     //: Get prefered IO type.
+    
+    virtual bool IsStream() const
+    { return true; }
+    //: Just to make it clear its a streamable format.
     
   };
   
@@ -101,7 +105,7 @@ namespace RavlN {
   public:
     FileFormatStreamC()
       : FileFormatC<DataT>(*new FileFormatStreamBodyC<DataT>())
-      {}
+    {}
   };
 }
 
