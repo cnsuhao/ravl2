@@ -8,13 +8,13 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.GUI.Control"
 //! lib=RavlGUI
+//! date="23/9/2003"
 
 #include "Ravl/GUI/TreeModel.hh"
 
 #if RAVL_USE_GTK2
 
 #include <gtk/gtk.h>
-#include <gdk/gdk-pixbuf.h>
 
 namespace RavlGUIN {
   
@@ -75,12 +75,63 @@ namespace RavlGUIN {
     RavlAssert(0);
     return false;
   }
+
+  //: Delete a row.
+  
+  bool TreeModelBodyC::DeleteRow(TreeModelRowC &rowHandle) {
+    RavlAssert(0);
+    return false;    
+  }
+
+  //: Look up column number of named column.
+  
+  UIntT TreeModelBodyC::ColNumber(const StringC &name) const {
+    
+    for(SArray1dIterC<AttributeTypeC> it(colTypes);it;it++)
+      if(it->Name() == name)
+	return it.Index().V();
+    return ((UIntT) -1);
+  }
   
   //: Create the widget.
   
   bool TreeModelBodyC::Create() {
     return true;
   }
+  
+  //: Set int value.
+  
+  bool TreeModelBodyC::GetValue(TreeModelRowC &rowIter,IntT col, IntT &value) {
+    gtk_tree_model_get(model,rowIter.TreeIter(),col,&value,-1);
+    return true;
+  }
+  
+  //: Set bool value. 
+  
+  bool TreeModelBodyC::GetValue(TreeModelRowC &rowIter,IntT col, bool &value) {
+    int tmp;
+    gtk_tree_model_get(model,rowIter.TreeIter(),col,&tmp,-1);
+    value = tmp != 0;
+    return true;
+  }
+  
+  //: Set bool value.
+  
+  bool TreeModelBodyC::GetValue(TreeModelRowC &rowIter,IntT col, StringC &value) {
+    guchar *text;
+    gtk_tree_model_get(model,rowIter.TreeIter(),col,&text,-1);
+    value = StringC((char *) text);
+    g_free(text);
+    return true;
+  }
+  
+  //: Set bool value.
+  
+  bool TreeModelBodyC::GetValue(TreeModelRowC &rowIter,IntT col, PixbufC &value) {
+    RavlAssertMsg(0,"TreeModelBodyC::GetValue(), Not implemented.");
+    return true;
+  }
+
 }
 
 #endif

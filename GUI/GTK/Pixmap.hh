@@ -134,7 +134,7 @@ namespace RavlGUIN {
     //: Access body.
     
   public:
-    GdkBitmap* &Pixmap()
+    GdkPixmap* &Pixmap()
     { return Body().Pixmap(); }
     //: Access pixmap mask.
     

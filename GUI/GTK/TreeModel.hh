@@ -11,13 +11,16 @@
 //! docentry="Ravl.GUI.Control"
 //! lib=RavlGUI
 //! example=exTreeStore.cc
+//! date="23/9/2003"
 
 #include "Ravl/config.h"
 
 #if RAVL_USE_GTK2
 
 #include "Ravl/GUI/Widget.hh"
+#include "Ravl/GUI/Pixbuf.hh"
 #include "Ravl/DP/AttributeType.hh"
+#include "Ravl/DP/AttributeValueTypes.hh"
 
 extern "C" {
   typedef struct _GtkTreeModel        GtkTreeModel; 
@@ -43,7 +46,7 @@ namespace RavlGUIN {
     GtkTreeIter *TreeIter()
     { return treeIter; }
     //: Access tree store.
-    
+
   protected:
     GtkTreeIter *treeIter;
   };
@@ -99,12 +102,30 @@ namespace RavlGUIN {
     { return colTypes[col] ; }
     //: Access column type info.
     
+    UIntT ColNumber(const StringC &name) const;
+    //: Look up column number of named column.
+    
     UIntT Cols() const
     { return colTypes.Size(); }
     //: Access the number of columns .
     
     virtual bool AppendRow(TreeModelRowC &rowHandle);
     //: Append a row.
+    
+    virtual bool DeleteRow(TreeModelRowC &rowHandle);
+    //: Delete a row.
+    
+    bool GetValue(TreeModelRowC &rowIter,IntT col, IntT &value);
+    //: Set int value.
+    
+    bool GetValue(TreeModelRowC &rowIter,IntT col, bool &value);
+    //: Set bool value.
+    
+    bool GetValue(TreeModelRowC &rowIter,IntT col, StringC &value);
+    //: Set bool value.
+    
+    bool GetValue(TreeModelRowC &rowIter,IntT col, PixbufC &value);
+    //: Set bool value. 
     
   protected:
     GtkTreeModel        *model;
@@ -164,6 +185,29 @@ namespace RavlGUIN {
     { return Body().AppendRow(rowHandle); }
     //: Append a row.
     
+    bool DeleteRow(TreeModelRowC &rowHandle) 
+    { return Body().DeleteRow(rowHandle); }
+    //: Delete a row.
+    
+    UIntT ColNumber(const StringC &name) const
+    { return Body().ColNumber(name); }
+    //: Look up column number of named column.
+    
+    bool GetValue(TreeModelRowC &rowIter,IntT col, IntT &value)
+    { return Body().GetValue(rowIter,col,value); }
+    //: Set int value.
+    
+    bool GetValue(TreeModelRowC &rowIter,IntT col, bool &value)
+    { return Body().GetValue(rowIter,col,value); }
+    //: Set bool value.
+    
+    bool GetValue(TreeModelRowC &rowIter,IntT col, StringC &value)
+    { return Body().GetValue(rowIter,col,value); }
+    //: Set bool value.
+    
+    bool GetValue(TreeModelRowC &rowIter,IntT col, PixbufC &value)
+    { return Body().GetValue(rowIter,col,value); }
+    //: Set bool value. 
     
   };
   

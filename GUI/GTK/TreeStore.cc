@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlGUI
-
+//! date="23/9/2003"
 //! author="Charles Galambos"
 
 #include "Ravl/GUI/TreeStore.hh"
@@ -31,7 +31,14 @@ namespace RavlGUIN {
   
   TreeStoreBodyC::~TreeStoreBodyC()
   {}
-
+  
+  //: Delete a row.
+  
+  bool TreeStoreBodyC::DeleteRow(TreeModelRowC &rowHandle) {
+    gtk_tree_store_remove (GTK_TREE_STORE(model),rowHandle.TreeIter());
+    return true;
+  }
+  
   //: Set int value.
   
   bool TreeStoreBodyC::SetValue(TreeModelRowC &rowIter,IntT col, IntT value) {
@@ -69,8 +76,9 @@ namespace RavlGUIN {
 
   //: Set bool value.
   
-  bool TreeStoreBodyC::SetValue(TreeModelRowC &rowIter,IntT col, PixmapC &value) {
-    gtk_tree_store_set(GTK_TREE_STORE(model),rowIter.TreeIter(),col,value.Pixmap(),-1);
+  bool TreeStoreBodyC::SetValue(TreeModelRowC &rowIter,IntT col, const PixbufC &value) {
+    //gtk_tree_store_set_value(GTK_TREE_STORE(model),rowIter.TreeIter(),col,G_VALUE(value.Pixmap()));
+    gtk_tree_store_set(GTK_TREE_STORE(model),rowIter.TreeIter(),col,value.Pixbuf(),-1);
     return true;
   }
   

@@ -11,6 +11,7 @@
 //! author="Charles Galambos"
 //! example=exTreeStore.cc
 //! lib=RavlGUI
+//! date="23/9/2003"
 
 #include "Ravl/config.h"
 
@@ -18,6 +19,7 @@
 
 #include "Ravl/GUI/Widget.hh"
 #include "Ravl/GUI/TreeModel.hh"
+#include "Ravl/Threads/Signal1.hh"
 
 extern "C" {
   typedef struct _GtkTreeSelection      GtkTreeSelection;
@@ -33,22 +35,34 @@ namespace RavlGUIN {
     : public WidgetBodyC
   {
   public:
-    TreeViewBodyC(const TreeModelC &tm);
+    TreeViewBodyC(const TreeModelC &tm,const DListC<StringC> &displayColumns);
     //: Constructor.
     
     virtual bool Create();
     //: Create widget.
     
+    TreeModelC &TreeModel()
+    { return treeModel; }
+    //: Access tree model.
+    
+    DListC<TreeModelRowC> GUISelected();
+    //: Get list of selected rows.
+    
+    Signal1C<DListC<TreeModelRowC> > &SelectionChanged()
+    { return selectionChanged; }
+    //: Access selection changed signal.
     
   protected:
     TreeModelC treeModel;
     GtkTreeSelection *selection;
+    Signal1C<DListC<TreeModelRowC> > selectionChanged;
+    DListC<StringC> displayColumns;
   };
   
   //! userlevel=Normal
   //: Tree view widget.
   // Available on GTK+-2.0 and above only.
-
+  
   class TreeViewC
     : public WidgetC
   {
@@ -58,8 +72,8 @@ namespace RavlGUIN {
     //: Default constructor.
     // Creates an invalid handle.
 
-    TreeViewC(const TreeModelC &treeModel)
-      : WidgetC(*new TreeViewBodyC(treeModel))
+    TreeViewC(const TreeModelC &treeModel,const DListC<StringC> &displayColumns = DListC<StringC>())
+      : WidgetC(*new TreeViewBodyC(treeModel,displayColumns))
     {}
     //: Constructor.
     // Creates an invalid handle.
@@ -79,6 +93,18 @@ namespace RavlGUIN {
     //: Access body.
     
   public:
+    
+    TreeModelC &TreeModel()
+    { return Body().TreeModel(); }
+    //: Access tree model.
+    
+    DListC<TreeModelRowC> GUISelected()
+    { return Body().GUISelected(); }
+    //: Get list of selected rows.
+    
+    Signal1C<DListC<TreeModelRowC> > &SelectionChanged()
+    { return Body().SelectionChanged(); }
+    //: Access selection changed signal.
     
   };
   

@@ -11,6 +11,7 @@
 //! docentry="Ravl.GUI.Control"
 //! lib=RavlGUI
 //! example=exTreeStore.cc
+//! date="23/9/2003"
 
 #include "Ravl/config.h"
 
@@ -48,6 +49,9 @@ namespace RavlGUIN {
     virtual bool AppendRow(TreeModelRowC &rowHandle);
     //: Append a row.
     
+    virtual bool DeleteRow(TreeModelRowC &rowHandle);
+    //: Delete a row.
+    
     bool SetValue(TreeModelRowC &rowIter,IntT col, IntT value);
     //: Set int value.
     
@@ -57,7 +61,7 @@ namespace RavlGUIN {
     bool SetValue(TreeModelRowC &rowIter,IntT col, const StringC &value);
     //: Set bool value.
     
-    bool SetValue(TreeModelRowC &rowIter,IntT col, PixmapC &value);
+    bool SetValue(TreeModelRowC &rowIter,IntT col, const PixbufC &value);
     //: Set bool value.
     
   protected:
@@ -116,10 +120,10 @@ namespace RavlGUIN {
     { return Body().SetValue(rowIter,col,value); }
     //: Set bool value.
     
-    bool SetValue(TreeModelRowC &rowIter,IntT col, PixmapC &value)
+    bool SetValue(TreeModelRowC &rowIter,IntT col, const PixbufC &value)
     { return Body().SetValue(rowIter,col,value); }
     //: Set bool value.
-    
+        
   };
   
 }

@@ -36,6 +36,8 @@ int main(int nargs,char **argv) {
   OptionC opts(nargs,argv);
   opts.Check();
   
+  WindowC win(100,100,"Hello");
+  
   SArray1dC<AttributeTypeC> types(3);
   //types[0] = AttributeTypeNumC<IntT>("ANumber","...");
   //types[0] = AttributeTypeBoolC("ABool","...");
@@ -43,13 +45,14 @@ int main(int nargs,char **argv) {
   types[1] = AttributeTypeStringC("AString","...");
   types[2] = AttributeTypeMiscC("AImage","...",AVT_ByteRGBImage);
   
-  TreeModelRowC iter;
   TreeStoreC treeStore(types);
+  
+  TreeModelRowC iter;
   treeStore.AppendRow(iter);
   //treeStore.SetValue(iter,0,true);
   treeStore.SetValue(iter,0,StringC("meep"));
   treeStore.SetValue(iter,1,StringC("hello"));
-  PixmapC map((char **) xpmData_OpenFile);
+  PixbufC map(xpmData_OpenFile);
   treeStore.SetValue(iter,2, map);
   
   TreeModelRowC iter2;
@@ -59,9 +62,11 @@ int main(int nargs,char **argv) {
   treeStore.SetValue(iter2,2, map);
   
   TreeViewC treeView(treeStore);
-  
-  WindowC win(100,100,"Hello");
   win.Add(treeView);
+  win.Create();
+  
+  
+  
   win.Show();
   Manager.Start();
 #endif  
