@@ -24,28 +24,14 @@
 #ifndef __GDK_GL_H__
 #define __GDK_GL_H__
 
-#if defined(_WIN32) || defined(_WIN32_) || defined(WIN32)
+#include <glib.h>
 
- /* gl/gl.h needs WIN32 defined */
- #ifndef WIN32
-  #define WIN32
- #endif
-
- /* win32 gl/gl.h needs APIENTRY and WINGDIAPI defined properly */
- #if defined(i386) && defined(__GNUC__)
-  #define STDCALL     __attribute__ ((stdcall))
-  #define CDECL       __cdecl
-  #define CALLBACK    WINAPI
-  #define PASCAL      WINAPI
-  #define WINAPI      STDCALL
-  #define APIENTRY    STDCALL
-  #define WINGDIAPI
- #else
-  #include <windows.h>
- #endif
-
+#ifdef G_OS_WIN32
+ /* The GL/gl.h on Windows requires you to include <windows.h>
+  * anyway, so we might as well include it here.
+  */
+ #include <windows.h>
 #endif
-
 
 #include <gdk/gdk.h>
 

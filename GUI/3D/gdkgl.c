@@ -24,12 +24,10 @@
 /* support for gtk+1.2 should be removed once gtk+1.4 is released */
 #include <gtk/gtkfeatures.h>
 #if GTK_MAJOR_VERSION == 1 && GTK_MINOR_VERSION == 2
-#include <gdk/gdkx.h>
 #define GDK_DRAWABLE_XID GDK_WINDOW_XWINDOW
-
-#else
-#include <gdk/x11/gdkx.h>
 #endif
+
+#include <gdk/gdkx.h>
 
 
 #include <GL/gl.h>
@@ -46,12 +44,15 @@ static XVisualInfo *get_xvisualinfo(GdkVisual *visual)
 
   dpy = GDK_DISPLAY();
 
-  /* TODO: is this right way to get VisualInfo from Visual ?? */
-  /* AFAIK VisualID and depth should be enough to uniquely identify visual */
+  /* 'GLX uses VisualInfo records because they uniquely identify
+   * a (VisualID,screen,depth) tuple.'
+   */
   vinfo_template.visual   = GDK_VISUAL_XVISUAL(visual);
   vinfo_template.visualid = XVisualIDFromVisual(vinfo_template.visual);
   vinfo_template.depth    = visual->depth;
-  vi = XGetVisualInfo(dpy, VisualIDMask|VisualDepthMask, &vinfo_template, &nitems_return);
+  vinfo_template.screen   = DefaultScreen(dpy);
+  vi = XGetVisualInfo(dpy, VisualIDMask|VisualDepthMask|VisualScreenMask,
+		      &vinfo_template, &nitems_return);
 
   g_assert( vi!=0  && nitems_return==1 ); /* visualinfo needs to be unique */
 
@@ -71,7 +72,7 @@ typedef struct _GdkGLContextPrivate GdkGLContextPrivate;
 
 gint gdk_gl_query(void)
 {
-  return (glXQueryExtension(GDK_DISPLAY(),NULL,NULL) == TRUE) ? TRUE : FALSE;
+  return (glXQueryExtension(GDK_DISPLAY(),NULL,NULL) == True) ? TRUE : FALSE;
 }
 
 
@@ -146,9 +147,9 @@ GdkGLContext *gdk_gl_context_share_new(GdkVisual *visual, GdkGLContext *sharelis
   vi = get_xvisualinfo(visual);
 
   if (sharelist)
-    glxcontext = glXCreateContext(dpy, vi, ((GdkGLContextPrivate*)sharelist)->glxcontext, direct ? TRUE : FALSE);
+    glxcontext = glXCreateContext(dpy, vi, ((GdkGLContextPrivate*)sharelist)->glxcontext, direct ? True : False);
   else
-    glxcontext = glXCreateContext(dpy, vi, 0, direct ? TRUE : FALSE);
+    glxcontext = glXCreateContext(dpy, vi, 0, direct ? True : False);
   
   XFree(vi);
   if (glxcontext == NULL)
@@ -162,7 +163,7 @@ GdkGLContext *gdk_gl_context_share_new(GdkVisual *visual, GdkGLContext *sharelis
   return (GdkGLContext*)private;
 }
 
-GdkGLContext *gdk_gl_attrlist_share_new(int *attrlist, GdkGLContext *sharelist, gint direct)
+GdkGLContext *gdk_gl_context_attrlist_share_new(int *attrlist, GdkGLContext *sharelist, gint direct)
 {
   GdkVisual *visual = gdk_gl_choose_visual(attrlist);
   if (visual)
@@ -209,7 +210,7 @@ gint gdk_gl_make_current(GdkDrawable *drawable, GdkGLContext *context)
   g_return_val_if_fail(drawable != NULL, FALSE);
   g_return_val_if_fail(context  != NULL, FALSE);
 
-  return (glXMakeCurrent(private->xdisplay, GDK_WINDOW_XWINDOW(drawable), private->glxcontext) == TRUE) ? TRUE : FALSE;
+  return (glXMakeCurrent(private->xdisplay, GDK_WINDOW_XWINDOW(drawable), private->glxcontext) == True) ? TRUE : FALSE;
 /*   if (private->glxcontext != None && private->glxcontext == glXGetCurrentContext()) */
 /*     { */
 /*       glFlush(); */
@@ -217,7 +218,7 @@ gint gdk_gl_make_current(GdkDrawable *drawable, GdkGLContext *context)
 /*     } */
 /*   else */
 /*     { */
-/*       return (glXMakeCurrent(private->xdisplay, GDK_WINDOW_XWINDOW(drawable), private->glxcontext) == TRUE) ? TRUE : FALSE; */
+/*       return (glXMakeCurrent(private->xdisplay, GDK_WINDOW_XWINDOW(drawable), private->glxcontext) == True) ? TRUE : FALSE; */
 /*     } */
 }
 
@@ -335,7 +336,7 @@ gint gdk_gl_pixmap_make_current(GdkGLPixmap *glpixmap, GdkGLContext *context)
   glxpixmap  = ((GdkGLPixmapPrivate*)glpixmap)->glxpixmap;
   glxcontext = ((GdkGLContextPrivate*)context)->glxcontext;
 
-  return (glXMakeCurrent(dpy, glxpixmap, glxcontext) == TRUE) ? TRUE : FALSE;
+  return (glXMakeCurrent(dpy, glxpixmap, glxcontext) == True) ? TRUE : FALSE;
 }
 
 /* fonts */

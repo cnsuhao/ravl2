@@ -22,6 +22,7 @@
 #include "Ravl/GUI/gdkgl.h"
 #include "Ravl/GUI/gtkglarea.h"
 #include <GL/gl.h>
+#include <gtk/gtkfeatures.h>
 #include <stdarg.h>
 
 static void gtk_gl_area_class_init    (GtkGLAreaClass *klass);
@@ -70,6 +71,9 @@ static void
 gtk_gl_area_init (GtkGLArea *gl_area)
 {
   gl_area->glcontext = NULL;
+#if GTK_CHECK_VERSION (1, 3, 1)
+  gtk_widget_set_double_buffered(GTK_WIDGET(gl_area), FALSE);
+#endif
 }
 
 

@@ -107,6 +107,7 @@ int main(int nargs,char *args[])
 		   Vector3dC(0,1,0), // Axis of rotation
 		   object); // Object to draw.
     area.SwapBuffers();
+    //Sleep(1);
   }
   cerr << "Execute done, waiting... \n";
   Manager.Wait();
