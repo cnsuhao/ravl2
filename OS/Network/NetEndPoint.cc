@@ -224,7 +224,7 @@ namespace RavlN {
     while(at < size && !shutdown) {
       int n = read(nfd,&(buff[at]),size - at);
       if(n == 0) { // Linux indicates a close by returning 0 bytes read.  Is this portable ??
-	cerr << "Socket close. \n";
+	ONDEBUG(cerr << "Socket close. \n";)
 	return false;
       }
       if(n < 0) {
@@ -254,7 +254,7 @@ namespace RavlN {
       char buff;
       int state = 0;
       do {
-	cerr << "State=" << state << "\n";
+	ONDEBUG(cerr << "State=" << state << "\n";)
 	if(!ReadData(rfd,&buff,1))
 	  break;
 	if(str[state] != buff) {
