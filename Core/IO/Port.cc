@@ -13,6 +13,14 @@
 #include "Ravl/String.hh"
 #include "Ravl/DList.hh"
 
+#define DODEBUG 0
+#if DODEBUG
+#include "Ravl/TypeName.hh"
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
+
 namespace RavlN {
   
   ////////////////////////////////////////////////////////
@@ -59,7 +67,7 @@ namespace RavlN {
       if(parent.GetAttr(attrName,attrValue))
 	return true;
 #if RAVL_CHECK
-    cerr << "DPPortBodyC::GetAttr(), Unknown attribute '" << attrName << "'\n";
+    cerr << "DPPortBodyC::GetAttr(const StringC &,StringC &), Unknown attribute '" << attrName << "'\n";
 #endif
     return false; 
   }
@@ -71,7 +79,7 @@ namespace RavlN {
   StringC DPPortC::GetAttr(const StringC &attrName) { 
     StringC ret;
     if(!Body().GetAttr(attrName,ret))
-      return StringC();
+      return StringC(); 
     return ret;
   }
   
@@ -89,7 +97,7 @@ namespace RavlN {
       if(parent.SetAttr(attrName,attrValue))
 	return true;
 #if RAVL_CHECK
-    cerr << "DPPortBodyC::SetAttr(), Unknown attribute '" << attrName << "' Value:'" << attrValue << "'\n";
+    cerr << "DPPortBodyC::SetAttr(const StringC &,const StringC &), Unknown attribute '" << attrName << "' Value:'" << attrValue << "'\n";
 #endif
     return false; 
   }
@@ -99,11 +107,15 @@ namespace RavlN {
   // This is for handling stream attributes such as frame rate, and compression ratios.
   
   bool DPPortBodyC::GetAttr(const StringC &attrName,IntT &attrValue) {
-    StringC value;
-    if(!GetAttr(attrName,value))
-      return false;
-    attrValue = value.IntValue();
-    return true;
+    DPPortC parent = ConnectedTo();
+    // Try pasing it back along the processing chain.
+    if(parent.IsValid())
+      if(parent.GetAttr(attrName,attrValue))
+	return true;
+#if RAVL_CHECK
+    cerr << "DPPortBodyC::GetAttr(const StringC &,IntT &), Unknown attribute '" << attrName << "'\n";
+#endif
+    return false;
   }
   
   //: Set a stream attribute.
@@ -111,8 +123,16 @@ namespace RavlN {
   // This is for handling stream attributes such as frame rate, and compression ratios.
   
   bool DPPortBodyC::SetAttr(const StringC &attrName,const IntT &attrValue) {
-    StringC value(attrValue);
-    return SetAttr(attrName,value);
+    ONDEBUG(cerr << "DPPortBodyC::SetAttr(const StringC &,const IntT &) '" << attrName << "' = " <<attrValue << " \n");
+    DPPortC parent = ConnectedTo();
+    // Try pasing it back along the processing chain.
+    if(parent.IsValid())
+      if(parent.SetAttr(attrName,attrValue))
+	return true;
+#if RAVL_CHECK
+    cerr << "DPPortBodyC::SetAttr(const StringC &,const IntT &), Unknown attribute '" << attrName << "' Value:'" << attrValue << "'\n";
+#endif
+    return false;
   }
   
   //: Get a stream attribute.
@@ -120,11 +140,16 @@ namespace RavlN {
   // This is for handling stream attributes such as frame rate, and compression ratios.
   
   bool DPPortBodyC::GetAttr(const StringC &attrName,RealT &attrValue) {
-    StringC value;
-    if(!GetAttr(attrName,value))
-      return false;
-    attrValue = value.RealValue();
-    return true;
+    DPPortC parent = ConnectedTo();
+    ONDEBUG(cerr << "DPPortBodyC::GetAttr(const StringC &,const IntT &) '" << attrName << "'  Parent=" << parent.Hash() << "\n");
+    // Try pasing it back along the processing chain.
+    if(parent.IsValid())
+      if(parent.GetAttr(attrName,attrValue))
+	return true;
+#if RAVL_CHECK
+    cerr << "DPPortBodyC::GetAttr(const StringC &,RealT &), Unknown attribute '" << attrName << "'\n";
+#endif
+    return false;
   }
   
   //: Set a stream attribute.
@@ -132,8 +157,16 @@ namespace RavlN {
   // This is for handling stream attributes such as frame rate, and compression ratios.
 
   bool DPPortBodyC::SetAttr(const StringC &attrName,const RealT &attrValue) {
-    StringC value(attrValue);
-    return SetAttr(attrName,value);
+    DPPortC parent = ConnectedTo();
+    ONDEBUG(cerr << "DPPortBodyC::SetAttr(const StringC &,const IntT &) '" << attrName << "' = " <<attrValue << " Parent=" << parent.Hash() << " Obj=" << TypeName(typeid(*this)) << "\n");
+    // Try pasing it back along the processing chain.
+    if(parent.IsValid())
+      if(parent.SetAttr(attrName,attrValue))
+	return true;
+#if RAVL_CHECK
+    cerr << "DPPortBodyC::SetAttr(const StringC &,const RealT &), Unknown attribute '" << attrName << "' Value:'" << attrValue << "'\n";
+#endif
+    return false;
   }
 
   //: Get list of attributes available.
