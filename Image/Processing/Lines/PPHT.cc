@@ -60,7 +60,7 @@ namespace RavlImageN {
       maxTime(maxPTime), // For ever ! 
       doSHT(false),
       res(nRes),
-      //    accum
+      feedBack(false),
       cachv(-2),
       cachr(-2),
     useSobol(xUseSobol),
