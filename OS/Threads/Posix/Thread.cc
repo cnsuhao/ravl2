@@ -82,7 +82,48 @@ namespace RavlN {
 #endif
   }
   
+
+
+  // Set the priority of the process
+  // THEAD SAFE.
+  //!param: priority - 0 to 32767, Higher means more runtime will be given to the thread.
+  //!return: true if priority change succeeded, false otherwise.
   
+  bool SetCurrentThreadPriority(UIntT priority) {
+#if RAVL_HAVE_POSIX_THREADS    
+    pthread_t threadID = pthread_self();
+    int policy;
+    struct sched_param sparam;
+    pthread_getschedparam(threadID,&policy,&sparam);
+    sparam.sched_priority = priority;
+    if(pthread_setschedparam(threadID,policy,&sparam) == 0)
+      return true; // I hope, but don't know.
+    return false;
+#endif
+#if RAVL_HAVE_WIN32_THREADS
+    SetThreadPriority(GetCurrentThread(),priority);
+    return true;
+#endif
+  }
+
+  //: Get the priority of the process
+  // THEAD SAFE.
+  //!return: priority - 0 to 32767, Higher means more runtime will be given to the thread.
+  
+  int CurrentThreadPriority(UIntT priority) {
+#if RAVL_HAVE_POSIX_THREADS    
+    pthread_t threadID = pthread_self();
+    int policy;
+    struct sched_param sparam;
+    pthread_getschedparam(threadID,&policy,&sparam);
+    return sparam.sched_priority;
+#endif
+#if RAVL_HAVE_WIN32_THREADS
+    RavlAssertMsg(0,"CurrentThreadPriority(), Not implemented on WIN32. ");
+    return 0;
+#endif
+  }
+
   //: Default constructor.
   
   ThreadBodyC::ThreadBodyC()
@@ -241,12 +282,31 @@ namespace RavlN {
     sparam.sched_priority = Pri;
     if(pthread_setschedparam(threadID,policy,&sparam) == 0)
       return true; // I hope, but don't know.
+    return false;
 #endif
 #if RAVL_HAVE_WIN32_THREADS
     SetThreadPriority(threadID,Pri);
+    return true;
 #endif
-    return false;
   }
+  
+  //: Get the priority of the thread
+  //!return: 0 to 32767, Higher means more runtime will be given to the thread.
+  // THEAD SAFE.
+  
+  int ThreadBodyC::Priority() const {
+#if RAVL_HAVE_POSIX_THREADS    
+    int policy;
+    struct sched_param sparam;
+    pthread_getschedparam(threadID,&policy,&sparam);
+    return sparam.sched_priority;
+#endif
+#if RAVL_HAVE_WIN32_THREADS
+    RavlAssertMsg(0,"ThreadBodyC::Priority(), Not implemented on WIN32. ");
+    return 0;
+#endif
+  }
+  
   
   // Set the priority of the process
   // 0 to 32767, Higher faster.

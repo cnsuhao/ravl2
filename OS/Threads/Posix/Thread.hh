@@ -50,6 +50,17 @@ namespace RavlN
   UIntT CurrentThreadID();
   //: Get ID of current running thread.
   
+  bool SetCurrentThreadPriority(UIntT priority);
+  //: Set the priority of the process
+  // THEAD SAFE.
+  //!param: priority - 0 to 32767, Higher means more runtime will be given to the thread.
+  //!return: true if priority change succeeded, false otherwise.
+
+  int CurrentThreadPriority(UIntT priority);
+  //: Get the priority of the process
+  // THEAD SAFE.
+  //!return: priority - 0 to 32767, Higher means more runtime will be given to the thread.
+  
   extern void cancellationHandler(void *data);
   //! userlevel=Develop
   //: Called when a thread is cancelled.
@@ -75,10 +86,10 @@ namespace RavlN
     //: Destructor.
     
     bool Execute();
-    // Start thread running, use this command to start thread running
-    // after it has been created.  This function can only be called 
+    //: Start thread running
+    // use this command to start thread running after it has been created.  This function can only be called 
     // once.
-        
+    
     void Terminate();
     //: Terminate thread.
     // This function is very dangerous. Stopping a thread whilst its
@@ -90,14 +101,20 @@ namespace RavlN
     // time this method is called. <br>
     // THEAD SAFE.
     
-    bool SetPriority(int Pri);
-    // Set the priority of the process
-    // 0 to 32767, Higher faster.
+    bool SetPriority(int pri);
+    //: Set the priority of the process
+    //!param: pri - 0 to 32767, Higher faster.
+    //!return: true if priority change succeeded, false otherwise.
+    // THEAD SAFE.
+    
+    int Priority() const;
+    //: Get the priority of the thread
+    //!return: 0 to 32767, Higher means more runtime will be given to the thread.
     // THEAD SAFE.
     
     inline UIntT ID() const
     { return ((UIntT) threadID); }
-    // Get a unique ID for this thread.
+    //: Get a unique ID for this thread.
     // NB. An id may no be assigned to the thread until
     // after Execute() has been called.
     // THEAD SAFE.
@@ -196,13 +213,20 @@ namespace RavlN
     
     bool SetPriority(int pri)
     { return Body().SetPriority(pri); }
-    // Set the priority of the process
-    // 0 to 32767, Higher faster.
+    //: Set the priority of the process
+    //!param: pri - 0 to 32767, Higher means more runtime will be given to the thread.
+    //!return: true if priority change succeeded.
+    // THEAD SAFE.
+    
+    int Priority() const
+    { return Body().Priority(); }
+    //: Get the priority of the thread
+    //!return: 0 to 32767, Higher means more runtime will be given to the thread.
     // THEAD SAFE.
     
     inline UIntT ID() const
     { return Body().ID(); }
-    // Get a unique ID for this thread.
+    //: Get a unique ID for this thread.
     // NB. An id may no be assigned to the thread until
     // after Execute() has been called.
     // THEAD SAFE.
