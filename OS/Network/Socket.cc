@@ -559,14 +559,15 @@ namespace RavlN {
 	  break;
       }
       if(xat < at){
-	IntT done = len[b] - (at - xat);
-	IntT x = Read(&(buffer[b][done]),len[b] - done);
+	IntT toGo = xat - at;
+	IntT done = len[b] - toGo;
+	IntT x = Read(&(buffer[b][done]),toGo);
 	if(x < 0) { 
 	  if(n > 100) free(vecp);
 	  return at;
 	}
 	at += x;
-	if(x < (len[b] - done)) {
+	if(x < toGo) {
 	  if(n > 100) free(vecp);
 	  return at; // Some serious error must have occured to stop 'Read'
 	}
@@ -665,14 +666,15 @@ namespace RavlN {
 	  break;
       }
       if(xat < at){
-	IntT done = len[b] - (at - xat);
-	IntT x = Write(&(buffer[b][done]),len[b] - done);
+	IntT toGo = xat - at;
+	IntT done = len[b] - toGo;
+	IntT x = Write(&(buffer[b][done]),toGo);
 	if(x < 0) { 
 	  if(n > 100) free(vecp);
 	  return at;
 	}
 	at += x;
-	if(x < (len[b] - done)) {
+	if(x < toGo) {
 	  if(n > 100) free(vecp);
 	  return at; // Some serious error must have occured to stop 'Write'
 	}
