@@ -23,6 +23,7 @@
 #include "Ravl/Calls.hh"
 #include "Ravl/Threads/MessageQueue.hh"
 #include "Ravl/Threads/ThreadEvent.hh"
+#include "Ravl/Threads/Mutex.hh"
 #include "Ravl/OS/NetMessage.hh"
 #include "Ravl/OS/NetMsgCall.hh"
 #include "Ravl/CallMethodRefs.hh"
@@ -95,7 +96,7 @@ namespace RavlN {
     //: Access name of remote user.
     
     void Transmit(const NetPacketC &pkt)
-      { transmitQ.Put(pkt); }
+    { transmitQ.Put(pkt); }
     //: Queue a packet for transmition.
     
     bool MsgInit(StringC &user);
@@ -210,6 +211,10 @@ namespace RavlN {
     // NB. This does not make a handle to 'obj', it is the users responsibility to 
     // ensure it is not deleted.
     
+    TriggerC &ConnectionBroken()
+    { return connectionBroken; }
+    // Trigger called if connection broken.
+    
   protected:
     
     bool RunTransmit();
@@ -230,9 +235,11 @@ namespace RavlN {
     volatile bool shutdown;   // Shutdown system ?
     ThreadEventC setupComplete;
     StringC remoteUser;
+    MutexC accessMsgReg;
     HashC<UIntT,NetMsgRegisterC> msgReg;  // Local register of decoding routines.
     friend class NetEndPointC;
     bool autoInit;
+    TriggerC connectionBroken; // Trigger called if connection broken.
   };
   
   //! userlevel=Normal
@@ -243,7 +250,7 @@ namespace RavlN {
   {
   public:
     NetEndPointC()
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
 
@@ -274,27 +281,27 @@ namespace RavlN {
   protected:
     NetEndPointC(NetEndPointBodyC &bod)
       : RCHandleC<NetEndPointBodyC>(bod)
-      {}
+    {}
     //: Body constructor.
     
     NetEndPointBodyC &Body() 
-      { return RCHandleC<NetEndPointBodyC>::Body(); }
+    { return RCHandleC<NetEndPointBodyC>::Body(); }
     //: Access body.
 
     const NetEndPointBodyC &Body() const
-      { return RCHandleC<NetEndPointBodyC>::Body(); }
+    { return RCHandleC<NetEndPointBodyC>::Body(); }
     //: Access body.
 
     bool RunTransmit()
-      { return Body().RunTransmit(); }
+    { return Body().RunTransmit(); }
     //: Handle packet transmition.
     
     bool RunReceive()
-      { return Body().RunReceive(); }
+    { return Body().RunReceive(); }
     //: Handle packet reception.
     
     bool RunDecode()
-      { return Body().RunDecode(); }
+    { return Body().RunDecode(); }
     //: Decodes incoming packets.
     
   public:    
@@ -337,15 +344,15 @@ namespace RavlN {
     //: Close connection.
     
     void Transmit(const NetPacketC &pkt)
-      { Body().Transmit(pkt); }
+    { Body().Transmit(pkt); }
     //: Queue a packet for transmition.
     
     bool MsgInit(StringC &user)
-      { return  Body().MsgInit(user); }
+    { return  Body().MsgInit(user); }
     //: Init message.
 
     bool Register(const NetMsgRegisterC &nmsg)
-      { return Body().Register(nmsg); }
+    { return Body().Register(nmsg); }
     //: Register new message handler.
     
     bool Send(UIntT id)
@@ -354,70 +361,74 @@ namespace RavlN {
     
     template<class Data1T>
     bool Send(UIntT id,const Data1T &dat1)
-      { return Body().Send(id,dat1); }
+    { return Body().Send(id,dat1); }
     //: Send a 1 paramiter message.
     
     template<class Data1T,class Data2T>
     bool Send(UIntT id,const Data1T &dat1,const Data2T &dat2)
-      { return Body().Send(id,dat1,dat2); }
+    { return Body().Send(id,dat1,dat2); }
     //: Send a 2 paramiter message.
 
     template<class Data1T,class Data2T,class Data3T>
     bool Send(UIntT id,const Data1T &dat1,const Data2T &dat2,const Data3T &dat3)
-      { return Body().Send(id,dat1,dat2,dat3); }
+    { return Body().Send(id,dat1,dat2,dat3); }
     //: Send a 3 paramiter message.
     
     template<class ObjT>
     bool RegisterR(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)())
-      { return Body().RegisterR(mid,msgName,obj,func); }
+    { return Body().RegisterR(mid,msgName,obj,func); }
     //: Register new message handler.
     // NB. This does not make a handle to 'obj', it is the users responsibility to 
     // ensure it is not deleted.
     
     template<class ObjT,class DataT>
     bool RegisterR(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(DataT ))
-      { return Body().RegisterR(mid,msgName,obj,func); }
+    { return Body().RegisterR(mid,msgName,obj,func); }
     //: Register new message handler.
     // NB. This does not make a handle to 'obj', it is the users responsibility to 
     // ensure it is not deleted.
 
     template<class ObjT,class Data1T,class Data2T>
     bool RegisterR(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(Data1T ,Data2T ))
-      { return Body().RegisterR(mid,msgName,obj,func); }
+    { return Body().RegisterR(mid,msgName,obj,func); }
     //: Register new message handler.
     // NB. This does not make a handle to 'obj', it is the users responsibility to 
     // ensure it is not deleted.
 
     template<class ObjT,class Data1T,class Data2T,class Data3T>
     bool RegisterR(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(Data1T ,Data2T ,Data3T ))
-      { return Body().RegisterR(mid,msgName,obj,func); }
+    { return Body().RegisterR(mid,msgName,obj,func); }
     //: Register new message handler.
     // NB. This does not make a handle to 'obj', it is the users responsibility to 
     // ensure it is not deleted.
     
     template<class ObjT>
     bool Register(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)())
-      { return Body().Register(mid,msgName,obj,func); }
+    { return Body().Register(mid,msgName,obj,func); }
     //: Register new message handler.
     // Hold a handle to the object called.
     
     template<class ObjT,class DataT>
     bool Register(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(DataT ))
-      { return Body().Register(mid,msgName,obj,func); }
+    { return Body().Register(mid,msgName,obj,func); }
     //: Register new message handler.
     // Hold a handle to the object called.
     
     template<class ObjT,class Data1T,class Data2T>
     bool Register(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(Data1T,Data2T))
-      { return Body().Register(mid,msgName,obj,func); }
+    { return Body().Register(mid,msgName,obj,func); }
     //: Register new message handler.
     // Hold a handle to the object called.
 
     template<class ObjT,class Data1T,class Data2T,class Data3T>
     bool Register(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(Data1T,Data2T,Data3T))
-      { return Body().Register(mid,msgName,obj,func); }
+    { return Body().Register(mid,msgName,obj,func); }
     //: Register new message handler.
     // Hold a handle to the object called.
+    
+    TriggerC &ConnectionBroken()
+    { return Body().ConnectionBroken(); }
+    // Trigger called if connection broken.
     
     friend class NetEndPointBodyC;
   };

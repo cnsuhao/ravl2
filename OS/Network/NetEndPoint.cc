@@ -73,6 +73,7 @@ namespace RavlN {
   //: Register new message handler.
   
   bool NetEndPointBodyC::Register(const NetMsgRegisterC &nmsg) {
+    MutexLockC lock(accessMsgReg);
 #if RAVL_CHECK
     if(msgReg.IsElm(nmsg.Id()))
       cerr << "NetEndPointBodyC::Register(), WARNING: Overriding handling of message id:" << nmsg.Id() << "\n";
@@ -85,6 +86,7 @@ namespace RavlN {
   
   NetMsgRegisterC NetEndPointBodyC::Find(UIntT msgTypeID) const {
     // Check local decode table.
+    MutexLockC lock(accessMsgReg);
     NetMsgRegisterC *msg = const_cast<NetMsgRegisterC *>(msgReg.Lookup(msgTypeID));
     if(msg != 0) 
       return *msg;
@@ -165,6 +167,9 @@ namespace RavlN {
   
   bool NetEndPointBodyC::Close() {
     if(!shutdown) {
+      MutexLockC lock(accessMsgReg);
+      msgReg.Empty(); 
+      connectionBroken.Invalidate();
       shutdown = true;
       skt.Close();
       receiveQ.Put(NetPacketC()); // Put an empty packet to indicate shutdown.
@@ -305,6 +310,8 @@ namespace RavlN {
     if(!nis)
       cerr << "NetEndPointBodyC::RunReceive(), Connection broken \n";
 #endif
+    if(connectionBroken.IsValid()) // Got a callback ?
+      connectionBroken.Invoke();
     Close();
     ONDEBUG(cerr << "NetEndPointBodyC::RunRecieve(), Terminated \n"); 
     return true;
