@@ -233,12 +233,12 @@ namespace RavlN {
     if(IsEmpty())
       return DateC(false);
 #if RAVL_USE_LARGEFILESUPPORT
-    struct stat buff;
-    if(stat(chars(),&buff) < 0)
-      return DateC(false);
-#else
     struct stat64 buff;
     if(stat64(chars(),&buff) < 0)
+      return DateC(false);
+#else
+    struct stat buff;
+    if(stat(chars(),&buff) < 0)
       return DateC(false);
 #endif
 #if defined(__linux__) || defined(VISUAL_CPP) || defined(__sol2__)
