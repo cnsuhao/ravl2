@@ -8,6 +8,7 @@
 #include"Ravl/PatternRec/SampleLabel.hh"
 #include"Ravl/PatternRec/DataSet1.hh"
 //! rcsid="$Id$"
+//! lib=RavlPatternRec
 
 
 using namespace RavlN;

@@ -9,6 +9,7 @@
 //! rcsid="$Id$"
 //! author="Kieron Messer"
 //! docentry="Ravl.Pattern Recognition.Data Set"
+//! lib=RavlPatternRec
 
 #include"Ravl/PatternRec/Sample.hh"
 #include"Ravl/Vector.hh"
