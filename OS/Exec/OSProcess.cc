@@ -13,6 +13,7 @@
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/Stream.hh"
 //#include "Ravl/OS/UserInfo.hh"
+#include "Ravl/config.h"
 
 #ifndef _POSIX_C_SOURCE
 #define _POSIX_C_SOURCE 3
@@ -28,7 +29,7 @@
 #include <errno.h>
 #include <signal.h>
 
-#ifdef __sol2__
+#ifdef RAVL_OS_SOLARIS
 #define WNOWAIT         0200    /* non destructive form of wait */
 #endif
 
