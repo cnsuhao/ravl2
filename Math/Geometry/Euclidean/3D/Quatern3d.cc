@@ -505,5 +505,19 @@ namespace RavlN {
     s >> quartern.q[0] >> quartern.q[1] >> quartern.q[2] >> quartern.q[3];
     return s;
   }
+  
+  //: Binary output stream operator
+  
+  BinOStreamC & operator<<(BinOStreamC &s, const Quatern3dC & quartern) {
+    s << quartern.q[0] << quartern.q[1] << quartern.q[2] << quartern.q[3];
+    return s;
+  }
+  
+  //: Binary input stream operator
+  
+  BinIStreamC & operator>>(BinIStreamC &s, Quatern3dC & quartern) {
+    s >> quartern.q[0] >> quartern.q[1] >> quartern.q[2] >> quartern.q[3];
+    return s;
+  }
 
 }

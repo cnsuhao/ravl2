@@ -228,6 +228,12 @@ namespace RavlN {
 
     friend istream & operator>>(istream &s, Quatern3dC & quartern);
     // ouput stream operator
+
+    friend BinOStreamC & operator<<(BinOStreamC &s, const Quatern3dC & quartern);
+    // ouput stream operator
+    
+    friend BinIStreamC & operator>>(BinIStreamC &s, Quatern3dC & quartern);
+    // ouput stream operator
     
   private:
     
@@ -238,10 +244,16 @@ namespace RavlN {
   // -------------------------------------------------------------------------
   
   ostream & operator<<(ostream &s, const Quatern3dC & quartern);
-  //: ouput stream operator
+  //: output stream operator
   
   istream & operator>>(istream &s,Quatern3dC & quartern);
   //: input stream operator
+  
+  BinOStreamC & operator<<(BinOStreamC &s, const Quatern3dC & quartern);
+  //: Binary output stream operator
+  
+  BinIStreamC & operator>>(BinIStreamC &s, Quatern3dC & quartern);
+  //: Binary input stream operator
   
 }
 #endif

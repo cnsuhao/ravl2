@@ -10,6 +10,7 @@
 
 #include "Ravl/RigidTransform3d.hh"
 #include "Ravl/Stream.hh"
+#include "Ravl/BinStream.hh"
 
 namespace RavlN {
 
@@ -103,10 +104,17 @@ namespace RavlN {
     return ins;
   }
   
-  BinOStreamC & operator<<(BinOStreamC & outS, const RigidTransform3dC & rt);
+  BinOStreamC & operator<<(BinOStreamC & outS, const RigidTransform3dC & rt){
+    outS << rt.trans << rt.rot;
+    return outS;
+  }
+
   // output stream operator
   
-  BinIStreamC & operator>>(BinIStreamC & ins, RigidTransform3dC & rt);
+  BinIStreamC & operator>>(BinIStreamC & ins, RigidTransform3dC & rt) {
+    ins >> rt.trans >> rt.rot;
+    return ins;
+  }
   // output stream operator
 
   
