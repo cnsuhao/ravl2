@@ -71,9 +71,9 @@ namespace RavlN {
     // It returns the new values for M02 and M20, 
     // the largest is the first element of the vector.
     
-    static RealT Elongatedness(const Vector2dC &principalAxis) {
-      RealT sumM = principalAxis[0] + principalAxis[1];
-      return (sumM!=0) ? Abs((principalAxis[0] - principalAxis[1]) / sumM) : 0 ;
+    static RealT Elongatedness(const Vector2dC &principalAxisSize) {
+      RealT sumM = principalAxisSize[0] + principalAxisSize[1];
+      return (sumM!=0) ? Abs((principalAxisSize[0] - principalAxisSize[1]) / sumM) : 0 ;
     }
     //: Returns the ratio of the difference and the sum of moments m02 and m20.
     // The value 0 means that objects is a symmetrical object,
@@ -156,6 +156,14 @@ namespace RavlN {
     inline RealT VarY() const 
     { return m02/m00 - Sqr(CentroidY()); }
     //: Returns the variance of the y.
+
+    inline RealT VarRows() const
+    { return m20/m00 - Sqr(CentroidX()); }
+    //: Returns the variance along the row axis.
+    
+    inline RealT VarCols() const 
+    { return m02/m00 - Sqr(CentroidY()); }
+    //: Returns the variance along the column axis
     
     inline RealT SlopeY() const;
     //: Returns the slope dY/dX. The used criterion is Sum(Y-y)^2 -> min.
