@@ -59,6 +59,17 @@ namespace Ravl3DN {
       it->VertexPtr(1) = &(verts[i2]);
       it->VertexPtr(2) = &(verts[i3]);
       it->UpdateFaceNormal();
+#if 0
+      // Give each face a different colour.
+      it->Colour()[0] = i % 255;
+      it->Colour()[1] = (64 - i) % 255;
+      it->Colour()[2] = (128 - i) % 255;
+#else
+      // Make the model grey.
+      it->Colour()[0] = 196;
+      it->Colour()[1] = 196;
+      it->Colour()[2] = 196;      
+#endif
       it++;
     }
     done = true;

@@ -31,6 +31,7 @@ namespace Ravl3DN {
     for(SArray1dIterC<TriC> it(ts.Faces());it;it++) {
       s << (it->VertexPtr(0) - x)  << (it->VertexPtr(1) - x) << (it->VertexPtr(2) - x);
       s << it->TextureCoords();
+      s << it->Colour();
     }
     return s;
   }
@@ -48,6 +49,7 @@ namespace Ravl3DN {
       it->VertexPtr(2) = &(vecs[i3]);
       it->UpdateFaceNormal();
       s >> it->TextureCoords();
+      s >> it->Colour();
     }
     return s;
   }

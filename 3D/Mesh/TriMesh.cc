@@ -36,6 +36,7 @@ namespace Ravl3DN {
       for(int i = 0;i < 3;i++)
 	it.Data1().VertexPtr(i) = &(nverts[Index(it.Data2(),i)]);
       it.Data1().TextureCoords() = it.Data2().TextureCoords();
+      it.Data1().Colour() = it.Data2().Colour();
       it.Data1().FaceNormal() = it.Data2().FaceNormal();
     }
     return *new TriMeshBodyC(nverts,ntris);
@@ -121,8 +122,10 @@ namespace Ravl3DN {
     s << ts.Vertices() << '\n'; 
     s << ts.Faces().Size() << ' '; 
     const VertexC *x = &(ts.Vertices()[0]);
-    for(SArray1dIterC<TriC> it(ts.Faces());it;it++)
-      s << (it->VertexPtr(0) - x) << ' ' << (it->VertexPtr(1) - x) << ' ' << (it->VertexPtr(2) - x) << '\n';
+    for(SArray1dIterC<TriC> it(ts.Faces());it;it++) {
+      s << (it->VertexPtr(0) - x) << ' ' << (it->VertexPtr(1) - x) << ' ' << (it->VertexPtr(2) - x) << ' ';
+      s << it->TextureCoords() << ' ' << it->Colour() << '\n';
+    }
     return s;
   }
   
@@ -134,6 +137,7 @@ namespace Ravl3DN {
     SArray1dC<TriC> faces(nfaces);
     for(SArray1dIterC<TriC> it(faces);it;it++) {
       s >> i1 >> i2 >> i3;
+      s >> it->TextureCoords() >>  it->Colour();
       it->VertexPtr(0) = &(verts[i1]);
       it->VertexPtr(1) = &(verts[i2]);
       it->VertexPtr(2) = &(verts[i3]);
