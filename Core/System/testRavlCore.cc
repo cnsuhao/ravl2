@@ -33,6 +33,7 @@
 #include "Ravl/StrStream.hh"
 #include "Ravl/BinStream.hh"
 #include "Ravl/Random.hh"
+#include "Ravl/IndexRange2dSet.hh"
 
 #include <string.h>
 
@@ -60,6 +61,7 @@ int testFunctionRegister();
 int testCache();
 int testStringArrayIO();
 int testSArrayIO();
+int testIndexRange2dSet();
 
 int testRavlCore(int argc,char **argv) {
   int line = 0;
@@ -102,9 +104,12 @@ int testRavlCore(int argc,char **argv) {
   if((line = testStringArrayIO()) != 0) {
     cerr << "String array io test failed line :" << line << "\n";
     return 1;
-  }
-  
+  }  
   if((line = testSArrayIO()) != 0) {
+    cerr << "SArrayIO io test failed line :" << line << "\n";
+    return 1;
+  }
+  if((line = testIndexRange2dSet()) != 0) {
     cerr << "SArrayIO io test failed line :" << line << "\n";
     return 1;
   }
@@ -378,6 +383,45 @@ int testSArrayIO() {
       return __LINE__;
     for(i = 0;i < values.Size();i++)
       if(Abs(newValues[i] - values[i]) > 0.000000001) return __LINE__;
+  }
+  return 0;
+}
+
+
+int testIndexRange2dSet() {
+  cout << "Testing IndexRange2dSetC. \n";
+  IndexRange2dC rect1(0,1,0,1);
+  IndexRange2dC rect2(1,2,1,2);
+  //cout << "R1:" << rect1 << " Area:" << rect1.Area() << "\n";
+  //cout << "R2:" << rect2 << " Area:" << rect2.Area() << "\n";
+  
+  IndexRange2dSetC t1 = IndexRange2dSetC::Subtract(rect1,rect2);
+  if(t1.Area() != 3) {
+    cerr << "Failed test 1. " << t1.Area() << " Elems:" << t1.Size() << "\n";
+    cerr << t1 << "\n";
+    return __LINE__;
+  }
+
+  IndexRange2dSetC t2 = IndexRange2dSetC::Subtract(rect2,rect1);
+  if(t2.Area() != 3) {
+    cerr << "Failed test 2. \n";
+    return __LINE__;
+  }
+
+  IndexRange2dC rect3(0,1,2,3);
+  
+  IndexRange2dSetC t3 = IndexRange2dSetC::Subtract(rect2,rect3);
+  if(t3.Area() != 3) {
+    cerr << "Failed test 3. " << t3.Area() << " Elems:" << t3.Size() << "\n";
+    cerr << t3 << "\n";
+    return __LINE__;
+  }
+  
+  IndexRange2dSetC t4 = IndexRange2dSetC::Subtract(rect3,rect2);
+  if(t4.Area() != 3) {
+    cerr << "Failed test 4. " << t4.Area() << " Elems:" << t4.Size() << "\n";
+    cerr << t4 << "\n";
+    return __LINE__;
   }
   return 0;
 }
