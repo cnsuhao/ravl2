@@ -68,18 +68,15 @@ namespace RavlImageN {
     ImageC<ByteRGBValueC> image;
   
   };
-
-
-
-
-//! userlevel=Normal
-//: Audio-Video frame.
-//: ----------------------------------------------------------------------------------------------------------------------------------------------------------
-class AVFrameC : public RCHandleC<AVFrameBodyC> 
-{
+  
+  //! userlevel=Normal
+  //: Audio-Video frame.
+  //: ----------------------------------------------------------------------------------------------------------------------------------------------------------
+  class AVFrameC : public RCHandleC<AVFrameBodyC> 
+  {
   public : 
 
-     inline AVFrameC(){}
+    inline AVFrameC(){}
     //: Default constructor - creates an invalid handle 
 
     inline AVFrameC(const AudioFrameC &audioData,ImageC<ByteRGBValueC> &img)
@@ -95,11 +92,11 @@ class AVFrameC : public RCHandleC<AVFrameBodyC>
     //: Constructor from binary stream 
 
     inline bool Save (ostream & s ) const 
-      { return Body().Save(s) ; }  
+    { return Body().Save(s) ; }  
     //: Save to stream 
     
     inline bool Save (BinOStreamC & s ) const 
-      { return Body().Save(s) ; } 
+    { return Body().Save(s) ; } 
     //: Save to binary stream 
     
     inline AudioFrameC &Audio()
@@ -118,39 +115,24 @@ class AVFrameC : public RCHandleC<AVFrameBodyC>
     { return Body().Image() ; }
     //: Image. 
 
-};
-
-
-
-
+  };
+  
   inline BinIStreamC & operator >> ( BinIStreamC & s , AVFrameC & av ) 
-{ av  = AVFrameC(s) ; return s ; } 
+  { av  = AVFrameC(s) ; return s ; } 
   // Load from binary stream 
 
-inline BinOStreamC & operator << ( BinOStreamC & s, const AVFrameC & av ) 
-{ av.Save(s)  ; return s ; } 
-//: Save to binary stream 
+  inline BinOStreamC & operator << ( BinOStreamC & s, const AVFrameC & av ) 
+  { av.Save(s)  ; return s ; } 
+  //: Save to binary stream 
 
-inline istream & operator >> ( istream & s , AVFrameC & av ) 
-{ av = AVFrameC(s)  ; return s ; }
-//:  Load from stream 
+  inline istream & operator >> ( istream & s , AVFrameC & av ) 
+  { av = AVFrameC(s)  ; return s ; }
+  //:  Load from stream 
 
-inline ostream & operator << ( ostream & s, const AVFrameC & av ) 
-{  av.Save(s)  ; return s ; } 
+  inline ostream & operator << ( ostream & s, const AVFrameC & av ) 
+  {  av.Save(s)  ; return s ; } 
   //: Save to stream 
-
-
-
+  
 };
-
-
-
-
-
-
-
-
-
-
 
 #endif

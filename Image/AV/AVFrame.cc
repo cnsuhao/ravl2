@@ -9,6 +9,8 @@
 //! file="Ravl/Image/AV/AVFrame.cc"
 
 #include "Ravl/AVFrame.hh"
+#include "Ravl/TypeName.hh"
+
 namespace RavlImageN {
 
   //: Constructor
@@ -21,23 +23,25 @@ namespace RavlImageN {
    //: Constructor from binary stream 
   //: -----------------------------------------------------------------------------------------------------------------------
   AVFrameBodyC::AVFrameBodyC(BinIStreamC & s) 
-{  s >> audio >> image ; }
+  {  s >> audio >> image ; }
   
   //: Constructor from stream 
   //: -----------------------------------------------------------------------------------------------------------------------
   AVFrameBodyC::AVFrameBodyC(istream & s) 
-{ s >> audio >> image ; }
+  { s >> audio >> image ; }
 
 
   //: Save to binary stream 
   //: -----------------------------------------------------------------------------------------------------------------------
   bool AVFrameBodyC::Save ( BinOStreamC  & s) const 
-{ s << audio << image ; return true ; }
+  { s << audio << image ; return true ; }
 
   //: Save to stream 
   //: -----------------------------------------------------------------------------------------------------------------------
   bool AVFrameBodyC::Save ( ostream & s ) const 
-{ s << audio << image ; return true ; } 
-
+  { s << audio << image ; return true ; } 
+  
+  
+  static TypeNameC type0(typeid(RavlImageN::AVFrameC),"RavlImageN::AVFrameC");
 
 }
