@@ -93,6 +93,16 @@ namespace RavlGUIN {
     //: Translate a configure event.
     // 'rect' is the new size for the widget.
     
+    IntT SizeX() {
+      return sx;
+    }
+    //: Get the x-dimension size.
+
+    IntT SizeY() {
+      return sy;
+    }
+    //: Get the y-dimension size.
+
   protected:  
     virtual bool Create();
     //: Create the widget.
@@ -214,6 +224,16 @@ namespace RavlGUIN {
     //: Translate a configure event.
     // 'rect' is the new size for the widget.
     
+    IntT SizeX() {
+      return Body().SizeX();
+    }
+    //: Get the x-dimension size.
+
+    IntT SizeY() {
+      return Body().SizeY();
+    }
+    //: Get the y-dimension size.
+
   };
   
 }
