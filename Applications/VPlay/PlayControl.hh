@@ -98,7 +98,7 @@ namespace RavlGUIN {
     
   protected:
     virtual void Destroy();
-    //: Undo all refrences.
+    //: Undo all references.
     
     void InitGUI();
     //: Setup gui.

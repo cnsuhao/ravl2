@@ -212,7 +212,7 @@ namespace RavlGUIN {
     return pcs.Del(strm);
   }
   
-  //: Undo all refrences.
+  //: Undo all references.
   
   void PlayControlBodyC::Destroy() {
     if(sliderUpdate.IsValid())
