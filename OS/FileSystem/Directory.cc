@@ -25,6 +25,8 @@
 #include "Ravl/DLIter.hh"
 #include "Ravl/HSet.hh"
 
+#include <stdlib.h>
+
 #ifdef WIN32
 #include <windows.h>
 #else
