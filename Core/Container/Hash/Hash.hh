@@ -306,6 +306,12 @@ namespace RavlN {
     //!param: oth - Table to copy elements from.
     //!param: replace - If true replace elements with conflicting keys with entries from the 'oth' table, if false keep ones in this table.
     
+    bool NormaliseKey(K &value) const;
+    //: Normalise an equivelent key to one used the the table.
+    // This function is useful when you want to normalise the use
+    // of equivlent keys (think strings.) to save memory.
+    // Returns true if key exists in the table, false otherwise.
+    
     typedef HashElemC<K,T> HashElem;
     typedef IntrDListC<HashElemC<K,T> > HashElemLst;
     typedef IntrDLIterC<HashElemC<K,T> > HashElemIter; // Used in Del.
@@ -883,6 +889,15 @@ namespace RavlN {
     }
     elements--; // Check add will increment back to proper value.
     CheckAdd();
+  }
+  
+  template<class K,class T>
+  bool HashC<K,T>::NormaliseKey(K &value) const {
+    UIntT hashVal;
+    HashElemC<K,T> *elem = LookupHV(value,hashVal);
+    if(elem == 0) return false;
+    value = elem->GetKey();
+    return true;
   }
   
 }

@@ -155,6 +155,13 @@ namespace RavlN {
     // leave other empty.  if replace is false the contents of the 
     // old table are not replace by the new entries. 
     
+    bool NormaliseKey(Key &value) const
+    { return this->Data().NormaliseKey(value); }
+    //: Normalise an equivelent key to one used the the table.
+    // This function is useful when you want to normalise the use
+    // of equivlent keys (think strings.) to save memory.
+    // Returns true if key exists in the table, false otherwise.
+    
   };
 
 }

@@ -146,6 +146,13 @@ namespace RavlN {
     //: Add contents of another set into this one.
     // leave other empty. 
     
+    bool Normalise(T &value) const
+    { return set.NormaliseKey(value); }
+    //: Normalise an equivelent value to one used the .
+    // This function is useful when you want to normalise the use
+    // of equivlent values (think strings.) to save memory.
+    // Returns true if key exists in the set, false otherwise.
+
     // More comming soon.... (Or on request. )
     
     

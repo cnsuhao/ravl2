@@ -68,6 +68,9 @@ int Hashtest() {
   int n = 0;
   {
     HashC<int,int> Fwd;
+    IntT t = 0;
+    if(Fwd.NormaliseKey(t)) return __LINE__;
+    
     HashC<int,int> Bkw;
     if(!Fwd.IsEmpty()) return __LINE__;
     int Start = -1,Total = 0;
