@@ -227,6 +227,9 @@ namespace RavlGUIN {
   // Call only ONCE.
   
   void ManagerC::Execute() {
+#if  RAVL_USE_GTKTHREADS && RAVL_OS_WIN32
+    RavlAssertMsg(0,"ManagerC::Execute(), Not supported for windows, use ManagerC::Start() ");
+#endif
     if(managerStarted) {
       cerr << "ManagerC::Execute(), WARNING: Manager already started. \n";
       return ;
