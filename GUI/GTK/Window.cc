@@ -162,6 +162,15 @@ namespace RavlGUIN {
     return true;
   }
   
+  void WindowBodyC::SetPositioning(GtkWindowPosition& pos) {
+    Manager.Queue(Trigger(WindowC(*this),&WindowC::GUISetPositioning,pos));
+  }
+  
+  bool WindowBodyC::GUISetPositioning(GtkWindowPosition& pos) {
+    if (widget!=0)
+      gtk_window_set_position(GTK_WINDOW(widget),pos);
+    return true;
+  }
   
   //////////////////////////////////////////////
   //: Constructor.

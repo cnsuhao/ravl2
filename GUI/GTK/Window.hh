@@ -17,6 +17,8 @@
 #include "Ravl/GUI/OneChild.hh"
 #include "Ravl/GUI/Cursor.hh"
 
+#include <gtk/gtkenums.h>
+
 namespace RavlGUIN {
   
   class CursorC;
@@ -31,6 +33,7 @@ namespace RavlGUIN {
   public:
     WindowBodyC(int sx = 1,int sy = 1,const char *title = 0,GtkWindowType winType = GTK_WINDOW_TOPLEVEL,int nboarder = 0,bool rootWin = true);
     //: Constructor.
+    // Values for winType are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKWINDOWTYPE">here</A>.
     
     ~WindowBodyC();
     //: Destructor.
@@ -49,6 +52,10 @@ namespace RavlGUIN {
     void SetTitle(const StringC &str);
     //: Set the title of the window.
   
+    void SetPositioning(GtkWindowPosition& pos);
+    //: Influences positioning of the window.
+    // Values for pos are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKWINDOWPOSITION">here</A>.
+
   protected:
     virtual void Destroy();
     //: Undo all references.
@@ -58,6 +65,10 @@ namespace RavlGUIN {
     // The function is called by the root window in its
     // destructor.
     
+    bool GUISetPositioning(GtkWindowPosition& pos);
+    //: Influences positioning of the window.
+    // Values for pos are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKWINDOWPOSITION">here</A>.
+
     bool GUISetTitle(StringC &str);
     //: Set the title of the window.
     
@@ -96,6 +107,7 @@ namespace RavlGUIN {
     
     WindowC(int sx,int sy = 1,const char *ntitle = 0,GtkWindowType winType = GTK_WINDOW_TOPLEVEL,int nboarder = 0,bool rootWin = true);
     //: Constructor.
+    // Values for winType are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKWINDOWTYPE">here</A>.
     
   protected:
     WindowC(WindowBodyC &bod)
@@ -124,6 +136,11 @@ namespace RavlGUIN {
       { return Body().GUIUpdateCursor(newCursor); }
     //: Update cursor.
     
+    bool GUISetPositioning(GtkWindowPosition& pos)
+    { return Body().GUISetPositioning(pos); }
+    //: Influences positioning of the window.
+    // Values for pos are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKWINDOWPOSITION">here</A>.
+
   public:
     void Destroy() { 
       WidgetC::Destroy(); 
@@ -135,6 +152,11 @@ namespace RavlGUIN {
     { Body().SetTitle(str); }
     //: Set the title of the window.
     
+    void SetPositioning(GtkWindowPosition& pos)
+    { Body().SetPositioning(pos); }
+    //: Influences positioning of the window.
+    // Values for pos are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKWINDOWPOSITION">here</A>.
+
     bool Close()
     { return Body().Close(); }
     //: Close window.
