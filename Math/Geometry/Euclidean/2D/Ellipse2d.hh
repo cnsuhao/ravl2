@@ -12,10 +12,12 @@
 //! lib=RavlMath
 
 #include "Ravl/Point2d.hh"
+#include "Ravl/Vector2d.hh"
 #include "Ravl/Affine2d.hh"
 #include "Ravl/Math.hh"
 
 namespace RavlN {
+  class Conic2dC;
   
   //! userlevel=Normal
   //: Ellipse .
@@ -25,15 +27,30 @@ namespace RavlN {
     Ellipse2dC()
     {}
     //: Default constructor.
+    // The paramiters of the ellipse are left undefined.
     
     Ellipse2dC(const Affine2dC &np)
       : p(p)
     {}
     //: Construct from affine transform from unit circle centered on the origin
     //!param: np - Transform from unit circle centered on the origin
+
+    Ellipse2dC(const Matrix2dC &sr,const Vector2dC &off)
+      : p(sr,off)
+    {}
+    //: Construct from affine transform from unit circle centered on the origin
+    //!param: sr - scale rotation matrix.
+    //!param: off - offset from origin
     
-    Point2dC Point(RealT angle)
-    { return p * Point2dC(Sin(angle),Cos(angle)); }
+    Ellipse2dC(const Point2dC &centre,RealT major,RealT minor,RealT angle);
+    //: Create an new ellipse
+    //!param: centre - Centre of ellipse.
+    //!param: major - Size of major axis. (at given angle)
+    //!param: minor - Size of minor axis.
+    //!param: angle - Angle of major axis.
+    
+    Point2dC Point(RealT angle) const
+    { return p * Angle2Vector2d(angle); }
     //: Compute point on ellipse.
     
     const Affine2dC &Projection() const
@@ -44,9 +61,16 @@ namespace RavlN {
     { return p.Translation(); }
     //: Centre of the ellipse.
     
+    bool IsOnCurve(const Point2dC &pnt) const;
+    //: Is point on the curve ?
   protected:    
     Affine2dC p; // Projection from unit circle.
   };
+  
+  bool FitEllipse(const SArray1dC<Point2dC> &points,Ellipse2dC &ellipse);
+  //: Fit ellipse to points.
+  // Based on method presented in 'Numerically Stable Direct Least Squares Fitting of Ellipses' 
+  // by Radim Halir and Jan Flusser.
   
   ostream &operator<<(ostream &s,const Ellipse2dC &obj);
   //: Write ellipse to text stream.

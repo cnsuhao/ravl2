@@ -17,7 +17,10 @@
 
 namespace RavlN {
   class Matrix3dC;
+  class Vector2dC;
+  class Matrix2dC;
   class LineABC2dC;
+  class Ellipse2dC;
   
   //! userlevel=Normal
   //: Conic in 2d space.
@@ -35,6 +38,14 @@ namespace RavlN {
     {}
     //: Construct from parameter vector.
     //!param: params - Parameters, entry 0 = a, 1 = b, 2 = c, 3 = d, 4 = e, 5 = f 
+
+    Conic2dC(RealT a,RealT b,RealT c,RealT d,RealT e,RealT f)
+    { p[0] = a; p[1] = b; p[2] = c; p[3] = d; p[4] = e; p[5] = f;  }
+    //: Construct from parameters
+    
+    Conic2dC(Matrix3dC &matrix);
+    //: Construct from matrix.
+    //!param: matrix - 3 x 3 symetric matrix.
     
     bool IsOnCurve(const Point2dC &pnt) const
     { return IsSmall(Residue(pnt)); }
@@ -64,12 +75,37 @@ namespace RavlN {
     //: Access parameter vector.
     // 0-a 1-b 2-c 3-d 4-e 5-f 
     
+    bool AsEllipse(Ellipse2dC &ellipse) const;
+    //: Represent conic as an ellipse.
+    //!param: ellipse - Ellipse into which representation is written.
+    //!return: true if conversion is possible.
+    // Returns false if conic is a hyperbola or is
+    // otherwise degenerate.
+    
+    bool EllipseParameters(Point2dC &centre,RealT &major,RealT &minor,RealT &angle) const;
+    //: Compute various ellipse parameters.
+    //!param: centre - Centre of ellipse.
+    //!param: major - Size of major axis.
+    //!param: minor - Size of minor axis
+    //!param: angle - Angle of major axis.
+    
   protected:
+    bool ComputeEllipse(Point2dC &centre,Matrix2dC &mat) const;
+    //: Compute ellipse parameters.
+    
     TFVectorC<RealT,6> p; // 0-a 1-b 2-c 3-d 4-e 5-f 
   };
   
   Conic2dC FitConic(const SArray1dC<Point2dC> &points);
   //: Fit a conic to a set of points.
+  
+  Conic2dC FitConic(const Array1dC<Point2dC> &points);
+  //: Fit a conic to a set of points.
+  
+  bool FitEllipse(const SArray1dC<Point2dC> &points,Conic2dC &conic);
+  //: Fit ellipse
+  // Based on method presented in 'Numerically Stable Direct Least Squares Fitting of Ellipses' 
+  // by Radim Halir and Jan Flusser.
   
   ostream &operator<<(ostream &s,const Conic2dC &obj);
   //: Write ellipse to text stream.
