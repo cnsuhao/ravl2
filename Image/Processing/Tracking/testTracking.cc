@@ -1,9 +1,15 @@
-
+#include "Ravl/config.h"
 #include "Ravl/Image/MatchNormalisedCorrelation.hh"
 #include "Ravl/Image/GaussConvolve.hh"
 #include "Ravl/Random.hh"
 
 using namespace RavlImageN;
+
+#if RAVL_COMPILER_MIPSPRO
+#include "Ravl/Image/Edgel.hh"
+static SArray1dC<EdgelC> sgi_bug_fix1 ;
+#endif 
+
 
 int testNormalisedCorrelation();
 
