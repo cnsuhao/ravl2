@@ -72,6 +72,12 @@ namespace RavlN {
   { return (UIntT) (dat >> 3) ^ dat; }
   //: Hash unsigned char.
   
+// Disable "possible loss of data" warning
+#if RAVL_COMPILER_VISUALCPP
+#pragma warning ( push )
+#pragma warning ( disable : 4244 )
+#endif
+
   inline UIntT StdHash(const Int64T dat) 
   { return (UIntT) (dat >> 17) ^ (dat >> 32) ^ dat; }
   //: Hash 64 bit int.
@@ -80,6 +86,9 @@ namespace RavlN {
   { return (UIntT) (dat >> 17) ^ (dat >> 32) ^ dat; }
   //: Hash unsigned 64 bit int.
   
+#if RAVL_COMPILER_VISUALCPP
+#pragma warning ( pop )
+#endif
 
 }
 

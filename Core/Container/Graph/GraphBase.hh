@@ -91,14 +91,25 @@ namespace RavlN {
     : public DLinkC
   {
   public:
-    inline 
+
+// Disable "this used in member initialiser" warning
+#if RAVL_COMPILER_VISUALCPP
+#pragma warning ( push )
+#pragma warning ( disable : 4355 )
+#endif	  
+
+	inline 
     GraphEdgeBaseBodyC(GraphNodeBaseBodyC & sourceNode, GraphNodeBaseBodyC & targetNode,UIntT nId)
       : source(GraphAdjRepC(targetNode, *this)),
         target(GraphAdjRepC(sourceNode, *this)),
         id(nId)
       {}
     // Creates the edge between two nodes 'sourceNode' and 'targetNode'.
-    
+
+#if RAVL_COMPILER_VISUALCPP
+#pragma warning ( pop )
+#endif	  
+
     virtual ~GraphEdgeBaseBodyC()
       {}
     //: Destructor.
