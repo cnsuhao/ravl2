@@ -121,7 +121,7 @@ namespace RavlImageN {
     //!param: compMethod - valid comparison operator for pixel type "DataTypeT"
     
     ConnectedComponentsC (const CompareT &compMethod,const DataTypeT &ignoreValue)
-      : RCHandleC<ConnectedComponentsBodyC<DataTypeT> >(*new ConnectedComponentsBodyC<DataTypeT>(10000,compMethod,zeroValue))
+      : RCHandleC<ConnectedComponentsBodyC<DataTypeT> >(*new ConnectedComponentsBodyC<DataTypeT>(10000,compMethod,ignoreValue))
     {}
     //: Constructor used to ignore pixels of given value
     //!param: compMethod - valid comparison operator for pixel type "DataTypeT"
