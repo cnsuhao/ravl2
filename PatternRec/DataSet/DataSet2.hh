@@ -147,7 +147,7 @@ namespace RavlN {
     RavlAssert(proportion >= 0 && proportion <= 1);
     UIntT size = Size();
     UIntT entries = (UIntT) (proportion * (RealT) size);
-    DataSet2C<Sample1T,Sample2T> ret;
+    DataSet2C<Sample1T,Sample2T> ret(size);
     for(;entries > 0;entries--) {
       UIntT entry = RandomInt() % size;
       ret.Append(samp1.PickElement(entry),samp2.PickElement(entry));

@@ -8,7 +8,6 @@
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/DataSet/testDataSet.cc"
 
-
 #include "Ravl/PatternRec/DataSet1.hh"
 #include "Ravl/PatternRec/DataSet2.hh"
 #include "Ravl/PatternRec/DataSet3.hh"

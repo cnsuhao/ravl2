@@ -20,7 +20,7 @@ namespace RavlN {
   class DataSetBaseC;
   
   //! userlevel=Develop
-  //: Data set 
+  //: Data set base class.
   
   class DataSetBaseBodyC 
     : public RCBodyVC
@@ -46,12 +46,11 @@ namespace RavlN {
     
   };
   
-  
   //! userlevel=Normal
   //: Data set base class
   
   class DataSetBaseC
-    : public RCHandleC<DataSetBaseBodyC >
+    : public RCHandleC<DataSetBaseBodyC>
   {
   public:
     DataSetBaseC()
@@ -61,21 +60,22 @@ namespace RavlN {
   protected:    
     DataSetBaseC(DataSetBaseBodyC &bod)
       : RCHandleC<DataSetBaseBodyC >(bod)
-      { }
+    { }
     //: Body constructor.
     
     DataSetBaseBodyC &Body()
-      { return RCHandleC<DataSetBaseBodyC>::Body(); }
+    { return RCHandleC<DataSetBaseBodyC>::Body(); }
     //: Access body.
 
     const DataSetBaseBodyC &Body() const
-      { return RCHandleC<DataSetBaseBodyC>::Body(); }
+    { return RCHandleC<DataSetBaseBodyC>::Body(); }
     //: Access body.
     
   public:
     void Shuffle()
     { return Body().Shuffle(); }
     //: Shuffle the order of the dataset.
+    // This is an in place operation.
     
     friend class DataSetBaseBodyC;
   };
