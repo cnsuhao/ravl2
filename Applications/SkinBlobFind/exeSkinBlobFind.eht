@@ -1,0 +1,15 @@
+! author="Joel Mitchelson"
+! docentry="Ravl.Applications.SkinBlobFind"
+
+: Locate skin colour regions in an image sequence
+
+Skin blobs are located in normalised rgb colour space. Requires an example image of skin colour.  The algorithm makes the (incorrect) assumption of independence of normalised rgb components, but gives reasonable results.  Only the <i>N</i> largest connected skin-coloured blobs are located.  For each frame in a video sequence, output is of the form:
+<br>
+<br>
+<i>r0</i> <i>c0</i> <i>a0</i><br>
+.<br>
+.<br>
+.<br>
+<i>rN</i> <i>cN</i> <i>aN</i><br>
+<br>
+where (<i>ri</i>, <i>ci</i>) is the image co-ordinate of the centre of the <i>i</i>th largest blob, and <i>ai</i> is its area in pixels.

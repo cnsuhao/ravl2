@@ -9,6 +9,6 @@
 
 DESCRIPTION=RAVL Applications.
 
-NESTED= FileConverter.r VPlay.r
+NESTED= FileConverter.r VPlay.r SkinBlobFind.r
 
 EHT=Ravl.Applications.html
