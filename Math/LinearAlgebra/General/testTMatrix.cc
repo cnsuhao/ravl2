@@ -8,9 +8,8 @@
 //! lib=RavlMath
 //! file="Ravl/Math/LinearAlgebra/General/testTMatrix.cc"
 
-// $Id$
-
 #include "Ravl/TMatrix.hh"
+#include "Ravl/Vector.hh"
 
 using namespace RavlN;
 
@@ -82,18 +81,35 @@ int Validate()
   // Test 2.
   testR = (t1.T().TMul(t2));
   error = TMatrixC<RealT>(testR - result).SumOfAbs();
-  cerr << "TTMul:" << error << "\n";
+  cerr << "TMul:" << error << "\n";
   if(error > 0.000000001)
     return __LINE__;
   
   // Test 3.
   testR = (t1.MulT(t2.T()));
   error = TMatrixC<RealT>(testR - result).SumOfAbs();
-  cerr << "MulTT:" << error << "\n";
+  cerr << "MulT:" << error << "\n";
   if(error > 0.000000001)
     return __LINE__;
 #endif
+  cerr << "Mul(TVectorC)\n";
+  TVectorC<RealT> mv1(2);
+  mv1[0] = 1; mv1[1] = 2;
+  TVectorC<RealT> res = t1 * mv1;
+  TVectorC<RealT> vgt(2);
+  vgt[0] = 5; vgt[1] = 11;
+  //cerr << "Res=" << res << "\n";
+  if(VectorC(res - vgt).SumOfAbs() > 0.00001)
+    return __LINE__;
 
+  cerr << "TMul(TVectorC)\n";
+  mv1[0] = 1; mv1[1] = 2;
+  res = t1.TMul(mv1);
+  vgt[0] = 7; vgt[1] = 10;
+  //cerr << "Res=" << res << "\n";
+  if(VectorC(res - vgt).SumOfAbs() > 0.00001)
+    return __LINE__;
+  
   TVectorC<RealT> v1(3);
   v1[0] = 1; v1[1] = 2; v1[2] = 3;
   TVectorC<RealT> v2(3);
