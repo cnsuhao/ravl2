@@ -9,6 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlAudioUtil
 //! author="Charles Galambos"
+//! docentry="Ravl.Audio.Audio IO"
 //! userlevel=Normal
 //! date="13/07/2003"
 
