@@ -60,6 +60,8 @@ namespace RavlImageN
 
     DPIMultiVidBodyC(const StringC &fnBase, const StringC& fnFormat) 
     {
+      // cerr << "DPIMultiVidBodyC::DPIMultiVidBodyC(...)" << endl;
+
       // list of names of sequences for each view
       DListC<StringC> view_list;
 
@@ -73,21 +75,20 @@ namespace RavlImageN
 			 iview,
 			 (const char*)fnFormat);
 
-	StringC strFirstFile(fnFirstFile.String());
-
 	// check it exists
-	if (access(strFirstFile, R_OK) != 0)
+	if (access(fnFirstFile.String(), R_OK) != 0)
 	  break;
 
 	// filename of sequence
 	StrOStreamC fnSequence;
 	fnSequence.form("%s.%d.%s.%s", 
 			(const char*)fnBase,
+			iview,
 			"%05d",
 			(const char*)fnFormat);
 
 	// add to list
-	view_list += strFirstFile;
+	view_list += fnSequence.String();
       }
 
       // load files
@@ -118,6 +119,8 @@ namespace RavlImageN
 
     bool LoadFileList(const DListC<StringC>& view_list) 
     {
+      cerr << "DPIMultiVidBodyC::LoadFileList(...)" << endl;
+      
       // empty stream
       frame = 0;
       numviews = 0;
