@@ -40,6 +40,9 @@ namespace RavlGUIN {
     virtual bool Create();
     //: Create the widget.
     
+    virtual bool Create(GtkWidget *widget);
+    //: Create with a widget supplied from elsewhere.
+    
     virtual bool Entry(const StringC &text);
     //: Some new text has been entered.
     

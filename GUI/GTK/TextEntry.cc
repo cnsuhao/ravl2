@@ -87,6 +87,25 @@ namespace RavlGUIN {
     return true;
   }
   
+
+
+  bool TextEntryBodyC::Create(GtkWidget *newWidget) {
+    widget = newWidget;
+    gtk_signal_connect(GTK_OBJECT(widget), "activate",
+		       GTK_SIGNAL_FUNC(enter_callback),
+		       this);
+    changed = Signal("changed");
+    RavlAssert(changed.IsValid());
+    ConnectSignals();
+    ConnectRef(changed,*this,&TextEntryBodyC::SigChanged);
+    ConnectRef(Signal("activate"),*this,&TextEntryBodyC::SigActivate);
+
+    // Set password mode if necessary
+    if (bPasswdMode) GUIHideText(bPasswdMode);
+    // Done
+    return true;
+  }
+  
   //: Access text
   
   StringC TextEntryBodyC::Text() {
