@@ -213,7 +213,7 @@ int testSparse() {
   if((ln = MatrixTest(sm1,sm2)) != 0) {
     cerr<< "MatrixTest() failed on line " << ln << "\n";
     return __LINE__;
-  }  
+  }
   
   return 0;
 }

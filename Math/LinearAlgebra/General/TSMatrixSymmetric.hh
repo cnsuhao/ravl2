@@ -15,6 +15,7 @@
 
 #include "Ravl/TSMatrixFull.hh"
 #include "Ravl/TSMatrixRightUpper.hh"
+#include "Ravl/TSMatrixLeftLower.hh"
 
 namespace RavlN {
   //! userlevel=Develop
