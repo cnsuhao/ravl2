@@ -53,13 +53,12 @@ namespace RavlImageN {
     
     //LIST OF CHECKS to be placed here.   
     //checks the file extension  
-    if (suffix != vName) 
-      {
-	cerr << "ERROR: not an AVI file\n";
-	return typeid(void);
-      }
+    if (suffix != vName) {
+      //ONDEBUG(cerr << "ERROR: not an AVI file\n");
+      return typeid(void);
+    }
     //checks whether the video stream exists
-
+    
     in.Seek((streampos)108);
     char token[4];
     in.read(token,4);
