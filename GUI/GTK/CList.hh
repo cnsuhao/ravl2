@@ -279,6 +279,8 @@ namespace RavlGUIN {
     // It contains the Row ID of the most recently-changed row
     
     DListC<TriggerC> toDo; // List of things to do as soon as we're initalised.
+
+    int m_iHeight; // row height
     
     friend class CListC;
   };

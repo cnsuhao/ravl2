@@ -45,7 +45,8 @@ namespace RavlGUIN {
   CListBodyC::CListBodyC(const DListC<StringC> &ntitles,GtkSelectionMode nselMode)
     : selMode(nselMode),
       titles(ntitles),
-      selectionChanged(0)
+      selectionChanged(0),
+      m_iHeight(0)
   {
     cols = titles.Size();
     ONDEBUG(cerr << "CListBodyC::CListBodyC(), Cols : " << cols << "\n");
@@ -55,7 +56,8 @@ namespace RavlGUIN {
   
   CListBodyC::CListBodyC(const SArray1dC<StringC> &ntitles,GtkSelectionMode nselMode)
     : selMode(nselMode),
-      selectionChanged(0)
+      selectionChanged(0),
+      m_iHeight(0)
   {
     for (UIntT i(0); i<ntitles.Size(); ++i) titles.InsLast(ntitles[i]);
     cols = titles.Size();
@@ -67,7 +69,8 @@ namespace RavlGUIN {
   
   CListBodyC::CListBodyC(const char *ntitles[],int *colWidths,GtkSelectionMode nselMode)
     : selMode(nselMode),
-      selectionChanged(0)
+      selectionChanged(0),
+      m_iHeight(0)
   {
     int i = 0;
     if(ntitles != 0) {
@@ -178,8 +181,16 @@ namespace RavlGUIN {
 	ONDEBUG(cerr << "CListBodyC::GUIAppendCLine(), Setting pixmap.Row=" << rowNo << " Cell=" << i << "\n");
 	if(!pm.Create())
 	  cerr << "CListBodyC::GUIAppendCLine(), Failed to create pixmap. \n";
-	else
+	else {
 	  gtk_clist_set_pixmap (GTK_CLIST(widget),rowNo,i,pm.Pixmap(),pm.Mask());
+	  int width, height;
+	  if (pm.GUIGetSize(width,height)) {
+	    if (height > m_iHeight) {
+	      m_iHeight = height;
+	      gtk_clist_set_row_height(GTK_CLIST(widget),m_iHeight);	      
+	    }
+	  }    
+	}
       }
     }
     
@@ -549,6 +560,9 @@ namespace RavlGUIN {
       return true;
     }
     gtk_clist_clear(GTK_CLIST(widget));    
+    // Reset row height
+    m_iHeight=0;
+    gtk_clist_set_row_height(GTK_CLIST(widget),0);
     return true;
   }
   
