@@ -20,29 +20,117 @@
 namespace RavlImageN {
   
   //! userlevel=Normal
-  //: Scale an image using bi-Linear Interpolation.
+  //: Scaling modes
+  // WARPSCALE_NEARESTNEIGHBOUR = Fast scaling using a nearest-neighbour algorithm. Performs very badly when scaling down. Don't use this for anything important.<BR>
+  // WARPSCALE_BILINEAR = Bilinear interpolation - slower, but much more accurate.
+  enum ScaleMethodT {
+    WARPSCALE_NEARESTNEIGHBOUR,
+    WARPSCALE_BILINEAR,
+  };
+
+  //:-
+  
+  //! userlevel=Normal
+  //: Scale an image
   
   template <class InT, class OutT = InT>
   class WarpScaleC
   {
   public:
-    WarpScaleC(const ImageRectangleC &ir)
-      : rec(ir)
+    WarpScaleC(const ImageRectangleC &ir, ScaleMethodT meth = WARPSCALE_BILINEAR)
+      : rec(ir),
+	method(meth)
     {}
     //: Constructor.
     // 'ir' is the output rectangle.
+    // 'meth' is the method to use
     
     ImageC<OutT> Apply(const ImageC<InT> &img);
+    //: Rescale input image working rectangle into
+    //: output image rectangle.
+    // The output rectangle and scaling method are specified in the constructor.
+    
+    void SetMethod(ScaleMethodT meth)
+    { method = meth; }
+    //: Set the scaling method
+
+  protected:
+
+    ImageC<OutT> NearestNeighbour(const ImageC<InT> &img);
+    //: Quick-scale input image working rectangle into
+    //: output image rectangle.
+
+    ImageC<OutT> BiLinear(const ImageC<InT> &img);
     //: Interpolate input image working rectangle into
     //: output image rectangle.
-    // The output rectangle is specified in the constructor.
-    
-  protected:
+
     ImageRectangleC rec;    
+
+    ScaleMethodT method;
   };
   
   template <class InT, class OutT>
   ImageC<OutT> WarpScaleC<InT, OutT>::Apply(const ImageC<InT> &im)
+  {
+    switch (method) {
+    case WARPSCALE_NEARESTNEIGHBOUR:
+      return NearestNeighbour(im);
+    case WARPSCALE_BILINEAR:
+    default:
+      return BiLinear(im);
+    }
+  }
+
+  template <class InT, class OutT>
+  ImageC<OutT> WarpScaleC<InT, OutT>::NearestNeighbour(const ImageC<InT> &im)
+  {
+    ImageC<OutT> res(rec);
+    
+    IntT imRows  = im.Rows();
+    IntT imCols  = im.Cols();
+    
+    RealT jOff = im.LCol();
+    RealT j,i = im.TRow();
+    
+    // First check for degenerate cases...
+    
+    if(imRows <= 0 && imCols <= 0) // Empty image.
+      return res; 
+    
+    if(imRows == 1 && imCols == 1) { // Just one pixel.
+      res[res.Rectangle().Origin()] = im[im.Rectangle().Origin()];
+      return res;
+    }
+    
+    // Calculate steps
+    RealT stepC = ((RealT)imCols-1.000001)/(RealT)rec.Cols();
+    RealT stepR = ((RealT)imRows-1.000001)/(RealT)rec.Rows();
+ 
+    // Setup
+    IntT iRow, iCol;
+    // Scale rectangle
+    for(Array2dIterC<OutT> it(res);it.IsElm();) {
+      // Get row index
+      iRow = Round(i);
+      // Setup 
+      j = jOff;
+      // Rescale column
+      do {
+	// Get column index
+	iCol = Round(j);
+	// Copy pixel
+	it.Data() = (OutT)(im[iRow][iCol]);
+	// Step
+	j += stepC; 
+      } while(it.Next()); // True while in same row.
+      // Step
+      i += stepR;      
+    }
+    return res;
+  }
+
+  template <class InT, class OutT>
+  ImageC<OutT> WarpScaleC<InT, OutT>::BiLinear(const ImageC<InT> &im)
   {
     ImageC<OutT> res(rec);
     
@@ -151,3 +239,4 @@ namespace RavlImageN {
   
 }
 #endif
+
