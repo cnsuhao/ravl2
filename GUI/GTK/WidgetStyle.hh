@@ -214,7 +214,9 @@ namespace RavlGUIN {
     bool GUISetFont(StringC& strFontDesc)
     { return Body().GUISetFont(strFontDesc); }
     //: Set a font for the widget to use
-    // strFontDesc is an XLFD string, such as "-*-helvetica-bold-r-normal--*-120-*-*-*-*-iso8859-1".
+    // GTK 2.x: strFontDesc is a Pango font description string, such as "Arial 12".
+    // Pango strings are described <a href="http://developer.gnome.org/doc/API/2.0/pango/pango-Fonts.html#pango-font-description-from-string">here</a><br>
+    // GTK 1.x: strFontDesc is an XLFD string, such as "-*-helvetica-bold-r-normal--*-120-*-*-*-*-iso8859-1".
     // XLFD strings are described <a href="http://developer.gnome.org/doc/API/gdk/gdk-fonts.html">here</a>
 
    friend class WidgetStyleBodyC;

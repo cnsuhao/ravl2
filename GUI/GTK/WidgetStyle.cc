@@ -15,6 +15,9 @@
 #include <gtk/gtk.h>
 #include <gdk/gdktypes.h>
 #include <gdk/gdk.h>
+#if RAVL_USE_GTK2
+#include <pango/pango.h>
+#endif
 
 #define DODEBUG 0
 #if DODEBUG
@@ -173,17 +176,20 @@ namespace RavlGUIN {
   }
 
   bool WidgetStyleBodyC::GUISetFont(StringC& strFontDesc) {
+#if RAVL_USE_GTK2
+    PangoFontDescription *font_desc = pango_font_description_from_string(strFontDesc);
+    if (font_desc)
+      style->font_desc = font_desc;
+#else
     // Load font
     GdkFont* pFont = gdk_font_load(strFontDesc);
     // Use font
     if (pFont) {
-#if RAVL_USE_GTK2
-      gtk_style_set_font(style,pFont);
-#else
       gdk_font_ref(pFont);
       style->font = pFont;
-#endif
     }
+#endif
+
     return true;
   }
 
