@@ -411,13 +411,12 @@ namespace RavlN {
   Array1dC<DataT>::Array1dC(const Slice1dC<DataT> &slice,bool alwaysCopy) { 
     if(!alwaysCopy && slice.Stride() == 1) {
       buff = slice.Buffer();
-      RangeBufferAccessC<DataT>::operator=(RangeBufferAccessC<DataT>(const_cast<DataT *>(&(slice[0])),
-								     IndexRangeC(0,slice.Size())));
+      RangeBufferAccessC<DataT>::operator=(RangeBufferAccessC<DataT>(slice.Range(),
+								     const_cast<DataT *>(&(slice.ReferenceElm()))));
       return ;
     }
     buff = BufferC<DataT>(slice.Size());
-    Attach(buff.BufferAccess(),
-	   IndexRangeC(0,slice.Size()));
+    Attach(buff.BufferAccess(),slice.Range());
     // Copy data.
     DataT *at = buff.ReferenceElm();
     for(Slice1dIterC<DataT> it(slice);it;it++,at++)
