@@ -69,8 +69,9 @@ namespace RavlImageN {
   
   //: Constructor.
   
-  PointTrackerC::PointTrackerC(int cthreshold,int cwidth,int nmthreshold,int nmwidth,int nlifeTime,int nsearchSize)
+  PointTrackerC::PointTrackerC(int nnewFreq, int cthreshold,int cwidth,int nmthreshold,int nmwidth,int nlifeTime,int nsearchSize)
     : idAlloc(1),
+      newFreq(nnewFreq),
       frameCount(1),
       cornerDet(CornerDetectorHarrisC(cthreshold,cwidth)),
       //cornerDet(CornerDetectorSusanC(cthreshold)),
@@ -99,7 +100,7 @@ namespace RavlImageN {
   
   IntT PointTrackerC::Update(const ImageC<ByteT> &img) {
     DListC<CornerC> cl;
-    if(frameCount % 10 == 1)
+    if((frameCount-1) % newFreq == 0)
       cl = cornerDet.Apply(img);
     ONDEBUG(ImageC<ByteT> timg(img.Copy()));
     //ONDEBUG(ImageC<ByteT> timg(img.Frame()); timg.Fill(0));

@@ -23,8 +23,15 @@ using namespace RavlImageN;
 
 #define ZHOMOG 100.0
 
+class PixelAverageC
+{
+  ByteRGBValueC mean;
+  UIntT count;
+};
+
 int main(int nargs,char **argv) {
   OptionC opt(nargs,argv);
+  int newFreq    = opt.Int("nf",10,"Frequency of introducing new features. ");
   int cthreshold = opt.Int("ct",800,"Corner threshold. ");
   int cwidth     = opt.Int("cw",7,"Corner filter width. ");
   int mthreshold = opt.Int("mt",20,"Match threshold. ");
@@ -57,7 +64,7 @@ int main(int nargs,char **argv) {
   }
   
   // Create a tracker.
-  PointTrackerC tracker(cthreshold,cwidth,mthreshold,mwidth,lifeTime,searchSize);
+  PointTrackerC tracker(newFreq,cthreshold,cwidth,mthreshold,mwidth,lifeTime,searchSize);
   
   ImageC<ByteRGBValueC> img, cropped_img;
   RCHashC<UIntT,Point2dC> last;
@@ -104,8 +111,8 @@ int main(int nargs,char **argv) {
   mosaic_rect.BRow() += 2*borderR;
   mosaic_rect.RCol() += 2*borderC;
   
-  ImageC<ByteT> mosaic(mosaic_rect);
-  mosaic.Fill(0);
+  ImageC<ByteRGBValueC> mosaic(mosaic_rect);
+  mosaic.Fill(ByteRGBValueC(0,0,0));
 
   // compute homography mapping first image coordinates to mosaic coordinates
   Matrix3dC Pmosaic(1.0,0.0,-borderR,
@@ -115,9 +122,9 @@ int main(int nargs,char **argv) {
   // projective warp of first image
   Matrix3dC Psm=Psum*Pmosaic;
   Psm = Psm.Inverse();
-  WarpProjectiveC<ByteT,ByteT> pwarp(mosaic_rect,Psm,ZHOMOG,1.0,false);
+  WarpProjectiveC<ByteRGBValueC,ByteRGBValueC> pwarp(mosaic_rect,Psm,ZHOMOG,1.0,false);
   cout << "Width=" << mosaic.Cols() << " Height=" << mosaic.Rows() << endl;
-  pwarp.Apply(grey_img,mosaic);
+  pwarp.Apply(cropped_img,mosaic);
   cout << "Width=" << mosaic.Cols() << " Height=" << mosaic.Rows() << endl;
   Save("@X:Mosaic",mosaic);
 
@@ -161,13 +168,6 @@ int main(int nargs,char **argv) {
       ransac.ProcessSample(8);
     }
 
-    // Draw red boxes around the corners.
-    ByteRGBValueC val(255,0,0);
-    for(DLIterC<PointTrackC> it(corners);it;it++) {
-      IndexRange2dC rect(it->Location(),5,5);
-      DrawFrame(img,val,rect);
-    }
-    
     // carry on optimising solution if Ransac succeeding
     if(ransac.GetSolution().IsValid()) {
       // select observations compatible with solution
@@ -214,12 +214,20 @@ int main(int nargs,char **argv) {
       // projective warp
       Psm=Psum*Pmosaic;
       Psm = Psm.Inverse();
-      WarpProjectiveC<ByteT,ByteT> pwarp(mosaic_rect,Psm,ZHOMOG,1.0,false);
+      WarpProjectiveC<ByteRGBValueC,ByteRGBValueC> pwarp(mosaic_rect,Psm,ZHOMOG,1.0,false);
       cout << "Width=" << mosaic.Cols() << " Height=" << mosaic.Rows() << endl;
-      pwarp.Apply(grey_img,mosaic);
+      pwarp.Apply(cropped_img,mosaic);
       cout << "Width=" << mosaic.Cols() << " Height=" << mosaic.Rows() << endl;
       
       Save("@X:Mosaic",mosaic);
+
+      // Draw red boxes around the corners.
+      ByteRGBValueC val(255,0,0);
+      for(DLIterC<PointTrackC> it(corners);it;it++) {
+	IndexRange2dC rect(it->Location(),5,5);
+	DrawFrame(img,val,rect);
+      }
+    
       // Draw green boxes around the selected corners
       val = ByteRGBValueC(0,255,0);
       for(DLIterC<ObservationC> it(compatible_obs_list);it;it++) {

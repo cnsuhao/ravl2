@@ -28,7 +28,8 @@ namespace RavlImageN {
   
   class PointTrackerC {
   public:
-    PointTrackerC(int cthreshold = 20,
+    PointTrackerC(int newFreq = 10,
+		  int cthreshold = 20,
 		  int mwidth = 9,
 		  int nmthreshold = 10,
 		  int nthreshold = 50,
@@ -57,6 +58,7 @@ namespace RavlImageN {
     
   protected:
     UIntT idAlloc;
+    IntT newFreq; // new features are introduced every newFreq frames
     IntT frameCount;
     CornerDetectorC cornerDet;
     IntT mwidth;
