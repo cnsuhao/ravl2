@@ -106,9 +106,9 @@ namespace RavlN {
   SignalInterConnect0C Signal0BodyC::FindInterConnect(const Signal0C &targ)  {
     if(!targ.IsValid())
       return SignalInterConnect0C();
-    RWLockHoldC hold(access,true); //
+    RWLockHoldC hold(access,RWLOCK_READONLY); // Make access to the output array thread safe.
     SArray1dIterC<SignalConnectorC> it(outputs);
-    hold.Unlock();
+    hold.Unlock(); // Modifications are always made by on a copy of 'outputs', so don't need the lock anymore.
     for(;it;it++) {
       SignalInterConnect0BodyC *inter = dynamic_cast<SignalInterConnect0BodyC *>(&it.Data().Body());
       if(inter == 0)
@@ -117,6 +117,20 @@ namespace RavlN {
 	return SignalInterConnect0C(*inter); // Found !
     }
     return SignalInterConnect0C();
+  }
+
+  //: Access the number of connections to the signal.
+  
+  IntT Signal0BodyC::NumOutputs() const {
+    RWLockHoldC hold(access,RWLOCK_READONLY); 
+    return outputs.Size();
+  }
+  
+  //: Access the number of inputs to the signal.
+  
+  IntT Signal0BodyC::NumInputs() const {
+    RWLockHoldC hold(access,RWLOCK_READONLY); 
+    return inputs.Size();
   }
   
   //: Disconnect other signal from this one.

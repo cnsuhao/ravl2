@@ -229,6 +229,12 @@ namespace RavlN {
     void DisconnectOutputs(bool waitThreadsExit = false);
     //: Disconnect all outputs from this signal.
     
+    IntT NumOutputs() const;
+    //: Access the number of connections from the signal.
+    
+    IntT NumInputs() const;
+    //: Access the number of inputs to the signal.
+    
   protected:
     void Connect(SignalConnector0BodyC &con);
     //: Connect a new output.
@@ -316,6 +322,14 @@ namespace RavlN {
     inline bool operator()()
     { return Invoke(); }
     //: Simple invokation.
+    
+    IntT NumOutputs() const
+    { return Body().NumOutputs(); }
+    //: Access the number of connections from the signal.
+    
+    IntT NumInputs() const
+    { return Body().NumInputs(); }
+    //: Access the number of inputs to the signal.
     
     friend class SignalConnector0BodyC;
     friend class SignalInterConnect0C;
