@@ -73,7 +73,7 @@ int testBIndex2() {
 }
 
 int testBMinTermIndex() {
-  BMinTermIndexC<LiteralC> ind(true);
+  BMinTermIndexC<LiteralC> ind;
   // Test basic functionality.
   ind.Insert(true,"Hello1","Hello1");
   ind.Insert(true,"Hello2","Hello2");
