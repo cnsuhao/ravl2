@@ -29,7 +29,7 @@ namespace RavlN {
     
     MatrixC A(samples*2,6);
     A.Fill(0.0);
-    VectorC b(6);
+    VectorC b(samples*2);
     UIntT i = 0;
     for(DLIterC<ObservationC> it(sample);it;it++,i++) {
       ObservationAffine2dPointC eobs(*it);
