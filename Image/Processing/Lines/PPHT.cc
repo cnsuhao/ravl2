@@ -496,7 +496,7 @@ namespace RavlImageN {
     //sum += Exp((RealT) 1/p) * Pow((i/p),k) / ExtMathC::Factorial(k);
     RealT oop =  ((RealT) 1.0/p);
     for(k = 0;k < votes;k++) {
-      sum += RBinomCoeff(votes,k) * Pow(oop,k) * Pow(1.0-oop,votes - k);
+      sum += BinomalCoeff(votes,k) * Pow(oop,k) * Pow(1.0-oop,votes - k);
       //cout << "PPHoughTransformBodyC::CalcThresh() " << k << " Sum:" << sum << " oop:" << oop << " RBC:" << ExtMathC::RBinomCoeff(votes,k) <<" \n";
       if(sum > falsep)
 	break;
