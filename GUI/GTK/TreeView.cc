@@ -216,11 +216,16 @@ namespace RavlGUIN {
 	    gboolean val = (at.Data1() == "1") ? 1 : 0;
 	    g_object_set(G_OBJECT (renderer), ait.Key(),val,0);
 	  }
+	  // Enable sorting
+	  else if (ait.Key() == "sortable") {
+	    gtk_tree_view_column_set_sort_column_id(GTK_TREE_VIEW_COLUMN (column), col_offset-1);
+	  }
 	}
       }
       
       //g_object_set (G_OBJECT (renderer), "xalign", 0.0, NULL);
       //gtk_tree_view_column_set_clickable (GTK_TREE_VIEW_COLUMN (column), TRUE);
+
   
     }
     

@@ -80,6 +80,15 @@ int main(int nargs,char **argv) {
   treeStore.SetValue(iter,4,StringC("red"));
   
   // Add another line to the tree store.
+  TreeModelIterC iter1;
+  treeStore.AppendRow(iter1);
+  treeStore.SetValue(iter1,0,StringC("foop"));
+  treeStore.SetValue(iter1,1,StringC("ping"));
+  treeStore.SetValue(iter1,2, map);
+  treeStore.SetValue(iter1,3,false);
+  treeStore.SetValue(iter1,4,StringC("green"));
+
+  // Add another line to the tree store.
   TreeModelIterC iter2;
   treeStore.AppendRow(iter2,iter);
   treeStore.SetValue(iter2,0,StringC("igloo"));
@@ -87,6 +96,15 @@ int main(int nargs,char **argv) {
   treeStore.SetValue(iter2,2, map);
   treeStore.SetValue(iter2,3,false);
   treeStore.SetValue(iter2,4,StringC("green"));
+
+  // Add another line to the tree store.
+  TreeModelIterC iter3;
+  treeStore.AppendRow(iter3,iter);
+  treeStore.SetValue(iter3,0,StringC("boink"));
+  treeStore.SetValue(iter3,1,StringC("child"));
+  treeStore.SetValue(iter3,2, map);
+  treeStore.SetValue(iter3,3,false);
+  treeStore.SetValue(iter3,4,StringC("yellow"));
   
   // Make a list of columns we want to see from the store.
   
@@ -107,6 +125,9 @@ int main(int nargs,char **argv) {
   
   // Always set the activatable flag to true for column 3.
   treeView.SetAttribute(3,"activatable","1",false);
+
+  // Always set the sortable flag to true for column 3.
+  treeView.SetAttribute(0,"sortable","1",false);
 
   // Connect the changed signal for column 1 to 'EditCallback'
   Connect(treeView.ChangedSignal(1),&EditCallback);
