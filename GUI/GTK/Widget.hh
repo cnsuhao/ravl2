@@ -274,6 +274,7 @@ namespace RavlGUIN {
 
 #if RAVL_USE_GTK2
     static int gtkTreeRow(GtkWidget *widget, GtkTreeIter *iter, GtkTreePath *path, Signal0C *sigptr);
+    static int gtkTreePathCol(GtkWidget *widget, GtkTreePath *path, GtkTreeViewColumn *col, Signal0C *sigptr);
 #endif
     
     friend class ManagerC;

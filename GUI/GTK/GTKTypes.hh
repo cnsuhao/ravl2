@@ -42,6 +42,7 @@ extern "C" {
   typedef struct _GtkTreeModel GtkTreeModel;
   typedef struct _GtkTreeIter GtkTreeIter;
   typedef struct _GtkTreePath GtkTreePath;
+  typedef struct _GtkTreeViewColumn GtkTreeViewColumn;
 #endif
 
   typedef struct _GdkFont GdkFont;

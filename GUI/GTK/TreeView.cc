@@ -746,15 +746,44 @@ namespace RavlGUIN {
   TreeModelPathC TreeViewBodyC::GUIGetPathTo(const Index2dC &pos) {
     if(widget == 0) return TreeModelPathC(); // Nothing yet!
     GtkTreePath *path = 0;
+    
     if(!gtk_tree_view_get_dest_row_at_pos(GTK_TREE_VIEW(widget),
                                           pos[1].V(),pos[0].V(),
                                           &path,
                                           0)) {
       return TreeModelPathC();
-    }       
+    }
+    // Generate the path class.
     return TreeModelPathC(path,true);
   }
-
+  
+  //: Get path to a position in the tree.
+  // 'pos' must be widget coordinates.
+  
+  TreeModelPathC TreeViewBodyC::GUIGetPathTo(const Index2dC &pos,IntT &colNo,Index2dC &cellPos) {
+    if(widget == 0) return TreeModelPathC(); // Nothing yet!
+    GtkTreePath *path = 0;
+    GtkTreeViewColumn *column = 0;
+    if(!gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(widget),
+                                      pos[1].V(),pos[0].V(),
+                                      &path,
+                                      &column,
+                                      &cellPos.Col().V(),
+                                      &cellPos.Row().V()
+                                      ))
+      return TreeModelPathC();
+    for(SArray1dIterC<TreeViewColumnC> it(displayColumns);it;it++) {
+      if(it->TreeViewColumn() == column) {
+        colNo = it.Index().V();
+        break;
+      }
+    }
+    
+    // Generate the path class.
+    return TreeModelPathC(path,true);
+  }
+  
+  
   //: Get iter for row at position 'pos' in the tree.
   // 'pos' must be widget coordinates.
   

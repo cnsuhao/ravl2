@@ -82,6 +82,7 @@ namespace RavlGUIN {
 #define GTKSIG_WIDGET_INT (GtkSignalFunc) WidgetBodyC::gtkWidgetInt,SigTypeWidgetInt
 #if RAVL_USE_GTK2
 #define GTKSIG_TREEROW (GtkSignalFunc) WidgetBodyC::gtkTreeRow,SigTypeTreeRow
+#define GTKSIG_TREEPATHCOL (GtkSignalFunc) WidgetBodyC::gtkTreePathCol,SigTypeTreePathCol
 #endif
   //: Get init information about signals.
 
@@ -137,6 +138,7 @@ namespace RavlGUIN {
 #if RAVL_USE_GTK2
       GTKSIG("row-collapsed"        ,GTKSIG_TREEROW ), // GtkTreeView
       GTKSIG("row-expanded"         ,GTKSIG_TREEROW ), // GtkTreeView
+      GTKSIG("row-activate"         ,GTKSIG_TREEPATHCOL ), // GtkTreeView
 #endif
       GTKSIG("destroy",GTKSIG_TERM)  // Duplicate first key to terminate array.
     };
@@ -294,6 +296,25 @@ namespace RavlGUIN {
     TreeModelPathC rpath(path,false);
     // Send signal
     sig(riter,rpath);
+    // Done
+    return 1;
+  }
+
+  
+  int WidgetBodyC::gtkTreePathCol(GtkWidget *widget, GtkTreePath *path, GtkTreeViewColumn *col, Signal0C *sigptr) {
+    RavlAssert(sigptr != 0);
+    // Get signal
+    Signal2C<TreeModelPathC,StringC> sig(*sigptr);
+    
+    RavlAssert(sig.IsValid());
+    // Convert data
+    
+    TreeModelPathC rpath(path,false);
+    StringC name(gtk_tree_view_column_get_title (col));
+    
+    // Send signal
+    sig(rpath,name);
+    
     // Done
     return 1;
   }
@@ -461,6 +482,7 @@ namespace RavlGUIN {
       case SigTypeWidgetInt: 	ret = Signal1C<UIntT>(0); break;
 #if RAVL_USE_GTK2
       case SigTypeTreeRow:      ret = Signal2C<TreeModelIterC,TreeModelPathC>(TreeModelIterC(),TreeModelPathC()); break;
+      case SigTypeTreePathCol: ret = Signal2C<TreeModelPathC,StringC>(TreeModelPathC(),StringC()); break;
 #endif
       case SigTypeUnknown:
       default:

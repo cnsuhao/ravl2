@@ -42,6 +42,7 @@ namespace RavlGUIN {
     SigTypeWidgetInt,
 #if RAVL_USE_GTK2
     SigTypeTreeRow,
+    SigTypeTreePathCol,
 #endif
   };
   

@@ -200,6 +200,10 @@ namespace RavlGUIN {
     { return columnId; }
     //: Get column id, -1 if not set.
     
+    const GtkTreeViewColumn *TreeViewColumn() const
+    { return column; }
+    //: Get the current gtk column ptr.
+    
   protected:
     StringC name;
     SArray1dC<TreeViewColumnRendererC> renderers;
@@ -408,6 +412,10 @@ namespace RavlGUIN {
     // Only used by internal functions, please leave this alone :)
     
     TreeModelPathC GUIGetPathTo(const Index2dC &pos);
+    //: Get path to a position in the tree.
+    // 'pos' must be widget coordinates.
+    
+    TreeModelPathC GUIGetPathTo(const Index2dC &pos,IntT &colNo,Index2dC &cellPos);
     //: Get path to a position in the tree.
     // 'pos' must be widget coordinates.
     
@@ -698,6 +706,11 @@ namespace RavlGUIN {
     //: Scroll the treeview to the specified path
     // GUI thread only
     //!bug: The GTK function this calls does not seem to do anything at the moment, not sure why.
+    
+    TreeModelPathC GUIGetPathTo(const Index2dC &pos,IntT &colNo,Index2dC &cellPos)
+    { return Body().GUIGetPathTo(pos,colNo,cellPos); }
+    //: Get path to a position in the tree.
+    // 'pos' must be in widget cooridinates.
     
     TreeModelPathC GUIGetPathTo(const Index2dC &pos)
     { return Body().GUIGetPathTo(pos); }
