@@ -13,4 +13,4 @@ MUSTLINK=RavlGUIDisplay.cc
 
 USESLIBS=RavlIO RavlGUI RavlImageIO
 
-MAINS=testDPWindow.cc
+EXAMPLES=exDPWindow.cc
