@@ -18,8 +18,9 @@
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/DrawLine.hh"
 #include "Ravl/DList.hh"
-#include "Ravl/CDLIter.hh"
+#include "Ravl/DLIter.hh"
 #include "Ravl/Array2dIter.hh"
+#include "Ravl/Array1dIter.hh"
 #include "Ravl/Polygon2d.hh"
 
 namespace RavlImageN {
@@ -30,59 +31,70 @@ namespace RavlImageN {
     if (fill) {
       // TODO: Optimised triangle drawing (scan-line algorithm, probably)
       // Create bounding box for polygon
-      ImageRectangleC bbox(UVToPixel(oPolygon.List()[0],Rectangle()),0);
-      for (DLIterC<Point2dC> it(polygon); it; it++) {
-	bbox.Involve(*i);
+      ImageRectangleC bbox(poly.First(),0);
+      for (DLIterC<Point2dC> it(poly); it; it++) {
+	bbox.Involve(*it);
       }
       // This is a bit of a hack - for some reason, the bbox is not big enough...
-      recBBox.Expand(1);           
+      bbox.Expand(1);           
       // For each pixel inside bounding box...
       for (Array2dIterC<DataT> it(dat,bbox); it; it++) {
 	// Check if pixel is inside polygon
-	if (polygon.Contains(it.Index())) {
+	if (poly.Contains(it.Index())) {
 	  *it = value;
 	}
       }
     }
     else {
       // Draw individual lines
-      for (DLIterC<Point2dC> it(polygon); it; it++) {
+      for (DLIterC<Point2dC> it(poly); it; it++) {
 	DrawLine(dat,value,it.Data(),it.NextCrcData());
       }
     }
   }
 
+  //: This function requires that DataT has a working operator*(double) function
   template<class DataT>
   void DrawPolygon(Array2dC<DataT> &dat,const DListC<DataT>& values,const Polygon2dC &poly, bool fill=false) {
-    // TODO: Optimised triangle drawing (scan-line algorithm, perhaps)
-    // Create bounding box for polygon
-    ImageRectangleC bbox(UVToPixel(oPolygon.List()[0],Rectangle()),0);
-    for (DLIterC<Point2dC> it(polygon); i; i++) {
-      bbox.Involve(*i);
-    }
-    // This is a bit of a hack - for some reason, the bbox is not big enough...
-    recBBox.Expand(1);           
-    // For each pixel inside bounding box...
-    for (Array2dIterC<DataT> it(dat,bbox); it; it++) {
-      // Check if pixel is inside polygon
-      if (polygon.Contains(it.Index())) {
-	// Calculate barycentric coords
-	DListC<RealT> coord = polygon.BCoord(it.Data());
-	// Calculate interpolated value
-	DataT val;
-	DLIterC<RealT> cit(coord);
-	ConstDLIterC<RealT> vit(values);
-	while (cit && vit) {
-	  val += cit.Data() * vit.Data();
-	  cit++;
-	  vit++;
+    // Draw shaded polygon
+    if (fill) {
+      // TODO: Optimised triangle drawing (scan-line algorithm, perhaps)
+      // Create bounding box for polygon
+      ImageRectangleC bbox(poly.First(),0);
+      for (DLIterC<Point2dC> it(poly); it; it++) {
+	bbox.Involve(*it);
+      }
+      // This is a bit of a hack - for some reason, the bbox is not big enough...
+      bbox.Expand(1);           
+      // For each pixel inside bounding box...
+      for (Array2dIterC<DataT> it(dat,bbox); it; it++) {
+	// Check if pixel is inside polygon
+	Point2dC pnt(it.Index());
+	if (poly.Contains(pnt)) {
+	  // Calculate barycentric coords
+	  SArray1dC<RealT> coord = poly.BarycentricCoordinate(pnt);
+	  // Calculate interpolated value
+	  DataT value;
+	  SArray1dIterC<RealT> cit(coord);
+	  DLIterC<DataT> vit(values);
+	  while (cit && vit) {
+	    value += DataT(vit.Data() * cit.Data());
+	    cit++;
+	    vit++;
+	  }
+	  // Set value
+	  *it = value;
 	}
-	// Set value
-	*it = value;
       }
     }
+    else {
+      // Draw individual lines in the first colour specified
+      for (DLIterC<Point2dC> it(poly); it; it++) {
+	DrawLine(dat,values.First(),it.Data(),it.NextCrcData());
+      }
+    }      
   }
-
+  
 }
 
 #endif
