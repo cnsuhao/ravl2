@@ -403,7 +403,8 @@ namespace RavlGUIN {
   // GUI thread only
   
   bool TreeViewBodyC::GUISort(UIntT colNum, bool bAscending) {
-    displayColumns[colNum].SetSort(colNum,bAscending);
+    RavlAssert(colNum >= 0);
+    displayColumns[colNum].SetSort(true,bAscending);
     // Set sorting
     if(widget != 0) {
       IntT colId = displayColumns[colNum].ColumnId();
