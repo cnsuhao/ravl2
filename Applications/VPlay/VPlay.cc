@@ -16,6 +16,7 @@
 #include "Ravl/Tuple2.hh"
 
 #include "Ravl/Image/ImageConv.hh"
+#include "Ravl/Image/DeinterlaceStream.hh"
 
 #include "Ravl/DP/Compose.hh"
 #include "Ravl/DP/MTIOConnect.hh"
@@ -103,11 +104,12 @@ int doVPlay(int nargs,char *args[])
   //IntT scale = option.Int("s",1,"Scale image. ");
   RealT delay = option.Real("t",0.04,"Delay between frames. ");
   bool directDraw = option.Boolean("dd",false,"Direct draw. (For realtime playback of large images) ");
+  bool deinterlace = option.Boolean("di",false,"Deinterlace incoming images. ");
   bool verb = option.Boolean("v",false,"Verbose mode. ");
   //bool deInterlace = option.Boolean("di",false,"De-interlace. (Subsample by 2) ");
+  DListC<StringC> attribs = option.List("a","List of attributes to set. ");
   StringC formatIn = option.String("if","","Input format. ");
   StringC infile = option.String("","","Input filename");  
-  DListC<StringC> attribs = option.List("a","List of attributes to set. ");
   if(infile.IsEmpty())
     infile = option.String("","in.pgm","Input filename");
   
@@ -144,6 +146,10 @@ int doVPlay(int nargs,char *args[])
   UIntT endFrame = N;
   if(N != -1)
     endFrame += start;
+
+  if(deinterlace) 
+    vidIn = DeinterlaceStreamC<ByteRGBValueC>(vidIn);
+  
   DPIPlayControlC<ImageC<ByteRGBValueC> > vpCtrl(vidIn,false,start,endFrame);  
   
   ONDEBUG(cerr << "VPlay: Play control built.\n");
