@@ -116,7 +116,7 @@ namespace RavlN {
     //: Fill array with value.
     
     IntT Stride() const {
-      if(Size1() < 1)
+      if(Size1() <= 1)
 	return size2;
       return (IntT) (SizeBufferAccessC<BufferAccessC<DataT> >::operator[](1).ReferenceElm() -  
 		     SizeBufferAccessC<BufferAccessC<DataT> >::operator[](0).ReferenceElm());
