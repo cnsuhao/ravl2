@@ -46,7 +46,7 @@ namespace RavlN {
   public:
     inline IntrDListC(bool ndeleteEntries = true)
       : deleteEntries(ndeleteEntries)
-      {}
+    {}
     //: Construct an empty list.
     
     IntrDListC(const IntrDListC<DataT> &oth);
@@ -65,7 +65,7 @@ namespace RavlN {
     // deleteEntries is true.
     
     inline ~IntrDListC() 
-      { Empty(); }
+    { Empty(); }
     // Destructor, each list element is destroyed.
     
     void Empty() {
@@ -88,29 +88,29 @@ namespace RavlN {
     //---------- Access to the elements -----------------------------
     
     DataT &First()
-      { return static_cast<DataT &>(head.Next()); }
+    { return static_cast<DataT &>(head.Next()); }
     //: Get first link in list.
     
     DataT &Last()
-      { return static_cast<DataT &>(head.Prev()); }
+    { return static_cast<DataT &>(head.Prev()); }
     //: Get the last ilink in the list.
     
     const DataT &First() const
-      { return static_cast<const DataT &>(head.Next()); }
+    { return static_cast<const DataT &>(head.Next()); }
     //: Get first link in list.
     
     const DataT &Last() const
-      { return static_cast<const DataT &>(head.Prev()); }
+    { return static_cast<const DataT &>(head.Prev()); }
     //: Get the last ilink in the list.
     
     //---------- Elementary changes in the list -------------
     
     void InsFirst(DataT &dat)
-      { DLinkHeadC::InsFirst(dat); }
+    { DLinkHeadC::InsFirst(dat); }
     //: Push element onto the begining of the list.
     
     void InsLast(DataT &dat)
-      { DLinkHeadC::InsLast(dat); }
+    { DLinkHeadC::InsLast(dat); }
     //: Push element onto the end of the list.
     
     DataT &PopFirst()  { 
@@ -134,15 +134,15 @@ namespace RavlN {
   protected:
     
     static void Delete(DLinkC &elm) 
-      { delete &static_cast<DataT &>(elm); }
+    { delete &static_cast<DataT &>(elm); }
     //: Unlink and delete an element from the list.
     
     DLinkC &Head()
-      { return DLinkHeadC::Head(); }
+    { return DLinkHeadC::Head(); }
     //: Get head of list.
   
     const DLinkC &Head() const
-      { return DLinkHeadC::Head(); }
+    { return DLinkHeadC::Head(); }
     //: Get head of list.
     
     bool deleteEntries; // Delete entries when finished with them ?
@@ -159,11 +159,11 @@ namespace RavlN {
   template <class DataT>
   IntrDListC<DataT>::IntrDListC(const IntrDListC<DataT> &oth)
     : deleteEntries(oth.deleteEntries)
-    {
-      RavlAssert(deleteEntries); // A way to check this makes sense.
-      for(IntrDLIterC<DataT> it(oth);it;it++)
-	InsLast(*new DataT(*it));
-    }
+  {
+    RavlAssert(deleteEntries); // A way to check this makes sense.
+    for(IntrDLIterC<DataT> it(oth);it;it++)
+      InsLast(*new DataT(*it));
+  }
   
   template <class DataT>
   const IntrDListC<DataT> &IntrDListC<DataT>::operator=(const IntrDListC<DataT> &oth) {
