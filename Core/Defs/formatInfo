@@ -5,6 +5,8 @@ DIVO     filePrefix @DIVO   RavlDMedia
 net      filePrefix @NET    RavlNet
 v4l	 filePrefix @V4L    RavlImgIOV4L
 devaudio filePrefix @DEVAUDIO RavlDevAudio
+meteor1  filePrefix @METEOR RavlImgIOMeteor1
+graph	 filePrefix @GRAPH  RavlDPGraph
 curl	 filePrefix @http   RavlURLIO
 curl	 filePrefix @https  RavlURLIO
 curl	 filePrefix @ftp    RavlURLIO
@@ -16,6 +18,8 @@ cif	 fileExt    qcif    RavlVideoIO
 cif	 fileExt    sqcif   RavlVideoIO
 yuv	 fileExt    yuv     RavlVideoIO
 syuv	 fileExt    syuv    RavlVideoIO
+avi	 fileExt    avi     RavlVideoIO
+dv	 fileExt    dv      RavlDV
 pgm	 fileExt    pgm     RavlImageIO
 ppm	 fileExt    ppm     RavlImageIO
 pbm	 fileExt    pbm     RavlImageIO

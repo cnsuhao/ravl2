@@ -46,6 +46,9 @@ libRavlDPDisplay.so libRavlImageIO.so libRavlGUI.so libRavlIO.so
 # Contrib
 
 libRavlURLIO.so libRavlIO.so libRavlThreads.so libcurl.so
+libRavlPlot.so libRavlCore.so
+libRavlGuppi.so libRavlPlot.so libRavlGUI.so
+libRavlDPGraph.so libRavlIO.so libRavlGuppi.so
 
 # Contrib. Image/Video
 
@@ -53,7 +56,8 @@ libRavlImgIOV4L.so libRavlImageIO.so
 libRavlDV.so libRavlImageIO.so libRavlOSIO.so
 libCSPDriver.so libRavlImageIO.so
 libRavlDMedia.so libRavlImageIO.so
-libRavlMPEG2.so libRavlVideoIO.so
+libRavlMPEG2.so libRavlImageIO.so
+libRavlImgIOMeteor1.so libRavlImageIO.so
 
 # Contrib. Audio
 
