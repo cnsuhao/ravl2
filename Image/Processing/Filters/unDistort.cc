@@ -7,6 +7,7 @@
 //! rcsid="$Id$"
 //! file="Ravl/Image/Processing/Filters/unDistort.cc"
 //! lib=RavlImageProc
+//! docentry="Ravl.Applications.Video;Ravl.Images.Warping"
 
 #include "Ravl/Option.hh"
 #include "Ravl/Image/RemoveDistortion.hh"
