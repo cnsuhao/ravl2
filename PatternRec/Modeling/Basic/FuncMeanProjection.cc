@@ -11,6 +11,9 @@
 #include "Ravl/PatternRec/FuncMeanProjection.hh"
 #include "Ravl/VirtualConstructor.hh"
 #include "Ravl/BinStream.hh"
+#include "Ravl/DP/FileFormatStream.hh"
+#include "Ravl/DP/FileFormatBinStream.hh"
+#include "Ravl/TypeName.hh"
 
 namespace RavlN {
   
@@ -65,5 +68,10 @@ namespace RavlN {
   
   
   RAVL_INITVIRTUALCONSTRUCTOR_FULL(FuncMeanProjectionBodyC,FuncMeanProjectionC,FunctionC);
+
+  static TypeNameC typenameFuncMeanProjection(typeid(FuncMeanProjectionC),"Ravl::FuncMeanProjectionC");
+  FileFormatStreamC <FuncMeanProjectionC> FileFormatStream_FuncMeanProjectionC;
+  FileFormatBinStreamC <FuncMeanProjectionC> FileFormatBinStream_FuncMeanProjectionC;
+
 
 }
