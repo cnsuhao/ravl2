@@ -116,7 +116,7 @@ namespace RavlN {
       }
       perm[j] = piv;
       if(piv != (IntT) j) {
-	mat.SwapRows(j,piv); // Swap rows, could use a row ptr swap here to speed things up.
+	mat.SwapRows(j,piv); // Swap rows.
 	d = -d;
 	sv[piv] = sv[j];
       }

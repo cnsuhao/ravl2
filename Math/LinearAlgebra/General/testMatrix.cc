@@ -139,6 +139,8 @@ int testEigen() {
   E = vm.Matrix();
   md.Fill(0);
   md.SetDiagonal(D);
+  cerr << "E=" << E << "\n";
+  cerr << "md=" << md << "\n";
   m = E * md * E.Inverse();
   if((m - test).SumOfSqr() > 0.0000001) return __LINE__;
   

@@ -75,11 +75,6 @@ namespace RavlN {
     RavlAlwaysAssertMsg(mat.Rows() == mat.Cols(),"MatrixC::EigenVectorsIP() Matrix must be square. ");
     if(mat.Rows() == 0)
       return VectorC(0);
-    if(mat.Rows() == 1)  {
-      VectorC vec(1);
-      vec[0] = 1.0;
-      return vec;
-    }
     VectorC ret(mat.Rows());
     if(mat.Rows() == 0)
       return ret;
