@@ -58,10 +58,11 @@
 #define RAVL_HAVE_STREAMSIZE 0
 #else
 #define RAVL_HAVE_ANSICPPHEADERS 1
-#define RAVL_HAVE_IOS_SEEKDIR 1 /* use ios::seekdir */
 #if !defined(VISUAL_CPP)
+#define RAVL_HAVE_IOS_SEEKDIR 1 /* use ios::seekdir */
 #define RAVL_HAVE_STREAMSIZE 1
 #else
+#define RAVL_HAVE_IOS_SEEKDIR 0 /* else assume ios::seek_dir exists. */
 #define RAVL_HAVE_STREAMSIZE 0
 #endif
 #endif
