@@ -15,9 +15,11 @@
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/DP/FileFormatIO.hh"
 #include "Ravl/Image/LMSMultiScaleMotion.hh"
-#include "Ravl/SArray1d.hh"
+#include "Ravl/Array1d.hh"
 #include "Ravl/StrStream.hh"
-
+#include "Ravl/Index.hh"
+#include "Ravl/IO.hh"
+	
 using namespace RavlN;
 using namespace RavlImageN;
 
@@ -36,18 +38,18 @@ int main (int argc, char **argv) {
   opt.Check();
   
   ImageC<RealT> im1; 
-  Load(inf1, im1, "stream", true);
+  Load(inf1, im1);
   
   ImageC<RealT> im2; 
   Load(inf2, im2);
   
   // Compute filter coefficients: currently 2:1 antialias filter
-  SArray1dC<RealT> coeffs(5);
-  StrIStreamC ("-5 5 -0.03008995 0.01247519 0.13510284 0.29130294 0.36395804 0.29130294 0.13510284 0.01247519 -0.03008995") >> coeffs;
+  Array1dC<RealT> coeffs(-4,4);
+  StrIStreamC ("-4 4 -0.03008995 0.01247519 0.13510284 0.29130294 0.36395804 0.29130294 0.13510284 0.01247519 -0.03008995") >> coeffs;
   // preserve d.c. level
-  RealT norm(coeffs[0]);
-  for (UIntT i=1; i<coeffs.Size(); ++i) norm += 2*coeffs[i];
-  for (UIntT i=0; i<coeffs.Size(); ++i) coeffs[i] /= norm; 
+  RealT norm(0);
+  for (IndexC i(coeffs.IMin()); i<=coeffs.IMax(); ++i) norm += coeffs[i];
+  for (IndexC i(coeffs.IMin()); i<=coeffs.IMax(); ++i) coeffs[i] /= norm; 
   
   ConvolveSeparable2dC<RealT> filter(coeffs,coeffs);
   
