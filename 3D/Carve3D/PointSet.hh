@@ -30,6 +30,7 @@ namespace Ravl3DN
   using RavlN::SArray1dIterC;
   using RavlN::UIntT;
   using RavlN::RCHandleC;
+  using RavlImageN::ByteRGBValueC;
 #endif 
   
   class VoxelSetC;

@@ -21,6 +21,7 @@ namespace Ravl3DN {
   using RavlN::TFVectorC;
   using RavlN::Vector2dC;
   using RavlN::ByteT;
+  using RavlN::UByteT;
 #endif
   //! userlevel=Normal
   //: Triangle in TriMesh.
