@@ -27,8 +27,7 @@ namespace RavlGUIN {
   using namespace RavlImageN;
   using namespace RavlN;
   
-  WidgetStyleBodyC::WidgetStyleBodyC(WidgetC nwidge) 
-    : widge(nwidge) 
+  WidgetStyleBodyC::WidgetStyleBodyC() 
   {
     // Load default style
     LoadDefault();
@@ -55,47 +54,23 @@ namespace RavlGUIN {
     return static_cast<bool>(style);
   }
 
-  GdkPixmap* WidgetStyleBodyC::GUIImage2Pixmap(ImageC<ByteRGBValueC>& im) {
-    // Check required data
-    if (style == NULL || im.IsEmpty()) return NULL;
-    // Create new pixmap
-    GdkPixmap* pixmap = gdk_pixmap_new(widge.Widget()->window,
-				       im.Cols(),
-				       im.Rows(),
-				       -1);
-    // Load image into pixmap
-    if (pixmap && style->black_gc) {
-      gdk_draw_rgb_image(pixmap,
-			 style->black_gc,
-			 0,0,
-			 im.Cols(),im.Rows(),
-			 GDK_RGB_DITHER_NORMAL,
-			 (unsigned char *) im.Row(im.TRow()),
-			 im.Cols() * 3);
-    }
-    // Done
-    return pixmap;
-  }
-
-  bool WidgetStyleBodyC::GUISetBackground(GdkPixmap* pixmap, GtkStateType state) {
+  bool WidgetStyleBodyC::GUISetBackground(PixmapC& pixmap, GtkStateType state) {
+    // Create pixmap if not already done
+    if (!pixmap.Widget())
+      pixmap.Create();
     // Check required data
     if (style == NULL) return false;
-    // Increment refcount
-    if (pixmap!=NULL) {
-      pixmap = gdk_pixmap_ref(pixmap);
+    // Incrememt refcount
+    if (pixmap.Pixmap() != NULL) {
+      gdk_pixmap_ref(pixmap.Pixmap());
     }
     // Set pointer
-    style->bg_pixmap[state] = pixmap;
+    style->bg_pixmap[state] = pixmap.Pixmap();
     // Done
     return true;
   }
 
-  bool WidgetStyleBodyC::GUISetBackground(ImageC<ByteRGBValueC>& im, GtkStateType& state) {
-    return GUISetBackground(GUIImage2Pixmap(im),state);
-  }
-  
-  bool WidgetStyleBodyC::GUISetBackground(ImageC<ByteRGBValueC>& im) {
-    GdkPixmap* pixmap = GUIImage2Pixmap(im);
+  bool WidgetStyleBodyC::GUISetBackground(PixmapC& pixmap) {
     return 
       GUISetBackground(pixmap,GTK_STATE_NORMAL) &&
       GUISetBackground(pixmap,GTK_STATE_ACTIVE) &&
@@ -106,12 +81,12 @@ namespace RavlGUIN {
 
   //: Set the background of the window.
   
-  void WidgetStyleBodyC::SetBackground(const ImageC<ByteRGBValueC>& im, GtkStateType& state) {
-    Manager.Queue(Trigger(WidgetStyleC(*this),&WidgetStyleC::GUISetBackground,im,state));
+  void WidgetStyleBodyC::SetBackground(const PixmapC& pixmap, GtkStateType& state) {
+    Manager.Queue(Trigger(WidgetStyleC(*this),&WidgetStyleC::GUISetBackground,pixmap,state));
   }
   
-  void WidgetStyleBodyC::SetBackground(const ImageC<ByteRGBValueC>& im) {
-    Manager.Queue(Trigger(WidgetStyleC(*this),&WidgetStyleC::GUISetBackground,im));
+  void WidgetStyleBodyC::SetBackground(const PixmapC& pixmap) {
+    Manager.Queue(Trigger(WidgetStyleC(*this),&WidgetStyleC::GUISetBackground,pixmap));
   }
 
   GdkColor WidgetStyleBodyC::GUIRGB2Colour(ByteRGBValueC& rgb) {

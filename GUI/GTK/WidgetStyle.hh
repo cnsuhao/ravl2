@@ -17,9 +17,8 @@
 //! example="exStyle.cc"
 
 #include "Ravl/GUI/GTKTypes.hh"
-#include "Ravl/Image/Image.hh"
+#include "Ravl/GUI/Pixmap.hh"
 #include "Ravl/GUI/Widget.hh"
-#include "Ravl/Image/ByteRGBValue.hh"
 
 #include <gtk/gtkenums.h>
 #include <gtk/gtk.h>
@@ -54,7 +53,7 @@ namespace RavlGUIN {
     : public RCBodyVC 
   {
   public:
-    WidgetStyleBodyC(WidgetC nwidge);
+    WidgetStyleBodyC();
     //: Default constructor.
     
     virtual ~WidgetStyleBodyC();
@@ -66,10 +65,10 @@ namespace RavlGUIN {
     void LoadDefault();
     //: Loads the default style
 
-    void SetBackground(const ImageC<ByteRGBValueC>& im);
+    void SetBackground(const PixmapC& pixmap);
     //: Set the background of the widget
 
-    void SetBackground(const ImageC<ByteRGBValueC>& im, GtkStateType& state);
+    void SetBackground(const PixmapC& pixmap, GtkStateType& state);
     //: Set the background of the widget
     // Values for state are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSTATETYPE">here</A>.
     
@@ -85,19 +84,12 @@ namespace RavlGUIN {
     bool GUILoadDefault();
     //: Loads the default style
 
-    GdkPixmap* GUIImage2Pixmap(ImageC<ByteRGBValueC>& im);
-    // Loads a pixmap from an ImageC
-
-    bool GUISetBackground(GdkPixmap* pixmap, GtkStateType state);
+    bool GUISetBackground(PixmapC& pixmap, GtkStateType state);
     // Sets the background to a pixmap
     // Values for state are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSTATETYPE">here</A>.
 
-    bool GUISetBackground(ImageC<ByteRGBValueC>& im);
+    bool GUISetBackground(PixmapC& pixmap);
     //: Sets the background of the widget
-
-    bool GUISetBackground(ImageC<ByteRGBValueC>& im, GtkStateType& state);
-    //: Sets the background of the widget
-    // Values for state are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSTATETYPE">here</A>.
 
     GdkColor GUIRGB2Colour(ByteRGBValueC& rgb);
     // Loads a colour from a ByteRGBValueC
@@ -116,9 +108,6 @@ namespace RavlGUIN {
     GtkStyle *style;
     //: The GTK style itself
     
-    WidgetC widge;
-    //: Widget used to get display info
-
     friend class WidgetStyleC;
 
   };
@@ -129,12 +118,7 @@ namespace RavlGUIN {
     
   public:
     WidgetStyleC()
-    {}
-    //: Default constructor.
-    // Creates invalid handle
-
-    WidgetStyleC(WidgetC nwidge)
-      : RCHandleC<WidgetStyleBodyC>(*new WidgetStyleBodyC(nwidge))
+      : RCHandleC<WidgetStyleBodyC>(*new WidgetStyleBodyC())
     {}
     //: Constructor.
     // Creates default style
@@ -164,12 +148,12 @@ namespace RavlGUIN {
     { Body().LoadDefault(); }
     //: Loads the default style
 
-    void SetBackground(const ImageC<ByteRGBValueC>& im)
-    { Body().SetBackground(im); }
+    void SetBackground(const PixmapC& pixmap)
+    { Body().SetBackground(pixmap); }
     //: Set the background of the widget
 
-    void SetBackground(const ImageC<ByteRGBValueC>& im, GtkStateType& state)
-    { Body().SetBackground(im,state); }
+    void SetBackground(const PixmapC& pixmap, GtkStateType& state)
+    { Body().SetBackground(pixmap,state); }
     //: Set the background of the widget
     // Values for state are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSTATETYPE">here</A>.
     
@@ -188,12 +172,12 @@ namespace RavlGUIN {
     { return Body().GUILoadDefault(); }
     //: Loads the default style
 
-    bool GUISetBackground(ImageC<ByteRGBValueC>& im)
-    { return Body().GUISetBackground(im); }
+    bool GUISetBackground(PixmapC& pixmap)
+    { return Body().GUISetBackground(pixmap); }
     //: Sets the background of the widget
 
-    bool GUISetBackground(ImageC<ByteRGBValueC>& im, GtkStateType& state) 
-    { return Body().GUISetBackground(im,state); }
+    bool GUISetBackground(PixmapC& pixmap, GtkStateType& state) 
+    { return Body().GUISetBackground(pixmap,state); }
     //: Sets the background of the widget
     // Values for state are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSTATETYPE">here</A>.
 
