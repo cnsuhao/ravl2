@@ -65,6 +65,11 @@ namespace RavlN {
     //: Returns the third coordinate of the cross product of this vector
     //: and the vector 'v'.
   };
+  
+  inline RealT TFVectorC<RealT,2>::Dot(const TFVectorC<RealT,2> &oth) const 
+  { return data[0] * oth.data[0] + data[1] * oth.data[1]; }
+  //: Calculate the dot product of this and 'oth' vector.
+
 }
 
 #endif

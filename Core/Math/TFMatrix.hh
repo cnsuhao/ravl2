@@ -126,7 +126,7 @@ namespace RavlN {
     //: Multiply vector by the matrix.
 
     template<unsigned int MT>
-      TFMatrixC<DataT,N,MT> operator*(const TFMatrixC<DataT,M,MT> & mat) const
+    TFMatrixC<DataT,N,MT> operator*(const TFMatrixC<DataT,M,MT> & mat) const
     {
       TFMatrixC<DataT,N,MT> ret;
       for(UIntT i = 0;i < N;i++)
@@ -169,8 +169,7 @@ namespace RavlN {
     }
     //: Mutiply this matrix by transpose of 'mat'
     
-    TFVectorC<DataT,M> TMul(const TFVectorC<DataT,N>& vec) const 
-    {
+    TFVectorC<DataT,M> TMul(const TFVectorC<DataT,N>& vec) const  {
       TFVectorC<DataT,M> ret;
       for(UIntT i = 0; i < M; i++)
       {
@@ -203,7 +202,7 @@ namespace RavlN {
   };
 
   template<class DataT,unsigned int N,unsigned int M>
-  void MulAdd(const TFMatrixC<DataT,1,M> &mat,const TFVectorC<DataT,N> &vec,const TFVectorC<DataT,N> &add,TFVectorC<DataT,N> &result) {
+  void MulAdd(const TFMatrixC<DataT,1,M> &mat,const TFVectorC<DataT,M> &vec,const TFVectorC<DataT,N> &add,TFVectorC<DataT,N> &result) {
     for(unsigned int i = 0;i < N;i++) {
       result[i] = add[i] + mat[i][0]*vec[0];
       for(unsigned int j = 1;j < M;j++) 
@@ -215,7 +214,7 @@ namespace RavlN {
   // the result.
   
   template<class DataT,unsigned int N,unsigned int M>
-  void Mul(const TFMatrixC<DataT,N,M> &mat,const TFVectorC<DataT,N> &vec,TFVectorC<DataT,N> &result) {
+  void Mul(const TFMatrixC<DataT,N,M> &mat,const TFVectorC<DataT,M> &vec,TFVectorC<DataT,N> &result) {
     for(unsigned int i = 0;i < N;i++) {
       result[i] = mat[i][0]*vec[0];
       for(unsigned int j = 1;j < M;j++) 

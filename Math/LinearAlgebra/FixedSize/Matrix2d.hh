@@ -48,6 +48,28 @@ namespace RavlN {
     //: Returns the value of the determinant of this matrix.
 
   };
+
+
+  inline
+  TFVectorC<RealT,2> TFMatrixC<RealT,2,2>::operator*(const TFVectorC<RealT,2> & vec) const {
+    TFVectorC<RealT,2> ret;
+    ret[0] = data[0][0] * vec[0] + data[0][1] * vec[1];
+    ret[1] = data[1][0] * vec[0] + data[1][1] * vec[1];
+    return ret;
+  }
+  
+  inline
+  void MulAdd(const TFMatrixC<RealT,2,2> & R,const TFVectorC<RealT,2> & x, const TFVectorC<RealT,2> & t, TFVectorC<RealT,2> &result) {
+    result[0] = R[0][0]*x[0] + R[0][1]*x[1] + t[0];
+    result[1] = R[1][0]*x[0] + R[1][1]*x[1] + t[1];    
+  }
+  
+  inline
+  void Mul(const TFMatrixC<RealT,2,2> & R,const TFVectorC<RealT,2> & x, TFVectorC<RealT,2> &result) {
+    result[0] = R[0][0]*x[0] + R[0][1]*x[1];
+    result[1] = R[1][0]*x[0] + R[1][1]*x[1];
+  }
+
 }
 
 #endif

@@ -71,9 +71,12 @@ namespace RavlN {
     RealT W() const
       { return data[3]; }
     //: Fourth component of vector.
-    
-    
   };
+  
+  inline RealT TFVectorC<RealT,4>::Dot(const TFVectorC<RealT,4> &oth) const 
+  { return data[0] * oth.data[0] + data[1] * oth.data[1] + data[2] * oth.data[2] + data[3] * oth.data[3]; }
+  //: Calculate the dot product of this and 'oth' vector.
+
 }
 
 #endif

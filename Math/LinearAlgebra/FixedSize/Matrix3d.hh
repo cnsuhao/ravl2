@@ -58,8 +58,30 @@ namespace RavlN {
     
   protected:
   };
-  
 
+  inline
+  TFVectorC<RealT,3> TFMatrixC<RealT,3,3>::operator*(const TFVectorC<RealT,3> & vec) const {
+    TFVectorC<RealT,3> ret;
+    ret[0] = data[0][0] * vec[0] + data[0][1] * vec[1] + data[0][2] * vec[2];
+    ret[1] = data[1][0] * vec[0] + data[1][1] * vec[1] + data[1][2] * vec[2];
+    ret[2] = data[2][0] * vec[0] + data[2][1] * vec[1] + data[2][2] * vec[2];
+    return ret;
+  }
+  
+  inline
+  void MulAdd(const TFMatrixC<RealT,3,3> & R,const TFVectorC<RealT,3> & x, const TFVectorC<RealT,3> & t, TFVectorC<RealT,3> &result) {
+    result[0] = R[0][0]*x[0] + R[0][1]*x[1] + R[0][2]*x[2] + t[0];    
+    result[1] = R[1][0]*x[0] + R[1][1]*x[1] + R[1][2]*x[2] + t[1];    
+    result[2] = R[2][0]*x[0] + R[2][1]*x[1] + R[2][2]*x[2] + t[2];    
+  }
+  
+  inline
+  void Mul(const TFMatrixC<RealT,3,3> & R,const TFVectorC<RealT,3> & x, TFVectorC<RealT,3> &result) {
+    result[0] = R[0][0]*x[0] + R[0][1]*x[1] + R[0][2]*x[2];
+    result[1] = R[1][0]*x[0] + R[1][1]*x[1] + R[1][2]*x[2];
+    result[2] = R[2][0]*x[0] + R[2][1]*x[1] + R[2][2]*x[2];
+  }
+  
 }
 
 #endif
