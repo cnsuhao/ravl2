@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! lib=RavlLogic
 
-#include "Ravl/Logic/DecisionTreeElement.hh"
+#include "Ravl/Logic/DecisionTreeBranch.hh"
 
 namespace RavlLogicN {
   
@@ -18,17 +18,28 @@ namespace RavlLogicN {
   //: Decision tree body.
   
   class DecisionTreeBranchBinaryBodyC 
-    : public DecisionTreeElementBodyC
+    : public DecisionTreeBranchBodyC
   {
   public:
     DecisionTreeBranchBinaryBodyC();
     //: Default constructor.
+    
+    DecisionTreeBranchBinaryBodyC(const LiteralC &test);
+    //: Construct with a test.
     
     virtual DecisionTreeElementC Find(const StateC &state);
     //: Find next level in the decision tree for given 'state'.
     
     virtual void Dump(ostream &out,IntT level = 0) const;
     //: Dump node in human readable form,
+    
+    DecisionTreeElementC &TrueChild()
+    { return children[1]; }
+    //: Access true child.
+    
+    DecisionTreeElementC &FalseChild()
+    { return children[0]; }
+    //: Access false child.
     
   protected:
     LiteralC test; // Test for branch.
@@ -39,17 +50,27 @@ namespace RavlLogicN {
   //: Decision tree.
   
   class DecisionTreeBranchBinaryC 
-    : public DecisionTreeElementC
+    : public DecisionTreeBranchC
   {
   public:
     DecisionTreeBranchBinaryC()
-      {}
+    {}
     //: Default constructor.
     // creates an invalid handle.
     
+    DecisionTreeBranchBinaryC(bool)
+      : DecisionTreeBranchC(*new DecisionTreeBranchBinaryBodyC())
+    {}
+    //: Constructor.
+    
+    DecisionTreeBranchBinaryC(const LiteralC &test)
+      : DecisionTreeBranchC(*new DecisionTreeBranchBinaryBodyC(test))
+    {}
+    //: Construct with a test.
+    
   protected:
     DecisionTreeBranchBinaryC(DecisionTreeBranchBinaryBodyC &bod)
-      : DecisionTreeElementC(bod)
+      : DecisionTreeBranchC(bod)
       {}
     //: Body constructor.
     
@@ -62,6 +83,13 @@ namespace RavlLogicN {
     //: Access body.
     
   public:
+    DecisionTreeElementC &TrueChild()
+    { return Body().TrueChild(); }
+    //: Access true child.
+    
+    DecisionTreeElementC &FalseChild()
+    { return Body().FalseChild(); }
+    //: Access false child.
     
   };
   

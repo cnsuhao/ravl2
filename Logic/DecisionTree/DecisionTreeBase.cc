@@ -10,7 +10,9 @@
 
 #include "Ravl/Logic/DecisionTreeBase.hh"
 #include "Ravl/Logic/DecisionTreeLeaf.hh"
+#include "Ravl/Logic/DecisionTreeBranchBinary.hh"
 #include "Ravl/PatternRec/DataSet2Iter.hh"
+#include "Ravl/BlkQueue.hh"
 
 #define DODEBUG 1
 
@@ -51,11 +53,10 @@ namespace RavlLogicN {
   
   bool DecisionTreeBaseBodyC::Add(const StateC &state,const LiteralC &decision) {
     ONDEBUG(cerr << "DecisionTreeBaseBodyC::Add(state,decision), Called \n");
-    DecisionTreeElementC next,at = root;
-    while(at.IsValid()) {
-      next = at.Find(state);
-      if(next.IsLeaf()) {
-	DecisionTreeLeafC leaf(next);
+    DecisionTreeElementC last,at = root;
+    while(at.IsValid()) {	
+      if(at.IsLeaf()) {
+	DecisionTreeLeafC leaf(at);
 	if(leaf.Decision() == decision) {
 	  RavlAssert(leaf.Examples().IsValid());
 	  leaf.Examples().AddExample(state,decision);
@@ -63,10 +64,16 @@ namespace RavlLogicN {
 	}
 	// Need to replace the leaf.
 	//discriminator.Distinguish( 
+	RavlAssertMsg(0,"Need some work here. ");
+	return true;
       }
-      next = at;
+      last = at;
+      at = last.Find(state);
+      RavlAssert(at.IsValid()); // Shouldn't have any dangling branches in tree.
     }
-    root = DecisionTreeLeafC(state,decision);
+    DecisionExamplesC initalExamples(true);
+    initalExamples.AddExample(state,decision);
+    root = DecisionTreeLeafC(decision,initalExamples);
     return false;
   }
 
@@ -75,8 +82,31 @@ namespace RavlLogicN {
   
   void DecisionTreeBaseBodyC::Train(const DataSet2C<SampleStateC,SampleLiteralC> &data) {
     ONDEBUG(cerr << "DecisionTreeBaseBodyC::Train(), Called \n");
-    for(DataSet2IterC<SampleStateC,SampleLiteralC> it(data);it;it++)
-      Add(it.Data1(),it.Data2());
+    BlkQueueC<Tuple2C<DecisionTreeElementC *,DecisionExamplesC> > todo;
+    DecisionExamplesC initalExamples(data);
+    todo.InsLast(Tuple2C<DecisionTreeElementC *,DecisionExamplesC>(&root,initalExamples));
+    
+    while(!todo.IsEmpty()) {
+      Tuple2C<DecisionTreeElementC *,DecisionExamplesC> place = todo.GetFirst();
+      RavlAssert(place.Data2().Decisions() != 0);
+      if(place.Data2().Decisions() == 1) {
+	// We're at a leaf.
+	*place.Data1() = DecisionTreeLeafC(place.Data2().ProbableDecision(),place.Data2());
+	continue;
+      }
+      LiteralC test = discriminator.BestDiscriminator(place.Data2());
+      
+      DecisionExamplesC tset(true),fset(true);
+      place.Data2().Seperate(test,tset,fset);
+      DecisionTreeBranchBinaryC branch(test);
+      branch.Examples() = place.Data2();
+      *place.Data1() = branch; // Setup new branch.
+      
+      todo.InsLast(Tuple2C<DecisionTreeElementC *,DecisionExamplesC>(&branch.TrueChild(),tset));
+      todo.InsLast(Tuple2C<DecisionTreeElementC *,DecisionExamplesC>(&branch.FalseChild(),fset));
+    }
+    //for(DataSet2IterC<SampleStateC,SampleLiteralC> it(data);it;it++)
+    //  Add(it.Data1(),it.Data2());
   }
 
   //: Dump the tree in a human readable form to stream out.

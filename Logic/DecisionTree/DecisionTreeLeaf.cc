@@ -16,11 +16,10 @@ namespace RavlLogicN {
 
   //: Constructor.
   
-  DecisionTreeLeafBodyC::DecisionTreeLeafBodyC(const StateC &state,const LiteralC &ndecision) 
-    : decision(ndecision)
-  {
-    Examples().AddExample(state,ndecision);
-  }
+  DecisionTreeLeafBodyC::DecisionTreeLeafBodyC(const LiteralC &ndecision,const DecisionExamplesC  &nexamples) 
+    : DecisionTreeElementBodyC(nexamples),
+      decision(ndecision)
+  {}
   
   //: Dump node in human readable form,
   

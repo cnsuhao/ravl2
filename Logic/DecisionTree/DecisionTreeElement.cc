@@ -11,7 +11,17 @@
 #include "Ravl/Logic/DecisionTreeElement.hh"
 
 namespace RavlLogicN {
+  
+  //: Constructor.
+  
   DecisionTreeElementBodyC::DecisionTreeElementBodyC()
+    : examples(true)
+  {}
+  
+  //: Constructor.
+  
+  DecisionTreeElementBodyC::DecisionTreeElementBodyC(const DecisionExamplesC &nexamples) 
+    : examples(nexamples)
   {}
   
   //: Find next level in the decision tree for given 'state'.

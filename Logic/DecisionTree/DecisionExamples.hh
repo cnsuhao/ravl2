@@ -21,6 +21,7 @@
 #include "Ravl/PatternRec/DataSet2.hh"
 #include "Ravl/Logic/SampleLiteral.hh"
 #include "Ravl/Logic/SampleState.hh"
+#include "Ravl/DList.hh"
 
 namespace RavlLogicN {
 
@@ -37,7 +38,7 @@ namespace RavlLogicN {
     DecisionExamplesBodyC(const DataSet2C<SampleStateC,SampleLiteralC> &data);
     //: Construct from a dataset.
     
-    void Dump(ostream &out);
+    void Dump(ostream &out) const;
     //: Dump examples to a stream.
     
     bool AddExample(const StateC &state,const LiteralC &decision);
@@ -68,6 +69,20 @@ namespace RavlLogicN {
     
     RealT DecisionInformation();
     //: Get an estimate of the information in decisions.
+    
+    bool Seperate(const LiteralC &test,DecisionExamplesC &ttrue,DecisionExamplesC &tfalse) const;
+    //: Split this set into to, ones where the test is true (ttrue) and ones where its false (tfalse).
+    
+    UIntT Decisions() const
+    { return examples.Size(); }
+    //: Get the number of different decisions represented.
+
+    DListC<LiteralC> ListDecisions() const;
+    //: Make a list of decisions.
+
+    LiteralC ProbableDecision() const;
+    //: Get the most likely decision given the examples.
+    
   protected:
     HashC<LiteralC,HSetC<StateC> > examples;  // Map decisions to examples.
     HistogramC<Tuple2C<StateC,LiteralC> > histogram; // Frequency of occurance. 
@@ -95,7 +110,7 @@ namespace RavlLogicN {
     {}
     //: Construct from a dataset.
     
-    void Dump(ostream &out)
+    void Dump(ostream &out) const
     { Body().Dump(out); }
     //: Dump examples to a stream.
     
@@ -119,7 +134,23 @@ namespace RavlLogicN {
     HistogramC<Tuple2C<StateC,LiteralC> > &Histogram()
     { return Body().Histogram(); }
     //: Access frequency table.
-
+    
+    bool Seperate(const LiteralC &test,DecisionExamplesC &ttrue,DecisionExamplesC &tfalse) const
+    { return Body().Seperate(test,ttrue,tfalse); }
+    //: Split this set into to, ones where the test is true (ttrue) and ones where its false (tfalse).
+    
+    UIntT Decisions() const
+    { return Body().Decisions(); }
+    //: Get the number of different decisions represented.
+    
+    DListC<LiteralC> ListDecisions() const
+    { return Body().ListDecisions(); }
+    //: Make a list of decisions.
+    
+    LiteralC ProbableDecision() const
+    { return Body().ProbableDecision(); }
+    //: Get the most likely decision given the examples.
+    
   };
 }
 

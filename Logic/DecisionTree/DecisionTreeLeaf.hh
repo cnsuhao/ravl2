@@ -25,7 +25,7 @@ namespace RavlLogicN {
     DecisionTreeLeafBodyC();
     //: Default constructor.
 
-    DecisionTreeLeafBodyC(const StateC &state,const LiteralC &decision);
+    DecisionTreeLeafBodyC(const LiteralC &decision,const DecisionExamplesC  &nexamples);
     //: Constructor.
     
     LiteralC &Decision()
@@ -38,7 +38,7 @@ namespace RavlLogicN {
 
     virtual void Dump(ostream &out,IntT level = 0) const;
     //: Dump node in human readable form,
-
+    
   protected:
     // List of examples.
     LiteralC decision; // Value of decision at the leaf.
@@ -56,8 +56,8 @@ namespace RavlLogicN {
     //: Default constructor.
     // creates an invalid handle.
     
-    DecisionTreeLeafC(const StateC &state,const LiteralC &decision)
-      : DecisionTreeElementC(*new DecisionTreeLeafBodyC(state,decision))
+    DecisionTreeLeafC(const LiteralC &decision,const DecisionExamplesC  &nexamples)
+      : DecisionTreeElementC(*new DecisionTreeLeafBodyC(decision,nexamples))
     {}
     //: Constructor.
     

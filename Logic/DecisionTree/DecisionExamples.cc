@@ -13,6 +13,13 @@
 #include "Ravl/HashIter.hh"
 #include "Ravl/PatternRec/DataSet2Iter.hh"
 
+#define DODEBUG 1
+#if DODEBUG
+#define ONDEBUG(x) 
+#else
+#define ONDEBUG(x) x
+#endif
+
 namespace RavlLogicN {
 
   //: Construct from a dataset.
@@ -56,9 +63,55 @@ namespace RavlLogicN {
   
   //: Dump examples to a stream.
   
-  void DecisionExamplesBodyC::Dump(ostream &out) {
+  void DecisionExamplesBodyC::Dump(ostream &out) const {
     for(HashIterC<LiteralC,HSetC<StateC> > it(examples);it;it++)
-      cerr << " " << it.Key() << " -> " << it.Data() << "\n";
+      out << " " << it.Key() << " -> " << it.Data() << "\n";
+  }
+
+  //: Split this set into to, ones where the test is true (ttrue) and ones where its false (tfalse).
+  
+  bool DecisionExamplesBodyC::Seperate(const LiteralC &test,DecisionExamplesC &ttrue,DecisionExamplesC &tfalse) const {
+    if(ttrue.IsValid())
+      ttrue = DecisionExamplesC(true);
+    if(tfalse.IsValid())
+      tfalse = DecisionExamplesC(true);
+    for(HashIterC<LiteralC,HSetC<StateC> > it(examples);it;it++) {
+      for(HSetIterC<StateC> sit(it.Data());sit;sit++) {
+	if(sit->Ask(test))
+	  ttrue.AddExample(*sit,it.Key());
+	else
+	  tfalse.AddExample(*sit,it.Key());
+      }
+    }
+    return true;
   }
   
+  //: Make a list of decisions.
+  
+  DListC<LiteralC> DecisionExamplesBodyC::ListDecisions() const {
+    DListC<LiteralC> ret;
+    for(HashIterC<LiteralC,HSetC<StateC> > it(examples);it;it++)
+      ret += it.Key();
+    return ret;
+  }
+  
+  //: Get the most likely decision given the examples.
+  
+  LiteralC DecisionExamplesBodyC::ProbableDecision() const {
+    ONDEBUG(cerr << "DecisionExamplesBodyC::ProbableDecision(), Called. \n");
+    LiteralC ret;
+    IntT maxScore = -1;
+    for(HashIterC<LiteralC,HSetC<StateC> > it(examples);it;it++) {
+      IntT score = 0;
+      for(HSetIterC<StateC> sit(it.Data());sit;sit++)
+	score += histogram[Tuple2C<StateC,LiteralC>(*sit,it.Key())];
+      if(maxScore < score) {
+	ret = it.Key();
+	maxScore = score;
+      }
+    }
+    ONDEBUG(cerr << "DecisionExamplesBodyC::ProbableDecision(), Decision=" << ret << ". \n");
+    return ret;
+  }
+
 }

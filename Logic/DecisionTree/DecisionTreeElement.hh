@@ -25,6 +25,9 @@ namespace RavlLogicN {
   public:
     DecisionTreeElementBodyC();
     //: Default constructor.
+
+    DecisionTreeElementBodyC(const DecisionExamplesC &nexamples);
+    //: Constructor.
     
     DecisionExamplesC &Examples()
     { return examples; }

@@ -16,6 +16,12 @@ namespace RavlLogicN {
   DecisionTreeBranchBinaryBodyC::DecisionTreeBranchBinaryBodyC()
   {}
 
+  //: Construct with a test.
+  
+  DecisionTreeBranchBinaryBodyC::DecisionTreeBranchBinaryBodyC(const LiteralC &ntest)
+    : test(ntest)
+  {}
+  
   //: Dump node in human readable form,
   
   void DecisionTreeBranchBinaryBodyC::Dump(ostream &out,IntT level) const {

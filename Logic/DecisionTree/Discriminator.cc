@@ -10,6 +10,14 @@
 
 #include "Ravl/Logic/Discriminator.hh"
 
+#define DODEBUG 0
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
+
+
 namespace RavlLogicN {
   
   //: Distinguish between the the two sets of examples.
@@ -23,8 +31,10 @@ namespace RavlLogicN {
   //: Choose the best distriminator to seperate the decisions made in 'set'. 
   
   LiteralC DiscriminatorBodyC::BestDiscriminator(const DecisionExamplesC &set) {
+    ONDEBUG(cerr << "DiscriminatorBodyC::BestDiscriminator(), Called. Set size=" << set.Decisions() <<"\n");
+    ONDEBUG(set.Dump(cerr));
     LiteralC ret;    
-    // Build occurance histograms.
+    // Build occurance histograms for each decision.
     HashC<LiteralC,HistogramC<LiteralC> > freqTab;
     for(HashIterC<LiteralC,HSetC<StateC> > it(set.Examples());it;it++) {
       HistogramC<LiteralC> &hist = freqTab[it.Key()];
@@ -51,6 +61,7 @@ namespace RavlLogicN {
 	}
       }
     }
+    ONDEBUG(cerr << "DiscriminatorBodyC::BestDiscriminator(), Discriminator=" << ret << ". \n");
     return ret;
   }
 
