@@ -9,6 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlCarve3D
 //! author="Joel Mitchelson"
+//! docentry="Ravl.3D.Carve3D"
 
 #include "Ravl/3D/PinholeCamera0.hh"
 #include "Ravl/3D/VoxelSet.hh"
@@ -18,8 +19,8 @@ namespace Ravl3DN
 {
   using namespace RavlN;
   using namespace RavlImageN;
-
-  //!userlevel:Develop
+  
+  //! userlevel=Develop
   //:Lookup for fast mapping from image pixels to voxels
 
   class VoxelCameraLookupBodyC : public RCBodyVC
@@ -49,7 +50,7 @@ namespace Ravl3DN
     Array2dC< SArray1dC<ByteT*> > lookup;
   };
 
-  //!userlevel:Develop
+  //! userlevel=Normal
   //:Lookup for fast mapping from image pixels to voxels
 
   class VoxelCameraLookupC : public RCHandleC<VoxelCameraLookupBodyC>
