@@ -1,6 +1,13 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2002, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 //! author="Radek Marik"
 //! date="26.04.1994"
 //! rcsid="$Id$"
+//! lib=RavlMath
 
 #include "Ravl/StdMath.hh" //::Abs()
 #include "Ravl/Types.hh"
@@ -12,56 +19,57 @@
 #include "Ravl/HashIter.hh"
 #include "Ravl/Pair.hh"
 
+#define DODEBUG 1
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
+
 namespace RavlN {
 
-  BoundaryC::BoundaryC(const EdgeListC & edgeList, bool orient)
-    : EdgeListC(edgeList), orientation(orient)
+  BoundaryC::BoundaryC(const DListC<EdgeC> & edgeList, bool orient)
+    : DListC<EdgeC>(edgeList), 
+      orientation(orient)
   {
-    //  cout << "BoundaryC(ListC<EdgeC> & edgeList, bool orient)\n";
+    ONDEBUG(cerr << "BoundaryC(ListC<EdgeC> & edgeList, bool orient)\n");
   }
-
-  BoundaryC::BoundaryC(const BoundaryC & boundary)
-    : EdgeListC(boundary), orientation(boundary.orientation)
-  {
-    //  cout << "BoundaryC(BoundaryC & boundary)\n";
-  }
-
+  
   BoundaryC::BoundaryC(bool orient)
-    : EdgeListC(), orientation(orient) 
+    : orientation(orient) 
   {
-    //  cout << "BoundaryC()\n";
+    ONDEBUG(cout << "BoundaryC()\n");
   }
-    
-  BoundaryC::BoundaryC(const IndexRectangleC & rect)
-    : EdgeListC(),
-      orientation(true) 
+  
+  BoundaryC::BoundaryC(const IndexRange2dC & rect)
+    : orientation(true) 
   {
-    Index2dC     origin(rect.Origin());
-    Index2dC     endP(rect.End());
+    Index2dC   origin(rect.Origin());
+    Index2dC   endP(rect.End());
     BVertexC   oVertex(origin);      // to help to GNU C++ 2.6.0
     CrackCodeC cr(CR_RIGHT);
     EdgeC      edge(oVertex, cr);
     for(IndexC cUp=origin.Col(); cUp <= endP.Col(); cUp++) {
       InsLast(edge);
-      edge.Step(CR_RIGHT);
+      edge.Step(NEIGH_RIGHT);
     }
-    edge.Clock();
+    edge.TurnClock();
     for(IndexC rRight=origin.Row(); rRight <= endP.Row(); rRight++) {
       InsLast(edge);
-      edge.Step(CR_DOWN);
+      edge.Step(NEIGH_DOWN);
     }
-    edge.Clock();
+    edge.TurnClock();
     for(IndexC cDown=endP.Col(); cDown >= origin.Col(); cDown--) {
       InsLast(edge);
-      edge.Step(CR_LEFT);
+      edge.Step(NEIGH_LEFT);
     }
-    edge.Clock();
+    edge.TurnClock();
     for(IndexC rLeft=endP.Row(); rLeft >= origin.Row(); rLeft--) {
       InsLast(edge);
-      edge.Step(CR_UP);
+      edge.Step(NEIGH_UP);
     }
   }
-  
+
   /*
     void
     BoundaryC::Order()
@@ -164,23 +172,23 @@ namespace RavlN {
   
   BoundaryC BoundaryC::Copy() const {
     //  cout << "BoundaryC::Copy()\n";
-    return BoundaryC(EdgeListC::Copy(),orientation);
+    return BoundaryC(DListC<EdgeC>::Copy(),orientation);
   }
   
   BoundaryC &BoundaryC::BReverse() {
     //  cout << "BoundaryC::BReverse()\n";
     Reverse();
-    FOREACH_EDGE(*this, edge)
-      edge.Data().Reverse();
+    for(DLIterC<EdgeC> it(*this);it;it++)
+      it.Data().Reverse();
     orientation = !orientation;
     return *this;
   }
 
   RCHashC<BVertexC, PairC<BVertexC> > BoundaryC::CreateHashtable() const {
     RCHashC<BVertexC, PairC<BVertexC> > hashtable;
-    FOREACH_C_EDGE(*this, edge){
-      BVertexC bvertex1(edge.Data().Begin());
-      BVertexC bvertex2(edge.Data().End());
+    for(DLIterC<EdgeC> edge(*this);edge;edge++) {
+      BVertexC bvertex1(edge->Begin());
+      BVertexC bvertex2(edge->End());
       BVertexC invalid_vertex(-1, -1);
 
       if (!hashtable.IsElm(bvertex1)){
@@ -254,7 +262,6 @@ namespace RavlN {
       if (neighbour1==invalid_vertex || neighbour2==invalid_vertex)
 	endpoints.InsLast(hash_iter.Key());
     }
-
     return endpoints;
   }
 
@@ -262,12 +269,10 @@ namespace RavlN {
   operator<<(ostream & s, const BoundaryC & b) {
     //  s << "\nBoundary: orientation = " << b.Orient() << '\n\n';
     //  s << " row, col, ccode, element, succ, pred , edge \n";
-    FOREACH_C_EDGE(b, elm)
-      {
-	EdgeC edge(elm.Data());
-	s << edge << '\n';
-	//' ' << &edge << ' ' << elm << '\n';  
-      } 
+    for(DLIterC<EdgeC> elm(b);elm;elm++) {
+      s << *elm << '\n';
+      //' ' << &edge << ' ' << elm << '\n';  
+    } 
     return s;
   }
 
@@ -282,169 +287,108 @@ namespace RavlN {
       k = 0;
     else if (endVertex.Col() == startVertex.Col()) 
       kk = 0;
-    else if (  abs(endVertex.Row() - startVertex.Row())
-	       < abs(endVertex.Col() - startVertex.Col())
-	       )
-      k = ((RealT)(endVertex.Row() - startVertex.Row()))
-	/(endVertex.Col() - startVertex.Col());
+    else if (Abs(endVertex.Row() - startVertex.Row()) < Abs(endVertex.Col() - startVertex.Col()))
+      k = ((RealT)(endVertex.Row() - startVertex.Row())) / (endVertex.Col() - startVertex.Col());
     else
-      kk = ((RealT)(endVertex.Col() - startVertex.Col()))
-        /(endVertex.Row() - startVertex.Row());
-  
-    if (startVertex.Col() < endVertex.Col())
-      { // 1 or 2 or 7 or 8 octant
-	if (startVertex.Row() > endVertex.Row())
-	  { // 1 or 2 octant
-	    if ( -(endVertex.Row()-startVertex.Row()) 
-		 < (endVertex.Col()-startVertex.Col())
-		 )
-	      { // 1. octant
-		//        cout << "1. octant: " << k << '\n';
-		while (vertex.Col() < endVertex.Col())
-		  {
-		    boundary.InsLast(EdgeC(vertex,CR_RIGHT));
-		    vertex.Step(CR_RIGHT);
-		    if ( ::Abs(startRow + k *(vertex.Col() - startCol) - vertex.Row())
-			 >0.5
-			 )
-		      {
-			boundary.InsLast(EdgeC(vertex,CR_UP));
-			vertex.Step(CR_UP);
-		      }
-		  }
-	      }
-	    else
-	      { // 2. octant
-		//        cout << "2. octant: " << kk << '\n';
-		while (vertex.Row() > endVertex.Row())
-		  {
-		    boundary.InsLast(EdgeC(vertex,CR_UP));
-		    vertex.Step(CR_UP);
-		    if ( ::Abs(startCol + kk *(vertex.Row() - startRow) - vertex.Col())
-			 >0.5
-			 )
-		      {
-			boundary.InsLast(EdgeC(vertex,CR_RIGHT));
-			vertex.Step(CR_RIGHT);
-		      }
-		  }
-	      }
+      kk = ((RealT)(endVertex.Col() - startVertex.Col())) / (endVertex.Row() - startVertex.Row());
+    
+    if (startVertex.Col() < endVertex.Col()) {  // 1 or 2 or 7 or 8 octant
+      if (startVertex.Row() > endVertex.Row()) {  // 1 or 2 octant
+	if ( -(endVertex.Row()-startVertex.Row()) < (endVertex.Col()-startVertex.Col()) ) { 
+	  // 1. octant
+	  //        cout << "1. octant: " << k << '\n';
+	  while (vertex.Col() < endVertex.Col()) {
+	    boundary.InsLast(EdgeC(vertex,CR_RIGHT));
+	    vertex.Step(NEIGH_RIGHT);
+	    if ( Abs(startRow + k *(vertex.Col() - startCol) - vertex.Row()) > 0.5) {
+	      boundary.InsLast(EdgeC(vertex,CR_UP));
+	      vertex.Step(NEIGH_UP);
+	    }
 	  }
-	else
-	  { // 7 or 8 octant
-	    if (  (endVertex.Row()-startVertex.Row()) 
-		  < (endVertex.Col()-startVertex.Col())
-		  )
-	      { // 8. octant
-		//        cout << "8. octant: " << k << '\n';
-		while (vertex.Col() < endVertex.Col())
-		  {
-		    boundary.InsLast(EdgeC(vertex,CR_RIGHT));
-		    vertex.Step(CR_RIGHT);
-		    if ( ::Abs(startRow + k *(vertex.Col() - startCol) - vertex.Row())
-			 >0.5
-			 )
-		      {
-			boundary.InsLast(EdgeC(vertex,CR_DOWN));
-			vertex.Step(CR_DOWN);
-		      }
-		  }
-	      }
-	    else
-	      { // 7. octant
-		//        cout << "7. octant: " << kk << '\n';
-		while (vertex.Row() < endVertex.Row())
-		  {
-		    boundary.InsLast(EdgeC(vertex,CR_DOWN));
-		    vertex.Step(CR_DOWN);
-		    if ( ::Abs(startCol + kk *(vertex.Row() - startRow) - vertex.Col())
-			 >0.5
-			 )
-		      {
-			boundary.InsLast(EdgeC(vertex,CR_RIGHT));
-			vertex.Step(CR_RIGHT);
-		      }
-		  }
-	      }
+	} else { // 2. octant
+	  //        cout << "2. octant: " << kk << '\n';
+	  while (vertex.Row() > endVertex.Row()) {
+	    boundary.InsLast(EdgeC(vertex,CR_UP));
+	    vertex.Step(NEIGH_UP);
+	    if ( Abs(startCol + kk *(vertex.Row() - startRow) - vertex.Col()) > 0.5 ) {
+	      boundary.InsLast(EdgeC(vertex,CR_RIGHT));
+	      vertex.Step(NEIGH_RIGHT);
+	    }
 	  }
+	}
+      } else { // 7 or 8 octant
+	if ( (endVertex.Row()-startVertex.Row()) < (endVertex.Col()-startVertex.Col()) ) { 
+	  // 8. octant
+	  //        cout << "8. octant: " << k << '\n';
+	  while (vertex.Col() < endVertex.Col()) {
+	    boundary.InsLast(EdgeC(vertex,CR_RIGHT));
+	    vertex.Step(NEIGH_RIGHT);
+	    if (Abs(startRow + k *(vertex.Col() - startCol) - vertex.Row()) > 0.5) {
+	      boundary.InsLast(EdgeC(vertex,CR_DOWN));
+	      vertex.Step(NEIGH_DOWN);
+	    }
+	  }
+	} else { // 7. octant
+	  //        cout << "7. octant: " << kk << '\n';
+	  while (vertex.Row() < endVertex.Row()) {
+	    boundary.InsLast(EdgeC(vertex,CR_DOWN));
+	    vertex.Step(NEIGH_DOWN);
+	    if ( Abs(startCol + kk *(vertex.Row() - startRow) - vertex.Col()) > 0.5) {
+	      boundary.InsLast(EdgeC(vertex,CR_RIGHT));
+	      vertex.Step(NEIGH_RIGHT);
+	    }
+	  }
+	}
       }
-    else
-      { // 3 or 4 or 5 or 6 octant
-	if (startVertex.Row() > endVertex.Row())
-	  { // 3 or 4 octant
-	    if ( -(endVertex.Row()-startVertex.Row()) 
-		 <-(endVertex.Col()-startVertex.Col())
-		 )
-	      { // 4. octant
-		//        cout << "4. octant: " << k << '\n';
-		while (vertex.Col() > endVertex.Col())
-		  {
-		    boundary.InsLast(EdgeC(vertex,CR_LEFT));
-		    vertex.Step(CR_LEFT);
-		    if ( ::Abs(startRow + k *(vertex.Col() - startCol) - vertex.Row())
-			 >0.5
-			 )
-		      {
-			boundary.InsLast(EdgeC(vertex,CR_UP));
-			vertex.Step(CR_UP);
-		      }
-		  }
-	      }
-	    else
-	      { // 3. octant
-		//        cout << "3. octant: " << kk << '\n';
-		while (vertex.Row() > endVertex.Row())
-		  {
-		    boundary.InsLast(EdgeC(vertex,CR_UP));
-		    vertex.Step(CR_UP);
-		    if ( ::Abs(startCol + kk *(vertex.Row() - startRow) - vertex.Col())
-			 >0.5
-			 )
-		      {
-			boundary.InsLast(EdgeC(vertex,CR_LEFT));
-			vertex.Step(CR_LEFT);
-		      }
-		  }
-	      }
+    } else { // 3 or 4 or 5 or 6 octant
+      if (startVertex.Row() > endVertex.Row()) { // 3 or 4 octant
+	if ( -(endVertex.Row()-startVertex.Row())  < -(endVertex.Col()-startVertex.Col())) { 
+	  // 4. octant
+	  //        cout << "4. octant: " << k << '\n';
+	  while (vertex.Col() > endVertex.Col()) {
+	    boundary.InsLast(EdgeC(vertex,CR_LEFT));
+	    vertex.Step(NEIGH_LEFT);
+	    if (Abs(startRow + k *(vertex.Col() - startCol) - vertex.Row()) > 0.5) {
+	      boundary.InsLast(EdgeC(vertex,CR_UP));
+	      vertex.Step(NEIGH_UP);
+	    }
 	  }
-	else
-	  { // 5 or 6 octant
-	    if (  (endVertex.Row()-startVertex.Row()) 
-		  <-(endVertex.Col()-startVertex.Col())
-		  )
-	      { // 5. octant
-		//        cout << "5. octant: " << k << '\n';
-		while (vertex.Col() > endVertex.Col())
-		  {
-		    boundary.InsLast(EdgeC(vertex,CR_LEFT));
-		    vertex.Step(CR_LEFT);
-		    if ( ::Abs(startRow + k *(vertex.Col() - startCol) - vertex.Row())
-			 >0.5
-			 )
-		      {
-			boundary.InsLast(EdgeC(vertex,CR_DOWN));
-			vertex.Step(CR_DOWN);
-		      }
-		  }
-	      }
-	    else
-	      { // 6. octant
-		//        cout << "6. octant: " << kk << '\n';
-		while (vertex.Row() < endVertex.Row())
-		  {
-		    boundary.InsLast(EdgeC(vertex,CR_DOWN));
-		    vertex.Step(CR_DOWN);
-		    if ( ::Abs(startCol + kk *(vertex.Row() - startRow) - vertex.Col())
-			 >0.5
-			 )
-		      {
-			boundary.InsLast(EdgeC(vertex,CR_LEFT));
-			vertex.Step(CR_LEFT);
-		      }
-		  }
-	      }
+	} else { // 3. octant
+	  //        cout << "3. octant: " << kk << '\n';
+	  while (vertex.Row() > endVertex.Row()) {
+	    boundary.InsLast(EdgeC(vertex,CR_UP));
+	    vertex.Step(NEIGH_UP);
+	    if ( Abs(startCol + kk *(vertex.Row() - startRow) - vertex.Col()) > 0.5) {
+	      boundary.InsLast(EdgeC(vertex,CR_LEFT));
+	      vertex.Step(NEIGH_LEFT);
+	    }
 	  }
+	}
+      } else { // 5 or 6 octant
+	if (  (endVertex.Row()-startVertex.Row()) < -(endVertex.Col()-startVertex.Col()) ) { 
+	  // 5. octant
+	  //        cout << "5. octant: " << k << '\n';
+	  while (vertex.Col() > endVertex.Col()) {
+	    boundary.InsLast(EdgeC(vertex,CR_LEFT));
+	    vertex.Step(NEIGH_LEFT);
+	    if ( Abs(startRow + k *(vertex.Col() - startCol) - vertex.Row()) > 0.5) {
+	      boundary.InsLast(EdgeC(vertex,CR_DOWN));
+	      vertex.Step(NEIGH_DOWN);
+	    }
+	  }
+	} else { // 6. octant
+	  //        cout << "6. octant: " << kk << '\n';
+	  while (vertex.Row() < endVertex.Row()) {
+	    boundary.InsLast(EdgeC(vertex,CR_DOWN));
+	    vertex.Step(NEIGH_DOWN);
+	    if (Abs(startCol + kk *(vertex.Row() - startRow) - vertex.Col()) > 0.5) {
+	      boundary.InsLast(EdgeC(vertex,CR_LEFT));
+	      vertex.Step(NEIGH_LEFT);
+	    }
+	  }
+	}
       }
+    }
     //  cout << "Line2Boundary - size:" << boundary.Size() << '\n';
     return boundary;
   }

@@ -1,8 +1,14 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2002, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 #ifndef RAVL_BOUNDARY_HEADER
 #define RAVL_BOUNDARY_HEADER 1
 /////////////////////////////////////////////////////////////////////////
 //! file="Ravl/Geometry/Boundary/Boundary.hh"
-//! lib=Mbnd
+//! lib=RavlMath
 //! userlevel=Normal
 //! author="Radek Marik"
 //! date="26/10/1992"
@@ -12,6 +18,7 @@
 #include "Ravl/Types.hh" 
 #include "Ravl/Edge.hh"
 #include "Ravl/DList.hh"
+#include "Ravl/IndexRange2d.hh"
 
 namespace RavlN {
   template<class KeyT, class DataT> class RCHashC;
@@ -32,18 +39,17 @@ namespace RavlN {
     BoundaryC(bool orient = true);
     //: Empty boundary with orientation 'orient'.
     
-    BoundaryC(const BoundaryC & list);
-    //: Another access to the same boundary (constructor for a big object).
-    
-    BoundaryC(const DListC<EdgeListC> & edgeList, bool orient);
+    BoundaryC(const DListC<EdgeC> & edgeList, bool orient);
     //: Create the boundary from the list of edges with a appropriate orientation. 
     // The 'edgelist' will be a part of boundary.
 
+#if 0
     BoundaryC(const DListC<EdgePtrC> & edgeList, bool orient = true);
     //: Creates the boundary from the list of pointers to the elementary edges.
     // The orientation of the boundary is set according to 'orient'.
+#endif
     
-    BoundaryC(const IndexRectangleC & rect);
+    BoundaryC(const IndexRange2dC & rect);
     //: The boundary of the rectangle as a hole
     
     SizeT Area() const;
@@ -65,6 +71,7 @@ namespace RavlN {
     BoundaryC Copy() const;
     //: Create a physical copy of the boundary.
     
+#if 0
     EdgeCPtrListC ConvexHull() const;
     //: Compute the convex hull.
     // The convex hull is created from the original Jordan boundary using
@@ -77,6 +84,7 @@ namespace RavlN {
     EdgeCPtrListC ConvexHullMM() const;
     // The convex hull is created from the original Jordan boundary using
     // Marik&Matas's method. 
+#endif
     
     IndexRange2dC BoundingBox() const;
     //: Get the bounding box of the boundary in "boundary's" coordinates.
@@ -101,26 +109,24 @@ namespace RavlN {
     BoundaryC OrderContinuous(const RCHashC<BVertexC, PairC<BVertexC> > & hashtable, const EdgeC & firstEdge, bool orient) const;
     // Returns a continous boundary; if the boundary is open, 'orient' will be 
     // ignored and 'firstEdge' must be one of the end points of the boundary.
-
+    
     DListC<BVertexC> FindEndpoints(const RCHashC<BVertexC, PairC<BVertexC> > & hashtable) const;
     // Returns the endpoints of the boundary, i.e. if the boundary is closed,
     // the list will be empty.
   };
-
+  
   ostream & operator<<(ostream & s, const BoundaryC & b);
   // Prints the whole boundary into the output stream 's'.
 
-  BoundaryC 
-  Line2Boundary(const BVertexC & startVertex, const BVertexC & endVertex);
+#if 0
+  BoundaryC Line2Boundary(const BVertexC & startVertex, const BVertexC & endVertex);
   // Creates a boundary which connects both boundary vertexes.
 
-  void 
-  SaveAsGF(ostream & s, const DListC<BoundaryC> & boundaries, LongIntT minArea);
+  void SaveAsGF(ostream & s, const DListC<BoundaryC> & boundaries, LongIntT minArea);
   // Save all boundaries which inside area is bigger than 'minArea'
   // into the stream 's'.
 
-  void 
-  SaveCompressed(ostream & s, const DListC<BoundaryC> & boundaries, 
+  void SaveCompressed(ostream & s, const DListC<BoundaryC> & boundaries, 
 		 LongIntT minArea);
   // Save all boundaries which inside area is bigger than 'minArea'
   // into the stream 's'.
@@ -130,7 +136,7 @@ namespace RavlN {
 
 #define FOREACH_EDGE(boundary, e) \
   for(EdgePtrC e(boundary); e.IsElm(); e.Next())
-
+#endif
 }
 #endif
 

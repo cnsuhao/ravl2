@@ -1,8 +1,14 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2002, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 #ifndef RAVL_CRACKCODE_HEADER
 #define RAVL_CRACKCODE_HEADER 1
 //////////////////////////////////////////////////////////////////////////
 //! file="Ravl/StdType/Entity/CrackCod.hh"
-//! lib=Mentity
+//! lib=RavlMath
 //! userlevel=Normal
 //! author="Radek Marik"
 //! date="26.10.1992"
@@ -108,11 +114,11 @@ namespace RavlN {
     //: Turns the crackcode backward.
     // This is an inplace operation.
     
-    Index2dC Step(const Index2dC &pixel) const {
+    Index2dC Next(const Index2dC &pixel) const {
       return Index2dC(pixel.Row() + offsetRow[crackCode],
 		      pixel.Col() + offsetCol[crackCode]);
     }
-    //: Step one pixel in the direction of the crack code.
+    //: Get pixel in the direction of the crack code.
     
   protected:
     static const CrackCodeT clockWiseTurn[5];
