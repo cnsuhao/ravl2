@@ -300,7 +300,7 @@ namespace RavlN {
 
   //! userlevel=Normal
   //: Dynamic array.
-  // Behaves like Array1dC, together with some of the propoertied of a
+  // Behaves like Array1dC, together with some of the properties of a
   // list.  Thus you can increase its size after you have created it,
   // and delete elements from it.  Random access is slightly slower than
   // Array1dC.
