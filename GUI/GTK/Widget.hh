@@ -23,6 +23,7 @@
 #include "Ravl/Hash.hh"
 #include "Ravl/String.hh"
 #include <gtk/gtkenums.h>
+#include <gdk/gdk.h>
 
 // Namespace fix for Visual C++
 #if RAVL_COMPILER_VISUALCPP6
@@ -520,6 +521,12 @@ namespace RavlGUIN {
   //! docentry="Ravl.GUI.Layout"
   //! userlevel=Normal
   //: Add a widget into a widget list.
-
+  
+  inline void static GUIBeep()
+  {
+    gdk_beep();
+  }
+  //: Emit a short beep
+  
 }
 #endif
