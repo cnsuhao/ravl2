@@ -83,8 +83,8 @@ namespace RavlN {
     //: Angle between origin and point p.
     
     inline Point2dC Value(RealT angle) const {
-      return Point2dC(centre.X() + radius * Cos(angle),
-		      centre.Y() + radius * Sin(angle));
+      return Point2dC(centre[0] + radius * Cos(angle),
+		      centre[1] + radius * Sin(angle));
     }
     //: Get point on circle at given angle.
     

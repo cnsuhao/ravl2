@@ -109,7 +109,7 @@ namespace RavlN {
          // iff testline passes through a vertex and yet not into polygon
          // at that vertex _and_ the vertex lies to the right of my test point
          // then we count that vertex twice
-         else if (l2.ParIntersection(testLine) == 0 && p.X() <= l2.P1()[0]
+         else if (l2.ParIntersection(testLine) == 0 && p[0] <= l2.P1()[0]
                   && leftof == testLine.IsPointToLeft(l2.P2()))
             count++;
     

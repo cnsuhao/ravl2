@@ -76,8 +76,8 @@ namespace RavlN {
     // Write end points of line
     Point2dC Pnt0(Point(Ends[0]));
     Point2dC Pnt1(Point(Ends[1]));
-    Out << Pnt0.Y() << " " << Pnt0.X() << " ";
-    Out << Pnt1.Y() << " " << Pnt1.X() << " ";
+    Out << Pnt0[1] << " " << Pnt0[0] << " ";
+    Out << Pnt1[1] << " " << Pnt1[0] << " ";
     return true;
   }
   

@@ -12,7 +12,7 @@
 //! rcsid="$Id$"
 //! lib=RavlMath
 //! author="Charles Galambos"
-//! date="26/08/98"
+//! date="26/08/1998"
 //! file="Ravl/Math/Geometry/Euclidean/2D/Curve2dLine.hh"
 
 #include "Ravl/LineABC2d.hh"
@@ -135,8 +135,8 @@ namespace RavlN {
     // FIXME :- Could this be simplified ??
     Point2dC Where = Projection(Pnt); // Get a point actualy on the line.
     if(Abs(B()) > Abs(A()))
-      return ((Where.X() + (A() * C())) / -B());
-    return ((Where.Y() + (B() * C())) / A());  
+      return ((Where[0] + (A() * C())) / -B());
+    return ((Where[1] + (B() * C())) / A());  
   }
   
 }

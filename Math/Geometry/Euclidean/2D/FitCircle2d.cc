@@ -34,8 +34,8 @@ namespace RavlN {
     MatrixC A(N,3);
     VectorC B(N);
     for(IntT i =0 ;i < N;i++) {
-      const RealT X = points[i].X();
-      const RealT Y = points[i].Y();
+      const RealT X = points[i][0];
+      const RealT Y = points[i][1];
       A[i][0] = X;
       A[i][1] = Y;
       A[i][2] = 1;

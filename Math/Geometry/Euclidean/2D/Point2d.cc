@@ -19,7 +19,7 @@ namespace RavlN {
       // the size of the cross product of these two vectors.
       Point2dC aa(second - *this);   // O'Rourke 1.2
       Point2dC bb(third  - *this);
-      return aa.X()*bb.Y() - aa.Y()*bb.X();
+      return aa[0]*bb[1] - aa[1]*bb[0];
    }
 
 }

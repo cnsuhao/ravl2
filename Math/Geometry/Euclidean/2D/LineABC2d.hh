@@ -75,11 +75,11 @@ namespace RavlN {
     //: system.
     
     inline RealT A() const
-    { return normal.X(); }
+    { return normal[0]; }
     //: Returns parameter a.
     
     inline RealT B() const
-    { return normal.Y(); }
+    { return normal[1]; }
     //: Returns parameter b.
     
     inline RealT C() const
@@ -100,8 +100,8 @@ namespace RavlN {
     //: Geometrical constructions.
     
     inline RealT Residuum(const Point2dC & p) const
-    { return (normal.X() * p.X() + normal.Y() * p.Y()) + d; }
-    //: Returns the value of the function A()*p.X()+B()*p.Y()+C() often
+    { return (normal[0] * p[0] + normal[1] * p[1]) + d; }
+    //: Returns the value of the function A()*p[0]+B()*p[1]+C() often
     //: used in geometrical computations.
     
     inline LineABC2dC & MakeUnitNormal();

@@ -26,8 +26,8 @@ namespace RavlN {
   
   void Curve2dLineC::GetLimits(RealT &Low,RealT &High,const IndexRange2dC &Rect) const {
     Vector2dC unit = Tangent(0);
-    RealT ux = fabs(unit.X());
-    RealT uy = fabs(unit.Y());
+    RealT ux = fabs(unit[0]);
+    RealT uy = fabs(unit[1]);
     RealT x1,y1,x2,y2;
     if(ux > uy) {
       x1 = Rect.Origin().Row();

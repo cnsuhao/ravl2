@@ -85,11 +85,11 @@ namespace RavlN {
 
       // If ab not vertical, check betweenness on x; else on y.
       if ( P1()[0] != P2()[0] ) 
-         return   ((P1()[0] <= point.X()) && (point.X() <= P2()[0]))
-            ||((P1()[0] >= point.X()) && (point.X() >= P2()[0]));
+         return   ((P1()[0] <= point[0]) && (point[0] <= P2()[0]))
+            ||((P1()[0] >= point[0]) && (point[0] >= P2()[0]));
       else
-         return   ((P1()[1] <= point.Y()) && (point.Y() <= P2()[1]))
-            ||((P1()[1] >= point.Y()) && (point.Y() >= P2()[1]));
+         return   ((P1()[1] <= point[1]) && (point[1] <= P2()[1]))
+            ||((P1()[1] >= point[1]) && (point[1] >= P2()[1]));
    }
 
    Point2dC LinePP2dC::Intersection(const LinePP2dC & l) const {
@@ -98,8 +98,8 @@ namespace RavlN {
       RealT     d1  = - n1.Dot(FirstPoint());
       RealT     d2  = - n2.Dot(l.FirstPoint());
       RealT     det = n1.Cross(n2);
-      return Point2dC((n1.Y()*d2 - n2.Y()*d1)/det,
-                      (n2.X()*d1 - n1.X()*d2)/det);
+      return Point2dC((n1[1]*d2 - n2[1]*d1)/det,
+                      (n2[0]*d1 - n1[0]*d2)/det);
    }
    
    RealT LinePP2dC::ParIntersection(const LinePP2dC & l) const {
