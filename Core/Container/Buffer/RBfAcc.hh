@@ -104,11 +104,19 @@ namespace RavlN {
     { return range.Max(); }
     // Returns the maximum index of the range of this access.
     
-    inline const DataT  & operator[](IndexC i) const;
-    // Read-only access to the ('i'+1)-th element of the buffer.     
+    inline const DataT  & operator[](IntT i) const;
+    // Read-only access to the 'i'-th element of the buffer.     
     
-    inline DataT & operator[](IndexC i);
-    // Read-write access  to the ('i'+1)-th element of the buffer. 
+    inline DataT & operator[](IntT i);
+    // Read-write access  to the 'i'-th element of the buffer. 
+    
+    inline const DataT  & operator[](IndexC i) const
+    { return (*this)[i.V()]; }
+    // Read-only access to the 'i'-th element of the buffer.     
+    
+    inline DataT & operator[](IndexC i)
+    { return (*this)[i.V()]; }
+    // Read-write access  to the 'i'-th element of the buffer. 
     
     inline const RangeBufferAccessC<DataT> & RAccess(void) const;
     // Returns this object.
@@ -317,21 +325,21 @@ namespace RavlN {
   }
   
   template <class DataT>
-  inline const DataT &RangeBufferAccessC<DataT>::operator[](IndexC i) const {
+  inline const DataT &RangeBufferAccessC<DataT>::operator[](IntT i) const {
 #if RAVL_CHECK
     if (!Contains(i)) 
       IssueError(__FILE__,__LINE__,"Index  %d  out of  range %d - %d  ",
-		 i.V(),Range().Min().V(),Range().Max().V());
+		 i,Range().Min().V(),Range().Max().V());
 #endif
     return BufferAccessC<DataT>::operator[](i);
   }
   
   template <class DataT>
-  inline DataT & RangeBufferAccessC<DataT>::operator[](IndexC i) {
+  inline DataT & RangeBufferAccessC<DataT>::operator[](IntT i) {
 #if RAVL_CHECK
     if (!Contains(i)) 
       IssueError(__FILE__,__LINE__,"Index  %d  out of  range %d - %d  ",
-		 i.V(),Range().Min().V(),Range().Max().V());
+		 i,Range().Min().V(),Range().Max().V());
 #endif
     return BufferAccessC<DataT>::operator[](i);
   }

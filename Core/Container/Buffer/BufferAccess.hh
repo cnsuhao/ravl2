@@ -55,14 +55,22 @@ namespace RavlN {
     { return buff != 0; }
     // Returns TRUE if this buffer access is not a default access object.
     
-    inline const DataT  & operator[](const IndexC i) const
-    { return buff[i.V()]; }
-    // Read-only access to the ('i'+1)-th element of the buffer.     
+    inline const DataT  & operator[](IntT i) const
+    { return buff[i]; }
+    // Read-only access to the 'i'-th element of the buffer.     
     
-    inline DataT & operator[](const IndexC i)
-    { return buff[i.V()]; }
-    // Read-write access  to the ('i'+1)-th element of the buffer. 
+    inline DataT & operator[](IntT i)
+    { return buff[i]; }
+    // Read-write access  to the 'i'-th element of the buffer. 
 
+    inline const DataT  & operator[](IndexC i) const
+    { return buff[i.V()]; }
+    // Read-only access to the 'i'-th element of the buffer.     
+    
+    inline DataT & operator[](IndexC i)
+    { return buff[i.V()]; }
+    // Read-write access  to the 'i'-th element of the buffer. 
+    
     const BufferAccessC<DataT> &operator+=(IndexC ind) { 
       buff += ind.V();
       return *this;
