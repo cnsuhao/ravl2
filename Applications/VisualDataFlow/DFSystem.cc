@@ -13,6 +13,8 @@
 #include "Ravl/DF/DFData.hh"
 #include "Ravl/DF/DFPort.hh"
 #include "Ravl/IO.hh"
+#include "Ravl/BinStream.hh"
+#include "Ravl/Stream.hh"
 
 #define DODEBUG 1
 #if DODEBUG
@@ -29,6 +31,30 @@ namespace RavlDFN {
     : name(nname),
       sigChange(DFOU_CHANGED)
   {}
+
+  //: Read from istream.
+  
+  DFSystemBodyC::DFSystemBodyC(istream &is)
+  { is >> name >> objects; }
+  
+  //: Read from istream.
+  
+  DFSystemBodyC::DFSystemBodyC(BinIStreamC &is)
+  { is >> name >> objects; }
+  
+  //: Save ostream.
+  
+  bool DFSystemBodyC::Save(ostream &strm) const {
+    strm << name << ' ' << objects << ' ' ;
+    return true;
+  }
+  
+  //: Save ostream.
+  
+  bool DFSystemBodyC::Save(BinOStreamC &strm) const {
+    strm << name << objects;
+    return true;
+  }
   
   //: Add an object to the system.
   
@@ -73,6 +99,39 @@ namespace RavlDFN {
       return DFObjectC();
     AddObject(ret);
     return ret;
+  }
+  
+  
+  //////////////////////////////////////////////////////////////////////////
+  
+  //: Write to an ostream.
+  
+  ostream &operator<<(ostream &strm,const DFSystemC &dfa) {
+    RavlAssert(dfa.IsValid());
+    dfa.Save(strm);
+    return strm;
+  }
+  
+  //: Read from an istream.
+  
+  istream &operator>>(istream &strm,DFSystemC &dfa) {
+    dfa = DFSystemC(strm);
+    return strm;
+  }
+  
+  //: Write to an ostream.
+  
+  BinOStreamC &operator<<(BinOStreamC &strm,const DFSystemC &dfa) {
+    RavlAssert(dfa.IsValid());
+    dfa.Save(strm);
+    return strm;
+  }
+  
+  //: Read from an istream.
+  
+  BinIStreamC &operator>>(BinIStreamC &strm,DFSystemC &dfa) {
+    dfa = DFSystemC(strm);
+    return strm;
   }
 
 }

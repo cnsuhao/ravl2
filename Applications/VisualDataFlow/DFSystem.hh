@@ -31,6 +31,18 @@ namespace RavlDFN {
     DFSystemBodyC(const StringC &nname);
     //: Constructor.
     
+    DFSystemBodyC(istream &is);
+    //: Read from istream.
+    
+    DFSystemBodyC(BinIStreamC &is);
+    //: Read from istream.
+    
+    bool Save(ostream &strm) const;
+    //: Save ostream.
+    
+    bool Save(BinOStreamC &strm) const;
+    //: Save ostream.
+    
     DListC<DFObjectC> Objects()
     { return objects; }
     //: Access list of objects in the system.
@@ -87,6 +99,16 @@ namespace RavlDFN {
     {}
     //: Construct a new system named 'nname'
     
+    DFSystemC(istream &strm)
+      : RCHandleC<DFSystemBodyC>(* new DFSystemBodyC(strm))
+    {} 
+    //: Construct from istream.
+    
+    DFSystemC(BinIStreamC &strm)
+      : RCHandleC<DFSystemBodyC>(* new DFSystemBodyC(strm))
+    {} 
+    //: Construct from a BinIStreamC
+    
   protected:
     DFSystemBodyC &Body()
     { return RCHandleC<DFSystemBodyC>::Body(); }
@@ -96,6 +118,13 @@ namespace RavlDFN {
     { return RCHandleC<DFSystemBodyC>::Body(); }
     //: Access body.
   public:
+    bool Save(ostream &strm) const
+    { return Body().Save(strm); }
+    //: Save ostream.
+    
+    bool Save(BinOStreamC &strm) const
+    { return Body().Save(strm); }
+    //: Save ostream.
     
     DListC<DFObjectC> Objects()
     { return Body().Objects(); }
@@ -137,7 +166,21 @@ namespace RavlDFN {
     { return Body().DelObject(obj); }
     //: Remove an object from the system.
     // Returns true if object was in the system.
+    
   };
+  
+  ostream &operator<<(ostream &strm,const DFSystemC &dfa);
+  //: Write to an ostream.
+  
+  istream &operator>>(istream &strm,DFSystemC &dfa);
+  //: Read from an istream.
+  
+  BinOStreamC &operator<<(BinOStreamC &strm,const DFSystemC &dfa);
+  //: Write to an ostream.
+  
+  BinIStreamC &operator>>(BinIStreamC &strm,DFSystemC &dfa);
+  //: Read from an istream.
+
 }
 
 #endif

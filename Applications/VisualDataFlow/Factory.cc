@@ -39,7 +39,8 @@ namespace RavlDFN {
 	cerr << "DFObjectFromFile(), Failed to open '" << file << "' Format=" << format << "\n";
 	return ret;
       }
-      ip.SetAttr("id",file);
+      if(ip.IsValid())
+	ip.SetAttr("id",file);
       return DFIPortC(ip,file);
     }
     if(format == "meta_out") {
@@ -49,7 +50,8 @@ namespace RavlDFN {
 	cerr << "DFObjectFromFile(), Failed to open '" << file << "' Format=" << format << "\n";
 	return ret;
       }
-      ip.SetAttr("id",file);
+      if(ip.IsValid())
+	ip.SetAttr("id",file);
       return DFOPortC(ip,file);
     }
     if(format == "pump") {

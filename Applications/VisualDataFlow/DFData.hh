@@ -27,6 +27,18 @@ namespace RavlDFN {
     DFDataBodyC(const StringC &nname,const RCWrapAbstractC &ndata);
     //: Construct from name and data.
     
+    DFDataBodyC(istream &strm);
+    //: Load from stream.
+    
+    DFDataBodyC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
+    virtual bool Save (ostream &out) const;
+    //: Writes object to stream, can be loaded using constructor
+    
+    virtual bool Save (BinOStreamC &out) const;
+    //: Writes object to stream, can be loaded using constructor
+    
     virtual bool Render(GUIViewBodyC &view,const Index2dC &at,DFRenderModeT mode);
     //: Render object to view.
     

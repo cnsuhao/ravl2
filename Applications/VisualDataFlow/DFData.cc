@@ -40,8 +40,7 @@ namespace RavlDFN {
     RenderSize(size);
     return true;
   }
-
-#if 0  
+  
   //: Load from stream.
   
   DFDataBodyC::DFDataBodyC(istream &strm)
@@ -70,6 +69,5 @@ namespace RavlDFN {
       return false;
     return true;
   }
-#endif
   
 }

@@ -29,10 +29,25 @@ namespace RavlDFN {
   public:
     DFPortBodyC(const StringC &nname,DFAttachPlacementT attach = ATTACH_FLOAT);
     //: Constructor.
+
+    DFPortBodyC(istream &strm);
+    //: Load from stream.
+    
+    DFPortBodyC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
+    virtual bool Save (ostream &out) const;
+    //: Writes object to stream, can be loaded using constructor
+    
+    virtual bool Save (BinOStreamC &out) const;
+    //: Writes object to stream, can be loaded using constructor
     
     virtual bool Render(GUIViewBodyC &view,const Index2dC &at,DFRenderModeT mode);
     //: Render object to view.
     
+    virtual DFMouseActionT MouseClick(GUIViewBodyC &view,const  MouseEventC &me);
+    //: Process a mouse click.
+
     virtual DPPortC Port();
     //: Access the port.
     
@@ -147,7 +162,7 @@ namespace RavlDFN {
     virtual DPPortC Port();
     //: Access the port.
     
-    virtual DFObjectC LinkTo(const DFObjectC &obj,bool autoConvert = false);
+    virtual DFObjectC LinkTo(const DFObjectC &obj,DFSystemC &system,bool autoConvert);
     //: Attempt to link to another object.
 
     virtual bool Connect(DFPortC &port);
@@ -246,7 +261,7 @@ namespace RavlDFN {
     virtual DPPortC Port();
     //: Access the port.
     
-    virtual DFObjectC LinkTo(const DFObjectC &obj,bool autoConvert = false);
+    virtual DFObjectC LinkTo(const DFObjectC &obj,DFSystemC &system,bool autoConvert);
     //: Attempt to link to another object.
 
     virtual bool Connect(DFPortC &port);
@@ -345,7 +360,7 @@ namespace RavlDFN {
     { return iplug; }
     //: Access the port.
     
-    virtual DFObjectC LinkTo(const DFObjectC &obj,bool autoConvert = false);
+    virtual DFObjectC LinkTo(const DFObjectC &obj,DFSystemC &system,bool autoConvert);
     //: Attempt to link to another object.
     
     virtual bool Connect(DFPortC &port);
@@ -441,7 +456,7 @@ namespace RavlDFN {
     { return oplug; }
     //: Access the port.
     
-    virtual DFObjectC LinkTo(const DFObjectC &obj,bool autoConvert = false);
+    virtual DFObjectC LinkTo(const DFObjectC &obj,DFSystemC &system,bool autoConvert);
     //: Attempt to link to another object.
     
     virtual bool Connect(DFPortC &port);

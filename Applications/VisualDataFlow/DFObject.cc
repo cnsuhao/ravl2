@@ -10,6 +10,7 @@
 
 #include "Ravl/DF/DFObject.hh"
 #include "Ravl/DF/GUIView.hh"
+#include "Ravl/BinStream.hh"
 #include <gtk/gtk.h>
 
 namespace RavlDFN {
@@ -30,6 +31,67 @@ namespace RavlDFN {
       placement(nplacement)
   {}
   
+  //: Load from stream.
+  
+  DFAttachBodyC::DFAttachBodyC(BinIStreamC &strm) {
+    int nplace;
+    strm >> object >> offset >> nplace;
+    placement = (DFAttachPlacementT) nplace;
+  }
+  
+  //: Load from stream.
+  
+  DFAttachBodyC::DFAttachBodyC(istream &strm) {
+    int nplace;
+    strm >> object >> offset >> nplace;
+    placement = (DFAttachPlacementT) nplace;
+  }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool DFAttachBodyC::Save (ostream &out) const {
+    out << object << ' ' << offset << ' ' << ((int) placement) << ' ' ;
+    return true;
+  }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool DFAttachBodyC::Save (BinOStreamC &out) const {
+    out << object << offset << ((int) placement);
+    return true;
+  }
+  
+  //: Write to an ostream.
+  
+  ostream &operator<<(ostream &strm,const DFAttachC &dfa) {
+    RavlAssert(dfa.IsValid());
+    dfa.Save(strm);
+    return strm;
+  }
+  
+  //: Read from an istream.
+  
+  istream &operator>>(istream &strm,DFAttachC &dfa) {
+    dfa = DFAttachC(strm);
+    return strm;
+  }
+  
+  //: Write to an ostream.
+  
+  BinOStreamC &operator<<(BinOStreamC &strm,const DFAttachC &dfa) {
+    RavlAssert(dfa.IsValid());
+    dfa.Save(strm);
+    return strm;
+  }
+  
+  //: Read from an istream.
+  
+  BinIStreamC &operator>>(BinIStreamC &strm,DFAttachC &dfa) {
+    dfa = DFAttachC(strm);
+    return strm;
+  }
+  
+  
   ////////////////////////////////////////////////////////////////////////
   
   //: Default constructor.
@@ -46,6 +108,36 @@ namespace RavlDFN {
       renderSize(10,10),
       packingSize(10,10)
   {}
+  
+  //: Load from stream.
+  
+  DFObjectBodyC::DFObjectBodyC(istream &strm) 
+    : RCBodyVC(strm)
+  { strm >> name >> renderSize >> packingSize; }
+  
+  //: Load from binary stream.
+  
+  DFObjectBodyC::DFObjectBodyC(BinIStreamC &strm) 
+    : RCBodyVC(strm)
+  { strm >> name >> renderSize >> packingSize; }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool DFObjectBodyC::Save (ostream &out) const {
+    if(!RCBodyVC::Save(out))
+      return false;    
+    out << name << ' ' << renderSize << ' ' << packingSize << ' ';
+    return true;
+  }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool DFObjectBodyC::Save (BinOStreamC &out) const {
+    if(!RCBodyVC::Save(out))
+      return false;
+    out << name << renderSize << packingSize;
+    return true;
+  }
   
   //: Initalise with info from a factory.
   // This is used to setup icons, and default settings..
@@ -81,9 +173,17 @@ namespace RavlDFN {
     return false;
   }
   
+  //: Process a mouse click.
+  
+  DFMouseActionT DFObjectBodyC::MouseClick(GUIViewBodyC &view,const  MouseEventC &me) {
+    if(me.HasChanged(0)) 
+      return DFMA_SELECTDRAG;
+    return DFMA_NONE;
+  }
+  
   //: Attempt to link to another object.
   
-  DFObjectC DFObjectBodyC::LinkTo(const DFObjectC &,bool autoConvert) {
+  DFObjectC DFObjectBodyC::LinkTo(const DFObjectC &,DFSystemC &sys,bool autoConvert) {
     return DFObjectC(); // Don't know how to link.
   }
   
@@ -96,6 +196,50 @@ namespace RavlDFN {
   
   DListC<DFAttachC> DFObjectBodyC::Parts() const {
     return DListC<DFAttachC>();
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////
+  
+  //: Construct from a stream.
+  
+  DFObjectC::DFObjectC(istream &strm) 
+    : RCHandleVC<DFObjectBodyC>(RAVL_VIRTUALCONSTRUCTOR(strm,DFObjectBodyC))
+  {}
+  
+  //: Construct from a binary stream.
+  
+  DFObjectC::DFObjectC(BinIStreamC &strm) 
+    : RCHandleVC<DFObjectBodyC>(RAVL_VIRTUALCONSTRUCTOR(strm,DFObjectBodyC))
+  {}
+  
+  //: Write DFObjectC to stream.
+  
+  BinOStreamC &operator<<(BinOStreamC &strm,const DFObjectC &dfo) {
+    RavlAssert(dfo.IsValid());
+    dfo.Save(strm);
+    return strm; 
+  }
+  
+  //: Read DFObject from stream.
+  
+  BinIStreamC &operator>>(BinIStreamC &strm,DFObjectC &dfo) {
+    dfo = DFObjectC(strm);
+    return strm;
+  }
+  
+  //: Write DFObjectC to stream.
+  
+  ostream &operator<<(ostream &strm,const DFObjectC &dfo) {
+    RavlAssert(dfo.IsValid());
+    dfo.Save(strm);
+    return strm;
+  }
+  
+  //: Read DFObject from stream.
+  
+  istream &operator>>(istream &strm,DFObjectC &dfo) {
+    dfo = DFObjectC(strm);
+    return strm;
   }
 
   

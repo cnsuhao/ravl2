@@ -13,6 +13,8 @@
 #include "Ravl/DF/DFLink.hh"
 #include "Ravl/TypeName.hh"
 #include "Ravl/DP/TypeConverter.hh"
+#include "Ravl/DP/StreamProcess.hh"
+#include "Ravl/DF/DFStreamOp.hh"
 
 #define DODEBUG 1
 #if DODEBUG
@@ -30,6 +32,34 @@ namespace RavlDFN {
       attachAt(attach),
       attachScale(10)
   {}
+  
+  //: Load from stream.
+  
+  DFPortBodyC::DFPortBodyC(istream &strm)
+    : DFObjectBodyC(strm)
+  {}
+  
+  //: Load from binary stream.
+  
+  DFPortBodyC::DFPortBodyC(BinIStreamC &strm)
+    : DFObjectBodyC(strm)
+  {}
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool DFPortBodyC::Save (ostream &out) const {
+    if(!DFObjectBodyC::Save(out))
+      return false;
+    return true;
+  }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool DFPortBodyC::Save (BinOStreamC &out) const {
+    if(!DFObjectBodyC::Save(out))
+      return false;
+    return true;
+  }
   
   //: Access the port.
   
@@ -108,6 +138,16 @@ namespace RavlDFN {
     return true;
   }
   
+  //: Process a mouse click.
+  
+  DFMouseActionT DFPortBodyC::MouseClick(GUIViewBodyC &view,const  MouseEventC &me) {
+    if(me.HasChanged(0)) 
+      return DFMA_SELECTDRAG;
+    if(me.HasChanged(2)) 
+      return DFMA_LINK;
+    return DFMA_NONE;
+  }
+  
   //: Connect this port to another.
   
   bool DFPortBodyC::Connect(DFPortC &port) {
@@ -179,7 +219,7 @@ namespace RavlDFN {
   
   //: Attempt to link to another object.
   
-  DFObjectC DFIPortBodyC::LinkTo(const DFObjectC &obj,bool autoConvert) {
+  DFObjectC DFIPortBodyC::LinkTo(const DFObjectC &obj,DFSystemC &system,bool autoConvert) {
     ONDEBUG(cerr << "DFIPortBodyC::LinkTo(), Called \n");
     DFIPlugC objp(obj);
     if(!objp.IsValid()) {
@@ -187,15 +227,7 @@ namespace RavlDFN {
       ONDEBUG(cerr << "DFIPortBodyC::LinkTo(), Object is not an IPlug. \n");
       return DFObjectC();
     }
-    if(PortType() != objp.PortType()) {
-      if(!autoConvert) {
-	ONDEBUG(cerr << "DFIPortBodyC::LinkTo(), Can't link " << TypeName(PortType()) <<" and " << TypeName(objp.PortType()) << " \n");
-	return DFObjectC();
-      }
-      if(!SystemTypeConverter().CanConvert(PortType(),objp.PortType()))
-	return DFObjectC();
-    }
-    return DFLinkC(DFIPortC(*this),obj);
+    return objp.LinkTo(DFIPortC(*this),system,autoConvert);
   }
   
   //: Connect this port to another.
@@ -276,7 +308,7 @@ namespace RavlDFN {
   
   //: Attempt to link to another object.
   
-  DFObjectC DFOPortBodyC::LinkTo(const DFObjectC &obj,bool autoConvert) {
+  DFObjectC DFOPortBodyC::LinkTo(const DFObjectC &obj,DFSystemC &system,bool autoConvert) {
     ONDEBUG(cerr << "DFOPortBodyC::LinkTo(), Called \n");
     DFOPlugC objp(obj);
     if(!objp.IsValid()) {
@@ -284,15 +316,7 @@ namespace RavlDFN {
       ONDEBUG(cerr << "DFOPortBodyC::LinkTo(), Object is not an OPlug. \n");
       return DFObjectC();
     }
-    if(PortType() != objp.PortType()) {
-      if(!autoConvert) {
-	ONDEBUG(cerr << "DFOPortBodyC::LinkTo(), Can't link " << TypeName(objp.PortType()) <<" and " << TypeName(PortType()) << " \n");
-	return DFObjectC();
-      }
-      if(!SystemTypeConverter().CanConvert(objp.PortType(),PortType()))
-	return DFObjectC();
-    }
-    return DFLinkC(obj,DFOPortC(*this));
+    return objp.LinkTo(DFOPortC(*this),system,autoConvert);
   }
 
   //: Connect this port to another.
@@ -374,7 +398,7 @@ namespace RavlDFN {
 
   //: Attempt to link to another object.
   
-  DFObjectC DFIPlugBodyC::LinkTo(const DFObjectC &obj,bool autoConvert) {
+  DFObjectC DFIPlugBodyC::LinkTo(const DFObjectC &obj,DFSystemC &system,bool autoConvert) {
     ONDEBUG(cerr << "DFIPlugBodyC::LinkTo(), Called \n");
     DFIPortC objp(obj);
     if(!objp.IsValid()) {
@@ -382,15 +406,43 @@ namespace RavlDFN {
       ONDEBUG(cerr << "DFIPlugBodyC::LinkTo(), Object is not an IPort. \n");
       return DFObjectC();
     }
-    if(PortType() != objp.PortType()) {
-      if(!autoConvert) {
-	ONDEBUG(cerr << "DFIPlugBodyC::LinkTo(), Can't link " << TypeName(objp.PortType()) <<" and " << TypeName(PortType()) << " \n");
-	return DFObjectC();
-      }
-      if(!SystemTypeConverter().CanConvert(objp.PortType(),PortType()))
-	return DFObjectC();
+    if(PortType() == objp.PortType()) // Check if types match.
+      return DFLinkC(obj,DFIPlugC(*this));
+    
+    if(!autoConvert) {
+      ONDEBUG(cerr << "DFIPlugBodyC::LinkTo(), Can't link " << TypeName(objp.PortType()) <<" and " << TypeName(PortType()) << " \n");
+      return DFObjectC();
     }
-    return DFLinkC(obj,DFIPlugC(*this));
+    
+    // Find conversion path.
+    DListC<DPConverterBaseC> conv = SystemTypeConverter().FindConversion(objp.PortType(),PortType());
+    if(conv.IsEmpty())
+      return DFObjectC();
+    
+    // Build converter.
+    DLIterC<DPConverterBaseC> it(conv);
+    DPIPortBaseC at;
+    at = it->CreateIStream(at);
+    DPStreamOpC first(at);
+    RavlAssert(first.IsValid());
+    for(it++;it;it++)
+      at = it->CreateIStream(at);
+    DPStreamProcessC streamProc("Converter");
+
+    //: Build DFStreamOpC.
+    DListC<DPIPlugBaseC> iplugs = first.IPlugs();
+    RavlAssert(iplugs.Size() == 1);
+    streamProc.IPlug("In",iplugs.First());
+    streamProc.IPort("Out",at);
+    DFStreamOpC so("Converter",streamProc);
+    system.AddObject(so);
+    
+    // Put links in.
+    DFLinkC l1(so.IPort(at),DFIPlugC(*this));
+    system.AddObject(l1);
+    DFLinkC l2(objp,so.IPlug(iplugs.First()));
+    system.AddObject(l2);
+    return so;
   }
   
   //: Connect this port to another.
@@ -446,7 +498,7 @@ namespace RavlDFN {
   
   //: Attempt to link to another object.
   
-  DFObjectC DFOPlugBodyC::LinkTo(const DFObjectC &obj,bool autoConvert) {
+  DFObjectC DFOPlugBodyC::LinkTo(const DFObjectC &obj,DFSystemC &system,bool autoConvert) {
     ONDEBUG(cerr << "DFOPlugBodyC::LinkTo(), Called \n");
     DFOPortC objp(obj);
     if(!objp.IsValid()) {
@@ -454,15 +506,41 @@ namespace RavlDFN {
       ONDEBUG(cerr << "DFOPlugBodyC::LinkTo(), Object is not an OPort. \n");
       return DFObjectC();
     }
-    if(PortType() != objp.PortType()) {
-      if(!autoConvert) {
-	ONDEBUG(cerr << "DFIPlugBodyC::LinkTo(), Can't link " << TypeName(PortType()) <<" and " << TypeName(objp.PortType()) << " \n");
-	return DFObjectC();
-      }
-      if(!SystemTypeConverter().CanConvert(PortType(),objp.PortType()))
-	return DFObjectC();
+    if(PortType() == objp.PortType()) // Linking the same type ?
+      return DFLinkC(DFOPlugC(*this),obj);    
+    if(!autoConvert) {
+      ONDEBUG(cerr << "DFIPlugBodyC::LinkTo(), Can't link " << TypeName(PortType()) <<" and " << TypeName(objp.PortType()) << " \n");
+      return DFObjectC();
     }
-    return DFLinkC(DFOPlugC(*this),obj);
+    // Find conversion path.
+    DListC<DPConverterBaseC> conv = SystemTypeConverter().FindConversion(PortType(),objp.PortType());
+    if(conv.IsEmpty())
+      return DFObjectC();
+
+    // Build converter.
+    DLIterC<DPConverterBaseC> it(conv);
+    DPOPortBaseC at;
+    at = it->CreateOStream(at);
+    DPStreamOpC first(at);
+    RavlAssert(first.IsValid());
+    for(it++;it;it++)
+      at = it->CreateOStream(at);
+    DPStreamProcessC streamProc("Converter");
+
+    //: Build DFStreamOpC.
+    DListC<DPOPlugBaseC> oplugs = first.OPlugs();
+    RavlAssert(oplugs.Size() == 1);
+    streamProc.OPlug("Out",oplugs.First());
+    streamProc.OPort("In",at);
+    DFStreamOpC so("Converter",streamProc);
+    system.AddObject(so);
+    
+    // Put links in.
+    DFLinkC l1(DFOPlugC(*this),so.OPort(at));
+    system.AddObject(l1);
+    DFLinkC l2(so.OPlug(oplugs.First()),objp);
+    system.AddObject(l2);
+    return so;
   }
   
   //: Render object to view.
@@ -480,7 +558,7 @@ namespace RavlDFN {
     
     // Setup render size.
     renderSize = PackingSize();
-    renderSize.Involve(Inside(AttachPoint(),attachScale/2));
+    renderSize.Involve(Inside(AttachPoint(),-attachScale));
     return true;
   }
 

@@ -33,7 +33,7 @@ namespace RavlGUIN {
 namespace RavlDFN {
   using namespace RavlGUIN;
   using namespace RavlN;
-    
+  
   //! userlevel=Develop
   //: View of data flow system.
   
@@ -127,7 +127,7 @@ namespace RavlDFN {
     //: build view of the complete system.
     
     
-    ViewElementC AddObject(const DFObjectC &obj,const Index2dC &at = Index2dC(0,0));
+    ViewElementC AddObject(const DFObjectC &obj,const Index2dC &at);
     //: Add object to view.
     // Returns handle to view element
     
@@ -197,13 +197,14 @@ namespace RavlDFN {
     
     // Internal data.....
     enum ViewStateT { VS_READY,VS_DRAG,VS_LINK } viewState;
-    bool autoConvert;
     
     DFSystemC system;
     DListC<ViewElementC> elements;
+    bool autoConvert;
     
     ViewElementC hold; // View element held by mouse, invalid if none.
     Index2dC holdOffset; // Position on object when it was held.
+    Index2dC mouseAt;
     
     HashC<DFObjectC,ViewElementC> obj2elem; // Map object to view elements.
     

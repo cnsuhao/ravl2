@@ -9,8 +9,10 @@
 
 #include "Ravl/DF/DFStreamOp.hh"
 #include "Ravl/DP/MTIOConnect.hh"
+#include "Ravl/GUI/Menu.hh"
 
 namespace RavlDFN {
+  using namespace RavlGUIN;
   
   //! userlevel=Develop
   //: Data object.
@@ -28,9 +30,22 @@ namespace RavlDFN {
     DPIOConnectBaseC &Connection()
     { return connect; }
     //: Connection.
+
+    virtual DFMouseActionT MouseClick(GUIViewBodyC &view,const  MouseEventC &me);
+    //: Process a mouse click.
+    
+    bool Run();
+    //: Run pump.
+    
+    bool Stop();
+    //: Stop pump.
+    
+    bool Step();
+    //: Pump one item.
     
   protected:
     DPIOConnectBaseC connect;
+    MenuC popUp;
   };
   
   //! userlevel=Normal
@@ -67,6 +82,18 @@ namespace RavlDFN {
     DPIOConnectBaseC &Connection()
     { return Body().Connection(); }
     //: Connection.
+    
+    bool Run()
+    { return Body().Run(); }
+    //: Run pump.
+    
+    bool Stop()
+    { return Body().Stop(); }
+    //: Stop pump.
+    
+    bool Step()
+    { return Body().Step(); }
+    //: Stop pump.
     
   };
   

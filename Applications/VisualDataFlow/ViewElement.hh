@@ -36,6 +36,9 @@ namespace RavlDFN {
     virtual bool Render(GUIViewBodyC &view);
     //: Render object in view.
     
+    virtual DFMouseActionT MouseClick(GUIViewBodyC &view,const  MouseEventC &me);
+    //: Mouse click.
+    
     const Index2dC &At() const
     { return at; }
     //: Get location of object.
@@ -144,6 +147,10 @@ namespace RavlDFN {
     bool Render(GUIViewBodyC &view)
     { return Body().Render(view); }
     //: Render object in view.
+    
+    DFMouseActionT MouseClick(GUIViewBodyC &view,const  MouseEventC &me)
+    { return Body().MouseClick(view,me); }
+    //: Mouse click.
     
     const Index2dC &At() const
     { return Body().At(); }

@@ -8,7 +8,6 @@
 //! lib=RavlVDF
 //! author="Charles Galambos"
 
-#include "Ravl/GUI/MouseEvent.hh"
 #include "Ravl/DF/GUIView.hh"
 #include "Ravl/DF/DFLink.hh"
 #include "Ravl/DF/DFPort.hh"
@@ -87,7 +86,18 @@ namespace RavlDFN {
   bool GUIViewBodyC::ObjectUpdate(DFObjectUpdateT &type,DFObjectC &obj) {
     ONDEBUG(cerr << "GUIViewBodyC::ObjectUpdate(). \n");
     switch(type) {
-    case DFOU_ADDED:   AddObject(obj); break;
+    case DFOU_ADDED: {
+      Index2dC at(0,0);
+      if(viewState == VS_LINK) {
+	if(hold.IsValid()) {
+	  Index2dC att = hold.AttachPoint();
+	  at = Index2dC((mouseAt[0] + att[0])/2,(mouseAt[1] + att[1])/2);
+	} else
+	  at = mouseAt;
+      }
+      AddObject(obj,at); 
+      break;
+    }
     case DFOU_DELETED: DelObject(obj); break;
     case DFOU_CHANGED: Render(obj); break;
     default:
@@ -110,8 +120,8 @@ namespace RavlDFN {
     }
     DFLinkC lnk(obj);
     if(lnk.IsValid()) {
-      ViewElementC os = AddObject(lnk.Source());
-      ViewElementC od = AddObject(lnk.Destination());
+      ViewElementC os = AddObject(lnk.Source(),at);
+      ViewElementC od = AddObject(lnk.Destination(),at);
       ret = ViewLinkC(os,od,obj);
     } else {
       ret = ViewElementC(obj,at);
@@ -120,7 +130,7 @@ namespace RavlDFN {
     RavlAssert(ret.IsValid());
     obj2elem[obj] = ret;
     for(DLIterC<DFAttachC> it(obj.Parts());it;it++) {
-      ViewElementC elem = AddObject(it->Object());
+      ViewElementC elem = AddObject(it->Object(),at);
       RavlAssert(elem.IsValid());
       elem.Component(true);
       ret.AddPart(elem);
@@ -376,7 +386,7 @@ namespace RavlDFN {
   
   bool GUIViewBodyC::EventMouseMove(MouseEventC &me) {
     //ONDEBUG(cerr << "GUIViewBodyC::EventMouseMove(MouseEventC &) Called. \n");
-    
+    mouseAt = me.Position();
     switch(viewState) {
     case VS_DRAG:
       if(hold.IsValid() && !hold.Component()) { // Can't drag components...
@@ -420,7 +430,7 @@ namespace RavlDFN {
     DFObjectC obj2 = elm2.Object(); 
     if(!obj1.IsValid() || !obj2.IsValid())
       return false;
-    DFObjectC newun = DFObjectC(obj1).LinkTo(DFObjectC(obj2),autoConvert);
+    DFObjectC newun = DFObjectC(obj1).LinkTo(DFObjectC(obj2),system,autoConvert);
     if(!newun.IsValid())
       return false;
     system.AddObject(newun);
@@ -497,61 +507,74 @@ namespace RavlDFN {
   
   bool GUIViewBodyC::EventMousePress(MouseEventC &me) {
     //ONDEBUG(cerr << "GUIViewBodyC::EventMousePress(MouseEventC &) Called. " << me.HasChanged(0) << " " << me.HasChanged(2) << " At=" << me.Position() << "\n");
-    if(me.HasChanged(0)) {
-      GUIGrabFocus(); // Grab the keyboard focus.
-      ViewElementC el = FindElement(me.Position());
-      if(!el.IsValid()) {
+    ViewElementC el = FindElement(me.Position());
+    DFMouseActionT ma = DFMA_NONE;
+    if(!el.IsValid()) {
+      if(me.HasChanged(0)) {
 	ClearSelection();
 	return true;
       }
-      el.Selected(!el.Selected());
-      ONDEBUG(cerr << "GUIViewBodyC::EventMousePress(), Got object. Selected:" << el.Selected() << "\n");
-      hold = el;
-      holdOffset = me.Position() - el.At();
-      viewState = VS_DRAG;
-      Render(hold.Frame());
-      return true;
-    }
-    if(me.HasChanged(2)) {
-      ViewElementC el = FindElement(me.Position());
-      switch(viewState){
-      case VS_READY:
-	{
-	  if(!el.IsValid())
-	    return true;
-	  // Clicked on a port ?
-	  DFPortC port(el.Object());
-	  if(port.IsValid()) {
-	    ONDEBUG(cerr << "Got a port. \n";);
-	    hold = el;
-	    viewState = VS_LINK;
-	  }
-	} break;
-      case VS_LINK:
-	{
-	  holdOffset = me.Position();
-	  viewState = VS_READY;
-	  bool clear = true;
-	  if(el.IsValid()) {
-	    if(CreateLink(hold,el)) {
-	      clear = false;
-	      Render(el.Frame());
+      if(me.HasChanged(2))
+	ma = DFMA_LINK;
+    } else
+      ma = el.MouseClick(*this,me);
+    if(me.HasChanged(0))
+      GUIGrabFocus(); // Grab the keyboard focus.
+    switch(ma) 
+      {
+      case DFMA_SELECTDRAG: {
+	if(!el.IsValid()) {
+	  ClearSelection();
+	  return true;
+	}
+	el.Selected(!el.Selected());
+	ONDEBUG(cerr << "GUIViewBodyC::EventMousePress(), Got object. Selected:" << el.Selected() << "\n");
+	hold = el;
+	holdOffset = me.Position() - el.At();
+	viewState = VS_DRAG;
+	Render(hold.Frame());
+	return true;
+      }
+      case DFMA_LINK:  {
+	switch(viewState)
+	  {
+	  case VS_READY: {
+	    if(!el.IsValid())
+	      return true;
+	    // Clicked on a port ?
+	    DFPortC port(el.Object());
+	    if(port.IsValid()) {
+	      ONDEBUG(cerr << "Got a port. \n";);
+	      hold = el;
+	      viewState = VS_LINK;
 	    }
-	  }
-	  if(clear) {
-	    // Clear old line.
-	    Index2dC from = hold.At();
-	    IndexRange2dC area(from,0);
-	    area.Involve(holdOffset);
-	    area.Dilate();
-	    Render(area);
-	  }
-	} break;
-      case VS_DRAG:
+	  } break;
+	  case VS_LINK: {
+	    holdOffset = me.Position();
+	    bool clear = true;
+	    if(el.IsValid()) {
+	      if(CreateLink(hold,el)) {
+		clear = false;
+		Render(el.Frame());
+	      }
+	    }
+	    if(clear) {
+	      // Clear old line.
+	      Index2dC from = hold.At();
+	      IndexRange2dC area(from,0);
+	      area.Involve(holdOffset);
+	      area.Dilate();
+	      Render(area);
+	    }
+	    viewState = VS_READY;
+	  } break;
+	  case VS_DRAG:
+	    break;
+	  };
+      }
+      case DFMA_NONE:
 	break;
-      };
-      return true;
-    }
+      }
     return true;
   }
   

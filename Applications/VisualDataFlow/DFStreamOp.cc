@@ -35,18 +35,22 @@ namespace RavlDFN {
     for(DLIterC<DPIPlugBaseC> it(sop.IPlugs());it;it++) {
       DFIPlugC cobj(*it,"Unknown");
       parts.InsLast(DFAttachC(cobj,ATTACH_RIGHT));
+      iplugs[*it] = cobj;
     }
     for(DLIterC<DPIPortBaseC> it(sop.IPorts());it;it++) {
       DFIPortC cobj(*it,"Unknown");
       parts.InsLast(DFAttachC(cobj,ATTACH_LEFT));
+      iports[*it] = cobj;
     }
     for(DLIterC<DPOPlugBaseC> it(sop.OPlugs());it;it++) {
       DFOPlugC cobj(*it,"Unknown");
       parts.InsLast(DFAttachC(cobj,ATTACH_RIGHT));
+      oplugs[*it] = cobj;
     }
     for(DLIterC<DPOPortBaseC> it(sop.OPorts());it;it++) {
       DFOPortC cobj(*it,"Unknown");
       parts.InsLast(DFAttachC(cobj,ATTACH_LEFT));
+      oports[*it] = cobj;
     }
     
     return true;
@@ -147,6 +151,38 @@ namespace RavlDFN {
   
   DListC<DFAttachC> DFStreamOpBodyC::Parts() const {
     return parts;
+  }
+  
+  //: Find DFIPort corresponding to 'ip'.
+  
+  DFIPortC DFStreamOpBodyC::IPort(const DPIPortBaseC &ip) const {
+    DFIPortC ret;
+    iports.Lookup(ip,ret);
+    return ret;
+  }
+  
+  //: Find DFIPort corresponding to 'ip'.
+  
+  DFOPortC DFStreamOpBodyC::OPort(const DPOPortBaseC &ip) const {
+    DFOPortC ret;
+    oports.Lookup(ip,ret);
+    return ret;
+  }
+  
+  //: Find DFIPort corresponding to 'ip'.
+  
+  DFIPlugC DFStreamOpBodyC::IPlug(const DPIPlugBaseC &ip) const {
+    DFIPlugC ret;
+    iplugs.Lookup(ip,ret);
+    return ret;
+  }
+  
+  //: Find DFIPort corresponding to 'ip'.
+  
+  DFOPlugC DFStreamOpBodyC::OPlug(const DPOPlugBaseC &ip) const {
+    DFOPlugC ret;
+    oplugs.Lookup(ip,ret);
+    return ret;
   }
 
 }

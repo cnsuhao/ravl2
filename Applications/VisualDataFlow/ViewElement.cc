@@ -101,6 +101,18 @@ namespace RavlDFN {
     return ret;
   }
   
+  //: Mouse click.
+  
+  DFMouseActionT ViewElementBodyC::MouseClick(GUIViewBodyC &view,const MouseEventC &me) {
+    if(!object.IsValid()) {
+      cerr << "ViewElementBodyC::MouseClick(), ERROR: No object. \n";
+      return DFMA_NONE;
+    }
+    MouseEventC nme(me);
+    nme.Position() -= at;
+    return object.MouseClick(view,nme);
+  }
+
   //: Add part.
   
   bool ViewElementBodyC::AddPart(const ViewElementC &part) { 

@@ -15,6 +15,8 @@
 #include "Ravl/DF/DFObject.hh"
 #include "Ravl/RCWrap.hh"
 #include "Ravl/DP/StreamOp.hh"
+#include "Ravl/Hash.hh"
+#include "Ravl/DF/DFPort.hh"
 
 namespace RavlDFN {
   
@@ -37,11 +39,32 @@ namespace RavlDFN {
     virtual DListC<DFAttachC> Parts() const;
     //: Get list of attachment points.
     
+    DFIPortC IPort(const DPIPortBaseC &ip) const;
+    //: Find DFIPort corresponding to 'ip'.
+    // Returns an invalid handle if not found.
+    
+    DFOPortC OPort(const DPOPortBaseC &ip) const;
+    //: Find DFIPort corresponding to 'ip'.
+    // Returns an invalid handle if not found.
+    
+    DFIPlugC IPlug(const DPIPlugBaseC &ip) const;
+    //: Find DFIPort corresponding to 'ip'.
+    // Returns an invalid handle if not found.
+    
+    DFOPlugC OPlug(const DPOPlugBaseC &ip) const;
+    //: Find DFIPort corresponding to 'ip'.
+    // Returns an invalid handle if not found.
+    
   protected:
     bool packStacked;
     DPStreamOpC streamOp;
     
     DListC<DFAttachC> parts;
+    
+    HashC<DPIPortBaseC,DFIPortC> iports;
+    HashC<DPOPortBaseC,DFOPortC> oports;
+    HashC<DPIPlugBaseC,DFIPlugC> iplugs;
+    HashC<DPOPlugBaseC,DFOPlugC> oplugs;
   };
   
   //! userlevel=Normal
@@ -75,6 +98,25 @@ namespace RavlDFN {
     //: Access body.
     
   public:
+    DFIPortC IPort(const DPIPortBaseC &ip) const
+    { return Body().IPort(ip); }
+    //: Find DFIPort corresponding to 'ip'.
+    // Returns an invalid handle if not found.
+    
+    DFOPortC OPort(const DPOPortBaseC &ip) const
+    { return Body().OPort(ip); }
+    //: Find DFIPort corresponding to 'ip'.
+    // Returns an invalid handle if not found.
+    
+    DFIPlugC IPlug(const DPIPlugBaseC &ip) const
+    { return Body().IPlug(ip); }
+    //: Find DFIPort corresponding to 'ip'.
+    // Returns an invalid handle if not found.
+    
+    DFOPlugC OPlug(const DPOPlugBaseC &ip) const
+    { return Body().OPlug(ip); }
+    //: Find DFIPort corresponding to 'ip'.
+    // Returns an invalid handle if not found.
     
   };
 }

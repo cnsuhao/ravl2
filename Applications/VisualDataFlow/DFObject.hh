@@ -17,19 +17,25 @@
 #include "Ravl/IndexRange2d.hh"
 #include "Ravl/String.hh"
 #include "Ravl/DList.hh"
+#include "Ravl/GUI/MouseEvent.hh"
+#include "Ravl/Stream.hh"
 
 namespace RavlDFN {
   using namespace RavlN;
+  using namespace RavlGUIN;
   
   enum DFRenderModeT { DFRM_NORMAL,DFRM_SELECTED,DFRM_SHADED };
   //: Render modes.
-
+  
   enum DFAttachPlacementT { ATTACH_TOP,ATTACH_BOTTOM,ATTACH_LEFT,ATTACH_RIGHT, ATTACH_FLOAT };
+  
+  enum DFMouseActionT { DFMA_NONE,DFMA_SELECTDRAG,DFMA_LINK };
   
   class GUIViewBodyC;
   class DFAttachC;
   class DFObjectC;
   class FactoryC;
+  class DFSystemC;
   
   //! userlevel=Develop
   //: Abstract handle for data flow object.
@@ -44,12 +50,27 @@ namespace RavlDFN {
     DFObjectBodyC(const StringC &nname);
     //: Create named object.
     
+    DFObjectBodyC(istream &strm);
+    //: Load from stream.
+    
+    DFObjectBodyC(BinIStreamC &strm);
+    //: Load from binary stream.
+
+    virtual bool Save (ostream &out) const;
+    //: Writes object to stream, can be loaded using constructor
+    
+    virtual bool Save (BinOStreamC &out) const;
+    //: Writes object to stream, can be loaded using constructor
+    
     bool Init(FactoryC &factory);
     //: Initalise with info from a factory.
     // This is used to setup icons, and default settings..
     
     virtual bool Render(GUIViewBodyC &view,const Index2dC &at,DFRenderModeT mode);
     //: Render object to view.
+    
+    virtual DFMouseActionT MouseClick(GUIViewBodyC &view,const  MouseEventC &me);
+    //: Process a mouse click.
     
     const StringC &Name() const
     { return name; }
@@ -72,7 +93,7 @@ namespace RavlDFN {
     virtual DListC<DFAttachC> Parts() const;
     //: Get list of attachment points.
     
-    virtual DFObjectC LinkTo(const DFObjectC &obj,bool autoConvert = false);
+    virtual DFObjectC LinkTo(const DFObjectC &obj,DFSystemC &system,bool autoConvert = false);
     //: Attempt to link to another object.
     
     virtual Index2dC AttachPoint() const;
@@ -114,6 +135,12 @@ namespace RavlDFN {
     //: Default constructor
     // Creates an invalid handle.
     
+    DFObjectC(istream &strm);
+    //: Construct from a stream.
+    
+    DFObjectC(BinIStreamC &strm);    
+    //: Construct from a binary stream.
+    
   protected:
     DFObjectC(DFObjectBodyC &bod)
       : RCHandleVC<DFObjectBodyC>(bod)
@@ -138,6 +165,10 @@ namespace RavlDFN {
     { return Body().Render(view,at,mode); }
     //: Render object to view.
     
+    DFMouseActionT MouseClick(GUIViewBodyC &view,const  MouseEventC &me)
+    { return Body().MouseClick(view,me); }
+    //: Process a mouse click.
+    
     const StringC &Name() const
     { return Body().Name(); }
     //: Access name of object.
@@ -158,8 +189,8 @@ namespace RavlDFN {
     inline DListC<DFAttachC> Parts() const;
     //: Get list of attachment points.
     
-    DFObjectC LinkTo(const DFObjectC &obj,bool autoConvert = false) 
-    { return Body().LinkTo(obj,autoConvert); }
+    DFObjectC LinkTo(const DFObjectC &obj,DFSystemC &system,bool autoConvert = false) 
+    { return Body().LinkTo(obj,system,autoConvert); }
     //: Attempt to link to another object.
     
     Index2dC AttachPoint() const
@@ -175,7 +206,19 @@ namespace RavlDFN {
     //: Compair handles.
     
   };
+  
+  BinOStreamC &operator<<(BinOStreamC &strm,const DFObjectC &dfo);
+  //: Write DFObjectC to stream.
+  
+  BinIStreamC &operator>>(BinIStreamC &strm,DFObjectC &dfo);
+  //: Read DFObject from stream.
 
+  ostream &operator<<(ostream &strm,const DFObjectC &dfo);
+  //: Write DFObjectC to stream.
+  
+  istream &operator>>(istream &strm,DFObjectC &dfo);
+  //: Read DFObject from stream.
+  
   ///////////////////////////////////////////////////////////////////////
 
   //! userlevel=Normal
@@ -190,6 +233,18 @@ namespace RavlDFN {
     
     DFAttachBodyC(const DFObjectC &obj,DFAttachPlacementT placement);
     //: Attachment point.
+    
+    DFAttachBodyC(BinIStreamC &strm);
+    //: Load from stream.
+    
+    DFAttachBodyC(istream &strm);
+    //: Load from stream.
+    
+    bool Save (ostream &out) const;
+    //: Writes object to stream, can be loaded using constructor
+    
+    bool Save (BinOStreamC &out) const;
+    //: Writes object to stream, can be loaded using constructor
     
     const DFObjectC &Object() const
     { return object; }
@@ -239,6 +294,16 @@ namespace RavlDFN {
     {}
     //: Attachment point.
     
+    DFAttachC(BinIStreamC &strm)
+      : RCHandleC<DFAttachBodyC>(*new DFAttachBodyC(strm))
+    {}
+    //: Load from stream.
+    
+    DFAttachC(istream &strm)
+      : RCHandleC<DFAttachBodyC>(*new DFAttachBodyC(strm))
+    {}
+    //: Load from stream.
+    
   protected:
     DFAttachBodyC &Body()
     { return RCHandleC<DFAttachBodyC>::Body(); }
@@ -249,6 +314,14 @@ namespace RavlDFN {
     //: Access body.
     
   public:
+    bool Save (ostream &out) const
+    { return Body().Save(out); }
+    //: Writes object to stream, can be loaded using constructor
+    
+    bool Save (BinOStreamC &out) const
+    { return Body().Save(out); }
+    //: Writes object to stream, can be loaded using constructor
+    
     const Index2dC &Offset() const
     { return Body().Offset(); }
     //: Offset of attachment point.
@@ -270,6 +343,18 @@ namespace RavlDFN {
     //: Get placement.
     
   };
+  
+  ostream &operator<<(ostream &strm,const DFAttachC &dfa);
+  //: Write to an ostream.
+  
+  istream &operator>>(istream &strm,DFAttachC &dfa);
+  //: Read from an istream.
+  
+  BinOStreamC &operator<<(BinOStreamC &strm,const DFAttachC &dfa);
+  //: Write to an ostream.
+  
+  BinIStreamC &operator>>(BinIStreamC &strm,DFAttachC &dfa);
+  //: Read from an istream.
   
   ////////////////////////////////////////////////////
   
