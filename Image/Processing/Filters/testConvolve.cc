@@ -13,6 +13,7 @@
 #include "Ravl/Image/ConvolveVert2d.hh"
 #include "Ravl/Image/ConvolveSeparable2d.hh"
 #include "Ravl/Image/BilinearInterpolation.hh"
+#include "Ravl/Image/HistogramEqualise.hh"
 
 using namespace RavlImageN;
 
@@ -25,6 +26,7 @@ int testConvolveSeparable2d();
 int testConvolve2dMMX();
 
 int testBilinearInterpolation();
+int testHistogramEqualise();
 
 int main() {
   int ln;
@@ -50,8 +52,11 @@ int main() {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
-
   if((ln = testBilinearInterpolation()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  }
+  if((ln = testHistogramEqualise()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
@@ -217,5 +222,21 @@ int testBilinearInterpolation() {
   if(res[resRect.Origin()] != 0) return __LINE__;
   
   // Do some more checking here.
+  return 0;
+}
+
+template HistogramEqualiseC<RealT>;
+template HistogramEqualiseC<ByteT>;
+
+int testHistogramEqualise() {
+  ImageC<RealT> test(10,10);
+  RealT v = 0;
+  for(Array2dIterC<RealT> it(test);it;it++)
+    *it = v++;
+  HistogramEqualiseC<RealT> histEqual(0,100);
+  ImageC<RealT> result = histEqual.Apply(test);
+  //cerr << "Test=" << test << "\n Result=" << result << "\n";
+  //cerr << (result-test) << "\n";
+  if((result-test).SumSqr() > 0.000001) return __LINE__;
   return 0;
 }

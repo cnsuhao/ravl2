@@ -12,7 +12,8 @@ PACKAGE=Ravl/Image
 MAINS=doFilter.cc
 
 HEADERS= Convolve2d.hh ConvolveSeparable2d.hh ConvolveHorz2d.hh \
- ConvolveVert2d.hh BilinearInterpolation.hh HomomorphicFilter.hh
+ ConvolveVert2d.hh BilinearInterpolation.hh HomomorphicFilter.hh \
+ HistogramEqualise.hh
 
 SOURCES= Convolve2d.cc HomomorphicFilter.cc
 
