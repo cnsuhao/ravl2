@@ -10,7 +10,7 @@
 
 PACKAGE=Ravl
 
-NESTED=QMake.r Core.r OS.r CCMath.r Math.r Image.r SourceTools.r GUI.r Applications.r
+NESTED=QMake.r Core.r OS.r CCMath.r Math.r PatternRec.r Image.r SourceTools.r GUI.r Applications.r
 
 LOCAL_FILES=install lgpl.license gpl.license README
 
