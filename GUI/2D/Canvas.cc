@@ -37,7 +37,7 @@ namespace RavlGUIN {
     gdk_gc_copy(drawGC,widget->style->white_gc);
     //gdk_gc_ref(drawGC);
     gtk_signal_connect (GTK_OBJECT (Widget()), "destroy",
-			(GtkSignalFunc) gtkCanvasDestroyGC,drawGC);
+                        (GtkSignalFunc) gtkCanvasDestroyGC,drawGC);
     
     //widget->style->fg_gc[0] = drawGC; // In the hope it'll take care of deleting it...
   }
@@ -54,13 +54,13 @@ namespace RavlGUIN {
       // Do we really need to resize, or is it smaller ?
       gdk_window_get_size(orgPixmap,&xs,&ys);
       if(widget->allocation.width < xs ||
-	 widget->allocation.height < ys) 
-	return true; // Its smaller, don't bother.
+         widget->allocation.height < ys) 
+        return true; // Its smaller, don't bother.
     }
     body.Pixmap() = gdk_pixmap_new(widget->window,
-				   widget->allocation.width,
-				   widget->allocation.height,
-				   -1);
+                                   widget->allocation.width,
+                                   widget->allocation.height,
+                                   -1);
 #if 0
     GdkVisual *vis = gdk_window_get_visual (widget->window);
     cerr << "Vis:" << ((void *) vis) << endl;
@@ -72,28 +72,22 @@ namespace RavlGUIN {
       body.DoSomeSetup();
     // Clear the new pixmap.
     gdk_draw_rectangle (body.Pixmap(),
-			widget->style->black_gc,
-			true,
-			0, 0,
-			widget->allocation.width,
-			widget->allocation.height);
+                        widget->style->black_gc,
+                        true,
+                        0, 0,
+                        widget->allocation.width,
+                        widget->allocation.height);
     if (orgPixmap != 0 ) { // Copy contents of old one ?
       gdk_draw_pixmap(body.Pixmap(),
-		      widget->style->fg_gc[GTK_WIDGET_STATE (widget)],
-		      orgPixmap,
-		      0,0,
-		      0,0,
-		      xs, ys);
+                      widget->style->fg_gc[GTK_WIDGET_STATE (widget)],
+                      orgPixmap,
+                      0,0,
+                      0,0,
+                      xs, ys);
       // Delete old pixmap.
       gdk_pixmap_unref(orgPixmap);
     } 
     
-  /* Take care of pending actions that require the pixmap. */
-    while(!body.ToDo().IsEmpty()) {
-      ONDEBUG(cerr << "Catching up with stuff. \n");
-      body.ToDo().Last().Invoke();
-      body.ToDo().DelLast();
-    }
     ONDEBUG(cerr <<"Configuring pixmap done. \n");
     return true;
   }
@@ -105,14 +99,23 @@ namespace RavlGUIN {
     ONDEBUG(cerr <<"Expose event. \n");
     if(body.Pixmap() != 0) {
       gdk_draw_pixmap(widget->window,
-		      widget->style->fg_gc[GTK_WIDGET_STATE (widget)],
-		      body.Pixmap(),
-		      event->area.x, event->area.y,
-		      event->area.x, event->area.y,
-		      event->area.width, event->area.height);
+                      widget->style->fg_gc[GTK_WIDGET_STATE (widget)],
+                      body.Pixmap(),
+                      event->area.x, event->area.y,
+                      event->area.x, event->area.y,
+                      event->area.width, event->area.height);
     } else
     cerr << "WARNING: Canvas empty. \n";
     ONDEBUG(cerr <<"Expose event done. \n");
+  /* Take care of pending actions that require the pixmap. */
+    if (!body.InitialExposureDone()) {
+      body.SetInitialExposureDone(true);
+      while(!body.ToDo().IsEmpty()) {
+        ONDEBUG(cerr << "Catching up with stuff. \n");
+        body.ToDo().Last().Invoke();
+        body.ToDo().DelLast();
+      }
+    }
     
     return false;
   }
@@ -121,6 +124,7 @@ namespace RavlGUIN {
   CanvasBodyC::CanvasBodyC(int nsx,int nsy,bool ndirect)
     : sx(nsx),sy(nsy),
       direct(ndirect),
+      initialExposureDone(false),
       pixmap(0),
       configDone(false),
       drawGC(0),
@@ -131,6 +135,7 @@ namespace RavlGUIN {
   CanvasBodyC::CanvasBodyC(const ImageRectangleC& rect,bool ndirect)
     : sx(rect.Cols()),sy(rect.Rows()),
       direct(ndirect),
+      initialExposureDone(false),
       pixmap(0),
       configDone(false),
       drawGC(0),
@@ -151,10 +156,10 @@ namespace RavlGUIN {
     gtk_drawing_area_size (GTK_DRAWING_AREA (widget), sx, sy);  
     if(!direct) {
       gtk_signal_connect (GTK_OBJECT (widget), "expose_event",
-			  (GtkSignalFunc) win_expose_event,(gpointer) this);
+                          (GtkSignalFunc) win_expose_event,(gpointer) this);
       
       gtk_signal_connect (GTK_OBJECT(widget),"configure_event",
-			  (GtkSignalFunc) win_configure_event,(gpointer) this);
+                          (GtkSignalFunc) win_configure_event,(gpointer) this);
     }
     SetupColours();
     ConnectSignals();
@@ -170,10 +175,10 @@ namespace RavlGUIN {
     ONDEBUG(cerr <<"CanvasBodyC::Create() start. \n");
     if(!direct) {
       gtk_signal_connect (GTK_OBJECT (widget), "expose_event",
-			  (GtkSignalFunc) win_expose_event,(gpointer) this);
+                          (GtkSignalFunc) win_expose_event,(gpointer) this);
       
       gtk_signal_connect (GTK_OBJECT(widget),"configure_event",
-			  (GtkSignalFunc) win_configure_event,(gpointer) this);
+                          (GtkSignalFunc) win_configure_event,(gpointer) this);
     }
     SetupColours();
     ConnectSignals();
@@ -208,6 +213,7 @@ namespace RavlGUIN {
   //: Draw an rgb image on the canvas.
   
   void CanvasBodyC::DrawImage(const ImageC<ByteRGBValueC> &img,Index2dC offset) {
+    ONDEBUG(cerr <<"CanvasBodyC::DrawImage()" << endl;)
     Manager.Queue(Trigger(CanvasC(*this),&CanvasC::GUIDrawRGBImage,const_cast<ImageC<ByteRGBValueC> &>(img),offset));
   }
 
@@ -244,10 +250,10 @@ namespace RavlGUIN {
   bool CanvasBodyC::GUISetLineStyle(IntT& iWidth, GdkLineStyle& linestyle, GdkCapStyle& capstyle, GdkJoinStyle& joinstyle) {
     if (DrawGC() != 0) {
       gdk_gc_set_line_attributes(DrawGC(),
-				 iWidth,
-				 linestyle,
-				 capstyle,
-				 joinstyle);
+                                 iWidth,
+                                 linestyle,
+                                 capstyle,
+                                 joinstyle);
     }
     return true;
   }
@@ -294,12 +300,12 @@ namespace RavlGUIN {
     int atx = off.Col().V(); // Convert between RAVL and GTK co-ordinates...
     int aty = off.Row().V();
     gdk_draw_gray_image(DrawArea(),
-			widget->style->black_gc,
-			atx,aty,
-			img.Cols(),img.Rows(),
-			GDK_RGB_DITHER_NORMAL,
-			img.Row(img.TRow()),
-			img.Stride());
+                        widget->style->black_gc,
+                        atx,aty,
+                        img.Cols(),img.Rows(),
+                        GDK_RGB_DITHER_NORMAL,
+                        img.Row(img.TRow()),
+                        img.Stride());
     
 #if 1    
     if(autoRefresh) {
@@ -319,7 +325,7 @@ namespace RavlGUIN {
   
   bool CanvasBodyC::GUIDrawRGBImage(ImageC<ByteRGBValueC> &img,Index2dC &ioffset) {
     if(!IsReady()) {
-      ONDEBUG(cerr <<"CanvasBodyC::GUIDrawLine(), WARNING: Asked to render data before canvas is initialise. \n");
+      ONDEBUG(cerr <<"CanvasBodyC::GUIDrawRGBImage(), WARNING: Asked to render data before canvas is initialise. \n");
       toDo.InsFirst(TriggerR(*this,&CanvasBodyC::GUIDrawRGBImage,img,ioffset));
       return true;
     }
@@ -327,6 +333,7 @@ namespace RavlGUIN {
       cerr << "CanvasBodyC::GUIDrawRGBImage(), WARNING: Ask to render empty image. \n";
       return true;
     }
+    ONDEBUG(cerr << "CanvasBodyC::GUIDrawRGBImage(), Render image. \n";)
 #if 0
     if(!img.IsContinuous()) {
       cerr << "CanvasBodyC::GUIDrawRGBImage(), WARNING: Image not continuous in memory, making copy. \n";
@@ -340,12 +347,12 @@ namespace RavlGUIN {
     
     GtkWidget *widget = Widget();
     gdk_draw_rgb_image(DrawArea(),
-		       widget->style->black_gc,
-		       atx,aty,
-		       img.Cols(),img.Rows(),
-		       GDK_RGB_DITHER_NORMAL,
-		       (unsigned char *) img.Row(img.TRow()),
-		       img.Stride() * sizeof(ByteRGBValueC));
+                       widget->style->black_gc,
+                       atx,aty,
+                       img.Cols(),img.Rows(),
+                       GDK_RGB_DITHER_NORMAL,
+                       (unsigned char *) img.Row(img.TRow()),
+                       img.Stride() * sizeof(ByteRGBValueC));
 
 #if 1
     if(autoRefresh) {
@@ -377,9 +384,9 @@ namespace RavlGUIN {
       gdk_gc_set_foreground(gc,&GetColour(c));
     }
     gdk_draw_line (DrawArea(),
-		   gc,
-		   x1, y1,
-		   x2, y2);
+                   gc,
+                   x1, y1,
+                   x2, y2);
 
     ONDEBUG(cerr <<"CanvasBodyC::GUIDrawLine(), AutoRefresh=" << autoRefresh << "\n");
     if(autoRefresh)
@@ -403,14 +410,14 @@ namespace RavlGUIN {
       gdk_gc_set_foreground(gc,&GetColour(colId));
     }
     gdk_draw_arc (DrawArea(),
-		  gc,
-		  fill,
-		  rect.Origin().Col().V(),
-		  rect.Origin().Row().V(),
-		  rect.Size().Col().V(),
-		  rect.Size().Row().V(),
-		  start,
-		  angle);
+                  gc,
+                  fill,
+                  rect.Origin().Col().V(),
+                  rect.Origin().Row().V(),
+                  rect.Size().Col().V(),
+                  rect.Size().Row().V(),
+                  start,
+                  angle);
 
     ONDEBUG(cerr <<"CanvasBodyC::GUIDrawArc(), AutoRefresh=" << autoRefresh << "\n");
     if(autoRefresh)
@@ -439,12 +446,12 @@ namespace RavlGUIN {
     GdkFont *cfont = widget->style->font;
 #endif
     gdk_draw_text(DrawArea(),
-		  cfont,
-		  gc,
-		  x1,
-		  y1,
-		  text.chars(),
-		  text.length());
+                  cfont,
+                  gc,
+                  x1,
+                  y1,
+                  text.chars(),
+                  text.length());
     
     if(autoRefresh)
       GUIRefresh();
@@ -468,10 +475,10 @@ namespace RavlGUIN {
     }
     
     gdk_draw_rectangle (DrawArea(),
-			gc,
-			true,
-			x1, y1,
-			x2, y2);
+                        gc,
+                        true,
+                        x1, y1,
+                        x2, y2);
     if(autoRefresh)
       GUIRefresh();
     return true;
@@ -493,10 +500,10 @@ namespace RavlGUIN {
     }
     
     gdk_draw_rectangle (DrawArea(),
-			gc,
-			false,
-			x1, y1,
-			x2, y2);
+                        gc,
+                        false,
+                        x1, y1,
+                        x2, y2);
     if(autoRefresh)
       GUIRefresh();
     return true;
@@ -541,14 +548,14 @@ namespace RavlGUIN {
     if(pixmap != 0)
       gdk_pixmap_unref(pixmap);
     pixmap = gdk_pixmap_new(widget->window,
-			    sx,sy,
-			    -1);
+                            sx,sy,
+                            -1);
     //: Make it blank.
     gdk_draw_rectangle (pixmap,
-			widget->style->black_gc,
-			true,
-			0, 0,
-			sx,sy);
+                        widget->style->black_gc,
+                        true,
+                        0, 0,
+                        sx,sy);
     //: Set size....
     configDone = true; 
     gtk_drawing_area_size (GTK_DRAWING_AREA (widget), sx, sy);  
@@ -572,7 +579,7 @@ namespace RavlGUIN {
       GdkColor ret;
       GdkColormap *colorMap = gdk_window_get_colormap(widget->window);
       if(!gdk_color_black(colorMap,&ret)) {
-	cerr << "Failed to set color to black" << endl;
+        cerr << "Failed to set color to black" << endl;
       }
       GdkColor &r = ret;
       return r;
@@ -583,18 +590,18 @@ namespace RavlGUIN {
     GdkColor &ret = colourTab[((UIntT)(n-1)) % colourTab.Size()];
     if(ret.pixel == 0) { // Need to allocate ?
       if(widget == 0) {
-	cerr <<"CanvasBodyC::GetColour(), WARNING: Called before canvas is initalised. \n";
-	return nullColour;
+        cerr <<"CanvasBodyC::GetColour(), WARNING: Called before canvas is initalised. \n";
+        return nullColour;
       }
       GdkColormap *colorMap = gdk_window_get_colormap(widget->window);
       if(!gdk_colormap_alloc_color (colorMap,
-				    &ret,
-				    false,
-				    true)) {
-	cerr << "ViewGeomCanvasBodyC::AllocColours(), ERROR: Failed to allocate colour. \n";
+                                    &ret,
+                                    false,
+                                    true)) {
+        cerr << "ViewGeomCanvasBodyC::AllocColours(), ERROR: Failed to allocate colour. \n";
       }
       if(ret.pixel == 0)
-	cerr << "Ooops WARNING: Pixel value of 0, and we hoped this wouldn't happen! \n";
+        cerr << "Ooops WARNING: Pixel value of 0, and we hoped this wouldn't happen! \n";
     }
     return ret;
   }
@@ -625,10 +632,10 @@ namespace RavlGUIN {
     if(widget == 0)
       return true;
     gdk_draw_rectangle (pixmap,
-			widget->style->black_gc,
-			true,
-			0, 0,
-			sx,sy);
+                        widget->style->black_gc,
+                        true,
+                        0, 0,
+                        sx,sy);
     
     if(autoRefresh) {
       GdkRectangle update_rect;

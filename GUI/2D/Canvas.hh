@@ -158,7 +158,8 @@ namespace RavlGUIN {
     bool IsReady() const { 
       if(widget == 0) return false;
       if(direct) return true;
-      return pixmap != 0;
+      if (pixmap == NULL) return false;
+      return initialExposureDone;
     }
     //: Is Canvas ready for drawing.
     
@@ -186,6 +187,16 @@ namespace RavlGUIN {
     bool Refresh();
     //: Refresh display.
     
+    void SetInitialExposureDone(bool done) {
+      initialExposureDone = done;
+    }
+    //: Say the canvas has been exposed
+
+    bool InitialExposureDone() const {
+      return initialExposureDone;
+    }
+    //: Say the canvas has been exposed
+
   protected:
     
     virtual bool Create();
@@ -201,6 +212,7 @@ namespace RavlGUIN {
     
     int sx,sy;
     bool direct;
+    bool initialExposureDone;
     
     GdkPixmap *pixmap;       // Map.
     bool configDone;
