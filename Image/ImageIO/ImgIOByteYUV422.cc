@@ -40,12 +40,14 @@ namespace RavlImageN {
   
   ImageC<ByteYUVValueC> ByteYUV422ImageCT2ByteYUVImageCT(const ImageC<ByteYUV422ValueC> &dat) { 
     ImageRectangleC outRect = dat.Rectangle();
+    if(outRect.Area() == 0)
+      return ImageC<ByteYUVValueC>();
     // Make sure we're aligned correctly.
     if(outRect.LCol().V() & 1)
       outRect.LCol().V()++; // Start on even boundry in image.
     if(!(outRect.RCol().V() & 1))
       outRect.RCol().V()--; // End on odd boundry in image.
-    assert(outRect.LCol() < outRect.RCol()); // Make sure there's something left!
+    RavlAssert(outRect.LCol() < outRect.RCol()); // Make sure there's something left!
     
     ImageC<ByteYUVValueC> ret(outRect);
     for(Array2dIter2C<ByteYUVValueC,ByteYUV422ValueC> it(ret,dat);it;it++) {
@@ -65,12 +67,14 @@ namespace RavlImageN {
   
   ImageC<ByteRGBValueC> ByteYUV422ImageCT2ByteRGBImageCT(const ImageC<ByteYUV422ValueC> &dat) { 
     ImageRectangleC outRect = dat.Rectangle();
+    if(outRect.Area() == 0)
+      return ImageC<ByteRGBValueC>();
     // Make sure we're aligned correctly.
     if(outRect.LCol().V() & 1)
       outRect.LCol().V()++; // Start on even boundry in image.
     if(!(outRect.RCol().V() & 1))
       outRect.RCol().V()--; // End on odd boundry in image.
-    assert(outRect.LCol() < outRect.RCol()); // Make sure there's something left!
+    RavlAssert(outRect.LCol() < outRect.RCol()); // Make sure there's something left!
     
     ImageC<ByteRGBValueC> ret(outRect);
     for(Array2dIter2C<ByteRGBValueC,ByteYUV422ValueC> it(ret,dat);it;it++) {
