@@ -104,6 +104,25 @@ namespace RavlImageN {
   { return strm << ((int) val.V()) << ' ' << ((int) val.Y()) << ' ' << ((int) val.U()); }
   //: Stream output.
   
+  inline
+  ByteVYUValueC Average(const ByteVYUValueC &d1,const ByteVYUValueC &d2,
+			const ByteVYUValueC &d3,const ByteVYUValueC &d4) { 
+    return ByteVYUValueC(((IntT) d1.V() + (IntT) d2.V() + (IntT) d3.V() + (IntT) d4.V())/4,
+			 ((IntT) d1.Y() + (IntT) d2.Y() + (IntT) d3.Y() + (IntT) d4.Y())/4,
+			 ((IntT) d1.U() + (IntT) d2.U() + (IntT) d3.U() + (IntT) d4.U())/4
+			 );
+  }
+  //: Average of 4 values.
+
+  inline
+  ByteVYUValueC Average(const ByteVYUValueC &d1,const ByteVYUValueC &d2) { 
+    return ByteVYUValueC(((IntT) d1.V() + (IntT) d2.V())/2,
+			 ((IntT) d1.Y() + (IntT) d2.Y())/2,
+			 ((IntT) d1.U() + (IntT) d2.U())/2
+			 );
+  }
+  //: Average of 2 values.
+  
 }
 
 #endif

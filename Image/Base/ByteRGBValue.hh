@@ -68,6 +68,25 @@ namespace RavlImageN {
   };
   
   
+  inline
+  ByteRGBValueC Average(const ByteRGBValueC &d1,const ByteRGBValueC &d2,
+			const ByteRGBValueC &d3,const ByteRGBValueC &d4) { 
+    return ByteRGBValueC(((IntT) d1.Red() + (IntT) d2.Red() + (IntT) d3.Red() + (IntT) d4.Red())/4,
+			 ((IntT) d1.Green() + (IntT) d2.Green() + (IntT) d3.Green() + (IntT) d4.Green())/4,
+			 ((IntT) d1.Blue() + (IntT) d2.Blue() + (IntT) d3.Blue() + (IntT) d4.Blue())/4
+			 );
+  }
+  //: Average of 4 values.
+  
+  inline
+  ByteRGBValueC Average(const ByteRGBValueC &d1,const ByteRGBValueC &d2) { 
+    return ByteRGBValueC(((IntT) d1.Red() + (IntT) d2.Red())/2,
+			 ((IntT) d1.Green() + (IntT) d2.Green())/2,
+			 ((IntT) d1.Blue() + (IntT) d2.Blue())/2
+			 );
+  }
+  //: Average of 2 values.
+  
 }
 
 #endif
