@@ -50,7 +50,8 @@ namespace RavlImageN {
 		       const Point2dC &npointTR,
 		       const Point2dC &npointBL,
 		       const Point2dC &npointBR,
-		       IntT maxFrames);
+		       IntT maxFrames,
+		       const ImageC<bool>& nMask);
     //: Constructor
     // Initialises mosaic builder
     
@@ -86,6 +87,7 @@ namespace RavlImageN {
     IntT cropT, cropB, cropL, cropR;
     Point2dC pointTL, pointTR, pointBL, pointBR;
     IntT maxFrames;
+    ImageC<bool> mask;
     RealT zhomog;
     
     // stored data
@@ -130,16 +132,18 @@ namespace RavlImageN {
 		   const Point2dC &npointTR,
 		   const Point2dC &npointBL,
 		   const Point2dC &npointBR,
-		   IntT maxFrames)
-      : RCHandleC<MosaicBuilderBodyC>(*new MosaicBuilderBodyC(cthreshold, cwidth,
-							      mthreshold, mwidth,
-							      lifeTime, searchSize, newFreq,
-							      borderC, borderR,
-							      zhomog,
-							      cropT,  cropB,  cropL,  cropR,
-							      npointTL, npointTR, npointBL, npointBR,
-							      maxFrames
-							      ))
+		   IntT maxFrames,
+		   const ImageC<bool>& nMask=ImageC<bool>())
+      : RCHandleC<MosaicBuilderBodyC>(*new 
+		MosaicBuilderBodyC(cthreshold, cwidth,
+				   mthreshold, mwidth,
+				   lifeTime, searchSize, newFreq,
+				   borderC, borderR,
+				   zhomog,
+				   cropT,  cropB,  cropL,  cropR,
+				   npointTL, npointTR, npointBL, npointBR,
+				   maxFrames, nMask
+				   ))
     {}
     //: Constructor.
     

@@ -33,6 +33,7 @@
 #include "Ravl/EntryPnt.hh"
 #include "Ravl/Array1d.hh"
 #include "Ravl/Array2dIter2.hh"
+#include "Ravl/DP/FileFormatIO.hh"
 #include "Ravl/Array2dIter3.hh"
 #include "Ravl/DP/Converter.hh"
 #include "Ravl/IO.hh"
@@ -74,6 +75,7 @@ int Mosaic(int nargs,char **argv) {
   int mwidth     = opt.Int("mw",17,"Tracker feature width. ");
   int lifeTime   = opt.Int("ml",8,"Lifetime of a point without a match in the incoming images. ");
   int searchSize = opt.Int("ss",25,"Search size. How far to look from the predicted position of the feature.");
+  StringC maskName = opt.String("mask", "", "Mask to exclude image regions from tracking (black = omit point; default - no mask)");
   opt.Comment("Mosaic:");
   int borderC    = opt.Int("bc", 200, "Width of horizontal border around initial mosaic image");
   int borderR    = opt.Int("br", 200, "Width of vertical border around initial mosaic image");
@@ -100,6 +102,18 @@ int Mosaic(int nargs,char **argv) {
     cerr << "Failed to open input '" << ifn << "'\n";
     return 1;
   }
+  // Open mask image
+  ImageC<bool> mask;
+  if(!maskName.IsEmpty()) {
+    ImageC<ByteT> byteMask;  // hack until RAVL handles bit images
+    if (!Load(maskName, byteMask)) {
+      cerr << "Failed to load file: " << maskName << endl;
+      exit(-1);
+    }
+    mask = ImageC<bool>(byteMask.Rectangle());
+    for(Array2dIter2C<bool,ByteT>i(mask,byteMask); i; i++) i.Data1()=i.Data2();
+  }
+    
 #if 0
   inp.SetAttr("FrameBufferSize","2");
 #endif
@@ -112,7 +126,7 @@ int Mosaic(int nargs,char **argv) {
 			       borderC, borderR, IMAGE_ZHOMOG,
 			       cropT, cropB, cropL, cropR,
 			       pointTL, pointTR, pointBL, pointBR,
-			       maxFrames);
+			       maxFrames, mask);
 
   // declare distortion correction object
   RemoveDistortionC<ByteRGBValueC,ByteRGBValueC> distortionRemover;
@@ -170,6 +184,7 @@ int Mosaic(int nargs,char **argv) {
     cerr << "Failed to open input '" << ifn << "'\n";
     return 1;
   }
+  for (IntT i(0); i<startFrame; ++i) inp.Discard();  // skip to start frame
 
   // Open the output stream for the foreground segmentation images.
   DPOPortC<ImageC<ByteRGBValueC> > outp;

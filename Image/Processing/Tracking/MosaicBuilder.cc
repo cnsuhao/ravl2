@@ -50,12 +50,14 @@ namespace RavlImageN {
 				 const Point2dC &npointTR,
 				 const Point2dC &npointBL,
 				 const Point2dC &npointBR,
-				 IntT nmaxFrames)
+				 IntT nmaxFrames,
+				 const ImageC<bool>& nMask)
     : borderC(nborderC), borderR(nborderR),
       cropT(ncropT), cropB(ncropB), cropL(ncropL), cropR(ncropR),
       pointTL(npointTL), pointTR(npointTR),
       pointBL(npointBL), pointBR(npointBR),
       maxFrames(nmaxFrames),
+      mask(nMask),
       zhomog(nzhomog),
       Parray((nmaxFrames>0) ? nmaxFrames : 1),
       tracker(cthreshold,cwidth,mthreshold,mwidth,lifeTime,
@@ -71,8 +73,8 @@ namespace RavlImageN {
     epos[0][1] = 0;
 
     // compute homography mapping first image coordinates to mosaic coordinates
-    Pmosaic = Matrix3dC(1.0,0.0,-borderR,
-			0.0,1.0,-borderC,
+    Pmosaic = Matrix3dC(1.0,0.0,0,
+			0.0,1.0,0,
 			0.0,0.0,zhomog);
 
     // we will initialise the frame number when the first image is read
@@ -102,8 +104,10 @@ namespace RavlImageN {
     
     // create initially empty mosaic
     mosaicRect=rect;
-    mosaicRect.BRow() += 2*borderR;
-    mosaicRect.RCol() += 2*borderC;
+    mosaicRect.TRow() -= borderR;
+    mosaicRect.LCol() -= borderC;
+    mosaicRect.BRow() += borderR;
+    mosaicRect.RCol() += borderC;
     
     mosaic = ImageC<ByteRGBMedianC>(mosaicRect);
     ByteRGBValueC val(0,0,0);
@@ -189,8 +193,11 @@ namespace RavlImageN {
       
       const Point2dC& loc1=lat.Location();
       const Point2dC& loc2=it->Location();
-      obsList.InsLast(ObservationHomog2dPointC(Vector2dC(loc1[0],loc1[1]),epos,
-					       Vector2dC(loc2[0],loc2[1]),epos));
+      if (mask.IsEmpty() || (mask.Contains(loc1) && mask[Index2dC(loc1)])) {
+	obsList.InsLast(ObservationHomog2dPointC(
+            Vector2dC(loc1[0],loc1[1]),epos,Vector2dC(loc2[0],loc2[1]),epos));
+      }
+      else cerr << "Exclude " << loc1 << endl;
     }
     
     last = corners;
