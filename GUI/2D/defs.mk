@@ -21,3 +21,4 @@ USESLIBS=RavlGUI RavlImage
 
 EXAMPLES= exCanvas.cc exRawZoomCanvas.cc
 
+HTML=canvas_colours.html
