@@ -219,7 +219,7 @@ namespace RavlN {
   {
 #if RAVL_CHECK
     if (s > ba.Size())
-      IssueError(__FILE__,__LINE__,"Size %u out of index range 0-%u  ",s ,ba.Size());
+      IssueError(__FILE__,__LINE__,"Size %u out of index range 0-%u  ",s ,ba.Size()-1);
 #endif
   }
   
@@ -237,7 +237,7 @@ namespace RavlN {
   SizeBufferAccessC<DataT>::operator[](const IndexC i) const {
 #if RAVL_CHECK
     if (!Contains(i))
-      IssueError(__FILE__,__LINE__,"Index %d out of  range 0 - %u  ",i.V() ,Size());
+      IssueError(__FILE__,__LINE__,"Index %d out of  range 0 - %u  ",i.V() ,Size()-1);
 #endif
     return BufferAccessC<DataT>::operator[](i);
   }
@@ -248,7 +248,7 @@ namespace RavlN {
   SizeBufferAccessC<DataT>::operator[](const IndexC i) {
 #if RAVL_CHECK
     if (!Contains(i)) 
-      IssueError(__FILE__,__LINE__,"Index %d out of range 0 - %u  ",i.V() ,Size());
+      IssueError(__FILE__,__LINE__,"Index %d out of range 0 - %u  ",i.V() ,Size()-1);
 #endif
     return BufferAccessC<DataT>::operator[](i);
   }

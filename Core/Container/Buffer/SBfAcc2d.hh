@@ -69,13 +69,19 @@ namespace RavlN {
     // Returns true if yes.
     
     inline DataC & operator[](const Index2dC & i) { 
-      RavlAssert(((UIntT) i.Col().V()) < size2);
+#if RAVL_CHECK
+      if (((UIntT) i.Col().V()) >= size2)
+	IssueError(__FILE__,__LINE__,"Index %u out of index range 0-%u  ",i.Col().V(),size2-1);
+#endif
       return SizeBufferAccessC<BufferAccessC<DataC> >::operator[](i.Row())[i.Col()]; 
     }
     //: access to the item array[(i)]
     
     inline const DataC & operator[](const Index2dC & i) const { 
-      RavlAssert(((UIntT) i.Col().V()) < size2);
+#if RAVL_CHECK
+      if (((UIntT) i.Col().V()) >= size2)
+	IssueError(__FILE__,__LINE__,"Index %u out of index range 0-%u  ",i.Col().V(),size2-1);
+#endif
       return SizeBufferAccessC<BufferAccessC<DataC> >::operator[](i.Row())[i.Col()]; 
     }
     //: return the item array[(i)]
