@@ -22,6 +22,18 @@ namespace RavlN {
     : rows(range.RowRange()), cols(range.ColRange())
   {}
 
+  IndexRange2dC::IndexRange2dC(const Index2dC &center,SizeT nrows,SizeT ncols) {
+    if(nrows > 0)
+      rows = IndexRangeC(center.Row() - (nrows-1)/2,center.Row() + nrows/2);
+    else
+      rows = IndexRangeC(center.Row(),center.Row());
+    if(ncols > 0)
+      cols = IndexRangeC(center.Col() - (ncols-1)/2,center.Col() + ncols/2);
+    else
+      cols = IndexRangeC(center.Col(),center.Col());
+  }
+  
+
   //: Rotate rectangle 180 degree's around the given center.
   
   IndexRange2dC IndexRange2dC::Rotate180(Index2dC centre) {

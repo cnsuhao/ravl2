@@ -51,6 +51,14 @@ namespace RavlImageN {
       : IndexRange2dC(center,size)
     {}
     //: Construct a square from center and size.
+    
+    ImageRectangleC(const Index2dC &center,SizeT rows,SizeT cols)
+      : IndexRange2dC(center,rows,cols)
+    {}
+    //: Create an 2d range from a center point and a size for rows and cols.
+    // Size is the distance from the center to the edge, so
+    // a size of 0 gives a single pixel, and a size of 1 generates
+    // a 3 long rectangle in that dimention.
 
     ImageRectangleC(IndexC minRow, IndexC maxRow,
 		    IndexC minCol, IndexC maxCol)
@@ -58,7 +66,36 @@ namespace RavlImageN {
       {}
     //: Create rectangle from indvidual values.
 
+    ImageRectangleC & ReflectUp() {
+      RowRange() -= RowRange().Size();
+      return *this;
+    }
+    //: Mirrors the image rectangle along its top edge.
+    // Returns a refrence to this rectangle.
+    
+    ImageRectangleC & ReflectDown() {
+      RowRange() += RowRange().Size();
+      return *this;      
+    }
+    //: Mirrors the image rectangle along its bottom edge.
+    // Returns a refrence to this rectangle.
+    
+    ImageRectangleC & ReflectLeft() {
+      ColRange() -= ColRange().Size();
+      return *this;
+    }
+    //: Mirrors the image rectangle along its left edge.
+    // Returns a refrence to this rectangle.
+    
+    ImageRectangleC & ReflectRight() {
+      ColRange() += ColRange().Size();
+      return *this;
+    }
+    //: Mirrors the image rectangle along its right edge.
+    // Returns a refrence to this rectangle.
+    
   };
+  
 }
 
 

@@ -61,12 +61,27 @@ namespace RavlN {
     // a size of 0 gives a single pixel, and a size of 1 generates
     // a 3x3 square.
     
+    IndexRange2dC(const Index2dC &center,SizeT nrows,SizeT ncols);
+    //: Create an 2d range from a center point and a size for rows and cols.
+    // The sizes passed to this function are the absolute size of the
+    // rectangle, unlike IndexRangeC(Index2dC &center,SizeT size).
+    // Note: if the rows or cols there will be a half pixel offset in the
+    // center of the rectangle. 
+    
     IndexRange2dC(IndexC minRow, IndexC maxRow,
 		  IndexC minCol, IndexC maxCol)
       : rows(minRow, maxRow), 
 	cols(minCol,maxCol)
     {}
     //: Create rectangle from indvidual values.
+    
+    const IndexRange2dC &SetOrigin(const Index2dC &newOrigin) {
+      rows.SetOrigin(newOrigin.Row());
+      cols.SetOrigin(newOrigin.Col());
+      return *this;
+    }
+    //: Set the origin of the range to 'newOrigin'
+    // Returns a refrence to this rectangle.
     
     inline Index2dC Origin() const
     { return Index2dC(rows.Min(),cols.Min()); }
