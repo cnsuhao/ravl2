@@ -16,6 +16,7 @@
 #include "Ravl/Matrix.hh"
 
 namespace RavlN {
+  class MeanCovarianceC;
   
   //! userlevel=Develop
   //: Design a dimension reducing function using Principle Component Anaylsis (PCA)
@@ -48,6 +49,9 @@ namespace RavlN {
     //: Create function from the given data.
     // The actual class returned is FuncMeanProjectionC
     
+    virtual FunctionC Apply(const SampleC<VectorC> &in,const SampleC<RealT> &weight);
+    //: Create function from the given data, and sample weights.
+    
     VectorMatrixC &Pca()
     { return pca; }
     //: Access eigen vectors and values.
@@ -71,6 +75,9 @@ namespace RavlN {
     
     FunctionC DesignLowDim(const SampleC<VectorC> &sample,RealT variation);
     //: Design the transform.
+    
+    FunctionC DesignLowDim(const MeanCovarianceC &meanCovar);
+    //: Build pca from mean and covariance.
     
     VectorC mean; // Last mean vector.
     VectorMatrixC pca; // Last set of eigen values and vectors.

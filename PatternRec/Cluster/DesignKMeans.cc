@@ -15,6 +15,7 @@
 #include "Ravl/SArray1dIter2.hh"
 #include "Ravl/SArray1dIter3.hh"
 #include "Ravl/PatternRec/SampleIter.hh"
+#include "Ravl/PatternRec/DataSet2Iter.hh"
 #include "Ravl/PatternRec/ClassifierNearestNeighbour.hh"
 #include "Ravl/BinStream.hh"
 #include "Ravl/VirtualConstructor.hh"
@@ -78,7 +79,16 @@ namespace RavlN {
       return FunctionC();
     return ClassifierNearestNeighbourC(SampleC<VectorC>(means),distance);
   }
-
+  
+  //: Create function from the given data, and sample weights.
+  
+  FunctionC DesignKMeansBodyC::Apply(const SampleC<VectorC> &in,const SampleC<RealT> &weights) {
+    SArray1dC<VectorC> means = FindMeans(in,weights);
+    if(means.Size() == 0)
+      return FunctionC();
+    return ClassifierNearestNeighbourC(SampleC<VectorC>(means),distance);    
+  }
+  
   //: Create a clasifier.
   
   SArray1dC<MeanCovarianceC> DesignKMeansBodyC::Cluster(const SampleC<VectorC> &in) {
@@ -88,7 +98,7 @@ namespace RavlN {
       it.Data2() = MeanCovarianceC(1,it.Data1(),MatrixC::Identity(it.Data1().Size()));
     return ret;
   }
-
+  
   //: Find means for 'in'.
   
   SArray1dC<VectorC> DesignKMeansBodyC::FindMeans(const SampleC<VectorC> &in) {
@@ -178,6 +188,97 @@ namespace RavlN {
     } while(iters < 3 || ((oldcost - cost) > 1e-6) );
     
     return means;
+  }
+  
+  //: Find weighted means for 'in'.
+  
+  SArray1dC<VectorC> DesignKMeansBodyC::FindMeans(const SampleC<VectorC> &in,const SampleC<RealT> &weights) {
+    ONDEBUG(cerr << "DesignKMeansBodyC::Apply(), Called with " << in.Size() << " vectors. K=" << k << "\n");
+    SArray1dC<VectorC> means(k);
+    if(in.Size() == 0) {
+      cerr << "DesignKMeansBodyC::Apply(), WARNING: No data samples given. \n";
+      return SArray1dC<VectorC>();
+    }
+    if(in.Size() <= k) {
+      cerr << "DesignKMeansBodyC::Apply(), WARNING: Fewer samples than means. \n";
+      //return ClassifierNearestNeighbourC(in,distance);
+      means = SArray1dC<VectorC>(in.Size());
+      SampleIterC<VectorC> sit(in);
+      for(SArray1dIterC<VectorC> it(means);it;it++,sit++)
+	*it = *sit;
+      return means;
+    }
+    
+    // Pick some random points from the set to use as initial means.
+    
+    HSetC<UIntT> used;
+    UIntT index,dim;
+    dim = in.First().Size();
+    
+    for(SArray1dIterC<VectorC> it(means);it;it++) {
+      do {
+	index = RandomInt() % in.Size();
+	if(used[index])
+	  continue;
+	*it = in[index].Copy();
+	used += index;
+      } while(0);
+    }
+    
+    // Reassign according to distance.
+    
+    SArray1dC<VectorC> sums(k);
+    SArray1dC<RealT> counts(k);
+    for(SArray1dIter2C<VectorC,RealT> zit(sums,counts);zit;zit++) {
+      zit.Data1() = VectorC(dim);
+      zit.Data2() = 0;
+    }
+    RealT cost = 0,oldcost;
+    IntT iters = 0;
+    SArray1dIterC<VectorC> mit(means);
+
+    // Update means iteratively.
+    
+    do {
+      oldcost = cost;
+      cost = 0;
+      
+      // Reclassify samples.
+      
+      for(DataSet2IterC<SampleC<VectorC>,SampleC<RealT> > it(in,weights);it;it++) {
+	mit.First();
+	RealT minDist = distance.Measure(*mit,it.Data1());
+	index = 0;
+	for(mit++;mit;mit++) {
+	  RealT dist =  distance.Measure(*mit,it.Data1());
+	  if(dist < minDist) {
+	    minDist = dist;
+	    index = mit.Index().V();
+	  }
+	}
+	cost += minDist * it.Data2();
+	sums[index].MulAdd(it.Data1(),it.Data2());
+	counts[index] += it.Data2();
+      }
+      
+      // Update means.
+      
+      for(SArray1dIter3C<VectorC,RealT,VectorC> uit(sums,counts,means);uit;uit++) {
+	if(uit.Data2() > 0)
+	  uit.Data3() = uit.Data1() / ((RealT) uit.Data2());
+	else {
+	  // Reinitalise from a random sample.
+	  index = RandomInt() % in.Size();
+	  uit.Data3() = (in[index]).Copy();
+	}
+	uit.Data1().Fill(0);
+	uit.Data2() = 0;
+      }
+      iters++;
+      ONDEBUG(cerr <<"Iteration complete. Cost=" << cost << " Oldcost=" << oldcost << "\n");
+    } while(iters < 3 || ((oldcost - cost) > 1e-6) );
+    
+    return means;    
   }
 
 

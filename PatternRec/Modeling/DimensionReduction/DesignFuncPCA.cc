@@ -168,46 +168,37 @@ namespace RavlN {
   FunctionC DesignFuncPCABodyC::DesignLowDim(const SampleC<VectorC> &sample,RealT variation) {
     if(sample.IsEmpty())
       return FunctionC();
-    IntT dim = sample.First().Size();
     SampleVectorC sv(sample);
     MeanCovarianceC stats = sv.MeanCovariance();
-    mean = stats.Mean();
-    
-    VectorMatrixC Leigenvecs =  EigenVectors(stats.Covariance());
-    
-    //: need to sort matrix into order
-    Leigenvecs.Sort();
-    
-    ONDEBUG(cerr << "Values=" << Leigenvecs.Vector() << "\n");
-    
-    RealT total = Leigenvecs.Vector().Sum();
-    RealT runningTotal = 0.0;
-    UIntT numComponents = 0;
-    
-    if (variation < 1.0) 
-      while ((runningTotal += Leigenvecs.Vector()[numComponents++]) < variation*total);
-    else {
-      numComponents = UIntT(variation < dim? variation: dim);
-      for (UIntT i = 0; i < numComponents; i++)
-	runningTotal += Leigenvecs.Vector()[i];
-    }
-    varPreserved = runningTotal / total;
-    
-    pca = VectorMatrixC (Leigenvecs.Vector().From(0,numComponents),
-			 Leigenvecs.Matrix().SubMatrix(dim,numComponents).T());
-    return FuncMeanProjectionC(mean,pca.Matrix());
+    return DesignLowDim(stats);
   }
+
+  //: Create function from the given data, and sample weights.
+  
+  FunctionC DesignFuncPCABodyC::Apply(const SampleC<VectorC> &sample,const SampleC<RealT> &weight) {
+    if(sample.IsEmpty())
+      return FunctionC();
+    SampleVectorC sv(sample);
+    MeanCovarianceC stats = sv.MeanCovariance(weight);
+    return DesignLowDim(stats);    
+  }
+  
   
   //: Create function from the given data.
   
   FunctionC DesignFuncPCABodyC::Apply(SampleStreamC<VectorC> &sample) {
-    RealT variation = varPreserved;
     SampleStreamVectorC ssv(sample);
     MeanCovarianceC stats = ssv.MeanCovariance();
-    mean = stats.Mean();
+    return DesignLowDim(stats);
+  }
+
+  //: Build pca from mean and covariance.
+  
+  FunctionC DesignFuncPCABodyC::DesignLowDim(const MeanCovarianceC &stats) {
     if(stats.Number() == 0)
       return FunctionC();
-    
+    mean = stats.Mean();
+    RealT variation = varPreserved;
     const UIntT dim = mean.Size();
     VectorMatrixC Leigenvecs =  EigenVectors(stats.Covariance());
     

@@ -15,6 +15,7 @@
 #include "Ravl/SArray1dIter2.hh"
 #include "Ravl/SArray1dIter3.hh"
 #include "Ravl/PatternRec/SampleIter.hh"
+#include "Ravl/PatternRec/DataSet2Iter.hh"
 #include "Ravl/PatternRec/ClassifierNearestNeighbour.hh"
 #include "Ravl/DList.hh"
 #include "Ravl/DLIter.hh"
@@ -117,6 +118,48 @@ namespace RavlN {
     return clusters;
   }
   
+  //: Find weighted means for 'in'.
+  
+  DListC<VectorC> DesignMeanShiftClusterBodyC::FindMeans(const SampleC<VectorC> &in,const SampleC<RealT> &weights) {
+    DListC<VectorC> clusters;
+    if(in.Size() == 0) {
+      cerr << "DesignMeanShiftClusterBodyC::Apply(), WARNING: No data samples given. \n";
+      return clusters;
+    }
+    
+    RealT count = 0;
+    VectorC shift(in.First().Size());
+    VectorC mean;
+    for(SampleIterC<VectorC> sit(in);sit;sit++) { // Got through all possible start points.
+      do {
+	mean = sit->Copy();
+	shift.Fill(0);
+	for(DataSet2IterC<SampleC<VectorC>,SampleC<RealT> > it(in,weights);it;it++) {
+	  VectorC diff = it.Data1() - mean ;
+	  RealT mag = distance.Magnitude(diff);
+	  if(mag > k)
+	    continue;
+	  shift += diff * it.Data2();
+	  count += it.Data2();
+	}
+	shift /= count;
+	if(distance.Magnitude(shift) < termiter)
+	  break;
+	mean += shift;
+      } while(1);
+      
+      DLIterC<VectorC> cit(clusters);
+      for(;cit;cit++) {
+	if(distance.Measure(mean,*cit) < (k * 0.2))
+	  break; // Already got cluster.
+      }
+      
+      if(!cit) // Cluster not found.
+	clusters.InsLast(mean.Copy());
+    }
+    return clusters;    
+  }
+  
   //: Create a clasifier.
   
   FunctionC DesignMeanShiftClusterBodyC::Apply(const SampleC<VectorC> &in) {
@@ -139,6 +182,17 @@ namespace RavlN {
       *ait = MeanCovarianceC(1,*lit,MatrixC::Identity(lit->Size()) * k);
     }
     return ret;
+  }
+
+  //: Create function from the given data, and sample weights.
+  
+  FunctionC DesignMeanShiftClusterBodyC::Apply(const SampleC<VectorC> &in,const SampleC<RealT> &weight) {
+    ONDEBUG(cerr << "DesignMeanShiftClusterBodyC::Apply(), Called with " << in.Size() << " vectors. K=" << k << "\n");
+    DListC<VectorC> clusters = FindMeans(in,weight);
+    SampleC<VectorC> newMeans(clusters.Size());
+    for(DLIterC<VectorC> cit(clusters);cit;cit++)
+      newMeans.Append(*cit);
+    return ClassifierNearestNeighbourC(newMeans,distance);
   }
   
   RAVL_INITVIRTUALCONSTRUCTOR_FULL(DesignMeanShiftClusterBodyC,DesignMeanShiftClusterC,DesignClusterC);

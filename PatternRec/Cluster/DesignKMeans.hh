@@ -46,6 +46,9 @@ namespace RavlN {
     virtual FunctionC Apply(const SampleC<VectorC> &in);
     //: Create a clasifier.
     
+    virtual FunctionC Apply(const SampleC<VectorC> &in,const SampleC<RealT> &weight);
+    //: Create function from the given data, and sample weights.
+    
     SArray1dC<MeanCovarianceC> Cluster(const SampleC<VectorC> &in);
     //: Compute cluster means.
     
@@ -56,6 +59,9 @@ namespace RavlN {
   protected:
     SArray1dC<VectorC> FindMeans(const SampleC<VectorC> &in);
     //: Find means for 'in'.
+    
+    SArray1dC<VectorC> FindMeans(const SampleC<VectorC> &in,const SampleC<RealT> &weights);
+    //: Find weighted means for 'in'.
     
     DistanceC distance;
     UIntT k;
