@@ -28,7 +28,10 @@ namespace RavlN {
     : ep(server,false),
       portName(nPortName),
       dataType(TypeName(ndataType)),
+      start(0),
+      size((UIntT) -1),
       at(0),
+      gotEOS(false),
       recieved(0),
       flag(0)
   {}
@@ -64,7 +67,7 @@ namespace RavlN {
     size = nsize;
     return true;
   }
-
+  
   //: Handle request failed.
   
   bool NetISPortBaseC::ReqFailed(IntT &nflag) {

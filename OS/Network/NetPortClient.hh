@@ -39,6 +39,8 @@ namespace RavlN {
     
     bool MsgConnectTo(StringC &port,StringC &datatype);
     //: Handle connect to message.
+    // This will lookup the relavent NetIPortServer class
+    // and complete the connection.
     
     NetPortManagerC manager;
 

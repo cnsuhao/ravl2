@@ -39,6 +39,11 @@ namespace RavlN {
     
     bool Connect(NetEndPointC &ep);
     //: Connect to an end point.
+    
+    NetEndPointC &NetEndPoint()
+    { return ep; }
+    //: Access net end point.
+
   protected:
     virtual bool Init();
     //: Initalise stream.
@@ -118,6 +123,11 @@ namespace RavlN {
     StringC PortType()
     { return Body().PortType(); }
     //: Get the port type.
+    
+    NetEndPointC &NetEndPoint()
+    { return Body().NetEndPoint(); }
+    //: Access net end point.
+
   };
   
   //! userlevel=Normal

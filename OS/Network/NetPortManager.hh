@@ -28,7 +28,7 @@ namespace RavlN {
   //: Port server.
   
   class NetPortManagerBodyC 
-    : public RCBodyC
+    : public RCBodyVC
   {
   public:
     NetPortManagerBodyC(const StringC &name);
@@ -45,6 +45,9 @@ namespace RavlN {
     
     bool Open(const StringC &addr);
     //: Open manager at address.
+    
+    virtual bool RegisterConnection(NetISPortServerBaseC &isport);
+    //: Called when a connection is established.
     
   protected:
     bool Run();
@@ -116,6 +119,10 @@ namespace RavlN {
     bool Open(const StringC &addr)
     { return Body().Open(addr); }
     //: Open manager at address.
+    
+    bool RegisterConnection(NetISPortServerBaseC &isport)
+    { return Body().RegisterConnection(isport); }
+    //: Called when a connection is established.
     
     friend class NetPortManagerBodyC;
   };

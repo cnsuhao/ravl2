@@ -56,6 +56,8 @@ namespace RavlN {
     // Connect something ?
     NetPortClientC me(*this);
     isport.Connect(me);
+    
+    manager.RegisterConnection(isport);
     return true;
   }
 

@@ -32,6 +32,10 @@ namespace RavlN {
     ~NetISPortBaseC();
     //: Destructor.
     
+    NetEndPointC &NetEndPoint()
+    { return ep; }
+    //: Access net end point.
+    
   protected:
     bool Init();
     //: Initalise link.
@@ -69,6 +73,7 @@ namespace RavlN {
     //: Constructor.
     
     virtual bool Seek(UIntT off) { 
+      gotEOS = false; // Reset end of stream flag.
       at = off; 
       return true;
     }
@@ -79,6 +84,7 @@ namespace RavlN {
     // position will not be changed.
     
     virtual bool DSeek(IntT off) {
+      gotEOS = false; // Reset end of stream flag.
       if(off < 0) {
 	if((UIntT) (-off) > at)
 	  return false; // Seek to before beginning on file.
@@ -153,6 +159,26 @@ namespace RavlN {
       : DPEntityC(*new NetISPortBodyC<DataT>(server,portName))
     {}
     //: Constructor.
+
+  protected:
+    NetISPortC(NetISPortBodyC<DataT> &bod)
+      : DPEntityC(bod)
+    {}
+    //: Body constructor.
+    
+    NetISPortBodyC<DataT> &Body()
+    { return dynamic_cast<NetISPortBodyC<DataT> &>(DPEntityC::Body()); }
+    //: Access body.
+    
+    const NetISPortBodyC<DataT> &Body() const 
+    { return dynamic_cast<const NetISPortBodyC<DataT> &>(DPEntityC::Body()); }
+    //: Access body.
+    
+  public:
+    NetEndPointC &NetEndPoint()
+    { return Body().NetEndPoint(); }
+    //: Access net end point.
+    
   };
 
 

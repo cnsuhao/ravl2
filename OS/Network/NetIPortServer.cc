@@ -64,6 +64,7 @@ namespace RavlN {
     UIntT start = seekCtrl.Start();
     UIntT size = seekCtrl.Size();
     ep.Send(3,at,start,size);
+    ONDEBUG(cerr << "NetISPortServerBaseBodyC::ReqStats(), Sent: At=" << at << " Start=" << start << " Size=" << size << "\n");
     return true;
   }
 

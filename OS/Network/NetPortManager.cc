@@ -101,6 +101,14 @@ namespace RavlN {
     RWLockHoldC hold(access,false);
     return iports.Del(name);
   }
+
+  //: Called when a connection is established.
+  
+  bool NetPortManagerBodyC::RegisterConnection(NetISPortServerBaseC &isport) {
+    
+    return true;
+  }
+									    
   
   //: Access global net port manager.
 
