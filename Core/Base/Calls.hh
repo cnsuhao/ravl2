@@ -261,7 +261,7 @@ namespace RavlN {
     // Creates an invalid handle.
 
     CallFunc1C(const TriggerC &trig,bool invalidOk = false)
-      : CallFunc0C<RetT>(trig)
+      : CallFunc0C<RetT>(trig,invalidOk)
     {
       if(dynamic_cast<CallFunc1BodyC<DataT,RetT> *>(&TriggerC::Body()) == 0) {
 	RavlAlwaysAssertMsg(invalidOk,"Casting to incorrect function type. ");
@@ -441,7 +441,7 @@ namespace RavlN {
     // Creates an invalid handle.
    
     CallFunc2C(const TriggerC &trig,bool invalidOk = false)
-      : CallFunc1C<Data1T,RetT>(trig)
+      : CallFunc1C<Data1T,RetT>(trig,invalidOk)
     {
       if(dynamic_cast<CallFunc2BodyC<Data1T,Data2T,RetT> *>(&TriggerC::Body()) == 0) {
 	RavlAlwaysAssertMsg(invalidOk,"Casting to incorrect function type. ");
@@ -622,7 +622,7 @@ namespace RavlN {
     // Creates an invalid handle.
 
     CallFunc3C(const TriggerC &trig,bool invalidOk = false)
-      : CallFunc2C<Data1T,Data2T,RetT>(trig)
+      : CallFunc2C<Data1T,Data2T,RetT>(trig,invalidOk)
     {
       if(dynamic_cast<CallFunc3BodyC<Data1T,Data2T,Data3T,RetT> *>(&TriggerC::Body()) == 0) {
 	RavlAlwaysAssertMsg(invalidOk,"Casting to incorrect function type. ");
@@ -810,7 +810,7 @@ namespace RavlN {
     // Creates an invalid handle.
     
     CallFunc4C(const TriggerC &trig,bool invalidOk = false)
-      : CallFunc3C<Data1T,Data2T,Data3T,RetT>(trig)
+      : CallFunc3C<Data1T,Data2T,Data3T,RetT>(trig,invalidOk)
     {
       if(dynamic_cast<CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT> *>(&TriggerC::Body()) == 0) {
 	RavlAlwaysAssertMsg(invalidOk,"Casting to incorrect function type. ");
@@ -1024,7 +1024,7 @@ namespace RavlN {
     // the call returns silently.
 
     CallFunc5C(const TriggerC &trig,bool invalidOk = false)
-      : CallFunc4C<Data1T,Data2T,Data3T,Data4T,RetT>(trig)
+      : CallFunc4C<Data1T,Data2T,Data3T,Data4T,RetT>(trig,invalidOk)
     {
       if(dynamic_cast<CallFunc5BodyC<Data1T,Data2T,Data3T,Data4T,Data5T,RetT> *>(&TriggerC::Body()) == 0) {
 	RavlAlwaysAssertMsg(invalidOk,"Casting to incorrect function type. ");
