@@ -22,8 +22,9 @@ namespace RavlN {
   
   class BinIStreamC;
   class BinOStreamC;
-
+  
   template<class DataT,unsigned int N> class TFVectorC;
+  template<class DataT,unsigned int N,unsigned int M> class TFMatrixC;
   
   template<class DataT,unsigned int N>
   istream &operator>>(istream &in,TFVectorC<DataT,N> &dat);
@@ -166,7 +167,11 @@ namespace RavlN {
     
     DataT SumSqr() const;
     //: Calculate the sum of the squares of all the vector elements.
-
+    
+    inline const TFMatrixC<DataT,1,N> &T() const;
+    //: Transpose vector.
+    // The implementation for this can be found in "Ravl/TFMatrix.hh"
+    
 #if RAVL_NEW_ANSI_CXX_DRAFT
     friend istream &operator>> <>(istream &in,TFVectorC<DataT,N> &dat);  
     friend ostream &operator<< <>(ostream &in,const TFVectorC<DataT,N> &dat);  

@@ -407,6 +407,23 @@ namespace RavlN {
     return ret;
   }
 
+  //// TFVectorC methods that use TFMatrixC.
+  
+  template<class DataT,unsigned int N>
+  const TFMatrixC<DataT,1,N> &TFVectorC<DataT,N>::T() const { 
+    return *((const TFMatrixC<DataT,1,N> *) ((void *)this)); //: A bit hacky, but very fast.
+  }
+  
+  template<class DataT,unsigned int N,unsigned int M>
+  TFMatrixC<DataT,N,M> operator*(const TFVectorC<DataT,N> &vec,const TFMatrixC<DataT,1,M> &mat) {
+    TFMatrixC<DataT,N,M> ret;
+    for(UIntT i = 0;i < N;i++)
+      for(UIntT j = 0;j < M;j++)
+	ret[i][j] = vec[i] * mat[0][j];
+    return ret;
+  }
+  //: Vector multiply a matrix.
+  // The implementation for this can be found in "Ravl/TFMatrix.hh"
 
 
 }

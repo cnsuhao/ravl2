@@ -16,6 +16,7 @@ using namespace RavlN;
 int Simple();
 int Validate();
 int ValidateNS();
+int VectorOps();
 
 int main() {
   int line;
@@ -28,6 +29,10 @@ int main() {
     return 1;
   }
   if((line = ValidateNS())) {
+    cerr << "test failed on line " << line << "\n";
+    return 1;
+  }
+  if((line = VectorOps())) {
     cerr << "test failed on line " << line << "\n";
     return 1;
   }
@@ -116,5 +121,21 @@ int ValidateNS()
   if(error > 0.000000001)
     return __LINE__;
   
+  return 0;
+}
+
+int VectorOps() {
+  TFVectorC<RealT,2> vec;
+  vec[0] = 1;
+  vec[1] = 2;
+  TFVectorC<RealT,2> vec2;
+  vec2[0] = 2;
+  vec2[1] = 3;
+  if((vec2.T() * vec)[0] != 8) return __LINE__;
+  TFMatrixC<RealT,2,2> mat = vec * vec2.T();
+  if(mat[0][0] != 2) return __LINE__;
+  if(mat[1][0] != 4) return __LINE__;
+  if(mat[0][1] != 3) return __LINE__;
+  if(mat[1][1] != 6) return __LINE__;  
   return 0;
 }
