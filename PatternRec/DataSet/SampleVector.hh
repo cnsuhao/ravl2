@@ -62,6 +62,13 @@ namespace RavlN {
     //: Compute the sum of the outerproducts.
     // sam2 must have the same size as this sample vector.
     
+    MatrixRUTC SumOuterProducts(const SampleC<RealT> &w) const;
+    //: Compute the sum of the outerproducts weighting each with the corresponding value from 'w'.
+    
+    MatrixC TMul(const SampleC<VectorC> &sam2,const SampleC<RealT> &w) const;
+    //: Compute the sum of the outerproducts weighting each with the corresponding value from 'w'.
+    // sam2 must have the same size as this sample vector.
+    
   }; 
   
 }

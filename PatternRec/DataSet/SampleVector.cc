@@ -11,6 +11,7 @@
 #include "Ravl/PatternRec/SampleVector.hh"
 #include "Ravl/DArray1dIter.hh"
 #include "Ravl/DArray1dIter2.hh"
+#include "Ravl/DArray1dIter3.hh"
 #include "Ravl/MeanCovariance.hh"
 #include "Ravl/MatrixRUT.hh"
 
@@ -57,7 +58,7 @@ namespace RavlN {
     cov.MakeSymmetric();
     return MeanCovarianceC(in,mean,cov);
   }
-
+  
   //: Compute the sum of the outerproducts.
   
   MatrixRUTC SampleVectorC::SumOuterProducts() const {
@@ -74,6 +75,7 @@ namespace RavlN {
   // sam2 must have the same size as this sample vector.
   
   MatrixC SampleVectorC::TMul(const SampleC<VectorC> &sam2) const {
+    RavlAssert(Size() == sam2.Size());
     MatrixC ret;
     DArray1dIter2C<VectorC,VectorC> it(*this,sam2.DArray());
     if(!it) return ret; // No samples.    
@@ -81,6 +83,34 @@ namespace RavlN {
     for(it++;it;it++)
       ret.AddOuterProduct(it.Data1(),it.Data2());
     return ret;
+  }
+
+  //: Compute the sum of the outerproducts weighting each with the corresponding value from 'w'.
+  
+  MatrixRUTC SampleVectorC::SumOuterProducts(const SampleC<RealT> &w) const {
+    RavlAssert(Size() == w.Size());
+    MatrixRUTC ret;
+    DArray1dIter2C<VectorC,RealT> it(*this,w.DArray());
+    if(!it) return ret; // No samples.
+    ret = OuterProductRUT(it.Data1(),it.Data2());
+    for(it++;it;it++)
+      ret.AddOuterProduct(it.Data1(),it.Data2());
+    return ret;
+  }
+  
+  //: Compute the sum of the outerproducts weighting each with the corresponding value from 'w'.
+  // sam2 must have the same size as this sample vector.
+  
+  MatrixC SampleVectorC::TMul(const SampleC<VectorC> &sam2,const SampleC<RealT> &w) const {
+    RavlAssert(sam2.Size() == w.Size());
+    RavlAssert(Size() == sam2.Size());
+    MatrixC ret;
+    DArray1dIter3C<VectorC,VectorC,RealT> it(*this,sam2.DArray(),w.DArray());
+    if(!it) return ret; // No samples.    
+    ret = it.Data1().OuterProduct(it.Data2(),it.Data3());
+    for(it++;it;it++)
+      ret.AddOuterProduct(it.Data1(),it.Data2(),it.Data3());
+    return ret;    
   }
   
 }
