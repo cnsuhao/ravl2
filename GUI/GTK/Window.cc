@@ -9,10 +9,10 @@
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/Window.cc"
 
-
 #include "Ravl/GUI/Window.hh"
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/CallMethods.hh"
+
 #include <gtk/gtk.h>
 
 #define DODEBUG 0
@@ -64,11 +64,10 @@ namespace RavlGUIN {
 	rootWinCount++;
       }
       ConnectRef(Signal("delete_event"),*this,&WindowBodyC::Close);
-      
-    if(title != 0)
-      gtk_window_set_title (GTK_WINDOW (widget),title.chars());
-    if(border != 0)
-      gtk_container_set_border_width( GTK_CONTAINER (widget), border );    
+      if(title != 0)
+        gtk_window_set_title (GTK_WINDOW (widget),title.chars());
+      if(border != 0)
+        gtk_container_set_border_width( GTK_CONTAINER (widget), border );    
     }
     if(child.IsValid()) {
       if(child.Create()) {
