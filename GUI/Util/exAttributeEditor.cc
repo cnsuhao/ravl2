@@ -241,6 +241,10 @@ int main(int nargs,char **argv) {
   
   OptionC opts(nargs,argv);
   bool multiWindow = opts.Boolean("m",false,"Multi window example ");
+  bool showRW = opts.Boolean("rw",true,"Show read/write status");
+  bool showName = opts.Boolean("nm",true,"Show name ");
+  bool showDesc = opts.Boolean("d",false,"Show description ");
+  bool showSL = opts.Boolean("sl",true,"Show save/load ");
   opts.Check();
  
 
@@ -250,13 +254,15 @@ int main(int nargs,char **argv) {
   //WindowC win(100,100,"Hello");
   //  win.Add(VBox(FrameC(editor,"Hello")));
   //win.Show();
-
-  AttributeEditorWindowC editorwin1("test1",attribs);
-  AttributeEditorWindowC editorwin2;
+  
+  AttributeEditorWindowC editorwin1("test1",attribs,showRW,showName,showDesc,showSL);
+  AttributeEditorWindowC editorwin2,editorwin3;
   editorwin1.Show();
   if(multiWindow) {
     editorwin2 = AttributeEditorWindowC("test2",attribs);
     editorwin2.Show();
+    editorwin3 = AttributeEditorWindowC("test3",attribs);
+    editorwin3.Show();
   }
   Manager.Start();
   

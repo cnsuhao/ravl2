@@ -28,7 +28,11 @@ namespace RavlGUIN {
     : public TableBodyC
   {
   public:
-    AttributeEditorBodyC(const AttributeCtrlC &ctrl);
+    AttributeEditorBodyC(const AttributeCtrlC &ctrl,    
+                         bool showReadWrite = true,
+                         bool showAttrName = true,
+                         bool showAttrDescription = false
+                         );
     //: Construct on attribute control
     
     ~AttributeEditorBodyC();
@@ -85,6 +89,10 @@ namespace RavlGUIN {
     
     HashC<StringC,Tuple3C<WidgetC,TriggerC,IntT> > controls;
     AttributeCtrlC attribCtrl;
+    
+    bool showReadWrite;
+    bool showAttrName;
+    bool showAttrDescription;
   };
   
   //! userlevel=Normal
@@ -99,8 +107,12 @@ namespace RavlGUIN {
     //: Default constructor.
     // creates an invalid handle.
     
-    AttributeEditorC(const AttributeCtrlC &ctrl)
-      : TableC(*new AttributeEditorBodyC(ctrl))
+    AttributeEditorC(const AttributeCtrlC &ctrl,
+                     bool showReadWrite = true,
+                     bool showAttrName = true,
+                     bool showAttrDescription = false
+                     )
+      : TableC(*new AttributeEditorBodyC(ctrl,showReadWrite,showAttrName,showAttrDescription))
     {}
     //: Construct on attribute control    
     

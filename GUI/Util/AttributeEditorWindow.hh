@@ -26,7 +26,12 @@ namespace RavlGUIN {
     : public WindowBodyC
   {
   public:
-    AttributeEditorWindowBodyC(const StringC &name,const AttributeCtrlC &ctrl);
+    AttributeEditorWindowBodyC(const StringC &name,const AttributeCtrlC &ctrl,
+                               bool showReadWrite = true,
+                               bool showAttrName = true,
+                               bool showAttrDescription = false,
+                               bool showLoadSave = true
+                               );
     //: Constructor.
     
     bool LoadAttributes(StringC &name);
@@ -60,8 +65,13 @@ namespace RavlGUIN {
     //: Default constructor
     // Creates an invalid handle.
     
-    AttributeEditorWindowC(const StringC &name,const AttributeCtrlC &ctrl)
-      : WindowC(*new AttributeEditorWindowBodyC(name,ctrl))
+    AttributeEditorWindowC(const StringC &name,const AttributeCtrlC &ctrl,
+                           bool showReadWrite = true,
+                           bool showAttrName = true,
+                           bool showAttrDescription = false,
+                           bool showLoadSave = true
+                           )
+      : WindowC(*new AttributeEditorWindowBodyC(name,ctrl,showReadWrite,showAttrName,showAttrDescription,showLoadSave))
     {}
 
   protected:

@@ -26,16 +26,29 @@ namespace RavlGUIN {
   
   //: Constructor.
   
-  AttributeEditorWindowBodyC::AttributeEditorWindowBodyC(const StringC &name,const AttributeCtrlC &ctrl)
+  AttributeEditorWindowBodyC::AttributeEditorWindowBodyC(const StringC &name,
+                                                         const AttributeCtrlC &ctrl,
+                                                         bool showReadWrite,
+                                                         bool showAttrName,
+                                                         bool showAttrDescription,
+                                                         bool showLoadSave
+                                                         )
     : WindowBodyC(100,100,name,GTK_WINDOW_TOPLEVEL,4,false),
       fileSelector("Attribute IO","attribute.xml"),
-      editor(ctrl)
-  {    
+      editor(ctrl,showReadWrite,showAttrName,showAttrDescription)
+  {
     AttributeEditorWindowC me(*this);
-    Connect(fileSelector.Selected(),me,&AttributeEditorWindowC::LoadSave);
-    MenuBarC menuBar(MenuItemR("Save",*this,&AttributeEditorWindowBodyC::openLoadSave,false) + 
-		     MenuItemR("Load",*this,&AttributeEditorWindowBodyC::openLoadSave,true));
-    Add(VBox(menuBar + FrameC(editor,"",5) + RavlGUIN::ButtonR("Close",(WidgetBodyC &)*this,&WindowBodyC::GUIHide)));
+    if(showLoadSave) {
+      Connect(fileSelector.Selected(),me,&AttributeEditorWindowC::LoadSave);
+      MenuBarC menuBar(MenuItemR("Save",*this,&AttributeEditorWindowBodyC::openLoadSave,false) + 
+                       MenuItemR("Load",*this,&AttributeEditorWindowBodyC::openLoadSave,true));
+      Add(VBox(menuBar + FrameC(editor,"",5) + RavlGUIN::ButtonR("Close",(WidgetBodyC &)*this,&WindowBodyC::GUIHide)));
+    } else {
+      Connect(fileSelector.Selected(),me,&AttributeEditorWindowC::LoadSave);
+      MenuBarC menuBar;
+      Add(VBox(menuBar + FrameC(editor,"",5) + RavlGUIN::ButtonR("Close",(WidgetBodyC &)*this,&WindowBodyC::GUIHide)));
+      Add(VBox(FrameC(editor,"",5) + RavlGUIN::ButtonR("Close",(WidgetBodyC &)*this,&WindowBodyC::GUIHide)));
+    }
   }
   
   //: Load attributes from file.

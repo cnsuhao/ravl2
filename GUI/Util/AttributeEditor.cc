@@ -35,11 +35,18 @@ namespace RavlGUIN {
   
   //: Construct on attribute control
   
-  AttributeEditorBodyC::AttributeEditorBodyC(const AttributeCtrlC &ctrl) 
+  AttributeEditorBodyC::AttributeEditorBodyC(const AttributeCtrlC &ctrl,
+                                             bool _showReadWrite,
+                                             bool _showAttrName,
+                                             bool _showAttrDescription
+                                             ) 
     : TableBodyC(1,1,false),
-      attribCtrl(ctrl)
+      attribCtrl(ctrl),
+      showReadWrite(_showReadWrite),
+      showAttrName(_showAttrName),
+      showAttrDescription(_showAttrDescription)
   {}
-
+  
   //: Destructor.
   
   AttributeEditorBodyC::~AttributeEditorBodyC() {
@@ -96,7 +103,10 @@ namespace RavlGUIN {
 	  else
 	    initState = false;
 	  if(it->CanWrite()) {
-	    CheckButtonC cb = CheckButtonR(StringC(" "),(bool)initState,*this,&AttributeEditorBodyC::SetAttribBool,it->Name());
+            StringC optDesc(" ");
+            if(showAttrDescription) 
+              optDesc = it->Description();
+	    CheckButtonC cb = CheckButtonR(optDesc,(bool)initState,*this,&AttributeEditorBodyC::SetAttribBool,it->Name());
 	    widge = cb;
 	    updateTrigger = TriggerR(*this,&AttributeEditorBodyC::UpdateAttribBool,it->Name(),widge);
 	  } else {
@@ -188,24 +198,39 @@ namespace RavlGUIN {
 	int updateId;
 	updateId = attribCtrl.RegisterChangedSignal(it->Name(),updateTrigger);
 	controls[it->Name()] = Tuple3C<WidgetC,TriggerC,IntT>(widge,updateTrigger,updateId);
-	StringC name = it->Name();
+        
+	StringC name;
+        if(showAttrName)
+          name = it->Name();
 	//cerr << "Name='" << name << "'\n";
-	//AddObject(CheckButtonC(name,it->CanRead()),0,1,lineNo,lineNo+1);
+        
 	StringC rwtype;
-	if(it->CanRead()) {
-	  if(it->CanWrite())
-	    rwtype="RW ";
-	  else
-	    rwtype="RO ";
-	} else {
-	  if(it->CanWrite())
-	    rwtype="WO ";
-	  else
-	    rwtype="NA ";
-	}
+        if(!showReadWrite)
+          rwtype = StringC("");
+        else {
+          if(it->CanRead()) {
+            if(it->CanWrite())
+              rwtype="RW ";
+            else
+              rwtype="RO ";
+          } else {
+            if(it->CanWrite())
+              rwtype="WO ";
+            else
+              rwtype="NA ";
+          }
+        }
+        
 	AddObject(LabelC(rwtype),0,1,lineNo,lineNo+1,(GtkAttachOptions) (GTK_FILL),(GtkAttachOptions) (GTK_FILL),2,3);	  
 	AddObject(LabelC(name)  ,1,2,lineNo,lineNo+1,(GtkAttachOptions) (GTK_FILL),(GtkAttachOptions) (GTK_FILL),2,5); // | GTK_EXPAND
 	AddObject(widge         ,2,3,lineNo,lineNo+1);
+        
+        if(showAttrDescription) {
+          LabelC labDesc(it->Description());
+          if(it->ValueType() == AVT_Bool) // We use the checkbox description...
+            labDesc = StringC("");
+          AddObject(labDesc  ,3,4,lineNo,lineNo+1,(GtkAttachOptions) (GTK_FILL),(GtkAttachOptions) (GTK_FILL),2,5); // | GTK_EXPAND
+        }
       }
     }
     //Add(table);
