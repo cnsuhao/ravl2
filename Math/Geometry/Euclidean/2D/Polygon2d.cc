@@ -50,12 +50,8 @@ namespace RavlN {
 
    bool Polygon2dC::IsInCone(const DLIterC<Point2dC> & a, const DLIterC<Point2dC> & b) const {
       Point2dC pa(a.Data());
-      DLIterC<Point2dC> n(a);
-      n.NextCrc();
-      Point2dC pan(n.Data());
-      DLIterC<Point2dC> p(a);
-      p.PrevCrc();
-      Point2dC pap(p.Data());
+      Point2dC pan(a.NextCrcData());
+      Point2dC pap(a.PrevCrcData());
       Point2dC pb(b.Data());
 
       // If 'pa' is a convex vertex ['pan' is left or on (pap, pa) ].
@@ -77,9 +73,7 @@ namespace RavlN {
       
       // The point can lie on the boundary of the polygon.
       for (DLIterC<Point2dC> k(*this); k; k++) {
-         DLIterC<Point2dC> n(k);
-         n.NextCrc();
-         if (LinePP2dC(k.Data(), n.Data()).IsPointIn(p))
+         if (LinePP2dC(k.Data(), k.NextCrcData()).IsPointIn(p))
             return true;
       }
       
@@ -97,9 +91,7 @@ namespace RavlN {
       // with the polygon segments.
       int count = 0;
       for (DLIterC<Point2dC> k(*this); k; k++) {
-         DLIterC<Point2dC> n(k);
-         n.NextCrc();
-         LinePP2dC l2(k.Data(), n.Data());
+         LinePP2dC l2(k.Data(), k.NextCrcData());
          
          // If l2 and testline are collinear then either the point lies on an
          // edge (checked already) or it acts as a vertex. I really

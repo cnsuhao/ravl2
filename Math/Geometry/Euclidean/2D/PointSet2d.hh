@@ -16,6 +16,7 @@
 //! docentry="Ravl.Math.Geometry.2D"
 
 #include "Ravl/Point2d.hh"
+#include "Ravl/SArray1d.hh"
 #include "Ravl/DList.hh"
 
 namespace RavlN {
@@ -37,7 +38,7 @@ namespace RavlN {
       Point2dC Centroid() const;
       //: Returns the centroid (mean) of the points
 
-      DListC<RealT> BCoord(Point2dC& point) const;
+      SArray1dC<RealT> BarycentricCoordinate(Point2dC& point) const;
       //: Calculates the barycentric coordinate of point
       
    };

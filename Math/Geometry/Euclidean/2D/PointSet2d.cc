@@ -10,6 +10,7 @@
 
 #include "Ravl/PointSet2d.hh"
 #include "Ravl/DLIter.hh"
+#include "Ravl/SArr1Iter.hh"
 #include "Ravl/Vector2d.hh"
 
 namespace RavlN {
@@ -18,12 +19,15 @@ namespace RavlN {
       // Create return value
       Point2dC centroid;
       // Sum
-      for (DLIterC<Point2dC> point(*this); point; point++)
+      IntT size(0);
+      for (DLIterC<Point2dC> point(*this); point; point++) {
          centroid += point.Data();
+	 size++;
+      }
       // Divide
-      centroid /= Size();
+      centroid /= size;
       // Done
-      return centroid;      
+      return centroid;
    }
 
    static RealT PCot(const Point2dC& oPointA, const Point2dC& oPointB, const Point2dC& oPointC) {
@@ -32,26 +36,26 @@ namespace RavlN {
       return (oBC.Dot(oBA) / fabs(oBC.Cross(oBA)));
    }
    
-   DListC<RealT> PointSet2dC::BCoord(Point2dC& point) const {
-      DListC<RealT> oWeights;
-      RealT fTotalWeight = 0;
-      // For each polygon vertex
-      for (UIntT iCurrent(0); iCurrent<Size(); iCurrent++) {
-         UIntT iNext = (iCurrent + 1) % Size();
-         UIntT iPrev = (iCurrent + Size() - 1) % Size();
-         RealT sqDist = Vector2dC(point - Nth(iCurrent)).Modulus();
-         sqDist *= sqDist;
-         RealT fWeight = (PCot(point,Nth(iCurrent),Nth(iPrev)) + 
-                          PCot(point,Nth(iCurrent),Nth(iNext))) / sqDist;
-         oWeights.InsLast(fWeight);
-         fTotalWeight += fWeight;
-      }
-      // Normalise weights
-      for (DLIterC<RealT> oWeightIter(oWeights); oWeightIter; oWeightIter++) {
-         oWeightIter.Data() /= fTotalWeight;
-      }
-      // Done
-      return oWeights;
+   SArray1dC<RealT> PointSet2dC::BarycentricCoordinate(Point2dC& point) const {
+     // Create return array
+     SArray1dC<RealT> oWeights(Size());
+     // Keep track of total
+     RealT fTotalWeight = 0;
+     // For each polygon vertex
+     SArray1dIterC<RealT> res(oWeights);
+     for (DLIterC<Point2dC> it(*this); it && res; it++) {
+       RealT sqDist = Vector2dC(it.Data() - it.NextCrcData()).Modulus();
+       sqDist *= sqDist;
+       RealT fWeight = (PCot(point,it.Data(),it.PrevCrcData()) + 
+			PCot(point,it.Data(),it.NextCrcData())) / sqDist;
+       res.Data() = fWeight;
+       fTotalWeight += fWeight;
+       res++;
+     }
+     // Normalise weights
+     oWeights /= fTotalWeight;
+     // Done
+     return oWeights;
    }
-   
+  
 }
