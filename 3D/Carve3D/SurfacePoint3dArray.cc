@@ -17,7 +17,6 @@ namespace Ravl3DN {
 
 #if RAVL_VISUALCPP_NAMESPACE_BUG
   using namespace RavlN;
-  using namespace RavlImageN;
 #endif
   
   // stream constructor
