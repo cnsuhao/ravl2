@@ -31,13 +31,18 @@ namespace RavlN {
   public:
     SampleDiscreteC(SizeT maxSize=10)
       : SampleC<DataT>(maxSize)
-      {}
+    {}
     //: Create a sample of data with a maximum size
     
-    SampleDiscreteC(const SArray1dC<UIntT> & dat)
-      : SampleC<UIntT>(dat)
-      {}
+    SampleDiscreteC(const SArray1dC<DataT> & dat)
+      : SampleC<DataT>(dat)
+    {}
     //: Create a sample of data from an array
+
+    SampleDiscreteC(const SampleC<DataT> &sample)
+      : SampleC<DataT>(sample)
+    {}
+    //: Create from a sample of unsigned integers.
     
     HistogramC<DataT> Histogram() const;
     //: Compute an occurrence histogram for sample.

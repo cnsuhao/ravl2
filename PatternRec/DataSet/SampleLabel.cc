@@ -6,11 +6,11 @@
 // file-header-ends-here
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/DataSet/SampleLabel.cc"
-
 //! rcsid="$Id$"
 
 #include "Ravl/PatternRec/SampleLabel.hh"
-#include "Ravl/DArray1dIter.hh"
+#include "Ravl/PatternRec/SampleIter.hh"
+#include "Ravl/Vector.hh"
 
 namespace RavlN {
 
@@ -22,6 +22,26 @@ namespace RavlN {
       if(*it > lv)
 	lv = *it;
     return lv;
+  }
+
+  //: Convert a sample of labels to vectors
+  // Where the label index is set to 'inClass' and the rest to 'outClass'.
+  
+  SampleC<VectorC> SampleLabelC::SampleVector(RealT inClass,RealT outClass,IntT maxLabel) const {
+    if(maxLabel < 0) {
+      for(SampleIterC<UIntT> it(*this);it;it++)
+	if(*it > (UIntT) maxLabel)
+	  maxLabel = (UIntT) *it;
+    }
+    SampleC<VectorC> ret(Size());
+    for(SampleIterC<UIntT> it(*this);it;it++) {
+      VectorC vec(maxLabel);
+      vec.Fill(outClass);
+      vec[*it] = inClass;
+      ret.Append(vec);
+    }
+    return ret;
+
   }
 
   

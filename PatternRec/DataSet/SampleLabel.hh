@@ -15,6 +15,7 @@
 #include "Ravl/PatternRec/SampleDiscrete.hh"
 
 namespace RavlN {
+  class VectorC;
   
   //! userlevel=Normal
   //: Sample of labels.
@@ -25,16 +26,26 @@ namespace RavlN {
   public:
     SampleLabelC(SizeT maxSize=10)
       : SampleDiscreteC<UIntT>(maxSize)
-      {}
+    {}
     //: Create a sample of data with a maximum size
     
     SampleLabelC(const SArray1dC<UIntT> & dat)
       : SampleDiscreteC<UIntT>(dat)
-      {}
+    {}
     //: Create a sample of data from an array
+
+    SampleLabelC(const SampleC<UIntT> &sample)
+      : SampleDiscreteC<UIntT>(sample)
+    {}
+    //: Construct from base class.
     
     UIntT MaxValue() const;
     //: Find the value of the largest label.
+    
+    SampleC<VectorC> SampleVector(RealT inClass = 1,RealT outClass = 0,IntT maxLabel = -1) const;
+    //: Convert a sample of labels to vectors
+    // Where the label index is set to 'inClass' and the rest to 'outClass'.
+    
   }; 
   
 }
