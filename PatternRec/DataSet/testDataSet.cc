@@ -13,9 +13,11 @@
 #include "Ravl/PatternRec/DataSet1.hh"
 #include "Ravl/PatternRec/DataSet2.hh"
 #include "Ravl/PatternRec/DataSet3.hh"
+#include "Ravl/PatternRec/DataSet4.hh"
 #include "Ravl/PatternRec/DataSet1Iter.hh"
 #include "Ravl/PatternRec/DataSet2Iter.hh"
 #include "Ravl/PatternRec/DataSet3Iter.hh"
+#include "Ravl/PatternRec/DataSet4Iter.hh"
 #include "Ravl/PatternRec/SampleIO.hh"
 #include "Ravl/PatternRec/SampleVector.hh"
 #include "Ravl/PatternRec/SampleLabel.hh"
@@ -39,6 +41,7 @@ int testSampleIO();
 int testDataSet1();
 int testDataSet2();
 int testDataSet3();
+int testDataSet4();
 int testSampleVector();
 int testSampleStreamVector();
 
@@ -72,6 +75,10 @@ int main() {
     return 1;
   }
   if((ln = testDataSet3()) != 0) {
+    cerr << "Test failed line " << ln << "\n";
+    return 1;
+  }
+  if((ln = testDataSet4()) != 0) {
     cerr << "Test failed line " << ln << "\n";
     return 1;
   }
@@ -181,6 +188,18 @@ int testDataSet3() {
   dataset.Append(12,0.5,false);
   UIntT count = 0;
   for(DataSet3IterC<SampleC<IntT>,SampleC<RealT>,SampleC<bool> > it(dataset);it;it++)
+    count++;
+  if(count != 3) return __LINE__;
+  return 0;
+}
+
+int testDataSet4() {
+  DataSet4C<SampleC<IntT>,SampleC<RealT>,SampleC<bool>,SampleC<char> > dataset(true);
+  dataset.Append(10,0.3,true,'a');
+  dataset.Append(11,0.4,false,'b');
+  dataset.Append(12,0.5,false,'c');
+  UIntT count = 0;
+  for(DataSet4IterC<SampleC<IntT>,SampleC<RealT>,SampleC<bool>,SampleC<char> > it(dataset);it;it++)
     count++;
   if(count != 3) return __LINE__;
   return 0;

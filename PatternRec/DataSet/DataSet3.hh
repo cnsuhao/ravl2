@@ -99,7 +99,7 @@ namespace RavlN {
     
     DataSet3C(const Sample1T & dat1,const Sample2T & dat2,const Sample3T & dat3)
       : DataSet2C<Sample1T,Sample2T>(*new DataSet3BodyC<Sample1T,Sample2T,Sample3T>(dat1,dat2,dat3))
-      {}
+    {}
     //: Create a dataset from some samples
     
   protected:    
@@ -155,7 +155,7 @@ namespace RavlN {
   istream &operator>>(istream &s,DataSet3C<Sample1T,Sample2T,Sample3T> &dat) {
     Sample1T tmp1;
     Sample2T tmp2;
-    Sample2T tmp3;
+    Sample3T tmp3;
     s >> tmp1 >> tmp2 >> tmp3;
     dat = DataSet3C<Sample1T,Sample2T,Sample3T>(tmp1,tmp2,tmp3);
     return s;
