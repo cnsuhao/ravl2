@@ -80,6 +80,9 @@ namespace RavlN {
   
 
   //: Design the transform.
+  // This routine takes advantage of the fact that if there are less samples than dimensions 
+  // in the sample vector, you can reduce the size of the covariance matrix you compute the eigen 
+  // values on.   This can make the PCA routine signficantly faster in some cases.
   
   FunctionC DesignFuncPCABodyC::DesignHighDim(const SampleC<VectorC> &sample,RealT variation) {
     // FIXME :- This could be implemented more efficently.
@@ -89,19 +92,13 @@ namespace RavlN {
     if(N == 0)
       return FunctionC();
     UIntT d = sample.First().Size(); // input dimension
-    
-    // Calculate difference vectors
-    
     mean = sv.Mean();
-    CollectionC<VectorC> collection(N);
-    for(SampleIterC<VectorC> it(sample);it;it++) 
-      collection.Insert(*it - mean);
-    
-    // Pick random sample.
-    
     MatrixC A (d, N);
-    for (IndexC index = 0; index < A.Cols(); index++)      
-      A.SetColumn (index, collection.Pick().SArray1d());
+    {
+      IndexC index = 0;
+      for(SampleIterC<VectorC> it(sample);it;it++,index++)
+	A.SetColumn (index, *it - mean);
+    }
     
     // Construct L=A^transpose A
     MatrixC AT = A.T();
