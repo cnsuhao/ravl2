@@ -69,6 +69,23 @@ namespace RavlN {
     {}
     //: Create rectangle from individual values.
     
+    IndexRange3dC(const Index3dC &center,SizeT size)
+      : is(center[0]-size,center[0]+size), 
+	js(center[1]-size,center[1]+size),
+	ks(center[2]-size,center[2]+size)
+    {}
+    //: Create an 2d range from a center point and a size.
+    // Size is the distance from the center to the edge, so
+    // a size of 0 gives a single pixel, and a size of 1 generates
+    // a 3x3 square.
+    
+    IndexRange3dC(const Index3dC &center,SizeT sizei,SizeT sizej,SizeT sizek);
+    //: Create an 2d range from a center point and a size for rows and cols.
+    // The sizes passed to this function are the absolute size of the
+    // rectangle, unlike IndexRangeC(Index2dC &center,SizeT size).
+    // Note: if the rows or cols there will be a half pixel offset in the
+    // center of the rectangle. 
+    
     inline Index3dC Origin() const
     { return Index3dC(is.Min(),js.Min(),ks.Min()); }
     //: Returns the origin index of the rectangle.

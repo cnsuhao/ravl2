@@ -20,6 +20,22 @@ namespace RavlN {
       js(jRange),
       ks(kRange)
   {}
+  
+  
+  IndexRange3dC::IndexRange3dC(const Index3dC &center,SizeT sizei,SizeT sizej,SizeT sizek) {
+    if(sizei > 0)
+      is = IndexRangeC(center[0] - (sizei-1)/2,center[0] + sizei/2);
+    else
+      is = IndexRangeC(center[0],center[0]);
+    if(sizej > 0)
+      js = IndexRangeC(center[1] - (sizej-1)/2,center[1] + sizej/2);
+    else
+      js = IndexRangeC(center[1],center[1]);
+    if(sizek > 0)
+      ks = IndexRangeC(center[2] - (sizek-1)/2,center[2] + sizek/2);
+    else
+      ks = IndexRangeC(center[2],center[2]);
+  }
 
   ostream &operator<<(ostream &s,const IndexRange3dC &ir) {
     s << ir.Range1() << ' ' << ir.Range2() << ' ' << ir.Range3();
