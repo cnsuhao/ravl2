@@ -55,10 +55,10 @@ NOLIBRARYPRELINK=1
 ############################
 # Universal flags.
 
-CFLAGS   = -Wall -pipe -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE 
+CFLAGS   = -Wall -pipe -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -fno-merge-constants
 CFLAGS   += $(EXTRA_CFLAGS) 
 
-CCFLAGS  = -pipe -Wall -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
+CCFLAGS  = -pipe -Wall -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -fno-merge-constants
 CCFLAGS  += $(EXTRA_CCFLAGS)
 
 CCPPFLAGS= -DGNU -Dunix
