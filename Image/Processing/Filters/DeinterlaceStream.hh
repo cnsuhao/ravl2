@@ -36,7 +36,7 @@ namespace RavlImageN {
 	evenFieldDominant(nEvenFieldDominant),
 	input(inPort)
     {
-      state = evenFieldDominant ? 0 : 1;
+      state = 0;
       seekCtrl = DPSeekCtrlAttachC(inPort,true);
     }
     //: Constructor.
@@ -45,7 +45,7 @@ namespace RavlImageN {
       : evenFieldDominant(nEvenFieldDominant),
 	input(inPort)
     {
-      state = evenFieldDominant ? 0 : 1; 
+      state = 0; 
       seekCtrl = DPSeekCtrlAttachC((const DPSeekCtrlC &) inPort);
     }
     //: Constructor.
@@ -66,36 +66,29 @@ namespace RavlImageN {
     
     virtual bool Get(ImageC<PixelT> &buff) {
       ImageC<PixelT> img;
-      //cerr << "State=" << state << "\n";
+      cerr << "State=" << state << " Tell=" << Tell() << "\n";
       switch(state) 
 	{
 	case 0:
-	  state = 4; // Mark as error if we get interrupted by an exception.
+	  state = 10; // Mark as error if we get interrupted by an exception.
 	  if(!input.Get(img))
 	    return false;
 	  Deinterlace(img,fields[0],fields[1]);
-	  state = evenFieldDominant ? 3 : 2;
-	  buff = fields[0];
+	  state = 1;
+	  buff = fields[evenFieldDominant ? 1 : 0];
 	  return true;
 	case 1:
-	  state = 4; // Mark as error if we get interrupted by an exception.
+	  buff = fields[evenFieldDominant ? 0 : 1];
+	  state = 0;
+	  return true;
+	case 2: // Load frame for second field.
+	  state = 10; // Mark as error if we get interrupted by an exception.
 	  if(!input.Get(img))
 	    return false;
 	  Deinterlace(img,fields[0],fields[1]);
-	  state = evenFieldDominant ? 2 : 3;
-	  buff = fields[1];
+	  buff = fields[evenFieldDominant ? 0 : 1];
+	  state = 0;
 	  return true;
-	case 2: 
-	  state = evenFieldDominant ? 1 : 0;
-	  buff = fields[0];
-	  return true;
-	case 3:
-	  state = evenFieldDominant ? 0 : 1;
-	  buff = fields[1];
-	  return true;
-	case 4:
-	  cerr << "ERROR: Attempt to read an invalid field. \n";
-	  break;
 	default: // Something's going really wrong.
 	  RavlAssert(0);
 	}
@@ -106,8 +99,10 @@ namespace RavlImageN {
     virtual bool Seek(UIntT off) {
       if(!seekCtrl.Seek(off/2))
 	return false;
-      state = evenFieldDominant ? (off % 2) : ((off+1) % 2);
-      //cerr << "Seek to " << off << " State=" << state << "\n";
+      state = (off % 2);
+      if(state == 1)
+	state = 2; // Make sure we load the appropriate frame.
+      cerr << "Seek to " << off << " Frame=" << (off/2) << " State=" << state << "\n";
       return true;
     }
     //: Seek to location in stream.
@@ -117,9 +112,11 @@ namespace RavlImageN {
     
     virtual bool DSeek(IntT off) {
       IntT at = (IntT) Tell();
-      //cerr << "DSeek to " << off << " " << at  << " State=" << state << "\n";
+      cerr << "DSeek by " << off << " " << at  << " State=" << state << "\n";
       // There may be slight more efficent ways of doing this, but
       // it will work for now.
+      if(off < 0 && (-off) > at)
+	return false;
       at += off;
       return Seek(at);
     }
@@ -129,21 +126,15 @@ namespace RavlImageN {
     
     virtual UIntT Tell() const {
       IntT fn = seekCtrl.Tell() * 2;
-      switch(state) 
-	{
-	case 0: 
-	case 2:
-	  fn += evenFieldDominant ? 0 : 1;
-	  break;
-	case 1:
-	case 3:
-	  fn += evenFieldDominant ? 1 : 0;
-	  break;
-	case 4: // Error.
-	  break;
-	default: // Fatal error.
-	  RavlAssert(0);
-	}
+      switch(state) {
+      case 2: fn += 1; break;
+      case 1: fn -= 1; break;
+      case 0:
+      case 10: // Error.
+	break;
+      default: // Fatal error.
+	RavlAssert(0);
+      }
       return fn;
     }
     //: Find current location in stream.
