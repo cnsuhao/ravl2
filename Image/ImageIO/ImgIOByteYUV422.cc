@@ -70,7 +70,7 @@ namespace RavlImageN {
   }
 
   // Convert a YUV422 image into a RGB image.
-  // What to do about interlace ?
+  // The rgb image may be a
   
   ImageC<ByteRGBValueC> ByteYUV422ImageCT2ByteRGBImageCT(const ImageC<ByteYUV422ValueC> &dat) { 
     ImageRectangleC outRect = dat.Rectangle();
@@ -79,12 +79,16 @@ namespace RavlImageN {
     // Make sure we're aligned correctly.
     if(outRect.LCol().V() & 1)
       outRect.LCol().V()++; // Start on even boundry in image.
+    
     if(!(outRect.RCol().V() & 1))
       outRect.RCol().V()--; // End on odd boundry in image.
     RavlAssert(outRect.LCol() < outRect.RCol()); // Make sure there's something left!
     
+    cerr << "\n\noriginal rectangle " << dat.Rectangle() 
+	 << "\n\nout      rectangle " << outRect ; 
+
     ImageC<ByteRGBValueC> ret(outRect);
-    for(Array2dIter2C<ByteRGBValueC,ByteYUV422ValueC> it(ret,dat);it;it++) {
+    for(Array2dIter2C<ByteRGBValueC,ByteYUV422ValueC> it(ret,outRect,dat,outRect);it;it++) {
       // Read the first pixel.
       SByteT u = it.Data2().UV() + 128;
       ByteT i1 = it.Data2().Y();
