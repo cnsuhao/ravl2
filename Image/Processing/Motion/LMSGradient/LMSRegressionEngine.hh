@@ -17,6 +17,8 @@
 #include "Ravl/Pair.hh"
 
 namespace RavlImageN {
+
+  //! docentry="Ravl.Images.Motion"
   
   inline
   Vector2dC LMSRegressionEngine(const Matrix2dC &A, 

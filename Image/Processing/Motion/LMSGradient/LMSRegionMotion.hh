@@ -25,7 +25,7 @@ namespace RavlImageN {
   
   //! example="exLMSRegionMotion.cc"
   //! lib=LMSMotion
-  //! docentry="Images.Motion.Model Based"
+  //! docentry="Ravl.Images.Motion.Model Based"
   
   //: Computes a 2D motion vector from 2 images over a region using a least-mean-square fit
   //

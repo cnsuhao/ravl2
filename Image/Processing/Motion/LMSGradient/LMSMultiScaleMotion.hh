@@ -11,7 +11,7 @@
 //! date="14/07/2000"
 //! rcsid="$Id$"
 //! lib=RavlImageProc
-//! docentry="Images.Motion.Optical Flow"
+//! docentry="Ravl.Images.Motion.Optical Flow"
 //! example=exLMSMultiScale.cc
 
 #include "Ravl/Image/Image.hh"
