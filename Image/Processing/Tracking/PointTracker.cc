@@ -16,6 +16,7 @@
 #include "Ravl/Image/PeakDetector.hh"
 #include "Ravl/Image/CornerDetectorSusan.hh"
 #include "Ravl/Image/CornerDetectorHarris.hh"
+#include "Ravl/Image/MatchPatch.hh"
 
 #define DODEBUG 0
 #if DODEBUG 
@@ -27,46 +28,6 @@
 #endif
 
 namespace RavlImageN {
-  
-  template<class DataT,class SumT>
-  static SumT SearchGradientDecent(const Array2dC<DataT> &tmpl,const Array2dC<DataT> &img,const Index2dC &start,Point2dC &rat,SumT &rminScore,int searchSize = 50) {
-    SumT minScore;
-    IndexRange2dC sarea(start,searchSize+8,searchSize+8);
-    sarea.ClipBy(img.Frame() - tmpl.Frame());
-    //cerr << "Img=" << img.Frame() << " SArea=" << sarea << "\n";
-    if(!sarea.Contains(start)) {
-      rat = Point2dC(-1,-1);
-      minScore = 100000000;
-      return minScore;
-    }
-    Array2dC<SumT> scoreMap(sarea);
-    scoreMap.Fill(-1);
-    MatchSumAbsDifference(tmpl,img,start,minScore);
-    Index2dC minAt = start;
-    scoreMap[minAt] = minScore;
-    
-    Index2dC lastMin;
-    do {
-      //cerr << "Center at " << minAt << "\n";
-      lastMin = minAt;
-      for(SquareIterC it(searchSize,minAt);it;it++) {
-	if(!sarea.Contains(*it) || scoreMap[*it] > 0)
-	  continue;
-	SumT score;
-	//cerr << "Checking " << *it << "\n";
-	MatchSumAbsDifference(tmpl,img,*it,score);
-	scoreMap[*it] = score;
-	if(score < minScore) {
-	  minScore = score;
-	  minAt = *it;
-	}
-      }
-    } while(minAt != lastMin);
-    rat = LocatePeakSubPixel(scoreMap,minAt,0.25);
-    rat = minAt;
-    rminScore = minScore;
-    return minScore;
-  }
   
   //: Constructor.
   
@@ -164,7 +125,7 @@ namespace RavlImageN {
       searchArea.ClipBy(img.Frame());
       SearchMinAbsDifference(itt->Template(),img,searchArea,at,score);
 #else
-      SearchGradientDecent(itt->Template(),img,lookAt,at,score,searchSize);
+      SearchMinAbsDifferenceCreep(itt->Template(),img,lookAt,at,score,searchSize);
 #endif
       //cerr <<"Score=" << score << " At=" << at << " Thresh=" << removeThresh << "\n";
       if(score > removeThresh) {
