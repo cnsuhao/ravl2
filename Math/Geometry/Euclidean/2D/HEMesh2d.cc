@@ -64,17 +64,18 @@ namespace RavlN {
       Point2dC first = last;
       bool found = true;
       for(eit++;eit;eit++) {
-	Point2dC pnt = eit->Vertex().Data();
-	if(LinePP2dC(last,pnt).IsPointToLeft(pnt)) {
+	Point2dC x = eit->Vertex().Data();
+	if(!LinePP2dC(last,x).IsPointToLeft(pnt)) {
 	  found = false;
 	  break;
 	}
-	last = pnt;
+	last = x;
       }
-      if(found && !LinePP2dC(last,first).IsPointToLeft(pnt))
+      if(found && LinePP2dC(last,first).IsPointToLeft(pnt))
 	return *it; // Found it !
       // Keep trying....
     }
+    ONDEBUG(cerr << "HEMesh2dC::FindFace(), No face found.\n");
     return THEMeshFaceC<Point2dC>();
   }
   

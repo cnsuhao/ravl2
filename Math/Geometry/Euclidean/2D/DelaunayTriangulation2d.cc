@@ -76,8 +76,8 @@ namespace RavlN {
       THEMeshFaceEdgeIterC<Point2dC> eit(*it);
       for(;eit;eit++) {
 	LinePP2dC line((*eit).Prev().Vertex().Data(),eit->Vertex().Data());
-	//ONDEBUG(cerr << "FindFace(), " << (*eit).Prev().Vertex().Data() << " " << eit->Vertex().Data() << " -> " << line.IsPointToLeft(pnt) << "\n");
-	if(line.IsPointToLeft(pnt))
+	//ONDEBUG(cerr << "FindFace(), " << (*eit).Prev().Vertex().Data() << " " << eit->Vertex().Data() << " -> " << !line.IsPointToLeftOn(pnt) << "\n");
+	if(!line.IsPointToLeftOn(pnt))
 	  break;
 	if(line.IsPointOn(pnt)) {
 	  me = *eit;
@@ -112,8 +112,8 @@ namespace RavlN {
     
     SArray1dC<HEMeshBaseVertexC> tempFace(3);
     tempFace[0] = ret.InsertVertex(box.Origin() - off);
-    tempFace[2] = ret.InsertVertex(Point2dC(box.End()[0],box.End()[1] + off[1]));
-    tempFace[1] = ret.InsertVertex(Point2dC(box.End()[0] + off[0],box.End()[1]));
+    tempFace[1] = ret.InsertVertex(Point2dC(box.End()[0],box.End()[1] + off[1]));
+    tempFace[2] = ret.InsertVertex(Point2dC(box.End()[0] + off[0],box.End()[1]));
     
     HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> edgeTab;
     THEMeshFaceC<Point2dC> firstFace =ret.InsertFace(tempFace,edgeTab); // Insert initial face.

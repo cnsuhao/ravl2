@@ -30,6 +30,7 @@ int testCircle2d();
 int testConvexHull2d();
 int testDelaunayTriangulation2d();
 int testFitAffine();
+int testHEMesh2d();
 
 int main() {
   int ln;
@@ -42,6 +43,10 @@ int main() {
     return 1;
   }
   if((ln = testCircle2d()) != 0) {
+    cerr << "Test failed at " << ln << "\n";
+    return 1;
+  }
+  if((ln = testHEMesh2d()) != 0) {
     cerr << "Test failed at " << ln << "\n";
     return 1;
   }
@@ -181,6 +186,9 @@ int testDelaunayTriangulation2d() {
     // Check faces are all oriented correctly.
     
     if(!triMesh.IsFlat()) return __LINE__;
+
+    // Check mesh has the correct orientation.
+        
   }
   return 0;
 }
@@ -222,5 +230,38 @@ int testFitAffine() {
       }
     }
   }
+  return 0;
+}
+
+int testHEMesh2d() {
+  HEMesh2dC mesh(true);
+  SArray1dC<HEMeshBaseVertexC > points(3);
+  
+  points[0] = mesh.InsertVertex(Point2dC(0,0));
+  points[1] = mesh.InsertVertex(Point2dC(0,1));
+  points[2] = mesh.InsertVertex(Point2dC(1,0));
+  
+  
+  HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> edgeTab;
+  mesh.InsertFace(points,edgeTab);
+  
+  ;  
+  THEMeshFaceC<Point2dC> face = mesh.FindFace(Point2dC(0.1,0.1));
+  if(!face.IsValid()) return __LINE__;
+  
+  face = mesh.FindFace(Point2dC(-1,-1));
+  if(face.IsValid()) return __LINE__;
+  
+  face = mesh.FindFace(Point2dC(-1,0.5));
+  if(face.IsValid()) return __LINE__;
+  
+  face = mesh.FindFace(Point2dC(0.5,-1));
+  if(face.IsValid()) return __LINE__;
+  
+  face = mesh.FindFace(Point2dC(1,1));
+  if(face.IsValid()) return __LINE__;
+  
+  if(!IsDelaunayTriangulation(mesh)) return __LINE__;
+  
   return 0;
 }

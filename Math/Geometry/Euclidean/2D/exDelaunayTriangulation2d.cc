@@ -39,6 +39,10 @@ int main(int nargs,char **argv) {
   
   HEMesh2dC mesh = DelaunayTriangulation(pnts);
   
+  Point2dC x(size[0]/2,size[1]/2);
+  
+  THEMeshFaceC<Point2dC> fface;
+  //= mesh.FindFace(x);
   for(THEMeshFaceIterC<Point2dC> mit(mesh.Faces());mit;mit++) {
     for(THEMeshFaceEdgeIterC<Point2dC> eit(*mit);eit;eit++) {
       if(!eit->HasPair()) {
@@ -46,9 +50,16 @@ int main(int nargs,char **argv) {
 			     Index2dC((*eit).Vertex().Data()),
 			     Index2dC((*eit).Prev().Vertex().Data()));
       } else {
-	RavlImageN::DrawLine(img,(ByteT) 128,
-			     Index2dC((*eit).Vertex().Data()),
-			     Index2dC((*eit).Prev().Vertex().Data()));
+	if((*eit).Face() == fface || (*eit).Pair().Face() == fface) {
+	  
+	  RavlImageN::DrawLine(img,(ByteT) 250,
+			       Index2dC((*eit).Vertex().Data()),
+			       Index2dC((*eit).Prev().Vertex().Data()));	  
+	} else {
+	  RavlImageN::DrawLine(img,(ByteT) 128,
+			       Index2dC((*eit).Vertex().Data()),
+			       Index2dC((*eit).Prev().Vertex().Data()));
+	}
       }
     }
   }
