@@ -25,7 +25,8 @@ namespace RavlLogicN {
   //: Construct a new filter.
   
   LiteralIndexFilterBaseBodyC::LiteralIndexFilterBaseBodyC(const LiteralIndexBaseC &nindex,const LiteralC &nfilter) 
-    : filter(nfilter),
+    : binds(true),
+      filter(nfilter),
       index(nindex)
   { 
     ONDEBUG(cerr << "LiteralIndexFilterBaseBodyC::LiteralIndexFilterBaseBodyC(), Called. Filter [" << nfilter << "]\n");
