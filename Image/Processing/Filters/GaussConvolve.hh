@@ -103,7 +103,7 @@ namespace RavlImageN {
   
   template<class DataT>
   BinOStreamC &operator<<(BinOStreamC &s, const GaussConvolveC<DataT> &out) {
-    s << out.binomial.Size();    
+    s << ((UIntT) out.binomial.Size());
     return s;
   }
   
