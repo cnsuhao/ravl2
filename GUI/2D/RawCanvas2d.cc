@@ -21,6 +21,8 @@ namespace RavlGUIN {
   
   void RawCanvasBodyC::GUIDrawImage(const ImageC<ByteRGBValueC> &img,const Index2dC &offset,bool ignoreImageOrigin) {
     //cerr << "RawCanvasBodyC::GUIDrawImage(), Called.  Img=" << img.Frame() << " Offset=" << offset << "\n";
+    if(img.IsEmpty())
+      return;
     Index2dC at = offset;
     if(!ignoreImageOrigin)
       at += img.Frame().Origin();
@@ -38,6 +40,8 @@ namespace RavlGUIN {
   // Note: You have to include the RavlGUI2d library to use this function.
   
   void RawCanvasBodyC::GUIDrawImage(const ImageC<ByteT> &img,const Index2dC &offset,bool ignoreImageOrigin) {
+    if(img.IsEmpty())
+      return;
     Index2dC at = offset;
     if(!ignoreImageOrigin)
       at += img.Frame().Origin();
