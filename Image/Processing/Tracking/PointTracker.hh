@@ -28,7 +28,7 @@ namespace RavlImageN {
   
   class PointTrackerC {
   public:
-    PointTrackerC(int cthreshold,int mwidth = 9,int mwidth = 10,int nthreshold = 50,int lifeTime = 2,int searchSize = 25);
+    PointTrackerC(int cthreshold,int mwidth = 9,int nmthreshold = 10,int nthreshold = 50,int lifeTime = 2,int searchSize = 25);
     //: Constructor.
     // Matching width.
     

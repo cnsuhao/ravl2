@@ -32,8 +32,6 @@ namespace RavlImageN {
     IndexRange2dC sarea(start,50,50);
     sarea.ClipBy(img.Frame() - tmpl.Frame());
     //cerr << "Img=" << img.Frame() << " SArea=" << sarea << "\n";
-    if(sarea.Area() < 0)
-      return minScore;
     if(!sarea.Contains(start)) {
       rat = Point2dC(-1,-1);
       minScore = 100000000;
