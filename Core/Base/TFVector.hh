@@ -39,7 +39,7 @@ namespace RavlN {
   template<class DataT,unsigned int N>
   inline BinOStreamC &operator<<(BinOStreamC &in,const TFVectorC<DataT,N> &dat);
   
-#if !RAVL_COMPILER_VISUALCPP
+#if !RAVL_COMPILER_VISUALCPP && !RAVL_COMPILER_VISUALCPPNET
   template<unsigned int N>
   inline ostream &operator<<(ostream &out,const TFVectorC<ByteT,N> &dat);
   
@@ -83,10 +83,9 @@ namespace RavlN {
     // Used by some templates.
   
     TFVectorC<DataT,N> Copy(void) const
-      { return *this ; }
+    { return *this ; }
     //: return a copy of this vector 
-
-  
+    
     UIntT Size() const
     { return N; }
     //: Get size of array
@@ -215,7 +214,12 @@ namespace RavlN {
     inline const TFMatrixC<DataT,1,N> &T() const;
     //: Transpose vector.
     // The implementation for this can be found in "Ravl/TFMatrix.hh"
-    
+#if RAVL_COMPILER_VISUALCPPNET
+    friend istream &operator>> <DataT,N>(istream &in,TFVectorC<DataT,N> &dat);  
+    friend ostream &operator<< <DataT,N>(ostream &in,const TFVectorC<DataT,N> &dat);  
+    friend BinIStreamC &operator>> <DataT,N>(BinIStreamC &in,TFVectorC<DataT,N> &dat);
+    friend BinOStreamC &operator<< <DataT,N>(BinOStreamC &in,const TFVectorC<DataT,N> &dat);
+#else
 #if RAVL_NEW_ANSI_CXX_DRAFT
     friend istream &operator>> <>(istream &in,TFVectorC<DataT,N> &dat);  
     friend ostream &operator<< <>(ostream &in,const TFVectorC<DataT,N> &dat);  
@@ -232,7 +236,8 @@ namespace RavlN {
     friend ostream &operator<< (ostream &in,const TFVectorC<DataT,N> &dat);  
     friend BinIStreamC &operator>> (BinIStreamC &in,TFVectorC<DataT,N> &dat);
     friend BinOStreamC &operator<< (BinOStreamC &in,const TFVectorC<DataT,N> &dat);
-#endif    
+#endif
+#endif
   protected:
     DataT data[N];
   };
