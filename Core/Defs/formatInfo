@@ -56,7 +56,7 @@ abs	 symb	    RavlN::ClassifierNearestNeighbourC		RavlPatternRecIO
 abs	 symb	    RavlN::ClassifierKNearestNeighbourC		RavlPatternRecIO
 abs	 symb	    RavlN::ClassifierAverageNearestNeighbourC	RavlPatternRecIO
 abs	 symb	    RavlN::ClassifierDiscriminantFunctionC	RavlPatternRecIO
-abs	 symb	    RavlN::ClassifierGuassianMixtureC		RavlPatternRecIO
+abs	 symb	    RavlN::ClassifierGaussianMixtureC		RavlPatternRecIO
 abs	 symb	    RavlN::ClassifierFunc1ThresholdC		RavlPatternRecIO
 abs	 symb	    RavlN::ClassifierWeakLinearC		RavlPatternRecIO
 abs	 symb	    RavlN::ClassifierLinearCombinationC		RavlPatternRecIO

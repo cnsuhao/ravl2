@@ -18,38 +18,38 @@ namespace RavlN {
   
   //: Create classifier from function.
   
-  ClassifierGuassianMixtureBodyC::ClassifierGuassianMixtureBodyC(const SArray1dC<GaussianMixtureC> &nmodels)
+  ClassifierGaussianMixtureBodyC::ClassifierGaussianMixtureBodyC(const SArray1dC<GaussianMixtureC> &nmodels)
     : ClassifierBodyC(nmodels.Size()),
       models(nmodels)
   {}
   
   //: Load from stream.
   
-  ClassifierGuassianMixtureBodyC::ClassifierGuassianMixtureBodyC(istream &strm)
+  ClassifierGaussianMixtureBodyC::ClassifierGaussianMixtureBodyC(istream &strm)
     : ClassifierBodyC(strm)
   { 
     IntT version;
     strm >> version;
     if(version != 0)
-      throw ExceptionOutOfRangeC("ClassifierGuassianMixtureBodyC::ClassifierGuassianMixtureBodyC(istream &), Unrecognised version number in stream. ");
+      throw ExceptionOutOfRangeC("ClassifierGaussianMixtureBodyC::ClassifierGaussianMixtureBodyC(istream &), Unrecognised version number in stream. ");
     strm >> models;
   }
   
   //: Load from binary stream.
   
-  ClassifierGuassianMixtureBodyC::ClassifierGuassianMixtureBodyC(BinIStreamC &strm)
+  ClassifierGaussianMixtureBodyC::ClassifierGaussianMixtureBodyC(BinIStreamC &strm)
     : ClassifierBodyC(strm)
   {
     IntT version;
     strm >> version;
     if(version != 0)
-      throw ExceptionOutOfRangeC("ClassifierGuassianMixtureBodyC::ClassifierGuassianMixtureBodyC(BinIStreamC &), Unrecognised version number in stream. ");
+      throw ExceptionOutOfRangeC("ClassifierGaussianMixtureBodyC::ClassifierGaussianMixtureBodyC(BinIStreamC &), Unrecognised version number in stream. ");
     strm >> models; 
   }
   
   //: Writes object to stream, can be loaded using constructor
   
-  bool ClassifierGuassianMixtureBodyC::Save(ostream &out) const {
+  bool ClassifierGaussianMixtureBodyC::Save(ostream &out) const {
     if(!ClassifierBodyC::Save(out))
       return false;
     IntT version = 0;
@@ -60,7 +60,7 @@ namespace RavlN {
 
   //: Writes object to stream, can be loaded using constructor
   
-  bool ClassifierGuassianMixtureBodyC::Save(BinOStreamC &out) const {
+  bool ClassifierGaussianMixtureBodyC::Save(BinOStreamC &out) const {
     if(!ClassifierBodyC::Save(out))
       return false;
     IntT version = 0;
@@ -70,7 +70,7 @@ namespace RavlN {
   
   //: Classifier vector 'data' return the most likely label.
   
-  UIntT ClassifierGuassianMixtureBodyC::Classify(const VectorC &data) const {
+  UIntT ClassifierGaussianMixtureBodyC::Classify(const VectorC &data) const {
     UIntT ret = 0;
     SArray1dIterC<GaussianMixtureC > lit(models);
     if(!lit)
@@ -96,7 +96,7 @@ namespace RavlN {
   // on the classifier used. The higher the confidence the more likely
   // it is the label is correct.
   
-  VectorC ClassifierGuassianMixtureBodyC::Confidence(const VectorC &data) const {
+  VectorC ClassifierGaussianMixtureBodyC::Confidence(const VectorC &data) const {
     VectorC ret(models.Size());
     for(SArray1dIter2C<RealT,GaussianMixtureC > lit(ret,models);lit;lit++) {
       if(lit.Data2().IsValid())
@@ -107,7 +107,7 @@ namespace RavlN {
     return ret;
   }
   
-  RAVL_INITVIRTUALCONSTRUCTOR_FULL(ClassifierGuassianMixtureBodyC,ClassifierGuassianMixtureC,ClassifierC);
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(ClassifierGaussianMixtureBodyC,ClassifierGaussianMixtureC,ClassifierC);
   
   
 }

@@ -23,17 +23,17 @@ namespace RavlN {
   //  This classifier returns the label with the highest value.
   // This class can be used with the <a href="RavlN.DesignClassifierGaussianMixtureC.html"> DesignClassifierGaussianMixtureC </a> class. 
 
-  class ClassifierGuassianMixtureBodyC 
+  class ClassifierGaussianMixtureBodyC 
     : public ClassifierBodyC
   {
   public:
-    ClassifierGuassianMixtureBodyC(const SArray1dC<GaussianMixtureC> &model);
+    ClassifierGaussianMixtureBodyC(const SArray1dC<GaussianMixtureC> &model);
     //: Create classifier from a discriminant function.
     
-    ClassifierGuassianMixtureBodyC(istream &strm);
+    ClassifierGaussianMixtureBodyC(istream &strm);
     //: Load from stream.
     
-    ClassifierGuassianMixtureBodyC(BinIStreamC &strm);
+    ClassifierGaussianMixtureBodyC(BinIStreamC &strm);
     //: Load from binary stream.
     
     virtual bool Save (ostream &out) const;
@@ -65,43 +65,43 @@ namespace RavlN {
   //  This classifier returns the label with the highest value.
   // This class can be used with the <a href="RavlN.DesignClassifierGaussianMixtureC.html"> DesignClassifierGaussianMixtureC </a> class. 
 
-  class ClassifierGuassianMixtureC 
+  class ClassifierGaussianMixtureC 
     : public ClassifierC
   {
   public:
-    ClassifierGuassianMixtureC()
+    ClassifierGaussianMixtureC()
     {}
     //: Default constructor.
     // Creates an invalid handle.
     
-    ClassifierGuassianMixtureC(const SArray1dC<GaussianMixtureC> &model)
-      : ClassifierC(*new ClassifierGuassianMixtureBodyC(model))
+    ClassifierGaussianMixtureC(const SArray1dC<GaussianMixtureC> &model)
+      : ClassifierC(*new ClassifierGaussianMixtureBodyC(model))
     {}
     //: Create classifier from a discriminant function.
     
-    ClassifierGuassianMixtureC(istream &strm);
+    ClassifierGaussianMixtureC(istream &strm);
     //: Load from stream.
     
-    ClassifierGuassianMixtureC(BinIStreamC &strm);
+    ClassifierGaussianMixtureC(BinIStreamC &strm);
     //: Load from binary stream.
     
   protected:
-    ClassifierGuassianMixtureC(ClassifierGuassianMixtureBodyC &bod)
+    ClassifierGaussianMixtureC(ClassifierGaussianMixtureBodyC &bod)
       : ClassifierC(bod)
     {}
     //: Body constructor.
 
-    ClassifierGuassianMixtureC(ClassifierGuassianMixtureBodyC *bod)
+    ClassifierGaussianMixtureC(ClassifierGaussianMixtureBodyC *bod)
       : ClassifierC(bod)
     {}
     //: Body constructor.
     
-    ClassifierGuassianMixtureBodyC &Body()
-    { return static_cast<ClassifierGuassianMixtureBodyC &>(ClassifierC::Body()); }
+    ClassifierGaussianMixtureBodyC &Body()
+    { return static_cast<ClassifierGaussianMixtureBodyC &>(ClassifierC::Body()); }
     //: Access body.
 
-    const ClassifierGuassianMixtureBodyC &Body() const
-    { return static_cast<const ClassifierGuassianMixtureBodyC &>(ClassifierC::Body()); }
+    const ClassifierGaussianMixtureBodyC &Body() const
+    { return static_cast<const ClassifierGaussianMixtureBodyC &>(ClassifierC::Body()); }
     //: Access body.
     
   public:
@@ -111,28 +111,28 @@ namespace RavlN {
     
   };
   
-  inline istream &operator>>(istream &strm,ClassifierGuassianMixtureC &obj) {
-    obj = ClassifierGuassianMixtureC(strm);
+  inline istream &operator>>(istream &strm,ClassifierGaussianMixtureC &obj) {
+    obj = ClassifierGaussianMixtureC(strm);
     return strm;
   }
   //: Load from a stream.
   // Uses virtual constructor.
   
-  inline ostream &operator<<(ostream &out,const ClassifierGuassianMixtureC &obj) {
+  inline ostream &operator<<(ostream &out,const ClassifierGaussianMixtureC &obj) {
     obj.Save(out);
     return out;
   }
   //: Save to a stream.
   // Uses virtual constructor.
   
-  inline BinIStreamC &operator>>(BinIStreamC &strm,ClassifierGuassianMixtureC &obj) {
-    obj = ClassifierGuassianMixtureC(strm);
+  inline BinIStreamC &operator>>(BinIStreamC &strm,ClassifierGaussianMixtureC &obj) {
+    obj = ClassifierGaussianMixtureC(strm);
     return strm;
   }
   //: Load from a binary stream.
   // Uses virtual constructor.
   
-  inline BinOStreamC &operator<<(BinOStreamC &out,const ClassifierGuassianMixtureC &obj) {
+  inline BinOStreamC &operator<<(BinOStreamC &out,const ClassifierGaussianMixtureC &obj) {
     obj.Save(out);
     return out;
   }

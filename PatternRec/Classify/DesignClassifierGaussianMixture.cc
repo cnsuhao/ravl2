@@ -81,7 +81,7 @@ namespace RavlN {
       if(it.Data2().Size() > 0)
 	it.Data1() = designMixture.Apply(it.Data2());
     }
-    return ClassifierGuassianMixtureC(gma);
+    return ClassifierGaussianMixtureC(gma);
   }
   
   //: Create a clasifier with weights for the samples.

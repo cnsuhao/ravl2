@@ -94,18 +94,18 @@ namespace RavlN {
   FileFormatStreamC<ClassifierDiscriminantFunctionC> FileFormatStream_ClassifierDiscriminantFunction;
   FileFormatBinStreamC<ClassifierDiscriminantFunctionC> FileFormatBinStream_ClassifierDiscriminantFunction;
 
-  //:- ClassifierGuassianMixtureC ------------------------------------------------------------------
+  //:- ClassifierGaussianMixtureC ------------------------------------------------------------------
 
-  ClassifierC ClassifierGuassianMixture2Classifier(const ClassifierGuassianMixtureC &func)
+  ClassifierC ClassifierGaussianMixture2Classifier(const ClassifierGaussianMixtureC &func)
   { return func; }
   
-  DP_REGISTER_CONVERSION_NAMED(ClassifierGuassianMixture2Classifier ,1,
-			       "RavlN::ClassifierC RavlN::Convert(const RavlN::ClassifierGuassianMixtureC &)");
+  DP_REGISTER_CONVERSION_NAMED(ClassifierGaussianMixture2Classifier ,1,
+			       "RavlN::ClassifierC RavlN::Convert(const RavlN::ClassifierGaussianMixtureC &)");
   
-  static TypeNameC type7(typeid(ClassifierGuassianMixtureC),"RavlN::ClassifierGuassianMixtureC");
+  static TypeNameC type7(typeid(ClassifierGaussianMixtureC),"RavlN::ClassifierGaussianMixtureC");
   
-  FileFormatStreamC<ClassifierGuassianMixtureC> FileFormatStream_ClassifierGuassianMixture;
-  FileFormatBinStreamC<ClassifierGuassianMixtureC> FileFormatBinStream_ClassifierGuassianMixture;
+  FileFormatStreamC<ClassifierGaussianMixtureC> FileFormatStream_ClassifierGaussianMixture;
+  FileFormatBinStreamC<ClassifierGaussianMixtureC> FileFormatBinStream_ClassifierGaussianMixture;
   
   //:- ClassifierFunc1ThresholdC ------------------------------------------------------------------
 

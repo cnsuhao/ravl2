@@ -145,7 +145,7 @@ int testMeanCovar2d() {
 
   Vector2dC at(0.5,0.5);
   RealT val = mc1.Gauss(at);
-  cerr << "Guass=" << val << "\n";
+  cerr << "Gauss=" << val << "\n";
   return 0;
 }
 
