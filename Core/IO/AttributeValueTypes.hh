@@ -125,24 +125,24 @@ namespace RavlN {
     AttributeTypeNumBodyC(const StringC &name,const StringC &desc,bool nCanRead = true,bool nCanWrite = true,
 			  ValueT nmin = ValueT(),ValueT nmax = ValueT(),ValueT nstep = ValueT(),ValueT ndefaultValue = ValueT())
       : AttributeTypeBodyC(name,desc,nCanRead,nCanWrite),
-	min(nmin),max(nmax),step(nstep),defaultValue(ndefaultValue)
+	minv(nmin),maxv(nmax),step(nstep),defaultValue(ndefaultValue)
     {}
     //: Constructor.
 
     AttributeTypeNumBodyC(BinIStreamC &is)
       : AttributeTypeBodyC(is)
-    { is >> min >> max >> step >> defaultValue; }
+    { is >> minv >> maxv >> step >> defaultValue; }
     //: Binary stream constructor.
     
     AttributeTypeNumBodyC(istream &is)
       : AttributeTypeBodyC(is)
-    { is >> min >> max >> step >> defaultValue; }
+    { is >> minv >> maxv >> step >> defaultValue; }
     //: stream constructor.
     
     virtual bool Save(ostream & strm) const {
       if(!AttributeTypeBodyC::Save(strm))
 	return false;
-      strm << ' ' << min << ' ' << max << ' ' << step << ' ' << defaultValue; 
+      strm << ' ' << minv << ' ' << maxv << ' ' << step << ' ' << defaultValue; 
       return true;
     }
     //: Save the attribute to a stream 
@@ -150,7 +150,7 @@ namespace RavlN {
     virtual bool Save(BinOStreamC & strm) const {
       if(!AttributeTypeBodyC::Save(strm))
 	return false;
-      strm << min << max << step << defaultValue; 
+      strm << minv << maxv << step << defaultValue; 
       return true;
     }
     //: Save the attribute to a stream 
@@ -165,11 +165,11 @@ namespace RavlN {
     //: Get hint about type of value attribute has.
     
     ValueT Min() const
-    { return min; }
+    { return minv; }
     //: Minimum value
     
     ValueT Max() const
-    { return max; }
+    { return maxv; }
     //: Maximum value
     
     ValueT Step() const
@@ -185,8 +185,8 @@ namespace RavlN {
     //: Set control to default value.
     
   protected:
-    ValueT min;
-    ValueT max;
+    ValueT minv;
+    ValueT maxv;
     ValueT step;
     ValueT defaultValue;
   };
