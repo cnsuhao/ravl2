@@ -278,15 +278,15 @@ static const short yyrline[] =
      569,   570,   571,   572,   573,   574,   575,   576,   581,   582,
      583,   589,   593,   597,   602,   608,   609,   610,   611,   612,
      613,   614,   615,   616,   617,   618,   619,   620,   621,   622,
-     623,   624,   625,   626,   628,   629,   631,   634,   638,   645,
-     664,   667,   672,   675,   681,   683,   684,   686,   687,   689,
-     690,   692,   693,   694,   696,   697,   698,   699,   702,   716,
-     727,   728,   729,   730,   733,   735,   736,   738,   739,   741,
-     742,   742,   742,   743,   743,   743,   743,   743,   743,   743,
-     743,   743,   743,   743,   743,   744,   744,   744,   744,   744,
-     744,   744,   744,   744,   745,   745,   745,   745,   745,   745,
-     746,   746,   746,   746,   746,   746,   747,   747,   747,   747,
-     747,   747,   747,   747,   748,   748,   748
+     623,   624,   625,   626,   628,   629,   631,   634,   642,   649,
+     669,   676,   684,   689,   698,   700,   701,   703,   704,   706,
+     707,   709,   710,   711,   713,   714,   715,   716,   719,   733,
+     744,   745,   746,   747,   750,   752,   753,   755,   756,   758,
+     759,   759,   759,   760,   760,   760,   760,   760,   760,   760,
+     760,   760,   760,   760,   760,   761,   761,   761,   761,   761,
+     761,   761,   761,   761,   762,   762,   762,   762,   762,   762,
+     763,   763,   763,   763,   763,   763,   764,   764,   764,   764,
+     764,   764,   764,   764,   765,   765,   765
 };
 #endif
 
@@ -2542,21 +2542,27 @@ case 246:
     break;}
 case 247:
 #line 636 "cxx.y"
-{ yyval = MethodC(yyvsp[-2].Name(),DataTypeC(yyvsp[-3]),ObjectListC(yyvsp[-1]),yyvsp[0]); ;
-    break;}
-case 248:
-#line 639 "cxx.y"
-{ yyval = MethodC(yyvsp[-3].Name(),DataTypeC(yyvsp[-6]),ObjectListC(yyvsp[-1]),yyvsp[0]);
-        yyval.SetScope(yyvsp[-5]);
-	yyval.IncludeLineNo(yyvsp[-6]);
+{ yyval = MethodC(yyvsp[-2].Name(),DataTypeC(yyvsp[-3]),ObjectListC(yyvsp[-1]),yyvsp[0]); 
+	yyval.IncludeLineNo(yyvsp[-3]);
+	yyval.IncludeLineNo(yyvsp[-2]);
 	yyval.IncludeLineNo(yyvsp[-1]);
 	yyval.IncludeLineNo(yyvsp[0]);
       ;
     break;}
+case 248:
+#line 643 "cxx.y"
+{ yyval = MethodC(yyvsp[-3].Name(),DataTypeC(yyvsp[-6]),ObjectListC(yyvsp[-1]),yyvsp[0]);
+        yyval.SetScope(yyvsp[-5]);
+	yyval.IncludeLineNo(yyvsp[-6]);
+	yyval.IncludeLineNo(yyvsp[-5]);
+	yyval.IncludeLineNo(yyvsp[0]);
+      ;
+    break;}
 case 249:
-#line 646 "cxx.y"
+#line 650 "cxx.y"
 { MethodC amethod(yyvsp[-2].Name(), DataTypeC(STR(void)),ObjectListC(yyvsp[-1]),yyvsp[0]); 
         amethod.IncludeLineNo(yyvsp[-2]);
+        amethod.IncludeLineNo(yyvsp[-1]);
 	amethod.IncludeLineNo(yyvsp[0]);
         amethod.SetConstructor(true);
         yyval = amethod;
@@ -2575,63 +2581,76 @@ case 249:
       ;
     break;}
 case 250:
-#line 665 "cxx.y"
-{ yyval = MethodC(STR(operator) + yyvsp[-3].Name(), DataTypeC(yyvsp[-5]),ObjectListC(yyvsp[-1]),yyvsp[0]); ;
+#line 670 "cxx.y"
+{ yyval = MethodC(STR(operator) + yyvsp[-3].Name(), DataTypeC(yyvsp[-5]),ObjectListC(yyvsp[-1]),yyvsp[0]); 
+        yyval.IncludeLineNo(yyvsp[-5]);
+        yyval.IncludeLineNo(yyvsp[-4]);
+        yyval.IncludeLineNo(yyvsp[0]);
+      ;
     break;}
 case 251:
-#line 668 "cxx.y"
+#line 677 "cxx.y"
 { yyval = MethodC(STR(operator) + yyvsp[-3].Name(), DataTypeC(yyvsp[-7]),ObjectListC(yyvsp[-1]),yyvsp[0]); 
          yyval.SetScope(yyvsp[-6]);
+         yyval.IncludeLineNo(yyvsp[-7]);
+         yyval.IncludeLineNo(yyvsp[-6]);
+         yyval.IncludeLineNo(yyvsp[0]);
        ;
     break;}
 case 252:
-#line 673 "cxx.y"
-{ yyval = MethodC(STR(operator), DataTypeC(yyvsp[-2]),ObjectListC(yyvsp[-1]),yyvsp[0],true); ;
+#line 685 "cxx.y"
+{ yyval = MethodC(STR(operator), DataTypeC(yyvsp[-2]),ObjectListC(yyvsp[-1]),yyvsp[0],true);
+        yyval.IncludeLineNo(yyvsp[-3]);
+        yyval.IncludeLineNo(yyvsp[0]);
+      ;
     break;}
 case 253:
-#line 676 "cxx.y"
+#line 690 "cxx.y"
 { yyval = MethodC(STR(operator), DataTypeC(yyvsp[-2]),ObjectListC(yyvsp[-1]),yyvsp[0],true); 
         yyval.SetScope(yyvsp[-5]);
+        yyval.IncludeLineNo(yyvsp[-5]);
+        yyval.IncludeLineNo(yyvsp[-4]);
+        yyval.IncludeLineNo(yyvsp[0]);
       ;
     break;}
 case 259:
-#line 689 "cxx.y"
+#line 706 "cxx.y"
 {  yyval=ObjectListC(STR(FuncArgList)); ;
     break;}
 case 260:
-#line 690 "cxx.y"
+#line 707 "cxx.y"
 {  yyval=yyvsp[0]; ;
     break;}
 case 261:
-#line 692 "cxx.y"
+#line 709 "cxx.y"
 { ObjectListC ol(STR(FuncArgList)); yyval= ol; ol.Append(yyvsp[0]); ;
     break;}
 case 262:
-#line 693 "cxx.y"
+#line 710 "cxx.y"
 { yyval=yyvsp[-2]; ObjectListC ol(yyvsp[-2]); ol.Append(yyvsp[0]); ;
     break;}
 case 263:
-#line 694 "cxx.y"
+#line 711 "cxx.y"
 { yyval=yyvsp[-1]; ObjectListC ol(yyvsp[-1]); DataTypeC ell("..."); ol.Append(ell); ;
     break;}
 case 264:
-#line 696 "cxx.y"
+#line 713 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
 case 265:
-#line 697 "cxx.y"
+#line 714 "cxx.y"
 { yyval=yyvsp[-1]; DataTypeC dt(yyvsp[-1]); dt.SetAlias(yyvsp[0].Name()); ;
     break;}
 case 266:
-#line 698 "cxx.y"
+#line 715 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
 case 267:
-#line 699 "cxx.y"
+#line 716 "cxx.y"
 { yyval= DataTypeC("..."); ;
     break;}
 case 268:
-#line 703 "cxx.y"
+#line 720 "cxx.y"
 { 
 	  StringC name;
 	  if(yyvsp[-5].IsValid())
@@ -2647,7 +2666,7 @@ case 268:
 	;
     break;}
 case 269:
-#line 717 "cxx.y"
+#line 734 "cxx.y"
 {
 	  MethodC meth(yyvsp[-5].Name(),DataTypeC(yyvsp[-10]),ObjectListC(yyvsp[-2]),yyvsp[0],false,true);
 	  ObjectListC ol("(*)");
@@ -2658,31 +2677,31 @@ case 269:
 	;
     break;}
 case 270:
-#line 727 "cxx.y"
+#line 744 "cxx.y"
 { yyval=ObjectC(""); ;
     break;}
 case 271:
-#line 728 "cxx.y"
+#line 745 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
 case 272:
-#line 729 "cxx.y"
+#line 746 "cxx.y"
 { yyval=yyvsp[-1]; ;
     break;}
 case 273:
-#line 730 "cxx.y"
+#line 747 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
 case 274:
-#line 733 "cxx.y"
+#line 750 "cxx.y"
 { yyval=yyvsp[-1]; yyval.SetupLineNos(yyvsp[-2],yyvsp[0]); ;
     break;}
 case 275:
-#line 735 "cxx.y"
+#line 752 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
 case 276:
-#line 736 "cxx.y"
+#line 753 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
 }
@@ -2918,6 +2937,6 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 751 "cxx.y"
+#line 768 "cxx.y"
 
 

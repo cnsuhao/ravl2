@@ -541,15 +541,30 @@ namespace RavlCxxDocN {
     MethodBodyC(const MethodC &om);
     //: Constructor.
     
+    RCBodyVC &Copy() const
+    { return *new MethodBodyC(*this); }
+    //: Make copy of body.
+    
     virtual const char *TypeName() const 
     { return "method"; }
     //: Get name of object type.
+    
+    void Rename(const StringC &name);
+    //: Rename method.
+    
+    StringC IndexName() const;
+    //: Generate a name which is suitable for indexing.
+    // This is the name without the return type, and paramiters names.
     
     virtual void SetScope(ObjectC &obj) 
     { scopeInfo = obj; }
     //: Set scope for object.
     
     ObjectC &ScopeInfo() 
+    { return scopeInfo; }
+    //: Access scope info.
+    
+    const ObjectC &ScopeInfo() const
     { return scopeInfo; }
     //: Access scope info.
     
@@ -564,6 +579,10 @@ namespace RavlCxxDocN {
     bool IsConversion() const
     { return isConversion; }
     //: Test if method is a constructor.
+    
+    bool IsPointer() const
+    { return isPointer; }
+    //: Is this actually a function pointer.
     
     void SetConstructor(bool val);
     //: Set constructor flag.
@@ -596,7 +615,7 @@ namespace RavlCxxDocN {
     //: Get full name of object
     // template args and all.
     
-    ObjectC &Definition()
+    const ObjectC &Definition() const
     { return definition; }
     //: Access definition of object.
     
@@ -652,7 +671,7 @@ namespace RavlCxxDocN {
     }
     //: Base class constructor.
     
-    MethodC(const MethodC &om)
+    MethodC(const MethodC &om,bool copy)
       : ObjectC(*new MethodBodyC(om))
     {}
     //: Constructor.
@@ -677,7 +696,24 @@ namespace RavlCxxDocN {
     //: Access body.
     
   public:
+    MethodC Copy() const
+    { return MethodC(static_cast<MethodBodyC &>(Body().Copy())); }
+    //: Copy class.
+    
+    StringC IndexName() const
+    { return Body().IndexName(); }
+    //: Generate a name which is suitable for indexing.
+    // This is the name without the return type, and paramiters names.
+    
+    void Rename(const StringC &name)
+    { Body().Rename(name); }
+    //: Rename method.
+    
     ObjectC &ScopeInfo() 
+    { return Body().ScopeInfo(); }
+    //: Access scope info.
+    
+    const ObjectC &ScopeInfo() const
     { return Body().ScopeInfo(); }
     //: Access scope info.
     
@@ -688,6 +724,10 @@ namespace RavlCxxDocN {
     bool IsConversion() const
     { return Body().IsConversion(); }
     //: Is this method a conversion operator ?
+    
+    bool IsPointer() const
+    { return Body().IsPointer(); }
+    //: Is this actually a function pointer.
     
     void SetConstructor(bool val)
     { Body().SetConstructor(val); }
@@ -716,8 +756,8 @@ namespace RavlCxxDocN {
     const ObjectC &Quals() const
     { return Body().Quals(); }
     //: Access method qualifiers.
-
-    const ObjectC &Definition()
+    
+    const ObjectC &Definition() const
     { return Body().Definition(); }
     //: Access definition of object.
     

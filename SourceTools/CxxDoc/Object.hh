@@ -301,7 +301,7 @@ namespace RavlCxxDocN {
     
     void IncludeLineNo(const ObjectBodyC &ob) {
       if(ob.startLineno >= 0) {
-	if(ob.startLineno < startLineno)
+	if(startLineno < 0 || ob.startLineno < startLineno)
 	  startLineno = ob.startLineno;
       }
       if(ob.endLineno > endLineno)

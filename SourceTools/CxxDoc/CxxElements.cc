@@ -404,45 +404,66 @@ namespace RavlCxxDocN
     IncludeLineNo(nquals);
     // Build full name....
     ObjectListC tl(nargs);
-    bool isFirst = true;
     StringC baseName = Name().Copy();
     SetVar("BaseName",baseName);
-    if(isConversion) {
-      Name() += ' ';
-      Name() += rt.FullName();
-    }
-    Name() += '(';
-    if(tl.List().IsEmpty())
-      Name() += "void"; // Just to normallise everything.
-    for(DLIterC<ObjectC> it(tl.List());it.IsElm();it.Next()) {
-      if(isFirst) {
-	isFirst = false;
-      } else
-	Name() += ',';
+    for(DLIterC<ObjectC> it(nargs.List());it;it++) {
       if(!DataTypeC::IsA(it.Data())) {
 	cerr << "MethodBodyC::MethodBodyC(), WARNING: Arg not a DataType.  Name:'" << Name() << "' \n";
-	Name() += it.Data().Name();
 	continue;
       }
       DataTypeC dt(it.Data());
       args += dt;
-      Name() += dt.FullName();
     }
-    Name() += ')';
-    if(quals.IsValid())
-      Name() += StringC(' ') + quals.Name(); // Constant stuff.    
+    Name() = IndexName();
   }
   
   MethodBodyC::MethodBodyC(const MethodC &meth)
     : ObjectBodyC(meth.Name()),
       retType(meth.ReturnType()),
-      isConstructor(meth.IsConstructor()),
+      args(meth.Args()),
+      scopeInfo(meth.ScopeInfo()),
+      isConstructor(false),
       isConversion(meth.IsConversion()),
-      quals(meth.Quals())
+      isPointer(meth.IsPointer()),
+      quals(meth.Quals()),
+      definition(meth.Definition())
   {
     CopyLineNo(meth);
     SetVar("BaseName",meth.Var("BaseName"));
     SetConstructor(meth.IsConstructor());
+  }
+  
+  //: Rename method.
+  
+  void MethodBodyC::Rename(const StringC &nname) {
+    SetVar("BaseName",nname);
+    Name() = IndexName();
+  }
+  
+  //: Generate a name which is suitable for indexing.
+  // This is the name without the return type, and paramiters names.
+  
+  StringC MethodBodyC::IndexName() const {
+    bool isFirst = true;
+    StringC ret = Var("BaseName");
+    if(isConversion) {
+      ret += ' ';
+      ret += retType.FullName();
+    }
+    ret += '(';
+    if(args.IsEmpty())
+      ret += "void"; // Just to normallise everything.
+    for(DLIterC<DataTypeC> it(args);it;it++) {
+      if(isFirst) {
+	isFirst = false;
+      } else
+	ret += ',';
+      ret += it->FullName();
+    }
+    ret += ')';
+    if(quals.IsValid() && !quals.Name().IsEmpty())
+      ret += StringC(' ') + quals.Name(); // Constant stuff.        
+    return ret;
   }
   
   //: Get full name of object

@@ -633,18 +633,23 @@ func_arg_prototype:  '(' func_arg_list_all ')'
 ;
 func_prototype: 
               type_id scope_id func_arg_prototype func_qualifier 
-      { $$ = MethodC($2.Name(),DataTypeC($1),ObjectListC($3),$4); }
-
+      { $$ = MethodC($2.Name(),DataTypeC($1),ObjectListC($3),$4); 
+	$$.IncludeLineNo($1);
+	$$.IncludeLineNo($2);
+	$$.IncludeLineNo($3);
+	$$.IncludeLineNo($4);
+      }
             | type_id scope_id CLCL unqualified_id func_arg_templ_qual func_arg_prototype func_qualifier 
       { $$ = MethodC($4.Name(),DataTypeC($1),ObjectListC($6),$7);
         $$.SetScope($2);
 	$$.IncludeLineNo($1);
-	$$.IncludeLineNo($6);
+	$$.IncludeLineNo($2);
 	$$.IncludeLineNo($7);
       }
-            | type_id  func_arg_prototype func_qualifier  /* This catches constructors, the typename the class type. */
+            | type_id  func_arg_prototype func_qualifier  /* This catches constructors, the typename is the class type. */
       { MethodC amethod($1.Name(), DataTypeC(STR(void)),ObjectListC($2),$3); 
         amethod.IncludeLineNo($1);
+        amethod.IncludeLineNo($2);
 	amethod.IncludeLineNo($3);
         amethod.SetConstructor(true);
         $$ = amethod;
@@ -662,19 +667,31 @@ func_prototype:
 	}
       }
             | type_id CPOPERATOR operator_types func_arg_templ_qual func_arg_prototype func_qualifier 
-      { $$ = MethodC(STR(operator) + $3.Name(), DataTypeC($1),ObjectListC($5),$6); }
+      { $$ = MethodC(STR(operator) + $3.Name(), DataTypeC($1),ObjectListC($5),$6); 
+        $$.IncludeLineNo($1);
+        $$.IncludeLineNo($2);
+        $$.IncludeLineNo($6);
+      }
       
             | type_id scope_id CLCL CPOPERATOR operator_types func_arg_templ_qual  func_arg_prototype func_qualifier  
        { $$ = MethodC(STR(operator) + $5.Name(), DataTypeC($1),ObjectListC($7),$8); 
          $$.SetScope($2);
+         $$.IncludeLineNo($1);
+         $$.IncludeLineNo($2);
+         $$.IncludeLineNo($8);
        }
 
             | CPOPERATOR type_id func_arg_prototype func_qualifier 
-      { $$ = MethodC(STR(operator), DataTypeC($2),ObjectListC($3),$4,true); }
-
+      { $$ = MethodC(STR(operator), DataTypeC($2),ObjectListC($3),$4,true);
+        $$.IncludeLineNo($1);
+        $$.IncludeLineNo($4);
+      }
             | scope_resolved_id CLCL CPOPERATOR type_id func_arg_prototype func_qualifier 
       { $$ = MethodC(STR(operator), DataTypeC($4),ObjectListC($5),$6,true); 
         $$.SetScope($1);
+        $$.IncludeLineNo($1);
+        $$.IncludeLineNo($2);
+        $$.IncludeLineNo($6);
       }
 ;
 
