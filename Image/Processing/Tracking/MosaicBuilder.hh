@@ -195,6 +195,7 @@ namespace RavlImageN {
 
     bool MatchToMosaic(const ImageC<ByteRGBValueC>& img, Projection2dC& proj);
     //: Improves inter-frame homography already calculated, by matching image to current mosaic
+    // Returns false if match fails<br>
 
     bool GetImage(ImageC<ByteRGBValueC>& img)
       //: Returns next image from sequence
@@ -437,6 +438,7 @@ namespace RavlImageN {
     // <li> The accumulated homography is used to warp the current image to the mosaic coordinates.  
     // <li> The warped image is  matched to the mosaic, which also generates the homography between the current image and the mosaic.
     // <li> The image-to-mosaic homography is used to calculate a new inter-frame homography to replace the original one.</ul>
+    // Returns false if match fails<br>
 
     bool InvolveFrame(const IndexRange2dC& rect, const Projection2dC& homog)
       { return Body().InvolveFrame(rect, homog); }

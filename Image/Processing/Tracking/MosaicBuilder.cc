@@ -341,14 +341,13 @@ namespace RavlImageN {
 				mosaicZHomog, zhomog);
       Projection2dC projCopy(proj);
       if(!matchUpdate.Apply(RGBImageCT2ByteImageCT(img), projCopy)) {
-	cout << "Couldn't match image" << endl;
 	return false;
       }
       proj = projCopy;
       if (verbose) cout << "Refined homography:\n" << proj << endl;
     }
     catch (...) {
-      cout << "Exception caught in mosaic image matcher." << endl;
+      cerr << "Exception caught in mosaic image matcher." << endl;
       return false;
     }
     return true;
