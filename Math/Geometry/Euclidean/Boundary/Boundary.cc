@@ -58,15 +58,15 @@ namespace RavlN {
       return;
     }
     for(Array2dSqr3IterC<UIntT> it(emask);it;it++) {
-      if(it.DataMM() != inLabel)
+      if(it.DataMM() != (UIntT)inLabel)
 	continue;
-      if(it.DataMR() != inLabel)
+      if(it.DataMR() != (UIntT)inLabel)
 	InsLast(CrackC(it.Index(),CR_UP));
-      if(it.DataML() != inLabel)
+      if(it.DataML() != (UIntT)inLabel)
 	InsLast(CrackC(it.Index(),CR_DOWN));
-      if(it.DataTM() != inLabel)
+      if(it.DataTM() != (UIntT)inLabel)
 	InsLast(CrackC(it.Index(),CR_LEFT));
-      if(it.DataBM() != inLabel)
+      if(it.DataBM() != (UIntT)inLabel)
 	InsLast(CrackC(it.Index(),CR_RIGHT));
     }
   }
