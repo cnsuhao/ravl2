@@ -202,6 +202,15 @@ namespace RavlN {
   };
 
   template<class DataT,unsigned int N,unsigned int M>
+  inline
+  void SetZero(TFMatrixC<DataT,N,M> &x) { 
+    DataT xv;
+    SetZero(xv);
+    x.Fill(xv);
+  }
+  //: Set vector to zero.
+
+  template<class DataT,unsigned int N,unsigned int M>
   void MulAdd(const TFMatrixC<DataT,1,M> &mat,const TFVectorC<DataT,M> &vec,const TFVectorC<DataT,N> &add,TFVectorC<DataT,N> &result) {
     for(unsigned int i = 0;i < N;i++) {
       result[i] = add[i] + mat[i][0]*vec[0];

@@ -187,7 +187,16 @@ namespace RavlN {
     DataT data[N];
   };
   
-
+  
+  template<class DataT,unsigned int N>
+  inline
+  void SetZero(TFVectorC<DataT,N> &x) { 
+    DataT xv;
+    SetZero(xv);
+    x.Fill(xv);
+  }
+  //: Set vector to zero.
+  
   template<class DataT,unsigned int N>
   TFVectorC<DataT,N>::TFVectorC(const DataT *init) {
     for(UIntT i = 0;i < N;i++)

@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLTYPES_HEADER
-#define RAVLTYPES_HEADER 1
+#ifndef RAVL_TYPES_HEADER
+#define RAVL_TYPES_HEADER 1
 /////////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Core.Misc"
@@ -94,6 +94,46 @@ namespace RavlN {
     v2 = t;
   }
   //: Swap the values of two variables.
+
+  inline
+  void SetZero(ByteT &x)
+  { x = 0; }
+  //: Set byte value to zero.
+  
+  inline
+  void SetZero(IntT &x)
+  { x = 0; }
+  //: Set integer value to zero.
+  
+  inline
+  void SetZero(UIntT &x)
+  { x = 0; }
+  //: Set unsigned integer value to zero.
+  
+  inline
+  void SetZero(RealT &x)
+  { x = 0; }
+  //: Set real value to zero.
+  
+  inline
+  void SetZero(SByteT &x)
+  { x = 0; }
+  //: Set signed byte value to zero.
+
+  inline
+  void SetZero(FloatT &x)
+  { x = 0; }
+  //: Set float value to zero.
+
+  inline
+  void SetZero(Int64T &x)
+  { x = 0; }
+  //: Set integer value to zero.
+  
+  inline
+  void SetZero(UInt64T &x)
+  { x = 0; }
+  //: Set unsigned integer value to zero.
 };
 
 #endif
