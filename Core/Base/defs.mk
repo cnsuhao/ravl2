@@ -21,7 +21,8 @@ HEADERS=Types.hh config.h Pair.hh \
  DeepCopy.hh StdHash.hh Const.hh IndexRange3d.hh Average.hh RealC.hh \
  SmartPtr.hh SubIndexRange2dIter.hh SubIndexRange3dIter.hh \
  RealRange1d.hh RealRange2d.hh RealRange3d.hh TimeCode.hh \
- RCHandleV.hh IndexRange2dIter.hh IndexRange3dIter.hh
+ RCHandleV.hh IndexRange2dIter.hh IndexRange3dIter.hh fdstreambuf.hh \
+ fdstream.hh
 
 SOURCES=Assert.cc Exception.cc EntryPnt.cc Index.cc String.cc \
  RefCounter.cc HandleRefCounter.cc Trigger.cc Calls.cc \
