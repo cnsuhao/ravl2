@@ -6,8 +6,8 @@
 # file-header-ends-here
 #! rcsid="$Id$"
 PACKAGE=Ravl/3D
-HEADERS=VoxelSet.hh VoxelCameraLookup.hh VoxelCarve.hh PointSet.hh
-SOURCES=VoxelSet.cc VoxelCameraLookup.cc VoxelCarve.cc PointSet.cc
+HEADERS=VoxelSet.hh VoxelCameraLookup.hh VoxelCarve.hh PointSet.hh VoxelSurfacePoints.hh
+SOURCES=VoxelSet.cc VoxelCameraLookup.cc VoxelCarve.cc PointSet.cc VoxelSurfacePoints.cc
 PLIB=RavlCarve3D
 USESLIBS=RavlCore RavlMath RavlImage RavlCameraCal
 

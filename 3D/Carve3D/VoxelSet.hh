@@ -15,10 +15,10 @@
 #include "Ravl/Array1d.hh"
 #include "Ravl/Array3d.hh"
 
+
 namespace Ravl3DN
 {
   using namespace RavlN;
-
   class VoxelSetC;
 
   //!userlevel:Develop
@@ -30,13 +30,15 @@ namespace Ravl3DN
     VoxelSetBodyC(const Matrix3dC& nR,
 		  const Vector3dC& nt,
 		  RealT nvoxel_size,
-		  UIntT cube_side_num_voxels) :
+		  UIntT cube_side_num_voxels,
+		  ByteT noccupied_threshold) :
       vox(cube_side_num_voxels,
 	  cube_side_num_voxels,
 	  cube_side_num_voxels),
       _R(nR),
       _t(nt),
-      voxel_size(nvoxel_size)
+      voxel_size(nvoxel_size),
+      occupied_threshold(noccupied_threshold)
     {
     }
 
@@ -51,11 +53,19 @@ namespace Ravl3DN
     const Vector3dC& t() const { return _t; };
     const Array3dC<ByteT>& Array() const { return vox; };
     Array3dC<ByteT>& Array() { return vox; };
+    ByteT& OccupiedThreshold() { return occupied_threshold; }
+    const ByteT& OccupiedThreshold() const { return occupied_threshold; }
 
     Index3dC VoxelIndex(const Vector3dC& xw) const
     {
       Vector3dC x = _R*xw + _t;
       return Index3dC((UIntT)(x[0]+0.5),(UIntT)(x[1]+0.5),(UIntT)(x[2]+0.5));
+    }
+
+    bool IsOccupied(const Vector3dC& x)
+    {
+      Index3dC i(VoxelIndex(x));
+      return (vox.Contains(i) && (vox[i] >= occupied_threshold));
     }
 
     bool GetVoxelCheck(ByteT& v, const Vector3dC& x) const
@@ -97,6 +107,7 @@ namespace Ravl3DN
     Matrix3dC _R;
     Vector3dC _t;
     RealT voxel_size;
+    ByteT occupied_threshold;
   };
 
 
@@ -119,11 +130,13 @@ namespace Ravl3DN
     VoxelSetC(const Matrix3dC& R,
 	      const Vector3dC& t,
 	      RealT voxel_size,
-	      UIntT cube_side_num_voxels) :
+	      UIntT cube_side_num_voxels,
+	      ByteT occupied_threshold = 1) :
       RCHandleC<VoxelSetBodyC>(*new VoxelSetBodyC(R,
 						  t,
 						  voxel_size,
-						  cube_side_num_voxels))
+						  cube_side_num_voxels,
+						  occupied_threshold))
     {
     }
     //:Construct a cube of voxels
@@ -147,6 +160,11 @@ namespace Ravl3DN
     void Fill(ByteT v) { Body().Fill(v); }
     //:Set all voxel attributes equal to v
 
+    bool IsOccupied(const Vector3dC& x);
+    //: Checks the specified location against the occupied threshold.
+    //  Returns true if the voxel is occupied, false if unoccupied or if x is not
+    //  in the voxel set.
+
     bool GetVoxelCheck(ByteT& v, const Vector3dC& x) const { return Body().GetVoxelCheck(v,x); }
     //:Get the current attributes of voxel at location x
     // returns true if x is inside the voxel array, 0 otherwise
@@ -164,6 +182,13 @@ namespace Ravl3DN
     Index3dC VoxelIndex(const Vector3dC& x) const { return Body().VoxelIndex(x); }
     //:Index of voxel corresponding to point x in space
     // Can be used to index Array() directly, but GetVoxelCheck does this for you
+
+    ByteT& OccupiedThreshold() { return Body().OccupiedThreshold(); }
+    //:A voxel is said to be occupied if it has an attributes >= OccupiedThreshold
+
+    const ByteT& OccupiedThreshold() const { return Body().OccupiedThreshold(); }
+    //:A voxel is said to be occupied if it has an attributes >= OccupiedThreshold
+   
 
   protected:
     VoxelSetC(VoxelSetBodyC& body)

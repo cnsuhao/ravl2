@@ -7,7 +7,6 @@
 #ifndef RAVL3D_VOXELCARVE_HEADER
 #define RAVL3D_VOXELCARVE_HEADER 1
 #include "Ravl/3D/VoxelCameraLookup.hh"
-#include "Ravl/3D/PointSet.hh"
 //! rcsid="$Id$"
 //! lib=RavlCarve3D
 //! author="Joel Mitchelson"
@@ -31,7 +30,7 @@ namespace Ravl3DN
       // FIXME: have lots more lookups for multi-threads
  
       voxel = nvoxel;
-      lookup = Array1dC<VoxelCameraLookupC> (camera.Size());
+      lookup = SArray1dC<VoxelCameraLookupC> (camera.Size());
       for (UIntT iview = 0; iview < camera.Size(); iview++)
       {
 	lookup[iview] = VoxelCameraLookupC(camera[iview],
@@ -41,21 +40,28 @@ namespace Ravl3DN
       }
     }
 
-    void Update(Array1dC< ImageC<ByteT> > image)
+    void Update(SArray1dC< ImageC<ByteT> > image)
     {
+      // set mask corresponding to bits from all cameras
+      UIntT num_views = lookup.Size();
+      ByteT mask = (1 << num_views) - 1;
+      voxel.OccupiedThreshold() = mask;
+
+      // empty the voxel space
       voxel.Fill(0);
-      RavlAssert(image.Size() == lookup.Size());
-      for (UIntT iview = 0; iview < lookup.Size(); iview++)
+
+      // do carving from all views
+      RavlAssert(image.Size() == num_views);
+      for (UIntT iview = 0; iview < num_views; iview++)
 	lookup[iview].Apply(image[iview], 1 << iview);
     }
 
-    PointSetC PointSet();
     UIntT NumViews() const { return lookup.Size(); }
     const PinholeCamera0C& Camera(UIntT iview) const { return lookup[iview].Camera(); }
 
   protected:
     VoxelSetC voxel;
-    Array1dC< VoxelCameraLookupC > lookup;
+    SArray1dC< VoxelCameraLookupC > lookup;
   };
 
   //!userlevel:Normal
@@ -88,14 +94,9 @@ namespace Ravl3DN
     // voxels in the given voxel class
 
   public:
-    void Update(Array1dC< ImageC<ByteT> > image)
+    void Update(SArray1dC< ImageC<ByteT> > image)
       { Body().Update(image); }
     //:Apply lookups to the given array of images
-
-    PointSetC PointSet()
-      { return Body().PointSet(); }
-    //:Compute the set of points occupied by the current carved voxels
-    // Use after a call to Update(...)
 
     UIntT NumViews() const { return Body().NumViews(); }
     //:Get number of camera views for which lookups are stored
