@@ -21,6 +21,7 @@ namespace RavlN {
   extern void InitFixedVectorIO();
   extern void InitFixedPointIO();
   extern void InitFixedMatrixIO();
+  extern void InitBoundryIO();
   
 }
 

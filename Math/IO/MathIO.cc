@@ -15,6 +15,7 @@ namespace RavlN {
   void InitMathIO() {
     InitFixedVectorIO();
     InitFixedPointIO();
+    InitBoundryIO();
   }
 }
 
