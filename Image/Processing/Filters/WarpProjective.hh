@@ -19,6 +19,7 @@
 #include "Ravl/Vector3d.hh"
 #include "Ravl/Point2d.hh"
 #include "Ravl/RealRange2d.hh"
+#include "Ravl/LinePP2d.hh"
 
 namespace RavlImageN {
   
@@ -111,10 +112,10 @@ namespace RavlImageN {
   template <class InT, class OutT,class MixerT>
   void WarpProjectiveC<InT,OutT,MixerT>::Apply(const ImageC<InT> &src,ImageC<OutT> &outImg) {
     
-    RealRange2dC orng(rec);
     RealRange2dC irng(src.Frame());
     if(!outImg.Frame().Contains(rec))
       outImg = ImageC<OutT>(rec);
+    RealRange2dC orng(outImg.Frame());
     //cerr << "Trans0=" << trans * orng.TopRight() << " from " << orng.TopRight() << "\n";
     
     // adjust source window for area where bilinear interpolation can be
@@ -146,6 +147,8 @@ namespace RavlImageN {
     Point2dC pat(workingOutImg.Frame().Origin());
     pat[0] += 0.5;
     pat[1] += 0.5;
+
+    Vector3dC ldir(inv[0][1] * iz,inv[1][1] * iz,inv[2][1]);
     
     Array2dIterC<OutT> it(workingOutImg);  
     
@@ -155,7 +158,6 @@ namespace RavlImageN {
        irng.Contains(Project(orng.TopLeft())) &&
        irng.Contains(Project(orng.BottomRight())) &&
        irng.Contains(Project(orng.BottomLeft()))) {
-      Vector3dC ldir(trans[0][1] * iz,trans[1][1] * iz,trans[2][1]);
       for(;it;) {
 	Vector3dC at = inv * Vector3dC(pat[0],pat[1],oz);
 	at[0] *= iz;
@@ -169,11 +171,52 @@ namespace RavlImageN {
       return;
     }
     
+#if 0
     // Do simple check for each pixel that its contained in the input image.
     // This could be sped up by projecting the line into the source image space,
     // clipping it and then projecting back into the output image and only iterate
     // along that bit of the line.
-    Vector3dC ldir(inv[0][1] * iz,inv[1][1] * iz,inv[2][1]);
+    Vector2dC endv(0,orng.Cols());
+    cerr << "irng=" << irng << "\n";
+    const int brow = workingOutImg.Frame().BRow().V();
+    for(int r = workingOutImg.Frame().TRow().V();r < brow;r++,pat[0]++) {
+      //cerr << "\nr=" << r << "\n";
+      LinePP2dC rline(Project(pat),Project(pat + endv));
+      //cerr << " P1=" << rline.P1() << " P2=" << rline.P2() << "\n";
+      if(!rline.ClipBy(irng))
+	continue;
+      //cerr << " CP1=" << rline.P1() << " CP2=" << rline.P2() << "\n";
+      // Map clipped line back into output image.
+      Point2dC sp = BackProject(rline.P1());
+      Point2dC ep = BackProject(rline.P2());
+      //cerr << " sp=" << sp << " ep=" << ep << "\n";
+      RavlAssert(Abs(sp[0] - ep[0]) < 0.01); // Sanity check.
+      
+      RealT rsp = ceil(sp[1]);
+      IntT isp = (IntT) rsp;
+      IntT iep = Floor(ep[1]);
+      if(isp > iep)
+	continue;
+      
+      Vector3dC at = inv * Vector3dC(pat[0],rsp,oz);
+      at[0] *= iz;
+      at[1] *= iz;
+      //cerr << "Line from " << isp << " to " << iep << "\n";
+      
+      IndexRangeC colRange(isp,iep);
+      RavlAssert(workingOutImg.Frame().Range2().Contains(colRange));
+      for(BufferAccessIterC<OutT> rit(outImg[r],colRange);rit;rit++) {
+	Point2dC ipat(at[0]/at[2],at[1]/at[2]);
+	mixer(*rit,src.BiLinear(ipat - Point2dC(0.5,0.5)));
+	at += ldir;
+      }
+    }
+  }
+#else
+    // Do simple check for each pixel that its contained in the input image.
+    // This could be sped up by projecting the line into the source image space,
+    // clipping it and then projecting back into the output image and only iterate
+    // along that bit of the line.
     for(;it;) {
       Vector3dC at = inv * Vector3dC(pat[0],pat[1],oz);
       at[0] *= iz;
@@ -199,7 +242,7 @@ namespace RavlImageN {
       pat[0]++;
     }
   }
-  
+#endif
 }
 
 
