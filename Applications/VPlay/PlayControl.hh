@@ -14,12 +14,12 @@
 //! docentry="GUI.Widget"
 //! lib=GUIView
 
-#include "Ravl/DP/PlayControl.hh"
 #include "Ravl/GUI/LBox.hh"
-#include "Ravl/GUI/Slider.hh"
-#include "Ravl/GUI/TextEntry.hh"
+#include "Ravl/DP/PlayControl.hh"
 #include "Ravl/Threads/Mutex.hh"
 #include "Ravl/Threads/Thread.hh"
+#include "Ravl/GUI/Slider.hh"
+#include "Ravl/GUI/TextEntry.hh"
 
 namespace RavlGUIN {
   
