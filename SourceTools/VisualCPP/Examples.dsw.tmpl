@@ -1,0 +1,53 @@
+$(FileObject:one)$(FilePattern:MSVC/examples/Examples.dsw)Microsoft Developer Studio Workspace File, Format Version 6.00
+# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
+
+$(forall:libs:###############################################################################
+
+Project: "$(filename)"=..\$(filename).dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+$(forall:useslibs:
+    Begin Project Dependency
+    Project_Dep_Name $(filename)
+    End Project Dependency)
+}}}
+
+)
+
+$(forall:examples:###############################################################################
+
+Project: "$(filename)"=.\$(filename).dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+$(forall:useslibs:
+    Begin Project Dependency
+    Project_Dep_Name $(filename)
+    End Project Dependency)
+}}}
+
+)
+
+###############################################################################
+
+Global:
+
+Package=<5>
+{{{
+}}}
+
+Package=<3>
+{{{
+}}}
+
+###############################################################################
+
