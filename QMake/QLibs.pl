@@ -287,6 +287,9 @@ sub getUseslibs {
     if($line =~ m/$beg/g) {
       if(($line =~ m/useslibs/g)) {
 	($pre, $lib) = split('=', $line);
+	if(($lib =~ m/\"(.*)\"/g)) {
+	  $lib = $1;
+	}
 	#print "found lib: $lib\n";
 	return $lib;
       }
