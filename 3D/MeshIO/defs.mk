@@ -17,3 +17,5 @@ MUSTLINK= RavlMeshIO.cc
 PLIB=Ravl3DIO
 
 USESLIBS=Ravl3D RavlIO
+
+EHT= Ravl.3D.IO.html

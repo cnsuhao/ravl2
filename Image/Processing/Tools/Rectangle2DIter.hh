@@ -9,11 +9,13 @@
 //! rcsid="$Id$"
 //! lib=RavlImage
 //! author="Charles Galambos"
+//! docentry="Ravl.Images.Misc"
 
 #include "Ravl/Image/ImageRectangle.hh"
 
 namespace RavlImageN {
-
+  
+  //! userlevel=Normal
   //: Rectangle iterator.
   // Slide a window over all possible positions in a
   // larger rectangle.

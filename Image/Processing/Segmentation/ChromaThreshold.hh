@@ -4,11 +4,12 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
+#ifndef _CHROMA_THRESHOLD_HH_
+#define _CHROMA_THRESHOLD_HH_
 //! rcsid="$Id$"
 //! lib=RavlImage
 //! author="Joel Mitchelson"
-#ifndef _CHROMA_THRESHOLD_HH_
-#define _CHROMA_THRESHOLD_HH_
+//! docentry="Ravl.Images.Segmentation"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
@@ -16,6 +17,10 @@
 
 namespace RavlImageN
 {
+  
+  //! userlevel=Normal
+  //: Chroma threholding.
+  
   class ChromaThresholdRGBC
   {
     friend ostream& operator<<(ostream& os, const ChromaThresholdRGBC& c);

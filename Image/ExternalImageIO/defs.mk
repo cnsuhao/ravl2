@@ -18,7 +18,7 @@ PACKAGE=Ravl/Image
 MAINS= 
 #exExtImgIO.cc
 
-PLIB = ExtImgIO
+PLIB = RavlExtImgIO
 
 HEADERS = ImgIOJPeg.hh ImgIOJPegB.hh JPEGFormat.hh \
  ImgIOPNG.hh ImgIOPNGB.hh PNGFormat.hh \

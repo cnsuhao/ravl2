@@ -5,9 +5,17 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 #! rcsid="$Id$"
+
 PACKAGE=Ravl/Image
+
 HEADERS=ChromaThreshold.hh
+
 SOURCES=ChromaThreshold.cc
+
 PLIB=RavlImage
+
 LIBDEPS=RavlImageSegmentation.def
+
 USESLIBS=RavlImage 
+
+EHT=Ravl.Images.Segmentation.html

@@ -1,3 +1,4 @@
 ! author="Charles Galambos"
+! children="Pixel Types;IO;Edges;Segmentation;Morphology;Misc"
 : Image representation and processing
 

@@ -14,6 +14,7 @@
 //! author="Charles Galambos"
 //! date="24/01/2001"
 //! docentry="Ravl.Images"
+//! example=exImage.cc
 
 #include "Ravl/Array2d.hh"
 #include "Ravl/TFVector.hh"
@@ -23,7 +24,7 @@ namespace RavlImageN {
   using namespace RavlN;
   
   //! userlevel=Normal
-  //: Ya basic Image
+  //: Basic Image
   
   template <class PixelT>
   class ImageC

@@ -25,3 +25,5 @@ PLIB=RavlImageProc
 LIBDEPS=RavlImageEdges.def
 
 USESLIBS=RavlImage RavlThreads
+
+EHT=Ravl.Images.Edges.html

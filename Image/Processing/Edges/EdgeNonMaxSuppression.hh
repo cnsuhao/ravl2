@@ -12,7 +12,7 @@
 //! lib=RavlImageProc
 //! authors="George Matas, Radek Marik and Charles Galambos"
 //! date="04/07/2000"
-//! docentry="Ravl.Images.Processing.Edges"
+//! docentry="Ravl.Images.Edges"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Tuple3.hh"

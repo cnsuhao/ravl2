@@ -7,6 +7,9 @@
 #include "Ravl/Image/Image.hh"
 //! rcsid="$Id$"
 //! lib=RavlImage
+//! author="Joel Mitchelson"
+//! userlevel=Normal
+//! docentry="Ravl.Images.Morphology"
 
 namespace RavlImageN
 {

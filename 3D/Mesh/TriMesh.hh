@@ -10,6 +10,7 @@
 //! rcsid="$Id$"
 //! lib=Ravl3D
 //! docentry="Ravl.3D.Mesh"
+//! author="Charles Galambos"
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/SArray1d.hh"

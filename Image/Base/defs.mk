@@ -22,4 +22,10 @@ PLIB=RavlImage
 
 USESLIBS=RavlCore
 
+PROGLIBS=RavlImageIO
+
 TESTEXES=testImage.cc
+
+EXAMPLES= exImage.cc
+
+EHT=Ravl.Images.Pixel_Types.html

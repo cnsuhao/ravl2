@@ -5,8 +5,15 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 #! rcsid="$Id$"
+
 PACKAGE=Ravl/Image
+
 HEADERS=Erode.hh Dilate.hh DilateSubSample2X.hh
+
 PLIB=RavlImage
+
 LIBDEPS=RavlImageMorphology.def
+
 USESLIBS=RavlImage 
+
+EHT=Ravl.Images.Morphology.html

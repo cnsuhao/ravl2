@@ -1,8 +1,17 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2001, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 #ifndef RAVL3D_TRI_HEADER
 #define RAVL3D_TRI_HEADER 1
 /////////////////////////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-  
+//! docentry="Ravl.3D.Mesh"
+//! lib=Ravl3D
+//! author="Charles Galambos"
+
 #include "Ravl/3D/Vertex.hh"
 
 namespace Ravl3DN {

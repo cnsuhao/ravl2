@@ -18,4 +18,5 @@ PLIB= RavlImageProc
 
 USESLIBS=RavlImage RavlThreads RavlMath
 
+EHT=Ravl.Images.Misc.html 
 

@@ -1,11 +1,16 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2001, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 #ifndef RAVL_PCLINESEG_HEADER
 #define RAVL_PCLINESEG_HEADER 1
 //////////////////////////////////////////////////////
 //! docentry="Ravl.Math.Geometry.2D"
 //! userlevel=Normal
 //! rcsid="$Id$"
-//! file="amma/Geometry/AnGeo2/PCLineSeg.hh"
-//! lib=Mag2
+//! lib=RavlMath
 //! author="Charles Galambos"
 //! date="26/08/98"
 
