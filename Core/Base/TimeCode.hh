@@ -156,10 +156,10 @@ namespace RavlN {
   //: Read time code in from stream.
   
   BinOStreamC & operator << (BinOStreamC & s, const TimeCodeC & tc ); 
-  //: Write time code to a binary stream 
+  //: Write time code to a binary stream in the form: frameNo frameRate
   
   BinIStreamC & operator >> (BinIStreamC & s, TimeCodeC & tc ); 
-  //: Read time code in from binary stream 
+  //: Read time code in from binary stream in the form: frameNo frameRate
     
 } // end namespace RavlN
 
