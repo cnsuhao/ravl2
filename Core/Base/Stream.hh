@@ -372,6 +372,12 @@ namespace RavlN {
     // This will throw an ExceptionEndOfStreamC if the end
     // of the input stream is found.
     
+    bool Skip(const char *delim = " \n\t\r");
+    //: Skip all 'delim' charactors.
+    // Leaves stream at first charactor this is not one of those
+    // listed in 'delim'. If end of stream is found before
+    // returns false.
+    
     bool SkipTo(const StringC &endStr);
     //: Skip through stream until endStr is found.
     // this leaves the stream positioned at the
@@ -394,6 +400,9 @@ namespace RavlN {
     // first charactor after the string. <p>
     // If the end of stream is found, all data found
     // upto that point is returned.
+    
+    StringC ClipWord(const char *delim = " \n\t\r",bool initalSkipDelim = false);
+    //: Clip word until one of 'delim' charactors are found.
     
   protected:
     istream *in;

@@ -42,6 +42,22 @@ namespace RavlN {
       ;
     return c;
   }
+
+  //: Skip all 'delim' charactors.
+  
+  bool IStreamC::Skip(const char *delim = " \n\t\r") { 
+    char c;
+    for(;;) {
+      if(!*this)
+	return false;
+      c = GetChar();
+      const char *d = delim;
+      for(;*d != 0 && (*d != c);d++) ;
+      if(*d == 0) break;
+    }
+    Unget(&c,1);
+    return true;
+  }
   
   //: Skip through stream until endStr is found.
   
@@ -111,7 +127,7 @@ namespace RavlN {
   //: Return all charactors before 'endStr'.
   // this leaves the stream positioned at the
   // first charactor after the string. 
-
+  
   StringC IStreamC::ClipTo(const StringC &endStr) {
     StringC ret;
     char c;
@@ -148,6 +164,31 @@ namespace RavlN {
       ret += c;
     }
     return ret;    
+  }
+
+  //: Clip word until one of 'delim' charactors are found.
+  
+  StringC IStreamC::ClipWord(const char *delim,bool initalSkipDelim) {
+    StringC ret;
+    if(initalSkipDelim)
+      if(!Skip(delim))
+	return ret;
+    char c;
+    
+    for(;;) {
+      if(!*this)
+	return ret;
+      read(&c,1);
+      if(is().gcount() != 1)
+	break;
+      const char *d = delim;
+      for(;*d != 0 && (*d != c);d++) ;
+      if(*d != 0)
+	break;
+      ret += c;
+    }
+    Unget(&c,1);
+    return ret;
   }
 
 }
