@@ -27,7 +27,7 @@
  * This is add alot of flexibity to IO operations but comes at the
  * price of larger executables and a slighty longer load times.
  */
-#define RAVL_USE_IO_AUTO_TYPECONVERTER 0
+#define RAVL_USE_IO_AUTO_TYPECONVERTER 1
 
 #if !defined(__sgi__)
 #define _GNU_SOURCE 1
