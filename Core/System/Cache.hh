@@ -94,6 +94,10 @@ namespace RavlN {
     { HashC<KeyT,CacheEntryC<DataT> >::Empty(); }
     //: Empty the cache of all entries.
     
+    bool IsEmpty() const
+    { return HashC<KeyT,CacheEntryC<DataT> >::IsEmpty(); }
+    //: Is cache empty ?
+    
   protected:
     static HashElemC<KeyT,CacheEntryC<DataT> > *DLink2Entry(DLinkC &il)
     { return (HashElemC<KeyT,CacheEntryC<DataT> > *) (((char *) &il) - (((char *) &((HashElemC<KeyT,CacheEntryC<DataT> > *) 0)->Data().Link()) - ((char *) 0))); }
@@ -164,6 +168,15 @@ namespace RavlN {
     // If found the data is assigned to 'dat' and
     // true is returned. If the key isn't found  'dat' is left unchanged
     // and the return value is false. <br>
+    // Note: This does not change the data's position in the use list.
+    
+    DataT *Lookup(const KeyT &key) { 
+      CacheEntryC<DataT> *dl = HashC<KeyT,CacheEntryC<DataT> >::Lookup(key); 
+      if(dl == 0) return 0;
+      return &dl->Data();
+    }
+    //: Lookup data associated with the key.
+    // Return a pointer to the data element if its in the cache.
     // Note: This does not change the data's position in the use list.
     
     bool LookupR(const KeyT &key,DataT &dat) { 
