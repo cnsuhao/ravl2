@@ -10,13 +10,15 @@ PACKAGE=Ravl/Logic
 
 HEADERS=DecisionTreeElement.hh DecisionTreeLeaf.hh  \
  DecisionTreeBase.hh DecisionTree.hh DecisionTreeBranchBinary.hh \
- DecisionExamples.hh Discriminator.hh
+ DecisionExamples.hh Discriminator.hh \
+ SampleLiteral.hh SampleState.hh
 
 #DecisionTreeBranch.hh
 
 SOURCES=DecisionTreeElement.cc DecisionTreeLeaf.cc \
  DecisionTreeBase.cc DecisionTreeBranchBinary.cc \
- DecisionExamples.cc Discriminator.cc
+ DecisionExamples.cc Discriminator.cc \
+ SampleLiteral.cc SampleState.cc
 
 # DecisionTreeBranch.cc
 

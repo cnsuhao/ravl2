@@ -14,6 +14,7 @@
 #include "Ravl/Logic/DecisionTreeElement.hh"
 #include "Ravl/Logic/DecisionTreeLeaf.hh"
 #include "Ravl/Logic/Discriminator.hh"
+#include "Ravl/PatternRec/DataSet2.hh"
 
 namespace RavlLogicN {
   
@@ -33,6 +34,11 @@ namespace RavlLogicN {
     bool Add(const StateC &state,const LiteralC &decision);
     //: Add a new example to the tree.
     
+    void Train(const DataSet2C<SampleStateC,SampleLiteralC > &data);
+    //: Train the decision tree with the new data.
+    
+    void SetDiscriminator(const DiscriminatorC &desc);
+    //: Set the discriminator to use for training.
   protected:
     DiscriminatorC discriminator; // Used in building the tree.
     DecisionTreeElementC root; // Root of tree.    
@@ -78,6 +84,14 @@ namespace RavlLogicN {
     bool Add(const StateC &state,const LiteralC &decision)
     { return Body().Add(state,decision); }
     //: Add a new example to the tree.
+    
+    void Train(const DataSet2C<SampleStateC,SampleLiteralC> &data)
+    { Body().Train(data); }
+    //: Train the decision tree with the new data.
+    
+    void SetDiscriminator(const DiscriminatorC &desc)
+    { Body().SetDiscriminator(desc); }
+    //: Set the discriminator to use for training.
 
   };
   

@@ -52,4 +52,11 @@ namespace RavlLogicN {
     return false;
   }
 
+
+  //: Train the decision tree with the new data.
+  
+  void DecisionTreeBaseBodyC::Train(const DataSet2C<SampleStateC,SampleLiteralC> &data) {
+    
+  }
+
 }

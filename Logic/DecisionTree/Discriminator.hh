@@ -12,6 +12,9 @@
 
 #include "Ravl/Logic/DecisionExamples.hh"
 #include "Ravl/RefCounter.hh"
+#include "Ravl/PatternRec/DataSet2.hh"
+#include "Ravl/Logic/SampleLiteral.hh"
+#include "Ravl/Logic/SampleState.hh"
 
 namespace RavlLogicN {
   using namespace RavlN;
@@ -32,6 +35,9 @@ namespace RavlLogicN {
     
     virtual LiteralC BestDiscriminator(const DecisionExamplesC &set);
     //: Choose the best distriminator to seperate the decisions made in 'set'. 
+
+    virtual LiteralC BestDiscriminator(const DataSet2C<SampleStateC,SampleLiteralC> &data);
+    //: Choose the best distriminator to seperate the decisions made in 'data'. 
   protected:
   };
 
@@ -73,6 +79,10 @@ namespace RavlLogicN {
     LiteralC BestDiscriminator(const DecisionExamplesC &set)
     { return Body().BestDiscriminator(set); }
     //: Choose the best distriminator to seperate the decisions made in 'set'. 
+    
+    LiteralC BestDiscriminator(const DataSet2C<SampleStateC,SampleLiteralC> &data)
+    { return Body().BestDiscriminator(data); }
+    //: Choose the best distriminator to seperate the decisions made in 'data'. 
     
   };
 

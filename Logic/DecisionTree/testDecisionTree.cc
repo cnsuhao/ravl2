@@ -2,7 +2,9 @@
 
 #include "Ravl/Logic/DecisionTreeBase.hh"
 
-int TestBasic();
+using namespace RavlLogicN;
+
+int testBasic();
 
 int main() {
   int ln;
@@ -14,7 +16,7 @@ int main() {
   return 0;
 }
 
-int TestBasic() {
+int testBasic() {
   DecisionTreeBaseC dl;
   //(const DiscriminatorC &desc)
   
