@@ -23,6 +23,7 @@
 // <li> median filter applied to warped frames to create the mosaic</li>
 // </ul>
 
+#include "Ravl/config.h"
 #include "Ravl/Option.hh"
 #include "Ravl/StdConst.hh"
 #include "Ravl/DP/SequenceIO.hh"
@@ -43,6 +44,10 @@
 #include "Ravl/Image/ImageConv.hh"
 #include "Ravl/Image/RealRGBValue.hh"
 #include "Ravl/Image/GaussConvolve.hh"
+
+#if RAVL_COMPILER_MIPSPRO
+#include <stdlib.h> 
+#endif 
 
 using namespace RavlN;
 using namespace RavlImageN;
