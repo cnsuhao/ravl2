@@ -33,6 +33,11 @@ bool buttonB(IntT &v)
   return true;
 }
 
+bool pageChanged(IntT &v)
+{
+  cerr << "Page:" << v << "\n";
+  return true;
+}
 
 int main(int nargs,char *args[]) 
 {
@@ -41,12 +46,13 @@ int main(int nargs,char *args[])
   WindowC win(100,100,"Hello");
   
   NotebookC nb(GTK_POS_TOP);
-  nb.Add(VBox(Button("A Button 1",&buttonA,1) + Button("A Button 3",&buttonA,3)) + 
-	 VBox(Button("A Button 2",&buttonB,2) + Button("A Button 4",&buttonB,4))
+  Connect(nb.SigChanged(), &pageChanged);
+  nb.Add(VBox(Button("ButtonA 1",&buttonA,1) + Button("ButtonA 3",&buttonA,3)) + 
+	 VBox(Button("ButtonB 2",&buttonB,2) + Button("ButtonB 4",&buttonB,4))
 	 );
   win.Add(nb);
   win.Show();
-  
+
   Manager.Start();
   
 }

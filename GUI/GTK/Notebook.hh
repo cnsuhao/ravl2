@@ -17,6 +17,7 @@
 
 #include "Ravl/GUI/CWidget.hh"
 #include "Ravl/Hash.hh"
+#include "Ravl/Threads/Signal1.hh"
 
 namespace RavlGUIN 
 {
@@ -82,6 +83,10 @@ namespace RavlGUIN
     IntT GetCurrentPage();
     //: Get the id of the current page being displayed.
     
+    Signal1C<IntT> &SigChanged()
+    { return m_sigChanged; }
+    //: Access page changed signal.
+    
   protected:
     virtual void Destroy();
     //: Undo all references.
@@ -94,6 +99,8 @@ namespace RavlGUIN
     GtkPositionType tabpos;
     bool showborder;
     bool showtabs;
+    
+    Signal1C<IntT> m_sigChanged;
     
     friend class NotebookC;
   };
@@ -185,6 +192,10 @@ namespace RavlGUIN
     IntT GetCurrentPage()
     { return Body().GetCurrentPage(); }
     //: Get the id of the current page being displayed.
+    
+    Signal1C<IntT> &SigChanged()
+    { return Body().SigChanged(); }
+    //: Access page changed signal.
     
     friend class NotebookBodyC;
   };

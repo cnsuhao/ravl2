@@ -28,13 +28,22 @@
 #endif
 
 namespace RavlGUIN {
+  
+  extern "C" 
+  {
+    void notebook_switch_page(GtkNotebook *notebook, GtkNotebookPage *page, guint page_num, NotebookBodyC *user_data)
+    {
+      user_data->SigChanged()(page_num);
+    }
+  }
 
   //: Default constructor.
   
   NotebookBodyC::NotebookBodyC(GtkPositionType ntabpos,bool nshowtabs,bool nshowborder)
     : tabpos(ntabpos),
       showborder(nshowborder),
-      showtabs(nshowtabs)
+      showtabs(nshowtabs),
+      m_sigChanged(true)
   {}
   
   //: Constructor
@@ -43,7 +52,8 @@ namespace RavlGUIN {
     : ContainerWidgetBodyC(widges),
       tabpos(ntabpos),
       showborder(nshowborder),
-      showtabs(nshowtabs)
+      showtabs(nshowtabs),
+      m_sigChanged(true)
   {}
   
   //: Constructor
@@ -51,7 +61,8 @@ namespace RavlGUIN {
   NotebookBodyC::NotebookBodyC(const WidgetC &widges,GtkPositionType ntabpos,bool nshowtabs,bool nshowborder)
     : tabpos(ntabpos),
       showborder(nshowborder),
-      showtabs(nshowtabs)
+      showtabs(nshowtabs),
+      m_sigChanged(true)
   { children.InsLast(widges); }
   
   //: Create the widget.
@@ -83,6 +94,9 @@ namespace RavlGUIN {
     }
     //cerr << "NotebookBodyC::Create(), Done with pages. \n";
     lock.Unlock();
+
+    gtk_signal_connect(GTK_OBJECT(widget), "switch-page", GTK_SIGNAL_FUNC(notebook_switch_page), this);
+    
     ConnectSignals();
     return true;
   }
@@ -99,6 +113,9 @@ namespace RavlGUIN {
       gtk_notebook_set_show_border(GTK_NOTEBOOK (widget), showborder);
     
     gtk_widget_show(widget);
+    
+    gtk_signal_connect(GTK_OBJECT(widget), "switch-page", GTK_SIGNAL_FUNC(notebook_switch_page), this);
+    
     ConnectSignals();
 
     return true;
