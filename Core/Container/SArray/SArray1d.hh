@@ -665,6 +665,7 @@ namespace RavlN {
 	  *it = t;
 	  changed = true;
 	}
+	lv = &(*it);
       }
     } while(changed) ;
     return ;
