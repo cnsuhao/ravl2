@@ -21,6 +21,8 @@ namespace Ravl3DN {
 
   //! userlevel=Normal
   //: Mesh vertex iterator.
+  // Note: It is the users responsibility to ensure the current vertex of the interator is NOT
+  // deleted until the iterator is moved to another element.  
   
   class HEMeshVertexIterC 
     : public IntrDLIterC<HEMeshVertexBodyC>

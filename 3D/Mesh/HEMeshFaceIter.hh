@@ -21,6 +21,9 @@ namespace Ravl3DN {
 
   //! userlevel=Normal
   //: Mesh face iterator.
+  // Note: It is the users responsibility to ensure the current face of the interator is NOT
+  // deleted until the iterator is moved to another element.  Methods such as CollapseEdge()
+  // are provided to help ensure this.
   
   class HEMeshFaceIterC 
     : public IntrDLIterC<HEMeshFaceBodyC>
@@ -50,6 +53,12 @@ namespace Ravl3DN {
     const HEMeshFaceC operator*() const
     { return HEMeshFaceC(const_cast<HEMeshFaceBodyC &>(IntrDLIterC<HEMeshFaceBodyC>::Data())); }
     //: Access Face.
+    
+    bool CollapseEdge(HEMeshEdgeC edge);
+    //: Collapse an edge on the current face.
+    // If the face is deleted in the process the iterator is moved
+    // to the previous valid face. It will return true if the iterator
+    // has been changed.
     
   protected:
     

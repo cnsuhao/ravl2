@@ -16,7 +16,7 @@ HEADERS= Vertex.hh Tri.hh TriMesh.hh \
 
 SOURCES= Vertex.cc Tri.cc TriMesh.cc TriMeshBinIO.cc \
  HEMeshVertex.cc HEMeshEdge.cc HEMeshFace.cc HEMesh.cc \
- TriMesh2HEMesh.cc
+ TriMesh2HEMesh.cc HEMeshFaceIter.cc
 
 TESTEXES=testHEMesh.cc
 
