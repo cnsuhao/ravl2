@@ -17,8 +17,7 @@
 
 #include "Ravl/SArray1d.hh"
 #include "Ravl/Slice1d.hh"
-#include "Ravl/SArr1Iter.hh"
-#include "Ravl/SArr1Iter2.hh"
+#include "Ravl/TFVector.hh"
 
 namespace RavlN {
   template<class DataT> class TMatrixC;
@@ -47,6 +46,27 @@ namespace RavlN {
     
     explicit inline TVectorC(SizeT n);
     //: Constructor.
+
+    template<unsigned int N>
+    inline TVectorC(const TFVectorC<DataT,N> &dat)
+      : SArray1dC<DataT>(N)
+    {
+      const DataT *at = &(dat[0]);
+      for(BufferAccessIterC<DataT> it(*this);it;it++,at++)
+	*it = *at;
+    }
+    //: Create from a fixed size vector.
+    
+    template<unsigned int N>
+    operator TFVectorC<RealT,N> () {
+      RavlAssertMsg(N == Size(),"Size mismatch converting to fixed size array. ");
+      TFVectorC<RealT,N> ret;
+      DataT *at = &(ret[0]);
+      for(BufferAccessIterC<DataT> it(*this);it;it++,at++)
+	*at = *it;
+      return ret;
+    }
+    //: Convert to a fixed size vector.
     
     DataT Sum() const;      
     //: Returns the sum all elements of the vector.
@@ -135,7 +155,7 @@ namespace RavlN {
   template<class DataT>
   DataT 
   TVectorC<DataT>::Sum() const  {
-    SArray1dIterC<DataT> it(*this);
+    BufferAccessIterC<DataT> it(*this);
     if(!it.IsElm())
       return 0;
     DataT sum = it.Data();
@@ -147,7 +167,7 @@ namespace RavlN {
   
   template<class DataT>
   DataT TVectorC<DataT>::Product() const  {
-    SArray1dIterC<DataT> it(*this);
+    BufferAccessIterC<DataT> it(*this);
     if(!it.IsElm())
       return 1; // Or throw an exception ?
     DataT prod = it.Data();
@@ -160,7 +180,7 @@ namespace RavlN {
   template<class DataT>
   const TVectorC<DataT> & 
   TVectorC<DataT>::Reciprocal() {
-    for(SArray1dIterC<DataT> it(*this);it.IsElm();it.Next())
+    for(BufferAccessIterC<DataT> it(*this);it.IsElm();it.Next())
       it.Data() = 1/it.Data();
     return *this;
   }
@@ -169,7 +189,7 @@ namespace RavlN {
   DataT TVectorC<DataT>::SumOfSqr() const {
     DataT ret;
     SetToZero(ret);
-    for(SArray1dIterC<DataT> it(*this);it;it++)
+    for(BufferAccessIterC<DataT> it(*this);it;it++)
       ret += Sqr(*it);
     return ret;
   }
@@ -178,7 +198,7 @@ namespace RavlN {
   DataT TVectorC<DataT>::SumOfAbs() const {
     DataT ret;
     SetToZero(ret);
-    for(SArray1dIterC<DataT> it(*this);it;it++)
+    for(BufferAccessIterC<DataT> it(*this);it;it++)
       ret += Abs(*it);
     return ret;
   }
@@ -187,7 +207,7 @@ namespace RavlN {
   DataT 
   TVectorC<DataT>::TMul(const TVectorC<DataT> & b) const {
     DataT sum = 0;
-    for(SArray1dIter2C<DataT,DataT> it(*this,b);it.IsElm();it.Next())
+    for(BufferAccessIter2C<DataT,DataT> it(*this,b);it.IsElm();it.Next())
       sum += it.Data1() * it.Data2();
     return sum;
   }
@@ -196,14 +216,14 @@ namespace RavlN {
   DataT 
   TVectorC<DataT>::Dot(const TVectorC<DataT> & v) const {
     DataT sum = 0;
-    for(SArray1dIter2C<DataT,DataT> it(*this,v);it.IsElm();it.Next())
+    for(BufferAccessIter2C<DataT,DataT> it(*this,v);it.IsElm();it.Next())
       sum += it.Data1() * it.Data2();
     return sum;  
   }
   
   template<class DataT>
   const TVectorC<DataT> &TVectorC<DataT>::SetSmallToBeZero(const DataT &min) {
-    for(SArray1dIterC<DataT> it(*this);it;it++)
+    for(BufferAccessIterC<DataT> it(*this);it;it++)
       if(Abs(*it) < min)
 	SetToZero(*it);
     return *this;
@@ -212,7 +232,7 @@ namespace RavlN {
 
   template<class DataT>
   DataT TVectorC<DataT>::MaxValue() const {
-    SArray1dIterC<DataT> it(*this);
+    BufferAccessIterC<DataT> it(*this);
     if(!it.IsElm()) {
       DataT ret;
       SetToZero(ret);
@@ -227,7 +247,7 @@ namespace RavlN {
 
   template<class DataT>
   DataT TVectorC<DataT>::MaxMagintude() const {
-    SArray1dIterC<DataT> it(*this);
+    BufferAccessIterC<DataT> it(*this);
     if(!it.IsElm()) {
       DataT ret;
       SetToZero(ret);
@@ -244,7 +264,7 @@ namespace RavlN {
   
   template<class DataT>
   DataT TVectorC<DataT>::MinValue() const {
-    SArray1dIterC<DataT> it(*this);
+    BufferAccessIterC<DataT> it(*this);
     if(!it.IsElm()) {
       DataT ret;
       SetToZero(ret);
@@ -260,12 +280,12 @@ namespace RavlN {
   template<class DataT>
   IndexC TVectorC<DataT>::MaxIndex() const {
     IndexC ind = 0;
-    SArray1dIterC<DataT> it(*this);
+    BufferAccessIterC<DataT> it(*this);
     DataT maxVal = *it;
     for(it++;it;it++) {
       if(*it > maxVal) {
 	maxVal = *it;
-	ind = it.Index();
+	ind = (IntT) (&(*it) - &(*this)[0]);
       }
     }
     return ind;
@@ -274,13 +294,13 @@ namespace RavlN {
   template<class DataT>
   IndexC TVectorC<DataT>::MaxAbsIndex() const {
     IndexC ind = 0;
-    SArray1dIterC<DataT> it(*this);
+    BufferAccessIterC<DataT> it(*this);
     DataT maxVal = *it;
     for(it++;it;it++) {
       DataT aM = Abs(*it);
       if(aM > maxVal) {
 	maxVal = aM;
-	ind = it.Index();
+	ind = (IntT) (&(*it) - &(*this)[0]);
       }
     }
     return ind;

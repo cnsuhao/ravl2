@@ -254,5 +254,31 @@ int testVector() {
   if(vec4[1] != 2) return __LINE__;
   if(vec4[2] != 3) return __LINE__;
   if(vec4[3] != 4) return __LINE__;
+  
+  // Check creation from a fixed size vector.
+  FVectorC<3> fv;
+  fv[0] = 1;
+  fv[1] = 2;
+  fv[2] = 3;
+  VectorC vec3a(fv);
+  if(vec3a[0] != 1) return __LINE__;
+  if(vec3a[1] != 2) return __LINE__;
+  if(vec3a[2] != 3) return __LINE__;
+ 
+  // Check evil conversions between fixed and general matricies and vectors work...
+  
+  MatrixC wtoi(2,3);
+  wtoi.Fill(0);
+  int i = 1;
+  for(SArray2dIterC<RealT> it(wtoi);it;it++)
+    *it = i++;
+  FVectorC<3> worldpoint;  
+  worldpoint[0] = 1;
+  worldpoint[1] = 2;
+  worldpoint[2] = 3;
+  FVectorC<2> pixelvalue(wtoi * worldpoint);
+  // cerr << "Result=" << pixelvalue << "\n";
+  if(pixelvalue[0] != 14) return __LINE__;
+  if(pixelvalue[1] != 32) return __LINE__;
   return 0;
 }

@@ -27,29 +27,35 @@ namespace RavlN {
   {
   public:
     VectorC()
-      {}
+    {}
     //: Default constructor.
     
     explicit VectorC(UIntT size)
       : TVectorC<RealT>(size)
-      {}
+    {}
     //: Constructor.
     // Create a vector of 'size' elements
     
     VectorC(const TVectorC<RealT> &oth)
       : TVectorC<RealT>(oth)
-      {}
+    {}
     //: Base class constructor.
     
     VectorC(const SArray1dC<RealT> &oth)
       : TVectorC<RealT>(oth)
-      {}
+    {}
     //: Base class constructor.
 
     VectorC(const Slice1dC<RealT> &oth,bool alwaysCopy = true)
       : TVectorC<RealT>(oth,alwaysCopy)
-      {}
+    {}
     //: Construct from a slice 
+    
+    template<unsigned int N>
+    inline VectorC(const TFVectorC<RealT,N> &dat) 
+      : TVectorC<RealT>(dat)
+    {}
+    //: Construct from a fixed size array.
     
     VectorC(RealT v1,RealT v2)
       : TVectorC<RealT>(2)

@@ -63,6 +63,27 @@ namespace RavlN {
 	     DataT v7,DataT v8,DataT v9);
     //: Construct a 3 x 3 matrix from given values.
     
+    template<unsigned int N,unsigned int M>
+    TMatrixC(const TFMatrixC<DataT,N,M> &fmat)
+      : TMatrixC<DataT>(N,M)
+    {
+      for(int i = 0;i < N;i++)
+	for(int j = 0;j < M;j++)
+	  (*this)[i][j] = fmat[i][j];
+    }
+    //: Construct from a fixed size matrix.
+
+    template<unsigned int N,unsigned int M>
+    operator TFMatrixC<DataT,N,M> () {
+      RavlAssertMsg(Rows() == N && Cols() == M,"Size mismatch while converting to fixed size matrix. ");
+      TFMatrixC<DataT,N,M> ret;
+      for(int i = 0;i < N;i++)
+	for(int j = 0;j < M;j++)
+	  fmat[i][j] = (*this)[i][j];
+      return ret;
+    }
+    //: Convert to fixed size matrix.
+    
     inline SizeT Rows() const
     { return Size1(); }
     //: Return the number of rows

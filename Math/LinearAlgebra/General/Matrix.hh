@@ -78,14 +78,10 @@ namespace RavlN {
     //: Construct a 3 x 3 matrix from given values.
     
     template<unsigned int N,unsigned int M>
-    MatrixC(const FMatrixC<N,M> &fmat)
-      : TMatrixC<RealT>(N,M)
-    {
-      for(int i = 0;i < N;i++)
-	for(int j = 0;j < M;j++)
-	  (*this)[i][j] = fmat[i][j];
-    }
-    //: Construct from a fixed size matrix.
+    MatrixC(const TFMatrixC<RealT,N,M> &fmat)
+      : TMatrixC<RealT>(fmat)
+    {}
+    //: Construct from fixed size matrix.
     
     MatrixC Inverse() const;
     //: Calculate the inverse of this matrix.

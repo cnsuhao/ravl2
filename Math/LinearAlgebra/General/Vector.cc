@@ -21,7 +21,7 @@ namespace RavlN {
   // or infinite values are found.
   
   bool VectorC::IsReal() const {
-    for(SArray1dIterC<RealT> it(*this);it;it++)
+    for(BufferAccessIterC<RealT> it(*this);it;it++)
       if(IsInf(*it) || IsNan(*it))
 	return false;
     return true;
