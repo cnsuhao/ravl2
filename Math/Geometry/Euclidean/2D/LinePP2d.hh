@@ -84,7 +84,7 @@ namespace RavlN {
       Vector2dC dir = P2() - P1();
       return ATan2(dir[1],dir[0]);
     }
-    //: Return the angle of the line in radians from the vertical +ve axis.
+    //: Return the direction of the line.
     
   };
   
