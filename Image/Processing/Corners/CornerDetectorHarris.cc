@@ -12,31 +12,37 @@
 #include "Ravl/Image/CornerDetectorHarris.hh"
 #include "Ravl/SArray1d.hh"
 #include "Ravl/Array2dIter.hh"
-#include "Ravl/Array2dSqr3111Iter4.hh"
+#include "Ravl/Array2dIter2.hh"
+#include "Ravl/Array1dIter.hh"
+#include "Ravl/Array2dSqr31Iter2.hh"
 #include "Ravl/Image/PeakDetector.hh"
 #include "Ravl/Image/Gradient.hh"
 #include "Ravl/MeanVariance.hh"
+#include "Ravl/Image/ConvolveSeparable2d.hh"
+#include "Ravl/GenerateSignal1d.hh"
+
+
+#define DODEBUG 0
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
 
 namespace RavlImageN {
   
   ///////////////////////////////////
   // Constructor.
   
-  CornerDetectorHarrisC::CornerDetectorHarrisC(int nTheshold,int nW,RealT Sigma)
+  CornerDetectorHarrisC::CornerDetectorHarrisC(int nTheshold,int nW)
     : w(nW),
-      threshold(nTheshold),
-      mask(Gauss2D(Sigma,nW))
-  {}
-  
-  ImageC<RealT> CornerDetectorHarrisC::Gauss2D(RealT sigma,int w) {
-    ImageC<RealT> ret(IndexRangeC(-w,w),IndexRangeC(-w,w));
-    int x,y;
-    MeanVarianceC mv(1,0,sigma);
-    for (x=-w; x<=w; x++) {
-      for (y=-w; y<=w; y++)
-	ret[y][x] = mv.Gauss((RealT)  x) * mv.Gauss((RealT) y);
-    }
-    return ret;
+      threshold(nTheshold)
+  {
+    Array1dC<IntT> mask = GenerateBinomial((IntT) 1,w,false,true);
+    filter = ConvolveSeparable2dC<IntT,TFVectorC<IntT,3>,TFVectorC<IntT,3>,TFVectorC<IntT,3> >(mask,mask);
+    maskSum = (RealT) Sqr(mask.Sum());
+    ONDEBUG(cerr << "Mask size=" << w << " Sum=" << maskSum << "\n");
+    //ONDEBUG(cerr << "Mask=" << mask << "\n");
   }
   
   DListC<CornerC> CornerDetectorHarrisC::Apply(ImageC<ByteT> &img) {
@@ -45,39 +51,25 @@ namespace RavlImageN {
     Peak(var,img,lst);
     return lst;
   }
-
-
+  
   // Haris corner detector.
   
   ImageC<IntT> CornerDetectorHarrisC::CornerHarris(ImageC<ByteT> &img) {
     ImageRectangleC workRect(img.Rectangle().Shrink(1));
-    ImageC<IntT> ixix(workRect);
-    ImageC<IntT> iyiy(workRect);
-    ImageC<IntT> ixiy(workRect);
-    ImageC<IntT> var(workRect);               /* cornerness image */
-  
-    int       x,y;
-    RealT    ixixs,iyiys,ixiys;
+    if(!vals.Frame().Contains(workRect)) {
+      vals = ImageC<TFVectorC<IntT,3> >(workRect);
+      fvals = ImageC<TFVectorC<IntT,3> >(workRect);
+      var = ImageC<IntT>(workRect);               /* cornerness image */
+    }
     
-    ImagGrad(img,ixix,iyiy,ixiy);
-    ImageRectangleC subWR(workRect.Shrink(w));
+    ImagGrad(img,vals);
+    ImageRectangleC subWR(workRect.Shrink(w+1));
+    filter(vals,fvals);
     
-    for(Array2dIterC<IntT> it(var,subWR);it;it++) {
-      Index2dC at = it.Index();
-      ixixs = 0.0; 
-      iyiys = 0.0; 
-      ixiys = 0.0;
-      const int i = at[0].V();
-      const int j = at[1].V();
-      // FIXME:- This convolution could be much faster...
-      for (x=-w; x<w; x++) {
-	for (y=-w; y<w; y++) {
-	  RealT mval = mask[y][x];
-	  ixixs += ixix[i+y][j+x]*mval;
-	  iyiys += iyiy[i+y][j+x]*mval; 
-	  ixiys += ixiy[i+y][j+x]*mval; 
-	}
-      }
+    for(Array2dIter2C<IntT,TFVectorC<IntT,3> > it(var,fvals,subWR);it;it++) {
+      RealT ixixs = (RealT) it.Data2()[0] / maskSum;
+      RealT iyiys = (RealT) it.Data2()[1] / maskSum; 
+      RealT ixiys = (RealT) it.Data2()[2] / maskSum;
       /* Evaluating the cornerness measure */
       int val;
       if((ixixs+iyiys) != 0)
@@ -85,22 +77,22 @@ namespace RavlImageN {
       else
 	val = 0;
       //cerr << "Val=" << val << "\n";
-      *it = val;
+      it.Data1() = val;
     }
     return var;
   }
   
-  void CornerDetectorHarrisC::ImagGrad(ImageC<ByteT> &img,ImageC<IntT> &ixix,ImageC<IntT> &iyiy,ImageC<IntT> &ixiy) {
-    for(Array2dSqr3111Iter4C<ByteT,IntT,IntT,IntT> it(img,ixix,iyiy,ixiy);it;it++) {
+  void CornerDetectorHarrisC::ImagGrad(ImageC<ByteT> &img,ImageC<TFVectorC<IntT,3> > &val) {
+    for(Array2dSqr31Iter2C<ByteT,TFVectorC<IntT,3> > it(img,val);it;it++) {
       /* Calculation of the gradients in x and y direction */
-      const int ix = it.DataBL1() + it.DataML1()*2 + it.DataTL1() - it.DataBR1() - it.DataMR1()*2 - it.DataTR1();        
-      const int iy = it.DataTL1() + it.DataTM1()*2 + it.DataTR1() - it.DataBL1() - it.DataBM1()*2 - it.DataBR1();
-      it.Data2()=ix*ix;
-      it.Data3()=iy*iy;
-      it.Data4()=ix*iy;
+      const int ix = (it.DataBL1() + it.DataML1()*2 + it.DataTL1() - it.DataBR1() - it.DataMR1()*2 - it.DataTR1()) >> 1;
+      const int iy = (it.DataTL1() + it.DataTM1()*2 + it.DataTR1() - it.DataBL1() - it.DataBM1()*2 - it.DataBR1()) >> 1;
+      it.Data2()[0]=ix*ix;
+      it.Data2()[1]=iy*iy;
+      it.Data2()[2]=ix*iy;
     }
   }
-
+  
   
   int CornerDetectorHarrisC::Peak(ImageC<IntT> &result,ImageC<ByteT> &in,DListC<CornerC> &cornLst) {
     IndexRange2dC rect(result.Frame().Shrink(3));

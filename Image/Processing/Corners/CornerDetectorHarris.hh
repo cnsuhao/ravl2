@@ -17,6 +17,7 @@
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/Corner.hh"
 #include "Ravl/DList.hh"
+#include "Ravl/Image/ConvolveSeparable2d.hh"
 
 namespace RavlImageN {
   
@@ -27,26 +28,31 @@ namespace RavlImageN {
   
   class CornerDetectorHarrisC {
   public:
-    CornerDetectorHarrisC(int theshold = 20,int w = 3,RealT sigma = 3.0);
-    //: Defa
+    CornerDetectorHarrisC(int theshold = 20,int w = 5);
+    //: Constructor.
+    // threshold = Minimum level of cornerness to accept. <br>
+    // w = width of filter to use for corners.
     
     DListC<CornerC> Apply(ImageC<ByteT> &img);
     //: Get a list of corners from 'img'
     
   protected:    
-    void ImagGrad(ImageC<ByteT> &In,ImageC<IntT> &ixix,ImageC<IntT> &iyiy,ImageC<IntT> &ixiy);
-    
-    ImageC<RealT> Gauss2D(RealT sigma = 3.0,int w = 5);
+    void ImagGrad(ImageC<ByteT> &In,ImageC<TFVectorC<IntT,3> > &val);
     
     ImageC<IntT> CornerHarris(ImageC<ByteT> &img);
     
     int Peak(ImageC<IntT> &result,ImageC<ByteT> &in,DListC<CornerC> &cornerOut);
-    
+
   private:
     const int w;
     const int threshold;
-    const ImageC<RealT> mask;
+    ConvolveSeparable2dC<IntT,TFVectorC<IntT,3>,TFVectorC<IntT,3>,TFVectorC<IntT,3> > filter;    
+    RealT maskSum;
     
+    // Working images, so we don't have to repeated allocate them.
+    ImageC<TFVectorC<IntT,3> > vals;
+    ImageC<TFVectorC<IntT,3> > fvals;
+    ImageC<IntT> var;
   };
   
 }

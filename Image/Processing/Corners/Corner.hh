@@ -18,7 +18,8 @@
 #include "Ravl/Index2d.hh"
 #include "Ravl/Vector2d.hh"
 
-namespace RavlN {
+namespace RavlImageN {
+  using namespace RavlN;
   
   //! userlevel=Normal
   //: Corner descriptor.

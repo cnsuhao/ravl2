@@ -11,14 +11,13 @@ int main(int nargs,char **argv) {
   OptionC opt(nargs,argv);
   int threshold = opt.Int("t",20,"Threshold. ");
   int w = opt.Int("w",3,"width of filter mask. ");
-  RealT sigma = opt.Real("s",3.0,"Sigma of filter mask. ");
   StringC inf = opt.String("","test.ppm","Input image. ");
   StringC outf = opt.String("","out.ppm","Output image. ");
   opt.Check();
   
   // Setup corner detector.
   
-  CornerDetectorHarrisC harris(threshold,w,sigma);
+  CornerDetectorHarrisC harris(threshold,w);
   
   // Load an image.
   

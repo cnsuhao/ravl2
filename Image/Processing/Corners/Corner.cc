@@ -10,7 +10,7 @@
 #include "Ravl/Image/Corner.hh"
 #include "Ravl/Stream.hh"
 
-namespace RavlN {
+namespace RavlImageN {
   
   ostream &operator<<(ostream &out,const CornerC &corn) {
     out << corn.Location() << " " << corn.Gradient() << " " << corn.Level();

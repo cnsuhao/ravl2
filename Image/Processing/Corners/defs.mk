@@ -12,10 +12,10 @@ HEADERS=Corner.hh CornerDetectorHarris.hh
 
 SOURCES=Corner.cc CornerDetectorHarris.cc
 
-PLIB=RavlImage
+PLIB=RavlImageProc
 
 LIBDEPS=RavlImageCorner.def
 
-USESLIBS=RavlImage RavlMath
+USESLIBS=RavlImageProc
 
-PROGLIBS=RavlImageIO
+PROGLIBS=RavlImageIO RavlDPDisplay RavlImgIOV4L
