@@ -52,7 +52,7 @@ namespace RavlN {
     if(!ClassifierBodyC::Save(out))
       return false;
     IntT version = 0;
-    out << version << ' ' << func;
+    out << ' ' << version << ' ' << func;
     return true;
   }
   
