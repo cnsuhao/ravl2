@@ -9,9 +9,11 @@
 
 PACKAGE=Ravl
 
-HEADERS= MeanVariance.hh MeanNd.hh MeanCovarianceNd.hh Statistics.hh
+HEADERS= MeanVariance.hh MeanNd.hh MeanCovarianceNd.hh Statistics.hh \
+ Mean.hh
 
-SOURCES= MeanVariance.cc MeanNd.cc MeanCovarianceNd.cc Statistics.cc
+SOURCES= MeanVariance.cc MeanNd.cc MeanCovarianceNd.cc Statistics.cc \
+ Mean.cc
 
 TESTEXES=testMeanCovar.cc
 
