@@ -11,44 +11,44 @@
 #include "Ravl/MatrixDecomposition.hh"
 
 #include "Ravl/Matrix.hh"
+#include "Ravl/MatrixRS.hh"
 #include "Ravl/Vector.hh"
 
 namespace RavlN {
   
-  static const RealT smallValue = 1e-20;
+  static const RealT smallValue = 1e-8;
   
   //: LUDecomposition for positive definite matrices.
   
   bool LUDecompositionPD(MatrixC &mat,RealT &det) {
-    UIntT k,i,j,n =  mat.Rows();
     det = 1;
-    if(n != mat.Cols()) {
+    IntT n =  mat.Rows();
+    if(n != (IntT) mat.Cols()) {
       cerr << "LUDecompositionPD(), ERROR: Matrix must be square. \n";
       return false;
     }
-    det = mat[0][0];
-    for(i = 1;i < n;i++) {
-      mat[i][0] = mat[i][0] / mat[0][0];
-      for(j = 1;j < i;j++) {
-	RealT &z = mat[i][j];
-	RealT x = z;
-	for(k = 0;k < j;k++)
-	  x -= mat[i][k] * mat[k][j];
-	z = x;
-	if(Abs(mat[j][j])  < smallValue) {
-	  cerr << "LUDecompositionPD(), WARNING: Diagonal near zero. \n";
-	  mat[i][i] = smallValue;
-	}
-	x /= mat[j][j];
+    SArray1dC<RealT> diag(n);
+    for(int i=0;i < n;i++) {
+      int k,j;
+      RealT sum = mat[i][i];
+      for(k = i-1;k >= 0;k--)
+	sum -= Sqr(mat[i][k]);
+      if(sum < 0.0) {
+	cerr << "LUDecompositionPD(), WARNING: Matrix not positive definite. \n";
+	return false;
       }
-      for(j = i;j < n;j++) {
-	RealT &z = mat[i][j];
-	RealT x = z;
-	for(UIntT k = 0;k < j;k++)
-	  x -= mat[i][k] * mat[k][j];
-	z = x;
+      diag[i] = Sqrt(sum);
+      for(j = i+1;j < n;j++) {
+	sum = mat[i][j];
+	for(k = i-1;k >= 0;k--)
+	  sum -= mat[i][k] * mat[j][k];
+	mat[j][i] = sum/diag[i];
       }
-      det *= mat[i][i];
+    }
+    for(int i = 0;i < n;i++) {
+      mat[i][i] = diag[i];
+      for(int j = i+1;j < n;j++)
+	mat[i][j] = 0;
     }
     return true;
   }
@@ -129,5 +129,46 @@ namespace RavlN {
     }
     return perm;
   }
+
+  
+  void LUBackSubstitute(const MatrixC &lu,SArray1dC<RealT> &b) {
+    RealT sum;
+    IntT i,n = lu.Rows();
+    for(i = 0;i < n;i++) {
+      sum = b[i];
+      for(BufferAccessIter2C<RealT,RealT> it(lu[i],b,IndexRangeC(1,i-1));it;it++)
+	sum -= it.Data1() * it.Data2();
+      b[i] = sum;// / lu[i][i];
+    }
+    for(i = n-1;i > 0;i--) {
+      sum = b[i];
+      for(BufferAccessIter2C<RealT,RealT> it(lu[i],b,IndexRangeC(i+1,n-1));it;it++)
+	sum -= it.Data1() * it.Data2();
+      RealT v = sum/lu[i][i];
+      b[i] = v;
+    }
+  }
+  
+  void LUBackSubstitute(const MatrixC &lu,const SArray1dC<IntT> &index,SArray1dC<RealT> &b) {
+    RealT sum;
+    IntT i,n = lu.Rows();
+    for(i = 0;i < n;i++) {
+      IntT in = index[i];
+      sum = b[in];
+      b[in] = b[i];
+      for(BufferAccessIter2C<RealT,RealT> it(lu[i],b,IndexRangeC(1,i-1));it;it++)
+	sum -= it.Data1() * it.Data2();
+      b[i] = sum;// / lu[i][i];
+    }
+    for(i = n-1;i > 0;i--) {
+      sum = b[i];
+      for(BufferAccessIter2C<RealT,RealT> it(lu[i],b,IndexRangeC(i+1,n-1));it;it++)
+	sum -= it.Data1() * it.Data2();
+      RealT v = sum/lu[i][i];
+      b[i] = v;
+    }
+  }
+  
+  
   
 }

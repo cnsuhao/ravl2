@@ -13,6 +13,7 @@
 #include "Ravl/SArray1d.hh"
 #include "Ravl/Vector.hh"
 #include "Ravl/CCMath.hh"
+#include "Ravl/MatrixDecomposition.hh"
 
 namespace RavlN {
   
@@ -40,29 +41,6 @@ namespace RavlN {
     return ret;
   }
   
-  void SolveLU(const MatrixC &lu,const Slice1dC<RealT> &sb,Slice1dC<RealT> &x) {
-    RealT sum;
-    IntT i,n = lu.Rows();
-    SArray1dC<RealT> b = sb; // Copy into a linear array, its faster.
-    for(i = 0;i < n;i++) {
-      sum = b[i];
-      // FIXME: Could be sped up with pointers
-      for(int j = 1;j < i;j++)
-	sum -= lu[i][j] * b[j];
-      b[i] = sum;// / lu[i][i];
-    }
-    for(i = n-1;i > 0;i--) {
-      sum = b[i];
-      // FIXME: Could be sped up with pointers
-      for(int j = i+1;j < n;j++)
-	sum -= lu[i][j] * b[j];
-      RealT v = sum/lu[i][i];
-      b[i] = v;
-      x[i] = v;
-    }
-  }
-  
-
 
   //: Solve a general linear system  A*X = B
   // This return's X, or a 0 by 0 matrix if it fails.
@@ -70,17 +48,17 @@ namespace RavlN {
   MatrixC Solve(const MatrixC &A,const MatrixC &B) {
     RavlAlwaysAssertMsg(A.Cols() == A.Rows(),"MatrixC::Solve(), Matrix A must be square. ");
     RavlAlwaysAssertMsg(A.Cols() == B.Rows(),"MatrixC::Solve(), A.Cols() must equal B.Rows(). ");
-    MatrixC ret(B.Rows(),B.Cols());
-    const IntT n = B.Cols();
-    MatrixC Ac = A.Copy();
-    VectorC col = const_cast<MatrixC &>(B).SliceColumn(0);
-    if(!SolveIP(Ac,col)) // Changes Ac to LU form.
-      return MatrixC();
-    ret.SliceColumn(0).Copy(col); // Copy in first result.
-    // Take care of other columns.
+    MatrixC ret(B.Rows(),B.Cols());    
+    MatrixC lu = A.Copy();
+    SArray1dC<IntT> index = LUDecomposition(lu);
+    if(index.Size() == 0)
+      return MatrixC(); // Failed.
+    IntT n = (IntT) B.Cols();
+    VectorC tmp(B.Rows());
     for(int i = 1;i < n;i++) {
-      Slice1dC<RealT> out = ret.SliceColumn(i);
-      SolveLU(Ac,const_cast<MatrixC &>(B).SliceColumn(i),out);
+      tmp.CopyFrom(const_cast<MatrixC &>(B).SliceColumn(i));
+      LUBackSubstitute(lu,index,tmp);
+      ret.SliceColumn(i).CopyFrom(tmp);
     }
     return ret;
   }

@@ -217,25 +217,13 @@ int testDet() {
 int testLUDecomposition() {
   cerr << "testLUDecomposition(), Called. \n";
   int n = 3;
-#if 1
   //MatrixRSC rs = RandomPositiveDefiniteMatrix(5);  
-  MatrixC rs = RandomMatrix(n,n);
-#else
-  MatrixRSC rs(n);
-  rs[0][0] = 2;
-  rs[0][1] = 6;
-  rs[1][0] = 5;
-  rs[1][1] = 23;
-#endif
-  cerr << "Org=" << rs << "\n";
+  MatrixC mat = RandomMatrix(n,n);
+  //cerr << "Org=" << rs << "\n";
+  MatrixC org = mat.Copy();
   RealT d;
-#if 0
-  if(!LUDecompositionPD(rs,d)) return __LINE__;
-  cerr << "Det=" << d << "\n";
-#else
-  LUDecomposition(rs,d);
-#endif
-  cerr << "rs=" << rs << "\n";
+  LUDecomposition(mat,d);
+  //cerr << "rs=" << rs << "\n";
   MatrixC mat1(n,n);
   MatrixC mat2(n,n);
   mat1.Fill(0);
@@ -244,16 +232,36 @@ int testLUDecomposition() {
     mat1[i][i] = 1;
     for(int j = 0;j < n;j++) {
       if(j < i)
-	mat1[i][j] = rs[i][j];
+	mat1[i][j] = mat[i][j];
       else 
-	mat2[i][j] = rs[i][j];
+	mat2[i][j] = mat[i][j];
     }
   }
-  cerr << "mat1=" << mat1 << "\n";
-  cerr << "mat2=" << mat2 << "\n";
+  //cerr << "mat1=" << mat1 << "\n";
+  //cerr << "mat2=" << mat2 << "\n";  
   MatrixC res = mat1 * mat2;
-  cerr << "Res=" << res << "\n";
+  //cerr << "Res=" << res << "\n";
+  if((res - org).SumOfSqr() > 0.00001)
+    return __LINE__;
   
+#if 1
+  MatrixRSC rs = RandomPositiveDefiniteMatrix(n);  
+  org = rs.Copy();
+  cerr << "Org=" << org << "\n";
+  if(!LUDecompositionPD(rs,d))
+    return __LINE__;
+  cerr << "RS=" << rs << "\n";
+  cerr << "Det=" << d << "\n";
+  mat1 = rs;
+  mat2 = rs.T();
+  cerr << "mat1=" << mat1 << "\n";
+  cerr << "mat2=" << mat2 << "\n";  
+  res = mat1 * mat2;
+  cerr << "Res=" << res << "\n";
+  if((res - org).SumOfSqr() > 0.00001)
+    return __LINE__;  
+#endif
+
   return 0;
 }
 
@@ -326,7 +334,7 @@ int testATAandAAT() {
 
 int testSolve() {
   cerr << "testSolve() Called. \n";
-#if 0
+#if 1
   // Work in progess..
   MatrixC a = RandomMatrix(10,10);
   MatrixC b = RandomMatrix(10,2);

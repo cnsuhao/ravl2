@@ -22,9 +22,25 @@ namespace RavlN {
   // is returned if the decomposition was succesfull, if not
   // an invalid array is returned.
   
+  inline SArray1dC<IntT> LUDecomposition(MatrixC &mat) 
+  { RealT d; return LUDecomposition(mat,d); }
+  //: LU Decomposition with partial pivoting.
+  // This transforms mat such that mat' = mat * mat.T() <br>
+  // As LUDecomposition(MatrixC &,RealT &) but the determinant is discarded.
+  
   bool LUDecompositionPD(MatrixC &mat,RealT &det);
   //: LUDecomposition for positive definite matrices.
+  // This transforms 'mat' into (L + U - I). 'd' is set to
+  // the determinant of the matrix. <br>
+  // 'mat' must be symmetric and positive definite.
   
+  void LUBackSubstitute(const MatrixC &lu,SArray1dC<RealT> &b);  
+  //: Back substitute.
+  // LU Matrix must be in LU form. 
+  
+  void LUBackSubstitute(const MatrixC &lu,const SArray1dC<IntT> &index,SArray1dC<RealT> &b);
+  //: Back substitute with permutation.
+  // LU Matrix must be in LU form. 
 
 }
 

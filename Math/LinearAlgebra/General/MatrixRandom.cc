@@ -40,7 +40,7 @@ namespace RavlN {
     MatrixRUTC x(n);
     VectorC vec(n);
     x.Fill(0);
-    int k = Max(n,n);
+    int k = Max(n,n) * 2;
     for(int i = 0;i < k;i++) {
       for(SArray1dIterC<RealT> it1(vec);it1;it1++)
 	*it1 = (Random1() - 0.5) * 2;
