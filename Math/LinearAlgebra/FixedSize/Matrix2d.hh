@@ -104,6 +104,31 @@ namespace RavlN {
     result[1][0] = R1[1][0]*R2[0][0] + R1[1][1]*R2[1][0];
     result[1][1] = R1[1][0]*R2[0][1] + R1[1][1]*R2[1][1];
   }
+  
+  inline
+  TFMatrixC<RealT,2,2> &TFVectorC<RealT,2>::OuterProduct(TFMatrixC<RealT,2,2> &result) const {
+    result[0][0] = data[0] * data[0];
+    result[0][1] = data[0] * data[1];
+    result[1][0] = data[1] * data[0];
+    result[1][1] = data[1] * data[1];
+    return result;
+  }
+  //: Calculate the outer product of this vector with itsself.
+  // The output is assigned to 'result'. A reference to 'result' is
+  // returned. <p>
+
+  inline
+  TFMatrixC<RealT,2,2> &TFVectorC<RealT,2>::OuterProduct(const TFVectorC<RealT,2> &av,TFMatrixC<RealT,2,2> &result) const {
+    result[0][0] = av[0] * data[0];
+    result[0][1] = av[0] * data[1];
+    result[1][0] = av[1] * data[0];
+    result[1][1] = av[1] * data[1];
+    return result;
+  }
+  //: Calculate the outer product of this vector with av.
+  // The output is assigned to 'result'. A reference to 'result' is
+  // returned. <p>
+  
 }
 
 #endif
