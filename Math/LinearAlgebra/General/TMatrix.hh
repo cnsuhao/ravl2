@@ -54,6 +54,15 @@ namespace RavlN {
     //: Constructor.
     // With row wise array of initalisations data.
     
+    inline TMatrixC(SizeT rows,SizeT cols,DataT *data,bool useCopy,bool manageMemory = false);
+    //: Constructor.
+    // This allows 'data' to be used in the array.  
+    // If 'useCopy' is true the 'manageMemory' flag has no effect.
+    
+    inline TMatrixC(SizeT rows,SizeT cols,const DataT &data);
+    //: Constructor.
+    // Fill the matrix with 'data'..
+    
     TMatrixC(DataT v1,DataT v2,
 	     DataT v3,DataT v4);
     //: Construct a 2 x 2 matrix from given values.
@@ -175,7 +184,17 @@ namespace RavlN {
     for(BufferAccess2dIterC<DataT> it(*this,Size2());it;it++)
       *it = *(at++);
   }
-
+  
+  template<class DataT>
+  inline TMatrixC<DataT>::TMatrixC(SizeT rows,SizeT cols,DataT *data,bool useCopy,bool manageMemory) 
+    : SArray2dC<DataT>(BufferC<DataT>(rows * cols,data,useCopy,manageMemory),rows,cols)
+  {}
+  
+  template<class DataT>
+  inline TMatrixC<DataT>::TMatrixC(SizeT rows,SizeT cols,const DataT &data) 
+    : SArray2dC<DataT>(rows,cols)
+  { Fill(data); }
+  
   template<class DataT>
   TMatrixC<DataT>::TMatrixC(DataT v1,DataT v2,
 	   DataT v3,DataT v4)

@@ -84,17 +84,37 @@ int main() {
 
 int testSVD() {
   cerr << "tesSVD() Called \n";
-  VectorC D;
-  MatrixC U, V;
-  MatrixC Test(30,3);
-  Test = RandomMatrix(10,10);
-  D=SVD(Test,U,V);
+  for(int i = 0;i < 10;i++) {
+    VectorC D;
+    MatrixC U, V;
+    MatrixC Test;
+    if(i < 5) {
+      Test = RandomMatrix(10,10);
+    } else {
+      Test = RandomMatrix(5,4);
+    }
+    D=SVD(Test,U,V);
+    //cerr << "D=" << D << "\n";
+    //cerr << "U=" << U << "\n";
+    //cerr << "V=" << V << "\n";
+    MatrixC md(U.Cols(),D.Size());
+    md.Fill(0);
+    md.SetDiagonal(D);
+    MatrixC m = U * md * V.T();
+    if((m - Test).SumOfSqr() > 0.000001) return __LINE__;
+  }
   
-  MatrixC md(D.Size(),D.Size());
-  md.Fill(0);
-  md.SetDiagonal(D);
-  MatrixC m = U * md * V.T();
-  if((m - Test).SumOfSqr() > 0.000001) return __LINE__;
+  // Joel's test.
+  
+  MatrixC E(0, -8.15447e-14, -1.22998e-12,
+	    -3.47383, 1.35606, 11.4019,
+	    -1.35606, -11.8774, 0.999454);
+  MatrixC Eu, Ev;
+  VectorC Ed;
+  Ed = SVD(E, Eu, Ev);
+  if((E - (Eu*MatrixC(Ed[0],0,0,0,Ed[1],0,0,0,Ed[2])*Ev.T())).SumOfSqr() > 0.00001) 
+    return __LINE__;
+  
   return 0;
 }
 
@@ -216,13 +236,13 @@ int testDet() {
 
 int testLUDecomposition() {
   cerr << "testLUDecomposition(), Called. \n";
-  int n = 3;
+  int n = 4;
   //MatrixRSC rs = RandomPositiveDefiniteMatrix(5);  
   MatrixC mat = RandomMatrix(n,n);
-  //cerr << "Org=" << rs << "\n";
   MatrixC org = mat.Copy();
+  cerr << "Org=" << org << "\n";
   RealT d;
-  LUDecomposition(mat,d);
+  SArray1dC<IntT> order = LUDecomposition(mat,d);
   //cerr << "rs=" << rs << "\n";
   MatrixC mat1(n,n);
   MatrixC mat2(n,n);
@@ -240,7 +260,8 @@ int testLUDecomposition() {
   //cerr << "mat1=" << mat1 << "\n";
   //cerr << "mat2=" << mat2 << "\n";  
   MatrixC res = mat1 * mat2;
-  //cerr << "Res=" << res << "\n";
+  cerr << "Res=" << res << "\n";
+  cerr << "Order=" << order << "\n";
   if((res - org).SumOfSqr() > 0.00001)
     return __LINE__;
   

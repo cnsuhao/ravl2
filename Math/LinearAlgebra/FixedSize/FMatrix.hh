@@ -17,6 +17,7 @@
 
 #include "Ravl/TFMatrix.hh"
 #include "Ravl/FVector.hh"
+#include "Ravl/RawMatrix.hh"
 #include "Ravl/CCMath.hh"
 #include "Ravl/StdMath.hh"
 #include "Ravl/Exception.hh"
@@ -120,13 +121,8 @@ namespace RavlN {
   template<unsigned int N,unsigned int M>
   FVectorC<N> SVD_IP(FMatrixC<N,M> &mat) {
     FVectorC<N> ret;
-    if(N > M * 2) { // Pick the best routine.
-      if(sv2val(&ret[0],&mat[0][0],N,M) != 0)
-	throw ExceptionNumericalC("SVD failed.");
-    } else {
-      if(svdval(&ret[0],&mat[0][0],N,M) != 0)
-	throw ExceptionNumericalC("SVD failed.");
-    }
+    if(!RavSVD(&ret[0],&mat[0][0],N,M))
+      throw ExceptionNumericalC("SVD failed.");
     return ret;
   }
   //: Singular value decomposition, eg. mat = U * D * V.T(). 
@@ -139,13 +135,8 @@ namespace RavlN {
   FVectorC<M> SVD(const FMatrixC<N,M> &mat,FMatrixC<N,N> & u, FMatrixC<M,M> & v) {
     FVectorC<M> ret;
     FMatrixC<N,M> tmp(mat);
-    if(N > M * 2) { // Pick the best routine.
-      if(sv2uv(&ret[0],&tmp[0][0],&u[0][0],N,&v[0][0],M) != 0)
-	throw ExceptionNumericalC("SVD failed.");
-    } else {
-      if(svduv(&ret[0],&tmp[0][0],&u[0][0],N,&v[0][0],M) != 0)
-	throw ExceptionNumericalC("SVD failed.");
-    }
+    if(!RawSVD(&ret[0],&tmp[0][0],&u[0][0],N,&v[0][0],M))
+      throw ExceptionNumericalC("SVD failed.");  
     return ret;
   }
   //: Singular value decomposition, eg. mat = U * D * V.T(). 
@@ -158,13 +149,8 @@ namespace RavlN {
   template<unsigned int N,unsigned int M>
   FVectorC<M> SVD_IP(FMatrixC<N,M> &mat,FMatrixC<N,N> & u, FMatrixC<M,M> & v) {
     FVectorC<M> ret;
-    if(N > (M * 2)) { // Pick the best routine.
-      if(sv2uv(&ret[0],&mat[0][0],&u[0][0],N,&v[0][0],M) != 0)
-	throw ExceptionNumericalC("SVD failed.");
-    } else {
-      if(svduv(&ret[0],&mat[0][0],&u[0][0],N,&v[0][0],M) != 0)
-	throw ExceptionNumericalC("SVD failed.");
-    }
+    if(!RawSVD(&ret[0],&tmp[0][0],&u[0][0],N,&v[0][0],M))
+      throw ExceptionNumericalC("SVD failed.");  
     return ret;
   }
   //: Singular value decomposition, eg. mat = U * D * V.T(). 

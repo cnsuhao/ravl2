@@ -9,6 +9,8 @@
 //! date="22/8/2002"
 //! author="Charles Galambos"
 //! docentry="Ravl.Math.Linear Algebra.Smart Matrix"
+//! rcsid="$Id$"
+//! lib=RavlMath
 
 #include "Ravl/TSMatrix.hh"
 

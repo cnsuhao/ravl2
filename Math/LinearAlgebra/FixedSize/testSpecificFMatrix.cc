@@ -10,6 +10,7 @@
 #include "Ravl/Matrix3d.hh"
 #include "Ravl/Matrix2d.hh"
 #include "Ravl/Vector2d.hh"
+#include "Ravl/Vector3d.hh"
 
 using namespace RavlN;
 
@@ -64,5 +65,19 @@ int testMatrix3d() {
   
   if(((y * x) - Matrix3dC(1,0,0,0,1,0,0,0,1)).SumOfSqr() > 0.0000001)
     return __LINE__;  
+
+  // Joel's test.
+  
+  Matrix3dC E(0, -8.15447e-14, -1.22998e-12,
+              -3.47383, 1.35606, 11.4019,
+              -1.35606, -11.8774, 0.999454);
+  Matrix3dC Eu, Ev;
+  Vector3dC Ed;
+  
+  Ed = SVD(E, Eu, Ev);
+  
+  if((E - (Eu*Matrix3dC(Ed[0],0,0,0,Ed[1],0,0,0,Ed[2])*Ev.T())).SumOfSqr() > 0.00001)
+    return __LINE__;
+  
   return 0;
 }

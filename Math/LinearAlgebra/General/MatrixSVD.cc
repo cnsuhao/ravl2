@@ -11,9 +11,15 @@
 
 #include "Ravl/Matrix.hh"
 #include "Ravl/Vector.hh"
-#include "Ravl/CCMath.hh"
 #include "Ravl/StdMath.hh"
 #include "Ravl/Exception.hh"
+#include "Ravl/SVD.hh"
+
+#define RAVL_USE_CCMATH_SVD 0
+
+#if RAVL_USE_CCMATH_SVD
+#include "Ravl/CCMath.hh"
+#endif
 
 // General matrix functions.
 
@@ -36,6 +42,8 @@ namespace RavlN {
   // If the operation failes the returned vector is invalid. <p>
   // NB. This function destory's the contents of this matrix!
   
+#if RAVL_USE_CCMATH_SVD
+  
   VectorC SVD_IP(MatrixC &mat) {
     RavlAlwaysAssert(mat.IsContinuous()); // Should we cope with this silently ?
     if(mat.Rows() == 0)
@@ -50,6 +58,13 @@ namespace RavlN {
     }
     return ret;
   }
+  
+#else
+  VectorC SVD_IP(MatrixC &mat) {
+    SVDC<RealT> svd(mat);
+    return svd.SingularValues();
+  }
+#endif
   
   //: Singular value decomposition, eg. M = U * D * V.T(). 
   // The diagonal matrix D is returned as a vector.
@@ -70,7 +85,8 @@ namespace RavlN {
   // of the correct size.
   // If the operation failes the returned vector is invalid.
   // NB. This function destory's the contents of this matrix!
-
+#if RAVL_USE_CCMATH_SVD
+  
   VectorC SVD_IP(MatrixC &mat,MatrixC & u, MatrixC & v) {
     RavlAlwaysAssert(mat.IsContinuous()); // Should we cope with this silently ?
     // Check for trivial cases.
@@ -95,5 +111,12 @@ namespace RavlN {
     }
     return ret;
   }
-
+#else
+  VectorC SVD_IP(MatrixC &mat,MatrixC & u, MatrixC & v) {
+    SVDC<RealT> svd(mat);
+    v = svd.GetV();
+    u = svd.GetU();
+    return svd.SingularValues();
+  }  
+#endif
 }

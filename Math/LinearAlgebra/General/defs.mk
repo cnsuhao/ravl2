@@ -17,13 +17,14 @@ HEADERS = TVector.hh TMatrix.hh Matrix.hh Vector.hh MatrixRUT.hh \
  TSMatrixRightUpper.hh TSMatrixLeftLower.hh TSMatrixSparse.hh \
  TSMatrixScaledIdentity.hh TSMatrixSymmetric.hh TSMatrixTranspose.hh \
  SMatrix.hh SMatrixSparse.hh SMatrixSymmetric.hh SMatrixDiagonal.hh \
- SMatrixLeftLower.hh SMatrixRightUpper.hh SMatrixScaledIdentity.hh
+ SMatrixLeftLower.hh SMatrixRightUpper.hh SMatrixScaledIdentity.hh \
+ SVD.hh RawMatrix.hh Eigen.hh
 
 SOURCES = TMatrix.cc Matrix.cc MatrixInverse.cc MatrixSVD.cc \
  MatrixEigen.cc MatrixSolve.cc MatrixRUT.cc MatrixRS.cc Vector.cc \
  MatrixNearSingular.cc LeastSquares.cc VectorMatrix.cc MatrixRandom.cc \
  MatrixDeterminant.cc MatrixLUDecomposition.cc TSMatrixSparse.cc \
- SMatrix.cc 
+ SMatrix.cc RawMatrix.cc
 
 MAINS= benchmarkSMatrix.cc
 #EXAMPLES = exVMT.cc

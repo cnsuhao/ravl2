@@ -14,6 +14,7 @@
 #include "Ravl/Vector.hh"
 #include "Ravl/CCMath.hh"
 #include "Ravl/VectorMatrix.hh"
+#include "Ravl/Eigen.hh"
 
 // matrix functions.
 
@@ -69,6 +70,7 @@ namespace RavlN {
     return ret;
   }
 
-  
-
+#if RAVL_COMPILER_GNU
+  template<class NumT> class EigenC;
+#endif
 }
