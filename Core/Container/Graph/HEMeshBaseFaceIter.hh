@@ -58,7 +58,7 @@ namespace RavlN {
     { return &IntrDLIterC<HEMeshBaseFaceBodyC>::Data(); }
     //: Access Face.
     
-    const HEMeshBaseFaceC operator->() const
+    const HEMeshBaseFaceBodyC *operator->() const
     { return &IntrDLIterC<HEMeshBaseFaceBodyC>::Data(); }
     //: Access Face.
     
