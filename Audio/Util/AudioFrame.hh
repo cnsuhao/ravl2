@@ -4,7 +4,7 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLIMAGE_AUDIOFRAME_HEADER
+#ifndef RAVLAUDIO_AUDIOFRAME_HEADER
 #define RAVLAUDIO_AUDIOFRAME_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlAudioUtil
