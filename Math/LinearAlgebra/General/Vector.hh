@@ -52,7 +52,23 @@ namespace RavlN {
       : TVectorC<RealT>(oth,alwaysCopy)
     {}
     //: Construct from a slice 
-
+    
+    VectorC(const SArray1dC<FloatT> &oth)
+      : TVectorC<RealT>(oth.Size())
+    {
+      for(BufferAccessIter2C<RealT,FloatT> it(*this,oth);it;it++)
+	it.Data1() = static_cast<RealT>(it.Data2());
+    }
+    //: Convert from a float vector.
+    
+    operator TVectorC<FloatT> () const {
+      TVectorC<FloatT> ret(Size());
+      for(BufferAccessIter2C<RealT,FloatT> it(*this,ret);it;it++)
+	it.Data2() = static_cast<FloatT>(it.Data1());
+      return ret;
+    }
+    //: Convert to a float vector.
+    
 #if !RAVL_COMPILER_VISUALCPP
     template<unsigned int N>
     inline VectorC(const TFVectorC<RealT,N> &dat) 

@@ -82,6 +82,22 @@ namespace RavlN {
     {}
     //: Construct a 3 x 3 matrix from given values.
     
+    MatrixC(const SArray2dC<FloatT> &oth)
+      : TMatrixC<RealT>(oth.Size1(),oth.Size2())
+    {
+      for(BufferAccess2dIter2C<RealT,FloatT> it(*this,Size2(),oth,Size2());it;it++)
+	it.Data1() = static_cast<RealT>(it.Data2());
+    }
+    //: Convert from a float vector.
+    
+    operator TMatrixC<FloatT> () const {
+      TMatrixC<FloatT> ret(Size(),Size());
+      for(BufferAccess2dIter2C<RealT,FloatT> it(*this,Size2(),ret,Size2());it;it++)
+	it.Data2() = static_cast<FloatT>(it.Data1());
+      return ret;
+    }
+    //: Convert to a float vector.
+    
     template<unsigned int N,unsigned int M>
     MatrixC(const TFMatrixC<RealT,N,M> &fmat)
       : TMatrixC<RealT>(fmat)
