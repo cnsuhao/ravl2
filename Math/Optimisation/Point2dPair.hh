@@ -16,6 +16,7 @@
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/Vector2d.hh"
+#include "Ravl/MatrixRS.hh"
 
 namespace RavlN {
 
