@@ -15,6 +15,8 @@
 // These are some macro's used for accelerating some processing operatations
 // on processors x86 processors that support MMX instructions.
 
+#include "Ravl/config.h"
+
 #define MMX8 0 
 #define MMX7 16
 #define MMX6 32
@@ -33,7 +35,11 @@
 // Use this before any MMX operations, and after floating point ops between
 // mmx calls.
 
+#if RAVL_COMPILER_GCC3
 #define INITMMX __asm__( "pxor %%mm0, %%mm0" : : ); // Init the mask register
+#else
+#define INITMMX __asm__( "pxor %mm0, %mm0" : : ); // Init the mask register
+#endif
 
 // Use this after any MMX operations if thay are followed by floating point ops.
 
