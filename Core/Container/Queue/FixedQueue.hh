@@ -4,14 +4,14 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLFIXQUEUE_HEADER
-#define RAVLFIXQUEUE_HEADER 1
+#ifndef RAVL_FIXQUEUE_HEADER
+#define RAVL_FIXQUEUE_HEADER 1
 //////////////////////////////////////////////////////////////
 //! file="Ravl/Core/Container/Queue/FixedQueue.hh"
 //! lib=RavlCore
 //! userlevel=Normal
 //! author="Charles Galambos"
-//! date="6/6/97"
+//! date="6/6/1997"
 //! docentry="Ravl.Core.Queues"
 //! rcsid="$Id$"
 
@@ -24,7 +24,6 @@ namespace RavlN {
   // A SMALL object.
   // This is sometimes known as a ring buffer.
   // FIXME :- Make FixedQueueC big. <p>
-  // FIXME :- Speed up, use ptr's!. <p>
   // Note, this does not destroy items removed from
   // the queue until the element is overwritten by another.
   
@@ -48,7 +47,7 @@ namespace RavlN {
     // returns the place its index in the array.
     
     inline bool IsEmpty() const 
-      { return head == tail; }
+    { return head == tail; }
     //: Is ring empty ?
     
     inline T GetFirst();
@@ -68,13 +67,19 @@ namespace RavlN {
     
     inline T &Last() { 
       RavlAssert(!IsEmpty());
-      return *head; 
+      T *l = head - 1;
+      if(l < &(*this)[0])
+	l = eoa-1;
+      return *l; 
     }
     //: Look at the item most recently placed in the queue.
 
     inline const T &Last() const { 
       RavlAssert(!IsEmpty());
-      return *head; 
+      T *l = head - 1;
+      if(l < &(*this)[0])
+	l = eoa-1;
+      return *l; 
     }
     //: Look at the item most recently placed in the queue.
     
@@ -85,7 +90,7 @@ namespace RavlN {
     //: No of items in the ring.
 
     inline SizeT MaxSize() const
-      { return SArray1dC<T>::Size(); }
+    { return SArray1dC<T>::Size(); }
     //: Get maximum size of queue.
     
     inline bool IsInRing(UIntT P) const;
@@ -111,13 +116,13 @@ namespace RavlN {
   public:
     FixedQueueIterC()
       : at(0),
-      end(0)
-      {}
+	end(0)
+    {}
     //: Default constructor.
     
     FixedQueueIterC(FixedQueueC<T> &queue)
       : SArray1dC<T>(queue)
-      { First(queue); }
+    { First(queue); }
     //: Constructor from a queue.
     // Note: Chaning the queue after the iterator is contructed
     // will not affect the indexs iterated, though the data will
@@ -138,11 +143,11 @@ namespace RavlN {
     //: Assign to a queue.
     
     bool IsElm() const
-      { return at != end; }
+    { return at != end; }
     //: At valid element ?
     
     operator bool() const
-      { return at != end; }
+    { return at != end; }
     //: At a valid element ?
     
     void Next() {
@@ -153,35 +158,35 @@ namespace RavlN {
     //: Goto next element.
     
     void operator++(int)
-      { Next(); }
+    { Next(); }
     //: Goto next element.
     
     void operator++()
-      { Next(); }
+    { Next(); }
     //: Goto next element.
     
     T &Data() 
-      { return *at; }
+    { return *at; }
     //: Access data.
     
     const T &Data() const
-      { return *at; }
+    { return *at; }
     //: Access data.
     
     T &operator*()
-      { return *at; }
+    { return *at; }
     //: Access data.
 
     const T &operator*() const
-      { return *at; }
+    { return *at; }
     //: Access data.
     
     T *operator->()
-      { return at; }
+    { return at; }
     //: Access data.
 
     const T *operator->() const
-      { return at; }
+    { return at; }
     //: Access data.
     
   protected:
