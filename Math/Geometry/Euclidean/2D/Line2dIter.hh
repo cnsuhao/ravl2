@@ -18,7 +18,8 @@
 
 namespace RavlN {
   
-  //: Iterate throught interger grid points along a 2d line.
+  //! userlevel=Normal
+  //: Iterate through integer grid points along a 2d line.
   // Uses a version of the midpoint algorithm to iterate all
   // grid points on a line between two positions.
   
