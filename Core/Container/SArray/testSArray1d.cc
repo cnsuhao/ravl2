@@ -35,8 +35,9 @@ int  main()
     cerr << "Array bounds problem. 2 \n";
     return 1;
   }
-  
+  // Check copy.
   SArray1dC<IntT> sarr2(sarr1.Copy());
+  sarr1[0]=2;
   if(sarr2[0] != 1 || sarr2[1] != 2) {
     cerr << "SArray Copy failed.\n";
     return 1;
@@ -45,6 +46,7 @@ int  main()
     cerr << "SArray copy failed.\n";
     return 1;
   }
+  sarr1[0]=1;
   // Check iterators work properly.
   IntT sum = 0;
   IntT count = 0;
@@ -75,7 +77,7 @@ int  main()
     cerr << "Sum failed 4.\n";
     return 1;
   }
-
+  
   // Check it works on empty arrays.
   SArray1dC<IntT> earr;
   sum = 0;
@@ -85,7 +87,7 @@ int  main()
     cerr << "Empty array test failed. \n";
     return 1;
   }
-  
+
   // Numerical opertions...
   
   SArray1dC<IntT> sarrSum = sarr1 + sarr2;
