@@ -64,7 +64,7 @@ namespace RavlN {
     operator FVectorC<N> () {
       RavlAssertMsg(N == Size(),"Size mismatch converting to fixed size array. ");
       FVectorC<N> ret;
-      DataT *at = &(ret[0]);
+      RealT *at = &(ret[0]);
       for(BufferAccessIterC<RealT> it(*this);it;it++,at++)
 	*at = *it;
       return ret;
