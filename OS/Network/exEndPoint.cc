@@ -63,8 +63,9 @@ int exEndPoint(int nargs,char *args[])
     // Wait for hello messages.
     StringC msg("Hello from client.");
     ep.Send(2,msg);
-    while(1)
-      Sleep(10);
+    //    while(1)
+    Sleep(10);
+    ep.Close();
   }  
   return 0;
 }

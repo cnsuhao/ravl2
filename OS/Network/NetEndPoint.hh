@@ -221,6 +221,9 @@ namespace RavlN {
     bool RunDecode();
     //: Decodes incoming packets.
     
+    bool ReadData(int nfd,char *buff,UIntT size);
+    //: Read some bytes from a stream.
+    
     SocketC skt;
     MessageQueueC<NetPacketC> transmitQ; // Transmition Q.
     MessageQueueC<NetPacketC> receiveQ; // Recieve Q.

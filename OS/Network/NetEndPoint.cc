@@ -217,33 +217,79 @@ namespace RavlN {
     return true;
   }
   
+  //: Read some bytes from a stream.
+  
+  bool NetEndPointBodyC::ReadData(int nfd,char *buff,UIntT size) {
+    UIntT at = 0;
+    while(at < size && !shutdown) {
+      int n = read(nfd,&(buff[at]),size - at);
+      if(n == 0) { // Linux indicates a close by returning 0 bytes read.  Is this portable ??
+	cerr << "Socket close. \n";
+	return false;
+      }
+      if(n < 0) {
+	ONDEBUG(cerr << "NetEndPointBodyC::RunReceive(), Error on read. \n");
+	if(errno == EINTR || errno == EAGAIN)
+	  continue;
+	break;
+      }
+      at += n;
+    }
+    return !shutdown;
+  }
   
   //: Handle packet reception.
   
   bool NetEndPointBodyC::RunReceive() {
-    NetIStreamC nis(skt,false);
     ONDEBUG(cerr << "NetEndPointBodyC::RunReceive(), Started. \n");
-    if(!nis) {
+    
+    int rfd = skt.Fd();
+    if(rfd < 0) {
       cerr << "NetEndPointBodyC::RunReceive(), ERROR: No connection. \n";    
-      return false; 
+      return false;       
     }
-    StringC x;
-    while(nis) {
-      readline(nis,x);
-      if(x == "<ABPS>")
-	break;
+    {
+      // Look for ABPS
+      const char *str = "<ABPS>\n";
+      char buff;
+      int state = 0;
+      do {
+	cerr << "State=" << state << "\n";
+	if(!ReadData(rfd,&buff,1))
+	  break;
+	if(str[state] != buff) {
+	  if(str[0] == buff)
+	    state = 1;
+	  else 
+	    state = 0;
+	  continue;
+	} 
+	state++;
+      } while(str[state] != 0) ;
     }
-    ONDEBUG(cerr << "NetEndPointBodyC::RunReceive(), Connection type confirmed. '" << x << "'\n");
-    BinIStreamC bis(nis);
+    
+    ONDEBUG(cerr << "NetEndPointBodyC::RunReceive(), Connection type confirmed. \n");
+    
     try {
-      while(!shutdown && nis) {	
-	if(!nis.WaitForData())
-	  continue; // Check for shutdown.
-	NetPacketC pkt(bis);
-	if(pkt.IsValid()) {
-	  ONDEBUG(cerr << "Got packet. size :" << pkt.Data().Size() << "\n");
-	  receiveQ.Put(pkt);
+      while(!shutdown) {
+	UIntT size;
+	if(!ReadData(rfd,(char *) &size,sizeof(UIntT))) {
+	  ONDEBUG(cerr << "NetEndPointBodyC::RunRecieve(), Read size failed. Assuming connection broken.\n");
+	  break;
 	}
+	if(size == 0)
+	  continue;
+#if RAVL_LITTLEENDIAN
+	size = bswap_32(size);
+#endif
+	ONDEBUG(cerr << "NetEndPointBodyC::RunRecieve(), Read " << size << " bytes. \n"); 
+	SArray1dC<char> data(size);
+	if(!ReadData(rfd,(char *) &(data[0]),size)) {
+	  ONDEBUG(cerr << "NetEndPointBodyC::RunRecieve(), Read data failed. Assuming connection broken. \n"); 
+	  break;
+	}
+	NetPacketC pkt(data);
+	receiveQ.Put(pkt);
       }
     } catch(ExceptionC &e) {
       cerr << "RAVL Exception :'" << e.what() << "'\n";
@@ -254,14 +300,16 @@ namespace RavlN {
     } catch(...) {
       cerr << "NetEndPointBodyC::RunRecieve(), Exception caught, terminating link. \n";
     }
+#if 0
     if(!nis)
       cerr << "NetEndPointBodyC::RunReceive(), Connection broken \n";
+#endif
     Close();
     ONDEBUG(cerr << "NetEndPointBodyC::RunRecieve(), Terminated \n"); 
     return true;
   }
-
-
+  
+  
   //: Decodes incoming packets.
   
   bool NetEndPointBodyC::RunDecode() {
@@ -310,7 +358,7 @@ namespace RavlN {
     } catch(...) {
       cerr << "NetEndPointBodyC::RunDecode(), Exception caught, terminating link. \n";
     }
-    shutdown = true;
+      //shutdown = true;
     transmitQ.Put(NetPacketC()); // Put an empty packet to indicate shutdown.
     // Can't to much about recieve...
     ONDEBUG(cerr << "NetEndPointBodyC::RunDecode(), Terminated. \n"); 
