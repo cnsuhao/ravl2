@@ -47,6 +47,9 @@ namespace RavlLogicN {
     void Dump(ostream &out) const;
     //: Dump the tree in a human readable form to stream out.
     
+    StateC BuildRuleSet() const;
+    //: Build a rule set from the decision tree.
+    
   protected:
     DiscriminatorC discriminator; // Used in building the tree.
     DecisionTreeElementC root; // Root of tree.    
@@ -109,6 +112,10 @@ namespace RavlLogicN {
     
     void Dump(ostream &out) const;
     //: Dump the tree in a human readable form to stream out.
+    
+    StateC BuildRuleSet() const
+    { return Body().BuildRuleSet(); }
+    //: Build a rule set from the decision tree.
 
   };
   

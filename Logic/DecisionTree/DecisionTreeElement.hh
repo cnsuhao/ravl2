@@ -43,6 +43,9 @@ namespace RavlLogicN {
     virtual void Dump(ostream &out,IntT level = 0) const;
     //: Dump node in human readable form,
     
+    virtual void BuildRuleSet(const LiteralC &preCond,StateC &ruleSet) const;
+    //: Go through the tree building a rule set.
+    
   protected:
     static ostream &Pad(ostream &out,int level);
     //: Pad line to given level.
@@ -92,9 +95,14 @@ namespace RavlLogicN {
     { return Body().IsLeaf(); }
     //: Is this a leaf in the decision tree ?
     
+    void BuildRuleSet(const LiteralC &preCond,StateC &ruleSet) const
+    { return Body().BuildRuleSet(preCond,ruleSet); }
+    //: Go through the tree building a rule set.
+    
     void Dump(ostream &out,IntT level = 0) const
     { Body().Dump(out,level); }
     //: Dump node in human readable form,
+
 
   };
   

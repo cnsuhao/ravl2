@@ -27,6 +27,7 @@ DataSet2C<SampleStateC,SampleLiteralC > BuildDataset() {
   LiteralC l1 = Literal("L1");
   LiteralC l2 = Literal("L2");
   LiteralC l3 = Literal("L3");
+  LiteralC l4 = Literal("L4");
   
   StateC s1(true);
   s1.Tell(l1);
@@ -35,10 +36,14 @@ DataSet2C<SampleStateC,SampleLiteralC > BuildDataset() {
   s2.Tell(l2);
   StateC s3(true);
   s3.Tell(l3);
+
+  StateC s4(true);
+  s4.Tell(l4);
   
   ret.Append(s1,d1);
   ret.Append(s2,d2);
   ret.Append(s3,d3);
+  ret.Append(s4,d2);
   
   return ret;
 }
@@ -47,7 +52,11 @@ int testBasic() {
   DecisionTreeBaseC dl(true);  
   DataSet2C<SampleStateC,SampleLiteralC > data = BuildDataset();
   dl.Train(data);
+  cerr << "Tree=\n";
   dl.Dump(cout);
+  StateC s = dl.BuildRuleSet();
+  cerr << "Ruleset=\n";
+  s.Dump(cout);
   return 0;
 }
 

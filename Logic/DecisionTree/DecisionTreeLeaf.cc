@@ -8,6 +8,8 @@
 //! lib=RavlLogic
 
 #include "Ravl/Logic/DecisionTreeLeaf.hh"
+#include "Ravl/Logic/Tuple.hh"
+#include "Ravl/Logic/NamedLiteral.hh"
 
 namespace RavlLogicN {
 
@@ -20,6 +22,12 @@ namespace RavlLogicN {
     : DecisionTreeElementBodyC(nexamples),
       decision(ndecision)
   {}
+
+  //: Go through the tree building a rule set.
+  
+  void DecisionTreeLeafBodyC::BuildRuleSet(const LiteralC &preCond,StateC &ruleSet) const {
+    ruleSet.Tell(Tuple(Literal("Rule"),preCond,decision));
+  }
   
   //: Dump node in human readable form,
   

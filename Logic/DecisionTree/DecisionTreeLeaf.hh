@@ -35,7 +35,10 @@ namespace RavlLogicN {
     virtual bool IsLeaf() const
     { return true; }
     //: Is this a leaf in the decision tree ?
-
+    
+    virtual void BuildRuleSet(const LiteralC &preCond,StateC &ruleSet) const;
+    //: Go through the tree building a rule set.
+    
     virtual void Dump(ostream &out,IntT level = 0) const;
     //: Dump node in human readable form,
     

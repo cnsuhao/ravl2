@@ -120,7 +120,17 @@ namespace RavlLogicN {
     }
     root.Dump(out,0);
   }
-
+  
+  //: Build a rule set from the decision tree.
+  
+  StateC DecisionTreeBaseBodyC::BuildRuleSet() const {
+    StateC ret(true);
+    if(!root.IsValid())
+      return ret;
+    LiteralC x;
+    root.BuildRuleSet(x,ret);
+    return ret;
+  }
 
   //------------------------------------------------------------------
   

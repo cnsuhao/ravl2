@@ -39,6 +39,12 @@ namespace RavlLogicN {
       out << "  ";
     return out;
   }
+
+  //: Go through the tree building a rule set.
+  
+  void DecisionTreeElementBodyC::BuildRuleSet(const LiteralC &preCond,StateC &ruleSet) const {    
+    RavlAssertMsg(0,"DecisionTreeElementBodyC::BuildRuleSet(), Abstract method called. ");
+  }
   
   //: Dump node in human readable form,
   

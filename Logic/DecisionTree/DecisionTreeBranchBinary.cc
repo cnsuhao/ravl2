@@ -10,6 +10,8 @@
 
 #include "Ravl/Logic/DecisionTreeBranchBinary.hh"
 #include "Ravl/Logic/State.hh"
+#include "Ravl/Logic/And.hh"
+#include "Ravl/Logic/Not.hh"
 
 namespace RavlLogicN {
 
@@ -21,6 +23,19 @@ namespace RavlLogicN {
   DecisionTreeBranchBinaryBodyC::DecisionTreeBranchBinaryBodyC(const LiteralC &ntest)
     : test(ntest)
   {}
+
+  //: Go through the tree building a rule set.
+  
+  void DecisionTreeBranchBinaryBodyC::BuildRuleSet(const LiteralC &preCond,StateC &ruleSet) const {
+    RavlAssert(test.IsValid());
+    if(preCond.IsValid()) {
+      children[1].BuildRuleSet(preCond * test,ruleSet);
+      children[0].BuildRuleSet(preCond * !test,ruleSet);
+    } else {
+      children[1].BuildRuleSet(test,ruleSet);
+      children[0].BuildRuleSet(!test,ruleSet);
+    }
+  }
   
   //: Dump node in human readable form,
   
