@@ -61,6 +61,10 @@ namespace RavlN {
     bool InsertVertexInFace(HEMeshBaseVertexC &vert,HEMeshBaseFaceC &face);
     //: Insert a vertex into a face, link all vertexes already in the face to it.
     
+    bool TwistEdge(HEMeshBaseEdgeC &edge,HEMeshBaseEdgeC &vertFrom,HEMeshBaseEdgeC &vertTo);
+    //: Twist an edge that lies between two faces.
+    // Both 'from' and 'to' must be one of the faces adjacent to 'edge'.
+    
     UIntT NoFaces() const
     { return faces.Size(); }
     //: Get the number of faces.
@@ -152,6 +156,11 @@ namespace RavlN {
     HEMeshBaseVertexC InsertVertexOnEdge(HEMeshBaseEdgeC edge)
     { return Body().InsertVertexOnEdge(edge); }
     //: Insert a vertex on an edge.
+    
+    bool TwistEdge(HEMeshBaseEdgeC &edge,HEMeshBaseEdgeC &vertFrom,HEMeshBaseEdgeC &vertTo)
+    { return Body().TwistEdge(edge,vertFrom,vertTo); }
+    //: Twist an edge that lies between two faces.
+    // Both 'from' and 'to' must be one of the faces adjacent to 'edge'
     
     HEMeshBaseFaceC InsertFace(HEMeshBaseFaceC &face,
 			       const SArray1dC<HEMeshBaseVertexC> &vertices,

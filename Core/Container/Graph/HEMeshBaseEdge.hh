@@ -282,6 +282,12 @@ namespace RavlN {
     void SetFace(HEMeshBaseFaceC face);
     //: Set the face associated with the edge.
     
+    HEMeshBaseEdgeC Pair() const
+    { return HEMeshBaseEdgeC(*Body().pair); }
+    //: Edge pair.
+    // HasPair() must have return
+    // true before using this method.
+    
     void SetVertex(HEMeshBaseVertexBodyC &vert)
     { Body().SetVertex(vert); }
     //: Set vertex.

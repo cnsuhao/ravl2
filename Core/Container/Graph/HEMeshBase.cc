@@ -111,11 +111,11 @@ namespace RavlN {
 	nextEdge.Invalidate();
       //ONDEBUG(cerr << "Edge :" << thisEdge.Hash() << "\n");
       HEMeshBaseFaceC newFace;
-      if(thisEdge == endEdge) {
+      if(thisEdge == endEdge) { // Create a new face.
 	newFace = NewFace();
 	faces.InsLast(newFace.Body());
       } else 
-	newFace = face;
+	newFace = face; // Use exiting face.
       newFace.SetEdge(thisEdge);
       HEMeshBaseVertexC lastVert = thisEdge.Prev().Vertex();
       thisEdge.SetSelfPointing();
@@ -136,8 +136,53 @@ namespace RavlN {
     
     return true;
   }
-  
 
+  //: Twist an edge that lies between two faces.
+  // Both 'from' and 'to' must be one of the faces adjacent to 'edge'.
+  
+  bool HEMeshBaseBodyC::TwistEdge(HEMeshBaseEdgeC &edge,HEMeshBaseEdgeC &vertFrom,HEMeshBaseEdgeC &vertTo) {
+    ONDEBUG(cerr << "HEMeshBaseBodyC::TwistEdge(), Called.  edge=" << edge.Hash() << " From=" << vertFrom.Hash() << " To=" << vertTo.Hash() << "\n");
+    RavlAssert(vertFrom != vertTo);
+    RavlAssert(edge.HasPair());
+    HEMeshBaseEdgeC edgep = edge.Pair();
+    
+    // First take edge out and loop all remaining edge's together.
+    
+    edgep.Body().CutPaste(edge.Body().Next(),edge.Body()); // Note: this removes 'edge' and leaves it self pointing.
+    edgep.Unlink(); // Take out the edges we're moving.
+    
+    // Set new vertex's for edge.
+    
+    edge.Body().SetVertex(vertTo.Vertex().Body());
+    edgep.Body().SetVertex(vertFrom.Vertex().Body());
+   
+    HEMeshBaseEdgeC tmp =  vertFrom.Next();
+    
+    edge.Body().CutPaste(vertTo.Body().Next() ,vertFrom.Body().Next());
+    
+    tmp.Body().LinkBef(edgep.Body());
+		  
+    // Go around new faces correcting the face pointers. 
+    
+    HEMeshBaseFaceC face = edge.Face();
+    face.SetEdge(edge);
+    HEMeshBaseEdgeC at;
+    for(at = edge.Next();at != edge;at = at.Next()) {
+      ONDEBUG(cerr << " f1 edge " << at.Hash() << "\n");
+      at.SetFace(face);
+    }
+    
+    face = edgep.Face();
+    face.SetEdge(edgep);
+    for(at = edgep.Next();at != edgep;at = at.Next()) {
+      ONDEBUG(cerr << " f2 edge " << at.Hash() << "\n");
+      at.SetFace(face);
+    }
+    
+    
+    return true;
+  }
+  
   //: Check mesh structure is consistant.
   // Returns false if an inconsistancy is found.
   
@@ -182,7 +227,7 @@ namespace RavlN {
 	}
 	edgeDone += curEdge;
 	if(efit->Face() != *fit) {
-	  cerr << "HEMeshBaseBodyC::CheckMesh(), Bad face pointer found. \n";
+	  cerr << "HEMeshBaseBodyC::CheckMesh(), Bad face pointer found. " << HEMeshBaseFaceC(efit->Face()).Hash() << "\n";
 	  ret = false;
 	  //return false;
 	}

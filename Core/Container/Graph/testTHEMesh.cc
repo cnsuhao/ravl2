@@ -19,6 +19,7 @@ using namespace RavlN;
 int testTHEMeshBasic();
 int testHEMeshBase();
 int testInsertVertexOnFace();
+int testTwistEdge();
 
 int main(int nargs,char **argv) {
   int ln;
@@ -34,28 +35,70 @@ int main(int nargs,char **argv) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
+  if((ln = testTwistEdge()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  }
   cerr << "Test passed. \n";
   return 0;
 }
 
 int testInsertVertexOnFace() {
+  cerr << "testInsertVertexOnFace(). \n";
   HEMeshBaseC mesh(true);
   SArray1dC<HEMeshBaseVertexC> tempFace(3);
   tempFace[0] = mesh.InsertVertex();
   tempFace[1] = mesh.InsertVertex();
   tempFace[2] = mesh.InsertVertex();
-  cerr << "Creating face. \n";
+  cerr << " Creating face. \n";
   
   HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> edgeTab;
   HEMeshBaseFaceC face = mesh.InsertFace(tempFace,edgeTab); // Insert initial face.
   if(!mesh.CheckMesh(true)) return __LINE__;
   if(!face.IsValid()) return __LINE__;
   
-  cerr << "Inserting vertex. \n";
+  cerr << " Inserting vertex. \n";
   HEMeshBaseVertexC vert = mesh.InsertVertex();
   if(!vert.IsValid()) return __LINE__;
   if(!mesh.InsertVertexInFace(vert,face)) return __LINE__;
   if(!mesh.CheckMesh(true)) return __LINE__;
+  return 0;
+}
+
+int testTwistEdge() {
+  cerr << "testTwistEdge(). \n";
+  HEMeshBaseC mesh(true);
+  SArray1dC<HEMeshBaseVertexC> tempFace1(3);
+  tempFace1[0] = mesh.InsertVertex();
+  tempFace1[1] = mesh.InsertVertex();
+  tempFace1[2] = mesh.InsertVertex();
+  
+  HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> edgeTab;
+  
+  mesh.InsertFace(tempFace1,edgeTab); // Insert initial face.
+  
+  SArray1dC<HEMeshBaseVertexC> tempFace2(3);
+  tempFace2[0] = mesh.InsertVertex();
+  tempFace2[1] = tempFace1[2];
+  tempFace2[2] = tempFace1[1];
+  
+  mesh.InsertFace(tempFace2,edgeTab); // Insert initial face.
+  
+  if(!mesh.CheckMesh(true)) return __LINE__;
+  
+  HEMeshBaseEdgeC edge = edgeTab[Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC>(tempFace1[1],tempFace1[2])];
+  if(!edge.IsValid()) return __LINE__;
+  
+  HEMeshBaseEdgeC efrom = edgeTab[Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC>(tempFace1[2],tempFace1[0])];
+  if(!efrom.IsValid()) return __LINE__;
+  
+  HEMeshBaseEdgeC eto = edgeTab[Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC>(tempFace2[2],tempFace2[0])];
+  if(!eto.IsValid()) return __LINE__;
+  
+  mesh.TwistEdge(edge,efrom,eto);
+  
+  if(!mesh.CheckMesh(true)) return __LINE__;
+  
   return 0;
 }
 
