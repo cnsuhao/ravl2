@@ -184,7 +184,6 @@ namespace RavlN {
     //:------------------------
     // Arithmetical operations.
 
-#if 0    
     inline RealT Sum() const
     { return Point3dC::Sum(); }
     // Returns the sum of coordinates.
@@ -193,6 +192,7 @@ namespace RavlN {
     { return Point3dC::SumOfAbs(); }
     // Returns the sum of absolute value of coordinates.
     
+#if 0    
     inline const PPointLine2dC & operator+=(const PPointLine2dC & p) {
       Point3dC::operator+=(p);
       return *this;
@@ -206,6 +206,11 @@ namespace RavlN {
     // Subtracts the values of the coordinates of the 'p' from this
     // point/line.
     
+    inline PPointLine2dC operator+(const PPointLine2dC & p) const
+    { return Point3dC::operator+(p); }
+    // Returns the point/line which is the sum of this point and the 'p'.
+#endif
+    
     inline const PPointLine2dC & operator*=(const RealT alpha) {
       Point3dC::operator*=(alpha);
       return *this;
@@ -217,11 +222,7 @@ namespace RavlN {
       return *this;
     }
     // Divides all coordinates by 'alpha'.
-    
-    inline PPointLine2dC operator+(const PPointLine2dC & p) const
-    { return Point3dC::operator+(p); }
-    // Returns the point/line which is the sum of this point and the 'p'.
-    
+
     inline PPointLine2dC operator*(RealT alpha) const
     { return Point3dC::operator*(alpha); }
     // Returns the point/line which coordinates are multiplied by 'alpha'.
@@ -229,14 +230,20 @@ namespace RavlN {
     inline PPointLine2dC operator/(RealT alpha) const
     { return Point3dC::operator/(alpha); }
     // Returns the point/line which coordinates are divided by 'alpha'.
-#endif
+    
+    inline PPointLine2dC Intersection(const PPointLine2dC &l2) const {
+      return PPointLine2dC(l2.P3()*P2() - l2.P2()*P3(),
+			   l2.P1()*P3() - l2.P3()*P1(),
+			   l2.P2()*P1() - l2.P1()*P2());
+    }
+    //: Return the intersection of 'l2' with this one.
     
     //:-----------------------
     // Geometrical operations.
     
     inline PPointLine2dC PPointLine2d(const PPointLine2dC & p) const
     { return PPointLine2dC(*this, p); }
-
+    
     // Returns the projective line/point determined by this point/line
     // and the point/line 'p'.
 
@@ -268,15 +275,13 @@ namespace RavlN {
 			    const RealT p10, const RealT p11) 
     { return p00*p11-p01*p10; }
     
-#if 0
     friend inline PPointLine2dC operator*(RealT lambda, const PPointLine2dC & p);
     friend inline PPointLine2dC operator/(RealT lambda, const PPointLine2dC & p);
-#endif
+    
     friend istream & operator>>(istream & inS, PPointLine2dC & point);
     friend class PProjection2dC;
   };
 
-#if 0
   inline PPointLine2dC operator*(RealT lambda, const PPointLine2dC & p)
   { return p * lambda; }
   // Returns the point/line which is the 'lambda' multiplication of 'p'.
@@ -286,13 +291,12 @@ namespace RavlN {
   { return operator/(lambda, (Point3dC) p ); }
   // Returns the point/line which coordinates are the 'lambda' divided by the
   // corresponding coordinate of 'p'.
-#endif
 
   ostream & operator<<(ostream & outS, const PPointLine2dC & p);
   // Writes the point/line 'p' into the output stream.
 
   istream & operator>>(istream & inS, PPointLine2dC & p);
   // Reads the point/line parameters from the input stream.
-
+  
 }
 #endif
