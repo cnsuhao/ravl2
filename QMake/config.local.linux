@@ -22,7 +22,11 @@
 
 ################# LIBRARIES #################
 
-## GTK #####################################
+## GTK 2.x #####################################
+
+# RESOURCES += libGTK2
+
+## GTK 1.x #####################################
 
 RESOURCES += libGTK 
 
@@ -83,3 +87,6 @@ RESOURCES += libGuppi
 
 RESOURCES += devVideo4Linux
 
+## libmpeg2 ################################################
+
+#RESOURCES += libmpeg2
