@@ -124,6 +124,24 @@ namespace RavlN {
     //: Go to the begining of the next row.
     // Returns true if the iterator is begining of a valid row, and false
     // if it is at the end of the array.
+
+    bool NextRow(IndexC off) {
+      rit.Next();
+      if(!rit.IsElm())
+	return false;
+      IndexC s1 = rng1.Min() + off;
+      if(s1 > rng1.Max())
+	return false;
+      RavlAssert(off >= 0);
+      cit.First(rit.Data1(),IndexRangeC(s1,rng1.Max()),
+		rit.Data2(),IndexRangeC(rng2.Min() + off,rng2.Max()),
+		rit.Data3(),IndexRangeC(rng3.Min() + off,rng3.Max())
+		);
+      return true;
+    }
+    //: Go to the 'offset' from the first element in the next row.
+    // Returns true if the iterator is in a valid row, and false
+    // if it is at the end of the array. 
     
     void NextCol(int skip)
     { cit.Next(skip); }
