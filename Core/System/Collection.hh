@@ -30,13 +30,14 @@ namespace RavlN {
     : public RCBodyC
   {
   public:
-    CollectionBodyC(SizeT maxSize = 10)
+    CollectionBodyC(SizeT maxSize = 10,SizeT used = 0)
       : data(maxSize+1),
-	n(0)
+	n(used)
     {}
     //: Create an empty collection.
     // maxSize should be set to maximum number of 
-    // elements the collection will contain.
+    // elements the collection will contain. 'used' is the number
+    // of elements to be in the collection.
     
     CollectionBodyC(const SArray1dC<DataT> &dat)
       : data(dat),
