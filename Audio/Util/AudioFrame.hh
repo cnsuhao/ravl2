@@ -35,6 +35,9 @@ namespace RavlAudioN {
 		IntT nbits);
     //: Construct from components.
     
+    AudioFrameC(const SArray1dC<SampleElemC<2,Int16T> > &data,RealT nfreq);
+    //: Construct from components.
+    
     RealT AudioFrequency() const
     { return freq; }
     //: Access frequency.
@@ -47,8 +50,13 @@ namespace RavlAudioN {
     { return audio; }
     //: Access audio data.
     
+    const SArray1dC<SampleElemC<2,Int16T> > &Stereo() const
+    { return stereoData; }
+    //: Get as stereo data. 
+    
   protected:
-    SArray1dC<ByteT> audio;
+    SArray1dC<ByteT> audio; // Raw audio data.
+    SArray1dC<SampleElemC<2,Int16T> > stereoData; // Data in 16-bit stereo.
     IntT channels;
     RealT freq;
     IntT bits;

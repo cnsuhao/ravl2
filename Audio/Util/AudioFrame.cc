@@ -22,5 +22,13 @@ namespace RavlAudioN {
       freq(nfreq),
       bits(nbits)
   {}
-
+  
+  AudioFrameC::AudioFrameC(const SArray1dC<SampleElemC<2,Int16T> > &data,RealT nfreq) 
+    : stereoData(data),
+      channels(2),
+      freq(nfreq),
+      bits(16)
+  {}
+  
+  
 }
