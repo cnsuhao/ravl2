@@ -175,8 +175,12 @@ namespace RavlN {
     //: Default insertion operation, same as Update(K,T);
     
     inline T &Access(const K &key,const T &def = T());
-    //: Access key, if it does exists create a new bin with value 'def'
-    // Retuns a refrence to the new entry.
+    //: Access key, if it does not exist create a new bin with value 'def'
+    // Retuns a refrence to the entry.
+    
+    inline T &AccessCopy(const K &key,const T &def = T());
+    //: Access key, if it does not exist create a new bin with a copy of value 'def'
+    // Retuns a refrence to the entry.
     
     bool Del(const K &Key,bool allowResize = true);
     //: Delete member from table.
@@ -519,6 +523,19 @@ namespace RavlN {
   
   template<class K,class T>
   inline T &HashC<K,T>::Access(const K &key,const T &def) {
+    UIntT hashVal;
+    HashElemC<K,T> *elem = LookupHV(key,hashVal);
+    if(elem != 0) 
+      return elem->Data(); // Exists already.
+    CheckAdd();
+    const UIntT ind = hashVal % table.Size();
+    HashElem &v = *new HashElem(key,hashVal,def);
+    table[ind].InsFirst(v);
+    return v.Data(); // Had to be added.  
+  }
+  
+  template<class K,class T>
+  inline T &HashC<K,T>::AccessCopy(const K &key,const T &def) {
     UIntT hashVal;
     HashElemC<K,T> *elem = LookupHV(key,hashVal);
     if(elem != 0) 

@@ -108,7 +108,7 @@ namespace RavlN {
     // If data is present return a ptr to it, othersize
     // return a 0 ptr.
 
-    inline bool Lookup(const Key &aKey,Dat &data)
+    inline bool Lookup(const Key &aKey,Dat &data) const
       { return Data().Lookup(aKey,data); }
     //: Lookup data for key.
     // Returns true if entry is found, and is assigned to 'data'.
