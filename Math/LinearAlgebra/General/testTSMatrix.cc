@@ -25,7 +25,7 @@
 
 using namespace RavlN;
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -325,7 +325,7 @@ SMatrixC createMatrix(UIntT size,IntT type) {
 }
 
 int testCombinations() {
-  cerr << "testCombinations() \n";
+  cout << "testCombinations() \n";
   IntT matSize = 2;
   IntT ln,i;
   for(i = 0;i < noMatrixTypes;i++) {
@@ -354,19 +354,21 @@ int testCombinations() {
   }
 
   // Test operations with non-square matricies.
-  
+  cout << "Checking non-square matrices. \n";
   SMatrixC mat1a(RandomMatrix(matSize+1,matSize));
   SMatrixC mat1b(RandomMatrix(matSize,matSize+1));
   for(i = 0;i < noMatrixTypes;i++) {
+    cout << "." << flush;
     SMatrixC mat2 = createMatrix(matSize,i);
     if((ln = MatrixTest(mat1a,mat2,false,true)) > 0) {
       cerr << "Failed non-square A at " << i << "\n";
       return ln;
     }
-    if((ln = MatrixTest(mat2,mat1b,true,false)) > 0)
+    if((ln = MatrixTest(mat2,mat1b,true,false)) > 0) {
       cerr << "Failed non-square B at " << i << "\n";
       return ln;
+    }
   }
-  
+  cout <<"\n";
   return 0;
 }
