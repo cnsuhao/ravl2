@@ -128,6 +128,22 @@ namespace RavlN {
     return AttributeCtrlBodyC::SetAttr(attrName,attrValue);
   }
 
+  //: Get a stream attribute.
+  // Returns false if the attribute name is unknown.
+  // This is for handling stream attributes such as frame rate, and compression ratios.
+  
+  bool DPPortBodyC::GetAttr(const StringC &attrName,bool &attrValue) {
+    return AttributeCtrlBodyC::GetAttr(attrName,attrValue);
+  }
+  
+  //: Set a stream attribute.
+  // Returns false if the attribute name is unknown.
+  // This is for handling stream attributes such as frame rate, and compression ratios.
+  
+  bool DPPortBodyC::SetAttr(const StringC &attrName,const bool &attrValue) {
+    return AttributeCtrlBodyC::SetAttr(attrName,attrValue);
+  }
+
   //: Get list of attributes available.
   
   bool DPPortBodyC::GetAttrList(DListC<StringC> &list) const {

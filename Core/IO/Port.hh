@@ -113,6 +113,16 @@ namespace RavlN {
     // Returns false if the attribute name is unknown.
     // This is for handling stream attributes such as frame rate, and compression ratios.
     
+    virtual bool GetAttr(const StringC &attrName,bool &attrValue);
+    //: Get a stream attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling stream attributes such as frame rate, and compression ratios.
+    
+    virtual bool SetAttr(const StringC &attrName,const bool &attrValue);
+    //: Set a stream attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling stream attributes such as frame rate, and compression ratios.
+    
     virtual bool GetAttrList(DListC<StringC> &list) const;
     //: Get list of attributes available.
     // This method will ADD all available attribute names to 'list'.
