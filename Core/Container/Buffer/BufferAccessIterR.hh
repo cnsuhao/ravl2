@@ -171,7 +171,7 @@ namespace RavlN {
       return false;
     }
     at = const_cast<DataT *>(&buff[rng.Max()]);
-    endOfRow = &(at[-rng.Size()]);
+    endOfRow = at-rng.Size();
     return true;
   }
   
@@ -198,7 +198,7 @@ namespace RavlN {
       return false;
     }
     at = const_cast<DataT *>(&buff[buff.IMax()]);
-    endOfRow = &(at[-buff.Size()]);
+    endOfRow = at-buff.Size();
     return true;
   }
   
