@@ -204,19 +204,19 @@ namespace RavlGUIN {
     //: Access current scale.
     
     void GUIDrawLine(GdkGC *gc,Point2dC p1,Point2dC p2)
-    { return Body().GUIDrawLine(gc,p1,p2); }
+    { Body().GUIDrawLine(gc,p1,p2); }
     //: Draw a line.
     
     void GUIDrawRectangle(GdkGC *gc,const RealRange2dC &rect,bool fill = false)
-    { return Body().GUIDrawRectangle(gc,rect,fill); }
+    { Body().GUIDrawRectangle(gc,rect,fill); }
     //: Draw a rectangle.
     
     void GUIDrawRectangle(GdkGC *gc,Point2dC topLeft,Point2dC bottomRight,bool fill = false)
-    { return Body().GUIDrawRectangle(gc,topLeft,bottomRight,fill); }
+    { Body().GUIDrawRectangle(gc,topLeft,bottomRight,fill); }
     //: Draw a rectangle.
     
     void GUIDrawText(GdkGC *gc,GdkFont *font,Point2dC at,const StringC &txt)
-    { return Body().GUIDrawText(gc,font,at,txt); }
+    { Body().GUIDrawText(gc,font,at,txt); }
     //: Draw text.
     // 'at' is the bottom left of the text to be drawn.
     
@@ -225,16 +225,16 @@ namespace RavlGUIN {
     //: Find the size of 'text' rendered in 'font'.
     
     void GUIDrawCircle(GdkGC *gc,Point2dC cent,RealT size,bool fill = false)
-    { return Body().GUIDrawCircle(gc,cent,size,fill); }
+    { Body().GUIDrawCircle(gc,cent,size,fill); }
     //: Draw a circle.
     
     void GUIDrawImage(const ImageC<ByteRGBValueC> &image,const Point2dC &offset = Point2dC(0,0),bool ignoreImageOrigin = false)
-    { return Body().GUIDrawImage(image,offset,ignoreImageOrigin); }
+    { Body().GUIDrawImage(image,offset,ignoreImageOrigin); }
     //: Draw an image into the canvas with its origin offset by 'offset'.
     // Note: You have to include the RavlGUI2d library to use this function.
     
     void GUIDrawImage(const ImageC<ByteT> &image,const Point2dC &offset = Point2dC(0,0),bool ignoreImageOrigin = false)
-    { return Body().GUIDrawImage(image,offset,ignoreImageOrigin); }
+    { Body().GUIDrawImage(image,offset,ignoreImageOrigin); }
     //: Draw an image into the canvas with its origin offset by 'offset'.
     // Note: You have to include the RavlGUI2d library to use this function.
     
@@ -250,19 +250,19 @@ namespace RavlGUIN {
     // 'rect' is the new size for the widget.
 
     void GUIDrawLine(GdkGC *gc,Index2dC p1,Index2dC p2)
-    { return Body().GUIDrawLine(gc,p1,p2); }
+    { Body().GUIDrawLine(gc,p1,p2); }
     //: Draw a line.
     
     void GUIDrawRectangle(GdkGC *gc,const IndexRange2dC &rect,bool fill = false)
-    { return Body().GUIDrawRectangle(gc,rect,fill); }
+    { Body().GUIDrawRectangle(gc,rect,fill); }
     //: Draw a rectangle.
     
     void GUIDrawRectangle(GdkGC *gc,Index2dC topLeft,Index2dC bottomRight,bool fill = false)
-    { return Body().GUIDrawRectangle(gc,topLeft,bottomRight,fill); }
+    { Body().GUIDrawRectangle(gc,topLeft,bottomRight,fill); }
     //: Draw a rectangle.
     
     void GUIDrawText(GdkGC *gc,GdkFont *font,Index2dC at,const StringC &txt)
-    { return Body().GUIDrawText(gc,font,at,txt); }
+    { Body().GUIDrawText(gc,font,at,txt); }
     //: Draw text.
     // 'at' is the bottom left of the text to be drawn.
     
@@ -271,16 +271,16 @@ namespace RavlGUIN {
     //: Find the size of 'text' rendered in 'font'.
     
     void GUIDrawCircle(GdkGC *gc,Index2dC cent,UIntT size,bool fill)
-    { return Body().GUIDrawCircle(gc,cent,size,fill); }
+    { Body().GUIDrawCircle(gc,cent,size,fill); }
     //: Draw a circle.
     
     void GUIDrawImage(const ImageC<ByteRGBValueC> &image,const Index2dC &offset,bool ignoreImageOrigin = false)
-    { return Body().GUIDrawImage(image,offset,ignoreImageOrigin); }
+    { Body().GUIDrawImage(image,offset,ignoreImageOrigin); }
     //: Draw an image into the canvas with its origin offset by 'offset'.
     // Note: You have to include the RavlGUI2d library to use this function.
     
     void GUIDrawImage(const ImageC<ByteT> &image,const Index2dC &offset,bool ignoreImageOrigin = false)
-    { return Body().GUIDrawImage(image,offset,ignoreImageOrigin); }
+    {Body().GUIDrawImage(image,offset,ignoreImageOrigin); }
     //: Draw an image into the canvas with its origin offset by 'offset'.
     // Note: You have to include the RavlGUI2d library to use this function.
     
