@@ -173,6 +173,7 @@
 #define RAVL_HAVE_STREAMSIZE      (RAVL_HAVE_STDNAMESPACE || RAVL_COMPILER_GCC)  /* have streamsize type. */
 #define RAVL_HAVE_STREAMASCLASS   !RAVL_HAVE_STDNAMESPACE    /* istream and ostream are classes not typedefs. */
 #define RAVL_VISUALCPP_NAMESPACE_BUG RAVL_COMPILER_VISUALCPP /* Bug in namespace handling under Visual C++ 6.x */
+#define RAVL_VISUALCPP_TYPENAME_BUG RAVL_COMPILER_VISUALCPP  /* Restrictions in using keyword 'typename' in Visual C++ 6.x */
 #define RAVL_ISTREAM_UNGET_BUG       RAVL_COMPILER_VISUALCPP /* Bug in stream unget under Visual C++ 6.x */
 #define RAVL_NEW_ANSI_CXX_DRAFT   RAVL_COMPILER_GCC          /* The mainly effects the use of <> in templated friend declarations */
 
