@@ -7,7 +7,7 @@
 #ifndef RAVLIMAGERECTANGLEITER_HEADER
 #define RAVLIMAGERECTANGLEITER_HEADER 1
 //! rcsid="$Id$"
-//! lib=RavlImage
+//! lib=RavlImageProc
 //! author="Charles Galambos"
 //! docentry="Ravl.Images.Misc"
 

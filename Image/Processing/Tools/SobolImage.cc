@@ -6,7 +6,7 @@
 // file-header-ends-here
 ////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! lib=RavlImage
+//! lib=RavlImageProc
 
 #include "Ravl/Image/SobolImage.hh"
 #include "Ravl/SobolSequence.hh"
@@ -14,7 +14,7 @@
 
 namespace RavlImageN {
   
-  ImageC<UIntT> IPSobolImg(const ImageRectangleC &irect) {
+  ImageC<UIntT> SobolImage(const ImageRectangleC &irect) {
     ImageC<UIntT> ret(irect);
     ret.Fill(0);
     int seqn = 1,togo = irect.Area();

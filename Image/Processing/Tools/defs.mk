@@ -8,10 +8,10 @@
 
 PACKAGE=Ravl/Image
 
-HEADERS=Rectangle2DIter.hh SobolImage.hh
+HEADERS=Rectangle2DIter.hh SobolImage.hh SubSample.hh
 #SplitProc.hh
 
-SOURCES=Rectangle2DIter.cc SobolImage.cc
+SOURCES=Rectangle2DIter.cc SobolImage.cc 
 #SplitProc.cc
 
 PLIB= RavlImageProc

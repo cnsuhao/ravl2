@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////////////
 //! docentry="Ravl.Images.Misc"
 //! file="Ravl/Image/IPStream/Lines/SobelImg.hh"
-//! lib=RavlImage
+//! lib=RavlImageProc
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! date="07/01/99"
