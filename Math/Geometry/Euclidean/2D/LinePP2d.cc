@@ -108,13 +108,13 @@ namespace RavlN {
   bool LinePP2dC::Intersection(const LinePP2dC & l, Point2dC & here) const {
     Vector2dC n1(static_cast<Vector2dC>(Vector()).Perpendicular());
     Vector2dC n2(static_cast<Vector2dC>(l.Vector()).Perpendicular());
-    RealT     d1  = - n1.Dot(FirstPoint());
-    RealT     d2  = - n2.Dot(l.FirstPoint());
     RealT     det = n1.Cross(n2);
     if (IsAlmostZero(det))
       return false;
-    here = Point2dC((n1[1]*d2 - n2[1]*d1)/det,
-		    (n2[0]*d1 - n1[0]*d2)/det);
+    RealT     d1  = - n1.Dot(FirstPoint());
+    RealT     d2  = - n2.Dot(l.FirstPoint());
+    here[0] = (n1[1]*d2 - n2[1]*d1)/det;
+    here[1] = (n2[0]*d1 - n1[0]*d2)/det;
     return true;
   }
   

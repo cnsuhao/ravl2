@@ -171,32 +171,29 @@ namespace RavlN {
 
   Polygon2dC Polygon2dC::ClipByLine(const LinePP2dC &line) const {
     Polygon2dC ret;
-    if (!IsEmpty()) {
-      DLIterC<Point2dC> st(*this);
-      st.Last();
-      for (DLIterC<Point2dC> pt(*this); pt; pt++) {
-        if (line.IsPointToRightOn(*pt)) {
-          if (line.IsPointToRightOn(*st)) {
-            ret.InsLast(*pt);
+    if (IsEmpty()) // Empty polygon to start with ?
+      return ret;
+    DLIterC<Point2dC> st(*this);
+    st.Last();
+    Point2dC intersection;
+    for (DLIterC<Point2dC> pt(*this); pt; pt++) {
+      if (line.IsPointToRightOn(*pt)) {
+        if (line.IsPointToRightOn(*st)) {
+          ret.InsLast(*pt);
+        } else {
+          if (line.Intersection(LinePP2dC(*st,*pt), intersection)) {
+            ret.InsLast(intersection);
           }
-          else {
-            Point2dC intersection;
-            if (line.Intersection(LinePP2dC(*st,*pt), intersection)) {
-              ret.InsLast(intersection);
-            }
-            ret.InsLast(*pt);
+          ret.InsLast(*pt);
+        }
+      } else {
+        if (line.IsPointToRightOn(*st)) {
+          if (line.Intersection(LinePP2dC(*st,*pt), intersection)) {
+            ret.InsLast(intersection);
           }
         }
-        else {
-          if (line.IsPointToRightOn(*st)) {
-            Point2dC intersection;
-            if (line.Intersection(LinePP2dC(*st,*pt), intersection)) {
-              ret.InsLast(intersection);
-            }
-          }
-        }
-        st = pt;
       }
+      st = pt;
     }
     return ret;
   }
