@@ -12,6 +12,7 @@
 #include "Ravl/Image/ConvolveHorz2d.hh"
 #include "Ravl/Image/ConvolveVert2d.hh"
 #include "Ravl/Image/ConvolveSeparable2d.hh"
+#include "Ravl/Image/GaussConvolve.hh"
 #include "Ravl/Image/PixelMixer.hh"
 #include "Ravl/Image/WarpScale.hh"
 #include "Ravl/Image/WarpAffine.hh"
@@ -23,6 +24,7 @@
 #include "Ravl/Image/SpatialDifference.hh"
 #include "Ravl/Image/SumRectangles.hh"
 #include "Ravl/Image/Rectangle2dIter.hh"
+#include "Ravl/Image/RealRGBValue.hh"
 
 #include "Ravl/Random.hh"
 
@@ -35,6 +37,7 @@ int testConvolveHorz2d();
 int testConvolveVert2d();
 int testConvolveSeparable2d();
 int testConvolve2dMMX();
+int testGaussConvolve();
 
 int testWarpScale();
 int testWarpThinPlateSpline();
@@ -97,6 +100,10 @@ int main() {
   }
 #endif
   if((ln = testWarpThinPlateSpline()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  }
+  if((ln = testGaussConvolve()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
@@ -448,5 +455,14 @@ int testWarpThinPlateSpline() {
     if(at.EuclidDistance(it.Data1()) > 0.01)
       return __LINE__;
   }
+  return 0;
+}
+
+int testGaussConvolve() {
+  GaussConvolveC<ByteRGBValueC,ByteRGBValueC,RealRGBValueC> gc(3);
+  ImageC<ByteRGBValueC> img(10,10);
+  img.Fill(ByteRGBValueC(0,0,0));
+  ImageC<ByteRGBValueC> res = gc.Apply(img);
+  
   return 0;
 }
