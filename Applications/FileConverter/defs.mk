@@ -14,6 +14,6 @@ MAINS = conv.cc
 USESLIBS= RavlCore RavlOSIO RavlImage RavlOS RavlImageIO RavlVideoIO  \
 	 Ravl3DIO RavlMathIO
 
-PROGLIBS= RavlDPDisplay.opt RavlExtImgIO.opt
+PROGLIBS= RavlDPDisplay.opt RavlExtImgIO.opt RavlDV.opt RavlImgIOV4L.opt 
 
 EHT = execonv.eht

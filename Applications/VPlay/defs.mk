@@ -5,7 +5,6 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 ###############################################
-# $Id$
 #! rcsid="$Id$"
 #! file="Ravl/Applications/VPlay/defs.mk"
 
@@ -25,8 +24,8 @@ MAINS= VPlay.cc
 #VCopy.cc
 
 USESLIBS = RavlCore RavlOS RavlImage RavlOSIO RavlGUI RavlDPMT RavlGUI2D \
- RavlImageIO RavlVideoIO
+ RavlImageIO RavlVideoIO 
 
-PROGLIBS =
+PROGLIBS = RavlDV.opt RavlImgIOV4L.opt RavlExtImgIO.opt
 
 EHT = exeVPlay.eht
