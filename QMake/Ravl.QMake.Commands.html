@@ -58,21 +58,24 @@ can do, the following is a summary of the commands and variables it understands.
 </table>
 
 <h2>Obsolete</h2>
+
+<table>
 <tr><td><b>listco   </b><td>RCS- List all files that are checked out in source tree.</tr>
 <tr><td><b>listoff  </b><td>List all directories that are turned off.</tr>
 <tr><td><b>listfix  </b><td>List all lines in source than contain 'FIXME'.</tr> 
 <tr><td><b>ci	    </b><td>RCS- Check in directory tree. See 'notes' for details.</tr>
 <tr><td><b>docentry </b><td>Make semantic documentation</tr>
+</table>
 
 <h2>Examples</h2>
 
 <pre>
-  % make qopt
+  % qm qopt
 </pre>
 Make optimised version of code, with frozen dependencies.
 
 <pre>
-  % make debug PROCS=1 QMAKE_INFO=1 
+  % qm debug PROCS=1 QMAKE_INFO=1 
 </pre>
 Build a debug version of file and executables, use only one processor and show the
 commands that are executed.
