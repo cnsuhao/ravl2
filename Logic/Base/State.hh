@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLLOGICSTATE_HEADER
-#define RAVLLOGICSTATE_HEADER 1
+#ifndef RAVLLOGIC_STATE_HEADER
+#define RAVLLOGIC_STATE_HEADER 1
 ////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlLogic

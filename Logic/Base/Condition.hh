@@ -52,9 +52,6 @@ namespace RavlLogicN {
 
     virtual bool Unify(const LiteralC &oth,BindSetC &bs) const;
     //: Unify with another variable.
-
-    virtual StringC Name() const;
-    //: Get the name of symbol.
     
     virtual bool Test(const StateC &state,BindSetC &binds) const;
     //: Test if condition is true in 'state'.

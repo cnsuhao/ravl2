@@ -41,13 +41,7 @@ namespace RavlLogicN {
     RavlAssertMsg(0,"ConditionBodyC::Unify(), Abstract function called. ");
     return false;
   }
-
-  //: Get the name of symbol.
   
-  StringC ConditionBodyC::Name() const {
-    return StringC("Condition:") + StringC((UIntT) this);
-  }
-
   //: Test if condition is true in 'state'.
   
   bool ConditionBodyC::Test(const StateC &state,BindSetC &binds) const {
