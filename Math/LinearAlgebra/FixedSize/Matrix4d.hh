@@ -74,13 +74,9 @@ namespace RavlN {
   inline 
   RealT Matrix4dC::AdjointDet(RealT b00, RealT b01, RealT b02,
 			       RealT b10, RealT b11, RealT b12,
-			       RealT b20, RealT b21, RealT b22) {
-    return    b00 * (b11*b22 - b12*b21)
-      + b10 * (b21*b02 - b22*b01)
-      + b20 * (b01*b12 - b02*b11);
-  }
-
-
+			       RealT b20, RealT b21, RealT b22) 
+  { return b00 * (b11*b22 - b12*b21) + b10 * (b21*b02 - b22*b01) + b20 * (b01*b12 - b02*b11); }
+  
   inline 
   RealT
   Matrix4dC::Det() const {
@@ -98,8 +94,7 @@ namespace RavlN {
 				data[2][0], data[2][1], data[2][2],
 				data[3][0], data[3][1], data[3][2]);
   }
-
-
+  
   inline
   TFVectorC<RealT,4> TFMatrixC<RealT,4,4>::operator*(const TFVectorC<RealT,4> & vec) const {
     TFVectorC<RealT,4> ret;
