@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/LinearAlgebra/General/testTSMatrix.cc"
 
 #include "Ravl/TSMatrix.hh"
 #include "Ravl/TSMatrixFull.hh"
@@ -14,6 +15,8 @@
 #include "Ravl/TSMatrixRightUpper.hh"
 #include "Ravl/TSMatrixLeftLower.hh"
 #include "Ravl/TSMatrixSparse.hh"
+#include "Ravl/TSMatrixPositiveDefinite.hh"
+#include "Ravl/TSMatrixScaledIdentity.hh"
 #include "Ravl/Matrix.hh"
 #include "Ravl/Vector.hh"
 

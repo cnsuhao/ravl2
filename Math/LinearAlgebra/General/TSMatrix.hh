@@ -10,6 +10,9 @@
 //! rcsid="$Id$"
 //! date="15/8/2002"
 //! lib=RavlMath
+//! author="Charles Galambos"
+//! docentry="Ravl.Math.Linear Algebra.Smart Matrix"
+//! file="Ravl/Math/LinearAlgebra/General/TSMatrix.hh"
 
 #include "Ravl/TMatrix.hh"
 #include "Ravl/TVector.hh"
@@ -18,6 +21,7 @@
 #include "Ravl/Array1d.hh"
 #include "Ravl/IndexRange2d.hh"
 #include "Ravl/Array1dIter3.hh"
+#include "Ravl/Array1dIter2.hh"
 #include "Ravl/Array1dIter.hh"
 
 namespace RavlN {
@@ -67,12 +71,16 @@ namespace RavlN {
     
     virtual TSMatrixC<DataT> Sub(const TSMatrixC<DataT> &oth) const;
     //: Subtract 'oth' from this matrix and return the result.
-
+    
     virtual void AddIP(const TSMatrixC<DataT> &oth);
     //: Add this matrix to 'oth' and return the result.
+    // Note the default implementation only works where Row(UIntT), returns a real access
+    // to the data in the matrix.
     
     virtual void SubIP(const TSMatrixC<DataT> &oth);
     //: Subtract 'oth' from this matrix and return the result.
+    // Note the default implementation only works where Row(UIntT), returns a real access
+    // to the data in the matrix.
     
     virtual TSMatrixC<DataT> T() const
     { return TMatrix().T(); }
@@ -92,6 +100,14 @@ namespace RavlN {
     
     virtual TVectorC<DataT> TMul(const TVectorC<DataT> & B) const;
     //: Multiplication A.T() * B
+    
+    virtual TSMatrixC<DataT> IMul(const TSMatrixC<DataT> & B) const
+    { RavlAssert(0); return TSMatrixC<DataT>(); }
+    //: Multiply B by the inverse of this matrix.
+    
+    virtual TSMatrixC<DataT> ITMul(const TSMatrixC<DataT> & B) const
+    { RavlAssert(0); return TSMatrixC<DataT>(); }
+    //: Multiply B by the transpose of the inverse of this matrix.
     
     virtual TSMatrixC<DataT> AAT() const;
     //: Return  A * A.T().
@@ -125,7 +141,7 @@ namespace RavlN {
     virtual TMatrixC<DataT> TMatrix() const
     { RavlAssert(0); return TMatrixC<DataT>(); }
     //: Access as a TMatrix.
-    // Note, this may not be a copy and should not be changed!
+    // Note, the returned matrix may not be a copy and should not be changed!
     
     const Index2dC &Size() const
     { return size; }
@@ -167,13 +183,6 @@ namespace RavlN {
       : RCHandleC<TSMatrixBodyC<DataT> >(bod)
     {}
     //: Body constructor.
-
-#if 0    
-    TSMatrixC(RCBodyVC &bod)
-      : RCHandleC<TSMatrixBodyC<DataT> >(bod)
-    {}
-    //: Base body constructor.
-#endif
     
     TSMatrixBodyC<DataT> &Body()
     { return RCHandleC<TSMatrixBodyC<DataT> >::Body(); }
@@ -189,7 +198,7 @@ namespace RavlN {
     //: Find the type of the matrix.
     
     TSMatrixC<DataT> Copy() const
-    { return TSMatrixC<DataT>(static_cast<TSMatrixBodyC<DataT> &>(Copy())); }
+    { return TSMatrixC<DataT>(static_cast<TSMatrixBodyC<DataT> &>(Body().Copy())); }
     //: Create a copy.
     
     DataT Element(UIntT i,UIntT j) const
@@ -288,6 +297,16 @@ namespace RavlN {
     { return Body().TMul(B); }
     //: Multiplication A.T() * B
     
+    TSMatrixC<DataT> IMul(const TSMatrixC<DataT> & B) const
+    { return Body().IMul(B); }
+    //: Multiply B by the inverse of this matrix.
+    // Note: this operation might not be implemented for all matrix types.
+    
+    TSMatrixC<DataT> ITMul(const TSMatrixC<DataT> & B) const
+    { return Body().ITMul(B); }
+    //: Multiply B by the transpose of the inverse of this matrix.
+    // Note: this operation might not be implemented for all matrix types.
+    
     TSMatrixC<DataT> AAT() const 
     { return Body().AAT(); }      
     //: Return  A * A.T().
@@ -314,10 +333,12 @@ namespace RavlN {
     void AddOuterProduct(const TVectorC<DataT> &vec1,const TVectorC<DataT> &vec2)
     { Body().AddOuterProduct(vec1,vec2); }
     //: Add outer product of vec1 and vec2 to this matrix.
+    // Note: this operation might not be implemented for all matrix types.
     
     void AddOuterProduct(const TVectorC<DataT> &vec1,const TVectorC<DataT> &vec2,const DataT &a)
     { Body().AddOuterProduct(vec1,vec2,a); }
     //: Add outer product of vec1 and vec2 multiplied by a to this matrix .
+    // Note: this operation might not be implemented for all matrix types.
     
     void SetSmallToBeZero(const DataT &min)
     { Body().SetSmallToBeZero(min); }
@@ -352,16 +373,26 @@ namespace RavlN {
 
   template<class DataT>
   void TSMatrixBodyC<DataT>::AddIP(const TSMatrixC<DataT> &oth) {
-    for(UIntT i = 0;i < Rows();i++)
-      for(UIntT j = 0;j < Cols();j++)
-	Element(i,j,Element(i,j) + oth.Element(i,j));
+    RavlAssert(oth.Rows() == Rows() && oth.Cols() == Cols());
+    for(UIntT i = 0;i < Rows();i++) {
+      Array1dC<DataT> row1 = Row(i);
+      Array1dC<DataT> row2 = oth.Row(i);
+      RavlAssert(row1.Range().Contains(row2.Range()));
+      for(Array1dIter2C<DataT,DataT> it(row1,row2,row2.Range());it;it++)
+	it.Data1() += it.Data2();
+    }
   }
   
   template<class DataT>
   void TSMatrixBodyC<DataT>::SubIP(const TSMatrixC<DataT> &oth)  {
-    for(UIntT i = 0;i < Rows();i++)
-      for(UIntT j = 0;j < Cols();j++)
-	Element(i,j,Element(i,j) - oth.Element(i,j));
+    RavlAssert(oth.Rows() == Rows() && oth.Cols() == Cols());
+    for(UIntT i = 0;i < Rows();i++) {
+      Array1dC<DataT> row1 = Row(i);
+      Array1dC<DataT> row2 = oth.Row(i);
+      RavlAssert(row1.Range().Contains(row2.Range()));
+      for(Array1dIter2C<DataT,DataT> it(row1,row2,row2.Range());it;it++)
+	it.Data1() -= it.Data2();
+    }
   }
   
   template<class DataT>
@@ -387,8 +418,7 @@ namespace RavlN {
       return out;
     for (UIntT i = 0; i < rdim; ++i) {
       Array1dC<DataT> row = Row(i);
-      BufferAccessIter2C<DataT,DataT> it(row,
-					 RangeBufferAccessC<DataT>(row.Range(),vector));
+      BufferAccessIter2C<DataT,DataT> it(row,RangeBufferAccessC<DataT>(row.Range(),vector));
       DataT sum = it.Data1() * it.Data2();
       for(it++;it;it++)
 	sum += it.Data1() * it.Data2();

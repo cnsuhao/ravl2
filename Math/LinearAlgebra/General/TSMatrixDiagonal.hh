@@ -8,6 +8,10 @@
 #define RAVL_TSMATRIXDIAGONAL_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! author="Charles Galambos"
+//! docentry="Ravl.Math.Linear Algebra.Smart Matrix"
+//! date="19/8/2002"
+//! file="Ravl/Math/LinearAlgebra/General/TSMatrixDiagonal.hh"
 
 #include "Ravl/TSMatrixPartial.hh"
 #include "Ravl/SArr1Iter3.hh"
@@ -42,8 +46,7 @@ namespace RavlN {
     //: Find the type of the matrix.
     
     virtual DataT Element(UIntT i,UIntT j) const { 
-      if(i != j)
-	return 0;
+      if(i != j) return 0;
       return data[i];
     } 
     //: Access element.

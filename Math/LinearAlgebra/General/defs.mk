@@ -14,13 +14,16 @@ DESCRIPTION= General Linear Algebra
 HEADERS = TVector.hh TMatrix.hh Matrix.hh Vector.hh MatrixRUT.hh \
  MatrixRS.hh LeastSquares.hh VectorMatrix.hh MatrixDecomposition.hh \
  TSMatrix.hh TSMatrixFull.hh TSMatrixPartial.hh TSMatrixDiagonal.hh \
- TSMatrixRightUpper.hh TSMatrixLeftLower.hh TSMatrixSparse.hh
+ TSMatrixRightUpper.hh TSMatrixLeftLower.hh TSMatrixSparse.hh \
+ TSMatrixScaledIdentity.hh TSMatrixPositiveDefinite.hh SMatrix.hh
 
 SOURCES = TMatrix.cc Matrix.cc MatrixInverse.cc MatrixSVD.cc \
  MatrixEigen.cc MatrixSolve.cc MatrixRUT.cc MatrixRS.cc Vector.cc \
  MatrixNearSingular.cc LeastSquares.cc VectorMatrix.cc MatrixRandom.cc \
- MatrixDeterminant.cc MatrixLUDecomposition.cc TSMatrixSparse.cc
+ MatrixDeterminant.cc MatrixLUDecomposition.cc TSMatrixSparse.cc \
+ SMatrix.cc
 
+MAINS= benchmarkSMatrix.cc
 #EXAMPLES = exVMT.cc
 
 TESTEXES=testTMatrix.cc testMatInv.cc testMatrix.cc testTSMatrix.cc

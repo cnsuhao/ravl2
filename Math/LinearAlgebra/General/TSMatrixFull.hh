@@ -10,15 +10,17 @@
 //! rcsid="$Id$"
 //! date="15/8/2002"
 //! lib=RavlMath
+//! docentry="Ravl.Math.Linear Algebra.Smart Matrix"
+//! file="Ravl/Math/LinearAlgebra/General/TSMatrixFull.hh"
 
 #include "Ravl/TSMatrix.hh"
 #include "Ravl/TMatrix.hh"
 
-#define RAVL_TSMATERIXFULL_DEFAULT 1
+#define RAVL_TSMATERIXFULL_DEFAULT 0
 
 namespace RavlN {
   //! userlevel=Develop
-  //: Smart Matrix Body.
+  //: Full Matrix Body.
   
   template<class DataT>
   class TSMatrixFullBodyC 
@@ -65,10 +67,22 @@ namespace RavlN {
     virtual DataT MulSumColumn(UIntT c,const Array1dC<DataT> &dat) const;
     //: Multiply columb by values from dat and sum them.
     
+    virtual TSMatrixC<DataT> Add(const TSMatrixC<DataT> &oth) const;
+    //: Add this matrix to 'oth' and return the result.
+    
+    virtual TSMatrixC<DataT> Sub(const TSMatrixC<DataT> &oth) const;
+    //: Subtract 'oth' from this matrix and return the result.
+    
+    virtual void AddIP(const TSMatrixC<DataT> &oth);
+    //: Add this matrix to 'oth' and return the result.
+    
+    virtual void SubIP(const TSMatrixC<DataT> &oth);
+    //: Subtract 'oth' from this matrix and return the result.
+    
     virtual TSMatrixC<DataT> T() const
     { return TSMatrixC<DataT>(matrix.T()); }
     //: Get transpose of matrix.
-
+    
 #if !RAVL_TSMATERIXFULL_DEFAULT    
     virtual TSMatrixC<DataT> Mul(const TSMatrixC<DataT> &oth) const;
     //: Get this matrix times 'oth'.
@@ -140,7 +154,7 @@ namespace RavlN {
   };
   
   //! userlevel=Normal
-  //: Smart Matrix.
+  //: Full SMatrix.
   
   template<class DataT>
   class TSMatrixFullC 
@@ -189,6 +203,38 @@ namespace RavlN {
     //: Access normal matrix.
   };
   
+  template<class DataT>  
+  TSMatrixC<DataT> TSMatrixFullBodyC<DataT>::Add(const TSMatrixC<DataT> &oth) const {
+    TSMatrixFullC<DataT> ts(oth);
+    if(!ts.IsValid())
+      return TSMatrixBodyC<DataT>::Add(oth); // Use default
+    return TSMatrixC<DataT>(matrix + ts.FullTMatrix());
+  }
+  
+  template<class DataT>  
+  TSMatrixC<DataT> TSMatrixFullBodyC<DataT>::Sub(const TSMatrixC<DataT> &oth) const {
+    TSMatrixFullC<DataT> ts(oth);
+    if(!ts.IsValid())
+      return TSMatrixBodyC<DataT>::Add(oth); // Use default
+    return TSMatrixC<DataT>(matrix - ts.FullTMatrix());
+  }
+  
+  template<class DataT>  
+  void TSMatrixFullBodyC<DataT>::AddIP(const TSMatrixC<DataT> &oth) {
+    TSMatrixFullC<DataT> ts(oth);
+    if(!ts.IsValid())
+      return TSMatrixBodyC<DataT>::AddIP(oth); // Use default
+    matrix += ts.FullTMatrix();
+  }
+  
+  template<class DataT>  
+  void TSMatrixFullBodyC<DataT>::SubIP(const TSMatrixC<DataT> &oth) {
+    TSMatrixFullC<DataT> ts(oth);
+    if(!ts.IsValid())
+      return TSMatrixBodyC<DataT>::SubIP(oth); // Use default
+    matrix -= ts.FullTMatrix();
+  }
+  
 #if !RAVL_TSMATERIXFULL_DEFAULT    
   template<class DataT>  
   TSMatrixC<DataT> TSMatrixFullBodyC<DataT>::Mul(const TSMatrixC<DataT> &oth) const {
@@ -221,6 +267,7 @@ namespace RavlN {
   template<class DataT>  
   TVectorC<DataT> TSMatrixFullBodyC<DataT>::TMul(const TVectorC<DataT> & B) const 
   { return matrix.TMul(B); }
+  
 #endif
   
   template<class DataT>  

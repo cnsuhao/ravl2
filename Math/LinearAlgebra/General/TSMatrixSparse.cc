@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/LinearAlgebra/General/TSMatrixSparse.cc"
 
 #include "Ravl/TSMatrixSparse.hh"
 

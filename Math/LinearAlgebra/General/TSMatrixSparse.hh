@@ -8,6 +8,7 @@
 #define RAVL_TSMATRIXSPARSE_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/LinearAlgebra/General/TSMatrixSparse.hh"
 
 #include "Ravl/TSMatrix.hh"
 #include "Ravl/InDList.hh"

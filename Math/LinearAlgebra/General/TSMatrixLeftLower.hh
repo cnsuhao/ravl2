@@ -8,8 +8,12 @@
 #define RAVL_TSMATRIXLEFTLOWER_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! author="Charles Galambos"
+//! docentry="Ravl.Math.Linear Algebra.Smart Matrix"
+//! date="19/8/2002"
+//! file="Ravl/Math/LinearAlgebra/General/TSMatrixLeftLower.hh"
 
-#include "Ravl/TSMatrix.hh"
+#include "Ravl/TSMatrixPartial.hh"
 #include "Ravl/Math.hh"
 
 namespace RavlN {
@@ -44,6 +48,9 @@ namespace RavlN {
       : TSMatrixPartialBodyC<DataT>(i,i,ndata)
     {}
     //: Constructor.
+    
+    TSMatrixLeftLowerBodyC(const TMatrixC<DataT> &ndata);
+    //: Construct by coping from a regular matrix.
     
     virtual RCBodyVC &Copy() const
     { return *new TSMatrixLeftLowerBodyC<DataT>(Rows(),data.Copy()); }
@@ -136,6 +143,11 @@ namespace RavlN {
     //: Create a diagonal matrix of size i by i .
     // The contents of the matrix are undefined.
     
+    TSMatrixLeftLowerC(const TMatrixC<DataT> &ndata)
+      : TSMatrixPartialC<DataT>(*new TSMatrixLeftLowerBodyC<DataT>(ndata))
+    {}
+    //: Construct by coping from a regular matrix.
+    
   protected:
     TSMatrixLeftLowerC(TSMatrixLeftLowerBodyC<DataT> &bod)
       : TSMatrixPartialC<DataT>(bod)
@@ -153,6 +165,21 @@ namespace RavlN {
   public:
     friend class TSMatrixLeftLowerBodyC<DataT>;
   };
+  
+  
+  template<class DataT>
+  TSMatrixLeftLowerBodyC<DataT>::TSMatrixLeftLowerBodyC(const TMatrixC<DataT> &ndata) 
+    : TSMatrixPartialBodyC<DataT>(ndata.Rows(),ndata.Cols(),SArray1dC<DataT>(TriangleSize(ndata.Rows())))
+  {
+    RavlAssert(ndata.Rows() == ndata.Cols());
+    DataT *at1 = &(data[0]);
+    for(UIntT j = 0;j < Rows();j++) {
+      const DataT *at2 = &(ndata[j][0]);
+      const DataT *end2 = &(at2[j+1]);
+      for(;at2 != end2;at2++,at1++)
+	*at1 = *at2;
+    }
+  }
   
   
   template<class DataT>
@@ -209,15 +236,14 @@ namespace RavlN {
   
   template<class DataT>
   TSMatrixC<DataT> TSMatrixLeftLowerBodyC<DataT>::AAT() const {
-    TSMatrixLeftLowerC<DataT> diag(Rows());
-    for(SArray1dIter2C<DataT,DataT> it(diag.Data(),data);it;it++)
-      it.Data1() = Sqr(it.Data2());
-    return diag;
+    RavlAssert(0);
+    return TSMatrixC<DataT>();
   }
   
   template<class DataT>
   TSMatrixC<DataT> TSMatrixLeftLowerBodyC<DataT>::ATA() const {
-    return TSMatrixLeftLowerBodyC<DataT>::AAT();
+    RavlAssert(0);
+    return TSMatrixC<DataT>();
   }
 #endif
   

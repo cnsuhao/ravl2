@@ -10,6 +10,8 @@
 //! rcsid="$Id$"
 //! date="15/8/2002"
 //! lib=RavlMath
+//! docentry="Ravl.Math.Linear Algebra.Smart Matrix"
+//! file="Ravl/Math/LinearAlgebra/General/TSMatrixPartial.hh"
 
 #include "Ravl/TSMatrix.hh"
 #include "Ravl/SArr1Iter2.hh"
@@ -18,6 +20,8 @@ namespace RavlN {
   
   //! userlevel=Develop
   //: Partial matrix body.
+  // This matrix is not intended to be used directly. It serves
+  // as a base class for triangular and diagonal matrices
   
   template<class DataT>
   class TSMatrixPartialBodyC
@@ -68,7 +72,9 @@ namespace RavlN {
   };
   
   //! userlevel=Normal
-  //: Partial matrix body.
+  //: Partial matrix.
+  // This matrix is not intended to be used directly. It serves
+  // as a base class for triangular and diagonal matrices
   
   template<class DataT>
   class TSMatrixPartialC

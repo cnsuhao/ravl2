@@ -221,6 +221,22 @@ namespace RavlN {
   }
   
   template<class DataT>
+  TVectorC<DataT> TMatrixC<DataT>::TMul(const TVectorC<DataT>& vector) const {
+    const SizeT rdim = Cols();
+    RavlAssert(vector.Size() == Rows());
+    TVectorC<DataT> out(rdim);
+    if(rdim == 0)
+      return out;
+    out.Fill(0);
+    for (UIntT i = 0;i < Rows(); i++) {
+      BufferAccessIter3C<DataT,DataT,DataT> it((*this)[i],vector,out);
+      for(it++;it;it++)
+	it.Data3() += it.Data1() * it.Data2();
+    }
+    return out;
+  }
+  
+  template<class DataT>
   TMatrixC<DataT> TMatrixC<DataT>::operator*(const TMatrixC<DataT> & mat) const  {
     RavlAssert(Cols() == mat.Rows());
 #if 0

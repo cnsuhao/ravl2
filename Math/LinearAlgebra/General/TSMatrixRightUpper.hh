@@ -8,8 +8,12 @@
 #define RAVL_TSMATRIXRIGHTUPPER_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! author="Charles Galambos"
+//! docentry="Ravl.Math.Linear Algebra.Smart Matrix"
+//! date="19/8/2002"
+//! file="Ravl/Math/LinearAlgebra/General/TSMatrixRightUpper.hh"
 
-#include "Ravl/TSMatrix.hh"
+#include "Ravl/TSMatrixPartial.hh"
 #include "Ravl/Math.hh"
 
 namespace RavlN {
@@ -42,8 +46,11 @@ namespace RavlN {
 
     TSMatrixRightUpperBodyC(int i,const SArray1dC<DataT> &ndata)
       : TSMatrixPartialBodyC<DataT>(i,i,ndata)
-    {}
+    { RavlAssert(TriangleSize(i) == ndata.Size()); }
     //: Constructor.
+    
+    TSMatrixRightUpperBodyC(const TMatrixC<DataT> &ndata);
+    //: Construct by copying elements from a regular matrix.
     
     virtual RCBodyVC &Copy() const
     { return *new TSMatrixRightUpperBodyC<DataT>(Rows(),data.Copy()); }
@@ -135,6 +142,11 @@ namespace RavlN {
     {}
     //: Create a diagonal matrix of size i by i .
     // The contents of the matrix are undefined.
+
+    TSMatrixRightUpperC(const TMatrixC<DataT> &ndata)
+      : TSMatrixPartialC<DataT>(*new TSMatrixRightUpperBodyC<DataT>(ndata))
+    {}
+    //: Construct by copying elements from a regular matrix.
     
   protected:
     TSMatrixRightUpperC(TSMatrixRightUpperBodyC<DataT> &bod)
@@ -153,6 +165,20 @@ namespace RavlN {
   public:
     friend class TSMatrixRightUpperBodyC<DataT>;
   };
+  
+  template<class DataT>
+  TSMatrixRightUpperBodyC<DataT>::TSMatrixRightUpperBodyC(const TMatrixC<DataT> &ndata)
+    : TSMatrixPartialBodyC<DataT>(ndata.Rows(),ndata.Cols(),SArray1dC<DataT>(TriangleSize(ndata.Rows())))
+  {
+    RavlAssert(ndata.Rows() == ndata.Cols());
+    DataT *at1 = &(data[0]);
+    for(UIntT j = 0;j < Rows();j++) {
+      const DataT *at2 = &(ndata[j][j]);
+      DataT *end = &at1[Rows() - j];
+      for(;at1 != end;at1++,at2++)
+	*at1 = *at2;
+    }
+  }
   
   
   template<class DataT>
@@ -210,15 +236,14 @@ namespace RavlN {
   
   template<class DataT>
   TSMatrixC<DataT> TSMatrixRightUpperBodyC<DataT>::AAT() const {
-    TSMatrixRightUpperC<DataT> diag(Rows());
-    for(SArray1dIter2C<DataT,DataT> it(diag.Data(),data);it;it++)
-      it.Data1() = Sqr(it.Data2());
-    return diag;
+    RavlAssert(0);
+    return TSMatrixC<DataT>();
   }
   
   template<class DataT>
   TSMatrixC<DataT> TSMatrixRightUpperBodyC<DataT>::ATA() const {
-    return TSMatrixRightUpperBodyC<DataT>::AAT();
+    RavlAssert(0);
+    return TSMatrixC<DataT>();
   }
 #endif
   
