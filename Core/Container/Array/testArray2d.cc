@@ -261,6 +261,14 @@ int testSqr3() {
   //cerr << "Count:" << count << "\n";
   if(count != 1053) return __LINE__;
   if(sqrs != 9) return __LINE__;
+  
+  Array2dC<IntT> datab(IndexRangeC(17,22),
+		       IndexRangeC(275,280));
+  int i = 0;
+  for(Array2dSqr3IterC<IntT> itb(datab);itb;itb++) {
+    i += itb.DataMM() + itb.DataMR() + itb.DataML() + itb.DataTM() + itb.DataBM();
+  }
+  
   return 0;
 }
 

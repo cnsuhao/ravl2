@@ -42,7 +42,7 @@ namespace RavlN {
     
     bool First() {
       rng = IndexRangeC(array.Range2().Min()+1,array.Range2().Max()-1);
-      IndexRangeC srng(array.Range1().Min()+1,array.Range2().Max()-1);
+      IndexRangeC srng(array.Range1().Min()+1,array.Range1().Max()-1);
       if(!rit.First(array,srng)) {
 	cit.Invalidate();
 	return false;
