@@ -224,12 +224,15 @@ namespace RavlN {
       ep.Send(6,1); // Report end of stream.
       return true;
     }
+    //cerr << "NetISPortServerBodyC<DataT>::ReqData(), Pos=" << pos << " at=" << at << " Tell=" << iport.Tell() <<"\n";
     if(at != pos && pos != (UIntT)(-1)) {
       iport.Seek(pos);
+      at = pos;
     }
     DataT dat;
     if(iport.Get(dat)) {
-      ep.Send(5,iport.Tell(),dat);
+      at++;
+      ep.Send(5,at,dat);
     } else { // Failed to get data.
       if(iport.IsGetEOS())
 	ep.Send(6,1); // End of stream.

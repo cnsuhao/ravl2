@@ -91,6 +91,9 @@ namespace RavlN {
     //: Destructor.
     
     virtual bool Seek(UIntT off) { 
+      //cerr << "NetISPortBodyC()::Seek() Off=" << off << " Start=" << start << " Size=" << size << "\n";
+      if(off >= size || off < start)
+	return false;
       gotEOS = false; // Reset end of stream flag.
       at = off; 
       return true;
@@ -102,12 +105,18 @@ namespace RavlN {
     // position will not be changed.
     
     virtual bool DSeek(IntT off) {
-      gotEOS = false; // Reset end of stream flag.
+      //cerr << "NetISPortBodyC()::DSeek() Off=" << off << " At=" << at <<" Start=" << start << " Size=" << size << "\n";
+      Int64T newOff = (Int64T) at + off;
       if(off < 0) {
 	if((UIntT) (-off) > at)
 	  return false; // Seek to before beginning on file.
+	if(newOff < start)
+	  return false;
+      } else {
+	if(newOff >= (Int64T) size)
+	  return false;	
       }
-      // Should check size & start ?
+      gotEOS = false; // Reset end of stream flag.
       at += off;
       return true;
     }
@@ -218,6 +227,7 @@ namespace RavlN {
     RWLockHoldC hold(rwlock,RWLOCK_WRITE);
     data = dat;
     flag = 0;
+    at = pos;
     hold.Unlock();
     recieved.Post();
     //cerr << "NetISPortBodyC<DataT>::RecvData(), Done for Pos=" << pos << "\n";
@@ -233,11 +243,10 @@ namespace RavlN {
       return false;
     ep.Send(4,at);
     recieved.Wait();
+    // 'at' is updated by the RecvData method. 
     RWLockHoldC hold(rwlock,RWLOCK_READONLY);
     if(flag != 0) return false;
     buf = data;
-    if(at != (UIntT)(-1))
-      at++;
     //cerr << "NetISPortBodyC<DataT>::Get(DataT &), Done for Pos=" << at << "\n";
     return true;
   }
