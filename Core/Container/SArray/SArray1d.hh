@@ -93,6 +93,11 @@ namespace RavlN {
     SArray1dC<DataC> Copy() const;
     //: Creates a new physical copy of the array.
     
+    SArray1dC<DataC> Copy(UIntT extend) const;
+    //: Creates a new physical copy of the array.
+    // 'extend' extra elements initalised by the default constuctor
+    // are appended to the end of the array.
+    
     inline const SArray1dC<DataC> & operator=(const SArray1dC<DataC> & vv);
     // Assigment, as for a BIG_OBJECT.
     
@@ -330,14 +335,21 @@ namespace RavlN {
   : SizeBufferAccessC<DataC>(vv.SAccess() + offsetInBuff, dim),
     buff(vv.buff)
   {
-    RavlAssert(vv.Size() <= (offsetInBuff + dim)); // Make sure its big enought.
+    RavlAssert(vv.Size() >= (offsetInBuff + dim)); // Make sure its big enought.
   }
 
   template <class DataC>
-  SArray1dC<DataC> 
-  SArray1dC<DataC>::Copy() const {
+  SArray1dC<DataC> SArray1dC<DataC>::Copy() const {
     return SArray1dC<DataC>(SizeBufferAccessC<DataC>::Copy().ReferenceElm(), 
 			    Size(),true);
+  }
+
+  template <class DataC>
+  SArray1dC<DataC> SArray1dC<DataC>::Copy(UIntT extend) const {
+    SArray1dC<DataC> ret(Size() + extend);
+    for(BufferAccessIter2C<DataC,DataC> it(*this,ret);it;it++)
+      it.Data2() = it.Data1();
+    return ret;
   }
   
   template <class DataC>
