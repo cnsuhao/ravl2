@@ -11,6 +11,10 @@ ifndef MAKEHOME
   MAKEHOME=.
 endif
 
+ifndef INSTALLHOME
+ INSTALLHOME = $(MAKEHOME)/../../..#
+endif
+
 export TARGET
 
 MAKEFLAGS += --no-print-directory -r 
@@ -114,7 +118,7 @@ endif
 
 AUXDIR:=$(strip $(AUXDIR))#
 
-UNTOUCH:=$(MAKEHOME)/../../../lib/RAVL/$(ARC)/bin/untouch
+UNTOUCH:=$(INSTALLHOME)/lib/RAVL/$(ARC)/bin/untouch
 
 ###########################
 # Platform supported ?
@@ -345,7 +349,7 @@ endif
 ###############################
 # Misc.
 
-BASE_INSTALL := $(MAKEHOME)/../../..#
+BASE_INSTALL := $(INSTALLHOME)#
 INCLUDES := -I$(INST_INCLUDE)/$(ARC) -I$(INST_INCLUDE) $(INCLUDES) -I$(BASE_INSTALL)/include/$(ARC) -I$(BASE_INSTALL)/include
 
 ifdef EXTPACKAGE

@@ -15,8 +15,12 @@ ifndef MAKEHOME
   MAKEHOME=.
 endif
 
+ifndef INSTALLHOME
+ INSTALLHOME = $(MAKEHOME)/../../..#
+endif
+
 MAKEFLAGS += --no-print-directory -r 
-CXXDOC=$(MAKEHOME)/../../../lib/RAVL/$(ARC)/bin/CxxDoc
+CXXDOC=$(INSTALLHOME)/lib/RAVL/$(ARC)/bin/CxxDoc
 
 AUTOTEMPL=$(MAKEHOME)/../AutoDoc
 

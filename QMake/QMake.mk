@@ -13,6 +13,10 @@ ifndef MAKEHOME
   MAKEHOME=.
 endif
 
+ifndef INSTALLHOME
+ INSTALLHOME=$(MAKEHOME)/../../..#
+endif
+
 ifndef ARC
   ARC=$(shell $(MAKEHOME)/config.arc)#
 endif
@@ -33,7 +37,7 @@ ifndef PAGER
 endif
 
 export ARC
-export LOCALBIN := $(MAKEHOME)/../../../lib/RAVL/$(ARC)/bin
+export LOCALBIN := $(INSTALLHOME)/lib/RAVL/$(ARC)/bin
 export DPATH:=$(shell basename $(shell 'pwd'))
 export TARGET
 
