@@ -74,9 +74,11 @@ namespace RavlImageN {
     //: output image rectangle.
     // The output rectangle is specified in the constructor.
     
+    inline
     Point2dC BackProject(const Point2dC &pnt) const;
     // Transform a point from the destination to source.
 
+    inline
     Point2dC Project(const Point2dC &pnt) const;
     // Transform a point from the source to destination
     
@@ -110,7 +112,7 @@ namespace RavlImageN {
   
   template <class InT, class OutT,class MixerT>
   void WarpProjectiveC<InT,OutT,MixerT>::Apply(const ImageC<InT> &src,ImageC<OutT> &outImg) {
-
+    
     RealRange2dC orng(rec);
     RealRange2dC irng(src.Frame());
     if(!outImg.Frame().Contains(rec))
@@ -127,15 +129,32 @@ namespace RavlImageN {
     // boundary are not used, for safety.
     irng.TRow() += 0.51; irng.BRow() -= 0.51;
     irng.LCol() += 0.51; irng.RCol() -= 0.51;
-    Array2dIterC<OutT> it(outImg);      
-
+    
+    ImageC<OutT> workingOutImg;
+    if(!fillBackground) {
+      // Find the projection of the input image in the output
+      // to minimise the number of pixels we have to check.
+      Point2dC pnt = BackProject(irng.TopRight());
+      RealRange2dC trng(pnt,pnt);
+      trng.Involve(BackProject(irng.TopLeft()));
+      trng.Involve(BackProject(irng.BottomRight()));
+      trng.Involve(BackProject(irng.BottomLeft()));
+      IndexRange2dC oclip(Floor(trng.TRow()),Floor(trng.BRow())+1,
+			  Floor(trng.LCol()),Floor(trng.RCol())+1);
+      
+      // Clip the output image appropriatly.
+      oclip.ClipBy(outImg.Frame());
+      workingOutImg = ImageC<OutT>(outImg,oclip);
+    } else
+      workingOutImg = outImg;
+    
+    Array2dIterC<OutT> it(outImg);  
+    
+    // If the output maps entirely within input, we don't have to do any checking.
     if(irng.Contains(Project(orng.TopRight())) &&
        irng.Contains(Project(orng.TopLeft())) &&
        irng.Contains(Project(orng.BottomRight())) &&
        irng.Contains(Project(orng.BottomLeft()))) {
-      // Output maps entirely within input, so we don't have to do any checking!
-      //cerr << "No checking. \n";
-      
       RealT beg = pat[1];
       for(;it;) {
 	do {
@@ -162,8 +181,6 @@ namespace RavlImageN {
 	  if(irng.Contains(ipat)) {
 	    // move coordinates to be based on 0,0 at the centre of the
 	    // top-left pixel
-	    ipat[0] -= 0.5;
-	    ipat[1] -= 0.5;
 	    mixer(*it,src.BiLinear(ipat));
 	  }
 	  else
@@ -177,8 +194,6 @@ namespace RavlImageN {
 	  if(irng.Contains(ipat)) {
 	    // move coordinates to be based on 0,0 at the centre of the
 	    // top-left pixel
-	    ipat[0] -= 0.5;
-	    ipat[1] -= 0.5;
 	    mixer(*it,src.BiLinear(ipat));
 	  }
 	  pat[1]++;
