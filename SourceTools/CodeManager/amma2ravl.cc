@@ -171,6 +171,11 @@ static bool UpdateFile(FilenameC fn) {
   theFile.GlobalSubst("PixelC","Index2dC");
   theFile.GlobalSubst("NumImageC<","ImageC<");
   theFile.GlobalSubst("NumImageC ","ImageC ");
+
+  // PatternRec
+  
+  theFile.GlobalSubst("NumMagnitudeC","DistanceC");
+  theFile.GlobalSubst("NumLabelC","UIntT");
   
   // Core.
   
