@@ -75,7 +75,7 @@ int main(int nargs,char **argv) {
       
       // Draw boundries into image and display.
       for(DLIterC<BoundaryC> bit(bounds);bit;bit++)
-	for(DLIterC<EdgeC> it(*bit);it;it++)
+	for(DLIterC<CrackC> it(*bit);it;it++)
 	  res[it->LPixel()] = 255;
       Save("@X",res);
     }
