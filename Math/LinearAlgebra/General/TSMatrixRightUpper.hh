@@ -69,8 +69,10 @@ namespace RavlN {
     
     virtual void Element(UIntT i,UIntT j,const DataT &val) {
       if(j < i) {
-	if(val != 0)
+	if(val != 0) {
 	  cerr << "Attempting to set invalid element of matrix." << i << " " << j << "\n";
+	  RavlAssert(0);
+	}
 	return ;
       }
       data[ElementIndex(i,j)] = val;
@@ -85,10 +87,12 @@ namespace RavlN {
     virtual DataT MulSumColumn(UIntT c,const Array1dC<DataT> &dat) const;
     //: Multiply columb by values from dat and sum them.
     
-    virtual TSMatrixC<DataT> T() const;
-    //: Get transpose of matrix.
-    // This is a no-op.
-
+    virtual Slice1dC<DataT> Col(UIntT j) const;
+    //: Access slice from matrix.
+    
+    virtual DataT MulSumColumn(UIntT c,const Slice1dC<DataT> &slice) const;
+    //: Multiply columb by values from slice and sum them.
+    
     virtual TSMatrixC<DataT> Mul(const TSMatrixC<DataT> &oth) const;
     //: Get this matrix times 'oth'.
     
@@ -166,11 +170,6 @@ namespace RavlN {
     friend class TSMatrixRightUpperBodyC<DataT>;
   };
   
-}
-
-#include "Ravl/TSMatrixLeftLower.hh"
-
-namespace RavlN {
   
   template<class DataT>
   TSMatrixRightUpperBodyC<DataT>::TSMatrixRightUpperBodyC(const TMatrixC<DataT> &ndata)
@@ -189,23 +188,59 @@ namespace RavlN {
   
   template<class DataT>
   DataT TSMatrixRightUpperBodyC<DataT>::MulSumColumn(UIntT c,const Array1dC<DataT> &dat) const {
+    DataT sum;
     UIntT s = dat.Range().Min().V();
     UIntT end = Min((UIntT) dat.Range().Max().V(),c)+1;
     const DataT *at2 = &(dat[s]);
     const DataT *endp = &(at2[end - s]);
     if(at2 >= endp) {
-      DataT ret;
-      SetZero(ret);
-      return ret;
+      SetZero(sum);
+      return sum;
     }
     const DataT *at = &data[ElementIndex(s,c)];
-    DataT sum = (*at2) * (*at);
+    sum = (*at2) * (*at);
     UIntT z = (Cols() - s) -1;
     at += z;
-    for(z--,at2++;at2 != endp;z--,at2++) {
+    for(z--,at2++;at2 != endp;at2++) {
       sum += (*at2) * (*at);
-      at += z;
+      at += z--;
     }
+    return sum;
+  }
+  
+  template<class DataT>
+  Slice1dC<DataT> TSMatrixRightUpperBodyC<DataT>::Col(UIntT j) const {
+    Slice1dC<DataT> ret(IndexRangeC(0,j));
+    const DataT *at = &data[j];
+    int i = 1;
+    for(Slice1dIterC<DataT> it(ret);it;it++) {
+      *it = *at;
+      at += i++;
+    }
+    return ret;
+  }
+  
+  template<class DataT>
+  DataT TSMatrixRightUpperBodyC<DataT>::MulSumColumn(UIntT c,const Slice1dC<DataT> &slice) const {
+    DataT sum;
+    IndexRangeC rng(0,c);
+    rng.ClipBy(slice.Range());
+    if(rng.Size() <= 0) {
+      SetZero(sum);
+      return sum;
+    }
+    const DataT *at = &data[ElementIndex(rng.Min().V(),c)];
+    UIntT z = (Cols() - rng.Min().V()) -1;
+    Slice1dIterC<DataT> it(slice,rng);
+    cerr << " (" << (*it) << " " << (*at) << ")";
+    sum = (*it) * (*at);
+    at += z--;
+    for(it++;it;it++) {
+      cerr << " (" << (*it) << " " << (*at) << ")";
+      sum += (*it) * (*at);
+      at += z--;
+    }
+    cerr << "\n";
     return sum;
   }
   
@@ -278,12 +313,7 @@ namespace RavlN {
 	*at2 = *at1;
     }
     return ret;
-  }
-  
-  template<class DataT>
-  TSMatrixC<DataT> TSMatrixRightUpperBodyC<DataT>::T() const {
-    return TSMatrixC<DataT>(TMatrix(false).T());
-  }
+  }  
 }
 
 #endif

@@ -17,7 +17,9 @@
 #include "Ravl/TSMatrixSparse.hh"
 #include "Ravl/TSMatrixPositiveDefinite.hh"
 #include "Ravl/TSMatrixScaledIdentity.hh"
+#include "Ravl/TSMatrixTranspose.hh"
 #include "Ravl/Matrix.hh"
+#include "Ravl/SMatrix.hh"
 #include "Ravl/Vector.hh"
 
 using namespace RavlN;
@@ -54,8 +56,43 @@ int main() {
   return 0;
 }
 
+
+int MatrixTest(SMatrixC mat1,SMatrixC mat2) {
+  cerr <<"mat1=" << mat1.TMatrix() << "\n";
+  cerr <<"mat2=" << mat2.TMatrix() << "\n";
+  cerr << "Check Mul. \n";
+  MatrixC gt = mat1.TMatrix() * mat2.TMatrix();
+  SMatrixC testR = mat1 * mat2;
+  RealT error = MatrixC(testR.TMatrix() - gt).SumOfAbs();
+  if(error > 0.000000001) {
+    cerr << "gt  =" << gt << "\n";
+    cerr << "test=" << testR.TMatrix() << "\n";
+    return __LINE__;
+  } 
+  
+  cerr << "Check TMul. \n";
+  gt = mat1.TMatrix().T() * mat2.TMatrix();
+  testR = mat1.TMul(mat2);
+  error = MatrixC(testR.TMatrix() - gt).SumOfAbs();
+  if(error > 0.000000001) {
+    cerr << "gt  =" << gt << "\n";
+    cerr << "test=" << testR.TMatrix() << "\n";
+    return __LINE__;
+  }
+  
+  cerr << "Check MulT. \n";
+  gt = mat1.TMatrix() * mat2.TMatrix().T();
+  testR = mat1.MulT(mat2);
+  error = MatrixC(testR.TMatrix() - gt).SumOfAbs();
+  if(error > 0.000000001) return __LINE__;
+  
+  return 0;
+}
+
+
 int testBasic() {
   cerr << "testBasic(). \n";
+  int ln;
   MatrixC fm1(10,10);
   RealT v = 1;
   for(SArray2dIterC<RealT> it(fm1);it;it++)
@@ -68,131 +105,62 @@ int testBasic() {
   if(rtsm1.Rows() != 10) return __LINE__;
   if(rtsm1.Cols() != 10) return __LINE__;
   
-  TMatrixC<RealT> res1 = fm1 * fm2;
-  TSMatrixC<RealT> res2 = rtsm1 * rtsm2;
-  //  cerr << "Res1=" << res1 << endl;
-  // cerr << "Res2=" << res2 << endl;
-  if(MatrixC(res1 - res2.TMatrix()).SumOfAbs() > 0.000001)
+  if((ln = MatrixTest(rtsm1,rtsm2)) != 0) {
+    cerr<< "MatrixTest() failed on line " << ln << "\n";
     return __LINE__;
-  
-  TSMatrixC<RealT> t1(2,2);
-  t1.Element(0,0,1);
-  t1.Element(0,1,2);
-  t1.Element(1,0,3);
-  t1.Element(1,1,4);
-  TSMatrixC<RealT> t2(t1);
-  RealT error;
-  TSMatrixC<RealT> testR;
-  TSMatrixC<RealT> result(2,2);
-  result.Element(0,0,7);
-  result.Element(0,1,10);
-  result.Element(1,0,15);
-  result.Element(1,1,22);
-  
-  // Test 1.
-  testR = t1 * t2;
-  error = (testR - result).SumOfAbs();
-  //cerr << "Mul:" << error << "\n";
-  if(error > 0.000000001)
-    return __LINE__;
-  
-  // Test 2.
-  testR = (t1.T().TMul(t2));
-  error = (testR - result).SumOfAbs();
-  //cerr << "TTMul:" << error << "\n";
-  if(error > 0.000000001)
-    return __LINE__;
-  
-  // Test 3.
-  testR = (t1.MulT(t2.T()));
-  error = (testR - result).SumOfAbs();
-  //cerr << "MulTT:" << error << "\n";
-  if(error > 0.000000001)
-    return __LINE__;
+  }  
   return 0;
 }
 
 int testDiagonal() {
   cerr << "testDiagonal(). \n";
-  VectorC fv(10);
-  fv.Fill(0.5);
-  TSMatrixDiagonalC<RealT> rtsm(fv);
-  //cerr <<"Diag=" << rtsm.TMatrix() << "\n";
+  TSMatrixDiagonalC<RealT> t1(RandomVector(5));
+  TSMatrixDiagonalC<RealT> t2(RandomVector(5));
+  int ln;
+  if((ln = MatrixTest(t1,t2)) != 0) {
+    cerr<< "MatrixTest() failed on line " << ln << "\n";
+    return __LINE__;
+  }  
   return 0;
 }
 
 int testRightUpper() {
   cerr << "testRightUpper() \n";
-  TSMatrixRightUpperC<RealT> mru(4);
+  TSMatrixRightUpperC<RealT> mru1(2);
   RealT c = 2;
-  for(int i = 0;i < 4;i++)
-    for(int j = i;j < 4;j++)
-      mru.Element(i,j,c++);
+  for(UIntT i = 0;i < mru1.Rows();i++)
+    for(UIntT j = i;j < mru1.Cols();j++)
+      mru1.Element(i,j,c++);
   //cerr <<"Mat=" << mru.TMatrix() << "\n"; 
-  TMatrixC<RealT> full = mru.TMatrix(); 
-  TSMatrixC<RealT> result = full * full;
-  TSMatrixC<RealT> testR = mru * mru;
-  //if(MatrixC(res - testR.TMatrix()).SumOfAbs() > 0.000001) return __LINE__;
-  TSMatrixC<RealT> t1 = mru;
-  TSMatrixC<RealT> t2 = mru;
-  // Test 1.
-  testR = t1 * t2;
-  RealT error = (testR - result).SumOfAbs();
-  //cerr << "Mul:" << error << "\n";
-  if(error > 0.000000001)
+  TSMatrixRightUpperC<RealT> mru2(2);
+  for(UIntT i = 0;i < mru2.Rows();i++)
+    for(UIntT j = i;j < mru2.Cols();j++)
+      mru2.Element(i,j,c++);
+  int ln;
+  if((ln = MatrixTest(mru1,mru2)) != 0) {
+    cerr<< "MatrixTest() failed on line " << ln << "\n";
     return __LINE__;
-  
-  // Test 2.
-  testR = (t1.T().TMul(t2));
-  error = (testR - result).SumOfAbs();
-  //cerr << "TTMul:" << error << "\n";
-  if(error > 0.000000001)
-    return __LINE__;
-  
-  // Test 3.
-  testR = (t1.MulT(t2.T()));
-  error = (testR - result).SumOfAbs();
-  //cerr << "MulTT:" << error << "\n";
-  if(error > 0.000000001)
-    return __LINE__;
+  }  
   return 0;
 }
 
 int testLeftLower() {
   cerr << "testLeftLower() \n";
-  TSMatrixLeftLowerC<RealT> mll(4);
+  TSMatrixLeftLowerC<RealT> mru1(4);
   RealT c = 2;
-  for(int i = 0;i < 4;i++)
-    for(int j = 0;j <= i;j++)
-      mll.Element(i,j,c++);
-  //cerr << "mll=" << mll.TMatrix() << "\n";
-  TMatrixC<RealT> full = mll.TMatrix(); 
-  TSMatrixC<RealT> result = full * full;
-  //cerr << "Res=" << result.TMatrix() << "\n";
-  TSMatrixC<RealT> t1 = mll;
-  TSMatrixC<RealT> t2 = mll;
-  // Test 1.
-  TSMatrixC<RealT> testR = t1 * t2;
-  //cerr << "Tst=" << testR.TMatrix() << "\n";
-  
-  RealT error = (testR - result).SumOfAbs();
-  //cerr << "Mul:" << error << "\n";
-  if(error > 0.000000001)
+  for(UIntT i = 0;i < mru1.Rows();i++)
+    for(UIntT j = 0;j <= i;j++)
+      mru1.Element(i,j,c++);
+  //cerr <<"Mat=" << mru.TMatrix() << "\n"; 
+  TSMatrixLeftLowerC<RealT> mru2(4);
+  for(UIntT i = 0;i < mru1.Rows();i++)
+    for(UIntT j = 0;j <= i;j++)
+      mru2.Element(i,j,c++);
+  int ln;
+  if((ln = MatrixTest(mru1,mru2)) != 0) {
+    cerr<< "MatrixTest() failed on line " << ln << "\n";
     return __LINE__;
-  
-  // Test 2.
-  testR = (t1.T().TMul(t2));
-  error = (testR - result).SumOfAbs();
-  //cerr << "TTMul:" << error << "\n";
-  if(error > 0.000000001)
-    return __LINE__;
-  
-  // Test 3.
-  testR = (t1.MulT(t2.T()));
-  error = (testR - result).SumOfAbs();
-  //cerr << "MulTT:" << error << "\n";
-  if(error > 0.000000001)
-    return __LINE__;
+  }  
   return 0;
 }
 

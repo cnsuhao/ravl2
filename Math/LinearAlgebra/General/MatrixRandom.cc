@@ -50,4 +50,13 @@ namespace RavlN {
     return x;
   }
 
+  //: Create a random vector of values between -scale and scale with the given size.
+  
+  VectorC RandomVector(int n,RealT scale) {
+    VectorC ret(n);
+    for(SArray1dIterC<RealT> it(ret);it;it++)
+      *it = (Random1() - 0.5) * 2 * scale;
+    return ret;
+  }
+
 }

@@ -66,6 +66,22 @@ namespace RavlN {
 			     RangeBufferAccessC<DataT>(const_cast<DataT *>( &(data[i])),IndexRangeC(i,i))); }
     //: Access a row from the matrix.
     
+    virtual Slice1dC<DataT> Col(UIntT j) const { 
+      SArray1dC<DataT> &diag = const_cast<SArray1dC<DataT> &>(data);
+      return Slice1dC<DataT>(diag.Buffer(),&(diag[0]),IndexRangeC(j,j),1);
+    }
+    //: Access slice from matrix.
+    
+    virtual DataT MulSumColumn(UIntT c,const Slice1dC<DataT> &slice) const {  
+      if(!slice.Contains(c)) {
+	DataT ret;
+	SetZero(ret);
+	return ret;
+      }
+      return slice[c] * data[c];      
+    }
+    //: Multiply columb by values from slice and sum them.
+    
     virtual DataT MulSumColumn(UIntT c,const Array1dC<DataT> &dat) const { 
       if(!dat.Contains(c)) {
 	DataT ret;
@@ -148,6 +164,14 @@ namespace RavlN {
       : TSMatrixPartialC<DataT>(*new TSMatrixDiagonalBodyC<DataT>(data))
     {}
     //: Create a diagonal matrix from a vector.
+
+    TSMatrixDiagonalC(const TSMatrixC<DataT> &mat)
+      : TSMatrixPartialC<DataT>(mat)
+    {
+      if(dynamic_cast<TSMatrixDiagonalBodyC<DataT> *>(&TSMatrixC<DataT>::Body()) == 0)
+	Invalidate();
+    }
+    //: Create a diagonal matrix from a vector.
     
   protected:
     TSMatrixDiagonalC(TSMatrixDiagonalBodyC<DataT> &bod)
@@ -170,6 +194,13 @@ namespace RavlN {
   
   template<class DataT>
   TSMatrixC<DataT> TSMatrixDiagonalBodyC<DataT>::Mul(const TSMatrixC<DataT> &mat) const {
+    if(mat.MatrixType() == typeid(TSMatrixDiagonalBodyC<DataT>)) {
+      TSMatrixDiagonalC<DataT> diag(mat);
+      TVectorC<DataT>  tmp(mat.Rows());
+      for(SArray1dIter3C<DataT,DataT,DataT> it(tmp,data,diag.Data());it;it++)
+	it.Data1() = it.Data2() * it.Data3();
+      return TSMatrixDiagonalC<DataT>(tmp);
+    }
     RavlAssert(Cols() == mat.Rows());
     const SizeT rdim = Rows();
     const SizeT cdim = mat.Cols();
@@ -177,6 +208,7 @@ namespace RavlN {
     BufferAccessIterC<DataT> dit(data);
     for (UIntT r = 0; r < rdim; r++,dit++) {
       Array1dC<DataT> ra = mat.Row(r);
+      cerr <<"Row=" << ra << "\n";
       for(BufferAccessIter2C<DataT,DataT> it(ra,RangeBufferAccessC<DataT>(out[r],IndexRangeC(0,cdim)));it;it++)
 	it.Data2() = (*dit) * it.Data1();
     }

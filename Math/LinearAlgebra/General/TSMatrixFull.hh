@@ -15,6 +15,8 @@
 
 #include "Ravl/TSMatrix.hh"
 #include "Ravl/TMatrix.hh"
+#include "Ravl/Slice1dIter.hh"
+#include "Ravl/Slice1dIter2.hh"
 
 #define RAVL_TSMATERIXFULL_DEFAULT 0
 
@@ -59,13 +61,19 @@ namespace RavlN {
     { matrix[i][j] = val; }
     //: Set element.
     
-    virtual Array1dC<DataT> Row(UIntT i) const{ 
-      return Array1dC<DataT>(const_cast<TMatrixC<DataT> &>(matrix).SliceRow(i)); 
-    }
+    virtual Array1dC<DataT> Row(UIntT i) const
+    { return Array1dC<DataT>(const_cast<TMatrixC<DataT> &>(matrix).SliceRow(i)); }
     //: Access a row from the matrix.
     
     virtual DataT MulSumColumn(UIntT c,const Array1dC<DataT> &dat) const;
     //: Multiply columb by values from dat and sum them.
+    
+    virtual Slice1dC<DataT> Col(UIntT j) const
+    { return const_cast<TMatrixC<DataT> &>(matrix).SliceColumn(j); }
+    //: Access slice from matrix.
+    
+    virtual DataT MulSumColumn(UIntT c,const Slice1dC<DataT> &slice) const;
+    //: Multiply columb by values from slice and sum them.
     
     virtual TSMatrixC<DataT> Add(const TSMatrixC<DataT> &oth) const;
     //: Add this matrix to 'oth' and return the result.
@@ -274,19 +282,36 @@ namespace RavlN {
   
   template<class DataT>  
   DataT TSMatrixFullBodyC<DataT>::MulSumColumn(UIntT c,const Array1dC<DataT> &dat) const { 
-    RavlAssert(dat.Size() == Rows());
+    RavlAssert(IndexRangeC(0,Rows()-1).Contains(dat.Range()));
     if(dat.Size() < 0) {
       DataT ret;
       SetZero(ret);
       return ret;
     }
-    IndexRangeC rng = dat.Range();
+    const IndexRangeC &rng = dat.Range();
     BufferAccessIterC<DataT > it(dat);
-    DataT ret = matrix[rng.Min()][c] * (*it);
-    UIntT j = rng.Min().V()+1;
-    for(it++;it;j++,it++)
-      ret += matrix[j][c] * (*it);
+    Slice1dIterC<DataT> sit(const_cast<TMatrixC<DataT> &>(matrix).SliceColumn(c),rng);
+    DataT ret = (*sit) * (*it);
+    for(it++,sit++;it;sit++,it++)
+      ret += (*sit) * (*it);
     return ret;
+  }
+
+  template<class DataT>  
+  DataT TSMatrixFullBodyC<DataT>::MulSumColumn(UIntT c,const Slice1dC<DataT> &slice) const {
+    RavlAssert(IndexRangeC(0,Rows()-1).Contains(slice.Range()));
+    Slice1dIter2C<DataT,DataT> it(const_cast<TMatrixC<DataT> &>(matrix).SliceColumn(c),
+				  slice,
+				  slice.Range());
+    if(!it) {
+      DataT ret;
+      SetZero(ret);
+      return ret;
+    }
+    DataT ret = it.Data1() * it.Data2();
+    for(it++;it;it++)
+      ret += it.Data1() * it.Data2();
+    return ret;    
   }
   
   ///////////////////////////////////////////////////////////////////

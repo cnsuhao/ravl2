@@ -27,6 +27,26 @@
 namespace RavlN {
   template<class DataT> class TSMatrixC;
   template<class DataT> class TSMatrixFullBodyC;
+
+  template<class DataT>
+  inline DataT MultiplySum(const RangeBufferAccessC<DataT> &ar1,const RangeBufferAccessC<DataT> &ar2) {
+    DataT sum;
+    IndexRangeC rng = ar1.Range();
+    rng.ClipBy(ar2.Range());
+    if(rng.Size() <= 0) {
+      SetZero(sum);
+      return sum;
+    }
+    BufferAccessIter2C<DataT,DataT> it(ar1,ar2,rng);
+    sum = it.Data1() * it.Data2();
+    for(it++;it;it++)
+      sum += it.Data1() * it.Data2();
+    return sum;
+  }
+  //! userlevel=Advanced
+  //: Multiply the contents of matching entries in two arrays together and sum them.
+  
+  //:-
   
   //! userlevel=Develop
   //: Smart Matrix Body.
@@ -67,6 +87,14 @@ namespace RavlN {
     { RavlAssert(0); return DataT(); }
     //: Multiply columb by values from dat and sum them.
     
+    virtual Slice1dC<DataT> Col(UIntT j) const
+    { RavlAssert(0); return Slice1dC<DataT>(); }
+    //: Access slice from matrix.
+    
+    virtual DataT MulSumColumn(UIntT c,const Slice1dC<DataT> &slice) const
+    { RavlAssert(0); return DataT(); }
+    //: Multiply columb by values from slice and sum them.
+    
     virtual TSMatrixC<DataT> Add(const TSMatrixC<DataT> &oth) const;
     //: Add this matrix to 'oth' and return the result.
     
@@ -83,8 +111,7 @@ namespace RavlN {
     // Note the default implementation only works where Row(UIntT), returns a real access
     // to the data in the matrix.
     
-    virtual TSMatrixC<DataT> T() const
-    { return TMatrix().T(); }
+    virtual TSMatrixC<DataT> T() const;
     //: Get transpose of matrix.
     
     virtual TSMatrixC<DataT> Mul(const TSMatrixC<DataT> &oth) const;
@@ -220,6 +247,14 @@ namespace RavlN {
     DataT MulSumColumn(UIntT c,const Array1dC<DataT> &dat) const
     { return Body().MulSumColumn(c,dat); }
     //: Multiply columb by values from dat and sum them.
+
+    Slice1dC<DataT> Col(UIntT j) const
+    { return Body().Col(j); }
+    //: Access slice from matrix.
+    
+    DataT MulSumColumn(UIntT c,const Slice1dC<DataT> &slice) const
+    { return Body().MulSumColumn(c,slice); }
+    //: Multiply columb by values from slice and sum them.
 
     DataT operator[](const Index2dC &ind)
     { return Body().Element(ind[0].V(),ind[1].V()); }
@@ -362,6 +397,13 @@ namespace RavlN {
     
     friend class TSMatrixBodyC<DataT>;
   };
+
+}
+
+#include "Ravl/TSMatrixTranspose.hh"
+
+namespace RavlN {
+  
   
   template<class DataT>
   TSMatrixC<DataT> TSMatrixBodyC<DataT>::Add(const TSMatrixC<DataT> &oth) const {
@@ -412,6 +454,10 @@ namespace RavlN {
 	it.Data1() -= it.Data2();
     }
   }
+
+  template<class DataT>
+  TSMatrixC<DataT> TSMatrixBodyC<DataT>::T() const
+  { return TSMatrixTransposeC<DataT>(TSMatrixC<DataT>(const_cast<TSMatrixBodyC<DataT> &>(*this))); }
   
   template<class DataT>
   TSMatrixC<DataT> TSMatrixBodyC<DataT>::Mul(const TSMatrixC<DataT> &mat) const {
@@ -437,11 +483,7 @@ namespace RavlN {
       return out;
     for (UIntT i = 0; i < rdim; ++i) {
       Array1dC<DataT> row = Row(i);
-      BufferAccessIter2C<DataT,DataT> it(row,RangeBufferAccessC<DataT>(row.Range(),vector));
-      DataT sum = it.Data1() * it.Data2();
-      for(it++;it;it++)
-	sum += it.Data1() * it.Data2();
-      out[i] = sum;
+      out[i] = MultiplySum(row,RangeBufferAccessC<DataT>(IndexRangeC(0,vector.Size()),vector));
     }
     return out;
   }
@@ -457,45 +499,27 @@ namespace RavlN {
     TMatrixC<DataT> out(rdim, cdim);
     for (UIntT r = 0; r < rdim; r++) {
       Array1dC<DataT> row = Row(r);
-      for (UIntT c = 0; c < cdim; c++) {
-	Array1dC<DataT> &r2 = rowArr[c];
-	IndexRangeC rng = row.Range();
-	rng.ClipBy(r2.Range());
-	BufferAccessIter2C<DataT,DataT> it(row,r2,rng);
-	DataT sum = it.Data1() * it.Data2();
-	for(it++;it;it++)
-	  sum += it.Data1() * it.Data2();
-	out[r][c] = sum;
-      }
+      for (UIntT c = 0; c < cdim; c++)
+	out[r][c] = MultiplySum(row,rowArr[c]);
     }
     return TSMatrixC<DataT>(out);
-    //return Mul(B.T()); 
   }
   
   template<class DataT>
   TSMatrixC<DataT> TSMatrixBodyC<DataT>::TMul(const TSMatrixC<DataT> & mat) const { 
-    RavlAssert(Cols() == mat.Cols());
-    const SizeT rdim = Rows();
-    const SizeT cdim = mat.Rows();
-    SArray1dC<Array1dC<DataT> > rowArr(cdim);
-    for(UIntT c = 0;c < cdim;c++)
-      rowArr[c] = mat.Row(c);
-    TMatrixC<DataT> out(cdim, rdim);
+    RavlAssert(Rows() == mat.Rows());
+    const SizeT rdim = Cols();
+    const SizeT cdim = mat.Cols();
+    TMatrixC<DataT> out(rdim, cdim);
     for (UIntT r = 0; r < rdim; r++) {
-      Array1dC<DataT> row = Row(r);
+      Slice1dC<DataT> col = Col(r);
+      cerr << "col=" << col << "\n";
       for (UIntT c = 0; c < cdim; c++) {
-	Array1dC<DataT> &r2 = rowArr[c];
-	IndexRangeC rng = row.Range();
-	rng.ClipBy(r2.Range());
-	BufferAccessIter2C<DataT,DataT> it(row,r2,rng);
-	DataT sum = it.Data1() * it.Data2();
-	for(it++;it;it++)
-	  sum += it.Data1() * it.Data2();
-	out[c][r] = sum;
+	out[r][c] = mat.MulSumColumn(c,col);
+	//out[r][c] = 0;
       }
     }
-    return out;
-    //return T().Mul(mat); 
+    return TSMatrixC<DataT>(out);
   }
   
   template<class DataT>
@@ -503,8 +527,6 @@ namespace RavlN {
     RavlAssert(vector.Size() == Rows());
     const SizeT cdim = Cols();
     TVectorC<DataT> out(cdim);
-    if(cdim < 1) // Zero size vector ?
-      return out;
     for (UIntT i = 0; i < cdim; ++i)
       out[i] = MulSumColumn(i,vector);
     return out;

@@ -117,6 +117,9 @@ namespace RavlN {
     
   };
   
+  VectorC RandomVector(int n,RealT scale = 1);
+  //: Create a random vector of values between -scale and scale with the given size.
+  
 }
 
 #endif

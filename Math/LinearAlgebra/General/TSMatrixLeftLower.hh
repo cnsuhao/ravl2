@@ -68,11 +68,7 @@ namespace RavlN {
     //: Access element.
     
     virtual void Element(UIntT i,UIntT j,const DataT &val) {
-      if(j > i) {
-	if(val != 0)
-	  cerr << "Attempting to set invalid element of matrix." << i << " " << j << "\n";
-	return ;
-      }
+      RavlAssertMsg(j <= i,"Attempt to set invalid matrix element.");
       data[ElementIndex(i,j)] = val;
     }
     //: Set element.
@@ -85,11 +81,14 @@ namespace RavlN {
     virtual DataT MulSumColumn(UIntT c,const Array1dC<DataT> &dat) const;
     //: Multiply columb by values from dat and sum them.
     
-    virtual TSMatrixC<DataT> T() const;
-    //: Get transpose of matrix.
-    
     virtual TSMatrixC<DataT> Mul(const TSMatrixC<DataT> &oth) const;
     //: Get this matrix times 'oth'.
+    
+    virtual Slice1dC<DataT> Col(UIntT j) const;
+    //: Access slice from matrix.
+    
+    virtual DataT MulSumColumn(UIntT c,const Slice1dC<DataT> &slice) const;
+    //: Multiply columb by values from slice and sum them.
     
 #if 0    
     virtual TVectorC<DataT> Mul(const TVectorC<DataT> &oth) const;
@@ -188,6 +187,7 @@ namespace RavlN {
   
   template<class DataT>
   DataT TSMatrixLeftLowerBodyC<DataT>::MulSumColumn(UIntT c,const Array1dC<DataT> &dat) const {
+    RavlAssert(c < Cols());
     UIntT s = Max((UIntT) dat.Range().Min().V(),c);
     if(!dat.Contains(s)){
       DataT ret;
@@ -206,6 +206,47 @@ namespace RavlN {
     }
     return sum;
   }
+  
+  template<class DataT>
+  Slice1dC<DataT> TSMatrixLeftLowerBodyC<DataT>::Col(UIntT j) const {
+    RavlAssert(j < Cols());
+    const UIntT lrow = Rows()-1;
+    IndexRangeC rng(j,lrow);
+    Slice1dC<DataT> ret(rng);
+    const DataT *at = &data[ElementIndex(j,j)];
+    int i = j+1;
+    for(Slice1dIterC<DataT> it(ret);it;it++) {
+      *it = *at;
+      at += i++;
+    }
+    //cerr << "Col("<< j << ")=" << ret <<"\n";
+    return ret;
+  }
+  
+  template<class DataT>
+  DataT TSMatrixLeftLowerBodyC<DataT>::MulSumColumn(UIntT c,const Slice1dC<DataT> &slice) const {
+    DataT sum;
+    IndexRangeC rng(0,(Cols()-1) - c);
+    rng.ClipBy(slice.Range());
+    if(rng.Size() <= 0) {
+      SetZero(sum);
+      return sum;
+    }
+    const DataT *at = &data[ElementIndex(rng.Min().V(),c)];
+    UIntT z = rng.Min().V() + 1;
+    Slice1dIterC<DataT> it(slice,rng);
+    cerr << " (" << (*it) << "," << (*at) << ")";
+    sum = (*it) * (*at);
+    at += z++;
+    for(it++;it;it++) {
+      cerr << " (" << (*it) << "," << (*at) << ")";
+      sum += (*it) * (*at);
+      at += z++;
+    }
+    cerr << "\n";
+    return sum;
+  }
+
   
   template<class DataT>
   TSMatrixC<DataT> TSMatrixLeftLowerBodyC<DataT>::Mul(const TSMatrixC<DataT> &mat) const {
@@ -277,10 +318,6 @@ namespace RavlN {
     return ret;
   }
   
-  template<class DataT>
-  TSMatrixC<DataT> TSMatrixLeftLowerBodyC<DataT>::T() const {
-    return TSMatrixC<DataT>(TMatrix(false).T());
-  }
 }
 
 #endif
