@@ -30,8 +30,8 @@ namespace RavlN {
     {}
     //: Default constructor.
     
-    inline Curve2dLineSegmentC(const SArray1dC<Point2dC> &Pnts)
-    { FitLSQ(Pnts); }
+    inline Curve2dLineSegmentC(const Array1dC<Point2dC> &pnts)
+    { Fit(pnts); }
     //: Make a line that best fits the given points.
     
     inline Curve2dLineSegmentC(const Curve2dLineSegmentC &Oth);
@@ -43,11 +43,13 @@ namespace RavlN {
     inline Curve2dLineSegmentC(Point2dC Start,Point2dC End);
     //: From a pair of points.
     
-    RealT FitLSQ(const SArray1dC<Point2dC> &Pnts);
+    RealT FitLSQ(const Array1dC<Point2dC> &pnts,RealT &residual);
     //: Make a line that fits points.
     
-    inline RealT Fit(const SArray1dC<Point2dC> &Pnts) 
-    { return FitLSQ(Pnts); }
+    inline RealT Fit(const Array1dC<Point2dC> &pnts) { 
+      RealT tmp;
+      return FitLSQ(pnts,tmp); 
+    }
     //: Default fitting method.
     
     inline RealT Start() const { return Ends[0]; }

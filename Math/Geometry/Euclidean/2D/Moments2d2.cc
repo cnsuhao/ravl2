@@ -31,7 +31,7 @@ namespace RavlN {
 		     m02 / m00 - Sqr(cent2));
   }
   
-  Vector2dC Moments2d2C::PrincipalAxis() const {
+  Vector2dC Moments2d2C::PrincipalAxisSize() const {
     Matrix2dC mat = Covariance();
     Vector2dC vec;
     EigenValuesIP(mat,vec);

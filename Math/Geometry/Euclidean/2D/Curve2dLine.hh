@@ -21,7 +21,7 @@
 
 namespace RavlN {
   class IndexRange2dC;
-  template<class DataT> class SArray1dC;
+  template<class DataT> class Array1dC;
   
   //: Parametric Line.
   // This class modifies the line equation so it always
@@ -33,8 +33,10 @@ namespace RavlN {
     {}
     //: Default constructor.
     
-    inline Curve2dLineC(const SArray1dC<Point2dC> &Pnts)
-    { FitLSQ(Pnts); }
+    inline Curve2dLineC(const Array1dC<Point2dC> &points) { 
+      RealT res;
+      FitLSQ(points,res); 
+    }
     //: Make a line that best fits the given points.
     
     inline Curve2dLineC(Point2dC p1,Point2dC p2)
@@ -53,9 +55,8 @@ namespace RavlN {
       ((LineABC2dC &) (*this)) = LineABC2dC(Point2dC(row,0),ang);
       MakeUnitNormal();
     }
-    
     //: From Y axis crossing point and angle.
-    
+
     inline Curve2dLineC(Point2dC mid,Vector2dC dir)
       : LineABC2dC(mid,dir)
     { MakeUnitNormal(); }
@@ -66,21 +67,19 @@ namespace RavlN {
     {}
     //: From paramiters.
     
-    RealT FitLSQ(const SArray1dC<Point2dC> &Pnts);
-    //: Make a line that fits points.
-    
-    inline RealT Fit(const SArray1dC<Point2dC> &Pnts) 
-    { return FitLSQ(Pnts); }
+    inline RealT Fit(const Array1dC<Point2dC> &pnts) { 
+      RealT tmp;
+      return FitLSQ(pnts,tmp); 
+    }
     //: Default fitting method.
     
-    RealT AssessFit(const SArray1dC<Point2dC> &Pnts);
+    RealT AssessFit(const Array1dC<Point2dC> &points);
     //: Measure error for fit.
+    // Returns the average distance of the points from the line.
     
-#if 0
-    AngleC Angle() 
-    { return AngleC(Normal().Perpendicular().Angle(),StdConstC::pi*2); };
+    RealT Angle() const
+    { return Normal().Perpendicular().Angle(); }
     //: Get angle of line.
-#endif
     
     inline const Curve2dLineC &operator=(const LineABC2dC &It) {
       ((LineABC2dC &) (*this)) = It;

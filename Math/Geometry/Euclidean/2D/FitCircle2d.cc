@@ -13,6 +13,7 @@
 #include "Ravl/Matrix.hh"
 #include "Ravl/Assert.hh"
 #include "Ravl/LeastSquares.hh"
+#include "Ravl/Array1d.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -26,7 +27,7 @@ namespace RavlN {
   ////////////////////
   // Fit to some points.
   
-  bool Circle2dC::FitLSQ(const SArray1dC<Point2dC> &points,RealT &residual) {
+  bool Circle2dC::FitLSQ(const Array1dC<Point2dC> &points,RealT &residual) {
     IntT N = points.Size();
     if(N < 3) // Under determined.
       return false;  

@@ -11,7 +11,7 @@
 
 #include "Ravl/Curve2dLineSegment.hh"
 #include "Ravl/Assert.hh"
-#include "Ravl/SArray1d.hh"
+#include "Ravl/Array1d.hh"
 #include "Ravl/Stream.hh"
 
 // Parametric Line Segment.
@@ -35,15 +35,15 @@ namespace RavlN {
   //////////////////////////
   // Make a line that fits points.
   
-  RealT Curve2dLineSegmentC::FitLSQ(const SArray1dC<Point2dC> &Pnts) {
-    if(Pnts.Size() < 1) {
+  RealT Curve2dLineSegmentC::FitLSQ(const Array1dC<Point2dC> &points,RealT &residual) {
+    if(points.Size() < 1) {
       Ends[0] = 0;
       Ends[1] = 0;
       return 0;
     }
-    RealT err = Curve2dLineC::FitLSQ(Pnts);
-    Ends[0] = Closest(Pnts[0]);
-    Ends[1] = Closest(Pnts[Pnts.Size()-1]);
+    RealT err = Curve2dLineC::FitLSQ(points,residual);
+    Ends[0] = Closest(points[0]);
+    Ends[1] = Closest(points[points.Size()-1]);
     return err;
   }
   

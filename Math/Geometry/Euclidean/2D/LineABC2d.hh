@@ -19,6 +19,7 @@
 #include "Ravl/Point2d.hh"
 
 namespace RavlN {
+  template<class DataT> class Array1dC;
   
   //: Line in 2D space - equation Ax+By+C = 0
   // The class LineABC2dC represents a line embedded in the 2D plane.
@@ -51,6 +52,11 @@ namespace RavlN {
       : normal(v.Perpendicular())
     { d = -normal.Dot(p); }
     //: Creates the line passing through 'p' with the direction 'v'
+    
+    bool FitLSQ(const Array1dC<Point2dC> &points,RealT &residual);
+    //: Fit points to a circle.
+    // 'residual' is from the least squares fit and can be used to assess 
+    // the quality of the fit.  Returns false if fit failed.
     
     //:-------------------------------------
     //: Access to the elements of the object.

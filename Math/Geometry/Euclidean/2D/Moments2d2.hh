@@ -55,7 +55,7 @@ namespace RavlN {
     { AddPixel(point); return *this; }
     //: Add pixel to set.
     
-    Vector2dC PrincipalAxis() const;
+    Vector2dC PrincipalAxisSize() const;
     //: Calculate the size of the principle axis.
     // It returns the new values for M02 and M20, 
     // the largest is the first element of the vector.
@@ -138,6 +138,30 @@ namespace RavlN {
     //: Returns the y co-ordinate of the centroid.
     // The M00 moment must be different 0.
     
+    inline RealT VarX() const
+    { return m20/m00 - Sqr(CentroidX()); }
+    //: Returns the variance of the x.
+    
+    inline RealT VarY() const 
+    { return m02/m00 - Sqr(CentroidY()); }
+    //: Returns the variance of the y.
+    
+    inline RealT SlopeY() const;
+    //: Returns the slope dY/dX. The used criterion is Sum(Y-y)^2 -> min.
+    // It means dY/dX = k, where y = k*x+q.
+    
+    inline RealT SlopeX() const;
+    //: Returns the slope dX/dY. The used criterion is Sum(X-x)^2 -> min.
+    // It means dX/dY = k, where x = k*y+q.
+    
+    inline RealT InterceptY() const;
+    //: Returns the estimate of q, if y = k*x+q. 
+    // The used criterion is Sum(Y-y)^2 -> min.
+    
+    inline RealT InterceptX() const;
+    //: Returns the estimate of q, if y = k*y+q. 
+    // The used criterion is Sum(X-x)^2 -> min.
+    
     Matrix2dC Covariance() const;
     //: Return the covariance matrix.
     
@@ -158,6 +182,12 @@ namespace RavlN {
     
     const Moments2d2C &operator-=(const Moments2d2C &m);
     //: Subtract a set of moments to this one.
+
+    void SwapXY() {
+      Swap(m10,m01);
+      Swap(m20,m02);
+    }
+    //: Swap X and Y co-ordinates.
     
   private:
     RealT m00;
@@ -232,6 +262,38 @@ namespace RavlN {
     m02 -= m.M02();
     return *this;
   }
-
+  
+  inline 
+  RealT Moments2d2C::SlopeY() const {
+    RealT det = m00 * m20 - m10 * m10;
+    if(IsSmall(det)) 
+      throw ExceptionOutOfRangeC("Moments2d2C::SlopeY(), Determinant near zero. ");
+    return (m00 * m11 - m10 * m01)/det;
+  }
+  
+  inline 
+  RealT Moments2d2C::InterceptY() const {
+    RealT det = m00 * m20 - m10 * m10;
+    if(IsSmall(det)) 
+      throw ExceptionOutOfRangeC("Moments2d2C::InterceptY(), Determinant near zero. ");
+    return (m20 * m01 - m10 * m11)/det;
+  }
+  
+  inline 
+  RealT Moments2d2C::SlopeX() const {
+    RealT det = m00 * m02 - m01 * m01;
+    if(IsSmall(det)) 
+      throw ExceptionOutOfRangeC("Moments2d2C::SlopeX(), Determinant near zero. ");
+    return (m00 * m11 - m01 * m10)/det;
+  }
+  
+  inline 
+  RealT Moments2d2C::InterceptX() const {
+    RealT det = m00 * m02 - m01 * m01;
+    if(IsSmall(det)) 
+      throw ExceptionOutOfRangeC("Moments2d2C::InterceptX(), Determinant near zero. ");
+    return (m02 * m10 - m01 * m11)/det;  
+  }
+  
 }
 #endif

@@ -17,10 +17,11 @@
 
 #include "Ravl/Point2d.hh"
 #include "Ravl/Vector2d.hh"
-#include "Ravl/SArray1d.hh"
 
 namespace RavlN {
   class LineABC2dC;
+  
+  template<class DataT> class Array1dC;
   
   //! userlevel=Normal
   //: Circle in 2-D space.
@@ -40,17 +41,16 @@ namespace RavlN {
     {}
     //: Constructor.
     
-    inline Circle2dC(const SArray1dC<Point2dC> &points) { 
+    inline Circle2dC(const Array1dC<Point2dC> &points) { 
       RealT tmp;
       FitLSQ(points,tmp); 
     }
     //: Fit circle to a set of points.
     
-    bool FitLSQ(const SArray1dC<Point2dC> &points,RealT &residual);
+    bool FitLSQ(const Array1dC<Point2dC> &points,RealT &residual);
     //: Fit points to a circle.
-    // 'residual' is from the least squares fit and can be used to assess the quality of the
-    // fit.
-    // Returns false if fit failed.
+    // 'residual' is from the least squares fit and can be used to assess 
+    // the quality of the fit.  Returns false if fit failed.
     
     inline RealT &Radius() 
     { return radius; }
@@ -92,12 +92,10 @@ namespace RavlN {
     { return Abs(centre.EuclidDistance(p) - radius); }
     //: Distance to closest point on perimeter.
     
-    bool Fit(Point2dC p1,Point2dC p2,Point2dC p3);
+    bool Fit(const Point2dC &p1,const Point2dC &p2,const Point2dC &p3);
     //: Fit a circle through 3 points.
     // Returns false if the points are collinear.
   private:
-    static inline LineABC2dC Bisector(const Point2dC &p1,const Point2dC &p2);
-  
     Point2dC centre;
     RealT radius;
   };

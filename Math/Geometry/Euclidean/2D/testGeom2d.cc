@@ -51,7 +51,7 @@ int testMoments() {
   //cerr << "Centroid=" << cx << " " << cy <<"\n";
   if((Abs(cx - 10) > 0.001) || (Abs(cy - 20.3333) > 0.001))
      return __LINE__;
-  Vector2dC principleAxis = mom.PrincipalAxis();
+  Vector2dC principleAxis = mom.PrincipalAxisSize();
   cerr << "PrincipleAxis=" << principleAxis  <<"\n"; 
   RealT elong = mom.Elongatedness(principleAxis);
   cerr <<"Elong=" << elong << "\n";
@@ -103,5 +103,15 @@ int testCircle2d() {
     return __LINE__;
   if(Abs(circle.Radius() - 2) > 0.01) 
     return __LINE__;
+
+  Circle2dC circle2;
+  if(!circle2.Fit(pnts[0],pnts[1],pnts[2]))
+    return __LINE__;
+  //cerr << "Center=" << circle2.Centre() << " Radius=" << circle2.Radius() << "\n";
+  if(Point2dC(circle2.Centre() - Point2dC(1,2)).SumOfSqr() > 0.01)
+    return __LINE__;
+  if(Abs(circle2.Radius() - 2) > 0.01) 
+    return __LINE__;
+  
   return 0;
 }

@@ -15,7 +15,9 @@
 #include "Ravl/Curve2dLineSegment.hh"
 #include "Ravl/StdConst.hh"
 #include "Ravl/LinePP2d.hh"
+#include "Ravl/LineABC2d.hh"
 #include "Ravl/RealRange2d.hh"
+#include "Ravl/Array1d.hh"
 
 using namespace RavlN;
 
@@ -30,6 +32,7 @@ int testMoments();
 int testLines();
 int testLine2d();
 int testClip2d();
+int testLineFitLSQ();
 
 int main() {
   int ln;
@@ -42,6 +45,10 @@ int main() {
     return 1;
   }
   if((ln = testClip2d()) != 0) {
+    cerr << "Test failed line " << ln << "\n";
+    return 1;
+  }
+  if((ln = testLineFitLSQ()) != 0) {
     cerr << "Test failed line " << ln << "\n";
     return 1;
   }
@@ -125,5 +132,17 @@ int testClip2d() {
   //cerr << " CP1=" << l5.P1() << " CP2=" << l5.P2() << "\n";
   if(!rng2.Contains(l5.P1())) return __LINE__;
   if(!rng2.Contains(l5.P2())) return __LINE__;
+  return 0;
+}
+
+int testLineFitLSQ() {
+  
+  Array1dC<Point2dC> points(4);
+  for(UIntT i = 0;i < points.Size();i++)
+    points[i] = Point2dC(i+1, i * 4);
+  LineABC2dC line;
+  RealT res;
+  line.FitLSQ(points,res);
+  cerr << "Line=" << line << " Res=" << res <<"\n";
   return 0;
 }

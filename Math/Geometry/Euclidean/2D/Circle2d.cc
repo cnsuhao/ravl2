@@ -15,18 +15,21 @@
 #include "Ravl/Assert.hh"
 
 namespace RavlN {
-
-  inline LineABC2dC Circle2dC::Bisector(const Point2dC &p1,const Point2dC &p2) {
-    Vector2dC Norm = p1 - p2;
-    return LineABC2dC(Norm,(p1 + p2)/2);
-  }
   
   // Fit a circle through 3 points.
   
-  bool Circle2dC::Fit(Point2dC p0,Point2dC p1,Point2dC p2) {
-    if(!Bisector(p0,p1).Intersection(Bisector(p1,p2),centre))
-      return false; // Points are collinear.
-    radius = centre.EuclidDistance(p1);
-    return true;
+  bool Circle2dC::Fit(const Point2dC &p0,const Point2dC &p1,const Point2dC &p2) {
+    Vector2dC a1(p1[1] - p0[1],p0[0] - p1[0]);
+    Vector2dC a2(p2[1] - p1[1],p1[0] - p2[0]);
+    RealT d = a2[0]*a1[1] - a2[1]*a1[0];
+    if(Abs(d) < 0.000001)
+      return false;
+    Vector2dC np1 = (p0 + p1) / 2;
+    Vector2dC np2 = (p1 + p2) / 2;
+    RealT m = (a1[0] * (np2[1] - np1[1]) - a1[1] *(np2[0] - np1[0]))/d;
+    a2 *= m;
+    centre = np2 + a2;
+    radius = centre.EuclidDistance(p0);
+    return 1;
   }
 }

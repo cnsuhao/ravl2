@@ -28,7 +28,7 @@ namespace RavlN {
     }
     //: Default constructor.
     
-    bool FitLSQ(const SArray1dC<Point2dC> &points,RealT &residual);
+    bool FitLSQ(const Array1dC<Point2dC> &points,RealT &residual);
     //: Fit points to a circle.
     // 'residual' is from the least squares fit and can be used to assess the quality of the
     // fit. Assumes the points are ordered around the arc.
@@ -49,6 +49,10 @@ namespace RavlN {
     inline RealT EndAngle() const
     { return ends[1]; }
     //: End angle of arc, which proccedes clockwise.
+    
+    bool Fit(const Point2dC &p1,const Point2dC &p2,const Point2dC &p3);
+    //: Fit a circle through 3 points.
+    // Returns false if the points are collinear.
     
   private:
     RealT ends[2];
