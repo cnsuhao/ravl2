@@ -61,10 +61,10 @@ $(set:area=Application)
 
 $(define:chktype:$(if:$exetype=public:%arg%))
 
-$(set:subType=exe)$(set:subTitle=Application)$(set:objLevel=Basic)$(include:objects.stmpl)
-$(set:subType=exe)$(set:subTitle=Application)$(set:objLevel=Normal)$(include:objects.stmpl)
-$(set:subType=exe)$(set:subTitle=Application)$(set:objLevel=Advanced)$(include:objects.stmpl)
-$(set:subType=exe)$(set:subTitle=Application)$(set:objLevel=Default)$(include:objects.stmpl)
+$(set:subType=exe)$(set:subTitle=Applications)$(set:objLevel=Basic)$(include:objects.stmpl)
+$(set:subType=exe)$(set:subTitle=Applications)$(set:objLevel=Normal)$(include:objects.stmpl)
+$(set:subType=exe)$(set:subTitle=Applications)$(set:objLevel=Advanced)$(include:objects.stmpl)
+$(set:subType=exe)$(set:subTitle=Applications)$(set:objLevel=Default)$(include:objects.stmpl)
 $(set:area=Class)
 
 $(if:$pagemode=develop:
