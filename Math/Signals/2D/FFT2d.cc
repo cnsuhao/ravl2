@@ -14,7 +14,6 @@
 #include "Ravl/SArray2dIter2.hh"
 #include "Ravl/SArray2dIter3.hh"
 #include "Ravl/Slice1d.hh"
-#include 	"Ravl/Array2d.hh"
 
 #include "ccmath/ccmath.h"
 
