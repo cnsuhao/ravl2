@@ -59,7 +59,7 @@ namespace RavlN {
     
     MatrixC NearSingularInverse(RealT &det) const;
     //: Inverts this matrix and returns determinant of original matrix.
-    // Note: This currently only works for real symmetric matrices.
+    // Note: This currently only works for positive definite matrices.
     // This routine is particularly useful when you matrices are near singular
     // as it uses PCA to first rotate co-ordinate axis, so no nasty divisions.
     // See Fukunaga -Introduction to Statistical Pat Rec, page 40.

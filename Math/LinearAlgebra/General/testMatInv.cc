@@ -46,7 +46,9 @@ int main(int argc,char **argv) {
 
 int testInverse(int n,int r,InvMethodT method) {
   switch(method) {
-  case INV_NEARSINGULAR: cerr << "Testing near singular.\n"; break;
+  case INV_NEARSINGULAR: 
+    cerr << "Testing near singular.\n"; 
+    break;
   case INV_PSEUDO:cerr << "Testing pseudo inverse.\n"; break;
   case INV_NORMAL:cerr << "Testing normal inverse.\n"; break;
   }
@@ -54,7 +56,9 @@ int testInverse(int n,int r,InvMethodT method) {
   for(IntT i = 0;i < r;i++) {
     MatrixC x;
     switch(method) {
-    case INV_NEARSINGULAR: x = RandomSymmetricMatrix(n); break;
+    case INV_NEARSINGULAR: 
+      x = RandomPositiveDefiniteMatrix(n); 
+      break;
     case INV_PSEUDO:
     case INV_NORMAL:
       x = RandomMatrix(n,n);
@@ -82,19 +86,11 @@ int testInverse(int n,int r,InvMethodT method) {
     MatrixC z = (y * x) - MatrixC::Identity(n);
     RealT ret = (z.SumOfAbs() * 100)/(n*n);
     cout <<" Remainder:" << ret << endl;
-    if(ret > 1.0e-5) {
+    if(ret > 1e-8) {
       cerr << "WARNING: Test Failed. \n";
       fail++;
-      // cerr << "Mat=" << x << "\n";
-      //return 1;
-    }
-  }
-  if(fail > 0) {
-    if(method == INV_NEARSINGULAR) {
-      // Occasionaly fails because matrix isn't positive definite ??
-      if(fail > 1)
-	return 1;
-      return 0;
+      //cerr << "Mat=" << x << "\n";
+      return 1;
     }
   }
   if(fail == 0)
