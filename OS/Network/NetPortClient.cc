@@ -68,7 +68,7 @@ namespace RavlN {
       NetPortClientC me(*this);
       if(!isport.Connect(me)) {
 	cerr << "NetPortClientBodyC::MsgConnectTo(), Failed, Already connected. \n";
-	Send(6,1); // End of stream.
+	Send(NPMsg_ReqFailed,1); // End of stream.
 	// Return a failed message ?
 	return true;
       }
@@ -91,7 +91,7 @@ namespace RavlN {
       NetPortClientC me(*this);
       if(!osport.Connect(me)) {
 	cerr << "NetPortClientBodyC::MsgConnectTo(), Failed, Already connected. \n";
-	Send(6,1); // End of stream.
+	Send(NPMsg_ReqFailed,1); // End of stream.
 	// Return a failed message ?
 	return true;
       }
