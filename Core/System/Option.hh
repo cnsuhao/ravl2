@@ -21,7 +21,7 @@
 
 #include "Ravl/String.hh"
 #include "Ravl/DList.hh"
-#include "Ravl/Tuple2.hh"
+#include "Ravl/TFVector.hh"
 #include "Ravl/StrStream.hh"
 #include "Ravl/Assert.hh"
 
@@ -111,7 +111,7 @@ namespace RavlN {
     RealT Real(const char * name, RealT def,const char * comment);
     //: Gets real value.
     
-    Tuple2C<RealT,RealT> Point2d(const char * name,  RealT def1, RealT def2,const char * comment);
+    TFVectorC<RealT,2> Point2d(const char * name,  RealT def1, RealT def2,const char * comment);
     //: Gets a pair of real values.
     
     char * CharArr(const char * name,const  char * def,const char * comment);

@@ -267,8 +267,8 @@ namespace RavlN {
   
   // Gets a pair of real values.
   
-  Tuple2C<RealT,RealT> OptionC::Point2d(const char * name,  RealT def1, RealT def2,const char * comment) {
-    RealT ret[2];
+  TFVectorC<RealT,2> OptionC::Point2d(const char * name,  RealT def1, RealT def2,const char * comment) {
+    TFVectorC<RealT,2> ret;
     DListC<StringC> value = GetOptions(name,2);
     DLIterC<StringC> it(value);
     if(!value.IsEmpty()) {
@@ -285,7 +285,7 @@ namespace RavlN {
     if(*name == 0) argName = "arg";
     else argName = StringC('-') + name;
     Comment(argName + " (" + StringC(ret[0]) + ' ' + StringC(ret[1]) + ") [" + StringC(def1) + ' ' + StringC(def2) + "] " + comment);
-    return Tuple2C<RealT,RealT> (ret[0],ret[1]);
+    return ret;
   }
   
   ////////////////////////////////
