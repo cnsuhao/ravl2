@@ -21,9 +21,7 @@
 namespace RavlN {
   
   //: CrackCode 
-  // Symbol names of crack code. The code numer of symbols name must not
-  // be changed without carefull examination of affecting of the class
-  // CrackCodeC.
+  // Symbol names of crack code, ordered counter-clockwise.
   
   enum  CrackCodeT {
     CR_DOWN  = 0,
@@ -32,6 +30,9 @@ namespace RavlN {
     CR_LEFT  = 3,
     CR_NODIR = 4
   };
+  
+  //: Relative crackCode 
+  // Symbol names of crack code, ordered counter-clockwise.
   
   enum  RelativeCrackCodeT {
     CR_AHEAD     = 0,

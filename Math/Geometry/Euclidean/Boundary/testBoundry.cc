@@ -35,12 +35,13 @@ int testEdge() {
   Index2dC at = edge.RPixel();
   ONDEBUG(cerr << "iAt=" << at << " Start=" << start << "\n");
   if(at != (start + Index2dC(0,-1))) return __LINE__;
+  if(start != edge.LPixel()) return __LINE__;
   // Go around a pixel clockwise.
   for(int i = 0;i < 5;i++) {
     edge.Begin() = edge.End();
     edge.TurnClock();
     ONDEBUG(cerr << "At=" << edge.RPixel() << " Code:" << edge.Code() << "\n");
-    //if(at == edge.RPixel()) return __LINE__;
+    if(at == edge.LPixel()) return __LINE__;
   }
   // Go around a pixel counter clockwise.
   edge = EdgeC(start,CR_DOWN);
@@ -52,6 +53,14 @@ int testEdge() {
     edge.TurnCClock();
     ONDEBUG(cerr << "At=" << edge.LPixel() << " Code:" << edge.Code() << "\n");
     if(at != edge.LPixel()) return __LINE__;
+  }
+  //                       DOWN          RIGHT         UP            LEFT           None
+  Index2dC offsets[5] = { Index2dC(0,-1),Index2dC(1,0),Index2dC(0,1),Index2dC(-1,0),Index2dC(0,0) };
+  for(int i = 0;i < 5;i++) {
+    edge = EdgeC(start,i);
+    cerr << " " << i << " RPixel=" << edge.RPixel() << "\n";
+    if(edge.LPixel() != start) return __LINE__;
+    if(edge.RPixel() != (start + offsets[i])) return __LINE__; 
   }
   return 0;
 }
