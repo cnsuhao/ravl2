@@ -31,8 +31,9 @@ namespace RavlN {
   template<class DataT> class Slice1dIterC;
 
   //! userlevel=Advanced  
-  //: Simple 2 dimentional array.
-  
+  //: Simple 2 dimensional array.
+  // For each dimension of the array, the lower index is 0.
+
   template<class DataT>
   class SArray2dC 
     : public SizeBufferAccess2dC<DataT>

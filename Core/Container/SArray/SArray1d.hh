@@ -36,7 +36,9 @@ namespace RavlN {
   //: A simple 1 dimensional array
   // The class SArray1dC is a simple reference counted 
   // container with a fixed number of items
-  // which can accessed randomly using indexing. The item is expected
+  // which can be accessed randomly using indexing. 
+  // The lower index of the array is 0.
+  // The item is expected
   // to have a default constructor, a copy constructor, and an assigment.
   // The class SArray1dC is a big object, eg. it has a reference counter.
   

@@ -31,7 +31,8 @@ namespace RavlN {
 
   //! userlevel=Advanced  
   //: Simple 3 dimentional array.
-  
+  // For each dimension of the array, the lower index is 0.
+
   template<class DataT>
   class SArray3dC 
     : public SizeBufferAccess3dC<DataT>
