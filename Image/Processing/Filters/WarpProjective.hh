@@ -13,13 +13,13 @@
 //! author="Charles Galambos"
 //! date="16/07/2002"
 
+#include "Ravl/Image/PixelMixer.hh"
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Array2dIter.hh"
 #include "Ravl/Matrix3d.hh"
 #include "Ravl/Vector3d.hh"
 #include "Ravl/Point2d.hh"
 #include "Ravl/RealRange2d.hh"
-#include "Ravl/Image/PixelMixer.hh"
 
 namespace RavlImageN {
   
@@ -30,17 +30,46 @@ namespace RavlImageN {
   class WarpProjectiveC
   {
   public:
-    WarpProjectiveC(const Matrix3dC &transform,RealT nz = 1,bool nFillBackground = true,const MixerT &mix = MixerT())
+    WarpProjectiveC()
+    {}
+    //: Default constructor.
+    
+    WarpProjectiveC(const IndexRange2dC &orec,
+		    const Matrix3dC &transform,
+		    RealT nz = 1,
+		    bool nFillBackground = true,
+		    const MixerT &mix = MixerT())
+      : trans(transform),
+	z(nz),
+	rec(orec),
+	fillBackground(nFillBackground),
+	mixer(mix)
+    { Init(); }
+    //: Constructor.
+    // Where orec is the size of the output rectangle.
+    
+    WarpProjectiveC(const Matrix3dC &transform,
+		    RealT nz = 1,
+		    bool nFillBackground = true,
+		    const MixerT &mix = MixerT())
       : trans(transform),
 	z(nz),
 	fillBackground(nFillBackground),
 	mixer(mix)
     { Init(); }
     //: Constructor.
-    // 'ir' is the output rectangle.
     
     void Apply(const ImageC<InT> &img,ImageC<OutT> &out);
     //: Warp image 'img' with the given transform and write it into 'out'
+    
+    ImageC<OutT> Apply(const ImageC<InT> &img) {
+      ImageC<OutT> out(rec);
+      Apply(img,out);
+      return out;
+    }
+    //: Interpolate input image working rectangle into
+    //: output image rectangle.
+    // The output rectangle is specified in the constructor.
     
     Point2dC BackProject(const Point2dC &pnt) const;
     // Transform a point from the destination to source.
@@ -54,34 +83,34 @@ namespace RavlImageN {
     Matrix3dC trans;
     Matrix3dC inv;
     RealT z;
-    ImageRectangleC rec;
+    IndexRange2dC rec;
     bool fillBackground;
     MixerT mixer;
   };
 
-  template <class InT, class OutT>
-  void WarpProjectiveC<InT,OutT>::Init() {
+  template <class InT, class OutT,class MixerT>
+  void WarpProjectiveC<InT,OutT,MixerT>::Init() {
     inv = trans.Inverse();
   }
   
-  template <class InT, class OutT>
-  Point2dC WarpProjectiveC<InT,OutT>::BackProject(const Point2dC &pnt) const {
+  template <class InT, class OutT,class MixerT>
+  Point2dC WarpProjectiveC<InT,OutT,MixerT>::BackProject(const Point2dC &pnt) const {
     Vector3dC vo = trans * Vector3dC(pnt[0],pnt[1],z);
     return Point2dC(vo[0]/vo[2],vo[1]/vo[2]);
   }
   
-  template <class InT, class OutT>
-  Point2dC WarpProjectiveC<InT,OutT>::Project(const Point2dC &pnt) const {
+  template <class InT, class OutT,class MixerT>
+  Point2dC WarpProjectiveC<InT,OutT,MixerT>::Project(const Point2dC &pnt) const {
     Vector3dC vo = inv * Vector3dC(pnt[0],pnt[1],z);
     return Point2dC(vo[0]/vo[2],vo[1]/vo[2]);          
   }
   
-  template <class InT, class OutT>
-  void WarpProjectiveC<InT,OutT>::Apply(const ImageC<InT> &src,ImageC<OutT> &outImg) {
+  template <class InT, class OutT,class MixerT>
+  void WarpProjectiveC<InT,OutT,MixerT>::Apply(const ImageC<InT> &src,ImageC<OutT> &outImg) {
 
     RealRange2dC orng(rec);
     RealRange2dC irng(src.Frame());
-    if(outImg.Frame() != rec)
+    if(!outImg.Frame().Contains(rec))
       outImg = ImageC<OutT>(rec);
     //cerr << "Trans0=" << trans * orng.TopRight() << " from " << orng.TopRight() << "\n";
     
@@ -131,9 +160,7 @@ namespace RavlImageN {
       }
       pat[1] = beg;
       pat[0]++;
-    }
-    
-    return;
+    }    
   }
   
 }

@@ -12,6 +12,7 @@
 #include "Ravl/Image/ConvolveHorz2d.hh"
 #include "Ravl/Image/ConvolveVert2d.hh"
 #include "Ravl/Image/ConvolveSeparable2d.hh"
+#include "Ravl/Image/PixelMixer.hh"
 #include "Ravl/Image/WarpScale.hh"
 #include "Ravl/Image/WarpAffine.hh"
 #include "Ravl/Image/WarpProjective.hh"

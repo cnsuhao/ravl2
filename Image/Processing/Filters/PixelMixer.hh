@@ -11,9 +11,13 @@
 //! docentry="Ravl.Images.Warping"
 //! author="Charles Galambos"
 //! lib=RavlImageProc
+//! date="20/07/2002"
+
+#include "Ravl/Types.hh"
 
 namespace RavlImageN {
-
+  
+  //! userlevel=Normal
   //: Pixel mixer, assignement.
   
   template<class InT,class OutT>
@@ -23,12 +27,12 @@ namespace RavlImageN {
     {}
     //: Default constructor.
     
-    void operator(OutT &pixel,const InT &mixin)
+    void operator()(OutT &pixel,const InT &mixin)
     { pixel = mixin; }
-    //: operator
+    //: Mix operator
   };
-
-
+  
+  //! userlevel=Normal
   //: Pixel mixer, mean.
   // This updates the pixel with the mean of the two values.
   
@@ -39,10 +43,11 @@ namespace RavlImageN {
     {}
     //: Default constructor.
     
-    void operator(OutT &pixel,const InT &mixin)
+    void operator()(OutT &pixel,const InT &mixin)
     { pixel = (mixin + pixel)/2; }
-    //: operator
+    //: Mix operator
   };
+  
 }
 
 

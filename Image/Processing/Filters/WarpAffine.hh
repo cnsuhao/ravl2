@@ -44,6 +44,14 @@ namespace RavlImageN {
     
     void Apply(const ImageC<InT> &img,ImageC<OutT> &outImg);
     //: Interpolate input image working rectangle into
+    //: output image.
+    
+    ImageC<OutT> Apply(const ImageC<InT> &img) {
+      ImageC<OutT> out(rec);
+      Apply(img,out);
+      return out;
+    }
+    //: Interpolate input image working rectangle into
     //: output image rectangle.
     // The output rectangle is specified in the constructor.
     
@@ -55,8 +63,8 @@ namespace RavlImageN {
     MixerT mixer;
   };
   
-  template <class InT, class OutT>
-  void WarpAffineC<InT, OutT>::Apply(const ImageC<InT> &src,ImageC<OutT> &outImg) {
+  template <class InT, class OutT,class MixerT>
+  void WarpAffineC<InT,OutT,MixerT>::Apply(const ImageC<InT> &src,ImageC<OutT> &outImg) {
     RealRange2dC orng(rec);
     RealRange2dC irng(src.Frame());
     if(!outImg.IsValid())
@@ -85,7 +93,7 @@ namespace RavlImageN {
 	} while(it.Next()) ;
 	lstart += sdir;
       }
-      return outImg;
+      return;
     }    
 #if 0
     Vector2dC endv = ldir * ((RealT) orng.Cols());
@@ -146,7 +154,6 @@ namespace RavlImageN {
     }
     
 #endif    
-    return outImg;
   }
   
 }
