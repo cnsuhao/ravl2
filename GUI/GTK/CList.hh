@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLGUICLIST_HEADER
-#define RAVLGUICLIST_HEADER 1
+#ifndef RAVLGUI_CLIST_HEADER
+#define RAVLGUI_CLIST_HEADER 1
 ////////////////////////////////////////////////////////////////
 //! rcsid="$Id$" 
 //! file="Ravl/GUI/GTK/CList.hh"
@@ -114,7 +114,7 @@ namespace RavlGUIN {
     //: Force an item to be selected.
 
     bool SelectAll();
-    //: Force an item to be selected.
+    //: Force all items to be selected.
     
     bool Unselect(int &id);
     //: Force an item to be unselected.
@@ -160,6 +160,9 @@ namespace RavlGUIN {
     bool GUIClear();
     //: Clear all entries from the list.
     // Use from the GUI thread only.
+    
+    IntT GUIFindRowID(const Index2dC &at);
+    //: Find row ID at position.
     
   protected:
     virtual void Destroy();
@@ -318,6 +321,10 @@ namespace RavlGUIN {
     bool GUIClear()
     { return Body().GUIClear(); }
     //: Clear all entries from the list.
+    
+    IntT GUIFindRowID(const Index2dC &at)
+    { return Body().GUIFindRowID(at); }
+    //: Find row ID at position.
     
     friend class CListBodyC;
   };

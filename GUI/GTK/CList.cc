@@ -401,9 +401,21 @@ namespace RavlGUIN {
     return true;
   }
   
+  //: Find row ID at position.
+  
+  IntT CListBodyC::GUIFindRowID(const Index2dC &at) {
+    if(widget == 0)
+      return 0;
+    IntT row,col;
+    gtk_clist_get_selection_info (GTK_CLIST(widget),at[0].V(),at[1].V(),&row,&col);
+    return  (IntT) gtk_clist_get_row_data(GTK_CLIST(widget),row);
+  }
+  
   //: Undo all refrences.
   
   void CListBodyC::Destroy() {
     WidgetBodyC::Destroy(); 
   }
+
+
 }
