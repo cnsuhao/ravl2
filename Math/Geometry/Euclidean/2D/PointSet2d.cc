@@ -66,4 +66,17 @@ namespace RavlN {
      return oWeights;
    }
   
+  //: Compute the bounding rectangle for the point set.
+  
+  RealRange2dC PointSet2dC::BoundingRectangle() const {
+    RealRange2dC ret(0,0);
+    DLIterC<Point2dC> point(*this);
+    if(!point) 
+      return ret; // No points in set.
+    ret = RealRange2dC(*point,0);
+    for (; point; point++)
+      ret.Involve(*point);
+    return ret;
+  }
+  
 }

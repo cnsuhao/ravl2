@@ -18,30 +18,34 @@
 #include "Ravl/Point2d.hh"
 #include "Ravl/SArray1d.hh"
 #include "Ravl/DList.hh"
+#include "Ravl/RealRange2d.hh"
 
 namespace RavlN {
 
-   //! userlevel=Normal
-   //: A set of points in 2d space
+  //! userlevel=Normal
+  //: A set of points in 2d space
    
-   class PointSet2dC: public DListC<Point2dC>
-   {
-   public:
-      PointSet2dC() {}
-      //: Empty list of points.
+  class PointSet2dC: public DListC<Point2dC>
+  {
+  public:
+    PointSet2dC() {}
+    //: Empty list of points.
       
-      PointSet2dC(const DListC<Point2dC> & points)
-         : DListC<Point2dC>(points)
-      {}
-      //: Construct from list of points
+    PointSet2dC(const DListC<Point2dC> & points)
+      : DListC<Point2dC>(points)
+    {}
+    //: Construct from list of points
       
-      Point2dC Centroid() const;
-      //: Returns the centroid (mean) of the points
+    Point2dC Centroid() const;
+    //: Returns the centroid (mean) of the points
 
-      SArray1dC<RealT> BarycentricCoordinate(Point2dC& point) const;
-      //: Calculates the barycentric coordinate of point
-      
-   };
+    SArray1dC<RealT> BarycentricCoordinate(Point2dC& point) const;
+    //: Calculates the barycentric coordinate of point
+    
+    RealRange2dC BoundingRectangle() const;
+    //: Compute the bounding rectangle for the point set.
+       
+  };
    
 }
 #endif
