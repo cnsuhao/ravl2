@@ -4,27 +4,20 @@
 <extlibs>
 <extlib name="LibPNG">
 <includepath>C:\Program Files\GnuWin32\include\</includepath>
-<includepath>C:\RavlExtLib\zlib\include\</includepath>
 <libpath>C:\Program Files\GnuWin32\lib\</libpath>
-<libpath>C:\RavlExtLib\zlib\lib\</libpath>
 <lib>libpng.lib</lib>
-<lib>zdll.lib</lib>
 </extlib>
 
 <extlib name="LibJPEG">
-<includepath>C:\Program Files\GnuWin32\include\</includepath>
-<includepath>C:\RavlExtLib\zlib\include\</includepath>
-<libpath>C:\Program Files\GnuWin32\lib\</libpath>
-<libpath>C:\RavlExtLib\zlib\lib\</libpath>
-<lib>libjpeg.lib</lib>
+<includepath>H:\opt\include</includepath>
+<libpath>H:\opt\lib\</libpath>
+<lib>jpeg.lib</lib>
 </extlib>
 
 <extlib name="LibTIFF">
 <includepath>C:\Program Files\GnuWin32\include\</includepath>
-<includepath>C:\RavlExtLib\zlib\include\</includepath>
 <libpath>C:\Program Files\GnuWin32\lib\</libpath>
-<libpath>C:\RavlExtLib\zlib\lib\</libpath>
-<lib>libtiff.lib</lib>
+<lib>libtiff.a</lib>
 </extlib>
 
 <extlib name="GTK">
@@ -69,9 +62,15 @@
 <extlib name="SentinelSuperPro">
 <includepath>C:\Program Files\Rainbow Technologies\SuperPro\6.3\MSVCDev\include\</includepath>
 <libpath>C:\Program Files\Rainbow Technologies\SuperPro\6.3\MSVCDev\lib\MD\</includepath>
-<lib>sx32w.lib</lib>
+<lib>spromeps.lib</lib>
 </extlib>
 
+<extlib name="IntelMKL">
+<includepath>C:\Program Files\Intel\MKL70\include</includepath>
+<libpath>C:\Program Files\Intel\MKL70\ia32\lib</includepath>
+<lib>mkl_ia32.lib</lib>
+<lib>guide.lib</lib>
+</extlib>
 
 
 <extlibs>
