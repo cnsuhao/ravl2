@@ -23,4 +23,6 @@ PLIB=RavlLogicNLP
 
 USESLIBS=RavlLogic
 
+EXAMPLES= exNonlinearPlanner.cc
 
+EHT=Ravl.Logic.Planning.html

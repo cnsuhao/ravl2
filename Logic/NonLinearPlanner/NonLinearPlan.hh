@@ -13,6 +13,7 @@
 //! userlevel=Advanced
 //! lib=RavlLogicNLP
 //! docentry="Ravl.Logic.Planning"
+//! example=exNonlinearPlanner.cc
 //! rcsid="$Id$"
 
 #include "Ravl/Logic/BMinTermListIndex.hh"
