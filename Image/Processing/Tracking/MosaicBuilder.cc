@@ -24,7 +24,6 @@
 #include "Ravl/Image/WarpProjective.hh"
 #include "Ravl/Image/RemoveDistortion.hh"
 #include "Ravl/Image/ImageConv.hh"
-#include "Ravl/Image/GaussConvolve.hh"
 #include "Ravl/Image/Erode.hh"
 #include "Ravl/Image/Dilate.hh"
 #include "Ravl/Image/RealRGBValue.hh"
@@ -44,7 +43,7 @@ namespace RavlImageN {
   using namespace RavlN;
 
   //: Constructor for mosaic builder
-  MosaicBuilderBodyC::MosaicBuilderBodyC(autoResizeT nresize)
+  MosaicBuilderBodyC::MosaicBuilderBodyC(autoResizeT nresize, bool nVerbose)
     : resize(nresize),
       cropT(0), cropB(0), cropL(0), cropR(0),
       pointTL(0.0, 0.0), pointTR(0.0, 1.0),
@@ -56,10 +55,11 @@ namespace RavlImageN {
       epos(2),
       fitHomog2d(zhomog,zhomog),
       evalInliers(1.0,2.0),
-      Pmosaic(1.0,0.0,0,
-	      0.0,1.0,0,
+      Pmosaic(1.0,0.0,0.0,
+	      0.0,1.0,0.0,
 	      0.0,0.0,zhomog),
-      frameNo(0)
+      frameNo(0),
+      verbose(nVerbose)
   {
     // set corner error covariance matrix to 2x2 identity
     epos[0][0] = 1; epos[1][1] = 1; epos[1][0] = 0; epos[0][1] = 0;
@@ -74,7 +74,7 @@ namespace RavlImageN {
 	IntT ncropT, IntT ncropB, IntT ncropL, IntT ncropR,
 	const Point2dC &npointTL, const Point2dC &npointTR,
 	const Point2dC &npointBL, const Point2dC &npointBR,
-	IntT nmaxFrames, const ImageC<bool>& nMask)
+	IntT nmaxFrames, const ImageC<bool>& nMask, bool nVerbose)
   : borderC(nborderC), borderR(nborderR), resize(none),
     cropT(ncropT), cropB(ncropB), cropL(ncropL), cropR(ncropR),
     pointTL(npointTL), pointTR(npointTR), pointBL(npointBL), pointBR(npointBR),
@@ -86,7 +86,8 @@ namespace RavlImageN {
     Pmosaic(1.0,0.0,0,
             0.0,1.0,0,
 	    0.0,0.0,zhomog),
-    frameNo(0)
+    frameNo(0),
+      verbose(nVerbose)
   {
     // set corner error covariance matrix to 2x2 identity
     epos[0][0] = 1; epos[1][1] = 1; epos[1][0] = 0; epos[0][1] = 0;
@@ -112,7 +113,7 @@ namespace RavlImageN {
     ImageC<ByteRGBValueC> img;
     if (resize == twopass) { // two-pass version
       for (; frameNo < noOfFrames; ++frameNo) {
-	cout << "Tracking frame " << frameNo << endl;
+	if (verbose)  cout << "Tracking frame " << frameNo << endl;
 	if (!GetImage(img))  break;
 	if (!PrepareFrame(img)) break; 
 	if (!FindProj(img)) break;
@@ -121,7 +122,7 @@ namespace RavlImageN {
       mosaic = ImageC<ByteRGBMedianC>(mosaicRect);
       input.Seek(startFrame);
       for (frameNo = 0; frameNo < Parray.Size(); ++frameNo){
-	cout << "Warping frame " << frameNo << endl;
+	if (verbose)  cout << "Warping frame " << frameNo << endl;
 	if (!GetImage(img))  break;
 	if (!PrepareFrame(img)) break;
 	WarpFrame(img);
@@ -129,7 +130,7 @@ namespace RavlImageN {
     }
     else { // one-pass version
       while(frameNo < noOfFrames) {
-	cout << "Processing frame " << frameNo << endl;
+	if (verbose)  cout << "Processing frame " << frameNo << endl;
 	if (!GetImage(img))  break;
 	if (!Apply(img)) break;
       }
@@ -146,7 +147,7 @@ namespace RavlImageN {
     // If we are resizing the mosaic as we go, and mosaic rectangle needs 
     // expanding, then we need to copy mosaic to a new, bigger image.
     if (InvolveFrame(img.Rectangle(), Parray[frameNo]) && (resize==onepass)) {
-      cout << "Mosaic was expanded" << endl;
+      if (verbose)  cout << "Mosaic was expanded" << endl;
       ExpandMosaic();
     }
     WarpFrame(img); 
@@ -218,7 +219,6 @@ namespace RavlImageN {
   bool MosaicBuilderBodyC::FindProj(const ImageC<ByteRGBValueC> &img) {
     // Apply tracker to luminance image.
     corners = tracker.Apply(RGBImageCT2ByteImageCT(img));
-
     // frame 0 is a special case
     if (frameNo == 0)  return Reset(img);
 
@@ -264,8 +264,11 @@ namespace RavlImageN {
     StateVectorHomog2dC sv = ransac.GetSolution();
     LevenbergMarquardtC lm = LevenbergMarquardtC(sv, compatibleObsList);
       
-    cout << "2D homography fitting: Initial residual=" << lm.GetResidual() << endl;
-    cout << "Selected " << compatibleObsList.Size() << " observations using RANSAC" << endl;
+    if (verbose) {
+      cout << "2D homography fitting: Initial residual=" << lm.GetResidual()
+	   << "\nSelected " << compatibleObsList.Size()
+	   << " observations using RANSAC" << endl;
+    }
     VectorC x = lm.SolutionVector();
     x /= x[8];
     try {
@@ -280,8 +283,10 @@ namespace RavlImageN {
 	  // iteration failed to reduce the residual
 	  lambda *= 10.0;
 	  
-	cout << " Accepted=" << accepted << " Residual=" << lm.GetResidual();
-	cout << " DOF=" << 2*compatibleObsList.Size()-8 << endl;
+	if (verbose) {
+	  cout << " Accepted=" << accepted << " Residual=" << lm.GetResidual()
+	       << " DOF=" << 2*compatibleObsList.Size()-8 << endl;
+	}
       }
     } catch(...) {
       // Failed to find a solution.
@@ -293,8 +298,7 @@ namespace RavlImageN {
     sv = lm.GetSolution();
     Matrix3dC P = sv.GetHomog();
     P /= P[2][2];
-
-    cout << "Solution:\n" << P << endl;
+    if (verbose)  cout << "Solution:\n" << P << endl;
 
     // accumulate homography
     Psum = P*Psum;
@@ -351,18 +355,18 @@ namespace RavlImageN {
     // find start of sequence
     input.Seek(startFrame);
     // set up foreground separator
-    ForegroundSepC fgSep(GetMosaic(), mosaicZHomog, zhomog, fgThreshold);
+    ForegroundSepC fgSep(GetMosaic(), fgThreshold);
     if (mask.IsValid()) fgSep.SetMask(mask);  // exclude unwanted regions
     ImageC<ByteRGBValueC> img;
     // compute foreground segmented image
-    for(frameNo = 0;frameNo < noOfFrames; frameNo++) {
+    for(frameNo = 0; frameNo < noOfFrames; frameNo++) {
 
       // Read an image from the input, crop, & correct for lens distortion
       if(!input.Get(img))  break;
-      cout << "Projection for frame " << frameNo << endl;
       PrepareFrame(img) ;
       // Separate out the f/g
-      img = fgSep.Apply(img, GetMotion(frameNo));
+      Matrix3dC homog (GetMotion(frameNo));
+      img = fgSep.Apply(img, homog);
       // Write an image out.
       outp.Put(img);
     }
@@ -418,7 +422,7 @@ namespace RavlImageN {
     Psum = Psum.Inverse();
     Parray.Append(Psum*Pmosaic);
     // So at this point, Psum will transform a point from mosaic coords to frame 0 coords, using the "mosaic" coordinate system
-    cout << "Initial homography:\n"<< Parray[0]<<endl;
+    if (verbose) cout << "Initial homography:\n"<< Parray[0]<<endl;
     return true;    
   }
   

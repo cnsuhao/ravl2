@@ -16,8 +16,6 @@
 //! example="mosaic.cc"
 
 #include "Ravl/Index.hh"
-#include "Ravl/Point2d.hh"
-#include "Ravl/SArray1d.hh"
 #include "Ravl/Matrix3d.hh"
 #include "Ravl/Image/PointTracker.hh"
 #include "Ravl/MatrixRS.hh"
@@ -42,7 +40,7 @@ namespace RavlImageN {
     : public RCBodyVC
   {
   public:
-    MosaicBuilderBodyC(autoResizeT resize);
+    MosaicBuilderBodyC(autoResizeT resize, bool nVerbose);
     //: Constructor
     // Initialises mosaic builder
     //!param: resize - Determines how the mosaic expands; can take values: none, onepass, twopass
@@ -54,7 +52,7 @@ namespace RavlImageN {
 	IntT cropT, IntT cropB, IntT cropL, IntT cropR,
 	const Point2dC &npointTL, const Point2dC &npointTR,
 	const Point2dC &npointBL, const Point2dC &npointBR,
-	IntT maxFrames, const ImageC<bool>& nMask);
+	IntT maxFrames, const ImageC<bool>& nMask, bool nVerbose);
     //: Constructor
     // Initialises mosaic builder
     //!deprecated: use previous constructor + <code>Set...()</code> methods
@@ -104,7 +102,13 @@ namespace RavlImageN {
     // Default: border is set to bounding box of projected position of first frame in sequence.
 
     void SetProjectiveScale(RealT imageScale, RealT mosaicScale)
-      { zhomog = imageScale, mosaicZHomog = mosaicScale; }
+      { 
+	zhomog = imageScale, mosaicZHomog = mosaicScale;
+	fitHomog2d = FitHomog2dPointsC(zhomog, zhomog);
+	Pmosaic = Matrix3dC(1.0,0.0,0.0,
+			    0.0,1.0,0.0,
+			    0.0,0.0,zhomog);
+      }
     //: Set the scales (i.e. 3rd, Z component) for the projective coordinate systems
     // Should be set so that scale is commensurate with typical pixel coordinate values.  Can be set separately for video frame coordinates and mosaic coordinates . <br>
     // Default is 100, 1.
@@ -219,6 +223,7 @@ namespace RavlImageN {
     ImageC<ByteRGBMedianC> mosaic;  // the median of all of the warped images (& hence contains the pixels from all of these images)
     DPISPortC<ImageC<ByteRGBValueC> > input; // i/p image stream
     IndexC frameNo;
+    bool verbose;
 
   };
 
@@ -241,11 +246,14 @@ namespace RavlImageN {
     //: Default constructor.
     // Creates an invalid handle.
 
-    MosaicBuilderC(autoResizeT resize)
-     : RCHandleC<MosaicBuilderBodyC>(*new MosaicBuilderBodyC(resize))
+    MosaicBuilderC(autoResizeT resize, bool verbose=false)
+     : RCHandleC<MosaicBuilderBodyC>(*new MosaicBuilderBodyC(resize, verbose))
       {}
     //: Constructor.
-    //!param: resize - Determines how the mosaic expands; can take values: none, onepass, twopass
+    //!param: resize - Determines how the mosaic expands; can take values:
+    //!param:  "none" - mosaic does not expand beyond initial setting
+    //!param:  "onepass" - mosaic size expands as necessary, as a single-pass operation
+    //!param:  "twepass" - mosaic size expands as necessary, in two iterations
     
     MosaicBuilderC(
 	IntT cthreshold, IntT cwidth, IntT mthreshold, IntT mwidth,
@@ -254,11 +262,11 @@ namespace RavlImageN {
 	IntT cropT, IntT cropB, IntT cropL, IntT cropR,
 	const Point2dC &npointTL, const Point2dC &npointTR,
 	const Point2dC &npointBL, const Point2dC &npointBR,
-	IntT maxFrames, const ImageC<bool>& nMask=ImageC<bool>())
+	IntT maxFrames, const ImageC<bool>& nMask=ImageC<bool>(), bool verbose=false)
     : RCHandleC<MosaicBuilderBodyC>(*new MosaicBuilderBodyC(
 	cthreshold, cwidth, mthreshold, mwidth, lifeTime, searchSize, newFreq,
 	borderC, borderR, zhomog, cropT,  cropB,  cropL,  cropR,
-	npointTL, npointTR, npointBL, npointBR, maxFrames, nMask))
+	npointTL, npointTR, npointBL, npointBR, maxFrames, nMask, verbose))
     {}
     //: Deprecated constructor.
     //!deprecated: use previous constructor + <code>Set...()</code> methods
@@ -332,8 +340,8 @@ namespace RavlImageN {
     // Should be set so that scale is commensurate with typical pixel coordinate values.  Can be set separately for video frame coordinates and mosaic coordinates . <br>
     // Default is 100, 1.
 
-    void SetLensCorrection(RealT K1, RealT K2, RealT cx_ratio, RealT cy_ratio, RealT fx, RealT fy)
-      { Body().SetLensCorrection(K1, K2=0.0, cx_ratio=0.5, cy_ratio=0.5, fx=1.0, fy=1.0); }
+    void SetLensCorrection(RealT K1, RealT K2=0.0, RealT cx_ratio=0.5, RealT cy_ratio=0.5, RealT fx=1.0, RealT fy=1.0)
+      { Body().SetLensCorrection(K1, K2, cx_ratio, cy_ratio, fx, fy); }
     //: Applies lens correction to frames of sequence
     //!param: K1 - cubic distortion coefficient; typical values for broadcast camera are 1..5 x 10^-7
     //!param: K2 - quintic distortion coefficient
