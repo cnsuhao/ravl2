@@ -35,7 +35,14 @@ namespace RavlGUIN {
   
   DPDisplayImageRGBBodyC::DPDisplayImageRGBBodyC(const ImageC<ByteRGBValueC> &nimg)
     : img(nimg)
-  {}
+  {
+#if 0
+    if(!img.IsContinuous()) {
+      cerr << "DPDisplayImageRGBBodyC::DPDisplayImageRGBBodyC(), WARNING: Image not continuous in memory, making copy. \n";
+      img = ImageC<ByteRGBValueC>(img.Copy()); // Make image continuous.
+    }
+#endif
+  }
   
   //: Draw object to canvas.
   
@@ -52,7 +59,7 @@ namespace RavlGUIN {
 		       img.Cols(),img.Rows(),
 		       GDK_RGB_DITHER_NORMAL,
 		       (unsigned char *) img.Row(img.TRow()),
-		       img.Cols() * 3);
+		       img.Stride() * 3);
     
     return true;
   }
@@ -109,7 +116,7 @@ namespace RavlGUIN {
 			img.Cols(),img.Rows(),
 			GDK_RGB_DITHER_NORMAL,
 			img.Row(img.TRow()),
-			img.Cols());
+			img.Stride());
     return true;
   }
   
@@ -165,7 +172,14 @@ namespace RavlGUIN {
   
   DPDisplayImageByteBodyC::DPDisplayImageByteBodyC(const ImageC<ByteT> &nimg)
     : img(nimg)
-  {}
+  {
+#if 0
+    if(!img.IsContinuous()) {
+      cerr << "DPDisplayImageByteBodyC::DPDisplayImageByteBodyC(), WARNING: Image not continuous in memory, making copy. \n";
+      img = ImageC<ByteT>(img.Copy()); // Make image continuous.
+    }
+#endif
+  }
   
   //: Draw object to canvas.
   
@@ -182,7 +196,7 @@ namespace RavlGUIN {
 			img.Cols(),img.Rows(),
 			GDK_RGB_DITHER_NORMAL,
 			img.Row(img.TRow()),
-			img.Cols());
+			img.Stride());
     
     return true;
   }

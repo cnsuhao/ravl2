@@ -262,6 +262,14 @@ namespace RavlGUIN {
       cerr << "CanvasBodyC::GUIDrawImage(), WARNING: Ask to render empty image. \n";
       return true;
     }
+#if 0
+    if(!img.IsContinuous()) {
+      cerr << "CanvasBodyC::GUIDrawImage(), WARNING: Image not continuous in memory, making copy. \n";
+      ImageC<ByteT> tmp(img.Copy()); // Make image continuous.
+      return GUIDrawImage(tmp,ioffset);
+    }
+#endif
+    
     ONDEBUG(cerr << "CanvasBodyC::GUIDrawImage(), Rendering image. \n");
     Index2dC off = ioffset + img.Rectangle().Origin();    
     int atx = off.Col().V(); // Convert between RAVL and GTK co-ordinates...
@@ -272,8 +280,8 @@ namespace RavlGUIN {
 			img.Cols(),img.Rows(),
 			GDK_RGB_DITHER_NORMAL,
 			img.Row(img.TRow()),
-			img.Cols());
-
+			img.Stride());
+    
 #if 1    
     if(autoRefresh) {
       GdkRectangle update_rect;
@@ -297,9 +305,16 @@ namespace RavlGUIN {
       return true;
     }
     if(img.IsEmpty()) {
-      cerr << "GUIRenderRGBImageBodyC::GUIDrawRGBImage(), WARNING: Ask to render empty image. \n";
+      cerr << "CanvasBodyC::GUIDrawRGBImage(), WARNING: Ask to render empty image. \n";
       return true;
     }
+#if 0
+    if(!img.IsContinuous()) {
+      cerr << "CanvasBodyC::GUIDrawRGBImage(), WARNING: Image not continuous in memory, making copy. \n";
+      ImageC<ByteRGBValueC> tmp(img.Copy()); // Make image continuous.
+      return GUIDrawRGBImage(tmp,ioffset);
+    }
+#endif
     Index2dC off = ioffset + img.Rectangle().Origin();    
     int atx = off.Col().V(); // Convert between RAVL and GTK co-ordinates...
     int aty = off.Row().V(); 
@@ -311,7 +326,7 @@ namespace RavlGUIN {
 		       img.Cols(),img.Rows(),
 		       GDK_RGB_DITHER_NORMAL,
 		       (unsigned char *) img.Row(img.TRow()),
-		       img.Cols() * 3);
+		       img.Stride() * sizeof(ByteRGBValueC));
 
 #if 1
     if(autoRefresh) {
