@@ -50,6 +50,13 @@ namespace RavlN {
     ~NetEndPointBodyC();
     //: Destructor.
     
+    bool IsOpen() const { 
+      if(!skt.IsValid())
+	return false;
+      return skt.IsOpen(); 
+    }
+    //: Is Connections open ?
+    
     bool Init(SocketC &skt);
     //: Setup a connection.
     // This should only be used if net end point 
@@ -241,7 +248,11 @@ namespace RavlN {
       { return Body().RunDecode(); }
     //: Decodes incoming packets.
     
-  public:
+  public:    
+    bool IsOpen() const
+    { return Body().IsOpen(); }
+    //: Is Connections open ?
+    
     bool Init(SocketC &skt)
     { return Body().Init(skt); }
     //: Setup a connection.
