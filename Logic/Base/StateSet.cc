@@ -56,6 +56,15 @@ namespace RavlLogicN {
     return LiteralFilterIterC(LiteralIterWrapC<HSetIterC<LiteralC> >(data,bnds),it);
   }
   
+  //: List all common terms between this state and 'oth'.
+  
+  HSetC<LiteralC> StateSetBodyC::Intersection(const StateC &oth) const {
+    StateSetC ss(oth);
+    if(!ss.IsValid()) // Is it another StateSet ?
+      return StateBodyC::Intersection(oth); // Just use default method.
+    return data.Intersect(ss.Data());
+  }
+  
   //: Return the number of literals in the state.
   
   UIntT StateSetBodyC::Size() const {

@@ -54,6 +54,9 @@ namespace RavlLogicN {
     // Positive terms are ones in this state, but not in 'oth'. <p>
     // Negative terms are those in the 'oth' state but not in this one.
     
+    virtual HSetC<LiteralC> Intersection(const StateC &oth) const;
+    //: List all common terms between this state and 'oth'.
+    
     virtual UIntT Size() const;
     //: Return the number of literals in the state.
 
@@ -121,7 +124,11 @@ namespace RavlLogicN {
     //: List the differences between this and another state.
     // Positive terms are ones in this state, but not in 'oth'. <p>
     // Negative terms are those in the 'oth' state but not in this one.
-
+    
+    HSetC<LiteralC> Intersection(const StateC &oth) const
+    { return Body().Intersection(oth); }
+    //: List all common terms between this state and 'oth'.
+    
     UIntT Size() const
     { return Body().Size(); }
     //: Return the number of literals in the state.

@@ -89,7 +89,25 @@ namespace RavlLogicN {
     }
     return MinTermC(pos.Array(),neg.Array());;
   }
-
+  
+  //: List all common terms between this state and 'oth'.
+  
+  HSetC<LiteralC> StateBodyC::Intersection(const StateC &oth) const {
+    HSetC<LiteralC> ret;
+    if(oth.Size() > Size()) { // Iterate through the smaller set.
+      for(LiteralIterC it(List());it;it++) {
+	if(oth.Ask(*it))
+	  ret += *it;
+      }
+    } else {
+      for(LiteralIterC it(oth.List());it;it++) {
+	if(Ask(*it))
+	  ret += *it;
+      }
+    }    
+    return ret;
+  }
+  
   //: Generate a hash number for this state.
   
   UIntT StateBodyC::Hash() const {

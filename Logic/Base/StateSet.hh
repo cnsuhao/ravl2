@@ -58,8 +58,15 @@ namespace RavlLogicN {
     // Negative terms are those in the 'oth' state but not in this one.
 #endif
     
+    virtual HSetC<LiteralC> Intersection(const StateC &oth) const;
+    //: List all common terms between this state and 'oth'.
+    
     virtual UIntT Size() const;
     //: Return the number of literals in the state.
+    
+    HSetC<LiteralC> &Data()
+    { return data; }
+    //: Accesss set directly.
 
   protected:
     HSetC<LiteralC> data;
@@ -86,8 +93,36 @@ namespace RavlLogicN {
       : StateC(*new StateSetBodyC(ndata))
       {}
     //: Constructor.
+
+    StateSetC(const StateC &oth)
+      : StateC(oth)
+      {
+	if(dynamic_cast<StateSetBodyC *>(&StateC::Body()) == 0)
+	  Invalidate();
+      }
+    //: Base constructor.
+    // If given state is not a StateSetC an invalid handle
+    // will be generated.
     
   protected:
+    StateSetC(StateSetBodyC &bod)
+      : StateC(bod)
+    {}
+    //: Body constructor.
+    
+    StateSetBodyC &Body()
+    { return static_cast<StateSetBodyC &>(StateC::Body()); }
+    //: Access body.
+    
+    const StateSetBodyC &Body() const
+    { return static_cast<const StateSetBodyC &>(StateC::Body()); }
+    //: Access body.
+    
+  public:
+    HSetC<LiteralC> &Data()
+    { return Body().Data(); }
+    //: Accesss set directly.
+    
   };
   
 }
