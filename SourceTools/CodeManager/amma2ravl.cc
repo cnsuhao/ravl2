@@ -86,7 +86,11 @@ static bool UpdateFile(FilenameC fn) {
   theFile.GlobalSubst("\"amma/YUVValue.hh\"","\"Ravl/Image/ByteYUVValue.hh\"");
   theFile.GlobalSubst("\"amma/RGBValue.hh\"","\"Ravl/Image/ByteRGBValue.hh\"");
   theFile.GlobalSubst("\"amma/GreyVal.hh\"","\"Ravl/Types.hh\"");
-    
+  theFile.GlobalSubst("\"amma/VecMat2d.hh\"","\"Ravl/VectorMatrix2d.hh\"");
+  theFile.GlobalSubst("\"amma/VecMat3d.hh\"","\"Ravl/VectorMatrix3d.hh\"");
+  theFile.GlobalSubst("\"amma/VecMat4d.hh\"","\"Ravl/VectorMatrix4d.hh\"");
+  theFile.GlobalSubst("\"amma/Motion/LMSOpticFlow.hh\"","\"Ravl/Image/LMSOpticFlow.hh\"");
+  
   if(guiUpdates) {
     theFile.GlobalSubst("GUIDEBUG","DODEBUG");
       
@@ -151,7 +155,7 @@ static bool UpdateFile(FilenameC fn) {
   theFile.GlobalSubst("ImageIterC","Array2dIterC");
   theFile.GlobalSubst("Image2IterC","Array2dIter2C");
   theFile.GlobalSubst("Image3IterC","Array2dIter3C");
-  theFile.GlobalSubst("ByteImageC "," ImageC<ByteT> ");
+  theFile.GlobalSubst("ByteImageC ","ImageC<ByteT> ");
   theFile.GlobalSubst("RGBImageC "," ImageC<ByteRGBValueC> ");
   theFile.GlobalSubst("YUVImageC "," ImageC<ByteYUVValueC> ");
   theFile.GlobalSubst("RGBPointC","RealRGBValueC");
@@ -160,7 +164,9 @@ static bool UpdateFile(FilenameC fn) {
   theFile.GlobalSubst("ByteGreyValueT","ByteT");
   theFile.GlobalSubst("namespace StdImageN","namespace RavlImageN");
   theFile.GlobalSubst("PixelC","Index2dC");
-    
+  theFile.GlobalSubst("NumImageC<","ImageC<");
+  theFile.GlobalSubst("NumImageC ","ImageC ");
+  
   // Core.
     
   theFile.GlobalSubst("BodyRefCounterC","RCBodyC");
@@ -171,6 +177,7 @@ static bool UpdateFile(FilenameC fn) {
   theFile.GlobalSubst("PThread::","");
   theFile.GlobalSubst("StdDP::","");
   theFile.GlobalSubst("StdIO::","");
+  theFile.GlobalSubst("StdConstC::","RavlConstN::");
   theFile.GlobalSubst("BooleanT","bool");
   theFile.GlobalSubst("assert(","RavlAssert(");
   theFile.GlobalSubst("IndexT","IndexC");
@@ -182,7 +189,29 @@ static bool UpdateFile(FilenameC fn) {
   theFile.GlobalSubst("AMMA","RAVL");
   theFile.GlobalSubst("HashARC<","HashC<");
   theFile.GlobalSubst("AMMA_CHECK","QMAKE_CHECK");
-    
+  theFile.GlobalSubst("Matrix2d2C","Matrix2dC");
+  theFile.GlobalSubst("Matrix3d3C","Matrix3dC");
+  theFile.GlobalSubst(".RDim()",".Rows()");
+  theFile.GlobalSubst(".CDim()",".Cols()");
+  theFile.GlobalSubst(".Rnum()",".Rows()");
+  theFile.GlobalSubst(".Cnum()",".Cols()");
+  theFile.GlobalSubst(".A00()","[0][0]");
+  theFile.GlobalSubst(".A01()","[0][1]");
+  theFile.GlobalSubst(".A02()","[0][2]");
+  theFile.GlobalSubst(".A03()","[0][3]");
+  theFile.GlobalSubst(".A10()","[1][0]");
+  theFile.GlobalSubst(".A11()","[1][1]");
+  theFile.GlobalSubst(".A12()","[1][2]");
+  theFile.GlobalSubst(".A13()","[1][3]");
+  theFile.GlobalSubst(".A20()","[2][0]");
+  theFile.GlobalSubst(".A21()","[2][1]");
+  theFile.GlobalSubst(".A22()","[2][2]");
+  theFile.GlobalSubst(".A22()","[2][3]");
+  theFile.GlobalSubst(".A30()","[3][0]");
+  theFile.GlobalSubst(".A31()","[3][1]");
+  theFile.GlobalSubst(".A32()","[3][2]");
+  theFile.GlobalSubst(".A32()","[3][3]");
+  
   if(theFile.IsModified()) {
     cerr << "Updated file :" << fn << "\n";
     if(!dryRun)
@@ -208,8 +237,8 @@ int main(int nargs,char **argv) {
   FilenameC fn = option.String("i",".","Input filename. ");
   bool all = option.Boolean("a",false,"Go into inactive directories as well. ");
   dryRun = option.Boolean("d",false,"Do a dry run.");
-  guiSrc = option.Boolean("guis",false,"do gui renaming's");
-  guiUpdates = option.Boolean("gui",guiSrc,"do gui renaming's");
+  guiSrc = option.Boolean("guis",true,"do gui renaming's");
+  guiUpdates = option.Boolean("gui",false,"do renaming for GUI source code");
   verb = option.Boolean("v",false,"Verbose mode.");
   option.Check();
   
