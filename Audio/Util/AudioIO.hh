@@ -8,6 +8,8 @@
 #define RAVLAUDIO_AUDIOIO_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlAudioUtil
+//! author="Charles Galambos"
+//! docentry="Ravl.Audio.IO"
 
 #include "Ravl/DP/Port.hh"
 #include "Ravl/Audio/Types.hh"
