@@ -235,6 +235,9 @@ namespace RavlN {
     bool WriteData(int nfd,const char *buff,UIntT size);
     //: Write some bytes to a stream.
     
+    bool WriteData(int nfd,const char *buff1,UIntT size1,const char *buff2,UIntT size2);
+    //: Write 2 buffers to file descriptor.
+    
     SocketC skt;
     MessageQueueC<NetPacketC> transmitQ; // Transmition Q.
     MessageQueueC<NetPacketC> receiveQ; // Recieve Q.

@@ -20,6 +20,7 @@
 
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/uio.h>
 
 #define DODEBUG 0
 #if DODEBUG
@@ -211,12 +212,11 @@ namespace RavlN {
 	size = bswap_32(size);
 #endif
 	// Write length of packet.
-	if(!WriteData(wfd,(char *)&size,sizeof(size)))
-	  break;
-	// Write data.
-	if(!WriteData(wfd,&(pkt.Data()[0]),pkt.Size()))
-	  break;
-	
+	if(!WriteData(wfd,
+		      (char *)&size,sizeof(size),  // First buffer: Size
+		      &(pkt.Data()[0]),pkt.Size()) // Second buffer: Data.
+	   )
+	  break;	
 	ONDEBUG(cerr << "  Sent packet. \n");
       }
     } catch(ExceptionC &e) {
@@ -263,6 +263,51 @@ namespace RavlN {
     return !shutdown;
   }
 
+  //: Write 2 buffers to file descriptor.
+  
+  bool NetEndPointBodyC::WriteData(int nfd,
+				   const char *buff1,UIntT size1,
+				   const char *buff2,UIntT size2) {
+
+    struct iovec vec[2];
+    vec[0].iov_base = (void*) buff1;
+    vec[0].iov_len = size1;
+    vec[1].iov_base = (void*) buff2;
+    vec[1].iov_len = size2;
+    UIntT at = 0;
+    UIntT total = size1 + size2;
+    do {
+      at = writev(nfd,vec,2);
+      if(at > 0)
+	break;
+      if(errno != EINTR && errno != EAGAIN) {
+	cerr << "NetEndPointBodyC::WriteData(),(2) Error writing to socket :" << errno;
+#if RAVL_OS_LINUX
+	char buff[256];
+	cerr << " '" << strerror_r(errno,buff,256) << "'\n";
+#else
+	cerr << "\n";
+#endif
+	return false;
+      }
+      // Temporary failure, try again.
+    } while(true);
+    
+    if(at == total)
+      return true; // Everything done ok.
+    // Write of all data failed, try and sort things out.
+    // Does this ever really happen ??
+    cerr << "WARNING: Partial data write in NetEndPointBodyC::WriteData(). \n";
+    if(at < size1) { // Written all of first packet ?
+      if(!WriteData(nfd,&(buff1[at]),size1-at))
+	return false;
+      at = size1;
+    }
+    // Write second vector.
+    at -= size1;
+    return WriteData(nfd,&(buff2[at]),size2-at);
+  }
+  
   //: Write some bytes to a stream.
   
   bool NetEndPointBodyC::WriteData(int nfd,const char *buff,UIntT size) {
@@ -279,7 +324,7 @@ namespace RavlN {
 	ONDEBUG(cerr << "NetEndPointBodyC::RunReceive(), Error on read. \n");
 	if(errno == EINTR || errno == EAGAIN)
 	  continue;
-	cerr << "NetEndPointBodyC::WriteData(), Error reading from socket :" << errno;
+	cerr << "NetEndPointBodyC::WriteData(), Error writing to socket :" << errno;
 #if RAVL_OS_LINUX
 	char buff[256];
 	cerr << " '" << strerror_r(errno,buff,256) << "'\n";
