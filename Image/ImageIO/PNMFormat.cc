@@ -213,7 +213,7 @@ namespace RavlImageN {
       return typeid(void);
     if(obj_type == typeid(ImageC<ByteT>))
       return typeid(ImageC<ByteT>);
-    return typeid(ImageC<bool>);
+    return typeid(ImageC<ByteT>);
   }
   
   const type_info &
@@ -235,7 +235,7 @@ namespace RavlImageN {
     }
     if(obj_type == typeid(ImageC<ByteT>))
       return typeid(ImageC<ByteT>);
-    return typeid(ImageC<bool>);
+    return typeid(ImageC<ByteT>);
   }
   
   
@@ -260,7 +260,7 @@ namespace RavlImageN {
   //: Get prefered IO type.
   
   const type_info &FileFormatPBMBodyC::DefaultType() const 
-  { return typeid(ImageC<bool>); }
+  { return typeid(ImageC<ByteT>); }
   
   //////////////////////////////////////////////////////////////////
   
