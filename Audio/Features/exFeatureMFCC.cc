@@ -50,7 +50,7 @@ int main(int nargs,char **argv) {
     if(!fextract.Get(vec))
       break;
 #if 1
-    for(int i = 0;i < vec.Size();i++)
+    for(UIntT i = 0;i < vec.Size();i++)
       cout << Round(vec[i] * 20) << " ";
     cout << "\n";
 #else
