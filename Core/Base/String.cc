@@ -41,7 +41,7 @@ Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 // a hack to use atoll with the -ansi flag ! 
 #if RAVL_OS_SOLARIS9
-extern long long atoll(const char *);
+extern "C" { extern long long atoll(const char *); } ;
 #endif 
 
 #include <ctype.h>
