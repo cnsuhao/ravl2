@@ -13,7 +13,7 @@
 //! lib=RavlImageProc
 //! author="Charles Galambos"
 //! rcsid="$Id$"
-//! date="07/01/99"
+//! date="07/01/1999"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/StdConst.hh"

@@ -4,15 +4,15 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLPCPIXELLIST_HEADER
-#define RAVLPCPIXELLIST_HEADER 1
+#ifndef RAVLIMAGE_PCPIXELLIST_HEADER
+#define RAVLIMAGE_PCPIXELLIST_HEADER 1
 /////////////////////////////////////////////////////////
 //! docentry="Ravl.Images.Lines"
 //! file="Ravl/Image/Processing/Lines/PCPixelList.hh"
 //! lib=RavlImageProc
 //! author="Charles Galambos"
 //! rcsid="$Id$"
-//! date="07/01/99"
+//! date="07/01/1999"
 
 #include "Ravl/Image/PCPixel.hh"
 #include "Ravl/SArray1d.hh"
