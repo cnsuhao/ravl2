@@ -34,7 +34,11 @@
 #include "Ravl/DP/OffsetScale.hh"
 #include "Ravl/DP/RunningAverage.hh"
 #include "Ravl/DP/SampleStream.hh"
+#include "Ravl/DP/CacheIStream.hh"
+#include "Ravl/DP/SPortAttach.hh"
+#include "Ravl/DP/ListIO.hh"
 #include "Ravl/config.h"
+
 using namespace RavlN;
 
 int conv(const int &val) {
@@ -52,6 +56,7 @@ int testCompose();
 int testFunc2Proc();
 int testSPort();
 int testSampleStream();
+int testIStreamCache();
 
 int main(int nargs,char **argv) {
   int ln;
@@ -77,6 +82,10 @@ int main(int nargs,char **argv) {
   }
   if((ln = testSampleStream()) != 0) {
     cerr << "Error in testFunc2Proc(), Line:" << ln << "\n";
+    return 1;
+  }
+  if((ln = testIStreamCache()) != 0) {
+    cerr << "Error in testIStreamCache(), Line:" << ln << "\n";
     return 1;
   }
   cerr << "Test passed. \n";
@@ -211,6 +220,23 @@ int testSampleStream() {
 
 int testVirtualConstructor() {
   
+  return 0;
+}
+
+int testIStreamCache() {
+  cerr << "testIStreamCache(). \n";
+  CacheIStreamC<IntT> cacheIStream(5);
+  DListC<IntT> data;
+  for(int i = 0;i < 10;i++)
+    data.InsLast(i);
+  DPISListC<IntT> listIn(data);
+  DPIPortC<IntT> inPort = listIn >> cacheIStream;
+  for(int i = 0;i < 8;i++) {
+    IntT v;
+    if(!inPort.Get(v))  return __LINE__;
+    if(v != i) return __LINE__;
+  }
+    
   return 0;
 }
 
