@@ -16,7 +16,7 @@ SOURCES= Vertex.cc Tri.cc TriMesh.cc TriMeshBinIO.cc \
  HEMeshVertex.cc HEMeshEdge.cc HEMeshFace.cc HEMesh.cc \
  TriMesh2HEMesh.cc
 
-#TESTEXES=testHEMesh.cc
+TESTEXES=testHEMesh.cc
 
 PLIB=Ravl3D
 
