@@ -176,6 +176,20 @@ namespace RavlGUIN {
     ConnectRef(ret.Selected(),obj,func);
     return ret;    
   }  
+
+  //: Call a method with a parameter
+  // Hold only a reference to the destination class.
+  
+  template<class DataT, class ParamT>
+  FileSelectorC FileSelectorR(const StringC &fsname,
+			      DataT &obj,
+			      bool (DataT::*func)(StringC &filename,ParamT &param),const StringC &fn = StringC(),
+			      const ParamT &param = ParamT())
+  { 
+    FileSelectorC ret(fsname,fn);
+    ConnectRef(ret.Selected(),obj,func,"",param);
+    return ret;    
+  }  
   
 
 
