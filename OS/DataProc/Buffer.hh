@@ -35,6 +35,10 @@ namespace RavlN {
     {}
     //: Default constructor.
     
+    virtual StringC OpName() const
+    { return StringC("buffer"); }
+    //: Op type name.
+    
     virtual bool IsAsync() const
     { return true; }
     //: Does port work asynchronously ??

@@ -283,7 +283,8 @@ namespace RavlN {
   template<class DataT>
   class DPIPlayControlBodyC 
     : public DPIPortBodyC<DataT>,
-      public DPPlayControlBodyC
+      public DPPlayControlBodyC,
+      public DPStreamOpBodyC
   {
   public:
     DPIPlayControlBodyC()
@@ -295,6 +296,10 @@ namespace RavlN {
 	input(nin)
     {}
     //: Constructor.
+    
+    virtual StringC OpName() const
+    { return StringC("playcontrol"); }
+    //: Op type name.
     
     virtual DataT Get() { 
       if(pause)
@@ -363,6 +368,12 @@ namespace RavlN {
     }
     //: Open new video stream.
     
+    virtual DListC<DPIPortBaseC> IPorts() const;
+    //: Input ports.
+    
+    virtual DListC<DPIPlugBaseC> IPlugs() const;
+    //: Input plugs.
+    
   protected:
     DPISPortC<DataT> input; // Where to get data from.
     
@@ -379,7 +390,8 @@ namespace RavlN {
   template<class DataT>
   class DPIPlayControlC 
     : public DPIPortC<DataT>,
-      public DPPlayControlC
+      public DPPlayControlC,
+      public DPStreamOpC
   {
   public:
     DPIPlayControlC() 
@@ -414,13 +426,30 @@ namespace RavlN {
   public:  
     inline const DPISPortC<DataT> &Input() 
     { return Body().Input(); }
-  //: Access input port.
+    //: Access input port.
 
-  inline bool Open(const DPISPortC<DataT> &nPort)
+    inline bool Open(const DPISPortC<DataT> &nPort)
     { return Body().Open(nPort); }
     //: Open a new input.
     
+    friend class DPIPlayControlBodyC<DataT>;
   };
+
+  template<class DataT>
+  DListC<DPIPortBaseC> DPIPlayControlBodyC<DataT>::IPorts() const {
+    DListC<DPIPortBaseC> ret;
+    ret.InsLast(DPIPlayControlC<DataT>(const_cast<DPIPlayControlBodyC<DataT> &>(*this)));
+    return ret;
+  }
+  //: Input ports.
+  
+  template<class DataT>
+  DListC<DPIPlugBaseC> DPIPlayControlBodyC<DataT>::IPlugs() const {
+    DListC<DPIPlugBaseC> ret;
+    ret.InsLast(DPIPlugC<DataT>(input,DPEntityC(const_cast<DPIPlayControlBodyC<DataT> &>(*this))));
+    return ret;
+  }
+  //: Input plugs.
   
 }
 

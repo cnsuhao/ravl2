@@ -14,8 +14,9 @@
 //! author="Charles Galambos"
 //! date="02/10/1998"
 
-#include "Ravl/DP/Port.hh"
+#include "Ravl/DP/IOPort.hh"
 #include "Ravl/DP/Process.hh"
+#include "Ravl/DP/StreamOp.hh"
 #include "Ravl/Threads/MessageQueue.hh"
 #include "Ravl/Threads/LaunchThread.hh"
 
@@ -41,6 +42,10 @@ namespace RavlN {
   public:
     DPThreadPipeBodyC(const DPProcessC<OutT,InT> & nproc,IntT qsize = 5,bool makeLive = false);
     //: Default constructor.
+    
+    virtual StringC OpName() const
+    { return StringC("threadpipe"); }
+    //: Op type name.
     
     virtual bool IsPutReady() const
     { return !gotEOS; }
@@ -109,7 +114,7 @@ namespace RavlN {
   
   template<class InT,class OutT>
   class DPThreadPipeC 
-    : public DPIOPortC<InT,OutT> 
+    : public DPIOPortC<InT,OutT>
   {
   public:
     DPThreadPipeC(const DPProcessC<OutT,InT> & nproc,IntT qsize = 5)
@@ -269,8 +274,7 @@ namespace RavlN {
   }
   
   template<class InT,class OutT>
-  RCBodyVC &
-  DPThreadPipeBodyC<InT,OutT>::Copy() const {
+  RCBodyVC &DPThreadPipeBodyC<InT,OutT>::Copy() const {
     DPThreadPipeBodyC<InT,OutT> *x;
     if(proc.IsStateless())
       x = new DPThreadPipeBodyC<InT,OutT>(proc,qsize); // No state use the same process.

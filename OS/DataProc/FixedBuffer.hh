@@ -32,6 +32,10 @@ namespace RavlN {
       : queue(maxsize)
     {}
     //: Default constructor.
+
+    virtual StringC OpName() const
+    { return StringC("buffer"); }
+    //: Op type name.
     
     virtual bool Put(const DataT &dat) 
     { queue.Put(dat); return true; }

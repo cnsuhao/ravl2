@@ -22,6 +22,7 @@
 #include "Ravl/DP/IOJoin.hh"
 #include "Ravl/DP/Event.hh"
 #include "Ravl/DP/Pipes.hh"
+#include "Ravl/DP/StreamOp.hh"
 
 namespace RavlN {
 
@@ -32,7 +33,7 @@ namespace RavlN {
   //: Connect some IOPorts body.
   
   class DPMTIOConnectBaseBodyC 
-    : public DPEntityBodyC
+    : public DPStreamOpBodyC
   {
   public:
     inline DPMTIOConnectBaseBodyC(bool nuseIsGetReady = true,UIntT nblockSize = 1)
@@ -41,6 +42,10 @@ namespace RavlN {
 	blockSize(nblockSize)
     {}
     //: Default Constructor.
+    
+    virtual StringC OpName() const
+    { return StringC("pump"); }
+    //: Op type name.
     
     bool Disconnect();
     //: Stop connection.
@@ -89,6 +94,20 @@ namespace RavlN {
     bool Start();
     //: Do some async stuff.
     
+    virtual DListC<DPIPlugBaseC> IPlugs() const {
+      DListC<DPIPlugBaseC> ret;
+      ret.InsLast(DPIPlugC<DataT>(from,DPEntityC(const_cast<DPMTIOConnectBodyC<DataT> &>(*this))));
+      return ret;
+    }
+    //: Input plugs.
+    
+    virtual DListC<DPOPlugBaseC> OPlugs() const {
+      DListC<DPOPlugBaseC> ret;
+      ret.InsLast(DPOPlugC<DataT>(to,DPEntityC(const_cast<DPMTIOConnectBodyC<DataT> &>(*this))));
+      return ret;
+    }
+    //: Output plugs
+
   private:
     DPIPortC<DataT> from;
     DPOPortC<DataT> to;
@@ -101,7 +120,7 @@ namespace RavlN {
   //: Connect some IOPorts.
   
   class DPMTIOConnectBaseC 
-    : public DPEntityC
+    : public DPStreamOpC
   {
   public:
     inline DPMTIOConnectBaseC(DPMTIOConnectBaseBodyC &bod)
@@ -114,6 +133,16 @@ namespace RavlN {
     {}
     //: Default constructor.
     
+  protected:
+    inline DPMTIOConnectBaseBodyC &Body() 
+    { return dynamic_cast<DPMTIOConnectBaseBodyC &>(DPEntityC::Body()); }
+    //: Access body.
+    
+    inline const DPMTIOConnectBaseBodyC &Body() const
+    { return dynamic_cast<const DPMTIOConnectBaseBodyC &>(DPEntityC::Body()); }
+    //: Access body.
+    
+  public:
     bool Disconnect();
     //: Stop connection.
     
@@ -130,15 +159,6 @@ namespace RavlN {
     //: Generate an event handle 
     // It indicates the completion of processing.
     
-  protected:
-    inline DPMTIOConnectBaseBodyC &Body() 
-    { return static_cast<DPMTIOConnectBaseBodyC &>(DPEntityC::Body()); }
-    //: Access body.
-    
-    inline const DPMTIOConnectBaseBodyC &Body() const
-    { return static_cast<const DPMTIOConnectBaseBodyC &>(DPEntityC::Body()); }
-    
-    //: Access body.
   };
   
 
@@ -152,22 +172,22 @@ namespace RavlN {
   {
   public:
     DPMTIOConnectC(const DPIPortC<DataT> &from,const DPOPortC<DataT> &to,bool nuseIsGetReady = true,bool deleteable = true,UIntT blockSize = 1)
-      : DPMTIOConnectBaseC(*new DPMTIOConnectBodyC<DataT>(from,to,nuseIsGetReady,blockSize))
+      : DPEntityC(*new DPMTIOConnectBodyC<DataT>(from,to,nuseIsGetReady,blockSize))
     {}
     //: Constructor.
     
   protected: 
     DPMTIOConnectC(DPMTIOConnectBodyC<DataT> &oth)
-      : DPMTIOConnectBaseC(oth)
+      : DPEntityC(oth)
     {}
     //: Body Constructor.
     
     inline DPMTIOConnectBodyC<DataT> &Body() 
-    { return static_cast<DPMTIOConnectBodyC<DataT> &>(DPEntityC::Body()); }
+    { return dynamic_cast<DPMTIOConnectBodyC<DataT> &>(DPEntityC::Body()); }
     //: Access body.
     
     inline const DPMTIOConnectBodyC<DataT> &Body() const
-    { return static_cast<const DPMTIOConnectBodyC<DataT> &>(DPEntityC::Body()); }
+    { return dynamic_cast<const DPMTIOConnectBodyC<DataT> &>(DPEntityC::Body()); }
     //: Access body.
     
   public:  

@@ -31,7 +31,11 @@ namespace RavlN {
   public:
     DPHoldBodyC(const DataT &init = DataT());
     //: Default constructor.
-  
+    
+    virtual StringC OpName() const
+    { return StringC("hold"); }
+    //: Op type name.
+    
     virtual bool IsPutReady() const;
     //: Ready to accept data ?
     // true = yes.
