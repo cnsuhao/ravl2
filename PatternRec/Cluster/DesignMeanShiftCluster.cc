@@ -124,15 +124,16 @@ namespace RavlN {
       newMeans.Append(*cit);
     return ClassifierNearestNeighbourC(newMeans,distance);
   }
-
+  
   //: Compute cluster means.
 
   SArray1dC<MeanCovarianceC> DesignMeanShiftClusterBodyC::Cluster(const SampleC<VectorC> &in) {
     DListC<VectorC> clusters = FindMeans(in);
     SArray1dC<MeanCovarianceC> ret(clusters.Size());
     DLIterC<VectorC> lit(clusters);
-    for(SArray1dIterC<MeanCovarianceC> ait(ret);ait;ait++,lit++)
-      *ait = *lit;
+    for(SArray1dIterC<MeanCovarianceC> ait(ret);ait;ait++,lit++) {
+      *ait = MeanCovarianceC(1,*lit,MatrixC::Identity(lit->Size()) * k);
+    }
     return ret;
   }
   
