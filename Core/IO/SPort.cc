@@ -82,7 +82,7 @@ namespace RavlN {
       cerr << "WARNING: 64 bit seeks not supported.  Offset=" << off << " \n";
       return false;
     }
-    return DSeek(off);
+    return DSeek(static_cast<UIntT>(off));
   }
   
   //: Find current location in stream.

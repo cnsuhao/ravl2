@@ -75,7 +75,7 @@ namespace RavlN {
     // not implemented.)
     // if an error occurered (Seek returned False) then stream
     // position will not be changed.
-
+    
     virtual bool DSeek64(StreamPosT off);
     //: Delta Seek, goto location relative to the current one.
     // The default behavour of this functions is :
@@ -230,7 +230,7 @@ namespace RavlN {
     // position will not be changed.
     
     inline bool DSeek64(StreamPosT off)
-    { return Body().DSeek(off); }
+    { return Body().DSeek64(off); }
     //: Delta Seek, goto location relative to the current one.
     // The default behavour of this functions is :
     // Do some error checking then:
@@ -269,6 +269,11 @@ namespace RavlN {
     DPISPortBodyC()
     {}
     //: Default constructor.
+    
+    virtual bool Save(ostream &out) const 
+    { return DPIPortBodyC<DataT>::Save(out); }
+    //: Save to ostream.
+    
   };
   
   //////////////////////////////////////////////////

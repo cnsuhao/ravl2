@@ -288,7 +288,11 @@ namespace RavlN {
     virtual DPIPortBaseC Port()
     { return DPIPortBaseC(*this); }
     //: Access input port.
-   
+    
+    virtual bool Save(ostream &out) const 
+    { return DPIStreamOpBodyC<DataT,DataT>::Save(out); }
+    //: Save to ostream.
+
   };
   
   //////////////////////////////////////
@@ -369,6 +373,11 @@ namespace RavlN {
     virtual DPOPortBaseC Port()
     { return DPOPortBaseC(*this); }
     //: Access ouput port.
+    
+    virtual bool Save(ostream &out) const 
+    { return DPOStreamOpBodyC<DataT,DataT>::Save(out); }
+    //: Save to ostream.
+    
   };
   
   

@@ -81,6 +81,11 @@ namespace RavlN {
       return const_cast<RCBodyVC &>((RCBodyVC &)*this);
     }
     //: Creat a copy of this object.
+    
+    virtual bool Save(ostream &out) const 
+    { return DPIStreamOpBodyC<InT,OutT>::Save(out); }
+    //: Save to ostream.
+    
   }; 
   
   //! userlevel=Normal

@@ -190,6 +190,10 @@ namespace RavlN {
     }
     //: Input plugs.
     
+    virtual bool Save(ostream &out) const 
+    { return DPIPortBodyC<OutT>::Save(out); }
+    //: Save to ostream.
+    
   protected:
     DPIPortC<InT> input; // Where to get data from.
     
@@ -305,6 +309,10 @@ namespace RavlN {
       return lst;
     }
     //: Output plugs.
+    
+    virtual bool Save(ostream &out) const 
+    { return DPOPortBodyC<InT>::Save(out); }
+    //: Save to ostream.
     
   protected:
     DPOPortC<OutT> output; // Where to put data to.
