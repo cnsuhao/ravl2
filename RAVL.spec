@@ -1,10 +1,10 @@
 
-%define version 0.6
+%define version 0.7
 
 Summary: RAVL, Recognition And Vision Library
 Name: RAVL
 Version: %{version}
-Release: 14
+Release: 1
 Source0: %{name}-SRC-%{version}.tar.bz2
 License: LGPL
 Group: Applications/Engineering
