@@ -29,7 +29,7 @@ namespace RavlImageN {
 #endif
 
   //! userlevel=Normal
-  //: Edge Location, Direction and Magniture information.
+  //: Edge Location, Direction and Magnitude information.
   
   class EdgelC 
   {
