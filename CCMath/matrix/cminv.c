@@ -7,6 +7,7 @@
  */
 #include "ccmath/ccmath.h"
 #include <stdlib.h>
+#include <math.h>
 int cminv(Cpx *a,int n)
 { int i,j,k,m,lc,*le; Cpx *ps,*p,*q,*pa,*pd;
   Cpx z,h,*q0; double s,t,tq=0.,zr=1.e-15;
