@@ -91,6 +91,9 @@ namespace RavlGUIN {
     //: Makes this window transient for the parent
     // This means it will stay on top of it at all times.  Also the window will be centred on the parent.
 
+    void SetFullScreen(bool &fullscreen);
+    //: Set the window as fullscreen (assuming the window manager supports it)
+
   protected:
     virtual void Destroy();
     //: Undo all references.
@@ -147,6 +150,9 @@ namespace RavlGUIN {
     virtual bool GUIShow();
     //: Show window on display.
     
+    bool GUISetFullScreen(bool &fullscreen);
+    //: Set the window as fullscreen (assuming the window manager supports it)
+
     int sx,sy;
     int border;
     StringC title;
@@ -159,6 +165,7 @@ namespace RavlGUIN {
     GtkWindowType winType;
     OneChildC m_wParent; // Used only to cache MakeTransient calls - irrelevant after Create()
     GtkWindowPosition m_wPosition;
+    bool isFullscreen;
     
     friend class WindowC;
   };
@@ -243,6 +250,11 @@ namespace RavlGUIN {
     { return Body().GUISetModal(modal); }
     //: Makes the window modal
     
+    bool GUISetFullScreen(bool &fullscreen) {
+      return Body().GUISetFullScreen(fullscreen);
+    }
+    //: Set the window as fullscreen (assuming the window manager supports it)
+
  public:
     void Destroy() { 
       WidgetC::Destroy(); 
@@ -318,6 +330,11 @@ namespace RavlGUIN {
     //: Makes this window transient for the parent
     // This means it will stay on top of it at all times.  Also the window will be centred on the parent.
     
+    void SetFullScreen(bool &fullscreen) {
+      Body().SetFullScreen(fullscreen);
+    }
+    //: Set the window as fullscreen (assuming the window manager supports it)
+
     friend class WindowBodyC;
   };
 

@@ -40,7 +40,8 @@ namespace RavlGUIN {
       cursorChange(false),
       userresizable(true),
       m_bDecorated(true),
-      winType(nWinType)
+      winType(nWinType),
+      isFullscreen(false)
   {
     if(rootWin)
       Manager.GetRootWindow() = WindowC(*this);
@@ -71,8 +72,8 @@ namespace RavlGUIN {
     }
     if(child.IsValid()) {
       if(child.Create()) {
-	gtk_container_add (GTK_CONTAINER (widget), child.Widget());
-	gtk_widget_show(child.Widget());
+        gtk_container_add (GTK_CONTAINER (widget), child.Widget());
+        gtk_widget_show(child.Widget());
       }
     }
     ConnectSignals();
@@ -101,12 +102,12 @@ namespace RavlGUIN {
     // somewhere in the program.
     if(!rootWin) {
       if(widget != 0) {
-	gtk_widget_hide (widget);
-	gtk_widget_destroy(widget);
-	widget = 0;
+        gtk_widget_hide (widget);
+        gtk_widget_destroy(widget);
+        widget = 0;
       }
       if(widgetId != 0)
-	Manager.Deregister(*this); 
+        Manager.Deregister(*this); 
     }
 #endif
   }
@@ -175,9 +176,9 @@ namespace RavlGUIN {
     closeDown = true;
     if(rootWin) {
       if (--rootWinCount == 0) {
-	ONDEBUG(cerr << "WindowBodyC::GuiCloseDown() calling Manager.Quit()" << endl);
-	Manager.Quit(); 
-	return true;
+        ONDEBUG(cerr << "WindowBodyC::GuiCloseDown() calling Manager.Quit()" << endl);
+        Manager.Quit(); 
+        return true;
       }
     }
     Hide();
@@ -203,10 +204,10 @@ namespace RavlGUIN {
   bool WindowBodyC::GUIUserResizable(bool& resizable) {
     if (widget!=0) {
       if (resizable) {
-	gtk_window_set_policy(GTK_WINDOW(widget), false, true, false);
+        gtk_window_set_policy(GTK_WINDOW(widget), false, true, false);
       }
       else {
-	gtk_window_set_policy(GTK_WINDOW(widget), false, false, true);
+        gtk_window_set_policy(GTK_WINDOW(widget), false, false, true);
       }
     }
     else
@@ -244,10 +245,10 @@ namespace RavlGUIN {
 #ifdef RAVL_USE_GTK2      
     if (widget!=0) {
       if (maximise) {
-	gtk_window_maximize(GTK_WINDOW(widget));
+        gtk_window_maximize(GTK_WINDOW(widget));
       }
       else {
-	gtk_window_unmaximize(GTK_WINDOW(widget));
+        gtk_window_unmaximize(GTK_WINDOW(widget));
       }
     }
 #endif
@@ -301,6 +302,23 @@ namespace RavlGUIN {
     }
     else 
       m_bDecorated = decorated;
+    return true;
+  }
+
+  void WindowBodyC::SetFullScreen(bool &fullscreen) {
+    Manager.Queue(Trigger(WindowC(*this),&WindowC::GUISetFullScreen,fullscreen));
+  }
+
+  bool WindowBodyC::GUISetFullScreen(bool &fullscreen) {
+    if (widget != NULL && isFullscreen != fullscreen) {
+      if (fullscreen) {
+        gtk_window_fullscreen(GTK_WINDOW (widget));
+        isFullscreen = true;
+      } else {
+        gtk_window_unfullscreen(GTK_WINDOW (widget));
+        isFullscreen = false;
+      }
+    }
     return true;
   }
    
