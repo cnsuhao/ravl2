@@ -13,7 +13,7 @@
 #include "Ravl/Image/EdgeLink.hh"
 #include "Ravl/Array2dIter2.hh"
 #include "Ravl/Array2dIter.hh"
-#include "Ravl/SArr1Iter.hh"
+#include "Ravl/SArray1dIter.hh"
 #include "Ravl/Image/DrawFrame.hh"
 
 #define DODEBUG 1

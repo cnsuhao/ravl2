@@ -10,8 +10,8 @@
 //! file="Ravl/Logic/Base/And.cc"
 
 #include "Ravl/Logic/And.hh"
-#include "Ravl/SArr1Iter.hh"
-#include "Ravl/SArr1Iter2.hh"
+#include "Ravl/SArray1dIter.hh"
+#include "Ravl/SArray1dIter2.hh"
 #include "Ravl/Logic/BindSet.hh"
 #include "Ravl/Logic/StateAndIter.hh"
 

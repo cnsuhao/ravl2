@@ -9,7 +9,7 @@
 //! file="Ravl/3D/MeshIO/TriFileIO.cc"
 
 #include "Ravl/3D/TriFileIO.hh"
-#include "Ravl/SArr1Iter.hh"
+#include "Ravl/SArray1dIter.hh"
 
 namespace Ravl3DN {
   //: Open file.

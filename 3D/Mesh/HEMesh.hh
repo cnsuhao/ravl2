@@ -20,7 +20,7 @@
 #include "Ravl/3D/HEMeshVertexIter.hh"
 #include "Ravl/RefCounter.hh"
 #include "Ravl/DList.hh"
-#include "Ravl/InDList.hh"
+#include "Ravl/IntrDList.hh"
 #include "Ravl/SArray1d.hh"
 #include "Ravl/Hash.hh"
 #include "Ravl/Tuple2.hh"

@@ -16,7 +16,7 @@
 
 #include "Ravl/DP/StreamOp.hh"
 #include "Ravl/DP/IOJoin.hh"
-#include "Ravl/SArr1Iter2.hh"
+#include "Ravl/SArray1dIter2.hh"
 
 namespace RavlN {
 

@@ -14,7 +14,7 @@
 //! file="Ravl/3D/Mesh/HEMeshFaceIter.hh"
 
 #include "Ravl/3D/HEMeshFace.hh"
-#include "Ravl/InDLIter.hh"
+#include "Ravl/IntrDLIter.hh"
 
 namespace Ravl3DN {
   

@@ -14,7 +14,7 @@
 //! file="Ravl/Core/System/CollectionIter.hh"
 
 #include "Ravl/Collection.hh"
-#include "Ravl/SArr1Iter.hh"
+#include "Ravl/SArray1dIter.hh"
 
 namespace RavlN {
 

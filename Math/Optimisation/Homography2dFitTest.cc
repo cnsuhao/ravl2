@@ -15,7 +15,7 @@
 #include "Ravl/Random.hh"
 #include "Ravl/Matrix3d.hh"
 #include "Ravl/EntryPnt.hh"
-#include "Ravl/SArr1Iter2.hh"
+#include "Ravl/SArray1dIter2.hh"
 
 // RANSAC headers
 #include "Ravl/Ransac.hh"

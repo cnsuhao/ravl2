@@ -6,7 +6,7 @@
 // file-header-ends-here
 #include "Ravl/3D/TexTriMesh.hh"
 #include "Ravl/BinStream.hh"
-#include "Ravl/SArr1Iter.hh"
+#include "Ravl/SArray1dIter.hh"
 #include "Ravl/Exception.hh"
 #include "Ravl/EntryPnt.hh"
 ////////////////////////////////////////////////////////////////////

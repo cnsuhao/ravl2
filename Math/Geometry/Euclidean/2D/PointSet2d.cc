@@ -10,7 +10,7 @@
 
 #include "Ravl/PointSet2d.hh"
 #include "Ravl/DLIter.hh"
-#include "Ravl/SArr1Iter.hh"
+#include "Ravl/SArray1dIter.hh"
 #include "Ravl/Vector2d.hh"
 
 namespace RavlN {

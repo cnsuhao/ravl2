@@ -18,8 +18,8 @@
 // Based on the graph structure designed by George Matas
 // (g.matas@ee.surrey.ac.uk) and his code in C language.
 
-#include "Ravl/InDList.hh"
-#include "Ravl/InDLIter.hh"
+#include "Ravl/IntrDList.hh"
+#include "Ravl/IntrDLIter.hh"
 #include "Ravl/RCHandleV.hh"
 #include "Ravl/Types.hh"
 

@@ -12,7 +12,7 @@
 #include "Ravl/Logic/MinTerm.hh"
 #include "Ravl/Logic/Not.hh"
 #include "Ravl/Logic/Or.hh"
-#include "Ravl/SArr1Iter.hh"
+#include "Ravl/SArray1dIter.hh"
 #include "Ravl/Logic/BindSet.hh"
 
 #define DODEBUG 0

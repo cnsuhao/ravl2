@@ -10,8 +10,8 @@
 
 #include "Ravl/3D/HEMesh.hh"
 #include "Ravl/3D/TriMesh.hh"
-#include "Ravl/SArr1Iter2.hh"
-#include "Ravl/SArr1Iter.hh"
+#include "Ravl/SArray1dIter2.hh"
+#include "Ravl/SArray1dIter.hh"
 #include "Ravl/Hash.hh"
 
 #define DODEBUG 0

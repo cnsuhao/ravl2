@@ -11,7 +11,7 @@
 
 #include "Ravl/Collection.hh"
 #include "Ravl/CollectionIter.hh"
-#include "Ravl/SArr1Iter.hh"
+#include "Ravl/SArray1dIter.hh"
 #include "Ravl/DArray1d.hh"
 #include "Ravl/DArray1dIter.hh"
 #include "Ravl/DArray1dIter2.hh"

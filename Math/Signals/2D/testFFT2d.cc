@@ -9,8 +9,8 @@
 //! file="Ravl/Math/Signals/2D/testFFT2d.cc"
 
 #include "Ravl/FFT2d.hh"
-#include "Ravl/SArr2Iter.hh"
-#include "Ravl/SArr2Iter2.hh"
+#include "Ravl/SArray2dIter.hh"
+#include "Ravl/SArray2dIter2.hh"
 
 using namespace RavlN;
 

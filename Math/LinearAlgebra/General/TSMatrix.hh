@@ -584,7 +584,7 @@ namespace RavlN {
       rowArr[c] = Row(c);
     for(int i = 0;i < n;i++) {
       Array1dC<DataT> &sl = rowArr[i];
-      out.Element(i,i,sl.SumSqr());
+      out.Element(i,i,sl.SumOfSqr());
       for(int j = i+1;j < n;j++)
 	out.Element(i,j,MultiplySum(sl,rowArr[j]));
     }

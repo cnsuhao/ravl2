@@ -14,7 +14,7 @@
 //! file="Ravl/Math/LinearAlgebra/General/TSMatrixPartial.hh"
 
 #include "Ravl/TSMatrix.hh"
-#include "Ravl/SArr1Iter2.hh"
+#include "Ravl/SArray1dIter2.hh"
 
 namespace RavlN {
   

@@ -158,7 +158,7 @@ int testSampleVector() {
   t.Fill(0);
   t += VectorC(1,2,3).OuterProduct();
   t += VectorC(1,1,1).OuterProduct();
-  if((sop - t).SumSqr() > 0.0000001) return __LINE__;
+  if((sop - t).SumOfSqr() > 0.0000001) return __LINE__;
   cerr << "SOP=" << sop << "\n";;
   return 0;
 }

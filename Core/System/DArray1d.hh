@@ -12,7 +12,7 @@
 //! rcsid="$Id$"
 //! file="Ravl/Core/System/DArray1d.hh"
 
-#include "Ravl/InDList.hh"
+#include "Ravl/IntrDList.hh"
 #include "Ravl/Array1d.hh"
 
 namespace RavlN {

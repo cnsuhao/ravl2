@@ -10,7 +10,7 @@
 //! file="Ravl/Image/Processing/Segmentation/ConnectedComponents.cc"
 
 #include "Ravl/Image/ConnectedComponents.hh"
-#include "Ravl/SArr1Iter.hh"
+#include "Ravl/SArray1dIter.hh"
 
 #define DODEBUG 0
 #if DODEBUG

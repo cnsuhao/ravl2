@@ -13,7 +13,7 @@
 #include "Ravl/Vector.hh"
 #include "Ravl/Random.hh"
 #include "Ravl/Option.hh"
-#include "Ravl/SArr2Iter.hh"
+#include "Ravl/SArray2dIter.hh"
 #include "Ravl/VectorMatrix.hh"
 #include "Ravl/Matrix2d.hh"
 #include "Ravl/Matrix3d.hh"
@@ -89,7 +89,7 @@ int testSVD() {
   md.Fill(0);
   md.SetDiagonal(D);
   MatrixC m = U * md * V.T();
-  if((m - Test).SumSqr() > 0.000001) return __LINE__;
+  if((m - Test).SumOfSqr() > 0.000001) return __LINE__;
   return 0;
 }
 
@@ -103,7 +103,7 @@ int testEigen() {
   md.Fill(0);
   md.SetDiagonal(D);
   MatrixC m = E * md * E.Inverse();
-  if((m - test).SumSqr() > 0.0000001) return __LINE__;
+  if((m - test).SumOfSqr() > 0.0000001) return __LINE__;
   return 0;
 }
 
@@ -118,7 +118,7 @@ int testMisc() {
   VectorC wer2(mat.SliceColumn(1));
   if(wer2.Size() != 3) return __LINE__;
   mat.SetColumn(1,wer2); //this causes the following error**
-  if((mat - mat2).SumSqr() > 0.0000000001) return __LINE__;
+  if((mat - mat2).SumOfSqr() > 0.0000000001) return __LINE__;
   return 0;
 }
 
@@ -129,14 +129,14 @@ int testMatrixRUT() {
   MatrixRUTC m = OuterProductRUT(vec);
   m.MakeSymmetric();
   MatrixC om = vec.OuterProduct();
-  if((om - m).SumSqr() > 0.00000001) return __LINE__;
+  if((om - m).SumOfSqr() > 0.00000001) return __LINE__;
   
   // test AddOuterProduct(vec).
   m = MatrixRUTC(3);
   m.Fill(0);
   m.AddOuterProduct(vec);
   m.MakeSymmetric();
-  if((om - m).SumSqr() > 0.00000001) return __LINE__;
+  if((om - m).SumOfSqr() > 0.00000001) return __LINE__;
   
   MatrixC t1(2,3);
   t1[0][0] = 1;
@@ -157,7 +157,7 @@ int testMatrixRUT() {
   MatrixC t3 = t2 * t1;
   m.AddOuterProduct(VectorC(4,5,6));
   m.MakeSymmetric();
-  if((m - t3).SumSqr() > 0.00000001) return __LINE__;
+  if((m - t3).SumOfSqr() > 0.00000001) return __LINE__;
   //  cerr << "t3=" << t3<< "\n";
   return 0;
 }
@@ -311,9 +311,9 @@ int testInverse() {
 int testATAandAAT() {
   cerr << "testATAandAAT() Called \n";
   MatrixC mat = RandomMatrix(500,500);
-  if(MatrixC(mat.ATA() - mat.TMul(mat)).SumSqr() > 0.00001)
+  if(MatrixC(mat.ATA() - mat.TMul(mat)).SumOfSqr() > 0.00001)
     return __LINE__;
-  if(MatrixC(mat.AAT() - mat.MulT(mat)).SumSqr() > 0.00001)
+  if(MatrixC(mat.AAT() - mat.MulT(mat)).SumOfSqr() > 0.00001)
     return __LINE__;
   return 0;
 }

@@ -22,7 +22,7 @@
 #include "Ravl/RefCounter.hh"
 #include "Ravl/TypeName.hh"
 #include "Ravl/SArray1d.hh"
-#include "Ravl/SArr1Iter.hh"
+#include "Ravl/SArray1dIter.hh"
 
 namespace RavlN {
 

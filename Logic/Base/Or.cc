@@ -10,8 +10,8 @@
 //! file="Ravl/Logic/Base/Or.cc"
 
 #include "Ravl/Logic/Or.hh"
-#include "Ravl/SArr1Iter.hh"
-#include "Ravl/SArr1Iter2.hh"
+#include "Ravl/SArray1dIter.hh"
+#include "Ravl/SArray1dIter2.hh"
 #include "Ravl/Logic/BindSet.hh"
 #include "Ravl/Logic/StateOrIter.hh"
 

@@ -69,11 +69,11 @@ int testBinIO() {
     BinIStreamC bis(istr);
     bis >> ip1 >> ip2 >> ip3;
   }
-  if((p1 - ip1).SumSqr() > 0.000000001)
+  if((p1 - ip1).SumOfSqr() > 0.000000001)
     return __LINE__;
-  if((p2 - ip2).SumSqr() > 0.000000001)
+  if((p2 - ip2).SumOfSqr() > 0.000000001)
     return __LINE__;
-  if((p3 - ip3).SumSqr() > 0.000000001)
+  if((p3 - ip3).SumOfSqr() > 0.000000001)
     return __LINE__;
   return 0;
 }

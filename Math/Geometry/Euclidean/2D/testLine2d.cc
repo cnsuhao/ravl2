@@ -97,21 +97,21 @@ int testClip2d() {
   // This line shouldn't be clipped.
   LinePP2dC l1(pnt1,pnt2);
   if(!l1.ClipBy(rng)) return __LINE__;
-  if((pnt1 - l1.P1()).SumSqr() > 0.00001) return __LINE__;
-  if((pnt2 - l1.P2()).SumSqr() > 0.00001) return __LINE__;
+  if((pnt1 - l1.P1()).SumOfSqr() > 0.00001) return __LINE__;
+  if((pnt2 - l1.P2()).SumOfSqr() > 0.00001) return __LINE__;
 
   // Should clip point 0.
   LinePP2dC l2(pnt0,pnt2);
   if(!l2.ClipBy(rng)) return __LINE__;
-  if((pnt0 - l2.P1()).SumSqr() < 0.00001) return __LINE__;
-  if((pnt2 - l2.P2()).SumSqr() > 0.00001) return __LINE__;
+  if((pnt0 - l2.P1()).SumOfSqr() < 0.00001) return __LINE__;
+  if((pnt2 - l2.P2()).SumOfSqr() > 0.00001) return __LINE__;
   if(!rng.Contains(l2.P1())) return __LINE__;
 
   // Should clip point 1.
   LinePP2dC l3(pnt1,pnt3);
   if(!l3.ClipBy(rng)) return __LINE__;
-  if((pnt1 - l3.P1()).SumSqr() > 0.00001) return __LINE__;
-  if((pnt3 - l3.P2()).SumSqr() < 0.00001) return __LINE__;
+  if((pnt1 - l3.P1()).SumOfSqr() > 0.00001) return __LINE__;
+  if((pnt3 - l3.P2()).SumOfSqr() < 0.00001) return __LINE__;
   if(!rng.Contains(l3.P2())) return __LINE__;
   
   // Line entirely outside region.

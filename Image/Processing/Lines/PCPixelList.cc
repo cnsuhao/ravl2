@@ -11,7 +11,7 @@
 
 #include "Ravl/Image/PCPixelList.hh"
 #include "Ravl/Image/Image.hh"
-#include "Ravl/SArr1Iter.hh"
+#include "Ravl/SArray1dIter.hh"
 
 namespace RavlImageN {
 

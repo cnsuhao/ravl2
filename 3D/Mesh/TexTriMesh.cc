@@ -12,8 +12,8 @@
 //! author="Jonathan Starck"
 
 #include "Ravl/3D/TexTriMesh.hh"
-#include "Ravl/SArr1Iter.hh"
-#include "Ravl/SArr1Iter2.hh"
+#include "Ravl/SArray1dIter.hh"
+#include "Ravl/SArray1dIter2.hh"
 
 namespace Ravl3DN {
 #if RAVL_VISUALCPP_NAMESPACE_BUG

@@ -187,7 +187,7 @@ namespace RavlN {
     DataT SumOfAbs() const;
     //: Return the sum of the absolute values of the matrix.
     
-    DataT SumSqr() const;
+    DataT SumOfSqr() const;
     //: Calculate the sum of the squares of all the elements in the matrix
     
     inline bool Limit(const DataT &min,const DataT &max);
@@ -432,7 +432,7 @@ namespace RavlN {
   }
   
   template<class DataT,unsigned int N,unsigned int M>
-  DataT TFMatrixC<DataT,N,M>::SumSqr() const {
+  DataT TFMatrixC<DataT,N,M>::SumOfSqr() const {
     DataT ret;
     SetZero(ret);
     for(UIntT i = 0;i < N;i++)

@@ -183,7 +183,7 @@ namespace RavlN {
     DataT Sum() const;
     //: Calculate the sum of all the vector elements.
     
-    DataT SumSqr() const;
+    DataT SumOfSqr() const;
     //: Calculate the sum of the squares of all the vector elements.
     
     inline const TFMatrixC<DataT,1,N> &T() const;
@@ -465,7 +465,7 @@ namespace RavlN {
   
   template<class DataT,unsigned int N>
   inline
-  DataT TFVectorC<DataT,N>::SumSqr() const {
+  DataT TFVectorC<DataT,N>::SumOfSqr() const {
     DataT ret = RavlN::Sqr(data[0]);
     for(UIntT i = 1;i<N;i++)
       ret += RavlN::Sqr(data[i]);

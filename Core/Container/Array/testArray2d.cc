@@ -20,7 +20,7 @@
 #include "Ravl/Array2dSqr311Iter3.hh"
 #include "Ravl/Array2dSqr3111Iter4.hh"
 #include "Ravl/Array2dSqr3311Iter4.hh"
-#include "Ravl/SArr2Iter.hh"
+#include "Ravl/SArray2dIter.hh"
 
 using namespace RavlN;
 

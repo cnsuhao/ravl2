@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 #include "Ravl/3D/CTriFileIO.hh"
-#include "Ravl/SArr1Iter.hh"
+#include "Ravl/SArray1dIter.hh"
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/DP/FileFormatIO.hh"
 //! rcsid="$Id$"

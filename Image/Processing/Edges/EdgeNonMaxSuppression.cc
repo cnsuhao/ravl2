@@ -16,7 +16,7 @@
 #include "Ravl/Array2dIter.hh"
 #include "Ravl/StdMath.hh"
 #include "Ravl/SArray1d.hh"
-#include "Ravl/SArr1Iter.hh"
+#include "Ravl/SArray1dIter.hh"
 #include "Ravl/Array2dIter.hh"
 #include "Ravl/StdConst.hh"
 

@@ -16,7 +16,7 @@
 //! example=exSignal1.cc
 
 #include "Ravl/Threads/Signal1.hh"
-#include "Ravl/InDLIter.hh"
+#include "Ravl/IntrDLIter.hh"
 
 // Fix for Visual C++ which doesn't like default values for
 // some templated arguments. 

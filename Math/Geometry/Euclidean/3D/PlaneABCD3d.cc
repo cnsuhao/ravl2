@@ -49,7 +49,7 @@ namespace RavlN {
   
   LinePV3dC PlaneABCD3dC::Intersection(const PlaneABCD3dC & plane) const {
     Vector3dC direction(Normal().Cross(plane.Normal()));
-    RealT     den = direction.SumSqr();
+    RealT     den = direction.SumOfSqr();
     if (IsAlmostZero(den))
       {
 	cerr << "PlaneABCD3dC::Intersection(), ERROR: the planes are parallel:\n"

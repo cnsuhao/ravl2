@@ -42,7 +42,7 @@ namespace RavlN {
   
   LinePV3dC LinePV3dC::ShortestLine(const LinePV3dC & line) const {
     Vector3dC axb(Vector().Cross(line.Vector()));
-    RealT     axbNorm = axb.SumSqr();
+    RealT     axbNorm = axb.SumOfSqr();
     
     if (IsAlmostZero(axbNorm)) {
       cerr << "parallel line:\n"

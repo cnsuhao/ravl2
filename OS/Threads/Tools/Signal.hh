@@ -19,9 +19,9 @@
 #include "Ravl/RefCounter.hh"
 #include "Ravl/DLink.hh"
 #include "Ravl/SArray1d.hh"
-#include "Ravl/SArr1Iter.hh"
+#include "Ravl/SArray1dIter.hh"
 #include "Ravl/Assert.hh"
-#include "Ravl/InDList.hh"
+#include "Ravl/IntrDList.hh"
 #include "Ravl/Types.hh"
 
 namespace RavlN {

@@ -41,7 +41,7 @@ int testDesignFuncLSQ() {
   if(!func.IsValid()) return __LINE__;
   VectorC to = func.Apply(VectorC(1,2,1));
   cerr << "Testout=" << to << "\n";
-  if((to - VectorC(3,2)).SumSqr() > 0.000000001) return __LINE__;
+  if((to - VectorC(3,2)).SumOfSqr() > 0.000000001) return __LINE__;
   
   return 0;
 }

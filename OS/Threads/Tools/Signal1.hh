@@ -16,7 +16,7 @@
 //! example=exSignal1.cc
 
 #include "Ravl/Threads/Signal.hh"
-#include "Ravl/InDLIter.hh"
+#include "Ravl/IntrDLIter.hh"
 #include "Ravl/Types.hh"
 
 namespace RavlN {

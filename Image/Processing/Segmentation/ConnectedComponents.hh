@@ -24,7 +24,7 @@
 #include "Ravl/HashIter.hh"
 #include "Ravl/Tuple2.hh"
 #include "Ravl/SArray1d.hh"
-#include "Ravl/SArr1Iter.hh"
+#include "Ravl/SArray1dIter.hh"
 #include "Ravl/Array2dSqr2Iter.hh"
 #include "Ravl/Array2dSqr2Iter2.hh"
 

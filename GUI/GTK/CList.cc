@@ -11,7 +11,7 @@
 
 #include "Ravl/GUI/CList.hh"
 #include "Ravl/GUI/Manager.hh"
-#include "Ravl/SArr1Iter2.hh"
+#include "Ravl/SArray1dIter2.hh"
 #include <gtk/gtk.h>
 
 #define DODEBUG 0

@@ -17,7 +17,7 @@
 
 #include "Ravl/DP/Entity.hh"
 #include "Ravl/Exception.hh"
-#include "Ravl/SArr1Iter2.hh"
+#include "Ravl/SArray1dIter2.hh"
 #include "Ravl/Assert.hh"
 
 #if RAVL_HAVE_ANSICPPHEADERS

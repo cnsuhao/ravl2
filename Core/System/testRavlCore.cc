@@ -19,7 +19,7 @@
 #include "Ravl/DList.hh"
 #include "Ravl/TypeName.hh"
 #include "Ravl/StringList.hh"
-#include "Ravl/InDList.hh"
+#include "Ravl/IntrDList.hh"
 #include "Ravl/RCHash.hh"
 #include "Ravl/HSet.hh"
 #include "Ravl/Option.hh"

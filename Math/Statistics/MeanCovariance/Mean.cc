@@ -10,7 +10,7 @@
 //! file="Ravl/Math/Statistics/MeanCovariance/Mean.cc"
 
 #include "Ravl/Mean.hh"
-#include "Ravl/SArr1Iter.hh"
+#include "Ravl/SArray1dIter.hh"
 
 namespace RavlN {
   

@@ -65,7 +65,7 @@ int testTFVector() {
   test2 *= 2;
   if(test2[0] != 4) return __LINE__;
   if(test2[1] != 8) return __LINE__;
-  if(test2.SumSqr() != 80) return __LINE__;
+  if(test2.SumOfSqr() != 80) return __LINE__;
   TFVectorC<IntT,2> test3 = test1 * 4;
   if(test3 == test1) return __LINE__;
   test3 /= 4;

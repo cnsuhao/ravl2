@@ -13,8 +13,8 @@
 //! docentry="Ravl.Math.Linear Algebra.Smart Matrix"
 
 #include "Ravl/TSMatrix.hh"
-#include "Ravl/InDList.hh"
-#include "Ravl/InDLIter.hh"
+#include "Ravl/IntrDList.hh"
+#include "Ravl/IntrDLIter.hh"
 
 namespace RavlN {
   

@@ -18,7 +18,7 @@
 #include "Ravl/FVector.hh"
 #include "Ravl/Vector2d.hh"
 #include "Ravl/SArray1d.hh"
-#include "Ravl/SArr1Iter.hh"
+#include "Ravl/SArray1dIter.hh"
 #include "Ravl/Stream.hh"
 
 namespace RavlN {

@@ -14,7 +14,7 @@
 //! file="Ravl/3D/Mesh/HEMeshVertexIter.hh"
 
 #include "Ravl/3D/HEMeshVertex.hh"
-#include "Ravl/InDLIter.hh"
+#include "Ravl/IntrDLIter.hh"
 
 namespace Ravl3DN {
 

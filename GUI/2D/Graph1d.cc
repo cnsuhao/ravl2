@@ -6,7 +6,7 @@
 #include "Ravl/Array1dIter.hh"
 #include "Ravl/Array1dIter2.hh"
 #include "Ravl/GUI/Manager.hh"
-#include "Ravl/SArr1Iter2.hh"
+#include "Ravl/SArray1dIter2.hh"
 #include "Ravl/PRect2d.hh"
 #include "Ravl/GUI/MouseEvent.hh"
 #include "Ravl/StdMath.hh"

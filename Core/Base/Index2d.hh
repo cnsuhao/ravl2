@@ -224,7 +224,7 @@ namespace RavlN {
     //:---------------------
     //: Distance calculations
     
-    inline UIntT SumSqr() const;
+    inline UIntT SumOfSqr() const;
     //: Returns the sum of coordinate squares.
     
     inline UIntT Distance(const Index2dC & i, GridMetricT m) const;

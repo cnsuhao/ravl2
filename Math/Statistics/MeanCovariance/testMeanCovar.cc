@@ -96,7 +96,7 @@ int testFMean() {
   FMeanC<2> mean;
   mean = Vector2dC(0,1);
   mean += Vector2dC(2,5);
-  if((mean.Mean() - Vector2dC(1,3)).SumSqr() > 0.00001) return __LINE__;
+  if((mean.Mean() - Vector2dC(1,3)).SumOfSqr() > 0.00001) return __LINE__;
   if(mean.Number() != 2) return __LINE__;
   //cout << "Mean=" << mean << "\n";  
   return 0;
@@ -106,7 +106,7 @@ int testFMeanCovar() {
   FMeanCovarianceC<2> meanco;
   meanco = Vector2dC(0,1);
   meanco += Vector2dC(2,5);
-  if((meanco.Mean() - Vector2dC(1,3)).SumSqr() > 0.00001) return __LINE__;
+  if((meanco.Mean() - Vector2dC(1,3)).SumOfSqr() > 0.00001) return __LINE__;
 
   SArray1dC<FVectorC<2> > xyz(3);
   FMeanCovarianceC<2> meanco2;
@@ -120,7 +120,7 @@ int testFMeanCovar() {
   cerr << "Covar2=" << meanco2.Covariance() << "\n";
   cerr << "Covar3=" << meanco3.Covariance() << "\n";
 #endif
-  if((meanco2.Covariance() - meanco3.Covariance()).SumSqr() > 0.00001) return __LINE__;  
+  if((meanco2.Covariance() - meanco3.Covariance()).SumOfSqr() > 0.00001) return __LINE__;  
   return 0;
 }
 
@@ -140,8 +140,8 @@ int testMeanCovar2d() {
   
   MeanCovariance2dC mc3 = mc1 * mc2;
   //cerr << "Product=" << mc3 << "\n";
-  if((mc3.Mean() - Vector2dC(0.2,0.2)).SumSqr() > 0.000001) return __LINE__;
-  if((mc3.Covariance() - Matrix2dC(0.1,0,0,0.1)).SumSqr() > 0.000001) return __LINE__;
+  if((mc3.Mean() - Vector2dC(0.2,0.2)).SumOfSqr() > 0.000001) return __LINE__;
+  if((mc3.Covariance() - Matrix2dC(0.1,0,0,0.1)).SumOfSqr() > 0.000001) return __LINE__;
   
   return 0;
 }
@@ -160,8 +160,8 @@ int testMeanCovar() {
   cerr << "Covar=" << meancov.Covariance() << "\n";
   cerr << "Covar2=" << meancov2.Covariance() << "\n";
 #endif
-  if((meancov2.Covariance() - meancov.Covariance()).SumSqr() > 0.00001) return __LINE__;
-  if(VectorC(meancov2.Mean() - meancov.Mean()).SumSqr() > 0.00001) return __LINE__;
+  if((meancov2.Covariance() - meancov.Covariance()).SumOfSqr() > 0.00001) return __LINE__;
+  if(VectorC(meancov2.Mean() - meancov.Mean()).SumOfSqr() > 0.00001) return __LINE__;
 
 
   MeanCovarianceC mcn1(2);
@@ -177,8 +177,8 @@ int testMeanCovar() {
 
   MeanCovarianceC mcn3 = mcn1 * mcn2;
   // cerr << "Product=" << mcn3 << "\n";
-  if((mcn3.Mean() - VectorC(0.2,0.2)).SumSqr() > 0.000001) return __LINE__;
-  if((mcn3.Covariance() - MatrixC(0.1,0,0,0.1)).SumSqr() > 0.000001) return __LINE__;
+  if((mcn3.Mean() - VectorC(0.2,0.2)).SumOfSqr() > 0.000001) return __LINE__;
+  if((mcn3.Covariance() - MatrixC(0.1,0,0,0.1)).SumOfSqr() > 0.000001) return __LINE__;
   return 0;
 }
 

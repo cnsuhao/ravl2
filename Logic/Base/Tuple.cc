@@ -10,8 +10,8 @@
 //! file="Ravl/Logic/Base/Tuple.cc"
 
 #include "Ravl/Logic/Tuple.hh"
-#include "Ravl/SArr1Iter2.hh"
-#include "Ravl/SArr1Iter.hh"
+#include "Ravl/SArray1dIter2.hh"
+#include "Ravl/SArray1dIter.hh"
 #include "Ravl/Logic/BindSet.hh"
 #include "Ravl/Logic/LiteralIter.hh"
 

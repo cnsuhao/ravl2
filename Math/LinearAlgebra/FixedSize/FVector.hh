@@ -56,7 +56,7 @@ namespace RavlN {
     // or infinite values are found.
     
     RealT Magnitude() const 
-    { return Sqrt(SumSqr()); }
+    { return Sqrt(SumOfSqr()); }
     //: Calculate the magintude of the vector.
     
     inline RealT EuclidDistance(const TFVectorC<RealT,N> & i) const

@@ -9,9 +9,9 @@
 //! file="Ravl/3D/Mesh/HEMesh.cc"
 
 #include "Ravl/3D/HEMesh.hh"
-#include "Ravl/SArr1Iter.hh"
+#include "Ravl/SArray1dIter.hh"
 #include "Ravl/Hash.hh"
-#include "Ravl/InDLIter.hh"
+#include "Ravl/IntrDLIter.hh"
 
 #define DODEBUG 0
 #if DODEBUG

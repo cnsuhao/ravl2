@@ -9,7 +9,7 @@
 //! file="Ravl/3D/Carve3D/PointSet.cc"
 
 #include "Ravl/3D/PointSet.hh"
-#include "Ravl/SArr1Iter.hh"
+#include "Ravl/SArray1dIter.hh"
 #include "Ravl/BinStream.hh"
 
 namespace Ravl3DN {

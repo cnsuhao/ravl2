@@ -11,8 +11,8 @@
 
 #include "Ravl/FFT2d.hh"
 #include "Ravl/Exception.hh"
-#include "Ravl/SArr2Iter2.hh"
-#include "Ravl/SArr2Iter3.hh"
+#include "Ravl/SArray2dIter2.hh"
+#include "Ravl/SArray2dIter3.hh"
 #include "Ravl/Slice1d.hh"
 
 #include "ccmath/ccmath.h"

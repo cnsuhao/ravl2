@@ -134,7 +134,7 @@ int Validate()
   TMatrixC<RealT> op3 = op2.Copy();
   op3.Fill(0);
   op3.AddOuterProduct(v1,v3);
-  if((op2 - op3).SumSqr() > 0.000000001) return __LINE__;
+  if((op2 - op3).SumOfSqr() > 0.000000001) return __LINE__;
   return 0;
 }
 
@@ -179,6 +179,6 @@ int testOuterProduct() {
     *it = val++;
   TMatrixC<RealT> ops = OuterProduct(mat.SliceColumn(0));
   TMatrixC<RealT> op = TVectorC<RealT>(mat.SliceColumn(0)).OuterProduct();
-  if((ops - op).SumSqr() > 0.00000001) return __LINE__;
+  if((ops - op).SumOfSqr() > 0.00000001) return __LINE__;
   return 0;
 }

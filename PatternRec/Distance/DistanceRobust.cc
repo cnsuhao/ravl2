@@ -10,10 +10,10 @@
 
 #include "Ravl/PatternRec/DistanceRobust.hh"
 #include "Ravl/VirtualConstructor.hh"
-#include "Ravl/SArr1Iter3.hh"
+#include "Ravl/SArray1dIter3.hh"
 #include "Ravl/BinStream.hh"
 #include "Ravl/Stream.hh"
-#include "Ravl/SArr1Iter2.hh"
+#include "Ravl/SArray1dIter2.hh"
 
 namespace RavlN {
   

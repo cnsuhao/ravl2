@@ -130,7 +130,7 @@ namespace RavlN {
     //: Returns the distance of the 'point' from the line.
     
     inline Point2dC Projection(const Point2dC & point) const
-    { return point - normal *(Residuum(point)/normal.SumSqr()); }
+    { return point - normal *(Residuum(point)/normal.SumOfSqr()); }
     //: Returns the point which is the orthogonal projection of the 'point'
     //: to the line. 
     // It is the same as intersection of this line with
@@ -182,7 +182,7 @@ namespace RavlN {
   
   inline  RealT LineABC2dC::SqrEuclidDistance(const Point2dC & point) const {
     RealT t = Residuum(point);
-    return t*t/normal.SumSqr();
+    return t*t/normal.SumOfSqr();
   }
   
 }

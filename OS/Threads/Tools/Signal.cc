@@ -13,8 +13,8 @@
 #include "Ravl/Threads/Signal1.hh"
 #include "Ravl/Threads/Signal2.hh"
 #include "Ravl/Threads/Signal3.hh"
-#include "Ravl/SArr1Iter2.hh"
-#include "Ravl/InDLIter.hh"
+#include "Ravl/SArray1dIter2.hh"
+#include "Ravl/IntrDLIter.hh"
 #include "Ravl/Assert.hh"
 
 namespace RavlN {

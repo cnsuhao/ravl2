@@ -258,7 +258,7 @@ int testHistogramEqualise() {
   ImageC<RealT> result = histEqual.Apply(test);
   //cerr << "Test=" << test << "\n Result=" << result << "\n";
   //cerr << (result-test) << "\n";
-  if((result-test).SumSqr() > 0.000001) return __LINE__;
+  if((result-test).SumOfSqr() > 0.000001) return __LINE__;
   
   // Test equalisation of byte images
   ImageC<ByteT> testb(10,10);
@@ -268,7 +268,7 @@ int testHistogramEqualise() {
   HistogramEqualiseC<ByteT> histEqualb(0,100);
   ImageC<ByteT> resultb = histEqualb.Apply(testb);
   //cerr << "Test=" << testb << "\n Result=" << resultb << "\n";
-  //if((resultb-testb).SumSqr() > 0.000001) return __LINE__;
+  //if((resultb-testb).SumOfSqr() > 0.000001) return __LINE__;
   
   return 0;
 }

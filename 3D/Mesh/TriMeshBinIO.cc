@@ -12,7 +12,7 @@
 
 #include "Ravl/3D/TriMesh.hh"
 #include "Ravl/BinStream.hh"
-#include "Ravl/SArr1Iter.hh"
+#include "Ravl/SArray1dIter.hh"
 #include "Ravl/Exception.hh"
 #include "Ravl/EntryPnt.hh"
 

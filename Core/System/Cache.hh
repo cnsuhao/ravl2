@@ -13,8 +13,8 @@
 //! docentry="Ravl.Core.Misc"
 
 #include "Ravl/Hash.hh"
-#include "Ravl/InDList.hh"
-#include "Ravl/InDLIter.hh"
+#include "Ravl/IntrDList.hh"
+#include "Ravl/IntrDLIter.hh"
 
 namespace RavlN {
   template<class KeyT,class DataT> class CacheIterC;

@@ -9,7 +9,7 @@
 //! file="Ravl/3D/MeshIO/MeshIOObj.cc"
 
 #include "Ravl/3D/MeshIOObj.hh"
-#include "Ravl/SArr1Iter.hh"
+#include "Ravl/SArray1dIter.hh"
 #include "Ravl/StringList.hh"
 #include "Ravl/Tuple2.hh"
 #include "Ravl/Hash.hh"

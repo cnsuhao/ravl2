@@ -222,7 +222,7 @@ int TestColorCnv() {
   cerr << "rgb=" << rgb << "\n";
   RealYUVValueC yuv2(rgb);
   cerr << "yuv2=" << yuv2 << "\n";
-  RealT diff = (yuv - yuv2).SumSqr();
+  RealT diff = (yuv - yuv2).SumOfSqr();
   if(diff > 0.002) return __LINE__;
   return 0;
 }

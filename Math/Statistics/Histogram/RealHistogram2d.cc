@@ -11,7 +11,7 @@
 //! author="Charles Galambos"
 
 #include "Ravl/RealHistogram2d.hh"
-#include "Ravl/SArr2Iter.hh"
+#include "Ravl/SArray2dIter.hh"
 
 namespace RavlN {
   

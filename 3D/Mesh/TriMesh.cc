@@ -11,8 +11,8 @@
 //! file="Ravl/3D/Mesh/TriMesh.cc"
 
 #include "Ravl/3D/TriMesh.hh"
-#include "Ravl/SArr1Iter.hh"
-#include "Ravl/SArr1Iter2.hh"
+#include "Ravl/SArray1dIter.hh"
+#include "Ravl/SArray1dIter2.hh"
 
 namespace Ravl3DN {
 #if RAVL_VISUALCPP_NAMESPACE_BUG

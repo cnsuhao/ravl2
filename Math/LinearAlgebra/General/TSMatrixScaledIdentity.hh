@@ -14,7 +14,7 @@
 //! file="Ravl/Math/LinearAlgebra/General/TSMatrixDiagonal.hh"
 
 #include "Ravl/TSMatrixPartial.hh"
-#include "Ravl/SArr1Iter3.hh"
+#include "Ravl/SArray1dIter3.hh"
 
 namespace RavlN {
   template<class DataT> class TSMatrixScaledIdentityC;

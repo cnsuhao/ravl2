@@ -11,8 +11,8 @@
 
 #include "Ravl/GUI/DTriMesh3D.hh"
 #include "Ravl/GUI/Canvas3D.hh"
-#include "Ravl/SArr1Iter2.hh"
-#include "Ravl/SArr1Iter.hh"
+#include "Ravl/SArray1dIter2.hh"
+#include "Ravl/SArray1dIter.hh"
 #include "GL/gl.h"
 
 #define DODEBUG 0

@@ -18,7 +18,7 @@
 // FIXME:- Sort out some proper examples for Signal3C
 
 #include "Ravl/Threads/Signal2.hh"
-#include "Ravl/InDLIter.hh"
+#include "Ravl/IntrDLIter.hh"
 
 // Fix for Visual C++ which doesn't like default values for
 // some templated arguments. 

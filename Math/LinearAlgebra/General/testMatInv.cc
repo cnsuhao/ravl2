@@ -13,7 +13,7 @@
 #include "Ravl/MatrixRS.hh"
 #include "Ravl/Random.hh"
 #include "Ravl/Option.hh"
-#include "Ravl/SArr2Iter.hh"
+#include "Ravl/SArray2dIter.hh"
 
 using namespace RavlN;
 

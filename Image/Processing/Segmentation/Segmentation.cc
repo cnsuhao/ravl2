@@ -12,8 +12,8 @@
 #include "Ravl/Image/Segmentation.hh"
 #include "Ravl/Array2dSqr2Iter.hh"
 #include "Ravl/SArray1d.hh"
-#include "Ravl/SArr1Iter.hh"
-#include "Ravl/SArr1Iter2.hh"
+#include "Ravl/SArray1dIter.hh"
+#include "Ravl/SArray1dIter2.hh"
 #include "Ravl/Array2dIter.hh"
 
 namespace RavlImageN {

@@ -12,7 +12,7 @@
 #include "Ravl/Stream.hh"
 #include "Ravl/Image/PSFFont.h"
 #include "Ravl/SArray1d.hh"
-#include "Ravl/SArr1Iter.hh"
+#include "Ravl/SArray1dIter.hh"
 
 
 #define DODEBUG 0

@@ -17,9 +17,9 @@
 //! userlevel=Normal
 
 #include "Ravl/SArray1d.hh"
-#include "Ravl/InDList.hh"
-#include "Ravl/InDLIter.hh"
-#include "Ravl/SArr1Iter.hh"
+#include "Ravl/IntrDList.hh"
+#include "Ravl/IntrDLIter.hh"
+#include "Ravl/SArray1dIter.hh"
 #include "Ravl/Tuple2.hh"
 #include "Ravl/StdHash.hh"
 #include "Ravl/Types.hh"
