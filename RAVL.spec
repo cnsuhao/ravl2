@@ -5,7 +5,7 @@ Summary: RAVL, Recognition And Vision Library
 Name: RAVL
 Version: %{version}
 Release: 12
-Source0: %{name}-%{version}.tar.bz2
+Source0: %{name}-SRC-%{version}.tar.bz2
 License: LGPL
 Group: Applications/Engineering
 BuildRoot: %{_builddir}/%{name}-root
@@ -16,9 +16,9 @@ General C++ Library, with modules for Computer Vision, Pattern Recognition and m
 %setup -q
 %build
 %clean
-#rm -rf $RPM_BUILD_ROOT
+rm -rf $RPM_BUILD_ROOT
 %install
-#rm -rf $RPM_BUILD_ROOT
+rm -rf $RPM_BUILD_ROOT
 DEFAULTTMP=$RPM_BUILD_ROOT
 ARC=`QMake/config.arc`
 LD_LIBRARY_PATH=$RPM_BUILD_ROOT/usr/lib/RAVL/$ARC/shared\:$LD_LIBRARY_PATH
