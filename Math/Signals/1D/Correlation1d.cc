@@ -51,8 +51,8 @@ namespace RavlN {
     ONDEBUG(cerr << "CRes Size:" << cres.Size() << "\n");
     Array1dC<RealT> ret(cres.Size());
     // Convert to real parts only.
-    for(Array1dIter2C<RealT,ComplexC> it(ret,cres);it;it++)
-      it.Data1() = it.Data2().Re();
+    for(Array1dIter2C<RealT,ComplexC> itx(ret,cres);itx;itx++)
+      itx.Data1() = itx.Data2().Re();
     return ret;
   }
   
