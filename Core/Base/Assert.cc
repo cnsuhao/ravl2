@@ -11,6 +11,7 @@
 
 #include "Ravl/config.h"
 #include "Ravl/Assert.hh"
+#include "Ravl/String.hh"
 
 // Do some sanity checking.
 
@@ -73,7 +74,7 @@ namespace RavlN {
   //: Called if assertion failed.
   
   void AssertFailed(char *file,int lineNo) {
-    cerr << "Ravl assertion failed:" << file <<" " << lineNo << "\n";
+    cerr << "Ravl assertion failed " << file <<":" << lineNo << "\n";
 #if RAVL_HAVE_EXCEPTIONS
     if(assertThrowException) 
       throw ExceptionAssertionFailedC("Ravl assertion failed. ");
@@ -85,7 +86,7 @@ namespace RavlN {
   //: Called if assertion failed, with message.
   
   void AssertFailed(char *file,int lineNo,char *msg) {
-    cerr << "Ravl assertion failed:" << file <<" " << lineNo << "\n";
+    cerr << "Ravl assertion failed " << file <<":" << lineNo << ".\n";
     cerr << "Reason: " << msg << "\n";
 #if RAVL_HAVE_EXCEPTIONS
     if(assertThrowException)
@@ -131,6 +132,27 @@ namespace RavlN {
       cerr << "OStreamC::form(...), WARNING: Ouput string is near or over buffer length. \n";
     cerr << buff;
     va_end(args);
+  }
+
+  //: Call when program encounters an error.
+  // This will either cause the program to trap to the debugger
+  // or thow an 'ExceptionAssertionFailedC'
+  
+  void IssueError(char *file,int lineNo,const StringC &str) {
+    cerr << "ERROR " << file << ":" << lineNo << " :" << str << "\n";
+#if RAVL_HAVE_EXCEPTIONS
+    if(assertThrowException)
+      throw ExceptionAssertionFailedC(str.chars(),true);
+#endif
+    char *ptr = 0;
+    *ptr = 1;// Cause a segfault.    
+  }
+  
+  //: Call when program encounters an a unexpected occurance.
+  // this prints the message and continues.
+  
+  void IssueWarning(char *file,int lineNo,const StringC &str) {
+    cerr << "WARNING " << file << ":" << lineNo << " :" << str << "\n";
   }
 
 

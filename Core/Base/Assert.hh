@@ -18,6 +18,8 @@
 #include "Ravl/config.h"
 
 namespace RavlN {  
+  class StringC; // Forward declare StringC.
+  
   bool AssertThrowException();
   //: Test if an exception on an assertion failure.
   
@@ -45,6 +47,15 @@ namespace RavlN {
   //: Call when program encounters an a unexpected occurance.
   // this prints the message and continues.
   
+  void IssueError(char *file,int lineNo,const StringC &str);
+  //: Call when program encounters an error.
+  // This will either cause the program to trap to the debugger
+  // or thow an 'ExceptionAssertionFailedC'
+  
+  void IssueWarning(char *file,int lineNo,const StringC &str);
+  //: Call when program encounters an a unexpected occurance.
+  // this prints the message and continues.
+  
 }
 
 #if RAVL_CHECK
@@ -57,5 +68,8 @@ namespace RavlN {
 // If we want to check an assertion, even in optimised code.
 #define RavlAlwaysAssert(x) { if(!(x)) RavlN::AssertFailed(__FILE__,__LINE__); }
 #define RavlAlwaysAssertMsg(x,m) { if(!(x)) RavlN::AssertFailed(__FILE__,__LINE__,m); }
+
+#define RavlIssueError(x) IssueError(__FILE__,__LINE__,x);
+#define RavlIssueWarning(x) IssueWarning(__FILE__,__LINE__,x);
 
 #endif
