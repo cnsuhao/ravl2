@@ -63,6 +63,7 @@ namespace RavlN {
       throw ExceptionC("DirectoryC::List(), Failed to allocate buffer.");
     }
     // This seems to work everywhere.
+    entry = 0;
     while(1) {
       readdir_r(dinf,buff,&entry);
       if(entry!=buff)

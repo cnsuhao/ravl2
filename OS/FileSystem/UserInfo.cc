@@ -9,6 +9,11 @@
 //! lib=RavlOS
 //! file="Ravl/OS/FileSystem/UserInfo.cc"
 
+#if defined(__sol2__)
+#define __EXTENSIONS__ 1
+#include <pwd.h>
+#endif
+
 #include "Ravl/OS/UserInfo.hh"
 #include "Ravl/Exception.hh"
 
