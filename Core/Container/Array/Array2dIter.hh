@@ -25,7 +25,7 @@ namespace RavlN {
   template <class DataC> class Array2dC;
   
   //! userlevel=Normal
-  //: Array1dC iterator.
+  //: Array2dC iterator.
   
   template<class DataT>
   class Array2dIterC  

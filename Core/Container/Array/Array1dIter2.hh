@@ -21,7 +21,7 @@
 namespace RavlN {
   //! userlevel=Normal
   //: dual Array1dC iterator.
-  // Note, the first array in the pair controls the number of elements visited.
+  // The first array in the pair controls the number of elements visited.
   
   template<class Data1T,class Data2T>
   class Array1dIter2C 

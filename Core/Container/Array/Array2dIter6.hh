@@ -20,9 +20,10 @@
 
 namespace RavlN {
   //! userlevel=Normal
-  //: triple Array2dC iterator.
-  // This will iterate through three rectangles of the same size.  The rectangles need not
+  //: Array2dC iterator for 6 arrays.
+  // This will iterate through six rectangles of the same size.  The rectangles need not
   // have the same origin.  
+  // The first array controls the number of elements visited.
   
   template<class Data1T,class Data2T,class Data3T,class Data4T,class Data5T,class Data6T>
   class Array2dIter6C 

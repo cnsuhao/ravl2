@@ -21,7 +21,7 @@
 
 namespace RavlN {
   //! userlevel=Normal
-  //: Array1dC iterator.
+  //: reverse Array1dC iterator.
   
   template<class DataT>
   class Array1dIterRC 

@@ -24,6 +24,7 @@ namespace RavlN {
   //: dual Array2dC iterator.
   // This will iterate through two rectangles of the same size.  The rectangles need not
   // have the same origin.  
+  // The first array controls the number of elements visited.
   
   template<class Data1T,class Data2T>
   class Array2dIter2C 

@@ -21,8 +21,8 @@
 namespace RavlN {
   
   //! userlevel=Normal
-  //: triple Array1dC iterator.
-  // Note, the first array in the triple controls the number of elements visited.
+  //:  Array1dC iterator for 7 arrays.
+  // The first array controls the number of elements visited.
   
   template<class Data1T,class Data2T,class Data3T,class Data4T,class Data5T,class Data6T,class Data7T>
   class Array1dIter7C 
