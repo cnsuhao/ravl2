@@ -21,6 +21,7 @@
 #include "Ravl/IndexRange3dIter.hh"
 #include "Ravl/FPNumber.hh"
 #include "Ravl/Exception.hh"
+#include "Ravl/QInt.hh"
 
 using namespace RavlN;
 
@@ -42,6 +43,7 @@ int testIndexRange2dIter();
 int testIndexRange3dIter();
 int testFPNumber();
 int testException();
+int testQInt();
 
 template class RCHandleC<TestBodyC>;
 template class RCWrapC<IntT>;
@@ -86,6 +88,10 @@ int main()
     return 1;
   }
   if((ln = testException()) != 0) {
+    cerr << "Test failed at line:" << ln << "\n";
+    return 1;
+  }
+  if((ln = testQInt()) != 0) {
     cerr << "Test failed at line:" << ln << "\n";
     return 1;
   }
@@ -314,5 +320,18 @@ int testException() {
   } catch(...) {
     return __LINE__;
   }
+  return 0;
+}
+
+int testQInt() {
+  cerr << "testQInt(), Called. \n";
+  double values[] = { 0,0.1,-0.25,-3.6 , 1.3,100000.01,1000,-1000 };
+  for(int i = 0;i < 5;i++) {
+    if(Round(values[i]) != QRound(values[i]))
+      return __LINE__;
+    if(Floor(values[i]) != QFloor(values[i]))
+      return __LINE__;
+  }
+  
   return 0;
 }

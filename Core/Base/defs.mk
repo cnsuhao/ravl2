@@ -22,7 +22,7 @@ HEADERS=Types.hh config.h Pair.hh Resource.hh \
  SmartPtr.hh SubIndexRange2dIter.hh SubIndexRange3dIter.hh \
  RealRange1d.hh RealRange2d.hh RealRange3d.hh TimeCode.hh \
  RCHandleV.hh IndexRange2dIter.hh IndexRange3dIter.hh fdstreambuf.hh \
- fdstream.hh GenBinStream.hh Traits.hh FPNumber.hh 
+ fdstream.hh GenBinStream.hh Traits.hh FPNumber.hh QInt.hh
 
 SOURCES=Assert.cc Exception.cc EntryPnt.cc Index.cc String.cc \
  RefCounter.cc HandleRefCounter.cc Trigger.cc Calls.cc \
@@ -41,7 +41,7 @@ USESLIBS=Math
 
 TESTEXES= testRavlBase.cc testCalls.cc testString.cc testStream.cc testTFVector.cc
 
-EXAMPLES = exIndex.cc exRefCounter.cc exRefCounterInherit.cc
+EXAMPLES = exIndex.cc exRefCounter.cc exRefCounterInherit.cc exQInt.cc
 
 EHT=Ravl.Core.Indexing.eht Ravl.Core.Error_Handling.eht Ravl.Core.Misc.eht Ravl.Core.Reference_Counting.eht \
  Ravl.Core.Strings.html Ravl.Core.IO.Streams.html Ravl.Core.Calls.html
