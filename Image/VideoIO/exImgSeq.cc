@@ -1,32 +1,35 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2001, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 ////////////////////////////////////////////////////////
 //! rcsid="$Id$"
+//! lib=RavlVideoIO
 
-#include "amma/Option.hh"
-#include "amma/DP/SequenceIO.hh"
-#include "amma/ByteImag.hh"
-#include "amma/Image/VidIO.hh"
-#include "amma/Image/ImgIO.hh"
+#include "Ravl/Option.hh"
+#include "Ravl/DP/SequenceIO.hh"
+#include "Ravl/Image/Image.hh"
+#include "Ravl/Image/ImgIO.hh"
+
+using namespace RavlN;
+using namespace RavlImageN;
 
 int main(int argc,char **argv) 
-{
-  // Initalise IO code...
-  
-  InitDPImageIO();
-  InitVidIO();
-  
+{  
   // Process options.
-  OptionC option(argc,argv,TRUE);
-  FilenameC ifilename = option.String("i","","Input stream.");
-  FilenameC ofilename = option.String("o","out.abs","Output stream.");
-  StringC  ifmt = option.String("if","","Input format. ");
-  StringC  ofmt = option.String("of","","Output format. ");
-  BooleanT verbose = option.Boolean("v",FALSE,"Verbose mode. \n");
+  
+  OptionC option(argc,argv);
+  StringC ifilename = option.String("i","","Input stream.");
+  StringC ofilename = option.String("o","out.abs","Output stream.");
+  StringC ifmt = option.String("if","","Input format. ");
+  StringC ofmt = option.String("of","","Output format. ");
+  bool verbose = option.Boolean("v",false,"Verbose mode. ");
   option.Check();
   
-  using namespace StdIO;
-  
-  DPIPortC<ByteImageC> inputStream;
-  DPOPortC<ByteImageC> outputStream;
+  DPIPortC<ImageC<ByteT> > inputStream;
+  DPOPortC<ImageC<ByteT> > outputStream;
   
   if(!OpenISequence(inputStream,ifilename,ifmt,verbose)) {
     cerr << "Failed to open input sequence '" << ifilename << "' \n";
@@ -41,7 +44,7 @@ int main(int argc,char **argv)
   // Copy stream of images from input to output.
   
   for(;;) {
-    ByteImageC buff;
+    ImageC<ByteT> buff;
     if(!inputStream.Get(buff)) // End of stream ?
       break; 
     if(!outputStream.Put(buff)) {
@@ -50,11 +53,11 @@ int main(int argc,char **argv)
     }
   }
   
+#if 0
   ////////////////////////////////////////////
   // Alernate main loop...
-#if 0
   for(;!inputStream.IsGetEOS();) { // Is End Of Stream ?
-    ByteImageC buff = inputStream.Get();
+    ImageC<ByteT> buff = inputStream.Get();
     if(!outputStream.Put(buff)) {
       cerr << "ERROR: Failed to write output. \n";
       break;

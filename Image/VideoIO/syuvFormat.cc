@@ -6,7 +6,7 @@
 // file-header-ends-here
 //////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! lib=RavlImage
+//! lib=RavlVideoIO
 //! file="Ravl/Image/VideoIO/syuvFormat.cc"
 
 #include "Ravl/Image/syuvFormat.hh"

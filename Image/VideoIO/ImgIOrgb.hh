@@ -8,7 +8,7 @@
 #define RAVLIMGIORGB_HEADER 1
 ////////////////////////////////////////////////////
 //! file="Ravl/Image/VideoIO/ImgIOrgb.hh"
-//! lib=RavlImage
+//! lib=RavlVideoIO
 //! docentry="Ravl.Images.IO.Formats"
 //! example=exImgSeq.cc
 //! rcsid="$Id$"

@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Image/VideoIO/ImgIOCif.hh"
-//! lib=RavlImage
+//! lib=RavlVideoIO
 //! example=exImgSeq.cc
 //! docentry="Ravl.Images.IO.Formats"
 //! author="Bill Christmas, Charles Galambos"

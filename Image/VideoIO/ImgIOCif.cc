@@ -7,7 +7,7 @@
 ////////////////////////////////////////////////////
 //! userlevel=Normal
 //! rcsid="$Id$"
-//! lib=RavlImage
+//! lib=RavlVideoIO
 //! file="Ravl/Image/VideoIO/ImgIOCif.cc"
 
 #include "Ravl/Image/ImgIOCif.hh"

@@ -13,7 +13,7 @@
 //! rcsid="$Id$"
 //! file="Ravl/Image/VideoIO/rawFormat.hh"
 //! example=exImgSeq.cc
-//! lib=RavlImage
+//! lib=RavlVideoIO
 
 #include "Ravl/DP/FileFormat.hh"
 #include "Ravl/Image/Image.hh"

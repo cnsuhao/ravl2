@@ -26,15 +26,12 @@ SOURCES = ImgIOCif.cc CifFormat.cc \
 #              SubSamp2Intl.cc  ImgComposites.cc
 
 
-MUSTLINK =
-# VidIO.cc
+MUSTLINK = RavlVidIO.cc
 
-LIBDEPS=RavlVideoIO.def
+PLIB = RavlVideoIO
 
-PLIB = RavlImage
+EXAMPLES = exImgSeq.cc
 
-#EXAMPLES = exImgSeq.cc
-
-USESLIBS = RavlImage RavlIO RavlOS
+USESLIBS = RavlImageIO RavlImage RavlOS RavlIO
 
 #PROGLIBS = Mopt
