@@ -328,7 +328,7 @@ namespace RavlN {
 #if RAVL_OS_LINUX
     // Linux select modifies 'timeout' to time not slept, so we only have to setup once.
     DateC now(true);
-    if(now > *this)
+    if(now >= *this)
       return true;
     DateC toGo = *this - now;
     //cerr << "Delay=" << toGo << "\n";
@@ -342,7 +342,7 @@ namespace RavlN {
 #else
     do {
       DateC now(true);
-      if(now > *this)
+      if(now >= *this)
 	return true;
       DateC toGo = *this - now;
       timeout.tv_sec = toGo.TotalSeconds();
