@@ -129,6 +129,19 @@ int testEigen() {
   md.SetDiagonal(D);
   MatrixC m = E * md * E.Inverse();
   if((m - test).SumOfSqr() > 0.0000001) return __LINE__;
+
+  // Check it works on a 1x1 matrix.
+  
+  test = RandomSymmetricMatrix(1);
+  vm = EigenVectors(test);
+  D = vm.Vector();
+  md =MatrixC(D.Size(),D.Size());
+  E = vm.Matrix();
+  md.Fill(0);
+  md.SetDiagonal(D);
+  m = E * md * E.Inverse();
+  if((m - test).SumOfSqr() > 0.0000001) return __LINE__;
+  
   return 0;
 }
 
@@ -240,13 +253,13 @@ int testDet() {
 int testLUDecomposition() {
   cerr << "testLUDecomposition(), Called. \n";
   int n = 4;
-  //MatrixRSC rs = RandomPositiveDefiniteMatrix(5);  
-  MatrixC mat = RandomMatrix(n,n);
+  MatrixRSC mat = RandomPositiveDefiniteMatrix(5);  
+  //MatrixC mat = RandomMatrix(n,n);
   MatrixC org = mat.Copy();
   cerr << "Org=" << org << "\n";
   RealT d;
   SArray1dC<IntT> order = LUDecomposition(mat,d);
-  //cerr << "rs=" << rs << "\n";
+  cerr << "d=" << d << "\n";
   MatrixC mat1(n,n);
   MatrixC mat2(n,n);
   mat1.Fill(0);

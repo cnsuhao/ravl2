@@ -37,6 +37,10 @@ namespace RavlN {
     if(mat.Rows() == 1)
       return mat.AsVector();
     VectorC ret(mat.Rows());
+    if(mat.Rows() == 1) {
+      ret[0] = mat[0][0];
+      return ret;
+    }
     eigval(&(mat[0][0]),&(ret[0]),mat.Rows());
     return ret;
   }
@@ -77,6 +81,13 @@ namespace RavlN {
       return vec;
     }
     VectorC ret(mat.Rows());
+    if(mat.Rows() == 0)
+      return ret;
+    if(mat.Rows() == 1) {
+      ret[0] = mat[0][0];
+      mat[0][0] = 1;
+      return ret;
+    }
     eigen(&(mat[0][0]),&(ret[0]),mat.Rows());
     return ret;
   }
