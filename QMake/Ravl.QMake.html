@@ -19,13 +19,17 @@ project, however big or small.
 The documentation for QMake is fragmented at present:<ul>
 <li>Information describing the many variables in the <code>defs.mk</code> file
 for controlling what is built is given  <a href="Ravl.QMake.Defs.html">here</a>
-(Description File Variables).  But to begin with, all you probably need is one or two of these:<ul>
-<li> MAINS
-<li> SOURCES
-<li> LOCALHEADERS
-<li> USESLIBS
-<li> NESTED
+(Description File Variables).  But to begin with, all you probably need is one or two of these:
+<p>
+<ul>
+<li> <a href="Ravl.QMake.Defs.html#MAINS">MAINS</a> A list of programs to compile.
+<li> <a href="Ravl.QMake.Defs.html#SOURCES">SOURCES</a> Source files to compile.
+<li> <a href="Ravl.QMake.Defs.html#HEADERS">HEADERS</a> Header files needed for this source code.
+<li> <a href="Ravl.QMake.Defs.html#PLIB">PLIB</a> Name of library to create.
+<li> <a href="Ravl.QMake.Defs.html#USESLIBS">USESLIBS</a> Libraries needed to compile source code.
+<li> <a href="Ravl.QMake.Defs.html#NESTED">NESTED</a> Subdirectories to compile.
 </ul>
+<p>
 E.g. if all you wanted to compile was one file called "fred.cc" containing a
 main program, the defs.mk file would contain the single line: 
 <pre>MAINS = fred.cc</pre> 
