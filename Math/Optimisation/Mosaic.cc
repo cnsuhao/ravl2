@@ -17,6 +17,7 @@
 #include "Ravl/Image/ImageConv.hh"
 #include "Ravl/IO.hh"
 #include "Ravl/Image/ImgIO.hh"
+#include "Ravl/EntryPnt.hh"
 
 using namespace RavlN;
 using namespace RavlImageN;
@@ -29,7 +30,7 @@ class PixelAverageC
   UIntT count;
 };
 
-int main(int nargs,char **argv) {
+int Mosaic(int nargs,char **argv) {
   OptionC opt(nargs,argv);
   int newFreq    = opt.Int("nf",10,"Frequency of introducing new features. ");
   int cthreshold = opt.Int("ct",800,"Corner threshold. ");
@@ -64,7 +65,7 @@ int main(int nargs,char **argv) {
   }
   
   // Create a tracker.
-  PointTrackerC tracker(newFreq,cthreshold,cwidth,mthreshold,mwidth,lifeTime,searchSize);
+  PointTrackerC tracker(cthreshold,cwidth,mthreshold,mwidth,lifeTime,searchSize,newFreq);
   
   ImageC<ByteRGBValueC> img, cropped_img;
   RCHashC<UIntT,Point2dC> last;
@@ -105,7 +106,7 @@ int main(int nargs,char **argv) {
   Matrix3dC Psum(1,0,0,
 		 0,1,0,
 		 0,0,1);
-
+  
   // create initially empty mosaic
   IndexRange2dC mosaic_rect=rect;
   mosaic_rect.BRow() += 2*borderR;
@@ -127,7 +128,7 @@ int main(int nargs,char **argv) {
   pwarp.Apply(cropped_img,mosaic);
   cout << "Width=" << mosaic.Cols() << " Height=" << mosaic.Rows() << endl;
   Save("@X:Mosaic",mosaic);
-
+  
   for(UIntT frameNo = 0;frameNo < maxFrames;frameNo++) {
     // Read an image from the input.
     if(!inp.Get(img))
@@ -244,3 +245,5 @@ int main(int nargs,char **argv) {
 
   return 0;
 }
+
+RAVL_ENTRY_POINT(Mosaic)
