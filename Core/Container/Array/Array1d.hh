@@ -268,15 +268,11 @@ namespace RavlN {
 
     IndexC IndexOfMax() const {
       RavlAssertMsg(Size() > 0,"Array1dC::IndexOfMax() Called on an empty array");
-      IndexC indexOfMax (IMin());
-      DataT valueOfMax = operator[](indexOfMax);
-      for (Array1dIterC<DataT> i = (*this); i; i++) {
-	if (valueOfMax < *i) {
-	  valueOfMax = *i;
-	  indexOfMax = i.Index();
-	}
-      }
-      return indexOfMax;
+      const DataT *valueOfMax = &(operator[](0));
+      for (Array1dIterC<DataT> i(*this); i; i++)
+	if (*valueOfMax < *i)
+	  valueOfMax = &(*i);
+      return IndexC((IntT)(valueOfMax - ReferenceElm()));
     }
     //: Calculate the index of the maximum element in the array
     

@@ -200,6 +200,7 @@ int ApplyTest() {
   arr1[1] = 2;
   arr1[2] = 3;
   
+  if(arr1.IndexOfMax() != 2) return __LINE__;
   Array1dC<IntT> res = arr1.Apply(timesTwo);
   if(res[0] != 2 || res[1] != 4 || res[2] != 6)
     return __LINE__;
