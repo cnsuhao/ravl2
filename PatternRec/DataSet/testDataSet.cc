@@ -19,6 +19,7 @@
 #include "Ravl/PatternRec/SampleIO.hh"
 #include "Ravl/PatternRec/SampleVector.hh"
 #include "Ravl/PatternRec/SampleIter.hh"
+#include "Ravl/PatternRec/SampleStreamVector.hh"
 #include "Ravl/PatternRec/Function1.hh"
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/OS/Date.hh"
@@ -26,6 +27,7 @@
 #include "Ravl/StrStream.hh"
 #include "Ravl/MatrixRUT.hh"
 #include "Ravl/MeanCovariance.hh"
+#include "Ravl/DP/ListIO.hh"
 
 using namespace RavlN;
 
@@ -37,6 +39,7 @@ int testDataSet1();
 int testDataSet2();
 int testDataSet3();
 int testSampleVector();
+int testSampleStreamVector();
 
 #if USE_SPEEDTEST
 #include "Ravl/DList.hh"
@@ -72,6 +75,10 @@ int main() {
     return 1;
   }
   if((ln = testSampleVector()) != 0) {
+    cerr << "Test failed line " << ln << "\n";
+    return 1;
+  }
+  if((ln = testSampleStreamVector()) != 0) {
     cerr << "Test failed line " << ln << "\n";
     return 1;
   }
@@ -200,6 +207,35 @@ int testSampleVector() {
   SampleVectorC sv2;
   istr >> sv2;
   if(sv2.Size() != sv.Size()) return __LINE__;
+  return 0;
+}
+
+int testSampleStreamVector() {
+  cerr << "testSampleStreamVector(), Called. \n";
+  DListC<VectorC> lst;
+  MatrixRUTC accum(4);
+  accum.Fill(0);
+  MeanCovarianceC mc(4);
+  for(int i = 0;i < 100000;i++) {
+    VectorC vec = RandomVector(4,1000);
+    accum.AddOuterProduct(vec);
+    lst.InsLast(vec);
+    mc += vec;
+  }
+  DPISListC<VectorC> vecs(lst);
+  SampleStreamVectorC ssv(vecs);
+  MatrixRUTC accum2 = ssv.SumOuterProducts();
+  //cerr << "Accum=" << accum << "\n";
+  //cerr << "Accum2=" << accum2 << "\n";
+  //cerr << "Diff=" << (accum - accum2) << "\n";
+  if((accum - accum2).SumOfSqr() > 0.01) return __LINE__;
+  MeanCovarianceC mcn = ssv.MeanCovariance();
+  cerr << "mc=" << mc << "\n";
+  cerr << "mnc=" << mcn << "\n";
+  MeanCovarianceC lmc(lst);
+  cerr << "lmc=" << mcn << "\n";
+  if((mc.Mean() - mc.Mean()).SumOfSqr() > 0.0001) return __LINE__;
+  if((mc.Covariance() - mc.Covariance()).SumOfSqr() > 0.0001) return __LINE__;
   return 0;
 }
 

@@ -10,6 +10,7 @@
 //! lib=RavlPatternRec
 //! author="Charles Galambos"
 //! docentry="Ravl.Pattern Recognition.Data Set"
+//! examples=exSampleStream.hh
 
 #include "Ravl/DP/SPort.hh"
 #include "Ravl/Tuple2.hh"
