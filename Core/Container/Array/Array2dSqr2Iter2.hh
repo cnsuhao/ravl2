@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLARRAY2dSQR2ITER2_HEADER
-#define RAVLARRAY2dSQR2ITER2_HEADER 1
+#ifndef RAVL_ARRAY2DSQR2ITER2_HEADER
+#define RAVL_ARRAY2DSQR2ITER2_HEADER 1
 //////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Core.Arrays.2D"
@@ -31,12 +31,12 @@ namespace RavlN {
   {
   public:
     Array2dSqr2Iter2C()
-      {}
+    {}
     //: Default constructor.
     
     Array2dSqr2Iter2C(const Array2dC<Data1T> &narray1,const Array2dC<Data2T> &narray2) 
-    : array1(narray1),
-      array2(narray2)
+      : array1(narray1),
+	array2(narray2)
     { 
       First(); 
     }
@@ -78,27 +78,27 @@ namespace RavlN {
     //: Goto next element.
     
     bool IsElm() const
-      { return cit.IsElm(); }
+    { return cit.IsElm(); }
     //: Test if iterator is at a valid element.
     
     operator bool() const
-      { return cit.IsElm(); }
+    { return cit.IsElm(); }
     //: Test if iterator is at a valid element.
     
     void operator++() 
-      { Next(); }
+    { Next(); }
     //: Goto next element.
 
     void operator++(int) 
-      { Next(); }
+    { Next(); }
     //: Goto next element.
     
     Data1T &DataBR1() 
-      { return cit.Data1(); }
+    { return cit.Data1(); }
     //: Access bottom right data element 
 
     const Data1T &DataBR1() const
-      { return cit.Data1(); }
+    { return cit.Data1(); }
     //: Access bottom right data element 
 
     Data1T &DataBL1() 
@@ -106,23 +106,23 @@ namespace RavlN {
     //: Access bottom left data element 
 
     const Data1T &DataBL1() const
-      { return (&(cit.Data1()))[-1]; }
+    { return (&(cit.Data1()))[-1]; }
     //: Access bottom left data element 
     
     Data1T &DataTR1() 
-      { return *up1; }
+    { return *up1; }
     //: Access upper right data element 
     
     const Data1T &DataTR1() const
-      { return *up1; }
+    { return *up1; }
     //: Access upper right data element
     
     Data1T &DataTL1() 
-      { return up1[-1]; }
+    { return up1[-1]; }
     //: Access upper left data element.
     
     const Data1T &DataTL1() const
-      { return up1[-1]; }
+    { return up1[-1]; }
     //: Access upper left data element
     
     Data2T &DataBR2() 
@@ -138,23 +138,23 @@ namespace RavlN {
     //: Access bottom left data element 
 
     const Data2T &DataBL2() const
-      { return (&(cit.Data2()))[-1]; }
+    { return (&(cit.Data2()))[-1]; }
     //: Access bottom left data element 
     
     Data2T &DataTR2() 
-      { return *up2; }
+    { return *up2; }
     //: Access upper right data element 
     
     const Data2T &DataTR2() const
-      { return *up2; }
+    { return *up2; }
     //: Access upper right data element
     
     Data2T &DataTL2() 
-      { return up2[-1]; }
+    { return up2[-1]; }
     //: Access upper left data element.
     
     const Data2T &DataTL2() const
-      { return up2[-1]; }
+    { return up2[-1]; }
     //: Access upper left data element
 
 
@@ -162,7 +162,7 @@ namespace RavlN {
       assert(array1.IsValid());
       return Index2dC((IntT) (&(rit.Data1()) - array1.ReferenceElm()),
 		      (IntT) (&(cit.Data1()) - rit.Data1().ReferenceElm()));
-      }
+    }
     //: Get index of current location.
     // Has to be calculate, and so is slightly slow.
     

@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLARRAY2dSQR2ITER_HEADER
-#define RAVLARRAY2dSQR2ITER_HEADER 1
+#ifndef RAVL_ARRAY2DSQR2ITER_HEADER
+#define RAVL_ARRAY2DSQR2ITER_HEADER 1
 //////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Core.Arrays.2D"
@@ -31,11 +31,11 @@ namespace RavlN {
   {
   public:
     Array2dSqr2IterC()
-      {}
+    {}
     //: Default constructor.
     
     Array2dSqr2IterC(const Array2dC<DataT> &narray) 
-    : array(narray)
+      : array(narray)
     { 
       First(); 
     }
@@ -71,59 +71,59 @@ namespace RavlN {
     // Returns true if its on the same row.
     
     bool IsElm() const
-      { return cit.IsElm(); }
+    { return cit.IsElm(); }
     //: Test if iterator is at a valid element.
     
     operator bool() const
-      { return cit.IsElm(); }
+    { return cit.IsElm(); }
     //: Test if iterator is at a valid element.
     
     void operator++() 
-      { Next(); }
+    { Next(); }
     //: Goto next element.
 
     void operator++(int) 
-      { Next(); }
+    { Next(); }
     //: Goto next element.
     
     DataT &operator*() 
-      { return *cit; }
+    { return *cit; }
     //: Access bottom right data element 
     
     const DataT &operator*() const
-      { return *cit; }
+    { return *cit; }
     //: Access bottom right data element 
     
     DataT &DataBR() 
-      { return *cit; }
+    { return *cit; }
     //: Access bottom right data element 
 
     const DataT &DataBR() const
-      { return *cit; }
+    { return *cit; }
     //: Access bottom right data element 
 
     DataT &DataBL() 
-      { return (&(*cit))[-1]; }
+    { return (&(*cit))[-1]; }
     //: Access bottom left data element 
 
     const DataT &DataBL() const
-      { return (&(*cit))[-1]; }
+    { return (&(*cit))[-1]; }
     //: Access bottom left data element 
     
     DataT &DataTR() 
-      { return *up; }
+    { return *up; }
     //: Access upper right data element 
     
     const DataT &DataTR() const
-      { return *up; }
+    { return *up; }
     //: Access upper right data element
     
     DataT &DataTL() 
-      { return up[-1]; }
+    { return up[-1]; }
     //: Access upper left data element.
     
     const DataT &DataTL() const
-      { return up[-1]; }
+    { return up[-1]; }
     //: Access upper left data element
 
     Index2dC Index() const { 
