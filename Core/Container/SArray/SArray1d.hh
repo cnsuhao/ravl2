@@ -179,6 +179,9 @@ namespace RavlN {
     
     IndexC IndexOfMax() const;
     //: Find the index of the maximum element in the array
+
+    IndexC IndexOfMin() const;
+    //: Find the index of the minimum element in the array
     
     //:-----------------------------------
     // Access to the object and its parts.
@@ -647,6 +650,18 @@ namespace RavlN {
     }
     return IndexC((IntT)(valueOfMax - ReferenceElm()));
   }
+
+  template<class DataT>
+  IndexC SArray1dC<DataT>::IndexOfMin() const {
+    RavlAssertMsg(Size() > 0,"SArray1dC::IndexOfMin() Called on an empty array");
+    const DataT *valueOfMin = &(operator[](0));
+    for (BufferAccessIterC<DataT> i(*this); i; i++) {
+      if (*valueOfMin > *i)
+	valueOfMin = &(*i);
+    }
+    return IndexC((IntT)(valueOfMin - ReferenceElm()));
+  }
+
 
   template<class DataT>
   DataT SArray1dC<DataT>::SumOfSqr() const {
