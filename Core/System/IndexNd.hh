@@ -46,9 +46,6 @@ namespace RavlN {
     {}
     //: Another access to the index 'ND'.
     
-    inline bool operator==(const IndexNdC & index) const;
-    //: Returns true if indexes have the same values.
-    
     inline bool operator!=(const IndexNdC & index) const
     { return !operator==(index); }
     //: Returns true if indexes have different values.
