@@ -101,19 +101,29 @@ namespace RavlN {
     }
     RealT threshold;
     RealT parity;
-    RealT mean1 = sumX[1] / sampleCount[1];
-    RealT var1 = sumX2[1] / sampleCount[1] - mean1*mean1;
-    RealT mean0 = sumX[0] / sampleCount[0];
-    RealT var0 = sumX2[0] / sampleCount[0] - mean0*mean0;
-    m_dist1 = MeanVarianceC((UIntT)sampleCount[1], mean1, var1); 
-    m_dist0 = MeanVarianceC((UIntT)sampleCount[0], mean0, var0);
-    if (mean1 > mean0) {
-      parity = -1.0;
-      threshold = BestThreshold((mean1+mean0)/2);//mean1 - 2.5 * Sqrt(var1);
+    if (sampleCount[0] != 0 && sampleCount[1] != 0) {
+      RealT mean1 = sumX[1] / sampleCount[1];
+      RealT var1 = sumX2[1] / sampleCount[1] - mean1*mean1;
+      if (var1 < 0.0) var1 = 0.0;
+      RealT mean0 = sumX[0] / sampleCount[0];
+      RealT var0 = sumX2[0] / sampleCount[0] - mean0*mean0;
+      if (var0 < 0.0) var0 = 0.0;
+      m_dist1 = MeanVarianceC((UIntT)sampleCount[1], mean1, var1); 
+      m_dist0 = MeanVarianceC((UIntT)sampleCount[0], mean0, var0);
+      if (mean1 > mean0) {
+	parity = -1.0;
+	threshold = BestThreshold((mean1+mean0)/2);//mean1 - 2.5 * Sqrt(var1);
+      }
+      else {
+	parity = 1.0;
+	threshold = BestThreshold((mean1+mean0)/2);//mean1 + 2.5 * Sqrt(var1);
+      }
     }
     else {
-      parity = 1.0;
-      threshold = BestThreshold((mean1+mean0)/2);//mean1 + 2.5 * Sqrt(var1);
+      //cout << "Empty label count in one class!\n";
+      cout << "E";
+      parity = 1;
+      threshold = 1e6;
     }
     return ClassifierWeakLinearC (threshold, parity);
   }

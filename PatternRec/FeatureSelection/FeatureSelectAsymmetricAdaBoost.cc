@@ -123,13 +123,17 @@ namespace RavlN {
       // update the strong classifier by adding the newest weak classifier
       RealT betaT = lowestError / (1.0-lowestError);
       RealT alphaT = log(1.0/betaT);
-      oneClassifier[0] = bestClassifier;
-      oneWeight[0] = alphaT;
-      weakClassifiers.Append(oneClassifier);
-      classifierWeights.Append(oneWeight);
-      featureSet.Append(bestFeature);
+      if (bestClassifier.IsValid()) {
+	oneClassifier[0] = bestClassifier;
+	oneWeight[0] = alphaT;
+	weakClassifiers.Append(oneClassifier);
+	classifierWeights.Append(oneWeight);
+	featureSet.Append(bestFeature);
+      }
+      else
+	cout << "Didn't assign classifier!\n";
       classifier = ClassifierLinearCombinationC(weakClassifiers,classifierWeights);
-      // update the weights
+	// update the weights
       for(IndexC i = 0; i < train.Size(); i++) {
 	RealT ei = classifier.Classify(train.Sample1()[i],featureSet) != train.Sample2()[i];
 	weights[i] = weights[i] * Pow(betaT,1.0-ei) * multiplier[train.Sample2()[i]];
