@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=Ravl3D
 
-#include "Ravl/3D/TriSet.hh"
+#include "Ravl/3D/TriMesh.hh"
 #include "Ravl/BinStream.hh"
 #include "Ravl/SArr1Iter.hh"
 
@@ -23,18 +23,19 @@ namespace Ravl3DN {
     return s;    
   }
   
-  
-  BinOStreamC &operator<<(BinOStreamC &s,const TriSetC &ts) {
+  BinOStreamC &operator<<(BinOStreamC &s,const TriMeshC &ts) {
     RavlAssert(ts.IsValid());
     s << ts.Vertices(); 
     s << ts.Faces().Size(); 
     const VertexC *x = &(ts.Vertices()[0]);
-    for(SArray1dIterC<TriC> it(ts.Faces());it;it++)
+    for(SArray1dIterC<TriC> it(ts.Faces());it;it++) {
       s << (it->VertexPtr(0) - x)  << (it->VertexPtr(1) - x) << (it->VertexPtr(2) - x);
+      s << it->TextureCoords();
+    }
     return s;
   }
   
-  BinIStreamC &operator>>(BinIStreamC &s,TriSetC &ts) {
+  BinIStreamC &operator>>(BinIStreamC &s,TriMeshC &ts) {
     SArray1dC<VertexC> vecs;
     s >> vecs;
     UIntT nfaces,i1,i2,i3;
@@ -46,6 +47,7 @@ namespace Ravl3DN {
       it->VertexPtr(1) = &(vecs[i2]);
       it->VertexPtr(2) = &(vecs[i3]);
       it->UpdateFaceNormal();
+      s >> it->TextureCoords();
     }
     return s;
   }

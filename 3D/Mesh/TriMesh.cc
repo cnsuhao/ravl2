@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=Ravl3D
 
-#include "Ravl/3D/TriSet.hh"
+#include "Ravl/3D/TriMesh.hh"
 #include "Ravl/SArr1Iter.hh"
 #include "Ravl/SArr1Iter2.hh"
 
@@ -18,7 +18,7 @@ namespace Ravl3DN {
   // The length of faceInd should be a power of 3, success triples are taken
   // from it to form the faces in the mesh.
   
-  TriSetBodyC::TriSetBodyC(const SArray1dC<Vector3dC> &v,const SArray1dC<UIntT> &faceInd) 
+  TriMeshBodyC::TriMeshBodyC(const SArray1dC<Vector3dC> &v,const SArray1dC<UIntT> &faceInd) 
     : vertices(v.Size()),
       faces(faceInd.Size()/3)
   {
@@ -29,7 +29,7 @@ namespace Ravl3DN {
   
   //: Flips the mesh surface
   
-  void TriSetBodyC::FlipTriangles(void) {
+  void TriMeshBodyC::FlipTriangles(void) {
     for(SArray1dIterC<TriC> it(faces);it;it++)
       it->Flip();
   }
@@ -37,7 +37,7 @@ namespace Ravl3DN {
   //: Centre of triset.
   // - average vertex position
   
-  Vector3dC TriSetBodyC::Centroid() const {
+  Vector3dC TriMeshBodyC::Centroid() const {
     Vector3dC ret(0,0,0);
     if(ret.Size() == 0)
       return ret; // Can't take a centroid of an empty mesh.
@@ -49,7 +49,7 @@ namespace Ravl3DN {
   //: Create an array of faces indexes.
   // each successive triple of indexes represents a face in the mesh.
   
-  SArray1dC<UIntT> TriSetBodyC::FaceIndexes() const {
+  SArray1dC<UIntT> TriMeshBodyC::FaceIndexes() const {
     SArray1dC<UIntT> ret(3 * faces.Size());
     if(faces.Size() == 0)
       return ret;
@@ -65,7 +65,7 @@ namespace Ravl3DN {
 
   //: Recalculate vertex normals.
   
-  void TriSetBodyC::UpdateVertexNormals() {
+  void TriMeshBodyC::UpdateVertexNormals() {
     for(SArray1dIterC<VertexC> it(vertices);it;it++)
       it->Normal() = Vector3dC(0,0,0);
     for(SArray1dIterC<TriC> it(faces);it;it++) {
@@ -77,7 +77,7 @@ namespace Ravl3DN {
       it->Normal() = it->Normal().Unit();
   }
   
-  ostream &operator<<(ostream &s,const TriSetC &ts) {
+  ostream &operator<<(ostream &s,const TriMeshC &ts) {
     RavlAssert(ts.IsValid());
     s << ts.Vertices() << '\n'; 
     s << ts.Faces().Size() << ' '; 
@@ -87,7 +87,7 @@ namespace Ravl3DN {
     return s;
   }
   
-  istream &operator>>(istream &s,TriSetC &ts) {
+  istream &operator>>(istream &s,TriMeshC &ts) {
     SArray1dC<VertexC> verts;
     s >> verts;
     UIntT nfaces,i1,i2,i3;

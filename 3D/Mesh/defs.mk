@@ -8,9 +8,9 @@
 
 PACKAGE=Ravl/3D
 
-HEADERS= TriSet.hh
+HEADERS= Vertex.hh Tri.hh TriMesh.hh
 
-SOURCES= TriSet.cc TriSetBinIO.cc
+SOURCES= Vertex.cc Tri.cc TriMesh.cc TriMeshBinIO.cc
 
 PLIB=Ravl3D
 
