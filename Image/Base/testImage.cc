@@ -258,6 +258,7 @@ int TestFont() {
 }
 
 int TestDraw() {
+  // Do some quick tests on the draw functions.
   ImageC<ByteT> img(100,100);
   img.Fill(0);
   Index2dC from(10,10);
@@ -267,5 +268,10 @@ int TestDraw() {
   if(img[from] != 255) return __LINE__;
   if(img[to] != 255) return __LINE__;
   DrawCircle(img,(ByteT) 254,Index2dC(50,50),30);
+  DrawFrame(img,(ByteT) 255,5,img.Frame());
+  //Save("@X",img);
+  if(img[0][0] != 255) return __LINE__;
+  if(img[99][99] != 255) return __LINE__;
+  if(img[15][10] != 0) return __LINE__;
   return 0;
 }
