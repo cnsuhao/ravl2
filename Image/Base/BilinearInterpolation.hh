@@ -37,10 +37,10 @@ namespace RavlImageN {
 #endif
     RealT u = pnt[0] - fx;
     RealT t = pnt[1] - fy;
+    RealT onemu = (1.0-u);    
+    RealT onemt = (1.0-t);
     const PixelT* pixel1 = &(img)[fx][fy];
     const PixelT* pixel2 = &(img)[fx+1][fy];
-    const RealT onemt = (1.0-t);
-    const RealT onemu = (1.0-u);
     pixVal = OutT((pixel1[0] * (onemt*onemu)) + 
 		  (pixel1[1] * (t*onemu)) + 
 		  (pixel2[0] * (onemt*u)) +
