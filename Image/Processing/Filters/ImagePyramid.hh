@@ -56,11 +56,12 @@ namespace RavlImageN {
     //!param: imgScale - Scale of image passed to routine, use 1 if the image at the original scale.
     //!return: resulting image.
     
-    bool Find(RealT reqScale,ImageC<PixelT> &img,RealT &filterScale,RealT &pixelScale) const;
+    bool Find(RealT reqScale,ImageC<PixelT> &img,RealT &filterScale,RealT &pixelScale,bool notSmaller = false) const;
     //: Find image with closest scale.
     //!param: reqScale - Requested scale.
     //!param: img - Image found
     //!param: actualScale - Scale of image
+    //!param: notSmaller - If true use the image with scale equal or larger size to that requested if one is available.
     //!return: Set to true if image found, only fails if class is not initalised.
     
     CollectionC<Tuple3C<RealT,RealT,ImageC<PixelT> > > &Images()
@@ -139,9 +140,10 @@ namespace RavlImageN {
   //!param: actualScale - Scale of image
   
   template<class PixelT>
-  bool ImagePyramidC<PixelT>::Find(RealT reqScale,ImageC<PixelT> &img,RealT &filterScale,RealT &pixelScale) const {
+  bool ImagePyramidC<PixelT>::Find(RealT reqScale,ImageC<PixelT> &img,RealT &filterScale,RealT &pixelScale,bool notSmaller) const {
     CollectionIterC<Tuple3C<RealT,RealT,ImageC<PixelT> > > it(const_cast<CollectionC<Tuple3C<RealT,RealT,ImageC<PixelT> > > &>(images));
     if(!it) return false;
+    // The first image should be the unscaled. Which is the default if reqScale is less than 1 and notSmaller is set.
     RealT diff = Abs(it->Data1() - reqScale);
     img = it->Data3();
     RealT bestScale =  diff;
@@ -150,7 +152,7 @@ namespace RavlImageN {
     
     for(it++;it;it++) {
       diff = Abs(it->Data1() - reqScale);
-      if(diff < bestScale) {
+      if(diff < bestScale && (!notSmaller || it->Data1() < reqScale)) {
         img = it->Data3();
 	bestScale = diff;
         filterScale = it->Data1();
