@@ -34,9 +34,12 @@ namespace RavlGUIN {
   {}
   
   //: Delete a row.
+  // After return, the iterator will point to the next row at the same level,
+  // or will be invalidated if such a row does not exist.
   
   bool TreeStoreBodyC::GUIDeleteRow(TreeModelIterC &rowHandle) {
-    gtk_tree_store_remove (GTK_TREE_STORE(model),rowHandle.TreeIter());
+    if (!gtk_tree_store_remove (GTK_TREE_STORE(model),rowHandle.TreeIter()))
+      rowHandle.Invalidate();
     return true;
   }
   

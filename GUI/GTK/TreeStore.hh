@@ -51,6 +51,8 @@ namespace RavlGUIN {
     
     virtual bool GUIDeleteRow(TreeModelIterC &rowHandle);
     //: Delete a row.
+    // After return, the iterator will point to the next row at the same level,
+    // or will be invalidated if such a row does not exist.
     
     virtual bool GUISetValue(TreeModelIterC &rowIter,IntT col, IntT value);
     //: Set int value.
