@@ -31,7 +31,8 @@ namespace RavlGUIN {
       winSize(size),
       refreshQueued(false),
       vRuler(true),
-      hRuler(false)
+      hRuler(false),
+      offset(0,0)
   {}
   
   //: Create the widget.
