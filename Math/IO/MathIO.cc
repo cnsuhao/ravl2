@@ -17,6 +17,7 @@ namespace RavlN {
     InitFixedPointIO();
     InitBoundryIO();
     InitMatrixIO();
+    InitGeom2dIO();
   }
 }
 
