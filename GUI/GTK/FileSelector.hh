@@ -4,13 +4,13 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLGUIFILESELECTOR_HEADER
-#define RAVLGUIFILESELECTOR_HEADER 1
+#ifndef RAVLGUI_FILESELECTOR_HEADER
+#define RAVLGUI_FILESELECTOR_HEADER 1
 //////////////////////////////////////////////////
 //! file="Ravl/GUI/GTK/FileSelector.hh"
 //! lib=RavlGUI
 //! author="Charles Galambos"
-//! date="23/03/99"
+//! date="23/03/1999"
 //! example=exMenu.cc
 //! rcsid="$Id$"
 //! docentry="Ravl.GUI.Control"
