@@ -84,6 +84,12 @@ namespace RavlGUIN {
     //: Set maximum length of text entry.
     //!param: chars - Maximum number of charactors in widget, set to -1 for no limits.
     
+    Signal0C &SigSelected()
+    { return sigSelected; }
+    //: Short cut clicked signal.
+    // This should be used instead of signals["combo_activate"],
+    // as it filters unwanted GTK signals
+    
   protected:
     virtual bool Create();
     //: Create the widget.
@@ -154,7 +160,7 @@ namespace RavlGUIN {
     
   public:
     Signal0C &SigSelected()
-    { return Body().sigSelected; }
+    { return Body().SigSelected(); }
     //: Short cut clicked signal.
     // This should be used instead of signals["combo_activate"],
     // as it filters unwanted GTK signals
