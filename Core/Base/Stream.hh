@@ -237,12 +237,14 @@ namespace RavlN {
       return *out; 
     }
     //: Access ostream.
+    // Enables access to the underlying ostream functionality
     
     const ostream &os() const { 
       RAVL_PARANOID(RavlAssertMsg(out != 0,"Attempt to use invalid OStreamC. "));
       return *out; 
     }
     //: Access ostream.
+    // Enables access to the underlying ostream functionality
     
     operator ostream &() 
     { return os(); }
@@ -338,14 +340,16 @@ namespace RavlN {
       RAVL_PARANOID(RavlAssertMsg(in != 0,"Attempt to use invalid IStreamC. "));
       return *in; 
     }
-    //: Access input stream.
+    //: Access istream.
+    // Enables access to the underlying istream functionality
     
     const istream &is() const { 
       RAVL_PARANOID(RavlAssertMsg(in != 0,"Attempt to use invalid IStreamC. "));
       return *in; 
     }
-    //: Access input stream.
-    
+    //: Access istream.
+    // Enables access to the underlying istream functionality
+
     operator istream &() 
     { return is(); }
     //: Converter.
