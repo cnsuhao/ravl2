@@ -10,43 +10,43 @@
     containing %d in place of the number; or (if the number is before
     the extension) by omitting the number entirely.</p>
     
-    <h3> Using %d in the filename.  </h3>
+    <h3> Using <code>%d</code> in the filename.  </h3>
 
-    <p>Using %d you can explicitly set the format of the file name to
-      be used. It is used by placing the %d in the filename where the
-      number is expected. <b>name%d.xxx</b> can be used to read a
-      sequence of files such as:</p>
+    <p>Using <code>%d</code> you can explicitly set the format of the
+    file name to be used. It is used by placing the <code>%d</code> in
+    the filename where the number is expected. <code>name%d.xxx</code>
+    can be used to read or write a sequence of files such as:</p>
       
     <pre>name1.xxx name2.xxx name3.xxx</pre> 
     
     <p>If you wish the filenames to be zero padded you can add the
-      number of digits between the % and the d. So <b>name%3d.xxx</b>
-      can be used to read or write the following files:</p>
+    number of digits between the <code>%</code> and the
+    <code>d</code>. So <code>name%3d.xxx</code> can be used to write
+    (or read) the following files:</p>
       
     <pre>name001.xxx name002.xxx name003.xxx</pre> 
-    
-    <p>This method is more useful when writing file sequences.</p>  
+          
+    <h3> Using the name of the first file in the sequence. </h3> 
       
-    <h3> Opening the first file in the sequence. </h3> 
-      
-    <p>If the file being opened cannot be interpreted as a stream
-      themselves (such as pnm ) you can just open the first file in
-      the sequence and the rest of the sequence will be found
-      automatically. So you could open the following sequence:</p> 
+    <p>You can use the name of the first file in the sequence,
+    provided that this file cannot be interpreted as a stream
+    itself (such as pnm) you can just open the first file in the
+    sequence and the rest of the sequence will be found
+    automatically. So you could open the following sequence:</p>
 
     <pre>name001.xxx name002.xxx name003.xxx</pre> 
     
-      
-    <p>with the filename <b>name001.xxx</b></p>.
+    <p>with the filename <code>name001.xxx</code>.</p>
       
     <h3>Omitting the number completely. </h3> 
       
-    <p>If the filename is in the form <b>nameNNN.XXX</b> where NNN is
-      some number and XXX is the extension, the file may be opened as
-      <b>name.XXX</b> (provided that no file of that name exists). The
-      system will scan the directory for files which conform to this
-      format and work out the range of digits, and whether zero padding is
-      being used.</p>
+    <p>If the filename is in the form <code>nameNNN.XXX</code>, where
+    NNN is some number and XXX is the extension (i.e. the number
+    immediately precedes the extension), the file may be opened as
+    <code>name.XXX</code> (provided that no file of that name
+    exists). The system will scan the directory for files which
+    conform to this format and work out the range of digits, and
+    whether zero padding is being used.</p>
       
   </body>
 </html>
