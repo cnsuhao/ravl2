@@ -94,6 +94,9 @@ namespace RavlGUIN {
     void SetFullScreen(bool &fullscreen);
     //: Set the window as fullscreen (assuming the window manager supports it)
 
+    bool IsFullScreen();
+    //: Find out whether or not the window is in "full screen" mode
+
   protected:
     virtual void Destroy();
     //: Undo all references.
@@ -334,6 +337,11 @@ namespace RavlGUIN {
       Body().SetFullScreen(fullscreen);
     }
     //: Set the window as fullscreen (assuming the window manager supports it)
+
+    bool IsFullScreen() {
+      return Body().IsFullScreen();
+    }
+    //: Find out whether or not the window is in "full screen" mode
 
     friend class WindowBodyC;
   };

@@ -321,6 +321,10 @@ namespace RavlGUIN {
     }
     return true;
   }
+
+  bool WindowBodyC::IsFullScreen() {
+    return isFullscreen;
+  }
    
   //////////////////////////////////////////////
   //: Constructor.
