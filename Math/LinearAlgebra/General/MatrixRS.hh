@@ -52,20 +52,22 @@ namespace RavlN {
     // an invalid matrix is returned if this matrix is
     // singular. This can be tested for by IsValid().
 
-    bool SolveIP(VectorC &b);
-    //: Solve a general linear system  A*x = b
-    // The input matix A is this one.  The input
-    // vector is b, which is replaced by the ouput x. <p>
-    // This matrix is altered to L-U factored form by the computation. <p>
-    // If the input matrix is singular, false is returned and
-    // true if the operation succeeded.
-    
-    VectorC Solve(const VectorC &b) const;
-    //: Solve a general linear system  A*x = b
-    // Where a is this matrix, and X is the returned vector.
-    // If matrix is singular a zero length vector is returned.
     
   };
+
+  bool SolveIP(MatrixRSC &mat,VectorC &b);
+  //: Solve a general linear system  A*x = b
+  // The input matix A is this one.  The input
+  // vector is b, which is replaced by the ouput x. <p>
+  // This matrix is altered to L-U factored form by the computation. <p>
+  // If the input matrix is singular, false is returned and
+  // true if the operation succeeded.
+  
+  VectorC Solve(const MatrixRSC &mat,const VectorC &b);
+  //: Solve a general linear system  A*x = b
+  // Where a is this matrix, and X is the returned vector.
+  // If matrix is singular a zero length vector is returned.
+  
 }
 
 #endif

@@ -39,10 +39,10 @@ namespace RavlN {
   // vector is b, which is replaced by the ouput x.
   // This matrix is altered to L-U factored form by the computation.
   
-  bool MatrixRUTC::SolveIP(VectorC &b) {
-    RavlAlwaysAssertMsg(Cols() == Rows(),"MatrixRUTC::SolveIP(), Matrix must be square. ");
-    RavlAlwaysAssertMsg(Cols() == b.Size(),"MatrixRUTC::SolveIP(), Matrix must be the same size as the vector to solve. ");
-    return solvru(&(*this)[0][0],&b[0],Rows()) == 0;
+  bool SolveIP(MatrixRUTC &mat,VectorC &b) {
+    RavlAlwaysAssertMsg(mat.Cols() == mat.Rows(),"MatrixRUTC::SolveIP(), Matrix must be square. ");
+    RavlAlwaysAssertMsg(mat.Cols() == b.Size(),"MatrixRUTC::SolveIP(), Matrix must be the same size as the vector to solve. ");
+    return solvru(&mat[0][0],&b[0],mat.Rows()) == 0;
   }
   
   
@@ -50,10 +50,10 @@ namespace RavlN {
   // Where a is this matrix, and X is the returned.
   // If matrix is singular a zero length vector is returned.
   
-  VectorC MatrixRUTC::Solve(const VectorC &b) const {
+  VectorC Solve(const MatrixRUTC &mat,const VectorC &b) {
     VectorC ret(b.Copy());
-    MatrixRUTC tmp(Copy());
-    if(!tmp.SolveIP(ret))
+    MatrixRUTC tmp(mat.Copy());
+    if(!SolveIP(tmp,ret))
       return VectorC();
     return ret;
   }

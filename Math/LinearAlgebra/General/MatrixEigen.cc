@@ -19,42 +19,41 @@
 namespace RavlN {
   // n*m row*col
   
-  VectorC MatrixC::EigenValues() const {
-    MatrixC ret = Copy();
-    return ret.EigenValuesIP();
+  VectorC EigenValues(const MatrixC &mat) {
+    MatrixC ret = mat.Copy();
+    return EigenValuesIP(ret);
   }
   
-  VectorC MatrixC::EigenValuesIP() {
-    RavlAlwaysAssert(IsContinuous()); // Should we cope with this silently ?
-    RavlAlwaysAssertMsg(Rows() == Cols(),"MatrixC::EigenValuesIP() Matrix must be square. ");
-    if(Rows() == 0)
+  VectorC EigenValuesIP(MatrixC &mat) {
+    RavlAlwaysAssert(mat.IsContinuous()); // Should we cope with this silently ?
+    RavlAlwaysAssertMsg(mat.Rows() == mat.Cols(),"MatrixC::EigenValuesIP() Matrix must be square. ");
+    if(mat.Rows() == 0)
       return VectorC(0);
-    VectorC ret(Rows());
-    eigval(&(*this)[0][0],&ret[0],Rows());
+    VectorC ret(mat.Rows());
+    eigval(&mat[0][0],&ret[0],mat.Rows());
     return ret;
   }
-
   
-  VectorC MatrixC::EigenVectors(MatrixC &ret) const {
-    ret = Copy();
-    return ret.EigenVectorsIP();
+  VectorC EigenVectors(const MatrixC &mat) {
+    MatrixC ret = mat.Copy();
+    return EigenVectorsIP(ret);
   }
   
-  VectorC MatrixC::EigenVectorsIP() {
-    RavlAlwaysAssert(IsContinuous()); // Should we cope with this silently ?
-    RavlAlwaysAssertMsg(Rows() == Cols(),"MatrixC::EigenVectorsIP() Matrix must be square. ");
-    VectorC ret(Rows());
-    eigen(&(*this)[0][0],&ret[0],Rows());
+  VectorC EigenVectorsIP(MatrixC &mat) {
+    RavlAlwaysAssert(mat.IsContinuous()); // Should we cope with this silently ?
+    RavlAlwaysAssertMsg(mat.Rows() == mat.Cols(),"MatrixC::EigenVectorsIP() Matrix must be square. ");
+    VectorC ret(mat.Rows());
+    eigen(&mat[0][0],&ret[0],mat.Rows());
     return ret;
   }
   
   //: Get the maximum eigen value and its vector.
   
-  RealT MatrixC::MaxEigenValue(VectorC &maxv) const{
-    RavlAlwaysAssert(IsContinuous()); // Should we cope with this silently ?
-    RavlAlwaysAssertMsg(Rows() == Cols(),"MatrixC::MaxEigenValue() Matrix must be square. ");
-    maxv = VectorC(Rows());
-    RealT ret = evmax(const_cast<RealT *>(&(*this)[0][0]),&maxv[0],Rows());
+  RealT MaxEigenValue(const MatrixC &mat,VectorC &maxv) {
+    RavlAlwaysAssert(mat.IsContinuous()); // Should we cope with this silently ?
+    RavlAlwaysAssertMsg(mat.Rows() == mat.Cols(),"MatrixC::MaxEigenValue() Matrix must be square. ");
+    maxv = VectorC(mat.Rows());
+    RealT ret = evmax(const_cast<RealT *>(&mat[0][0]),&maxv[0],mat.Rows());
 #if 0
     if(ret == HUGE) {
       return RavlConstN::nanReal;

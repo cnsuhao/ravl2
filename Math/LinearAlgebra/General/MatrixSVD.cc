@@ -23,9 +23,9 @@ namespace RavlN {
   // other matrixes are not computed.
   // If the operation failes the returned vector is invalid.
   
-  VectorC MatrixC::SVD() const {
-    MatrixC ret = Copy();
-    return ret.SVD_IP();
+  VectorC SVD(const MatrixC &mat) {
+    MatrixC ret = mat.Copy();
+    return SVD_IP(ret);
   }
   
   //: Singular value decomposition, eg. M = U * D * V.T(). 
@@ -34,16 +34,16 @@ namespace RavlN {
   // If the operation failes the returned vector is invalid. <p>
   // NB. This function destory's the contents of this matrix!
   
-  VectorC MatrixC::SVD_IP() {
-    RavlAlwaysAssert(IsContinuous()); // Should we cope with this silently ?
-    if(Rows() == 0)
+  VectorC SVD_IP(MatrixC &mat) {
+    RavlAlwaysAssert(mat.IsContinuous()); // Should we cope with this silently ?
+    if(mat.Rows() == 0)
       return VectorC(0);
-    VectorC ret(Rows());
-    if(Rows() > Cols() * 2) { // Pick the best routine.
-      if(sv2val(&ret[0],&(*this)[0][0],Rows(),Cols()) != 0)
+    VectorC ret(mat.Rows());
+    if(mat.Rows() > mat.Cols() * 2) { // Pick the best routine.
+      if(sv2val(&ret[0],&mat[0][0],mat.Rows(),mat.Cols()) != 0)
 	return VectorC();
     } else {
-      if(svdval(&ret[0],&(*this)[0][0],Rows(),Cols()) != 0)
+      if(svdval(&ret[0],&mat[0][0],mat.Rows(),mat.Cols()) != 0)
 	return VectorC();
     }
     return ret;
@@ -56,9 +56,9 @@ namespace RavlN {
   // of the correct size.
   // If the operation failes the returned vector is invalid.
   
-  VectorC MatrixC::SVD(MatrixC & u, MatrixC & v) const {
-    MatrixC ret = Copy();
-    return ret.SVD_IP(u,v);
+  VectorC SVD(const MatrixC &mat,MatrixC & u, MatrixC & v) {
+    MatrixC ret = mat.Copy();
+    return SVD_IP(ret,u,v);
   }
   
   //: Singular value decomposition, eg. M = U * D * V.T(). 
@@ -70,37 +70,37 @@ namespace RavlN {
   // NB. This function destory's the contents of this matrix!
 
 #if 1
-  VectorC MatrixC::SVD_IP(MatrixC & u, MatrixC & v) {
-    RavlAlwaysAssert(IsContinuous()); // Should we cope with this silently ?
+  VectorC SVD_IP(MatrixC &mat,MatrixC & u, MatrixC & v) {
+    RavlAlwaysAssert(mat.IsContinuous()); // Should we cope with this silently ?
     // Check for trivial cases.
-    if(Rows() == 0)
+    if(mat.Rows() == 0)
       return VectorC(0);
     // Make sure the output matrixes are right.
-    if(!u.IsContinuous() || Rows() != v.Rows() || Cols() != v.Cols()) 
-      u = MatrixC(Rows(),Cols());
-    if(!v.IsContinuous() || Rows() != v.Rows() || Cols() != v.Cols()) 
-      v = MatrixC(Rows(),Cols());
-    VectorC ret(Rows());
-    if(Rows() > Cols() * 2) { // Pick the best routine.
-      if(sv2uv(&ret[0],&(*this)[0][0],&u[0][0],Rows(),&v[0][0],Cols()) != 0)
+    if(!u.IsContinuous() || mat.Rows() != v.Rows() || mat.Cols() != v.Cols()) 
+      u = MatrixC(mat.Rows(),mat.Cols());
+    if(!v.IsContinuous() || mat.Rows() != v.Rows() || mat.Cols() != v.Cols()) 
+      v = MatrixC(mat.Rows(),mat.Cols());
+    VectorC ret(mat.Rows());
+    if(mat.Rows() > mat.Cols() * 2) { // Pick the best routine.
+      if(sv2uv(&ret[0],&mat[0][0],&u[0][0],mat.Rows(),&v[0][0],mat.Cols()) != 0)
 	return VectorC();
     } else {
-      if(svduv(&ret[0],&(*this)[0][0],&u[0][0],Rows(),&v[0][0],Cols()) != 0)
+      if(svduv(&ret[0],&mat[0][0],&u[0][0],mat.Rows(),&v[0][0],mat.Cols()) != 0)
 	return VectorC();
     }
     return ret;
   }
 #else
 
-  VectorC MatrixC::SVD_IP(MatrixC & u, MatrixC & v) {
+  VectorC SVD_IP(MatrixC &mat,MatrixC & u, MatrixC & v) {
     const RealT isSmall = 10e-11;
-    MatrixC & a = *this;
-    const MySizeT m = RDim();
-    const MySizeT n = CDim();
+    MatrixC & a = mat;
+    const MySizeT m = mat.RDim();
+    const MySizeT n = mat.CDim();
     IntT flag=0,its=0,j=0,jj=0,k=0;
     //IntT nm = -10;
     RealT c=0.0,f=0.0,h=0.0,s=0.0,x=0.0,y=0.0,z=0.0;
-
+    
     IntT l = -1;
     VectorC rv1(n);
     
