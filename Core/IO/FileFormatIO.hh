@@ -59,12 +59,12 @@ namespace RavlN {
 #if RAVL_CHECK
       if(verbose) 
 #endif
-	cerr << "RavlN::Save(), Failed to save object to file '" << filename << "'\n";
+	cerr << "RavlN::Save(), Failed to find format to save object to file '" << filename << "'\n";
       return false; // Failed to find format.
     }
     if(!out.Put(obj)) {
-      cerr << "RavlN::Save(), Put failed! \n";
-      RavlAssert(0);
+      if(verbose)
+	cerr << "WARNING: Save to file '" << filename << "' failed \n";
       return false;
     }
     return true;
@@ -103,8 +103,8 @@ namespace RavlN {
       return false; // Failed to find format.
     }
     if(!out.Put(obj)) {
-      cerr << "RavlN::Save(), Put failed! \n";
-      RavlAssert(0);
+      if(verbose)
+	cerr << "WARNING: Save to stream failed. \n";
       return false;
     }
     return true;
