@@ -154,7 +154,8 @@ namespace RavlN {
     }
     //: Extract the current element from the list. 
     // Do not delete it, the user is responsible for ensuring this happens
-    // at an approprate time.
+    // at an approprate time. The iteration is left pointing at
+    // the element before the one extracted.
     // The iterator must be valid.
     
     void Del() { 
@@ -167,6 +168,18 @@ namespace RavlN {
     // actuall delete the element where appropriate.
     // The iterator must be valid.
 
+    void InsertBef(DataT &dat)
+      { place->LinkBef(dat); }
+    //: Insert data before current element.
+    // if at the head of the list  (i.e. operator bool() failes.)
+    // then add at end.
+    
+    void InsertAft(DataT &dat)
+      { place->LinkAft(dat); }
+    //: Insert data after current element.
+    // if at the head of the list  (i.e. operator bool() failes.)
+    // then add at begining.
+    
     IntrDListC<DataT> &List()
       { return static_cast<IntrDListC<DataT> &>(*head); }
     //: Access the list we're iterating.
