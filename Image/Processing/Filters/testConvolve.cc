@@ -19,6 +19,7 @@
 #include "Ravl/Image/HistogramEqualise.hh"
 #include "Ravl/Image/Matching.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
+#include "Ravl/Image/SpatialDifference.hh"
 
 using namespace RavlImageN;
 
@@ -33,6 +34,7 @@ int testConvolve2dMMX();
 int testWarpScale();
 int testHistogramEqualise();
 int testMatching();
+int testSpatialDifference();
 
 #ifndef __sgi__
 template WarpScaleC<ByteRGBValueC,ByteRGBValueC>;
@@ -74,6 +76,10 @@ int main() {
     return 1;
   }
   if((ln = testMatching()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  }
+  if((ln = testSpatialDifference()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
@@ -299,5 +305,29 @@ int testMatching() {
     if((ln = testMatch(i)) != 0)
       return ln;
   }
+  return 0;
+}
+
+int testSpatialDifference() {
+  cerr << "testSpatialDifference(). \n";
+
+  Array2dC<ByteT> img1(10,10);
+  int v = 0;
+  for(Array2dIterC<ByteT> it(img1);it;it++,v++)
+    *it = v;
+  
+  for(int i = 1;i < 4;i++) {
+    ImageC<Vector2dC> grad;
+    cerr << "Checking " << i << "\n";
+    SpatialDifference(i,img1,grad);
+    //cerr << "Grad=" << grad << "\n";
+#if 0
+    for(Array2dIterC<Vector2dC> it(grad);it;it++) {
+      if((*it - Vector2dC(10,1)).SumOfSqr() > 0.000000001)
+	return __LINE__;
+    }
+#endif
+  }
+  
   return 0;
 }
