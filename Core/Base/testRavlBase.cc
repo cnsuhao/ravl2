@@ -88,6 +88,16 @@ int testIndex()
     cerr << "IndexRange test 2 failed. " << r2 << " does not contain " << r3 << "\n";
     return __LINE__;
   }
+  
+  IndexRangeC xr1(r1);
+  IndexRangeC xr2(4,5);
+  xr1.ClipBy(xr2);
+  if(xr1.Size() != 0) return __LINE__;
+  xr1 = r1;
+  xr2 = IndexRangeC (-10,-2);
+  xr1.ClipBy(xr2);
+  if(xr1.Size() != 0) return __LINE__;
+  
   return 0;
 }
 

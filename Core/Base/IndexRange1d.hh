@@ -58,7 +58,7 @@ namespace RavlN {
     //:---------------------------------
     //: Access to the object information.
     
-    inline SizeT Size() const
+    inline IntT Size() const
     { return (maxI-minI+1).V(); }
     //: Returns the number of elements in the range.
     
@@ -256,8 +256,16 @@ namespace RavlN {
   }
   
   inline IndexRangeC &IndexRangeC::ClipBy(const IndexRangeC & r) {
-    if (Min() < r.Min()) Min() = r.Min();
-    if (Max() > r.Max()) Max() = r.Max();
+    if (Min() < r.Min()) {
+      Min() = r.Min();
+      if(Max() < r.Min()) // Make sure there is some overlap.
+	Max() = r.Min()-1; // Make range zero size.
+    }
+    if (Max() > r.Max()) {
+      Max() = r.Max();
+      if(Min() > r.Max()) // Make sure there is some overlap.
+	Min() = r.Max()+1; // To make range zero size.
+    }
     return *this;
   }
   
