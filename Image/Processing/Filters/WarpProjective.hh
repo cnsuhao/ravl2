@@ -49,12 +49,11 @@ namespace RavlImageN {
 	mixer(mix)
     { Init(); }
     //: Constructor from Projection2dC.
-    // Where orec is the size of the output rectangle.
-    //!param: orec - Output rectangle.
-    //!param: transform - Projective transform to use.
+    //!param: orec - Rectangle for output image.
+    //!param: transform - Projective transform to use
     //!param: nFillBackground - If true background is filled with black.
     //!param: mix - Pixel mixer instance to use.
-    
+    // N.B. <code>transform</code>transforms points in the <i>input</i> image to the <i>output</i> image
     WarpProjectiveC(const Projection2dC &transform,
 		    bool nFillBackground = true,
 		    const MixerT &mix = MixerT())
@@ -81,7 +80,7 @@ namespace RavlImageN {
     { Init(); }
     //: Constructor from Matrix3dC.
     // Where orec is the size of the output rectangle.
-    // See Projection2dC for argument descriptions
+    // See above for argument descriptions
     
     WarpProjectiveC(const Matrix3dC &transform,
 		    RealT niz = 1,
@@ -95,7 +94,7 @@ namespace RavlImageN {
 	mixer(mix)
     { Init(); }
     //: Constructor from Matrix3dC.
-    // See Projection2dC for argument descriptions
+    // See above for argument descriptions
     
     void Apply(const ImageC<InT> &img,ImageC<OutT> &out);
     //: Warp image 'img' with the given transform and write it into 'out'
@@ -105,8 +104,7 @@ namespace RavlImageN {
       Apply(img,out);
       return out;
     }
-    //: Interpolate input image working rectangle into
-    //: output image rectangle.
+    //: Interpolate input image working rectangle into output image rectangle.
     // The output rectangle is specified in the constructor.
     
     void SetTransform(const Matrix3dC &transform) {
