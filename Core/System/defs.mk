@@ -10,7 +10,7 @@
 PACKAGE=Ravl
 
 HEADERS=StringList.hh Option.hh TypeName.hh BufStream.hh \
- SubStringList.hh XMLStream.hh Collection.hh
+ SubStringList.hh XMLStream.hh Collection.hh CollectionIter.hh
 
 SOURCES=StringList.cc Option.cc TypeName.cc BufStream.cc \
  SubStringList.cc XMLStream.cc StreamParse.cc

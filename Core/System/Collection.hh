@@ -1,8 +1,15 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2001, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 #ifndef RAVLCOLLECTION_HEADER
 #define RAVLCOLLECTION_HEADER 1
 //////////////////////////////////////////////////////
 //! rcsid=$Id$
 //! docentry="Ravl.Core.Misc"
+//! lib=RavlCore
 
 #include "Ravl/SArray1d.hh"
 #include "Ravl/Random.hh"
@@ -10,8 +17,8 @@
 
 namespace RavlN {
   
-  template<class DataT>
-  class CollectionC;
+  template<class DataT> class CollectionC;
+  template<class DataT> class CollectionIterC;
   
   //! userlevel=Develop
   //: Collection of data.
@@ -217,6 +224,9 @@ namespace RavlN {
     // This collection is not modified.  There is no
     // garantee that an element will be picked only once.
     // 'ne' may be bigger than the size of this collection.
+
+    typedef CollectionIterC<DataT> IteratorT;
+    //: Type of iterator.
 
   };
 
