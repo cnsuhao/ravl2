@@ -30,7 +30,7 @@ namespace RavlGUIN {
 	boarder(0),
 	homogeneous(false),
 	spacing(0)
-	{}
+    {}
     //: Default constructor.
     
     LBoxBodyC(const DListC<WidgetC> &widges,bool nvert = false,IntT nboarder = 0,bool nhomogeneous = false,IntT nspacing = 0)
@@ -39,7 +39,7 @@ namespace RavlGUIN {
 	boarder(nboarder),
 	homogeneous(nhomogeneous),
 	spacing(nspacing)
-	{}
+    {}
     //: Constructor
     
     LBoxBodyC(const WidgetC &widges,bool nvert = false,IntT nboarder = 0,bool nhomogeneous = false,IntT nspacing = 0)
@@ -48,7 +48,7 @@ namespace RavlGUIN {
 	boarder(nboarder),
 	homogeneous(nhomogeneous),
 	spacing(nspacing)
-	{ children.InsLast(widges); }
+    { children.InsLast(widges); }
     //: Constructor
     
     LBoxBodyC(bool nvert,IntT nboarder = 0,bool nhomogeneous = false,IntT nspacing = 0)
@@ -82,8 +82,10 @@ namespace RavlGUIN {
     : public ContainerWidgetC 
   {
   public:
-    LBoxC();
+    LBoxC()
+    {}
     //: Default constructor
+    // Creates an invalid handle.
     
     LBoxC(const DListC<WidgetC> &widges,bool vert = false,IntT nboarder = 0,bool nhomogeneous = false,IntT nspacing = 0)
       : ContainerWidgetC(*new LBoxBodyC(widges,vert,nboarder,nhomogeneous,nspacing))

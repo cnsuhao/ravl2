@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLGUIBUTTON_HEADER
-#define RAVLGUIBUTTON_HEADER 1
+#ifndef RAVLGUI_BUTTON_HEADER
+#define RAVLGUI_BUTTON_HEADER 1
 /////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/GUI/GTK/Button.hh"
@@ -115,7 +115,6 @@ namespace RavlGUIN
     friend class ButtonBodyC;
   };
   
-  
   inline 
   ButtonC Button(const char *label,const char *tooltip = 0) {
     ButtonC ret;
@@ -127,7 +126,6 @@ namespace RavlGUIN
   }
   //: Create a button with no function attached.
   // here just for consistancy.
-
 
   template<class DataT>
   ButtonC Button(const char *label,bool (*func)(DataT &dat),const DataT &dat)
@@ -195,6 +193,14 @@ namespace RavlGUIN
   { 
     ButtonC ret = ButtonC(label,tooltip);
     Connect(ret.Signal("clicked"),obj,func);
+    return ret;    
+  }
+
+  template<class ObjT>
+  ButtonC ButtonR(const char *label,const char *tooltip,ObjT &obj,bool (ObjT::*func)())
+  { 
+    ButtonC ret = ButtonC(label,tooltip);
+    ConnectRef(ret.Signal("clicked"),obj,func);
     return ret;    
   }
 

@@ -57,11 +57,11 @@ namespace RavlGUIN {
     : public WidgetBodyC
   {
   public:
-    CListBodyC(const DListC<StringC> &titles);
-    //: Default constructor
+    CListBodyC(const DListC<StringC> &titles,GtkSelectionMode nselMode = GTK_SELECTION_SINGLE);
+    //: Constructor
     
-    CListBodyC(const char *titles[]);
-    //: Default constructor
+    CListBodyC(const char *titles[],int *colWidths = 0,GtkSelectionMode nselMode = GTK_SELECTION_SINGLE);
+    //: Constructor
     
     virtual bool Create();
     //: Create the widget.
@@ -95,11 +95,23 @@ namespace RavlGUIN {
     bool GUIUnselect(int &id);
     //: Force an item to be unselected.
 
+    bool GUIUnselectAll();
+    //: Remove all entries from the selection.
+
+    bool GUISelectAll();
+    //: Remove all entries from the selection.
+
     bool Select(int &id);
+    //: Force an item to be selected.
+
+    bool SelectAll();
     //: Force an item to be selected.
     
     bool Unselect(int &id);
     //: Force an item to be unselected.
+    
+    bool UnselectAll();
+    //: Remove all entries from the selection.
     
     IntT Cols() const
       { return cols ; }
@@ -116,7 +128,7 @@ namespace RavlGUIN {
     //: Called when row is unselected.
     
     bool GUIRowSelected(CListEventC &);
-    //: Called when row is unselected.
+    //: Called when row is selected.
     
     GtkSelectionMode  selMode;
     
@@ -124,10 +136,10 @@ namespace RavlGUIN {
     
     IntT cols;
     DListC<StringC> titles;
-    DListC<Tuple2C<IntT,SArray1dC<CListCellC> > > data;
-    HSetC<IntT> selection; // current selection.
+    SArray1dC<IntT> widths;
     
-    //HasARC<IntT,IntT> idMap; // Maps an ID to a row.
+    DListC<Tuple2C<IntT,SArray1dC<CListCellC> > > data;
+    HSetC<IntT> selection; // current selection.    
   };
   
   //! userlevel=Normal
@@ -142,13 +154,8 @@ namespace RavlGUIN {
     //: Default constructor
     // Creates an invalid handle.
     
-    CListC(const DListC<StringC> &titles)
-      : WidgetC(* new CListBodyC(titles))
-    {}
-    //: Constructor
-  
-    CListC(const char *titles[])
-      : WidgetC(* new CListBodyC(titles))
+    CListC(const char *titles[],int *colWidths = 0,GtkSelectionMode nselMode = GTK_SELECTION_SINGLE)
+      : WidgetC(* new CListBodyC(titles,colWidths,nselMode))
     {}
     //: Constructor
     
@@ -169,54 +176,70 @@ namespace RavlGUIN {
     
   public:
     bool GUIAppendLine(int &id,SArray1dC<StringC> &line)
-      { return Body().GUIAppendLine(id,line); }
+    { return Body().GUIAppendLine(id,line); }
     //: Append a line entry.
     // GUI thread only.
     
     bool GUIAppendCLine(int &id,SArray1dC<CListCellC> &line)
-      { return Body().GUIAppendCLine(id,line); }
+    { return Body().GUIAppendCLine(id,line); }
     //: Append a line entry.
     // GUI thread only.
     
     void AppendLine(int &id,SArray1dC<CListCellC> line)
-      { Body().AppendLine(id,line); }
+    { Body().AppendLine(id,line); }
     //: Append a line entry.  
     
     void AppendLine(int &id,SArray1dC<StringC> line)
-      { Body().AppendLine(id,line); }
+    { Body().AppendLine(id,line); }
     //: Append a line entry.  
     
     bool GUIRemoveLine(int &id)
-      { return Body().GUIRemoveLine(id); }
+    { return Body().GUIRemoveLine(id); }
     //: Remove a line entry.  
     // GUI thread only.
     
     void RemoveLine(int &id)
-      { Body().RemoveLine(id); }
+    { Body().RemoveLine(id); }
     //: Remove a line entry.  
 
     bool GUISelect(int &id)
-      { return Body().GUISelect(id); }
+    { return Body().GUISelect(id); }
     //: Force an item to be selected.
     
     bool GUIUnselect(int &id)
-      { return Body().GUIUnselect(id); }
+    { return Body().GUIUnselect(id); }
     //: Force an item to be unselected.
     
+    bool GUIUnselectAll()
+    { return Body().GUIUnselectAll(); }
+    //: Remove all entries from the selection.
+    
+    bool GUISelectAll()
+    { return Body().GUISelectAll(); }
+    //: Add all entries to the selection.
+    
     bool Select(int &id)
-      { return Body().Select(id); }
+    { return Body().Select(id); }
     //: Force an item to be selected.
     
     bool Unselect(int &id)
-      { return Body().Unselect(id); }
+    { return Body().Unselect(id); }
     //: Force an item to be unselected.
     
+    bool UnselectAll()
+    { return Body().UnselectAll(); }
+    //: Remove all entries from the selection.
+    
+    bool SelectAll()
+    { return Body().SelectAll(); }
+    //: Add all entries to the selection.
+    
     IntT Cols() const
-      { return Body().Cols(); }
+    { return Body().Cols(); }
     //: Number of cols in the clist.
     
     DListC<IntT> Selection()
-      { return Body().Selection(); }
+    { return Body().Selection(); }
     //: Access current selection.
     
     friend class CListBodyC;

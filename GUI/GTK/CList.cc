@@ -13,7 +13,7 @@
 #include "Ravl/SArr1Iter2.hh"
 #include <gtk/gtk.h>
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -22,17 +22,21 @@
 
 namespace RavlGUIN {
   
-  CListBodyC::CListBodyC(const DListC<StringC> &ntitles)
-    : selMode(GTK_SELECTION_SINGLE),
+  CListBodyC::CListBodyC(const DListC<StringC> &ntitles,GtkSelectionMode nselMode)
+    : selMode(nselMode),
       titles(ntitles)
   {
     cols = titles.Size();
     ONDEBUG(cerr << "CListBodyC::CListBodyC(), Cols : " << cols << "\n");
+    widths = SArray1dC<IntT>(cols);
+    widths.Fill(-1);
   }
   
   //: Default constructor
   
-  CListBodyC::CListBodyC(const char *ntitles[])  {
+  CListBodyC::CListBodyC(const char *ntitles[],int *colWidths,GtkSelectionMode nselMode)
+    : selMode(nselMode)
+  {
     int i = 0;
     if(ntitles != 0) {
       for(;ntitles[i] != 0;i++)
@@ -41,8 +45,13 @@ namespace RavlGUIN {
       titles.InsLast("Unknown");
       i++;
     }
-
     cols = i;
+    widths = SArray1dC<IntT>(cols);
+    widths.Fill(-1);
+    if(colWidths != 0) { // Got some widths ?
+      for(i = 0;i < cols;i++)
+	widths[i] = colWidths[i];
+    }
     ONDEBUG(cerr << "CListBodyC::CListBodyC(), Cols : " << cols << "\n");
   }
   
@@ -88,6 +97,12 @@ namespace RavlGUIN {
       tlist[i] = (char *) it->chars();
     widget = gtk_clist_new_with_titles(cols,tlist);  
     delete tlist; // Hope I don't need this now.
+    for(int i = 0;i < cols;i++) {
+      if(widths[i] < 0)
+	continue;
+      gtk_clist_set_column_width(GTK_CLIST(widget),i,widths[i]);
+    }
+    
     gtk_clist_set_selection_mode(GTK_CLIST(widget),selMode);
     // Append lines that we've stored up.
     for(DLIterC<Tuple2C<IntT,SArray1dC<CListCellC> > > it2(data);it2;it2++)
@@ -207,6 +222,31 @@ namespace RavlGUIN {
     gtk_clist_unselect_row (GTK_CLIST(widget),rowNo,0);
     return true;
   }
+
+  //: Remove all entries from the selection.
+  
+  bool CListBodyC::GUIUnselectAll() {
+    if(widget == 0) {
+      // FIXME:- This should be handled properly.
+      cerr << "WARNING: CListBodyC::GUIUnselectAll() called before widget created. \n";
+      return true;
+    }
+    gtk_clist_unselect_all(GTK_CLIST(widget));
+    return true;
+  }
+
+  //: Add all entries to the selection.
+  
+  bool CListBodyC::GUISelectAll() {
+    if(widget == 0) {
+      // FIXME:- This should be handled properly.
+      cerr << "WARNING: CListBodyC::GUISelectAll() called before widget created. \n";
+      return true;
+    }
+    gtk_clist_select_all(GTK_CLIST(widget));
+    return true;
+  }
+  
   
   //: Force an item to be selected.
   
@@ -219,6 +259,20 @@ namespace RavlGUIN {
   
   bool CListBodyC::Unselect(int &id) {
     Manager.Queue(Trigger(CListC(*this),&CListC::GUIUnselect,id));
+    return true;
+  }
+
+  //: Remove all entries from the selection.
+  
+  bool CListBodyC::UnselectAll() {
+    Manager.Queue(Trigger(CListC(*this),&CListC::GUIUnselectAll));
+    return true;
+  }
+
+  //: Add all entries to the selection.
+  
+  bool CListBodyC::SelectAll() {
+    Manager.Queue(Trigger(CListC(*this),&CListC::GUISelectAll));
     return true;
   }
   

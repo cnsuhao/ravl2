@@ -13,7 +13,7 @@
 #include "Ravl/HashIter.hh"
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/GUI/SignalInfo.hh"
-//#include "Ravl/GUI/ToolTips.hh"
+#include "Ravl/GUI/ToolTips.hh"
 #include "Ravl/GUI/MouseEvent.hh"
 #include "Ravl/CallMethods.hh"
 #include "Ravl/Tuple2.hh"
@@ -160,14 +160,16 @@ namespace RavlGUIN {
     : widget(0),
       widgetId(0),
       eventMask(GDK_EXPOSURE_MASK),
-      tooltip(0)
+      tooltip(0),
+      gotRef(false)
   {}
   
   WidgetBodyC::WidgetBodyC(const char *ntooltip)
     : widget(0),
       widgetId(0),
       eventMask(GDK_EXPOSURE_MASK),
-      tooltip(ntooltip)
+      tooltip(ntooltip),
+      gotRef(false)
   {}
   
   
@@ -179,7 +181,10 @@ namespace RavlGUIN {
     if(widget != 0) {
       if(GTK_IS_WIDGET(widget)) { // Incase it was destroyed within GTK.
 	gtk_widget_hide (widget);
-	gtk_widget_destroy(widget);
+	if(gotRef) {
+	  gtk_object_unref(GTK_OBJECT(widget));
+	  //gtk_widget_destroy(widget);
+	}
       }
       widget = 0;
     }
@@ -228,6 +233,9 @@ namespace RavlGUIN {
   }
   
   void WidgetBodyC::WidgetDestroy() {
+    ONDEBUG(cerr << "WidgetBodyC::WidgetDestroy(), Called. \n");
+    if(gotRef && widget != 0)
+      gtk_object_unref(GTK_OBJECT(widget));  // Not sure if this can happen....
     widget = 0;
   }
   
@@ -315,6 +323,9 @@ namespace RavlGUIN {
     if(widget == 0)
       return ;
     
+    gtk_object_ref(GTK_OBJECT(widget));  // Make refrence to object.
+    gotRef = true;
+    
     if(eventMask != (int) GDK_EXPOSURE_MASK)  {// Has it changed from default ?
       //if(GTK_WIDGET_NO_WINDOW (widget))
       gtk_widget_set_events (widget,(GdkEventMask) eventMask);
@@ -325,10 +336,10 @@ namespace RavlGUIN {
 			(GtkSignalFunc) gtkDestroy, this);
     for(HashIterC<const char *,Signal0C> it(signals);it.IsElm();it.Next())
       ConnectUp(it.Key(),it.Data());
-#if 0    
+#if 1   
     if(tooltip != 0) {
       WidgetC me(*this);
-      //guiGlobalToolTips.AddToolTip(me,tooltip);
+      guiGlobalToolTips.AddToolTip(me,tooltip);
     }
 #endif
   }
@@ -337,8 +348,12 @@ namespace RavlGUIN {
   // Call only from GUI thread.
   
   bool WidgetBodyC::GUIShow() {
-    if(widget == 0)
-      Create();
+    if(widget == 0) {
+      if(!Create()) {
+	cerr << "WARNING: WidgetBodyC::GUIShow(), Failed. \n";
+	return false;
+      }
+    }
     if(widget == 0)
       return false;
     gtk_widget_show (Widget());
@@ -357,14 +372,16 @@ namespace RavlGUIN {
 
   //: Show widget to the world.
   
-  void WidgetBodyC::Show() {
+  bool WidgetBodyC::Show() {
     Manager.Queue(Trigger(WidgetC(*this),&WidgetC::GUIShow));
+    return true;
   }
   
   //: Hide widget from the world.
   
-  void WidgetBodyC::Hide() {
+  bool WidgetBodyC::Hide() {
     Manager.Queue(Trigger(WidgetC(*this),&WidgetC::GUIHide));
+    return true;
   }
   
   

@@ -30,35 +30,19 @@ namespace RavlGUIN
     : public ContainerWidgetBodyC 
   {
   public:
-    NotebookBodyC(GtkPositionType ntabpos = GTK_POS_TOP,bool nshowtabs = true,bool nshowborder = true)
-      : tabpos(ntabpos),
-	showborder(nshowborder),
-	showtabs(nshowtabs)
-	{}
+    NotebookBodyC(GtkPositionType ntabpos = GTK_POS_TOP,bool nshowtabs = true,bool nshowborder = true);
     //: Default constructor.
     
-    NotebookBodyC(const DListC<WidgetC> &widges,GtkPositionType ntabpos =GTK_POS_TOP,bool nshowtabs = true,bool nshowborder = true)
-      : ContainerWidgetBodyC(widges),
-	tabpos(ntabpos),
-	showborder(nshowborder),
-	showtabs(nshowtabs)
-    {}
+    NotebookBodyC(const DListC<WidgetC> &widges,GtkPositionType ntabpos =GTK_POS_TOP,bool nshowtabs = true,bool nshowborder = true);
     //: Constructor
   
-    NotebookBodyC(const WidgetC &widges,GtkPositionType ntabpos =GTK_POS_TOP,bool nshowtabs = true,bool nshowborder = true)
-      : tabpos(ntabpos),
-	showborder(nshowborder),
-	showtabs(nshowtabs)
-    { children.InsLast(widges); }
+    NotebookBodyC(const WidgetC &widges,GtkPositionType ntabpos =GTK_POS_TOP,bool nshowtabs = true,bool nshowborder = true);
     //: Constructor
   
     virtual bool Create();
     //: Create the widget.
     
-    bool GUISetTab(const WidgetC &parent,const WidgetC &tabw) { 
-      tabWidges[parent] = tabw; 
-      return true;
-    }
+    bool GUISetTab(const WidgetC &parent,const WidgetC &tabw);
     //: Setup tab widgets.
     // GUI Thread only.
     
@@ -79,7 +63,7 @@ namespace RavlGUIN
     bool GUIAppendPage(WidgetC &page,WidgetC &tab);
     //: Append a new page.
     
-    void AppendPage(WidgetC &page,WidgetC &tab);
+    void AppendPage(const WidgetC &page,const WidgetC &tab);
     //: Append a new page.
     
     bool GUIShowPage(WidgetC &page);
@@ -90,9 +74,11 @@ namespace RavlGUIN
     //: Show a page from the notebook.
     
   protected:
-    virtual void Destroy()
-	{ ContainerWidgetBodyC::Destroy(); }
+    virtual void Destroy();
     //: Undo all refrences.
+    
+    bool FixupPage(WidgetC &page,WidgetC &tab);
+    //: Do the main bit of AppendPage.
     
     HashC<WidgetC,WidgetC> tabWidges;
     
@@ -171,7 +157,7 @@ namespace RavlGUIN
     //: Append a new page.
     // GUI Thread only.
     
-    void AppendPage(WidgetC &page,WidgetC &tab)
+    void AppendPage(const WidgetC &page,const WidgetC &tab)
       { Body().AppendPage(page,tab); }
     //: Append a new page.
     

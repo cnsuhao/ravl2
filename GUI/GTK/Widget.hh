@@ -85,11 +85,11 @@ namespace RavlGUIN {
     //: Hide widget from the world.
     // Call only from GUI thread.
     
-    void Show();
+    bool Show();
     //: Show widget to the world.
     // Thread safe.
     
-    void Hide();
+    bool Hide();
     //: Hide widget from the world.
     // Thread safe.
     
@@ -163,7 +163,8 @@ namespace RavlGUIN {
     //: Get information about a named signal.
     
     const char *tooltip;
-    
+
+    bool gotRef; // Do we have a refrence to the object.
   private:
     // Some call backs.
     
@@ -257,13 +258,13 @@ namespace RavlGUIN {
     //: Hide widget on the display.
     // Call only from GUI thread.
     
-    void Show()
-      { Body().Show(); }
+    bool Show()
+    { return Body().Show(); }
     //: Show widget on the display.
     // Thread safe.
     
-    void Hide()
-      { Body().Hide(); }
+    bool Hide()
+    { return Body().Hide(); }
     //: Hide widget on the display.
     // Thread safe.
     

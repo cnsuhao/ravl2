@@ -27,13 +27,20 @@ namespace RavlGUIN {
   public:
     ScrolledAreaBodyC(const WidgetC &achild,IntT isx = -1,IntT isy = -1,bool vauto = true,bool hauto = true);
     //: Constructor.
+
+    ScrolledAreaBodyC(const WidgetC &achild,
+		      IntT isx = -1,IntT isy = -1,
+		      GtkPolicyType vpolicy = GTK_POLICY_AUTOMATIC,GtkPolicyType hpolicy = GTK_POLICY_AUTOMATIC);
+    //: Constructor.
+    // The policy's can be  GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS, GTK_POLICY_NEVER
     
     virtual bool Create();
     //: Create the widget.
     
   protected:
     IntT isx,isy; // Inital area size.
-    bool vauto,hauto; // Automatic scrollbars ?
+    GtkPolicyType vpolicy;
+    GtkPolicyType hpolicy;
   };
   
   //! userlevel=Normal
@@ -45,10 +52,20 @@ namespace RavlGUIN {
   public:
     ScrolledAreaC(const WidgetC &achild,IntT isx = -1,IntT isy = -1,bool vauto = true,bool hauto = true)
       : OneChildC(*new ScrolledAreaBodyC(achild,isx,isy,vauto,hauto))
-      {}
+    {}
     //: Create a scrolled area.
     // isx,isy set the inital size of the area.
+    // The policy's can be  GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS, GTK_POLICY_NEVER
+
+    ScrolledAreaC(const WidgetC &achild,
+		  IntT isx = -1,IntT isy = -1,
+		  GtkPolicyType vpolicy = GTK_POLICY_AUTOMATIC,GtkPolicyType hpolicy = GTK_POLICY_AUTOMATIC)
+      : OneChildC(*new ScrolledAreaBodyC(achild,isx,isy,vpolicy,hpolicy))
+    {}
+    //: Constructor.
+    
   };
+  
 
 }
 #endif

@@ -12,11 +12,44 @@
 #include "Ravl/GUI/PackInfo.hh"
 #include "Ravl/GUI/Label.hh"
 #include "Ravl/GUI/Manager.hh"
+#include "Ravl/HashIter.hh"
 #include <gtk/gtk.h>
 #include <iostream.h>
 
+#define DODEBUG 0
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
+
 namespace RavlGUIN {
 
+  //: Default constructor.
+  
+  NotebookBodyC::NotebookBodyC(GtkPositionType ntabpos,bool nshowtabs,bool nshowborder)
+    : tabpos(ntabpos),
+      showborder(nshowborder),
+      showtabs(nshowtabs)
+  {}
+  
+  //: Constructor
+  
+  NotebookBodyC::NotebookBodyC(const DListC<WidgetC> &widges,GtkPositionType ntabpos,bool nshowtabs,bool nshowborder)
+    : ContainerWidgetBodyC(widges),
+      tabpos(ntabpos),
+      showborder(nshowborder),
+      showtabs(nshowtabs)
+  {}
+  
+  //: Constructor
+  
+  NotebookBodyC::NotebookBodyC(const WidgetC &widges,GtkPositionType ntabpos,bool nshowtabs,bool nshowborder)
+    : tabpos(ntabpos),
+      showborder(nshowborder),
+      showtabs(nshowtabs)
+  { children.InsLast(widges); }
+  
   //: Create the widget.
   
   bool NotebookBodyC::Create() {
@@ -40,12 +73,34 @@ namespace RavlGUIN {
 	tab = LabelC("Tmp...");
 	tabWidges[*it] = tab;
       }
-      GUIAppendPage(*it,tab);
+      FixupPage(*it,tab);
     }
     ConnectSignals();
     return true;
   }
   
+  //: Undo all refrences.
+  
+  void NotebookBodyC::Destroy() {
+    DListC<WidgetC> keys;
+    for(HashIterC<WidgetC,WidgetC> it(tabWidges);it;it++) {
+      it.Data().Destroy();
+      keys += it.Key();
+    }
+    for(DLIterC<WidgetC> it(keys);it;it++) 
+      it.Data().Destroy();
+    tabWidges.Empty();
+    children.Empty();
+    WidgetBodyC::Destroy();
+  }
+
+  //: Setup tab widgets.
+  // GUI Thread only.
+  
+  bool NotebookBodyC::GUISetTab(const WidgetC &parent,const WidgetC &tabw) { 
+    tabWidges[parent] = tabw; 
+    return true;
+  }
   
   //: Remove page number 'pageNo'
   // GUI Thread only.
@@ -90,33 +145,35 @@ namespace RavlGUIN {
     Manager.Queue(Trigger(NotebookC(*this),&NotebookC::GUIRemovePageW,pageNo));  
   }
   
+  //: Do the main bit of AppendPage.
+  bool NotebookBodyC::FixupPage(WidgetC &page,WidgetC &tab) {
+    if(!page.GUIShow())
+      return false;
+    if(!tab.GUIShow())
+      return false;
+    // Add page.
+    gtk_notebook_append_page(GTK_NOTEBOOK (widget),page.Widget(),tab.Widget());
+    return true;
+  }
+
   //: Append a new page.
   
   bool NotebookBodyC::GUIAppendPage(WidgetC &page,WidgetC &tab) {
-    if(widget == 0) {
-      Add(page);
-      tabWidges[page] = tab;
+    tabWidges[page] = tab;
+    MutexLockC lock(access);
+    children.InsLast(page);
+    lock.Unlock();
+    if(widget == 0)
       return true;
-    }
-    // Create child page.
-    if(page.Widget() == 0)
-      if(!page.Create())
-	return true;
-    page.Show();
-    // Create tab widget.
-    if(tab.Widget() == 0)
-      if(!tab.Create())
-	return true;
-    tab.Show();
-    // Add page.
-    gtk_notebook_append_page(GTK_NOTEBOOK (widget),page.Widget(),tab.Widget());
-    return false;
+    return FixupPage(page,tab);
   }
   
   //: Append a new page.
   
-  void NotebookBodyC::AppendPage(WidgetC &page,WidgetC &tab) {
-    Manager.Queue(Trigger(NotebookC(*this),&NotebookC::GUIAppendPage,page,tab));
+  void NotebookBodyC::AppendPage(const WidgetC &page,const WidgetC &tab) {
+    Manager.Queue(Trigger(NotebookC(*this),&NotebookC::GUIAppendPage,
+			  const_cast<WidgetC &>(page),const_cast<WidgetC &>(tab))
+		  );
   }
   
   //: Show a page from the notebook.
@@ -127,7 +184,11 @@ namespace RavlGUIN {
       cerr << "NotebookBodyC::GUIShowPage(), ERROR: Called before widget initalised. \n";
       return true;
     }
-    if(page.Widget() == 0) {
+    if(page.Widget() == 0)
+      page.Create();
+    int pageNo = gtk_notebook_page_num(GTK_NOTEBOOK (widget),page.Widget());
+    if(pageNo < 0) {
+      ONDEBUG(cerr << "NotebookBodyC::GUIShowPage(), Initalising page. \n");
       WidgetC tab;    
       // Check we have a tab widget.
       if(tabWidges.IsElm(page))
@@ -137,12 +198,13 @@ namespace RavlGUIN {
 	tabWidges[page] = tab;
       }
       GUIAppendPage(page,tab);
-    }  
-    int pageNo = gtk_notebook_page_num(GTK_NOTEBOOK (widget),page.Widget());
-    if(pageNo < 0) {
-      cerr << "NotebookBodyC::GUIShowPage(), Failed to find page for widget. \n";
-      return true;
+      pageNo = gtk_notebook_page_num(GTK_NOTEBOOK (widget),page.Widget());
+      if(pageNo < 0) {
+	cerr << "NotebookBodyC::GUIShowPage(), Failed to find page for widget. \n";
+	return true;
+      }
     }
+    ONDEBUG(cerr << "NotebookBodyC::GUIShowPage(), Showing " << pageNo << "\n");
     gtk_notebook_set_page(GTK_NOTEBOOK (widget),pageNo);
     return true;
   }

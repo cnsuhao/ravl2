@@ -41,6 +41,9 @@ namespace RavlGUIN {
     //: Set value 
     // GUI thread only.
     
+    RealT Value();
+    //: Get current value.
+    
   protected:
     virtual bool Create();
     //: Create widget.
@@ -86,27 +89,31 @@ namespace RavlGUIN {
     //: Body constructor.
     
     SpinButtonBodyC &Body()
-      { return static_cast<SpinButtonBodyC &>(WidgetC::Body()); }
+    { return static_cast<SpinButtonBodyC &>(WidgetC::Body()); }
     //: Access body.
     
     const SpinButtonBodyC &Body() const
-      { return static_cast<const SpinButtonBodyC &>(WidgetC::Body()); }
+    { return static_cast<const SpinButtonBodyC &>(WidgetC::Body()); }
     //: Access body.
     
   public:
     Signal1C<RealT> &SigChanged() 
-      { return Body().SigChanged(); }
+    { return Body().SigChanged(); }
     //: Access changed signal.
     
     void SetValue(RealT &val)
-      { Body().SetValue(val); }
+    { Body().SetValue(val); }
     //: Set value 
     // Thread safe.
     
     bool GUISetValue(RealT &val)
-      { return Body().GUISetValue(val); }
+    { return Body().GUISetValue(val); }
     //: Set value 
     // GUI thread only.
+
+    RealT Value()
+    { return Body().Value(); }
+    //: Get current value.
     
     friend class SpinButtonBodyC;
   };
@@ -114,28 +121,28 @@ namespace RavlGUIN {
   
   template<class DataT>
   SpinButtonC SpinButton(RealT nvalue,
-			    RealT nlower, 
-			    RealT nupper, 
-			    RealT nstep_increment,
-			    const DataT &obj,void (DataT::*func)(RealT &value),RealT defVal = 0)
-    {
-      SpinButtonC ret(2,1,nvalue,nlower,nupper,nstep_increment);
-      Connect(ret.SigChanged(),obj,func,defVal);
-      return ret;
-    }
+			 RealT nlower, 
+			 RealT nupper, 
+			 RealT nstep_increment,
+			 const DataT &obj,void (DataT::*func)(RealT &value),RealT defVal = 0)
+  {
+    SpinButtonC ret(2,1,nvalue,nlower,nupper,nstep_increment);
+    Connect(ret.SigChanged(),obj,func,defVal);
+    return ret;
+  }
   //: Construct spin button with callback to class method.
   
   template<class DataT>
   SpinButtonC SpinButtonR(RealT nvalue,
-			     RealT nlower, 
-			     RealT nupper, 
-			     RealT nstep_increment,
-			     DataT &obj,void (DataT::*func)(RealT &value),RealT defVal = 0)
-    {
-      SpinButtonC ret(2,1,nvalue,nlower,nupper,nstep_increment);
-      ConnectRef(ret.SigChanged(),obj,func,defVal);
-      return ret;
-    }
+			  RealT nlower, 
+			  RealT nupper, 
+			  RealT nstep_increment,
+			  DataT &obj,void (DataT::*func)(RealT &value),RealT defVal = 0)
+  {
+    SpinButtonC ret(2,1,nvalue,nlower,nupper,nstep_increment);
+    ConnectRef(ret.SigChanged(),obj,func,defVal);
+    return ret;
+  }
   //: Construct spin button with callback to refrenced class method.
   
 }

@@ -55,11 +55,5 @@ namespace RavlGUIN {
   }
   
   ///////////////////////////////////////////
-  
-  //: Default constructor
-  
-  LBoxC::LBoxC()
-    : ContainerWidgetC(*new LBoxBodyC())
-  {}
 }
 

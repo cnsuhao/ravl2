@@ -2,38 +2,41 @@
 //! docentry="GUI"
 //! rcsid="$Id$"
 
-#include "Ravl/GUI/TextEntry.hh"
+#include "Ravl/GUI/TextBox.hh"
+#include "Ravl/GUI/Manager.hh"
 #include <gtk/gtk.h>
 
-namespace RavlGUIN {
+#define DODEBUG 0
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x) 
+#endif
 
+namespace RavlGUIN {
   
-  static void enter_callback(GtkWidget *widget, GUITextBoxBodyC *entry)
-  { entry->Entry(gtk_entry_get_text(GTK_ENTRY(entry->Widget()))); }
+  //static void enter_callback(GtkWidget *widget, GUITextBoxBodyC *entry)
+  //{ entry->Entry(gtk_entry_get_text(GTK_ENTRY(entry->Widget()))); }
   
   
-  TextBoxBodyC::TextBoxBodyC(const StringC &ntext,IntT nMaxLen)
-    : GUIWidgetBodyC(true),
-      text(ntext),
-      maxLen(nMaxLen),
-      activate(text)
+  TextBoxBodyC::TextBoxBodyC(const StringC &ntext,bool neditable)
+    : text(ntext),
+      editable(neditable)
   {}
-  
-  //: Got a changed signal.
-  
-  void TextBoxBodyC::SigChanged() {
-    MutexLockC lock(access);
-    //text = StringC(gtk_entry_get_text(GTK_ENTRY(Widget())));
-  }
   
   //: Create the widget.
   
   bool TextBoxBodyC::Create() {
-    //GtkAdjustment *hadj,*vadj;
-    //GtkWidget *textw;
-    //widget = gtk_table_new(2,2,0);
-    
+    ONDEBUG(cerr << "TextBoxBodyC::Create(), Called. \n");
+    if(widget != 0)
+      return true; // Done already.
     widget = gtk_text_new(0,0);
+    gtk_text_insert(GTK_TEXT(widget),
+		    widget->style->font,
+		    &widget->style->black, 
+		    &widget->style->white,
+		    text.chars(),text.length());
+    gtk_text_set_editable(GTK_TEXT(widget),editable);
     ConnectSignals();
     return true;
   }
@@ -42,48 +45,31 @@ namespace RavlGUIN {
   //: Access text
   
   StringC TextBoxBodyC::Text() {
-    MutexLockC lock(access);
+    //MutexLockC lock(access);
     StringC ret = text; // Ensure the right order.
-    lock.Unlock();
+    //lock.Unlock();
     return ret ;
   }
-  
-  //: Service request.
-  
-  bool TextBoxBodyC::Service() {
-    if(widget == 0)
-      return true;
-    // The only thing we know how to do, update the text.
-    //gtk_entry_set_text (GTK_ENTRY (widget), text);
-    return true;
-  }
-  
-  //: Some new text has been entered.
-  
-  bool  TextBoxBodyC::Entry(const StringC &txt) {
-    MutexLockC lock(access);
-    text=txt;
-    lock.Unlock();
-    //  activate(txt);
-    //cerr << "TextBoxBodyC::Entry(), Text:" << text << "\n";
-    return true;
-  }
-  
+
   //: Update text.
   // This is thread safe.
   
-  bool TextBoxBodyC::Text(const StringC &txt) {
-    MutexLockC lock(access);
-    //text = txt;
-    lock.Unlock();
+  bool TextBoxBodyC::Insert(const StringC &txt) {
+    StringC tmp(txt);
+    Manager.Queue(Trigger(TextBoxC(*this),&TextBoxC::GUIInsert,tmp));
     return true;
   }
   
-  //: Set text to display.
+  //: Insert text in window.
   
-  bool TextBoxBodyC::SetText(const StringC &txt) {
-    //gtk_entry_set_text (GTK_ENTRY (widget), text);
+  bool TextBoxBodyC::GUIInsert(StringC &txt) {
+    gtk_text_insert(GTK_TEXT(widget),
+		    widget->style->font,
+		    &widget->style->black, 
+		    &widget->style->white,
+		    txt.chars(),txt.length());    
     return true;
   }
+  
   
 }

@@ -23,10 +23,12 @@
 
 namespace RavlGUIN {
   
+  static int rootWinCount = 0;
   /* when invoked (via signal delete_event), terminates the application.
    */
   static void close_application( GtkWidget *widget, GdkEvent *event, gpointer data ) { 
-    Manager.Quit(); 
+    if(--rootWinCount == 0)
+      Manager.Quit(); 
   }
   
   //: Constructor.
@@ -38,7 +40,7 @@ namespace RavlGUIN {
       rootWin(nrootWin),
       closeDown(false),
       cursorChange(false),
-    winType(nWinType)
+      winType(nWinType)
   {
     if(rootWin)
       Manager.GetRootWindow() = WindowC(*this);
@@ -55,9 +57,11 @@ namespace RavlGUIN {
   //: Create the widget.
   
   bool WindowBodyC::Create() {
+    ONDEBUG(cerr << "WindowBodyC::Create(), Title=" << title << " Root=" << rootWin << " Type=" << ((int) winType) << " Boarder=" << boarder << "\n");
     if(widget == 0) {
       widget = gtk_window_new (winType);  
       if(rootWin && winType == GTK_WINDOW_TOPLEVEL) {
+	rootWinCount++;
 	gtk_signal_connect( GTK_OBJECT (widget), "delete_event",
 			    GTK_SIGNAL_FUNC (close_application), NULL );
       }

@@ -51,9 +51,17 @@ namespace RavlGUIN {
   
   bool ButtonBodyC::GUISetLabel(StringC &text) {
     label = text;
-    GtkWidget *tb = gtk_label_new(text.chars());
-    if(GTK_BIN(widget)->child != 0)
-      gtk_container_remove(GTK_CONTAINER(widget),GTK_BIN(widget)->child);
+    GtkWidget *tb;
+    GtkWidget *child = GTK_BIN(widget)->child;
+    if(child != 0) {
+      if(GTK_IS_LABEL(child)) { // Is a label widget already ?
+	gtk_label_set(GTK_LABEL(child),text.chars());
+	return true;
+      }
+      gtk_container_remove(GTK_CONTAINER(widget),child);
+    }
+    tb = gtk_label_new(text.chars());
+    gtk_widget_show (tb);
     gtk_container_add(GTK_CONTAINER(widget),tb);
     return true;
   }

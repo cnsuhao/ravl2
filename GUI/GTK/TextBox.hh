@@ -7,14 +7,15 @@
 //! docentry="Ravl.GUI.Control"
 //! rcsid="$Id$"
 
-#include "Ravl/PThread/Mutex.hh"
 #include "Ravl/GUI/Widget.hh"
 #include "Ravl/String.hh"
-#include "Ravl/DP/Signal1.hh"
-#include "Ravl/DP/Signal2.hh"
+#include "Ravl/Threads/Signal1.hh"
+#include "Ravl/Threads/Signal2.hh"
 
 namespace RavlGUIN {
 
+  class TextBoxC;
+  
   //! userlevel=Develop
   //: TextBox body
   
@@ -22,41 +23,27 @@ namespace RavlGUIN {
     : public WidgetBodyC
   {
   public:
-    TextBoxBodyC(const StringC &ntext,IntT nMaxLen = -1);
+    TextBoxBodyC(const StringC &ntext,bool editable = true);
     //: Constructor.
     
     virtual bool Create();
     //: Create the widget.
     
-    virtual bool Entry(const StringC &text);
-    //: Some new text has been entered.
-    
     StringC Text();
     //: Access text
     
-    bool Text(const StringC &txt);
+    bool Insert(const StringC &txt);
     //: Update text.
     // This is thread safe.
     
-    Signal1C<StringC> &Activate() { return activate; }
-    //: Activate, called when text is changed.
-    
   protected:
-    bool SetText(const StringC &txt);
-    //: Set text to edit.
-    // This should only be called within the GUI thread.
+    bool GUIInsert(StringC &txt);
+    //: Insert text in window.
     
-    void SigChanged();
-    //: Got a changed signal.
+    StringC text; // text.
+    bool editable; // Is text editable ?
     
-    MutexC access;
-    
-    StringC text; // Default text.
-    IntT maxLen; // Maximum length, -1==Unset.
-    
-    Signal1C<StringC> activate; // Return has been pressed.
-    Signal0C changed;  // Text in box has been changed.
-    
+    friend class TextBoxC;
   };
 
 
@@ -69,44 +56,44 @@ namespace RavlGUIN {
   {
   public:
     TextBoxC()
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     
-    TextBoxC(const StringC &text,IntT nMaxLen = -1)
-      : WidgetC(*new TextBoxBodyC(text,nMaxLen))
-      {}
+    TextBoxC(const StringC &text,bool editable = true)
+      : WidgetC(*new TextBoxBodyC(text,editable))
+    {}
     //: Constructor
     
   protected:
+    TextBoxC(TextBoxBodyC &body)
+      : WidgetC(body)
+    {}
+    //: Body constructor.
     
     TextBoxBodyC &Body() 
-      { return dynamic_cast<TextBoxBodyC &>(WidgetC::Body()); }
+    { return dynamic_cast<TextBoxBodyC &>(WidgetC::Body()); }
     //: Access body.
     
     const  TextBoxBodyC &Body() const
-      { return dynamic_cast<const TextBoxBodyC &>(WidgetC::Body()); }
+    { return dynamic_cast<const TextBoxBodyC &>(WidgetC::Body()); }
     //: Access body.  
+
+    bool GUIInsert(StringC &txt)
+    { return Body().GUIInsert(txt); }
+    //: Insert text in window.
     
   public:
     StringC Text() 
-      { return Body().Text(); }
+    { return Body().Text(); }
     //: Access text
     
-    bool Text(const StringC &txt)
-      { return Body().Text(txt); }
-    //: Update text.
-    // This is thread safe, with respect to the GUI thread.
-    
-    bool SetText(StringC &txt)
-      { return Body().Text(txt); }
-    //: Update text, for signal functions.
-    // This is thread safe, with respect to the GUI thread.
-    
-    Signal1C<StringC> &Activate() 
-      { return Body().Activate(); }
-    //: Activate, called when text is changed.
-    
+    bool Insert(const StringC &txt)
+    { return Body().Insert(txt); }
+    //: Insert text at cursor
+    // This is thread safe.
+
+    friend class TextBoxBodyC;
   };
 
 }
