@@ -182,6 +182,7 @@ namespace RavlN {
       return false; 
     }
     nos << "\n<ABPS>\n";
+    nos.os().flush();
     BinOStreamC bos(nos);
     ONDEBUG(cerr << "NetEndPointBodyC::RunTransmit(), Starting transmit loop. \n");
     try {
@@ -191,10 +192,11 @@ namespace RavlN {
 	  break;
 	if(!pkt.IsValid())
 	  continue;
-	ONDEBUG(cerr << "Transmit packet:\n");
+	ONDEBUG(cerr << "  Transmit packet:\n");
 	ONDEBUG(pkt.Dump(cerr));
 	pkt.Transmit(bos);
-      ONDEBUG(cerr << "Sent packet. \n");
+	nos.os().flush();
+	ONDEBUG(cerr << "  Sent packet. \n");
       }
     } catch(ExceptionC &e) {
       cerr << "AMMA Exception :'" << e.what() << "'\n";

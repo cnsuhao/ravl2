@@ -33,6 +33,13 @@ extern "C" {
 
 #include "Ravl/OS/NetStream.hh"
 
+#define DODEBUG 0
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
+
 namespace RavlN {
   
   ////////// Output //////////////////////////////////
@@ -95,6 +102,7 @@ namespace RavlN {
   bool NetIStreamC::WaitForData(RealT timeout) {
     if(!sock.IsOpen())
       return false;
+    ONDEBUG(cerr << "NetIStreamC::WaitForData(), Waiting for data.");
     fd_set readSet;
     int fd = sock.Fd();
     FD_ZERO(&readSet);
@@ -109,6 +117,7 @@ namespace RavlN {
       reterr = select(fd+1,&readSet,0,0,0); // Infinite timeout.
     if(reterr==0)
       return false;
+    ONDEBUG(cerr << "NetIStreamC::WaitForData(), Exiting.");
     return FD_ISSET(fd,&readSet);
   }
 
