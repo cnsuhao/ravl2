@@ -171,7 +171,7 @@ int BasicTest() {
     }
     UIntT count = 0;
     for(;it;it++) {
-      ta = 0;
+      *it = 0;
       count++;
     }
     if(count != (UIntT) rng.Size()) {
