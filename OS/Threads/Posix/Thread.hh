@@ -69,7 +69,13 @@ namespace RavlN
         
     void Terminate();
     //: Terminate thread.
-    // Call to stop the thread running.
+    // This function is very dangerous. Stopping a thread whilst its
+    // running is likely to cause memory leaks, and deadlocks. <br>
+    // It is much better to have a thread check a flag (see ThreadEventC) 
+    // and exit normally. <br>
+    // If your going to use this method you should ensure that the thread
+    // is not using reference counting, and has no resource locks at the
+    // time this method is called. <br>
     // THEAD SAFE.
     
     bool SetPriority(int Pri);
@@ -78,7 +84,7 @@ namespace RavlN
     // THEAD SAFE.
     
     inline UIntT ID() const
-      { return ((UIntT) threadID); }
+    { return ((UIntT) threadID); }
     // Get a unique ID for this thread.
     // NB. An id may no be assigned to the thread until
     // after Execute() has been called.
@@ -115,56 +121,64 @@ namespace RavlN
   };
   
   //! userlevel=Normal
-  //: Thread handle.
+  //: Handle to a thread.
+  // In general it is not nessary to use this class directly,
+  // it is better to use the LaunchThread(...) functions to start
+  // a thread on a method. <br>
   // Note: The thread itself holds a reference count on the object.
-  // this reference count is held until the thread terminates. Another
-  // thread can initiate shutdown by calling the Terminate() function.
+  // this reference count is held until the thread terminates. 
   
   class ThreadC 
     : public RCHandleC<ThreadBodyC>
   {
   public:
     ThreadC()
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     
   protected:
     ThreadC(ThreadBodyC &bod)
       : RCHandleC<ThreadBodyC>(bod)
-      {}
+    {}
     //: Body constructor.
     
     ThreadBodyC &Body() 
-      { return RCHandleC<ThreadBodyC>::Body(); }
+    { return RCHandleC<ThreadBodyC>::Body(); }
     //: Access body.
     
     const ThreadBodyC &Body() const
-      { return RCHandleC<ThreadBodyC>::Body(); }
+    { return RCHandleC<ThreadBodyC>::Body(); }
     //: Access body.
     
   public:
     bool Execute()
-      { return Body().Execute(); }
+    { return Body().Execute(); }
     //: Start thread running.
     // use this command to start thread running
     // after it has been created.  This function can only be called 
     // once.
     
     void Terminate()
-      { Body().Terminate(); }
+    { Body().Terminate(); }
     //: Terminate thread.
-    // Call to stop the thread running.
+    // This function is very dangerous. Stopping a thread whilst its
+    // running is likely to cause memory leaks, and deadlocks. <br>
+    // It is much better to have a thread check a flag (see ThreadEventC) 
+    // and exit normally. <br>
+    // If your going to use this method you should ensure that the thread
+    // is not using reference counting, and has no resource locks at the
+    // time this method is called. <br>
     // THEAD SAFE.
     
     bool SetPriority(int pri)
-      { return Body().SetPriority(pri); }
+    { return Body().SetPriority(pri); }
     // Set the priority of the process
     // 0 to 32767, Higher faster.
     // THEAD SAFE.
     
     inline UIntT ID() const
-      { return Body().ID(); }
+    { return Body().ID(); }
     // Get a unique ID for this thread.
     // NB. An id may no be assigned to the thread until
     // after Execute() has been called.
