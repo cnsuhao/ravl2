@@ -24,8 +24,9 @@ class ostream;
 #include <iostream.h>
 #endif
 
-
+//!maindoc=1
 //: Ravl namespace
+// This namespace contains all the core ravl functionality.
 
 namespace RavlN {  
   
