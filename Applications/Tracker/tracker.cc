@@ -20,6 +20,7 @@
 #include "Ravl/DP/SequenceIO.hh"
 #include "Ravl/Image/PointTracker.hh"
 #include "Ravl/Image/DrawFrame.hh"
+#include "Ravl/Image/DrawCross.hh"
 #include "Ravl/HashIter.hh"
 
 using namespace RavlN;
@@ -73,8 +74,11 @@ int main(int nargs,char **argv) {
     // Draw boxes around the corners.
     ByteT val = 255;
     for(HashIterC<UIntT,PointTrackC> it(corners.Data());it;it++) {
-      IndexRange2dC rect(it->Location(),5,5);
-      DrawFrame(img,val,rect);
+      if(it->Confidence() > 0.5) {
+	IndexRange2dC rect(it->Location(),5,5);
+	DrawFrame(img,val,rect);
+      } else 
+	DrawCross(img,val,it->Location(),4);
     }
     
     // Write an image out.
