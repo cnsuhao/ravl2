@@ -16,6 +16,8 @@ SOURCES= MTIOConnect.cc PlayControl.cc Governor.cc
 EXAMPLES= exMTDataProc.cc 
 #exDPSplit.cc	exFailOver.cc  exDPMultiplex.cc 
 
+TESTEXES = testOSDataProc.cc
+
 PLIB=RavlDPMT
 
 USESLIBS=RavlOS RavlIO RavlThreads

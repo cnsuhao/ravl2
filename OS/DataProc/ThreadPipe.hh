@@ -82,7 +82,7 @@ namespace RavlN {
     //: Read results into an array.
     // returns the number of elements processed.
     
-    void Start();
+    bool Start();
     //: Run pipe process.
     
     virtual RCBodyVC &Copy() const; 
@@ -114,11 +114,11 @@ namespace RavlN {
   public:
     DPThreadPipeC(const DPProcessC<OutT,InT> & nproc,IntT qsize = 5)
       : DPEntityC(*new DPThreadPipeBodyC<InT,OutT>(nproc,qsize))
-      //,DPIOPortC<InT,OutT>(Body())
     {}
     //: Constructor.
     
     DPThreadPipeC()
+      : DPEntityC(true)
     {}
     //: Default constructor.
     
@@ -136,8 +136,8 @@ namespace RavlN {
     { return dynamic_cast<const DPThreadPipeBodyC<InT,OutT> &>(DPEntityC::Body()); }
     //: Const access body.
     
-    void Start()
-    { Body().Start(); }
+    bool Start()
+    { return Body().Start(); }
     //: Start processing.
     
   public:
@@ -168,7 +168,7 @@ namespace RavlN {
       running(false)
   {
     if(makeLive)
-      ThreadThreadThreadThreadLaunch();
+      ThreadLaunch();
   }
   
   template<class InT,class OutT>
@@ -249,7 +249,7 @@ namespace RavlN {
   
   
   template<class InT,class OutT>
-  void DPThreadPipeBodyC<InT,OutT>::Start() {
+  bool DPThreadPipeBodyC<InT,OutT>::Start() {
     try {
       while(1) { 
 	if(gotEOS) {
@@ -265,6 +265,7 @@ namespace RavlN {
       //cerr << " Process:" << typeid(proc.Body()).name()  << endl;
       cerr << "Halting thread. \n" << flush;
     }
+    return true;
   }
   
   template<class InT,class OutT>
@@ -275,7 +276,7 @@ namespace RavlN {
       x = new DPThreadPipeBodyC<InT,OutT>(proc,qsize); // No state use the same process.
     else
       x = new DPThreadPipeBodyC<InT,OutT>(proc.Copy(),qsize); // There's state so make a full copy.
-    x->ThreadThreadThreadThreadLaunch(); // Always make live copies.
+    x->ThreadLaunch(); // Always make live copies.
     return *x;
   }
   
@@ -287,7 +288,7 @@ namespace RavlN {
     }
     running = true;
     ONDEBUG(cerr << "DPThreadPipeBodyC<InT,OutT>::ThreadThreadThreadThreadLaunch(), Starting ThreadPipe:" << ((void *) this) << "\n");
-    ThreadThreadThreadThreadLaunch(DPThreadPipeC<InT,OutT>(*this),&DPThreadPipeC<InT,OutT>::Start);  
+    LaunchThread(DPThreadPipeC<InT,OutT>(*this),&DPThreadPipeC<InT,OutT>::Start);
   }  
   
 }

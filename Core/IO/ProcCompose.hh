@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLDPCOMPOSE_HEADER
-#define RAVLDPCOMPOSE_HEADER 1
+#ifndef RAVL_DPCOMPOSE_HEADER
+#define RAVL_DPCOMPOSE_HEADER 1
 ///////////////////////////////////////////////
 //! lib=RavlIO
 //! docentry="Ravl.Core.Data Processing" 
@@ -13,7 +13,7 @@
 //! example=exDPMultiplex.cc
 //! rcsid="$Id$"
 //! file="Ravl/Core/IO/ProcCompose.hh"
-//! date="04/07/98"
+//! date="04/07/1998"
 //! userlevel=Default
 
 #include "Ravl/DP/Process.hh"
@@ -27,22 +27,27 @@ namespace RavlN {
     : public DPProcessBodyC<InT,OutT> 
   {
   public:
-    DPComposeProcessBodyC(const DPProcessC<InT,InterT> &p1,const DPProcessC<InterT,OutT> &p2);
+    DPComposeProcessBodyC(const DPProcessC<InT,InterT> &np1,const DPProcessC<InterT,OutT> &np2)
+      :  p1(np1),
+	 p2(np2)
+    {}
     //: Constructor.
     
     virtual bool Save(ostream &out) const;
     //: Save to ostream.
     
-    virtual OutT Apply(const InT &di); 
+    virtual OutT Apply(const InT &di)
+    { return p2.Apply(p1.Apply(di)); }
     //: Apply operation.
     
-    virtual bool IsStateless() const;
+    virtual bool IsStateless() const
+    { return p1.IsStateless() && p2.IsStateless(); }
     //: Is operation stateless ?
     
     virtual DPProcessBaseBodyC::ProcTypeT OpType() const;
     //: Operation type lossy/lossless.
     
-    virtual RCBodyC &Copy() const;
+    virtual RCBodyVC &Copy() const;
     //: Creat a copy of this object.
     
   private:
@@ -59,7 +64,9 @@ namespace RavlN {
     : public DPProcessC<InT,OutT> 
   {
   public:
-    DPComposeProcessC(const DPProcessC<InT,InterT> &np1,const DPProcessC<InterT,OutT> &np2);
+    DPComposeProcessC(const DPProcessC<InT,InterT> &np1,const DPProcessC<InterT,OutT> &np2)
+      : DPProcessC<InT,OutT>(*new DPComposeProcessBodyC<InT,InterT,OutT>(np1,np2))
+    {}
     //: Constructor.
   };
   
@@ -73,14 +80,7 @@ namespace RavlN {
   //////////////////////////////////////////
   
   template<class InT,class InterT,class OutT>
-  DPComposeProcessBodyC<InT,InterT,OutT>::DPComposeProcessBodyC(const DPProcessC<InT,InterT> &np1,const DPProcessC<InterT,OutT> &np2)
-    :  p1(np1),
-       p2(np2)
-  {}
-  
-  template<class InT,class InterT,class OutT>
-  bool 
-  DPComposeProcessBodyC<InT,InterT,OutT>::Save(ostream &out) const {
+  bool DPComposeProcessBodyC<InT,InterT,OutT>::Save(ostream &out) const {
     DPProcessBodyC<InT,OutT>::Save(out);  
     if(!p1.Save(out))
       return false;
@@ -88,15 +88,9 @@ namespace RavlN {
   }
   
   template<class InT,class InterT,class OutT>
-  OutT 
-  DPComposeProcessBodyC<InT,InterT,OutT>::Apply(const InT &di) 
-  { return p2.Apply(p1.Apply(di)); }
-  
-  template<class InT,class InterT,class OutT>
-  RCBodyC &
-  DPComposeProcessBodyC<InT,InterT,OutT>::Copy() const  { 
+  RCBodyVC &DPComposeProcessBodyC<InT,InterT,OutT>::Copy() const  { 
     if(p2.IsStateless() && p1.IsStateless()) 
-      return const_cast<RCBodyC &>((RCBodyC &) *this);
+      return const_cast<RCBodyVC &>((RCBodyVC &) *this);
     DPProcessC<InT,InterT> np1;
     DPProcessC<InterT,OutT> np2;
     if(p1.IsStateless())
@@ -109,34 +103,21 @@ namespace RavlN {
       np2=p2.Copy();  
     return *new DPComposeProcessBodyC<InT,InterT,OutT>(np1,np2);
   }
-  
+    
   template<class InT,class InterT,class OutT>
-  bool DPComposeProcessBodyC<InT,InterT,OutT>::IsStateless() const
-  { return p1.IsStateless() && p2.IsStateless(); }
-  
-  template<class InT,class InterT,class OutT>
-  DPProcessBaseBodyC::ProcTypeT 
-  DPComposeProcessBodyC<InT,InterT,OutT>::OpType() const  {
+  DPProcessBaseBodyC::ProcTypeT DPComposeProcessBodyC<InT,InterT,OutT>::OpType() const  {
     if(p2.OpType() == LossyT)
       return LossyT;
-    switch(p1.OpType())
-      {
-      case ConversionT:
-	return p2.OpType();
-      case ConversionLossyT:
-	return ConversionLossyT;
-      case LossyT:
-	return LossyT;
-      }
+    switch(p1.OpType()) {
+    case ConversionT:
+      return p2.OpType();
+    case ConversionLossyT:
+      return ConversionLossyT;
+    case LossyT:
+      return LossyT;
+    }
     return LossyT;
   }
-  
-  ///////////////////////////////////////////
-
-  template<class InT,class InterT,class OutT>
-  DPComposeProcessC<InT,InterT,OutT>::DPComposeProcessC(const DPProcessC<InT,InterT> &np1,const DPProcessC<InterT,OutT> &np2)
-    : DPProcessC<InT,OutT>(*new DPComposeProcessBodyC<InT,InterT,OutT>(np1,np2))
-  {}
   
 }
 #endif

@@ -4,15 +4,15 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLDPPROCESS_HEADER
-#define RAVLDPPROCESS_HEADER 1
+#ifndef RAVL_DPPROCESS_HEADER
+#define RAVL_DPPROCESS_HEADER 1
 ///////////////////////////////////////////////
 //! docentry="Ravl.Core.Data Processing" 
 //! lib=RavlIO
 //! rcsid="$Id$"
 //! file="Ravl/Core/IO/Process.hh"
 //! author="Charles Galambos"
-//! date="16/06/98"
+//! date="16/06/1998"
 //! userlevel=Default
 
 #include "Ravl/DP/Entity.hh"
@@ -42,16 +42,16 @@ namespace RavlN {
     
     DPProcessBaseBodyC(istream &in) 
       : DPEntityBodyC(in)
-      {}
+    {}
     //: Stream constructor.
   
     DPProcessBaseBodyC(const DPProcessBaseBodyC &oth) 
       : DPEntityBodyC(oth)
-      {}
-  //: Copy constructor.
+    {}
+    //: Copy constructor.
     
     virtual bool Save(ostream &out) const 
-      { return DPEntityBodyC::Save(out); }
+    { return DPEntityBodyC::Save(out); }
     //: Save to ostream.
     
     virtual const type_info &InputType() const;
@@ -69,7 +69,7 @@ namespace RavlN {
     //: Operation type lossy/lossless.
     
     virtual bool IsStateless() const 
-      { return false; }
+    { return false; }
     //: Is operation stateless ?
   };
   
@@ -85,46 +85,45 @@ namespace RavlN {
   {
   public:
     inline DPProcessBodyC()
-      {}
+    {}
     //: Default constructor.
     
     inline DPProcessBodyC(istream &in)
       : DPProcessBaseBodyC(in)
-      {}
+    {}
     //: Stream constructor.
     
     ~DPProcessBodyC()
-      {}
+    {}
     //: Destructor. 
     // To see if this helps gcc-1.0.3 sort itself out.
     
-    virtual OutT Apply(const InT &);
+    virtual OutT Apply(const InT &) { 
+      RavlAssertMsg(0,"DPProcessBodyC::Apply(), Abstract method called. ");
+      return OutT(); 
+    }
+    
     //: Apply operation.
     
     virtual IntT ApplyArray(const SArray1dC<InT> &in,SArray1dC<OutT>  &out);
     //: Apply operation to an array of elements.
     // returns the number of elements processed.
     
-    virtual bool Save(ostream &out) const;
+    virtual bool Save(ostream &out) const
+    { return DPProcessBaseBodyC::Save(out); }
     //: Save to ostream.
     
-    virtual const type_info &InputType() const;
+    virtual const type_info &InputType() const
+    { return typeid(InT); }
     //: Get input type.
     
-    virtual const type_info &OutputType() const; 
-    //: Get input type.
+    virtual const type_info &OutputType() const
+    { return typeid(OutT); }
+    //: Get output type.
     
   };
   
-  
   ////////////////////////////////////////////////////////
-  
-  template<class InT,class OutT>
-  OutT 
-  DPProcessBodyC<InT,OutT>::Apply(const InT &) { 
-    RavlAssert(0); // This should never be called.
-    return OutT(); 
-  }
   
   template<class InT,class OutT>
   IntT DPProcessBodyC<InT,OutT>::ApplyArray(const SArray1dC<InT> &in,SArray1dC<OutT>  &out) {
@@ -134,25 +133,6 @@ namespace RavlN {
     return in.Size();
   }
   
-  template<class InT,class OutT>
-  bool 
-  DPProcessBodyC<InT,OutT>::Save(ostream &out) const  { 
-    return DPProcessBaseBodyC::Save(out); 
-  }
-  
-  template<class InT,class OutT>
-  const type_info &
-  DPProcessBodyC<InT,OutT>::InputType() const  { 
-    return typeid(InT); 
-  }
-  
-  template<class InT,class OutT>
-  const type_info &
-  DPProcessBodyC<InT,OutT>::OutputType() const  { 
-    return typeid(OutT); 
-  }
-
-  //////////////////////////////
   //! userlevel=Advanced
   //: Process handle base.
   // A process performs a transformation on a data stream. This base
@@ -164,12 +144,12 @@ namespace RavlN {
   public:
     DPProcessBaseC() 
       : DPEntityC(true)
-      {}
+    {}
     //: Default constructor.
     
     DPProcessBaseC(const DPProcessBaseC &oth) 
       : DPEntityC(oth)
-      {}
+    {}
     //: Copy constructor.
     
     DPProcessBaseC(const RCAbstractC &abst);
@@ -178,42 +158,43 @@ namespace RavlN {
     DPProcessBaseC(istream &in);
     //: Stream constructor.
     
-    ~DPProcessBaseC() {}
+    ~DPProcessBaseC() 
+    {}
     //: Destructor.
     
   protected:
     DPProcessBaseC(DPProcessBaseBodyC &oth) 
       : DPEntityC(oth)
-      {}
+    {}
     //: Body constructor.
     
     inline DPProcessBaseBodyC &Body() 
-      { return static_cast<DPProcessBaseBodyC & > (DPEntityC::Body()); }
+    { return static_cast<DPProcessBaseBodyC & > (DPEntityC::Body()); }
     //: Access body.
     
     inline const DPProcessBaseBodyC &Body() const
-      { return static_cast<const DPProcessBaseBodyC & > (DPEntityC::Body()); }
+    { return static_cast<const DPProcessBaseBodyC & > (DPEntityC::Body()); }
     //: Access body.
     
   public:
     inline const type_info &InputType() const 
-      { return Body().InputType(); }
+    { return Body().InputType(); }
     //: Get input type.
     
     inline const type_info &OutputType() const 
-      { return Body().OutputType(); }
+    { return Body().OutputType(); }
     //: Get input type.  
     
     inline bool IsStateless() const 
-      { return Body().IsStateless(); }
+    { return Body().IsStateless(); }
     //: Is operation stateless ?
     
     inline DPProcessBaseBodyC::ProcTypeT OpType() const 
-      { return Body().OpType(); }
+    { return Body().OpType(); }
     //: Operation type lossy/lossless.
     
     inline const DPProcessBaseC &operator= (const DPProcessBaseC &oth) 
-      { DPEntityC::operator= (oth); return *this; }
+    { DPEntityC::operator= (oth); return *this; }
     //: Assignment operator.
     
   };
@@ -234,37 +215,37 @@ namespace RavlN {
     
     DPProcessC(const DPProcessC<InT,OutT> &oth)
       : DPProcessBaseC(oth)
-      {}
+    {}
     //: Copy constructor.
 
   protected:  
     DPProcessC(DPProcessBodyC<InT,OutT> &bod)
       : DPProcessBaseC(bod)
-      {}
+    {}
     //: Body constructor.
     
     inline DPProcessBodyC<InT,OutT> &Body() 
-      { return dynamic_cast<DPProcessBodyC<InT,OutT> & > (DPEntityC::Body()); }
+    { return dynamic_cast<DPProcessBodyC<InT,OutT> & > (DPEntityC::Body()); }
     //: Access body.
     
     inline const DPProcessBodyC<InT,OutT> &Body() const
-      { return dynamic_cast<const DPProcessBodyC<InT,OutT> & > (DPEntityC::Body()); }
+    { return dynamic_cast<const DPProcessBodyC<InT,OutT> & > (DPEntityC::Body()); }
     //: Access body.
     
   public:  
     DPProcessC(const RCAbstractC &abst) 
       : DPProcessBaseC(abst) 
-      { CheckHandleType(Body()); }
+    { CheckHandleType(Body()); }
     //: Constructor from an abstract handle.
     
     DPProcessC(const DPProcessBaseC &base) 
       : DPProcessBaseC(base) 
-      { CheckHandleType(Body()); }
+    { CheckHandleType(Body()); }
     //: Base constructor.
     
     DPProcessC(istream &in)
       : DPProcessBaseC(in) 
-      { CheckHandleType(Body()); }
+    { CheckHandleType(Body()); }
     //: Stream constructor.
     
     inline OutT Apply(const InT &dat) { return Body().Apply(dat); }
@@ -273,7 +254,7 @@ namespace RavlN {
     // clear at the moment.
   
     inline IntT ApplyArray(const SArray1dC<InT> &in,SArray1dC<OutT>  &out)
-      { return Body().ApplyArray(in,out); }
+    { return Body().ApplyArray(in,out); }
     //: Apply operation to an array of elements.
     // returns the number of elements processed.
     
@@ -281,11 +262,11 @@ namespace RavlN {
     //: Streaming version.
     
     inline const DPProcessC<InT,OutT> operator= (const DPProcessC<InT,OutT> &in) 
-      { DPProcessBaseC::operator= (in); return *this; }
+    { DPProcessBaseC::operator= (in); return *this; }
     //: Assignment operator
     
     inline const DPProcessC<InT,OutT> Copy() const 
-      { return DPProcessC<InT,OutT>(static_cast<DPProcessBodyC<InT,OutT> &>(Body().Copy())); }
+    { return DPProcessC<InT,OutT>(static_cast<DPProcessBodyC<InT,OutT> &>(Body().Copy())); }
     //: Make a copy of this process.
     
     //: Some type defs.

@@ -35,7 +35,11 @@ namespace RavlN {
     : public DPEntityBodyC
   {
   public:
-    inline DPMTIOConnectBaseBodyC(bool nuseIsGetReady = true,UIntT blockSize = 1);
+    inline DPMTIOConnectBaseBodyC(bool nuseIsGetReady = true,UIntT nblockSize = 1)
+      : useIsGetReady(nuseIsGetReady),
+	terminate(false),
+	blockSize(nblockSize)
+    {}
     //: Default Constructor.
     
     bool Disconnect();
@@ -69,7 +73,11 @@ namespace RavlN {
     : public DPMTIOConnectBaseBodyC
   {
   public:
-    DPMTIOConnectBodyC(const DPIPortC<DataT> &from,const DPOPortC<DataT> &to,bool nuseIsGetReady = true,UIntT blockSize = 1);
+    DPMTIOConnectBodyC(const DPIPortC<DataT> &nfrom,const DPOPortC<DataT> &nto,bool nuseIsGetReady = true,UIntT nblockSize = 1)
+      : DPMTIOConnectBaseBodyC(nuseIsGetReady,nblockSize),
+	from(nfrom),
+	to(nto)
+    { LaunchThread(DPMTIOConnectC<DataT>(*this),&DPMTIOConnectC<DataT>::Start); }
     //: Constructor.
     
 #if RAVL_CHECK
@@ -178,12 +186,6 @@ namespace RavlN {
   
   /////////////////////////////////////////
   
-  inline DPMTIOConnectBaseBodyC::DPMTIOConnectBaseBodyC(bool nuseIsGetReady,UIntT nblockSize)
-    : useIsGetReady(nuseIsGetReady),
-      terminate(false),
-      blockSize(nblockSize)
-  {}
-  
   inline bool DPMTIOConnectBaseBodyC::Wait() {
     if(IsDisconnected())
       return true;
@@ -192,13 +194,6 @@ namespace RavlN {
   }
   
   ////////////////////////////////////////
-  
-  template<class DataT>
-  DPMTIOConnectBodyC<DataT>::DPMTIOConnectBodyC(const DPIPortC<DataT> &nfrom,const DPOPortC<DataT> &nto,bool nuseIsGetReady,UIntT nblockSize) 
-    : DPMTIOConnectBaseBodyC(nuseIsGetReady,nblockSize),
-      from(nfrom),
-      to(nto)
-  { LaunchThread(DPMTIOConnectC<DataT>(*this),&DPMTIOConnectC<DataT>::Start); }
   
   template<class DataT>
   bool DPMTIOConnectBodyC<DataT>::Start() {

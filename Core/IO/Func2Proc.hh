@@ -4,15 +4,15 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLDPFUNC2PROCESS_HEADER
-#define RAVLDPFUNC2PROCESS_HEADER 1
+#ifndef RAVL_DPFUNC2PROCESS_HEADER
+#define RAVL_DPFUNC2PROCESS_HEADER 1
 ///////////////////////////////////////////////
 //! docentry="Ravl.Core.Data Processing" 
 //! lib=RavlIO
 //! rcsid="$Id$"
 //! file="Ravl/Core/IO/Func2Proc.hh"
 //! author="Charles Galambos"
-//! date="09/07/98"
+//! date="09/07/1998"
 //! userlevel=Default
 
 #include "Ravl/DP/Process.hh"
@@ -28,11 +28,11 @@ namespace RavlN {
   {
   public:
     DPFunc2ProcBodyC() //FuncT nfunc
-      {}
+    {}
     //: Constructor.
     
     virtual OutT Apply(const InT &dat) 
-      { return Func(dat); }
+    { return Func(dat); }
     //: Apply operation.
 
     virtual IntT ApplyArray(const SArray1dC<InT> &in,SArray1dC<OutT> &out) {
@@ -44,7 +44,7 @@ namespace RavlN {
     //: Apply operation to an array.
     
     virtual bool IsStateless() const 
-      { return true; }
+    { return true; }
     //: Is operation stateless ?
     
   protected:
@@ -61,7 +61,7 @@ namespace RavlN {
   public:
     DPFunc2ProcC() // DPFunc2ProcBodyC<InT,OutT>::FuncT func
       : DPProcessC<InT,OutT>(*new DPFunc2ProcBodyC<InT,OutT,Func>())
-      {}
+    {}
     //: Default constructor.
   };
     

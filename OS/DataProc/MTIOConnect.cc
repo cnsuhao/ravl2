@@ -45,8 +45,9 @@ namespace RavlN {
   //: Generate an event handle 
   // It indicates the completion of processing.
   
-  DPEventC DPMTIOConnectBaseBodyC::EventComplete()
-  { return DPEventC(*new DPEventCompleteMTIOConnectBodyC(DPMTIOConnectBaseC(*this))); }
+  DPEventC DPMTIOConnectBaseBodyC::EventComplete() { 
+    return DPEventC(*new DPEventCompleteMTIOConnectBodyC(DPMTIOConnectBaseC(*this))); 
+  }
   
   //: Stop connection.
   

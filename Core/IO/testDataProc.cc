@@ -15,6 +15,7 @@
 #include "Ravl/DP/SplitO.hh"
 #include "Ravl/DP/FileIO.hh"
 #include "Ravl/DP/Compose.hh"
+#include "Ravl/DP/FuncP2Proc.hh"
 #include "Ravl/DP/ContainerIO.hh"
 #include "Ravl/StrStream.hh"
 
@@ -23,6 +24,7 @@ using namespace RavlN;
 int testSimple(); 
 int testMultiplex();
 int testContainerIO();
+int testCompose(); 
 
 int main(int nargs,char **argv) {
   int ln;
@@ -31,6 +33,10 @@ int main(int nargs,char **argv) {
     return 1;
   }
   if((ln = testMultiplex()) != 0) {
+    cerr << "Error in testMultiplex(), Line:" << ln << "\n";
+    return 1;
+  }
+  if((ln = testCompose()) != 0) {
     cerr << "Error in testMultiplex(), Line:" << ln << "\n";
     return 1;
   }
@@ -62,6 +68,29 @@ int testContainerIO() {
   if(lst2.Size() != 3) return __LINE__;
   if(lst2.First() != lst1.First()) return __LINE__;
   if(lst2.Last() != lst1.Last()) return __LINE__;
+  return 0;
+}
+
+IntT Trans1(const IntT &v1)
+{ return v1 + 1; }
+
+IntT Trans2(const IntT &v1)
+{ return v1 + 2; }
+
+int testCompose() {  
+  DListC<IntT> lst1;
+  DListC<IntT> lst2;
+  lst1.InsLast(1);
+  lst1.InsLast(2);
+  lst1.InsLast(3);
+  
+  DPIContainer(lst1) >> Process(Trans1) >> Process(Trans2) >> DPOContainer(lst2);
+  
+  if(lst2.Size() != 3) return __LINE__;
+  if(lst2.First() != lst1.First() + 3) return __LINE__;
+  if(lst2.Last() != lst1.Last() + 3) return __LINE__;
+  
+  Process(Trans1) >> Process(Trans2);
   return 0;
 }
 
