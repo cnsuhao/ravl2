@@ -9,10 +9,10 @@
 ///////////////////////////////////////////////////
 //! docentry="Ravl.GUI.3D"
 //! rcsid="$Id$"
-//! file="Ravl/GUI/3D/DTriMesh3D.hh"
+//! file="Ravl/GUI/3D/DPointSet3D.hh"
 //! lib=RavlGUI3D
-//! author="James Smith"
-//! date="2/4/2001"
+//! author="Joel Mitchelson"
+//! date="31/1/2002"
 
 #include "Ravl/GUI/DObject3D.hh"
 #include "Ravl/3D/PointSet.hh"
