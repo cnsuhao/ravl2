@@ -42,9 +42,9 @@ namespace RavlN
   public:
     ConditionalMutexC() 
 #if RAVL_HAVE_PTHREAD_COND 
-      { if(pthread_cond_init(&cond,0)) 
-	  Error("pthread_cond_init failed. \n");
-      }
+    { if(pthread_cond_init(&cond,0)) 
+      Error("pthread_cond_init failed. \n");
+    }
 #else
     ;
 #endif
@@ -55,7 +55,7 @@ namespace RavlN
 
     void Broadcast()
 #if RAVL_HAVE_PTHREAD_COND 
-      { pthread_cond_broadcast(&cond); }
+    { pthread_cond_broadcast(&cond); }
 #else
     ;
 #endif
@@ -64,7 +64,7 @@ namespace RavlN
     
     void Signal() 
 #if RAVL_HAVE_PTHREAD_COND 
-      { pthread_cond_signal(&cond); }
+    { pthread_cond_signal(&cond); }
 #else
     ;
 #endif
@@ -73,7 +73,7 @@ namespace RavlN
     
     void Wait()
 #if RAVL_HAVE_PTHREAD_COND 
-      { pthread_cond_wait(&cond,&mutex); }
+    { pthread_cond_wait(&cond,&mutex); }
 #else
     ;
 #endif
