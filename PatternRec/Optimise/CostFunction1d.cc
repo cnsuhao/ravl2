@@ -15,10 +15,10 @@ namespace RavlN {
                                             const CostC &cost,
                                             const VectorC &point,
                                             const VectorC &direction)
-    :CostBodyC(parameters),
-     _cost(cost),
-     _point(point),
-     _direction(direction)
+    : CostBodyC(parameters),
+      _cost(cost),
+      _point(point),
+      _direction(direction)
   {
     RavlAssert (_point.Size() == _direction.Size() == _cost.OutputSize());
   }

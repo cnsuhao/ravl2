@@ -4,13 +4,15 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
+//! rcsid="$Id$"
+//! lib=Optimisation
+//! file="Ravl/PatternRec/Optimise/OptimiseDescent.cc"
+
 #include "Ravl/PatternRec/OptimisePowell.hh"
 #include "Ravl/StrStream.hh"
 #include "Ravl/PatternRec/CostFunction1d.hh"
 #include "Ravl/PatternRec/BracketMinimum.hh"
-//! rcsid="$Id$"
-//! lib=Optimisation
-//! file="Ravl/PatternRec/Optimise/OptimiseDescent.cc"
+#include "Ravl/SArray1dIter4.hh"
 
 namespace RavlN {
 
@@ -67,6 +69,28 @@ namespace RavlN {
       indexOfBiggest = 0;
       valueOfBiggest = 0.0;
       for (SArray1dIterC<VectorC> it(Di); it; it++) {
+#if 1
+	// Find the domain limits along the direction vector.
+	
+	RealT min = -RavlConstN::maxReal;
+	RealT max = RavlConstN::maxReal;
+	for(SArray1dIter4C<RealT,RealT,RealT,RealT> lit(*it,P,domain.MinX(),domain.MaxX());lit;lit++) {
+	  if(lit.Data1() == 0.0)
+	    continue; // Avoid division by zero.
+	  RealT maxv = (lit.Data3() - lit.Data2()) / lit.Data1();
+	  RealT minv = (lit.Data2() - lit.Data4()) / lit.Data1();
+	  if(minv > maxv)
+	    Swap(minv,maxv);
+	  if(max > maxv)
+	    max = maxv;
+	  if(minv > min)
+	    min = minv;
+	}
+	_parameters1d.Setup(0,min,max,1000);
+#endif
+	
+	// Minimise along line.
+	
         RealT fPlast = minimumCost;
         CostFunction1dC cost1d(_parameters1d,domain,P,*it);
         BracketMinimum(cost1d);
