@@ -56,7 +56,9 @@ namespace RavlN {
     strm >> ver;
     if(ver != 1)
       cerr << "DesignFuncLSQBodyC::DesignFuncLSQBodyC(), Unknown format version. \n";
-    strm >> order >> orthogonal;
+    int val;
+    strm >> order >> val;
+    orthogonal = (val != 0);
   }
   
   //: Writes object to stream, can be loaded using constructor
@@ -65,7 +67,7 @@ namespace RavlN {
     if(!DesignFuncLSQBodyC::Save(out))
       return false;
     char ver = 1;
-    out << ((int) ver) << ' ' << order << ' ' << orthogonal << ' ';
+    out << ((int) ver) << ' ' << order << ' ' << ((int) orthogonal) << ' ';
     return true;
   }
   
