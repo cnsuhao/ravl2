@@ -36,7 +36,8 @@ int exLMSOptic(int argc, char **argv)
 {
   // process command-line parameters
   OptionC opt(argc, argv);
-  StringC OPFileName = opt.String("o", "motion", "Output file name prefix");
+  StringC opFileName = opt.String("o", "", "Output file name prefix");
+  StringC opDisplay = opt.String("oi", "@X", "Output file name prefix");
   IntT windowSize  = opt.Int("w", 9, "Window size");
   IntT order       = opt.Int("g", 5, "Set Gaussian antialias filter order (default is Remex 2:1 antialias)");
   IntT diffOrder   = opt.Int("d", 1, "Spatial gradient difference order");
@@ -89,14 +90,18 @@ int exLMSOptic(int argc, char **argv)
   
   // compute motion
   LMSOpticFlowC motion(true);
-  motion.SetNoiseLevel(noise).SetRegionSize(windowSize).Estimate(grad, dt);
+  motion.SetNoiseLevel(noise);
+  motion.SetRegionSize(windowSize);
+  motion.Estimate(grad, dt);
   
   ImageC<ByteYUVValueC> img;
   motion.DrawMotion(image[0],img);
-  Save("@X",img);
+  if(!opDisplay.IsEmpty())
+    Save(opDisplay,img);
   //cout << motion.Eigenvalues()<<'\n';
-  OStreamC ("motion") << motion.Motion() << '\n';
-
+  if(!opFileName.IsEmpty())
+    OStreamC (opFileName) << motion.Motion() << '\n';
+  return 0;
 }
 
 RAVL_ENTRY_POINT(exLMSOptic);

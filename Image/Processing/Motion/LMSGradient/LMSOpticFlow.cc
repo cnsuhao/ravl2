@@ -15,6 +15,7 @@
 #include "Ravl/Array2dIter4.hh"
 #include "Ravl/Array2dIter2.hh"
 #include "Ravl/Array2dIter3.hh"
+#include "Ravl/Array2dIter5.hh"
 #include "Ravl/Array2dIter7.hh"
 #include "Ravl/StdMath.hh"
 #include "Ravl/Stream.hh"
@@ -23,11 +24,13 @@
 #include "Ravl/Pair.hh"
 #include "Ravl/Image/SumRectangles.hh"
 #include "Ravl/Image/ScaleValues.hh"
+#include "Ravl/Image/SpatialDifference.hh"
 
 namespace RavlImageN {
 
   // computes the LMS fit from the various sums of squares
-  static inline Vector2dC LMSRegressionEngine(const Matrix2dC &A, 
+  inline
+  static Vector2dC LMSRegressionEngine(const Matrix2dC &A, 
 					      const Vector2dC &b, 
 					      RealT dt_sq, // inputs
 					      RealT noise, 
@@ -75,13 +78,11 @@ namespace RavlImageN {
     ImageC<RealT> dt_sq (rect);
     
     // grad_t = grad * -dt
-    for(Array2dIter4C<Vector2dC,Vector2dC,RealT,RealT> it(grad_t,grad,dt,dt_sq,rect);it;it++) {
-      it.Data1() = it.Data2() * -it.Data3();
+    for(Array2dIter5C<Vector2dC,Vector2dC,RealT,RealT,Matrix2dC> it(grad_t,grad,dt,dt_sq,grad_grad,rect);it;it++) {
+      Mul(it.Data2(),-it.Data3(),it.Data1());
+      it.Data2().OuterProduct(it.Data5());
       it.Data4() = Sqr(it.Data3());
     }
-    
-    for(Array2dIter2C<Matrix2dC,Vector2dC> it(grad_grad,grad);it;it++)
-      it.Data2().OuterProduct(it.Data1());
     
     // find the sums of products
     // ======================
@@ -157,8 +158,8 @@ namespace RavlImageN {
       it.Data2() = it.Data3() - it.Data4();
     }
     
-    //ImageC<Vector2dC> grad (IPGradientC(grad_order).Apply(aver));
     ImageC<Vector2dC> grad;
+    SpatialDifference(grad_order,aver,grad);
     
     // compute motion from spatial gradient and frame difference
     return Estimate(grad, diff);
