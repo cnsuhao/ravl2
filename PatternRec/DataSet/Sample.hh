@@ -7,11 +7,15 @@
 #ifndef RAVLSAMPLE_HEADER
 #define RAVLSAMPLE_HEADER 1
 //! rcsid="$Id$"
+//! author="Kieron Messer"
+//! docentry="Ravl.Pattern Recognition.Data Set"
 
 #include"Ravl/Collection.hh"
 
-
 namespace RavlN {
+  
+  //! userlevel=Normal
+  //: Sample of DataT's
   
   template <class DataT> 
   class SampleC 

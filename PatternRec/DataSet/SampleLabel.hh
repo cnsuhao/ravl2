@@ -7,6 +7,8 @@
 #ifndef RAVLSAMPLELABEL_HEADER
 #define RAVLSAMPLELABEL_HEADER 1
 //! rcsid="$Id$"
+//! author="Kieron Messer"
+//! docentry="Ravl.Pattern Recognition.Data Set"
 
 #include"Ravl/PatternRec/Sample.hh"
 #include"Ravl/Vector.hh"
@@ -14,11 +16,12 @@
 
 namespace RavlN {
   
+  //! userlevel=Normal
+  //: Sample of labels.
   
   class SampleLabelC 
     : public SampleC<UIntT>
   {
-    
   public:
     SampleLabelC(SizeT maxSize=10)
       : SampleC<UIntT>(maxSize)

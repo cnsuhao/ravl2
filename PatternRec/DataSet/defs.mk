@@ -11,10 +11,11 @@ PACKAGE = Ravl/PatternRec
 
 HEADERS = Sample.hh SampleVector.hh SampleLabel.hh DataSet1.hh
 
-SOURCES = 
+SOURCES = SampleVector.cc SampleLabel.cc
 
 MAINS = exSample.cc
 
-USESLIBS=RavlCore
+PLIB = RavlPatternRec
 
-#PLIB = RavlPatternRec
+USESLIBS=RavlCore RavlMath
+

@@ -7,13 +7,16 @@
 #ifndef RAVLSAMPLEVECTOR_HEADER
 #define RAVLSAMPLEVECTOR_HEADER 1
 //! rcsid="$Id$"
+//! author="Kieron Messer"
+//! docentry="Ravl.Pattern Recognition.Data Set"
 
 #include"Ravl/PatternRec/Sample.hh"
 #include"Ravl/Vector.hh"
 
-
 namespace RavlN {
   
+  //! userlevel=Normal
+  //: Sample of vectors.
   
   class SampleVectorC 
     : public SampleC<VectorC>
@@ -30,7 +33,8 @@ namespace RavlN {
       {}
     //: Create a sample of data from an array
     
-    
+    VectorC Mean();
+    //: Find the mean vector.
     
   }; // end of class SampleVectorC 
   

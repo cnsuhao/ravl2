@@ -12,8 +12,7 @@
 
 using namespace RavlN;
 
-
-int main(){
+int main() {
 
   
   SampleVectorC input;
