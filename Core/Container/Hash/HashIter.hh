@@ -18,8 +18,10 @@
 
 #include "Ravl/Hash.hh"
 
+
 namespace RavlN {
   
+  template<class K, class T> class RCHashC ; 
   //: Hash table iterator.
   // This iterator works with both HashC and RCHashC. <p>
   // Small object !
@@ -37,13 +39,19 @@ namespace RavlN {
     { First(); }
     // Normal constructor.
     
+    HashIterC(const RCHashC<K,T> & nTab) 
+      : bIt(nTab.Data().table),
+	hashtable(&const_cast<HashC<K,T> &> (nTab.Data() )) 
+    { First() ; } 
+    //: Constructor from RCHash
+
     HashIterC(const HashIterC<K,T> &oth) 
       : lIt(oth.lIt), 
         bIt(oth.bIt),
 	hashtable(oth.hashtable)
     {} 
     // Copy constructor.
-    
+
     bool First(void)  { 
       bIt.First(); 
       RavlAssert(bIt);
