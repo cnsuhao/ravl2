@@ -75,6 +75,11 @@ namespace RavlGUIN {
     void Lower();
     //: Lowers the window
 
+    void Maximise(bool& maximise);
+    //: Maximise the window - requires GTK >= 2
+    // maximise=true  : maximise
+    // maximise=false : unmaximise
+
     void SetModal(bool& modal);
     //: Makes the window modal
 
@@ -118,6 +123,11 @@ namespace RavlGUIN {
 
     bool GUILower();
     //: Lowers the window
+
+    bool GUIMaximise(bool& maximise);
+    //: Maximise the window - requires GTK >= 2
+    // maximise=true  : maximise
+    // maximise=false : unmaximise
 
     bool GUISetModal(bool& modal);
     //: Makes the window modal
@@ -213,6 +223,12 @@ namespace RavlGUIN {
     { return Body().GUILower(); }
     //: Lowers the window
 
+    bool GUIMaximise(bool& maximise)
+    { return Body().GUIMaximise(maximise); }
+    //: Maximise the window - requires GTK >= 2
+    // maximise=true  : maximise
+    // maximise=false : unmaximise
+
     bool GUISetModal(bool& modal) 
     { return Body().GUISetModal(modal); }
     //: Makes the window modal
@@ -240,6 +256,12 @@ namespace RavlGUIN {
     void Lower() 
     { Body().Lower(); }
     //: Lowers the window
+
+    void Maximise(bool& maximise)
+    { Body().Maximise(maximise); }
+    //: Maximise the window - requires GTK >= 2
+    // maximise=true  : maximise
+    // maximise=false : unmaximise
 
     void SetModal(bool& modal)
     { Body().SetModal(modal); }

@@ -15,6 +15,10 @@
 #include "Ravl/CallMethods.hh"
 #include <gtk/gtk.h>
 
+#ifndef RAVL_USE_GTK2
+#include <gdk/gdkx.h>
+#endif
+
 #define DODEBUG 0
 
 #if DODEBUG
@@ -232,6 +236,26 @@ namespace RavlGUIN {
   bool WindowBodyC::GUILower() {
     if (widget!=0)
       gdk_window_lower(widget->window);
+    return true;
+  }
+
+  void WindowBodyC::Maximise(bool& maximise) {
+#ifdef RAVL_USE_GTK2      
+    Manager.Queue(Trigger(WindowC(*this),&WindowC::GUIMaximise,maximise));
+#endif
+  }
+
+  bool WindowBodyC::GUIMaximise(bool& maximise) {
+#ifdef RAVL_USE_GTK2      
+    if (widget!=0) {
+      if (maximise) {
+	gtk_window_maximize(GTK_WINDOW(widget));
+      }
+      else {
+	gtk_window_unmaximize(GTK_WINDOW(widget));
+      }
+    }
+#endif
     return true;
   }
 
