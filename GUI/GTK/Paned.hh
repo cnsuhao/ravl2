@@ -4,14 +4,14 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLGUI_ONECHILD_HEADER 
-#define RAVLGUI_ONECHILD_HEADER 1
+#ifndef RAVLGUI_PANED_HEADER 
+#define RAVLGUI_PANED_HEADER 1
 /////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlGUI
-//! docentry="Ravl.GUI.Internal"
+//! docentry="Ravl.GUI.Layout"
 //! author="Charles Galambos"
-//! file="Ravl/GUI/GTK/OneChild.hh"
+//! file="Ravl/GUI/GTK/Paned.hh"
 //! date="08/04/1999"
 
 #include "Ravl/GUI/Widget.hh"
@@ -22,28 +22,31 @@ namespace RavlGUIN {
   //: Base class for all widgets with exactly one child.
   // This is an abstract class.
   
-  class OneChildBodyC 
+  class PanedBodyC 
     : public WidgetBodyC
   {
   public:
-    OneChildBodyC(const WidgetC &widge);
+    PanedBodyC(const WidgetC &widge1,const WidgetC &widge2,bool vertical = false);
     //: Constructor.
     
-    OneChildBodyC()
+    PanedBodyC()
     {}
-    //: Constructor.
+    //: Default constructor.
     
     virtual bool Create();
     //: Create the widget.
     
-    const WidgetC &Child() const { return child; }
+    const WidgetC &Child1() const { return child1; }
     //: Access window contents;
     
-    WidgetC &Child() { return child; }
+    WidgetC &Child1() { return child1; }
+    //: Access window contents;
+
+    const WidgetC &Child2() const { return child2; }
     //: Access window contents;
     
-    bool Add(const WidgetC &nchild);
-    //: Add widget.
+    WidgetC &Child2() { return child2; }
+    //: Access window contents;
     
   protected:
     virtual void Destroy();
@@ -54,29 +57,37 @@ namespace RavlGUIN {
     // The function is called by the root window in its
     // destructor.
     
-    WidgetC child;
+    WidgetC child1;
+    WidgetC child2;
+    bool vertical;
   };
   
   //! userlevel=Normal
   //: Base class for all widgets with exactly one child.
   // This is an abstract class.
   
-  class OneChildC
+  class PanedC
     : public WidgetC
   {
   public:
-    OneChildC()
+    PanedC()
+    {}
+    //: Default constructor.
+    // Creates an invalid handle.
+
+    PanedC(WidgetC &child1,WidgetC &child2,bool vertical = false)
+      : WidgetC(*new PanedBodyC(child1,child2,vertical))
     {}
     //: Default constructor.
     // Creates an invalid handle.
 
   protected:
-    OneChildC(OneChildBodyC &bod)
+    PanedC(PanedBodyC &bod)
       : WidgetC(bod)
     {}
     //: Body constructor
 
-    OneChildC(WidgetC &bod)
+    PanedC(WidgetC &bod)
       : WidgetC(bod)
     {
       if(dynamic_cast<WidgetBodyC *>(&WidgetC::Body()) == 0)
@@ -86,23 +97,21 @@ namespace RavlGUIN {
     // If object is of wrong type an invalid handle will be
     // created.
     
-    OneChildBodyC &Body() 
-    { return static_cast<OneChildBodyC &>(WidgetC::Body()); }
+    PanedBodyC &Body() 
+    { return static_cast<PanedBodyC &>(WidgetC::Body()); }
     //: Access body.
     
-    const OneChildBodyC  &Body() const
-    { return static_cast<const OneChildBodyC &>(WidgetC::Body()); }
+    const PanedBodyC  &Body() const
+    { return static_cast<const PanedBodyC &>(WidgetC::Body()); }
     //: Access body.
     
   public:
+    const WidgetC &Child1() const 
+    { return Body().Child1(); }
+    //: Access window contents;
     
-    bool Add(const WidgetC &widge) 
-    { return Body().Add(widge); }
-    //: Add widget.
-    // Only has effect before create is called.
-    
-    const WidgetC &Child() const 
-    { return Body().Child(); }
+    const WidgetC &Child2() const 
+    { return Body().Child2(); }
     //: Access window contents;
   };
 

@@ -4,13 +4,13 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLGUINOTEBOOK_HEADER
-#define RAVLGUINOTEBOOK_HEADER 1
+#ifndef RAVLGUI_NOTEBOOK_HEADER
+#define RAVLGUI_NOTEBOOK_HEADER 1
 ////////////////////////////////////////////
 //! file="Ravl/GUI/GTK/Notebook.hh"
 //! lib=RavlGUI
 //! author="Charles Galambos"
-//! date="23/03/99"
+//! date="23/03/1999"
 //! rcsid="$Id$"
 //! example=exNotebook.cc
 //! docentry="Ravl.GUI.Layout"
@@ -87,7 +87,7 @@ namespace RavlGUIN
     bool showtabs;
     
     friend class NotebookC;
-    };
+  };
   
   //! userlevel=Normal
   //: Notebook
@@ -113,7 +113,7 @@ namespace RavlGUIN
     NotebookC(const WidgetC &widges,GtkPositionType ntabpos = GTK_POS_TOP,bool nshowtabs = true,bool nshowborder = true)
       : ContainerWidgetC(*new NotebookBodyC(widges,ntabpos,nshowtabs,nshowborder))
     {}
-  //: Constructor
+    //: Constructor
   
   protected:
     NotebookC(NotebookBodyC &bod)
@@ -122,52 +122,52 @@ namespace RavlGUIN
     //: Body construcotr.
   
     NotebookBodyC &Body() 
-      { return static_cast<NotebookBodyC &>(WidgetC::Body()); }
+    { return static_cast<NotebookBodyC &>(WidgetC::Body()); }
     //: Access body.
 
     const NotebookBodyC &Body() const
-      { return static_cast<const NotebookBodyC &>(WidgetC::Body()); }
+    { return static_cast<const NotebookBodyC &>(WidgetC::Body()); }
     //: Access body.
     
   public:
     bool GUISetTab(const WidgetC &parent,const WidgetC &tabw)
-      { return Body().GUISetTab(parent,tabw); }
+    { return Body().GUISetTab(parent,tabw); }
     //: Setup tab widgets.
 
     bool GUIRemovePage(IntT &pageNo)
-      { return Body().GUIRemovePage(pageNo); }
+    { return Body().GUIRemovePage(pageNo); }
     //: Remove page number 'pageNo'
     // GUI Thread only.
     
     void RemovePage(IntT &pageNo)
-      { Body().RemovePage(pageNo); }
+    { Body().RemovePage(pageNo); }
     //: Remove page number 'pageNo'
 
     bool GUIRemovePageW(WidgetC &page)
-      { return Body().GUIRemovePageW(page); }
+    { return Body().GUIRemovePageW(page); }
     //: Remove page by widget.
     // GUI Thread only.
     
     void RemovePage(WidgetC &page)
-      { Body().RemovePage(page); }
+    { Body().RemovePage(page); }
     //: Remove page by widget.
     
     bool GUIAppendPage(WidgetC &page,WidgetC &tab)
-      { return Body().GUIAppendPage(page,tab); }
+    { return Body().GUIAppendPage(page,tab); }
     //: Append a new page.
     // GUI Thread only.
     
     void AppendPage(const WidgetC &page,const WidgetC &tab)
-      { Body().AppendPage(page,tab); }
+    { Body().AppendPage(page,tab); }
     //: Append a new page.
     
     bool GUIShowPage(WidgetC &page)
-      { return Body().GUIShowPage(page); }
+    { return Body().GUIShowPage(page); }
     //: Show a page from the notebook.
     // GUI Thread only.
     
     void ShowPage(WidgetC &page)
-      { Body().ShowPage(page); }
+    { Body().ShowPage(page); }
     //: Show a page from the notebook.
     
     friend class NotebookBodyC;

@@ -4,13 +4,13 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLGUICWIDGET_HEADER
-#define RAVLGUICWIDGET_HEADER 1
+#ifndef RAVLGUI_CWIDGET_HEADER
+#define RAVLGUI_CWIDGET_HEADER 1
 ////////////////////////////////////////////////////
 //! file="Ravl/GUI/GTK/CWidget.hh"
 //! lib=RavlGUI
 //! author="Charles Galambos"
-//! date="23/03/99"
+//! date="23/03/1999"
 //! rcsid="$Id$"
 //! docentry="Ravl.GUI.Internal"
 
@@ -28,12 +28,12 @@ namespace RavlGUIN {
   {
   public:
     ContainerWidgetBodyC()
-      {}
+    {}
     //: Default constructor.
     
     ContainerWidgetBodyC(const DListC<WidgetC> &widges)
       : children(widges)
-      {}
+    {}
     //: Constructor.
     
     virtual bool Create();
@@ -75,51 +75,51 @@ namespace RavlGUIN {
   {
   public:
     ContainerWidgetC()
-      {}
+    {}
     //: Default constructor.
     
   protected:
     ContainerWidgetC(ContainerWidgetBodyC &body)
       : WidgetC(body)
-      {}
+    {}
     //: Body constructor.
 
     ContainerWidgetC(WidgetC &body)
       : WidgetC(body)
-      {
-	if(dynamic_cast<ContainerWidgetBodyC *>(&WidgetC::Body()) == 0)
-	  Invalidate();
-      }
+    {
+      if(dynamic_cast<ContainerWidgetBodyC *>(&WidgetC::Body()) == 0)
+	Invalidate();
+    }
     //: Base constructor.
     
     ContainerWidgetBodyC &Body() 
-      { return static_cast<ContainerWidgetBodyC &>(WidgetC::Body()); }
+    { return static_cast<ContainerWidgetBodyC &>(WidgetC::Body()); }
     //: Access body.
     
     const ContainerWidgetBodyC &Body() const
-      { return static_cast<const ContainerWidgetBodyC &>(WidgetC::Body()); }
+    { return static_cast<const ContainerWidgetBodyC &>(WidgetC::Body()); }
     //: Access body.
     
     bool GUIAdd(WidgetC &widge)
-      { return Body().GUIAdd(widge); }
+    { return Body().GUIAdd(widge); }
     //: Add widget.
     // GUI thread only.
     
   public:  
     bool Add(const WidgetC &widge)
-      { return Body().Add(widge); }
+    { return Body().Add(widge); }
     //: Add child widget.
 
     bool Remove(WidgetC &widge)
-      { return Body().Remove(widge); }
+    { return Body().Remove(widge); }
     //: Remove child widget.
     
     bool Add(const DListC<WidgetC> &widges)
-      { return Body().Add(widges); }
+    { return Body().Add(widges); }
     //: Add child widget.
     
     bool operator+=(const WidgetC &widge)
-      { return Body().Add(widge); }
+    { return Body().Add(widge); }
     //: Add child widget.
     
     friend class ContainerWidgetBodyC;

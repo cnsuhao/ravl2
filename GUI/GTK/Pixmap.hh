@@ -4,13 +4,13 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLGUIPIXMAP_HEADER
-#define RAVLGUIPIXMAP_HEADER 1
+#ifndef RAVLGUI_PIXMAP_HEADER
+#define RAVLGUI_PIXMAP_HEADER 1
 ////////////////////////////////////////////////////
 //! file="Ravl/GUI/GTK/Pixmap.hh"
 //! lib=RavlGUI
 //! author="Charles Galambos"
-//! date="23/03/99"
+//! date="23/03/1999"
 //! docentry="Ravl.GUI.Layout"
 //! rcsid="$Id$"
 
@@ -50,6 +50,12 @@ namespace RavlGUIN {
     { return mask; }
     //: Access pixmap mask.
     
+    bool GUIGetSize(int &width,int &height);
+    //: Get size of pixmap.
+    // Will return false and leave 'width' and 'height' unchanged
+    // if unknown (The pixmap is unallocated. )
+    // Call only with the GUI thread.
+    
   protected:
     WidgetC rootWin;  // Handle to root win, invalidated after Create.
     GdkPixmap *pixmap;  
@@ -71,12 +77,12 @@ namespace RavlGUIN {
   public:
     PixmapC(const WidgetC &rootWin,char **data)
       : WidgetC(*new PixmapBodyC((const char **) data,rootWin))
-      {}
+    {}
     //: Constructor
     
     PixmapC(const WidgetC &rootWin,const StringC &filename)
       : WidgetC(*new PixmapBodyC(filename,rootWin))
-      {}
+    {}
     //: Constructor
     
     explicit PixmapC(char **data)
@@ -85,7 +91,7 @@ namespace RavlGUIN {
     //: Constructor
     
     explicit PixmapC(const StringC &filename)
-    : WidgetC(*new PixmapBodyC(filename))
+      : WidgetC(*new PixmapBodyC(filename))
     {}
     //: Constructor
     
@@ -101,11 +107,11 @@ namespace RavlGUIN {
     
   protected:
     PixmapBodyC &Body()
-      { return static_cast<PixmapBodyC &>(WidgetC::Body()); }
+    { return static_cast<PixmapBodyC &>(WidgetC::Body()); }
     //: Access body.
     
     const PixmapBodyC &Body() const
-      { return static_cast<const PixmapBodyC &>(WidgetC::Body()); }
+    { return static_cast<const PixmapBodyC &>(WidgetC::Body()); }
     //: Access body.
     
   public:
@@ -117,6 +123,12 @@ namespace RavlGUIN {
     { return Body().Mask(); }
     //: Access pixmap mask.
     
+    bool GUIGetSize(int &width,int &height)
+    { return Body().GUIGetSize(width,height); }
+    //: Get size of pixmap.
+    // Will return false and leave 'width' and 'height' unchanged
+    // if unknown (The pixmap is unallocated. )
+    // Call only with the GUI thread.
   };
   
   extern const char * xpmData_OpenFile[];

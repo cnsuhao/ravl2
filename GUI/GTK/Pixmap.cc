@@ -101,6 +101,15 @@ namespace RavlGUIN {
     return true;
   }
   
+  //: Get size of pixmap.
+  // Will return false if unknown. 
+  
+  bool PixmapBodyC::GUIGetSize(int &width,int &height) {
+    if(pixmap == 0)
+      return false;
+    gdk_window_get_size(pixmap,&width,&height);
+    return true;
+  }
   
   /* XPM data of Open-File icon */
   const char * xpmData_OpenFile[] = {
