@@ -48,6 +48,9 @@ namespace RavlN {
     
     NetAttributeCtrlBodyC(UIntT ctrlId);
     //: Constructor.
+
+    ~NetAttributeCtrlBodyC();
+    //: Destructor.
     
     bool Connect(const NetEndPointC &ep);
     //: Connect to an end point.

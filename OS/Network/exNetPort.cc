@@ -28,6 +28,7 @@ int main(int nargs,char **argv) {
   StringC address = opts.String("a","localhost:4046","Network address of server. ");
   StringC portName = opts.String("n","test","Name of port to connect to. ");
   bool client = opts.Boolean("c",false,"Create a client. ");
+  bool wait = opts.Boolean("w",false,"Wait before exiting. ");
   opts.Check();
   
   // ********************** SERVER SIDE ************************************
@@ -69,6 +70,9 @@ int main(int nargs,char **argv) {
     isp >> DPOContainer(lst2);
     
     cout << "Read data :" << lst2 << "\n";
-  }    
+    isp.Invalidate();
+  }
+  if(wait)
+    Sleep(240);
   return 0;
 }

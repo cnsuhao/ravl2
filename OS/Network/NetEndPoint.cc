@@ -104,7 +104,7 @@ namespace RavlN {
   //: Destructor.
   
   NetEndPointBodyC::~NetEndPointBodyC() {
-    //SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::~NetEndPointBodyC(), Called. \n";
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::~NetEndPointBodyC(), Called. " << (void *) this);
     setupComplete.Post(); // Make sure nothings waiting for setup to complete.
   }
   
@@ -120,7 +120,7 @@ namespace RavlN {
     if(msgReg.IsElm(nmsg.Id())) {
       NetMsgRegisterC oldMsg;
       msgReg.Lookup(nmsg.Id(),oldMsg);
-      SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::Register(), WARNING: Overriding handling of message id:" << nmsg.Id() << " Name=" << nmsg.Name() << " Old name=" << oldMsg.Name() << "\n";
+      SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::Register(), WARNING: Overriding handling of message id:" << nmsg.Id() << " Name=" << nmsg.Name() << " Old name=" << oldMsg.Name();
     }
 #endif
     msgReg[nmsg.Id()] = nmsg;
@@ -154,11 +154,13 @@ namespace RavlN {
   }
   
   bool NetEndPointBodyC::Init(SocketC &nskt) {
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::Init(), Called. " << (void *) this);
     skt = nskt;
     if(!skt.IsOpen()) {
-      ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::Init(), Socket not opened. \n");
+      ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::Init(), Socket not opened. ");
       return false;
     }
+    skt.SetNonBlocking(true); // Make socket non-blocking.
     
     RegisterR(1,StringC("Init"),*this,&NetEndPointBodyC::MsgInit);
     
@@ -232,6 +234,7 @@ namespace RavlN {
   //: Close connection.
   
   bool NetEndPointBodyC::Close() {
+    ONDEBUG(SysLog(SYSLOG_ERR) << "NetEndPointBodyC::Close(), Called shutdown=" << shutdown << " RefCount=" << References());
     if(!shutdown) {
       MutexLockC lock(accessMsgReg);
       shutdown = true;
@@ -252,7 +255,7 @@ namespace RavlN {
     skt.SetNoDelay(); // Send packets asap.
     int wfd = skt.Fd();
     if(wfd < 0) {
-      SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), ERROR: No connection. \n";    
+      SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), ERROR: No connection. ";
       return false;       
     }
 #if RAVL_BINSTREAM_ENDIAN_LITTLE
@@ -260,21 +263,21 @@ namespace RavlN {
 #else
     StringC streamHeader = streamHeaderBigEndian;
 #endif
-    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunTransmit(), Sending header '" << streamHeader << "' \n");
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunTransmit(), Sending header '" << streamHeader << "' ");
     
     // Write stream header.
     if(!WriteData(wfd,streamHeader,streamHeader.Size())) {
-      SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), ERROR: Failed to write header. \n";    
+      SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), ERROR: Failed to write header. ";
       return false;
     }
     // Wait still we got a stream header from peer 
     if(!gotStreamType.Wait(30)) {
-      SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), ERROR: Timeout waiting for stream header. \n";
+      SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), ERROR: Timeout waiting for stream header. ";
       Close();
       return false;
     }
     
-    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunTransmit() Stream mode:" << streamType << "\n");
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunTransmit() Stream mode:" << streamType );
     
 #if RAVL_BINSTREAM_ENDIAN_LITTLE
     // Check peer protocol.
@@ -284,11 +287,11 @@ namespace RavlN {
       // If so, write <ABPS> header.
       useBigEndianBinStream = true;
       if(!WriteData(wfd,streamHeaderBigEndian,streamHeader.Size())) {
-	SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), ERROR: Failed to write header. \n";    
+	SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), ERROR: Failed to write header. ";
 	return false;
       }
 #else
-      SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), ERROR: Incompatible protocol. \n";
+      SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), ERROR: Incompatible protocol. ";
       Close();
       return false;
 #endif
@@ -300,18 +303,18 @@ namespace RavlN {
       // If so, write <ABPS> header.
       useBigEndianBinStream = false;
       if(!WriteData(wfd,streamHeaderBigEndian,streamHeader.Size())) {
-	SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), ERROR: Failed to write header. \n";    
+	SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), ERROR: Failed to write header. ";    
 	return false;
       }
 #else
-      SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), ERROR: Incompatible protocol. \n";
+      SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), ERROR: Incompatible protocol. ";
       Close();
       return false;
 #endif
     }
 #endif
     
-    ONDEBUG(SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), Starting transmit loop. \n");
+    ONDEBUG(SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), Starting transmit loop. ");
     try {
       while(!shutdown) {
 	NetPacketC pkt;
@@ -338,21 +341,21 @@ namespace RavlN {
 		      &(pkt.Data()[0]),pkt.Size()) // Second buffer: Data.
 	   )
 	  break;	
-	ONDEBUG(SysLog(SYSLOG_DEBUG) << "  Sent packet. \n");
+	ONDEBUG(SysLog(SYSLOG_DEBUG) << "  Sent packet. ");
       }
     } catch(ExceptionC &e) {
-      SysLog(SYSLOG_WARNING) << "RAVL Exception :'" << e.what() << "'\n";
-      SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::RunTransmit(), Exception caught, terminating link. \n";
+      SysLog(SYSLOG_WARNING) << "RAVL Exception :'" << e.what() << "' ";
+      SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::RunTransmit(), Exception caught, terminating link. ";
     } catch(exception &e) {
-      SysLog(SYSLOG_WARNING) << "C++ Exception :'" << e.what() << "'\n";
-      SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::RunTransmit(), Exception caught, terminating link. \n";
+      SysLog(SYSLOG_WARNING) << "C++ Exception :'" << e.what() << "'";
+      SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::RunTransmit(), Exception caught, terminating link. ";
     } catch(...) {
-      SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::RunTransmit(), Exception caught, terminating link. \n";
+      SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::RunTransmit(), Exception caught, terminating link. ";
     }
     //if(!nos)
-    // cerr << "NetEndPointBodyC::RunTransmit(), Connection broken \n";    
+    // cerr << "NetEndPointBodyC::RunTransmit(), Connection broken ";    
     Close();
-    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunTransmit(), Terminated \n"); 
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunTransmit(), Terminated. "); 
     return true;
   }
   
@@ -360,14 +363,30 @@ namespace RavlN {
   
   bool NetEndPointBodyC::ReadData(int nfd,char *buff,UIntT size) {
     UIntT at = 0;
+    fd_set rfds;
+    fd_set efds;
+    FD_ZERO(&rfds);
+    struct timeval tv;
     while(at < size && !shutdown) {
+#if 1
+      //ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::ReadData(), Waiting for select. ");
+      FD_SET(nfd,&rfds);
+      tv.tv_sec = 5;
+      tv.tv_usec = 0;
+      if(select(nfd+1,&rfds,0,0,&tv) == 0) {
+	//ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::ReadData(), Select timeout. ");
+	continue;
+      }
+      //ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::ReadData(), Waiting for read. Read=" << (int) FD_ISSET(nfd, &rfds) << " Except=" << (int) FD_ISSET(nfd, &efds) << "\n");
+#endif
+      
       int n = read(nfd,&(buff[at]),size - at);
       if(n == 0) { // Linux indicates a close by returning 0 bytes read.  Is this portable ??
-	ONDEBUG(SysLog(SYSLOG_DEBUG) << "Socket close. \n");
+	ONDEBUG(SysLog(SYSLOG_DEBUG) << "Socket close. ");
 	return false;
       }
       if(n < 0) {
-	ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::ReadData(), Error on read. \n");
+	ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::ReadData(), Error on read. ");
 	if(errno == EINTR || errno == EAGAIN)
 	  continue;
 #if RAVL_OS_LINUX
@@ -396,7 +415,16 @@ namespace RavlN {
     vec[1].iov_len = size2;
     UIntT at = 0;
     UIntT total = size1 + size2;
+
+    fd_set wfds;
+    FD_ZERO(&wfds);
+    
     do {
+#if 1
+      FD_SET(nfd,&wfds);
+      if(select(nfd+1,0,&wfds,0,0) == 0)
+	continue;
+#endif
       at = writev(nfd,vec,2);
       if(at > 0)
 	break;
@@ -434,7 +462,7 @@ namespace RavlN {
     while(at < size && !shutdown) {
       int n = write(nfd,&(buff[at]),size - at);
       if(n < 0) {
-	ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunReceive(), Error on read. \n");
+	ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunReceive(), Error on read. ");
 	if(errno == EINTR || errno == EAGAIN)
 	  continue;
 #if RAVL_OS_LINUX
@@ -453,11 +481,11 @@ namespace RavlN {
   //: Handle packet reception.
   
   bool NetEndPointBodyC::RunReceive() {
-    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunReceive(), Started. \n");
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunReceive(), Started. ");
     
     int rfd = skt.Fd();
     if(rfd < 0) {
-      SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunReceive(), ERROR: No connection. \n";    
+      SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunReceive(), ERROR: No connection. ";
       return false;       
     }
     StringC recvStreamType;
@@ -468,7 +496,7 @@ namespace RavlN {
       int state = 0;
       streamType = "<ABPS>";
       do {
-	ONDEBUG(SysLog(SYSLOG_DEBUG) << "State=" << state << "\n";)
+	ONDEBUG(SysLog(SYSLOG_DEBUG) << "State=" << state;)
 	if(!ReadData(rfd,&buff,1))
 	  break;
 	if(str[state] != buff) {
@@ -488,13 +516,14 @@ namespace RavlN {
     }
     gotStreamType.Post();
     
-    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunReceive(), Connection type confirmed. '" << streamType << "' \n");
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunReceive(), Connection type confirmed. '" << streamType << "' ");
     
     try {
       while(!shutdown) {
 	UIntT size;
 	if(!ReadData(rfd,(char *) &size,sizeof(UIntT))) {
-	  ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunRecieve(), Read size failed. Assuming connection broken.\n");
+	  if(!shutdown)
+	    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunRecieve(), Read size failed. Assuming connection broken. ");
 	  break;
 	}
 	if(size == 0)
@@ -507,31 +536,31 @@ namespace RavlN {
 	if(!useBigEndianBinStream)
 	  size = bswap_32(size);
 #endif
-	ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunRecieve(), Read " << size << " bytes. UseBigEndian:" << useBigEndianBinStream << " BigEdian:" << RAVL_ENDIAN_BIG << "\n"); 
+	ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunRecieve(), Read " << size << " bytes. UseBigEndian:" << useBigEndianBinStream << " BigEdian:" << RAVL_ENDIAN_BIG << " "); 
 	SArray1dC<char> data(size);
 	if(!ReadData(rfd,(char *) &(data[0]),size)) {
-	  ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunRecieve(), Read data failed. Assuming connection broken. \n"); 
+	  ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunRecieve(), Read data failed. Assuming connection broken. "); 
 	  break;
 	}
 	NetPacketC pkt(data);
 	receiveQ.Put(pkt);
       }
     } catch(ExceptionC &e) {
-      SysLog(SYSLOG_ERR) << "RAVL Exception :'" << e.what() << "'\n";
-      SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunRecieve(), Exception caught, terminating link. \n";
+      SysLog(SYSLOG_ERR) << "RAVL Exception :'" << e.what() << "' ";
+      SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunRecieve(), Exception caught, terminating link. ";
     }
 #if 0
     catch(exception &e) {
-      SysLog(SYSLOG_ERR) << "C++ Exception :'" << e.what() << "'\n";
-      SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunRecieve(), Exception caught, terminating link. \n";
+      SysLog(SYSLOG_ERR) << "C++ Exception :'" << e.what() << "'";
+      SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunRecieve(), Exception caught, terminating link. ";
     } catch(...) {
-      SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunRecieve(), Exception caught, terminating link. \n";
+      SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunRecieve(), Exception caught, terminating link. ";
     }
 #endif
  
 #if 0
     if(!nis)
-      SysLog(SYSLOG_INFO) << "NetEndPointBodyC::RunReceive(), Connection broken \n";
+      SysLog(SYSLOG_INFO) << "NetEndPointBodyC::RunReceive(), Connection broken ";
 #endif
     MutexLockC lock(accessMsgReg);
     if(connectionBroken.IsValid()) { // Got a callback ?
@@ -539,11 +568,11 @@ namespace RavlN {
       connectionBroken.Invalidate(); // Not needed after this.
       lock.Unlock();
       call.Invoke();
-      MutexLockC lock(accessMsgReg);
+      //      MutexLockC lock(accessMsgReg);
     } else
       lock.Unlock();
     Close();
-    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunRecieve(), Terminated \n"); 
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunRecieve(), Terminated "); 
     return true;
   }
   
@@ -551,7 +580,7 @@ namespace RavlN {
   //: Decodes incoming packets.
   
   bool NetEndPointBodyC::RunDecode() {
-    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunDecode(), Startup. \n"); 
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunDecode(), Startup. "); 
     NetPacketC pkt;
     NetEndPointC me(*this);
     try {
@@ -563,49 +592,49 @@ namespace RavlN {
 	  break;
 	if(!pkt.IsValid()) 
 	  continue;
-	//ONDEBUG(cerr << "Recieved packet:\n");
+	//ONDEBUG(cerr << "Recieved packet:");
 	//ONDEBUG(pkt.Dump(cerr));
 	// Decode....
 	BinIStreamC is(pkt.DecodeStream());
 	is.UseBigEndian(useBigEndianBinStream);
 	UIntT msgTypeID = 0;
 	is >> msgTypeID;
-	ONDEBUG(SysLog(SYSLOG_DEBUG) << "Incoming packet type id:" << msgTypeID << "\n");
+	ONDEBUG(SysLog(SYSLOG_DEBUG) << "Incoming packet type id:" << msgTypeID );
 	// Check local decode table.
 	NetMsgRegisterC msg = Find(msgTypeID);
 	if(!msg.IsValid()) {
-	  SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunDecode(), ERROR: Don't know how to decode message type " << msgTypeID << " \n";
+	  SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunDecode(), ERROR: Don't know how to decode message type " << msgTypeID;
 	  continue;
 	}  
-	ONDEBUG(SysLog(SYSLOG_DEBUG) << "Decoding incoming packet. Type: '" << msg.Name() << "'\n"); 
+	ONDEBUG(SysLog(SYSLOG_DEBUG) << "Decoding incoming packet. Type: '" << msg.Name() << "'"); 
 	msg.Decode(me,is); 
 
 #if RAVL_COMPILER_MIPSPRO // ignore Tell() = -1 on MIPS 
   	if(  ((UIntT) is.Tell() != pkt.Size()) && (is.Tell() != -1) )  
-	  { SysLog(SYSLOG_ERR) << "WARNING: Not all of packet processed Stream:" << is.Tell() << " Packet size:" << pkt.Size() <<"\n"; }
+	  { SysLog(SYSLOG_ERR) << "WARNING: Not all of packet processed Stream:" << is.Tell() << " Packet size:" << pkt.Size(); }
 #else
 	if((UIntT) is.Tell() != pkt.Size()) 
-	  { SysLog(SYSLOG_ERR) << "WARNING: Not all of packet processed Stream:" << is.Tell() << " Packet size:" << pkt.Size() <<"\n"; }
+	  { SysLog(SYSLOG_ERR) << "WARNING: Not all of packet processed Stream:" << is.Tell() << " Packet size:" << pkt.Size(); }
 #endif 
       }
     } catch(ExceptionOperationFailedC &ex) {
       // protocol error...
       Close();
     } catch(ExceptionC &e) {
-      SysLog(SYSLOG_WARNING) << "RAVL Exception :'" << e.what() << "'\n";
-      SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::RunDecode(), Exception caught, terminating link. \n";
+      SysLog(SYSLOG_WARNING) << "RAVL Exception :'" << e.what() << "'";
+      SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::RunDecode(), Exception caught, terminating link. ";
     } 
 #if 0
     catch(exception &e) {
-      SysLog(SYSLOG_WARNING) << "C++ Exception :'" << e.what() << "'\n";
-      SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::RunDecode(), Exception caught, terminating link. \n";
+      SysLog(SYSLOG_WARNING) << "C++ Exception :'" << e.what() << "'";
+      SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::RunDecode(), Exception caught, terminating link. ";
     } catch(...) {
-      SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::RunDecode(), Exception caught, terminating link. \n";
+      SysLog(SYSLOG_WARNING) << "NetEndPointBodyC::RunDecode(), Exception caught, terminating link. ";
     }
 #endif
     transmitQ.Put(NetPacketC()); // Put an empty packet to indicate shutdown.
     // Can't to much about recieve...
-    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunDecode(), Terminated. \n"); 
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunDecode(), Terminated. "); 
     return true;
   }
     
@@ -613,12 +642,12 @@ namespace RavlN {
   //: Init message.
   
   bool NetEndPointBodyC::MsgInit(StringC &user,NetClientInfoC &nPeerInfo) {
-    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::MsgInit(), Called. User:" << user << "\n");
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::MsgInit(), Called. User:" << user);
     remoteUser = user;
     peerInfo = nPeerInfo;
     if(peerInfo.ProtocolName() != localInfo.ProtocolName()) {
-      SysLog(SYSLOG_ERR) << "ERROR: Protocol mismatch Local='" << localInfo.ProtocolName() << "' Remote='" << peerInfo.ProtocolName() << "'\n";
-      throw ExceptionOperationFailedC("Failed to connect, protocol error. \n");
+      SysLog(SYSLOG_ERR) << "ERROR: Protocol mismatch Local='" << localInfo.ProtocolName() << "' Remote='" << peerInfo.ProtocolName() << "'";
+      throw ExceptionOperationFailedC("Failed to connect, protocol error. ");
     }
     setupComplete.Post();
     return true;

@@ -8,6 +8,7 @@
 //! lib=RavlNet
 
 #include "Ravl/OS/NetPort.hh"
+#include "Ravl/OS/SysLog.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -24,28 +25,32 @@ namespace RavlN {
     : ep(server,false),
       netAttr(0)
   {}
-
+  
   //: Destructor.
   
   NetPortBaseC::~NetPortBaseC()
-  {}
-
+  { 
+    if(ep.IsValid())
+      ep.ConnectionBroken().Invalidate();
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetPortBaseC::~NetPortBaseC() " << (void *) this); 
+  }
+  
   //: Wait for connection complete.
   
   bool NetPortBaseC::WaitForConnect(RealT timeOut) {
-    ONDEBUG(cerr << "NetPortBaseC::WaitForConnect(). Called. \n");
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetPortBaseC::WaitForConnect(). Called. ");
     if(!streamReady.Wait(timeOut)) {
-      cerr << "NetPortBaseC::WaitForConnect(), Connection failed to complete. \n";
+      SysLog(SYSLOG_DEBUG) << "NetPortBaseC::WaitForConnect(), Connection failed to complete. ";
       return false;
     }
-    ONDEBUG(cerr << "NetPortBaseC::WaitForConnect(). Done. \n");
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetPortBaseC::WaitForConnect(). Done. ");
     return true;
   }
   
   //: Handle incoming StreamReady message.
   
   bool NetPortBaseC::MsgStreamReady() {
-    ONDEBUG(cerr << "NetPortBaseC::MsgStreamReady(). Called. \n");
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetPortBaseC::MsgStreamReady(). Called. " << (void *) this);
     streamReady.Post();
     return true;
   }
@@ -53,7 +58,7 @@ namespace RavlN {
   //: Initialise link.
   
   bool NetPortBaseC::Init() {
-    ONDEBUG(cerr << "NetPortBaseC::Init(). Called. \n");
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetPortBaseC::Init(). Called. ");
     ep.RegisterR(NPMsg_StreamReady,"StreamInfo",*this,&NetPortBaseC::MsgStreamReady);
     //: Handle incoming StreamReady message.
     

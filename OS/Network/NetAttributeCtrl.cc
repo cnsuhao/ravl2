@@ -42,11 +42,17 @@ namespace RavlN {
     : ctrlId(nCtrlId),
       reqManager(false)
   {}
+
+  //: Destructor.
+  
+  NetAttributeCtrlBodyC::~NetAttributeCtrlBodyC() {
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetAttributeCtrlBodyC::~NetAttributeCtrlBodyC(), Called.");
+  }
   
   //: Connect to an end point.
   
   bool NetAttributeCtrlBodyC::Connect(const NetEndPointC &nep) {
-    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetAttributeCtrlBodyC::Connect(const NetEndPointC &), Called.\n");
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetAttributeCtrlBodyC::Connect(const NetEndPointC &), Called.");
     if(ep.IsValid())
       return false;
     ep = nep;
@@ -55,14 +61,14 @@ namespace RavlN {
     ep.ConnectionBroken() = TriggerR(*this,&NetAttributeCtrlBodyC::ConnectionClosed);
     
     RegisterHandlers();
-    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetAttributeCtrlBodyC::Connect(const NetEndPointC &), Done.\n");
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetAttributeCtrlBodyC::Connect(const NetEndPointC &), Done.");
     return true;
   }
   
   //: Register handler functions.
   
   void NetAttributeCtrlBodyC::RegisterHandlers() {
-    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetAttributeCtrlBodyC::RegisterHandlers(), Called.\n");
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetAttributeCtrlBodyC::RegisterHandlers(), Called.");
     ep.RegisterR((UIntT) NACMsg_GetAttrStr,StringC("GetAttrString"),*this,&NetAttributeCtrlBodyC::HandleGetAttrString);
     ep.RegisterR((UIntT) NACMsg_GetAttrInt,StringC("GetAttrInt"),*this,&NetAttributeCtrlBodyC::HandleGetAttrInt);
     ep.RegisterR((UIntT) NACMsg_GetAttrReal,StringC("GetAttrReal"),*this,&NetAttributeCtrlBodyC::HandleGetAttrReal);
@@ -83,18 +89,18 @@ namespace RavlN {
   //: Request available attribute types.
   
   void NetAttributeCtrlBodyC::UpdateAttributeTypes() {
-    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetAttributeCtrlBodyC::UpdateAttributeTypes(), Called.\n");
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetAttributeCtrlBodyC::UpdateAttributeTypes(), Called.");
     UIntT id;
     reqManager.CreateReq(id); // Create request.
     DListC<AttributeTypeC> attrs;
     ep.Send(NACMsg_GetAttrTypes,ctrlId,id); // Send message.
     if(!reqManager.WaitForReq(id,attrs)) {
-      SysLog(SYSLOG_ERR) << "NetAttributeCtrlBodyC::UpdateAttributeTypes(), Failed. \n";
+      SysLog(SYSLOG_ERR) << "NetAttributeCtrlBodyC::UpdateAttributeTypes(), Failed. ";
       return ;
     }
     for(DLIterC<AttributeTypeC> it(attrs);it;it++)
       AttributeCtrlBodyC::RegisterAttribute(*it);
-    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetAttributeCtrlBodyC::UpdateAttributeTypes(), Done.\n");
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetAttributeCtrlBodyC::UpdateAttributeTypes(), Done.");
   }
   
   //: Get a attribute.
@@ -220,7 +226,7 @@ namespace RavlN {
   //: Register a new attribute type.
   
   bool NetAttributeCtrlBodyC::RegisterAttribute(const AttributeTypeC &attr) {
-    SysLog(SYSLOG_ERR) << "NetAttributeCtrlBodyC::RegisterAttribute(), Attempt to register attribute on network port.\n";
+    SysLog(SYSLOG_ERR) << "NetAttributeCtrlBodyC::RegisterAttribute(), Attempt to register attribute on network port.";
     return false;
   }
   
@@ -228,7 +234,7 @@ namespace RavlN {
   
   bool NetAttributeCtrlBodyC::HandleGetFailed(UIntT &reqId,StringC &msg) {
     RCWrapAbstractC invalid;
-    SysLog(SYSLOG_ERR) << "NetAttributeCtrlBodyC::HandleGetFailed(), Msg=" << msg << "\n";
+    SysLog(SYSLOG_ERR) << "NetAttributeCtrlBodyC::HandleGetFailed(), Msg=" << msg;
     reqManager.DeliverReq(reqId,invalid);
     return true;
   }
