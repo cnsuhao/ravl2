@@ -230,8 +230,10 @@ namespace RavlN {
     
     StringC(const SizeT len, const char * defaultString)
       : rep(Salloc(0, defaultString, -1, len)) 
-      {}
+      { rep->len = len; }
     //: Construct a string which is a copy of 'defaultString's first 'len' characters.
+    // Caution: if default string is shorter than 'len' the contents
+    // of the resulting string are undefined.
     
     StringC(const IndexC n);
     //: Create a string from IndexC
