@@ -26,9 +26,10 @@ AUXFILES =  QMake.mk \
   QLibs.pl GlobalMake qmake.cshrc qmake.sh \
   RAVLExec
 
-EHT= exeSysConf.eht Ravl.QMake.html Ravl.QMake.Defs.html Ravl.QMake.Commands.html
+EHT= exeSysConf.eht Ravl.QMake.html Ravl.QMake.Defs.html Ravl.QMake.Commands.html \
+ Ravl.QMake.Build_Structure.html
 
-SCRIPTS=qm
+SCRIPTS=qm QLibs
 
 SCRIPT_INSTALL=perl ./Install.pl $(PROJECT_OUT)/share/RAVL/QMake $(PROJECT_OUT)
 
