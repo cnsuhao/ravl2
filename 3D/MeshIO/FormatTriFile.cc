@@ -7,6 +7,7 @@
 //! rcsid="$Id$"
 //! lib=Ravl3DIO
 
+#include "Ravl/config.h"
 #include "Ravl/3D/FormatTriFile.hh"
 #include "Ravl/3D/TriFileIO.hh"
 #include "Ravl/3D/TriMesh.hh"
@@ -36,22 +37,22 @@ namespace Ravl3DN {
   
   const type_info &
   FileFormatTriBodyC::ProbeLoad(IStreamC &in,const type_info &obj_type) const {
+    ONDEBUG(cerr << "FileFormatTriBodyC::ProbeLoad(), IStreamC, ok \n");
     return typeid(TriMeshC);
   }
-
+  
   const type_info & FileFormatTriBodyC::ProbeLoad(const StringC &nfilename,IStreamC &in,const type_info &obj_type) const {
-    //StringC filename(nfilename);
-    //  if(obj_type != typeid(TriMeshC))
-    //    return false; // Can only deal with rgb at the moment.
-    // For Load, use stream probe its more reliable than extentions.
+    ONDEBUG(cerr << "FileFormatTriBodyC::ProbeLoad(), on '" << nfilename << "' Ext='" << Extension(nfilename) << "'\n");
+    if(Extension(nfilename) != StringC("tri") && nfilename != "-")
+      return typeid(void);
     return ProbeLoad(in,obj_type);
   }
   
   const type_info & FileFormatTriBodyC::ProbeSave(const StringC &filename,const type_info &obj_type,bool forceFormat ) const {
-    cerr << "FileFormatTriBodyC::ProbeSave().. \n";
+    ONDEBUG(cerr << "FileFormatTriBodyC::ProbeSave() on '" << filename << "' Ext='" << Extension(filename) << "'\n");
     if(forceFormat)
       return typeid(TriMeshC);
-    if(!Extension(filename) == StringC(".tri") && filename != "-")
+    if(Extension(filename) != StringC("tri") && filename != "-")
       return typeid(void);
     return typeid(TriMeshC);
   }
