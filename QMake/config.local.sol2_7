@@ -1,0 +1,54 @@
+##################################################
+#### Site Specific Configuration file
+##################################################
+##
+## Any undefined variables will be assigned  
+## architecture specific defaults. 
+##
+##################################################
+
+
+
+# Compiler
+##################################################
+
+# paths for cc and c++ compiler
+RAVL_CC  = /opt/GNUdevelop/gcc-3.2/bin/gcc3
+RAVL_CXX = /opt/GNUdevelop/gcc-3.2/bin/g++3
+
+#RAVL_CC  = /vol/vssp/localsoft/gcc-3.2.1_sol7/bin/gcc
+#RAVL_CXX = /vol/vssp/localsoft/gcc-3.2.1_sol7/bin/g++
+
+# extra CFLAGS (c)
+# EXTRA_CFLAGS =
+
+# extra CCFLAGS (c++)
+# EXTRA_CCFLAGS =  -Wa,-xarch=v8plus -mcpu=v9
+
+
+
+
+
+# GTK
+##################################################
+
+# gtk path 
+GTKPATH = /opt/PDlibs/gtk++-1.2.10
+
+# glib path 
+GLIBPATH = /opt/PDlibs/glib-1.2.10
+
+# override gtk compile flags 
+GTKCFLAGS = -I/opt/PDlibs/gtk++-1.2.10/include/gtk-1.2 
+
+# override glib compile flags
+GLIBCFLAGS = -I/opt/PDlibs/glib-1.2.10/include/glib-1.2 -I/opt/PDlibs/glib-1.2.10/lib/glib/include
+
+# override gtk link flags 
+GTKLIBS = -L/opt/PDlibs/gtk++-1.2.10/lib -R/opt/PDlibs/gtk++-1.2.10/lib -lgtk -lgdk
+
+# ovveride glib link flags
+GLIBLIBS = -L/opt/PDlibs/glib-1.2.10/lib -R/opt/PDlibs/glib-1.2.10/lib -lglib
+
+
+MESAHOME = /usr/openwin

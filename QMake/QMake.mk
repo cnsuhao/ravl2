@@ -17,9 +17,12 @@ ifndef INSTALLHOME
  INSTALLHOME=$(MAKEHOME)/../../..#
 endif
 
-ifndef ARC
+# a slight change, now ARC is ALWAYS defined from the config.arc script
+#ifndef ARC
   ARC=$(shell $(MAKEHOME)/config.arc)#
-endif
+#endif
+
+
 export ARC
 
 MAKEDEFS:=perl -f $(MAKEHOME)/mkdefs.pl

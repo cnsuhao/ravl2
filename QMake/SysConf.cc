@@ -31,7 +31,9 @@ int main(int narg,char **argv) {
 #else
 	  val = 1;  /* One Porcessor default */
 #endif
-#if defined(__sol2__) && 0 
+
+//#if defined(__sol2__) && 0 
+#if defined(RAVL_OS_SOLARIS) && 0
 	  if(val > 2)
 	    val = 2; // Limit processor usage to 2.
 #endif

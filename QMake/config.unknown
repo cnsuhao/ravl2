@@ -8,8 +8,17 @@
 # The following ifndef's allow the rest of this configuration to be
 # used for alpha's
 
-CC = gcc
-CXX = g++
+ifdef RAVL_CC
+ CC = $(RAVL_CC)
+else
+ CC = gcc
+endif
+
+ifdef RAVL_CXX
+ CXX = $(RAVL_CXX) 
+else 
+ CXX = g++
+endif 
 
 MKDEPFLAGS = -MM
 AR = ar
@@ -31,6 +40,9 @@ MKDEP_CXX = \
 
 CFLAGS   = -Wall -pipe
 CCFLAGS  = -Wall -frepo -pipe
+CFLAGS   += $(EXTRA_CFLAGS)
+CCFLAGS  += $(EXTRA_CCFLAGS)
+
 CCPPFLAGS= -DGNU -D__$(ARC)__ -Dunix
 CPPFLAGS = -DGNU -D__$(ARC)__ -Dunix
 LDFLAGS = $(CCFLAGS)

@@ -21,8 +21,10 @@ AUXFILES =  QMake.mk \
   Dirs.mk Main.mk MainDep.mk Util.mk rcs.mk Doc.mk Clean.mk \
   Sys.def Install.pl Help.txt Notes.txt Defs.txt dummymain.c \
   config.arc BinDep.pl mkdefs.pl \
-  config.linux_alpha config.sgi     config.sol2 \
+  config.linux_alpha config.sgi \
+  config.sol2_7 config.sol2_9 \
   config.alpha       config.unknown config.linux config.cygwin \
+  config.local.linux config.local.sgi config.local.sol2_7 config.local.sol2_9\
   QLibs.pl GlobalMake qmake.cshrc qmake.sh \
   RAVLExec AutoBuild.pl AutoBuild.sample.conf
 

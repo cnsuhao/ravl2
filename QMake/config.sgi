@@ -5,8 +5,17 @@
 #######################
 # Programs to use.
 
-CC = cc -n32 -J 4 -mp
-CXX = CC -n32 -J 4 -mp -LANG:ansi-for-init-scope=on
+ifdef RAVL_CC
+ CC = $(RAVL_CC)
+else
+ CC = cc -n32 -J 4 -mp
+endif
+
+ifdef RAVL_CXX
+ CXX = $(RAVL_CXX) 
+else 
+ CXX = CC -n32 -J 4 -mp -LANG:ansi-for-init-scope=on
+endif
 
 MKDEPFLAGS = -M
 AR = ar
@@ -22,6 +31,7 @@ AMKDEPFLAGS = -MDupdate $(WORKTMP)/$*.d
 MKDEPUP = if [ -r $(WORKTMP)/$*.d ] ; then \
  echo '$$(INST_OBJS)/$*.o:\' > $(INST_DEPEND)/$*.d ; \
  cut -f 2 -d: $(WORKTMP)/$*.d >> $(INST_DEPEND)/$*.d  ; rm $(WORKTMP)/$*.d ; fi
+#'
 
 ############################
 # Universal flags.
@@ -31,13 +41,17 @@ CCFLAGS  = -mips4 -r10000 -woff 1021 -woff 1681 -woff 1682
 CPPFLAGS = -D__sgi__ -Dunix -D__sgiCC__ -DSGI -D__BUILTIN_BOOL__
 CCPPFLAGS =  -D__sgi__ -Dunix -D__sgiCC__ -DSGI -D__BUILTIN_BOOL__
 
-LDFLAGS  = -n32 -Wl,-woff,84
-# -Wl,-woff,15 
-#-Wl,-woff,15 
-#-Wl,-woff,85
-#-prelink -ptnone
+CFLAGS   += $(EXTRA_CFLAGS)
+CCFLAGS  += $(EXTRA_CCFLAGS)
 
-OPTFLAGS= -O3 -OPT:const_copy_limit=50000:Olimit=80000 -DNDEBUG
+ LDFLAGS  = -n32 -Wl,-woff,84
+ # -Wl,-woff,15 
+ #-Wl,-woff,15 
+ #-Wl,-woff,85
+ #-prelink -ptnone
+
+#OPTFLAGS= -O3 -OPT:const_copy_limit=50000:Olimit=80000 -DNDEBUG
+OPTFLAGS= -DNDEBUG -O3 -OPT:const_copy_limit=50000:Olimit=80000 
 OPT1FLAGS= -O1  -OPT:Olimit_opt=on
 #PAR_MAKE = 
 PAR_MAKE = --jobs=$(PROCS)

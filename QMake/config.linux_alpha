@@ -8,8 +8,17 @@
 # The following ifndef's allow the rest of this configuration to be
 # used for alpha's
 
-CC = /opt/GNUdevelop/gcc-2.95.2/bin/gcc
-CXX = /opt/GNUdevelop/gcc-2.95.2/bin/g++
+ifdef RAVL_CC
+ CC = $(RAVL_CC)
+else
+ CC = gcc
+endif
+
+ifdef RAVL_CXX
+ CXX = $(RAVL_CXX) 
+else 
+ CXX = g++
+endif 
 
 MKDEPFLAGS = -MM
 AR = ar
@@ -26,7 +35,11 @@ MKDEPUP = echo -n '$$(INST_OBJS)/' > $(INST_DEPEND)/$*.d ; cat $(WORKTMP)/$*.d  
 # Universal flags.
 
 CFLAGS   = -Wall -pipe 
+CFLAGS   += $(EXTRA_CFLAGS)
+
 CCFLAGS  = -Wall -pipe 
+CCFLAGS  += $(EXTRA_CCFLAGS)
+
 CCPPFLAGS= -DGNU -D__$(ARC)__ -Dunix
 CPPFLAGS = -DGNU -D__$(ARC)__ -Dunix
 LDFLAGS = $(CCFLAGS)

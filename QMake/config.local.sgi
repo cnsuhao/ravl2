@@ -1,0 +1,6 @@
+GTKPATH =  /opt/PDgtk/gtk+-1.2.10
+GLIBPATH = /opt/PDgtk/glib-1.2.10
+LIBPNG_HOME=/vol/vssp/localsoft/libpng-1.2.5
+
+
+

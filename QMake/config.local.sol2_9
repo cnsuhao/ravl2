@@ -1,0 +1,50 @@
+##################################################
+#### Site Specific Configuration file
+##################################################
+##
+## Any undefined variables will be assigned  
+## architecture specific defaults. 
+##
+##################################################
+
+
+
+# Compiler
+##################################################
+
+# paths for cc and c++ compiler
+RAVL_CC  = /opt/GNUdevelop/gcc-3.2/bin/gcc3
+RAVL_CXX = /opt/GNUdevelop/gcc-3.2/bin/g++3
+
+#RAVL_CC  = /opt/GNUdevelop/gcc-2.95.3/bin/gcc2
+#RAVL_CXX = /opt/GNUdevelop/gcc-2.95.3/bin/g++2
+
+# extra CFLAGS (c)
+# EXTRA_CFLAGS =
+
+# extra CCFLAGS (c++)
+EXTRA_CCFLAGS =  -Wa,-xarch=v8plus -mcpu=v9
+
+
+
+
+# GTK
+##################################################
+
+# gtk path 
+#GTKPATH =  /opt/PDlibs/gtk++-1.2.10
+
+# glib path 
+#GLIBPATH = /opt/PDlibs/glib-1.2.10
+
+# override gtk compile flags 
+# GTKCFLAGS = 
+
+# override glib compile flags
+# GLIBCFLAGS = 
+
+# override gtk link flags 
+# GTKLIBS =
+
+# ovveride glib link flags 
+# GLIBLIBS = 
