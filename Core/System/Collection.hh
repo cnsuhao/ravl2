@@ -21,6 +21,8 @@ namespace RavlN {
   
   template<class DataT> class CollectionC;
   template<class DataT> class CollectionIterC;
+  template<class DataT> class DListC;
+  template<class DataT> class DLIterC;
   
   //! userlevel=Develop
   //: Collection of data.
@@ -38,6 +40,9 @@ namespace RavlN {
     // maxSize should be set to maximum number of 
     // elements the collection will contain. 'used' is the number
     // of elements to be in the collection at the time of creation.
+    
+    CollectionBodyC(const DListC<DataT> &list);
+    //: Construct collection from a list.
     
     CollectionBodyC(const SArray1dC<DataT> &dat)
       : data(dat),
@@ -169,7 +174,6 @@ namespace RavlN {
     
     CollectionC(SizeT maxSize,SizeT used = 0)
       : RCHandleC<CollectionBodyC<DataT> >(*new CollectionBodyC<DataT>(maxSize,used))
-      
     {}
     //: Creat an empty collection.
     // maxSize should be set to maximum number of elements the collection 
@@ -180,6 +184,11 @@ namespace RavlN {
       : RCHandleC<CollectionBodyC<DataT> >(*new CollectionBodyC<DataT>(dat))
     {}
     //: Create a collection from an array of data.
+    
+    CollectionC(const DListC<DataT> &list)
+      : RCHandleC<CollectionBodyC<DataT> >(*new CollectionBodyC<DataT>(list))
+    {}
+    //: Construct collection from a list.
     
     CollectionC<DataT> Copy() const
     { return Body().Copy(); }
@@ -317,6 +326,17 @@ namespace RavlN {
     s >> ad;
     d = CollectionC<DataT>(ad);
     return s;
+  }
+
+  template<class DataT>
+  CollectionBodyC<DataT>::CollectionBodyC(const DListC<DataT> &list)
+    : data(list.Size()),
+      n(0)
+  {
+    DataT *at = &(data[0]);
+    for(DLIterC<DataT> it(list);it;it++,at++)
+      *at = *it;
+    n = data.Size();
   }
   
   template<class DataT>
