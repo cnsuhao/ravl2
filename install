@@ -10,6 +10,7 @@ else
   INSTMODE=$2
 fi
 
+BUILDTYPE=fullbuild
 
 case ${INSTMODE} in 
   bin | src | clean | auto )
@@ -17,6 +18,7 @@ case ${INSTMODE} in
      true ;;
   rpm)
      BUILDDIR=$3
+     BUILDTYPE=rpmbuild
      true ;;
   *) echo "Unrecognised mode '${INSTMODE}'"
      INSTMODE=""
@@ -85,7 +87,7 @@ else
 fi
 
 # Compile libraries
-if ${MAKE} -f ${BUILDDIR}/share/RAVL/QMake/QMake.mk MAKEHOME=${BUILDDIR}/share/RAVL/QMake BASEINSTALL=1 INSTALLHOME=${BUILDDIR} PROJECT_OUT=${INSTALL_SITE}  ROOTDIR=${BUILDDIR} fullbuild  FULLBUILDSRC='BASE_VAR=none' ; then 
+if ${MAKE} -f ${BUILDDIR}/share/RAVL/QMake/QMake.mk MAKEHOME=${BUILDDIR}/share/RAVL/QMake BASEINSTALL=1 INSTALLHOME=${BUILDDIR} PROJECT_OUT=${INSTALL_SITE}  ROOTDIR=${BUILDDIR} ${BUILDTYPE}  FULLBUILDSRC='BASE_VAR=none' ; then 
   true
 else
   echo "ERROR: Failed to build libraries. "
@@ -96,5 +98,5 @@ fi
 # Print some usage instructions
 echo "Use the following alias for compilation.  PROJECT_OUT controls the directory "
 echo "into which your own code will be compiled. The default is 'build' in your home directory. "
-echo "alias qm '${MAKE} -f ${INSTALL_SITE}/share/RAVL/QMake/QMake.mk PROJECT_OUT=$HOME/build'"
+echo "alias qm '${MAKE} -f ${INSTALL_SITE}/share/RAVL/QMake/QMake.mk USERBUILD=1 PROJECT_OUT=$HOME/build'"
 exit 0
