@@ -20,6 +20,7 @@
 #include "Ravl/DList.hh"
 #include "Ravl/Image/PointTrack.hh"
 #include "Ravl/Image/PointTrackModel.hh"
+#include "Ravl/RCHash.hh"
 
 namespace RavlImageN {
   
@@ -38,19 +39,22 @@ namespace RavlImageN {
     //: Constructor.
     // Matching width.
     
-    DListC<PointTrackC> Apply(const ImageC<ByteT> &img);
+    RCHashC<UIntT,PointTrackC> Apply(const ImageC<ByteT> &img);
     //: Returns a list of tracks.
     // Same as update, but returns the track list.
+    
+    RCHashC<UIntT,PointTrackC> GetTracks() const;
+    //: Generate a hashtable of current tracks.
     
     void AddTracks(const ImageC<ByteT> &img, ImageC<ByteT>* debugimg = NULL);
     //: Detects new point tracks
     // Only use this if you want to manually force track creation, normally when newFreq is very large
     // The second pointer is for a debugging image, and is for internal use only.
-
+    
     IntT Update(const ImageC<ByteT> &img);
     //: Update track with information from an image.    
     // New tracks will be created automatically every newFreq frames.
-
+    
     DListC<PointTrackModelC> &Tracks()
     { return tracks; }
     //: Direct access to current tracks list.

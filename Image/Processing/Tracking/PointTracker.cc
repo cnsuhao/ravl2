@@ -81,20 +81,27 @@ namespace RavlImageN {
       lifeTime(nlifeTime),
       searchSize(nsearchSize)
   {}
-
+  
+  
   //: Returns a list of tracks.
   
-  DListC<PointTrackC> PointTrackerC::Apply(const ImageC<ByteT> &img) {
-    DListC<PointTrackC> ret;
+  RCHashC<UIntT,PointTrackC> PointTrackerC::Apply(const ImageC<ByteT> &img) {
     Update(img);
+    return GetTracks();
+  }
+  
+  //: Create a list of current tracks.
+  
+  RCHashC<UIntT,PointTrackC> PointTrackerC::GetTracks() const {
+    RCHashC<UIntT,PointTrackC> ret;
     for(DLIterC<PointTrackModelC> itt(tracks);itt;itt++) {
       if(itt->Frame() != frameCount)
-	continue; // Ignore those not seen in this frame.
-      ret.InsLast(PointTrackC(itt->ID(),itt->Location(),itt->Confidence()));
+	ret[itt->ID()] = PointTrackC(itt->ID(),itt->Location(),0);
+      else
+	ret[itt->ID()] = PointTrackC(itt->ID(),itt->Location(),itt->Confidence());
     }
-    return ret;
+    return ret;    
   }
-
   
   //: Init tracks
   void PointTrackerC::AddTracks(const ImageC<ByteT> &img, ImageC<ByteT>* debugimg) {

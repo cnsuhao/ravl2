@@ -12,6 +12,7 @@
 #include "Ravl/DP/SequenceIO.hh"
 #include "Ravl/Image/PointTracker.hh"
 #include "Ravl/Image/DrawFrame.hh"
+#include "Ravl/HashIter.hh"
 
 using namespace RavlN;
 using namespace RavlImageN;
@@ -54,12 +55,12 @@ int main(int nargs,char **argv) {
       break;
     
     // Apply tracker.
-    DListC<PointTrackC> corners = tracker.Apply(img);
+    RCHashC<UIntT,PointTrackC> corners = tracker.Apply(img);
     if(noop)
       continue;
     // Draw boxes around the corners.
     ByteT val = 255;
-    for(DLIterC<PointTrackC> it(corners);it;it++) {
+    for(HashIterC<UIntT,PointTrackC> it(corners);it;it++) {
       IndexRange2dC rect(it->Location(),5,5);
       DrawFrame(img,val,rect);
     }
