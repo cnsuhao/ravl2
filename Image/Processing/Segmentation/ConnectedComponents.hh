@@ -116,17 +116,22 @@ namespace RavlImageN {
     ConnectedComponentsC (bool ignoreZero=false,const CompareT &compMethod = CompareT())
       : RCHandleC<ConnectedComponentsBodyC<DataTypeT> >(*new ConnectedComponentsBodyC<DataTypeT>(10000, ignoreZero,compMethod))
     {}
-    //: Constructor.  Set ignoreZero if you want to ignore the zeros on the input image
+    //: Constructor used either to ignore pixels whose value is given by SetZero() or to not ignore any pixels at all.
+    //!param: ignoreZero - if true, ignores the zeros on the input image (as defined by the SetZero() function for the pixel type "DataTypeT")
+    //!param: compMethod - valid comparison operator for pixel type "DataTypeT"
     
-    ConnectedComponentsC (const CompareT &compMethod,const DataTypeT &zeroValue)
+    ConnectedComponentsC (const CompareT &compMethod,const DataTypeT &ignoreValue)
       : RCHandleC<ConnectedComponentsBodyC<DataTypeT> >(*new ConnectedComponentsBodyC<DataTypeT>(10000,compMethod,zeroValue))
     {}
-    //: Constructor.  
-    // Ignore any 'zeroValue' pixels in the input image.
+    //: Constructor used to ignore pixels of given value
+    //!param: compMethod - valid comparison operator for pixel type "DataTypeT"
+    //!param: ignoreValue - value of pixels not to be included in labelling
+
     
     Tuple2C<ImageC<UIntT>,UIntT> Apply (const ImageC<DataTypeT> &im)
     { return Body().Apply(im); }
     //: Performs the connected component labelling
+    // The returned Tuple2C object can be used directly to construct a SegmentationC object. 
 
   protected:
     ConnectedComponentsBodyC<DataTypeT,CompareT> &Body()

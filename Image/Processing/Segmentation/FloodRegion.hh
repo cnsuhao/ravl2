@@ -44,7 +44,7 @@ namespace RavlImageN {
   
   //! userlevel=Normal
   //: Flood based region growing.
-  // Grow a region from 'seed' including all connected pixel less than or equal to threshold, generate a boundry as the result.
+  // Grow a region from 'seed' including all connected pixel less than or equal to threshold, generate a boundary as the result.
   
   template<class PixelT,class InclusionTestT = FloorRegionThresholdC<PixelT> >
   class FloodRegionC {
@@ -72,7 +72,7 @@ namespace RavlImageN {
     IntT GrowRegion(const Index2dC &seed,const InclusionTestT &inclusionCriteria,BoundaryC &boundary,IntT maxSize = 0) {
       RavlAssert(pixQueue.IsEmpty());
       inclusionTest = inclusionCriteria;
-      boundary = BoundaryC(); // Create a new boundry list
+      boundary = BoundaryC(); // Create a new boundary list
       if(!inclusionTest(img[seed]))
 	return false; // Empty region.
       pixQueue.InsLast(seed);
@@ -95,7 +95,7 @@ namespace RavlImageN {
       }
       return size;
     }
-    //: Grow a region from 'seed' including all connected pixel less than or equal to threshold, generate a boundry as the result.
+    //: Grow a region from 'seed' including all connected pixel less than or equal to threshold, generate a boundary as the result.
     // Returns the region size.
 
     template<typename MaskT>
@@ -135,7 +135,7 @@ namespace RavlImageN {
       return size;
     }
     //: Grow a region from 'seed' including all connected pixel less than or equal to threshold, generate a mask as the result.
-    // The mask images are generated with a boundry
+    // The mask images are generated with a boundary
     // Returns the region size.
     
     ImageC<IntT> &MarkImage()
@@ -178,7 +178,7 @@ namespace RavlImageN {
       if(at[0] <= marki.Frame().Range1().Min() || AddIfInside(Index2dC(at[0]-1,at[1])))
 	boundary.InsLast(CrackC(at,CR_LEFT));  
     }
-    //: Add pixels with a boundry.
+    //: Add pixels with a boundary.
     
     inline 
     void AddPixels(IndexRange2dC &rng,Index2dC at) {

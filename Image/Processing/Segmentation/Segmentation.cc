@@ -83,11 +83,11 @@ namespace RavlImageN {
     return ret;
   }
   
-  //: Generate a table of region adjacencies boundry lengths.
+  //: Generate a table of region adjacencies boundary lengths.
   // only adjacenies from regions with a smaller id to those 
   // with a larger ID are generated
   
-  SArray1dC<HashC<UIntT,UIntC> > SegmentationBodyC::BoundryLength(bool biDir) {
+  SArray1dC<HashC<UIntT,UIntC> > SegmentationBodyC::BoundaryLength(bool biDir) {
     SArray1dC<HashC<UIntT,UIntC> > ret(labels);
     if(biDir) {
       Array2dSqr2IterC<UIntT> it(segmap);
@@ -191,9 +191,9 @@ namespace RavlImageN {
     return ret;
   }
   
-  //: Generate a table of the length of the boundry for each region
+  //: Generate a table of the length of the boundary for each region
   
-  SArray1dC<UIntT> SegmentationBodyC::LocalBoundryLength() {
+  SArray1dC<UIntT> SegmentationBodyC::LocalBoundaryLength() {
     SArray1dC<UIntT> ret(labels);
     ret.Fill(0);
     Array2dSqr2IterC<UIntT> it(segmap);
