@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef ARRAY1D_HH
-#define ARRAY1D_HH
+#ifndef RAVLARRAY1D_HH
+#define RAVLARRAY1D_HH
 //////////////////////////////////////////////////////////////////////////
 //! file="Ravl/Core/Container/Array/Array1d.hh"
 //! lib=RavlCore
@@ -420,7 +420,7 @@ namespace RavlN {
   Array1dC<DataC> & 
   Array1dC<DataC>::Copy(const Array1dC<DataC> & orig) {
     IndexRangeC r(orig.Range());
-    r.Clip(Range());
+    r.ClipBy(Range());
     for(BufferAccessIter2C<DataC,DataC> it(*this,orig,r);it;it++)
       it.Data1() = it.Data2();
     return *this;
@@ -431,9 +431,9 @@ namespace RavlN {
   Array1dC<DataC>::Copy(const IndexRangeC & r, const IndexC off) {
     // Construct the destination range.
     IndexRangeC destination(r);
-    destination.Clip(Range());   // the clipped source domain
+    destination.ClipBy(Range());   // the clipped source domain
     destination += off;
-    destination.Clip(Range());   // destination.Size() <= source.Size()
+    destination.ClipBy(Range());   // destination.Size() <= source.Size()
     // Both 'destination' and 'source' ranges are inside the array.
     
     const IndexC min = destination.Min();
