@@ -67,7 +67,7 @@ namespace RavlN {
     // The mapping between new and old nodes is in NodeMap.
     
     const GraphC<NodeT,EdgeT> & operator=(const GraphC<NodeT,EdgeT> & g) 
-      { GraphC::operator=(g); return *this; }
+      { GraphBaseC::operator=(g); return *this; }
     //: Creates another access to the graph 'g'. 
     // The assigment does not
     // change the content of the graph 'g', but its reference counting.
