@@ -14,6 +14,13 @@
 #include "Ravl/CCMath.hh"
 #include "Ravl/Vector.hh"
 
+#define DODEBUG 0
+#if DODEBUG 
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
+
 namespace RavlN {
   
   
@@ -34,7 +41,13 @@ namespace RavlN {
   
   MatrixC MatrixC::PseudoInverse(RealT thresh) const {
     MatrixC U, V;
+    ONDEBUG(cerr << "*this=" << *this << "\n");
     VectorC D=SVD(*this,U,V);
+    ONDEBUG(cerr << "U=" << U << "\n");
+    //ONDEBUG(cerr << "V=" << V << "\n");
+    ONDEBUG(cerr << "V=" << V.Size1() << " " << V.Size2() << "\n");
+    ONDEBUG(cerr << "D=" << D << "\n");
+    
     // Invert diagonal
     RealT aver = D.Sum() / D.Size();
     for(SArray1dIterC<RealT> it(D);it;it++) {
@@ -44,11 +57,12 @@ namespace RavlN {
       } else
 	*it = 1 / *it;
     }
-    MatrixC md(D.Size(),D.Size());
+    MatrixC md(V.Size2(),U.Size2());
     md.Fill(0);
-    md.SetDiagonal(D);
-    MatrixC m = V * md * U.T();
-    return m;
+    int x = Min(D.Size(),md.Size1(),md.Size2());
+    for(int i = 0;i < x;i++)
+      md[i][i] = D[i]; // Set all the diagonal elements we've got.
+    return (V * md).MulT(U.T());
   }
   
   

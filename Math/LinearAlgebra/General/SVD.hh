@@ -63,7 +63,8 @@ namespace RavlN
       
       DoSVD(Arg);
     }
-    
+
+  protected:
     void DoSVD(const TMatrixC<NumT> &Arg) {
       TVectorC<NumT> e(n);
       TVectorC<NumT> work(m);
@@ -471,15 +472,18 @@ namespace RavlN
 	}
       }
     }
-
-
+  public:
+    
     TMatrixC<NumT> GetU () {
+#if 0
+      // Why ?
       int minm = Min(m+1,n);
       TMatrixC<NumT> A(m, minm);
       for (int i=0; i<m; i++)
 	for (int j=0; j<minm; j++)
 	  A[i][j] = U[i][j];
-      return A;
+#endif
+      return U;
     }
     //: Generate matrix U.
     
@@ -492,13 +496,9 @@ namespace RavlN
     //: Return the one-dimensional array of singular values
     
     TMatrixC<NumT> GetS() {
-      TMatrixC<NumT> A(n,n);
-      for (int i = 0; i < n; i++) {
-	for (int j = 0; j < n; j++) {
-	  A[i][j] = 0.0;
-	}
+      TMatrixC<NumT> A(n,n,0.0);
+      for (int i = 0; i < n; i++)
 	A[i][i] = s[i];
-      }
       return A;
     }
     //: Generate the diagonal matrix of singular values
@@ -517,9 +517,8 @@ namespace RavlN
       double tol = Max(m,n)*s[0]*eps;
       int r = 0;
       for (int i = 0; i < s.dim(); i++) {
-	if (s[i] > tol) {
+	if (s[i] > tol)
 	  r++;
-	}
       }
       return r;
     }
