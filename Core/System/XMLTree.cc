@@ -46,7 +46,7 @@ namespace RavlN {
   
   //: Dump tree in a human readable format.
   
-  ostream &XMLTreeBodyC::Dump(ostream &out,int level= 0) const {
+  ostream &XMLTreeBodyC::Dump(ostream &out,int level) const {
     XMLTreeC me(const_cast<XMLTreeBodyC &>(*this));
     for(HashTreeIterC<StringC,RCHashC<StringC,StringC> > it(me);it;it++) {
       Indent(out,level) << '<' << it.Key() << ' ';

@@ -19,7 +19,7 @@ namespace RavlN {
   {
   public:
     XMLTreeBodyC()
-      : HashTreeBodyC<StringC,RCHashC<StringC,StringC> >("-")
+      : HashTreeBodyC<StringC,RCHashC<StringC,StringC> >()
     {}
     //: Default constructor.
     
