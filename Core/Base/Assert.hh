@@ -15,6 +15,7 @@
 //! author="Charles Galambos"
 
 #include <stdarg.h>
+#include "Ravl/config.h"
 
 namespace RavlN {  
   bool AssertThrowException();
