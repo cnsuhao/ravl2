@@ -46,11 +46,20 @@ namespace RavlN {
 	size2(nsize2)
     {}
     //: Constructor.
-
+    
     SizeBufferAccess2dC(const BufferAccessC<BufferAccessC<DataC> > &ab,SizeT nsize1,SizeT nsize2)
       : SizeBufferAccessC<BufferAccessC<DataC> >(ab,nsize1),
 	size2(nsize2)
     {}
+    //: Constructor.
+
+    SizeBufferAccess2dC(const SizeBufferAccess2dC<DataC > &ab,SizeT nsize1,SizeT nsize2)
+      : SizeBufferAccessC<BufferAccessC<DataC> >(ab,nsize1),
+	size2(nsize2)
+    {
+      RavlAssert(nsize1 <= ab.Size1());
+      RavlAssert(nsize2 <= ab.Size2());
+    }
     //: Constructor.
     
     SizeBufferAccess2dC()
