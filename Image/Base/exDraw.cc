@@ -42,7 +42,7 @@ int main(int nargs,char **argv) {
     poly.InsLast(Point2dC(20,70));
     poly.InsLast(Point2dC(30,60));
     poly.InsLast(Point2dC(70,80));
-    DrawPolygon(img,colour,poly,true);
+    DrawPolygon(img,colour,poly,false);
   }
   
   Save("@X",img);
