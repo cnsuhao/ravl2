@@ -34,10 +34,22 @@
 namespace RavlGUIN {
 
   using namespace RavlImageN;
+
+  enum WidgetColourTypeT {
+    WIDGET_COLOUR_FG,
+    WIDGET_COLOUR_BG,
+    WIDGET_COLOUR_LIGHT,
+    WIDGET_COLOUR_DARK,
+    WIDGET_COLOUR_MID,
+    WIDGET_COLOUR_TEXT,
+    WIDGET_COLOUR_BASE,
+    WIDGET_COLOUR_BLACK,
+    WIDGET_COLOUR_WHITE
+  };
   
   //! userlevel=Develop
   //: Widget style
-  
+
   class WidgetStyleBodyC
     : public RCBodyVC 
   {
@@ -60,7 +72,16 @@ namespace RavlGUIN {
     void SetBackground(const ImageC<ByteRGBValueC>& im, GtkStateType& state);
     //: Set the background of the widget
     
+    void SetColour(WidgetColourTypeT& type, ByteRGBValueC& col);
+    //: Set a colour for the widget
+    
+    void SetColour(WidgetColourTypeT& type, ByteRGBValueC& col, GtkStateType& state);
+    //: Set a colour for the widget
+
   protected:
+
+    bool GUILoadDefault();
+    //: Loads the default style
 
     GdkPixmap* GUIImage2Pixmap(ImageC<ByteRGBValueC>& im);
     // Loads a pixmap from an ImageC
@@ -68,14 +89,23 @@ namespace RavlGUIN {
     bool GUISetBackground(GdkPixmap* pixmap, GtkStateType state);
     // Sets the background to a pixmap
 
-    bool GUILoadDefault();
-    //: Loads the default style
-
     bool GUISetBackground(ImageC<ByteRGBValueC>& im);
     //: Sets the background of the widget
 
     bool GUISetBackground(ImageC<ByteRGBValueC>& im, GtkStateType& state);
     //: Sets the background of the widget
+
+    GdkColor GUIRGB2Colour(ByteRGBValueC& rgb);
+    // Loads a colour from a ByteRGBValueC
+
+    bool GUISetColour(WidgetColourTypeT type, GdkColor color, GtkStateType state);
+    // Sets a colour 
+
+    bool GUISetColour(WidgetColourTypeT& type, ByteRGBValueC& col);
+    //: Set a colour for the widget
+    
+    bool GUISetColour(WidgetColourTypeT& type, ByteRGBValueC& col, GtkStateType& state);
+    //: Set a colour for the widget
 
     GtkStyle *style;
     //: The GTK style itself
@@ -136,6 +166,14 @@ namespace RavlGUIN {
     { Body().SetBackground(im,state); }
     //: Set the background of the widget
     
+    void SetColour(WidgetColourTypeT& type, ByteRGBValueC& col)
+    { Body().SetColour(type,col); }
+    //: Set a colour for the widget
+    
+    void SetColour(WidgetColourTypeT& type, ByteRGBValueC& col, GtkStateType& state)
+    { Body().SetColour(type,col,state); }
+    //: Set a colour for the widget
+
   protected:
 
     bool GUILoadDefault()
@@ -149,6 +187,14 @@ namespace RavlGUIN {
     bool GUISetBackground(ImageC<ByteRGBValueC>& im, GtkStateType& state) 
     { return Body().GUISetBackground(im,state); }
     //: Sets the background of the widget
+
+    bool GUISetColour(WidgetColourTypeT& type, ByteRGBValueC& col)
+    { return Body().GUISetColour(type,col); }
+    //: Set a colour for the widget
+    
+    bool GUISetColour(WidgetColourTypeT& type, ByteRGBValueC& col, GtkStateType& state)
+    { return Body().GUISetColour(type,col,state); }
+    //: Set a colour for the widget
 
     friend class WidgetStyleBodyC;
 
