@@ -12,35 +12,29 @@
 #include "Ravl/ObsVectorBiGaussian.hh"
 #include "Ravl/Random.hh"
 #include "Ravl/EntryPnt.hh"
+#include "Ravl/RansacLine2d.hh"
 
 using namespace RavlN;
 
 #define ZHOMOG 100.0
+#define RANSAC_ITERATIONS 1000
 
-// Initialisation function for state vector
-static bool
+// Initialisation function for 2D line state vector
+static StateVectorLine2dC
  InitialiseLine2d ( DListC<ObservationC> &obs_list, // observation list
-		    RealT &lx, RealT &ly, RealT &lz ) // line parameters
+		    RealT zh ) // 3rd homogeneous plane coordinate
 {
   ObservationLine2dPointC obs;
-  RealT x1, y1, x2, y2;
+  UIntT iteration;
 
-  // we need at least two points to fit a 2D line
-  if ( obs_list.Size() < 2 ) return false;
+  // use RANSAC to fit line
+  RansacLine2dC ransac(obs_list, 3.0, zh);
 
-  // initialise line lx*x + ly*y + lz*zh by fitting to two points (x1,y1) and
-  // (x2,y2) which gives us
-  //
-  //     lx = zh*(y2-y1), ly = zh*(x1-x2), lz = x2*y1-x1*y2
-  //
-  // We use the first and the last points
+  // select and evaluate the given number of samples
+  for ( iteration=0; iteration < 1000; iteration++ )
+    ransac.ProcessSample();
 
-  obs = obs_list.First(); x1 = obs.GetZ()[0]; y1 = obs.GetZ()[1];
-  obs = obs_list.Last();  x2 = obs.GetZ()[0]; y2 = obs.GetZ()[1];
-  lx = ZHOMOG*(y2-y1);
-  ly = ZHOMOG*(x1-x2);
-  lz = x2*y1-x1*y2;
-  return true;
+  return ransac.GetSolution();
 }
 
 static void
@@ -149,12 +143,11 @@ static bool
     obs_list.InsLast(ObservationLine2dPointC(it.Data(), Ni));
 
   // initialise Levenberg-Marquardt algorithm
-  RealT lx, ly, lz;
-  InitialiseLine2d(obs_list, lx, ly, lz);
-  StateVectorLine2dC state_vec_init(lx,ly,lz,ZHOMOG);
+  StateVectorLine2dC state_vec_init = InitialiseLine2d(obs_list,ZHOMOG);
   LevenbergMarquardtC lm = LevenbergMarquardtC(state_vec_init,obs_list);
 
-  cout << "Line 2D fitting test: Initial residual=" << lm.Residual() << endl;
+  cout << "Line 2D fitting test: Initial residual=" << lm.GetResidual();
+  cout << endl;
 
   // apply iterations
   RealT lambda = 10.0;
@@ -167,13 +160,13 @@ static bool
       // iteration failed to reduce the residual
       lambda *= 10.0;
 
-    StateVectorLine2dC sv = lm.GetStateVec();
+    StateVectorLine2dC sv = lm.GetSolution();
     cout << " a=" << sv.GetLx() << " b=" << sv.GetLy() << " c=" << sv.GetLz();
-    cout << " Accepted=" << accepted << " Residual=" << lm.Residual();
+    cout << " Accepted=" << accepted << " Residual=" << lm.GetResidual();
     cout << " DOF=" << NPOINTS-2 << endl;
   }
 
-  StateVectorLine2dC sv = lm.GetStateVec();
+  StateVectorLine2dC sv = lm.GetSolution();
   cout << "Final solution: lx=" << sv.GetLx() << " ly=" << sv.GetLy() << " lz=" << sv.GetLz() << endl;
   PrintBestEstimate(coords);
   cout << endl;
@@ -215,12 +208,11 @@ static bool
 					     Sqr(OUTLIER_SIGMA/SIGMA), 5.0));
 
   // initialise Levenberg-Marquardt algorithm
-  RealT lx, ly, lz;
-  InitialiseLine2d(obs_list, lx, ly, lz);
-  StateVectorLine2dC state_vec_init(lx,ly,lz,ZHOMOG);
+  StateVectorLine2dC state_vec_init = InitialiseLine2d(obs_list, ZHOMOG);
   LevenbergMarquardtC lm = LevenbergMarquardtC(state_vec_init,obs_list);
 
-  cout << "Line 2D robust fitting test: Initial residual=" << lm.Residual() << endl;
+  cout << "Line 2D robust fitting test: Initial residual=" << lm.GetResidual();
+  cout << endl;
   PrintInlierFlags(obs_list);
 
   // apply iterations
@@ -234,13 +226,13 @@ static bool
       // iteration failed to reduce the residual
       lambda *= 10.0;
 
-    StateVectorLine2dC sv = lm.GetStateVec();
+    StateVectorLine2dC sv = lm.GetSolution();
     cout << " lx=" << sv.GetLx() << " ly=" << sv.GetLy() << " lz=" << sv.GetLz();
-    cout << " Accepted=" << accepted << " Residual=" << lm.Residual();
+    cout << " Accepted=" << accepted << " Residual=" << lm.GetResidual();
     cout << " DOF=" << NPOINTS-2 << endl;
   }
 
-  StateVectorLine2dC sv = lm.GetStateVec();
+  StateVectorLine2dC sv = lm.GetSolution();
   cout << "Final solution: lx=" << sv.GetLx() << " ly=" << sv.GetLy() << " lz=" << sv.GetLz() << endl;
   PrintInlierFlags(obs_list);
   cout << endl;

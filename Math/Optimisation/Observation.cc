@@ -17,9 +17,9 @@ namespace RavlN {
     obs_vec = nobs_vec;
   }
 
-  //: Compute the Chi-squared residual
-  RealT ObservationBodyC::SquareResidual(const StateVectorC &state_vec) {
-    RavlAssertMsg(0,"ObservationBodyC::SquareResidual(const VectorC &), Abstract method called ");
+  //: Compute the residual (negative log-likelihood) of the observation
+  RealT ObservationBodyC::Residual(const StateVectorC &state_vec) {
+    RavlAssertMsg(0,"ObservationBodyC::GetResidual(const VectorC &), Abstract method called ");
     return 0;
   }
   

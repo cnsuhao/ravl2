@@ -17,6 +17,7 @@ namespace RavlN {
   {
     zh = nzh;
     gauge_weight = gauge_weight;
+    Postprocess();
   }
 
   //: Constructor
@@ -27,6 +28,7 @@ namespace RavlN {
   {
     zh = nzh;
     gauge_weight = gauge_weight;
+    Postprocess();
   }
 
   //: Increment the linear system

@@ -30,8 +30,8 @@ namespace RavlN {
     ObservationImplicitBodyC(const ObsVectorC &nobs_vec);
     //: Constructor
 
-    RealT SquareResidual(const StateVectorC &state_vec);
-    //: Compute the Chi-squared residual
+    RealT Residual(const StateVectorC &state_vec);
+    //: Compute the residual (negative log-likelihood) of the observation
 
     bool IncrementLS(const StateVectorC &state_vec,
 		     MatrixRSC &A,
@@ -70,7 +70,7 @@ namespace RavlN {
   // can be used in optimisation see the
   // <a href="../../../LevenbergMarquardt/node2.html">mathematical description</a>.
   // This class implements the
-  // SquareResidual() and IncrementLS() methods which are virtual in the
+  // Residual() and IncrementLS() methods which are virtual in the
   // ObservationC base class, by applying the explicit
   // <a href="../../../LevenbergMarquardt/levmarq.html#chi2-def">error function</a>
   // and

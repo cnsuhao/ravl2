@@ -16,8 +16,8 @@ namespace RavlN {
   //: Constructor for Levenberg-Marquardt.
   LevenbergMarquardtC::LevenbergMarquardtC(StateVectorC &state_vec_init,
 					   DListC<ObservationC> obs_list)
+    : StoredStateC::StoredStateC(state_vec_init)
   {
-    state_vec = state_vec_init.Copy();
     A = MatrixRSC(state_vec.GetX().Size());
     Ainv = MatrixRSC(state_vec.GetX().Size());
     residual = ComputeResidual(obs_list);
@@ -34,7 +34,7 @@ namespace RavlN {
       ObservationC obs = it.Data();
 
       // accumulate residual
-      residual += obs.SquareResidual(state_vec);
+      residual += obs.Residual(state_vec);
     }
 
     return residual;
@@ -139,14 +139,8 @@ namespace RavlN {
   }
 
   // Chi-squared residual at latest estimate
-  RealT LevenbergMarquardtC::Residual() const
+  RealT LevenbergMarquardtC::GetResidual() const
   {
     return residual;
-  }
-
-  // Reference to state vector
-  const StateVectorC& LevenbergMarquardtC::GetStateVec() const
-  {
-    return state_vec;
   }
 }

@@ -13,6 +13,7 @@
 //! docentry="Ravl.Math.Optimisation"
 //! example="OrthogonalRegressionTest.cc;QuadraticFitTest.cc;Homography2dFitTest.cc"
 
+#include "Ravl/StoredState.hh"
 #include "Ravl/Observation.hh"
 #include "Ravl/DList.hh"
 #include "Ravl/Vector.hh"
@@ -34,15 +35,19 @@ namespace RavlN {
   // for a applying a damped Levenberg-Marquardt iteration, which should be
   // successively applied until convergence, and methods for returning the
   // state and covariance results.
-  class LevenbergMarquardtC {
-
+  class LevenbergMarquardtC
+    : public StoredStateC
+  {
   public:
     LevenbergMarquardtC(StateVectorC &state_vec_init,
 			DListC<ObservationC> obs_list);
     //: Constructor.
     // Initialises the Levenberg-Marquardt algorithm with the given state
     // parameter vector state_vec_init. The observation list obs_list is used
-    // to initialise the least-squares residual.
+    // to initialise the least-squares residual. state_vec_init should contain
+    // a good enough estimate of the optimal state vector parameters for
+    // direct minimisation to achieve the global minimum. Levenberg-Marquardt
+    // always goes downhill!
 
     bool Iteration ( DListC<ObservationC> obs_list, RealT lambda );
     //: Apply an iteration
@@ -58,7 +63,7 @@ namespace RavlN {
     // this method again.
 
     const VectorC &SolutionVector() const;
-    //: Latest estimate of solution parameters x
+    // Latest estimate of solution parameters
 
     const MatrixRSC &InverseCovarianceMatrix(DListC<ObservationC> obs_list);
     //: Inverse covariance matrix of solution
@@ -73,14 +78,13 @@ namespace RavlN {
     // However there may be data-dependent conditioning issues, and it is
     // safer to leave the inversion for the user program.
 
-    RealT Residual() const;
+    RealT GetResidual() const;
     //: Get stored Chi-squared residual for latest state estimate
     // This is the
     // <a href="../../../LevenbergMarquardt/levmarq.html#chi2-def">error function</a>
     // evaluated for the latest state estimate x.
 
   private:
-    StateVectorC state_vec; // state parameter vector
     MatrixRSC A; // Inverse covariance matrix
     bool A_updated; // Whether A is up to date
     MatrixRSC Ainv; // Covariance matrix
@@ -89,10 +93,6 @@ namespace RavlN {
 
     RealT ComputeResidual(DListC<ObservationC> obs_list) const;
     //: Compute least-squares residual
-
-  public:
-    const StateVectorC& GetStateVec() const;
-    //: Get handle to state vector object
   };
 }
 

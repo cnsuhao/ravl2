@@ -62,7 +62,7 @@ namespace RavlN {
     //: Get 3rd homogeneous plane coordinate
 
   private:
-    RealT zh; // 3rd homogeneous plane coordinate
+    RealT zh; // 3rd homogeneous coordinate of plane on which line lies
     RealT gauge_weight; // Weight attached to gauge freedom observation
   };
 

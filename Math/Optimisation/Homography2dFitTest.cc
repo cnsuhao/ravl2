@@ -14,6 +14,7 @@
 #include "Ravl/Random.hh"
 #include "Ravl/Matrix3d.hh"
 #include "Ravl/EntryPnt.hh"
+#include "Ravl/SArr1Iter2.hh"
 
 using namespace RavlN;
 
@@ -85,12 +86,12 @@ static bool
 
   // build arrays of x & y coordinates
   IntT i = 0;
-  for(SArray1dIterC<VectorC> it1(coords1), it2(coords2);it1;i++, it1++, it2++)
+  for(SArray1dIter2C<VectorC,VectorC> it(coords1,coords2);it;i++, it++)
   {
     // choose random x,y coordinates
     RealT x1 = Random1()*IMAGE_SIZE;
     RealT y1 = Random1()*IMAGE_SIZE;
-    it1.Data() = VectorC ( x1, y1 );
+    it.Data1() = VectorC ( x1, y1 );
 
     // transform using true homography
     VectorC p2(2);
@@ -102,14 +103,14 @@ static bool
 
     // construct noisy observation, with some outliers
     if ( i >= 10 )
-      it2.Data() = VectorC ( p2[0] + SIGMA*RandomGauss(),
+      it.Data2() = VectorC ( p2[0] + SIGMA*RandomGauss(),
 			     p2[1] + SIGMA*RandomGauss() );
     else
 #if 1
-      it2.Data() = VectorC ( p2[0] + OUTLIER_SIGMA*RandomGauss(),
+      it.Data2() = VectorC ( p2[0] + OUTLIER_SIGMA*RandomGauss(),
 			     p2[1] + OUTLIER_SIGMA*RandomGauss() );
 #else
-      it2.Data() = VectorC ( Random1()*IMAGE_SIZE, Random1()*IMAGE_SIZE );
+      it.Data2() = VectorC ( Random1()*IMAGE_SIZE, Random1()*IMAGE_SIZE );
 #endif
 
     // construct observation and add it to list
@@ -118,8 +119,8 @@ static bool
     Ni[0][0] = Ni[1][1] = 1.0/SIGMA/SIGMA;
 
     // construct robust observation and add to list
-    obs_list.InsLast(ObservationHomog2dPointC(it1.Data(), Ni,
-					      it2.Data(), Ni,
+    obs_list.InsLast(ObservationHomog2dPointC(it.Data1(), Ni,
+					      it.Data2(), Ni,
 					      Sqr(OUTLIER_SIGMA/SIGMA), 5.0));
   }
 
@@ -130,7 +131,7 @@ static bool
   StateVectorHomog2dC state_vec_init(x, ZHOMOG1, ZHOMOG2, GAUGE_WEIGHT);
   LevenbergMarquardtC lm = LevenbergMarquardtC(state_vec_init,obs_list);
 
-  cout << "2D homography fitting test (explicit): Initial residual=" << lm.Residual() << endl;
+  cout << "2D homography fitting test (explicit): Initial residual=" << lm.GetResidual() << endl;
   PrintInlierFlags(obs_list);
 
   // apply iterations
@@ -144,7 +145,7 @@ static bool
       // iteration failed to reduce the residual
       lambda *= 10.0;
 
-    cout << " Accepted=" << accepted << " Residual=" << lm.Residual();
+    cout << " Accepted=" << accepted << " Residual=" << lm.GetResidual();
     cout << " DOF=" << 2*NPOINTS-8 << endl;
   }
 
@@ -170,12 +171,12 @@ static bool
 
   // build arrays of x & y coordinates
   IntT i = 0;
-  for(SArray1dIterC<VectorC> it1(coords1), it2(coords2);it1;i++, it1++, it2++)
+  for(SArray1dIter2C<VectorC,VectorC> it(coords1,coords2);it;i++, it++)
   {
     // choose random x,y coordinates
     RealT x1 = Random1()*IMAGE_SIZE;
     RealT y1 = Random1()*IMAGE_SIZE;
-    it1.Data() = VectorC ( x1, y1 );
+    it.Data1() = VectorC ( x1, y1 );
 
     // transform using true homography
     VectorC p2(2);
@@ -187,20 +188,20 @@ static bool
 
     // construct noisy observation, with some outliers
     if ( i >= 10 ) {
-      it2.Data() = VectorC ( p2[0] + SIGMA*RandomGauss(),
+      it.Data2() = VectorC ( p2[0] + SIGMA*RandomGauss(),
 			     p2[1] + SIGMA*RandomGauss() );
 
       // add noise to first image as well
-      it1.Data()[0] += SIGMA*RandomGauss();
-      it1.Data()[1] += SIGMA*RandomGauss();
+      it.Data1()[0] += SIGMA*RandomGauss();
+      it.Data1()[1] += SIGMA*RandomGauss();
     }
     else {
-      it2.Data() = VectorC ( p2[0] + OUTLIER_SIGMA*RandomGauss(),
+      it.Data2() = VectorC ( p2[0] + OUTLIER_SIGMA*RandomGauss(),
 			     p2[1] + OUTLIER_SIGMA*RandomGauss() );
 
       // add noise to first image as well
-      it1.Data()[0] += OUTLIER_SIGMA*RandomGauss();
-      it1.Data()[1] += OUTLIER_SIGMA*RandomGauss();
+      it.Data1()[0] += OUTLIER_SIGMA*RandomGauss();
+      it.Data1()[1] += OUTLIER_SIGMA*RandomGauss();
     }
 
     // construct observation and add it to list
@@ -209,8 +210,8 @@ static bool
     Ni[0][0] = Ni[1][1] = 1.0/SIGMA/SIGMA;
 
     // construct observation and add to list
-    obs_list.InsLast(ObservationImpHomog2dPointC(it1.Data(), Ni,
-						 it2.Data(), Ni,
+    obs_list.InsLast(ObservationImpHomog2dPointC(it.Data1(), Ni,
+						 it.Data2(), Ni,
 						 Sqr(OUTLIER_SIGMA/SIGMA),
 						 5.0));
   }
@@ -222,7 +223,7 @@ static bool
   StateVectorHomog2dC state_vec_init(x, ZHOMOG1, ZHOMOG2, GAUGE_WEIGHT);
   LevenbergMarquardtC lm = LevenbergMarquardtC(state_vec_init,obs_list);
 
-  cout << "2D homography fitting test (implicit): Residual=" << lm.Residual() << endl;
+  cout << "2D homography fitting test (implicit): Residual=" << lm.GetResidual() << endl;
   PrintInlierFlags(obs_list);
 
   // apply iterations
@@ -236,7 +237,7 @@ static bool
       // iteration failed to reduce the residual
       lambda *= 10.0;
 
-    cout << " Accepted=" << accepted << " Residual=" << lm.Residual();
+    cout << " Accepted=" << accepted << " Residual=" << lm.GetResidual();
     cout << " DOF=" << 2*NPOINTS-8 << endl;
   }
 

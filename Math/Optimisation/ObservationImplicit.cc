@@ -28,8 +28,8 @@ namespace RavlN {
     N = nobs_vec.GetNi().Inverse();
   }
 
-  //: Compute the Chi-squared residual
-  RealT ObservationImplicitBodyC::SquareResidual(const StateVectorC &state_vec) {
+  //: Compute the residual (negative log-likelihood) of the observation
+  RealT ObservationImplicitBodyC::Residual(const StateVectorC &state_vec) {
     // evaluate observation F(x,z) identified with the negation of innovation v
     // and the Jacobian dF/dz
     VectorC F = EvaluateFunctionF(state_vec);

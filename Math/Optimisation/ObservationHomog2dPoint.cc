@@ -10,6 +10,7 @@
 #include "Ravl/StateVectorHomog2d.hh"
 #include "Ravl/ObsVectorBiGaussian.hh"
 #include "Ravl/Vector3d.hh"
+#include "Ravl/Exception.hh"
 
 namespace RavlN {
 
@@ -61,6 +62,9 @@ namespace RavlN {
     Vector3dC p(P[0][0]*z1[0] + P[0][1]*z1[1] + P[0][2]*zh1,
 		P[1][0]*z1[0] + P[1][1]*z1[1] + P[1][2]*zh1,
 		P[2][0]*z1[0] + P[2][1]*z1[1] + P[2][2]*zh1);
+
+    if ( fabs(p[2]) < 1.0e-20 )
+      throw ExceptionNumericalC("Divide by near-zero in ObservationHomog2dPointBodyC::EvaluateFunctionH(). ");
 
     // evaluate h(x) and store in observation object
     p2[0] = p[0]*zh2/p[2];

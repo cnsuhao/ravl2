@@ -34,8 +34,8 @@ namespace RavlN {
     ObservationBodyC(const ObsVectorC &nobs_vec);
     //: Constructor.
     
-    virtual RealT SquareResidual(const StateVectorC &state_vec);
-    //: Compute the Chi-squared residual
+    virtual RealT Residual(const StateVectorC &state_vec);
+    //: Compute the residual (negative log-likelihood) of the observation
     
     virtual bool IncrementLS(const StateVectorC &state_vec,
 			     MatrixRSC &A,
@@ -122,9 +122,9 @@ namespace RavlN {
     //: Access body.
     
   public:
-    RealT SquareResidual(const StateVectorC &state_vec)
-    { return Body().SquareResidual(state_vec); }
-    //: Compute the Chi-squared residual
+    RealT Residual(const StateVectorC &state_vec)
+    { return Body().Residual(state_vec); }
+    //: Compute the residual (negative log-likelihood) of the observation
     // This is the term in the
     // <a href="../../../LevenbergMarquardt/levmarq.html#chi2-def">error function</a>
     // for a single observation. This is a virtual method, and

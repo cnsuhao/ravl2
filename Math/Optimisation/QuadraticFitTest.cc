@@ -236,7 +236,8 @@ static bool
   StateVectorQuadraticC state_vec_init(a,b,c);
   LevenbergMarquardtC lm = LevenbergMarquardtC(state_vec_init,obs_list);
 
-  cout << "Explicit quadratic test: Initial residual=" << lm.Residual() <<endl;
+  cout << "Explicit quadratic test: Initial residual=" << lm.GetResidual();
+  cout << endl;
 
   // apply iterations
   RealT lambda = 10.0;
@@ -249,13 +250,13 @@ static bool
       // iteration failed to reduce the residual
       lambda *= 10.0;
 
-    StateVectorQuadraticC sv = lm.GetStateVec();
+    StateVectorQuadraticC sv = lm.GetSolution();
     cout << " a=" << sv.GetA() << " b=" << sv.GetB() << " c=" << sv.GetC();
-    cout << " Accepted=" << accepted << " Residual=" << lm.Residual();
+    cout << " Accepted=" << accepted << " Residual=" << lm.GetResidual();
     cout << " DOF=" << NPOINTS-3 << endl;
   }
 
-  StateVectorQuadraticC sv = lm.GetStateVec();
+  StateVectorQuadraticC sv = lm.GetSolution();
   cout << "Final solution: a=" << sv.GetA() << " b=" << sv.GetB() << " c=" << sv.GetC() << endl;
   PrintBestEstimate(coords);
   cout << endl;
@@ -301,7 +302,7 @@ static bool
   StateVectorQuadraticC state_vec_init(a,b,c);
   LevenbergMarquardtC lm = LevenbergMarquardtC(state_vec_init,obs_list);
 
-  cout << "Explicit robust quadratic test: Initial residual=" << lm.Residual() << endl;
+  cout << "Explicit robust quadratic test: Initial residual=" << lm.GetResidual() << endl;
   PrintInlierFlags(obs_list);
 
   // apply iterations
@@ -315,14 +316,14 @@ static bool
       // iteration failed to reduce the residual
       lambda *= 10.0;
 
-    StateVectorQuadraticC sv = lm.GetStateVec();
+    StateVectorQuadraticC sv = lm.GetSolution();
     cout << " a=" << sv.GetA() << " b=" << sv.GetB() << " c=" << sv.GetC();
-    cout << " Accepted=" << accepted << " Residual=" << lm.Residual();
+    cout << " Accepted=" << accepted << " Residual=" << lm.GetResidual();
     cout << " DOF=" << NPOINTS-3 << endl;
   }
 
-  StateVectorQuadraticC sv = lm.GetStateVec();
-  cout << "Final solution: a=" << sv.GetA() << " b=" << sv.GetB() << " c=" << sv.GetC() << " Residual=" << lm.Residual() << endl;
+  StateVectorQuadraticC sv = lm.GetSolution();
+  cout << "Final solution: a=" << sv.GetA() << " b=" << sv.GetB() << " c=" << sv.GetC() << " Residual=" << lm.GetResidual() << endl;
   PrintInlierFlags(obs_list);
   cout << endl;
 
@@ -361,7 +362,8 @@ static bool
   StateVectorQuadraticC state_vec_init(a,b,c);
   LevenbergMarquardtC lm = LevenbergMarquardtC(state_vec_init,obs_list);
 
-  cout << "Implicit quadratic test: Initial residual=" << lm.Residual() <<endl;
+  cout << "Implicit quadratic test: Initial residual=" << lm.GetResidual();
+  cout << endl;
 
   // apply iterations
   RealT lambda = 0.1;
@@ -374,13 +376,13 @@ static bool
       // iteration failed to reduce the residual
       lambda *= 10.0;
 
-    StateVectorQuadraticC sv = lm.GetStateVec();
+    StateVectorQuadraticC sv = lm.GetSolution();
     cout << " a=" << sv.GetA() << " b=" << sv.GetB() << " c=" << sv.GetC();
-    cout << " Accepted=" << accepted << " Residual=" << lm.Residual();
+    cout << " Accepted=" << accepted << " Residual=" << lm.GetResidual();
     cout << " DOF=" << NPOINTS-3 << endl;
   }
 
-  StateVectorQuadraticC sv = lm.GetStateVec();
+  StateVectorQuadraticC sv = lm.GetSolution();
   cout << "Final solution: a=" << sv.GetA() << " b=" << sv.GetB() << " c=" << sv.GetC() << endl;
   cout << endl;
   return true;

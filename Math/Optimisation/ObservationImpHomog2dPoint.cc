@@ -47,6 +47,9 @@ namespace RavlN {
 		P[1][0]*z[0] + P[1][1]*z[1] + P[1][2]*zh1,
 		P[2][0]*z[0] + P[2][1]*z[1] + P[2][2]*zh1);
     
+    if ( fabs(p[2]) < 1.0e-20 )
+      throw ExceptionNumericalC("Divide by near-zero in ObservationImpHomog2dPointBodyC::EvaluateFunctionF(). ");
+
     // evaluate projection store in observation object
     p2[0] = p[0]*zh2/p[2];
     p2[1] = p[1]*zh2/p[2];

@@ -24,8 +24,8 @@ namespace RavlN {
   {
   }
 
-  //: Compute the Chi-squared residual
-  RealT ObservationExplicitBodyC::SquareResidual(const StateVectorC &state_vec) {
+  //: Compute the residual (negative log-likelihood) of the observation
+  RealT ObservationExplicitBodyC::Residual(const StateVectorC &state_vec) {
     // evaluate observation
     VectorC h = EvaluateFunctionH(state_vec);
 
