@@ -13,7 +13,9 @@ HEADERS=FPoint.hh Point2d.hh  Point3d.hh  Point4d.hh
 
 SOURCES=Point2d.cc 
 
-PLIB=RavlGeom
+PLIB=RavlMath
 
-USESLIBS=RavlCore
+LIBDEPS=RavlGeom.def
+
+USESLIBS=RavlMath RavlCore 
 
