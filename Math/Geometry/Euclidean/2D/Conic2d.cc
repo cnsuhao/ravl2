@@ -176,17 +176,19 @@ namespace RavlN {
     FVectorC<2> lambda;
     FMatrixC<2,2> E;
     EigenVectors(euc,E,lambda);
+    // lambda now contains inverted squared minor & major axes respectively
     // (N.B.: if ellipse orientation is +ve, E[1][0] *MUST* be -ve)
     ONDEBUG(cerr << "Eigen decomp is:\n" << E << "\n" << lambda << endl);
-    // Matrix "scale" (inverted roots of eigenvalues) contains minor & major axes respectively
-    Matrix2dC scale(1/Sqrt(lambda[0]), 0,
-                    0,                 1/Sqrt(lambda[1]));
 
-    // Multiplying by constant matrix swaps x & y to compensate for eigenvalue
-    // ordering.  This is to ensure that [1,0] on unit circle gets mapped to
+    Matrix2dC scale(0,                 1/Sqrt(lambda[0]),
+                    1/Sqrt(lambda[1]), 0                );
+    // Columns are swapped in order to swap x & y to compensate for eigenvalue
+    // ordering.  I.e. so that [1,0] on unit circle gets mapped to
     // end of major axis rather than minor axis.
+    // Hence "scale" contains major & minor axes respectively
+
     // FIXME:- Multiply out by hand to make it faster.
-    ellipse = Ellipse2dC(E * scale * Matrix2dC(0,1,1,0), centre);
+    ellipse = Ellipse2dC(E * scale, centre);
     ONDEBUG(cerr<<"Ellipse2dC:\n"<<ellipse<<endl);
     ONDEBUG(cerr<<"[1,0] on unit circle goes to "<<ellipse.Projection()*(Vector2dC(1,0))<<" on ellipse"<<endl;);
     return true;
