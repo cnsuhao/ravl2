@@ -61,7 +61,7 @@ namespace RavlGUIN {
     StringC winName = ExtractParams(filename);
     StringC device = ExtractDevice(filename);
     
-    // See if the window alread exists.
+    // See if the window already exists.
     RWLockHoldC hold(windowsLock,false);
     DPWindowC win;
     if(!windows.Lookup(winName,win)) {

@@ -45,6 +45,8 @@ extern "C" {
 
 namespace RavlGUIN {
   
+  MutexC DPWindowBodyC::setupMutex; // Make sure window is only setup at once.
+  
   DPWindowBodyC::DPWindowBodyC(const StringC &nname,const IndexRange2dC &nWinSize)
     : name(nname),
       winSize(nWinSize)

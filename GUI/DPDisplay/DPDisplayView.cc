@@ -135,6 +135,7 @@ namespace RavlGUIN {
     refreshQueued = false;
     for(DLIterC<DPDisplayObjC> it(displayList);it;it++)
       it->Draw(*this);
+    hold.Unlock();
     UpdateSlider();
     return true;
   }
