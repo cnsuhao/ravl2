@@ -730,8 +730,11 @@ $(TARG_EXE) : $(INST_BIN)/% : $(INST_OBJS)/%$(OBJEXT) $(EXTRAOBJS) $(TARG_LIBS) 
 	if [ -f $(INST_BIN)/$(@F) ] ; then \
 	  $(CHMOD) +w $(INST_BIN)/$(@F) ; \
 	fi ; \
-	$(CXX) $(LDFLAGS) $(INST_OBJS)/$(@F)$(OBJEXT) $(EXTRAOBJS) $(BINLIBS) -o $(INST_BIN)/$(@F) ; \
-	$(CHMOD) 555 $(INST_BIN)/$(@F)
+	if $(CXX) $(LDFLAGS) $(INST_OBJS)/$(@F)$(OBJEXT) $(EXTRAOBJS) $(BINLIBS) -o $(INST_BIN)/$(@F) ; then \
+	  $(CHMOD) 555 $(INST_BIN)/$(@F) ; \
+	else \
+	  exit 1; \
+	fi
 
 ifndef NOEXEBUILD
 build_test: $(TARG_TESTEXE)
@@ -743,8 +746,12 @@ endif
 
 $(TARG_TESTEXE) : $(INST_TESTBIN)/% : $(INST_OBJS)/%$(OBJEXT) $(TARG_LIBS) $(EXTRAOBJS) $(TARG_HDRCERTS) $(INST_TESTBIN)/.dir
 	$(SHOWIT)echo "--- Linking test program $(@F)  ( $(INST_TESTBIN)/$(@F) ) " ; \
-	$(CXX) $(LDFLAGS) $(INST_OBJS)/$(@F)$(OBJEXT)  $(EXTRAOBJS) $(BINLIBS) -o $(INST_TESTBIN)/$(@F) ; \
-	echo "$(@F)" >> $(INST_TESTDB)
+	if $(CXX) $(LDFLAGS) $(INST_OBJS)/$(@F)$(OBJEXT)  $(EXTRAOBJS) $(BINLIBS) -o $(INST_TESTBIN)/$(@F) ; then \
+	  $(CHMOD) 555 $(INST_BIN)/$(@F) ; \
+	  echo "$(@F)" >> $(INST_TESTDB) ; \
+	else \
+	  exit 1; \
+	fi
 
 
 ###########################
