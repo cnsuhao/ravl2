@@ -208,8 +208,10 @@ namespace RavlN {
     //: Open a file for output.
     // '-' is treated as cout.
     
-    OStreamC(int fd,bool binary = true,bool buffered = true);
+#if RAVL_HAVE_INTFILEDESCRIPTORS 
+	OStreamC(int fd,bool binary = true,bool buffered = true);
     //: Send data to unix filehandle.
+#endif
     
     inline OStreamC(ostream &strm,bool deletable = false)
       : StreamBaseC(&strm,"",deletable),
@@ -305,10 +307,12 @@ namespace RavlN {
     IStreamC(const StringC &filename,bool binary = true,bool buffered=true);
     //: Open a file.
     // '-' is treated as cin.
-    
+
+#if RAVL_HAVE_INTFILEDESCRIPTORS
     IStreamC(int fd,bool binary = true,bool buffered = true);
     //: Get data from unix filehandle.
-    
+#endif
+
     inline IStreamC(istream &strm,bool deletable = false)
       : StreamBaseC(&strm,StringC(""),deletable),
         in(&strm)

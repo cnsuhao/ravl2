@@ -251,16 +251,26 @@ namespace RavlN {
       fmode |= ios::app;  
 #if RAVL_COMPILER_GCC3
     Init(ofstrm = new ofstream(filename.chars(),(std::_Ios_Openmode) fmode),filename);
+    if(!buffered) {
+      cerr << "WARNING: Unbuffered streams are not currently supported under gcc3.\n";
+    }
 #else
     Init(ofstrm = new ofstream(filename.chars(),fmode),filename);
+#if RAVL_COMPILER_VISUALCPP
+    if(!buffered) {
+      cerr << "WARNING: Unbuffered streams are not currently supported under windows.\n";
+    }
+#else
     if(!buffered) 
       ofstrm->setbuf(0,0);
-#endif      
+#endif
+#endif
     out = ofstrm;
   }
   
   //: Get data from unix filehandle.
-  
+
+#if RAVL_HAVE_INTFILEDESCRIPTORS
   OStreamC::OStreamC(int fd,bool binary,bool buffered) { 
     ONDEBUG(cerr << "OStreamC::OStreamC(" << fd << "," << ((int) binary) << ","  << (int) buffered << ") Called \n");
 #if !RAVL_COMPILER_GCC3
@@ -289,7 +299,8 @@ namespace RavlN {
     Init(out = ofs,StringC(fd)); 
 #endif
   }
-  
+#endif
+
   //: Print to stream using good old 'C' sytle formating.
   // This isn't the saftest function, it uses a fixed
   // buffer of 4096 bytes. 
@@ -358,7 +369,11 @@ namespace RavlN {
 #endif
       Init(ifstrm = new ifstream(filename),filename);
     in = ifstrm;
-#if !RAVL_COMPILER_GCC3
+#if RAVL_COMPILER_VISUALCPPNET || RAVL_COMPILER_GCC3
+    if(!buffered) {
+      cerr << "WARNING: Unbuffered streams are not currently supported under windows or gcc3.\n";	
+    }	
+#else
     if(!buffered) {
       RavlAssert(ifstrm != 0);
       ifstrm->setbuf(0,0);
@@ -368,6 +383,7 @@ namespace RavlN {
   
   //: Get data from unix filehandle.
   
+#if RAVL_HAVE_INTFILEDESCRIPTORS
   IStreamC::IStreamC(int fd,bool binary,bool buffered) {   
     ONDEBUG(cerr << "IStreamC::IStreamC(" << fd << "," << ((int) binary) << ","  << (int) buffered << ") Called \n");
 #if !RAVL_COMPILER_GCC3
@@ -405,7 +421,8 @@ namespace RavlN {
     Init(in = ifs,StringC(fd)); 
 #endif
   }
-  
+#endif
+
   /////////////////////////
   //: Unget a string.
   
@@ -429,7 +446,7 @@ namespace RavlN {
     // Visual C++. this works around the problem though its
     // not clear it will work for all types of streams.
     // FIXME:- Be a little more clever and try and use unget when it will work.
-    is().seekg(is().tellg() - len);
+	is().seekg(is().tellg() - static_cast<streampos>(len));
 #endif
   }
   
