@@ -29,16 +29,23 @@ namespace RavlN {
   StrOStreamC::StrOStreamC()
     : OStreamC(*(oss = new ostrstream()),true)
   {}
+
+  //: Get the number of bytes written so far.
+  
+  UIntT StrOStreamC::Size() const {
+    return oss->pcount();
+  }
   
   ///////////////////
   //: Get text written to stream so far.
   // NB. This does NOT clean the buffer.
   
   StringC StrOStreamC::String() {
+    UIntT count =  oss->pcount();
     char *data = oss->str(); 
     // This is a bit ugly, we have to copy the 
     // string into another buffer.
-    StringC ret(data,oss->pcount(),oss->pcount()+1);
+    StringC ret(data,count,count);
     delete data; // Free buffer.
     return ret;
   }

@@ -51,6 +51,8 @@ namespace RavlN {
     //: Get text written to stream.
     // Note, this will reset the buffer. 
     
+    UIntT Size() const;
+    //: Get the number of bytes written so far.
   protected:
     ostrstream *oss; // Output string stream.
   };

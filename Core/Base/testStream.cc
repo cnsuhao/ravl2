@@ -15,6 +15,7 @@
 
 #include "Ravl/Types.hh"
 #include "Ravl/BinStream.hh"
+#include "Ravl/StrStream.hh"
 #include "Ravl/TFVector.hh"
 #include "Ravl/String.hh"
 
@@ -28,22 +29,25 @@ using namespace RavlN;
 
 int SimpleTest();
 int VectorTest();
+int StrStreamTest();
 
 StringC testFile = "/tmp/testStream" + StringC((IntT) getpid());
 
 int main() {
   int errLine;
-  OStreamC tf(testFile);
-  if(tf) {
-    cerr << "ERROR: File " << testFile << " exits, test could not be performed. \n";
-    // FIXME:- Do something clever here, and generate a new filename ?
-    return 0; // Pretend it passed.
-  }
-  if((errLine = SimpleTest()) != 0) 
+  // NOTE: test may fail if file exits and belongs to someone else!!
+  if((errLine = SimpleTest()) != 0) {
     cerr << "Stream test failed line: " << errLine << "\n";
-
-  if((errLine = VectorTest()) != 0) 
+    return 1;
+  }
+  if((errLine = VectorTest()) != 0) {
     cerr << "Stream vector test failed line: " << errLine << "\n";
+    return 1;
+  }
+  if((errLine = StrStreamTest()) != 0) {
+    cerr << "String stream test failed line: " << errLine << "\n";
+    return 1;
+  }
   cerr << "Test passed. \n";
   return 0;
 }
@@ -111,5 +115,41 @@ int SimpleTest() {
       return __LINE__; 
     }
   }
+  return 0;
+}
+
+int StrStreamTest() {
+  {
+    // Test write of a simple string.
+    StrOStreamC sos;
+    StringC hello("hello");
+    sos << hello;
+    if(sos.String() != hello)
+      return __LINE__;
+  }
+  {
+    StrOStreamC sos;
+    StringC hello("hello");
+    sos << hello << ' ' << hello << "zyz" << flush << "x";
+    sos << hello.before('o');
+    sos << hello.after('h');
+    OStreamC *tmp = new OStreamC(sos);
+    delete tmp;
+    StringC got = sos.String();
+    cerr << "'" << got << "'\n";
+    if(got != "hello hellozyzxhellello") {
+      cerr << " Got:'" << got << "'\n";
+      return __LINE__;
+    }
+  }
+  {
+    StrOStreamC sos;
+    StringC hello("Greetings");
+    SubStringC rol = hello.from(0);
+    sos << rol;
+    StringC ret = sos.String();
+    cerr << "'" << ret << "'\n";
+    
+  }  
   return 0;
 }
