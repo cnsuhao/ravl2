@@ -20,6 +20,7 @@
 #include "Ravl/Point2d.hh"
 #include "Ravl/RealRange2d.hh"
 #include "Ravl/LinePP2d.hh"
+#include "Ravl/Projection2d.hh"
 
 namespace RavlImageN {
   
@@ -62,6 +63,17 @@ namespace RavlImageN {
 	mixer(mix)
     { Init(); }
     //: Constructor.
+
+    WarpProjectiveC(const Projection2dC &transform,
+		    bool nFillBackground = true,
+		    const MixerT &mix = MixerT())
+      : trans(transform.Matrix()),
+	iz(transform.Iz()),
+	oz(transform.Oz()),
+	fillBackground(nFillBackground),
+	mixer(mix)
+    { Init(); }
+    //: Constructor.
     
     void Apply(const ImageC<InT> &img,ImageC<OutT> &out);
     //: Warp image 'img' with the given transform and write it into 'out'
@@ -93,10 +105,10 @@ namespace RavlImageN {
     // Note: This may be larger than the actual input provided.
     
     Point2dC BackProject(const Point2dC &pnt) const;
-    // Transform a point from the destination to source.
+    // Transform a point from the source to destination.
 
     Point2dC Project(const Point2dC &pnt) const;
-    // Transform a point from the source to destination
+    // Transform a point from the destination to source.
     
   protected:
     void Init();
