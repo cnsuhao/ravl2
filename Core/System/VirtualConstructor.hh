@@ -13,6 +13,7 @@
 
 #include "Ravl/RCHandleV.hh"
 #include "Ravl/Hash.hh"
+#include "Ravl/TypeName.hh"
 
 #if RAVL_HAVE_ANSICPPHEADERS
 #include <typeinfo>
@@ -33,10 +34,18 @@ namespace RavlN {
     VirtualConstructorBodyC(const type_info &,const char *typesname);
     //: Default constructor.
     
-    virtual RCBodyC *Load(istream &in) const;
+    VirtualConstructorBodyC(istream &in);
+    //: Construct from an istream.
+    // Dummy method.
+
+    VirtualConstructorBodyC(BinIStreamC &in);
+    //: Construct from an istream.
+    // Dummy method
+    
+    virtual RCBodyVC *Load(istream &in) const;
     //: Load an object of this type from an istream
     
-    virtual RCBodyC *Load(BinIStreamC &in) const;
+    virtual RCBodyVC *Load(BinIStreamC &in) const;
     //: Load an object of this type from a BinIStreamC    
   };
 
@@ -52,14 +61,21 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    RCBodyC *Load(istream &in) const
+    RCBodyVC *Load(istream &in) const
     { return Body().Load(in); }
     //: Load an object of this type from an istream
     
-    RCBodyC *Load(BinIStreamC &in) const
+    RCBodyVC *Load(BinIStreamC &in) const
     { return Body().Load(in); }
     //: Load an object of this type from a BinIStreamC
+
+  protected:
+    VirtualConstructorC(VirtualConstructorBodyC &bod)
+      : RCHandleC<VirtualConstructorBodyC>(bod)
+    {}
+    //: Body constructor.
     
+    friend class VirtualConstructorBodyC;
   };
   
   //! userlevel=Develop
@@ -75,13 +91,13 @@ namespace RavlN {
     {}
     //: Default constructor.
     
-    virtual RCBodyC *Load(istream &in) const
-    { return *new DataT(in); }
-    //: Load an object of this type from an istream
-
-    virtual RCBodyC *Load(BinIStreamC &in) const
-    { return *new DataT(in); }
-    //: Load an object of this type from a BinIStreamC
+    virtual RCBodyVC *Load(istream &in) const
+    { return new DataT(in); }
+    //: Load an object of this type from an istream.
+    
+    virtual RCBodyVC *Load(BinIStreamC &in) const
+    { return new DataT(in); }
+    //: Load an object of this type from a BinIStreamC using a virtual constructor.
     
   };
   
@@ -94,16 +110,38 @@ namespace RavlN {
   {
   public:
     VirtualConstructorInstC(const char *typesname)
-      : VirtualConstructorC(*new VirtualConstructorInstC<DataT>(typesname))
+      : VirtualConstructorC(*new VirtualConstructorInstBodyC<DataT>(typesname))
     {}
     //: Constructor.
   };
   
-  RCBodyC *VCLoad(istream &s);
-  //: Load object from a stream.
+  RCBodyVC *VCLoad(istream &s);
+  //: Load object from a stream via a virtual constructor
   
-  RCBodyC *VCLoad(BinIStreamC &s);
-  //: Load object from a binary stream.
+  RCBodyVC *VCLoad(BinIStreamC &s);
+  //: Load object from a binary stream via a virtual constructor
+  
+#define RAVL_INITVIRTUALCONSTRUCTOR(bodyname) \
+ static VirtualConstructorInstC<bodyname> vc_function(# bodyname );
+
+  // Just initalise the virtual constructor.
+
+#define RAVL_VIRTUALCONSTRUCTOR_HANDLE(bodyname,handlename,basename) \
+ handlename::handlename(istream &strm) \
+  : basename(RAVL_VIRTUALCONSTRUCTOR(strm,bodyname)) \
+ {} \
+ handlename::handlename(BinIStreamC &strm) \
+  : basename(RAVL_VIRTUALCONSTRUCTOR(strm,bodyname)) \
+ {}
+
+  // Sort out the constructors for the handle.
+  
+#define RAVL_INITVIRTUALCONSTRUCTOR_FULL(bodyname,handlename,basename) \
+ RAVL_INITVIRTUALCONSTRUCTOR(bodyname) \
+ RAVL_VIRTUALCONSTRUCTOR_HANDLE(bodyname,handlename,basename)
+
+  // Initalise the virtual constructor and the handle
+
   
 }
 

@@ -12,46 +12,75 @@
 
 namespace RavlN {
 
-  //: Default constructor.
-  
-  VirtualConstructorBodyC::VirtualConstructorBodyC(const type_info &info,const char *typesname)
-  {
-    AddTypeName(info,typesname);
-  }
-  
-  //: Load an object of this type from an istream
-  
-  RCBodyC *VirtualConstructorBodyC::Load(istream &in) const
-  { return 0; }
-  
-  //: Load an object of this type from a BinIStreamC
-  
-  RCBodyC *VirtualConstructorBodyC::Load(BinIStreamC &in) const
-  { return 0; }
-
   //: Access virtual constructor table.
   
   static HashC<const char *,VirtualConstructorC> &Table() {
     static HashC<const char *,VirtualConstructorC> tab;
     return tab;
   }
+
+  //: Default constructor.
   
-  RCBodyC *VCLoad(istream &s) {
+  VirtualConstructorBodyC::VirtualConstructorBodyC(const type_info &info,const char *typesname)
+  {
+    //cerr << "VirtualConstructorBodyC::VirtualConstructorBodyC(), Registering '" << info.name() << "' as '" <<typesname << "' \n";
+    Table()[typesname] = VirtualConstructorC(*this);
+    AddTypeName(info,typesname);
+    
+  }
+
+  //: Construct from an istream.
+  // Dummy method.
+  
+  VirtualConstructorBodyC::VirtualConstructorBodyC(istream &in)
+    : RCBodyVC(in)
+  {}
+  
+  //: Construct from an istream.
+  // Dummy method
+  
+  VirtualConstructorBodyC::VirtualConstructorBodyC(BinIStreamC &in) 
+    : RCBodyVC(in)
+  {}
+  
+  //: Load an object of this type from an istream
+  
+  RCBodyVC *VirtualConstructorBodyC::Load(istream &in) const { 
+    RavlAssertMsg(0,"VirtualConstructorBodyC::Load(), Abstract method called. ");
+    return 0; 
+  }
+  
+  //: Load an object of this type from a BinIStreamC
+  
+  RCBodyVC *VirtualConstructorBodyC::Load(BinIStreamC &in) const {
+    RavlAssertMsg(0,"VirtualConstructorBodyC::Load(), Abstract method called. ");
+    return 0; 
+  }
+
+  
+  RCBodyVC *VCLoad(istream &s) {
     StringC name;
     s >> name;
     VirtualConstructorC vc;
-    if(!Table().Lookup(name.chars(),vc))
+    if(!Table().Lookup(name.chars(),vc)) {
+      cerr << "WARNING: Failed to find virtual constructor for type '" << name.chars() << "' \n";
       return 0; // Type not found.
+    }
     return vc.Load(s);
   }
   
-  RCBodyC *VCLoad(BinIStreamC &s) {
+  RCBodyVC *VCLoad(BinIStreamC &s) {
     StringC name;
     s >> name;
     VirtualConstructorC vc;
-    if(!Table().Lookup(name.chars(),vc))
+    if(!Table().Lookup(name.chars(),vc)) {
+      cerr << "WARNING: Failed to find virtual constructor for type '" << name.chars() << "' \n";
       return 0; // Type not found.
+    }
     return vc.Load(s);
   }
   
+  // The following is included for debugging only.
+  
+  RAVL_INITVIRTUALCONSTRUCTOR(VirtualConstructorBodyC)
 }

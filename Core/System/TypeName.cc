@@ -19,28 +19,19 @@
 #include <ctype.h>
 
 namespace RavlN {
-  typedef const char *(*HandleNameMapT)(const type_info &type);
-  extern HandleNameMapT HandleNameMap;
+  typedef const char *(*TypeNameMapT)(const type_info &type);
+  extern TypeNameMapT TypeNameMap;
   
   static HashC<const char *,const char *> InitNameMapping();
   
   inline static HashC<const char *,const char *> &HandleNameMapping()  { 
-    static HashC<const char *,const char *> handleNameMapping = InitNameMapping();
+    static HashC<const char *,const char *> handleNameMapping;
     return handleNameMapping;
-  }
-  
-  const char *HandleNameLookup(const type_info &type) {
-    return HandleNameMapping()[type.name()];
-  }
-  
-  static HashC<const char *,const char *> InitNameMapping() {
-    HandleNameMap = &HandleNameLookup;
-    return HashC<const char *,const char *>();
   }
   
   
   inline static HashC<const char *,const char *> &TypeNameMapping()  { 
-    static HashC<const char *,const char *> typeNameMapping;
+    static HashC<const char *,const char *> typeNameMapping = InitNameMapping();
     return typeNameMapping;
   }
   
@@ -72,6 +63,7 @@ namespace RavlN {
   static TypeNameC type13(typeid(IndexC),"IndexC");
   
   static TypeNameC type14(typeid(bool),"bool");
+  static TypeNameC type15(typeid(RCBodyVC),"RCBodyVC");
   
   
   const char *TypeName(const char *name) { 
@@ -141,6 +133,11 @@ namespace RavlN {
   
   const char *TypeName(const type_info &info)  { 
     return TypeName(info.name()); 
+  }
+
+  static HashC<const char *,const char *> InitNameMapping() {
+    TypeNameMap = &TypeName;
+    return HashC<const char *,const char *>();
   }
   
   const type_info &RTypeInfo(const char *name) { 
