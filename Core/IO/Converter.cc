@@ -76,6 +76,23 @@ namespace RavlN {
   
   static IntT ConvByte2Int(const ByteT &v)
   { return (IntT) v; }
+
+  static IntT ConvInt162Int(const Int16T &v)
+  { return (IntT) v; }
+  
+  static RealT ConvInt2Real(const IntT &v)
+  { return (RealT) v; }
+
+  static StringC ConvInt2String(const IntT &v)
+  { return StringC(v); }
+
+  static StringC ConvReal2String(const RealT &v)
+  { return StringC(v); }
   
   DP_REGISTER_CONVERSION_NAMED(ConvByte2Int,1,"IntT RavlN::Convert(const ByteT &)");
+  DP_REGISTER_CONVERSION_NAMED(ConvInt162Int,1,"IntT RavlN::Convert(const Int16T &)");
+  DP_REGISTER_CONVERSION_NAMED(ConvInt2Real,1,"RealT RavlN::Convert(const IntT &)");
+  DP_REGISTER_CONVERSION_NAMED(ConvInt2String,1,"StringC RavlN::Convert(const IntT &)");
+  DP_REGISTER_CONVERSION_NAMED(ConvReal2String,1,"StringC RavlN::Convert(const RealT &)");
+  
 }

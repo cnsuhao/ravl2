@@ -22,4 +22,5 @@ namespace RavlN {
   FileFormatStreamC<IntT> FileFormatStream_IntT;
   FileFormatStreamC<UIntT> FileFormatStream_UIntT;
   FileFormatStreamC<StringC> FileFormatStream_StringC;
+  FileFormatStreamC<ByteT> FileFormatStream_ByteT;
 }
