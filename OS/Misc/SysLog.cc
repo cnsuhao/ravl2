@@ -44,8 +44,10 @@ namespace RavlN {
     int options = 0;
     if(logPid)
       options |= LOG_PID;
+#if !RAVL_OS_SOLARIS
     if(sendStdErr)
       options |= LOG_PERROR;
+#endif
     openlog(syslog_ident,options,facility);
 #endif
     return true;
