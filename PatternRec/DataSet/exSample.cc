@@ -7,6 +7,7 @@
 #include"Ravl/PatternRec/SampleVector.hh"
 #include"Ravl/PatternRec/SampleLabel.hh"
 #include"Ravl/PatternRec/DataSet1.hh"
+#include"Ravl/PatternRec/DataSet2.hh"
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 

@@ -68,7 +68,7 @@ namespace RavlN {
     
     DataSet1C(DataSet1BodyC<DataT> &bod)
       : DataSetBaseC(bod)
-      { }
+      {}
     //: Body constructor.
     
     DataSet1BodyC<DataT> &Body()
