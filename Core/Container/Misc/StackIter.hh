@@ -30,12 +30,19 @@ namespace RavlN {
   public:
     StackIterC(StackC<T> & s)
       : BaseStackC<T>(s),
-	stack(s)
+	stack(&s)
     { DecrTop() ;}
     //: Constructor.
     
-    StackC<T>& Stack()       
-    { return stack; }
+    StackIterC()
+      : stack(0)
+    {}
+    //: Default constructor.
+    
+    StackC<T>& Stack() { 
+      RavlAssert(stack != 0);
+      return *stack; 
+    }
     //: Access the stack we're iterating.
     
     StackC<T>& Container()   
@@ -95,7 +102,7 @@ namespace RavlN {
     //: Position in stack.
     
   private:
-    StackC<T>&         stack; // Reference to stack.
+    StackC<T>*         stack; // Stack we're iterating.
     
     inline void        DecrTop() { 
       if(top==0) { 
