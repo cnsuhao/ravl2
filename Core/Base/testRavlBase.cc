@@ -100,9 +100,12 @@ int testTypes()
   if(sizeof(Int64T) != 8) return __LINE__;
   if(sizeof(UInt64T) != 8) return __LINE__;
 #if RAVL_USE_LARGEFILESUPPORT
+  cerr << "Large file support: Enabled. \n";
   if(sizeof(StreamSizeT) < 8) return __LINE__;
   if(sizeof(StreamOffsetT) < 8) return __LINE__;
+  if(sizeof(streampos) < 8) return __LINE__;
 #else
+  cerr << "Large file support: Disabled. \n";
   if(sizeof(StreamSizeT) < 4) return __LINE__;
   if(sizeof(StreamOffsetT) < 4) return __LINE__;
 #endif
