@@ -20,6 +20,7 @@
 namespace RavlN {
   
   class VectorC;
+  class VectorMatrixC;
   
   //! userlevel=Normal
   //: Matrix of real values.
@@ -123,32 +124,38 @@ namespace RavlN {
   // NB. This function destory's the contents of this matrix!
   
   VectorC EigenValues(const MatrixC &mat);
-  //: Calculate the eigen values of this matrix.
+  //: Calculate the eigen values of this matrix, for real symmetric matrices
   // This matrix remains unchanged. A vector of the eigen
   // values is returned. <p>
   // If any errors occured a zero length vector is generated.
   
   VectorC EigenValuesIP(MatrixC &mat);
-  //: Calculate the eigen values of this matrix.
+  //: Calculate the eigen values of this matrix, for real symmetric matrices
   // The contents of this matrix is destroyed. A vector of the eigen
   // values is returned.   <p>
   // If any errors occured a zero length vector is generated.
   
   VectorC EigenVectors(const MatrixC &mat,MatrixC &E);
-  //: Calculate the eigen values and vectors of this matrix.
+  //: Calculate the eigen values and vectors of this matrix, for real symmetric matrices
   // A = E*D*E~ where D is the diagonal matrix of eigenvalues
   //   D[i,j] = ret[i] if i=j and 0 otherwise. 'ret' is the
-  // returned matrix.
+  // returned vector.
+  
+  VectorMatrixC EigenVectors(const MatrixC &mat);
+  //: Calculate the eigen values and vectors of this matrix, for real symmetric matrices
+  // A = E*D*E~ where D is the diagonal matrix of eigenvalues
+  // D[i,j] = ret[i] if i=j and 0 otherwise. 'ret' is the
+  // returned vector and E is the returned matrix.
   
   VectorC EigenVectorsIP(MatrixC &mat);
-  //: Calculate the eigen values and vectors of this matrix.
+  //: Calculate the eigen values and vectors of this matrix, for real symmetric matrices
   // This matrix is filed with the eigen vectors
   // A = E*D*E~ where D is the diagonal matrix of eigenvalues
   //   D[i,j] = ret[i] if i=j and 0 otherwise. 'ret' is the
-  // returned matrix.
+  // returned vector.
   
   RealT MaxEigenValue(const MatrixC &mat,VectorC &maxv);
-  //: Get the maximum eigen value and its vector.
+  //: Get the maximum eigen value and its vector, for real symmetric matrices
 
 }
 

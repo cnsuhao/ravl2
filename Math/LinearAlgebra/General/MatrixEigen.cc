@@ -13,6 +13,7 @@
 #include "Ravl/Matrix.hh"
 #include "Ravl/Vector.hh"
 #include "Ravl/CCMath.hh"
+#include "Ravl/VectorMatrix.hh"
 
 // matrix functions.
 
@@ -34,9 +35,15 @@ namespace RavlN {
     return ret;
   }
   
-  VectorC EigenVectors(const MatrixC &mat) {
+  VectorC EigenVectors(const MatrixC &mat,MatrixC &E) {
+    E = mat.Copy();
+    return EigenVectorsIP(E);
+  }
+
+  VectorMatrixC EigenVectors(const MatrixC &mat) {
     MatrixC ret = mat.Copy();
-    return EigenVectorsIP(ret);
+    VectorC vec =  EigenVectorsIP(ret);
+    return VectorMatrixC(vec,ret);
   }
   
   VectorC EigenVectorsIP(MatrixC &mat) {
@@ -61,6 +68,7 @@ namespace RavlN {
 #endif
     return ret;
   }
+
   
 
 }
