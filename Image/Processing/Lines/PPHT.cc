@@ -773,7 +773,7 @@ namespace RavlImageN {
     PCPixMappingC<Curve2dLineSegmentC> ret = lines;
     if(feedBack)
       lastLines = lines;
-    lines = PCPixMappingC<Curve2dLineSegmentC>();   // Make sure there's no refrence left to muck up multithreading.
+    lines = PCPixMappingC<Curve2dLineSegmentC>();   // Make sure there's no reference left to muck up multithreading.
     return ret;
   }
   
@@ -866,7 +866,7 @@ namespace RavlImageN {
       lines.InsFirst(PCPixMapC<Curve2dLineSegmentC>(aline,res));
     }
     PCPixMappingC<Curve2dLineSegmentC> ret = lines;
-    lines = PCPixMappingC<Curve2dLineSegmentC>();   // Make sure there's no refrence left to muck up multithreading.
+    lines = PCPixMappingC<Curve2dLineSegmentC>();   // Make sure there's no reference left to muck up multithreading.
     //cerr << angleCount;
     
     return ret;

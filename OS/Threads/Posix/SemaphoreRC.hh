@@ -21,7 +21,7 @@
 namespace RavlN
 {
   //! userlevel=Normal
-  //: Refrence counted semaphore.
+  //: Reference counted semaphore.
   
   class SemaphoreRC
     : public RCWrapC<SemaphoreC>

@@ -201,7 +201,7 @@ namespace RavlN {
   ///////////////////////////////////////////////////
   //! userlevel=Develop
   //: Signal 1 method connector.
-  // Uses refrence to object not instance. <p>
+  // Uses reference to object not instance. <p>
   // NB. It is the users responsibility to ensure the object
   // remains valid while being used.
   
@@ -243,7 +243,7 @@ namespace RavlN {
   ///////////////////////////////
   //! userlevel=Advanced
   //: Signal a method.
-  // Uses refrence to object not instance. <p>
+  // Uses reference to object not instance. <p>
   // NB. It is the users responsibility to ensure the object
   // remains valid while being used.
   
@@ -440,7 +440,7 @@ namespace RavlN {
   }
   //! userlevel=Normal  
   //: Connect a signal to a method.
-  // Uses refrence to object not instance. <p>
+  // Uses reference to object not instance. <p>
   // NB. It is the users responsibility to ensure the object
   // remains valid while being used.
 }

@@ -126,7 +126,7 @@ namespace RavlN {
       cerr << "While terminating thread. \n";
     }
     live = false;
-    // Lastlt remove refrence to class from thread.
+    // Lastlt remove reference to class from thread.
     // and delete if needed.
     if(DecRefCounter())
       delete this;
@@ -164,15 +164,15 @@ namespace RavlN {
       pthread_detach(threadID);
     terminatePending = false;
     live = true;
-    RavlAssert(References() > 0); // There should be at least one refrence here.
-    // Add refrence to new thread which will be released by cleanup function.
+    RavlAssert(References() > 0); // There should be at least one reference here.
+    // Add reference to new thread which will be released by cleanup function.
     // This will be held while the thread is running and will
     // be removed by the thread cancellation function.
     IncRefCounter();
     
     if(pthread_create(&threadID,0,StartThread,(void *) this) != 0) {
       cerr << "ThreadBodyC::Execute(), Failed to execute thread. " << errno << " \n";
-      DecRefCounter(); // This can't be the last refrence.
+      DecRefCounter(); // This can't be the last reference.
       RavlAssert(References() > 0);
       return false;
     }

@@ -79,28 +79,28 @@ namespace RavlImageN {
       return *this;
     }
     //: Mirrors the image rectangle along its top edge.
-    // Returns a refrence to this rectangle.
+    // Returns a reference to this rectangle.
     
     ImageRectangleC & ReflectDown() {
       RowRange() += RowRange().Size();
       return *this;      
     }
     //: Mirrors the image rectangle along its bottom edge.
-    // Returns a refrence to this rectangle.
+    // Returns a reference to this rectangle.
     
     ImageRectangleC & ReflectLeft() {
       ColRange() -= ColRange().Size();
       return *this;
     }
     //: Mirrors the image rectangle along its left edge.
-    // Returns a refrence to this rectangle.
+    // Returns a reference to this rectangle.
     
     ImageRectangleC & ReflectRight() {
       ColRange() += ColRange().Size();
       return *this;
     }
     //: Mirrors the image rectangle along its right edge.
-    // Returns a refrence to this rectangle.
+    // Returns a reference to this rectangle.
     
   };
   

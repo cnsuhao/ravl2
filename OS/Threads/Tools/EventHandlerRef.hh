@@ -16,8 +16,8 @@ namespace PThread
   
   //! userlevel=Normal
   //: Signal Event handle
-  // Use a refrence (&) to the target object.
-  // NB. Will not keep a refrence to big objects.
+  // Use a reference (&) to the target object.
+  // NB. Will not keep a reference to big objects.
    
   template<class ObjT>
   class SignalEventMethodRef0BodyC
@@ -63,8 +63,8 @@ namespace PThread
   
   //! userlevel=Normal
   //: Signal Event handle
-  // Use a refrence (&) to the target object.
-  // NB. Will not keep a refrence to big objects.
+  // Use a reference (&) to the target object.
+  // NB. Will not keep a reference to big objects.
   
   template<class ObjT,class DataT>
   class SignalEventMethodRef1BodyC
@@ -112,8 +112,8 @@ namespace PThread
   
   //! userlevel=Normal
   //: Signal Event handle
-  // Use a refrence (&) to the target object.
-  // NB. Will not keep a refrence to big objects.
+  // Use a reference (&) to the target object.
+  // NB. Will not keep a reference to big objects.
   
   template<class ObjT,class Data1T,class Data2T>
   class SignalEventMethodRef2BodyC
@@ -141,8 +141,8 @@ namespace PThread
   
   //! userlevel=Normal
   //: Signal Event handle
-  // Use a refrence (&) to the target object.
-  // NB. Will not keep a refrence to big objects.
+  // Use a reference (&) to the target object.
+  // NB. Will not keep a reference to big objects.
   
   template<class ObjT,class Data1T,class Data2T>
   class SignalEventMethodRef2C
@@ -165,8 +165,8 @@ namespace PThread
   
   //! userlevel=Normal
   //: Signal Event handle
-  // Use a refrence (&) to the target object.
-  // NB. Will not keep a refrence to big objects.
+  // Use a reference (&) to the target object.
+  // NB. Will not keep a reference to big objects.
   
   template<class ObjT,class Data1T,class Data2T,class Data3T>
   class SignalEventMethodRef3BodyC
@@ -196,8 +196,8 @@ namespace PThread
   
   //! userlevel=Normal
   //: Signal Event handle
-  // Use a refrence (&) to the target object.
-  // NB. Will not keep a refrence to big objects.
+  // Use a reference (&) to the target object.
+  // NB. Will not keep a reference to big objects.
   
   template<class ObjT,class Data1T,class Data2T,class Data3T>
   class SignalEventMethodRef3C

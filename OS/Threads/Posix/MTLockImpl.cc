@@ -60,7 +60,7 @@ namespace RavlN {
   }
   
   
-  // Install race resolution function into the refrence counting mechanism.
+  // Install race resolution function into the reference counting mechanism.
   
   class PThreadInitC {
   public:

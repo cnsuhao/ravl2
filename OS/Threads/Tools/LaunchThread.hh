@@ -181,37 +181,37 @@ namespace RavlN {
   LaunchThreadC LaunchThreadR(const ObjT &nObj,bool (ObjT::*nFunc)())
   { return LaunchThreadC(TriggerR(nObj,nFunc)); }
   //: Launch a method on another thread.
-  // This calls a method on a refrence to object 'nObj'.
+  // This calls a method on a reference to object 'nObj'.
   
   template<class ObjT,class DataT>
   LaunchThreadC LaunchThreadR(const ObjT &nObj,bool (ObjT::*nFunc)(DataT &),const DataT &nDat) 
   { return LaunchThreadC(TriggerR(nObj,nFunc,nDat)); }
   //: Launch a method on another thread.
-  // This calls a method on a refrence to object 'nObj'.
+  // This calls a method on a reference to object 'nObj'.
   
   template<class ObjT,class Data1T,class Data2T>
   LaunchThreadC LaunchThreadR(const ObjT &nObj,bool (ObjT::*nFunc)(Data1T &,Data2T &),const Data1T &nDat1,const Data2T &nDat2) 
   { return LaunchThreadC(TriggerR(nObj,nFunc,nDat1,nDat2)); }
   //: Launch a method on another thread.
-  // This calls a method on a refrence to object 'nObj'.
+  // This calls a method on a reference to object 'nObj'.
   
   template<class ObjT,class Data1T,class Data2T,class Data3T>
   LaunchThreadC LaunchThreadR(const ObjT &nObj,bool (ObjT::*nFunc)(Data1T &,Data2T &,Data3T &),const Data1T &nDat1,const Data2T &nDat2,const Data3T &nDat3) 
   { return LaunchThreadC(TriggerR(nObj,nFunc,nDat1,nDat2,nDat3)); }
   //: Launch a method on another thread.
-  // This calls a method on a refrence to object 'nObj'.
+  // This calls a method on a reference to object 'nObj'.
   
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T>
   LaunchThreadC LaunchThreadR(const ObjT &nObj,bool (ObjT::*nFunc)(Data1T &,Data2T &,Data3T &,Data4T &),const Data1T &nDat1,const Data2T &nDat2,const Data3T &nDat3,const Data4T &nDat4)
   { return LaunchThreadC(TriggerR(nObj,nFunc,nDat1,nDat2,nDat3,nDat4)); }
   //: Launch a method on another thread.
-  // This calls a method on a refrence to object 'nObj'.
+  // This calls a method on a reference to object 'nObj'.
 
   template<class ObjT,class Data1T,class Data2T,class Data3T,class Data4T,class Data5T>
   LaunchThreadC LaunchThreadR(const ObjT &nObj,bool (ObjT::*nFunc)(Data1T &,Data2T &,Data3T &,Data4T &,Data5T &),const Data1T &nDat1,const Data2T &nDat2,const Data3T &nDat3,const Data4T &nDat4,const Data5T &nDat5)
   { return LaunchThreadC(TriggerR(nObj,nFunc,nDat1,nDat2,nDat3,nDat4,nDat5)); }
   //: Launch a method on another thread.
-  // This calls a method on a refrence to object 'nObj'.
+  // This calls a method on a reference to object 'nObj'.
   
 }
 

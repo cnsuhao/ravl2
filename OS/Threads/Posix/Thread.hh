@@ -113,8 +113,8 @@ namespace RavlN
   
   //! userlevel=Normal
   //: Thread handle.
-  // Note: The thread itself holds a refrence count on the object.
-  // this refrence count is held until the thread terminates. Another
+  // Note: The thread itself holds a reference count on the object.
+  // this reference count is held until the thread terminates. Another
   // thread can initiate shutdown by calling the Terminate() function.
   
   class ThreadC 

@@ -144,7 +144,7 @@ namespace RavlN {
       commands[cmd] = CallMethodRef1C<ObjT,StringC,bool>(obj,func,StringC());
     }
     //: Setup new command.
-    // NB. Obj is used as a refrence, it is assumed to be a derived instance of this class.
+    // NB. Obj is used as a reference, it is assumed to be a derived instance of this class.
     
     OStreamC &Output()
       { return output.Top(); }

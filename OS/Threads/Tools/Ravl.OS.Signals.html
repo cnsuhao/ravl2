@@ -35,11 +35,11 @@
     <p>
       Features:
     <ul>
-      <li> Signal objects are refrence counted.
+      <li> Signal objects are reference counted.
       <li> Adding and removing connections is thread safe.
       <li> The default implementation makes copies of the objects the
 	signal will be delived to, enabling it to call methods of
-	refrence counted objects safely.
+	reference counted objects safely.
     </ul>
       
     <h3>How to use them. </h3>
@@ -68,7 +68,7 @@ Signal1C<IntT> sig(0);
     
     Suppose we have a function 'PrintNumberA' we wish to be called
     when the signal is triggered. Note, the arguments of methods must
-    always be non-const refrences to a type, and the functions should
+    always be non-const references to a type, and the functions should
     always return a bool. This significanly simplifies the
     implementation as it avoids implementing code for all possible
     combinations argument types and return types.
@@ -149,7 +149,7 @@ public:
     
     There are two ways to connect to a method you can either connect
     to a copy of the object (essentail for reference counted objects.)
-    or to a refrence to it.  If you use a refrence it is the programmers
+    or to a reference to it.  If you use a refrence it is the programmers
     responsibility to ensure the object is valid when a signal is called.
     <p>
       To connect with a copy you would call <b>Connect</b> as follows:
@@ -160,7 +160,7 @@ MyClassC xyz;
 Connect(sig,xyz,&amp;MyClassC::Print);
 </pre>
     <p>
-      To connect with a refrence you would use:
+      To connect with a reference you would use:
 <pre>
 MyClassC xyz;
 
@@ -168,11 +168,11 @@ ConnectRef(sig,xyz,&amp;MyClassC::Print);
 </pre>
     
     Note: There are some potential race conditions in multi-threaded
-    applications if you use the refrence method of connecting to
+    applications if you use the reference method of connecting to
     classes.  It is possible that the class processing a signal is
     destroyied before the call is complete with unpredictable results.
-    This is guaranteed not to happen with the refrence counted calls,
-    the signal mechanism ensures a refrence is kept to the object
+    This is guaranteed not to happen with the reference counted calls,
+    the signal mechanism ensures a reference is kept to the object
     until all calls are complete.
     
   </body>
