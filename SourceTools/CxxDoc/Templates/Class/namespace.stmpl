@@ -31,7 +31,7 @@ $(ifset:example:$(tabTitle)Example:   $(tabData) <A HREF="../../../examples/$(ex
 
 $(ifset:detail:$(titleStart)Comments:$(titleEnd)<p>$(detail)</p>)
 $(ifset:classbugs:$(titleStart)Bugs:$(titleEnd)<b><i><p><font color="red"> $(classbugs) </font></p></i></b>)
-
+$(set:localScopeOnly=1) $(//: Only document the local scope. )
 $(include:scope.stmpl)
 
 $(//: **************** Footer ************************ )

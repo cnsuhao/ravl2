@@ -4,8 +4,8 @@
 // Public License (GPL). See the gpl.licence file for details or
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
-#ifndef RAVLCXXOBJECT_HEADER
-#define RAVLCXXOBJECT_HEADER 1
+#ifndef RAVLCXXDOC_OBJECT_HEADER
+#define RAVLCXXDOC_OBJECT_HEADER 1
 //////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/SourceTools/CxxDoc/Object.hh"
@@ -13,7 +13,7 @@
 //! docentry="Ravl.Source Tools.CxxDoc.Internal"
 //! lib=RavlCxxDoc
 //! author="Charles Galambos"
-//! date="08/12/99"
+//! date="08/12/1999"
 
 #include "Ravl/String.hh"
 #include "Ravl/RefCounter.hh"

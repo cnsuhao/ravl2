@@ -48,7 +48,7 @@ $(forall:docnode:<li><A HREF="$(mkhref:)">$(subst:_: :$(ObjectName))</A>$(ifset:
 
 $(ifset:brief:<font color="#23238E" size=7 face="arial,helvetica">
 $(brief)</font><p>)
-$(ifset:detail:$(detail))
+$(ifset:detail:$(AutoLink:$(detail)))
 
 $(set:subType=class)$(set:subTitle=classes)$(set:objLevel=Basic)$(include:objects.stmpl)
 $(set:subType=method)$(set:subTitle=functions)$(set:objLevel=Basic)$(include:objects.stmpl)

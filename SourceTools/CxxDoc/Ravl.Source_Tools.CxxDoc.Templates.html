@@ -36,14 +36,15 @@ the following commands to deal with the parse tree. <p>
 	    it on the stack, expand 'b', pop it off. Where 'a' may be one of <b>class</b>, 
 	      <b>namespace</b>, <b>docnode</b>,  <b>datatype</b>, <b>method</b>, <b>typedef</b>, 
 	      <b>variable</b>, <b>inherit</b>, <b>derived</b> and <b>enum</b>. See table below
-	      for more information on these objects. </td></tr>
+	      for more information on these objects. Setting <b>localScopeOnly</b> to '1' can be used to limit
+	      the iteration to the local scope only </td></tr>
       <tr><td> <B>$(ifany:a:b)</B><td> If there is any child objects of type 'a' in the current scope expand 'b'. </td></tr>
       <tr><td> <B>$(MakeFilename:a)</B><td> Make a filename for the current object, '%' is  </td></tr>
       <tr><td> <B>$(GotoInherit:a)</B><td> If the current object is of type 'inherit', push inherited 
 	  object onto the stack expand 'a' and pop it off. </td></tr>
       <tr><td> <B>$(HtmlMethodName:)</B><td> Generate a method name with all components marked up with html links. </td></tr>
       <tr><td> <B>$(HtmlTypeName:)</B><td> Generate a type name with all components marked up with html links.  </td></tr>
-      <tr><td> <B>$(AutoLink:a)</B><td> Expand 'a' and search it for type names, if found create html links to them.  </td></tr>
+      <tr><td> <B>$(AutoLink:a)</B><td> Expand 'a' and search it for type names, if found create html links to them.  <b>autoLinkContext</b> can be used to explicitly set the scope used for the search. </td></tr>
       <tr><td> <B>$(Exec:a:b)</B><td> Expand to the standard output of program 'a' when 'b' is into its standard input. 
 	  This will terminate the program if it does not terminate in 30 seconds and append an error message to the generated text. </td></tr>
       <tr><td> <B>$(ForDir:a)</B><td> Not yet implemented. Indended to go through all the files in a directory and process them. </td></tr>
@@ -106,6 +107,8 @@ scope with $(xyz).  There are some special variables, these are as follows:
 <li> <b>PathName</b> - Full path to object in scope.
 <li> <b>filename</b> - File which the object comes from this searches up the parse tree for an object with this variable set.
 <li> <b>docNodeType</b> - Type of the current doc node, generaly either a 'class' or a 'method', but could be any of object types mentioned earlier.
+<li> <b>autoLinkContext</b> - Used to set the context of the name search used in auto linking.
+<li> <b>localScopeOnly</b> - When set to '1' it limits $(forall:a:b) to the local scope, it ignores any inheritance relations.
 </ul>
     
   </body>

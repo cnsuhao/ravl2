@@ -407,6 +407,8 @@ namespace RavlCxxDocN
       ObjectC newObj;
       RCHashC<StringC,ObjectC> newSubs;
       if(InheritC::IsA(*it)) {
+	if(localOnly)
+	  continue;
 	InheritC inh(*it);
 	// Check access.
 	switch(inh.ScopeAccess())
@@ -474,8 +476,9 @@ namespace RavlCxxDocN
   
   //: Default constructor.
   
-  InheritIterC::InheritIterC(ObjectC &start,ScopeAccessT nIncAccess) 
-    : incAccess(nIncAccess)
+  InheritIterC::InheritIterC(ObjectC &start,ScopeAccessT nIncAccess,bool nLocalOnly)
+    : localOnly(nLocalOnly),
+      incAccess(nIncAccess)
   {
     RCHashC<StringC,ObjectC> subs;
     InstanceDefT inital(start,subs);

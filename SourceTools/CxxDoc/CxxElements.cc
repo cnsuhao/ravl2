@@ -180,11 +180,11 @@ namespace RavlCxxDocN
     : ObjectBodyC(nname),
       alias(nalias)
   {
-    if(ObjectListC::IsA(nscopePath)) {
-      scopePath = ObjectListC(nscopePath);
-      //cerr << "Got scope path : " << scopePath.Name() << "\n";
-    } else {
-      if(nscopePath.IsValid())
+    if(nscopePath.IsValid()) {
+      if(ObjectListC::IsA(nscopePath)) {
+	scopePath = ObjectListC(nscopePath);
+	//cerr << "Got scope path : " << scopePath.Name() << "\n";
+      } else
 	cerr << "DataTypeBodyC::DataTypeBodyC(), ERROR: not an object list given as scopepath. \n";
     }
   }

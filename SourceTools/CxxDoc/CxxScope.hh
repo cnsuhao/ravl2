@@ -4,15 +4,15 @@
 // Public License (GPL). See the gpl.licence file for details or
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
-#ifndef RAVLCXXDOCSCOPE_HEADER
-#define RAVLCXXDOCSCOPE_HEADER 1
+#ifndef RAVLCXXDOC_SCOPE_HEADER
+#define RAVLCXXDOC_SCOPE_HEADER 1
 //////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! userlevel=Normal
 //! docentry="Ravl.Source Tools.CxxDoc.Internal"
 //! lib=RavlCxxDoc
 //! author="Charles Galambos"
-//! date="08/12/99"
+//! date="08/12/1999"
 //! file="Ravl/SourceTools/CxxDoc/CxxScope.hh"
 
 #include "Ravl/CxxDoc/Object.hh"
@@ -207,8 +207,11 @@ namespace RavlCxxDocN {
   
   class InheritIterC {
   public:
-    InheritIterC(ObjectC &start,ScopeAccessT nIncAccess =  SAProtected);
-    //: Default constructor.
+    InheritIterC(ObjectC &start,ScopeAccessT nIncAccess =  SAProtected,bool localOnly = false);
+    //: Constructor.
+    // start = inital context. <br>
+    // nIncAccess = Access level to use. i.e. SAPublic means only look at the public interface. <br>
+    // if localOnly is true don't look at inherited scopes.
     
     bool Next();
     //: Goto next.
@@ -266,7 +269,8 @@ namespace RavlCxxDocN {
     
     bool ListNext(InstanceDefT &start);
     //: Goto next valid element.
-    
+
+    bool localOnly;               // Restrict search to local scope.
     DLIterC<ObjectC> at;          // Iterate objects in current scope.
     DListC<InstanceDefT> toDo;    // Scopes yet to be processed.
     HSetC<InstanceDefT> done;     // Scopes that have been handled already.

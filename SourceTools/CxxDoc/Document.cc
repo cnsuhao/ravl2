@@ -821,7 +821,7 @@ namespace RavlCxxDocN {
       typedata = buff;
       //cerr << "Got variable in  '" << typedata << "' in forall. \n";
     }
-    
+
 #ifndef NDEBUG
     if(typedata != "method"      && 
        typedata != "method_user" && 
@@ -857,6 +857,12 @@ namespace RavlCxxDocN {
       
     if(typedata == "method" || typedata == "method_user" || 
        typedata == "scope" || typedata == "scope_user") { // Go through all methods ?
+      bool localOnly = false;
+      StringC tmp;
+      if(Lookup("localScopeOnly",tmp)) {
+	if(tmp == "1")
+	  localOnly = true;
+      }
       //cerr << "Doing inherit iter...  for " << ol.Name() << "\n";
       // Which methods are we interested in ?
       ScopeAccessT useAccess = SAProtected;
@@ -864,7 +870,7 @@ namespace RavlCxxDocN {
 	useAccess = SAPublic;
       StringC methodtxt("method");
       // Got through objects.
-      for(InheritIterC it(ol,useAccess);it;it++) {
+      for(InheritIterC it(ol,useAccess,localOnly);it;it++) {
 	if(usetypedata)
 	  if(methodtxt != it->TypeName())
 	    continue;    // If not a method, continue on.
@@ -978,10 +984,34 @@ namespace RavlCxxDocN {
     StringC linkModeTxt;
     int linkMode = -1;
     ScopeC parentScope;
-    if(obj.Top().HasParentScope()) {
-      parentScope = ScopeC(obj.Top().ParentScope());
-    } else {
+    
+    StringC linkContext;
+    
+    // See if the context is set explicity.
+    
+    if(Lookup("autoLinkContext",linkContext)) {
+      cerr << "Found AutoLink Context '" << linkContext <<"' specification. \n";
+      RavlAssert(root.IsValid());
+      RavlAssert(ScopeC::IsA(root));
       parentScope = ScopeC(root);
+      ObjectC nscope = parentScope.ResolveName(linkContext);
+      if(nscope.IsValid()) {
+	if(ScopeC::IsA(nscope)) {
+	  parentScope = ScopeC(nscope);
+	  cerr << "Found AutoLink scope " << parentScope.Name() << "\n";
+	}
+      }
+    }
+    
+    // Setup a default context.
+    
+    if(!parentScope.IsValid()) {
+      if(obj.Top().HasParentScope())
+	parentScope = ScopeC(obj.Top().ParentScope());
+      else {
+	if(root.IsValid() && ScopeC::IsA(root))
+	  parentScope = ScopeC(root);
+      }
     }
     
     if(!parentScope.IsValid()) {

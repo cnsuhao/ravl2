@@ -219,9 +219,8 @@ SCHAR [^"\\\n]|{ESCAPE_SEQUENCE}
 
     /*==============> Strip // comments <==============*/
 
-<INITIAL>"//:-"(.)*[\n<<EOF>>] { 
-                                 CommentUpdate(yylval,&yytext[4],yylineno); 
-                                 return DOCSECTION; 
+<INITIAL>"//:-"(.)*[\n<<EOF>>] { CommentUpdate(yylval,&yytext[4],yylineno); 
+				 return DOCSECTION; 
                                }
 <INITIAL>"//:"(.)*[\n<<EOF>>] { StringC txt(&(yytext[3]));
                                 txt.gsub("\n"," ");

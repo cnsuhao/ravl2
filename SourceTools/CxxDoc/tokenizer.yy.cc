@@ -22,10 +22,7 @@
 #ifdef __cplusplus
 
 #include <stdlib.h>
-
-#include "Ravl/Types.hh"
-
-/*class istream;*/
+class istream;
 
 /* Use prototypes in function declarations. */
 #define YY_USE_PROTOS
@@ -1730,14 +1727,13 @@ YY_RULE_SETUP
 case 96:
 YY_RULE_SETUP
 #line 222 "tokenizer.l"
-{ 
-                                 CommentUpdate(yylval,&yytext[4],yylineno); 
-                                 return DOCSECTION; 
+{ CommentUpdate(yylval,&yytext[4],yylineno); 
+				 return DOCSECTION; 
                                }
 	YY_BREAK
 case 97:
 YY_RULE_SETUP
-#line 226 "tokenizer.l"
+#line 225 "tokenizer.l"
 { StringC txt(&(yytext[3]));
                                 txt.gsub("\n"," ");
                                 if(!comment.Text().IsEmpty()) {
@@ -1749,7 +1745,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 98:
 YY_RULE_SETUP
-#line 234 "tokenizer.l"
+#line 233 "tokenizer.l"
 { StringC txt(&(yytext[3]));
                                 if(txt.length() > 0) {
                                   switch(txt.firstchar()) {
@@ -1781,78 +1777,78 @@ YY_RULE_SETUP
 	YY_BREAK
 case 99:
 YY_RULE_SETUP
-#line 262 "tokenizer.l"
+#line 261 "tokenizer.l"
 { comment.Text() += &yytext[2]; }
 	YY_BREAK
 /*==============> Skip preprocessor directives <==============*/
 case 100:
 YY_RULE_SETUP
-#line 265 "tokenizer.l"
+#line 264 "tokenizer.l"
 { BEGIN (PREPARSER); }
 	YY_BREAK
 case 101:
 YY_RULE_SETUP
-#line 266 "tokenizer.l"
+#line 265 "tokenizer.l"
 { BEGIN (PPCOMMENT); }
 	YY_BREAK
 case 102:
 YY_RULE_SETUP
-#line 267 "tokenizer.l"
+#line 266 "tokenizer.l"
 { BEGIN (PREPARSER); }
 	YY_BREAK
 case 103:
 YY_RULE_SETUP
-#line 268 "tokenizer.l"
+#line 267 "tokenizer.l"
 {}
 	YY_BREAK
 case 104:
 YY_RULE_SETUP
-#line 269 "tokenizer.l"
+#line 268 "tokenizer.l"
 {}
 	YY_BREAK
 case 105:
 YY_RULE_SETUP
-#line 270 "tokenizer.l"
+#line 269 "tokenizer.l"
 { BEGIN (INITIAL); }
 	YY_BREAK
 /*==============> Strip comments <==============*/
 case 106:
 YY_RULE_SETUP
-#line 274 "tokenizer.l"
+#line 273 "tokenizer.l"
 { BEGIN (COMMENT);}
 	YY_BREAK
 case 107:
 YY_RULE_SETUP
-#line 275 "tokenizer.l"
+#line 274 "tokenizer.l"
 { BEGIN (INITIAL); }
 	YY_BREAK
 case 108:
 YY_RULE_SETUP
-#line 277 "tokenizer.l"
+#line 276 "tokenizer.l"
 {}
 	YY_BREAK
 case 109:
 YY_RULE_SETUP
-#line 278 "tokenizer.l"
+#line 277 "tokenizer.l"
 {}
 	YY_BREAK
 /*==============> All other characters are ignored <==============*/
 case 110:
 YY_RULE_SETUP
-#line 281 "tokenizer.l"
+#line 280 "tokenizer.l"
 {}
 	YY_BREAK
 case 111:
 YY_RULE_SETUP
-#line 282 "tokenizer.l"
+#line 281 "tokenizer.l"
 {}
 	YY_BREAK
 case 112:
 YY_RULE_SETUP
-#line 284 "tokenizer.l"
+#line 283 "tokenizer.l"
 ECHO;
 	YY_BREAK
-#line 1853 "tokenizer.yy.cc"
+#line 1852 "tokenizer.yy.cc"
 			case YY_STATE_EOF(INITIAL):
 			case YY_STATE_EOF(COMMENT):
 			case YY_STATE_EOF(PREPARSER):
@@ -2659,5 +2655,5 @@ int main()
 	return 0;
 	}
 #endif
-#line 284 "tokenizer.l"
+#line 283 "tokenizer.l"
 
