@@ -14,6 +14,7 @@
 #include "Ravl/GUI/MouseEvent.hh"
 #include "Ravl/GUI/LBox.hh"
 #include "Ravl/GUI/PackInfo.hh"
+#include "Ravl/GUI/DPDisplayImage.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -27,19 +28,26 @@ namespace RavlGUIN {
   //: Default constructor.
   
   DPDisplayViewBodyC::DPDisplayViewBodyC(const IndexRange2dC &size) 
-    : TableBodyC(3,4),
+    : TableBodyC(3,5),
       winSize(size),
       refreshQueued(false),
       vRuler(true),
       hRuler(false),
       offset(size.Range1().Min(),size.Range2().Min()),
-      lastMousePos(-1000,-1000)
+      lastMousePos(-1000,-1000),
+      backMenu("BackMenu")
   {}
   
   //: Create the widget.
   
   bool DPDisplayViewBodyC::Create() {
     ONDEBUG(cerr << "DPDisplayViewBodyC::Create(), Called \n");
+    
+    backMenu.Add(MenuItemR("Save",*this, &DPDisplayViewBodyC::CallbackStartSave));
+    menuBar.Add(MenuItemR("Save",*this, &DPDisplayViewBodyC::CallbackStartSave));
+    
+    fileSelector = FileSelectorC("@X Save");
+    ConnectRef(fileSelector.Selected(),*this,&DPDisplayViewBodyC::CallbackSave);
     
     int rows = winSize.Cols();
     int cols = winSize.Rows();
@@ -74,25 +82,28 @@ namespace RavlGUIN {
     
     vRuler.AttachTo(canvas);
     hRuler.AttachTo(canvas);
+
+    TableBodyC::AddObject(menuBar,0,3,0,1,GTK_FILL,(GtkAttachOptions) (GTK_EXPAND|GTK_SHRINK|GTK_FILL));
     
-    TableBodyC::AddObject(vRuler,0,1,1,2,GTK_FILL,(GtkAttachOptions) (GTK_EXPAND|GTK_SHRINK|GTK_FILL));
-    TableBodyC::AddObject(hRuler,1,2,0,1,(GtkAttachOptions) (GTK_EXPAND|GTK_SHRINK|GTK_FILL),GTK_FILL);
-    TableBodyC::AddObject(vSlider,2,3,1,2,GTK_FILL,(GtkAttachOptions) (GTK_EXPAND|GTK_SHRINK|GTK_FILL));
-    TableBodyC::AddObject(hSlider,1,2,2,3,(GtkAttachOptions) (GTK_EXPAND|GTK_SHRINK|GTK_FILL),GTK_FILL);
+    TableBodyC::AddObject(vRuler,0,1,2,3,GTK_FILL,(GtkAttachOptions) (GTK_EXPAND|GTK_SHRINK|GTK_FILL));
+    TableBodyC::AddObject(hRuler,1,2,1,2,(GtkAttachOptions) (GTK_EXPAND|GTK_SHRINK|GTK_FILL),GTK_FILL);
+    TableBodyC::AddObject(vSlider,2,3,2,3,GTK_FILL,(GtkAttachOptions) (GTK_EXPAND|GTK_SHRINK|GTK_FILL));
+    TableBodyC::AddObject(hSlider,1,2,3,4,(GtkAttachOptions) (GTK_EXPAND|GTK_SHRINK|GTK_FILL),GTK_FILL);
     TableBodyC::AddObject(HBox(PackInfoC(Label(" Row="),false,false) + PackInfoC(xpos,false,false) +
 			       PackInfoC(Label(" Col="),false,false) + PackInfoC(ypos,false,false) + 
 			       PackInfoC(Label("  Value="),false,false) + PackInfoC(info,true,false)),
-			  0,3,3,4,
+			  0,3,4,5,
 			  (GtkAttachOptions)(GTK_FILL),
 			  (GtkAttachOptions)(GTK_FILL));
     
-    TableBodyC::AddObject(canvas,1,2,1,2,
+    TableBodyC::AddObject(canvas,1,2,2,3,
 			  (GtkAttachOptions)(GTK_FILL|GTK_SHRINK),
 			  (GtkAttachOptions)(GTK_FILL|GTK_SHRINK)
 			  );
     ConnectRef(canvas.Signal("expose_event"),*this,&DPDisplayViewBodyC::CallbackExpose);
     ConnectRef(canvas.Signal("configure_event"),*this,&DPDisplayViewBodyC::CallbackConfigure,(GdkEvent *) 0);    
     ConnectRef(canvas.Signal("motion_notify_event"),*this,&DPDisplayViewBodyC::CallbackMouseMotion);    
+    ConnectRef(canvas.Signal("button_press_event"),*this,&DPDisplayViewBodyC::CallbackMousePress); 
     
     if(!TableBodyC::Create())
       return false;
@@ -249,6 +260,15 @@ namespace RavlGUIN {
     return true;
   }
   
+  //: Call back for mouse press events.
+  
+  bool DPDisplayViewBodyC::CallbackMousePress(MouseEventC &mouseEvent) {
+    ONDEBUG(cerr << "DPDisplayViewBodyC::CallbackMousePress(), Called. \n");
+    if(mouseEvent.HasChanged(2))
+      backMenu.Popup();
+    return true;
+  }
+  
   //: Update info for mouse position.
   
   bool DPDisplayViewBodyC::UpdateInfo(const Vector2dC &at) {
@@ -265,5 +285,23 @@ namespace RavlGUIN {
     return true;
   }
 
+  //: Start image save.
+  
+  bool DPDisplayViewBodyC::CallbackStartSave() {
+    ONDEBUG(cerr << "DPDisplayViewBodyC::CallbackStartSave(), Called. \n");
+    fileSelector.Show();
+    return true;
+  }
+
+  //: Save image to a file.
+  
+  bool DPDisplayViewBodyC::CallbackSave(StringC &str) {
+    ONDEBUG(cerr << "DPDisplayViewBodyC::CallbackSave(), Called. File='" << str << "' \n");
+    for(DLIterC<DPDisplayObjC> it(displayList);it;it++) {
+      if(it->Save(str))
+	break;
+    }
+    return true;
+  }
 
 }

@@ -38,7 +38,10 @@ namespace RavlGUIN {
     virtual bool Query(const Vector2dC &pnt,StringC &text);
     //: Query a point in the display.
     // Return true if point is within object.
-
+    
+    virtual bool Save(const StringC &str) const;
+    //: Save to a file.
+    
   protected:
     ImageC<ByteRGBValueC> img;
   };
@@ -59,6 +62,16 @@ namespace RavlGUIN {
     {}
     //: Default constructor.
     // creates an invalid handle.
+    
+    DPDisplayImageRGBC(DPDisplayObjC &base)
+      : DPDisplayObjC(base)
+    {
+      if(dynamic_cast<DPDisplayImageRGBBodyC *>(&DPDisplayObjC::Body()) == 0)
+	Invalidate();
+    }
+    //: Base class contructor.
+    // If types do not match an invalid handle is created.
+    
   };
 
   //:---------------------------------------------------------------------------------------
@@ -82,6 +95,9 @@ namespace RavlGUIN {
     virtual bool Query(const Vector2dC &pnt,StringC &text);
     //: Query a point in the display.
     // Return true if point is within object.
+    
+    virtual bool Save(const StringC &str) const;
+    //: Save to a file.
     
   protected:
     ImageC<ByteT> ScaleImage(const ImageC<RealT> &inimg);
@@ -107,6 +123,15 @@ namespace RavlGUIN {
     {}
     //: Default constructor.
     // creates an invalid handle.
+
+    DPDisplayImageRealC(DPDisplayObjC &base)
+      : DPDisplayObjC(base)
+    {
+      if(dynamic_cast<DPDisplayImageRealBodyC *>(&DPDisplayObjC::Body()) == 0)
+	Invalidate();
+    }
+    //: Base class contructor.
+    // If types do not match an invalid handle is created.
   };
   
   //:---------------------------------------------------------------------------------------
@@ -130,6 +155,9 @@ namespace RavlGUIN {
     virtual bool Query(const Vector2dC &pnt,StringC &text);
     //: Query a point in the display.
     // Return true if point is within object.
+    
+    virtual bool Save(const StringC &str) const;
+    //: Save to a file.
 
   protected:
     ImageC<ByteT> img;
@@ -151,6 +179,15 @@ namespace RavlGUIN {
     {}
     //: Default constructor.
     // creates an invalid handle.
+
+    DPDisplayImageByteC(DPDisplayObjC &base)
+      : DPDisplayObjC(base)
+    {
+      if(dynamic_cast<DPDisplayImageByteBodyC *>(&DPDisplayObjC::Body()) == 0)
+	Invalidate();
+    }
+    //: Base class contructor.
+    // If types do not match an invalid handle is created.
   };
 
   

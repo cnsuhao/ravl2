@@ -21,6 +21,8 @@
 #include "Ravl/GUI/Slider.hh"
 #include "Ravl/GUI/TextEntry.hh"
 #include "Ravl/GUI/Label.hh"
+#include "Ravl/GUI/Menu.hh"
+#include "Ravl/GUI/FileSelector.hh"
 #include "Ravl/Vector2d.hh"
 
 namespace RavlGUIN {
@@ -92,13 +94,24 @@ namespace RavlGUIN {
     bool CallbackMouseMotion(MouseEventC &mouseEvent);
     //: Call back for mouse movements in the window.
     
+    bool CallbackMousePress(MouseEventC &mouseEvent);
+    //: Call back for mouse press events.
+    
     bool UpdateInfo(const Vector2dC &at);
     //: Update info for mouse position.
+    
+    bool CallbackStartSave();
+    //: Start image save.
+    
+    bool CallbackSave(StringC &str);
+    //: Save image to a file.
     
     IndexRange2dC winSize;
     RawCanvasC canvas;
     RWLockC lockDisplayList;
     DListC<DPDisplayObjC> displayList;
+    
+    
     bool refreshQueued;
     
     RulerC vRuler,hRuler;
@@ -110,6 +123,9 @@ namespace RavlGUIN {
     
     Vector2dC lastMousePos;
     
+    MenuC backMenu;
+    MenuBarC menuBar;
+    FileSelectorC fileSelector;
     friend class DPDisplayViewC;
   };
 
@@ -148,7 +164,15 @@ namespace RavlGUIN {
     { return Body().GUIRefresh(); }
     //: Refresh the display.
     
+    bool CallbackSave(StringC &str)
+    { return Body().CallbackSave(str); }
+    //: Save image to a file.
+    
   public:
+    
+    bool CallbackStartSave()
+    { return Body().CallbackStartSave(); } 
+    //: Start image save.
     
     bool AddObject(const DPDisplayObjC &obj) 
     { return Body().AddObject(obj); }

@@ -42,6 +42,10 @@ namespace RavlGUIN {
     virtual bool Query(const Vector2dC &pnt,StringC &text);
     //: Query a point in the display.
     // Return true if point is within object.
+    
+    virtual bool Save(const StringC &str) const;
+    //: Save to a file.
+    
   protected:
   };
   
@@ -84,7 +88,11 @@ namespace RavlGUIN {
     { return Body().Query(pnt,text); }
     //: Query a point in the display.
     // Return true if point is within object.
-
+    
+    bool Save(const StringC &str) const
+    { return Body().Save(str); }
+    //: Save to a file.
+    
   };
   
 }

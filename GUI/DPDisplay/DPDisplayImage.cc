@@ -18,6 +18,7 @@
 #include "Ravl/Array2dIter.hh"
 #include "Ravl/Array2dIter2.hh"
 #include "Ravl/StdConst.hh"
+#include "Ravl/IO.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -82,6 +83,13 @@ namespace RavlGUIN {
     text = ss.String();
     return true;
   }
+
+  //: Save to a file.
+  
+  bool DPDisplayImageRGBBodyC::Save(const StringC &str) const {
+    return RavlN::Save(str,img);
+  }
+  
   
   //------------------------------------------------------------------
   // Register some conversions as well.
@@ -156,6 +164,12 @@ namespace RavlGUIN {
     text = StringC(realImg[pix]);
     return true;
   }
+  
+  //: Save to a file.
+  
+  bool DPDisplayImageRealBodyC::Save(const StringC &str) const {
+    return RavlN::Save(str,realImg);
+  }
 
   //------------------------------------------------------------------
   // Register some conversions as well.
@@ -216,6 +230,12 @@ namespace RavlGUIN {
       return false;
     text = StringC((int) img[pix]);
     return true;
+  }
+  
+  //: Save to a file.
+  
+  bool DPDisplayImageByteBodyC::Save(const StringC &str) const {
+    return RavlN::Save(str,img);
   }
   
   //------------------------------------------------------------------

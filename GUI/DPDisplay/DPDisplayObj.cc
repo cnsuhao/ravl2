@@ -50,4 +50,11 @@ namespace RavlGUIN {
     return false;
   }
 
+  //: Save to a file.
+  
+  bool DPDisplayObjBodyC::Save(const StringC &str) const {
+    ONDEBUG(cerr << "DPDisplayObjBodyC::Save(), Called. \n");
+    return false;
+  }
+
 }
