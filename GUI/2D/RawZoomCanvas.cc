@@ -14,7 +14,7 @@
 #include "Ravl/Threads/Signal1.hh"
 #include "Ravl/QInt.hh"
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -41,7 +41,7 @@ namespace RavlGUIN {
   
   bool RawZoomCanvasBodyC::EventConfigure(GdkEvent* &event) {    
     RawCanvasBodyC::TranslateConfigureEvent(event,widgetSize);
-    cerr << "RawZoomCanvasBodyC::EventConfigure(), Called. Size=" << widgetSize << "\n";
+    ONDEBUG(cerr << "RawZoomCanvasBodyC::EventConfigure(), Called. Size=" << widgetSize << "\n");
     return true;
   }
   
