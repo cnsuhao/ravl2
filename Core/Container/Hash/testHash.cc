@@ -13,6 +13,7 @@
 //! userlevel=Develop
 
 #include "Ravl/Hash.hh"
+#include "Ravl/RCHash.hh"
 #include "Ravl/BiHash.hh"
 #include "Ravl/HashIter.hh"
 #include "Ravl/String.hh"
