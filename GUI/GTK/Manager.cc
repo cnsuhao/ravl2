@@ -196,8 +196,9 @@ namespace RavlGUIN {
     // In theory no other threads should be running yet so the following
     // lock is not nessary.
     
+#if  RAVL_USE_GTKTHREADS
     LockGtkThreadC  gtkLock(*this); 
-    
+#endif
     /* this is called in all GTK applications.  arguments are parsed from
      * the command line and are returned to the application. */
     gtk_init (&nargs, &args);
