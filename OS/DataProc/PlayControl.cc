@@ -10,6 +10,7 @@
 //! file="Ravl/OS/DataProc/PlayControl.cc"
 
 #include "Ravl/DP/PlayControl.hh"
+#include "Ravl/CallMethods.hh"
 
 #define FORCE_AT 0
 
@@ -25,7 +26,8 @@ namespace RavlN {
   //: Default constructor.
   
   DPPlayControlBodyC::DPPlayControlBodyC()
-    : inc(1),
+    : access(true), // Setup a recursive mutex.
+      inc(1),
       ok(true),
       pause(false),
       sema(0),
@@ -36,13 +38,16 @@ namespace RavlN {
       subStart(0),
       subEnd(0),
       doneRev(false),
-      at(0)
+      at(0),
+      triggerSizeUpdate(-1),
+      triggerStartUpdate(-1)
   {}
   
   //: Constructor.
   
   DPPlayControlBodyC::DPPlayControlBodyC(const DPSeekCtrlC &nCntrl,bool nPassEOS,UIntT nstart,UIntT nend)
-    : inc(1),
+    : access(true), // Setup a recursive mutex.
+      inc(1),
       ok(true),
       pause(false),
       sema(0),
@@ -54,7 +59,9 @@ namespace RavlN {
       subStart(1),
       subEnd(1),
       doneRev(false),
-      at(nstart)
+      at(nstart),
+      triggerSizeUpdate(-1),
+      triggerStartUpdate(-1)
   {
     if(ctrl.IsValid()) {
       UIntT len =  ctrl.Size();
@@ -82,6 +89,26 @@ namespace RavlN {
   //: Open new video stream.
   // Access must be locked when calling this function.
   bool DPPlayControlBodyC::Open(const DPSeekCtrlC &nCntrl) {
+    
+    // Free up any existing size and start change triggers.
+    if(ctrl.IsValid()) {
+      AttributeCtrlC attrCtrl(static_cast<DPEntityC &>(ctrl));
+      if(triggerSizeUpdate >= 0) {
+	if(!attrCtrl.RemoveChangedSignal(triggerSizeUpdate))
+	  cerr << "DPPlayControlBodyC::Open, Internal Error: failed to remove size changed signal. " << triggerStartUpdate << " \n";
+	triggerSizeUpdate = -1;
+      }
+      if(triggerStartUpdate >= 0) {
+	if(!attrCtrl.RemoveChangedSignal(triggerStartUpdate))
+	  cerr << "DPPlayControlBodyC::Open, Internal Error: failed to remove start changed signal. " << triggerStartUpdate << "\n";
+	triggerStartUpdate = -1;
+      }
+    } else {
+      RavlAssert(triggerSizeUpdate < 0);
+      RavlAssert(triggerStartUpdate < 0);
+    }
+    
+    // Get on with sorting out the new sequence.
     inc = 1;
     ok = true;
     ctrl = nCntrl;
@@ -96,11 +123,25 @@ namespace RavlN {
       end = ((UIntT) -1);
       return true;
     }
+    
+    // Construct new size and start update signal
+    AttributeCtrlC attrCtrl(static_cast<DPEntityC &>(ctrl));
+    triggerSizeUpdate = attrCtrl.RegisterChangedSignal("size",TriggerR(*this,&DPPlayControlBodyC::CBSequenceSizeChanged));
+    if(triggerSizeUpdate < 0)
+      cerr << "DPPlayControlBodyC::Open, Internal Error: failed to setup size changed signal. ";
+    triggerStartUpdate = attrCtrl.RegisterChangedSignal("start",TriggerR(*this,&DPPlayControlBodyC::CBSequenceStartChanged));
+    if(triggerStartUpdate < 0)
+      cerr << "DPPlayControlBodyC::Open, Internal Error: failed to setup start changed signal. ";
+    
+    // Sort out position of start of sequence.
     start = ctrl.Start();
     if(start == ((UIntT) -1))
       start = 0;
     at = start;
     ctrl.Seek(start);
+    
+    
+    // Sort out end of sequence.
     UIntT sSize = ctrl.Size();
     if(sSize != ((UIntT) -1))
       end = sSize -1;
@@ -112,6 +153,17 @@ namespace RavlN {
   //: Destructor.
   
   DPPlayControlBodyC::~DPPlayControlBodyC() {
+    // Free up any existing size change triggers.
+    if(ctrl.IsValid()) {
+      AttributeCtrlC attrCtrl(static_cast<DPEntityC &>(ctrl));
+      if(triggerSizeUpdate >= 0 && !attrCtrl.RemoveChangedSignal(triggerSizeUpdate))
+	cerr << "DPPlayControlBodyC::~DPPlayControlBodyC, Internal Error: failed to remove size changed signal. ";
+      if(triggerStartUpdate >= 0 && !attrCtrl.RemoveChangedSignal(triggerStartUpdate))
+	cerr << "DPPlayControlBodyC::~DPPlayControlBodyC, Internal Error: failed to remove start changed signal. ";
+      triggerStartUpdate = -1;
+      triggerSizeUpdate = -1;
+    }
+    
     // Try and make sure anything wait on us is free to continue.
     passEOS = true;
     pause = false;
@@ -360,6 +412,37 @@ namespace RavlN {
     ONDEBUG(cerr << " Last frame :" << lastFrame << " Tell:" << ctrl.Tell() << " At:" << at << "\n");  
     return ret;
   }
+
+  //: Callback on sequence size changing.
+  
+  bool DPPlayControlBodyC::CBSequenceSizeChanged() {
+    cerr << "DPPlayControlBodyC::CBSequenceSizeChanged, Called. \n";
+    RavlAssert(ctrl.IsValid());
+    
+    MutexLockC lock(access);
+    // Sort out end of sequence.
+    UIntT sSize = ctrl.Size();
+    if(sSize != ((UIntT) -1))
+      end = sSize -1;
+    else
+      end = sSize;
+    return true;
+  }
+  
+  //: Callback on sequence start changing.
+  
+  bool DPPlayControlBodyC::CBSequenceStartChanged() {
+    cerr << "DPPlayControlBodyC::CBSequenceStartChanged, Called. \n";
+    RavlAssert(ctrl.IsValid());
+    
+    MutexLockC lock(access);
+    // Sort out position of start of sequence.
+    start = ctrl.Start();
+    if(start == ((UIntT) -1))
+      start = 0;
+    return true;
+  }
+
   
   //: Goto beginning of sequence. (for GUI)
   

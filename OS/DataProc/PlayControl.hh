@@ -149,6 +149,12 @@ namespace RavlN {
     //: Check state of stream after get.
     // This assumes the input stream is locked by the calling function.
     
+    bool CBSequenceSizeChanged();
+    //: Callback on sequence size changing.
+    
+    bool CBSequenceStartChanged();
+    //: Callback on sequence start changing.
+    
     MutexC access;    // Access control.
     IntT inc;         // Increments -ve and +ve  0==Stopped.  1=Normal play..
     bool ok;          // Are operations succeding?
@@ -165,6 +171,9 @@ namespace RavlN {
     bool doneRev;     // Used in palindrome mode.
     IntT at;          // Cache of input stream position.
     IntT lastFrame;   // Last frame displayed.
+    
+    IntT triggerSizeUpdate; // Id for size updated trigger.
+    IntT triggerStartUpdate; // Id for start updated trigger.
   };
   
   //! userlevel=Normal
