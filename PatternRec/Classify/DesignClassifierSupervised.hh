@@ -58,6 +58,13 @@ namespace RavlN {
     //!param: out        - sample set of labels
     //!param: featureSet - array of feature indexes to use from sample set when designing classifier
     
+    virtual ClassifierC Apply(const SampleC<VectorC> &in,const SampleC<UIntT> &out,const SArray1dC<IndexC> &featureSet,const SampleC<RealT> &weight);
+    //: Create a classifier using feature subset
+    //!param: in         - sample set of feature vectors
+    //!param: out        - sample set of labels
+    //!param: featureSet - array of feature indexes to use from sample set when designing classifier
+    //!param: weight     - relative weights attached to each feature vector
+    
   };
   
   //! userlevel=Normal
@@ -112,6 +119,14 @@ namespace RavlN {
     //!param: in         - sample set of feature vectors
     //!param: out        - sample set of labels
     //!param: featureSet - array of feature indexes to use from sample set when designing classifier
+    
+    ClassifierC Apply(const SampleC<VectorC> &in,const SampleC<UIntT> &out,const SArray1dC<IndexC> &featureSet,const SampleC<RealT> &weight)
+    { return Body().Apply(in,out,featureSet,weight); }
+    //: Create a classifier using feature subset
+    //!param: in         - sample set of feature vectors
+    //!param: out        - sample set of labels
+    //!param: featureSet - array of feature indexes to use from sample set when designing classifier
+    //!param: weight     - weight associated with each feature vector
     
   };
 

@@ -57,6 +57,10 @@ namespace RavlN {
     return Apply(SampleVectorC(in,featureSet),out);
   }
   
+  ClassifierC DesignClassifierSupervisedBodyC::Apply(const SampleC<VectorC> &in,const SampleC<UIntT> &out,const SArray1dC<IndexC> &featureSet,const SampleC<RealT> &weight) {
+    return Apply(SampleVectorC(in,featureSet),out,weight);
+  }
+  
   //: Load from stream.
   
   DesignClassifierSupervisedC::DesignClassifierSupervisedC(istream &strm)
