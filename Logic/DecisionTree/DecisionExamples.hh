@@ -18,6 +18,9 @@
 #include "Ravl/IntC.hh"
 #include "Ravl/Tuple2.hh"
 #include "Ravl/RefCounter.hh"
+#include "Ravl/PatternRec/DataSet2.hh"
+#include "Ravl/Logic/SampleLiteral.hh"
+#include "Ravl/Logic/SampleState.hh"
 
 namespace RavlLogicN {
 
@@ -30,6 +33,9 @@ namespace RavlLogicN {
     DecisionExamplesBodyC()
     {}
     //: Default constructor.
+
+    DecisionExamplesBodyC(const DataSet2C<SampleStateC,SampleLiteralC> &data);
+    //: Construct from a dataset.
     
     void Dump(ostream &out);
     //: Dump examples to a stream.
@@ -83,6 +89,11 @@ namespace RavlLogicN {
       : RCHandleC<DecisionExamplesBodyC>(*new DecisionExamplesBodyC())
     {}
     //: Constructor.
+    
+    DecisionExamplesC(const DataSet2C<SampleStateC,SampleLiteralC> &data)
+      : RCHandleC<DecisionExamplesBodyC>(*new DecisionExamplesBodyC(data))
+    {}
+    //: Construct from a dataset.
     
     void Dump(ostream &out)
     { Body().Dump(out); }

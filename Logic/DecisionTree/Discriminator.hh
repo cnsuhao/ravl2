@@ -35,7 +35,7 @@ namespace RavlLogicN {
     
     virtual LiteralC BestDiscriminator(const DecisionExamplesC &set);
     //: Choose the best distriminator to seperate the decisions made in 'set'. 
-
+    
     virtual LiteralC BestDiscriminator(const DataSet2C<SampleStateC,SampleLiteralC> &data);
     //: Choose the best distriminator to seperate the decisions made in 'data'. 
   protected:

@@ -11,9 +11,17 @@
 #include "Ravl/StdMath.hh"
 #include "Ravl/Logic/DecisionExamples.hh"
 #include "Ravl/HashIter.hh"
+#include "Ravl/PatternRec/DataSet2Iter.hh"
 
 namespace RavlLogicN {
 
+  //: Construct from a dataset.
+  
+  DecisionExamplesBodyC::DecisionExamplesBodyC(const DataSet2C<SampleStateC,SampleLiteralC> &data) {
+    for(DataSet2IterC<SampleStateC,SampleLiteralC> it(data);it;it++)
+      AddExample(it.Data1(),it.Data2());
+  }
+  
   //: Add an example to the node.
   // Return's true if example is a new one.
   

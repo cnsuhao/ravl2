@@ -57,7 +57,8 @@ namespace RavlLogicN {
   //: Choose the best distriminator to seperate the decisions made in 'data'. 
 
   LiteralC DiscriminatorBodyC::BestDiscriminator(const DataSet2C<SampleStateC,SampleLiteralC> &data) {
-    
+    DecisionExamplesC de(data);
+    return BestDiscriminator(de);
   }
 
 }
