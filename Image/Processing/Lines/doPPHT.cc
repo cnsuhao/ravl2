@@ -8,6 +8,12 @@
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Lines/doPPHT.cc"
+//! userlevel=Normal
+//! docentry="Ravl.Images.Lines"
+//! lib=RavlImageProc
+//! author="Charles Galambos"
+
+//: Find straight lines in images.
 
 #include "Ravl/config.h"
 #include "Ravl/Image/Image.hh"
