@@ -8,7 +8,7 @@
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Lines/doPPHT.cc"
-
+#include "Ravl/config.h"
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Option.hh"
 #include "Ravl/Image/PPHT.hh"
@@ -32,12 +32,14 @@ extern void InitEdgeIO();
 using namespace RavlImageN;
 using namespace RavlN;
 
-#ifdef __sgi__
+#if RAVL_COMPILER_MIPSPRO
 #include <stdlib.h>
 static DPOPortBodyC<PCPixMappingC<Curve2dLineSegmentC> > fix_sgi_bug1;
 static DPOPortC<PCPixMappingC<Curve2dLineSegmentC> > fix_sgi_bug2;
 static DPIPortBodyC<DListC<EdgelC > > fix_sgi_bug3;
 static DPIPortBodyC<SArray1dC<EdgelC > > fix_sgi_bug4;
+static SArray1dIterC<RavlImageN::EdgelC> fix_sgi_bug5 ;
+
 #endif
 
 DListC<LinePP2dC> LineMap2LinePP(const PCPixMappingC<Curve2dLineSegmentC> &lines) {
