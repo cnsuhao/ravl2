@@ -44,10 +44,12 @@ namespace Ravl3DN {
     HEMeshEdgeBodyC &FirstEdge()
     { return *edge; }
     //: Access edge.
-
+    // This is always an edge going to this vertex.
+    
     const HEMeshEdgeBodyC &FirstEdge() const
     { return *edge; }
     //: Access edge.
+    // This is always an edge going to this vertex.
     
     HEMeshEdgeC Link(HEMeshVertexC newVert,HEMeshFaceC face);
     //: Link this vertex to newVert on indicated face
@@ -57,6 +59,12 @@ namespace Ravl3DN {
     UIntT Valence() const;
     //: Get the number of edges/faces linking to this vertexs.
     // This assumes this is a closed mesh.
+    
+    void SetEdge(HEMeshEdgeBodyC &nedge)
+    { edge = &nedge; }
+    //: Set edge associated with this vertex.
+    // This must always be an edge going to
+    // this vertex.
     
   protected:
     HEMeshVertexBodyC(const Vector3dC &pos,const Vector3dC &norm)
@@ -100,6 +108,7 @@ namespace Ravl3DN {
     
     inline HEMeshEdgeC FirstEdge() const;
     //: Access edge.
+    // This is always an edge going to this vertex.
     
   protected:
     HEMeshVertexC(const Vector3dC &pos,const Vector3dC &norm)
@@ -170,6 +179,12 @@ namespace Ravl3DN {
     { return Body().Valence(); }
     //: Get the number of edges/faces linking to this vertexs.
     // This assumes this is a closed mesh.
+    
+    void SetEdge(HEMeshEdgeBodyC &nedge)
+    { Body().SetEdge(nedge); }
+    //: Set edge associated with this vertex.
+    // This must always be an edge going to
+    // this vertex.
     
   private:
     HEMeshVertexBodyC *body;    

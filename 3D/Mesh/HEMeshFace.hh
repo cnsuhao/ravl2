@@ -62,6 +62,10 @@ namespace Ravl3DN {
     void SetEdge(HEMeshEdgeBodyC *nedge)
     { edge = nedge; }
     //: Set first edge.
+
+    void SetEdge(HEMeshEdgeBodyC &nedge)
+    { edge = &nedge; }
+    //: Set first edge.
     
     UIntT Sides() const;
     //: Get number of sides on face.
@@ -139,6 +143,10 @@ namespace Ravl3DN {
   public:
     void SetEdge(HEMeshEdgeC nedge)
     { Body().SetEdge(&nedge.Body()); }
+    //: Set first edge.
+    
+    void SetEdge(HEMeshEdgeBodyC &nedge)
+    { Body().SetEdge(nedge); }
     //: Set first edge.
     
     UIntT Hash() const

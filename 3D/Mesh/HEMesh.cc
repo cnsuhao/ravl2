@@ -64,6 +64,7 @@ namespace Ravl3DN {
       RavlAssert(!me.IsValid());
       me = newEdge;
       ONDEBUG(cerr << "Linking " << lastVert.Hash() << " To " << it->Hash() << "\n");
+      it->SetEdge(me.Body()); // Make sure vertex has a valid edge.
       lastVert = *it;
     }
     HEMeshEdgeC newEdge(firstVert.Body(),face.Body());
@@ -75,6 +76,7 @@ namespace Ravl3DN {
       newEdge.SetPair(opedge);
     }
     edgeTab[Tuple2C<HEMeshVertexC,HEMeshVertexC>(lastVert,firstVert)] = newEdge;
+    firstVert.SetEdge(newEdge.Body()); // Make sure vertex has a valid edge.
     ONDEBUG(cerr << "Linking " << lastVert.Hash() << " To " << firstVert.Hash() << "\n");
     
     face.SetEdge(firstEdge);

@@ -321,7 +321,8 @@ namespace Ravl3DN {
   //////////////////////////////////////////////////////////////////////////
   
   //! userlevel=Normal
-  //: Iterate through edges around a vertex.
+  //: Iterate through edges around a vertex. 
+  // This goes through all the half edges pointing to the vertex.
   
   class HEMeshVertexEdgeIterC {
   public:
@@ -331,15 +332,15 @@ namespace Ravl3DN {
     {}
     //: Default constructor.
 
-    HEMeshVertexEdgeIterC(HEMeshVertexBodyC &face)
-      : first(&face.FirstEdge()),
-	at(&face.FirstEdge())
+    HEMeshVertexEdgeIterC(HEMeshVertexBodyC &vert)
+      : first(&vert.FirstEdge()),
+	at(&vert.FirstEdge())
     {}
     //: Construct from a face
     
-    HEMeshVertexEdgeIterC(HEMeshVertexC &face)
-      : first(&face.FirstEdge().Body()),
-	at(&face.FirstEdge().Body())
+    HEMeshVertexEdgeIterC(HEMeshVertexC &vert)
+      : first(&vert.FirstEdge().Body()),
+	at(&vert.FirstEdge().Body())
     {}
     //: Construct from a face
     
@@ -354,8 +355,8 @@ namespace Ravl3DN {
     { return at != first && at != 0; }
     //: Is this the first element in list.
     
-    bool Next() { 
-      at = &at->Pair().Next();
+    bool Next() {
+      at = &at->Next().Pair();
       if(at == first) {
 	at = 0;
 	return false;
