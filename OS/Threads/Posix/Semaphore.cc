@@ -44,10 +44,11 @@ namespace RavlN
   //: Write out to stream.
   // Write the semaphore count to the stream.
   
-  istream &operator<<(istream &in,SemaphoreC &sema) {
+  istream &operator>>(istream &in,SemaphoreC &sema) {
+    int i;
+    in >> i;
     return in;
   }
   //: Read in from stream.
-  // Does nothing.
 
 }
