@@ -12,6 +12,9 @@
 #include "Ravl/PatternRec/ClassifierDiscriminantFunction.hh"
 #include "Ravl/PatternRec/SampleLabel.hh"
 #include "Ravl/VirtualConstructor.hh"
+#if RAVL_COMPILER_VISUALCPP
+#include "Ravl/BinStream.hh"
+#endif
 
 namespace RavlN {
   
