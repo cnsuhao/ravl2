@@ -196,9 +196,12 @@ int testSparse() {
   cerr << "testSparse() \n";
   TSMatrixSparseC<RealT> sm(10,10);
   sm.Element(2,3,23);
+  sm.Element(2,8,28);
   sm.Element(4,5,45);
   cerr << sm.TMatrix() << "\n";
   cerr << sm.T().TMatrix() << "\n";
+  TSMatrixC<RealT> sm2 = sm + sm.T();
+  cerr << "Sum=" << sm2.TMatrix() << "\n";
   
   return 0;
 }

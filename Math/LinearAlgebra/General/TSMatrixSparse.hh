@@ -61,6 +61,87 @@ namespace RavlN {
     }
     //: Get range of indexes in list.
   };
+
+  //! userlevel=Normal
+  //: Iterate through a pair of lists.
+  
+  class IndexDLIter2C
+  {
+  public:
+    IndexDLIter2C(const IndexDListC &lst1,const IndexDListC &lst2)
+      : it1(lst1),
+	it2(lst2)
+    {}
+    //: Construct from a pair of lists.
+    
+    IndexDLinkC &Data1()
+    { return *it1; }
+    //: Access data for iter1.
+
+    IndexDLinkC &Data2()
+    { return *it2; }
+    //: Access data for iter2.
+    
+    bool NextMatch() {
+      while(it1 && it2) {
+	if(it1->Index() == it2->Index())
+	  return true;
+	if(it1->Index() < it2->Index())
+	  it1++;
+	else
+	  it2++;
+      }
+      return false;
+    }
+    //: Goto next matching pair of indexes.
+    // Returns false if one of the iterators becomes invalid.
+    
+    void DuelInc() {
+      it1++;
+      it2++;
+    }
+    //: Increment both iterators.
+
+    void Next1() 
+    { it1++; }
+    //: Increment iterator 1.
+    
+    void Next2() 
+    { it2++; }
+    //: Increment iterator 2.
+    
+    bool NextMatchOr2() {
+      while(it1 && it2) {
+	if(it1->Index() == it2->Index())
+	  return true;
+	if(it1->Index() < it2->Index()) {
+	  it1++;
+	  continue;
+	}
+	return false;
+      }
+      return false;
+    }
+    //: Return next matching pair, or valid 2 index.
+    // Returns true on a match.
+    // returns false if end or it2 is the lesser index.
+    
+    operator bool() const
+    { return it1 && it2; }
+    //: Return true if both iterators are valid.
+    
+    bool IsElm1() const
+    { return it1.IsElm(); }
+    //: Is iterator 1 valid ?
+    
+    bool IsElm2() const
+    { return it2.IsElm(); }
+    //: Is iterator 2 valid ?
+    
+  protected:    
+    IntrDLIterC<IndexDLinkC> it1;
+    IntrDLIterC<IndexDLinkC> it2;
+  };
   
   template<class DataT>
   class TSMatrixSparseEntryC
@@ -217,9 +298,19 @@ namespace RavlN {
     
     virtual TMatrixC<DataT> TMatrix() const;
     //: Access as a TMatrix.
+
+    virtual void AddIP(const TSMatrixC<DataT> &oth);
+    //: Add this matrix to 'oth' and return the result.
+    
+    virtual void SubIP(const TSMatrixC<DataT> &oth);
+    //: Subtract 'oth' from this matrix and return the result.
     
     virtual TSMatrixC<DataT> T() const;
     //: Get transpose of matrix.
+    
+    virtual TSMatrixC<DataT> Mul(const TSMatrixC<DataT> &oth) const;
+    //: Get this matrix times 'oth'.
+    
   protected:
     SArray1dC<IndexDListC > rows;
     SArray1dC<IndexDListC > cols;
@@ -249,6 +340,14 @@ namespace RavlN {
     {}
     //: Construct a sparse matrix for a full matrix.
     // Any elements with an absolute value smaller than 'zeroValue' are taken as zero.
+    
+    TSMatrixSparseC(TSMatrixC<DataT> &xyz)
+      : TSMatrixC<DataT>(xyz)
+    {
+      if(dynamic_cast<TSMatrixSparseBodyC<DataT> *>(&TSMatrixC<DataT>::Body()) == 0)
+	Invalidate();
+    }
+    //: Base constructor.
     
   protected:
     TSMatrixSparseC(TSMatrixSparseBodyC<DataT> &bod)
@@ -352,7 +451,121 @@ namespace RavlN {
       sum += dat[it->Index()] * ColDLink2Entry(&(*it))->Data();
     return sum;
   }
-
+  
+  template<class DataT>
+  TSMatrixC<DataT> TSMatrixSparseBodyC<DataT>::Mul(const TSMatrixC<DataT> &mat) const {
+    RavlAssert(Cols() == mat.Rows());
+    if(mat.MatrixType() != typeid(TSMatrixSparseBodyC<DataT>)) {
+      RavlAssert(0);      
+    }
+    TSMatrixSparseC<DataT> smat(const_cast<TSMatrixC<DataT> &>(mat));
+    const SizeT rdim = Rows();
+    const SizeT cdim = mat.Cols();
+    TSMatrixSparseC<DataT> out(rdim, cdim);
+    TSMatrixSparseBodyC<DataT> &outb = out.Body();
+    for (UIntT r = 0; r < rdim; r++) {
+      const IndexDListC &rowl = rows[r];
+      for (UIntT c = 0; c < cdim; c++) {
+	IndexDListC &coll = smat.Body().cols[c];
+	IndexDLIter2C it(rowl,coll);
+	if(!it.NextMatch())
+	  continue;
+	DataT sum = RowDLink2Entry(&it.Data1())->Data() * ColDLink2Entry(&(it.Data2()))->Data();
+	it.DuelInc();
+	while(it.NextMatch()) {
+	  sum += RowDLink2Entry(&it.Data1())->Data() * ColDLink2Entry(&(it.Data2()))->Data();
+	  it.DuelInc();
+	}
+	TSMatrixSparseEntryC<DataT> &newentry = *new TSMatrixSparseEntryC<DataT>(r,c,sum);
+	outb.rows[r].InsLast(newentry.IRow());
+	outb.cols[c].InsLast(newentry.ICol());
+      }
+    }
+    return out;
+  }
+  
+  template<class DataT>
+  void TSMatrixSparseBodyC<DataT>::AddIP(const TSMatrixC<DataT> &mat) {
+    cerr << "TSMatrixSparseBodyC<DataT>::AddIP(), Called. \n";
+    RavlAssert(Rows() == mat.Rows());
+    RavlAssert(Cols() == mat.Cols());
+    if(mat.MatrixType() != typeid(TSMatrixSparseBodyC<DataT>)) {
+      RavlAssert(0);
+    }
+    TSMatrixSparseC<DataT> smat(const_cast<TSMatrixC<DataT> &>(mat));
+    const SizeT rdim = Rows();
+    for (UIntT r = 0; r < rdim; r++) {
+      IntrDListC<IndexDLinkC> &rlist = rows[r]; 
+      IntrDLIterC<IndexDLinkC> it1(rlist);
+      IntrDLIterC<IndexDLinkC> it2(smat.Body().rows[r]);
+      while(it1 && it2) {
+	UIntT col2 = it2->Index().V();
+	UIntT col1 = it1->Index().V(); 
+	if(col1 == col2) {
+	  RowDLink2Entry(&(*it1))->Data() += RowDLink2Entry(&(*it2))->Data();
+	  it1++;
+	  it2++;
+	  continue;
+	}
+	if(col1 < col2) {
+	  it1++;
+	  continue;
+	}
+	TSMatrixSparseEntryC<DataT> &newentry = *new TSMatrixSparseEntryC<DataT>(r,col2,RowDLink2Entry(&(*it2))->Data());
+	it1.InsertBef(newentry.IRow());
+	cols[col2].Insert(newentry.ICol());
+	it2++;
+      }
+      for(;it2;it2++) {
+	UIntT col2 = it2->Index().V();
+	TSMatrixSparseEntryC<DataT> &newentry = *new TSMatrixSparseEntryC<DataT>(r,col2,RowDLink2Entry(&(*it2))->Data());
+	rlist.InsLast(newentry.IRow());
+	cols[col2].Insert(newentry.ICol());
+      }
+    }
+  }
+  
+  template<class DataT>
+  void TSMatrixSparseBodyC<DataT>::SubIP(const TSMatrixC<DataT> &mat) {
+    cerr << "TSMatrixSparseBodyC<DataT>::AddIP(), Called. \n";
+    RavlAssert(Rows() == mat.Rows());
+    RavlAssert(Cols() == mat.Cols());
+    if(mat.MatrixType() != typeid(TSMatrixSparseBodyC<DataT>)) {
+      RavlAssert(0);
+    }
+    TSMatrixSparseC<DataT> smat(const_cast<TSMatrixC<DataT> &>(mat));
+    const SizeT rdim = Rows();
+    for (UIntT r = 0; r < rdim; r++) {
+      IntrDListC<IndexDLinkC> &rlist = rows[r]; 
+      IntrDLIterC<IndexDLinkC> it1(rlist);
+      IntrDLIterC<IndexDLinkC> it2(smat.Body().rows[r]);
+      while(it1 && it2) {
+	UIntT col2 = it2->Index().V();
+	UIntT col1 = it1->Index().V(); 
+	if(col1 == col2) {
+	  RowDLink2Entry(&(*it1))->Data() -= RowDLink2Entry(&(*it2))->Data();
+	  it1++;
+	  it2++;
+	  continue;
+	}
+	if(col1 < col2) {
+	  it1++;
+	  continue;
+	}
+	TSMatrixSparseEntryC<DataT> &newentry = *new TSMatrixSparseEntryC<DataT>(r,col2,RowDLink2Entry(&(*it2))->Data());
+	it1.InsertBef(newentry.IRow());
+	cols[col2].Insert(newentry.ICol());
+	it2++;
+      }
+      for(;it2;it2++) {
+	UIntT col2 = it2->Index().V();
+	TSMatrixSparseEntryC<DataT> &newentry = *new TSMatrixSparseEntryC<DataT>(r,col2,-RowDLink2Entry(&(*it2))->Data());
+	rlist.InsLast(newentry.IRow());
+	cols[col2].Insert(newentry.ICol());
+      }
+    }
+  }
+  
   template<class DataT>
   TSMatrixC<DataT> TSMatrixSparseBodyC<DataT>::T() const {
     TSMatrixSparseC<DataT> ret(Cols(),Rows());
