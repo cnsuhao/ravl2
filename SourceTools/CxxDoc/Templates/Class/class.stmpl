@@ -50,7 +50,7 @@ $(//: IE needs: width=49%  Netscape needs: width=98% This used to be in the foll
 $(ifset:brief:<tr><td align=center COLSPAN="2"><font size="+2" color="#23238E" FACE="arial,Helvetica">$(brief)</font>
 <tr><td COLSPAN="2">&nbsp;</tr>
 )
-                  $(tabTitle)include $(tabData)"<A HREF="../../../../../../include/$(filename)">$(filename)</A>"</tr>$(set:lastFilename=$(filename))
+                  $(tabTitle)#include $(tabData)"<A HREF="../../../../../../include/$(filename)">$(filename)</A>"</tr>$(set:lastFilename=$(filename))
 $(ifset:date:     $(tabTitle)Created:$(tabData)$(date)&nbsp;</tr>
 )$(if:$pagemode=develop:$(ifset:file:$(tabTitle)Source file:$(tabData)<B>$(file)</B></tr>
 ))                $(tabTitle)User Level:$(tabData)<b>$(userlevel)</b></tr>
