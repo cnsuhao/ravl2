@@ -19,6 +19,9 @@
 #include "Ravl/Stream.hh"
 
 namespace RavlImageN {
+#if RAVL_VISUALCPP_NAMESPACE_BUG
+  using namespace RavlN;
+#endif
   
   //! userlevel=Normal
   //: Byte YUV value class.

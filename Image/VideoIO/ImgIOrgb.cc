@@ -17,6 +17,9 @@
 #if RAVL_HAVE_UNISTD_H
 #include <unistd.h>
 #endif
+#if RAVL_OS_WIN32
+#include <stdio.h>
+#endif
 #if RAVL_HAVE_IO_H
 #include <io.h>
 #endif

@@ -31,10 +31,10 @@ namespace Ravl3DN {
       it.Data1() = InsertVertex(it.Data2());
     // Creat the faces.
     HashC<Tuple2C<HEMeshVertexC,HEMeshVertexC> , HEMeshEdgeC> edgeTab;
-    for(SArray1dIterC<TriC> it(mesh.Faces());it;it++) {
+    for(SArray1dIterC<TriC> itf(mesh.Faces());itf;itf++) {
       SArray1dC<HEMeshVertexC> face(3);
       for(int i = 0;i < 3;i++)
-	face[i] = verts[mesh.Index(*it,i)];
+	face[i] = verts[mesh.Index(*itf,i)];
       InsertFace(face,edgeTab);
     }
     ONDEBUG(cerr << "EdgeTab Size=" << edgeTab.Size() << "\n");

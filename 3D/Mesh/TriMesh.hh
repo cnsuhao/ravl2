@@ -19,6 +19,14 @@
 
 namespace Ravl3DN {
   using namespace RavlN;
+#if RAVL_VISUALCPP_NAMESPACE_BUG
+  using RavlN::RCBodyVC;
+  using RavlN::UIntT;
+  using RavlN::SArray1dC;
+  using RavlN::RealT;
+  using RavlN::RCHandleC;
+#endif
+
   
   class TriMeshBodyC;
   class TriMeshC;

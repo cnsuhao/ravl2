@@ -48,16 +48,17 @@ namespace RavlImageN {
       return false;
     }
     UIntT header[11];
-    for(int i = 0;i < 9;i++)
+    int i;
+    for(i = 0;i < 9;i++)
       bis >> header[i];
 
 #if DODEBUG
     cerr << "Header :\n";
-    for(int i = 0;i < 9;i++) {
+    for(i = 0;i < 9;i++) {
       cerr << " " << i << "=" << header[i];
     }
     cerr << "\n" << hex;
-    for(int i = 0;i < 9;i++) {
+    for(i = 0;i < 9;i++) {
       cerr << " " << i << "=" << header[i];
     }
     cerr << dec << "\n";

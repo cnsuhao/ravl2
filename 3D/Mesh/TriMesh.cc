@@ -118,13 +118,13 @@ namespace Ravl3DN {
   void TriMeshBodyC::UpdateVertexNormals() {
     for(SArray1dIterC<VertexC> it(vertices);it;it++)
       it->Normal() = Vector3dC(0,0,0);
-    for(SArray1dIterC<TriC> it(faces);it;it++) {
-      Vector3dC norm = it->FaceNormal();
+    for(SArray1dIterC<TriC> itf(faces);itf;itf++) {
+      Vector3dC norm = itf->FaceNormal();
       for(int i = 0;i < 3;i++)
-	it->Normal(i) += norm;
+	itf->Normal(i) += norm;
     }
-    for(SArray1dIterC<VertexC> it(vertices);it;it++)
-      it->Normal() = it->Normal().Unit();
+    for(SArray1dIterC<VertexC> itv(vertices);itv;itv++)
+      itv->Normal() = itv->Normal().Unit();
   }
   
   ostream &operator<<(ostream &s,const TriMeshC &ts) {

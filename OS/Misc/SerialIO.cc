@@ -11,7 +11,7 @@
 
 #include  "Ravl/OS/SerialIO.hh"
 
-#ifdef RAVL_OS_SOLARIS
+#if RAVL_OS_SOLARIS
 #include <sys/open.h>
 #endif
 
@@ -31,7 +31,10 @@
 #include <string.h>
 
 namespace RavlOSN {
-
+#if RAVL_VISUALCPP_NAMESPACE_BUG
+  using namespace RavlN;
+#endif
+  
   //: Get setting to use for a bit rate.
   // returns -1 for illegal values.
   

@@ -21,7 +21,9 @@
 #include "Ravl/CDLIter.hh"
 #include "Ravl/Stream.hh"
 
+#if RAVL_HAVE_UNISTD_H
 #include <unistd.h>
+#endif
 #if RAVL_HAVE_ANSICPPHEADERS
 #include <iomanip>
 #else

@@ -19,6 +19,9 @@
 
 namespace RavlImageN {
   using namespace RavlN;
+#if RAVL_VISUALCPP_NAMESPACE_BUG
+  using RavlN::TFVectorC;
+#endif
   
   //! userlevel=Normal
   //: YUV422 Pixel base class.
