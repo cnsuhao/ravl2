@@ -17,7 +17,7 @@
 
 namespace RavlN {
   
-  //! userlevel=Develop
+  //! userlevel=Obsolete
   //: Set of normal distributions.
 
   class FuncPDFNormalBodyC
@@ -50,7 +50,7 @@ namespace RavlN {
     SArray1dC<NormalC> dists; // Array of distributions.
   };
   
-  //! userlevel=Normal
+  //! userlevel=Obsolete
   //: Set of normal distributions.
   
   class FuncPDFNormalC
