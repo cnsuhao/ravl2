@@ -11,6 +11,7 @@
 //! author="Charles Galambos"
 //! userlevel=Develop
 
+#include "Ravl/config.h"
 #include "Ravl/DP/ThreadPipe.hh"
 #include "Ravl/DP/MTIOConnect.hh"
 #include "Ravl/DP/Blackboard.hh"
@@ -24,6 +25,10 @@
 #include "Ravl/OS/Date.hh"
 
 using namespace RavlN;
+
+#if RAVL_COMPILER_MIPSPRO 
+#pragma instantiate RavlN::DPProcessBodyC<int,int>
+#endif
 
 template class DPThreadPipeC<IntT,IntT>;
 template class DPMTIOConnectC<IntT>;
