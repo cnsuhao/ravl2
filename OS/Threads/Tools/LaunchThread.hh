@@ -13,7 +13,7 @@
 //! userlevel=Default
 //! docentry="Ravl.OS.Threads"
 //! author="Charles Galambos"
-//! date="02/07/99"
+//! date="02/07/1999"
 
 #include "Ravl/Threads/Thread.hh"
 #include "Ravl/Threads/ThreadEvent.hh"
@@ -37,11 +37,11 @@ namespace RavlN {
     //: Called on startup.
     
     ThreadEventC &Done()
-      { return done; }
+    { return done; }
     //: Access done event.
 
     TriggerC &SigEvent()
-      { return se; }
+    { return se; }
     //: Event to call.
     // NB. This is used by the child thread
     // and should not be modified until after the event 'done'
@@ -72,7 +72,7 @@ namespace RavlN {
   {
   public:
     LaunchThreadC()
-      {}
+    {}
     //: Default constructor.
     
     LaunchThreadC(const TriggerC &nse);
@@ -81,30 +81,36 @@ namespace RavlN {
   protected:
     LaunchThreadC(LaunchThreadBodyC &leb)
       : ThreadC(leb)
-      {}
+    {}
     //: Body constructor.
     
     LaunchThreadBodyC &Body()
-      { return static_cast<LaunchThreadBodyC &>(ThreadC::Body()); }
+    { return static_cast<LaunchThreadBodyC &>(ThreadC::Body()); }
     //: Access thread body.
     
     void Reset(const TriggerC &nse)
-      { Body().Reset(nse); }
+    { Body().Reset(nse); }
     //: Reset signal event.
     // Setup new event....
     
   public:
     ThreadEventC &Done()
-      { return Body().Done(); }
+    { return Body().Done(); }
     //: Access done event.
     // This is true when launched event completes.
     
     TriggerC &SigEvent()
-      { return Body().SigEvent(); }
+    { return Body().SigEvent(); }
     //: Event to call.
     // NB. This is used by the child thread
     // and should not be modified until after the event 'done'
     // has occured.
+    
+    bool WaitForExit() { 
+      Body().Done().Wait(); 
+      return true;
+    }
+    //: Wait for thread to exit.
     
     friend class LaunchThreadBodyC;
   };
