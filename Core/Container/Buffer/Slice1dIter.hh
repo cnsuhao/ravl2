@@ -102,6 +102,7 @@ namespace RavlN {
   protected:
     DataT *place;
     DataT *end;
+    IntT stide;
     Slice1dC<DataT> vec;
   };
   

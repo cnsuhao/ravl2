@@ -140,10 +140,7 @@ namespace RavlN {
       cit.Next();
       if(cit.IsElm())
 	return true;
-      rit.Next();
-      if(!rit.IsElm())
-	return false;
-      cit.First(rit.Data(),rng);
+      CNextRow();
       return false;
     }
     //: Goto next element.
@@ -162,14 +159,14 @@ namespace RavlN {
     void operator++() { 
       cit++;
       if(!cit.IsElm())
-	NextRow();
+	CNextRow();
     }
     //: Goto next element.
     
     void operator++(int) {
       cit++;
       if(!cit.IsElm())
-	NextRow();      
+	CNextRow();      
     }
     //: Goto next element.
     
@@ -233,10 +230,22 @@ namespace RavlN {
     //: Invalidate this iterator.
     
   protected:
+    void CNextRow();
+    //: Non inlined next row method to encourage the compiler to get inlining of Next() right.
+    
     BufferAccessIterC<BufferAccessC<DataT> > rit;
     BufferAccessIterC<DataT> cit;
     IndexRangeC rng;
   };
+
+  
+  template <class DataT>
+  void BufferAccess2dIterC<DataT>::CNextRow() {
+    rit.Next();
+    if(rit.IsElm())
+      cit.First(rit.Data(),rng);
+  }
+  
 }
 
 

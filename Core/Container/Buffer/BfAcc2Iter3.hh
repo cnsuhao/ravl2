@@ -103,13 +103,11 @@ namespace RavlN {
     
     bool Next() { 
       cit.Next();
-      if(cit.IsElm())
-	return true;
-      rit.Next();
-      if(!rit.IsElm())
+      if(!cit.IsElm()) {
+	CNextRow();
 	return false;
-      cit.First(rit.Data1(),rng1,rit.Data2(),rng2,rit.Data3(),rng3);
-      return false;
+      }
+      return true;
     }
     //: Goto next element.
     // returns true if on the same row.
@@ -162,7 +160,7 @@ namespace RavlN {
     void operator++() {  
       cit.Next();
       if(!cit.IsElm())
-	NextRow();
+	CNextRow();
     }
     //: Goto next element.
     
@@ -170,7 +168,7 @@ namespace RavlN {
     void operator++(int) {  
       cit.Next();
       if(!cit.IsElm())
-	NextRow();      
+	CNextRow();      
     }
     //: Goto next element.
     
@@ -218,14 +216,25 @@ namespace RavlN {
     //: Invalidate this iterator.
     
   protected:
+    void CNextRow();
+    //: Non inlined version of NextRow() to help compiler get inlining right.
+    
     BufferAccessIter3C<BufferAccessC<Data1T>,BufferAccessC<Data2T>,BufferAccessC<Data3T> > rit;
     BufferAccessIter3C<Data1T,Data2T,Data3T> cit;
     IndexRangeC rng1;
     IndexRangeC rng2;
     IndexRangeC rng3;
   };
-
-
+  
+  template <class Data1T,class Data2T,class Data3T>
+  void BufferAccess2dIter3C<Data1T,Data2T,Data3T>::CNextRow() {
+    rit.Next();
+    if(rit.IsElm())
+      cit.First(rit.Data1(),rng1,
+		rit.Data2(),rng2,
+		rit.Data3(),rng3);
+  }
+  
 }
 
 #endif

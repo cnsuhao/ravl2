@@ -25,7 +25,10 @@ namespace RavlN {
   template<class Data1T,class Data2T,class Data3T>
   class BufferAccessIter3C {
   public:
-    inline BufferAccessIter3C();
+    inline BufferAccessIter3C()
+      : at1(0), 
+	endOfRow(0)
+    {}
     //: Default constructor.
     
     inline BufferAccessIter3C(const BufferAccessC<Data1T> &buff,
@@ -65,28 +68,28 @@ namespace RavlN {
     { First(buff,buff2,buff3); }
     //: Constructor.
     
-    inline bool First(const BufferAccessC<Data1T> &buff1,const IndexRangeC &rng1,
-		      const BufferAccessC<Data2T> &buff2,const IndexRangeC &rng2,
-		      const BufferAccessC<Data3T> &buff3,const IndexRangeC &rng3);
+    bool First(const BufferAccessC<Data1T> &buff1,const IndexRangeC &rng1,
+	       const BufferAccessC<Data2T> &buff2,const IndexRangeC &rng2,
+	       const BufferAccessC<Data3T> &buff3,const IndexRangeC &rng3);
     //: Goto first element.
     // returns true if there is a first element.
     
-    inline bool First(const BufferAccessC<Data1T> &buff,
-		      const BufferAccessC<Data2T> &buff2,
-		      const BufferAccessC<Data3T> &buff3,
-		      SizeT size);
+    bool First(const BufferAccessC<Data1T> &buff,
+	       const BufferAccessC<Data2T> &buff2,
+	       const BufferAccessC<Data3T> &buff3,
+	       SizeT size);
     //: Goto first element.
     // returns true if there is a first element.
     
-    inline bool First(const RangeBufferAccessC<Data1T> &buff,
-		      const RangeBufferAccessC<Data2T> &buff2,
-		      const RangeBufferAccessC<Data3T> &buff3);
+    bool First(const RangeBufferAccessC<Data1T> &buff,
+	       const RangeBufferAccessC<Data2T> &buff2,
+	       const RangeBufferAccessC<Data3T> &buff3);
     //: Goto first element.
     // returns true if there is a first element.
 
-    inline bool First(const SizeBufferAccessC<Data1T> &buff,
-		      const SizeBufferAccessC<Data2T> &buff2,
-		      const SizeBufferAccessC<Data3T> &buff3);
+    bool First(const SizeBufferAccessC<Data1T> &buff,
+	       const SizeBufferAccessC<Data2T> &buff2,
+	       const SizeBufferAccessC<Data3T> &buff3);
     //: Goto first element.
     // returns true if there is a first element.
     
@@ -103,10 +106,15 @@ namespace RavlN {
     { return at1 < endOfRow; }
     //: At valid element ?
     
-    inline void Next();
+    inline void Next() {
+      RavlAssert(at1 < endOfRow);
+      at1++;
+      at2++;
+      at3++;
+    }
     //: Goto next element.
     // Call ONLY if IsElm() is valid.
-
+    
     inline void Next(int skip) {
       at1 += skip;
       at2 += skip;
@@ -147,9 +155,12 @@ namespace RavlN {
     { return *at3; }
     //: Access data.
     
-    inline void Invalidate();
+    inline void Invalidate() { 
+      at1 = 0;
+      endOfRow = 0; 
+    }
     //: Make IsElm() return false.
-
+    
   protected:
     Data1T *at1;
     Data2T *at2;
@@ -160,14 +171,6 @@ namespace RavlN {
   //////////////////////////////////////////////////////
   
   template<class Data1T,class Data2T,class Data3T>
-  inline 
-  BufferAccessIter3C<Data1T,Data2T,Data3T>::BufferAccessIter3C()
-    : at1(0), 
-      endOfRow(0)
-  {}
-
-  template<class Data1T,class Data2T,class Data3T>
-  inline 
   bool BufferAccessIter3C<Data1T,Data2T,Data3T>::First(const BufferAccessC<Data1T> &buff,
 						       const BufferAccessC<Data2T> &buff2,
 						       const BufferAccessC<Data3T> &buff3,
@@ -186,7 +189,6 @@ namespace RavlN {
   }
 
   template<class Data1T,class Data2T,class Data3T>
-  inline 
   bool BufferAccessIter3C<Data1T,Data2T,Data3T>::First(const BufferAccessC<Data1T> &buff1,const IndexRangeC &rng1,
 						       const BufferAccessC<Data2T> &buff2,const IndexRangeC &rng2,
 						       const BufferAccessC<Data3T> &buff3,const IndexRangeC &rng3
@@ -207,7 +209,6 @@ namespace RavlN {
   }
   
   template<class Data1T,class Data2T,class Data3T>
-  inline 
   bool BufferAccessIter3C<Data1T,Data2T,Data3T>::First(const RangeBufferAccessC<Data1T> &buff,
 						       const RangeBufferAccessC<Data2T> &buff2,
 						       const RangeBufferAccessC<Data3T> &buff3)
@@ -227,7 +228,6 @@ namespace RavlN {
   }
 
   template<class Data1T,class Data2T,class Data3T>
-  inline 
   bool BufferAccessIter3C<Data1T,Data2T,Data3T>::First(const SizeBufferAccessC<Data1T> &buff,
 						       const SizeBufferAccessC<Data2T> &buff2,
 						       const SizeBufferAccessC<Data3T> &buff3)
@@ -245,22 +245,5 @@ namespace RavlN {
     endOfRow = &(at1[buff.Size()]);
     return true;
   }
-  
-  template<class Data1T,class Data2T,class Data3T>
-  inline 
-  void BufferAccessIter3C<Data1T,Data2T,Data3T>::Next() {
-    RavlAssert(at1 < endOfRow);
-    at1++;
-    at2++;
-    at3++;
-  }
-  
-  template<class Data1T,class Data2T,class Data3T>
-  inline 
-  void BufferAccessIter3C<Data1T,Data2T,Data3T>::Invalidate() { 
-    at1 = 0;
-    endOfRow = 0; 
-  }
-  
 }
 #endif
