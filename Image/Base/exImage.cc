@@ -10,6 +10,7 @@
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Array2dIter.hh"
+#include "Ravl/Array2dIter2.hh"
 #include "Ravl/Image/ImgIO.hh"
 #include "Ravl/Option.hh"
 
@@ -23,7 +24,8 @@ using namespace RavlImageN;
 
 int main(int nargs,char **argv) {
   OptionC opt(nargs,argv);
-  StringC inf = opt.String("","in.pgm","Input image. ");
+  StringC inf = opt.String("","in.pgm","Input image 1. ");
+  StringC inf2 = opt.String("","in2.pgm","Input image 2. ");
   StringC outf = opt.String("","out.pgm","Input image. ");
   opt.Check();
   
@@ -43,6 +45,21 @@ int main(int nargs,char **argv) {
     total += *it;
   
   cerr << "Total of pixels in the image = " << total << "\n";
+  
+  // Load a second image.
+  ImageC<ByteT> image2;
+  if(!Load(inf2,image2)) {
+    cerr << "Failed to load file '" << inf2 << "' \n";
+    return 1;
+  }
+  
+  // Sum the diffrences between the two images.
+  
+  total = 0;
+  for(Array2dIter2C<ByteT,ByteT> it2(image,image2);it2;it2++)
+    total += Abs(it2.Data1() - it2.Data2());
+  
+  cerr << "The sum of the differences between image and image2 is " << total << "\n";
   
   // Set a pixel to a value.
   
