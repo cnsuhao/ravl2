@@ -388,7 +388,7 @@ namespace RavlN {
   
   template<class DataT>
   void SArray2dC<DataT>::SetColumn(IndexC i,const SArray1dC<DataT> &val) {
-    RavlAssert(val.Size() == size2);
+    RavlAssert(val.Size() == Size1());
     // Avoid including to many headers by just using a ptr, not a slice.
     DataT *d1 = &((*this)[0][i]); 
     for(BufferAccessIterC<DataT> it(val);it;it++,d1 += Stride())
@@ -397,7 +397,7 @@ namespace RavlN {
   
   template<class DataT>
   void SArray2dC<DataT>::SetRow(IndexC i,const SArray1dC<DataT> &val) {
-    RavlAssert(val.Size() == Size1());
+    RavlAssert(val.Size() == Size2());
     for(BufferAccessIter2C<DataT,DataT> it((*this)[i],val);it;it++)
       it.Data1() = it.Data2();
   }
