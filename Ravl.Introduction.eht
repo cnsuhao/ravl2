@@ -28,3 +28,18 @@
 	  href="http://www.gnu.org/software/cvs/
 	  ">CVS</a>.</li>
     </ul>
+
+    <p>Some notes: </p>
+    <ul>
+	<li> There are in fact two versions of the the documentation, 'user' and 'develop'. User documentation
+            is aimed at people who only want to use the classes as they are and have no wish to know the details
+            of how the work. As such the user documentation only gives details of the public interface offered by
+            those classes which are intended for use in code using the RAVL library.  The 'develop' documentation
+            on the other hand gives information about all the elements of a class, including private member variables
+            and functions. This documentation is intended for people who wish to make changes to the library to either
+	   extend to modify its functionality.
+	</li>
+	<li>
+	  In the code you will often see reference to RAVL with only the first letter in upper case, this is to
+stop the RavlN namespace being confused with a macro definition as set out in the <a href="Ravl.Introduction.Naming_Conventions.html">  naming conventions </a>.
+	</li>
