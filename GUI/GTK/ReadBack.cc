@@ -12,13 +12,9 @@
 #include "Ravl/GUI/ReadBack.hh"
 
 #if 1
-#define RAVL_USE_GTKDIRECT RAVL_OS_WIN32
+#define RAVL_USE_GTKTHREADS  RAVL_OS_WIN32  /* Use thread based event handling stratagy. */
 #else
-#define RAVL_USE_GTKDIRECT 1
-#endif
-
-#if RAVL_USE_GTKDIRECT
-#include <gtk/gtk.h>
+#define RAVL_USE_GTKTHREADS  1  /* Use thread based event handling stratagy. */
 #endif
 
 namespace RavlGUIN {
@@ -36,7 +32,7 @@ namespace RavlGUIN {
       released = true;
       return ;
     }
-#if RAVL_USE_GTKDIRECT 
+#if RAVL_USE_GTKTHREADS 
     Manager.ThreadEnterGUI(threadId);
 #else
     Manager.Queue(Trigger(lock,&ReadBackC::Issue));
@@ -56,11 +52,10 @@ namespace RavlGUIN {
   bool ReadBackLockC::Wait() {
     if(held || released)
       return held;
-#if RAVL_USE_GTKDIRECT
-    Manager.ThreadEnterGUI(threadId);
-#else 
+#if !RAVL_USE_GTKTHREADS
     lock.WaitForLock();
 #endif
+    Manager.ThreadEnterGUI(threadId);
     held = true;
     return true;
   }
@@ -69,9 +64,8 @@ namespace RavlGUIN {
   
   bool ReadBackLockC::Unlock() {
     if(!released) {
-#if RAVL_USE_GTKDIRECT 
       Manager.ThreadLeaveGUI(threadId);
-#else
+#if !RAVL_USE_GTKTHREADS 
       lock.Release();
 #endif
       released = true;

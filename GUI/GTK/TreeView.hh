@@ -179,11 +179,25 @@ namespace RavlGUIN {
     // Part of hideous hack to get signals working,.
     // Internal use only!
 #endif    
+    
+    bool Sort() const
+    { return sort; }
+    //: Sort column ?
+    
+    bool SortAscending() const
+    { return ascending; }
+    //: Sort in ascending order.
+    
+    void SetSort(bool _sort,bool _ascending)
+    { sort = _sort; ascending = _ascending; }
+    //: Set sort order of column.
+    
   protected:
     StringC name;
     SArray1dC<TreeViewColumnRendererC> renderers;
     GtkTreeViewColumn *column;
-
+    bool sort;
+    bool ascending;
     friend class TreeViewBodyC;
   };
   

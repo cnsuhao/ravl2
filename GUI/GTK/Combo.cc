@@ -90,8 +90,10 @@ namespace RavlGUIN {
   // Call on the GUI thread only.
   
   bool ComboBodyC::GUIClearSelection() {
-    if(widget == 0 && GTK_COMBO(widget)->list == 0)
-      ClearSelection();
+    if(widget == 0) {
+      selection = StringC("");
+      return true;
+    }
     // Clear selection
     StringC str("");
     gtk_entry_set_text (GTK_ENTRY (GTK_COMBO(widget)->entry), str.chars());

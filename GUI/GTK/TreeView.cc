@@ -31,7 +31,9 @@ namespace RavlGUIN {
   
   TreeViewColumnC::TreeViewColumnC()
     : renderers(1),
-      column(0)
+      column(0),
+      sort(false),
+      ascending(false)
   {}
   
   //:---------------------------------------------------------------------------------
@@ -254,6 +256,10 @@ namespace RavlGUIN {
 					 renderer,
 					 rit->Expand());
 	
+	if(it->Sort())
+	  gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(treeModel.TreeModel()), rit.Index().V(),
+					       it->SortAscending() ? GTK_SORT_ASCENDING : GTK_SORT_DESCENDING);
+	
 	// Setup attributes.
 	for(HashIterC<StringC,Tuple2C<StringC,bool> > ait(rit->Attributes());ait;ait++) {
 	  Tuple2C<StringC,bool> &at = ait.Data();
@@ -334,13 +340,11 @@ namespace RavlGUIN {
   // GUI thread only
   
   bool TreeViewBodyC::GUISort(UIntT colNum, bool bAscending) {
-    // Check validity of widget
-    if(widget == 0)
-      Manager.Queue(Trigger(TreeViewC(*this),&TreeViewC::GUISort,colNum,bAscending));
+    displayColumns[colNum].SetSort(colNum,bAscending);
     // Set sorting
-    gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(treeModel.TreeModel()), colNum,
-					 bAscending ? GTK_SORT_ASCENDING : GTK_SORT_DESCENDING);
-
+    if(widget != 0) 
+      gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(treeModel.TreeModel()), colNum,
+					   bAscending ? GTK_SORT_ASCENDING : GTK_SORT_DESCENDING);
     return true;
   }
 
@@ -365,8 +369,11 @@ namespace RavlGUIN {
 
   bool TreeViewBodyC::GUIExpand(TreeModelPathC path) {
     // Check validity of widget
-    if(widget == 0)
-      Manager.Queue(Trigger(TreeViewC(*this),&TreeViewC::GUIExpand,path));
+    if(widget == 0) {
+      //Manager.Queue(Trigger(TreeViewC(*this),&TreeViewC::GUIExpand,path));
+      cerr << "TreeViewBodyC::GUIExpand: Can't expand, widget does not exist yet. \n";
+      return true;
+    }
     // Expand    
     gtk_tree_view_expand_to_path(GTK_TREE_VIEW(widget),path.TreePath());
     return true;
@@ -404,8 +411,11 @@ namespace RavlGUIN {
   
   bool TreeViewBodyC::GUIExpandAll() {
     // Check validity of widget
-    if(widget == 0)
-      Manager.Queue(Trigger(TreeViewC(*this),&TreeViewC::GUIExpandAll));
+    if(widget == 0) {
+      //Manager.Queue(Trigger(TreeViewC(*this),&TreeViewC::GUIExpandAll));
+      cerr << "TreeViewBodyC::GUIExpandAll: Can't expand, widget does not exist yet. \n";
+      return true;
+    }
     // Expand all
     gtk_tree_view_expand_all(GTK_TREE_VIEW(widget));
     return true;
@@ -422,8 +432,11 @@ namespace RavlGUIN {
   
   bool TreeViewBodyC::GUICollapseAll() {
     // Check validity of widget
-    if(widget == 0)
-      Manager.Queue(Trigger(TreeViewC(*this),&TreeViewC::GUICollapseAll));
+    if(widget == 0) {
+      //Manager.Queue(Trigger(TreeViewC(*this),&TreeViewC::GUICollapseAll));
+      cerr << "TreeViewBodyC::GUICollapseAll: Can't collapse, widget does not exist yet. \n";
+      return true;
+    }
     // Collapse all
     gtk_tree_view_collapse_all(GTK_TREE_VIEW(widget));
     return true;
@@ -622,8 +635,11 @@ namespace RavlGUIN {
   
   bool TreeViewBodyC::GUIScrollTo(TreeModelPathC path) {
     // Check validity of widget
-    if(widget == 0)
-      Manager.Queue(Trigger(TreeViewC(*this),&TreeViewC::GUIScrollTo,path));
+    if(widget == 0) {
+      //Manager.Queue(Trigger(TreeViewC(*this),&TreeViewC::GUIScrollTo,path));
+      cerr << "TreeViewBodyC::GUIScrollTo: Can't scroll to, widget does not exist yet. \n";
+      return true;
+    }
     // Expand
     gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(widget), path.TreePath(), NULL, true, 0, 0);
     return true;
