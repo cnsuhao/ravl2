@@ -464,6 +464,7 @@ namespace RavlN {
   // true= read and write's won't do blocking waits.
   
   bool SocketBodyC::SetNonBlocking(bool block) {
+    ONDEBUG(cerr << "SocketBodyC::SetNonBlocking(), Block=" << block << "\n");
     long flags = fcntl(fd,F_GETFL);
     if(flags < 0) {
       cerr << "SocketBodyC::SetNonBlocking(), WARNING: Get flags failed. errno=" << errno << " fd=" << fd << "\n";
@@ -591,13 +592,10 @@ namespace RavlN {
       if(!WaitForRead())
 	break;
       int n = read(fd,&(buff[at]),size - at);
-#if 1
-      // This won't work on a non-blocking port!?
       if(n == 0) { // Linux indicates a close by returning 0 bytes read.  Is this portable ??
-	SysLog(SYSLOG_INFO) << "SocketBodyC::Read(). Socket closed. fd=" << fd;
+	ONDEBUG(SysLog(SYSLOG_INFO) << "SocketBodyC::Read(). Socket closed ? fd=" << fd);
 	break;
       }
-#endif
       if(n < 0) { 
 	if(!CheckErrors("SocketBodyC::Read()"))
 	  break; 
