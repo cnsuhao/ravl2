@@ -89,6 +89,11 @@ namespace RavlN {
     //: Make this matrix symmetric.
     // Copy the upper right triangle to the lower left.
     // Note: this is an in-place operation.
+    
+    RealT Det() const;
+    //: Calculate the determinant of the matrix.
+    // Very quick, Just the product of the diagonal.
+    
   };
 
   MatrixRUTC OuterProductRUT(const VectorC &vec);

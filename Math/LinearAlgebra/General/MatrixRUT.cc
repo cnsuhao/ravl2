@@ -132,6 +132,12 @@ namespace RavlN {
 	(*this)[j][i] = (*this)[i][j];
     }
   }
+
+  //: Calculate the determinant of the matrix.
+  // Very quick, Just the product of the diagonal.
+  
+  RealT MatrixRUTC::Det() const
+  { return const_cast<MatrixRUTC &>(*this).Diagonal().Product(); }
   
   //: Return outer product of 'vec' as a right upper triangular matrix.
   

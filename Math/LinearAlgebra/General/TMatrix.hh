@@ -12,7 +12,7 @@
 //! rcsid="$Id$"
 //! file="Ravl/Math/LinearAlgebra/General/TMatrix.hh"
 //! author="Charles Galambos"
-//! date="10/09/98"
+//! date="10/09/1998"
 //! lib=RavlMath
 
 #include "Ravl/SArray2d.hh"
@@ -123,6 +123,9 @@ namespace RavlN {
     
     const TMatrixC<DataT> &SetSmallToBeZero(const DataT &min);
     //: Set values smaller than 'min' to zero in vector.
+    
+    void SwapRows(int i,int j);
+    //: Swap two rows in the matrix.
   };
   
   //////////////////////////////////////////////////////
@@ -382,7 +385,13 @@ namespace RavlN {
 	SetToZero(*it);
     return (*this);
   }
-
+  
+  template<class DataT>
+  void TMatrixC<DataT>::SwapRows(int i,int j) {
+    for(BufferAccessIter2C<DataT,DataT> it((*this)[i],(*this)[j]);it;it++)
+      RavlN::Swap(it.Data1(),it.Data2());
+  }
+  
   ///// Some functions from TVectorC<> that return matrixes. //////
   
   template<class DataT>
@@ -458,6 +467,7 @@ namespace RavlN {
   { result = vec * mat + add; }
   //: Compute result = vec * mat;
   // For compatibility with the fixed length vectors
+
   
 }
 

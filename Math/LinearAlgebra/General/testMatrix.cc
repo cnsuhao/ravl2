@@ -1,3 +1,11 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2002, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
+//! rcsid="$Id$"
+//! lib=RavlMath
 
 #include "Ravl/Matrix.hh"
 #include "Ravl/MatrixRUT.hh"
@@ -6,6 +14,11 @@
 #include "Ravl/Option.hh"
 #include "Ravl/SArr2Iter.hh"
 #include "Ravl/VectorMatrix.hh"
+#include "Ravl/Matrix2d.hh"
+#include "Ravl/Matrix3d.hh"
+#include "Ravl/Matrix4d.hh"
+#include "Ravl/MatrixRS.hh"
+#include "Ravl/MatrixDecomposition.hh"
 
 using namespace RavlN;
 
@@ -13,6 +26,8 @@ int testSVD();
 int testEigen();
 int testMisc();
 int testMatrixRUT();
+int testDet();
+int testLUDecomposition();
 
 int main() {
   int ln;
@@ -30,6 +45,14 @@ int main() {
   }
   if((ln = testEigen()) != 0) {
     cerr << "testEigen() failed. Line:" << ln << "\n";
+    return 1;
+  }
+  if((ln = testLUDecomposition()) != 0) {
+    cerr << "testLUDecomposition() failed. Line:" << ln << "\n";
+    return 1;
+  }
+  if((ln = testDet()) != 0) {
+    cerr << "testDet() failed. Line:" << ln << "\n";
     return 1;
   }
   cerr << "Test passed. \n";
@@ -119,5 +142,95 @@ int testMatrixRUT() {
   m.MakeSymmetric();
   if((m - t3).SumSqr() > 0.00000001) return __LINE__;
   //  cerr << "t3=" << t3<< "\n";
+  return 0;
+}
+
+int testDet() {
+  cerr << "testDet(), Called \n";
+  RealT nd;
+#if 1
+  // Check determinant of a 2 by 2 matrix.
+  MatrixC tm = RandomMatrix(2,2);
+  nd = tm.Det();
+  Matrix2dC m22;
+  int i,j;
+  for(i = 0;i < 2;i++)
+    for(j = 0;j < 2;j++) 
+      m22[i][j] = tm[i][j];
+  cerr << "2 Det=" << nd << " Mat22=" << m22.Det() << "\n";
+  if(Abs(m22.Det() - nd) > 0.000000001) return __LINE__;
+  
+  // Check determinant of a 3 by 3 matrix.
+  tm = RandomMatrix(3,3);
+  Matrix3dC m33;
+  for(i = 0;i < 3;i++)
+    for(j = 0;j < 3;j++)
+      m33[i][j] = tm[i][j];
+  nd = tm.Det();
+  cerr << "3 Det=" << nd << " Mat33=" << m33.Det() << "\n";
+  if(Abs(m33.Det() - nd) > 0.000000001) return __LINE__;
+  
+  // Check determinant of a 4 by 4 matrix.
+  tm = RandomMatrix(4,4);
+  nd = tm.Det();
+  Matrix4dC m44;
+  for(i = 0;i < 4;i++)
+    for(j = 0;j < 4;j++)
+      m44[i][j] = tm[i][j];
+  cerr << "4 Det=" << nd << " Mat44=" << m44.Det() << "\n";
+  if(Abs(m44.Det() - nd) > 0.000000001) return __LINE__;
+#endif
+  // Check determinant of a 5 by 5 matrix.
+  MatrixRSC rs = RandomSymmetricMatrix(5,5);  
+  nd = rs.Det();
+  RealT od;
+  rs.NearSingularInverse(od);
+  if(Abs(nd - od) > 0.00000001) return __LINE__;
+  cerr << "5 Det=" << nd << " od=" << od << "\n";
+  
+  return 0;
+}
+
+
+int testLUDecomposition() {
+  cerr << "testLUDecomposition(), Called. \n";
+  int n = 3;
+#if 1
+  //MatrixRSC rs = RandomPositiveDefiniteMatrix(5);  
+  MatrixC rs = RandomMatrix(n,n);
+#else
+  MatrixRSC rs(n);
+  rs[0][0] = 2;
+  rs[0][1] = 6;
+  rs[1][0] = 5;
+  rs[1][1] = 23;
+#endif
+  cerr << "Org=" << rs << "\n";
+  RealT d;
+#if 0
+  if(!LUDecompositionPD(rs,d)) return __LINE__;
+  cerr << "Det=" << d << "\n";
+#else
+  LUDecomposition(rs,d);
+#endif
+  cerr << "rs=" << rs << "\n";
+  MatrixC mat1(n,n);
+  MatrixC mat2(n,n);
+  mat1.Fill(0);
+  mat2.Fill(0);
+  for(int i = 0;i < n;i++) {
+    mat1[i][i] = 1;
+    for(int j = 0;j < n;j++) {
+      if(j < i)
+	mat1[i][j] = rs[i][j];
+      else 
+	mat2[i][j] = rs[i][j];
+    }
+  }
+  cerr << "mat1=" << mat1 << "\n";
+  cerr << "mat2=" << mat2 << "\n";
+  MatrixC res = mat1 * mat2;
+  cerr << "Res=" << res << "\n";
+  
   return 0;
 }

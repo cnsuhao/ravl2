@@ -16,6 +16,7 @@
 //! docentry="Ravl.Math.Linear Algebra"
 
 #include "Ravl/TMatrix.hh"
+#include "Ravl/FMatrix.hh"
 
 namespace RavlN {
   
@@ -30,7 +31,7 @@ namespace RavlN {
   {
   public:
     MatrixC()
-      {}
+    {}
     //: Default constructor.
 
     bool IsReal() const;
@@ -76,6 +77,16 @@ namespace RavlN {
     {}
     //: Construct a 3 x 3 matrix from given values.
     
+    template<unsigned int N,unsigned int M>
+    MatrixC(const FMatrixC<N,M> &fmat)
+      : TMatrixC<RealT>(N,M)
+    {
+      for(int i = 0;i < N;i++)
+	for(int j = 0;j < M;j++)
+	  (*this)[i][j] = fmat[i][j];
+    }
+    //: Construct from a fixed size matrix.
+    
     MatrixC Inverse() const;
     //: Calculate the inverse of this matrix.
     // an invalid matrix is returned if this matrix is
@@ -93,7 +104,9 @@ namespace RavlN {
     //: Do a pseudo inverse 
     // Uses singular value decomposition to decompose the matrix, and sets
     // the singular values smaller than 'thesh' to zero.
-    
+
+    RealT Det() const;
+    //: Calculate the determinant of the matrix.
   };
   
   
