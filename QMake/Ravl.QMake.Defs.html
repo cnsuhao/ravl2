@@ -232,13 +232,18 @@ for global variables modify or add to global databases.
 
 <LI><DT><A NAME="HEADERS"></A><B>HEADERS</B></DT> <DD>All the public header
 files, i.e. those which are needed globally.  They are exported to the
-directory $PROJECT_OUT/inc/local, to make them available
+directory $PROJECT_OUT/inc/$(PACKAGE), to make them available
 to other.  E.g. if you have a file <code>headerfile.hh</code> to export, the
 line will be
 
-<pre>HEADERS = headerfile.hh</pre> 
+<pre>
+PACKAGE = Ravl
+HEADERS = headerfile.hh
+</pre> 
 Thus to #include the header file, you need to put: 
-<pre>#include "local/headerfile.hh"</pre> 
+<pre>#include "Ravl/headerfile.hh"</pre> 
+
+if PACKAGE is not set you can include headerfiles as normal.
 
 (For a more structured global header file system, see <a
 href="#PACKAGE">PACKAGE</a>.)  </DD><P>
