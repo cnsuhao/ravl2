@@ -44,12 +44,13 @@ namespace RavlN {
     //: Construct from a name and an attribute table.
     
     XMLTreeBodyC(const StringC &nname) 
-      : isPI(false),
+      : HashTreeBodyC<StringC,RCHashC<StringC,StringC> >(),
+	isPI(false),
 	name(nname)
     {}
     //: Construct from a name and an attribute table.
     
-    XMLTreeBodyC(XMLIStreamC &in);
+    explicit XMLTreeBodyC(XMLIStreamC &in);
     //: Construct from an XMLStream.
     
     bool Read(XMLIStreamC &in);
@@ -102,8 +103,13 @@ namespace RavlN {
     //: Default constructor.
     // Creats an invalid handle.
     
-    XMLTreeC(bool)
+    explicit XMLTreeC(bool)
       : HashTreeC<StringC,RCHashC<StringC,StringC> >(*new XMLTreeBodyC())
+    {}
+    //: Constructor.
+    
+    explicit XMLTreeC(const char *name)
+      : HashTreeC<StringC,RCHashC<StringC,StringC> >(*new XMLTreeBodyC(StringC(name)))
     {}
     //: Constructor.
     
@@ -112,12 +118,12 @@ namespace RavlN {
     {}
     //: Constructor.
     
-    XMLTreeC(const StringC &name)
+    explicit XMLTreeC(const StringC &name)
       : HashTreeC<StringC,RCHashC<StringC,StringC> >(*new XMLTreeBodyC(name))
     {}
     //: Constructor.
     
-    XMLTreeC(XMLIStreamC &in)
+    explicit XMLTreeC(XMLIStreamC &in)
       : HashTreeC<StringC,RCHashC<StringC,StringC> >(*new XMLTreeBodyC(in))
     {}
     //: Constructor.
