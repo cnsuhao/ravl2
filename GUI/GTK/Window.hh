@@ -182,8 +182,8 @@ namespace RavlGUIN {
     //: Influences positioning of the window.
     // Values for pos are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKWINDOWPOSITION">here</A>.
 
-    void GUIUserResizable(bool& resizable) 
-    { Body().GUIUserResizable(resizable); }
+    bool GUIUserResizable(bool& resizable) 
+    { return Body().GUIUserResizable(resizable); }
     //: Allow the user to resize the window?
     // Default is true. If set to false, window will shrink to the minimum size dictated by it's children.
 
