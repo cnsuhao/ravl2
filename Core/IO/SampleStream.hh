@@ -59,7 +59,7 @@ namespace RavlN {
     //: Delta seek
     
     virtual UIntT Tell() const 
-    { return (pos / sampleRate) - startFrame; }
+    { return (pos - startFrame) / sampleRate; }
     //: Get current position in stream.
     
     virtual UIntT Size() const 
