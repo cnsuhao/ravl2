@@ -198,7 +198,8 @@ namespace RavlImageN {
   
   ImageC<ByteYUV422ValueC> DPIImageJSBodyC::Get() {
     ImageC<ByteYUV422ValueC> head;
-    Get(head);
+    if(!Get(head))
+      throw DataNotReadyC("Failed to get image. ");
     return head;
   }
   
