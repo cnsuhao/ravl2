@@ -135,6 +135,8 @@ namespace Ravl3DN {
     { haveTexture = val; }
     //: Set have texture coordinates flag.
     
+	TriMeshC operator+ (TriMeshC &t2);
+
   protected:
     SArray1dC<VertexC> vertices; // Array of vertex positions.
     SArray1dC<TriC> faces;     // Array of triangles.
@@ -262,6 +264,9 @@ namespace Ravl3DN {
     void SetTextureCoord(bool val)
     { Body().SetTextureCoord(val); }
     //: Set have texture coordinates flag.
+
+	TriMeshC operator+ (TriMeshC &t2)
+	{ return Body() +t2;}
     
   };
 
