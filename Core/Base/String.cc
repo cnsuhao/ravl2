@@ -471,7 +471,7 @@ namespace RavlN {
   
   StringC::StringC(Int64T n) {
     char TBuff[64];
-    sprintf(TBuff,"%ll",n);
+    sprintf(TBuff,"%lld",n);
     *this = TBuff;
   }
     
@@ -479,7 +479,7 @@ namespace RavlN {
   
   StringC::StringC(UInt64T n) {
     char TBuff[64];
-    sprintf(TBuff,"%ull",n);
+    sprintf(TBuff,"%llu",n);
     *this = TBuff;    
   }
 
