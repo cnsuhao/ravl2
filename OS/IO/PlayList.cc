@@ -103,11 +103,11 @@ namespace RavlN {
       do {
 	fileName = it.Data();
 	it++; if(!it) break;
-	sstart = atoi(it.Data());
+	sstart = it.Data().IntValue();
 	it++; if(!it) break;
-	send = atoi(it.Data()); 
+	send = it.Data().IntValue(); 
 	it++; if(!it) break;
-	channel = atoi(it.Data()); 
+	channel = it.Data().IntValue(); 
 	it++; if(!it) break;
 	fmt = it.Data(); 
       } while(0);
