@@ -78,6 +78,17 @@ namespace RavlN {
     //: Goto next element.
     // returns true if on the same row.
     
+    bool NextRow() {
+      rit.Next();
+      if(!rit.IsElm())
+	return false;
+      cit.First(rit.Data1(),rng1,rit.Data2(),rng2);
+      return true;      
+    }
+    //: Go to the begining of the next row.
+    // returns true if iterator is left at the begining of a valid row or
+    // false if the end of the array has been reached.
+
     bool IsElm() const
       { return cit.IsElm(); }
     //: At a valid element ?

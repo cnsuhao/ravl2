@@ -71,11 +71,11 @@ namespace RavlN {
     // valid elements.
     
     inline RangeBufferAccessC(const RangeBufferAccessC<DataC> & ba);
-    //: Creates a physical copy of the access 'ba'.
+    //: Creates a new access to 'ba'.
     
     inline RangeBufferAccessC(const RangeBufferAccessC<DataC> & ba,
 			      const IndexRangeC               & r);
-    //: Creates a physical copy of the access 'ba' limited by new range 'r'.
+    //: Creates a new access to 'ba' limited by range 'r'.
     
     inline const RangeBufferAccessC<DataC> & operator=(DataC * bp);
     //: Changes the reference element to the element pointed by 'bp'.

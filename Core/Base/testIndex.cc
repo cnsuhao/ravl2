@@ -17,13 +17,13 @@ int main()
   IndexRangeC r1(0,3);
   IndexRangeC r2(1,2);
   IndexRangeC r3(r1);
-  r3.Clip(r2);
+  r3.ClipBy(r2);
   if(!r1.Contains(r3)) {
     cerr << "IndexRange test 1 failed " << r1 << " does not contain " << r3 << "\n";
     return 1;
   }
   if(!r2.Contains(r3)) {
-    cerr << "IndexRange test 2 failed. " <<r2 << " does not contain " << r3 << "\n";
+    cerr << "IndexRange test 2 failed. " << r2 << " does not contain " << r3 << "\n";
     return 1;
   }
   cerr << "Test passed ok. \n";

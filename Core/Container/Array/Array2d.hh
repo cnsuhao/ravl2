@@ -70,6 +70,9 @@ namespace RavlN {
     // NB. It is the users responsability to ensure that 'data' is
     // large enought to contain 'rect'.
     
+    Array2dC(const Array2dC<DataC> &arr,const IndexRange2dC & rect);
+    //: Create a sub array of 'arr' covering indexes 'rect'.
+
     Array2dC<DataC> Copy() const;
     //: Make a copy of the array.
     
@@ -263,6 +266,12 @@ namespace RavlN {
     : RangeBufferAccess2dC<DataC>(rect.Range2()),
       data(ndata,rect.Range1().Size())
   { ConstructAccess(rect.Range1()); }
+
+  template <class DataC>
+  Array2dC<DataC>::Array2dC(const Array2dC<DataC> &arr,const IndexRange2dC & rect) 
+    : RangeBufferAccess2dC<DataC> (arr,rect),
+    data(arr.data)
+  {}
   
   template <class DataC>
   Array2dC<DataC> 

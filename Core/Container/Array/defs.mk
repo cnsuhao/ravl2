@@ -17,7 +17,7 @@ PACKAGE=Ravl
 
 HEADERS = Array1d.hh Array1dIter.hh Array1dIter2.hh Array1dIter3.hh \
  Array2d.hh Array2dIter.hh Array2dIter2.hh Array2dIter3.hh \
- Array2dSqr2Iter.hh
+ Array2dSqr2Iter.hh Array2dSqr2Iter2.hh
 
 LOCALHEADERS = 
 

@@ -50,6 +50,12 @@ namespace RavlN {
       rng2(nrng2)
       {}
     //: Constructor.
+
+    RangeBufferAccess2dC(const RangeBufferAccess2dC<BufferAccessC<DataC> > &ab,const IndexRange2dC &rect)
+      : RangeBufferAccessC<BufferAccessC<DataC> >(ab,rect.Range1()),
+      rng2(rect.Range2())
+      {}
+    //: Construct a access to a rectangle within 'ab' with indexs 'rect'.
     
     RangeBufferAccess2dC()
       : rng2(0,-1)
