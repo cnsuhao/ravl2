@@ -21,5 +21,5 @@ while(<infile>) {
     }
   }
 }
-($a1,$a2,$mode,$nlink,$uid,$gid,$rdev,$size,$atime,$mtime,$ctime,$blksize,$blocks)= stat($ARGV[1]);
-chmod $mode,$ARGV[2] ;
+($a1,$a2,$mode,$nlink,$uid,$gid,$rdev,$size,$atime,$mtime,$ctime,$blksize,$blocks)= stat($ARGV[2]);
+chmod $mode,$ARGV[3] ;
