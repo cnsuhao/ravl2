@@ -89,7 +89,7 @@ namespace RavlN {
     //: Make a deep copy.
     // NB. All copies are made live automaticly .
     
-    void ThreadThreadThreadThreadLaunch();
+    void ThreadLaunch();
     //: Make pipe live.
     // This may only be called ONCE per ThreadPipe<>
     
@@ -141,8 +141,8 @@ namespace RavlN {
     //: Start processing.
     
   public:
-    void ThreadThreadThreadThreadLaunch()
-    { Body().ThreadThreadThreadThreadLaunch(); }
+    void ThreadLaunch()
+    { Body().ThreadLaunch(); }
     //: Make pipe live.
     
     friend class DPThreadPipeBodyC<InT,OutT>;

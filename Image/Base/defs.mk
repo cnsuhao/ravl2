@@ -22,7 +22,7 @@ PLIB=RavlImage
 
 USESLIBS=RavlCore
 
-PROGLIBS=RavlImageIO
+PROGLIBS=RavlImageIO RavlOS
 
 TESTEXES=testImage.cc
 

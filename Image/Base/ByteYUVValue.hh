@@ -16,6 +16,7 @@
 //! docentry="Ravl.Images.Pixel Types"
 
 #include "Ravl/Image/YUVValue.hh"
+#include "Ravl/Stream.hh"
 
 namespace RavlImageN {
   
@@ -79,8 +80,14 @@ namespace RavlImageN {
   };
 
   inline
-  istream &operator>>(istream &strm,ByteYUVValueC &val) 
-  { return strm >> val.Y() >> val.U() >> val.V(); }
+  istream &operator>>(istream &strm,ByteYUVValueC &val) { 
+    int u,v;
+    // Mess about so it works on SGI.
+    strm >> val.Y() >> u >> v;
+    val.U() = u;
+    val.V() = v; 
+    return strm;
+  }
   //: Stream input.
   
   inline
