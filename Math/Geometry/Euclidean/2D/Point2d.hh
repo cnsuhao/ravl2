@@ -18,6 +18,8 @@
 #include "Ravl/FPoint.hh"
 
 namespace RavlN {
+  class Matrix3dC;
+  template<class DataT> class SArray1dC;
   
   //! userlevel=Normal
   //: 2D Point
@@ -97,6 +99,16 @@ namespace RavlN {
     //: return twice the area contained by the three points
     
   };
+  
+  bool Normalise(const SArray1dC<Point2dC> &raw,SArray1dC<Point2dC> &norm,Matrix3dC &normMat);
+  //: Normalise an array of points.
+  // This finds the mean and variation of euclidean point position. It corrects the mean to zero
+  // and the average variation to 1.
+  //!param: raw - Raw points to be normalised
+  //!param: norm - Normalised points.
+  //!param: normMat - Normalisation matrix 
+  //!return: Normalisation found and applied.
+
 }
 
 #endif

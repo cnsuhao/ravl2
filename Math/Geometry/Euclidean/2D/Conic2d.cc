@@ -70,28 +70,17 @@ namespace RavlN {
       return Conic2dC();
     }
     // ---------- Compute normalisation for points ----------------------
-#if 1
-    // Compute mean.
-    Point2dC mean(0,0);
-    for(SArray1dIterC<Point2dC> it(points);it;it++)
-      mean += *it;
-    mean /= samples;
-    RealT scale = 0;
-    // Normalise magnitude
-    for(SArray1dIterC<Point2dC> it(points);it;it++)
-      scale += Sqrt((*it - mean).SumOfSqr());
-    scale /= samples;
-#else
-    Point2dC mean(0,0);
-    RealT scale = 2;
-#endif
+    Matrix3dC Hi;
+    SArray1dC<Point2dC> normPoints;
+    Normalise(points,normPoints,Hi);
+    
     // ---------- Compute paramiters ----------------------
     if(samples == 5)
       samples++;
     MatrixC A(samples,6);
     IntT i = 0;
-    for(SArray1dIterC<Point2dC> it(points);it;it++,i++) {
-      Point2dC p = (*it - mean) / scale; // Normalise point.
+    for(SArray1dIterC<Point2dC> it(normPoints);it;it++,i++) {
+      const Point2dC &p = *it;
       A[i][0] = Sqr(p[0]);
       A[i][1] = p[0] * p[1];
       A[i][2] = Sqr(p[1]);
@@ -102,7 +91,7 @@ namespace RavlN {
     // Duplicate row to avoid problem with current SVD.
     if(samples != points.Size()) {
       i = points.Size();
-      Point2dC p = (points[0] - mean) / scale;  // Normalise point.
+      const Point2dC &p = normPoints[0];  // Normalise point.
       A[i][0] = Sqr(p[0]);
       A[i][1] = p[0] * p[1];
       A[i][2] = Sqr(p[1]);
@@ -122,9 +111,6 @@ namespace RavlN {
 #else
     Conic2dC Cr(static_cast<const TFVectorC<RealT,6> &>(result));
 #endif
-    Matrix3dC Hi(1/scale,0,-1 * mean[0]/scale,
-		 0,1/scale,-1 * mean[1]/scale,
-		 0,0,1);
     Matrix3dC nC = Hi.TMul(Cr.C()) * Hi;
     return Conic2dC(nC);
   }
@@ -216,33 +202,25 @@ namespace RavlN {
   bool FitEllipse(const SArray1dC<Point2dC> &points,Conic2dC &conic) {
     if(points.Size() < 5)
       return false;
-    Point2dC mean(0,0);
-#if 1
-    // Find the mean point.
-    for(SArray1dIterC<Point2dC> it(points);it;it++)
-      mean += *it;
-    mean /= (RealT)points.Size();
-    // Normalise magnitude.  How critical this is isn't clear but
-    // it does improve things a bit.
-    RealT scale = 0;
-    for(SArray1dIterC<Point2dC> it(points);it;it++)
-      scale += Sqrt((*it - mean).SumOfSqr());
-    scale /= (RealT)points.Size();
-#else
-    RealT scale = 1;
-#endif
+    
+    // Normalise points.
+    
+    Matrix3dC Hi;
+    SArray1dC<Point2dC> normPoints;
+    Normalise(points,normPoints,Hi);
+    
     
     // Fill in 'D'
     MatrixC D1(points.Size(),3);
-    for(BufferAccessIter2C<Point2dC,BufferAccessC<RealT> > it(points,D1);it;it++) {
-      Point2dC l = (it.Data1() - mean)/scale;
+    for(BufferAccessIter2C<Point2dC,BufferAccessC<RealT> > it(normPoints,D1);it;it++) {
+      const Point2dC &l = it.Data1();
       it.Data2()[0] = Sqr(l[0]);
       it.Data2()[1] = l[0] * l[1];
       it.Data2()[2] = Sqr(l[1]);
     }
     MatrixC D2(points.Size(),3);
-    for(BufferAccessIter2C<Point2dC,BufferAccessC<RealT> > it(points,D2);it;it++) {
-      Point2dC l = (it.Data1() - mean)/scale;
+    for(BufferAccessIter2C<Point2dC,BufferAccessC<RealT> > it(normPoints,D2);it;it++) {
+      const Point2dC &l = it.Data1();
       it.Data2()[0] = l[0];
       it.Data2()[1] = l[1];
       it.Data2()[2] = 1;
@@ -280,10 +258,6 @@ namespace RavlN {
 #else
     Conic2dC Cr(static_cast<const TFVectorC<RealT,6> &>(a));
 #endif
-    Matrix3dC Hi(1/scale,0,-1 * mean[0]/scale,
-		 0,1/scale,-1 * mean[1]/scale,
-		 0,0,1);
-    //Hi = Hi.Inverse();
     Matrix3dC nC = Hi.TMul(Cr.C()) * Hi;
     conic = Conic2dC(nC);
 #else
