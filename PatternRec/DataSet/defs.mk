@@ -7,7 +7,7 @@
 #! rcsid="$Id$"
 #! file="Ravl/PatternRec/DataSet/defs.mk"
 
-DESCRIPTION = Pattern Recognition
+DESCRIPTION = Basic parts of the Pattern Recognition library.
 
 PACKAGE = Ravl/PatternRec
 
@@ -15,10 +15,10 @@ HEADERS = Sample.hh SampleIter.hh SampleVector.hh SampleLabel.hh SampleDiscrete.
  DataSetBase.hh \
  DataSet1.hh DataSet1Iter.hh DataSet2.hh DataSet2Iter.hh \
  DataSet3.hh DataSet3Iter.hh SampleIO.hh \
- Function.hh
+ Function.hh Designer.hh DesignFunctionUnsupervised.hh DesignFunctionSupervised.hh
 
 SOURCES = SampleVector.cc SampleLabel.cc DataSetBase.cc \
- Function.cc
+ Function.cc Designer.cc DesignFunctionUnsupervised.cc DesignFunctionSupervised.cc
 
 MAINS = 
 

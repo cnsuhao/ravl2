@@ -14,9 +14,9 @@
 
 #include "Ravl/Vector.hh"
 #include "Ravl/Matrix.hh"
+#include "Ravl/RCHandleV.hh"
 
 namespace RavlN {
-  
   
   //! userlevel=Develop
   //: Function.
@@ -75,7 +75,7 @@ namespace RavlN {
   //: Function.
   
   class FunctionC
-    : public RCHandleC<FunctionBodyC>
+    : public RCHandleVC<FunctionBodyC>
   {
   public:
     FunctionC()
@@ -85,7 +85,7 @@ namespace RavlN {
 
   protected:
     FunctionC(FunctionBodyC &bod)
-      : RCHandleC<FunctionBodyC>(bod)
+      : RCHandleVC<FunctionBodyC>(bod)
     {}
     //: Body constructor.
     
