@@ -158,13 +158,22 @@ namespace Ravl3DN {
   
   Vector3dC TriMeshBodyC::Centroid() const {
     Vector3dC ret(0,0,0);
-    if(ret.Size() == 0)
+    if(vertices.Size() == 0)
       return ret; // Can't take a centroid of an empty mesh.
     for(SArray1dIterC<VertexC> it(vertices);it;it++)
       ret += it->Position();
-    return ret / ret.Size();
+    return ret / vertices.Size();
   }
   
+  //: Transform mesh with RT
+  void TriMeshBodyC::Transform(const RigidTransform3dC & rt){
+
+	  for(SArray1dIterC<VertexC> it(vertices);it;it++){
+		  Vector3dC v(it->Position());
+		  it->Position() = rt.Transform(v);
+	  }
+  }
+
   //: Create an array of faces indices.
   // each successive triple of indices represents a face in the mesh.
   

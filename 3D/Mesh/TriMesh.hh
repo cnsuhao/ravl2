@@ -18,6 +18,7 @@
 #include "Ravl/DList.hh"
 #include "Ravl/3D/Tri.hh"
 #include "Ravl/Index3d.hh"
+#include "Ravl/RigidTransform3d.hh"
 
 namespace Ravl3DN {
   using namespace RavlN;
@@ -104,8 +105,11 @@ namespace Ravl3DN {
     Vector3dC Centroid() const;
     //: Centre of triset.
     // - average vertex position
-    
-    SArray1dC<UIntT> FaceIndices() const;
+
+    void Transform(const RigidTransform3dC&  rt);
+    //: transform each vert by rt
+
+	SArray1dC<UIntT> FaceIndices() const;
     //: Create an array of faces indices.
     // each successive triple of indices represents a face in the mesh.
     
@@ -225,6 +229,10 @@ namespace Ravl3DN {
     //: Centre of triset.
     // - average vertex position
     
+	void Transform(const RigidTransform3dC & rt)
+	{ return Body().Transform(rt); }
+    //: transform each vert by rt
+
     SArray1dC<UIntT> FaceIndices() const
     { return Body().FaceIndices(); }
     //: Create an array of faces indices.
