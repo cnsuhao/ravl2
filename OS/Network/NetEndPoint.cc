@@ -178,33 +178,43 @@ namespace RavlN {
     return true;
   }
   
+  static const StringC streamHeader ="\n<ABPS>\n";
   
   //: Handle packet transmition.
   
   bool NetEndPointBodyC::RunTransmit() {
-    NetOStreamC nos(skt,false);
-    ONDEBUG(cerr << "NetEndPointBodyC::RunTransmit(), Started. \n");
-    if(!nos) {
+    int wfd = skt.Fd();
+    if(wfd < 0) {
       cerr << "NetEndPointBodyC::RunTransmit(), ERROR: No connection. \n";    
-      return false; 
+      return false;       
     }
-    nos << "\n<ABPS>\n";
-    nos.os().flush();
-    BinOStreamC bos(nos);
+    if(!WriteData(wfd,streamHeader.chars(),streamHeader.Size())) {
+      cerr << "NetEndPointBodyC::RunTransmit(), ERROR: Failed to write header. \n";    
+      return false;
+    }
+    
     ONDEBUG(cerr << "NetEndPointBodyC::RunTransmit(), Starting transmit loop. \n");
     try {
-      while(!shutdown && nos) {
+      while(!shutdown) {
 	NetPacketC pkt;
 	if(!transmitQ.Get(pkt,1.5))
 	  continue;
-	if(shutdown || !nos)
+	if(shutdown)
 	  break;
 	if(!pkt.IsValid())
 	  continue;
 	ONDEBUG(cerr << "  Transmit packet:\n");
 	ONDEBUG(pkt.Dump(cerr));
-	pkt.Transmit(bos);
-	nos.os().flush();
+	UIntT size = pkt.Size();
+#if RAVL_LITTLEENDIAN
+	size = bswap_32(size);
+#endif
+	// Write length of packet.
+	if(!WriteData(wfd,(char *)&size,sizeof(size)))
+	  break;
+	// Write data.
+	if(!WriteData(wfd,&(pkt.Data()[0]),pkt.Size()))
+	  break;
 	ONDEBUG(cerr << "  Sent packet. \n");
       }
     } catch(ExceptionC &e) {
@@ -216,8 +226,8 @@ namespace RavlN {
     } catch(...) {
       cerr << "NetEndPointBodyC::RunTransmit(), Exception caught, terminating link. \n";
     }
-    if(!nos)
-      cerr << "NetEndPointBodyC::RunTransmit(), Connection broken \n";    
+    //if(!nos)
+    // cerr << "NetEndPointBodyC::RunTransmit(), Connection broken \n";    
     Close();
     ONDEBUG(cerr << "NetEndPointBodyC::RunTransmit(), Terminated \n"); 
     return true;
@@ -234,7 +244,7 @@ namespace RavlN {
 	return false;
       }
       if(n < 0) {
-	ONDEBUG(cerr << "NetEndPointBodyC::RunReceive(), Error on read. \n");
+	ONDEBUG(cerr << "NetEndPointBodyC::ReadData(), Error on read. \n");
 	if(errno == EINTR || errno == EAGAIN)
 	  continue;
 	cerr << "NetEndPointBodyC::ReadData(), Error reading from socket :" << errno;
@@ -248,6 +258,36 @@ namespace RavlN {
       }
       at += n;
     }
+    return !shutdown;
+  }
+
+  //: Write some bytes to a stream.
+  
+  bool NetEndPointBodyC::WriteData(int nfd,const char *buff,UIntT size) {
+    UIntT at = 0;
+    while(at < size && !shutdown) {
+      int n = write(nfd,&(buff[at]),size - at);
+#if 0
+      if(n == 0) { // Linux indicates a close by returning 0 bytes read.  Is this portable ??
+	ONDEBUG(cerr << "Socket close. \n";)
+	return false;
+      }
+#endif
+      if(n < 0) {
+	ONDEBUG(cerr << "NetEndPointBodyC::RunReceive(), Error on read. \n");
+	if(errno == EINTR || errno == EAGAIN)
+	  continue;
+	cerr << "NetEndPointBodyC::WriteData(), Error reading from socket :" << errno;
+#if RAVL_OS_LINUX
+	char buff[256];
+	cerr << " '" << strerror_r(errno,buff,256) << "'\n";
+#else
+	cerr << "\n";
+#endif
+	return false;
+      }
+      at += n;
+    }    
     return !shutdown;
   }
   

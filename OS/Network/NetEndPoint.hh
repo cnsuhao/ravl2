@@ -232,6 +232,9 @@ namespace RavlN {
     bool ReadData(int nfd,char *buff,UIntT size);
     //: Read some bytes from a stream.
     
+    bool WriteData(int nfd,const char *buff,UIntT size);
+    //: Write some bytes to a stream.
+    
     SocketC skt;
     MessageQueueC<NetPacketC> transmitQ; // Transmition Q.
     MessageQueueC<NetPacketC> receiveQ; // Recieve Q.
