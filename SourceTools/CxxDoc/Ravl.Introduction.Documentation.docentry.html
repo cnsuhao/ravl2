@@ -60,9 +60,9 @@ subsection of images:
 </PRE>
 
 <P>
-It is quite legal for an object to appear in more than one location in the tree.
-In this case, each path is provided in the same docentry variable, but separated
-by semicolons, eg:
+It is quite legal for an object to appear in more than one location in
+the tree.  In this case, each path is provided in the same docentry
+variable, but separated by semicolons, eg:
 </P>
 
 <PRE>
@@ -70,11 +70,22 @@ by semicolons, eg:
 </PRE>
 
 <P>
+You can also add docentries to .eht files. The entry has this form:
+</P>
+<PRE>
+&lt;!--! docentry="Ravl.GUI.Data_Display" --&gt;
+</PRE>
+<P>
+The entry should appear in the <code>&lt;head&gt;</code> part of the  file, if it exists.  (.eht files are in effect html files, and so should have head and body parts.)
+</P>
+
+<P>
 If you refer to any nodes in the tree that do not already exist, then they will
 be automatically created and appropriate menu options for subnodes will be
 added. It is therefore important to ensure that you spell all the names
 correctly, and where you are contributing in a common area, that you use one of
 the predefined nodes of the <a href="../../../Auto/Basic/Tree/Ravl.html">current documentation tree</a>.
+</P>
 
 </BLOCKQUOTE>
 
