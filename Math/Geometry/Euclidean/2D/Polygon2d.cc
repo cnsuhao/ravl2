@@ -157,7 +157,7 @@ namespace RavlN {
   }
 
   Polygon2dC Polygon2dC::ClipByConvex(const Polygon2dC &oth) const {
-    if (oth.Size() == 0)
+    if (oth.Size() < 3)
       return Polygon2dC();
     Polygon2dC ret = *this;
     DLIterC<Point2dC> pLast(oth);
