@@ -77,17 +77,18 @@ namespace RavlGUIN {
       return false;
     }
     ONDEBUG(cerr << " Setting up children. \n");
-    for(HashIterC<StringC,WidgetC> it(children);it;it++) {
+    for(HashIterC<StringC, Tuple2C<WidgetC, bool> > it(children);it;it++) {
       GtkWidget *childWidget = xml.Widget(it.Key());
       if(childWidget == 0) {
-	cerr << "WARNING: Can't find child widget '" << it.Key() << "'\n";
-	continue;
+        if (!it.Data().Data2())
+          cerr << "WARNING: Can't find child widget '" << it.Key() << "'\n";
+        continue;
       }
-      if(!it.Data().IsValid()) {
+      if(!it.Data().Data1().IsValid()) {
         cerr << "ERROR: Invalid widget wrapper provided for " << it.Key() << "\n";
         continue;
       }
-      it.Data().Create(childWidget);
+      it.Data().Data1().Create(childWidget);
     }
     ONDEBUG(cerr << " Connecting signals \n");
     ConnectSignals();
@@ -120,13 +121,14 @@ namespace RavlGUIN {
       gtk_widget_show (childWidget);
       gtk_container_add(GTK_CONTAINER(widget),childWidget);
     }
-    for(HashIterC<StringC,WidgetC> it(children);it;it++) {
+    for(HashIterC<StringC, Tuple2C<WidgetC, bool> > it(children);it;it++) {
       GtkWidget *childWidget = xml.Widget(it.Key());
       if(childWidget == 0) {
-	cerr << "WARNING: Can't find widget for '" << it.Key() << "'\n";
-	continue;
+        if (!it.Data().Data2())
+          cerr << "WARNING: Can't find widget for '" << it.Key() << "'\n";
+        continue;
       }
-      it->Create(childWidget);
+      it->Data1().Create(childWidget);
     }
     ConnectSignals();    
     ONDEBUG(cerr << "GladeWidgetBodyC::Create(GtkWidget *), Done. Name=" << name << "\n");
@@ -136,7 +138,14 @@ namespace RavlGUIN {
   //: Add named widget.
   
   bool GladeWidgetBodyC::AddObject(const StringC &name,const WidgetC &widget) {
-    children[name] = widget;
+    children[name] = Tuple2C<WidgetC, bool>(widget, false);
+    return true;
+  }
+
+  //: Add named widget.
+  
+  bool GladeWidgetBodyC::AddObject(const StringC &name,const WidgetC &widget, bool optional) {
+    children[name] = Tuple2C<WidgetC, bool>(widget, optional);
     return true;
   }
 

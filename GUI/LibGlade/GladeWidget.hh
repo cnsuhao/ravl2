@@ -41,6 +41,9 @@ namespace RavlGUIN {
     bool AddObject(const StringC &name,const WidgetC &widget);
     //: Add named widget.
     
+    bool AddObject(const StringC &name,const WidgetC &widget, bool optional);
+    //: Add named widget.
+    
   protected:
     bool InterceptDeleteEvent();
     //: Intercept the "delete-event", and just hide the widget.
@@ -49,7 +52,7 @@ namespace RavlGUIN {
     
     GladeXMLC xml;
     StringC name;
-    HashC<StringC,WidgetC> children;
+    HashC<StringC, Tuple2C<WidgetC, bool> > children;
     bool customWidget;
   };
   
@@ -93,6 +96,10 @@ namespace RavlGUIN {
   public:
     bool AddObject(const StringC &name,const WidgetC &widget)
     { return Body().AddObject(name,widget); }
+    //: Add named widget.
+    
+    bool AddObject(const StringC &name,const WidgetC &widget, bool optional)
+    { return Body().AddObject(name,widget,optional); }
     //: Add named widget.
     
   };
