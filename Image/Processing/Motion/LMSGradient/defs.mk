@@ -17,7 +17,7 @@ HEADERS = LMSOpticFlow.hh LMSMultiScaleMotion.hh LMSRegionMotion.hh
 
 LOCALHEADERS = LMSRegressionEngine.hh
 
-PLIB = RavlImageProctmp
+PLIB = RavlImageProc
 
 LIBDEPS=RavlImageLMSMotion.def
 
