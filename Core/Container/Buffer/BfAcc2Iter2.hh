@@ -16,6 +16,7 @@
 //! date="24/01/2001"
 
 #include "Ravl/BfAccIter2.hh"
+#include "Ravl/Index2d.hh"
 
 namespace RavlN {
   

@@ -61,7 +61,7 @@ namespace RavlN {
       cit.Invalidate();
       return false;
     }
-    // Goto first element.
+    //: Goto first element.
     // returns true if there is one.
     
     bool First(const SizeBufferAccessC<BufferAccessC<Data1C> > &pbuf1,SizeT size1,
@@ -82,7 +82,7 @@ namespace RavlN {
       cit.Invalidate();
       return false;
     }
-    // Goto first element.
+    //: Goto first element.
     // returns true if there is one.
     
     bool Next() { 
@@ -111,43 +111,43 @@ namespace RavlN {
     
     void operator++() 
       { Next(); }
-    // Goto next element.
+    //: Goto next element.
 
     void operator++(int) 
       { Next(); }
-    // Goto next element.
+    //: Goto next element.
     
     Data1C &Data1() 
       { return cit.Data1(); }
-    // Access data.
+    //: Access data from array 1.
 
     const Data1C &Data1() const
       { return cit.Data1(); }
-    // Access data.
+    //: Access data from array 1.
 
     Data2C &Data2() 
       { return cit.Data2(); }
-    // Access data.
+    //: Access data from array 2.
 
     const Data2C &Data2() const
       { return cit.Data2(); }
-    // Access data.
+    //: Access data from array 2.
     
     Data3C &Data3()
       { return cit.Data3(); }
-    // Access data.
+    //: Access data from array 3.
 
     const Data3C &Data3() const
       { return cit.Data3(); }
-    // Access data.
+    //: Access data from array 3.
 
     Data4C &Data4()
       { return cit.Data4(); }
-    // Access data.
+    //: Access data from array 4.
 
     const Data4C &Data4() const
       { return cit.Data4(); }
-    // Access data.
+    //: Access data from array 4.
         
   protected:
     BufferAccessIter4C<BufferAccessC<Data1C>,BufferAccessC<Data2C>,BufferAccessC<Data3C>,BufferAccessC<Data4C> > rit;
