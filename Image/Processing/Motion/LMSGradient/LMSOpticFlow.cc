@@ -58,7 +58,6 @@ namespace RavlImageN {
   LMSOpticFlowC::LMSOpticFlowC (bool Verbose)
     : noise (1.0),
       region (9),
-      erode(true),
       verbose (Verbose),
       grad_order(1)
   {}

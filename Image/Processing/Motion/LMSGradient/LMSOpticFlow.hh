@@ -56,12 +56,6 @@ namespace RavlImageN {
     { grad_order = order; return *this; }
     // Set order of spatial gradient estimator
     
-    LMSOpticFlowC& SetFilterErode(bool nErode)
-    { erode = nErode; return *this; }
-    // :Set filter resize to erode (Erode==true) or no erosion (Erode==false)
-    // N.B.: even if filters are set for no erosion, there will still be a small
-    // amount of erosion of the motion field due to spatial gradient operators
-    
     ImageC<Vector2dC> Estimate (const ImageC<Vector2dC> &grad,const ImageC<RealT> &dt);
     // LMS engine for method; operates on spatial and temporal gradient images
 
