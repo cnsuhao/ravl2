@@ -13,6 +13,6 @@ PACKAGE=linux/Ravl
 
 SUPPORT_ONLY=linux
 
-HEADERS=Atomic.hh
+HEADERS=Atomic.hh mmx.hh
 
 PLIB=RavlCore
