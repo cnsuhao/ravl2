@@ -16,11 +16,12 @@
 #include "Ravl/RCAbstract.hh"
 #include "Ravl/TypeName.hh"
 #include "Ravl/VirtualConstructor.hh"
-#include <iostream.h>
 
 #if RAVL_HAVE_ANSICPPHEADERS
 #include <typeinfo>
+#include <iostream>
 #else
+#include <iostream.h>
 #include <typeinfo.h>
 #endif
 
