@@ -24,6 +24,10 @@ ifndef QCWD
  QCWD := $(shell 'pwd')
 endif
 
+# Setup default pager.
+ifndef PAGER
+ PAGER = more
+endif
 
 #########################
 # Include user make info.
