@@ -38,7 +38,7 @@ namespace RavlN {
     inline FVectorC<N> &Translation() { return T; }
     //: Access the translation component of the transformation.
     
-    inline FVectorC<N> Translation() const { return T; }
+    inline const FVectorC<N> &Translation() const { return T; }
     //: Constant access to the translation component of the transformation.
     
     inline void Scale(const FVectorC<N> &xy);
