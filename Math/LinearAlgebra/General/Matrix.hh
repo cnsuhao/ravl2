@@ -111,7 +111,7 @@ namespace RavlN {
     
     MatrixC Inverse() const;
     //: Calculate the inverse of this matrix.
-    // an invalid matrix is returned if this matrix is
+    // an invalid matrix (with 0 elements) is returned if this matrix is
     // singular. 
     
     bool InverseIP(RealT &det);
