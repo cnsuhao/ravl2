@@ -107,11 +107,8 @@ int VectorTest() {
 }
 
 int StringTest() {
-  // This function is currently disabled, as it will FAIL
-  return 0;
-
+  
   StringC strings[] = {"Hello", "this", "is", "a", "test"};
-
   {
     OStreamC os(testFile);
     if(!os) {
@@ -133,8 +130,8 @@ int StringTest() {
       IntT ii;
       StringC str;
       is >> ii >> str;
-      if (ii != i && str != strings[i]) {
-	cerr << "Test failed on string " << i << " = " << ii << "," << str << "\n";
+      if (ii != i || str != strings[i]) {
+	cerr << "Test failed on string " << i << " = " << ii << ", '" << str << "'\n";
 	return __LINE__; 
       }
       else {
