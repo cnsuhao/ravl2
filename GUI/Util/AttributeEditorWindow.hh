@@ -30,7 +30,8 @@ namespace RavlGUIN {
                                bool showReadWrite = true,
                                bool showAttrName = true,
                                bool showAttrDescription = false,
-                               bool showLoadSave = true
+                               bool showLoadSave = true,
+                               bool dontDelete = true
                                );
     //: Constructor.
     
@@ -69,9 +70,10 @@ namespace RavlGUIN {
                            bool showReadWrite = true,
                            bool showAttrName = true,
                            bool showAttrDescription = false,
-                           bool showLoadSave = true
+                           bool showLoadSave = true,
+                           bool dontDelete = true
                            )
-      : WindowC(*new AttributeEditorWindowBodyC(name,ctrl,showReadWrite,showAttrName,showAttrDescription,showLoadSave))
+      : WindowC(*new AttributeEditorWindowBodyC(name,ctrl,showReadWrite,showAttrName,showAttrDescription,showLoadSave,dontDelete))
     {}
 
   protected:

@@ -31,7 +31,8 @@ namespace RavlGUIN {
                                                          bool showReadWrite,
                                                          bool showAttrName,
                                                          bool showAttrDescription,
-                                                         bool showLoadSave
+                                                         bool showLoadSave,
+                                                         bool dontDelete
                                                          )
     : WindowBodyC(100,100,name,GTK_WINDOW_TOPLEVEL,4,false),
       fileSelector("Attribute IO","attribute.xml"),
@@ -49,6 +50,8 @@ namespace RavlGUIN {
       Add(VBox(menuBar + FrameC(editor,"",5) + RavlGUIN::ButtonR("Close",(WidgetBodyC &)*this,&WindowBodyC::GUIHide)));
       Add(VBox(FrameC(editor,"",5) + RavlGUIN::ButtonR("Close",(WidgetBodyC &)*this,&WindowBodyC::GUIHide)));
     }
+    if(dontDelete)
+      ConnectRef(Signal("delete_event"),static_cast<WidgetBodyC &>(*this), &WindowBodyC::GUIHide);
   }
   
   //: Load attributes from file.
