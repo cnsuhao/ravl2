@@ -25,10 +25,10 @@ namespace RavlImageN {
   //: Constructor.
   
   ImageTrackerC::ImageTrackerC(IntT nPatchSize,IntT aSearchSize,IntT nMatchThreshold)
-    : patchSize(nPatchSize),
+    : cornerDet(10),
+      patchSize(nPatchSize),
       searchSize(aSearchSize),
       matchThreshold(nMatchThreshold),
-      cornerDet(10)
   {}
   
   DListC<PairC<Point2dC> > ImageTrackerC::TrackImage(const ImageC<ByteT> &mosaic,const ImageC<ByteT> &data,const Projection2dC &proj) {
