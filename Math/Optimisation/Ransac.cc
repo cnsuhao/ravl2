@@ -50,13 +50,18 @@ namespace RavlN {
 
     // generate list of observations to be evaluated
     DListC<ObservationC> obsList = obsManager.ObservationList(sv);
-    RealT newVote = evaluator.SolutionScore(sv, obsList);
-
+    RealT newVote;
+    try {
+      newVote = evaluator.SolutionScore(sv, obsList);
+    }
+    catch (ExceptionNumericalC) {
+      return false;
+    }
     if ( newVote > highestVote ) {
       stateVec = sv.Copy();
       highestVote = newVote;
     }
-
+    
     return true;
   }
 
