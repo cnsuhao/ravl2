@@ -67,7 +67,7 @@ namespace RavlImageN {
     bool First(int level);
     //: Setup first iteration at given level.
     
-    bool PyramidScanC::Next() {
+    bool Next() {
       roi.Range2() += colStep;
       if(roi.Range2().Max() <= frame.Range2().Max())
 	return true;
