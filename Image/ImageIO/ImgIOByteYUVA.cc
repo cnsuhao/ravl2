@@ -27,37 +27,5 @@ namespace RavlImageN {
   FileFormatStreamC<ImageC<ByteYUVAValueC> > FileFormatStream_ImageC_ByteYUVAValueC;
   FileFormatBinStreamC<ImageC<ByteYUVAValueC> > FileFormatBinStream_ImageC_ByteYUVAValueC;
   
-  ////////////////////////////////////////////////////////////
-  // Accelerated IO routines...
-  
-  BinOStreamC &operator << (BinOStreamC &out,const ImageC<ByteYUVAValueC> &img) { 
-    out << img.Rectangle();
-    
-    IntT width = img.Cols() * 4;
-    IndexC atrow = img.TRow();
-    IndexC offset = img.LCol();
-    
-    IndexC brow = img.BRow();
-    for(;atrow <= brow;atrow++) 
-      out.OBuff((const char *) &(img[atrow][offset]),width);  
-    return out;
-  }
-  
-  BinIStreamC &operator >> (BinIStreamC &in,ImageC<ByteYUVAValueC> &img) { 
-    ImageRectangleC rect;
-    in >> rect;
-    img = ImageC<ByteYUVAValueC>(rect);
-    
-    IntT width = img.Cols() * 4;
-    IndexC atrow = img.TRow();
-    IndexC offset = img.LCol();
-    IndexC brow = img.BRow();
-    for(;atrow <= brow;atrow++) 
-      in.IBuff((char *) &(img[atrow][offset]),width);  
-
-    return in;
-  }
-  
-
 }
 

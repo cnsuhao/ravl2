@@ -48,6 +48,14 @@ namespace RavlImageN {
     // and blue components.
   };
   
+  template<class DataT> class ImageC;
+  
+  BinOStreamC &operator<<(BinOStreamC &out,const ImageC<ByteRGBAValueC> &img);
+  //: Save byte image to binary stream 
+  
+  BinIStreamC &operator>>(BinIStreamC &in,ImageC<ByteRGBAValueC> &img);  
+  //: Load byte image from binary stream 
+  
 }
 
 #endif

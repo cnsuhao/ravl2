@@ -42,6 +42,15 @@ namespace RavlImageN {
     // creates an undefined YUVA pixel.
     
   };
+  
+  template<class DataT> class ImageC;
+  
+  BinOStreamC &operator<<(BinOStreamC &out,const ImageC<ByteYUVAValueC> &img);
+  //: Save byte image to binary stream 
+  
+  BinIStreamC &operator>>(BinIStreamC &in,ImageC<ByteYUVAValueC> &img);  
+  //: Load byte image from binary stream 
+
 }
 
 #endif

@@ -1,28 +1,27 @@
 // This file is part of RAVL, Recognition And Vision Library 
-// Copyright (C) 2001, University of Surrey
+// Copyright (C) 2003, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlImage
-//! file="Ravl/Image/Base/ByteRGBValue.cc"
+//! file="Ravl/Image/Base/ByteRGBAValue.cc"
 
-#include "Ravl/BinStream.hh"
+#include "Ravl/Image/ByteRGBAValue.hh"
 #include "Ravl/Image/Image.hh"
-#include "Ravl/Image/ByteRGBValue.hh"
-#include "Ravl/TypeName.hh"
+#include "Ravl/BinStream.hh"
 
 namespace RavlImageN {
-  static TypeNameC type2(typeid(ByteRGBValueC),"ByteRGBValueC");
+  using namespace RavlN;
   
   ////////////////////////////////////////////////////////////
   // Accelerated IO routines...
   
-  BinOStreamC &operator << (BinOStreamC &out,const ImageC<ByteRGBValueC> &img) { 
+  BinOStreamC &operator << (BinOStreamC &out,const ImageC<ByteRGBAValueC> &img) { 
     out << img.Rectangle();
     
-    IntT width = img.Cols() * 3;
+    IntT width = img.Cols() * 4;
     IndexC atrow = img.TRow();
     IndexC offset = img.LCol();
     
@@ -32,12 +31,12 @@ namespace RavlImageN {
     return out;
   }
   
-  BinIStreamC &operator >> (BinIStreamC &in,ImageC<ByteRGBValueC> &img) { 
+  BinIStreamC &operator >> (BinIStreamC &in,ImageC<ByteRGBAValueC> &img) { 
     ImageRectangleC rect;
     in >> rect;
-    img = ImageC<ByteRGBValueC>(rect);
+    img = ImageC<ByteRGBAValueC>(rect);
     
-    IntT width = img.Cols() * 3;
+    IntT width = img.Cols() * 4;
     IndexC atrow = img.TRow();
     IndexC offset = img.LCol();
     IndexC brow = img.BRow();
@@ -46,5 +45,5 @@ namespace RavlImageN {
 
     return in;
   }
-  
+
 }

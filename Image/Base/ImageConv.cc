@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlImage
+//! file="Ravl/Image/Base/ImageConv.cc"
 
 #include "Ravl/Image/ImageConv.hh"
 #include "Ravl/Array2dIter2.hh"

@@ -12,7 +12,7 @@
 //! docentry="Ravl.Images.Pixel Types"
 //! userlevel=Normal
 //! lib=RavlImage
-//! file="Ravl/Image/Base/BGRAValue.hh"
+//! file="Ravl/Image/Base/BGRValue.hh"
 
 #include "Ravl/Image/RGBValue.hh"
 

@@ -86,6 +86,14 @@ namespace RavlImageN {
 			 );
   }
   //: Average of 2 values.
+
+  template<class DataT> class ImageC;
+  
+  BinOStreamC &operator << (BinOStreamC &out,const ImageC<ByteRGBValueC> &img);
+  //: Output image to a binary stream.
+  
+  BinIStreamC &operator >> (BinIStreamC &in,ImageC<ByteRGBValueC> &img);
+  //: Load image from a binary stream.
   
 }
 

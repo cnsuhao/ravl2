@@ -123,6 +123,14 @@ namespace RavlImageN {
   }
   //: Average of 2 values.
   
+  template<class DataT> class ImageC;
+  
+  BinOStreamC &operator<<(BinOStreamC &out,const ImageC<ByteVYUValueC> &img);
+  //: Save byte image to binary stream 
+  
+  BinIStreamC &operator>>(BinIStreamC &in,ImageC<ByteVYUValueC> &img);  
+  //: Load byte image from binary stream 
+
 }
 
 #endif

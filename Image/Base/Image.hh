@@ -151,6 +151,12 @@ namespace RavlImageN {
   istream &operator>>(istream &s,ImageC<ByteT> &img);
   //: Load byte image from stream 
   // Override default IO to handle byte images correctly.
+
+  BinOStreamC &operator<<(BinOStreamC &out,const ImageC<ByteT> &img);
+  //: Save byte image to binary stream 
+  
+  BinIStreamC &operator>>(BinIStreamC &in,ImageC<ByteT> &img);  
+  //: Load byte image from binary stream 
   
 }
 

@@ -64,6 +64,14 @@ namespace RavlImageN {
   { return strm << ((int) val.UV()) << ' ' << ((int) val.Y()); }
   //: Stream output.
   
+  template<class DataT> class ImageC;
+  
+  BinOStreamC &operator<<(BinOStreamC &out,const ImageC<ByteYUV422ValueC> &img);
+  //: Save byte image to binary stream 
+  
+  BinIStreamC &operator>>(BinIStreamC &in,ImageC<ByteYUV422ValueC> &img);  
+  //: Load byte image from binary stream 
+
 }
 
 #endif

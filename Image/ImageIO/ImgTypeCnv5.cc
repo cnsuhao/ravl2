@@ -7,7 +7,7 @@
 /////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlImageIO
-//! file="Ravl/Image/ImageIO/ImgTypeCnv3.cc"
+//! file="Ravl/Image/ImageIO/ImgTypeCnv5.cc"
 //! author="Charles Galambos"
 
 #include "Ravl/DP/Converter.hh"

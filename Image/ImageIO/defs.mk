@@ -11,14 +11,16 @@ PACKAGE = Ravl/Image
 
 DESCRIPTION =  File IO methods.
 
-HEADERS = ImgIOPNMB.hh ImgIOPNM.hh PNMFormat.hh ImgIO.hh
+HEADERS = ImgIOPNMB.hh ImgIOPNM.hh PNMFormat.hh ImgIO.hh \
+ VideoCapture.hh
 
 SOURCES = ImgIOPNM.cc PNMFormat.cc ImgIOInt.cc ImgIOByte.cc \
  ImgIOUInt16.cc ImgIOByteRGB.cc ImgIOByteYUV.cc ImgIOReal.cc \
  ImgIORealRGB.cc ImgIOByteRGBA.cc ImgIORealYUV.cc ImgIOUInt16RGB.cc \
  ImgIOByteYUVA.cc ImgCnvRGB.cc ImgCnvYUV.cc ImgIOFloat.cc \
  ImgTypeCnv.cc ImgTypeCnv2.cc ImgTypeCnv3.cc ImgTypeCnv4.cc \
- ImgIOByteYUV422.cc ImgIOByteVYU.cc ImgTypeCnv5.cc
+ ImgIOByteYUV422.cc ImgIOByteVYU.cc ImgTypeCnv5.cc \
+ VideoCapture.cc
 
 # ImgIOPixel.cc  PixelIO.cc 
 
