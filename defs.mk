@@ -15,7 +15,7 @@ DESCRIPTION=RAVL, Recognition and Vision Library
 # '#' before the Contrib.r at the end of the following line.
 
 NESTED=QMake.r Core.r OS.r CCMath.r Math.r PatternRec.r Image.r 3D.r Logic.r \
-  SourceTools.r GUI.r Applications.r # Contrib.r
+  SourceTools.r GUI.r Applications.r Contrib.r
 
 LOCAL_FILES=install lgpl.license gpl.license README
 
