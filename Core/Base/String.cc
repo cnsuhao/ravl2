@@ -24,6 +24,7 @@ Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
   StringC class implementation
  */
 
+
 #include "Ravl/config.h"
 // On systems like linux on ix86 is better to use the tuned
 // 'C' string code.
@@ -38,9 +39,16 @@ Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include <std.h>
 #endif
 
+// a hack to use atoll with the -ansi flag ! 
+#if RAVL_OS_SOLARIS9
+extern long long atoll(const char *);
+#endif 
+
 #include <ctype.h>
 #include <limits.h>
 #include <stdio.h>
+
+
 #include <stdlib.h>
 #include "Ravl/Assert.hh"
 
@@ -63,8 +71,7 @@ Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #undef OK
 
 namespace RavlN {
-  
-  
+
 #if RAVL_OS_LINUX || RAVL_OS_SOLARIS
 #ifndef RAVL_ATOMIC_INIT
 #define RAVL_ATOMIC_INIT(x) (x)
