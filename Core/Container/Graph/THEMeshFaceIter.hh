@@ -44,15 +44,19 @@ namespace RavlN {
     //: Access Face.
     
     const THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> Data() const
-    { return THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT>(const_cast<THEMeshFaceBodyC<VertexDataT,FaceDataT,EdgeDataT> &>(static_cast<THEMeshFaceBodyC<VertexDataT,FaceDataT,EdgeDataT> &>(IntrDLIterC<HEMeshBaseFaceBodyC>::Data()))); }
+    { return THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT>(static_cast<THEMeshFaceBodyC<VertexDataT,FaceDataT,EdgeDataT> &>(const_cast<HEMeshBaseFaceBodyC &>(IntrDLIterC<HEMeshBaseFaceBodyC>::Data()))); }
     //: Access Face.
     
-    THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> operator*()
-    { return THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT>(static_cast<THEMeshFaceBodyC<VertexDataT,FaceDataT,EdgeDataT> &>(IntrDLIterC<HEMeshBaseFaceBodyC>::Data())); }
+    THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> operator*() { 
+      THEMeshFaceBodyC<VertexDataT,FaceDataT,EdgeDataT> &tmp = static_cast<THEMeshFaceBodyC<VertexDataT,FaceDataT,EdgeDataT> &>(IntrDLIterC<HEMeshBaseFaceBodyC>::Data()); 
+      return THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT>(tmp); 
+    }
     //: Access Face.
     
-    const THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> operator*() const
-    { return THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT>(const_cast<THEMeshFaceBodyC<VertexDataT,FaceDataT,EdgeDataT> &>(static_cast<THEMeshFaceBodyC<VertexDataT,FaceDataT,EdgeDataT> &>(IntrDLIterC<HEMeshBaseFaceBodyC>::Data()))); }
+    const THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> operator*() const {
+      THEMeshFaceBodyC<VertexDataT,FaceDataT,EdgeDataT> &tmp = static_cast<THEMeshFaceBodyC<VertexDataT,FaceDataT,EdgeDataT> &>(const_cast<HEMeshBaseFaceBodyC &>(IntrDLIterC<HEMeshBaseFaceBodyC>::Data())); 
+      return THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT>(tmp);
+    }
     //: Access Face.
     
     bool CollapseEdge(THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> edge)
