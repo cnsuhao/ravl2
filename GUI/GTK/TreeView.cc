@@ -56,6 +56,11 @@ namespace RavlGUIN {
   
   static void tree_selection_changed_cb (GtkTreeSelection *selection, gpointer obj) {
     TreeViewBodyC *bod = (TreeViewBodyC *) obj;
+    // Filter first selection event
+    if (bod->FilterFirstSelections()) {
+      bod->GUIDeselectAll();
+      return;
+    }
     GtkTreeModel *model;
     TreeModelIterC rowIter;
     DListC<TreeModelIterC> ret;
@@ -74,7 +79,8 @@ namespace RavlGUIN {
   TreeViewBodyC::TreeViewBodyC(const TreeModelC &tm,const DListC<StringC> &ndisplayColumns) 
     : treeModel(tm),
       selection(0),
-      selectionChanged(DListC<TreeModelIterC>())
+      selectionChanged(DListC<TreeModelIterC>()),
+      firstSelection(2)
   {
     UIntT nCols = ndisplayColumns.Size();
     DListC<StringC> dispList = ndisplayColumns;
@@ -130,14 +136,16 @@ namespace RavlGUIN {
     : treeModel(tm),
       selection(0),
       selectionChanged(DListC<TreeModelIterC>()),
-      displayColumns(displayColumns)
+      displayColumns(displayColumns),
+      firstSelection(2)
   {}
   
   //: Default constructor.
   
   TreeViewBodyC::TreeViewBodyC()
     : selection(0),
-      selectionChanged(DListC<TreeModelIterC>())
+      selectionChanged(DListC<TreeModelIterC>()),
+      firstSelection(2)
   {}
 
   //: Set an attribute for a column

@@ -262,12 +262,24 @@ namespace RavlGUIN {
     //: Scroll the treeview to the specified path
     // GUI thread only
 
+    bool FilterFirstSelections() { 
+      if (firstSelection) {
+	firstSelection--;
+	return true;
+      }
+      return false;
+    }
+    //: Selection filter function
+    // Only used by internal functions, please leave this alone :)
+
   protected:
 
     TreeModelC treeModel;
     GtkTreeSelection *selection;
     Signal1C<DListC<TreeModelIterC> > selectionChanged;
     SArray1dC<TreeViewColumnC> displayColumns;
+
+    IntT firstSelection;
 
     friend class TreeViewC;
     
