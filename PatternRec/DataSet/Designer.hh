@@ -42,10 +42,10 @@ namespace RavlN {
     virtual bool Save (BinOStreamC &out) const;
     //: Writes object to binary stream.
     
-    virtual VectorC Paramiters();
+    virtual VectorC Parameters();
     //: Get the current paramiters.
 
-    virtual VectorC Paramiters(const VectorC &params);
+    virtual VectorC Parameters(const VectorC &params);
     //: Set the current paramiters.
     // Returns the current paramiters, which may not be exactly those
     // set in 'params', but will be the closest legal values.
@@ -91,14 +91,14 @@ namespace RavlN {
     //: Access body.
     
   public:
-    VectorC Paramiters()
-    { return Body().Paramiters(); }
+    VectorC Parameters()
+    { return Body().Parameters(); }
     //: Get the current paramiters.
     // Returns the current paramiters, which may not be exactly those
     // set in 'params', but will be the closest legal values.
     
-    VectorC Paramiters(const VectorC &params)
-    { return Body().Paramiters(params); }
+    VectorC Parameters(const VectorC &params)
+    { return Body().Parameters(params); }
     //: Set the current paramiters.
     // Returns the current paramiters, which may not be exactly those
     // set in 'params', but will be the closest legal values.

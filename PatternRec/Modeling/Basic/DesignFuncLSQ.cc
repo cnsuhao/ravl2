@@ -104,7 +104,7 @@ namespace RavlN {
   //: Find correlated paramiters.
   
   SArray1dC<IntT> DesignFuncLSQBodyC::FindCorrelatedParameters(const MatrixRUTC &mat,RealT thresh) {
-    ONDEBUG(cerr << "DesignFuncLSQBodyC::FindCorelatedParamiters(), Looking for corelations. \n");
+    ONDEBUG(cerr << "DesignFuncLSQBodyC::FindCorelatedParameters(), Looking for corelations. \n");
     SArray1dC<IntT> ret(mat.Rows());
     ret.Fill(-1);
     for(IntT i = 0;i < (int) mat.Rows();i++) {
@@ -119,7 +119,7 @@ namespace RavlN {
 	ONDEBUG(cerr << " " << i << " " << j << " Det=" << det << "\n");
 	if(IsSmall(det,aver,thresh)) {
 	  ret[j] = i;
-	  break; // Paramiters j and i are correlated.
+	  break; // Parameters j and i are correlated.
 	}
       }
     }

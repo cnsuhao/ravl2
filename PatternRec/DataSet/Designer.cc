@@ -35,14 +35,14 @@ namespace RavlN {
   bool DesignerBodyC::Save (BinOStreamC &out) const 
   { return RCBodyVC::Save(out); }
   
-  VectorC DesignerBodyC::Paramiters() {
-    RavlAssertMsg(0,"DesignerBodyC::Paramiters(), Abstract method called. \n");
+  VectorC DesignerBodyC::Parameters() {
+    RavlAssertMsg(0,"DesignerBodyC::Parameters(), Abstract method called. \n");
     return VectorC();
   }
   //: Get the current paramiters.
   
-  VectorC DesignerBodyC::Paramiters(const VectorC &params) {
-    RavlAssertMsg(0,"DesignerBodyC::Paramiters(const VectorC &), Abstract method called. \n");
+  VectorC DesignerBodyC::Parameters(const VectorC &params) {
+    RavlAssertMsg(0,"DesignerBodyC::Parameters(const VectorC &), Abstract method called. \n");
     return params;
   }
   //: Set the current paramiters.
