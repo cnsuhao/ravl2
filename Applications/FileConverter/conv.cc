@@ -53,7 +53,7 @@ int FileConv(int argc,char **argv)
   StringC   inType  = option.String("it","","Input file type. ");
   StringC   outType = option.String("ot","","Output file type. ");
   StringC   classType = option.String("ct","void","Intermidiate class type. (void = any).");
-  bool  seq     = option.Boolean("s",false,"Convert sequence. ");
+  bool  seq     = option.Boolean("s",false,"Convert a sequence of objects. (The default will convert only 1) ");
   bool  verb    = option.Boolean("v",false,"Verbose. ");
   bool  test    = option.Boolean("t",false,"Test if conversion is possible. (Sequence only) ");
   bool  listForm = option.Boolean("lf",false,"List all known file formats.");
@@ -65,6 +65,10 @@ int FileConv(int argc,char **argv)
   IntT      everyNth = option.Int("nth",1,"Frequence of frames to copy. 1=Every frame. ");
   FilenameC inFile  = option.String("","in.pgm","Input filename");
   FilenameC outFile = option.String("","out.pgm","Output filename");
+  
+  option.If(seq,"len","a sequence is being processed. (-s) ");
+  option.If(seq,"st","a sequence is being processed. (-s) ");
+  option.If(seq,"nth","a sequence is being processed. (-s) ");
   
   option.Check();
   
