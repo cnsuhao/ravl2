@@ -21,6 +21,8 @@ namespace RavlN {
   class TriggerC;
   template<class DataT> class DListC;
   class AttributeCtrlInternalC;
+  class XMLIStreamC;
+  class XMLOStreamC;
   
   //! userlevel=Develop
   //: Interface for reading and writting attribute values.
@@ -101,7 +103,7 @@ namespace RavlN {
     //: Get type of a particular attribute. 
     // Returns an invalid handle if attribute is unknown.
     
-    virtual IntT RegisterChangedSignal(const TriggerC &trig);
+    virtual IntT RegisterChangedSignal(const StringC &attrName,const TriggerC &trig);
     //: Register a value changed signal.
     // Note: This method may not be implemented for all AttributeCtrl's.
     // Returns an id for the trigger, or -1 if operation fails.
@@ -109,10 +111,19 @@ namespace RavlN {
     virtual bool RemoveChangedSignal(IntT id);
     //: Remove a changed signal.
     // Note: This method may not be implemented for all AttributeCtrl's.
-
+    
     virtual bool RegisterAttribute(const AttributeTypeC &attr);
     //: Register a new attribute type.
-
+    
+    bool SaveAttributes(XMLOStreamC &strm) const;
+    //: Save setup to XML stream.
+    
+    bool LoadAttributes(XMLIStreamC &strm);
+    //: Load setup from XML stream.
+    
+    bool RestoreDefaults();
+    //: Set all attributes to default values.
+    
   protected:
     virtual bool SignalChange(const StringC &attrName);
     //: Signal that an attribute has changed.
@@ -219,8 +230,8 @@ namespace RavlN {
     //: Get type of a particular attribute. 
     // Returns an invalid handle if attribute is unknown.
     
-    IntT RegisterChangedSignal(const TriggerC &trig)
-    { return Body().RegisterChangedSignal(trig); }
+    IntT RegisterChangedSignal(const StringC &attrName,const TriggerC &trig)
+    { return Body().RegisterChangedSignal(attrName,trig); }
     //: Register a value changed signal.
     // Note: This method may not be implemented for all AttributeCtrl's.
     // Returns an id for the trigger, or -1 if operation fails.
@@ -234,6 +245,18 @@ namespace RavlN {
     { return Body().RegisterAttribute(attr); }
     //: Register a new attribute type.
     // Returns true if attribute of the same name already exists.
+    
+    bool SaveAttributes(XMLOStreamC &strm) const
+    { return Body().SaveAttributes(strm); }
+    //: Save setup to XML stream.
+    
+    bool LoadAttributes(XMLIStreamC &strm)
+    { return Body().LoadAttributes(strm); }
+    //: Load setup from XML stream.
+    
+    bool RestoreDefaults()
+    { return Body().RestoreDefaults(); }
+    //: Set all attributes to default values.
     
     friend class AttributeCtrlBodyC;
   };

@@ -10,9 +10,11 @@
 
 #include "Ravl/DP/AttributeCtrl.hh"
 #include "Ravl/DP/AttributeType.hh"
+#include "Ravl/MTLocks.hh"
 #include "Ravl/Hash.hh"
 #include "Ravl/DList.hh"
 #include "Ravl/DLIter.hh"
+#include "Ravl/Trigger.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -27,6 +29,7 @@ namespace RavlN {
   class AttributeCtrlInternalC {
   public:
     AttributeCtrlInternalC()
+      : trigIdAlloc(1)
     {}
     //: Default constructor.
     
@@ -56,12 +59,49 @@ namespace RavlN {
       attribTypes.Lookup(attrName,ret);
       return ret;
     }
+    
+    void IssueChangedSignal(const StringC &attrName) {
+      for(DLIterC<TriggerC> it(name2trigList[attrName]);it;it++)
+	(*it).Invoke();
+    }
+    //: Issue attribute changed signal.
+    
+    IntT RegisterChangedSignal(const StringC &attrName,const TriggerC &trig) {
+      IntT id = trigIdAlloc++;
+      DListC<TriggerC> &list = name2trigList[attrName];
+      list.InsFirst(trig);
+      trigId2trig[id] = list;
+      return id;
+    }
+    //: Register a changed signal.
+    
+    bool RemoveChangedSignal(IntT id) {
+      DLIterC<TriggerC> *trig = trigId2trig.Lookup(id);
+      if(trig == 0) 
+	return false;
+      trig->Del();
+      trigId2trig.Del(id);
+      return true;
+    }
+    //: Remove changed signal.
+    
+    DListC<AttributeTypeC> &Attributes()
+    { return attribTypeList; }
+    //: Get list of attributes.
+    
+  protected:
     //: Get type of a particular attribute. 
     
     HashC<StringC,AttributeTypeC> attribTypes;
     DListC<AttributeTypeC> attribTypeList;
-  };
 
+    // Changed trigger.
+    
+    HashC<IntT,DLIterC<TriggerC> > trigId2trig;
+    HashC<StringC,DListC<TriggerC> > name2trigList;
+    IntT trigIdAlloc;
+  };
+  
   //: Default constructor.
   
   AttributeCtrlBodyC::AttributeCtrlBodyC()
@@ -120,6 +160,39 @@ namespace RavlN {
     if(parent.IsValid())
       if(parent.GetAttr(attrName,attrValue))
 	return true;
+
+    // Maybe attribute is of a different type ?
+    
+    AttributeTypeC attrType = GetAttrType(attrName);
+    if(attrType.IsValid()) { // Do we know of this attribute ?
+      switch(attrType.ValueType()) {
+      case AVT_Bool: {
+	bool val;
+	if(!GetAttr(attrName,val))
+	  break;
+	attrValue = StringC(val ? "1" : "0");
+      } break;
+      case AVT_Int: {
+	IntT val;
+	if(!GetAttr(attrName,val))
+	  break;
+	attrValue = StringC(val);
+      } break;
+      case AVT_Real: {
+	RealT val;
+	if(SetAttr(attrName,val))
+	  return true;
+	attrValue = StringC(val);
+      } break;
+      case AVT_String:
+      case AVT_Enum:
+      case AVT_Abstract:
+      case AVT_None:
+      case AVT_Invalid:
+	// Don't know how to handle these...
+	break;
+      }
+    }
 #if RAVL_CHECK
     cerr << "AttributeCtrlBodyC::GetAttr(const StringC &,StringC &), Unknown attribute '" << attrName << "'\n";
 #endif
@@ -135,6 +208,45 @@ namespace RavlN {
     if(parent.IsValid())
       if(parent.SetAttr(attrName,attrValue))
 	return true;
+    
+    // Maybe attribute is of a different type ?
+    
+    AttributeTypeC attrType = GetAttrType(attrName);
+    if(attrType.IsValid()) { // Do we know of this attribute ?
+      switch(attrType.ValueType()) {
+      case AVT_Bool: {
+	StringC tmp = attrValue;
+	tmp.downcase();
+	bool val = false;
+	if(tmp == "0" || tmp == "f" || tmp == "false")
+	  val = false;
+	else {
+	  if(tmp == "1" || tmp == "t" || tmp == "true") 
+	    val = true;
+	  else
+	    cerr << "AttributeCtrlBodyC::SetAttr(const StringC &,const StringC &), Ambigous boolean value '" << tmp << "' for attribute " << attrName << "\n";
+	}
+	if(SetAttr(attrName,val))
+	  return true;
+      } break;
+      case AVT_Int:
+	if(SetAttr(attrName,attrValue.IntValue()))
+	  return true;
+	break;
+      case AVT_Real: 
+	if(SetAttr(attrName,attrValue.RealValue()))
+	  return true;
+	break;
+      case AVT_String:
+      case AVT_Enum:
+      case AVT_Abstract:
+      case AVT_None:
+      case AVT_Invalid:
+	// Don't know how to handle these...
+	break;
+      }
+    }
+      
 #if RAVL_CHECK
     cerr << "AttributeCtrlBodyC::SetAttr(const StringC &,const StringC &), Unknown attribute '" << attrName << "' Value:'" << attrValue << "'\n";
 #endif
@@ -151,6 +263,23 @@ namespace RavlN {
     if(parent.IsValid())
       if(parent.GetAttr(attrName,attrValue))
 	return true;
+    
+    // Is attribute of another type ?
+    
+    AttributeTypeC attrType = GetAttrType(attrName);
+    if(attrType.IsValid()) { // Do we know of this attribute ?
+      switch(attrType.ValueType()) {
+      case AVT_Bool: {
+	bool val;
+	if(GetAttr(attrName,val))
+	  return true;
+	attrValue = val ? 1 : 0;
+      } break;
+      default:
+	break;
+      }
+    }
+
 #if RAVL_CHECK
     cerr << "AttributeCtrlBodyC::GetAttr(const StringC &,IntT &), Unknown attribute '" << attrName << "'\n";
 #endif
@@ -168,6 +297,20 @@ namespace RavlN {
     if(parent.IsValid())
       if(parent.SetAttr(attrName,attrValue))
 	return true;
+    
+    // Is attribute of another type ?
+    
+    AttributeTypeC attrType = GetAttrType(attrName);
+    if(attrType.IsValid()) { // Do we know of this attribute ?
+      switch(attrType.ValueType()) {
+      case AVT_Bool:
+	if(SetAttr(attrName,(attrValue != 0)))
+	  return true;
+	break;
+      default:
+	break;
+      }
+    }
 #if RAVL_CHECK
     cerr << "AttributeCtrlBodyC::SetAttr(const StringC &,const IntT &), Unknown attribute '" << attrName << "' Value:'" << attrValue << "'\n";
 #endif
@@ -220,6 +363,23 @@ namespace RavlN {
     if(parent.IsValid())
       if(parent.GetAttr(attrName,attrValue))
 	return true;
+    
+    // Is attribute of another type ?
+    
+    AttributeTypeC attrType = GetAttrType(attrName);
+    if(attrType.IsValid()) { // Do we know of this attribute ?
+      switch(attrType.ValueType()) {
+      case AVT_Int: {
+	int val;
+	if(GetAttr(attrName,val))
+	  return true;
+	attrValue = (val != 0);
+      } break;
+      default:
+	break;
+      }
+    }
+
 #if RAVL_CHECK
     cerr << "AttributeCtrlBodyC::GetAttr(const StringC &,bool &), Unknown attribute '" << attrName << "'\n";
 #endif
@@ -237,6 +397,21 @@ namespace RavlN {
     if(parent.IsValid())
       if(parent.SetAttr(attrName,attrValue))
 	return true;
+
+    // Maybe attribute is of a different type ?
+    
+    AttributeTypeC attrType = GetAttrType(attrName);
+    if(attrType.IsValid()) { // Do we know of this attribute ?
+      switch(attrType.ValueType()) {
+      case AVT_Int:
+	if(SetAttr(attrName,(IntT) attrValue))
+	  return true;
+	break;
+      default:
+	break;
+      }
+    }
+
 #if RAVL_CHECK
     cerr << "AttributeCtrlBodyC::SetAttr(const StringC &,const bool &), Unknown attribute '" << attrName << "' Value:'" << attrValue << "'\n";
 #endif
@@ -287,29 +462,52 @@ namespace RavlN {
   // Note: This method may not be implemented for all AttributeCtrl's.
   // Returns an id for the trigger, or -1 if operation fails.
   
-  IntT AttributeCtrlBodyC::RegisterChangedSignal(const TriggerC &trig) {
-    return -1;
+  IntT AttributeCtrlBodyC::RegisterChangedSignal(const StringC &name,const TriggerC &trig) {
+    MTWriteLockC lock(2);
+    if(attrInfo == 0)
+      attrInfo = new AttributeCtrlInternalC();
+    return attrInfo->RegisterChangedSignal(name,trig);
   }
   
   //: Remove a changed signal.
   // Note: This method may not be implemented for all AttributeCtrl's.
   
   bool AttributeCtrlBodyC::RemoveChangedSignal(IntT id) {
-    return false;
+    MTWriteLockC lock(2);
+    if(attrInfo == 0) // Nothing registered.
+      return false;
+    return attrInfo->RemoveChangedSignal(id);
   }
   
   //: Signal that an attribute has changed.
   
   bool AttributeCtrlBodyC::SignalChange(const StringC &attrName) {
-    return false;
+    MTReadLockC lock(2);
+    if(attrInfo == 0) // Can't be anything to do.
+      return true; 
+    attrInfo->IssueChangedSignal(attrName);
+    return true;
   }
   
   //: Register a new attribute type.
   
   bool AttributeCtrlBodyC::RegisterAttribute(const AttributeTypeC &attr) {
+    MTWriteLockC lock(2);
     if(attrInfo == 0)
       attrInfo = new AttributeCtrlInternalC();
     return attrInfo->RegisterAttribute(attr);
+  }
+  
+  //: Set all attributes to default values.
+  
+  bool AttributeCtrlBodyC::RestoreDefaults() {
+    if(attrInfo == 0)
+      return false;
+    bool ret = true;
+    AttributeCtrlC me(*this);
+    for(DLIterC<AttributeTypeC> it(attrInfo->Attributes());it;it++)
+      ret &= it->SetToDefault(me);
+    return ret;
   }
   
   //--------------------------------------------------------------------------
