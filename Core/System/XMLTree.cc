@@ -94,18 +94,27 @@ namespace RavlN {
   
   ostream &XMLTreeBodyC::Dump(ostream &out,int level) const {
     XMLTreeC me(const_cast<XMLTreeBodyC &>(*this));
-    Indent(out,level) << '<' << Name() << ' ';
-    for(HashIterC<StringC,StringC> ita(Data());ita;ita++) {
-      out << ita.Key() << "=\"" << ita.Data() << "\" ";
-    }
-    if(me.Children().IsEmpty()) {
-      out << "/>\n";
-    } else {
-      out << ">\n";
+    if (Name() == "?content") Indent(out,level) << Data()["."] << "\n";
+    else if (level == 0) {
       for(DLIterC<XMLTreeC> it(me.Children());it;it++) {
 	it.Data().Dump(out,level+1);
       }
-      Indent(out,level) << "</" << Name() << ">\n";
+    }
+    else {
+      Indent(out,level) << '<' << Name();
+      for(HashIterC<StringC,StringC> ita(Data());ita;ita++) {
+	out << ' ' << ita.Key() << "=\"" << ita.Data() << "\"";
+      }
+      if(me.Children().IsEmpty()) {
+	out << "/>\n";
+      } 
+      else {
+	out << ">\n";
+	for(DLIterC<XMLTreeC> it(me.Children());it;it++) {
+	  it.Data().Dump(out,level+1);
+	}
+	Indent(out,level) << "</" << Name() << ">\n";
+      }
     }
     return out;
   }
