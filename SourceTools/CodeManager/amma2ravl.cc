@@ -43,7 +43,7 @@ static bool CheckDirectory(StringC &dir,DefsMkFileC &defs) {
       cerr << "Failed to load file '" << fn << "'\n";
       continue;
     }
-    theFile.GlobalSubst("\"amma/PThread/","\"Ravl/Threads/");
+    theFile.GlobalSubst("\"amma/StdType.hh\"","\"Ravl/Types.hh\"");
     theFile.GlobalSubst("\"amma/DeadLine.hh\"","\"Ravl/OS/DeadLineTimer.hh\"");
     theFile.GlobalSubst("\"amma/RCHandle.hh\"","\"Ravl/RefCounter.hh\"");
     theFile.GlobalSubst("\"amma/Filename.hh\"","\"Ravl/OS/Filename.hh\"");
@@ -58,11 +58,11 @@ static bool CheckDirectory(StringC &dir,DefsMkFileC &defs) {
     theFile.GlobalSubst("\"amma/StdTypes.hh\"","\"Ravl/Types.hh\"");
     theFile.GlobalSubst("\"amma/PThread/MsgPipe.hh\"","\"Ravl/Threads/MessageQueue.hh\"");
     theFile.GlobalSubst("\"amma/PThread/MsgPipe.hh\"","\"Ravl/Threads/MessageQueue.hh\"");
+    theFile.GlobalSubst("\"amma/PThread/","\"Ravl/Threads/");
     theFile.GlobalSubst("\"amma/Date.hh\"","\"Ravl/OS/Date.hh\"");
     theFile.GlobalSubst("\"amma/ImageIter.hh\"","\"Ravl/Array2dIter.hh\"");
     theFile.GlobalSubst("\"amma/Image2Iter.hh\"","\"Ravl/Array2dIter2.hh\"");
     theFile.GlobalSubst("\"amma/Image3Iter.hh\"","\"Ravl/Array2dIter3.hh\"");
-    
     
     if(guiUpdates) {
       theFile.GlobalSubst("GUIDEBUG","DODEBUG");
