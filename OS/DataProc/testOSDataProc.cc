@@ -13,6 +13,9 @@
 
 #include "Ravl/DP/ThreadPipe.hh"
 #include "Ravl/DP/MTIOConnect.hh"
+#include "Ravl/DP/Blackboard.hh"
+#include "Ravl/BufStream.hh"
+#include "Ravl/BinStream.hh"
 
 using namespace RavlN;
 
@@ -20,10 +23,15 @@ template class DPThreadPipeC<IntT,IntT>;
 template class DPMTIOConnectC<IntT>;
 
 int testThreadPipe();
+int testBlackboard();
 
 int main() {
   int ln;
   if((ln = testThreadPipe()) != 0) {
+    cerr << "Error on line " << ln << "\n";
+    return 1;
+  }
+  if((ln = testBlackboard()) != 0) {
     cerr << "Error on line " << ln << "\n";
     return 1;
   }
@@ -32,6 +40,35 @@ int main() {
 }
 
 int testThreadPipe() {
+  cerr << "testThreadPipe() Called. \n";
   //...
+  return 0;
+}
+
+int testBlackboard() {
+  cerr << "testBlackboard() Called. \n";
+  BlackboardC bb(true);
+  IntT bval = 1;
+  bb.Put("Hello",bval);
+  IntT ival = 0;
+  if(!bb.Get("Hello",ival)) return __LINE__;
+  if(ival != (IntT) bval) return __LINE__;
+  
+  cerr << "Saving blackboard. \n";
+  BufOStreamC bos;
+  {
+    BinOStreamC os(bos);
+    os << bb;
+  }
+  cerr << "Loading blackboard. \n";
+  BufIStreamC bis(bos.Data());
+  BinIStreamC is(bis);
+  BlackboardC bb2;
+  is >> bb2;
+  cerr << "Done.. \n";
+  ival = 0;
+  if(!bb2.Get("Hello",ival)) return __LINE__;
+  if(ival != (IntT) bval) return __LINE__;
+  
   return 0;
 }
