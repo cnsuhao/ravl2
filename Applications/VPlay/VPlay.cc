@@ -189,7 +189,7 @@ int doVPlay(int nargs,char *args[])
   }
     
   OptionC option(nargs,args,true);
-  IntT N(option.Int("nf",-1, "Max no. of frames read"));
+  IntT noOfFrames(option.Int("nf",-1, "Max no. of frames read"));
   IntT start(option.Int("sf", -1, " Start at nth frame"));
   //IntT digits = option.Int("d",3,"Digits in filename. ");
   //IntT scale = option.Int("s",1,"Scale image. ");
@@ -235,9 +235,7 @@ int doVPlay(int nargs,char *args[])
     if(start < 0)
       start = 0;
   }
-  UIntT endFrame = N;
-  if(N != -1)
-    endFrame += start;
+  UIntT endFrame = (noOfFrames<0) ? -1 : start + noOfFrames - 1;
   
   if(deinterlace) 
     vidIn = DeinterlaceStreamC<ByteRGBValueC>(vidIn);
