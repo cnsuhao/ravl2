@@ -61,36 +61,5 @@ namespace RavlN {
     // default is to do nothing to the matrix/vector
     return true;
   }
-
-  //: Get observation vector
-  const VectorC& ObsVectorBodyC::GetZ() const
-  {
-    return z;
-  }
-
-  //: Get observation inverse covariance
-  const MatrixRSC& ObsVectorBodyC::GetNi() const
-  {
-    return Ni;
-  }
-
-  //: Set element of observation vector
-  bool ObsVectorBodyC::SetElZ(IntT el, RealT val)
-  {
-    z[el] = val;
-    return true;
-  }
-
-  //: Set element of observation inverse covariance
-  bool ObsVectorBodyC::SetElNi(IntT row, IntT col, RealT val)
-  {
-    Ni[row][col] = val;
-    return true;
-  }
-
-  //: Get step sizes for numerical differentiation
-  const VectorC& ObsVectorBodyC::GetZStep() const
-  {
-    return zstep;
-  }
+  
 }

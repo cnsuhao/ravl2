@@ -45,40 +45,4 @@ namespace RavlN {
     RavlAssertMsg(0,"ObservationBodyC::GetNumConstraints() const, Abstract method called ");
     return 0;
   }
-
-  //: Get observation vector
-  const VectorC& ObservationBodyC::GetZ() const
-  {
-    return obs_vec.GetZ();
-  }
-
-  //: Get observation inverse covariance
-  const MatrixRSC& ObservationBodyC::GetNi() const
-  {
-    return obs_vec.GetNi();
-  }
-
-  //: Get observation vector/inverse covariance object
-  const ObsVectorC& ObservationBodyC::GetObsVec() const
-  {
-    return obs_vec;
-  }
-
-  //: Return observation "selected" flag
-  bool ObservationBodyC::GetSelected() const
-  {
-    return selected;
-  }
-  
-  //: Set the "selected" flag to true
-  void ObservationBodyC::SetSelected()
-  {
-    selected = true;
-  }
-
-  //: Set the "selected" flag to false
-  void ObservationBodyC::SetUnSelected()
-  {
-    selected = false;
-  }
 }

@@ -45,19 +45,24 @@ namespace RavlN {
     virtual bool Restore();
     //: Restore values are an aborted modification
 
-    inline const VectorC &GetZ() const;
+    inline const VectorC &GetZ() const
+    { return z; }
     //: Get observation vector
-
-    inline const MatrixRSC &GetNi() const;
+    
+    inline const MatrixRSC &GetNi() const
+    { return Ni; }
     //: Get observation inverse covariance
-
-    inline bool SetElZ(IntT el, RealT val);
+    
+    inline bool SetElZ(IntT el, RealT val)
+    { z[el] = val; return true; }
     //: Set element of observation vector
-
-    inline bool SetElNi(IntT row, IntT col, RealT val);
+    
+    inline bool SetElNi(IntT row, IntT col, RealT val)
+    { Ni[row][col] = val; return true; }
     //: Set element of observation inverse covariance
-
-    inline const VectorC &GetZStep() const;
+    
+    inline const VectorC &GetZStep() const
+    { return zstep; }
     //: Get step sizes for numerical differentiation
 
   protected:

@@ -48,20 +48,21 @@ namespace RavlN {
     inline const VectorC &GetXStep() const
     { return xstep; }
     //: Get step sizes for numerical differentiation
-
-    inline const VectorC &GetX() const;
+    
+    inline const VectorC &GetX() const
+    { return x; }
     //: Get state vector
 
-    inline bool SetX(VectorC &xnew);
+    bool SetX(VectorC &xnew);
     //: Set state vector
 
-    inline bool IncX(VectorC &xinc);
+    bool IncX(VectorC &xinc);
     //: Increment state vector
 
-    inline bool IncElX(IntT index, RealT val);
+    bool IncElX(IntT index, RealT val);
     //: Increment element of state vector
-
-    inline bool DecElX(IntT index, RealT val);
+    
+    bool DecElX(IntT index, RealT val);
     //: Decrement element of state vector
 
   protected:

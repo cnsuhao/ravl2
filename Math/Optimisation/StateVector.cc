@@ -34,13 +34,7 @@ namespace RavlN {
     // copy step sizes
     xstep = nxstep.Copy();
   }
-
-  //: Get state vector
-  const VectorC& StateVectorBodyC::GetX() const
-  {
-    return x;
-  }
-
+  
   //: Set state vector
   bool StateVectorBodyC::SetX(VectorC &xnew)
   {
