@@ -203,8 +203,8 @@ namespace RavlGUIN {
     }
     ONDEBUG(cerr << "CanvasBodyC::GUIDrawImage(), Rendering image. \n");
     Index2dC off = ioffset + img.Rectangle().Origin();    
-    int atx = off.Row().V();
-    int aty = off.Col().V();
+    int atx = off.Col().V(); // Convert between RAVL and GTK co-ordinates...
+    int aty = off.Row().V();
     gdk_draw_gray_image(DrawArea(),
 			widget->style->black_gc,
 			atx,aty,
