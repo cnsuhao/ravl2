@@ -56,7 +56,7 @@ namespace RavlN {
     // returns the count of the bin after unvoting.
     
     UIntT Total() const
-      { return total; }
+    { return total; }
     //: Sum of all the bins.
     
     RealT Information() const;
@@ -73,7 +73,13 @@ namespace RavlN {
     //: Return key with largest difference between this and 'oth'.
     // Returns the number of keys with an equal difference count. <p>
     // The key is assigned to lKey, and the maximum difference to ldiff.
-
+    
+    IntT Peak(KeyT &key);
+    //: Find key with largest number of votes.
+    // Returns the margin to the next largest key
+    // If -1 is returned no peak was found, the table was empty or
+    // all count were zero.
+    
     UIntT Size() const
     { return HashC<KeyT,UIntC>::Size(); }
     //: Number of key's in the histogram.
@@ -114,10 +120,6 @@ namespace RavlN {
     return ret;
   }
   
-  //: Return key with largest difference between this and 'oth'.
-  // Returns the number of keys with an equal difference count. <p>
-  // The key is assigned to lKey, and the maximum difference to ldiff.
-  
   template<class KeyT>
   UIntT HistogramC<KeyT>::LargestDifference(const HistogramC<KeyT> &oth,KeyT &lKey,IntT &ldiff) {
     IntT maxDiff = -1;
@@ -154,7 +156,21 @@ namespace RavlN {
     ldiff = maxDiff;
     return matchCount;
   }
-
+  
+  template<class KeyT>
+  IntT HistogramC<KeyT>::Peak(KeyT &key) {
+    IntT diff = -1;
+    UIntT max = 0;
+    for(HashIterC<KeyT,UIntC> it(*this);it;it++) {
+      if(*it > max) {
+	diff = *it - max;
+	key = it.Key();
+      } else if(*it == max)
+	diff = 0; // More than one key with this count.
+    }
+    return diff;
+  }
+  
 }
 
 #endif
