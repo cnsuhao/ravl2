@@ -106,7 +106,7 @@ namespace RavlN {
     
     bool GotExitCode(int code);
     //: Call if you get the exit code from OSProcessC::WaitForChild()
-    // Returns TRUE as ExitedOk().
+    // Returns true as ExitedOk().
     
   protected:
     bool Exec(StringListC args,int infd,int outfd,int errfd);
@@ -129,7 +129,7 @@ namespace RavlN {
     
     bool CheckExit(bool block = false);
     //: Check exit status of child.
-    // Returns TRUE if child has exited, and false if
+    // Returns true if child has exited, and false if
     // is still running or was never run.
     
     IStreamC pstdout;
@@ -155,12 +155,12 @@ namespace RavlN {
     
     ChildOSProcessC(StringC cmd,bool useStdOut = false,bool useStdErr = false,bool useStdIn = false);
     //: Start a child process.
-    // if useStdOut, useStdErr or useStdIn is TRUE, the matching channel
+    // if useStdOut, useStdErr or useStdIn is true, the matching channel
     // of the child process is connect to the appropriate stream.
     
     ChildOSProcessC(StringC cmd,FilenameC out,bool redirectStderr = false,bool useStdIn = false);
     //: Start a child process.
-    // Send output to file 'out', if redirectStderr is TRUE send
+    // Send output to file 'out', if redirectStderr is true send
     // stderr there too. 
     
   protected:
@@ -230,7 +230,7 @@ namespace RavlN {
     //: Close the processes politely but firmly.
     // This first sends a SIGQUIT, then after maxDelay if the process
     // hasn't exited in sends a SIGTERM.  It will wait upto another maxDelay seconds
-    // if the process doesn't terminate, then return false if failed TRUE if
+    // if the process doesn't terminate, then return false if failed true if
     // terminated.
   };
 
