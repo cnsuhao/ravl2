@@ -285,12 +285,19 @@ namespace RavlN {
     }
     
     {
+      StringC conHost,conPort;
+      if(!ostrm.GetAttr("ConnectedHost",conHost))
+        conHost = "Unknown";
+      if(!ostrm.GetAttr("ConnectedPort",conPort))
+        conPort = "Unknown";
+      
       int maxRetry = 45 * 2;
       // Wait still we got a stream header from peer 
       while(--maxRetry > 0 && !shutdown) {
 	if(gotStreamType.Wait(0.5))
 	  break;
-	SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunTransmit(), Waiting for connect... ";
+        
+	SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunTransmit(), Waiting for connect from " << conHost << ":" << conPort << " ";
 	int zeroPacket = 0;
 	if(ostrm.Write((char *) &zeroPacket,sizeof(int)) != sizeof(int)) {
 	  SysLog(SYSLOG_ERR) << "NetEndPointBodyC::RunTransmit(), ERROR: Failed to write idle packet. ";
