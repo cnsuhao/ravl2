@@ -9,9 +9,9 @@
 
 PACKAGE=Ravl/DP
 
-HEADERS=FileSequence.hh SequenceIO.hh
+HEADERS=FileSequence.hh SequenceIO.hh FileListIO.hh
 
-SOURCES=FileSequence.cc SequenceIO.cc
+SOURCES=FileSequence.cc SequenceIO.cc FileListIO.cc
 
 PLIB=RavlOSIO
 
