@@ -32,7 +32,8 @@ namespace RavlGUIN {
       refreshQueued(false),
       vRuler(true),
       hRuler(false),
-      offset(0,0)
+      offset(0,0),
+      lastMousePos(-1000,-1000)
   {}
   
   //: Create the widget.
@@ -73,9 +74,9 @@ namespace RavlGUIN {
     TableBodyC::AddObject(hRuler,1,2,0,1,(GtkAttachOptions) (GTK_EXPAND|GTK_SHRINK|GTK_FILL),GTK_FILL);
     TableBodyC::AddObject(vSlider,2,3,1,2,GTK_FILL,(GtkAttachOptions) (GTK_EXPAND|GTK_SHRINK|GTK_FILL));
     TableBodyC::AddObject(hSlider,1,2,2,3,(GtkAttachOptions) (GTK_EXPAND|GTK_SHRINK|GTK_FILL),GTK_FILL);
-    TableBodyC::AddObject(HBox(Label(" Row=") + PackInfoC(xpos,false,false) +
-			       Label(" Col=") + PackInfoC(ypos,false,false) + 
-			       Label(" Info:") + PackInfoC(info,true,true)),
+    TableBodyC::AddObject(HBox(PackInfoC(Label(" Row="),false,false) + PackInfoC(xpos,false,false) +
+			       PackInfoC(Label(" Col="),false,false) + PackInfoC(ypos,false,false) + 
+			       PackInfoC(Label("  Value="),false,false) + PackInfoC(info,true,false)),
 			  0,3,3,4,
 			  (GtkAttachOptions)(GTK_FILL),
 			  (GtkAttachOptions)(GTK_FILL));
@@ -142,6 +143,7 @@ namespace RavlGUIN {
       it->Draw(*this);
     hold.Unlock();
     UpdateSlider();
+    UpdateInfo(lastMousePos);
     return true;
   }
 
@@ -236,8 +238,18 @@ namespace RavlGUIN {
   
   bool DPDisplayViewBodyC::CallbackMouseMotion(MouseEventC &mouseEvent) {
     Vector2dC pos(mouseEvent.X(),mouseEvent.Y());
-    pos += offset;
     //ONDEBUG(cerr << "DPDisplayViewBodyC::CallbackMouseMotion(), Called. Posision=" << pos <<"\n");
+    UpdateInfo(pos);
+    lastMousePos = pos;
+    return true;
+  }
+  
+  //: Update info for mouse position.
+  
+  bool DPDisplayViewBodyC::UpdateInfo(const Vector2dC &at) {
+    if(at[0] < 0 || at[1] < 0)
+      return false;
+    Vector2dC pos = at+ offset;
     StringC rowps((int) pos[0]);
     StringC colps((int) pos[1]);
     xpos.Label(colps);
@@ -247,6 +259,6 @@ namespace RavlGUIN {
     info.Label(infos);
     return true;
   }
-  
+
 
 }

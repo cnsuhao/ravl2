@@ -88,6 +88,9 @@ namespace RavlGUIN {
     bool CallbackMouseMotion(MouseEventC &mouseEvent);
     //: Call back for mouse movements in the window.
     
+    bool UpdateInfo(const Vector2dC &at);
+    //: Update info for mouse position.
+    
     IndexRange2dC winSize;
     RawCanvasC canvas;
     RWLockC lockDisplayList;
@@ -100,6 +103,8 @@ namespace RavlGUIN {
     
     Vector2dC offset;
     IndexRange2dC displaySize; // Size of displayable objects.
+    
+    Vector2dC lastMousePos;
     
     friend class DPDisplayViewC;
   };
