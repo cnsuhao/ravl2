@@ -11,6 +11,7 @@
 #include "Ravl/StateVectorAffine2d.hh"
 #include "Ravl/ObservationAffine2dPoint.hh"
 #include "Ravl/Vector3d.hh"
+#include "Ravl/LeastSquares.hh"
 
 namespace RavlN {
 
@@ -48,9 +49,15 @@ namespace RavlN {
       A[i*2+1][5] = 1;
       b[i*2+1] = y2;
     }
-    // solve for solution vector
-    if(!SolveIP(A,b))
-      throw ExceptionNumericalC("Dependent linear equations in FitAffine2dPointsBodyC::FitModel(DListC<ObservationC>). ");
+    if(A.Rows() == A.Cols()) {
+      // solve for solution vector
+      if(!SolveIP(A,b))
+	throw ExceptionNumericalC("Dependent linear equations in FitAffine2dPointsBodyC::FitModel(DListC<ObservationC>). ");
+    } else {
+      RealT residual;
+      if(!LeastSquaresQR_IP(A,b,residual))
+	throw ExceptionNumericalC("Dependent linear equations in FitAffine2dPointsBodyC::FitModel(DListC<ObservationC>). ");
+    }
     
     return StateVectorAffine2dC(b);
   }
