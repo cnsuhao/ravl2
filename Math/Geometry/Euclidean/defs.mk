@@ -9,7 +9,7 @@
 
 PACKAGE=Ravl
 
-NESTED=2D.r 3D.r
+NESTED=2D.r 3D.r Boundary.r
 
 HEADERS=FPoint.hh Point2d.hh Point4d.hh FAffine.hh
 
