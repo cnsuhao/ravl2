@@ -74,9 +74,8 @@ namespace RavlN {
     D[0] = lambda1;
     D[1] = lambda2;
     
-    Vector2dC pd = u1.Perpendicular();
-    E = Matrix2dC(u1[0],pd[0],
-		  u1[1],pd[1]);
+    E = Matrix2dC(u1[0],-u1[1],
+		  u1[1],u1[0]);
   }
   
 }
