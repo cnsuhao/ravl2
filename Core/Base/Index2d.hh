@@ -63,17 +63,17 @@ namespace RavlN {
     // ----------------------------------------------
     
     inline Index2dC();
-    // Creates index <0, 0>.
-
+    //: Creates index <0, 0>.
+    
     inline Index2dC(const FIndexC<2> &oth)
       : FIndexC<2>(oth)
       {}
-    // Creates index from its base class.
+    //: Creates index from its base class.
     
     inline Index2dC(const TFVectorC<IndexC,2> &oth)
       : FIndexC<2>(oth)
       {}
-    // Creates index from its base class.
+    //: Creates index from its base class.
     
     explicit inline Index2dC(SizeT dim)
       { RavlAssert(dim == 2); }
@@ -82,139 +82,134 @@ namespace RavlN {
     // need to be told there dimentionality.
     
     inline Index2dC(IndexC row, IndexC column);
-    // Creates index <row, column>.
+    //: Creates index <row, column>.
     
     // Object modification
     // -------------------
     
     inline void Set(IndexC r, IndexC c);
-    // Sets this index to be <r,c>.
+    //: Sets this index to be <r,c>.
     
     Index2dC & Step(const DirectionRLUDC & dir);
-    // Translates the index into direction 'dir'.
+    //: Translates the index into direction 'dir'.
     
     inline Index2dC Swapped() const;
-    // Returns the 2-dimensional index with swapped value I() and J().
+    //: Returns the 2-dimensional index with swapped value I() and J().
 
     inline Index2dC & Abs();
-    // Changes both indexes to their absolute values.
+    //: Changes both indexes to their absolute values.
 
-    // Access to the member items
-    // ----------------------------
-
+    //:----------------------------
+    //: Access to the member items
+    
     inline const IndexC & Row() const
       { return data[0]; }
-    // Constant access to the row index
+    //: Constant access to the row index
 
     inline const IndexC & Col() const
       { return data[1]; }
-    // Constant access to the column index
+    //: Constant access to the column index
 
     inline IndexC & Row()
       { return data[0]; }
-    // Access to the row index
+    //: Access to the row index
 
     inline IndexC & Col()
       { return data[1]; }
-    // Access to the column index
+    //: Access to the column index
       
-    // Logical conditions
-    // ------------------
+    //:------------------
+    //: Logical conditions
     
     bool IsInside(const IndexRange2dC & range) const;
-    // Returns TRUE, if this index is in the 'range'.
+    //: Returns TRUE, if this index is in the 'range'.
     
     inline bool IsMoreUpperLeft(const Index2dC & i) const;
-    // Returns TRUE, if Row() < i.Row() or 
-    // (Row() == i.Row() and Col() < i.Col()).
+    //: Returns TRUE, if Row() < i.Row() or 
+    //: (Row() == i.Row() and Col() < i.Col()).
 
     inline bool operator<(const Index2dC & i) const;
-    // A nick name for the member function IsMoreUpperLeft(i).
+    //: A nick name for the member function IsMoreUpperLeft(i).
 
-    // Operations on the neighbourhood
-    // -------------------------------
+    //:-------------------------------
+    //: Operations on the neighbourhood
 
     inline Index2dC & Right();
-    // Shifts the index to the right.
+    //: Shifts the index to the right.
 
     inline Index2dC & Left();
-    // Shifts the index to the left.
+    //: Shifts the index to the left.
 
     inline Index2dC & Up();
-    // Shifts the index to the up.
+    //: Shifts the index to the up.
 
     inline Index2dC & Down();
-    // Shifts the index to the down.
+    //: Shifts the index to the down.
 
     inline Index2dC RightN() const;
-    // Returns the index of the right neighbour.
+    //: Returns the index of the right neighbour.
 
     inline Index2dC LeftN() const;
-    // Returns the index of the left neighbour.
+    //: Returns the index of the left neighbour.
 
     inline Index2dC UpN() const;
-    // Returns the index of the upper neighbour.
+    //: Returns the index of the upper neighbour.
 
     inline Index2dC DownN() const;
-    // Returns the index of the down neighbour.
+    //: Returns the index of the down neighbour.
 
     inline Index2dC LowerLeftN() const;
-    // Returns the coordinates of the downleft neighbouring pixel 
+    //: Returns the coordinates of the downleft neighbouring pixel 
 
     inline Index2dC LowerRightN() const;
-    // Returns the coordinates of the downright neighbouring pixel 
+    //: Returns the coordinates of the downright neighbouring pixel 
 
     inline Index2dC UpperLeftN() const;
-    // Returns the coordinates of the upperleft neighbouring pixel 
+    //: Returns the coordinates of the upperleft neighbouring pixel 
 
     inline Index2dC UpperRightN() const;
-    // Returns the coordinates of the upperright neighbouring pixel 
+    //: Returns the coordinates of the upperright neighbouring pixel 
 
     inline Index2dC Neighbour(const DirectionRLUDC & dir) const;
-    // Returns the index of the neighbour in the direction 'dir'.
+    //: Returns the index of the neighbour in the direction 'dir'.
 
     inline bool IsRelNeighbour8() const;
-    // Is '*this' a relative index from 8-neighbourhood?
+    //: Is '*this' a relative index from 8-neighbourhood?
 
     inline bool IsNeighbour8(const Index2dC & pxl) const;
-    // Is the 'pxl' a neighbouring index of '*this'?
+    //: Is the 'pxl' a neighbouring index of '*this'?
 
     inline Index2dC Neighbour(const NeighbourOrderT neighOrder) const;
-    // Returns the coordinates of the neighbouring index. 
+    //: Returns the coordinates of the neighbouring index. 
 
     IndexC NeighbourOrder() const;
-    // Returns the order of the relative index.
+    //: Returns the order of the relative index.
 
     IndexC NeighbourOrder(const Index2dC & ind) const;
-    // Returns the order of the neighbouring index 'ind'.
+    //: Returns the order of the neighbouring index 'ind'.
 
 
-    // Distance calculations
-    // ---------------------
+    //:---------------------
+    //: Distance calculations
     
     inline UIntT SumSqr() const;
-    // Returns the sum of coordinate squares.
+    //: Returns the sum of coordinate squares.
     
     inline UIntT Distance(const Index2dC & i, GridMetricT m) const;
-    // Returns the distance of two indexes in the specified metric 'm'.
+    //: Returns the distance of two indexes in the specified metric 'm'.
     
-    // Special member functions
-    // ------------------------
+    //:------------------------
+    //: Special member functions
     
     inline 
       IntT Area2(const Index2dC & second, const Index2dC & third) const;
     // Returns twice the signed area of the triangle determined
     // by this, the second, and the third points. Positive if 'this',
     // 'second', 'third' are oriented counter-clockwise, and negative if
-    // clockwise.
+    // clockwise. <p>
     // Ref.: -  O'Rourke,J.: Computatinal geometry in C;
     //          Cambridge University Press, 1994, pp. 19-20
     
-  private:
-
-    // Object representation
-    // ---------------------
-
   };
   
   inline

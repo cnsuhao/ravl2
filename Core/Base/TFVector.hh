@@ -57,9 +57,15 @@ namespace RavlN {
     // Copy values from 'init'. It is the user's responsibility
     // to ensure that data has at least 'N' elements. 
     
+    TFVectorC(UIntT size)
+      { RavlAssert(size == N); }
+    //: This constructor is for compatibility with arbitrarily sized vectors.
+    // Used by some templates.
+    
     UIntT Size() const
       { return N; }
     //: Get size of array
+    // Used by some templates.
     
     bool Contains(UIntT i) const
       { return i < N; }

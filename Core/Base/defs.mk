@@ -26,7 +26,7 @@ SOURCES=Assert.cc Exception.cc EntryPnt.cc Index.cc String.cc \
  MTLocks.cc StreamType.cc Stream.cc StrStream.cc BinStream.cc \
  BitStream.cc IndexRange1d.cc IndexRange2d.cc \
  Index2d.cc Index3d.cc IntC.cc StdConst.cc RCAbstract.cc \
- BinString.cc RCWrap.cc IndexRange3d.cc
+ BinString.cc RCWrap.cc IndexRange3d.cc Math.cc
 
 PLIB=RavlCore
 

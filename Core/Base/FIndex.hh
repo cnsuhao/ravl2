@@ -149,7 +149,7 @@ namespace RavlN {
   inline 
   UIntT FIndexC<N>::Hash() const  { 
     UIntT HVal = data[0].V();
-    for(IntT i = 1;i < N;i++) { 
+    for(UIntT i = 1;i < N;i++) { 
       HVal += ((UIntT) data[i].V());
       HVal ^= data[i].V() << (i * (sizeof(IndexC) * 2));
     }
