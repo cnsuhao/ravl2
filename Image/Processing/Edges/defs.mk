@@ -22,4 +22,6 @@ SOURCES=EdgeSobel.cc EdgeDeriche.cc SqrComposition.cc \
 
 PLIB=RavlImageProc
 
+LIBDEPS=RavlImageEdges.def
+
 USESLIBS=RavlImage RavlThreads
