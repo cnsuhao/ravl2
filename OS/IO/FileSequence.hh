@@ -62,7 +62,7 @@ namespace RavlN {
     // May return ((UIntT) (-1)) if not implemented.
     
     virtual UIntT Start() const
-      { return start; }
+    { return start; }
     //: Find the offset where the stream begins, normally zero.
     
     FilenameC Filename() const;
@@ -87,7 +87,7 @@ namespace RavlN {
     //: Get filename, and increment counter.
     
     bool IsElm() const
-      { return no <= end; }
+    { return no <= end; }
     //: Check we're at a valid place in the sequence.
     
     UIntT FrameNo() const { return no; }
@@ -106,6 +106,15 @@ namespace RavlN {
     bool ProbeFormat(FilenameC rootFn);
     //: See if we can find the format.
     // Returns false if fail.
+    
+    bool HasHoles() const
+    { return hasHoles; }
+    //: Does sequence have holes ?
+    // This will only be detected during the playing of a sequence.
+    
+    void HasHoles(bool ahole) const
+    { return hasHoles = ahole; }
+    //: Does sequence have holes ?
     
   protected:
     bool ProbeExample(FilenameC rootFn);
@@ -136,6 +145,8 @@ namespace RavlN {
     StringC templateFile;
     StringC subst; // Number pattern
     bool ok; // File sequence setup ok ?
+    
+    bool hasHoles; // Are there files missing from the sequence.
   };
   
   //! userlevel=Normal
@@ -147,59 +158,68 @@ namespace RavlN {
   public:
     DPFileSequenceBaseC(StringC fn,UIntT start = ((UIntT) -1),UIntT end = ((UIntT) -1),IntT digits = -1,bool forLoad = true)
       : DPEntityC(*new DPFileSequenceBaseC(fn,start,end,digits,forLoad))
-      {}
+    {}
     //: Constructor.
     // If 'fn' is an empty string, ProbeFormat must be called later.
     
     DPFileSequenceBaseC()
       : DPEntityC(true)
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     
   protected:
     DPFileSequenceBaseBodyC &Body() 
-      { return dynamic_cast<DPFileSequenceBaseBodyC &>(DPEntityC::Body()); }
+    { return dynamic_cast<DPFileSequenceBaseBodyC &>(DPEntityC::Body()); }
     //: Access body.
     
     const DPFileSequenceBaseBodyC &Body() const
-      { return dynamic_cast<const DPFileSequenceBaseBodyC &>(DPEntityC::Body()); }
+    { return dynamic_cast<const DPFileSequenceBaseBodyC &>(DPEntityC::Body()); }
     //: Access body.
     
   public:
     bool ProbeFormat(FilenameC rootFn)
-      { return Body().ProbeFormat(rootFn); }
+    { return Body().ProbeFormat(rootFn); }
     //: See if we can find the format.
     // Returns false if fail.
     
     inline FilenameC Filename() const
-      { return Body().Filename(); }
+    { return Body().Filename(); }
     //: Get the filename of the current file.
     
     inline UIntT FrameNo() const 
-      { return Body().FrameNo(); }
+    { return Body().FrameNo(); }
     //: Get current frame no.
     
     inline UIntT FrameStart() const 
-      { return Body().FrameStart(); }
+    { return Body().FrameStart(); }
     //: Get start frame no.
     
     inline UIntT FrameEnd() const 
-      { return Body().FrameEnd(); }
+    { return Body().FrameEnd(); }
     //: Get final frame no.
     // ((UIntT) -1) is given if not known.
     
     inline FilenameC NextName() 
-      { return Body().NextName(); }
+    { return Body().NextName(); }
     //: Get next filename, then increment counter.
     
     bool IsElm() const
-      { return Body().IsElm(); }
+    { return Body().IsElm(); }
     //: Check we're at a valid place in the sequence.
     
     bool IsOk() const 
-      { return Body().IsOk(); }
+    { return Body().IsOk(); }
     //: Is the file sequence setup ok ?
+
+    bool HasHoles() const
+    { return Body().HasHoles(); }
+    //: Does sequence have holes ?
+    // This will only be detected during the playing of a sequence.
+    
+    void HasHoles(bool ahole) const
+    { Body().HasHoles(ahole); }
+    //: Set flag indicating if a sequence has holes.
     
   };
   
@@ -213,7 +233,7 @@ namespace RavlN {
   {
   public:
     DPIFileSequenceBodyC()
-      {}
+    {}
     //: Default constructor.
     
     DPIFileSequenceBodyC(StringC fn,UIntT start = ((UIntT) -1),UIntT end = ((UIntT) -1),IntT digits = -1);
@@ -250,49 +270,49 @@ namespace RavlN {
   public:
     DPIFileSequenceC()
       : DPEntityC(false)
-      {}
+    {}
     //: Default constructor.
     // This creates an invalid handle.
     
     DPIFileSequenceC(StringC fn,UIntT start = ((UIntT) -1),UIntT end = ((UIntT) -1),IntT digits = -1)
       : DPEntityC(*new DPIFileSequenceBodyC(fn,start,end,digits))
-      {}
+    {}
     //: Constructor.
     
     DPIFileSequenceC(const DPEntityC &obj)
       : DPEntityC(obj)
-      {
-	if(dynamic_cast<const DPIFileSequenceBodyC *>(&obj.Body()) == 0)
-	  Invalidate();
-      }
+    {
+      if(dynamic_cast<const DPIFileSequenceBodyC *>(&obj.Body()) == 0)
+	Invalidate();
+    }
     //: Create form an DPEntityC handle.
     
   protected:
     DPIFileSequenceC(DPIFileSequenceC &bod)
       : DPEntityC(bod)
-      {}
+    {}
     //: Body constructor.
     
     DPIFileSequenceBodyC &Body() 
-      { return dynamic_cast<DPIFileSequenceBodyC &>(DPEntityC::Body()); }
-  //: Access body.
+    { return dynamic_cast<DPIFileSequenceBodyC &>(DPEntityC::Body()); }
+    //: Access body.
     
     const DPIFileSequenceBodyC &Body() const
-      { return dynamic_cast<const DPIFileSequenceBodyC &>(DPEntityC::Body()); }
+    { return dynamic_cast<const DPIFileSequenceBodyC &>(DPEntityC::Body()); }
     //: Access body.
     
   public:
     
     inline DPIPortBaseC Setup(FileFormatDescC &desc)
-      { return Body().Setup(desc); }
+    { return Body().Setup(desc); }
     //: Setup for a specific file type.
     
     inline FileFormatBaseC &Format() 
-      { return Body().Format(); }
+    { return Body().Format(); }
     //: Access files format.
     
     inline const type_info &LoadType() const 
-      { return Body().LoadType(); }
+    { return Body().LoadType(); }
     //: Type of class to load.
     
   };
@@ -307,7 +327,7 @@ namespace RavlN {
   {
   public:
     DPOFileSequenceBodyC()
-      {}
+    {}
     //: Default constructor.
     
     DPOFileSequenceBodyC(StringC fn,UIntT start = ((UIntT) -1),UIntT end = ((UIntT) -1),IntT digits = -1);
@@ -339,49 +359,49 @@ namespace RavlN {
   public:
     DPOFileSequenceC()
       : DPEntityC(false)
-      {}
+    {}
     //: Default constructor.
     // This creates an invalid handle.
     
     DPOFileSequenceC(StringC fn,UIntT start = ((UIntT) -1),UIntT end = ((UIntT) -1),IntT digits = -1)
       : DPEntityC(*new DPOFileSequenceBodyC(fn,start,end,digits))
-      {}
+    {}
     //: Constructor.
     
     DPOFileSequenceC(const DPEntityC &obj)
       : DPEntityC(obj)
-      {
-	if(dynamic_cast<const DPOFileSequenceBodyC *>(&obj.Body()) == 0)
-	  Invalidate();
-      }
+    {
+      if(dynamic_cast<const DPOFileSequenceBodyC *>(&obj.Body()) == 0)
+	Invalidate();
+    }
     //: Create form an DPEntityC handle.
     
   protected:
     DPOFileSequenceC(DPOFileSequenceC &bod)
       : DPEntityC(bod)
-      {}
+    {}
     //: Body constructor.
     
     DPOFileSequenceBodyC &Body() 
-      { return dynamic_cast<DPOFileSequenceBodyC &>(DPEntityC::Body()); }
+    { return dynamic_cast<DPOFileSequenceBodyC &>(DPEntityC::Body()); }
     //: Access body.
     
     const DPOFileSequenceBodyC &Body() const
-      { return dynamic_cast<const DPOFileSequenceBodyC &>(DPEntityC::Body()); }
+    { return dynamic_cast<const DPOFileSequenceBodyC &>(DPEntityC::Body()); }
     //: Access body.
     
   public:
     
     inline DPOPortBaseC Setup(FileFormatDescC &desc)
-      { return Body().Setup(desc); }
+    { return Body().Setup(desc); }
     //: Setup for a specific file type.
     
     inline FileFormatBaseC &Format() 
-      { return Body().Format(); }
+    { return Body().Format(); }
     //: Access files format.
     
     inline const type_info &SaveType() const 
-      { return Body().SaveType(); }
+    { return Body().SaveType(); }
     //: Type of class to load.
     
   };

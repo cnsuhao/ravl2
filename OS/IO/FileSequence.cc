@@ -533,14 +533,26 @@ namespace RavlN {
     DPOFileSequenceC fs(hold);
     //ONDEBUG(cerr << "DPOFileSequenceBodyC::AuxFunction(), Called. File:'" << fs.Filename() << "'  Fmt:" << fs.Format().Name() << "\n");
     RavlAssert(fs.IsValid());
+    FilenameC nextName;
     
-    // Check for end of stream...
-    if(!fs.IsElm()) {
-      auxFun.SetStreamStatus(false,false);
-      auxFun.SetOutput(DPOPortBaseC());
-      return true; // Its normal to get to the end of a sequence.
-    }
-    StringC nextName = fs.NextName();
+    do {
+      // Check for end of stream...
+      if(!fs.IsElm()) {
+	auxFun.SetStreamStatus(false,false);
+	auxFun.SetOutput(DPOPortBaseC());
+	return true; // Its normal to get to the end of a sequence.
+      }
+      nextName = fs.NextName();
+      if(!nextName.Exists()) {
+	if(!fs.HasHoles()) {
+	  cerr << "WARNING: File sequence is incomplete, missing '" << nextName << "'. \n";
+	  cerr << " Further missing file on this sequence will be silently skipped. \n";
+	  fs.HasHoles(true);
+	}
+	continue;
+      }
+    } while(0) ;
+    
     DPOPortBaseC ipb = fs.Format().CreateOutput(nextName,fs.SaveType());
     if(!ipb.IsValid()) {
       cerr << "DPOFileSequenceBodyC::AuxFunction(), Failed to create output '" << nextName << "' of type " << TypeName(fs.SaveType()) << " \n";
