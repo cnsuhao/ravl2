@@ -60,6 +60,14 @@ namespace RavlN {
 
   ///////////////
   
+  inline UIntT StdHash(bool dat) 
+  { return (UIntT) dat; }
+  
+  inline short StdCopy(bool x)
+  { return x; }
+  
+  ///////////////
+  
   inline UIntT StdHash(const unsigned short dat) 
   { return (UIntT) (dat >> 7) ^ dat; }
   
