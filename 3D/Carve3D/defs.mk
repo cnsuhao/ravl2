@@ -10,4 +10,4 @@ HEADERS=VoxelSet.hh VoxelCameraLookup.hh VoxelCarve.hh PointSet.hh VoxelSurfaceP
 SOURCES=VoxelSet.cc VoxelCameraLookup.cc VoxelCarve.cc PointSet.cc VoxelSurfacePoints.cc
 PLIB=RavlCarve3D
 USESLIBS=RavlCore RavlMath RavlImage RavlCameraCal
-
+EHT=Ravl.3D.Carve3D.html
