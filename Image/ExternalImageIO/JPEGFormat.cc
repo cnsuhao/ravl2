@@ -6,11 +6,9 @@
 // file-header-ends-here
 //////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! lib=ExtImgIO
+//! lib=RavlExtImgIO
 //! file="Ravl/Image/ExternalImageIO/JPEGFormat.cc"
 
-
-#include "Ravl/Image/ImgIOCif.hh"
 #include "Ravl/TypeName.hh"
 #include "Ravl/Image/JPEGFormat.hh"
 #include "Ravl/Image/ImgIOJPeg.hh"

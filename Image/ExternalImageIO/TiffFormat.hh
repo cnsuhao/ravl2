@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Image/ExternalImageIO/TiffFormat.hh"
-//! lib=ExtImgIO
+//! lib=RavlExtImgIO
 //! author="Charles Galambos"
 //! docentry="Ravl.Images.IO.Formats"
 //! date="29/10/98"

@@ -6,7 +6,7 @@
 // file-header-ends-here
 ////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! lib=ExtImgIO
+//! lib=RavlExtImgIO
 //! file="Ravl/Image/ExternalImageIO/ImgIOTiff.cc"
 
 #include "Ravl/Image/ImgIOTiff.hh"

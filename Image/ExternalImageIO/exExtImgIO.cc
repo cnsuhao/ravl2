@@ -6,7 +6,7 @@
 // file-header-ends-here
 /////////////////////////////////////////////
 //! rcsid="$Id$"
-//! lib=ExtImgIO
+//! lib=RavlExtImgIO
 
 #include "Ravl/Option.hh"
 #include "Ravl/DP/FileFormatIO.hh"

@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Image/ExternalImageIO/ImgIOPNGB.hh"
-//! lib=ExtImgIO
+//! lib=RavlExtImgIO
 //! docentry="Ravl.Images.IO.Formats"
 //! author="Charles Galambos"
 //! userlevel=Develop

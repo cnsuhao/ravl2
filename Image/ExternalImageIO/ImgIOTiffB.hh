@@ -10,7 +10,7 @@
 //! userlevel=Develop
 //! rcsid="$Id$"
 //! file="Ravl/Image/ExternalImageIO/ImgIOTiffB.hh"
-//! lib=ExtImgIO
+//! lib=RavlExtImgIO
 //! docentry="Ravl.Images.IO.Formats"
 //! author="Charles Galambos"
 //! date="29/10/98"
