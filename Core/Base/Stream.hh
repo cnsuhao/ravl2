@@ -160,7 +160,7 @@ namespace RavlN {
       {}
     //:Default constructor.
     
-    OStreamC(const StringC &filename,bool binary = false,bool buffered=true,bool append = false);
+    OStreamC(const StringC &filename,bool binary = true,bool buffered=true,bool append = false);
     //: Open a file for output.
     // '-' is treated as cout.
     
@@ -249,7 +249,7 @@ namespace RavlN {
       {}
     //:Default constructor.
     
-    IStreamC(const StringC &filename,bool binary = false,bool buffered=true);
+    IStreamC(const StringC &filename,bool binary = true,bool buffered=true);
     //: Open a file.
     // '-' is treated as cin.
     

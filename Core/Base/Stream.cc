@@ -300,10 +300,18 @@ namespace RavlN {
   //: Unget a string from a stream.
   
   void IStreamC::Unget(const char *dat,int len) {
+#if !RAVL_ISTREAM_UNGET_BUG
     const char *place = dat;
     len--;
     for(;len >= 0;len--)
       is().putback(place[len]);
+#else
+    // unget doesn't seem to work for all charactors under
+    // Visual C++. this works around the problem though its
+    // not clear it will work for all types of streams.
+    // FIXME:- Be a little more clever and try and use unget when it will work.
+    is().seekg(is().tellg() - len);
+#endif
   }
   
   ////////////////////////////////
