@@ -73,7 +73,7 @@ int exLMSOptic(int argc, char **argv)
   } 
   else {
     Array1dC<RealT> coeffs;
-    StrIStreamC ("-5 5 -0.03008995 0.01247519 0.13510284 0.29130294 0.36395804 0.29130294 0.13510284 0.01247519 -0.03008995") >> coeffs;
+    StrIStreamC ("-4 4 -0.03008995 0.01247519 0.13510284 0.29130294 0.36395804 0.29130294 0.13510284 0.01247519 -0.03008995") >> coeffs;
     ConvolveSeparable2dC<RealT> filter(coeffs, coeffs);
     for (UIntT i=0; i<=1; ++i) 
       filtered[i] = filter.Apply(image[i]);
