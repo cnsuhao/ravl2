@@ -35,6 +35,7 @@ namespace RavlGUIN {
       useRotate(true),
       viewRotate(0,0,0),
       fov(90),
+      enablerefresh(false),
       initDone(false),
       m_bAutoCenter(false),
       m_bAutoFit(false),
@@ -52,15 +53,14 @@ namespace RavlGUIN {
   }
   
   //: Fit and centre output if appropriate
-  void View3DBodyC::DoSetup() {
-    bool bFalse = false;
-    if(m_bAutoCenter) DoCenter(bFalse);
-    if(m_bAutoFit)    DoFit(bFalse);
+  void View3DBodyC::DoAuto() {
+    if(m_bAutoCenter) Center();
+    if(m_bAutoFit)    Fit();
   }
   
   //: Fit object to view
-  bool View3DBodyC::DoFit(bool& bRefresh) {
-    ONDEBUG(cerr << "View3DBodyC::DoFit(), Called. \n");
+  bool View3DBodyC::Fit() {
+    ONDEBUG(cerr << "View3DBodyC::Fit(), Called. \n");
     if (!scene.IsValid()) return false;
     RealT dist = viewObject.EuclidDistance(viewPoint);
     RealT extent = scene.Extent() * 1.3;
@@ -69,34 +69,32 @@ namespace RavlGUIN {
     fov = ATan(extent/dist) * (180 / RavlConstN::pi);
     ONDEBUG(cerr << "Set fov to " << fov << "\n");
     Put(DViewPoint3DC(fov,viewPoint,viewObject));
-    if (bRefresh) Refresh();
+    Refresh();
     return true;
   }
   
   //: Center output.
-  bool View3DBodyC::DoCenter(bool& bRefresh) {
-    ONDEBUG(cerr << "View3DBodyC::DoCenter(), Called. \n");
+  bool View3DBodyC::Center() {
+    ONDEBUG(cerr << "View3DBodyC::Center(), Called. \n");
     if (!scene.IsValid()) return false;
     viewObject = scene.Center();
     Put(DViewPoint3DC(fov,viewPoint,viewObject));
     ResetCamera();
-    if (bRefresh) Refresh();
+    Refresh();
     return true;
   }
   
   //: Auto fit output.
   bool View3DBodyC::AutoFit(bool &val) {
     m_bAutoFit = val;
-    bool bTrue = true;
-    if(m_bAutoFit) DoFit(bTrue);
+    if(m_bAutoFit) Fit();
     return true;
   }
   
   //: Auto center output.
   bool View3DBodyC::AutoCenter(bool &val) {
     m_bAutoCenter = val;
-    bool bTrue = true;
-    if(m_bAutoCenter) DoCenter(bTrue);
+    if(m_bAutoCenter) Center();
     return false;
   }
   
@@ -210,7 +208,6 @@ namespace RavlGUIN {
     }
     
     // Setup backmenu.
-    bool bTrue = true;
     bool bTextureStatus = true;
     bool bLightingStatus = true;
     
@@ -227,11 +224,11 @@ namespace RavlGUIN {
     MenuC facesMenu("Faces",
 		    MenuCheckItemR("Front",m_bFront,*this,&View3DBodyC::FrontFaces) +
 		    MenuCheckItemR("Back",m_bBack,*this,&View3DBodyC::BackFaces)
-		    );  
+		    );
     
     backMenu = MenuC("back",
-		     MenuItemR("Center",*this,&View3DBodyC::DoCenter,bTrue) +
-		     MenuItemR("Fit",*this,&View3DBodyC::DoFit,bTrue) +
+		     MenuItemR("Center",*this,&View3DBodyC::Center) +
+		     MenuItemR("Fit",*this,&View3DBodyC::Fit) +
 		     MenuCheckItemR("Auto Center",*this,&View3DBodyC::AutoCenter) +
 		     MenuCheckItemR("Auto Fit",*this,&View3DBodyC::AutoFit) +
 		     MenuItemSeparator() +
@@ -265,8 +262,11 @@ namespace RavlGUIN {
     }
     if(r.IsValid())
       scene += r;
-    if(m_bAutoFit || m_bAutoCenter) 
-      DoSetup();
+    // Do auto-fit and auto-centre
+    enablerefresh = false;
+    DoAuto();
+    enablerefresh = true;
+    // Refresh display
     Refresh();
     ONDEBUG(cerr << "View3DBodyC::Add(), Done. \n");
     return true;
@@ -274,23 +274,20 @@ namespace RavlGUIN {
   
   //: Refresh display.
   bool View3DBodyC::Refresh() {
+    if(!(initDone && enablerefresh))
+      return false;
+
     ONDEBUG(cerr << "View3DBodyC::Refresh(), Called. " << ((void *) widget) << "\n");
-    if(!initDone)
-      return false; // Can't do anything before the setup is complete.
     
+    // Init new frame
     Put(DOpenGLC(Trigger(View3DC(*this),&View3DC::NewFrame)));
-    
     Put(DOpenGLC(Trigger(View3DC(*this),&View3DC::SetCamera)));
     
     // Render scene
-    if(scene.IsValid()) {
-      cerr << "Rendering Scene" << endl;
-      Put(scene);
-    }
-    else {
-      cerr << "No Scene to render" << endl;      
-    }
-    SwapBuffers();  
+    if(scene.IsValid()) Put(scene);
+    SwapBuffers();
+
+    // Finished
     return true;
   }
   
@@ -311,24 +308,24 @@ namespace RavlGUIN {
 	if (i!=iOption) {
 	  m_oRenderOpts[i].SetActive(false);
 	}
-	Canvas3DRenderMode mode;
-	switch (iOption) {
-	case 0:
-	  mode = C3D_POINT;
-	  break;
-	case 1:
-	  mode = C3D_WIRE;
-	  break;
-	case 2:
-	  mode = C3D_FLAT;
-	  break;
-	case 3:
-	default:
-	  mode = C3D_SMOOTH;
-	  break;
-	}	
-	SetRenderMode(mode);
       }
+      Canvas3DRenderMode mode;
+      switch (iOption) {
+      case 0:
+	mode = C3D_POINT;
+	break;
+      case 1:
+	mode = C3D_WIRE;
+	break;
+      case 2:
+	mode = C3D_FLAT;
+	break;
+      case 3:
+      default:
+	mode = C3D_SMOOTH;
+	break;
+      }	
+      SetRenderMode(mode);
     }
     else {
       int iNumTrue = 0;
@@ -401,7 +398,7 @@ namespace RavlGUIN {
     //glTranslated(vecTranslation.X(),m_fYTranslation,vecTranslation.Z());
     //glTranslated(m_fXTranslation,m_fYTranslation,0);  
     
-  // Done
+    // Done
     return;
   }
 

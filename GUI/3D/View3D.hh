@@ -42,24 +42,24 @@ namespace RavlGUIN {
       { return scene; }
     //: Access current scene.
     
-    void DoSetup();
-    //: Fit and centre output if appropriate
+    void DoAuto();
+    //: Fit and centre output if auto is enabled
     
-    bool DoFit(bool& bRefresh);
+    bool Fit();
     //: Fit object to view
     
-    bool DoCenter(bool& bRefresh);
+    bool Center();
     //: Center output.
     
     bool AutoFit(bool &val);
-    //: Auto fit output.
+    //: Enable or disable auto fitting of output.
     
     bool AutoCenter(bool &val);
-    //: Auto center output.
+    //: Enable or disable auto centering of output.
     
     void SceneComplete() {sceneComplete = true;}
     //: Make the scene complete. 
-    // If more objects are Put() after this, a new scene will be started
+    // If more objects are Add()ed after this, a new scene will be started
 
   protected:
     bool MousePress(MouseEventC &me);
@@ -110,7 +110,8 @@ namespace RavlGUIN {
     bool useRotate;
     Vector3dC viewRotate;    // Rotation to apply.
     RealT fov;
-    
+    bool enablerefresh; // Are we allowed to refresh
+
     bool initDone; // Has initalization been completed ?
     
     // Display settings
@@ -187,12 +188,12 @@ namespace RavlGUIN {
       { return Body().Scene(); }
     //: Access current scene.
     
-    void DoFit(bool& bRefresh)
-      { Body().DoFit(bRefresh); }
+    void Fit()
+      { Body().Fit(); }
     //: Auto fit output.
     
-    void DoCenter(bool& bRefresh)
-      { Body().DoCenter(bRefresh); }
+    void Center()
+      { Body().Center(); }
     //: Auto center output.
     
     void AutoFit(bool &val)
