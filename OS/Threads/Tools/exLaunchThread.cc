@@ -8,6 +8,8 @@
 //! author="Lee Gregory"
 //! userlevel=Normal
 //! docentry="Ravl.OS.Threads"
+//! rcsid="$Id$"
+//! lib=RavlThreads
 
 #include "Ravl/Stream.hh"
 #include "Ravl/Calls.hh"
