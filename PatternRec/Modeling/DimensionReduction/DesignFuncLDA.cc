@@ -8,8 +8,13 @@
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/Modeling/DimensionReduction/DesignFuncLDA.cc"
 
+#include "Ravl/config.h"
 #include "Ravl/PatternRec/DesignFuncLDA.hh"
 #include "Ravl/DP/SPort.hh"
+
+#if RAVL_COMPILER_MIPSPRO 
+#pragma instantiate RavlN::DPIPortBodyC<RavlN::Tuple2C<RavlN::VectorC,RavlN::StringC> > 
+#endif
 
 #define DODEBUG 0
 #if DODEBUG
