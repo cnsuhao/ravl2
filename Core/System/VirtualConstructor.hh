@@ -126,6 +126,9 @@ namespace RavlN {
 #define RAVL_INITVIRTUALCONSTRUCTOR(bodyname) \
  static VirtualConstructorInstC<bodyname> vc_function_ ## bodyname(# bodyname );
 
+#define RAVL_INITVIRTUALCONSTRUCTOR_NAMED(bodyname,name) \
+ static VirtualConstructorInstC<bodyname> vc_function_ ## bodyname(name );
+
   // Just initalise the virtual constructor.
 
 #define RAVL_VIRTUALCONSTRUCTOR_HANDLE(bodyname,handlename,basename) \
@@ -143,6 +146,10 @@ namespace RavlN {
  RAVL_VIRTUALCONSTRUCTOR_HANDLE(bodyname,handlename,basename)
 
   // Initalise the virtual constructor and the handle
+
+#define RAVL_INITVIRTUALCONSTRUCTOR_FULL_NAMED(bodyname,handlename,basename,name) \
+ RAVL_INITVIRTUALCONSTRUCTOR_NAMED(bodyname,name) \
+ RAVL_VIRTUALCONSTRUCTOR_HANDLE(bodyname,handlename,basename)
 
   
 }
