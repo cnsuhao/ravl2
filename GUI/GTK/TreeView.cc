@@ -343,7 +343,7 @@ namespace RavlGUIN {
   //: Helper for setting attributes.
   
   bool TreeViewBodyC::SetAttribute(GtkTreeViewColumn *column,GtkCellRenderer *renderer,const StringC &colName,const StringC &attrName,const StringC &attrValue,bool proxy) {
-    //ONDEBUG(cerr << "TreeViewBodyC::SetAttribute(colName=" << colName << ",attrName=" << attrName << ",attrValue=" << attrValue << ",proxy=" << proxy << "\n");
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "TreeViewBodyC::SetAttribute(colName=" << colName << ",attrName=" << attrName << ",attrValue=" << attrValue << ",proxy=" << proxy);
     RavlAssert(column != 0);
     if(proxy) { // Proxy ?
       UIntT sourceCol = treeModel.ColNumber(attrValue);
@@ -952,6 +952,7 @@ namespace RavlGUIN {
   //: Setup widget as drag and drop source.
   
   bool TreeViewBodyC::GUIDNDSource(ModifierTypeT flags,const SArray1dC<GtkTargetEntry> &entries,DragActionT actions) {
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "TreeViewBodyC::GUIDNDSource() - entry";)
     if(dndInfo == 0)
       dndInfo = new WidgetDndInfoC();
     dndInfo->isSource = true;
@@ -975,6 +976,7 @@ namespace RavlGUIN {
   //: Disable widget as a drag and drop source.
   
   bool TreeViewBodyC::GUIDNDSourceDisable() {
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "TreeViewBodyC::GUIDNDSourceDisable() - entry";)
     if(dndInfo != 0)
       dndInfo->isSource = false;
     if(widget != 0)
@@ -985,6 +987,7 @@ namespace RavlGUIN {
   //: Setup widget as drag and drop target.
   
   bool TreeViewBodyC::GUIDNDTarget(DestDefaultsT flags,const SArray1dC<GtkTargetEntry> &entries,DragActionT actions) {
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "TreeViewBodyC::GUIDNDTarget() - entry";)
     if(dndInfo == 0)
       dndInfo = new WidgetDndInfoC();
     dndInfo->TargFlags = flags;
@@ -1004,6 +1007,7 @@ namespace RavlGUIN {
   //: Disable widget as a drag and drop source.
   
   bool TreeViewBodyC::GUIDNDTargetDisable() {
+    ONDEBUG(SysLog(SYSLOG_DEBUG) << "TreeViewBodyC::GUIDNDTargetDisable() - entry";)
     if(dndInfo != 0)
       dndInfo->isSource = false;
     if(widget != 0)
