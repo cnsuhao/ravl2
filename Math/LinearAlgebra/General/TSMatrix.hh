@@ -18,6 +18,7 @@
 #include "Ravl/Array1d.hh"
 #include "Ravl/IndexRange2d.hh"
 #include "Ravl/Array1dIter3.hh"
+#include "Ravl/Array1dIter.hh"
 
 namespace RavlN {
   template<class DataT> class TSMatrixC ;
@@ -494,20 +495,24 @@ namespace RavlN {
   
   template<class DataT>
   void TSMatrixBodyC<DataT>::SetSmallToBeZero(const DataT &min) {
-    for(UIntT i = 0;i < Rows();i++)
-      for(UIntT j = 0;j < Cols();j++) {
-	if(Abs(Element(i,j)) < min)
-	  Element(i,j,0);
+    DataT ret;
+    SetZero(ret);
+    for(UIntT i = 0;i < Rows();i++) {
+      for(Array1dIterC<DataT> it(Row(i));it;it++) {
+	if(Abs(*it) < min)
+	  Element(i,it.Index().V(),ret);
       }
+    }
   }
   
   template<class DataT>
   DataT TSMatrixBodyC<DataT>::SumOfAbs() const {
     DataT ret;
     SetZero(ret);
-    for(UIntT i = 0;i < Rows();i++)
-      for(UIntT j = 0;j < Cols();j++)
-	ret += Element(i,j);
+    for(UIntT i = 0;i < Rows();i++) {
+      for(Array1dIterC<DataT> it(Row(i));it;it++)
+	ret += *it;
+    }
     return ret;
   }
   

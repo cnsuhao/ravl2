@@ -14,7 +14,7 @@ namespace RavlN {
   //: Find element with given index.
   // Assumes an ordered list.
   
-  IndexDLinkC *IndexDListC::Find(int i) {
+  const IndexDLinkC *IndexDListC::Find(int i) const {
     for(IntrDLIterC<IndexDLinkC> it(*this);it;it++) {
       if(it->Index() == i)
 	return &(*it);

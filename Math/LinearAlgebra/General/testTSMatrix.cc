@@ -13,6 +13,7 @@
 #include "Ravl/TSMatrixDiagonal.hh"
 #include "Ravl/TSMatrixRightUpper.hh"
 #include "Ravl/TSMatrixLeftLower.hh"
+#include "Ravl/TSMatrixSparse.hh"
 #include "Ravl/Matrix.hh"
 #include "Ravl/Vector.hh"
 
@@ -22,6 +23,7 @@ int testBasic();
 int testDiagonal();
 int testRightUpper();
 int testLeftLower();
+int testSparse();
 
 int main() {
   int ln;
@@ -41,14 +43,10 @@ int main() {
     cerr << "Test failed at " << ln << "\n";
     return 1;
   }
-#if 0
-  int c = 3;
-  for(int i = 0;i < c;i++) {
-    for(int j = 0;j < c;j++)
-      cerr << " " << (i * c - (i * (i + 1))/2 + j);
-    cerr << "\n";
-  } 
-#endif
+  if((ln = testSparse()) != 0) {
+    cerr << "Test failed at " << ln << "\n";
+    return 1;
+  }
   cerr << "Test passed. \n";
   return 0;
 }
@@ -91,21 +89,21 @@ int testBasic() {
   // Test 1.
   testR = t1 * t2;
   error = (testR - result).SumOfAbs();
-  cerr << "Mul:" << error << "\n";
+  //cerr << "Mul:" << error << "\n";
   if(error > 0.000000001)
     return __LINE__;
   
   // Test 2.
   testR = (t1.T().TMul(t2));
   error = (testR - result).SumOfAbs();
-  cerr << "TTMul:" << error << "\n";
+  //cerr << "TTMul:" << error << "\n";
   if(error > 0.000000001)
     return __LINE__;
   
   // Test 3.
   testR = (t1.MulT(t2.T()));
   error = (testR - result).SumOfAbs();
-  cerr << "MulTT:" << error << "\n";
+  //cerr << "MulTT:" << error << "\n";
   if(error > 0.000000001)
     return __LINE__;
   return 0;
@@ -136,21 +134,21 @@ int testRightUpper() {
   // Test 1.
   testR = t1 * t2;
   RealT error = (testR - result).SumOfAbs();
-  cerr << "Mul:" << error << "\n";
+  //cerr << "Mul:" << error << "\n";
   if(error > 0.000000001)
     return __LINE__;
   
   // Test 2.
   testR = (t1.T().TMul(t2));
   error = (testR - result).SumOfAbs();
-  cerr << "TTMul:" << error << "\n";
+  //cerr << "TTMul:" << error << "\n";
   if(error > 0.000000001)
     return __LINE__;
   
   // Test 3.
   testR = (t1.MulT(t2.T()));
   error = (testR - result).SumOfAbs();
-  cerr << "MulTT:" << error << "\n";
+  //cerr << "MulTT:" << error << "\n";
   if(error > 0.000000001)
     return __LINE__;
   return 0;
@@ -163,33 +161,44 @@ int testLeftLower() {
   for(int i = 0;i < 4;i++)
     for(int j = 0;j <= i;j++)
       mll.Element(i,j,c++);
-  cerr << "mll=" << mll.TMatrix() << "\n";
+  //cerr << "mll=" << mll.TMatrix() << "\n";
   TMatrixC<RealT> full = mll.TMatrix(); 
   TSMatrixC<RealT> result = full * full;
-  cerr << "Res=" << result.TMatrix() << "\n";
+  //cerr << "Res=" << result.TMatrix() << "\n";
   TSMatrixC<RealT> t1 = mll;
   TSMatrixC<RealT> t2 = mll;
   // Test 1.
   TSMatrixC<RealT> testR = t1 * t2;
-  cerr << "Tst=" << testR.TMatrix() << "\n";
+  //cerr << "Tst=" << testR.TMatrix() << "\n";
   
   RealT error = (testR - result).SumOfAbs();
-  cerr << "Mul:" << error << "\n";
+  //cerr << "Mul:" << error << "\n";
   if(error > 0.000000001)
     return __LINE__;
   
   // Test 2.
   testR = (t1.T().TMul(t2));
   error = (testR - result).SumOfAbs();
-  cerr << "TTMul:" << error << "\n";
+  //cerr << "TTMul:" << error << "\n";
   if(error > 0.000000001)
     return __LINE__;
   
   // Test 3.
   testR = (t1.MulT(t2.T()));
   error = (testR - result).SumOfAbs();
-  cerr << "MulTT:" << error << "\n";
+  //cerr << "MulTT:" << error << "\n";
   if(error > 0.000000001)
     return __LINE__;
+  return 0;
+}
+
+int testSparse() {
+  cerr << "testSparse() \n";
+  TSMatrixSparseC<RealT> sm(10,10);
+  sm.Element(2,3,23);
+  sm.Element(4,5,45);
+  cerr << sm.TMatrix() << "\n";
+  cerr << sm.T().TMatrix() << "\n";
+  
   return 0;
 }
