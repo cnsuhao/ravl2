@@ -125,8 +125,10 @@ docinit: docfiles
 	done
 
 doc: docinit $(INST_INCLUDE)/.dir $(TARG_DOCNODE)
+ifeq ($(ARC),$(LOCALARC))
 	$(SHOWIT)echo "--- Generating documentation" ; \
 	$(CXXDOC) $(PACKAGENAME_OPT) $(PACKAGEDESC_OPT) -ih $(INSTALLHOME) -p $(PROJECT_OUT)
+endif
 
 $(INST_EHT)/% : % $(INST_EHT)/.dir
 	$(SHOWIT)echo "--- Installing EHT $(@F) to $(INST_EHT)" ; \
