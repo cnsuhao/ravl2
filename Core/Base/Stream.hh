@@ -15,6 +15,7 @@
 //! rcsid="$Id$"
 //! userlevel=Normal
 
+#include "Ravl/config.h"
 #include "Ravl/String.hh"
 #include "Ravl/Assert.hh"
 #include "Ravl/HandleRefCounter.hh"
@@ -480,5 +481,15 @@ namespace RavlN {
     istream *in;
   };
 }
+
+#if RAVL_COMPILER_MIPSPRO 
+istream & operator >> ( istream & str,  signed char & dat ) 
+{ 
+  char tmp ; 
+  str >> tmp ; 
+  dat = (signed char) tmp ; 
+  return str ; 
+} 
+#endif 
 
 #endif
