@@ -273,6 +273,8 @@ namespace RavlGUIN {
     { return RCHandleC<WidgetBodyC>::Body(); }
     //: Access body.  
   
+  public: 
+    
     bool GUISetState(GtkStateType &state)
     { return Body().GUISetState(state); }
     //: Set state of widget.
@@ -294,8 +296,6 @@ namespace RavlGUIN {
     void GUIGrabFocus()
     { Body().GUIGrabFocus(); }
     //: Grab keyboard focus.
-    
-  public:
 
     bool GUIDNDSource(ModifierTypeT flags,const SArray1dC<GtkTargetEntry> &entries,DragActionT actions)
     { return Body().GUIDNDSource(flags,entries,actions); }
