@@ -47,7 +47,10 @@ namespace RavlGUIN {
   //: Got a activate signal.
   
   bool TextEntryBodyC::SigActivate()  {  
-    ONDEBUG(cerr << "TextEntryBodyC::SigActivate() \n");
+    ONDEBUG(cerr << "TextEntryBodyC::SigActivate() \n"); 
+    MutexLockC lock(access);
+    text = StringC(gtk_entry_get_text(GTK_ENTRY(Widget())));
+    activate(text);
     return true;
   }
   
@@ -68,6 +71,7 @@ namespace RavlGUIN {
     RavlAssert(changed.IsValid());
     ConnectSignals();
     ConnectRef(changed,*this,&TextEntryBodyC::SigChanged);
+    ConnectRef(Signal("activate"),*this,&TextEntryBodyC::SigActivate);
     return true;
   }
   

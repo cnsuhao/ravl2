@@ -147,7 +147,7 @@ namespace RavlGUIN {
   //: Create a text entry.
   
   template<class DataT>
-  TextEntryC TextEntry(const StringC &def,const DataT &dat,void (DataT::*func)(StringC &ref),int maxLen = -1,bool sigAllChanges = false)
+  TextEntryC TextEntry(const StringC &def,const DataT &dat,bool (DataT::*func)(StringC &ref),int maxLen = -1,bool sigAllChanges = false)
   { 
     TextEntryC ret(def,maxLen,sigAllChanges);
     Connect(ret.Activate(),dat,func);
@@ -155,7 +155,7 @@ namespace RavlGUIN {
   } 
 
   template<class DataT>
-  TextEntryC TextEntryR(const StringC &def,DataT &dat,void (DataT::*func)(StringC &ref),int maxLen = -1,bool sigAllChanges = false)
+  TextEntryC TextEntryR(const StringC &def,DataT &dat,bool (DataT::*func)(StringC &ref),int maxLen = -1,bool sigAllChanges = false)
   { 
     TextEntryC ret(def,maxLen,sigAllChanges);
     ConnectRef(ret.Activate(),dat,func);
@@ -163,7 +163,7 @@ namespace RavlGUIN {
   } 
   
   template<class DataT>
-  TextEntryC TextEntry(const StringC &def,void (*func)(StringC &ref,DataT &dat),const DataT &dat,int maxLen = -1,bool sigAllChanges = false)
+  TextEntryC TextEntry(const StringC &def,bool (*func)(StringC &ref,DataT &dat),const DataT &dat,int maxLen = -1,bool sigAllChanges = false)
   {
     TextEntryC ret(def,maxLen,sigAllChanges);
     Connect(ret.Activate(),func,StringC(""),dat);
