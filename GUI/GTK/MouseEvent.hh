@@ -18,9 +18,9 @@
 #include "Ravl/Index2d.hh"
 
 // Namespace fix for Visual C++
-#ifdef VISUAL_CPP
+#ifdef RAVL_COMPILER_VISUALCPP6
 #ifndef RavlGUIN
-#define RavlGUIN RavlN
+//#define RavlGUIN RavlN
 #endif
 #endif
 
