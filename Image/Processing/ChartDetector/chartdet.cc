@@ -17,6 +17,7 @@
 #include "Ravl/StringList.hh"
 #include "Ravl/Option.hh"
 #include "Ravl/SArray1dIter3.hh"
+#include "Ravl/Image/WarpProjective.hh"
 
 using namespace RavlN;
 using namespace RavlImageN;
@@ -53,6 +54,7 @@ SArray1dC<Point2dC> LoadChartPoints(StringC &filename) {
 int main(int nargs,char **argv) {
   OptionC opt(nargs,argv);
   bool verbose = opt.Boolean("v",true,"Verbose mode. ");
+  bool displayCourse = opt.Boolean("dc",false,"Display course localisation. ");
   RealT inlierThreshold = opt.Real("id",10,"Inlier distance threshold. ");
   UIntT ransacIterations = (UIntT) opt.Int("ri",50000,"RANSAC iterations to use in search.");
   RealT acceptThreshold = opt.Real("at",0.7,"Threshold at which to just accept hypothesis ");
@@ -111,6 +113,11 @@ int main(int nargs,char **argv) {
   if(verbose) 
     cerr << "Transform =" << transform << "\n";
   
+  if(displayCourse) {
+    WarpProjectiveC<ByteT> pwarp(chartImage.Frame(),transform.Inverse());
+    ImageC<ByteT> pimage = pwarp.Apply(sceneImage);
+    Save("@X:PositionEstimate",pimage);
+  }
   // --- Do fine localisation of chart --- 
 
   if(verbose)
@@ -129,7 +136,7 @@ int main(int nargs,char **argv) {
     if(*it) pass++;
   if(verbose)
     cerr << "Found " << pass << " matches. \n";
-
+  
   if(!matchFilename.IsEmpty()) {
     if(verbose)
       cerr << "Writing match file '" << matchFilename << "'\n";
