@@ -27,31 +27,35 @@ namespace RavlN {
   
    RealT Polygon2dC::Area() const {
       RealT sum = 0.0;
-      DLIterC<Point2dC> pLast(*this);
-      pLast.Last();
+      if (!IsEmpty()) {
+        DLIterC<Point2dC> pLast(*this);
+        pLast.Last();
 
-      for (DLIterC<Point2dC> ptr(*this); ptr != pLast; ptr++)
-        sum += ptr.Data().X() * ptr.NextData().Y() - ptr.NextData().X() * ptr.Data().Y();
-      // close the polygon
-      sum += pLast.Data().X() * pLast.NextCrcData().Y() - pLast.NextCrcData().X() * pLast.Data().Y();
+        for (DLIterC<Point2dC> ptr(*this); ptr != pLast; ptr++)
+          sum += ptr.Data().X() * ptr.NextData().Y() - ptr.NextData().X() * ptr.Data().Y();
+        // close the polygon
+        sum += pLast.Data().X() * pLast.NextCrcData().Y() - pLast.NextCrcData().X() * pLast.Data().Y();
+      }
       return sum * 0.5;
    }
     
    Point2dC Polygon2dC::Centroid() const {
       RealT x = 0.0;
       RealT y = 0.0;
-      DLIterC<Point2dC> pLast(*this);
-      pLast.Last();
+      if (!IsEmpty()) {
+        DLIterC<Point2dC> pLast(*this);
+        pLast.Last();
 
-      for (DLIterC<Point2dC> ptr(*this); ptr != pLast; ptr++) {
-        RealT temp = ptr.Data().X() * ptr.NextData().Y() - ptr.NextData().X() * ptr.Data().Y();
-        x += (ptr.Data().X() + ptr.NextData().X()) * temp;
-        y += (ptr.Data().Y() + ptr.NextData().Y()) * temp;
+        for (DLIterC<Point2dC> ptr(*this); ptr != pLast; ptr++) {
+          RealT temp = ptr.Data().X() * ptr.NextData().Y() - ptr.NextData().X() * ptr.Data().Y();
+          x += (ptr.Data().X() + ptr.NextData().X()) * temp;
+          y += (ptr.Data().Y() + ptr.NextData().Y()) * temp;
+        }
+        // close the polygon
+        RealT temp = pLast.Data().X() * pLast.NextCrcData().Y() - pLast.NextCrcData().X() * pLast.Data().Y();
+        x += (pLast.Data().X() + pLast.NextCrcData().X()) * temp;
+        y += (pLast.Data().Y() + pLast.NextCrcData().Y()) * temp;
       }
-      // close the polygon
-      RealT temp = pLast.Data().X() * pLast.NextCrcData().Y() - pLast.NextCrcData().X() * pLast.Data().Y();
-      x += (pLast.Data().X() + pLast.NextCrcData().X()) * temp;
-      y += (pLast.Data().Y() + pLast.NextCrcData().Y()) * temp;
       RealT scale = 1.0 / (6.0 * Area());
       return Point2dC(x * scale, y * scale);
    }
@@ -92,6 +96,43 @@ namespace RavlN {
          // Assume (i-1,i,i+1) not collinear.
          // else 'pa' is reflex.
          return !(LinePP2dC(pa, pb).IsPointToLeftOn(pan) && LinePP2dC(pb, pa).IsPointToLeftOn(pap));
+   }
+
+   Polygon2dC Polygon2dC::ClipByConvex(const Polygon2dC &oth) {
+      Polygon2dC ret = *this;
+      DLIterC<Point2dC> pLast(oth);
+      pLast.Last();
+      for (DLIterC<Point2dC> ptr(oth); ptr != pLast; ptr++)
+        ret = ret.ClipByLine(LinePP2dC(ptr.Data(), ptr.NextData()));
+      // close the polygon
+      ret = ret.ClipByLine(LinePP2dC(pLast.Data(), pLast.NextCrcData()));
+      return ret;
+   }
+
+   Polygon2dC Polygon2dC::ClipByLine(const LinePP2dC &line) {
+      Polygon2dC ret;
+      if (!IsEmpty()) {
+        DLIterC<Point2dC> st(*this);
+        st.Last();
+        for (DLIterC<Point2dC> pt(*this); pt; pt++) {
+          if (!line.IsPointToLeftOn(*pt)) {
+            if (!line.IsPointToLeftOn(*st)) {
+              ret.InsLast(*pt);
+            }
+            else {
+              ret.InsLast(line.Intersection(LinePP2dC(*st,*pt)));
+              ret.InsLast(*pt);
+            }
+          }
+          else {
+            if (!line.IsPointToLeftOn(*st)) {
+              ret.InsLast(line.Intersection(LinePP2dC(*st,*pt)));
+            }
+          }
+          st = pt;
+        }
+      }
+      return ret;
    }
 
    bool Polygon2dC::Contains(const Point2dC & p) const {
