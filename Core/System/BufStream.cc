@@ -10,6 +10,7 @@
 //! file="Ravl/Core/System/BufStream.cc"
 
 #include "Ravl/BufStream.hh"
+#include "Ravl/config.h"
 
 #if RAVL_HAVE_ANSICPPHEADERS
 #if RAVL_HAVE_STRINGSTREAM
@@ -86,7 +87,16 @@ namespace RavlN {
     data = SArray1dC<char>(buf,size);
 #endif
 #else
+
+    // Fix horrible bug in irix implementation. 
+    // pcount gets incremtned when str() is called 
+#if RAVL_COMPILER_MIPSPRO
+    char * astr = oss->str() ;  
+    int    size = oss->pcount() ;
+    data = SArray1dC<char> ( astr, --size ) ;
+#else
     data = SArray1dC<char>((char *) oss->str(),oss->pcount());
+#endif // mips pro fix 
 #endif
     return data;
   }
