@@ -15,6 +15,7 @@
 //! author="Charles Galambos"
 //! date="25/05/2000"
 
+#include "Ravl/config.h"
 #include <iostream.h>
 #include "Ravl/Threads/ConditionalMutex.hh"
 
