@@ -4,12 +4,13 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#include "Ravl/PatternRec/OptimiseSobol.hh"
-#include "Ravl/SobolSequence.hh"
-#include "Ravl/StrStream.hh"
 //! rcsid="$Id$"
 //! lib=Optimisation
 //! file="Ravl/PatternRec/Optimise/OptimiseSobol.cc"
+
+#include "Ravl/PatternRec/OptimiseSobol.hh"
+#include "Ravl/SobolSequence.hh"
+#include "Ravl/StrStream.hh"
 
 namespace RavlN {
 
@@ -25,13 +26,9 @@ namespace RavlN {
     in >> _numSamples;
   }
   
-  // ------------------------------------------------------------------------
-  // **********  OptimalX    ************************************************
-  // ------------------------------------------------------------------------
-  //
   // Random optimizer with uniform density. Randomly samples the parameter
   // space to find the minimum cost position.
-  //
+  
   VectorC OptimiseSobolBodyC::MinimalX (const CostC &domain)
   {
     VectorC X0 = domain.StartX().Copy();

@@ -20,9 +20,7 @@
 
 namespace RavlN {
 
-  // --------------------------------------------------------------------------
-  // **********  OptimiseSobolBodyC  ******************************************
-  // --------------------------------------------------------------------------
+  //! userlevel=Develop
   //: Sobol distribution search optimiser implementation class.
   //
   // This is the implementation class of the sobol distribution search
@@ -51,7 +49,8 @@ namespace RavlN {
     virtual bool Save (ostream &out) const;
     //: Writes object to stream, can be loaded using constructor
   };
-  
+
+  //! userlevel=Normal
   //: Sobol distribution search optimisation.
   //
   // Class for performing a search using a sobol distribution.
