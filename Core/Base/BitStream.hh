@@ -130,7 +130,7 @@ namespace RavlN {
     // MSB First.
     
     IntT ReadInt(UIntT bits) {
-      UIntT val = ReadInt(bits);
+      UIntT val = ReadUInt(bits);
       UIntT signbit = (1 << (bits-1));
       if(val & signbit) // Not the best way but it'll do for now.
 	return signbit - (val & ~signbit);
@@ -166,6 +166,9 @@ namespace RavlN {
     { return strm.Close(); }
     //: Close the stream.
     
+    IStreamC &Stream()
+    { return strm; }
+    //: Access underlying stream.
   protected:
     IStreamC strm;
   };
@@ -277,6 +280,10 @@ namespace RavlN {
       return strm.Close(); 
     }
     //: Close the stream.
+
+    OStreamC &Stream()
+    { return strm; }
+    //: Access underlying stream.
     
   protected:
     OStreamC strm; 
