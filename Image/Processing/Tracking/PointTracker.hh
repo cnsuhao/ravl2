@@ -38,6 +38,14 @@ namespace RavlImageN {
     IntT Update(const ImageC<ByteT> &img);
     //: Update track with information from an image.
     
+    DListC<PointTrackModelC> &Tracks()
+    { return tracks; }
+    //: Direct access to current tracks list.
+    
+    const DListC<PointTrackModelC> &Tracks() const
+    { return tracks; }
+    //: Direct access to current tracks list.
+    
   protected:
     UIntT idAlloc;
     IntT frameCount;
