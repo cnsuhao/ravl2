@@ -57,7 +57,7 @@ namespace RavlN {
     RavlAssert(!isInput);
     DPOPortBaseC outp = form.CreateOutput(filename,SourceType());
     if(!outp.IsValid()) {
-      // This can happen if we don't have permission to creat the file.
+      // This can happen if we don't have permission to create the file.
       return DPOPortBaseC();
     }
     return BuildOutputConv(outp);
@@ -95,12 +95,12 @@ namespace RavlN {
   DPOPortBaseC FileFormatDescC::CreateOutput(StringC filename,DPSeekCtrlC &sc) const {
     RavlAssert(!isInput);
     DPOPortBaseC outp = form.CreateOutput(filename,SourceType());
-    sc = DPSeekCtrlC(outp); // This may or maynot work...
     if(!outp.IsValid()) {
-      cerr << "Internal error: Failed to open output file '" << filename << "' in format '" << form.Name() << "' \n" ;
-      RavlAssert(0);
+      // This could happen for a number of reasons:  File permissions, directory path doesn't exist etc.
+      //cerr << "Internal error: Failed to open output file '" << filename << "' in format '" << form.Name() << "' \n" ;
       return DPOPortBaseC();
     }
+    sc = DPSeekCtrlC(outp); // This may or maynot work...
     return BuildOutputConv(outp);    
   }
   
