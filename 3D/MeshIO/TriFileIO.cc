@@ -73,10 +73,58 @@ namespace Ravl3DN {
 #endif
       it++;
     }
-    done = true;
+  
+	// new texture stuff
+
+	// Read in the texture mode
+    IntT iPerVertex;
+    inf >> iPerVertex;
+    if (!inf) {
+      // There is no texture info
+      TriMeshC ret(verts,faces);
+      ret.UpdateVertexNormals();
+      done = true;
+      return ret;
+    }
+// ignore texture file
+	StringC strTexnames;
+    inf.Skip();
+    inf >> strTexnames;
+
+    // Read in all the texture coordinates
+    IntT iNumTexCoords = (iPerVertex) ? nvertex : nelement*3;
+    SArray1dC<Vector2dC> texCoords(iNumTexCoords);
+    SArray1dIterC<Vector2dC> tit(texCoords);
+    for (; tit; tit++) {
+      RealT dX, dY;
+      inf >> dX >> dY;
+      tit.Data() = Vector2dC(dX,dY);
+    }
+    // Set the texture coordinates in the faces
+    IntT findex;
+    const VertexC *x = &(verts[0]);
+    for (findex=0, it.First(); it; findex++, it++) {
+      TriC& tri = it.Data();
+      tri.TextureID() = 0;
+      if (iPerVertex) {
+	i1 = (tri.VertexPtr(0) - x);
+	tri.TextureCoord(0) = texCoords[i1];
+	i2 = (tri.VertexPtr(1) - x);
+	tri.TextureCoord(1) = texCoords[i2];
+	i3 = (tri.VertexPtr(2) - x);
+	tri.TextureCoord(2) = texCoords[i3];
+      } else {
+	tri.TextureCoord(0) = texCoords[findex*3];
+	tri.TextureCoord(1) = texCoords[findex*3+1];
+	tri.TextureCoord(2) = texCoords[findex*3+2];
+      }
+    }
+
+	done = true;
     // The faces array is resized in case we had to drop any non trianglular faces.
     TriMeshC ret(verts,SArray1dC<TriC>(faces,it.Index().V()));
-    ret.UpdateVertexNormals();
+    ret.SetTextureCoord(1);
+	ret.UpdateVertexNormals();
     return ret;
   }
 
@@ -108,6 +156,16 @@ namespace Ravl3DN {
       const VertexC *x = &(dat.Vertices()[0]);
       for(SArray1dIterC<TriC> it(dat.Faces());it;it++)
 	outf << "3 " << (it->VertexPtr(0) - x) << ' ' << (it->VertexPtr(1) - x) << ' ' << (it->VertexPtr(2) - x) << '\n';
+    }
+	if(dat.HaveTextureCoord()){
+	    outf << "0 " << "NoFile.ppm" << '\n';
+
+      // Write the texture coords per face
+      for(SArray1dIterC<TriC> fit(dat.Faces()); fit; fit++) {
+	outf << fit->TextureCoord(0) << '\n' 
+	     << fit->TextureCoord(1) << '\n' 
+	     << fit->TextureCoord(2) << '\n';
+      }
     }
     return true;
   }

@@ -171,7 +171,12 @@ namespace Ravl3DN {
 	  for(SArray1dIterC<VertexC> it(vertices);it;it++){
 		  Vector3dC v(it->Position());
 		  it->Position() = rt.Transform(v);
+		  it->Normal()=rt.ExportRotationMatrix()*(it->Normal());
 	  }
+
+	  for(SArray1dIterC<TriC> iv(faces);iv;iv++)
+		  iv->FaceNormal()=rt.ExportRotationMatrix()*(iv->FaceNormal());
+
   }
 
   //: Create an array of faces indices.
