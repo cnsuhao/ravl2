@@ -12,6 +12,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Images.Tracking"
 //! file="Ravl/Image/Processing/Tracking/PointTracker.hh"
+//! lib=RavlImageProc
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/CornerDetectorHarris.hh"

@@ -13,7 +13,13 @@ HEADERS=PointTrack.hh PointTrackModel.hh PointTracker.hh
 
 SOURCES=PointTrack.cc PointTrackModel.cc PointTracker.cc
 
+PLIB=RavlImageProc
+
+LIBDEPS=RavlImageProcTracker.def
+
 MAINS=tracker.cc
+
+EHT= Ravl.Images.Tracking.html
 
 USESLIBS=RavlImage RavlImageProc
 

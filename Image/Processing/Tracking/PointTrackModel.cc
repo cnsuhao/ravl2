@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! file="Ravl/Image/Processing/Tracking/PointTrackModel.cc"
+//! lib=RavlImageProc
 
 #include "Ravl/Image/PointTrackModel.hh"
 

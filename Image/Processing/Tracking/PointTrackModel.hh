@@ -12,6 +12,7 @@
 //! date="24/7/2002"
 //! docentry="Ravl.Images.Tracking"
 //! file="Ravl/Image/Processing/Tracking/PointTrackModel.hh"
+//! lib=RavlImageProc
 
 #include "Ravl/Array2d.hh"
 #include "Ravl/Point2d.hh"
@@ -29,6 +30,8 @@ namespace RavlImageN {
   istream &operator>>(istream &strm,PointTrackModelC &pt);
   //: Load from istream.
 
+  //:-
+  
   //! userlevel=Normal
   //: Tracking information on a single point.
   

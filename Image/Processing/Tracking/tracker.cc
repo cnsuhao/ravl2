@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! file="Ravl/Image/Processing/Tracking/tracker.cc"
+//! lib=RavlImageProc
 
 #include "Ravl/Option.hh"
 #include "Ravl/DP/SequenceIO.hh"

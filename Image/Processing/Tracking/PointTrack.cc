@@ -9,6 +9,7 @@
 //! date="24/7/2002"
 //! rcsid="$Id$"
 //! file="Ravl/Image/Processing/Tracking/PointTrack.cc"
+//! lib=RavlImageProc
 
 #include "Ravl/Image/PointTrack.hh"
 #include "Ravl/Stream.hh"

@@ -13,6 +13,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Images.Tracking"
 //! file="Ravl/Image/Processing/Tracking/PointTrack.hh"
+//! lib=RavlImageProc
 
 #include "Ravl/Point2d.hh"
 #include "Ravl/Types.hh"
@@ -27,6 +28,8 @@ namespace RavlImageN {
   
   istream &operator>>(istream &strm,PointTrackC &pt);
   //: Load from istream.
+  
+  //:-
   
   //! userlevel=Normal
   //: Information on a single point track.
