@@ -70,6 +70,10 @@ namespace RavlN {
     { return DArray1dC<DataT>::Append(dat).V(); }
     //: Insert a single sample into sample
     
+    void Fill(const DataT &value)
+    { DArray1dC<DataT>::Fill(value); }
+    //: Fill sample array with value.
+    
     UIntT Append(const SampleC<DataT> &newData)
     { return DArray1dC<DataT>::Append(newData); }
     //: Append data to this array.
