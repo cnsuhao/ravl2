@@ -12,6 +12,7 @@
 //! rcsid="$Id$"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/AttributeType.hh"
+//! docentry="Ravl.Core.Data_Processing.Attributes"
 
 #include "Ravl/String.hh"
 #include "Ravl/RCHandleV.hh"

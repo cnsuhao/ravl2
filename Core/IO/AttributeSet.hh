@@ -9,6 +9,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlIO
+//! docentry="Ravl.Core.Data_Processing.Attributes"
 
 #include "Ravl/DP/AttributeCtrl.hh"
 #include "Ravl/Hash.hh"

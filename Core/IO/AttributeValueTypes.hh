@@ -11,6 +11,7 @@
 //! rcsid="$Id$"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/AttributeValueTypes.hh"
+//! docentry="Ravl.Core.Data_Processing.Attributes"
 
 #include "Ravl/DP/AttributeType.hh"
 #include "Ravl/DList.hh"
