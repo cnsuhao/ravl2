@@ -317,15 +317,23 @@ namespace RavlN {
   };
   
   template<class DataT>
-  DPISPortAttachC<DataT> SPort(const DPIPortC<DataT> &aport)
-  { return DPISPortAttachC<DataT>(aport); }
+  DPISPortAttachC<DataT> SPort(const DPIPortC<DataT> &aport) { 
+    DPISPortAttachC<DataT> ret(aport);
+    if(ret.IsValid()) // Is it a seekable port already ?
+      return ret;
+    return DPISPortAttachC<DataT>(aport); 
+  }
   //: Attempt to turn 'aport' into a seekable port.
   // This checks up the processing line for a seekable port and attaches it
   // where possible.  If none are found then the seek controls are attached to stubs.
   
   template<class DataT>
-  DPOSPortAttachC<DataT> SPort(const DPOPortC<DataT> &aport)
-  { return DPOSPortAttachC<DataT>(aport); }
+  DPOSPortAttachC<DataT> SPort(const DPOPortC<DataT> &aport) { 
+    DPOSPortAttachC<DataT> ret(aport);
+    if(ret.IsValid()) // Is it a seekable port already ?
+      return ret;
+    return DPOSPortAttachC<DataT>(aport); 
+  }
   //: Attempt to turn 'aport' into a seekable port.
   // This checks up the processing line for a seekable port and attaches it
   // where possible.  If none are found then the seek controls are attached to stubs.
