@@ -10,6 +10,9 @@
 
 #include "Ravl/InDList.hh"
 #include "Ravl/InDLIter.hh"
+#include "Ravl/DList.hh"
+#include "Ravl/StrStream.hh"
+#include "Ravl/BinStream.hh"
 #include <iostream.h>
 
 using namespace RavlN;
@@ -30,13 +33,18 @@ public:
   int v;
 };
   
+int testDListBinIO();
 int testIntrDList();
 
 int main(int nargs,char *argv[])
 {
   int lineno;
   if((lineno = testIntrDList()) != 0) {
-    cerr << "IntrDListC test failed on line "<< lineno << "\n";
+    cerr << "testIntrDListC test failed on line "<< lineno << "\n";
+    return 1;
+  }
+  if((lineno = testDListBinIO()) != 0) {
+    cerr << "testDListIO test failed on line "<< lineno << "\n";
     return 1;
   }
   cerr << "Test passed ok. \n";	      
@@ -76,6 +84,26 @@ int testIntrDList() {
     if(it->v != i)
       return __LINE__;
   }
+  
+  return 0;
+}
+
+int testDListBinIO() {
+  DListC<IntT> val;
+  val.InsLast(1);
+  val.InsLast(2);
+  
+  OStrStreamC out;
+  BinOStreamC bo(out);
+  
+  bo << val;
+  IStrStreamC in(out.String());
+  BinIStreamC bi(in);
+  DListC<IntT> back;
+  bi >> back;
+  if(back.Size() != val.Size()) return __LINE__;
+  if(back.First() != val.First()) return __LINE__;
+  if(back.Last() != val.Last()) return __LINE__;
   
   return 0;
 }

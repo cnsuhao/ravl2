@@ -24,12 +24,17 @@
 //: Ravl global namespace.
 
 namespace RavlN {
+
+  class BinIStreamC;
+  class BinOStreamC;
   
   template<class DataT> class DLIterC;
   template<class DataT> class DListC;
   template<class DataT> class DListBodyC;
   template<class DataT> ostream &operator<<(ostream &,const DListBodyC<DataT> &);
   template<class DataT> istream &operator>>(istream &,DListBodyC<DataT> &);
+  template<class DataT> BinOStreamC &operator<<(BinOStreamC &,const DListBodyC<DataT> &);
+  template<class DataT> BinIStreamC &operator>>(BinIStreamC &,DListBodyC<DataT> &);
   
   //! userlevel=Develop
   //: Double linked list body.
@@ -220,8 +225,10 @@ namespace RavlN {
     
 #if RAVL_NEW_ANSI_CXX_DRAFT
     friend ostream &operator<< <DataT>(ostream &strm,const DListBodyC<DataT> &lst); 
+    friend BinOStreamC &operator<< <DataT>(BinOStreamC &strm,const DListBodyC<DataT> &lst); 
 #else
     friend ostream &operator<< (ostream &strm,const DListBodyC<DataT> &lst); 
+    friend BinOStreamC &operator<< (BinOStreamC &strm,const DListBodyC<DataT> &lst); 
 #endif
   };
 
@@ -240,6 +247,15 @@ namespace RavlN {
   template<class DataT>
   istream &operator>>(istream &strm,DListC<DataT> &lst);
   //: Read from stream.
+
+  template<class DataT>
+  BinOStreamC &operator<<(BinOStreamC &strm,const DListC<DataT> &lst);
+  //: Send to stream.
+  
+  template<class DataT>
+  BinIStreamC &operator>>(BinIStreamC &strm,DListC<DataT> &lst);
+  //: Read from stream.
+
   
   //! userlevel=Normal
   //: Double linked List 
@@ -409,9 +425,13 @@ namespace RavlN {
 #if RAVL_NEW_ANSI_CXX_DRAFT
     friend ostream &operator<< <DataT>(ostream &strm,const DListC<DataT> &lst);
     friend istream &operator>> <DataT>(istream &strm,DListC<DataT> &lst);
+    friend BinOStreamC &operator<< <DataT>(BinOStreamC &strm,const DListC<DataT> &lst);
+    friend BinIStreamC &operator>> <DataT>(BinIStreamC &strm,DListC<DataT> &lst);
 #else
     friend ostream &operator<< (ostream &strm,const DListC<DataT> &lst);
     friend istream &operator>> (istream &strm,DListC<DataT> &lst);
+    friend BinOStreamC &operator<< (BinOStreamC &strm,const DListC<DataT> &lst);
+    friend BinIStreamC &operator>> (BinIStreamC &strm,DListC<DataT> &lst);
 #endif
   };
   
@@ -491,6 +511,29 @@ namespace RavlN {
   }
   //: Read from stream.
 
+  template<class DataT>
+  BinOStreamC &operator<<(BinOStreamC &strm,const DListBodyC<DataT> &lst) {
+    strm << lst.Size();
+    for(DLIterC<DataT> it(lst);it;it++)
+      strm << *it;
+    return strm;
+  }
+  //: Send to a binary stream.
+  
+  template<class DataT>
+  BinIStreamC &operator>>(BinIStreamC &strm,DListBodyC<DataT> &lst) {
+    UIntT i;
+    lst.Empty();
+    strm >> i;
+    for(;i > 0;i--) {
+      DataT tmp;
+      strm >> tmp;
+      lst.InsLast(tmp);
+    }
+    return strm;
+  }
+  //: Read from a binary stream.
+
   ///// DListC //////////////////////////////////////////////////////
 
   template<class DataT>
@@ -499,20 +542,34 @@ namespace RavlN {
       return true;
     return Body() == oth.Body();
   }
-
-  
+    
   template<class DataT>
-  ostream &operator<<(ostream &strm,const DListC<DataT> &lst) 
+  inline ostream &operator<<(ostream &strm,const DListC<DataT> &lst) 
   { return strm << lst.Body(); }
   //: Send to stream.
   
   template<class DataT>
-  istream &operator>>(istream &strm,DListC<DataT> &lst) {
+  inline istream &operator>>(istream &strm,DListC<DataT> &lst) {
     DListC<DataT> ret;
     strm >> ret.Body();
+    lst = ret;
     return strm;
   }
   //: Read from stream.
+    
+  template<class DataT>
+  inline BinOStreamC &operator<<(BinOStreamC &strm,const DListC<DataT> &lst)
+  { return strm << lst.Body(); }
+  //: Send to a binary stream.
+  
+  template<class DataT>
+  inline BinIStreamC &operator>>(BinIStreamC &strm,DListC<DataT> &lst) {
+    DListC<DataT> ret;
+    strm >> ret.Body();
+    lst = ret;
+    return strm;
+  }
+  //: Read from a binary stream.
 
   
 }
