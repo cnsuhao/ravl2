@@ -7,6 +7,9 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Hash/testHSet.cc"
+//! author="Charles Galambos"
+//! docentry="Ravl.Core.Hash Tables"
+//! userlevel=Develop
 
 #include "Ravl/HSet.hh"
 #include "Ravl/String.hh"

@@ -8,6 +8,9 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Misc/testStack.cc"
+//! author="Charles Galambos"
+//! docentry="Ravl.Core.Stacks"
+//! userlevel=Develop
 
 #include <assert.h>
 #include <stdio.h>

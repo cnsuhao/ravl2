@@ -7,6 +7,8 @@
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! author="Kieron J Messer"
+//! docentry="Ravl.Images.Filtering"
+//! userlevel=Normal
 
 #include "Ravl/Option.hh"
 #include "Ravl/OS/Filename.hh"

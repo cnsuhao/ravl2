@@ -6,9 +6,11 @@
 // file-header-ends-here
 ///////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! author="Charles Galambos"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Trees/testBinaryTree.cc"
+//! author="Charles Galambos"
+//! docentry="Ravl.Core.Trees"
+//! userlevel=Develop
 
 #include "Ravl/BinaryTree.hh"
 #include "Ravl/BinaryTreeUpIter.hh"

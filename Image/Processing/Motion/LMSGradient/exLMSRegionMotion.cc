@@ -8,10 +8,13 @@
 //! lib=RavlImageProc
 //! author="Bill Christmas"
 //! date="10/1/1999"
+//! userlevel=Normal
+//! docentry="Ravl.Images.Motion"
+
 //: Calculates motion vectors for a region from a pair of images using LMS fit
 //
 // Synopsis:
-//   exLMSRegion <image1> <image2> <region_image> [-r region_label]
+//   exLMSRegion <image1> <image2> <region_image> [-r region_label] <p>
 //
 // In the region image, all pixels of each region are set to the label for that
 // region, starting from 1.  Label 0 is reserved for "not a region" areas.

@@ -8,6 +8,9 @@
 //! rcsid="$Id$"
 //! lib=RavlThreads
 //! file="Ravl/OS/Threads/Tools/testTimedTriggerQueue.cc"
+//! author="Charles Galambos"
+//! docentry="Ravl.OS.Time"
+//! userlevel=Develop
 
 #include "Ravl/Threads/TimedTriggerQueue.hh"
 #include "Ravl/Random.hh"

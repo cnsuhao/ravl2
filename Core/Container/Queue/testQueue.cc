@@ -7,6 +7,9 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Queue/testQueue.cc"
+//! userlevel=Develop
+//! author="Charles Galambos"
+//! docentry="Ravl.Core.Queues"
 
 #include "Ravl/BlkQueue.hh"
 #include "Ravl/Stream.hh"

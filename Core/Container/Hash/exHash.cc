@@ -7,6 +7,9 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Hash/exHash.cc"
+//! docentry="Ravl.Core.Hash Tables"
+//! userlevel=Normal
+//! author="Charles Galambos"
 
 #include "Ravl/Hash.hh"
 #include "Ravl/HashIter.hh"

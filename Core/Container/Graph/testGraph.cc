@@ -7,6 +7,9 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Graph/testGraph.cc"
+//! docentry="Ravl.Core.Graphs"
+//! author="Charles Galambos"
+//! userlevel=Develop
 
 #include "Ravl/Graph.hh"
 #include "Ravl/IntC.hh"

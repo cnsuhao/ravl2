@@ -9,6 +9,8 @@
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Queue/testPriQH.cc"
 //! author="Charles Galambos"
+//! docentry="Ravl.Core.Queues"
+//! userlevel=Develop
 
 #include "Ravl/PriQueue.hh"
 #include "Ravl/Random.hh"

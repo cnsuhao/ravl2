@@ -8,6 +8,9 @@
 //! rcsid="$Id$"
 //! lib=RavlThreads
 //! file="Ravl/OS/Threads/Tools/testLaunchThread.cc"
+//! author="Charles Galambos"
+//! docentry="Ravl.OS.Threads"
+//! userlevel=Develop
 
 #include "Ravl/Threads/LaunchThread.hh"
 #include "Ravl/Threads/MessageQueue.hh"

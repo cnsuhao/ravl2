@@ -7,6 +7,9 @@
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Corners/exCorner.cc"
+//! docentry="Ravl.Images.Corner Detection"
+//! author="Charles Galambos"
+//! userlevel=Normal
 
 #include "Ravl/Image/CornerDetectorHarris.hh"
 #include "Ravl/Image/CornerDetectorSusan.hh"

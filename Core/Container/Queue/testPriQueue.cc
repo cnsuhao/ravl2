@@ -8,6 +8,9 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Queue/testPriQueue.cc"
+//! userlevel=Develop
+//! author="Charles Galambos"
+//! docentry="Ravl.Core.Queues"
 
 #include "Ravl/PriQueueL.hh"
 #include "Ravl/EntryPnt.hh"

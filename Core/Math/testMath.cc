@@ -7,6 +7,9 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Math/testMath.cc"
+//! author="Charles Galambos"
+//! docentry="Ravl.Core.Math"
+//! userlevel=Develop
 
 #include "Ravl/Random.hh"
 #include "Ravl/TFMatrix.hh"

@@ -8,6 +8,8 @@
 //! file="Ravl/Image/Processing/Tracking/mosaic.cc"
 //! author="Phil McLauchlan"
 //! lib=RavlImageProc
+//! docentry="Ravl.Applications.Mosaic.mosaic"
+//! userlevel=Normal
 
 #include "Ravl/Option.hh"
 #include "Ravl/StdConst.hh"

@@ -8,6 +8,9 @@
 //! rcsid="$Id$"
 //! lib=RavlDPMT
 //! file="Ravl/OS/DataProc/exMTDataProc.cc"
+//! author="Charles Galambos"
+//! docentry="Ravl.Core.Data Processing"
+//! userlevel=Normal
 
 #include "Ravl/Option.hh" 
 #include "Ravl/DP/FileIO.hh"

@@ -7,7 +7,9 @@
 //! rcsid="$Id$"
 //! lib=RavlDPMT
 //! file="Ravl/OS/DataProc/testOSDataProc.cc"
-
+//! docentry="Ravl.Core.Data Processing.Threads"
+//! author="Charles Galambos"
+//! userlevel=Develop
 
 #include "Ravl/DP/ThreadPipe.hh"
 #include "Ravl/DP/MTIOConnect.hh"

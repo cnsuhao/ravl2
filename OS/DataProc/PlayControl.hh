@@ -19,6 +19,8 @@
 #include "Ravl/DP/StreamOp.hh"
 #include "Ravl/DP/SPort.hh"
 
+#define RAVL_GCC3FIX 1
+
 namespace RavlN {
 
   //! userlevel=Develop
@@ -317,9 +319,13 @@ namespace RavlN {
 	sema.Wait();
       // Something is corrupting the stack in gcc-3.2.x, so protect the mutex
       // with some space allocated in n[] and n1[]
+#if RAVL_GCC32FIX  
       int n1[10]; // Hacky bug fix.
+#endif
       MutexLockC lock(access);
+#if RAVL_GCC32FIX  
       int n[10];
+#endif
       //cerr << "Access a=" << ((void *) & access) << "\n";
       RavlAssert(&(lock.Mutex()) == &access);
       RavlAssert(input.IsValid());
@@ -333,8 +339,10 @@ namespace RavlN {
       RavlAssert(&(lock.Mutex()) == &access);
       //cerr << "Access b=" << ((void *) & access) << " " << << "\n";
       // Use n1 and n to avoid warnings.
+#if RAVL_GCC32FIX  
       n1[0] =0;
       n[0] = n1[0];
+#endif
       lock.Unlock();
       return true;
     }

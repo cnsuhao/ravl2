@@ -7,6 +7,9 @@
 //! rcsid="$Id$"
 //! lib=RavlImage
 //! file="Ravl/Image/Base/exImage.cc"
+//! docentry="Ravl.Images"
+//! userlevel=Normal
+//! author="Charles Galambos"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Array2dIter.hh"

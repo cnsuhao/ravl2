@@ -7,6 +7,8 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! docentry="Ravl.Pattern Recognition.Cluster"
+//! userlevel=Normal
 
 #include "Ravl/PatternRec/DesignKMeans.hh"
 #include "Ravl/PatternRec/DataSet1.hh"

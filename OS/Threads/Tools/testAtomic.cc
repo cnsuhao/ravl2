@@ -7,6 +7,8 @@
 //! rcsid="$Id$"
 //! lib=RavlThreads
 //! author="Charles Galambos"
+//! docentry="Ravl.Core.Misc"
+//! userlevel=Develop
 
 #include "Ravl/Threads/Semaphore.hh"
 #include "Ravl/Threads/LaunchThread.hh"

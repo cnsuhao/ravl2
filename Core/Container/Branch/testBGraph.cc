@@ -5,11 +5,14 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////////////
-// Test Branching Graphs.
-// $Id$
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Branch/testBGraph.cc"
+//! userlevel=Develop
+//! author="Charles Galambos"
+//! docentry="Ravl.Core.Branch"
+
+//: Test Branching Graphs.
 
 #include "Ravl/BDAGraph.hh"
 #include "Ravl/BGraphNodeIter.hh"

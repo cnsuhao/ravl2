@@ -8,6 +8,9 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Queue/testFixedQueue.cc"
+//! userlevel=Develop
+//! author="Charles Galambos"
+//! docentry="Ravl.Core.Queues"
 
 #include "Ravl/FixedQueue.hh"
 #include "Ravl/Stream.hh"

@@ -8,6 +8,9 @@
 //! rcsid="$Id$"
 //! lib=RavlThreads
 //! file="Ravl/OS/Threads/Tools/testTickerTrigger.cc"
+//! docentry="Ravl.OS.Time"
+//! author="Charles Galambos"
+//! userlevel=Develop
 
 #include "Ravl/Threads/TickerTrigger.hh"
 #include "Ravl/Atomic.hh"

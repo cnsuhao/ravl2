@@ -8,14 +8,16 @@
 //! rcsid="$Id$"
 //! lib=RavlExtImgIO
 //! file="Ravl/Image/ExternalImageIO/exExtImgIO.cc"
+//! docentry="Ravl.Images.IO.Formats"
+//! userlevel=Normal
+//! author="Charles Galambos"
 
 #include "Ravl/Option.hh"
 #include "Ravl/DP/FileFormatIO.hh"
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
-//#include "Ravl/DP/ImgIO.hh" // For InitDPImageIO().
 
-// This is just here for convienance... same as exImgIO.cc
+//: This is just here for convienance... same as exImgIO.cc
 
 using namespace RavlImageN;
 

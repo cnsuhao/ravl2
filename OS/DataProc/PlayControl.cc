@@ -88,6 +88,13 @@ namespace RavlN {
     ok = true;
     ctrl = nCntrl;
     // Preserve sequence limits ???
+    if(!ctrl.IsValid()) {
+      // Seek ctrl isn't valid.
+      start = 0;
+      at = 0;
+      end = ((UIntT) -1);
+      return true;
+    }
     start = ctrl.Start();
     at = start;
     ctrl.Seek(start);

@@ -7,6 +7,9 @@
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Tools/testImageTools.cc"
+//! docentry="Ravl.Images.Misc"
+//! userlevel=Develop
+//! author="Charles Galambos"
 
 #include "Ravl/Image/PyramidScan.hh"
 #include "Ravl/Image/Rectangle2dIter.hh"

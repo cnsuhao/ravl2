@@ -13,6 +13,7 @@
 //! date="07/12/1999"
 //! example=exLMSRegionMotion.cc
 //! lib=RavlImageProc
+//! docentry="Ravl.Images.Motion"
 
 #include "Ravl/Types.hh"
 #include "Ravl/Image/Image.hh"

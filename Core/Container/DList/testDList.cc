@@ -7,6 +7,9 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/DList/testDList.cc"
+//! userlevel=Develop
+//! author="Charles Galambos"
+//! docentry="Ravl.Core.Lists"
 
 #include "Ravl/IntrDList.hh"
 #include "Ravl/IntrDLIter.hh"

@@ -7,6 +7,9 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Misc/testBinTable.cc"
+//! author="Charles Galambos"
+//! docentry="Ravl.Core.Misc"
+//! userlevel=Develop
 
 #include "Ravl/BinTable.hh"
 #include "Ravl/BinIter.hh"

@@ -7,6 +7,9 @@
 //! rcsid="$Id$"
 //! lib=RavlSourceTools
 //! file="Ravl/SourceTools/CodeManager/exBuildInfo.cc"
+//! author="Charles Galambos"
+//! docentry="Ravl.Source Tools"
+//! userlevel=Normal
 
 #include "Ravl/Option.hh"
 #include "Ravl/SourceTools/DefsFile.hh"

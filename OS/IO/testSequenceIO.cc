@@ -7,7 +7,9 @@
 //! rcsid="$Id$"
 //! lib=RavlOSIO
 //! file="Ravl/OS/IO/testSequenceIO.cc"
-
+//! author="Charles Galambos"
+//! docentry="Ravl.OS.Sequence"
+//! userlevel=Develop
 
 #include "Ravl/DP/SPort.hh"
 #include "Ravl/DP/FileFormat.hh"

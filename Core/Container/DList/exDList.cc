@@ -7,8 +7,11 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/DList/exDList.cc"
+//! userlevel=Normal
+//! author="Charles Galambos"
+//! docentry="Ravl.Core.Lists"
 
-// Simple example of DList's.
+//: Simple example of DList's.
 
 #include "Ravl/DList.hh"
 #include "Ravl/DLIter.hh"

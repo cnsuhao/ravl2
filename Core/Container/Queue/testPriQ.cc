@@ -5,10 +5,12 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////////////
-// Check Priority Queue.   By Charles Galambos
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Queue/testPriQ.cc"
+//! userlevel=Develop
+//! author="Charles Galambos"
+//! docentry="Ravl.Core.Queues"
 
 #include "Ravl/PriQueueL.hh"
 #include "Ravl/Random.hh"

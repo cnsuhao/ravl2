@@ -7,6 +7,9 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Branch/testBranch.cc"
+//! userlevel=Develop
+//! author="Charles Galambos"
+//! docentry="Ravl.Core.Branch"
 
 #include "Ravl/Stream.hh"
 #include "Ravl/BList.hh"

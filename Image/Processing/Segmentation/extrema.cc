@@ -7,6 +7,8 @@
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! author="Charles Galambos"
+//! docentry="Ravl.Images.Segmentation"
+//! userlevel=Normal
 
 #include "Ravl/Image/SegmentExtrema.hh"
 #include "Ravl/Option.hh"

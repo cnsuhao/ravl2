@@ -6,8 +6,11 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlImageProc
-//
-// Descripton:    Program calculates optical flow from pair of input images
+//! docentry="Ravl.Images.Motion"
+//! userlevel=Normal
+//! author="Bill Christmas"
+
+//:Program calculates optical flow from pair of input images
 //
 // For each pixel, the optic flow is calculated over a square neighbourhood of
 // size "windowSize" (default = 9 pixels).  The optional PostScript output

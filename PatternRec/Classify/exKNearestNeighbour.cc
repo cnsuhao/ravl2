@@ -7,6 +7,8 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! docentry="Ravl.Pattern Recognition.Classifier"
+//! userlevel=Normal
 
 #include "Ravl/PatternRec/DesignKNearestNeighbour.hh"
 #include "Ravl/PatternRec/DataSet2.hh"

@@ -7,9 +7,11 @@
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! file="Ravl/Image/Processing/Segmentation/testConnectedComponents.cc"
+//! docentry="Ravl.Images.Segmentation"
+//! userlevel=Develop
+//! author="Charles Galambos"
 
 #include "Ravl/Image/ConnectedComponents.hh"
-
 
 using namespace RavlImageN;
 

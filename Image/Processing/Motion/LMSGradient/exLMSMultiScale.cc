@@ -6,6 +6,9 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlImageProc
+//! docentry="Ravl.Images.Motion.Optical Flow"
+//! userlevel=Normal
+//! author="Bill Christmas"
 
 #include "Ravl/Option.hh"
 #include "Ravl/OS/Filename.hh"

@@ -7,8 +7,10 @@
 ////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlThreads
-//! author="Charles Galambos"
 //! file="Ravl/OS/Threads/Tools/testSignal.cc"
+//! author="Charles Galambos"
+//! docentry="Ravl.OS.Signals"
+//! userlevel=Develop
 
 #include "Ravl/Threads/Signal.hh"
 #include "Ravl/Threads/Signal1.hh"

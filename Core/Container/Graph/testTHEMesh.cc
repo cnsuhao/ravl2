@@ -6,6 +6,9 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! author="Charles Galambos"
+//! docentry="Ravl.Core.Graphs.Half Edge Mesh"
+//! userlevel=Develop
 
 #include "Ravl/THEMeshEdge.hh"
 #include "Ravl/THEMeshFace.hh"
