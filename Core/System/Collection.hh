@@ -55,6 +55,13 @@ namespace RavlN {
     // held on the collection. <p>
     // The index at which the item was placed is returned.
     
+    UIntT Insert(const Array1dC<DataT> &dat);
+    //: Add an array of data items to the collection.
+    //  NB. This may cause the storage array to 
+    // be reallocated which will invalidate any iterators
+    // held on the collection. <p>
+    // The first index at which the items were placed is returned.
+    
     inline
     UIntT InsertRandom(const DataT &dat);
     //: Add a data item to the collection in a random place.
@@ -184,6 +191,14 @@ namespace RavlN {
     // be reallocated which will invalidate any iterators
     // held on the collection.
     
+    UIntT Insert(const Array1dC<DataT> &dat)
+    { return Body().Insert(dat); }
+    //: Add an array of data items to the collection.
+    //  NB. This may cause the storage array to 
+    // be reallocated which will invalidate any iterators
+    // held on the collection. <p>
+    // The first index at which the items were placed is returned.
+
     inline
     UIntT InsertRandom(const DataT &dat)
     { return Body().InsertRandom(dat); }
@@ -316,6 +331,23 @@ namespace RavlN {
     data[n++] = dat;
     return i;
   } 
+
+  template<class DataT>
+  UIntT CollectionBodyC<DataT>::Insert(const Array1dC<DataT> &dat) {
+    if(((IntT) (n + dat.Size()) -1) >= (IntT) data.Size()) {
+      UIntT ns = (UIntT) data.Size() * 2;
+      while(ns < (n + data.Size()))
+	ns *= 2;
+      data = data.Copy(ns); // Double the size of the collection.
+    }
+    int i = n;
+    // Copy in elements.
+    for(BufferAccessIter2C<DataT,DataT> it(dat,data,0,n);it;it++)
+      it.Data2() = it.Data1();
+    n += dat.Size();
+    return i;
+  }
+  
 
   template<class DataT>
   inline
