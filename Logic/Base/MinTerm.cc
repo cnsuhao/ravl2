@@ -23,10 +23,25 @@ namespace RavlLogicN {
     : AndBodyC(1)
   {}
   
+  //: Construct from a single literal.
+  // Effectively add NotC(lit) if negate is true.
+  
+  MinTermBodyC::MinTermBodyC(const LiteralC &lit,bool negate) {
+    args = SArray1dC<LiteralC>(2);
+    args[0] = literalAnd;
+    if(negate) {
+      NotC nt(lit);
+      args[1] = nt;
+      n = nt.Args().From(1,1);
+    } else {
+      args[1] = lit;
+      t = args.From(1,1);
+    }
+  }
+  
   //: Constructor
   
   MinTermBodyC::MinTermBodyC(const SArray1dC<LiteralC> &ts,const SArray1dC<LiteralC> &ns) 
-    : AndBodyC()
   {
     if(ns.Size() > 0) 
       args = SArray1dC<LiteralC>(ts.Size() + 2);
@@ -38,7 +53,8 @@ namespace RavlLogicN {
     t = args.From(1,ts.Size());
     if(ns.Size() > 0) {
       OrC orv(ns);
-      args[ts.Size() + 1] = NotC(orv); 
+      n = orv.Args().From(1,orv.Args().Size()-1);
+      args[ts.Size() + 1] = NotC(orv);
     }
   }
   

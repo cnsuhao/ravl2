@@ -99,7 +99,10 @@ namespace RavlLogicN {
       : RCHandleC<LiteralBodyC>(*new LiteralBodyC())
       {}
     //: Constructor.
-
+    
+    LiteralC(const char *name);
+    //: Create a named literal.
+    
   protected:
     LiteralC(LiteralBodyC &bod)
       : RCHandleC<LiteralBodyC>(bod)

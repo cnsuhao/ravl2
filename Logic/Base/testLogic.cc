@@ -77,11 +77,14 @@ int testBasic() {
   
   if(!Literal().IsValid()) return __LINE__;
   if(!Var().IsValid()) return __LINE__;
-
+  
   LiteralC s1(Literal());
   LiteralC s2(Literal());
   VarC v1(true);
   LiteralC test;
+  
+  LiteralC nl1("Hello");
+  if(nl1 != LiteralC("Hello")) return __LINE__;
   
   // Check unification of plain literals.
   BindSetC bs1(true);

@@ -60,4 +60,12 @@ namespace RavlLogicN {
     tmp = NamedLiteralC(*new NamedLiteralBodyC(name));
     (*this) = tmp;
   }
+  
+  //////////////////////////////////////////////////////////////////////
+  
+  //: Create a named literal.
+  
+  LiteralC::LiteralC(const char *name) 
+  { (*this) = NamedLiteralC(StringC(name)); }
+  
 }

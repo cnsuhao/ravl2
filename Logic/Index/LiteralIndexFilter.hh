@@ -78,9 +78,14 @@ namespace RavlLogicN {
     : public LiteralMapIterC<DataT>
   {
   public:
+    LiteralIndexFilterC()
+    {}
+    //: Default constructor.
+    
     LiteralIndexFilterC(const LiteralIndexC<DataT> &ind,const LiteralC &filter)
       : LiteralMapIterC<DataT>(*new LiteralIndexFilterBodyC<DataT>(ind,filter))
     {}
+    //: Construct from and index and a filter.
     
   protected:
     LiteralIndexFilterC(LiteralMapIterBodyC<DataT> &bod)

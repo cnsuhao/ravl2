@@ -10,8 +10,9 @@
 PACKAGE=Ravl/Logic
 
 HEADERS=LiteralIndexBase.hh LiteralIndexElement.hh LiteralIndexLeaf.hh \
- LiteralIndexNode.hh LiteralIndex.hh LiteralIndexIter.hh LiteralIndexFilterBase.hh \
- LiteralIndexFilter.hh LiteralIndexLeafIter.hh
+ LiteralIndexNode.hh LiteralIndex.hh LiteralIndexIter.hh \
+ LiteralIndexFilterBase.hh LiteralIndexFilter.hh LiteralIndexLeafIter.hh \
+ BLiteralIndex.hh BMinTermIndex.hh BMinTermIndexIter.hh BMinTermListIndex.hh
 
 SOURCES=LiteralIndexBase.cc LiteralIndexElement.cc LiteralIndexLeaf.cc \
  LiteralIndexNode.cc LiteralIndexIter.cc LiteralIndexFilterBase.cc \
@@ -23,6 +24,6 @@ LIBDEPS=RavlLogicIndex.def
 
 USESLIBS=RavlLogic
 
-TESTEXES=testLiteralIndex.cc
+TESTEXES=testLiteralIndex.cc testBLiteralIndex.cc
 
 EHT=Ravl.Logic.Index.html

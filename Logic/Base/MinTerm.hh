@@ -32,11 +32,15 @@ namespace RavlLogicN {
     MinTermBodyC(const SArray1dC<LiteralC> &ts,const SArray1dC<LiteralC> &ns);
     //: Constructor
     
-    const SArray1dC<LiteralC> &Pos()
+    MinTermBodyC(const LiteralC &lit,bool negate);
+    //: Construct from a single literal.
+    // Effectively add NotC(lit) if negate is true.
+    
+    const SArray1dC<LiteralC> &Pos() const
     { return t; }
     //: Positive terms.
     
-    const SArray1dC<LiteralC> &Neg()
+    const SArray1dC<LiteralC> &Neg() const
     { return n; }
     //: Negated terms.
     
@@ -62,6 +66,20 @@ namespace RavlLogicN {
     {}
     //: Contructor
 
+    MinTermC(const LiteralC &lit,bool negate) 
+      : AndC(*new MinTermBodyC(lit,negate))
+    {}
+    //: Construct from a literal.
+    // Effectively add NotC(lit) if negate is true.
+    
+    MinTermC(const LiteralC &lit) 
+      : AndC(lit)
+    {
+      if(dynamic_cast<const MinTermBodyC *>(&LiteralC::Body()) == 0)
+	(*this) = MinTermC(lit,false);
+    }
+    //: Base constructor
+    
   protected:
     MinTermC(MinTermBodyC &bod)
       : AndC(bod)
@@ -76,20 +94,12 @@ namespace RavlLogicN {
     { return static_cast<const MinTermBodyC &>(LiteralC::Body()); }
     //: Access body.
     
-  public:    
-    MinTermC(const LiteralC &term)
-      : AndC(term)
-    {
-      if(dynamic_cast<const MinTermBodyC *>(&LiteralC::Body()) == 0)
-	Invalidate();
-    }
-    //: Construct from base class.
-    
-    const SArray1dC<LiteralC> &Pos()
+  public:        
+    const SArray1dC<LiteralC> &Pos() const
     { return Body().Pos(); }
     //: Positive terms.
     
-    const SArray1dC<LiteralC> &Neg()
+    const SArray1dC<LiteralC> &Neg() const
     { return Body().Neg(); }
     //: Negated terms.
     
