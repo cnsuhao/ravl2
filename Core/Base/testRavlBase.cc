@@ -14,6 +14,7 @@
 #include "Ravl/IntC.hh"
 #include "Ravl/SubIndexRange2dIter.hh"
 #include "Ravl/SubIndexRange3dIter.hh"
+#include "Ravl/Stream.hh"
 
 using namespace RavlN;
 

@@ -19,14 +19,16 @@ HEADERS=Types.hh config.h Pair.hh \
  Index3d.hh RCWrap.hh Empty.hh IntC.hh TFVector.hh FIndex.hh \
  StdConst.hh RCAbstract.hh Math.hh CallMethods.hh CallMethodRefs.hh \
  DeepCopy.hh StdHash.hh Const.hh IndexRange3d.hh Average.hh RealC.hh \
- SmartPtr.hh SubIndexRange2dIter.hh SubIndexRange3dIter.hh
+ SmartPtr.hh SubIndexRange2dIter.hh SubIndexRange3dIter.hh \
+ RealRange1d.hh RealRange2d.hh RealRange3d.hh
 
 SOURCES=Assert.cc Exception.cc EntryPnt.cc Index.cc String.cc \
  RefCounter.cc HandleRefCounter.cc Trigger.cc Calls.cc \
  MTLocks.cc StreamType.cc Stream.cc StrStream.cc BinStream.cc \
  BitStream.cc IndexRange1d.cc IndexRange2d.cc \
  Index2d.cc Index3d.cc IntC.cc StdConst.cc RCAbstract.cc \
- BinString.cc RCWrap.cc IndexRange3d.cc Math.cc RealC.cc
+ BinString.cc RCWrap.cc IndexRange3d.cc Math.cc RealC.cc \
+ RealRange1d.cc RealRange2d.cc RealRange3d.cc
 
 PLIB=RavlCore
 

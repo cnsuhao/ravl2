@@ -14,13 +14,8 @@
 
 namespace RavlN {
   
-  bool IsInside(IndexC i, const IndexRangeC & range) {
-    return (range.Min() <= i) && (i <= range.Max());
-  }
-  
-  bool IndexRangeC::In(const IndexRangeC & range) const {
-    return IsInside(Min(),range) && IsInside(Max(),range);
-  } 
+  IndexRangeC::IndexRangeC(istream & s)
+  { s >> minI >> maxI; }
   
   istream & 
   operator>>(istream & sss, IndexRangeC & range) { 

@@ -20,6 +20,16 @@ namespace RavlN {
       js(jRange),
       ks(kRange)
   {}
+
+  ostream &operator<<(ostream &s,const IndexRange3dC &ir) {
+    s << ir.Range1() << ' ' << ir.Range2() << ' ' << ir.Range3();
+    return s;
+  }
+  
+  istream &operator>>(istream &s,IndexRange3dC &ir) {
+    s >> ir.Range1() >> ir.Range2() >> ir.Range3();
+    return s;
+  }
   
   BinOStreamC &operator<<(BinOStreamC &s,const IndexRange3dC &ir) {
     s << ir.Range1() << ir.Range2() << ir.Range3();

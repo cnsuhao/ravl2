@@ -39,6 +39,16 @@ namespace RavlN {
   IndexRange2dC IndexRange2dC::Rotate180(Index2dC centre) {
     return IndexRange2dC((End() * -1) + (centre*2),(Origin() * -1) + (centre * 2));
   }
+
+  ostream &operator<<(ostream &s,const IndexRange2dC &ir) {
+    s << ir.Range1() << ' ' << ir.Range2();
+    return s;
+  }
+  
+  istream &operator>>(istream &s,IndexRange2dC &ir) {
+    s >> ir.Range1() >> ir.Range2();
+    return s;
+  }
   
   BinOStreamC &operator<<(BinOStreamC &s,const IndexRange2dC &ir) {
     s << ir.Range1() << ir.Range2();

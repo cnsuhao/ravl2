@@ -201,9 +201,41 @@ namespace RavlN {
     DataT data[N];
   };
   
+  template<class DataT>
+  inline TFVectorC<DataT,2> TFVector2(const DataT &v1,const DataT &v2) {
+    TFVectorC<DataT,2> ret;
+    ret[0] = v1;
+    ret[1] = v2;
+    return ret;
+  } 
+  //: Create a 2d vector.
+  // Helper function to make creation of fixed size vectors easier.
+  
+  template<class DataT>
+  inline TFVectorC<DataT,3> TFVector3(const DataT &v1,const DataT &v2,const DataT &v3) {
+    TFVectorC<DataT,3> ret;
+    ret[0] = v1;
+    ret[1] = v2;
+    ret[2] = v3;
+    return ret;
+  } 
+  //: Create a 3d vector.
+  // Helper function to make creation of fixed size vectors easier.
+
+  template<class DataT>
+  inline TFVectorC<DataT,4> TFVector4(const DataT &v1,const DataT &v2,const DataT &v3,const DataT &v4) {
+    TFVectorC<DataT,4> ret;
+    ret[0] = v1;
+    ret[1] = v2;
+    ret[2] = v3;
+    ret[3] = v4;
+    return ret;
+  } 
+  //: Create a 3d vector.
+  // Helper function to make creation of fixed size vectors easier.
+  
   template<class DataT,unsigned int N>
-  inline
-  void SetZero(TFVectorC<DataT,N> &x) { 
+  inline void SetZero(TFVectorC<DataT,N> &x) { 
     DataT xv;
     SetZero(xv);
     x.Fill(xv);
