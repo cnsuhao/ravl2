@@ -10,8 +10,8 @@
 
 PACKAGE=Ravl
 
-HEADERS=Stack.hh StackIt.hh \
- Tuple2.hh Tuple3.hh Tuple4.hh
+HEADERS=Stack.hh StackIt.hh Tuple2.hh Tuple3.hh Tuple4.hh \
+ BlkStack.hh BlkStackIter.hh
 
 SOURCES=Stack.cc
 
@@ -21,6 +21,6 @@ LIBDEPS=RavlCMisc.def
 
 USESLIBS=RavlCore
 
-TESTEXES=testStack.cc testQueue.cc
+TESTEXES=testStack.cc testBlkStack.cc testQueue.cc
 
 EHT=Ravl.Core.Stacks.eht Ravl.Core.Tuples.eht

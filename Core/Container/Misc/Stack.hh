@@ -299,7 +299,7 @@ namespace RavlN {
     // state  with nothing allocated 
     if(blkSize>0) { 
       DelBlk();                 // Note:
-      blkSize=0;		      // 1. if this wasn't done the destruct.
+      blkSize=0;		// 1. if this wasn't done the destruct.
     }                           // would leak
   }
   
