@@ -10,6 +10,7 @@
 //! file="Ravl/Core/IO/IOConnect.cc"
 
 #include "Ravl/DP/IOConnect.hh"
+#include "Ravl/DP/AttributeValueTypes.hh"
 
 namespace RavlN {
 
@@ -17,7 +18,9 @@ namespace RavlN {
   
   DPIOConnectBaseBodyC::DPIOConnectBaseBodyC()
     : running(false)
-  {}
+  {
+    RegisterAttribute(AttributeTypeBoolC("running","Pump is processing data.",true,true,false));
+  }
   
   //: Op type name.
   
@@ -49,6 +52,54 @@ namespace RavlN {
   bool DPIOConnectBaseBodyC::IsReady() const {
     RavlAssertMsg(0,"DPIOConnectBaseBodyC::IsReady(), Abstract method called.");
     return false;
+  }
+  
+  //: Get a attribute.
+  // Returns false if the attribute name is unknown.
+  // This is for handling attributes such as frame rate, and compression ratios.
+  
+  bool DPIOConnectBaseBodyC::GetAttr(const StringC &attrName,bool &attrValue) {
+    if(attrName == "running") {
+      attrValue = running;
+      return true;
+    }
+    return AttributeCtrlBodyC::GetAttr(attrName,attrValue);
+  }
+  
+  //: Set a attribute.
+  // Returns false if the attribute name is unknown.
+  // This is for handling attributes such as frame rate, and compression ratios.
+  
+  bool DPIOConnectBaseBodyC::SetAttr(const StringC &attrName,const bool &attrValue) {
+    if(attrName == "running") {
+      if(attrValue) {
+	if(!running)
+	  if(Run())
+	    SignalChange("running");
+      } else {
+	if(running)
+	  if(Stop())
+	    SignalChange("running");
+      }
+      return true;
+    }
+    return AttributeCtrlBodyC::SetAttr(attrName,attrValue);
+  }
+  
+  //: Get a attribute.
+  // Returns false if the attribute name is unknown.
+  // This is for handling attributes such as frame rate, and compression ratios.
+  
+  bool DPIOConnectBaseBodyC::GetAttr(const StringC &attrName,StringC &attrValue) {
+    return AttributeCtrlBodyC::GetAttr(attrName,attrValue);
+  }
+  
+  //: Set a attribute.
+  // Returns false if the attribute name is unknown.
+  // This is for handling attributes such as frame rate, and compression ratios.
+  
+  bool DPIOConnectBaseBodyC::SetAttr(const StringC &attrName,const StringC &attrValue) {
+    return AttributeCtrlBodyC::SetAttr(attrName,attrValue);
   }
   
 }

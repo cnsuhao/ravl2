@@ -25,7 +25,8 @@ namespace RavlN {
   //: IO Connector base
   
   class DPIOConnectBaseBodyC
-    : public DPStreamOpBodyC
+    : public DPStreamOpBodyC,
+      public AttributeCtrlBodyC
   {
   public:
     DPIOConnectBaseBodyC();
@@ -62,6 +63,27 @@ namespace RavlN {
     }
     //: Attempt to start running, fails if running already.
     // FIXME :- Turn into an atomic operation.
+    
+    virtual bool GetAttr(const StringC &attrName,bool &attrValue);
+    //: Get a attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling attributes such as frame rate, and compression ratios.
+    
+    virtual bool SetAttr(const StringC &attrName,const bool &attrValue);
+    //: Set a attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling attributes such as frame rate, and compression ratios.
+    
+    virtual bool GetAttr(const StringC &attrName,StringC &attrValue);
+    //: Get a attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling attributes such as frame rate, and compression ratios.
+    
+    virtual bool SetAttr(const StringC &attrName,const StringC &attrValue);
+    //: Set a attribute.
+    // Returns false if the attribute name is unknown.
+    // This is for handling attributes such as frame rate, and compression ratios.
+    
   protected:
     volatile bool running;
   };
