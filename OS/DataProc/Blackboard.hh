@@ -68,7 +68,7 @@ namespace RavlN {
     
     bool Remove(const StringC &tag) {
       RWLockHoldC lock(rwlock,false);
-      entries.Del(tag);
+      return entries.Del(tag);
     }
     //: Remove entry from blackboard.
     
