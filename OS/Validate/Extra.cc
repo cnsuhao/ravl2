@@ -371,12 +371,14 @@ int CheckChildProc()
 {
   ONDEBUG(cerr << "Starting child prog test.... \n");
   StringC pn(procname);
+  ONDEBUG(cerr << "Using procname='" << procname << "' \n");
   //cerr << "Validate:" << pn << endl;
   if(pn.IsEmpty()) {
     cerr << "Can't find path to validation program. \n";
     return __LINE__;
   }
 #if 1
+  // Check return true.
   ChildOSProcessC xp3(pn + " -t");
   if(!xp3.Wait(1)) {
     cerr << "ERROR: Wait failed 2 \n";
@@ -390,6 +392,8 @@ int CheckChildProc()
     cerr << "Expected exitcode == 0 : " << xp3.ExitCode() << endl;
     return __LINE__;
   }
+  
+  // Check return false.
   ChildOSProcessC xp4(pn + " -f");
   if(!xp4.Wait(1)) {
     cerr << "ERROR: Wait failed 2 \n";
@@ -403,6 +407,7 @@ int CheckChildProc()
     cerr << "Expected exitcode != 0 : " << xp4.ExitCode() << endl;
     return __LINE__;
   }
+  
   // Check segmentation faults.
   ONDEBUG(cerr << "Starting seg fault test... \n");
   FilenameC tmpDir("/tmp");
@@ -417,12 +422,17 @@ int CheckChildProc()
     cerr << "Failed to choose temp file. \n";
     return __LINE__;
   }
-  ONDEBUG(cerr << "Executing \n");
-  ChildOSProcessC xp2(pn + " -s",tmpFile,true);
+  StringC segcmd = pn + " -s";
+  ONDEBUG(cerr << "Executing '" << segcmd << "'\n");
+#if 0
+  ChildOSProcessC xp2(segcmd,tmpFile,true);
   if(!tmpFile.Exists()) {
     cerr << "Failed to create temp file. \n";
     return __LINE__;
   }
+#else  
+  ChildOSProcessC xp2(segcmd);
+#endif
   ONDEBUG(cerr << "Waiting for exit... \n");
   xp2.Wait(0.5);
   if(xp2.IsRunning()) {
@@ -431,13 +441,14 @@ int CheckChildProc()
   }
   tmpFile.Remove();
   if(xp2.ExitedOk()) {
-    cerr << "ERROR: Child exited ok, during failure test. !\n";
+    cerr << "ERROR: Child exited ok, during failure test!\n";
     return __LINE__;
   }
-  // Check for hangs.
 #endif
-  ONDEBUG(cerr << "Starting hang test... \n");
-  ChildOSProcessC xp1(pn + " -hang");
+  // Check for hangs.
+  StringC cmd = pn + " -hang";
+  ONDEBUG(cerr << "Starting hang test... '" << cmd << "'\n");
+  ChildOSProcessC xp1(cmd);
   if(!xp1.IsRunning()) {
     cerr << "Run failed.\n";
     return __LINE__;

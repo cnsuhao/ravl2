@@ -24,7 +24,7 @@
 #include <assert.h>
 #include <signal.h>
 
-#define DODEBUG 1
+#define DODEBUG 0
 
 #if DODEBUG 
 #define ONDEBUG(x) x
@@ -39,14 +39,19 @@ int Validate(char *dir);
 
 StringC procname;
 
+int zyx();
+
 int main(int nargs,char *args[])
 {
   procname = args[0];
   bool hang = false;
   bool fault = false;
   bool selfTestOnly = false;
+  bool verify = false;
   char *testDir = 0;
+  ONDEBUG(cerr << "Validate " << getpid() << " args = '" << args[0] << "' ");
   for(int i = 1;i < nargs;i++) {
+    ONDEBUG(cerr << " '" << args[i] << "' ");
     if(strcmp(args[i],"-hang") == 0) { // Hang.
       hang = true;
       break;
@@ -56,15 +61,22 @@ int main(int nargs,char *args[])
       break;
     }
     if(strcmp(args[i],"-t") == 0) { // Return true
+      ONDEBUG(cerr << "Return true\n");
       exit(0);
       break;
     }
     if(strcmp(args[i],"-f") == 0) { // Return false.
+      ONDEBUG(cerr << "Return false\n");
       exit(1);
       break;
     }
     if(strcmp(args[i],"-st") == 0) { // Do only self test.
       selfTestOnly = true;
+      continue;
+    }
+    if(strcmp(args[i],"-v") == 0) { // Return false.
+      ONDEBUG(cerr << "Verify executables.\n");
+      verify = true;
       continue;
     }
     if(strcmp(args[i],"-h") == 0 || strcmp(args[i],"-help") == 0) { // Help...
@@ -73,6 +85,7 @@ int main(int nargs,char *args[])
       cerr << " -t       Return true\n";
       cerr << " -f       Return false\n";
       cerr << " -st      Self test only\n";
+      cerr << " -v       Verify excutables\n";
       cerr << " -h or -help  print help.\n";
       exit(0);
       break;
@@ -85,12 +98,22 @@ int main(int nargs,char *args[])
       testDir = args[i];
       continue;
     }
+    cerr << "\n Validate: ERROR, Unrecognised option '" << args[i] << "'\n";
+    exit(1);
   }
+  ONDEBUG(cerr << " ArgsEnd\n" << flush);
   // Do some nasty stuff ?
-  while(hang) ;
+  while(hang) {
+    zyx(); // IRIX will optimise out this loop without this call.    
+  }
   if(fault) {
+    ONDEBUG(cerr << "\nAbout to segfault\n\n" << flush);
     char *ptr = ((char *)0);
     *ptr = 0;
+  }
+  if(!verify && !selfTestOnly) {
+    cerr << "Validate: No operation requested. \n";
+    exit(1); 
   }
   try {
     // Do self check.
@@ -99,7 +122,7 @@ int main(int nargs,char *args[])
       cout << "TEST FAILED. \n" << flush;
       exit(-1);
     }
-  
+    
     // Only doing self test ?
     if(selfTestOnly)
       exit(0);
@@ -128,6 +151,10 @@ int main(int nargs,char *args[])
   exit(1);
 }
 
+int zyx() {
+  return 0;
+}
+
 int Validate(char *dir)
 {
   FilenameC testDir(dir);
@@ -143,6 +170,10 @@ int Validate(char *dir)
     return 2;
   }
   IStreamC in(testDB);
+  if(!in) {
+    cerr << "VALIDATE: Failed to open database. \n";
+    return 2;
+  }
   const int buffsize = 4096;
   char linebuff[buffsize];
   bool passed = true;
