@@ -1,0 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Last value buffer</title>
+  </head>
+
+  <body>
+    
+Sometimes only the last result from a processing pipeline is off
+interest, and we wish to `hold' this last result for use as required
+in further processing.  This can be done with the `hold' component,
+shown in Figure <A HREF="Ravl.Core.Data_Processing.Hold.html#fig:hold">16</A>. Any `Get' from the pipe returns the
+last result `Put' into it.  A typical application of the `hold'
+component is to access the latest result of some other
+computation. e.g.  the estimation of some parameter.
+<P>
+<DIV ALIGN="CENTER"><A NAME="fig:hold"></A><A NAME="206"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 16:</STRONG>
+Hold data.</CAPTION>
+<TR><TD><IMG WIDTH="316" HEIGHT="106" ALIGN="BOTTOM" BORDER="0" SRC="../../../Images/DataProc/img23.png" ALT="hold.eps"></TD></TR>
+</TABLE>
+</DIV>
+
+  </body>
+</html>

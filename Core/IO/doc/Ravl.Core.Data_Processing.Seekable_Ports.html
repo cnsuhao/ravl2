@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Random access ports</title>
+  </head>
+
+  <body>
+    <P>
+There is an extention to the input and output ports mentioned in
+Section <A
+HREF="Ravl.Core.Data_Processing.Ports.html">Ravl.Core.Data_Processing.Ports</A>
+which allows sequences to be handled more flexibly. The two new types
+of ports are derived from DPIPortC&lt;&gt; and DPOPortC&lt;&gt; but
+extend them to allow seeking operations in a manner similar to the old
+`C' style file operations.  The two new classes DPISPortC&lt;&gt; and
+DPOSPortC&lt;&gt; add the methods `Seek','DSeek' ,'Tell', `Size', and
+`Start' to the interface.
+
+<P>
+The `Seek' and `DSeek' allow seeking to an absolute and relative
+position in the stream respectively. `Tell' returns the current
+absolute position in the stream. The `Size' returns the total number
+of data elements in the stream, if known and `Start' the number of
+the first element.  In input streams the position given is that
+of the next element to be read. In output streams it is of the
+next element to be written.
+
+<P>
+The extra functionality is actually provided by a separate class,
+'DPSeekCtrlC' which can be used separately to control and monitor
+the stream position.  This handle has no type information associated
+with it, which can make the implementation of stream controls easier
+to abstract.  
+
+  </body>
+</html>

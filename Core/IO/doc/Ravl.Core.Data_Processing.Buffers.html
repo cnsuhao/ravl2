@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Queuing buffers</title>
+  </head>
+
+  <body>
+    <DIV ALIGN="CENTER"><A NAME="fig:buffer"></A><A NAME="160"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 11:</STRONG>
+Buffer.</CAPTION>
+<TR><TD><IMG WIDTH="315" HEIGHT="95" ALIGN="BOTTOM" BORDER="0" SRC="../../../Images/DataProc/img18.png" ALT="buffer.eps"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+If we wish to pipeline an operation we need to place buffers in the
+processing stream. We can do this with the `DPBufferC&lt;&gt;' class,
+shown in Figure <A HREF="Ravl.Core.Data_Processing.Buffers.html#fig:buffer">11</A>. We can use this together with the
+`pump' operator to create a processing pipeline. The pipeline below
+uses 3 threads: one for reading the data, one for processing the data
+and finally one to write the data out again.  All this can be setup
+with a single, if long, line of code given bellow.  A diagram of the
+pipe created is given in figure <A HREF="Ravl.Core.Data_Processing.Buffers.html#fig:exbuffer">12</A>. It is easy to
+extent this pipe line to include any number of processing steps. Since
+a pipe line is only as fast as its slowest element it is useful to
+balance the processing by grouping fast processes together. This is
+easy to achieve, given this syntax.
+
+<P>
+<BLOCKQUOTE>
+<TT>  DPIFileC&lt;RealT&gt;("in.dat") &#187;= DPBufferC&lt;RealT&gt;(2) &#187; DPRunningAverage(1.0,5) &#187;= DPBufferC&lt;RealT&gt;(2)  &#187;= DPOFileC&lt;RealT&gt;("out.dat");
+</TT>
+</BLOCKQUOTE>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:exbuffer"></A><A NAME="171"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 12:</STRONG>
+Example of processing pipeline.</CAPTION>
+<TR><TD>
+<IMG WIDTH="317" HEIGHT="38" ALIGN="BOTTOM" BORDER="0" SRC="../../../Images/DataProc/img19.png" ALT="ex_buffer.eps"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+There are actually two kinds of buffer available, fixed length and
+infinite buffers.  In most cases a finite buffer is desirable because it
+provides some flow control through the program. If there is no limit on the
+buffer size, a program could take an arbitrarily large amount of memory. 
+
+
+  </body>
+</html>
