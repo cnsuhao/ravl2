@@ -61,6 +61,7 @@ int BuildCxx(int argc, char **argv)
   
   OptionC opt(argc,argv);
   projName = opt.String("pn","Ravl","Project Name. ").TopAndTail();
+  projDesc = opt.String("pd","RAVL, Recognition And Vision Library","Project description. ").TopAndTail();
   StringC localProjOut = opt.String("p",prjo,"Project out. ");
   StringC inFiles = opt.String("i",localProjOut + "/inc" , "Directory containing header files");
   StringC outFile = opt.String("o",localProjOut + "/doc/Auto", "output document");
