@@ -40,6 +40,10 @@ namespace RavlN {
       : m00(nm00), m10(nm10), m01(nm01), m20(nm20), m11(nm11), m02(nm02)
     {}
     //: Constructor from a set of values.
+
+    void Reset() 
+    { m00 = m10 = m01 = m20 = m11 = m02 = 0.0; }
+    //: Reset all counters to zero.
     
     inline void AddPixel (const Index2dC &pxl);
     //: Adds a pixel to the object and updates sums.
