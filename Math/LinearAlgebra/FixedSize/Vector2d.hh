@@ -55,7 +55,15 @@ namespace RavlN {
     RealT Y() const
       { return data[1]; }
     //: Second component of vector.
-
+    
+    Vector2dC Perpendicular() const
+    { return Vector2dC(-Y(),X()); }
+    //: Get a vector perpendicular to this one.
+    
+    RealT Cross(const Vector2dC & vector) const
+    { return X() * vector.Y() - Y() * vector.X(); }
+    //: Returns the third coordinate of the cross product of this vector
+    //: and the vector 'v'.
   };
 }
 
