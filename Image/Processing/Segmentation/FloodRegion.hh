@@ -67,7 +67,7 @@ namespace RavlImageN {
     }
     //: Setup new image for processing.
     
-    bool GrowRegion(const Index2dC &seed,const InclusionTestT &inclusionCriteria,BoundaryC &boundary,IntT maxSize = 0) {
+    IntT GrowRegion(const Index2dC &seed,const InclusionTestT &inclusionCriteria,BoundaryC &boundary,IntT maxSize = 0) {
       RavlAssert(pixQueue.IsEmpty());
       inclusionTest = inclusionCriteria;
       boundary = BoundaryC(); // Create a new boundry list
@@ -75,11 +75,13 @@ namespace RavlImageN {
 	return false; // Empty region.
       pixQueue.InsLast(seed);
       id++;
+      IntT size = 0;
       if(maxSize == 0) {
-	while(!pixQueue.IsEmpty())
+	while(!pixQueue.IsEmpty()) {
 	  AddPixels(boundary,pixQueue.GetFirst());
+	  size++;
+	}
       } else {
-	IntT size = 0;
 	while(!pixQueue.IsEmpty() && size < maxSize) {
 	  AddPixels(boundary,pixQueue.GetFirst());
 	  size++;
@@ -89,25 +91,25 @@ namespace RavlImageN {
 	  return false;
 	}
       }
-      return true;
+      return size;
     }
     //: Grow a region from 'seed' including all connected pixel less than or equal to threshold, generate a boundry as the result.
-    // Returns false if the region has zero size.
+    // Returns the region size.
 
     template<typename MaskT>
-    bool GrowRegion(const Index2dC &seed,const InclusionTestT &inclusionCriteria,ImageC<MaskT> &mask,IntT padding = 0,IntT maxSize = 0) {
+    IntT GrowRegion(const Index2dC &seed,const InclusionTestT &inclusionCriteria,ImageC<MaskT> &mask,IntT padding = 0,IntT maxSize = 0) {
       inclusionTest = inclusionCriteria;
       RavlAssert(pixQueue.IsEmpty());
       if(!inclusionTest(img[seed]))
 	return false; // Empty region.
       pixQueue.InsLast(seed);
       id++;
+      IntT size = 0;
       IndexRange2dC rng(seed,1,1);
       if(maxSize <= 0) {
 	while(!pixQueue.IsEmpty())
 	  AddPixels(rng,pixQueue.GetFirst());
       } else {
-	IntT size = 0;
 	while(!pixQueue.IsEmpty() && size < maxSize) {
 	  AddPixels(rng,pixQueue.GetFirst());
 	  size++;
@@ -120,13 +122,19 @@ namespace RavlImageN {
       mask = ImageC<MaskT>(rng.Expand(padding));
       if(padding > 0)
 	DrawFrame(mask,(MaskT) 0,padding,mask.Frame());
-      for(Array2dIter2C<MaskT,IntT> it(mask,marki,rng);it;it++)
-	it.Data1() = it.Data2() == id ? 1 : 0;
-      return true;
+      size = 0;
+      for(Array2dIter2C<MaskT,IntT> it(mask,marki,rng);it;it++) {
+	if(it.Data2() == id) {
+	  size++;
+	  it.Data1() = 1;
+	} else
+	  it.Data1() = 0;
+      }
+      return size;
     }
     //: Grow a region from 'seed' including all connected pixel less than or equal to threshold, generate a mask as the result.
     // The mask images are generated with a boundry
-    // Returns false if the region has zero size.
+    // Returns the region size.
     
     ImageC<IntT> &MarkImage()
     { return marki; }
