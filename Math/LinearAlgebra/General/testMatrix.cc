@@ -331,6 +331,17 @@ int testVector() {
   if(vec3a[1] != 2) return __LINE__;
   if(vec3a[2] != 3) return __LINE__;
  
+  VectorC vec3b(3,2,1);
+  RealT dist = vec3.CityBlockDistance(vec3b);
+  //cerr << "DistCB=" << dist << "\n";
+  if(Abs(dist - 4) > 0.000000001) return __LINE__;
+  dist = vec3.MaxValueDistance(vec3b);
+  //cerr << "DistMax=" << dist << "\n";
+  if(Abs(dist - 2) > 0.000000001) return __LINE__;
+  dist = vec3.EuclidDistance(vec3b);
+  //cerr << "Dist=" << dist << "\n";
+  if(Abs(dist - 2.82843) > 0.0001) return __LINE__;
+  
   // Check evil conversions between fixed and general matricies and vectors work...
   
   MatrixC wtoi(2,3);

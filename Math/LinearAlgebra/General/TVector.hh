@@ -136,6 +136,22 @@ namespace RavlN {
     { (*this) = Unit(); return *this; }
     //: Make this a unit vector.
     
+    //:-
+    // Distance calculations
+    // ---------------------
+    
+    DataT MaxValueDistance(const TVectorC<DataT> & i) const;
+    //: Returns the distance of two indexes in maximum value metric.
+    
+    DataT CityBlockDistance(const TVectorC<DataT> & i) const;
+    //: Returns the distance of two indexes in absolute value metric.
+    
+    DataT SqrEuclidDistance(const TVectorC<DataT> & i) const;
+    //: Returns the distance of two indexes in square Euclid metric.
+    
+    DataT EuclidDistance(const TVectorC<DataT> & i) const;
+    //: Returns the distance of two indexes in square Euclid metric.
+
     IndexC MaxIndex() const;
     //: Find the index with the most positive valued index.
     
@@ -299,6 +315,57 @@ namespace RavlN {
     }
     return ind;
   }
+
+
+  template<class DataT>
+  DataT TVectorC<DataT>::MaxValueDistance(const TVectorC<DataT> & i) const {
+    DataT max;
+    BufferAccessIter2C<DataT,DataT> it(*this,i);
+    if(!it) {
+      SetZero(max);
+      return max;
+    }
+    max = Abs(it.Data1() - it.Data2());
+    for(it++;it;it++) {
+      DataT tmp = Abs(it.Data1() - it.Data2());
+      if(tmp > max)
+	max =tmp;
+    }
+    return max;  
+  }
+  
+  template<class DataT>
+  DataT TVectorC<DataT>::CityBlockDistance(const TVectorC<DataT> & i) const {
+    DataT sum;
+    BufferAccessIter2C<DataT,DataT> it(*this,i);
+    if(!it) {
+      SetZero(sum);
+      return sum;
+    }
+    sum = Abs(it.Data1() - it.Data2());
+    for(it++;it;it++)
+      sum += Abs(it.Data1() - it.Data2());
+    return sum;  
+  }
+  
+  template<class DataT>
+  DataT TVectorC<DataT>::SqrEuclidDistance(const TVectorC<DataT> & i) const {
+    DataT sum;
+    BufferAccessIter2C<DataT,DataT> it(*this,i);
+    if(!it) {
+      SetZero(sum);
+      return sum;
+    }
+    sum = Sqr(it.Data1() - it.Data2());
+    for(it++;it;it++)
+      sum += Sqr(it.Data1() - it.Data2());
+    return sum;  
+  }
+  
+  template<class DataT>
+  inline 
+  DataT TVectorC<DataT>::EuclidDistance(const TVectorC<DataT> & i) const 
+  { return Sqrt(SqrEuclidDistance(i)); }
   
 }
 #endif
