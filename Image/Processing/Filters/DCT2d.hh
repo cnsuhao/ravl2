@@ -91,6 +91,10 @@ namespace RavlImageN {
     void DCT(const ImageC<RealT>& src, ImageC<RealT>& dest) const;
     //: Compute the dct of 'src', place the result in 'dest'.
     
+    IntT Size() const
+    { return N; }
+    //: Access the size of a side of the dct rectangle.
+    
   private:
     const ChanDCTC &operator=(const ChanDCTC &oth)
     { return *this; }
