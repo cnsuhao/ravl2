@@ -183,5 +183,12 @@ DP_REGISTER_CONVERSION_NAMED(Sample2RealToUByte, 2, "SampleElemC<2,UByteT> Sampl
 // DP_REGISTER_CONVERSION_NAMED(ConvInt16ToInt,1,"IntT RavlAudioN::Convert(const Int16T &)");
 // DP_REGISTER_CONVERSION_NAMED(ConvFloat2Real,1,"RealT RavlAudioN::Convert(const FloatT &)");
 
+// register ascii output 
+FileFormatStreamC <SampleElemC<2,Int16T> > FileFormatStream_SampleElem_2_Int16T  ;
+FileFormatStreamC <SampleElemC<1,Int16T> > FileFormatStream_SampleElem_1_Int16T  ;
+
+// register binary output 
+FileFormatBinStreamC <SampleElemC<2,Int16T> > FileFormatBinStream_SampleElem_2_Int16T ;
+FileFormatBinStreamC <SampleElemC<1,Int16T> > FileFormatBinStream_SampleElem_1_Int16T ;
 
 }
