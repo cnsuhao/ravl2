@@ -133,7 +133,38 @@ namespace RavlN {
     friend class DataSet1BodyC<SampleT>;
   };
   
-
+  template <class SampleT>
+  ostream &operator<<(ostream &s,const DataSet1C<SampleT> &dat) {
+    s << dat.Sample1();
+    return s;
+  }
+  //: Output to stream.
+  
+  template <class SampleT>
+  istream &operator>>(istream &s,DataSet1C<SampleT> &dat) {
+    SampleT tmp;
+    s >> tmp;
+    dat = DataSet1C<SampleT>(tmp);
+    return s;
+  }
+  //: Read from stream.
+  
+  template <class SampleT>
+  BinOStreamC &operator<<(BinOStreamC &s,const DataSet1C<SampleT> &dat ) {
+    s << dat.Sample1();
+    return s;
+  }
+  //: Output to a binary stream.
+  
+  template <class SampleT>
+  BinIStreamC &operator>>(BinIStreamC &s,DataSet1C<SampleT> &dat) {
+    SampleT tmp;
+    s >> tmp;
+    dat = DataSet1C<SampleT>(tmp);
+    return s;
+  }
+  //: Read from a binary stream.
+  
   template<class SampleT>
   DataSet1BodyC<SampleT>::DataSet1BodyC(const SampleT & sp)
     : DataSetBaseBodyC(sp.Size()),

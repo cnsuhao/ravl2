@@ -110,6 +110,22 @@ int testSampleIO() {
     return __LINE__;
   // Should check the loaded set.
   tmpFile.Remove();
+  
+  StringC dataStr;
+  {
+    StrOStreamC ostr;
+    ostr << sample;
+    dataStr = ostr.String();
+  }
+  SampleC<IntT> sample3;
+  StrIStreamC istr(dataStr);
+  istr >> sample3;
+  //cerr << "DataStr=" << dataStr << "\n";
+  if(sample.Size() != sample3.Size()) {
+    cerr << "Size1=" << sample.Size() << " Size3=" << sample3.Size() << "\n";
+    return __LINE__;
+  }
+  
   return 0;
 }
 
@@ -171,7 +187,17 @@ int testSampleVector() {
   if((mc.Covariance() - cmc.Covariance()).SumOfSqr() > 0.00001) return __LINE__;
   if((mc.Mean() - cmc.Mean()).SumOfSqr() > 0.00001) return __LINE__;
   if(mc.Number() != cmc.Number()) return __LINE__;
-  
+
+  StringC dataStr;
+  {
+    StrOStreamC ostr;
+    ostr << sv;
+    dataStr = ostr.String();
+  }
+  StrIStreamC istr(dataStr);
+  SampleVectorC sv2;
+  istr >> sv2;
+  if(sv2.Size() != sv.Size()) return __LINE__;
   return 0;
 }
 

@@ -22,6 +22,11 @@ namespace RavlN {
   template<class Sample1T,class Sample2T> class DataSet2IterC;
   template<class Sample1T,class Sample2T,class Sample3T> class DataSet3IterC;
   template<class SampleT> class SampleIterC;
+  template<class SampleT> class SampleC;
+  
+  template <class DataT> ostream &operator<<(ostream &s,const SampleC<DataT> &dat);
+  template <class DataT> istream &operator>>(istream &s,SampleC<DataT> &dat);
+  
   
   //! userlevel=Normal
   //: Sample of DataT's
@@ -129,23 +134,31 @@ namespace RavlN {
     { return DArray1dC<DataT>::IsEmpty(); }
     //: Is this empty ?
     
+#if RAVL_NEW_ANSI_CXX_DRAFT
+    friend ostream &operator<< <>(ostream &s,const SampleC<DataT> &dat);
+    friend istream &operator>> <>(istream &s,SampleC<DataT> &dat);
+#else
+    friend ostream &operator<<(ostream &s,const SampleC<DataT> &dat);
+    friend istream &operator>>(istream &s,SampleC<DataT> &dat);
+#endif
+    
   }; // end of class SampleC 
-   
+  
   template <class DataT>
   ostream &operator<<(ostream &s,const SampleC<DataT> &dat ) {
-    s << ((int) 0) << " " << ((int) dat.Size()-1) << "\n";
+    s  << dat.Size() << "\n";
     for(DArray1dIterC<DataT> it(dat.DArray());it;it++)
       s << *it << "\n";
     return s;
   }
   //: Output to stream.
-
+  
   template <class DataT>
   istream &operator>>(istream &s,SampleC<DataT> &dat ) {
-    int min,max;
-    s >> min >> max;
-    dat = SampleC<DataT>((min - max) + 1);
-    for(DArray1dIterC<DataT> it(dat);it;it++) {
+    SizeT size;
+    s >> size;
+    dat = SampleC<DataT>(size);
+    for(SizeT i = 0;i < size;i++) {
       DataT v;
       s >> v;
       dat += v;
@@ -153,6 +166,29 @@ namespace RavlN {
     return s;
   }
   //: Read from stream.
+
+  template <class DataT>
+  BinOStreamC &operator<<(BinOStreamC &s,const SampleC<DataT> &dat ) {
+    s  << dat.Size();
+    for(DArray1dIterC<DataT> it(dat.DArray());it;it++)
+      s << *it;
+    return s;
+  }
+  //: Output to a binary stream.
+  
+  template <class DataT>
+  BinIStreamC &operator>>(BinIStreamC &s,SampleC<DataT> &dat ) {
+    SizeT size;
+    s >> size;
+    dat = SampleC<DataT>(size);
+    for(SizeT i = 0;i < size;i++) {
+      DataT v;
+      s >> v;
+      dat += v;
+    }
+    return s;
+  }
+  //: Read from a binary stream.
   
   template <class DataT>
   SampleC<DataT> SampleC<DataT>::SubSample(const CollectionC<UIntT> &x) {

@@ -130,8 +130,42 @@ namespace RavlN {
     
     friend class DataSet2BodyC<Sample1T,Sample2T>;
   };
-  
 
+  template<class Sample1T,class Sample2T>
+  ostream &operator<<(ostream &s,const DataSet2C<Sample1T,Sample2T> &dat) {
+    s << dat.Sample1() << '\n' << dat.Sample2();
+    return s;
+  }
+  //: Output to stream.
+  
+  template<class Sample1T,class Sample2T>
+  istream &operator>>(istream &s,DataSet2C<Sample1T,Sample2T> &dat) {
+    Sample1T tmp1;
+    Sample2T tmp2;
+    s >> tmp1 >> tmp2;
+    dat = DataSet2C<Sample1T,Sample2T>(tmp1,tmp2);
+    return s;
+  }
+  //: Read from stream.
+  
+  template<class Sample1T,class Sample2T>
+  BinOStreamC &operator<<(BinOStreamC &s,const DataSet2C<Sample1T,Sample2T> &dat ) {
+    s << dat.Sample1() << dat.Sample2();
+    return s;
+  }
+  //: Output to a binary stream.
+  
+  template<class Sample1T,class Sample2T>
+  BinIStreamC &operator>>(BinIStreamC &s,DataSet2C<Sample1T,Sample2T> &dat) {
+    Sample1T tmp1;
+    Sample2T tmp2;
+    s >> tmp1 >> tmp2;
+    dat = DataSet2C<Sample1T,Sample2T>(tmp1,tmp2);
+    return s;
+  }
+  //: Read from a binary stream.
+  
+  
   template<class Sample1T,class Sample2T>
   DataSet2BodyC<Sample1T,Sample2T>::DataSet2BodyC(const Sample1T & dat1,const Sample2T &dat2)
     : DataSet1BodyC<Sample1T>(dat1),
