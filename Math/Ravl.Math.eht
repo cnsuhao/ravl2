@@ -1,0 +1,7 @@
+! author="Charles Galambos"
+: Scalar math, Linear algebra and Geometry
+
+Many of the functions in this library use the ccmath library to perform
+computations. You will need to install this library before using this
+library.
+

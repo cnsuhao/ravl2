@@ -1,0 +1,7 @@
+! author="Charles Galambos"
+: Operating System interface
+
+Operating system interface, including timing, file system queries,
+threading and networking. Most of these classes should work on all
+platforms, though this is not guaranteed. 
+

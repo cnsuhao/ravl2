@@ -1,0 +1,7 @@
+! author="Charles Galambos"
+! docentry="Ravl.OS.Threads"
+: POSIX based threading, and associated tools.
+
+These classes provide a machine independant interface to allow
+the creation and managment of threads within an application.
+

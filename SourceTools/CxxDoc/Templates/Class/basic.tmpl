@@ -1,0 +1,24 @@
+$(FileObject:one)$(FilePattern:Index/basic.html)
+<html><head><TITLE>List of Basic Classes</TITLE><BASE TARGET="_parent" ></head>
+<body BGCOLOR=#FFFFFF>
+
+$(include:topbar.stmpl)
+
+&nbsp;<p>
+
+<CENTER>
+<TABLE BORDER=3 CELLPADDING=10>
+<TR> <TD ALIGN=CENTER><B>Class</B></TD> <TD ALIGN=CENTER><B>Author</B></TD> <TD ALIGN=CENTER><B>Description</B></TD> </TR>
+$(forall:class:$(if:$userlevel=Basic:
+<tr><td><A HREF="$(MakeFilename:../Basic/Class/%.html)">$(ObjectName)</A></td><td>$(author)</td><td>$(brief) </td></tr>
+))
+</TABLE>
+</CENTER>
+
+<table width=100% align="middle"><tr>
+<td align="center" bgcolor="black"><FONT face="helvetica,arial" color="white">
+<b>Documentation by CxxDoc: $(buildtime)</b></FONT></td>
+</tr></table>
+
+</body>
+</html>

@@ -1,0 +1,69 @@
+###########################
+# Make info for solaris systems
+# $Id$
+
+#######################
+# Programs to use.
+
+# The following ifndef's allow the rest of this configuration to be
+# used for alpha's
+
+CC = /opt/GNUdevelop/gcc-2.95.2/bin/gcc
+CXX = /opt/GNUdevelop/gcc-2.95.2/bin/g++
+
+MKDEPFLAGS = -MM
+AR = ar
+ARFLAGS = ruc
+MKDIR = mkdir -p
+CP = cp
+CHMOD = chmod
+
+AMKDEPFLAGS = -Wp,-MMD,$(WORKTMP)/$*.d
+MKDEPUP = echo -n '$$(INST_OBJS)/' > $(INST_DEPEND)/$*.d ; cat $(WORKTMP)/$*.d  >> $(INST_DEPEND)/$*.d ; \
+ rm $(WORKTMP)/$*.d
+
+############################
+# Universal flags.
+
+CFLAGS   = -Wall -pipe 
+CCFLAGS  = -Wall -pipe -DNEWGCC
+CCPPFLAGS= -DGNU -D__$(ARC)__ -Dunix -DNEWGCC
+CPPFLAGS = -DGNU -D__$(ARC)__ -Dunix -DNEWGCC
+LDFLAGS = $(CCFLAGS)
+PAR_MAKE = --jobs=$(PROCS)
+
+############################
+# 'develop' variant.
+
+ifeq ($(VAR),develop)
+ CFLAGS +=
+ CCFLAGS +=
+ LDFLAGS +=
+endif
+
+############################
+# 'debug' variant.
+
+ifeq ($(VAR),debug)
+ CFLAGS += -g -DAMMA_CHECK
+ CCFLAGS += -g -DAMMA_CHECK
+ LDFLAGS += -g
+endif
+
+############################
+# 'check' variant.
+
+ifeq ($(VAR),check)
+ CFLAGS += -DAMMA_CHECK
+ CCFLAGS += -DAMMA_CHECK
+ LDFLAGS +=
+endif
+
+############################
+# 'opt' variant.
+
+ifeq ($(VAR),opt)
+ CFLAGS += -O3 -DNDEBUG
+ CCFLAGS += -O3 -DNDEBUG
+ LDFLAGS += -O3
+endif

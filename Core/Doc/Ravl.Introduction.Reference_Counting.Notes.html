@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+  <head>
+    <title>Big and small objects</title>
+  </head>
+
+  <body>
+    <h1>When should I make my class a big object class?  Why?</h1>
+
+(from an email from Charles Galambos)
+
+    <h2>Basic Reasons:</h2>
+<ol>
+<li> It's a way of managing memory, freeing it only when all pointers are
+removed. In this role it avoids a lot of the problems with accessing freed
+memory and memory leaks.
+
+<li> Like using pointers - it allows you to pass around large objects as a
+pointer instead of doing lots of copying.
+
+<li> There are also some side benefits when overriding operators on a
+class.  It allows you to define arithmetic operators on your class which 
+is dangerous or impossible with pointers as it conflicts with the build 
+in type operators.
+
+<li> It gives a clear boundary between the implementation of the class's
+functionality and the interface the user is expected to use.  Though only a
+conceptual advantage, it helps significantly in larger programs.
+</ol>
+
+This means:
+<ul>
+<li> You can return large allocated objects from functions.
+
+<li> You need <i>never</i> see a pointer in your high level code. (Though
+ in implementing containers etc. they still have a place.)
+
+<li> When implementing containers etc. you can assume objects assignments are
+cheap and trivial.  This make their implementation a lot cleaner and easier to
+understand.
+
+<li> It gives a clear framework for implementing advanced C++ constructs like
+virtual constructors.
+</ul>
+
+    <h2>Hints and tips:</h2>
+<ul>
+<li> If you define a new object that only contains <b>one</b> other big object
+then you can write all the functionality into the handle and do without the
+body class.  (I.e. create it as a small object, not a big one.)
+
+<li> If you have several member objects which are all big then you can do
+without a body class <b>only</b> if there is no way to assign directly to any
+of these objects.  This avoids `schizophrenic' classes where different handles
+have different combinations of member data.
+
+<li> <b>Never</b> return a handle to a local instance of a big object as a
+reference: this can seriously break the code used to implement big objects and
+cause all sorts of problems.
+
+<li> Never use pointers to handles - it can get very confusing and is not
+needed.
+
+<li> When writing a big objects all virtual functions should be in 
+ the body class, <b>not</b> the handle class. This is a common mistake for
+ beginners and can lead to some very strange behaviour.
+</ul>
+
+    <h2>Writing big objects:</h2>
+<p> The easiest way to write a big object is to derive the body from
+RCBodyC and then the handle for RCHandleC<body-name>.  This
+automatically provides all the functionality you need.  
+
+<!-- <p> There is also a program called <code>doClassWizard</code> which will write
+a skeleton big object class for you.  You can then edit this to your
+requirements.  Try <code>doClassWizard -class MyClass</code> and have a look in
+the directory <code>./MyClass</code>.  You should be able to compile the code
+in this directory with the command <code>am</code> (NB: due to a minor bug
+this is not true at the moment.) -->
+
+
+
+    <hr>
+    <address><a href="mailto:ees1wc@ee.surrey.ac.uk">Bill Christmas</a></address>
+<!-- Created: Mon Jun 28 17:25:39 BST 1999 -->
+<!-- hhmts start -->
+Last modified: Tue Apr 10 14:06:41 BST 2001
+<!-- hhmts end -->
+  </body>
+</html>

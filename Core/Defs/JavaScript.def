@@ -1,0 +1,21 @@
+# This file is part of RAVL, Recognition And Vision Library
+# Copyright (C) 2001, University of Surrey.
+# This code may be redistributed under the terms of the GNU lesser
+# public license (LGPL). See the lgpl.licence file for details or
+# see http://www.gnu.org/copyleft/lesser.html
+# file-header-ends-here
+ifndef JAVASCRIPT_DEF
+JAVASCRIPT_DEF=1
+################################################
+# $Id$
+
+JAVASCRIPTHOME = /opt/PDmesa/libvrml97-0.8.2
+
+INCLUDES += -I$(JAVASCRIPTHOME)/include
+EXELIB := -L$(JAVASCRIPTHOME)/lib -lvrml97js  $(EXELIB)
+
+ifeq ($(ARC),linux)
+EXELIB := -Wl,-rpath=$(JAVASCRIPTHOME)/lib  $(EXELIB)
+endif
+
+endif

@@ -1,0 +1,4 @@
+
+DOING_AMMA=1 NOCHECKOUT=1 FULLCHECKING=1 AMMA_PUBLIC=/vol/vssp/local/amma PROJECT_OUT=/vol/vssp/local/develop/amma
+
+alias ib 'gmake -f /vol/vssp/develop/ees1cg/install/Tools/QMake/GlobalMake'

@@ -1,0 +1,61 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2001, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
+#ifndef RAVL_ASSERT_HEADER
+#define RAVL_ASSERT_HEADER 1
+////////////////////////////////////////////////////////
+//! rcsid="$Id$"
+//! docentry="Ravl.Core.Error Handling"
+//! userlevel=Normal
+//! file="Ravl/Core/Base/Assert.hh"
+//! lib=RavlCore
+//! author=""
+//! date=""
+
+#include <stdarg.h>
+
+namespace RavlN {  
+  bool AssertThrowException();
+  //: Test if an exception on an assertion failure.
+  
+  bool SetAssertThrowException(bool val);
+  //: Throw an exception on an assertion failure.
+  // Note this may failed if exceptions are not supported,
+  // in which case it will return false.
+  
+  void AssertFailed(char *file,int lineNo);
+  //: Called if assertion failed.
+  // This will either cause the program to trap to the debugger
+  // or thow an 'ExceptionAssertionFailedC'
+
+  void AssertFailed(char *file,int lineNo,char *msg);
+  //: Called if assertion failed, with message.
+  // This will either cause the program to trap to the debugger
+  // or thow an 'ExceptionAssertionFailedC'
+  
+  void IssueError(char *file,int lineNo,char *msg ...);
+  //: Call when program encounters an error.
+  // This will either cause the program to trap to the debugger
+  // or thow an 'ExceptionAssertionFailedC'
+
+  void IssueWarning(char *file,int lineNo,char *msg ...);
+  //: Call when program encounters an a unexpected occurance.
+  // this prints the message and continues.
+  
+}
+
+#if RAVL_CHECK
+#define RavlAssert(x) { if(!(x)) RavlN::AssertFailed(__FILE__,__LINE__); }
+#define RavlAssertMsg(x,m) { if(!(x)) RavlN::AssertFailed(__FILE__,__LINE__,m); }
+#else
+#define RavlAssert(x) {}
+#define RavlAssertMsg(x,m) {}
+#endif
+// If we want to check an assertion, even in optimised code.
+#define RavlAlwaysAssert(x) { if(!(x)) RavlN::AssertFailed(__FILE__,__LINE__); }
+#define RavlAlwaysAssertMsg(x,m) { if(!(x)) RavlN::AssertFailed(__FILE__,__LINE__,m); }
+
+#endif

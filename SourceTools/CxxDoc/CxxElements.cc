@@ -1,0 +1,678 @@
+// This file is part of CxxDoc, The RAVL C++ Documentation tool 
+// Copyright (C) 2001, University of Surrey
+// This code may be redistributed under the terms of the GNU General 
+// Public License (GPL). See the gpl.licence file for details or
+// see http://www.gnu.org/copyleft/gpl.html
+// file-header-ends-here
+////////////////////////////////////////////////////
+//! rcsid="$Id$"
+//! lib=RavlCxxDoc
+
+#include "Ravl/CxxDoc/CxxElements.hh"
+#include "Ravl/DLIter.hh"
+#include "Ravl/CDLIter.hh"
+#include "Ravl/HashIter.hh"
+#include "Ravl/StringList.hh"
+#include "Ravl/HSet.hh"
+
+#define DODEBUG 0
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
+
+namespace RavlCxxDocN
+{
+  
+  //: Generate a full path name, with template paramiter subs.
+
+  StringC PathName(const DListC<ObjectC> &path,RCHashC<StringC,ObjectC> &templSub,DesciptionGeneratorC &dg = defaultDescGen,int maxDepth = 20) {
+    StringC ret;
+    bool first = true;
+    //cerr << "Making path....\n";
+    for(ConstDLIterC<ObjectC> it(path);it.IsElm();it.Next()) {
+      if(!it->IsValid()) {
+	ret += "(NULL)";
+	continue;
+      }
+      if(first)
+	first = false;
+      else
+	ret += "::";
+      if(maxDepth < 1) {
+	ONDEBUG(cerr << "PathName(DListC<ObjectC>) ");
+	cerr << "ERROR: Maximum template depth exceeded in arg '" << it->Name() <<  "' Type:" << it->TypeName() <<" \n";
+	cerr << "Subs:";
+	for(HashIterC<StringC,ObjectC> sit((HashC<StringC,ObjectC> &)templSub);sit;sit++)
+	  cerr << " " << sit.Key() << " -> " << sit.Data().Name() << "\n";
+	cerr << "\nSubs end.\n" << flush;
+	RavlAssert(0);
+	ret += it->Name();
+      } else {
+	if(maxDepth < 9)
+	  cerr << "PathName(DListC<ObjectC>), WARNING: Maximum template depth nearly exceeded (" << maxDepth <<") in arg '" << it->Name() <<  "' Type:" << it->TypeName() <<"\n";
+	ret += it->FullName(templSub,dg,maxDepth-1);
+      }
+    }
+    return ret;
+  }
+  
+  //: Generate a full path name.
+  
+  StringC PathName(DListC<ObjectC> path,DesciptionGeneratorC &dg = defaultDescGen,int maxDepth) {
+    return PathName(path,emptyTemplSubst,dg,maxDepth);
+  }
+
+  using namespace RavlN;
+
+  //// ObjectTemplateC ////////////////////////////////////////////////////////
+
+  //: Constructor.
+  
+  ObjectTemplateBodyC::ObjectTemplateBodyC(const StringC &name,const ObjectC &argLst)
+    : ObjectBodyC(name),
+      argList(argLst)
+  {
+    ONDEBUG(cerr << "ObjectTemplateBodyC::ObjectTemplateBodyC() Name:'" << name << "'\n");
+  }
+  
+  //: Get full name of object
+  // template args and all.
+  
+  StringC ObjectTemplateBodyC::FullName(RCHashC<StringC,ObjectC> &templSub,DesciptionGeneratorC &dg,int maxDepth) const {
+    ONDEBUG(cerr << "ObjectTemplateBodyC::FullName() for '" << Name() << "' called. \n");
+    StringC ret = dg.TextFor(ObjectC(const_cast<ObjectBodyC &>(((ObjectBodyC &)*this)))).Copy(); // Make sure its a copy.
+    ret += dg.TextFor('<');
+    bool first = true;
+    // Go through template args.
+    for(ConstDLIterC<ObjectC> it(argList.List());it;it++) {
+      // cerr << "ObjectTemplateBodyC::FullName() arg:'" << it->Name() << "' Type:" << it->TypeName() << "\n";
+      if(first)
+	first = false;
+      else
+	ret += dg.TextFor(',');
+      // Is template arg a datatype in itself ? or a constant.
+      if(maxDepth < 1) {
+	ONDEBUG(cerr << "ObjectTemplateBodyC::FullName() ");
+	cerr << "ERROR: Maximum template depth exceeded in '" << Name() << "' arg '" << it->Name() <<  "'\n";
+	ret += it->Name();
+      } else {
+	if(maxDepth < 9)
+	  cerr << "ObjectTemplateBodyC::FullName()  WARNING: Maximum template depth nearly exceeded (" << maxDepth <<") in '" << Name() << "' arg '" << it->Name() <<  "'\n";
+	ret += it->FullName(templSub,dg,maxDepth-1);
+      }
+    }
+    ret += dg.TextFor('>');
+    return ret;
+  }
+  
+  //: Create a new object with subsituted args.
+  
+  ObjectC ObjectTemplateBodyC::Subst(RCHashC<StringC,ObjectC> &subst) const {
+    ONDEBUG(cerr << "ObjectTemplateBodyC::Subst(), Called '" << Name() << "' \n");
+    if(!subst.IsEmpty() && !argList.List().IsEmpty()) {
+      bool doneSub = false;
+      ObjectListC ol("TemplateArgList");
+      for(ConstDLIterC<ObjectC> it(argList.List());it;it++) {
+	ObjectC obj = it->Subst(subst);
+	if(obj != *it)
+	  doneSub = true;
+	ol.Append(obj);
+      }
+      if(doneSub)
+	return ObjectTemplateC(Name(),ol);
+    }
+    return ObjectTemplateC(const_cast<ObjectTemplateBodyC &>(*this)); // No change.
+  }
+  
+  //// DataTypeC ////////////////////////////////////////////////////////
+
+  //: Constructor.
+  
+  DataTypeBodyC::DataTypeBodyC(const StringC &nPreQual,const ObjectC &nscopePath,const StringC &nPostQual) 
+    : preQual(nPreQual),
+      postQual(nPostQual)
+  {
+    if(!ObjectListC::IsA(nscopePath)) {
+      ObjectC ob(nscopePath);
+      scopePath = ObjectListC("ScopePath");
+      scopePath.Append(ob);
+    } else
+      scopePath = ObjectListC(nscopePath);
+    //cerr << "Got scope path : " << scopePath.Name() << "\n";
+    StringC nName;
+    if(preQual != ""){
+      nName += preQual; 
+      nName += ' ';
+    }
+    nName += scopePath.Name();
+    if(postQual != "") {
+      nName += ' ';
+      nName += postQual;
+    }
+    Name() = nName;
+  }
+  
+  //: Constructor.
+  
+  DataTypeBodyC::DataTypeBodyC(const DataTypeC &dt,const StringC &nalias)
+    : alias(nalias)
+  {
+    if(dt.IsValid()) {
+      Name() = dt.Name();
+      scopePath = dt.ScopePath();
+    }
+  }
+  
+  //: Constructor.
+  DataTypeBodyC::DataTypeBodyC(const StringC &nname,const ObjectC &nalias) 
+    : ObjectBodyC(nname)
+  {
+    if(nalias.IsValid())
+      alias = nalias.Name();
+  }
+
+  //: Constructor.
+  
+  DataTypeBodyC::DataTypeBodyC(const StringC &nname,const StringC &nalias,const ObjectC &nscopePath)
+    : ObjectBodyC(nname),
+      alias(nalias)
+  {
+    if(ObjectListC::IsA(nscopePath)) {
+      scopePath = ObjectListC(nscopePath);
+      //cerr << "Got scope path : " << scopePath.Name() << "\n";
+    } else {
+      if(nscopePath.IsValid())
+	cerr << "DataTypeBodyC::DataTypeBodyC(), ERROR: not an object list given as scopepath. \n";
+    }
+  }
+  
+  //: Resolve data refrences correctly.
+  
+  StringC DataTypeBodyC::ActualPath() const {
+    //ONDEBUG(cerr << "DataTypeBodyC::ActualPath(), Called. for :" << Name() << " \n");
+    if(!HasParentScope()) {
+      //cerr << "DataTypeBodyC::ActualPath(), No parent scope, can't resolve. \n";
+      //return scopePath.Name();
+      return StringC("std");
+    }
+    if(!scopePath.IsValid()) {
+      cerr << "DataTypeBodyC::ActualPath(), No scopePath, can't resolve. \n";
+      return Name();
+    }
+    RCHashC<StringC,ObjectC> templSub;
+    ObjectC ao = const_cast<ScopeBodyC &>(ParentScope()).ResolveName(const_cast<ObjectListC &>(scopePath).List(),templSub);
+    if(!ao.IsValid()) {
+      cerr << "DataTypeBodyC::ActualPath(), Can't resolve : " << PathName(const_cast<ObjectListC &>(scopePath).List()) << "\n";
+      return scopePath.Name();
+    }
+    //ONDEBUG(cerr << "Full path found : " << ao.FullPath() << "\n");
+    return ao.FullPath();
+  }
+
+  //: Get full name of object
+  // template args and all.
+  
+  StringC DataTypeBodyC::FullName(RCHashC<StringC,ObjectC> &templSub,DesciptionGeneratorC &dg,int maxDepth) const {
+    //cerr << "Got scopepath for '" << Name() << "' Larg:'" << larg.Name() << "'  ==" << larg.IsVar("templateArgs") <<  "\n";
+    StringC ret;
+    if(preQual != "") {
+      ret += preQual;
+      ret += ' ';
+    }
+    if(scopePath.IsValid()) {
+      if(maxDepth < 9) 
+	cerr << "DataTypeBodyC::FullName(), WARNING: Maximum template depth nearly exceeded (" << maxDepth <<") in arg '" << Name() <<  "' Type:" << TypeName() <<" \n";
+      ret += PathName(const_cast<ObjectListC &>(scopePath).List(),templSub,dg,maxDepth-1);
+    } else {
+      if(Name() != "..." && Name() != "class") //  && Name() != "void"
+	cerr << "DataTypeBodyC::FullName(), WARNING: Invalid scope path for '" << Name() << "' \n";
+      ret += Name();
+    }
+    if(postQual != "") {
+      ret += ' ';
+      ret += postQual;
+    }
+    return ret;
+  }
+
+  //: Create a new object with subsituted args.
+  
+  ObjectC DataTypeBodyC::Subst(RCHashC<StringC,ObjectC> &subst) const {
+    ONDEBUG(cerr << "DataTypeBodyC::Subst(), Called '" << Name() << "' \n");
+#if DODEBUG
+    cerr << "Subst:";
+    for(HashIterC<StringC,ObjectC> sit(subst);sit;sit++)
+      cerr << " " << sit.Key() << " -> " << sit.Data().Name() << "\n";
+#endif    
+    if(scopePath.IsValid() && !subst.IsEmpty()) {
+      if(scopePath.List().Size() == 1) {
+	// Check for a possible short cut....
+	if(const_cast<DListC<ObjectC> & > (scopePath.List()).First().Name() == name) {
+	  ObjectC *lu = subst.Lookup(Name());
+	  if(lu != 0)
+	    return *lu;
+	  return DataTypeC(const_cast<DataTypeBodyC &>(*this));
+	}
+      }
+      if(!scopePath.List().IsEmpty()) {
+	bool doneSub = false;
+	ObjectListC ol(StringC("DTtemplateArgs:") + Name());
+	for(DLIterC<ObjectC> it(const_cast<ObjectListC &>(scopePath).List());it;it++) {
+	  ObjectC obj = it->Subst(subst);
+	  ol.Append(obj);
+	  if(obj != *it)
+	    doneSub = true;
+	}
+	if(doneSub) // Actually done anything ?
+	  return DataTypeC(preQual,ol,postQual);
+      }
+    }
+    return DataTypeC(const_cast<DataTypeBodyC &>(*this));
+  }
+  
+  // ---------------------------------------------------------------
+  
+  //: Default constructor.
+  ClassBodyC::ClassBodyC()
+    : curAccess("private")
+    {}
+  
+  //: Constructor.
+  ClassBodyC::ClassBodyC(const StringC &nname)
+    : ScopeBodyC(nname),
+      curAccess("private")
+    {
+      SetVar("ClassName",nname);
+    }
+  
+  //: Constructor.
+  ClassBodyC::ClassBodyC(const StringC &nname,DListC<ObjectC> &contents)
+    : ScopeBodyC(nname),
+      curAccess("private")
+    { 
+      SetVar("ClassName",nname);
+      AppendList(contents);
+    }
+  
+  //: Constructor.
+  
+  ClassBodyC::ClassBodyC(const StringC &nname,const ObjectC &contents,const ObjectC &inherit)
+    : ScopeBodyC(nname),
+      curAccess("private")
+  {
+    SetVar("ClassName",nname);
+    AppendList(contents);
+    AppendList(inherit);
+  }
+
+  //: Append to list.
+  
+  void ClassBodyC::Append(ObjectC &obj) { 
+    if(!obj.IsValid())
+      return ;
+    MarkerC aMark(obj);
+    if(aMark.IsValid()) {
+      curAccess = aMark.Name();
+      //ONDEBUG(cerr << "ClassBodyC::Append(), Changing access '" << curAccess << "' \n");
+      return;
+    }
+    if(!InheritC::IsA(obj) && !DerivedC::IsA(obj))
+      obj.SetVar("access",curAccess);
+    ScopeBodyC::Append(obj); 
+  }
+
+  //////// ClassTemplateBodyC ///////////////////////////////////////////////////////////
+
+  //: Get full name of object
+  // template args and all.
+  
+  StringC ClassTemplateBodyC::FullName(RCHashC<StringC,ObjectC> &templSub,DesciptionGeneratorC &dg,int maxDepth) const {
+    StringC ret = dg.TextFor(ObjectC(const_cast<ObjectBodyC &>((ObjectBodyC &)*this))).Copy();
+    ret += dg.TextFor('<');
+    bool first = true;
+    for(ConstDLIterC<ObjectC> it(templArgs.List());it;it++) {
+      if(first)
+	first = false;
+      else
+	ret += dg.TextFor(',');
+      // Is template arg a datatype in itself ? or a constant.
+
+      if(maxDepth < 1) {
+	ONDEBUG(cerr << "ClassTemplateBodyC::FullName() ");
+	cerr << "ERROR: Maximum template depth exceeded template class arg '" << it->Name() <<  "'\n";
+	RavlAssert(0);
+	ret += it->Name();
+      } else {
+	if(maxDepth < 9)
+	  cerr << "ClassTemplateBodyC::FullName(),  WARNING: Maximum template depth nearly exceeded (" << maxDepth <<") in '" << Name() << "' arg '" << it->Name() <<  "'\n";
+	ret += it->FullName(templSub,dg,maxDepth-1);
+      }
+      if(DataTypeC::IsA(*it)) { // This should be true.
+	ret += ' ';
+	DataTypeC dt(const_cast<ObjectC &>(*it));
+	ret += dt.Alias();
+      }
+    }
+    ret += dg.TextFor('>');
+    return ret;
+  }
+
+  //: Create a new object with subsituted args.
+  
+  ObjectC ClassTemplateBodyC::Subst(RCHashC<StringC,ObjectC> &subst) const {
+    ONDEBUG(cerr << "ClassTemplateBodyC::Subst(), Called '" << Name() << "' \n");
+    if(!subst.IsEmpty() && !templArgs.List().IsEmpty()) {
+      ObjectListC ol("TemplateArgList");
+      bool doneSub = false;
+      for(ConstDLIterC<ObjectC> it(templArgs.List());it;it++) {
+	ObjectC obj = it->Subst(subst);
+	ol.Append(obj);
+	if(obj != *it)
+	  doneSub = true;
+      }
+      if(doneSub)
+	return ObjectTemplateC(Name(),ol);
+    }
+    return ClassTemplateC(const_cast<ClassTemplateBodyC &>(*this));
+  }
+  
+  
+  //////// MethodBodyC ///////////////////////////////////////////////////////////
+  //: Constructor.
+  
+  MethodBodyC::MethodBodyC(const StringC &nname,const DataTypeC &rt,const ObjectListC &nargs,ObjectC &nquals,bool isConv)
+    : ObjectBodyC(nname),
+      retType(rt),
+      isConstructor(false),
+      isConversion(isConv),
+      quals(nquals)
+  {
+    CopyLineNo(rt);
+    IncludeLineNo(nquals);
+    // Build full name....
+    ObjectListC tl(nargs);
+    bool isFirst = true;
+    StringC baseName = Name().Copy();
+    SetVar("BaseName",baseName);
+    if(isConversion) {
+      Name() += ' ';
+      Name() += rt.FullName();
+    }
+    Name() += '(';
+    if(tl.List().IsEmpty())
+      Name() += "void"; // Just to normallise everything.
+    for(DLIterC<ObjectC> it(tl.List());it.IsElm();it.Next()) {
+      if(isFirst) {
+	isFirst = false;
+      } else
+	Name() += ',';
+      if(!DataTypeC::IsA(it.Data())) {
+	cerr << "MethodBodyC::MethodBodyC(), WARNING: Arg not a DataType.  Name:'" << Name() << "' \n";
+	Name() += it.Data().Name();
+	continue;
+      }
+      DataTypeC dt(it.Data());
+      args += dt;
+      Name() += dt.FullName();
+    }
+    Name() += ')';
+    if(quals.IsValid())
+      Name() += StringC(' ') + quals.Name(); // Constant stuff.    
+  }
+  
+  MethodBodyC::MethodBodyC(const MethodC &meth)
+    : ObjectBodyC(meth.Name()),
+      retType(meth.ReturnType()),
+      isConstructor(meth.IsConstructor()),
+      isConversion(meth.IsConversion()),
+      quals(meth.Quals())
+  {
+    CopyLineNo(meth);
+    SetVar("BaseName",meth.Var("BaseName"));
+    SetConstructor(meth.IsConstructor());
+  }
+  
+  //: Get full name of object
+  // template args and all.
+  
+  StringC MethodBodyC::FullName(RCHashC<StringC,ObjectC> &templSub,DesciptionGeneratorC &dg,int maxDepth) const {    
+    StringC ret;
+    if(IsConversion()) {
+      ret += dg.MethodNameText("operator ");
+      ret += ReturnType().FullName(templSub,dg,maxDepth);
+    } else {
+      if(!IsConstructor()) {
+	ret += ReturnType().FullName(templSub,dg,maxDepth);
+	ret += ' ';
+      }
+      ret += dg.MethodNameText(Var("BaseName"));
+    }
+    ret += dg.TextFor('(');
+    bool first = true;
+    for(ConstDLIterC<DataTypeC> it(Args());it.IsElm();it.Next()) {
+      if(first) 
+	first = false;
+      else
+	ret += dg.TextFor(',');
+      ret += it.Data().FullName(templSub,dg,maxDepth);
+      if(it.Data().Alias() != "") {
+	ret += ' ';
+	ret += dg.TextFor(it.Data().Alias());
+      }
+    }
+    ret += dg.TextFor(')');
+    if(Quals().IsValid()) {
+      ret += ' ';
+      ret += Quals().Name();
+    }
+    
+    return ret;
+  }
+
+  //: Set constructor flag.
+  
+  void MethodBodyC::SetConstructor(bool val) {
+    isConstructor = val;
+    if(val) {
+      SetVar("constructor","true");
+    } else 
+      comment.Vars().Del("constructor");
+  }
+  
+  //////// TypedefBodyC ///////////////////////////////////////////////////////////
+  //: Constructor.
+  
+  TypedefBodyC::TypedefBodyC(const StringC &nname,const DataTypeC &ntype)
+    : ObjectBodyC(nname),
+      dataType(ntype)
+  {
+    if(dataType.IsValid()) {
+      SetVar("datatype",dataType.FullName());
+    } else
+      SetVar("datatype","*unknown*");
+  }
+  
+  //: Get full name of object
+  // template args and all.
+  
+  StringC TypedefBodyC::FullName(RCHashC<StringC,ObjectC> &templSub,DesciptionGeneratorC &dg,int maxDepth) const {
+    return Name();
+  }
+  
+
+  //////// VariableBodyC ///////////////////////////////////////////////////////////
+  
+  //: Constructor.
+  
+  VariableBodyC::VariableBodyC(const StringC &naname)
+    : ObjectBodyC(naname)
+  {
+    SetVar("datatype","*unknown*");
+  }
+
+  //: Constructor.
+  
+  VariableBodyC::VariableBodyC(ObjectC &ndt,const StringC &nname)
+    : ObjectBodyC(nname),
+      dt(ndt)
+  {
+    //cerr << "VariableBodyC::VariableBodyC() Called :'" << Name() <<"'\n";
+    if(dt.IsValid()) {
+      SetVar("datatype",dt.FullName());
+    } else
+      SetVar("datatype","*unknown*");
+  }
+
+  //////// InheritBodyC ///////////////////////////////////////////////////////////
+  
+  //: Constructor.
+  
+  InheritBodyC::InheritBodyC(ScopeAccessT nscopeAccess)
+    : ObjectBodyC("Inherit:"),
+      scopeAccess(nscopeAccess),
+      virt(false),
+      resolveFailed(false)
+  {
+    switch(nscopeAccess) {
+    case SAPrivate:   SetVar("access","private");   break;
+    case SAPublic:    SetVar("access","public");    break;
+    case SAProtected: SetVar("access","protected"); break;
+    }
+  }
+  
+  //: Set the scope definition.
+  // Used in parser.
+  
+  void InheritBodyC::SetScopeDef(const ObjectC &obj) { 
+    inheritDef = obj; 
+    if(obj.IsValid())
+      Name() += obj.Name();
+    SetVar("classname",obj.Name());
+    //Name() = obj.Name();
+  }
+  
+  //: Scope definition as a string.
+  
+  StringC InheritBodyC::ScopeDef() {
+    if(!inheritDef.IsValid())
+      return "(NULL)";
+    if(!ObjectListC::IsA(inheritDef))
+      return inheritDef.Name();
+    ObjectListC ol(inheritDef);
+    return PathName(ol.List());
+  }
+
+  //: Scope definition as a string.
+  
+  StringC InheritBodyC::ScopeDef(RCHashC<StringC,ObjectC> &ts) {
+    if(!inheritDef.IsValid())
+      return "(NULL)";
+    if(!ObjectListC::IsA(inheritDef))
+      return inheritDef.Name();
+    ObjectListC ol(inheritDef);
+    return PathName(ol.List(),ts);
+  }
+
+
+  //: Object we inherit from;
+  
+  ScopeC &InheritBodyC::From() {
+    if(resolveFailed)
+      return inheritFrom;
+    if(!inheritFrom.IsValid()) 
+      Resolve();
+    return inheritFrom;
+  }
+
+  //: Attempt to resolve parent class.
+  
+  bool InheritBodyC::Resolve() {
+    if(inheritFrom.IsValid()) 
+      return true;
+    if(!HasParentScope()) {
+      cerr << "InheritBodyC::Resolve(), Failed, no parent scope. \n";
+      SetVar("resolveFailed","1");
+      return false;
+    }
+    DListC<ObjectC> path;
+    if(ObjectListC::IsA(inheritDef)) {
+      ObjectListC ol(inheritDef);
+      path = ol.List();
+    } else
+      path.InsFirst(inheritDef);
+    
+    ObjectC rs=ParentScope().ResolveName(path,templSub);
+    if(!rs.IsValid()) {
+      cerr << "Can't resolve name '" << PathName(path) << "'\n";
+      SetVar("resolveFailed","1");
+      resolveFailed = true;
+      return false;
+    }
+    if(!ScopeC::IsA(rs)) {
+      cerr << "Inherited Object is not a scope. '" << rs.Name() << "'  \n";
+      SetVar("resolveFailed","1");
+      resolveFailed = true;
+      return false;
+    }
+    ScopeC as(rs);
+    inheritFrom = as;
+    DerivedC deriveMark(scopeAccess,ParentScope().PathList());
+    inheritFrom.Append(deriveMark);
+    return true;
+  }
+  
+  //////// DerivedBodyC ///////////////////////////////////////////////////////////
+  
+  //: Constructor.
+  
+  DerivedBodyC::DerivedBodyC(ScopeAccessT nscopeAccess,const ObjectListC &npath)
+    : scopeAccess(nscopeAccess),
+      path(npath)  
+  {
+    Name() = StringC("Derived:") + PathName(path.List());
+    switch(scopeAccess) {
+    case SAPrivate:   SetVar("access","private"); break;
+    case SAPublic:    SetVar("access","public"); break;
+    case SAProtected: SetVar("access","protected"); break;
+    }
+  }
+
+  //: Get handle to derived object.
+  // (Slowish)
+  
+  ObjectC DerivedBodyC::DerivedObj() {
+    ObjectC ret;
+    if(!HasParentScope()) {
+      cerr << "DerivedBodyC::DerivedObj(), Failed, no parent scope. \n";
+      return ret;
+    }
+    RCHashC<StringC,ObjectC> templSub;
+    ret = ParentScope().ResolveName(path.List(),templSub);
+    if(!ret.IsValid()) {
+      ONDEBUG(cerr << "DerivedBodyC::DerivedObj() ");
+      cerr << "ERROR: Failed to find parent object '" << PathName(path.List()) <<"' (" << path.List().Last().BaseName() << ") from " << Name() <<" \n";
+    }
+    return ret;
+  }
+
+  //////// EnumBodyC ///////////////////////////////////////////////////////////
+  
+  //: Constructor.
+  
+  EnumBodyC::EnumBodyC(const StringC &nname,const ObjectListC &nvalues) 
+    : ObjectListBodyC(nname)
+  {
+    //ONDEBUG(cerr << "Got enum :" << nname << "\n");
+    if(nvalues.IsValid()) 
+      list = nvalues.List();
+  }
+  
+  EnumBodyC::EnumBodyC(const StringC &nname) 
+    : ObjectListBodyC(nname)
+  {
+    //ONDEBUG(cerr << "Got enum :" << nname << "\n");
+  }
+
+}

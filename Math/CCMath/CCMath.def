@@ -1,0 +1,16 @@
+ifndef CCMATH_DEF
+CCMATH_DEF=1
+
+include Math.def
+
+# Uncomment the following lines if CC math isn't installed in 
+# the default location.
+
+# CCMATH = /opt/ccmath
+# INCLUDES := -I$(CCMATH)/include  $(INCLUDES)
+# EXELIB := -L$(CCMATH)/lib -lccm $(EXELIB)
+
+#EXELIB := -lccm $(EXELIB)
+EXELIB := -lccmath $(EXELIB)
+
+endif

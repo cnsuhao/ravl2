@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+  <head>
+    <title>QMake Commands</title>
+  </head>
+
+  <body>
+
+QMake by default does 'check' build.  There are many other operations QMake
+can do, the following is a summary of the commands and variables it understands.
+
+<h2>Targets</h2>
+
+<table>
+<tr><td><b>check     </b><td>Build binaries and libraries with consistancy checking (Default).
+             this is the recomended target for development work. </tr>
+<tr><td><b>debug     </b><td>Build binaries and code with debug information, but link
+            with the check version of RAVL. This should be quicker than
+	    debugging all of RAVL.</tr>
+<tr><td><b>debugfull </b><td>Build binaries with debug information, link executables with
+	    the all available debug information. NB. The executables may
+	    be very large.</tr>
+<tr><td><b>opt       </b><td>Optimised build. </tr>
+<tr><td><b>shared    </b><td>Build optimised shared libraries/executables.</tr>
+<tr><td><b>prof      </b><td>Output optimised code with profiling info suitable for prof.</tr>
+<tr><td><b>gprof     </b><td>Output optimised code with profiling info suitable for gprof.</tr>
+<tr><td><b>purify    </b><td>Build all executables in the CURRENT directory with purify.
+	     purify executables are prefixed with 'pure_'.  Use only on solaris
+	     machines.</tr>
+<tr><td><b>src      </b><td>Check-out all source, and put headers in the right place.</tr>
+<tr><td><b>clean    </b><td>Remove all temporary files. (NB. Use VAR=... to set variant.) (See below for details)</tr>
+                     In particualr it removes object files created during compilation for this library</tr>
+                      this forces all objects in the current library to be recompiled.</tr>
+<tr><td><b>optclean </b><td>as clean with VAR=opt</tr>
+<tr><td><b>dbclean  </b><td>as clean with VAR=debug</tr>
+<tr><td><b>chkclean </b><td>as clean with VAR=check</tr>
+<tr><td><b>cleanlib </b><td>Like clean, but removes library as well.  </tr>
+<tr><td><b>cleandep </b><td>Remove all dependency files. Clean dependancy information.  This forces the make system to
+                          recompute the library and file dependancies. </tr>
+<tr><td><b>distclean </b><td>Clean and remove all executables and libraries for current variant.</tr>
+<tr><td><b>doc      </b><td>Make automatic documentation.</tr>
+<tr><td><b>docentry </b><td>Make semantic documentation</tr>
+<tr><td><b>chead    </b><td>Check headers compile cleanly.</tr>
+<tr><td><b>ci	    </b><td>RCS- Check in directory tree. See 'notes' for details.</tr>
+<tr><td><b>lib_info </b><td>RCS- Tells you which libraries are needed/used to create an executable.</tr>
+<tr><td><b>listco   </b><td>RCS- List all files that are checked out in source tree.</tr>
+<tr><td><b>listoff  </b><td>List all directories that are turned off.</tr>
+<tr><td><b>listfix  </b><td>List all lines in source than contain 'FIXME'.</tr> 
+<tr><td><b>help     </b><td>Print this help on the QMake system. </tr>
+<tr><td><b>defs     </b><td>List of public def's files.</tr>
+<tr><td><b>test	    </b><td>Compile and run test executables.</tr>
+<tr><td><b>retest   </b><td>Rerun the final stage of amma testing.</tr>
+<tr><td><b>notes    </b><td>Print help on more obscure/unstable parts of the QMake system. </tr>
+</table>
+
+<h2>Variables</h2>
+<table>
+<tr><td><b>  PROCS=(no)   </b><td> Number of processors to use.  </tr>
+<tr><td><b>  VAR=(check|debug|opt|shared)   </b><td> check (default), debug, opt  </tr>
+<tr><td><b>  QMAKE_INFO=1   </b><td> Print command lines during make.  </tr>
+<tr><td><b>  USERCFLAGS=...</b><td> Pass extra options to the compiler. </tr>
+</table>
+
+<h2>Examples</h2>
+
+<pre>
+  % make qopt
+</pre>
+Make optimised version of code, with frozen dependencies.
+
+<pre>
+  % make debug PROCS=1 QMAKE_INFO=1 
+</pre>
+Build a debug version of file and executables, use only one processor and show the
+commands that are executed.
+</body>
+</html>

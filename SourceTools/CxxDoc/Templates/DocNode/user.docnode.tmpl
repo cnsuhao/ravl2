@@ -1,0 +1,11 @@
+$(FileObject:docnode)$(FilePattern:Basic/Tree/%.html)$(silent:
+$(set:refPattern=%.html)
+$(set:title=User Documentation)
+$(set:hdrcolour=#007FFF)
+$(set:pagemode=user)
+$(set:othpagemode=develop)
+$(set:modeMethod=scope_user)
+$(define:mkhref:$(MakeFilename:%.html))
+$(define:othref:$(MakeFilename:../../Develop/Tree/%.html))
+$(define:chkacc:$(if:$access=public:%arg%))
+)$(include:docnode.stmpl)

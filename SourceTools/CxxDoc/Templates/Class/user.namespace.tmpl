@@ -1,0 +1,11 @@
+$(FileObject:namespace)$(FilePattern:Basic/Class/%.html)$(silent:
+$(set:refPattern=%.html)
+$(set:title=User Documentation)
+$(set:pagemode=user)
+$(set:othpagemode=develop)
+$(set:modeMethod=scope_user)
+$(define:mkhref:$(MakeFilename:%.html))
+$(define:othref:$(MakeFilename:../../Develop/Class/%.html))
+$(define:chkacc:$(if:$userlevel!=Develop&$userlevel!=Obsolete:%arg%))
+$(set:hdrcolour=#007FFF)
+)$(include:namespace.stmpl)

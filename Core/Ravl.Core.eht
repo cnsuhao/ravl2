@@ -1,0 +1,7 @@
+! author="Charles Galambos"
+! children="Error Handling;IO;Reference Counting;Math;Arrays;Lists;Stacks;Hash Tables;Queues;Graphs"
+: Basic types, Containers and Memory management.
+
+All the classes in the core of Ravl are operating system independant and
+do not depend on external libraries.
+

@@ -1,0 +1,5 @@
+<hello/>
+<!-- a comment -->
+<?xml fred ?>
+<test Fred="1">Some data... </test>
+

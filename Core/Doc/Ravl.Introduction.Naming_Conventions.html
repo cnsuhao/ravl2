@@ -1,0 +1,86 @@
+<html>
+<head>
+<title>RAVL naming conventions</title>
+</head>
+<body>
+
+The name conventions held in the RAVL library enable to determine the
+type of a language element without looking for its definition.  This
+can be found very convenient when reading unfamiliar source of
+code. Furthermore, it is then possible to use a name that indicates
+its type for variables in your program.  For example
+
+<pre>
+ListC<Point2dC> list;
+</pre>
+
+instead of 
+
+<pre>
+list<point2d> my_list;
+</pre>
+
+
+The naming conventions of RAVL files, classes, member functions, non-member functions,
+types, objects, and macros are as follows:
+
+<p> <b> Files </b> <br>
+
+File should be named after the key user class they contain, with out
+the final 'C'.  C++ Header files should end in '.hh' and source files
+with '.cc'.  
+
+<p> <b> Classes </b> <br>
+In a class name the first letter of each word (including the first one)
+is upper case. The name of the class ends with a capital
+letter 'C' to avoid clashes with other libraries and to stress that the
+name is a class name. The name should not contain underscores if not really
+necessary. The examples are Vector3dC, ByteImageC, GraphC.
+
+<p> <b> Namespaces </b> <br> When naming namespaces the first letter
+of each word (including the first one) is upper case. The name should
+end with a capital letter 'N' . The name should not contain underscores
+unless necessary for clarity. The examples are RavlN, 
+
+<p> <b> Types </b> <br>
+In a type name the first letter of each word (including the first one)
+is upper case. The name of the type ends with a capital
+letter 'T' to avoid clashes with other libraries and to stress that the
+name is a type name. The name does not contain underscores if not really
+necessary. The examples are RealT, BooleanT, Vector3dC::CoorT. The last example
+is a name of type CoorT inside the class Vector3dC.
+
+<p> <b> Member function and Non-Member functions </b> <br>
+In a function name the first letter of each word 
+(including the first one) is upper case. 
+The last letter cannot be the capital letter 'C' to avoid confusing with
+a class name. The name does not contain underscores unless its is necessary
+to avoid confusion. The examples are InitUserInterface(), Vector3dC::StartPoint().
+The latter example is a name of the member function StartPoint() of the
+class Vector3dC.
+
+<p> <b> Identifiers of Objects </b> <br> In a object name the first
+letter of the first word should be lower case, but the first letter of
+all subsequent words is upper case.  The name does not contain
+underscores unless needed to avoid confusion.
+
+<p> <b> Macros </b> <br>
+In general macro's should be avoided, but where they are used
+the name should be written in upper case letters. Words are
+separated by underscores, eg.
+<pre>
+#define DO_IT()   image.Fill(100).Threshold(20)
+</pre>
+
+Following above rules one can read a source code very easy: 
+<pre>
+Vector3dC vec;  // The object vec as an instance of the class Vector3dC.
+vec.Foo();      // Apply the member function Foo() on the object vec. 
+vec();          // Apply the operator() on the object vec.
+Vec();          // Call the global function Vec;
+Vector3dC();    // Create the object of the class Vector3dC.
+vec.x();        // Apply the operator() on the member x of the object vec.
+</pre>
+
+</body>
+</html>

@@ -1,0 +1,64 @@
+------- HELP on QMake make system V1.0 ------
+
+Common targets: 
+  check     Build binaries and libraries with consistancy checking (Default).
+             this is recomended development target.
+  debug     Build binaries and code with debug information, but link
+            with the check verson of AMMA. This should be quicker than
+	    debuging all of AMMA.
+  debugfull Build binaries with debug information, link executables with
+	    the all available debug information. NB. The executables may
+	    be very large.
+  opt       Optimised build. 
+  shared    Build optimised shared libraries/executables.
+  prof      Output optimised code with profiling info suitable for prof.
+  gprof     Output optimised code with profiling info suitable for gprof.
+  purify    Build all executables in the CURRENT directory with purify.
+	     purify executables are prefixed with 'pure_'.  Use only on solaris
+	     machines.
+  src       Check-out all source, and put headers in the right place.
+  clean     Remove all temporary files. (NB. Use VAR=... to set variant.) (See below for details)
+    optclean clean with VAR=opt
+    dbclean  clean with VAR=debug
+    chkclean clean with VAR=check
+  cleanlib  Like clean, but removes library as well.  (See below for details)
+  cleandep  Remove all dependency files. (See below for details)
+  distclean Clean and remove all executables and libraries for current variant 
+  doc       Make automatic documentation.
+  docentry  Make semantic documentation
+  chead     Check headers with original AMMA make system.
+  ci	    Check in directory tree. See 'notes' for details.
+  lib_info  Tell's you which libraries are needed/used to create an executable.
+  listco    RCS: List all files that are check-out in source tree.
+  listoff   RCS: List all directories that are turned off.
+  listfix   RCS: List all lines in source than contain 'FIXME'. 
+  help      Print this help on the QMake system. 
+  defs      List of public def's files.
+  test	    Compile and run test executables.
+  retest    Rerun the final stage of amma testing.
+  notes     Print help on more obscure/unstable parts of the QMake system. 
+
+Variables: 
+  PROCS    = Number of processors to use. 
+  VAR      = check (default), debug, opt 
+  AMMA_INFO=1 Print command lines during make. 
+  USERCFLAGS=... Pass extra options to the compiler.
+
+Examples: 
+
+  % make qopt
+Make optimised version of code, with frozen dependencies.
+
+  % make debug PROCS=1 AMMA_INFO=1 
+Make debug version one file at a time, with command lines printed. 
+
+The meaning of clean targets:
+
+  clean    - Removes object files created during compilation for this library
+          this forces all objects in the current library to be recompiled.
+  cleanlib - Does clean as above, but also removed the library.
+  cleandep - Clean dependancy information.  This forces the make system to
+          recompute the library dependancies. 
+  distclean - Cleans out the entire project out, and all intermediate files.
+
+  

@@ -1,0 +1,22 @@
+$(FileObject:file:../examples/*)$(FilePattern:Examples/%.html)
+<html>
+<head><TITLE>$(FullName)</TITLE></head><body BGCOLOR=#FFFFFF>
+
+$(set:toroot=..)$(set:othlink=../../examples/$(file))$(set:othname=SOURCE)
+$(include:topbar.stmpl)
+
+$(silent:
+$(set:autoLink=on)
+$(set:refPattern=../Basic/Class/%.html)
+)<pre><code>
+$(AutoLink:$(htmlsafe:$(include:$(dir)/$(file))))
+</code></pre>
+
+$(//: **************** Footer ************************ )
+<table width=100% align="middle"><tr>
+<td align="center" bgcolor="black"><FONT face="helvetica,arial" color="white"><b>
+$(ifset:author:Programmer:$(author),) $(ifset:date:Created: $(date),) Documentation by CxxDoc: $(buildtime)
+</b></FONT></td>
+</tr></table>
+</body>
+</html>

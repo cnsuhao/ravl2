@@ -1,0 +1,59 @@
+$(silent:
+$(ifset:!lastFilename:$(set:lastFilename=.))
+$(define:chk_header:$(if:$filename!=$lastFilename:$(set:lastFilename=$(filename))<p>
+</table>
+<table width=50% bgcolor="#C0C0C0"><tr>
+<td width=50% align="middle">#include "<A HREF="../../../../inc/$(filename)">$(filename)</A>"</td>
+</table>
+<table WIDTH="100%" NOSAVE>
+))
+$(ifset:!titleStart:$(set:titleStart=<FONT SIZE="+2">))
+$(ifset:!titleEnd:$(set:titleEnd=</FONT>))
+)
+$(//: **************** Namespace details ************************ )
+$(ifany:namespace:$(titleStart)Child namespaces:$(titleEnd)
+<table WIDTH="90%" NOSAVE >
+$(forall:namespace:<tr><td><A HREF="$(mkhref:)">$(ObjectName)</A> </td><td> $(brief) </td></tr>
+)</table>)
+
+$(//: **************** Class list ************************ 
+)$(ifany:class:$(titleStart)Child Classes:$(titleEnd)
+<table WIDTH="100%" NOSAVE>
+$(forall:class:$(chkacc:$(chk_header:)<tr><td width=15%><A HREF="$(mkhref:)">$(ObjectName)</A><td>$(brief)</tr>
+))</table>)
+
+$(define:chk_header:$(if:$filename!=$lastFilename:$(set:lastFilename=$(filename))<p>
+</DL><table width=50% bgcolor="#C0C0C0"><tr>
+<td width=50% align="middle">#include "<A HREF="../../../../inc/$(filename)">$(filename)</A>"</td>
+</table><DL>
+))
+
+$(//: **************** Enum list ************************ 
+)$(ifany:enum:$(titleStart)Enumerated types:$(titleEnd)<DL>
+$(forall:enum:$(chkacc:$(chk_header:)<DT><A NAME="$(href)">enum</A> <B>$(ObjectName)</B> { $(forall:all:$(if:$isfirst=0:, )$(ObjectName)) } ;<DD>
+$(include:comment.stmpl)
+<br>))</DL>)
+
+$(//: **************** Typedef list ************************ 
+)$(ifany:typedef:$(titleStart)Typedefs:$(titleEnd)<DL>
+$(forall:typedef:$(chkacc:$(chk_header:)<DT><A NAME="$(href)">typedef</A> $(typedef_type) <B>$(ObjectName)</B>;<DD>
+$(include:comment.stmpl)
+<br>))</DL>)
+
+$(//: **************** Variable list ************************ 
+)$(ifany:variable:$(titleStart)Variables:$(titleEnd)<DL>
+$(forall:variable:$(chkacc:$(chk_header:)<DT>$(datatype) <B>$(ObjectName)</B>;<DD>
+$(include:comment.stmpl)
+<br>))
+</DL>)
+
+$(//: **************** Method list ************************ 
+)$(ifany:$modeMethod,$NodeType=method:$(titleStart)Methods:$(titleEnd)
+<DL>
+$(forall:$modeMethod,$NodeType=method|$NodeType=docnode:$(if:$NodeType=method:$(chkacc:$(chk_header:)$(include:method.stmpl)))$(else:</DL><H3>$(brief)</H3>
+$(ifset:detail:$(if:$detail!=:$(detail)
+))$(ifset:bug:<br><FONT COLOR="red">BUG:$(bug)</FONT><br>
+)<DL>
+))
+</DL><br>)
+

@@ -1,0 +1,16 @@
+# This file is part of RAVL, Recognition And Vision Library
+# Copyright (C) 2001, University of Surrey.
+# This code may be redistributed under the terms of the GNU lesser
+# public license (LGPL). See the lgpl.licence file for details or
+# see http://www.gnu.org/copyleft/lesser.html
+# file-header-ends-here
+#################################################
+# $Id$
+# Conditionaly include DMedia libraries if we're on an sgi platform
+
+ifndef DMEDIA_SWITCH_DEFS
+DMEDIA_SWITCH_DEFS=1
+ifeq ($(ARC),sgi)
+include sgiDMedia.def
+endif
+endif

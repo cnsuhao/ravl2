@@ -1,0 +1,26 @@
+# This file is part of RAVL, Recognition And Vision Library
+# Copyright (C) 2001, University of Surrey.
+# This code may be redistributed under the terms of the GNU lesser
+# public license (LGPL). See the lgpl.licence file for details or
+# see http://www.gnu.org/copyleft/lesser.html
+# file-header-ends-here
+ifndef LIBJPEG_DEF
+LIBJPEG_DEF = 1
+
+include Math.def
+
+ifeq ($(ARC),linux)
+EXELIB := -ljpeg $(EXELIB)
+else
+ifeq ($(ARC),sgi)
+LIBJPEG_HOME=/opt/freeware
+INCLUDES += -I$(LIBJPEG_HOME)/include 
+EXELIB := -Wl,-rpath,$(LIBJPEG_HOME)/lib32 -L$(LIBJPEG_HOME)/lib32 -ljpeg $(EXELIB)
+else
+LIBJPEG_HOME=/opt/PDlibs/jpeg-6b
+INCLUDES += -I$(LIBJPEG_HOME)/include 
+EXELIB := -L$(LIBJPEG_HOME)/lib -ljpeg $(EXELIB)
+endif
+endif
+
+endif

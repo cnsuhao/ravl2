@@ -1,0 +1,73 @@
+###########################
+# Make info for unknown systems
+# $Id$
+
+#######################
+# Programs to use.
+
+# The following ifndef's allow the rest of this configuration to be
+# used for alpha's
+
+CC = gcc
+CXX = g++
+
+MKDEPFLAGS = -MM
+AR = ar
+ARFLAGS = ruc
+MKDIR = mkdir -p
+CP = cp
+CHMOD = chmod
+
+MKDEP_CC  = \
+ echo -n '$@ $$(INST_OBJS)/' > $(INST_DEPEND)/$(@F); \
+ $(CC) $<  $(CPPFLAGS) $(CINCLUDES) $(MKDEPFLAGS) >>$(INST_DEPEND)/$(@F)
+
+MKDEP_CXX = \
+ echo -n '$@ $$(INST_OBJS)/' > $(INST_DEPEND)/$(@F); \
+ $(CXX) $< $(CPPFLAGS) $(CINCLUDES) $(MKDEPFLAGS) >>$(INST_DEPEND)/$(@F)
+
+############################
+# Universal flags.
+
+CFLAGS   = -Wall -pipe
+CCFLAGS  = -Wall -frepo -pipe
+CCPPFLAGS= -DGNU -D__$(ARC)__ -Dunix
+CPPFLAGS = -DGNU -D__$(ARC)__ -Dunix
+LDFLAGS = $(CCFLAGS)
+PAR_MAKE = --jobs=$(PROCS)
+
+############################
+# 'develop' variant.
+
+ifeq ($(VAR),develop)
+ CFLAGS +=
+ CCFLAGS +=
+ LDFLAGS +=
+endif
+
+############################
+# 'debug' variant.
+
+ifeq ($(VAR),debug)
+ CFLAGS += -g -DAMMA_CHECK
+ CCFLAGS += -g -DAMMA_CHECK
+ LDFLAGS += -g
+endif
+
+############################
+# 'check' variant.
+
+ifeq ($(VAR),check)
+ CFLAGS += -DAMMA_CHECK
+ CCFLAGS += -DAMMA_CHECK
+ LDFLAGS +=
+endif
+
+############################
+# 'opt' variant.
+
+ifeq ($(VAR),opt)
+ CFLAGS += -O3 -DNDEBUG
+ CCFLAGS += -O3 -DNDEBUG
+ LDFLAGS += -O3
+endif

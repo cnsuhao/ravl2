@@ -1,0 +1,22 @@
+
+$(//: *********************** Title ***************************** )
+<table width=100% align="middle">
+<tr><td align="center" bgcolor="$(ifset:hdrcolour:$(hdrcolour))$(else:#007FFF)">
+<font size="+2" color="white">$(ifset:title:$(title))$(else:$(ObjectName))</font></td></tr>
+<tr><td align="center" bgcolor="black"><FONT size="+1" face="helvetica,arial" color="white">
+<b>RAVL, Recognition And Vision Library</b></font></td>
+</tr></table>
+
+$(//: *********************** option bar ***************************** )
+$(ifset:!toroot:$(set:toroot=../..))
+<table width=100% bgcolor="#C0C0C0"><tr>
+<td width=25% align="middle" border=2><font size="-1" face="helvetica,arial">
+$(ifset:othpagemode:<a href="$(othref:)"><B>$(uppercase:$(othpagemode))</B></a>)
+$(else:<a href="$(othlink)"><B>$(uppercase:$(othname))</B></a>)</font></td>
+<td width=25% align="middle"><font size="-1" face="helvetica,arial">
+<a href="http://ravl.sourceforge.net"><B>HOME PAGE</B></a></font></td>
+<td width=25% align="middle"><font size="-1" face="helvetica,arial">
+<a href="$(toroot)/search.html"><B>SEARCH</B></a></font></td>
+<td width=25% align="middle"><font size="-1" face="helvetica,arial">
+<a href="$(toroot)/sitemap.html"><B>CONTENTS</B></a></font></td>
+</tr></table>

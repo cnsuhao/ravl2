@@ -1,0 +1,41 @@
+# Library dependancies.
+#libMstd.so libMtype.so
+#libMtext.so libMtype.so
+#libMIndex1.so libMtype.so
+#libMstdIO.so libMtext.so
+#libMgrid.so libMIndex1.so
+
+libMlalg.so libMtext.so 
+libMag2.so libMlalg.so
+libMag3.so libMlalg.so
+libMpxl.so libMag2.so libMag3.so 
+libMagN.so libMlalg.so 
+libMagm.so libMagN.so libMlist.so libMold.so
+libMimage.so libMpxl.so libMagN.so libMagm.so libMgrid.so libMstdIO.so
+libDPImageIO.so libMimage.so
+libVidIO.so libDPImageIO.so
+libjpeg.so
+libpng.so libz.so
+libCcompimg.so libMimage.so libMag2.so 
+libExtImgIO.so libDPImageIO.so libjpeg.so libpng.so
+libgmodule.so libdl.so
+libXext.so libX11.so
+libgthread.so libglib.so libpthread.so
+libgmodule.so libgthread.so
+libgdk.so libgmodule.so libglib.so libX11.so libXext.so
+libgtk.so libgdk.so
+libPThreadCXX.so libpthread.so
+libPThreadTools.so libPThreadCXX.so
+libMTDataProc.so libPThreadTools.so 
+libGUI.so libgtk.so libMTDataProc.so
+libMEnImgBnd.so libMimage.so libMbnd.so
+libMbnd.so libMlist.so 
+libiaps.so libMimage.so libMag1.so libMlist.so
+libMiproc.so libMimage.so libMbnd.so libMEnImgBnd.so libiaps.so
+libIP.so libMimage.so libMiproc.so
+libMstdList.so libMlist.so libMtext.so
+libMgf.so libMtext.so libMstdList.so
+libMagGf.so libMbnd.so libMag2.so libMgf.so
+libGUIView.so libGUI.so libIP.so libMagGf.so
+libDPDisplayIO.so libMimage.so libGUI.so libGUIView.so 
+libDPGeomIO.so libMagm.so libMgf.so

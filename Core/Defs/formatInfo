@@ -1,0 +1,25 @@
+# Dynamic library format   information.
+display filePrefix @X      DPDisplayIO
+-       filePrefix @net    SysNetwork
+DIVO    filePrefix @DIVO   sgiDMedia
+jpeg	fileExt    .jpg    ExtImgIO
+png	fileExt    .png    ExtImgIO
+cif	fileExt	   .cif	   VidIO
+cif	fileExt	   .qcif   VidIO
+cif	fileExt	   .sqcif  VidIO
+yuv	fileExt	   .yuv    VidIO
+syuv	fileExt	   .syuv   VidIO
+pgm	fileExt	   .pgm    DPImageIO
+ppm	fileExt	   .ppm    DPImageIO
+pbm	fileExt	   .pbm    DPImageIO
+rgb	fileExt	   .rgb    DPImageIO
+ps	fileExt    .ps     DPImageIO Ccompimg DPGeomIO
+ary	fileExt	   .ary    DPImageIO
+bmp	fileExt	   .bmp    DPImageIO
+tri	fileExt    .tri    DPSurf3DIO
+obj	fileExt    .obj	   DPSurf3DIO
+wrl	fileExt    .wrl	   DPSurf3DIO
+ply	fileExt    .ply	   DPSurf3DIO
+tpoly	fileExt    .tpoly  DPSurf3DIO
+txt	symb	   NumDataC<VectorC,NumLabelC>   DPPatternRec
+txt	symb	   NumLabelC   DPPatternRec

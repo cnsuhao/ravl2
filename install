@@ -1,0 +1,82 @@
+#!/bin/sh
+# $Id$
+
+echo "Ravl Installation script."
+echo "Requirements: perl-5, gnu-make-3.75, gcc-2.95.2"
+
+if [ -z "$2" ] ; then
+  INSTMODE=bin
+else
+  INSTMODE=$2
+fi
+
+case ${INSTMODE} in 
+  bin | src | clean)
+     true ;;
+  *) echo "Unrecognised mode '${INSTMODE}'"
+     INSTMODE=""
+esac
+
+if [ -z "$1" -o -z "${INSTMODE}" ]  ; then
+  echo "Usage: install (target directory)"
+  exit
+fi
+
+##################################
+# Check perl
+if which perl > /dev/null ; then
+  true
+else
+  echo "Error:Can't find perl, this is required for installation & usage. "
+  exit
+fi
+
+##################################
+# Check make
+make=""
+if which make > /dev/null ; then
+  if make -v 2>&1 | grep GNU > /dev/null  ; then
+     MAKE=make
+  fi
+fi
+if [ -z "${MAKE}" ] ; then
+  if which gmake > /dev/null ; then 
+    if gmake -v 2>&1 | grep GNU > /dev/null ; then
+       MAKE=gmake
+    fi
+  fi
+fi
+if [ -z "${MAKE}" ] ; then
+  echo "Error:Can't find GNU make, this is required for installation & usage. "
+  exit
+fi
+echo "Make: ${MAKE} "
+
+###################################
+# Start installation
+
+INSTALL_SITE="$1"
+echo "Installation site '${INSTALL_SITE}'"
+if mkdir -p ${INSTALL_SITE} ; then 
+  true
+else
+  echo "Error: Can't create installation directory ${INSTALL_SITE}. " 
+  exit 1
+fi
+ARC=`./QMake/config.arc`
+if [ "${ARC}" = "unknown" ] ; then
+  echo "Warning: Unknown architecture. " 
+  echo "This may not work, but we'll try anyway. "
+fi
+echo "Architecture: '${ARC}'"
+
+# Install make system.
+${MAKE} -C QMake -f ./QMake.mk MAKEHOME=`pwd`/QMake PROJECT_OUT=${INSTALL_SITE} PROCS=1 FULLBUILDSRC='BASE_VAR=none'
+
+# Compile libraries
+${MAKE} -f ${INSTALL_SITE}/Tools/QMake/QMake.mk PROJECT_OUT=${INSTALL_SITE} fullbuild  FULLBUILDSRC='BASE_VAR=none'
+
+# Print some usage instructions
+echo "Use the following alias for compilation.  PROJECT_OUT controls the directory "
+echo "into which your own code will be compiled. The default is 'build' in your home directory. "
+echo "alias qm '${MAKE} -f ${INSTALL_SITE}/Tools/QMake/QMake.mk PROJECT_OUT=$HOME/build'"

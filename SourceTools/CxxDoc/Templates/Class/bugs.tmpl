@@ -1,0 +1,27 @@
+$(FileObject:one)$(FilePattern:Index/bugs.html)
+<html><head><TITLE>List of Buggy Classes</TITLE><BASE TARGET="_parent" ></head>
+<body BGCOLOR=#FFFFFF>
+
+$(include:topbar.stmpl)
+
+&nbsp;<p>
+
+<CENTER>
+<TABLE BORDER=3 CELLPADDING=10>
+<TR> <TD ALIGN=CENTER><B>Class</B></TD> <TD ALIGN=CENTER><B>Item</B></TD> <TD ALIGN=CENTER><B>Description</B></TD> </TR>
+$(forall:class:$(ifset:classbugs:
+<tr><td><A HREF="$(MakeFilename:Develop/Class/%.html)">$(ObjectName)</A></td><td>Class</td><td>$(classbugs)</td></tr>)
+$(set:inclass=$(ObjectName))$(set:infile=$(MakeFilename:../Develop/Class/%.html))
+$(forall:method:$(ifset:bug:
+<tr><td><A HREF="$infile">$(inclass)</A></td><td>$(ObjectName)</td><td>$(bug)</td></tr>
+)))
+</TABLE>
+</CENTER>
+
+<table width=100% align="middle"><tr>
+<td align="center" bgcolor="black"><FONT face="helvetica,arial" color="white">
+<b>Documentation by CxxDoc: $(buildtime)</b></FONT></td>
+</tr></table>
+
+</body>
+</html>

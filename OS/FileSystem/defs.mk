@@ -1,0 +1,51 @@
+# This file is part of RAVL, Recognition And Vision Library 
+# Copyright (C) 2001, University of Surrey
+# This code may be redistributed under the terms of the GNU Lesser
+# General Public License (LGPL). See the lgpl.licence file for details or
+# see http://www.gnu.org/copyleft/lesser.html
+# file-header-ends-here
+# Makefile 
+#! rcsid="$Id$"
+
+# -----------  Specification of your project -----------------------
+
+ANSIFLAG= 
+
+DESCRIPTION = File system interface.
+
+PACKAGE=Ravl/OS
+
+#MAINS = dynLoad.cc
+
+# HEADERS = all include files of this project to be exported
+HEADERS =  FilePermission.hh Filename.hh Directory.hh UserInfo.hh
+
+# SOURCES = all C modules, not containing main separated by space. The compiled
+#   code of these modules is stored in the project library.
+SOURCES  = FilePermission.cc Filename.cc Directory.cc FileSearch.cc \
+ UserInfo.cc FileOwner.cc
+
+
+MUSTLINK = 
+#SystemML.cc
+
+# PLIB = the project library ... where the objects will be archived
+PLIB = RavlOS
+
+LIBDEPS=RavlFileSystem.def
+
+# Uses libraries.
+USESLIBS = RavlOS RavlCore
+
+# Libraries needed for programs.
+PROGLIBS = RavlIO
+
+# Examples - programs demonstrating using of software in this directory.
+EXAMPLES = 
+#exDeadLine.cc exChild.cc dynLoad.cc exSerial.cc
+
+# Tests - program testing runtime consistency of the software
+TESTEXES = testFileFormat.cc
+#testDate.cc exDeadLine.cc testChildProc.cc
+
+EHT=Ravl.OS.File_System.eht

@@ -1,0 +1,10 @@
+<FONT FACE="Times" SIZE=3>$(ifset:brief:<B>$(brief)</B><br>
+)$(ifset:param:<TABLE BORDER=3>
+<TR><TD>$(subst: - :</TD><TD>:$(subst:
+:</TD></TR><TR><TD>:$(param)))</TD></TR>
+</TABLE>
+)$(ifset:detail:$(if:$detail!=:$(AutoLink:$(detail))<br>)
+)$(ifset:bug:<FONT COLOR="red">BUG:$(bug)</FONT><br>
+)</FONT>
+$(ifset:section:<p><H3>$(section)</H3>
+)

@@ -1,0 +1,209 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+<head>
+  <title>Notes on reference counting</title>
+</head>
+<body>
+
+
+<!-- *************************** Main Page Text  *************************** -->
+
+<P>
+When using AMMA for the first time, you'll find there's a few surprises,
+such as when dealing with <EM>BIG</EM> and <EM>SMALL</EM> objects.
+This page will give details on:
+</P>
+
+<P>
+&nbsp;&nbsp;<a href="#BIG">The distinction between Big and Small objects</a><BR>
+&nbsp;&nbsp;<a href="#ORDER">Coordinate systems in AMMA: the order of indices and vector components</a><BR>
+&nbsp;&nbsp;<a href="#COPY">Copying nested templated big objects</a><BR>
+
+
+&nbsp;&nbsp;<a href="#INDEXC"><SAMP>IndexC</SAMP> versus <SAMP>int</SAMP>?</a>
+</P>
+
+
+<hr>
+
+<h2><a name="BIG">The Distinction Between Big and Small Objects</a></h2>
+
+<P>
+The main difference is in the way the assignment operator and copy
+constructor work.  Small objects behave like basic 'C++' types, in
+that a new instance of the object is created with every new variable
+and a full copy with each assignment operation.  Big objects behave
+more like pointers: assignment only copies the pointer to the body of
+the class.  This allows you to have more than one handle to a class.
+The object itself is stored in the heap.  All the problems of
+allocating and deallocating space on the heap are invisibly handled
+for you.
+
+<P>This may seem a bit confusing so here's an example:
+
+<FONT SIZE=4>
+<pre>
+ int x,y;   // Create two variables.
+ x = 2;     // Assign the value 2 to x.
+ y = x;     // Copy x to y.
+ y++;       // Increment y.
+</pre>
+</FONT>
+
+<P>
+As you would expect this code fragment leaves with x == 2 and y == 3.
+Now let's use an integer array from AMMA:
+</P>
+
+<FONT SIZE=4>
+<pre>
+ Array1d&lt;int&gt; x(1),y(1); // Create a one element array.
+ x[0] = 2;            // Assign value 2 to first element.
+ y = x;               // x and y are now handles to the same object.
+ y[0]++;              // This is now the same as x[0]++
+</pre>
+</FONT>
+
+<P>
+This code leaves x[0] == 3 and y[0] == 3.  If you wish assignment to make an
+actual copy of the object you must do so explicitly:
+</P>
+
+<FONT SIZE=4>
+<pre>
+ Array1dC&lt;int&gt; x(1),y(1); // Create a one element array.
+ x[0] = 2;             // Assign value 2 to first element.
+ y = x.Copy();         // y is now a copy of x.
+ y[0]++;      
+</pre>
+</FONT>
+
+<P>
+This behaves as the first example leaving with x == 2 and y == 3.  Using the
+copy constructor with big objects behaves in exactly the same was as the 
+assignment operator.  
+</P>
+
+<FONT SIZE=4>
+<pre>
+ Array1dC&lt;int&gt; x(1); // Create a one element array.
+ Array1dC&lt;int&gt; y(x); // Create y with copy constructor.
+ x[0] = 2;           // Assign value 2 to first element of x.
+ y[0]++;             // x[0] is now equal to 3.
+</pre>
+</FONT>
+
+<P>
+A typical example of big objects are VectorC, MatrixC, DListC and ImageC.
+Some small objects are Vector2dC and Matrix2d2C.  
+</P>
+
+<p> 
+If you are wondering when you should use a big object when writing a class yourself, here are <a href="Ravl.Introduction.Reference_Counting.Notes.html">some notes from Charles</a>.
+
+<hr>
+
+
+<h2><a name="COPY">Copying nested templated big objects</a></h1>
+
+What happens if I use the <code>Copy()</code> function to copy for example an
+array of images? - like this:
+<pre>
+Array1dC&lt;ImageC&lt;RealT&gt; &gt; a1(6), a2;
+.... // initialise the images in a1
+.... 
+a2 = a1.Copy();
+....
+</pre>
+What exactly gets copied here?  In fact only the array gets copied, not the
+images themselves; i.e. you get a new array in <code>a2</code> which contains
+pointers to the original images in <code>a1</code>.  If you want a "deep" copy,
+so that all of the images in the array get copied into new images, you have to
+do it explicitly:
+<pre>
+a2 = a1.Copy();
+for (IndexC i=a1.IMin(); i&lt;=a1.IMax(); ++i)  a2[i] = a1[i].Copy();
+</pre>
+(If you have a large array, you can do the iteration more efficiently using an
+array iterator, in this case <code><a
+href="../Class/RavlN.Array1dIter2C.html">Array1dIter2C</a></code>.)
+
+<hr>
+
+
+<h2><a name="ORDER">2D coordinate systems in RAVL</a></h1>
+
+<P>
+In 2D RAVL objects, such as arrays, matrices and images, the indices are in the
+order: row, column (as in conventional matrix notation).  In pairs of reals
+(e.g. 2D vectors and points), the components are in the order <i>x</i>,
+<i>y</i>.  Normally these two categories of objects do not interact.  However,
+when they do (e.g. if we want to construct a pixel position from a 2D vector in
+<SAMP><a
+href="../Class/RavlN.PixelC.html#PixelC_PixelC_constPoint2dC__">PixelC</a>::PixelC(const
+Point2dC & pt)</a></SAMP>, the RAVL convention is this:
+</P>
+
+<ul>
+<li> The <b>row</b> index is associated with the <b><i>x</i></b> value
+<li> The <b>column</b> index is associated with the <b><i>y</i></b> value
+</ul>
+
+<P>
+The implication is that RAVL adopts a 2D coordinate system in which the
+<i>x</i> coordinate points downwards, and the <i>y</i> coordinate to the right.
+Not what you were expecting?  It has the advantages that:
+</P>
+
+<ul> 
+<li> the coordinate system is anti-clockwise, as is conventional in mathematics
+<li> the first array coordinate is associated with the first vector component etc.
+</ul>
+<hr>
+
+
+
+
+<h2> <a name=INDEXC>Do I Use <SAMP> <a
+href="../Class/RavlN.IndexC.html">IndexC</a></SAMP> or <SAMP>int</SAMP>?
+</a></h2>
+
+<P>
+The problems with the basic <SAMP>int</SAMP> type in C / C++ are manifold.  Our
+main complaints are: 
+</P>
+
+<ul>
+
+<li> When an <SAMP>int</SAMP> is combined with an <SAMP>unsigned int</SAMP>,
+the <SAMP>int</SAMP> is converted to <SAMP>unsigned int</SAMP> before the
+operation is performed.  This can lead to bizarre results for multiplication,
+division and modulo operators where one of the operands is negative.
+
+<li> The <SAMP>int</SAMP> division operator always rounds towards zero, as does
+conversion from <SAMP>float</SAMP> or <SAMP>double</SAMP>, regardless of the
+sign of the operands.
+
+<li> The size of many RAVL objects is returned as <SAMP>unsigned</SAMP>, which
+typically causes compilation warnings to be generated by comparison operations
+in loops etc. unless <SAMP>IndexC</SAMP> is used.
+
+</ul>
+
+<P>
+We have attempted to address all of these problems in the <SAMP>IndexC</SAMP>
+class (also typedefed as <SAMP>IndexT</SAMP>).  So, for anything that could be
+regarded as an index variable (<SAMP>for</SAMP> loop variables, array indices
+etc.) we would recommend using <SAMP>IndexC</SAMP>.
+</P>
+
+
+
+</BLOCKQUOTE>
+
+</td>
+</tr></table>
+
+
+</body>
+</html>

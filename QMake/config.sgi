@@ -1,0 +1,124 @@
+###########################
+# Make info for silicon graphics systems
+# $Id$
+
+# Bug workaround:
+
+#PROCS=1
+#PRECOMPXX = \
+#if [ -l ii_files ] ; then \
+#  rm ii_files; \
+#fi ; ln -s $(INST_OBJS)/ii_files .
+
+ifeq "$(HOST)" "vega" 
+  DEFAULTTMP=/vegabuf
+# TMP=/video/tmp
+endif
+
+#######################
+# Programs to use.
+
+CC = cc -n32 -J 4 -mp
+CXX = CC -n32 -J 4 -mp -LANG:ansi-for-init-scope=on
+
+MKDEPFLAGS = -M
+AR = ar
+ARFLAGS = crus
+MKDIR = mkdir -p
+CP = cp
+CHMOD = chmod
+TOUCH = /usr/bin/touch
+RM = rm
+LIBPATHSWITCH = -Wl,-rpath,#
+
+AMKDEPFLAGS = -MDupdate $(WORKTMP)/$*.d
+MKDEPUP = if [ -r $(WORKTMP)/$*.d ] ; then \
+ echo '$$(INST_OBJS)/$*.o:\' > $(INST_DEPEND)/$*.d ; \
+ cut -f 2 -d: $(WORKTMP)/$*.d >> $(INST_DEPEND)/$*.d  ; rm $(WORKTMP)/$*.d ; fi
+
+# Recover undefined symbols....
+
+#MKMUSTLINK = `nm -g -B $(TARG_MUSTLINK_OBJS) | $(MAKEHOME)/ParseNM.pl`
+
+############################
+# Universal flags.
+
+CFLAGS   = -mips4 -r10000
+CCFLAGS  = -mips4 -r10000 -woff 1021 -woff 1681 -woff 1682 
+CPPFLAGS = -D__sgi__ -Dunix -D__sgiCC__ -DSGI -D__BUILTIN_BOOL__
+CCPPFLAGS =  -D__sgi__ -Dunix -D__sgiCC__ -DSGI -D__BUILTIN_BOOL__
+
+LDFLAGS  = -n32 -Wl,-woff,84
+# -Wl,-woff,15 
+#-Wl,-woff,15 
+#-Wl,-woff,85
+#-prelink -ptnone
+
+OPTFLAGS= -O3 -OPT:const_copy_limit=50000:Olimit=80000 -DNDEBUG
+OPT1FLAGS= -O1  -OPT:Olimit_opt=on
+#PAR_MAKE = 
+PAR_MAKE = --jobs=$(PROCS)
+
+############################
+# 'develop' variant.
+
+ifeq ($(VAR),develop)
+CFLAGS += -DAMMA_CHECK
+CCFLAGS += -DAMMA_CHECK
+LDFLAGS +=
+endif
+
+############################
+# 'debug' variant.
+
+ifeq ($(VAR),debug)
+CFLAGS += -g -DAMMA_CHECK
+CCFLAGS += -g -DAMMA_CHECK
+LDFLAGS += -g
+endif
+
+############################
+# 'check' variant.
+
+ifeq ($(VAR),check)
+CFLAGS += $(OPT1FLAGS)  -DAMMA_CHECK
+CCFLAGS += $(OPT1FLAGS) -DAMMA_CHECK
+LDFLAGS += $(OPT1FLAGS)
+endif
+
+############################
+# 'opt' variant.
+
+ifeq ($(VAR),opt)
+CFLAGS += $(OPTFLAGS)
+CCFLAGS += $(OPTFLAGS)
+LDFLAGS += $(OPTFLAGS)
+endif
+
+############################
+# 'shared' variant.
+
+ifeq ($(VAR),shared)
+ CFLAGS += -shared $(OPTFLAGS)
+ CCFLAGS += -shared $(OPTFLAGS)
+ LDLIBFLAGS = -shared
+ LDFLAGS += -O2 
+endif
+
+############################
+# 'prof' variant.
+
+ifeq ($(VAR),prof)
+ CFLAGS += $(OPTFLAGS) -DNDEBUG
+ CCFLAGS += $(OPTFLAGS) -DNDEBUG
+ LDFLAGS += $(OPTFLAGS)
+endif
+
+############################
+# 'gprof' variant.
+
+ifeq ($(VAR),gprof)
+ CFLAGS += $(OPTFLAGS)  -DNDEBUG 
+ CCFLAGS += $(OPTFLAGS)  -DNDEBUG
+ LDFLAGS += $(OPTFLAGS) 
+endif

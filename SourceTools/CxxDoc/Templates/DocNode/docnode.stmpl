@@ -1,0 +1,100 @@
+$(silent:
+$(ifset:!titleStart:$(set:titleStart=<FONT SIZE="+2" color="#23238E" FACE="arial,Helvetica">))
+$(ifset:!titleEnd:$(set:titleEnd=</FONT>))
+$(set:docentry_=$(subst: :_:$(docentry)))
+)
+<html><head><title>$(title) $(ifset:brief:- $(brief))</title><BASE TARGET="_parent" ></head>
+<body BGCOLOR=#FFFFFF>
+
+$(include:../Class/topbar.stmpl)
+
+$(ifset:docentry:
+<table width=100% bgcolor="#C0C0C0"><tr>
+<td>
+$(set:parent=)
+$(for:.:$docentry:$(silent:
+		    $(ifset:parent:$(set:parent=$(parent).$(subst: :_:%arg%)))
+	            $(else:$(set:parent=$(subst: :_:%arg%)))
+)-$(if:$docentry_!=$parent:<A HREF="$(parent).html">%arg%</A>)$(else:<b>%arg%</b>)
+)</table>)
+
+<table width=100% align="middle">
+<tr><td align=left valign=top bgcolor="#D7EFFF">
+<BLOCKQUOTE>
+<BR><BR>
+
+$(ifany:docnode:
+<table align="right" width=45% cellspacing=5><tr>
+<td bgcolor="$(hdrcolour)">
+  &nbsp;
+  <font size=+1 face="arial,helvetica" color="white">
+  <B>SUBTOPICS</B>
+  </font>
+</td>
+</tr><tr>
+<td>
+  <font face="arial,helvetica" size=+1>
+  <ul>
+$(forall:docnode:<li><A HREF="$(mkhref:)">$(subst:_: :$(ObjectName))</A>$(ifset:brief:- $(brief))
+)
+  </ul>
+  </font>
+</td>
+</tr>
+<tr><td><p></tr>
+</table>
+)
+
+$(ifset:brief:<font color="#23238E" size=7 face="arial,helvetica">
+$(brief)</font><p>)
+
+$(ifset:detail:
+<!-- Begining of EHT content -->
+$(detail)
+<!-- End of EHT content -->
+)
+
+
+$(ifany:docleaf,$userlevel=Basic:<H2>Basic Classes:</H2>
+<table>
+$(forall:docleaf,$userlevel=Basic:
+<tr><td><code>&nbsp;</code><A HREF="../Class/$(content)">$(ObjectName)</A><td>$(ifset:brief:$(brief))</tr>
+)</table>)
+
+$(ifany:docleaf,$userlevel=Normal:<H2>Normal Classes:</H2>
+<table>
+$(forall:docleaf,$userlevel=Normal:
+<tr><td><code>&nbsp;</code><A HREF="../Class/$(content)">$(ObjectName)</A><td>$(ifset:brief:$(brief))</tr>
+)</table>)
+
+$(ifany:docleaf,$userlevel=Advanced:<H2>Advanced Classes:</H2>
+<table>
+$(forall:docleaf,$userlevel=Advanced:
+<tr><td><code>&nbsp;</code><A HREF="../Class/$(content)">$(ObjectName)</A><td>$(ifset:brief:$(brief))</tr>
+)</table>)
+
+$(if:$pagemode=develop:
+$(ifany:docleaf,$userlevel=Develop:<H2>Develop Classes:</H2>
+<table>
+$(forall:docleaf,$userlevel=Develop:
+<tr><td><code>&nbsp;</code><A HREF="../Class/$(content)">$(ObjectName)</A><td>$(ifset:brief:$(brief))</tr>
+)</table>))
+
+$(ifany:docleaf,$userlevel=Default:<H2>Default Classes:</H2>
+<table>
+$(forall:docleaf,$userlevel=Default:
+<tr><td><code>&nbsp;</code><A HREF="../Class/$(content)">$(ObjectName)</A><td>$(ifset:brief:$(brief))</tr>
+)</table>)
+
+</BLOCKQUOTE>
+</td>
+</tr></table>
+
+$(//: **************** Footer ************************ )
+<table width=100% align="middle"><tr>
+<td align="center" bgcolor="black"><FONT face="helvetica,arial" color="white"><b>
+$(ifset:author:Author:$(author),) $(ifset:date:Created: $(date),) Documentation by CxxDoc: $(buildtime)
+</b></FONT></td>
+</tr></table>
+</body>
+</html>

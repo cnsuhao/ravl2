@@ -1,0 +1,196 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<!--! author="Charles Galambos" -->
+<html>
+  <head>
+    <title>Programming, debugging, and working with RAVL</title>
+  </head>
+
+  <body>
+
+<table width=100% align="middle">
+<tr><td align=left valign=top bgcolor="#D7EFFF">
+
+
+<BLOCKQUOTE>
+<BR><BR>
+
+
+
+<!-- ***************** Table Of Contents (On RHS of Page)  ***************** -->
+
+
+<table align="right" width=160 cellspacing=5><tr>
+<td bgcolor="#007FFF">
+  &nbsp;
+  <font size=2 face="arial,helvetica" color="white">
+  <B>BEGINNERS</B>
+  </font>
+</td>
+</tr><tr>
+<td>
+  <font face="arial,helvetica" size=2>
+  <ul>
+  <li><a href="tutorial/tutorial.html">Tutorial</A> on using RAVL
+  <li><a href="../../../../html/prognote.html">Programming Notes</a>
+  <li><a href="../../../../Auto/Index/basic.html">Basic Classes</A>
+      for beginner users
+  </ul>
+  </font>
+</td>
+</tr>
+
+<tr>
+<td bgcolor="#007FFF">
+  &nbsp;
+  <font size=2 face="arial,helvetica" color="white">
+  <B>REFERENCE</B>
+  </font>
+</td>
+</tr><tr>
+<td>
+  <font face="arial,helvetica" size=2>
+  <ul>
+  <li><a href="../../../../Auto/Basic/Tree/RAVL.html">Class Tree</A>
+      showing hierarchy of derivation
+  <li><a href="../../../../Auto/Basic/Class/std.html">Namespaces</a>
+  <li><a href="globs.html">RAVL global functions</a>:  Abs(), Sqrt(), ...
+  <li><a href="typedefs.html">RAVL typedefs</a>:  IntT, RealT, ...
+  <li><a href="../../../../Auto/Index/executables.html">Executable</A> packages
+  <li><a href="../amma_search.html">RAVL Search</A> engine
+  <li><a href="file:/vol/vssp/cpug/amma/src">RAVL Source Tree</a>
+  <li>Using <a href="external_libs.html">external libraries</a>
+  <li><a href="../../../../html/format.html">Obscure File Formats</A>
+  <li><a href="debugging.html">Debugging </a> with amma
+  </ul>
+  </font>
+</td>
+</tr>
+
+<tr>
+<td bgcolor="#007FFF">
+  &nbsp;
+  <font size=2 face="arial,helvetica" color="white">
+  <B>FEEDBACK</B>
+  </font>
+</td>
+</tr><tr>
+<td>
+  <font face="arial,helvetica" size=2>
+  <ul>
+  <li><a href="../../../todolist.html">To Do</A> list
+  <li><a href="http://www.ee.surrey.ac.uk/internal-cgi/wreq/req?top-active-3">Proposals</A> from users
+  </ul>
+  </font>
+</td>
+</tr>
+</table>
+
+
+
+
+<!-- ***************************** Page Title ****************************** -->
+
+<font color="#23238E" size=7 face="arial,helvetica">
+How To Use RAVL
+</font><p>
+
+<!-- *************************** Main Page Text  *************************** -->
+
+<P>
+RAVL contains a lot of useful class libraries and a fair selection of
+executable packages.
+This page gives pointers to information on using the ready built software
+packages and the file formats that are supported in the group.
+It will also direct you to reference information about what functionality is
+supported by the classes and instructions on using them.
+</P>
+
+<P>
+An online <a href="tutorial/tutorial.html">Tutorial</a> is provided to help you
+get started with programming with RAVL. It covers setting up your environment
+variables and then illustrates most of the significant ways of working with the
+RAVL libraries using several simple examples. The next step would be to be aware
+of some <a href="../../../../html/prognote.html">Programming Notes</a> that
+apply when using RAVL.
+</P>
+
+<P>
+Once you are ready to write your own programs using RAVL you will need to be
+able to find out what functionality already exists in RAVL (that might solve
+your problem) and how to use it. This is, after all, one of the main purposes
+of RAVL. There are several ways of accessing what is available and it is up to
+you to experiment with the different representations and find out what works
+for you. If you have a good idea that will make the information clearer, don't
+hesitate to send a <a
+href="http://www.ee.surrey.ac.uk/internal-cgi/wreq/req?top-active-3">Proposal</a>.
+</P>
+
+<P>
+Reference information on RAVL can be accessed in the following ways:
+<UL>
+
+<LI> Beginners might be interested in a list of <a
+href="../../../../Auto/Index/basic.html">Basic Classes</a>, but this list is very limited.
+
+<li> An automatically-generated <a
+href="../../../../Auto/Basic/Tree/RAVL.html">Class Tree</a> provides a list of
+all base classes and shows a complete tree of behaviour derivation. A web page
+describing each class is available. Included is automatically generated
+documentation which includes programmers usage comments as well as a complete
+list of member functions, the necessary include file and library dependency.
+
+<li> There are a lot of functions in various namespaces.  You can find some rudimentary help in the <a href="../../../../Auto/Basic/Class/std.html">(rather large) namespace page</a>.
+
+<li>
+To get more information on using the supplied packages see the pages on
+<a href="../../../../Auto/Index/executables.html">Executables</a>.
+
+
+<li> A (fairly useless) <a href="../amma_search.html">RAVL Search</a> engine
+will look for keywords in the class pages of the automatically generated
+documentation.
+
+<li> An <a href="file:/vol/vssp/cpug/amma/src">RAVL Source Tree</a> will give
+access to the complete source code directory tree.  Help in navigating through
+this tree can be found in the header files.  E.g. if you wanted to find the
+source code for <a
+href="../../../../Auto/Basic/Class/MatrixC.html">MatrixC</a>,
+first click on the link <code>"amma/Matrix.hh"</code> near the top of the page.
+Near the top of the file is the line:
+
+<pre>//! file="amma/NumAlg/LinAlg/Matrix.hh" </pre>
+
+The path following "amma/" indicates
+the path to take through the <a href="file:/vol/vssp/cpug/amma/src">Source Tree</a>.
+
+<li> There is also a bit of info on obscure <a
+href="../../../../html/format.html">File Formats</a>.
+</UL>
+
+<P>
+There is a class wizard program, <code>classwiz</code>, to help you write RAVL
+classes.  It can generate <a href="../../../../html/prognote.html">big and
+small objects</a>, and creates an appropriate <code><a
+href="../../../make/defs.html">defs.mk</a></code> file, or updates an existing
+one (if checked out).  There is no documentation - just run it and experiment
+with the options in the GUI.
+</P>
+
+
+<font color=red>Bugs:</font> Unfortunately the tool that automatically
+generates the Class Tree documentation does not generate documentation on
+anything else, e.g. namespaces, typedefs, global functions, #define macros,
+.....  Therefore there is virtually no documentation of any kind on these
+features.
+</P>
+
+<BR>
+
+
+
+</BLOCKQUOTE>
+
+</td>
+</tr></table> 
+</body>
+</html>

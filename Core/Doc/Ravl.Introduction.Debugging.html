@@ -1,0 +1,25 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <title>Debugging RAVL code.</title>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (X11; I; SunOS 5.7 sun4u) [Netscape]">
+</head>
+<body>
+
+This will eventually be a serious page on how to debug with RAVL.
+<p>For the moment, here is a small list of tips when <b>looking at data in gdb</b>, which will be updated from time to time and, at some point, organised.
+<br>&nbsp;
+<ul>
+<li>
+If you want to know the contents of a&nbsp; <tt>StringC mystring:</tt></li>
+<p><tt>(gdb) print (char*) mystring.rep.Where->s</tt>
+<br>&nbsp;
+
+   <hr>
+    <address><a href="mailto:eep1lm@ee.surrey.ac.uk">Luis Molina
+    Tanco</a></address> 
+Last Modified : 13/2/2001
+
+</body>
+</html>

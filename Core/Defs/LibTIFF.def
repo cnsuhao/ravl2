@@ -1,0 +1,26 @@
+# This file is part of RAVL, Recognition And Vision Library
+# Copyright (C) 2001, University of Surrey.
+# This code may be redistributed under the terms of the GNU lesser
+# public license (LGPL). See the lgpl.licence file for details or
+# see http://www.gnu.org/copyleft/lesser.html
+# file-header-ends-here
+ifndef LIBTIFF_DEF
+LIBTIFF_DEF = 1
+
+include Math.def
+
+ifeq ($(ARC),linux)
+EXELIB := -ltiff $(EXELIB)
+else
+ifeq ($(ARC),sgi)
+LIBTIFF_HOME=/opt/freeware
+INCLUDES += -I$(LIBTIFF_HOME)/include 
+EXELIB := -Wl,-rpath,$(LIBTIFF_HOME)/lib32 -L$(LIBTIFF_HOME)/lib32 -ltiff $(EXELIB)
+else
+LIBTIFF_HOME=/opt/PDlibs/tiff-v3.4beta037
+INCLUDES += -I$(LIBTIFF_HOME)/include 
+EXELIB := -L$(LIBTIFF_HOME)/lib -ltiff $(EXELIB)
+endif
+endif
+
+endif

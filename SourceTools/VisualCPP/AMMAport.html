@@ -1,0 +1,145 @@
+<html>
+<head><TITLE>Description of AMMA mode for XEmacs</TITLE><BASE TARGET="_parent" ></head>
+<body BGCOLOR=#FFFFFF>
+
+
+<!-- ****************** TOP ROW OF BUTTONS TO MAIN PAGES ****************** -->
+
+<table width=100% bgcolor="#32cc99"><tr>
+<td width=20% align="middle" border=2 NOWRAP>
+  <font size=1 face="helvetica,arial">
+  <a href="../../cpug.html"><B>CPUG HOME</B></a>
+  </font>
+</td>
+<td width=20% align="middle" NOWRAP>
+  <font size=1 face="helvetica,arial">
+  <a href="../../make/make.html"><B>QMAKE</B></a>
+  </font>
+</td>
+<td width=20% align="middle" NOWRAP>
+  <font size=1 face="helvetica,arial">
+  <a href="../../make/rcsHome.html"><B>RCS</B></a>
+  </font>
+</td>
+<td width=20% align="middle" NOWRAP>
+  <font size=1 face="helvetica,arial">
+  <a href="http://vssp-www.ee.surrey.ac.uk/amma/stable/docs/Home/libraries/amma/amma.html"><B>AMMA HOME</B></a>
+  </font>
+</td>
+<td width=20% align="middle" NOWRAP>
+  <font size=1 face="helvetica,arial">
+  <a href="../gama/gama.html"><B>GAMA HOME</B></a>
+  </font>
+</td>
+</table>
+
+<!-- ****************** TITLE ****************** -->
+
+
+<table width=100% align="middle"><tr>
+<td align="center" bgcolor="#007FFF"><font size=5 color="white">
+     AMMA Visual C++ Port
+</FONT><br></td></tr>
+<tr>
+<td align="center" bgcolor="black"><FONT face="helvetica,arial" color="white"><b>
+Centre for Vision, Speech &amp; Signal Processing</b></FONT></td>
+</tr></table>
+
+<!-- ****************** INSTRUCTIONS TO USE AMMA ****************** -->
+
+
+<p> This page is concerned with the ongoing AMMA port to VISUAL C++.  By following the simple instructions below you can write code in Visual C++ and link to the AMMA libraries.  You can also help port the remaining code to Visual C++.
+
+<p>
+
+<table width=100% bgcolor="#00FFFF">
+<tr>
+<td width=100% align="center" border=4><font size=4 face="helvetica,arial">Using AMMA from within Visual C++</font></td>
+</tr>
+</table>
+
+
+<p> All the AMMA header files, libraries and source code are in the directory tree:<code>/vol/vssp/local/VisualCPP</code>.  To use AMMA, you first have to make a soft link to this directory in your home directory.  This can be done by typing the following command on your unix machine.
+
+<p>
+
+<center>
+<table width=50% bgcolor="#C0C0C0">
+<tr>
+<td width=50% align="center" border=4><font size=1 face="helvetica,arial">ln -s /vol/vssp/local/VisualCPP ~/soft/VisualCPP</font></td>
+</tr>
+</table>
+</center>
+
+<p>
+
+<p> Next when you are in Windows you have to map your home directories as drive <code>h:</code>. This can be done easily in Windows explorer through the tools menu.
+
+Finally, in Visual C++ open the <code>Tools/Options</code> window.  Tab the <code>Directories</code> tag and add the two following standard paths.  
+
+<p>
+
+<center>
+<table width=50% bgcolor="#C0C0C0">
+<tr>
+<td width=50% align="center" border=4><font size=1 face="helvetica,arial">h:/soft/VisualCPP/inc ... for include files</font></td>
+</tr>
+</table>
+</center>
+
+<p>
+
+<center>
+<table width=50% bgcolor="#C0C0C0">
+<tr>
+<td width=50% align="center" border=4><font size=1 face="helvetica,arial">h:/soft/VisualCPP/lib/debug ... for debug libraries</font></td>
+</tr>
+</table>
+</center>
+
+<p>You can now include amma header files in the usual way.  When you link an executable, the library is: <b>AMMAported.lib</b>  I am working on a solution.
+
+<p>Also note that not all libraries have been ported.  This <a href="AMMAported">file</a> lists all files that have been ported so far.  Note, that only the threaded libraries have been built.
+
+
+<!-- *************** INSTRUCTIONS TO PORT OTHER LIBRARIES ************** -->
+
+<p>
+<table width=100% bgcolor="#00FFFF">
+<tr>
+<td width=100% align="center" border=4><font size=4 face="helvetica,arial">Porting AMMA</font></td>
+</tr>
+</table>
+
+<center>
+<p><b></b>
+</center>
+
+<p> If you want to attempt to port some libraries which are not yet ported read on.  The first step is to make a mirror copy of the AMMA source code.
+
+<p> am mirror MIRROR="/your/mirror/dir"
+
+<p> Next you need to use a program which converts all the defs.mk files to the relevant workspace files.  This is doVCPP.
+
+<p>doVCPP -i /your/mirror/dir -o /your/out/dir -dp your/out/dir -d h -ex
+
+<p> In the output directory you will see new directories made.  These contain all the AMMA include and src files.  Also created are the project files.  One for each library and each executable. Choose the library you want to port, load it into the workspace and try to compile it.
+
+<p> Once you have successfully ported it, let me know and I will add to the ported list.
+
+
+<p>I suggest you come nad have a chat with me (Kieron) if you want to add further libraries.
+
+<!-- *************** Author of Page & Date of Last Update  ***************** -->
+
+<table width=100% align="middle"><tr>
+<td align="center" bgcolor="black" NOWRAP>
+  <FONT face="helvetica,arial" color="white"><B>
+  K.Messer@surrey.ac.uk Last updated: Thursday 5th October BST 2000
+  </B></FONT>
+</td>
+</tr></table>
+
+
+
+</html>

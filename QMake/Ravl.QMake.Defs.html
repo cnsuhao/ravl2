@@ -1,0 +1,434 @@
+<html>
+<head>
+  <title>Description File Variables</title>
+</head>
+<body>
+
+<!-- ***************** Table Of Contents (On RHS of Page)  ***************** -->
+
+<table align="right" width=160 cellspacing=5><tr>
+<td bgcolor="#007FFF">
+  &nbsp;
+  <font size=2 face="arial,helvetica" color="white">
+  <B>CATEGORIES</B>
+  </font>
+</td>
+</tr><tr>
+<td>
+  <font face="arial,helvetica" size=2>
+  <ul>
+  <li><a href="#description">Directory description</A>
+  <li><a href="#multiple">Multiple directory</A>
+  <li><a href="#platform">Platform support</A>
+  <li><a href="#source">Source files</A>
+  <li><a href="#libs">Libraries</A>
+  <li><a href="#examples">Example programs</A>
+  <li><a href="#special">Special files</A>
+  <li><a href="#documentation">Documentation</A>
+  </ul>
+  </font>
+</td>
+</tr>
+
+<tr>
+<td bgcolor="#007FFF">
+  &nbsp;
+  <font size=2 face="arial,helvetica" color="white">
+  <B>VARIABLES</B>
+  </font>
+</td>
+</tr><tr>
+<td>
+  <font face="arial,helvetica" size=2>
+  <ul>
+  <li><a href="#DESCRIPTION">DESCRIPTION</A>
+  <li><a href="#NESTED">NESTED</A>
+  <li><a href="#MAINS">MAINS</A>
+  <li><a href="#SOURCES">SOURCES</A>
+  <li><a href="#HEADERS">HEADERS</A>
+  <li><a href="#MUSTLINK">SOURCES</A>
+  <li><a href="#LOCALHEADERS">LOCALHEADERS</A>
+  <li><a href="#PLIB">PLIB</A>
+  <li><a href="#USESLIBS">USESLIBS</A>
+  <li><a href="#PROGLIBS">PROGLIBS</A>
+  <li><a href="#EXAMPLES">EXAMPLES</A>
+  <li><a href="#TESTEXES">TESTEXES</A>
+  <li><a href="#LOCAL_FILES">LOCAL_FILES</A>
+  <li><a href="#LIBDEPS">LIBDEPS</A>
+  <li><a href="#SUPPORT_ONLY">SUPPORT_ONLY</A>
+  <li><a href="#DONOT_SUPPORT">DONOT_SUPPORT</A>
+  <li><a href="#PACKAGE">PACKAGE</A>
+  <lI><A HREF="#DOCNODE">DOCNODE</A>
+  <lI><A HREF="#EHT">EHT</A>
+  <li><a href="#HTML">HTML</A>
+  <li><a href="#MAN1">MAN1</A>
+  <li><a href="#MAN3">MAN3</A>
+  <li><a href="#MAN5">MAN5</A>
+  <li><a href="#OPTINCPATH">OPTINCPATH (OBSOLETE)</A>
+  <li><a href="#OPTLIB">OPTLIB (OBSOLETE)</A>
+  <li><a href="#OPTLIBPATH">OPTLIBPATH (OBSOLETE)</A>
+  </ul>
+  </font>
+</td>
+</tr>
+</table>
+
+<!-- ******************* Page Summary (On LHS of Page)  ******************* -->
+
+<table align=left width=160><tr>
+<td valign=top bgcolor="black">
+  &nbsp;
+  <font size=2 face="arial,helvetica" color="white">
+  <B>DEFS.MK</B>
+  </font>
+</td>
+<td></td>
+</tr>
+
+<tr>
+<td>
+  <font color="#23238E" size=4 face="arial,helvetica"><B>
+    The defs.mk file describes how QMake  builds the current directory.
+  </B></font>
+</td>
+</tr></table>
+
+
+
+
+<!-- *************************** Main Page Text  *************************** -->
+
+<P>
+The "defs.mk" description file is used by QMake to determine what files are to
+be processed when building the current directory. It achieves this by setting
+various variables. These fall into several categories listed on the right.
+</P>
+<P>&nbsp;
+<P>&nbsp;
+<P>&nbsp;
+<P>&nbsp;
+
+
+
+<HR>
+<H3><A NAME="description"></A>Directory Description</H3>
+
+<P>
+The automatic documentation system requires a one line description of each
+directory in your project. This is defined as follows:
+</P>
+
+<UL>
+<LI><DT><A NAME="DESCRIPTION"></A><B>DESCRIPTION</B></DT>
+<DD>A one line description of the directory contents. This should give potential
+ users an idea about the functionality that this directory contributes to
+ the project.
+</DD>
+</UL>
+
+
+<H3><A NAME="multiple"></A>Multiple Directory Packages</H3>
+
+<P>
+The QMake system is capable of building a tree of directories. The
+following variable is used to specify the branches from the current directory.
+
+<UL>
+<LI><DT><A NAME="NESTED"></A><B>NESTED</B></DT>
+<DD>The list of subdirectories which are built before the current directory.
+ A suffix '.r' flag is used to indicate that the directory is ready to be built
+ otherwise it is ignored. For example:
+ <PRE>NESTED = Vector.r Matrix List.r</PRE> means that the directory Vector is
+ built first and List is built second. Matrix is skipped.
+</DD>
+</UL>
+
+
+<H3><A NAME="platform"></A>Platform Support</H3>
+
+<P>
+The default behaviour of the make system is to support all packages on all
+platforms. The packages should be written in such a way that they can survive
+the arrival of new software and hardware architectures quite easily. Software
+written for a specific platform, like an operating system or a hardware card,
+usually dies with the platform which often happens within 2-3 years of writing.
+</P>
+
+<P>
+There is sometimes a necessity to maintain software for special hardware such
+as a frame grabber, etc. For these exceptional circumstances, the following
+variables are provided:
+</P>
+
+<UL>
+<LI><DT><A NAME="SUPPORT_ONLY"></A><B>SUPPORT_ONLY</B></DT>
+<DD>A list of architectures which are supported. If the contents of this
+ variable clashes with DONOT_SUPPORT, then the architecture will be supported.
+ If neither SUPPORT_ONLY or DONOT_SUPPORT is set, then all architectures are
+ supported. For example: <PRE>SUPPORT_ONLY = sol2 alpha</PRE> means that the
+ subtree of directories including the current one will be processed only for
+ the Solaris2 and Alpha architectures.
+</DD><P>
+
+<LI><DT><A NAME="DONOT_SUPPORT"></A><B>DONOT_SUPPORT</B></DT>
+<DD>A list of architectures which is not supported. For example:
+ <PRE>DONOT_SUPPORT = sgi</PRE> means that the subtree of directories including
+ the current one will be processed for all architectures except Silicon
+ Graphics.
+</DD>
+</UL>
+
+
+<H3><A NAME="source"></A>Source Files</H3>
+
+<P>
+The compilation of libraries and executables are controlled by the following
+variables:
+</P>
+
+<UL>
+<LI><DT><A NAME="MAINS"></A><B>MAINS</B></DT> <DD>All executables that are
+installed in the $PROJECT_OUT/$ARC/bin directory. The suffixes '.cc' or '.c'
+control the calling of a compiler and a linker. The following suffixes are
+expected:
+
+<UL>
+<li> <b> .cc </b> for executables compiled and linked by C++ compiler.
+<li> <b> .c </b> for executables compiled and linked by C compiler.
+<li> <b> .f </b> for executables compiled and linked by Fortran compiler.
+<li> <b> .for</b> for executables compiled and linked by Fortran compiler.
+</UL>
+
+For example, <PRE>MAINS = rgbTool.cc matcher.c</PRE> will make two executables.
+The first one, rgbTool.cc, is compiled using C++ compiler and the compilation
+of the second executable, matcher.c, is done by the C compiler.
+
+<P>
+The names of executables in MAINS variable must be unique.
+</P></DD><P>
+
+<LI><DT><A NAME="SOURCES"></A><B>SOURCES</B></DT>
+<DD>All source files which are added to the library defined by the variable
+ PLIB. The suffixes play the same role as in the variable MAINS.
+
+<P>
+The names of files in SOURCES variable should be unique to avoid
+clashes of names during restructuring of libraries.  However, the
+names MUST be unique in the library specified by the variable PLIB
+(see below).</P> </DD><P>
+
+<LI><DT><A NAME="MUSTLINK"></A><B>MUSTLINK</B></DT>
+<DD> Advanced users only. This is a list of source files that MUST be
+linked when building a library. The suffixes play the same role as in the variable MAINS.
+
+<P>
+The name of files specified in MUSTLINK, must be unique with respect
+to all other files specified in MUSTLINK throughout RAVL.  This directive
+can be used to force files to be included into executables, where dependancies
+alone would not caused it to be linked.   This is a problem where constructors
+for global variables modify or add to global databases. 
+</P>
+</DD><P>
+
+<LI><DT><A NAME="HEADERS"></A><B>HEADERS</B></DT> <DD>All the public header
+files, i.e. those which are needed globally.  They are exported to the
+directory $PROJECT_OUT/inc/amma ($PROJECT_OUT/inc/gama), to make them available
+to other.  E.g. if you have a file <code>headerfile.hh</code> to export, the
+line will be
+
+<pre>HEADERS = headerfile.hh</pre> 
+Thus to #include the header file, you need to put: 
+<pre>#include "amma/headerfile.hh"</pre> 
+
+(For a more structured global header file system, see <a
+href="#PACKAGE">PACKAGE</a>.)  </DD><P>
+
+<LI><DT><A NAME="LOCALHEADERS"></A><B>LOCALHEADERS</B></DT> <DD>Header
+files which are used only for compilation in the current directory. These
+header files are not exported.  
+</DD><P>
+
+<LI><DT><A NAME="PACKAGE"></A><B>PACKAGE</B></DT> <DD>Advanced users only.  The
+name of the package to which the directory belongs. In fact, it is a part of
+the subdirectory path where public header files are copied. For example,
+<PRE>PACKAGE = amma/Surf3d</PRE> means that all public header files will be
+copied into the directory $PROJECT_OUT/inc/amma/Surf3d and a header file must
+be included in an implementation file as
+
+<PRE>#include "amma/Surf3d/Curve3d.hh"</PRE> 
+
+The default value of PACKAGE variable is "amma" or "gama" according to the
+system under which the directory is located.
+
+<P>
+<font size = +1>ATTENTION!!</font> Variables defined by PACKAGE should be
+agreed by a number of contributors, otherwise the whole system will finish with
+hundreds of directories each containing a very few header files. Furthermore,
+the variable should not be changed arbitrarily because it can break code of
+other dependent contributors.</P></DD>
+
+</UL>
+
+<H3><A NAME="libs"></A>Libraries</H3>
+
+These variables control the generation and linking of libraries.
+
+<UL>
+<LI><DT><A NAME="PLIB"></A><B>PLIB</B></DT>
+<DD>Use this to give your library a name (hence it must take only one value):
+<PRE>  PLIB = mylib</PRE>
+
+It is the name of the library in which the modules specified by the variable
+SOURCES are archived.  A unique name for each directory is recommended.
+</DD><P>
+
+<LI><DT><A NAME="USESLIBS"></A><B>USESLIBS</B></DT> <DD>This is an unordered
+list of the libraries needed to build the new library specified by PLIB.  Use
+of this variable causes the automatic creation of a "defs" file called
+(PLIB).def.  There are different ways of creating this list:
+<ul>
+<li>The easiest usage is simply to use the value "Auto":
+<pre>
+  USESLIBS = Auto
+</pre>
+This should automatically generate the required list of libraries for both
+USESLIBS and PROGLIBS, without you even noticing.
+
+<li>The previous usage will not pick up any libraries that don't have a
+corresponding header file anywhere, which happens occasionally.  Likely
+candidates are I/O libraries such as the "DPImageIO" image I/O library.  Use
+the "QLibs" tool (which is what makes the "Auto" method work) to print out
+most of the library list for you; all you have to do then is locate and add the
+missing ones.
+
+<li>The traditional way was to create the list yourself, using the libraries
+indicated in the class pages, e.g.: 
+<PRE>
+  USESLIBS = Mtext Mgrid
+</PRE>
+You need only specify libraries you use explicitly; any others will be
+automatically included.</ul>
+
+ <P>
+ ATTENTION: If this variable is set the .def file is ALWAYS automaticly
+ generated. If LIBDEPS is set as well then this is used as the name of the
+ generated file. if you have library which depends on nothing else, but you
+ wish to set USESLIBS you can use the dummy library 'None'. Example,
+ <PRE>
+  USESLIBS = None
+ </PRE> For details on how .def files work see
+ <a href="file://localhost/vol/vssp/local.sun4/amma/doc/html/ammaMake.html#LibDepFile">library dependencies file</a></P>
+</DD><P>
+
+<LI><DT><A NAME="PROGLIBS"></A><B>PROGLIBS</B></DT> <DD>The name of the
+libraries used to create executables specified in either MAINS or EXAMPLES that
+are not already included with the USESLIBS variable.  Typically you would
+include things like the Options code which is not need for the PLIB library
+itself. For example: <PRE>PROGLIBS = Mopt</PRE> You can use the automatic
+methods described under USESLIBS for PROGLIBS as well.  </DD><P>
+
+<LI><DT><A NAME="LIBDEPS"></A><B>LIBDEPS</B></DT>
+<DD>
+LIBDEPS is used to explicitly create references to libraries.  E.g. the
+following entry in the defs.mk file would create a reference to an external 
+library FFTW:
+<pre>  LIBDEPS = FFTW.def</pre>
+which could then be referenced in the normal way, e.g.:
+<pre>  USESLIPS = FFTW</pre>
+See the file <a href="../../../../libdep/FFTW.def">FFTW.def</a> itself to see what to put in it. 
+
+<p> There are actually two usages:
+<ul>
+
+<li>If the .def file exists, QMake uses the contents to define a reference to a
+(possibly external) library, as described.  Programmers can then use the .def file name
+(without the extension) in USESLIBS and PROGLIBS to refer to the library.
+
+<li>If the .def file does not exist, QMake will create one, overriding the PLIB
+variable, making the contents of the current directory into a library.  Used
+where one library spans several directories (not recommended).
+
+</ul>
+</DD><P>
+
+<H3><A NAME="examples"></A>Example programs</H3>
+
+<P>
+The following two variables can be used for a specification of executables used
+for a demonstration how to use packages or for their run-time checking.
+</P>
+
+<UL>
+<LI><DT><A NAME="EXAMPLES"></A><B>EXAMPLES</B></DT> <DD>Contains the names of
+source files demonstrating the use of the software in the directory.  They are
+copied into the documentation area.  The example sources must be compilable; to
+check compilation, include them temporarily in the "MAINS" list, e.g.:
+<pre>
+am "MAINS = example.cc"
+</pre>   
+</DD><P>
+
+<LI><DT><A NAME="TESTEXES"></A><B>TESTEXES</B></DT>
+<DD>The list of executables testing runtime consistency of the software. They
+ are compiled and run to test if they produce expected results.    The executables
+should return 0 on success, non-zero on failure.  If the program doesn't exit
+normally it will be treated as a failure.  Both stdout and stderr of the program are 
+stored in a log during testing to help trace bugs.  Testing done using the 'am test'.
+</DD>
+</UL>
+
+<H3><A NAME="special"></A>Special Files</H3>
+
+<P>
+The directory can contain special files which should be extracted from the
+database of source files. They can be examples of data input, etc. The size of
+these file should be kept to a minimum. The following variables can be used for
+a specification of these file:
+</P>
+
+<UL>
+<LI><DT><A NAME="LOCAL_FILES"></A><B>LOCAL_FILES</B></DT>
+<DD>All files which do not fit to any other category of variables of defs.mk
+ file. These file are extracted to the current directory from the database of
+ sources and regularly updated.
+</DD>
+</UL>
+
+
+
+<H3><A NAME="documentation"></A>Documentation</H3>
+
+<P>
+The documentation of packages is also propagated into the proper installation
+directories. The following variables describe what kind of documentation the
+files in the current directory have.
+</P>
+
+<UL>
+<LI><DT><A NAME="EHT"></A><B>EHT</B></DT>
+<DD>
+List of EHT files for creating extra documentation for executables, and nodes in the tree. <p>
+Nodes in the tree must be named for the path in the documentation tree. e.g. the extra
+documentation for arrays has the name 'Containers.Arrays.eht'.
+Executables MUST start with the prefix exe, followed by the name of
+the executable, with a prefix of '.eht'
+Documentation for libraries, should be named after the library, with the prefix 'doc'.
+e.g. the documentation for the library NumFunc is called 'docNumFunc.eht' <p>
+
+</DD><P>
+<LI><DT><A NAME="DOCNODE"></A><B>DOCNODE</B></DT>
+<DD>Specifies additional files required by doc*.eht files, ie images.</DD><P>
+<LI><DT><A NAME="HTML"></A><B>HTML</B></DT>
+<DD>Contains the names of documentation written in plain hypertext.</DD><P>
+<LI><DT><A NAME="MAN1"></A><B>MAN1</B></DT>
+<DD>Contains the names of files of manual pages of executables.</DD><P>
+<LI><DT><A NAME="MAN3"></A><B>MAN3</B></DT>
+<DD>Contains the names of manual pages describing library functions.</DD><P>
+<LI><DT><A NAME="MAN5"></A><B>MAN5</B></DT>
+<DD>Contains the names of manual pages describing format of files.</DD><P>
+</UL>
+
+</body>
+</html>
+
+

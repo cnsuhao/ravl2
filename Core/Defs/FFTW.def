@@ -1,0 +1,16 @@
+ifndef FFTW_DEF
+FFTW_DEF=1
+
+ifeq ($(ARC), sol2)
+FFTWHOME=/vol/vssp/dera/fft
+INCLUDES := -I$(FFTWHOME)/include $(INCLUDES)
+EXELIB := -L$(FFTWHOME)/lib -lfftw $(EXELIB)
+endif
+
+ifeq ($(ARC), linux)
+FFTWHOME=/vol/vssp/local/tools
+INCLUDES := -I$(FFTWHOME)/include $(INCLUDES)
+EXELIB := -L$(FFTWHOME)/lib -lfftw $(EXELIB)
+endif
+
+endif

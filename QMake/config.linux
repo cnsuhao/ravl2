@@ -1,0 +1,102 @@
+###########################
+# Make info for solaris systems
+# $Id$
+
+#######################
+# Programs to use.
+
+#CC = /vol/vssp/develop/ees1cg/egcs/bin/gcc
+#CXX = /vol/vssp/develop/ees1cg/egcs/bin/g++
+
+CC = /opt/GNUdevelop/gcc-2.95.2/bin/gcc
+CXX = /opt/GNUdevelop/gcc-2.95.2/bin/g++
+
+#CC = gcc
+#CXX = g++
+
+#CC = /buf/ees1cg/egcs-install/bin/gcc
+#CXX = /buf/ees1cg/egcs-install/bin/g++
+
+MKDEPFLAGS = -MM
+
+AR = ar
+ARFLAGS = ruc
+MKDIR = mkdir -p
+CP = cp
+CHMOD = chmod
+TOUCH=/bin/touch
+RM=rm
+
+LIBPATHSWITCH = -Wl,-rpath=#
+
+AMKDEPFLAGS = -Wp,-MMD,$(WORKTMP)/$*.d
+MKDEPUP = echo -n '$$(INST_OBJS)/' > $(INST_DEPEND)/$*.d ; cat $(WORKTMP)/$*.d  >> $(INST_DEPEND)/$*.d ; \
+ rm $(WORKTMP)/$*.d
+
+############################
+# Universal flags.
+
+CFLAGS   = -Wall -pipe  
+CCFLAGS  = -pipe -Wall
+CCPPFLAGS= -DGNU -D__$(ARC)__ -Dunix -DNEWGCC
+CPPFLAGS = -DGNU -D__$(ARC)__ -Dunix
+LDFLAGS = 
+PAR_MAKE = --jobs=$(PROCS)
+
+UNDEFSYMB = -u #
+
+
+############################
+# 'debug' variant.
+
+ifeq ($(VAR),debug)
+ CFLAGS += -g -DAMMA_CHECK
+ CCFLAGS += -g -DAMMA_CHECK
+ LDFLAGS += -g 
+endif
+
+############################
+# 'check' variant.
+
+ifeq ($(VAR),check)
+ CFLAGS += -O -DAMMA_CHECK
+ CCFLAGS += -O -DAMMA_CHECK
+ LDFLAGS += -O
+endif
+
+############################
+# 'opt' variant.
+
+ifeq ($(VAR),opt)
+ CFLAGS += -O2 -DNDEBUG
+ CCFLAGS += -O2 -DNDEBUG
+ LDFLAGS += -O2
+endif
+
+############################
+# 'shared' variant.
+
+ifeq ($(VAR),shared)
+ CFLAGS += -shared -O2 -DNDEBUG
+ CCFLAGS += -shared -O2 -DNDEBUG
+ LDLIBFLAGS = -shared -O2
+ LDFLAGS += -O2 -Wl,-export-dynamic -Wl,-rpath=$(PROJECT_OUT)/$(ARC)/$(VAR)/lib
+endif
+
+############################
+# 'prof' variant.
+
+ifeq ($(VAR),prof)
+ CFLAGS += -O2 -p -DNDEBUG
+ CCFLAGS += -O2 -p -DNDEBUG
+ LDFLAGS += -O2 -p 
+endif
+
+############################
+# 'gprof' variant.
+
+ifeq ($(VAR),gprof)
+ CFLAGS += -O2 -pg -DNDEBUG
+ CCFLAGS += -O2 -pg -DNDEBUG
+ LDFLAGS += -O2 -pg 
+endif

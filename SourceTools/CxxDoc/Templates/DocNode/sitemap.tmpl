@@ -1,0 +1,44 @@
+$(FileObject:one)$(FilePattern:sitemap.html)
+$(define:mkhref:$(MakeFilename:%.html))
+
+<html><head><title>RAVL - Index</title></head>
+<body BGCOLOR=#FFFFFF>
+
+<table width=100% align=middle><tr><td align=center bgcolor=#007FFF><font size=5 color=white>
+CONTENTS
+</FONT><br></td></tr><tr><td align=center bgcolor=black><FONT face=helvetica,arial color=white><b>
+RAVL, Recognition And Vision Library</b></FONT></td></tr></table>
+
+$(//: *********************** top bar ***************************** )
+
+<table width=100% bgcolor="#C0C0C0"><tr>
+<!-- <td width=25% align="middle" border=2><font size="-1" face="helvetica,arial">
+<a href="http://www.ravl.org.uk"><B>HOME PAGE</B></a></font></td> -->
+<td width=33% align="middle"><font size="-1" face="helvetica,arial">
+<a href="http://www.ravl.org.uk"><B>HOME PAGE</B></a></font></td>
+<td width=33% align="middle"><font size="-1" face="helvetica,arial">
+<a href="../html/search.html"><B>SEARCH</B></a></font></td>
+<td width=33% align="middle"><font size="-1" face="helvetica,arial">
+<B>CONTENTS</B></font></td>
+</tr></table>
+
+<table width=100% align="middle">
+<tr><td align=left valign=top bgcolor="#D7EFFF">
+<BLOCKQUOTE>
+<BR><BR>
+
+<TABLE>
+$(set:parent=)$(set:indent=&nbsp;)
+$(forall:docnode:$(include:subNode.stmpl))
+</TABLE>
+</BLOCKQUOTE>
+</td>
+</tr></table>
+
+<table width=100% align="middle"><tr>
+<td align="center" bgcolor="black"><FONT face="helvetica,arial" color="white"><b> Documentation by CxxDoc: $(buildtime)
+</b></FONT></td>
+</tr></table>
+
+</body>
+</html>

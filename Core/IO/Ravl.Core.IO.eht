@@ -1,0 +1,165 @@
+! docentry="Ravl.Core.IO"
+! author="Charles Galambos, Bill Christmas"
+: Input Output system
+
+<p> There are two mechanisms for doing I/O in RAVL: via streams, and via the
+<code>Load()</code> / <code>Save()</code> functions.  The stream mechanism is general, whereas the <code>Load()</code> / <code>Save()</code> mechanism is useful where there is a choice of file formats, or where implicit data conversion is needed. 
+
+<h2> Using streams</h2>
+
+You can use the RAVL streams <a href="../Class/RavlN.IStreamC.html">IStreamC</a>, <a
+href="../Class/RavlN.OStreamC.html">OStreamC</a>, together with the standard C++
+syntax of the I/O operators <code>&lt;&lt;</code> and <code>&gt;&gt;</code>, in
+conjunction with most of the RAVL classes.  These will read and write in ASCII
+format, just as the standard C++ streams do for simple types.  E.g. to load an
+image of reals from standard input:
+
+<pre>
+ImageC&lt;RealT&gt; x;
+cin >> x;
+</pre>
+
+This mechanism has been implemented for most of the RAVL classes.  If you find
+a class without it, please <a
+href="http://www.ee.surrey.ac.uk/internal-cgi/wreq/req?top-active-3">complain</a>.<br>
+<b>N.B.</b> For floating-point data types, there is generally a loss
+of accuracy if data is written to a file in ASCII format and subsequently read
+back in to a program.
+
+<p> You can use the same mechanism for reading from and writing to RAVL
+strings, using the <a href="../Class/RavlN.IStrStreamC.html">IStrStreamC</a> and <a
+href="../Class/RavlN.OStrStreamC.html">OStrStreamC</a> classes.  This is especially
+useful for initialising small arrays, e.g.:
+
+<pre>
+  SArray1dC<RealT> coeffs(5);
+  IStrStreamC ("5 0.363 0.291 0.135 0.012 -0.030") >> coeffs;
+</pre>
+
+<p>For some classes there are also stream operators for the <a
+href="../Class/RavlN.BinIStreamC.html">BinIStreamC</a> and <a
+href="../Class/RavlN.BinOStreamC.html">BinOStreamC</a> classes.  These read and write
+binary files.  These streams have advantages over IStreamC and OStreamC: they
+are faster; they are often more compact, and they store floating point data
+without loss of precision.  If you need this operator for the class you are
+using, and it is not there, again it is worth <a
+href="http://www.ee.surrey.ac.uk/internal-cgi/wreq/req?top-active-3">asking</a>.
+
+<ul>
+<li> Both of the above input stream operators <i>always</i>
+expect to read data in the format that is written by the corresponding
+output streams (give or take a white space or two), particularly in the case of
+the more complex objects.
+
+<li> Since the stream operators are not members of the classes being
+read/written, they are generally <i><font size =+1 color =
+magenta>undocumented</font></i>.
+
+</ul>
+
+<h2> <a name="LoadSave"></a>Using the <a href=
+"../Class/RavlN.html#LoadObconst_StringCRef_DataTRef_StringC_boolCb_">
+<code>Load()</code></a> / <a href=
+"../Class/RavlN.html#SaveObconst_StringCRef_const_DataTRef_StringC_boolCb_"> <code>Save()</code></a> functions</h2>
+
+The <code>Load()</code> / <code>Save()</code> global functions provide a more
+sophisticated I/O mechanism.  They were originally developed for the <a
+href="../Class/RavlN.ImageC.html">ImageC</a> template class (see <a
+href="Image.Image_IO.html">Image I/O</a>), but are now available for a few
+other classes as well.  The mechanism identifies the type of file being loaded,
+and selects the appropriate code for loading it, if it exists.  It will also do
+certain type conversions automatically where its is deemed safe to do so.  The
+algorithm picks the conversion with the least conversion cost, resolving any
+ambiguity by using the format with the highest priority.
+
+<p>For example, to read a real image from an RAVL ASCII file (i.e. the same
+format as the previous streams example), and store it in a pgm file:
+
+<pre>
+ImageC&lt;RealT&gt; x;
+Load("fred", x);
+Save("jim.pgm", x);
+</pre>
+
+The pixel type in the file "fred" is unknown at compile time; the appropriate
+type conversion therefore has to be selected at run time.
+
+<p> A more complete example of how to use this mechanism is given in <a
+href="../../../examples/exFileFormat.cc">exFileFormat.cc</a>.  To use this
+mechanism you'll have to include the <code>RavlIO</code> library in
+<code>defs.mk</code>:
+
+<pre> USESLIBS = RavlIO .... </pre>
+
+<p>A list of currently supported formats can be obtained with the
+<code>conv</code> program: 
+<pre> conv -lf </pre>
+
+ A list of automatic type conversions that are available can also be found:
+<pre> conv -lc </pre>
+
+<p> <b>N.B.</b> the increase in size of your executable from this library can be <font size = +4>large</font>, because all of
+the possible formats and conversions have to be allowed for at compile/link
+time.
+
+<p> &sup1;<b>N.B.</b> A better page will arrive once the documentation system can handle namespaces.
+
+
+<h2> Writing your own stuff </h2>
+
+
+<h4>Simple Class IO</h4>
+
+Writing your own file IO is a little more complicated. If all you want to do is
+load and save your own class, write basic stream operators for your class and
+then instantiate an instance of FileFormatStreamC class as a global variable.
+The following example shows how a file format for loading and saving RealT was
+created.
+
+<pre>
+#include "Ravl/DP/FileFormatStream.hh"
+
+FileFormatStreamC &lt;RealT&gt; FileFormatStream_RealT;
+</pre>
+
+<h4>Writing Conversions</h4>
+
+Writing your own data conversion classes is not much more difficult. You have
+to write a simple function which does the conversion and then instantiate an
+instance of the converter class DPConverterFuncC.  The following example shows
+the standard code for converting IntT's to RealT's. Note this conversion is
+safe since no information is lost. Care must be taken when writing these
+functions, especially if you lose information in the conversion, as it can lead
+to unexpected results.  The final parameter (= 1 in this example) indicates the
+degree of loss. (1 indicates no loss; 8 used to indicate double -> unsigned
+byte).
+
+<pre>
+#include "Ravl/DP/Converter.hh"
+
+RealT DPConvIntT2RealT(const IntT &val) 
+{ return (RealT) val; }
+
+DP_REGISTER_CONVERTION(DPConvIntT2RealT,1);
+</pre>
+
+<h4>Creating a new file format</h4>
+
+The procedure for creating entirely new file formats is more involved. I'll
+give only an outline of the procedure here:
+
+<ol>
+
+<li> Create a new class each format that you wish to add one for loading and
+one for saving. These shoud be derived from DPIPortBodyC<> and DPOPortBodyC<>
+respectively.
+
+<li> Create a new FileFormatXXXC class derived from FileFormatBodyC. In this
+class overide the virtuals functions which identify the file format and create
+the input and output streams.
+
+<li> Create a static instance of the new file format class, to register it with
+the IO mechansim.
+
+</ol>
+

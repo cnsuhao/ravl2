@@ -1,0 +1,35 @@
+$(FileObject:one)$(FilePattern:Develop/index.html)
+<html><head><TITLE>Class List</TITLE><BASE TARGET="_parent" ></head>
+<body BGCOLOR=#FFFFFF>
+
+$(include:topbar.stmpl)
+
+&nbsp;<p>
+
+$(//: **************** Namespace details ************************ )
+
+<B>NAMESPACES:</B>
+<p>
+<table WIDTH="90%" NOSAVE >
+<tr><td width=15%><A HREF="Class/std.html">Globals</A></td><td>Global namespace. This has just about everthing in it.</td></tr>
+$(forall:namespace:
+<tr><td width=15%><A HREF="$(MakeFilename:Class/%.html)">$(ObjectName)</A></td><td> $(brief)</td></tr>)
+</table>
+<p>
+
+<B>CLASSES:</B>
+<p>
+<table WIDTH="90%" NOSAVE >
+$(forall:class:
+<td width=15%><A HREF="$(MakeFilename:Class/%.html)">$(ObjectName)</A></td><td> $(brief)</td></tr>)
+</table>
+
+$(//: **************** Footer ************************ )
+
+<table width=100% align="middle"><tr>
+<td align="center" bgcolor="black"><FONT face="helvetica,arial" color="white">
+Documentation by CxxDoc: $(buildtime)</b></FONT></td>
+</tr></table>
+
+</body>
+</html>

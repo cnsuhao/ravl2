@@ -1,0 +1,45 @@
+$(silent:
+$(ifset:!titleStart:$(set:titleStart=<FONT SIZE="+2" color="#23238E" FACE="arial,Helvetica">))
+$(ifset:!titleEnd:$(set:titleEnd=</FONT>))
+)
+<html><head><TITLE>Namespace $(ObjectName)</TITLE><BASE TARGET="_parent" ></head>
+<body BGCOLOR=#FFFFFF>
+
+$(include:topbar.stmpl)
+
+&nbsp;<p>
+
+$(//: **************** Basic namespace details ************************ )
+
+<table bgcolor="#EFEFEF" width=100%  cellspacing=0 border=0>
+<tr><td align="center"><font size=+4 color="#23238E" FACE="arial,Helvetica">namespace $(ObjectName)</font></tr>
+</table>
+<font size="+2" color="#23238E" FACE="arial,Helvetica">
+$(ifset:brief:<table bgcolor="#EFEFEF" width=100%  cellspacing=0 border=0>
+<tr><td align=center><font size="+2" color="#23238E" FACE="arial,Helvetica">$(brief)</font>
+</table>
+<br>)
+$(set:tabTitle=<tr><td align="right"><font size="+2" color="#23238E" FACE="arial,Helvetica">  )
+$(set:tabData=<td align="left"><font size="+2" color="#23238E" FACE="arial,Helvetica">)
+
+<table bgcolor="#EFEFEF" width=100%  cellspacing=0 border=0>
+$(ifset:date:   $(tabTitle)Created:   $(tabData)$(date) </tr>)
+                $(tabTitle)User Level:$(tabData)$(userlevel) </tr>
+$(ifset:lib:    $(tabTitle)Library:   $(tabData)$(lib) </tr>)
+$(ifset:example:$(tabTitle)Example:   $(tabData) <A HREF="../../../examples/$(example)">$(example)</A></tr>)
+</table><p>
+
+$(ifset:detail:$(titleStart)Comments:$(titleEnd)<p>$(detail)</p>)
+$(ifset:classbugs:$(titleStart)Bugs:$(titleEnd)<b><i><p><font color="red"> $(classbugs) </font></p></i></b>)
+
+$(include:scope.stmpl)
+
+$(//: **************** Footer ************************ )
+
+<table width=100% align="middle"><tr>
+<td align="center" bgcolor="black"><FONT face="helvetica,arial" color="white"><b>
+Documentation by CxxDoc: $(buildtime)
+</b></FONT></td>
+</tr></table>
+</body>
+</html>

@@ -1,0 +1,6 @@
+This library uses an external library ccmath to
+implement many of the more complex operations.  You
+will need to install this library before you can
+compile this code.
+
+The code has been checked with ccmath-2.2.0.

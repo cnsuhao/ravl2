@@ -1,0 +1,26 @@
+# Library hints file
+x11	X11
+Xaw	X11/Xaw
+Xt	X11/Xmu X11/Intrinsic.h X11/Composite.h X11/Core.h X11/Shell.h X11/StringDefs.h
+Xt	X11/Vendor.h
+Math	math.h
+NumRec	nr.h		
+Socket	sys/socket.h netinet arpa netdb.h
+OpenGL	GL
+system	assert.h unistd.h stdio.h stdlib.h errno.h signal.h
+posixThreads	pthread.h
+DynLink	dlfcn.h		
+glib	glib.h gmodule.h
+Ary	amma/ary.h 
+LibJPEG jpeglib.h
+LibPNG	png.h
+zlib	zlib.h zutil.h
+# There are loads of gtk headers may include them later.
+GTK	gdk
+GTK	gtk
+
+# Again not all the matlab files are listed here, only those with unique (ish) names...
+Matlab	matlab.h libmatlb.h libmmfile.h simulink.h simulink2.h
+
+# Some of LEDA
+Leda	LEDA	

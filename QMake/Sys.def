@@ -1,0 +1,11 @@
+##################
+# $Id$ 
+
+ifndef SYS_DEF
+SYS_DEF=1
+
+EXELIB :=  $(EXELIB) 
+
+endif
+
+

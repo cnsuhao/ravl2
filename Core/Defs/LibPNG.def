@@ -1,0 +1,29 @@
+# This file is part of RAVL, Recognition And Vision Library
+# Copyright (C) 2001, University of Surrey.
+# This code may be redistributed under the terms of the GNU lesser
+# public license (LGPL). See the lgpl.licence file for details or
+# see http://www.gnu.org/copyleft/lesser.html
+# file-header-ends-here
+ifndef LIBPNG_DEF
+LIBPNG_DEF = 1
+
+include Math.def
+include zlib.def
+
+ifeq ($(ARC),linux)
+EXELIB := -lpng $(EXELIB)
+else
+ifeq ($(ARC),sgi)
+LIBPNG_HOME=/opt/freeware
+INCLUDES += -I$(LIBPNG_HOME)/include 
+EXELIB := -Wl,-rpath,$(LIBPNG_HOME)/lib32 -L$(LIBPNG_HOME)/lib32 -lpng -lz $(EXELIB)
+else
+ifeq ($(ARC),sol2)
+LIBPNG_HOME=/opt/PDlibs
+INCLUDES += -I$(LIBPNG_HOME)/include 
+EXELIB := -L$(LIBPNG_HOME)/lib -lpng -lz $(EXELIB)
+endif
+endif
+endif
+
+endif

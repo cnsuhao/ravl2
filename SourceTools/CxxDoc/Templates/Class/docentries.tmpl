@@ -1,0 +1,6 @@
+$(FileObject:one)$(FilePattern:Index/docentries)
+$(forall:class:$(ifset:docentry:$(PathName) $(MakeFilename:%.html) $(userlevel) "$(brief)" "$(docentry)"
+))
+$(forall:namespace:$(ifset:docentry:$(PathName) $(MakeFilename:%.html) $(userlevel) "$(brief)" "$(docentry)"
+))
+

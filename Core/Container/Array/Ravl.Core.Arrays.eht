@@ -1,0 +1,31 @@
+: 1,2 and 3 dimensional arrays of values
+
+RAVL arrays provide a more flexible and user-friendly substitute for the
+traditional C-style arrays.  RAVL arrays are dynamically-allocated, and are
+"big" objects - i.e. they are reference-counted (see <a
+href="Ravl.Introduction.Reference_Counting.html">Reference Counting</a>).
+
+
+<p>There are two types of array provided in RAVL: regular arrays and simple
+arrays.  If you're not sure which to use, stick with the regular ones.
+
+<menu> 
+
+<li><b>Regular arrays:</b> These have indices that can have any lower and upper
+bound.  The templates are: Array1dC, Array2dC, ..., from which various 
+templated varieties are derived. For faster iterating over arrays, the simple 
+arrays also have some special iterator classes: Array1dIterC, Array1dIter2C,
+SArray2dIterC, ...  See under the appropriate array type for more details.
+
+<li><b>Simple arrays:</b> These have an index range from 0 to some positive
+number.  They are somewhat faster than regular arrays when array-bound checking
+is turned on.  The templates are: SArray1dC, SArray2dC, ..., from which various
+templated varieties are derived.  For faster iterating over arrays, the simple
+arrays also have some special iterator classes: SArray1dIterC, SArray1dIter2C,
+SArray2dIterC, ...  See under the appropriate array type for more details.
+
+</menu>
+
+</body>
+</html>
+

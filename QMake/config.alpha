@@ -1,0 +1,81 @@
+###########################
+# Make info for alpha systems
+# $Id$
+
+# Same as for solaris.
+
+PROCS=1
+
+#CC =/usr/bin/Gnu/gcc
+#CXX=/usr/bin/Gnu/g++
+
+CC=gcc
+CXX=g++
+
+
+MKDEP_CC  = \
+ echo -n "$@ $$(INST_OBJS)/" > $(INST_DEPEND)/$(@F); \
+ $(CC) $<  $(CPPFLAGS) $(CINCLUDES) $(MKDEPFLAGS) >>$(INST_DEPEND)/$(@F)
+
+MKDEP_CXX = \
+ echo -n "$@ $$(INST_OBJS)/" > $(INST_DEPEND)/$(@F); \
+ $(CXX) $< $(CPPFLAGS) $(CINCLUDES) $(MKDEPFLAGS) >>$(INST_DEPEND)/$(@F)
+
+
+MKDEPFLAGS = -MM
+AR = ar
+ARFLAGS = rusc
+MKDIR = mkdir -p
+CP = cp
+CHMOD = chmod
+
+DONT_DEF_PROGS=1
+
+############################
+# Universal flags.
+
+CFLAGS   = -Wall
+CCFLAGS  = -Wall -frepo
+CCPPFLAGS= -DGNU -D__$(ARC)__ -Dunix
+CPPFLAGS = -DGNU -D__$(ARC)__ -Dunix
+LDFLAGS = $(CCFLAGS)
+
+PAR_MAKE = --jobs=$(PROCS)
+
+############################
+# 'develop' variant.
+
+ifeq ($(VAR),develop)
+ CFLAGS += -DAMMA_CHECK
+ CCFLAGS += -DAMMA_CHECK
+ LDFLAGS +=
+endif
+
+############################
+# 'debug' variant.
+
+ifeq ($(VAR),debug)
+ CFLAGS += -g -DAMMA_CHECK
+ CCFLAGS += -g -DAMMA_CHECK
+ LDFLAGS += -g
+endif
+
+############################
+# 'check' variant.
+
+ifeq ($(VAR),check)
+ CFLAGS += -DAMMA_CHECK
+ CCFLAGS += -DAMMA_CHECK
+ LDFLAGS +=
+endif
+
+############################
+# 'opt' variant.
+
+ifeq ($(VAR),opt)
+ CFLAGS += -O3 -DNDEBUG
+ CCFLAGS += -O3 -DNDEBUG
+ LDFLAGS += -O3
+endif
+
+

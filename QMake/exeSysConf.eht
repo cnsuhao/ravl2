@@ -1,0 +1,7 @@
+! author="Charles Galambos"
+! docentry="Ravl.QMake.sysconf"
+
+: Utility to query system configuration 
+
+This program is used by QMake to establish system parameters,
+specifically how many processors the current machine has.

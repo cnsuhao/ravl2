@@ -1,0 +1,12 @@
+! author="Bill Christmas, Charles Galambos"
+! children="Introduction;QMake;Core;OS;Math;Images;Source Tools" 
+: Recognition And Vision Library 
+
+RAVL provides a base C++ class library, together with a range of
+computer vision, pattern recognition and supporting tools.
+
+The aim of RAVL is to move software developed within the Centre
+for Vision, Speech and Signal Processing at the University of
+Surrey, England for research purposes into the public domain and
+to support its use in a wider community.
+

@@ -1,0 +1,9 @@
+$(FileObject:class)$(FilePattern:$.html)
+<html><head><TITLE>Description of $(ObjectName)</TITLE><BASE TARGET="_parent" ></head>
+
+Hello
+
+$(forall:methods:$(if:$userlevel=Normal:A method $(ObjectName)
+))
+
+Done.

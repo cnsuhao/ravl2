@@ -1,0 +1,11 @@
+------- Defs files in QMake system V1.0 ------
+
+External libraries available through QMake :
+
+ Math.def     - Standard maths.
+ Socket.def   - All you need to use sockets. 
+ Posix.def    - Posix 4 calls. 
+ X11.def      - Basic X11 stuff.
+
+To use, just include into you own def's file.
+ 

@@ -1,0 +1,31 @@
+# This file is part of RAVL, Recognition And Vision Library
+# Copyright (C) 2001, University of Surrey.
+# This code may be redistributed under the terms of the GNU lesser
+# public license (LGPL). See the lgpl.licence file for details or
+# see http://www.gnu.org/copyleft/lesser.html
+# file-header-ends-here
+ifndef OPENGL_DEF
+OPENGL_DEF = 1
+
+include x11.def
+
+ifeq ($(ARC),linux)
+MESAHOME=/opt/PDmesa/Mesa-3.2.1
+else
+MESAHOME=/opt/PDmesa/Mesa-3.2.1
+endif
+
+ifeq ($(ARC),sgi)
+# -L$(MESAHOME)/lib 
+EXELIB := -lGL -lGLU $(EXELIB)
+else
+ifeq ($(ARC),linux)
+EXELIB :=  -Wl,-rpath=$(MESAHOME)/lib -L$(MESAHOME)/lib -lGL -lGLU $(EXELIB)
+else
+EXELIB := -R$(MESAHOME)/lib -L$(MESAHOME)/lib -lMesaGL -lMesaGLU $(EXELIB)
+endif
+# Its important mesa home is early in the list.
+INCLUDES := -I$(MESAHOME)/include $(INCLUDES)
+endif
+
+endif

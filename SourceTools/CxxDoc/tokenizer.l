@@ -1,0 +1,266 @@
+
+%Start COMMENT PREPARSER PPCOMMENT
+
+%{
+
+  #include "Ravl/CxxDoc/Object.hh"
+  #define YYSTYPE RavlCxxDocN::ObjectC
+
+  #include <stdlib.h>
+  #include <iostream.h>
+  #include "cxx.tab.h"
+  #include <FlexLexer.h>
+
+  using namespace RavlN;
+
+  class MyLexer : public yyFlexLexer
+  {
+    public:
+    char *gettext() {return yytext;};
+  };
+
+  namespace RavlCxxDocN {
+    ObjectC hookCommentObj;
+  };
+  
+
+  extern RavlCxxDocN::ObjectC yylval;
+  
+  RavlCxxDocN::CommentInfoC comment;
+  RavlCxxDocN::CommentInfoC commentLast;
+  
+  inline void CommentUpdate(RavlCxxDocN::ObjectC &obj,bool setSymb = true,int alineno = 0) 
+   {
+     if(setSymb)
+       obj = RavlCxxDocN::ObjectC(true);
+     obj.StartLineno() = alineno;
+     obj.EndLineno() = alineno;
+     commentLast = comment;
+     obj.SetComment(comment);
+     comment.Reset();
+  }
+  inline void CommentUpdate(RavlCxxDocN::ObjectC &obj,const char *name,int alineno = 0) 
+   {
+     obj = RavlCxxDocN::ObjectC(name);
+     obj.StartLineno() = alineno;
+     obj.EndLineno() = alineno;
+     commentLast = comment;
+     obj.SetComment(comment);
+     comment.Reset();
+  }
+
+
+%}
+
+
+WS           [[:blank:]\r]+
+LETTER       [A-Za-z_]
+DIGIT        [0-9]
+NUM          {DIGIT}+
+FLOAT        {DIGIT}+\.{DIGIT}*
+ID           {LETTER}+({LETTER}|{DIGIT})*
+
+SIMPLE_ESCAPE [abfnrtv'"?\\]
+OCTAL_ESCAPE  [0-7]{1,3}
+HEX_ESCAPE "x"[0-9a-fA-F]+
+
+ESCAPE_SEQUENCE [\\]({SIMPLE_ESCAPE}|{OCTAL_ESCAPE}|{HEX_ESCAPE})
+CCHAR [^'\\\n]|{ESCAPE_SEQUENCE}
+SCHAR [^"\\\n]|{ESCAPE_SEQUENCE}
+
+%option yylineno
+%option C++ yymore
+
+%%
+    /*==============> Strip whitespace <==============*/
+<INITIAL,PREPARSER>{WS}         {}
+
+    /*==============> Special keyword <==============*/
+
+<INITIAL>"class"         { CommentUpdate(yylval,yytext,yylineno); return SCSPEC; }
+<INITIAL>"struct"        { CommentUpdate(yylval,yytext,yylineno); return SCSPEC; }
+<INITIAL>"union"         { CommentUpdate(yylval,yytext,yylineno); return SCSPEC; }
+
+<INITIAL>"public"        { CommentUpdate(yylval,yytext,yylineno); return PUBLIC;     }
+<INITIAL>"protected"     { CommentUpdate(yylval,yytext,yylineno); return PROTECTED;  }
+<INITIAL>"private"       { CommentUpdate(yylval,yytext,yylineno); return PRIVATE;    }
+<INITIAL>"const"         { CommentUpdate(yylval,yytext,yylineno); return CV_QUALIFIER;  }
+<INITIAL>"static"        { CommentUpdate(yylval,yytext,yylineno); return STATIC;     }
+<INITIAL>"virtual"       { CommentUpdate(yylval,yytext,yylineno); return CPVIRTUAL;  }
+
+<INITIAL>"enum"          { CommentUpdate(yylval,yytext,yylineno); return ENUM;     }
+<INITIAL>"typedef"       { CommentUpdate(yylval,yytext,yylineno); return CPTYPEDEF;  }
+<INITIAL>"friend"        { CommentUpdate(yylval,yytext,yylineno); return CPFRIEND;   }
+<INITIAL>"operator"      { CommentUpdate(yylval,yytext,yylineno); return CPOPERATOR; }
+<INITIAL>"template"      { CommentUpdate(yylval,yytext,yylineno); return TEMPLATE; }
+<INITIAL>"throw"         { CommentUpdate(yylval,yytext,yylineno); return CPTHROW;    }
+<INITIAL>"namespace"     { CommentUpdate(yylval,yytext,yylineno); return NAMESPACE;  }
+<INITIAL>"typename"      { CommentUpdate(yylval,yytext,yylineno); return TYPENAME_KEYWORD; }
+<INITIAL>"using"         { CommentUpdate(yylval,yytext,yylineno); return USING;    }
+<INITIAL>"extern"        { CommentUpdate(yylval,yytext,yylineno); return EXTERN;   }
+<INITIAL>"asm"           { CommentUpdate(yylval,yytext,yylineno); return ASM_KEYWORD;   }
+
+   /* ==== Cheat and pick up some compatility macro's ==== */
+
+<INITIAL>"RAVL_THROW"         { CommentUpdate(yylval,yytext,yylineno); return CPTHROW;    }
+<INITIAL>"RAVL_THROW2"        { CommentUpdate(yylval,yytext,yylineno); return CPTHROW;    }
+<INITIAL>"RAVL_THROW3"        { CommentUpdate(yylval,yytext,yylineno); return CPTHROW;    }
+
+
+    /*==============> Ignored stuff <==============*/
+<INITIAL>"Q_EXPORT"       {}
+<INITIAL>"Q_EXPORTH"      {}
+<INITIAL>"__BEGIN_DECLS"  {}
+<INITIAL>"__END_DECLS"    {}
+<INITIAL>"inline"         {}
+<INITIAL>"mutable"        {}
+<INITIAL>"MyInline"       {} /* Temp fix until eliminated. */
+<INITIAL>"volatile"       {}
+<INITIAL>"afx_msg"        {}
+
+
+    /*==============> Normal operators <==============*/
+<INITIAL>":"          { CommentUpdate(yylval,yytext,yylineno); return ':';}
+<INITIAL>"::"         { CommentUpdate(yylval,yytext,yylineno); return CLCL;}
+
+<INITIAL>"~"          { return '~'; }
+<INITIAL>"="          { return '='; }
+<INITIAL>"<"          { return '<'; }
+<INITIAL>">"          { return '>'; }
+<INITIAL>"&"          { return '&'; }
+<INITIAL>"+"          { return '+'; }
+<INITIAL>"-"          { return '-'; }
+<INITIAL>"*"          { return '*'; }
+<INITIAL>"/"          { return '/'; }
+<INITIAL>"%"          { return '%'; }
+<INITIAL>"|"          { return '|'; }
+<INITIAL>"^"          { return '^'; }
+<INITIAL>"!"          { return '!'; }
+<INITIAL>"<<"         { yylval = StringC(yytext); return BINOP; }
+<INITIAL>">>"         { yylval = StringC(yytext); return BINOP; }
+<INITIAL>"->"         { yylval = StringC(yytext); return BINOP; }
+<INITIAL>"->*"        { yylval = StringC(yytext); return BINOP; }
+<INITIAL>"+="         { yylval = StringC(yytext); return BINOP; }
+<INITIAL>"-="         { yylval = StringC(yytext); return BINOP; }
+<INITIAL>"*="         { yylval = StringC(yytext); return BINOP; }
+<INITIAL>"&="         { yylval = StringC(yytext); return BINOP; }
+<INITIAL>"|="         { yylval = StringC(yytext); return BINOP; }
+<INITIAL>"/="         { yylval = StringC(yytext); return BINOP; }
+<INITIAL>"<="         { yylval = StringC(yytext); return BINOP; }
+<INITIAL>">="         { yylval = StringC(yytext); return BINOP; }
+<INITIAL>">>="        { yylval = StringC(yytext); return BINOP; }
+<INITIAL>"<<="        { yylval = StringC(yytext); return BINOP; }
+<INITIAL>"%="         { yylval = StringC(yytext); return BINOP; }
+<INITIAL>"&&"         { yylval = StringC(yytext); return BINOP; }
+<INITIAL>"||"         { yylval = StringC(yytext); return BINOP; }
+<INITIAL>"=="         { yylval = StringC(yytext); return BINOP; }
+<INITIAL>"!="         { yylval = StringC(yytext); return BINOP; }
+
+    /*==============> End of Phrase <==============*/
+<INITIAL>";"          { CommentUpdate(yylval,true,yylineno);  return ';'; }
+
+    /*==============> Comma <==============*/
+<INITIAL>","          { return ','; }
+
+    /*==============> Paranthesis <==============*/
+<INITIAL>"("          { return '('; }
+<INITIAL>")"          { return ')'; }
+
+    /*==============> Brackets <==============*/
+<INITIAL>"{"          { CommentUpdate(yylval,true,yylineno); return '{'; }
+<INITIAL>"}"          { CommentUpdate(yylval,true,yylineno); return '}'; }
+<INITIAL>"["          { return '['; }
+<INITIAL>"]"          { return ']'; }
+
+<INITIAL>"unsigned"   { CommentUpdate(yylval,yytext,yylineno); return TYPEQUAL; }
+<INITIAL>"signed"     { CommentUpdate(yylval,yytext,yylineno); return TYPEQUAL; }
+<INITIAL>"long"       { CommentUpdate(yylval,yytext,yylineno); return TYPEQUAL; }
+<INITIAL>"short"      { CommentUpdate(yylval,yytext,yylineno); return TYPEQUAL; }
+<INITIAL>"int"        { CommentUpdate(yylval,yytext,yylineno); return BUILTIN; }
+<INITIAL>"float"      { CommentUpdate(yylval,yytext,yylineno); return BUILTIN; }
+<INITIAL>"double"     { CommentUpdate(yylval,yytext,yylineno); return BUILTIN; }
+<INITIAL>"char"       { CommentUpdate(yylval,yytext,yylineno); return BUILTIN; }
+<INITIAL>"bool"       { CommentUpdate(yylval,yytext,yylineno); return BUILTIN; }
+<INITIAL>"void"       { CommentUpdate(yylval,yytext,yylineno); return BUILTIN; }
+
+    /*==============> Identifiers <==============*/
+<INITIAL>{ID}         { CommentUpdate(yylval,yytext,yylineno);
+                        return IDENTIFIER; 
+                      }
+
+    /*==============> Numbers <==============*/
+
+<INITIAL>{NUM}           { yylval = StringC(yytext); return CONSTANT; }
+<INITIAL>{FLOAT}         { yylval = StringC(yytext); return CONSTANT; }
+<INITIAL>{FLOAT}"e-"{NUM} { yylval = StringC(yytext); return CONSTANT; }
+<INITIAL>{FLOAT}"e"{NUM} { yylval = StringC(yytext); return CONSTANT; }
+
+<INITIAL>"L"?[']{CCHAR}+[']   { yylval = StringC(yytext); return CONSTANT; }
+<INITIAL>"L"?["]{SCHAR}*["]   { yylval = StringC(yytext); return STRING;   }
+<INITIAL>"..."                { return ELLIPSIS; }
+
+    /*==============> Strip // comments <==============*/
+
+<INITIAL>"//:-"(.)*[\n<<EOF>>] { 
+                                 CommentUpdate(yylval,&yytext[4],yylineno); 
+                                 return DOCSECTION; 
+                               }
+<INITIAL>"//:"(.)*[\n<<EOF>>] { StringC txt(&(yytext[3]));
+                                txt.gsub("\n"," ");
+                                if(!comment.Text().IsEmpty()) {
+                                  comment.Text() = StringC();
+                                  comment.Header() = StringC();
+                                }
+                                comment.Header() += txt;
+                              }
+<INITIAL>"//!"(.)*[\n<<EOF>>] { StringC txt(&(yytext[3]));
+                                if(txt.length() > 0) {
+                                  switch(txt.firstchar()) {
+                                  case ' ': {
+                                    int at = txt.index('=');
+                                    if(at < 0)
+                                      break;
+                                    StringC varNm = txt.before(at).TopAndTail();
+                                    StringC value = txt.after(at).TopAndTail();
+                                    value.gsub("\"","");// Now get rid of quotes.
+                                    comment.SetVar(varNm,value);
+                                    //cout << "Setting var '" << varNm << "' to '" << value << "'\n"; 
+                                    break;
+                                    }
+                                  default: {
+                                    int atc = txt.index(':');
+                                    if(atc < 0) {
+                                      // Error message ?
+                                      break;
+                                    }
+                                    StringC lvarname = txt.before(atc).TopAndTail();
+                                    comment.Locals()[lvarname] += txt.after(atc);
+                                    //cout << "Setting local var '" << lvarname << "' to '" << comment.Locals()[lvarname] << "'\n"; 
+                                    break ;
+                                    }
+                                  }
+                                }
+                              }
+<INITIAL>"//"(.)*[\n<<EOF>>]  { comment.Text() += &yytext[2]; }
+
+    /*==============> Skip preprocessor directives <==============*/
+<INITIAL>"#"[acdeimpsuw ]  { BEGIN (PREPARSER); }
+<PREPARSER>"/*"		   { BEGIN (PPCOMMENT); }
+<PPCOMMENT>"*/"            { BEGIN (PREPARSER); }
+<PREPARSER>"\\\n"	   {}
+<PREPARSER>.	           {}
+<PREPARSER>"\n"	           { BEGIN (INITIAL); }
+
+
+    /*==============> Strip comments <==============*/
+<INITIAL>"/*"        { BEGIN (COMMENT);}
+<COMMENT>"*/"        { BEGIN (INITIAL); }
+
+<COMMENT,PPCOMMENT>[\n\r]  {}
+<COMMENT,PPCOMMENT>.       {}
+
+    /*==============> All other characters are ignored <==============*/
+<INITIAL>[\n]  	{}
+<INITIAL>.  		{}
+
+%%

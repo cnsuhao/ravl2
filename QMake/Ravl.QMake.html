@@ -1,0 +1,42 @@
+<html>
+<head>
+  <title>QMake Home Page</title>
+</head>
+<body>
+<basefont face="Times, Times Roman, Times New Roman">
+
+QMake is a flexible compilation aid, based on the GNU "make" program.
+It was originally developed for building the RAVL (and its
+predecessors) library, but it can be used for compiling any software
+project, however big or small.
+
+<p>QMake relies on a simple text file ("<code>defs.mk</code>") being present in
+<i>each</i> directory of the project.  Each <code>defs.mk</code> describes what must be compiled <i>from that directory</i>.
+</P>
+
+<P>
+The documentation for QMake is fragmented at present:<ul>
+<li>Information describing the many variables in the <code>defs.mk</code> file
+for controlling what is built is given  <a href="Ravl.QMake.Defs.html">here</a>
+(Description File Variables).  But to begin with, all you probably need is one or two of these:<ul>
+<li> MAINS
+<li> SOURCES
+<li> LOCALHEADERS
+<li> USESLIBS
+<li> NESTED
+</ul>
+E.g. if all you wanted to compile was one file called "fred.cc" containing a
+main program, the defs.mk file would contain the single line: 
+<pre>MAINS = fred.cc</pre> 
+<li>Type <code>qm</code> to compile (<code>qm</code> is an alias defined in the
+RAVL environment).  The <a href="../../../../Tools/QMake/Help.txt">QMake
+command-line options</a> describe how to use different modes of QMake.
+<!-- <li>Xemacs users: there is an <a href="../html/amma-mode.html">Xemacs</a>
+enhancement to allow easy QMake compilation from within Xemac. -->
+</ul>
+</p>
+
+</body>
+</html>
+
+
