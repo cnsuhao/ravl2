@@ -90,13 +90,15 @@ namespace RavlImageN {
     int v;
     DataT min,max;
     int rescale;
-    s >> v >> min >> max >> rescale;
-    // FIXME: Check version is right.
+    s >> v;
+    if(v > 0)
+      throw ExceptionOutOfRangeC("operator>>(BinIStreamC &,HistogramEqualiseC<DataT> &), Bad version number in stream. ");
+    s >> min >> max >> rescale;
     hist = HistogramEqualiseC<DataT>(min,max,rescale != 0);
     return s;
   }
   //: Read from a stream.
-
+  
   template<class DataT>
   BinOStreamC &operator<<(BinOStreamC &s,const HistogramEqualiseC<DataT> &hist) {
     int v = 0; // stream version no.
@@ -110,8 +112,10 @@ namespace RavlImageN {
     int v;
     DataT min,max;
     int rescale;
-    s >> v >> min >> max >> rescale;
-    // FIXME: Check version is right.
+    s >> v;
+    if(v > 0)
+      throw ExceptionOutOfRangeC("operator>>(BinIStreamC &,HistogramEqualiseC<DataT> &), Bad version number in stream. ");
+    s >> min >> max >> rescale;
     hist = HistogramEqualiseC<DataT>(min,max,rescale != 0);
     return s;
   }

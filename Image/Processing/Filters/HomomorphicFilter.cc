@@ -78,34 +78,38 @@ namespace RavlImageN {
 
   
   ostream &operator<<(ostream &s,const HomomorphicFilterC &homom) {
-    int v = 0; // stream version no.
+    UIntT v = 0; // stream version no.
     s << v << ' ' << homom.Sigma() << ' ' << homom.Depth();
     return s;
   }
   //: Write to a stream.
 
   istream &operator>>(istream &s,HomomorphicFilterC &homom) {
-    int v;
+    UIntT v;
     RealT sigma,depth;
-    s >> v >> sigma >> depth;
-    // FIXME: Check version is right.
+    s >> v;
+    if(v > 0)
+      throw ExceptionOutOfRangeC("operator>>(istream &,HomomorphicFilterC &), Bad version number in stream. ");
+    s >> sigma >> depth;
     homom = HomomorphicFilterC(sigma,depth);
     return s;
   }
   //: Read from a stream.
   
   BinOStreamC &operator<<(BinOStreamC &s,const HomomorphicFilterC &homom) {
-    int v = 0; // stream version no.
+    UIntT v = 0; // stream version no.
     s << v << homom.Sigma() << homom.Depth();
     return s;
   }
   //: Write to a binary stream.
   
   BinIStreamC &operator>>(BinIStreamC &s,HomomorphicFilterC &homom) {
-    int v;
+    UIntT v;
     RealT sigma,depth;
-    s >> v >> sigma >> depth;
-    // FIXME: Check version is right.
+    s >> v;
+    if(v > 0)
+      throw ExceptionOutOfRangeC("operator>>(BinIStreamC &,HomomorphicFilterC &), Bad version number in stream. ");
+    s >> sigma >> depth;
     homom = HomomorphicFilterC(sigma,depth);
     return s;
   }
