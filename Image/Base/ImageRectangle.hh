@@ -64,9 +64,10 @@ namespace RavlImageN {
       : IndexRange2dC(center,rows,cols)
     {}
     //: Create an 2d range from a center point and a size for rows and cols.
-    // Size is the distance from the center to the edge, so
-    // a size of 0 gives a single pixel, and a size of 1 generates
-    // a 3 long rectangle in that dimention.
+    // The sizes passed to this function are the absolute size of the
+    // rectangle.
+    // Note: if the rows or cols there will be a half pixel offset in the
+    // center of the rectangle. 
 
     ImageRectangleC(IndexC minRow, IndexC maxRow,
 		    IndexC minCol, IndexC maxCol)
