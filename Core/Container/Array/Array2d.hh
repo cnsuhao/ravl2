@@ -94,6 +94,9 @@ namespace RavlN {
     
     Array2dC<DataT> Copy() const;
     //: Make a copy of the array.
+
+    Array2dC<DataT> DeepCopy (UIntT levels = (UIntT) -1 ) const ; 
+    //: Make a deep copy of this array
     
     inline SArray2dC<DataT> SArray2d(bool doShift = false);
     //: Create an access as an SArray.
@@ -409,6 +412,16 @@ namespace RavlN {
     return ret;
   }
   
+  template <class DataT> 
+  Array2dC<DataT> Array2dC<DataT>::DeepCopy(UIntT levels) const{
+    if (levels == 0) return *this ; 
+    Array2dC<DataT> ret(Rectangle() ) ; 
+    --levels ; 
+    for ( BufferAccess2dIter2C<DataT,DataT> it (ret, ret.Range2(), *this, Range2()) ; it ; it++ )
+      it.Data1() = StdDeepCopy ( it.Data2(), levels ) ; 
+    return ret ; 
+  }
+
   template <class DataT>
   Array2dC<DataT> Array2dC<DataT>::CopyAccess(IndexC shift1,IndexC shift2) {
     Buffer2dC<DataT> buf(data.Data(),Range1().Size());
