@@ -46,7 +46,7 @@ namespace RavlN {
     //: Access the stack we're iterating.
     
     StackC<T>& Container()   
-    { return stack; }
+    { return *stack; }
     //: Access the stack we're iterating.
     
     T& Data() 
@@ -74,7 +74,7 @@ namespace RavlN {
     //: Access data.
     
     void First()       
-    { BaseStackC<T>::operator=(stack); DecrTop();}
+    { BaseStackC<T>::operator=(*stack); DecrTop();}
     //: Goto first element in stack.
     
     void Next() 
