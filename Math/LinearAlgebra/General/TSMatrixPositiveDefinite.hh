@@ -44,7 +44,13 @@ namespace RavlN {
     
     virtual const type_info &MatrixType() const
     { return typeid(TSMatrixPositiveDefiniteBodyC<DataT>); }
-    //: Find the type of the matrix.
+    //: Find the type of the matrix.    
+    
+    virtual void Element(UIntT i,UIntT j,const DataT &val) { 
+      matrix[i][j] = val; 
+      matrix[j][i] = val; 
+    }
+    //: Set element.
     
   protected:
   };

@@ -26,6 +26,8 @@
 
 namespace RavlN {
   template<class DataT> class TSMatrixC;
+  template<class DataT> class TSMatrixTransposeC;
+
   template<class DataT> class TSMatrixFullBodyC;
 
   template<class DataT>

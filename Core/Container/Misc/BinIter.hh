@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLBINITER_HEADER
-#define RAVLBINITER_HEADER 1
+#ifndef RAVL_BINITER_HEADER
+#define RAVL_BINITER_HEADER 1
 ///////////////////////////////////////////////////////////////
 //! file="Ravl/Core/Container/Misc/BinIter.hh"
 //! userlevel=Normal
@@ -17,7 +17,7 @@
 
 #include "Ravl/BinTable.hh"
 #include "Ravl/HashIter.hh"
-#
+
 namespace RavlN {
 
   //: Bin table iterator.
