@@ -105,6 +105,12 @@ namespace RavlGUIN {
     //: Draw some text
     // Call with GUI thread only!
     
+    bool GUIClear();
+    //: Clear canvas to given colour.
+    
+    bool Clear();
+    //: Clear canvas to given colour.
+    
     bool IsReady() const { 
       if(widget == 0) return false;
       if(direct) return true;
@@ -243,6 +249,14 @@ namespace RavlGUIN {
     { return Body().GUIDrawText(x1,y1,text,colId); }
     //: Draw some text.
     // Call with GUI thread only!
+    
+    bool GUIClear()
+    { return Body().GUIClear(); }
+    //: Clear canvas to given colour.
+    
+    bool Clear()
+    { return Body().GUIClear(); }
+    //: Clear canvas to given colour.
     
     bool IsReady() const 
     { return Body().IsReady(); }

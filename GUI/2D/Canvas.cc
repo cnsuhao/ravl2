@@ -422,6 +422,33 @@ namespace RavlGUIN {
     }
   }
 
+  //: Clear canvas to given colour.
+  
+  bool CanvasBodyC::GUIClear() {
+    if(widget == 0)
+      return true;
+    gdk_draw_rectangle (pixmap,
+			widget->style->black_gc,
+			true,
+			0, 0,
+			sx,sy);
+    
+    GdkRectangle update_rect;
+    update_rect.x = 0;
+    update_rect.y = 0;
+    update_rect.width = Widget()->allocation.width;
+    update_rect.height = Widget()->allocation.height;
+    gtk_widget_draw (Widget(), &update_rect);  
+    return true;
+  }
+  
+  //: Clear canvas to given colour.
+  
+  bool CanvasBodyC::Clear() {
+    Manager.Queue(Trigger(CanvasC(*this),&CanvasC::GUIClear));
+    return true;
+  }
+
   /////////////////////////////////////////////////////////
   
   //: Constructor.
