@@ -42,6 +42,9 @@ namespace RavlGUIN {
     //: Set aspect ratio.
     // GUI thread only.
     
+    void GUIObeyChild(bool obeyChild);
+    //: Set obey child.
+    
   protected:
     RealT alignx;
     RealT aligny;
@@ -102,6 +105,10 @@ namespace RavlGUIN {
     { return Body().GUIAspect(ratio); }
     //: Set aspect ratio.
     // GUI thread only.
+    
+    void GUIObeyChild(bool obeyChild)
+    { Body().GUIObeyChild(obeyChild); }
+    //: Set obey child.
     
     friend class AspectFrameBodyC;
   };

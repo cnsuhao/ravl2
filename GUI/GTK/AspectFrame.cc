@@ -56,12 +56,23 @@ namespace RavlGUIN {
     ConnectSignals();
     return true;
   }
+
+  //: Set obey child.
+  
+  void AspectFrameBodyC::GUIObeyChild(bool nobeyChild) {
+    obeyChild = nobeyChild;
+    if(widget == 0)
+      return ;
+    gtk_aspect_frame_set (GTK_ASPECT_FRAME(widget),alignx,aligny,aspect,obeyChild);
+  }
   
   //: Set aspect ratio.
   // GUI thread only.
   
   bool AspectFrameBodyC::GUIAspect(RealT ratio) {
     aspect = ratio;
+    if(widget == 0)
+      return true;
     gtk_aspect_frame_set (GTK_ASPECT_FRAME(widget),alignx,aligny,aspect,obeyChild);
     return true;
   }
