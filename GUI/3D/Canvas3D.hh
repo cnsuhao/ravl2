@@ -68,6 +68,10 @@ namespace RavlGUIN {
     
     bool SwapBuffers();
     //: swap buffers.
+
+    bool ClearBuffers();
+    //: clears the buffers 
+    // depth buffer and color buffer is cleared
     
     void SetTextureMode(bool& bTexture) {m_bTexture = bTexture;}
     //: Enable or disable texturing
@@ -173,6 +177,12 @@ namespace RavlGUIN {
     //: swap buffers.
     // NB. Only call from the GUI thread.
     
+    bool GUIClearBuffers() 
+    { return Body().ClearBuffers() ; }
+    //: clear buffers 
+    // This will clear depth and color buffers 
+    // NB. Only call from the GUI thread
+
     bool Put(const DObject3DC &r)
     { return Body().Put(r); }
     //: Put render object on canvas.
@@ -264,6 +274,12 @@ namespace RavlGUIN {
     { RenderRef(*this,&Canvas3DC::GUISwapBuffers); }
     //: Swap display buffers.
     // Thread safe.
+
+    void ClearBuffers(void)
+    { RenderRef(*this, &Canvas3DC::GUIClearBuffers) ; }
+    //: Clear buffers 
+    // Clears color buffer and depth buffer
+    // Thread safe
     
     void SetTextureMode(bool& bTexture) {Body().SetTextureMode(bTexture);}
     //: Enable or disable texturing

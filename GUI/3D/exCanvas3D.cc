@@ -66,21 +66,12 @@ int main(int nargs,char *args[])
   
   OptionC opts(nargs,args); // Make sure help option is detected.
   bool doMotion = opts.Boolean("m",false,"Detect motion events.");
-  StringC meshFile = opts.String("t","/vol/vssp/motion3d/DispMap/cubehead/detail.tri","Mesh to load ");
   bool useDisplayList = opts.Boolean("dl",false,"Use display lists. ");
+  RealT increment     = opts.Real("i",5,"control the size of the step in the loop") ;
+ 
   opts.Check();
 
-  DObject3DC object;
-  if(!meshFile.IsEmpty()) {
-    TriMeshC ts;
-    //: Load a mesh from a file.
-    if(!Load(meshFile,ts,"",true)) {
-      cerr << "Failed to load file. \n";
-      return 1;
-    }
-    object = DTriMesh3DC(ts);
-  } else
-    object = DCube3DC(Vector3dC(1,1,1),RealRGBValueC(0,1,0));
+  DObject3DC object = DCube3DC(Vector3dC(1,1,1),RealRGBValueC(0,1,0));
   
   WindowC win(100,100,"Hello");
   Canvas3DC area(800,800);
@@ -102,9 +93,10 @@ int main(int nargs,char *args[])
   if(useDisplayList)
     object.EnableDisplayList();
   
-  for(RealT i = 0;i < 1000;i++) {
+  for(RealT i = 0;i < 10000;i++) {
     // Draw rotated cube
-    area.Transform(i * 5,  // Angle.
+    area.ClearBuffers() ;
+    area.Transform(i * increment,  // Angle.
 		   Vector3dC(0,1,0), // Axis of rotation
 		   object); // Object to draw.
     area.SwapBuffers();

@@ -125,6 +125,17 @@ namespace RavlGUIN {
     return true;
   }
   
+  //: clear buffers 
+  bool Canvas3DBodyC::ClearBuffers() {
+    
+    GLenum whichBuffers(GL_COLOR_BUFFER_BIT) ;
+    if ( glIsEnabled (GL_DEPTH_TEST) ) whichBuffers |= (GL_DEPTH_BUFFER_BIT) ;
+    glClear( whichBuffers ) ; 
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    return true;
+  }
+
   //: Process OpenGL requests.
   
   bool Canvas3DBodyC::ProcessReq(DObject3DC &obj) {
