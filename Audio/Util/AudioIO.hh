@@ -111,10 +111,7 @@ namespace RavlAudioN {
     //: Set a stream attribute.
     // Returns false if the attribute name is unknown.
     // This is for handling stream attributes such as frame rate, and compression ratios.
-    
-    bool HandleGetAttrList(DListC<StringC> &list  ) const;
-    //: Get list of attributes available.
-    // This method will ADD all available attribute names to 'list'.
+   
     
   };
   
@@ -229,11 +226,7 @@ namespace RavlAudioN {
     //: Set a stream attribute.
     // Returns false if the attribute name is unknown.
     // This is for handling stream attributes such as frame rate, and compression ratios.
-    
-    virtual bool GetAttrList(DListC<StringC> &list) const
-    { return HandleGetAttrList(list); }
-    //: Get list of attributes available.
-    // This method will ADD all available attribute names to 'list'.
+   
 
   };
   
@@ -346,11 +339,7 @@ namespace RavlAudioN {
     //: Set a stream attribute.
     // Returns false if the attribute name is unknown.
     // This is for handling stream attributes such as frame rate, and compression ratios.
-    
-    virtual bool GetAttrList(DListC<StringC> &list) const
-    { return HandleGetAttrList(list); }
-    //: Get list of attributes available.
-    // This method will ADD all available attribute names to 'list'.
+   
 
   };
   

@@ -198,19 +198,6 @@ bool AudioIOBaseC::HandleGetAttr(const StringC &attrName,IntT &attrValue) {
   }
 
 
-
-  //: Get list of attributes available.
-  // This method will ADD all available attribute names to 'list'.
-  bool AudioIOBaseC::HandleGetAttrList ( DListC<StringC> &list) const { //, const AttributeCtrlBodyC  & attributes) const {
-  // generate all attribute names from attribute list 
-  // DListC<AttributeTypeC> attrList  ; 
-  //attributes.GetAttrTypes ( attrList ) ; 
-  //for ( DLIterC<AttributeTypeC> iter ( attrList) ; iter.IsElm() ; iter ++ ) 
-  //    list.InsLast ( iter.Data().Name() ) ; 
- return true ;
-  }
-  
-
   
   //: Build the attributes 
   bool AudioIOBaseC::BuildAttributes( AttributeCtrlBodyC & attr ) 
