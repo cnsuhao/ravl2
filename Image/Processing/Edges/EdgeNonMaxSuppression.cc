@@ -19,6 +19,7 @@
 #include "Ravl/SArray1dIter.hh"
 #include "Ravl/Array2dIter.hh"
 #include "Ravl/StdConst.hh"
+#include "Ravl/Image/DrawFrame.hh"
 
 #if RAVL_USE_PARALLEL
 #include "Ravl/Threads/Launch.hh"
@@ -144,6 +145,8 @@ namespace RavlImageN {
     ImageRectangleC rect(res.Rectangle());
     rect.Origin().Row() = startRow;
     rect.End().Row() = endRow;
+    
+    DrawFrame(res,0.0,res.Frame()); // Fill boundry with zero's
     
     // Search of local maxima with linear interpolation
     // =================================================
