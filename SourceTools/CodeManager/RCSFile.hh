@@ -191,7 +191,7 @@ namespace RavlN {
     
     StringC GetEntry(istream &in);
     //: Extract next entry from RCS file.
-    // reads upto the next ';' charactor.
+    // reads upto the next ';' character.
     // the ';' is discarded.
     
     StringC Unstuff(const StringC &str,int startat = 0);

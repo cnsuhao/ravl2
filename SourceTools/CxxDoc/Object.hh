@@ -58,7 +58,7 @@ namespace RavlCxxDocN {
     //: Destructor.
     
     virtual StringC TextFor(char let);
-    //: Render a charactor.
+    //: Render a character.
     // Typical used for '<' '>' and the like..
     
     virtual StringC TextFor(const ObjectC &obj);

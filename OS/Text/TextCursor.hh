@@ -59,7 +59,7 @@ namespace RavlN {
     //: Goto a specific char on current line.
     
     bool Insert(StringC txt,bool leaveAtEnd = false);
-    //: Insert text after charactor indicated by the cursor.
+    //: Insert text after character indicated by the cursor.
     // If 'leaveAtEnd' is true the cursor is left after the
     // inserted text, otherwise the cursor isn't changed.
     // Returns true on success.
@@ -76,7 +76,7 @@ namespace RavlN {
     // was returend. NB. Buffer is not changed ! 
   
     StringC ClipWordInc(const SArray1dC<bool> &table);
-    //: Clip out a string of charactors included in 'table'.
+    //: Clip out a string of characters included in 'table'.
     // leave the cursor positioned after the text that
     // was returend. NB. Buffer is not changed ! 
     
@@ -88,8 +88,8 @@ namespace RavlN {
     // was returend. NB. Buffer is not changed ! 
     
     SubStringC ClipWord(const SArray1dC<bool> &table,bool initalSkipDelim = true);
-    //: Clip out string deliminated by delim charactors.
-    // table has 256 elements one for each charactor. true means its a delim.
+    //: Clip out string deliminated by delim characters.
+    // table has 256 elements one for each character. true means its a delim.
     // <p>Effectively does a SkipWhite(), the Clip("[^ ]*"); <p>
     // leave the cursor positioned after the text that
     // was returend. NB. Buffer is not changed ! <p>
@@ -100,7 +100,7 @@ namespace RavlN {
     //: Build a clip table suitable for above.
     
     SubStringC ClipWord(const char *delim = " \n\t\r\0",bool initalSkipDelim = true);
-    //: Clip out string deliminated by delim charactors.
+    //: Clip out string deliminated by delim characters.
     // Effectively does a SkipWhite(), the Clip("[^ ]*"); <p>
     // leave the cursor positioned after the text that
     // was returend. NB. Buffer is not changed !  <p>
@@ -112,7 +112,7 @@ namespace RavlN {
     // if 'text' is not found in the file an empty string is returned.
     // the iterator is left after the found 'text'.
     // NB. In the current implementation 'text' may not contain a carrage
-    // return unless its the last charactor in the string.
+    // return unless its the last character in the string.
     
     bool Skip(const Regex &exp);
     //: Skip the text described by exp.
@@ -127,9 +127,9 @@ namespace RavlN {
     //: Skip to the next occurance of a string.
     // Returns true if the text has been found, false otherwise.
     // if the string is not found the iterator is left unchanged,
-    // otherwise its is left on the charactor after 'text'. <p>
+    // otherwise its is left on the character after 'text'. <p>
     // NB. In the current implementation 'text' may not contain a carrage
-    // return unless its the last charactor in the string.
+    // return unless its the last character in the string.
     
     inline bool Skip(const char *text)
       { return Skip(StringC(text)); }
@@ -138,11 +138,11 @@ namespace RavlN {
     // if not returns false, and leaves iterator unchanged.
     
     bool SkipChars(const char *delim);
-    //: Skip all charactors in delim
+    //: Skip all characters in delim
     // Returns True if left at a valid place.
     
     bool SkipChars(const SArray1dC<bool> &table);
-    //: Skip all charactors in table.
+    //: Skip all characters in table.
     // the table can be created by BuildClipTable.
     // Returns True if left at a valid place.
     
@@ -170,13 +170,13 @@ namespace RavlN {
     
     inline char &Char() 
       { return LineText()[Col]; }
-    //: Get charactor.
+    //: Get character.
     
     inline bool NextChar();
-    //: Goto next charactor in buffer.
+    //: Goto next character in buffer.
     
     inline bool PrevChar();
-    //: Goto previous charactor in buffer.
+    //: Goto previous character in buffer.
     
     inline bool NextLine();
     //: Goto next line.
@@ -268,7 +268,7 @@ namespace RavlN {
     return NextLine();
   }
   
-  //: Goto previous charactor in buffer.
+  //: Goto previous character in buffer.
   
   inline 
   bool TextCursorC::PrevChar() {

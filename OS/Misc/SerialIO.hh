@@ -54,7 +54,7 @@ namespace RavlN {
     //: set the number of stop bits : 1 or 2;
     
     bool SetCharSize(const IntT char_size);
-    //: set the charactor size: 5,6,7,8;
+    //: set the character size: 5,6,7,8;
     
     bool SetParity(ParityT par);
     //: parity type: Odd or Even or None or 1

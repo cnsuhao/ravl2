@@ -213,7 +213,7 @@ namespace RavlN {
 		}
 		cerr << endl;
 	      }
-	      data += tc.Char(); // Added escaped charactor.
+	      data += tc.Char(); // Added escaped character.
 	    }
 	    break;
 	  case '#':

@@ -101,10 +101,10 @@ namespace RavlN {
 	  place[0] = 0;
 	  tline = StringC(start); // Turn it into a StringC.
 	} else {
-	  char tmp = place[1]; // Save charactor after seperator.
+	  char tmp = place[1]; // Save character after seperator.
 	  place[1] = 0; // Terminate string.
 	  tline = StringC(start); // Turn it into a StringC.
-	  place[1] = tmp; // Restore charactor after seperator.
+	  place[1] = tmp; // Restore character after seperator.
 	}
 	//printf("tline:%s \n",tline.chars());
 	start = (place+1); // Goto next bit of string to be read.

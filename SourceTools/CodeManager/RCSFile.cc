@@ -60,7 +60,7 @@ namespace RavlN {
 	numstart = at+1;
 	continue;
       }
-      cerr << "RCSVersionC(StringC), Unexpected charactor '" << frm[at] << "' in '" << frm <<"'\n";
+      cerr << "RCSVersionC(StringC), Unexpected character '" << frm[at] << "' in '" << frm <<"'\n";
       // FIXME :- throw an error ?
       break;
     }
@@ -618,7 +618,7 @@ namespace RavlN {
   
   ////////////////////////////////
   //: Extract next entry from RCS file.
-  // reads upto the next ';' charactor.
+  // reads upto the next ';' character.
   
   StringC RCSFileBodyC::GetEntry(istream &in) {
     StringC ret;
@@ -851,7 +851,7 @@ namespace RavlN {
 	  r1 = buf1.index('$',rest+1);
 	else {
 	  if(tmp != '$') {
-	    cerr << "RCSFileBodyC::VerDiff(), Unexpected charactor in line :" << buf1 << endl;
+	    cerr << "RCSFileBodyC::VerDiff(), Unexpected character in line :" << buf1 << endl;
 	    return true;
 	  }
 	  r1 = rest;
@@ -861,7 +861,7 @@ namespace RavlN {
 	  r2 = buf2.index('$',rest+1);
 	else {
 	  if(tmp != '$') {
-	    cerr << "RCSFileBodyC::VerDiff(), Unexpected charactor in line :" << buf2 << endl;
+	    cerr << "RCSFileBodyC::VerDiff(), Unexpected character in line :" << buf2 << endl;
 	    return true;
 	  }
 	  r2 = rest;

@@ -173,7 +173,7 @@ namespace RavlN {
 		cerr << (int) tc.LineText()[i] << " ";
 	      }
 	      cerr << endl;
-	      data += tc.Char(); // Added escaped charactor.
+	      data += tc.Char(); // Added escaped character.
 	    }
 	    break;
 	  case '#':

@@ -161,7 +161,7 @@ namespace RavlN {
   //: Skip to the next occurance of a string.
   // Returns true if the text has been found, false otherwise.
   // if the string is not found the iterator is left unchanged,
-  // otherwise its is left on the charactor after 'text'
+  // otherwise its is left on the character after 'text'
 
   bool TextCursorC::SkipTo(const StringC &text) {
     DLIterC<TextFileLineC> itl(line);
@@ -182,7 +182,7 @@ namespace RavlN {
   // if 'text' is not found in the file an empty string is returned.
   // the iterator is left after the found 'text'.
   // NB. In the current implementation 'text' may not contain a carrage
-  // return unless its the last charactor in the string.
+  // return unless its the last character in the string.
   
   StringC TextCursorC::ClipTo(const StringC &text,bool orToEOF) {
     StringC ret;
@@ -208,7 +208,7 @@ namespace RavlN {
     return StringC();
   }
 
-  //: Skip all charactors in table.
+  //: Skip all characters in table.
   // the table can be created by BuildClipTable.
   // Returns True if left at a valid place.
   
@@ -222,7 +222,7 @@ namespace RavlN {
     return false;
   }
   
-  //: Skip all charactors in delim
+  //: Skip all characters in delim
   // Returns True if left at a valid place.
   
   bool TextCursorC::SkipChars(const char *delim) { 
@@ -262,7 +262,7 @@ namespace RavlN {
   }
   
   
-  //: Clip out string deliminated by delim charactors.
+  //: Clip out string deliminated by delim characters.
   
   SubStringC TextCursorC::ClipWord(const SArray1dC<bool> &delim,bool initalSkipDelim) {
     RavlAssert(delim.Size() > 255);
@@ -303,7 +303,7 @@ namespace RavlN {
   }
   
   
-  //: Clip out a string of charactors included in 'table'.
+  //: Clip out a string of characters included in 'table'.
   // leave the cursor positioned after the text that
   // was returend. NB. Buffer is not changed ! 
   

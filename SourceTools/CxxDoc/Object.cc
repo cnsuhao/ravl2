@@ -78,7 +78,7 @@ namespace RavlCxxDocN
     return obj;
   }
   
-  //: Render a charactor.
+  //: Render a character.
   // Typical used for '<' '>' and the like..
   StringC DesciptionGeneratorC::TextFor(char let) {
     char arr[2];

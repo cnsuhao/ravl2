@@ -205,7 +205,7 @@ namespace RavlN {
     //: Extract template prefix, postfix and number of digits.
     for(;(UIntT) at < rootFn.length();at++) {
       if((at = rootFn.index('%')) < 0)
-	return false; // No template charactor.
+	return false; // No template character.
       at++;
       if((UIntT) at >= rootFn.length())
 	return false; // Not found.

@@ -178,7 +178,7 @@ namespace RavlN {
 	case '*': // Match any sub-string.
 	  filt++;
 	  nextf = *filt;
-	  // Find the next real charactor in filter.
+	  // Find the next real character in filter.
 	  // Could check for '*' or '?' here, but we're but
 	  // this routine isn't intended to be that clever.
 	  if(nextf == '\\')
@@ -195,7 +195,7 @@ namespace RavlN {
 	  if(*str != *filt)
 	    return false;
 	  // Fall through.
-	case '?': // Match any charactor.
+	case '?': // Match any character.
 	  str++;
 	  filt++;
 	  break;

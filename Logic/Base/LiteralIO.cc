@@ -53,7 +53,7 @@ namespace RavlLogicN {
     StackC<DListC<LiteralC> > context;
     int ln = 0;
     try {
-      while(!is.IsEndOfStream()) { // Any more charactors.
+      while(!is.IsEndOfStream()) { // Any more characters.
 	char let = is.GetChar();
 	bool var = false;
 	switch(let) {
@@ -88,7 +88,7 @@ namespace RavlLogicN {
 	  break; // Ignore whitespace.
 	case '#':
 	case '$':
-	  break; // Ignore these charactors silently for now.
+	  break; // Ignore these characters silently for now.
 	case '@':
 	case '~':
 	case '!':
@@ -113,7 +113,7 @@ namespace RavlLogicN {
  	case '/':
  	case '|':
  	case '=':
-	  cerr << "WARNING: Illegal charactor '" << let << "' found in stream on line " << ln << ". \n";
+	  cerr << "WARNING: Illegal character '" << let << "' found in stream on line " << ln << ". \n";
  	  break;
 	case '"': { // String constant.
 	  StringC val = is.ClipTo('"');
