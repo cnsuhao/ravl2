@@ -7,8 +7,8 @@
 #! rcsid="$Id$"
 #! file="Ravl/3D/Carve3D/defs.mk"
 PACKAGE=Ravl/3D
-HEADERS=VoxelSet.hh PointSet.hh
-SOURCES=VoxelSet.cc PointSet.cc
+HEADERS=VoxelSet.hh PointSet.hh SurfacePoint3dArray.hh
+SOURCES=VoxelSet.cc PointSet.cc SurfacePoint3dArray.cc
 PLIB=Ravl3D
 LIBDEPS=RavlCarve3D.def
 USESLIBS=RavlCore RavlMath RavlImage RavlCameraCal

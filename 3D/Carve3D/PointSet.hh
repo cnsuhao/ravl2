@@ -36,7 +36,8 @@ namespace Ravl3DN
   class VoxelSetC;
 
   //! userlevel=Develop
-  //: Array of 3D vertices and attributes
+  //: THIS CLASS IS OBSOLETE.  Use SurfacePoint3dArrayC instead.
+  //  This class will be REMOVED from Ravl in early 2003!
   
   class PointSetBodyC: public RCBodyC
   {
@@ -95,8 +96,8 @@ namespace Ravl3DN
   };
 
   //! userlevel=Normal
-  //: Array of 3D vertices and attributes
-  // Use Ravl-GUI-3D-DPointSetC to correctly render the point set.
+  //: THIS CLASS IS OBSOLETE.  Use SurfacePoint3dArrayC instead.
+  //  This class will be REMOVED from Ravl in early 2003!
 
   class PointSetC: public RCHandleC<PointSetBodyC>
   {
