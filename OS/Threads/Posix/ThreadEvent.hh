@@ -29,7 +29,7 @@ namespace RavlN
     ThreadEventC()
       : occured(false),
 	waiting(0)
-      {}
+    {}
     
     bool Post() {
       cond.Lock();
@@ -74,7 +74,7 @@ namespace RavlN
     //: Wait for lock to be free of all waiters.
     
     IntT ThreadsWaiting() const 
-      { return waiting; }
+    { return waiting; }
     //: Get approximation of number of threads waiting.
     
     bool Wait(RealT maxTime);
@@ -82,21 +82,21 @@ namespace RavlN
     // Returns false if timed out.
     
     operator bool() const 
-      { return occured; }
+    { return occured; }
     //: Test if the event has occured.
     
     bool Occured() const
-      { return occured; }
+    { return occured; }
     //: Test if event has occrued.
     
     void Reset()
-      { occured = false; }
+    { occured = false; }
     //: Reset an event.
     
   protected:
     ConditionalMutexC cond;
-    bool occured;
-    IntT waiting; // Count of number of threads waiting on this...
+    volatile bool occured;
+    volatile IntT waiting; // Count of number of threads waiting on this...
   };
 };
 
