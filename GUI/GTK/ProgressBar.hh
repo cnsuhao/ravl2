@@ -43,9 +43,9 @@ namespace RavlGUIN{
     
     ProgressBarBodyC(ProgBarTypeT ntype=GUIPROGBAR_CONTINUOUS ,ProgBarOrientationT norient= GUIPROGBAR_LEFT_TO_RIGHT,int nblocks = 10)
       : type(ntype),
-      orient(norient),
-      blocks(nblocks)
-      {}
+	orient(norient),
+	blocks(nblocks)
+    {}
     //: Constructor.
     
     virtual bool Create();
@@ -56,6 +56,12 @@ namespace RavlGUIN{
     
     void Update(float percentage);
     //: Update percentage done on bar.
+    
+    bool GUISetType(ProgBarTypeT ntype);
+    //: Set type of progress bar.
+    
+    bool SetType(ProgBarTypeT ntype);
+    //: Set type of progress bar.
     
   protected:
     ProgBarTypeT type;
@@ -72,38 +78,46 @@ namespace RavlGUIN{
   {
   public:
     ProgressBarC()
-      {}
+    {}
     //: Default constructor.
     
     ProgressBarC(ProgBarTypeT ntype,
 		 ProgBarOrientationT orient = GUIPROGBAR_LEFT_TO_RIGHT,
 		 int nblocks = 10)
       : WidgetC(*new ProgressBarBodyC(ntype,orient,nblocks))
-      {}
+    {}
     //: Construct a separator.
   
   protected:
     ProgressBarC(ProgressBarBodyC &bod)
       : WidgetC(bod)
-      {}
+    {}
     //: Body constructor.
     
     ProgressBarBodyC &Body()
-      { return static_cast<ProgressBarBodyC &>(WidgetC::Body()); }
+    { return static_cast<ProgressBarBodyC &>(WidgetC::Body()); }
     //: Access body.
     
     const ProgressBarBodyC &Body() const
-      { return static_cast<const ProgressBarBodyC &>(WidgetC::Body()); }
+    { return static_cast<const ProgressBarBodyC &>(WidgetC::Body()); }
     //: Access body.
     
     bool GUIUpdate(float &percentage)
-      { return Body().GUIUpdate(percentage); }
+    { return Body().GUIUpdate(percentage); }
     //: Update percentage done on bar.
     
   public:
     void Update(float percentage)
-      { Body().Update(percentage); }
+    { Body().Update(percentage); }
     //: Update percentage done on bar.
+    
+    bool GUISetType(ProgBarTypeT ntype)
+    { return Body().GUISetType(ntype); }
+    //: Set type of progress bar.
+    
+    bool SetType(ProgBarTypeT ntype)
+    { return Body().SetType(ntype); }
+    //: Set type of progress bar.
     
     friend class ProgressBarBodyC;
   };

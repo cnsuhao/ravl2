@@ -72,4 +72,38 @@ namespace RavlGUIN {
     return true;
   }
 
+  //: Set type of progress bar.
+  
+  bool ProgressBarBodyC::GUISetType(ProgBarTypeT ntype) {
+    type = ntype;
+    if(widget == 0)
+      return true;    
+    switch(type) 
+      {
+      case GUIPROGBAR_CONTINUOUS_WITH_TEXT:
+	gtk_progress_set_show_text (GTK_PROGRESS(widget),true);
+      case GUIPROGBAR_CONTINUOUS:
+	gtk_progress_bar_set_bar_style (GTK_PROGRESS_BAR(widget),GTK_PROGRESS_CONTINUOUS);
+	break;
+      case GUIPROGBAR_DISCRETE:
+	gtk_progress_bar_set_bar_style (GTK_PROGRESS_BAR(widget),GTK_PROGRESS_DISCRETE);
+	gtk_progress_bar_set_discrete_blocks(GTK_PROGRESS_BAR(widget),blocks);
+	break;
+      case GUIPROGBAR_ACTIVITY:
+	gtk_progress_set_activity_mode (GTK_PROGRESS(widget),true);
+	gtk_progress_bar_set_activity_blocks(GTK_PROGRESS_BAR(widget),blocks);
+	break;
+      default:
+	cerr << "ProgressBarBodyC::GUISetStyle(), WARNING: Unknow style : " << ((int) type) << "\n";
+      }
+    return true;
+  }
+  
+  //: Set type of progress bar.
+  
+  bool ProgressBarBodyC::SetType(ProgBarTypeT ntype) {
+    Manager.Queue(Trigger(ProgressBarC(*this),&ProgressBarC::GUISetType,ntype));
+    return true;
+  }
+  
 }
