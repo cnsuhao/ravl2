@@ -42,6 +42,11 @@ namespace RavlN {
       {}
     //: Construct a new matrix of rows x cols.
     
+    MatrixC(UIntT rows,UIntT cols,const RealT *data)
+      : TMatrixC<RealT>(rows,cols,data)
+      {}
+    //: Construct a new matrix of rows x cols with row wise array of data.
+    
     MatrixC(const TMatrixC<RealT> &oth)
       : TMatrixC<RealT>(oth)
       {}

@@ -43,6 +43,10 @@ namespace RavlN {
     inline TMatrixC(SizeT rows,SizeT cols);
     //: Constructor.
     
+    inline TMatrixC(SizeT rows,SizeT cols,const DataT *data);
+    //: Constructor.
+    // With row wise array of initalisations data.
+    
     inline SizeT Rows() const
       { return Size1(); }
     //: Return the number of rows
@@ -94,11 +98,18 @@ namespace RavlN {
   //////////////////////////////////////////////////////
   
   template<class DataT>
-  inline 
-  TMatrixC<DataT>::TMatrixC(SizeT rows,SizeT cols)
+  inline TMatrixC<DataT>::TMatrixC(SizeT rows,SizeT cols)
     : SArray2dC<DataT>(rows,cols)
   {}
   
+  template<class DataT>
+  inline TMatrixC<DataT>::TMatrixC(SizeT rows,SizeT cols,const DataT *data) 
+    : SArray2dC<DataT>(rows,cols)
+  {
+    const DataT *at = data;
+    for(BufferAccess2dIterC<DataT> it(*this,Size2());it;it++)
+      *it = *(at++);
+  }
   
   template<class DataT>
   TVectorC<DataT> 
