@@ -83,7 +83,17 @@ namespace RavlN {
       Transmit(NetPacketC(os.Data()));
       return true;
     }
-    //: Send a 1 paramiter message.
+    //: Send a 2 paramiter message.
+
+    template<class Data1T,class Data2T,class Data3T>
+    bool Send(UIntT id,const Data1T &dat1,const Data2T &dat2,const Data3T &dat3) {
+      OBufStreamC os;
+      BinOStreamC bos(os);
+      bos << id << dat1 << dat2  << dat3;
+      Transmit(NetPacketC(os.Data()));
+      return true;
+    }
+    //: Send a 3 paramiter message.
     
     bool Register(const NetMsgRegisterC &nmsg);
     //: Register new message handler.
@@ -115,6 +125,14 @@ namespace RavlN {
     // NB. This does not make a handle to 'obj', it is the users responsibility to 
     // ensure it is not deleted.
 
+    template<class ObjT,class Data1T,class Data2T,class Data3T>
+    bool RegisterR(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(Data1T &,Data2T &,Data3T &)) {
+      return Register(NetMsgCall3C<Data1T,Data2T,Data3T>(mid,msgName,CallMethodRef3C<ObjT,Data1T,Data2T,Data3T,bool>(obj,func))); 
+    }
+    //: Register new message handler.
+    // NB. This does not make a handle to 'obj', it is the users responsibility to 
+    // ensure it is not deleted.
+
     template<class ObjT>
     bool Register(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)()) {
       return Register(NetMsgCall0C(mid,msgName,CallMethod0C<ObjT,bool>(obj,func))); 
@@ -134,6 +152,14 @@ namespace RavlN {
     template<class ObjT,class Data1T,class Data2T>
     bool Register(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(Data1T &,Data2T &)) {
       return Register(NetMsgCall2C<Data1T,Data2T>(mid,msgName,CallMethod2C<ObjT,Data1T,Data2T,bool>(obj,func))); 
+    }
+    //: Register new message handler.
+    // NB. This does not make a handle to 'obj', it is the users responsibility to 
+    // ensure it is not deleted.
+
+    template<class ObjT,class Data1T,class Data2T,class Data3T>
+    bool Register(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)(Data1T &,Data2T &,Data3T &)) {
+      return Register(NetMsgCall3C<Data1T,Data2T,Data3T>(mid,msgName,CallMethod3C<ObjT,Data1T,Data2T,Data3T,bool>(obj,func))); 
     }
     //: Register new message handler.
     // NB. This does not make a handle to 'obj', it is the users responsibility to 
@@ -242,8 +268,13 @@ namespace RavlN {
     template<class Data1T,class Data2T>
     bool Send(UIntT id,const Data1T &dat1,const Data2T &dat2)
       { return Body().Send(id,dat1,dat2); }
-    //: Send a 1 paramiter message.
+    //: Send a 2 paramiter message.
 
+    template<class Data1T,class Data2T,class Data3T>
+    bool Send(UIntT id,const Data1T &dat1,const Data2T &dat2,const Data3T &dat3)
+      { return Body().Send(id,dat1,dat2,dat3); }
+    //: Send a 3 paramiter message.
+    
     template<class ObjT>
     bool RegisterR(UIntT mid,const StringC &msgName,ObjT &obj,bool (ObjT::*func)())
       { return Body().RegisterR(mid,msgName,obj,func); }

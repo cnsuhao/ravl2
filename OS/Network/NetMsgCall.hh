@@ -214,7 +214,7 @@ namespace RavlN
     CallFunc2C<Data1T,Data2T,bool> sig;
   };
 
-    //! userlevel=Advanced
+  //! userlevel=Advanced
   //: NetMsgCall2
 
   template<class Data1T,class Data2T>
@@ -257,6 +257,90 @@ namespace RavlN
     
     bool Encode(BinOStreamC &os,const Data1T &p1,const Data2T &p2) 
       { return Body().Encode(os,p1,p2); }
+    //: Encode a call.
+    
+  };
+
+  ///// NetMsgCall3 ////////////////////////////////////////////////////
+  //! userlevel=Develop
+  //: NetMsgCall3
+
+  template<class Data1T,class Data2T,class Data3T>
+  class NetMsgCall3BodyC 
+    : public NetMsgRegisterBodyC
+  {
+  public:    
+    NetMsgCall3BodyC(UIntT nid,const StringC &nname,const CallFunc3C<Data1T,Data2T,Data3T,bool> &nsig)
+      : NetMsgRegisterBodyC(nid,nname),
+        sig(nsig)
+      {}
+    //: Constructor.
+    
+    virtual bool Decode(NetEndPointC &ep,BinIStreamC &is) { 
+      //cerr << "Decode: Call3 at " << is.Tell() << "\n";
+      Data1T dat1;
+      Data2T dat2;
+      Data2T dat3;
+      is >> dat1 >> dat2 >> dat3;
+      sig(dat1,dat2,dat3);
+      return true;
+    }
+    //: Process a message.
+    
+    bool Encode(BinOStreamC &os,const Data1T &dat1,const Data2T &dat2,const Data2T &dat3) {
+      NetMsgRegisterBodyC::Encode(os);
+      os << dat1 << dat2 << dat3;
+      return true;
+    }
+    //: Encode a message.
+
+  protected:
+    CallFunc3C<Data1T,Data2T,Data3T,bool> sig;
+  };
+
+  //! userlevel=Advanced
+  //: NetMsgCall3
+  
+  template<class Data1T,class Data2T,class Data3T>
+  class NetMsgCall3C 
+    : public NetMsgRegisterC
+  {
+  public:
+    NetMsgCall3C()
+      {}
+    //: Default constructor.
+    
+    NetMsgCall3C(UIntT nid,const StringC &nname,const CallFunc3C<Data1T,Data2T,Data3T,bool> &nsig)
+      : NetMsgRegisterC(*new NetMsgCall3BodyC<Data1T,Data2T,Data3T>(nid,nname,nsig))
+      {}
+    //: Constructor.
+    
+    NetMsgCall3C(const NetMsgRegisterC &oth)
+      : NetMsgRegisterC(oth)
+      {
+	if(dynamic_cast<NetMsgCall3BodyC<Data1T,Data2T,Data3T> *>(&Body()) == 0)
+	  Invalidate();
+      }
+    //: Base constructor.
+    // If the body isn't of the appropriate type, an invalid handle is generated.
+  protected:
+    NetMsgCall3C(NetMsgCall3BodyC<Data1T,Data2T,Data3T> &bod)
+      : NetMsgRegisterC(bod)
+      {}
+    //: Body constructor.
+    
+    NetMsgCall3BodyC<Data1T,Data2T,Data3T> &Body()
+      { return static_cast<NetMsgCall3BodyC<Data1T,Data2T,Data3T> &>(NetMsgRegisterC::Body()); }
+    //: Access body.
+    
+    const NetMsgCall3BodyC<Data1T,Data2T,Data3T> &Body() const
+      { return static_cast<const NetMsgCall3BodyC<Data1T,Data2T,Data3T> &>(NetMsgRegisterC::Body()); }
+    //: Access body.
+    
+  public:
+    
+    bool Encode(BinOStreamC &os,const Data1T &p1,const Data2T &p2,const Data3T &p3) 
+      { return Body().Encode(os,p1,p2,p3); }
     //: Encode a call.
     
   };
