@@ -41,15 +41,22 @@
 #define RAVL_COMPILER_VISUALCPP (!defined(__GNUC__) && defined(WIN32)) /* Visual C++ */
 #define RAVL_COMPILER_VISUALCPPNET (!defined(__GNUC__) && defined(WIN32) && (_MSC_VER >= 1300)) /* Visual C++ .NET*/
 
-#define RAVL_CPU_IX86  defined(__i386__)  /* 386 base varient. */
-#define RAVL_CPU_SPARC defined(__sparc)   /* sun sparc based system. */
+#define RAVL_CPU_IX86    defined(__i386__)      /* 386 base varient. */
+#define RAVL_CPU_SPARC   defined(__sparc)       /* sun sparc based system. */
+#define RAVL_CPU_SPARC_V9 defined(__sparc_v9__)  /* sparc v9 instruction set */
+/* for __sparc_v9__ to be set the appropriate compile time options may have to be applied */
+/* for example,  -Wa,-xarch=v8plus -mcpu=v9 */
+
 #define RAVL_CPU_MIPS  defined(__mips)    /* mips */
 #define RAVL_CPU_ALPHA defined(__alpha)   /* alpha based system */
 
-#define RAVL_OS_LINUX   defined(__linux__) /* Linux based OS. */
-#define RAVL_OS_WIN32   defined(WIN32)     /* Windows platform. */
-#define RAVL_OS_IRIX    defined(__sgi__)   /* IRIX.      */
-#define RAVL_OS_SOLARIS defined(__sun)     /* Solaris.   */
+#define RAVL_OS_LINUX   defined(__linux__)  /* Linux based OS. */
+#define RAVL_OS_WIN32   defined(WIN32)      /* Windows platform. */
+#define RAVL_OS_IRIX    defined(__sgi__)    /* IRIX.      */
+#define RAVL_OS_SOLARIS defined(__sun)      /* Solaris.   */
+#define RAVL_OS_SOLARIS7 defined(__sol2_7__)/* Solaris. 2.5.7 */  
+#define RAVL_OS_SOLARIS9 defined(__sol2_9__)/* Solaris. 2.5.9 */   
+
 #define RAVL_OS_OSF     defined(__osf__)   /* OSF.       */
 #define RAVL_OS_CYGWIN  defined(__CYGWIN__) /* Cygwin is a windows/unix hybrid */
 #else
@@ -117,6 +124,8 @@
 #define RAVL_USE_WINSOCK       RAVL_OS_WIN32
 #define RAVL_HAVE_IO_H         RAVL_OS_WIN32
 #define RAVL_HAVE_SYS_TIME_H   (!RAVL_OS_SOLARIS && !RAVL_OS_WIN32) /* Have <sys/time.h> */
+#define RAVL_HAVE_SIGNAL_H     (RAVL_OS_SOLARIS)                    /* have <sys/signal.h> */
+
 #define RAVL_HAVE_YIELD        (RAVL_OS_WIN32 || RAVL_OS_SOLARIS)   /* have yield() */
 #define RAVL_HAVE_SCHED_YIELD  (!RAVL_OS_WIN32 && !RAVL_OS_SOLARIS) /* have sched_yield() */
 #define RAVL_HAVE_SCHED_H      !RAVL_OS_WIN32     /* have <sched.h> */

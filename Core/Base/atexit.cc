@@ -4,7 +4,9 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifdef __sol2__
+
+#include "Ravl/config.h"
+#if RAVL_OS_SOLARIS 
 #include <stdlib.h>
 #include "Ravl/Atomic.hh"
 //! rcsid="$Id$"
@@ -18,7 +20,6 @@
 
 extern "C" {
   typedef void (*funcptrT)(void);
-  
   
   static funcptrT ftable[TABLESIZE];
   static ravl_atomic_t reg = RAVL_ATOMIC_INIT(-1);
@@ -47,9 +48,12 @@ extern "C" {
   }
   
 };
+
 #else
 namespace RavlN {
   int foobar_or_some_such_silly_name;
 }
+
 #endif
 
+ 
