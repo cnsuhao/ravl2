@@ -87,6 +87,23 @@ namespace RavlGUIN {
     return true;
   }
   
+  //: Create the widget.
+  
+  bool NotebookBodyC::Create(GtkWidget *_widget)
+  {
+    widget = _widget;
+
+    if(!showtabs)
+      gtk_notebook_set_show_tabs(GTK_NOTEBOOK (widget), showtabs);
+    if(!showborder)
+      gtk_notebook_set_show_border(GTK_NOTEBOOK (widget), showborder);
+    
+    gtk_widget_show(widget);
+    ConnectSignals();
+
+    return true;
+  }
+  
   //: Undo all references.
   
   void NotebookBodyC::Destroy() {

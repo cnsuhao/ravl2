@@ -45,6 +45,9 @@ namespace RavlGUIN
     virtual bool Create();
     //: Create the widget.
     
+    virtual bool Create(GtkWidget *widget);
+    //: Create with a widget supplied from elsewhere.
+    
     bool GUISetTab(const WidgetC &parent,const WidgetC &tabw);
     //: Setup tab widgets.
     // GUI Thread only.
