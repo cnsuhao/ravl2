@@ -17,7 +17,7 @@
 
 #include "Ravl/Image/YUVValue.hh"
 
-namespace RavlN {
+namespace RavlImageN {
   
   //: Byte YUV value class.
   

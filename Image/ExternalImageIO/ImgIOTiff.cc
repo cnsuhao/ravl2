@@ -21,7 +21,7 @@
 #define ONDEBUG(x)
 #endif
 
-namespace RavlN {
+namespace RavlImageN {
 
   //: Constructor.
   

@@ -19,7 +19,7 @@
 #include "Ravl/TFVector.hh"
 #include "Ravl/Image/ImageRectangle.hh"
 
-namespace RavlN {
+namespace RavlImageN {
   
   //! userlevel=Normal
   //: Ya basic Image

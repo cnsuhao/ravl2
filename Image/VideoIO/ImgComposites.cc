@@ -13,7 +13,7 @@
 #include "Ravl/Image/RGBValue.hh"
 #include "Ravl/Image/Image.hh"
 
-namespace RavlN {
+namespace RavlImageN {
   void InitImgIOComposites()
   {}
   

@@ -22,7 +22,7 @@
 #include "Ravl/Image/ByteYUVValue.hh"
 #include "Ravl/Stream.hh"
 
-namespace RavlN {
+namespace RavlImageN {
   
   //: Load a RGB image in JPEG format.
   // Use via function found in amma/StdType/DataProc/FileFormatIO.hh

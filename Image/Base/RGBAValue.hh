@@ -18,7 +18,7 @@
 #include "Ravl/TFVector.hh"
 #include "Ravl/Image/RGBValue.hh"
 
-namespace RavlN {
+namespace RavlImageN {
   
   //: RGBA Pixel.
   

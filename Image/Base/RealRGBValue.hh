@@ -17,7 +17,9 @@
 
 #include "Ravl/Image/RGBValue.hh"
 
-namespace RavlN {
+namespace RavlImageN {
+  
+  class RealYUVValueC;
   
   //: Real RGB value class.
   
@@ -29,6 +31,11 @@ namespace RavlN {
       {}
     //: Default constructor.
     // creates an undefined RGB pixel.
+
+    inline RealRGBValueC(const RealYUVValueC &);
+    //: Convert from a YUV pixel.
+    // Implementation in Ravl/Image/RGBcYUV.hh include
+    // this header when needed.
     
     RealRGBValueC(RealT r,RealT g, RealT b)
       : RGBValueC<RealT>(r,g,b)

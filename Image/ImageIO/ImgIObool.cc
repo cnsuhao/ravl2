@@ -16,7 +16,7 @@
 #include "Ravl/Array2dIter2.hh"
 #include "Ravl/TypeName.hh"
 
-namespace RavlN {
+namespace RavlImageN {
   
   static TypeNameC type1(typeid(ImageC<bool>),"ImageC<bool>");  
   

@@ -19,7 +19,7 @@
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
 
-namespace RavlN {
+namespace RavlImageN {
 
   //! userlevel=Develop
   //: raw File format information.

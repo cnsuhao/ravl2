@@ -17,7 +17,8 @@
 
 #include "Ravl/TFVector.hh"
 
-namespace RavlN {
+namespace RavlImageN {
+  using namespace RavlN;
   
   //: RGB Pixel base class.
   
@@ -45,6 +46,11 @@ namespace RavlN {
       data[2] = oth.Blue();
     }
     //: Construct from another component type.
+    
+    RGBValueC(const TFVectorC<CompT,3> &v)
+      : TFVectorC<CompT,3>(v)
+      {}
+    //: Constructor from base class.
     
     void Set(const CompT &r,const CompT &g,const CompT &b) {
       data[0] =r;

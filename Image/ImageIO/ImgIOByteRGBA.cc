@@ -17,7 +17,7 @@
 #include "Ravl/Array2dIter2.hh"
 #include "Ravl/TypeName.hh"
 
-namespace RavlN {
+namespace RavlImageN {
   
   void InitImgIOByteRGBA()
     {}

@@ -17,7 +17,8 @@
 
 #include "Ravl/IndexRange2d.hh"
 
-namespace RavlN {
+namespace RavlImageN {
+  using namespace RavlN;
   
   //! userlevel=Normal
   //: Image Rectangle.

@@ -17,7 +17,7 @@
 #include "Ravl/DP/FileFormat.hh"
 #include "Ravl/Image/ImgIOPNGB.hh"
 
-namespace RavlN {
+namespace RavlImageN {
   
   //! userlevel=Develop
   //: PNG File format information.

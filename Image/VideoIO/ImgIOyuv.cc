@@ -14,7 +14,7 @@
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/Array2dIter.hh"
 
-namespace RavlN {
+namespace RavlImageN {
   
   //: Setup for yuv variant.
   // Where size in the size of the Y image.

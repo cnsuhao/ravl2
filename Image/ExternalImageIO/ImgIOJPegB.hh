@@ -31,8 +31,7 @@ extern "C" {
 
 
 
-namespace RavlN
-{
+namespace RavlImageN {
   //: JPeg Utilities
   
   class DPImageIOJPegBaseC {

@@ -10,14 +10,14 @@
 //! rcsid="$Id$"
 //! file="Ravl/Image/Base/ByteRGBAValue.hh"
 //! lib=RavlImage
-//! userlevel=Default
+//! userlevel=Normal
 //! author="Charles Galambos"
 //! date="24/01/2001"
 //! docentry="Ravl.Images.Pixel Types"
 
 #include "Ravl/Image/RGBAValue.hh"
 
-namespace RavlN {
+namespace RavlImageN {
   
   //: Byte RGBA value class.
   

@@ -13,6 +13,6 @@
 #include "Ravl/Image/RealRGBValue.hh"
 #include "Ravl/TypeName.hh"
 
-namespace RavlN {
+namespace RavlImageN {
   static TypeNameC type2(typeid(RealRGBValueC),"RealRGBValueC");
 }

@@ -13,7 +13,7 @@
 #include "Ravl/Image/RealYUVValue.hh"
 #include "Ravl/TypeName.hh"
 
-namespace RavlN {
+namespace RavlImageN {
   static TypeNameC type2(typeid(RealYUVValueC),"RealYUVValueC");
   static TypeNameC type3(typeid(ImageC<RealYUVValueC>),"ImageC<RealYUVValueC>");
 }

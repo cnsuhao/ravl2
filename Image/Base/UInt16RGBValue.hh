@@ -17,7 +17,7 @@
 
 #include "Ravl/Image/RGBValue.hh"
 
-namespace RavlN {
+namespace RavlImageN {
   
   //: UInt16 RGB value class.
   

@@ -21,7 +21,7 @@
 #include "Ravl/Stream.hh"
 #include "Ravl/Assert.hh"
 
-namespace RavlN {
+namespace RavlImageN {
 
   ///////////////////////////////////
   //! userlevel=Develop

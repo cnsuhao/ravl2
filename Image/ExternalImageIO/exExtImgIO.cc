@@ -9,7 +9,7 @@
 
 // This is just here for convienance... same as exImgIO.cc
 
-using namespace RavlN;
+using namespace RavlImageN;
 
 extern void InitPNGFormat();
 extern void InitJPEGFormat();

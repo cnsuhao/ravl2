@@ -14,6 +14,6 @@
 #include "Ravl/Image/ByteYUVValue.hh"
 #include "Ravl/TypeName.hh"
 
-namespace RavlN {
+namespace RavlImageN {
   static TypeNameC type2(typeid(ByteYUVValueC),"ByteYUVValueC");
 }

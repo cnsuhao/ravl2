@@ -17,7 +17,7 @@
 
 #include "Ravl/TFVector.hh"
 
-namespace RavlN {
+namespace RavlImageN {
   
   //: Image & Alpha Pixel.
   

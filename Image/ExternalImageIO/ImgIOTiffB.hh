@@ -23,8 +23,7 @@
 
 #include <tiffio.h>
 
-
-namespace RavlN {
+namespace RavlImageN {
 
   //: TIFF Utilities
   

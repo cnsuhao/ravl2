@@ -10,14 +10,14 @@
 //! rcsid="$Id$"
 //! file="Ravl/Image/Base/ByteIAValue.hh"
 //! lib=RavlImage
-//! userlevel=Default
+//! userlevel=Normal
 //! author="Charles Galambos"
 //! date="24/01/2001"
 //! docentry="Ravl.Images.Pixel Types"
 
 #include "Ravl/Image/IAValue.hh"
 
-namespace RavlN {
+namespace RavlImageN {
   
   //: Byte Intensity and Alpha value class.
   

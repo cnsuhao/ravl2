@@ -19,7 +19,7 @@
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteYUVValue.hh"
 
-namespace RavlN {
+namespace RavlImageN {
 
   //! userlevel=Develop
   //: Cif File format information.

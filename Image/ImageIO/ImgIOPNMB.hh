@@ -21,7 +21,7 @@
 #include "Ravl/DP/Port.hh"
 #include "Ravl/Stream.hh"
 
-namespace RavlN {
+namespace RavlImageN {
   //: PNM Utilities
   
   class DPImageIOPNMBaseC {

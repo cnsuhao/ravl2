@@ -32,7 +32,7 @@
 #include "Ravl/Stream.hh"
 #include "Ravl/Image/ImgIOPNG.hh"
 
-namespace RavlN {
+namespace RavlImageN {
 
   
   //: PNG Utilities

@@ -27,7 +27,7 @@ extern "C" {
 #include "Ravl/Image/ImgIOJPegB.hh"
 #include "Ravl/Image/ByteYUVValue.hh"
 
-namespace RavlN {
+namespace RavlImageN {
 
   ///// ERROR HANDLING //////////////////////////////////////////////////
   

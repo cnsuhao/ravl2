@@ -25,7 +25,7 @@ istream &operator>>(istream &s,RavlN::SByteT b) {
 }
 #endif
 
-namespace RavlN {
+namespace RavlImageN {
   
   void InitImgIOByte()
   {}

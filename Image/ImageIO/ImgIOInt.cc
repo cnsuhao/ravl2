@@ -17,7 +17,7 @@
 #include "Ravl/Array2dIter2.hh"
 #include "Ravl/TypeName.hh"
 
-namespace RavlN {
+namespace RavlImageN {
   
   static TypeNameC type1(typeid(ImageC<IntT>),"ImageC<IntT>");  
   static TypeNameC type2(typeid(ImageC<UIntT>),"ImageC<UIntT>");  

@@ -11,7 +11,7 @@
 
 #include "Ravl/Image/ExtImgIO.hh"
 
-namespace RavlN {
+namespace RavlImageN {
 
   void ExtImgIO_Init() {
     InitTIFFFormat();

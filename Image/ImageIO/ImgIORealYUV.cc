@@ -18,7 +18,7 @@
 //#include "Ravl/DP/Converter.hh"
 //#include "Ravl/Array2dIter2.hh"
 
-namespace RavlN {
+namespace RavlImageN {
 
   void InitImgIORealYUV()
   {}

@@ -15,7 +15,7 @@
 #include "Ravl/Array2dIter2.hh"
 #include <fstream.h>
 
-using namespace RavlN;
+using namespace RavlImageN;
 
 int TestBasic();
 int TestIO();

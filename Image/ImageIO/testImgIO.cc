@@ -16,7 +16,7 @@
 #include "Ravl/Array2dIter2.hh"
 
 
-using namespace RavlN;
+using namespace RavlImageN;
 
 //extern void InitDPImageIO(void);
 

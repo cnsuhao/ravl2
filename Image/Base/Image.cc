@@ -11,5 +11,5 @@
 
 #include "Ravl/Image/Image.hh"
 
-namespace RavlN {
+namespace RavlImageN {
 }

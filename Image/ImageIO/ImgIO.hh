@@ -15,7 +15,7 @@
 //! author="Charles Galambos"
 //! date="13/05/99"
 
-namespace RavlN {
+namespace RavlImageN {
   extern void InitDPImageIO(); // This calls all the following functions.
   
   extern void InitStdImageCnv();

@@ -23,8 +23,7 @@
 #define ONDEBUG(x)
 #endif
 
-
-namespace RavlN {
+namespace RavlImageN {
 
 #ifdef __sgi__
   static ImageC<bool> fixSillysgibug;

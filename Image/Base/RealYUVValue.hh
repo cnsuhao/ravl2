@@ -17,7 +17,9 @@
 
 #include "Ravl/Image/YUVValue.hh"
 
-namespace RavlN {
+namespace RavlImageN {
+  
+  class RealRGBValueC;
   
   //! userlevel=Normal
   //: Real YUV value class.
@@ -36,6 +38,9 @@ namespace RavlN {
       {}
     //: Construct from components.
 
+    inline RealYUVValueC(const RealRGBValueC &v);
+    //: Construct from a RGB pixel.
+    
     RealYUVValueC(const YUVValueC<RealT> &oth)
       : YUVValueC<RealT>(oth)
       {}

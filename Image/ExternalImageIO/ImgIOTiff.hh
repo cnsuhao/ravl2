@@ -21,7 +21,7 @@
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteRGBAValue.hh"
 
-namespace RavlN {
+namespace RavlImageN {
   
   //: Load a RGB image in PPM format.
   // Use via function found in amma/StdType/DataProc/FileFormatIO.hh

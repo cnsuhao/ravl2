@@ -61,7 +61,7 @@ void my_png_flush(png_structp png_ptr) {
     png_error(png_ptr, "Write Error (flush)"); 
 }
 
-namespace RavlN {
+namespace RavlImageN {
   
   
   ///// DPImageIOPNGBaseC ///////////////////////////////////

@@ -17,7 +17,7 @@
 #include "Ravl/DP/FileFormat.hh"
 #include "Ravl/Image/Image.hh"
 
-namespace RavlN {
+namespace RavlImageN {
 
   //! userlevel=Develop
   //: TIFF File format information.

@@ -43,4 +43,6 @@ TESTEXES = testImgIO.cc
 
 USESLIBS = RavlCore RavlIO
 
+EHT = Ravl.Images.IO.html
+
 #EHT = Image.Image_IO.eht

@@ -17,7 +17,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-namespace RavlN {
+namespace RavlImageN {
 
   //: Constructor.
   // This constructs with the basic yuv format.

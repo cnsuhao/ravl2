@@ -4,7 +4,7 @@
 #include "Ravl/Image/VidIO.hh"
 #include "Ravl/Image/ImgIO.hh"
 
-namespace RavlN {
+namespace RavlImageN {
 
   void InitVidIO() {
     InitDPImageIO();

@@ -13,6 +13,6 @@
 #include "Ravl/Image/ByteRGBValue.hh"
 #include "Ravl/TypeName.hh"
 
-namespace RavlN {
+namespace RavlImageN {
   static TypeNameC type2(typeid(ByteRGBValueC),"ByteRGBValueC");
 }

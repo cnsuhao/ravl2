@@ -15,7 +15,7 @@
 //! author="Charles Galambos"
 //! date="25/05/2000"
 
-namespace RavlN {
+namespace RavlImageN {
 
   extern void InitTIFFFormat();
   extern void InitJPEGFormat();

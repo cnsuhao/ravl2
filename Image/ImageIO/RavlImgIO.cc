@@ -12,7 +12,7 @@
 
 #include "Ravl/Image/ImgIO.hh"
 
-namespace RavlN {
+namespace RavlImageN {
   void InitDPImageIO(){
 #if 0
     InitStdImageCnv();

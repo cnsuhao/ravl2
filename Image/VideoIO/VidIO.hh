@@ -16,13 +16,16 @@
 //! author="Charles Galambos"
 //! date="13/05/99"
 
-extern void InitVidIO(); // This calls all the following functions.
+namespace RavlImageN {
 
-extern void InitCifFormat(); // Cif file formats
-extern void InitYUVFormat(); // Abakes yuv formats.
-extern void InitRGBFormat(); // raw rgb formats.
-extern void InitRawIOFormat(); // raw image formats.
-extern void InitSYUVFormat(); // Abekas Sequence in a single file
-extern void InitImgIOComposites(); // Composite image streams.
-
+  extern void InitVidIO(); // This calls all the following functions.
+  
+  extern void InitCifFormat(); // Cif file formats
+  extern void InitYUVFormat(); // Abakes yuv formats.
+  extern void InitRGBFormat(); // raw rgb formats.
+  extern void InitRawIOFormat(); // raw image formats.
+  extern void InitSYUVFormat(); // Abekas Sequence in a single file
+  extern void InitImgIOComposites(); // Composite image streams.
+  
+}
 #endif

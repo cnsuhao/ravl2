@@ -10,14 +10,15 @@
 //! rcsid="$Id$"
 //! file="Ravl/Image/Base/YUVValue.hh"
 //! lib=RavlImage
-//! userlevel=Default
+//! userlevel=Normal
 //! author="Charles Galambos"
 //! date="24/01/2001"
 //! docentry="Ravl.Images.Pixel Types"
 
 #include "Ravl/TFVector.hh"
 
-namespace RavlN {
+namespace RavlImageN {
+  using namespace RavlN;
   
   //! userlevel=Normal
   //: YUV Pixel base class.
@@ -38,7 +39,12 @@ namespace RavlN {
       data[2] =v;
     }
     //: Construct from component values.
-
+    
+    YUVValueC(const TFVectorC<CompT,3> &v)
+      : TFVectorC<CompT,3>(v)
+      {}
+    //: Constructor from base class.
+    
     template<class OCompT>
     YUVValueC(YUVValueC<OCompT> &oth) {
       data[0] = oth.Y();
