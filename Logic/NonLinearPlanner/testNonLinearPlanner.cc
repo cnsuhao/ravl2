@@ -109,7 +109,7 @@ int LoopTest()
   LiteralC goals;
   LiteralC startCond;
   
-  cerr << "Setting up start conduition.  \n";
+  cerr << "Setting up start condition for LoopTest  \n";
   LiteralC see("see");
   LiteralC bat("bat ");
   LiteralC inv("inv");

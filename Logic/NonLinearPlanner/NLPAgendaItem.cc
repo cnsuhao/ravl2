@@ -15,7 +15,7 @@
 #include "Ravl/Logic/NLPAction.hh"
 #include "Ravl/Assert.hh"
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else

@@ -17,8 +17,8 @@
 #include "Ravl/Logic/BMinTermIndexIter.hh"
 #include <stdlib.h>
 
-#define VDEBUG 1
-#if VDEBUG
+#define DODEBUG 0
+#if DODEBUG
 #define ONDEBUG(x) x
 #else
 #define ONDEBUG(x)
