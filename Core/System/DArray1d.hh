@@ -21,10 +21,10 @@ namespace RavlN {
   template<class DataT> class DArray1dC;
   template<class DataT> class DArray1dIterC;
   
- 
-
-
-  //! userlevel=Develop  //: Chunk of a dynamic array.
+  //! userlevel=Develop  
+  //: Chunk of a dynamic array.
+  // Used in DArray1dC
+  
   template<class DataT>
   class DChunkC 
     : public DLinkC
@@ -321,7 +321,8 @@ namespace RavlN {
   // Behaves like Array1dC, together with some of the properties of a
   // list.  Thus you can increase its size after you have created it,
   // and delete elements from it.  Random access is slightly slower than
-  // Array1dC.
+  // Array1dC. Iterating through these Arrays with DArray1dIterC is generally fast, 
+  // comparable to that of a Array1dC.
   
   template<class DataT>
   class DArray1dC
@@ -352,6 +353,8 @@ namespace RavlN {
     //: Constructor an array with an expected size.
     // This is usefull if you know you'll be appending 'size' elements.  The array
     // will initial appear empty, but Append operations will be fast.
+    // preAlloc is used to distinguish this constructor from DArray1dC<>(SizeT) and
+    // should be set to 'true'.
     
     DArray1dC(const Array1dC<DataT> &arr)
       : RCHandleC<DArray1dBodyC<DataT> >(*new DArray1dBodyC<DataT>(arr))
