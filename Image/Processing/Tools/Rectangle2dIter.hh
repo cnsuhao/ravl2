@@ -23,7 +23,7 @@ namespace RavlImageN {
   class Rectange2dIterC {
   public:
     Rectange2dIterC(const ImageRectangleC &nImageRect,const ImageRectangleC &nwindow)
-      : size1(nwindow.Range1().Size()),
+      : size2(nwindow.Range2().Size()),
 	imageRect(nImageRect),
 	window(nwindow)
     { First(); }
@@ -38,21 +38,21 @@ namespace RavlImageN {
     //: Access current window.
     
     void First() { 
-      UIntT size2 = window.Range2().Size();
+      UIntT size1 = window.Range1().Size();
       window.Range1().Min() = imageRect.Range1().Min();
-      window.Range1().Max() = window.Range1().Min() + size1;
+      window.Range1().Max() = window.Range1().Min() + size1 - 1;
       window.Range2().Min() = imageRect.Range2().Min();
-      window.Range2().Max() = window.Range2().Min() + size2;
+      window.Range2().Max() = window.Range2().Min() + size2 - 1;
     }
     //: Goto first position.
     
     bool Next() {
-      ++(window.Range1());
-      if(window.Range1().Max() <= imageRect.Range1().Max())
-	return true;
-      window.Range1().Min() = imageRect.Range1().Min();
-      window.Range1().Max() = window.Range1().Min() + size1;
       ++(window.Range2());
+      if(window.Range2().Max() <= imageRect.Range2().Max())
+	return true;
+      window.Range2().Min() = imageRect.Range2().Min();
+      window.Range2().Max() = window.Range2().Min() + size2 - 1;
+      ++(window.Range1());
       return false;
     }
     //:Goto next position.
@@ -64,7 +64,7 @@ namespace RavlImageN {
     // Returns true if window is on the same row.
     
     bool IsElm() const
-    { return window.Range2().Max() <= imageRect.Range2().Max(); }
+    { return window.Range1().Max() <= imageRect.Range1().Max(); }
     //: At a valid position ?
 
     operator bool() const
@@ -72,7 +72,7 @@ namespace RavlImageN {
     //: At a valid position ?
     
   public:
-    UIntT size1;
+    UIntT size2;
     ImageRectangleC imageRect;
     ImageRectangleC window;
   };
