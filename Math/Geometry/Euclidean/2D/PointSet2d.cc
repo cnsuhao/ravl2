@@ -33,7 +33,10 @@ namespace RavlN {
    static RealT PCot(const Point2dC& oPointA, const Point2dC& oPointB, const Point2dC& oPointC) {
       Vector2dC oBA = oPointA - oPointB;
       Vector2dC oBC = oPointC - oPointB;
-      return (oBC.Dot(oBA) / fabs(oBC.Cross(oBA)));
+      RealT cross = Abs(oBC.Cross(oBA));
+      if (cross != 0)
+	return 1;
+      return (oBC.Dot(oBA) / cross);
    }
    
    SArray1dC<RealT> PointSet2dC::BarycentricCoordinate(Point2dC& point) const {
@@ -44,12 +47,17 @@ namespace RavlN {
      // For each polygon vertex
      SArray1dIterC<RealT> res(oWeights);
      for (DLIterC<Point2dC> it(*this); it && res; it++) {
-       RealT sqDist = Vector2dC(it.Data() - it.NextCrcData()).Modulus();
-       sqDist *= sqDist;
-       RealT fWeight = (PCot(point,it.Data(),it.PrevCrcData()) + 
-			PCot(point,it.Data(),it.NextCrcData())) / sqDist;
-       res.Data() = fWeight;
-       fTotalWeight += fWeight;
+       RealT sqDist = Vector2dC(point - it.Data()).SumOfSqr();
+       if (sqDist != 0) {
+	 RealT fWeight = (PCot(point,it.Data(),it.PrevCrcData()) + 
+			  PCot(point,it.Data(),it.NextCrcData())) / sqDist;
+	 res.Data() = fWeight;
+	 fTotalWeight += fWeight;
+       }
+       else {
+	 res.Data() = 1;
+	 fTotalWeight += 1;
+       }
        res++;
      }
      // Normalise weights
