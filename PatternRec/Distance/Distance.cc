@@ -20,4 +20,12 @@ namespace RavlN {
     return 1;
   }
   
+  //: Measure the magnitude of d1.
+  
+  RealT DistanceBodyC::Magnitude(const VectorC &d1) const {
+    VectorC zero(d1.Size());
+    zero.Fill(0);
+    return Measure(zero,d1);
+  }
+  
 }

@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLPATRECDISTANCE_HEADER 
-#define RAVLPATRECDISTANCE_HEADER 1
+#ifndef RAVL_DISTANCE_HEADER 
+#define RAVL_DISTANCE_HEADER 1
 //////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
@@ -30,6 +30,9 @@ namespace RavlN {
     
     virtual RealT Measure(const VectorC &d1,const VectorC &d2) const;
     //: Measure the distance from d1 to d2.
+    
+    virtual RealT Magnitude(const VectorC &d1) const;
+    //: Measure the magnitude of d1.
     
   };
   
@@ -62,9 +65,13 @@ namespace RavlN {
   public:
     
     RealT Measure(const VectorC &d1,const VectorC &d2) const
-      { return Body().Measure(d1,d2); }
+    { return Body().Measure(d1,d2); }
     //: Measure the distance from d1 to d2.
-
+    
+    RealT Magnitude(const VectorC &d1) const 
+    { return Body().Magnitude(d1); }
+    //: Measure the magnitude of d1.
+    
   };
   
 }
