@@ -25,8 +25,6 @@ FULLBUILD_TARGETS += doc
 # paths for cc and c++ compiler
 #RAVL_CC  = /opt/GNUdevelop/gcc-3.3.2/bin/gcc
 #RAVL_CXX = /opt/GNUdevelop/gcc-3.3.2/bin/g++
-RAVL_CC  = gcc3
-RAVL_CXX = g++3
 
 # extra CFLAGS (c)
 # EXTRA_CFLAGS =
