@@ -127,8 +127,7 @@ namespace RavlCxxDocN {
     //: Access a global variable
     // Returns an empty string if its not found.
     
-    void SetVar(const StringC &nm,const StringC &value)
-      { vars.Insert(nm,value); }
+    void SetVar(const StringC &nm,const StringC &value);
     //: Set a global variable.
     
     HashC<StringC,StringC> &Vars()

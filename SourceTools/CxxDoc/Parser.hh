@@ -42,6 +42,9 @@ namespace RavlCxxDocN
   public:
     ParserBodyC();
     //: Constructor.
+
+    ~ParserBodyC();
+    //: Destructor.
     
     bool Parse(const FilenameC &fn);
     //: Parse a file.

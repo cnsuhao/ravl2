@@ -54,6 +54,14 @@ namespace RavlCxxDocN
       data("std")
   {}
 
+  //: Destructor.
+  
+  ParserBodyC::~ParserBodyC()
+  {
+    // Clean up.
+    results.Invalidate();
+  }
+
   //: Parse a directory.
   
   bool ParserBodyC::ParseTree(const FilenameC &fn) {

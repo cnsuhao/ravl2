@@ -4,6 +4,8 @@
 %{
 
   #include "Ravl/CxxDoc/Object.hh"
+  #include "Ravl/CxxDoc/Strings.hh"
+   
   #define YYSTYPE RavlCxxDocN::ObjectC
 
   #include <stdlib.h>
@@ -43,7 +45,18 @@
      obj.SetComment(comment);
      comment.Reset();
   }
+
   inline void CommentUpdate(RavlCxxDocN::ObjectC &obj,const char *name,int alineno = 0) 
+   {
+     obj = RavlCxxDocN::ObjectC(name);
+     obj.StartLineno() = alineno;
+     obj.EndLineno() = alineno;
+     commentLast = comment;
+     obj.SetComment(comment);
+     comment.Reset();
+  }
+
+  inline void CommentUpdate(RavlCxxDocN::ObjectC &obj,const StringC &name,int alineno = 0) 
    {
      obj = RavlCxxDocN::ObjectC(name);
      obj.StartLineno() = alineno;
@@ -81,28 +94,28 @@ SCHAR [^"\\\n]|{ESCAPE_SEQUENCE}
 
     /*==============> Special keyword <==============*/
 
-<INITIAL>"class"         { CommentUpdate(yylval,yytext,yylineno); return SCSPEC; }
-<INITIAL>"struct"        { CommentUpdate(yylval,yytext,yylineno); return SCSPEC; }
-<INITIAL>"union"         { CommentUpdate(yylval,yytext,yylineno); return SCSPEC; }
+<INITIAL>"class"         { CommentUpdate(yylval,STR(class) ,yylineno); return SCSPEC; }
+<INITIAL>"struct"        { CommentUpdate(yylval,STR(struct),yylineno); return SCSPEC; }
+<INITIAL>"union"         { CommentUpdate(yylval,STR(union) ,yylineno); return SCSPEC; }
 
-<INITIAL>"public"        { CommentUpdate(yylval,yytext,yylineno); return PUBLIC;     }
-<INITIAL>"protected"     { CommentUpdate(yylval,yytext,yylineno); return PROTECTED;  }
-<INITIAL>"private"       { CommentUpdate(yylval,yytext,yylineno); return PRIVATE;    }
-<INITIAL>"const"         { CommentUpdate(yylval,yytext,yylineno); return CV_QUALIFIER;  }
-<INITIAL>"static"        { CommentUpdate(yylval,yytext,yylineno); return STATIC;     }
-<INITIAL>"virtual"       { CommentUpdate(yylval,yytext,yylineno); return CPVIRTUAL;  }
+<INITIAL>"public"        { CommentUpdate(yylval,STR(public)   ,yylineno); return PUBLIC;     }
+<INITIAL>"protected"     { CommentUpdate(yylval,STR(protected),yylineno); return PROTECTED;  }
+<INITIAL>"private"       { CommentUpdate(yylval,STR(private)  ,yylineno); return PRIVATE;    }
+<INITIAL>"const"         { CommentUpdate(yylval,STR(const)    ,yylineno); return CV_QUALIFIER;  }
+<INITIAL>"static"        { CommentUpdate(yylval,STR(static)   ,yylineno); return STATIC;     }
+<INITIAL>"virtual"       { CommentUpdate(yylval,STR(virtual)  ,yylineno); return CPVIRTUAL;  }
 
-<INITIAL>"enum"          { CommentUpdate(yylval,yytext,yylineno); return ENUM;     }
-<INITIAL>"typedef"       { CommentUpdate(yylval,yytext,yylineno); return CPTYPEDEF;  }
-<INITIAL>"friend"        { CommentUpdate(yylval,yytext,yylineno); return CPFRIEND;   }
-<INITIAL>"operator"      { CommentUpdate(yylval,yytext,yylineno); return CPOPERATOR; }
-<INITIAL>"template"      { CommentUpdate(yylval,yytext,yylineno); return TEMPLATE; }
-<INITIAL>"throw"         { CommentUpdate(yylval,yytext,yylineno); return CPTHROW;    }
-<INITIAL>"namespace"     { CommentUpdate(yylval,yytext,yylineno); return NAMESPACE;  }
-<INITIAL>"typename"      { CommentUpdate(yylval,yytext,yylineno); return TYPENAME_KEYWORD; }
-<INITIAL>"using"         { CommentUpdate(yylval,yytext,yylineno); return USING;    }
-<INITIAL>"extern"        { CommentUpdate(yylval,yytext,yylineno); return EXTERN;   }
-<INITIAL>"asm"           { CommentUpdate(yylval,yytext,yylineno); return ASM_KEYWORD;   }
+<INITIAL>"enum"          { CommentUpdate(yylval,STR(enum)     ,yylineno); return ENUM;     }
+<INITIAL>"typedef"       { CommentUpdate(yylval,STR(typedef)  ,yylineno); return CPTYPEDEF;  }
+<INITIAL>"friend"        { CommentUpdate(yylval,STR(friend)   ,yylineno); return CPFRIEND;   }
+<INITIAL>"operator"      { CommentUpdate(yylval,STR(operator) ,yylineno); return CPOPERATOR; }
+<INITIAL>"template"      { CommentUpdate(yylval,STR(template) ,yylineno); return TEMPLATE; }
+<INITIAL>"throw"         { CommentUpdate(yylval,STR(throw)    ,yylineno); return CPTHROW;    }
+<INITIAL>"namespace"     { CommentUpdate(yylval,STR(namespace),yylineno); return NAMESPACE;  }
+<INITIAL>"typename"      { CommentUpdate(yylval,STR(typename) ,yylineno); return TYPENAME_KEYWORD; }
+<INITIAL>"using"         { CommentUpdate(yylval,STR(using)    ,yylineno); return USING;    }
+<INITIAL>"extern"        { CommentUpdate(yylval,STR(extern)   ,yylineno); return EXTERN;   }
+<INITIAL>"asm"           { CommentUpdate(yylval,STR(asm)      ,yylineno); return ASM_KEYWORD;   }
 
    /* ==== Cheat and pick up some compatility macro's ==== */
 
@@ -124,10 +137,9 @@ SCHAR [^"\\\n]|{ESCAPE_SEQUENCE}
 
 
     /*==============> Normal operators <==============*/
-<INITIAL>":"          { CommentUpdate(yylval,yytext,yylineno); return ':';}
-<INITIAL>"::"         { CommentUpdate(yylval,yytext,yylineno); return CLCL;}
-
-<INITIAL>"~"          { CommentUpdate(yylval,yytext,yylineno); return '~'; }
+<INITIAL>":"          { CommentUpdate(yylval,RavlCxxDocN::strp_Colon     ,yylineno); return ':';}
+<INITIAL>"::"         { CommentUpdate(yylval,RavlCxxDocN::strp_ColonColon,yylineno); return CLCL;}
+<INITIAL>"~"          { CommentUpdate(yylval,RavlCxxDocN::strp_Tilda     ,yylineno); return '~'; }
 <INITIAL>"="          { return '='; }
 <INITIAL>"<"          { return '<'; }
 <INITIAL>">"          { return '>'; }
@@ -176,16 +188,16 @@ SCHAR [^"\\\n]|{ESCAPE_SEQUENCE}
 <INITIAL>"["          { return '['; }
 <INITIAL>"]"          { return ']'; }
 
-<INITIAL>"unsigned"   { CommentUpdate(yylval,yytext,yylineno); return TYPEQUAL; }
-<INITIAL>"signed"     { CommentUpdate(yylval,yytext,yylineno); return TYPEQUAL; }
-<INITIAL>"long"       { CommentUpdate(yylval,yytext,yylineno); return TYPEQUAL; }
-<INITIAL>"short"      { CommentUpdate(yylval,yytext,yylineno); return TYPEQUAL; }
-<INITIAL>"int"        { CommentUpdate(yylval,yytext,yylineno); return BUILTIN; }
-<INITIAL>"float"      { CommentUpdate(yylval,yytext,yylineno); return BUILTIN; }
-<INITIAL>"double"     { CommentUpdate(yylval,yytext,yylineno); return BUILTIN; }
-<INITIAL>"char"       { CommentUpdate(yylval,yytext,yylineno); return BUILTIN; }
-<INITIAL>"bool"       { CommentUpdate(yylval,yytext,yylineno); return BUILTIN; }
-<INITIAL>"void"       { CommentUpdate(yylval,yytext,yylineno); return BUILTIN; }
+<INITIAL>"unsigned"   { CommentUpdate(yylval,STR(unsigned),yylineno); return TYPEQUAL; }
+<INITIAL>"signed"     { CommentUpdate(yylval,STR(signed)  ,yylineno); return TYPEQUAL; }
+<INITIAL>"long"       { CommentUpdate(yylval,STR(long)    ,yylineno); return TYPEQUAL; }
+<INITIAL>"short"      { CommentUpdate(yylval,STR(short)   ,yylineno); return TYPEQUAL; }
+<INITIAL>"int"        { CommentUpdate(yylval,STR(int)     ,yylineno); return BUILTIN; }
+<INITIAL>"float"      { CommentUpdate(yylval,STR(float)   ,yylineno); return BUILTIN; }
+<INITIAL>"double"     { CommentUpdate(yylval,STR(double)  ,yylineno); return BUILTIN; }
+<INITIAL>"char"       { CommentUpdate(yylval,STR(char)    ,yylineno); return BUILTIN; }
+<INITIAL>"bool"       { CommentUpdate(yylval,STR(bool)    ,yylineno); return BUILTIN; }
+<INITIAL>"void"       { CommentUpdate(yylval,STR(void)    ,yylineno); return BUILTIN; }
 
     /*==============> Identifiers <==============*/
 <INITIAL>{ID}         { CommentUpdate(yylval,yytext,yylineno);

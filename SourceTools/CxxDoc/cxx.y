@@ -5,6 +5,7 @@
 
 #include "Ravl/CxxDoc/CxxElements.hh"
 #include "Ravl/CxxDoc/DocNode.hh"
+#include "Ravl/CxxDoc/Strings.hh"
 
 #ifndef NDEBUG
 #define YYDEBUG 1
@@ -79,25 +80,25 @@ program: extdefs_opt  { results = $1; }
 
 /* --------------- Handle namespaces ------------------------ */
 
-extdefs: extdef               { ScopeC ol("extdefs"); $$=ol; ol.Append($1);  }
+extdefs: extdef               { ScopeC ol(STR(extdefs)); $$=ol; ol.Append($1);  }
 	| extdefs extdef      { ObjectListC ol($1); $$=$1; ol.Append($2);  }
 	;
 
-extdefs_opt: /* empty */ { ScopeC ol("extdefs"); $$=ol; }
+extdefs_opt: /* empty */ { ScopeC ol(STR(extdefs)); $$=ol; }
         | extdefs        { $$=$1; }
 	;
 
 extdef:   fndef            { $$=$1; }
         | datadef          { $$=$1; }
         | template_def     { $$=$1; }
-        | STATIC fndef     { $$=$2; $$.SetVar("static","1"); }
-        | STATIC datadef   { $$=$2; $$.SetVar("static","1"); }
-        | STATIC template_def { $$=$2; $$.SetVar("static","1"); }
+        | STATIC fndef     { $$=$2; $$.SetVar(STR(static),STR(1)); }
+        | STATIC datadef   { $$=$2; $$.SetVar(STR(static),STR(1)); }
+        | STATIC template_def { $$=$2; $$.SetVar(STR(static),STR(1)); }
         | ASM_KEYWORD '(' string ')' ';' { $$=ObjectC(); }  /* Ignore it.*/
         | NAMESPACE maybe_identifier '{' extdefs_opt '}' { $$=ScopeC($2.Name(),$4); 
 							   $$.UpdateComment($1.Comment());
-    	                                                   $$.SetVar("dectype","definition");
-                                                           $$.SetVar("storageType","namespace");
+    	                                                   $$.SetVar(STR(dectype),STR(definition));
+                                                           $$.SetVar(STR(storageType),STR(namespace));
 	                                                 }
 	| namespace_alias  { $$=ObjectC(); }  /* Ignore it.*/
 	| using_decl ';'   { $$=ObjectC(); }  /* Ignore it.*/
@@ -113,7 +114,7 @@ extdef:   fndef            { $$=$1; }
 
 datadef:
      type_id var_name_list ';'                   { ObjectListC ol($2);
-						   ObjectListC ret("varList",true);
+						   ObjectListC ret(STR(varList),true);
 						   for(DLIterC<ObjectC> it(ol.List());it.IsElm();it.Next()) {
 						     VariableC avar($1,it.Data().Name());
 						     ret.Append(avar);
@@ -127,7 +128,7 @@ datadef:
           				           hookCommentObj = $$; 
                                                  }
 
-   | CPTYPEDEF type_id IDENTIFIER '[' expr_no_commas ']' ';' { $2.SetVar("array","1"); 
+   | CPTYPEDEF type_id IDENTIFIER '[' expr_no_commas ']' ';' { $2.SetVar(STR(array),STR(1)); 
                                                                $$=TypedefC($3.Name(),$2); 
           				                       hookCommentObj = $$; 
                                                                $$.SetupLineNos($1,$7);
@@ -149,11 +150,11 @@ datadef:
 							       else 
 								 className = StringC("anon?") + StringC(anonCount++);
 							       ClassC aclass(className,$6,$4);
-                                                               aclass.SetVar("dectype","definition");
-                                                               aclass.SetVar("storageType",$2.Name());
+                                                               aclass.SetVar(STR(dectype),STR(definition));
+                                                               aclass.SetVar(STR(storageType),$2.Name());
 							       TypedefC td($7.Name(),DataTypeC(className));
 							       td.SetDefinition(aclass);
-							       ObjectListC ret("x",true);
+							       ObjectListC ret(STR(x),true);
 							       ret.Append(td);
 							       if($3.IsValid())
 								 ret.Append(aclass);
@@ -169,8 +170,8 @@ datadef:
 							       else 
 								 enumName = StringC("anon_enum?") + StringC(anonCount++);
                                                                EnumC anEnum(enumName,$5);
-                                                               anEnum.SetVar("dectype","definition");
-                                                               anEnum.SetVar("storageType","enum");
+                                                               anEnum.SetVar(STR(dectype),STR(definition));
+                                                               anEnum.SetVar(STR(storageType),STR(enum));
 							       TypedefC td($7.Name(),DataTypeC(enumName));
 							       td.SetDefinition(anEnum);
 							       ObjectListC ret("x",true);
@@ -190,16 +191,16 @@ datadef:
                                                 }
    | SCSPEC IDENTIFIER ';'                      { $$=ClassC($2.Name());
 						  $$.UpdateComment($1.Comment()); 
-						  $$.SetVar("storageType",$1.Name());
-                                                  $$.SetVar("dectype","forward");
+						  $$.SetVar(STR(storageType),$1.Name());
+                                                  $$.SetVar(STR(dectype),STR(forward));
                                                 }
    | ENUM IDENTIFIER ';'                        { $$=EnumC($2.Name());
 						  $$.UpdateComment($1.Comment()); 
-						  $$.SetVar("storageType","enum");
-                                                  $$.SetVar("dectype","forward");
+						  $$.SetVar(STR(storageType),STR(enum));
+                                                  $$.SetVar(STR(dectype),STR(forward));
                                                 }
    | CPFRIEND type_id ';'                       { $$=$2; 
-                                                  $$.SetVar("dectype","friend");  
+                                                  $$.SetVar(STR(dectype),STR(friend));  
                                                 }
    | SCSPEC IDENTIFIER class_inherit_list_all  '{' class_lst '}' var_name_list_opt ';' 
                                                 { 
@@ -207,8 +208,8 @@ datadef:
 						  $$ = newClass;
 						  $$.UpdateComment($1.Comment()); 
 						  $$.SetupLineNos($1,$8);
-						  newClass.SetVar("dectype","definition");
-						  newClass.SetVar("storageType",$1.Name());
+						  newClass.SetVar(STR(dectype),STR(definition));
+						  newClass.SetVar(STR(storageType),$1.Name());
 						}
    | CV_QUALIFIER SCSPEC maybe_identifier class_inherit_list_all  '{' class_lst '}' var_name_list_opt ';' {
                                                   StringC nname;
@@ -220,8 +221,8 @@ datadef:
 						  $$ = newClass;
 						  $$.UpdateComment($1.Comment()); 
 						  $$.SetupLineNos($1,$8);
-						  newClass.SetVar("dectype","definition");
-						  newClass.SetVar("storageType",$2.Name());
+						  newClass.SetVar(STR(dectype),STR(definition));
+						  newClass.SetVar(STR(storageType),$2.Name());
                                                 }
    | EXTERN type_id var_name_list ';'           { $$=ObjectC(); }
    | EXTERN STRING '{' extdefs_opt '}'          { $$ = $4; ObjectListC ol($4); ol.SetWrapper(true); }
@@ -229,10 +230,10 @@ datadef:
 ;
 /* ----- Enum args ---- */
 
-enum_name_list_opt: { ObjectListC ol("EnumNameList"); $$=ol; }
+enum_name_list_opt: { ObjectListC ol(STR(EnumNameList)); $$=ol; }
    |  enum_name_list { $$=$1}
 ;
-enum_name_list: enum_name_elem { ObjectListC ol("VarNameList"); ol.Append($1); $$ = ol;  }
+enum_name_list: enum_name_elem { ObjectListC ol(STR(VarNameList)); ol.Append($1); $$ = ol;  }
    | enum_name_list ',' enum_name_elem { ObjectListC ol($1); ol.Append($3); $$ = ol; }
 ;
 enum_name_elem: IDENTIFIER { $$=$1; }
@@ -251,8 +252,8 @@ string:                 /* Strings may be chained.... */
 unqualified_id: IDENTIFIER   { $$=$1; } 
         ;
 
-qualified_id: IDENTIFIER CLCL unqualified_id { $$=$1; $$.Name() += StringC("::") + $3.Name(); }
-        | IDENTIFIER CLCL qualified_id       { $$=$1; $$.Name() += StringC("::") + $3.Name(); }
+qualified_id: IDENTIFIER CLCL unqualified_id { $$=$1; $$.Name() += strp_ColonColon + $3.Name(); }
+        | IDENTIFIER CLCL qualified_id       { $$=$1; $$.Name() += strp_ColonColon + $3.Name(); }
         ;
 
 maybe_identifier: IDENTIFIER  { $$=$1; }
@@ -262,8 +263,8 @@ maybe_identifier: IDENTIFIER  { $$=$1; }
 any_id:   
  	  unqualified_id      { $$ = $1; }
 	| qualified_id        { $$ = $1; }
-	| CLCL qualified_id   { $$=ObjectC(StringC("::") + $2.Name()); } 
-        | CLCL unqualified_id { $$=ObjectC(StringC("::") + $2.Name()); } 
+	| CLCL qualified_id   { $$=ObjectC(strp_ColonColon + $2.Name()); } 
+        | CLCL unqualified_id { $$=ObjectC(strp_ColonColon + $2.Name()); } 
         ;
 
 /* ----- namespace ----- */
@@ -294,13 +295,13 @@ using_decl:
 template_def:
      template_header SCSPEC IDENTIFIER class_inherit_list_all  '{' class_lst '}' ';' 
                                                 { $$ =  ClassTemplateC($3.Name(),$6,$4,$1);
-						  $$.SetVar("dectype","definition");
-						  $$.SetVar("storageType",$2.Name());
+						  $$.SetVar(STR(dectype),STR(definition));
+						  $$.SetVar(STR(storageType),$2.Name());
 						  $$.UpdateComment($1.Comment());
 						}
    | template_header SCSPEC IDENTIFIER ';'        { $$ = ClassTemplateC($3.Name(),$1); 
-						    $$.SetVar("dectype","forward");
-						    $$.SetVar("storageType",$2.Name());
+						    $$.SetVar(STR(dectype),STR(forward));
+						    $$.SetVar(STR(storageType),$2.Name());
 						    $$.UpdateComment($1.Comment());
                                                   }
    | template_header fndef                        { $$ = $2;
@@ -317,22 +318,22 @@ template_def:
 
 /* ------ template definitions ------ */
 
-template_inst_args_opt: /*empty*/ { $$=ObjectListC("TemplateInstArgs"); }
+template_inst_args_opt: /*empty*/ { $$=ObjectListC(STR(TemplateInstArgs)); }
      | template_inst_args { $$=$1; }
 ;
 
-template_inst_args: type_id { ObjectListC ol("TemplateInstArgs"); $$=ol; ol.Append($1); }
-    | CONSTANT { ObjectListC ol("TemplateInstArgs"); $$=ol; ol.Append($1); }
+template_inst_args: type_id { ObjectListC ol(STR(TemplateInstArgs)); $$=ol; ol.Append($1); }
+    | CONSTANT { ObjectListC ol(STR(TemplateInstArgs)); $$=ol; ol.Append($1); }
     | template_inst_args ',' type_id { ObjectListC ol($1); $$=$1; ol.Append($3); }
     | template_inst_args ',' CONSTANT { ObjectListC ol($1); $$=$1; ol.Append($3); }
 ;
 
 template_header:
           TEMPLATE '<' template_parm_list '>'  { $$=$3; $$.UpdateComment($1.Comment()); } 
-	| TEMPLATE '<' '>'                     { $$=ObjectListC("TemplateDefArgs"); $$.UpdateComment($1.Comment()); }
+	| TEMPLATE '<' '>'                     { $$=ObjectListC(STR(TemplateDefArgs)); $$.UpdateComment($1.Comment()); }
 	;
 
-template_parm_list: template_parm               { ObjectListC ol("TemplateDefArgs"); $$=ol; ol.Append($1); }
+template_parm_list: template_parm               { ObjectListC ol(STR(TemplateDefArgs)); $$=ol; ol.Append($1); }
         | template_parm_list ',' template_parm  { $$=$1; ObjectListC ol($1); ol.Append($3); }
 	;
 
@@ -345,8 +346,8 @@ parm: type_id maybe_identifier      { $$=$1;
         ;
 
 template_type_parm:
-          SCSPEC maybe_identifier           { $$= DataTypeC("class",$2); }
-	| TYPENAME_KEYWORD maybe_identifier { $$= DataTypeC("typename",$2);  }
+          SCSPEC maybe_identifier           { $$= DataTypeC(STR(class),$2); }
+	| TYPENAME_KEYWORD maybe_identifier { $$= DataTypeC(STR(typename),$2);  }
 	;
 
 template_template_parm: /* FIXME:- This isn't really handled properly. */
@@ -379,12 +380,12 @@ template_arg_item: IDENTIFIER | CONSTANT |  CV_QUALIFIER | BUILTIN | STRING | SC
 
 /* --------------- Handle class definitions ------------------------ */
 
-class_inherit_list_all: /*empty*/ { $$=ObjectListC("classInherit"); }
+class_inherit_list_all: /*empty*/ { $$=ObjectListC(STR(classInherit)); }
    | ':' class_inherit_list { $$=$2; }
 ;
 class_inherit_list:   
      class_inherit_list ',' class_inherit_def   { $$ = $1; ObjectListC ol($1); ol.Append($3);  }
-   | class_inherit_def { ObjectListC ol("classInherit",true); ol.Append($1); $$ = ol; }
+   | class_inherit_def { ObjectListC ol(STR(classInherit),true); ol.Append($1); $$ = ol; }
 ;
 class_inherit_mode:  PUBLIC          { $$ = InheritC(SAPublic);    $$.CopyLineNo($1); }
    | PRIVATE         { $$ = InheritC(SAPrivate);   $$.CopyLineNo($1); }
@@ -410,14 +411,14 @@ class_inherit_def: class_inherit_mode scope_resolved_id { $$ = $1;
 							}
 ;
 
-class_lst: /* empty */ { $$ = ObjectListC("ClassContents"); }
+class_lst: /* empty */ { $$ = ObjectListC(STR(ClassContents)); }
    | class_lst class_def { ObjectListC ol($1); ol.Append($2); $$ = ol; }
 ;
-class_def: PROTECTED ':'     { $$ = MarkerC("protected"); $$.SetupLineNos($1,$2); }
-   | PRIVATE ':'             { $$ = MarkerC("private");   $$.SetupLineNos($1,$2); }
-   | PUBLIC ':'              { $$ = MarkerC("public");    $$.SetupLineNos($1,$2); }
+class_def: PROTECTED ':'     { $$ = MarkerC(STR(protected)); $$.SetupLineNos($1,$2); }
+   | PRIVATE ':'             { $$ = MarkerC(STR(private));   $$.SetupLineNos($1,$2); }
+   | PUBLIC ':'              { $$ = MarkerC(STR(public));    $$.SetupLineNos($1,$2); }
    | extdef                  { $$=$1; }
-   | CPVIRTUAL fndef         { $$=$2; $$.SetVar("virtual","1"); }
+   | CPVIRTUAL fndef         { $$=$2; $$.SetVar(STR(virtual),STR(1)); }
    /* | func_destructor_inclass */
    /*   | func_constructor_inclass */
 ;
@@ -427,19 +428,19 @@ expr_no_commas_list_opt: /*empty*/ { $$=ObjectC(""); }
 expr_no_commas_list: expr_no_commas    { $$=$1; }
   |   expr_no_commas_list expr_no_commas  { $$=$1; $$.Name() += $2.Name(); }
 ;
-expr_no_commas: '(' arg_expr_list_all ')' { $$=ObjectC(StringC("(") + $2.Name() + ")"); }
+expr_no_commas: '(' arg_expr_list_all ')' { $$=ObjectC(strp_OpenBracket + $2.Name() + strp_CloseBracket); }
    | '[' expr_no_commas_list ']'          { $$=ObjectC(StringC("[") + $2.Name() + "]"); }
    | '{' expr_no_commas_list '}'          { $$=ObjectC(StringC("{") + $2.Name() + "}"); }
    | IDENTIFIER | CONSTANT|  CV_QUALIFIER | BUILTIN | STRING | BINOP
    | '<' { $$=ObjectC("<"); }
    | '>' { $$=ObjectC(">"); }
-   | '=' { $$=ObjectC("="); }
-   | '+' { $$=ObjectC("+"); }
+   | '=' { $$=ObjectC(strp_equals); }
+   | '+' { $$=ObjectC(strp_plus); }
    | '-' { $$=ObjectC("-"); }
    | '~' { $$=ObjectC("~"); }
-   | '&' { $$=ObjectC("&"); }
+   | '&' { $$=ObjectC(strp_ampersand); }
    | '/' { $$=ObjectC("/"); }
-   | '*' { $$=ObjectC("*"); }
+   | '*' { $$=ObjectC(strp_asterisk); }
    | '%' { $$=ObjectC("%"); }
    | '|' { $$=ObjectC("|"); }
    | '^' { $$=ObjectC("^"); }
@@ -468,11 +469,11 @@ type_id_bod:  scope_resolved_id type_id_qual     { $$=DataTypeC(StringC(""),$1,$
 	                                           $$.SetupLineNos($1,$2); 
                                                  }
         | SCSPEC scope_resolved_id type_id_qual  { $$=DataTypeC($1.Name(),$2,$3.Name()); 
-	                                           $$.SetVar("storageType",$1.Name());
+	                                           $$.SetVar(STR(storageType),$1.Name());
 	                                           $$.SetupLineNos($1,$2,$3); 
 	                                         }
         | ENUM scope_resolved_id type_id_qual    { $$=DataTypeC($1.Name(),$2,$3.Name()); 
-	                                           $$.SetVar("storageType",$1.Name());
+	                                           $$.SetVar(STR(storageType),$1.Name());
 	                                           $$.SetupLineNos($1,$2,$3); 
 	                                         }
         | BUILTIN type_id_qual                   { $$=DataTypeC(StringC(""),$1,$2.Name()); 
@@ -495,10 +496,10 @@ type_id_bod:  scope_resolved_id type_id_qual     { $$=DataTypeC(StringC(""),$1,$
 	                                         }
         ;
 
-var_name_list_opt: /*empty*/ { $$=ObjectListC("VarNameList"); }
+var_name_list_opt: /*empty*/ { $$=ObjectListC(STR(VarNameList)); }
           | var_name_list    { $$=$1; }
 ;
-var_name_list: var_name_elem                { ObjectListC ol("VarNameList"); ol.Append($1); $$ = ol; }
+var_name_list: var_name_elem                { ObjectListC ol(STR(VarNameList)); ol.Append($1); $$ = ol; }
           | var_name_list ',' var_name_elem { ObjectListC ol($1); ol.Append($3); $$ = ol; }
 ;
 var_name_array: '[' expr_no_commas_list_opt ']'            { $$=ObjectC("[]"); }
@@ -506,14 +507,14 @@ var_name_array: '[' expr_no_commas_list_opt ']'            { $$=ObjectC("[]"); }
 ;
 var_name_elem: IDENTIFIER                              { $$=$1; }
           | IDENTIFIER '=' expr_no_commas_list         { $$=$1; $1.Name() += StringC(" = ") + $3.Name(); }
-          | IDENTIFIER var_name_array { $$=$1; $1.Name() += $2.Name(); $$.SetVar("array","1"); }
+          | IDENTIFIER var_name_array { $$=$1; $1.Name() += $2.Name(); $$.SetVar(STR(array),STR(1)); }
           | IDENTIFIER var_name_array '=' '{' func_body_contents_list '}' 
-                                                       { $$=$1; $1.Name() += $2.Name(); $$.SetVar("array","1"); }
+                                                       { $$=$1; $1.Name() += $2.Name(); $$.SetVar(STR(array),STR(1)); }
           | '=' expr_no_commas_list         { $$=$2; $2.Name() = StringC(" = ") + $2.Name(); }
 ;
 type_id_qual: /*empty*/             { $$=ObjectC(""); }
-	  | type_id_qual '*'        { $$=$1; $$.Name() += "*";  }
-	  | type_id_qual '&'        { $$=$1; $$.Name() += "&";  }
+	  | type_id_qual '*'        { $$=$1; $$.Name() += strp_asterisk;  }
+	  | type_id_qual '&'        { $$=$1; $$.Name() += strp_ampersand;  }
 	  | type_id_qual CV_QUALIFIER { $$=$1; $$.Name() += $2.Name();  }
 ;
 scope_id: IDENTIFIER                             { $$=$1; }
@@ -524,7 +525,7 @@ scope_id: IDENTIFIER                             { $$=$1; }
 ;
 scope_resolved_id: scope_id          { ObjectListC ol($1.Name()); ol.Append($1); $$=ol; $$.CopyLineNo($1); }
    | CLCL scope_id                   { ObjectListC ol($2.Name()); 
-                                       ObjectC newun("::");
+                                       ObjectC newun(strp_ColonColon);
                                        ol.Append(newun);
 				       ol.Append($2);
 				       $$ = ol;
@@ -549,29 +550,29 @@ arg_expr_list_all: /*empty*/ { $$ =ObjectC(""); }
 arg_expr_list: arg_expr_list_item { $$=$1; }
    | arg_expr_list arg_expr_list_item { $$=$1; $1.Name() += $2.Name(); }
 ;
-arg_expr_list_item:  '(' arg_expr_list_all ')' { $$=ObjectC(StringC("(") + $2.Name() + ")"); }
+arg_expr_list_item:  '(' arg_expr_list_all ')' { $$=ObjectC(strp_OpenBracket + $2.Name() + strp_CloseBracket); }
    | IDENTIFIER | CONSTANT | BINOP
    | CLCL  | PUBLIC | PROTECTED | PRIVATE | NAMESPACE | CV_QUALIFIER 
    | STATIC | STRING | CPVIRTUAL | ENUM | CPTYPEDEF | BUILTIN
    | CPFRIEND | CPOPERATOR | TEMPLATE | CPTHROW | TYPENAME_KEYWORD | USING    
-   | ':' 
+   | ':' { $$=ObjectC(strp_Colon); }
    | '<' { $$=ObjectC("<"); }
    | '>' { $$=ObjectC(">"); }
-   | '=' { $$=ObjectC("="); }
-   | '+' { $$=ObjectC("+"); }
+   | '=' { $$=ObjectC(strp_equals); }
+   | '+' { $$=ObjectC(strp_plus); }
    | '-' { $$=ObjectC("-"); }
-   | '~' { $$=ObjectC("~"); }
-   | '&' { $$=ObjectC("&"); }
+   | '~' { $$=ObjectC(strp_Tilda); }
+   | '&' { $$=ObjectC(strp_ampersand); }
    | '/' { $$=ObjectC("/"); }
-   | '*' { $$=ObjectC("*"); }
+   | '*' { $$=ObjectC(strp_asterisk); }
    | '%' { $$=ObjectC("%"); }
    | '|' { $$=ObjectC("|"); }
    | '^' { $$=ObjectC("^"); }
    | '!' { $$=ObjectC("!"); }
    | '[' { $$=ObjectC("["); }
    | ']' { $$=ObjectC("]"); }
-   | ';' { $$=ObjectC(";"); }
-   | ',' { $$=ObjectC(","); }
+   | ';' { $$=ObjectC(strp_Semicolon); }
+   | ',' { $$=ObjectC(strp_Comma); }
 ;
 
 /* --------------- Functions/Methods -------------------------------- */
@@ -579,41 +580,41 @@ arg_expr_list_item:  '(' arg_expr_list_all ')' { $$=ObjectC(StringC("(") + $2.Na
 fndef: func_def                         { $$=$1; hookCommentObj = $1;  }
      | func_decl                        { $$=$1; hookCommentObj = $1;  }
      | CPFRIEND func_decl               { $$=$2; 
-                                          $$.SetVar("dectype","friend");
+                                          $$.SetVar(STR(dectype),STR(friend));
 					  $$.IncludeLineNo($1);
 					  hookCommentObj = $2;
                                         }
 ;
 func_decl: func_prototype ';'           { $$ = $1; 
-                                          $$.SetVar("dectype","prototype"); 
+                                          $$.SetVar(STR(dectype),STR(prototype)); 
 					  $$.IncludeLineNo($2);
                                         }
      | func_prototype '=' CONSTANT ';'  { $$=$1;   /* "=0"; */
-                                          $$.SetVar("dectype","abstract");
+                                          $$.SetVar(STR(dectype),STR(abstract));
 					  $$.IncludeLineNo($4);
                                         }
      | EXTERN func_prototype ';'        { $$=$2; 
-                                          $$.SetVar("dectype","extern");    
+                                          $$.SetVar(STR(dectype),STR(extern));    
 					  $$.IncludeLineNo($3);
                                         }
 ;
 func_def:
        func_prototype func_body_opt_constr { $$ = $1;
-                                             $$.SetVar("dectype","definition"); 
+                                             $$.SetVar(STR(dectype),STR(definition)); 
 					     $$.IncludeLineNo($2);
                                            }
 ;
-operator_types: '+' { $$=ObjectC("+"); }
+operator_types: '+' { $$=ObjectC(strp_plus); }
        | '-' { $$=ObjectC("-"); }
-       | '~' { $$=ObjectC("~"); }
-       | '&' { $$=ObjectC("&"); }
+       | '~' { $$=ObjectC(strp_Tilda); }
+       | '&' { $$=ObjectC(strp_ampersand); }
        | '/' { $$=ObjectC("/"); }
-       | '*' { $$=ObjectC("*"); }
+       | '*' { $$=ObjectC(strp_asterisk); }
        | '%' { $$=ObjectC("%"); }
        | '|' { $$=ObjectC("|"); }
        | '^' { $$=ObjectC("^"); }
        | '!' { $$=ObjectC("!"); }
-       | '=' { $$=ObjectC("="); }
+       | '=' { $$=ObjectC(strp_equals); }
        | '<' { $$=ObjectC("<"); }
        | '>' { $$=ObjectC(">"); }
        |  '-' '-' { $$=ObjectC("--"); }
@@ -623,7 +624,7 @@ operator_types: '+' { $$=ObjectC("+"); }
        | BINOP      { $$=$1; }
        | IDENTIFIER { $$=$1; }
 ;
-func_arg_templ_qual: /*empty*/        { $$ = ObjectListC("EmptyArgList"); } 
+func_arg_templ_qual: /*empty*/        { $$ = ObjectListC(STR(EmptyArgList)); } 
     |  '<' template_inst_args_opt  '>' { $$ = $2; }
 ; 
 func_arg_prototype:  '(' func_arg_list_all ')' 
@@ -639,7 +640,7 @@ func_prototype:
       }
 
             | type_id  func_arg_prototype func_qualifier  /* This catches constructors, the typename the class type. */
-      { MethodC amethod($1.Name(), DataTypeC("void"),ObjectListC($2),$3); 
+      { MethodC amethod($1.Name(), DataTypeC(STR(void)),ObjectListC($2),$3); 
         amethod.CopyLineNo($1);
         amethod.SetConstructor(true);
         $$ = amethod;
@@ -651,24 +652,24 @@ func_prototype:
 	  tmp.DelLast();
 	  if(!tmp.IsEmpty()) {
 	    //cerr << "Got constructor:  SetScope to Path:" << PathName(tmp) << " \n";
-	    ObjectListC oln("ConstructorScopePath",tmp);
+	    ObjectListC oln(STR(ConstructorScopePath),tmp);
 	    $$.SetScope(oln);
 	  }
 	}
       }
             | type_id CPOPERATOR operator_types func_arg_templ_qual func_arg_prototype func_qualifier 
-      { $$ = MethodC(StringC("operator") + $3.Name(), DataTypeC($1),ObjectListC($5),$6); }
+      { $$ = MethodC(STR(operator) + $3.Name(), DataTypeC($1),ObjectListC($5),$6); }
       
-            | type_id scope_id CLCL CPOPERATOR operator_types func_arg_templ_qual  func_arg_prototype func_qualifier 
-       { $$ = MethodC(StringC("operator") + $5.Name(), DataTypeC($1),ObjectListC($7),$8); 
+            | type_id scope_id CLCL CPOPERATOR operator_types func_arg_templ_qual  func_arg_prototype func_qualifier  
+       { $$ = MethodC(STR(operator) + $5.Name(), DataTypeC($1),ObjectListC($7),$8); 
          $$.SetScope($2);
        }
 
             | CPOPERATOR type_id func_arg_prototype func_qualifier 
-      { $$ = MethodC(StringC("operator"), DataTypeC($2),ObjectListC($3),$4,true); }
+      { $$ = MethodC(STR(operator), DataTypeC($2),ObjectListC($3),$4,true); }
 
             | scope_resolved_id CLCL CPOPERATOR type_id func_arg_prototype func_qualifier 
-      { $$ = MethodC(StringC("operator"), DataTypeC($4),ObjectListC($5),$6,true); 
+      { $$ = MethodC(STR(operator), DataTypeC($4),ObjectListC($5),$6,true); 
         $$.SetScope($1);
       }
 ;
@@ -680,11 +681,11 @@ list_scoped_ids_opt: /*empty */
 ;
 list_scoped_ids: scope_resolved_id
    | list_scoped_ids ',' scope_resolved_id
-;
-func_arg_list_all: /*empty */ {  $$=ObjectListC("FuncArgList"); }
+; 
+func_arg_list_all: /*empty */ {  $$=ObjectListC(STR(FuncArgList)); }
            | func_arg_list {  $$=$1; }
 ;
-func_arg_list: func_arg_def         { ObjectListC ol("FuncArgList"); $$= ol; ol.Append($1); }
+func_arg_list: func_arg_def         { ObjectListC ol(STR(FuncArgList)); $$= ol; ol.Append($1); }
    | func_arg_list ',' func_arg_def { $$=$1; ObjectListC ol($1); ol.Append($3); }
    | func_arg_list ELLIPSIS         { $$=$1; ObjectListC ol($1); DataTypeC ell("..."); ol.Append(ell); }
 ;
@@ -700,11 +701,11 @@ function_ptr_def: type_id '(' '*' maybe_identifier ')' '(' func_arg_list_all ')'
 	    name = $4.Name();
 	  else
 	    name = StringC("anon?") + StringC(anonCount++);
-	  $$=DataTypeC($1.Name() + StringC(" (*)(") + $7.Name() + ")" + $9.Name(),name); 
+	  $$=DataTypeC($1.Name() + StringC(" (*)(") + $7.Name() + strp_CloseBracket + $9.Name(),name); 
 	  $$.SetupLineNos($1,$8,$9);
 	}
    | type_id '('  scope_resolved_id CLCL '*' IDENTIFIER ')' '(' func_arg_list_all ')'  func_qualifier
-        { $$=DataTypeC($1.Name() + StringC(" (*)(") + $9.Name() + ")" + $11.Name(),$6.Name()); 
+        { $$=DataTypeC($1.Name() + StringC(" (*)(") + $9.Name() + strp_CloseBracket + $11.Name(),$6.Name()); 
 	  $$.SetupLineNos($1,$10,$11);
 	}
 ;

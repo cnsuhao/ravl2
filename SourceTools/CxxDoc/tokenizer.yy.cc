@@ -934,6 +934,8 @@ goto find_rule; \
 #line 5 "tokenizer.l"
 
   #include "Ravl/CxxDoc/Object.hh"
+  #include "Ravl/CxxDoc/Strings.hh"
+   
   #define YYSTYPE RavlCxxDocN::ObjectC
 
   #include <stdlib.h>
@@ -973,6 +975,7 @@ goto find_rule; \
      obj.SetComment(comment);
      comment.Reset();
   }
+
   inline void CommentUpdate(RavlCxxDocN::ObjectC &obj,const char *name,int alineno = 0) 
    {
      obj = RavlCxxDocN::ObjectC(name);
@@ -983,8 +986,18 @@ goto find_rule; \
      comment.Reset();
   }
 
+  inline void CommentUpdate(RavlCxxDocN::ObjectC &obj,const StringC &name,int alineno = 0) 
+   {
+     obj = RavlCxxDocN::ObjectC(name);
+     obj.StartLineno() = alineno;
+     obj.EndLineno() = alineno;
+     commentLast = comment;
+     obj.SetComment(comment);
+     comment.Reset();
+  }
 
-#line 988 "tokenizer.yy.cc"
+
+#line 1001 "tokenizer.yy.cc"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -1111,10 +1124,10 @@ YY_DECL
 	register char *yy_cp = NULL, *yy_bp = NULL;
 	register int yy_act;
 
-#line 78 "tokenizer.l"
+#line 91 "tokenizer.l"
 
     /*==============> Strip whitespace <==============*/
-#line 1118 "tokenizer.yy.cc"
+#line 1131 "tokenizer.yy.cc"
 
 	if ( yy_init )
 		{
@@ -1213,441 +1226,441 @@ do_action:	/* This label is used only to access EOF actions. */
 	{ /* beginning of action switch */
 case 1:
 YY_RULE_SETUP
-#line 80 "tokenizer.l"
+#line 93 "tokenizer.l"
 {}
 	YY_BREAK
 /*==============> Special keyword <==============*/
 case 2:
 YY_RULE_SETUP
-#line 84 "tokenizer.l"
-{ CommentUpdate(yylval,yytext,yylineno); return SCSPEC; }
+#line 97 "tokenizer.l"
+{ CommentUpdate(yylval,STR(class) ,yylineno); return SCSPEC; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 85 "tokenizer.l"
-{ CommentUpdate(yylval,yytext,yylineno); return SCSPEC; }
+#line 98 "tokenizer.l"
+{ CommentUpdate(yylval,STR(struct),yylineno); return SCSPEC; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 86 "tokenizer.l"
-{ CommentUpdate(yylval,yytext,yylineno); return SCSPEC; }
+#line 99 "tokenizer.l"
+{ CommentUpdate(yylval,STR(union) ,yylineno); return SCSPEC; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 88 "tokenizer.l"
-{ CommentUpdate(yylval,yytext,yylineno); return PUBLIC;     }
+#line 101 "tokenizer.l"
+{ CommentUpdate(yylval,STR(public)   ,yylineno); return PUBLIC;     }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 89 "tokenizer.l"
-{ CommentUpdate(yylval,yytext,yylineno); return PROTECTED;  }
+#line 102 "tokenizer.l"
+{ CommentUpdate(yylval,STR(protected),yylineno); return PROTECTED;  }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 90 "tokenizer.l"
-{ CommentUpdate(yylval,yytext,yylineno); return PRIVATE;    }
+#line 103 "tokenizer.l"
+{ CommentUpdate(yylval,STR(private)  ,yylineno); return PRIVATE;    }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 91 "tokenizer.l"
-{ CommentUpdate(yylval,yytext,yylineno); return CV_QUALIFIER;  }
+#line 104 "tokenizer.l"
+{ CommentUpdate(yylval,STR(const)    ,yylineno); return CV_QUALIFIER;  }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 92 "tokenizer.l"
-{ CommentUpdate(yylval,yytext,yylineno); return STATIC;     }
+#line 105 "tokenizer.l"
+{ CommentUpdate(yylval,STR(static)   ,yylineno); return STATIC;     }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 93 "tokenizer.l"
-{ CommentUpdate(yylval,yytext,yylineno); return CPVIRTUAL;  }
+#line 106 "tokenizer.l"
+{ CommentUpdate(yylval,STR(virtual)  ,yylineno); return CPVIRTUAL;  }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 95 "tokenizer.l"
-{ CommentUpdate(yylval,yytext,yylineno); return ENUM;     }
+#line 108 "tokenizer.l"
+{ CommentUpdate(yylval,STR(enum)     ,yylineno); return ENUM;     }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 96 "tokenizer.l"
-{ CommentUpdate(yylval,yytext,yylineno); return CPTYPEDEF;  }
+#line 109 "tokenizer.l"
+{ CommentUpdate(yylval,STR(typedef)  ,yylineno); return CPTYPEDEF;  }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 97 "tokenizer.l"
-{ CommentUpdate(yylval,yytext,yylineno); return CPFRIEND;   }
+#line 110 "tokenizer.l"
+{ CommentUpdate(yylval,STR(friend)   ,yylineno); return CPFRIEND;   }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 98 "tokenizer.l"
-{ CommentUpdate(yylval,yytext,yylineno); return CPOPERATOR; }
+#line 111 "tokenizer.l"
+{ CommentUpdate(yylval,STR(operator) ,yylineno); return CPOPERATOR; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 99 "tokenizer.l"
-{ CommentUpdate(yylval,yytext,yylineno); return TEMPLATE; }
+#line 112 "tokenizer.l"
+{ CommentUpdate(yylval,STR(template) ,yylineno); return TEMPLATE; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 100 "tokenizer.l"
-{ CommentUpdate(yylval,yytext,yylineno); return CPTHROW;    }
+#line 113 "tokenizer.l"
+{ CommentUpdate(yylval,STR(throw)    ,yylineno); return CPTHROW;    }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 101 "tokenizer.l"
-{ CommentUpdate(yylval,yytext,yylineno); return NAMESPACE;  }
+#line 114 "tokenizer.l"
+{ CommentUpdate(yylval,STR(namespace),yylineno); return NAMESPACE;  }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 102 "tokenizer.l"
-{ CommentUpdate(yylval,yytext,yylineno); return TYPENAME_KEYWORD; }
+#line 115 "tokenizer.l"
+{ CommentUpdate(yylval,STR(typename) ,yylineno); return TYPENAME_KEYWORD; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 103 "tokenizer.l"
-{ CommentUpdate(yylval,yytext,yylineno); return USING;    }
+#line 116 "tokenizer.l"
+{ CommentUpdate(yylval,STR(using)    ,yylineno); return USING;    }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 104 "tokenizer.l"
-{ CommentUpdate(yylval,yytext,yylineno); return EXTERN;   }
+#line 117 "tokenizer.l"
+{ CommentUpdate(yylval,STR(extern)   ,yylineno); return EXTERN;   }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 105 "tokenizer.l"
-{ CommentUpdate(yylval,yytext,yylineno); return ASM_KEYWORD;   }
+#line 118 "tokenizer.l"
+{ CommentUpdate(yylval,STR(asm)      ,yylineno); return ASM_KEYWORD;   }
 	YY_BREAK
 /* ==== Cheat and pick up some compatility macro's ==== */
 case 22:
 YY_RULE_SETUP
-#line 109 "tokenizer.l"
+#line 122 "tokenizer.l"
 { CommentUpdate(yylval,yytext,yylineno); return CPTHROW;    }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 110 "tokenizer.l"
+#line 123 "tokenizer.l"
 { CommentUpdate(yylval,yytext,yylineno); return CPTHROW;    }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 111 "tokenizer.l"
+#line 124 "tokenizer.l"
 { CommentUpdate(yylval,yytext,yylineno); return CPTHROW;    }
 	YY_BREAK
 /*==============> Ignored stuff <==============*/
 case 25:
 YY_RULE_SETUP
-#line 115 "tokenizer.l"
+#line 128 "tokenizer.l"
 {}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 116 "tokenizer.l"
+#line 129 "tokenizer.l"
 {}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 117 "tokenizer.l"
+#line 130 "tokenizer.l"
 {}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 118 "tokenizer.l"
+#line 131 "tokenizer.l"
 {}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 119 "tokenizer.l"
+#line 132 "tokenizer.l"
 {}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 120 "tokenizer.l"
+#line 133 "tokenizer.l"
 {}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 121 "tokenizer.l"
+#line 134 "tokenizer.l"
 {} /* Temp fix until eliminated. */
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 122 "tokenizer.l"
+#line 135 "tokenizer.l"
 {}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 123 "tokenizer.l"
+#line 136 "tokenizer.l"
 {}
 	YY_BREAK
 /*==============> Normal operators <==============*/
 case 34:
 YY_RULE_SETUP
-#line 127 "tokenizer.l"
-{ CommentUpdate(yylval,yytext,yylineno); return ':';}
+#line 140 "tokenizer.l"
+{ CommentUpdate(yylval,RavlCxxDocN::strp_Colon     ,yylineno); return ':';}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 128 "tokenizer.l"
-{ CommentUpdate(yylval,yytext,yylineno); return CLCL;}
+#line 141 "tokenizer.l"
+{ CommentUpdate(yylval,RavlCxxDocN::strp_ColonColon,yylineno); return CLCL;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 130 "tokenizer.l"
-{ CommentUpdate(yylval,yytext,yylineno); return '~'; }
+#line 142 "tokenizer.l"
+{ CommentUpdate(yylval,RavlCxxDocN::strp_Tilda     ,yylineno); return '~'; }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 131 "tokenizer.l"
+#line 143 "tokenizer.l"
 { return '='; }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 132 "tokenizer.l"
+#line 144 "tokenizer.l"
 { return '<'; }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 133 "tokenizer.l"
+#line 145 "tokenizer.l"
 { return '>'; }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 134 "tokenizer.l"
+#line 146 "tokenizer.l"
 { return '&'; }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 135 "tokenizer.l"
+#line 147 "tokenizer.l"
 { return '+'; }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 136 "tokenizer.l"
+#line 148 "tokenizer.l"
 { return '-'; }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 137 "tokenizer.l"
+#line 149 "tokenizer.l"
 { return '*'; }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 138 "tokenizer.l"
+#line 150 "tokenizer.l"
 { return '/'; }
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 139 "tokenizer.l"
+#line 151 "tokenizer.l"
 { return '%'; }
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 140 "tokenizer.l"
+#line 152 "tokenizer.l"
 { return '|'; }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 141 "tokenizer.l"
+#line 153 "tokenizer.l"
 { return '^'; }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 142 "tokenizer.l"
+#line 154 "tokenizer.l"
 { return '!'; }
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 143 "tokenizer.l"
+#line 155 "tokenizer.l"
 { yylval = StringC(yytext); return BINOP; }
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 144 "tokenizer.l"
+#line 156 "tokenizer.l"
 { yylval = StringC(yytext); return BINOP; }
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 145 "tokenizer.l"
+#line 157 "tokenizer.l"
 { yylval = StringC(yytext); return BINOP; }
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 146 "tokenizer.l"
+#line 158 "tokenizer.l"
 { yylval = StringC(yytext); return BINOP; }
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 147 "tokenizer.l"
+#line 159 "tokenizer.l"
 { yylval = StringC(yytext); return BINOP; }
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 148 "tokenizer.l"
+#line 160 "tokenizer.l"
 { yylval = StringC(yytext); return BINOP; }
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 149 "tokenizer.l"
+#line 161 "tokenizer.l"
 { yylval = StringC(yytext); return BINOP; }
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 150 "tokenizer.l"
+#line 162 "tokenizer.l"
 { yylval = StringC(yytext); return BINOP; }
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 151 "tokenizer.l"
+#line 163 "tokenizer.l"
 { yylval = StringC(yytext); return BINOP; }
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 152 "tokenizer.l"
+#line 164 "tokenizer.l"
 { yylval = StringC(yytext); return BINOP; }
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 153 "tokenizer.l"
+#line 165 "tokenizer.l"
 { yylval = StringC(yytext); return BINOP; }
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 154 "tokenizer.l"
+#line 166 "tokenizer.l"
 { yylval = StringC(yytext); return BINOP; }
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 155 "tokenizer.l"
+#line 167 "tokenizer.l"
 { yylval = StringC(yytext); return BINOP; }
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 156 "tokenizer.l"
+#line 168 "tokenizer.l"
 { yylval = StringC(yytext); return BINOP; }
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 157 "tokenizer.l"
+#line 169 "tokenizer.l"
 { yylval = StringC(yytext); return BINOP; }
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 158 "tokenizer.l"
+#line 170 "tokenizer.l"
 { yylval = StringC(yytext); return BINOP; }
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 159 "tokenizer.l"
+#line 171 "tokenizer.l"
 { yylval = StringC(yytext); return BINOP; }
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
-#line 160 "tokenizer.l"
+#line 172 "tokenizer.l"
 { yylval = StringC(yytext); return BINOP; }
 	YY_BREAK
 case 67:
 YY_RULE_SETUP
-#line 161 "tokenizer.l"
+#line 173 "tokenizer.l"
 { yylval = StringC(yytext); return BINOP; }
 	YY_BREAK
 /*==============> End of Phrase <==============*/
 case 68:
 YY_RULE_SETUP
-#line 164 "tokenizer.l"
+#line 176 "tokenizer.l"
 { CommentUpdate(yylval,true,yylineno);  return ';'; }
 	YY_BREAK
 /*==============> Comma <==============*/
 case 69:
 YY_RULE_SETUP
-#line 167 "tokenizer.l"
+#line 179 "tokenizer.l"
 { return ','; }
 	YY_BREAK
 /*==============> Paranthesis <==============*/
 case 70:
 YY_RULE_SETUP
-#line 170 "tokenizer.l"
+#line 182 "tokenizer.l"
 { return '('; }
 	YY_BREAK
 case 71:
 YY_RULE_SETUP
-#line 171 "tokenizer.l"
+#line 183 "tokenizer.l"
 { return ')'; }
 	YY_BREAK
 /*==============> Brackets <==============*/
 case 72:
 YY_RULE_SETUP
-#line 174 "tokenizer.l"
+#line 186 "tokenizer.l"
 { CommentUpdate(yylval,true,yylineno); return '{'; }
 	YY_BREAK
 case 73:
 YY_RULE_SETUP
-#line 175 "tokenizer.l"
+#line 187 "tokenizer.l"
 { CommentUpdate(yylval,true,yylineno); return '}'; }
 	YY_BREAK
 case 74:
 YY_RULE_SETUP
-#line 176 "tokenizer.l"
+#line 188 "tokenizer.l"
 { return '['; }
 	YY_BREAK
 case 75:
 YY_RULE_SETUP
-#line 177 "tokenizer.l"
+#line 189 "tokenizer.l"
 { return ']'; }
 	YY_BREAK
 case 76:
 YY_RULE_SETUP
-#line 179 "tokenizer.l"
-{ CommentUpdate(yylval,yytext,yylineno); return TYPEQUAL; }
+#line 191 "tokenizer.l"
+{ CommentUpdate(yylval,STR(unsigned),yylineno); return TYPEQUAL; }
 	YY_BREAK
 case 77:
 YY_RULE_SETUP
-#line 180 "tokenizer.l"
-{ CommentUpdate(yylval,yytext,yylineno); return TYPEQUAL; }
+#line 192 "tokenizer.l"
+{ CommentUpdate(yylval,STR(signed)  ,yylineno); return TYPEQUAL; }
 	YY_BREAK
 case 78:
 YY_RULE_SETUP
-#line 181 "tokenizer.l"
-{ CommentUpdate(yylval,yytext,yylineno); return TYPEQUAL; }
+#line 193 "tokenizer.l"
+{ CommentUpdate(yylval,STR(long)    ,yylineno); return TYPEQUAL; }
 	YY_BREAK
 case 79:
 YY_RULE_SETUP
-#line 182 "tokenizer.l"
-{ CommentUpdate(yylval,yytext,yylineno); return TYPEQUAL; }
+#line 194 "tokenizer.l"
+{ CommentUpdate(yylval,STR(short)   ,yylineno); return TYPEQUAL; }
 	YY_BREAK
 case 80:
 YY_RULE_SETUP
-#line 183 "tokenizer.l"
-{ CommentUpdate(yylval,yytext,yylineno); return BUILTIN; }
+#line 195 "tokenizer.l"
+{ CommentUpdate(yylval,STR(int)     ,yylineno); return BUILTIN; }
 	YY_BREAK
 case 81:
 YY_RULE_SETUP
-#line 184 "tokenizer.l"
-{ CommentUpdate(yylval,yytext,yylineno); return BUILTIN; }
+#line 196 "tokenizer.l"
+{ CommentUpdate(yylval,STR(float)   ,yylineno); return BUILTIN; }
 	YY_BREAK
 case 82:
 YY_RULE_SETUP
-#line 185 "tokenizer.l"
-{ CommentUpdate(yylval,yytext,yylineno); return BUILTIN; }
+#line 197 "tokenizer.l"
+{ CommentUpdate(yylval,STR(double)  ,yylineno); return BUILTIN; }
 	YY_BREAK
 case 83:
 YY_RULE_SETUP
-#line 186 "tokenizer.l"
-{ CommentUpdate(yylval,yytext,yylineno); return BUILTIN; }
+#line 198 "tokenizer.l"
+{ CommentUpdate(yylval,STR(char)    ,yylineno); return BUILTIN; }
 	YY_BREAK
 case 84:
 YY_RULE_SETUP
-#line 187 "tokenizer.l"
-{ CommentUpdate(yylval,yytext,yylineno); return BUILTIN; }
+#line 199 "tokenizer.l"
+{ CommentUpdate(yylval,STR(bool)    ,yylineno); return BUILTIN; }
 	YY_BREAK
 case 85:
 YY_RULE_SETUP
-#line 188 "tokenizer.l"
-{ CommentUpdate(yylval,yytext,yylineno); return BUILTIN; }
+#line 200 "tokenizer.l"
+{ CommentUpdate(yylval,STR(void)    ,yylineno); return BUILTIN; }
 	YY_BREAK
 /*==============> Identifiers <==============*/
 case 86:
 YY_RULE_SETUP
-#line 191 "tokenizer.l"
+#line 203 "tokenizer.l"
 { CommentUpdate(yylval,yytext,yylineno);
                         return IDENTIFIER; 
                       }
@@ -1655,43 +1668,43 @@ YY_RULE_SETUP
 /*==============> Numbers <==============*/
 case 87:
 YY_RULE_SETUP
-#line 197 "tokenizer.l"
+#line 209 "tokenizer.l"
 { yylval = StringC(yytext); return CONSTANT; }
 	YY_BREAK
 case 88:
 YY_RULE_SETUP
-#line 198 "tokenizer.l"
+#line 210 "tokenizer.l"
 { yylval = StringC(yytext); return CONSTANT; }
 	YY_BREAK
 case 89:
 YY_RULE_SETUP
-#line 199 "tokenizer.l"
+#line 211 "tokenizer.l"
 { yylval = StringC(yytext); return CONSTANT; }
 	YY_BREAK
 case 90:
 YY_RULE_SETUP
-#line 200 "tokenizer.l"
+#line 212 "tokenizer.l"
 { yylval = StringC(yytext); return CONSTANT; }
 	YY_BREAK
 case 91:
 YY_RULE_SETUP
-#line 202 "tokenizer.l"
+#line 214 "tokenizer.l"
 { yylval = StringC(yytext); return CONSTANT; }
 	YY_BREAK
 case 92:
 YY_RULE_SETUP
-#line 203 "tokenizer.l"
+#line 215 "tokenizer.l"
 { yylval = StringC(yytext); return STRING;   }
 	YY_BREAK
 case 93:
 YY_RULE_SETUP
-#line 204 "tokenizer.l"
+#line 216 "tokenizer.l"
 { return ELLIPSIS; }
 	YY_BREAK
 /*==============> Strip // comments <==============*/
 case 94:
 YY_RULE_SETUP
-#line 208 "tokenizer.l"
+#line 220 "tokenizer.l"
 { 
                                  CommentUpdate(yylval,&yytext[4],yylineno); 
                                  return DOCSECTION; 
@@ -1699,7 +1712,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 95:
 YY_RULE_SETUP
-#line 212 "tokenizer.l"
+#line 224 "tokenizer.l"
 { StringC txt(&(yytext[3]));
                                 txt.gsub("\n"," ");
                                 if(!comment.Text().IsEmpty()) {
@@ -1711,7 +1724,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 96:
 YY_RULE_SETUP
-#line 220 "tokenizer.l"
+#line 232 "tokenizer.l"
 { StringC txt(&(yytext[3]));
                                 if(txt.length() > 0) {
                                   switch(txt.firstchar()) {
@@ -1743,78 +1756,78 @@ YY_RULE_SETUP
 	YY_BREAK
 case 97:
 YY_RULE_SETUP
-#line 248 "tokenizer.l"
+#line 260 "tokenizer.l"
 { comment.Text() += &yytext[2]; }
 	YY_BREAK
 /*==============> Skip preprocessor directives <==============*/
 case 98:
 YY_RULE_SETUP
-#line 251 "tokenizer.l"
+#line 263 "tokenizer.l"
 { BEGIN (PREPARSER); }
 	YY_BREAK
 case 99:
 YY_RULE_SETUP
-#line 252 "tokenizer.l"
+#line 264 "tokenizer.l"
 { BEGIN (PPCOMMENT); }
 	YY_BREAK
 case 100:
 YY_RULE_SETUP
-#line 253 "tokenizer.l"
+#line 265 "tokenizer.l"
 { BEGIN (PREPARSER); }
 	YY_BREAK
 case 101:
 YY_RULE_SETUP
-#line 254 "tokenizer.l"
+#line 266 "tokenizer.l"
 {}
 	YY_BREAK
 case 102:
 YY_RULE_SETUP
-#line 255 "tokenizer.l"
+#line 267 "tokenizer.l"
 {}
 	YY_BREAK
 case 103:
 YY_RULE_SETUP
-#line 256 "tokenizer.l"
+#line 268 "tokenizer.l"
 { BEGIN (INITIAL); }
 	YY_BREAK
 /*==============> Strip comments <==============*/
 case 104:
 YY_RULE_SETUP
-#line 260 "tokenizer.l"
+#line 272 "tokenizer.l"
 { BEGIN (COMMENT);}
 	YY_BREAK
 case 105:
 YY_RULE_SETUP
-#line 261 "tokenizer.l"
+#line 273 "tokenizer.l"
 { BEGIN (INITIAL); }
 	YY_BREAK
 case 106:
 YY_RULE_SETUP
-#line 263 "tokenizer.l"
+#line 275 "tokenizer.l"
 {}
 	YY_BREAK
 case 107:
 YY_RULE_SETUP
-#line 264 "tokenizer.l"
+#line 276 "tokenizer.l"
 {}
 	YY_BREAK
 /*==============> All other characters are ignored <==============*/
 case 108:
 YY_RULE_SETUP
-#line 267 "tokenizer.l"
+#line 279 "tokenizer.l"
 {}
 	YY_BREAK
 case 109:
 YY_RULE_SETUP
-#line 268 "tokenizer.l"
+#line 280 "tokenizer.l"
 {}
 	YY_BREAK
 case 110:
 YY_RULE_SETUP
-#line 270 "tokenizer.l"
+#line 282 "tokenizer.l"
 ECHO;
 	YY_BREAK
-#line 1818 "tokenizer.yy.cc"
+#line 1831 "tokenizer.yy.cc"
 			case YY_STATE_EOF(INITIAL):
 			case YY_STATE_EOF(COMMENT):
 			case YY_STATE_EOF(PREPARSER):
@@ -2622,5 +2635,5 @@ int main()
 	return 0;
 	}
 #endif
-#line 270 "tokenizer.l"
+#line 282 "tokenizer.l"
 

@@ -24,10 +24,11 @@ NESTED = Templates.r
 LOCALHEADERS= tokenizer.h FlexLexer.h
 
 HEADERS= Object.hh Document.hh Parser.hh CxxElements.hh \
- CxxScope.hh DocNode.hh DocTree.hh
+ CxxScope.hh DocNode.hh DocTree.hh Strings.hh
 
 SOURCES = Object.cc tokenizer.l cxx.y Document.cc Parser.cc \
- CxxElements.cc CxxScope.cc DocExe.cc DocNode.cc DocTree.cc
+ CxxElements.cc CxxScope.cc DocExe.cc DocNode.cc DocTree.cc \
+ Strings.cc
 
 PLIB = RavlCxxDoc
 

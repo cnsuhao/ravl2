@@ -11,6 +11,7 @@
 
 #include "Ravl/CxxDoc/Object.hh"
 #include "Ravl/CxxDoc/CxxScope.hh"
+#include "Ravl/CxxDoc/Strings.hh"
 #include "Ravl/DLIter.hh"
 #include "Ravl/CDLIter.hh"
 #include "Ravl/HashIter.hh"
@@ -23,6 +24,8 @@
 #else
 #define ONDEBUG(x)
 #endif
+
+#define USE_STRING_CACHE 1
 
 namespace RavlCxxDocN
 {
@@ -38,6 +41,30 @@ namespace RavlCxxDocN
   static int anonObjectCount = 1;
   RCHashC<StringC,ObjectC> emptyTemplSubst; // Empty template subsitution.
   DesciptionGeneratorC defaultDescGen; // Default do nothing description generator.
+
+  //: Set a global variable.
+
+  static HashC<StringC,StringC> strCache;
+  
+  void CommentInfoC::SetVar(const StringC &nm,const StringC &value) { 
+#if USE_STRING_CACHE
+    StringC vName,vValue;
+    if(!strCache.Lookup(nm,vName)) {
+      strCache[nm] = nm; 
+      vName = nm;
+    }
+    if(value.length() < 10) {
+      if(!strCache.Lookup(value,vValue)) {
+	strCache[value] = value;
+	vValue = value;
+      }
+      vars.Insert(vName,vValue);
+    } else
+      vars.Insert(vName,value); 
+#else
+    vars.Insert(nm,value); 
+#endif
+  }
   
   //: Render an object name.
   
@@ -123,8 +150,8 @@ namespace RavlCxxDocN
     comment = cinf;
     comment.Header() = comment.Header().Copy();
     comment.Text() = comment.Text().Copy();
-    SetVar("brief",comment.Header());
-    SetVar("detail",comment.Text());
+    SetVar(STR(brief),comment.Header());
+    SetVar(STR(detail),comment.Text());
   }
   
   //: Update the comments for the object.
@@ -136,8 +163,8 @@ namespace RavlCxxDocN
     comment.Header() = cinf.Header().Copy();
     comment.Text() = cinf.Text().Copy();
     comment.Locals().Data().Add(cinf.Locals().Data());
-    SetVar("brief",comment.Header());
-    SetVar("detail",comment.Text());
+    SetVar(STR(brief),comment.Header());
+    SetVar(STR(detail),comment.Text());
   }
 
   //: Set scope for object.
@@ -150,7 +177,7 @@ namespace RavlCxxDocN
   ObjectListC ObjectBodyC::PathList() const {
     ObjectListC ret;
     if(!HasParentScope()) {
-      ret = ObjectListC("PathList");
+      ret = ObjectListC(STR(PathList));
       //ObjectC tmp("::");
       //      ret.Append(tmp);
     } else {

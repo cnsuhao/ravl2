@@ -39,6 +39,7 @@
 
 #include "Ravl/CxxDoc/CxxElements.hh"
 #include "Ravl/CxxDoc/DocNode.hh"
+#include "Ravl/CxxDoc/Strings.hh"
 
 #ifndef NDEBUG
 #define YYDEBUG 1
@@ -250,39 +251,39 @@ static const short yyrhs[] = {    54,
 
 #if YYDEBUG != 0
 static const short yyrline[] = { 0,
-    77,    82,    83,    86,    87,    90,    91,    92,    93,    94,
-    95,    96,    97,   102,   103,   104,   105,   106,   107,   108,
-   114,   125,   130,   135,   139,   144,   164,   165,   184,   191,
-   196,   201,   204,   213,   226,   227,   228,   232,   233,   235,
-   236,   238,   239,   244,   246,   251,   254,   255,   258,   259,
-   262,   264,   265,   266,   271,   275,   283,   285,   286,   294,
-   301,   306,   310,   320,   321,   324,   325,   326,   327,   330,
-   332,   335,   336,   339,   347,   349,   352,   356,   365,   366,
-   367,   368,   369,   382,   383,   385,   387,   389,   390,   391,
-   393,   397,   402,   407,   413,   414,   416,   417,   418,   419,
-   420,   424,   425,   427,   428,   430,   431,   432,   433,   433,
-   433,   433,   433,   433,   434,   435,   436,   437,   438,   439,
-   440,   441,   442,   443,   444,   445,   446,   447,   448,   449,
-   450,   451,   452,   453,   454,   455,   456,   457,   458,   462,
-   463,   464,   467,   470,   474,   478,   481,   484,   487,   490,
-   493,   498,   499,   501,   502,   504,   505,   507,   508,   509,
-   510,   512,   514,   515,   516,   517,   519,   520,   521,   525,
-   526,   532,   540,   541,   543,   544,   546,   547,   549,   550,
-   552,   553,   553,   553,   554,   554,   554,   554,   554,   554,
-   555,   555,   555,   555,   555,   555,   556,   556,   556,   556,
-   556,   556,   557,   558,   559,   560,   561,   562,   563,   564,
-   565,   566,   567,   568,   569,   570,   571,   572,   573,   574,
-   579,   580,   581,   587,   591,   595,   600,   606,   607,   608,
-   609,   610,   611,   612,   613,   614,   615,   616,   617,   618,
-   619,   620,   621,   622,   623,   624,   626,   627,   629,   632,
-   636,   641,   659,   662,   667,   670,   676,   678,   679,   681,
-   682,   684,   685,   687,   688,   689,   691,   692,   693,   696,
-   706,   712,   713,   714,   715,   718,   720,   721,   723,   724,
-   726,   727,   727,   727,   728,   728,   728,   728,   728,   728,
-   728,   728,   728,   728,   728,   728,   729,   729,   729,   729,
-   729,   729,   729,   729,   729,   730,   730,   730,   730,   730,
-   730,   731,   731,   731,   731,   731,   731,   731,   732,   732,
-   732,   732,   732,   732,   733,   733
+    78,    83,    84,    87,    88,    91,    92,    93,    94,    95,
+    96,    97,    98,   103,   104,   105,   106,   107,   108,   109,
+   115,   126,   131,   136,   140,   145,   165,   166,   185,   192,
+   197,   202,   205,   214,   227,   228,   229,   233,   234,   236,
+   237,   239,   240,   245,   247,   252,   255,   256,   259,   260,
+   263,   265,   266,   267,   272,   276,   284,   286,   287,   295,
+   302,   307,   311,   321,   322,   325,   326,   327,   328,   331,
+   333,   336,   337,   340,   348,   350,   353,   357,   366,   367,
+   368,   369,   370,   383,   384,   386,   388,   390,   391,   392,
+   394,   398,   403,   408,   414,   415,   417,   418,   419,   420,
+   421,   425,   426,   428,   429,   431,   432,   433,   434,   434,
+   434,   434,   434,   434,   435,   436,   437,   438,   439,   440,
+   441,   442,   443,   444,   445,   446,   447,   448,   449,   450,
+   451,   452,   453,   454,   455,   456,   457,   458,   459,   463,
+   464,   465,   468,   471,   475,   479,   482,   485,   488,   491,
+   494,   499,   500,   502,   503,   505,   506,   508,   509,   510,
+   511,   513,   515,   516,   517,   518,   520,   521,   522,   526,
+   527,   533,   541,   542,   544,   545,   547,   548,   550,   551,
+   553,   554,   554,   554,   555,   555,   555,   555,   555,   555,
+   556,   556,   556,   556,   556,   556,   557,   557,   557,   557,
+   557,   557,   558,   559,   560,   561,   562,   563,   564,   565,
+   566,   567,   568,   569,   570,   571,   572,   573,   574,   575,
+   580,   581,   582,   588,   592,   596,   601,   607,   608,   609,
+   610,   611,   612,   613,   614,   615,   616,   617,   618,   619,
+   620,   621,   622,   623,   624,   625,   627,   628,   630,   633,
+   637,   642,   660,   663,   668,   671,   677,   679,   680,   682,
+   683,   685,   686,   688,   689,   690,   692,   693,   694,   697,
+   707,   713,   714,   715,   716,   719,   721,   722,   724,   725,
+   727,   728,   728,   728,   729,   729,   729,   729,   729,   729,
+   729,   729,   729,   729,   729,   729,   730,   730,   730,   730,
+   730,   730,   730,   730,   730,   731,   731,   731,   731,   731,
+   731,   732,   732,   732,   732,   732,   732,   732,   733,   733,
+   733,   733,   733,   733,   734,   734
 };
 #endif
 
@@ -1309,96 +1310,96 @@ yyreduce:
   switch (yyn) {
 
 case 1:
-#line 77 "cxx.y"
+#line 78 "cxx.y"
 { results = yyvsp[0]; ;
     break;}
 case 2:
-#line 82 "cxx.y"
-{ ScopeC ol("extdefs"); yyval=ol; ol.Append(yyvsp[0]);  ;
+#line 83 "cxx.y"
+{ ScopeC ol(STR(extdefs)); yyval=ol; ol.Append(yyvsp[0]);  ;
     break;}
 case 3:
-#line 83 "cxx.y"
+#line 84 "cxx.y"
 { ObjectListC ol(yyvsp[-1]); yyval=yyvsp[-1]; ol.Append(yyvsp[0]);  ;
     break;}
 case 4:
-#line 86 "cxx.y"
-{ ScopeC ol("extdefs"); yyval=ol; ;
+#line 87 "cxx.y"
+{ ScopeC ol(STR(extdefs)); yyval=ol; ;
     break;}
 case 5:
-#line 87 "cxx.y"
+#line 88 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
 case 6:
-#line 90 "cxx.y"
-{ yyval=yyvsp[0]; ;
-    break;}
-case 7:
 #line 91 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
-case 8:
+case 7:
 #line 92 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
-case 9:
+case 8:
 #line 93 "cxx.y"
-{ yyval=yyvsp[0]; yyval.SetVar("static","1"); ;
+{ yyval=yyvsp[0]; ;
+    break;}
+case 9:
+#line 94 "cxx.y"
+{ yyval=yyvsp[0]; yyval.SetVar(STR(static),STR(1)); ;
     break;}
 case 10:
-#line 94 "cxx.y"
-{ yyval=yyvsp[0]; yyval.SetVar("static","1"); ;
+#line 95 "cxx.y"
+{ yyval=yyvsp[0]; yyval.SetVar(STR(static),STR(1)); ;
     break;}
 case 11:
-#line 95 "cxx.y"
-{ yyval=yyvsp[0]; yyval.SetVar("static","1"); ;
+#line 96 "cxx.y"
+{ yyval=yyvsp[0]; yyval.SetVar(STR(static),STR(1)); ;
     break;}
 case 12:
-#line 96 "cxx.y"
+#line 97 "cxx.y"
 { yyval=ObjectC(); ;
     break;}
 case 13:
-#line 97 "cxx.y"
+#line 98 "cxx.y"
 { yyval=ScopeC(yyvsp[-3].Name(),yyvsp[-1]); 
 							   yyval.UpdateComment(yyvsp[-4].Comment());
-    	                                                   yyval.SetVar("dectype","definition");
-                                                           yyval.SetVar("storageType","namespace");
+    	                                                   yyval.SetVar(STR(dectype),STR(definition));
+                                                           yyval.SetVar(STR(storageType),STR(namespace));
 	                                                 ;
     break;}
 case 14:
-#line 102 "cxx.y"
-{ yyval=ObjectC(); ;
-    break;}
-case 15:
 #line 103 "cxx.y"
 { yyval=ObjectC(); ;
     break;}
-case 16:
+case 15:
 #line 104 "cxx.y"
+{ yyval=ObjectC(); ;
+    break;}
+case 16:
+#line 105 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
 case 17:
-#line 105 "cxx.y"
-{ yyval=ObjectC(); ;
-    break;}
-case 18:
 #line 106 "cxx.y"
 { yyval=ObjectC(); ;
     break;}
-case 19:
+case 18:
 #line 107 "cxx.y"
 { yyval=ObjectC(); ;
     break;}
-case 20:
+case 19:
 #line 108 "cxx.y"
+{ yyval=ObjectC(); ;
+    break;}
+case 20:
+#line 109 "cxx.y"
 { 
 	                     yyval=DocNodeC(StringC("anon?") + StringC(anonCount++)); 
           		     hookCommentObj = yyval;
                            ;
     break;}
 case 21:
-#line 115 "cxx.y"
+#line 116 "cxx.y"
 { ObjectListC ol(yyvsp[-1]);
-						   ObjectListC ret("varList",true);
+						   ObjectListC ret(STR(varList),true);
 						   for(DLIterC<ObjectC> it(ol.List());it.IsElm();it.Next()) {
 						     VariableC avar(yyvsp[-2],it.Data().Name());
 						     ret.Append(avar);
@@ -1409,29 +1410,29 @@ case 21:
                                                  ;
     break;}
 case 22:
-#line 125 "cxx.y"
+#line 126 "cxx.y"
 { yyval=TypedefC(yyvsp[-1].Name(),yyvsp[-2]);
                                                    yyval.SetupLineNos(yyvsp[-3],yyvsp[0]);
           				           hookCommentObj = yyval; 
                                                  ;
     break;}
 case 23:
-#line 130 "cxx.y"
-{ yyvsp[-5].SetVar("array","1"); 
+#line 131 "cxx.y"
+{ yyvsp[-5].SetVar(STR(array),STR(1)); 
                                                                yyval=TypedefC(yyvsp[-4].Name(),yyvsp[-5]); 
           				                       hookCommentObj = yyval; 
                                                                yyval.SetupLineNos(yyvsp[-6],yyvsp[0]);
                                                              ;
     break;}
 case 24:
-#line 135 "cxx.y"
+#line 136 "cxx.y"
 { yyval=TypedefC(yyvsp[-1].Name(),yyvsp[-2]); 
                                                                yyval.SetupLineNos(yyvsp[-4],yyvsp[0]);
           				                       hookCommentObj = yyval;
                                                              ;
     break;}
 case 25:
-#line 139 "cxx.y"
+#line 140 "cxx.y"
 { DataTypeC dt(yyvsp[-1]);
                                                                yyval=TypedefC(dt.Alias(),dt);
                                                                yyval.SetupLineNos(yyvsp[-2],yyvsp[0]);
@@ -1439,7 +1440,7 @@ case 25:
                                                              ;
     break;}
 case 26:
-#line 145 "cxx.y"
+#line 146 "cxx.y"
 { 
 							       StringC className;
 							       if(yyvsp[-6].IsValid())
@@ -1447,11 +1448,11 @@ case 26:
 							       else 
 								 className = StringC("anon?") + StringC(anonCount++);
 							       ClassC aclass(className,yyvsp[-3],yyvsp[-5]);
-                                                               aclass.SetVar("dectype","definition");
-                                                               aclass.SetVar("storageType",yyvsp[-7].Name());
+                                                               aclass.SetVar(STR(dectype),STR(definition));
+                                                               aclass.SetVar(STR(storageType),yyvsp[-7].Name());
 							       TypedefC td(yyvsp[-2].Name(),DataTypeC(className));
 							       td.SetDefinition(aclass);
-							       ObjectListC ret("x",true);
+							       ObjectListC ret(STR(x),true);
 							       ret.Append(td);
 							       if(yyvsp[-6].IsValid())
 								 ret.Append(aclass);
@@ -1461,11 +1462,11 @@ case 26:
 							     ;
     break;}
 case 27:
-#line 164 "cxx.y"
+#line 165 "cxx.y"
 { yyval=ObjectC(); ;
     break;}
 case 28:
-#line 165 "cxx.y"
+#line 166 "cxx.y"
 { 
 							       StringC enumName;
 							       if(yyvsp[-5].IsValid())
@@ -1473,8 +1474,8 @@ case 28:
 							       else 
 								 enumName = StringC("anon_enum?") + StringC(anonCount++);
                                                                EnumC anEnum(enumName,yyvsp[-3]);
-                                                               anEnum.SetVar("dectype","definition");
-                                                               anEnum.SetVar("storageType","enum");
+                                                               anEnum.SetVar(STR(dectype),STR(definition));
+                                                               anEnum.SetVar(STR(storageType),STR(enum));
 							       TypedefC td(yyvsp[-1].Name(),DataTypeC(enumName));
 							       td.SetDefinition(anEnum);
 							       ObjectListC ret("x",true);
@@ -1487,7 +1488,7 @@ case 28:
                                                              ;
     break;}
 case 29:
-#line 184 "cxx.y"
+#line 185 "cxx.y"
 {
                                                   if(yyvsp[-5].IsValid())
 						    yyval=EnumC(yyvsp[-5].Name(),yyvsp[-3]);
@@ -1497,40 +1498,40 @@ case 29:
                                                 ;
     break;}
 case 30:
-#line 191 "cxx.y"
+#line 192 "cxx.y"
 { yyval=ClassC(yyvsp[-1].Name());
 						  yyval.UpdateComment(yyvsp[-2].Comment()); 
-						  yyval.SetVar("storageType",yyvsp[-2].Name());
-                                                  yyval.SetVar("dectype","forward");
+						  yyval.SetVar(STR(storageType),yyvsp[-2].Name());
+                                                  yyval.SetVar(STR(dectype),STR(forward));
                                                 ;
     break;}
 case 31:
-#line 196 "cxx.y"
+#line 197 "cxx.y"
 { yyval=EnumC(yyvsp[-1].Name());
 						  yyval.UpdateComment(yyvsp[-2].Comment()); 
-						  yyval.SetVar("storageType","enum");
-                                                  yyval.SetVar("dectype","forward");
+						  yyval.SetVar(STR(storageType),STR(enum));
+                                                  yyval.SetVar(STR(dectype),STR(forward));
                                                 ;
     break;}
 case 32:
-#line 201 "cxx.y"
+#line 202 "cxx.y"
 { yyval=yyvsp[-1]; 
-                                                  yyval.SetVar("dectype","friend");  
+                                                  yyval.SetVar(STR(dectype),STR(friend));  
                                                 ;
     break;}
 case 33:
-#line 205 "cxx.y"
+#line 206 "cxx.y"
 { 
 						  ClassC newClass(yyvsp[-6].Name(),yyvsp[-3],yyvsp[-5]);
 						  yyval = newClass;
 						  yyval.UpdateComment(yyvsp[-7].Comment()); 
 						  yyval.SetupLineNos(yyvsp[-7],yyvsp[0]);
-						  newClass.SetVar("dectype","definition");
-						  newClass.SetVar("storageType",yyvsp[-7].Name());
+						  newClass.SetVar(STR(dectype),STR(definition));
+						  newClass.SetVar(STR(storageType),yyvsp[-7].Name());
 						;
     break;}
 case 34:
-#line 213 "cxx.y"
+#line 214 "cxx.y"
 {
                                                   StringC nname;
 						  if(yyvsp[-6].IsValid())
@@ -1541,84 +1542,84 @@ case 34:
 						  yyval = newClass;
 						  yyval.UpdateComment(yyvsp[-8].Comment()); 
 						  yyval.SetupLineNos(yyvsp[-8],yyvsp[-1]);
-						  newClass.SetVar("dectype","definition");
-						  newClass.SetVar("storageType",yyvsp[-7].Name());
+						  newClass.SetVar(STR(dectype),STR(definition));
+						  newClass.SetVar(STR(storageType),yyvsp[-7].Name());
                                                 ;
     break;}
 case 35:
-#line 226 "cxx.y"
+#line 227 "cxx.y"
 { yyval=ObjectC(); ;
     break;}
 case 36:
-#line 227 "cxx.y"
+#line 228 "cxx.y"
 { yyval = yyvsp[-1]; ObjectListC ol(yyvsp[-1]); ol.SetWrapper(true); ;
     break;}
 case 37:
-#line 228 "cxx.y"
+#line 229 "cxx.y"
 { yyval=ObjectC(); ;
     break;}
 case 38:
-#line 232 "cxx.y"
-{ ObjectListC ol("EnumNameList"); yyval=ol; ;
+#line 233 "cxx.y"
+{ ObjectListC ol(STR(EnumNameList)); yyval=ol; ;
     break;}
 case 39:
-#line 233 "cxx.y"
+#line 234 "cxx.y"
 { yyval=yyvsp[0];
     break;}
 case 40:
-#line 235 "cxx.y"
-{ ObjectListC ol("VarNameList"); ol.Append(yyvsp[0]); yyval = ol;  ;
+#line 236 "cxx.y"
+{ ObjectListC ol(STR(VarNameList)); ol.Append(yyvsp[0]); yyval = ol;  ;
     break;}
 case 41:
-#line 236 "cxx.y"
+#line 237 "cxx.y"
 { ObjectListC ol(yyvsp[-2]); ol.Append(yyvsp[0]); yyval = ol; ;
     break;}
 case 42:
-#line 238 "cxx.y"
+#line 239 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
 case 43:
-#line 239 "cxx.y"
+#line 240 "cxx.y"
 { yyval=yyvsp[-2]; yyvsp[-2].Name() += StringC(" = ") + yyvsp[0].Name(); ;
     break;}
 case 46:
-#line 251 "cxx.y"
+#line 252 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
 case 47:
-#line 254 "cxx.y"
-{ yyval=yyvsp[-2]; yyval.Name() += StringC("::") + yyvsp[0].Name(); ;
+#line 255 "cxx.y"
+{ yyval=yyvsp[-2]; yyval.Name() += strp_ColonColon + yyvsp[0].Name(); ;
     break;}
 case 48:
-#line 255 "cxx.y"
-{ yyval=yyvsp[-2]; yyval.Name() += StringC("::") + yyvsp[0].Name(); ;
+#line 256 "cxx.y"
+{ yyval=yyvsp[-2]; yyval.Name() += strp_ColonColon + yyvsp[0].Name(); ;
     break;}
 case 49:
-#line 258 "cxx.y"
+#line 259 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
 case 50:
-#line 259 "cxx.y"
+#line 260 "cxx.y"
 { yyval=ObjectC(); ;
     break;}
 case 51:
-#line 263 "cxx.y"
-{ yyval = yyvsp[0]; ;
-    break;}
-case 52:
 #line 264 "cxx.y"
 { yyval = yyvsp[0]; ;
     break;}
-case 53:
+case 52:
 #line 265 "cxx.y"
-{ yyval=ObjectC(StringC("::") + yyvsp[0].Name()); ;
+{ yyval = yyvsp[0]; ;
+    break;}
+case 53:
+#line 266 "cxx.y"
+{ yyval=ObjectC(strp_ColonColon + yyvsp[0].Name()); ;
     break;}
 case 54:
-#line 266 "cxx.y"
-{ yyval=ObjectC(StringC("::") + yyvsp[0].Name()); ;
+#line 267 "cxx.y"
+{ yyval=ObjectC(strp_ColonColon + yyvsp[0].Name()); ;
     break;}
 case 56:
-#line 276 "cxx.y"
+#line 277 "cxx.y"
 {
 	    InheritC inh(SAPublic,true);
 	    inh.SetScopeDef(yyvsp[-1]);  
@@ -1626,30 +1627,30 @@ case 56:
 	  ;
     break;}
 case 60:
-#line 296 "cxx.y"
+#line 297 "cxx.y"
 { yyval =  ClassTemplateC(yyvsp[-5].Name(),yyvsp[-2],yyvsp[-4],yyvsp[-7]);
-						  yyval.SetVar("dectype","definition");
-						  yyval.SetVar("storageType",yyvsp[-6].Name());
+						  yyval.SetVar(STR(dectype),STR(definition));
+						  yyval.SetVar(STR(storageType),yyvsp[-6].Name());
 						  yyval.UpdateComment(yyvsp[-7].Comment());
 						;
     break;}
 case 61:
-#line 301 "cxx.y"
+#line 302 "cxx.y"
 { yyval = ClassTemplateC(yyvsp[-1].Name(),yyvsp[-3]); 
-						    yyval.SetVar("dectype","forward");
-						    yyval.SetVar("storageType",yyvsp[-2].Name());
+						    yyval.SetVar(STR(dectype),STR(forward));
+						    yyval.SetVar(STR(storageType),yyvsp[-2].Name());
 						    yyval.UpdateComment(yyvsp[-3].Comment());
                                                   ;
     break;}
 case 62:
-#line 306 "cxx.y"
+#line 307 "cxx.y"
 { yyval = yyvsp[0];
                                                     ObjectListC ol1(yyvsp[-1]);
 						    yyval.UpdateComment(yyvsp[-1].Comment());
                                                   ;
     break;}
 case 63:
-#line 310 "cxx.y"
+#line 311 "cxx.y"
 { yyval = yyvsp[0];
                                                     ObjectListC ol1(yyvsp[-2]);
                                                     ObjectListC ol2(yyvsp[-1]);
@@ -1657,47 +1658,47 @@ case 63:
                                                   ;
     break;}
 case 64:
-#line 320 "cxx.y"
-{ yyval=ObjectListC("TemplateInstArgs"); ;
+#line 321 "cxx.y"
+{ yyval=ObjectListC(STR(TemplateInstArgs)); ;
     break;}
 case 65:
-#line 321 "cxx.y"
+#line 322 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
 case 66:
-#line 324 "cxx.y"
-{ ObjectListC ol("TemplateInstArgs"); yyval=ol; ol.Append(yyvsp[0]); ;
+#line 325 "cxx.y"
+{ ObjectListC ol(STR(TemplateInstArgs)); yyval=ol; ol.Append(yyvsp[0]); ;
     break;}
 case 67:
-#line 325 "cxx.y"
-{ ObjectListC ol("TemplateInstArgs"); yyval=ol; ol.Append(yyvsp[0]); ;
+#line 326 "cxx.y"
+{ ObjectListC ol(STR(TemplateInstArgs)); yyval=ol; ol.Append(yyvsp[0]); ;
     break;}
 case 68:
-#line 326 "cxx.y"
-{ ObjectListC ol(yyvsp[-2]); yyval=yyvsp[-2]; ol.Append(yyvsp[0]); ;
-    break;}
-case 69:
 #line 327 "cxx.y"
 { ObjectListC ol(yyvsp[-2]); yyval=yyvsp[-2]; ol.Append(yyvsp[0]); ;
     break;}
+case 69:
+#line 328 "cxx.y"
+{ ObjectListC ol(yyvsp[-2]); yyval=yyvsp[-2]; ol.Append(yyvsp[0]); ;
+    break;}
 case 70:
-#line 331 "cxx.y"
+#line 332 "cxx.y"
 { yyval=yyvsp[-1]; yyval.UpdateComment(yyvsp[-3].Comment()); ;
     break;}
 case 71:
-#line 332 "cxx.y"
-{ yyval=ObjectListC("TemplateDefArgs"); yyval.UpdateComment(yyvsp[-2].Comment()); ;
+#line 333 "cxx.y"
+{ yyval=ObjectListC(STR(TemplateDefArgs)); yyval.UpdateComment(yyvsp[-2].Comment()); ;
     break;}
 case 72:
-#line 335 "cxx.y"
-{ ObjectListC ol("TemplateDefArgs"); yyval=ol; ol.Append(yyvsp[0]); ;
+#line 336 "cxx.y"
+{ ObjectListC ol(STR(TemplateDefArgs)); yyval=ol; ol.Append(yyvsp[0]); ;
     break;}
 case 73:
-#line 336 "cxx.y"
+#line 337 "cxx.y"
 { yyval=yyvsp[-2]; ObjectListC ol(yyvsp[-2]); ol.Append(yyvsp[0]); ;
     break;}
 case 74:
-#line 339 "cxx.y"
+#line 340 "cxx.y"
 { yyval=yyvsp[-1]; 
                                       if(yyvsp[0].IsValid()) { 
                                         DataTypeC dt(yyvsp[-1]); 
@@ -1706,78 +1707,78 @@ case 74:
                                     ;
     break;}
 case 75:
-#line 348 "cxx.y"
-{ yyval= DataTypeC("class",yyvsp[0]); ;
+#line 349 "cxx.y"
+{ yyval= DataTypeC(STR(class),yyvsp[0]); ;
     break;}
 case 76:
-#line 349 "cxx.y"
-{ yyval= DataTypeC("typename",yyvsp[0]);  ;
+#line 350 "cxx.y"
+{ yyval= DataTypeC(STR(typename),yyvsp[0]);  ;
     break;}
 case 77:
-#line 353 "cxx.y"
+#line 354 "cxx.y"
 { yyval=ObjectC("template<> class " + yyvsp[-2].Name()); ;
     break;}
 case 78:
-#line 364 "cxx.y"
+#line 365 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
 case 79:
-#line 365 "cxx.y"
+#line 366 "cxx.y"
 { yyval=yyvsp[-2]; ;
     break;}
 case 80:
-#line 366 "cxx.y"
+#line 367 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
 case 81:
-#line 367 "cxx.y"
+#line 368 "cxx.y"
 { yyval=yyvsp[-2]; ;
     break;}
 case 82:
-#line 368 "cxx.y"
+#line 369 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
 case 83:
-#line 369 "cxx.y"
+#line 370 "cxx.y"
 { yyval=yyvsp[-2]; ;
     break;}
 case 84:
-#line 382 "cxx.y"
-{ yyval=ObjectListC("classInherit"); ;
+#line 383 "cxx.y"
+{ yyval=ObjectListC(STR(classInherit)); ;
     break;}
 case 85:
-#line 383 "cxx.y"
+#line 384 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
 case 86:
-#line 386 "cxx.y"
+#line 387 "cxx.y"
 { yyval = yyvsp[-2]; ObjectListC ol(yyvsp[-2]); ol.Append(yyvsp[0]);  ;
     break;}
 case 87:
-#line 387 "cxx.y"
-{ ObjectListC ol("classInherit",true); ol.Append(yyvsp[0]); yyval = ol; ;
+#line 388 "cxx.y"
+{ ObjectListC ol(STR(classInherit),true); ol.Append(yyvsp[0]); yyval = ol; ;
     break;}
 case 88:
-#line 389 "cxx.y"
+#line 390 "cxx.y"
 { yyval = InheritC(SAPublic);    yyval.CopyLineNo(yyvsp[0]); ;
     break;}
 case 89:
-#line 390 "cxx.y"
+#line 391 "cxx.y"
 { yyval = InheritC(SAPrivate);   yyval.CopyLineNo(yyvsp[0]); ;
     break;}
 case 90:
-#line 391 "cxx.y"
+#line 392 "cxx.y"
 { yyval = InheritC(SAProtected); yyval.CopyLineNo(yyvsp[0]); ;
     break;}
 case 91:
-#line 393 "cxx.y"
+#line 394 "cxx.y"
 { yyval = yyvsp[-1];
 							  InheritC inh(yyval);
 							  inh.SetScopeDef(yyvsp[0]);
 							;
     break;}
 case 92:
-#line 397 "cxx.y"
+#line 398 "cxx.y"
 { yyval = yyvsp[-1];
                                                           InheritC inh(yyval);
 							  inh.SetScopeDef(yyvsp[0]);
@@ -1785,7 +1786,7 @@ case 92:
 							;
     break;}
 case 93:
-#line 402 "cxx.y"
+#line 403 "cxx.y"
 { yyval = yyvsp[-2];
                                                           InheritC inh(yyval);
 							  inh.SetScopeDef(yyvsp[0]);
@@ -1793,323 +1794,323 @@ case 93:
 							;
     break;}
 case 94:
-#line 407 "cxx.y"
+#line 408 "cxx.y"
 { yyval = InheritC(SAPrivate);
                                                           InheritC inh(yyval);
 							  inh.SetScopeDef(yyvsp[0]);
 							;
     break;}
 case 95:
-#line 413 "cxx.y"
-{ yyval = ObjectListC("ClassContents"); ;
+#line 414 "cxx.y"
+{ yyval = ObjectListC(STR(ClassContents)); ;
     break;}
 case 96:
-#line 414 "cxx.y"
+#line 415 "cxx.y"
 { ObjectListC ol(yyvsp[-1]); ol.Append(yyvsp[0]); yyval = ol; ;
     break;}
 case 97:
-#line 416 "cxx.y"
-{ yyval = MarkerC("protected"); yyval.SetupLineNos(yyvsp[-1],yyvsp[0]); ;
+#line 417 "cxx.y"
+{ yyval = MarkerC(STR(protected)); yyval.SetupLineNos(yyvsp[-1],yyvsp[0]); ;
     break;}
 case 98:
-#line 417 "cxx.y"
-{ yyval = MarkerC("private");   yyval.SetupLineNos(yyvsp[-1],yyvsp[0]); ;
+#line 418 "cxx.y"
+{ yyval = MarkerC(STR(private));   yyval.SetupLineNos(yyvsp[-1],yyvsp[0]); ;
     break;}
 case 99:
-#line 418 "cxx.y"
-{ yyval = MarkerC("public");    yyval.SetupLineNos(yyvsp[-1],yyvsp[0]); ;
+#line 419 "cxx.y"
+{ yyval = MarkerC(STR(public));    yyval.SetupLineNos(yyvsp[-1],yyvsp[0]); ;
     break;}
 case 100:
-#line 419 "cxx.y"
+#line 420 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
 case 101:
-#line 420 "cxx.y"
-{ yyval=yyvsp[0]; yyval.SetVar("virtual","1"); ;
+#line 421 "cxx.y"
+{ yyval=yyvsp[0]; yyval.SetVar(STR(virtual),STR(1)); ;
     break;}
 case 102:
-#line 424 "cxx.y"
+#line 425 "cxx.y"
 { yyval=ObjectC(""); ;
     break;}
 case 103:
-#line 425 "cxx.y"
+#line 426 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
 case 104:
-#line 427 "cxx.y"
+#line 428 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
 case 105:
-#line 428 "cxx.y"
+#line 429 "cxx.y"
 { yyval=yyvsp[-1]; yyval.Name() += yyvsp[0].Name(); ;
     break;}
 case 106:
-#line 430 "cxx.y"
-{ yyval=ObjectC(StringC("(") + yyvsp[-1].Name() + ")"); ;
+#line 431 "cxx.y"
+{ yyval=ObjectC(strp_OpenBracket + yyvsp[-1].Name() + strp_CloseBracket); ;
     break;}
 case 107:
-#line 431 "cxx.y"
+#line 432 "cxx.y"
 { yyval=ObjectC(StringC("[") + yyvsp[-1].Name() + "]"); ;
     break;}
 case 108:
-#line 432 "cxx.y"
+#line 433 "cxx.y"
 { yyval=ObjectC(StringC("{") + yyvsp[-1].Name() + "}"); ;
     break;}
 case 115:
-#line 434 "cxx.y"
+#line 435 "cxx.y"
 { yyval=ObjectC("<"); ;
     break;}
 case 116:
-#line 435 "cxx.y"
+#line 436 "cxx.y"
 { yyval=ObjectC(">"); ;
     break;}
 case 117:
-#line 436 "cxx.y"
-{ yyval=ObjectC("="); ;
+#line 437 "cxx.y"
+{ yyval=ObjectC(strp_equals); ;
     break;}
 case 118:
-#line 437 "cxx.y"
-{ yyval=ObjectC("+"); ;
+#line 438 "cxx.y"
+{ yyval=ObjectC(strp_plus); ;
     break;}
 case 119:
-#line 438 "cxx.y"
+#line 439 "cxx.y"
 { yyval=ObjectC("-"); ;
     break;}
 case 120:
-#line 439 "cxx.y"
+#line 440 "cxx.y"
 { yyval=ObjectC("~"); ;
     break;}
 case 121:
-#line 440 "cxx.y"
-{ yyval=ObjectC("&"); ;
+#line 441 "cxx.y"
+{ yyval=ObjectC(strp_ampersand); ;
     break;}
 case 122:
-#line 441 "cxx.y"
+#line 442 "cxx.y"
 { yyval=ObjectC("/"); ;
     break;}
 case 123:
-#line 442 "cxx.y"
-{ yyval=ObjectC("*"); ;
+#line 443 "cxx.y"
+{ yyval=ObjectC(strp_asterisk); ;
     break;}
 case 124:
-#line 443 "cxx.y"
+#line 444 "cxx.y"
 { yyval=ObjectC("%"); ;
     break;}
 case 125:
-#line 444 "cxx.y"
+#line 445 "cxx.y"
 { yyval=ObjectC("|"); ;
     break;}
 case 126:
-#line 445 "cxx.y"
+#line 446 "cxx.y"
 { yyval=ObjectC("^"); ;
     break;}
 case 127:
-#line 446 "cxx.y"
+#line 447 "cxx.y"
 { yyval=ObjectC("!"); ;
     break;}
 case 128:
-#line 447 "cxx.y"
-{ yyval=yyvsp[0]; ;
-    break;}
-case 129:
 #line 448 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
-case 130:
+case 129:
 #line 449 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
-case 131:
+case 130:
 #line 450 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
-case 132:
+case 131:
 #line 451 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
-case 133:
+case 132:
 #line 452 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
-case 134:
+case 133:
 #line 453 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
-case 135:
+case 134:
 #line 454 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
-case 136:
+case 135:
 #line 455 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
-case 137:
+case 136:
 #line 456 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
-case 138:
+case 137:
 #line 457 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
-case 139:
+case 138:
 #line 458 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
+case 139:
+#line 459 "cxx.y"
+{ yyval=yyvsp[0]; ;
+    break;}
 case 140:
-#line 462 "cxx.y"
+#line 463 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
 case 141:
-#line 463 "cxx.y"
+#line 464 "cxx.y"
 { yyval=yyvsp[0]; DataTypeC dt(yyvsp[0]); dt.SetPreQual(yyvsp[-1].Name()); ;
     break;}
 case 142:
-#line 464 "cxx.y"
+#line 465 "cxx.y"
 { yyval=yyvsp[0]; DataTypeC dt(yyvsp[0]); dt.SetPreQual(yyvsp[-2].Name() + " " + yyvsp[-1].Name()); ;
     break;}
 case 143:
-#line 467 "cxx.y"
+#line 468 "cxx.y"
 { yyval=DataTypeC(StringC(""),yyvsp[-1],yyvsp[0].Name()); 
 	                                           yyval.SetupLineNos(yyvsp[-1],yyvsp[0]); 
                                                  ;
     break;}
 case 144:
-#line 470 "cxx.y"
+#line 471 "cxx.y"
 { yyval=DataTypeC(yyvsp[-2].Name(),yyvsp[-1],yyvsp[0].Name()); 
-	                                           yyval.SetVar("storageType",yyvsp[-2].Name());
+	                                           yyval.SetVar(STR(storageType),yyvsp[-2].Name());
 	                                           yyval.SetupLineNos(yyvsp[-2],yyvsp[-1],yyvsp[0]); 
 	                                         ;
     break;}
 case 145:
-#line 474 "cxx.y"
+#line 475 "cxx.y"
 { yyval=DataTypeC(yyvsp[-2].Name(),yyvsp[-1],yyvsp[0].Name()); 
-	                                           yyval.SetVar("storageType",yyvsp[-2].Name());
+	                                           yyval.SetVar(STR(storageType),yyvsp[-2].Name());
 	                                           yyval.SetupLineNos(yyvsp[-2],yyvsp[-1],yyvsp[0]); 
 	                                         ;
     break;}
 case 146:
-#line 478 "cxx.y"
+#line 479 "cxx.y"
 { yyval=DataTypeC(StringC(""),yyvsp[-1],yyvsp[0].Name()); 
 	                                           yyval.SetupLineNos(yyvsp[-1],yyvsp[0]);
 	                                         ;
     break;}
 case 147:
-#line 481 "cxx.y"
+#line 482 "cxx.y"
 { yyval=DataTypeC(StringC(""),yyvsp[-1], yyvsp[0].Name()); 
                                                    yyval.SetupLineNos(yyvsp[-1],yyvsp[0]); 
                                                  ;
     break;}
 case 148:
-#line 484 "cxx.y"
+#line 485 "cxx.y"
 { yyval=DataTypeC(yyvsp[-2].Name(),yyvsp[-1],yyvsp[0].Name()); 
 	                                           yyval.SetupLineNos(yyvsp[-2],yyvsp[-1],yyvsp[0]); 
 	                                         ;
     break;}
 case 149:
-#line 487 "cxx.y"
+#line 488 "cxx.y"
 { yyval=DataTypeC(yyvsp[-2].Name(),yyvsp[-1],yyvsp[0].Name()); 
 	                                           yyval.SetupLineNos(yyvsp[-2],yyvsp[-1],yyvsp[0]); 
 	                                         ;
     break;}
 case 150:
-#line 490 "cxx.y"
+#line 491 "cxx.y"
 { yyval=DataTypeC(yyvsp[-3].Name() + " " + yyvsp[-2].Name(),yyvsp[-1],yyvsp[0].Name()); 
 	                                           yyval.SetupLineNos(yyvsp[-3],yyvsp[-1],yyvsp[0]); 
 	                                         ;
     break;}
 case 151:
-#line 493 "cxx.y"
+#line 494 "cxx.y"
 { yyval=DataTypeC(yyvsp[-3].Name() + " " + yyvsp[-2].Name(),yyvsp[-1],yyvsp[0].Name()); 
 	                                           yyval.SetupLineNos(yyvsp[-3],yyvsp[-1],yyvsp[0]);
 	                                         ;
     break;}
 case 152:
-#line 498 "cxx.y"
-{ yyval=ObjectListC("VarNameList"); ;
+#line 499 "cxx.y"
+{ yyval=ObjectListC(STR(VarNameList)); ;
     break;}
 case 153:
-#line 499 "cxx.y"
+#line 500 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
 case 154:
-#line 501 "cxx.y"
-{ ObjectListC ol("VarNameList"); ol.Append(yyvsp[0]); yyval = ol; ;
+#line 502 "cxx.y"
+{ ObjectListC ol(STR(VarNameList)); ol.Append(yyvsp[0]); yyval = ol; ;
     break;}
 case 155:
-#line 502 "cxx.y"
+#line 503 "cxx.y"
 { ObjectListC ol(yyvsp[-2]); ol.Append(yyvsp[0]); yyval = ol; ;
     break;}
 case 156:
-#line 504 "cxx.y"
+#line 505 "cxx.y"
 { yyval=ObjectC("[]"); ;
     break;}
 case 157:
-#line 505 "cxx.y"
+#line 506 "cxx.y"
 { yyval=yyvsp[-3]; yyvsp[-3].Name() += "[]" ;
     break;}
 case 158:
-#line 507 "cxx.y"
+#line 508 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
 case 159:
-#line 508 "cxx.y"
+#line 509 "cxx.y"
 { yyval=yyvsp[-2]; yyvsp[-2].Name() += StringC(" = ") + yyvsp[0].Name(); ;
     break;}
 case 160:
-#line 509 "cxx.y"
-{ yyval=yyvsp[-1]; yyvsp[-1].Name() += yyvsp[0].Name(); yyval.SetVar("array","1"); ;
+#line 510 "cxx.y"
+{ yyval=yyvsp[-1]; yyvsp[-1].Name() += yyvsp[0].Name(); yyval.SetVar(STR(array),STR(1)); ;
     break;}
 case 161:
-#line 511 "cxx.y"
-{ yyval=yyvsp[-5]; yyvsp[-5].Name() += yyvsp[-4].Name(); yyval.SetVar("array","1"); ;
+#line 512 "cxx.y"
+{ yyval=yyvsp[-5]; yyvsp[-5].Name() += yyvsp[-4].Name(); yyval.SetVar(STR(array),STR(1)); ;
     break;}
 case 162:
-#line 512 "cxx.y"
+#line 513 "cxx.y"
 { yyval=yyvsp[0]; yyvsp[0].Name() = StringC(" = ") + yyvsp[0].Name(); ;
     break;}
 case 163:
-#line 514 "cxx.y"
+#line 515 "cxx.y"
 { yyval=ObjectC(""); ;
     break;}
 case 164:
-#line 515 "cxx.y"
-{ yyval=yyvsp[-1]; yyval.Name() += "*";  ;
+#line 516 "cxx.y"
+{ yyval=yyvsp[-1]; yyval.Name() += strp_asterisk;  ;
     break;}
 case 165:
-#line 516 "cxx.y"
-{ yyval=yyvsp[-1]; yyval.Name() += "&";  ;
+#line 517 "cxx.y"
+{ yyval=yyvsp[-1]; yyval.Name() += strp_ampersand;  ;
     break;}
 case 166:
-#line 517 "cxx.y"
+#line 518 "cxx.y"
 { yyval=yyvsp[-1]; yyval.Name() += yyvsp[0].Name();  ;
     break;}
 case 167:
-#line 519 "cxx.y"
+#line 520 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
 case 168:
-#line 520 "cxx.y"
+#line 521 "cxx.y"
 { yyval = ObjectC(StringC("~") + yyvsp[0].Name()); yyval.CopyLineNo(yyvsp[0]); ;
     break;}
 case 169:
-#line 521 "cxx.y"
+#line 522 "cxx.y"
 { yyval = ObjectTemplateC(yyvsp[-3].Name(),yyvsp[-1]); ;
     break;}
 case 170:
-#line 525 "cxx.y"
+#line 526 "cxx.y"
 { ObjectListC ol(yyvsp[0].Name()); ol.Append(yyvsp[0]); yyval=ol; yyval.CopyLineNo(yyvsp[0]); ;
     break;}
 case 171:
-#line 526 "cxx.y"
+#line 527 "cxx.y"
 { ObjectListC ol(yyvsp[0].Name()); 
-                                       ObjectC newun("::");
+                                       ObjectC newun(strp_ColonColon);
                                        ol.Append(newun);
 				       ol.Append(yyvsp[0]);
 				       yyval = ol;
                                      ;
     break;}
 case 172:
-#line 532 "cxx.y"
+#line 533 "cxx.y"
 { ObjectListC ol(yyvsp[-2]); 
 				       ol.Append(yyvsp[0]);
 				       ol.Name() = yyvsp[0].Name();  // Give name of last component to list.
@@ -2117,238 +2118,242 @@ case 172:
                                      ;
     break;}
 case 177:
-#line 546 "cxx.y"
+#line 547 "cxx.y"
 { yyval =ObjectC(""); ;
     break;}
 case 178:
-#line 547 "cxx.y"
+#line 548 "cxx.y"
 { yyval = yyvsp[0]; ;
     break;}
 case 179:
-#line 549 "cxx.y"
+#line 550 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
 case 180:
-#line 550 "cxx.y"
+#line 551 "cxx.y"
 { yyval=yyvsp[-1]; yyvsp[-1].Name() += yyvsp[0].Name(); ;
     break;}
 case 181:
-#line 552 "cxx.y"
-{ yyval=ObjectC(StringC("(") + yyvsp[-1].Name() + ")"); ;
+#line 553 "cxx.y"
+{ yyval=ObjectC(strp_OpenBracket + yyvsp[-1].Name() + strp_CloseBracket); ;
+    break;}
+case 203:
+#line 558 "cxx.y"
+{ yyval=ObjectC(strp_Colon); ;
     break;}
 case 204:
-#line 558 "cxx.y"
+#line 559 "cxx.y"
 { yyval=ObjectC("<"); ;
     break;}
 case 205:
-#line 559 "cxx.y"
+#line 560 "cxx.y"
 { yyval=ObjectC(">"); ;
     break;}
 case 206:
-#line 560 "cxx.y"
-{ yyval=ObjectC("="); ;
+#line 561 "cxx.y"
+{ yyval=ObjectC(strp_equals); ;
     break;}
 case 207:
-#line 561 "cxx.y"
-{ yyval=ObjectC("+"); ;
+#line 562 "cxx.y"
+{ yyval=ObjectC(strp_plus); ;
     break;}
 case 208:
-#line 562 "cxx.y"
+#line 563 "cxx.y"
 { yyval=ObjectC("-"); ;
     break;}
 case 209:
-#line 563 "cxx.y"
-{ yyval=ObjectC("~"); ;
+#line 564 "cxx.y"
+{ yyval=ObjectC(strp_Tilda); ;
     break;}
 case 210:
-#line 564 "cxx.y"
-{ yyval=ObjectC("&"); ;
+#line 565 "cxx.y"
+{ yyval=ObjectC(strp_ampersand); ;
     break;}
 case 211:
-#line 565 "cxx.y"
+#line 566 "cxx.y"
 { yyval=ObjectC("/"); ;
     break;}
 case 212:
-#line 566 "cxx.y"
-{ yyval=ObjectC("*"); ;
+#line 567 "cxx.y"
+{ yyval=ObjectC(strp_asterisk); ;
     break;}
 case 213:
-#line 567 "cxx.y"
+#line 568 "cxx.y"
 { yyval=ObjectC("%"); ;
     break;}
 case 214:
-#line 568 "cxx.y"
+#line 569 "cxx.y"
 { yyval=ObjectC("|"); ;
     break;}
 case 215:
-#line 569 "cxx.y"
+#line 570 "cxx.y"
 { yyval=ObjectC("^"); ;
     break;}
 case 216:
-#line 570 "cxx.y"
+#line 571 "cxx.y"
 { yyval=ObjectC("!"); ;
     break;}
 case 217:
-#line 571 "cxx.y"
+#line 572 "cxx.y"
 { yyval=ObjectC("["); ;
     break;}
 case 218:
-#line 572 "cxx.y"
+#line 573 "cxx.y"
 { yyval=ObjectC("]"); ;
     break;}
 case 219:
-#line 573 "cxx.y"
-{ yyval=ObjectC(";"); ;
+#line 574 "cxx.y"
+{ yyval=ObjectC(strp_Semicolon); ;
     break;}
 case 220:
-#line 574 "cxx.y"
-{ yyval=ObjectC(","); ;
+#line 575 "cxx.y"
+{ yyval=ObjectC(strp_Comma); ;
     break;}
 case 221:
-#line 579 "cxx.y"
-{ yyval=yyvsp[0]; hookCommentObj = yyvsp[0];  ;
-    break;}
-case 222:
 #line 580 "cxx.y"
 { yyval=yyvsp[0]; hookCommentObj = yyvsp[0];  ;
     break;}
-case 223:
+case 222:
 #line 581 "cxx.y"
+{ yyval=yyvsp[0]; hookCommentObj = yyvsp[0];  ;
+    break;}
+case 223:
+#line 582 "cxx.y"
 { yyval=yyvsp[0]; 
-                                          yyval.SetVar("dectype","friend");
+                                          yyval.SetVar(STR(dectype),STR(friend));
 					  yyval.IncludeLineNo(yyvsp[-1]);
 					  hookCommentObj = yyvsp[0];
                                         ;
     break;}
 case 224:
-#line 587 "cxx.y"
+#line 588 "cxx.y"
 { yyval = yyvsp[-1]; 
-                                          yyval.SetVar("dectype","prototype"); 
+                                          yyval.SetVar(STR(dectype),STR(prototype)); 
 					  yyval.IncludeLineNo(yyvsp[0]);
                                         ;
     break;}
 case 225:
-#line 591 "cxx.y"
+#line 592 "cxx.y"
 { yyval=yyvsp[-3];   /* "=0"; */
-                                          yyval.SetVar("dectype","abstract");
+                                          yyval.SetVar(STR(dectype),STR(abstract));
 					  yyval.IncludeLineNo(yyvsp[0]);
                                         ;
     break;}
 case 226:
-#line 595 "cxx.y"
+#line 596 "cxx.y"
 { yyval=yyvsp[-1]; 
-                                          yyval.SetVar("dectype","extern");    
+                                          yyval.SetVar(STR(dectype),STR(extern));    
 					  yyval.IncludeLineNo(yyvsp[0]);
                                         ;
     break;}
 case 227:
-#line 601 "cxx.y"
+#line 602 "cxx.y"
 { yyval = yyvsp[-1];
-                                             yyval.SetVar("dectype","definition"); 
+                                             yyval.SetVar(STR(dectype),STR(definition)); 
 					     yyval.IncludeLineNo(yyvsp[0]);
                                            ;
     break;}
 case 228:
-#line 606 "cxx.y"
-{ yyval=ObjectC("+"); ;
+#line 607 "cxx.y"
+{ yyval=ObjectC(strp_plus); ;
     break;}
 case 229:
-#line 607 "cxx.y"
+#line 608 "cxx.y"
 { yyval=ObjectC("-"); ;
     break;}
 case 230:
-#line 608 "cxx.y"
-{ yyval=ObjectC("~"); ;
+#line 609 "cxx.y"
+{ yyval=ObjectC(strp_Tilda); ;
     break;}
 case 231:
-#line 609 "cxx.y"
-{ yyval=ObjectC("&"); ;
+#line 610 "cxx.y"
+{ yyval=ObjectC(strp_ampersand); ;
     break;}
 case 232:
-#line 610 "cxx.y"
+#line 611 "cxx.y"
 { yyval=ObjectC("/"); ;
     break;}
 case 233:
-#line 611 "cxx.y"
-{ yyval=ObjectC("*"); ;
+#line 612 "cxx.y"
+{ yyval=ObjectC(strp_asterisk); ;
     break;}
 case 234:
-#line 612 "cxx.y"
+#line 613 "cxx.y"
 { yyval=ObjectC("%"); ;
     break;}
 case 235:
-#line 613 "cxx.y"
+#line 614 "cxx.y"
 { yyval=ObjectC("|"); ;
     break;}
 case 236:
-#line 614 "cxx.y"
+#line 615 "cxx.y"
 { yyval=ObjectC("^"); ;
     break;}
 case 237:
-#line 615 "cxx.y"
+#line 616 "cxx.y"
 { yyval=ObjectC("!"); ;
     break;}
 case 238:
-#line 616 "cxx.y"
-{ yyval=ObjectC("="); ;
+#line 617 "cxx.y"
+{ yyval=ObjectC(strp_equals); ;
     break;}
 case 239:
-#line 617 "cxx.y"
+#line 618 "cxx.y"
 { yyval=ObjectC("<"); ;
     break;}
 case 240:
-#line 618 "cxx.y"
+#line 619 "cxx.y"
 { yyval=ObjectC(">"); ;
     break;}
 case 241:
-#line 619 "cxx.y"
+#line 620 "cxx.y"
 { yyval=ObjectC("--"); ;
     break;}
 case 242:
-#line 620 "cxx.y"
+#line 621 "cxx.y"
 { yyval=ObjectC("++"); ;
     break;}
 case 243:
-#line 621 "cxx.y"
+#line 622 "cxx.y"
 { yyval=ObjectC("[]"); ;
     break;}
 case 244:
-#line 622 "cxx.y"
+#line 623 "cxx.y"
 { yyval=ObjectC("()"); ;
     break;}
 case 245:
-#line 623 "cxx.y"
-{ yyval=yyvsp[0]; ;
-    break;}
-case 246:
 #line 624 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
+case 246:
+#line 625 "cxx.y"
+{ yyval=yyvsp[0]; ;
+    break;}
 case 247:
-#line 626 "cxx.y"
-{ yyval = ObjectListC("EmptyArgList"); ;
+#line 627 "cxx.y"
+{ yyval = ObjectListC(STR(EmptyArgList)); ;
     break;}
 case 248:
-#line 627 "cxx.y"
+#line 628 "cxx.y"
 { yyval = yyvsp[-1]; ;
     break;}
 case 249:
-#line 630 "cxx.y"
+#line 631 "cxx.y"
 { yyval = yyvsp[-1]; ;
     break;}
 case 250:
-#line 634 "cxx.y"
+#line 635 "cxx.y"
 { yyval = MethodC(yyvsp[-2].Name(),DataTypeC(yyvsp[-3]),ObjectListC(yyvsp[-1]),yyvsp[0]); ;
     break;}
 case 251:
-#line 637 "cxx.y"
+#line 638 "cxx.y"
 { yyval = MethodC(yyvsp[-3].Name(),DataTypeC(yyvsp[-6]),ObjectListC(yyvsp[-1]),yyvsp[0]);
         yyval.SetScope(yyvsp[-5]);
       ;
     break;}
 case 252:
-#line 642 "cxx.y"
-{ MethodC amethod(yyvsp[-2].Name(), DataTypeC("void"),ObjectListC(yyvsp[-1]),yyvsp[0]); 
+#line 643 "cxx.y"
+{ MethodC amethod(yyvsp[-2].Name(), DataTypeC(STR(void)),ObjectListC(yyvsp[-1]),yyvsp[0]); 
         amethod.CopyLineNo(yyvsp[-2]);
         amethod.SetConstructor(true);
         yyval = amethod;
@@ -2360,108 +2365,108 @@ case 252:
 	  tmp.DelLast();
 	  if(!tmp.IsEmpty()) {
 	    //cerr << "Got constructor:  SetScope to Path:" << PathName(tmp) << " \n";
-	    ObjectListC oln("ConstructorScopePath",tmp);
+	    ObjectListC oln(STR(ConstructorScopePath),tmp);
 	    yyval.SetScope(oln);
 	  }
 	}
       ;
     break;}
 case 253:
-#line 660 "cxx.y"
-{ yyval = MethodC(StringC("operator") + yyvsp[-3].Name(), DataTypeC(yyvsp[-5]),ObjectListC(yyvsp[-1]),yyvsp[0]); ;
+#line 661 "cxx.y"
+{ yyval = MethodC(STR(operator) + yyvsp[-3].Name(), DataTypeC(yyvsp[-5]),ObjectListC(yyvsp[-1]),yyvsp[0]); ;
     break;}
 case 254:
-#line 663 "cxx.y"
-{ yyval = MethodC(StringC("operator") + yyvsp[-3].Name(), DataTypeC(yyvsp[-7]),ObjectListC(yyvsp[-1]),yyvsp[0]); 
+#line 664 "cxx.y"
+{ yyval = MethodC(STR(operator) + yyvsp[-3].Name(), DataTypeC(yyvsp[-7]),ObjectListC(yyvsp[-1]),yyvsp[0]); 
          yyval.SetScope(yyvsp[-6]);
        ;
     break;}
 case 255:
-#line 668 "cxx.y"
-{ yyval = MethodC(StringC("operator"), DataTypeC(yyvsp[-2]),ObjectListC(yyvsp[-1]),yyvsp[0],true); ;
+#line 669 "cxx.y"
+{ yyval = MethodC(STR(operator), DataTypeC(yyvsp[-2]),ObjectListC(yyvsp[-1]),yyvsp[0],true); ;
     break;}
 case 256:
-#line 671 "cxx.y"
-{ yyval = MethodC(StringC("operator"), DataTypeC(yyvsp[-2]),ObjectListC(yyvsp[-1]),yyvsp[0],true); 
+#line 672 "cxx.y"
+{ yyval = MethodC(STR(operator), DataTypeC(yyvsp[-2]),ObjectListC(yyvsp[-1]),yyvsp[0],true); 
         yyval.SetScope(yyvsp[-5]);
       ;
     break;}
 case 262:
-#line 684 "cxx.y"
-{  yyval=ObjectListC("FuncArgList"); ;
+#line 685 "cxx.y"
+{  yyval=ObjectListC(STR(FuncArgList)); ;
     break;}
 case 263:
-#line 685 "cxx.y"
+#line 686 "cxx.y"
 {  yyval=yyvsp[0]; ;
     break;}
 case 264:
-#line 687 "cxx.y"
-{ ObjectListC ol("FuncArgList"); yyval= ol; ol.Append(yyvsp[0]); ;
+#line 688 "cxx.y"
+{ ObjectListC ol(STR(FuncArgList)); yyval= ol; ol.Append(yyvsp[0]); ;
     break;}
 case 265:
-#line 688 "cxx.y"
+#line 689 "cxx.y"
 { yyval=yyvsp[-2]; ObjectListC ol(yyvsp[-2]); ol.Append(yyvsp[0]); ;
     break;}
 case 266:
-#line 689 "cxx.y"
+#line 690 "cxx.y"
 { yyval=yyvsp[-1]; ObjectListC ol(yyvsp[-1]); DataTypeC ell("..."); ol.Append(ell); ;
     break;}
 case 267:
-#line 691 "cxx.y"
+#line 692 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
 case 268:
-#line 692 "cxx.y"
+#line 693 "cxx.y"
 { yyval=yyvsp[-1]; DataTypeC dt(yyvsp[-1]); dt.SetAlias(yyvsp[0].Name()); ;
     break;}
 case 269:
-#line 693 "cxx.y"
+#line 694 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
 case 270:
-#line 697 "cxx.y"
+#line 698 "cxx.y"
 { 
 	  StringC name;
 	  if(yyvsp[-5].IsValid())
 	    name = yyvsp[-5].Name();
 	  else
 	    name = StringC("anon?") + StringC(anonCount++);
-	  yyval=DataTypeC(yyvsp[-8].Name() + StringC(" (*)(") + yyvsp[-2].Name() + ")" + yyvsp[0].Name(),name); 
+	  yyval=DataTypeC(yyvsp[-8].Name() + StringC(" (*)(") + yyvsp[-2].Name() + strp_CloseBracket + yyvsp[0].Name(),name); 
 	  yyval.SetupLineNos(yyvsp[-8],yyvsp[-1],yyvsp[0]);
 	;
     break;}
 case 271:
-#line 707 "cxx.y"
-{ yyval=DataTypeC(yyvsp[-10].Name() + StringC(" (*)(") + yyvsp[-2].Name() + ")" + yyvsp[0].Name(),yyvsp[-5].Name()); 
+#line 708 "cxx.y"
+{ yyval=DataTypeC(yyvsp[-10].Name() + StringC(" (*)(") + yyvsp[-2].Name() + strp_CloseBracket + yyvsp[0].Name(),yyvsp[-5].Name()); 
 	  yyval.SetupLineNos(yyvsp[-10],yyvsp[-1],yyvsp[0]);
 	;
     break;}
 case 272:
-#line 712 "cxx.y"
+#line 713 "cxx.y"
 { yyval=ObjectC(""); ;
     break;}
 case 273:
-#line 713 "cxx.y"
+#line 714 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
 case 274:
-#line 714 "cxx.y"
+#line 715 "cxx.y"
 { yyval=yyvsp[-1]; ;
     break;}
 case 275:
-#line 715 "cxx.y"
+#line 716 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
 case 276:
-#line 718 "cxx.y"
+#line 719 "cxx.y"
 { yyval=yyvsp[-1]; yyval.SetupLineNos(yyvsp[-2],yyvsp[0]); ;
     break;}
 case 277:
-#line 720 "cxx.y"
+#line 721 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
 case 278:
-#line 721 "cxx.y"
+#line 722 "cxx.y"
 { yyval=yyvsp[0]; ;
     break;}
 }
@@ -2686,6 +2691,6 @@ yyerrhandle:
     }
   return 1;
 }
-#line 736 "cxx.y"
+#line 737 "cxx.y"
 
 
