@@ -38,6 +38,12 @@ namespace RavlN {
       {}
     //: Sized constructor.
 
+    Buffer2dBodyC(SizeT size1,SizeT size2,DataT *data,bool copy = false,bool deletable = true)
+      : BufferBodyC<BufferAccessC<DataT> >(size1),
+	data(size1 * size2,data,copy, deletable)
+      {}
+    //: Sized constructor.
+
     Buffer2dBodyC(const BufferC<DataT> &dat,const BufferC<BufferAccessC<DataT> > &buf)
       : BufferBodyC<BufferAccessC<DataT> >(buf),
       data(dat)
@@ -98,6 +104,11 @@ namespace RavlN {
       : BufferC<BufferAccessC<DataT> >(*new Buffer2dBodyC<DataT>(dat,size2)) 
       {}
     //: Constructor.
+
+    Buffer2dC(SizeT size1,SizeT size2,DataT *data,bool copy = false,bool deletable = true)
+      : BufferC<BufferAccessC<DataT> >(*new Buffer2dBodyC<DataT>(size1,size2,data,copy,deletable)) 
+      {}
+    //: Construct from an existing buffer.
     
   protected:
 
