@@ -2,7 +2,7 @@
 : Error reporting, Exceptions and Asserted invariants.
 
 <p>
-There are several macros which you can use for checking invarients
+There are several macros which you can use for checking invariants
 in your program, much like 'assert(...)' in 'C'. They are 
 defined in 'Ravl/Assert.hh'.<p>
 
@@ -10,7 +10,7 @@ defined in 'Ravl/Assert.hh'.<p>
 
 The two main macros are :<p>
 
-&nbsp;&nbsp;&nbsp;<b>RavlAssert(</b>..conditon..<b>);</b>  <p>
+&nbsp;&nbsp;&nbsp;<b>RavlAssert(</b>..condition..<b>);</b>  <p>
 
 which will stop the program if 'condition' is false. The is also <p>
 

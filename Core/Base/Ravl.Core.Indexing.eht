@@ -3,11 +3,10 @@
 
 <h2> Co-ordinate systems in RAVL </h2>
 
-Before using these classes it worth looking at the notes on the
+Before using these classes it is worth looking at the notes on the
 co-ordinate system conventions used in RAVL 
 <a href="Ravl.Introduction.Coordinate_Systems.html">Ravl.Introduction.Coordinate_Systems</a>
-
-they aren't always quite what you expect. (Its one of those area's its
+- they aren't always quite what you expect. (It's one of those areas where it's
 impossible to keep everyone happy.)
 
 <h2> <a name=INDEXC>Do I use <SAMP> <a
@@ -37,8 +36,8 @@ in loops etc. unless <SAMP>IndexC</SAMP> is used.
 </ul>
 
 <P> 
-We have attempted to address all of these problems in the
-<SAMP>IndexC</SAMP> class.  So, for anything that could be regarded as
+We have attempted to address these problems in the
+<SAMP>IndexC</SAMP> class, without sacrificing efficiency where possible.  So, for anything that could be regarded as
 an index variable (<SAMP>for</SAMP> loop variables, array indices
 etc.) we would recommend using <SAMP>IndexC</SAMP>.  
 </P>

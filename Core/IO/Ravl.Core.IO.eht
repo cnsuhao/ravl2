@@ -5,16 +5,16 @@
 <p> There are two mechanisms for doing I/O in RAVL: via streams, and
 via the <code>Load()</code> / <code>Save()</code> functions.  
 
-The standard c++ stream mechanism (See The C++ programming language by
-B.Stroustrup) will read and write objects in a format unique to RAVL
-the details for this mechanism and a variation that allows the
+The standard C++ stream mechanism (See "The C++ Programming Language" by
+B. Stroustrup) will read and write objects in a format unique to RAVL.
+The details for this mechanism and a variation that allows the
 creation of binary streams can be found in <a
-href="Ravl.Core.IO.Streams.html">Ravl.Core.IO.Streams</a>. Whereas
+href="Ravl.Core.IO.Streams.html">Ravl.Core.IO.Streams</a>. On the other hand,
 <code>Load()</code> / <code>Save()</code> mechanism is useful where
 there is a choice of file formats, or where implicit data conversion
 is needed.
 <p>
-There is also a mechanism for dealing with sequences of objects a
+There is also a mechanism for dealing with sequences of objects, a
 description of which can be found in <a
 href="Ravl.OS.Sequence.html">Ravl.OS.Sequence</a>.
 
@@ -33,8 +33,8 @@ certain type conversions automatically where its is deemed safe to do so.  The
 algorithm picks the conversion with the least conversion cost, resolving any
 ambiguity by using the format with the highest priority.
 
-<p>For example, to read a real image from an RAVL ASCII file (i.e. the same
-format as the previous streams example), and store it in a pgm file:
+<p>For example, to read a real image from an RAVL ASCII "streams" format file
+and store it in a pgm file:
 
 <pre>
 ImageC&lt;RealT&gt; x;
@@ -42,8 +42,8 @@ Load("fred", x);
 Save("jim.pgm", x);
 </pre>
 
-The pixel type in the file "fred" is unknown at compile time; the appropriate
-type conversion therefore has to be selected at run time.
+The pixel types in the files "fred" and "jim.pgm" are unknown at compile time; the appropriate
+type conversions therefore have to be selected at run time.
 
 <p> A more complete example of how to use this mechanism is given in <a
 href="../../../Auto/Examples/exFileFormat.cc.html">exFileFormat.cc</a>.  To use this
@@ -59,7 +59,8 @@ mechanism you'll have to include the <code>RavlIO</code> library in
  A list of automatic type conversions that are available can also be found:
 <pre> conv -lc </pre>
 
-<p> <b>N.B.</b> the increase in size of your executable from this library can be <font size = +4>large</font>, because all of
+<p> <b>N.B.</b> If you are not using shared libraries (see "shared" command-line option in <a href="Ravl.QMake.html">QMake</a>), the increase 
+in size of your executable from this library can be <font size = +4>large</font>, because all of
 the possible formats and conversions have to be allowed for at compile/link
 time.
 
@@ -69,10 +70,10 @@ time.
 
 <h4>Simple Class IO</h4>
 
-Writing your own file IO is a little more complicated. If all you want to do is
+Writing your own file I/O is a little more complicated. If all you want to do is
 load and save your own class, write basic stream operators for your class and
-then instantiate an instance of FileFormatStreamC class as a global variable.
-The following example shows how a file format for loading and saving RealT was
+then instantiate an instance of <code>FileFormatStreamC</code> class as a global variable.
+The following example shows how a file format for loading and saving <code>RealT</code> was
 created.
 
 <pre>
@@ -85,8 +86,8 @@ FileFormatStreamC &lt;RealT&gt; FileFormatStream_RealT;
 
 Writing your own data conversion classes is not much more difficult. You have
 to write a simple function which does the conversion and then instantiate an
-instance of the converter class DPConverterFuncC.  The following example shows
-the standard code for converting IntT's to RealT's. Note this conversion is
+instance of the converter class <code>DPConverterFuncC</code>.  The following example shows
+the standard code for converting an <code>IntT</code> to a <code>RealT</code>. Note this conversion is
 safe since no information is lost. Care must be taken when writing these
 functions, especially if you lose information in the conversion, as it can lead
 to unexpected results.  The final parameter (= 1 in this example) indicates the

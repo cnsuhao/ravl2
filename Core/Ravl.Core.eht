@@ -2,6 +2,6 @@
 ! children="Typedefs;Error Handling;Indexing;Strings;IO;XML;Reference Counting;Math;Arrays;Tuples;Lists;Stacks;Trees;Hash Tables;Queues;Graphs;Data Processing;Misc"
 : Basic types, Containers and Memory management.
 
-All the classes in the core of Ravl are operating system independant and
+All the classes in the core of Ravl are operating system independent and
 do not depend on external libraries.
 
