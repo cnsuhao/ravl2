@@ -27,12 +27,12 @@ namespace RavlN {
   {
   public:
     Vector4dC()
-      {}
+    {}
     //: Default constructor.
     
     Vector4dC(const TFVectorC<RealT,4> &base)
       : FVectorC<4>(base)
-      {}
+    {}
     //: Base onstructor.
     
     Vector4dC(RealT v1,RealT v2,RealT v3,RealT v4) { 
@@ -44,35 +44,51 @@ namespace RavlN {
     //: Constructor.
     
     RealT &X()
-      { return data[0]; }
+    { return data[0]; }
     //: First component of vector.
 
     RealT X() const
-      { return data[0]; }
+    { return data[0]; }
     //: First component of vector.
 
     RealT &Y()
-      { return data[1]; }
+    { return data[1]; }
     //: Second component of vector.
 
     RealT Y() const
-      { return data[1]; }
+    { return data[1]; }
+    //: Second component of vector.
+ 
+    RealT &Row()
+    { return data[0]; }
+    //: First component of vector.
+
+    RealT Row() const
+    { return data[0]; }
+    //: First component of vector.
+
+    RealT &Col()
+    { return data[1]; }
     //: Second component of vector.
     
+    RealT Col() const
+    { return data[1]; }
+    //: Second component of vector.
+   
     RealT &Z()
-      { return data[2]; }
+    { return data[2]; }
     //: Third component of vector.
     
     RealT Z() const
-      { return data[2]; }
+    { return data[2]; }
     //: Third component of vector.
     
     RealT &W()
-      { return data[3]; }
+    { return data[3]; }
     //: Fourth component of vector.
     
     RealT W() const
-      { return data[3]; }
+    { return data[3]; }
     //: Fourth component of vector.
   };
   

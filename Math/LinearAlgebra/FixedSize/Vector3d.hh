@@ -27,12 +27,12 @@ namespace RavlN {
   {
   public:
     Vector3dC()
-      {}
+    {}
     //: Default constructor.
     
     Vector3dC(const TFVectorC<RealT,3> &base)
       : FVectorC<3>(base)
-      {}
+    {}
     //: Base onstructor.
     
     Vector3dC(RealT v1,RealT v2,RealT v3) { 
@@ -43,34 +43,50 @@ namespace RavlN {
     //: Constructor.
     
     RealT &X()
-      { return data[0]; }
+    { return data[0]; }
     //: First component of vector.
 
     RealT X() const
-      { return data[0]; }
+    { return data[0]; }
     //: First component of vector.
 
     RealT &Y()
-      { return data[1]; }
+    { return data[1]; }
     //: Second component of vector.
 
     RealT Y() const
-      { return data[1]; }
+    { return data[1]; }
+    //: Second component of vector.
+
+    RealT &Row()
+    { return data[0]; }
+    //: First component of vector.
+
+    RealT Row() const
+    { return data[0]; }
+    //: First component of vector.
+
+    RealT &Col()
+    { return data[1]; }
+    //: Second component of vector.
+
+    RealT Col() const
+    { return data[1]; }
     //: Second component of vector.
     
     RealT &Z()
-      { return data[2]; }
+    { return data[2]; }
     //: Third component of vector.
     
     RealT Z() const
-      { return data[2]; }
+    { return data[2]; }
     //: Third component of vector.
     
     inline Vector3dC Cross(const Vector3dC & v) const {
-      return Vector3dC(  Y() * v.Z() - Z() * v.Y() ,
-			 -(X() * v.Z() - Z() * v.X()),
-			 X() * v.Y() - Y() * v.X()
-			 );
+      return Vector3dC(    data[1] * v[2] - data[2] * v[1] ,
+			   -(data[0] * v[2] - data[2] * v[0]),
+			   data[0] * v[1] - data[1] * v[0]
+			   );
     }
     // Returns the cross product of this vector and the 'vector'.    
   };

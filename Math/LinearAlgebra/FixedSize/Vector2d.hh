@@ -31,7 +31,7 @@ namespace RavlN {
     
     Vector2dC(const TFVectorC<RealT,2> &base)
       : FVectorC<2>(base)
-      {}
+    {}
     //: Base onstructor.
     
     Vector2dC(RealT v1,RealT v2) { 
@@ -41,31 +41,47 @@ namespace RavlN {
     //: Constructor.
     
     RealT &X()
-      { return data[0]; }
+    { return data[0]; }
     //: First component of vector.
 
     RealT X() const
-      { return data[0]; }
+    { return data[0]; }
     //: First component of vector.
 
     RealT &Y()
-      { return data[1]; }
+    { return data[1]; }
     //: Second component of vector.
 
     RealT Y() const
-      { return data[1]; }
+    { return data[1]; }
+    //: Second component of vector.
+    
+    RealT &Row()
+    { return data[0]; }
+    //: First component of vector.
+
+    RealT Row() const
+    { return data[0]; }
+    //: First component of vector.
+
+    RealT &Col()
+    { return data[1]; }
+    //: Second component of vector.
+
+    RealT Col() const
+    { return data[1]; }
     //: Second component of vector.
     
     Vector2dC Perpendicular() const
-    { return Vector2dC(-Y(),X()); }
+    { return Vector2dC(-data[1],data[0]); }
     //: Get a vector perpendicular to this one.
 
     RealT Dot(const Vector2dC & vector) const
-    { return X() * vector.X() + Y() * vector.Y(); }
+    { return data[0] * vector[0] + data[1] * vector[1]; }
     //: Return the dot product
     
     RealT Cross(const Vector2dC & vector) const
-    { return X() * vector.Y() - Y() * vector.X(); }
+    { return data[0] * vector[1] - data[1] * vector[0]; }
     //: Returns the third coordinate of the cross product of this vector
     //: and the vector 'v'.
 
@@ -83,7 +99,7 @@ namespace RavlN {
 
 
     RealT Angle() const
-    { return atan2(Y(), X()); }
+    { return atan2(data[1],data[0]); }
     //: Returns the oriented angle (rad) from the axes x in
     //: the  range -PI to PI.
   };
