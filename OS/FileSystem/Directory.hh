@@ -46,17 +46,20 @@ namespace RavlN {
     //: List contents of directory.
     // Will return an empty list if anything goes wrong.
     // Gives names of contents relative to this directory
-    // , without any leading or trailing "/"
+    // , without any leading or trailing "/" <p>
+    // '..' and '.' are not returned in the list.
     
     DListC<StringC> List(const StringC &pre,const StringC &post) const;
     //: List contents of directory, returning only files with the given
     //: prefix and postfix.
     // Either (or both) pre and post maybe empty strings..
+    // '..' and '.' are not returned in the list. <p>
     // Will return an empty list if anything goes wrong. 
     
     DListC<StringC> FiltList(const StringC &filter) const;
     //: List contents of directory, returning only files matching
     //: the given filter.
+    // '..' and '.' are not returned in the list. 
     
     
     bool Copy(const FilenameC &othDir,bool rec = true,bool lazy = false,bool sync = false,bool verb = false);

@@ -45,6 +45,17 @@
 #endif
 
 namespace RavlN {
+
+  static inline bool ReturnInList(const char *nm) {
+    if(nm[0] != '.')
+      return true;
+    if(nm[1] == 0)
+      return false; // skip "."
+    if(nm[1] == '.')
+      if(nm[2] == 0)
+	return false;
+    return true;
+  }
   
   //////////////////////////////////////////////////////
   //: List contents of directory.
@@ -68,6 +79,8 @@ namespace RavlN {
       readdir_r(dinf,buff,&entry);
       if(entry!=buff)
 	break;
+      if(!ReturnInList(entry->d_name))
+	continue;
       ret.InsLast(FilenameC(entry->d_name));
     }
     free(buff);
@@ -75,8 +88,11 @@ namespace RavlN {
     // This is non-reentrant, but portable.
     // so we have to do some locking.
     MTWriteLockC lock(2); // It involves modifying global buffers !
-    while((entry = readdir(dinf)) != NULL) 
+    while((entry = readdir(dinf)) != NULL) { 
+      if(!ReturnInList(entry->d_name))
+	continue;
       ret.InsLast(FilenameC(entry->d_name));
+    }
     lock.Unlock(); // Unlock here, we're done.
 #endif
     closedir(dinf);
