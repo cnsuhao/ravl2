@@ -87,29 +87,13 @@ namespace RavlImageN {
     for(Array2dIter2C<ByteRGBValueC,ByteYUV422ValueC> it(ret,dat);it;it++) {
       // Read the first pixel.
       SByteT u = it.Data2().UV() + 128;
-      RealT i1 = (RealT) it.Data2().Y();
+      ByteT i1 = it.Data2().Y();
       ByteRGBValueC &p1 = it.Data1();
       
       it++;
       // Read the second pixel.
       SByteT v = it.Data2().UV() + 128;
-      RealT ru = u;
-      RealT rv = v;
-      RealT i2 = it.Data2().Y();
-
-      // Convert the colours...
-      // Maybe speed this up by generating a lookup table for rx and bx components ??
-      RealT rx =                                  rv * ImageYUVtoRGBMatrix[0][2];
-      RealT gx = ru * ImageYUVtoRGBMatrix[1][1] + rv * ImageYUVtoRGBMatrix[1][2];
-      RealT bx = ru * ImageYUVtoRGBMatrix[2][1];
-
-      // Write the rgb pixels.
-      RealRGBValueC rgb1(i1 + rx ,i1 + gx ,i1 + bx);
-      rgb1.Limit(0,255);
-      p1 = ByteRGBValueC(rgb1);;
-      RealRGBValueC rgb2(i2 + rx ,i2 + gx ,i2 + bx);
-      rgb2.Limit(0,255);
-      it.Data1() = ByteRGBValueC(rgb2);
+      ByteYUV2RGB2(i1,it.Data2().Y(),u,v,p1,it.Data1());
     }
     return ret;
   }
