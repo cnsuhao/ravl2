@@ -146,7 +146,7 @@ namespace RavlN {
     inline bool Unlock(void);
     // Unlock.
     
-    void Error(const char *msg);
+    void Error(const char *msg, int ret );
     //: Print an error.
     
   private:
