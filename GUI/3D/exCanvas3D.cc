@@ -40,6 +40,12 @@ bool InitGL()
   glEnable(GL_CULL_FACE);
   glCullFace(GL_BACK);
   glEnable(GL_DEPTH_TEST);
+
+  glEnable(GL_COLOR_MATERIAL);
+
+  // some effects 
+
+
   return true;
 }
 
@@ -71,7 +77,7 @@ int main(int nargs,char *args[])
  
   opts.Check();
 
-  DObject3DC object = DCube3DC(Vector3dC(1,1,1),RealRGBValueC(0,1,0));
+  DObject3DC object = DCube3DC(Vector3dC(1,1,1),RealRGBValueC(1.0,1.0,0));
   
   WindowC win(100,100,"Hello");
   Canvas3DC area(800,800);
@@ -87,21 +93,25 @@ int main(int nargs,char *args[])
   win.Show();
   Sleep(1);
   area.Render(&InitGL); // Set things up.
-  area.Light(RealRGBValueC(0.8,0.8,0.8),Point3dC(3,3,10));
+  area.Light(RealRGBValueC(0.95,0.95,0.95),Point3dC(3,3,10));
   area.ViewPoint(90,Point3dC(0,0,3)); // Setup view point.
   
   if(useDisplayList)
     object.EnableDisplayList();
+
+
+  Vector3dC rotation ( .1,1,.1) ; 
+  rotation.MakeUnit() ;
   
   for(RealT i = 0;i < 10000;i++) {
     // Draw rotated cube
     area.ClearBuffers() ;
-    area.Transform(i * increment,  // Angle.
-		   Vector3dC(0,1,0), // Axis of rotation
-		   object); // Object to draw.
+   
+    area.Transform (i * increment, rotation, object); // Object to draw.
     area.SwapBuffers();
     //Sleep(1);
   }
   cerr << "Execute done, waiting... \n";
   Manager.Wait();
 }
+ 

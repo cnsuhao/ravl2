@@ -20,61 +20,64 @@ namespace RavlGUIN {
     //cerr << "DCube3DBodyC::Render(), Called. \n";
     
     GLColour(colour);
-    Vector3dC d1 = diag/2;
-    Vector3dC d2 = -diag/2;
+    Vector3dC p1 = diag/2;
+    Vector3dC p7 = -diag/2;
     
-#if 0
-    glBegin(GL_QUAD_STRIP);
-    {	       
-      glNormal3d(0,0,-1);
-      glVertex3d(d1.X(),d1.Y(),d1.Y());
-      glVertex3d(d2.X(),d1.Y(),d1.Y());
-      
-      glNormal3d(0,1,0);
-      glVertex3d(d1.X(),d2.Y(),d1.Y());
-      glVertex3d(d2.X(),d2.Y(),d1.Y());
-      
+    Vector3dC 
+      p2 ( p1.X(), p7.Y(), p1.Z() ),
+      p3 ( p7.X(), p7.Y(), p1.Z() ),
+      p4 ( p7.X(), p1.Y(), p1.Z() ),
+     
+      p5 ( p7.X(), p1.Y(), p7.Z() ),
+      p6 ( p1.X(), p1.Y(), p7.Z() ),
+      p8 ( p1.X(), p7.Y(), p7.Z() ) ;
+
+
+    glBegin(GL_QUADS);
+    {
+    
+      // front 
       glNormal3d(0,0,1);
-      glVertex3d(d1.X(),d2.Y(),d2.Y());
-      glVertex3d(d2.X(),d2.Y(),d2.Y());
-      
-      glNormal3d(0,-1,0);
-      glVertex3d(d1.X(),d1.Y(),d2.Y());
-      glVertex3d(d2.X(),d1.Y(),d2.Y());
-      
-      glNormal3d(0,0,-1);
-      glVertex3d(d1.X(),d1.Y(),d1.Y());
-      glVertex3d(d2.X(),d1.Y(),d1.Y());
+      GLVertex(p1);
+      GLVertex(p4);
+      GLVertex(p3);
+      GLVertex(p2);
+ 
+      // top face 
+      glNormal3d(0,1,0) ;
+      GLVertex(p1);
+      GLVertex(p6);
+      GLVertex(p5);
+      GLVertex(p4);
+
+       // back
+      glNormal3d(0,0,-1) ;
+      GLVertex(p8);
+      GLVertex(p7);
+      GLVertex(p5);
+      GLVertex(p6);
+
+      // bottom
+      glNormal3d(0,-1,0) ;
+      GLVertex(p2);
+      GLVertex(p3);
+      GLVertex(p7);
+      GLVertex(p8);
+
+      // left
+      glNormal3d(-1,0,0) ;
+      GLVertex(p3);
+      GLVertex(p4);
+      GLVertex(p5);
+      GLVertex(p7);
+
+      // right
+      glNormal3d(1,0,0) ;
+      GLVertex(p1);
+      GLVertex(p2);
+      GLVertex(p8);
+      GLVertex(p6);
     }
-    glEnd();
-#endif  
-    
-#if 1
-    glBegin(GL_QUAD_STRIP);
-    {
-      glNormal3d(1,0,0);
-      
-      glVertex3d(d1.X(),d1.Y(),d1.Y());
-      glVertex3d(d1.X(),d2.Y(),d1.Y());
-      
-      glVertex3d(d1.X(),d1.Y(),d2.Y());
-      glVertex3d(d1.X(),d2.Y(),d2.Y());
-    }
-    glEnd();
-    
-    
-    glBegin(GL_QUAD_STRIP);
-    {
-      glNormal3d(-1,0,0);
-      
-      glVertex3d(d2.X(),d1.Y(),d1.Y());
-      glVertex3d(d2.X(),d2.Y(),d1.Y());
-      
-      glVertex3d(d2.X(),d1.Y(),d2.Y());
-      glVertex3d(d2.X(),d2.Y(),d2.Y());
-    }
-    glEnd();
-#endif  
     return true;
   }
 }
