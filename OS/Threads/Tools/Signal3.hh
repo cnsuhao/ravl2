@@ -198,7 +198,7 @@ namespace RavlN {
   
   template<class Data1T,class Data2T,class Data3T,class ObjT>
   class Signal3MethodBodyC
-    : public SignalConnector3BodyC<Data1T,Data2T,Data3T>
+    : public SignalConnector3BodyC<typename TraitsC<Data1T>::BaseTypeT,typename TraitsC<Data2T>::BaseTypeT,typename TraitsC<Data3T>::BaseTypeT>
   {
   public:
     typedef typename TraitsC<ObjT>::BaseTypeT BaseObjT; //: Type of object without const's and refs.
