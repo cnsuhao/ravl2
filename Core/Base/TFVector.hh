@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Core.Tuples"
-//! file="Ravl/Core/Base/FVector.hh"
+//! file="Ravl/Core/Base/TFVector.hh"
 //! lib=RavlCore
 //! userlevel=Default
 //! author="Charles Galambos"
@@ -149,11 +149,17 @@ namespace RavlN {
     DataT SumSqr() const;
     //: Calculate the sum of the squares of all the vector elements.
 
+#if RAVL_NEW_ANSI_CXX_DRAFT
     friend istream &operator>> <>(istream &in,TFVectorC<DataT,N> &dat);  
     friend ostream &operator<< <>(ostream &in,const TFVectorC<DataT,N> &dat);  
     friend BinIStreamC &operator>> <>(BinIStreamC &in,TFVectorC<DataT,N> &dat);
     friend BinOStreamC &operator<< <>(BinOStreamC &in,const TFVectorC<DataT,N> &dat);
-    
+#else
+    friend istream &operator>> (istream &in,TFVectorC<DataT,N> &dat);  
+    friend ostream &operator<< (ostream &in,const TFVectorC<DataT,N> &dat);  
+    friend BinIStreamC &operator>> (BinIStreamC &in,TFVectorC<DataT,N> &dat);
+    friend BinOStreamC &operator<< (BinOStreamC &in,const TFVectorC<DataT,N> &dat);
+#endif    
   protected:
     DataT data[N];
   };
