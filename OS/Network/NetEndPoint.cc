@@ -160,7 +160,6 @@ namespace RavlN {
       ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::Init(), Socket not opened. ");
       return false;
     }
-    skt.SetNonBlocking(true); // Make socket non-blocking.
     
     RegisterR(1,StringC("Init"),*this,&NetEndPointBodyC::MsgInit);
     
@@ -364,7 +363,6 @@ namespace RavlN {
   bool NetEndPointBodyC::ReadData(int nfd,char *buff,UIntT size) {
     UIntT at = 0;
     fd_set rfds;
-    fd_set efds;
     FD_ZERO(&rfds);
     struct timeval tv;
     while(at < size && !shutdown) {
