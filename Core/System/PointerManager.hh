@@ -189,13 +189,13 @@ namespace RavlN {
     ~PointerManagerBodyC();
     //: Destructor.
     
-    bool PointerManagerBodyC::Lookup(IOPtrC &obj,UIntT &id) 
+    bool Lookup(IOPtrC &obj,UIntT &id) 
     { return ptr2id.Lookup(obj.Key(),id); }
     //: Test if an object has already been saved/loaded.
     // If it has then Lookup will return true and id will
     // be set to the id of the object.
     
-    UIntT PointerManagerBodyC::Insert(IOPtrC &obj) {
+    UIntT Insert(IOPtrC &obj) {
       UIntT id = idAlloc++;
       ptr2id[obj.Key()] = id;
       return id;
@@ -333,7 +333,7 @@ namespace RavlN {
     //: Free stored pointer
     
     virtual void *Key(void *ptr) const
-    { return ptr; }
+    { return *((void **)ptr); }
     //: Get key for lookup.
     
   };
@@ -385,7 +385,7 @@ namespace RavlN {
     //: Free stored pointer
     
     virtual void *Key(void *ptr) const
-    { return reinterpret_cast<void *>(static_cast<DataT *>(ptr)->Hash()); }
+    { return static_cast<DataT *>(ptr)->VoidPtr(); }
     //: Get key for lookup.
     
   };

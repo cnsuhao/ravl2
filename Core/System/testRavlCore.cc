@@ -467,19 +467,20 @@ int testBase64() {
 
 int testObjIO() {
   int x = 2;
-  int *val = &x;
+  int *val1 = &x;
+  int *val2 = &x;
   
   cerr << "Testing ObjIO. \n";
   DListC<int> alist;
   alist.InsLast(1);
   alist.InsLast(2);
   alist.InsLast(3);
-  
+  DListC<int> blist(alist);
   // cerr << "&x=" << ((void *)&x) << " &val=" << ((void *) &val) << "\n";
   StrOStreamC os;
   BinOStreamC bos(os);
   
-  bos << ObjIO(val) << ObjIO(val) << ObjIO(alist) << ObjIO(alist);
+  bos << ObjIO(val1) << ObjIO(val2) << ObjIO(alist) << ObjIO(blist);
   
   StringC data = os.String();
   //OStreamC file("test.abs");
@@ -499,7 +500,7 @@ int testObjIO() {
   if(valx != valy) return __LINE__;
   
   //cerr << "List1=" << list1.Hash() << " List2=" << list2.Hash() << "\n";
-  if(list1.Hash() != list2.Hash()) return __LINE__;
+  if(list1.VoidPtr() != list2.VoidPtr()) return __LINE__;
   
   return 0;
 }
