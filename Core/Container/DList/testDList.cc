@@ -93,11 +93,11 @@ int testDListBinIO() {
   val.InsLast(1);
   val.InsLast(2);
   
-  OStrStreamC out;
+  StrOStreamC out;
   BinOStreamC bo(out);
   
   bo << val;
-  IStrStreamC in(out.String());
+  StrIStreamC in(out.String());
   BinIStreamC bi(in);
   DListC<IntT> back;
   bi >> back;
@@ -107,3 +107,6 @@ int testDListBinIO() {
   
   return 0;
 }
+
+template class DListC<IntT>;
+template class DLIterC<IntT>;

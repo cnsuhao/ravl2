@@ -348,7 +348,7 @@ namespace RavlN {
     inline GraphNodeBaseBodyC & TargetRep()
     { return Data().Target(); }
     // Returns the target node of this directed edge.
-
+    
     inline GraphNodeBaseBodyC & SourceRep()
     { return Data().Source(); }
     // Returns the source node of this directed edge.
@@ -444,6 +444,9 @@ namespace RavlN {
     //: Creates the iterator of graph nodes which points to the 'node'.
     
     inline GraphNodeBaseC(GraphNodeBaseBodyC &aNode,GraphBaseBodyC &bg);
+    //: Creates the iterator of graph nodes which points to the 'node'.
+    
+    inline GraphNodeBaseC(GraphNodeBaseBodyC &aNode,GraphBaseC &bg);
     //: Creates the iterator of graph nodes which points to the 'node'.
     
     inline GraphBaseBodyC & Graph();
@@ -849,13 +852,15 @@ namespace RavlN {
   // ************ GraphNodeBaseC ******************************************
   // ----------------------------------------------------------------------
   
-  inline
-  GraphNodeBaseC::GraphNodeBaseC(GraphNodeBaseBodyC & node, IntrDListC<GraphNodeBaseBodyC> & list)
+  inline GraphNodeBaseC::GraphNodeBaseC(GraphNodeBaseBodyC & node, IntrDListC<GraphNodeBaseBodyC> & list)
     : IntrDLIterC<GraphNodeBaseBodyC>(list, node)
   {}
   
-  inline 
-  GraphNodeBaseC::GraphNodeBaseC(GraphNodeBaseBodyC &aNode,GraphBaseBodyC &bg)
+  inline GraphNodeBaseC::GraphNodeBaseC(GraphNodeBaseBodyC &aNode,GraphBaseBodyC &bg)
+    : IntrDLIterC<GraphNodeBaseBodyC>(bg.Nodes(), aNode)
+  {}
+
+  inline GraphNodeBaseC::GraphNodeBaseC(GraphNodeBaseBodyC &aNode,GraphBaseC &bg)
     : IntrDLIterC<GraphNodeBaseBodyC>(bg.Nodes(), aNode)
   {}
 

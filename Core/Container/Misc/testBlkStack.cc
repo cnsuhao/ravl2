@@ -105,3 +105,6 @@ int RandomTest() {
   cerr << "Test completed ok. (Max depth found:" << MaxLen << ") \n";
   return 0;
 }
+
+template class  BlkStackC<int>;
+template class  BlkStackIterC<int>;

@@ -113,3 +113,6 @@ int main() {
   printf("Test completed ok. (Max depth found:%d) \n",MaxLen);
   return 0;
 }
+
+template class StackC<IntT>;
+template class StackIterC<IntT>;

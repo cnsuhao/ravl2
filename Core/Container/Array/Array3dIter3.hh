@@ -33,11 +33,11 @@ namespace RavlN {
     
     Array3dIter3C(const Array3dC<Data1T> &arr1,
 		  const Array3dC<Data2T> &arr2,
-		  const Array3dC<Data2T> &arr3,
+		  const Array3dC<Data3T> &arr3,
 		  bool matching = true)
-      : BufferAccess3dIter3C<Data1T,Data2T,Data3T>(arr1,arr1.Range2(),arr1.Range3(),
-						   arr2,arr2.Range2(),arr2.Range3(),
-						   arr3,arr3.Range2(),arr3.Range3()),
+      : BufferAccess3dIter3C<Data1T,Data2T,Data3T>(arr1,arr1.Range1(),arr1.Range2(),
+						   arr2,arr2.Range1(),arr2.Range2(),
+						   arr3,arr3.Range1(),arr3.Range2()),
         dat1(arr1),
         dat2(arr2),
         dat3(arr3)
@@ -52,7 +52,7 @@ namespace RavlN {
     
     Array3dIter3C(const Array3dC<Data1T> &arr1,
 		  const Array3dC<Data2T> &arr2,
-		  const Array3dC<Data2T> &arr3,
+		  const Array3dC<Data3T> &arr3,
 		  const IndexRange3dC &rect)
       : dat1(arr1,rect),
         dat2(arr2,rect),

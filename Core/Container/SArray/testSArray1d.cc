@@ -13,6 +13,9 @@
 #include <iostream.h>
 #include "Ravl/SArray1d.hh"
 #include "Ravl/SArr1Iter.hh"
+#include "Ravl/SArr1Iter2.hh"
+#include "Ravl/SArr1Iter3.hh"
+#include "Ravl/SArr1Iter4.hh"
 
 using namespace RavlN;
 
@@ -104,5 +107,10 @@ int  main()
   return 0;
 }
 
-// IAPS - Image analysis program system.
-// End of file exArray.cc
+#include "Ravl/Slice1d.hh"
+
+template class SArray1dC<UIntT>;
+template class SArray1dIterC<UIntT>;
+template class SArray1dIter2C<UIntT,RealT>;
+template class SArray1dIter3C<UIntT,RealT,ByteT>;
+template class SArray1dIter4C<UIntT,RealT,ByteT,IntT>;

@@ -60,3 +60,6 @@ int BasicTest() {
   if(set1.Size() != 0) return __LINE__;
   return 0;
 }
+
+template class HSetC<StringC>;
+template class HSetIterC<StringC>;

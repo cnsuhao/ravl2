@@ -132,8 +132,8 @@ namespace RavlN {
     
     inline void Invalidate();
     //: Make IsElm() return false.
-    
-  private:
+
+  protected:
     Data1T *at1;
     Data2T *at2;
     Data3T *at3;

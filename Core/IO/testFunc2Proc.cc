@@ -23,3 +23,5 @@ int main()
 {
   DPFunc2ProcC<int,int,conv> func;
 }
+
+template class DPFunc2ProcC<int,int,conv>;

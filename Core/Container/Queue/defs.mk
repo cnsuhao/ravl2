@@ -24,6 +24,6 @@ EXAMPLES = testPriQH.cc testPriQ.cc
 
 USESLIBS = RavlCore
 
-TESTEXES = testPriQH.cc testPriQ.cc testPriQueue.cc testFixedQueue.cc
+TESTEXES = testPriQH.cc testPriQ.cc testPriQueue.cc testFixedQueue.cc testQueue.cc 
 
 EHT=Ravl.Core.Queues.eht

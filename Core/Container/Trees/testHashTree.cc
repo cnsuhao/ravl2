@@ -13,3 +13,5 @@ int main() {
   cerr << tree;
   return 0;
 }
+
+template class HashTreeC<int,StringC>;

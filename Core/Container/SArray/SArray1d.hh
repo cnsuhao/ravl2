@@ -91,6 +91,9 @@ namespace RavlN {
     SArray1dC(const SArray1dC<DataT> & vv, const SizeT dim,SizeT offsetInBuff = 0);
     //: The subarray of the 'vv' with size 'dim'.
     
+    SArray1dC(const BufferC<DataT> & vv, const SizeBufferAccessC<DataT> &sbf);
+    //: Construct from a buffer an size buffer access.
+    
     SArray1dC<DataT> Copy() const;
     //: Creates a new physical copy of the array.
     
@@ -305,7 +308,8 @@ namespace RavlN {
   SArray1dC<DataT>::SArray1dC(const Slice1dC<DataT> &slice,bool alwaysCopy) {
     if(!alwaysCopy && slice.Stride() == 1) {
       buff = slice.Buffer();
-      RangeBufferAccessC<DataT>::operator=(RangeBufferAccessC<DataT>(&slice[0],slice.Size()));
+      SizeBufferAccessC<DataT>::operator=(SizeBufferAccessC<DataT>(const_cast<DataT *>(&(slice[0])),
+								   slice.Size()));
       return ;
     }
     buff = BufferC<DataT>(slice.Size());
@@ -339,7 +343,7 @@ namespace RavlN {
   
   template <class DataT>
   SArray1dC<DataT>::SArray1dC(BufferC<DataT> & bf,SizeT dim,SizeT offsetInBuff)
-    : SizeBufferAccessC<DataT>(bf.Access() + offsetInBuff, dim),
+    : SizeBufferAccessC<DataT>(bf.BufferAccess() + offsetInBuff, dim),
       buff(bf)
   {}
 
@@ -351,6 +355,12 @@ namespace RavlN {
       buff(bf)
   {}
 
+  template <class DataT>
+  SArray1dC<DataT>::SArray1dC(const BufferC<DataT> & bf, const SizeBufferAccessC<DataT> &sbf) 
+    : SizeBufferAccessC<DataT>(sbf),
+      buff(bf)
+  {}
+  
   template <class DataT>
   SArray1dC<DataT>::SArray1dC(const SArray1dC<DataT> & vv, 
 			      const SizeT             dim,
@@ -381,7 +391,7 @@ namespace RavlN {
     // FIXME :- Do this more efficently, with ptrs.
     const SizeT len1 = Size();
     const SizeT len2 = Oth.Size();
-    SArray1dC<DataT> newarr(Len1 + Len2);
+    SArray1dC<DataT> newarr(len1 + len2);
     for(BufferAccessIter2C<DataT,DataT> it(*this,newarr);it;it++)
       it.Data2() = it.Data1();
     for(BufferAccessIter2C<DataT,DataT> it(Oth,newarr,0,len1);it;it++)
@@ -602,7 +612,7 @@ namespace RavlN {
 
   template<class DataT>
   bool SArray1dC<DataT>::operator==(const SArray1dC<DataT> & vv) {
-    for(BufferAccessIter2C<DataT,DataT> it(*this,arr);it;it++)
+    for(BufferAccessIter2C<DataT,DataT> it(*this,vv);it;it++)
       if(it.Data1() != it.Data2())
 	return false;
     return true;

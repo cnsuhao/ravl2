@@ -35,10 +35,10 @@ namespace RavlN {
     
     Array1dIter3C(const Array1dC<Data1T> &arr1,const Array1dC<Data2T> &arr2,const Array1dC<Data3T> &arr3,bool matching = true)
       : BufferAccessIter3C<Data1T,Data2T,Data3T>(arr1,arr2,arr3),
-      dat1(arr1),
-      dat2(arr2),
-      dat3(arr3)
-      {
+	dat1(arr1),
+	dat2(arr2),
+	dat3(arr3)
+    {
 	if(matching) {
 	  RavlAssertMsg(arr1.Range() == arr2.Range(),"Array1dIter3C, First and second array ranges don't match.");
 	  RavlAssertMsg(arr1.Range() == arr2.Range(),"Array1dIter3C, First and third array ranges don't match.");
@@ -50,14 +50,14 @@ namespace RavlN {
     
     Array1dIter3C(const Array1dC<Data1T> &arr1,const Array1dC<Data2T> &arr2,const Array1dC<Data3T> &arr3,const IndexRangeC &rng)
       : BufferAccessIter3C<Data1T,Data2T,Data3T>(arr1,arr2,arr3),
-      dat1(arr1,rng),
-      dat2(arr2,rng),
-      dat3(arr3,rng)
-      {}
+	dat1(arr1,rng),
+	dat2(arr2,rng),
+	dat3(arr3,rng)
+    {}
     //: Constructor.
     
     inline void First() 
-      { BufferAccessIter3C<Data1T,Data2T,Data3T>::First(dat1,rng1,dat2,rng2,dat3,rng3); }
+    { BufferAccessIter3C<Data1T,Data2T,Data3T>::First(dat1,dat2,dat3); }
     //: Goto first element in the array.
     
     bool IsFirst() const

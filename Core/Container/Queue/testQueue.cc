@@ -41,3 +41,5 @@ int main() {
   cerr << "Queue test passed ok. \n";
   return 0;
 }
+
+template class BlkQueueC<int>;

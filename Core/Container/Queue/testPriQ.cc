@@ -92,3 +92,6 @@ void InterTest(void) {
   cerr << "Interleave test passed. \n";
   return ;
 }
+
+template class  PriQueueLC<int,UIntT>;
+

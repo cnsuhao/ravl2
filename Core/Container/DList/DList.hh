@@ -114,7 +114,7 @@ namespace RavlN {
     void MoveFirst(DLIterC<DataT> & at) { 
       RavlAssert(at);
       DLinkC &nxt = at.place->Prev();
-      DLinkHeadC::MoveFront(*at.place); 
+      DLinkHeadC::MoveFirst(*at.place); 
       at.place = &nxt;
     }
     //: Move the single item 'at' to the front of this list.
@@ -205,7 +205,7 @@ namespace RavlN {
     //: Get the last ilink in the list.
     
     const DLinkDataC<DataT> &FirstLink() const
-      { return static_cast<DLinkDataC<DataT> &>(head.Next()); }
+    { return static_cast<const DLinkDataC<DataT> &>(head.Next()); }
     //: Get first link in list.
     
     const DLinkDataC<DataT> &LastLink() const
@@ -369,7 +369,7 @@ namespace RavlN {
     // this leaves 'lst' empty.
 
     void MoveFirst(DLIterC<DataT> & at)
-      { Body().MoveFirst(at); }
+    { Body().MoveFirst(at); }
     //: Move the single item 'at' to the beginning of this list.
     
     void MoveLast(DLIterC<DataT> & at)

@@ -77,3 +77,12 @@ int main()
   cerr << "Test passed ok. \n";
   return 0;
 }
+
+// Check all methods compile.
+
+template class BufferBodyC<IntT>;
+template class BufferC<IntT>;
+template class SizeBufferAccess2dC<IntT>;
+template class RangeBufferAccess2dC<IntT>;
+template class Buffer2dBodyC<IntT>;
+template class Buffer2dC<IntT>;

@@ -18,13 +18,6 @@
 
 namespace RavlN {
   
-  template<class DataT>
-  inline
-  DataT StdDeepCopy(const DataT &val,UIntT levels = ((UIntT) -1)) {
-    return val.DeepCopy(levels);
-  }
-  //: Call deep copy on a class.
-
   inline
   IntT StdDeepCopy(const IntT &val,UIntT levels = ((UIntT) -1)) {
     return val;
@@ -60,6 +53,13 @@ namespace RavlN {
     return val;
   }
   //: Deep copy for built in type.
+
+  template<class DataT>
+  inline
+  DataT StdDeepCopy(const DataT &val,UIntT levels = ((UIntT) -1)) {
+    return val.DeepCopy(levels);
+  }
+  //: Call deep copy on a class.
   
 }
 

@@ -18,7 +18,7 @@
 //! example=exQueue.cc
 //! rcsid="$Id$"
 
-#include <Ravl/Assert.hh>
+#include "Ravl/Assert.hh"
 #include <new.h>
 
 namespace RavlN {
@@ -83,7 +83,7 @@ namespace RavlN {
     { return GetFirst();}
     //: Pop an item off the front on the queue.
     
-    void DbPrint(){printf("queue -> %d, %d, %d\n",last,first,Size());}
+    void DbPrint(){ cerr << "queue -> "<< last <<", "<< first <<", "<< Size() <<"\n"; }
     //: Debug print.
     
   protected:

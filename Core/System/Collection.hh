@@ -172,6 +172,14 @@ namespace RavlN {
     // be reallocated which will invalidate any iterators
     // held on the collection.
     
+    inline
+    void InsertRandom(const DataT &dat)
+    { Body().InsertRandom(dat); }
+    //: Add a data item to the collection in a random place.
+    //  NB. This may cause the storage array to 
+    // be reallocated which will invalidate any iterators
+    // held on the collection.
+
     void operator+=(const DataT &dat)
       { Body().Insert(dat); }
     //: Add data item to the collection.
@@ -188,7 +196,7 @@ namespace RavlN {
     // See 'IsEmpty()'
     
     CollectionC<DataT> Shuffle() const
-      { return Body().Shuffle(); }
+    { return Body().Shuffle(); }
     //: Create a shuffled version of this collection.
     
     void ShuffleIP()
@@ -318,13 +326,13 @@ namespace RavlN {
     if(spair >= x.Size()) { // Is there space in existing array ?
       // Copy in data.
       SArray1dC<DataT> rest(data,spair,n);
-      for(BufferAccessIter2C<DataT,DataT> it(xa,rest);it;it++)
+      for(BufferAccessIter2C<DataT,DataT> it(x,rest);it;it++)
 	it.Data2() = it.Data1();
-      n+= xa.Size();
-      return 0;
+      n+= x.Size();
+      return ;
     }
-    data = Array().Join(xa);
-    n += xa.Size();
+    data = Array().Join(x);
+    n += x.Size();
   }
   
   template<class DataT>

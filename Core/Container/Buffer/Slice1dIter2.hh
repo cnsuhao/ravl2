@@ -48,12 +48,12 @@ namespace RavlN {
     //: Test if we're at a valid element.
 
     inline bool IsLast() const
-    { return (at1+vec.Stride()) == endOfRow; }
+    { return (at1+vec1.Stride()) == end; }
     //: Test if we're at the last valid element in the slice.
     // This is slower than IsElm().
     
     inline bool IsFirst() const
-    { return at1 == &vec.First(); }
+    { return at1 == &vec1.First(); }
     //: Test if we're at the first element in the slice.
     // This is slower than IsElm().
     
@@ -110,7 +110,7 @@ namespace RavlN {
   
   template<class Data1T,class Data2T>
   void Slice1dIter2C<Data1T,Data2T>::First() {
-    if(vec1.Size() < 0) {
+    if(vec1.Size() <= 0) {
       at1 = 0;
       end = 0;
       return;

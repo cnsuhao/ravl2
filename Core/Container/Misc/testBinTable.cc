@@ -45,3 +45,6 @@ int main() {
   
   return 0;
 }
+
+template class  BinTableC<TFVectorC<RealT,2>,Index2dC,StringC>;
+template class  BinIterC<TFVectorC<RealT,2>,Index2dC,StringC>;

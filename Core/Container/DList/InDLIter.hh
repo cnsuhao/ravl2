@@ -175,6 +175,10 @@ namespace RavlN {
       { return static_cast<IntrDListC<DataT> &>(*head); }
     //: Access the list we're iterating.
     
+    bool Invalidate()
+    { return place = &Head(); }
+    //: Point interator at an invalid element.
+    
   protected:
     
     IntrDLIterC(const IntrDListC<DataT> &lst,DataT &nplace)

@@ -105,7 +105,7 @@ namespace RavlN {
   
   template<class KeyT,class DataT>
   class HashTreeBodyC
-    : public  HashTreeNodeBodyC<KeyT,DataT>
+    : public HashTreeNodeBodyC<KeyT,DataT>
   {
   public:
     HashTreeBodyC(const DataT &dat)
@@ -239,7 +239,8 @@ namespace RavlN {
     const HashC<KeyT,HashTreeNodeC<KeyT,DataT> > &Children() const
     { return Body().Children(); }
     //: Access table of children.
-
+    
+    friend class HashTreeBodyC<KeyT,DataT>;
   };
 
   //! userlevel=Normal

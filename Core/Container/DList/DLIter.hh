@@ -52,15 +52,15 @@ namespace RavlN {
     //: Construct an iterator from a list.
     // The iterator is placed at the first
     // element in the list. If there is any.
-    
-    DListC<DataT> Copy() const
-      { return Body().Copy(); }
-    //: Make a copy of this list.
-    
+        
     const DListC<DataT> &List() const
       { return lst; }
     //: Access list we're iterating.
     
+    DListC<DataT> Copy() const
+    { return List().Copy(); }
+    //: Make a copy of this list.
+
     operator bool() const
       { return place != &lst.Head(); }
     //: Is iterator at a valid position ?
@@ -235,16 +235,16 @@ namespace RavlN {
     //: Access data following this element.
     // The iterator must not be on the last element of the list.
     
-    DataT &PrevData(){ 
+    DataT &PrevData() { 
       RavlAssert(!IsFirst());
-      return static_cast<DLinkDataC<DataT> &>(place->Last()).Data(); 
+      return static_cast<DLinkDataC<DataT> &>(place->Prev()).Data(); 
     }
     //: Access data before this element.
     // The iterator must not be on the first element in the list.
 
     const DataT &PrevData() const { 
       RavlAssert(!IsFirst());
-      return static_cast<const DLinkDataC<DataT> &>(place->Last()).Data(); 
+      return static_cast<const DLinkDataC<DataT> &>(place->Prev()).Data(); 
     }
     //: Access data before this element.
     // The iterator must not be on the first element in the list.

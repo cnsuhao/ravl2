@@ -39,7 +39,7 @@ namespace RavlN {
     //: Constructor.
   
     inline void First()
-      { First(arr1,arr2,arr3); }
+    { BufferAccessIter3C<Data1T,Data2T,Data3T>::First(arr1,arr2,arr3); }
     // Goto first element in arrays.
     
     SArray1dC<Data1T> &Array1()
@@ -60,7 +60,7 @@ namespace RavlN {
     // This is a little slow.
 
     bool IsFirst() const
-    { return at1 == &dat1[0]; }
+    { return at1 == &(arr1[0]); }
     //: Test if this is the first element in the range.
     // Note,this is slower than IsElm().
     

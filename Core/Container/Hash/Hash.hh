@@ -367,10 +367,10 @@ namespace RavlN {
   //////////////////////////////////////////////////
   
   template<class K,class T>
-  inline HashElemC<K,T>::HashElemC(istream &in)
-    : Key(in),
-      Hold(in)
-  { hashVal = StdHash(Key); }
+  inline HashElemC<K,T>::HashElemC(istream &in) { 
+    in >> const_cast<K &>(Key) >> Hold;
+    hashVal = StdHash(Key); 
+  }
 
   template<class K,class T>
   ostream &operator<<(ostream &out,const HashElemC<K,T> &obj) {  
@@ -420,7 +420,7 @@ namespace RavlN {
      in >> size;
      for(;size > 0;size--) {
        HashElemC<K,T> t(in);
-       Add(t.Key(),t.Data());
+       Add(t.GetKey(),t.Data());
      }
    }
   
@@ -646,8 +646,8 @@ namespace RavlN {
     UIntT ret = elements + (elements << 17);
     for(SArray1dIterC<IntrDListC<HashElemC<K,T> > > it(table);it;it++) {
       for(IntrDLIterC<HashElemC<K,T> > place(*it);place;place++) {
-	UIntT hv = place->Data().Hash();
-	ret += (place->GetKey().Hash() + hv) ^ (hv << 11);
+	UIntT hv = StdHash(place->Data());
+	ret += (StdHash(place->GetKey()) + hv) ^ (hv << 11);
       }
     }
     return ret;

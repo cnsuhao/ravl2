@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLARRAY3D_HH
-#define RAVLARRAY3D_HH
+#ifndef RAVL_ARRAY3D_HEADER
+#define RAVL_ARRAY3D_HEADER 1
 ///////////////////////////////////////////////////////////////////////
 //! file="Ravl/Core/Container/Array/Array3d.hh"
 //! lib=RavlCore
@@ -263,8 +263,10 @@ namespace RavlN {
   
   template <class DataT>
   Array3dC<DataT>::Array3dC(const Index3dC & min, const Index3dC & max)
-    : RangeBufferAccess3dC<DataT>(IndexRangeC(min[1],max[1])),
-      data(IndexRangeC(min[0],max[0]).Size(),Range2().Size())
+    : RangeBufferAccess3dC<DataT>(IndexRangeC(min[1],max[1]),IndexRangeC(min[2],max[2])),
+      data(IndexRangeC(min[0],max[0]).Size(),
+	   IndexRangeC(min[1],max[1]).Size(),
+	   IndexRangeC(min[2],max[2]).Size())
   { ConstructAccess(IndexRangeC(min[0],max[0])); }
   
   template <class DataT>
@@ -276,20 +278,25 @@ namespace RavlN {
   template <class DataT>
   Array3dC<DataT>::Array3dC(const IndexRange3dC & frame,const BufferC<DataT> &ndata)
     : RangeBufferAccess3dC<DataT>(frame.Range2(),frame.Range3()),
-      data(ndata,frame.Range1().Size())
+      data(ndata,
+	   frame.Range1().Size(),
+	   frame.Range2().Size(),
+	   frame.Range3().Size()
+	   )
   { ConstructAccess(frame.Range1()); }
 
   template <class DataT>
   Array3dC<DataT>::Array3dC(const Array3dC<DataT> &arr,const IndexRange3dC & frame) 
     : RangeBufferAccess3dC<DataT> (arr,frame),
-    data(arr.data)
+      data(arr.data)
   {}
   
   template <class DataT>
   Array3dC<DataT> 
   Array3dC<DataT>::Copy() const {
     Array3dC<DataT> ret(Frame());
-    for(BufferAccess3dIter2C<DataT,DataT> it(ret,ret.Range2(),*this,Range2());it;it++)
+    for(BufferAccess3dIter2C<DataT,DataT> it(ret,ret.Range2(),ret.Range3(),
+					     (*this),Range2(),Range3());it;it++)
       it.Data1() = it.Data2();
     return ret;
   }
@@ -369,7 +376,7 @@ namespace RavlN {
   Array3dC<DataT> Array3dC<DataT>::operator+(const DataT &number) const {
     Array3dC<DataT> ret(Frame());
     for(BufferAccess3dIter2C<DataT,DataT> it(ret,Range2(),Range3(),
-					     arr,arr.Range2(),arr.Range3());it;it++)
+					     (*this),Range2(),Range3());it;it++)
       it.Data1() = it.Data2() + number;
     return ret;
   }
@@ -378,7 +385,7 @@ namespace RavlN {
   Array3dC<DataT> Array3dC<DataT>::operator-(const DataT &number) const {
     Array3dC<DataT> ret(Frame());
     for(BufferAccess3dIter2C<DataT,DataT> it(ret,Range2(),Range3(),
-					     arr,arr.Range2(),arr,arr.Range3());it;it++)
+					     (*this),Range2(),Range3());it;it++)
       it.Data1() = it.Data2() - number;
     return ret;
   }
@@ -387,7 +394,7 @@ namespace RavlN {
   Array3dC<DataT> Array3dC<DataT>::operator*(const DataT &number) const {
     Array3dC<DataT> ret(Frame());
     for(BufferAccess3dIter2C<DataT,DataT> it(ret,Range2(),Range3(),
-					     arr,arr.Range2(),arr.Range3());it;it++)
+					     (*this),Range2(),Range3());it;it++)
       it.Data1() = it.Data2() * number;
     return ret;
   }
@@ -396,7 +403,7 @@ namespace RavlN {
   Array3dC<DataT> Array3dC<DataT>::operator/(const DataT &number) const {
     Array3dC<DataT> ret(Frame());
     for(BufferAccess3dIter2C<DataT,DataT> it(ret,Range2(),Range3(),
-					     arr,arr.Range2(),arr.Range3());it;it++)
+					     (*this),Range2(),Range3());it;it++)
       it.Data1() = it.Data2() / number;
     return ret;
   }

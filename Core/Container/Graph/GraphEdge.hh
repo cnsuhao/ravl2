@@ -267,7 +267,7 @@ namespace RavlN {
   
   template<class NodeT,class EdgeT>
   inline void GraphEdgeIterC<NodeT,EdgeT>::Invalidate()  {
-    GraphEdgeBaseC::operator=(GraphEdgeC());
+    IntrDLIterC<GraphEdgeBaseBodyC>::Invalidate();
   }
 
   template<class NodeT,class EdgeT>

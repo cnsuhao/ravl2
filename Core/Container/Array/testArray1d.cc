@@ -13,7 +13,8 @@
 #include "Ravl/Array1d.hh"
 #include "Ravl/SArray1d.hh"
 #include "Ravl/Array1dIter.hh"
-
+#include "Ravl/Array1dIter2.hh"
+#include "Ravl/Array1dIter3.hh"
 
 using namespace RavlN;
 
@@ -198,3 +199,12 @@ int ApplyTest() {
 
   return 0;
 }
+
+#include "Ravl/Slice1d.hh"
+
+// Force everything to be instantiated to check it at least compiles ok.
+
+template class Array1dC<IntT>;
+template class Array1dIterC<IntT>;
+template class Array1dIter2C<IntT,RealT>;
+template class Array1dIter3C<IntT,RealT,ByteT>;

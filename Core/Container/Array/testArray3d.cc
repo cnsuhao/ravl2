@@ -85,3 +85,7 @@ int testBasic() {
   return 0;
 }
 
+template class Array3dC<IntT>;
+template class Array3dIterC<IntT>;
+template class Array3dIter2C<IntT,RealT>;
+template class Array3dIter3C<IntT,RealT,ByteT>;

@@ -42,6 +42,7 @@ namespace RavlN {
       at = stk.top;
       bob = stk.bob;
       block = stk.topBlk;
+      return *this;
     }
     //: Assigned to another stack.
     // the iterator will be at the top of the stack after

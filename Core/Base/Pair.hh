@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef Pair_HH
-#define Pair_HH
+#ifndef RAVL_PAIR_HEADER
+#define RAVL_PAIR_HEADER 1
 ///////////////////////////////////////////////////////////////////////
 //! file="Ravl/Core/Base/Pair.hh"
 //! author="Radek Marik"
@@ -136,7 +136,7 @@ namespace RavlN {
   inline 
   const DataC & 
   PairC<DataC>::operator[](IndexC i) const {
-    WaspAssert(Contain(i));
+    RavlAssert(Contains(i));
     return item[i.V()];
   }
   
@@ -144,7 +144,7 @@ namespace RavlN {
   inline 
   DataC & 
   PairC<DataC>::operator[](IndexC i) {
-    WaspAssert(Contain(i));
+    RavlAssert(Contains(i));
     return item[i.V()];
   }
   

@@ -54,3 +54,8 @@ int main() {
   cerr << "Test passed ok. \n";
   return 0; 
 }
+
+template class SArray2dC<UIntT>;
+template class SArray2dIterC<UIntT>;
+template class SArray2dIter2C<UIntT,RealT>;
+template class SArray2dIter3C<UIntT,RealT,ByteT>;

@@ -104,3 +104,5 @@ bool InterTest(void) {
   cerr << "Interleave test passed. \n";
   return ok;
 }
+
+template class PriQueueC<int,int>;

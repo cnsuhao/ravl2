@@ -317,3 +317,18 @@ int testSqr3111() {
   return 0;
 }
 
+// Force everything to be instantiated to check it at least compiles ok.
+
+#include "Ravl/Array1d.hh"
+#include "Ravl/Slice1d.hh"
+
+template class Array2dC<IntT>;
+template class Array2dIterC<IntT>;
+template class Array2dIter2C<IntT,RealT>;
+template class Array2dIter3C<IntT,RealT,ByteT>;
+template class Array2dSqr2Iter2C<IntT,Int16T>;
+template class Array2dSqr3IterC<IntT>;
+template class Array2dSqr31Iter2C<IntT,Int16T>;
+template class Array2dSqr311Iter3C<IntT,Int16T,RealT>;
+template class Array2dSqr3111Iter4C<IntT,Int16T,RealT,ByteT>;
+template class Array2dSqr3311Iter4C<IntT,Int16T,RealT,ByteT>;

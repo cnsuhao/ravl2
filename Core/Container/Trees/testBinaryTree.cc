@@ -239,3 +239,7 @@ int testBinaryTreeIter() {
   }
   return 0;
 }
+
+template class BinaryTreeC<int,UIntT>;
+template class BinaryTreeUpIterC<int,UIntT>;
+template class BinaryTreeDownIterC<int,UIntT>;

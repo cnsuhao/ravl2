@@ -151,6 +151,11 @@ namespace RavlN {
       : GraphNodeBaseC(aNode,bg)
       {}
     // Construct from a base node iterator.
+
+    GraphNodeIterC(GraphNodeBaseBodyC &aNode,GraphBaseBodyC &bg) 
+      : GraphNodeBaseC(aNode,bg)
+      {}
+    // Construct from a base node iterator.
     
     inline GraphNodeDatC<NodeT,EdgeT> &NodeDat();
     // Get a node rep.
@@ -315,7 +320,7 @@ namespace RavlN {
   GraphNodeIterC<NodeT,EdgeT>::operator!=(const GraphNodeIterC<NodeT,EdgeT> &Oth) const  { 
     RavlAssert(IsNodeValid());
     RavlAssert(Oth.IsNodeValid());
-    return GraphNodeBaseC::operator!=(Oth); 
+    return !GraphNodeBaseC::operator==(Oth); 
   }
   
   template<class NodeT,class EdgeT>

@@ -136,7 +136,7 @@ namespace RavlN {
     //: Take a slice along the diagonal of the array.
     
     SArray1dC<DataT> SliceRow(IndexC i)
-      { return SArray1dC<DataT>(data.Data(),SArray1d()[i]); }
+    { return SArray1dC<DataT>(data.Data(),(*this)[i]); }
     //: Access row as 1d array.
     // NB. Changes made to the slice will also affect this array!
     
@@ -176,7 +176,8 @@ namespace RavlN {
   template <class DataT>
   ostream & operator<<(ostream & s, const SArray2dC<DataT> & arr) {
     s << "0 " <<  (arr.Size1()-1) << " 0 " << (arr.Size2()-1) << "\n";
-    return s << ((SizeBufferAccess2dC<DataT> &) arr);
+    s << ((SizeBufferAccess2dC<DataT> &) arr);
+    return s;
   }
   // Prints into the stream 's'
   
@@ -186,7 +187,8 @@ namespace RavlN {
     s >> x1 >> size1 >> x2 >> size2;
     RavlAssert(x1 == 0 && x2 == 0);  // Only accept arrays starting at origin.
     arr = SArray2dC<DataT>(size1+1,size2+1);
-    return s >> ((SizeBufferAccess2dC<DataT> &) arr);
+    s >> ((SizeBufferAccess2dC<DataT> &) arr);
+    return s;
   }
   // Reads the array from the stream 's'
   
@@ -194,7 +196,8 @@ namespace RavlN {
   BinOStreamC &operator<<(BinOStreamC & s, const SArray2dC<DataT> & arr) {
     SizeT x = 0;
     s << x << (arr.Size1()-1) << x << (arr.Size2()-1);
-    return s << ((SizeBufferAccess2dC<DataT> &) arr);
+    s << ((SizeBufferAccess2dC<DataT> &) arr);
+    return s;
   }
 
   template<class DataT>
@@ -377,8 +380,8 @@ namespace RavlN {
   
   template<class DataT>
   void SArray2dC<DataT>::SetRow(IndexC i,const SArray1dC<DataT> &val) {
-    RavlAssert(val.Size() == size1);
-    for(BufferAccessIter2C<DataT,DataT> it(SArray1d()[i],val);it;it++)
+    RavlAssert(val.Size() == Size1());
+    for(BufferAccessIter2C<DataT,DataT> it((*this)[i],val);it;it++)
       it.Data1() = it.Data2();
   }
   

@@ -206,3 +206,5 @@ int HashAddFrom() {
   return 0;
 }
 
+template class HashC<int,UIntT>;
+template class HashIterC<int,UIntT>;

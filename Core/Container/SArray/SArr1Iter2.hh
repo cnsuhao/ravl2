@@ -41,11 +41,11 @@ namespace RavlN {
     // Goto first element in arrays.
     
     SArray1dC<Data1T> &Array1()
-      { return arr1; }
+    { return arr1; }
     //: Access array.
     
     SArray1dC<Data2T> &Array2()
-      { return arr1; }
+    { return arr2; }
     //: Access array.
     
     IndexC Index() const
@@ -54,7 +54,7 @@ namespace RavlN {
     // This is a little slow.
 
     bool IsFirst() const
-    { return at1 == &dat1[0]; }
+    { return at1 == &(arr1[0]); }
     //: Test if this is the first element in the range.
     // Note,this is slower than IsElm().
     

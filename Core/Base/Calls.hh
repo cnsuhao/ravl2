@@ -61,6 +61,10 @@ namespace RavlN {
     virtual RetT Call()
       {  return (*FuncPtr())(); }
     //: Call signal
+
+    virtual RCBodyVC &Copy() const
+      { return *new CallFunc0BodyC<RetT>(func); }
+    //: Copy call.
     
   protected:
     VoidFuncPtrT func; // Function ptr.
@@ -83,11 +87,7 @@ namespace RavlN {
       FuncT FuncPtr() const
       { return (FuncT)(func); }
     //: Function.
-
-    virtual RCBodyVC &Copy() const
-      { return *new CallFunc0BodyC<RetT>(func); }
-    //: Copy call.
-
+    
   };
   
   //! userlevel=Advanced
@@ -141,6 +141,10 @@ namespace RavlN {
       { return static_cast<const CallFunc0BodyC<RetT> &>(TriggerC::Body()); }
     //: Constant access to body.
 
+    CallFunc0C<RetT> Copy() const
+    { return CallFunc0C<RetT>(static_cast<CallFunc0BodyC<RetT> &>(Body().Copy())); }
+    //: Copy func call.
+
   public:
     RetT Call()
       { return Body().Call(); }
@@ -150,9 +154,6 @@ namespace RavlN {
       { return Body().Call(); }
     //: Call function.
     
-    CallFunc0C<RetT> Copy() const
-      { return CallFunc0C<RetT>(static_cast<CallFunc0BodyC<RetT> &>(Body().Copy())); }
-    //: Copy func call.
   };
 
   //////////////////////////////////////////////////////
@@ -165,9 +166,9 @@ namespace RavlN {
     : public CallFunc0BodyC<RetT>
   {
   public:
-    CallFunc1BodyC() {
-      func = &CallFunc1BodyC<DataT,RetT>::IssueError;
-    }
+    CallFunc1BodyC() 
+      : CallFunc0BodyC<RetT>((VoidFuncPtrT)&CallFunc1BodyC<DataT,RetT>::IssueError)
+    {}
     //: Default constructor.
     
     CallFunc1BodyC(RetT (*nfunc)(DataT &),const DataT &ndat)
@@ -206,18 +207,11 @@ namespace RavlN {
     const DataT &Data1() const
       { return dat1; }
     //: Access data.
-    
-  protected:
-    CallFunc1BodyC(RetT (*nfunc)(),const DataT &ndat)
-      : CallFunc0BodyC<RetT>(nfunc),
-	dat1(ndat)
-      {}
-    //: Constructor.
-    
+
     virtual RCBodyVC &Copy() const
       { return *new CallFunc1BodyC<DataT,RetT>(func,dat1); }
     //: Copy call.
-
+    
     static RetT NoOp(DataT &) { 
       return RetT();
     }
@@ -228,6 +222,13 @@ namespace RavlN {
       return RetT(); 
     }
     //: Error function.
+    
+  protected:
+    CallFunc1BodyC(RetT (*nfunc)(),const DataT &ndat)
+      : CallFunc0BodyC<RetT>(nfunc),
+	dat1(ndat)
+      {}
+    //: Constructor.
     
     typedef RetT (*FuncT)(DataT &);
     //: Function ptr type.    
@@ -328,9 +329,9 @@ namespace RavlN {
     : public CallFunc1BodyC<Data1T,RetT>
   {
   public:
-    CallFunc2BodyC() {
-      func  = &CallFunc2BodyC<Data1T,Data2T,RetT>::IssueError;
-    }
+    CallFunc2BodyC() 
+      : CallFunc1BodyC<Data1T,RetT>((VoidFuncPtrT) &CallFunc2BodyC<Data1T,Data2T,RetT>::IssueError)
+    {}
     //: Default constructor.
     
     CallFunc2BodyC(RetT (*nfunc)(Data1T &,Data2T &),const Data1T &ndat1,const Data2T &ndat2)
@@ -373,6 +374,10 @@ namespace RavlN {
     const Data2T &Data2() const
       { return dat2; }
     //: Access data.
+
+    virtual RCBodyVC &Copy() const
+      { return *new CallFunc2BodyC<Data1T,Data2T,RetT>(func,dat1,dat2); }
+    //: Copy call.
     
   protected:
     CallFunc2BodyC(RetT (*nfunc)(),const Data1T &ndat1,const Data2T &ndat2)
@@ -381,9 +386,6 @@ namespace RavlN {
       {}
     //: Constructor.
     
-    virtual RCBodyVC &Copy() const
-      { return *new CallFunc2BodyC<Data1T,Data2T,RetT>(func,dat1,dat2); }
-    //: Copy call.
     
     Data2T dat2;
 
@@ -432,7 +434,7 @@ namespace RavlN {
     // is generated.
 
     CallFunc2C(bool issueErrorOnCall)
-      : TriggerC(*new CallFunc2BodyC<Data1T,Data2T,RetT>(issueErrorOnCall))
+      : CallFunc1C<Data1T,RetT>(*new CallFunc2BodyC<Data1T,Data2T,RetT>(issueErrorOnCall))
       {}
     //: NoOp constructor.
     // if issueErrorOnCall a function which causes the
@@ -506,9 +508,9 @@ namespace RavlN {
     // equivelent of a assertion failure is called. Otherwise
     // the call returns silently.
 
-    CallFunc3BodyC() {
-      func = &CallFunc3BodyC<Data1T,Data2T,Data3T,RetT>::IssueError;
-    }
+    CallFunc3BodyC() 
+      : CallFunc2BodyC<Data1T,Data2T,RetT>((VoidFuncPtrT) &CallFunc3BodyC<Data1T,Data2T,Data3T,RetT>::IssueError)
+    {}
     //: Default constructor.
     
     CallFunc3BodyC(RetT (*nfunc)(Data1T &,Data2T &,Data3T &),const Data1T &ndat1 = Data1T(),const Data2T &ndat2 = Data2T(),const Data3T &ndat3 = Data3T())
@@ -544,19 +546,10 @@ namespace RavlN {
     const Data3T &Data3() const
       { return dat3; }
     //: Access data.
-    
-  protected:
-    CallFunc3BodyC(RetT (*nfunc)(),const Data1T &ndat1,const Data2T &ndat2,const Data3T &ndat3)
-      : CallFunc2BodyC<Data1T,Data2T,RetT>((VoidFuncPtrT) nfunc,ndat1,ndat2),
-	dat3(ndat3)
-      {}
-    //: Constructor.
-    
+
     virtual RCBodyVC &Copy() const
       { return *new CallFunc3BodyC<Data1T,Data2T,Data3T,RetT>(func,dat1,dat2,dat3); }
     //: Copy call.
-    
-    Data3T dat3;
 
     static RetT NoOp(Data1T &,Data2T &,Data3T &) { 
       return RetT(); 
@@ -569,6 +562,15 @@ namespace RavlN {
     }
     //: Error function.
     
+  protected:
+    CallFunc3BodyC(RetT (*nfunc)(),const Data1T &ndat1,const Data2T &ndat2,const Data3T &ndat3)
+      : CallFunc2BodyC<Data1T,Data2T,RetT>((VoidFuncPtrT) nfunc,ndat1,ndat2),
+	dat3(ndat3)
+      {}
+    //: Constructor.
+    
+    Data3T dat3;
+        
     typedef RetT (*FuncT)(Data1T &,Data2T &,Data3T &);
     //: Function ptr type.    
     
@@ -602,7 +604,7 @@ namespace RavlN {
     // is generated.
     
     CallFunc3C(bool issueErrorOnCall)
-      : TriggerC(*new CallFunc3BodyC<Data1T,Data2T,Data3T,RetT>(issueErrorOnCall))
+      : CallFunc2C<Data1T,Data2T,RetT>(*new CallFunc3BodyC<Data1T,Data2T,Data3T,RetT>(issueErrorOnCall))
       {}
     //: NoOp constructor.
     // if issueErrorOnCall a function which causes the
@@ -666,9 +668,9 @@ namespace RavlN {
     : public CallFunc3BodyC<Data1T,Data2T,Data3T,RetT>
   {
   public:
-    CallFunc4BodyC() {
-      func = &CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT>::IssueError;
-    }
+    CallFunc4BodyC() 
+      : CallFunc3BodyC<Data1T,Data2T,Data3T,RetT>((VoidFuncPtrT) &CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT>::IssueError)
+    {}
     //: Default constructor.
     
     CallFunc4BodyC(bool issueErrorOnCall) {
@@ -719,6 +721,10 @@ namespace RavlN {
     const Data4T &Data4() const
       { return dat4; }
     //: Access data.
+
+    virtual RCBodyVC &Copy() const
+      { return *new CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT>(func,dat1,dat2,dat3,dat4); }
+    //: Copy call.
     
   protected:
     CallFunc4BodyC(RetT (*nfunc)(),const Data1T &ndat1,const Data2T &ndat2,const Data3T &ndat3,const Data4T &ndat4)
@@ -727,10 +733,6 @@ namespace RavlN {
       {}
     //: Constructor.
 
-    virtual RCBodyVC &Copy() const
-      { return *new CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT>(func,dat1,dat2,dat3,dat4); }
-    //: Copy call.
-    
     Data4T dat4;
 
     static RetT NoOp(Data1T &,Data2T &,Data3T &,Data4T &) { 
@@ -777,7 +779,7 @@ namespace RavlN {
     // is generated.
 
     CallFunc4C(bool issueErrorOnCall)
-      : TriggerC(*new CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT>(issueErrorOnCall))
+      : CallFunc3C<Data1T,Data2T,Data3T,RetT>(*new CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT>(issueErrorOnCall))
       {}
     //: NoOp constructor.
     // if issueErrorOnCall a function which causes the
@@ -853,9 +855,9 @@ namespace RavlN {
     // equivelent of a assertion failure is called. Otherwise
     // the call returns silently.
 
-    CallFunc5BodyC() {
-      func = &CallFunc5BodyC<Data1T,Data2T,Data3T,Data4T,Data5T,RetT>::IssueError;
-    }
+    CallFunc5BodyC() 
+      : CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT>(&CallFunc5BodyC<Data1T,Data2T,Data3T,Data4T,Data5T,RetT>::IssueError)
+    {}
     //: Default constructor.
     
     
@@ -906,6 +908,10 @@ namespace RavlN {
       { return dat5; }
     //: Access data.
     
+    virtual RCBodyVC &Copy() const
+      { return *new CallFunc5BodyC<Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(func,dat1,dat2,dat3,dat4,dat5); }
+    //: Copy call.
+    
   protected:
     CallFunc5BodyC(RetT (*nfunc)(),
 		   const Data1T &ndat1,
@@ -917,10 +923,6 @@ namespace RavlN {
 	dat5(ndat5)
       {}
     //: Constructor.
-    
-    virtual RCBodyVC &Copy() const
-      { return *new CallFunc5BodyC<Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(func,dat1,dat2,dat3,dat4,dat5); }
-    //: Copy call.
     
     Data5T dat5;
 
@@ -958,7 +960,7 @@ namespace RavlN {
     // Creates an invalid handle.
     
     CallFunc5C(bool issueErrorOnCall)
-      : TriggerC(*new CallFunc5BodyC<Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(issueErrorOnCall))
+      : CallFunc4C<Data1T,Data2T,Data3T,Data4T,RetT>(*new CallFunc5BodyC<Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(issueErrorOnCall))
       {}
     //: NoOp constructor.
     // if issueErrorOnCall a function which causes the

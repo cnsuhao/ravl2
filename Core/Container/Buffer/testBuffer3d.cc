@@ -109,3 +109,10 @@ int TestRangeBuffer() {
     *it = 0;
   return 0;
 }
+
+template class Buffer3dBodyC<IntT>;
+template class Buffer3dC<IntT>;
+
+template class BufferAccess3dIterC<IntT>;
+template class BufferAccess3dIter2C<IntT,RealT>;
+template class BufferAccess3dIter3C<IntT,RealT,ByteT>;

@@ -263,7 +263,7 @@ namespace RavlN {
   inline 
   bool FixedQueueC<T>::IsInRing(UIntT at) const  {
     if(IsEmpty())
-      return FALSE;
+      return false;
     const T *p = &((*this)[at]);
     if(head > tail)
       return (p >= tail && p < head);

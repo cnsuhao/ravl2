@@ -97,3 +97,8 @@ int main() {
   
   return 0;
 }
+
+template class GraphC<IntC,int>;
+template class GraphNodeIterC<IntC,int>;
+template class GraphEdgeIterC<IntC,int>;
+template class GraphAdjIterC<IntC,int>;

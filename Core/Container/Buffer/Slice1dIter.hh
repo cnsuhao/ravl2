@@ -45,16 +45,16 @@ namespace RavlN {
     //: Test if we're at a valid element.
     
     bool IsElm() const
-      { return at1 != end; }
+    { return place != end; }
     //: Test if we're at a valid element.
     
     inline bool IsLast() const
-    { return (at+vec.Stride()) == endOfRow; }
+    { return (place+vec.Stride()) == end; }
     //: Test if we're at the last valid element in the slice.
     // This is slower than IsElm().
     
     inline bool IsFirst() const
-    { return at == &vec.First(); }
+    { return place == &vec.First(); }
     //: Test if we're at the first element in the slice.
     // This is slower than IsElm().
     
@@ -85,11 +85,11 @@ namespace RavlN {
     //: Access data.
     
     DataT *operator->() 
-      { return *place; }
+    { return place; }
     //: Access data.
     
     const DataT *operator->() const
-      { return *place; }
+      { return place; }
     //: Access data.
     
     IntT Index() const
@@ -111,7 +111,7 @@ namespace RavlN {
   
   template<class DataT>
   void Slice1dIterC<DataT>::First() {
-    if(vec.Size() < 0) {
+    if(vec.Size() <= 0) {
       place = 0;
       end = 0;
       return;

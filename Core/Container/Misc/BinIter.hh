@@ -41,7 +41,7 @@ namespace RavlN {
     // Assignment to another iterator.
     
     BinIterC<IT,DIT,BT> &operator=(const BinTableC<IT,DIT,BT> &oth) {
-      HashIterC<DIT,BT>::operator=(oth.Bins);
+      HashIterC<DIT,BT>::operator=(oth.bins);
       return *this;
     }
     // Assignment to another table.

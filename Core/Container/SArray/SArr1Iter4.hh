@@ -110,11 +110,11 @@ namespace RavlN {
     // This is a little slow.
     
     void Invalidate()
-      { at1 = endOfRow; }
+    { at1 = const_cast<Data1T *>(endOfRow); }
     //: Invalidate iterator. Makes IsElm() return False.
 
     bool IsFirst() const
-    { return at1 == &dat1[0]; }
+    { return at1 == &(arr1[0]); }
     //: Test if this is the first element in the range.
     // Note,this is slower than IsElm().
     

@@ -137,3 +137,5 @@ int TestQueueIter() {
   }
   return 0;
 }
+
+template class FixedQueueC<int>;

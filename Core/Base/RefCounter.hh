@@ -97,7 +97,6 @@ namespace RavlN {
       { return false; }
     //: Save to stream out.
     
-  protected:
     virtual RCBodyVC &Copy() const;
     //: Make copy of body.
     // This should be provided in derived classes.
@@ -108,6 +107,7 @@ namespace RavlN {
     // This should be provided in derived classes.
     // this funtion will issue an assertion failure if called.
 
+  protected:
     RCBodyVC()
       {}
     //: Default constructor.
@@ -174,7 +174,7 @@ namespace RavlN {
     //: Assign handle.
 
     RCHandleC<BodyT> DeepCopy(UIntT levels = ((UIntT) -1)) const
-      { return RCHandleC<BodyT>(Body().DeepCopy(levels)); }
+    { return RCHandleC<BodyT>(Body().DeepCopy(levels)); }
     //: Do a deep copy of the object.
     
     bool operator==(const RCHandleC<BodyT> &oth) const
@@ -223,8 +223,13 @@ namespace RavlN {
   protected:
     RCHandleC(BodyT &bod)
       : body(&bod)
-      { body->IncRefCounter(); }
+    { body->IncRefCounter(); }
     //: Body constructor.
+
+    RCHandleC(RCBodyC &bod)
+      : body(&static_cast<BodyT &>(bod))
+    { body->IncRefCounter(); }
+    //: Body base constructor.
     
     BodyT &Body()
       { return *body; }

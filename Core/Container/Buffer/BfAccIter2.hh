@@ -192,13 +192,13 @@ namespace RavlN {
   template<class Data1T,class Data2T>
   inline 
   bool BufferAccessIter2C<Data1T,Data2T>::First(const SizeBufferAccessC<Data1T> &buff1,const SizeBufferAccessC<Data2T> &buff2,UIntT off1,UIntT off2) {
-    if(buff.Size() <= off1) {
+    if(buff1.Size() <= off1) {
       at1 = 0;
       endOfRow = 0;
       return false;
     }
     RavlAssert(buff2.Size() > off2); 
-    RavlAssert(((int) buff2.Size() - off2) >= ((int) buff1.Size1() - off1));
+    RavlAssert(((int) buff2.Size() - off2) >= ((int) buff1.Size() - off1));
     at1 = const_cast<Data1T *>(&buff1[off1]);
     at2 = const_cast<Data2T *>(&buff2[off2]);
     endOfRow = &(at1[buff1.Size() - off1]);

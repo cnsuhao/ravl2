@@ -44,11 +44,13 @@ namespace RavlN {
       {}
     //: Sized constructor.
 
+#if 0
     Buffer2dBodyC(const BufferC<DataT> &dat,const BufferC<BufferAccessC<DataT> > &buf)
       : BufferBodyC<BufferAccessC<DataT> >(buf),
-      data(dat)
+	data(dat)
       {}
     //: Buffer constructor.
+#endif
     
     Buffer2dBodyC(const BufferC<DataT> &dat,SizeT size1)
       : BufferBodyC<BufferAccessC<DataT> >(size1),
@@ -94,11 +96,13 @@ namespace RavlN {
       : BufferC<BufferAccessC<DataT> >(*new Buffer2dBodyC<DataT>(size1,size2))
       {}
     //: Sized constructor.
-    
+
+#if 0    
     Buffer2dC(const BufferC<DataT> &dat,const BufferC<BufferAccessC<DataT> > &buf)
       : BufferC<BufferAccessC<DataT> >(*new Buffer2dBodyC<DataT>(dat,buf)) 
       {}
     //: Constructor.
+#endif
     
     Buffer2dC(const BufferC<DataT> &dat,SizeT size2)
       : BufferC<BufferAccessC<DataT> >(*new Buffer2dBodyC<DataT>(dat,size2)) 

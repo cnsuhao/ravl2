@@ -24,7 +24,8 @@
 #include "Ravl/BfAcc2Iter2.hh"
 #include "Ravl/BfAcc2Iter3.hh"
 #include "Ravl/SArray2d.hh"
-
+#include "Ravl/Math.hh"
+ 
 class istream;
 class ostream;
 
@@ -99,7 +100,7 @@ namespace RavlN {
     Slice1dC<DataT> SliceColumn(IndexC i) { 
       return Slice1dC<DataT>(data.Data(),
 			     &((*this)[Range1().Min()][i]),
-			     Min(Range1.Size(),Range2.Size()),
+			     Min(Range1().Size(),Range2().Size()),
 			     Stride());
     }
     //: Access columb as 1d slice.
@@ -108,7 +109,7 @@ namespace RavlN {
     Slice1dC<DataT> Diagonal() {
       return Slice1dC<DataT>(data.Data(),
 			     &((*this)[Range1().Min()][Range2().Min()]),
-			     Min(Range1.Size(),Range2.Size()),
+			     Min(Range1().Size(),Range2().Size()),
 			     Stride()+1);
     }
     //: Take a slice along the diagonal of the array.
@@ -214,8 +215,8 @@ namespace RavlN {
   template <class DataT>
   void Array2dC<DataT>::ShiftIndexes2(IndexC offset) {
     for(BufferAccessIterC<BufferAccessC<DataT> > it(*this);it.IsElm();it.Next()) 
-      it.Data().ShiftIndexes(offset);
-    size2 -= offset.V(); // Keep dim2 uptodate.
+      it.Data() += offset;
+    rng2 -= offset.V(); // Keep dim2 uptodate.
   }
   
   template <class DataT>
@@ -383,7 +384,7 @@ namespace RavlN {
   template<class DataT>
   Array2dC<DataT> Array2dC<DataT>::operator+(const DataT &number) const {
     Array2dC<DataT> ret(Rectangle());
-    for(BufferAccess2dIter2C<DataT,DataT> it(ret,Range2(),Range2(),arr,arr.Range2());it;it++)
+    for(BufferAccess2dIter2C<DataT,DataT> it(ret,ret.Range2(),(*this),Range2());it;it++)
       it.Data1() = it.Data2() + number;
     return ret;
   }
@@ -391,7 +392,7 @@ namespace RavlN {
   template<class DataT>
   Array2dC<DataT> Array2dC<DataT>::operator-(const DataT &number) const {
     Array2dC<DataT> ret(Rectangle());
-    for(BufferAccess2dIter2C<DataT,DataT> it(ret,Range2(),arr,arr.Range2());it;it++)
+    for(BufferAccess2dIter2C<DataT,DataT> it(ret,ret.Range2(),(*this),Range2());it;it++)
       it.Data1() = it.Data2() - number;
     return ret;
   }
@@ -399,7 +400,7 @@ namespace RavlN {
   template<class DataT>
   Array2dC<DataT> Array2dC<DataT>::operator*(const DataT &number) const {
     Array2dC<DataT> ret(Rectangle());
-    for(BufferAccess2dIter2C<DataT,DataT> it(ret,Range2(),arr,arr.Range2());it;it++)
+    for(BufferAccess2dIter2C<DataT,DataT> it(ret,Range2(),(*this),Range2());it;it++)
       it.Data1() = it.Data2() * number;
     return ret;
   }
@@ -407,7 +408,7 @@ namespace RavlN {
   template<class DataT>
   Array2dC<DataT> Array2dC<DataT>::operator/(const DataT &number) const {
     Array2dC<DataT> ret(Rectangle());
-    for(BufferAccess2dIter2C<DataT,DataT> it(ret,Range2(),arr,arr.Range2());it;it++)
+    for(BufferAccess2dIter2C<DataT,DataT> it(ret,Range2(),(*this),Range2());it;it++)
       it.Data1() = it.Data2() / number;
     return ret;
   }

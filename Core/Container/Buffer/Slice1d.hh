@@ -97,11 +97,11 @@ namespace RavlN {
     // Not the results of this function is undefined if Size() is zero.
     
     DataT &Last()
-      { return ref[stride * (size-1)]; }
+    { return ref[stride * rng.Max().V()]; }
     //: Access last element in vector.
     
     const DataT &Last() const
-      { return ref[stride * (size-1)]; }
+    { return ref[stride * rng.Max().V()]; }
     //: Access last element in vector.
 
     IntT Stride() const
@@ -155,8 +155,8 @@ namespace RavlN {
     //: All elements of the vector are changed to their reciprocal values. 
     //: It is assumed that all elements of the vector differs from zero.
     
-    DataT Modulus() const
-      { return Sqrt(SumOfSqr()); } 
+    RealT Modulus() const
+    { return Sqrt(SumOfSqr()); } 
     //: Returns the modulus of the vector.
     // The Sqrt(SumOfSqr()).
 
@@ -229,7 +229,7 @@ namespace RavlN {
   }
 
   template<class DataT>
-  Slice1dC<DataT>::Slice1dC(BufferC<DataT> &buff,DataT *refElm,IndexRangeC range,IntT stride = 1) 
+  Slice1dC<DataT>::Slice1dC(BufferC<DataT> &buff,DataT *refElm,IndexRangeC range,IntT nstride) 
     : rng(range),
       stride(nstride),
       ref(refElm),
@@ -253,7 +253,7 @@ namespace RavlN {
     : rng(nrng),
       stride(1),
       buffer(nrng.Size())
-  { ref = buffer.ReferenceElm()[-nrng.Min()]; }
+  { ref = &(buffer.ReferenceElm()[-nrng.Min().V()]); }
   
   template<class DataT>
   DataT &Slice1dC<DataT>::operator[](IndexC i) { 
@@ -271,7 +271,7 @@ namespace RavlN {
   Slice1dC<DataT> Slice1dC<DataT>::Copy() const {
     Slice1dC<DataT> ret(Size());
     for(Slice1dIter2C<DataT,DataT> it(ret,*this);it;it++)
-      it[0] = it[1];
+      it.Data1() = it.Data2();
     return ret;
   }
   
@@ -286,7 +286,7 @@ namespace RavlN {
   Slice1dC<DataT>::operator+(const Slice1dC<DataT>& b) const {
     Slice1dC<DataT> ret(Size());
     for(Slice1dIter3C<DataT,DataT,DataT> it(ret,*this,b);it;it++)
-      it[0] = it[1] + it[2];
+      it.Data1() = it.Data2() + it.Data3();
     return ret;
   }
 
@@ -295,7 +295,7 @@ namespace RavlN {
   Slice1dC<DataT>::operator-(const Slice1dC<DataT>& b) const {
     Slice1dC<DataT> ret(Size());
     for(Slice1dIter3C<DataT,DataT,DataT> it(ret,*this,b);it;it++)
-      it[0] = it[1] - it[2];
+      it.Data1() = it.Data2() - it.Data3();
     return ret;  
   }
   
@@ -304,7 +304,7 @@ namespace RavlN {
   Slice1dC<DataT>::operator*(const DataT &alpha) const {
     Slice1dC<DataT> ret(Size());
     for(Slice1dIter2C<DataT,DataT> it(ret,*this);it;it++)
-      it[0] = it[1] * alpha;
+      it.Data1() = it.Data2() * alpha;
     return ret;
   }
   
@@ -313,7 +313,7 @@ namespace RavlN {
   Slice1dC<DataT>::operator*(const Slice1dC<DataT> & b) const {
     Slice1dC<DataT> ret(Size());
     for(Slice1dIter3C<DataT,DataT,DataT> it(ret,*this,b);it;it++)
-      it[0] = it[1] * it[2];
+      it.Data1() = it.Data2() * it.Data3();
     return ret;
   }
   
@@ -321,7 +321,7 @@ namespace RavlN {
   Slice1dC<DataT> & 
   Slice1dC<DataT>::operator+=(const Slice1dC<DataT> & b) {
     for(Slice1dIter2C<DataT,DataT> it(*this,b);it;it++)
-      it[0] += it[1];
+      it.Data1() += it.Data2();
     return (*this);
   }
   
@@ -337,7 +337,7 @@ namespace RavlN {
   Slice1dC<DataT> & 
   Slice1dC<DataT>::operator-=(const Slice1dC<DataT> & b) {
     for(Slice1dIter2C<DataT,DataT> it(*this,b);it;it++)
-      it[0] -= it[1];
+      it.Data1() -= it.Data2();
     return (*this);
   }
   
@@ -368,8 +368,8 @@ namespace RavlN {
   template<class DataT>
   Slice1dC<DataT> & 
   Slice1dC<DataT>::operator/=(const Slice1dC<DataT> &vec) {
-    for(Slice1dIter2C<DataT,DataT> it(*this,b);it;it++)
-      it[0] /= it[1];
+    for(Slice1dIter2C<DataT,DataT> it(*this,vec);it;it++)
+      it.Data1() /= it.Data2();
     return (*this);
   }
   
@@ -418,21 +418,19 @@ namespace RavlN {
   }
   
   template<class DataT>
-  DataT 
-  Slice1dC<DataT>::TMul(const Slice1dC<DataT> & b) const {
+  DataT Slice1dC<DataT>::TMul(const Slice1dC<DataT> & b) const {
     DataT sum = 0;
     for(Slice1dIter2C<DataT,DataT> it(*this,b);it;it++)
-      sum += it[0] * it[1];
-    return (*this);
+      sum += it.Data1() * it.Data2();
+    return sum;
   }
   
   template<class DataT>
-  DataT 
-  Slice1dC<DataT>::Dot(const Slice1dC<DataT> & v) const {
+  DataT Slice1dC<DataT>::Dot(const Slice1dC<DataT> & v) const {
     DataT sum = 0;
     for(Slice1dIter2C<DataT,DataT> it(*this,v);it;it++)
-      sum += it[0] * it[1];
-    return (*this);  
+      sum += it.Data1() * it.Data2();
+    return sum;  
   }
 
   template<class DataT>

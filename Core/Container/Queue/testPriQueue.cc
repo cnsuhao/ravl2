@@ -57,5 +57,8 @@ int Main(int, char*[])
   return 0;
 }
 
+template class PriQueueLC<IntT, IntT>;
+
+
 RAVL_ENTRY_POINT(Main);
 

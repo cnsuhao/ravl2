@@ -32,3 +32,7 @@ int main()
   return 0;
 }
 
+template class Slice1dC<UIntT>;
+template class Slice1dIterC<UIntT>;
+template class Slice1dIter2C<UIntT,RealT>;
+template class Slice1dIter3C<UIntT,RealT,ByteT>;

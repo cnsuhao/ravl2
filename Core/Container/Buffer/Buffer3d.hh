@@ -44,22 +44,23 @@ namespace RavlN {
     
 #if 0
     Buffer3dBodyC(const BufferC<DataT> &dat,const BufferC<BufferAccess2dC<DataT> > &buf,
-		  IndexRangeC nrng2,IndexRangeC nrng3)
+		  IndexRangeC nrng2,
+		  IndexRangeC nrng3)
       : BufferBodyC<BufferAccess2dC<DataT> >(buf),
-      data(dat),
-      rng2(nrng2),
-      rng3(nrng3)
-      {}
-    //: Buffer constructor.
-    
-    Buffer3dBodyC(const BufferC<DataT> &dat,IndexRangeC rng1,IndexRangeC nrng2,IndexRangeC nrng3)
-      : BufferBodyC<BufferAccess2dC<DataT> >(nrng1),
-      data(dat),
-      rng2(nrng2),
-      rng3(nrng3)
-      {}
+	data(dat),
+	size2(nrng2.Size()),
+	size3(nrng3.Size())
+    {}
     //: Buffer constructor.
 #endif
+    
+    Buffer3dBodyC(const BufferC<DataT> &dat,SizeT nrng1,SizeT nrng2,SizeT nrng3)
+      : BufferBodyC<BufferAccessC<BufferAccessC<DataT > > >(nrng1),
+	data(dat),
+	size2(nrng2),
+	size3(nrng3)
+    {}
+    //: Buffer constructor.
     
     BufferC<DataT> &Data()
       { return data; }
@@ -120,12 +121,12 @@ namespace RavlN {
       : BufferC<BufferAccessC<BufferAccessC<DataT > > >(*new Buffer3dBodyC<DataT>(dat,buf)) 
       {}
     //: Constructor.
+#endif
     
-    Buffer3dC(const BufferC<DataT> &dat,IndexRangeC rng2,IndexRangeC rng3)
-      : BufferC<BufferAccessC<BufferAccessC<DataT > >> >(*new Buffer3dBodyC<DataT>(dat,rng2,rng3)) 
+    Buffer3dC(const BufferC<DataT> &dat,SizeT rng1,SizeT rng2,SizeT rng3)
+      : BufferC<BufferAccessC<BufferAccessC<DataT > > >(*new Buffer3dBodyC<DataT>(dat,rng1,rng2,rng3)) 
       {}
     //: Constructor.
-#endif
     
   protected:
 

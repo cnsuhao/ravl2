@@ -9,6 +9,7 @@
 //! lib=RavlCore
 
 #include "Ravl/Collection.hh"
+#include "Ravl/CollectionIter.hh"
 #include "Ravl/SArr1Iter.hh"
 
 using namespace RavlN;
@@ -50,3 +51,6 @@ int testBasic() {
   
   return 0;
 }
+
+template class CollectionC<IntT>;
+template class CollectionIterC<IntT>;

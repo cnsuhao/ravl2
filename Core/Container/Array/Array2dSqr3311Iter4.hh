@@ -97,8 +97,8 @@ namespace RavlN {
 	return true;
       up1 = &((rit.Data1())[rng1.Min()]);
       dn1 = &((&(rit.Data1()))[2][rng1.Min()]);
-      up1 = &((rit.Data2())[rng2.Min()]);
-      dn1 = &((&(rit.Data2()))[2][rng2.Min()]);
+      up2 = &((rit.Data2())[rng2.Min()]);
+      dn2 = &((&(rit.Data2()))[2][rng2.Min()]);
       rit++;
       if(!rit)
 	return false;
@@ -207,83 +207,83 @@ namespace RavlN {
       { return up1[1]; }
     //: Access top right data element from array 1
     
-    Data1T &DataBL2() 
-      { return dn2[-1]; }
+    Data2T &DataBL2() 
+    { return dn2[-1]; }
     //: Access bottom left data element from array 2 
 
-    const Data1T &DataBL2() const
-      { return dn2[-1]; }
+    const Data2T &DataBL2() const
+    { return dn2[-1]; }
     //: Access bottom left data element from array 2
 
-    Data1T &DataBM2() 
+    Data2T &DataBM2() 
       { return *dn2; }
     //: Access bottom mid data element from array 2
 
-    const Data1T &DataBM2() const
+    const Data2T &DataBM2() const
       { return *dn2; }
     //: Access bottom mid data element from array 2
 
-    Data1T &DataBR2() 
+    Data2T &DataBR2() 
       { return dn2[1]; }
     //: Access bottom right data element from array 2
 
-    const Data1T &DataBR2() const
+    const Data2T &DataBR2() const
       { return dn2[1]; }
     //: Access bottom right data element from array 2
 
-    Data1T &DataML2() 
+    Data2T &DataML2() 
       { return (&(cit.Data2()))[-1]; }
     //: Access middle left data element from array 2
     
-    const Data1T &DataML2() const
+    const Data2T &DataML2() const
       { return (&(cit.Data2()))[-1]; }
     //: Access middle left data element from array 2
     
-    Data1T &DataMM2() 
+    Data2T &DataMM2() 
       { return cit.Data2(); }
     //: Access middle data element from array 2
     
-    const Data1T &DataMM2() const
+    const Data2T &DataMM2() const
       { return cit.Data2(); }
     //: Access middle data element from array 2
     
-    Data1T &Data2() 
+    Data2T &Data2() 
       { return cit.Data2(); }
     //: Access middle data element from array 2
     
-    const Data1T &Data2() const
+    const Data2T &Data2() const
       { return cit.Data2(); }
     //: Access middle data element from array 2
     
-    Data1T &DataMR2() 
+    Data2T &DataMR2() 
       { return (&(cit.Data2()))[1]; }
     //: Access middle right data element from array 2
     
-    const Data1T &DataMR2() const
+    const Data2T &DataMR2() const
       { return (&(cit.Data2()))[1]; }
     //: Access middle right data element from array 2
 
-    Data1T &DataTL2() 
+    Data2T &DataTL2() 
       { return up2[-1]; }
     //: Access top left data element from array 2
     
-    const Data1T &DataTL2() const
+    const Data2T &DataTL2() const
       { return up2[-1]; }
     //: Access top left data element from array 2
 
-    Data1T &DataTM2() 
+    Data2T &DataTM2() 
       { return *up2; }
     //: Access top middle element from array 2
     
-    const Data1T &DataTM2() const
+    const Data2T &DataTM2() const
       { return *up2; }
     //: Access top middle element from array 2
     
-    Data1T &DataTR2() 
+    Data2T &DataTR2() 
       { return up2[1]; }
     //: Access top right data element from array 2
     
-    const Data1T &DataTR2() const
+    const Data2T &DataTR2() const
       { return up2[1]; }
     //: Access top right data element from array 2
     
@@ -310,8 +310,8 @@ namespace RavlN {
     Array2dC<Data4T> array4;
     Data1T *up1;
     Data1T *dn1;
-    Data1T *up2;
-    Data1T *dn2;
+    Data2T *up2;
+    Data2T *dn2;
   };
 }
 

@@ -42,7 +42,7 @@ namespace RavlN {
     //: Function ptr type.
 
     virtual RCBodyVC &Copy() const
-      { return *new CallMethodRef0BodyC<ObjT,RetT>(obj,FuncPtr()); }
+      { return *new CallMethodRef0BodyC<ObjT,RetT>(const_cast<ObjT &>(obj),FuncPtr()); }
     //: Copy call.
     
     FuncT mPtr;

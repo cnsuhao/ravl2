@@ -22,6 +22,6 @@ LIBDEPS=RavlCMisc.def
 
 USESLIBS=RavlCore
 
-TESTEXES=testStack.cc testBlkStack.cc testQueue.cc testBinTable.cc
+TESTEXES=testStack.cc testBlkStack.cc testBinTable.cc
 
 EHT=Ravl.Core.Stacks.eht Ravl.Core.Tuples.eht

@@ -32,7 +32,7 @@ PLIB=RavlCore
 
 USESLIBS=Math
 
-TESTEXES=testIndex.cc testCalls.cc testString.cc testStream.cc
+TESTEXES= testRavlBase.cc testCalls.cc testString.cc testStream.cc testTFVector.cc
 
 EXAMPLES = exIndex.cc
 

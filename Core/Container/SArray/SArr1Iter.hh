@@ -56,7 +56,7 @@ namespace RavlN {
     // This is a little slow.
     
     bool IsFirst() const
-    { return at == &dat1[0]; }
+    { return at == &arr[0]; }
     //: Test if this is the first element in the range.
     // Note,this is slower than IsElm().
     

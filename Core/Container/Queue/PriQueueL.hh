@@ -316,7 +316,7 @@ namespace RavlN {
   template <class K,class D>
   bool PriQueueLBodyC<K,D>::Remove(const K &Key) {
     RavlAssert(0); // NOT IMPLEMENTED.
-    return False;
+    return false;
   }
   
   ////////////////////////////////////
@@ -324,8 +324,8 @@ namespace RavlN {
   // Returns True if found.
   
   template <class K,class D>
-  bool PriQueueLBodyC<K,D>::Remove(const Tuple2C<K,D> &New) {
-    return Remove(New.Data1());
+  bool PriQueueLBodyC<K,D>::Remove(const Tuple2C<K,D> &newun) {
+    return Remove(newun.Data1());
   }
   
   

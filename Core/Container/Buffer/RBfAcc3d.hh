@@ -48,6 +48,14 @@ namespace RavlN {
       rng3(nrng3)
       {}
     //: Constructor.
+
+    RangeBufferAccess3dC(const RangeBufferAccessC<BufferAccessC<BufferAccessC<DataT> > > &ab,
+			 const IndexRange3dC &frame)
+      : RangeBufferAccessC<BufferAccessC<BufferAccessC<DataT> > >(ab,frame.Range1()),
+	rng2(frame.Range2()),
+	rng3(frame.Range3())
+      {}
+    //: Construct a access to a frame within 'ab' with indexs 'rect'.
     
     inline bool Contains(const Index3dC & i) const
       { return Range1().Contains(i.I()) && Range2().Contains(i.J()) && Range3().Contains(i.J()); }

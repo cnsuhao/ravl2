@@ -153,7 +153,7 @@ namespace RavlN {
   inline 
   const EdgeT &
   GraphAdjIterC<NodeT,EdgeT>::Data(void) const  {
-    return static_cast<const GraphEdgeDatC<EdgeT> &>(GraphAdjIterBaseC::Data()).Data(); 
+    return static_cast<const GraphEdgeDatC<EdgeT> &>(GraphAdjIterBaseC::EdgeRep()).Data();
   }
   
   template<class NodeT,class EdgeT>

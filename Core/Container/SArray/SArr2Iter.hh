@@ -52,9 +52,7 @@ namespace RavlN {
     //: Goto first element in array.
     
     Index2dC Index() const {
-      IndexC row = it1.Index();
-      IndexC col = IntT(&(it2.Data()) - (it1.Data().ReferenceElm()));
-      return Index2dC(row, col);
+      return BufferAccess2dIterC<DataT>::Index(arr.ReferenceElm());
     }
     //: Get current index.
     // This is a little slow.

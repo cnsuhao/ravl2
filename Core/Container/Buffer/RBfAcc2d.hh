@@ -18,6 +18,7 @@
 #include "Ravl/RBfAcc.hh"
 #include "Ravl/BfAcc2Iter.hh"
 #include "Ravl/Index2d.hh"
+#include "Ravl/IndexRange2d.hh"
 #include "Ravl/Assert.hh"
 
 class istream;
@@ -35,9 +36,9 @@ namespace RavlN {
   // The access functions check if an accessed element is valid only in
   // debug mode.
   
-  template <class DataC>
+  template <class DataT>
   class RangeBufferAccess2dC 
-    : public RangeBufferAccessC<BufferAccessC<DataC> >
+    : public RangeBufferAccessC<BufferAccessC<DataT> >
   {
   public:
     RangeBufferAccess2dC(const IndexRangeC &nrng2)
@@ -45,26 +46,26 @@ namespace RavlN {
       {}
     //: Constructor.
     
-    RangeBufferAccess2dC(const RangeBufferAccessC<BufferAccessC<DataC> > &ab,const IndexRangeC &nrng2)
-      : RangeBufferAccessC<BufferAccessC<DataC> >(ab),
+    RangeBufferAccess2dC(const RangeBufferAccessC<BufferAccessC<DataT> > &ab,const IndexRangeC &nrng2)
+      : RangeBufferAccessC<BufferAccessC<DataT> >(ab),
       rng2(nrng2)
       {}
     //: Constructor.
 
-    RangeBufferAccess2dC(const RangeBufferAccessC<BufferAccessC<DataC> > &ab,const IndexRange2dC &rect)
-      : RangeBufferAccessC<BufferAccessC<DataC> >(ab,rect.Range1()),
+    RangeBufferAccess2dC(const RangeBufferAccessC<BufferAccessC<DataT> > &ab,const IndexRange2dC &rect)
+      : RangeBufferAccessC<BufferAccessC<DataT> >(ab,rect.Range1()),
       rng2(rect.Range2())
       {}
     //: Construct a access to a rectangle within 'ab' with indexs 'rect'.
-
-    RangeBufferAccess2dC(const RangeBufferAccessC<BufferAccessC<DataC> > &ab,const IndexRangeC &r1,const IndexRangeC &r2)
-      : RangeBufferAccessC<BufferAccessC<DataC> >(ab,r1),
+    
+    RangeBufferAccess2dC(const RangeBufferAccessC<BufferAccessC<DataT> > &ab,const IndexRangeC &r1,const IndexRangeC &r2)
+      : RangeBufferAccessC<BufferAccessC<DataT> >(ab,r1),
       rng2(r2)
       {}
     //: Construct a access to a rectangle within 'ab' with ranges r1 and r2.
     
-    RangeBufferAccess2dC(const BufferAccessC<BufferAccessC<DataC> > &ab,const IndexRangeC &r1,const IndexRangeC &r2)
-      : RangeBufferAccessC<BufferAccessC<DataC> >(r1,ab),
+    RangeBufferAccess2dC(const BufferAccessC<BufferAccessC<DataT> > &ab,const IndexRangeC &r1,const IndexRangeC &r2)
+      : RangeBufferAccessC<BufferAccessC<DataT> >(r1,ab),
       rng2(r2)
       {}
     //: Construct a access to a rectangle within 'ab' with ranges r1 and r2.
@@ -75,24 +76,24 @@ namespace RavlN {
       {}
     //: Default constructor.
     
-    inline DataC & operator[](const Index2dC & i) { 
+    inline DataT & operator[](const Index2dC & i) { 
       RavlAssert(rng2.Contains(i.Col()));
-      return RangeBufferAccessC<BufferAccessC<DataC> >::operator[](i.Row())[i.Col()]; 
+      return RangeBufferAccessC<BufferAccessC<DataT> >::operator[](i.Row())[i.Col()]; 
     }
     //: access to the item array[(i)]
     
-    inline const DataC & operator[](const Index2dC & i) const { 
+    inline const DataT & operator[](const Index2dC & i) const { 
       RavlAssert(rng2.Contains(i.Col()));
-      return RangeBufferAccessC<BufferAccessC<DataC> >::operator[](i.Row())[i.Col()]; 
+      return RangeBufferAccessC<BufferAccessC<DataT> >::operator[](i.Row())[i.Col()]; 
     }
     //: return the item array[(i)]
     
-    inline RangeBufferAccessC<DataC> operator[](IndexC i)
-      { return RangeBufferAccessC<DataC>(rng2,RangeBufferAccessC<BufferAccessC<DataC> >::operator[](i)); }
+    inline RangeBufferAccessC<DataT> operator[](IndexC i)
+      { return RangeBufferAccessC<DataT>(rng2,RangeBufferAccessC<BufferAccessC<DataT> >::operator[](i)); }
     //: access to the item array[(i)]
     
-    inline const RangeBufferAccessC<DataC> operator[](IndexC i) const
-      { return RangeBufferAccessC<DataC>(rng2,RangeBufferAccessC<BufferAccessC<DataC> >::operator[](i)); }
+    inline const RangeBufferAccessC<DataT> operator[](IndexC i) const
+      { return RangeBufferAccessC<DataT>(rng2,RangeBufferAccessC<BufferAccessC<DataT> >::operator[](i)); }
     //: return the item array[(i)]
     
     inline const IndexRangeC &Range1() const
@@ -107,7 +108,7 @@ namespace RavlN {
     { return Range1().Size() * Range2().Size(); }
     //: Get the total number of elements in the array.
     
-    void Fill(const DataC &d);
+    void Fill(const DataT &d);
     //: Fill array with value.
     
     IndexRange2dC Rectangle() const
@@ -125,13 +126,13 @@ namespace RavlN {
     IntT Stride() const {
       if(Range1().Size() < 1)
 	return (IntT) rng2.Size();
-      return (IntT) (RangeBufferAccessC<BufferAccessC<DataC> >::operator[](IMin()+1).ReferenceElm() -  
-		     RangeBufferAccessC<BufferAccessC<DataC> >::operator[](IMin()).ReferenceElm());
+      return (IntT) (RangeBufferAccessC<BufferAccessC<DataT> >::operator[](IMin()+1).ReferenceElm() -  
+		     RangeBufferAccessC<BufferAccessC<DataT> >::operator[](IMin()).ReferenceElm());
     }
     //: Get the stide of the 2d array. 
     
     bool IsContinuous() const 
-      { return Stride() == (IntT) rn2.Size(); }
+    { return Stride() == (IntT) rng2.Size(); }
     //: Test if the array is allocated in a continous area of memory.
     // Note: this only checks the first two rows follow each other in
     // memory, this may miss other discontunities.
@@ -140,23 +141,23 @@ namespace RavlN {
       { return (Range1().Size() <= 0) || (Range2().Size() <= 0); }
     //: Is rectangle empty ?
     
-    BufferAccess2dIterC<DataC> Iter()
-      { return BufferAccess2dIterC<DataC>(*this,rng2); }
+    BufferAccess2dIterC<DataT> Iter()
+      { return BufferAccess2dIterC<DataT>(*this,rng2); }
     //: Creat an iterator for this buffer.
     
   protected:
     IndexRangeC rng2;
   };
   
-  template<class DataC>
-  void RangeBufferAccess2dC<DataC>::Fill(const DataC &d) {
-    for(BufferAccess2dIterC<DataC> it(*this,rng2);it;it++)
+  template<class DataT>
+  void RangeBufferAccess2dC<DataT>::Fill(const DataT &d) {
+    for(BufferAccess2dIterC<DataT> it(*this,rng2);it;it++)
       *it = d;
   }
   
-  template <class DataC>
-  ostream & operator<<(ostream & s, const RangeBufferAccess2dC<DataC> & arr) {
-    for(BufferAccess2dIterC<DataC> it(arr,arr.Range2());it;) {
+  template <class DataT>
+  ostream & operator<<(ostream & s, const RangeBufferAccess2dC<DataT> & arr) {
+    for(BufferAccess2dIterC<DataT> it(arr,arr.Range2());it;) {
       s << *it;
       for(;it.Next();) 
 	s << ' ' << *it;
@@ -165,23 +166,23 @@ namespace RavlN {
     return s;
   }
   
-  template <class DataC>
-  istream & operator>>(istream & s, RangeBufferAccess2dC<DataC> & arr) {
-    for(BufferAccess2dIterC<DataC> it(arr,arr.Range2());it;it++) 
+  template <class DataT>
+  istream & operator>>(istream & s, RangeBufferAccess2dC<DataT> & arr) {
+    for(BufferAccess2dIterC<DataT> it(arr,arr.Range2());it;it++) 
       s >> *it;
     return s;
   }
 
-  template<class DataC>
-  BinOStreamC &operator<<(BinOStreamC & s, const RangeBufferAccess2dC<DataC> & arr) {
-    for(BufferAccess2dIterC<DataC> it(arr,arr.Range2());it;it++)
+  template<class DataT>
+  BinOStreamC &operator<<(BinOStreamC & s, const RangeBufferAccess2dC<DataT> & arr) {
+    for(BufferAccess2dIterC<DataT> it(arr,arr.Range2());it;it++)
       s << *it;
     return s;
   }
   
-  template<class DataC>
-  BinIStreamC &operator>>(BinIStreamC & s, RangeBufferAccess2dC<DataC> & arr) {
-    for(BufferAccess2dIterC<DataC> it(arr,arr.Range2());it;it++)
+  template<class DataT>
+  BinIStreamC &operator>>(BinIStreamC & s, RangeBufferAccess2dC<DataT> & arr) {
+    for(BufferAccess2dIterC<DataT> it(arr,arr.Range2());it;it++)
       s >> *it;
     return s;
   }

@@ -348,7 +348,7 @@ namespace RavlN {
   TFVectorC<DataT,N> TFVectorC<DataT,N>::Abs() const {
     TFVectorC<DataT,N> ret;
     for(UIntT i =0;i <N;i++)
-      ret[i] = Abs(data[i]);
+      ret[i] = RavlN::Abs(data[i]);
     return ret;
   }
   
