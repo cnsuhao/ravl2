@@ -14,6 +14,7 @@
 #include "Ravl/IO.hh"
 #include "Ravl/Image/ImgIO.hh"
 #include "Ravl/EntryPnt.hh"
+//#include "Ravl/Collection.hh"
 
 using namespace RavlN;
 using namespace RavlImageN;
@@ -74,3 +75,28 @@ int Mosaic(int nargs,char **argv) {
 }
 
 RAVL_ENTRY_POINT(Mosaic)
+
+  // force template instansiation for irix 
+
+#include "Ravl/config.h"
+#if RAVL_COMPILER_MIPSPRO 
+#include "Ravl/Collection.hh"
+#include "Ravl/Image/ByteRGBMedian.hh"
+RavlN::CollectionBodyC<RavlImageN::ByteRGBGreyValueC> dummyvar_undistort_1 ;
+#include "Ravl/EvaluateNumInliers.hh"
+RavlN::EvaluateNumInliersBodyC dummyvar_undistort_2 ; 
+#include "Ravl/StateVectorHomog2d.hh"
+RavlN::StateVectorHomog2dBodyC dummyvar_undistort_3 ;
+#include "Ravl/ObservationManager.hh"
+RavlN::ObservationListManagerBodyC dummyvar_undistort_4 ;
+#include "Ravl/ObservationHomog2dPoint.hh"
+RavlN::ObservationHomog2dPointBodyC dummyvar_undistort_5 (Vector2dC(), MatrixRSC(),
+							  Vector2dC(), MatrixRSC() );
+#include "Ravl/FitHomog2dPoints.hh"
+RavlN::FitHomog2dPointsBodyC dummyvar_undistort_6 ;
+#include "Ravl/LevenbergMarquardt.hh"
+StateVectorC dummyvar_undistort_7 ; 
+ObservationC dummyvar_undistort_8 ;
+DListC<ObservationC> dummyvar_undistort_9 ; 
+RavlN::LevenbergMarquardtC dummyvar_undistort_10 ( dummyvar_undistort_7, dummyvar_undistort_9 ) ; 
+#endif 

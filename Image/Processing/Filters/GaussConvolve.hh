@@ -70,16 +70,16 @@ namespace RavlImageN {
     { return binomial.Size(); }
     //: Get size of gausian.
     
-    friend ostream &operator<< <>(ostream &s, const GaussConvolveC<DataT> &out);
+    friend ostream &operator<< (ostream &s, const GaussConvolveC<DataT> &out);
     //: output stream operator
     
-    friend istream &operator>> <>(istream &s, GaussConvolveC<DataT> &in);
+    friend istream &operator>> (istream &s, GaussConvolveC<DataT> &in);
     //: input stream operator
     
-    friend BinOStreamC &operator<< <>(BinOStreamC &s, const GaussConvolveC<DataT> &out);
+    friend BinOStreamC &operator<< (BinOStreamC &s, const GaussConvolveC<DataT> &out);
     //: output stream operator
     
-    friend BinIStreamC &operator>> <>(BinIStreamC &s, GaussConvolveC<DataT> &in);
+    friend BinIStreamC &operator>> (BinIStreamC &s, GaussConvolveC<DataT> &in);
     //: input stream operator
     
   protected:
