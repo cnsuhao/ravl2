@@ -115,7 +115,7 @@ namespace RavlImageN {
     region.merge = 0; //&region;
     region.minValue = level;
     region.maxValue = valueRange.Max().V();
-    region.minat = Index2dC((offset / stride),(offset % stride)) + pixs.Frame().Origin();
+    region.minat = Index2dC((offset / stride),(offset % stride)) + pixs.Frame().Origin() + Index2dC(1,1);
     if(region.hist == 0)
       region.hist = new IntT [limitMaxValue+2];
     memset(&(region.hist[level]),0,((limitMaxValue + 1) - level) * sizeof(IntT));
