@@ -16,6 +16,8 @@ HEADERS = LMSOpticFlow.hh LMSMultiScaleMotion.hh LMSMotionRegionMatch.hh
 
 PLIB = RavlImageProc
 
+LIBDEPS=RavlImageLMSMotion.def
+
 USESLIBS = RavlImageIO Auto
 
 PROGLIBS = RavlDPDisplay
