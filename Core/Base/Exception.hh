@@ -18,13 +18,13 @@
 #if RAVL_HAVE_ANSICPPHEADERS
 #include <typeinfo>
 #else
-#include <typeinfo>
+#include <typeinfo.h>
 #endif
 
 namespace RavlN {
-  //#if RAVL_HAVE_STDNAMESPACE
+#if RAVL_HAVE_STDNAMESPACE
   using namespace std;
-  //#endif
+#endif
   
   //: RAVL Exception.
   // Base class for Ravl's exceptions. <P>
