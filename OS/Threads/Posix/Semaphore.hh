@@ -77,7 +77,7 @@ namespace RavlN
       count++;
       cond.Unlock();
       cond.Signal();
-      return false;
+      return true;
     }
     //: Post a semaphore.
     // Post a semaphore, increase the semaphore count by 1.
