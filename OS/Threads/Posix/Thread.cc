@@ -314,13 +314,15 @@ namespace RavlN {
   // THEAD SAFE.
 
   void ThreadBodyC::Startup() {
+#if 0
     try {
+#endif
       Start();
+#if 0
     } catch(ExceptionC &e) {
       cerr << "RAVL Exception :'" << e.what() << "'\n";
       cerr << "Terminating thread. \n";
     }
-#if 0
     catch(exception &e) {
       cerr << "C++ Exception :'" << e.what() << "'\n";
       cerr << "Terminating thread. \n";
