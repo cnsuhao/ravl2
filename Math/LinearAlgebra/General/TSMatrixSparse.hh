@@ -156,8 +156,7 @@ namespace RavlN {
     //: Constructor.
     
     TSMatrixSparseEntryC(UIntT i,UIntT j,const DataT &dat)
-      : 
-	irow(j),
+      : irow(j),
 	icol(i),
 	data(dat)
     {}
@@ -245,7 +244,7 @@ namespace RavlN {
     //: Get range of column's for row i.
 
     IndexRangeC ColRange(int i) const 
-    { return  rows[i].Range(); }
+    { return  cols[i].Range(); }
     //: Get range of rows's for column i.
     
   public:
@@ -296,10 +295,16 @@ namespace RavlN {
     
     virtual DataT MulSumColumn(UIntT c,const Array1dC<DataT> &dat) const;
     //: Multiply columb by values from dat and sum them.
+
+    virtual Slice1dC<DataT> Col(UIntT j) const;
+    //: Access slice from matrix.
     
+    virtual DataT MulSumColumn(UIntT c,const Slice1dC<DataT> &slice) const;
+    //: Multiply columb by values from slice and sum them.
+        
     virtual TMatrixC<DataT> TMatrix(bool alwaysCopy = false) const;
     //: Access as a TMatrix.
-
+    
     virtual void AddIP(const TSMatrixC<DataT> &oth);
     //: Add this matrix to 'oth' and return the result.
     
@@ -310,7 +315,19 @@ namespace RavlN {
     //: Get transpose of matrix.
     
     virtual TSMatrixC<DataT> Mul(const TSMatrixC<DataT> &oth) const;
-    //: Get this matrix times 'oth'.
+    //: Calculate this matrix times 'oth'.
+    
+    virtual TVectorC<DataT> Mul(const TVectorC<DataT> &oth) const;
+    //: Calculate this matrix times 'oth'.
+    
+    virtual TSMatrixC<DataT> MulT(const TSMatrixC<DataT> & B) const;
+    //: Multiplication A * B.T()
+    
+    virtual TVectorC<DataT> TMul(const TVectorC<DataT> & B) const;
+    //: Multiplication A.T() * B
+    
+    virtual TSMatrixC<DataT> TMul(const TSMatrixC<DataT> & B) const;
+    //: Multiplication A.T() * B
     
   protected:
     SArray1dC<IndexDListC > rows;
@@ -420,8 +437,8 @@ namespace RavlN {
     Array1dC<DataT> ret(RowRange(i));
     if(ret.IsEmpty())
       return ret;
-    DataT *rstart = &(ret[ret.IMin()]);
-    DataT *at = rstart;
+    DataT *rstart = ret.ReferenceElm();
+    DataT *at = &(rstart[ret.IMin().V()]);
     IntrDLIterC<IndexDLinkC> it(rows[i]);
     *at = RowDLink2Entry(&(*it))->Data();
     for(it++,at++;it;it++,at++) {
@@ -440,25 +457,62 @@ namespace RavlN {
     DataT sum;
     IntrDLIterC<IndexDLinkC> it(cols[c]);
     for(;it;it++) {
-      if(it->Index() < dat.IMin())
-	continue;
+      if(it->Index() >= dat.IMin())
+	break;
     }
-    if(!it) {
+    if(!it || (it->Index() > dat.IMax())) {
       SetZero(sum);     
       return sum;
     }
     sum = dat[it->Index()] * ColDLink2Entry(&(*it))->Data();
-    for(it++;it && it->Index() < dat.IMax();it++)
+    for(it++;it && (it->Index() <= dat.IMax());it++)
       sum += dat[it->Index()] * ColDLink2Entry(&(*it))->Data();
+    return sum;
+  }
+  
+  template<class DataT>
+  Slice1dC<DataT> TSMatrixSparseBodyC<DataT>::Col(UIntT i) const {
+    Slice1dC<DataT> ret(ColRange(i));
+    if(ret.IsEmpty())
+      return ret;
+    DataT *rstart = &ret.ReferenceElm();
+    DataT *at = &(rstart[ret.IMin().V()]);
+    IntrDLIterC<IndexDLinkC> it(cols[i]);
+    *at = ColDLink2Entry(&(*it))->Data();
+    for(it++,at++;it;it++,at++) {
+      DataT *next = &(rstart[it->Index().V()]);
+      for(;at < next;at++)
+	SetZero(*at);
+      *at = ColDLink2Entry(&(*it))->Data();
+    }
+    //    cerr << "Col(" << i << ")=" << ret << "\n";
+    return ret;    
+  }
+  
+  template<class DataT>
+  DataT TSMatrixSparseBodyC<DataT>::MulSumColumn(UIntT c,const Slice1dC<DataT> &slice) const {
+    DataT sum;
+    IntrDLIterC<IndexDLinkC> it(cols[c]);
+    for(;it;it++) {
+      if(it->Index() >= slice.IMin())
+	break;
+    }
+    if(!it || (it->Index() > slice.IMax())) {
+      SetZero(sum);
+      return sum;
+    }
+    
+    sum = slice[it->Index()] * ColDLink2Entry(&(*it))->Data();
+    for(it++;it && (it->Index() <= slice.IMax());it++)
+      sum += slice[it->Index()] * ColDLink2Entry(&(*it))->Data();
     return sum;
   }
   
   template<class DataT>
   TSMatrixC<DataT> TSMatrixSparseBodyC<DataT>::Mul(const TSMatrixC<DataT> &mat) const {
     RavlAssert(Cols() == mat.Rows());
-    if(mat.MatrixType() != typeid(TSMatrixSparseBodyC<DataT>)) {
-      RavlAssert(0);      
-    }
+    if(mat.MatrixType() != typeid(TSMatrixSparseBodyC<DataT>))
+      return TSMatrixBodyC<DataT>::Mul(mat);
     TSMatrixSparseC<DataT> smat(const_cast<TSMatrixC<DataT> &>(mat));
     const SizeT rdim = Rows();
     const SizeT cdim = mat.Cols();
@@ -475,6 +529,112 @@ namespace RavlN {
 	it.DuelInc();
 	while(it.NextMatch()) {
 	  sum += RowDLink2Entry(&it.Data1())->Data() * ColDLink2Entry(&(it.Data2()))->Data();
+	  it.DuelInc();
+	}
+	TSMatrixSparseEntryC<DataT> &newentry = *new TSMatrixSparseEntryC<DataT>(r,c,sum);
+	outb.rows[r].InsLast(newentry.IRow());
+	outb.cols[c].InsLast(newentry.ICol());
+      }
+    }
+    return out;
+  }
+  
+  template<class DataT>
+  TVectorC<DataT> TSMatrixSparseBodyC<DataT>::Mul(const TVectorC<DataT> &vector) const {
+    RavlAssert(vector.Size() == Cols());
+    const SizeT rdim = Rows();
+    TVectorC<DataT> out(rdim);
+    for (UIntT i = 0; i < rdim; ++i) {
+      DataT sum;
+      IntrDLIterC<IndexDLinkC> it(rows[i]);
+      if(!it) {
+	SetZero(out[i]);
+	continue;
+      }
+      sum = vector[it->Index()] * RowDLink2Entry(&(*it))->Data();
+      for(it++;it;it++)
+	sum += vector[it->Index()] * RowDLink2Entry(&(*it))->Data();
+      out[i] = sum;
+    }
+    return out;
+  }
+
+  template<class DataT>
+  TSMatrixC<DataT> TSMatrixSparseBodyC<DataT>::MulT(const TSMatrixC<DataT> & mat) const {
+    RavlAssert(Cols() == mat.Cols());
+    if(mat.MatrixType() != typeid(TSMatrixSparseBodyC<DataT>)) 
+      return TSMatrixBodyC<DataT>::MulT(mat);
+    TSMatrixSparseC<DataT> smat(const_cast<TSMatrixC<DataT> &>(mat));
+    const SizeT rdim = Rows();
+    const SizeT cdim = mat.Rows();
+    TSMatrixSparseC<DataT> out(rdim, cdim);
+    TSMatrixSparseBodyC<DataT> &outb = out.Body();
+    for (UIntT r = 0; r < rdim; r++) {
+      const IndexDListC &rowl = rows[r];
+      for (UIntT c = 0; c < cdim; c++) {
+	IndexDListC &coll = smat.Body().rows[c];
+	IndexDLIter2C it(rowl,coll);
+	if(!it.NextMatch())
+	  continue;
+	DataT sum = RowDLink2Entry(&it.Data1())->Data() * RowDLink2Entry(&(it.Data2()))->Data();
+	it.DuelInc();
+	while(it.NextMatch()) {
+	  sum += RowDLink2Entry(&it.Data1())->Data() * RowDLink2Entry(&(it.Data2()))->Data();
+	  it.DuelInc();
+	}
+	TSMatrixSparseEntryC<DataT> &newentry = *new TSMatrixSparseEntryC<DataT>(r,c,sum);
+	outb.rows[r].InsLast(newentry.IRow());
+	outb.cols[c].InsLast(newentry.ICol());
+      }
+    }
+    return out;    
+  }
+  
+  template<class DataT>
+  TVectorC<DataT> TSMatrixSparseBodyC<DataT>::TMul(const TVectorC<DataT> & vector) const {
+    RavlAssert(vector.Size() == Rows());
+    const SizeT rdim = Cols();
+    TVectorC<DataT> out(rdim);
+    for (UIntT i = 0; i < rdim; ++i) {
+      DataT sum;
+      IntrDLIterC<IndexDLinkC> it(cols[i]);
+      for(;it;it++) {
+	if(it->Index() >= vector.IMin())
+	  break;
+      }
+      if(!it) {
+	SetZero(out[i]);
+	continue;
+      }
+      sum = vector[it->Index()] * ColDLink2Entry(&(*it))->Data();
+      for(it++;it;it++)
+	sum += vector[it->Index()] * ColDLink2Entry(&(*it))->Data();
+      out[i] = sum;
+    }
+    return out;    
+  }
+  
+  template<class DataT>
+  TSMatrixC<DataT> TSMatrixSparseBodyC<DataT>::TMul(const TSMatrixC<DataT> & mat) const {
+    RavlAssert(Rows() == mat.Rows());
+    if(mat.MatrixType() != typeid(TSMatrixSparseBodyC<DataT>))
+      return TSMatrixBodyC<DataT>::TMul(mat);
+    TSMatrixSparseC<DataT> smat(const_cast<TSMatrixC<DataT> &>(mat));
+    const SizeT rdim = Cols();
+    const SizeT cdim = mat.Cols();
+    TSMatrixSparseC<DataT> out(rdim, cdim);
+    TSMatrixSparseBodyC<DataT> &outb = out.Body();
+    for (UIntT r = 0; r < rdim; r++) {
+      const IndexDListC &rowl = cols[r];
+      for (UIntT c = 0; c < cdim; c++) {
+	IndexDListC &coll = smat.Body().cols[c];
+	IndexDLIter2C it(rowl,coll);
+	if(!it.NextMatch())
+	  continue;
+	DataT sum = ColDLink2Entry(&it.Data1())->Data() * ColDLink2Entry(&(it.Data2()))->Data();
+	it.DuelInc();
+	while(it.NextMatch()) {
+	  sum += ColDLink2Entry(&it.Data1())->Data() * ColDLink2Entry(&(it.Data2()))->Data();
 	  it.DuelInc();
 	}
 	TSMatrixSparseEntryC<DataT> &newentry = *new TSMatrixSparseEntryC<DataT>(r,c,sum);

@@ -316,8 +316,8 @@ namespace RavlN {
     { return Body().Mul(oth); }
     //: Get this 'oth' multiplied by this.
     
-    TSMatrixC<DataT> Mul(const TVectorC<DataT> &oth) const
-    { return TMatrix() * oth; }
+    TVectorC<DataT> Mul(const TVectorC<DataT> &oth) const
+    { return Body().Mul(oth); }
     //: Get this matrix times 'oth'.
     
     TVectorC<DataT> operator*(const TVectorC<DataT> &oth) const
@@ -435,8 +435,10 @@ namespace RavlN {
   void TSMatrixBodyC<DataT>::AddIP(const TSMatrixC<DataT> &oth) {
     RavlAssert(oth.Rows() == Rows() && oth.Cols() == Cols());
     for(UIntT i = 0;i < Rows();i++) {
-      Array1dC<DataT> row1 = Row(i);
       Array1dC<DataT> row2 = oth.Row(i);
+      if(row2.Range().Size() <= 0)
+	continue;
+      Array1dC<DataT> row1 = Row(i);
       RavlAssert(row1.Range().Contains(row2.Range()));
       for(Array1dIter2C<DataT,DataT> it(row1,row2,row2.Range());it;it++)
 	it.Data1() += it.Data2();
@@ -447,8 +449,10 @@ namespace RavlN {
   void TSMatrixBodyC<DataT>::SubIP(const TSMatrixC<DataT> &oth)  {
     RavlAssert(oth.Rows() == Rows() && oth.Cols() == Cols());
     for(UIntT i = 0;i < Rows();i++) {
-      Array1dC<DataT> row1 = Row(i);
       Array1dC<DataT> row2 = oth.Row(i);
+      if(row2.Range().Size() <= 0)
+	continue;
+      Array1dC<DataT> row1 = Row(i);
       RavlAssert(row1.Range().Contains(row2.Range()));
       for(Array1dIter2C<DataT,DataT> it(row1,row2,row2.Range());it;it++)
 	it.Data1() -= it.Data2();
@@ -511,11 +515,31 @@ namespace RavlN {
     const SizeT rdim = Cols();
     const SizeT cdim = mat.Cols();
     TMatrixC<DataT> out(rdim, cdim);
+#if 1
     for (UIntT r = 0; r < rdim; r++) {
       Slice1dC<DataT> col = Col(r);
       for (UIntT c = 0; c < cdim; c++) 
 	out[r][c] = mat.MulSumColumn(c,col);
     }
+#else
+    const SizeT xrdim = Rows();
+    out.Fill(0);
+    SArray1dC<Array1dC<DataT> > rowArr(cdim);
+    for(UIntT c = 0;c < xrdim;c++)
+      rowArr[c] = Row(c);
+    IndexRangeC rcols(0,Cols());
+    for (UIntT r = 0; r < xrdim; r++) {
+      Array1dC<DataT> row = mat.Row(r);
+      cerr << "Row=" << row << "\n";
+      for (UIntT c = 0; c < xrdim; c++) {
+	RangeBufferAccessC<DataT> orow(out[c],rcols);
+	IndexRangeC rng = row.Range();
+	rng.ClipBy(rowArr[c].Range());
+	for(BufferAccessIter3C<DataT,DataT,DataT> it(orow,row,rowArr[c],rng);it;it++)
+	  it.Data1() += it.Data2() * it.Data3();
+      }
+    }
+#endif
     return TSMatrixC<DataT>(out);
   }
   

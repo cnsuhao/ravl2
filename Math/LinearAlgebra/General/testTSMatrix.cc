@@ -86,6 +86,30 @@ int MatrixTest(SMatrixC mat1,SMatrixC mat2) {
   error = MatrixC(testR.TMatrix() - gt).SumOfAbs();
   if(error > 0.000000001) return __LINE__;
   
+  cerr << "Check Mul(VectorC)\n";
+  VectorC vec = RandomVector(mat1.Cols());
+  VectorC tres = mat1.Mul(vec);
+  VectorC vgt = mat1.TMatrix() * vec;
+  error = VectorC(tres - vgt).SumOfAbs();
+  if(error > 0.000000001) {
+    cerr << "Error=" << error << "\n";
+    cerr << "Res=" << tres << "\n";
+    cerr << "gt =" << vgt << "\n";
+    return __LINE__;
+  }
+  
+  cerr << "Check TMul(VectorC)\n";
+  vec = RandomVector(mat1.Rows());
+  tres = mat1.TMul(vec);
+  vgt = mat1.TMatrix().TMul(vec);
+  error = VectorC(tres - vgt).SumOfAbs();
+  if(error > 0.000000001) {
+    cerr << "Error=" << error << "\n";
+    cerr << "Res=" << tres << "\n";
+    cerr << "gt =" << vgt << "\n";
+    return __LINE__;
+  }
+  
   return 0;
 }
 
@@ -166,14 +190,25 @@ int testLeftLower() {
 
 int testSparse() {
   cerr << "testSparse() \n";
-  TSMatrixSparseC<RealT> sm(10,10);
-  sm.Element(2,3,23);
-  sm.Element(2,8,28);
-  sm.Element(4,5,45);
-  //cerr << sm.TMatrix() << "\n";
-  //cerr << sm.T().TMatrix() << "\n";
-  TSMatrixC<RealT> sm2 = sm + sm.T();
-  //cerr << "Sum=" << sm2.TMatrix() << "\n";
+  TSMatrixSparseC<RealT> sm1(4,4);
+  sm1.Element(1,2,1);
+  sm1.Element(0,3,2);
+  sm1.Element(2,2,3);
+  sm1.Element(3,1,3);
+  sm1.Element(0,0,4);
+  sm1.Element(2,0,5);
+  
+  TSMatrixSparseC<RealT> sm2(4,4);
+  sm2.Element(2,0,1);
+  sm2.Element(0,2,2);
+  sm2.Element(1,3,3);
+  sm2.Element(2,2,4);
+  sm2.Element(3,3,5);
+  int ln;
+  if((ln = MatrixTest(sm1,sm2)) != 0) {
+    cerr<< "MatrixTest() failed on line " << ln << "\n";
+    return __LINE__;
+  }  
   
   return 0;
 }

@@ -231,7 +231,7 @@ namespace RavlN {
   
   template<class DataT>
   TSMatrixC<DataT> TSMatrixDiagonalBodyC<DataT>::TMul(const TSMatrixC<DataT> & B) const {
-    return Mul(B);
+    return TSMatrixDiagonalBodyC<DataT>::Mul(B);
   }
   
   template<class DataT>

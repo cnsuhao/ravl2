@@ -12,6 +12,7 @@
 #include "Ravl/TSMatrixSparse.hh"
 #include "Ravl/TSMatrixPositiveDefinite.hh"
 #include "Ravl/TSMatrixScaledIdentity.hh"
+#include "Ravl/Random.hh"
 
 using namespace RavlN;
 
@@ -26,7 +27,14 @@ SMatrixC createMatrix(UIntT size,IntT type) {
     case 2:  return SMatrixC(TSMatrixRightUpperC<RealT>(size));
     case 3:  return SMatrixC(TSMatrixLeftLowerC<RealT>(size));
     case 4:  return SMatrixC(TSMatrixScaledIdentityC<RealT>(size,0.1));
-    case 5:  return SMatrixC(TSMatrixSparseC<RealT>(size,size));
+    case 5:  {
+      SMatrixC ret(TSMatrixSparseC<RealT>(size,size));
+      int n = (size * size)/10;
+      cerr << "Elements=" << n << "\n";
+      for(int i = 0;i < n;i++)
+	ret.Element(RandomInt()%size,RandomInt()%size,Random1());
+      return ret;
+    }
     }
   cerr << "Unknown matrix type=" << type << "\n";
   return SMatrixC();
