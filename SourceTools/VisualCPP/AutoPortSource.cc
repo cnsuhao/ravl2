@@ -35,8 +35,8 @@ namespace RavlN {
     SourceCodeManagerC chkit(where);
     if(verbose)
       chkit.SetVerbose(true);
-    chkit.ForAllDirs(CallMethod2C<AutoPortSourceC,StringC,DefsMkFileC,bool>(AutoPortSourceC(*this) ,
-									    &AutoPortSourceC::ScanDirectory));
+    chkit.ForAllDirs(CallMethod2C<AutoPortSourceC,StringC &,DefsMkFileC &,bool>(AutoPortSourceC(*this) ,
+										&AutoPortSourceC::ScanDirectory));
     return true;
   }
 
