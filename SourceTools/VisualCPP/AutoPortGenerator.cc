@@ -38,7 +38,13 @@ namespace RavlN {
   
   bool AutoPortGeneratorBodyC::Lookup(const StringC &varname,StringC &buff) {
     if(varname == "libname") {
-      buff = CurLibInfo().Name();
+      LibInfoC &li = CurLibInfo();
+      if(li.IsValid())
+	buff = li.Name();
+      else {
+	buff = StringC("*unknown*");
+	cerr << "ERROR: Variable 'libname' requested outside  library. Current target:" << target <<"\n";
+      }
       return true;
     }
     if(varname == "package") { // Package for header file.
