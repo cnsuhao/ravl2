@@ -70,6 +70,7 @@ namespace RavlN {
 	  break;
 	}
 	octant++;
+	// Fall through.
       case 2:
 	data = Index2dC(y,-x) + offset;
 	break;
@@ -79,7 +80,7 @@ namespace RavlN {
 	  octant = 7; // Skip redundant cases.
 	break;
 	
-	// Only done is x != y
+	// Only done if x != y
       case 4:
 	data = Index2dC(x,-y) + offset;
 	if(x == 0)
