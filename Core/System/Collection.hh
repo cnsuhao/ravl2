@@ -50,6 +50,12 @@ namespace RavlN {
     {}
     //: Create a collection from an array of data.
     
+    CollectionBodyC(const SArray1dC<DataT> &dat,UIntT used)
+      : data(dat),
+	n(used)
+    { RavlAssert(used <= data.Size()); }
+    //: Create a collection from an array of data, including 'used' elements.
+    
     CollectionC<DataT> Copy() const;
     //: Create a copy of this collection.
     
