@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLPOINT4D_HEADER
-#define RAVLPOINT4D_HEADER 1
+#ifndef RAVL_POINT4D_HEADER
+#define RAVL_POINT4D_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Math/Geometry/Euclidean/Point4d.hh"
@@ -27,17 +27,17 @@ namespace RavlN {
   {
   public:
     Point4dC()
-      {}
+    {}
     //: Default constructor.
     
     Point4dC(const TFVectorC<RealT,4> &base)
       : FPointC<4>(base)
-      {}
+    {}
     //: Constructor.
 
     Point4dC(const FIndexC<4> &ind) 
       : FPointC<4>(ind)
-      {}
+    {}
     //: Construct from a 4d index.
     
     Point4dC(RealT v1,RealT v2,RealT v3,RealT v4) { 
@@ -49,35 +49,35 @@ namespace RavlN {
     //: Constructor.
     
     RealT &X()
-      { return data[0]; }
+    { return data[0]; }
     //: First component of vector.
 
     RealT X() const
-      { return data[0]; }
+    { return data[0]; }
     //: First component of vector.
 
     RealT &Y()
-      { return data[1]; }
+    { return data[1]; }
     //: Second component of vector.
 
     RealT Y() const
-      { return data[1]; }
+    { return data[1]; }
     //: Second component of vector.
     
     RealT &Z()
-      { return data[2]; }
+    { return data[2]; }
     //: Third component of vector.
     
     RealT Z() const
-      { return data[2]; }
+    { return data[2]; }
     //: Third component of vector.
     
     RealT &W()
-      { return data[3]; }
+    { return data[3]; }
     //: Fourth component of vector.
     
     RealT W() const
-      { return data[3]; }
+    { return data[3]; }
     //: Fourth component of vector.
     
   };

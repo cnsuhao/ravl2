@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLFPOINT_HEADER
-#define RAVLFPOINT_HEADER 1
+#ifndef RAVL_FPOINT_HEADER
+#define RAVL_FPOINT_HEADER 1
 //////////////////////////////////////////////////
 //! rcsid=$Id$
 //! file="Ravl/Math/Geometry/Euclidean/FPoint.hh"
@@ -32,14 +32,14 @@ namespace RavlN {
   {
   public:
     FPointC()
-      {}
+    {}
     //: Default constructor.
     // The contents of the class are left
     // undefined.
     
     FPointC(const TFVectorC<RealT,N> &oth)
       : TFVectorC<RealT,N>(oth)
-      {}
+    {}
     //: Base constructor.
     
     FPointC(const FIndexC<N> &oth) { 
@@ -50,11 +50,11 @@ namespace RavlN {
     
     explicit FPointC(const FVectorC<N> &oth)
       : TFVectorC<RealT,N>(oth)
-      {}
+    {}
     //: Vector constructor.
     
     RealT EuclidDistance(const FPointC<N> & i) const 
-      { return Sqrt((RealT) SqrEuclidDistance(i)); }
+    { return Sqrt((RealT) SqrEuclidDistance(i)); }
     //: Returns the distance of two indexes in Euclid metric.
 
   };

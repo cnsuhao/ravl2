@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLPOINT3D_HEADER
-#define RAVLPOINT3D_HEADER 1
+#ifndef RAVL_POINT3D_HEADER
+#define RAVL_POINT3D_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Math/Geometry/Euclidean/3D/Point3d.hh"
@@ -27,17 +27,17 @@ namespace RavlN {
   {
   public:
     Point3dC()
-      {}
+    {}
     //: Default constructor.
     
     Point3dC(const TFVectorC<RealT,3> &base)
       : FPointC<3>(base)
-      {}
+    {}
     //: Constructor.
 
     Point3dC(const FIndexC<3> &ind) 
       : FPointC<3>(ind)
-      {}
+    {}
     //: Construct from a 3d index.
     
     Point3dC(RealT v1,RealT v2,RealT v3) { 
@@ -48,27 +48,27 @@ namespace RavlN {
     //: Constructor.
     
     RealT &X()
-      { return data[0]; }
+    { return data[0]; }
     //: First component of vector.
 
     RealT X() const
-      { return data[0]; }
+    { return data[0]; }
     //: First component of vector.
 
     RealT &Y()
-      { return data[1]; }
+    { return data[1]; }
     //: Second component of vector.
 
     RealT Y() const
-      { return data[1]; }
+    { return data[1]; }
     //: Second component of vector.
     
     RealT &Z()
-      { return data[2]; }
+    { return data[2]; }
     //: Third component of vector.
     
     RealT Z() const
-      { return data[2]; }
+    { return data[2]; }
     //: Third component of vector.
 
     

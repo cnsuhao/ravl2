@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLPOINT2D_HEADER
-#define RAVLPOINT2D_HEADER 1
+#ifndef RAVL_POINT2D_HEADER
+#define RAVL_POINT2D_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Math/Geometry/Euclidean/Point2d.hh"
@@ -27,23 +27,23 @@ namespace RavlN {
   {
   public:
     Point2dC()
-      {}
+    {}
     //: Default constructor.
     
     Point2dC(const TFVectorC<RealT,2> &base)
       : FPointC<2>(base)
-      {}
+    {}
     //: Base class constructor.
     
     Point2dC(UIntT size)
-      { RavlAssert(size == 2); }
+    { RavlAssert(size == 2); }
     //: Construct with size.
     // This is used in some templates that are
     // designed to work with PointNdC as well as instances of FPointC.
     
     Point2dC(const FIndexC<2> &ind) 
       : FPointC<2>(ind)
-      {}
+    {}
     //: Construct from a 2d index.
     
     Point2dC(RealT v1,RealT v2) { 
@@ -53,19 +53,19 @@ namespace RavlN {
     //: Construct from two reals.
     
     RealT &X()
-      { return data[0]; }
+    { return data[0]; }
     //: First component of vector.
     
     RealT X() const
-      { return data[0]; }
+    { return data[0]; }
     //: First component of vector.
 
     RealT &Y()
-      { return data[1]; }
+    { return data[1]; }
     //: Second component of vector.
 
     RealT Y() const
-      { return data[1]; }
+    { return data[1]; }
     //: Second component of vector.
     
   };
