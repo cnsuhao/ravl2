@@ -67,10 +67,7 @@ namespace RavlN {
     CallMethod0C(const ObjT &nobj,RetT (ObjT::*nfunc)())
       : CallFunc0C<RetT>(*new CallMethod0BodyC<ObjT,RetT>(nobj,nfunc))
       {}
-    //: Default constructor.
-    // Creates an invalid handle.
-
-    
+    //:  Constructor.
   };
 
   /////////////////////////////////////////////////////////
@@ -132,8 +129,7 @@ namespace RavlN {
     CallMethod1C(const ObjT &nobj,RetT (ObjT::*nfunc)(DataT &), const DataT &dat = DataT())
       : CallFunc1C<DataT,RetT>(*new CallMethod1BodyC<ObjT,DataT,RetT>(nobj,nfunc,dat))
       {}
-    //: Default constructor.
-    // Creates an invalid handle.
+    //: Constructor.
   };
 
   /////////////////////////////////////////////////////////
@@ -274,8 +270,7 @@ namespace RavlN {
 		 const Data1T &ndat1 = Data1T(),const Data2T &ndat2 = Data2T(),const Data3T &ndat3 = Data3T())
       : CallFunc3C<Data1T,Data2T,Data3T,RetT>(*new CallMethod3BodyC<ObjT,Data1T,Data2T,Data3T,RetT>(nobj,nfunc,ndat1,ndat2,ndat3))
       {}
-    //: Default constructor.
-    // Creates an invalid handle.
+    //: Constructor.
   };
   
   /////////////////////////////////////////////////////////
@@ -350,8 +345,7 @@ namespace RavlN {
 		 const Data1T &ndat1 = Data1T(),const Data2T &ndat2 = Data2T(),const Data3T &ndat3 = Data3T(),const Data4T &ndat4 = Data4T())
       : CallFunc4C<Data1T,Data2T,Data3T,Data4T,RetT>(*new CallMethod4BodyC<ObjT,Data1T,Data2T,Data3T,Data4T,RetT>(nobj,nfunc,ndat1,ndat2,ndat3,ndat4))
       {}
-    //: Default constructor.
-    // Creates an invalid handle.
+    //: Constructor.
   };
 
   /////////////////////////////////////////////////////////
@@ -370,7 +364,7 @@ namespace RavlN {
 		     const Data3T &ndat3 = Data3T(),
 		     const Data4T &ndat4 = Data4T(),
 		     const Data5T &ndat5 = Data5T())
-      : CallFunc5BodyC<Data1T,Data2T,Data3T,Data4T,Data5T,RetT>((VoidFuncPtrT) 0,dat1,dat2,dat3,dat4,dat5),
+      : CallFunc5BodyC<Data1T,Data2T,Data3T,Data4T,Data5T,RetT>((VoidFuncPtrT) 0,ndat1,ndat2,ndat3,ndat4,ndat5),
 	mPtr(nfunc),
 	obj(nobj)
       {}
@@ -434,8 +428,7 @@ namespace RavlN {
     CallMethod5C(const ObjT &nobj,RetT (ObjT::*nfunc)(Data1T &,Data2T &,Data3T &,Data4T &,Data5T &),const Data1T &ndat1,const Data2T &ndat2,const Data3T &ndat3,const Data4T &ndat4,const Data5T &ndat5)
       :  CallFunc5C<Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(*new CallMethod5BodyC<ObjT,Data1T,Data2T,Data3T,Data4T,Data5T,RetT>(nobj,nfunc,ndat1,ndat2,ndat3,ndat4,ndat5))
       {}
-    //: Default constructor.
-    // Creates an invalid handle.
+    //: Constructor.
   };
 
 #if !defined(VISUAL_CPP)
