@@ -33,7 +33,7 @@ To install go the root RAVL directory and type:
 
 ./install [location]
 
-Where [location] is the directory in which you want RAVL installed.
+Where [location] is the absolute path to the  directory in which you want RAVL installed.
 
 Once RAVL is installed programs can be compiled with an alias similar
 to the following:
