@@ -52,6 +52,11 @@ namespace RavlN {
     ClassWizardBodyC(const StringC &rootDir,const StringC &localDir,bool verbose,bool writeStubs = false,bool dryrun = false);
     //: Constructor.
     
+#if 0
+    ClassWizardBodyC(bool xyz);
+    //: Constructor.
+#endif
+    
     bool GatherInfo();
     //: Gather information about the source code.
     
@@ -93,9 +98,6 @@ namespace RavlN {
     void AddLine(TextBufferC &buff,int indent,const StringC &info);
     //: Add line to buffer
     
-    IntT FindPublicSection(ObjectC &classObj);
-    //: Find public section in classObj
-    
     void SetModifiedPrefix(const StringC &value)
     { modifiedPrefix = value; }
     //: Set the prefix to use for modified files.
@@ -104,8 +106,23 @@ namespace RavlN {
     //: Dump the parse tree.
     
   protected:
+    IntT FindPublicSection(ObjectC &classObj);
+    //: Find public section in classObj
+    
     TextFileC TextFile(const StringC &filename);
     //: Get a text file for editing.
+    
+    MethodC GenerateHandleConstructor(ObjectC &bodyConstructor);
+    //: Generate a handle constructor prototype from its body counterpart
+    
+    MethodC GenerateBodyConstructor(ObjectC &handleConstructor);
+    //: Generate a body constructor prototype from its handle counterpart
+    
+    StringC BaseClassName(ObjectC &handleClass);
+    //: Find name of base class.
+    
+    DListC<StringC> BaseClassNames(ObjectC &handleClass);
+    //: Generate a list of base class names.
     
     StringC rootDir; // Root of source tree in which we're working.
     StringC localDir;  // Directory where we want to make changes.
@@ -139,6 +156,15 @@ namespace RavlN {
       : RCHandleC<ClassWizardBodyC>(*new ClassWizardBodyC(rootDir,localDir,verbose,writeStubs,dryrun))
     {}
     //: Constructor.
+
+#if 0
+    ClassWizardC(int xyz)
+    {}
+    //: Dummy constructor.
+    // Stuff that should be removed
+    //!author:cwiz
+    
+#endif
     
     bool GatherDir(StringC &dirname,DefsMkFileC &defsmk)
     { return Body().GatherDir(dirname,defsmk); }

@@ -391,13 +391,15 @@ namespace RavlN {
 	cerr << "Checking method " << it->Name() << "\n";
       //it->Dump(cerr);
       if(it->Comment().Locals()["author"].TopAndTail() != "cwiz")
-	continue; // Only modified methods we wrote
+	continue; // Only modify methods we wrote
       bool isConstructor = false;
-      if(it->Var("constructor") == "true")
-	isConstructor = true;
       StringC bodyName = it->Name();
-      if(isConstructor)
-	continue; // Ignore for now.
+      if(it->Var("constructor") == "true") {
+	isConstructor = true;
+	MethodC constructor = GenerateBodyConstructor(*it);
+	bodyName = constructor.Name();
+	//cerr << "Bodyname=" << bodyName << "\n";
+      }
       ObjectC bodyMethod = bodyClass.Lookup(bodyName);
       if(bodyMethod.IsValid()) {
 	//cerr << " found body " << bodyMethod.Name() << "\n";
@@ -422,12 +424,10 @@ namespace RavlN {
       txt.Delete(firstLine,lastLine);
     }
     
-    
-    
     // Now we've got both the handle and the body classes, lets look for public methods that aren't in the handle.
     // Note we're only iterating through the public part of the local scope, .
     
-    StringC mainBaseClass = "Unknown";
+    StringC mainBaseClass = BaseClassName(handleObj);
     
     int endOfLastHandle=-1;
     for(InheritIterC it(bodyObj,SAPublic,true);it;it++) {
@@ -435,15 +435,16 @@ namespace RavlN {
 	continue;
       ONDEBUG(cerr << "Found method '" << it->Name() << "' \n");
       bool isConstructor = false;
-      if(it->Var("constructor") == "true")
-	isConstructor = true;
       if(it->Var("access") != "public")
 	continue;
       StringC handleName = it->Name();
-      if(isConstructor)
-	continue; // Ignore for now.
+      if(it->Var("constructor") == "true") {
+	isConstructor = true;
+	MethodC constructor = GenerateHandleConstructor(*it);
+	handleName = constructor.Name();
+      }
       ObjectC handleMethod = handleObj.Lookup(handleName);
-
+      
       // Does method exist ?
       
       if(!handleMethod.IsValid()) {
@@ -505,6 +506,51 @@ namespace RavlN {
     }
     
     return true;
+  }
+
+  //: Generate a handle constructor prototype from its body counterpart
+  
+  MethodC ClassWizardBodyC::GenerateHandleConstructor(ObjectC &bodyConstructor) {
+    MethodC ret;
+    MethodC orginal(bodyConstructor);
+    ret = orginal.Copy();
+    StringC baseName = orginal.Var("BaseName").before("BodyC",-1) + "C";
+    ret.Rename(baseName);
+    //ret.
+    return ret;
+  }
+
+  //: Generate a body constructor prototype from its handle counterpart
+  
+  MethodC ClassWizardBodyC::GenerateBodyConstructor(ObjectC &bodyConstructor) {
+    MethodC ret;
+    MethodC orginal(bodyConstructor);
+    ret = orginal.Copy();
+    StringC baseName = orginal.Var("BaseName").before("C",-1) + "BodyC";
+    ret.Rename(baseName);
+    //ret.
+    return ret;    
+  }
+
+  //: Find name of base class.
+  
+  StringC ClassWizardBodyC::BaseClassName(ObjectC &aclass) {
+    RCHashC<StringC,ObjectC> templSub;
+    ClassC theclass(aclass);
+    if(theclass.Uses().IsEmpty())
+      return StringC();
+    return theclass.Uses().First().FullName(templSub,descGen,100); //Var("classname");
+  }
+
+  //: Generate a list of base class names.
+  
+  DListC<StringC> ClassWizardBodyC::BaseClassNames(ObjectC &aclass) {
+    RCHashC<StringC,ObjectC> templSub;
+    ClassC theclass(aclass);
+    DListC<StringC> baseClasses;
+    for(DLIterC<ObjectC> it(theclass.Uses());it;it++)
+      baseClasses.InsLast(it->FullName(templSub,descGen,100)); // Var("classname")
+    return baseClasses;
   }
   
 }
