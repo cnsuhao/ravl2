@@ -29,16 +29,29 @@
 
 #include "Ravl/Image/Image.hh"
 
+namespace RavlN {
+  class VectorC;
+};
+
 namespace RavlImageN {
   
   void DCT(const ImageC<RealT>& src,ImageC<RealT>& dest);
   //: Perform DCT on src, result in dest
-  // This method is relatively slow, if you are after high performance use
-  // the 
+  // Note: the classes ChanDCTC or VecRadDCTC should be faster than this.
+  
+  // Only works on square images.
   
   void IDCT(const ImageC<RealT>& src, ImageC<RealT>& dest);
   //: Perform Inverse DCT on src, result in dest
+  // Only works on square images.
   
+  VectorC PackZigZag(const ImageC<RealT> &img,UIntT n);
+  //: Pack first n components of image 'img' in a zig zag pattern from the to left corner of 'img'.
+  
+  void UnpackZigZag(const VectorC &vec,ImageC<RealT> &img);
+  //: Unpack components of image vec in a zig zag pattern from the to left corner of 'img'.
+  
+  //:-
   //! userlevel=Normal
   //: Class implementing Fast DCT
   // class ChanDCT is an encapsulation of sofware (URL:

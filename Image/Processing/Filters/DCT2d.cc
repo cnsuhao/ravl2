@@ -31,11 +31,35 @@
 #include "Ravl/Image/DCT2d.hh"
 #include "Ravl/Array2dIter.hh"
 #include "Ravl/StdConst.hh"
+#include "Ravl/Vector.hh"
+#include "Ravl/ZigZagIter.hh"
+#include "Ravl/SArray1dIter.hh"
 
 #define PIO2 1.5707966327
 
 namespace RavlImageN {
   using namespace RavlConstN;
+  
+  //: Pack first n components of image 'img' in a zig zag pattern from the to left corner of 'img'.
+  
+  VectorC PackZigZag(const ImageC<RealT> &img,UIntT n) {
+    RavlAssert(n <= img.Frame().Area());
+    VectorC ret(n);
+    SArray1dIterC<RealT> it(ret);
+    for(ZigZagIterC zit(img.Frame());it;zit++,it++)
+      *it = img[*zit];
+    return ret;
+  }
+  
+  //: Unpack components of image vec in a zig zag pattern from the to left corner of 'img'.
+  
+  void UnpackZigZag(const VectorC &vec,ImageC<RealT> &img) {
+    RavlAssert(vec.Size() <= img.Frame().Area());
+    SArray1dIterC<RealT> it(vec);
+    for(ZigZagIterC zit(img.Frame());it;zit++,it++)
+      img[*zit] = *it;
+  }
+  
   
   static inline RealT Alpha(IndexC u, unsigned int N) {
     if (u == 0)
