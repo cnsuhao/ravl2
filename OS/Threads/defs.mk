@@ -13,4 +13,4 @@ NESTED=Posix.r Tools.r
 
 PACKAGE=Ravl
 
-EHT=Ravl.OS.Threads.eht
+EHT=Ravl.OS.Threads.html
