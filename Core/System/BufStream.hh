@@ -11,17 +11,37 @@
 //! file="Ravl/Core/System/BufStream.hh"
 //! lib=RavlCore
 //! author="Charles Galambos"
-//! date="25/02/99"
+//! date="25/02/1999"
 //! docentry="Ravl.Core.IO.Streams"
 
 #include "Ravl/Stream.hh"
 #include "Ravl/SArray1d.hh"
 
-#if USE_GCC30
-#include <sstream>
+#if RAVL_HAVE_STREAMASCLASS
+#if RAVL_HAVE_STDNAMESPACE
+namespace std {
+  class ostrstream;
+  class istrstream;
+}
 #else
 class ostrstream;
 class istrstream;
+#endif
+#else
+
+#if RAVL_HAVE_ANSICPPHEADERS
+#if RAVL_HAVE_STRINGSTREAM
+#include <sstream>
+#else
+#include <strstream>
+#endif
+#else
+#ifndef VISUAL_CPP
+#include <strstream.h>
+#else
+#include <strstrea.h>
+#endif
+#endif
 #endif
 
 namespace RavlN {
@@ -44,10 +64,10 @@ namespace RavlN {
     
   protected:
     SArray1dC<char> data;
-#if !USE_GCC30
-    ostrstream *oss; // Output string stream.
-#else
+#if RAVL_HAVE_STRINGSTREAM
     ostringstream *oss; // Output string stream.
+#else
+    ostrstream *oss; // Output string stream.
 #endif
   };
   
@@ -73,10 +93,10 @@ namespace RavlN {
     
   protected:
     SArray1dC<char> data;
-#if !USE_GCC30
-    istrstream *iss; // Output string stream.
-#else
+#if RAVL_HAVE_STRINGSTREAM
     istringstream *iss; // Output string stream.
+#else
+    istrstream *iss; // Output string stream.
 #endif
   };
   

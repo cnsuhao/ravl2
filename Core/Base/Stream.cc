@@ -45,6 +45,44 @@ namespace RavlN {
 #if RAVL_HAVE_STDNAMESPACE
   using namespace std;
 #endif
+
+#if RAVL_COMPILER_GCC3
+  // Part of a horrible hack to allow us to open a stream from a file descriptor.
+  
+  template<typename _CharT, typename _Traits>
+  class basic_fdfilebuf 
+    : public std::basic_filebuf< _CharT, _Traits>
+  {
+  public:
+    basic_filebuf<_CharT, _Traits>  *open(int fd, ios_base::openmode __mode) {
+      basic_filebuf<_CharT, _Traits> *__ret = NULL;
+      if (!this->is_open())
+	{
+	  // The true here will cause the file to be closed when stream is destroyed.
+	  _M_file.sys_open(fd, __mode,true); 
+	  if (this->is_open())
+	    {
+	      _M_allocate_internal_buffer();
+	      _M_mode = __mode;
+	      
+	      // For time being, set both (in/out) sets  of pointers.
+	      _M_set_indeterminate();
+	      if ((__mode & ios_base::ate)
+		  && this->seekoff(0, ios_base::end, __mode) < 0)
+		this->close();
+	      __ret = this;
+	    }
+	}
+      return __ret;      
+    }
+    //: Open a file handle.
+    
+    void SetBuf(char *buf,int len)
+    { setbuf(buf,len); }
+    //: Set buffer to use.
+  };
+#endif
+  
   // A hook to allow a method to map urls to be added by another module.
   
   URLMapperFuncT urlMapper = 0;
@@ -81,7 +119,7 @@ namespace RavlN {
   bool StreamBaseC::Close() {
     if(s == 0)
       return false;
-#if !defined(VISUAL_CPP) && !RAVL_USE_GCC3
+#if !defined(VISUAL_CPP) && !RAVL_COMPILER_GCC3
     fstreambase *fsb = dynamic_cast<fstreambase *>(s);
 #else
     fstream *fsb = dynamic_cast<fstream *>(s);
@@ -206,7 +244,7 @@ namespace RavlN {
 #endif
     if(append)
       fmode |= ios::app;  
-#if !RAVL_USE_GCC3
+#if !RAVL_COMPILER_GCC3
     Init(ofstrm = new ofstream(filename.chars(),fmode),filename);
 #else
     Init(ofstrm = new ofstream(filename.chars(),(std::_Ios_Openmode) fmode),filename);
@@ -214,39 +252,30 @@ namespace RavlN {
       
     //Init(ofstrm = new ofstream(filename),filename);
     out = ofstrm;
-#if !RAVL_USE_GCC3
+#if !RAVL_COMPILER_GCC3
     if(!buffered) 
       ofstrm->setbuf(0,0);
 #endif
   }
   
-#if RAVL_USE_GCC3 && 0
-  class UnixBasicFilebufC
-    : public basic_filebuf<char,traits_type>
-  {
-  public:
-    UnixBasicFilebufC(int fd,ios_base::openmode __mode)
-    { _M_file.sys_open(fd,__mode,false); }
-    //: Contruct from a filehandle.
-  };
-  
-#endif
-
-
   //: Get data from unix filehandle.
   
   OStreamC::OStreamC(int fd,bool buffered) { 
-#if !RAVL_USE_GCC3
+#if !RAVL_COMPILER_GCC3
     if(buffered)
       Init(out = new ofstream(fd),StringC(fd)); 
     else
       Init(out = new ofstream(fd,0,0),StringC(fd)); 
 #else
-    //ofstream *ofs = new ofstream();    
-    //ofs.rdbuf() = 
-    //Init(out = ofs,StringC(fd)); 
-
-    RavlAssertMsg(0,"Not implemented. ");
+    ofstream *ofs = new ofstream(); 
+    // A horrible hack to allow us to open a file handle....
+    basic_fdfilebuf<ofstream::char_type,ofstream::traits_type>  *bfd = 
+      (basic_fdfilebuf<ofstream::char_type,ofstream::traits_type>  *) ofs->rdbuf(); 
+    if(!bfd->open(fd,ios_base::out | ios_base::binary))
+      ofs->setstate(ios_base::failbit);
+    if(!buffered)
+      bfd->SetBuf(0,0);
+    Init(out = ofs,StringC(fd)); 
 #endif
   }
   
@@ -318,7 +347,7 @@ namespace RavlN {
 #endif
       Init(ifstrm = new ifstream(filename),filename);
     in = ifstrm;
-#if !RAVL_USE_GCC3
+#if !RAVL_COMPILER_GCC3
     if(!buffered) {
       RavlAssert(ifstrm != 0);
       ifstrm->setbuf(0,0);
@@ -329,13 +358,26 @@ namespace RavlN {
   //: Get data from unix filehandle.
   
   IStreamC::IStreamC(int fd,bool buffered) {   
-#if !RAVL_USE_GCC3
+#if !RAVL_COMPILER_GCC3
     if(buffered)
       Init(in = new ifstream(fd),StringC(fd));
     else
       Init(in = new ifstream(fd,0,0),StringC(fd));
 #else
-    RavlAssertMsg(0,"Not implemented. ");
+    ifstream *ifs = new ifstream(); 
+    // A horrible hack to allow us to open a unix file descriptor.
+    basic_fdfilebuf<ifstream::char_type,ifstream::traits_type>  *bfd = 
+      (basic_fdfilebuf<ifstream::char_type,ifstream::traits_type>  *) ifs->rdbuf(); 
+    cerr << "Opening file descriptor " << fd << "\n";
+    if(bfd->open(fd,ios_base::in  | ios_base::binary) == 0) {
+      ifs->setstate(ios_base::failbit);
+      cerr << "ERROR: Open of file descriptor failed. \n";
+    }
+#if 0
+    if(!buffered)
+      bfd->SetBuf(0,0);
+#endif
+    Init(in = ifs,StringC(fd)); 
 #endif
   }
   

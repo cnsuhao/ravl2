@@ -934,7 +934,7 @@ namespace RavlN {
   }
 #endif
   
-#if defined(__GNUG__) && !defined(_G_NO_NRV) && !defined(RAVL_USE_GCC30)
+#if defined(__GNUG__) && !defined(_G_NO_NRV) && !defined(RAVL_COMPILER_GCC3)
 #define RETURN(r) return
 #define RETURNS(r) return r;
 #define RETURN_OBJECT(TYPE, NAME) /* nothing */
@@ -1033,7 +1033,7 @@ namespace RavlN {
     return dest;
   }
   
-#if defined(__GNUG__) && !defined(_G_NO_NRV) && !defined(RAVL_USE_GCC30)
+#if defined(__GNUG__) && !defined(_G_NO_NRV) && !defined(RAVL_COMPILER_GCC3)
   
   StringC StrCreplicate(char c, int n) return w; {
     w.rep = Sresize(w.rep, n);
@@ -1156,7 +1156,7 @@ namespace RavlN {
     int new_state = s.rdstate();
     if (i == 0) new_state |= ios::failbit;
     if (ch == EOF) new_state |= ios::eofbit;
-#if RAVL_USE_GCC30
+#if RAVL_COMPILER_GCC3
     s.clear((std::_Ios_Iostate )new_state);
 #else
     s.clear(new_state);
@@ -1165,7 +1165,7 @@ namespace RavlN {
   }
   
   int readline(istream& s, StringC& x, char terminator, int discard) {
-#if !RAVL_USE_GCC30
+#if !RAVL_COMPILER_GCC3
     // Should check what this does before just disabling it.
     if (!s.ipfx(0))
       return 0;

@@ -21,7 +21,8 @@
 
 #if RAVL_HAVE_UNISTD_H
 #include <unistd.h>
-#else
+#endif
+#if RAVL_HAVE_PROCESS_H
 #include <process.h>
 #endif
 
@@ -30,6 +31,7 @@ using namespace RavlN;
 int SimpleTest();
 int VectorTest();
 int StrStreamTest();
+int testRawFD(); /* NB. This is only usefull on some platforms. */
 
 StringC testFile = "/tmp/testStream" + StringC((IntT) getpid());
 
@@ -46,6 +48,10 @@ int main() {
   }
   if((errLine = StrStreamTest()) != 0) {
     cerr << "String stream test failed line: " << errLine << "\n";
+    return 1;
+  }
+  if((errLine = testRawFD()) != 0) {
+    cerr << "test failed line: " << errLine << "\n";
     return 1;
   }
   cerr << "Test passed. \n";
@@ -151,5 +157,51 @@ int StrStreamTest() {
     cerr << "'" << ret << "'\n";
     
   }  
+  return 0;
+}
+
+int testRawFD() {
+  int fds[2];
+  pipe(fds);
+  
+  char let = 'a';
+  cerr << "Writting data... \n";
+  
+#if 1
+  write(fds[1],&let,1);
+  write(fds[1],&let,1);
+#else
+  OStreamC os(fds[1],true);
+  if(!os)  return __LINE__;
+  os << let << let;
+  os.os().flush();
+#endif
+  cerr << "Read data... \n";
+  
+  char rlet1 = 0,rlet2 = 0;
+
+#if 0
+  FILE *inf = fdopen(fds[0],"r");
+  fread(&rlet1,1,1,inf);
+  fread(&rlet2,1,1,inf);
+  fclose(inf);
+#elif 0
+  read(fds[0],&rlet1,1);
+  read(fds[0],&rlet2,1);
+#else
+  IStreamC is(fds[0],true);
+  if(!is)  return __LINE__;
+  cerr << "Reading byte1 \n";
+  is >> rlet1;
+  cerr << "Reading byte1 done. \n";
+  if(!is)  return __LINE__;  
+  is >> rlet2;
+  if(!is)  return __LINE__;  
+#endif
+  cerr << "Let=" << (int) let << " RLet1=" << (int) rlet1 << " RLet2=" << (int) rlet2 << "\n";
+  
+  if(let != rlet2) {
+    return __LINE__;
+  }
   return 0;
 }

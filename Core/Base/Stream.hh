@@ -65,7 +65,7 @@ namespace RavlN {
     : public HandleRefCounterC
   {
   public:
-#if USE_GCC30
+#if RAVL_HAVE_STDNAMESPACE
     typedef std::ios::seekdir SeekDirT;
 #else
 #if RAVL_HAVE_IOS_SEEKDIR

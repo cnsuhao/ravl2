@@ -12,7 +12,7 @@
 #include "Ravl/BufStream.hh"
 
 #if RAVL_HAVE_ANSICPPHEADERS
-#if RAVL_USE_GCC30
+#if RAVL_HAVE_STRINGSTREAM
 #include <sstream>
 #else
 #include <strstream>
@@ -27,7 +27,7 @@
 
 namespace RavlN {
 
-#if RAVL_USE_GCC3
+#if RAVL_HAVE_STRINGSTREAM
 
   class BufferStringBodyC 
     : public BufferBodyC<char>
@@ -64,10 +64,10 @@ namespace RavlN {
   
   BufOStreamC::BufOStreamC()
     : 
-#if !RAVL_USE_GCC3
-    OStreamC(*(oss = new ostrstream()),true)
-#else
+#if RAVL_HAVE_STRINGSTREAM
     OStreamC(*(oss = new ostringstream()),true)
+#else
+    OStreamC(*(oss = new ostrstream()),true)
 #endif
   {}
   
@@ -76,7 +76,7 @@ namespace RavlN {
   // NB. This does NOT clean the buffer.
   
   SArray1dC<char> &BufOStreamC::Data() {
-#if RAVL_USE_GCC3
+#if RAVL_HAVE_STRINGSTREAM
 #if 0
     data = SArray1dC<char>((char *) oss->str().data(),oss->str().size());
 #else
@@ -100,10 +100,10 @@ namespace RavlN {
 #ifdef VISUAL_CPP
     IStreamC(*(iss = new istrstream(const_cast<char *>(dat.ReferenceElm()),dat.Size())),true),
 #else
-#if !RAVL_USE_GCC3
-    IStreamC(*(iss = new istrstream(dat.ReferenceElm(),dat.Size())),true),
-#else
+#if RAVL_HAVE_STRINGSTREAM
     IStreamC(*(iss = new istringstream(string(dat.ReferenceElm(),dat.Size()))),true),
+#else
+    IStreamC(*(iss = new istrstream(dat.ReferenceElm(),dat.Size())),true),
 #endif
 #endif
       data(dat)

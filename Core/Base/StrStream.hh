@@ -29,19 +29,21 @@ class ostrstream;
 class istrstream;
 #endif
 #else
-#ifndef VISUAL_CPP
+
 #if RAVL_HAVE_ANSICPPHEADERS
-#if USE_GCC3
+#if RAVL_HAVE_STRINGSTREAM
 #include <sstream>
 #else
 #include <strstream>
 #endif
 #else
+#ifndef VISUAL_CPP
 #include <strstream.h>
-#endif
 #else
 #include <strstrea.h>
 #endif
+#endif
+
 #endif
 
 namespace RavlN {
@@ -66,10 +68,10 @@ namespace RavlN {
     //: Get the number of bytes written so far.
   protected:
 
-#if !USE_GCC3
-    ostrstream *oss; // Output string stream.
-#else
+#if RAVL_HAVE_STRINGSTREAM
     ostringstream *oss; // Output string stream.
+#else
+    ostrstream *oss; // Output string stream.
 #endif
   };
   
@@ -94,10 +96,10 @@ namespace RavlN {
     //: Get string used as buffer.
     
   protected:
-#if !USE_GCC3
-    istrstream *iss; // Output string stream.
-#else
+#if RAVL_HAVE_STRINGSTREAM
     istringstream *iss; // Output string stream.
+#else
+    istrstream *iss; // Output string stream.
 #endif
     StringC buff;
   };

@@ -13,7 +13,7 @@
 #include "Ravl/Calls.hh"
 
 #if RAVL_HAVE_ANSICPPHEADERS
-#if RAVL_USE_GCC3
+#if RAVL_HAVE_STRINGSTREAM
 #include <sstream>
 #else
 #include <strstream>
@@ -33,20 +33,20 @@ namespace RavlN {
 
   StrOStreamC::StrOStreamC()
     :
-#if !RAVL_USE_GCC3
-    OStreamC(*(oss = new ostrstream()),true)
-#else
+#if RAVL_HAVE_STRINGSTREAM
     OStreamC(*(oss = new ostringstream()),true)
+#else
+    OStreamC(*(oss = new ostrstream()),true)
 #endif
   {}
 
   //: Get the number of bytes written so far.
   
   UIntT StrOStreamC::Size() const {
-#if !RAVL_USE_GCC3
-    return oss->pcount();
-#else
+#if RAVL_HAVE_STRINGSTREAM
     return oss->str().size();
+#else
+    return oss->pcount();
 #endif
   }
   
@@ -56,7 +56,7 @@ namespace RavlN {
   
   StringC StrOStreamC::String() {
     UIntT count = Size();
-#if RAVL_USE_GCC3
+#if RAVL_HAVE_STRINGSTREAM
     const char *data = oss->str().data();
 #else
     const char *data = &(oss->str()[0]); 
@@ -74,14 +74,14 @@ namespace RavlN {
   
   StrIStreamC::StrIStreamC(const StringC &dat)
     :
-#if !RAVL_USE_GCC3
+#if RAVL_HAVE_STRINGSTREAM
+    IStreamC(*(iss = new istringstream(string(dat.chars(),dat.length()))),true),
+#else
 #ifdef VISUAL_CPP
     IStreamC(*(iss = new istrstream(const_cast<char *>(dat.chars()),dat.length())),true),
 #else
     IStreamC(*(iss = new istrstream(dat.chars(),dat.length())),true),
 #endif
-#else
-    IStreamC(*(iss = new istringstream(string(dat.chars(),dat.length()))),true),
 #endif
     buff(dat)
   {}

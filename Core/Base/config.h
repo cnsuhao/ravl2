@@ -111,6 +111,7 @@
 #define RAVL_HAVE_SYS_SOCKET_H RAVL_OS_UNIX       /* have sys/socket.h  */
 #define RAVL_HAVE_TERMIOS      RAVL_OS_UNIX       /* have termios for controlling serial ports. */
 #define RAVL_USE_TIMEB_H       RAVL_OS_WIN32
+#define RAVL_HAVE_PROCESS_H    RAVL_OS_WIN32      /* have process.h */
 #define RAVL_USE_WINSOCK       RAVL_OS_WIN32
 #define RAVL_HAVE_IO_H         RAVL_OS_WIN32
 #define RAVL_HAVE_SYS_TIME_H   (!RAVL_OS_SOLARIS && !RAVL_OS_WIN32) /* Have <sys/time.h> */
@@ -138,7 +139,7 @@
 /* Yes there are other endian machines, but I've never actually met one. */
 
 /* Setting the follow define to 1 will enable the use of MMX code. */
-#define RAVL_USE_MMX (RAVL_CPU_IX86 && RAVL_COMPILER_GCC)
+#define RAVL_USE_MMX (RAVL_CPU_IX86 && RAVL_COMPILER_GCC2)
 
 /********************************************************************************/
 /****** Numerical functions and headers *****************************************/
@@ -174,8 +175,9 @@
 #define RAVL_HAVE_STREAMASCLASS   !RAVL_HAVE_STDNAMESPACE    /* istream and ostream are classes not typedefs. */
 #define RAVL_VISUALCPP_NAMESPACE_BUG RAVL_COMPILER_VISUALCPP /* Bug in namespace handling under Visual C++ 6.x */
 #define RAVL_VISUALCPP_TYPENAME_BUG RAVL_COMPILER_VISUALCPP  /* Restrictions in using keyword 'typename' in Visual C++ 6.x */
-#define RAVL_ISTREAM_UNGET_BUG       RAVL_COMPILER_VISUALCPP /* Bug in stream unget under Visual C++ 6.x */
+#define RAVL_ISTREAM_UNGET_BUG    RAVL_COMPILER_VISUALCPP    /* Bug in stream unget under Visual C++ 6.x */
 #define RAVL_NEW_ANSI_CXX_DRAFT   RAVL_COMPILER_GCC          /* The mainly effects the use of <> in templated friend declarations */
+#define RAVL_HAVE_STRINGSTREAM    RAVL_COMPILER_GCC3         /* Use stringstream instead of strstream */
 
 /* Define a macro so we can easily switch in and out exception specs
 // for functions.
