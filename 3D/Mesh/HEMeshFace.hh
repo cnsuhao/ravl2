@@ -39,6 +39,11 @@ namespace Ravl3DN {
       : edge(0)
     {}
     //: Default constructor.
+
+    HEMeshFaceBodyC(HEMeshEdgeBodyC &nedge)
+      : edge(&nedge)
+    {}
+    //: Default constructor.
     
   protected:
     HEMeshEdgeBodyC *FirstEdge()
@@ -50,8 +55,8 @@ namespace Ravl3DN {
     { edge = nedge; }
     //: Set first edge.
     
-    UIntT NoEdges() const;
-    //: Get number of edges on face.
+    UIntT Sides() const;
+    //: Get number of sides on face.
     
     bool HasVertex(HEMeshVertexC vert) const;
     //: Check that the vertex is connected to this face.
@@ -59,6 +64,10 @@ namespace Ravl3DN {
     HEMeshEdgeC Edge() 
     { return HEMeshEdgeC(*edge); }
     //: Get an edge leading to the face.
+    
+    HEMeshEdgeC FindEdge(HEMeshVertexC a);
+    //: Find the edge linking to vertex a.
+    // If edge is not found an invalid handle is returned.
     
   private:
     HEMeshEdgeBodyC *edge; // Ptr to one of the edges adjacent to the face.
@@ -91,6 +100,11 @@ namespace Ravl3DN {
       : body(new HEMeshFaceBodyC())
     {}
     //: Construct a new face.
+
+    HEMeshFaceC(HEMeshEdgeC edge)
+      : body(new HEMeshFaceBodyC(edge.Body()))
+    {}
+    //: Construct a new face.
     
     HEMeshFaceBodyC &Body()
     { return *body; }
@@ -117,8 +131,8 @@ namespace Ravl3DN {
     { return body == oth.body; }
     //: Is this a handle to the same object ?
     
-    UIntT NoEdges() const
-    { return Body().NoEdges(); }
+    UIntT Sides() const
+    { return Body().Sides(); }
     //: Get number of edges on face.
     
     bool HasVertex(HEMeshVertexC vert) const
@@ -129,11 +143,17 @@ namespace Ravl3DN {
     { return Body().Edge(); }
     //: Get an edge leading to the face.
     
+    HEMeshEdgeC FindEdge(HEMeshVertexC a)
+    { return Body().FindEdge(a); }
+    //: Find the edge linking to vertex a.
+    // If edge is not found an invalid handle is returned.
+    
   private:
     HEMeshFaceBodyC *body;
     friend class HEMeshFaceEdgeIterC;
     friend class HEMeshBodyC;
     friend class HEMeshEdgeC;
+    friend class HEMeshVertexBodyC;
   };
   
   //! userlevel=Normal
@@ -242,6 +262,11 @@ namespace Ravl3DN {
   inline
   HEMeshFaceC HEMeshEdgeC::OpenEdge()
   { return Body().OpenEdge(); }
+  
+  inline
+  void HEMeshEdgeC::SetFace(HEMeshFaceC face)
+  { Body().SetFace(face.Body()); }
+  //: Set the face associated with the edge.
 
 }
 

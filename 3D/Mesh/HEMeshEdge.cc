@@ -30,6 +30,10 @@ namespace Ravl3DN {
     return HEMeshVertexC();
   }
   
+  //: Open an edge, merging the faces on either side.
+  // This deletes the edge from the mesh and returns
+  // a handle to the new face.
+  
   HEMeshFaceC HEMeshEdgeBodyC::OpenEdge() {
     RavlAssertMsg(0,"HEMeshEdgeBodyC::OpenEdge(), Not implemented. ");
     return HEMeshFaceC();

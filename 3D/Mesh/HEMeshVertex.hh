@@ -47,9 +47,14 @@ namespace Ravl3DN {
     { return *edge; }
     //: Access edge.
     
-    HEMeshEdgeC Link(HEMeshVertexC othvert,HEMeshFaceC face);
-    //: Link this vertex to othvert on given face
-    // Both vertexes must share the given face. 
+    HEMeshEdgeC Link(HEMeshVertexC newVert,HEMeshFaceC face);
+    //: Link this vertex to newVert on indicated face
+    // Both vertexes must share the face. This will effectively
+    // split the face in two.
+    
+    UIntT Valence() const;
+    //: Get the number of edges/faces linking to this vertexs.
+    // This assumes this is a closed mesh.
     
   protected:
     HEMeshVertexBodyC(const Vector3dC &pos,const Vector3dC &norm)
@@ -147,6 +152,11 @@ namespace Ravl3DN {
     bool operator==(const HEMeshVertexC &oth) const
     { return body == oth.body; }
     //: Is this a handle to the same object ?
+
+    UIntT Valence() const
+    { return Body().Valence(); }
+    //: Get the number of edges/faces linking to this vertexs.
+    // This assumes this is a closed mesh.
     
   private:
     HEMeshVertexBodyC *body;    

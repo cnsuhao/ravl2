@@ -63,6 +63,10 @@ namespace Ravl3DN {
     { pair = &edge; }
     //: Set edge pair.
     
+    void SetFace(HEMeshFaceBodyC &aface)
+    { face = &aface; }
+    //: Set the face associated with the edge.
+    
     void LinkAfter(HEMeshEdgeBodyC &edge) 
     { DLinkC::LinkAft(edge); }
     //: Link 'edge' after this one.
@@ -75,6 +79,14 @@ namespace Ravl3DN {
     // If the edge is already in a chain it MUST
     // be unlinked first with Unlink().
 
+    void CutPaste(HEMeshEdgeBodyC &firstCut, HEMeshEdgeBodyC &firstNotCut) 
+    { DLinkC::CutPaste(firstCut,firstNotCut); }
+    //: Splice edges between firstCut, and firstNotCut into this list.
+    // Cuts the chain of edges starting at 'firstCut' and
+    // ending at the edge before 'firstNotCut' from the chain.
+    // The rest of the chain is linked together again. The cut part
+    // is linked in after this edge.
+    
     HEMeshVertexC Vertex() const
     { return HEMeshVertexC(const_cast<HEMeshVertexBodyC &>(*vertex)); }
     //: Access vertex.
@@ -168,18 +180,29 @@ namespace Ravl3DN {
     //: Link 'edge' before this one.
     // If the edge is already in a chain it MUST
     // be unlinked first with Unlink().
+
+    void CutPaste(HEMeshEdgeC firstCut, HEMeshEdgeC firstNotCut) 
+    { Body().CutPaste(firstCut.Body(),firstNotCut.Body()); }
+    //: Splice edges between firstCut, and firstNotCut into this list.
+    // Cuts the chain of edges starting at 'firstCut' and
+    // ending at the edge before 'firstNotCut' from the chain.
+    // The rest of the chain is linked together again. The cut part
+    // is linked in after this edge.
     
     void Unlink()
     { Body().Unlink(); }
     //: Unlink the edge from a faces edge list.
     
-    void SetPair(HEMeshEdgeC edge)
-    { Body().SetPair(edge.Body()); }
-    //: Set edge pair.
-
     bool HasPair() const
     { return Body().HasPair(); }
     //: Does this edge have a pair.
+    
+    void SetPair(HEMeshEdgeC edge)
+    { Body().SetPair(edge.Body()); }
+    //: Set edge pair.
+    
+    void SetFace(HEMeshFaceC face);
+    //: Set the face associated with the edge.
     
     HEMeshEdgeC Pair()
     { return HEMeshEdgeC(Body().Pair()); }
@@ -196,10 +219,18 @@ namespace Ravl3DN {
     bool operator==(const HEMeshEdgeC &oth) const
     { return body == oth.body; }
     //: Is this a handle to the same object ?
+
+    bool operator!=(const HEMeshEdgeC &oth) const
+    { return body != oth.body; }
+    //: Is this not a handle to the same object ?
     
     bool operator==(const HEMeshEdgeBodyC *oth) const
     { return body == oth; }
     //: Is this a handle to oth ?
+
+    bool operator!=(const HEMeshEdgeBodyC *oth) const
+    { return body != oth; }
+    //: Is this not a handle to oth ?
 
     HEMeshVertexC CollapseEdge()
     { return Body().CollapseEdge(); }
@@ -237,6 +268,12 @@ namespace Ravl3DN {
     {}
     //: Default constructor.
 
+    HEMeshVertexEdgeIterC(HEMeshVertexBodyC &face)
+      : first(&face.FirstEdge()),
+	at(&face.FirstEdge())
+    {}
+    //: Construct from a face
+    
     HEMeshVertexEdgeIterC(HEMeshVertexC &face)
       : first(&face.FirstEdge().Body()),
 	at(&face.FirstEdge().Body())

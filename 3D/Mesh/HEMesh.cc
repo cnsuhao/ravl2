@@ -66,13 +66,13 @@ namespace Ravl3DN {
     face.SetEdge(firstEdge);
     return face;
   }
-
+  
   //: Insert a vertex on an edge.
   
   HEMeshVertexC HEMeshBodyC::InsertVertexOnEdge(HEMeshEdgeC edge) {
     HEMeshVertexC ret;
     //vertices.InsLast(nvert.Body());
-    RavlAssert(0); // Not implemented.
+    RavlAssertMsg(0,"HEMeshBodyC::InsertVertexOnEdge(), Not Implemented.");
     return ret;
   }
   

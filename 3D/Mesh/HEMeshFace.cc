@@ -13,7 +13,7 @@ namespace Ravl3DN {
 
   //: Get number of edges on face.
   
-  UIntT HEMeshFaceBodyC::NoEdges() const {
+  UIntT HEMeshFaceBodyC::Sides() const {
     if(edge == 0)
       return 0;
     UIntT count = 0;
@@ -29,6 +29,16 @@ namespace Ravl3DN {
       if(it.Data().Vertex() == vert) 
 	return true;
     return false;
+  }
+
+  //: Find the edge linking to vertex a.
+  // If edge is not found an invalid handle is returned.
+  
+  HEMeshEdgeC HEMeshFaceBodyC::FindEdge(HEMeshVertexC a) {
+    for(HEMeshFaceEdgeIterC it(const_cast<HEMeshFaceBodyC &>(*this));it;it++)
+      if(it.Data().Vertex() == a) 
+	return it.Data();
+    return HEMeshEdgeC();
   }
   
   

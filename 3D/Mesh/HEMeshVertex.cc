@@ -36,18 +36,51 @@ namespace Ravl3DN {
     return HEMeshEdgeC();
   }
 
-  //: Link this vertex to othvert on given face
+  //: Link this vertex to newVert on indicated face
+  // Both vertexes must share the face. This will effectively
+  // split the face in two.
   
   HEMeshEdgeC HEMeshVertexBodyC::Link(HEMeshVertexC vert,HEMeshFaceC face) {
-    HEMeshEdgeC ret;
-    RavlAssert(face.HasVertex(vert));
-    RavlAssert(face.HasVertex(*this));
+    HEMeshEdgeC toVert = face.FindEdge(vert);
+    RavlAssert(toVert.IsValid());
+    HEMeshEdgeC toThis = face.FindEdge(vert);
+    RavlAssert(toThis.IsValid());
+    
+    // Construct edges.
     
     HEMeshEdgeC newEdge1(vert,face);
     HEMeshEdgeC newEdge2(*this,face);
+    newEdge1.SetPair(newEdge2);
+    newEdge2.SetPair(newEdge1);
+    newEdge1.SetFace(face);
+    // Split boundry into two faces.
     
-    return ret;
+    newEdge1.LinkAfter(toThis);
+    newEdge2.CutPaste(newEdge1.Next(),toVert.Next());
+    
+    face.SetEdge(newEdge1); // Make sure face edge ptrs are correct.
+    
+    HEMeshFaceC newFace(newEdge2);
+    face.Body().LinkAft(newFace.Body()); // Put it in the face list.
+    
+    // Update all edges with new face.
+    
+    HEMeshEdgeC at = newEdge2;
+    newEdge2.SetFace(newFace);
+    for(at = at.Next();at != newEdge2;at = at.Next()) 
+      at.SetFace(newFace);
+    
+    return newEdge1;
   }
 
+  //: Get the number of edges/faces linking to this vertexs.
+  // This assumes this is a closed mesh.
+  
+  UIntT HEMeshVertexBodyC::Valence() const {
+    UIntT count = 0;
+    for(HEMeshVertexEdgeIterC it(const_cast<HEMeshVertexBodyC &>(*this));it;it++)
+      count++;
+    return count;
+  }
   
 }
