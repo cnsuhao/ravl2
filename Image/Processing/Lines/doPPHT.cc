@@ -32,8 +32,9 @@ using namespace RavlImageN;
 using namespace RavlN;
 
 #ifdef __sgi__
-static DPOPortBodyC<PCPixMappingC<Curve2dLineSegmentC> > fix_sgi_bug3;
-static DPOPortC<PCPixMappingC<Curve2dLineSegmentC> > fix_sgi_bug1;
+static DPOPortBodyC<PCPixMappingC<Curve2dLineSegmentC> > fix_sgi_bug1;
+static DPOPortC<PCPixMappingC<Curve2dLineSegmentC> > fix_sgi_bug2;
+static DPIPortBodyC<DListC<EdgelC > > fix_sgi_bug3;
 #endif
 
 int doPPHT(int argc,char **argv) 
