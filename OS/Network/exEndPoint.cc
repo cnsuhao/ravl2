@@ -1,4 +1,4 @@
-// This file is part of RAVL, Recognition And Vision Library 
+ // This file is part of RAVL, Recognition And Vision Library 
 // Copyright (C) 2001, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
@@ -21,49 +21,121 @@
 
 using namespace RavlN;
 
-class TestRecieveC {
+
+// ------------------------------------------------
+// --------- Message handling class --------------- 
+// ------------------------------------------------
+class MessageHandlerC {
+
  public:
-  bool HandleMessage(StringC &msg) {
-    cerr << "TestRecieveC::HandleMessage() : Got '" << msg << "' \n";
-    return true;
-  }
+
+   // message id 1 is reserved
+   
+   bool HandleMessage2(StringC msg) {
+     cerr << "MessageHandlerC::HandleMessage2() : Got '" << msg << "' \n";
+     return true; } ; 
+   //: Handle Message of type 1
+
+
+   bool HandleMessage3(IntT msg) {
+     cerr << "MessageHandlerC::HandleMessage3() : Got '" << msg << "' \n";
+     return true; } ; 
+   //: Handle Message of type 2
+   
+   
+   bool HandleMessage4(RealT msg) {
+     cerr << "MessageHandlerC::HandleMessage4() : Got '" << msg << "' \n";
+     return true; } ;
+   //: Handle Message of type 3
+   
 };
+
+
+
+// --------------------------------------------------------------------------------------------------
+// ------------------------------------- NetEndPointC Example --------------------------------------- 
+// --------------------------------------------------------------------------------------------------
+//: This program provides an example of how to use NetEndPointC. This program is split into two parts, 
+// a server part and a client part, determined by the "s" option. Client and server parts are both able 
+// to send and receive messages. 
+
 
 
 int exEndPoint(int nargs,char *args[]) 
 {  
-  // Do normal option processing ....
-  
+
+  // Process the options    
   OptionC opt(nargs,args);
   StringC addr = opt.String("a","localhost:4041","Address to connect to. ");
   bool serv = opt.Boolean("s",false,"Server. ");
   opt.Check();
-  TestRecieveC atest; 
+
+  MessageHandlerC  handler ; 
+  // ---------------------
+  // ---- Server Part ---- 
+  // ---------------------
   if(serv) {
-    // Start a socket server.
+
+  
+    
+    // Open a socket
     SocketC sktserv(addr,true);
     if(!sktserv.IsOpen()) {
       cerr << "Failed to open server socket. \n";
       return 1;
     }
+
+    // Listen for connections
     while(1) {
-      SocketC skt = sktserv.Listen();
-      // When a socket connects, make and end point and send a 'hello' message.
-      NetEndPointC ep(skt);
-      ep.Register(2,"Test",atest,&TestRecieveC::HandleMessage);
-      
-      StringC msg("Hello from server.");
-      ep.Send(2,msg);
+      SocketC skt = sktserv.Listen(); // this will block untill a connection is received
+      NetEndPointC ep(skt) ;
+
+      // Register the callacks (id 1 is reserved !)                         
+      ep.RegisterR(2,"Test Message type 2", handler, & MessageHandlerC::HandleMessage2 ) ;
+      ep.RegisterR(3,"Test Message type 3", handler, & MessageHandlerC::HandleMessage3 ) ;  
+      ep.RegisterR(4,"Test Message type 4", handler, & MessageHandlerC::HandleMessage4 ) ;
+
+      // Send some messages to the client
+      StringC msg2("Hello from server.");
+      ep.Send(2,msg2);
+
+      IntT msg3 = 100 ; 
+      ep.Send(3,msg3) ; 
+
+      RealT msg4 = 3.141 ; 
+      ep.Send(4,msg4) ; 
     }
   }
+
+
+
+
+
+
+  // ----------------------
+  // ---- Client Part -----
+  // ----------------------
+  else 
   {
-    NetEndPointC ep(addr);
-    // Register reciever function for the hello message.
-    ep.Register(2,"Test",atest,&TestRecieveC::HandleMessage);
-    // Wait for hello messages.
-    StringC msg("Hello from client.");
-    ep.Send(2,msg);
-    //    while(1)
+
+    NetEndPointC ep(addr); // connect to the server 
+ 
+    // Register the callacks  (id 1 is reserved !) 
+    ep.Register(2,"Test Message type 2", handler, &MessageHandlerC::HandleMessage2 ) ;
+    ep.Register(3,"Test Message type 3", handler, &MessageHandlerC::HandleMessage3 ) ;  
+    ep.Register(4,"Test Message type 4", handler, &MessageHandlerC::HandleMessage4 ) ;
+    
+    // Send some messages to server 
+    StringC msg2("Hello from client.");
+    ep.Send(2,msg2);
+    
+    IntT msg3 = 200 ; 
+    ep.Send(3,msg3) ; 
+ 
+    RealT msg4 = 6.282 ; 
+    ep.Send(4,msg4) ; 
+
+    // wait a while 
     Sleep(10);
     ep.Close();
   }  
