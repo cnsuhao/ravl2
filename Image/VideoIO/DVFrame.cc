@@ -12,6 +12,9 @@
 #include "Ravl/Image/DVFrame.hh"
 
 namespace RavlImageN {
+#if RAVL_VISUALCPP_NAMESPACE_BUG
+  using RavlN::SizeT;
+#endif
 
   DVFrameC::DVFrameC():SArray1dC<char>()
   {}

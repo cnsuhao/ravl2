@@ -31,6 +31,7 @@ namespace RavlImageN{
   }//END OF AviOStreamC::AviOStreamC(const OStreamC &nOut)
   
   
+#if RAVL_HAVE_INTFILEDESCRIPTORS
   AviOStreamC::AviOStreamC(int fd, DListC<StringC> fccTypes, const bool swapEndian, bool verb) 
     : GenBinOStreamC(fd,swapEndian)
   {
@@ -38,6 +39,7 @@ namespace RavlImageN{
     toSwap = swapEndian;
     WriteEmptyAVI(fccTypes);
   }//END OF AviOStreamC::AviOStreamC(int fd)  
+#endif
   
   AviOStreamC::AviOStreamC(const StringC &nOut, DListC<StringC> fccTypes, const bool swapEndian, bool verb, bool buffered) 
     : GenBinOStreamC(nOut,swapEndian,buffered)  
@@ -108,20 +110,21 @@ namespace RavlImageN{
 
     avih.dwStreams=strfSizes.Size();
     *this << 'a' << 'v' << 'i' << 'h' << (UIntT)56 ;//avih chunk
-    for(int i=0;i<6;i++) *this << (UIntT)0;
+    int i;
+    for(i=0;i<6;i++) *this << (UIntT)0;
     *this << (UIntT)avih.dwStreams;
-    for(int i=7;i<14;i++) *this << (UIntT)0;
+    for(i=7;i<14;i++) *this << (UIntT)0;
 
-    for(DLIterC<int> it(strfSizes);it;it++) 
+    for(DLIterC<int> its(strfSizes);its;its++) 
       {
 	StrlPosList += Tell();
-	*this << 'L' << 'I' << 'S' << 'T' << (UIntT)(*it+76) << 's' << 't' << 'r' << 'l';//strl list
+	*this << 'L' << 'I' << 'S' << 'T' << (UIntT)(*its+76) << 's' << 't' << 'r' << 'l';//strl list
 	//strh
 	*this << 's' << 't' << 'r' << 'h' << (UIntT)56 ;//strh chunk
-	for(int i=0;i<14;i++) *this << (UIntT)0;
+	for(i=0;i<14;i++) *this << (UIntT)0;
 	//strf
-	*this << 's' << 't' << 'r' << 'f' << (UIntT)*it ;//strf chunk
-	for(int i=0;i<*it;i++) *this << (char)0;
+	*this << 's' << 't' << 'r' << 'f' << (UIntT)*its ;//strf chunk
+	for(i=0;i<*its;i++) *this << (char)0;
       }
     
     Junk(2048);//inserts a JUNK chunk
@@ -299,13 +302,14 @@ namespace RavlImageN{
   
   bool AviOStreamC::WriteDataChunk(const char * charBuff, const char * type, int length)
   {
-    for(int i=0;i<4;i++) *this << type[i];     
+    int i;
+    for(i=0;i<4;i++) *this << type[i];     
     *this << (UIntT)length;
-    for(int i=0;i<length;i++) *this << charBuff[i];     
+    for(i=0;i<length;i++) *this << charBuff[i];     
     
     //creates a new index entry
     aviIndexItemST newIndexItem;
-    for(int i=0;i<4;i++) newIndexItem.dwChunkId[i]=type[i];
+    for(i=0;i<4;i++) newIndexItem.dwChunkId[i]=type[i];
     newIndexItem.dwFlags = (UIntT)16;
     newIndexItem.dwOffset = (UIntT)(end - moviPos - (streampos)8);
     newIndexItem.dwSize = (UIntT)length;
@@ -341,7 +345,8 @@ namespace RavlImageN{
     int length;
     char type[] = "00db";
 
-    for(int i=0;i<4;i++) *this << type[i];     
+    int i;
+    for(i=0;i<4;i++) *this << type[i];     
     streampos p = Tell();
     *this << (UIntT)0;
     this->Stream().write((char *)(&image[image.Frame().Origin()]),3 * image.Frame().Area());     
@@ -352,7 +357,7 @@ namespace RavlImageN{
     
     //creates a new index entry
     aviIndexItemST newIndexItem;
-    for(int i=0;i<4;i++) newIndexItem.dwChunkId[i]=type[i];
+    for(i=0;i<4;i++) newIndexItem.dwChunkId[i]=type[i];
     newIndexItem.dwFlags = (UIntT)16;
     newIndexItem.dwOffset = (UIntT)(end - moviPos - (streampos)8);
     newIndexItem.dwSize = (UIntT)length;
@@ -387,14 +392,15 @@ namespace RavlImageN{
     UIntT length = frame.Size();
     char type[] = "00db";
 
-    for(int i=0;i<4;i++) *this << type[i];     
+    int i;
+    for(i=0;i<4;i++) *this << type[i];     
     *this << length;
    
     for(SArray1dIterC<char> it(frame);it;it++) *this << *it;
     
     //creates a new index entry
     aviIndexItemST newIndexItem;
-    for(int i=0;i<4;i++) newIndexItem.dwChunkId[i]=type[i];
+    for(i=0;i<4;i++) newIndexItem.dwChunkId[i]=type[i];
     newIndexItem.dwFlags = (UIntT)16;
     newIndexItem.dwOffset = (UIntT)(end - moviPos - (streampos)8);
     newIndexItem.dwSize = (UIntT)length;

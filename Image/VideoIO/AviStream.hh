@@ -242,9 +242,11 @@ namespace RavlImageN{
     //: Constructor.
     // From a IStreamC. Set verbose to print on std err more info about the stream
     
+#if RAVL_HAVE_INTFILEDESCRIPTORS
     AviIStreamC(int fd, bool verbose = true);
     //: Constructor.
     // From a file descriptor. Set verbose to print on std err more info about the stream
+#endif
     
     AviIStreamC(const StringC &nIn, bool verbose = true, bool buffered = true);
     //: Constructor.
@@ -331,10 +333,12 @@ namespace RavlImageN{
     // From a IStreamC. Set swapEndian to swap between littleendian AVI  to bigendian. 
     // Set verbose to print on std err more info about the stream. 
     
+#if RAVL_HAVE_INTFILEDESCRIPTORS
     AviOStreamC(int fd, DListC<StringC> fccTypes, const bool swapEndian, bool verbose = true);
     //: Constructor.
     // From a file descriptor.Set swapEndian to swap between littleendian AVI  to bigendian. 
     // Set verbose to print on std err more info about the stream. 
+#endif
     
     AviOStreamC(const StringC &nOut, DListC<StringC> fccTypes,const bool swapEndian, bool verbose = true, bool buffered = true);
     //: Constructor.

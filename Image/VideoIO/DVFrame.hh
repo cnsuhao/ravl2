@@ -17,9 +17,11 @@
 
 #include "Ravl/SArray1d.hh"
 
-using namespace RavlN;
-
 namespace RavlImageN {
+  using namespace RavlN;
+#if RAVL_VISUALCPP_NAMESPACE_BUG
+  using RavlN::SArray1dC;
+#endif
 
   //! userlevel=Develop
   //: DV Frame class.

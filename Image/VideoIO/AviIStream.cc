@@ -29,12 +29,14 @@ namespace RavlImageN{
   }//END OF AviIStreamC::AviIStreamC(const IStreamC &nIn, bool verbose = true)
   
   
+#if RAVL_HAVE_INTFILEDESCRIPTORS
   AviIStreamC::AviIStreamC(int fd, bool verb) 
     : GenBinIStreamC(fd)
   {
     verbose = verb;
     correct = LoadStreamInfo();
   }//END OF AviIStreamC::AviIStreamC(int fd, bool verbose = true)  
+#endif
   
   AviIStreamC::AviIStreamC(const StringC &nIn, bool verb, bool buffered) : GenBinIStreamC(nIn,false,buffered)  
   {
