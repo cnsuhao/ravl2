@@ -14,7 +14,7 @@
 //! docentry="Ravl.Core.Data Processing"
 
 //: Composing a processing pipeline
-// The input file for the example should be a white space seperated list of numbers
+// The input file for the example should be a white space separated list of numbers
 
 #include "Ravl/Option.hh"
 #include "Ravl/DP/FileIO.hh"

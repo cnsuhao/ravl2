@@ -36,8 +36,8 @@ namespace RavlN {
   
   //! userlevel=Normal
   //: Exception, Data Not Ready.
-  // This is throw if a Get is unabled to
-  // comlete because there is no data available.
+  // This exception is thrown if a DPIPortC::Get is unable to
+  // complete because there is no data available.
   
   class DataNotReadyC 
     : public ExceptionC 
