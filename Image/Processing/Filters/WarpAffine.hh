@@ -29,7 +29,7 @@ namespace RavlImageN {
   //! userlevel=Normal
   //: Scale an image using bi-Linear Interpolation.
   
-  template <class InT, class OutT = InT,class WorkT = OutT,class MixerT = PixelMixerAssignC<WorkT,OutT> >
+  template <class InT, class OutT = InT,class WorkT = OutT,class MixerT = PixelMixerAssignC<WorkT,OutT>,class SampleT = SampleBilinearC<InT,OutT> >
   class WarpAffineC
   {
   public:
@@ -116,8 +116,8 @@ namespace RavlImageN {
     bool useMidPixelCorrection;
   };
   
-  template <class InT, class OutT,class WorkT,class MixerT>
-  void WarpAffineC<InT,OutT,WorkT,MixerT>::Apply(const ImageC<InT> &src,ImageC<OutT> &outImg) {
+  template <class InT, class OutT,class WorkT,class MixerT,class SampleT >
+  void WarpAffineC<InT,OutT,WorkT,MixerT,SampleT>::Apply(const ImageC<InT> &src,ImageC<OutT> &outImg) {
     RealRange2dC irng(src.Frame());
     irng = irng.Expand(-1.1); // There's an off by a bit error somewhere in here...
     RealRange2dC orng(rec);
@@ -153,6 +153,7 @@ namespace RavlImageN {
       }
       return;
     }    
+    SampleT sampler;
 #if 0
     Vector2dC endv(0,((RealT) orng.Cols()));
     // This attempts to be clever project the line back into
@@ -179,7 +180,7 @@ namespace RavlImageN {
       int ce = (((int) ep[1]) - outImg.LCol()).V();
       const OutT *end = &(*it) + ce;
       for(;&(*it) < end;it.NextCol()) {
-	BilinearInterpolation(src,pat,*it);
+	sampler(src,pat,*it);
 	pat += ldir;
       }
       if(fillBackground) {
@@ -196,7 +197,7 @@ namespace RavlImageN {
       if(fillBackground) {
 	do {
 	  if(irng.Contains(pat)) {
-	    BilinearInterpolation(src,pat,tmp);
+	    sampler(src,pat,tmp);
 	    mixer(*it,tmp);
 	  } else
 	    SetZero(*it);
@@ -205,7 +206,7 @@ namespace RavlImageN {
       } else {
 	do {
 	  if(irng.Contains(pat)) {
-	    BilinearInterpolation(src,pat,tmp);
+	    sampler(src,pat,tmp);
 	    mixer(*it,tmp);
 	  }
 	  pat += ldir;

@@ -29,7 +29,7 @@ namespace RavlImageN {
   //! userlevel=Normal
   //: Warp image with a projective transformation.
   
-  template <class InT, class OutT = InT,class MixerT = PixelMixerAssignC<InT,OutT> >
+  template <class InT, class OutT = InT,class MixerT = PixelMixerAssignC<InT,OutT>,class SampleT = SampleBilinearC<InT,OutT>  >
   class WarpProjectiveC
   {
   public:
@@ -61,6 +61,7 @@ namespace RavlImageN {
 	mixer(mix)
     { Init(); }
     //: Constructor from Projection2dC.
+    
     WarpProjectiveC(const IndexRange2dC &orec,
 		    const Matrix3dC &transform,
 		    RealT niz = 1,
@@ -91,7 +92,7 @@ namespace RavlImageN {
     { Init(); }
     //: Constructor from Matrix3dC.
     // See Projection2dC for argument descriptions
-
+    
     void Apply(const ImageC<InT> &img,ImageC<OutT> &out);
     //: Warp image 'img' with the given transform and write it into 'out'
     
@@ -138,25 +139,25 @@ namespace RavlImageN {
     MixerT mixer;
   };
 
-  template <class InT, class OutT,class MixerT>
-  void WarpProjectiveC<InT,OutT,MixerT>::Init() {
+  template <class InT, class OutT,class MixerT,class SampleT>
+  void WarpProjectiveC<InT,OutT,MixerT,SampleT>::Init() {
     inv = trans.Inverse();
   }
   
-  template <class InT, class OutT,class MixerT>
-  Point2dC WarpProjectiveC<InT,OutT,MixerT>::BackProject(const Point2dC &pnt) const {
+  template <class InT, class OutT,class MixerT,class SampleT>
+  Point2dC WarpProjectiveC<InT,OutT,MixerT,SampleT>::BackProject(const Point2dC &pnt) const {
     Vector3dC vi = trans * Vector3dC(pnt[0],pnt[1],iz);
     return Point2dC(oz*vi[0]/vi[2],oz*vi[1]/vi[2]);
   }
   
-  template <class InT, class OutT,class MixerT>
-  Point2dC WarpProjectiveC<InT,OutT,MixerT>::Project(const Point2dC &pnt) const {
+  template <class InT, class OutT,class MixerT,class SampleT>
+  Point2dC WarpProjectiveC<InT,OutT,MixerT,SampleT>::Project(const Point2dC &pnt) const {
     Vector3dC vo = inv * Vector3dC(pnt[0],pnt[1],oz);
     return Point2dC(iz*vo[0]/vo[2],iz*vo[1]/vo[2]);          
   }
   
-  template <class InT, class OutT,class MixerT>
-  void WarpProjectiveC<InT,OutT,MixerT>::Apply(const ImageC<InT> &src,ImageC<OutT> &outImg) {
+  template <class InT, class OutT,class MixerT,class SampleT>
+  void WarpProjectiveC<InT,OutT,MixerT,SampleT>::Apply(const ImageC<InT> &src,ImageC<OutT> &outImg) {
     
     RealRange2dC irng(src.Frame());
     if(rec.TRow()<=rec.BRow() && !outImg.Frame().Contains(rec))
@@ -173,6 +174,7 @@ namespace RavlImageN {
     
     Vector3dC ldir(inv[0][1] * iz,inv[1][1] * iz,inv[2][1]);
     OutT tmp;
+    SampleT sampler;
 #if 0    
     RealRange2dC orng(outImg.Frame());
     if(irng.Contains(Project(orng.TopRight())) &&
@@ -189,7 +191,7 @@ namespace RavlImageN {
 	at[0] *= iz;
 	at[1] *= iz;
 	do {
-	  BilinearInterpolation(src,Point2dC((at[0]/at[2]) - 0.5,(at[1]/at[2])- 0.5),tmp)
+	  sampler(src,Point2dC((at[0]/at[2]) - 0.5,(at[1]/at[2])- 0.5),tmp)
 	  mixer(*it,tmp);
 	  at += ldir;
 	} while(it.Next()) ;
@@ -261,7 +263,7 @@ namespace RavlImageN {
       RavlAssert(workingOutImg.Frame().Range2().Contains(colRange));
       for(BufferAccessIterC<OutT> rit(outImg[r],colRange);rit;rit++) {
 	Point2dC ipat(at[0]/at[2],at[1]/at[2]);
-	BilinearInterpolation(src,ipat - Point2dC(0.5,0.5),tmp);
+	sampler(src,ipat - Point2dC(0.5,0.5),tmp);
 	mixer(*rit,tmp);
 	at += ldir;
       }
@@ -281,7 +283,7 @@ namespace RavlImageN {
 	do {
 	  Point2dC ipat(at[0]/at[2],at[1]/at[2]);
 	  if(irng.Contains(ipat)) {
-	    BilinearInterpolation(src,ipat - Point2dC(0.5,0.5),tmp);
+	    sampler(src,ipat - Point2dC(0.5,0.5),tmp);
 	    mixer(*it,tmp);
 	  } else
 	    SetZero(*it);
@@ -291,7 +293,7 @@ namespace RavlImageN {
 	do {
 	  Point2dC ipat(at[0]/at[2],at[1]/at[2]);
 	  if(irng.Contains(ipat)) {
-	    BilinearInterpolation(src,ipat - Point2dC(0.5,0.5),tmp);
+	    sampler(src,ipat - Point2dC(0.5,0.5),tmp);
 	    mixer(*it,tmp);
 	  }
 	  at += ldir;
