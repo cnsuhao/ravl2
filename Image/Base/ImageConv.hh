@@ -51,7 +51,7 @@ namespace RavlImageN {
   //: Byte grey level to colour image.
     
   ImageC<ByteYUVValueC> ByteImageCT2ByteYUVImageCT(const ImageC<ByteT> &dat);
-  // Byte grey level to byte YUV colour image.
+  //: Byte grey level to byte YUV colour image.
   
   ImageC<ByteT> DoubleImageCT2ByteImageCT(const ImageC<RealT> &dat) ; 
   //: Double -> Byte (clipped to fit)
