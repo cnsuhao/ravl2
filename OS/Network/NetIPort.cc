@@ -24,7 +24,7 @@ namespace RavlN {
   //: Constructor.
   
   NetISPortBaseC::NetISPortBaseC(const StringC &server,const StringC &nPortName,const type_info &ndataType) 
-    : ep(server),
+    : ep(server,false),
       portName(nPortName),
       dataType(TypeName(ndataType)),
       at(0),
@@ -40,6 +40,7 @@ namespace RavlN {
     }
     ep.RegisterR(3,"SendState",*this,&NetISPortBaseC::RecvState);
     ep.RegisterR(6,"ReqFailed",*this,&NetISPortBaseC::ReqFailed);
+    ep.Ready();
     ep.WaitSetupComplete();
     ep.Send(10,portName,dataType);  // Request connection.
     ep.Send(2); // Request info about the stream.

@@ -23,7 +23,7 @@ namespace RavlN {
   //: Construct from open socket.
   
   NetPortClientBodyC::NetPortClientBodyC(SocketC &skt,NetPortManagerC &nManager) 
-    : NetEndPointBodyC(skt),
+    : NetEndPointBodyC(skt,false),
       manager(nManager)
   { Init(); }
   
@@ -32,6 +32,8 @@ namespace RavlN {
   bool NetPortClientBodyC::Init() {
     ONDEBUG(cerr << "NetPortClientBodyC::Init(), Called. \n");
     RegisterR(10,"ConnectTo",*this,&NetPortClientBodyC::MsgConnectTo);
+    Ready();
+    WaitSetupComplete();
     return true;
   }
   

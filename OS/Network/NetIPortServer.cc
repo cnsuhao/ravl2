@@ -50,7 +50,8 @@ namespace RavlN {
   bool NetISPortServerBaseBodyC::Init() {
     ONDEBUG(cerr << "NetISPortServerBaseBodyC::Init(), Called. \n");
     ep.RegisterR(2,"ReqState",*this,&NetISPortServerBaseBodyC::ReqStats);
-    //WaitSetupComplete(); 
+    ep.Ready();
+    ep.WaitSetupComplete(); 
     return true;
   }
   
