@@ -23,7 +23,7 @@
 #error "RAVL ERROR:Confused about current compiler. "
 #endif
 
-#if (RAVL_CPU_IX86 + RAVL_CPU_SPARC + RAVL_CPU_MIPS + RAVL_CPU_ALPHA) != 1
+#if (RAVL_CPU_IX86 + RAVL_CPU_SPARC + RAVL_CPU_MIPS + RAVL_CPU_ALPHA + RAVL_CPU_ARM) != 1
 #error "RAVL ERROR:Confused about current CPU achitecture . "
 #endif
 

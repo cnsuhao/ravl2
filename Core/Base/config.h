@@ -49,6 +49,7 @@
 
 #define RAVL_CPU_MIPS  defined(__mips)    /* mips */
 #define RAVL_CPU_ALPHA defined(__alpha)   /* alpha based system */
+#define RAVL_CPU_ARM defined(__arm)   /* arm based system */
 
 #define RAVL_OS_LINUX   defined(__linux__)  /* Linux based OS. */
 #define RAVL_OS_WIN32   defined(WIN32)      /* Windows platform. */
