@@ -34,26 +34,16 @@ GLIBCFLAGS = `$(GLIBCONFIG) --cflags`
 endif 
 
 ifndef GTKLIBS 
-GTKLIBS =  -L/opt/lib `$(GTKCONFIG) --libs`
+GTKLIBS = -L/opt/lib  `$(GTKCONFIG) --libs`
+#GTKLIBS := $(filter-out -rdynamic,$(GTKLIBS))
 endif 
 
 ifndef GLIBLIBS 
 GLIBLIBS = `$(GLIBCONFIG) --libs`
 endif 
 
-#GLIBCFLAGS = `$(GLIBCONFIG) --cflags`
-#GLIBCFLAGS = `$(GLIBCONFIG) --cflags`
-
-#ifeq ($(ARC),sol2)
-#GTKLIBS += -R$(GTKPPATH)/lib -R$(GLIBPATH)/lib
-#endif
-
-#ifeq ($(ARC),sgi)
-#GTKLIBS += -Wl,-rpath,$(GTKPPATH)/lib,-rpath,$(GLIBPATH)/lib
-#endif
-
 else
-GTKCFLAGS= `pkg-config gtk+-2.0 --cflags` -DRAVL_USE_GTK2=1
+GTKCFLAGS=  `pkg-config gtk+-2.0 --cflags` -DRAVL_USE_GTK2=1
 GTKLIBS= `pkg-config gtk+-2.0 --libs`
 endif
 

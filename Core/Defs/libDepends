@@ -1,41 +1,61 @@
 # Library dependancies.
-#libMstd.so libMtype.so
-#libMtext.so libMtype.so
-#libMIndex1.so libMtype.so
-#libMstdIO.so libMtext.so
-#libMgrid.so libMIndex1.so
-
-libMlalg.so libMtext.so 
-libMag2.so libMlalg.so
-libMag3.so libMlalg.so
-libMpxl.so libMag2.so libMag3.so 
-libMagN.so libMlalg.so 
-libMagm.so libMagN.so libMlist.so libMold.so
-libMimage.so libMpxl.so libMagN.so libMagm.so libMgrid.so libMstdIO.so
-libDPImageIO.so libMimage.so
-libVidIO.so libDPImageIO.so
+# External libraries
 libjpeg.so
 libpng.so libz.so
-libCcompimg.so libMimage.so libMag2.so 
-libExtImgIO.so libDPImageIO.so libjpeg.so libpng.so
-libgmodule.so libdl.so
-libXext.so libX11.so
 libgthread.so libglib.so libpthread.so
-libgmodule.so libgthread.so
-libgdk.so libgmodule.so libglib.so libX11.so libXext.so
+libgmodule.so libgthread.so libdl.so
+libgdk.so libgmodule.so libglib.so libXi.so libXext.so libX11.so 
 libgtk.so libgdk.so
-libPThreadCXX.so libpthread.so
-libPThreadTools.so libPThreadCXX.so
-libMTDataProc.so libPThreadTools.so 
-libGUI.so libgtk.so libMTDataProc.so
-libMEnImgBnd.so libMimage.so libMbnd.so
-libMbnd.so libMlist.so 
-libiaps.so libMimage.so libMag1.so libMlist.so
-libMiproc.so libMimage.so libMbnd.so libMEnImgBnd.so libiaps.so
-libIP.so libMimage.so libMiproc.so
-libMstdList.so libMlist.so libMtext.so
-libMgf.so libMtext.so libMstdList.so
-libMagGf.so libMbnd.so libMag2.so libMgf.so
-libGUIView.so libGUI.so libIP.so libMagGf.so
-libDPDisplayIO.so libMimage.so libGUI.so libGUIView.so 
-libDPGeomIO.so libMagm.so libMgf.so
+
+# Core RAVL.
+libRavlCore.so libm.so
+libRavlMath.so libRavlCore.so
+libRavlOS.so libRavlCore.so
+libRavlIO.so libRavlCore.so
+libRavlOSIO.so libRavlIO.so libRavlOS.so
+libRavlThreads.so libRavlCore.so libRavlOS.so
+libRavlNet.so libRavlOS.so libRavlThreads.so libRavlIO.so
+
+# Image and video
+
+libRavlImageIO.so libRavlIO.so libRavlImage.so
+libRavlImage.so libRavlCore.so
+libRavlExtImgIO.so libRavlImageIO.so libjpeg.so libpng.so libtiff.so
+libRavlVideoIO.so libRavlImageIO.so
+
+# Audio
+
+libRavlAudioIO.so libRavlOSIO.so 
+libRavlAudioUtil.so libRavlCore.so
+
+# Pattern Recognition
+
+libRavlPatternRec.so libRavlCore.so libRavlMath.so libRavlOSIO.so
+libRavlPatternRecIO.so libRavlPatternRec.so libRavlIO.so
+
+# 3D
+
+libRavl3D.so libRavlCore.so
+libRavl3DIO.so libRavl3D.so libRavlIO.so libRavlImage.so
+
+# GUI
+
+libRavlGUI.so libRavlCore.so libRavlOS.so libgtk.so libRavlThreads.so
+libRavlDPDisplay.so libRavlImageIO.so libRavlGUI.so libRavlIO.so
+
+# Contrib
+
+libRavlURLIO.so libRavlIO.so libRavlThreads.so libcurl.so
+
+# Contrib. Image/Video
+
+libRavlImgIOV4L.so libRavlImageIO.so 
+libRavlDV.so libRavlImageIO.so libRavlOSIO.so
+libCSPDriver.so libRavlImageIO.so
+libRavlDMedia.so libRavlImageIO.so
+libRavlMPEG2.so libRavlVideoIO.so
+
+# Contrib. Audio
+
+libRavlDevAudio.so libRavlAudioUtil.so libRavlAudioIO.so
+libRavlAudioFile.so libRavlAudioUtil.so libRavlAudioIO.so libaudiofile.so
