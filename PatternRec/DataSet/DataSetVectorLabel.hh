@@ -7,7 +7,9 @@
 #ifndef RAVL_DATASETVECTORLABEL_HEADER
 #define RAVL_DATASETVECTORLABEL_HEADER 1
 //! rcsid="$Id$"
+//! docentry="Ravl.Pattern Recognition.Data Set"
 //! lib=RavlPatternRec
+//! file="Ravl/PatternRec/DataSet/DataSetVectorLabel.hh"
 
 #include "Ravl/PatternRec/DataSet2.hh"
 #include "Ravl/PatternRec/SampleVector.hh"
