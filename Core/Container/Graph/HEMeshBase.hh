@@ -245,7 +245,7 @@ namespace RavlN {
     //: Get the first face in the mesh.
     // Note: The mesh must NOT be empty.
     
-    HEMeshBaseVertexC FirstVirtex()
+    HEMeshBaseVertexC FirstVertex()
     { return HEMeshBaseVertexC(Body().vertices.First()); }
     //: Get the first vertex in the mesh.
     // Note: The mesh must NOT be empty.

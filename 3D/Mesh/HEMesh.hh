@@ -162,7 +162,7 @@ namespace Ravl3DN {
     //: Get the first face in the mesh.
     // Note: The mesh must NOT be empty.
     
-    HEMeshVertexC FirstVirtex()
+    HEMeshVertexC FirstVertex()
     { return HEMeshVertexC(Body().vertices.First()); }
     //: Get the first vertex in the mesh.
     // Note: The mesh must NOT be empty.
