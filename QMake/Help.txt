@@ -10,7 +10,7 @@ Common targets:
 	    the all available debug information. NB. The executables may
 	    be very large.
   opt       Optimised build. 
-  ne, debugne, optne, gprofne
+  ne, debugne, optne, gprofne, sharedne
             As check,debug, opt etc. but only building libraries, not executables.
   buildall  Build check,debug,opt and the documentation.
   shared    Build optimised shared libraries/executables.

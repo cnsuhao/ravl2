@@ -160,6 +160,9 @@ debugne:
 gprofne:
 	$(SMAKEMD) fullbuild VAR=gprof TARGET=fullbuild NOEXEBUILD=1 
 
+sharedne:
+	$(SMAKEMD) fullbuild VAR=shared TARGET=fullbuild NOEXEBUILD=1
+
 test: src
 	@if [ ! -d $(INST_TESTBIN) ] ; then \
 	  $(MKDIR) $(INST_TESTBIN); \
