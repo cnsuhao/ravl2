@@ -40,6 +40,11 @@ namespace RavlN {
     { First(); }
     //: Constructor.
     
+    Array2dSqr3IterC(const Array2dC<DataT> &narray, const IndexRange2dC &limitedRange) 
+      : array(narray,limitedRange)
+    { First(); }
+    //: Constructor over limited range.
+    
     bool First() {
       rng = IndexRangeC(array.Range2().Min()+1,array.Range2().Max()-1);
       IndexRangeC srng(array.Range1().Min()+1,array.Range1().Max()-1);
