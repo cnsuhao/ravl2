@@ -112,10 +112,10 @@ namespace RavlN {
     if (m_weight[0] != 0.0 && m_weight[1] != 0.0) {
       m_mean[1] = sumX[1] / m_weight[1];
       m_var[1] = sumX2[1] / m_weight[1] - m_mean[1]*m_mean[1];
-      if (m_var[1] < 0.0) m_var[1] = 0.0;
+      if (IsNan(m_var[1]) || m_var[1] < 0.0) m_var[1] = 0.0;
       m_mean[0] = sumX[0] / m_weight[0];
       m_var[0] = sumX2[0] / m_weight[0] - m_mean[0]*m_mean[0];
-      if (m_var[0] < 0.0) m_var[0] = 0.0;
+      if (IsNan(m_var[0]) || m_var[0] < 0.0) m_var[0] = 0.0;
       ThresholdAndParity(threshold,parity);
     }
     else {
