@@ -31,6 +31,7 @@ int testMatrixRUT();
 int testDet();
 int testLUDecomposition();
 int testVector();
+int testInverse();
 
 int main() {
   int ln;
@@ -60,6 +61,10 @@ int main() {
   }
   if((ln = testVector()) != 0) {
     cerr << "testVector() failed. Line:" << ln << "\n";
+    return 1;
+  }
+  if((ln = testInverse()) != 0) {
+    cerr << "testInverse() failed. Line:" << ln << "\n";
     return 1;
   }
   cerr << "Test passed. \n";
@@ -281,5 +286,14 @@ int testVector() {
   // cerr << "Result=" << pixelvalue << "\n";
   if(pixelvalue[0] != 14) return __LINE__;
   if(pixelvalue[1] != 32) return __LINE__;
+  return 0;
+}
+
+int testInverse() {
+  MatrixC mat(1,1);
+  mat[0][0] = 2;
+  MatrixC res = mat.Inverse();
+  if(Abs(res[0][0] - 0.5) > 0.000000001)
+    return __LINE__;
   return 0;
 }
