@@ -60,6 +60,9 @@ namespace RavlN {
       if(!li.IsValid()) // Need to create it?
 	li = LibInfoC(libName);
       li.Add(defs,where);
+    } else {
+      if(!defs["HEADERS"].TopAndTail().length() == 0)
+	cerr << "WARNING: defs.mk has header files but no library in " << where << " \n";
     }
     {
       StringListC lmains(defs["MAINS"]);
