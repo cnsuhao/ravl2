@@ -24,6 +24,7 @@ namespace RavlN {
   RealT EvaluateNumInliersC::SolutionScore(const StateVectorC &state_vec,
 					   DListC<ObservationC> &obs_list) const
   {
+    RavlAssert(state_vec.IsValid());
     UIntT total_vote=0;
     for(DLIterC<ObservationC> it(obs_list);it;it++)
       // only use observations that have not already been selected
@@ -44,6 +45,7 @@ namespace RavlN {
 					const StateVectorC &state_vec,
 					DListC<ObservationC> &obs_list) const
   {
+    RavlAssert(state_vec.IsValid());
     DListC<ObservationC> compatible_list;
 
     for(DLIterC<ObservationC> it(obs_list);it;it++) {
