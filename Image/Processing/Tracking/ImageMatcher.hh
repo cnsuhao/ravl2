@@ -23,7 +23,9 @@ namespace RavlImageN {
   
   //! userlevel=Normal
   //! autoLink=on
-  //: Mosaic building class
+  //: Matches images to a template image using projective transform
+  // Given an inital homography between the two images, this class will improve the homography.  It uses a corner detector together with RANSAC to compute the transformation.
+
   class ImageMatcherC
   {
   public:
