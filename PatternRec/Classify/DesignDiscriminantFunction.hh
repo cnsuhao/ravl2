@@ -8,6 +8,7 @@
 #define RAVL_DESIGNDISCRIMINANTFUNCTION_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! docentry="Ravl.Pattern Recognition.Classify"
 
 #include "Ravl/PatternRec/DesignClassifyVector.hh"
 #include "Ravl/PatternRec/DesignFunctionSupervised.hh"

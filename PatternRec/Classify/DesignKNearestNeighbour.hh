@@ -4,10 +4,11 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_DESIGNDISCRIMINANTFUNCTION_HEADER
-#define RAVL_DESIGNDISCRIMINANTFUNCTION_HEADER 1
+#ifndef RAVL_DESIGNKNEARESTNEIGHBOUR_HEADER
+#define RAVL_DESIGNKNEARESTNEIGHBOUR_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! docentry="Ravl.Pattern Recognition.Classify"
 
 #include "Ravl/PatternRec/DesignClassifyVector.hh"
 #include "Ravl/PatternRec/DesignFunctionSupervised.hh"

@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////////
 //! author="Charles Galambos"
 //! date="12/12/1996"
-//! docentry="Logic.Planning"
+//! docentry="Ravl.Logic.Planning"
 //! rcsid="$Id$"
 //! file="Ravl/Logic/PlanNL/NLPCausalLink.hh"
 //! lib=RavlLogicNLP

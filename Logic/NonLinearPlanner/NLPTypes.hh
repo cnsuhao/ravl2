@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////////
 //! author="Charles Galambos"
 //! date="16/12/1996"
-//! docentry="Logic.Planning"
+//! docentry="Ravl.Logic.Planning"
 //! userlevel=Develop
 //! rcsid="$Id$"
 //! file="Ravl/Logic/PlanNL/NLPTypes.hh"

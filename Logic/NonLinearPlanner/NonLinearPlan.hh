@@ -12,7 +12,7 @@
 //! author="Charles Galambos"
 //! userlevel=Advanced
 //! lib=RavlLogicNLP
-//! docentry="Logic.Planning"
+//! docentry="Ravl.Logic.Planning"
 //! rcsid="$Id$"
 
 #include "Ravl/Logic/BMinTermListIndex.hh"

@@ -11,6 +11,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! docentry="Ravl.Pattern Recognition.Classify"
 
 #include "Ravl/RCHandleV.hh"
 #include "Ravl/Vector.hh"
@@ -38,7 +39,7 @@ namespace RavlN {
     
   };
   
-  //! userlevel=Develop
+  //! userlevel=Normal
   //: Abstract classifer designer.
   
   class DesignClassifyVectorC

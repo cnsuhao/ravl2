@@ -12,7 +12,7 @@
 //! file="Ravl/Core/Container/Array/Array2dIter3.hh"
 //! lib=RavlCore
 //! author="Charles Galambos"
-//! date="24/08/99"
+//! date="24/08/1999"
 //! userlevel=Default
 
 #include "Ravl/Array2d.hh"
@@ -21,6 +21,8 @@
 namespace RavlN {
   //! userlevel=Normal
   //: triple Array2dC iterator.
+  // This will iterate through three rectangles of the same size.  The rectangles need not
+  // have the same origin.  
   
   template<class Data1T,class Data2T,class Data3T>
   class Array2dIter3C 
@@ -49,6 +51,9 @@ namespace RavlN {
       First();
     }
     //: Constructor.
+    // If 'matching' is true, the rectangles must be of the same size. <br>
+    // If 'matching' is set to false the size of the rectangle is set to that of the first array, 'arr1'
+    // arr1 MUST have a size equal to or smaller than arr2 and arr3 in both dimensions.
     
     Array2dIter3C(const Array2dC<Data1T> &arr1,
 		  const Array2dC<Data2T> &arr2,
@@ -62,6 +67,7 @@ namespace RavlN {
 							dat3,dat3.Range2()); 
     }
     //: Constructor.
+    // Iterate through 'rect' in all arrays. 'rect' must be within both arr1, arr2 and arr3.
     
     inline bool First() {
       return BufferAccess2dIter3C<Data1T,Data2T,Data3T>::First(dat1,dat1.Range2(),
