@@ -315,16 +315,28 @@ namespace RavlN {
     virtual bool Get(DataT &buff) { 
       if(pause)
 	sema.Wait();
+      // Something is corrupting the stack in gcc-3.2.x, so protect the mutex
+      // with some space allocated in n[] and n1[]
+      int n1[10]; // Hacky bug fix.
       MutexLockC lock(access);
+      int n[10];
+      //cerr << "Access a=" << ((void *) & access) << "\n";
+      RavlAssert(&(lock.Mutex()) == &access);
       RavlAssert(input.IsValid());
       CheckUpdate();
+      RavlAssert(&(lock.Mutex()) == &access);
       if(!input.Get(buff)) {
 	cerr << "DPIPlayControlBodyC::Get() ERROR: Failed, attempting to fudge stream position... \n";
 	at--;
 	return true;
       }
+      RavlAssert(&(lock.Mutex()) == &access);
+      //cerr << "Access b=" << ((void *) & access) << " " << << "\n";
+      // Use n1 and n to avoid warnings.
+      n1[0] =0;
+      n[0] = n1[0];
+      lock.Unlock();
       return true;
-      // Unlock here.
     }
     //: Try and get next piece of data.
     // If none, return false.
