@@ -695,7 +695,7 @@ namespace RavlDFN {
     case 0: /* URL */
       ONDEBUG(cerr << "GUIViewBodyC::DNDDataRecieved(), Got URL. \n");
       if(info.IsString())
-	LoadObject(info.String(),info.At());
+	LoadObject(info.String().TopAndTail(),info.At());
       break;
     case 1: /* Object. */
       {
