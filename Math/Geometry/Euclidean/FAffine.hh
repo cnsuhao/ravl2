@@ -115,7 +115,9 @@ namespace RavlN {
   
   template<unsigned int N>
   inline void FAffineC<N>::Scale(FVectorC<N> xy) {
-    SR = SR * FMatrixC<N,N>(xy.X(),0,0,xy.Y());
+    for(UIntT i = 0;i < N;i++)
+      for(UIntT j = 0;j < N;i++)
+	SR[i][j] *= xy[j];
   }
   
   template<unsigned int N>
