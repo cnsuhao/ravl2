@@ -74,6 +74,9 @@ int main()
 int testBasic() {
 
   Array2dC<IntT> arr1(1,10,2,10);
+  Array2dC<IntT> arrX(arr1,arr1.Frame());
+  if(arrX.Frame() != arr1.Frame()) return __LINE__;
+  
   arr1[1][2]  = 0;
   arr1.Fill(1);
   if(arr1[1][2] != 1) {
