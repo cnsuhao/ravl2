@@ -16,6 +16,7 @@
 #include "Ravl/TFMatrix.hh"
 #include "Ravl/Image/RealYUVValue.hh"
 #include "Ravl/Image/RealRGBValue.hh"
+#include "Ravl/Matrix3d.hh"
 
 namespace RavlImageN {
   extern const TFMatrixC<RealT,3,3> ImageYUVtoRGBMatrix;
@@ -29,12 +30,10 @@ namespace RavlImageN {
   
 
   inline RealYUVValueC::RealYUVValueC(const RealRGBValueC &v) 
-    : YUVValueC<RealT>(ImageRGBtoYUVMatrixStd * v)
-  {}
+  { Mul(ImageRGBtoYUVMatrixStd,v,*this); }
   
   inline RealRGBValueC::RealRGBValueC(const RealYUVValueC &v) 
-    : RGBValueC<RealT>(ImageYUVtoRGBMatrix * v)
-  {}
+  { Mul(ImageYUVtoRGBMatrix,v,*this); }
   
 }
 
