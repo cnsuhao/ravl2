@@ -38,8 +38,7 @@ namespace RavlN {
   {
   public:
     FMeanC()
-      : number(0)
-    {}
+    { SetZero(); }
     //: Default constructor.
     
     FMeanC(const SArray1dC<FVectorC<N> > &vecs);

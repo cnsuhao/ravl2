@@ -35,7 +35,7 @@ namespace RavlN {
     MeanC(SizeT nn,RealT nmean)
       : n(nn),
 	mean(nmean)
-    {}
+    { SetZero(); }
     //: Constructor.
     
     SizeT Number() const
