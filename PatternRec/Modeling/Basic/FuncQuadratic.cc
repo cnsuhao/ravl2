@@ -18,13 +18,13 @@ namespace RavlN {
   
   FuncQuadraticBodyC::FuncQuadraticBodyC(istream &strm)
     : FuncLinearCoeffBodyC(strm)
-  {}
+  { noCoeffs = NumberCoeffs(inputSize); }
   
   //: Load from binary stream.
   
   FuncQuadraticBodyC::FuncQuadraticBodyC(BinIStreamC &strm)
     : FuncLinearCoeffBodyC(strm)
-  {}
+  { noCoeffs = NumberCoeffs(inputSize); }
   
   //: Writes object to stream, can be loaded using constructor
   
