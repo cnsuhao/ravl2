@@ -52,7 +52,7 @@ namespace RavlGUIN {
       setValue(false),
       sigChanged(true)
   {
-    cerr << "Horiz Constructor. \n";
+    ONDEBUG(cerr << "Horiz Constructor. \n");
   }
   
   SliderBodyC::SliderBodyC(bool nvert,RealT nvalue, RealT nlower, 

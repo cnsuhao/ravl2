@@ -207,10 +207,10 @@ namespace RavlGUIN {
 		  RealT nlower, 
 		  RealT nupper, 
 		  RealT nstep_increment,
-		  const DataT &obj,bool (DataT::*func)(RealT &value),RealT defVal = 0)
+		  const DataT &obj,bool (DataT::*func)(RealT &value))
   {
     SliderC ret(true,nvalue,nlower,nupper,nstep_increment);
-    Connect(ret.SigChanged(),obj,func,defVal);
+    Connect(ret.SigChanged(),obj,func,nvalue);
     return ret;
   }
   //: Vertical slider with call back to class.
@@ -233,10 +233,10 @@ namespace RavlGUIN {
 		  RealT nlower, 
 		  RealT nupper, 
 		  RealT nstep_increment,
-		  const DataT &obj,bool (DataT::*func)(RealT &value),RealT defVal = 0)
-  {  
+		  const DataT &obj,bool (DataT::*func)(RealT &value))
+  {
     SliderC ret(false,nvalue,nlower,nupper,nstep_increment);
-    Connect(ret.SigChanged(),obj,func,defVal);
+    Connect(ret.SigChanged(),obj,func,nvalue);
     return ret;
   }
   //: Horizontal slider with call back to class.
