@@ -60,7 +60,7 @@ namespace Ravl3DN {
     TexTriMeshBodyC(const SArray1dC<VertexC> &vertices,
 		    const SArray1dC<TriC> &faces,
 		    const SArray1dC< ImageC<ByteRGBValueC> >& textures,
-		    const SArray1dC< StringC >& texFilenames)
+		    const SArray1dC< StringC >& texFilenames = SArray1dC< StringC >())
       : TriMeshBodyC(vertices,faces,true),
 	m_textures(textures),
 	m_strFilenames(texFilenames)
@@ -151,7 +151,7 @@ namespace Ravl3DN {
     TexTriMeshC(const SArray1dC<VertexC> &vertices,
 		const SArray1dC<TriC> &faces,
 		const SArray1dC< ImageC<ByteRGBValueC> >& textures,
-		const SArray1dC< StringC >& texFilenames)
+		const SArray1dC< StringC >& texFilenames  = SArray1dC< StringC >())
       : TriMeshC(*new TexTriMeshBodyC(vertices,faces,textures,texFilenames))
     {}
     //: Construct from an array of vertices, an array of tri's and the texture images.
