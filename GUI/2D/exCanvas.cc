@@ -24,15 +24,6 @@
 #define ONDEBUG(x)
 #endif
 
-#if 0
-void canvas_event(CanvasC &cv,const MouseEventC &me,int &)
-{
-  if(me.IsPressed(0))
-    cv.Put(GUIRenderPointC(me.X(),me.Y(),1));
-  //cerr << "X:" << me.X() << " y:" << me.Y() << "\n";
-}
-#endif
-
 int exCanvas(int nargs,char *args[]) 
 {
   using namespace RavlGUIN;
