@@ -20,7 +20,7 @@ SOURCES = TMatrix.cc Matrix.cc MatrixInverse.cc MatrixSVD.cc \
 
 #EXAMPLES = exVMT.cc
 
-TESTEXES=testTMatrix.cc testMatInv.cc 
+TESTEXES=testTMatrix.cc testMatInv.cc testMatrix.cc
 #testSVD.cc
 
 PLIB=RavlMath

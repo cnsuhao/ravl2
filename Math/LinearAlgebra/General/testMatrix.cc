@@ -8,11 +8,16 @@
 using namespace RavlN;
 
 int testSVD();
+int testMisc();
 
 int main() {
   int ln;
   if((ln = testSVD()) != 0) {
     cerr << "testSVD failed. Line:" << ln << "\n";
+    return 1;
+  }
+  if((ln = testMisc()) != 0) {
+    cerr << "testMisc failed. Line:" << ln << "\n";
     return 1;
   }
   cerr << "Test passed. \n";
@@ -35,5 +40,20 @@ int testSVD() {
   
   D=SVD(Test,U,V);
   
+  return 0;
+}
+
+int testMisc() {
+  // Check slicing and SetRow/SetColumn work ok.
+  RealT array2[]={11.5,12.8,3,4,100,1000};
+  MatrixC mat(3,2,array2);
+  MatrixC mat2 = mat.Copy();
+  VectorC wer1(mat.SliceRow(2));
+  if(wer1.Size() != 2) return __LINE__;
+  mat.SetRow(2,wer1); //this causes the following error**
+  VectorC wer2(mat.SliceColumn(1));
+  if(wer2.Size() != 3) return __LINE__;
+  mat.SetColumn(1,wer2); //this causes the following error**
+  if((mat - mat2).SumSqr() > 0.0000000001) return __LINE__;
   return 0;
 }
