@@ -163,7 +163,7 @@ INST_JAVAEXE = $(INST_BIN)
 # then the   current PROJECT_OUT def's and finally those that 
 # were installed with the make system. 
 
-DEF_INC = -I. -I$(INST_LIBDEF) -I$(INST_LIBDEF)
+DEF_INC = -I. -I$(INST_LIBDEF) -I$(INSTALLHOME)/lib/RAVL/libdep
 
 ############################
 # Some targets.

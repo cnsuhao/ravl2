@@ -338,7 +338,7 @@ endif
 ###############################
 # Misc.
 
-BASE_INSTALL := $(MAKEHOME)/../..#
+BASE_INSTALL := $(MAKEHOME)/../../..#
 INCLUDES := -I$(INST_INCLUDE)/$(ARC) -I$(INST_INCLUDE) $(INCLUDES) -I$(BASE_INSTALL)/include/$(ARC) -I$(BASE_INSTALL)/include
 
 ifdef EXTPACKAGE
