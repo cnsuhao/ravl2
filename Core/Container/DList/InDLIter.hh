@@ -15,6 +15,8 @@
 //! author="Charles Galambos"
 //! date="24/01/2001"
 
+// IntrDListC is based on code written by Radek Marik.
+
 #include "Ravl/InDList.hh"
 
 namespace RavlN {

@@ -9,6 +9,10 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 
+// The following people contributed to the design of these list 
+// structures:
+// B. Stroustrup, G. Matas, R. Sara (K320870@edvz.uni-linz.ac.at)
+
 #include "Ravl/DLink.hh"
 
 namespace RavlN {

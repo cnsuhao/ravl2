@@ -82,7 +82,7 @@ $(//: **************** Footer ************************ )
 
 <table width=100% align="middle"><tr>
 <td align="center" bgcolor="black"><FONT face="helvetica,arial" color="white"><b>
-$(ifset:author:Programmer:$(author),) $(ifset:date:Created: $(date),) Documentation by CxxDoc: $(buildtime)
+$(ifset:author:Maintainer:$(author),) $(ifset:date:Created: $(date),) Documentation by CxxDoc: $(buildtime)
 </b></FONT></td>
 </tr></table>
 

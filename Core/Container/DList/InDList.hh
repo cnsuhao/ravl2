@@ -15,6 +15,8 @@
 //! author=""
 //! date=""
 
+// IntrDListC is based on code written by Radek Marik.
+
 #include "Ravl/DLink.hh"
 #include "Ravl/Assert.hh"
 

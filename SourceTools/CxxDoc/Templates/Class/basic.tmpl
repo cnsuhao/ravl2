@@ -8,7 +8,7 @@ $(include:topbar.stmpl)
 
 <CENTER>
 <TABLE BORDER=3 CELLPADDING=10>
-<TR> <TD ALIGN=CENTER><B>Class</B></TD> <TD ALIGN=CENTER><B>Author</B></TD> <TD ALIGN=CENTER><B>Description</B></TD> </TR>
+<TR> <TD ALIGN=CENTER><B>Class</B></TD> <TD ALIGN=CENTER><B>Maintainer</B></TD> <TD ALIGN=CENTER><B>Description</B></TD> </TR>
 $(forall:class:$(if:$userlevel=Basic:
 <tr><td><A HREF="$(MakeFilename:../Basic/Class/%.html)">$(ObjectName)</A></td><td>$(author)</td><td>$(brief) </td></tr>
 ))
