@@ -68,7 +68,7 @@ namespace RavlN {
     {}
     //: Copy constructor.
     
-    bool Lookup(const KeyT &key,DataT &data);
+    bool Lookup(const KeyT &key,DataT &data) const;
     //: Lookup 'key' in hash table.
     // If an entry is found its assigned to data and
     // true is returned.
@@ -98,6 +98,11 @@ namespace RavlN {
     //: Lookup 'key' in hash table.
     // If an entry is found return a pointer to it.
     // otherwise return 0.
+
+    const DataT *Lookup(const KeyT &key) const;
+    //: Lookup 'key' in hash table.
+    // If an entry is found return a pointer to it.
+    // otherwise return 0.
     
   protected:
     SArray1dC<BListC<BHashEntryC<KeyT,DataT> > > table;
@@ -107,6 +112,16 @@ namespace RavlN {
   
   template<class KeyT,class DataT>
   DataT *BHashC<KeyT,DataT>::Lookup(const KeyT &key) {
+    if(table.Size() == 0)
+      return 0;
+    for(BListIterC<BHashEntryC<KeyT,DataT> > it(table[StdHash(key) % table.Size()]);it;it++)
+      if(it.Data().Key() == key)
+	return &it.Data().Data();
+    return 0;
+  }
+
+  template<class KeyT,class DataT>
+  const DataT *BHashC<KeyT,DataT>::Lookup(const KeyT &key) const {
     if(table.Size() == 0)
       return 0;
     for(BListIterC<BHashEntryC<KeyT,DataT> > it(table[StdHash(key) % table.Size()]);it;it++)
@@ -127,7 +142,7 @@ namespace RavlN {
   }
   
   template<class KeyT,class DataT>
-  bool BHashC<KeyT,DataT>::Lookup(const KeyT &key,DataT &data) {
+  bool BHashC<KeyT,DataT>::Lookup(const KeyT &key,DataT &data) const {
     if(table.Size() == 0)
       return 0;
     for(BListIterC<BHashEntryC<KeyT,DataT> > it(table[StdHash(key) % table.Size()]);it;it++) {
