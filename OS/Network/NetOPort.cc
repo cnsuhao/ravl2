@@ -10,7 +10,7 @@
 //! lib=RavlNet
 //! file="Ravl/OS/Network/NetIPort.cc"
 
-#include "Ravl/OS/NetIPort.hh"
+#include "Ravl/OS/NetOPort.hh"
 #include "Ravl/TypeName.hh"
 
 #define DODEBUG 0
@@ -24,7 +24,7 @@ namespace RavlN {
   
   //: Constructor.
   
-  NetISPortBaseC::NetISPortBaseC(const StringC &server,const StringC &nPortName,const type_info &ndataType) 
+  NetOSPortBaseC::NetOSPortBaseC(const StringC &server,const StringC &nPortName,const type_info &ndataType) 
     : ep(server,false),
       portName(nPortName),
       dataType(TypeName(ndataType)),
@@ -32,36 +32,35 @@ namespace RavlN {
       size((UIntT) -1),
       at(0),
       gotEOS(false),
-      recieved(0),
       flag(0)
   {}
   
   //: Destructor.
   
-  NetISPortBaseC::~NetISPortBaseC() { 
-    ONDEBUG(cerr << "NetISPortBaseC::~NetISPortBaseC(), Called. \n");
+  NetOSPortBaseC::~NetOSPortBaseC() { 
+    ONDEBUG(cerr << "NetOSPortBaseC::~NetOSPortBaseC(), Called. \n");
   }
   
-  bool NetISPortBaseC::Init() {
-    ONDEBUG(cerr << "NetISPortBaseC::Init(), Called for '" << portName << "'\n");
+  bool NetOSPortBaseC::Init() {
+    ONDEBUG(cerr << "NetOSPortBaseC::Init(), Called for '" << portName << "'\n");
     if(!ep.IsOpen()) {
-      cerr << "NetISPortBaseC::Init(), WARNING: No connection. \n";
+      cerr << "NetOSPortBaseC::Init(), WARNING: No connection. \n";
       gotEOS = true;
       return false;
     }
-    ep.RegisterR(3,"SendState",*this,&NetISPortBaseC::RecvState);
-    ep.RegisterR(6,"ReqFailed",*this,&NetISPortBaseC::ReqFailed);
+    ep.RegisterR(3,"SendState",*this,&NetOSPortBaseC::RecvState);
+    ep.RegisterR(6,"ReqFailed",*this,&NetOSPortBaseC::ReqFailed);
     ep.Ready();
     ep.WaitSetupComplete();
-    ep.Send(10,portName,dataType,true);  // Request connection.
+    ep.Send(10,portName,dataType,false);  // Request connection.
     ep.Send(2); // Request info about the stream.
     return true;
   }
   
   //: Handle incoming state info.
   
-  bool NetISPortBaseC::RecvState(UIntT &nat,UIntT &nstart,UIntT &nsize) {
-    ONDEBUG(cerr << "NetISPortBaseC::RecvState(), At=" << at << " Start=" << nstart << " Size=" << nsize << "\n");
+  bool NetOSPortBaseC::RecvState(UIntT &nat,UIntT &nstart,UIntT &nsize) {
+    ONDEBUG(cerr << "NetOSPortBaseC::RecvState(), At=" << at << " Start=" << nstart << " Size=" << nsize << "\n");
     RWLockHoldC hold(rwlock,RWLOCK_WRITE);
     at = nat;
     start = nstart;
@@ -71,11 +70,10 @@ namespace RavlN {
   
   //: Handle request failed.
   
-  bool NetISPortBaseC::ReqFailed(IntT &nflag) {
-    ONDEBUG(cerr << "NetISPortBaseC::ReqFailed(), Flag=" << flag << "\n");
+  bool NetOSPortBaseC::ReqFailed(IntT &nflag) {
+    ONDEBUG(cerr << "NetOSPortBaseC::ReqFailed(), Flag=" << flag << "\n");
     if(nflag == 1) gotEOS = true;
     flag = nflag;
-    recieved.Post();
     return true;
   }
 

@@ -15,6 +15,7 @@
 
 #include "Ravl/DP/FileFormat.hh"
 #include "Ravl/OS/NetIPort.hh"
+#include "Ravl/OS/NetOPort.hh"
 
 namespace RavlN {
 
@@ -45,8 +46,12 @@ namespace RavlN {
     }
     //: Probe for load.
     
-    virtual const type_info &ProbeSave(const StringC &filename,const type_info &obj_type,bool forceFormat) const 
-    { return typeid(void); }
+    virtual const type_info &ProbeSave(const StringC &filename,const type_info &obj_type,bool forceFormat) const {
+      StringC dev = ExtractDevice(filename);
+      if(dev != "NET")
+	return typeid(void);      
+      return typeid(DataT); 
+    }
     //: Probe for Save.
     
     virtual DPIPortBaseC CreateInput(IStreamC &in,const type_info &obj_type) const
@@ -71,7 +76,12 @@ namespace RavlN {
     // Will create an Invalid port if not supported. <p>
     
     virtual DPOPortBaseC CreateOutput(const StringC &filename,const type_info &obj_type) const {
-      return DPOPortBaseC();
+      StringC fn = ExtractParams(filename);
+      if(obj_type != typeid(DataT))
+	return DPOPortBaseC();
+      StringC portName = fn.after('#');
+      StringC addr = fn.before('#');
+      return NetOSPortC<DataT>(addr,portName);
     }
     //: Create a output port for saving to file 'filename'..
     // Will create an Invalid port if not supported. <p>

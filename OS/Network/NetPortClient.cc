@@ -49,29 +49,55 @@ namespace RavlN {
   
   //: Handle connect to message.
   
-  bool NetPortClientBodyC::MsgConnectTo(StringC &port,StringC &datatype) {
+  bool NetPortClientBodyC::MsgConnectTo(StringC &port,StringC &datatype,bool nIsIPort) {
     ONDEBUG(cerr << "NetPortClientBodyC::MsgConnectTo(), Called. Port=" << port << " Type=" << datatype << "\n");
-    NetISPortServerBaseC isport;
-    isport = manager.Lookup(port);
-    if(!isport.IsValid()) {
-      cerr << "NetPortClientBodyC::MsgConnectTo(), Failed to find port. \n";
-      // Send a failure message ?
-      return true;
+    isIPort = nIsIPort;
+    if(isIPort) {
+      // Deal with input port.
+      NetISPortServerBaseC isport;      
+      if(!manager.Lookup(port,isport)) {
+	cerr << "NetPortClientBodyC::MsgConnectTo(), Failed to find port. \n";
+	// Send a failure message ?
+	return true;
+      }
+      if(isport.PortType() != datatype) {
+	cerr << "NetPortClientBodyC::MsgConnectTo(), Missmatch in data types. \n";      
+	return true;
+      }
+      // Connect something ?
+      NetPortClientC me(*this);
+      if(!isport.Connect(me)) {
+	cerr << "NetPortClientBodyC::MsgConnectTo(), Failed, Already connected. \n";
+	Send(6,1); // End of stream.
+	// Return a failed message ?
+	return true;
+      }
+      connectionName = port;
+      manager.RegisterConnection(isport);
+    } else {
+      // Deal with output port.
+      
+      NetOSPortServerBaseC osport;
+      if(!manager.Lookup(port,osport)) {
+	cerr << "NetPortClientBodyC::MsgConnectTo(), Failed to find port. \n";
+	// Send a failure message ?
+	return true;
+      }
+      if(osport.PortType() != datatype) {
+	cerr << "NetPortClientBodyC::MsgConnectTo(), Missmatch in data types. \n";      
+	return true;
+      }
+      // Connect something ?
+      NetPortClientC me(*this);
+      if(!osport.Connect(me)) {
+	cerr << "NetPortClientBodyC::MsgConnectTo(), Failed, Already connected. \n";
+	Send(6,1); // End of stream.
+	// Return a failed message ?
+	return true;
+      }
+      connectionName = port;
+      manager.RegisterConnection(osport);
     }
-    if(isport.PortType() != datatype) {
-      cerr << "NetPortClientBodyC::MsgConnectTo(), Missmatch in data types. \n";      
-      return true;
-    }
-    // Connect something ?
-    NetPortClientC me(*this);
-    if(!isport.Connect(me)) {
-      cerr << "NetPortClientBodyC::MsgConnectTo(), Failed, Already connected. \n";
-      Send(6,1); // End of stream.
-      // Return a failed message ?
-      return true;
-    }
-    connectionName = port;
-    manager.RegisterConnection(isport);
     return true;
   }
 
@@ -81,10 +107,20 @@ namespace RavlN {
   bool NetPortClientBodyC::MsgClose() {
     ONDEBUG(cerr << "NetPortClientBodyC::MsgClose(), Called. \n");
     Close();
-    if(!connectionName.IsEmpty()) {
-      NetISPortServerBaseC isport = manager.Lookup(connectionName);
+    if(connectionName.IsEmpty())
+      return true;
+    if(isIPort) {
+      NetISPortServerBaseC isport;
+      if(!manager.Lookup(connectionName,isport))
+	return true;
       if(isport.IsValid())
 	isport.Disconnect();
+    } else {
+      NetOSPortServerBaseC osport;
+      if(!manager.Lookup(connectionName,osport))
+	return true;
+      if(osport.IsValid())
+	osport.Disconnect();
     }
     return true;
   }

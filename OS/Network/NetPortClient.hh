@@ -40,7 +40,7 @@ namespace RavlN {
     bool Init();
     //: Initalise connection.
     
-    bool MsgConnectTo(StringC &port,StringC &datatype);
+    bool MsgConnectTo(StringC &port,StringC &datatype,bool isIPort);
     //: Handle connect to message.
     // This will lookup the relavent NetIPortServer class
     // and complete the connection.
@@ -52,7 +52,8 @@ namespace RavlN {
     NetPortManagerC manager;
     
     StringC connectionName;
-    
+
+    bool isIPort;
     friend class NetPortClientC;
   };
   

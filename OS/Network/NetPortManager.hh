@@ -19,6 +19,7 @@
 #include "Ravl/RefCounter.hh"
 #include "Ravl/Hash.hh"
 #include "Ravl/OS/NetIPortServer.hh"
+#include "Ravl/OS/NetOPortServer.hh"
 #include "Ravl/Threads/RWLock.hh"
 
 namespace RavlN {
@@ -35,12 +36,18 @@ namespace RavlN {
     NetPortManagerBodyC(const StringC &name);
     //: Constructor.
     
-    NetISPortServerBaseC Lookup(const StringC &name);
+    bool Lookup(const StringC &name,NetISPortServerBaseC &isp);
     //: Search for port in table.
-
+    
+    bool Lookup(const StringC &name,NetOSPortServerBaseC &osp);
+    //: Search for port in table.
+    
     bool Register(const StringC &name,NetISPortServerBaseC &ips);
     //: Register new port.
-
+    
+    bool Register(const StringC &name,NetOSPortServerBaseC &ops);
+    //: Register new port.
+    
     bool Unregister(const StringC &name);
     //: Unregister port.
     
@@ -48,6 +55,9 @@ namespace RavlN {
     //: Open manager at address.
     
     virtual bool RegisterConnection(NetISPortServerBaseC &isport);
+    //: Called when a connection is established.
+    
+    virtual bool RegisterConnection(NetOSPortServerBaseC &isport);
     //: Called when a connection is established.
     
   protected:
@@ -58,6 +68,7 @@ namespace RavlN {
     
     // Table of iports.
     HashC<StringC,NetISPortServerBaseC> iports;
+    HashC<StringC,NetOSPortServerBaseC> oports;
     RWLockC access;
     bool managerOpen;
     SocketC sktserv;
@@ -105,12 +116,20 @@ namespace RavlN {
     //: Run manager thread.
   public:
     
-    NetISPortServerBaseC Lookup(const StringC &name)
-    { return Body().Lookup(name); }
+    bool Lookup(const StringC &name,NetISPortServerBaseC &isp)
+    { return Body().Lookup(name,isp); }
+    //: Search for port in table.
+    
+    bool Lookup(const StringC &name,NetOSPortServerBaseC &osp)
+    { return Body().Lookup(name,osp); }
     //: Search for port in table.
     
     bool Register(const StringC &name,NetISPortServerBaseC &ips)
     { return Body().Register(name,ips); }
+    //: Register port.
+    
+    bool Register(const StringC &name,NetOSPortServerBaseC &ops)
+    { return Body().Register(name,ops); }
     //: Register port.
     
     bool Unregister(const StringC &name)
@@ -123,6 +142,10 @@ namespace RavlN {
     
     bool RegisterConnection(NetISPortServerBaseC &isport)
     { return Body().RegisterConnection(isport); }
+    //: Called when a connection is established.
+    
+    bool RegisterConnection(NetOSPortServerBaseC &osport)
+    { return Body().RegisterConnection(osport); }
     //: Called when a connection is established.
     
     friend class NetPortManagerBodyC;

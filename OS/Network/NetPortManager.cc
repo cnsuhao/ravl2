@@ -76,12 +76,18 @@ namespace RavlN {
   
   //: Search for port in table.
   
-  NetISPortServerBaseC NetPortManagerBodyC::Lookup(const StringC &name) {
+  bool NetPortManagerBodyC::Lookup(const StringC &name,NetISPortServerBaseC &isport) {
     ONDEBUG(cerr << "NetPortManagerBodyC::Lookup(),  Called. Port='" << name << "' \n");
     NetISPortServerBaseC ret; 
     RWLockHoldC hold(access,RWLOCK_READONLY);
-    iports.Lookup(name,ret);
-    return ret;
+    return iports.Lookup(name,isport);
+  }
+
+  bool NetPortManagerBodyC::Lookup(const StringC &name,NetOSPortServerBaseC &osport) {
+    ONDEBUG(cerr << "NetPortManagerBodyC::Lookup(),  Called. Port='" << name << "' \n");
+    NetISPortServerBaseC ret; 
+    RWLockHoldC hold(access,RWLOCK_READONLY);
+    return oports.Lookup(name,osport);
   }
   
   //: Register new port.
@@ -92,6 +98,15 @@ namespace RavlN {
     if(iports.IsElm(name)) 
       return false; // Already registered.
     iports[name] = ips;
+    return true;
+  }
+
+  bool NetPortManagerBodyC::Register(const StringC &name,NetOSPortServerBaseC &ops) {
+    ONDEBUG(cerr << "NetPortManagerBodyC::Register(),  Called. Port='" << name << "' \n");
+    RWLockHoldC hold(access,RWLOCK_WRITE);
+    if(oports.IsElm(name)) 
+      return false; // Already registered.
+    oports[name] = ops;
     return true;
   }
   
@@ -106,10 +121,15 @@ namespace RavlN {
   //: Called when a connection is established.
   
   bool NetPortManagerBodyC::RegisterConnection(NetISPortServerBaseC &isport) {
-    
     return true;
   }
-									    
+
+  //: Called when a connection is established.
+  
+  bool NetPortManagerBodyC::RegisterConnection(NetOSPortServerBaseC &osport) {
+    return true;
+  }
+  
   
   //: Access global net port manager.
 
