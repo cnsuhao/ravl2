@@ -22,15 +22,6 @@
 #define ONDEBUG(x)
 #endif
 
-#define FOR_MATRIX_COLS(matrix, index) \
-  for (IndexC index = 0; index < (matrix).Cols(); index++)
-
-#define FOR_MATRIX_ROWS(matrix, index) \
-  for (IndexC index = 0; index < (matrix).Rows(); index++)
-
-#define FOR_VECTOR(vec, index) \
-  for (IndexC index = 0; index < (vec).Size(); index++)
-
 namespace RavlN {
   
   //: Default constructor.
@@ -106,9 +97,8 @@ namespace RavlN {
       collection.Insert(*it - mean);
     
     MatrixC A (d, N);
-    FOR_MATRIX_COLS (A, index) {
+    for (IndexC index = 0; index < A.Cols(); index++)      
       A.SetColumn (index, collection.Pick().SArray1d());
-    }
     
     // Construct L=A^transpose A
     MatrixC AT = A.T();
@@ -128,7 +118,7 @@ namespace RavlN {
     VectorC smallVec(d); 
     smallVec.Fill(0.0);
     
-    FOR_MATRIX_COLS (Wpca,index2) {
+    for (IndexC index2 = 0; index2 < Wpca.Cols(); index2++) {
       if (Leigenvecs.Vector()[index2] < 1e-10) 
 	Wpca.SetColumn (index2,smallVec);
       else {
@@ -141,7 +131,7 @@ namespace RavlN {
     
     // Do dot products on transposed matrices its faster.
     MatrixC WpcaT = Wpca.T();
-    FOR_VECTOR (temp,index3) {
+    for (IndexC index3 = 0; index3 < temp.Size(); index3++) {
       VectorC sli(WpcaT.SliceRow(index3));
       for(UIntT index4 = 0;index4 < AT.Rows();index4++) {
 	temp[index3] += Sqr(VectorC(AT.SliceRow(index4)).Dot(sli));
