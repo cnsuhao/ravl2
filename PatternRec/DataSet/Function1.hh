@@ -8,6 +8,8 @@
 #define RAVL_FUNCTION1_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! author="Charles Galambos"
+//! docentry="Ravl.Pattern Recognition.Functions"
 
 #include "Ravl/PatternRec/Function.hh"
 

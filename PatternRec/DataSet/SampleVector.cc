@@ -44,16 +44,17 @@ namespace RavlN {
       return MeanCovariance();
     RealT n = (RealT) in;
     DArray1dIterC<VectorC> it(*this);
-    MatrixC cov = it->OuterProduct();
+    MatrixRUTC cov = OuterProductRUT(*it);
     VectorC mean = it->Copy();
     it++;
     for(;it;it++) {
       mean += *it;
-      cov += it->OuterProduct();
+      cov.AddOuterProduct(*it);
     }
     mean /= n;
     cov /= n;
-    cov -= mean.OuterProduct();
+    cov -= OuterProductRUT(mean);
+    cov.MakeSymmetric();
     return MeanCovarianceC(in,mean,cov);
   }
 
