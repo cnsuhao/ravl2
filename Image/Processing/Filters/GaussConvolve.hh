@@ -22,9 +22,10 @@ namespace RavlImageN {
   //! userlevel=Normal
   //: Low-pass-filters an image with a finite-width approximation to a Gaussian mask
   //
-  // <p>The "standard deviation" of a filter with <i>n</i> terms is (<i>n</i>-1/4)^1/2</p>
-  // <p>It is designed by using a normalised row from Pascal's triangle
-  // (i.e. binomial coefficients).  The rational is this:
+  //<p> The filter design is bsed on a normalised row from Pascal's triangle
+  // (i.e. binomial coefficients).  The "standard deviation" of such a filter, with <i>n</i> coefficients, is thus (<i>n</i>-1/4)^1/2</p>
+  //
+  // <p> The rational is this:
   // <ul>
   // <li> The simplest possible non-trivial Gaussian filter is a 2nd-order one,
   // which from symmetry considerations will have two equal coefficients.
