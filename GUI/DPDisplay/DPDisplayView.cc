@@ -132,6 +132,10 @@ namespace RavlGUIN {
   
   bool DPDisplayViewBodyC::GUIRefresh() {
     ONDEBUG(cerr << "DPDisplayViewBodyC::GUIRefresh(), Called \n");
+    if(!canvas.IsValid() || canvas.Widget() == 0) {
+      refreshQueued = false;
+      return false;
+    }
     RWLockHoldC hold(lockDisplayList,RWLOCK_WRITE);
     refreshQueued = false;
     for(DLIterC<DPDisplayObjC> it(displayList);it;it++)
