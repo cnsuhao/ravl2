@@ -142,6 +142,10 @@ namespace RavlN {
     bool ConvertFrom(IntT hr,IntT min,IntT sec,IntT fr);
     //: Convert from hours, minutes, seconds, frame.
 
+    bool ConvertFrom  (const StringC& str);
+    //: Convert from a string
+    // expects format hh:mm:ss:ff 
+
     bool ConvertFrom  (const char * string) ;
     //: Convert from a string
     // expects format hh:mm:ss:ff 

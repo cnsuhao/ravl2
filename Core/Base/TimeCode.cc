@@ -10,6 +10,7 @@
 
 #include "Ravl/TimeCode.hh"
 #include "Ravl/String.hh"
+#include "Ravl/StringList.hh"
 #include "Ravl/BinStream.hh"
 #include <stdlib.h>
 #include <stdio.h>
@@ -49,7 +50,7 @@ namespace RavlN {
   //: Construct timecode from Ravl string
   TimeCodeC::TimeCodeC(const StringC & str, RealT nFrameRate )
     : frameRate (nFrameRate) 
-  { ConvertFrom( str.chars() ) ;}
+  { ConvertFrom(str); }
 
 
   //: Convert to hours, minutes, seconds, frame
@@ -78,29 +79,24 @@ namespace RavlN {
 
 
   //: Convert from string 
-  bool TimeCodeC::ConvertFrom  (const char * p) {
-    
-    IntT hour, sec, min, frame;
-    
-    if((p[2]!=':') || (p[5]!=':') || (p[8]!=':')) {
-      hour = 0xff;
-      min = 0xff;
-      sec = 0xff;
-      frame = 0xff;
-    }
+  bool TimeCodeC::ConvertFrom  (const StringC& str) {
+    StringListC items(str, ":");
+    IntT hour = items.PopFirst().IntValue();
+    IntT min = items.PopFirst().IntValue();
+    IntT sec = items.PopFirst().IntValue();
+    IntT frame = items.PopFirst().IntValue();
+    if ((hour<24) && (hour>=0) && (min<60)  && (min>=0)
+	&& (sec<60) && (sec>=0) && (frame<(IntT) frameRate) && (frame>=0)) 
+      return true;
     else {
-      hour = atoi(&p[0]);
-      min = atoi(&p[3]);
-      sec = atoi(&p[6]);
-      frame = atoi(&p[9]);
+      frameRate = RavlConstN::nanReal;
+      return false;
     }
-    if((hour>23) || (min>59) || (sec>59) || (frame>24)) {
-      hour = 0xff;
-      min = 0xff;
-      sec = 0xff;
-      frame = 0xff;
-    }
-    return ConvertFrom(hour,min,sec,frame);
+  }
+
+  //: Convert from string 
+  bool TimeCodeC::ConvertFrom  (const char * p) {
+    return ConvertFrom(StringC(p));
   }
 
   
@@ -199,23 +195,7 @@ namespace RavlN {
   
   //: Checks whether the timecode holds valid data
   bool TimeCodeC::IsValid() {
-    ldiv_t hr = ldiv(m_liFrame, (IntT) (frameRate * 3600.0) );
-    IntT hour = (IntT)hr.quot;
-    
-    ldiv_t mn = ldiv(hr.rem, (IntT) (frameRate * 60.0));
-    IntT minute = (IntT)mn.quot;
-    
-    ldiv_t sc = ldiv(mn.rem, (IntT) frameRate);
-    IntT second = (IntT)sc.quot;
-    
-    IntT frame = (IntT)sc.rem;
-    
-    bool valid = true;
-    if((hour<0)||(hour>23)) valid = false;
-    else if((minute<0)||(minute>59)) valid = false;
-    else if((second<0)||(second>59)) valid = false;
-    if((frame<0)||(frame>24)) valid = false;
-    return valid;
+    return ((m_liFrame>=0) && (frameRate>0.0));
   }
 
   
