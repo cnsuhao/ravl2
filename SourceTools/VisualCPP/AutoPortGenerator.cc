@@ -126,6 +126,14 @@ namespace RavlN {
       }
       return true;
     }
+    if(typedata == "useslibs") {
+      for(HashIterC<StringC,LibInfoC> it(src.Libs());it;it++) {
+	context.Push(ContextC(*it));
+	BuildSub(subTextBuff);
+	context.DelTop();
+      }
+      return true;
+    }
     // Source code.
     if(typedata == "sources") {
       DListC<StringC> lst = context.Top().Sources();
