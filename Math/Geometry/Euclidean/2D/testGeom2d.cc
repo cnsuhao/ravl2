@@ -13,14 +13,17 @@
 #include "Ravl/BinStream.hh"
 #include "Ravl/StrStream.hh"
 #include "Ravl/Matrix2d.hh"
+#include "Ravl/Polygon2d.hh"
 #include "Ravl/Circle2d.hh"
 #include "Ravl/Array1d.hh"
+#include "Ravl/Random.hh"
 
 using namespace RavlN;
 
 int testMoments();
 int testBinIO();
 int testCircle2d();
+int testConvexHull2d();
 
 int main() {
   int ln;
@@ -33,6 +36,10 @@ int main() {
     return 1;
   }
   if((ln = testCircle2d()) != 0) {
+    cerr << "Test failed at " << ln << "\n";
+    return 1;
+  }
+  if((ln = testConvexHull2d()) != 0) {
     cerr << "Test failed at " << ln << "\n";
     return 1;
   }
@@ -113,6 +120,28 @@ int testCircle2d() {
     return __LINE__;
   if(Abs(circle2.Radius() - 2) > 0.01) 
     return __LINE__;
+  
+  return 0;
+}
+
+int testConvexHull2d() {
+  cerr << "testConvexHull2d() Called. \n";
+  int i;
+  DListC<Point2dC> pnts;
+  
+  // Generate a point set.
+  for(int i = 0;i < 10;i++)
+    pnts.InsLast(Point2dC(Random1() * 100,Random1() * 100));
+  
+  DListC<Point2dC> tmp = pnts.Copy();
+  Polygon2dC poly = ConvexHull(tmp);
+  //cout << "Hull=" << poly << "\n";
+  
+  for(DLIterC<Point2dC> it(pnts);it;it++) {
+    if(!poly.Contains(*it)) {
+      cerr << *it << " not in polygon. \n";
+    }
+  }
   
   return 0;
 }
