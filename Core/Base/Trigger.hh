@@ -14,6 +14,7 @@
 //! author="Charles Galambos"
 //! date="24/01/2001"
 //! docentry="Ravl.Core.Calls"
+//! example=exTrigger.cc
 
 #include "Ravl/RCHandleV.hh"
 
