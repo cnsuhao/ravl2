@@ -19,12 +19,6 @@
 #include "Ravl/Stream.hh"
 #include "Ravl/FunctionRegister.hh"
 
-#ifdef __sgi__
-istream &operator>>(istream &s,RavlN::SByteT b) {
-  s >> ((signed char &) b);
-  return s;
-}
-#endif
 
 namespace RavlImageN {
   
