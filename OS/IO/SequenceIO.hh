@@ -71,10 +71,12 @@ namespace RavlN
     ip = DPISPortC<DataT>(anIp);
     //cerr << "Attaching... \n";
     if(!ip.IsValid()) {
+      DPIPortC<DataT> newPort(anIp);
+      RavlAssert(newPort.IsValid());
       if(sc.IsValid())
-	ip = DPISPortAttachC<DataT>(anIp,sc);
+	ip = DPISPortAttachC<DataT>(newPort,sc);
       else
-	ip = DPISPortAttachC<DataT>(anIp);
+	ip = DPISPortAttachC<DataT>(newPort,anIp);
     }
     //cerr << "Attach done. \n";
     return true;
