@@ -91,9 +91,22 @@ MutexC frameGrabLock;
 
 bool GrabFrame(StringC &filename) {
   MutexLockC lock(frameGrabLock);
+  cerr << "Saving file '" << filename << "'\n";
   if(!Save(filename,frameGrabbed)) {
     cerr << "ERROR: Failed to save file '" << filename << "'\n";
   }
+  return true;
+}
+
+bool ExamineFrame(StringC &filename) {
+  MutexLockC lock1(frameGrabLock);
+  MutexLockC lock2(frameCacheLock);
+  frameGrabbed = frameCache;
+  lock2.Unlock();
+  if(!Save(filename,frameGrabbed)) {
+    cerr << "ERROR: Failed to save file '" << filename << "'\n";
+  }
+  lock1.Unlock();
   return true;
 }
 
@@ -288,7 +301,10 @@ int doVPlay(int nargs,char *args[])
 	  );
 #else
   TableC table(4,5);
-  ButtonC grab = Button("Grab Frame",GetFileForGrab);
+  ButtonC grab = Button("Grab Frame",&GetFileForGrab);
+  
+  ButtonC examine = Button("Examine",&ExamineFrame,StringC("@X"));
+  
   table.AddObject(menuBar,0,4,0,1,(GtkAttachOptions) (GTK_FILL | GTK_EXPAND),(GtkAttachOptions) GTK_FILL);
   LabelC lt(" Time:");
   table.AddObject(lt,0,1,1,2,(GtkAttachOptions) (GTK_FILL | GTK_EXPAND),GTK_FILL);
@@ -299,7 +315,8 @@ int doVPlay(int nargs,char *args[])
 
   table.AddObject(vidout,0,4,2,3,(GtkAttachOptions) (GTK_FILL),(GtkAttachOptions)(GTK_FILL),5,5);
   table.AddObject(guiPlayControl,0,4,3,4,(GtkAttachOptions) (GTK_FILL | GTK_SHRINK),(GtkAttachOptions)GTK_FILL);
-  table.AddObject(grab,0,4,4,5,(GtkAttachOptions) (GTK_FILL| GTK_EXPAND),(GtkAttachOptions)(GTK_FILL));
+  table.AddObject(grab,2,4,4,5,(GtkAttachOptions) (GTK_FILL| GTK_EXPAND),(GtkAttachOptions)(GTK_FILL));
+  table.AddObject(examine,0,2,4,5,(GtkAttachOptions) (GTK_FILL| GTK_EXPAND),(GtkAttachOptions)(GTK_FILL));
   win.Add(table);
 #endif
   win.Show();
