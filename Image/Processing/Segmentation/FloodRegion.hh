@@ -21,11 +21,31 @@
 
 namespace RavlImageN {
 
+  template<class PixelT>
+  class FloorRegionThresholdC {
+  public:
+    FloorRegionThresholdC()
+    {}
+    //: Default constructor.
+    
+    FloorRegionThresholdC(const PixelT &pix)
+      : value(pix)
+    {}
+    //: Construct from pixel value.
+    
+    bool operator()(const PixelT &pix) const
+    { return pix <= value; }
+    //: Should pixel be included in the region ?
+    
+  protected:
+    PixelT value;
+  };
+  
   //! userlevel=Normal
   //: Flood based region growing.
   // Grow a region from 'seed' including all connected pixel less than or equal to threshold, generate a boundry as the result.
   
-  template<class PixelT>
+  template<class PixelT,class InclusionTestT = FloorRegionThresholdC<PixelT> >
   class FloodRegionC {
   public:
     FloodRegionC(const ImageC<PixelT> &nimg)
@@ -47,11 +67,11 @@ namespace RavlImageN {
     }
     //: Setup new image for processing.
     
-    bool GrowRegion(const Index2dC &seed,PixelT threshold,BoundaryC &boundary) {
+    bool GrowRegion(const Index2dC &seed,const InclusionTestT &inclusionCriteria,BoundaryC &boundary) {
       RavlAssert(pixQueue.IsEmpty());
-      thresh = threshold;
+      inclusionTest = inclusionCriteria;
       boundary = BoundaryC(); // Create a new boundry list
-      if(img[seed] > thresh)
+      if(!inclusionTest(img[seed]))
 	return false; // Empty region.
       pixQueue.InsLast(seed);
       id++;
@@ -61,40 +81,50 @@ namespace RavlImageN {
     }
     //: Grow a region from 'seed' including all connected pixel less than or equal to threshold, generate a boundry as the result.
     // Returns false if the region has zero size.
-    
-    bool GrowRegion(const Index2dC &seed,PixelT threshold,ImageC<IntT> &mask,IntT padding = 0) {
+
+    template<typename MaskT>
+    bool GrowRegion(const Index2dC &seed,const InclusionTestT &inclusionCriteria,ImageC<MaskT> &mask,IntT padding = 0) {
+      inclusionTest = inclusionCriteria;
       RavlAssert(pixQueue.IsEmpty());
-      thresh = threshold;
-      if(img[seed] > thresh)
+      if(!inclusionTest(img[seed]))
 	return false; // Empty region.
       pixQueue.InsLast(seed);
       id++;
       IndexRange2dC rng(seed,1,1);
-      while(!queue.IsEmpty())
-	AddPixels(rng,queue.GetFirst());
-      mask = ImageC<ByteT>(rng.Expand(padding));
+      while(!pixQueue.IsEmpty())
+	AddPixels(rng,pixQueue.GetFirst());
+      mask = ImageC<MaskT>(rng.Expand(padding));
       if(padding > 0)
-	DrawFrame(mask,0,padding,mask.Frame());
-      for(Array2dIter2C<IntT,IntT> it(mask,marki,rng);it;it++)
-	it.Data1() = it.Data2() == id ? 0 : 1;
+	DrawFrame(mask,(MaskT) 0,padding,mask.Frame());
+      for(Array2dIter2C<MaskT,IntT> it(mask,marki,rng);it;it++)
+	it.Data1() = it.Data2() == id ? 1 : 0;
       return true;
     }
     //: Grow a region from 'seed' including all connected pixel less than or equal to threshold, generate a mask as the result.
     // The mask images are generated with a boundry
     // Returns false if the region has zero size.
     
+    ImageC<IntT> &MarkImage()
+    { return marki; }
+    //: Access marked pixel image.
+    
+    IntT MarkId() const
+    { return id; }
+    //: Access current region id.
+    
   protected:
     ImageC<PixelT> img;
     ImageC<IntT> marki;
     IntT id;
     BlkQueueC<Index2dC> pixQueue;
-    IntT thresh;  // Current threshold
+    
+    InclusionTestT inclusionTest;
     
     inline
     bool AddIfInside(Index2dC at) {
       if(!marki.Contains(at))
 	return true;
-      if(img[at] > thresh)
+      if(!inclusionTest(img[at]))
 	return true; // Is outside the region.
       if(marki[at] != id) {
 	// Put in to do list.
