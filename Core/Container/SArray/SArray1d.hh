@@ -257,7 +257,7 @@ namespace RavlN {
     // their contents are identical.
 
     bool operator!=(const SArray1dC<DataT> & vv) const
-    { return operator==(vv); }
+    { return !operator==(vv); }
     //: Comparison operator
     // Returns true if the two arrays have different lengths or
     // contents..
