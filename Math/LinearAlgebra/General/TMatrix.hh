@@ -63,6 +63,9 @@ namespace RavlN {
     //: Constructor.
     // Fill the matrix with 'data'..
     
+    inline TMatrixC(SizeT rows,SizeT cols,SArray1dC<DataT> &data,SizeT stride = 0);
+    //: Convert an array into a rows by cols matrix.
+    
     TMatrixC(DataT v1,DataT v2,
 	     DataT v3,DataT v4);
     //: Construct a 2 x 2 matrix from given values.
@@ -86,8 +89,8 @@ namespace RavlN {
     operator TFMatrixC<DataT,N,M> () const {
       RavlAssertMsg(Rows() == N && Cols() == M,"Size mismatch while converting to fixed size matrix. ");
       TFMatrixC<DataT,N,M> ret;
-      for(int i = 0;i < N;i++)
-	for(int j = 0;j < M;j++)
+      for(UIntT i = 0;i < N;i++)
+	for(UIntT j = 0;j < M;j++)
 	  ret[i][j] = (*this)[i][j];
       return ret;
     }
@@ -188,6 +191,11 @@ namespace RavlN {
   template<class DataT>
   inline TMatrixC<DataT>::TMatrixC(SizeT rows,SizeT cols,DataT *data,bool useCopy,bool manageMemory) 
     : SArray2dC<DataT>(BufferC<DataT>(rows * cols,data,useCopy,manageMemory),rows,cols)
+  {}
+  
+  template<class DataT>
+  inline TMatrixC<DataT>::TMatrixC(SizeT rows,SizeT cols,SArray1dC<DataT> &data,SizeT stride)
+    : SArray2dC<DataT>(data.Buffer(),rows,cols,&(data[0]) - data.Buffer().ReferenceElm(),stride)
   {}
   
   template<class DataT>
