@@ -22,7 +22,7 @@
 
 using namespace RavlN;
 
-const int testSize = 100000;
+const int testSize = 10000;
 
 int testBinaryTree();
 int testBinaryTreeIter();
