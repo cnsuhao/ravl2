@@ -26,8 +26,6 @@
 #endif
 
 namespace RavlGUIN {
-
-  PixbufC pixbuf_dummy_var;
   
   // Default constructor.
   
