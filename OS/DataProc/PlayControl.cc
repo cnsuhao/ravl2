@@ -179,7 +179,7 @@ namespace RavlN {
     // Do the seek.
     
     if(!ctrl.Seek(seekto)) {
-      cerr << "WARNING: Seek to " << pos <<" failed. \n";
+      cerr << "WARNING: Seek to " << pos <<" (" << seekto << ") failed. \n";
       return false;
     }
     ONDEBUG(cerr << "DPPlayControlBodyC::Seek(), Seek to :" << pos << " (Comp:" << seekto << ") Tell:" << ctrl.Tell() << " Inc:" << inc << "\n");
@@ -289,6 +289,7 @@ namespace RavlN {
 	}
 	break;      
       }
+    UIntT oldAt = at;
     if(inc >= 1) {
       if((at + inc) <= ((IntT) end)) { // before end ?
 	at += (inc-1);
@@ -296,15 +297,21 @@ namespace RavlN {
 	  if(!ctrl.DSeek(inc-1)) {
 	    cerr << "DSeek failed : " << inc -1 << "\n";
 	    at = ctrl.Tell();
+	    if(at == ((UIntT)-1))
+	      at = oldAt;
 	  }
 	}
       } else { 
 	ONDEBUG(cerr << "Hit end : "<< at << " Inc:" << inc <<"\n");
 	// Failed, hit end.
 	if(end != ((UIntT) -1) && playMode < 2) {
-	  if(!ctrl.Seek(end)) // Show last frame.
+	  if(!ctrl.Seek(end)) { // Show last frame.
 	    cerr << "Warning: Seek to end failed. \n";
-	  at = end;
+	    at = ctrl.Tell();
+	    if(at == ((UIntT)-1))
+	      at = oldAt + 1;
+	  } else
+	    at = end;
 	  inc = 0;
 	  Pause();
 	}
@@ -318,13 +325,20 @@ namespace RavlN {
       if(at >= ((IntT) start)) {
 	if(!ctrl.DSeek(inc-1)) {
 	  ONDEBUG(cerr << "DSeek failed : "<< at << "  Inc:" << inc-1 <<" Start@ " << start << "\n");
+	  at = ctrl.Tell();
+	  if(at == ((UIntT)-1))
+	    at = oldAt + 1;
 	}
       } else {
 	ONDEBUG(cerr << "Hit start : "<< at << "  Inc:" << inc <<" Start@ " << start << "\n");
 	if(start != ((UIntT) -1) && playMode < 2) {
-	  if(!ctrl.Seek(start))
+	  if(!ctrl.Seek(start)) {
 	    cerr << "Warning: Seek to start failed. \n";
-	  at = start;
+	    at = ctrl.Tell();
+	    if(at == ((UIntT)-1))
+	      at = oldAt + 1;
+	  } else
+	    at = start;
 	  inc = 0;
 	  Pause();
 	}
@@ -440,4 +454,8 @@ namespace RavlN {
     : DPEntityC((DPPortBodyC &) bod)
   {}
   
+}
+
+void HelpDebugger() {
+  return ;
 }

@@ -21,6 +21,8 @@
 
 #define RAVL_GCC3FIX 1
 
+void HelpDebugger();
+
 namespace RavlN {
 
   //! userlevel=Develop
@@ -331,6 +333,7 @@ namespace RavlN {
       RavlAssert(input.IsValid());
       CheckUpdate();
       RavlAssert(&(lock.Mutex()) == &access);
+      HelpDebugger();
       if(!input.Get(buff)) {
 	cerr << "DPIPlayControlBodyC::Get() ERROR: Failed, attempting to fudge stream position... \n";
 	at--;
