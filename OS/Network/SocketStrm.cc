@@ -33,15 +33,15 @@ namespace RavlN {
     //: Default constructor.
     
     virtual const char *TypeName()
-      { return "net"; }
+    { return "net"; }
     //: Get type of stream.
     
     virtual IStreamC OpenI(const StringC &strm,bool binary,bool buffered)
-      { return INetStreamC(strm,binary,buffered); }
+    { return NetIStreamC(strm,binary,buffered); }
     //: Open input stream.
     
     virtual OStreamC OpenO(const StringC &strm,bool binary,bool buffered)
-      { return ONetStreamC(strm,binary,buffered); }
+    { return NetOStreamC(strm,binary,buffered); }
     //: Open ouput stream.
     
   } Inst_StreamType_NetStream;

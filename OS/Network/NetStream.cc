@@ -9,6 +9,26 @@
 //! lib=RavlNet
 //! file="Ravl/OS/Network/NetStream.cc"
 
+#ifdef __sol2__
+#define __EXTENSIONS__ 1
+#endif
+
+#ifdef __sgi__
+#undef _POSIX_C_SOURCE
+#include <standards.h>
+#endif
+
+extern "C" {
+#include <unistd.h>
+#include <sys/types.h>
+#ifdef __sgi__
+#include <bstring.h>
+#endif
+#include <sys/time.h>
+#include <sys/select.h>
+#include <string.h>
+};
+
 #include "Ravl/OS/NetStream.hh"
 
 namespace RavlN {
@@ -17,7 +37,7 @@ namespace RavlN {
   
   //: Open net connection for output.
   
-  ONetStreamC::ONetStreamC(const StringC &filename,bool buffered,bool server) 
+  NetOStreamC::NetOStreamC(const StringC &filename,bool buffered,bool server) 
     : sock(filename,server)
   {
     if(!sock.IsOpen())
@@ -33,7 +53,7 @@ namespace RavlN {
   
   //: Use a socket to build new handle.
   
-  ONetStreamC::ONetStreamC(const SocketC &nsock,bool buffered)
+  NetOStreamC::NetOStreamC(const SocketC &nsock,bool buffered)
     : OStreamC(nsock.Fd(),buffered),
       sock(nsock)
   {
@@ -44,7 +64,7 @@ namespace RavlN {
   
   //: Open net connection for input
   
-  INetStreamC::INetStreamC(const StringC &filename,bool buffered,bool server) 
+  NetIStreamC::NetIStreamC(const StringC &filename,bool buffered,bool server) 
     : sock(filename,server)
   {
     if(!sock.IsOpen()) 
@@ -61,11 +81,35 @@ namespace RavlN {
   
   //: Use a socket to build new handle.
   
-  INetStreamC::INetStreamC(const SocketC &nsock,bool buffered) 
+  NetIStreamC::NetIStreamC(const SocketC &nsock,bool buffered) 
     : IStreamC(nsock.Fd(),buffered),
       sock(nsock)
   {
     sock.SetDontClose(true);
   }
   
+  //: Wait for data to arrive.
+  // Returns true if data is available, on a timeout or other interupt
+  // false is returned.
+
+  bool NetIStreamC::WaitForData(RealT timeout = -1) {
+    if(!sock.IsOpen())
+      return false;
+    fd_set readSet;
+    int fd = sock.Fd();
+    FD_ZERO(&readSet);
+    FD_SET(fd,&readSet);
+    int reterr;
+    if(timeout >= 0) {
+      struct timeval timelimit;
+      timelimit.tv_sec = (long) timeout;
+      timelimit.tv_usec = (long) ((RealT) (timeout - (RealT) timelimit.tv_sec) * 1000000);
+      reterr = select(fd+1,&readSet,0,0,&timelimit);
+    } else
+      reterr = select(fd+1,&readSet,0,0,0); // Infinite timeout.
+    if(reterr==0)
+      return false;
+    return FD_ISSET(fd,&readSet);
+  }
+
 }

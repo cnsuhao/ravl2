@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLNETSTREAM_HEADER
-#define RAVLNETSTREAM_HEADER 1
+#ifndef RAVL_NETSTREAM_HEADER
+#define RAVL_NETSTREAM_HEADER 1
 /////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlNet
@@ -23,18 +23,18 @@ namespace RavlN {
   //: Output stream to memory.
   // Wraps the standard library ostrstream class.
   
-  class ONetStreamC 
+  class NetOStreamC 
     : public OStreamC
   {
   public:
-    ONetStreamC()
+    NetOStreamC()
       {}
     //: Default constructor.
     
-    ONetStreamC(const StringC &filename,bool buffered=true,bool server = false);
+    NetOStreamC(const StringC &filename,bool buffered=true,bool server = false);
     //: Open net connection for output.
     
-    ONetStreamC(const SocketC &nsock,bool buffered=true);
+    NetOStreamC(const SocketC &nsock,bool buffered=true);
     //: Use a socket to build new handle.
     
     SocketC &Socket() 
@@ -50,19 +50,24 @@ namespace RavlN {
   //: Input stream from memory.
   // Wraps the standard library istrstream class.
   
-  class INetStreamC 
+  class NetIStreamC 
     : public IStreamC
   {
   public:
-    INetStreamC()
+    NetIStreamC()
       {}
     //: Default constructor
     
-    INetStreamC(const StringC &filename,bool buffered=true,bool server = false);
+    NetIStreamC(const StringC &filename,bool buffered=true,bool server = false);
     //: Open net connection for input
     
-    INetStreamC(const SocketC &nsock,bool buffered=true);
+    NetIStreamC(const SocketC &nsock,bool buffered=true);
     //: Use a socket to build new handle.
+    
+    bool WaitForData(RealT timeout = -1);
+    //: Wait for data to arrive.
+    // Returns true if data is available, on a timeout or other interupt
+    // false is returned.
     
     SocketC &Socket() 
       { return sock; }

@@ -27,11 +27,12 @@ int main(int nargs,char **argv) {
   cerr << "Setting up.\n";
   if(listen) {
     cerr << "Listening... \n";
-    INetStreamC ns(name,buffer,server);
+    NetIStreamC ns(name,buffer,server);
     if(!ns) {
       cerr << "Failed to open socket. \n";
       return -1;
     }
+    cerr << "Remotehost=" << ns.Socket().ConnectedHost() << "\n";
     OStreamC df(file,true,buffer);
     cerr << "Copying data. " << ns.good() << "\n";
     while(ns.good()) {
@@ -42,11 +43,12 @@ int main(int nargs,char **argv) {
     cerr << "Done. \n";
   } else {
     cerr << "Sending... \n";
-    ONetStreamC ns(name,buffer,server);
+    NetOStreamC ns(name,buffer,server);
     if(!ns) {
       cerr << "Failed to open socket. \n";
       return -1;
     }
+    cerr << "Remotehost=" << ns.Socket().ConnectedHost() << "\n";
     IStreamC df(file);
     cerr << "Copying data. " << ns.good() <<"\n";
     cerr << "Copied:" << df.CopyTo(ns) << "\n";
