@@ -207,7 +207,7 @@ namespace RavlN {
   inline 
   GraphEdgeDatC<EdgeT>::~GraphEdgeDatC()  {
 #if GRAPH_DEBUG
-    assert(IsValid());
+    RavlAssert(IsValid());
     CheckVal = 0x0f0f0f0f;
 #endif
   }
@@ -233,13 +233,13 @@ namespace RavlN {
 
   template<class NodeT,class EdgeT>
   GraphEdgeIterC<NodeT,EdgeT>::~GraphEdgeIterC() {
-    assert(IsEdgeValid());
+    RavlAssert(IsEdgeValid());
   }
   
   template<class NodeT,class EdgeT>
   inline const GraphEdgeIterC<NodeT,EdgeT> &
   GraphEdgeIterC<NodeT,EdgeT>::operator=(const GraphEdgeIterC<NodeT,EdgeT> &Oth)  {
-    assert(Oth.IsEdgeValid());
+    RavlAssert(Oth.IsEdgeValid());
     ((GraphEdgeBaseC &)(*this)) = Oth;
     return *this;
   }
@@ -247,22 +247,22 @@ namespace RavlN {
   template<class NodeT,class EdgeT>
   inline bool 
   GraphEdgeIterC<NodeT,EdgeT>::operator==(const GraphEdgeIterC<NodeT,EdgeT> &Oth) const  { 
-    assert(Oth.IsEdgeValid());
-    assert(IsEdgeValid());
+    RavlAssert(Oth.IsEdgeValid());
+    RavlAssert(IsEdgeValid());
     return GraphEdgeBaseC::operator==(Oth); 
   }
   
   template<class NodeT,class EdgeT>
   inline EdgeT &
   GraphEdgeIterC<NodeT,EdgeT>::Data(void) { 
-    assert(IsIterValid());
+    RavlAssert(IsIterValid());
     return EdgeDat().Data(); 
   }
   
   template<class NodeT,class EdgeT>
   inline const EdgeT &
   GraphEdgeIterC<NodeT,EdgeT>::Data(void) const  { 
-    assert(IsIterValid());
+    RavlAssert(IsIterValid());
     return EdgeDat().Data(); 
   }
   
@@ -273,7 +273,7 @@ namespace RavlN {
 
   template<class NodeT,class EdgeT>
   inline void GraphEdgeIterC<NodeT,EdgeT>::Del() {
-    assert(IsIterValid());
+    RavlAssert(IsIterValid());
     EdgeDatT *edge = &EdgeDat();
     Prev();
     delete edge;
@@ -282,68 +282,68 @@ namespace RavlN {
   template<class NodeT,class EdgeT>
   inline GraphNodeIterC<NodeT,EdgeT> 
   GraphEdgeIterC<NodeT,EdgeT>::Node1(void)  {
-    assert(IsIterValid());
+    RavlAssert(IsIterValid());
     return GraphNodeIterC<NodeT,EdgeT>(Node1());
   }
   
   template<class NodeT,class EdgeT>
   inline GraphNodeIterC<NodeT,EdgeT> 
   GraphEdgeIterC<NodeT,EdgeT>::Node2(void) {
-    assert(IsIterValid());
+    RavlAssert(IsIterValid());
     return GraphNodeIterC<NodeT,EdgeT>(Node2());
   }
   
   template<class NodeT,class EdgeT>
   inline NodeT &GraphEdgeIterC<NodeT,EdgeT>::Node1Data(void) { 
-    assert(IsIterValid());
+    RavlAssert(IsIterValid());
     return static_cast<GraphNodeDatC<NodeT,EdgeT> &>(GraphEdgeBaseC::Node1().NodeRep()).Data();
   }
   
   template<class NodeT,class EdgeT>
   inline NodeT &GraphEdgeIterC<NodeT,EdgeT>::Node2Data(void)  { 
-    assert(IsIterValid());
+    RavlAssert(IsIterValid());
     return static_cast<GraphNodeDatC<NodeT,EdgeT> &>(GraphEdgeBaseC::Node2().NodeRep()).Data();
   }
   
   template<class NodeT,class EdgeT>
   inline GraphNodeIterC<NodeT,EdgeT>
   GraphEdgeIterC<NodeT,EdgeT>::Source(void) {
-    assert(IsIterValid());
+    RavlAssert(IsIterValid());
     return GraphNodeIterC<NodeT,EdgeT>(GraphEdgeBaseC::Source());
   }
   
   template<class NodeT,class EdgeT>
   inline GraphNodeIterC<NodeT,EdgeT>
   GraphEdgeIterC<NodeT,EdgeT>::Target(void)  {
-    assert(IsIterValid());
+    RavlAssert(IsIterValid());
     return GraphNodeIterC<NodeT,EdgeT>(GraphEdgeBaseC::Target());
   }
   
   template<class NodeT,class EdgeT>
   inline GraphNodeHC<NodeT,EdgeT>
   GraphEdgeIterC<NodeT,EdgeT>::SourceH()  {
-    assert(IsIterValid());
+    RavlAssert(IsIterValid());
     return GraphNodeHC<NodeT,EdgeT>(SourceRep());
   }
   
   template<class NodeT,class EdgeT>
   inline GraphNodeHC<NodeT,EdgeT> 
   GraphEdgeIterC<NodeT,EdgeT>::TargetH()  {
-    assert(IsIterValid());
+    RavlAssert(IsIterValid());
     return GraphNodeHC<NodeT,EdgeT>(TargetRep());
   }
   
   template<class NodeT,class EdgeT>
   inline GraphNodeDatC<NodeT,EdgeT> &
   GraphEdgeIterC<NodeT,EdgeT>::SourceRep(void) {
-    assert(IsIterValid());
+    RavlAssert(IsIterValid());
     return static_cast<GraphNodeDatC<NodeT,EdgeT> &>(GraphEdgeBaseC::SourceRep());
   }
   
   template<class NodeT,class EdgeT>
   inline GraphNodeDatC<NodeT,EdgeT> &
   GraphEdgeIterC<NodeT,EdgeT>::TargetRep(void)  {
-    assert(IsIterValid());
+    RavlAssert(IsIterValid());
     return static_cast<GraphNodeDatC<NodeT,EdgeT> &>(GraphEdgeBaseC::TargetRep());
   }
   

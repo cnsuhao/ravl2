@@ -18,13 +18,12 @@
 #include "Ravl/String.hh"
 #include "Ravl/Assert.hh"
 #include "Ravl/HandleRefCounter.hh"
+#include "Ravl/Exception.hh"
 #if RAVL_HAVE_ANSICPPHEADERS
 #include <iostream>
 #else
 #include <iostream.h>
 #endif
-#include "Ravl/Exception.hh"
-#include <iostream.h>
 #include <stdarg.h>
 
 #if !RAVL_HAVE_STREAMSIZE

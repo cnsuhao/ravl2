@@ -77,7 +77,7 @@ namespace RavlN {
 	  at = it.OtherNode();
 	}
       }
-      assert(back.IsValid()); // Just to check sanity.
+      RavlAssert(back.IsValid()); // Just to check sanity.
       ret.InsFirst(back);
     }
     return ret;

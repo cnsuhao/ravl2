@@ -1159,7 +1159,6 @@ namespace RavlN {
     }
     x.rep->s[i] = 0;
     x.rep->len = i;
-    ios_base::iostate new_state = s.rdstate();
     int new_state = s.rdstate();
     if (i == 0) new_state |= ios::failbit;
     if (ch == EOF) new_state |= ios::eofbit;

@@ -34,7 +34,7 @@ namespace RavlN {
   public:
     inline HSetC()
       : set(true)
-      { assert(set.IsValid()); }
+      { RavlAssert(set.IsValid()); }
     //: Default constructor.
     
     inline HSetC(istream &in);
@@ -249,13 +249,13 @@ namespace RavlN {
   inline 
   HSetC<T>::HSetC(istream &in)
     : set(in)
-  { assert(set.IsValid()); }
+  { RavlAssert(set.IsValid()); }
 
   template<class T>
   inline 
   HSetC<T>::HSetC(const HSetC<T> &Oth) 
     : set(Oth.set) 
-  { assert(set.IsValid()); }
+  { RavlAssert(set.IsValid()); }
 
   template<class T>
   inline 
@@ -292,14 +292,14 @@ namespace RavlN {
     IntT sel = RandomInt() % Size();
     HashIterC<T,EmptyC> it(set.Data());
     for(;sel > 0 && it.IsElm();sel--,it.Next()) ;
-    assert(it.IsElm());
+    RavlAssert(it.IsElm());
     return it.Key();
   }
   
   template<class T>
   const T &HSetC<T>::First() const {
     HashIterC<T,EmptyC> it(set.Data());
-    assert(it.IsElm());  
+    RavlAssert(it.IsElm());  
     return it.Key();
   }
   
