@@ -19,7 +19,7 @@
 namespace RavlImageN {
   
   //! userlevel=Normal
-  //: Subsample by 2 in each direction.
+  //: Function to subsample by 2 in each direction.
   
   template<class PixelT>
   ImageC<PixelT> SubSample22(const ImageC<PixelT> &Img) {
