@@ -14,6 +14,7 @@
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
+#include "Ravl/GUI/Widget.hh"
 
 #if RAVL_USE_GTK2
 
@@ -23,7 +24,8 @@ extern "C" {
 
 namespace RavlGUIN {
   using namespace RavlImageN;
-
+  using namespace RavlN;
+  
   //: Image buffer
   // GTK-2.x and above only.
   

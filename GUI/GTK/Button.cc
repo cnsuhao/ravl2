@@ -15,6 +15,7 @@
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/GUI/WidgetStyle.hh"
 #include "Ravl/Stream.hh"
+#include "Ravl/GUI/Pixbuf.hh"
 #include <gtk/gtk.h>
 
 #define DODEBUG 0
@@ -25,6 +26,8 @@
 #endif
 
 namespace RavlGUIN {
+
+  PixbufC pixbuf_dummy_var;
   
   // Default constructor.
   

@@ -56,9 +56,9 @@ namespace RavlGUIN {
     }
     
     if(title == "")
-      widget = gtk_aspect_frame_new(0,alignx,aligny,aspect,obeyChild);
+      widget = gtk_aspect_frame_new(0,static_cast<gfloat>(alignx),static_cast<gfloat>(aligny),static_cast<gfloat>(aspect),obeyChild);
     else
-      widget = gtk_aspect_frame_new(title.chars(),alignx,aligny,aspect,obeyChild);
+      widget = gtk_aspect_frame_new(title.chars(),static_cast<gfloat>(alignx),static_cast<gfloat>(aligny),static_cast<gfloat>(aspect),obeyChild);
     if(border != 0)
       gtk_container_set_border_width (GTK_CONTAINER (widget), border);
     gtk_frame_set_shadow_type (GTK_FRAME(widget),shadow);
@@ -83,7 +83,7 @@ namespace RavlGUIN {
     RealT uar = aspect;
     if(useTrueAspect)
       uar *= screenCorrection;
-    gtk_aspect_frame_set (GTK_ASPECT_FRAME(widget),alignx,aligny,uar,obeyChild);
+    gtk_aspect_frame_set (GTK_ASPECT_FRAME(widget),static_cast<gfloat>(alignx),static_cast<gfloat>(aligny),static_cast<gfloat>(uar),obeyChild);
   }
   
   //: Set aspect ratio.
@@ -96,7 +96,7 @@ namespace RavlGUIN {
     RealT useRatio = aspect;
     if(useTrueAspect)
       useRatio *= screenCorrection;
-    gtk_aspect_frame_set (GTK_ASPECT_FRAME(widget),alignx,aligny,useRatio,obeyChild);
+    gtk_aspect_frame_set (GTK_ASPECT_FRAME(widget),static_cast<gfloat>(alignx),static_cast<gfloat>(aligny),static_cast<gfloat>(useRatio),obeyChild);
     return true;
   }
   

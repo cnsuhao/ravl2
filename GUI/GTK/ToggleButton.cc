@@ -123,7 +123,7 @@ namespace RavlGUIN {
     initState = val;
     if(widget == 0)
       return true;
-    if(((bool) gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget))) != val)
+    if((gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget)) != 0) != val)
       gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(widget),val);
     return true;
   }

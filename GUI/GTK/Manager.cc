@@ -334,7 +334,7 @@ namespace RavlGUIN {
       cerr << "ManagerC::Queue(), Called after shutdown started. \n";
       return ;
     }
-    TimedTriggerQueueC teQueue(20);
+    TimedTriggerQueueC teQueue(true);
     teQueue.Schedule(t,se);
   }
   

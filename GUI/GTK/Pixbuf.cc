@@ -23,9 +23,9 @@
 #endif
 
 namespace RavlGUIN {
-
-#if RAVL_USE_GTK2
   
+#if RAVL_USE_GTK2
+
   static void DeleteImageRef(guchar *pixels, gpointer data) {
     ONDEBUG(cerr << "DeleteImageRef(), Called. \n");
     delete ((ImageC<ByteRGBValueC> *) data);

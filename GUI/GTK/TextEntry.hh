@@ -31,7 +31,7 @@ namespace RavlGUIN {
     : public WidgetBodyC
   {
   public:
-    TextEntryBodyC(const StringC &ntext,IntT MaxLen = -1,bool sigAllChanges = false,IntT editable = true, IntT xsize = -1, IntT ysize = -1);
+    TextEntryBodyC(const StringC &ntext,IntT MaxLen = -1,bool sigAllChanges = false,bool editable = true, IntT xsize = -1, IntT ysize = -1);
     //: Constructor.
     // The inital content of the entry is set to ntext.
     // If MaxLen is set to a negative number, the length is unlimited.

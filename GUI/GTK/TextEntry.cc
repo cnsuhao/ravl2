@@ -27,7 +27,7 @@ namespace RavlGUIN {
   { entry->Entry(gtk_entry_get_text(GTK_ENTRY(entry->Widget()))); }
   
   
-  TextEntryBodyC::TextEntryBodyC(const StringC &ntext,IntT nMaxLen,bool nsigAllChanges,IntT editable, IntT xdim,IntT ydim)
+  TextEntryBodyC::TextEntryBodyC(const StringC &ntext,IntT nMaxLen,bool nsigAllChanges,bool editable, IntT xdim,IntT ydim)
     : text(ntext),
       maxLen(nMaxLen),
       sigAllChanges(nsigAllChanges),
