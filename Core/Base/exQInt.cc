@@ -65,8 +65,8 @@ int main(int nargs,char **argv) {
 	  cerr << "*** Floor test failed. *** \n";
 	}
       } else {
-	cerr << "Round " << values[i] << " N=" << Round(values[i])  << " Q=" << QRound(values[i]) << " round=" << round(values[i]) << "\n";
-	if(round(values[i]) != QRound(values[i])) {
+	cerr << "Round " << values[i] << " N=" << Round(values[i])  << " Q=" << QRound(values[i]) << " \n";
+	if(Round(values[i]) != QRound(values[i])) {
 	  cerr << "test failed. \n";
 	}
       }
