@@ -21,7 +21,7 @@
 namespace RavlImageN {
   
   //! userlevel=Normal
-  //: 2D Convolution
+  //: 2D Correlation
   
   template<class InPixelT,class OutPixelT = InPixelT,class KernelPixelT = InPixelT,class SumTypeT = KernelPixelT>
   class Correlate2dC {
