@@ -371,6 +371,24 @@ namespace RavlGUIN {
     }
     return sig;
   }
+  
+  //: Access changed signal for a column
+  
+  Signal0C &TreeViewBodyC::ChangedSignal(const StringC &colName,UIntT subColNo) {
+    IntT colNum = ColumnName2Number(colName);
+    RavlAssertMsg(colNum >= 0, "TreeViewBodyC::ChangedSignal() unknown column");
+    TreeViewColumnC &col = displayColumns[colNum];
+    TreeViewColumnRendererC &colRender = col.Renderers()[subColNo];
+    Signal0C &sig = colRender.SignalChanged();
+    if(!sig.IsValid()) {
+      if(colRender.RenderType() == "bool") {	
+	sig = Signal1C<TreeModelIterC>(TreeModelIterC());
+      } else if(colRender.RenderType() == "text") {
+	sig = Signal2C<TreeModelIterC,StringC>(TreeModelIterC(),StringC(""));
+      }
+    }
+    return sig;
+  }
 
 
   //: Sort treeview by column colNum.

@@ -255,6 +255,9 @@ namespace RavlGUIN {
     Signal0C &ChangedSignal(UIntT colNum,UIntT subColNo = 0);
     //: Access changed signal for a column
     
+    Signal0C &ChangedSignal(const StringC &colName,UIntT subColNo = 0);
+    //: Access changed signal for a column
+    
     TreeModelIterC Path2Iter(const char *pathName)
     { return treeModel.Path2Iter(pathName); }
     //: Get row iterator from path string.
@@ -517,6 +520,10 @@ namespace RavlGUIN {
     
     Signal0C &ChangedSignal(UIntT colNum,UIntT subColNo = 0)
     { return Body().ChangedSignal(colNum,subColNo); }
+    //: Access changed signal for a column
+    
+    Signal0C &ChangedSignal(const StringC &colName,UIntT subColNo = 0)
+    { return Body().ChangedSignal(colName,subColNo); }
     //: Access changed signal for a column
     
     TreeModelIterC Path2Iter(const char *pathName)
