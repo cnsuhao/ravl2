@@ -505,6 +505,7 @@ namespace RavlGUIN {
   };
   
 }
-
+#else 
+#warning TreeViewC is not supported (requires gtk2) 
 #endif
 #endif

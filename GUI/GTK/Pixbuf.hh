@@ -58,6 +58,7 @@ namespace RavlGUIN {
   };
   
 }
-
+#else 
+#warning PixbufC is not supported (requires gtk2)
 #endif
 #endif

@@ -498,5 +498,7 @@ namespace RavlGUIN {
   
 }
 
+#else 
+#warning TreeModelC is not supported (requires gtk2)
 #endif
 #endif

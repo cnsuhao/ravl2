@@ -116,6 +116,7 @@ namespace RavlGUIN {
   };
   
 }
+#else 
+#warning TreeStoreC is not supported ( requires gtk2 ) 
 #endif
-
 #endif

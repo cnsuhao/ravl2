@@ -70,6 +70,7 @@ namespace RavlGUIN {
   };
   
 }
-
+#else 
+#warning ListStoreC is NOT supported (requires gtk2 ) 
 #endif
 #endif
