@@ -203,11 +203,11 @@ namespace RavlGUIN {
   }
   
   inline
-  ToggleButtonC CheckButton(const char *label,bool initState)
+  CheckButtonC CheckButton(const char *label,bool initState)
   { return CheckButtonC(label,initState); }
   
   template<class ObjT>
-  ToggleButtonC CheckButton(const char *label,bool initState,const ObjT &obj,bool (ObjT::*func)(bool &))
+  CheckButtonC CheckButton(const char *label,bool initState,const ObjT &obj,bool (ObjT::*func)(bool &))
   { 
     CheckButtonC ret = CheckButtonC(label,initState);
     Connect(ret.SigChanged(),obj,func);
@@ -224,7 +224,7 @@ namespace RavlGUIN {
   }
   
   template<class ObjT>
-  ToggleButtonC CheckButton(const char *label,const char *tooltip,bool initState,const ObjT &obj,bool (ObjT::*func)(bool &))
+  CheckButtonC CheckButton(const char *label,const char *tooltip,bool initState,const ObjT &obj,bool (ObjT::*func)(bool &))
   { 
     CheckButtonC ret = CheckButtonC(label,initState);
     ret.SetToolTip(tooltip);
@@ -251,7 +251,7 @@ namespace RavlGUIN {
   }
   
   template<class ObjT>
-  ToggleButtonC CheckButtonR(const char *label,bool initState,ObjT &obj,bool (ObjT::*func)(bool &))
+  CheckButtonC CheckButtonR(const char *label,bool initState,ObjT &obj,bool (ObjT::*func)(bool &))
   { 
     CheckButtonC ret = CheckButtonC(label,initState);
     ConnectRef(ret.SigChanged(),obj,func);
@@ -259,9 +259,9 @@ namespace RavlGUIN {
   }
 
   template<class ObjT,class DataT>
-  ToggleButtonC CheckButtonR(const char *label,bool initState,ObjT &obj,bool (ObjT::*func)(bool &,DataT &dat),const DataT &dat)
+  CheckButtonC CheckButtonR(const char *label,bool initState,ObjT &obj,bool (ObjT::*func)(bool &,DataT &dat),const DataT &dat)
   { 
-    ToggleButtonC ret = CheckButtonC(label,initState);
+    CheckButtonC ret = CheckButtonC(label,initState);
     ConnectRef(ret.SigChanged(),obj,func,initState,dat);
     return ret;    
   }
@@ -276,7 +276,7 @@ namespace RavlGUIN {
   }
   
   template<class ObjT>
-  ToggleButtonC CheckButtonR(const char *label,const char *tooltip,bool initState,ObjT &obj,bool (ObjT::*func)(bool &))
+  CheckButtonC CheckButtonR(const char *label,const char *tooltip,bool initState,ObjT &obj,bool (ObjT::*func)(bool &))
   { 
     CheckButtonC ret = CheckButtonC(label,initState);
     ret.SetToolTip(tooltip);
