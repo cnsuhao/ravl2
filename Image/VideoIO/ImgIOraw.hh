@@ -1,0 +1,10 @@
+#ifndef RAWIMAGEIO_HEADER
+#define RAWIMAGEIO_HEADER 1
+//////////////////////////////////////////////////////////////////
+//! rcsid="$Id$"
+
+
+
+
+
+#endif
