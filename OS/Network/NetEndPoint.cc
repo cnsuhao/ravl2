@@ -9,6 +9,7 @@
 //! lib=RavlNet
 //! file="Ravl/OS/Network/NetEndPoint.cc"
 
+#include "Ravl/config.h"
 #include "Ravl/DP/FileFormatIO.hh"
 #include "Ravl/OS/NetEndPoint.hh"
 #include "Ravl/OS/NetStream.hh"
@@ -284,10 +285,15 @@ namespace RavlN {
 	if(!msg.IsValid()) {
 	  cerr << "NetEndPointBodyC::RunDecode(), WARNING: Don't know how to decode message type " << msgTypeID << " \n";
 	  continue;
-	}
-	ONDEBUG(cerr << "Decoding incoming packet. Type: '" << msg.Name() << "'\n");
-	msg.Decode(me,is);
+	}  
+	ONDEBUG(cerr << "Decoding incoming packet. Type: '" << msg.Name() << "'\n"); 
+	msg.Decode(me,is); 
+
+#if RAVL_COMPILER_MIPSPRO // ignore Tell() = -1 on MIPS 
+  	if(  ((UIntT) is.Tell() != pkt.Size()) && (is.Tell() != -1) )  {
+#else
 	if((UIntT) is.Tell() != pkt.Size()) {
+#endif 
 	  cerr << "WARNING: Not all of packet processed Stream:" << is.Tell() << " Packet size:" << pkt.Size() <<"\n"; 
 	}
       }
