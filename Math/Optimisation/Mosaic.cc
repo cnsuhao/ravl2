@@ -12,7 +12,7 @@
 #include "Ravl/ObservationHomog2dPoint.hh"
 #include "Ravl/LevenbergMarquardt.hh"
 #include "Ravl/StateVectorHomog2d.hh"
-#include "WarpProjective.hh"
+#include "Ravl/Image/WarpProjective.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
 #include "Ravl/Image/ImageConv.hh"
 #include "Ravl/IO.hh"
