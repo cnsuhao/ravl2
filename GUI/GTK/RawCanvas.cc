@@ -98,7 +98,7 @@ namespace RavlGUIN {
   //: Draw a rectangle.
   
   void RawCanvasBodyC::GUIDrawRectangle(GdkGC *gc,Index2dC topLeft,Index2dC bottomRight,bool fill) {
-    Index2dC size = (bottomRight - topLeft) - Index2dC(1,1);
+    Index2dC size = (bottomRight - topLeft) + Index2dC(1,1);
     gdk_draw_rectangle(GUIDrawWindow(),
 		       gc,fill,
 		       topLeft[1].V(),topLeft[0].V(),
