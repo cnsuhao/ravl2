@@ -317,6 +317,7 @@ namespace RavlN {
     ONDEBUG(cerr  << "Binding name. \n");
     if(bind(fd,(struct sockaddr*)&sin, sizeof(sockaddr)) < 0) {
       cerr << "Bind failed. " << errno << "\n";
+      Close();
       return -1;
     }
     return fd;
