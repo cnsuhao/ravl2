@@ -43,8 +43,13 @@ namespace RavlGUIN {
     : selMode(nSelMode)
   {
     //signals["list_activate"] = Signal1C<StringC>("-none-");
-    for(ConstDLIterC<Tuple2C<IntT,StringC> > it(nChoices);it.IsElm();it.Next()) 
+#if 1
+    for(ConstDLIterC<Tuple2C<IntT,StringC> > it(nChoices);it.IsElm();it.Next())
+      children.InsLast(Tuple2C<IntT,WidgetC>(it->Data1(),LabelC(it->Data2())));
+#else
+    for(ConstDLIterC<Tuple2C<IntT,StringC> > it(nChoices);it.IsElm();it.Next())
       AppendLine(it->Data1(),it->Data2());
+#endif
   }
   
   //: Constructor from a list of strings.
@@ -152,7 +157,7 @@ namespace RavlGUIN {
   bool ListBodyC::Create() {
     if(widget != 0)
       return true; // Done already!
-    
+    ONDEBUG(cerr << "ListBodyC::Create(), Called. \n");
     widget = gtk_list_new();
     gtk_list_set_selection_mode(GTK_LIST(widget),selMode);  
     for(DLIterC<Tuple2C<IntT,WidgetC> > it(children);it;it++)
@@ -160,6 +165,7 @@ namespace RavlGUIN {
     //gtk_signal_connect(GTK_OBJECT(GTK_COMBO(widget)->entry), "changed",
     //GTK_SIGNAL_FUNC (combo_activate),& signals["combo_activate"]);
     ConnectSignals();
+    ONDEBUG(cerr << "ListBodyC::Create(), Done. \n");
     return true;
   }
   

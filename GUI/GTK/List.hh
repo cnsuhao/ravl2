@@ -28,6 +28,7 @@ namespace RavlGUIN {
   
   //! userlevel=Develop
   //: List body.
+  // NOTE: This widget has been replaced by CListC. Use CListC in all new code. <br>
   // GtkSelectionMode:
   //  GTK_SELECTION_SINGLE
   //  GTK_SELECTION_BROWSE
@@ -85,7 +86,8 @@ namespace RavlGUIN {
   };
   
   //! userlevel=Normal
-  //: List handle.
+  //: List widget.
+  // NOTE: This widget has been replaced by CListC. Use CListC in all new code.
   
   class ListC
     : public WidgetC

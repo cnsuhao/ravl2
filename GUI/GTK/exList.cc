@@ -29,12 +29,15 @@ int main(int nargs,char *args[])
   //MenuBarC menuBar;
   //menuBar +
   ListC aList(sel);
+  
   aList.AppendLine(6,StringC("Hi!!!"));
   win.Add(aList);
-  aList.AppendLine(5,StringC("Hi2"));
   
   win.Show();
   aList.RemoveLine(2);
-  Manager.Start();
   
+  Manager.Execute();
+  aList.AppendLine(5,StringC("Hi2"));
+  
+  Manager.Wait();  
 }
