@@ -12,6 +12,7 @@
 #include "Ravl/SArr1Iter3.hh"
 #include "Ravl/BinStream.hh"
 #include "Ravl/Stream.hh"
+#include "Ravl/SArr1Iter2.hh"
 
 namespace RavlN {
   
@@ -88,7 +89,7 @@ namespace RavlN {
   
   RealT DistanceRobustBodyC::Magnitude(const VectorC &d1) const {
     VectorC vec(d1.Size());
-    for(SArray1dIter2C<RealT,RealT> it(vec,d1);it;it++) {
+    for(BufferAccessIter2C<RealT,RealT> it(vec,d1);it;it++) {
       if(Abs(it.Data2()) > clipLimit)
 	it.Data1() = Sign(it.Data2()) * clipLimit;
       else
@@ -101,7 +102,7 @@ namespace RavlN {
   
   MatrixC DistanceRobustBodyC::Jacobian (const VectorC &X) const {
     VectorC vec(X.Size());
-    for(SArray1dIter2C<RealT,RealT> it(vec,X);it;it++) {
+    for(BufferAccessIter2C<RealT,RealT> it(vec,X);it;it++) {
       if(Abs(it.Data2()) > clipLimit)
 	it.Data1() = Sign(it.Data2()) * clipLimit;
       else

@@ -58,7 +58,7 @@ namespace RavlN {
 
   VectorC FuncPDFNormalBodyC::Apply(const VectorC &data) const {
     VectorC ret(dists.Size());
-    for(SArray1dIter2C<RealT,NormalC> it(ret,dists);it;it++)
+    for(BufferAccessIter2C<RealT,NormalC> it(ret,dists);it;it++)
       it.Data1() = it.Data2().Evaluate(data);
     return ret;
   }

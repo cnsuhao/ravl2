@@ -38,7 +38,7 @@ namespace RavlN {
       }
       
       VectorC nv(vs);
-      for(SArray1dIterC<RealT> it(nv);it;it++)
+      for(BufferAccessIterC<RealT> it(nv);it;it++)
 	in >> *it;
       // Read label.
       UIntT label;

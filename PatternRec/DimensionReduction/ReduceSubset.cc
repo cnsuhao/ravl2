@@ -27,7 +27,7 @@ namespace RavlN {
   
   VectorC ReduceSubsetBodyC::Apply(const VectorC &data) {
     VectorC ret(inds.Size());
-    for(SArray1dIter2C<IndexC,RealT> it(inds,ret);it;it++)
+    for(BufferAccessIter2C<IndexC,RealT> it(inds,ret);it;it++)
       it.Data2() = data[it.Data1()];
     return ret;
   }
