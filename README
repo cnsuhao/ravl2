@@ -13,6 +13,18 @@ been issued under the more restrictive GNU GENERAL PUBLIC LICENSE, the
 headers attached to each of the files in the project indicate which of 
 these apply.
 
+It should be noted that this library is still in development so interfaces 
+may change in future releases. RAVL is split up into modules some of which
+are more stable than others, following is summary of the current status.
+
+Stable     : QMake Core OS 
+Development: Math PatternRec Image 3D Logic SourceTools GUI Applications
+
+Contributions to the library or suggestions on how it can be improved 
+are welcome they can be posted on the sourceforge web pages 
+( http://sourceforge.net/projects/ravl ) or sent directly to me at
+C.Galambos@eim.surrey.ac.uk
+
 
 INSTALLATION UNIX
 -----------------
@@ -26,9 +38,10 @@ INSTALLATION UNIX
 
 - RAVL is getting quite large, if you don't want to compile all the modules
   you can remove the '.r' from the end of the directory names in the root 
-  defs.mk file.  In general modules later in the list depend on those found 
-  earlier so care must be with which modules are disabled.  Required modules
-  for particular tools can be found in the documentation. (Or will be soon!)
+  defs.mk file.  In general modules later in the list generally depend on 
+  those found earlier so care must be with which modules are disabled.  
+  Required modules for particular tools can be found in the documentation. 
+  (Or will be soon...)
 
 - At the moment you have to manualy configure where to look
   for the compiler. This is done by setting CC and CXX to the locations of
@@ -52,6 +65,13 @@ INSTALLATION UNIX
 
 - The appropriate version of perl (Tested with 5.005_03) must be in your 
   default path.
+
+- If you want to compile the GUI code 'gtk-config' and 'glib-config' should
+  be on your path before running the install script. If you don't need the
+  module just remove '.r' after the directory name in the root defs.mk file.
+  If you do this you may need to disable some programs in the Applications
+  directory, this can be done by modifying the defs.mk in this directory in 
+  a similar way.
 
 To install go the root RAVL directory and type:
 
@@ -78,6 +98,10 @@ be found at:
 
   http://www.vapourtech.com/dev/software.php
 
+The project file for Visual C++ can be found in the MSVC directory. There
+is a problem with the dependency checking as if a project include two
+different libraries that both include a third you will get multiply
+defined symbol warnings. These can be safely ignored.
 
 
 
