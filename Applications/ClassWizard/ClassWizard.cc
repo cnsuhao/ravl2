@@ -213,6 +213,10 @@ namespace RavlN {
   
   bool ClassWizardBodyC::WriteHandleConstructor(SourceCursorC &sc,ObjectC &obj,const StringC &handleBaseClass) {
     ONDEBUG(cerr << "ClassWizardBodyC::WriteHandleConstructor(). \n");
+    if(obj.Name().contains('~')) {
+      cerr << "ClassWizardBodyC::WriteHandleConstructor(), Template method is a destructor!. \n";
+      return false;
+    }
     RCHashC<StringC,ObjectC> templSub;
     MethodC method(obj);
     StringC funcArgs;
@@ -254,6 +258,8 @@ namespace RavlN {
     ClassC bodyClass(bodyObj);
     // Assume we're in the right namespace.
     
+    StringC bodyClassName = bodyObj.Name();
+    //ONDEBUG(err << "ClassWizardBodyC::WriteHandleClass() Body=" <<  << " Classname=" << className << " Body=" << bodyClassName << "\n");
     sc += "//! userlevel=normal";
     if(bodyObj.Comment().Header().IsEmpty())
       sc += StringC("//: Handle for ") + bodyClass.Name();
@@ -305,9 +311,10 @@ namespace RavlN {
 	continue;
       if(it->Var("access") != "public")
 	continue;
-      if(it->Var("constructor") == "true")
-	WriteHandleConstructor(sc,*it,mainBaseClass);
-      else
+      if(it->Var("constructor") == "true") {
+	if(!it->Name().contains('~'))
+	  WriteHandleConstructor(sc,*it,mainBaseClass);
+      } else
 	WriteHandleMethod(sc,*it);
       sc += "";
     }
@@ -316,7 +323,7 @@ namespace RavlN {
     sc.AddIndent(1);
     
     //: Write body constructor.
-    sc += className + "(" + mainBaseClass + " &bod)";
+    sc += className + "(" + bodyClassName + " &bod)";
     sc += StringC(" : ") + mainBaseClass + "(bod)";
     sc += "{}";
     sc += "//: Body constructor. ";
@@ -482,9 +489,10 @@ namespace RavlN {
 	  continue;
 	}
 	sc += "";
-	if(isConstructor)
-	  WriteHandleConstructor(sc,*it,mainBaseClass);
-	else
+	if(isConstructor) {
+	  if(!it->Name().contains('~'))
+	    WriteHandleConstructor(sc,*it,mainBaseClass);
+	} else
 	  WriteHandleMethod(sc,*it);
 	continue;
       }

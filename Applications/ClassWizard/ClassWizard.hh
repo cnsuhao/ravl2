@@ -33,6 +33,9 @@ namespace RavlN {
     {}
     //: Constructor.
     
+    ~WoopBodyC();
+    //: Destructor
+    
     IntT N() const
     { return n; }
     //: Get n
