@@ -250,6 +250,8 @@ namespace RavlN {
     if(binaryMod) 
       fmode |= ios::binary;
 #endif
+    fmode |= ios::binary;
+    
     if(append)
       fmode |= ios::app;  
 #if RAVL_COMPILER_GCC3
@@ -401,6 +403,7 @@ namespace RavlN {
     in = ifs;
 #else        
     ifstream *ifstrm = 0;
+    fmode |= ios::binary;
     Init(ifstrm = new ifstream(filename,static_cast<std::ios_base::openmode>(fmode)),filename);
     in = ifstrm;
 #endif //  RAVL_HAVE_INTFILEDESCRIPTORS

@@ -33,7 +33,7 @@
 /********************************************************************************/
 /***** Detect the OS, compiler and processor type being used. *******************/
 
-#if !defined(WIN32)
+#if  (!defined(WIN32)  || defined(__MINGW__))
 #define RAVL_COMPILER_GCC defined(__GNUC__)                        /* GNU compiler ? */
 #define RAVL_COMPILER_GCC2 (defined(__GNUC__) && (__GNUC__ < 3))   /* gcc 2.x */
 #define RAVL_COMPILER_GCC3 (defined(__GNUC__) && (__GNUC__ >= 3))  /* gcc 3.x */
@@ -41,7 +41,7 @@
 #define RAVL_COMPILER_VISUALCPP (!defined(__GNUC__) && defined(WIN32)) /* Visual C++ */
 #define RAVL_COMPILER_VISUALCPPNET (!defined(__GNUC__) && defined(WIN32) && (_MSC_VER >= 1300)) /* Visual C++ .NET*/
 
-#define RAVL_CPU_IX86    defined(__i386__)      /* 386 base varient. */
+#define RAVL_CPU_IX86    (defined(__i386__)  || defined(__MINGW__))
 #define RAVL_CPU_SPARC   defined(__sparc)       /* sun sparc based system. */
 #define RAVL_CPU_SPARC_V9 defined(__sparc_v9__)  /* sparc v9 instruction set */
 /* for __sparc_v9__ to be set the appropriate compile time options may have to be applied */
@@ -52,14 +52,15 @@
 #define RAVL_CPU_ARM defined(__arm)   /* arm based system */
 
 #define RAVL_OS_LINUX   defined(__linux__)  /* Linux based OS. */
-#define RAVL_OS_WIN32   defined(WIN32)      /* Windows platform. */
 #define RAVL_OS_IRIX    defined(__sgi__)    /* IRIX.      */
 #define RAVL_OS_SOLARIS defined(__sun)      /* Solaris.   */
 #define RAVL_OS_SOLARIS7 defined(__sol2_7__)/* Solaris. 2.5.7 */  
 #define RAVL_OS_SOLARIS9 defined(__sol2_9__)/* Solaris. 2.5.9 */   
-
 #define RAVL_OS_OSF     defined(__osf__)   /* OSF.       */
 #define RAVL_OS_CYGWIN  defined(__CYGWIN__) /* Cygwin is a windows/unix hybrid */
+#define RAVL_OS_MINGW defined(__MINGW__) /* MINGW is gcc for windows */
+
+
 #else
 /* Unfortunatly the Visual C++ preprocessor doesn't accept defined() as anything but part 
    of an #if or #elif so the compiler selection breaks. Here are the settings for a windows box.
@@ -83,10 +84,11 @@
 #define RAVL_OS_SOLARIS 0
 #define RAVL_OS_OSF     0
 #define RAVL_OS_CYGWIN  0
+#define RAVL_OS_MINGW 0
 #endif
 
-#define RAVL_OS_UNIX !RAVL_OS_WIN32       /* a unix style system */
-#define RAVL_OS_POSIX !RAVL_OS_WIN32      /* POSIX complient OS. */
+#define RAVL_OS_UNIX !RAVL_OS_WIN32  && !RAVL_OS_MINGW     /* a unix style system */
+#define RAVL_OS_POSIX !RAVL_OS_WIN32 && !RAVL_OS_MINGW      /* POSIX complient OS. */
 
 /* Processor variants. */
 
@@ -125,7 +127,7 @@
 #define RAVL_HAVE_NETDB_H      RAVL_OS_UNIX
 #define RAVL_HAVE_UNISTD_H     RAVL_OS_UNIX       /* have unistd.h */
 #define RAVL_HAVE_SYS_SOCKET_H RAVL_OS_UNIX       /* have sys/socket.h  */
-#define RAVL_HAVE_TERMIOS      RAVL_OS_UNIX       /* have termios for controlling serial ports. */
+#define RAVL_HAVE_TERMIOS      RAVL_OS_UNIX   && !RAVL_OS_POSIX   /* have termios for controlling serial ports. */
 #define RAVL_USE_TIMEB_H       RAVL_OS_WIN32
 #define RAVL_HAVE_PROCESS_H    RAVL_OS_WIN32      /* have process.h */
 #define RAVL_USE_WINSOCK       RAVL_OS_WIN32
@@ -135,20 +137,20 @@
 
 #define RAVL_HAVE_YIELD        (RAVL_OS_WIN32 || RAVL_OS_SOLARIS)   /* have yield() */
 #define RAVL_HAVE_SCHED_YIELD  (!RAVL_OS_WIN32 && !RAVL_OS_SOLARIS) /* have sched_yield() */
-#define RAVL_HAVE_SCHED_H      !RAVL_OS_WIN32     /* have <sched.h> */
+#define RAVL_HAVE_SCHED_H      (!RAVL_OS_WIN32     && !RAVL_OS_MINGW) /* have <sched.h> */
 #define RAVL_HAVE_THREAD_H     RAVL_OS_SOLARIS    /* have <thread.h> (solaris threads.) */
 #define RAVL_HAVE_THR_YIELD    RAVL_OS_SOLARIS    /* have thr_yield() (solaris threads.)  */
 #define RAVL_READDIR_R_NOBUFF  RAVL_OS_OSF        /* readdir_r has no buffer argument. */
 #define RAVL_TIMET_IS_INT      !RAVL_OS_IRIX      /* time_t is an int or long. IRIX uses a struct, effects stat() results. */
-#define RAVL_HAVE_PWD_H        (RAVL_OS_UNIX || RAVL_OS_CYGWIN)       /* have <pwd.h> */
+#define RAVL_HAVE_PWD_H        (!RAVL_OS_WIN32 && !RAVL_OS_MINGW)       /* have <pwd.h> */
 #define RAVL_ERRNO_IS_FUNC     0                  /* errno should be used as function. i.e. errno() for use with threaded code. */
-#define RAVL_HAVE_GETPWNAM_R   (!RAVL_OS_LINUX && !RAVL_OS_CYGWIN)  /* have reentrant getpwnam_r */
-#define RAVL_HAVE_GETPWUID_R   (!RAVL_OS_LINUX && !RAVL_OS_CYGWIN)  /* have reentrant getpwnam_r */
+#define RAVL_HAVE_GETPWNAM_R   (!RAVL_OS_LINUX && !RAVL_OS_CYGWIN && !RAVL_OS_MINGW)  /* have reentrant getpwnam_r */
+#define RAVL_HAVE_GETPWUID_R   (!RAVL_OS_LINUX && !RAVL_OS_CYGWIN && !RAVL_OS_MINGW)  /* have reentrant getpwnam_r */
 #define RAVL_HAVE_GETPW_RET_PW !RAVL_OS_OSF     /* Pass pointer to result ptr as last argument for  getpwuid_r, getpwnam_r */
 #define RAVL_HAVE_GETPW_WITH_RESULT  RAVL_OS_IRIX  || RAVL_OS_SOLARIS /* Pass pointer to result ptr as last argument for  getpwuid_r, getpwnam_r */
 #define RAVL_HAVE_HSTRERROR    (RAVL_OS_IRIX || RAVL_OS_LINUX)  /* have hstrerror, otherwise use strerror. */
 #define RAVL_HAVE_SOCKLEN_T    (RAVL_OS_LINUX || RAVL_OS_SOLARIS)  /* Have socklen_t */
-#define RAVL_HAVE_INTFILEDESCRIPTORS !RAVL_COMPILER_VISUALCPP /* Support integer file descriptors */
+#define RAVL_HAVE_INTFILEDESCRIPTORS (!RAVL_COMPILER_VISUALCPP && !RAVL_OS_MINGW) /* Support integer file descriptors */
 
 /********************************************************************************/
 /****** Processor properties ****************************************************/
@@ -161,7 +163,7 @@
 /* ARM acts big-endian on it's double word ordering */
 
 /* Setting the follow define to 1 will enable the use of MMX code. */
-#define RAVL_USE_MMX (RAVL_CPU_IX86 && RAVL_COMPILER_GCC)
+#define RAVL_USE_MMX (RAVL_CPU_IX86 && RAVL_COMPILER_GCC && !RAVL_OS_MINGW)
 
 #define RAVL_HAVE_IEEE_DOUBLE 1   /* Does the machine have IEEE double's ? */
 
@@ -169,19 +171,19 @@
 /****** Numerical functions and headers *****************************************/
 
 #define RAVL_HAVE_VALUES_H (!RAVL_OS_WIN32 && !RAVL_OS_CYGWIN)   /* have values.h        */
-#define RAVL_HAVE_FLOAT_H  (RAVL_OS_WIN32  || RAVL_OS_CYGWIN) /* have float.h         */
+#define RAVL_HAVE_FLOAT_H  (RAVL_OS_WIN32  || RAVL_OS_CYGWIN || RAVL_OS_MINGW) /* have float.h         */
 #define RAVL_HAVE_NAN_H    (RAVL_OS_SOLARIS || RAVL_OS_IRIX) /* have nan.h           */
 #define RAVL_HAVE_IEEEFP_H (RAVL_OS_SOLARIS || RAVL_OS_IRIX) /* have ieeefp.h        */
 #define RAVL_HAVE_HYPOT    !RAVL_OS_WIN32   /* have hypot() in libm */
 #define RAVL_HAVE_CBRT     0 && RAVL_OS_LINUX                /* have cbrt() in libm  */
 #define RAVL_HAVE_ERF      (!RAVL_OS_WIN32 && !RAVL_OS_CYGWIN)   /* have erf() and erfc() in libm  */
 
-#define RAVL_HAVE_ISINF    (RAVL_OS_LINUX || RAVL_OS_CYGWIN)    /* have isinf() in libm  */
+#define RAVL_HAVE_ISINF    (RAVL_OS_LINUX || RAVL_OS_CYGWIN || RAVL_OS_MINGW)    /* have isinf() in libm  */
 #define RAVL_HAVE__FINITE  RAVL_OS_WIN32    /* have _finite() in libm  */
 #define RAVL_HAVE_FINITE   (RAVL_OS_SOLARIS || RAVL_OS_IRIX || RAVL_OS_OSF)  /* have finite() in libm  */
 
-#define RAVL_HAVE_ISNAN    (RAVL_OS_LINUX || RAVL_OS_OSF || RAVL_OS_CYGWIN)   /* have isnan() in libm  */
-#define RAVL_HAVE__ISNAN   RAVL_OS_WIN32    /* have _isnan() in libm  */
+#define RAVL_HAVE_ISNAN    (RAVL_OS_LINUX || RAVL_OS_OSF || RAVL_OS_CYGWIN || RAVL_OS_MINGW)   /* have isnan() in libm  */
+#define RAVL_HAVE__ISNAN   (RAVL_OS_WIN32)  /* have _isnan() in libm  */
 #define RAVL_HAVE_ISNAND   (RAVL_OS_SOLARIS || RAVL_OS_IRIX) /* have isnand() in libm  */
 
 #define RAVL_QINT_WORKAROUND RAVL_COMPILER_GCC3   /* Do we need a bug work around for the QInt functions (See Ravl/QInt.hh) */
@@ -193,7 +195,7 @@
 
 #define RAVL_HAVE_STDNAMESPACE    (RAVL_COMPILER_GCC3 || RAVL_COMPILER_VISUALCPPNET) /* Use std namespace. */
 #define RAVL_HAVE_ANSICPPHEADERS  (RAVL_COMPILER_GCC || RAVL_COMPILER_VISUALCPPNET) /* Use ansi complient c++ headers, i.e without the .h */
-#define RAVL_HAVE_EXCEPTIONS      1                        /* are exceptions enabled ? */
+#define RAVL_HAVE_EXCEPTIONS      1                   /* are exceptions enabled ? */
 #define RAVL_HAVE_EXCEPTION_H     !RAVL_COMPILER_VISUALCPP /* Have exception.h ? */
 #define RAVL_HAVE_EXCEPTION_SPECS !RAVL_COMPILER_VISUALCPP /* throw(..) exceptions specs accepted ? */
 #define RAVL_HAVE_RTTI            1                        /* is C++ Real Time Type Information available ? */
@@ -234,7 +236,7 @@
 #endif
 #endif
 
-#if RAVL_OS_LINUX || RAVL_OS_CYGWIN
+#if RAVL_OS_LINUX || RAVL_OS_CYGWIN || RAVL_OS_MINGW
 #ifndef _ISOC9X_SOURCE
 #define _ISOC9X_SOURCE 1
 #endif

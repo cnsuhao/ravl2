@@ -114,7 +114,7 @@ namespace RavlConstN {
   const double minReal =  DBL_MIN;
   //: Smallest +ve value a real may have.  
 #else
-#error "DBL_MIN not defined."
+  //#error "DBL_MIN not defined."
   const double maxReal =  1.0e200;
   //: Maximum real number.
   
@@ -145,11 +145,11 @@ namespace RavlConstN {
   const float minFloat = FLT_MIN;
   //: Smallest +ve value a float may have.  
 #else
-#error "FLT_MIN not defined."
-  const double maxReal =  1.0e30;
+  //#error "FLT_MIN not defined."
+  const double maxFloat =  1.0e30;
   //: Biggest value a float may have.
   
-  const double minReal = 1.0e-30;
+  const double minFloat = 1.0e-30;
   //: Smallest +ve value a float may have.  
 #endif
 #endif

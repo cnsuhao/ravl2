@@ -87,8 +87,8 @@ namespace RavlN  {
   
   inline int bswap_32(const int &buf) {
     union {
-      short i;
-      char c[2];
+      int i;
+      char c[4];
     } ret,val;
     val.i = buf;
     ret.c[0] = val.c[3];

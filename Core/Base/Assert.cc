@@ -15,7 +15,7 @@
 
 // Do some sanity checking.
 
-#if (RAVL_OS_LINUX + RAVL_OS_WIN32 + RAVL_OS_IRIX + RAVL_OS_SOLARIS + RAVL_OS_OSF + RAVL_OS_CYGWIN) != 1
+#if (RAVL_OS_LINUX + RAVL_OS_WIN32 + RAVL_OS_IRIX + RAVL_OS_SOLARIS + RAVL_OS_OSF + RAVL_OS_CYGWIN + RAVL_OS_MINGW) != 1
 #error "RAVL ERROR:Confused about current OS. "
 #endif
 
