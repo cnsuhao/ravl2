@@ -18,42 +18,56 @@
 
 namespace RavlAudioN {
   
-  //! userlevel=Normal
+  //! userlevel=Develop
   //: Frame of audio data.
   
-  class AudioFrameC {
+  class AudioFrameBodyC : public RCBodyC {
+  
   public:
-    AudioFrameC()
-      : channels(0),
-	freq(0),
-	bits(0)
-    {}
+    AudioFrameBodyC()
+      : channels(0),freq(0),bits(0) {}
     //: Default constructor.
     
-    AudioFrameC(const SArray1dC<ByteT> &data,
-		IntT nchannels,
-		RealT nfreq,
-		IntT nbits);
+
+    AudioFrameBodyC(const SArray1dC<ByteT> &data, IntT nchannels, RealT nfreq, IntT nbits);
     //: Construct from components.
     
-    AudioFrameC(const SArray1dC<SampleElemC<2,Int16T> > &data,RealT nfreq);
+    
+    AudioFrameBodyC(const SArray1dC<SampleElemC<2,Int16T> > &data,RealT nfreq);
     //: Construct from components.
+
+    AudioFrameBodyC( BinIStreamC & stream ) ; 
+    //: Constructor from binary stream 
+
+    AudioFrameBodyC( istream & stream ) ; 
+    //: constructor from stream 
+
+    bool Save ( BinOStreamC & stream ) const  ; 
+    //: Save to binary stream 
+
+    bool Save ( ostream & stream ) const ; 
+    //: Save to stream 
+
     
     RealT AudioFrequency() const
     { return freq; }
     //: Access frequency.
+
     
     IntT AudioBits() const
     { return bits; }
     //: Bits per sample.
+
     
     const SArray1dC<ByteT> &AudioData() const
     { return audio; }
     //: Access audio data.
+
     
     const SArray1dC<SampleElemC<2,Int16T> > &Stereo() const
     { return stereoData; }
     //: Get as stereo data. 
+
     
   protected:
     SArray1dC<ByteT> audio; // Raw audio data.
@@ -63,5 +77,98 @@ namespace RavlAudioN {
     IntT bits;
   };
 
-}
+
+
+
+  //! userlevel=Develop
+  //: Frame of audio data.
+  class AudioFrameC : public RCHandleC<AudioFrameBodyC> 
+{
+
+ public: 
+
+  inline AudioFrameC()
+    : RCHandleC<AudioFrameBodyC> ( * new AudioFrameBodyC ) {} 
+    //: Default constructor. - Creates an empty frame
+    
+  
+  inline AudioFrameC(const SArray1dC<ByteT> &data, IntT nchannels, RealT nfreq, IntT nbits)
+    : RCHandleC<AudioFrameBodyC> ( * new AudioFrameBodyC ( data, nchannels, nfreq, nbits ) ) {} 
+ //: Construct from components.
+  
+  
+  inline AudioFrameC(const SArray1dC<SampleElemC<2,Int16T> > &data,RealT nfreq)
+    : RCHandleC<AudioFrameBodyC> ( * new AudioFrameBodyC ( data, nfreq ) ) {} 
+    //: Construct from components.
+
+  inline AudioFrameC( BinIStreamC & stream )  
+    : RCHandleC<AudioFrameBodyC>  ( *new AudioFrameBodyC ( stream ) ) {} 
+  //: Constructor from binary stream 
+
+  inline AudioFrameC( istream & stream ) 
+    : RCHandleC<AudioFrameBodyC> ( *new AudioFrameBodyC ( stream ) ) {} 
+    //: constructor from stream 
+
+  inline bool Save ( BinOStreamC & stream ) const  
+    { return Body().Save(stream) ; }  
+    //: Save to binary stream 
+
+  inline bool Save ( ostream & stream ) const 
+    { return Body().Save(stream) ; } 
+    //: Save to stream 
+
+  inline RealT AudioFrequency() const
+    { return Body().AudioFrequency() ; }
+    //: Access frequency.
+
+    
+  inline IntT AudioBits() const
+    { return Body().AudioBits() ; }
+  //: Bits per sample.
+
+  
+    inline const SArray1dC<ByteT> &AudioData() const
+    { return Body().AudioData() ; }
+    //: Access audio data.
+
+    
+    inline const SArray1dC<SampleElemC<2,Int16T> > &Stereo() const
+    { return Body().Stereo() ; }
+    //: Get as stereo data
+
+
+}; 
+
+
+
+inline BinIStreamC & operator >> ( BinIStreamC & s , AudioFrameC & av ) 
+{ av = AudioFrameC(s) ; return s ; } 
+//: input from binary stream 
+
+inline BinOStreamC & operator << ( BinOStreamC & s, const AudioFrameC & av ) 
+{ av.Save(s) ; return s ; } 
+  //: output to binary stream 
+  
+inline istream & operator >> ( istream & s , AudioFrameC & av ) 
+{ av = AudioFrameC(s) ; return s ; }  
+  //: input from stream   
+  
+inline ostream & operator << ( ostream & s, const AudioFrameC & av ) 
+{ av.Save(s) ; return s ; } 
+  //: output to stream 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+};
 #endif
