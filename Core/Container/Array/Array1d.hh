@@ -278,6 +278,16 @@ namespace RavlN {
     // If offset is larger than the array an empty array
     // is returned.  
     
+    Array1dC<DataT> From(IndexC offset,UIntT size) { 
+      if(offset > Range().Max())
+	return Array1dC<DataT>(); // Empty array.
+      RavlAssert(Range().Contains(offset) && Range().Contains(offset + size));
+      return Array1dC<DataT>(*this,IndexRangeC(offset,(offset+size)-1)); 
+    }
+    //: Return array from offset for size elements..
+    // If offset is larger than the array an empty array
+    // is returned.
+    
     Array1dC<DataT> After(IndexC offset) 
     { return From(offset+1); }
     //: Return array after offset to the end of the array.

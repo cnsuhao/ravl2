@@ -175,6 +175,13 @@ namespace RavlN {
     // Changes this buffer access to have the access rights as 'b' limited
     // by range 'r'. so the first element in 'b' is accessed at 'r.Min()'.
     
+    RangeBufferAccessC<DataT> BufferFrom(IndexC first);
+    //: Get an access for this buffer starting from the 'first' element to the end of the buffer.
+    
+    RangeBufferAccessC<DataT> BufferFrom(IndexC first,UIntT len);
+    //: Get an access for this buffer starting from the 'first' element for 'len' elements.
+    // An error will be generated if the requested buffer isn't contains within this one.
+    
     // Modifications of the buffer contents
     // ------------------------------------
     
@@ -410,6 +417,18 @@ namespace RavlN {
       *at = *end;
       *end = tmp;
     }
+  }
+
+  template<class DataT>
+  RangeBufferAccessC<DataT> RangeBufferAccessC<DataT>::BufferFrom(IndexC first) {
+    RavlAssert(Range().Contains(first));
+    return RangeBufferAccessC<DataT>(&((this)[first]),IndexRangeC(first,Range().Max()));
+  }
+  
+  template<class DataT>
+  RangeBufferAccessC<DataT> RangeBufferAccessC<DataT>::BufferFrom(IndexC first,UIntT len) {
+    RavlAssert(Range().Contains(first) && Range().Contains(first + len));
+    return RangeBufferAccessC<DataT>(&((this)[first]),IndexRangeC(first,(first+len)-1));
   }
   
 }

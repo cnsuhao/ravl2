@@ -149,6 +149,13 @@ namespace RavlN {
     void Reverse();
     //: Reverse the order of elements in this array in place.
     
+    SizeBufferAccessC<DataT> BufferFrom(UIntT first);
+    //: Get an access for this buffer starting from the 'first' element to the end of the buffer.
+    
+    SizeBufferAccessC<DataT> BufferFrom(UIntT first,UIntT len);
+    //: Get an access for this buffer starting from the 'first' element for 'len' elements.
+    // An error will be generated if the requested buffer isn't contains within this one.
+    
   protected:
     
     // Copy
@@ -308,9 +315,18 @@ namespace RavlN {
       *end = tmp;
     }
   }
+
+  template<class DataT>
+  SizeBufferAccessC<DataT> SizeBufferAccessC<DataT>::BufferFrom(UIntT first) {
+    RavlAssert(first < sz);
+    return SizeBufferAccessC<DataT>(&(ReferenceElm()[first]),sz - first);
+  }
   
-  //: Wrtie buffer to stream.
-  // NB. This size of the buffer is NOT written.
+  template<class DataT>
+  SizeBufferAccessC<DataT> SizeBufferAccessC<DataT>::BufferFrom(UIntT first,UIntT len) {
+    RavlAssert((first + len) <= sz);
+    return SizeBufferAccessC<DataT>(&(ReferenceElm()[first]),len);
+  }
   
   template <class DataT>
   ostream &operator<<(ostream &out,const SizeBufferAccessC<DataT> &dat) {

@@ -205,6 +205,15 @@ namespace RavlN {
     //: Return array from offset to the end of the array.
     // If offset is larger than the array an empty array
     // is returned,
+
+    SArray1dC<DataT> From(UIntT offset,UIntT size) { 
+      if((offset + size) > Size())
+	return SArray1dC<DataT>(); // Empty array.
+      return SArray1dC<DataT>(*this,size,offset); 
+    }
+    //: Return array from offset to the end of the array.
+    // If offset is larger than the array an empty array
+    // is returned,
     
     SArray1dC<DataT> After(UIntT offset) 
     { return From(offset+1); }
