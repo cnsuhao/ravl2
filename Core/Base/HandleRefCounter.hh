@@ -31,16 +31,19 @@ namespace RavlN {
   {
   public:
     HandleRefCounterBodyC()
-      {}
+    {}
     //: Default constructor.
     
     HandleRefCounterBodyC(const TriggerC &ntrig)
       : trig(ntrig)
-      {}
+    {}
     //: Constructor.
     
     virtual ~HandleRefCounterBodyC();
     //: Destructor.
+    
+    void AddDestructionOp(const TriggerC &ntrig);
+    //: Add a new trigger to call on delete.
     
   protected:
     TriggerC trig;
@@ -65,23 +68,31 @@ namespace RavlN {
   public:
     HandleRefCounterC()
       : RCHandleC<HandleRefCounterBodyC>(*new HandleRefCounterBodyC())
-      {}
+    {}
     //: Creates the reference counter.
     
     HandleRefCounterC(const TriggerC &ntrig)
       : RCHandleC<HandleRefCounterBodyC>(*new HandleRefCounterBodyC(ntrig))
-      {}
+    {}
     //: Creates the reference counter and initializes it.
     // 'func' is triggered when references of the object reach 0.
     
     inline
-    void SetDestructionOp(const TriggerC &ntrig) {
-      Body().trig = ntrig;
-    }
+    void SetDestructionOp(const TriggerC &newTrigger) 
+    { Body().trig = newTrigger; }
     //: Set trigger to call on delete.
+    // Note: This will replace any existing triggers with 
+    // the 'newTrigger'
+    
+    void AddDestructionOp(const TriggerC &newTrigger)
+    { Body().AddDestructionOp(newTrigger); }
+    //: Add a new trigger to call on delete.
+    // This adds an extra operation 'newTrigger' to be executed when the object
+    // is deleted, it is called before any already existing trigger is 
+    // run
     
     inline UIntT References() const
-      { return Body().References(); }
+    { return Body().References(); }
     //: Returns the number of references to this object.  
 
   };

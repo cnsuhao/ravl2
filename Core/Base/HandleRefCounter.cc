@@ -11,15 +11,31 @@
 
 #include "Ravl/HandleRefCounter.hh"
 #include "Ravl/Assert.hh"
+#include "Ravl/Calls.hh"
 
 namespace RavlN {
   
-  HandleRefCounterBodyC::~HandleRefCounterBodyC() 
-  { 
+  //: Destructor.
+  
+  HandleRefCounterBodyC::~HandleRefCounterBodyC() { 
     if(trig.IsValid())
       trig.Invoke();
   }
-  //: Destructor.
+  
+  static bool StackCalls(TriggerC &oldTrigger,TriggerC &newTrigger) {
+    newTrigger.Invoke();
+    oldTrigger.Invoke();
+    return true;
+  }
+  
+  //: Add a new trigger to call on delete.
+  
+  void HandleRefCounterBodyC::AddDestructionOp(const TriggerC &newTrigger) {
+    if(!trig.IsValid())
+      trig = newTrigger;
+    else
+      trig = Trigger(&StackCalls,trig,newTrigger);
+  }
   
 }
 
