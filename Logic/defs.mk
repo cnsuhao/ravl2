@@ -9,6 +9,6 @@
 
 DESCRIPTION=
 
-NESTED=Base.r Index.r DecisionTree.r NonLinearPlanner
+NESTED=Base.r Index.r DecisionTree.r NonLinearPlanner.r
 
 EHT=Ravl.Logic.html
