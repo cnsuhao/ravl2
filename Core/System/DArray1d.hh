@@ -167,7 +167,7 @@ namespace RavlN {
 
     IndexC IMax() const { 
       if(chunks.IsEmpty())
-	return -1;// Together with IMin this should indicate an empty array.
+	return 0;// Together with IMin this should indicate an empty array.
       return chunks.Last().IMax();
     }
     //: Maximum offset used.
@@ -175,7 +175,7 @@ namespace RavlN {
     
     IndexC IMin() const {
       if(chunks.IsEmpty())
-	return 0; // Together with IMax this should indicate an empty array.
+	return 1; // Together with IMax this should indicate an empty array.
       return chunks.Last().IMin();
     }
     //: Minimum offset used.
@@ -192,6 +192,22 @@ namespace RavlN {
     UIntT Size() const;
     //: Find the number of elements in the DArray.
     // This doesn't count holes in the array.
+    
+    DataT &First()
+    { return Index(IMin()); }
+    //: Access first element in the array.
+    
+    const DataT &First() const
+    { return Index(IMin()); }
+    //: Access first element in the array.
+    
+    DataT &Last()
+    { return Index(IMax()); }
+    //: Access last element in the array.
+    
+    const DataT &Last() const
+    { return Index(IMax()); }
+    //: Access last element in the array.
     
   protected:
     bool FindChunk(int i,IntrDLIterC<DChunkC<DataT> > &it) const;
@@ -325,6 +341,22 @@ namespace RavlN {
     { return Body().Size(); }
     //: Find the number of elements in the DArray.
     // This doesn't count holes in the array.
+
+    DataT &First()
+    { return Body().First(); }
+    //: Access first element in the array.
+    
+    const DataT &First() const
+    { return Body().First(); }
+    //: Access first element in the array.
+    
+    DataT &Last()
+    { return Body().Last(); }
+    //: Access last element in the array.
+    
+    const DataT &Last() const
+    { return Body().Last(); }
+    //: Access last element in the array.
     
   protected:
     friend class DArray1dBodyC<DataT>;
