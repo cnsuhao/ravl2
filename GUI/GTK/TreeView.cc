@@ -267,19 +267,6 @@ namespace RavlGUIN {
     return sig;
   }
 
-  //: Get list of selected rows.
-  
-  DListC<TreeModelIterC> TreeViewBodyC::GUISelected() {
-    DListC<TreeModelIterC> ret;
-    if(selection == 0)
-      return ret; // Not created yet!.
-    GtkTreeModel *model;
-    TreeModelIterC rowIter;
-    if (gtk_tree_selection_get_selected (selection, &model, rowIter.TreeIter()))
-      ret.InsLast(rowIter);
-    return ret;
-  }
-
 
   //: Sort treeview by column colNum.
   
@@ -362,6 +349,206 @@ namespace RavlGUIN {
       Manager.Queue(Trigger(TreeViewC(*this),&TreeViewC::GUICollapseAll));
     // Collapse all
     gtk_tree_view_collapse_all(GTK_TREE_VIEW(widget));
+    return true;
+  }
+
+  //: Select the specified path
+  
+  void TreeViewBodyC::Select(TreeModelPathC path) {
+    Manager.Queue(Trigger(TreeViewC(*this),&TreeViewC::GUISelectPath,path));  
+  }
+
+  //: Select the specified row iterator
+
+  void TreeViewBodyC::Select(TreeModelIterC iter) {
+    Manager.Queue(Trigger(TreeViewC(*this),&TreeViewC::GUISelectIter,iter));  
+  }
+
+  //: Select the specified path
+  // GUI thread only
+
+  bool TreeViewBodyC::GUISelectPath(TreeModelPathC path) {
+    if (selection == 0)
+      return false;
+    gtk_tree_selection_unselect_path(selection,path.TreePath());
+    return true;
+  }
+  
+  //: Select the specified row iterator
+  // GUI thread only
+  
+  bool TreeViewBodyC::GUISelectIter(TreeModelIterC iter) {
+    if (selection == 0)
+      return false;
+    gtk_tree_selection_select_iter(selection,iter.TreeIter());
+    return true;
+  }
+
+  //: Is the specified path selected?
+  // GUI thread only
+  
+  bool TreeViewBodyC::GUISelectedPath(TreeModelPathC path) {
+    if (selection == 0)
+      return false;
+    return gtk_tree_selection_path_is_selected(selection,path.TreePath());
+  }
+
+  //: Is the specified row iterator selected?
+  // GUI thread only
+  
+  bool TreeViewBodyC::GUISelectedIter(TreeModelIterC iter) {
+    if (selection == 0)
+      return false;
+    return gtk_tree_selection_iter_is_selected(selection,iter.TreeIter());
+  }
+
+  //: Get list of selected rows.
+  
+  DListC<TreeModelIterC> TreeViewBodyC::GUISelected() {
+    DListC<TreeModelIterC> ret;
+    if(selection == 0)
+      return ret; // Not created yet!.
+
+    // Get selection
+    GtkTreeModel* model;
+    GList* list = gtk_tree_selection_get_selected_rows(selection,&model);    
+    GList* ptr = list;
+
+    // Extract iterators
+    while (ptr) {
+      GtkTreePath* path(static_cast<GtkTreePath*>(ptr->data));
+      TreeModelIterC iter(model,path,true);
+      ret.InsLast(iter);
+      gtk_tree_path_free(path);
+      ptr = ptr->next;
+    }
+
+    // Free list
+    g_list_free (list);
+
+    // Done
+    return ret;
+  }
+
+  //: Deselect the specified path
+  void TreeViewBodyC::Deselect(TreeModelPathC path)  {
+    Manager.Queue(Trigger(TreeViewC(*this),&TreeViewC::GUIDeselectPath,path));  
+  }
+  
+  //: Deselect the specified row iterator
+  
+  void TreeViewBodyC::Deselect(TreeModelIterC iter) {
+    Manager.Queue(Trigger(TreeViewC(*this),&TreeViewC::GUIDeselectIter,iter));
+  }
+  
+  //: Deselect the specified path
+  // GUI thread only
+  
+  bool TreeViewBodyC::GUIDeselectPath(TreeModelPathC path) {
+    if (selection == 0)
+      return false;
+    gtk_tree_selection_unselect_path(selection,path.TreePath());
+    return true;
+  }
+
+  //: Deselect the specified row iterator
+  // GUI thread only
+  
+  bool TreeViewBodyC::GUIDeselectIter(TreeModelIterC iter) {
+    if (selection == 0)
+      return false;
+    gtk_tree_selection_unselect_iter(selection,iter.TreeIter());
+    return true;
+  }
+
+  //: Select all rows
+  
+  void TreeViewBodyC::SelectAll() {
+    Manager.Queue(Trigger(TreeViewC(*this),&TreeViewC::GUISelectAll));
+  }
+
+  //: Select all rows
+  // GUI thread only
+
+  bool TreeViewBodyC::GUISelectAll() {
+    if (selection == 0)
+      return false;
+    gtk_tree_selection_select_all(selection);
+    return true;
+  }
+    
+  //: Deselect all rows
+
+  void TreeViewBodyC::DeselectAll() {
+    Manager.Queue(Trigger(TreeViewC(*this),&TreeViewC::GUIDeselectAll));
+  }
+    
+  //: Deselect all rows
+  // GUI thread only
+
+  bool TreeViewBodyC::GUIDeselectAll() {
+    if (selection == 0)
+      return false;
+    gtk_tree_selection_unselect_all(selection);
+    return true;
+  }
+
+  //: Select the rows between the two paths
+  
+  void TreeViewBodyC::SelectRange(TreeModelPathC from, TreeModelPathC to) {
+    Manager.Queue(Trigger(TreeViewC(*this),&TreeViewC::GUISelectRange,from,to));
+  }
+
+  //: Select the rows between the two paths
+  // GUI thread only
+  
+  bool TreeViewBodyC::GUISelectRange(TreeModelPathC from, TreeModelPathC to) {
+    if (selection == 0)
+      return false;
+    gtk_tree_selection_select_range(selection,from.TreePath(),to.TreePath());
+    return true;
+  }
+
+  //: Deselect the rows between the two paths
+  
+  void TreeViewBodyC::DeselectRange(TreeModelPathC from, TreeModelPathC to) {
+    Manager.Queue(Trigger(TreeViewC(*this),&TreeViewC::GUIDeselectRange,from,to));
+  }
+
+  //: Deselect the rows between the two paths
+  // GUI thread only
+  
+  bool TreeViewBodyC::GUIDeselectRange(TreeModelPathC from, TreeModelPathC to) {
+    if (selection == 0)
+      return false;
+    gtk_tree_selection_unselect_range(selection,from.TreePath(),to.TreePath());
+    return true;
+  }
+
+  //: Scroll the treeview to the specified path
+
+  void TreeViewBodyC::ScrollTo(TreeModelPathC path) {
+    Manager.Queue(Trigger(TreeViewC(*this),&TreeViewC::GUIScrollTo,path));  
+  }
+
+  //: Scroll the treeview to the specified row iterator
+  
+  void TreeViewBodyC::ScrollTo(TreeModelIterC iter) {
+    // Create path
+    TreeModelPathC path(iter);
+    // Expand to path    
+    ScrollTo(path);
+  }
+
+  //: Scroll the treeview to the specified path
+  // GUI thread only
+  
+  bool TreeViewBodyC::GUIScrollTo(TreeModelPathC path) {
+    // Check validity of widget
+    if(widget == 0)
+      Manager.Queue(Trigger(TreeViewC(*this),&TreeViewC::GUIScrollTo,path));
+    // Expand
+    gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(widget), path.TreePath(), NULL, true, 0, 0);
     return true;
   }
 

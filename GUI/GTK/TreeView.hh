@@ -131,9 +131,6 @@ namespace RavlGUIN {
     { return treeModel; }
     //: Access tree model.
     
-    DListC<TreeModelIterC> GUISelected();
-    //: Get list of selected rows.
-    
     Signal1C<DListC<TreeModelIterC> > &SelectionChanged()
     { return selectionChanged; }
     //: Access selection changed signal.
@@ -178,6 +175,83 @@ namespace RavlGUIN {
 
     bool GUICollapseAll();
     //: Collapse the entire tree
+    // GUI thread only
+
+    void Select(TreeModelPathC path);
+    //: Select the specified path
+
+    void Select(TreeModelIterC iter);
+    //: Select the specified row iterator
+
+    bool GUISelectPath(TreeModelPathC path);
+    //: Select the specified path
+    // GUI thread only
+
+    bool GUISelectIter(TreeModelIterC iter);
+    //: Select the specified row iterator
+    // GUI thread only
+
+    bool GUISelectedPath(TreeModelPathC path);
+    //: Is the specified path selected?
+    // GUI thread only
+
+    bool GUISelectedIter(TreeModelIterC iter);
+    //: Is the specified row iterator deselected?
+    // GUI thread only
+
+    DListC<TreeModelIterC> GUISelected();
+    //: Get list of selected rows.    
+
+    void Deselect(TreeModelPathC path);
+    //: Deselect the specified path
+
+    void Deselect(TreeModelIterC iter);
+    //: Deselect the specified row iterator
+
+    bool GUIDeselectPath(TreeModelPathC path);
+    //: Deselect the specified path
+    // GUI thread only
+
+    bool GUIDeselectIter(TreeModelIterC iter);
+    //: Deselect the specified row iterator
+    // GUI thread only
+
+    void SelectAll();
+    //: Select all rows
+
+    bool GUISelectAll();
+    //: Select all rows
+    // GUI thread only
+    
+    void DeselectAll();
+    //: Deselect all rows
+    
+    bool GUIDeselectAll();
+    //: Deselect all rows
+    // GUI thread only
+
+    void SelectRange(TreeModelPathC from, TreeModelPathC to);
+    //: Select the rows between the two paths
+
+    bool GUISelectRange(TreeModelPathC from, TreeModelPathC to);
+    //: Select the rows between the two paths
+    // GUI thread only
+
+    void DeselectRange(TreeModelPathC from, TreeModelPathC to);
+    //: Deselect the rows between the two paths
+
+    bool GUIDeselectRange(TreeModelPathC from, TreeModelPathC to);
+    //: Deselect the rows between the two paths
+    // GUI thread only
+
+    void ScrollTo(TreeModelPathC path);
+    //: Scroll the treeview to the specified path
+
+    void ScrollTo(TreeModelIterC iter);
+    //: Scroll the treeview to the specified row iterator
+
+    bool GUIScrollTo(TreeModelPathC path);
+    //: Scroll the treeview to the specified path
     // GUI thread only
 
   protected:
@@ -296,6 +370,102 @@ namespace RavlGUIN {
     { return Body().GUICollapseAll(); }
     //: Collapse the entire tree
     // GUI thread only
+
+    void Select(TreeModelPathC path)
+    { Body().Select(path); }
+    //: Select the specified path
+
+    void Select(TreeModelIterC iter)
+    { Body().Select(iter); }
+    //: Select the specified row iterator
+
+    bool GUISelectPath(TreeModelPathC path)
+    { return Body().GUISelectPath(path); }
+    //: Select the specified path
+    // GUI thread only
+
+    bool GUISelectIter(TreeModelIterC iter)
+    { return Body().GUISelectIter(iter); }
+    //: Select the specified row iterator
+    // GUI thread only
+
+    bool GUISelectedPath(TreeModelPathC path)
+    { return Body().GUISelectedPath(path); }
+    //: Is the specified path selected?
+    // GUI thread only
+
+    bool GUISelectedIter(TreeModelIterC iter)
+    { return Body().GUISelectedIter(iter); }
+    //: Is the specified row iterator deselected?
+    // GUI thread only
+
+    void Deselect(TreeModelPathC path)
+    { Body().Deselect(path); }
+    //: Deselect the specified path
+
+    void Deselect(TreeModelIterC iter)
+    { Body().Deselect(iter); }
+    //: Deselect the specified row iterator
+
+    bool GUIDeselectPath(TreeModelPathC path)
+    { return Body().GUIDeselectPath(path); }
+    //: Deselect the specified path
+    // GUI thread only
+
+    bool GUIDeselectIter(TreeModelIterC iter)
+    { return Body().GUIDeselectIter(iter); }
+    //: Deselect the specified row iterator
+    // GUI thread only
+
+    void SelectAll()
+    { Body().SelectAll(); }
+    //: Select all rows
+
+    bool GUISelectAll() 
+    { return Body().GUISelectAll(); }
+    //: Select all rows
+    // GUI thread only
+
+    void DeselectAll()
+    { Body().DeselectAll(); }
+    //: Deselect all rows
+
+    bool GUIDeselectAll()
+    { return Body().GUIDeselectAll(); }
+    //: Deselect all rows
+    // GUI thread only
+
+    void SelectRange(TreeModelPathC from, TreeModelPathC to)
+    { Body().SelectRange(from,to); }
+    //: Select the rows between the two paths
+
+    bool GUISelectRange(TreeModelPathC from, TreeModelPathC to)
+    { return Body().GUISelectRange(from,to); }
+    //: Select the rows between the two paths
+    // GUI thread only
+
+    void DeselectRange(TreeModelPathC from, TreeModelPathC to)
+    { Body().DeselectRange(from,to); }
+    //: Deselect the rows between the two paths
+
+    bool GUIDeselectRange(TreeModelPathC from, TreeModelPathC to)
+    { return Body().GUIDeselectRange(from,to); }
+    //: Deselect the rows between the two paths
+    // GUI thread only
+
+    void ScrollTo(TreeModelPathC path)
+    { Body().ScrollTo(path); }
+    //: Scroll the treeview to the specified path
+
+    void ScrollTo(TreeModelIterC iter)
+    { Body().ScrollTo(iter); }
+    //: Scroll the treeview to the specified row iterator
+
+    bool GUIScrollTo(TreeModelPathC path)
+    { return Body().GUIScrollTo(path); }
+    //: Scroll the treeview to the specified path
+    // GUI thread only
+    //!bug: The GTK function this calls does not seem to do anything at the moment, not sure why.
 
     friend class TreeViewBodyC;
 
