@@ -59,6 +59,8 @@
 
 #include "Ravl/TimeCode.hh"
 
+#include "Ravl/OS/NetPortFormat.hh"
+
 #include <stdlib.h>
 
 #define DODEBUG 0
@@ -72,6 +74,9 @@
 using namespace RavlN;
 using namespace RavlGUIN;
 using namespace RavlImageN;
+
+NetPortFormatC<ImageC<ByteRGBValueC> > formatNetRGBImage;
+NetPortFormatC<ImageC<ByteYUVValueC> > formatNetYUVImage;
 
 volatile bool terminateVPlay = false;
 
