@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?RAVL  class="RavlN::ExtLibTableC" ?>
+
+<extlibs>
+<extlib name="LibPNG">
+<includepath>C:\Program Files\GnuWin32\include\</includepath>
+<includepath>C:\RavlExtLib\zlib\include\</includepath>
+<libpath>C:\Program Files\GnuWin32\lib\</libpath>
+<libpath>C:\RavlExtLib\zlib\lib\</libpath>
+<lib>libpng.lib</lib>
+<lib>zdll.lib</lib>
+</extlib>
+
+<extlib name="LibJPEG">
+<includepath>C:\Program Files\GnuWin32\include\</includepath>
+<includepath>C:\RavlExtLib\zlib\include\</includepath>
+<libpath>C:\Program Files\GnuWin32\lib\</libpath>
+<libpath>C:\RavlExtLib\zlib\lib\</libpath>
+<lib>libjpeg.lib</lib>
+</extlib>
+
+<extlib name="LibTIFF">
+<includepath>C:\Program Files\GnuWin32\include\</includepath>
+<includepath>C:\RavlExtLib\zlib\include\</includepath>
+<libpath>C:\Program Files\GnuWin32\lib\</libpath>
+<libpath>C:\RavlExtLib\zlib\lib\</libpath>
+<lib>libtiff.lib</lib>
+</extlib>
+
+<extlib name="GTK">
+<includepath>C:\GTKWIN32\include\gtk-2.0\</includepath>
+<includepath>C:\GTKWIN32\include\glib-2.0\</includepath>
+<includepath>C:\GTKWIN32\include\pango-1.0\</includepath>
+<includepath>C:\GTKWIN32\include\atk-1.0\</includepath>
+<libpath>C:\GTKWIN32\lib\</libpath>
+<lib>atk-1.0.lib</lib>
+<lib>glib-2.0.lib</lib>
+<lib>gthread-2.0.lib</lib>
+<lib>gobject-2.0.lib</lib>
+<lib>gmodule-2.0.lib</lib>
+<lib>gtk-win32-2.0.lib</lib>
+<lib>gdk-win32-2.0.lib</lib>
+<lib>gdk-pixbuf-2.0.lib</lib>
+<lib>pango-basic.lib</lib>
+<lib>pango-1.0.lib</lib>
+<lib>pangoft2.lib</lib>
+</extlib>
+
+
+<extlib name="libglade">
+<includepath>C:\GTKWIN32\include\libglade-2.0</includepath>
+<libpath>C:\GTKWIN32\lib</libpath>
+<lib>libglade-2.0.lib</lib>
+</extlib>
+
+<extlib name="Math">
+</extlib>
+
+<extlib name="posixThreads">
+</extlib>
+
+<extlib name="SentinelSuperPro">
+<includepath>C:\Program Files\Rainbow Technologies\SuperPro\6.3\MSVCDev\include\</includepath>
+<libpath>C:\Program Files\Rainbow Technologies\SuperPro\6.3\MSVCDev\lib\MD\</includepath>
+<lib>sx32w.lib</lib>
+</extlib>
+
+
+
+<extlibs>

@@ -93,6 +93,28 @@ namespace RavlN {
 	tests += ProgInfoC(*it,defs,where);
       }
     }
+
+    //: we want to build up the lib deps
+    if(!libName.IsEmpty()) {
+      DListC<StringC>usesLibs = libs[libName].UsesLibs();
+      
+      //: need to expand any libraries we already know about
+      DListC<StringC>update;
+      for(DLIterC<StringC>it(usesLibs);it;it++) {
+	it.Data().del(".opt");
+	if(deps.IsElm(*it)) { 
+	  for(DLIterC<StringC>inIt(deps[*it]);inIt;inIt++) 
+	    if(!update.Contains(*inIt)) update.InsLast(*inIt);
+	}
+	if(!update.Contains(*it)) update.InsLast(*it);
+      }
+      
+      if(!deps.IsElm(libName)) {
+	deps.Insert(libName, update);
+      }
+    }
+
+
     return true;
   }
 

@@ -22,10 +22,11 @@ namespace RavlN {
   
   //: Constructor
   
-  AutoPortGeneratorBodyC::AutoPortGeneratorBodyC(AutoPortSourceC &nsrc,StringC &templLoc,StringC &noutput,const StringC &_projectOut) 
+  AutoPortGeneratorBodyC::AutoPortGeneratorBodyC(AutoPortSourceC &nsrc,StringC &templLoc,StringC &noutput,const StringC &_projectOut, const ExtLibTableC & _extLibs) 
     : TemplateComplexBodyC(templLoc),
       outputDir(noutput),
       projectOut(_projectOut),
+      extLibs(_extLibs),
       src(nsrc)
   {
     Init();
@@ -45,6 +46,7 @@ namespace RavlN {
     // Setup commands ?
     SetupCommand("forall",*this,&AutoPortGeneratorBodyC::Forall);
     SetupCommand("dos",*this,&AutoPortGeneratorBodyC::dos);
+    
   }
   
   //: Lookup variable.
@@ -96,6 +98,100 @@ namespace RavlN {
     if(varname == "ProjectOut") {
       buff = projectOut;
     }
+    if(varname == "ExtraInclude") {
+      //: Need to add extra include paths
+
+      //: First lets make an exclusive list of all libraries
+      DListC<StringC>exclusive;
+      HashC<StringC, DListC<StringC> >deps = src.Deps();
+      for(DLIterC<StringC>it(context.Top().UsesLibs());it;it++) {
+	if(deps.IsElm(*it)) {
+	  for(DLIterC<StringC>inIt(deps[*it]);inIt;inIt++) 
+	    if(!exclusive.Contains(*inIt)) exclusive.InsLast(*inIt);
+	}
+	if(!exclusive.Contains(*it)) exclusive.InsLast(*it);
+      }
+
+      //: Now we want to check if there are any external libraries
+      //: and add the include paths
+      DListC<StringC>includePaths;
+      for(DLIterC<StringC>it(exclusive);it;it++) {
+	if(extLibs.IsElm(*it)) {
+	  for(DLIterC<StringC>inIt(extLibs[*it].IncludePaths());inIt;inIt++) 
+	    if(!includePaths.Contains(*inIt)) includePaths.InsLast(*inIt);
+	}
+      }
+
+      //: Now make a single string of all includes
+      buff="";
+      for(DLIterC<StringC>it(includePaths);it;it++) 
+	buff += (StringC)" /I " + (StringC)"\"" + *it + (StringC)"\"";
+    }
+
+
+    if(varname == "ProgExtraLibPath") {
+      //: Need to add extra include paths
+
+      //: First lets make an exclusive list of all libraries
+      DListC<StringC>exclusive;
+      HashC<StringC, DListC<StringC> >deps = src.Deps();
+      for(DLIterC<StringC>it(context.Top().UsesLibs());it;it++) {
+	if(deps.IsElm(*it)) {
+	  for(DLIterC<StringC>inIt(deps[*it]);inIt;inIt++) 
+	    if(!exclusive.Contains(*inIt)) exclusive.InsLast(*inIt);
+	}
+	if(!exclusive.Contains(*it)) exclusive.InsLast(*it);
+      }
+
+      //: Now we want to check if there are any external libraries
+      //: and add the include paths
+      DListC<StringC>libPaths;
+      for(DLIterC<StringC>it(exclusive);it;it++) {
+	if(extLibs.IsElm(*it)) {
+	  for(DLIterC<StringC>inIt(extLibs[*it].LibPaths());inIt;inIt++) 
+	    if(!libPaths.Contains(*inIt)) libPaths.InsLast(*inIt);
+	}
+      }
+
+      //: Now make a single string of all includes
+      buff="";
+      for(DLIterC<StringC>it(libPaths);it;it++) 
+	  buff += (StringC)" /LIBPATH:" + (StringC)"\"" + *it + (StringC)"\"";
+    }
+
+    if(varname == "ProgExtraLib") {
+      //: Need to add extra include paths
+
+      //: First lets make an exclusive list of all libraries
+      DListC<StringC>exclusive;
+      HashC<StringC, DListC<StringC> >deps = src.Deps();
+      for(DLIterC<StringC>it(context.Top().UsesLibs());it;it++) {
+	if(deps.IsElm(*it)) {
+	  for(DLIterC<StringC>inIt(deps[*it]);inIt;inIt++) 
+	    if(!exclusive.Contains(*inIt)) exclusive.InsLast(*inIt);
+	}
+	if(!exclusive.Contains(*it)) exclusive.InsLast(*it);
+      }
+
+      //: Now we want to check if there are any external libraries
+      for(DLIterC<StringC>it(exclusive);it;it++) {
+	if(extLibs.IsElm(*it)) {
+	  StringC str;
+	  for(DLIterC<StringC>inIt(extLibs[*it].Libs());inIt;inIt++) 
+	    str += (StringC)" " +  *inIt;
+	  *it = str;
+	}
+      }
+      //: Now make a single string of all libs
+      buff="";
+      exclusive.Reverse();
+      for(DLIterC<StringC>it(exclusive);it;it++) 
+	if(!it.Data().contains("opt") && !it.Data().IsEmpty()) {
+	  if(!it.Data().contains(".lib")) *it += ".lib";
+	  buff += (StringC)" " +  *it;
+	}
+    }
+
     if(varname == "Back_ProjectOut") {
       if(!projectOut.IsEmpty() && projectOut[0] == '.') // Relative path.
 	buff = StringC("..\\") + projectOut;
@@ -138,7 +234,7 @@ namespace RavlN {
 	cerr << "Malformed 'forall' in template. '" << data << "' ignoring \n";
 	return false;
       }
-    }
+     }
     
     // Variable in the element type ?
     if(typedata[0] == '$') {

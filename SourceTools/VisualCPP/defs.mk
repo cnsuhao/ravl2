@@ -15,23 +15,23 @@ LICENSE = GPL
 
 PACKAGE=Ravl/SourceTools
 
-HEADERS= AutoPortSource.hh AutoPortGenerator.hh
+HEADERS= AutoPortSource.hh AutoPortGenerator.hh ExtLib.hh ExtLibTable.hh
 #VCPP.hh
 
-SOURCES = AutoPortSource.cc AutoPortGenerator.cc
+SOURCES = AutoPortSource.cc AutoPortGenerator.cc ExtLib.cc ExtLibTable.cc
 #VCPP.cc
 
 PLIB=RavlAutoPort
 
-MAINS = autoport.cc
+MAINS = autoport.cc readExtLib.cc
 
-USESLIBS = RavlOS RavlSourceTools
+USESLIBS = RavlOS RavlSourceTools RavlCore RavlIO RavlMath
 
 EHT = autoport.eht
 
 # Deal with template files.
 AUXFILES = libs.tmpl examples.tmpl tests.tmpl mains.tmpl Ravl.dsw.tmpl \
-	   Examples.dsw.tmpl Tests.dsw.tmpl Mains.dsw.tmpl
+	   Examples.dsw.tmpl Tests.dsw.tmpl Mains.dsw.tmpl externalLib.xml
 
 AUXDIR= share/RAVL/AutoPort
 

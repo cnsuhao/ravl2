@@ -17,7 +17,7 @@
 #include "Ravl/SourceTools/AutoPortGenerator.hh"
 #include "Ravl/OS/Directory.hh"
 #include "Ravl/Stream.hh"
-
+#include "Ravl/IO.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -34,7 +34,7 @@ using namespace RavlN;
 #define PROJECT_OUT "."
 #endif
 
-void BuildTemplates(StringC &templFile,AutoPortSourceC &src,StringC &outFile,const StringC &projectOut) {
+void BuildTemplates(StringC &templFile,AutoPortSourceC &src,StringC &outFile,const StringC &projectOut, const ExtLibTableC & extLibs) {
   if(FilenameC(templFile).IsDirectory()) {
     cout << "Processing templates in :'" << templFile << "'\n";
     DirectoryC dir(templFile);
@@ -42,12 +42,14 @@ void BuildTemplates(StringC &templFile,AutoPortSourceC &src,StringC &outFile,con
     for(DLIterC<StringC> it(fl);it;it++) {
       StringC subDir = dir + filenameSeperator + *it;
       ONDEBUG(cerr << "Templates in :'" << subDir << "'\n");
-      BuildTemplates(subDir,src,outFile,projectOut);
+      BuildTemplates(subDir,src,outFile,projectOut,extLibs);
     }
     return;
   }
   cout << "Processing template file : '" << templFile << "'\n";
-  AutoPortGeneratorC fg(src,templFile,outFile,projectOut);
+
+  
+  AutoPortGeneratorC fg(src,templFile,outFile,projectOut,extLibs);
   fg.BuildFiles();
 }
 
@@ -68,13 +70,22 @@ int main(int nargs,char **argv) {
   bool verb   = option.Boolean("v",false,   "Verbose mode.");
   
   option.Check();
+
+  // Load info about external libraries
+  InitExtLibFormat();
+  InitExtLibTableFormat();
+  StringC inFile = pathtempl + "/externalLib.xml";
+  ExtLibTableC extLibs;
+  if(!Load(inFile, extLibs))
+      RavlIssueError("Unable to open external libs file: " + inFile);
+
   
   AutoPortSourceC portInfo(fn);
   if(verb) {
     portInfo.Dump();
     portInfo.SetVerbose(verb);
   }
-  BuildTemplates(pathtempl,portInfo,fout,projectOut);
+  BuildTemplates(pathtempl,portInfo,fout,projectOut,extLibs);
   return 0;
 }
 

@@ -13,6 +13,7 @@
 
 #include "Ravl/SourceTools/AutoPortSource.hh"
 #include "Ravl/Text/TemplateComplex.hh"
+#include "Ravl/SourceTools/ExtLibTable.hh"
 
 namespace RavlN {
   
@@ -23,7 +24,7 @@ namespace RavlN {
     : public TemplateComplexBodyC
   {
   public:
-    AutoPortGeneratorBodyC(AutoPortSourceC &src,StringC &templ,StringC &output,const StringC &projectOut);
+    AutoPortGeneratorBodyC(AutoPortSourceC &src,StringC &templ,StringC &output,const StringC &projectOut, const ExtLibTableC & extLibs);
     //: Constructor.
     
     bool BuildFiles();
@@ -66,6 +67,13 @@ namespace RavlN {
       return context.Top().libInfo;
     }
     //: Access info about current lib.
+
+    ProgInfoC &CurProgInfo() {
+      RavlAssert(!context.IsEmpty());
+      return context.Top().progInfo;
+    }
+    //: Access info about current lib.
+
     
     class ContextC {
     public:
@@ -94,6 +102,14 @@ namespace RavlN {
 	  ctype(0)
       {}
       //: Constructor.
+
+      StringC Name() {
+	switch(ctype) {
+	case 1: return libInfo.Name();
+	case 2: return progInfo.Name();
+	}
+	return StringC();
+      }
       
       DListC<StringC> Sources() {
 	switch(ctype) {
@@ -143,6 +159,7 @@ namespace RavlN {
     StringC fileObject;
     StringC outputDir;
     StringC projectOut;
+    ExtLibTableC extLibs; // Info about external libraries
     
     AutoPortSourceC src; // Info about source.
   };
@@ -159,8 +176,8 @@ namespace RavlN {
     //: Default constructor.
     // creates an invalid handle.
 
-    AutoPortGeneratorC(AutoPortSourceC &src,StringC &templ,StringC &output,const StringC &projectOut)
-      : TemplateComplexC(*new AutoPortGeneratorBodyC(src,templ,output,projectOut))
+    AutoPortGeneratorC(AutoPortSourceC &src,StringC &templ,StringC &output,const StringC &projectOut, const ExtLibTableC & extLibs)
+      : TemplateComplexC(*new AutoPortGeneratorBodyC(src,templ,output,projectOut, extLibs))
     {}
     //: Constructor.
     

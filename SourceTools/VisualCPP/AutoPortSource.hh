@@ -65,6 +65,10 @@ namespace RavlN {
     DListC<ProgInfoC> &Examples()
     { return examples; }
     //: Examples programs.
+
+    HashC<StringC, DListC<StringC> > & Deps()
+      { return deps; }
+    //: Get lib dependencies
     
     void Dump();
     //: Dump contents of db to stdout.
@@ -75,6 +79,7 @@ namespace RavlN {
     DListC<ProgInfoC> mains;
     DListC<ProgInfoC> tests;
     DListC<ProgInfoC> examples;
+    HashC<StringC, DListC<StringC> >deps;
     
     friend class AutoPortSourceC;
   };
@@ -135,7 +140,11 @@ namespace RavlN {
     DListC<ProgInfoC> &Examples()
     { return Body().Examples(); }
     //: Examples programs.
-    
+
+    HashC<StringC, DListC<StringC> > & Deps()
+      { return Body().Deps(); }
+    //: Get lib dependencies
+
     void Dump()
     { return Body().Dump(); }
     //: Dump contents of db to stdout.
