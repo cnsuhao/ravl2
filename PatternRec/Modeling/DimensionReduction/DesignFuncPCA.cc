@@ -154,9 +154,10 @@ namespace RavlN {
 	runningTotal += temp[i];
     }
     
-    pca = VectorMatrixC (temp.From(0,numComponents-1),
+    pca = VectorMatrixC (temp.From(0,numComponents),
 			 Wpca.SubMatrix(d,numComponents).T());
     
+    //cerr << "VectorSize=" << pca.Vector().Size() << " Matrix=" << pca.Matrix().Size1() << " " << pca.Matrix().Size2()<< " Components=" << numComponents << "\n";
     // ONDEBUG(cerr << "Mean=" << mean << "\n");
     // ONDEBUG(cerr << "Proj=" << proj << "\n");
     return FuncMeanProjectionC(mean,pca.Matrix());
@@ -193,9 +194,8 @@ namespace RavlN {
     }
     varPreserved = runningTotal / total;
     
-    pca = VectorMatrixC (Leigenvecs.Vector().From(0,numComponents-1),
+    pca = VectorMatrixC (Leigenvecs.Vector().From(0,numComponents),
 			 Leigenvecs.Matrix().SubMatrix(dim,numComponents).T());
-    
     return FuncMeanProjectionC(mean,pca.Matrix());
   }
 
