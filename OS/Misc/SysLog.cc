@@ -11,6 +11,8 @@
 #include "Ravl/OS/SysLog.hh"
 #include "Ravl/StrStream.hh"
 #include "Ravl/Calls.hh"
+#include "Ravl/MTLocks.hh"
+
 #if RAVL_OS_POSIX
 #include <syslog.h>
 #endif
@@ -75,6 +77,7 @@ namespace RavlN {
 #endif
   
   static bool LogMessage(const char *message,int priority) {
+    MTWriteLockC lockWrite(2); // Be carefull in multithreaded programs.
 #if RAVL_OS_POSIX
     if(syslog_StdErrOnly) {
       if(priority <= localLevel)
