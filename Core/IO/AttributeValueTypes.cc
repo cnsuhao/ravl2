@@ -174,6 +174,30 @@ namespace RavlN {
     : AttributeTypeBodyC(name,desc,nCanRead,nCanWrite)
   {}
   
+  //: Binary stream constructor.
+  
+  AttributeTypeComponentBodyC::AttributeTypeComponentBodyC(BinIStreamC &is)
+    : AttributeTypeBodyC(is)
+  {}
+  
+  //: Stream constructor.
+  
+  AttributeTypeComponentBodyC::AttributeTypeComponentBodyC(istream &is)
+    : AttributeTypeBodyC(is)
+  {}
+  
+  //: Save the attribute to a stream 
+  
+  bool AttributeTypeComponentBodyC::Save(ostream & strm) const {
+    return AttributeTypeBodyC::Save(strm);
+  }
+  
+  //: Save the attribute to a stream 
+  
+  bool AttributeTypeComponentBodyC::Save(BinOStreamC & strm) const {
+    return AttributeTypeBodyC::Save(strm);
+  }
+  
   //: Get hint about type of value attribute has.
   
   AttributeValueTypeT AttributeTypeComponentBodyC::ValueType() const
@@ -187,6 +211,67 @@ namespace RavlN {
       return false; // Failed to find sub component.
     return subComponent.RestoreDefaults();
   }
+  
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(AttributeTypeComponentBodyC,AttributeTypeComponentC,AttributeTypeC);
+  
+  //:----------------------------------------------------------------------------------------------------
+  
+  //: Constructor
+  
+  AttributeTypeMiscBodyC::AttributeTypeMiscBodyC(const StringC &name,const StringC &desc,const AttributeValueTypeT &nvalType,bool nCanRead,bool nCanWrite)
+    : AttributeTypeBodyC(name,desc,nCanRead,nCanWrite),
+      valType(nvalType)
+  {}
+  
+  //: Binary stream constructor.
+  
+  AttributeTypeMiscBodyC::AttributeTypeMiscBodyC(BinIStreamC &is) 
+    : AttributeTypeBodyC(is)
+  {
+    int x;
+    is >> x;
+    valType = static_cast<AttributeValueTypeT>(x);
+  }
+  
+  //: Stream constructor.
+  
+  AttributeTypeMiscBodyC::AttributeTypeMiscBodyC(istream &is)
+    : AttributeTypeBodyC(is)
+  { 
+    int x;
+    is >> x;
+    valType = static_cast<AttributeValueTypeT>(x);
+  }
+  
+  //: Save the attribute to a stream 
+  
+  bool AttributeTypeMiscBodyC::Save(ostream & strm) const {
+    if(!AttributeTypeBodyC::Save(strm))
+      return false;
+    strm << ' ' << static_cast<IntT>(valType);
+    return true;
+  }
+  
+  //: Save the attribute to a stream 
+  
+  bool AttributeTypeMiscBodyC::Save(BinOStreamC & strm) const {
+    if(!AttributeTypeBodyC::Save(strm))
+      return false;
+    strm << static_cast<IntT>(valType);
+    return true;    
+  }
+  
+  //: Get hint about type of value attribute has.
+  
+  AttributeValueTypeT AttributeTypeMiscBodyC::ValueType() const
+  { return valType; }
+  
+  //: Set control to default value.
+  
+  bool AttributeTypeMiscBodyC::SetToDefault(AttributeCtrlC &ctrl) const
+  { return true; }
+  
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(AttributeTypeMiscBodyC,AttributeTypeMiscC,AttributeTypeC);
   
   //:----------------------------------------------------------------------------------------------------
   
