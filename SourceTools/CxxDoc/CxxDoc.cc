@@ -88,7 +88,7 @@ int BuildCxx(int argc, char **argv)
     pt.ParseTree(inFiles);
 
   if(verbose)
-    cerr << "Resolving refrences.\n";
+    cerr << "Resolving references.\n";
   pt.Resolve();
   
   DocTreeC docTree(projName);

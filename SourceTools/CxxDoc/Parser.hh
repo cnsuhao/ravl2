@@ -69,7 +69,7 @@ namespace RavlCxxDocN
     //: Access parsed data.
 
     bool Resolve();
-    //: Resolve refrences in input data.
+    //: Resolve references in input data.
     
   protected:
     bool ParseOuter();
@@ -112,7 +112,7 @@ namespace RavlCxxDocN
     
     bool Resolve()
     {  return Body().Resolve(); }
-    //: Resolve refrences in input data.
+    //: Resolve references in input data.
     
   };
   

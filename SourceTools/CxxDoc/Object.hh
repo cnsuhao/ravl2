@@ -260,7 +260,7 @@ namespace RavlCxxDocN {
     
     virtual StringC ActualPath() const
     { return FullPath(); }
-    //: Resolve data refrences correctly.
+    //: Resolve data references correctly.
 
     int &StartLineno()
     { return startLineno; }
@@ -443,7 +443,7 @@ namespace RavlCxxDocN {
     
     StringC ActualPath() const
     { return Body().ActualPath(); }
-    //: Resolve data refrences correctly.
+    //: Resolve data references correctly.
     
     ObjectListC PathList() const;
     // : Generate path list to this object.

@@ -83,7 +83,7 @@ namespace RavlCxxDocN {
     
     virtual StringC ActualPath() const
       { return position; }
-    //: Resolve data refrences correctly.
+    //: Resolve data references correctly.
     
   protected:
     StringC docFilename; // Filename for info on this node.

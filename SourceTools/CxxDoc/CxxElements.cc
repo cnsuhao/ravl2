@@ -189,7 +189,7 @@ namespace RavlCxxDocN
     }
   }
   
-  //: Resolve data refrences correctly.
+  //: Resolve data references correctly.
   
   StringC DataTypeBodyC::ActualPath() const {
     //ONDEBUG(cerr << "DataTypeBodyC::ActualPath(), Called. for :" << Name() << " \n");

@@ -152,7 +152,7 @@ namespace RavlCxxDocN {
     //: Get alias for type.
     
     virtual StringC ActualPath() const;
-    //: Resolve data refrences correctly.
+    //: Resolve data references correctly.
     
     void SetScopePath(ObjectListC &sp)
     { scopePath = sp; } 

@@ -121,7 +121,7 @@ namespace RavlCxxDocN
     return true;
   }
 
-  //: Resolve refrences in input data.
+  //: Resolve references in input data.
   bool ParserBodyC::Resolve() {
     data.Resolve();
     return true;
