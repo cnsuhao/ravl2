@@ -191,6 +191,13 @@ namespace RavlN {
     }
     //: Returns a new index with value of this index divided by integer 'i'.
 
+    inline IndexC operator%(IntT i) const {
+      if(i >= 0) return (v >= 0) ? (v%i) : i-(-v)%i;
+      return (v <= 0) ? ((-v)%(-i)) : (-v+i+1)%(-i);
+    }
+    //: Returns a new index with value of modulo operation between
+    //: this index and integer 'i'.
+
     inline const IndexC & operator+=(IntT i)
     { v += i; return *this; }
     //: Returns this index added by integer 'i'.
@@ -226,17 +233,10 @@ namespace RavlN {
     //: Returns a new index with value of this index divided by integer 'i'.
     
     inline IndexC operator%(const UIntT i) const
-    { return (v>=0) ? (v%i) : (v-IntT(i)+1)%IntT(i); }
+    { return (v>=0) ? (v%i) : i-(-v)%i; }
     //: Returns a new index with value of modulo operation between
     //: this index and integer 'i'.
     
-    inline IndexC operator%(IntT i) const {
-      if(i >= 0) return (v >= 0) ? (v%i) : (v-i+1)%i;
-      return (v <= 0) ? ((-v)%(-i)) : (-v+i+1)%(-i);
-    }
-    //: Returns a new index with value of modulo operation between
-    //: this index and integer 'i'.
-
     inline const IndexC & operator+=(const UIntT i)
     { v += i; return *this; }
     //: Returns this index added by integer 'i'.
