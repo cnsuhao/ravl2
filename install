@@ -40,7 +40,8 @@ case ${INSTMODE} in
 esac
 
 if [ -z "$1" -o -z "${INSTMODE}" ]  ; then
-  echo "Usage: install <target directory>"
+  echo "Usage: install <target directory> [ mode [ config_file [ platform ] ] ]  "
+    echo "Mode = ( full | auto | --config | rpm ) " 
   exit 1
 fi
 
