@@ -245,7 +245,7 @@ namespace RavlN {
     // !! Doesn't check if member already exists !!
     
     inline HashElemC<K,T> *LookupHV(const K &Value,UIntT &hashVal) const;
-    inline bool Del(HashElemC<K,T> *Elem,UIntT &hashVal,bool allowResize = true);
+    inline bool Del(HashElemC<K,T> *Elem,bool allowResize = true);
     
   protected:
     HashC(const HashC<K,T> &oth,bool) 
@@ -479,16 +479,10 @@ namespace RavlN {
   
   template<class K,class T>
   inline 
-  bool HashC<K,T>::Del(HashElemC<K,T> *elem,UIntT &hashVal,bool allowResize) {
-    HashElemIter place(table[hashVal % table.Size()]);
-    for(;place;place++) {
-      if(&(*place) != elem)
-	continue;
-      place.Del();
-      CheckDel(allowResize);
-      return true;
-    }
-    return false;
+  bool HashC<K,T>::Del(HashElemC<K,T> *elem,bool allowResize) {
+    delete elem;
+    CheckDel(allowResize);
+    return true;
   }
   
   template<class K,class T>
