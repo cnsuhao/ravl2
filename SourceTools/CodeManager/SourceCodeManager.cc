@@ -61,8 +61,9 @@ namespace RavlN {
       }
       // Sort out subdirectories.
       StringListC subDirs = defs.Nested();
-      for(DLIterC<StringC> it(subDirs);it;it++)
-	toDo.InsLast(at + filenameSeperator + *it);
+      DLIterC<StringC> it(subDirs);
+      for(it.Last();it;it--)
+	toDo.InsFirst(at + filenameSeperator + *it);
     }
     return true;
   }
