@@ -10,9 +10,10 @@
 //! file="Ravl/OS/DataProc/MTIOConnect.cc"
 
 #include "Ravl/DP/MTIOConnect.hh"
+#include "Ravl/Threads/LaunchThread.hh"
 
 namespace RavlN {
-
+  
   class DPEventCompleteMTIOConnectBodyC 
     : public DPEventBodyC 
   {
@@ -56,10 +57,34 @@ namespace RavlN {
     terminate = true;
     return ret;
   }
+
+  //: Run until a stream completes.
   
+  bool DPMTIOConnectBaseBodyC::Run() {
+    if(!IsReady())
+      return false;
+    LaunchThread(DPMTIOConnectBaseC(*this),&DPMTIOConnectBaseC::Start);
+    return true;
+  }
+
+  //: Do some async stuff. 
+  
+  bool DPMTIOConnectBaseBodyC::Start() {
+    RavlAssertMsg(0,"DPMTIOConnectBaseBodyC::Start(), Abstract method called. ");
+    return true;
+  }
+  
+  //: Check if we're ready to run.
+  
+  bool DPMTIOConnectBaseBodyC::IsReady() const {
+    RavlAssertMsg(0,"DPMTIOConnectBaseBodyC::IsReady(), Abstract method called. ");
+    return false;
+  }
+
   //: Stop connection.
   
   bool DPMTIOConnectBaseC::Disconnect() 
   { return Body().Disconnect(); }
+
   
 }

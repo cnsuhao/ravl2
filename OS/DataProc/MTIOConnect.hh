@@ -14,7 +14,6 @@
 //! docentry="Ravl.Core.Data Processing"
 //! rcsid="$Id$"
 
-#include "Ravl/Threads/LaunchThread.hh"
 #include "Ravl/Threads/Semaphore.hh"
 #include "Ravl/Threads/ThreadEvent.hh"
 #include "Ravl/DP/Port.hh"
@@ -22,7 +21,7 @@
 #include "Ravl/DP/IOJoin.hh"
 #include "Ravl/DP/Event.hh"
 #include "Ravl/DP/Pipes.hh"
-#include "Ravl/DP/StreamOp.hh"
+#include "Ravl/DP/IOConnect.hh"
 
 namespace RavlN {
 
@@ -33,7 +32,7 @@ namespace RavlN {
   //: Connect some IOPorts body.
   
   class DPMTIOConnectBaseBodyC 
-    : public DPStreamOpBodyC
+    : public DPIOConnectBaseBodyC
   {
   public:
     inline DPMTIOConnectBaseBodyC(bool nuseIsGetReady = true,UIntT nblockSize = 1)
@@ -42,10 +41,6 @@ namespace RavlN {
 	blockSize(nblockSize)
     {}
     //: Default Constructor.
-    
-    virtual StringC OpName() const
-    { return StringC("pump"); }
-    //: Op type name.
     
     bool Disconnect();
     //: Stop connection.
@@ -62,7 +57,16 @@ namespace RavlN {
     //: Generate an event handle 
     // It indicates the completion of processing.
     
+    virtual bool Run();
+    //: Run until a stream completes.
+    
+    virtual bool Start();
+    //: Do some async stuff.
+    
   protected:
+    virtual bool IsReady() const;
+    //: Check if we're ready to run.
+      
     bool useIsGetReady;
     bool terminate;
     UIntT blockSize;
@@ -82,7 +86,7 @@ namespace RavlN {
       : DPMTIOConnectBaseBodyC(nuseIsGetReady,nblockSize),
 	from(nfrom),
 	to(nto)
-    { LaunchThread(DPMTIOConnectC<DataT>(*this),&DPMTIOConnectC<DataT>::Start); }
+    { Run(); }
     //: Constructor.
     
 #if RAVL_CHECK
@@ -91,8 +95,11 @@ namespace RavlN {
     //: Destructor.
 #endif
     
-    bool Start();
+    virtual bool Start();
     //: Do some async stuff.
+    
+    virtual bool Step();
+    //: Do a single processing step.
     
     virtual DListC<DPIPlugBaseC> IPlugs() const {
       DListC<DPIPlugBaseC> ret;
@@ -108,6 +115,10 @@ namespace RavlN {
     }
     //: Output plugs
 
+    virtual bool IsReady() const 
+    { return from.IsValid() & to.IsValid(); }
+    //: Check if we're ready to run.
+
   private:
     DPIPortC<DataT> from;
     DPOPortC<DataT> to;
@@ -120,7 +131,7 @@ namespace RavlN {
   //: Connect some IOPorts.
   
   class DPMTIOConnectBaseC 
-    : public DPStreamOpC
+    : public DPIOConnectBaseC
   {
   public:
     inline DPMTIOConnectBaseC(DPMTIOConnectBaseBodyC &bod)
@@ -159,6 +170,9 @@ namespace RavlN {
     //: Generate an event handle 
     // It indicates the completion of processing.
     
+    bool Start()
+    { return Body().Start(); }
+    //: Do some async stuff.
   };
   
 
@@ -191,9 +205,6 @@ namespace RavlN {
     //: Access body.
     
   public:  
-    bool Start()
-    { return Body().Start(); }
-    //: Do some async stuff.
     
     friend class DPMTIOConnectBodyC<DataT>;
   };
@@ -218,9 +229,13 @@ namespace RavlN {
   template<class DataT>
   bool DPMTIOConnectBodyC<DataT>::Start() {
     //  cerr << "DPMTIOConnectBodyC<DataT>::Start(void) Called " << useIsGetReady << " \n";
+    if(!to.IsValid() || ! from.IsValid()) {
+      cerr << "WARNING: Attempt to start MTIOConnect with missing input or output. \n";
+      return false;
+    }
     try {
       if(useIsGetReady) {
-	if(blockSize > 1) {
+	if(blockSize <= 1) {
 	  while(!terminate) {
 	    DataT buff;
 	    if(!from.Get(buff))
@@ -256,7 +271,7 @@ namespace RavlN {
 	  }
 	}
       } else {
-	if(blockSize > 1) {
+	if(blockSize <= 1) {
 	  while(!terminate) {
 	    if(!to.Put(from.Get()))
 	      break;
@@ -292,10 +307,78 @@ namespace RavlN {
     return true;
   }
 
+  template<class DataT>
+  bool DPMTIOConnectBodyC<DataT>::Step() {
+    if(!to.IsValid() || ! from.IsValid()) {
+      cerr << "WARNING: Attempt to start MTIOConnect with missing input or output. \n";
+      return false;
+    }
+    try {
+      if(useIsGetReady) {
+	if(blockSize <= 1) {
+	  DataT buff;
+	  if(!from.Get(buff))
+	    return true;
+	  if(!to.Put(buff)) {
+#if RAVL_CHECK
+	    if(to.IsPutReady()) {
+	      cerr << "DPMTIOConnectBodyC<DataT>::Start(), IsPutReady test failed. \n";
+	      cerr << "  Type:" << typeid(*this).name() << endl;
+	      RavlAssert(0);
+	    }
+#endif
+	    return true;
+	  }
+	} else {
+	  // Use block processing.
+	  SArray1dC<DataT> buf(blockSize);
+	  int got = from.GetArray(buf);
+	  if(got == 0)
+	    return true;
+	  if(to.PutArray(buf) != got) {
+#if RAVL_CHECK
+	    if(to.IsPutReady()) {
+	      cerr << "DPMTIOConnectBodyC<DataT>::Start(), Failed to put all data. \n";
+	      cerr << "  Type:" << typeid(*this).name() << endl;
+	      RavlAssert(0);
+	    }
+#endif
+	    return true;
+	  }
+	}
+      } else {
+	if(blockSize <= 1) {
+	  if(!to.Put(from.Get()))
+	    return true;
+	} else {
+	  // Use block processing.
+	  SArray1dC<DataT> buf(blockSize);
+	  int puts;
+	  IntT got = from.GetArray(buf);
+	  if(got < 0)
+	    return true;
+	  if(got < (IntT) blockSize) {
+	    SArray1dC<DataT> tb(buf,got);
+	    puts = to.PutArray(tb);
+	  } else
+	    puts = to.PutArray(buf);
+	  if(puts != got) {
+	    cerr << "DPMTIOConnectBodyC<DataT>::Start(), PutArray failed to output all data. \n";
+	    return true;
+	  }
+	}
+      }
+    } catch(...) {
+      cerr << "An exception occured in: " << typeid(*this).name() << endl;
+      cerr << "Halting thread. \n" << flush;
+    }
+    return true;
+  }
+  
   //! userlevel=Normal
   //: Multi-threaded composition operators.
   
-  template<class DataT>
+    template<class DataT>
   inline DPEventC operator>>= (const DPIPortC<DataT> &in,const DPOPortC<DataT> &out)
   { return DPMTIOConnectC<DataT>(in,out,true).EventComplete(); }
   //: Pump data from an input into an output.
