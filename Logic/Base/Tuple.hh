@@ -121,8 +121,10 @@ namespace RavlLogicN {
     TupleC(const LiteralC &x)
       : LiteralC(x)
     {
-      if(dynamic_cast<const TupleBodyC *>(&LiteralC::Body()) == 0)
-	Invalidate();
+      if(IsValid()) {
+	if(dynamic_cast<const TupleBodyC *>(&LiteralC::Body()) == 0)
+	  Invalidate();
+      }
     }
     //: Base class constructor.
     // if x isn't an Tuple an invalid handle is created.

@@ -105,12 +105,12 @@ namespace RavlLogicN {
   {
   public:
     LiteralC()
-      {}
+    {}
     //: Default constructor.
 
     LiteralC(bool)
       : RCHandleC<LiteralBodyC>(*new LiteralBodyC())
-      {}
+    {}
     //: Constructor.
     
     LiteralC(const char *name);
@@ -123,11 +123,11 @@ namespace RavlLogicN {
     //: Body constructor.
     
     LiteralBodyC &Body()
-      { return RCHandleC<LiteralBodyC>::Body(); }
+    { return RCHandleC<LiteralBodyC>::Body(); }
     //: Access body.
 
     const LiteralBodyC &Body() const
-      { return RCHandleC<LiteralBodyC>::Body(); }
+    { return RCHandleC<LiteralBodyC>::Body(); }
     //: Access body.
     
   public:
@@ -168,7 +168,7 @@ namespace RavlLogicN {
     //: Inequality test.
     
     void Dump(ostream &out)
-      { Body().Dump(out); }
+    { Body().Dump(out); }
     //: Dump info in human readable format to stream 'out'.
 
     bool Test(const StateC &state,BindSetC &binds) const

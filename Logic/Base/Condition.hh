@@ -107,8 +107,10 @@ namespace RavlLogicN {
     ConditionC(const LiteralC &term)
       : TupleC(term)
     {
-      if(dynamic_cast<const ConditionBodyC *>(&LiteralC::Body()) == 0)
-	Invalidate();
+      if(IsValid()) {
+	if(dynamic_cast<const ConditionBodyC *>(&LiteralC::Body()) == 0)
+	  Invalidate();
+      }
     }
     //: Construct from base class.
     
