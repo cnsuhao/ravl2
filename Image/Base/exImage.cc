@@ -2,6 +2,7 @@
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Array2dIter.hh"
 #include "Ravl/Image/ImgIO.hh"
+#include "Ravl/Option.hh"
 
 #include "Ravl/IO.hh"
 
