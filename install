@@ -14,8 +14,13 @@ fi
 BUILDTYPE=fullbuild
 
 case ${INSTMODE} in 
-  full)
-     BUILDDIR=$1
+  full | auto)
+     BUILDDIR=$1 
+     if [ -z "$3" ] ; then
+       CONFIGFILE=""
+     else
+       CONFIGFILE="CONFIGFILE=$3"
+     fi
      true ;;
   --config)
      BUILDDIR=$1
@@ -29,11 +34,9 @@ case ${INSTMODE} in
      INSTMODE=""
 esac
 
-echo "Config= ${CONFIGFILE} "
-
 if [ -z "$1" -o -z "${INSTMODE}" ]  ; then
   echo "Usage: install <target directory>"
-  exit
+  exit 1
 fi
 
 ##################################
@@ -42,7 +45,7 @@ if which perl > /dev/null ; then
   true
 else
   echo "Error:Can't find perl, this is required for installation & usage. "
-  exit
+  exit 1
 fi
 
 ##################################
