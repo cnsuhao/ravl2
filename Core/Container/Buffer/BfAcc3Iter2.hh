@@ -119,15 +119,12 @@ namespace RavlN {
     // false if the end of the array has been reached.
     
     bool Next() { 
-      sit.Next();
-      if(sit.IsElm())
-	return true;
-      rit.Next();
-      if(!rit.IsElm())
+      sit++;
+      if(!sit.IsElm()) {
+	NextRow();
 	return false;
-      sit.First(rit.Data1(),rng2a,rng3a,
-		rit.Data2(),rng2b,rng3b);
-      return false;
+      }
+      return true;
     }
     //: Goto next element.
     // Goto next element in the array. Returns true if the element
@@ -142,12 +139,18 @@ namespace RavlN {
     { return sit.IsElm(); }
     //: Test if iterator is at a valid element.
     
-    void operator++() 
-    { Next(); }
+    void operator++() {  
+      sit++;
+      if(!sit.IsElm())
+	NextRow();
+    }
     //: Goto next element.
-
-    void operator++(int) 
-    { Next(); }
+    
+    void operator++(int) {  
+      sit++;
+      if(!sit.IsElm())
+	NextRow();
+    }
     //: Goto next element.
     
     Data1T &Data() 
@@ -175,6 +178,9 @@ namespace RavlN {
     //: Access data of current element
     
   protected:
+    bool NextRow();
+    //: Goto next row.
+    
     BufferAccessIter2C<BufferAccessC<BufferAccessC<Data1T> >, BufferAccessC<BufferAccessC<Data2T> > > rit;
     BufferAccess2dIter2C<Data1T,Data2T> sit;
     IndexRangeC rng2a;
@@ -182,6 +188,18 @@ namespace RavlN {
     IndexRangeC rng2b;
     IndexRangeC rng3b;
   };
+  
+  template <class Data1T,class Data2T>
+  bool BufferAccess3dIter2C<Data1T,Data2T>::NextRow() {
+    rit.Next();
+    if(!rit.IsElm())
+      return false;
+    sit.First(rit.Data1(),rng2a,rng3a,
+	      rit.Data2(),rng2b,rng3b);
+    return true;
+  }
+  //: Goto next row.
+  
 }
 
 

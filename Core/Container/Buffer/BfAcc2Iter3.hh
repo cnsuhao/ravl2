@@ -158,12 +158,20 @@ namespace RavlN {
     { return cit.IsElm(); }
     //: At a valid element ?
     
-    void operator++() 
-    { Next(); }
+    inline
+    void operator++() {  
+      cit.Next();
+      if(!cit.IsElm())
+	NextRow();
+    }
     //: Goto next element.
-
-    void operator++(int) 
-    { Next(); }
+    
+    inline
+    void operator++(int) {  
+      cit.Next();
+      if(!cit.IsElm())
+	NextRow();      
+    }
     //: Goto next element.
     
     Data1T &Data1() 
@@ -216,6 +224,8 @@ namespace RavlN {
     IndexRangeC rng2;
     IndexRangeC rng3;
   };
+
+
 }
 
 #endif

@@ -105,13 +105,10 @@ namespace RavlN {
     // false if the end of the array has been reached.
     
     bool Next() { 
-      sit.Next();
+      sit++;
       if(sit.IsElm())
 	return true;
-      rit.Next();
-      if(!rit.IsElm())
-	return false;
-      sit.First(*rit,rng2,rng3);;
+      NextRow();
       return false;
     }
     //: Goto next element.
@@ -127,12 +124,18 @@ namespace RavlN {
     { return sit.IsElm(); }
     //: Test if iterator is at a valid element.
     
-    void operator++() 
-    { Next(); }
+    void operator++() {  
+      sit++;
+      if(!sit.IsElm())
+	NextRow();
+    }
     //: Goto next element.
 
-    void operator++(int) 
-    { Next(); }
+    void operator++(int) {  
+      sit++;
+      if(!sit.IsElm())
+	NextRow();      
+    }
     //: Goto next element.
     
     DataT &operator*() 
@@ -168,11 +171,26 @@ namespace RavlN {
     //: Access data of current element
     
   protected:
+    bool NextRow();
+    //: Goto next row.
+    
     BufferAccessIterC<BufferAccessC<BufferAccessC<DataT> > > rit;
     BufferAccess2dIterC<DataT> sit;
     IndexRangeC rng2;
     IndexRangeC rng3;
   };
+
+
+  //: Goto next row.
+  template <class DataT>
+  bool BufferAccess3dIterC<DataT>::NextRow() {
+    rit.Next();
+    if(!rit.IsElm())
+      return false;
+    sit.First(*rit,rng2,rng3);;
+    return true;
+  }
+
 }
 
 

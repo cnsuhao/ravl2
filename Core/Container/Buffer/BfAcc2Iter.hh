@@ -159,12 +159,18 @@ namespace RavlN {
     { return cit.IsElm(); }
     //: Test if iterator is at a valid element.
     
-    void operator++() 
-    { Next(); }
+    void operator++() { 
+      cit++;
+      if(!cit.IsElm())
+	NextRow();
+    }
     //: Goto next element.
-
-    void operator++(int) 
-    { Next(); }
+    
+    void operator++(int) {
+      cit++;
+      if(!cit.IsElm())
+	NextRow();      
+    }
     //: Goto next element.
     
     DataT &operator*() 

@@ -114,7 +114,7 @@ namespace RavlN {
     }
     //: Advance 'skip' elements.
     // Call ONLY if you know this will not go past the end of the array.
-
+    
     inline void operator++()
     { Next(); }
     //: Goto next elment.
