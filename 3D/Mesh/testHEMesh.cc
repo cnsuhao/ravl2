@@ -32,6 +32,7 @@ int main() {
 }
 
 int testTri2HEMesh() {
+  cout << "testTri2HEMesh()... \n";
   SArray1dC<Vector3dC> verts(4);
   verts[0] = Point3dC(0,0,0);
   verts[1] = Point3dC(0,0,1);
@@ -57,6 +58,8 @@ int testTri2HEMesh() {
   TriMeshC recon = mesh.TriMesh();
   if(recon.Faces().Size() != 4) return __LINE__;
   if(recon.Vertices().Size() != 4) return __LINE__;
+  
+  cout << "testTri2HEMesh(), checking collapse edge. \n";
   
   HEMeshEdgeC anEdge = mesh.FirstFace().Edge();
   if(!anEdge.IsValid()) return __LINE__;

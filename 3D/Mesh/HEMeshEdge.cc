@@ -28,16 +28,22 @@ namespace Ravl3DN {
     // Make sure the vertex doesn't link to this edge.
     if(vertex->edge != this)
       return ;
-    vertex->edge = vertex->edge->Next().pair;
-    if(vertex->edge != 0) 
+    HEMeshEdgeBodyC *newEdge = Next().pair;
+    if(newEdge == this) {
+      // Looks like we're the only edge connected to the vertex.
+      vertex->edge = 0; // Well we tried.
+      return ;      
+    }
+    if(newEdge != 0) {
+      vertex->edge = newEdge;
       return ;
+    }
     // Must be an open mesh, try the other way.
-    HEMeshEdgeBodyC *p = vertex->edge->pair;
-    if(p == 0) {
+    if(pair == 0) {
       vertex->edge = 0; // Well we tried.
       return ;
     }
-    vertex->edge = &p->Prev();
+    vertex->edge = &pair->Prev();
   }
   
   //: Remove this half edge.
@@ -81,7 +87,7 @@ namespace Ravl3DN {
     HEMeshVertexBodyC *deadVertex = Prev().vertex;
     HEMeshVertexC ret(*vertex);
     // Redirect all vertex pointers away from dead vertex.
-    for(HEMeshVertexEdgeIterC it(*deadVertex);it;it++) 
+    for(HEMeshToVertexEdgeIterC it(*deadVertex);it;it++) 
       it->vertex = vertex;
     // Remove the half edges.
     HEMeshEdgeBodyC *xpair = pair;

@@ -313,6 +313,7 @@ namespace Ravl3DN {
     friend class HEMeshVertexBodyC;
     friend class HEMeshVertexC;
     friend class HEMeshVertexEdgeIterC;
+    friend class HEMeshToVertexEdgeIterC;
     friend class HEMeshFaceC;
     friend class HEMeshFaceEdgeIterC;
     friend class HEMeshFaceBodyC;
@@ -322,7 +323,7 @@ namespace Ravl3DN {
   
   //! userlevel=Normal
   //: Iterate through edges around a vertex. 
-  // This goes through all the half edges pointing to the vertex.
+  // This goes through all the half edges pointing away from the vertex.
   
   class HEMeshVertexEdgeIterC {
   public:
@@ -333,15 +334,115 @@ namespace Ravl3DN {
     //: Default constructor.
 
     HEMeshVertexEdgeIterC(HEMeshVertexBodyC &vert)
-      : first(&vert.FirstEdge()),
-	at(&vert.FirstEdge())
-    {}
+      : first(&vert.FirstEdge().Pair())
+    { at = first; }
     //: Construct from a face
     
     HEMeshVertexEdgeIterC(HEMeshVertexC &vert)
-      : first(&vert.FirstEdge().Body()),
-	at(&vert.FirstEdge().Body())
+      : first(&vert.FirstEdge().Pair().Body())
+    { at = first; }
+    //: Construct from a face
+    
+    bool First() { 
+      at = first; 
+      return at != 0;
+    }
+    //: Goto first element.
+    // Returns true if the new element is valid.
+    
+    bool IsFirst()
+    { return at != first && at != 0; }
+    //: Is this the first element in list.
+    
+    bool Next() {
+      at = &at->Pair().Next();
+      if(at == first) {
+	at = 0;
+	return false;
+      }
+      return true;
+    }
+    //: Goto next edge around face.
+    // Returns true if the new element is valid.
+    
+    bool operator++(int)
+    { return Next(); }
+    //: Goto next edge around face.
+    // Returns true if the new element is valid.
+    
+    operator bool() const
+    { return at != 0; }
+    //: Test if we're at a valid element.
+    // Returns true if we are.
+    
+    bool IsElm() const
+    { return at != 0; }
+    //: Test if we're at a valid element.
+    // Returns true if we are.
+    
+    HEMeshEdgeBodyC &Data()
+    { return *at; }
+    //: Access edge.
+    // Iterator must be at a valid element
+    // before calling this method.
+    
+    const HEMeshEdgeBodyC &Data() const
+    { return *at; }
+    //: Access edge.
+    // Iterator must be at a valid element
+    // before calling this method.
+    
+    const HEMeshEdgeBodyC &operator *() const
+    { return *at; }
+    //: Access edge.
+    // Iterator must be at a valid element
+    // before calling this method.
+    
+    HEMeshEdgeBodyC &operator *()
+    { return *at; }
+    //: Access edge.
+    // Iterator must be at a valid element
+    // before calling this method.
+
+    const HEMeshEdgeBodyC *operator ->() const
+    { return at; }
+    //: Access edge.
+    // Iterator must be at a valid element
+    // before calling this method.
+    
+    HEMeshEdgeBodyC *operator ->()
+    { return at; }
+    //: Access edge.
+    // Iterator must be at a valid element
+    // before calling this method.
+    
+  protected:
+    HEMeshEdgeBodyC *first;
+    HEMeshEdgeBodyC *at;
+  };
+
+  /////////////////////////////////////////////////////////////////////////
+  
+  //! userlevel=Normal
+  //: Iterate through edges around a vertex. 
+  // This goes through all the half edges pointing to a vertex.
+  
+  class HEMeshToVertexEdgeIterC {
+  public:
+    HEMeshToVertexEdgeIterC()
+      : first(0),
+	at(0)
     {}
+    //: Default constructor.
+
+    HEMeshToVertexEdgeIterC(HEMeshVertexBodyC &vert)
+      : first(&vert.FirstEdge())
+    { at = first; }
+    //: Construct from a face
+    
+    HEMeshToVertexEdgeIterC(HEMeshVertexC &vert)
+      : first(&vert.FirstEdge().Body())
+    { at = first; }
     //: Construct from a face
     
     bool First() { 

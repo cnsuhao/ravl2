@@ -102,12 +102,12 @@ namespace Ravl3DN {
       ONDEBUG(cerr << "HEMeshBodyC::CheckMesh(), Checking vertexes. \n");
       for(IntrDLIterC<HEMeshVertexBodyC> vit(vertices);vit;vit++) {
 	for(HEMeshVertexEdgeIterC it(*vit);it;it++) {
-	  if(it->Vertex() != *vit) {
+	  if(it->SourceVertex() != *vit) {
 	    cerr << "HEMeshBodyC::CheckMesh(), Incorrect vertex pointer. \n";
 	    ret = false;
 	    //return false;
 	  }
-	  if(it->SourceVertex() == *vit) {
+	  if(it->Vertex() == *vit) {
 	    cerr << "HEMeshBodyC::CheckMesh(), Zero area face. \n";
 	    ret = false;
 	    //return false;
