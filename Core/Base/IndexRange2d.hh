@@ -91,6 +91,22 @@ namespace RavlN {
     { return Index2dC(rows.Max(),cols.Max()); }
     //: Returns the bottom-right index of the rectangle.
     
+    inline Index2dC TopRight() const
+    { return Index2dC(rows.Min(),cols.Max()); }
+    //: Returns the top-right index of the rectangle.
+    
+    inline Index2dC TopLeft() const
+    { return Index2dC(rows.Min(),cols.Min()); }
+    //: Returns the top-left index of the rectangle.
+    
+    inline Index2dC  BottomLeft() const
+    { return Index2dC(rows.Max(),cols.Min()); }
+    //: Returns the bottom-left index of the rectangle.
+    
+    inline Index2dC  BottomRight() const
+    { return Index2dC(rows.Max(),cols.Max()); }
+    //: Returns the bottom-right index of the rectangle.
+    
     inline Index2dC Center() const
     { return Index2dC(rows.Center(),cols.Center()); }
     //: Returns the index which is in the middle of the rectangle
