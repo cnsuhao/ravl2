@@ -131,7 +131,7 @@ namespace RavlN {
     //: Open new video stream.
     // This assumes the input stream is locked by the calling function.
     
-    void CheckUpdate();
+    bool CheckUpdate();
     //: Check state of stream after get.
     // This assumes the input stream is locked by the calling function.
     
@@ -300,14 +300,14 @@ namespace RavlN {
       if(pause)
 	sema.Wait();
       MutexLockC lock(access);
-      RavlAssert(input.IsValid());
       CheckUpdate();
+      RavlAssert(input.IsValid());
       DataT dat = input.Get();  // Possible exception.
+      lock.Unlock();
       return dat;
-      // Unlock here.
     }
     // Get next piece of data.
-  
+    
     virtual bool Get(DataT &buff) { 
       if(pause)
 	sema.Wait();

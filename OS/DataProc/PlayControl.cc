@@ -48,6 +48,7 @@ namespace RavlN {
       passEOS(nPassEOS),
       start(nstart),
       end(nend),
+      playMode(0),
       subStart(1),
       subEnd(1),
       doneRev(false),
@@ -219,8 +220,9 @@ namespace RavlN {
   //: Check state of stream BEFORE get.
   // This assumes the input stream is locked by the calling function.
   
-  void DPPlayControlBodyC::CheckUpdate() {
-    ONDEBUG(cerr << "-------------------------------\n@ " << at << " Inc:" << inc << " Tell:" << ctrl.Tell() <<"\n");
+  bool DPPlayControlBodyC::CheckUpdate() {
+    ONDEBUG(cerr << "-------------------------------\n@ " << at << " Mode=" << playMode <<  " Inc:" << inc << " Tell:" << ctrl.Tell() <<" End=" << end << "\n");
+    bool ret = true;
 #if FORCE_AT
     if(at != ctrl.Tell()) {
       cerr << "WARNING: Position mismatch: At:" << at << " Actual:" << ctrl.Tell() << "\n";    
@@ -229,10 +231,10 @@ namespace RavlN {
 #endif
     switch(playMode) 
       {
-      case 0: break;
-      case 1:
+      case 0: break; // 0-Once through 
+      case 1: // 1-Once through sub seq. 
 	if(inc > 0) {
-	  if(at > subEnd) {
+	  if(at >= subEnd) {
 	    inc = 0; // Stop.
 	    Pause();
 	  }
@@ -321,6 +323,7 @@ namespace RavlN {
     if(lastFrame == (int) end)
       at = end;
     ONDEBUG(cerr << " Last frame :" << lastFrame << " Tell:" << ctrl.Tell() << " At:" << at << "\n");  
+    return ret;
   }
   
   //: Goto beginning of sequence. (for GUI)
