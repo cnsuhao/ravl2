@@ -27,7 +27,7 @@ namespace RavlImageN {
 			     ) {
     SetZero(diff);
     IndexRange2dC srect(imgTemplate.Frame());
-    srect.SetOrigin(origin);
+    srect += origin;
     RavlAssert(img.Frame().Contains(srect)); 
     RangeBufferAccess2dC<ByteT> subImg(img,srect); 
     for(BufferAccess2dIter2C<DataT,DataT> it(imgTemplate,imgTemplate.Range2(),
@@ -43,21 +43,24 @@ namespace RavlImageN {
   
   template<class DataT,class SumT>
   SumT SearchMinAbsDifference(const Array2dC<DataT> &tmpl,const Array2dC<DataT> &img,const IndexRange2dC &area,Index2dC &at,SumT &rminScore) {
-    SumT minScore;
+    SumT minScore = 1000000;
     IndexRange2dC sarea(area);
     sarea.ClipBy(img.Frame());
     SumT score;
     Rectangle2dIterC it(sarea,tmpl.Frame());
-    MatchSumAbsDifference(tmpl,img,it.Window().Origin(),minScore);
-    at = it.Window().Origin();
+    if(!it)
+      return minScore;
+    Index2dC off = tmpl.Frame().Origin();
+    MatchSumAbsDifference(tmpl,img,it.Window().Origin() - off,minScore);
+    at = it.Window().Origin() - off;
     for(it++;it;it++) {
-      MatchSumAbsDifference(tmpl,img,it.Window().Origin(),score);
+      Index2dC tryAt = it.Window().Origin() - off;
+      MatchSumAbsDifference(tmpl,img,tryAt,score);
       if(score < minScore) {
 	minScore = score;
-	at = it.Window().Origin();
+	at = tryAt;
       }
     }
-    at -= tmpl.Frame().Origin();
     rminScore = minScore;
     return minScore;
   }
