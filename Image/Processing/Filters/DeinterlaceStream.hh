@@ -285,6 +285,7 @@ namespace RavlImageN {
   {
   public:
     DeinterlaceStreamC()
+      : DPEntityC(true)
     {}
     //: Default constructor.
     // Creates an invalid handle.
