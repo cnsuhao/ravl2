@@ -125,6 +125,14 @@ namespace RavlN {
     { return attribs; }
     //: Get the current attributes.
     
+    StringC operator[] (const StringC &key) 
+    { return attribs[key]; }
+    //: Get attribute whose name is "key"
+
+    const StringC operator[] (const StringC &key) const
+    { return attribs[key]; }
+    //: Get attribute whose name is "key"
+
     void SetEmptyTag(bool v)
     { emptyTag = v; }
     //: Set empty tag flag.
@@ -176,6 +184,14 @@ namespace RavlN {
     { return Body().Attributes(); }
     //: Get the current attributes.
     
+    StringC operator[] (const StringC &key) 
+    { return Body()[key]; }
+    //: Get attribute whose name is "key"
+
+    const StringC operator[] (const StringC &key) const
+    { return Body()[key]; }
+    //: Get attribute whose name is "key"
+
     bool IsEmptyTag() const
     { return Body().IsEmptyTag(); }
     //: Is tag empty ?
