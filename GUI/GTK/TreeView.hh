@@ -266,6 +266,10 @@ namespace RavlGUIN {
     //: Set an attribute for a column
     // Possible keys include: "editable", "sortable", "activateable", "foreground", "background", "reorderable", "resizable"
     
+    bool GUISetAttribute(IntT colNum,const StringC &key,const StringC &value,bool proxy = true);
+    //: Set an attribute for a column
+    // Possible keys include: "editable", "sortable", "activateable", "foreground", "background", "reorderable", "resizable"
+    
     bool SetAttribute(IntT colNum,UIntT subCol,const StringC &key,const StringC &value,bool proxy = true);
     //: Set an attribute for a column
     // Possible keys include: "editable", "sortable", "activateable", "foreground", "background", "reorderable", "resizable"
@@ -449,6 +453,9 @@ namespace RavlGUIN {
     virtual bool GUIDNDTargetDisable();
     //: Disable widget as a drag and drop source.
     
+    bool SetAttribute(GtkTreeViewColumn *column,GtkCellRenderer *renderer,const StringC &colName,const StringC &attrName,const StringC &attrValue,bool proxy);
+    //: Helper for setting attributes.
+    
     TreeModelC treeModel;
     GtkTreeSelection *selection;
     Signal1C<DListC<TreeModelIterC> > selectionChanged;
@@ -535,6 +542,11 @@ namespace RavlGUIN {
     
     bool SetAttribute(IntT colNum,const StringC &key,const StringC &value,bool proxy = true)
     { return Body().SetAttribute(colNum,key,value,proxy); }
+    //: Set an attribute for a column
+    // Possible keys include: "editable", "sortable", "activateable", "foreground", "background", "reorderable", "resizable"
+    
+    bool GUISetAttribute(IntT colNum,const StringC &key,const StringC &value,bool proxy = true)
+    { return Body().GUISetAttribute(colNum,key,value,proxy); }
     //: Set an attribute for a column
     // Possible keys include: "editable", "sortable", "activateable", "foreground", "background", "reorderable", "resizable"
     
