@@ -39,6 +39,7 @@ namespace RavlGUIN {
       closeDown(false),
       cursorChange(false),
       userresizable(true),
+      m_bDecorated(true),
       winType(nWinType)
   {
     if(rootWin)
@@ -80,6 +81,8 @@ namespace RavlGUIN {
     if (!userresizable) GUIUserResizable(userresizable);
     // Set transience
     if (m_wParent.IsValid()) GUIMakeTransient(m_wParent);
+    // Set decorations
+    if (!m_bDecorated) GUISetDecorated(m_bDecorated);
     // Done
     return true;
   }
@@ -248,6 +251,24 @@ namespace RavlGUIN {
       gtk_window_set_transient_for(GTK_WINDOW(widget),GTK_WINDOW(parent.Widget()));
     else 
       m_wParent = parent;
+    return true;
+  }
+
+  void WindowBodyC::SetDecorated(bool& decorated) {
+    Manager.Queue(Trigger(WindowC(*this),&WindowC::GUISetDecorated,decorated));
+  }
+
+  bool WindowBodyC::GUISetDecorated(bool& decorated) {
+    if (widget!=0 && widget->window!=0) {
+#ifdef RAVL_USE_GTK2
+      gtk_window_set_decorated(widget,decorated);
+#else
+      GdkWMDecoration dec = decorated ? GdkWMDecoration(127) : GdkWMDecoration(0);
+      gdk_window_set_decorations(widget->window,dec);
+#endif
+    }
+    else 
+      m_bDecorated = decorated;
     return true;
   }
    

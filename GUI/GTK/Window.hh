@@ -64,6 +64,11 @@ namespace RavlGUIN {
     //: Allow the user to resize the window?
     // Default is true. If set to false, window will shrink to the minimum size dictated by it's children.
 
+    void SetDecorated(bool& decorated);
+    //: Does the window have decorations?
+    // Default value is true. If false, the window manager shouldn't decorate the window
+    // This may not have any effect at all, depending on the window manager. I wouldn't rely on it.
+
     void Raise();
     //: Raises the window
 
@@ -103,6 +108,11 @@ namespace RavlGUIN {
     //: Allow the user to resize the window?
     // Default is true. If set to false, window will shrink to the minimum size dictated by it's children.
 
+    bool GUISetDecorated(bool& decorated);
+    //: Does the window have decorations?
+    // Default value is true. If false, the window manager shouldn't decorate the window
+    // This may not have any effect at all, depending on the window manager. I wouldn't rely on it.
+
     bool GUIRaise();
     //: Raises the window
 
@@ -126,6 +136,7 @@ namespace RavlGUIN {
     CursorC cursor; // Invalid == default.
     bool cursorChange;
     bool userresizable; // Used only to cache UserResizable calls - irrelevant after Create()
+    bool m_bDecorated; // Used only to cache SetDecorated calls - irrelevant after Create()
     GtkWindowType winType;
     OneChildC m_wParent; // Used only to cache MakeTransient calls - irrelevant after Create()
     
@@ -188,6 +199,12 @@ namespace RavlGUIN {
     //: Allow the user to resize the window?
     // Default is true. If set to false, window will shrink to the minimum size dictated by it's children.
 
+    bool GUISetDecorated(bool& decorated)
+    { return Body().GUISetDecorated(decorated); }
+    //: Does the window have decorations?
+    // Default value is true. If false, the window manager shouldn't decorate the window
+    // This may not have any effect at all, depending on the window manager. I wouldn't rely on it.
+
     bool GUIRaise()
     { return Body().GUIRaise(); }
     //: Raises the window
@@ -231,6 +248,12 @@ namespace RavlGUIN {
     void MakeTransient(WindowC& parent)
     { Body().MakeTransient(parent); }
     //: Makes this window transient for the parent
+
+    void SetDecorated(bool& decorated)
+    { Body().SetDecorated(decorated); }
+    //: Does the window have decorations?
+    // Default value is true. If false, the window manager shouldn't decorate the window
+    // This may not have any effect at all, depending on the window manager. I wouldn't rely on it.
 
     void SetTitle(const StringC &str)
     { Body().SetTitle(str); }
