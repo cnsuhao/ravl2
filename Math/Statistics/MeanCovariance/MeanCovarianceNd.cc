@@ -29,7 +29,7 @@ namespace RavlN {
     it++;
     for(;it;it++)
       cov += it->OuterProduct();
-    cov -= Mean().OuterProduct();
+    cov -= Mean().OuterProduct() * Number();
     cov /= Number()-1;
   }
   
