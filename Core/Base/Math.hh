@@ -113,12 +113,18 @@ namespace RavlN {
   inline DataT Max(const DataT &a, const DataT &b, const DataT &c) 
   { return Max(Max(a,b),c) ; }
   //: Retruns the bigger value form 'a' and 'b' and 'c' 
-
+  
   inline RealT Log(RealT r) {
     RavlAssertMsg(r > 0.0,"Log(RealT r): Can't take log of zero or negative number.");
     return log(r);
   }
-  //: Returns log(r).
+  //: Returns natural log of r.
+
+  inline RealT Log10(RealT r) {
+    RavlAssertMsg(r > 0.0,"Log(RealT r): Can't take log of zero or negative number.");
+    return log10(r);
+  }
+  //: Returns log base 10 of r.
   
   inline RealT Pow(RealT x, RealT y)
   { return pow(x,y); }
