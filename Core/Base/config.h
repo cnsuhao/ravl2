@@ -147,15 +147,15 @@
 /****** Compiler/ C++ Library ***************************************************/
 
 #define RAVL_HAVE_STDNAMESPACE    RAVL_COMPILER_GCC3       /* Use std namespace. */
-#define RAVL_HAVE_ANSICPPHEADERS  !RAVL_COMPILER_MIPSPRO   /* Use ansi complient c++ headers, i.e without the .h */
+#define RAVL_HAVE_ANSICPPHEADERS  RAVL_COMPILER_GCC        /* Use ansi complient c++ headers, i.e without the .h */
 #define RAVL_HAVE_EXCEPTIONS      1                        /* are exceptions enabled ? */
 #define RAVL_HAVE_EXCEPTION_H     !RAVL_COMPILER_VISUALCPP /* Have exception.h ? */
 #define RAVL_HAVE_EXCEPTION_SPECS !RAVL_COMPILER_VISUALCPP /* throw(..) exceptions specs accepted ? */
 #define RAVL_HAVE_RTTI            1                        /* is C++ Real Time Type Information available ? */
 #define RAVL_HAVE_IOS_BINARY      !RAVL_COMPILER_MIPSPRO   /* do we have ios::binary.  */
-#define RAVL_HAVE_IOS_SEEKDIR     RAVL_COMPILER_GCC        /* else assume ios::seek_dir exists. */
-#define RAVL_HAVE_STREAMSIZE      RAVL_COMPILER_GCC        /* have streamsize type. */
-#define RAVL_HAVE_STREAMASCLASS   !RAVL_COMPILER_GCC3      /* istream and ostream are classes not typedefs. */
+#define RAVL_HAVE_IOS_SEEKDIR     (RAVL_HAVE_STDNAMESPACE || RAVL_COMPILER_GCC)  /* else assume ios::seek_dir exists. */
+#define RAVL_HAVE_STREAMSIZE      (RAVL_HAVE_STDNAMESPACE || RAVL_COMPILER_GCC)  /* have streamsize type. */
+#define RAVL_HAVE_STREAMASCLASS   !RAVL_HAVE_STDNAMESPACE    /* istream and ostream are classes not typedefs. */
 #define RAVL_VISUALCPP_NAMESPACE_BUG RAVL_COMPILER_VISUALCPP /* Bug in namespace handling under Visual C++ 6.x */
 #define RAVL_ISTREAM_UNGET_BUG       RAVL_COMPILER_VISUALCPP /* Bug in stream unget under Visual C++ 6.x */
 #define RAVL_NEW_ANSI_CXX_DRAFT   !RAVL_COMPILER_VISUALCPP /* The mainly effects the use of <> in templated friend declarations */
