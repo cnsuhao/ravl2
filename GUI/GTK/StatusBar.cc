@@ -29,13 +29,21 @@ namespace RavlGUIN {
     : initMsg(nInitMsg)
   {}
   
-  
   //: Create the widget.
   
   bool StatusBarBodyC::Create() {
     if(widget != 0)
       return true;
     widget = gtk_statusbar_new();
+    defaultContext = gtk_statusbar_get_context_id	(GTK_STATUSBAR(widget),"Default");
+    gtk_statusbar_push(GTK_STATUSBAR(widget),defaultContext,initMsg.chars());
+    return true;
+  }
+  
+  //: Create the widget from another.
+  
+  bool StatusBarBodyC::Create(GtkWidget *_widget) {
+    widget = _widget;
     defaultContext = gtk_statusbar_get_context_id	(GTK_STATUSBAR(widget),"Default");
     gtk_statusbar_push(GTK_STATUSBAR(widget),defaultContext,initMsg.chars());
     return true;

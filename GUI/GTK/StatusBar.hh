@@ -34,6 +34,9 @@ namespace RavlGUIN {
     virtual bool Create();
     //: Create the widget.
     
+    virtual bool Create(GtkWidget *_widget);
+    //: Create the widget from another.
+    
     void Push(IntT context,const StringC &str);
     //: Push message.
     // Thread safe.
