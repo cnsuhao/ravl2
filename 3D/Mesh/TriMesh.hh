@@ -59,12 +59,13 @@ namespace Ravl3DN {
     
     TriMeshBodyC(const SArray1dC<Vector3dC> &v,const SArray1dC<UIntT> &faceInd);
     //: Construct from an array of vertices and an array of indices.
-    // The length of faceInd should be a power of 3, success triples are taken
-    // from it to form the faces in the mesh.
+    // The length of faceInd should be a power of 3, successive triples of vertex indexes are taken to 
+    // form the faces of the mesh.
     
     TriMeshBodyC(const DListC<Vector3dC> &v,const DListC<UIntT> &faceInd);
     //: Construct from a list of vertices and a list of indices.
-    // The length of faceInd should be a power of 3, success triples are taken
+    // The length of faceInd should be a power of 3, successive triples of vertex indexes are taken to 
+    // form the faces of the mesh.
     
     TriMeshBodyC(const DListC<Vector3dC> &v,const DListC<Index3dC> &faceInd);
     //: Construct from a list of vertices and a list of indices.
@@ -157,12 +158,13 @@ namespace Ravl3DN {
     //: Construct from an array of vertices and an array of indices.
     // The length of faceInd should be a power of 3, success triples are taken
     // from it to form the faces in the mesh.
-
+    
     TriMeshC(const DListC<Vector3dC> &v,const DListC<UIntT> &faceInd)
       : RCHandleC<TriMeshBodyC>(*new TriMeshBodyC(v,faceInd))
     {}
     //: Construct from a list of vertices and a list of indices.
     // The length of faceInd should be a power of 3, success triples are taken
+    // from it to form the faces in the mesh.
 
     TriMeshC(const DListC<Vector3dC> &v,const DListC<Index3dC> &faceInd)
       : RCHandleC<TriMeshBodyC>(*new TriMeshBodyC(v,faceInd))
