@@ -58,6 +58,8 @@ int main(int nargs,char *args[])
   DPEventSetC es;
   if(netExport) {
     if(!NetPortOpen(serverAddress)) {
+      if(verb)
+	cout << "Open network failed. \n";
       cerr << "Failed to open NetPortManager." << serverAddress << " \n";
       return __LINE__;
     }
@@ -68,6 +70,8 @@ int main(int nargs,char *args[])
     DPOSPortC<ImageC<ByteRGBValueC> > vidOut;
     
     if(!OpenISequence(vidIn,infile,formatIn,verb)) {
+      if(verb)
+	cout << "Open failed. \n";
       cerr << "ERROR: Failed to open input '" << infile << "'\n";
       exit(1);
     }
@@ -77,6 +81,8 @@ int main(int nargs,char *args[])
 	cerr << "ERROR: Failed to export '" << outfile << "' \n";
 	return __LINE__;
       }
+      if(verb)
+	cout << "Stream ready.\n";
       while(1)
 	Sleep(1000);
       return 0;
@@ -86,6 +92,8 @@ int main(int nargs,char *args[])
       cerr << "ERROR: Failed to open output '" << infile << "'\n";
       exit(1);
     }
+    if(verb)
+      cout << "Stream ready.\n";
     
     es += vidIn >>= DPFixedBufferC<ImageC<ByteRGBValueC > >(bufferSize)
 		>>= vidOut;
@@ -95,6 +103,8 @@ int main(int nargs,char *args[])
     DPOSPortC<ImageC<ByteYUVValueC> > vidOut;
     
     if(!OpenISequence(vidIn,infile,formatIn,verb)) {
+      if(verb)
+	cout << "Open failed. \n";
       cerr << "ERROR: Failed to open input '" << infile << "'\n";
       exit(1);
     }
@@ -104,6 +114,8 @@ int main(int nargs,char *args[])
 	cerr << "ERROR:  Failed to export '" << outfile << "' \n";
 	return __LINE__;
       }
+      if(verb)
+	cout << "Stream ready.\n";
       while(1)
 	Sleep(1000);
       return 0;
@@ -113,11 +125,15 @@ int main(int nargs,char *args[])
       cerr << "ERROR: Failed to open output '" << infile << "'\n";
       exit(1);
     }
+    if(verb)
+      cout << "Stream ready.\n";
     
     es += vidIn >>= DPFixedBufferC<ImageC<ByteYUVValueC > >(bufferSize) 
 		>>= vidOut;
   }
   es.Wait();
+  if(verb)
+    cout << "Done.\n";
   
   return 0;
 }
