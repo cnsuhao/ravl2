@@ -14,6 +14,8 @@
 #include "Ravl/Moments2d2.hh"
 #include "Ravl/Curve2dLineSegment.hh"
 #include "Ravl/StdConst.hh"
+#include "Ravl/LinePP2d.hh"
+#include "Ravl/RealRange2d.hh"
 
 using namespace RavlN;
 
@@ -27,6 +29,7 @@ using namespace RavlN;
 int testMoments();
 int testLines();
 int testLine2d();
+int testClip2d();
 
 int main() {
   int ln;
@@ -38,11 +41,16 @@ int main() {
     cerr << "Test failed line " << ln << "\n";
     return 1;
   }
+  if((ln = testClip2d()) != 0) {
+    cerr << "Test failed line " << ln << "\n";
+    return 1;
+  }
   cerr << "Test passed ok. \n";
   return 0;
 }
 
 int testLines() {  
+  cout << "Checking basic lines. \n";
   Index2dC start(0,0);
   Index2dC end(10,5);
   int c = 0;
@@ -64,7 +72,7 @@ int testLines() {
 }
 
 int testLine2d() {
-  
+  cout << "Checking misc line methods. \n";
   Point2dC org(321,123);
   for(int i = 0;i < 360;i++) {
     RealT angle = ((RealT) i/180.0) * RavlConstN::pi;
@@ -74,5 +82,41 @@ int testLine2d() {
     //cerr << "End=" << line1.Closest(line1.EndPnt()) - line1.Start()  << "\n";
     if(line1.Closest(line1.EndPnt()) - line1.Start() <= 0) return __LINE__;
   }
+  return 0;
+}
+
+int testClip2d() {
+  cout << "Checking clipping. \n";
+  RealRange2dC rng(0,15,10,25);
+  Point2dC pnt0(0,0);
+  Point2dC pnt1(5,15);
+  Point2dC pnt2(10,20);
+  Point2dC pnt3(35,30);
+  Point2dC pnt4(40,45);
+
+  // This line shouldn't be clipped.
+  LinePP2dC l1(pnt1,pnt2);
+  if(!l1.ClipBy(rng)) return __LINE__;
+  if((pnt1 - l1.P1()).SumSqr() > 0.00001) return __LINE__;
+  if((pnt2 - l1.P2()).SumSqr() > 0.00001) return __LINE__;
+
+  // Should clip point 0.
+  LinePP2dC l2(pnt0,pnt2);
+  if(!l2.ClipBy(rng)) return __LINE__;
+  if((pnt0 - l2.P1()).SumSqr() < 0.00001) return __LINE__;
+  if((pnt2 - l2.P2()).SumSqr() > 0.00001) return __LINE__;
+  if(!rng.Contains(l2.P1())) return __LINE__;
+
+  // Should clip point 1.
+  LinePP2dC l3(pnt1,pnt3);
+  if(!l3.ClipBy(rng)) return __LINE__;
+  if((pnt1 - l3.P1()).SumSqr() > 0.00001) return __LINE__;
+  if((pnt3 - l3.P2()).SumSqr() < 0.00001) return __LINE__;
+  if(!rng.Contains(l3.P2())) return __LINE__;
+  
+  // Line entirely outside region.
+  LinePP2dC l4(pnt3,pnt4);
+  if(l4.ClipBy(rng)) return __LINE__;
+  
   return 0;
 }

@@ -9,35 +9,65 @@
 
 #include "Ravl/LinePP2d.hh"
 
-namespace RavlN {
+#define CTOP    0x1
+#define CBOTTOM 0x2
+#define CRIGHT  0x4
+#define CLEFT   0x8
 
-#if 0
-  enum ContainCodeT { CC_NONE=0x0,TOP=0x1,BOTTOM=0x2,RIGHT=0x4,LEFT=0x8 };
+namespace RavlN {
   
-  static inline ContainCodeT ContainsCode(const Point2dC &pnt,const RealRange2dC &rng) {
-    ContainCodeT ret = NONE;
+  static inline int ContainsCode(const Point2dC &pnt,const RealRange2dC &rng) {
+    int ret = 0;
     if(pnt[0] > rng.BRow())
-      ret |= BOTTOM;
-    if(pnt[0] < rng.TRow())
-      ret |= TOP;
+      ret |= CTOP;
+    else if(pnt[0] < rng.TRow())
+      ret |= CBOTTOM;
     if(pnt[1] > rng.RCol())
-      ret |= RIGHT;
-    if(pnt[1] < rng.LCol())
-      ret |= LEFT;
+      ret |= CRIGHT;
+    else if(pnt[1] < rng.LCol())
+      ret |= CLEFT;
     return ret;
   }
-#endif
   
   //: Clip line by given rectangle.
   // Returns false if no part of the line is in the rectangle.
+  // Uses the Cohen and Sutherland line clipping algorithm.
   
   bool LinePP2dC::ClipBy(const RealRange2dC &rng) {
-#if 0
     bool accept = false;
-    bool done = false;
-    ContainCodeT c0 = ContainsCode(P1(),rng);
-#endif
-    return true;
+    int oc0 = ContainsCode(P1(),rng);
+    int oc1 = ContainsCode(P2(),rng);
+    do {
+      if(!(oc0 | oc1)) {
+	accept = true;
+	break;
+      } 
+      if(oc0 & oc1)
+	break;
+      Point2dC np;
+      int oc = oc0 ? oc0 : oc1;
+      if(oc & CTOP) {
+	np[0] = P1()[0] + (P2()[0] + P1()[0]) * (rng.BRow() - P1()[1]) / (P2()[1] - P1()[1]);
+	np[1] = rng.BRow();
+      } else if(oc & CBOTTOM) {
+	np[0] = P1()[0] + (P2()[0] + P1()[0]) * (rng.TRow() - P1()[1]) / (P2()[1] - P1()[1]);
+	np[1] = rng.TRow();
+      } else if(oc & CRIGHT) {
+	np[1] = P1()[1] + (P2()[1] - P1()[1]) * (rng.RCol() - P1()[0]) / (P2()[0] - P1()[0]);
+	np[0] = rng.RCol();
+      } else {
+	np[1] = P1()[1] + (P2()[1] - P1()[1]) * (rng.LCol() - P1()[0]) / (P2()[0] - P1()[0]);
+	np[0] = rng.LCol();
+      }
+      if(oc == oc0) {
+	P1() = np;
+	oc0 = ContainsCode(P1(),rng);
+      } else {
+	P2() = np;
+	oc1 = ContainsCode(P2(),rng);
+      }
+    } while(1) ;
+    return accept;
   }
   
 }
