@@ -35,7 +35,7 @@ namespace RavlGUIN {
     ButtonBodyC(const char *label = 0,const char *tooltip = 0);
     //: Constructor.
     
-    ButtonBodyC(const char *nlabel,const PixmapC &pixm);
+    ButtonBodyC(const char *nlabel,const PixmapC &pixm,const char *tooltip = 0);
     //: Constructor.
     
     virtual bool Create();
@@ -75,8 +75,8 @@ namespace RavlGUIN {
     ButtonC(const char *label,const char *tooltip = 0);
     //: Create a button.
     
-    ButtonC(const PixmapC &pixm,const char *label = 0)
-      : WidgetC(*new ButtonBodyC(label,pixm))
+    ButtonC(const PixmapC &pixm,const char *label = 0,const char *tooltip = 0)
+      : WidgetC(*new ButtonBodyC(label,pixm,tooltip))
     {}
     //: Create a button.
     // If label is set to 0 none will be used.
@@ -211,9 +211,9 @@ namespace RavlGUIN {
   }
 
   template<class ObjT>
-  ButtonC Button(const PixmapC &pix,const ObjT &obj,bool (ObjT::*func)())
+  ButtonC Button(const PixmapC &pix,const ObjT &obj,bool (ObjT::*func)(),const char *tooltip = 0)
   {
-    ButtonC ret = ButtonC(pix,0);
+    ButtonC ret = ButtonC(pix,0,tooltip);
     Connect(ret.Signal("clicked"),obj,func);
     return ret;    
   }

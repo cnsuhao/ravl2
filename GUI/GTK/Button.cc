@@ -35,11 +35,11 @@ namespace RavlGUIN {
   
   //: Constructor.
   
-  ButtonBodyC::ButtonBodyC(const char *nlabel,const PixmapC &pixm)
+  ButtonBodyC::ButtonBodyC(const char *nlabel,const PixmapC &pixm,const char *tooltip)
     : state(false),
       pix(pixm),
       label(nlabel)
-  {}
+  { SetToolTip(tooltip); }
 
   GtkWidget *ButtonBodyC::BuildWidget(const char *aLab) {
     if(aLab == 0)
