@@ -18,6 +18,7 @@ namespace RavlN {
     InitBoundryIO();
     InitMatrixIO();
     InitGeom2dIO();
+    InitTMatrixIO();
   }
 }
 

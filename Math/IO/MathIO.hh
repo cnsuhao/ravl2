@@ -24,6 +24,7 @@ namespace RavlN {
   extern void InitBoundryIO();
   extern void InitMatrixIO();
   extern void InitGeom2dIO();
+  extern void InitTMatrixIO();
 }
 
 #endif

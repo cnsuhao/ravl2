@@ -14,7 +14,7 @@ PACKAGE=Ravl
 HEADERS= MathIO.hh
 
 SOURCES= FixedVectorIO.cc FixedPointIO.cc FixedMatrixIO.cc BoundryIO.cc \
- MatrixIO.cc Geom2dIO.cc
+ MatrixIO.cc TMatrixIO.cc Geom2dIO.cc
 
 MUSTLINK = MathIO.cc
 
