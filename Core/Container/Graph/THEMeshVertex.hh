@@ -38,14 +38,6 @@ namespace RavlN {
     //: Look for a connection from this vertex to oth.
     // Returns an invalid handle if ones is not found.
     
-#if 0
-    THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> Link(THEMeshVertexC<VertexDataT,EdgeDataT,FaceDataT> newVert,THEMeshFaceC<VertexDataT,EdgeDataT,FaceDataT> face)
-    { return Link(newVert,face); }
-    //: Link this vertex to newVert on indicated face
-    // Both vertexes must share the face. This will effectively
-    // split the face in two.
-#endif    
-    
     VertexDataT &Data()
     { return data; }
     //: Access data.
@@ -68,6 +60,7 @@ namespace RavlN {
     
     friend class THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT>;
     friend class THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT>;
+    friend class THEMeshBodyC<VertexDataT,FaceDataT,EdgeDataT>;
   };
   
   //! userlevel=Normal

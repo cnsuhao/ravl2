@@ -46,13 +46,15 @@ namespace RavlN {
     //: Default cosntructor.
     // the contents are left undefined.
 
-    THEMeshEdgeBodyC(THEMeshVertexBodyC<VertexDataT,FaceDataT,EdgeDataT> &vert,THEMeshFaceBodyC<VertexDataT,EdgeDataT,FaceDataT> &nface)
+    THEMeshEdgeBodyC(HEMeshBaseVertexBodyC &vert,HEMeshBaseFaceBodyC &nface)
+      : HEMeshBaseEdgeBodyC(vert,nface)
     {}
     //: Cosntructor.
     // the contents are left undefined.
     
     friend class THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT>;
     friend class THEMeshFaceBodyC<VertexDataT,FaceDataT,EdgeDataT>;
+    friend class THEMeshBodyC<VertexDataT,FaceDataT,EdgeDataT>;
     
     EdgeDataT data;
   };

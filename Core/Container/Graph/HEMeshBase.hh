@@ -80,6 +80,12 @@ namespace RavlN {
     HEMeshBaseVertexC InsertVertex();
     //: Insert a new vertex into the mesh.
     
+    
+    HEMeshBaseEdgeC NewEdge(const HEMeshBaseVertexC &vert,const HEMeshBaseFaceC &face)
+    { return NewEdge(const_cast<HEMeshBaseVertexC &>(vert).Body(),const_cast<HEMeshBaseFaceC &>(face).Body()); }
+    //: Create a new face.
+    
+  protected:
     virtual HEMeshBaseFaceC NewFace();
     //: Create a new face.
     
@@ -89,11 +95,6 @@ namespace RavlN {
     virtual HEMeshBaseEdgeC NewEdge(HEMeshBaseVertexBodyC &vert,HEMeshBaseFaceBodyC &face);
     //: Create a new face.
     
-    HEMeshBaseEdgeC NewEdge(const HEMeshBaseVertexC &vert,const HEMeshBaseFaceC &face)
-    { return NewEdge(const_cast<HEMeshBaseVertexC &>(vert).Body(),const_cast<HEMeshBaseFaceC &>(face).Body()); }
-    //: Create a new face.
-    
-  protected:
     IntrDListC<HEMeshBaseFaceBodyC> faces;  // List of faces in the mesh.
     IntrDListC<HEMeshBaseVertexBodyC> vertices; // List of vertices.
     

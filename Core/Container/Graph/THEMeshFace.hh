@@ -92,7 +92,8 @@ namespace RavlN {
     THEMeshFaceC()
     {}
     //: Default constructor
-
+    // Creates an invalid handle.
+    
     THEMeshFaceC(const HEMeshBaseFaceC &base)
       : HEMeshBaseFaceC(base)
     {
@@ -129,7 +130,7 @@ namespace RavlN {
       : HEMeshBaseFaceC(new THEMeshFaceBodyC<VertexDataT,FaceDataT,EdgeDataT>(faceData))
     {}
     //: Construct a new face.
-
+    
     THEMeshFaceC(THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT> edge)
       : HEMeshBaseFaceC(new THEMeshFaceBodyC<VertexDataT,FaceDataT,EdgeDataT>(edge.Body()))
     {}

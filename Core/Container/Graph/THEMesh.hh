@@ -61,6 +61,18 @@ namespace RavlN {
     //: Insert face defined by vertices.
     
   protected:
+    virtual HEMeshBaseFaceC NewFace()
+    { return THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT>(*new THEMeshFaceBodyC<VertexDataT,FaceDataT,EdgeDataT>()); }
+    //: Create a new face.
+    
+    virtual HEMeshBaseVertexC NewVertex()
+    { return THEMeshVertexC<VertexDataT,FaceDataT,EdgeDataT>(*new THEMeshVertexBodyC<VertexDataT,FaceDataT,EdgeDataT>()); }
+    //: Create a new face.
+    
+    virtual HEMeshBaseEdgeC NewEdge(HEMeshBaseVertexBodyC &vert,HEMeshBaseFaceBodyC &face)
+    { return THEMeshEdgeC<VertexDataT,FaceDataT,EdgeDataT>(*new THEMeshEdgeBodyC<VertexDataT,FaceDataT,EdgeDataT>(vert,face)); }
+    //: Create a new face.
+    
     friend class THEMeshC<VertexDataT,FaceDataT,EdgeDataT>;
   };
   
