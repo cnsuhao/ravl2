@@ -14,6 +14,13 @@
 #include "Ravl/PatternRec/SampleIter.hh"
 #include "Ravl/MeanCovariance.hh"
 
+#define DODEBUG 0
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
+
 namespace RavlN {
   
 #define FOR_MATRIX_COLS(matrix, index) \
@@ -49,13 +56,16 @@ namespace RavlN {
     }
     
     // Construct L=A^transpose A
-    MatrixC L = A.TMul(A);
+    MatrixC AT = A.T();
+    MatrixC L = AT.AAT();
     L /= N;
 
     // Calculate Eigenvectors.
     VectorMatrixC Leigenvecs  =  EigenVectors(L);
     //cout << "finished computing eigen vecs: " << endl << flush;
     
+    ONDEBUG(cerr << "Values=" << Leigenvecs.Vector() << "\n");
+
     Leigenvecs.Sort();
     // Create output matrix Wpca
     MatrixC Wpca = A * Leigenvecs.Matrix();
@@ -73,24 +83,38 @@ namespace RavlN {
     }
     VectorC temp (Wpca.Cols());
     temp.Fill (0.0);
+    
+    // Do dot products on transposed matrices its faster.
+    MatrixC WpcaT = Wpca.T();
     FOR_VECTOR (temp,index3) {
-      FOR_MATRIX_COLS (A,index4)
-	temp[index3] += Sqr(A.SliceColumn(index4).Dot(Wpca.SliceColumn(index3)));
+      VectorC sli(WpcaT.SliceRow(index3));
+      for(UIntT index4 = 0;index4 < AT.Rows();index4++) {
+	temp[index3] += Sqr(VectorC(AT.SliceRow(index4)).Dot(sli));
+      }
     }
+    
     temp /= N;
     RealT total = temp.Sum();
     RealT runningTotal = 0.0;
     UIntT numComponents = 0;
-    if (variation < 1.0) 
-      while ((runningTotal += temp[numComponents++]) < variation*total);
-    else {
+    //ONDEBUG(cerr << "Values=" << temp << "\n");
+    if (variation < 1.0) {
+      RealT limit = variation*total;
+      while ((runningTotal += temp[numComponents++]) < limit);
+    } else {
       numComponents = UIntT(variation < temp.Size()? variation: temp.Size());
       for (UIntT i = 0; i < numComponents; i++)
 	runningTotal += temp[i];
     }
-    
-    pca = VectorMatrixC (temp.From(0,numComponents-1), 
+    InputSize(d);
+    OutputSize(numComponents);
+    pca = VectorMatrixC (temp.From(0,numComponents-1),
 			 Wpca.SubMatrix(d,numComponents).T());
+    
+    proj = pca.Matrix();
+    
+    // ONDEBUG(cerr << "Mean=" << mean << "\n");
+    // ONDEBUG(cerr << "Proj=" << proj << "\n");
   }
 
 
@@ -107,6 +131,8 @@ namespace RavlN {
     
     //: need to sort matrix into order
     Leigenvecs.Sort();
+
+    ONDEBUG(cerr << "Values=" << Leigenvecs.Vector() << "\n");
     
     RealT total = Leigenvecs.Vector().Sum();
     RealT runningTotal = 0.0;
@@ -123,6 +149,11 @@ namespace RavlN {
     
     pca = VectorMatrixC (Leigenvecs.Vector().From(0,numComponents-1),
 			 Leigenvecs.Matrix().SubMatrix(dim,numComponents).T());
+    
+    InputSize(mean.Size());
+    OutputSize(numComponents);
+    
+    proj = pca.Matrix();
     
   }
 

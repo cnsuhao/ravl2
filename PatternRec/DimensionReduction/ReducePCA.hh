@@ -35,6 +35,10 @@ namespace RavlN {
     void DesignLowDim(SampleC<VectorC> &sample,RealT variation);
     //: Design the transform.
     
+    VectorMatrixC &Pca()
+    { return pca; }
+    //: Access eigen vectors and values.
+    
   protected:
     VectorMatrixC pca;
   };
@@ -49,6 +53,11 @@ namespace RavlN {
     ReducePCAC()
     {}
     //: Default constructor.
+    
+    ReducePCAC(bool)
+      : ReduceLinearC(*new ReducePCABodyC())
+    {}
+    //: Constructor.
 
   protected:
     ReducePCAC(ReducePCABodyC &bod)
@@ -57,11 +66,11 @@ namespace RavlN {
     //: Body constructor.
     
     ReducePCABodyC &Body()
-    { return static_cast<ReducePCABodyC &>(Body()); }
+    { return static_cast<ReducePCABodyC &>(FunctionC::Body()); }
     //: Access body.
     
     const ReducePCABodyC &Body() const
-    { return static_cast<const ReducePCABodyC &>(Body()); }
+    { return static_cast<const ReducePCABodyC &>(FunctionC::Body()); }
     //: Access body.
     
   public:
@@ -72,6 +81,10 @@ namespace RavlN {
     void DesignLowDim(SampleC<VectorC> &sample,RealT variation)
     { Body().DesignHighDim(sample,variation); }
     //: Design the PCA transform.
+    
+    VectorMatrixC &Pca()
+    { return Body().Pca(); }
+    //: Access eigen vectors and values.
     
   };
 }
