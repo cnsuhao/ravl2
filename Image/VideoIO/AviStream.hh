@@ -20,7 +20,7 @@
 #include "Ravl/Stream.hh"
 #include "Ravl/DList.hh"
 #include "Ravl/Image/Image.hh"
-#include "Ravl/Image/ByteRGBValue.hh"
+#include "Ravl/Image/ByteBGRValue.hh"
 #include "Ravl/Image/ImgIO.hh"
 #include "Ravl/DP/FileFormatIO.hh"
 
@@ -97,7 +97,7 @@ namespace RavlImageN{
   //  "biPlanes" Specifies the number of planes for the target device. This value must be set to 1. 
   //  "biBitCount" Number of bits per pixel. If it is set to greater than eight, bitmaps can be considered true color (No color table is used). If set to less than or equal to eight, bitmap might use a palette or color table  
   //  "biCompression" tells the type of compression used or requested (It is sometimes human readable).  
-  //  "biSizeImage" Size, in bytes, of the image. This can be set to 0 for uncompressed RGB bitmaps. 
+  //  "biSizeImage" Size, in bytes, of the image. This can be set to 0 for uncompressed BGR bitmaps. 
   //  "biXPelsPerMeter" Horizontal resolution, in pixels per meter, of the target device for the bitmap. 
   //  "biYPelsPerMeter" Vertical resolution, in pixels per meter, of the target device for the bitmap. 
   //  "biClrUsed" Number of color indices in the color table that are actually used by the bitmap. If 0 the bitmap uses the maximum number of colors corresponding to the value of the biBitCount member for the compression mode specified by biCompression. 
@@ -378,8 +378,8 @@ namespace RavlImageN{
     // The chunk is (type)(UIntT length)(charBuff). 
     // IT DOES'T CHECK whether the data type is consistent with the one of the available slot or with the header
     
-    bool WriteRGBImage(ImageC<ByteRGBValueC> image);
-    //: Seeks the correct position, writes a RGB Image (keeping track of its position into the index structure) and updates the AVI headers.
+    bool WriteBGRImage(ImageC<ByteBGRValueC> image);
+    //: Seeks the correct position, writes a BGR Image (keeping track of its position into the index structure) and updates the AVI headers.
     // The image is writen into a data chunk as follows: ("00db")(UIntT imageSize)(image). 
     // IT DOES'T CHECK whether the data type is consistent with the one of the available slot or with the header
 

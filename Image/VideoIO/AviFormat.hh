@@ -18,7 +18,7 @@
 
 #include "Ravl/DP/FileFormat.hh"
 #include "Ravl/Image/Image.hh"
-#include "Ravl/Image/ByteRGBValue.hh"
+#include "Ravl/Image/ByteBGRValue.hh"
 
 namespace RavlImageN {
 
@@ -78,10 +78,10 @@ namespace RavlImageN {
   //! userlevel=Advanced
   //: Create an instance of a Avi File Format.
   
-  class FileFormatAviC : public FileFormatC<ImageC<ByteRGBValueC> > {
+  class FileFormatAviC : public FileFormatC<ImageC<ByteBGRValueC> > {
   public:
     FileFormatAviC(const StringC &vName)
-      : FileFormatC<ImageC<ByteRGBValueC> >(*new FileFormatAviBodyC(vName))
+      : FileFormatC<ImageC<ByteBGRValueC> >(*new FileFormatAviBodyC(vName))
       {}
   };
   

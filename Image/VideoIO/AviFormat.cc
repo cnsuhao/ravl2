@@ -11,7 +11,7 @@
 
 #include "Ravl/Image/AviFormat.hh"
 
-#include "Ravl/Image/RGBFrmIOAvi.hh"
+#include "Ravl/Image/BGRFrmIOAvi.hh"
 #include "Ravl/Image/DVFrmIOAvi.hh"
 
 #include "Ravl/TypeName.hh"
@@ -44,7 +44,7 @@ namespace RavlImageN {
   
   const type_info &
   FileFormatAviBodyC::ProbeLoad(IStreamC &in,const type_info &obj_type) const
-  { return typeid(ImageC<ByteRGBValueC>); }
+  { return typeid(ImageC<ByteBGRValueC>); }
 
   const type_info &
   FileFormatAviBodyC::ProbeLoad(const StringC &nfilename,IStreamC &in,const type_info &obj_type) const {
@@ -78,7 +78,7 @@ namespace RavlImageN {
 	in.read(token,4);
 	cerr << "codec: " << token[0] << token[1] << token[2] << token[3] << endl; 
 	if( (token[0] == (char)0) && (token[1] == (char)0) && (token[2] == (char)0) && (token[3] == (char)0) )
-	  return typeid(ImageC<ByteRGBValueC>);
+	  return typeid(ImageC<ByteBGRValueC>);
 	if( (token[0] == 'd') && (token[1] == 'v') && (token[2] == 's') && (token[3] == 'd') )
 	  return typeid(DVFrameC);
 	else
@@ -98,7 +98,7 @@ namespace RavlImageN {
     if(obj_type == typeid(DVFrameC))
       return typeid(DVFrameC);
     //other checks to be placed here.      
-    return typeid(ImageC<ByteRGBValueC>); //save into a raw RGB image avi file by default
+    return typeid(ImageC<ByteBGRValueC>); //save into a raw BGR image avi file by default
   }
   
   //: Create a input port for loading.
@@ -109,7 +109,7 @@ namespace RavlImageN {
     ONDEBUG(cerr << "FileFormatAviBodyC::CreateInput(IStreamC &,const type_info &), Called. \n");
     if(in)
       {   
-	if(obj_type == typeid(ImageC<ByteRGBValueC>)) return DPISRGBAviFrameC(in);//if RGB creates a RGB input port
+	if(obj_type == typeid(ImageC<ByteBGRValueC>)) return DPISBGRAviFrameC(in);//if BGR creates a BGR input port
 	if(obj_type == typeid(DVFrameC)) return DPISDVAviFrameC(in);//if DV creates a DV input port
       }
     return DPIPortBaseC(); //returns the base port if the stream is not good
@@ -122,7 +122,7 @@ namespace RavlImageN {
   {
     if(out)
       {
-	if(obj_type == typeid(ImageC<ByteRGBValueC>)) return DPOSRGBAviFrameC(out);
+	if(obj_type == typeid(ImageC<ByteBGRValueC>)) return DPOSBGRAviFrameC(out);
 	if(obj_type == typeid(DVFrameC)) return DPOSDVAviFrameC(out);//if DV creates a DV input port
       }
     return DPOPortBaseC();
@@ -138,7 +138,7 @@ namespace RavlImageN {
     IStreamC strm(filename);
     if(strm)
       {
-	if(obj_type == typeid(ImageC<ByteRGBValueC>)) return DPISRGBAviFrameC(strm);
+	if(obj_type == typeid(ImageC<ByteBGRValueC>)) return DPISBGRAviFrameC(strm);
 	if(obj_type == typeid(DVFrameC)) return DPISDVAviFrameC(strm);
       }
     return DPIPortBaseC();
@@ -152,7 +152,7 @@ namespace RavlImageN {
     OStreamC strm(filename);
     if(strm)
       {
-	if(obj_type == typeid(ImageC<ByteRGBValueC>)) return DPOSRGBAviFrameC(strm);
+	if(obj_type == typeid(ImageC<ByteBGRValueC>)) return DPOSBGRAviFrameC(strm);
 	if(obj_type == typeid(DVFrameC)) return DPOSDVAviFrameC(strm);//if DV creates a DV input port
       }
     return DPOPortBaseC();
@@ -161,7 +161,7 @@ namespace RavlImageN {
   //: Get prefered IO type.
   
   const type_info &FileFormatAviBodyC::DefaultType() const { 
-    return typeid(ImageC<ByteRGBValueC>); 
+    return typeid(ImageC<ByteBGRValueC>); 
   }
   
   // Some common avi formats.

@@ -340,7 +340,7 @@ namespace RavlImageN{
     return true;
   }//END OF bool AviOStreamC::WriteDataChunk(const char * charBuff, const char * type, int length)
   
-  bool AviOStreamC::WriteRGBImage(ImageC<ByteRGBValueC> image)
+  bool AviOStreamC::WriteBGRImage(ImageC<ByteBGRValueC> image)
   {
     int length;
     char type[] = "00db";
@@ -385,7 +385,7 @@ namespace RavlImageN{
     Goto(current); // READY to write data chunk
 
     return true;
-  }//END OF bool AviOStreamC::WriteRGBImage(ImageC<ByteRGBValueC> image)
+  }//END OF bool AviOStreamC::WriteBGRImage(ImageC<ByteBGRValueC> image)
 
   bool AviOStreamC::WriteDVFrame(DVFrameC frame)
   {

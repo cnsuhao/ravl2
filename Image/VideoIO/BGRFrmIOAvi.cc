@@ -8,22 +8,23 @@
 //! userlevel=Normal
 //! rcsid="$Id$"
 //! lib=RavlVideoIO
-//! file="Ravl/Image/VideoIO/DVFrmIOAvi.cc"
+//! file="Ravl/Image/VideoIO/BGRFrmIOAvi.cc"
 
-#include "Ravl/Image/DVFrmIOAvi.hh"
-
-#include "Ravl/Image/DVFrame.hh"
-
+#include "Ravl/Image/BGRFrmIOAvi.hh"
 #include "Ravl/OS/Filename.hh"
+#include "Ravl/Array2dIter.hh"
+#include "Ravl/Math.hh"
+
+//using namespace RavlN;
 
 namespace RavlImageN {
   
   //: Constructor from stream 
-  DPISDVAviFrameBodyC::DPISDVAviFrameBodyC(const IStreamC &nStrm)
+  DPISBGRAviFrameBodyC::DPISBGRAviFrameBodyC(const IStreamC &nStrm)
     : aviStrm(nStrm,false),
       currentframeNo(0) 
   {
-    if(!aviStrm.Stream()) cerr << "DPISDVAviFrameBodyC::DPISDVAviFrameBodyC(IStreamC), Passed bad stream. \n";
+    if(!aviStrm.Stream()) cerr << "DPISBGRAviFrameBodyC::DPISBGRAviFrameBodyC(IStreamC), Passed bad stream. \n";
 
     aviStrm.GetVideoStreamFormatInfo(strf); //gets the video info 
   }
@@ -36,7 +37,7 @@ namespace RavlImageN {
   // if an error occurered (Seek returned False) then stream
   // position will not be changed.
 
-  bool DPISDVAviFrameBodyC::Seek(UIntT frameNo) 
+  bool DPISBGRAviFrameBodyC::Seek(UIntT frameNo) 
   {
     if(aviStrm.GotoDataPos(frameNo,0)) 
       {
@@ -48,7 +49,7 @@ namespace RavlImageN {
   
   //: Delta Seek, goto location relative to the current one.
   
-  bool DPISDVAviFrameBodyC::DSeek(IntT frames) 
+  bool DPISBGRAviFrameBodyC::DSeek(IntT frames) 
   {
     IntT newframeNo = currentframeNo + frames; 
     if(aviStrm.GotoDataPos(newframeNo,0)) 
@@ -60,12 +61,12 @@ namespace RavlImageN {
   }
   
   //: Find current location in stream.
-  UIntT DPISDVAviFrameBodyC::Tell() const { 
+  UIntT DPISBGRAviFrameBodyC::Tell() const { 
     return currentframeNo; 
   }
   
   //: Find the total size of the stream.
-  UIntT DPISDVAviFrameBodyC::Size() const 
+  UIntT DPISBGRAviFrameBodyC::Size() const 
   {
     return aviStrm.GetAviHeaderInfo().dwTotalFrames; 
   }
@@ -73,20 +74,32 @@ namespace RavlImageN {
   /////////////////////////
   //: Get next image.
   
-  DVFrameC DPISDVAviFrameBodyC::Get() 
+  ImageC<ByteBGRValueC> DPISBGRAviFrameBodyC::Get() 
   {
-    DVFrameC frame;
-    Get(frame);
-    return frame;
+    int h = (int)Abs(strf.biHeight);
+    int w = (int)Abs(strf.biWidth);
+
+    IndexRange2dC myframesize(h,w);
+
+    ImageC<ByteBGRValueC> head(myframesize);
+    Get(head);
+    return head;
   }
   
   //////////////////////////
   //: Get next image.
   
-  bool DPISDVAviFrameBodyC::Get(DVFrameC &frame)
+  bool DPISBGRAviFrameBodyC::Get(ImageC<ByteBGRValueC> &head) 
   { 
     UIntT size;
-    if(!aviStrm.Stream().good()) return false;
+    int h = (int)Abs(strf.biHeight);
+    int w = (int)Abs(strf.biWidth);
+
+    IndexRange2dC myframesize(h,w);
+    if(head.Frame() != myframesize) head = ImageC<ByteBGRValueC>(myframesize);
+   
+    if(!aviStrm.Stream().good())
+      return false;
 
     if(!Seek(currentframeNo))return false;
 
@@ -95,30 +108,35 @@ namespace RavlImageN {
     //the position is suposed to be selected with GotoDataPos
     //skips the frame size
     aviStrm >> size;
-    frame = DVFrameC(size);
+    UIntT checkSize = 0; 
+    for(Array2dIterC<ByteBGRValueC> it(head);it.IsElm();it.Next())
+      {
+	aviStrm >> it->Blue();
+	aviStrm >> it->Green();
+	aviStrm >> it->Red();
+	checkSize += 3;
+      }
 
-    //NOTE: the proper size depends on the size needed by the object in the file
-
-    for(int i=0; i<(int)size ; i++) aviStrm >> frame[i];
-
+    RavlAssert(checkSize == size);
     return true; 
   }
 
-
+  //////////////////////////////////////////////////////////////////////////////////////
+  
   //: Constructor from stream.  
   
-  DPOSDVAviFrameBodyC::DPOSDVAviFrameBodyC(const OStreamC &nStrm)
+  DPOSBGRAviFrameBodyC::DPOSBGRAviFrameBodyC(const OStreamC &nStrm)
     : currentframeNo(0),
       framesAdded(0)
   {
     if(!nStrm)
-      cerr << "DPOSDVAviFrameBodyC::DPOSDVAviFrameBodyC(OStreamC), Passed bad stream. \n";
-    
+      cerr << "DPOSBGRAviFrameBodyC::DPOSBGRAviFrameBodyC(OStreamC), Passed bad stream. \n";
+
     DListC<StringC> fccTypes;
     fccTypes += "vids";
-    
-    aviStrm = AviOStreamC(nStrm, fccTypes,true,false); 
-    
+
+    aviStrm = AviOStreamC(nStrm, fccTypes, true, false); 
+
     //inserts an empty header (NOTE: NO PARAMETER can be specified since the images are known
     //only after the put() method is called) 
     /////////////////////////////////////////////////////////////////////////////////////
@@ -130,7 +148,7 @@ namespace RavlImageN {
   // if an error occurered (Seek returned False) then stream
   // position will not be changed.
   
-  bool DPOSDVAviFrameBodyC::Seek(UIntT frameNo) 
+  bool DPOSBGRAviFrameBodyC::Seek(UIntT frameNo) 
   {
     if(aviStrm.Goto(frameNo,0))
       {
@@ -142,7 +160,7 @@ namespace RavlImageN {
 
   //: Delta Seek, goto location relative to the current one.
   
-  bool DPOSDVAviFrameBodyC::DSeek(IntT off) 
+  bool DPOSBGRAviFrameBodyC::DSeek(IntT off) 
   {
     int frNo = currentframeNo + off;
     if(aviStrm.Goto(frNo,0))
@@ -155,21 +173,21 @@ namespace RavlImageN {
   
   //: Find current location in stream.
   
-  UIntT DPOSDVAviFrameBodyC::Tell() const { 
+  UIntT DPOSBGRAviFrameBodyC::Tell() const { 
     return currentframeNo; 
   }
   
   //: Find the total size of the stream.////////////////////////
   
-  UIntT DPOSDVAviFrameBodyC::Size() const { 
+  UIntT DPOSBGRAviFrameBodyC::Size() const { 
     return framesAdded; 
   }
-  
+
   /////////////////////////////////
-  //: Put next frame into stream.
+  // Put next frame into stream.
   // Returns false if can't.
   
-  bool DPOSDVAviFrameBodyC::Put(const DVFrameC &Frm)
+  bool DPOSBGRAviFrameBodyC::Put(const ImageC<ByteBGRValueC> &Img)
   {
     //The first time Put() is called it initializes the header using properties of the first image
     
@@ -177,12 +195,17 @@ namespace RavlImageN {
       {
 	UIntT mss = (UIntT)((1.0/25)*(1000000));
 
-	UIntT width = 720;
-	UIntT height = 576;
+	UIntT width = 0;
+	UIntT height = 0;
 	UIntT size = 0;
 	
-	if(!Frm.IsValid()) return false;
-	else size = Frm.Size();
+	if(!Img.IsValid()) return false;
+	else
+	  { 
+	    width = Img.Cols();
+	    height = Img.Rows();
+	    size = width * height * (UIntT)3;
+	  } 
 
 	//define avih
 	aviStrm.avih.dwMicroSecPerFrame = mss; //1/fps*10^6
@@ -192,7 +215,7 @@ namespace RavlImageN {
 	aviStrm.avih.dwFlags[1]=8;// AVIF_TRUSTCKTYPE	0x00000800
 	aviStrm.avih.dwFlags[2]=0;//WAS CAPTUREFILE = false
 	aviStrm.avih.dwFlags[3]=0;//not COPYRIGHTED
-	aviStrm.avih.dwTotalFrames = 1;
+	aviStrm.avih.dwTotalFrames = 0;
 	aviStrm.avih.dwInitialFrames=0;//default for non interleaved ("vids")
 	aviStrm.avih.dwStreams = 1; //number of streams =  fccHandlers.Size();
 	aviStrm.avih.dwSuggestedBufferSize=size; //max image size 
@@ -209,10 +232,10 @@ namespace RavlImageN {
 	strh.fccType[1]='i';
 	strh.fccType[2]='d';
 	strh.fccType[3]='s';
-	strh.fccHandler[0]='d'; 
-	strh.fccHandler[1]='v'; 
-	strh.fccHandler[2]='s'; 
-	strh.fccHandler[3]='d'; 
+	strh.fccHandler[0]=(char)0; 
+	strh.fccHandler[1]=(char)0; 
+	strh.fccHandler[2]=(char)0; 
+	strh.fccHandler[3]=(char)0; 
 	strh.dwFlags[0]=(char)0;
 	strh.dwFlags[1]=(char)0;
 	strh.dwFlags[2]=(char)0;
@@ -229,8 +252,8 @@ namespace RavlImageN {
 	strh.dwSampleSize=0;//sample size can vary
 	strh.rcFrame[0]=0;
 	strh.rcFrame[1]=0;
-	strh.rcFrame[2]=(UInt16T)aviStrm.avih.dwWidth;
-	strh.rcFrame[3]=(UInt16T)aviStrm.avih.dwHeight;
+	strh.rcFrame[2]=aviStrm.avih.dwWidth;
+	strh.rcFrame[3]=aviStrm.avih.dwHeight;
   
 	aviStrm.WriteStreamHeader(0,strh);
 
@@ -242,46 +265,41 @@ namespace RavlImageN {
 	strf.biHeight=(-1)*aviStrm.avih.dwHeight;
 	strf.biPlanes=1;
 	strf.biBitCount=24;
-	strf.biCompression[0]='d'; 
-	strf.biCompression[1]='v'; 
-	strf.biCompression[2]='s'; 
-	strf.biCompression[3]='d'; 
-	strf.biSizeImage=size;//set to 0 for uncompressed BGR bitmaps
+	strf.biCompression[0]=(char)0; 
+	strf.biCompression[1]=(char)0; 
+	strf.biCompression[2]=(char)0; 
+	strf.biCompression[3]=(char)0; 
+	strf.biSizeImage=0;//set to 0 for uncompressed BGR bitmaps
 	strf.biXPelsPerMeter=0;
 	strf.biYPelsPerMeter=0;
 	strf.biClrUsed=0;
 	strf.biClrImportant=0;
   
 	aviStrm.WriteVideoStreamFormatInfo(strf);
-     
- 	aviStrm.Goto(0,0);
-     }
+	
+	aviStrm.Goto(0,0);
+      }
 
     aviStrm.Goto(framesAdded ++,0);
-    aviStrm.WriteDVFrame(Frm);
-    
+    aviStrm.WriteBGRImage(Img);
+
     return aviStrm.Stream().good();
   }
   
- 
-  //////////////////////////////////////////////////////////////////////////////////////
-   
+  
+  
+  //////////////////////////////////////////////////////
+  
   
   //: Constructor from filename.  
   
-  DPISDVAviFrameC::DPISDVAviFrameC(const StringC &fn)
-    : DPEntityC(*new DPISDVAviFrameBodyC(IStreamC(fn)))
+  DPISBGRAviFrameC::DPISBGRAviFrameC(const StringC &fn)
+    : DPEntityC(*new DPISBGRAviFrameBodyC(IStreamC(fn)))
   {}
   
   //: Constructor from filename.  
   
-  DPOSDVAviFrameC::DPOSDVAviFrameC(const StringC &fn)
-    : DPEntityC(*new DPOSDVAviFrameBodyC(OStreamC(fn)))
+  DPOSBGRAviFrameC::DPOSBGRAviFrameC(const StringC &fn)
+    : DPEntityC(*new DPOSBGRAviFrameBodyC(OStreamC(fn)))
   {}
-
 }
-
-
-
-  
-
