@@ -248,6 +248,11 @@ namespace RavlImageN {
 	continue;
       }
       
+      // Check for mirror images.
+      
+      if(affine.SRMatrix()[0][0] * affine.SRMatrix()[1][1] < 0)
+	continue; // Just ignore it.
+      
       // Test hypothesis.
       
       //cerr << "Test hypothesis. \n";
@@ -281,7 +286,7 @@ namespace RavlImageN {
     if(bestScore < 0.25)
       return false;
     
-#if 1
+#if 0
     WarpAffineC<ByteT> warp(exampleImage.Frame(),bestAffine.I());
     ImageC<ByteT> result = warp.Apply(sceneImage);
     ONDEBUG(cerr << "ResultSize=" << result.Frame() << "\n");
