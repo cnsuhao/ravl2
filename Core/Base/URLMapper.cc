@@ -38,7 +38,9 @@ namespace RavlN {
       return StringC(fn); // No seperator, take as normal filename.
     SubStringC urltype = StringC(fn).before(sep);
     if(urltype == "file") { // Got a file descriptor.
-      SubStringC theRest = StringC(fn).after(sep);
+      StringC theRest = StringC(fn).after(sep);
+      theRest.gsub("%20"," "); // Hack to handle spaces...
+      ONDEBUG(cerr << "DefaultURLMapper(), Filename= '" << theRest << "'\n");
       if(theRest.length() < 2 || theRest[0] != '/')
 	return StringC(theRest);
       if(theRest[1] == '/' && theRest[0] == '/')
