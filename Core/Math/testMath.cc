@@ -46,22 +46,33 @@ int main() {
 }
 
 int testRandom() {
+  cerr <<"Checking random number generator. \n";
   RealT num = 0;
-
-#if 0  
-  for(IntT i = 0;i < 100000000;i++) 
-#else
-  for(IntT i = 0;;i++)
-#endif
+  RealT min = 2;
+  RealT max = -1;
+  for(IntT i = 0;i < 10000000;i++) 
   {
     IntT rv =  RandomInt();
     num = (RealT)rv / ((RealT) RandomIntMaxValue + 1.0);
+    //cerr << "Num=" << num << "\n";
     if(num > 1 || num < 0) {
       cout << "Bad random number:" << num << " RandomInt=" << rv << " (" << i << ")\n";
       return __LINE__;
     }
+    if(num < min)
+      min = num;
+    if(num > max)
+      max = num;
   }
-  
+  if(min > 0.01) {
+    cerr << "Minimum value suspicously large: " << min << " \n";
+    return __LINE__;
+  }
+  if(max < 0.99) {
+    cerr << "Maximum value suspicously small: " << max << " \n";
+    return __LINE__;
+  }
+  cerr <<"Values between " << min << " " << max << "\n";
   return 0;
 }
 
