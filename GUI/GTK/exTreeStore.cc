@@ -30,6 +30,24 @@ using namespace RavlGUIN;
 
 #endif
 
+TreeStoreC treeStore;
+
+
+bool EditCallback(TreeModelIterC &at,StringC &str2) {
+  cerr << "Edit callback. " << str2 << "\n";
+  treeStore.SetValue(at,1,str2);
+  return true;
+}
+
+bool ToggleCallback(TreeModelIterC &at) {
+  cerr << "Toggle callback. \n";
+  bool val;
+  treeStore.GetValue(at,3,val);
+  val = !val;
+  treeStore.SetValue(at,3,val);
+  return true;
+}
+
 int main(int nargs,char **argv) {
 #if RAVL_USE_GTK2
   Manager.Init(nargs,argv);
@@ -38,14 +56,19 @@ int main(int nargs,char **argv) {
   
   WindowC win(100,100,"Hello");
   
-  SArray1dC<AttributeTypeC> types(3);
+
+  //: Create tree store.
+  
+  SArray1dC<AttributeTypeC> types(5);
   //types[0] = AttributeTypeNumC<IntT>("ANumber","...");
-  //types[0] = AttributeTypeBoolC("ABool","...");
   types[0] = AttributeTypeStringC("Another","...");
   types[1] = AttributeTypeStringC("AString","...");
   types[2] = AttributeTypeMiscC("AImage","...",AVT_ByteRGBImage);
+  types[3] = AttributeTypeBoolC("ABool","...");
+  types[4] = AttributeTypeStringC("Colour","...");
+  treeStore = TreeStoreC(types);
   
-  TreeStoreC treeStore(types);
+  //: Put some data into the tree store.
   
   TreeModelIterC iter;
   treeStore.AppendRow(iter);
@@ -54,14 +77,32 @@ int main(int nargs,char **argv) {
   treeStore.SetValue(iter,1,StringC("hello"));
   PixbufC map(xpmData_OpenFile);
   treeStore.SetValue(iter,2, map);
+  treeStore.SetValue(iter,3,true);
+  treeStore.SetValue(iter,4,StringC("red"));
   
   TreeModelIterC iter2;
   treeStore.AppendRow(iter2,iter);
   treeStore.SetValue(iter2,0,StringC("igloo"));
   treeStore.SetValue(iter2,1,StringC("child"));
   treeStore.SetValue(iter2,2, map);
+  treeStore.SetValue(iter2,3,false);
+  treeStore.SetValue(iter2,4,StringC("green"));
   
-  TreeViewC treeView(treeStore);
+  //: View a tree store.
+  
+  DListC<StringC> cols;
+  cols.InsLast("Another");
+  cols.InsLast("AString");
+  cols.InsLast("AImage");
+  cols.InsLast("ABool");
+  
+  TreeViewC treeView(treeStore,cols);
+  treeView.SetAttribute(1,"foreground","Colour");
+  treeView.SetAttribute(1,"editable","1",false);
+  treeView.SetAttribute(3,"activatable","1",false);
+  Connect(treeView.ChangedSignal(1),&EditCallback);
+  Connect(treeView.ChangedSignal(3),&ToggleCallback);
+  
   win.Add(treeView);
   win.Create();
   

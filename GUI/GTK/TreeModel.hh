@@ -279,6 +279,9 @@ namespace RavlGUIN {
     //: Access tree signal.
     // Where name is one of "row-changed", "row-deleted","row-has-child-toggled","row-inserted","rows-reordered"
     
+    TreeModelIterC Path2Iter(const char *pathName);
+    //: Get iterator from path text.
+    
   protected:
     void ConnectUp(StringC name);
     //: Create a new signal.
@@ -386,12 +389,15 @@ namespace RavlGUIN {
     bool SetValue(TreeModelIterC &rowIter,IntT col, const PixbufC &value)
     { return Body().SetValue(rowIter,col,value); }
     //: Set bool value.
-        
     
     Signal2C<TreeModelPathC,TreeModelIterC> &Signal(const char *name)
     { return Body().Signal(name); }
     //: Access tree signal.
     // Where name is one of "row-changed", "row-deleted","row-has-child-toggled","row-inserted","rows-reordered"
+    
+    TreeModelIterC Path2Iter(const char *pathName) 
+    { return Body().Path2Iter(pathName); }
+    //: Get iterator from path text.
     
     friend class TreeModelIterBodyC;
   };
