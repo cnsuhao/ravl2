@@ -36,7 +36,7 @@ namespace RavlGUIN {
   
   class MouseEventC {
   public:
-    MouseEventC(IntT x = 0,IntT y = 0,IntT state = 0);
+    MouseEventC(IntT x = 0,IntT y = 0,IntT state = 0,IntT changed = 0);
     //: Constructor.
     
     MouseEventC(GdkEventButton &ev);

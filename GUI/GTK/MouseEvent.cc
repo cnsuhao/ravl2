@@ -24,11 +24,11 @@ namespace RavlGUIN {
 
   //: Constructor.
   
-  MouseEventC::MouseEventC(IntT nx,IntT ny,IntT nstate) 
+  MouseEventC::MouseEventC(IntT nx,IntT ny,IntT nstate,IntT _changed) 
     : x(nx),
       y(ny),
       state(nstate),
-      change(0)
+      change(_changed)
   {}
   
   //: Constructor.
