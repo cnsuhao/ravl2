@@ -129,6 +129,18 @@ int main(int nargs,char **argv) {
   // Always set the sortable flag to true for column 3.
   treeView.SetAttribute(0,"sortable","1",false);
 
+  // Allow all columns to be reordered
+  treeView.SetAttribute(0,"reorderable","1",false); 
+  treeView.SetAttribute(1,"reorderable","1",false); 
+  treeView.SetAttribute(2,"reorderable","1",false);
+  treeView.SetAttribute(3,"reorderable","1",false);
+
+  // Allow all columns to be resized
+  treeView.SetAttribute(0,"resizable","1",false); 
+  treeView.SetAttribute(1,"resizable","1",false); 
+  treeView.SetAttribute(2,"resizable","1",false);
+  treeView.SetAttribute(3,"resizable","1",false);
+
   // Connect the changed signal for column 1 to 'EditCallback'
   Connect(treeView.ChangedSignal(1),&EditCallback);
 
