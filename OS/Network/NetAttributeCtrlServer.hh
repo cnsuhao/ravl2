@@ -30,6 +30,9 @@ namespace RavlN {
     NetAttributeCtrlServerBodyC(const AttributeCtrlC &attrCtrl);
     //: Constructor.
     
+    ~NetAttributeCtrlServerBodyC();
+    //: Destructor.
+    
     virtual bool Connect(NetEndPointC &nep);
     //: Setup connection to end point.
     
@@ -67,8 +70,18 @@ namespace RavlN {
     bool HandleSetAttrBool(UIntT &ctrlId,StringC &name,bool &data);
     //: Handle set boolean attribute.
     
+    bool HandleSigRegister(UIntT &ctrlId,StringC &name);
+    //: Handle set boolean attribute.
+    
+    bool HandleSigRemove(UIntT &ctrlId,StringC &name);
+    //: Handle set boolean attribute.
+    
+    bool HandleSignal(UIntT &ctrlId,StringC &name);
+    //: Handle set boolean attribute.
+    
     NetEndPointC ep;
     HashC<UIntT,AttributeCtrlC> attrCtrls;
+    HashC<Tuple2C<IntT,StringC>,UIntT> sigIds;
   };
   
   //! userlevel=Normal

@@ -12,6 +12,8 @@
 #include "Ravl/OS/SysLog.hh"
 #include "Ravl/DList.hh"
 #include "Ravl/DP/AttributeType.hh"
+#include "Ravl/CallMethods.hh"
+#include "Ravl/HashIter.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -39,6 +41,16 @@ namespace RavlN {
     ONDEBUG(cerr<< "NetAttributeCtrlServerBodyC::NetAttributeCtrlServerBodyC(const AttributeCtrlC &), Called. \n");
     attrCtrls[0] = attrCtrl; 
   }
+
+  //: Destructor.
+  
+  NetAttributeCtrlServerBodyC::~NetAttributeCtrlServerBodyC() {
+    if(ep.IsValid())
+      ep.Close();
+    // Unregister all changed signals.
+    for(HashIterC<Tuple2C<IntT,StringC>,UIntT> it(sigIds);it;it++)
+      attrCtrls[it.Key().Data1()].RemoveChangedSignal(it.Data());
+  }
   
   //: Setup connection to end point.
   
@@ -59,6 +71,7 @@ namespace RavlN {
   
   bool NetAttributeCtrlServerBodyC::Disconnect() {
     ONDEBUG(cerr<< "NetAttributeCtrlServerBodyC::Disconnect(), Called. \n");
+    // FIXME:- Should disconnect all handlers here...
     ep.Invalidate();    
     return true;
   }
@@ -73,7 +86,10 @@ namespace RavlN {
     ep.RegisterR((UIntT) NACMsg_SetAttrStr,StringC("SetAttrString"),*this,&NetAttributeCtrlServerBodyC::HandleSetAttrString);
     ep.RegisterR((UIntT) NACMsg_SetAttrInt,StringC("SetAttrInt"),*this,&NetAttributeCtrlServerBodyC::HandleSetAttrInt);
     ep.RegisterR((UIntT) NACMsg_SetAttrReal,StringC("SetAttrReal"),*this,&NetAttributeCtrlServerBodyC::HandleSetAttrReal);
-    ep.RegisterR((UIntT) NACMsg_SetAttrBool,StringC("SetAttrBool"),*this,&NetAttributeCtrlServerBodyC::HandleSetAttrBool);
+    ep.RegisterR((UIntT) NACMsg_SetAttrBool,StringC("SetAttrBool"),*this,&NetAttributeCtrlServerBodyC::HandleSetAttrBool);    
+    ep.RegisterR((UIntT) NACMsg_SigRegister,StringC("SigRegister"),*this,&NetAttributeCtrlServerBodyC::HandleSigRegister);
+    ep.RegisterR((UIntT) NACMsg_SigRemove,StringC("SigRemove"),*this,&NetAttributeCtrlServerBodyC::HandleSigRemove);
+    
     ONDEBUG(cerr<< "NetAttributeCtrlServerBodyC::RegisterHandlers(), Done. \n"); 
   }
 
@@ -245,5 +261,40 @@ namespace RavlN {
     return true;
   }
   
+  //: Handle set boolean attribute.
+  
+  bool NetAttributeCtrlServerBodyC::HandleSigRegister(UIntT &ctrlId,StringC &name) {
+    Tuple2C<IntT,StringC> sigId(ctrlId,name);
+    if(sigIds.IsElm(sigId))
+      return true; // Already sorted.
+    AttributeCtrlC ctrl;
+    // Lookup attribute controller
+    if(!attrCtrls.Lookup(ctrlId,ctrl) || !ctrl.IsValid()) {
+      SysLog(SYSLOG_ERR) << "NetAttributeCtrlServerBodyC::HandleSigRegister(), Invalid CtrlId. \n";
+      return true;
+    }
+    IntT id = ctrl.RegisterChangedSignal(name,TriggerR(*this,&NetAttributeCtrlServerBodyC::HandleSignal,ctrlId,name));
+    if(id < 0) {
+      SysLog(SYSLOG_WARNING) << "NetAttributeCtrlServerBodyC::HandleSigRegister(), Failed to setup signal for attribute '" << name << "' CtrlId=" << ctrlId << " ";
+      return true;
+    }
+    sigIds[sigId] = id;
+    return true;
+  }
+  
+  //: Handle set boolean attribute.
+  
+  bool NetAttributeCtrlServerBodyC::HandleSigRemove(UIntT &ctrlId,StringC &name) {
+    SysLog(SYSLOG_WARNING) << "NetAttributeCtrlServerBodyC::HandleSigRemove(), Not implemented. ";
+    return true;
+  }
+  
+  //: Handle set boolean attribute.
+  
+  bool NetAttributeCtrlServerBodyC::HandleSignal(UIntT &ctrlId,StringC &name) {
+    // Send back result
+    ep.Send(NACMsg_ChangedSignal,ctrlId,name);    
+    return true;
+  }
   
 }

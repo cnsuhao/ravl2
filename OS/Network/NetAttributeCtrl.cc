@@ -65,6 +65,7 @@ namespace RavlN {
     ep.RegisterR((UIntT) NACMsg_GetAttrBool,StringC("GetAttrBool"),*this,&NetAttributeCtrlBodyC::HandleGetAttrBool);
     ep.RegisterR((UIntT) NACMsg_GetAttrTypes,StringC("GetAttrTypes"),*this,&NetAttributeCtrlBodyC::HandleGetAttrTypes);
     ep.RegisterR((UIntT) NACMsg_GetFailed,StringC("GetFailed"),*this,&NetAttributeCtrlBodyC::HandleGetFailed);
+    ep.RegisterR((UIntT) NACMsg_ChangedSignal,StringC("ChangedSignal"),*this,&NetAttributeCtrlBodyC::HandleSignal);
   }
   
   //: Request available attribute types.
@@ -193,18 +194,21 @@ namespace RavlN {
   //: Register a value changed signal.
   
   IntT NetAttributeCtrlBodyC::RegisterChangedSignal(const StringC &attrName,const TriggerC &trig) {
-    return -1;
+    ep.Send(NACMsg_SigRegister,ctrlId,attrName); // Request signals.
+    return AttributeCtrlBodyC::RegisterChangedSignal(attrName,trig);
   }
   
   //: Remove a changed signal.
   
   bool NetAttributeCtrlBodyC::RemoveChangedSignal(IntT id) {
-    return false;
+    // FIXME:- Should check if we still want changed signals ?
+    return AttributeCtrlBodyC::RemoveChangedSignal(id);
   }
   
   //: Register a new attribute type.
   
   bool NetAttributeCtrlBodyC::RegisterAttribute(const AttributeTypeC &attr) {
+    SysLog(SYSLOG_ERR) << "NetAttributeCtrlBodyC::RegisterAttribute(), Attempt to register attribute on network port.\n";
     return false;
   }
   
@@ -250,6 +254,15 @@ namespace RavlN {
   bool NetAttributeCtrlBodyC::HandleGetAttrTypes(UIntT &reqId,DListC<AttributeTypeC> &data) {
     reqManager.DeliverReq(reqId,data);
     return true;    
+  }
+
+  //: Handle changed signal
+  
+  bool NetAttributeCtrlBodyC::HandleSignal(UIntT &sigCtrlId,StringC &name) {
+    if(ctrlId != sigCtrlId)
+      return true; // Not for me! 
+    SignalChange(name);
+    return true;
   }
   
 }

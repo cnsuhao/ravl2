@@ -19,18 +19,19 @@ namespace RavlN {
   class NetAttributeCtrlC;
   
   enum NACMsgT {
-    NACMsg_GetAttrTypes= 30,
-    NACMsg_SetAttrStr  = 31,
-    NACMsg_GetAttrStr  = 32,
-    NACMsg_SetAttrInt  = 33,
-    NACMsg_GetAttrInt  = 34,
-    NACMsg_SetAttrReal = 35,
-    NACMsg_GetAttrReal = 36,
-    NACMsg_SetAttrBool = 37,
-    NACMsg_GetAttrBool = 38,
-    NACMsg_SigRegister = 39,
-    NACMsg_SigRemove   = 40,
-    NACMsg_GetFailed   = 41
+    NACMsg_GetAttrTypes  = 30,
+    NACMsg_SetAttrStr    = 31,
+    NACMsg_GetAttrStr    = 32,
+    NACMsg_SetAttrInt    = 33,
+    NACMsg_GetAttrInt    = 34,
+    NACMsg_SetAttrReal   = 35,
+    NACMsg_GetAttrReal   = 36,
+    NACMsg_SetAttrBool   = 37,
+    NACMsg_GetAttrBool   = 38,
+    NACMsg_GetFailed     = 39,
+    NACMsg_SigRegister   = 40,
+    NACMsg_SigRemove     = 41,
+    NACMsg_ChangedSignal = 42
   };
   
   //: Messages used in NetPorts.
@@ -138,6 +139,8 @@ namespace RavlN {
     bool HandleGetAttrTypes(UIntT &reqId,DListC<AttributeTypeC> &data);
     //: Handle get boolean attribute.
     
+    bool HandleSignal(UIntT &CtrlId,StringC &name);
+    //: Handle changed signal
     
     NetEndPointC ep;
     UIntT ctrlId;
