@@ -64,7 +64,7 @@ namespace RavlN {
     bool IsOpen() const { 
       if(!skt.IsValid())
 	return false;
-      return skt.IsOpen(); 
+      return !shutdown && skt.IsOpen(); 
     }
     //: Is Connections open ?
     
@@ -213,7 +213,10 @@ namespace RavlN {
     
     TriggerC &ConnectionBroken()
     { return connectionBroken; }
-    // Trigger called if connection broken.
+    //: Access trigger called if connection broken.
+    
+    void ConnectionBroken(const TriggerC &);
+    //: Set new trigger to be called if connection broken.
     
   protected:
     
@@ -428,7 +431,11 @@ namespace RavlN {
     
     TriggerC &ConnectionBroken()
     { return Body().ConnectionBroken(); }
-    // Trigger called if connection broken.
+    //: Access trigger called if connection broken.
+    
+    void ConnectionBroken(const TriggerC &trigger)
+    { Body().ConnectionBroken(trigger); }
+    //: Set new trigger to be called if connection broken.
     
     friend class NetEndPointBodyC;
   };

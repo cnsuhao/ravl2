@@ -310,8 +310,13 @@ namespace RavlN {
     if(!nis)
       cerr << "NetEndPointBodyC::RunReceive(), Connection broken \n";
 #endif
-    if(connectionBroken.IsValid()) // Got a callback ?
-      connectionBroken.Invoke();
+    MutexLockC lock(accessMsgReg);
+    if(connectionBroken.IsValid()) { // Got a callback ?
+      TriggerC call = connectionBroken; // Make copy of trigger in case its overwritten.
+      lock.Unlock();
+      call.Invoke();
+    } else
+      lock.Unlock();
     Close();
     ONDEBUG(cerr << "NetEndPointBodyC::RunRecieve(), Terminated \n"); 
     return true;
@@ -381,6 +386,13 @@ namespace RavlN {
     remoteUser = user;
     setupComplete.Post();
     return true;
+  }
+  
+  //: Set new trigger to be called if connection broken.
+  
+  void NetEndPointBodyC::ConnectionBroken(const TriggerC &trigger) {
+    MutexLockC lock(accessMsgReg);
+    connectionBroken = trigger;
   }
 
 }
