@@ -202,6 +202,10 @@ namespace RavlN {
   template<class DataT>
   DataT TSMatrixRightUpperBodyC<DataT>::MulSumColumn(UIntT c,const Array1dC<DataT> &dat) const {
     DataT sum;
+    if(dat.Size() == 0) {
+      SetZero(sum);
+      return sum;
+    }
     UIntT s = dat.Range().Min().V();
     UIntT end = Min((UIntT) dat.Range().Max().V(),c)+1;
     const DataT *at2 = &(dat[s]);
@@ -257,7 +261,7 @@ namespace RavlN {
   template<class DataT>
   TSMatrixC<DataT> TSMatrixRightUpperBodyC<DataT>::Mul(const TSMatrixC<DataT> &mat) const {
     if(MatrixType() != typeid(TSMatrixRightUpperBodyC<DataT>))
-      TSMatrixBodyC<DataT>::Mul(mat); // Use default.
+      return TSMatrixBodyC<DataT>::Mul(mat); // Use default.
     RavlAssert(Cols() == mat.Rows());
     const SizeT rdim = Rows();
     const SizeT cdim = mat.Cols();

@@ -198,7 +198,7 @@ namespace RavlN {
   DataT TSMatrixLeftLowerBodyC<DataT>::MulSumColumn(UIntT c,const Array1dC<DataT> &dat) const {
     RavlAssert(c < Cols());
     UIntT s = Max((UIntT) dat.Range().Min().V(),c);
-    if(!dat.Contains(s)){
+    if(dat.Size() == 0 || !dat.Contains(s)){
       DataT ret;
       SetZero(ret);
       return ret;
@@ -209,7 +209,7 @@ namespace RavlN {
     DataT sum = (*at2) * (*at);
     s++;
     at += s;
-    for(at2++,s++;at2 != endp;s++,at2++) {
+    for(at2++,s++;at2 < endp;s++,at2++) {
       sum += (*at2) * (*at);
       at += s;
     }
@@ -257,7 +257,7 @@ namespace RavlN {
   template<class DataT>
   TSMatrixC<DataT> TSMatrixLeftLowerBodyC<DataT>::Mul(const TSMatrixC<DataT> &mat) const {
     if(MatrixType() != typeid(TSMatrixLeftLowerBodyC<DataT>))
-      TSMatrixBodyC<DataT>::Mul(mat); // Use default.
+      return TSMatrixBodyC<DataT>::Mul(mat); // Use default.
     RavlAssert(Cols() == mat.Rows());
     const SizeT rdim = Rows();
     TSMatrixLeftLowerC<DataT> out(rdim);

@@ -213,7 +213,7 @@ namespace RavlN {
     BufferAccessIterC<DataT> dit(data);
     for (UIntT r = 0; r < rdim; r++,dit++) {
       Array1dC<DataT> ra = mat.Row(r);
-      cerr <<"Row=" << ra << "\n";
+      //cerr <<"Row=" << ra << "\n";
       for(BufferAccessIter2C<DataT,DataT> it(ra,RangeBufferAccessC<DataT>(out[r],IndexRangeC(0,cdim)));it;it++)
 	it.Data2() = (*dit) * it.Data1();
     }

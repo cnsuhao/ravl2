@@ -284,12 +284,12 @@ namespace RavlN {
   
   template<class DataT>  
   DataT TSMatrixFullBodyC<DataT>::MulSumColumn(UIntT c,const Array1dC<DataT> &dat) const { 
-    RavlAssert(IndexRangeC(0,Rows()-1).Contains(dat.Range()));
     if(dat.Size() <= 0) {
       DataT ret;
       SetZero(ret);
       return ret;
     }
+    RavlAssert(IndexRangeC(0,Rows()-1).Contains(dat.Range()));
     const IndexRangeC &rng = dat.Range();
     BufferAccessIterC<DataT > it(dat);
     Slice1dIterC<DataT> sit(const_cast<TMatrixC<DataT> &>(matrix).SliceColumn(c),rng);
@@ -301,16 +301,20 @@ namespace RavlN {
 
   template<class DataT>  
   DataT TSMatrixFullBodyC<DataT>::MulSumColumn(UIntT c,const Slice1dC<DataT> &slice) const {
+    DataT ret;;
+    if(slice.Size() == 0) {
+      SetZero(ret);
+      return ret;
+    }
     RavlAssert(IndexRangeC(0,Rows()-1).Contains(slice.Range()));
     Slice1dIter2C<DataT,DataT> it(const_cast<TMatrixC<DataT> &>(matrix).SliceColumn(c),
 				  slice,
 				  slice.Range());
     if(!it) {
-      DataT ret;
       SetZero(ret);
       return ret;
     }
-    DataT ret = it.Data1() * it.Data2();
+    ret = it.Data1() * it.Data2();
     for(it++;it;it++)
       ret += it.Data1() * it.Data2();
     return ret;    

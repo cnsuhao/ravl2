@@ -69,6 +69,16 @@ namespace RavlN {
     }
     //: Multiply column by values from dat and sum them.
     
+    virtual DataT MulSumColumn(UIntT c,const Slice1dC<DataT> &dat) const {
+      if(!dat.Contains(c)) {
+	DataT ret;
+	SetZero(ret);
+	return ret;
+      }
+      return dat[c] * scale;
+    }
+    //: Multiply column by values from slice and sum them.
+    
     virtual TSMatrixC<DataT> T() const { 
       // FIXME: This should really be a copy ?
       return TSMatrixScaledIdentityC<DataT>(const_cast<TSMatrixScaledIdentityBodyC<DataT> &>(*this)); 
@@ -181,9 +191,15 @@ namespace RavlN {
     for (UIntT r = 0; r < rdim; r++) {
       Array1dC<DataT> ra = mat.Row(r);
       DataT *at = &(out[r][0]);
+      const DataT *end2 = &(at[Cols()]);
+      if(ra.Size() < 1) {
+	// Just clear row.
+	for(;at != end2;at++)
+	  SetZero(*at);
+	continue;
+      }
       DataT *start = &(at[ra.IMin().V()]);
       const DataT *end1 = &(at[ra.IMax().V()]);
-      const DataT *end2 = &(at[Cols()]);
       for(;at != start;at++)
 	SetZero(*at);
       DataT *at2 = &(ra[ra.IMin().V()]);
