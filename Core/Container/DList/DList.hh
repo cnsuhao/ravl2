@@ -43,7 +43,6 @@ namespace RavlN {
   // elements. Empty list contains just its head element.
   // Because of efficiency references to elements of a list are not
   // checked if they are proper elements of a list or its head.
-  // The class serves as a base class for reference counted double-linked list. 
   
   template<class DataT>
   class DListBodyC
