@@ -29,7 +29,6 @@ namespace RavlGUIN {
   
   View3DBodyC::View3DBodyC(int sx,int sy)
     : Canvas3DBodyC(sx,sy),
-      scene(true),
       viewObject(0,0,0),
       viewPoint(0,0,3),
       useRotate(true),
@@ -61,6 +60,7 @@ namespace RavlGUIN {
   //: Fit object to view
   bool View3DBodyC::DoFit(bool& bRefresh) {
     ONDEBUG(cerr << "View3DBodyC::DoFit(), Called. \n");
+    if (!scene.IsValid()) return false;
     RealT dist = viewObject.EuclidDistance(viewPoint);
     RealT extent = scene.Extent() * 1.3;
     if(dist <= 0)
@@ -75,6 +75,7 @@ namespace RavlGUIN {
   //: Center output.
   bool View3DBodyC::DoCenter(bool& bRefresh) {
     ONDEBUG(cerr << "View3DBodyC::DoCenter(), Called. \n");
+    if (!scene.IsValid()) return false;
     viewObject = scene.Center();
     Canvas3DBodyC::Put(DViewPoint3DC(fov,viewPoint,viewObject));
     ResetCamera();
