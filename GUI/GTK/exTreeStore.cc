@@ -51,7 +51,7 @@ int main(int nargs,char **argv) {
   //treeStore.SetValue(iter,0,true);
   treeStore.SetValue(iter,0,StringC("meep"));
   treeStore.SetValue(iter,1,StringC("hello"));
-  PixmapC map(xpmData_OpenFile);
+  PixmapC map((char **) xpmData_OpenFile);
   treeStore.SetValue(iter,2, map);
   
   TreeModelRowC iter2;
