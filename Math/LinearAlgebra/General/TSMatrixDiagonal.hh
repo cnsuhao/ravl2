@@ -1,0 +1,222 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2002, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
+#ifndef RAVL_TSMATRIXDIAGONAL_HEADER
+#define RAVL_TSMATRIXDIAGONAL_HEADER 1
+//! rcsid="$Id$"
+//! lib=RavlMath
+
+#include "Ravl/TSMatrixPartial.hh"
+#include "Ravl/SArr1Iter3.hh"
+
+namespace RavlN {
+  template<class DataT> class TSMatrixDiagonalC;
+  
+  //! userlevel=Develop
+  //: Diagonal matrix body
+  
+  template<class DataT>
+  class TSMatrixDiagonalBodyC
+    : public TSMatrixPartialBodyC<DataT>
+  {
+  public:
+    TSMatrixDiagonalBodyC(int i)
+      : TSMatrixPartialBodyC<DataT>(i,i,SArray1dC<DataT>(i))
+    {}
+    //: Constructor.
+    
+    TSMatrixDiagonalBodyC(const SArray1dC<DataT> &dat)
+      : TSMatrixPartialBodyC<DataT>(dat.Size(),dat.Size(),dat)
+    {}
+    //: Construct diagonal from an array
+    
+    virtual RCBodyVC &Copy() const
+    { return *new TSMatrixDiagonalBodyC<DataT>(data.Copy()); }
+    //: Create a copy of this matrix.
+    
+    virtual const type_info &MatrixType() const
+    { return typeid(TSMatrixDiagonalBodyC<DataT>); }
+    //: Find the type of the matrix.
+    
+    virtual DataT Element(UIntT i,UIntT j) const { 
+      if(i != j)
+	return 0;
+      return data[i];
+    } 
+    //: Access element.
+    
+    virtual void Element(UIntT i,UIntT j,const DataT &val) {
+      if(i != j) {
+	if(val != 0)
+	  cerr << "Attempting to set off diagonal of diagonal matrix. \n";
+	return ;
+      }
+      data[i] = val;
+    }
+    //: Set element.
+    
+    virtual Array1dC<DataT> Row(UIntT i) const
+    { return Array1dC<DataT>(const_cast<BufferC<DataT> &>(data.Buffer()),
+			     RangeBufferAccessC<DataT>(const_cast<DataT *>( &(data[i])),IndexRangeC(i,i))); }
+    //: Access a row from the matrix.
+    
+    virtual DataT MulSumColumn(UIntT c,const Array1dC<DataT> &dat) const { 
+      if(!dat.Contains(c)) {
+	DataT ret;
+	SetZero(ret);
+	return ret;
+      }
+      return dat[c] * data[c];
+    }
+    //: Multiply columb by values from dat and sum them.
+    
+    virtual TSMatrixC<DataT> T() const { 
+      // FIXME: This should really be a copy ?
+      return TSMatrixDiagonalC<DataT>(const_cast<TSMatrixDiagonalBodyC<DataT> &>(*this)); 
+    }
+    //: Get transpose of matrix.
+    // This is a no-op.
+    
+    virtual TSMatrixC<DataT> Mul(const TSMatrixC<DataT> &oth) const;
+    //: Get this matrix times 'oth'.
+    
+    virtual TVectorC<DataT> Mul(const TVectorC<DataT> &oth) const;
+    //: Get this matrix times 'oth'.
+    
+    virtual TSMatrixC<DataT> MulT(const TSMatrixC<DataT> & B) const;
+    //: Multiplication A * B.T()
+    
+    virtual TSMatrixC<DataT> TMul(const TSMatrixC<DataT> & B) const;
+    //: Multiplication A.T() * B
+    
+    virtual TVectorC<DataT> TMul(const TVectorC<DataT> & B) const;
+    //: Multiplication A.T() * B
+    
+    virtual TSMatrixC<DataT> AAT() const;
+    //: Return  A * A.T().
+    
+    virtual TSMatrixC<DataT> ATA() const;
+    //: Return  A.T() * A.
+
+    virtual TMatrixC<DataT> TMatrix() const;
+    //: Get as full matrix.
+    
+    virtual void SetDiagonal(const TVectorC<DataT> &d) { 
+      RavlAssert(data.Size() == d.Size());
+      data = d.Copy(); 
+    }
+    //: Set the diagonal of this matrix.
+    // If d.Size() != Cols() an error is given.
+    
+    virtual void AddDiagonal(const TVectorC<DataT> &d) {  
+      for(SArray1dIter2C<DataT,DataT> it(data,d);it;it++)
+	it.Data1() += it.Data2();
+    }
+    //: Add a vector to the diagonal of this matrix.
+    // If d.Size() != Cols() an error is given.
+    
+  };
+  
+  
+  //! userlevel=Normal
+  //: Diagonal matrix
+  
+  template<class DataT>
+  class TSMatrixDiagonalC
+    : public TSMatrixPartialC<DataT>
+  {
+  public:
+    TSMatrixDiagonalC(int i)
+      : TSMatrixPartialC<DataT>(*new TSMatrixDiagonalBodyC<DataT>(i))
+    {}
+    //: Create a diagonal matrix of size i by i .
+    // The contents of the matrix are undefined.
+    
+    TSMatrixDiagonalC(const TVectorC<DataT> &data)
+      : TSMatrixPartialC<DataT>(*new TSMatrixDiagonalBodyC<DataT>(data))
+    {}
+    //: Create a diagonal matrix from a vector.
+    
+  protected:
+    TSMatrixDiagonalC(TSMatrixDiagonalBodyC<DataT> &bod)
+      : TSMatrixPartialC<DataT>(bod)
+    {}
+    //: Body constructor.
+    
+    TSMatrixDiagonalBodyC<DataT> &Body()
+    { return static_cast<TSMatrixDiagonalBodyC<DataT> &>(TSMatrixC<DataT>::Body()); }
+    //: Access body.
+    
+    const TSMatrixDiagonalBodyC<DataT> &Body() const
+    { return static_cast<const TSMatrixDiagonalBodyC<DataT> &>(TSMatrixC<DataT>::Body()); }
+    //: Access body.
+    
+  public:
+    friend class TSMatrixDiagonalBodyC<DataT>;
+  };
+  
+  
+  template<class DataT>
+  TSMatrixC<DataT> TSMatrixDiagonalBodyC<DataT>::Mul(const TSMatrixC<DataT> &mat) const {
+    RavlAssert(Cols() == mat.Rows());
+    const SizeT rdim = Rows();
+    const SizeT cdim = mat.Cols();
+    TMatrixC<DataT> out(rdim, cdim);
+    for (UIntT r = 0; r < rdim; r++) {
+      DataT rv = data[r];
+      for (UIntT c = 0; c < cdim; c++)
+	out[r][c] = rv * mat.Element(r,c);
+    }
+    return out;
+  }
+  
+  template<class DataT>
+  TVectorC<DataT> TSMatrixDiagonalBodyC<DataT>::Mul(const TVectorC<DataT> &oth) const {
+    RavlAssert(Rows() == oth.Size());
+    TVectorC<DataT> ret(oth.Size());
+    for(SArray1dIter3C<DataT,DataT,DataT> it(ret,data,oth);it;it++)
+      it.Data1() = it.Data2() * it.Data3();
+    return ret;
+  }
+  
+  template<class DataT>
+  TSMatrixC<DataT> TSMatrixDiagonalBodyC<DataT>::MulT(const TSMatrixC<DataT> & B) const {
+    return TSMatrixDiagonalBodyC<DataT>::Mul(B.T());
+  }
+  
+  template<class DataT>
+  TSMatrixC<DataT> TSMatrixDiagonalBodyC<DataT>::TMul(const TSMatrixC<DataT> & B) const {
+    return Mul(B);
+  }
+  
+  template<class DataT>
+  TVectorC<DataT> TSMatrixDiagonalBodyC<DataT>::TMul(const TVectorC<DataT> & B) const {
+    return TSMatrixDiagonalBodyC<DataT>::Mul(B);
+  }
+  
+  template<class DataT>
+  TSMatrixC<DataT> TSMatrixDiagonalBodyC<DataT>::AAT() const {
+    TSMatrixDiagonalC<DataT> diag(Rows());
+    for(SArray1dIter2C<DataT,DataT> it(diag.Data(),data);it;it++)
+      it.Data1() = Sqr(it.Data2());
+    return diag;
+  }
+  
+  template<class DataT>
+  TSMatrixC<DataT> TSMatrixDiagonalBodyC<DataT>::ATA() const {
+    return TSMatrixDiagonalBodyC<DataT>::AAT();
+  }
+  
+  template<class DataT>
+  TMatrixC<DataT> TSMatrixDiagonalBodyC<DataT>::TMatrix() const {
+    TMatrixC<DataT> ret(Rows(),Cols());
+    ret.Fill(0);
+    ret.SetDiagonal(data);
+    return ret;
+  }
+}
+
+#endif

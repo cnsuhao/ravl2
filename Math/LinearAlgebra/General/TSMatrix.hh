@@ -1,0 +1,524 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2002, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
+#ifndef RAVL_TSMATRIX_HEADER
+#define RAVL_TSMATRIX_HEADER 1
+///////////////////////////////////////////////////
+//! rcsid="$Id$"
+//! date="15/8/2002"
+//! lib=RavlMath
+
+#include "Ravl/TMatrix.hh"
+#include "Ravl/TVector.hh"
+#include "Ravl/RefCounter.hh"
+#include "Ravl/Math.hh"
+#include "Ravl/Array1d.hh"
+#include "Ravl/IndexRange2d.hh"
+#include "Ravl/Array1dIter3.hh"
+
+namespace RavlN {
+  template<class DataT> class TSMatrixC ;
+  
+  //! userlevel=Develop
+  //: Smart Matrix Body.
+  
+  template<class DataT>
+  class TSMatrixBodyC 
+    : public RCBodyVC
+  {
+  public:
+    TSMatrixBodyC()
+    {}
+    //: Default constructor.
+
+    TSMatrixBodyC(UIntT rows,UIntT cols)
+      : size(rows,cols)
+    {}
+    //: Constructor.
+    
+    virtual const type_info &MatrixType() const
+    { return typeid(void); }
+    //: Find the type of the matrix.
+    
+    virtual DataT Element(UIntT i,UIntT j) const { 
+      RavlAssert(0);
+      return DataT();
+    } 
+    //: Access element.
+    
+    virtual void Element(UIntT i,UIntT j,const DataT &val) 
+    { RavlAssert(0); }
+    //: Set element.
+    
+    virtual Array1dC<DataT> Row(UIntT i) const
+    { RavlAssert(0); return Array1dC<DataT>(); }
+    //: Access a row from the matrix.
+    
+    virtual DataT MulSumColumn(UIntT c,const Array1dC<DataT> &dat) const
+    { RavlAssert(0); return DataT(); }
+    //: Multiply columb by values from dat and sum them.
+    
+    virtual TSMatrixC<DataT> Add(const TSMatrixC<DataT> &oth) const;
+    //: Add this matrix to 'oth' and return the result.
+    
+    virtual TSMatrixC<DataT> Sub(const TSMatrixC<DataT> &oth) const;
+    //: Subtract 'oth' from this matrix and return the result.
+
+    virtual void AddIP(const TSMatrixC<DataT> &oth);
+    //: Add this matrix to 'oth' and return the result.
+    
+    virtual void SubIP(const TSMatrixC<DataT> &oth);
+    //: Subtract 'oth' from this matrix and return the result.
+    
+    virtual TSMatrixC<DataT> T() const
+    { return TMatrix().T(); }
+    //: Get transpose of matrix.
+    
+    virtual TSMatrixC<DataT> Mul(const TSMatrixC<DataT> &oth) const;
+    //: Get this matrix times 'oth'.
+    
+    virtual TVectorC<DataT> Mul(const TVectorC<DataT> &oth) const;
+    //: Get this matrix times 'oth'.
+    
+    virtual TSMatrixC<DataT> MulT(const TSMatrixC<DataT> & B) const;
+    //: Multiplication A * B.T()
+    
+    virtual TSMatrixC<DataT> TMul(const TSMatrixC<DataT> & B) const;
+    //: Multiplication A.T() * B
+    
+    virtual TVectorC<DataT> TMul(const TVectorC<DataT> & B) const;
+    //: Multiplication A.T() * B
+    
+    virtual TSMatrixC<DataT> AAT() const;
+    //: Return  A * A.T().
+    
+    virtual TSMatrixC<DataT> ATA() const;
+    //: Return  A.T() * A.
+    
+    virtual void SetDiagonal(const TVectorC<DataT> &d);
+    //: Set the diagonal of this matrix.
+    // If d.Size() != Cols() an error is given.
+    
+    virtual void AddDiagonal(const TVectorC<DataT> &d);
+    //: Add a vector to the diagonal of this matrix.
+    // If d.Size() != Cols() an error is given.
+    
+    virtual void AddOuterProduct(const TVectorC<DataT> &vec1,const TVectorC<DataT> &vec2);
+    //: Add outer product of vec1 and vec2 to this matrix.
+    
+    virtual void AddOuterProduct(const TVectorC<DataT> &vec1,const TVectorC<DataT> &vec2,const DataT &a);
+    //: Add outer product of vec1 and vec2 multiplied by a to this matrix .
+    
+    virtual void SetSmallToBeZero(const DataT &min);
+    //: Set values smaller than 'min' to zero in vector.
+    
+    virtual DataT SumOfAbs() const;
+    //: Sum the absolute values of all members of the matrix.
+    
+    virtual void SwapRows(int i,int j);
+    //: Swap two rows in the matrix.
+    
+    virtual TMatrixC<DataT> TMatrix() const
+    { RavlAssert(0); return TMatrixC<DataT>(); }
+    //: Access as a TMatrix.
+    // Note, this may not be a copy and should not be changed!
+    
+    const Index2dC &Size() const
+    { return size; }
+    //: Find size of matrix.
+    
+    UIntT Rows() const
+    { return size[0].V(); }
+    //: Number of rows in matrix.
+    
+    UIntT Cols() const
+    { return size[1].V(); }
+    //: Number of cols in matrix.
+    
+  protected:
+    Index2dC size;
+  };
+  
+  //! userlevel=Normal
+  //: Smart Matrix.
+  
+  template<class DataT>
+  class TSMatrixC 
+    : public RCHandleC<TSMatrixBodyC<DataT> >
+  {
+  public:
+    TSMatrixC()
+    {}
+    //: Default constructor.
+    // Creates an invalid handle.
+    
+    TSMatrixC(const TMatrixC<DataT> &mat);
+    //: This actually creates a TSMatrixFullC<DataT>
+    
+    TSMatrixC(UIntT rows,UIntT cols);
+    //: Create a full matrix, rows by cols in size.
+    
+  protected:
+    TSMatrixC(TSMatrixBodyC<DataT> &bod)
+      : RCHandleC<TSMatrixBodyC<DataT> >(bod)
+    {}
+    //: Body constructor.
+
+#if 0    
+    TSMatrixC(RCBodyVC &bod)
+      : RCHandleC<TSMatrixBodyC<DataT> >(bod)
+    {}
+    //: Base body constructor.
+#endif
+    
+    TSMatrixBodyC<DataT> &Body()
+    { return RCHandleC<TSMatrixBodyC<DataT> >::Body(); }
+    //: Access body.
+    
+    const TSMatrixBodyC<DataT> &Body() const
+    { return RCHandleC<TSMatrixBodyC<DataT> >::Body(); }
+    //: Access body.
+    
+  public:
+    const type_info &MatrixType() const
+    { return Body().MatrixType(); }
+    //: Find the type of the matrix.
+    
+    TSMatrixC<DataT> Copy() const
+    { return TSMatrixC<DataT>(static_cast<TSMatrixBodyC<DataT> &>(Copy())); }
+    //: Create a copy.
+    
+    DataT Element(UIntT i,UIntT j) const
+    { return Body().Element(i,j); }
+    //: Access element.
+    
+    void Element(UIntT i,UIntT j,const DataT &val) 
+    { return Body().Element(i,j,val); }
+    //: Set element.
+    
+    Array1dC<DataT> Row(UIntT i) const
+    { return Body().Row(i); }
+    //: Access a row from the matrix.
+    
+    DataT MulSumColumn(UIntT c,const Array1dC<DataT> &dat) const
+    { return Body().MulSumColumn(c,dat); }
+    //: Multiply columb by values from dat and sum them.
+
+    DataT operator[](const Index2dC &ind)
+    { return Body().Element(ind[0].V(),ind[1].V()); }
+    //: Access element.
+
+    const Index2dC &Size() const
+    { return Body().Size(); }
+    //: Find size of matrix.
+    
+    UIntT Rows() const
+    { return Body().Rows(); }
+    //: Number of rows in matrix.
+    
+    UIntT Cols() const
+    { return Body().Cols(); }
+    //: Number of cols in matrix.
+    
+    TSMatrixC<DataT> Add(const TSMatrixC<DataT> &oth) const
+    { return Body().Add(oth); }
+    //: Add this matrix to 'oth' and return the result.
+    
+    TSMatrixC<DataT> operator+(const TSMatrixC<DataT> &oth) const
+    { return Body().Add(oth); }
+    //: Add this matrix to 'oth' and return the result.
+    
+    TSMatrixC<DataT> Sub(const TSMatrixC<DataT> &oth) const 
+    { return Body().Sub(oth); }
+    //: Subtract 'oth' from this matrix and return the result.
+    
+    TSMatrixC<DataT> operator-(const TSMatrixC<DataT> &oth) const
+    { return Body().Sub(oth); }
+    //: Subtract 'oth' from this matrix and return the result.
+    
+    void AddIP(const TSMatrixC<DataT> &oth) 
+    { Body().AddIP(oth); }
+    //: Add 'oth' to this matrix in place..
+    
+    TSMatrixC<DataT> &operator+=(const TSMatrixC<DataT> &oth)
+    { Body().AddIP(oth); return *this; }
+    //: Add 'oth' to this matrix in place..
+    
+    void SubIP(const TSMatrixC<DataT> &oth) 
+    { Body().SubIP(oth); }
+    //: Subtract 'oth' from this matrix in place.
+    
+    TSMatrixC<DataT> &operator-=(const TSMatrixC<DataT> &oth) 
+    { Body().Sub(oth); return *this; }
+    //: Subtract 'oth' from this matrix in place.
+    
+    TSMatrixC<DataT> T() const
+    { return Body().T(); }
+    //: Get transpose of matrix.
+    
+    TSMatrixC<DataT> Mul(const TSMatrixC<DataT> &oth) const
+    { return Body().Mul(oth); }
+    //: Get this 'oth' multiplied by this.
+    
+    TSMatrixC<DataT> operator*(const TSMatrixC<DataT> &oth) const
+    { return Body().Mul(oth); }
+    //: Get this 'oth' multiplied by this.
+    
+    TSMatrixC<DataT> Mul(const TVectorC<DataT> &oth) const
+    { return TMatrix() * oth; }
+    //: Get this matrix times 'oth'.
+    
+    TVectorC<DataT> operator*(const TVectorC<DataT> &oth) const
+    { return Body().Mul(oth); }
+    //: Get this 'oth' multiplied by this.
+    
+    TSMatrixC<DataT> MulT(const TSMatrixC<DataT> & B) const
+    { return Body().MulT(B); }
+    //: Multiplication A * B.T()
+    
+    TSMatrixC<DataT> TMul(const TSMatrixC<DataT> & B) const
+    { return Body().TMul(B); }
+    //: Multiplication A.T() * B
+    
+    TVectorC<DataT> TMul(const TVectorC<DataT> & B) const
+    { return Body().TMul(B); }
+    //: Multiplication A.T() * B
+    
+    TSMatrixC<DataT> AAT() const 
+    { return Body().AAT(); }      
+    //: Return  A * A.T().
+    
+    TSMatrixC<DataT> ATA() const 
+    { return Body().ATA(); }
+    //: Return  A.T() * A.
+    
+    void SetDiagonal(const TVectorC<DataT> &d)
+    { Body().SetDiagonal(d); }
+    //: Set the diagonal of this matrix.
+    // If d.Size() != Cols() an error is given.
+    
+    void AddDiagonal(const TVectorC<DataT> &d)
+    { Body().AddDiagonal(d); }
+    //: Add a vector to the diagonal of this matrix.
+    // If d.Size() != Cols() an error is given.
+    
+    TMatrixC<DataT> TMatrix() const
+    { return Body().TMatrix(); }
+    //: Access as a TMatrix.
+    // Note, this may not be a copy and should not be changed!
+
+    void AddOuterProduct(const TVectorC<DataT> &vec1,const TVectorC<DataT> &vec2)
+    { Body().AddOuterProduct(vec1,vec2); }
+    //: Add outer product of vec1 and vec2 to this matrix.
+    
+    void AddOuterProduct(const TVectorC<DataT> &vec1,const TVectorC<DataT> &vec2,const DataT &a)
+    { Body().AddOuterProduct(vec1,vec2,a); }
+    //: Add outer product of vec1 and vec2 multiplied by a to this matrix .
+    
+    void SetSmallToBeZero(const DataT &min)
+    { Body().SetSmallToBeZero(min); }
+    //: Set values smaller than 'min' to zero in vector.
+    
+    DataT SumOfAbs() const
+    { return Body().SumOfAbs(); }
+    //: Sum the absolute values of all members of the matrix.
+    
+    void SwapRows(int i,int j)
+    { Body().SwapRows(i,j); }
+    //: Swap two rows in the matrix.
+    
+    friend class TSMatrixBodyC<DataT>;
+  };
+  
+  template<class DataT>
+  TSMatrixC<DataT> TSMatrixBodyC<DataT>::Add(const TSMatrixC<DataT> &oth) const {
+    RavlAssert(Size() == oth.Size());
+    TSMatrixC<DataT> ret(static_cast<TSMatrixBodyC<DataT> &>(Copy()));
+    ret.AddIP(oth);
+    return ret;
+  }
+  
+  template<class DataT>
+  TSMatrixC<DataT> TSMatrixBodyC<DataT>::Sub(const TSMatrixC<DataT> &oth) const {
+    RavlAssert(Size() == oth.Size());
+    TSMatrixC<DataT> ret(static_cast<TSMatrixBodyC<DataT> &>(Copy()));
+    ret.SubIP(oth);
+    return ret;
+  }
+
+  template<class DataT>
+  void TSMatrixBodyC<DataT>::AddIP(const TSMatrixC<DataT> &oth) {
+    for(UIntT i = 0;i < Rows();i++)
+      for(UIntT j = 0;j < Cols();j++)
+	Element(i,j,Element(i,j) + oth.Element(i,j));
+  }
+  
+  template<class DataT>
+  void TSMatrixBodyC<DataT>::SubIP(const TSMatrixC<DataT> &oth)  {
+    for(UIntT i = 0;i < Rows();i++)
+      for(UIntT j = 0;j < Cols();j++)
+	Element(i,j,Element(i,j) - oth.Element(i,j));
+  }
+  
+  template<class DataT>
+  TSMatrixC<DataT> TSMatrixBodyC<DataT>::Mul(const TSMatrixC<DataT> &mat) const {
+    RavlAssert(Cols() == mat.Rows());
+    const SizeT rdim = Rows();
+    const SizeT cdim = mat.Cols();
+    TMatrixC<DataT> out(rdim, cdim);
+    for (UIntT r = 0; r < rdim; r++) {
+      Array1dC<DataT> row = Row(r);
+      for (UIntT c = 0; c < cdim; c++)
+	out[r][c] = mat.MulSumColumn(c,row);
+    }
+    return TSMatrixC<DataT>(out);
+  }
+  
+  template<class DataT>
+  TVectorC<DataT> TSMatrixBodyC<DataT>::Mul(const TVectorC<DataT> &vector) const {
+    RavlAssert(vector.Size() == Cols());
+    const SizeT rdim = Rows();
+    TVectorC<DataT> out(rdim);
+    if(rdim < 1) // Zero size vector ?
+      return out;
+    for (UIntT i = 0; i < rdim; ++i) {
+      Array1dC<DataT> row = Row(i);
+      BufferAccessIter2C<DataT,DataT> it(row,
+					 RangeBufferAccessC<DataT>(row.Range(),vector));
+      DataT sum = it.Data1() * it.Data2();
+      for(it++;it;it++)
+	sum += it.Data1() * it.Data2();
+      out[i] = sum;
+    }
+    return out;
+  }
+  
+  template<class DataT>
+  TSMatrixC<DataT> TSMatrixBodyC<DataT>::MulT(const TSMatrixC<DataT> & mat) const { 
+    RavlAssert(Cols() == mat.Cols());
+    const SizeT rdim = Rows();
+    const SizeT cdim = mat.Rows();
+    SArray1dC<Array1dC<DataT> > rowArr(cdim);
+    for(UIntT c = 0;c < cdim;c++)
+      rowArr[c] = mat.Row(c);
+    TMatrixC<DataT> out(rdim, cdim);
+    for (UIntT r = 0; r < rdim; r++) {
+      Array1dC<DataT> row = Row(r);
+      for (UIntT c = 0; c < cdim; c++) {
+	Array1dC<DataT> &r2 = rowArr[c];
+	IndexRangeC rng = row.Range();
+	rng.ClipBy(r2.Range());
+	BufferAccessIter2C<DataT,DataT> it(row,r2,rng);
+	DataT sum = it.Data1() * it.Data2();
+	for(it++;it;it++)
+	  sum += it.Data1() * it.Data2();
+	out[r][c] = sum;
+      }
+    }
+    return TSMatrixC<DataT>(out);
+    //return Mul(B.T()); 
+  }
+  
+  template<class DataT>
+  TSMatrixC<DataT> TSMatrixBodyC<DataT>::TMul(const TSMatrixC<DataT> & mat) const { 
+    RavlAssert(Cols() == mat.Cols());
+    const SizeT rdim = Rows();
+    const SizeT cdim = mat.Rows();
+    SArray1dC<Array1dC<DataT> > rowArr(cdim);
+    for(UIntT c = 0;c < cdim;c++)
+      rowArr[c] = mat.Row(c);
+    TMatrixC<DataT> out(cdim, rdim);
+    for (UIntT r = 0; r < rdim; r++) {
+      Array1dC<DataT> row = Row(r);
+      for (UIntT c = 0; c < cdim; c++) {
+	Array1dC<DataT> &r2 = rowArr[c];
+	IndexRangeC rng = row.Range();
+	rng.ClipBy(r2.Range());
+	BufferAccessIter2C<DataT,DataT> it(row,r2,rng);
+	DataT sum = it.Data1() * it.Data2();
+	for(it++;it;it++)
+	  sum += it.Data1() * it.Data2();
+	out[c][r] = sum;
+      }
+    }
+    return out;
+    //return T().Mul(mat); 
+  }
+  
+  template<class DataT>
+  TVectorC<DataT> TSMatrixBodyC<DataT>::TMul(const TVectorC<DataT> & vector) const { 
+    RavlAssert(vector.Size() == Rows());
+    const SizeT cdim = Cols();
+    TVectorC<DataT> out(cdim);
+    if(cdim < 1) // Zero size vector ?
+      return out;
+    for (UIntT i = 0; i < cdim; ++i)
+      out[i] = MulSumColumn(i,vector);
+    return out;
+  }
+  
+  template<class DataT>
+  TSMatrixC<DataT> TSMatrixBodyC<DataT>::AAT() const 
+  { return MulT(TSMatrixC<DataT>(const_cast<TSMatrixBodyC<DataT> &>(*this))); }
+  
+  template<class DataT>
+  TSMatrixC<DataT> TSMatrixBodyC<DataT>::ATA() const 
+  { return TMul(TSMatrixC<DataT>(const_cast<TSMatrixBodyC<DataT> &>(*this))); }
+  
+  template<class DataT>
+  void TSMatrixBodyC<DataT>::SetDiagonal(const TVectorC<DataT> &d) {
+    RavlAssert(d.Size() <= Rows() && d.Size() <= Cols());
+    for(UIntT i = 0;i < d.Size();i++)
+      Element(i,i,d[i]);
+  }
+  
+  template<class DataT>
+  void TSMatrixBodyC<DataT>::AddDiagonal(const TVectorC<DataT> &d) {
+    RavlAssert(d.Size() <= Rows() && d.Size() <= Cols());
+    for(UIntT i = 0;i < d.Size();i++)
+      Element(i,i,Element(i,i) + d[i]);    
+  }
+  
+  template<class DataT>
+  void TSMatrixBodyC<DataT>::AddOuterProduct(const TVectorC<DataT> &vec1,const TVectorC<DataT> &vec2) {
+    AddIP(TSMatrixC<DataT>(vec1.OuterProduct(vec2)));
+  }
+  
+  template<class DataT>
+  void TSMatrixBodyC<DataT>::AddOuterProduct(const TVectorC<DataT> &vec1,const TVectorC<DataT> &vec2,const DataT &a) {
+    AddIP(TSMatrixC<DataT>(vec1.OuterProduct(vec2,a)));
+  }
+  
+  template<class DataT>
+  void TSMatrixBodyC<DataT>::SetSmallToBeZero(const DataT &min) {
+    for(UIntT i = 0;i < Rows();i++)
+      for(UIntT j = 0;j < Cols();j++) {
+	if(Abs(Element(i,j)) < min)
+	  Element(i,j,0);
+      }
+  }
+  
+  template<class DataT>
+  DataT TSMatrixBodyC<DataT>::SumOfAbs() const {
+    DataT ret;
+    SetZero(ret);
+    for(UIntT i = 0;i < Rows();i++)
+      for(UIntT j = 0;j < Cols();j++)
+	ret += Element(i,j);
+    return ret;
+  }
+  
+  template<class DataT>
+  void TSMatrixBodyC<DataT>::SwapRows(int i,int j) {
+    RavlAssert(0);
+  }
+    
+  
+}
+
+
+
+#endif

@@ -205,9 +205,10 @@ namespace RavlN {
   template<class DataT>
   TVectorC<DataT> TMatrixC<DataT>::operator*(const TVectorC<DataT> & vector) const {
     const SizeT rdim = Rows();
-    if(rdim == 0)
-      return TVectorC<DataT>();
+    RavlAssert(vector.Size() == Cols());
     TVectorC<DataT> out(rdim);
+    if(rdim == 0)
+      return out;
     BufferAccessIterC<DataT> rit(out);
     for (UIntT i = 0;rit; ++i,rit++) {
       BufferAccessIter2C<DataT,DataT> it((*this)[i],vector);
