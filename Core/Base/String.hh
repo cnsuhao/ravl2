@@ -280,7 +280,7 @@ namespace RavlN {
     {}
     //: Create a string from char "c"
     
-    StringC(istream & in);
+    explicit StringC(istream & in);
     //: Create a string from the stream "in"
     
     ~StringC()
