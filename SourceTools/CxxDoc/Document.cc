@@ -40,12 +40,13 @@ namespace RavlCxxDocN {
     ret += "wchar_t";
     return ret;
   }
-
+  
   static HSetC<StringC> ListWordsToIgnore() {
     HSetC<StringC> ret = ListNativeTypes();
     ret += "a";
     ret += "is"; 
     ret += "in";
+    ret += "on";
     ret += "it";
     ret += "an";
     ret += "of";
@@ -53,6 +54,13 @@ namespace RavlCxxDocN {
     ret += "the";
     ret += "The";
     ret += "use";
+    ret += "are";
+    ret += "off";
+    ret += "one";
+    ret += "two";
+    ret += "six";
+    ret += "ten";
+    ret += "nine";
     ret += "from";
     ret += "have";
     ret += "take";
@@ -61,8 +69,31 @@ namespace RavlCxxDocN {
     ret += "been";
     ret += "with";
     ret += "used";
+    ret += "page";
+    ret += "four";
+    ret += "five";
+    ret += "three";
+    ret += "pages";
+    ret += "there";
+    ret += "these";
     ret += "other";
     ret += "maybe";
+    ret += "input";
+    ret += "ready";
+    ret += "eight";
+    ret += "seven";
+    ret += "stream";
+    ret += "output";
+    ret += "appear";
+    ret += "method";
+    ret += "simple";
+    ret += "methods";
+    ret += "complex";
+    ret += "returns";
+    ret += "standard";
+    ret += "function";
+    ret += "functions";
+    ret += "interface";
     
     ret += "and";
     ret += "and_eq";
