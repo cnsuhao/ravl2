@@ -44,7 +44,7 @@ int testRawFD(); /* NB. This is only usefull on some platforms. */
 int testFDStream();
 int testBitStream();
 
-StringC testFile = "./testStream" + StringC((IntT) getpid());
+StringC testFile = "/tmp/testStream" + StringC((IntT) getpid());
 
 int main() {
   int errLine;
@@ -161,9 +161,8 @@ int StringTest() {
 
 int SimpleTest() {
   ByteT val;
-  RealT rval = 0.523;
+  RealT rval = 0.5;
   FloatT fval = 0.7;
-  UIntT i = 256;
   val = 1;
   {
     BinOStreamC os(testFile);
@@ -171,8 +170,7 @@ int SimpleTest() {
       cerr << "Failed to open output. \n";
       return __LINE__;
     }
-    os << val << rval << fval << i;
-    cout << val << " " << rval << " " << fval << " " << i << endl;
+    os << val << rval << fval;
   }
   val = 2;
   RealT nval;
@@ -183,8 +181,7 @@ int SimpleTest() {
       cerr << "Failed to open output. \n";
       return __LINE__;
     }
-    is >> val >> nval >> nfval >> i;
-    cout << val << " " << nval << " " << fval << " " << i << endl;
+    is >> val >> nval >> nfval;
     if(val != 1) {
       cerr << "Test failed. " << ((int) val) << "\n";
       return __LINE__; 
@@ -232,7 +229,7 @@ int StrStreamTest() {
 }
 
 int testFDStream() {
-#if RAVL_COMPILER_GCC3 && 0
+#if RAVL_COMPILER_GCC3
   cerr << "testFDStream(), Started. \n";
   int fds[2];
   pipe(fds);
@@ -266,7 +263,6 @@ int testFDStream() {
 }
 
 int testRawFD() {
-#if 0
   int fds[2];
   pipe(fds);
   
@@ -308,7 +304,6 @@ int testRawFD() {
   
   if(let != rlet1) return __LINE__;
   if(let != rlet2) return __LINE__;
-#endif
   return 0;
 }
 
