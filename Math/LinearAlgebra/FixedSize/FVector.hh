@@ -75,7 +75,7 @@ namespace RavlN {
     const FVectorC<N> &MakeUnit() { 
       RealT mag = Magnitude();
       for(UIntT i = 0;i < N;i++)
-	ret[i] /= mag;
+	data[i] /= mag;
       return *this; 
     }
     //: Make this a unit vector.
