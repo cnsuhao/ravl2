@@ -515,6 +515,7 @@ namespace RavlN {
   HashC<K,T>::HashC(istream &in)  {
     UIntT size;
     in >> size;
+    table = SArray1dC<IntrDListC<HashElemC<K,T> > > (NextPrime(size));
     for(;size > 0;size--) {
       HashElemC<K,T> t(in);
       Add(t.GetKey(),t.Data());
@@ -525,6 +526,7 @@ namespace RavlN {
   HashC<K,T>::HashC(BinIStreamC &in)  {
     UIntT size;
     in >> size;
+    table = SArray1dC<IntrDListC<HashElemC<K,T> > > (NextPrime(size));
     for(;size > 0;size--) {
       HashElemC<K,T> t(in);
       Add(t.GetKey(),t.Data());
