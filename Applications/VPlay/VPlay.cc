@@ -188,9 +188,9 @@ int doVPlay(int nargs,char *args[])
   IntT start(option.Int("sf", -1, " Start at nth frame"));
   //IntT digits = option.Int("d",3,"Digits in filename. ");
   //IntT scale = option.Int("s",1,"Scale image. ");
-  RealT delay = option.Real("t",0.04,"Delay between frames. ");
-  bool directDraw = option.Boolean("dd",false,"Direct draw. (For realtime playback of large images) ");
   bool deinterlace = option.Boolean("di",false,"Deinterlace incoming images. ");
+  RealT delay = option.Real("t",deinterlace ? 0.02 : 0.04,"Delay between frames. ");
+  bool directDraw = option.Boolean("dd",false,"Direct draw. (For realtime playback of large images) ");
   bool verb = option.Boolean("v",false,"Verbose mode. ");
   bool simpleOnly = option.Boolean("sc",false,"Display Simple Controls only. ");
   //bool deInterlace = option.Boolean("di",false,"De-interlace. (Subsample by 2) ");
@@ -301,13 +301,8 @@ int doVPlay(int nargs,char *args[])
   TextEntryC guiTimeCode("",12,false);
   TextEntryC guiFrameRate("",5,false);
 
-  StringC strFrameRate;
-  if(vidIn.GetAttr("framerate",strFrameRate))
-    frameRate = strFrameRate.RealValue();
-  else {
+  if(!vidIn.GetAttr("framerate",frameRate))
     frameRate = (RealT) 1.0/delay;
-    strFrameRate = StringC(frameRate);
-  }
   
   guiFrameRate.Text(StringC(frameRate));
   
