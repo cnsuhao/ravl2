@@ -171,17 +171,6 @@ namespace RavlN {
   //! userlevel=Basic
   //: A reference-counted string.
   
-  // This class is hacked from the Gnu string class, which explains to some
-  // extent the dodgy documentation of this class.  Also, Some useful operators 
-  // do not appear because they are global functions (we will fix this one day).
-  // In particular:
-  
-  // <ul> <li> use the "+" operator for concatenation of a StringC with another
-  // StringC, SubStringC, <code>char</code>, IndexC, <code>IntT</code>,
-  // <code>LongIntT</code>, <code>RealT</code>, ....  Result is a string.
-  
-  // </ul>
-  
   class StringC {
     friend class      SubStringC;
     
@@ -293,7 +282,7 @@ namespace RavlN {
       rep = Salloc(rep, &c, 1, 1);
       return *this;
     }
-    //: Assign a charactor to this string.
+    //: Assign a character to this string.
     
     inline StringC& operator=(const SubStringC&  y);
     //: Assign a substring to this string.
@@ -308,7 +297,7 @@ namespace RavlN {
     //: Copy 'C' style string 'y' to the end of this one.
     
     inline StringC& operator+=(char        c);
-    //: Copy charactor 'c' to the end of this string.
+    //: Copy character 'c' to the end of this string.
     
     inline void prepend(const StringC&     y)
     { rep = Sprepend(rep, y.chars(), y.length()); }
@@ -323,7 +312,7 @@ namespace RavlN {
     
     inline void prepend(char c)
     { rep = Sprepend(rep, &c, 1); }
-    //: Prepend charactor 'c' to this string.
+    //: Prepend character 'c' to this string.
     
     inline int index(char c, int startpos = 0) const
     { return search(startpos, length(), c); }
@@ -353,7 +342,7 @@ namespace RavlN {
     
     inline int contains(char c) const
     { return search(0, length(), c) >= 0; }
-    //: Returns 1 if this string contains the charactor 'c'.
+    //: Returns 1 if this string contains the character 'c'.
     
     inline int contains(const StringC& y) const
     { return search(0, length(), y.chars(), y.length()) >= 0; }
@@ -560,19 +549,19 @@ namespace RavlN {
     
     void reverse() 
     { rep = Sreverse(rep, rep); }
-    //: Reverse order of charactors in string, in place.
+    //: Reverse order of characters in string, in place.
     
     void upcase() 
     { rep = Supcase(rep, rep); }
-    //: Convert all charactors to upper case, in place.
+    //: Convert all characters to upper case, in place.
     
     void downcase() 
     { rep = Sdowncase(rep, rep); }
-    //: Convert all charactors to lower case, in place.
+    //: Convert all characters to lower case, in place.
     
     void capitalize() 
     { rep = Scapitalize(rep, rep); }
-    //: Convert all charactors to upper case, in place.
+    //: Convert all characters to upper case, in place.
     
     inline char&       operator[](UIntT i) { 
       RavlAssertMsg(((unsigned)i) < length(),"invalid index");
@@ -612,11 +601,11 @@ namespace RavlN {
     
     char firstchar() const
     { return elem(0); }
-    //: Get the first charactor in the string.
+    //: Get the first character in the string.
     
     char lastchar() const
     { return elem(length() - 1); }
-    //: Get the last charactor in the string.
+    //: Get the last character in the string.
     
     operator const char*() const
     { return &(rep->s[0]); }    
@@ -801,7 +790,7 @@ namespace RavlN {
       len = S.length();      
       return *this;
     }
-    //: Create a substring of a single charactor.
+    //: Create a substring of a single character.
     
     int contains(char c) const
     { return S.search(pos, pos+len, c) >= 0; }
@@ -825,19 +814,19 @@ namespace RavlN {
     
     SubStringC before(int spos)
     { return S.at((int) pos,spos); }
-    //: All charactors before position 'spos' in substring.
+    //: All characters before position 'spos' in substring.
     
     SubStringC through(int spos)
     { return S.at((int) pos,spos+1); }
-    //: All charactors before and including 'spos' in substring.
+    //: All characters before and including 'spos' in substring.
     
     SubStringC from(int  spos)
     { return S.at((int) pos+spos,len-spos); }
-    //: All charactors from position 'spos' in substring.
+    //: All characters from position 'spos' in substring.
     
     SubStringC after(int spos)
     { spos++; return S.at((int) pos+spos,(int) len-spos); }
-    //: All charactors after position 'spos' in substring.
+    //: All characters after position 'spos' in substring.
     
     inline int index(char c, int startpos = 0) const
     { return S.search(startpos+pos, length()+pos, c) - pos; }
@@ -910,21 +899,21 @@ namespace RavlN {
       RavlAssertMsg(((unsigned)i) < length(),"invalid index");
       return (S.rep->s[pos+i]);
     }
-    //: Access a charactor.
+    //: Access a character.
     
     char operator[](int i) const {
       RavlAssertMsg(((unsigned)i) < length(),"invalid index");
       return (S.rep->s[pos+i]);
     }
-    //: Access a charactor.
+    //: Access a character.
 
     char &firstchar() 
     { return (S.rep->s[pos]); } 
-    //: Access first charactor in substring.
+    //: Access first character in substring.
 
     char &lastchar() 
     { return (S.rep->s[pos+len-1]); } 
-    //: Access last charactor in substring.
+    //: Access last character in substring.
     
     int OK() const; 
     //: Test if the substring is valid.

@@ -257,7 +257,7 @@ namespace RavlN {
     
     ostream &put(char ch) 
     { return os().put(ch); }
-    //: Put charactor.
+    //: Put character.
     // ostream compatable.
     
     ostream &operator<<(const char *txt)
@@ -357,12 +357,12 @@ namespace RavlN {
     
     istream &get(char &ch) 
     { return is().get(ch); }
-    //: Get charactor.
+    //: Get character.
     // istream compatable function.
     
     char get() 
     { return is().get(); }
-    //: Get charactor.
+    //: Get character.
     // istream compatable function.
     
     istream &get(char *buff,int buffsize) 
@@ -377,7 +377,7 @@ namespace RavlN {
     
     streamsize gcount() 
     { return is().gcount(); }
-    //: Get number of charactor read in last operation.
+    //: Get number of character read in last operation.
     // istream compatable function.
     
     template<class DataT>
@@ -424,26 +424,26 @@ namespace RavlN {
     // Some methods to help parse text streams.
 
     char GetChar();
-    //: Get next charactor.
+    //: Get next character.
     // This will throw an ExceptionEndOfStreamC if the end
     // of the input stream is found.
     
     char SkipWhiteSpace();
-    //: Skip white space charactors.
-    // returns the first non-white space charactor found. <p>
+    //: Skip white space characters.
+    // returns the first non-white space character found. <p>
     // This will throw an ExceptionEndOfStreamC if the end
     // of the input stream is found.
     
     bool Skip(const char *delim = " \n\t\r");
-    //: Skip all 'delim' charactors.
-    // Leaves stream at first charactor this is not one of those
+    //: Skip all 'delim' characters.
+    // Leaves stream at first character this is not one of those
     // listed in 'delim'. If end of stream is found before
     // returns false.
     
     bool SkipTo(const StringC &endStr);
     //: Skip through stream until endStr is found.
     // this leaves the stream positioned at the
-    // first charactor after the string. <p>
+    // first character after the string. <p>
     // returns false if the end of the stream is found first.
     
     bool SkipTo(char let);
@@ -451,20 +451,20 @@ namespace RavlN {
     // returns false if the end of the stream is found first.
     
     StringC ClipTo(char let);
-    //: Return all charactors before let.
-    // the 'let' charactor is discarded. <p>
+    //: Return all characters before let.
+    // the 'let' character is discarded. <p>
     // If the end of stream is found, all data found
     // upto that point is returned.
     
     StringC ClipTo(const StringC &endStr);
-    //: Return all charactors before 'endStr'.
+    //: Return all characters before 'endStr'.
     // this leaves the stream positioned at the
-    // first charactor after the string. <p>
+    // first character after the string. <p>
     // If the end of stream is found, all data found
     // upto that point is returned.
     
     StringC ClipWord(const char *delim = " \n\t\r",bool initalSkipDelim = false);
-    //: Clip word until one of 'delim' charactors are found.
+    //: Clip word until one of 'delim' characters are found.
     
   protected:
     istream *in;

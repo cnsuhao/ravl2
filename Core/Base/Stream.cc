@@ -425,7 +425,7 @@ namespace RavlN {
     for(;len >= 0;len--)
       is().putback(place[len]);
 #else
-    // unget doesn't seem to work for all charactors under
+    // unget doesn't seem to work for all characters under
     // Visual C++. this works around the problem though its
     // not clear it will work for all types of streams.
     // FIXME:- Be a little more clever and try and use unget when it will work.

@@ -85,16 +85,16 @@ namespace RavlN  {
     //: Default construtor.
     
     inline BinIStreamC &IBuff(char *buff,IntT len); 
-    //: Charactor buffer. NB. Length is NOT saved.
+    //: Character buffer. NB. Length is NOT saved.
     
     inline BinIStreamC &operator>>(char &dat);
-    //: Read in a charactor.
+    //: Read in a character.
     
     inline BinIStreamC &operator>>(signed char &dat);
-    //: Read in a signed charactor.
+    //: Read in a signed character.
     
     inline BinIStreamC &operator>>(unsigned char &dat);  
-    //: Read in an unsigned charactor.
+    //: Read in an unsigned character.
     
     inline BinIStreamC &operator>>(Int16T &dat);
     //: Read in a 16 bit integer.
@@ -173,16 +173,16 @@ namespace RavlN  {
     // Creates an invalid stream.
     
     inline BinOStreamC &OBuff(const char *buff,IntT len); 
-    //: Charactor buffer. NB. Length is NOT saved.
+    //: Character buffer. NB. Length is NOT saved.
     
     inline BinOStreamC &operator<<(char dat);
-    //: Write a charactor.
+    //: Write a character.
     
     inline BinOStreamC &operator<<(signed char dat);
-    //: Write a signed charactor.
+    //: Write a signed character.
     
     inline BinOStreamC &operator<<(unsigned char dat);  
-    //: Write an unsigned charactor.
+    //: Write an unsigned character.
     
     inline BinOStreamC &operator<<(Int16T dat);
     //: Write a 16 bit integer.
