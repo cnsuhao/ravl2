@@ -31,8 +31,7 @@ PLIB=RavlImageProc
 
 USESLIBS=RavlImageProc RavlMath
 
-PROGLIBS=
-#RavlIO RavlImageIO RavlOSIO RavlOptimise  
+PROGLIBS=RavlIO RavlImageIO RavlOSIO RavlOptimise  
 #RavlDPDisplay.opt
 
 EHT= Ravl.Images.Filtering.html Ravl.Images.Warping.html
