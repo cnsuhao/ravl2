@@ -23,7 +23,7 @@ int main(int nargs,char **argv) {
   OptionC opt(nargs,argv);
   RealT sigma = opt.Real("s",4,"Stiffness for warping. ");
   StringC inFile = opt.String("","in.ppm","Input file. ");
-  StringC outFile = opt.String("","out.ppm","Output file. ");
+  StringC outFile = opt.String("","@X","Output file. ");
   opt.Check();
   
   ImageC<ByteT> inImg;

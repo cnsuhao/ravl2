@@ -16,6 +16,7 @@
 #include "Ravl/Image/WarpScale.hh"
 #include "Ravl/Image/WarpAffine.hh"
 #include "Ravl/Image/WarpProjective.hh"
+#include "Ravl/Image/WarpThinPlateSpline.hh"
 #include "Ravl/Image/HistogramEqualise.hh"
 #include "Ravl/Image/Matching.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
@@ -36,6 +37,7 @@ int testConvolveSeparable2d();
 int testConvolve2dMMX();
 
 int testWarpScale();
+int testWarpThinPlateSpline();
 int testHistogramEqualise();
 int testMatching();
 int testSpatialDifference();
@@ -89,8 +91,12 @@ int main() {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
-#endif
   if((ln = testSumRectangles()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  }
+#endif
+  if((ln = testWarpThinPlateSpline()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
@@ -408,5 +414,42 @@ int testSumRectangles() {
     }
   }
   
+  return 0;
+}
+
+int testWarpThinPlateSpline() {
+  RealT sigma = 4;
+  
+  ImageC<ByteT> inImg(10,10);
+  inImg.Fill(0);
+  Array1dC<Point2dC> orgPnts(7);
+  orgPnts[0] = Point2dC(10,10);
+  orgPnts[1] = Point2dC(100,200);
+  orgPnts[2] = Point2dC(200,200);
+  orgPnts[3] = Point2dC(10,200);
+  orgPnts[4] = Point2dC(200,10);
+  orgPnts[5] = Point2dC(50,50);
+  orgPnts[6] = Point2dC(60,60);
+  
+  Array1dC<Point2dC> newPnts(7);
+  newPnts[0] = Point2dC(10,11);
+  newPnts[1] = Point2dC(100,201);
+  newPnts[2] = Point2dC(200,201);
+  newPnts[3] = Point2dC(10,201);
+  newPnts[4] = Point2dC(200,11);
+  newPnts[5] = Point2dC(50,51);
+  newPnts[6] = Point2dC(60,62);
+  
+  WarpThinPlateSplineC<ByteT> warp(sigma);
+  
+  
+  MatrixC w = warp.ComputeW(newPnts,orgPnts);
+  
+  for(Array1dIter2C<Point2dC,Point2dC> it(orgPnts,newPnts);it;it++) {
+    Point2dC at;
+    warp.ComputeWUd(orgPnts,it.Data2(),w,at);
+    if(at.EuclidDistance(it.Data1()) > 1)
+      return __LINE__;
+  }
   return 0;
 }

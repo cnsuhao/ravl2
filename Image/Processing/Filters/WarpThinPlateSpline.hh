@@ -72,7 +72,7 @@ namespace RavlImageN {
 	ret = ImageC<ByteT>(src.Frame());
       RealRange2dC irng(src.Frame());
       irng = irng.Expand(-1.1); // There's an off by a bit error somewhere in here...
-      MatrixC w = ComputeW(orgPos,newPos);
+      MatrixC w = ComputeW(newPos,orgPos); // We need a mapping from new positions to old.
       if(w.IsEmpty())
 	return false;
       Point2dC rstart(ret.Frame().Origin());

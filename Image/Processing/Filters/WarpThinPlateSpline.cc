@@ -30,8 +30,8 @@ namespace RavlImageN {
     y = 0;
     for(BufferAccessIter2C<Point2dC,BufferAccessC<RealT> > it(orgPos,w);it;it++) {
       RealT uv = U(pos.SqrEuclidDistance(it.Data1()));
-      x += uv * it.Data2()[0];
-      y += uv * it.Data2()[1];
+      x += it.Data2()[0] * uv;
+      y += it.Data2()[1] * uv;
     }
     IntT s = (IntT) orgPos.Size();
     x += w[s][0];
