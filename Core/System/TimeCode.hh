@@ -17,6 +17,8 @@
 
 #include "Ravl/Assert.hh"
 #include "Ravl/Types.hh"
+#include "Ravl/Math.hh" 
+#include "Ravl/StdMath.hh"
 
 namespace RavlN {
 #if RAVL_VISUALCPP_NAMESPACE_BUG && RAVL_HAVE_STDNAMESPACE
@@ -114,6 +116,12 @@ namespace RavlN {
     
     friend istream &operator>>(istream &s, TimeCodeC &inds);
     //: Input stream fot timecode
+
+    friend BinOStreamC & operator << (BinOStreamC & s, const TimeCodeC & tc ); 
+    //: Write time code to a binary stream in the form: frameNo frameRate
+    
+    friend BinIStreamC & operator >> (BinIStreamC & s, TimeCodeC & tc ); 
+    //: Read time code in from binary stream in the form: frameNo frameRate
     
     //:----------------------
     //: Member Functions
@@ -167,6 +175,7 @@ namespace RavlN {
     
     RealT frameRate;
     //: Refrence frame rate.
+
   };
   
   ostream &operator<<(ostream &s, const TimeCodeC &out);
