@@ -159,7 +159,10 @@ namespace RavlImageN {
     // position will not be changed.
     
     virtual bool DSeek(IntT off) {
-      IntT at = (IntT) Tell();
+      UIntT tmp = Tell();
+      if(tmp == ((UIntT) -1))
+	return false; // If tell doesn't work it'll fail.
+      IntT at = tmp;
       //cerr << "DSeek by " << off << " " << at  << " State=" << state << "\n";
       // There may be slight more efficent ways of doing this, but
       // it will work for now.
@@ -173,7 +176,10 @@ namespace RavlImageN {
     // position will not be changed.
     
     virtual UIntT Tell() const {
-      IntT fn = seekCtrl.Tell() * 2;
+      UIntT at =seekCtrl.Tell(); 
+      if(at == ((UIntT) -1))
+	return (UIntT) -1;
+      IntT fn = at * 2;
       switch(state) {
       case 2: fn += 1; break;
       case 1: fn -= 1; break;
