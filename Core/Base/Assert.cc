@@ -14,7 +14,7 @@
 
 // Do some sanity checking.
 
-#if (RAVL_OS_LINUX + RAVL_OS_WIN32 + RAVL_OS_IRIX + RAVL_OS_SOLARIS + RAVL_OS_OSF) != 1
+#if (RAVL_OS_LINUX + RAVL_OS_WIN32 + RAVL_OS_IRIX + RAVL_OS_SOLARIS + RAVL_OS_OSF + RAVL_OS_CYGWIN) != 1
 #error "RAVL ERROR:Confused about current OS. "
 #endif
 
@@ -41,9 +41,9 @@
 namespace RavlN {  
 #if RAVL_HAVE_STDNAMESPACE
   using namespace std;
-#endif
 #if RAVL_VISUALCPP_NAMESPACE_BUG
   using std::cerr;
+#endif
 #endif
   
   static bool assertThrowException = false;

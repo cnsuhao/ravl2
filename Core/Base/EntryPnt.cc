@@ -22,7 +22,7 @@
 #include <exception>
 #endif
 #else
-#if RAVL_HAVE_EXCEPTIONS
+#if RAVL_HAVE_EXCEPTION_H
 #include <exception.h>
 #endif
 #include <iostream.h>
@@ -33,9 +33,9 @@
 namespace RavlN {
 #if RAVL_HAVE_STDNAMESPACE
   using namespace std;
-#endif
 #if RAVL_VISUALCPP_NAMESPACE_BUG
   using std::cerr;
+#endif
 #endif
   
   extern const char *(*TypeNameMap)(const type_info &type);
