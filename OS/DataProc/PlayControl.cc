@@ -13,7 +13,7 @@
 
 #define FORCE_AT 0
 
-#define DPDEBUG 0
+#define DPDEBUG 1
 #if DPDEBUG 
 #define ONDEBUG(x) x
 #else
@@ -164,8 +164,9 @@ namespace RavlN {
 	if((( seekto - (inc-1)) >= (int) start) && ((seekto -(inc-1)) <= (int)end))
 	  seekto = pos - (inc-1);
       }
-    } else
+    } else {
       inc = 1;
+    }
     
     // Do the seek.
     
@@ -302,8 +303,11 @@ namespace RavlN {
       }
     } else {
       // inc is negative
-      at += (inc-1);
-      if((at + inc) >= ((IntT) start)) {
+      if(lastFrame == end)
+	at += inc; // If we're at the end the stream won't be one beyond.
+      else
+	at += (inc-1);
+      if(at >= ((IntT) start)) {
 	if(!ctrl.DSeek(inc-1)) {
 	  ONDEBUG(cerr << "DSeek failed : "<< at << "  Inc:" << inc-1 <<" Start@ " << start << "\n");
 	}
@@ -341,6 +345,7 @@ namespace RavlN {
     case 2: // Loop
     case 3: // Palindrome.
       Seek(subStart);
+      break;
     default:
       Seek(start);
       break;
@@ -394,6 +399,7 @@ namespace RavlN {
   //: Goto end of sequence. (for GUI)
   
   void DPPlayControlBodyC::ToEnd() {
+    ONDEBUG(cerr << "DPPlayControlBodyC::ToEnd(). Called. End=" << end << "\n");
     if(FixedEnd() == ((UIntT) -1)) 
       return ;
     Pause();  
@@ -406,6 +412,7 @@ namespace RavlN {
     case 2: // Loop
     case 3: // Palindrome.
       Seek(subEnd);
+      break;
     default:
       Seek(end);
       break;
