@@ -26,16 +26,19 @@ typedef struct { volatile int counter; } ravl_atomic_t;
 #define ravl_atomic_set(v,i)		(((v)->counter) = (i))
 
 static inline void ravl_atomic_inc(volatile ravl_atomic_t *v) {
-  volatile int &counter = v->counter;
+  //volatile int *counter = &(v->counter);
+  //
   __asm {
-    lock inc counter
+    mov eax,DWORD PTR [v] ravl_atomic_t.counter
+    lock inc DWORD PTR [eax]
   }
 }
 
 static inline void ravl_atomic_dec(volatile ravl_atomic_t *v) {
   volatile int &counter = v->counter;
   __asm {
-    lock dec counter
+    mov eax,DWORD PTR [v] ravl_atomic_t.counter
+    lock dec DWORD PTR [eax]
   }
 }
 
@@ -43,7 +46,8 @@ static inline int ravl_atomic_dec_and_test(volatile ravl_atomic_t *v) {
   unsigned char c;
   volatile int &counter = v->counter;
   __asm {
-    lock dec counter
+    mov eax,DWORD PTR [v] ravl_atomic_t.counter
+    lock dec DWORD PTR [eax]
     sete c
   }
   return c != 0;
