@@ -45,8 +45,7 @@ namespace RavlN {
     RavlAssert(!isInput);
     DPOPortBaseC outp = form.CreateOutput(filename,SourceType());
     if(!outp.IsValid()) {
-      cerr << "Internal error: Failed to open output file '" << filename << "' in format '" << form.Name() << "' \n" ;
-      RavlAssert(0);
+      // This can happen if we don't have permission to creat the file.
       return DPOPortBaseC();
     }
     return BuildOutputConv(outp);
