@@ -450,7 +450,7 @@ namespace RavlN {
       StringC strval;
       if(!XMLBaseC::GetAttrib(name,strval))
 	return false;
-      IStrStreamC istr(strval);
+      StrIStreamC istr(strval);
       istr >> val;
       return true;
     }
@@ -509,7 +509,7 @@ namespace RavlN {
 
     template<class DataT>
     void SetAttrib(const StringC &name,const DataT &val) {
-      OStrStreamC ostr;
+      StrOStreamC ostr;
       ostr << val;
       XMLBaseC::SetAttrib(name,ostr.String());
     }

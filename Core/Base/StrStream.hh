@@ -40,11 +40,11 @@ namespace RavlN {
   //: Output stream to memory.
   // Wraps the standard library ostrstream class.
   
-  class OStrStreamC 
+  class StrOStreamC 
     : public OStreamC
   {
   public:
-    OStrStreamC();
+    StrOStreamC();
     //: Default constructor.
     
     StringC String();
@@ -60,16 +60,16 @@ namespace RavlN {
   //: Input stream from memory.
 // Wraps the standard library istrstream class.
   
-  class IStrStreamC 
+  class StrIStreamC 
     : public IStreamC
   {
   public:
-    IStrStreamC()
+    StrIStreamC()
       : iss(0)
       {}
     //: Default constructor
     
-    IStrStreamC(const StringC &dat);
+    StrIStreamC(const StringC &dat);
     //: Constructor.
     
     inline StringC &String() { return buff; }

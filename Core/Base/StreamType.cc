@@ -103,11 +103,11 @@ namespace RavlN {
     //: Get type of stream.
     
     virtual IStreamC OpenI(const StringC &strm,bool /*binary = false*/,bool /*buffered =true*/)
-      { return IStrStreamC(strm); }
+    { return StrIStreamC(strm); }
     //: Open input stream.
     
     virtual OStreamC OpenO(const StringC &/*strm*/,bool /*binary = false*/,bool /*buffered = true*/)
-      { return OStrStreamC(); }
+      { return StrOStreamC(); }
     //: Open ouput stream.
     // Not sure the point of this, but its implemented anyway.
     

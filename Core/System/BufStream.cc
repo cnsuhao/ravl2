@@ -25,7 +25,7 @@ namespace RavlN {
   ///////////////////
   //: Default constructor.
   
-  OBufStreamC::OBufStreamC()
+  BufOStreamC::BufOStreamC()
     : OStreamC(*(oss = new ostrstream()),true)
   {}
   
@@ -33,7 +33,7 @@ namespace RavlN {
   //: Get text written to stream so far.
   // NB. This does NOT clean the buffer.
   
-  SArray1dC<char> &OBufStreamC::Data() {
+  SArray1dC<char> &BufOStreamC::Data() {
     data = SArray1dC<char>(oss->str(),oss->pcount());
     return data;
   }
@@ -42,7 +42,7 @@ namespace RavlN {
   
   //: Default constructor.
   
-  IBufStreamC::IBufStreamC(const SArray1dC<char> &dat)
+  BufIStreamC::BufIStreamC(const SArray1dC<char> &dat)
 #ifdef VISUAL_CPP
     : IStreamC(*(iss = new istrstream(const_cast<char *>(dat.ReferenceElm()),dat.Size())),true),
 #else

@@ -316,7 +316,7 @@ namespace RavlN {
     StringC tv;
     if(!GetAttrib(name,tv))
       return false;
-    IStrStreamC(tv) >> val;
+    StrIStreamC(tv) >> val;
     return true;
   }
   

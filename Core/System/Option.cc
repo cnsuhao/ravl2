@@ -321,7 +321,7 @@ namespace RavlN {
   
   DListC<StringC> OptionC::List(const char * name, const char * comment ) {
     DListC<StringC> ret = GetOptions(name,-1);
-    OStrStreamC os;  
+    StrOStreamC os;  
     if(*name == 0) os << "arg";
     else os << '-' << name;
     os << " (" << ret << ") [ ] " << comment;
@@ -604,7 +604,7 @@ namespace RavlN {
     }
     
     // Build comment line.
-    OStrStreamC comm;
+    StrOStreamC comm;
     if(*name != 0)
       comm << '-' << name;
     else comm << "arg";
@@ -644,12 +644,12 @@ namespace RavlN {
      
      // Parse value.
      if(!opt.IsProcessed(value)) // If arg not found,
-       IStrStreamC(value) >> ret;
+       StrIStreamC(value) >> ret;
      else
        ret = def; // Use default value.
      
      // Build comment line.
-     OStrStreamC comm;
+     StrOStreamC comm;
      if(*name != 0)
        comm << '-' << name;
      else comm << "arg";

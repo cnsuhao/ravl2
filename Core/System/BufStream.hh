@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLBUFSTREAM_HEADER
-#define RAVLBUFSTREAM_HEADER 1
+#ifndef RAVL_BUFSTREAM_HEADER
+#define RAVL_BUFSTREAM_HEADER 1
 //////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Core/System/BufStream.hh"
@@ -23,15 +23,15 @@ class istrstream;
 namespace RavlN {
   
   ////////////////////////////
-  //! userlevel=Advanced
+  //! userlevel=Normal
   //: Output stream to memory.
   // Wraps the standard library ostrstream class.
   
-  class OBufStreamC 
+  class BufOStreamC 
     : public OStreamC
   {
   public:
-    OBufStreamC();
+    BufOStreamC();
     //: Default constructor.
     
     SArray1dC<char> &Data();
@@ -44,20 +44,20 @@ namespace RavlN {
   };
   
   ////////////////////////////
-  //! userlevel=Advanced
+  //! userlevel=Normal
   //: Input stream from memory.
   // Wraps the standard library istrstream class.
   
-  class IBufStreamC 
+  class BufIStreamC 
     : public IStreamC
   {
   public:
-    IBufStreamC()
+    BufIStreamC()
       : iss(0)
       {}
     //: Default constructor
     
-    IBufStreamC(const SArray1dC<char> &dat);
+    BufIStreamC(const SArray1dC<char> &dat);
     //: Constructor.
     
     inline SArray1dC<char> &Data() { return data; }

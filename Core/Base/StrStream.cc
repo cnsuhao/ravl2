@@ -26,7 +26,7 @@ namespace RavlN {
   ///////////////////
   //: Default constructor.
 
-  OStrStreamC::OStrStreamC()
+  StrOStreamC::StrOStreamC()
     : OStreamC(*(oss = new ostrstream()),true)
   {}
   
@@ -34,7 +34,7 @@ namespace RavlN {
   //: Get text written to stream so far.
   // NB. This does NOT clean the buffer.
   
-  StringC OStrStreamC::String() {
+  StringC StrOStreamC::String() {
     char *data = oss->str(); 
     // This is a bit ugly, we have to copy the 
     // string into another buffer.
@@ -47,7 +47,7 @@ namespace RavlN {
   
   //: Default constructor.
   
-  IStrStreamC::IStrStreamC(const StringC &dat)
+  StrIStreamC::StrIStreamC(const StringC &dat)
 #ifdef VISUAL_CPP
     : IStreamC(*(iss = new istrstream(const_cast<char *>(dat.chars()),dat.length())),true),
 #else

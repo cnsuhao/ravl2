@@ -63,51 +63,51 @@ namespace RavlN {
     //: Returns complete usage (NULL terminated). 
     
     void Comment(const char * commentText);
-    // Puts this line to the usage.
+    //: Puts this line to the usage.
     
     void Comment(const StringC &commentText);
-    // Puts this line to the usage.
+    //: Puts this line to the usage.
     
     template<class DataT>
-      DataT Get(const char * name,const DataT &def,const char * comment,int nArgs = 1) {
-    DataT ret;
-    StringC value;
-    assert(nArgs != 0);
-    assert(name != 0);
-    // Get argument text.
-    if(nArgs == 1)
-      value = GetOption1(name);
-    else 
-      value = GetOptionsTxt(name,nArgs);
-    
-    // Parse value.
-    if(IsProcessed(value)) // If arg not found,
-      ret = def;           // Use default value.
-    else
-      IStrStreamC(value) >> ret;
-    
-    // Build comment line.
-    OStrStreamC comm;
-    if(*name != 0)
-      comm << '-' << name;
-    else comm << "arg";
-    comm << " (" << ret << ") [" << def << "] " << comment << " ";
-    Comment(comm.String());
-    return ret;
-  }
+    DataT Get(const char * name,const DataT &def,const char * comment,int nArgs = 1) {
+      DataT ret;
+      StringC value;
+      assert(nArgs != 0);
+      assert(name != 0);
+      // Get argument text.
+      if(nArgs == 1)
+	value = GetOption1(name);
+      else 
+	value = GetOptionsTxt(name,nArgs);
+      
+      // Parse value.
+      if(IsProcessed(value)) // If arg not found,
+	ret = def;           // Use default value.
+      else
+	StrIStreamC(value) >> ret;
+      
+      // Build comment line.
+      StrOStreamC comm;
+      if(*name != 0)
+	comm << '-' << name;
+      else comm << "arg";
+      comm << " (" << ret << ") [" << def << "] " << comment << " ";
+      Comment(comm.String());
+      return ret;
+    }
     //: Get option with multipal args
     
     IntT Int(const char * name, int def,const char * comment);
-    // Gets integer.
+    //: Gets integer.
         
     Index2dC Index2d(const char * name, int def1, int def2,const char * comment);
-    // Gets pair of IndexC types.
+    //: Gets pair of IndexC types.
     
     RealT Real(const char * name, RealT def,const char * comment);
-    // Gets real value.
+    //: Gets real value.
     
     Tuple2C<RealT,RealT> Point2d(const char * name,  RealT def1, RealT def2,const char * comment);
-    // Gets a pair of real values.
+    //: Gets a pair of real values.
     
     char * CharArr(const char * name,const  char * def,const char * comment);
     //: Gets array of chars.
@@ -119,41 +119,40 @@ namespace RavlN {
     //N.B.: if "name" is the empty string, the default value is returned
     
     unsigned char UnsignedChar(const char * name, unsigned char def,const char * comment);
-    // Gets a unsigned char.
+    //: Gets a unsigned char.
     
     bool Boolean(const char * name, bool def,const char * comment);
-    // Gets toggle (boolean value).
+    //: Gets toggle (boolean value).
         
     DListC<StringC> List(const char * name,const char * comment );
-    // Gets a list of strings following the option 'name'. This function
-    // can used only if the header file 'DList.hh' is called before
-    // this header file.
+    //: Gets a list of strings following the option 'name'. 
+    // This function can used only if the header file 'DList.hh' is 
+    // called before this header file.
     
     //!section:  Dependency definition functions.
     /* -------------------------------- */
     
     void DependXor(const char * xor_opt);
-    // xor_opt defines a set of mutually exclusive options 
+    //: xor_opt defines a set of mutually exclusive options 
     // options are specified in xor_opt without '-', eg. 'alpha beta x'  
     
     void If(int enableCond, const char * depend,const  char * comment);
-    // option "depend" can be specified only if a given condition 'enableCond'
-    // is met
+    //: option "depend" can be specified only if a given condition 'enableCond' is met
     
     void MultIf(int enableCond,const char * depend,const char * comment);
-    // options (several of them) in string "depend" can be specified only if a
-    // given condition 'enableCond' is met
+    //: options (several of them) in string "depend" can be specified only if a
+    //: given condition 'enableCond' is met
     
     void DependIf(const char * cond, int enableVal, int val, const char * depend);
     // option 'depend' can be specified only if option 'cond' has value  
     // 'enableVal'. Current value of 'depend' is passed explicitly in val
   
     void Compulsory(const char * name);
-    // Emits error message if 'name' was not found on the command line 
+    //: Emits error message if 'name' was not found on the command line 
     
     void CompulsoryArgs(int num);
-    // Defines the number of compulsory arguments. It
-    // must be used after all options have been called!
+    //: Defines the number of compulsory arguments. 
+    // It must be used after all options have been called!
     
     void PrintUsage();
     //: Print usage to sout.

@@ -20,7 +20,8 @@
 #include "Ravl/DList.hh"
  
 namespace RavlN {
-  //: List of StringC's
+  
+  //: List of SubStringC's
   
   class SubStringListC 
     : public DListC<SubStringC> 
