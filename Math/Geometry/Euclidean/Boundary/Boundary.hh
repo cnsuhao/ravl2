@@ -112,11 +112,24 @@ namespace RavlN {
     // the list will be empty.
   };
   
-  ostream & operator<<(ostream & s, const BoundaryC & b);
-  // Prints the whole boundary into the output stream 's'.
-
+  inline ostream & operator<<(ostream & s, const BoundaryC & b)
+  { s << (DListC<EdgeC> &) b; return s; }
+  //: Write the boundary to output stream 's'.
+  
+  inline istream & operator<<(istream & s,BoundaryC & b)
+  { s >> (DListC<EdgeC> &) b; return s;  }
+  //: Read the boundary from input stream 's'.
+  
+  inline BinOStreamC & operator<<(BinOStreamC & s, const BoundaryC & b)
+  { s << (DListC<EdgeC> &) b; return s;  }
+  //: Write the boundary to output stream 's'.
+  
+  inline BinIStreamC & operator<<(BinIStreamC & s,BoundaryC & b)
+  { s >> (DListC<EdgeC> &) b; return s;  }
+  //: Read the boundary from input stream 's'.
+  
   BoundaryC Line2Boundary(const BVertexC & startVertex, const BVertexC & endVertex);
-  // Creates a boundary which connects both boundary vertexes.
+  //: Creates a boundary which connects both boundary vertexes.
   
 }
 #endif

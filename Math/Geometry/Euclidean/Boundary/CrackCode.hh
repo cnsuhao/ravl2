@@ -17,6 +17,8 @@
 
 #include "Ravl/Types.hh"
 #include "Ravl/Index2d.hh"
+#include "Ravl/Stream.hh"
+#include "Ravl/BinStream.hh"
 
 namespace RavlN {
   
@@ -45,10 +47,9 @@ namespace RavlN {
   Index2dC CrackStep(const Index2dC &pixel,CrackCodeT crackCode);
   Index2dC CrackDirection(CrackCodeT crackCode);
   
-  // ----------------------------------------------------------------------
-  // ******** CrackCodeC **************************************************
-  // ----------------------------------------------------------------------
+  //:-
   
+  //! userlevel=Normal
   //: Crackcode or Freeman code 
   
   class CrackCodeC {
@@ -78,13 +79,23 @@ namespace RavlN {
     { return (bool)(cc.Code() != Code()); }
     //: Returns true if the object content is not equal to 'cc'.
     
-    inline const CrackCodeC & operator+=(const CrackCodeC & cc);
+    inline const CrackCodeC & operator+=(const CrackCodeC & cc)  {
+      IntT result = crackCode + cc.crackCode;
+      crackCode = (CrackCodeT)(result % 4);
+      return(*this);
+    }
+    //: Add a relative crack code.
     // The crackcode 'cc' is taken as a relative crackcode. The relative
     // crackcode is added to this crackcode.
 
-    inline const CrackCodeC & operator-=(const CrackCodeC & cc);
-    // The crackcode 'cc' is taken as a relative crackcode. The relative
-    // crackcode is subtracted from this crackcode.
+    inline const CrackCodeC & operator-=(const CrackCodeC & cc) { 
+      IntT result = crackCode - cc.crackCode + 4;
+      crackCode = (CrackCodeT)(result % 4);
+      return(*this);
+    }
+    //: Subtract a relative crack code.
+    // The crackcode 'cc' is taken as a relative crackcode. 
+    // The relative crackcode is subtracted from this crackcode.
     
     const CrackCodeC &operator=(const CrackCodeC & cc) {
       crackCode=cc.crackCode;
@@ -133,6 +144,38 @@ namespace RavlN {
     friend Index2dC CrackDirection(CrackCodeT );
   };
   
+  inline ostream &operator<<(ostream &strm,const CrackCodeC &cc) {
+    strm << (int) cc.Code();
+    return strm;
+  }
+  //! userlevel=Normal
+  //: Write to a stream.
+  
+  inline istream &operator>>(istream &strm,CrackCodeC &cc) {
+    int v;
+    strm >> v;
+    cc = (CrackCodeT) v;
+    return strm;
+  }
+  //! userlevel=Normal
+  //: Read from a stream.
+  
+  inline BinOStreamC &operator<<(BinOStreamC &strm,const CrackCodeC &cc) {
+    strm << (char) cc.Code();
+    return strm;
+  }
+  //! userlevel=Normal
+  //: Write to a bin stream.
+  
+  inline BinIStreamC &operator>>(BinIStreamC &strm,CrackCodeC &cc) {
+    char v;
+    strm >> v;
+    cc = (CrackCodeT) v;
+    return strm;
+  }
+  //! userlevel=Normal
+  //: Read from a bin stream.
+  
   inline
   Index2dC CrackStep(const Index2dC &pixel,CrackCodeT crackCode) {
     return Index2dC(pixel.Row() + CrackCodeC::offsetRow[crackCode],
@@ -144,20 +187,6 @@ namespace RavlN {
   Index2dC CrackDirection(CrackCodeT crackCode) 
   { return Index2dC(CrackCodeC::offsetRow[crackCode],CrackCodeC::offsetCol[crackCode]); }
   //: Direction in the form of an offset for a crack code.
-  
-  inline 
-  const CrackCodeC & CrackCodeC::operator+=(const CrackCodeC & cc) {
-    IntT result = crackCode + cc.crackCode;
-    crackCode = (CrackCodeT)(result % 4);
-    return(*this);
-  }
-  
-  inline 
-  const CrackCodeC & CrackCodeC::operator-=(const CrackCodeC & cc) { 
-    IntT result = crackCode - cc.crackCode + 4;
-    crackCode = (CrackCodeT)(result % 4);
-    return(*this);
-  }
   
 }
 #endif

@@ -66,8 +66,6 @@ namespace RavlN {
     return px; 
   }
   
-  ostream & operator<<(ostream & s, const EdgeC & edge)
-  { return s << Index2dC(edge) << ' ' << ((int) edge.Code()); }
 
 }
 

@@ -245,18 +245,7 @@ namespace RavlN {
     }
     return endpoints;
   }
-
-  ostream & 
-  operator<<(ostream & s, const BoundaryC & b) {
-    //  s << "\nBoundary: orientation = " << b.Orient() << '\n\n';
-    //  s << " row, col, ccode, element, succ, pred , edge \n";
-    for(DLIterC<EdgeC> elm(b);elm;elm++) {
-      s << *elm << '\n';
-      //' ' << &edge << ' ' << elm << '\n';  
-    } 
-    return s;
-  }
-
+  
   BoundaryC Line2Boundary(const BVertexC & startVertex, const BVertexC & endVertex) {
     BoundaryC boundary;
     BVertexC  vertex(startVertex);

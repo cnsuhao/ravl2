@@ -17,11 +17,14 @@
 
 #include "Ravl/Index2d.hh"
 #include "Ravl/Point2d.hh"
+#include "Ravl/Stream.hh"
+#include "Ravl/BinStream.hh"
 
 namespace RavlN {
 
   class Point2dC;
 
+  //! userlevel=Normal
   //: Boundary vertex
   // The relationship between pixel coordinates and boundary
   // vertex is that the boundary vertex [i,j] is the up-left corner
@@ -66,8 +69,31 @@ namespace RavlN {
     inline BVertexC & BVertex()
     { return(*this); }
     //: Access to the object
-
   };
+
+  inline ostream &operator<<(ostream &s,const BVertexC &v) { 
+    s << (const Index2dC &) v;
+    return s;
+  }
+  //: Write vertex to ostream.
+  
+  inline istream &operator>>(istream &s,BVertexC &v) {
+    s >> (Index2dC &) v;
+    return s;
+  }
+  //: Read vertex from ostream.
+  
+  inline BinOStreamC &operator<<(BinOStreamC &s,const BVertexC &v) { 
+    s << (const Index2dC &) v;
+    return s;
+  }
+  //: Write vertex to BinOStreamC.
+  
+  inline BinIStreamC &operator>>(BinIStreamC &s,BVertexC &v) {
+    s >> (Index2dC &) v;
+    return s;
+  }
+  //: Read vertex from BinIStreamC.
 
 }
 #endif

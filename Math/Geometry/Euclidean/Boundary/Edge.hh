@@ -38,7 +38,8 @@ namespace RavlN {
     //:------------------------------------------------
     //: Constructors, copies, assigment, and destructor.
 
-    EdgeC();
+    EdgeC()
+    {}
     //: Creates an edge
     // The value is undefined.
     
@@ -99,7 +100,20 @@ namespace RavlN {
     //: Reverse the direction of this edge.
   };
   
-  ostream & operator<<(ostream & s, const EdgeC & e);
+  inline ostream & operator<<(ostream & s, const EdgeC & edge)
+  { return s << (const BVertexC &)edge << ' ' << (const CrackCodeC &)edge; }
+  //: Writes the elementary edge 'e' into the output stream 's'.
+  
+  inline istream & operator>>(istream & s,EdgeC & edge)
+  { return s >> (BVertexC &)edge >> (CrackCodeC &)edge; }
+  //: Writes the elementary edge 'e' into the output stream 's'.
+  
+  inline BinOStreamC & operator<<(BinOStreamC & s, const EdgeC & edge)
+  { return s << (const BVertexC &)edge << (const CrackCodeC &)edge; }
+  //: Writes the elementary edge 'e' into the output stream 's'.
+  
+  inline BinIStreamC & operator>>(BinIStreamC & s,EdgeC & edge)
+  { return s >> (BVertexC &)edge >> (CrackCodeC &)edge; }
   //: Writes the elementary edge 'e' into the output stream 's'.
   
 }
