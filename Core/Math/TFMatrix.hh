@@ -214,6 +214,23 @@ namespace RavlN {
 	s >> oth[i][j];
     return s;
   }
+  
+  template<class DataT,unsigned int N,unsigned int M>
+  BinIStreamC &operator>>(BinIStreamC &s,TFMatrixC<DataT,N,M> &oth) {
+    for(UIntT i = 0;i < N;i++) {
+      for(UIntT j = 0;j < M;j++)
+	s >> oth[i][j];
+    }
+    return s;
+  }
+  
+  template<class DataT,unsigned int N,unsigned int M>
+  BinOStreamC &operator<<(BinOStreamC &s,const TFMatrixC<DataT,N,M> &oth) {    
+    for(UIntT i = 0;i < N;i++)
+      for(UIntT j = 0;j < M;j++)
+	s << oth[i][j];
+    return s;
+  }
 
   template<class DataT,unsigned int N,unsigned int M>
   TFMatrixC<DataT,N,M>::TFMatrixC(const DataT *init) {
