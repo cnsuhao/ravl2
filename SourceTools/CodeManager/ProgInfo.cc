@@ -17,7 +17,7 @@ namespace RavlN {
     sources += dir + filenameSeperator + progName;
     // We could check for duplications here, but there
     // really shouldn't be.
-    if(defs["PLIB"].IsEmpty()) { // Are these just for the exe ?
+    if(defs["PLIB"] == "") { // Are these just for the exe ?
       StringListC sl(defs["SOURCES"]);
       for(DLIterC<StringC> it(sl);it;it++) 
 	sources += dir + filenameSeperator + *it;

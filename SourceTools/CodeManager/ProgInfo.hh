@@ -38,9 +38,9 @@ namespace RavlN {
     //: Source files in the program.
     
   protected:
-    StringC progName;
+    StringC progName; // Unqualitified program name, (Has code extention though.)
     DListC<StringC> useslibs;// Libraries required by this one.
-    DListC<StringC> sources;  // Source files in the program.
+    DListC<StringC> sources;  // Source files in the program (fully qualified names).
   };
 
   //: Information about program.

@@ -59,7 +59,7 @@ namespace RavlN {
 
       ContextC(const ProgInfoC &pi)
 	: progInfo(pi),
-	  hdrInfo(pi.Name()),
+	  hdrInfo(pi.Name(),StringC(),pi.Name()),
 	  ctype(2)
 	{}
       //: Constructor.
