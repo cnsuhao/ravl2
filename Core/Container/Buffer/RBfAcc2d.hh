@@ -94,7 +94,7 @@ namespace RavlN {
     //: return the item array[(i)]
     
     inline const IndexRangeC &Range1() const
-    { return Range(); }
+    { return RangeBufferAccessC<BufferAccessC<DataT> >::Range(); }
     //: Range of first index.
     
     inline const IndexRangeC &Range2() const
@@ -113,6 +113,10 @@ namespace RavlN {
     //: Return ranges of indexes
     
     IndexRange2dC Frame() const
+    { return IndexRange2dC(Range1(),Range2()); }
+    //: Return ranges of indexes
+    
+    IndexRange2dC Range() const
     { return IndexRange2dC(Range1(),Range2()); }
     //: Return ranges of indexes
 
