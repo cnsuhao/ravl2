@@ -41,7 +41,7 @@ namespace RavlN {
     { return noElements; }
     //: Get the number of elements in the buffer.
     
-    void SetElement(UIntT i,const AbstractC &sb) {
+    void SetElement(UIntT i,const RCAbstractC &sb) {
       RavlAssert(i < noElements);
       elements[i] = sb;
     }
@@ -50,7 +50,7 @@ namespace RavlN {
   protected:
     UIntT noElements; // Number of elements in the buffer.
     RCAbstractC *elements;
-  };
+  }; 
   
   //! userlevel=Advanced
   //: Composite buffer.
@@ -92,7 +92,7 @@ namespace RavlN {
     { return Body().Elements(); }
     //: Get the number of elements in the buffer.
     
-    void SetElement(UIntT i,const AbstractC &sb) 
+    void SetElement(UIntT i,const RCAbstractC &sb) 
     { Body().SetElement(i,sb); }
     //: Set an element of the composite buffer.
   };
