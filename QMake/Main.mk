@@ -825,7 +825,7 @@ endif
 
 ifdef LOCAL_DEFBASE
 ifdef USESLIBS
- ifneq ($(USESLIBS),Auto)
+ ifneq (($(filter Auto,$(USESLIBS)),Auto),Auto)
 $(INST_LIBDEF)/$(LOCAL_DEFBASE).def: defs.mk $(INST_LIBDEF)/.dir
  else
   ifndef AUTOUSELIBS
@@ -842,7 +842,7 @@ $(INST_LIBDEF)/$(LOCAL_DEFBASE).def: defs.mk $(INST_LIBDEF)/.dir $(HEADERS) $(SO
  ifdef USESLIBS
   ifneq ($(USESLIBS),)
    ifneq ($(USESLIBS),None)
-    ifneq ($(USESLIBS),Auto)
+    ifneq (($(filter Auto,$(USESLIBS)),Auto),Auto)
      ifneq ($(strip $(TARG_USESLIBS)),)
 	$(SHOWIT)echo 'include $(TARG_USESLIBS)' >> $(INST_LIBDEF)/$(@F) ;
      endif
