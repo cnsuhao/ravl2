@@ -124,10 +124,10 @@
 #define RAVL_TIMET_IS_INT      !RAVL_OS_IRIX      /* time_t is an int or long. IRIX uses a struct, effects stat() results. */
 #define RAVL_HAVE_PWD_H        (RAVL_OS_UNIX || RAVL_OS_CYGWIN)       /* have <pwd.h> */
 #define RAVL_ERRNO_IS_FUNC     0                  /* errno should be used as function. i.e. errno() for use with threaded code. */
-#define RAVL_HAVE_GETPWNAM_R   !RAVL_OS_LINUX  && !RAVL_OS_CYGWIN   /* have reentrant getpwnam_r */
-#define RAVL_HAVE_GETPWUID_R   !RAVL_OS_LINUX  && !RAVL_OS_CYGWIN   /* have reentrant getpwnam_r */
+#define RAVL_HAVE_GETPWNAM_R   (!RAVL_OS_LINUX && !RAVL_OS_CYGWIN)  /* have reentrant getpwnam_r */
+#define RAVL_HAVE_GETPWUID_R   (!RAVL_OS_LINUX && !RAVL_OS_CYGWIN)  /* have reentrant getpwnam_r */
 #define RAVL_HAVE_GETPW_RET_PW !RAVL_OS_OSF     /* Pass pointer to result ptr as last argument for  getpwuid_r, getpwnam_r */
-#define RAVL_HAVE_GETPW_WITH_RESULT  RAVL_OS_IRIX && RAVL_OS_CYGWIN/* Pass pointer to result ptr as last argument for  getpwuid_r, getpwnam_r */
+#define RAVL_HAVE_GETPW_WITH_RESULT  RAVL_OS_IRIX  /* Pass pointer to result ptr as last argument for  getpwuid_r, getpwnam_r */
 #define RAVL_HAVE_HSTRERROR    (RAVL_OS_IRIX || RAVL_OS_LINUX)  /* have hstrerror, otherwise use strerror. */
 #define RAVL_HAVE_SOCKLEN_T    (RAVL_OS_LINUX || RAVL_OS_SOLARIS)  /* Have socklen_t */
 
@@ -205,11 +205,13 @@
 #define _POSIX_SOURCE 1
 #endif
 #endif
+
 #if RAVL_OS_LINUX || RAVL_OS_CYGWIN
 #ifndef _ISOC9X_SOURCE
 #define _ISOC9X_SOURCE 1
 #endif
 #endif
+
 #if RAVL_OS_OSF
 #ifndef _OSF_SOURCE
 #define _OSF_SOURCE 1
