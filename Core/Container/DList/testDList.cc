@@ -33,12 +33,14 @@ public:
   int v;
 };
 
+#ifndef __sgi__
 template class DListC<IntT>;
 template class DLIterC<IntT>;
 
 template IntrDListC<StuffC>; // Force instanciation of all methods.
 template IntrDLIterC<StuffC>; // Force instanciation of all methods.
-  
+#endif
+
 int testDListBinIO();
 int testIntrDList();
 
