@@ -92,3 +92,4 @@ fi
 echo "Use the following alias for compilation.  PROJECT_OUT controls the directory "
 echo "into which your own code will be compiled. The default is 'build' in your home directory. "
 echo "alias qm '${MAKE} -f ${INSTALL_SITE}/Tools/QMake/QMake.mk PROJECT_OUT=$HOME/build'"
+exit 0
