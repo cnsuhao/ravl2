@@ -37,16 +37,21 @@ namespace RavlN {
     
     inline BufferAccessIter2C(const SizeBufferAccessC<Data1T> &buff,const SizeBufferAccessC<Data2T> &buff2)
       { First(buff,buff2); }
-
+    
     inline BufferAccessIter2C(const SizeBufferAccessC<Data1T> &buff,const SizeBufferAccessC<Data2T> &buff2,UIntT off1,UIntT off2)
       { First(buff,buff2,off1,off2); }
     //: Constructor.
-    // starting from off1 in the first array and off2 in the second.
-
+    // start from off1 in the first array and off2 in the second.
+    
     inline BufferAccessIter2C(const RangeBufferAccessC<Data1T> &buff,const RangeBufferAccessC<Data2T> &buff2,const IndexRangeC & range)
       { First(buff,buff2,range); }
     //: Constructor.
-    // starting from off1 in the first array and off2 in the second.
+    // Only iterate through 'range' in both buffers.
+
+    inline BufferAccessIter2C(const RangeBufferAccessC<Data1T> &buff,const RangeBufferAccessC<Data2T> &buff2,UIntT off1,UIntT off2 = 0)
+      { First(buff,buff2,off1,off2); }
+    //: Constructor.
+    // Iterate through buffers starting at the given offsets off1 and off2 from the begining of the ranges.
     
     inline bool First(const RangeBufferAccessC<Data1T> &buff,const RangeBufferAccessC<Data2T> &buff2);
     //: Goto first elements.
@@ -58,6 +63,9 @@ namespace RavlN {
     //: Goto first elements.
     
     inline bool First(const SizeBufferAccessC<Data1T> &buff,const SizeBufferAccessC<Data2T> &buff2,UIntT off1,UIntT off2);
+    //: Goto first elements.
+    
+    inline bool First(const RangeBufferAccessC<Data1T> &buff,const RangeBufferAccessC<Data2T> &buff2,UIntT off1,UIntT off2 = 0);
     //: Goto first elements.
     
     inline bool First(const BufferAccessC<Data1T> &buff,const BufferAccessC<Data2T> &buff2,SizeT size);
@@ -192,6 +200,23 @@ namespace RavlN {
     endOfRow = &(at1[buff1.Size() - off1]);
     return true;
   }
+
+  template<class Data1T,class Data2T>
+  inline 
+  bool BufferAccessIter2C<Data1T,Data2T>::First(const RangeBufferAccessC<Data1T> &buff1,const RangeBufferAccessC<Data2T> &buff2,UIntT off1,UIntT off2 = 0) {
+    if(buff.Size() <= off1) {
+      at1 = 0;
+      endOfRow = 0;
+      return false;
+    }
+    RavlAssert(buff2.Size() > off2); 
+    RavlAssert(((int) buff2.Size() - off2) >= ((int) buff1.Size1() - off1));
+    at1 = const_cast<Data1T *>(&buff1[buff1.IMin() + off1]);
+    at2 = const_cast<Data2T *>(&buff2[buff2.IMin() + off2]);
+    endOfRow = &(at1[buff1.Size() - off1]);
+    return true;
+  }
+
   
   template<class Data1T,class Data2T>
   inline 
