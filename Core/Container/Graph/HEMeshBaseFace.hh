@@ -118,6 +118,11 @@ namespace RavlN {
       : body(&bod)
     {}
     //: Body constructor.
+
+    HEMeshBaseFaceC(HEMeshBaseFaceBodyC *bod)
+      : body(bod)
+    {}
+    //: Body constructor.
     
     HEMeshBaseFaceC(bool)
       : body(new HEMeshBaseFaceBodyC())

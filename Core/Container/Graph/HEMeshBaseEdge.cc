@@ -27,30 +27,31 @@ namespace RavlN {
   
   //: Correct edge's vertex pointer.
   
-  void HEMeshBaseEdgeBodyC::CorrectVertexEdgePtr() {
+  bool HEMeshBaseEdgeBodyC::CorrectVertexEdgePtr() {
     if(vertex == 0)
-      return ;
+      return false;
     // Make sure the vertex doesn't link to this edge.
     if(vertex->edge != this)
-      return ;
+      return true;
     ONDEBUG(cerr << "HEMeshBaseEdgeBodyC::CorrectVertexEdgePtr(), Correcting pointer. \n");
     HEMeshBaseEdgeBodyC *newEdge = Next().pair;
     if(newEdge == this) {
       // Looks like we're the only edge connected to the vertex.
       vertex->edge = 0; // Well we tried.
-      return ;      
+      return false;      
     }
     if(newEdge != 0) {
       vertex->edge = newEdge;
-      return ;
+      return true;
     }
     // Must be an open mesh, try the other way.
     if(pair == 0) {
       vertex->edge = 0; // Well we tried.
-      return ;
+      return false;
     }
     RavlAssert(&(pair->Prev()) != this);
     vertex->edge = &pair->Prev();
+    return true;
   }
   
   //: Remove this half edge.

@@ -27,6 +27,7 @@ namespace RavlN {
   // Needed to ensure faces are removed before vertices.
   
   HEMeshBaseBodyC::~HEMeshBaseBodyC() {
+    ONDEBUG(cerr << "HEMeshBaseBodyC::~HEMeshBaseBodyC(). \n");
     while(!faces.IsEmpty()) {
       HEMeshBaseFaceBodyC *face = &faces.First();
       face->DestroyFace();
@@ -53,6 +54,7 @@ namespace RavlN {
     for(;it;it++) {
       RavlAssert(it->IsValid());
       HEMeshBaseEdgeC newEdge = NewEdge(*it,face);
+      RavlAssert(newEdge.Face().IsValid());
       if(!firstEdge.IsValid())
 	firstEdge = newEdge;
       else
@@ -70,7 +72,8 @@ namespace RavlN {
       it->SetEdge(me.Body()); // Make sure vertex has a valid edge.
       lastVert = *it;
     }
-    HEMeshBaseEdgeC newEdge(firstVert.Body(),face.Body());
+    HEMeshBaseEdgeC newEdge = NewEdge(firstVert,face);
+    RavlAssert(newEdge.Face().IsValid());
     firstEdge.LinkBefore(newEdge);
     HEMeshBaseEdgeC opedge = edgeTab[Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC>(firstVert,lastVert)];
     if(opedge.IsValid()) {
@@ -110,6 +113,7 @@ namespace RavlN {
   //: Insert a vertex on an edge, assuming and maintaing a triangular mesh.
   
   bool HEMeshBaseBodyC::InsertVertexInEdgeTri(HEMeshBaseVertexC vert,HEMeshBaseEdgeC edge) {
+    ONDEBUG(cerr << "HEMeshBaseBodyC::InsertVertexInEdgeTri), Inserting vertex " << vert.Hash() << "\n"); 
     RavlAssert(vert.IsValid());
     RavlAssert(edge.IsValid());
     
@@ -258,6 +262,7 @@ namespace RavlN {
   // between the vertex's they point to.  The new edge is returned.
   
   HEMeshBaseEdgeC HEMeshBaseBodyC::SplitFace(HEMeshBaseEdgeC from,HEMeshBaseEdgeC to) {
+    ONDEBUG(cerr << "HEMeshBaseBodyC::SplitFace(). \n"); 
     RavlAssert(from.IsValid());
     RavlAssert(to.IsValid());
     RavlAssert(from.Face() == to.Face());
@@ -407,6 +412,10 @@ namespace RavlN {
 	    ret = false;
 	    //return false;
 	  }
+	  if(!efit->Pair().HasFace()) {
+	    cerr << "HEMeshBaseBodyC::CheckMesh(), Error: Adjacent edge has no face.  \n";
+	    ret = false;
+	  }
 	  if(*efit != efit->Pair().Pair()) {
 	    if(*efit == efit->Pair())
 	      cerr << "HEMeshBaseBodyC::CheckMesh(), Error: Self paired edge found.  \n";
@@ -447,19 +456,23 @@ namespace RavlN {
   //: Create a new face.
   
   HEMeshBaseFaceC HEMeshBaseBodyC::NewFace() {
+    ONDEBUG(cerr << "HEMeshBaseBodyC::NewFace(), Called. \n");
     return HEMeshBaseFaceC(true);
   }
   
   //: Create a new face.
   
   HEMeshBaseVertexC HEMeshBaseBodyC::NewVertex() {
+    ONDEBUG(cerr << "HEMeshBaseBodyC::NewVertex(), Called. \n");
     return HEMeshBaseVertexC(true);
   }
     
-    //: Create a new face.
+  //: Create a new face.
   
-  HEMeshBaseEdgeC HEMeshBaseBodyC::NewEdge(HEMeshBaseVertexBodyC &vert,HEMeshBaseFaceBodyC &face) 
-  { return HEMeshBaseEdgeC(vert,face); }
+  HEMeshBaseEdgeC HEMeshBaseBodyC::NewEdge(HEMeshBaseVertexBodyC &vert,HEMeshBaseFaceBodyC &face) { 
+    ONDEBUG(cerr << "HEMeshBaseBodyC::NewEdge(), Called. \n");
+    return HEMeshBaseEdgeC(vert,face); 
+  }
   
   //: Remove a vertex and assoicated faces from the mesh.
   // Note: This does not close the resulting face, so a hole will be left in the mesh.
@@ -468,20 +481,7 @@ namespace RavlN {
     RavlAssert(vert.IsValid());
     ONDEBUG(cerr << "HEMeshBaseBodyC::DeleteVertex(), Vert=" << vert.Hash() << " HasEdge=" << vert.HasEdge() << " \n");
     DListC<HEMeshBaseFaceC> delFaces;
-#if 0
-    HEMeshBaseToVertexEdgeIterC it(vert);
-    if(it) {
-      for(;it;it++) {
-	ONDEBUG(cerr << "HEMeshBaseBodyC::DeleteVertex(), Fwd FaceAt=" << (*it).Hash() << "\n");
-	delFaces += it.Data().Face();
-      }
-      it.First();
-      for(it--;it;it--) {
-	ONDEBUG(cerr << "HEMeshBaseBodyC::DeleteVertex(), Bkw FaceAt=" << (*it).Hash() << "\n");
-	delFaces += it.Data().Face();
-      }
-    }
-#else
+    
     for(HEMeshBaseFaceIterC fit(faces);fit;fit++) {
       for(HEMeshBaseFaceEdgeIterC eit(*fit);eit;eit++) {
 	if(eit->Vertex() == vert) {
@@ -490,7 +490,7 @@ namespace RavlN {
 	}
       }
     }
-#endif
+    
     ONDEBUG(cerr << "HEMeshBaseBodyC::DeleteVertex(), No Face=" << faces.Size() << "\n");
     for(DLIterC<HEMeshBaseFaceC> it2(delFaces);it2;it2++) {
       ONDEBUG(cerr << "HEMeshBaseBodyC::DeleteVertex(), Face=" << it2.Data().Hash() << " Valid=" << it2.Data().IsValid() << " Face=" << ((void *) &(it2->Body())) << "\n");
@@ -499,6 +499,18 @@ namespace RavlN {
     }
     vert.Body().Unlink();
     delete &vert.Body();
+
+#if 1
+    // Tidy up any dangling vertex to edge pointers.
+    
+    for(HEMeshBaseFaceIterC fit(faces);fit;fit++) {
+      for(HEMeshBaseFaceEdgeIterC eit(*fit);eit;eit++) {
+	if(!eit->Vertex().HasEdge())
+	  eit->Vertex().SetEdge((*(eit)).Body());
+      }      
+    }
+#endif
+    
     return true;
   }
 

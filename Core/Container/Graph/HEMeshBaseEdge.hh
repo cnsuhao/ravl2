@@ -82,6 +82,10 @@ namespace RavlN {
     { return *face; }
     //: Access the face the edge lies on.
     
+    bool HasFace() const 
+    { return face != 0; }
+    //: Is there a face associated with this edge ?
+    
     void LinkAfter(HEMeshBaseEdgeBodyC &edge) 
     { DLinkC::LinkAft(edge); }
     //: Link 'edge' after this one.
@@ -139,10 +143,11 @@ namespace RavlN {
   protected:
     
     HEMeshBaseEdgeBodyC()
-      : pair(0)
+      : vertex(0),
+	face(0),
+	pair(0)
     {}
     //: Default cosntructor.
-    // the contents are left undefined.
     
     HEMeshBaseEdgeBodyC(HEMeshBaseVertexBodyC &vert,HEMeshBaseFaceBodyC &nface)
       : vertex(&vert),
@@ -161,7 +166,7 @@ namespace RavlN {
     // The memory of for this edge is not free'd, so if it is no
     // longer needed it must be done by the caller.
     
-    void CorrectVertexEdgePtr();
+    bool CorrectVertexEdgePtr();
     //: Correct edge's vertex pointer.
     // This ensures the vertex's edge pointer doesn't point to this edge.
     // Usefull if your about to delete the edge or restructure the mesh.
@@ -290,6 +295,10 @@ namespace RavlN {
     inline HEMeshBaseFaceC Face();
     //: Access the face the edge lies on.
     
+    bool HasFace() const 
+    { return Body().HasFace(); }
+    //: Is there a face associated with this edge ?
+
     HEMeshBaseEdgeC Pair()
     { return HEMeshBaseEdgeC(Body().Pair()); }
     //: Access edge's apair.

@@ -8,6 +8,7 @@
 //! lib=RavlCore
 
 #include "Ravl/HEMeshBaseFace.hh"
+#include "Ravl/Stream.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -24,9 +25,11 @@ namespace RavlN {
     ONDEBUG(cerr << "HEMeshBaseFaceBodyC::~HEMeshBaseFaceBodyC(). \n");
     if(edge != 0) {
       // Remove all edges around the face.
+      
       while(1) {
 	HEMeshBaseEdgeBodyC *eb = &(edge->Next());
-	eb->CorrectVertexEdgePtr();
+	if(!eb->CorrectVertexEdgePtr())
+	  cerr << "WARNING: Failed to correct vertex pointer. \n";
 	if(eb->HasPair())
 	  eb->Pair().pair = 0; // Clear pair pointers.
 	delete eb;

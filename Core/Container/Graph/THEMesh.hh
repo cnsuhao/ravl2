@@ -53,8 +53,15 @@ namespace RavlN {
     
     THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> InsertFace(const SArray1dC<HEMeshBaseVertexC> &vertices,
 							     HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> &edgeTab) {
+#if 1
       static FaceDataT tmp;
       THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> ret(tmp);
+      //THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> ret(*new THEMeshFaceBodyC<VertexDataT,FaceDataT,EdgeDataT>(tmp));
+#else
+      static FaceDataT tmp;
+      //THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> ret = NewFace();
+      THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> ret(*new THEMeshFaceBodyC<VertexDataT,FaceDataT,EdgeDataT>(tmp));
+#endif
       HEMeshBaseBodyC::InsertFace(ret,vertices,edgeTab);
       return ret;
     }

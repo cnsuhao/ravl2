@@ -247,7 +247,35 @@ int testInsertVertexInEdgeTri() {
 int testHEMeshBase() {
   cout << "testHEMeshBase(), Called. \n";
   HEMeshBaseC mesh(true);
+  HEMeshBaseVertexC vert = mesh.InsertVertex();
+  // Check vertex iterator copes with floating vertex's
+  HEMeshBaseVertexEdgeIterC it(vert);
+  if(it) return __LINE__;
+  if(!mesh.CheckMesh(true)) return __LINE__;
+  mesh.DeleteVertex(vert); 
   
+  // Create simple mesh.
+  SArray1dC<HEMeshBaseVertexC> tempFace1(3);
+  tempFace1[0] = mesh.InsertVertex();
+  tempFace1[1] = mesh.InsertVertex();
+  tempFace1[2] = mesh.InsertVertex();
+  
+  HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> edgeTab;
+  
+  mesh.InsertFace(tempFace1,edgeTab); // Insert initial face.
+  
+  SArray1dC<HEMeshBaseVertexC> tempFace2(3);
+  tempFace2[0] = mesh.InsertVertex();
+  tempFace2[1] = tempFace1[2];
+  tempFace2[2] = tempFace1[1];
+  
+  mesh.InsertFace(tempFace2,edgeTab); // Insert initial face.
+  
+  if(!mesh.CheckMesh(true)) return __LINE__;
+  
+  mesh.DeleteVertex(tempFace2[1]);
+  
+  if(!mesh.CheckMesh(true)) return __LINE__;
   return 0;
 }
 
@@ -258,10 +286,13 @@ int testTHEMeshBasic() {
   SArray1dC<HEMeshBaseVertexC> arr(3);
   HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> edgeTab;
   THEMeshVertexC<IntT,RealT,bool> mv = test.InsertVertex(1);
+  
+  
   arr[0] = mv;
   arr[1] = test.InsertVertex(2);
   arr[2] = test.InsertVertex(3);
   test.InsertFace(true,arr,edgeTab);
+  
   return 0;
 }
 
