@@ -44,6 +44,14 @@ extern "C" {
 #endif
 #endif
 
+#if RAVL_OS_CYGWIN
+extern "C" {
+  int isnan(double x); // not in standard <math.h> file
+  int isinf(double x); // not in standard <math.h> file
+}
+#endif
+
+
 //: The Ravl namespace.
 
 namespace RavlN {

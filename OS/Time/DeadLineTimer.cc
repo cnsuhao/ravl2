@@ -9,6 +9,8 @@
 //! lib=RavlOS
 //! file="Ravl/OS/Time/DeadLineTimer.cc"
 
+#include"Ravl/config.h"
+
 #if RAVL_HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -18,6 +20,7 @@
 #include <sys/time.h>
 #endif
 
+
 #if RAVL_OS_IRIX
 #ifndef _POSIX_C_SOURCE
 #define _POSIX_C_SOURCE 199309L
@@ -25,6 +28,7 @@
 #endif
 #include <errno.h>
 #include <stdio.h>
+
 #include <signal.h>
 
 #include "Ravl/OS/DeadLineTimer.hh"
@@ -33,17 +37,18 @@
 #include "Ravl/OS/Date.hh"
 #include "Ravl/String.hh"
 #include "Ravl/Exception.hh"
-
 #if RAVL_HAVE_SYS_TIME_H
 #include <sys/time.h>
 #endif
-
 #include <assert.h>
 #include <signal.h>
 
 #if RAVL_HAVE_SCHED_H
 #include <sched.h>
 #endif
+
+
+
 
 #define USE_SIGACTION 1
 
@@ -346,7 +351,7 @@ namespace RavlN {
   // May return false if no deadline pending.
   
   bool DeadLineTimerC::WaitForIt() const {
-#if !RAVL_OS_WIN32
+#if !RAVL_OS_WIN32 && !RAVL_OS_CYGWIN
     if(id < 0 || timesUp)
       return false; // No timer set.
     while(!timesUp) {

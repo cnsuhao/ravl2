@@ -124,10 +124,10 @@
 #define RAVL_TIMET_IS_INT      !RAVL_OS_IRIX      /* time_t is an int or long. IRIX uses a struct, effects stat() results. */
 #define RAVL_HAVE_PWD_H        (RAVL_OS_UNIX || RAVL_OS_CYGWIN)       /* have <pwd.h> */
 #define RAVL_ERRNO_IS_FUNC     0                  /* errno should be used as function. i.e. errno() for use with threaded code. */
-#define RAVL_HAVE_GETPWNAM_R   !RAVL_OS_LINUX     /* have reentrant getpwnam_r */
-#define RAVL_HAVE_GETPWUID_R   !RAVL_OS_LINUX     /* have reentrant getpwnam_r */
-#define RAVL_HAVE_GETPW_RET_PW !RAVL_OS_OSF       /* Pass pointer to result ptr as last argument for  getpwuid_r, getpwnam_r */
-#define RAVL_HAVE_GETPW_WITH_RESULT  RAVL_OS_IRIX /* Pass pointer to result ptr as last argument for  getpwuid_r, getpwnam_r */
+#define RAVL_HAVE_GETPWNAM_R   !RAVL_OS_LINUX  && !RAVL_OS_CYGWIN   /* have reentrant getpwnam_r */
+#define RAVL_HAVE_GETPWUID_R   !RAVL_OS_LINUX  && !RAVL_OS_CYGWIN   /* have reentrant getpwnam_r */
+#define RAVL_HAVE_GETPW_RET_PW !RAVL_OS_OSF     /* Pass pointer to result ptr as last argument for  getpwuid_r, getpwnam_r */
+#define RAVL_HAVE_GETPW_WITH_RESULT  RAVL_OS_IRIX && RAVL_OS_CYGWIN/* Pass pointer to result ptr as last argument for  getpwuid_r, getpwnam_r */
 #define RAVL_HAVE_HSTRERROR    (RAVL_OS_IRIX || RAVL_OS_LINUX)  /* have hstrerror, otherwise use strerror. */
 #define RAVL_HAVE_SOCKLEN_T    (RAVL_OS_LINUX || RAVL_OS_SOLARIS)  /* Have socklen_t */
 
@@ -147,7 +147,7 @@
 #define RAVL_HAVE_VALUES_H (!RAVL_OS_WIN32 && !RAVL_OS_CYGWIN)   /* have values.h        */
 #define RAVL_HAVE_FLOAT_H  (RAVL_OS_WIN32  || RAVL_OS_CYGWIN) /* have float.h         */
 #define RAVL_HAVE_NAN_H    (RAVL_OS_SOLARIS || RAVL_OS_IRIX) /* have nan.h           */
-#define RAVL_HAVE_IEEEFP_H (RAVL_OS_SOLARIS || RAVL_OS_IRIX || RAVL_OS_CYGWIN) /* have ieeefp.h        */
+#define RAVL_HAVE_IEEEFP_H (RAVL_OS_SOLARIS || RAVL_OS_IRIX) /* have ieeefp.h        */
 #define RAVL_HAVE_HYPOT    !RAVL_OS_WIN32   /* have hypot() in libm */
 #define RAVL_HAVE_CBRT     0                /* have cbrt() in libm  */
 #define RAVL_HAVE_ERF      (!RAVL_OS_WIN32 && !RAVL_OS_CYGWIN)   /* have erf() and erfc() in libm  */
@@ -205,7 +205,7 @@
 #define _POSIX_SOURCE 1
 #endif
 #endif
-#if RAVL_OS_LINUX
+#if RAVL_OS_LINUX || RAVL_OS_CYGWIN
 #ifndef _ISOC9X_SOURCE
 #define _ISOC9X_SOURCE 1
 #endif

@@ -6,6 +6,7 @@
 # file-header-ends-here
 #! rcsid="$Id$"
 #! file="Ravl/OS/Network/defs.mk"
+DONOT_SUPPORT=cygwin
 
 PACKAGE=Ravl/OS
 

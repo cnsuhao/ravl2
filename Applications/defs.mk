@@ -6,7 +6,7 @@
 # file-header-ends-here
 #! rcsid="$Id$"
 #! file="Ravl/Applications/defs.mk"
-
+DONOT_SUPPORT=cygwin
 DESCRIPTION=RAVL Applications.
 
 NESTED= FileConverter.r VPlay.r SkinBlobFind.r

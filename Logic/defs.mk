@@ -6,7 +6,7 @@
 # file-header-ends-here
 #! rcsid="$Id$"
 #! file="Ravl/Logic/defs.mk"
-
+DONOT_SUPPORT=cygwin
 DESCRIPTION=
 
 NESTED=Base.r Index.r DecisionTree.r NonLinearPlanner.r

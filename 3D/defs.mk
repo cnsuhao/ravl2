@@ -6,7 +6,7 @@
 # file-header-ends-here
 #! rcsid="$Id$"
 #! file="Ravl/3D/defs.mk"
-
+DONOT_SUPPORT= cygwin
 NESTED= Mesh.r MeshIO.r CameraCal.r Carve3D.r
 
 EHT=Ravl.3D.html 

@@ -26,5 +26,5 @@ TESTEXES=testTMatrix.cc testMatInv.cc testMatrix.cc
 
 PLIB=RavlMath
 
-USESLIBS=RavlCore ccmath
+USESLIBS=Math RavlCore ccmath
 #CCMath

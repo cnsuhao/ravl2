@@ -6,6 +6,6 @@
 # file-header-ends-here
 #! rcsid="$Id$"
 #! file="Ravl/Image/Processing/defs.mk"
-
+DONOT_SUPPORT=cygwin
 NESTED=Tools.r Filters.r Edges.r Segmentation.r Morphology.r Lines.r Corners.r
 

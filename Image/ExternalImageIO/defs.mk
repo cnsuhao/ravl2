@@ -11,6 +11,7 @@
 # image IO libraries.  Edit ExtImgIO.hh to specify which libraries
 # are available.
 
+DONOT_SUPPORT=cygwin
 DESCRIPTION = External Image IO routines... like jpeg,gif,tiff
 
 PACKAGE=Ravl/Image

@@ -8,7 +8,7 @@
 //! rcsid="$Id$"
 //! lib=RavlMath
 //! file="Ravl/Math/LinearAlgebra/General/Matrix.cc"
-
+#include "Ravl/Types.hh"
 #include "Ravl/StdMath.hh"
 #include "Ravl/Matrix.hh"
 
