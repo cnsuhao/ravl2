@@ -200,8 +200,7 @@ int testRawFD() {
 #endif
   cerr << "Let=" << (int) let << " RLet1=" << (int) rlet1 << " RLet2=" << (int) rlet2 << "\n";
   
-  if(let != rlet2) {
-    return __LINE__;
-  }
+  if(let != rlet1) return __LINE__;
+  if(let != rlet2) return __LINE__;
   return 0;
 }
