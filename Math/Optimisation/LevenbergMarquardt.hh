@@ -44,6 +44,10 @@ namespace RavlN {
     : public StoredStateC
   {
   public:
+    LevenbergMarquardtC()
+    {}
+    //: Default constructor.
+    
     LevenbergMarquardtC(StateVectorC &stateVecInit,
 			DListC<ObservationC> obsList);
     //: Constructor.

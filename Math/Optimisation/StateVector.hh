@@ -150,8 +150,10 @@ namespace RavlN {
     //: Access body.
     
   public:
-    StateVectorC Copy() const
-    { return StateVectorC(static_cast<StateVectorBodyC &>(Body().Copy())); }
+    StateVectorC Copy() const { 
+      if(!IsValid()) return StateVectorC();
+      return StateVectorC(static_cast<StateVectorBodyC &>(Body().Copy())); 
+    }
     //: Make a copy of the body.
     
     bool IncrementLS(MatrixRSC &A, VectorC &a)
