@@ -190,7 +190,7 @@ namespace RavlImageN {
     // Returns true if expansion of mosaic was requested and needed
 
     bool Reset(const ImageC<ByteRGBValueC> &img);
-    //: Start new mosaic using 'img' as the initial frame.
+    //: Computes the homography between the first frame and the mosaic
     
     bool GetImage(ImageC<ByteRGBValueC>& img)
       //: Returns next image from sequence
