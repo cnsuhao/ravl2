@@ -47,25 +47,27 @@ namespace RavlN {
     // src, is the unix version. <p>
     
     void SetVerbose(bool val)
-      { verbose = val; }
+    { verbose = val; }
     //: Set verbose flag.
     
     HashC<StringC,LibInfoC> &Libs()
-      { return libs; }
+    { return libs; }
     //: Access table of libraries.
 
     DListC<ProgInfoC> &Mains()
-      { return mains; }
+    { return mains; }
     //: Main programs in tree.
     
     DListC<ProgInfoC> &Tests()
-      { return tests; }
+    { return tests; }
     //: Test programs.
     
     DListC<ProgInfoC> &Examples()
-      { return examples; }
+    { return examples; }
     //: Examples programs.
     
+    void Dump();
+    //: Dump contents of db to stdout.
   protected:
     bool verbose;
     
@@ -85,54 +87,58 @@ namespace RavlN {
   {
   public:
     AutoPortSourceC()
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     
     AutoPortSourceC(StringC &where)
       : RCHandleC<AutoPortSourceBodyC>(*new AutoPortSourceBodyC(where))
-      { Body().ScanTree(where); }
+    { Body().ScanTree(where); }
     //: Constructor.
     // scan's the source tree 'where' for info.
     
   protected:
     AutoPortSourceC(AutoPortSourceBodyC &bod)
       : RCHandleC<AutoPortSourceBodyC>(bod)
-      {}
+    {}
     //: Body constructor.
     
     AutoPortSourceBodyC &Body()
-      { return RCHandleC<AutoPortSourceBodyC>::Body(); }
+    { return RCHandleC<AutoPortSourceBodyC>::Body(); }
     //: Access body.
     
     const AutoPortSourceBodyC &Body() const
-      { return RCHandleC<AutoPortSourceBodyC>::Body(); }
+    { return RCHandleC<AutoPortSourceBodyC>::Body(); }
     //: Access body.
     
   public:
     bool ScanDirectory(StringC &where,DefsMkFileC &defs)
-      { return Body().ScanDirectory(where,defs); }
+    { return Body().ScanDirectory(where,defs); }
     //: Scan the contents of the directory.
 
     void SetVerbose(bool val)
-      { Body().SetVerbose(val); }
+    { Body().SetVerbose(val); }
     //: Set verbose flag.
 
     HashC<StringC,LibInfoC> &Libs()
-      { return Body().Libs(); }
+    { return Body().Libs(); }
     //: Access table of libraries.
 
     DListC<ProgInfoC> &Mains()
-      { return Body().Mains(); }
+    { return Body().Mains(); }
     //: Main programs in tree.
     
     DListC<ProgInfoC> &Tests()
-      { return Body().Tests(); }
+    { return Body().Tests(); }
     //: Test programs.
     
     DListC<ProgInfoC> &Examples()
-      { return Body().Examples(); }
+    { return Body().Examples(); }
     //: Examples programs.
+    
+    void Dump()
+    { return Body().Dump(); }
+    //: Dump contents of db to stdout.
     
     friend class AutoPortSourceBodyC;
   };

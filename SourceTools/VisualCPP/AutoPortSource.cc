@@ -13,11 +13,19 @@
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/OS/Date.hh"
 #include "Ravl/CallMethods.hh"
+#include "Ravl/HashIter.hh"
 
 #if RAVL_HAVE_ANSICPPHEADERS
 #include <fstream>
 #else
 #include <fstream.h>
+#endif
+
+#define DODEBUG 0
+#if DODEBUG 
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
 #endif
 
 namespace RavlN {
@@ -66,18 +74,24 @@ namespace RavlN {
     }
     {
       StringListC lmains(defs["MAINS"]);
-      for(DLIterC<StringC> it(lmains);it;it++) 
+      for(DLIterC<StringC> it(lmains);it;it++) {
+	ONDEBUG(cerr << "Inc Main=" << *it << "\n");
 	mains += ProgInfoC(*it,defs,where);
+      }
     }
     {
       StringListC lexam(defs["EXAMPLES"]);
-      for(DLIterC<StringC> it(lexam);it;it++) 
+      for(DLIterC<StringC> it(lexam);it;it++) {
+	ONDEBUG(cerr << "Inc Example=" << *it << "\n");
 	examples += ProgInfoC(*it,defs,where);
+      }
     }
     {
       StringListC ltests(defs["TESTEXES"]);
-      for(DLIterC<StringC> it(ltests);it;it++) 
+      for(DLIterC<StringC> it(ltests);it;it++) {
+	ONDEBUG(cerr << "Inc Textexes=" << *it << "\n");
 	tests += ProgInfoC(*it,defs,where);
+      }
     }
     return true;
   }
@@ -166,6 +180,21 @@ namespace RavlN {
     } while(in1) ;
     
     return true;
+  }
+  
+  //: Dump contents of db to stdout.
+  
+  void AutoPortSourceBodyC::Dump() {
+    cerr << "Dump:\n";
+    for(HashIterC<StringC,LibInfoC> it(libs);it;it++)
+      cerr << "Lib=" << it.Key() << " \n";
+    for(DLIterC<ProgInfoC> it(mains);it;it++)
+      cerr << "Main=" << it->Name() << " Src=" << it->MainSource() << "\n";
+    for(DLIterC<ProgInfoC> it(tests);it;it++)
+      cerr << "Test=" << it->Name() << " Src=" << it->MainSource() << "\n";
+    for(DLIterC<ProgInfoC> it(examples);it;it++)
+      cerr << "Example=" << it->Name() << " Src=" << it->MainSource() << "\n";
+    cerr << "Dump: Done.\n";
   }
 
   

@@ -19,7 +19,7 @@
 #include "Ravl/Stream.hh"
 
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -36,16 +36,17 @@ using namespace RavlN;
 
 void BuildTemplates(StringC &templFile,AutoPortSourceC &src,StringC &outFile) {
   if(FilenameC(templFile).IsDirectory()) {
-    ONDEBUG(cerr << "Processing templates in :'" << templFile << "'\n");
+    cout << "Processing templates in :'" << templFile << "'\n";
     DirectoryC dir(templFile);
     DListC<StringC> fl = dir.FiltList("*.tmpl");
     for(DLIterC<StringC> it(fl);it;it++) {
       StringC subDir = dir + filenameSeperator + *it;
+      ONDEBUG(cerr << "Templates in :'" << subDir << "'\n");
       BuildTemplates(subDir,src,outFile);
     }
     return;
   }
-  ONDEBUG(cerr << "Processing template file : '" << templFile << "'\n");
+  cout << "Processing template file : '" << templFile << "'\n";
   AutoPortGeneratorC fg(src,templFile,outFile);
   fg.BuildFiles();
 }
@@ -67,8 +68,10 @@ int main(int nargs,char **argv) {
   option.Check();
   
   AutoPortSourceC portInfo(fn);
-  if(verb) 
+  if(verb) {
+    portInfo.Dump();
     portInfo.SetVerbose(verb);
+  }
   BuildTemplates(pathtempl,portInfo,fout);
   return 0;
 }

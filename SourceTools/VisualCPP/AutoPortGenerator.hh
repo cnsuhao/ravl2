@@ -49,7 +49,8 @@ namespace RavlN {
     
     StringC &CurFilename() { 
       RavlAssert(!context.IsEmpty());
-      return context.Top().hdrInfo.Name(); 
+      //cerr << "CurFilename() = " << context.Top().hdrInfo.SrcFile() << "\n";
+      return context.Top().hdrInfo.SrcFile(); 
     }
     //: Access info about current filename.
     
@@ -65,26 +66,26 @@ namespace RavlN {
 	: libInfo(li),
 	  hdrInfo(li.Name()),
 	  ctype(1)
-	{}
+      {}
       //: Constructor.
 
       ContextC(const ProgInfoC &pi)
 	: progInfo(pi),
-	  hdrInfo(pi.Name(),StringC(),pi.Name()),
+	  hdrInfo(pi.MainSource(),StringC(),pi.MainSource()),
 	  ctype(2)
-	{}
+      {}
       //: Constructor.
       
       ContextC(const StringC &s)
 	: hdrInfo(s,StringC(),s),
-	ctype(0)
-	{}
+	  ctype(0)
+      {}
       //: Constructor.
 
       ContextC(const HeaderInfoC &hi)
 	: hdrInfo(hi),
 	  ctype(0)
-	{}
+      {}
       //: Constructor.
       
       DListC<StringC> Sources() {
@@ -143,28 +144,28 @@ namespace RavlN {
   {
   public:
     AutoPortGeneratorC()
-      {}
+    {}
     //: Default constructor.
     // creates an invalid handle.
 
     AutoPortGeneratorC(AutoPortSourceC &src,StringC &templ,StringC &output)
       : TemplateComplexC(*new AutoPortGeneratorBodyC(src,templ,output))
-      {}
+    {}
     //: Constructor.
     
   protected:
     AutoPortGeneratorBodyC &Body()
-      { return static_cast<AutoPortGeneratorBodyC &>(TemplateComplexC::Body()); }
+    { return static_cast<AutoPortGeneratorBodyC &>(TemplateComplexC::Body()); }
     //: Access body.
 
     const AutoPortGeneratorBodyC &Body() const
-      { return static_cast<const AutoPortGeneratorBodyC &>(TemplateComplexC::Body()); }
+    { return static_cast<const AutoPortGeneratorBodyC &>(TemplateComplexC::Body()); }
     //: Access body.
     
   public:
 
     bool BuildFiles()
-      { return Body().BuildFiles(); }
+    { return Body().BuildFiles(); }
     //: Build output files.
     
   };

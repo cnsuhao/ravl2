@@ -11,6 +11,13 @@
 #include "Ravl/SourceTools/AutoPortGenerator.hh"
 #include "Ravl/OS/Filename.hh"
 
+#define DODEBUG 0
+#if DODEBUG 
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
+
 namespace RavlN {
   
   //: Constructor
@@ -60,6 +67,7 @@ namespace RavlN {
     }
     if(varname == "srcfile") { // Source file for header.
       buff = context.Top().HeaderInfo().SrcFile();
+      ONDEBUG(cerr << "srcfile="  << context.Top().HeaderInfo().SrcFile() << "\n");
       return true;
     }
     if(varname == "target") {
@@ -68,6 +76,7 @@ namespace RavlN {
     }
     if(varname == "filename") { // Get the full path.
       buff = CurFilename();
+      ONDEBUG(cerr << "Filename="  << CurFilename() << "\n");
       return true;
     }
     if(varname == "rootname") { // Just get the root name of the file.
@@ -152,6 +161,7 @@ namespace RavlN {
       DListC<StringC> lst = context.Top().Sources();
       for(DLIterC<StringC> it(lst);it;it++) {
 	context.Push(ContextC(*it));
+	ONDEBUG(cerr << "For all Sources=" << *it << "\n");
 	BuildSub(subTextBuff);
 	context.DelTop();
       }	
