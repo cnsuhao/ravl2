@@ -13,6 +13,7 @@
 //! author="Charles Galambos"
 //! file="Ravl/Core/Container/Branch/BList.hh"
 
+#include "Ravl/Assert.hh"
 #include "Ravl/BLink.hh"
 
 namespace RavlN {

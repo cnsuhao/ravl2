@@ -14,6 +14,7 @@
 //! file="Ravl/Core/Container/Branch/BHash.hh"
 
 #include "Ravl/BList.hh"
+#include "Ravl/BListIter.hh"
 #include "Ravl/SArray1d.hh"
 
 namespace RavlN {
@@ -60,9 +61,6 @@ namespace RavlN {
     {}
     //: Default constructor.
     
-    BHashC(const BHashC<KeyT,DataT> &other);
-    //: Copy constructor.
-    
     bool Lookup(const KeyT &key,DataT &data);
     //: Lookup 'key' in hash table.
     // If an entry is found its assigned to data and
@@ -71,17 +69,39 @@ namespace RavlN {
     bool Insert(const KeyT &key,const DataT &data);
     //: Associated value 'data' with key 'key'. 
     
+    BHashC<KeyT,DataT> Copy() const
+    { return *this; }
+    //: Copy table.
+    // Since this is a small object, its a trivial operation.
+    
+    DataT &operator[](const KeyT &key);
+    //: Array style access.
+    
+    bool IsEmpty() const;
+    //: Test if hash table is empty.
+
+    UIntT Size() const
+    { return entries; }
+    //: Return the number of entries in the table.
+    
+    DataT *Lookup(const KeyT &key);
+    //: Lookup 'key' in hash table.
+    // If an entry is found return a pointer to it.
+    // otherwise return 0.
+    
   protected:
     SArray1dC<BListC<BHashEntryC<KeyT,DataT> > > table;
     UIntT entries;
     friend class BHashIterC<KeyT,DataT>;
   };
-
+  
   template<class KeyT,class DataT>
-  BHashC<KeyT,DataT>::BHashC(const BHashC<KeyT,DataT> &other) 
-    : table(table.Copy()),
-      entries(other.entries)
-  {}
+  DataT *BHashC<KeyT,DataT>::Lookup(const KeyT &key) {
+    for(BListIterC<BHashEntryC<KeyT,DataT> > it(table[StdHash(key) % table.Size()]);it;it++)
+      if(it.Data().Key() == key)
+	return &it.Data().Data();
+    return 0;
+  }
   
   template<class KeyT,class DataT>
   bool BHashC<KeyT,DataT>::Lookup(const KeyT &key,DataT &data) {
@@ -102,7 +122,27 @@ namespace RavlN {
     return true;
   }
   
-
+  template<class KeyT,class DataT>
+  DataT &BHashC<KeyT,DataT>::operator[](const KeyT &key) {
+    if(table.Size() == 0)
+      table = SArray1dC<BListC<BHashEntryC<KeyT,DataT> > >(7);
+    BListC<BHashEntryC<KeyT,DataT> > &list =  table[StdHash(key) % table.Size()];
+    for(BListIterC<BHashEntryC<KeyT,DataT> > it(list);it;it++)
+      if(it.Data().Key() == key)
+	return it.Data().Data();
+    DataT data;
+    list.InsFirst(BHashEntryC<KeyT,DataT>(key,data) );
+    return list.First().Data();
+  }
+  
+  template<class KeyT,class DataT>
+  bool BHashC<KeyT,DataT>::IsEmpty() const {
+    for(SArray1dIterC<BListC<BHashEntryC<KeyT,DataT> > > it(table);it;it++)
+      if(!it->IsEmpty())
+	return false;
+    return true;
+  }
+  
 }
 
 #endif
