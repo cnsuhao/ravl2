@@ -433,7 +433,7 @@ namespace RavlCxxDocN {
   //: How to render an char into html.
   
   StringC DocumentBodyC::TextFor(char let) {
-    // Put the common charactors in pre-built strings.
+    // Put the common characters in pre-built strings.
     static StringC amp("&amp;");
     static StringC lt("&lt;");
     static StringC gt(">");
@@ -1057,21 +1057,37 @@ namespace RavlCxxDocN {
       const char *eos = &place[text.length()];
       //eos++;
       const char *lw;
+      bool inAnchor = false;
       for(;place != eos;) {
-	// Skip spaces and other punctuation.
+	// Sperl -pi -e 's/bar/baz/' fileAkip spaces and other punctuation.
 	lw = place;
-	for(;!(isalnum(*place) || *place == '_' || *place == ':') && place != eos;place++) ;
+	for(;!(isalnum(*place) || *place == '_' || *place == ':' || *place == '<') && place != eos;place++) ;
 	int len = (place - lw);
 	Output().write(lw,len);
 	if(place == eos)
 	  break; // got to end of text.
 	// Find a word.
-	lw = place;
+ 	lw = place;
+	if(*place == '<') { // Skip html markup.
+	  for(;(*place != '>') && place != eos;place++) ;
+	  if(place != eos)
+	    place++;
+	  len = (place - lw);
+	  StringC word(lw,len,len);
+	  // Don't look at text inside links....
+	  if(word.matches("<a") || word.matches("<A"))
+	    inAnchor = true;
+	  if(word.matches("</a") || word.matches("</A"))
+	    inAnchor = false;
+	  ONDEBUG(cerr << "Got markup:" << word << "\n");
+	  Output() << word;
+	  continue;
+	}
 	for(;(isalnum(*place) || *place == '_' || *place == ':') && place != eos;place++) ;
 	len = (place - lw);
 	StringC word(lw,len,len);
 	ONDEBUG(cerr << "Found word :'" << word << "'\n");
-	if(isdigit(word.firstchar())) {
+	if(isdigit(word.firstchar()) || inAnchor) {
 	  Output() << word;
 	  continue;
 	}
