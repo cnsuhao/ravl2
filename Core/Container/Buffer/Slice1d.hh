@@ -19,6 +19,7 @@
 #include "Ravl/Assert.hh"
 #include "Ravl/IndexRange1d.hh"
 #include "Ravl/RBfAcc.hh"
+#include "Ravl/SBfAcc.hh"
 
 //: Ravl namespace.
 
@@ -474,6 +475,26 @@ namespace RavlN {
     const DataT *at = &(data[data.IMin()]);
     for(Slice1dIterC<DataT> it(*this);it;it++,at++)
       *it = *at;
+  }
+  
+  template<class DataT>
+  void RangeBufferAccessC<DataT>::Copy(const Slice1dC<DataT> &slice) {
+    RavlAssert(Size() == slice.Size());
+    if(Size() == 0)
+      return ;
+    DataT *at = &((*this)[data.IMin()]);
+    for(Slice1dIterC<DataT> it(slice);it;it++,at++)
+      *at = *it;
+  }
+
+  template<class DataT>
+  void SizeBufferAccessC<DataT>::Copy(const Slice1dC<DataT> &slice) {
+    RavlAssert(Size() == slice.Size());
+    if(Size() == 0)
+      return ;
+    DataT *at = &((*this)[0]);
+    for(Slice1dIterC<DataT> it(slice);it;it++,at++)
+      *at = *it;
   }
   
   template<class DataT>

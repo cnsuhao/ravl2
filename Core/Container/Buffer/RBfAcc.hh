@@ -22,8 +22,8 @@
 #include "Ravl/Types.hh"
 
 namespace RavlN {
-  template <class DataT>
-  class SizeBufferAccessC;
+  template <class DataT> class SizeBufferAccessC;
+  template <class DataT> class Slice1dC;
   
   class BinOStreamC;
   class BinIStreamC;
@@ -206,6 +206,11 @@ namespace RavlN {
     bool operator==(const RangeBufferAccessC<DataT> &ba) const
     { return (buff == ba.buff) && (range == ba.range); }
     //: Are two accesses the same ?
+    
+    void Copy(const Slice1dC<DataT> &slice);
+    //: Copy slice into this array.
+    // slice must have the same length as this buffer. <br>
+    // Implementation can be found in Slice1d.hh
   protected:
     
     // Copy

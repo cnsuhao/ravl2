@@ -4,14 +4,14 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_SBFACC_HEADER 
-#define RAVL_SBFACC_HEADER 1
+#ifndef RAVL_SIZEBUFFERACCESS_HEADER 
+#define RAVL_SIZEBUFFERACCESS_HEADER 1
 /////////////////////////////////////////////////////////////////////////
 //! file="Ravl/Core/Container/Buffer/SBfAcc.hh"
 //! lib=RavlCore
 //! author="Radek Marik"
 //! docentry="Ravl.Core.Arrays.Buffer"
-//! date="14/02/97"
+//! date="14/02/1997"
 //! userlevel=Develop
 //! rcsid="$Id$"
 
@@ -20,6 +20,8 @@
 #include "Ravl/Types.hh"
 
 namespace RavlN {
+  template <class DataT> class SizeBufferAccessC;
+  template <class DataT> class Slice1dC;
   
   class BinOStreamC;
   class BinIStreamC;
@@ -167,6 +169,11 @@ namespace RavlN {
     bool operator==(const SizeBufferAccessC<DataT> &ba) const
     { return (buff == ba.buff) && (sz == ba.sz); }
     //: Are two accesses the same ?
+    
+    void Copy(const Slice1dC<DataT> &slice);
+    //: Copy slice into this array.
+    // slice must have the same length as this buffer. <br>
+    // Implementation can be found in Slice1d.hh
     
   protected:
     
