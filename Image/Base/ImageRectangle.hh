@@ -51,7 +51,7 @@ namespace RavlImageN {
     //: Construct a rectangle of the given size with an origin of 0,0
     
     ImageRectangleC(const Index2dC &org,const Index2dC &end)
-      : IndexRange2dC(org,end)
+      : IndexRange2dC(origin,end)
     {}
     //: Construct from corner points.
 
@@ -60,14 +60,14 @@ namespace RavlImageN {
     {}
     //: Construct a square from center and size.
     
-    ImageRectangleC(const Index2dC &center,SizeT rows,SizeT cols)
-      : IndexRange2dC(center,rows,cols)
+    ImageRectangleC(const Index2dC &centre,SizeT rows,SizeT cols)
+      : IndexRange2dC(centre,rows,cols)
     {}
-    //: Create an 2d range from a center point and a size for rows and cols.
+    //: Create a rectangle from a centre point and sizes for rows and cols.
     // The sizes passed to this function are the absolute size of the
     // rectangle.
-    // Note: if the rows or cols there will be a half pixel offset in the
-    // center of the rectangle. 
+    // Note: if the rows or cols are even there will be a half pixel offset in
+    // the center of the rectangle. 
 
     ImageRectangleC(IndexC minRow, IndexC maxRow,
 		    IndexC minCol, IndexC maxCol)
