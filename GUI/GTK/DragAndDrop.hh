@@ -69,7 +69,7 @@ namespace RavlGUIN {
 	data(data),
 	info(ninfo),
 	time(ntime),
-	at(x,y)
+	at(y,x)
     {}
     //: Default constructor.
     

@@ -259,11 +259,11 @@ namespace RavlGUIN {
     
     // Do some sanity checks
     if(data == 0) {
-      ONDEBUG(cerr << "WidgetBodyC::gtkDNDDataRecieved(), WARNING: Recieved NULL selection. \n");
+      cerr << "WidgetBodyC::gtkDNDDataRecieved(), WARNING: Recieved NULL selection. \n";
       return 1;
     }
     if(data->length < 0) {
-      ONDEBUG(cerr << "WidgetBodyC::gtkDNDDataRecieved(), WARNING: Recieved invalid selection. \n");
+      cerr << "WidgetBodyC::gtkDNDDataRecieved(), WARNING: Recieved invalid selection. \n";
       return 1;
     }
     Signal1C<DNDDataInfoC> sig(*sigptr);

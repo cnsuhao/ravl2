@@ -46,6 +46,7 @@ namespace RavlGUIN {
   class TargetEntryC;
   class WidgetDndInfoC;
   class WidgetStyleC;
+  class DNDDataInfoC;
   
   //! userlevel=Develop
   //: Widget base body.
