@@ -143,7 +143,9 @@ namespace RavlN {
     
   private:
     RWLockC(const RWLockC &)
-    { RavlAssert(0); }
+    : WriteQueue(1),
+      ReadQueue(1)
+      { RavlAssert(0); }
     //: Dissable copy constructor.
     
     MutexC AccM; // Access control.
