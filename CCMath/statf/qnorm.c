@@ -14,7 +14,7 @@ double qnorm(double x)
   if(x<3.){ f=t=1.;
     for(k=1; t>1.e-14 ;){ t*=y/(k+=2); f+=t;}
     f=.5-x*ro*f; }
-  else{ f=x; k=ceil(250./y); if(k<3) k=3;
+  else{ f=x; k=(int)ceil(250./y); if(k<3) k=3;
     for(; k>0 ;) f=x+(k--)/f;
     f=ro/f; }
   if(nf) return f; else return 1.-f;

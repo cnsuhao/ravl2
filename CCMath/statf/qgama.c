@@ -17,8 +17,8 @@ double qgama(double x,double a)
    }
   else{
     if(t<0. && a<10.) k=18;
-    else if(t>3.){ k=ceil(19.-3.*t); if(k<4) k=4;}
-    else k=6+ceil(f*(2.05-.8*t+.091*t*t));
+    else if(t>3.){ k=(int)ceil(19.-3.*t); if(k<4) k=4;}
+    else k=6+(int)ceil(f*(2.05-.8*t+.091*t*t));
     for(f=x; k>0 ;){ t=k--; f=x+(t-a)/(1.+t/f);}
     return exp(ro)/f;
    }

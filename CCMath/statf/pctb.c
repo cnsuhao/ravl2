@@ -13,7 +13,7 @@ double pctb(double pc,double a,double b)
   double qbeta(double,double,double),gaml(double),pctn(double);
   int nf,k;
   if(pc<te || pc>1.-te) return -1.;
-  if(a>b){ nf= -1; t=a; a=b; b=t; pc=1.-pc;} else nf=1.;
+  if(a>b){ nf= -1; t=a; a=b; b=t; pc=1.-pc;} else nf=1;
   if(a==.5 && b==.5){ y=sin(pc*asin(1.)); return y*y;}
   else if(a<1.5){
      if(pc>b/(a+b)){ nf= -nf; t=a; a=b; b=t; pc=1.-pc;}
