@@ -5,12 +5,12 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
-#include "ccmath/ccmath.h"
 #include <math.h>
+#include "ccmath/ccmath.h"
 int qrbdv(double *dm,double *em,double *um,int mm,double *vm,int m)
 { int i,j,k,n,jj,nm;
   double u,x,y,a,b,c,s,t,w,*p,*q;
-  for(j=1,t=fabs(dm[0]); j<m ;++j)
+  for (j=1,t=fabs(dm[0]); j<m ;++j)
     if((s=fabs(dm[j])+fabs(em[j-1]))>t) t=s;
   t*=1.e-15; n=100*m; nm=m;
   for(j=0; m>1 && j<n ;++j){
@@ -31,8 +31,9 @@ int qrbdv(double *dm,double *em,double *um,int mm,double *vm,int m)
     y=dm[k]; x=dm[m-1]; u=em[m-2];
     a=(y+x)*(y-x)-u*u; s=y*em[k]; b=s+s;
     u=sqrt(a*a+b*b);
-	if(u!=0.){
-      c=sqrt((u+a)/(u+u)); s/=(c*u);
+    if(u!=0.){
+      c=sqrt((u+a)/(u+u));
+	  if(c!=0.) s/=(c*u); else s=1.;
 	  for(i=k; i<m-1 ;++i){
         b=em[i];
         if(i>k){

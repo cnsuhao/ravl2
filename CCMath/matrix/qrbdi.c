@@ -5,8 +5,8 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
-#include "ccmath/ccmath.h"
 #include <math.h>
+#include "ccmath/ccmath.h"
 int qrbdi(double *dm,double *em,int m)
 { int i,j,k,n;
   double u,x,y,a,b,c,s,t;
@@ -28,8 +28,9 @@ int qrbdi(double *dm,double *em,int m)
     a=(y+x)*(y-x)-u*u; s=y*em[k]; b=s+s;
     u=sqrt(a*a+b*b);
 	if(u>0.){
-      c=sqrt((u+a)/(u+u)); s/=(c*u);
-      for(i=k; i<m-1 ;++i){
+      c=sqrt((u+a)/(u+u));
+	  if(c!=0.) s/=(c*u); else s=1.;
+	  for(i=k; i<m-1 ;++i){
         b=em[i];
         if(i>k){
           a=s*em[i]; b*=c;
@@ -44,7 +45,7 @@ int qrbdi(double *dm,double *em,int m)
      }
     em[m-2]=x; dm[m-1]=y;
     if(fabs(x)<t) --m;
-    if(m==k+1) --m; 
+    if(m==k+1) --m;
    }
   return j;
 }

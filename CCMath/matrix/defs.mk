@@ -10,6 +10,7 @@ SOURCES = atou1.c atovm.c chouse.c chousv.c cmattr.c cmcpy.c cminv.c cmmul.c cmm
 
 PLIB = ccmath
 
+TESTEXES=testValS.cc
 #LIBDEPS=ccmath_matrix.def
 
 USESLIBS=Math		
