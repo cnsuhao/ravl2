@@ -162,6 +162,11 @@ namespace RavlN {
     { return up[1]; }
     //: Access top right data element
     
+    Index2dC Index() const 
+    { return BufferAccess2dIterC<DataT>::Index(array.ReferenceElm()); }
+    //: Get index of current location of the middle pixel.
+    // Has to be calculate, and so is slightly slow.
+    
   protected:
     Array2dC<DataT> array;
     DataT *up;
