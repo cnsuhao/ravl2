@@ -56,17 +56,32 @@ namespace RavlN {
     
     virtual SArray1dC<MeanCovarianceC> Cluster(const SampleC<VectorC> &in);
     //: Compute cluster means.
+    //!param: in - Array of samples to cluster.
+    //!return: Array of point centers
+    
+    virtual SArray1dC<MeanCovarianceC> Cluster(const SampleC<VectorC> &in,SampleC<UIntT> &labels);
+    //: Compute cluster means, and labels for all the samples
+    //!param: in - Sample of vectors to cluster
+    //!param: labels - Sample used to store the membership of each sample in the form of an index into the returned array
+    //!return: Array of clusters.
     
     RealT K() const
     { return k; }
     //: Access size of kernel
     
   protected:
-    DListC<VectorC> FindMeans(const SampleC<VectorC> &in);
+    DListC<VectorC> FindMeans(const SampleC<VectorC> &in,SampleC<UIntT> &labels);
     //: Find means for 'in'.
+    //!param: in - Set of vectors to process, must be all of the same length.
+    //!param: labels - Data set of labels in which the member ship of each sample is stored
+    //!return: Set of cluster centers
     
-    DListC<VectorC> FindMeans(const SampleC<VectorC> &in,const SampleC<RealT> &weights);
+    DListC<VectorC> FindMeans(const SampleC<VectorC> &in,const SampleC<RealT> &weights,SampleC<UIntT> &labels);
     //: Find weighted means for 'in'.
+    //!param: in - Set of vectors to process, must be all of the same length.
+    //!param: labels - Data set of labels in which the member ship of each sample is stored
+    //!param: weights - Weights for each of the samples.
+    //!return: Set of cluster centers
     
     DistanceC distance;
     RealT k;
@@ -120,6 +135,13 @@ namespace RavlN {
     RealT K() const
     { return Body().K(); }
     //: Access size of kernel
+    
+    SArray1dC<MeanCovarianceC> Cluster(const SampleC<VectorC> &in,SampleC<UIntT> &labels)
+    { return Body().Cluster(in,labels); }
+    //: Compute cluster means, and labels for all the samples
+    //!param: in - Sample of vectors to cluster
+    //!param: labels - Sample used to store the membership of each sample in the form of an index into the returned array
+    //!return: Array of clusters.
     
   };
 

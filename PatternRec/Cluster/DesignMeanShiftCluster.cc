@@ -22,7 +22,7 @@
 #include "Ravl/BinStream.hh"
 #include "Ravl/VirtualConstructor.hh"
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -77,19 +77,20 @@ namespace RavlN {
   
   //: Find means for 'in'.
   
-  DListC<VectorC> DesignMeanShiftClusterBodyC::FindMeans(const SampleC<VectorC> &in) {
+  DListC<VectorC> DesignMeanShiftClusterBodyC::FindMeans(const SampleC<VectorC> &in,SampleC<UIntT> &labels) {
     DListC<VectorC> clusters;
     if(in.Size() == 0) {
       cerr << "DesignMeanShiftClusterBodyC::Apply(), WARNING: No data samples given. \n";
       return clusters;
     }
+    labels = SampleC<UIntT>(SArray1dC<UIntT>(in.Size()));
     
     UIntT count;
     VectorC shift(in.First().Size());
     VectorC mean;
-    for(SampleIterC<VectorC> sit(in);sit;sit++) { // Got through all possible start points.
+    for(DataSet2IterC<SampleC<VectorC>,SampleC<UIntT> > sit(in,labels);sit;sit++) { // Got through all possible start points.
 //      int i = 0;
-      mean = sit->Copy();
+      mean = sit.Data1().Copy();
       do {
 	count = 0;
 	shift.Fill(0);
@@ -108,21 +109,23 @@ namespace RavlN {
       } while(1);
       
       DLIterC<VectorC> cit(clusters);
-      for(;cit;cit++) {
+      UIntT n = 0;
+      for(;cit;cit++,n++) {
 	if(distance.Measure(mean,*cit) < (k * 0.2))
 	  break; // Already got cluster.
       }
-      
       if(!cit) // Cluster not found.
-	clusters.InsLast(mean.Copy());
+	clusters.InsLast(mean); // Create new cluster center
+      sit.Data2() = n; // Record cluster id for this sample element
     }
     return clusters;
   }
   
   //: Find weighted means for 'in'.
   
-  DListC<VectorC> DesignMeanShiftClusterBodyC::FindMeans(const SampleC<VectorC> &in,const SampleC<RealT> &weights) {
+  DListC<VectorC> DesignMeanShiftClusterBodyC::FindMeans(const SampleC<VectorC> &in,const SampleC<RealT> &weights,SampleC<UIntT> &labels) {
     DListC<VectorC> clusters;
+    labels = SampleC<UIntT>(SArray1dC<UIntT>(in.Size()));
     if(in.Size() == 0) {
       cerr << "DesignMeanShiftClusterBodyC::Apply(), WARNING: No data samples given. \n";
       return clusters;
@@ -131,8 +134,8 @@ namespace RavlN {
     RealT count;
     VectorC shift(in.First().Size());
     VectorC mean;
-    for(SampleIterC<VectorC> sit(in);sit;sit++) { // Got through all possible start points.
-      mean = sit->Copy();
+    for(DataSet2IterC<SampleC<VectorC>,SampleC<UIntT> > sit(in,labels);sit;sit++) { // Got through all possible start points.
+      mean = sit.Data1().Copy();
       do {
 	count = 0;
 	shift.Fill(0);
@@ -151,22 +154,25 @@ namespace RavlN {
       } while(1);
       
       DLIterC<VectorC> cit(clusters);
-      for(;cit;cit++) {
+      UIntT n = 0;
+      for(;cit;cit++,n++) {
 	if(distance.Measure(mean,*cit) < (k * 0.2))
 	  break; // Already got cluster.
       }
       
       if(!cit) // Cluster not found.
-	clusters.InsLast(mean.Copy());
+	clusters.InsLast(mean); // Create new cluster center
+      sit.Data2() = n;  // Record cluster id for this sample element
     }
-    return clusters;    
+    return clusters;
   }
   
   //: Create a clasifier.
   
   FunctionC DesignMeanShiftClusterBodyC::Apply(const SampleC<VectorC> &in) {
     ONDEBUG(cerr << "DesignMeanShiftClusterBodyC::Apply(), Called with " << in.Size() << " vectors. K=" << k << "\n");
-    DListC<VectorC> clusters = FindMeans(in);    
+    SampleC<UIntT> labels;
+    DListC<VectorC> clusters = FindMeans(in,labels);
     SampleC<VectorC> newMeans(clusters.Size());
     for(DLIterC<VectorC> cit(clusters);cit;cit++)
       newMeans.Append(*cit);
@@ -177,7 +183,8 @@ namespace RavlN {
 
   SArray1dC<MeanCovarianceC> DesignMeanShiftClusterBodyC::Cluster(const SampleC<VectorC> &in) {
     ONDEBUG(cerr << "DesignMeanShiftClusterBodyC::Cluster(), Called with " << in.Size() << " vectors. K=" << k << "\n");
-    DListC<VectorC> clusters = FindMeans(in);
+    SampleC<UIntT> labels;
+    DListC<VectorC> clusters = FindMeans(in,labels);
     SArray1dC<MeanCovarianceC> ret(clusters.Size());
     DLIterC<VectorC> lit(clusters);
     for(SArray1dIterC<MeanCovarianceC> ait(ret);ait;ait++,lit++) {
@@ -186,11 +193,24 @@ namespace RavlN {
     return ret;
   }
 
+  //: Compute cluster means, and labels for all the samples
+  
+  SArray1dC<MeanCovarianceC> DesignMeanShiftClusterBodyC::Cluster(const SampleC<VectorC> &in,SampleC<UIntT> &labels) {
+    DListC<VectorC> clusters = FindMeans(in,labels);
+    SArray1dC<MeanCovarianceC> ret(clusters.Size());
+    DLIterC<VectorC> lit(clusters);
+    for(SArray1dIterC<MeanCovarianceC> ait(ret);ait;ait++,lit++) {
+      *ait = MeanCovarianceC(1,*lit,MatrixC::Identity(lit->Size()) * k);
+    }
+    return ret;    
+  }
+
   //: Create function from the given data, and sample weights.
   
   FunctionC DesignMeanShiftClusterBodyC::Apply(const SampleC<VectorC> &in,const SampleC<RealT> &weight) {
     ONDEBUG(cerr << "DesignMeanShiftClusterBodyC::Apply(), Called with " << in.Size() << " vectors. K=" << k << "\n");
-    DListC<VectorC> clusters = FindMeans(in,weight);
+    SampleC<UIntT> labels;
+    DListC<VectorC> clusters = FindMeans(in,weight,labels);
     SampleC<VectorC> newMeans(clusters.Size());
     for(DLIterC<VectorC> cit(clusters);cit;cit++)
       newMeans.Append(*cit);
