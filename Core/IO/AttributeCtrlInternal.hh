@@ -53,29 +53,13 @@ namespace RavlN {
       return ret;
     }
     
-    void IssueChangedSignal(const StringC &attrName) {
-      for(DLIterC<TriggerC> it(name2trigList[attrName]);it;it++)
-	(*it).Invoke();
-    }
+    void IssueChangedSignal(const StringC &attrName);
     //: Issue attribute changed signal.
     
-    IntT RegisterChangedSignal(const StringC &attrName,const TriggerC &trig) {
-      IntT id = trigIdAlloc++;
-      DListC<TriggerC> &list = name2trigList[attrName];
-      list.InsFirst(trig);
-      trigId2trig[id] = list;
-      return id;
-    }
+    IntT RegisterChangedSignal(const StringC &attrName,const TriggerC &trig);
     //: Register a changed signal.
     
-    bool RemoveChangedSignal(IntT id) {
-      DLIterC<TriggerC> *trig = trigId2trig.Lookup(id);
-      if(trig == 0) 
-	return false;
-      trig->Del();
-      trigId2trig.Del(id);
-      return true;
-    }
+    bool RemoveChangedSignal(IntT id);
     //: Remove changed signal.
     
     DListC<AttributeTypeC> &Attributes()

@@ -452,6 +452,7 @@ namespace RavlN {
     MTReadLockC lock(3);
     if(attrInfo == 0) // Can't be anything to do.
       return true; 
+    lock.Unlock(); // Don't hold lock while issueing signal.
     attrInfo->IssueChangedSignal(attrName);
     return true;
   }
