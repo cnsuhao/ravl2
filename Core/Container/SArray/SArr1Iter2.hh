@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLSARR1ITER2_HEADER
-#define RAVLSARR1ITER2_HEADER 1
+#ifndef RAVL_SARR1ITER2_HEADER
+#define RAVL_SARR1ITER2_HEADER 1
 ///////////////////////////////////////////////////
 //! docentry="Ravl.Core.Arrays.1D"
 //! rcsid="$Id$"
