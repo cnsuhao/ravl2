@@ -49,7 +49,7 @@ int main(int nargs,char *args[])
   TreeItemC x("Hello",st1);
   aTree.GUIAddChild(x);
   
-  aTree.DelChild(ti1);
+  //aTree.DelChild(ti1);
   
   win.Add(ScrolledAreaC(aTree,100,100));  
   win.Show();

@@ -14,6 +14,7 @@
 
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/GUI/MessageBox.hh"
+#include "Ravl/GUI/ButtonBox.hh"
 
 using namespace RavlGUIN;
 
@@ -36,6 +37,20 @@ bool result1(bool& bResult)
   return true;
 }
 
+bool OnButtonClick(UIntT & buttonNo) {
+  if(buttonNo == 0) 
+    cerr << "Yes" << endl;
+  else if(buttonNo ==1) 
+    cerr << "No" << endl;
+  else if(buttonNo == 2)
+    cerr << "Cancel" << endl;
+  else {
+    cerr << "button no too high" << endl;
+    return false;
+  }
+  return true;
+}
+
 int main(int nargs,char *args[]) 
 {
   Manager.Init(nargs,args);
@@ -44,6 +59,15 @@ int main(int nargs,char *args[])
   QuestionBox("Do you want to run a pointless function?",result1);
   AlertBox("This is just a message box");
   AlertBox("This alert box will quit the whole program",result2);
+
+
+  //: An example of ButtonBox in action
+  SArray1dC<StringC>button(3);
+  button[0] = "Yes";
+  button[1] = "No";
+  button[2] = "Cancel";
+  ButtonBox("Do something here?", button,"Action Required", OnButtonClick); 
+
   
   Manager.Wait();
   cerr << "Finished... \n";
