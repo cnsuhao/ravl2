@@ -221,6 +221,34 @@ namespace RavlN {
     //: Constant access to data.
     // AMMA compatibility function, use unary * operator.
 
+    DataT &NextData() { 
+      RavlAssert(!IsLast());
+      return static_cast<DLinkDataC<DataT> &>(place->Next()).Data(); 
+    }
+    //: Access data following this element.
+    // The iterator must not be on the last element of the list.
+
+    const DataT &NextData() const { 
+      RavlAssert(!IsLast());
+      return static_cast<const DLinkDataC<DataT> &>(place->Next()).Data(); 
+    }
+    //: Access data following this element.
+    // The iterator must not be on the last element of the list.
+    
+    DataT &PrevData(){ 
+      RavlAssert(!IsFirst());
+      return static_cast<DLinkDataC<DataT> &>(place->Last()).Data(); 
+    }
+    //: Access data before this element.
+    // The iterator must not be on the first element in the list.
+
+    const DataT &PrevData() const { 
+      RavlAssert(!IsFirst());
+      return static_cast<const DLinkDataC<DataT> &>(place->Last()).Data(); 
+    }
+    //: Access data before this element.
+    // The iterator must not be on the first element in the list.
+    
     DListC<DataT> Tail() {
       DListC<DataT> ret;
       ret.Body().Head().CutPaste(place->Next(),lst.Body().LastLink());
