@@ -54,7 +54,7 @@ namespace RavlN {
 	if(dist.IsElm(it.OtherNode())) {
 	  if(dist[it.OtherNode()] <= val)
 	    continue;
-      }
+	}
 	dist[it.OtherNode()] = val;
 	open.Insert(val,it.OtherNode());
       }
@@ -63,6 +63,9 @@ namespace RavlN {
       return DListC<GraphEdgeIterC<NodeT,EdgeT> > (); // Not found, return empty list.
     costOut = dist[to];
     // Backtrack along shortest path.
+    // FIXME :- Would this be faster if we remebered the the link that had 
+    // the shortest path to each node ? That way back tracking would be
+    // a trivial operation.  Probably depends on the properties of the graph.
     DListC<GraphEdgeIterC<NodeT,EdgeT> > ret;
     CostT lastDist = maxdist;
     while(at != from) {
