@@ -596,7 +596,7 @@ endif
 #define a name for the build type to be displayed to the user. 
 VAR_DISPLAY_NAME=$(VAR) 
 ifdef SHAREDBUILD 
-VAR_DISPLAY_NAME += " (shared) " 
+VAR_DISPLAY_NAME +=  (shared)  
 endif 
 
  $(TARG_MUSTLINK_OBJS) : $(INST_FORCEOBJS)/%$(OBJEXT) : $(INST_OBJS)/%$(OBJEXT) $(INST_FORCEOBJS)/.dir
@@ -608,7 +608,7 @@ endif
 	$(CHMOD) a-w $(INST_FORCEOBJS)/$*$(OBJEXT) 
 
 $(INST_OBJS)/%$(OBJEXT) $(INST_DEPEND)/%.d : %$(CXXAUXEXT) $(INST_OBJS)/.dir $(INST_DEPEND)/.dir
-	$(SHOWIT)echo "--- Compile" $(VAR_DISPLAY_NAME) $< ; \
+	$(SHOWIT)echo "--- Compile $(VAR_DISPLAY_NAME) $<" ; \
 	if [ -f $(WORKTMP)/$*.d ] ; then \
 	  rm $(WORKTMP)/$*.d ; \
 	fi ; \
@@ -619,7 +619,7 @@ $(INST_OBJS)/%$(OBJEXT) $(INST_DEPEND)/%.d : %$(CXXAUXEXT) $(INST_OBJS)/.dir $(I
 	fi ; \
 
 $(INST_OBJS)/%$(OBJEXT) $(INST_DEPEND)/%.d : %$(CXXEXT) $(INST_OBJS)/.dir $(INST_DEPEND)/.dir
-	$(SHOWIT)echo "--- Compile" $(VAR_DISPLAY_NAME) $< ; \
+	$(SHOWIT)echo "--- Compile $(VAR_DISPLAY_NAME) $<" ; \
 	if [ -f $(WORKTMP)/$*.d ] ; then \
 	  rm $(WORKTMP)/$*.d ; \
 	fi ; \
@@ -630,7 +630,7 @@ $(INST_OBJS)/%$(OBJEXT) $(INST_DEPEND)/%.d : %$(CXXEXT) $(INST_OBJS)/.dir $(INST
 	fi 
 
 $(INST_OBJS)/%$(OBJEXT) $(INST_DEPEND)/%.d : %$(CEXT) $(INST_OBJS)/.dir $(INST_DEPEND)/.dir
-	$(SHOWIT)echo "--- Compile" $(VAR_DISPLAY_NAME) $< ; \
+	$(SHOWIT)echo "--- Compile $(VAR_DISPLAY_NAME) $< "; \
 	if [ -f $(WORKTMP)/$*.d ] ; then \
 	  rm $(WORKTMP)/$*.d ; \
 	fi ; \
@@ -641,7 +641,7 @@ $(INST_OBJS)/%$(OBJEXT) $(INST_DEPEND)/%.d : %$(CEXT) $(INST_OBJS)/.dir $(INST_D
 	fi 
 
 $(INST_OBJS)/%$(OBJEXT) : %.S $(INST_OBJS)/.dir
-	$(SHOWIT)echo "--- Assemble" $(VAR_DISPLAY_NAME) $< ; \
+	$(SHOWIT)echo "--- Assemble $(VAR_DISPLAY_NAME) $< "; \
 	$(CC) -c -D__ASSEMBLY__=1 $(CPPFLAGS) $(CFLAGS) $(CINCLUDES) -o $(INST_OBJS)/$(@F) $<
 
 # $(UNTOUCH) $(INST_LIB)/lib$(PLIB)$(LIBEXT)  ; \
