@@ -1,0 +1,431 @@
+<html>
+<head>
+  <title>Formatting Rules</title>
+</head>
+
+
+<body>
+
+<table width=100% align="middle">
+<tr><td align=left valign=top bgcolor="#D7EFFF">
+
+<BLOCKQUOTE>
+<BR><BR>
+
+<!-- ******************* Page Summary (On LHS of Page)  ******************* -->
+
+<table align=left width=160><tr>
+<td valign=top bgcolor="black">
+  &nbsp;
+  <font size=2 face="arial,helvetica" color="white">
+  <B>APPEARANCE</B>
+  </font>
+</td>
+<td></td>
+</tr>
+
+<tr>
+<td>
+  <font color="#23238E" size=4 face="arial,helvetica"><B>
+    This page describes how to maintain the formatting of the comments in the
+    automatically generated documentation.
+  </B></font>
+</td>
+</tr></table>
+
+
+
+
+<!-- *************************** Main Page Text  *************************** -->
+
+<H3> Improving Appearance </H3>
+
+<P>
+To maintain the original formatting of the comments included in a header file
+(<I>ie improve the appearance</I>), you simply use HTML tags in your header file. None of the previous restrictions regarding tag position or number per line count any more.</P>
+
+<P>
+<HR>
+<P>
+
+
+<H3> Example </H3>
+
+<P>
+To emphasise the effects of just adding a few tags, here is an example of what
+the description in a header file looks like <b> when viewed in netscape</b>,
+without and with tags.
+</P>
+
+<TABLE BORDER=1>
+<TD> <H3> No Tags </H3> </TD>
+<TR>
+
+<TD>
+
+<h2><a name=".SHDESCRIPTION">DESCRIPTION </a> </h2>
+<h3><a name=".SSIntroduction">Introduction </a> </h3>
+-------------------------------------------------------------------------
+********** <a name="BaseRangeC"><b>BaseRangeC</b></a>   *************************************************
+-------------------------------------------------------------------------
+<a href="#BaseRangeC"><b>BaseRangeC</b></a> is a virtual abstract base class from which ByteRangeC, 
+FloatRangeC and VectRangeC will be inherited.
+The i/o routines do have basic error checks.
+A valid image point is one in which a range measurement is available.
+How it is stored is dependent on the data structure but can be checked
+by calling the function <a name="IsValid"><b>IsValid</b></a>(). In byte format, 0 is invalid and
+in vector format, z=-<a name="MAXFLOAT"><b>MAXFLOAT</b></a> is invalid.
+Range data is much more complicated than image data. It can be
+sampled on a regular grid or not, the grid spacings may vary.
+Together ByteRangeC, FloatRangeC and VectRangeC provide a powerful
+set of functionality. For accurate results it is important to understand
+precisely how the system is set up.
+Firstly we explain the conventions for &quot;gridded data&quot;. Consider a 
+4 pixel image row or column.
+---   &lt;-- 0.0    xgridmin=0.0
+|                 ____ box center = 0.5
+|              
+___   &lt;-- 1.0
+|
+|
+___   &lt;-- 2.0
+|
+|
+___   &lt;-- 3.0    xgridmax=3.0
+|
+|
+___   &lt;-- 4.0
+There are nrows=4 rows, i.e. r=0..3=nrows-1.  Each bin hase size 1
+and the total range is 0.0 - 3.9999999.
+For gridded data the pixels are deemed to be in the centers of the boxes,
+i.e. at 0.5, 1.5, 2.5, 3.5.
+With each range image, the minimum and maximum x, y and z values are
+stored. In each case, the values are obtained by scanning all of the
+valid image points and finding the extremes in each dimension. These 
+values are kept in xmin,xmax,ymin,ymax,zmin,zmax.
+For conversions between row and column and x and y we use 
+gridxmin,gridxmax,gridymin,gridymax. They are defined as shown above in the
+picture. In this example 
+For gridded data the xgridmin=0.0  xgridmax=3.0,
+xmin=0.5      xmax=3.5      
+asuming valid pixels in the border rows.
+These values are obtained if possible from the data file.
+To summarize the conversion is as follows:
+<a name="gridsize"><b>gridsize</b></a>.X = (<a name="gridmax"><b>gridmax</b></a>.X - gridmin.X) / (<a name="ncols"><b>ncols</b></a>-1)
+PixelC <a name="OfVect"><b>OfVect</b></a>(const Vector3dC vect) const
+{
+return PixelC (int(floor((vect.Y()-gridmin.Y())/<a href="#gridsize"><b>gridsize</b></a>.Y())),
+int(floor((vect.X()-gridmin.X())/<a href="#gridsize"><b>gridsize</b></a>.X())));
+}
+Vector3dC <a name="GetVect"><b>GetVect</b></a>(const PixelC &amp; pxl) const
+{
+return Vector3dC ((pxl.Col()+0.5)*gridsize.X()+gridmin.X(), 
+(pxl.Row()+0.5)*gridsize.Y()+gridmin.Y(), 
+f_data[pxl]);
+}
+The conversion from to a ByteRangeC uses the same scheme for z noting that
+the range of valid pixels is 1..255, &quot;nrows&quot;=255.
+A vector range image may contain any vector in any pixel. If the 
+operation MaptoGrid is called, however each pixel must contain a 
+vector in the bin.
+Any conversion from a vector representation will result in a rounding
+down of the x and y values to the grid positions. To compensate for this
+conversion from byte to vector will round up the positions to the centre
+of the grid boxes.
+All loads are soft except <a name="Load"><b>Load</b></a>, soft means no exit on error.
+A left hand coordinate system is used with x and y increasing horizontally
+and vertically, respectively (col,row). z increases away from the camera 
+with the result that when viewed using normal image viewers, greater
+distances will appear brighter unless photometric inversion is employed.
+Files that can be read    .pgm .dep .nrcc .txt .ris .vec .jrc .XYZim
+written      .pgm .dep .ris
+DEPENDENCIES
+------------
+Range.def depends on:
+Polops.def, Mimage.def, Mpxl.def, Marr.def and Mopt.def.
+<h3><a name=".SSDerivedclasses">Derived </a> classes </h3>
+<pre>
+ public ByteRangeC
+ public FloatRangeC
+ public VectRangeC
+</pre>
+</TD>
+</TABLE>
+
+
+<BR>
+<BR>
+<BR>
+
+
+
+<TABLE BORDER=1>
+<TD> <H3> With Tags : How the author intended it to be viewed</H3> </TD>
+<TR>
+
+<TD>
+<h2>Comments:</h2>
+<p> 
+ <A HREF="BaseRangeC.html" >BaseRangeC</A> is a virtual abstract base class from which <A HREF="ByteRangeC.html" >ByteRangeC</A>, 
+ <A HREF="FloatRangeC.html" >FloatRangeC</A> and <A HREF="VectRangeC.html" >VectRangeC</A> will be inherited.<p>
+
+ The i/o routines do have basic error checks.<p>
+
+ A valid image point is one in which a range measurement is available.
+ How it is stored is dependent on the data structure but can be checked
+ by calling the function IsValid(). In byte format, 0 is invalid and
+ in vector format, z=-MAXFLOAT is invalid.<p>
+
+ Range data is much more complicated than image data. It can be
+ sampled on a regular grid or not, the grid spacings may vary.
+ Together <A HREF="ByteRangeC.html" >ByteRangeC</A>, <A HREF="FloatRangeC.html" >FloatRangeC</A> and <A HREF="VectRangeC.html" >VectRangeC</A> provide a powerful
+ set of functionality. For accurate results it is important to understand
+ precisely how the system is set up.<p>
+
+ Firstly we explain the conventions for "gridded data". Consider a 
+ 4 pixel image row or column.<p>
+
+ <pre>
+ ---   <-- 0.0    xgridmin=0.0
+ |                 ____ box center = 0.5
+ |              
+ ___   <-- 1.0
+ |
+ |
+ ___   <-- 2.0
+ |
+ |
+ ___   <-- 3.0    xgridmax=3.0
+ |
+ |
+ ___   <-- 4.0
+ </pre>
+
+  There are nrows=4 rows, i.e. r=0..3=nrows-1.  Each bin hase size 1
+  and the total range is 0.0 - 3.9999999.
+  For gridded data the pixels are deemed to be in the centers of the boxes,
+  i.e. at 0.5, 1.5, 2.5, 3.5.<p>
+
+ With each range image, the minimum and maximum x, y and z values are
+ stored. In each case, the values are obtained by scanning all of the
+ valid image points and finding the extremes in each dimension. These 
+ values are kept in xmin,xmax,ymin,ymax,zmin,zmax.<p>
+
+ For conversions between row and column and x and y we use 
+ gridxmin,gridxmax,gridymin,gridymax. They are defined as shown above in the
+ picture. In this example <p>
+
+ <pre>
+ For gridded data the xgridmin=0.0  xgridmax=3.0,
+                      xmin=0.5      xmax=3.5      
+ asuming valid pixels in the border rows.
+ </pre>
+
+ These values are obtained if possible from the data file.<p>
+
+ To summarize the conversion is as follows:<p>
+
+ gridsize.X = (gridmax.X - gridmin.X) / (ncols-1)
+
+ <pre>
+ <A HREF="PixelC.html" >PixelC</A> OfVect(const <A HREF="Vector3dC.html" >Vector3dC</A> vect) const
+ {
+   return <A HREF="PixelC.html" >PixelC</A> (int(floor((vect.Y()-gridmin.Y())/gridsize.Y())),
+                  int(floor((vect.X()-gridmin.X())/gridsize.X())));
+ }
+
+ <A HREF="Vector3dC.html" >Vector3dC</A> GetVect(const <A HREF="PixelC.html" >PixelC</A> & pxl) const
+ {
+   return <A HREF="Vector3dC.html" >Vector3dC</A> ((pxl.Col()+0.5)*gridsize.X()+gridmin.X(), 
+                     (pxl.Row()+0.5)*gridsize.Y()+gridmin.Y(), 
+                     f_data[pxl]);
+ }
+ </pre>
+
+ The conversion from to a <A HREF="ByteRangeC.html" >ByteRangeC</A> uses the same scheme for z noting that
+ the range of valid pixels is 1..255, "nrows"=255.<p>
+
+ A vector range image may contain any vector in any pixel. If the 
+ operation MaptoGrid is called, however each pixel must contain a 
+ vector in the bin.<p>
+
+ Any conversion from a vector representation will result in a rounding
+ down of the x and y values to the grid positions. To compensate for this
+ conversion from byte to vector will round up the positions to the centre
+ of the grid boxes.<p>
+
+ All loads are soft except Load, soft means no exit on error.<p>
+
+ A left hand coordinate system is used with x and y increasing horizontally
+ and vertically, respectively (col,row). z increases away from the camera 
+ with the result that when viewed using normal image viewers, greater
+ distances will appear brighter unless photometric inversion is employed.<p>
+
+ Files that can be read    .pgm .dep .ris .nrcc .txt .vec .jrc .XYZim<p>
+
+ Files that can be written .pgm .dep .ris<p>
+ </p>
+
+
+
+</TD>
+</TABLE>
+
+
+<BR><BR>
+
+<P>
+As you can see there is a massive difference in the appearance and presentation
+of the comments for this Class.
+</P>
+
+<P>
+To give you an idea of how easy it is to add the tags, here's an extract of the
+header file which produced the above documentation.
+<P>
+
+<BR>
+
+
+<TABLE BORDER=1>
+<TD> <H3>Extract Of Header File</H3> </TD>
+<TR>
+<TD>
+<PRE>
+// -------------------------------------------------------------------------
+// ********** BaseRangeC   *************************************************
+// -------------------------------------------------------------------------
+//: Base class for range images.
+//
+// BaseRangeC is a virtual abstract base class from which ByteRangeC, 
+// FloatRangeC and VectRangeC will be inherited.&lt;p&gt;
+//
+// The i/o routines do have basic error checks.&lt;p&gt;
+//
+// A valid image point is one in which a range measurement is available.
+// How it is stored is dependent on the data structure but can be checked
+// by calling the function IsValid(). In byte format, 0 is invalid and
+// in vector format, z=-MAXFLOAT is invalid.&lt;p&gt;
+//
+// Range data is much more complicated than image data. It can be
+// sampled on a regular grid or not, the grid spacings may vary.
+// Together ByteRangeC, FloatRangeC and VectRangeC provide a powerful
+// set of functionality. For accurate results it is important to understand
+// precisely how the system is set up.&lt;p&gt;
+//
+// Firstly we explain the conventions for "gridded data". Consider a 
+// 4 pixel image row or column.&lt;p&gt;
+//
+// &lt;pre&gt;
+// ---   &lt;-- 0.0    xgridmin=0.0
+// |                 ____ box center = 0.5
+// |              
+// ___   &lt;-- 1.0
+// |
+// |
+// ___   &lt;-- 2.0
+// |
+// |
+// ___   &lt;-- 3.0    xgridmax=3.0
+// |
+// |
+// ___   &lt;-- 4.0
+// &lt;/pre&gt;
+//
+//  There are nrows=4 rows, i.e. r=0..3=nrows-1.  Each bin hase size 1
+//  and the total range is 0.0 - 3.9999999.
+//  For gridded data the pixels are deemed to be in the centers of the boxes,
+//  i.e. at 0.5, 1.5, 2.5, 3.5.&lt;p&gt;
+//
+// With each range image, the minimum and maximum x, y and z values are
+// stored. In each case, the values are obtained by scanning all of the
+// valid image points and finding the extremes in each dimension. These 
+// values are kept in xmin,xmax,ymin,ymax,zmin,zmax.&lt;p&gt;
+//
+// For conversions between row and column and x and y we use 
+// gridxmin,gridxmax,gridymin,gridymax. They are defined as shown above in the
+// picture. In this example &lt;p&gt;
+//
+// &lt;pre&gt;
+// For gridded data the xgridmin=0.0  xgridmax=3.0,
+//                      xmin=0.5      xmax=3.5      
+// asuming valid pixels in the border rows.
+// &lt;/pre&gt;
+//
+// These values are obtained if possible from the data file.&lt;p&gt;
+//
+// To summarize the conversion is as follows:&lt;p&gt;
+//
+// gridsize.X = (gridmax.X - gridmin.X) / (ncols-1)
+//
+// &lt;pre&gt;
+// PixelC OfVect(const Vector3dC vect) const
+// {
+//   return PixelC (int(floor((vect.Y()-gridmin.Y())/gridsize.Y())),
+//                  int(floor((vect.X()-gridmin.X())/gridsize.X())));
+// }
+//
+// Vector3dC GetVect(const PixelC & pxl) const
+// {
+//   return Vector3dC ((pxl.Col()+0.5)*gridsize.X()+gridmin.X(), 
+//                     (pxl.Row()+0.5)*gridsize.Y()+gridmin.Y(), 
+//                     f_data[pxl]);
+// }
+// &lt;/pre&gt;
+//
+// The conversion from to a ByteRangeC uses the same scheme for z noting that
+// the range of valid pixels is 1..255, "nrows"=255.&lt;p&gt;
+//
+// A vector range image may contain any vector in any pixel. If the 
+// operation MaptoGrid is called, however each pixel must contain a 
+// vector in the bin.&lt;p&gt;
+//
+// Any conversion from a vector representation will result in a rounding
+// down of the x and y values to the grid positions. To compensate for this
+// conversion from byte to vector will round up the positions to the centre
+// of the grid boxes.&lt;p&gt;
+//
+// All loads are soft except Load, soft means no exit on error.&lt;p&gt;
+//
+// A left hand coordinate system is used with x and y increasing horizontally
+// and vertically, respectively (col,row). z increases away from the camera 
+// with the result that when viewed using normal image viewers, greater
+// distances will appear brighter unless photometric inversion is employed.&lt;p&gt;
+//
+// Files that can be read    .pgm .dep .ris .nrcc .txt .vec .jrc .XYZim&lt;p&gt;
+//
+// Files that can be written .pgm .dep .ris&lt;p&gt;
+
+class BaseRangeC
+{
+  // CUT.
+};
+</PRE>
+</TD>
+</TABLE>
+
+<P>
+<HR>
+<P>
+
+
+<H3> Final Notes </H3>
+
+<P>
+Tags put in comments are interpreted as HTML wherever you put them so you can
+have markups for member function comments although this should be avoided for
+the sake of readability. Note that the special comment types: !param: !section:
+and !bug: should be enough to allow most things to be expressed reasonably well.
+</P>
+
+
+</BLOCKQUOTE>
+
+</td>
+</tr></table> 
+
+
+</body>
+</html>
+
+

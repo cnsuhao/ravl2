@@ -1,0 +1,94 @@
+<html>
+
+<head>
+  <title>Docentry's</title>
+</head>
+
+<!--! author="Robert Crida" -->
+<body>
+
+
+<table width=100% align="middle">
+<tr><td align=left valign=top bgcolor="#D7EFFF">
+
+<BLOCKQUOTE>
+<BR><BR>
+
+
+<!-- ******************* Page Summary (On LHS of Page)  ******************* -->
+
+<table align=left width=160><tr>
+<td valign=top bgcolor="black">
+  &nbsp;
+  <font size=2 face="arial,helvetica" color="white">
+  <B>DOCENTRY</B>
+  </font>
+</td>
+<td></td>
+</tr>
+
+<tr>
+<td>
+  <font color="#23238E" size=4 face="arial,helvetica"><B>
+  docentry is a perceps variable that is used to specify the position of the
+  object in a documentation tree.
+  </B></font>
+</td>
+</tr></table>
+
+
+
+
+<!-- *************************** Main Page Text  *************************** -->
+
+<P>
+A docentry variable can be set in any class declaration or .eht file and it
+specifies the location for that object to appear in an automatically generated
+and formatted documentation tree.
+</P>
+
+<P>
+The way that the location in the tree is specified is by giving a path name
+relative to the root of the tree. Each node is separated by . (periods) and the
+title of a node may contain spaces but not underline characters. The following
+is an example entry which would put the object into the image processing
+subsection of images:
+</P>
+
+<PRE>
+//! docentry="Image.Image Processing"
+</PRE>
+
+<P>
+It is quite legal for an object to appear in more than one location in the tree.
+In this case, each path is provided in the same docentry variable, but separated
+by semicolons, eg:
+</P>
+
+<PRE>
+//! docentry="Algorithms.Numerical Methods.Optimisation;Algorithms.Optimisation"
+</PRE>
+
+<P>
+If you refer to any nodes in the tree that do not already exist, then they will
+be automatically created and appropriate menu options for subnodes will be
+added. It is therefore important to ensure that you spell all the names
+correctly, and where you are contributing in a common area, that you use one of
+the predefined nodes of the <a href="../../../../../Auto/Basic/Tree/AMMA.html">current documentation tree</a>.
+
+
+
+</BLOCKQUOTE>
+
+</td>
+</tr></table> 
+
+
+</TD>
+</TABLE>
+
+
+</body>
+</html>
+
+
