@@ -8,6 +8,6 @@
 
 DESCRIPTION=
 
-NESTED=Base.r Index.r
+NESTED=Base.r Index.r DecisionTree
 
 EHT=Ravl.Logic.html
