@@ -105,7 +105,7 @@ namespace RavlN {
     CallFunc0C(const TriggerC &trig)
       : TriggerC(trig)
     {
-      if(dynamic_cast<CallFunc0BodyC<RetT> *>(&Body()) == 0)
+      if(dynamic_cast<CallFunc0BodyC<RetT> *>(&TriggerC::Body()) == 0)
 	Invalidate();
     }
     //: Convert from a base handle.
@@ -260,7 +260,7 @@ namespace RavlN {
     CallFunc1C(const TriggerC &trig)
       : CallFunc0C<RetT>(trig)
     {
-      if(dynamic_cast<CallFunc1BodyC<DataT,RetT> *>(&Body()) == 0)
+      if(dynamic_cast<CallFunc1BodyC<DataT,RetT> *>(&TriggerC::Body()) == 0)
 	Invalidate();
     }
     //: Convert from a base handle.
@@ -437,7 +437,7 @@ namespace RavlN {
     CallFunc2C(const TriggerC &trig)
       : CallFunc1C<Data1T,RetT>(trig)
     {
-      if(dynamic_cast<CallFunc2BodyC<Data1T,Data2T,RetT> *>(&Body()) == 0)
+      if(dynamic_cast<CallFunc2BodyC<Data1T,Data2T,RetT> *>(&TriggerC::Body()) == 0)
 	Invalidate();
     }
     //: Convert from a base handle.
@@ -615,7 +615,7 @@ namespace RavlN {
     CallFunc3C(const TriggerC &trig)
       : CallFunc2C<Data1T,Data2T,RetT>(trig)
     {
-      if(dynamic_cast<CallFunc3BodyC<Data1T,Data2T,Data3T,RetT> *>(&Body()) == 0)
+      if(dynamic_cast<CallFunc3BodyC<Data1T,Data2T,Data3T,RetT> *>(&TriggerC::Body()) == 0)
 	Invalidate();
     }
     //: Convert from a base handle.
@@ -800,7 +800,7 @@ namespace RavlN {
     CallFunc4C(const TriggerC &trig)
       : CallFunc3C<Data1T,Data2T,Data3T,RetT>(trig)
     {
-      if(dynamic_cast<CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT> *>(&Body()) == 0)
+      if(dynamic_cast<CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT> *>(&TriggerC::Body()) == 0)
 	Invalidate();
     }
     //: Convert from a base handle.
@@ -1011,7 +1011,7 @@ namespace RavlN {
     CallFunc5C(const TriggerC &trig)
       : CallFunc4C<Data1T,Data2T,Data3T,Data4T,RetT>(trig)
     {
-      if(dynamic_cast<CallFunc5BodyC<Data1T,Data2T,Data3T,Data4T,Data5T,RetT> *>(&Body()) == 0)
+      if(dynamic_cast<CallFunc5BodyC<Data1T,Data2T,Data3T,Data4T,Data5T,RetT> *>(&TriggerC::Body()) == 0)
 	Invalidate();
     }
     //: Convert from a base handle.
