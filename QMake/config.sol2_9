@@ -53,9 +53,11 @@ CCFLAGS  += $(EXTRA_CCFLAGS)
 
 
 CCPPFLAGS= -DGNU -D__$(ARC)__ -Dunix
-
 CPPFLAGS = -DGNU -D__$(ARC)__ -Dunix
+
 LDFLAGS = 
+LDFLAGS += $(EXTRA_LDFLAGS)
+
 SOLDFLAGS = $(CCFLAGS) -G
 PAR_MAKE = --jobs=$(PROCS)
 

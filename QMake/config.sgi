@@ -44,7 +44,9 @@ CCPPFLAGS =  -D__sgi__ -Dunix -D__sgiCC__ -DSGI -D__BUILTIN_BOOL__
 CFLAGS   += $(EXTRA_CFLAGS)
 CCFLAGS  += $(EXTRA_CCFLAGS)
 
- LDFLAGS  = -n32 -Wl,-woff,84
+LDFLAGS  = -n32 -Wl,-woff,84
+LDFLAGS += $(EXTRA_LDFLAGS)
+
  # -Wl,-woff,15 
  #-Wl,-woff,15 
  #-Wl,-woff,85
