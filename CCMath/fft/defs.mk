@@ -12,3 +12,5 @@ PLIB = ccmath
 LIBDEPS=ccmath_fft.def
 
 USESLIBS=ccmath
+
+#TESTEXES= testpfac.cc
