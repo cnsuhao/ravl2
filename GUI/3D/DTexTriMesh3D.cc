@@ -73,8 +73,10 @@ namespace RavlGUIN {
 #endif
 
     // Enable and set up texturing
-    glEnable(GL_TEXTURE_2D);
-    glTexEnvf(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_MODULATE);
+    if (canvas.GetTextureMode()) {
+      glEnable(GL_TEXTURE_2D);
+      glTexEnvf(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_MODULATE);
+    }
     
     switch(eMode) {
     case C3D_SMOOTH:
@@ -97,7 +99,7 @@ namespace RavlGUIN {
       case C3D_WIRE: {
 	for(SArray1dIterC<TriC> it(model.Faces());it;it++) {
 	  glBindTexture(GL_TEXTURE_2D,texNames[it->TextureID()]);
-	  glBegin(GL_LINE);
+	  glBegin(GL_LINE_LOOP);
 	  GLTexCoord(it->TextureCoord(0));
 	  glArrayElement(model.Index(*it,0));
 	  GLTexCoord(it->TextureCoord(1));
@@ -155,7 +157,9 @@ namespace RavlGUIN {
       };
 
     // Disable texturing
-    glDisable(GL_TEXTURE_2D);
+    if (canvas.GetTextureMode()) {
+      glDisable(GL_TEXTURE_2D);
+    }
 
     // Disable arrays
     switch(eMode) {
