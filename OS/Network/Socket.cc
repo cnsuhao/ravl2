@@ -393,7 +393,7 @@ namespace RavlN {
     sin.sin_port = htons(portNo);
     ONDEBUG(cerr  << "Binding name. \n");
     if(bind(fd,(struct sockaddr*)&sin, sizeof(sockaddr)) < 0) {
-      cerr << "Bind failed. " << errno << "\n";
+      cerr << "Bind failed. errno=" << errno << "\n";
       Close();
       return -1;
     }
