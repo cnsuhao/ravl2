@@ -79,12 +79,57 @@ namespace RavlImageN {
     DataT Sum(IndexRange2dC range) const {
       range.ClipBy(clipRange);
       if(range.Area() == 0)
-	return (*this)[Frame().Origin()];
+	return (*this)[Frame().Origin()]; // Return 0.
       range.LCol()--;
       range.TRow()--;
+      // Could speed this up by seperating out row accesses ?
       return (*this)[range.End()] - (*this)[range.TopRight()] - (*this)[range.BottomLeft()] + (*this)[range.TopLeft()];
     }
     //: Calculate the sum of the pixel's in the rectangle 'range'.
+    
+    DataT VerticalDifference2(IndexRange2dC range,IntT mid) const {
+      // Could speed this up by seperating out row accesses ?
+      return (*this)[range.TopLeft()] 
+	+ ((*this)[mid][range.RCol()] - (*this)[mid][range.LCol()]) * 2 
+	- (*this)[range.BottomLeft()] 
+	- (*this)[range.TopRight()]
+	+ (*this)[range.End()];
+    }
+    //: Calculate the diffrence between two halfs of the rectangle split vertically.
+    // This mid point is an absolute row location and should be within the rectangle.
+    
+    DataT HorizontalDifference2(IndexRange2dC range,IntT mid) const {
+      // Could speed this up by seperating out row accesses ?
+      return (*this)[range.TopLeft()]
+	+ ((*this)[range.BRow()][mid] - (*this)[range.TRow()][mid]) * 2 
+	- (*this)[range.BottomLeft()] 
+	+ (*this)[range.TopRight()]
+	- (*this)[range.End()];
+    }
+    //: Calculate the diffrence between two halfs of the rectangle split horizontally.
+    // This mid point is an absolute columb location and should be within the rectangle.
+
+    DataT VerticalDifference3(IndexRange2dC range,IndexRangeC rng) const {
+      RavlAssert(range.Range2().Contains(rng));
+      IndexRange2dC rng2(range.Range1(),rng);
+      return Sum(range) - Sum(rng2);
+    }
+    //: Calculate the diffrence between two halfs of the rectangle split vertially.
+    // This mid point is an absolute row location and should be within the rectangle.
+    
+    DataT HorizontalDifference3(IndexRange2dC range,IndexRangeC rng) const {
+      RavlAssert(range.Range1().Contains(rng));
+      IndexRange2dC rng2(rng,range.Range2());
+      return Sum(range) - Sum(rng2);
+    }
+    //: Calculate the diffrence between two rectangles one lying inside the other in the horizontal dimention.
+    // This mid point is an absolute columb location and should be within the rectangle.
+    
+#if 0
+    DataT DiagonalDifference(IndexRange2dC range,IntT vMid,IntT hMid) const {
+      
+    }
+#endif
   protected:
     IndexRange2dC clipRange;
   };

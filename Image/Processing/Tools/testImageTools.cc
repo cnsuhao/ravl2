@@ -53,6 +53,8 @@ int testRectangle2dIter() {
   return 0;
 }
 
+template SummedAreaTableC<UIntT>;
+
 int testSummedAreaTable() {
   Array2dC<IntT> img(5,5);
   img.Fill(1);
