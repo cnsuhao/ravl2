@@ -115,19 +115,22 @@ namespace RavlN {
 	if(!GetAttr(attrName,val))
 	  break;
 	attrValue = StringC(val ? "1" : "0");
-      } break;
+	return true;
+      }
       case AVT_Int: {
 	IntT val;
 	if(!GetAttr(attrName,val))
 	  break;
 	attrValue = StringC(val);
-      } break;
+	return true;
+      }
       case AVT_Real: {
 	RealT val;
-	if(SetAttr(attrName,val))
-	  return true;
+	if(!GetAttr(attrName,val))
+	  break;
 	attrValue = StringC(val);
-      } break;
+	return true;
+      }
       case AVT_String:
       case AVT_Enum:
       case AVT_Abstract:
@@ -315,10 +318,11 @@ namespace RavlN {
       switch(attrType.ValueType()) {
       case AVT_Int: {
 	int val;
-	if(GetAttr(attrName,val))
-	  return true;
+	if(!GetAttr(attrName,val))
+	  return false;
 	attrValue = (val != 0);
-      } break;
+	return true;
+      }
       default:
 	break;
       }
