@@ -96,6 +96,7 @@ int testBasic() {
   //e3.Dump(cerr); cerr << "\n";
   if(!Unify(e1,e3,bs)) return __LINE__;
   if(bs.Size() != 1) return __LINE__;
+
   return 0;
 }
 

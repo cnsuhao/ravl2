@@ -65,6 +65,9 @@ namespace RavlLogicN {
     
     virtual bool operator==(const StateC &oth) const;
     //: Test if this state is equal to another.
+    
+    virtual void Dump(ostream &out) const;
+    //: Dump in human readable format to out.
   };
   
   //! userlevel=Normal
@@ -144,6 +147,10 @@ namespace RavlLogicN {
     bool operator==(const StateC &oth) const
     { return Body() == oth; }
     //: Test if this state is equal to another.
+    
+    void Dump(ostream &out) const
+    { Body().Dump(out); }
+    //: Dump in human readable format to out.
     
   };
 

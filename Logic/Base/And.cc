@@ -14,6 +14,13 @@
 #include "Ravl/Logic/BindSet.hh"
 #include "Ravl/Logic/StateAndIter.hh"
 
+#define DODEBUG 0
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
+
 namespace RavlLogicN {
 
   //: Generate hash value for condition.
@@ -83,6 +90,7 @@ namespace RavlLogicN {
   
   ConditionC operator*(const LiteralC &l1,const LiteralC &l2) {
     SizeT size = 0;
+    ONDEBUG(cerr << "operator*(LiteralC,LiteralC) Called for " << l1 << " and " << l2 << "\n");
     AndC a1(l1);
     if(a1.IsValid())
       size += a1.Size();
@@ -101,11 +109,12 @@ namespace RavlLogicN {
       at += a1.Size();
     } else
       arr[at++] = l1;
-    if(a1.IsValid()) {
+    if(a2.IsValid()) {
       for(SArray1dIter2C<LiteralC,LiteralC> it(a1.Terms().From(at),arr);it;it++)
 	it.Data2() = it.Data1();
     } else
-      arr[at] = l2;    
+      arr[at] = l2;
+    ONDEBUG(cerr << "operator*(LiteralC,LiteralC) Result=" << arr << "\n");
     return AndC(arr); 
   }
   //: And operator.

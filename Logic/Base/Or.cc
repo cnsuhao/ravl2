@@ -112,7 +112,7 @@ namespace RavlLogicN {
       at += a1.Size();
     } else
       arr[at++] = l1;
-    if(a1.IsValid()) {
+    if(a2.IsValid()) {
       for(SArray1dIter2C<LiteralC,LiteralC> it(a1.Terms().From(at),arr);it;it++)
 	it.Data2() = it.Data1();
     } else

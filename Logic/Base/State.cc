@@ -125,7 +125,14 @@ namespace RavlLogicN {
       if(!Ask(*it)) return false;
     return true;
   }
-
+  
+  //: Dump in human readable format to out.
+  
+  void StateBodyC::Dump(ostream &out) const {
+    for(LiteralIterC it(List());it;it++)
+      out << *it << "\n";
+  }
+  
   ostream &operator<<(ostream &s,const StateC &state) {
     RavlAssert(state.IsValid());
     for(LiteralIterC it(state.List());it;it++)
