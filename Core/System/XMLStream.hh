@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLXMLSTREAM_HEADER
-#define RAVLXMLSTREAM_HEADER 1
+#ifndef RAVL_XMLSTREAM_HEADER
+#define RAVL_XMLSTREAM_HEADER 1
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlCore
@@ -288,11 +288,48 @@ namespace RavlN {
     { autoIndent = val; return val; }
     //: Auto indenting activated.
     
+    void Push(XMLTagOpsT &op,XMLElementC &elm,StringC &name) {
+      RavlAssert(!pushed);
+      pushed = true;
+      pushedOp = op;
+      pushedElem = elm;
+      pushedName = name;
+    }
+    //: Push a context.
+    
+    void Pop(XMLTagOpsT &op,XMLElementC &elm,StringC &name) {
+      RavlAssert(pushed);
+      op = pushedOp;
+      elm = pushedElem;
+      name = pushedName;
+      pushedElem.Invalidate();
+      pushed = false;
+    }
+    //: Push a context.
+    
+    void GetPushed(XMLTagOpsT &op,XMLElementC &elm,StringC &name) {
+      RavlAssert(pushed);
+      op = pushedOp;
+      elm = pushedElem;
+      name = pushedName;      
+    }
+    //: Get pushed state.
+    
+    bool IsPushed() const
+    { return pushed; }
+    //: Is there a context pushed ?
+    
   protected:
     bool strict; // Be strict about usage.
     StackC<XMLElementC> context;
     bool contents;
     bool autoIndent;
+
+    // Pushed context info.
+    bool pushed;
+    XMLTagOpsT pushedOp;
+    XMLElementC pushedElem;
+    StringC pushedName;
   };
   
   //! userlevel=Advanced
@@ -393,6 +430,21 @@ namespace RavlN {
     //: Auto indenting activated.
     
   protected:
+    void Push(XMLTagOpsT &op,XMLElementC &elm,StringC &name) 
+    { Body().Push(op,elm,name); }
+    //: Push a context.
+    
+    void Pop(XMLTagOpsT &op,XMLElementC &elm,StringC &name) 
+    { Body().Pop(op,elm,name); }
+    //: Push a context.
+
+    void GetPushed(XMLTagOpsT &op,XMLElementC &elm,StringC &name)
+    { Body().GetPushed(op,elm,name); }
+    //: Get pushed state.
+    
+    bool IsPushed() const
+    { return Body().IsPushed(); }
+    //: Is there a context pushed ?
   };
 
   //! userlevel=Normal
@@ -413,6 +465,18 @@ namespace RavlN {
     {}
     //: Construct from an ordinary stream.
 
+    XMLTagOpsT PeekTag(StringC &name,RCHashC<StringC,StringC> &attr);
+    //: Have a look at the next tag that will be read.
+    // This assumes the next element in the stream is a tag. If not the content
+    // will be skipped.
+
+    XMLTagOpsT PeekTag(StringC &name) {
+      RCHashC<StringC,StringC> attr;
+      return PeekTag(name,attr);
+    }
+    //: Have a look at the next tag that will be read.
+    // This assumes the next element in the stream is a tag. If not the content
+    // will be skipped.
     
     XMLTagOpsT ReadTag(StringC &name,RCHashC<StringC,StringC> &attr);
     //: Read a tag from a stream.
@@ -477,9 +541,12 @@ namespace RavlN {
     
   protected:
     
-    StringC ReadAttrib();
+    StringC ReadAttrib(XMLElementC &elem);
     //: Read attribute and add it to the current context.
     // returns the name of the attrbute read.
+    
+    XMLTagOpsT GetTag(XMLElementC &elem,StringC &name);
+    //: Get the next tag from the stream without modifying the Context.
     
   };
   

@@ -54,10 +54,9 @@ namespace RavlN {
   
   XMLBaseBodyC::XMLBaseBodyC()
     : strict(false),
-      contents(false)
-  {
-    //context.Push(XMLElementC("**ROOT CONTEXT**"));
-  }
+      contents(false),
+      pushed(false)
+  {}
   
   ///// XMLBaseC ////////////////////////////////////////////////
   
@@ -114,11 +113,10 @@ namespace RavlN {
     is().putback(c);
     return ret;
   }
+
+  //: Get the next tag from the stream without modifying the Context.
   
-  //: Read a tag from a stream.
-  // returns true if one is found or false if end of group found.
-  
-  XMLTagOpsT XMLIStreamC::ReadTag(StringC &name,RCHashC<StringC,StringC> &attr) {
+  XMLTagOpsT XMLIStreamC::GetTag(XMLElementC &elem,StringC &name) {
     char c;
     bool gotTag = false;
     bool endOfTag = false;
@@ -126,7 +124,6 @@ namespace RavlN {
     bool foundEndTag = false;
     StringC id;
     try {
-      
       while(*this && !endOfTag) {
 	// Search for start of tag.
 	gotTag = false;
@@ -175,7 +172,8 @@ namespace RavlN {
 	
 	if(!emptyTag) { // Is an end tag, don't push a new context.
 	  ONDEBUG(cerr << "XMLIStreamC::ReadTag(), Found tag start '" << id << "'\n");
-	  StartContext(id);
+	  elem = XMLElementC(id);
+	  //StartContext(id);
 	} else {
 	  ONDEBUG(cerr << "XMLIStreamC::ReadTag(), Found tag end '" << id << "'\n");
 	}
@@ -198,7 +196,11 @@ namespace RavlN {
 	      continue;
 	    default: // An attribute.
 	      is().putback(c);
-	      ReadAttrib();
+	      if(!elem.IsValid()) {
+		ONDEBUG(cerr << "ERROR: Unexpected attribute. \n");
+		throw ExceptionInvalidStreamC("Unexpected attribute. ");
+	      }
+	      ReadAttrib(elem);
 	      break;
 	    }
 	}
@@ -207,10 +209,7 @@ namespace RavlN {
       if(gotTag)
 	throw ExceptionInvalidStreamC("Unexpected end of XML stream. ");
     }
-    if(IsContext())
-      attr = Context().Attributes();
     if(emptyTag) {
-      EndOfContext(id);
       name = id;
       if(!foundEndTag)
 	return XMLEmptyTag;
@@ -223,7 +222,37 @@ namespace RavlN {
       return XMLEndTag;
     return XMLBeginTag;
   }
+  
+  //: Read a tag from a stream.
+  // returns true if one is found or false if end of group found.
+  
+  XMLTagOpsT XMLIStreamC::ReadTag(StringC &name,RCHashC<StringC,StringC> &attr) {
+    XMLTagOpsT ret;
+    XMLElementC elem;    
+    if(IsPushed())
+      Pop(ret,elem,name);
+    else
+      ret = GetTag(elem,name);
+    if(elem.IsValid())
+      attr = elem.Attributes();
+    if(ret == XMLBeginTag)
+      StartContext(elem);
+    return ret;
+  }
 
+  XMLTagOpsT XMLIStreamC::PeekTag(StringC &name,RCHashC<StringC,StringC> &attr) {
+    XMLTagOpsT ret;
+    XMLElementC elem;
+    if(IsPushed())
+      GetPushed(ret,elem,name);
+    else
+      ret = GetTag(elem,name);
+    if(elem.IsValid())
+      attr = elem.Attributes();
+    Push(ret,elem,name);
+    return ret;
+  }
+  
   //: Skip to after the end of the current element.
   
   bool XMLIStreamC::SkipElement() {
@@ -275,7 +304,7 @@ namespace RavlN {
 
   //: Read attribute and add it to the current context.
   
-  StringC XMLIStreamC::ReadAttrib() {
+  StringC XMLIStreamC::ReadAttrib(XMLElementC &elem) {
     StringC id = ReadID();
     char c = SkipWhiteSpace();
     if(c != '=') {
@@ -291,7 +320,7 @@ namespace RavlN {
       val = ClipTo('\"');
       // Unescape string ??
     }
-    Context().Attributes()[id] = val;
+    elem.Attributes()[id] = val;
     ONDEBUG(cerr << "XMLOStreamC::ReadAttrib(), Got '" << id << "' = '" << val << "' in " << Context().Name() << "\n");
     return id;
   }

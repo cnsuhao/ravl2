@@ -10,6 +10,14 @@
 
 #include "Ravl/XMLTree.hh"
 
+#define DODEBUG 0
+
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x) 
+#endif
+
 namespace RavlN {
   
   //: Construct from an XMLStream.
@@ -28,22 +36,23 @@ namespace RavlN {
       RCHashC<StringC,StringC> attr;
       XMLTagOpsT tt = in.ReadTag(name,attr);
       if(tt == XMLContent) {
-	cerr << "Found tag '" << name << "' XMLContent \n";
+	ONDEBUG(cerr << "Found tag '" << name << "' XMLContent \n");
 	continue;
       }
       if(tt == XMLEndTag ) {
-	cerr << "Found end tag '" << name << "' \n";
+	ONDEBUG(cerr << "Found end tag '" << name << "' \n");
 	break;
       }
       XMLTreeC subtree(name,attr);
       if(tt == XMLBeginTag) {
-	cerr << "Found begin tag '" << name << "' \n";
+	ONDEBUG(cerr << "Found begin tag '" << name << "' \n");
 	subtree.Read(in);
       } else {
-	cerr << "Found empty tag '" << name << "' \n";
+	ONDEBUG(cerr << "Found empty tag '" << name << "' \n");
       }
       Add(name,subtree);
     }
+    
     return true;
   }
 
