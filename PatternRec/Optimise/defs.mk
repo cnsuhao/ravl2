@@ -12,13 +12,17 @@ PACKAGE = Ravl/PatternRec
 
 #SUPPORT_ONLY = sgi
 
-SOURCES = Parameters.cc Cost.cc CostInvert.cc CostFunction.cc \
+SOURCES = Parameters.cc Cost.cc CostInvert.cc CostFunction.cc CostFunction1d.cc \
+        BracketMinimum.cc \
 	Optimise.cc OptimiseDescent.cc OptimiseRandomUniform.cc \
-	OptimiseSobol.cc
+	OptimiseSobol.cc OptimiseBrent.cc OptimisePowell.cc
 
-HEADERS = Parameters.hh Cost.hh CostInvert.hh CostFunction.hh \
+HEADERS = Parameters.hh Cost.hh CostInvert.hh CostFunction.hh CostFunction1d.hh \
+        BracketMinimum.hh \
 	Optimise.hh OptimiseDescent.hh OptimiseRandomUniform.hh \
-	OptimiseSobol.hh
+	OptimiseSobol.hh OptimiseBrent.hh OptimisePowell.hh
+
+MAINS = testBrent.cc
 
 PLIB = Optimisation
 
