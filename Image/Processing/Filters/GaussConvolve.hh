@@ -49,7 +49,7 @@ namespace RavlImageN {
   // <b>Template args:</b> <br>
   // InPixelT = Type of pixel in input image. <br>
   // OutPixelT = Type of pixel in output image. (Default = InPixelT) <br>
-  // KernelPixelT = Type of pixel in convolution kernel. (Default = InPixelT)  <br>
+  // KernelPixelT = Type of pixel in convolution kernel. (Default = RealT; integer types currently will not work, as the normalisation is done in the kernel generation)  <br>
   // SumTypeT = A type appropriate for summing the product of KernelPixelT and InPixelT. (Default = KernelPixelT <br>
   // There are two main issues when choosing these types.<br>
   // 1. Underflow and overflow of the sums and product operations. <br>
