@@ -123,6 +123,8 @@ namespace RavlLogicN {
     MinTermC(const LiteralC &lit) 
       : AndC(lit)
     {
+      if(!IsValid())
+	return ;
       if(dynamic_cast<const MinTermBodyC *>(&LiteralC::Body()) == 0)
 	Invalidate();
     }

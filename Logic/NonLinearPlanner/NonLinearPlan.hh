@@ -197,7 +197,7 @@ namespace RavlLogicN {
     // Final node in plan.
     
     CallFunc2C<MinTermC,MinTermC,DListC<NLPStepC> > listSteps; // Goal condition, Full condition.
-    //: List steps that might could be meet a goal condition.
+    //: List steps that could satisfy meet a goal condition.
     
     friend class NLPAgendaOpenGoal;
     friend class NLPAgendaOpenThreat;

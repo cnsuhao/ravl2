@@ -17,6 +17,8 @@
 
 #include "Ravl/Logic/BMinTermIndex.hh"
 #include "Ravl/Logic/MinTermIter.hh"
+#include "Ravl/Logic/Not.hh"
+#include "Ravl/Logic/Or.hh"
 #include "Ravl/BList.hh"
 
 namespace RavlLogicN {
@@ -59,9 +61,25 @@ namespace RavlLogicN {
   
   template <class DataT>
   bool BMinTermListIndexC<DataT>::Insert(const LiteralC &as,const DataT &dat) {
-    MinTermC mt(as);
-    for(MinTermIterC iter(mt);iter;iter++)
-      Access(iter.IsNegated(),iter.Data()).InsFirst(dat);
+    AndC at(as);
+    if(at.IsValid()) {
+      Access(false,at).InsFirst(dat);
+      for(SArray1dIterC<LiteralC> it(at.Terms());it;it++)
+	Insert(as,dat);
+      return true;
+    }
+    NotC nt(as);
+    if(nt.IsValid()) {
+      OrC ot(as);
+      if(ot.IsValid()) {
+	for(SArray1dIterC<LiteralC> it(ot.Terms());it;it++)
+	  Access(true,*it).InsFirst(dat);
+	return true;
+      }
+      Access(true,as).InsFirst(dat);
+      return true;
+    }
+    Access(false,as).InsFirst(dat);
     return true;
   }
   

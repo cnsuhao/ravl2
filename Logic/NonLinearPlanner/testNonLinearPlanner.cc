@@ -6,7 +6,7 @@
 // file-header-ends-here
 ///////////////////////////////////////////
 //! rcsid="$Id$"
-//! date="01/91/1997"
+//! date="1/9/1997"
 //! author="Charles Galambos"
 //! lib=RavlLogicNLP
 

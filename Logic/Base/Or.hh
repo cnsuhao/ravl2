@@ -104,6 +104,8 @@ namespace RavlLogicN {
     OrC(const LiteralC &term)
       : ConditionC(term)
     {
+      if(!IsValid())
+	return ;
       if(dynamic_cast<const OrBodyC *>(&LiteralC::Body()) == 0)
 	Invalidate();
     }

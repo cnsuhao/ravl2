@@ -102,6 +102,8 @@ namespace RavlLogicN {
     NotC(const LiteralC &term)
       : ConditionC(term)
     {
+      if(!IsValid())
+	return ;
       if(dynamic_cast<const NotBodyC *>(&LiteralC::Body()) == 0)
 	Invalidate();
     }

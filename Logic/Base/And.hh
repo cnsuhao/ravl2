@@ -103,6 +103,8 @@ namespace RavlLogicN {
     AndC(const LiteralC &term)
       : ConditionC(term)
     {
+      if(!IsValid())
+	return ;
       if(dynamic_cast<const AndBodyC *>(&LiteralC::Body()) == 0)
 	Invalidate();
     }
