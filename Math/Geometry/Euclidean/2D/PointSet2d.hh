@@ -44,7 +44,15 @@ namespace RavlN {
     
     RealRange2dC BoundingRectangle() const;
     //: Compute the bounding rectangle for the point set.
-       
+    
+    const PointSet2dC &operator+=(const TFVectorC<RealT,2> &offset);
+    //: Translate point set by adding a vector.
+    
+    const PointSet2dC &operator-=(const TFVectorC<RealT,2> &offset);
+    //: Translate point set by subracting a vector.
+    
+    const PointSet2dC &operator*=(RealT scale);
+    //: Scale the point set by multiplying the points by 'scale'.
   };
    
 }
