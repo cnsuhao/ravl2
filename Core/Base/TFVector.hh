@@ -22,6 +22,20 @@ namespace RavlN {
   
   class BinIStreamC;
   class BinOStreamC;
+
+  template<class DataT,unsigned int N> class TFVectorC;
+  
+  template<class DataT,unsigned int N>
+  istream &operator>>(istream &in,TFVectorC<DataT,N> &dat);
+  
+  template<class DataT,unsigned int N>
+  ostream &operator<<(ostream &in,const TFVectorC<DataT,N> &dat);
+  
+  template<class DataT,unsigned int N>
+  BinIStreamC &operator>>(BinIStreamC &in,TFVectorC<DataT,N> &dat);
+  
+  template<class DataT,unsigned int N>
+  BinOStreamC &operator<<(BinOStreamC &in,const TFVectorC<DataT,N> &dat);
   
   //! userlevel=Advanced
   //: Fixed size vector.
@@ -132,7 +146,12 @@ namespace RavlN {
     
     DataT SumSqr() const;
     //: Calculate the sum of the squares of all the vector elements.
-      
+
+    friend istream &operator>> <>(istream &in,TFVectorC<DataT,N> &dat);  
+    friend ostream &operator<< <>(ostream &in,const TFVectorC<DataT,N> &dat);  
+    friend BinIStreamC &operator>> <>(BinIStreamC &in,TFVectorC<DataT,N> &dat);
+    friend BinOStreamC &operator<< <>(BinOStreamC &in,const TFVectorC<DataT,N> &dat);
+    
   protected:
     DataT data[N];
   };
@@ -325,30 +344,34 @@ namespace RavlN {
   }
   
   template<class DataT,unsigned int N>
+  inline
   ostream &operator<<(ostream &out,const TFVectorC<DataT,N> &dat) {
     for(UIntT i = 0;i < N;i++)
-      out << dat[i] << ' ';
+      out << dat.data[i] << ' ';
     return out;
   }
   
   template<class DataT,unsigned int N>
+  inline
   istream &operator>>(istream &in,TFVectorC<DataT,N> &dat) {
     for(UIntT i = 0;i < N;i++)
-      in >> dat[i];
+      in >> dat.data[i];
     return in;
   }
 
   template<class DataT,unsigned int N>
+  inline
   BinOStreamC &operator<<(BinOStreamC &out,const TFVectorC<DataT,N> &dat) {
     for(UIntT i = 0;i < N;i++)
-      out << dat[i];
+      out << dat.data[i];
     return out;
   }
   
   template<class DataT,unsigned int N>
+  inline
   BinIStreamC &operator>>(BinIStreamC &in,TFVectorC<DataT,N> &dat) {
     for(UIntT i = 0;i < N;i++)
-      in >> dat[i];
+      in >> dat.data[i];
     return in;
   }
 

@@ -84,18 +84,18 @@ namespace RavlN  {
     inline BinIStreamC &IBuff(char *buff,IntT len); 
     //: Charactor buffer. NB. Length is NOT saved.
     
-    inline BinIStreamC &operator >> (char &dat);
-    inline BinIStreamC &operator >> (signed char &dat);
-    inline BinIStreamC &operator >> (unsigned char &dat);  
-    inline BinIStreamC &operator >> (Int16T &dat);
-    inline BinIStreamC &operator >> (UInt16T &dat);
-    inline BinIStreamC &operator >> (IntT &dat);
-    inline BinIStreamC &operator >> (UIntT &dat);  
+    inline BinIStreamC &operator>>(char &dat);
+    inline BinIStreamC &operator>>(signed char &dat);
+    inline BinIStreamC &operator>>(unsigned char &dat);  
+    inline BinIStreamC &operator>>(Int16T &dat);
+    inline BinIStreamC &operator>>(UInt16T &dat);
+    inline BinIStreamC &operator>>(IntT &dat);
+    inline BinIStreamC &operator>>(UIntT &dat);  
     
-    inline BinIStreamC &operator >> (FloatT &dat);  
-    inline BinIStreamC &operator >> (RealT &dat);  
+    inline BinIStreamC &operator>>(FloatT &dat);  
+    inline BinIStreamC &operator>>(RealT &dat);  
     
-    inline BinIStreamC &operator >> (bool &dat);
+    inline BinIStreamC &operator>>(bool &dat);
   
     streampos Tell() const { return in.Tell(); }
     //: Where are we in the stream.
@@ -154,21 +154,21 @@ namespace RavlN  {
     inline BinOStreamC &OBuff(const char *buff,IntT len); 
     //: Charactor buffer. NB. Length is NOT saved.
     
-    inline BinOStreamC &operator << (char dat);
-    inline BinOStreamC &operator << (signed char dat);
-    inline BinOStreamC &operator << (unsigned char dat);  
-    inline BinOStreamC &operator << (Int16T dat);
-    inline BinOStreamC &operator << (UInt16T dat);
-    inline BinOStreamC &operator << (IntT dat);
-    inline BinOStreamC &operator << (UIntT dat);  
+    inline BinOStreamC &operator<<(char dat);
+    inline BinOStreamC &operator<<(signed char dat);
+    inline BinOStreamC &operator<<(unsigned char dat);  
+    inline BinOStreamC &operator<<(Int16T dat);
+    inline BinOStreamC &operator<<(UInt16T dat);
+    inline BinOStreamC &operator<<(IntT dat);
+    inline BinOStreamC &operator<<(UIntT dat);  
     //: Unsigned int.
     
-    inline BinOStreamC &operator << (FloatT dat);  
-    inline BinOStreamC &operator << (RealT dat);  
+    inline BinOStreamC &operator<<(FloatT dat);  
+    inline BinOStreamC &operator<<(RealT dat);  
     
-    inline BinOStreamC &operator << (bool dat);
+    inline BinOStreamC &operator<<(bool dat);
     
-    BinOStreamC &operator << (const char *text);
+    BinOStreamC &operator<<(const char *text);
     
     streampos Tell() const { return out.Tell(); }
     //: Where are we in the stream.
@@ -206,19 +206,19 @@ namespace RavlN  {
   }
 
   BinIStreamC &
-  BinIStreamC::operator >> (char &dat)
+  BinIStreamC::operator>>(char &dat)
   { in.read(&dat,sizeof(char));  return *this; }
   
   BinIStreamC &
-  BinIStreamC::operator >> (signed char &dat)
+  BinIStreamC::operator>>(signed char &dat)
   { in.read((char *) &dat,sizeof(signed char));  return *this; }
 
   BinIStreamC &
-  BinIStreamC::operator >> (unsigned char &dat)
+  BinIStreamC::operator>>(unsigned char &dat)
   { in.read((char *)&dat,sizeof(unsigned char));  return *this; }
   
   BinIStreamC &
-  BinIStreamC::operator >> (Int16T &dat) {
+  BinIStreamC::operator>>(Int16T &dat) {
 #if RAVL_BIGENDIAN
     in.read((char *)&dat,2); 
 #else
@@ -230,7 +230,7 @@ namespace RavlN  {
   }
   
   BinIStreamC &
-  BinIStreamC::operator >> (UInt16T &dat) {
+  BinIStreamC::operator>>(UInt16T &dat) {
 #if RAVL_BIGENDIAN
     in.read((char *)&dat,2); 
 #else
@@ -242,7 +242,7 @@ namespace RavlN  {
   }
   
   BinIStreamC &
-  BinIStreamC::operator >> (IntT &dat) {
+  BinIStreamC::operator>>(IntT &dat) {
 #if RAVL_BIGENDIAN
     in.read((char *)&dat,4);
 #else
@@ -254,7 +254,7 @@ namespace RavlN  {
   }
   
   BinIStreamC &
-  BinIStreamC::operator >> (UIntT &dat) {
+  BinIStreamC::operator>>(UIntT &dat) {
 #if RAVL_BIGENDIAN
     in.read((char *)&dat,4);
 #else
@@ -267,7 +267,7 @@ namespace RavlN  {
   
   inline 
   BinIStreamC &
-  BinIStreamC::operator >> (FloatT &dat) {
+  BinIStreamC::operator>>(FloatT &dat) {
     RavlAssert(sizeof(FloatT) == sizeof(IntT));
     (*this) >> (*((IntT *) &dat));
     return *this;
@@ -275,7 +275,7 @@ namespace RavlN  {
   
   inline 
   BinIStreamC &
-  BinIStreamC::operator >> (RealT &dat) {
+  BinIStreamC::operator>>(RealT &dat) {
     RavlAssert(sizeof(RealT) == (sizeof(IntT) * 2));
     IntT *at = (IntT *) (&dat);
 #if RAVL_BIGENDIAN
@@ -288,7 +288,7 @@ namespace RavlN  {
   
   inline 
   BinIStreamC &
-  BinIStreamC::operator >> (bool &dat) {
+  BinIStreamC::operator>>(bool &dat) {
     char flag;
     (*this) >> flag;
     dat = flag?true:false;
@@ -305,19 +305,19 @@ namespace RavlN  {
   }
   
   BinOStreamC &
-  BinOStreamC::operator << (char dat)
+  BinOStreamC::operator<<(char dat)
   { out.write(&dat,1);  return *this; }
 
   BinOStreamC &
-  BinOStreamC::operator << (signed char dat)
+  BinOStreamC::operator<<(signed char dat)
   { out.write((char *) &dat,1);  return *this; }
 
   BinOStreamC &
-  BinOStreamC::operator << (unsigned char dat)
+  BinOStreamC::operator<<(unsigned char dat)
   { out.write((char *)&dat,1);  return *this; }
 
   BinOStreamC &
-  BinOStreamC::operator << (Int16T dat) {
+  BinOStreamC::operator<<(Int16T dat) {
 #if RAVL_BIGENDIAN
     out.write((char *)&dat,2);  
 #else
@@ -328,7 +328,7 @@ namespace RavlN  {
   }
   
   BinOStreamC &
-  BinOStreamC::operator << (UInt16T dat) {
+  BinOStreamC::operator<<(UInt16T dat) {
 #if RAVL_BIGENDIAN
     out.write((char *)&dat,2);  
 #else
@@ -339,7 +339,7 @@ namespace RavlN  {
   }
   
   BinOStreamC &
-  BinOStreamC::operator << (IntT dat) {
+  BinOStreamC::operator<<(IntT dat) {
 #if RAVL_BIGENDIAN
     out.write((char *)&dat,4);
 #else
@@ -350,7 +350,7 @@ namespace RavlN  {
   }
   
   BinOStreamC &
-  BinOStreamC::operator << (UIntT dat) {
+  BinOStreamC::operator<<(UIntT dat) {
 #if RAVL_BIGENDIAN
     out.write((char *)&dat,4);
 #else
@@ -362,7 +362,7 @@ namespace RavlN  {
   
   inline 
   BinOStreamC &
-  BinOStreamC::operator << (FloatT dat) {
+  BinOStreamC::operator<<(FloatT dat) {
     RavlAssert(sizeof(FloatT) == sizeof(IntT));
     (*this) << (*((IntT *) &dat));
     return *this;
@@ -370,7 +370,7 @@ namespace RavlN  {
   
   inline 
   BinOStreamC &
-  BinOStreamC::operator << (RealT dat) {
+  BinOStreamC::operator<<(RealT dat) {
     RavlAssert(sizeof(RealT) == (sizeof(IntT) * 2));
     IntT *at = (IntT *) (&dat);
 #if RAVL_BIGENDIAN
@@ -382,7 +382,7 @@ namespace RavlN  {
   }
   
   inline BinOStreamC &
-  BinOStreamC::operator << (bool dat) {
+  BinOStreamC::operator<<(bool dat) {
     char out;
     out = dat?1:0;
     (*this) << out;
