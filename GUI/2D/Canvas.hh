@@ -1,9 +1,15 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2001, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 #ifndef RAVLGUICANVAS_HEADER
 #define RAVLGUICANVAS_HEADER 1
 ////////////////////////////////////////////////
 //! docentry="GUI.Widget"
 //! file="Ravl/GUI/GTK/Canvas.hh"
-//! lib=GUI
+//! lib=RavlGUI2D
 //! author="Charles Galambos"
 //! example=exCanvas.cc
 //! date="17/03/99"
