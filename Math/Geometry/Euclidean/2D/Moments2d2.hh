@@ -50,6 +50,10 @@ namespace RavlN {
 
     inline void AddPixel (const Point2dC &pxl);
     //: Adds a position with a weight to the object and updates sums.
+
+    inline void AddPixel (const TFVectorC<RealT,2> &pxl)
+    { AddPixel(Point2dC(pxl)); }
+    //: Adds a position with a weight to the object and updates sums.
     
     inline void AddPixel (const Point2dC &pxl,RealT weight);
     //: Adds a position with a weight to the object and updates sums.
