@@ -247,7 +247,7 @@ namespace RavlN {
     //: Access element.
     
     void Element(UIntT i,UIntT j,const DataT &val) 
-    { return Body().Element(i,j,val); }
+    { Body().Element(i,j,val); }
     //: Set element.
     
     Array1dC<DataT> Row(UIntT i) const
