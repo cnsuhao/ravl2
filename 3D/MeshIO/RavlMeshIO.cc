@@ -10,11 +10,12 @@
 namespace Ravl3DN {
 
   extern void InitTriMeshIO();
-
+  extern void InitObjFormat();
   extern void InitTriFormat();
   
   void InitRavlMeshIO() {
     InitTriFormat();
+    InitObjFormat();
     InitTriMeshIO();
   }
 }
