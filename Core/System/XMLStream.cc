@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-#define DODEBUG 0
+#define DODEBUG 1
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -202,6 +202,7 @@ namespace RavlN {
 	      ONDEBUG(cerr << "XMLIStreamC::ReadTag(), Found DTD info. \n");
 	      SkipTo('>');
 	      // Start searching for a tag again.
+	      continue;
 	    }
 	    break;
 	  case '>':
