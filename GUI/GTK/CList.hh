@@ -191,6 +191,12 @@ namespace RavlGUIN {
     
     DListC<Tuple2C<IntT,SArray1dC<CListCellC> > > data;
     HSetC<IntT> selection; // current selection.    
+
+    Signal1C<IntT> selectionChanged;
+    //: A signal that is sent when the selection changes. 
+    // It contains the Row ID of the most recently-changed row
+
+    friend class CListC;
   };
   
   //! userlevel=Normal
@@ -333,7 +339,12 @@ namespace RavlGUIN {
     IntT GUIFindRowID(const Index2dC &at)
     { return Body().GUIFindRowID(at); }
     //: Find row ID at position.
-    
+
+    Signal1C<IntT>& SelectionChanged()
+    { return Body().selectionChanged; }
+    //: This signal is sent when the selection is changed
+    // This should be used rather than connecting directly to select_row or unselect_row events
+
     friend class CListBodyC;
   };
 }

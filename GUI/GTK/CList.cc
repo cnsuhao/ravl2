@@ -43,7 +43,8 @@ namespace RavlGUIN {
   
   CListBodyC::CListBodyC(const DListC<StringC> &ntitles,GtkSelectionMode nselMode)
     : selMode(nselMode),
-      titles(ntitles)
+      titles(ntitles),
+      selectionChanged(0)
   {
     cols = titles.Size();
     ONDEBUG(cerr << "CListBodyC::CListBodyC(), Cols : " << cols << "\n");
@@ -54,7 +55,8 @@ namespace RavlGUIN {
   //: Default constructor
   
   CListBodyC::CListBodyC(const char *ntitles[],int *colWidths,GtkSelectionMode nselMode)
-    : selMode(nselMode)
+    : selMode(nselMode),
+      selectionChanged(0)
   {
     int i = 0;
     if(ntitles != 0) {
@@ -80,6 +82,8 @@ namespace RavlGUIN {
     ONDEBUG(cerr << "CListBodyC::GUIRowUnselected. " << cle.RowID() << "\n");
     RWLockHoldC hold(access,false);
     selection -= cle.RowID();
+    hold.Unlock();
+    selectionChanged(cle.RowID());
     return true;
   }
 
@@ -89,6 +93,8 @@ namespace RavlGUIN {
     ONDEBUG(cerr << "CListBodyC::GUIRowSelected. " << cle.RowID() << "\n");
     RWLockHoldC hold(access,false);
     selection += cle.RowID();
+    hold.Unlock();
+    selectionChanged(cle.RowID());
     return true;
   }
   
@@ -246,7 +252,7 @@ namespace RavlGUIN {
     if(rowNo < 0)
       return true; // Not found.
     gtk_clist_select_row (GTK_CLIST(widget),rowNo,0);
-    return true;    
+    return true;
   }
   
   //: Force an item to be unselected.
