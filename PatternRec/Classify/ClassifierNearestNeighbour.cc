@@ -14,6 +14,8 @@
 #include "Ravl/StdConst.hh"
 #include "Ravl/Hash.hh"
 #include "Ravl/RealC.hh"
+#include "Ravl/VirtualConstructor.hh"
+#include "Ravl/BinStream.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -50,7 +52,51 @@ namespace RavlN {
     NoLabels(nvectors.Size());
     ONDEBUG(cerr << "ClassifierNearestNeighbourBodyC::ClassifierNearestNeighbourBodyC(), Data=" << vectors.Size() <<" Labels=" << NoLabels() << " vlabels=" << vlabels.Size() << "\n");
   }
-
+  
+  //: Load from stream.
+  
+  ClassifierNearestNeighbourBodyC::ClassifierNearestNeighbourBodyC(istream &strm) 
+    : ClassifierBodyC(strm)
+  {
+    IntT version;
+    strm >> version;
+    if(version != 0)
+      throw ExceptionOutOfRangeC("ClassifierNearestNeighbourBodyC(istream &), Unrecognised version number in stream. ");
+    strm >> distanceMetric >> vectors >> vlabels;
+  }
+  
+  //: Load from binary stream.
+  
+  ClassifierNearestNeighbourBodyC::ClassifierNearestNeighbourBodyC(BinIStreamC &strm) 
+    : ClassifierBodyC(strm)
+  {
+    IntT version;
+    strm >> version;
+    if(version != 0)
+      throw ExceptionOutOfRangeC("ClassifierNearestNeighbourBodyC(BinIStreamC &), Unrecognised version number in stream. ");
+    strm >> distanceMetric >> vectors >> vlabels;
+  }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool ClassifierNearestNeighbourBodyC::Save (ostream &out) const {
+    if(!ClassifierBodyC::Save(out))
+      return false;
+    IntT version = 0;
+    out << ' ' << version << ' ' << distanceMetric << ' ' << vectors << ' ' << vlabels;
+    return true;
+  }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool ClassifierNearestNeighbourBodyC::Save (BinOStreamC &out) const {
+    if(!ClassifierBodyC::Save(out))
+      return false;
+    IntT version = 0;
+    out << version << distanceMetric << vectors << vlabels;
+    return true;
+  }
+  
   //: Classifier vector 'data' return the most likely label.
   
   UIntT ClassifierNearestNeighbourBodyC::Classifier(const VectorC &vec) const {
@@ -71,5 +117,7 @@ namespace RavlN {
     ONDEBUG(cerr << "Index=" << index << "\n");
     return vlabels[index];
   }
+
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(ClassifierNearestNeighbourBodyC,ClassifierNearestNeighbourC,ClassifierC);
   
 }

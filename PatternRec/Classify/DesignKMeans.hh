@@ -29,6 +29,18 @@ namespace RavlN {
     {}
     //: Constructor.
     
+    DesignKMeansBodyC(istream &strm);
+    //: Load from stream.
+    
+    DesignKMeansBodyC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
+    virtual bool Save (ostream &out) const;
+    //: Writes object to stream, can be loaded using constructor
+    
+    virtual bool Save (BinOStreamC &out) const;
+    //: Writes object to stream, can be loaded using constructor
+
     virtual FunctionC Apply(const SampleC<VectorC> &in);
     //: Create a clasifier.
     
@@ -59,11 +71,22 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid constructor.
     
+    DesignKMeansC(istream &strm);
+    //: Load from stream.
+    
+    DesignKMeansC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
   protected:
     DesignKMeansC(DesignKMeansBodyC &bod)
       : DesignClassifierUnsupervisedC(bod)
     {}
     //: Body constructor.
+
+    DesignKMeansC(DesignKMeansBodyC *bod)
+      : DesignClassifierUnsupervisedC(bod)
+    {}
+    //: Body ptr constructor.
     
     DesignKMeansBodyC &Body()
     { return static_cast<DesignKMeansBodyC &>(DesignClassifierUnsupervisedC::Body()); }
@@ -79,6 +102,35 @@ namespace RavlN {
     //: Access number of clusters.
     
   };
+  
+  inline istream &operator>>(istream &strm,DesignKMeansC &obj) {
+    obj = DesignKMeansC(strm);
+    return strm;
+  }
+  //: Load from a stream.
+  // Uses virtual constructor.
+  
+  inline ostream &operator<<(ostream &out,const DesignKMeansC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+  
+  inline BinIStreamC &operator>>(BinIStreamC &strm,DesignKMeansC &obj) {
+    obj = DesignKMeansC(strm);
+    return strm;
+  }
+  //: Load from a binary stream.
+  // Uses virtual constructor.
+  
+  inline BinOStreamC &operator<<(BinOStreamC &out,const DesignKMeansC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+
 }
 
 

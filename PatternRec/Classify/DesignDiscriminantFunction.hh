@@ -10,6 +10,7 @@
 //! lib=RavlPatternRec
 //! docentry="Ravl.Pattern Recognition.Classifier"
 //! file="Ravl/PatternRec/Classifier/DesignDiscriminantFunction.hh"
+//! author="Charles Galambos"
 
 #include "Ravl/PatternRec/DesignClassifierSupervised.hh"
 #include "Ravl/PatternRec/DesignFunctionSupervised.hh"
@@ -26,6 +27,18 @@ namespace RavlN {
     DesignDiscriminantFunctionBodyC(const DesignFunctionSupervisedC &func);
     //: Default constructor.
     
+    DesignDiscriminantFunctionBodyC(istream &strm);
+    //: Load from stream.
+    
+    DesignDiscriminantFunctionBodyC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
+    virtual bool Save (ostream &out) const;
+    //: Writes object to stream, can be loaded using constructor
+    
+    virtual bool Save (BinOStreamC &out) const;
+    //: Writes object to stream, can be loaded using constructor
+
     virtual ClassifierC Apply(const SampleC<VectorC> &in,const SampleC<UIntT> &out);
     //: Create a clasifier.
     
@@ -57,11 +70,22 @@ namespace RavlN {
     {}
     //: Create a new designer.
     
+    DesignDiscriminantFunctionC(istream &strm);
+    //: Load from stream.
+    
+    DesignDiscriminantFunctionC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
   protected:
     DesignDiscriminantFunctionC(DesignDiscriminantFunctionBodyC &bod)
       : DesignClassifierSupervisedC(bod)
     {}
     //: Body constructor.
+    
+    DesignDiscriminantFunctionC(DesignDiscriminantFunctionBodyC *bod)
+      : DesignClassifierSupervisedC(bod)
+    {}
+    //: Body ptr constructor.
     
     DesignDiscriminantFunctionBodyC &Body()
     { return static_cast<DesignDiscriminantFunctionBodyC &>(DesignClassifierSupervisedC::Body()); }
@@ -77,6 +101,36 @@ namespace RavlN {
     { return Body().FunctionDesigner(); }
     //: Access the current function designer being used.
   };
+  
+  
+  inline istream &operator>>(istream &strm,DesignDiscriminantFunctionC &obj) {
+    obj = DesignDiscriminantFunctionC(strm);
+    return strm;
+  }
+  //: Load from a stream.
+  // Uses virtual constructor.
+  
+  inline ostream &operator<<(ostream &out,const DesignDiscriminantFunctionC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+  
+  inline BinIStreamC &operator>>(BinIStreamC &strm,DesignDiscriminantFunctionC &obj) {
+    obj = DesignDiscriminantFunctionC(strm);
+    return strm;
+  }
+  //: Load from a binary stream.
+  // Uses virtual constructor.
+  
+  inline BinOStreamC &operator<<(BinOStreamC &out,const DesignDiscriminantFunctionC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+
 
 }
 

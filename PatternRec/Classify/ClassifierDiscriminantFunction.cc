@@ -9,6 +9,8 @@
 //! file="Ravl/PatternRec/Classifier/ClassifierDiscriminantFunction.cc"
 
 #include "Ravl/PatternRec/ClassifierDiscriminantFunction.hh"
+#include "Ravl/VirtualConstructor.hh"
+#include "Ravl/BinStream.hh"
 
 namespace RavlN {
   
@@ -18,6 +20,51 @@ namespace RavlN {
     : ClassifierBodyC(nfunc.OutputSize()),
       func(nfunc)
   {}
+  
+  //: Load from stream.
+  
+  ClassifierDiscriminantFunctionBodyC::ClassifierDiscriminantFunctionBodyC(istream &strm)
+    : ClassifierBodyC(strm)
+  { 
+    IntT version;
+    strm >> version;
+    if(version != 0)
+      throw ExceptionOutOfRangeC("ClassifierDiscriminantFunctionBodyC::ClassifierDiscriminantFunctionBodyC(istream &), Unrecognised version number in stream. ");
+
+    strm >> func; 
+  }
+  
+  //: Load from binary stream.
+  
+  ClassifierDiscriminantFunctionBodyC::ClassifierDiscriminantFunctionBodyC(BinIStreamC &strm)
+    : ClassifierBodyC(strm)
+  {
+    IntT version;
+    strm >> version;
+    if(version != 0)
+      throw ExceptionOutOfRangeC("ClassifierDiscriminantFunctionBodyC::ClassifierDiscriminantFunctionBodyC(BinIStreamC &), Unrecognised version number in stream. ");
+    strm >> func; 
+  }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool ClassifierDiscriminantFunctionBodyC::Save(ostream &out) const {
+    if(!ClassifierBodyC::Save(out))
+      return false;
+    IntT version = 0;
+    out << version << ' ' << func;
+    return true;
+  }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool ClassifierDiscriminantFunctionBodyC::Save(BinOStreamC &out) const {
+    if(!ClassifierBodyC::Save(out))
+      return false;
+    IntT version = 0;
+    out << version << func;
+    return true;    
+  }
   
   //: Classifier vector 'data' return the most likely label.
   
@@ -35,6 +82,8 @@ namespace RavlN {
     VectorC vec = func(data);
     return vec.MakeUnit();
   }
+  
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(ClassifierDiscriminantFunctionBodyC,ClassifierDiscriminantFunctionC,ClassifierC);
   
   
 }

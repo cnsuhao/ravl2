@@ -34,9 +34,21 @@ namespace RavlN {
   {
   public:
     ClassifierKNearestNeighbourBodyC(const DataSet2C<SampleVectorC,SampleLabelC> &data,
-				   UIntT defaultK = 5,
-				   const DistanceC &xdistMetric = DistanceSqrEuclideanC());
+				     UIntT defaultK = 5,
+				     const DistanceC &xdistMetric = DistanceSqrEuclideanC());
     //: Constructor.
+    
+    ClassifierKNearestNeighbourBodyC(istream &strm);
+    //: Load from stream.
+    
+    ClassifierKNearestNeighbourBodyC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
+    virtual bool Save (ostream &out) const;
+    //: Writes object to stream, can be loaded using constructor
+    
+    virtual bool Save (BinOStreamC &out) const;
+    //: Writes object to stream, can be loaded using constructor
     
     virtual SArray1dC<Tuple2C<UIntT,RealT> > Search(const VectorC &ex,UIntT k) const;
     //: Search for the the 'k' nearest neighbours.
@@ -76,11 +88,22 @@ namespace RavlN {
     {}
     //: Constructor.
     
+    ClassifierKNearestNeighbourC(istream &strm);
+    //: Load from stream.
+    
+    ClassifierKNearestNeighbourC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
   protected:
     ClassifierKNearestNeighbourC(ClassifierKNearestNeighbourBodyC &bod)
       : ClassifierC(bod)
     {}
     //: Body constructor.
+
+    ClassifierKNearestNeighbourC(ClassifierKNearestNeighbourBodyC *bod)
+      : ClassifierC(bod)
+    {}
+    //: Body ptr constructor.
     
     ClassifierKNearestNeighbourBodyC &Body()
     { return static_cast<ClassifierKNearestNeighbourBodyC &>(ClassifierC::Body()); }

@@ -29,6 +29,18 @@ namespace RavlN {
     ClassifierDiscriminantFunctionBodyC(const FunctionC &nfunc);
     //: Create classifier from a discriminant function.
     
+    ClassifierDiscriminantFunctionBodyC(istream &strm);
+    //: Load from stream.
+    
+    ClassifierDiscriminantFunctionBodyC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
+    virtual bool Save (ostream &out) const;
+    //: Writes object to stream, can be loaded using constructor
+    
+    virtual bool Save (BinOStreamC &out) const;
+    //: Writes object to stream, can be loaded using constructor
+    
     virtual UIntT Classifier(const VectorC &data) const;
     //: Classifier vector 'data' return the most likely label.
     
@@ -59,9 +71,20 @@ namespace RavlN {
       : ClassifierC(*new ClassifierDiscriminantFunctionBodyC(nfunc))
     {}
     //: Create classifier from a discriminant function.
-
+    
+    ClassifierDiscriminantFunctionC(istream &strm);
+    //: Load from stream.
+    
+    ClassifierDiscriminantFunctionC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
   protected:
     ClassifierDiscriminantFunctionC(ClassifierDiscriminantFunctionBodyC &bod)
+      : ClassifierC(bod)
+    {}
+    //: Body constructor.
+
+    ClassifierDiscriminantFunctionC(ClassifierDiscriminantFunctionBodyC *bod)
       : ClassifierC(bod)
     {}
     //: Body constructor.
@@ -80,6 +103,34 @@ namespace RavlN {
     //: Access discriminant function.
     
   };
+  
+  inline istream &operator>>(istream &strm,ClassifierDiscriminantFunctionC &obj) {
+    obj = ClassifierDiscriminantFunctionC(strm);
+    return strm;
+  }
+  //: Load from a stream.
+  // Uses virtual constructor.
+  
+  inline ostream &operator<<(ostream &out,const ClassifierDiscriminantFunctionC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+  
+  inline BinIStreamC &operator>>(BinIStreamC &strm,ClassifierDiscriminantFunctionC &obj) {
+    obj = ClassifierDiscriminantFunctionC(strm);
+    return strm;
+  }
+  //: Load from a binary stream.
+  // Uses virtual constructor.
+  
+  inline BinOStreamC &operator<<(BinOStreamC &out,const ClassifierDiscriminantFunctionC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
   
 }
 

@@ -15,6 +15,8 @@
 #include "Ravl/SArray1dIter3.hh"
 #include "Ravl/PatternRec/SampleIter.hh"
 #include "Ravl/PatternRec/ClassifierNearestNeighbour.hh"
+#include "Ravl/BinStream.hh"
+#include "Ravl/VirtualConstructor.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -24,6 +26,48 @@
 #endif
 
 namespace RavlN {
+  
+  //: Load from stream.
+  
+  DesignKMeansBodyC::DesignKMeansBodyC(istream &strm)
+    : DesignClassifierUnsupervisedBodyC(strm)
+  { 
+    IntT version;
+    strm >> version;
+    if(version != 0)
+      throw ExceptionOutOfRangeC("DesignKMeansBodyC::DesignKMeansBodyC(istream &), Unrecognised version number in stream. ");
+    strm >> distance >> k; 
+  }
+  //: Load from binary stream.
+  
+  DesignKMeansBodyC::DesignKMeansBodyC(BinIStreamC &strm)
+    : DesignClassifierUnsupervisedBodyC(strm)
+  {
+    IntT version;
+    strm >> version;
+    if(version != 0)
+      throw ExceptionOutOfRangeC("DesignKMeansBodyC::DesignKMeansBodyC(BinIStreamC &), Unrecognised version number in stream. ");
+    strm >> distance >> k; 
+  }
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool DesignKMeansBodyC::Save (ostream &out) const {
+    if(!DesignClassifierUnsupervisedBodyC::Save(out))
+      return false;
+    IntT version = 0;
+    out << ' ' << version << ' ' << distance << ' ' <<  k;
+    return true;    
+  }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool DesignKMeansBodyC::Save (BinOStreamC &out) const {
+    if(!DesignClassifierUnsupervisedBodyC::Save(out))
+      return false;
+    IntT version = 0;
+    out << version << distance << k;
+    return true;
+  }
   
   //: Create a clasifier.
   
@@ -110,5 +154,8 @@ namespace RavlN {
     
     return ClassifierNearestNeighbourC(SampleC<VectorC>(means),distance);
   }
+  
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(DesignKMeansBodyC,DesignKMeansC,DesignClassifierUnsupervisedC);
+
   
 }

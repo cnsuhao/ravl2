@@ -11,8 +11,39 @@
 #include "Ravl/PatternRec/DesignDiscriminantFunction.hh"
 #include "Ravl/PatternRec/ClassifierDiscriminantFunction.hh"
 #include "Ravl/PatternRec/SampleLabel.hh"
+#include "Ravl/VirtualConstructor.hh"
 
 namespace RavlN {
+  
+  //: Load from stream.
+  
+  DesignDiscriminantFunctionBodyC::DesignDiscriminantFunctionBodyC(istream &strm)
+    : DesignClassifierSupervisedBodyC(strm)
+  { strm >> designFunc; }
+  
+  //: Load from binary stream.
+  
+  DesignDiscriminantFunctionBodyC::DesignDiscriminantFunctionBodyC(BinIStreamC &strm)
+    : DesignClassifierSupervisedBodyC(strm)
+  { strm >> designFunc; }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool DesignDiscriminantFunctionBodyC::Save (ostream &out) const {
+    if(!DesignClassifierSupervisedBodyC::Save(out))
+      return false;
+    out << ' ' << designFunc;
+    return true;
+  }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool DesignDiscriminantFunctionBodyC::Save (BinOStreamC &out) const {
+    if(!DesignClassifierSupervisedBodyC::Save(out))
+      return false;
+    out << designFunc;
+    return true;
+  }
   
   //: Default constructor.
   
@@ -35,5 +66,7 @@ namespace RavlN {
     SampleC<VectorC> vout = SampleLabelC(out).SampleVector();
     return ClassifierDiscriminantFunctionC(designFunc.Apply(in,vout,weight));
   }
-
+  
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(DesignDiscriminantFunctionBodyC,DesignDiscriminantFunctionC,DesignClassifierSupervisedC);
+  
 }

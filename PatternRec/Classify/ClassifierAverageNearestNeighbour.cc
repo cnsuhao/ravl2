@@ -14,6 +14,8 @@
 #include "Ravl/Hash.hh"
 #include "Ravl/RealC.hh"
 #include "Ravl/Mean.hh"
+#include "Ravl/VirtualConstructor.hh"
+#include "Ravl/BinStream.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -32,6 +34,48 @@ namespace RavlN {
     : ClassifierKNearestNeighbourBodyC(ndata,defK,xdistanceMetric)
   {
     ONDEBUG(cerr << "ClassifierAverageNearestNeighbourBodyC::ClassifierAverageNearestNeighbourBodyC(), Data=" << data.Size() <<" Labels=" << NoLabels() << "\n");
+  }
+  
+  //: Load from stream.
+  
+  ClassifierAverageNearestNeighbourBodyC::ClassifierAverageNearestNeighbourBodyC(istream &strm) 
+    : ClassifierKNearestNeighbourBodyC(strm)
+  {
+    IntT version;
+    strm >> version;
+    if(version != 0)
+      throw ExceptionOutOfRangeC("ClassifierAverageNearestNeighbourBodyC(istream &), Unrecognised version number in stream. ");
+  }
+  
+  //: Load from binary stream.
+  
+  ClassifierAverageNearestNeighbourBodyC::ClassifierAverageNearestNeighbourBodyC(BinIStreamC &strm) 
+    : ClassifierKNearestNeighbourBodyC(strm)
+  {
+    IntT version;
+    strm >> version;
+    if(version != 0)
+      throw ExceptionOutOfRangeC("ClassifierAverageNearestNeighbourBodyC(BinIStreamC &), Unrecognised version number in stream. ");
+  }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool ClassifierAverageNearestNeighbourBodyC::Save (ostream &out) const {
+    if(!ClassifierKNearestNeighbourBodyC::Save(out))
+      return false;
+    IntT version = 0;
+    out << ' ' << version;
+    return true;
+  }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool ClassifierAverageNearestNeighbourBodyC::Save (BinOStreamC &out) const {
+    if(!ClassifierKNearestNeighbourBodyC::Save(out))
+      return false;
+    IntT version = 0;
+    out << version;
+    return true;
   }
   
   //: Classifier vector 'data' return the most likely label.
@@ -86,6 +130,7 @@ namespace RavlN {
   // it is the label is correct.
   
   
-
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(ClassifierAverageNearestNeighbourBodyC,ClassifierAverageNearestNeighbourC,ClassifierKNearestNeighbourC);
+  
 
 }

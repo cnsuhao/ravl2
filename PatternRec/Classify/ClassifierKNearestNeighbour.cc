@@ -13,6 +13,8 @@
 #include "Ravl/StdConst.hh"
 #include "Ravl/Hash.hh"
 #include "Ravl/RealC.hh"
+#include "Ravl/VirtualConstructor.hh"
+#include "Ravl/BinStream.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -26,8 +28,8 @@ namespace RavlN {
   //: Default constructor.
   
   ClassifierKNearestNeighbourBodyC::ClassifierKNearestNeighbourBodyC(const DataSet2C<SampleVectorC,SampleLabelC> &ndata,
-						 UIntT defK,
-						 const DistanceC &xdistanceMetric)
+								     UIntT defK,
+								     const DistanceC &xdistanceMetric)
     : defaultK(defK),
       distanceMetric(xdistanceMetric),
       data(ndata)
@@ -37,8 +39,52 @@ namespace RavlN {
     ONDEBUG(cerr << "ClassifierKNearestNeighbourBodyC::ClassifierKNearestNeighbourBodyC(), Data=" << data.Size() <<" Labels=" << NoLabels() << "\n");
   }
   
+  //: Load from stream.
+  
+  ClassifierKNearestNeighbourBodyC::ClassifierKNearestNeighbourBodyC(istream &strm) 
+    : ClassifierBodyC(strm)
+  {
+    IntT version;
+    strm >> version;
+    if(version != 0)
+      throw ExceptionOutOfRangeC("ClassifierKNearestNeighbourBodyC(istream &), Unrecognised version number in stream. ");
+    strm >> defaultK >> distanceMetric >> data;
+  }
+  
+  //: Load from binary stream.
+  
+  ClassifierKNearestNeighbourBodyC::ClassifierKNearestNeighbourBodyC(BinIStreamC &strm) 
+    : ClassifierBodyC(strm)
+  {
+    IntT version;
+    strm >> version;
+    if(version != 0)
+      throw ExceptionOutOfRangeC("ClassifierKNearestNeighbourBodyC(BinIStreamC &), Unrecognised version number in stream. ");
+    strm >> defaultK >> distanceMetric >> data;
+  }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool ClassifierKNearestNeighbourBodyC::Save (ostream &out) const {
+    if(!ClassifierBodyC::Save(out))
+      return false;
+    IntT version = 0;
+    out << ' ' << version << ' ' << defaultK << ' ' << distanceMetric << ' ' << data;
+    return true;
+  }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool ClassifierKNearestNeighbourBodyC::Save (BinOStreamC &out) const {
+    if(!ClassifierBodyC::Save(out))
+      return false;
+    IntT version = 0;
+    out << version << defaultK << distanceMetric << data;
+    return true;
+  }
+  
   //: Classifier vector 'data' return the most likely label.
-
+  
   UIntT ClassifierKNearestNeighbourBodyC::Classifier(const VectorC &data) const {
     // Find the k nearest neighbours.
     
@@ -158,6 +204,7 @@ namespace RavlN {
     return ret;
   }
     
+  RAVL_INITVIRTUALCONSTRUCTOR_FULL(ClassifierKNearestNeighbourBodyC,ClassifierKNearestNeighbourC,ClassifierC);
 
 
 }

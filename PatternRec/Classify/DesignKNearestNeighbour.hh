@@ -27,6 +27,18 @@ namespace RavlN {
     DesignKNearestNeighbourBodyC(UIntT k,const DistanceC &distMetric = DistanceSqrEuclideanC(),bool useAverageKNN = false);
     //: Constructor.
     
+    DesignKNearestNeighbourBodyC(istream &strm);
+    //: Load from stream.
+    
+    DesignKNearestNeighbourBodyC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
+    virtual bool Save (ostream &out) const;
+    //: Writes object to stream, can be loaded using constructor
+    
+    virtual bool Save (BinOStreamC &out) const;
+    //: Writes object to stream, can be loaded using constructor
+
     virtual ClassifierC Apply(const SampleC<VectorC> &in,const SampleC<UIntT> &out);
     //: Create a clasifier.
     
@@ -57,11 +69,22 @@ namespace RavlN {
     //: Create a new designer.
     // Values for k are typically 1 to 7 and should be odd.
     
+    DesignKNearestNeighbourC(istream &strm);
+    //: Load from stream.
+    
+    DesignKNearestNeighbourC(BinIStreamC &strm);
+    //: Load from binary stream.
+
   protected:
     DesignKNearestNeighbourC(DesignKNearestNeighbourBodyC &bod)
       : DesignClassifierSupervisedC(bod)
     {}
     //: Body constructor.
+
+    DesignKNearestNeighbourC(DesignKNearestNeighbourBodyC *bod)
+      : DesignClassifierSupervisedC(bod)
+    {}
+    //: Body ptr constructor.
     
     DesignKNearestNeighbourBodyC &Body()
     { return static_cast<DesignKNearestNeighbourBodyC &>(DesignClassifierSupervisedC::Body()); }
@@ -74,6 +97,34 @@ namespace RavlN {
   public:
     
   };
+  
+  inline istream &operator>>(istream &strm,DesignKNearestNeighbourC &obj) {
+    obj = DesignKNearestNeighbourC(strm);
+    return strm;
+  }
+  //: Load from a stream.
+  // Uses virtual constructor.
+  
+  inline ostream &operator<<(ostream &out,const DesignKNearestNeighbourC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+  
+  inline BinIStreamC &operator>>(BinIStreamC &strm,DesignKNearestNeighbourC &obj) {
+    obj = DesignKNearestNeighbourC(strm);
+    return strm;
+  }
+  //: Load from a binary stream.
+  // Uses virtual constructor.
+  
+  inline BinOStreamC &operator<<(BinOStreamC &out,const DesignKNearestNeighbourC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
 
 }
 

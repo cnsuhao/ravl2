@@ -42,6 +42,18 @@ namespace RavlN {
 				  const DistanceC &xdistMetric = DistanceSqrEuclideanC());
     //: Constructor.
     
+    ClassifierNearestNeighbourBodyC(istream &strm);
+    //: Load from stream.
+    
+    ClassifierNearestNeighbourBodyC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
+    virtual bool Save (ostream &out) const;
+    //: Writes object to stream, can be loaded using constructor
+    
+    virtual bool Save (BinOStreamC &out) const;
+    //: Writes object to stream, can be loaded using constructor
+
     virtual UIntT Classifier(const VectorC &data) const;
     //: Classifier vector 'data' return the most likely label.
     
@@ -73,6 +85,12 @@ namespace RavlN {
     {}
     //: Constructor.
     
+    ClassifierNearestNeighbourC(istream &strm);
+    //: Load from stream.
+    
+    ClassifierNearestNeighbourC(BinIStreamC &strm);
+    //: Load from binary stream.
+
   protected:
     ClassifierNearestNeighbourC(ClassifierNearestNeighbourBodyC &bod)
       : ClassifierC(bod)
@@ -90,6 +108,35 @@ namespace RavlN {
   public:
     
   };
+  
+  
+  inline istream &operator>>(istream &strm,ClassifierNearestNeighbourC &obj) {
+    obj = ClassifierNearestNeighbourC(strm);
+    return strm;
+  }
+  //: Load from a stream.
+  // Uses virtual constructor.
+  
+  inline ostream &operator<<(ostream &out,const ClassifierNearestNeighbourC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+  
+  inline BinIStreamC &operator>>(BinIStreamC &strm,ClassifierNearestNeighbourC &obj) {
+    obj = ClassifierNearestNeighbourC(strm);
+    return strm;
+  }
+  //: Load from a binary stream.
+  // Uses virtual constructor.
+  
+  inline BinOStreamC &operator<<(BinOStreamC &out,const ClassifierNearestNeighbourC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
   
 }
 #endif

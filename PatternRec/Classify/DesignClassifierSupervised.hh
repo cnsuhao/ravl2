@@ -77,6 +77,11 @@ namespace RavlN {
     {}
     //: Body constructor.
     
+    DesignClassifierSupervisedC(DesignClassifierSupervisedBodyC *bod)
+      : DesignFunctionSupervisedC(bod)
+    {}
+    //: Body ptr constructor.
+    
     DesignClassifierSupervisedBodyC &Body()
     { return static_cast<DesignClassifierSupervisedBodyC &>(DesignFunctionSupervisedC::Body()); }
     //: Access body.
