@@ -24,6 +24,8 @@
 
 namespace RavlGUIN {
   
+  using namespace RavlImageN;
+
   static int rootWinCount = 0;
   /* when invoked (via signal delete_event), terminates the application.
    */
@@ -140,6 +142,36 @@ namespace RavlGUIN {
   
   void WindowBodyC::SetTitle(const StringC &str) {
     Manager.Queue(Trigger(WindowC(*this),&WindowC::GUISetTitle,str));
+  }
+  
+  //: Set the title of the window.
+
+  bool WindowBodyC::GUISetBackground(ImageC<ByteRGBValueC>& im) {
+    if(widget != 0) {
+       GdkPixmap* pixmap = gdk_pixmap_new(widget->window,
+ 					 im.Cols(),
+ 					 im.Rows(),
+ 					 -1);
+       gdk_draw_rgb_image(pixmap,
+ 			 widget->style->black_gc,
+ 			 0,0,
+ 			 im.Cols(),im.Rows(),
+ 			 GDK_RGB_DITHER_NORMAL,
+ 			 (unsigned char *) im.Row(im.TRow()),
+ 			 im.Cols() * 3);
+       widget->style->bg_pixmap[0] = pixmap;
+       widget->style->bg_pixmap[1] = pixmap;
+       widget->style->bg_pixmap[2] = pixmap;
+       widget->style->bg_pixmap[3] = pixmap;
+       widget->style->bg_pixmap[4] = pixmap;
+    }
+    return true;
+  }
+
+  //: Set the title of the window.
+  
+  void WindowBodyC::SetBackground(const ImageC<ByteRGBValueC>& im) {
+    Manager.Queue(Trigger(WindowC(*this),&WindowC::GUISetBackground,im));
   }
   
   //: Close down window.

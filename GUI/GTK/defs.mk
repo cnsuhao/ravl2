@@ -44,7 +44,7 @@ LOCAL_FILES = info.xpm
 
 EXAMPLES = exButton.cc exMenu.cc exCList.cc exList.cc \
  exSlider.cc exRadioButton.cc exRuler.cc exWheel.cc \
- exNotebook.cc exCursor.cc exFixed.cc exTree.cc exTextBox.cc exMessageBox.cc
+ exNotebook.cc exCursor.cc exFixed.cc exTree.cc exTextBox.cc exMessageBox.cc exWindow.cc
 
 #  exGUI.cc exCanvas.cc   exGraph1d.cc \
 
@@ -52,7 +52,7 @@ PLIB = RavlGUI
 
 USESLIBS = RavlCore RavlOS GTK RavlThreads
 
-PROGLIBS = 
+PROGLIBS = RavlImageIO RavlExtImgIO
 
 EHT = Ravl.GUI.Control.eht  Ravl.GUI.Layout.eht  Ravl.GUI.eht  Ravl.GUI.Internal.eht
 #libRavlGUI.eht
