@@ -54,7 +54,7 @@ namespace RavlN {
   
   bool CholeskyDecomposition(const MatrixRSC &m,MatrixC &l);
   //: Perform Cholesky decomposition of rs.  
-  // Such that m = l.T() * l where the matrix 'm' is positive definite
+  // Such that m = l * l.T() where the matrix 'm' is positive definite
   //!param: m - Matrix to decompose
   //!param: l - Variable to hold result
   //!return: True if decomposition is successfull.
