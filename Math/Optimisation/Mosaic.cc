@@ -141,7 +141,7 @@ int main(int nargs,char **argv) {
     RCHashC<UIntT,Point2dC> newpnts;
     for(DLIterC<PointTrackC> it(corners);it;it++) {
 #if 1
-      cout << "Confidence: " << it->Confidence() << endl;
+      //      cout << "Confidence: " << it->Confidence() << endl;
       if(it->Confidence() < 0.1)
 	continue; // Filter out points we haven't got recent info on.
 #endif
