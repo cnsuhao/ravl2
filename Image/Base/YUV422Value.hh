@@ -20,7 +20,8 @@
 namespace RavlImageN {
   using namespace RavlN;
   
-  //: RGB Pixel base class.
+  //! userlevel=Normal
+  //: YUV422 Pixel base class.
   
   template<class CompT>
   class YUV422ValueC 

@@ -20,7 +20,8 @@
 
 namespace RavlImageN {
   
-  //: Byte YUV value class.
+  //! userlevel=Normal
+  //: Byte YUV 422 value class.
   
   class ByteYUV422ValueC
     : public YUV422ValueC<ByteT>
