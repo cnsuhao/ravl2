@@ -57,10 +57,34 @@ namespace RavlN {
   typedef short Int16T;
   //: Signed int of 16 bits.
   
+#ifdef __GNUC__
+  __extension__ typedef signed long long int Int64T;
+  //: 64 bit signed integer.
+  
+  __extension__ typedef unsigned long long int UInt64T;
+  //: 64 bit unsigned integer.
+#else
+  typedef signed long long int Int64T;
+  //: 64 bit signed integer.
+  
+  typedef unsigned long long int UInt64T;
+  //: 64 bit unsigned integer.
+#endif
+  
   typedef UIntT SizeT;
   //: Type which can index any item in memory.
   
-  typedef int StreamSizeT;
+#if RAVL_USE_LARGEFILESUPPORT
+  typedef UIntT StreamOffsetT;
+  //: Type which can index any offset in a file.
+  // This is used internally in RAVL.
+#else
+  typedef UInt64T StreamOffsetT;
+  //: Type which can index any offset in a file.
+  // This is used internally in RAVL.  
+#endif
+  
+  typedef StreamOffsetT StreamSizeT;
   //: Size of stream.  This is seperate to allow large file support.
   
   template<class DataT>

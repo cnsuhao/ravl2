@@ -198,7 +198,7 @@ namespace RavlN {
     //: Access ostream.
     
     ostream &write(const char *d,StreamSizeT n) 
-      { return os().write(d,n); }
+    { return os().write(d,n); }
     //: Write data.
     // ostream compatable.
     
@@ -207,12 +207,12 @@ namespace RavlN {
     // ostream compatable.
     
     ostream &operator<<(const char *txt)
-      { return os() << txt; }
+    { return os() << txt; }
     //: Output text.
     
     template<class DataT>
-      ostream &operator<<(const DataT &dat)
-      { return os() << dat; }
+    ostream &operator<<(const DataT &dat)
+    { return os() << dat; }
     
     streampos Tell() const { return out->tellp(); }
     //: Where are we in the stream.
@@ -224,11 +224,11 @@ namespace RavlN {
     //: Where are we in the stream.
     // ostream compatable.
     
-    ostream &seekg(streampos to) { return os().seekp(to); }
+    ostream &seekp(streampos to) { return os().seekp(to); }
     //: Goto a position in the stream.
     // ostream compatable.
     
-    ostream &seekg(streampos to,SeekDirT dir) { return os().seekp(to,dir); }
+    ostream &seekp(streampos to,SeekDirT dir) { return os().seekp(to,dir); }
     //: Goto a position in the stream.
     // ostream compatable.
 

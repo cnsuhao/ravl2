@@ -37,6 +37,8 @@
  */
 #define RAVL_USE_PARALLEL 0
 
+#define RAVL_USE_LARGEFILESUPPORT 1
+
 /* Setting the follow define to 1 will enable the use of MMX code.
  */
 #if defined(__linux___)
