@@ -54,6 +54,12 @@ namespace RavlLogicN {
 
     virtual LiteralIterC Solutions(const StateC &state,BindSetC &binds) const;
     //: Return iterator through possibile matches to this literal in 'state', if any.
+    
+    void OrAdd(const LiteralC &lit);
+    //: Add literal.
+    
+    void OrAdd(const SArray1dC<LiteralC> &lits);
+    //: Add literals.
 
   };
   
@@ -101,6 +107,11 @@ namespace RavlLogicN {
 	Invalidate();
     }
     //: Construct from base class.
+
+    OrC(bool add,const LiteralC &term)
+      : ConditionC(*new OrBodyC(term))
+    {}
+    //: Construct from term.
     
     SArray1dC<LiteralC> &Terms()
     { return Body().Terms(); }
@@ -114,6 +125,20 @@ namespace RavlLogicN {
     { return Body().Size(); }
     //: Numnber of terms in or.
 
+    void OrAdd(const LiteralC &lit)
+    { Body().OrAdd(lit); }
+    //: Add literal.
+    
+    void OrAdd(const SArray1dC<LiteralC> &lits)
+    { Body().OrAdd(lits); }
+    //: Add literals.
+    
+    const OrC &operator+=(const LiteralC &lit) {
+      OrAdd(lit);
+      return *this;
+    }
+    //: Add literal.
+    
     friend class OrBodyC;
   };
   

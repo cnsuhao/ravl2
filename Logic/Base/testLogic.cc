@@ -28,6 +28,7 @@ using namespace RavlLogicN;
 #endif
 
 int testBasic();
+int testCompose();
 int testBind();
 int testStateSet();
 int testStateOr();
@@ -37,14 +38,19 @@ int testLiteralIO();
 
 int main() {
   int err;
-  if((err = testBind()) != 0) {
-    cerr << "testBind failed at : " << err << "\n";
-    return 1;
-  }
   if((err = testBasic()) != 0) {
     cerr << "testBasic failed at : " << err << "\n";
     return 1;
   }
+  if((err = testBind()) != 0) {
+    cerr << "testBind failed at : " << err << "\n";
+    return 1;
+  }
+  if((err = testCompose()) != 0) {
+    cerr << "testBasic failed at : " << err << "\n";
+    return 1;
+  }
+#if 1
   if((err = testStateSet()) != 0) {
     cerr << "testStateSet failed at : " << err << "\n";
     return 1;
@@ -61,11 +67,11 @@ int main() {
     cerr << "testStateAnd failed at : " << err << "\n";
     return 1;
   }
-  
   if((err = testLiteralIO()) != 0) {
     cerr << "testLiteralIO failed at : " << err << "\n";
     return 1;
   }
+#endif
   cerr << "Test passed. \n";
   return 0;
 }
@@ -110,6 +116,32 @@ int testBasic() {
   if(!Unify(e1,e3,bs)) return __LINE__;
   if(bs.Size() != 1) return __LINE__;
 
+  return 0;
+}
+
+int testCompose() {
+  cerr << "testCompose() Started. \n";
+  // Check and...
+  AndC land(true);
+  LiteralC l1("l1");;
+  LiteralC l2("l2");
+  LiteralC l3("l3");
+  if(land.Arity() != 1) return __LINE__;
+  land *= l1;
+  if(land.Arity() != 2) return __LINE__;
+  if(land.Terms()[1] != l1) return __LINE__;
+  land *= l2;
+  if(land.Arity() != 3) return __LINE__;  
+  if(land.Terms()[1] != l1) return __LINE__;
+  if(land.Terms()[2] != l2) return __LINE__;
+  
+  cerr << "And=" << land << "\n";
+  // Check minterm.
+  MinTermC mt(land);
+  cerr << "MinTerm=" << mt << "\n";
+  NotC nt(true,l3);
+  mt *= nt;
+  cerr << "MinTerm=" << mt << "\n";
   return 0;
 }
 
@@ -246,7 +278,7 @@ int testStateAnd() {
   BindSetC binds(true);
   int count = 0;
   for(LiteralIterC it(andTest.Solutions(state,binds));it;it++) {
-    ONDEBUG(cerr << "Got solution, Binds :" << binds << "\n");
+    //ONDEBUG(cerr << "Got solution, Binds :" << binds << "\n");
     if(!binds.IsBound(v1)) return __LINE__;
     if(!binds.IsBound(v2)) return __LINE__;
     count++;
@@ -278,7 +310,7 @@ int testStateNot() {
   BindSetC binds(true);
   int count = 0;
   for(LiteralIterC it(notTest.Solutions(state,binds));it;it++) {
-    ONDEBUG(cerr << "Got solution, Binds :" << binds << "\n");
+    //ONDEBUG(cerr << "Got solution, Binds :" << binds << "\n");
     //    if(!binds.IsEmpty()) return __LINE__;
     if(it.Data() != t1) return __LINE__;
     count++;

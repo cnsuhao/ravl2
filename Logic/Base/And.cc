@@ -15,7 +15,7 @@
 #include "Ravl/Logic/BindSet.hh"
 #include "Ravl/Logic/StateAndIter.hh"
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -32,14 +32,23 @@ namespace RavlLogicN {
     : ConditionBodyC(1)
   { args[0] = literalAnd; }
   
+  //: Create an and term with 'arity' elements.
+  
+  AndBodyC::AndBodyC(UIntT arity)
+    : ConditionBodyC(arity)
+  { args[0] = literalAnd; }
+  
   //: Constructor.
   
   AndBodyC::AndBodyC(const SArray1dC<LiteralC> &set)
-    : ConditionBodyC(set.Size() + 1)
   {
-    args[0] = literalAnd;
-    for(BufferAccessIter2C<LiteralC,LiteralC> it(set,args.BufferFrom(1,set.Size()));it;it++)
-      it.Data2() = it.Data1();
+    if(set[0] != literalAnd) {
+      args =SArray1dC<LiteralC>(set.Size() + 1);
+      args[0] = literalAnd;
+      for(BufferAccessIter2C<LiteralC,LiteralC> it(set,args.BufferFrom(1,set.Size()));it;it++)
+	it.Data2() = it.Data1();
+    } else
+      args = set;
     ONDEBUG(cerr << "AndBodyC::AndBodyC(), Name=" << Name() << "\n");
   }
   
@@ -64,6 +73,24 @@ namespace RavlLogicN {
       }
     }
     return true;
+  }
+  
+  //: Add literal.
+  
+  void AndBodyC::AndAdd(const LiteralC &lit) {
+    // FIXME :- Try and minimize
+    AndC an(lit);
+    if(an.IsValid()) 
+      AndAdd(an.Terms());
+    else
+      AddTerm(lit);
+  }
+  
+  //: Add literals.
+  
+  void AndBodyC::AndAdd(const SArray1dC<LiteralC> &lits) {
+    // FIXME :- Try and minimize
+    AddTerms(lits);
   }
   
   //: Return iterator through possibile matches to this literal in 'state', if any.

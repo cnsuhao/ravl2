@@ -63,4 +63,25 @@ namespace RavlLogicN {
     return ret;
   }
 
+  //: Add some terms.
+  
+  void ConditionBodyC::AddTerms(const SArray1dC<LiteralC> &terms) {
+    SArray1dC<LiteralC> newun(args.Size() + terms.Size());
+    for(BufferAccessIter2C<LiteralC,LiteralC> it(args,newun);it;it++)
+      it.Data2() = it.Data1();
+    for(BufferAccessIter2C<LiteralC,LiteralC> it(args.From(args.Size()),terms);it;it++)
+      it.Data2() = it.Data1();
+    args = newun;
+  }
+  
+  //: Add a term.
+  
+  void ConditionBodyC::AddTerm(const LiteralC &term) {
+    SArray1dC<LiteralC> newun(args.Size() + 1);
+    for(BufferAccessIter2C<LiteralC,LiteralC> it(args,newun);it;it++)
+      it.Data2() = it.Data1();
+    newun[args.Size()] = term;
+    args = newun;
+  }
+
 }

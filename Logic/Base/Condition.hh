@@ -61,6 +61,13 @@ namespace RavlLogicN {
     //: Return iterator through possibile matches to this literal in 'state', if any.
     
   protected:
+    void AddTerms(const SArray1dC<LiteralC> &terms);
+    //: Add some terms.
+    
+    void AddTerm(const LiteralC &term);
+    //: Add a term.
+    
+    friend class ConditionC;
   };
   
   //! userlevel=Normal
@@ -89,6 +96,14 @@ namespace RavlLogicN {
     { return static_cast<const ConditionBodyC &>(LiteralC::Body()); }
     //: Access body.
     
+    void AddTerms(const SArray1dC<LiteralC> &terms)
+    { Body().AddTerms(terms); }
+    //: Add some terms.
+    
+    void AddTerm(const LiteralC &term)
+    { Body().AddTerm(term); }
+    //: Add some terms.
+
   public:
     ConditionC(const LiteralC &term)
       : TupleC(term)

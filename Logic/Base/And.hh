@@ -27,6 +27,9 @@ namespace RavlLogicN {
     AndBodyC();
     //: Default constructor.
     
+    AndBodyC(UIntT arity);
+    //: Create an and term with 'arity' elements.
+    
     AndBodyC(const SArray1dC<LiteralC> &set);
     //: Constructor.
     
@@ -50,6 +53,12 @@ namespace RavlLogicN {
 
     virtual LiteralIterC Solutions(const StateC &state,BindSetC &binds) const;
     //: Return iterator through possibile matches to this literal in 'state', if any.
+    
+    void AndAdd(const LiteralC &lit);
+    //: Add literal.
+    
+    void AndAdd(const SArray1dC<LiteralC> &lits);
+    //: Add literals.
     
   };
   
@@ -109,6 +118,26 @@ namespace RavlLogicN {
     SizeT Size() const
     { return Body().Size(); }
     //: Get the number of terms to be anded together.
+    
+    void AndAdd(const LiteralC &lit)
+    { Body().AndAdd(lit); }
+    //: Add literal.
+    
+    void AndAdd(const SArray1dC<LiteralC> &lits)
+    { Body().AndAdd(lits); }
+    //: Add literals.
+    
+    const AndC &operator*=(const LiteralC &lit) {
+      AndAdd(lit);
+      return *this;
+    }
+    //: Add some terms.
+    
+    const AndC &operator*=(const SArray1dC<LiteralC> &lits) {
+      AndAdd(lits);
+      return *this;
+    }
+    //: Add some terms.
     
     friend class AndBodyC;
   };

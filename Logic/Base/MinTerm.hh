@@ -53,6 +53,9 @@ namespace RavlLogicN {
     //: Add another term to the minterm.
     
   protected:
+    void SetTerms(const SArray1dC<LiteralC> &nt,const SArray1dC<LiteralC> &nn);
+    //: Setup terms.
+    
     SArray1dC<LiteralC> t;
     SArray1dC<LiteralC> n;
   };
@@ -114,7 +117,7 @@ namespace RavlLogicN {
     MinTermC Copy() const
     { return MinTermC(static_cast<MinTermBodyC &>(Body().Copy())); }
     //: Copy this min term.
-
+    
     const MinTermC &operator*=(const LiteralC &lit) { 
       Body().AndAdd(lit); 
       return *this;

@@ -15,7 +15,7 @@
 #include "Ravl/Logic/BindSet.hh"
 #include "Ravl/Logic/StateOrIter.hh"
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -34,12 +34,14 @@ namespace RavlLogicN {
   
   //:  constructor.
   
-  OrBodyC::OrBodyC(const SArray1dC<LiteralC> &nterms) 
-    : ConditionBodyC(nterms.Size() + 1)
-  {
-    args[0] = literalOr;
-    for(BufferAccessIter2C<LiteralC,LiteralC> it(nterms,args.BufferFrom(1,nterms.Size()));it;it++)
-      it.Data2() = it.Data1();
+  OrBodyC::OrBodyC(const SArray1dC<LiteralC> &nterms) {
+    if(nterms[0] != literalOr) {
+      args = SArray1dC<LiteralC>(nterms.Size() + 1);
+      args[0] = literalOr;
+      for(BufferAccessIter2C<LiteralC,LiteralC> it(nterms,args.BufferFrom(1,nterms.Size()));it;it++)
+	it.Data2() = it.Data1();
+    } else
+      args = nterms;
     ONDEBUG(cerr << "OrBodyC::OrBodyC(), Name=" << Name() << "\n");    
   }
   
@@ -79,6 +81,24 @@ namespace RavlLogicN {
   
   LiteralIterC OrBodyC::Solutions(const StateC &state,BindSetC &binds) const {
     return StateOrIterC(state,OrC(const_cast<OrBodyC &>(*this)),binds);
+  }
+
+  //: Add literal.
+  
+  void OrBodyC::OrAdd(const LiteralC &lit) {
+    // FIXME :- Try and minimize
+    OrC on(lit);
+    if(on.IsValid()) 
+      OrAdd(on.Terms());
+    else
+      AddTerm(lit);    
+  }
+  
+  //: Add literals.
+  
+  void OrBodyC::OrAdd(const SArray1dC<LiteralC> &lits) {
+    // FIXME :- Try and minimize
+    AddTerms(lits);
   }
   
   //////////////////////////////////////////////////////////////////////
