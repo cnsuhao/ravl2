@@ -21,7 +21,7 @@
 
 namespace RavlN {
   //! userlevel=Normal
-  //: Point - plane in 2D projective space
+  //: Point - line in 2D projective space
   // The class represents a point/line in 2 dimensional projective space.
   // An object contains 3 real numbers which serve as its projective
   // coordinates. An object can be treated as a point and its dual line

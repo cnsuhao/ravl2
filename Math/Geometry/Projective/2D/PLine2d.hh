@@ -26,9 +26,9 @@ namespace RavlN {
   class PPoint2dC;
   
   //! userlevel=Normal
-  //: Plane in 3D projective space
+  //: Line in 2D projective space
   // The class represents a line in 2 dimensional projective space.
-  // A line contains 3 real numbers which serve as its projective
+  // A 2D line contains 3 real numbers which serve as its projective
   // coordinates. 
   
   class PLine2dC
