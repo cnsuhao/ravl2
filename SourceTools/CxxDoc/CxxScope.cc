@@ -158,7 +158,7 @@ namespace RavlCxxDocN
 	
 	// Specification for a templated object ?
 	if(ClassTemplateC::IsA(place)) {
-	  // Look for subtitutions for template paramiters.
+	  // Look for subtitutions for template parameters.
 	  ClassTemplateC ct(place);
 	  MatchTemplateArgs(ct,*it,templSub);
 	}
@@ -215,6 +215,7 @@ namespace RavlCxxDocN
       uses.InsLast(obj);
     
     obj.SetParentScope(this);
+    
     if(!tab.IsElm(obj.Name())) {
       // Just add new entity.
       tab.Insert(obj.BaseName(),obj);
@@ -227,11 +228,16 @@ namespace RavlCxxDocN
     // Handle forward declarations.
     StringC objDecType = obj.Var("dectype");
     StringC oldDecType = oldobj.Var("dectype");
-    if(objDecType == "forward") 
+    if(objDecType == "forward")
       return ; // Ignore forwards after any other declaration.
     if(oldDecType == "prototype") {
-      if(objDecType == "definition")  
+      if(objDecType == "definition") {
+	if(MethodC::IsA(oldobj)) {
+	  MethodC method(oldobj);
+	  method.SetDefinition(obj);
+	}
 	return ; // 
+      }
       if(objDecType == "prototype")  // Nothing wrong with having two prototypes...
 	return ; // 
     }
@@ -250,8 +256,8 @@ namespace RavlCxxDocN
 	if(listobj == oldobj) {
 	  listobj = obj;
 	  oldobj = obj; // Replace in table as well.
-	    //ONDEBUG(cerr << "Replaced " << oldobj.Name() << "\n");
-	    break;
+	  //ONDEBUG(cerr << "Replaced " << oldobj.Name() << "\n");
+	  break;
 	}
       }
       return ;
@@ -273,10 +279,16 @@ namespace RavlCxxDocN
       return ;
     }
     if(oldDecType == "definition") {
-      if(MethodC::IsA(obj)) {
-	MethodC aMethod(obj);
-	if(aMethod.ScopeInfo().IsValid())
-	  return ; // Just cause we haven't resolved scopes properly !
+      if(objDecType == "prototype") {
+	cerr << "WARNING: Replacing definition with prototype for " << oldobj.Name() <<"\n";
+	ObjectC wasOld = oldobj;
+	oldobj = obj; // Use prototype for documentation
+	if(MethodC::IsA(obj)) {
+	  MethodC aMethod(obj);
+	  aMethod.SetDefinition(wasOld);
+	  if(aMethod.ScopeInfo().IsValid())
+	    return ; // Its just cause we haven't resolved scopes properly !
+	}
       }
       return ; // 
     }

@@ -268,7 +268,7 @@ namespace RavlCxxDocN
       for(HashIterC<StringC,StringC> it(comment.Locals().Data());it.IsElm();it.Next())
 	Pad(out,indent+1) << "[" << it.Key() << "=" << it.Data() <<"]\n";
     }
-    for(DLIterC<ObjectC> it(list);it.IsElm();it.Next()) {
+    for(DLIterC<ObjectC> it(list);it;it++) {
       if(!it.Data().IsValid()) {
 	Pad(out,indent+2) << "Invalid ref.\n";
 	continue;

@@ -596,6 +596,20 @@ namespace RavlCxxDocN {
     //: Get full name of object
     // template args and all.
     
+    ObjectC &Definition()
+    { return definition; }
+    //: Access definition of object.
+    
+    void SetDefinition(const ObjectC &obj)
+    { definition = obj; }
+    //: Set object definition.
+    
+    virtual void Dump(ostream &out,int indent = 0);
+    //: Dump to 'out' in human readable form.
+    
+    StringC DefinitionName(const StringC &scopeName = StringC());
+    //: Compose the name as definition
+    
   protected:
     DataTypeC retType;
     DListC<DataTypeC> args;
@@ -604,6 +618,7 @@ namespace RavlCxxDocN {
     bool isConversion;
     bool isPointer;
     ObjectC quals;
+    ObjectC definition;
   };
   
   //! userlevel=Normal
@@ -702,6 +717,18 @@ namespace RavlCxxDocN {
     { return Body().Quals(); }
     //: Access method qualifiers.
 
+    const ObjectC &Definition()
+    { return Body().Definition(); }
+    //: Access definition of object.
+    
+    void SetDefinition(const ObjectC &obj)
+    { Body().SetDefinition(obj); }
+    //: Set object definition.
+    
+    StringC DefinitionName(const StringC &scopeName)
+    { return Body().DefinitionName(scopeName); }
+    //: Compose the name as definition
+    
     friend class MethodBodyC;
   };
   

@@ -311,6 +311,7 @@ namespace RavlCxxDocN
     MarkerC aMark(obj);
     if(aMark.IsValid()) {
       curAccess = aMark.Name();
+      list.InsLast(obj);
       //ONDEBUG(cerr << "ClassBodyC::Append(), Changing access '" << curAccess << "' \n");
       return;
     }
@@ -485,6 +486,59 @@ namespace RavlCxxDocN
     return ret;
   }
 
+  //: Compose the name as definition
+  
+  StringC MethodBodyC::DefinitionName(const StringC &aScopeName) {
+    StringC ret;
+    RCHashC<StringC,ObjectC> templSub;
+    DesciptionGeneratorC dg;
+    ObjectC scope = GetScope();
+    int maxDepth = 20;
+    StringC scopeName = aScopeName;
+    if(scopeName.IsEmpty()) {
+      if(scope.IsValid())
+	scopeName = scope.Name() + "::";
+    }
+    if(IsConversion()) {
+      ret += scopeName + "operator ";
+      ret += ReturnType().FullName(templSub,dg,maxDepth);
+    } else {
+      if(!IsConstructor()) {
+	ret += ReturnType().FullName(templSub,dg,maxDepth);
+	ret += ' ';
+      }
+      if(isPointer)
+	ret += "(*" ;
+      ret += scopeName + Var("BaseName");
+      if(isPointer)
+	ret += ')';
+    }
+    ret += dg.TextFor('(');
+    bool first = true;
+    for(ConstDLIterC<DataTypeC> it(Args());it;it++) {
+      if(first) 
+	first = false;
+      else
+	ret += dg.TextFor(',');
+      ret += it.Data().FullName(templSub,dg,maxDepth);
+      StringC alias = it.Data().Alias();
+      if(alias != "") {
+	ret += ' ';
+	if(alias.contains("="))
+	  ret += alias.before("=");
+	else
+	  ret += alias;
+      }
+    }
+    ret += dg.TextFor(')');
+    if(Quals().IsValid()) {
+      ret += ' ';
+      ret += Quals().Name();
+    }
+    
+    return ret;    
+  }
+
   //: Set constructor flag.
   
   void MethodBodyC::SetConstructor(bool val) {
@@ -493,6 +547,16 @@ namespace RavlCxxDocN
       SetVar("constructor","true");
     } else 
       comment.Vars().Del("constructor");
+  }
+  
+  //: Dump to 'out' in human readable form.
+  
+  void MethodBodyC::Dump(ostream &out,int indent) {
+    if(definition.IsValid()) {
+      Pad(out,indent+1) << "Def:\n"; 
+      definition.Dump(out,indent+2);
+    }
+    ObjectBodyC::Dump(out,indent);
   }
   
   //////// TypedefBodyC ///////////////////////////////////////////////////////////
@@ -538,7 +602,7 @@ namespace RavlCxxDocN
     } else
       SetVar("datatype","*unknown*");
   }
-
+  
   //////// InheritBodyC ///////////////////////////////////////////////////////////
   
   //: Constructor.
