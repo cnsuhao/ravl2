@@ -9,9 +9,9 @@
 
 PACKAGE=Ravl/Image
 
-HEADERS=Corner.hh CornerDetector.hh CornerDetectorHarris.hh
+HEADERS=Corner.hh CornerDetector.hh CornerDetectorHarris.hh CornerDetectorSusan.hh
 
-SOURCES=Corner.cc CornerDetector.cc CornerDetectorHarris.cc
+SOURCES=Corner.cc CornerDetector.cc CornerDetectorHarris.cc CornerDetectorSusan.cc
 
 PLIB=RavlImageProc
 
@@ -23,5 +23,5 @@ EXAMPLES= exCorner.cc
 
 EHT= Ravl.Images.Corner_Detection.html
 
-PROGLIBS=RavlImageIO RavlDPDisplay
-#  RavlImgIOV4L
+PROGLIBS=RavlImageIO RavlDPDisplay 
+# RavlImgIOV4L

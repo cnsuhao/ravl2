@@ -9,6 +9,7 @@
 //! file="Ravl/Image/Processing/Corners/exCorner.cc"
 
 #include "Ravl/Image/CornerDetectorHarris.hh"
+#include "Ravl/Image/CornerDetectorSusan.hh"
 #include "Ravl/Option.hh"
 #include "Ravl/Image/DrawFrame.hh"
 #include "Ravl/IO.hh"
@@ -21,11 +22,16 @@ int main(int nargs,char **argv) {
   int w = opt.Int("w",3,"width of filter mask. ");
   StringC inf = opt.String("","test.ppm","Input image. ");
   StringC outf = opt.String("","out.ppm","Output image. ");
+  bool useHarris = opt.Boolean("h",false,"Use harris corner detector, else ues susan. ");
   opt.Check();
   
   // Setup corner detector.
   
-  CornerDetectorHarrisC harris(threshold,w);
+  CornerDetectorC cornerDet;
+  if(useHarris)
+    cornerDet = CornerDetectorHarrisC(threshold,w);
+  else
+    cornerDet = CornerDetectorSusanC(threshold);
   
   // Load an image.
   
@@ -37,7 +43,7 @@ int main(int nargs,char **argv) {
   
   // Find the corners.
   
-  DListC<CornerC> corners = harris.Apply(img);
+  DListC<CornerC> corners = cornerDet.Apply(img);
   
   // Draw boxes around the corners.
   
