@@ -20,8 +20,8 @@
 
 namespace RavlN {
   
-  template <unsigned int N>
-  class TFPointC;
+  template <unsigned int N> class TFPointC;
+  template <unsigned int N,unsigned int M> class FMatrixC;
   
   //! userlevel=Advanced
   //: Real Vector with templated size
@@ -75,6 +75,7 @@ namespace RavlN {
     const FVectorC<N> &MakeUnit()
     { (*this) = Unit(); return *this; }
     //: Make this a unit vector.
+    
   };
 }
 
