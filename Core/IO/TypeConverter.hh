@@ -47,6 +47,10 @@ namespace RavlN {
     bool Remove(DPConverterBaseC &tc);
     //: Remove old conversion.
     
+    GraphC<StringC,DPConverterBaseC> &Graph()
+      { return convGraph; }
+    //: Access converstion graph.
+    
   protected:
     static RealT EdgeEval(const DPConverterBaseC &edge);
     
@@ -118,6 +122,9 @@ namespace RavlN {
       outraw = out.Data();
       return true;
     }
+    //: Do a conversion.
+    // This is really only for testing, if you know exactly what the
+    // types of the objects are you can convert directly.
     
     template<class OutT>
     bool TypeConvert(const RCWrapAbstractC &in,OutT &outraw) {
@@ -129,6 +136,11 @@ namespace RavlN {
       outraw = out.Data();
       return true;
     }
+    //: Do a conversion from an object held in an abstract handle.
+    
+    GraphC<StringC,DPConverterBaseC> &Graph()
+      { return Body().Graph(); }
+    //: Access converstion graph.
   };
 
   TypeConverterC &SystemTypeConverter();
