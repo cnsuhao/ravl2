@@ -658,10 +658,10 @@ namespace RavlN {
     //: Remove while space from begining and end of string.
     
     IntT IntValue() const;
-    //: Interpret stream as an integer.
+    //: Interpret string as an integer.
     
     RealT RealValue() const;
-    //: Interpret stream as a floating point value.
+    //: Interpret string as a floating point value.
     
     /* concatenate first 2 args, store result in last arg */
     
@@ -870,6 +870,12 @@ namespace RavlN {
     SubStringC TopAndTail() const;
     //: Remove while space from begining and end of string.
     
+    IntT IntValue() const;
+    //: Interpret string as an integer.
+    
+    RealT RealValue() const;
+    //: Interpret string as a floating point value.
+   
     // IO 
     
     friend ostream& operator<<(ostream& s, const SubStringC& x);

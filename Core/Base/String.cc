@@ -1280,6 +1280,18 @@ namespace RavlN {
     return atof(chars());
   }
   
+  //: Interpret string as an integer.
+  
+  IntT SubStringC::IntValue() const {
+    return atoi(chars());
+  }
+  
+  //: Interpret string as a floating point value.
+  
+  RealT SubStringC::RealValue() const {
+    return atof(chars());
+  }
+  
   
   int StringC::OK() const {
     if (rep == 0             // don't have a rep
