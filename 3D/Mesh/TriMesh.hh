@@ -25,6 +25,7 @@ namespace Ravl3DN {
   using RavlN::SArray1dC;
   using RavlN::RealT;
   using RavlN::RCHandleC;
+  using RavlN::DLinkC;
 #endif
 
   

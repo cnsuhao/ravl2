@@ -25,6 +25,10 @@ namespace Ravl3DN
 {
   using namespace RavlN;
   using namespace RavlImageN;
+#if RAVL_VISUALCPP_NAMESPACE_BUG
+  using RavlImageN::ImageC;
+  using RavlImageN::ByteRGBAValueC;
+#endif
 
   //! userlevel=Normal
   //! AutoLink=on

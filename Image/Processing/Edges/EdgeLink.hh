@@ -62,13 +62,13 @@ namespace RavlImageN {
     
   protected:
     static NeighbourOrderT GetDir(ByteT val, FBOrientationT oo) 
-    { return (NeighbourOrderT)((val >> (oo==FB_FORWARD) ? 2 : 5) & 7); }
+    { return (NeighbourOrderT)((val >> ((oo==FB_FORWARD) ? 2 : 5)) & 7); }
     
     static void PutDir(ByteT &dest,NeighbourOrderT dir,FBOrientationT  oo) 
-    { dest |= (dir << (oo == FB_FORWARD) ? 2 : 5); }
-
+    { dest |= (dir << ((oo == FB_FORWARD) ? 2 : 5)); }
+    
     void PutDir(const Index2dC &pxl,NeighbourOrderT dir,FBOrientationT  oo) 
-    { (*this)[pxl] |= (dir << (oo == FB_FORWARD) ? 2 : 5); }
+    { (*this)[pxl] |= (dir << ((oo == FB_FORWARD) ? 2 : 5)); }
     
     static EdgeStateT GetState(ByteT value)
     { return (EdgeStateT) (value & 3); }

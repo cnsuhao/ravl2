@@ -4,12 +4,17 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#include "PointSet.hh"
-#include "Ravl/SArr1Iter.hh"
 //! rcsid="$Id$"
 //! lib=RavlCarve3D
 
+#include "Ravl/3D/PointSet.hh"
+#include "Ravl/SArr1Iter.hh"
+
 namespace Ravl3DN {
+#if RAVL_VISUALCPP_NAMESPACE_BUG
+  using namespace RavlN;
+  using namespace RavlImageN;
+#endif
   
   // Make a copy of the point set.
   

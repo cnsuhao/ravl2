@@ -20,7 +20,7 @@
 //#include <stdio.h>
 #include <setjmp.h>
 
-#define DODEBUG 0
+#define DODEBUG 1
 #if DODEBUG
 #define ONDEBUG(x) x
 #else

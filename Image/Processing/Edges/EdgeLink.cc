@@ -26,16 +26,16 @@ namespace RavlImageN {
 
   EdgeLinkC HysterisisThreshold(const ImageC<RealT> &img,RealT upThr,RealT downThr) {
     EdgeLinkC ret(img.Rectangle());
-    
-    for(Array2dIter2C<ByteT,RealT> it(ret,img);it;it++)
+    Array2dIter2C<ByteT,RealT> it(ret,img);
+    for(;it;it++)
       it.Data1() = (it.Data2() <= downThr) ? EDGE_PROC : EDGE_UNPROC;
     
     DrawFrame(ret,(ByteT) EDGE_PROC,ret.Frame());
     
-    for(Array2dIter2C<ByteT,RealT> it(ret,img);it;it++)
+    for(it.First();it;it++)
       if((it.Data2() > upThr) && (((EdgeStateT) it.Data1()) == EDGE_UNPROC))
 	ret.LabelContour(it.Index());
-
+    
 #if 0 
     // Don't really need to do this.
     for(Array2dIterC<ByteT> it(ret);it;it++)

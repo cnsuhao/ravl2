@@ -29,9 +29,14 @@
 #include "Ravl/Array2dSqr2Iter2.hh"
 
 namespace RavlImageN {
+#if RAVL_VISUALCPP_NAMESPACE_BUG
   using namespace RavlN;
-  
-  
+  using RavlN::SArray1dC;
+  using RavlN::RCBodyC;
+  using RavlN::RCHandleC;
+  using RavlN::Tuple2C;
+#endif
+
   //! userlevel=Develop
   //: Connected component labelling base class
   

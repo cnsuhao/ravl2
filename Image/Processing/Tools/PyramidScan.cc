@@ -20,6 +20,9 @@
 #endif
 
 namespace RavlImageN {
+#if RAVL_VISUALCPP_NAMESPACE_BUG
+  using namespace RavlN;
+#endif
   
   //: Setup a scan.
   // frame - Rectangle to be scanned.

@@ -140,8 +140,9 @@ namespace RavlImageN {
     // which should have the same label. It is valid that a root item
     // of a tree has the same label value as the item index.
   {
+    SArray1dIterC<UIntT> it(labelTable,currentMaxLabel+1);
     // Make all trees of labels to be with depth one.
-    for(SArray1dIterC<UIntT> it(labelTable,currentMaxLabel+1);it;it++)
+    for(;it;it++)
       *it = labelTable[*it];
     
     // Now all components in the 'labelTable' have a unique label.
@@ -149,7 +150,7 @@ namespace RavlImageN {
     
     // Squeeze the table. 
     UIntT n = 0;                     // the next new label  
-    for(SArray1dIterC<UIntT> it(labelTable,currentMaxLabel+1);it;it++) {
+    for(it.First();it;it++) {
       UIntT m = labelTable[*it];  // the label of the tree root
       
       // In the case m >= n the item with the index 'l' contains 
@@ -190,8 +191,8 @@ namespace RavlImageN {
     UIntT newLastLabel = RelabelTable(newLabs,labels-1);
     
     // And relable the image.
-    for(Array2dIterC<UIntT> it(segmap);it;it++)
-      *it = newLabs[*it];
+    for(Array2dIterC<UIntT> iti(segmap);iti;iti++)
+      *iti = newLabs[*iti];
     
     labels = newLastLabel+1;
     return labels;
@@ -220,8 +221,8 @@ namespace RavlImageN {
     }
     
     // Remove small components
-    for(Array2dIterC<UIntT> it(segmap);it;it++)
-      *it = area[*it];
+    for(Array2dIterC<UIntT> iti(segmap);iti;iti++)
+      *iti = area[*iti];
     
     labels = newLabel;
     return newLabel;    

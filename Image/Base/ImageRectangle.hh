@@ -20,6 +20,14 @@
 namespace RavlImageN {
   using namespace RavlN;
   
+#if RAVL_VISUALCPP_NAMESPACE_BUG
+  using RavlN::IndexRange2dC;
+  using RavlN::IntT;
+  using RavlN::Index2dC;
+  using RavlN::SizeT;
+  using RavlN::IndexC;
+#endif
+  
   //! userlevel=Normal
   //: Image Rectangle.
   

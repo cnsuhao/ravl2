@@ -18,11 +18,14 @@
 #include "Ravl/Tuple2.hh"
 
 namespace RavlImageN {
-
+#if RAVL_VISUALCPP_NAMESPACE_BUG
   using namespace RavlN;
+  using RavlN::RCBodyC;
+  using RavlN::RCHandleC;
+#endif
   
   class EdgeDericheC;
-  
+
   //! userlevel=Develop
   //: Deriche edge filter.
   

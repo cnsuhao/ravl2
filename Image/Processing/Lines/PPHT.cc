@@ -627,8 +627,8 @@ namespace RavlImageN {
     allvotes = 0;
     ImageRectangleC rect(0,0,0,0);
     // Look at incoming data.
-    for(DLIterC<EdgelC > it(const_cast<DListC<EdgelC > &>(dat));
-	it.IsElm();it.Next()) {
+    DLIterC<EdgelC > it(const_cast<DListC<EdgelC > &>(dat));
+    for(;it;it++) {
       Index2dC at = it.Data().At();
       pmap.Insert(at);
       rect.Involve(at);
@@ -673,8 +673,7 @@ namespace RavlImageN {
     //pixMap.Fill(0);
     ONDYNTHRESH(angleCount.Fill(0));
     
-    for(DLIterC<EdgelC > it(sortIt);
-	it.IsElm();it.Next()) {
+    for(it = sortIt;it;it++) {
       Index2dC at = it.Data().At();
       
       if(!useSobol && !useMagSort)

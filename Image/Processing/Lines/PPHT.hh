@@ -250,10 +250,10 @@ namespace RavlImageN {
     {}
     //: Default constructor.
     
-    PPHoughTransformC(Point2dC nRes = Point2dC(0.01,1),RealT fp = 0.999999,RealT angRange = 90,RealT maxPTime = -1,bool useSobol = false,RealT sFract = 1,bool fullDir = false)
+    PPHoughTransformC(Point2dC nRes,RealT fp = 0.999999,RealT angRange = 90,RealT maxPTime = -1,bool useSobol = false,RealT sFract = 1,bool fullDir = false)
       : RCHandleC<PPHoughTransformBodyC>(*new PPHoughTransformBodyC(nRes,fp,angRange,maxPTime,useSobol,sFract,fullDir))
     {}
-    //: Default constructor.
+    //: Constructor.
     
   protected:
     

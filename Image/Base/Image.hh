@@ -22,7 +22,15 @@
 
 namespace RavlImageN {
   using namespace RavlN;
-  
+#if RAVL_VISUALCPP_NAMESPACE_BUG
+  using RavlN::Array2dC;
+  using RavlN::UIntT;
+  using RavlN::IndexRangeC;
+  using RavlN::BufferC;
+  using RavlN::TFVectorC;
+  using RavlN::RealT;
+#endif
+
   //! userlevel=Normal
   //: Basic Image
   

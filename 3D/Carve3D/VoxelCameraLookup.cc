@@ -13,8 +13,12 @@
 #include "Ravl/SArr1Iter.hh"
 #include "Ravl/Array2dIter2.hh"
 
-namespace Ravl3DN
-{
+namespace Ravl3DN {
+#if RAVL_VISUALCPP_NAMESPACE_BUG
+  using namespace RavlN;
+  using namespace RavlImageN;
+#endif
+  
   VoxelCameraLookupBodyC::VoxelCameraLookupBodyC(const PinholeCamera0C& ncamera,
 						 UIntT image_rows,
 						 UIntT image_cols,
@@ -33,9 +37,14 @@ namespace Ravl3DN
     RealT fy = camera.fy();
 
     // transform from camera to voxel co-ords
-    Matrix3dC R = voxel.R() * camera.R().T();
-    Vector3dC t = voxel.t() + voxel.R() * (camera.R().TMul(camera.t()) * -1.0);
-
+    // Matrix3dC R = voxel.R() * camera.R().T();
+    Matrix3dC R;
+    MulM<RealT,3,3,3>(voxel.R(),camera.R().T(),R);
+    // Vector3dC t = voxel.t() + voxel.R() * (camera.R().TMul(camera.t()) * -1.0);
+    Vector3dC t, tempt;
+    TMul<RealT,3,3>(camera.R(),camera.t(),tempt); tempt *= -1.0;
+    MulAdd<RealT,3,3>(voxel.R(),tempt,voxel.t(),t);
+    
     // cerr << "cam-voxel t: " << t << endl;
 
     // generate lookup

@@ -20,7 +20,12 @@
 
 namespace RavlImageN {
   using namespace RavlN;
-  
+#if RAVL_VISUALCPP_NAMESPACE_BUG
+  using RavlN::ATan2;
+  using RavlN::Sqr;
+  using RavlN::Sqrt;
+#endif
+
   //! userlevel=Normal
   //: Edge Location, Direction and Magniture information.
   

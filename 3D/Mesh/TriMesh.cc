@@ -15,7 +15,9 @@
 #include "Ravl/SArr1Iter2.hh"
 
 namespace Ravl3DN {
+#if RAVL_VISUALCPP_NAMESPACE_BUG
   using namespace RavlN;
+#endif
   
   //: Construct from an array of vertexes and an array of indexes.
   // The length of faceInd should be a power of 3, success triples are taken

@@ -19,7 +19,17 @@
 #include "Ravl/DLIter.hh"
 
 namespace RavlImageN {
-  
+#if RAVL_VISUALCPP_NAMESPACE_BUG
+  using namespace RavlN;
+  using RavlN::DListC;
+  using RavlN::DLIterC;
+  using RavlN::IntT;
+  using RavlN::RealT;
+  using RavlN::SArray1dC;
+  using RavlN::Point2dC;
+  using RavlN::ByteT;
+#endif
+
   template<class PixelT> class ImageC;
   
   //! userlevel=Normal

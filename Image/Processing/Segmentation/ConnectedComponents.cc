@@ -31,8 +31,9 @@ namespace RavlImageN {
   UIntT ConnectedComponentsBaseBodyC::RelabelTable(SArray1dC<UIntT> &labelTable, UIntT currentMaxLabel) {
     ONDEBUG(cerr << "ConnectedComponentsBaseBodyC::RelabelTable(), Called. MaxLabel:" << currentMaxLabel << "\n");
     
+    SArray1dIterC<UIntT> it(labelTable,currentMaxLabel+1);
     // Make all trees of labels to be with depth one.
-    for(SArray1dIterC<UIntT> it(labelTable,currentMaxLabel+1);it;it++)
+    for(;it;it++)
       *it = labelTable[*it];
     
     // Now all components in the 'labelTable' have a unique label.
@@ -40,7 +41,7 @@ namespace RavlImageN {
     
     // Squeeze the table. 
     UIntT n = 0;                     // the next new label  
-    for(SArray1dIterC<UIntT> it(labelTable,currentMaxLabel+1);it;it++) {
+    for(it.First();it;it++) {
       UIntT m = labelTable[*it];  // the label of the tree root
       
       // In the case m >= n the item with the index 'l' contains 

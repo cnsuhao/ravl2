@@ -107,9 +107,8 @@ namespace RavlImageN {
     
     // stock results of 1-st passage
     
-    for(Array2dIter2C<RealT,RealT> it(a4,a3);
-	it.IsElm();it.Next())
-      it.Data1() += it.Data2();
+    for(Array2dIter2C<RealT,RealT> itx(a4,a3);itx;itx++)
+      itx.Data1() += itx.Data2();
     return true;
   }
   
@@ -202,9 +201,8 @@ namespace RavlImageN {
     XDer2n(im,a2,a4); 
 #endif
     
-    for(Array2dIter2C<RealT,RealT> it(a4,a3);
-	it.IsElm();it.Next())
-      it.Data1() += it.Data2();  
+    for(Array2dIter2C<RealT,RealT> itx(a4,a3);itx;itx++)
+      itx.Data1() += itx.Data2();  
     return true;
   }
   

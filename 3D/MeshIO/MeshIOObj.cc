@@ -227,18 +227,18 @@ namespace Ravl3DN {
     outf << "# OBJ file, created by RAVL MeshIO.\n";
     for(SArray1dIterC<VertexC> vit(dat.Vertices());vit;vit++)
       outf << "v " <<  vit->Position() << '\n';
-    for(SArray1dIterC<VertexC> vit(dat.Vertices());vit;vit++)
-      outf << "vn " <<  vit->Normal() << '\n';
+    for(SArray1dIterC<VertexC> vit2(dat.Vertices());vit2;vit2++)
+      outf << "vn " <<  vit2->Normal() << '\n';
     if(dat.HaveTextureCoord()) { // With texture co-ordinates ?
       for(SArray1dIterC<TriC> it(dat.Faces());it;it++) {
 	for(int i = 0;i < 3;i++)
 	  outf << "vt " << it->TextureCoords()[i] << "\n";
       }
-      for(SArray1dIterC<TriC> it(dat.Faces());it;it++) {
+      for(SArray1dIterC<TriC> itf(dat.Faces());itf;itf++) {
 	outf << "f ";
 	for(int i = 0;i < 3;i++) {
-	  IntT ind = dat.Index(*it,i) + 1;
-	  IntT at = it.Index().V();
+	  IntT ind = dat.Index(*itf,i) + 1;
+	  IntT at = itf.Index().V();
 	  // Vertex/Texture/Normal
 	  outf << ind << '/' << (at+i) << '/' << ind << ' '; 
 	}

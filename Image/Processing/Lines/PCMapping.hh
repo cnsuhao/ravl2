@@ -142,9 +142,8 @@ namespace RavlImageN {
     CurveT::WriteGFHeader(out); // Write curve header.
     out << endl;
     IntT id = 1;
-    for(DLIterC<PCPixMapC<CurveT> > it(*this);
-	it.IsElm();
-	it.Next()) {
+    DLIterC<PCPixMapC<CurveT> > it(*this);
+    for(;it;it++) {
       out << id++ << " ";
       it.Data().Curve().WriteGF(out);
       out << endl;
@@ -154,9 +153,7 @@ namespace RavlImageN {
     out << "Format ";
     PCPixelListC::WriteGFHeader(out);
     out << endl;
-    for(DLIterC<PCPixMapC<CurveT> > it(*this);
-	it.IsElm();
-	it.Next()) {
+    for(it.First();it;it++) {
       it.Data().PixList().WriteGFPnts(out);
       out << endl;
     }
