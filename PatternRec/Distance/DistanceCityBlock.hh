@@ -9,13 +9,15 @@
 //////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! docentry="Ravl.Pattern Recognition.Distance"
 
 #include "Ravl/PatternRec/Distance.hh"
 
 namespace RavlN {
   
   //! userlevel=Develop
-  //: Distance body.
+  //: Distance city block body.
+  // Calculates the sum of the difference of the corresponding vector elements.
   
   class DistanceCityBlockBodyC
     : public DistanceBodyC
@@ -30,8 +32,9 @@ namespace RavlN {
     
   };
 
-  //! userlevel=Develop
-  //: Distance Metric
+  //! userlevel=Normal
+  //: Distance, City block Metric
+  // Calculates the sum of the difference of the corresponding vector elements.
   
   class DistanceCityBlockC
     : public DistanceC

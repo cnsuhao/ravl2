@@ -21,3 +21,5 @@ LIBDEPS=RavlPatternRecDistance.def
 PLIB=RavlPatternRec
 
 USESLIBS=RavlPatternRec RavlMath
+
+EHT=Ravl.Pattern_Recognition.Distance.html

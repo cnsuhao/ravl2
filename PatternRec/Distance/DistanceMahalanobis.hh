@@ -9,6 +9,7 @@
 //////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! docentry="Ravl.Pattern Recognition.Distance"
 
 #include "Ravl/PatternRec/Distance.hh"
 #include "Ravl/Matrix.hh"
@@ -16,7 +17,7 @@
 namespace RavlN {
   
   //! userlevel=Develop
-  //: Distance body.
+  //: Mahalanobis Distance body.
   
   class DistanceMahalanobisBodyC
     : public DistanceBodyC
@@ -31,9 +32,9 @@ namespace RavlN {
   protected:
     MatrixC iCovar; // Inverse covariance matrix.
   };
-
-  //! userlevel=Develop
-  //: Distance Metric
+  
+  //! userlevel=Normal
+  //: Mahalanobis distance metric
   
   class DistanceMahalanobisC
     : public DistanceC

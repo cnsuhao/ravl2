@@ -9,13 +9,14 @@
 //////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! docentry="Ravl.Pattern Recognition.Distance"
 
 #include "Ravl/PatternRec/Distance.hh"
 
 namespace RavlN {
   
   //! userlevel=Develop
-  //: Distance body.
+  //: Euclidean distance body.
   
   class DistanceEuclideanBodyC
     : public DistanceBodyC
@@ -30,8 +31,8 @@ namespace RavlN {
     
   };
 
-  //! userlevel=Develop
-  //: Distance Metric
+  //! userlevel=Normal
+  //: Euclidean distance metric
   
   class DistanceEuclideanC
     : public DistanceC

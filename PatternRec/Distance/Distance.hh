@@ -9,6 +9,7 @@
 //////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! docentry="Ravl.Pattern Recognition.Distance"
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/Vector.hh"
@@ -30,8 +31,8 @@ namespace RavlN {
     //: Measure the distance from d1 to d2.
     
   };
-
-  //! userlevel=Develop
+  
+  //! userlevel=Normal
   //: Distance Metric
   
   class DistanceC

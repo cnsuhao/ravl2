@@ -9,13 +9,16 @@
 //////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! docentry="Ravl.Pattern Recognition.Distance"
 
 #include "Ravl/PatternRec/Distance.hh"
 
 namespace RavlN {
   
   //! userlevel=Develop
-  //: Distance body.
+  //: Distance max body.
+  // Returns the maximum difference between elements corresponding 
+  // elements of the vector.
   
   class DistanceMaxBodyC
     : public DistanceBodyC
@@ -30,8 +33,10 @@ namespace RavlN {
     
   };
 
-  //! userlevel=Develop
-  //: Distance Metric
+  //! userlevel=Normal
+  //: Distance max Metric
+  // Returns the maximum difference between elements corresponding 
+  // elements of the vector.
   
   class DistanceMaxC
     : public DistanceC

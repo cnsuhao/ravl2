@@ -19,3 +19,4 @@ PLIB = RavlPatternRec
 
 USESLIBS=RavlCore RavlMath
 
+EHT=Ravl.Pattern_Recognition.Data_Set.html

@@ -9,3 +9,5 @@
 PACKAGE=Ravl
 
 NESTED=DataSet.r Distance.r 
+
+EHT=Ravl.Pattern_Recognition.html
