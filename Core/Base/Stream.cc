@@ -244,18 +244,14 @@ namespace RavlN {
 #endif
     if(append)
       fmode |= ios::app;  
-#if !RAVL_COMPILER_GCC3
-    Init(ofstrm = new ofstream(filename.chars(),fmode),filename);
-#else
+#if RAVL_COMPILER_GCC3
     Init(ofstrm = new ofstream(filename.chars(),(std::_Ios_Openmode) fmode),filename);
-#endif
-      
-    //Init(ofstrm = new ofstream(filename),filename);
-    out = ofstrm;
-#if !RAVL_COMPILER_GCC3
+#else
+    Init(ofstrm = new ofstream(filename.chars(),fmode),filename);
     if(!buffered) 
       ofstrm->setbuf(0,0);
-#endif
+#endif      
+    out = ofstrm;
   }
   
   //: Get data from unix filehandle.
@@ -272,8 +268,10 @@ namespace RavlN {
     basic_fdfilebuf<ofstream::char_type,ofstream::traits_type> *bfd = 
       (basic_fdfilebuf<ofstream::char_type,ofstream::traits_type> *) ofs->rdbuf(); 
     ios_base::openmode mode = ios_base::out;
+#if RAVL_HAVE_IOS_BINARY
     if(binary)
       mode |= ios_base::binary;
+#endif
     if(!buffered)
       bfd->SetBuf(0,0);
     if(!bfd->open(fd,mode))
@@ -373,8 +371,10 @@ namespace RavlN {
       (basic_fdfilebuf<ifstream::char_type,ifstream::traits_type>  *) ifs->rdbuf(); 
     cerr << "Opening file descriptor " << fd << "\n";
     ios_base::openmode mode = ios_base::in;
+#if RAVL_HAVE_IOS_BINARY
     if(binary)
       mode |= ios_base::binary;
+#endif
     if(!buffered)
       bfd->SetBuf(0,0);
     if(bfd->open(fd,mode) == 0) {
