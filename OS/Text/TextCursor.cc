@@ -333,12 +333,12 @@ namespace RavlN {
   static SArray1dC<bool> BuildClipID() {
     SArray1dC<bool> tab(256);
     tab.Fill(false);
-    for(int i = 'a';i <= 'z';i++)
-      tab[i] = true;
-    for(int i = 'A';i <= 'Z';i++)
-      tab[i] = true;
-    for(int i = '0';i <= '9';i++)
-      tab[i] = true;
+    {for(int i = 'a';i <= 'z';i++)
+      tab[i] = true;}
+    {for(int i = 'A';i <= 'Z';i++)
+      tab[i] = true;}
+    {for(int i = '0';i <= '9';i++)
+      tab[i] = true;}
     tab[(int) '_'] = true;
     return tab;
   }
