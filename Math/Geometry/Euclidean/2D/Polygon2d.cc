@@ -336,14 +336,12 @@ namespace RavlN {
   
   RealT Polygon2dC::Overlap(const Polygon2dC &poly) const {
     RealT thisArea = Area();
+    RealT polyArea = poly.Area();
+    Polygon2dC localPoly = poly;
     Polygon2dC localThis = *this;
-    if(thisArea > 0) {
+    if(thisArea > 0 && polyArea > 0) {
       localThis = Copy();
       localThis.Reverse();
-    }
-    RealT polyArea = poly.Area();
-    Polygon2dC localPoly = *this;
-    if(polyArea > 0) {
       localPoly = poly.Copy();
       localPoly.Reverse();
     }
@@ -356,16 +354,13 @@ namespace RavlN {
   //!return: 0= Not overlapping 1=If the two polygons are identical.
   
   RealT Polygon2dC::CommonOverlap(const Polygon2dC &poly) const {
+    RealT polyArea = poly.Area();
     RealT thisArea = Area();
+    Polygon2dC localPoly = poly;
     Polygon2dC localThis = *this;
-    if(thisArea > 0) {
+    if(thisArea > 0 && polyArea > 0)  {
       localThis = Copy();
       localThis.Reverse();
-    }
-    
-    RealT polyArea = poly.Area();
-    Polygon2dC localPoly = *this;
-    if(polyArea > 0) {
       localPoly = poly.Copy();
       localPoly.Reverse();
     }
