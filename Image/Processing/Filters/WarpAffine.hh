@@ -61,6 +61,17 @@ namespace RavlImageN {
     }
     //: Set the current transform.
     
+    ImageRectangleC InputRectangle() const { 
+      RealRange2dC orng(rec);
+      ImageRectangleC ret(trans * orng.TopRight(),0);
+      ret.Involve(trans * orng.TopLeft());
+      ret.Involve(trans * orng.BottomRight());
+      ret.Involve(trans * orng.BottomLeft());
+      return ret;
+    }
+    //: Get range of input rectangle that will be used.
+    // Note: This may be larger than the actual input provided.
+    
     MixerT &Mixer() 
     { return mixer; }
     //: Access mixer class.

@@ -81,6 +81,17 @@ namespace RavlImageN {
     }
     //: Set projective transform.
     
+    ImageRectangleC InputRectangle() const { 
+      RealRange2dC orng(rec);
+      ImageRectangleC ret(Project(orng.TopRight()),0);
+      ret.Involve(Project(orng.TopLeft()));
+      ret.Involve(Project(orng.BottomRight()));
+      ret.Involve(Project(orng.BottomLeft()));
+      return ret;
+    }
+    //: Get range of input rectangle that will be used.
+    // Note: This may be larger than the actual input provided.
+    
     Point2dC BackProject(const Point2dC &pnt) const;
     // Transform a point from the destination to source.
 

@@ -38,10 +38,31 @@ namespace RavlImageN {
     //: Performs histogram equalisation on image 'in'.
     // Returns a new equalised image.
     
+    Array1dC<RealT> &Filter()
+    { return binomial; }
+    //: Access current filter.
+    // Note the save/load routines of this class do NOT save
+    // the filter co-efficients, just its order. So modifying
+    // them and saving this class is pointless.
+    
+    const Array1dC<RealT> &Filter() const
+    { return binomial; }
+    //: Access current filter.
+    
+    UIntT Order() const
+    { return binomial.Size(); }
+    //: Get size of gausian.
+    
     friend ostream &operator<< <>(ostream &s, const GaussConvolveC<DataT> &out);
     //: output stream operator
     
     friend istream &operator>> <>(istream &s, GaussConvolveC<DataT> &in);
+    //: input stream operator
+    
+    friend BinOStreamC &operator<< <>(BinOStreamC &s, const GaussConvolveC<DataT> &out);
+    //: output stream operator
+    
+    friend BinIStreamC &operator>> <>(BinIStreamC &s, GaussConvolveC<DataT> &in);
     //: input stream operator
     
   protected:
@@ -74,6 +95,20 @@ namespace RavlImageN {
 
   template<class DataT>
   istream &operator>>(istream &s, GaussConvolveC<DataT> &in) {
+    UIntT sz;
+    s >> sz;
+    in = GaussConvolveC<DataT>(sz);
+    return s;
+  }
+  
+  template<class DataT>
+  BinOStreamC &operator<<(BinOStreamC &s, const GaussConvolveC<DataT> &out) {
+    s << out.binomial.Size();    
+    return s;
+  }
+  
+  template<class DataT>
+  BinIStreamC &operator>>(BinIStreamC &s, GaussConvolveC<DataT> &in) {
     UIntT sz;
     s >> sz;
     in = GaussConvolveC<DataT>(sz);
