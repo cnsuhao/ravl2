@@ -142,6 +142,14 @@ namespace RavlN {
     //: Append data to this array.
     // Returns index of new item.
     
+    bool Remove(IndexC i);
+    //: Remove single entry from the array.
+    
+    bool Remove(IndexC min,IndexC max);
+    //: Remove entries from min to max from the array.
+    // This removes entries from min to max inclusively from
+    // the array.
+    
     bool Contains(IndexC i) const;
     //: Test if container contains index.
     
@@ -185,6 +193,9 @@ namespace RavlN {
     // This doesn't count holes in the array.
     
   protected:
+    bool FindChunk(int i,IntrDLIterC<DChunkC<DataT> > &it) const;
+    //: Find the chunk containing the interest.
+    
     IntrDListC<DChunkC<DataT> > chunks;
     
     // Some extra stuff to make appending single items faster. 
@@ -269,6 +280,16 @@ namespace RavlN {
     //: Append data to this array.
     // Returns index of new item.
     
+    bool Remove(IndexC i)
+    { return Body().Remove(i); }
+    //: Remove single entry from the array.
+    
+    bool Remove(IndexC min,IndexC max)
+    { return Body().Remove(min,max); }
+    //: Remove entries from min to max from the array.
+    // This removes entries from min to max inclusively from
+    // the array.
+    
     bool Contains(IndexC i) const
     { return Body().Contains(i); }
     //: Test if container contains index.
@@ -303,12 +324,27 @@ namespace RavlN {
     { return Body().Size(); }
     //: Find the number of elements in the DArray.
     // This doesn't count holes in the array.
-
+    
   protected:
     friend class DArray1dBodyC<DataT>;
     friend class DArray1dIterC<DataT>;
   };
 
+
+  //: Find the chunk containing the interest.
+  
+  template<class DataT>
+  bool DArray1dBodyC<DataT>::FindChunk(int i,IntrDLIterC<DChunkC<DataT> > &it) const {
+    it = IntrDLIterC<DChunkC<DataT> >(chunks);
+    for(;it;it++) {
+      if(it->Contains(i)) {
+	return true;
+      }
+      if(it->IMax() > i)
+	return false;
+    }
+    return false;
+  }
   
   template<class DataT>
   DArray1dC<DataT> DArray1dBodyC<DataT>::Copy() const {
@@ -319,7 +355,7 @@ namespace RavlN {
       ret.Body().chunks.InsLast(*new DChunkC<DataT>(it->Data().Copy()));
     return ret;
   }
-
+  
   template<class DataT>
   UIntT DArray1dBodyC<DataT>::Size() const {
     UIntT size = 0;
@@ -330,36 +366,24 @@ namespace RavlN {
   
   template<class DataT>
   DataT &DArray1dBodyC<DataT>::Index(IndexC i) {
-    IntrDLIterC<DChunkC<DataT> > it(chunks);
-    for(;it;it++) {
-      if(it->Contains(i))
-	break;
-    }
-    RavlAssertMsg(it,"Index out of range. ");
+    IntrDLIterC<DChunkC<DataT> > it;
+    bool x = FindChunk(i.V(),it);
+    RavlAssertMsg(x,"Index out of range. ");
     return it->Index(i);
   }
   
   template<class DataT>
   const DataT &DArray1dBodyC<DataT>::Index(IndexC i) const {
-    IntrDLIterC<DChunkC<DataT> > it(chunks);
-    for(;it;it++) {
-      if(it->Contains(i))
-	break;
-    }
-    RavlAssertMsg(it,"Index out of range. ");
+    IntrDLIterC<DChunkC<DataT> > it;
+    bool x = FindChunk(i.V(),it);
+    RavlAssertMsg(x,"Index out of range. ");
     return it->Index(i);
   }
 
   template<class DataT>
   bool DArray1dBodyC<DataT>::Contains(IndexC i) const {
-    IntrDLIterC<DChunkC<DataT> > it(chunks);
-    for(;it;it++) {
-      if(it->Contains(i))
-	return true;
-      if(it->IMax() > i)
-	break;
-    }
-    return false;
+    IntrDLIterC<DChunkC<DataT> > it;
+    return FindChunk(i.V(),it);
   }
   
   template<class DataT>
@@ -417,6 +441,65 @@ namespace RavlN {
     chunks.Last().Data().SetIMax(used); // Must be a faster way to extend the array bounds.
     return used;
   }
+  
+  template<class DataT>
+  bool DArray1dBodyC<DataT>::Remove(IndexC i) {
+    IntrDLIterC<DChunkC<DataT> > it;
+    if(!FindChunk(i.V(),it))
+      return false;
+    if(it->IMax() == i) { // At the end of a chunk ?
+      if(it->IMin() == i) { // Is this the last element in the chunk ?
+	it.Del(); // If so delete it.
+	return true;
+      }
+      it->SetSubRange(it->IMin(),it->IMax()-1);
+      return true;
+    }
+    if(it->IMin() == i) { // At the beginnig of a chunk ?
+      it->SetSubRange(it->IMin()+1,it->IMax());
+      return true;
+    }
+    // Cut the chunk in two removing the element.
+    Array1dC<DataT> newArr = it->Data();
+    it->SetSubRange(it->IMin(),i-1);
+    newArr.SetSubRange(i+1,it->IMax());
+    it->InsertAft(*new DChunkC<DataT>(newArr));
+    return true;
+  }
+  
+  template<class DataT>  
+  bool DArray1dBodyC<DataT>::Remove(IndexC min,IndexC max){
+    RavlAssert(min <= max);
+    IntrDLIterC<DChunkC<DataT> > it(chunks);
+    for(;it;it++) {
+      if(it->IMax() >= min)
+	break;
+    }
+    if(!it) return false;
+    if(it->IMin() > max) // Was range missed entirely ?
+      return false;
+    // Cut off end of chunk after min.
+    if(it->IMin() < min) { // Check we don't need to delete the whole chunk.
+      Array1dC<DataT> newArr = it->Data();
+      it->Data().SetSubRange(it->IMin(),min-1);
+      // Is max within the same chunk ?
+      if(it->IMax() > max) { 
+	newArr.SetSubRange(max+1,it->IMax());
+	it->InsertAft(*new DChunkC<DataT>(newArr));
+	return true;
+      }
+    }
+    // Cut out whole chunks between min and max.
+    for(;it;it++) {
+      if(it->IMax() <= max)
+	it.Del();
+    }
+    // Cut off begining of chunk before max.
+    if(it->Contains(max))
+      it->Data().SetSubRange(max+1,it->IMax());
+    return true;
+  }
+
 }
 
 #endif
