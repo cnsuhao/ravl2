@@ -54,7 +54,7 @@ namespace RavlImageN {
 
   //: Get the offset to the center of the string.
   
-  Index2dC FontC::Center(const StringC &text) {
+  Index2dC FontC::Center(const StringC &text) const {
     const char *at = text.chars();
     const char *eos = &(at[text.length()]);
     IntT maxHeight = 0;

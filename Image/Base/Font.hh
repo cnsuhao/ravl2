@@ -57,7 +57,7 @@ namespace RavlImageN {
     { return glyphs.Size() != 0; }
     //: Is this a valid font.
     
-    Index2dC Center(const StringC &text);
+    Index2dC Center(const StringC &text) const;
     //: Get the offset to the center of the string.
   protected:
     SArray1dC<ImageC<ByteT> > glyphs;
