@@ -321,7 +321,7 @@ namespace RavlGUIN {
 	    }
 	    // Enable sorting
 	    else if (ait.Key() == "sortable") {
-	      gtk_tree_view_column_set_sort_column_id(GTK_TREE_VIEW_COLUMN (column), col_offset-1);
+	      gtk_tree_view_column_set_sort_column_id(GTK_TREE_VIEW_COLUMN (column), col_offset);
 	    }
 	    // Enable column reordering
 	    else if (ait.Key() == "reorderable") {
