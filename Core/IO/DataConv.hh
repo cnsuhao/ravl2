@@ -13,7 +13,7 @@
 //! file="Ravl/Core/IO/DataConv.hh"
 //! userlevel=Normal
 //! author="Charles Galambos"
-//! date="17/08/98"
+//! date="17/08/1998"
 
 #include "Ravl/RCWrap.hh"
 #include "Ravl/RCAbstract.hh"

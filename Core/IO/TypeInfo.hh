@@ -4,16 +4,16 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLDPTYPEINFO_HEADER
-#define RAVLDPTYPEINFO_HEADER 1
+#ifndef RAVL_DPTYPEINFO_HEADER
+#define RAVL_DPTYPEINFO_HEADER 1
 ////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlIO
 //! docentry="Ravl.Core.IO.Type Converter"
 //! file="Ravl/Core/IO/TypeInfo.hh"
 //! author="Charles Galambos"
-//! date="19/08/98"
-//! userlevel=Default
+//! date="19/08/1998"
+//! userlevel=Normal
 
 #include "Ravl/DP/Entity.hh"
 //#include "Ravl/DP/FileFormatIO.hh"
