@@ -26,7 +26,8 @@ namespace RavlGUIN {
     : choices(nChoices),
       editable(neditable),
       allowsignals(true),
-      sigSelected(StringC())
+      sigSelected(StringC()),
+      maxEntryLength(-1)
   {
     signals["combo_activate"] = Signal1C<StringC>(StringC("-none-"));
     ConnectRef(signals["combo_activate"],*this,&ComboBodyC::FilterSignal);
@@ -177,9 +178,23 @@ namespace RavlGUIN {
       cmap[*it] = li;
     }
 
+    if(maxEntryLength >= 0) {
+      gtk_entry_set_max_length (GTK_ENTRY (GTK_COMBO(widget)->entry), maxEntryLength);
+      GtkStyle *entryStyle = gtk_widget_get_style(GTK_COMBO(widget)->entry);
+#if 0
+      entryStyle->font_desc;
+      PangoFontMetrics *fontMetrics = pango_fontset_get_metrics (PangoFontset *fontset);
+      IntT digitWidth = pango_font_metrics_get_approximate_digit_width(metrics);
+#else
+      GdkFont *entryFont = gtk_style_get_font(entryStyle);
+      IntT digitWidth = gdk_string_width (entryFont,"0123456789") / 5;
+#endif
+      gtk_widget_set_size_request(widget,maxEntryLength * digitWidth,-1);
+    }
+    
     if(!editable)
       gtk_entry_set_editable(GTK_ENTRY(GTK_COMBO(widget)->entry),0);
-
+    
     if(!selection.IsEmpty())
       gtk_entry_set_text (GTK_ENTRY (GTK_COMBO(widget)->entry), selection.chars());
     
@@ -222,7 +237,22 @@ namespace RavlGUIN {
     }
     return true;
   }
-
+  
+  //: Set maximum length of text entry.
+  //!param: chars - Maximum number of charactors in widget.
+  
+  bool ComboBodyC::GUISetMaxLength(IntT chars) {
+    maxEntryLength = chars;
+    if(widget == 0)
+      return true;
+    gtk_entry_set_max_length (GTK_ENTRY (GTK_COMBO(widget)->entry), maxEntryLength);
+    GtkStyle *entryStyle = gtk_widget_get_style(GTK_COMBO(widget)->entry);
+    GdkFont *entryFont = gtk_style_get_font(entryStyle);
+    IntT digitWidth = gdk_string_width (entryFont,"0123456789") / 5;
+    gtk_widget_set_size_request(widget,maxEntryLength * digitWidth,-1);
+    return true;
+  }
+  
 
 
 }

@@ -80,6 +80,10 @@ namespace RavlGUIN {
     //: Test if an entry exists.
     // Call from the GUI thread only.
     
+    bool GUISetMaxLength(IntT charactors);
+    //: Set maximum length of text entry.
+    //!param: chars - Maximum number of charactors in widget, set to -1 for no limits.
+    
   protected:
     
     bool FilterSignal(StringC& sel);    
@@ -94,6 +98,8 @@ namespace RavlGUIN {
     bool allowsignals;
     StringC selection;
     Signal1C<StringC> sigSelected;
+    IntT maxEntryLength;
+    
     //: Selection changed signal
     // This should be used instead of signals["combo_activate"],
     // as it filters unwanted GTK signals
@@ -200,6 +206,11 @@ namespace RavlGUIN {
     { return Body().GUIEntryExists(entry); }
     //: Test if an entry exists in the combo box.
     // Call from the GUI thread only.
+    
+    bool GUISetMaxLength(IntT chars)
+    { return Body().GUISetMaxLength(chars); }
+    //: Set maximum length of text entry.
+    //!param: chars - Maximum number of charactors in widget.
     
     friend class ComboBodyC;
   };
