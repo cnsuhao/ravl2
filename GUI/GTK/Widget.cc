@@ -369,7 +369,7 @@ namespace RavlGUIN {
   //: Create with a widget supplied from elsewhere.
   
   bool WidgetBodyC::Create(GtkWidget *newWidget) {
-    cerr << "bool WidgetBodyC::Create(GtkWidget *), Called.. \n";
+    //cerr << "bool WidgetBodyC::Create(GtkWidget *), Called.. \n";
     widget = newWidget;
     ConnectSignals();
     return false;
