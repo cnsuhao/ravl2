@@ -90,6 +90,12 @@ Some notes on installation:
   directory, this can be done by modifying the defs.mk in this directory in 
   a similar way.
 
+- If you want temporary files to go somewhere other that /tmp you need
+  to set the enviromental variable DEFAULTTMP.  And add something like
+  
+   setenv DEFAULTTMP /buf
+
+  to your enviroment setup (.cshrc for me)
 
 NOTE: Most of the development of RAVL is being done on a Redhat 7.3
 box with gcc-3.2, at this stage in development things are most
