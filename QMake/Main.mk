@@ -239,7 +239,7 @@ ifeq ($(filter Auto,$(USESLIBS)),Auto)
   endif
   ifndef NOINCDEFS
    ifneq ($(strip $(AUTOPROGLIBS)),)
-    include $(AUTOPROGLIBS)
+    include $(filter-out $(PLIB).def,$(AUTOPROGLIBS))
    endif
   endif
  endif
