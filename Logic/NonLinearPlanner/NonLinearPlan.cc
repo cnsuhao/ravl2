@@ -33,12 +33,17 @@ namespace RavlLogicN {
   //////////////////////////
   // Constructor, Empty plan.
 
-  NonLinearPlanBodyC::NonLinearPlanBodyC(NLPlannerBodyC &aPlanner) 
+  NonLinearPlanBodyC::NonLinearPlanBodyC(const MinTermC &initCond,
+					 const MinTermC &goalCond,
+					 const CallFunc2C<MinTermC,MinTermC,DListC<NLPStepC> > &step) 
     : steps(0),
-      planner(aPlanner)
+      listSteps(step)
   {
-    //planID = aPlanner.GetPlanNo();  NLPStepNodeT
-    //  RavlAssert(0); // There's no reason for using this constructor at the moment.
+    MinTermC NA_MT(true);
+    LiteralC NA_Act("NA_Act");
+    startNode = InsStep(NLPStepC(NA_MT,NA_Act,initCond));
+    goalNode  = InsStep(NLPStepC(goalCond,NA_Act,NA_MT));
+    InsOrderLink(startNode,goalNode);
   }
   
   ////////////////////////
@@ -84,8 +89,7 @@ namespace RavlLogicN {
   // Insert a step into the plan.
 
   NLPStepNodeT NonLinearPlanBodyC::InsStep(const NLPStepC &step) {
-    RavlAssert(step.IsValid());
-    RavlAssert(IsNotConst());
+    //RavlAssert(IsNotConst());
     //VLOCKOBJC(step);
     NLPStepNodeT CurNode(plan,plan.InsNode(step));
     RavlAssert(IsValid(CurNode));
@@ -138,7 +142,7 @@ namespace RavlLogicN {
   NLPCausalLinkT NonLinearPlanBodyC::InsCausalLink(NLPStepNodeT from,
 						   NLPStepNodeT to,
 						   MinTermC &goalCond) {
-    RavlAssert(IsNotConst());
+    //RavlAssert(IsNotConst());
     if(from == GoalNode())
       return NLPCausalLinkT(); // Can't have steps after goal.
     if(to == StartNode())
@@ -182,7 +186,7 @@ namespace RavlLogicN {
   
   NLPOrderLinkT NonLinearPlanBodyC::InsOrderLink(NLPStepNodeT From,
 						 NLPStepNodeT To) {
-    RavlAssert(IsNotConst());
+    //RavlAssert(IsNotConst());
     if(From == GoalNode())
       return NLPOrderLinkT(); // Can't have steps after goal.
     if(To == StartNode())
@@ -280,6 +284,10 @@ namespace RavlLogicN {
 #endif
     return ret;
   }
+  
+  void NonLinearPlanBodyC::DoDBCheck() { 
+    // planner.DoDBCheck(*this); 
+  }
 
   ////////////////////////////
   // Dump current plan to stdout.
@@ -293,10 +301,6 @@ namespace RavlLogicN {
 	    ;Adj.IsElm();Adj.Next())
 	cerr << "  " << Adj.Data().Name() << " -> " << Adj.FarNodeH().V() <<" \n";
     }
-  }
-  
-  void NonLinearPlanBodyC::DoDBCheck() { 
-    // planner.DoDBCheck(*this); 
   }
 }
 

@@ -45,7 +45,7 @@ namespace RavlLogicN {
     //: Destructor.
     
     // const PriorityT MaxPriority = 100;
-
+    
     PriorityT Priority() const 
     { return priority; }
     //: Get priority of agenda item.
@@ -96,11 +96,11 @@ namespace RavlLogicN {
     
     inline NLPAgendaItemBodyC &Body() 
     { return RCHandleC<NLPAgendaItemBodyC>::Body(); }
-    //: Access.
+    //: Access body.
     
     inline const NLPAgendaItemBodyC &Body() const 
     { return RCHandleC<NLPAgendaItemBodyC>::Body(); }
-    //: Access.
+    //: Access body.
   
   public:
     PriorityT Priority() const 
@@ -137,8 +137,7 @@ namespace RavlLogicN {
     NLPAgendaOpenGoalBodyC(const NLPStepNodeT &AStep,const MinTermC &AMTR,NonLinearPlanC &plan);
     // Constructor.
     
-    virtual bool IsOpenGoal() const 
-    { return true; }
+    virtual bool IsOpenGoal() const;
     // This is an open goal.
   
     virtual NLPActionC GetAction(NonLinearPlanC &Plan);
@@ -179,16 +178,16 @@ namespace RavlLogicN {
     {}
     //: Default constructor.
     // Creates an invalid handle.
-  
+    
     NLPAgendaOpenGoalC(const NLPStepNodeT &aStep,const MinTermC &aMTR,NonLinearPlanC &plan)
-      : NLPAgendaItemC(*new NLPAgendaOpenGoalC(aStep,aMTR,plan))
+      : NLPAgendaItemC(*new NLPAgendaOpenGoalBodyC(aStep,aMTR,plan))
     {}
     //: Constructor.
     
     NLPAgendaOpenGoalC(NLPAgendaItemC &handle)
       : NLPAgendaItemC(handle)
     {
-      if(dynamic_cast<NLPAgendaOpenGoalC *>(&Body()) == 0)
+      if(dynamic_cast<NLPAgendaOpenGoalBodyC *>(& NLPAgendaItemC::Body()) == 0)
 	Invalidate();
     }
     //: Base class constructor.
@@ -240,8 +239,7 @@ namespace RavlLogicN {
     { RavlAssert(aVictim.IsValid()); }
     //: Constructor.
     
-    virtual bool IsThreat() const 
-    { return true; }
+    virtual bool IsThreat() const;
     //: Yep this is a threat.
     
     virtual NLPActionC GetAction(NonLinearPlanC &Plan);
@@ -294,7 +292,7 @@ namespace RavlLogicN {
     NLPAgendaThreatC(NLPAgendaItemC &handle)
       : NLPAgendaItemC(handle)
     {
-      if(dynamic_cast<NLPAgendaThreatBodyC *>(&Body()) == 0)
+      if(dynamic_cast<NLPAgendaThreatBodyC *>(&NLPAgendaItemC::Body()) == 0)
 	Invalidate();
     }
     //: Converting constructor.

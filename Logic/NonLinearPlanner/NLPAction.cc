@@ -35,26 +35,26 @@ namespace RavlLogicN {
   }
   
   //: Get agenda item being addressed.
-
+  
   NLPAgendaItemC NLPActionBodyC::AgendaItem() {
-    RavlAssert(0);
+    RavlAssertMsg(0,"NLPActionBodyC::AgendaItem(), Abstract method called.");
     return NLPAgendaItemC();
   }
-
+  
   //////////////////////////////////
   // Get next solution.
 
   bool NLPActionBodyC::Next(NonLinearPlanC &/*aplan*/)  {
-    RavlAssert(0);
+    RavlAssertMsg(0,"NLPActionBodyC::Next(), Abstract method called.");
     return false;
   }
   
   ///////////////////////////////////////////////////////////////////////////////////
   // Construct action.
 
-  NLPActionOpenGoalBodyC::NLPActionOpenGoalBodyC(const NonLinearPlanC &plan,const NLPAgendaOpenGoalC &OG)
-    : NLPActionBodyC(plan,OG),
-      openGoal(OG)
+  NLPActionOpenGoalBodyC::NLPActionOpenGoalBodyC(const NonLinearPlanC &plan,const NLPAgendaOpenGoalC &nOG)
+    : NLPActionBodyC(plan,nOG),
+      openGoal(nOG)
   {
     newSteps = openGoal.NewSteps();
     BuildPossSteps(Plan());
@@ -65,25 +65,24 @@ namespace RavlLogicN {
 
   void NLPActionOpenGoalBodyC::BuildPossSteps(NonLinearPlanC &NLPlan) {
     MinTermC &cnd = OpenCond();
-    DListC<NLPStepNodeT> SomeSteps;
+    DListC<NLPStepNodeT> someSteps;
     ONDEBUG(cerr << "NLPActionOpenGoal::BuildPossSteps() Cnd:'" << cnd.Name() <<"' \n");
     
-    CollectionC<NLPStepNodeT> RBag(128); // FIXME:- What if its not enough ?
-    for(BMinTermIndexIterC<BListC<NLPStepNodeT> > it(NLPlan.PostConds(),MinTermC(cnd)); 
-	it.IsElm();
-	it.Next()) {
-      for(BListIterC<NLPStepNodeT > SIt(it.Data());SIt.IsElm();SIt.Next()) {
-	RavlAssert(NLPlan.IsValid(SIt.Data()));
-	ONDEBUG(cerr << "NLPActionOpenGoal::BuildPossSteps() Found ('" << SIt.Data().Data().PostCondition().Name() << "') \n");
-	RBag.Insert(SIt.Data());
+    CollectionC<NLPStepNodeT> rBag(128);
+    
+    for(BMinTermIndexIterC<BListC<NLPStepNodeT> > it(NLPlan.PostConds(),MinTermC(cnd));it;it++) {
+      for(BListIterC<NLPStepNodeT > sIt(it.Data());sIt;sIt++) {
+	RavlAssert(NLPlan.IsValid(sIt.Data()));
+	ONDEBUG(cerr << "NLPActionOpenGoal::BuildPossSteps() Found ('" << sIt.Data().Data().PostCondition().Name() << "') \n");
+	rBag.Insert(sIt.Data());
       }
     }
-  
+    
     // The precondition for the plan only lists asserted symbols,
     // so if we're looking for a negated condition we just
     // have to check for a contridiction with it. 
     // Positive conditions should already be in the PostConds() index.
-  
+    
     if(cnd.Pos().IsEmpty()) { // Looking for a negated condition ?
       const MinTermC &theStart = NLPlan.StartNode().Data().PostCondition();
       RavlAssert(cnd.Neg().Size() == 1); // Check our assumtion.
@@ -91,7 +90,7 @@ namespace RavlLogicN {
       BindSetC bnds;
       ONDEBUG(cerr << "NLPActionOpenGoal::BuildPossSteps(), Unify '" << theStart.Name() << "' and '" << cnd.Name() << "' \n");
       bool fnd = false;
-      for(SArray1dIterC<LiteralC> it(theStart.Pos());it.IsElm();it.Next()) {
+      for(SArray1dIterC<LiteralC> it(theStart.Pos());it;it++) {
 	if(target.Unify(it.Data(),bnds)) {
 	  fnd = true;
 	  break;
@@ -100,13 +99,13 @@ namespace RavlLogicN {
       if(!fnd) { // If there's no condradition, then add.
 	RavlAssert(NLPlan.IsValid(NLPlan.StartNode()));
 	ONDEBUG(cerr << "NLPActionOpenGoal::BuildPossSteps() Inserting plan precondition. ('" << theStart.Name() << "') \n");
-	RBag.Insert(NLPlan.StartNode());
+	rBag.Insert(NLPlan.StartNode());
       }
     }
     // Make a randomised list.
-    while(!RBag.IsEmpty())
-      SomeSteps.InsLast(RBag.Pick()); // Pick randomly from bag and put it in list.
-    possSteps = SomeSteps;
+    while(!rBag.IsEmpty())
+      someSteps.InsLast(rBag.Pick()); // Pick randomly from bag and put it in list.
+    possSteps = someSteps;
   }
 
   ///////////////////////////
@@ -124,14 +123,14 @@ namespace RavlLogicN {
     
     // Try something else.
     for(bool Done = false;!Done;) {
-      if(!possSteps.IsElm() && (!newSteps.IsElm() || !CanAddSteps)) {
+      if(!possSteps && (!newSteps || !CanAddSteps)) {
 	ONDEBUG(cerr << "NLPActionOpenGoal::Next() " << newPlan.PlanID() << "  Failed. \n");
 	newPlan.Invalidate(); // Delete it.
 	Plan().DoDBCheck();
 	return false; // Failed, nothing can be done.
       }
-      if((rand() % 10 != 0 && possSteps.IsElm()) 
-	 || !newSteps.IsElm()
+      if((rand() % 10 != 0 && possSteps) 
+	 || !newSteps
 	 || !CanAddSteps) { // Random for the moment.
 	// Causal link...
 	RavlAssert(possSteps.IsElm());
@@ -144,7 +143,7 @@ namespace RavlLogicN {
 	newPlan.DoDBCheck();
 	possSteps.Next();
       } else {
-	RavlAssert(newSteps.IsElm());
+	RavlAssert(newSteps);
 	// Before we add steps, check that the new step makes
 	// sense. It must add at least one new postcondition
 	// that has a different state (In terms of dependancies

@@ -8,11 +8,15 @@
 
 PACKAGE=Ravl/Logic
 
+MAINS=testPlan.cc
+
 HEADERS=NLPCausalLink.hh NLPStep.hh NLPAgendaItem.hh NLPAction.hh NLPAgenda.hh \
  NonLinearPlan.hh NLPTypes.hh NLPlanner.hh
 
 SOURCES=NLPCausalLink.cc NLPStep.cc NLPAgendaItem.cc NLPAction.cc NLPAgenda.cc \
  NonLinearPlan.cc NLPlanner.cc
+
+TESTEXES=testPlan.cc
 
 PLIB=RavlLogicNLP
 

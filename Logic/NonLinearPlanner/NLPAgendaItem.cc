@@ -41,15 +41,15 @@ namespace RavlLogicN {
   // Constructor.
   
   NLPAgendaOpenGoalBodyC::NLPAgendaOpenGoalBodyC(const NLPStepNodeT &aStep,
-						 const MinTermC &AMTR,
+						 const MinTermC &aMTR,
 						 NonLinearPlanC &plan) 
     : NLPAgendaItemBodyC(aStep),
-      aCond(AMTR.Copy())
+      aCond(aMTR.Copy())
   {
     //VLOCKOBJ(plan);
     RavlAssert(plan.IsValid(aStep));
-    //newSteps = plan.Planner().OptListSteps(aCond,Step().Data().PreCondition());
-    RavlAssert(0);
+    newSteps = plan.ListSteps(aCond,Step().Data().PreCondition());
+    
     // FIXME :- Do this properly.
     if(newSteps.IsEmpty())
       priority = 1;
@@ -66,14 +66,24 @@ namespace RavlLogicN {
 
   }
   
-  /////////////////////////
-  // Get action to remedy problem.
+  //: Get action to remedy problem.
   
   NLPActionC NLPAgendaOpenGoalBodyC::GetAction(NonLinearPlanC &aPlan) 
   { return NLPActionOpenGoalC(aPlan,*this); }
   
-  /////////////////////////
-  // Get action to remedy problem.
+  //: This is an open goal.
+  
+  bool NLPAgendaOpenGoalBodyC::IsOpenGoal() const 
+  { return true; }
+  
+  /////////////////////////////////////////////////////////////
+  
+  //: Yep this is a threat.
+  
+  bool NLPAgendaThreatBodyC::IsThreat() const 
+  { return true; }
+  
+  //: Get action to remedy problem.
   
   NLPActionC NLPAgendaThreatBodyC::GetAction(NonLinearPlanC &aPlan) 
   { return NLPActionThreatC(aPlan,*this); }

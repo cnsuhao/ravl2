@@ -46,9 +46,9 @@ namespace RavlLogicN {
   private:
     NonLinearPlanC plan; // Plan to take action on.
   };
-
+  
   //: Actions taken to remedy AgendaItems.
-
+  
   class NLPActionC 
     : public RCHandleC<NLPActionBodyC>
   {
@@ -108,7 +108,7 @@ namespace RavlLogicN {
     { return openGoal.Step(); }
     //: Get creating step.
     
-    void BuildPossSteps(NonLinearPlanC &NLPlan);
+    void BuildPossSteps(NonLinearPlanC &aNLPlan);
     //: Build list of exiting steps in plan that may help.
     
     MinTermC &OpenCond() 
@@ -172,7 +172,7 @@ namespace RavlLogicN {
     NLPAgendaThreatC threat;
     bool donePre,donePost;
   };
-
+  
   //////////////////////////
   //: Remedy an Threat handle
 

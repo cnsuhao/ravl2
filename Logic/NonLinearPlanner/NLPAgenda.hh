@@ -26,26 +26,26 @@ namespace RavlLogicN {
   class NLPAgendaC 
   {
   public:  
-    inline NLPAgendaC()
+    NLPAgendaC()
       : OpenGoalCount(0) 
     {}
     //: Default constructor.
     // Creats an empty agenda.
     
-    inline void Insert(const NLPAgendaThreatC &Item)
+    void Insert(const NLPAgendaThreatC &Item)
     { threats.InsFirst(Item); }
     // Insert Threat into agenda.
     
-    inline void Insert(const NLPAgendaOpenGoalC &Item);
+    void Insert(const NLPAgendaOpenGoalC &Item);
     // Insert Open Goal into agenda.
-  
-    inline void InsFirst(const NLPAgendaItemC &Item);
+    
+    void InsFirst(const NLPAgendaItemC &Item);
     // Insert item into agenda.
     
-    inline NLPAgendaItemC GetFirst();
+    NLPAgendaItemC GetFirst();
     // Get First item from agenda.
   
-    inline NLPAgendaItemC First();
+    NLPAgendaItemC First();
     // Look at first item in agenda.
     
     void Del(NLPStepNodeT &Step);
@@ -54,7 +54,7 @@ namespace RavlLogicN {
     void DelThreat(NLPCausalLinkT &Victim);
     // Remove threats to causal link 'victim'.
   
-    inline bool IsEmpty() const 
+    bool IsEmpty() const 
     { return threats.IsEmpty() && singleOpenGoal.IsEmpty() && OpenGoal.IsEmpty(); }
     // Is agenda empty ?
     
@@ -72,44 +72,6 @@ namespace RavlLogicN {
   };
 
   /////////////////////////////////////////////////////////////////////////
-  
-  inline 
-  void NLPAgendaC::Insert(const NLPAgendaOpenGoalC &Item) { 
-    OpenGoalCount++;
-    if(Item.IsSingle())
-      singleOpenGoal.Push(Item);
-    else
-      OpenGoal.Push(Item);
-  }
-
-  inline 
-  void NLPAgendaC::InsFirst(const NLPAgendaItemC &Item) {
-    if(Item.IsThreat()) {
-      Insert(NLPAgendaThreatC(const_cast<NLPAgendaItemC &>(Item)));
-      return;
-    }
-    RavlAssert(Item.IsOpenGoal());
-    Insert(NLPAgendaOpenGoalC(const_cast<NLPAgendaItemC &>(Item)));
-  }
-
-  inline 
-  NLPAgendaItemC NLPAgendaC::GetFirst() {
-    if(!threats.IsEmpty())
-      return threats.Pop();
-    OpenGoalCount--;
-    if(!singleOpenGoal.IsEmpty())
-      return singleOpenGoal.Pop();
-    return OpenGoal.Pop();
-  }
-
-  inline 
-  NLPAgendaItemC NLPAgendaC::First() {
-    if(!threats.IsEmpty())
-      return threats.First();
-    if(!singleOpenGoal.IsEmpty())
-      return singleOpenGoal.First();
-    return OpenGoal.First();
-  }
   
 }
 #endif

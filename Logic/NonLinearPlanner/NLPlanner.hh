@@ -35,10 +35,13 @@ namespace RavlLogicN {
     NLPlannerBodyC();
     //: Default constructor.
     
+    NLPlannerBodyC(const DListC<NLPStepC> &steps);
+    //: Constructor.
+    
     DListC<NLPStepC> Apply(const StateC &state,const MinTermC &goals);
     //: Construct plan.
-  
-    bool NewPlan(const StateC &Start,const MinTermC &Goal);
+    
+    bool NewPlan(const StateC &start,const MinTermC &goal);
     //: Create a new plan.
   
     bool CompletePlan();
@@ -66,33 +69,15 @@ namespace RavlLogicN {
     const NonLinearPlanC &NLPlan() const { return bestPlan; }
     // Get current plan.
     
-    DListC<NLPStepC> ListSteps(const MinTermC &postCond);
+    DListC<NLPStepC> ListSteps(MinTermC &postCond,MinTermC &fullCond);
     // List steps with the given postcondition.
     
-    DListC<NLPStepC> OptListSteps(const MinTermC &goalCond,const MinTermC &fullCond);
-    // GoalCond :- Condition that must be meet by Step,
-    // FullCond :- 'Wish list' of conditions that also will be needed.
-    // Heuristic ordering of steps, place the most likly to
-    // be usefull first.
-
     static int Distance(const MinTermC &MT1, const MinTermC &MT2);
     // Find distance between two terms.
 
     void SetMaxSearch(int limit) { maxSearch = limit; }
     // Limit size of search.
-  
-    NLPStepNodeT &StartNode() { return startNode; }
-    // Access start node.
-  
-    const NLPStepNodeT &StartNode() const { return startNode; }
-    // Const access to start node.
-  
-    NLPStepNodeT &GoalNode() { return goalNode; }
-    // Access to goal node.
-  
-    const NLPStepNodeT &GoalNode() const { return goalNode; }
-    // Const access to goal node.
-  
+    
     inline StepListIDC PreCondID(const LiteralC &symb);
     // Get ID for step precondition.
   
@@ -102,18 +87,21 @@ namespace RavlLogicN {
     IntT GetPlanNo() { return planCount++; }
     // Get an id for the current plan.
     
+
     void DoDBCheck(NonLinearPlanBodyC &aPlan);
     // Debuging checks.
-
-    inline 
-    void DoDBCheck(NonLinearPlanC aPlan)
-    { DoDBCheck(aPlan.Body()); }
+    
+    void DoDBCheck(NonLinearPlanC aPlan) { 
+      //DoDBCheck(aPlan.Body()); 
+    }
     // Debuging checks.
-
+    
   private:
     //DPModelC<LiteralC,StateC,MinTermC,MinTermC> model;
     //: Model to use in planning.
-  
+
+    DListC<NLPStepC> steps; // List of available steps.
+    
     IntT planCount;
   
     PriQueueLC<IntT,NLPActionC> plans; // Priority queue of plan/action pairs.
@@ -121,18 +109,12 @@ namespace RavlLogicN {
     LiteralIndexC<UIntC> conds;
     // Index by preconditions.
     // Used to establish threats.
-  
+    
     UIntC allocCondID; // Starts from 1.
     // Allocation counter for condition ID's.
-  
-    NLPStepNodeT startNode; 
-    // Inital node in plan.
-  
-    NLPStepNodeT goalNode;
-    // Final node in plan.
-  
-    MinTermC init; // Inital state
-    NLPStepC initS; // Intial step.
+    
+    CallFunc2C<MinTermC,MinTermC,DListC<NLPStepC> > listSteps; // Goal condition, Full condition.
+    //: List steps that might could be meet a goal condition.
     
     int maxSearch;   // How long to spend searching, Default:-1=Infinit.
     int limSearch;   // Max size of search, after a plan has been found.
@@ -156,6 +138,12 @@ namespace RavlLogicN {
     {}
     //: Default constructor.
     
+    NLPlannerC(const DListC<NLPStepC> &steps)
+      : RCHandleC<NLPlannerBodyC>(*new NLPlannerBodyC(steps))
+    {}
+    //: Constructor.
+
+  protected:
     NLPlannerBodyC &Body() 
     { return static_cast<NLPlannerBodyC &>(RCHandleC<NLPlannerBodyC>::Body()); }
     //: Access body.
@@ -164,8 +152,15 @@ namespace RavlLogicN {
     { return static_cast<const NLPlannerBodyC &>(RCHandleC<NLPlannerBodyC>::Body()); }
     //: Access body.
     
-    DListC<NLPStepC> OptListSteps(const MinTermC &goalCond,const MinTermC &fullCond)
-    { return Body().OptListSteps(goalCond,fullCond); }
+  public:
+    
+    DListC<NLPStepC> ListSteps(MinTermC &goal,MinTermC &full)
+    { return Body().ListSteps(goal,full); }
+    //: List some possible steps.
+    
+    DListC<NLPStepC> Apply(const StateC &state,const MinTermC &goals)
+    { return Body().Apply(state,goals); }
+    //: Construct plan.
   };
 
   //////////////////////////////////////////

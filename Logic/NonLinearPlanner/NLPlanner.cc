@@ -14,6 +14,7 @@
 #include "Ravl/PriQueueL.hh"
 #include "Ravl/Logic/NLPAction.hh"
 #include "Ravl/Logic/State.hh"
+#include "Ravl/Logic/MinTerm.hh"
 
 #include <stdio.h>
 
@@ -25,24 +26,40 @@
 #endif
 
 namespace RavlLogicN {
-
+  
+  static DListC<NLPStepC> FindStep(MinTermC &goal,MinTermC &full,DListC<NLPStepC> &list) {
+    DListC<NLPStepC> ret;
+    ONDEBUG(cerr << "FindStep(), Called. \n");
+    return ret;
+  }
+		  
   //////////////////////////
   // Default constructor.
-
+  
   NLPlannerBodyC::NLPlannerBodyC() 
-    : planCount(0),
-      allocCondID(1),
+    : allocCondID(1),
       maxSearch(-1),
       limSearch(-1),
       curSearch(0)
   { RavlAssert(0); }
 
+  //: Default constructor.
+  
+  NLPlannerBodyC::NLPlannerBodyC(const DListC<NLPStepC> &steps) 
+    : allocCondID(1),
+      maxSearch(-1),
+      limSearch(-1),
+      curSearch(0)
+  {
+    DListC<NLPStepC> xSteps(steps);
+    MinTermC tmp;
+    listSteps = CallFunc3C<MinTermC,MinTermC,DListC<NLPStepC>,DListC<NLPStepC> >(&FindStep,tmp,tmp,xSteps);
+  }
   
   ///////////////////////
   //: Construct plan.
 
-  DListC<NLPStepC> NLPlannerBodyC::Apply(const StateC &state,const MinTermC &goals) 
-  {
+  DListC<NLPStepC> NLPlannerBodyC::Apply(const StateC &state,const MinTermC &goals) {
     ONDEBUG(cerr << "NLPlannerBodyC::Apply(), Called. \n");
     NewPlan(state,goals);
     if(!CompletePlan()) {
@@ -71,19 +88,13 @@ namespace RavlLogicN {
       inital *= it.Data();
     
     // Create new plan.
-    NonLinearPlanC plan(*this);
-  
+    NonLinearPlanC plan(inital,goal,listSteps);
+    
     curSearch = 0;
     limSearch = maxSearch;
     bestSize = MaxBest;
     bestPlan.Invalidate(); // No Best plan yet.
-    MinTermC NA_MT(true);
-    LiteralC NA_Act("NA_Act");
-    init = inital; // VLMinTerm(*Inital);
-    initS = NLPStepC(NA_MT,NA_Act,inital);
-    startNode = plan.InsStep(initS);
-    goalNode  = plan.InsStep(NLPStepC(goal,NA_Act,NA_MT));
-    plan.InsOrderLink(startNode,goalNode);
+    
     //printf("Inital Step:%p \n",&(*initS));
     DoDBCheck(plan);
     ONDEBUG(printf("\nNLPlannerBodyC::NewPlan(), ------------ Goal:%s ---------- \n",goal.GetName().chars()));
@@ -93,12 +104,14 @@ namespace RavlLogicN {
       return true;
     }
     // Get item from agenda and put into the queue.
+#if 0
     NLPActionC act = plan.GetTopOfAgenda().GetAction(plan);
     plans.Empty();
     plans.Insert(plan.Score(),act);
-    //RavlAssert(plans.Size() == 1);
+    RavlAssert(plans.Size() == 1);
+#endif
     // And we're ready !
-    return goalNode.IsValid();
+    return true;
   }
 
   //////////////////////
@@ -129,9 +142,11 @@ namespace RavlLogicN {
 	// Check new plan is an actual improvement on the old one.
       
 	// Put new plan back into queue.
+#if 0
 	NLPActionC act = newPlan.GetTopOfAgenda().GetAction(newPlan);
 	plans.Insert(newPlan.Score(),act);
 	DoDBCheck(newPlan);
+#endif
       }
       curSearch++;
       if(limSearch > 0) {
@@ -161,42 +176,20 @@ namespace RavlLogicN {
     return true;
   }
 
-  //////////////////////
-  // List steps that achive a goal.
   
-  DListC<NLPStepC> NLPlannerBodyC::ListSteps(const MinTermC &postCond) 
-  {
-    DListC<NLPStepC> ret;
-    return ret;
-  }
-
-  //////////////////////
-  // GoalCond :- Condition that must be meet by Step,
-  // FullCond :- 'Wish list' of conditions that also will be needed.
-  //
-  // Heuristic ordering of steps, place the most likly to
-  // be usefull first.
+  //: List some possible steps.
   
-  DListC<NLPStepC> NLPlannerBodyC::OptListSteps(const MinTermC &GoalCond,const MinTermC &FullCond) {
-    DListC<NLPStepC> inital = ListSteps(GoalCond);
-#if 0
-    //printf("NLPlannerBodyC::OptListSteps(), Goal:%s Full:%s \n",GoalCond.GetName().chars(),FullCond.GetName().chars());
+  DListC<NLPStepC> NLPlannerBodyC::ListSteps(MinTermC &goal,MinTermC &full) {
     DListC<NLPStepC> ret;
-    PriQueueLC<int,NLPStepC> Que;
-    int Count = 0;
-    for(DLIterC<NLPStepC> It(inital);It.IsElm();It.Next()) {
-      Que.Insert(Distance(It.Data().PostCond(),FullCond),It.Data()); // Find all distances.
-      Count++;
-    }
-    while(Que.IsElm()) {
-      //printf("NLPlannerBodyC::OptListSteps(), %d - %s \n",Que.TopKey(),Que.Top().GetName().chars());
-      ret.InsLast(Que.GetTop());
+    RavlAssert(listSteps.IsValid());    
+    for(DLIterC<NLPStepC> it(listSteps(goal,full));it;it++) {
+      BindSetC bs;
+      if(it->PostCondition().Covers(goal,bs))
+	ret += *it;
     }
     return ret;
-#else
-    return inital;
-#endif
   }
+  
 
   /////////////////////////////////////////////
   // Find distance between minterms.

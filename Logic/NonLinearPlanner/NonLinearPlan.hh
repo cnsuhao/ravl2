@@ -22,6 +22,7 @@
 #include "Ravl/Logic/NLPCausalLink.hh"
 #include "Ravl/Logic/NLPAgenda.hh"
 #include "Ravl/Logic/NLPTypes.hh"
+#include "Ravl/Calls.hh"
 
 //#include "Ravl/Logic/LBindLst.hh"
 //#include "Ravl/Logic/PlanLinear.hh"
@@ -30,7 +31,6 @@
 
 namespace RavlLogicN {
   
-  class NLPlannerBodyC;
   class NonLinearPlanC;
   
   //! userlevel=Develop
@@ -40,8 +40,10 @@ namespace RavlLogicN {
     : public RCBodyVC 
   {
   public:
-    NonLinearPlanBodyC(NLPlannerBodyC &APlanner);
-    //: Constructor, Empty plan.
+    NonLinearPlanBodyC(const MinTermC &initCond,
+		       const MinTermC &goalCond,
+		       const CallFunc2C<MinTermC,MinTermC,DListC<NLPStepC> > &step);
+    //: Constructor, 
     
     ~NonLinearPlanBodyC();
     //: Destructor.
@@ -84,10 +86,6 @@ namespace RavlLogicN {
     { return goalNode; }
     //: Const access to goal node.
     
-    inline NLPlannerBodyC &Planner() 
-    { return planner; }
-    //: Get planner.
-  
     inline BMinTermListIndexC<NLPStepNodeT> &PreConds()
     { return preConds; }
     //: Access PreConditions.
@@ -125,6 +123,16 @@ namespace RavlLogicN {
     // Use to filter out the addition of useless steps.<p>
     // sn is the step which has the open goal that caused mt to be considered
     
+    DListC<NLPStepC> ListSteps(const MinTermC &goalCond,const MinTermC &fullCond) { 
+      RavlAssert(listSteps.IsValid());
+      return listSteps(const_cast<MinTermC &>(goalCond),const_cast<MinTermC &>(fullCond)); 
+    }
+    //: List steps with the given postcondition.
+    // GoalCond :- Condition that must be meet by Step,
+    // FullCond :- 'Wish list' of conditions that also will be needed.
+    // Heuristic ordering of steps, place the most likly to
+    // be usefull first.
+    
     void DoDBCheck();
     //: Debuging checks. 
   
@@ -150,6 +158,10 @@ namespace RavlLogicN {
     inline IntT Steps() const 
     { return steps; }
     //: Get the number of steps in the current plan.
+    
+    CallFunc2C<MinTermC,MinTermC,DListC<NLPStepC> > &ListSteps()
+    { return listSteps; }
+    //: Access listStep methods.
     
   private:  
     IntT planID;
@@ -184,12 +196,11 @@ namespace RavlLogicN {
     NLPStepNodeT goalNode;
     // Final node in plan.
     
-    NLPlannerBodyC &planner;
-    //: Planner building this plan.
+    CallFunc2C<MinTermC,MinTermC,DListC<NLPStepC> > listSteps; // Goal condition, Full condition.
+    //: List steps that might could be meet a goal condition.
     
     friend class NLPAgendaOpenGoal;
     friend class NLPAgendaOpenThreat;
-    friend class NLPlannerBodyC;
     friend class NonLinearPlanC;
   };
   
@@ -206,10 +217,15 @@ namespace RavlLogicN {
     {}
     //: Default constructor.
     
-    NonLinearPlanC(NLPlannerBodyC &aPlanner)
-      : RCHandleC<NonLinearPlanBodyC>(*new NonLinearPlanBodyC(aPlanner))
+    NonLinearPlanC(const MinTermC &initalCond,
+		   const MinTermC &goalCond,
+		   const CallFunc2C<MinTermC,MinTermC,DListC<NLPStepC> > &listSteps)
+      : RCHandleC<NonLinearPlanBodyC>(*new NonLinearPlanBodyC(initalCond,goalCond,listSteps))
     {}
-    //: Constructor.
+    //: Create a new plan with the given inital and goal condition.
+    // initalCond - Initial condition.
+    // goalCond   - Goal condition
+    // listSteps  - Method for finding new steps for plan.
     
     NonLinearPlanC(NonLinearPlanBodyC &bod)
       : RCHandleC<NonLinearPlanBodyC>(bod)
@@ -277,9 +293,6 @@ namespace RavlLogicN {
     { return Body().GoalNode(); }
     //: Const access to goal node.
 
-    inline NLPlannerBodyC &Planner() 
-    { return Body().Planner(); }
-    //: Get planner.
   
     inline BMinTermListIndexC<NLPStepNodeT> &PreConds()
     { return Body().PreConds(); }
@@ -308,6 +321,18 @@ namespace RavlLogicN {
     inline IntT Steps() const 
     { return Body().Steps(); }
     //: Get the number of steps in the current plan.
+    
+    DListC<NLPStepC> ListSteps(const MinTermC &goalCond,const MinTermC &fullCond)
+    { return Body().ListSteps(goalCond,fullCond); }
+    //: Get a list of steps that will meet 'goalCond'.
+    // GoalCond :- Condition that must be meet by Step,
+    // FullCond :- 'Wish list' of conditions that also will be needed.
+    // Heuristic ordering of steps, place the most likly to
+    // be usefull first.
+    
+    CallFunc2C<MinTermC,MinTermC,DListC<NLPStepC> > &ListSteps()
+    { return Body().ListSteps(); }
+    //: Access listStep methods.
 
   protected:
     inline NLPAgendaItemC TopOfAgenda() 
@@ -318,7 +343,6 @@ namespace RavlLogicN {
     { return Body().GetTopOfAgenda(); }
     //: Return current agenda item and remove it.
     
-    friend class NLPlannerBodyC;
   
   };
   
