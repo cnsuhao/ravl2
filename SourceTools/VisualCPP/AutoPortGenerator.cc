@@ -2,6 +2,7 @@
 //! rcsid="$Id$"
 
 #include "Ravl/SourceTools/AutoPortGenerator.hh"
+#include "Ravl/OS/Filename.hh"
 
 namespace RavlN {
   
@@ -39,8 +40,16 @@ namespace RavlN {
       buff = CurLibInfo().Name();
       return true;
     }
-    if(varname == "filename") {
+    if(varname == "filename") { // Get the full path.
       buff = CurFilename();
+      return true;
+    }
+    if(varname == "rootname") { // Just get the root name of the file.
+      buff = FilenameC(CurFilename()).NameComponent();
+      return true;
+    }
+    if(varname == "pathname") { // Get the path to the file.
+      buff = FilenameC(CurFilename()).PathComponent();
       return true;
     }
     if(TemplateComplexBodyC::Lookup(varname,buff))
