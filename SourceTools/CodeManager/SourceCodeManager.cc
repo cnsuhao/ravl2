@@ -22,10 +22,15 @@ namespace RavlN {
   // Default constructor.
   
   SourceCodeManagerC::SourceCodeManagerC() 
+    : abortOnError(true),
+      verbose(false),
+      skipSub(false)
   {}
   
   SourceCodeManagerC::SourceCodeManagerC(const StringC &adir,bool doEnabled)
     : rootDir(adir.Copy()),
+      abortOnError(true),
+      verbose(false),
       skipSub(false)
   {}
   
