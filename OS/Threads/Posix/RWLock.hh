@@ -313,14 +313,14 @@ namespace RavlN
     //: Create a lock on a rwlock.
     
     void LockRd() {
-      RavlAssert(!(wLocked || rLocked)); // Must be no locks.
+      RavlAssertMsg(!(wLocked || rLocked),"RWLockHoldC::LockRd(), ERROR: lock already exists."); // Must be no locks.
       rwlock.RdLock();
       rLocked = true;
     }
     //: relock for read
     
     void LockWr() {
-      RavlAssert(!(wLocked || rLocked)); // Must be no locks.
+      RavlAssertMsg(!(wLocked || rLocked),"RWLockHoldC::LockWr(), ERROR: lock already exists."); // Must be no locks.
       rwlock.WrLock();
       wLocked = true;
     }
