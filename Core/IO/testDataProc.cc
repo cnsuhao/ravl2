@@ -37,6 +37,7 @@
 #include "Ravl/DP/CacheIStream.hh"
 #include "Ravl/DP/SPortAttach.hh"
 #include "Ravl/DP/ListIO.hh"
+#include "Ravl/DP/MemIO.hh"
 #include "Ravl/config.h"
 
 using namespace RavlN;
@@ -57,6 +58,7 @@ int testFunc2Proc();
 int testSPort();
 int testSampleStream();
 int testIStreamCache();
+int testMemIO(); 
 
 int main(int nargs,char **argv) {
   int ln;
@@ -85,6 +87,10 @@ int main(int nargs,char **argv) {
     return 1;
   }
   if((ln = testIStreamCache()) != 0) {
+    cerr << "Error in testIStreamCache(), Line:" << ln << "\n";
+    return 1;
+  }
+  if((ln = testMemIO()) != 0) {
     cerr << "Error in testIStreamCache(), Line:" << ln << "\n";
     return 1;
   }
@@ -237,6 +243,21 @@ int testIStreamCache() {
     if(v != i) return __LINE__;
   }
     
+  return 0;
+}
+
+int testMemIO() {
+  //cerr << "Testing MemIO. \n";
+  for(IntT i = 0;i < 10;i++) {
+    StringC buff;
+    if(!MemSave(buff,i))
+      return __LINE__;
+    IntT x = -1;
+    if(!MemLoad(buff,x))
+      return __LINE__;
+    if(i != x)
+      return __LINE__;
+  }
   return 0;
 }
 

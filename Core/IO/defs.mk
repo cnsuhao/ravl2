@@ -24,7 +24,8 @@ HEADERS=Entity.hh Process.hh Port.hh SPort.hh SPortAttach.hh \
  StreamOp31.hh Func2Proc21.hh Func2Proc31.hh OffsetScale.hh RunningAverage.hh \
  IOPort.hh XMLFileIO.hh FileFormatXMLStream.hh ListIO.hh AttributeType.hh \
  AttributeCtrl.hh AttributeValueTypes.hh AttributeSet.hh  AttributeCtrlInternal.hh \
- ByteFileIO.hh SampleStream.hh CacheIStream.hh ByteStream.hh SByteStream.hh
+ ByteFileIO.hh SampleStream.hh CacheIStream.hh ByteStream.hh SByteStream.hh \
+ MemIO.hh
 
 SOURCES=Entity.cc Process.cc Port.cc SPort.cc SPortAttach.cc ProcInfo.cc \
  Converter.cc TypeInfo.cc Pipes.cc FileFormat.cc FileFormatDesc.cc \
