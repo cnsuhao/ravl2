@@ -38,8 +38,9 @@ namespace RavlImageN {
     {}
     //: Default constructor
     
-    RegionSetBodyC(const ImageC<UIntT> & map, const HashC<UIntT,StatT> & stats)
-    { segmap = map; statset = stats;}
+    RegionSetBodyC(const ImageC<UIntT> & map,UIntT nLabels, const HashC<UIntT,StatT> & stats)
+      : SegmentationBodyC(map,nLabels)
+    { statset = stats;}
     //: Constructor from the segmentation map and the associated statistics for each region 
     
     inline HashC<UIntT,StatT> Stats() const
@@ -66,6 +67,17 @@ namespace RavlImageN {
     template<class ClassT, class PValueT> void UpdateStats(const ImageC<PValueT> & img);
     //: Calculates the statistics of the regions in the segmentation map from scratch
     
+    UIntT CompressAndRelabel(SArray1dC<UIntT> &newLabs) {
+      HashC<UIntT,StatT> newStats;
+      for(HashIterC<UIntT,StatT> it(statset);it;it++)
+	newStats[newLabs[it.Key()]] = it.Data();
+      statset = newLabs;
+    }
+    //: Compress newlabs and re-label segmentation.
+    // this correctly resolves multilevel mappings.
+    // Note: newLabs will be changed to contain a mapping
+    // from the original labels to their new values.
+    
   protected:
     HashC<UIntT,StatT> statset;
   };
@@ -83,8 +95,8 @@ namespace RavlImageN {
     {}
     //: Default constructor
 
-    RegionSetC(const ImageC<UIntT> & map, const HashC<UIntT,StatT> & stats)
-      : SegmentationC(*new RegionSetBodyC<StatT>(map, stats))
+    RegionSetC(const ImageC<UIntT> & map,UIntT nLabels, const HashC<UIntT,StatT> & stats)
+      : SegmentationC(*new RegionSetBodyC<StatT>(map,nLabels, stats))
     {}
     //: Constructor from the segmentation map and the associated statistics for each region
 
@@ -120,6 +132,13 @@ namespace RavlImageN {
     void UpdateStats(const ImageC<PixelT> & img)
     { Body().UpdateStats<ClassT, PixelT>(img); }
     //: Calculates the statistics of the regions in the segmentation map from scratch
+    
+    UIntT CompressAndRelabel(SArray1dC<UIntT> &newLabs) 
+    { return Body().CompressAndRelabel(newLabs); }
+    //: Compress newlabs and re-label segmentation.
+    // this correctly resolves multilevel mappings.
+    // Note: newLabs will be changed to contain a mapping
+    // from the original labels to their new values.
         
   };
   

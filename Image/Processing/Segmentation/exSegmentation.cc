@@ -30,7 +30,7 @@ int main (int argc, char** argv)
   OptionC cmd(argc,argv);
   StringC file_in  = cmd.String("in", "in.pgm", "Original image");  
   StringC file_out = cmd.String("out", "out.pgm", "Segmentation map");
-  IntT thresh = cmd.Int("t",20,"Colour threshold .");
+  IntT thresh = cmd.Int("t",35,"Colour threshold .");
   bool steal = cmd.Boolean("s",false,"Using segmentation with pixel stealing.");
   cmd.Check();
   

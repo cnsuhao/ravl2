@@ -108,7 +108,8 @@ namespace RavlImageN {
   //
   // Class for segmenting an image. Regions are grown sequentially. The seeds
   // are selected in a raster scan fashion from the portion of the image which
-  // has not been processed yet. A fast stealing processing is implemented. it is a little bit different from the one named "RegionGrowSteal", but much faster.
+  // has not been processed yet. A fast stealing processing is implemented. it
+  // is a little bit different from the one named "RegionGrowSteal", but much faster.
   
   template<class PixelSelectorT, class ClassifyT, class PixelT, class StatT>
   class RegionGrowStealC : public SegmentRegionC<PixelT, StatT> {
@@ -163,9 +164,8 @@ namespace RavlImageN {
     for (n_it.First(); n_it.IsElm(); n_it.Next()){
       if (n_it.Data().IsInside(img.Rectangle())) {
 	if((done[n_it.Data()]) && (res[n_it.Data()]!=res[pxl])) {
-	  if (!pxl_selector_edge.IsInside(pxl)) {
+	  if (!pxl_selector_edge.IsInside(pxl))
 	    pxl_selector_edge.Include(pxl);
-	  }
 	}
       }
     }
@@ -210,14 +210,12 @@ namespace RavlImageN {
       return ;
     SideEffectsNeigh(pxl);
     if (ShouldGrow(pxl)){
-      if (!pxl_selector.IsInside(pxl)){
+      if (!pxl_selector.IsInside(pxl))
 	pxl_selector.Include(pxl);
-      }
     }
-    if((done[pxl]) && (res[cpxl]!=res[pxl])){
-      if (!pxl_selector_edge.IsInside(pxl)){
-	pxl_selector_edge.Include(pxl);
-      }
+    if((done[pxl]) && (res[pxl]!=res[cpxl])){
+      if (!pxl_selector_edge.IsInside(cpxl))
+	pxl_selector_edge.Include(cpxl);
     }
   }
   
@@ -247,18 +245,20 @@ namespace RavlImageN {
   template<class PixelSelectorT, class ClassifyT, class PixelT, class StatT>
   RegionSetC<StatT> RegionGrowStealBodyC<PixelSelectorT, ClassifyT, PixelT, StatT>::Apply(const ImageC<PixelT> &in)
   {
-    done = ImageC<ByteT>(in.Rectangle()); done.Fill(0);
+    done = ImageC<ByteT>(in.Rectangle()); 
+    done.Fill(0);
     //steal_map = ImageC<ByteT>(in.Rectangle());
     //steal_map.Fill(0);
     
     pxl_selector = PixelSelectorT(in.Rectangle());
     pxl_selector_edge = PixelSelectorT(in.Rectangle());
-    res = ImageC<UIntT>(in.Rectangle()); res.Fill(0);
-  
+    res = ImageC<UIntT>(in.Rectangle()); 
+    res.Fill(0);
+    
     img = in.Copy();
     label = -1;
     seed_it = done;
-    Index2dC pxl(NextSeed());
+    Index2dC pxl = NextSeed();
     while (pxl.IsInside(in.Rectangle())){
       SetNewLabel();
       GrowComponent(pxl);
@@ -268,7 +268,7 @@ namespace RavlImageN {
     //RavlN::Save("@X:steal_map",steal_map); // a map to tell which pixels are stolen;
     for (UIntT i=0; i<= label; i++)
       stats[i] = result[i].Stat();
-    return RegionSetC<StatT>(res, stats);
+    return RegionSetC<StatT>(res,label+1, stats);
   }
 }
 #endif

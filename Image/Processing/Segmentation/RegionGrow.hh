@@ -224,7 +224,7 @@ namespace RavlImageN {
       stats[label] = stat;
       pxl = NextSeed();
     }
-    return RegionSetC<StatT>(res, stats);
+    return RegionSetC<StatT>(res, label+1,stats);
   }
 
 }

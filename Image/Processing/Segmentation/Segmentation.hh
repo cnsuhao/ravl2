@@ -59,11 +59,11 @@ namespace RavlImageN {
     UIntT RemoveSmallComponents(IntT thrSize);
     //: Remove small components from map, label them as 0.
     
-    UIntT CompressAndRelabel(SArray1dC<UIntT> newLabs);
+    UIntT CompressAndRelabel(SArray1dC<UIntT> &newLabs);
     //: Compress newlabs and re-label segmentation.
     // this correctly resolves multilevel mappings.
     // Note: newLabs will be changed to contain a mapping
-    // from the original labels to there new values.
+    // from the original labels to their new values.
     
     SArray1dC<UIntT> Areas();
     //: Compute the areas of all the segmented regions.

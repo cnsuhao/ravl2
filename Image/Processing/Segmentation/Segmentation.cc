@@ -132,16 +132,15 @@ namespace RavlImageN {
     return minLab;
   }
   
-//: Compress labels.
+  //: Compress labels.
+  // The 'labelTable' represents a look-up table for labels. 
+  // Each item contains a new label which can be the same
+  // as the index of the item or smaller. Such 'labelTable' contains
+  // a forest of labels, every tree of labels represents one component
+  // which should have the same label. It is valid that a root item
+  // of a tree has the same label value as the item index.
   
-  UIntT SegmentationBodyC::RelabelTable(SArray1dC<UIntT> &labelTable, UIntT currentMaxLabel) 
-    // The 'labelTable' represents a look-up table for labels. 
-    // Each item contains a new label which can be the same
-    // as the index of the item or smaller. Such 'labelTable' contains
-    // a forest of labels, every tree of labels represents one component
-    // which should have the same label. It is valid that a root item
-    // of a tree has the same label value as the item index.
-  {
+  UIntT SegmentationBodyC::RelabelTable(SArray1dC<UIntT> &labelTable, UIntT currentMaxLabel) {
     SArray1dIterC<UIntT> it(labelTable,currentMaxLabel+1);
     // Make all trees of labels to be with depth one.
     for(;it;it++)
@@ -168,7 +167,7 @@ namespace RavlImageN {
   
   //: Compress newlabs and re-label segmentation.
   
-  UIntT SegmentationBodyC::CompressAndRelabel(SArray1dC<UIntT> newLabs) {
+  UIntT SegmentationBodyC::CompressAndRelabel(SArray1dC<UIntT> &newLabs) {
     // ------ Compress labels -----
     // First make sure they form a directed tree
     // ending in the lowest valued label. 
