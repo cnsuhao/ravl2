@@ -26,8 +26,9 @@ namespace RavlN {
     }
     {
       StringListC hl(defs["HEADERS"]);
+      StringC package = defs["PACKAGE"];
       for(DLIterC<StringC> it(hl);it;it++) 
-	headers += dir + filenameSeperator + *it;
+	headers += HeaderInfoC(*it,package,dir + filenameSeperator + *it);
     }
     // We need to check for repeated inclusions in USESLIBS.
     {

@@ -2,6 +2,7 @@
 #define RAVLLIBINFO_HEADER 1
 ////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
+//! userlevel=Normal
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/String.hh"
@@ -10,6 +11,37 @@
 namespace RavlN {
 
   class DefsMkFileC;
+
+  //: Header info. 
+  // All you wanted to know about header files, but where
+  // afraid to ask.
+  
+  class HeaderInfoC {
+  public:
+    HeaderInfoC(const StringC &nname,const StringC &pack = StringC(),const StringC &nsrc = StringC())
+      : name(nname),
+      package(pack),
+      src(nsrc)
+      {}
+    //: Constructor.
+    
+    StringC &Name()
+      { return name; }
+    //: Name of headerfile (without path.)
+    
+    StringC &Package()
+      { return package; }
+    //: Where is should be installed.
+    
+    StringC &SrcFile()
+      { return src; }
+    //: Where it is in the source tree.
+    
+  protected:
+    StringC name;    // Name of headerfile (without path.)
+    StringC package; // Where is should be installed.
+    StringC src;     // Where it is in the source tree.
+  };
   
   //: Information about library.
   
@@ -38,7 +70,7 @@ namespace RavlN {
       { return sources; }
     //: Source files in the library.
     
-    DListC<StringC> Headers()
+    DListC<HeaderInfoC> Headers()
       { return headers; }
     //: Headers for the library.
     
@@ -46,7 +78,7 @@ namespace RavlN {
     StringC libName;
     DListC<StringC> useslibs;// Libraries required by this one.
     DListC<StringC> sources;  // Source files in the library.
-    DListC<StringC> headers; // Headers for the library.
+    DListC<HeaderInfoC > headers; // Headers for the library.
   };
 
   //: Information about library.
@@ -82,7 +114,7 @@ namespace RavlN {
       { return Body().Sources(); }
     //: Source files in the library.
     
-    DListC<StringC> Headers()
+    DListC<HeaderInfoC> Headers()
       { return Body().Headers(); }
     //: Headers for the library.
     
