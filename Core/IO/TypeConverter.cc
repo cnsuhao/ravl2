@@ -54,6 +54,40 @@ namespace RavlN {
 #endif
     return !conv.IsEmpty();
   }
+
+  //: Do conversion through abstract handles.
+  
+  RCAbstractC TypeConverterBodyC::DoConversion(const RCAbstractC &dat,const type_info &from,const type_info &to) {
+    if(from == to || !dat.IsValid())
+      return dat;
+    ONDEBUG(cout << "Asked to convert " << from.name() << " to " << to.name() << endl);
+    DListC<GraphEdgeIterC<StringC,DPConverterBaseC> > conv;  
+    //  typedef RealT (*AFuncT)(const DPConverterBaseC &);
+#ifndef VISUAL_CPP
+    // Visual C++ can't handle ptr's to functions with reference args.
+    // hopefull we'll find a way aroung this but for now its out.
+    RealT finalCost = 0;
+    conv = GraphBestRoute(ConvGraph(),
+			  GetTypeNode(from),
+			  GetTypeNode(to),
+			  finalCost,
+			  &TypeConverterBodyC::EdgeEval);
+#else
+    RavlAssert(0);
+#endif
+    if(conv.IsEmpty()) {
+      ONDEBUG(cout << "No conversion from " << from.name() << " to " << to.name() << endl);
+      return RCAbstractC();
+    }
+    
+    // Do conversion.
+    
+    RCAbstractC at = dat;
+    for(DLIterC<GraphEdgeIterC<StringC,DPConverterBaseC> > it(conv);it;it++)
+      at = it.Data().Data().Apply(at);
+    return at;
+    
+  }
   
   //: Find a conversion.
   // If found the cost of conversion is put into finalCost.
