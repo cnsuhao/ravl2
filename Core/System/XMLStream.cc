@@ -285,7 +285,7 @@ namespace RavlN {
     c = SkipWhiteSpace();
     StringC val;
     if(c != '\"') { // Quoted string ?
-      val += c;
+      is().putback(c);
       val += ReadID();
     } else {
       val = ClipTo('\"');
