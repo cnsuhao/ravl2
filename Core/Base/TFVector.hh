@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLTFVECTOR_HEADER
-#define RAVLTFVECTOR_HEADER 1
+#ifndef RAVL_TFVECTOR_HEADER
+#define RAVL_TFVECTOR_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Core.Tuples"
@@ -421,7 +421,8 @@ namespace RavlN {
       in >> dat.data[i];
     return in;
   }
-
+  
+#ifndef VISUAL_CPP
   template<unsigned int N>
   inline ostream &operator<<(ostream &out,const TFVectorC<ByteT,N> &dat) {
     for(UIntT i = 0;i < N;i++)
@@ -459,7 +460,7 @@ namespace RavlN {
     return in;
   }
   //: Specialise byte vectors so they're treated as numerical values.
-
+#endif
 }
 
 #endif
