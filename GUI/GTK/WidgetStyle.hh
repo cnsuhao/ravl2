@@ -71,12 +71,14 @@ namespace RavlGUIN {
 
     void SetBackground(const ImageC<ByteRGBValueC>& im, GtkStateType& state);
     //: Set the background of the widget
+    // Values for state are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSTATETYPE">here</A>.
     
     void SetColour(WidgetColourTypeT& type, ByteRGBValueC& col);
     //: Set a colour for the widget
     
     void SetColour(WidgetColourTypeT& type, ByteRGBValueC& col, GtkStateType& state);
     //: Set a colour for the widget
+    // Values for state are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSTATETYPE">here</A>.
 
   protected:
 
@@ -88,24 +90,28 @@ namespace RavlGUIN {
 
     bool GUISetBackground(GdkPixmap* pixmap, GtkStateType state);
     // Sets the background to a pixmap
+    // Values for state are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSTATETYPE">here</A>.
 
     bool GUISetBackground(ImageC<ByteRGBValueC>& im);
     //: Sets the background of the widget
 
     bool GUISetBackground(ImageC<ByteRGBValueC>& im, GtkStateType& state);
     //: Sets the background of the widget
+    // Values for state are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSTATETYPE">here</A>.
 
     GdkColor GUIRGB2Colour(ByteRGBValueC& rgb);
     // Loads a colour from a ByteRGBValueC
 
     bool GUISetColour(WidgetColourTypeT type, GdkColor color, GtkStateType state);
     // Sets a colour 
+    // Values for state are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSTATETYPE">here</A>.
 
     bool GUISetColour(WidgetColourTypeT& type, ByteRGBValueC& col);
     //: Set a colour for the widget
     
     bool GUISetColour(WidgetColourTypeT& type, ByteRGBValueC& col, GtkStateType& state);
     //: Set a colour for the widget
+    // Values for state are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSTATETYPE">here</A>.
 
     GtkStyle *style;
     //: The GTK style itself
@@ -165,6 +171,7 @@ namespace RavlGUIN {
     void SetBackground(const ImageC<ByteRGBValueC>& im, GtkStateType& state)
     { Body().SetBackground(im,state); }
     //: Set the background of the widget
+    // Values for state are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSTATETYPE">here</A>.
     
     void SetColour(WidgetColourTypeT& type, ByteRGBValueC& col)
     { Body().SetColour(type,col); }
@@ -173,6 +180,7 @@ namespace RavlGUIN {
     void SetColour(WidgetColourTypeT& type, ByteRGBValueC& col, GtkStateType& state)
     { Body().SetColour(type,col,state); }
     //: Set a colour for the widget
+    // Values for state are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSTATETYPE">here</A>.
 
   protected:
 
@@ -187,6 +195,7 @@ namespace RavlGUIN {
     bool GUISetBackground(ImageC<ByteRGBValueC>& im, GtkStateType& state) 
     { return Body().GUISetBackground(im,state); }
     //: Sets the background of the widget
+    // Values for state are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSTATETYPE">here</A>.
 
     bool GUISetColour(WidgetColourTypeT& type, ByteRGBValueC& col)
     { return Body().GUISetColour(type,col); }
@@ -195,6 +204,7 @@ namespace RavlGUIN {
     bool GUISetColour(WidgetColourTypeT& type, ByteRGBValueC& col, GtkStateType& state)
     { return Body().GUISetColour(type,col,state); }
     //: Set a colour for the widget
+    // Values for state are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSTATETYPE">here</A>.
 
     friend class WidgetStyleBodyC;
 
