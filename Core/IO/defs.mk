@@ -15,13 +15,15 @@ HEADERS=Entity.hh Process.hh Port.hh SPort.hh SPortAttach.hh \
  FileIO.hh BinFileIO.hh FuncP2Proc.hh ProcCompose.hh ProcInfo.hh \
  Converter.hh DataConv.hh TypeInfo.hh Pipes.hh FileFormat.hh \
  FileFormDesc.hh FileFormatStream.hh FileFormatBinStream.hh \
- FileFormatGen.hh FileFormatIO.hh TypeConverter.hh FileFormatRegistry.hh
+ FileFormatGen.hh FileFormatIO.hh TypeConverter.hh FileFormatRegistry.hh \
+ CoreIO.hh
 
 SOURCES=Entity.cc Process.cc Port.cc SPort.cc SPortAttach.cc ProcInfo.cc \
  Converter.cc TypeInfo.cc Pipes.cc FileFormat.cc FileFormDesc.cc \
  FileFormatStream.cc FileFormatBinStream.cc FileFormatGen.cc \
- FileFormatIO.cc TypeConverter.cc FileFormatRegistry.cc
+ FileFormatIO.cc TypeConverter.cc FileFormatRegistry.cc IndexIO.cc
 
+MUSTLINK= CoreIO.cc
 # ProcInfo.cc
 
 PLIB=RavlIO
