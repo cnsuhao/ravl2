@@ -7,6 +7,9 @@
 //////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/SourceTools/ToMake/tomake.cc"
+//! docentry="Ravl.Source Tools"
+//! author="Charles Galambos"
+//! userlevel=Normal
 
 #include "Ravl/Option.hh"
 #include "Ravl/Tuple2.hh"

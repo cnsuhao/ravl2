@@ -16,4 +16,5 @@ MAINS = Validate.cc
 
 USESLIBS = RavlCore RavlOS
 
-EHT = exeValidate.eht
+EHT = 
+#exeValidate.eht

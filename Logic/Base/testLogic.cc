@@ -7,6 +7,9 @@
 //! rcsid="$Id$"
 //! lib=RavlLogic
 //! file="Ravl/Logic/Base/testLogic.cc"
+//! docentry="Ravl.Logic"
+//! author="Charles Galambos"
+//! userlevel=Develop
 
 #include "Ravl/Logic/Tuple.hh"
 #include "Ravl/Logic/Unify.hh"

@@ -10,6 +10,10 @@
 //! author="Charles Galambos"
 //! lib=RavlLogicNLP
 //! file="Ravl/Logic/NonLinearPlanner/testNonLinearPlanner.cc"
+//! docentry="Ravl.Logic.Planning"
+//! userlevel=Normal
+
+//: Example program for non-linear planner.
 
 #include "Ravl/Logic/NonLinearPlan.hh"
 #include "Ravl/Logic/NLPlanner.hh"

@@ -6,6 +6,8 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlOptimise
+//! docentry="Ravl.Math.Optimisation.Examples"
+//! userlevel=Normal
 
 #include "Ravl/LevenbergMarquardt.hh"
 #include "Ravl/StateVectorHomog2d.hh"

@@ -12,7 +12,10 @@
 //! lib=RavlVPlay
 //! userlevel=Normal
 
-//: Video Player 
+//: Play a Video sequence.
+//
+// This program uses the RAVL sequence handling to read a 
+// video sequence and display it using the GTK based GUI interface.
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteYUVValue.hh"

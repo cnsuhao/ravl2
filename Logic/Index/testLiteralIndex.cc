@@ -8,6 +8,9 @@
 //! rcsid="$Id$"
 //! lib=RavlLogic
 //! file="Ravl/Logic/Index/testLiteralIndex.cc"
+//! docentry="Ravl.Logic.Index"
+//! userlevel=Develop
+//! author="Charles Galambos"
 
 #include "Ravl/Logic/LiteralIndex.hh"
 #include "Ravl/Logic/Tuple.hh"

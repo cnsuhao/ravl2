@@ -7,6 +7,8 @@
 //! rcsid="$Id$"
 //! lib=RavlOS
 //! file="Ravl/OS/Time/testDeadLineTimer.cc"
+//! docentry="Ravl.OS.Time"
+//! userlevel=Develop
 
 #include "Ravl/Option.hh"
 #include "Ravl/OS/DeadLineTimer.hh"

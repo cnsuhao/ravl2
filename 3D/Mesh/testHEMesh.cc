@@ -7,6 +7,9 @@
 //! rcsid="$Id$"
 //! lib=Ravl3D
 //! file="Ravl/3D/Mesh/testHEMesh.cc"
+//! author="Charles Galambos"
+//! docentry="Ravl.3D.Half Edge Mesh"
+//! userlevel=Develop
 
 #include "Ravl/3D/HEMesh.hh"
 #include "Ravl/3D/TriMesh.hh"

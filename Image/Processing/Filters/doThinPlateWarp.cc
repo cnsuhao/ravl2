@@ -7,6 +7,8 @@
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! author="Charles Galambos"
+//! docentry="Ravl.Images.Warping"
+//! userlevel=Normal
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/WarpThinPlateSpline.hh"

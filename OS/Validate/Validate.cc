@@ -7,6 +7,15 @@
 /////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/OS/Validate/Validate.cc"
+//! author="Charles Galambos"
+//! docentry="Ravl.QMake"
+//! userlevel=Normal
+
+//: Validate, utility used by QMake to do regression testing.
+// This program goes through a list of executables a checks
+// they cleanly return '0' (Indicating test passed.) in a 
+// timely manner.  It and excutable takes more than two minutes
+// to run, it will killed and the result assumed to be fail.
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/RCAbstract.hh"

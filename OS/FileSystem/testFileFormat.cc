@@ -9,7 +9,10 @@
 //! rcsid="$Id"
 //! lib=RavlOS
 //! file="Ravl/OS/FileSystem/testFileFormat.cc"
+//! docentry="Ravl.Core.Data Processing" 
+//! userlevel=Develop
 
+//: Test file format handling
 // This test really should be in the core, but we don't have
 // the tools to deal with files there. 
 

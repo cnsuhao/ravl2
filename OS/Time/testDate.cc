@@ -8,6 +8,9 @@
 //! rcsid="$Id$"
 //! lib=RavlOS
 //! file="Ravl/OS/Time/testDate.cc"
+//! author="Charles Galambos"
+//! docentry="Ravl.OS.Time"
+//! userlevel=Develop
 
 #include "Ravl/OS/Date.hh"
 #include "Ravl/String.hh"

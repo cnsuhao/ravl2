@@ -8,6 +8,8 @@
 //! lib=RavlImageProc
 //! author="Charles Galambos"
 //! file="Ravl/Image/Processing/Filters/doFilter.cc"
+//! userlevel=Normal
+//! docentry="Ravl.Images.Filtering"
 
 #include "Ravl/Option.hh"
 #include "Ravl/IO.hh"

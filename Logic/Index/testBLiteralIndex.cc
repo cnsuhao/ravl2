@@ -7,6 +7,9 @@
 //! rcsid="$Id$"
 //! lib=RavlLogic
 //! file="Ravl/Logic/Index/testBLiteralIndex.cc"
+//! docentry="Ravl.Logic.Index"
+//! userlevel=Develop
+//! author="Charles Galambos"
 
 #include "Ravl/Logic/BLiteralIndex.hh"
 #include "Ravl/Logic/BMinTermIndex.hh"

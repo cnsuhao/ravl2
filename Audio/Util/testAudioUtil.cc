@@ -6,6 +6,9 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlAudioUtil
+//! author="Charles Galambos"
+//! docentry="Ravl.Audio.Feature Extraction"
+//! userlevel=Develop
 
 #include "Ravl/Audio/WindowSignal.hh"
 #include "Ravl/DP/ListIO.hh"

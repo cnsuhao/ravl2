@@ -6,6 +6,8 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlAudioIO
+//! docentry="Ravl.Audio.Feature Extraction"
+//! userlevel=Normal
 
 #include "Ravl/Audio/TranscriptionStream.hh"
 #include "Ravl/Option.hh"
