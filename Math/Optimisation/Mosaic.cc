@@ -261,16 +261,11 @@ int Mosaic(int nargs,char **argv) {
   mosaic_rect.RCol() += 2*borderC;
   
   ImageC<ByteRGBMedianC> mosaic(mosaic_rect);
-  ByteRGBValueC val(0.0,0.0,0.0);
-#if 0
-  for(Array2dIterC<ImageC<ByteRGBMedianC> > it(mosaic_rect); it; )
+  ByteRGBValueC val(0,0,0);
+  
+  for(Array2dIterC<ByteRGBMedianC> it(mosaic); it;it++ )
     *it = ByteRGBMedianC(val);
-#else
-  for(UIntT row=0; row<mosaic.Rows(); row++)
-    for(UIntT col=0; col<mosaic.Cols(); col++)
-      mosaic[row][col] = ByteRGBMedianC(val);
-#endif
-
+  
   // compute homography mapping first image coordinates to mosaic coordinates
   Matrix3dC Pmosaic(1.0,0.0,-borderR,
 		    0.0,1.0,-borderC,
