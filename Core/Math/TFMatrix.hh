@@ -142,7 +142,7 @@ namespace RavlN {
     //: Mutiply two matrixes.
 
     template<unsigned int MT>
-      TFMatrixC<DataT,M,MT> TMul(const TFMatrixC<DataT,N,MT> & mat) const 
+    TFMatrixC<DataT,M,MT> TMul(const TFMatrixC<DataT,N,MT> & mat) const 
     {
       TFMatrixC<DataT,M,MT> ret;
       for(UIntT i = 0;i < M;i++)
@@ -158,7 +158,7 @@ namespace RavlN {
     //: Transpose this matrix and Multiply by 'mat'
     
     template<unsigned int NT>
-      TFMatrixC<DataT,N,NT> MulT(const TFMatrixC<DataT,NT, M> & mat) const {
+    TFMatrixC<DataT,N,NT> MulT(const TFMatrixC<DataT,NT, M> & mat) const {
       TFMatrixC<DataT,N,NT> ret;
       for(UIntT i = 0;i < N;i++)
 	for(UIntT j = 0;j < NT;j++)
@@ -195,6 +195,8 @@ namespace RavlN {
     //: Limit all values in this matrix to between min and max.
     // Returns true if all values in the matrix are between the limits.
     
+    static TFMatrixC<DataT,N,M> I();
+    //: Create an identity matrix.
   protected:
 
     DataT data[N][M];
@@ -406,6 +408,16 @@ namespace RavlN {
 	ret[i][j] = val / mat[i][j];
     return ret;
   }
+
+  template<class DataT,unsigned int N,unsigned int M>
+  TFMatrixC<DataT,N,M> TFMatrixC<DataT,N,M>::I() {
+    TFMatrixC<DataT,N,M> ret;
+    for(UIntT i = 0;i < N;i++) 
+      for(UIntT j = 0;j < M;j++)
+	ret[i][j] = (i == j)?1.0:0.0;
+    return ret;
+  }
+
 
   //// TFVectorC methods that use TFMatrixC.
   
