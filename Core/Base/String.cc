@@ -203,8 +203,7 @@ namespace RavlN {
   // generally be faster in the long run to get new space & copy
   // than to call realloc
   
-  static StrRepC*
-  Sresize(StrRepC* old, int newlen) {
+  static StrRepC* Sresize(StrRepC* old, int newlen) {
     if (old == &_nilStrRepC) old = 0;
     StrRepC* rep;
     if (old == 0)
@@ -577,7 +576,7 @@ namespace RavlN {
     const char* s = chars();
     
     // prepare to make new rep
-    StrRepC* nrep = 0;
+    StrRepP nrep;
     int nsz = 0;
     char* x = 0;
     

@@ -44,6 +44,11 @@ int testString() {
     return __LINE__;
   if(StringC("one").TopAndTail() != "one")
     return __LINE__;
+  {
+    StringC test(" * * * ");
+    test.gsub("*","Hello");
+    if(test.freq("Hello") != 3) return __LINE__;
+  }
   return 0;
 }
 

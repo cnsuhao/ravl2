@@ -132,7 +132,7 @@ namespace RavlN {
     StrRepP(void) { Where = NULL; }
     ~StrRepP(void) { SetPtr(NULL); }
     
-    StrRepP operator=(const StrRepP &Oth) { SetPtr(Oth.Where); return *this; }
+    StrRepP &operator=(const StrRepP &Oth) { SetPtr(Oth.Where); return *this; }
     StrRepC *operator=(StrRepC *Oth) { SetPtr(Oth); return Where; }
     StrRepC *operator->() const { return Where; }
     operator StrRepC *() const { return Where; }
