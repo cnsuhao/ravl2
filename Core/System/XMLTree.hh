@@ -102,7 +102,14 @@ namespace RavlN {
   };
   
   //! userlevel=Normal
-  //: XML parse tree.
+  //: Parses XML and stores as a tree
+  // <code>XMLTreeC</code> is a hash tree, templated on strings for key and data.
+  // <ul>
+  // <li> The top-level element is a container for the remaining XML - typically it has the name of the XML file.  The contents start at the next level down.
+  // <li> The elements contained within an element (children) can be accessed either as a list, as a hash table, or individually by name.
+  // <li> Attributes of an element can be accessed as a hash table, using the attribute name as the key.  Attributes are called <code>Data()</code> in this class (for reasons of inheritance).
+  // </ul>
+  // <p> To summarise: an XML tree node typically has a <code>Name()</code>, <code>Data()</code> (i.e. attributes) and <code>Children()</code> (i.e. contents).</p>
 
   class XMLTreeC
     : public HashTreeC<StringC,RCHashC<StringC,StringC> >
