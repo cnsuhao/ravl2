@@ -99,6 +99,8 @@ namespace RavlN {
     SetupCommand("print",&TemplateComplexBodyC::DoErrPrint);
     SetupCommand("before",&TemplateComplexBodyC::DoBefore);
     SetupCommand("after",&TemplateComplexBodyC::DoAfter);
+    SetupCommand("truncate",&TemplateComplexBodyC::DoFirstN);
+    SetupCommand("marktruncate",&TemplateComplexBodyC::DoMarkFirstN);
   }
   
   //: Print a message to stderr.
@@ -541,6 +543,68 @@ namespace RavlN {
     if(!BuildSub(subTextBuff))
       cerr << "WARNING: BuildSub of '" << txt << "' in template '" << templFile.Filename() << "' failed. \n";
     output.DelTop();
+    return true;
+  }
+
+  //: Return the first N charactors of a string.
+  
+  bool TemplateComplexBodyC::DoFirstN(StringC &txt) {
+    int arg1s = txt.index(':');
+    if(arg1s < 0) {
+      cerr << "Malformed 'truncate' in template. '" << txt << "' ignoring \n";
+      return false;
+    }
+    SubStringC arg1 = txt.before(arg1s);
+    StringC value = txt.after(arg1s);
+    IntT n = arg1.IntValue();
+    
+    StrOStreamC outStr;    
+    output.Push(outStr);
+    TextFileC subTextBuff(value,true,true);
+    if(!BuildSub(subTextBuff))
+      cerr << "WARNING: BuildSub of '" << value << "' in template '" << templFile.Filename() << "' failed. \n";
+    output.DelTop();
+    StringC outs = outStr.String(); 
+    if(outs.Size() > (UIntT) n)
+      Output() << outs(0,n);
+    else
+      Output() << outs;
+    return true;
+  }
+  
+  //: Return the first N charactors of a string, if the string is truncated indicate it with a marker.
+  
+  bool TemplateComplexBodyC::DoMarkFirstN(StringC &txt) {
+    int arg1s = txt.index(':');
+    if(arg1s < 0) {
+      cerr << "Malformed 'marktruncate' in template. '" << txt << "' ignoring \n";
+      return false;
+    }
+    int arg2s = txt.index(':',arg1s+1);
+    if(arg2s < 0) {
+      cerr << "Malformed 'marktruncate' in template. '" << txt << "' ignoring \n";
+      return false;
+    }
+    SubStringC arg1 = txt.before(arg1s);
+    SubStringC arg2 = txt.at(arg1s+1,(arg2s-arg1s)-1);
+    StringC value = txt.after(arg2s);
+    
+    IntT n = arg1.IntValue();
+    if(n < (IntT) arg2.Size()) {
+      cerr << "WARNING: Marker larger than truncation size, expanding to marker size. '" << txt << "'. \n";
+      n = arg2.Size();
+    }
+    StrOStreamC outStr;    
+    output.Push(outStr);
+    TextFileC subTextBuff(value,true,true);
+    if(!BuildSub(subTextBuff))
+      cerr << "WARNING: BuildSub of '" << value << "' in template '" << templFile.Filename() << "' failed. \n";
+    output.DelTop();
+    StringC outs = outStr.String(); 
+    if(outs.Size() > (UIntT) n) {
+      Output() << outs(0,n-arg2.Size()) << arg2;
+    } else
+      Output() << outs;
     return true;
   }
   

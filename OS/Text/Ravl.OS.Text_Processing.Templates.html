@@ -89,7 +89,11 @@
       <tr><td> <B>$(after:a:b)</B></td><td> Expand 'b', and make return all text after 'a'. 
 	  Return the whole string if 'a' is not found. </td></tr>
       
-	<tr><td> <B>$(silent:a)</B></td><td> Expand 'a', but discard the output. This
+      <tr><td> <B>$(truncate:n:a)</B></td><td> Expand 'a', and truncate the string to 'n' charactors. </td></tr>
+      
+      <tr><td> <B>$(marktruncate:n:a:b)</B></td><td> Expand 'b', and truncate the string to 'n' charactors. if the string is truncated replace the last charactors in the string with 'a' </td></tr>
+      
+      <tr><td> <B>$(silent:a)</B></td><td> Expand 'a', but discard the output. This
 	  maybe user to comment the setup of variables, without sending
 	  the comments to the output file. </td></tr>
       
@@ -119,7 +123,7 @@
     <address><a href="mailto:ees1cg@syzygy.ee.surrey.ac.uk">Charles Galambos</a></address>
 <!-- Created: Tue Feb 29 08:53:27 GMT 2000 -->
 <!-- hhmts start -->
-Last modified: Mon Jul 16 13:27:31 BST 2001
+Last modified: Sun Jan  5 10:26:51 GMT 2003
 <!-- hhmts end -->
   </body>
 </html>

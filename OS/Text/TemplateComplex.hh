@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLTEMPLATECMPLX_HEADER
-#define RAVLTEMPLATECMPLX_HEADER 1
+#ifndef RAVL_TEMPLATECMPLX_HEADER
+#define RAVL_TEMPLATECMPLX_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/OS/Text/TemplateComplex.hh"
@@ -118,6 +118,12 @@ namespace RavlN {
     
     bool DoAfter(StringC &txt);
     //: Return text after a string.
+    
+    bool DoFirstN(StringC &txt);
+    //: Return the first N charactors of a string.
+    
+    bool DoMarkFirstN(StringC &txt);
+    //: Return the first N charactors of a string, if the string is truncated indicate it with a marker.
     
     bool HtmlSafe(StringC &txt);
     //: Make sure text will be taken literally in html.
