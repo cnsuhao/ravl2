@@ -60,6 +60,7 @@ namespace RavlImageN {
     MeanVarianceC smv = tsums.MeanVariance();
     RealT tmean = smv.Mean();
     RealT tvar = smv.Variance();
+    RealT z = Sqrt(tvar) * tarea;
     RealT tsum = tsums.Sum();
     
     IndexRange2dC clippedSearchArea = searchArea;
@@ -74,12 +75,12 @@ namespace RavlImageN {
       TFVectorC<IntT, 2>  rs = sums.Sum(rect);
       RealT ssum = rs[0];
       RealT smean = (RealT) rs[0] / tarea;
-      RealT svar = ((RealT) rs[1] - (RealT) Sqr(rs[0])/tarea) / (tarea-1);
+      RealT svar = ((RealT) rs[1] - Sqr((RealT) rs[0])/tarea) / (tarea-1);
       
       // Compute correlation score.
       RealT curScore = 
 	(sumxy - smean * tsum - tmean * ssum + smean * tmean * tarea)
-	/ (svar * tvar);
+	/ (Sqrt(svar) * z);
       //cerr << " " << curScore;
       // Compair it to pervious scores.
       if(curScore > score) { // Best so far ?

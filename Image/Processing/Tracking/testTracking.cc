@@ -52,15 +52,27 @@ int testNormalisedCorrelation() {
   
   MatchNormalisedCorrelationC match(img);
   
+#if 1
   // Add some noise...
   for(Array2dIterC<ByteT> it(targ);it;it++)
     *it += (IntT) (RandomInt() % 5) - 2;
+#endif
   
   RealT score;
   Index2dC at;
   match.Search(targ,img.Frame(),score,at);
-  cerr << "At=" << at << " Score=" << score << "\n";
+  cerr << "Targ1, At=" << at << " Score=" << score << "\n";
+  if(score < 0.8)
+    return __LINE__;
   if((at - Index2dC(50,50)).SumOfSqr() > 1)
+    return __LINE__;
+  
+  ImageC<ByteT> targ2(8,8);
+  for(Array2dIterC<ByteT> it(targ2);it;it++)
+    *it = (RandomInt() % 200);
+  match.Search(targ2,img.Frame(),score,at);
+  cerr << "Targ2, At=" << at << " Score=" << score << "\n";
+  if(score > 0.7)
     return __LINE__;
   
   return 0;
