@@ -8,6 +8,8 @@
 #define RAVL_FIXED_POINT_HSV_VALUE_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlImage
+//! docentry="Ravl.Images.Pixel Types"
+//! author="Joel Mitchelson"
 
 #include "Ravl/Stream.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
