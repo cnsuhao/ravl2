@@ -31,10 +31,11 @@ namespace RavlGUIN {
     : public WidgetBodyC
   {
   public:
-    TextEntryBodyC(const StringC &ntext,IntT MaxLen = -1,bool sigAllChanges = false);
+    TextEntryBodyC(const StringC &ntext,IntT MaxLen = -1,bool sigAllChanges = false,IntT editable = true, IntT xsize = -1, IntT ysize = -1);
     //: Constructor.
     // The inital content of the entry is set to ntext.
     // If MaxLen is set to a negative number, the length is unlimited.
+   
     
     virtual bool Create();
     //: Create the widget.
@@ -65,6 +66,13 @@ namespace RavlGUIN {
     //: Set text to edit.
     // This should only be called within the GUI thread.
     
+    bool SetEditable (const bool & editable); 
+    //: Sets the to be widget editable/not editable  
+
+    bool GUISetEditable (bool & editable) ; 
+    //: Sets the widget to be editable/not edtiable 
+    // GUI Thread only 
+
     bool GUIHideText(bool& hide);
     //: Hides text entered into this field
     // GUI Thread only
@@ -85,6 +93,9 @@ namespace RavlGUIN {
     Signal1C<StringC> activate; // Return has been pressed.
     Signal0C changed;  // Text in box has been changed.
     
+    IntT xsize, ysize ;// The dimensions of the widget 
+    bool isEditable ; // Is the widget editable 
+
     friend class TextEntryC;
   };
   
@@ -101,8 +112,8 @@ namespace RavlGUIN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    TextEntryC(const StringC &text,IntT nMaxLen = -1,bool sigAllChanges = false)
-      : WidgetC(*new TextEntryBodyC(text,nMaxLen,sigAllChanges))
+    TextEntryC(const StringC &text,IntT nMaxLen = -1,bool sigAllChanges = false, bool editable = true, IntT xsize = -1, IntT ysize = -1)
+      : WidgetC(*new TextEntryBodyC(text,nMaxLen,sigAllChanges,editable,xsize,ysize))
       {}
     //: Constructor
     // The inital content of the entry is set to ntext.
@@ -122,6 +133,8 @@ namespace RavlGUIN {
       { return static_cast<const TextEntryBodyC &>(WidgetC::Body()); }
     //: Access body.  
     
+  public: 
+    
     bool GUISetText(StringC &txt)
       { return Body().GUISetText(txt); }
     //: Set text to edit.
@@ -131,8 +144,16 @@ namespace RavlGUIN {
     { return Body().GUIHideText(hide); }
     //: Hides text entered into this field
     // GUI thread only
+    
+    bool SetEditable (const bool & editable)
+    { return Body().SetEditable(editable) ; }  
+    //: Sets the to be widget editable/not editable  
+    
+    bool GUISetEditable (bool & editable)
+    { return Body().GUISetEditable(editable) ; } 
+    //: Sets the widget to be editable/not edtiable 
+    // GUI Thread only
 
-  public:
     bool HideText(const bool& hide) 
     { return Body().HideText(hide); }
     //: Hides text entered into this field
@@ -165,25 +186,25 @@ namespace RavlGUIN {
   //: Create a text entry.
   
   template<class DataT>
-  TextEntryC TextEntry(const StringC &def,const DataT &dat,bool (DataT::*func)(StringC &ref),int maxLen = -1,bool sigAllChanges = false)
+  TextEntryC TextEntry(const StringC &def,const DataT &dat,bool (DataT::*func)(StringC &ref),int maxLen = -1,bool sigAllChanges = false, bool editable = true, IntT xsize, IntT ysize)
   { 
-    TextEntryC ret(def,maxLen,sigAllChanges);
+    TextEntryC ret(def,maxLen,sigAllChanges, editable, xsize, ysize);
     Connect(ret.Activate(),dat,func);
     return ret;    
   } 
 
   template<class DataT>
-  TextEntryC TextEntryR(const StringC &def,DataT &dat,bool (DataT::*func)(StringC &ref),int maxLen = -1,bool sigAllChanges = false)
+  TextEntryC TextEntryR(const StringC &def,DataT &dat,bool (DataT::*func)(StringC &ref),int maxLen = -1, bool sigAllChanges = false, bool editable, IntT xsize, IntT ysize)
   { 
-    TextEntryC ret(def,maxLen,sigAllChanges);
+    TextEntryC ret(def,maxLen,sigAllChanges,editable,xsize,ysize);
     ConnectRef(ret.Activate(),dat,func);
     return ret;    
   } 
   
   template<class DataT>
-  TextEntryC TextEntry(const StringC &def,bool (*func)(StringC &ref,DataT &dat),const DataT &dat,int maxLen = -1,bool sigAllChanges = false)
+  TextEntryC TextEntry(const StringC &def,bool (*func)(StringC &ref,DataT &dat),const DataT &dat,int maxLen = -1,bool sigAllChanges = false, bool editable, IntT xsize, IntT ysize)
   {
-    TextEntryC ret(def,maxLen,sigAllChanges);
+    TextEntryC ret(def,maxLen,sigAllChanges,editable,xsize,ysize);
     Connect(ret.Activate(),func,StringC(""),dat);
     return ret;    
   } 

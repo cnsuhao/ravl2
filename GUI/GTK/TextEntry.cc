@@ -27,12 +27,16 @@ namespace RavlGUIN {
   { entry->Entry(gtk_entry_get_text(GTK_ENTRY(entry->Widget()))); }
   
   
-  TextEntryBodyC::TextEntryBodyC(const StringC &ntext,IntT nMaxLen,bool nsigAllChanges)
+  TextEntryBodyC::TextEntryBodyC(const StringC &ntext,IntT nMaxLen,bool nsigAllChanges,IntT editable, IntT xdim,IntT ydim)
     : text(ntext),
       maxLen(nMaxLen),
       sigAllChanges(nsigAllChanges),
       bPasswdMode(false),
-      activate(text)
+      activate(text),
+      isEditable(editable)
+      xsize(xdim), 
+    ysize(ydim),
+    isEditable(editable)
   {}
   
   //: Got a changed signal.
@@ -65,6 +69,8 @@ namespace RavlGUIN {
       widget = gtk_entry_new ();
     if(!text.IsEmpty())
       gtk_entry_set_text (GTK_ENTRY (widget), text);
+    GUISetUSize( xsize, ysize ) ; 
+    gtk_entry_set_editable (GTK_ENTRY(widget), isEditable) ;
     ONDEBUG(cerr << "TextEntryBodyC::Create(), Size=" << GTK_ENTRY (widget)->text_size << " Used=" << GTK_ENTRY (widget)->text_length <<" Max=" << GTK_ENTRY (widget)->text_max_length <<"\n");
     
     gtk_signal_connect(GTK_OBJECT(widget), "activate",
@@ -143,5 +149,21 @@ namespace RavlGUIN {
     return true;
   }
 
+  bool TextEntryBodyC::GUISetEditable (bool & editable) 
+  {
+    isEditable = editable ; 
+    if (widget == 0)
+      return true ; 
+    gtk_entry_set_editable (GTK_ENTRY (widget), editable) ;
+    return true ; 
+  }
+
+
+
+  bool TextEntryBodyC::SetEditable (const bool & editable) 
+  {
+    Manager.Queue(Trigger(TextEntryC(*this),&TextEntryC::GUISetEditable,editable)) ;
+    return true ; 
+  }
 
 }
