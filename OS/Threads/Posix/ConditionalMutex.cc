@@ -28,6 +28,8 @@
 #include <errno.h>
 #endif
 
+#include <iostream>
+
 #define NANOSEC 1000000000
 
 namespace RavlN
@@ -65,18 +67,18 @@ namespace RavlN
     
     ts.tv_sec += secs;
     ts.tv_nsec += nsecs;
-    if(ts.tv_nsec > NANOSEC) {
+    if(ts.tv_nsec >= NANOSEC) {
       ts.tv_sec += 1;
       ts.tv_nsec -= NANOSEC;
     }
-    
+
     do {
       errcode = pthread_cond_timedwait(&cond,&mutex,&ts); 
       if(errcode == ETIMEDOUT)
-	break;
+        break;
       // May be interupted by EINTR... ignore and restart the wait.
-      if ( errcode == 0 ) break ; 
-       RavlAssertMsg(errcode == EINTR,"ConditionalMutexC::Wait(), ERROR: Unexpected return code.");
+      if ( errcode == 0 ) break ;
+      RavlAssertMsg(errcode == EINTR,"ConditionalMutexC::Wait(), ERROR: Unexpected return code.");
 
     } while(errcode != 0);
     
