@@ -22,6 +22,8 @@ int TestBasic();
 int TestIO();
 int TestColorCnv();
 
+template ImageC<int>; // Make sure all functions are compiled.
+
 int main()
 {
   cerr << "Testing basic image ops. \n";

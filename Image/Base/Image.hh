@@ -109,8 +109,8 @@ namespace RavlImageN {
     IntT fy = Floor(pnt[1]); // Col
     RealT u = pnt[0] - fx;
     RealT t = pnt[1] - fy;
-    const PixelT* pixel1 = &image[fx][fy];
-    const PixelT* pixel2 = &image[fx+1][fy];
+    const PixelT* pixel1 = &(*this)[fx][fy];
+    const PixelT* pixel2 = &(*this)[fx+1][fy];
     const RealT onemt = (1.0-t);
     const RealT onemu = (1.0-u);
     return (PixelT)((onemt*onemu*pixel1[0]) + 
