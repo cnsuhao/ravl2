@@ -35,45 +35,60 @@ namespace RavlN
   class SVDC
   {
   public:
-    SVDC (const TMatrixC<NumT> &Arg) {
-      m = Arg.Size1();
-      n = Arg.Size2();
+    SVDC (const TMatrixC<NumT> &arg,bool want_u = true,bool want_v = true) 
+      :  wantu(want_u),
+	 wantv(want_v)
+    {
+      m = arg.Size1();
+      n = arg.Size2();
       int nu = Min(m,n);
       
       int nss = Min(m+1,n);
-      s = TVectorC<NumT>(nss);  
+      s = TVectorC<NumT>(nss);
       U = TMatrixC<NumT>(m, nu, NumT(0));
       V = TMatrixC<NumT>(n,n);
       
-      DoSVD(Arg);
+      DoSVD(arg);
     }
-
-    SVDC (const TMatrixC<NumT> &Arg,TVectorC<NumT> &ns,TMatrixC<NumT> &nU,TMatrixC<NumT> &nV) {
-      m = Arg.Size1();
-      n = Arg.Size2();
+    //: Setup SVD of 'arg'
+    //!param: arg - Matrix to decompose
+    //!param: want_u - Flag to indicate if we need to compute U matrix.
+    //!param: want_v - Flag to indicate if we need to compute V matrix.
+    
+    SVDC (const TMatrixC<NumT> &arg,TVectorC<NumT> &ns,TMatrixC<NumT> &nU,TMatrixC<NumT> &nV,bool want_u = true,bool want_v = true) 
+      :  wantu(want_u),
+	 wantv(want_v)
+    {
+      m = arg.Size1();
+      n = arg.Size2();
       
       int nss = Min(m+1,n);
       RavlAssert(nss >= (int) ns.Size());
       s = TVectorC<NumT>(SArray1dC<NumT>(ns,nss));
       
-      RavlAssert((int) nU.Size1() == m && (int) nU.Size2() == Min(m,n));
+      RavlAssert((int) nU.Size1() == m && (int) nU.Size2() == Min(m,n) || (!wantu));
       U = nU;
       U.Fill(0);
       
-      RavlAssert((int) nV.Size1() == n && (int) nV.Size2() == n);
+      RavlAssert((int) nV.Size1() == n && (int) nV.Size2() == n || (!wantv));
       V = nV;
       
-      DoSVD(Arg);
+      DoSVD(arg);
     }
-
+    //: Setup SVD of 'arg'
+    //!param: arg - Matrix to decompose
+    //!param: ns - Vector to store singular values.
+    //!param: nU - Matrix to store U result in. (If want_u is false, can be empty).
+    //!param: nV - Matrix to store V result in. (If want_v is false, can be empty).
+    //!param: want_u - Flag to indicate if we need to compute U matrix.
+    //!param: want_v - Flag to indicate if we need to compute V matrix.
+    
   protected:
     void DoSVD(const TMatrixC<NumT> &Arg) {
       TVectorC<NumT> e(n);
       TVectorC<NumT> work(m);
       TMatrixC<NumT> A(Arg.Copy());
       int nu = Min(m,n);
-      bool wantu = true;
-      bool wantv = true;
       int i=0, j=0, k=0;
       
       RavlAlwaysAssertMsg(m >= n,"SVDC, This SVD code it not reliable where m < n.");
@@ -524,6 +539,8 @@ namespace RavlN
     TMatrixC<NumT> U, V;
     TVectorC<NumT> s;
     int m, n;
+    bool wantu;
+    bool wantv;
   };
 
 }
