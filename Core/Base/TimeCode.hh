@@ -94,6 +94,9 @@ namespace RavlN {
     
     TimeCodeC & operator-=(const TimeCodeC & in);
     //: Subtracts input timecode from this
+
+    TimeCodeC & operator++();
+    //: Increments timecode by 1 frame
     
     friend ostream &operator<<(ostream &s, const TimeCodeC &out);
     //: Output stream for timecode

@@ -178,6 +178,12 @@ namespace RavlN {
   }
   
   
+  //: Increments timecode by 1 frame
+  TimeCodeC &TimeCodeC::operator++() {
+    ++m_liFrame;
+    return *this;
+  }
+    
   //: Count the number of frames to a timecode
   IntT TimeCodeC::NumberOfFramesTo(const TimeCodeC & tc_In) {
     return Abs(m_liFrame - tc_In.m_liFrame);
