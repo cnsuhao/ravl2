@@ -34,7 +34,8 @@ PLIB = RavlCxxDoc
 MAINS = CxxDoc.cc 
 #doDocTree.cc
 
-EHT= Ravl.Source_Tools.CxxDoc.html
+EHT= Ravl.Source_Tools.CxxDoc.html Ravl.Introduction.Documentation.Formating.html \
+ Ravl.Introduction.Documentation.docentry.html 	Ravl.Introduction.Documentation.html
 
 USESLIBS=  RavlCore RavlOS
 
