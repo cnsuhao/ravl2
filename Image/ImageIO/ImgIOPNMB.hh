@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLDPIMAGEIOPPM_HEADER
-#define RAVLDPIMAGEIOPPM_HEADER
+#ifndef RAVLIMAGE_DPIMAGEIOPPM_HEADER
+#define RAVLIMAGE_DPIMAGEIOPPM_HEADER
 ///////////////////////////////////////////////////
 //! userlevel=Develop
 //! rcsid="$Id$"
@@ -13,7 +13,7 @@
 //! lib=RavlImageIO
 //! docentry="Ravl.Images.IO.Formats"
 //! author="Charles Galambos"
-//! date="29/10/98"
+//! date="29/10/1998"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
@@ -58,8 +58,15 @@ namespace RavlImageN {
     virtual bool IsGetEOS() const;
     //: Is valid data ?
     
+    virtual bool IsGetReady() const;
+    //: Is some data ready ?
+    // true = yes.
+    
     virtual ImageC<ByteRGBValueC> Get();
     //: Get next piece of data.
+    
+    virtual bool Get(ImageC<ByteRGBValueC> &buff);
+    //: Get image from stream.
     
   protected:
     IStreamC inf; // Infile.
@@ -105,9 +112,16 @@ namespace RavlImageN {
     
     virtual bool IsGetEOS() const;
     //: Is valid data ?
+
+    virtual bool IsGetReady() const;
+    //: Is some data ready ?
+    // true = yes.
     
     virtual ImageC<ByteT> Get();
     //: Get next piece of data.
+    
+    virtual bool Get(ImageC<ByteT> &buff);
+    //: Get image from stream.
     
   protected:
     IStreamC inf; // Infile.

@@ -196,7 +196,6 @@ namespace RavlImageN {
   bool DPOImagePNMByteRGBBodyC::IsPutReady() const 
   { return outf && !done;  }
   
-  
   //: Write out image.
   
   bool DPOImagePNMByteRGBBodyC::Put(const ImageC<ByteRGBValueC> &nimg) 
@@ -248,16 +247,37 @@ namespace RavlImageN {
   bool DPIImagePNMByteRGBBodyC::IsGetEOS() const
   { return (done || (!inf)) ; }
   
+  //: Is some data ready ?
+  // true = yes.
+  
+  bool DPIImagePNMByteRGBBodyC::IsGetReady() const 
+  { return (done || (!inf)); }
+  
+
+  //: Get image from stream.
+  
+  bool DPIImagePNMByteRGBBodyC::Get(ImageC<ByteRGBValueC> &buff) {
+    if(done || (!inf))
+      return false;
+    try {
+      buff = DPIImagePNMByteRGBBodyC::Get();
+    } catch(DataNotReadyC &) {
+      return false;
+    }
+    return true;
+  }
   
   //: Get next piece of data.
   
   ImageC<ByteRGBValueC> DPIImagePNMByteRGBBodyC::Get() {
     IntT x,y;
-    ByteT type;  
+    ByteT type;
+    if(done)
+      throw DataNotReadyC("ByteRGB: Image already read. ");
     if(!LoadHeader(inf,type,x,y)) {
       // Throw an exception ??
-      cerr << "ByteRGB: Failed to load header for image '" << inf.Name() << "'\n";
-      return ImageC<ByteRGBValueC>();
+      cerr << "DPIImagePNMByteRGBBodyC: Failed to load header for image '" << inf.Name() << "'\n";
+      throw DataNotReadyC("DPIImagePNMByteRGBBodyC: Failed to load header for image. ");
     }
     ImageC<ByteRGBValueC> img(y,x);
     switch(type) 
@@ -371,16 +391,39 @@ namespace RavlImageN {
   
   bool DPIImagePNMByteGreyBodyC::IsGetEOS() const
   { return (done || (!inf)) ; }
+
+  //: Is some data ready ?
+  // true = yes.
+  
+  bool DPIImagePNMByteGreyBodyC::IsGetReady() const 
+  { return (done || (!inf)); }
+
+
+  //: Get image from stream.
+  
+  bool DPIImagePNMByteGreyBodyC::Get(ImageC<ByteT> &buff) {
+    if(done || (!inf))
+      return false;
+    try {
+      buff = DPIImagePNMByteGreyBodyC::Get();
+    } catch(DataNotReadyC &) {
+      return false;
+    }
+    return true;
+  }
   
   //: Get next piece of data.
   
   ImageC<ByteT> DPIImagePNMByteGreyBodyC::Get() {
     IntT x,y;
     ByteT type;  
+    if(done)
+      throw DataNotReadyC("DPIImagePNMByteGreyBodyC: Image already read. ");
     if(!LoadHeader(inf,type,x,y)) {
       // Throw an exception ??
       cerr << "PNMByteGrey: Failed to load header for image '" << inf.Name() << "'\n";
-      return ImageC<ByteT>();
+      throw DataNotReadyC("DPIImagePNMByteGreyBodyC: Failed to load header. ");
+      //return ImageC<ByteT>();
     }
     ImageC<ByteT> img(y,x);
     switch(type) 
