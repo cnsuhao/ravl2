@@ -21,9 +21,12 @@ namespace RavlGUIN {
   
   ComboBodyC::ComboBodyC(const DListC<StringC> &nChoices,bool neditable)
     : choices(nChoices),
-      editable(neditable)
+      editable(neditable),
+      allowsignals(true),
+      sigSelected(StringC())
   {
     signals["combo_activate"] = Signal1C<StringC>(StringC("-none-"));
+    ConnectRef(signals["combo_activate"],*this,&ComboBodyC::FilterSignal);
   }
   
   //: Get currently selected string.
@@ -55,8 +58,14 @@ namespace RavlGUIN {
       return true;
     GtkWidget *li = gtk_list_item_new_with_label ((gchar *) opt.chars());
     cmap[opt] = li;
+    // Disable signals
+    allowsignals = false;
+    // Add widget
     gtk_widget_show (li);
     gtk_container_add (GTK_CONTAINER (GTK_COMBO(widget)->list), li);
+    // Re-enable signals
+    allowsignals = true;
+    // Done
     return true;
   }
   
@@ -69,8 +78,14 @@ namespace RavlGUIN {
     if(!cmap.Lookup(opt,li))
       return true; // item not in list.
     cmap.Del(opt);
+    // Disable signals
+    allowsignals = false;
+    // Remove widget
     gtk_widget_hide((GtkWidget *) li);
     gtk_container_remove (GTK_CONTAINER (GTK_COMBO(widget)->list), li);
+    // Re-enable signals
+    allowsignals = true;
+    // Done
     return true;
   }
 
@@ -119,4 +134,12 @@ namespace RavlGUIN {
     return true;
   }
   
+  bool ComboBodyC::FilterSignal(StringC &sel) {
+    if (allowsignals) {
+      // Send signal
+      sigSelected(sel);
+    }
+    return true;
+  }
+
 }

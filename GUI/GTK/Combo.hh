@@ -68,9 +68,20 @@ namespace RavlGUIN {
     // Call from the GUI thread only.
     
   protected:
+    
+    bool FilterSignal(StringC& sel);    
+    //: Blocks unwanted GTK "selected" signals 
+
     DListC<StringC> choices;
     HashC<StringC,GtkWidget *> cmap; // Widget map.
     bool editable;
+    bool allowsignals;
+
+    Signal1C<StringC> sigSelected;
+    //: Selection changed signal
+    // This should be used instead of signals["combo_activate"],
+    // as it filters unwanted GTK signals
+
     friend class ComboC;
   };
   
@@ -108,8 +119,10 @@ namespace RavlGUIN {
     
   public:
     Signal0C &SigSelected()
-      { return Body().Signal("combo_activate"); }
+      { return Body().sigSelected; }
     //: Short cut clicked signal.
+    // This should be used instead of signals["combo_activate"],
+    // as it filters unwanted GTK signals
     
     StringC Selected() const 
       { return Body().Selected(); }
