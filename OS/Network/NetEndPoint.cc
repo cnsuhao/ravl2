@@ -188,7 +188,9 @@ namespace RavlN {
     ONDEBUG(cerr << "NetEndPointBodyC::RunTransmit(), Starting transmit loop. \n");
     try {
       while(!shutdown && nos) {
-	NetPacketC pkt = transmitQ.Get();
+	NetPacketC pkt;
+	if(!transmitQ.Get(pkt,1.5))
+	  continue;
 	if(shutdown || !nos)
 	  break;
 	if(!pkt.IsValid())
@@ -268,7 +270,9 @@ namespace RavlN {
     NetEndPointC me(*this);
     try {
       while(!shutdown) {
-	NetPacketC pkt = receiveQ.Get();
+	NetPacketC pkt;
+	if(!receiveQ.Get(pkt,1.5))
+	  continue;
 	if(shutdown)
 	  break;
 	if(!pkt.IsValid()) 
