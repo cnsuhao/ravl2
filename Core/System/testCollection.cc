@@ -162,6 +162,42 @@ int testDArray1dMore() {
     count++;
   }
   if(count != (IntT) dset2.Size()) return __LINE__;
+
+  // Check remove of single element.
+  
+  dset = DArray1dC<int>(10,true);
+  for(int i = 0;i < 10;i++)
+    dset.Append(i);
+  
+  dset.Remove(5);
+  if(dset.Size() != 9) return __LINE__;
+
+  // Check remove of many elements.
+  
+  dset = DArray1dC<int>(10,true);
+  for(int i = 0;i < 10;i++)
+    dset.Append(i);
+  dset.Remove(4,6);
+  if(dset.Size() != 7) return __LINE__;
+
+  // Check remove of many elements bridging block.
+  for(int s = 0;s < 9;s++) {
+    for(int e = s;e < 9;e++) {
+      dset = DArray1dC<int>(4,true);
+      int c = 0;
+      for(int i = 0;i < 3;i++) {
+	Array1dC<int> dat(0,2);
+	for(int j = 0;j < 3;j++)
+	  dat[j] = c++;
+	dset.Append(dat);
+      }
+      dset.Remove(s,e);
+      if(dset.Size() != (8 - (e-s))) {
+	cerr << "s=" << s <<" e=" << e << " Collection=" << dset << ". \n"; 
+	return __LINE__;
+      }
+    }
+  }
   
   return 0;
 }

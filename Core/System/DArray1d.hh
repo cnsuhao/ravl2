@@ -694,8 +694,8 @@ namespace RavlN {
     }
     // Cut the chunk in two removing the element.
     Array1dC<DataT> newArr = it->Data();
-    it->Data().SetSubRange(it->IMin(),i-1);
     newArr.SetSubRange(i+1,it->IMax());
+    it->Data().SetSubRange(it->IMin(),i-1);
     it.InsertAft(*new DChunkC<DataT>(newArr));
     return true;
   }
@@ -736,27 +736,26 @@ namespace RavlN {
       if(it->IMax() >= min)
 	break;
     }
-    if(!it) return false;
-    if(it->IMin() > max) // Was range missed entirely ?
+    if(!it || (it->IMin() > max)) // Was range missed entirely ?
       return false;
     // Cut off end of chunk after min.
     if(it->IMin() < min) { // Check we don't need to delete the whole chunk.
-      Array1dC<DataT> newArr = it->Data();
-      it->Data().SetSubRange(it->IMin(),min-1);
       // Is max within the same chunk ?
-      if(it->IMax() > max) { 
+      if(it->IMax() > max) {
+	Array1dC<DataT> newArr = it->Data();
 	newArr.SetSubRange(max+1,it->IMax());
+	it->Data().SetSubRange(it->IMin(),min-1);
 	it.InsertAft(*new DChunkC<DataT>(newArr));
 	return true;
       }
+      it->Data().SetSubRange(it->IMin(),min-1); // Cut off end of block.
+      it++; // We want this block!
     }
     // Cut out whole chunks between min and max.
-    for(;it;it++) {
-      if(it->IMax() <= max)
-	it.Del();
-    }
+    for(;it && (it->IMax() <= max);it++)
+      it.Del();
     // Cut off begining of chunk before max.
-    if(it->Contains(max))
+    if(it && it->Contains(max))
       it->Data().SetSubRange(max+1,it->IMax());
     return true;
   }
