@@ -1,0 +1,365 @@
+#ifndef RAVL_HASHTREE_HEADER
+#define RAVL_HASHTREE_HEADER 1
+//////////////////////////////////////////////////////////////
+//! rcsid="$Id$"
+//! author="Charles Galambos"
+//! docentry="Ravl.Core.Trees"
+
+#include "Ravl/Hash.hh"
+#include "Ravl/HashIter.hh"
+#include "Ravl/DList.hh"
+
+namespace RavlN {
+  
+  template<class KeyT,class DataT> class HashTreeC;
+  
+  //! userlevel=Develop
+  //: Base class for tree's.
+  
+  template<class KeyT,class DataT>
+  class HashTreeNodeBodyC 
+    : public RCBodyVC 
+  {
+  public:
+    HashTreeNodeBodyC()
+    {}
+    //: Default constructor.
+    
+    HashTreeNodeBodyC(const DataT &ndata)
+      : data(ndata)
+    {}
+    //: Constructor.
+    
+    DataT &Data()
+    { return data; }
+    //: Access data.
+    
+    const DataT &Data() const
+    { return data; }
+    //: Access data.
+
+    virtual bool IsLeaf() const
+    { return true; }
+    //: Test if node is a leaf in the tree.
+    
+    virtual ostream &Dump(ostream &out,int level = 0) const {
+      out << data;
+      return out;
+    }
+    //: Dump in a easly readable format.
+    
+  protected:
+    DataT data;
+  };
+  
+  //! userlevel=Advanced
+  //: Base class for tree's.
+  
+  template<class KeyT,class DataT>
+  class HashTreeNodeC 
+    : public RCHandleC<HashTreeNodeBodyC<KeyT,DataT> >
+  {
+  public:
+    HashTreeNodeC()
+    {}
+    //: Default constructor.
+    // Creates an invalid handle.
+    
+  protected:
+    HashTreeNodeC(HashTreeNodeBodyC<KeyT,DataT> &bod)
+      : RCHandleC<HashTreeNodeBodyC<KeyT,DataT> >(bod)
+    {}
+    //: Default constructor.
+    
+    HashTreeNodeBodyC<KeyT,DataT> &Body()
+    { return RCHandleC<HashTreeNodeBodyC<KeyT,DataT> >::Body(); }
+    //: Access body.
+    
+    const HashTreeNodeBodyC<KeyT,DataT> &Body() const
+    { return RCHandleC<HashTreeNodeBodyC<KeyT,DataT> >::Body(); }
+    //: Access body.
+
+  public:
+    
+    DataT &Data()
+    { return Body().Data(); }
+    //: Access data.
+    
+    const DataT &Data() const
+    { return Body().Data(); }
+    //: Access data.
+    
+    bool IsLeaf() const
+    { return Body().IsLeaf(); }
+    //: Test if node is a leaf in the tree.
+    
+    ostream &Dump(ostream &out,int level = 0) const 
+    { return Body().Dump(out,level); } 
+    //: Dump in a easly readable format.
+    
+  };
+
+  
+  //! userlevel=Develop
+  //: Tree of hashtables.
+  
+  template<class KeyT,class DataT>
+  class HashTreeBodyC
+    : public  HashTreeNodeBodyC<KeyT,DataT>
+  {
+  public:
+    HashTreeBodyC(const DataT &dat)
+      : HashTreeNodeBodyC<KeyT,DataT>(dat)
+    {}
+    //: Constructor.
+    
+    HashTreeBodyC()
+    {}
+    //: Default constructor.
+    
+    HashTreeNodeC<KeyT,DataT> &Node(const KeyT &key)
+    { return children[key]; }
+    //: Access child node.
+    
+    virtual bool IsLeaf() const
+    { return children.IsEmpty(); }
+    //: Test if node is a leaf in the tree.
+
+    HashTreeNodeC<KeyT,DataT> Follow(const DListC<KeyT> &lst);
+    //: Follow list of keys to a node.
+    // If node is not found then an invalid handle is returned.
+
+    bool Child(const KeyT &key,HashTreeNodeC<KeyT,DataT> &child) 
+    { return children.Lookup(key,child); }
+    //: lookup child in tree.
+    // Returns true and updates 'child' if child is found.
+    
+    bool Add(const KeyT &key,const DataT &data);
+    //: Add a child with given key and data.
+    // returns false if child exists.
+    
+    bool Add(const KeyT &key,const HashTreeC<KeyT,DataT> &subtree);
+    //: Add a sub tree
+    // returns false if child exists.
+    
+    HashC<KeyT,HashTreeNodeC<KeyT,DataT> > &Children()
+    { return children; }
+    //: Access table of children.
+
+    const HashC<KeyT,HashTreeNodeC<KeyT,DataT> > &Children() const
+    { return children; }
+    //: Access table of children.
+
+    virtual ostream &Dump(ostream &out,int level = 0) const {
+      out << data << "\n";
+      for(HashIterC<KeyT,HashTreeNodeC<KeyT,DataT> > it(children);it;it++){
+	out << it.Key() << " "; 
+	it.Data().Dump(out,level+1) << "\n";
+      }
+      return out;
+    }
+    //: Dump in a easly readable format.
+    // This is a little poor at the moment, its really expecting a derived
+    // class to provide a better function.
+    
+  protected:
+      HashC<KeyT,HashTreeNodeC<KeyT,DataT> > children;
+  };
+  
+  //! userlevel=Normal
+  //: Tree of hashtables.
+  
+  template<class KeyT,class DataT>
+  class HashTreeC
+    : public HashTreeNodeC<KeyT,DataT>
+  {
+  public:
+    HashTreeC()
+    {}
+    //: Default constructor.
+    // creates an invalid handle.
+
+    HashTreeC(bool)
+      : HashTreeNodeC<KeyT,DataT>(*new HashTreeBodyC<KeyT,DataT>())
+    {}
+    //: Constructor.
+    // Creates an empty tree
+
+    HashTreeC(HashTreeNodeC<KeyT,DataT> &base)
+      : HashTreeNodeC<KeyT,DataT>(base)
+    {
+      if(dynamic_cast<HashTreeBodyC<KeyT,DataT> * >(&HashTreeNodeC<KeyT,DataT>::Body() ) == 0)
+	Invalidate();
+    }
+    //: Base class constructor.
+
+    HashTreeC(const DataT &data)
+      : HashTreeNodeC<KeyT,DataT>(*new HashTreeBodyC<KeyT,DataT>(data))      
+    {}
+    
+  protected:
+    HashTreeC(HashTreeBodyC<KeyT,DataT> &bod)
+      : HashTreeNodeC<KeyT,DataT>(bod)
+    {}
+    //: Body constructor.
+    
+    HashTreeBodyC<KeyT,DataT> &Body()
+    { return static_cast<HashTreeBodyC<KeyT,DataT> & >(HashTreeNodeC<KeyT,DataT>::Body()); }
+    //: Access body.
+
+    const HashTreeBodyC<KeyT,DataT> &Body() const
+    { return static_cast<const HashTreeBodyC<KeyT,DataT> & >(HashTreeNodeC<KeyT,DataT>::Body()); }
+    //: Access body.
+    
+  public:
+    HashTreeNodeC<KeyT,DataT> Follow(const DListC<KeyT> &lst) 
+    { return Body().Follow(lst); }
+    //: Follow list of keys to a node.
+    // If node is not found then an invalid handle is returned.
+    
+    bool Child(const KeyT &key,HashTreeNodeC<KeyT,DataT> &child) 
+      { return Body().Child(key,child); }
+    //: lookup child in tree.
+    // Returns true and updates 'child' if child is found.
+
+    bool Add(const KeyT &key,const DataT &data)
+    { return Body().Add(key,data); }
+    //: Add a child with given key and data.
+    // returns false if child exists.
+    
+    bool Add(const KeyT &key,const HashTreeC<KeyT,DataT> &subtree)
+    { return Body().Add(key,subtree); }
+    //: Add a sub tree
+    // returns false if child exists.
+
+    HashC<KeyT,HashTreeNodeC<KeyT,DataT> > &Children()
+    { return Body().Children(); }
+    //: Access table of children.
+
+    const HashC<KeyT,HashTreeNodeC<KeyT,DataT> > &Children() const
+    { return Body().Children(); }
+    //: Access table of children.
+
+  };
+
+  //! userlevel=Normal
+  //: Iterate through a tree.
+  
+  template<class KeyT,class DataT>
+  class HashTreeIterC
+    : public HashIterC<KeyT, HashTreeNodeC<KeyT,DataT> >
+  {
+  public:
+    HashTreeIterC()
+    {}
+    //: Default constructor.
+    
+    HashTreeIterC(const HashTreeC<KeyT,DataT> &tree)
+      : HashIterC<KeyT, HashTreeNodeC<KeyT,DataT> >(tree.Children())
+    {}
+    //: Constructor from tree.
+    
+    HashTreeC<KeyT,DataT> Tree()
+    { return HashTreeC<KeyT,DataT>(Data()); }
+    //: Access current node as tree.
+
+    bool Go() {
+      HashTreeC<KeyT,DataT> tree(Data()); 
+      if(!tree.IsValid())
+	return false;
+      HashIterC<KeyT, HashTreeNodeC<KeyT,DataT> >::operator=(tree.Children());
+      return true;
+    }
+    //: Go down the current node in the tree.
+  };
+
+  
+  template<class KeyT,class DataT>
+  ostream &operator<<(ostream &s,const HashTreeC<KeyT,DataT> &tree) {
+    if(!tree.IsValid()) {
+      DataT dummy;
+      HashC<KeyT,HashTreeNodeC<KeyT,DataT> > tab;
+      s << dummy << ' ' << tab;
+    } else
+      s << tree.Data() << ' ' << tree.Children();
+    return s;
+  }
+  
+  template<class KeyT,class DataT>
+  istream &operator>>(istream &s,HashTreeC<KeyT,DataT> &tree) {
+    s >> tree.Data() >> tree.Children();
+    return s;
+  }
+  
+  template<class KeyT,class DataT>
+  ostream &operator<<(ostream &s,const HashTreeNodeC<KeyT,DataT> &node) {
+    HashTreeC<KeyT,DataT> tree(const_cast<HashTreeNodeC<KeyT,DataT> & >(node));
+    // Always save nodes as full hash tree's
+    if(tree.IsValid())
+      return s << tree;
+    if(node.IsValid())
+      s << node.Data();
+    else {
+      DataT dummy;
+      s << dummy;
+    }
+    static HashC<KeyT,HashTreeNodeC<KeyT,DataT> > empty; // Empty tree.
+    s << ' ' << empty;
+    return s;
+  }
+  
+  template<class KeyT,class DataT>
+  istream &operator>>(istream &s,HashTreeNodeC<KeyT,DataT> &tree) {
+    HashTreeC<KeyT,DataT> ht;
+    // Always read in as a full HashTree.
+    s >> ht;
+    tree = ht;
+    return s;
+  }
+
+  //: Add a child with given key and data.
+  // returns false if child exists.
+  
+  template<class KeyT,class DataT>
+  bool HashTreeBodyC<KeyT,DataT>::Add(const KeyT &key,const DataT &data) {
+    HashTreeNodeC<KeyT,DataT> &child = children[key];
+    if(child.IsValid())
+      return false; // it already exits!
+    child = HashTreeC<KeyT,DataT>(data);
+    return true;
+  }
+
+  //: Add a child with given key and data.
+  // returns false if child exists.
+  
+  template<class KeyT,class DataT>
+  bool HashTreeBodyC<KeyT,DataT>::Add(const KeyT &key,const HashTreeC<KeyT,DataT> &data) {
+    HashTreeNodeC<KeyT,DataT> &child = children[key];
+    if(child.IsValid())
+      return false; // it already exits!
+    child = data;
+    return true;
+  }
+  
+  //: Follow list of keys to a node.
+  // If node is not found then an invalid handle is returned.
+  
+  template<class KeyT,class DataT>
+  HashTreeNodeC<KeyT,DataT> HashTreeBodyC<KeyT,DataT>::Follow(const DListC<KeyT> &lst) {
+    HashTreeNodeC<KeyT,DataT> ret;
+    HashTreeC<KeyT,DataT> at(*this);
+    DLIterC<KeyT> it(lst);
+    for(;it && at.IsValid();it++) {
+      if(!at.Child(*it,ret))
+	return HashTreeNodeC<KeyT,DataT>(); // Child not found.
+      at = HashTreeC<KeyT,DataT>(ret);
+    }
+    if(it) // Did we reach the end of the path ?
+      return HashTreeNodeC<KeyT,DataT>(); // Child not found.
+    return ret;
+  }
+  
+}
+
+
+#endif

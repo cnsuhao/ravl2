@@ -9,10 +9,11 @@
 
 PACKAGE=Ravl
 
-HEADERS=BinaryTree.hh AVLTree.hh BinaryTreeUpIter.hh BinaryTreeDownIter.hh
+HEADERS=BinaryTree.hh AVLTree.hh BinaryTreeUpIter.hh BinaryTreeDownIter.hh \
+ HashTree.hh
 
 PLIB=RavlCore
 
-TESTEXES=testBinaryTree.cc
+TESTEXES=testBinaryTree.cc testHashTree.cc
 
 EHT=Ravl.Core.Trees.html
