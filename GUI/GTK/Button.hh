@@ -54,6 +54,9 @@ namespace RavlGUIN {
     // This allows different types of buttons to
     // be created easily.
     
+    bool GUISetStyle(WidgetStyleC& style);
+    //: Set style of button and child widgets
+
     bool state;
     PixmapC pix;
     StringC label;    // length() = 0 == none

@@ -60,6 +60,10 @@ int main(int nargs,char *args[]) {
   col = ByteRGBValueC(0,255,0);
   GtkStateType state = GTK_STATE_ACTIVE;
   buttonstyle.SetColour(coltype,col,state);
+  // Set yellow text when active
+  coltype = WIDGET_COLOUR_FG;
+  col = ByteRGBValueC(255,255,0);
+  buttonstyle.SetColour(coltype,col,state);
   // Set Style
   button.SetStyle(buttonstyle);
 

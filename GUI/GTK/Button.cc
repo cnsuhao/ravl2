@@ -13,6 +13,7 @@
 #include "Ravl/GUI/Button.hh"
 #include "Ravl/GUI/Window.hh"
 #include "Ravl/GUI/Manager.hh"
+#include "Ravl/GUI/WidgetStyle.hh"
 #include "Ravl/Stream.hh"
 #include <gtk/gtk.h>
 
@@ -45,6 +46,19 @@ namespace RavlGUIN {
     if(aLab == 0)
       return gtk_button_new ();
     return gtk_button_new_with_label (aLab);
+  }
+
+  bool ButtonBodyC::GUISetStyle(WidgetStyleC& style) {    
+    // Set widget style
+    WidgetBodyC::GUISetStyle(style);    
+    // Set style of child label
+    if (widget != 0) {
+      GtkWidget *child = GTK_BIN(widget)->child;
+      if(child != 0 && GTK_IS_LABEL(child)) {
+	gtk_widget_set_style(GTK_WIDGET(child),style.Style());
+      }
+    }
+    return true;
   }
 
   //: Set toggle label.
