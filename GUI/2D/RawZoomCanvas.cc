@@ -83,8 +83,7 @@ namespace RavlGUIN {
   //: Find the size of 'text' rendered in 'font'.
   
   void RawZoomCanvasBodyC::GUITextSize(GdkFont *font,const StringC &txt,Point2dC &size) {
-    // Scale font ?
-    size = RawCanvasBodyC::GUITextSize(font,txt); 
+    size = Point2dC(RawCanvasBodyC::GUITextSize(font,txt))/scale; 
   }
   
   //: Draw a circle.
