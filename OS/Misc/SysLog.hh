@@ -54,6 +54,8 @@ namespace RavlN {
   // cerr. <br>
   // Only messages with a priority higher or equal to 'level' we be sent.
   
+  const StringC &SysLogApplicationName();
+  //: Get the name of the current application.
 }
 
 #endif

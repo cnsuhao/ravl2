@@ -15,6 +15,9 @@
 
 #if RAVL_OS_POSIX
 #include <syslog.h>
+#if RAVL_HAVE_UNISTD_H
+#include <unistd.h>
+#endif
 #endif
 
 namespace RavlN {
@@ -23,8 +26,14 @@ namespace RavlN {
   static bool syslog_Open = false;
   static bool syslog_StdErrOnly = false;
   static bool syslog_StdErr = false;
+  static bool syslog_pid = false;
   static int localLevel = 8;
   static int syslogLevel = 8;
+
+  //: Get the name of the current application.
+  
+  const StringC &SysLogApplicationName()
+  { return syslog_ident; }
   
   //: Open connection to system logger.
   // Facility is set to 'LOG_USER' by default. <br>
@@ -35,6 +44,7 @@ namespace RavlN {
     syslog_ident = name;
     syslog_Open = true;
     syslog_StdErrOnly = stdErrOnly;
+    syslog_pid = logPid;
     if(stdErrOnly)
       syslog_StdErr = true;
     syslog_StdErr = sendStdErr;
@@ -82,16 +92,24 @@ namespace RavlN {
     MTWriteLockC lockWrite(2); // Be carefull in multithreaded programs.
 #if RAVL_OS_POSIX
     if(syslog_StdErrOnly) {
-      if(priority <= localLevel)
-	cerr << syslog_ident << ":" << message << endl;
+      if(priority <= localLevel) {
+	cerr << syslog_ident;
+	if(syslog_pid)
+	  cerr << "[" << getpid() << "]";
+	cerr << ":" << message << endl;
+      }
     } else {
       if(priority < syslogLevel) {
 	syslog(priority,"%s",message);
       } else {
-	if(syslog_StdErr && priority <= localLevel)
-	  cerr << syslog_ident << ":" << message << endl;
+	if(syslog_StdErr && priority <= localLevel) {
+	  cerr << syslog_ident;
+	  if(syslog_pid)
+	    cerr << "[" << getpid() << "]";
+	  cerr << ":" << message << endl;
+	}
       }
-    }    
+    }
 #else
     if(priority < localLevel)
       cerr << syslog_ident << ":" << message << endl;
