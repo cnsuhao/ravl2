@@ -134,11 +134,7 @@ namespace RavlN {
   //: Returns 'x' raised to the power 'y' where y is an integer..
   
   inline RealT Exp(RealT r){
-#if !RAVL_COMPILER_VISUALCPP
-    return r < -30.0 ? 0.0 : exp(r);
-#else
     return exp(r);
-#endif
   }
   //: Returns safe exp(r).
 
