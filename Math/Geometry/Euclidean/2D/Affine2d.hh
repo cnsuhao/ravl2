@@ -21,6 +21,7 @@
 
 namespace RavlN {
   template<class DataT> class SArray1dC;
+  template<class DataT> class DListC;
   class Point2dC;
   
   //! userlevel=Normal
@@ -68,11 +69,17 @@ namespace RavlN {
     
   };
   
-  Affine2dC FitAffine(SArray1dC<Point2dC> org,SArray1dC<Point2dC> newPos,RealT &residual);
+  Affine2dC FitAffine(const SArray1dC<Point2dC> &org,const SArray1dC<Point2dC> &newPos,RealT &residual);
   //: Fit an affine transform given to the mapping between original and newPos.
   // Returns the residual from the fit.
   
-  Affine2dC FitAffine(SArray1dC<Point2dC> org,SArray1dC<Point2dC> newPos);
+  Affine2dC FitAffine(const SArray1dC<Point2dC> &org,const SArray1dC<Point2dC> &newPos);
+  //: Fit an affine transform given to the mapping between original and newPos.
+  
+  Affine2dC FitAffine(const DListC<Point2dC> &org,const DListC<Point2dC> &newPos,RealT &residual);
+  //: Fit an affine transform given to the mapping between original and newPos.
+
+  Affine2dC FitAffine(const DListC<Point2dC> &org,const DListC<Point2dC> &newPos);
   //: Fit an affine transform given to the mapping between original and newPos.
   
   /////////////////////////////////
