@@ -49,7 +49,7 @@ namespace RavlN {
     DPProcessBaseBodyC(BinIStreamC &in) 
       : DPEntityBodyC(in)
     {}
-    //: Stream constructor.
+    //: Binary stream constructor.
     
     DPProcessBaseBodyC(const DPProcessBaseBodyC &oth) 
       : DPEntityBodyC(oth)
@@ -109,25 +109,33 @@ namespace RavlN {
     {}
     //: Stream constructor.
     
+    inline DPProcessBodyC(BinIStreamC &in) 
+      : DPProcessBaseBodyC(in)
+    {}
+    //: Binary stream constructor.
+    
     ~DPProcessBodyC()
     {}
     //: Destructor. 
     // To see if this helps gcc-1.0.3 sort itself out.
+
+    virtual bool Save(ostream &out) const
+    { return DPProcessBaseBodyC::Save(out); }
+    //: Save to ostream.
+    
+    virtual bool Save(BinOStreamC &out) const
+    { return DPProcessBaseBodyC::Save(out); }
+    //: Save to binary stream.  
     
     virtual OutT Apply(const InT &) { 
       RavlAssertMsg(0,"DPProcessBodyC::Apply(), Abstract method called. ");
       return OutT(); 
     }
-    
     //: Apply operation.
     
     virtual IntT ApplyArray(const SArray1dC<InT> &in,SArray1dC<OutT>  &out);
     //: Apply operation to an array of elements.
     // returns the number of elements processed.
-    
-    virtual bool Save(ostream &out) const
-    { return DPProcessBaseBodyC::Save(out); }
-    //: Save to ostream.
     
     virtual const type_info &InputType(int n = 0) const { 
       if(n != 0) return typeid(void);
@@ -248,8 +256,19 @@ namespace RavlN {
     : public DPProcessBaseC 
   {
   public:  
-    DPProcessC() {}
+    DPProcessC() 
+    {}
     //: Default constructor.
+    
+    DPProcessC(istream &in)
+      : DPProcessBaseC(in)
+    { CheckHandleType(Body()); }
+    //: Stream constructor.
+    
+    DPProcessC(BinIStreamC &in)
+      : DPProcessBaseC(in)
+    { CheckHandleType(Body()); }
+    //: Binary stream constructor.
     
     DPProcessC(const DPProcessC<InT,OutT> &oth)
       : DPProcessBaseC(oth)
@@ -280,11 +299,6 @@ namespace RavlN {
       : DPProcessBaseC(base) 
     { CheckHandleType(Body()); }
     //: Base constructor.
-    
-    DPProcessC(istream &in)
-      : DPProcessBaseC(in) 
-    { CheckHandleType(Body()); }
-    //: Stream constructor.
     
     inline OutT Apply(const InT &dat) { return Body().Apply(dat); }
     //: Apply operation.

@@ -18,6 +18,8 @@
 
 #include "Ravl/DP/Process.hh"
 #include "Ravl/DP/ProcCompose.hh"
+#include "Ravl/FunctionRegister.hh"
+#include "Ravl/Exception.hh"
 
 namespace RavlN {
 
@@ -40,7 +42,31 @@ namespace RavlN {
       : func(afunc)
     {}
     //: Constructor.
+
+    DPFuncP2ProcBodyC(istream &in) 
+      : DPProcessBodyC<InT,OutT>(in)
+    { LoadFunctionPointer(in,func); }
+    //: Stream constructor.
     
+    DPFuncP2ProcBodyC(BinIStreamC &in) 
+      : DPProcessBodyC<InT,OutT>(in)
+    { LoadFunctionPointer(in,func); }
+    //: Binary stream constructor.
+    
+    virtual bool Save(ostream &out) const {
+      if(!DPProcessBodyC<InT,OutT>::Save(out))
+	return false;
+      return SaveFunctionPointer(out,func); 
+    }
+    //: Save to ostream.
+    
+    virtual bool Save(BinOStreamC &out) const {
+      if(!DPProcessBodyC<InT,OutT>::Save(out))
+	return false;
+      return SaveFunctionPointer(out,func); 
+    }
+    //: Save to binary stream.  
+
     virtual OutT Apply(const InT &dat) 
     { return func(dat); }
     //: Apply operation.

@@ -52,22 +52,26 @@ namespace RavlN {
     : virtual public DPEntityBodyC 
   {
   public:
-    DPPortBodyC() {}
+    DPPortBodyC() 
+    {}
     //: Default constructor.
     
-    DPPortBodyC(istream &in) 
-      : DPEntityBodyC(in)
+    DPPortBodyC(const StringC &nportId)
+      : portId(nportId)
     {}
+    //: Constructor with a port id.
+    
+    DPPortBodyC(istream &in);
     //: Stream constructor.
     
-    virtual ~DPPortBodyC() {}
+    virtual ~DPPortBodyC() 
+    {}
     //: Destructor.
     
     virtual bool IsAsync() const;
     //: Does port work asynchronously ?
     
-    virtual bool Save(ostream &out) const 
-    { return DPEntityBodyC::Save(out); }
+    virtual bool Save(ostream &out) const;
     //: Save to ostream.
     
     virtual DPPortC ConnectedTo() const;
@@ -84,6 +88,8 @@ namespace RavlN {
     // Returns false if the attribute name is unknown.
     // This is for handling stream attributes such as frame rate, and compression ratios.
     
+  protected:
+    StringC portId; // Port ID, this can be accessed as the attribute 'id', defaults to empty string.
   };
   
   //! userlevel=Develop
@@ -93,8 +99,14 @@ namespace RavlN {
     : public DPPortBodyC 
   {
   public:
-    DPIPortBaseBodyC() {}
+    DPIPortBaseBodyC() 
+    {}
     //: Default constuctor.
+    
+    DPIPortBaseBodyC(const StringC &nportId)
+      : DPPortBodyC(nportId)
+    {}
+    //: Constructor with a port id.
     
     DPIPortBaseBodyC(istream &in) 
       : DPPortBodyC(in)
@@ -132,6 +144,11 @@ namespace RavlN {
     DPIPortBodyC() 
     {}
     //: Default constructor.
+
+    DPIPortBodyC(const StringC &nportId)
+      : DPIPortBaseBodyC(nportId)
+    {}
+    //: Constructor with a port id.
     
     DPIPortBodyC(istream &in) 
       : DPIPortBaseBodyC(in)
@@ -202,6 +219,11 @@ namespace RavlN {
   public:
     DPOPortBaseBodyC() {}
     //: Default constuctor.
+
+    DPOPortBaseBodyC(const StringC &nportId)
+      : DPPortBodyC(nportId)
+    {}
+    //: Constructor with a port id.
     
     DPOPortBaseBodyC(istream &in)
       : DPPortBodyC(in)
@@ -230,8 +252,14 @@ namespace RavlN {
     : public DPOPortBaseBodyC 
   {
   public:
-    DPOPortBodyC() {}
+    DPOPortBodyC() 
+    {}
     //: Default constructor.
+    
+    DPOPortBodyC(const StringC &nportId)
+      : DPOPortBaseBodyC(nportId)
+    {}
+    //: Constructor with a port id.
     
     DPOPortBodyC(istream &in)
       : DPOPortBaseBodyC(in)
@@ -278,8 +306,15 @@ namespace RavlN {
       public DPOPortBodyC<OutT> 
   {
   public:
-    DPIOPortBodyC() {}
+    DPIOPortBodyC() 
+    {}
     //: Default constructor.
+    
+    DPIOPortBodyC(const StringC &nportId)
+      : DPIPortBodyC<InT>(nportId),
+	DPOPortBodyC<OutT>(nportId)
+    {}
+    //: Constructor with a port id.
     
     DPIOPortBodyC(istream &in) 
       : DPIPortBodyC<InT>(in),

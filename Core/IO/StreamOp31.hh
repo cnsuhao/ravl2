@@ -32,7 +32,8 @@ namespace RavlN {
 		       const DPIPortC<In1T> &input1,
 		       const DPIPortC<In2T> &input2,
 		       const DPIPortC<In3T> &input3)
-      : proc(nproc),
+      : DPIPortBodyC<Out1T>("Out1"),
+	proc(nproc),
 	in1(input1),
 	in2(input2),
 	in3(input3)
@@ -40,7 +41,8 @@ namespace RavlN {
     //: Constructor.
     
     DPIStreamOp31BodyC(const DPProcess31C<In1T,In2T,In3T,Out1T> &nproc)
-      : proc(nproc)
+      : DPIPortBodyC<Out1T>("Out1"),
+	proc(nproc)
     {}
     //: Constructor.
     
@@ -69,9 +71,9 @@ namespace RavlN {
 
     virtual DListC<DPIPlugBaseC> IPlugs() const {
       DListC<DPIPlugBaseC> lst = DPStreamOpBodyC::IPlugs();
-      lst.InsLast(DPIPlugC<In1T>(in1,DPEntityC((DPEntityBodyC &)*this)));
-      lst.InsLast(DPIPlugC<In2T>(in2,DPEntityC((DPEntityBodyC &)*this)));
-      lst.InsLast(DPIPlugC<In3T>(in3,DPEntityC((DPEntityBodyC &)*this)));
+      lst.InsLast(DPIPlugC<In1T>(in1,"In1",DPEntityC((DPEntityBodyC &)*this)));
+      lst.InsLast(DPIPlugC<In2T>(in2,"In2",DPEntityC((DPEntityBodyC &)*this)));
+      lst.InsLast(DPIPlugC<In3T>(in3,"In3",DPEntityC((DPEntityBodyC &)*this)));
       return lst;
     }
     //: List input plugs.

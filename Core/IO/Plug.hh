@@ -22,17 +22,88 @@ namespace RavlN {
   //! userlevel=Develop
   //: Input plug base.
   
-  class DPIPlugBaseBodyC 
+  class DPPlugBaseBodyC 
     : public RCBodyVC
   {
   public:
-    DPIPlugBaseBodyC()
+    DPPlugBaseBodyC()
       : hold(true)
     {}
     //: Default constructor.
     
-    DPIPlugBaseBodyC(const DPEntityC &nhold)
+    DPPlugBaseBodyC(const DPEntityC &nhold)
       : hold(nhold)
+    {}
+    //: Constructor.
+
+    DPPlugBaseBodyC(const StringC &nPlugId,const DPEntityC &nhold)
+      : plugId(nPlugId),
+	hold(nhold)
+    {}
+    //: Constructor.
+    
+    const StringC &PlugId() const
+    { return plugId; }
+    //: Get ID for plug.
+    
+  protected:
+    StringC plugId; 
+    DPEntityC hold; // Make sure object is not deleted.
+  };
+
+  //! userlevel=Advanced
+  //: Input plug base.
+  
+  class DPPlugBaseC 
+    : public RCHandleC<DPPlugBaseBodyC>
+  {
+  public:
+    DPPlugBaseC()
+    {}
+    //: Default constructor.
+    // Creates an invalid handle.
+    
+  protected:
+    DPPlugBaseC(DPPlugBaseBodyC &bod)
+      : RCHandleC<DPPlugBaseBodyC>(bod)
+    {}
+    //: Body constructor.
+    
+    DPPlugBaseBodyC &Body()
+    { return RCHandleC<DPPlugBaseBodyC>::Body(); }
+    //: Access body.
+    
+    const DPPlugBaseBodyC &Body() const
+    { return RCHandleC<DPPlugBaseBodyC>::Body(); }
+    //: Access body.
+    
+  public:
+    const StringC &PlugId() const
+    { return Body().PlugId(); }
+    //: Get ID for plug.
+    
+  };
+
+  ///////////////////////////////////////////////////////////////////
+  
+  //! userlevel=Develop
+  //: Input plug base.
+  
+  class DPIPlugBaseBodyC 
+    : public DPPlugBaseBodyC
+  {
+  public:
+    DPIPlugBaseBodyC()
+    {}
+    //: Default constructor.
+    
+    DPIPlugBaseBodyC(const DPEntityC &nhold)
+      : DPPlugBaseBodyC(nhold)
+    {}
+    //: Constructor.
+
+    DPIPlugBaseBodyC(const StringC &nPlugId,const DPEntityC &nhold)
+      : DPPlugBaseBodyC(nPlugId,nhold)
     {}
     //: Constructor.
     
@@ -42,14 +113,13 @@ namespace RavlN {
     virtual const type_info &InputType() const;
     //: Return type of port.
   protected:
-    DPEntityC hold; // Make sure object is not deleted.
   };
   
   //! userlevel=Advanced
   //: Input plug base.
   
   class DPIPlugBaseC 
-    : public RCHandleC<DPIPlugBaseBodyC>
+    : public DPPlugBaseC
   {
   public:
     DPIPlugBaseC()
@@ -59,16 +129,16 @@ namespace RavlN {
     
   protected:
     DPIPlugBaseC(DPIPlugBaseBodyC &bod)
-      : RCHandleC<DPIPlugBaseBodyC>(bod)
+      : DPPlugBaseC(bod)
     {}
     //: Body constructor.
     
     DPIPlugBaseBodyC &Body()
-    { return RCHandleC<DPIPlugBaseBodyC>::Body(); }
+    { return static_cast<DPIPlugBaseBodyC &>(DPPlugBaseC::Body()); }
     //: Access body.
     
     const DPIPlugBaseBodyC &Body() const
-    { return RCHandleC<DPIPlugBaseBodyC>::Body(); }
+    { return static_cast<const DPIPlugBaseBodyC &>(DPPlugBaseC::Body()); }
     //: Access body.
     
   public:
@@ -88,16 +158,20 @@ namespace RavlN {
   //: Input plug base.
   
   class DPOPlugBaseBodyC 
-    : public RCBodyVC
+    : public DPPlugBaseBodyC
   {
   public:
     DPOPlugBaseBodyC()
-      : hold(true)
     {}
     //: Default constructor.
     
     DPOPlugBaseBodyC(const DPEntityC &nhold)
-      : hold(nhold)
+      : DPPlugBaseBodyC(nhold)
+    {}
+    //: Constructor.
+    
+    DPOPlugBaseBodyC(const StringC &nPlugId,const DPEntityC &nhold)
+      : DPPlugBaseBodyC(nPlugId,nhold)
     {}
     //: Constructor.
     
@@ -105,17 +179,14 @@ namespace RavlN {
     //: set port.
 
     virtual const type_info &OutputType() const;
-    //: Return type of port.
-    
-  protected:
-    DPEntityC hold; // Make sure object is not deleted.
+    //: Return type of port.    
   };
   
   //! userlevel=Advanced
   //: Input plug base.
   
   class DPOPlugBaseC 
-    : public RCHandleC<DPOPlugBaseBodyC>
+    : public DPPlugBaseC
   {
   public:
     DPOPlugBaseC()
@@ -125,16 +196,16 @@ namespace RavlN {
     
   protected:
     DPOPlugBaseC(DPOPlugBaseBodyC &bod)
-      : RCHandleC<DPOPlugBaseBodyC>(bod)
+      : DPPlugBaseC(bod)
     {}
     //: Body constructor.
     
     DPOPlugBaseBodyC &Body()
-    { return RCHandleC<DPOPlugBaseBodyC>::Body(); }
+    { return static_cast<DPOPlugBaseBodyC &>(DPPlugBaseC::Body()); }
     //: Access body.
     
     const DPOPlugBaseBodyC &Body() const
-    { return RCHandleC<DPOPlugBaseBodyC>::Body(); }
+    { return static_cast<const DPOPlugBaseBodyC &>(DPPlugBaseC::Body()); }
     //: Access body.
     
   public:
@@ -161,6 +232,12 @@ namespace RavlN {
   public:
     explicit DPIPlugBodyC(const DPIPortC<DataT> &nport,const DPEntityC &nhold)
       : DPIPlugBaseBodyC(nhold),
+	port(const_cast<DPIPortC<DataT> &>(nport))
+    {}
+    //: Constructor.
+
+    explicit DPIPlugBodyC(const DPIPortC<DataT> &nport,const StringC &nPlugId,const DPEntityC &nhold)
+      : DPIPlugBaseBodyC(nPlugId,nhold),
 	port(const_cast<DPIPortC<DataT> &>(nport))
     {}
     //: Constructor.
@@ -199,6 +276,11 @@ namespace RavlN {
   public:
     explicit DPIPlugC(const DPIPortC<DataT> &nport,const DPEntityC &nhold = DPEntityC(true))
       : DPIPlugBaseC(*new DPIPlugBodyC<DataT>(nport,nhold))
+    {}
+    //: Constructor.
+
+    DPIPlugC(const DPIPortC<DataT> &nport,const StringC &nPlugId,const DPEntityC &nhold = DPEntityC(true))
+      : DPIPlugBaseC(*new DPIPlugBodyC<DataT>(nport,nPlugId,nhold))
     {}
     //: Constructor.
     
@@ -244,6 +326,12 @@ namespace RavlN {
     {}
     //: Constructor.
 
+    DPOPlugBodyC(const DPOPortC<DataT> &nport,const StringC &nPlugId,const DPEntityC &nhold)
+      : DPOPlugBaseBodyC(nPlugId,nhold),
+	port(const_cast<DPOPortC<DataT> &>(nport))
+    {}
+    //: Constructor.
+    
     DPOPortC<DataT> &Port()
     { return port; }
     //: Access handle to port.
@@ -274,6 +362,11 @@ namespace RavlN {
   public:
     explicit DPOPlugC(const DPOPortC<DataT> &nport,const DPEntityC &nhold = DPEntityC(true))
       : DPOPlugBaseC(*new DPOPlugBodyC<DataT>(nport,nhold))
+    {}
+    //: Constructor.
+
+    DPOPlugC(const DPOPortC<DataT> &nport,const StringC &nPlugId,const DPEntityC &nhold = DPEntityC(true))
+      : DPOPlugBaseC(*new DPOPlugBodyC<DataT>(nport,nPlugId,nhold))
     {}
     //: Constructor.
     

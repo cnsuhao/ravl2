@@ -5,7 +5,6 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////
-// $Id$
 //! rcsid="$Id$"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/Port.cc"
@@ -14,7 +13,14 @@
 #include "Ravl/String.hh"
 
 namespace RavlN {
-  /////////////////////////////////////////////////////////
+  
+  ////////////////////////////////////////////////////////
+  //: Stream constructor.
+  
+  DPPortBodyC::DPPortBodyC(istream &in) 
+    : DPEntityBodyC(in)
+  { in >> portId; }
+  
   
   //: Is this port connected to another ?
   // If not returns invalid handle.
@@ -28,11 +34,24 @@ namespace RavlN {
   bool DPPortBodyC::IsAsync() const  { 
     return false; 
   }
+
+  //: Save to ostream.
+  
+  bool DPPortBodyC::Save(ostream &out) const { 
+    if(!DPEntityBodyC::Save(out))
+      return false;
+    out << portId << ' ';
+    return true;
+  }
   
   //: Get a stream attribute.
   // Returns false if the attribute name is unknown.
   
   bool DPPortBodyC::GetAttr(const StringC &attrName,StringC &attrValue) { 
+    if(attrName == "id") {
+      attrValue = portId;
+      return true;
+    }
     DPPortC parent = ConnectedTo();
     // Try pasing it back along the processing chain.
     if(parent.IsValid())
@@ -48,6 +67,10 @@ namespace RavlN {
   // Returns false if the attribute name is unknown.
   
   bool DPPortBodyC::SetAttr(const StringC &attrName,const StringC &attrValue) { 
+    if(attrName == "id") {
+      portId = attrValue;
+      return true;
+    }
     DPPortC parent = ConnectedTo();
     // Try pasing it back along the processing chain.
     if(parent.IsValid())

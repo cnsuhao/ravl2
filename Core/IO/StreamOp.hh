@@ -32,6 +32,16 @@ namespace RavlN {
     {}
     //: Default constructor.
     
+    DPStreamOpBodyC(istream &in) 
+      : DPEntityBodyC(in)
+    {}
+    //: Stream constructor.
+    
+    DPStreamOpBodyC(BinIStreamC &in) 
+      : DPEntityBodyC(in)
+    {}
+    //: Binary stream constructor.
+    
     virtual DListC<DPIPlugBaseC> IPlugs() const;
     //: Input plugs.
     
@@ -115,13 +125,29 @@ namespace RavlN {
   {
   public:
     DPIStreamOpBodyC()
+      : DPIPortBodyC<OutT>("Out1")
     {}
     //: Default constructor.
     
     DPIStreamOpBodyC(const DPIPortC<InT> &nin)
-      : input(nin)
+      : DPIPortBodyC<OutT>("Out1"),
+	input(nin)
     {}
     //: Constructor.
+    
+    DPIStreamOpBodyC(istream &in) 
+      : DPEntityBodyC(in),
+	DPIPortBodyC<OutT>(in),
+	DPStreamOpBodyC(in)
+    {}
+    //: Stream constructor.
+    
+    DPIStreamOpBodyC(BinIStreamC &in) 
+      : DPEntityBodyC(in),
+	DPIPortBodyC<OutT>(in),
+	DPStreamOpBodyC(in)
+    {}
+    //: Binary stream constructor.
     
     virtual bool IsGetReady() const {
       if(!input.IsValid())
@@ -152,7 +178,7 @@ namespace RavlN {
 
     virtual DListC<DPIPlugBaseC> IPlugs() const {
       DListC<DPIPlugBaseC> lst = DPStreamOpBodyC::IPlugs();
-      lst.InsLast(DPIPlugC<InT>(input,DPEntityC((DPEntityBodyC &)*this)));
+      lst.InsLast(DPIPlugC<InT>(input,"In1",DPEntityC((DPEntityBodyC &)*this)));
       return lst;
     }
     //: Input plugs.
@@ -210,11 +236,13 @@ namespace RavlN {
   {
   public:
     DPOStreamOpBodyC()
+      : DPOPortBodyC<InT>("In1")
     {}
     //: Default constructor.
     
     DPOStreamOpBodyC(const DPOPortC<OutT> &nout)
-      : output(nout)
+      : DPOPortBodyC<InT>("In1"),
+	output(nout)
     {}
     //: Constructor.
     
@@ -244,7 +272,7 @@ namespace RavlN {
     
     virtual DListC<DPOPlugBaseC> OPlugs() const {
       DListC<DPOPlugBaseC> lst = DPStreamOpBodyC::OPlugs();
-      lst.InsLast(DPOPlugC<OutT>(output,DPEntityC((DPEntityBodyC &)*this)));
+      lst.InsLast(DPOPlugC<OutT>(output,"Out1",DPEntityC((DPEntityBodyC &)*this)));
       return lst;
     }
     //: Output plugs.

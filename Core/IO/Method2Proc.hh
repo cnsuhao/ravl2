@@ -15,6 +15,7 @@
 //! rcsid="$Id$"
 
 #include "Ravl/DP/Process.hh"
+#include "Ravl/FunctionRegister.hh"
 
 namespace RavlN {
 
@@ -35,6 +36,30 @@ namespace RavlN {
 	stateless(true)
     {}
     //: Constructor.
+    
+    DPMethod2ProcBodyC(istream &in) 
+      : DPProcessBodyC<InT,OutT>(in)
+    { LoadFunctionPointer(in,func); }
+    //: Stream constructor.
+    
+    DPMethod2ProcBodyC(BinIStreamC &in) 
+      : DPProcessBodyC<InT,OutT>(in)
+    { LoadFunctionPointer(in,func); }
+    //: Binary stream constructor.
+    
+    virtual bool Save(ostream &out) const {
+      if(!DPProcessBodyC<InT,OutT>::Save(out))
+	return false;
+      return SaveFunctionPointer(out,func); 
+    }
+    //: Save to ostream.
+    
+    virtual bool Save(BinOStreamC &out) const {
+      if(!DPProcessBodyC<InT,OutT>::Save(out))
+	return false;
+      return SaveFunctionPointer(out,func); 
+    }
+    //: Save to binary stream.  
     
     virtual OutT Apply(const InT &dat) 
     { return (obj.*func)(dat); }

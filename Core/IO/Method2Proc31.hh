@@ -33,6 +33,30 @@ namespace RavlN {
     {}
     //: Constructor.
     
+    DPMethod2Proc31BodyC(istream &in) 
+      : DPProcess31BodyC<In1T,In2T,In3T,Out1T>(in)
+    { LoadFunctionPointer(in,func); }
+    //: Binary stream constructor.
+    
+    DPMethod2Proc31BodyC(BinIStreamC &in) 
+      : DPProcess31BodyC<In1T,In2T,In3T,Out1T>(in)
+    { LoadFunctionPointer(in,func); }
+    //: Binary stream constructor.
+    
+    virtual bool Save(ostream &out) const {
+      if(!DPProcess31BodyC<In1T,In2T,In3T,Out1T>::Save(out))
+	return false;
+      return SaveFunctionPointer(out,func);
+    }
+    //: Save to ostream.
+    
+    virtual bool Save(BinOStreamC &out) const {
+      if(!DPProcess31BodyC<In1T,In2T,In3T,Out1T>::Save(out))
+	return false;
+      return SaveFunctionPointer(out,func);
+    }
+    //: Save to ostream.
+    
     Out1T Apply(const In1T &dat1,const In2T &dat2,const In3T &dat3)
     { return (obj.*func)(dat1,dat2,dat3); }
     //: Apply operation.

@@ -29,14 +29,16 @@ namespace RavlN {
   {
   public:
     DPIStreamOp21BodyC(const DPProcess21C<In1T,In2T,Out1T> &nproc,const DPIPortC<In1T> &input1,const DPIPortC<In2T> &input2)
-      : proc(nproc),
+      : DPIPortBodyC<Out1T>("Out1"),
+	proc(nproc),
 	in1(input1),
 	in2(input2)
     {}
     //: Constructor.
     
     DPIStreamOp21BodyC(const DPProcess21C<In1T,In2T,Out1T> &nproc)
-      : proc(nproc)
+      : DPIPortBodyC<Out1T>("Out1"),
+	proc(nproc)
     {}
     //: Constructor.
     
@@ -65,8 +67,8 @@ namespace RavlN {
     
     virtual DListC<DPIPlugBaseC> IPlugs() const {
       DListC<DPIPlugBaseC> lst = DPStreamOpBodyC::IPlugs();
-      lst.InsLast(DPIPlugC<In1T>(in1,DPEntityC((DPEntityBodyC &)*this)));
-      lst.InsLast(DPIPlugC<In2T>(in2,DPEntityC((DPEntityBodyC &)*this)));
+      lst.InsLast(DPIPlugC<In1T>(in1,"In1",DPEntityC((DPEntityBodyC &)*this)));
+      lst.InsLast(DPIPlugC<In2T>(in2,"In2",DPEntityC((DPEntityBodyC &)*this)));
       return lst;
     }
     //: List input plugs.
