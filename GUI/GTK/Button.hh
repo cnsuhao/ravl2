@@ -124,7 +124,15 @@ namespace RavlGUIN {
   }
   //: Create a button with no function attached.
   // here just for consistency.
-
+  
+  inline
+  ButtonC Button(const char *label,bool (*func)())
+  { 
+    ButtonC ret = ButtonC(label);
+    Connect(ret.Signal("clicked"),func);
+    return ret;    
+  }
+  
   template<class DataT>
   ButtonC Button(const char *label,bool (*func)(DataT &dat),const DataT &dat)
   { 
