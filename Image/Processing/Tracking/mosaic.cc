@@ -114,10 +114,10 @@ int Mosaic(int nargs,char **argv) {
   int cropB = opt.Int("crb", 0, "Width of cropping region at bottom of image");
   int cropL = opt.Int("crl", 0, "Width of cropping region at left of image");
   int cropR = opt.Int("crr", 0, "Width of cropping region at right of image");
-  Tuple2C<RealT,RealT> pointTL = opt.Point2d("ptl", 0.0, 0.0, "Top-left coordinates of first image");
-  Tuple2C<RealT,RealT> pointTR = opt.Point2d("ptr", 0.0, 1.0, "Top-right coordinates of first image");
-  Tuple2C<RealT,RealT> pointBL = opt.Point2d("pbl", 1.0, 0.0, "Bottom-left coordinates of first image");
-  Tuple2C<RealT,RealT> pointBR = opt.Point2d("pbr", 1.0, 1.0, "Bottom-right coordinates of first image");
+  Point2dC pointTL = opt.Point2d("ptl", 0.0, 0.0, "Top-left coordinates of first image");
+  Point2dC pointTR = opt.Point2d("ptr", 0.0, 1.0, "Top-right coordinates of first image");
+  Point2dC pointBL = opt.Point2d("pbl", 1.0, 0.0, "Bottom-left coordinates of first image");
+  Point2dC pointBR = opt.Point2d("pbr", 1.0, 1.0, "Bottom-right coordinates of first image");
   int maxFrames = opt.Int("mf",-1,"Maximum number of frames to process ");
   StringC ifn = opt.String("","@V4LH:/dev/video0","Input sequence. ");
   StringC ofn = opt.String("","@X","Output sequence. ");

@@ -46,10 +46,10 @@ namespace RavlImageN {
 				 double nzhomog,
 				 int ncropT, int ncropB,
 				 int ncropL, int ncropR,
-				 const Tuple2C<RealT,RealT> &npointTL,
-				 const Tuple2C<RealT,RealT> &npointTR,
-				 const Tuple2C<RealT,RealT> &npointBL,
-				 const Tuple2C<RealT,RealT> &npointBR,
+				 const Point2dC &npointTL,
+				 const Point2dC &npointTR,
+				 const Point2dC &npointBL,
+				 const Point2dC &npointBR,
 				 int nmaxFrames)
     : borderC(nborderC), borderR(nborderR),
       cropT(ncropT), cropB(ncropB), cropL(ncropL), cropR(ncropR),
@@ -121,14 +121,14 @@ namespace RavlImageN {
       p1[1][0] =               0.0; p1[1][1] = (RealT)img.Cols();
       p1[2][0] = (RealT)img.Rows(); p1[2][1] =               0.0;
       p1[3][0] = (RealT)img.Rows(); p1[3][1] = (RealT)img.Cols();
-      p2[0][0] = pointTL.Data1()*(RealT)img.Rows();
-      p2[0][1] = pointTL.Data2()*(RealT)img.Cols();
-      p2[1][0] = pointTR.Data1()*(RealT)img.Rows();
-      p2[1][1] = pointTR.Data2()*(RealT)img.Cols();
-      p2[2][0] = pointBL.Data1()*(RealT)img.Rows();
-      p2[2][1] = pointBL.Data2()*(RealT)img.Cols();
-      p2[3][0] = pointBR.Data1()*(RealT)img.Rows();
-      p2[3][1] = pointBR.Data2()*(RealT)img.Cols();
+      p2[0][0] = pointTL[0] * (RealT)img.Rows();
+      p2[0][1] = pointTL[1] * (RealT)img.Cols();
+      p2[1][0] = pointTR[0] * (RealT)img.Rows();
+      p2[1][1] = pointTR[1] * (RealT)img.Cols();
+      p2[2][0] = pointBL[0] * (RealT)img.Rows();
+      p2[2][1] = pointBL[1] * (RealT)img.Cols();
+      p2[3][0] = pointBR[0] * (RealT)img.Rows();
+      p2[3][1] = pointBR[1] * (RealT)img.Cols();
 
       for(IntT i=0; i < 4; i++) {
 	A[i*2][0] = p1[i][0]*zhomog; A[i*2][1] = p1[i][1]*zhomog;

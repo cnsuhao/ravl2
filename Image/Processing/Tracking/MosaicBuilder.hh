@@ -45,10 +45,10 @@ namespace RavlImageN {
 		   int borderC, int borderR,
 		   double zhomog,
 		   int cropT, int cropB, int cropL, int cropR,
-		   const Tuple2C<RealT,RealT> &npointTL,
-		   const Tuple2C<RealT,RealT> &npointTR,
-		   const Tuple2C<RealT,RealT> &npointBL,
-		   const Tuple2C<RealT,RealT> &npointBR,
+		   const Point2dC &npointTL,
+		   const Point2dC &npointTR,
+		   const Point2dC &npointBL,
+		   const Point2dC &npointBR,
 		   int maxFrames);
     //: Constructor
     // Initialises mosaic builder
@@ -69,7 +69,7 @@ namespace RavlImageN {
     // stored parameters
     IntT borderC, borderR;
     IntT cropT, cropB, cropL, cropR;
-    Tuple2C<RealT,RealT> pointTL, pointTR, pointBL, pointBR;
+    Point2dC pointTL, pointTR, pointBL, pointBR;
     IntT maxFrames;
     RealT zhomog;
 
