@@ -939,6 +939,7 @@ goto find_rule; \
   #include <stdlib.h>
   #include <iostream.h>
   #include "cxx.tab.h"
+  #include "FlexLexer.h"
 
 #if RAVL_VISUALCPP_NAMESPACE_BUG  
   using RavlN::StringC;
@@ -1392,7 +1393,7 @@ YY_RULE_SETUP
 case 36:
 YY_RULE_SETUP
 #line 130 "tokenizer.l"
-{ return '~'; }
+{ CommentUpdate(yylval,yytext,yylineno); return '~'; }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP

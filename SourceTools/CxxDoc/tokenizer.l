@@ -127,7 +127,7 @@ SCHAR [^"\\\n]|{ESCAPE_SEQUENCE}
 <INITIAL>":"          { CommentUpdate(yylval,yytext,yylineno); return ':';}
 <INITIAL>"::"         { CommentUpdate(yylval,yytext,yylineno); return CLCL;}
 
-<INITIAL>"~"          { return '~'; }
+<INITIAL>"~"          { CommentUpdate(yylval,yytext,yylineno); return '~'; }
 <INITIAL>"="          { return '='; }
 <INITIAL>"<"          { return '<'; }
 <INITIAL>">"          { return '>'; }
