@@ -254,23 +254,54 @@ namespace RavlImageN {
       }
       case ORIENTATION_BOTLEFT:
       {
+#ifndef __sgi__
 	_TIFFmemcpy(img.Row(0), raster, allocSize);
-	// img = ImageC<ByteRGBAValueC>(tiffimg.height,tiffimg.width,BufferC<ByteRGBAValueC>(allocSize,(ByteRGBAValueC *) raster,true));
-	break;
-      }
-      case ORIENTATION_TOPLEFT:
-      {
-	// RavlAssert(0); // If we do this the image will be upside down.
-	// img = ImageC<ByteRGBAValueC>(tiffimg.height,tiffimg.width,BufferC<ByteRGBAValueC>(allocSize,(ByteRGBAValueC *) raster,true));
+#else
 	UIntT h = tiffimg.height;
 	UIntT w = tiffimg.width;
 	UIntT hw = h*w;
 	uint32* buff = (uint32*)img.Row(0);
 
+	for (UIntT y = 0; y < hw; y+=w)
+	{
+	  for (UIntT x = 0; x < w; x++)
+	  {
+	    uint32& p = raster[y+x];
+	    buff[y+x] = 
+	      ((p & 0xFF000000) >> 24) |
+	      ((p & 0x00FF0000) >>  8) |
+	      ((p & 0x0000FF00) <<  8) |
+	      ((p & 0x000000FF) << 24);
+	  }
+	}
+#endif
+	break;
+      }
+      case ORIENTATION_TOPLEFT:
+      {
+	UIntT h = tiffimg.height;
+	UIntT w = tiffimg.width;
+	UIntT hw = h*w;
+	uint32* buff = (uint32*)img.Row(0);
+
+#ifndef __sgi__
 	for (UIntT y = 0, ny = hw-w; y < hw; y+=w, ny-=w)
 	  for (UIntT x = 0; x < w; x++)
 	    buff[y+x] = raster[ny+x];
-
+#else
+        for (UIntT y = 0, ny = hw-w; y < hw; y+=w, ny-=w)
+	{
+	  for (UIntT x = 0; x < w; x++)
+	  {
+	    uint32& p = raster[ny+x];
+	    buff[y+x] =
+	      ((p & 0xFF000000) >> 24) |
+	      ((p & 0x00FF0000) >>  8) |
+	      ((p & 0x0000FF00) <<  8) |
+	      ((p & 0x000000FF) << 24);
+	  }
+	}
+#endif
 	break;
       } 
     }
