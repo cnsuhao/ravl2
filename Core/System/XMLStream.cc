@@ -215,7 +215,7 @@ namespace RavlN {
 	
 	id = ReadID();
 	
-	if(!emptyTag) { // Is an end tag, don't push a new context.
+	if(!emptyTag || isPI) { // Is an end tag, don't push a new context.
 	  ONDEBUG(cerr << "XMLIStreamC::ReadTag(), Found tag start '" << id << "'\n");
 	  elem = XMLElementC(id);
 	  //StartContext(id);
