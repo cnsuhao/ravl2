@@ -91,8 +91,8 @@ namespace RavlN {
   //: Wait for data to arrive.
   // Returns true if data is available, on a timeout or other interupt
   // false is returned.
-
-  bool NetIStreamC::WaitForData(RealT timeout = -1) {
+  
+  bool NetIStreamC::WaitForData(RealT timeout) {
     if(!sock.IsOpen())
       return false;
     fd_set readSet;

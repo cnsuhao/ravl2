@@ -81,6 +81,10 @@ namespace RavlN {
     //: Attempt to get info about named host.
     // returns true on success.
     
+    bool GetHostByAddr(struct sockaddr &sin,int sinLen,StringC &name);
+    //: Attempt to find hostname by the address.
+    // returns true on success and assignes the hostname to name.
+    
     int OpenSocket(struct sockaddr_in &sin,IntT sockNo);
     //: Open a socket to the given address / port no.
     

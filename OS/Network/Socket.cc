@@ -13,7 +13,9 @@
 #ifdef __sol2__
 #define __EXTENSIONS__ 1
 #include <string.h>
+#include <netdir.h>
 #endif
+
 #ifdef __linux__
 #define _REENTRANT 1
 #define _BSD_SOURCE 1
@@ -23,6 +25,7 @@
 #include "Ravl/OS/Socket.hh"
 #include "Ravl/OS/Date.hh"
 #include "Ravl/OS/SktError.hh"
+#include "Ravl/MTLocks.hh"
 #if RAVL_HAVE_NETDB_H
 #include <netdb.h>
 #endif
@@ -197,6 +200,60 @@ namespace RavlN {
     delete hostentData;
     return true;
   }
+
+
+  //: Attempt to find hostname by the address.
+  // returns true on success and assignes the hostname to name.
+  
+  bool SocketBodyC::GetHostByAddr(struct sockaddr &sin,int sinLen,StringC &name) {
+#if defined(__linux__) && 0
+    char hostname[1024];
+    if(getnameinfo(&sin,sinLen,hostname,1024,0,0,0) != 0) {
+      // Failed to get the name, at least put the address in dot notation.
+      inet_nsap_ntoa (sinLen,(const unsigned char *)((void *)&sin),hostname);
+    }
+    name = StringC(hostname);
+#else
+    int buffSize = 1024;
+    char *hostentData = new char [buffSize];  
+    struct hostent ent;
+    int error = 0;
+    while(1) {
+#if defined(__linux__)
+      struct hostent *result = 0;
+      int retcode;
+      if((retcode = gethostbyaddr_r(&((sockaddr_in &)sin).sin_addr,sinLen,AF_INET,&ent,hostentData,buffSize,&result,&error)) != 0) {
+	break;
+      }
+#else
+      gethostbyaddr_r((const char *) &((sockaddr_in &)sin).sin_addr,sinLen,AF_INET,&ent,hostentData,buffSize,&error);
+#endif
+      if(error == 0)
+	break;
+      if(error == ERANGE) { // Buffer not big enough.
+	delete [] hostentData;
+	buffSize *= 2;
+	if(buffSize > 100000) {
+	  delete [] hostentData;
+	  throw ExceptionNetC("GetHostByName(),ERROR: Buffer requested too large. Failing.\n");
+	}
+	hostentData = new char [buffSize];
+	continue;
+      }
+      cerr << "WARNING: Error while attempting to find hostname. errno=" << error << "\n";
+      break; // Unknown error.
+    }
+    if(error == 0) { // If we got the name ok.
+      name = StringC(ent.h_name);
+      delete hostentData;
+      return true;
+    }
+    delete hostentData;
+    MTWriteLockC hold; // this call isn't MT safe. 
+    name = inet_ntoa(((sockaddr_in &)sin).sin_addr); // Convert to a dot notation string.
+#endif
+    return true;
+  }
   
   
   //: Open a socket to the given address / port no.
@@ -293,16 +350,18 @@ namespace RavlN {
     StringC ret("-failed-");
     if(fd == 0)
       return ret;
+#ifdef __sgi__
+    int namelen = sizeof(sockaddr) + 256;
+#else
     socklen_t namelen = sizeof(sockaddr) + 256;
+#endif
     struct sockaddr *name = (struct sockaddr *) new char[namelen];
     if(getpeername(fd,name,&namelen) != 0) {
       cerr << "SocketBodyC::ConnectedHost(), gerpeername failed. Error=" << errno << "\n";
       return StringC("unknown");
     }
-    char hostname[1024];
-    if(getnameinfo(name,namelen,hostname,1024,0,0,0) == 0) //NI_NOFQDN
-      ret = StringC(hostname);
-    ONDEBUG(cerr << "Hostname=" << hostname << "\n");
+    GetHostByAddr(*name,namelen,ret);
+    ONDEBUG(cerr << "Hostname=" << ret << "\n");
     delete [] (char*) name;
     return ret;
   }
