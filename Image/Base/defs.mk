@@ -25,7 +25,7 @@ SOURCES=ImageRectangle.cc Image.cc ByteRGBValue.cc ByteYUVValue.cc RealRGBValue.
 
 PLIB=RavlImage
 
-USESLIBS=RavlCore
+USESLIBS=RavlCore RavlMath
 
 PROGLIBS=RavlImageIO RavlOS RavlMath RavlDPDisplay.opt
 
