@@ -50,6 +50,7 @@ namespace RavlN {
 	D[1] = mat[0][0];
 	E = Matrix2dC(0.0, 1.0, 1.0, 0.0);
       }
+      return ;
     }
     
     // Compute eigenvalues.
