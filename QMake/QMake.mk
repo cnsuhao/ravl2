@@ -214,7 +214,7 @@ fullbuild:
 	$(SHOWIT)if [ ! -d $(PROJECT_OUT)/log ] ; then \
 	  $(MKDIR) $(PROJECT_OUT)/log; \
 	fi ; \
-	if $(MAKEMO) $(FULLBUILDFLAGS) src_all NOINCDEFS=1 2>&1 | tee $(PROJECT_OUT)/log/buildSrc.log ; then true; \
+	if $(MAKEMO) $(FULLBUILDFLAGS) src_all NOINCDEFS=1 ; then true; \
         else \
 	  echo "QMAKE: Installation of header files failed. " ; \
 	  exit 1; \
@@ -235,13 +235,13 @@ fullbuild:
 	  echo "QMAKE: opt library build failed. " ; \
 	  exit 1; \
         fi ; \
-	if $(MAKEMD) $(FULLBUILDFLAGS) fullbuild VAR=opt TARGET=fullbuild 2>&1 ; then true; \
+	if $(MAKEMD) $(FULLBUILDFLAGS) fullbuild VAR=opt TARGET=fullbuild  ; then true; \
         else \
 	  echo "QMAKE: executable build failed. " ; \
 	  exit 1; \
         fi ; \
 	echo "Building documentation. " ; \
-	$(MAKEDC) $(FULLBUILDFLAGS) doc 2>&1 | tee $(PROJECT_OUT)/log/buildDoc.log
+	$(MAKEDC) $(FULLBUILDFLAGS) doc 
 
 fullshared:
 	if $(MAKEMD) $(FULLBUILDFLAGS) fullbuild VAR=shared TARGET=fullbuild NOEXEBUILD=1 ; then true; \
