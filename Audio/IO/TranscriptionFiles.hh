@@ -48,7 +48,12 @@ namespace RavlAudioN {
     {}
     //: Default constructor.
     // Creates an invalid handle.
-    
+
+    DPITranscriptionFilesC(const StringC &fileList)
+      : DPEntityC(*new DPITranscriptionFilesBodyC(fileList))
+	{}
+    //: Construct from file list
+
     DPITranscriptionFilesC(const StringC &dir,const StringC &transExt)
       : DPEntityC(*new DPITranscriptionFilesBodyC(dir,transExt))
     {}

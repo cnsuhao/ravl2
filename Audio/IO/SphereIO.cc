@@ -155,7 +155,7 @@ namespace RavlAudioN {
     for(;ptr != end;ptr++)
       *ptr = bswap_16(*ptr);
 #endif
-    return bis.Stream();
+    return true;
   }
   
   //: Write bytes to audio stream.
@@ -170,7 +170,7 @@ namespace RavlAudioN {
   
   bool SphereBaseC::Seek(UIntT off) {
     streampos npos = static_cast<streampos>(off) * static_cast<streampos>(bits/8) + dataOffset;
-    Seek(npos);
+	bis.Seek(npos);
     endOfFile = false;
     return Tell() == off; // Did it work ?
   }
