@@ -14,9 +14,9 @@ NESTED = Bitmaps.r
 
 DONOT_SUPPORT=arm
 
-HEADERS = PlayControl.hh
+HEADERS = GUIPlayControl.hh
 
-SOURCES = PlayControl.cc
+SOURCES = GUIPlayControl.cc
 
 PACKAGE = Ravl/VPlay
 
