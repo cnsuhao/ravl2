@@ -40,6 +40,17 @@ namespace RavlN {
   { 
     SetTransform(a); // make sure transform is setup properly.
   }
+
+  //: Design a linear mapping which multiplies input by 'proj' and adds offset
+  
+  FuncLinearBodyC::FuncLinearBodyC(const MatrixC &proj,const VectorC &offset)
+  {
+    RavlAssert(offset.Size() ==  proj.Rows());
+    MatrixC na(proj.Rows(),proj.Cols() + 1);
+    na.SetColumn(0,offset);
+    na.SetSubArray(Index2dC(0,1),proj);
+    SetTransform(na);
+  }
   
   //: Writes object to stream.
   

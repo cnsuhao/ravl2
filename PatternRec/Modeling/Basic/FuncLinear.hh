@@ -33,6 +33,9 @@ namespace RavlN {
     {}
     //: Construct with an input and output size.
     
+    FuncLinearBodyC(const MatrixC &proj,const VectorC &offset);
+    //: Design a linear mapping which multiplies input by 'proj' and adds offset
+    
     FuncLinearBodyC(istream &strm);
     //: Load from stream.
     
@@ -83,6 +86,11 @@ namespace RavlN {
     {}
     //: Construct a linear function with given input and output size.
     // The transform itsself is left undefined.
+    
+    FuncLinearC(const MatrixC &proj,const VectorC &offset)
+      : FuncLinearCoeffC(*new FuncLinearBodyC(proj,offset))
+    {}
+    //: Design a linear mapping which multiplies input by 'proj' and adds offset
     
     FuncLinearC(istream &strm);
     //: Load from stream.
