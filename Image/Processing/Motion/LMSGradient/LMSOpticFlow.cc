@@ -20,7 +20,7 @@
 #include "Ravl/StdMath.hh"
 #include "Ravl/Stream.hh"
 #include "Ravl/DP/FileFormatIO.hh"
-#include "Ravl/Motion/LMSOpticFlow.hh"
+#include "Ravl/Image/LMSOpticFlow.hh"
 #include "Ravl/Pair.hh"
 #include "Ravl/Image/SumRectangles.hh"
 #include "Ravl/Image/ScaleValues.hh"

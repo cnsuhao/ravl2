@@ -6,18 +6,16 @@
 # file-header-ends-here
 #! rcsid="$Id$"
 
-PACKAGE = Ravl/Motion
+PACKAGE = Ravl/Image
 
-MAINS = exLMSOptic.cc
-#exMultiScale.cc  exLMSOptic.cc
+MAINS = exLMSOptic.cc exLMSMultiScale.cc
 # #exLMSRegion.cc  testim.cc
 
-SOURCES = LMSOpticFlow.cc 
-#MultiScaleMotion.cc
+SOURCES = LMSOpticFlow.cc LMSMultiScaleMotion.cc
 
-HEADERS = LMSOpticFlow.hh 
+HEADERS = LMSOpticFlow.hh LMSMultiScaleMotion.hh
+
 #LMSRegionMatch.hh 
-#MultiScaleMotion.hh
 
 PLIB = LMSMotion
 

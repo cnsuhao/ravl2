@@ -23,10 +23,11 @@
 #include "Ravl/DP/FileFormatIO.hh"
 #include "Ravl/Stream.hh"
 #include "Ravl/Pair.hh"
-#include "Ravl/Motion/LMSOpticFlow.hh"
+#include "Ravl/Image/LMSOpticFlow.hh"
 #include "Ravl/Image/ConvolveSeparable2d.hh"
 #include "Ravl/Image/GaussConvolve.hh"
 #include "Ravl/Image/SpatialDifference.hh"
+#include "Ravl/Image/Image.hh"
 
 using namespace RavlN;
 using namespace RavlImageN;
@@ -41,8 +42,8 @@ int exLMSOptic(int argc, char **argv)
   IntT order       = opt.Int("g", 5, "Set Gaussian antialias filter order (default is Remex 2:1 antialias)");
   IntT diffOrder   = opt.Int("d", 1, "Spatial gradient difference order");
   RealT noise      = opt.Real("n", 1.0, "Noise s.d. estimate for filtered image");
-  IntT scale       = opt.Int("s", 1, "Scale factor for arrow on Postscript plot");
-  RealT subsample  = opt.Real("S", 5, "Vector subsample factor");
+  //IntT scale       = opt.Int("s", 1, "Scale factor for arrow on Postscript plot");
+  //RealT subsample  = opt.Real("S", 5, "Vector subsample factor");
   bool forward_diff  = opt.Boolean("F", false, "Forward diff instead of average diff for spatial gradient");
   StringC ImageFileName1 = opt.String("", "", "Input image 1");
   StringC ImageFileName2 = opt.String("", "", "Input image 2");
@@ -64,18 +65,16 @@ int exLMSOptic(int argc, char **argv)
   
   // filter images with antialias filter
   
-  if (opt.IsOnCommandLine("g") || 1) {
+  if (opt.IsOnCommandLine("g")) {
     GaussConvolveC<RealT> filter(order);
     for (UIntT i=0; i<=1; ++i) 
       filtered[i] = filter.Apply(image[i]);
   } else {
-#if 0
     Array1dC<RealT> coeffs;
-    IStrStreamC ("-2 2 0.308037 0.246545 0.114345 0.0105584 -0.0254667") >> coeffs;
+    StrIStreamC ("-5 5 -0.03008995 0.01247519 0.13510284 0.29130294 0.36395804 0.29130294 0.13510284 0.01247519 -0.03008995") >> coeffs;
     ConvolveSeparable2dC<RealT> filter(coeffs, coeffs);
     for (UIntT i=0; i<=1; ++i) 
       filtered[i] = filter.Apply(image[i]);
-#endif
   }
   
   // compute image gradients:
