@@ -67,7 +67,7 @@ int main(int argc, char** argv)
 
   // image processing classes
   ChromaThresholdRGBC thresh(skin, tol, 0.1);
-  ConnectedComponentsC<ByteT, ConnectedComponentsCompairC<ByteT> >  comp(true);
+  ConnectedComponentsC<ByteT>  comp(true);
 
   SArray1dC<Vector3dC>  comp_last;
 
