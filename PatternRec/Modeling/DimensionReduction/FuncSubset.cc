@@ -7,18 +7,17 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! author="Charles Galambos"
-//! file="Ravl/PatternRec/DimensionReduction/ReduceSubset.cc"
+//! file="Ravl/PatternRec/DimensionReduction/FuncSubset.cc"
 
-#include "Ravl/PatternRec/ReduceSubset.hh"
+#include "Ravl/PatternRec/FuncSubset.hh"
 #include "Ravl/BinStream.hh"
 
 namespace RavlN {
   
   //: Constructor from an array of indexes.
   
-  ReduceSubsetBodyC::ReduceSubsetBodyC(const SArray1dC<IndexC> &ninds,UIntT inSize,RealT variationPreserved)
-    : ReduceBodyC(variationPreserved),
-      inds(ninds)
+  FuncSubsetBodyC::FuncSubsetBodyC(const SArray1dC<IndexC> &ninds,UIntT inSize)
+    : inds(ninds)
   {
     OutputSize(inds.Size());
     InputSize(inSize);
@@ -26,7 +25,7 @@ namespace RavlN {
   
   //: Reduce the dimension of 'data'.
   
-  VectorC ReduceSubsetBodyC::Apply(const VectorC &data) {
+  VectorC FuncSubsetBodyC::Apply(const VectorC &data) {
     VectorC ret(inds.Size());
     for(BufferAccessIter2C<IndexC,RealT> it(inds,ret);it;it++)
       it.Data2() = data[it.Data1()];

@@ -29,13 +29,17 @@ namespace RavlN {
   
   FuncLinearBodyC::FuncLinearBodyC(istream &strm)
     : FuncLinearCoeffBodyC(strm)
-  {}
+  {
+    SetTransform(a); // make sure transform is setup properly.
+  }
   
   //: Load from binary stream.
   
   FuncLinearBodyC::FuncLinearBodyC(BinIStreamC &strm)
     : FuncLinearCoeffBodyC(strm)
-  {}
+  { 
+    SetTransform(a); // make sure transform is setup properly.
+  }
   
   //: Writes object to stream.
   
@@ -72,6 +76,26 @@ namespace RavlN {
     return inputSize + 1;
   }
   
+  //: Apply function to 'data'
+  
+  VectorC FuncLinearBodyC::Apply(const VectorC &data) const {
+    return proj * data + mean;
+  }
+
+  //: Setup the transform.
+  
+  bool FuncLinearBodyC::SetTransform(const MatrixC &na) {
+    if(!FuncLinearCoeffBodyC::SetTransform(na))
+      return false;
+    
+    mean = a.SliceColumn(0);
+    IndexRange2dC rng = a.Frame();
+    rng.LCol()++;
+    proj = SArray2dC<RealT>(a,rng);
+    
+    return true;
+  }
+
   ////////////////////////////////////////////////////////////////////////
   
   RAVL_INITVIRTUALCONSTRUCTOR_FULL(FuncLinearBodyC,FuncLinearC,FuncLinearCoeffC);

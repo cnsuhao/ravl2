@@ -58,8 +58,8 @@ namespace RavlN {
     
     virtual UIntT NumberCoeffs(UIntT inputSize) const;
     //: Calculate the number of coefficents for a given input size.
-
-    bool SetTransform(const MatrixC &a);
+    
+    virtual bool SetTransform(const MatrixC &a);
     //: Attempt to set transform matrix.
   protected:
     MatrixC a;

@@ -1,0 +1,144 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2003, OmniPerception Ltd.
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
+#ifndef RAVL_FUNCMEANPROJECTION_HEADER
+#define RAVL_FUNCMEANPROJECTION_HEADER 1
+//! rcsid="$Id$"
+//! lib=RavlPatternRec
+//! author="Charles Galambos"
+//! docentry="Ravl.Pattern Recognition.Numerical Modeling"
+
+#include "Ravl/PatternRec/Function.hh"
+#include "Ravl/Matrix.hh"
+#include "Ravl/Vector.hh"
+
+namespace RavlN {
+  
+  //: Subtract a mean and project a vector
+  // This is very similar FuncLinear, except the mean is subtracted first then 
+  // the vector is projected.
+  
+  class FuncMeanProjectionBodyC
+    : public FunctionBodyC
+  {
+  public:
+    FuncMeanProjectionBodyC()
+    {}
+    //: Default constructor.
+    
+    FuncMeanProjectionBodyC(const VectorC &nMean,const MatrixC &nProj);
+    //: Default constructor.
+    
+    FuncMeanProjectionBodyC(istream &strm);
+    //: Load from stream.
+    
+    FuncMeanProjectionBodyC(BinIStreamC &strm);
+    //: Load from binary stream.
+    
+    virtual bool Save (ostream &out) const;
+    //: Writes object to stream.
+    
+    virtual bool Save (BinOStreamC &out) const;
+    //: Writes object to binary stream.
+    
+    virtual VectorC Apply(const VectorC &data) const;
+    //: Apply function to 'data'
+    
+    const VectorC &Mean() const
+    { return mean; }
+    //: Access mean vector.
+    
+    const MatrixC &Projection() const
+    { return proj; }
+    //: Access projections vector.
+    
+  protected:
+    VectorC mean;
+    MatrixC proj;
+  };
+  
+  //: Subtract a mean and project a vector
+  // This is very similar FuncLinear, except the mean is subtracted first then 
+  // the vector is projected.
+  
+  class FuncMeanProjectionC
+    : public FunctionC 
+  {
+  public:
+    FuncMeanProjectionC()
+    {}
+    //: Default constructor.
+    
+    FuncMeanProjectionC(const VectorC &mean,const MatrixC &proj)
+      : FunctionC(*new FuncMeanProjectionBodyC(mean,proj))
+    {}
+    //: Construct from a a mean and a projection matrix.
+    
+    FuncMeanProjectionC(istream &is);
+    //: Stream constructor.
+    
+    FuncMeanProjectionC(BinIStreamC &is);
+    //: Stream constructor.
+    
+  protected:
+    FuncMeanProjectionC(FuncMeanProjectionBodyC &bod)
+      : FunctionC(bod)
+    {}
+    //: Body constructor.
+    
+    FuncMeanProjectionBodyC &Body()
+    { return static_cast<FuncMeanProjectionBodyC &>(FunctionC::Body()); }
+    //: Access body.
+
+    const FuncMeanProjectionBodyC &Body() const 
+    { return static_cast<const FuncMeanProjectionBodyC &>(FunctionC::Body()); }
+    //: Access body.
+    
+  public:
+    const VectorC &Mean() const
+    { return Body().Mean(); }
+    //: Access mean vector.
+    
+    const MatrixC &Projection() const
+    { return Body().Projection(); }
+    //: Access projections vector.
+    
+  };
+  
+  
+  inline istream &operator>>(istream &strm,FuncMeanProjectionC &obj) {
+    obj = FuncMeanProjectionC(strm);
+    return strm;
+  }
+  //: Load from a stream.
+  // Uses virtual constructor.
+  
+  inline ostream &operator<<(ostream &out,const FuncMeanProjectionC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+  
+  inline BinIStreamC &operator>>(BinIStreamC &strm,FuncMeanProjectionC &obj) {
+    obj = FuncMeanProjectionC(strm);
+    return strm;
+  }
+  //: Load from a binary stream.
+  // Uses virtual constructor.
+  
+  inline BinOStreamC &operator<<(BinOStreamC &out,const FuncMeanProjectionC &obj) {
+    obj.Save(out);
+    return out;
+  }
+  //: Save to a stream.
+  // Uses virtual constructor.
+
+}
+
+
+
+#endif

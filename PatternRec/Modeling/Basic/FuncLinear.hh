@@ -54,6 +54,16 @@ namespace RavlN {
     virtual UIntT NumberCoeffs(UIntT inputSize) const;
     //: Calculate the number of coefficents for a given input size.
     
+    virtual VectorC Apply(const VectorC &data) const;
+    //: Apply function to 'data'
+
+    virtual bool SetTransform(const MatrixC &a);
+    //: Setup the transform.
+
+  protected:
+    // These are extracted from transform 'a'
+    VectorC mean;
+    MatrixC proj;
   };
   
   

@@ -4,30 +4,30 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_REDUCESUBSET_HEADER
-#define RAVL_REDUCESUBSET_HEADER 1
+#ifndef RAVL_FUNCSUBSET_HEADER
+#define RAVL_FUNCSUBSET_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! docentry="Ravl.Pattern Recognition.Dimension Reduction"
 //! author="Charles Galambos"
-//! file="Ravl/PatternRec/DimensionReduction/ReduceSubset.hh"
+//! file="Ravl/PatternRec/DimensionReduction/Funcsubset.hh"
 
-#include "Ravl/PatternRec/Reduce.hh"
+#include "Ravl/PatternRec/Function.hh"
 
 namespace RavlN {
 
   //! userlevel=Develop
   //: Reduce dimension by taking a subset of features.
   
-  class ReduceSubsetBodyC 
-    : public ReduceBodyC
+  class FuncSubsetBodyC 
+    : public FunctionBodyC
   {
   public:
-    ReduceSubsetBodyC()
+    FuncSubsetBodyC()
     {}
     //: Default constructor.
     
-    ReduceSubsetBodyC(const SArray1dC<IndexC> &ninds,UIntT inSize,RealT variationPreserved);
+    FuncSubsetBodyC(const SArray1dC<IndexC> &ninds,UIntT inSize);
     //: Constructor from an array of indexes.
     
     virtual VectorC Apply(const VectorC &data);
@@ -44,32 +44,32 @@ namespace RavlN {
   //! userlevel=Develop
   //: Reduce dimension by taking a subset of features.
 
-  class ReduceSubsetC 
-    : public ReduceC
+  class FuncSubsetC 
+    : public FunctionC
   {
   public:
-    ReduceSubsetC()
+    FuncSubsetC()
     {}
     //: Default constuctor.
     // Creates an invalid handle.
     
-    ReduceSubsetC(const SArray1dC<IndexC> &ninds,UIntT inSize,RealT variationPreserved = 0.5)
-      : ReduceC(*new ReduceSubsetBodyC(ninds,inSize,variationPreserved))
+    FuncSubsetC(const SArray1dC<IndexC> &ninds,UIntT inSize)
+      : FunctionC(*new FuncSubsetBodyC(ninds,inSize))
     {}
     //: Constuctor from an array of indexes.
     
   protected:
-    ReduceSubsetC(ReduceSubsetBodyC &bod)
-      : ReduceC(bod)
+    FuncSubsetC(FuncSubsetBodyC &bod)
+      : FunctionC(bod)
     {}
     //: Body constructor.
     
-    ReduceSubsetBodyC &Body() 
-    { return static_cast<ReduceSubsetBodyC &>(FunctionC::Body()); }
+    FuncSubsetBodyC &Body() 
+    { return static_cast<FuncSubsetBodyC &>(FunctionC::Body()); }
     //: Access body.
     
-    const ReduceSubsetBodyC &Body() const
-    { return static_cast<const ReduceSubsetBodyC &>(FunctionC::Body()); }
+    const FuncSubsetBodyC &Body() const
+    { return static_cast<const FuncSubsetBodyC &>(FunctionC::Body()); }
     //: Access body.
     
   public:

@@ -5,15 +5,15 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 #! rcsid="$Id$"
-#! file="Ravl/PatternRec/DimensionReduction/defs.mk"
+#! file="Ravl/PatternRec/Modeling/DimensionReduction/defs.mk"
 
 DESCRIPTION = Dimension reduction.
 
 PACKAGE = Ravl/PatternRec
 
-HEADERS=Reduce.hh ReduceSubset.hh ReduceLinear.hh ReducePCA.hh
+HEADERS=FuncSubset.hh DesignFuncReduce.hh DesignFuncPCA.hh
 
-SOURCES=Reduce.cc ReduceSubset.cc ReduceLinear.cc ReducePCA.cc
+SOURCES=FuncSubset.cc DesignFuncReduce.cc DesignFuncPCA.cc
 
 PLIB=RavlPatternRec
 

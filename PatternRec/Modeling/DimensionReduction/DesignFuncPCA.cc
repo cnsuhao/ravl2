@@ -1,14 +1,15 @@
 // This file is part of RAVL, Recognition And Vision Library 
-// Copyright (C) 2002, University of Surrey
+// Copyright (C) 2003, University of Surrey
 // This code may be redistributed under the terms of the GNU Lesser
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
-//! file="Ravl/PatternRec/DimensionReduction/ReducePCA.cc"
 
-#include "Ravl/PatternRec/ReducePCA.hh"
+#include "Ravl/PatternRec/DesignFuncPCA.hh"
+#include "Ravl/PatternRec/FuncMeanProjection.hh"
+#include "Ravl/BinStream.hh"
 #include "Ravl/PatternRec/SampleVector.hh"
 #include "Ravl/Collection.hh"
 #include "Ravl/PatternRec/SampleIter.hh"
@@ -21,8 +22,6 @@
 #define ONDEBUG(x)
 #endif
 
-namespace RavlN {
-  
 #define FOR_MATRIX_COLS(matrix, index) \
   for (IndexC index = 0; index < (matrix).Cols(); index++)
 
@@ -32,15 +31,71 @@ namespace RavlN {
 #define FOR_VECTOR(vec, index) \
   for (IndexC index = 0; index < (vec).Size(); index++)
 
+namespace RavlN {
+  
+  //: Default constructor.
+  
+  DesignFuncPCABodyC::DesignFuncPCABodyC(RealT variationPreserved)
+    : DesignFuncReduceBodyC(variationPreserved),
+      forceHimDim(false)
+  {}
+  
+  //: Load from stream.
+  
+  DesignFuncPCABodyC::DesignFuncPCABodyC(istream &strm) 
+    : DesignFuncReduceBodyC(strm)
+  {
+   strm >> forceHimDim;
+  }
+  
+  //: Load from binary stream.
+  
+  DesignFuncPCABodyC::DesignFuncPCABodyC(BinIStreamC &strm)
+    : DesignFuncReduceBodyC(strm)
+  {
+    strm >> forceHimDim;
+  }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool DesignFuncPCABodyC::Save(ostream &out) const {
+    if(!DesignFuncReduceBodyC::Save(out))
+      return false;
+    out << ' ' << forceHimDim;
+    return true;
+  }
+  
+  //: Writes object to stream, can be loaded using constructor
+  
+  bool DesignFuncPCABodyC::Save(BinOStreamC &out) const {
+    if(!DesignFuncReduceBodyC::Save(out))
+      return false;
+    out << forceHimDim;
+    return true;
+  }
+
+  //: Create function from the given data.
+  
+  FunctionC DesignFuncPCABodyC::Apply(const SampleC<VectorC> &in) {
+    FunctionC ret;
+    if(in.Size() == 0)
+      return FunctionC(); // Can't do anything without data.
+    VectorC vec = in.First();
+    if(vec.Size() > 30 || forceHimDim)
+      return DesignHighDim(in,varPreserved);
+    return DesignLowDim(in,varPreserved);
+  }
+  
+
   //: Design the transform.
   
-  void ReducePCABodyC::DesignHighDim(SampleC<VectorC> &sample,RealT variation) {
+  FunctionC DesignFuncPCABodyC::DesignHighDim(const SampleC<VectorC> &sample,RealT variation) {
     // FIXME :- This could be implemented more efficently.
     
     SampleVectorC sv(sample);
     UIntT N = sample.Size(); // number of training samples
     if(N == 0)
-      return ;
+      return FunctionC();
     UIntT d = sample.First().Size(); // input dimension
     
     // Calculate difference vectors
@@ -106,21 +161,19 @@ namespace RavlN {
       for (UIntT i = 0; i < numComponents; i++)
 	runningTotal += temp[i];
     }
-    InputSize(d);
-    OutputSize(numComponents);
+    
     pca = VectorMatrixC (temp.From(0,numComponents-1),
 			 Wpca.SubMatrix(d,numComponents).T());
     
-    proj = pca.Matrix();
-    
     // ONDEBUG(cerr << "Mean=" << mean << "\n");
     // ONDEBUG(cerr << "Proj=" << proj << "\n");
+    return FuncMeanProjectionC(mean,pca.Matrix());
   }
-
-
+  
+  
   //: Design the transform.
   
-  void ReducePCABodyC::DesignLowDim(SampleC<VectorC> &sample,RealT variation) {
+  FunctionC DesignFuncPCABodyC::DesignLowDim(const SampleC<VectorC> &sample,RealT variation) {
     IntT dim = sample.First().Size();
     //SetSizeX (dim);
     SampleVectorC sv(sample);
@@ -150,11 +203,8 @@ namespace RavlN {
     pca = VectorMatrixC (Leigenvecs.Vector().From(0,numComponents-1),
 			 Leigenvecs.Matrix().SubMatrix(dim,numComponents).T());
     
-    InputSize(mean.Size());
-    OutputSize(numComponents);
     
-    proj = pca.Matrix();
-    
+    return FuncMeanProjectionC(mean,pca.Matrix());
   }
 
 }
