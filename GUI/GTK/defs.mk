@@ -26,7 +26,8 @@ HEADERS = Manager.hh Widget.hh GTKTypes.hh SignalInfo.hh \
  Ruler.hh SpinButton.hh Tree.hh Separator.hh Bitmap.hh \
  Notebook.hh CList.hh VLabel.hh RadioButton.hh ProgressBar.hh \
  TextBox.hh DragAndDrop.hh Paned.hh MessageBox.hh WidgetStyle.hh \
- ReadBack.hh  WaitForExit.hh
+ ReadBack.hh  WaitForExit.hh TreeModel.hh TreeStore.hh  TreeView.hh \
+ ListStore.hh
 
 SOURCES = Manager.cc Widget.cc MouseEvent.cc Window.cc \
  Cursor.cc ToolTips.cc CWidget.cc Button.cc Pixmap.cc \
@@ -37,7 +38,8 @@ SOURCES = Manager.cc Widget.cc MouseEvent.cc Window.cc \
  Ruler.cc SpinButton.cc Tree.cc Separator.cc Bitmap.cc \
  Notebook.cc CList.cc VLabel.cc RadioButton.cc ProgressBar.cc \
  TextBox.cc DragAndDrop.cc Paned.cc MessageBox.cc WidgetStyle.cc \
- ReadBack.cc WaitForExit.cc 
+ ReadBack.cc WaitForExit.cc TreeModel.cc TreeStore.cc TreeView.cc \
+ ListStore.cc
 
 MAINS = 
 
@@ -47,7 +49,7 @@ EXAMPLES = exButton.cc exMenu.cc exCList.cc exList.cc \
  exSlider.cc exRadioButton.cc exRuler.cc exWheel.cc \
  exNotebook.cc exCursor.cc exFixed.cc exTree.cc exTextBox.cc \
  exMessageBox.cc exStyle.cc exLBox.cc exFrame.cc exScrolledArea.cc \
- exLabel.cc
+ exLabel.cc exTreeStore.cc 
 
 #  exGUI.cc exCanvas.cc   exGraph1d.cc \
 

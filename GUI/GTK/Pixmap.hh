@@ -99,7 +99,7 @@ namespace RavlGUIN {
     {}
     //: Constructor.
 
-    explicit PixmapC(char **data)
+    explicit PixmapC(const char **data)
       : WidgetC(*new PixmapBodyC((const char **) data))
     {}
     //: Constructor
