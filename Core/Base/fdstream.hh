@@ -11,9 +11,9 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/fdstream.hh"
+//! docentry="Ravl.Core.IO.Streams"
 
 #include "Ravl/config.h"
-
 
 #if RAVL_COMPILER_GCC3
 
@@ -30,7 +30,7 @@
 namespace RavlN {
   using namespace __gnu_cxx;
   
-  //! userlevel=Normal
+  //! userlevel=Develop
   //: Basic input from a fd stream.
   
   template<typename CharT, typename TraitsT = char_traits<CharT> >
@@ -93,7 +93,7 @@ namespace RavlN {
     buf_type filebuf;
   };
   
-  //! userlevel=Normal
+  //! userlevel=Develop
   //: Derivation of general output streams, specific to unix file handles.
   
   template<typename CharT, typename TraitsT = char_traits<CharT> >
@@ -158,7 +158,7 @@ namespace RavlN {
   };
   
   
-  //! userlevel=Normal
+  //! userlevel=Develop
   //: Basic fdstream.
   
   template<typename CharT, typename TraitsT>
