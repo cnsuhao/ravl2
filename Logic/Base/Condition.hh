@@ -107,7 +107,7 @@ namespace RavlLogicN {
     {}
     //: Body constructor.
 
-    ConditionC(ConditionBodyC *bod)
+    ConditionC(const ConditionBodyC *bod)
       : TupleC(bod)
     {}
     //: Body constructor.
@@ -130,13 +130,8 @@ namespace RavlLogicN {
 
   public:
     ConditionC(const LiteralC &term)
-      : TupleC(term)
-    {
-      if(IsValid()) {
-	if(dynamic_cast<const ConditionBodyC *>(&LiteralC::Body()) == 0)
-	  Invalidate();
-      }
-    }
+      : TupleC(dynamic_cast<const ConditionBodyC *>(BodyPtr(term)))
+    {}
     //: Construct from base class.
     
     bool IsEqual(const ConditionC &oth) const

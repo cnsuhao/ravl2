@@ -99,20 +99,17 @@ namespace RavlLogicN {
     
     explicit StateSetC(bool)
       : StateC(*new StateSetBodyC())
-      {}
+    {}
     //: Constructor.
-
+    
     StateSetC(const HSetC<LiteralC> &ndata)
       : StateC(*new StateSetBodyC(ndata))
-      {}
+    {}
     //: Constructor.
-
+    
     StateSetC(const StateC &oth)
-      : StateC(oth)
-      {
-	if(dynamic_cast<StateSetBodyC *>(&StateC::Body()) == 0)
-	  Invalidate();
-      }
+      : StateC(dynamic_cast<const StateSetBodyC *>(BodyPtr(oth)))
+    {}
     //: Base constructor.
     // If given state is not a StateSetC an invalid handle
     // will be generated.

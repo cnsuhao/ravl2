@@ -86,11 +86,8 @@ namespace RavlLogicN {
     //: Constructor.
     
     NamedVarC(const LiteralC &oth)
-      : LiteralC(oth)
-    {
-      if(dynamic_cast<NamedVarBodyC *>(&Body()) == 0)
-	Invalidate();
-    }
+      : LiteralC(dynamic_cast<const NamedVarBodyC *>(BodyPtr(oth)))
+    {}
     //: Base class constructor.
     // if 'oth' isn't a named literal an invalid handle
     // will be created.

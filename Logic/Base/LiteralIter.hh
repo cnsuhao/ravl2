@@ -77,6 +77,11 @@ namespace RavlLogicN {
     {}
     //: Body constructor.
     
+    LiteralIterC(const LiteralIterBodyC *bod)
+      : RCHandleC<LiteralIterBodyC>(bod)
+    {}
+    //: Body constructor.
+    
     LiteralIterBodyC &Body()
     { return RCHandleC<LiteralIterBodyC>::Body(); }
     //: Access body.

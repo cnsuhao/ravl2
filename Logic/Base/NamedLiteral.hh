@@ -81,11 +81,8 @@ namespace RavlLogicN {
     // equivelent in every way.
     
     NamedLiteralC(const LiteralC &oth)
-      : LiteralC(oth)
-    {
-      if(dynamic_cast<NamedLiteralBodyC *>(&Body()) == 0)
-	Invalidate();
-    }
+      : LiteralC(dynamic_cast<const NamedLiteralBodyC *>(BodyPtr(oth)))
+    {}
     //: Base class constructor.
     // if 'oth' isn't a named literal an invalid handle
     // will be created.
@@ -102,7 +99,7 @@ namespace RavlLogicN {
     {}
     //: Body constructor.
     
-    NamedLiteralC(NamedLiteralBodyC *oth)
+    NamedLiteralC(const NamedLiteralBodyC *oth)
       : LiteralC(oth)
     {}
     //: Body constructor.

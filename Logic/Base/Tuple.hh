@@ -134,13 +134,8 @@ namespace RavlLogicN {
     //: Create tuple from an array of literals.
     
     TupleC(const LiteralC &x)
-      : LiteralC(x)
-    {
-      if(IsValid()) {
-	if(dynamic_cast<const TupleBodyC *>(&LiteralC::Body()) == 0)
-	  Invalidate();
-      }
-    }
+      : LiteralC(dynamic_cast<const TupleBodyC *>(BodyPtr(x)))
+    {}
     //: Base class constructor.
     // if x isn't an Tuple an invalid handle is created.
 
@@ -183,7 +178,7 @@ namespace RavlLogicN {
     {}
     //: Body constructor.
     
-    TupleC(TupleBodyC *bod)
+    TupleC(const TupleBodyC *bod)
       : LiteralC(bod)
     {}
     //: Body constructor.

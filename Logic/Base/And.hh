@@ -117,7 +117,7 @@ namespace RavlLogicN {
     //: Load from binary stream.
     
   protected:
-    AndC(AndBodyC *bod)
+    AndC(const AndBodyC *bod)
       : ConditionC(bod)
     {}
     //: Body constructor.
@@ -137,13 +137,8 @@ namespace RavlLogicN {
     
   public:
     AndC(const LiteralC &term)
-      : ConditionC(term)
-    {
-      if(!IsValid())
-	return ;
-      if(dynamic_cast<const AndBodyC *>(&LiteralC::Body()) == 0)
-	Invalidate();
-    }
+      : ConditionC(dynamic_cast<const AndBodyC *>(BodyPtr(term)))
+    {}
     //: Construct from base class.
     
     SArray1dC<LiteralC> &Terms()

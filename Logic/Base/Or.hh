@@ -126,7 +126,7 @@ namespace RavlLogicN {
     {}
     //: Body constructor.
     
-    OrC(OrBodyC *bod)
+    OrC(const OrBodyC *bod)
       : ConditionC(bod)
     {}
     //: Body constructor.
@@ -141,15 +141,10 @@ namespace RavlLogicN {
     
   public:
     OrC(const LiteralC &term)
-      : ConditionC(term)
-    {
-      if(!IsValid())
-	return ;
-      if(dynamic_cast<const OrBodyC *>(&LiteralC::Body()) == 0)
-	Invalidate();
-    }
+      : ConditionC(dynamic_cast<const OrBodyC *>(BodyPtr(term)))
+    {}
     //: Construct from base class.
-
+    
     OrC(bool add,const LiteralC &term)
       : ConditionC(*new OrBodyC(term))
     {}

@@ -143,7 +143,7 @@ namespace RavlLogicN {
     {}
     //: Body constructor.
 
-    LiteralC(LiteralBodyC *bod)
+    LiteralC(const LiteralBodyC *bod)
       : RCHandleVC<LiteralBodyC>(bod)
     {}
     //: Body constructor.

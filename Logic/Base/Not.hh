@@ -130,13 +130,8 @@ namespace RavlLogicN {
     
   public:
     NotC(const LiteralC &term)
-      : ConditionC(term)
-    {
-      if(!IsValid())
-	return ;
-      if(dynamic_cast<const NotBodyC *>(&LiteralC::Body()) == 0)
-	Invalidate();
-    }
+      : ConditionC(dynamic_cast<const NotBodyC *>(BodyPtr(term)))
+    {}
     //: Constructor from a single term.
     
     LiteralC &Term()

@@ -65,11 +65,8 @@ namespace RavlLogicN {
     // Creates an invalid handle.    
 
     ValueBaseC(const LiteralC &base)
-      : LiteralC(base)
-    {
-      if(dynamic_cast<ValueBaseBodyC *>(&LiteralC::Body()) == 0)
-	Invalidate();
-    }
+      : LiteralC(dynamic_cast<const ValueBaseBodyC *>(BodyPtr(base)))
+    {}
     //: Constructor.
     // Will create an invalid handle if types don't match.
     
@@ -85,7 +82,7 @@ namespace RavlLogicN {
     {}
     //: Body constructor.
 
-    inline ValueBaseC(ValueBaseBodyC *bod)
+    inline ValueBaseC(const ValueBaseBodyC *bod)
       : LiteralC(bod)
     {}
     //: Body constructor.
@@ -186,11 +183,8 @@ namespace RavlLogicN {
     //: Constructor.
     
     ValueC(const LiteralC &base)
-      : ValueBaseC(base)
-    {
-      if(dynamic_cast<ValueBodyC<DataT> *>(&LiteralC::Body()) == 0)
-	Invalidate();
-    }
+      : ValueBaseC(dynamic_cast<const ValueBodyC<DataT> *>(BodyPtr(base)))
+    {}
     //: Constructor.
     // Will create an invalid handle if types don't match.
 
@@ -210,7 +204,7 @@ namespace RavlLogicN {
     {}
     //: Body constructor.
     
-    ValueC(ValueBodyC<DataT> *bod)
+    ValueC(const ValueBodyC<DataT> *bod)
       : ValueBaseC(bod)
     {}
     //: Body constructor.

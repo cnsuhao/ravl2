@@ -111,7 +111,7 @@ namespace RavlLogicN {
     {}
     //: Body constructor.
     
-    StateC(StateBodyC *bod)
+    StateC(const StateBodyC *bod)
       : RCHandleC<StateBodyC>(bod)
     {}
     //: Body constructor.
