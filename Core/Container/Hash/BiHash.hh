@@ -107,7 +107,12 @@ namespace RavlN {
     UIntT Size() const
     { return hmap1.Size(); }
     //: Get number of mappings.
-    
+
+    void Empty() {
+      hmap1.Empty();
+      hmap2.Empty();
+    }
+    //: Clear table of all contents.
   protected:
     HashC<D1T,D2T> hmap1;
     HashC<D2T,D1T> hmap2;
