@@ -86,7 +86,7 @@ namespace RavlN {
     // Object modification
     // -------------------      
     
-    inline void MeanNdC::SetZero() 
+    inline void SetZero() 
       { VectorC::Fill(0); number = 0; }
     //: Reset all the counters to zero.
     

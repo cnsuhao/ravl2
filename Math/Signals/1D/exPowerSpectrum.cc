@@ -10,19 +10,19 @@
 
 #include "Ravl/PowerSpectrum1d.hh"
 #include "Ravl/Random.hh"
-#include "Ravl/SArr1Iter.hh"
+#include "Ravl/Array1dIter.hh"
 
 using namespace RavlN;
 
 int main()
 {
   int size = 16;
-  SArray1dC<RealT> data(size);
-  for(SArray1dIterC<RealT> it(data);it;it++)
+  Array1dC<RealT> data(size);
+  for(Array1dIterC<RealT> it(data);it;it++)
     it.Data() = Random1();
   cerr << "Calculating power spectrum.:\n";
   PowerSpectrum1dC ps(size);
-  SArray1dC<RealT> res = ps.Apply(data);
+  Array1dC<RealT> res = ps.Apply(data);
   cerr << "Result:";
   cerr << res << "\n";
 }

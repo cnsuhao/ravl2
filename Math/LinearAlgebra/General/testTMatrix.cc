@@ -133,3 +133,5 @@ int ValidateNS()
 #endif
   return 0;
 }
+
+template class TMatrixC<RealT>;

@@ -26,5 +26,14 @@ namespace RavlN {
 	return false;
     return true;
   }
+  
+#ifdef __sgi__
+  // Help the compiler a bit...
+  template istream &operator>> (istream&,SizeBufferAccess2dC<double>&);
+  template ostream &operator<< (ostream&,const SizeBufferAccess2dC<double>&);
+
+  template ostream &operator<<(ostream&,const SArray2dC<double>&);
+  template istream &operator>>(istream&,SArray2dC<double>&);
+#endif
 
 }

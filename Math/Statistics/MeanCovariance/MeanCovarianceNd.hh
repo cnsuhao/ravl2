@@ -30,7 +30,7 @@ namespace RavlN {
   
   class MeanCovarianceNdC {
   public:
-    MeanCovarianceNdC::MeanCovarianceNdC(const MeanCovarianceNdC & meanCov)
+    MeanCovarianceNdC(const MeanCovarianceNdC & meanCov)
       : m(meanCov.m), 
       cov(meanCov.cov)
       {}

@@ -228,7 +228,7 @@ namespace RavlN {
     }
     DataT min = *it;
     for(;it;it++) 
-      if(*it < max)
+      if(*it < min)
 	min = *it;
     return min;
   }

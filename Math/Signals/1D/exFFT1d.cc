@@ -9,7 +9,7 @@
 
 #include "Ravl/FFT1d.hh"
 #include "Ravl/Random.hh"
-#include "Ravl/SArr1Iter.hh"
+#include "Ravl/Array1dIter.hh"
 
 using namespace RavlN;
 
@@ -17,11 +17,11 @@ int main()
 {
   int size = 16;
   FFT1dC fft(size);
-  SArray1dC<RealT> data(size);
-  for(SArray1dIterC<RealT> it(data);it;it++)
+  Array1dC<RealT> data(size);
+  for(Array1dIterC<RealT> it(data);it;it++)
     it.Data() = Random1();
   cerr << "Doing FFT:\n";
-  SArray1dC<ComplexC> res = fft.Apply(data);
+  Array1dC<ComplexC> res = fft.Apply(data);
   cerr << "Result:";
   cerr << res << "\n";
 }

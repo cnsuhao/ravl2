@@ -26,5 +26,11 @@ namespace RavlN {
 	return false;
     return true;
   }
-
+  
+#ifdef __sgi__
+  // Help the compiler a bit...
+  template ostream &operator<<(ostream&,const TVectorC<double>&);
+  template istream &operator>>(istream&,SArray1dC<double>&);
+#endif
+  
 }

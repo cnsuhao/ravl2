@@ -10,7 +10,9 @@
 
 #include "Ravl/MeanNd.hh"
 #include "Ravl/Matrix.hh"
+#include "Ravl/Vector.hh"
 #include "Ravl/MeanCovarianceNd.hh"
+#include "Ravl/SArray1d.hh"
 #include <iostream.h>
 
 namespace RavlN {
@@ -205,8 +207,8 @@ namespace RavlN {
   
   ostream & 
   operator<<(ostream & outS, const MeanCovarianceNdC & meanCov) {
-    outS << meanCov.Mean()        << '\n' 
-	 << meanCov.Covariance()    << '\n';
+    outS << meanCov.Mean() << '\n' 
+	 << meanCov.Covariance() << '\n';
     return outS;
   }
   
@@ -215,6 +217,7 @@ namespace RavlN {
     inS >> meanCov.m >> meanCov.cov;
     return inS;
   }
+
   
 }
 

@@ -8,6 +8,7 @@
 //! lib=RavlMath
 
 #include "Ravl/MeanNd.hh"
+#include "Ravl/SArr1Iter.hh"
 
 namespace RavlN {
   
@@ -35,5 +36,5 @@ namespace RavlN {
     s >>  mean.number >>  mean.Mean();
     return s;
   }
-  
+
 }
