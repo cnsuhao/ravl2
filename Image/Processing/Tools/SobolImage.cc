@@ -8,18 +8,18 @@
 //! rcsid="$Id$"
 //! lib=RavlImage
 
-#include "Ravl/Image/SobelImage.hh"
-#include "Ravl/SobelSequence.hh"
+#include "Ravl/Image/SobolImage.hh"
+#include "Ravl/SobolSequence.hh"
 #include "Ravl/SquareIter.hh"
 
 namespace RavlImageN {
   
-  ImageC<UIntT> IPSobelImg(const ImageRectangleC &irect) {
+  ImageC<UIntT> IPSobolImg(const ImageRectangleC &irect) {
     ImageC<UIntT> ret(irect);
     ret.Fill(0);
     int seqn = 1,togo = irect.Area();
     int maxSize = Max(irect.Cols(),irect.Rows());
-    for(SobelSequenceC seq(2);seq.IsElm() && seqn < togo;seq.Next(),seqn++) {
+    for(SobolSequenceC seq(2);seq.IsElm() && seqn < togo;seq.Next(),seqn++) {
       SArray1dC<RealT> s = seq.Data();
       Index2dC at((IndexC) ((RealT) s[0] * irect.Rows()) + irect.Origin().Row(),(IndexC) ((RealT)s[1] * irect.Cols())+ irect.Origin().Col());
       if(ret[at] == 0) { // Has pixel been set ?
@@ -38,7 +38,7 @@ namespace RavlImageN {
 	}
       }
       if(!done) 
-	cerr << "ERROR: Sobel fill missed pixel! \n";
+	cerr << "ERROR: Sobol fill missed pixel! \n";
     }
     return ret;
   }

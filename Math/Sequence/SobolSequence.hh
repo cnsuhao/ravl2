@@ -7,7 +7,7 @@
 #ifndef RAVLSOBELSEQUENCE_HEADER
 #define RAVLSOBELSEQUENCE_HEADER 1
 ////////////////////////////////////////////////////
-//! file="Ravl/Tools/Misc/SobelSeq.hh"
+//! file="Ravl/Tools/Misc/SobolSeq.hh"
 //! lib=RavlMath
 //! author="Charles Galambos"
 //! rcsid="$Id$"
@@ -22,9 +22,9 @@ namespace RavlN {
   //: Generate a sobel sequence.
   // Re-implementation from numerical recipies 2nd edition. pg 312
   
-  class SobelSequenceC {
+  class SobolSequenceC {
   public:
-    inline SobelSequenceC(int n = 0,int bits = 30);
+    inline SobolSequenceC(int n = 0,int bits = 30);
     //: Genererate a sequence with n dimentions.
     
     IntT N() const 
@@ -72,7 +72,7 @@ namespace RavlN {
   ////////////////////////////////////////
   
   inline 
-  SobelSequenceC::SobelSequenceC(int nn,int nbits)
+  SobolSequenceC::SobolSequenceC(int nn,int nbits)
     : n(nn),
       s(0),
       bits(nbits)

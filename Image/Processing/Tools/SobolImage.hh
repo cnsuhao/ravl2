@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_SOBELIMAGE_HEADER
-#define RAVL_SOBELIMAGE_HEADER 1
+#ifndef RAVL_SOBOLIMAGE_HEADER
+#define RAVL_SOBOLIMAGE_HEADER 1
 //////////////////////////////////////////////////////////
 //! docentry="Ravl.Images.Misc"
 //! file="Ravl/Image/IPStream/Lines/SobelImg.hh"
@@ -18,7 +18,7 @@
 
 namespace RavlImageN {
   
-  ImageC<UIntT> SobelImage(const ImageRectangleC &rect);
+  ImageC<UIntT> SobolImage(const ImageRectangleC &rect);
   //! userlevel=Normal
   //: Generate a sobel image of a given size.
   

@@ -8,11 +8,11 @@
 
 PACKAGE=Ravl
 
-HEADERS = PrimitiveBinaryPolynomial.hh SobelSequence.hh \
+HEADERS = PrimitiveBinaryPolynomial.hh SobolSequence.hh \
  CircleIter.hh PermutationIter.hh CombinationIter.hh \
  SquareIter.hh
 
-SOURCES= PrimitiveBinaryPolynomial.cc SobelSequence.cc \
+SOURCES= PrimitiveBinaryPolynomial.cc SobolSequence.cc \
   CircleIter.cc SquareIter.cc
 
 TESTEXES = testCircleIter.cc testCombinationIter.cc  

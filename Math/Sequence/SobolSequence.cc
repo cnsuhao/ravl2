@@ -5,13 +5,13 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////////
-// SobelSeq.cc
+// SobolSeq.cc
 // $Id$
 //! rcsid="$Id$"
 //! lib=RavlMath
 
 #include "Ravl/StdMath.hh"
-#include "Ravl/SobelSequence.hh"
+#include "Ravl/SobolSequence.hh"
 #include "Ravl/SArr1Iter.hh"
 #include "Ravl/PrimitiveBinaryPolynomial.hh"
 #include "Ravl/BfAccIter3.hh"
@@ -29,7 +29,7 @@ namespace RavlN {
   static int initdeg [6]  = { 1, 2, 3, 3, 4, 4 };
   static int initpoly [6] = { 0, 1, 1, 2, 1, 4 };
   
-  void SobelSequenceC::Init()  {
+  void SobolSequenceC::Init()  {
     s = 0;
     work = SArray1dC<UIntT>(n);
     work.Fill(0);
@@ -52,7 +52,7 @@ namespace RavlN {
   
   // Goto first in sequence.
   
-  bool SobelSequenceC::First()  {
+  bool SobolSequenceC::First()  {
     work.Fill(0);
     s = 0;
     Next();
@@ -61,7 +61,7 @@ namespace RavlN {
   
   // Goto next point in sequence.
   
-  bool SobelSequenceC::Next()  {
+  bool SobolSequenceC::Next()  {
     if(done)
       return false;
     int b;
