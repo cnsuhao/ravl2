@@ -16,7 +16,7 @@ HEADERS = ImgIOCif.hh CifFormat.hh \
           ImgIOrgb.hh rgbFormat.hh rawFormat.hh \
 	  ImgIOjs.hh jsFormat.hh \
 	  VidIO.hh \
-	  MultiVidIO.hh
+	  MultiVidIO.hh DVFrame.hh AviStream.hh RGBFrmIOAvi.hh DVFrmIOAvi.hh AviFormat.hh
 
 #          VidIO.hh SubSamp2Intl.hh SubSample.hh 
 
@@ -24,7 +24,7 @@ SOURCES = ImgIOCif.cc CifFormat.cc \
           ImgIOyuv.cc yuvFormat.cc syuvFormat.cc \
           ImgIOrgb.cc rgbFormat.cc rawFormat.cc \
 	  ImgIOjs.cc jsFormat.cc \
-	  MultiVidIO.cc
+	  MultiVidIO.cc DVFrame.cc AviIStream.cc AviOStream.cc RGBFrmIOAvi.cc DVFrmIOAvi.cc AviFormat.cc
 
 #              SubSamp2Intl.cc  ImgComposites.cc
 
