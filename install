@@ -18,7 +18,7 @@ case ${INSTMODE} in
 esac
 
 if [ -z "$1" -o -z "${INSTMODE}" ]  ; then
-  echo "Usage: install (target directory)"
+  echo "Usage: install <target directory>"
   exit
 fi
 
