@@ -47,12 +47,14 @@ namespace RavlN {
     bool SaveAs(const StringC &Filename);
     //: Try and save this file as another name.
     
-    UIntT AppendLine(const StringC &text,bool noFinalRet = false); 
+    UIntT AppendLine(const StringC &text,bool noFinalReturn = false); 
     //: Append a line of text to file.
+    // If 'noFinalReturn' is false, check each line ends with '\n', otherwise leave it alone. <p>
     // returns LineNo or -1 if failed.  
 
-    UIntT Append(const StringC &text,bool noFinalRet = false); 
+    UIntT Append(const StringC &text,bool noFinalReturn = false); 
     //: Append a line of text to file.
+    // If 'noFinalReturn' is false, check each line ends with '\n', otherwise leave it alone. <p>
     // returns LineNo or -1 if failed.  
     
     IntT GlobalSubst(const StringC &org,const StringC &nv);
@@ -171,12 +173,14 @@ namespace RavlN {
     UIntT AppendLine(const StringC &text,bool noFinalRet = false)
       { return Body().AppendLine(text,noFinalRet); }
     //: Append a line of text to file.
-    // returns LineNo or -1 if failed.  
+    // If 'noFinalReturn' is false, ensure each line ends with '\n', otherwise leave it alone. <p>
+    // returns LineNo or -1 if failed. <p>
       
     UIntT Append(const StringC &text,bool noFinalRet = false)
       { return Body().Append(text,noFinalRet); }
     //: Append a line of text to file.
-    // returns LineNo or -1 if failed.  
+    // If 'noFinalReturn' is false, ensure each line ends with '\n', otherwise leave it alone. <p>
+    // returns LineNo or -1 if failed. <p>
     
     IntT GlobalSubst(const StringC &org,const StringC &nv)
       { return Body().GlobalSubst(org,nv); }

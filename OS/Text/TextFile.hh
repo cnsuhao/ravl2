@@ -13,7 +13,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.OS.Text Processing"
 //! rcsid="$Id$"
-//! date="05/12/97"
+//! date="05/12/1997"
 
 #include "Ravl/Text/TextBuffer.hh"
 
@@ -40,8 +40,8 @@ namespace RavlN {
     
     TextFileBodyC(const StringC &text,bool noFinalRet,bool concat = false);
     //: Construct from a string. 
-    // concat, if true don't split lines, 
-    // otherwise do.
+    // If 'noFinalReturn' is false, ensure each line ends with '\n', otherwise leave it alone. <p>
+    // concat, if true don't split lines, otherwise do.
     
     TextFileBodyC(istream &fin);
     //: Constructor from a stream.
@@ -125,12 +125,12 @@ namespace RavlN {
       {}
     //: Constructor from a file.
     
-    TextFileC(const StringC &text,bool noFinalRet,bool concat = false)
-      : TextBufferC(*new TextFileBodyC(text,noFinalRet,concat))
+    TextFileC(const StringC &text,bool noFinalReturn,bool concat = false)
+      : TextBufferC(*new TextFileBodyC(text,noFinalReturn,concat))
       {}
     //: Construct from a string. 
-    // concat, if true don't split lines, 
-    // otherwise do.
+    // If 'noFinalReturn' is false, ensure each line ends with '\n', otherwise leave it alone. <p>
+    // concat, if true don't split lines,  otherwise do.
     
     TextFileC(istream &fin)
       : TextBufferC(*new TextFileBodyC(fin))
