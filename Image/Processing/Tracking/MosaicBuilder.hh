@@ -256,7 +256,7 @@ namespace RavlImageN {
     //!param: resize - Determines how the mosaic expands; can take values:
     //!param:  "none" - mosaic does not expand beyond initial setting
     //!param:  "onepass" - mosaic size expands as necessary, as a single-pass operation
-    //!param:  "twepass" - mosaic size expands as necessary, in two iterations
+    //!param:  "twopass" - mosaic size expands as necessary, in two iterations
     
     MosaicBuilderC(
 	IntT cthreshold, IntT cwidth, IntT mthreshold, IntT mwidth,
