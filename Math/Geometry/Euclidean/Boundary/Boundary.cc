@@ -13,7 +13,6 @@
 #include "Ravl/StdMath.hh" //::Abs()
 #include "Ravl/Types.hh"
 #include "Ravl/CrackCode.hh"
-#include "Ravl/Edge.hh"
 #include "Ravl/Boundary.hh"
 #include "Ravl/Hash.hh"
 #include "Ravl/RCHash.hh"
@@ -41,13 +40,13 @@ namespace RavlN {
       if(it.DataMM() != inLabel)
 	continue;
       if(it.DataMR() != inLabel)
-	InsLast(EdgeC(it.Index(),CR_UP));
+	InsLast(CrackC(it.Index(),CR_UP));
       if(it.DataML() != inLabel)
-	InsLast(EdgeC(it.Index(),CR_DOWN));
+	InsLast(CrackC(it.Index(),CR_DOWN));
       if(it.DataTM() != inLabel)
-	InsLast(EdgeC(it.Index(),CR_LEFT));
+	InsLast(CrackC(it.Index(),CR_LEFT));
       if(it.DataBM() != inLabel)
-	InsLast(EdgeC(it.Index(),CR_RIGHT));
+	InsLast(CrackC(it.Index(),CR_RIGHT));
     }
   }
 
@@ -62,21 +61,21 @@ namespace RavlN {
       if(it.DataMM() != inLabel)
 	continue;
       if(it.DataMR() != inLabel)
-	InsLast(EdgeC(it.Index(),CR_UP));
+	InsLast(CrackC(it.Index(),CR_UP));
       if(it.DataML() != inLabel)
-	InsLast(EdgeC(it.Index(),CR_DOWN));
+	InsLast(CrackC(it.Index(),CR_DOWN));
       if(it.DataTM() != inLabel)
-	InsLast(EdgeC(it.Index(),CR_LEFT));
+	InsLast(CrackC(it.Index(),CR_LEFT));
       if(it.DataBM() != inLabel)
-	InsLast(EdgeC(it.Index(),CR_RIGHT));
+	InsLast(CrackC(it.Index(),CR_RIGHT));
     }
   }
 
-  BoundaryC::BoundaryC(const DListC<EdgeC> & edgeList, bool orient)
-    : DListC<EdgeC>(edgeList), 
+  BoundaryC::BoundaryC(const DListC<CrackC> & edgeList, bool orient)
+    : DListC<CrackC>(edgeList), 
       orientation(orient)
   {
-    ONDEBUG(cerr << "BoundaryC(ListC<EdgeC> & edgeList, bool orient)\n");
+    ONDEBUG(cerr << "BoundaryC(ListC<CrackC> & edgeList, bool orient)\n");
   }
   
   BoundaryC::BoundaryC(bool orient)
@@ -92,7 +91,7 @@ namespace RavlN {
     Index2dC   endP(rect.End());
     BVertexC   oVertex(origin);      // to help to GNU C++ 2.6.0
     CrackCodeC cr(CR_RIGHT);
-    EdgeC      edge(oVertex, cr);
+    CrackC      edge(oVertex, cr);
     
     for(IndexC cUp=origin.Col(); cUp <= endP.Col(); cUp++) {
       InsLast(edge);
@@ -119,7 +118,7 @@ namespace RavlN {
     int   col  = 0; // relative column of the boundary pixel 
     IntT area = 0; // region area 
     
-    for(DLIterC<EdgeC> edge(*this);edge;edge++) {
+    for(DLIterC<CrackC> edge(*this);edge;edge++) {
       switch (edge.Data().Code())  {
       case CR_DOWN  : area -= col;  break;
       case CR_RIGHT : col++;        break;
@@ -148,7 +147,7 @@ namespace RavlN {
     // True=Left.
     if(!orientation) { 
       ONDEBUG(cerr << "BoundaryC::BoundingBox(), Object is on left. \n");
-      for(DLIterC<EdgeC> edge(*this);edge;edge++) {
+      for(DLIterC<CrackC> edge(*this);edge;edge++) {
 	Index2dC vx = edge->LPixel();
 	if (minR > vx.Row()) minR = vx.Row();
 	if (maxR < vx.Row()) maxR = vx.Row();
@@ -157,7 +156,7 @@ namespace RavlN {
       }
     } else {
       ONDEBUG(cerr << "BoundaryC::BoundingBox(), Object is on right. \n");
-      for(DLIterC<EdgeC> edge(*this);edge;edge++) {
+      for(DLIterC<CrackC> edge(*this);edge;edge++) {
 	Index2dC vx = edge->RPixel();
 	if (minR > vx.Row()) minR = vx.Row();
 	if (maxR < vx.Row()) maxR = vx.Row();
@@ -170,7 +169,7 @@ namespace RavlN {
 
   
   
-  DListC<BoundaryC> BoundaryC::Order(const EdgeC & firstEdge, bool orient) {
+  DListC<BoundaryC> BoundaryC::Order(const CrackC & firstEdge, bool orient) {
     DListC<BoundaryC> bnds;
 
     RCHashC<BVertexC, PairC<BVertexC> > hashtable = CreateHashtable();
@@ -183,7 +182,7 @@ namespace RavlN {
     else {
       DLIterC<BVertexC> ep_it(endpoints);
       for (ep_it.First(); ep_it.IsElm(); ep_it.Next()){
-	BoundaryC bnd = OrderContinuous(hashtable, EdgeC(ep_it.Data(), CrackCodeC(CR_NODIR)) , orient);
+	BoundaryC bnd = OrderContinuous(hashtable, CrackC(ep_it.Data(), CrackCodeC(CR_NODIR)) , orient);
 	DLIterC<BVertexC> ep2_it(endpoints);
 	for (ep2_it.First(); ep2_it.IsElm(); ep2_it.Next()){
 	  if (ep2_it.Data()==bnd.Last().End()) ep2_it.Del();
@@ -199,7 +198,7 @@ namespace RavlN {
 
   BoundaryC BoundaryC::Copy() const {
     //  cout << "BoundaryC::Copy()\n";
-    return BoundaryC(DListC<EdgeC>::Copy(),orientation);
+    return BoundaryC(DListC<CrackC>::Copy(),orientation);
   }
   
   //: Generate a set of ordered boundries.
@@ -208,12 +207,12 @@ namespace RavlN {
     ONDEBUG(cerr << "DListC<BoundaryC> BoundaryC::OrderEdges() const \n");
     DListC<BoundaryC> ret;
     
-    HashC<EdgeC,EdgeC> edges;
-    HashC<BVertexC,DListC<EdgeC> > leavers;
+    HashC<CrackC,CrackC> edges;
+    HashC<BVertexC,DListC<CrackC> > leavers;
     
     // Make table of all possible paths.
     
-    for(DLIterC<EdgeC> it(*this);it;it++) {
+    for(DLIterC<CrackC> it(*this);it;it++) {
       ONDEBUG(cerr << "Begin=" << it->Begin() << "\n");
       leavers[it->Begin()].InsLast(*it);
     }
@@ -221,10 +220,10 @@ namespace RavlN {
     ONDEBUG(cerr << "leavers.Size()=" << leavers.Size() << ". \n");
     
     // Make table of prefered paths.
-    EdgeC invalid(BVertexC(0,0),CR_NODIR);    
-    for(DLIterC<EdgeC> it(*this);it;it++) {
+    CrackC invalid(BVertexC(0,0),CR_NODIR);    
+    for(DLIterC<CrackC> it(*this);it;it++) {
       ONDEBUG(cerr << "End=" << it->End() << "\n");
-      DListC<EdgeC> &lst = leavers[it->End()];
+      DListC<CrackC> &lst = leavers[it->End()];
       UIntT size = lst.Size();
       switch(size) {
       case 0: // Nothing leaving...
@@ -252,13 +251,13 @@ namespace RavlN {
     // Seperate boundries or boundry segements.
     ONDEBUG(cerr << "edges.Size()=" << edges.Size() << ". \n");
     
-    EdgeC at,nxt;
-    HashC<EdgeC,BoundaryC> startMap;
+    CrackC at,nxt;
+    HashC<CrackC,BoundaryC> startMap;
     while(!edges.IsEmpty()) {
-      HashIterC<EdgeC,EdgeC> it(edges); // Use iterator to pick an edge.
+      HashIterC<CrackC,CrackC> it(edges); // Use iterator to pick an edge.
       BoundaryC bnds;
       at=it.Key();
-      EdgeC first = at;
+      CrackC first = at;
       for(;;) {
 	if(!edges.Lookup(at,nxt))
 	  break;
@@ -288,7 +287,7 @@ namespace RavlN {
     
     // Clean up any remaining boundry segments.
     ONDEBUG(cerr << "StartMap.Size()=" << startMap.Size() << "\n");
-    for(HashIterC<EdgeC,BoundaryC> smit(startMap);smit;smit++)
+    for(HashIterC<CrackC,BoundaryC> smit(startMap);smit;smit++)
       ret.InsLast(smit.Data());
     return ret;
   }
@@ -297,7 +296,7 @@ namespace RavlN {
   BoundaryC &BoundaryC::BReverse() {
     //  cout << "BoundaryC::BReverse()\n";
     Reverse();
-    for(DLIterC<EdgeC> it(*this);it;it++)
+    for(DLIterC<CrackC> it(*this);it;it++)
       it.Data().Reverse();
     orientation = !orientation;
     return *this;
@@ -305,7 +304,7 @@ namespace RavlN {
   
   RCHashC<BVertexC, PairC<BVertexC> > BoundaryC::CreateHashtable() const {
     RCHashC<BVertexC, PairC<BVertexC> > hashtable;
-    for(DLIterC<EdgeC> edge(*this);edge;edge++) {
+    for(DLIterC<CrackC> edge(*this);edge;edge++) {
       BVertexC bvertex1(edge->Begin());
       BVertexC bvertex2(edge->End());
       BVertexC invalid_vertex(-1, -1);
@@ -332,7 +331,7 @@ namespace RavlN {
 
   BoundaryC BoundaryC::OrderContinuous(const RCHashC<BVertexC, 
 				       PairC<BVertexC> > & hashtable, 
-				       const EdgeC & firstEdge, 
+				       const CrackC & firstEdge, 
 				       bool orient
 				       ) const
   {
@@ -348,7 +347,7 @@ namespace RavlN {
     else if (firstEdge.End()==neighbour2) next_vertex = neighbour2;
     else if (neighbour1==invalid_vertex) next_vertex = neighbour2;
     else if (neighbour2==invalid_vertex) next_vertex = neighbour1;
-    bnd.InsLast(EdgeC(present_vertex, next_vertex));
+    bnd.InsLast(CrackC(present_vertex, next_vertex));
   
     for(;;){
       present_vertex = bnd.Last().End();
@@ -361,7 +360,7 @@ namespace RavlN {
       else next_vertex = neighbour1;
     
       if (next_vertex!=invalid_vertex) 
-	bnd.InsLast(EdgeC(present_vertex, next_vertex));
+	bnd.InsLast(CrackC(present_vertex, next_vertex));
 
       if (next_vertex==bnd.First().Begin() || next_vertex==invalid_vertex) break;
       // boundary has been traced
@@ -405,20 +404,20 @@ namespace RavlN {
 	  // 1. octant
 	  //        cout << "1. octant: " << k << '\n';
 	  while (vertex.Col() < endVertex.Col()) {
-	    boundary.InsLast(EdgeC(vertex,CR_RIGHT));
+	    boundary.InsLast(CrackC(vertex,CR_RIGHT));
 	    vertex.Step(NEIGH_RIGHT);
 	    if ( Abs(startRow + k *(vertex.Col() - startCol) - vertex.Row()) > 0.5) {
-	      boundary.InsLast(EdgeC(vertex,CR_UP));
+	      boundary.InsLast(CrackC(vertex,CR_UP));
 	      vertex.Step(NEIGH_UP);
 	    }
 	  }
 	} else { // 2. octant
 	  //        cout << "2. octant: " << kk << '\n';
 	  while (vertex.Row() > endVertex.Row()) {
-	    boundary.InsLast(EdgeC(vertex,CR_UP));
+	    boundary.InsLast(CrackC(vertex,CR_UP));
 	    vertex.Step(NEIGH_UP);
 	    if ( Abs(startCol + kk *(vertex.Row() - startRow) - vertex.Col()) > 0.5 ) {
-	      boundary.InsLast(EdgeC(vertex,CR_RIGHT));
+	      boundary.InsLast(CrackC(vertex,CR_RIGHT));
 	      vertex.Step(NEIGH_RIGHT);
 	    }
 	  }
@@ -428,20 +427,20 @@ namespace RavlN {
 	  // 8. octant
 	  //        cout << "8. octant: " << k << '\n';
 	  while (vertex.Col() < endVertex.Col()) {
-	    boundary.InsLast(EdgeC(vertex,CR_RIGHT));
+	    boundary.InsLast(CrackC(vertex,CR_RIGHT));
 	    vertex.Step(NEIGH_RIGHT);
 	    if (Abs(startRow + k *(vertex.Col() - startCol) - vertex.Row()) > 0.5) {
-	      boundary.InsLast(EdgeC(vertex,CR_DOWN));
+	      boundary.InsLast(CrackC(vertex,CR_DOWN));
 	      vertex.Step(NEIGH_DOWN);
 	    }
 	  }
 	} else { // 7. octant
 	  //        cout << "7. octant: " << kk << '\n';
 	  while (vertex.Row() < endVertex.Row()) {
-	    boundary.InsLast(EdgeC(vertex,CR_DOWN));
+	    boundary.InsLast(CrackC(vertex,CR_DOWN));
 	    vertex.Step(NEIGH_DOWN);
 	    if ( Abs(startCol + kk *(vertex.Row() - startRow) - vertex.Col()) > 0.5) {
-	      boundary.InsLast(EdgeC(vertex,CR_RIGHT));
+	      boundary.InsLast(CrackC(vertex,CR_RIGHT));
 	      vertex.Step(NEIGH_RIGHT);
 	    }
 	  }
@@ -453,20 +452,20 @@ namespace RavlN {
 	  // 4. octant
 	  //        cout << "4. octant: " << k << '\n';
 	  while (vertex.Col() > endVertex.Col()) {
-	    boundary.InsLast(EdgeC(vertex,CR_LEFT));
+	    boundary.InsLast(CrackC(vertex,CR_LEFT));
 	    vertex.Step(NEIGH_LEFT);
 	    if (Abs(startRow + k *(vertex.Col() - startCol) - vertex.Row()) > 0.5) {
-	      boundary.InsLast(EdgeC(vertex,CR_UP));
+	      boundary.InsLast(CrackC(vertex,CR_UP));
 	      vertex.Step(NEIGH_UP);
 	    }
 	  }
 	} else { // 3. octant
 	  //        cout << "3. octant: " << kk << '\n';
 	  while (vertex.Row() > endVertex.Row()) {
-	    boundary.InsLast(EdgeC(vertex,CR_UP));
+	    boundary.InsLast(CrackC(vertex,CR_UP));
 	    vertex.Step(NEIGH_UP);
 	    if ( Abs(startCol + kk *(vertex.Row() - startRow) - vertex.Col()) > 0.5) {
-	      boundary.InsLast(EdgeC(vertex,CR_LEFT));
+	      boundary.InsLast(CrackC(vertex,CR_LEFT));
 	      vertex.Step(NEIGH_LEFT);
 	    }
 	  }
@@ -476,20 +475,20 @@ namespace RavlN {
 	  // 5. octant
 	  //        cout << "5. octant: " << k << '\n';
 	  while (vertex.Col() > endVertex.Col()) {
-	    boundary.InsLast(EdgeC(vertex,CR_LEFT));
+	    boundary.InsLast(CrackC(vertex,CR_LEFT));
 	    vertex.Step(NEIGH_LEFT);
 	    if ( Abs(startRow + k *(vertex.Col() - startCol) - vertex.Row()) > 0.5) {
-	      boundary.InsLast(EdgeC(vertex,CR_DOWN));
+	      boundary.InsLast(CrackC(vertex,CR_DOWN));
 	      vertex.Step(NEIGH_DOWN);
 	    }
 	  }
 	} else { // 6. octant
 	  //        cout << "6. octant: " << kk << '\n';
 	  while (vertex.Row() < endVertex.Row()) {
-	    boundary.InsLast(EdgeC(vertex,CR_DOWN));
+	    boundary.InsLast(CrackC(vertex,CR_DOWN));
 	    vertex.Step(NEIGH_DOWN);
 	    if (Abs(startCol + kk *(vertex.Row() - startRow) - vertex.Col()) > 0.5) {
-	      boundary.InsLast(EdgeC(vertex,CR_LEFT));
+	      boundary.InsLast(CrackC(vertex,CR_LEFT));
 	      vertex.Step(NEIGH_LEFT);
 	    }
 	  }

@@ -169,15 +169,15 @@ namespace RavlImageN {
     //: Add a pixel to a region if its inside it.
     
     inline 
-    void AddPixels(DListC<EdgeC> &boundary,Index2dC at) {
+    void AddPixels(DListC<CrackC> &boundary,Index2dC at) {
       if(AddIfInside(at + Index2dC(0,1)))
-	boundary.InsLast(EdgeC(at,CR_UP));
+	boundary.InsLast(CrackC(at,CR_UP));
       if(AddIfInside(at + Index2dC(0,-1)))
-	boundary.InsLast(EdgeC(at,CR_DOWN));
+	boundary.InsLast(CrackC(at,CR_DOWN));
       if(AddIfInside(at + Index2dC(1,0)))
-	boundary.InsLast(EdgeC(at,CR_RIGHT));
+	boundary.InsLast(CrackC(at,CR_RIGHT));
       if(AddIfInside(at + Index2dC(-1,0)))
-	boundary.InsLast(EdgeC(at,CR_LEFT));
+	boundary.InsLast(CrackC(at,CR_LEFT));
     }
     //: Add pixels with a boundry.
     

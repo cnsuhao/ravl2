@@ -20,10 +20,10 @@ namespace RavlN {
   //: Creates the boundary from the list of pointers to the elementary edges.
   // The orientation of the boundary is set according to 'orient'.
   
-  BoundaryC::BoundaryC(const DListC<DLIterC<EdgeC> > & edgeList, bool orient) 
+  BoundaryC::BoundaryC(const DListC<DLIterC<CrackC> > & edgeList, bool orient) 
     : orientation(orient)
   {
-    for (DLIterC<DLIterC<EdgeC> > p(edgeList); p; p++)
+    for (DLIterC<DLIterC<CrackC> > p(edgeList); p; p++)
       InsLast(p->Data());
   }
   
@@ -33,9 +33,9 @@ namespace RavlN {
   // <nextP, pxP, prevP> are vertexes in counterclockwise order. 
 
   static inline
-  bool ConvexVertex(const EdgeC & next, 
-		    const EdgeC & px, 
-		    const EdgeC & prev)
+  bool ConvexVertex(const CrackC & next, 
+		    const CrackC & px, 
+		    const CrackC & prev)
   {
     return ( ((prev.Row() - px.Row()) * (next.Col() - px.Col()))
 	     <((next.Row() - px.Row()) * (prev.Col() - px.Col()))
@@ -46,9 +46,9 @@ namespace RavlN {
   // <nextP, pxP, prevP> are vertexes in counterclockwise order. 
 
   static inline
-  bool ConcaveVertex(const EdgeC & next, 
-		     const EdgeC & px, 
-		     const EdgeC & prev)
+  bool ConcaveVertex(const CrackC & next, 
+		     const CrackC & px, 
+		     const CrackC & prev)
   {
     return ( ((prev.Row() - px.Row()) * (next.Col() - px.Col()))
 	     > ((next.Row() - px.Row()) * (prev.Col() - px.Col()))
@@ -56,16 +56,16 @@ namespace RavlN {
   }
 
 
-  DListC<DLIterC<EdgeC> >  BoundaryC::ConvexHull() const {
-    DListC<DLIterC<EdgeC> >   hull;
+  DListC<DLIterC<CrackC> >  BoundaryC::ConvexHull() const {
+    DListC<DLIterC<CrackC> >   hull;
     if (IsEmpty())
       return hull;
     
     // Find three vertexes which are not colinear.
-    DLIterC<EdgeC> v1(*this);
+    DLIterC<CrackC> v1(*this);
     for(; v1.IsElm(); v1.Next()) {
-      DLIterC<EdgeC> v2(v1);
-      DLIterC<EdgeC> v3(v2);
+      DLIterC<CrackC> v2(v1);
+      DLIterC<CrackC> v3(v2);
       v3.Next();
       v2.Next();
       if (!v3 || !v2)
@@ -77,11 +77,11 @@ namespace RavlN {
 
     // Put three non-colinear vertexes into the hull
     // to create a convex triangle. 
-    DLIterC<EdgeC> v(v1);
+    DLIterC<CrackC> v(v1);
     hull.InsFirst(v);
     v.Next();
-    DLIterC<EdgeC> vn(v); vn.Next();
-    DLIterC<EdgeC> vp(v); vp.Next();
+    DLIterC<CrackC> vn(v); vn.Next();
+    DLIterC<CrackC> vp(v); vp.Next();
     if (ConvexVertex(*vn, *v, *vp))
       hull.InsLast(v);
     else
@@ -91,12 +91,12 @@ namespace RavlN {
     hull.InsLast(v);
 
     // Create iterators at the top and bottom of the convex hull.
-    DLIterC<DLIterC<EdgeC> > vTop1(hull); 
-    DLIterC<DLIterC<EdgeC> > vTop2(vTop1);
+    DLIterC<DLIterC<CrackC> > vTop1(hull); 
+    DLIterC<DLIterC<CrackC> > vTop2(vTop1);
     vTop2.Next(); 
-    DLIterC<DLIterC<EdgeC> > vBot1(hull);
+    DLIterC<DLIterC<CrackC> > vBot1(hull);
     vBot1.PrevCrc(); 
-    DLIterC<DLIterC<EdgeC> > vBot2(vBot1);
+    DLIterC<DLIterC<CrackC> > vBot2(vBot1);
     vBot2.Prev(); 
     
     v.NextCrc();

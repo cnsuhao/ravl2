@@ -9,9 +9,9 @@
 
 PACKAGE=Ravl
 
-HEADERS=CrackCode.hh BVertex.hh Edge.hh Boundary.hh
+HEADERS=CrackCode.hh BVertex.hh Crack.hh Boundary.hh Edge.hh
 
-SOURCES=CrackCode.cc BVertex.cc Edge.cc Boundary.cc ConvexHull.cc
+SOURCES=CrackCode.cc BVertex.cc Crack.cc Boundary.cc ConvexHull.cc Edge.cc
 
 PLIB=RavlMath
 

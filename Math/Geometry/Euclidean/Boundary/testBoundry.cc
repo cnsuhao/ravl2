@@ -93,7 +93,7 @@ int testCrackCode() {
 
 int testEdge() {
   Index2dC start(5,6);
-  EdgeC edge(start,CR_DOWN);
+  CrackC edge(start,CR_DOWN);
   Index2dC at = edge.RPixel();
   ONDEBUG(cerr << "iAt=" << at << " Start=" << start << "\n");
   if(at != (start + Index2dC(0,-1))) return __LINE__;
@@ -106,7 +106,7 @@ int testEdge() {
     if(at == edge.LPixel()) return __LINE__;
   }
   // Go around a pixel counter clockwise.
-  edge = EdgeC(start,CR_DOWN);
+  edge = CrackC(start,CR_DOWN);
   at = edge.LPixel();
   if(at != start) return __LINE__;
   ONDEBUG(cerr << "iAt=" << at << "\n");
@@ -119,7 +119,7 @@ int testEdge() {
   //                       DOWN          RIGHT         UP            LEFT           None
   Index2dC offsets[5] = { Index2dC(0,-1),Index2dC(1,0),Index2dC(0,1),Index2dC(-1,0),Index2dC(0,0) };
   for(int i = 0;i < 5;i++) {
-    edge = EdgeC(start,i);
+    edge = CrackC(start,i);
     cerr << " " << i << " RPixel=" << edge.RPixel() << "\n";
     if(edge.LPixel() != start) return __LINE__;
     if(edge.RPixel() != (start + offsets[i])) return __LINE__; 
@@ -153,7 +153,7 @@ int testBoundry() {
 int testMidPoint() {
   for(int i =0;i < 5;i++) {
     BVertexC start(5,5);
-    EdgeC edge(start,(CrackCodeC) i);
+    CrackC edge(start,(CrackCodeC) i);
     //ONDEBUG(cerr << " Left=" << edge.LPixel() << " Right=" << edge.RPixel() << "\n");
     Point2dC m1 = ((Point2dC(edge.RPixel()) + Point2dC(edge.LPixel())) / 2) + Point2dC(0.5,0.5);
     //ONDEBUG(cerr << " Mid=" << edge.MidPoint() << " m1=" << m1 << " diff=" << (m1 - edge.MidPoint()) << "\n");
@@ -204,9 +204,9 @@ int testOrderEdges() {
   if((lst.First().Size() + lst.Last().Size()) != 16) return __LINE__;
   
   BoundaryC bnds3;
-  bnds3.InsLast(EdgeC(BVertexC(2,2),1));
-  bnds3.InsLast(EdgeC(BVertexC(2,3),0));
-  bnds3.InsLast(EdgeC(BVertexC(3,3),3));
+  bnds3.InsLast(CrackC(BVertexC(2,2),1));
+  bnds3.InsLast(CrackC(BVertexC(2,3),0));
+  bnds3.InsLast(CrackC(BVertexC(3,3),3));
   lst = bnds3.OrderEdges();
   if(lst.Size() != 1) return __LINE__;
   if(lst.First().Size() != 3) return __LINE__;
@@ -214,10 +214,10 @@ int testOrderEdges() {
   // cerr << "Lst.First().Size()=" << lst.First() << "\n";
 
   BoundaryC bnds4;
-  bnds4.InsLast(EdgeC(BVertexC(2,2),1));
-  //bnds4.InsLast(EdgeC(BVertexC(2,3),0));
-  bnds4.InsLast(EdgeC(BVertexC(3,3),3));
-  bnds4.InsLast(EdgeC(BVertexC(3,2),2));
+  bnds4.InsLast(CrackC(BVertexC(2,2),1));
+  //bnds4.InsLast(CrackC(BVertexC(2,3),0));
+  bnds4.InsLast(CrackC(BVertexC(3,3),3));
+  bnds4.InsLast(CrackC(BVertexC(3,2),2));
   lst = bnds4.OrderEdges();  
   if(lst.Size() != 1) return __LINE__;
   if(lst.First().Size() != 3) return __LINE__;
