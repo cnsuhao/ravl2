@@ -14,6 +14,8 @@
 #include "Ravl/Audio/Types.hh"
 #include "Ravl/DP/StreamOp.hh"
 #include "Ravl/SArray1dIter3.hh"
+#include "Ravl/SArray1dIter2.hh"
+#include "Ravl/FixedQueue.hh"
 
 namespace RavlAudioN {
   
@@ -60,16 +62,25 @@ namespace RavlAudioN {
       public WindowSignalBaseC
   {
   public:
-    WindowSignalBodyC(RAWindowSignalT sigType,UIntT size)
-      : WindowSignalBaseC(sigType,size)
+    WindowSignalBodyC(RAWindowSignalT sigType,UIntT frameSize,UIntT frameSeperation)
+      : WindowSignalBaseC(sigType,frameSize),
+	frameSep(frameSeperation),
+	blocks((frameSize / frameSeperation)+1)
     { Generate(filter); }
     //: Contructor.
+    // sigType - Type of window to use. <br>
+    // frameSize - Size of output frame in samples.<br>
+    // frameSeperation - Seperation of successive frames in samples.<br>
     
-    WindowSignalBodyC(const SArray1dC<RealT> &nfilter)
+    WindowSignalBodyC(const SArray1dC<RealT> &nfilter,UIntT frameSeperation)
       : WindowSignalBaseC(RAWCustom,nfilter.Size()),
+	frameSep(frameSeperation),
+	blocks((nfilter.Size() / frameSeperation)+1),
 	filter(nfilter)
     {}
     //: Contructor.
+    // nfilter - Filter to use. <br>
+    // frameSeperation - Seperation of successive frames in samples.
     
     bool GetBlock(SArray1dC<InT> &blk) {
       UIntT n = input.GetArray(blk);
@@ -88,23 +99,41 @@ namespace RavlAudioN {
       return ret;
     }
     //: Get next frame.
-    
+
     virtual bool Get(SArray1dC<OutT> &buff) { 
       buff = SArray1dC<OutT>(filter.Size());
-      UIntT half = filter.Size()/2;
-      if(lastBlock.Size() == 0) { // First block ?
-	lastBlock = SArray1dC<InT>(half);
-	if(!GetBlock(lastBlock))
+      if(blocks.IsEmpty()) { // First block ?
+	SArray1dC<InT> tmp(filter.Size());
+	if(!GetBlock(tmp))
 	  return false;
+	blocks.InsLast(tmp);
+      } else {
+	SArray1dC<InT> tmp(frameSep);
+	if(!GetBlock(tmp))
+	  return false;
+	blocks.InsLast(tmp);
       }
-      for(SArray1dIter3C<InT,FilterT,OutT> it(lastBlock,filter,buff);it;it++)
-	it.Data3() = (OutT) ((FilterT) it.Data1() * it.Data2());
-      SArray1dC<InT> blk(half); 
-      if(!GetBlock(blk))
-	return false;
-      for(SArray1dIter3C<InT,FilterT,OutT> it(blk,filter.From(half),buff.From(half));it;it++)
-	it.Data3() = (OutT) ((FilterT) it.Data1() * it.Data2());
-      lastBlock = blk;
+      UIntT toGo = filter.Size();
+      UIntT from = 0;
+      UIntT len = 0;
+      UIntT start = 0;
+      for(FixedQueueRevIterC<SArray1dC<InT> > qit(blocks);toGo > 0;qit++) {
+	if(qit->Size() > toGo) {
+	  len = toGo;
+	  from = 0;
+	  start = qit->Size() - toGo;
+	  toGo = 0;
+	} else {
+	  from = toGo - qit->Size();
+	  len = qit->Size();
+	  start = 0;
+	  toGo = from;
+	}
+	for(SArray1dIter3C<FilterT,OutT,InT> it(filter.From(from,len),
+						buff.From(from,len),
+						qit->From(start));it;it++)
+	  it.Data2() = (OutT) ((FilterT) it.Data1() * it.Data3());
+      }
       return true;
     }
     //: Get next frame.
@@ -118,7 +147,8 @@ namespace RavlAudioN {
     //: Access filter.
     
   protected:
-    SArray1dC<InT> lastBlock;
+    UIntT frameSep;
+    FixedQueueC<SArray1dC<InT> > blocks; 
     SArray1dC<FilterT> filter;
     bool symetric;
   };
@@ -136,15 +166,20 @@ namespace RavlAudioN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    WindowSignalC(RAWindowSignalT sigType,UIntT size)
-      : DPEntityC(*new WindowSignalBodyC<InT,OutT,FilterT>(sigType,size))
+    WindowSignalC(RAWindowSignalT sigType,UIntT size,UIntT frameSeperation)
+      : DPEntityC(*new WindowSignalBodyC<InT,OutT,FilterT>(sigType,size,frameSeperation))
     {}
     //: Constructor.
+    // sigType - Type of window to use. <br>
+    // frameSize - Size of output frame in samples.<br>
+    // frameSeperation - Seperation of successive frames in samples.<br>
     
-    WindowSignalC(const SArray1dC<FilterT> &filter)
-      : DPEntityC(*new WindowSignalBodyC<InT,OutT,FilterT>(filter))
+    WindowSignalC(const SArray1dC<FilterT> &filter,UIntT frameSeperation)
+      : DPEntityC(*new WindowSignalBodyC<InT,OutT,FilterT>(filter,frameSeperation))
     {}
     //: Constructor.
+    // nfilter - Filter to use. <br>
+    // frameSeperation - Seperation of successive frames in samples.
     
   protected:
     WindowSignalBodyC<InT,OutT,FilterT> &Body()

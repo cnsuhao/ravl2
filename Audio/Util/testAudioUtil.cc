@@ -47,23 +47,23 @@ bool CheckSymmetric(SArray1dC<RealT> &filter) {
 }
 
 int testSignalWindowFilters() {
-    
-  WindowSignalC<IntT,IntT> test1(RAWRamp,128);
+  
+  WindowSignalC<IntT,IntT> test1(RAWRamp,128,32);
   //cerr <<" Filter=" << test1.Filter() << "\n";
   if(test1.Filter().Size() != 128) return __LINE__;
   if(!CheckSymmetric(test1.Filter())) return __LINE__;
   
-  WindowSignalC<IntT,IntT> test2(RAWHamming,128);
+  WindowSignalC<IntT,IntT> test2(RAWHamming,128,32);
   //cerr <<" Filter=" << test2.Filter() << "\n";
   if(!CheckSymmetric(test2.Filter())) return __LINE__;
   if(test2.Filter().Size() != 128) return __LINE__;
 
-  WindowSignalC<IntT,IntT> test3(RAWHanning,128);
+  WindowSignalC<IntT,IntT> test3(RAWHanning,128,32);
   //cerr <<" Filter=" << test3.Filter() << "\n";
   if(!CheckSymmetric(test3.Filter())) return __LINE__;
   if(test3.Filter().Size() != 128) return __LINE__;
   
-  WindowSignalC<IntT,IntT> test4(RAWBlackman,128);
+  WindowSignalC<IntT,IntT> test4(RAWBlackman,128,32);
   if(!CheckSymmetric(test4.Filter())) return __LINE__;
   if(test4.Filter().Size() != 128) return __LINE__;
   //cerr <<" Filter=" << test4.Filter() << "\n";
@@ -73,14 +73,20 @@ int testSignalWindowFilters() {
 
 int testSignalWindow() {
   DListC<IntT> list;
-  for(int i= 0;i < (128*2);i++)
-    list.InsLast((IntT)(Random1() * 1000.0));
+  for(int i= 0;i < (128*4);i++)
+    list.InsLast(i);
   DPISListC<IntT> ip(list);
-  WindowSignalC<IntT,IntT> filter(RAWHanning,128);
+  IntT frameSep = 32;
+  WindowSignalC<IntT,IntT> filter(RAWNone,128,frameSep);
   DPIPortC<SArray1dC<IntT> > op = ip >> filter;
   SArray1dC<IntT> data;
-  if(!op.Get(data)) return __LINE__;
-  if(data.Size() != 128) return __LINE__;
-  //cerr << data << "\n";
+  for(int j = 0;j < 4;j++) {
+    if(!op.Get(data)) return __LINE__;
+    if(data.Size() != 128) return __LINE__;
+    //cerr << data << "\n";
+    int i = j * frameSep;
+    for(SArray1dIterC<IntT> it(data);it;it++,i++)
+      if(*it != i) return __LINE__;
+  }
   return 0;
 }
