@@ -254,6 +254,8 @@ namespace RavlCxxDocN
     {
       for(HashIterC<StringC,StringC> it(comment.Vars());it.IsElm();it.Next())
 	Pad(out,indent+1) << "(" << it.Key() << "=" << it.Data() <<")\n";
+      for(HashIterC<StringC,StringC> it(comment.Locals().Data());it.IsElm();it.Next())
+	Pad(out,indent+1) << "[" << it.Key() << "=" << it.Data() <<"]\n";
     }
     for(DLIterC<ObjectC> it(list);it.IsElm();it.Next()) {
       if(!it.Data().IsValid()) {

@@ -141,6 +141,10 @@ namespace RavlCxxDocN {
     RCHashC<StringC,StringC> &Locals()
       { return locals; }
     //: Access local variable table.
+
+    const RCHashC<StringC,StringC> &Locals() const
+    { return locals; }
+    //: Access local variable table.
     
     void Reset() {
       text = StringC();

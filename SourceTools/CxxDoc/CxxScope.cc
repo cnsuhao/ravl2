@@ -11,6 +11,7 @@
 
 #include "Ravl/CxxDoc/CxxScope.hh"
 #include "Ravl/CxxDoc/CxxElements.hh"
+#include "Ravl/CxxDoc/Strings.hh"
 #include "Ravl/DLIter.hh"
 #include "Ravl/CDLIter.hh"
 #include "Ravl/HashIter.hh"
@@ -290,43 +291,65 @@ namespace RavlCxxDocN
   
   bool ScopeBodyC::Merge(const ScopeC &oth) {
     AppendList(oth);
-    StringC de2 = oth.Var("docentry");
-    if(de2 == "") // Any docentry to merge ?
-      return true;
-    if(!IsVar("docentry")) {// Got a local docentry ?
-      SetVar("docentry",de2);
-      return true; 
-    }
-    StringC de1 = Var("docentry");
-    if(de1 == de2)
-      return true; // Nothing to do.
-    HSetC<StringC> set;
-    StringListC ent1(de1,";");
-    StringListC ent2(de2,";");
-    {
-      for(DLIterC<StringC> it(ent1);it;it++)
-	set += (*it).TopAndTail();
-    }
-    {
-      for(DLIterC<StringC> it(ent2);it;it++)
-	set += (*it).TopAndTail();
-    }
-    HSetIterC<StringC> it(set);
-    if(!it.IsElm())
-      return true;
-    StringC newun = (*it).Copy();
-    it++;
-    for(;it;it++)
-      newun += StringC(";") + *it;
-    SetVar("docentry",newun);
+    int master = 0;
+    if(Comment().Locals().IsElm("maindoc") || Comment().Vars().IsElm("maindoc"))
+      master = 2;
+    if(oth.Comment().Locals().IsElm("maindoc") || oth.Comment().Vars().IsElm("maindoc"))
+      master = 1;
+    if(master != 0)
+      Comment().Locals()["maindoc"] = "1"; // Either was this is the main doc now.
     
-    // Sort out comment and userlevel.
-    // Take the longest comment and its userlevel.
+    while(1) { // Just so we can break out.
+      StringC de2 = oth.Var("docentry");
+      if(de2 == "") // Any docentry to merge ?
+	break;
+      if(!IsVar("docentry")) {// Got a local docentry ?
+	SetVar("docentry",de2);
+	break;
+      }
+      StringC de1 = Var("docentry");
+      if(de1 == de2)
+	break;
+      HSetC<StringC> set;
+      StringListC ent1(de1,";");
+      StringListC ent2(de2,";");
+      {
+	for(DLIterC<StringC> it(ent1);it;it++)
+	  set += (*it).TopAndTail() ;
+      }
+      {
+	for(DLIterC<StringC> it(ent2);it;it++)
+	  set += (*it).TopAndTail();
+      }
+      HSetIterC<StringC> it(set);
+      if(!it.IsElm())
+	break;
+      StringC newun = (*it).Copy();
+      it++;
+      for(;it;it++)
+	newun += StringC(";") + *it;
+      SetVar("docentry",newun);
+      break;
+    }
     
-    int desc1 = Comment().Text().length() + Comment().Header().length();
-    int desc2 = oth.Comment().Text().length() + oth.Comment().Header().length();
-    if(desc2 > desc1)
-      SetComment(oth.Comment());
+    if(master == 0) {
+      // Sort out comment and userlevel.
+      // Take the longest comment and its userlevel.
+      int desc1 = Comment().Text().length() + Comment().Header().length();
+      int desc2 = oth.Comment().Text().length() + oth.Comment().Header().length();
+      if(desc2 > desc1) {
+	Comment().Text() = oth.Comment().Text();
+	Comment().Header() = oth.Comment().Header();
+      }
+    } else {
+      // Use the marked one.
+      if(master == 1) {
+	Comment().Text() = oth.Comment().Text();
+	Comment().Header() = oth.Comment().Header();
+	SetVar(STR(brief),comment.Header());
+	SetVar(STR(detail),comment.Text());
+      }
+    }
     ONDEBUG(cerr << "Setting docentry to '" << newun << "'\n");
     return true;
   }
