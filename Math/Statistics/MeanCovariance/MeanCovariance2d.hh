@@ -18,7 +18,7 @@
 namespace RavlN {
 
   //! userlevel=Normal
-  //: Mean covariance in 2 dimentions.
+  //: Mean covariance in 2 dimensions.
   
   class MeanCovariance2dC
     : public FMeanCovarianceC<2>

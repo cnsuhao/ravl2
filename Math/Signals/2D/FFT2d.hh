@@ -56,7 +56,7 @@ namespace RavlN {
     Index2dC size;  // Size of the transform.
     IntT n,m;
     bool inv;      // Is the transform backward ??
-    bool base2;    // Are both dimentions a power of 2?    
+    bool base2;    // Are both dimensions a power of 2?    
     
     int primeFactors1[32];
     int nf1; // Number of factors. Sufficent for all 32-bit lengths.

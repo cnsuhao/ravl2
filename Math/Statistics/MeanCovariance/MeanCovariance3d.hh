@@ -18,7 +18,7 @@
 namespace RavlN {
 
   //! userlevel=Normal
-  //: Mean covariance in 3 dimentions.
+  //: Mean covariance in 3 dimensions.
 
   class MeanCovariance3dC
     : public FMeanCovarianceC<3>

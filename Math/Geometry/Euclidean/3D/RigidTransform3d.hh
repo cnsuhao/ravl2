@@ -23,7 +23,7 @@ namespace RavlN {
 
   
   //! userlevel=Normal
-  //: Rigid transform in 3 dimentions.
+  //: Rigid transform in 3 dimensions.
   // A RigigTransC is a 3D Rigid body transformation comprising of a 
   // rotation followed by a translation. The order is very important.
   // <p>

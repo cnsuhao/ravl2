@@ -25,11 +25,11 @@ namespace RavlN {
   class SobolSequenceC {
   public:
     inline SobolSequenceC(int n = 0,int bits = 30);
-    //: Genererate a sequence with n dimentions.
+    //: Genererate a sequence with n dimensions.
     
     IntT N() const 
     { return n; }
-    //: Get dimention of sequence.
+    //: Get dimension of sequence.
     
     bool First();
     //: Goto first point in sequence.
@@ -59,7 +59,7 @@ namespace RavlN {
     void Init();
     // Initalise static's
     
-    IntT n;        // Dimention of sequence.  
+    IntT n;        // Dimension of sequence.  
     IntT s;        // Position in sequence.
     IntT bits;     // Bits to use.
     bool done;

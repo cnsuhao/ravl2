@@ -5,8 +5,6 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////////
-// SobolSeq.cc
-// $Id$
 //! rcsid="$Id$"
 //! lib=RavlMath
 //! file="Ravl/Math/Sequence/SobolSequence.cc"
