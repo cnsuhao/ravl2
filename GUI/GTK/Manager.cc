@@ -10,7 +10,7 @@
 //! file="Ravl/GUI/GTK/Manager.cc"
 
 #define RAVL_USE_GTKTHREADS 1  /* Use thread based event handling stratagy. */
-#define RAVL_USE_GTKDIRECT  0
+#define RAVL_USE_GTKDIRECT  1
 
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/GUI/Window.hh"
@@ -78,6 +78,13 @@ namespace RavlGUIN {
     }
     ifp = p[0];
     ofp = p[1];
+    ONDEBUG(cerr << "ManagerC::ManagerC(), Using piped event queue. \n");
+#else
+#if RAVL_USE_GTKDIRECT 
+    ONDEBUG(cerr << "ManagerC::ManagerC(), Using direct execution event handler. \n");
+#else
+    ONDEBUG(cerr << "ManagerC::ManagerC(), Using threaded event queue. \n");
+#endif
 #endif
   } 
   
@@ -102,7 +109,7 @@ namespace RavlGUIN {
     ONDEBUG(cerr << "ManagerC::~ManagerC(), Removing final reference to root win.. \n");
     
     delayEvents.Empty();
-#if  !RAVL_USE_GTKTHREADS
+#if !RAVL_USE_GTKTHREADS
     close(ifp);
     close(ofp);
     ifp = -1;
@@ -378,12 +385,20 @@ namespace RavlGUIN {
 	gtk_main_quit ();
       ONDEBUG(cerr << "ManagerC::Queue(), Event Finished.. \n");
     } else {
+      
       gdk_threads_enter();
+      // Mark this thread as being GUI.
+      UIntT oldId = guiThreadID2;
+      guiThreadID2 = ThisThreadID();
+      
       ONDEBUG(cerr << "ManagerC::Queue(), Event Start... \n");
       if(se.IsValid())
 	const_cast<TriggerC &>(se).Invoke();
       else
 	gtk_main_quit ();
+      
+      // Unmark the current thread.
+      guiThreadID2 = oldId;
       ONDEBUG(cerr << "ManagerC::Queue(), Event Finished.. \n");
       gdk_threads_leave();      
     }
