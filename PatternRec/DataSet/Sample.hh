@@ -134,6 +134,10 @@ namespace RavlN {
     { return DArray1dC<DataT>::IsEmpty(); }
     //: Is this empty ?
     
+    bool IsValid() const
+    { return DArray1dC<DataT>::IsValid(); }
+    //: Is this a valid handle ?
+    
 #if RAVL_NEW_ANSI_CXX_DRAFT
     friend ostream &operator<< <>(ostream &s,const SampleC<DataT> &dat);
     friend istream &operator>> <>(istream &s,SampleC<DataT> &dat);
