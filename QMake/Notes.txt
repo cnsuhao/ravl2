@@ -16,8 +16,6 @@ Variables:
   COFLAGS  = Extra flags for checking-out using 'co' target.
   TMP      = Directory to use for temporary files. 
                Default   = /tmp 
-               On kelvar = /databuf 
-               On vega   = /vegabuf
 
 defs.mk:
   PACKAGE=     Name of library.  Default is 'Ravl'.

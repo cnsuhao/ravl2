@@ -2,19 +2,6 @@
 # Make info for silicon graphics systems
 # $Id$
 
-# Bug workaround:
-
-#PROCS=1
-#PRECOMPXX = \
-#if [ -l ii_files ] ; then \
-#  rm ii_files; \
-#fi ; ln -s $(INST_OBJS)/ii_files .
-
-ifeq "$(HOST)" "vega" 
-  DEFAULTTMP=/vegabuf
-# TMP=/video/tmp
-endif
-
 #######################
 # Programs to use.
 
@@ -35,10 +22,6 @@ AMKDEPFLAGS = -MDupdate $(WORKTMP)/$*.d
 MKDEPUP = if [ -r $(WORKTMP)/$*.d ] ; then \
  echo '$$(INST_OBJS)/$*.o:\' > $(INST_DEPEND)/$*.d ; \
  cut -f 2 -d: $(WORKTMP)/$*.d >> $(INST_DEPEND)/$*.d  ; rm $(WORKTMP)/$*.d ; fi
-
-# Recover undefined symbols....
-
-#MKMUSTLINK = `nm -g -B $(TARG_MUSTLINK_OBJS) | $(MAKEHOME)/ParseNM.pl`
 
 ############################
 # Universal flags.
