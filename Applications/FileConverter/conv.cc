@@ -53,6 +53,7 @@ int FileConv(int argc,char **argv)
   bool  ident    = option.Boolean("i",false,"Identify file. ");
   IntT      noFrames = option.Int("len",-1,"Length of sequence. ");
   IntT      startFrame = option.Int("st",-1,"Where to start in sequence.-1=Default. ");
+  IntT      everyNth = option.Int("nth",1,"Frequence of frames to copy. 1=Every frame. ");
   FilenameC inFile  = option.String("","in.pgm","Input filename");
   FilenameC outFile = option.String("","out.pgm","Output filename");
   
@@ -170,6 +171,8 @@ int FileConv(int argc,char **argv)
       cerr << "Starting conversion:" << flush;
     }
     // Copy sequence.
+    int i = 0;
+    if(everyNth < 1)  everyNth = 1;
     try {
       for(;noFrames != 0;) {
 	if(noFrames > 0)
@@ -181,11 +184,13 @@ int FileConv(int argc,char **argv)
 	dataHandle = typeInfo.Get(ip);
 	if(!dataHandle.IsValid())
 	  break;
-	if(!typeInfo.Put(op,dataHandle)) {
-	cerr << "WARNING: Write failed. Terminating copy. \n";
-	return 1;
+	if((i++ % everyNth) == 0) { // Do we want every frame ?
+	  if(!typeInfo.Put(op,dataHandle)) {
+	    cerr << "WARNING: Write failed. Terminating copy. \n";
+	    return 1;
+	  }
 	}
-      } 
+      }
       if(verb)
 	cerr << "\n";
     } catch(DataNotReadyC &dnr) {
