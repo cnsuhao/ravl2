@@ -11,6 +11,7 @@
 //! docentry="Ravl.Pattern Recognition.Performance Evaluation"
 //! author="Kieron Messer"
 //! file="Ravl/PatternRec/Performance/Error.hh"
+//! rcsid="$Id$"
 
 #include "Ravl/PatternRec/Classifier.hh"
 #include "Ravl/PatternRec/SampleVector.hh"
