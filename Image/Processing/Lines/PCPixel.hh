@@ -12,13 +12,16 @@
 //! lib=RavlImageProc
 //! author="Charles Galambos"
 //! rcsid="$Id$"
-//! date="07/01/99"
+//! date="07/01/1999"
 
 #include "Ravl/Index2d.hh"
 #include "Ravl/Point2d.hh"
 
 namespace RavlImageN {
   using namespace RavlN;
+#if RAVL_VISUALCPP_NAMESPACE_BUG
+  using RavlN::Point2dC;
+#endif
   
   //! userlevel=Normal
   //: Pixel near parametric curve.
@@ -28,21 +31,21 @@ namespace RavlImageN {
   {
   public:
     PCIndex2dC()
-      {}
+    {}
     //: Default constructor.
   
     PCIndex2dC(const Index2dC &px,const Point2dC &apnt,RealT ap = 0)
       : Index2dC(px),
-      pnt(apnt),
-      p(ap)
-      {}
+	pnt(apnt),
+	p(ap)
+    {}
     //: Constructor.
     
     PCIndex2dC(const Index2dC &px,RealT ap = 0)
       : Index2dC(px),
-      pnt(px),
-      p(ap)
-      {}
+	pnt(px),
+	p(ap)
+    {}
     //: Constructor.
     
     RealT &P() { return p; }
