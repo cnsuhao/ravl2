@@ -126,9 +126,9 @@ namespace RavlImageN {
     DPOImageTIFFByteRGBABodyC &body = *(DPOImageTIFFByteRGBABodyC *) dptr;
     switch(whence)
       {
-      case SEEK_SET: body.outf.seekg(off,ios::beg); break;
-      case SEEK_CUR: if(off != 0) body.outf.seekg(off,ios::cur); break;
-      case SEEK_END: body.outf.seekg(off,ios::end); break;
+      case SEEK_SET: body.outf.seekp(off,ios::beg); break;
+      case SEEK_CUR: if(off != 0) body.outf.seekp(off,ios::cur); break;
+      case SEEK_END: body.outf.seekp(off,ios::end); break;
       default:
 	cerr << "DPOImageTIFFByteRGBABodyC::TIFFSeekProc(), WARNING: Illegal value for whence : " << whence << "\n";
       }
@@ -146,9 +146,9 @@ namespace RavlImageN {
     DPOImageTIFFByteRGBABodyC &body = *((DPOImageTIFFByteRGBABodyC *) dptr);
     // Not very quick, but it should work...
     toff_t at = body.outf.Tell();
-    body.outf.seekg(0,ios::end);
+    body.outf.seekp(0,ios::end);
     toff_t ret = body.outf.Tell();
-    body.outf.seekg(at,ios::beg);
+    body.outf.seekp(at,ios::beg);
     return ret;
   }
 
