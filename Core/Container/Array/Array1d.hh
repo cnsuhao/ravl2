@@ -570,6 +570,7 @@ namespace RavlN {
   istream &
   operator>>(istream & s, Array1dC<DataT> & arr) {
     IndexRangeC range(s);
+    s.get(); // Get '\n' after size to avoid trouble with reading StringC's.
     if (range != arr.Range()) {
       Array1dC<DataT> brr(range);
       arr = brr;

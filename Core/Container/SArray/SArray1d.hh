@@ -445,6 +445,7 @@ namespace RavlN {
   operator>>(istream & s, SArray1dC<DataT> & arr) { 
     SizeT n = 0;
     s >> n;
+    s.get(); // Get '\n' after size to avoid trouble with reading StringC's.
     if (n != arr.Size()) {
       SArray1dC<DataT> brr(n);
       arr = brr;
