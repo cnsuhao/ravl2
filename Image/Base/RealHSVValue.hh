@@ -34,9 +34,9 @@ namespace RavlImageN {
 
   //! userlevel=Normal
   //: HSV Pixel base class
-  //: H => 0-360
-  //: S => 0-1
-  //: V => 0-1 
+  // H => 0-360 <br>
+  // S => 0-1 <br>
+  // V takes on the range of the pixel type it was constructed from.<br>
   
   class RealHSVValueC : public TFVectorC<RealT,3>
   {
