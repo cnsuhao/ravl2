@@ -43,7 +43,8 @@ namespace RavlGUIN {
     : renderers(1),
       column(0),
       sort(false),
-      ascending(false)
+      ascending(false),
+      columnId(-1)
   {}
   
   //:---------------------------------------------------------------------------------
@@ -265,6 +266,7 @@ namespace RavlGUIN {
       gtk_tree_view_column_set_title (column, it->Name());
       col_offset = gtk_tree_view_append_column (GTK_TREE_VIEW (widget),
 						column);
+      it->SetColumnId(col_offset);
       
       for(SArray1dIterC<TreeViewColumnRendererC> rit(it->Renderers());rit;rit++) {
 	const StringC &renderType = rit->RenderType();
@@ -300,7 +302,7 @@ namespace RavlGUIN {
 					 rit->Expand());
 	
 	if(it->Sort())
-	  gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(treeModel.TreeModel()), rit.Index().V(),
+	  gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(treeModel.TreeModel()), col_offset,
 					       it->SortAscending() ? GTK_SORT_ASCENDING : GTK_SORT_DESCENDING);
 	
 	// Setup attributes.
@@ -403,9 +405,12 @@ namespace RavlGUIN {
   bool TreeViewBodyC::GUISort(UIntT colNum, bool bAscending) {
     displayColumns[colNum].SetSort(colNum,bAscending);
     // Set sorting
-    if(widget != 0) 
-      gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(treeModel.TreeModel()), colNum,
+    if(widget != 0) {
+      IntT colId = displayColumns[colNum].ColumnId();
+      RavlAssert(colId >= 0);
+      gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(treeModel.TreeModel()),colId,
 					   bAscending ? GTK_SORT_ASCENDING : GTK_SORT_DESCENDING);
+    }
     return true;
   }
   

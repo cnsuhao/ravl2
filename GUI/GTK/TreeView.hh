@@ -192,12 +192,21 @@ namespace RavlGUIN {
     { sort = _sort; ascending = _ascending; }
     //: Set sort order of column.
     
+    void SetColumnId(IntT _columnId)
+    { columnId = _columnId; }
+    //: Set column id.
+    
+    IntT ColumnId() const
+    { return columnId; }
+    //: Get column id, -1 if not set.
+    
   protected:
     StringC name;
     SArray1dC<TreeViewColumnRendererC> renderers;
     GtkTreeViewColumn *column;
     bool sort;
     bool ascending;
+    IntT columnId;
     friend class TreeViewBodyC;
   };
   
