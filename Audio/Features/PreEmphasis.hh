@@ -8,6 +8,7 @@
 #define RAVLAUDIO_PREEMPHASIS_HEADER 1
 //! userlevel=Normal
 //! author="Charles Galambos"
+//! docentry="Ravl.Audio.Feature Extraction"
 //! rcsid="$Id$"
 //! lib=RavlAudioFeatures
 //! file="Ravl/Audio/Features/PreEmphasis.hh"
