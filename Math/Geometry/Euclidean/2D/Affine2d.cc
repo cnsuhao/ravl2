@@ -58,7 +58,8 @@ namespace RavlN {
 	throw ExceptionNumericalC("Dependent linear equations in FitAffine() ");
     }
     
-    Matrix2dC sr(b[0],c[0],b[1],c[1]);
+    Matrix2dC sr(b[0],b[1],
+		 c[0],c[1]);
     Vector2dC tr(b[2],c[2]);
     return Affine2dC(sr,tr);
   }

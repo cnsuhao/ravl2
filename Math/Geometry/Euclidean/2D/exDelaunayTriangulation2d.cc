@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlMath
 
-#include "Ravl/DelaunyTriangulation2d.hh"
+#include "Ravl/DelaunayTriangulation2d.hh"
 #include "Ravl/Option.hh"
 #include "Ravl/Image/DrawLine.hh"
 #include "Ravl/THEMeshFaceIter.hh"
@@ -36,7 +36,7 @@ int main(int nargs,char **argv) {
   for(UIntT i = 0;i < pnts.Size();i++)
     pnts[i] = Point2dC(Random1() * size[0],Random1() * size[1]);
   
-  HEMesh2dC mesh = DelaunyTriangulation(pnts);
+  HEMesh2dC mesh = DelaunayTriangulation(pnts);
   
   for(THEMeshFaceIterC<Point2dC> mit(mesh.Faces());mit;mit++) {
     for(THEMeshFaceEdgeIterC<Point2dC> eit(*mit);eit;eit++)

@@ -8,9 +8,11 @@
 //! author="Charles Galambos"
 //! lib=RavlMath
 
-#include "Ravl/DelaunyTriangulation2d.hh"
+#include "Ravl/DelaunayTriangulation2d.hh"
 #include "Ravl/THEMeshFaceIter.hh"
 #include "Ravl/SArray1dIter2.hh"
+#include "Ravl/Array1dIter2.hh"
+#include "Ravl/Array1dIter.hh"
 #include "Ravl/Circle2d.hh"
 #include "Ravl/HSet.hh"
 #include "Ravl/LinePP2d.hh"
@@ -93,13 +95,13 @@ namespace RavlN {
   }
   
   
-  //: Create a delauny triangulation of the given set of points.
+  //: Create a delaunay triangulation of the given set of points.
   
-  HEMesh2dC DelaunyTriangulation(const SArray1dC<Point2dC> &points) {
+  HEMesh2dC DelaunayTriangulation(const Array1dC<Point2dC> &points) {
     HEMesh2dC ret(true);
-    ONDEBUG(cerr << "DelaunyTriangulation(), Called. \n");
+    ONDEBUG(cerr << "DelaunayTriangulation(), Called. \n");
     
-    SArray1dIterC<Point2dC> xit(points);
+    Array1dIterC<Point2dC> xit(points);
     RealRange2dC box(*xit,0);
     for(xit++;xit;xit++)
       box.Involve(*xit);
@@ -119,7 +121,7 @@ namespace RavlN {
     SArray1dC<HEMeshBaseVertexC> vertices(points.Size());
     // Start inserting points,
     
-    for(SArray1dIter2C<Point2dC,HEMeshBaseVertexC> it(points,vertices);it;it++) {
+    for(Array1dIter2C<Point2dC,HEMeshBaseVertexC> it(points,vertices);it;it++) {
       // Insert new vertex.
       THEMeshVertexC<Point2dC> vertex = ret.InsertVertex(it.Data1());
       it.Data2() = vertex;
@@ -128,7 +130,7 @@ namespace RavlN {
       if(!face.IsValid())
 	face = firstFace;
       if(!me.IsValid()) { // Insert vertex in face.
-	ONDEBUG(cerr << "HEMesh2dC DelaunyTriangulation(), Inserting vertex in face. \n");
+	ONDEBUG(cerr << "HEMesh2dC DelaunayTriangulation(), Inserting vertex in face. \n");
 	RavlAssert(face.Sides() == 3);
 	THEMeshFaceEdgeIterC<Point2dC> eit(face);
 	THEMeshEdgeC<Point2dC> e1 = *eit; eit++;
@@ -142,7 +144,7 @@ namespace RavlN {
 	LegaliseEdge(ret,e3);
 	
       } else { // Insert vertex on edge.
-	ONDEBUG(cerr << "HEMesh2dC DelaunyTriangulation(), Inserting vertex in edge. \n");
+	ONDEBUG(cerr << "HEMesh2dC DelaunayTriangulation(), Inserting vertex in edge. \n");
 	
 	ret.InsertVertexInEdgeTri(vertex,me);
 	THEMeshVertexEdgeIterC<Point2dC> it(vertex);
@@ -162,10 +164,10 @@ namespace RavlN {
     return ret;
   }
 
-  //: Test if mesh is a delauny triangulation. 
+  //: Test if mesh is a delaunay triangulation. 
   
-  bool IsDelaunyTriangulation(const HEMesh2dC &mesh) {
-    ONDEBUG(cerr << "IsDelaunyTriangulation(), Called. \n");
+  bool IsDelaunayTriangulation(const HEMesh2dC &mesh) {
+    ONDEBUG(cerr << "IsDelaunayTriangulation(), Called. \n");
     for(THEMeshFaceIterC<Point2dC> fit(mesh.Faces());fit;fit++) {
       for(THEMeshFaceEdgeIterC<Point2dC> eit(*fit);eit;eit++) {
 	if(!eit.Data().HasPair()) // On the edge of the mesh ?

@@ -11,7 +11,10 @@
 #include "Ravl/HEMesh2d.hh"
 #include "Ravl/THEMeshVertexIter.hh"
 #include "Ravl/THEMeshFaceIter.hh"
+#include "Ravl/THEMeshFace.hh"
 #include "Ravl/LinePP2d.hh"
+#include "Ravl/TriMesh2d.hh"
+#include "Ravl/Hash.hh"
 
 #define DODEBUG 1
 #if DODEBUG
@@ -87,5 +90,42 @@ namespace RavlN {
       ret.Involve((*it).Data());
     return ret;
   }
+
+  //: Convert this mesh to a tri mesh.
+  // Note: This mesh must contain only triangular faces.
+  
+  TriMesh2dC HEMesh2dC::TriMesh() const {
+    SArray1dC<Point2dC> vertices(NoVertices());
+    SArray1dC<Index3dC> faces(NoFaces());
+    
+    // Extract points.
+    
+    HashC<HEMeshBaseVertexC,IntT> vertexIndex;
+    SArray1dIterC<Point2dC> pit(vertices);
+    for(THEMeshVertexIterC<Point2dC> vit(Vertices());vit;vit++,pit++) {
+      *pit = (*vit).Data();
+      vertexIndex[(*vit)] = pit.Index().V();
+    }
+    
+    // Extract faces.
+    SArray1dIterC<Index3dC> nfit(faces);
+    for(THEMeshFaceIterC<Point2dC> fit(Faces());fit;fit++,nfit++) {
+      THEMeshFaceEdgeIterC<Point2dC> feit(*fit);
+      RavlAssert(feit);
+      (*nfit)[0] = vertexIndex[(*feit).Vertex()]; feit++;
+      RavlAssert(feit);
+      (*nfit)[1] = vertexIndex[(*feit).Vertex()]; feit++;
+      RavlAssert(feit);
+      (*nfit)[2] = vertexIndex[(*feit).Vertex()]; 
+#ifndef NDEBUG
+      // Check its only got 3 edges to the face.
+      feit++;
+      RavlAssert(!feit);
+#endif
+    }
+      
+    return TriMesh2dC(vertices,faces);
+  }
+
   
 }

@@ -18,6 +18,11 @@
 
 namespace RavlN {
   
+  class TriMesh2dC;
+  
+  //! userlevel=Normal
+  //: 2D Half edge mesh.
+  
   class HEMesh2dC
     : public THEMeshC<Point2dC>
   {
@@ -38,10 +43,14 @@ namespace RavlN {
     // Returns an invalid handle if none found. <p>
     // This assumes the edges around a face are ordered clockwise.
     // Note: This does a linear searh through the faces, it doesn't
-    // use any clever indexing scheme.
+    // use any clever indexing/search scheme at the moment
     
     RealRange2dC BoundingRectangle() const;
     //: Compute the bounding rectangle for the points in the mesh.
+    
+    TriMesh2dC TriMesh() const;
+    //: Convert this mesh to a tri mesh.
+    // Note: This mesh must contain only triangular faces.
   };
     
 }

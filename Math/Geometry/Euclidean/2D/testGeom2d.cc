@@ -18,7 +18,8 @@
 #include "Ravl/Array1d.hh"
 #include "Ravl/Affine2d.hh"
 #include "Ravl/Random.hh"
-#include "Ravl/DelaunyTriangulation2d.hh"
+#include "Ravl/DelaunayTriangulation2d.hh"
+#include "Ravl/HEMesh2d.hh"
 
 using namespace RavlN;
 
@@ -26,7 +27,7 @@ int testMoments();
 int testBinIO();
 int testCircle2d();
 int testConvexHull2d();
-int testDelaunyTriangulation2d();
+int testDelaunayTriangulation2d();
 int testFitAffine();
 
 int main() {
@@ -47,7 +48,7 @@ int main() {
     cerr << "Test failed at " << ln << "\n";
     return 1;
   }
-  if((ln = testDelaunyTriangulation2d()) != 0) {
+  if((ln = testDelaunayTriangulation2d()) != 0) {
     cerr << "Test failed at " << ln << "\n";
     return 1;
   }
@@ -160,8 +161,8 @@ int testConvexHull2d() {
   return 0;
 }
 
-int testDelaunyTriangulation2d() {
-  cerr << "testDelaunyTriangulation2d() Called. \n";
+int testDelaunayTriangulation2d() {
+  cerr << "testDelaunayTriangulation2d() Called. \n";
 #if 1
   for(int j = 0;j < 10;j++) {
     SArray1dC<Point2dC> pnts(10 + j * 10);
@@ -170,8 +171,8 @@ int testDelaunyTriangulation2d() {
     for(UIntT i = 0;i < pnts.Size();i++)
       pnts[i] = Point2dC(Random1() * 100,Random1() * 100);
     
-    HEMesh2dC mesh = DelaunyTriangulation(pnts);
-    if(!IsDelaunyTriangulation(mesh)) return __LINE__;
+    HEMesh2dC mesh = DelaunayTriangulation(pnts);
+    if(!IsDelaunayTriangulation(mesh)) return __LINE__;
   }
 #endif
   return 0;
@@ -179,6 +180,9 @@ int testDelaunyTriangulation2d() {
 
 int testFitAffine() {
   cerr << "testFitAffine(), Called. \n";
+
+  // Try a simple case.
+  
   SArray1dC<Point2dC> ipnt(3);
   ipnt[0] = Point2dC(1,1);
   ipnt[1] = Point2dC(2,1);
@@ -190,10 +194,26 @@ int testFitAffine() {
   opnt[2] = Point2dC(2,3);
   
   Affine2dC aff = FitAffine(ipnt,opnt);
-  
-  for(int i=0;i < 3;i++)
+  int i;
+  for(i=0;i < 3;i++)
     if(((aff * ipnt[i]) - opnt[i]).SumOfSqr() > 0.001)
       return __LINE__;
+
+  // Try some random cases.
   
+  for(int j = 0;j < 100;j++) {
+    for(i = 0;i < 3;i++) {
+      ipnt[i] = Point2dC(Random1() * 100,Random1() * 100);
+      opnt[i] = Point2dC(Random1() * 100,Random1() * 100);
+    }
+    Affine2dC aff = FitAffine(ipnt,opnt);
+    int i;
+    for(i=0;i < 3;i++) {
+      if(((aff * ipnt[i]) - opnt[i]).SumOfSqr() > 0.001) {
+	cerr << "Fit failed " << j << " ipnt=" << ipnt[i] << " opnt=" << opnt[i] << "\n";
+	return __LINE__;
+      }
+    }
+  }
   return 0;
 }

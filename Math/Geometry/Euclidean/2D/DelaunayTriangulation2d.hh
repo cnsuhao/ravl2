@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_DELAUNYTRIANGULATION2D_HEADER
-#define RAVL_DELAUNYTRIANGULATION2D_HEADER 1
+#ifndef RAVL_DELAUNAYTRIANGULATION2D_HEADER
+#define RAVL_DELAUNAYTRIANGULATION2D_HEADER 1
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlMath
@@ -14,11 +14,11 @@
 
 namespace RavlN {
   
-  HEMesh2dC DelaunyTriangulation(const SArray1dC<Point2dC> &points);
-  //: Create a delauny triangulation of the given set of points.
+  HEMesh2dC DelaunayTriangulation(const Array1dC<Point2dC> &points);
+  //: Create a delaunay triangulation of the given set of points.
   
-  bool IsDelaunyTriangulation(const HEMesh2dC &mesh);
-  //: Test if mesh is a delauny triangulation. 
+  bool IsDelaunayTriangulation(const HEMesh2dC &mesh);
+  //: Test if mesh is a delaunay triangulation. 
 }
 
 #endif
