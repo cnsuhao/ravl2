@@ -16,6 +16,8 @@
 #include "Ravl/TFMatrix.hh"
 #include "Ravl/Image/RealYUVValue.hh"
 #include "Ravl/Image/RealRGBValue.hh"
+#include "Ravl/Image/ByteRGBValue.hh"
+#include "Ravl/CompilerHints.hh"
 
 namespace RavlImageN {
   extern const TFMatrixC<RealT,3,3> ImageYUVtoRGBMatrix;
@@ -32,6 +34,77 @@ namespace RavlImageN {
   
   inline RealRGBValueC::RealRGBValueC(const RealYUVValueC &v) 
   { Mul(ImageYUVtoRGBMatrix,v,*this); }
+
+
+  extern const IntT *RGBcYUV_ubLookup;
+  extern const IntT *RGBcYUV_vrLookup;
+  extern const IntT *RGBcYUV_uvgLookup;
+  
+  inline void ByteYUV2RGB(ByteT y,SByteT u,SByteT v,ByteRGBValueC &pix) {
+    register IntT iy = (IntT) y;
+    register IntT iu = (IntT) u;
+    register IntT rv = (IntT) v;
+    register IntT tmp;
+    tmp = iy + RGBcYUV_vrLookup[v];
+    if(RAVL_EXPECT(tmp < 0,0)) tmp = 0;
+    if(RAVL_EXPECT(tmp > 255,0)) tmp = 255;
+    pix[0] = (ByteT) tmp;
+    
+    tmp = iy + RGBcYUV_uvgLookup[iu + 256 * rv];
+    if(RAVL_EXPECT(tmp < 0,0)) tmp = 0;
+    if(RAVL_EXPECT(tmp > 255,0)) tmp = 255;
+    pix[1] = (ByteT) tmp;
+    
+    tmp = iy + RGBcYUV_ubLookup[u];
+    if(RAVL_EXPECT(tmp < 0,0)) tmp = 0;
+    if(RAVL_EXPECT(tmp > 255,0)) tmp = 255;
+    pix[2] = (ByteT) tmp;
+  }
+  //: Convert byte YUV values to byte RGB value.
+  
+  inline void ByteYUV2RGB2(ByteT y1,ByteT y2,SByteT u,SByteT v,ByteRGBValueC &pix1,ByteRGBValueC &pix2) {
+    register IntT iy1 = (IntT) y1;
+    register IntT iy2 = (IntT) y2;
+    register IntT iu = (IntT) u;
+    register IntT iv = (IntT) v;
+    
+    register IntT tmp;
+    register IntT vr = RGBcYUV_vrLookup[iv];
+    tmp = iy1 + vr;
+    if(RAVL_EXPECT(tmp < 0,0)) tmp = 0;
+    if(RAVL_EXPECT(tmp > 255,0)) tmp = 255;
+    pix1[0] = (ByteT) tmp;
+    
+    tmp = iy2 + vr;
+    if(RAVL_EXPECT(tmp < 0,0)) tmp = 0;
+    if(RAVL_EXPECT(tmp > 255,0)) tmp = 255;
+    pix2[0] = (ByteT) tmp;
+    
+    register IntT uvg = RGBcYUV_uvgLookup[iu + 256 * iv];
+    
+    tmp = iy1 + uvg;
+    if(RAVL_EXPECT(tmp < 0,0)) tmp = 0;
+    if(RAVL_EXPECT(tmp > 255,0)) tmp = 255;
+    pix1[1] = (ByteT) tmp;
+    
+    tmp = iy2 + uvg;
+    if(RAVL_EXPECT(tmp < 0,0)) tmp = 0;
+    if(RAVL_EXPECT(tmp > 255,0)) tmp = 255;
+    pix2[1] = (ByteT) tmp;
+    
+    register IntT ub = RGBcYUV_ubLookup[iu];
+    
+    tmp = iy1 + ub;
+    if(RAVL_EXPECT(tmp < 0,0)) tmp = 0;
+    if(RAVL_EXPECT(tmp > 255,0)) tmp = 255;
+    pix1[2] = (ByteT) tmp;
+    
+    tmp = iy2 + ub;
+    if(RAVL_EXPECT(tmp < 0,0)) tmp = 0;
+    if(RAVL_EXPECT(tmp > 255,0)) tmp = 255;
+    pix2[2] = (ByteT) tmp;
+  }
+  //: Convert byte YUV422 values to byte RGB value.
   
 }
 

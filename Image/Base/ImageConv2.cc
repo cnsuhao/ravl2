@@ -55,7 +55,7 @@ namespace RavlImageN {
     return ret;
   }
   // Byte Colour to double image.
-
+  
   ImageC<RealT> RGBImageCT2DoubleImageCT(const ImageC<ByteRGBValueC> &dat)  { 
     ImageC<RealT> ret(dat.Rectangle());
     for(Array2dIter2C<RealT,ByteRGBValueC> it(ret,dat);it.IsElm();it.Next()) 
@@ -67,11 +67,8 @@ namespace RavlImageN {
 
   ImageC<ByteRGBValueC> YUVImageCT2RGBImageCT(const ImageC<ByteYUVValueC> &dat) {
     ImageC<ByteRGBValueC> ret(dat.Rectangle());
-    for(Array2dIter2C<ByteRGBValueC,ByteYUVValueC> it(ret,dat);it.IsElm();it.Next()) {
-      RealRGBValueC p(RealYUVValueC(it.Data2()));
-      p.Limit(0,255);
-      it.Data1().Set((ByteT) p.Red(),(ByteT) p.Green(),(ByteT) p.Blue());
-    }
+    for(Array2dIter2C<ByteRGBValueC,ByteYUVValueC> it(ret,dat);it.IsElm();it.Next())
+      ByteYUV2RGB(it.Data2().Y(),it.Data2().U(),it.Data2().V(),it.Data1());
     return ret;
   }
 

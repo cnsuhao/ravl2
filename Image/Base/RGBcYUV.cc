@@ -37,6 +37,42 @@ namespace RavlImageN {
   //: This has been taken from the AMMA code.
   // Is it right ??
   
+
+
+
+  //     y       u       v
+  // r   1.000,  0.000,  1.140,
+  // g   1.000, -0.395, -0.581,
+  // b   1.000,  2.032,  0.000};
+
+  IntT *UBLookup() {
+    static IntT values[256];
+    IntT *off = &(values[128]);
+    for(int i = -128;i < 128;i++)
+      off[i] = Round((RealT) i * 2.032);
+    return off;
+  }
+
+  IntT *VRLookup() {
+    static IntT values[256];
+    IntT *off = &(values[128]);
+    for(int i = -128;i < 128;i++)
+      off[i] = Round((RealT) i * 1.140);
+    return off;
+  }
+
+  IntT *UVGLookup() {
+    static IntT values[256 * 256];
+    for(int u = 0;u < 256;u++)
+      for(int v = 0;v < 256;v++)
+	values[u + 256 * v] = Round((RealT) (u-128) * -0.395 + (RealT) (v-128) * -0.581);
+    return &(values[128 + 256 * 128]);
+  }
+  
+  const IntT *RGBcYUV_ubLookup = UBLookup();
+  const IntT *RGBcYUV_vrLookup = VRLookup();
+  const IntT *RGBcYUV_uvgLookup = UVGLookup();
+
 }
 
 
