@@ -4,7 +4,7 @@
     <title></title>
   </head>
 
-  <body>
+  <body bgcolor="white">
     <h1>Programming GUIs in RAVL</h1>
 
     <p>The principle is that you lay out "widgets" - things like
@@ -12,29 +12,31 @@
     functions so that, when you for example press a button, a
     corresponding function gets called.</p>
 
-    <p>You start by creating a window (using WindowC).  On this you
-    put widgets.  There are two kinds of widgets: control widgets and
-    layout widgets.  Control widgets are things like buttons, sliders,
-    menus, canvases, etc. that link to functions that actually perform
-    tasks.  The layout widgets determine how the layout of the GUI
-    looks. </p>
+    <p>You start by creating a window (using <a
+    href="../Auto/Basic/Class/RavlGUIN.WindowC.html">WindowC</a>).  On
+    this you put widgets.  There are two kinds of widgets: control
+    widgets and layout widgets.  Control widgets are things like
+    buttons, sliders, menus, canvases, etc. that link to functions
+    that actually perform tasks.  The layout widgets determine how the
+    layout of the GUI looks. </p>
 
     <p>In principle you can only put one single widget in the main
-    WindowC window.  In practice several of the layout widgets allow
-    other widgets to be placed inside them.  For example, LBoxC can
-    contain an array of widgets, displayed either vertically or
-    horizontally.  Hence you can structure your window (a bit like a
-    Latex page).</p>
+    WindowC window.  In practice several of the layout
+    widgets allow other widgets to be placed inside them.  For
+    example, LBoxC  can contain an array of widgets,
+    displayed either vertically or horizontally.  Hence you can
+    structure your window (a bit like a Latex page).</p>
 
     <p>If you hit a button, select a menu item, or move the mouse
     across a canvas, you would I guess expect something to happen.
-    For example in the case of the button, to do this, there is a
-    Connect function that associates the button class to the function
-    that is to be executed, and to a signal that is used to provide a
-    message at the time the button is pressed.  An illustration of the
-    mechanism can be found in the Button helper functions towards the
-    bottom of <a href="../Auto/Basic/Class/Ravl.GUI.Control.html">this
-    page</a>.
+    For example in the case of the button, to do this, there is a <a
+    href="../Auto/Basic/Tree/Ravl.OS.Signals.html">Connect</a>
+    function that associates the button class to the function that is
+    to be executed, and to a signal that is used to provide a message
+    at the time the button is pressed.  An illustration of the
+    mechanism can be found in the code for the Button helper functions
+    found towards the bottom of <a
+    href="../Auto/Basic/Tree/Ravl.GUI.Control.html">this page</a>.
     </p>
 
     <p>A "hands-on" way to learn to use this library is by looking
@@ -44,10 +46,28 @@
     href="../Auto/Basic/Class/RavlGUIN.ButtonC.html">ButtonC</a> widgets.</p>
 
     <hr>
+
+<h1> The GUI mechanism in RAVL </h1>
+
+    <p> In Ravl, the GUIs are run as a separate thread from the
+    program that creates them.  The program thread may contain various
+    commands for the GUI (add a row to a CList, move the cursor,
+    etc.).  These commands are added to a queue, and the GUI thread
+    executes them.  Thus in some of the GUI classes, you will see that
+    there are two versions of some of the methods.  For example in <a
+    href="../Auto/Basic/Class/RavlGUIN.ButtonC.html">ButtonC</a> there
+    are methods <code>ButtonC::SetLabel</code> and
+    <code>ButtonC::GUISetLabel</code>.  <code>SetLabel</code> is the
+    one you use in the main program.  It will cause a request for
+    <code>GUISetLabel</code> to be added to the queue.  When the GUI
+    thread reaches this function, the text will be added to the
+    button.
+</p>
+    <hr>
     <address><a href="mailto:w.christmas@ee.surrey.ac.uk">Bill Christmas</a></address>
 <!-- Created: Fri Dec 20 12:05:17 GMT 2002 -->
 <!-- hhmts start -->
-Last modified: Mon Jan  6 18:23:05 GMT 2003
+Last modified: Tue Jan 21 16:56:09 GMT 2003
 <!-- hhmts end -->
   </body>
 </html>
