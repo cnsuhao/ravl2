@@ -74,7 +74,7 @@ namespace RavlGUIN {
     if(!view.IsValid()) 
       Init(obj.Frame()); 
     view.AddObject(obj);
-    view.Refresh();
+    //view.Refresh();
     return true;
   }
   
@@ -87,7 +87,7 @@ namespace RavlGUIN {
       Init(obj.Frame());
     view.Clear();
     view.AddObject(obj);
-    view.Refresh();
+    //view.Refresh();
     return true;
   }
   
