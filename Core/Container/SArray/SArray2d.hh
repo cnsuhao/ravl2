@@ -150,6 +150,9 @@ namespace RavlN {
     DataT SumSqr() const;
     //: Calculate the sum of the squares of all the elements in the array
     
+    DataT Sum() const;      
+    //: Returns the sum all elements of the array.
+    
     Slice1dC<DataT> Diagonal() {
       return Slice1dC<DataT>(data.Data(),
 			     &((*this)[0][0]),
@@ -421,6 +424,20 @@ namespace RavlN {
     return *this;
   }
 
+  template<class DataT>
+  DataT SArray2dC<DataT>::Sum() const {
+    BufferAccess2dIterC<DataT> it(*this,size2);
+    if(!it) {
+      DataT ret;
+      SetZero(ret);
+      return ret;
+    }
+    DataT ret = StdCopy(*it);
+    for(it++;it;it++)
+      ret += *it;
+    return ret;
+  }
+  
   template<class DataT>
   DataT SArray2dC<DataT>::SumSqr() const {
     BufferAccess2dIterC<DataT> it(*this,size2);
