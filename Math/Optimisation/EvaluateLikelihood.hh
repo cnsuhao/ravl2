@@ -11,6 +11,7 @@
 //! date="24/7/2002"
 //! rcsid="$Id$"
 //! docentry="Ravl.Math.Optimisation"
+//! lib=RavlOptimise
 
 #include <Ravl/EvaluateSolution.hh>
 

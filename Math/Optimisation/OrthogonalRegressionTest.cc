@@ -5,6 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! rcsid="$Id$"
+//! lib=RavlOptimise
 
 #include "Ravl/LevenbergMarquardt.hh"
 #include "Ravl/StateVectorLine2d.hh"

@@ -12,6 +12,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Math.Optimisation.Examples"
 //! example="Homography2dFitTest.cc"
+//! lib=RavlOptimise
 
 #include "Ravl/ObsVectorBiGaussian.hh"
 

@@ -11,6 +11,7 @@
 //! date="24/7/2002"
 //! rcsid="$Id$"
 //! docentry="Ravl.Math.Optimisation.Examples"
+//! lib=RavlOptimise
 
 #include "Ravl/StateVector.hh"
 #include "Ravl/Matrix3d.hh"

@@ -12,6 +12,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Math.Optimisation.Examples"
 //! example="OrthogonalRegressionTest.cc"
+//! lib=RavlOptimise
 
 #include "Ravl/ObservationImplicit.hh"
 #include "Ravl/Vector2d.hh"

@@ -12,6 +12,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Math.Optimisation.Examples"
 //! example="QuadraticFitTest.cc"
+//! lib=RavlOptimise
 
 #include "Ravl/ObservationImplicit.hh"
 

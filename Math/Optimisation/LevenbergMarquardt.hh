@@ -12,6 +12,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Math.Optimisation"
 //! example="OrthogonalRegressionTest.cc;QuadraticFitTest.cc;Homography2dFitTest.cc"
+//! lib=RavlOptimise
 
 #include "Ravl/StoredState.hh"
 #include "Ravl/Observation.hh"
