@@ -54,7 +54,7 @@ int testBasic() {
   SArray1dC<IntT> sarr1(2);
   sarr1[0] = 1;
   sarr1[1] = 2;
-  
+
   if(sarr1.Contains(2)) {
     cerr << "Array bounds problem. 1 \n";
     return __LINE__;
@@ -142,12 +142,13 @@ int testSort() {
   arr[2] = 2;
   arr[3] = 4;
   arr[4] = 3;
-  
+  if(arr.IndexOfMax() != 1) return __LINE__;
   arr.Sort();
   // cerr << "Out=" << arr << "\n";
   for(int i = 1;i < (int) arr.Size();i++)
     if(arr[i-1] < arr[i]) return __LINE__;
-
+  if(arr.IndexOfMax() != 0) return __LINE__;
+  
   arr[0] = 1;
   arr[1] = 5;
   arr[2] = 2;

@@ -177,6 +177,9 @@ namespace RavlN {
     DataT SumOfSqr() const;
     //: Calculate the sum of the squares of all elements in the array
     
+    IndexC IndexOfMax() const;
+    //: Find the index of the maximum element in the array
+    
     //:-----------------------------------
     // Access to the object and its parts.
     
@@ -627,6 +630,17 @@ namespace RavlN {
     for(it++;it;it++)
       ret += *it;
     return ret;    
+  }
+  
+  template<class DataT>
+  IndexC SArray1dC<DataT>::IndexOfMax() const {
+    RavlAssertMsg(Size() > 0,"SArray1dC::IndexOfMax() Called on an empty array");
+    const DataT *valueOfMax = &(operator[](0));
+    for (BufferAccessIterC<DataT> i(*this); i; i++) {
+      if (*valueOfMax < *i)
+	valueOfMax = &(*i);
+    }
+    return IndexC((IntT)(valueOfMax - ReferenceElm()));
   }
 
   template<class DataT>
