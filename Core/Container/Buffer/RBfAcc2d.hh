@@ -78,11 +78,11 @@ namespace RavlN {
     
     inline const IndexRangeC &Range1() const
       { return Range(); }
-    //: Size.
+    //: Range of first index.
     
     inline const IndexRangeC &Range2() const
       { return rng2; }
-    //: Size.
+    //: Range of second index.
     
     void Fill(const DataC &d);
     //: Fill array with value.
