@@ -8,6 +8,8 @@
 #define RAVL_SMARTPTR_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! author="Charles Galambos"
+//! docentry="Ravl.Core.Reference Counting"
 
 #include "Ravl/RefCounter.hh"
 

@@ -9,6 +9,7 @@
 //////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! author="Charles Galambos"
+//! docentry="Ravl.Core.Indexing"
 //! userlevel=Normal
 //! lib=RavlCore
 

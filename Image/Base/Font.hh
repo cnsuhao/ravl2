@@ -9,6 +9,8 @@
 ////////////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlImage
+//! author="Charles Galambos"
+//! docentry="Ravl.Images.Misc"
 
 #include "Ravl/SArray1d.hh"
 #include "Ravl/Image/Image.hh"
@@ -17,7 +19,7 @@
 namespace RavlImageN {
   
   //! userlevel=Normal
-  //: Font.
+  //: Font for rendering text.
   
   class FontC {
   public:
