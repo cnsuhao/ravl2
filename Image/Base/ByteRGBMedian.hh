@@ -73,10 +73,11 @@ namespace RavlImageN {
   {
   public:
     ByteRGBMedianC()
-      : pixels(10)
+      : ByteRGBValueC(0,0,0),
+	pixels(10)
     {}
     //: Default constructor.
-    // creates an undefined median pixel.
+    // creates an undefined median pixel, with RGB value arbitrarily set to black.
 
     ByteRGBMedianC(ByteRGBValueC &pix)
       : ByteRGBValueC(pix),
