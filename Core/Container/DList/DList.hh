@@ -135,6 +135,9 @@ namespace RavlN {
       { return !((*this) == oth); }
     //: Test if lists are different.
     // assumes '==' is defined for 'DataT'
+
+    bool Contains(const DataT &x);
+    //: Test if this list contains an element == to 'x'.
     
   protected:    
     static bool MergeSortHelpCmp(DLinkC *l1,DLinkC *l2,void *dat) {
@@ -395,6 +398,10 @@ namespace RavlN {
     //: Remove first instance of 'x' found in list.
     // returns true if the item is found and removed, 
     // false otherwise.
+    
+    bool Contains(const DataT &x)
+      { return Body().Contains(x); }
+    //: Test if this list contains an element == to 'x'.
 
     friend class DLIterC<DataT>;
     friend class DListBodyC<DataT>;
@@ -453,6 +460,13 @@ namespace RavlN {
     return !(it || oit);
   }
   
+  template<class DataT> 
+  bool DListBodyC<DataT>::Contains(const DataT &x) {
+    for(DLIterC<DataT> it(*this);it;it++)
+      if(*it == x)
+	return true;
+    return false;
+  }
   
   template<class DataT>
   ostream &operator<<(ostream &strm,const DListBodyC<DataT> &lst) {
