@@ -36,18 +36,18 @@ namespace RavlN {
     BufferBodyC(UIntT nsize,const DataT &defaultVal)
       : SizeBufferAccessC<DataT>(new DataT[nsize],nsize),
         deletable(true)
-      { Fill(defaultVal); }
+    { Fill(defaultVal); }
     //: Constructor a buffer of 'nsize' items, with default value.
     
     BufferBodyC(UIntT nsize)
       : SizeBufferAccessC<DataT>(new DataT[nsize],nsize),
         deletable(true)
-      {}
+    {}
     //: Constructor a buffer of 'nsize' items.
     
     BufferBodyC()
       : deletable(false)
-      {}
+    {}
     //: Default constructor.
     
     BufferBodyC(UIntT nsize,DataT *dat,bool copy = false,bool deletable = false);
@@ -72,44 +72,44 @@ namespace RavlN {
   {
   public:
     BufferC()
-      {}
+    {}
     //: Default constructor
     // creates an invalid handle.
-
+    
     BufferC(UIntT nsize)
       : RCHandleC<BufferBodyC<DataT> >(*new BufferBodyC<DataT>(nsize))
-      {}
+    {}
     //: Constructor
     // Creates a buffer containing 'nsize' items.
-
+    
     BufferC(UIntT nsize,DataT *dat,bool copy = false,bool deletable = false)
       : RCHandleC<BufferBodyC<DataT> >(*new BufferBodyC<DataT>(nsize,dat,copy,deletable))
-      {}
+    {}
     //: Constructor
     // Creates a buffer containing 'nsize' items.
     
   protected:
     BufferC(BufferBodyC<DataT> &bod)
       : RCHandleC<BufferBodyC<DataT> >(bod)
-      {}
+    {}
     //: Body constructor
     
     BufferBodyC<DataT> &Body()
-      { return RCHandleC<BufferBodyC<DataT> >::Body(); }
+    { return RCHandleC<BufferBodyC<DataT> >::Body(); }
     //: Access body.
     
     const BufferBodyC<DataT> &Body() const
-      { return RCHandleC<BufferBodyC<DataT> >::Body(); }
+    { return RCHandleC<BufferBodyC<DataT> >::Body(); }
     //: Constant access to body.
-
+    
   public:
     UIntT Size() const
-      { return Body().Size(); }
+    { return Body().Size(); }
     //: Access size of buffer.
     
     inline DataT * ReferenceElm() const
-      { return Body().ReferenceElm(); }
-    // Returns the pointer to the reference element of the attached buffer.
+    { return Body().ReferenceElm(); }
+    //: Returns the pointer to the reference element of the attached buffer.
     // The reference element need not to be the valid element of the buffer.
     
     void Fill(const DataT &val)
@@ -117,18 +117,16 @@ namespace RavlN {
     //: Fill buffer with value.
     
     const SizeBufferAccessC<DataT> &BufferAccess() const
-      { return Body(); }
+    { return Body(); }
     //: Access buffer.
-
+    
     operator SizeBufferAccessC<DataT> &() const
-      { return const_cast<SizeBufferAccessC<DataT> &>(((const SizeBufferAccessC<DataT> &)Body())); }
+    { return const_cast<SizeBufferAccessC<DataT> &>(((const SizeBufferAccessC<DataT> &)Body())); }
     //: Access as a size buffer.
     // I don't like this, but it gets around an irritating warning from gcc.
   };
 
   ////////////////////////////////////////////////////////////
-  
-  //: Construct from data.
   
   template<class DataT>
   BufferBodyC<DataT>::BufferBodyC(UIntT nsize,DataT *ndat,bool copy,bool ndeletable) 

@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLIMAGE_HEADER
-#define RAVLIMAGE_HEADER 1
+#ifndef RAVLIMAGE_IMAGE_HEADER
+#define RAVLIMAGE_IMAGE_HEADER 1
 //////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Image/Base/Image.hh"
@@ -32,71 +32,71 @@ namespace RavlImageN {
   {
   public:
     ImageC()
-      {}
+    {}
     //: Default constructor.
     // creates an empty image.
-
+    
     ImageC(const Array2dC<PixelT> &oth)
       : Array2dC<PixelT>(oth)
-      {}
+    {}
     //: Base constructor.
-
+    
     ImageC(const Array2dC<PixelT> &oth,const IndexRange2dC &rect)
       : Array2dC<PixelT>(oth,rect)
-      {}
+    {}
     //: Construct an image as a sub rectangle 'rect' on oth.
     
     ImageC(UIntT rows,UIntT cols)
       : Array2dC<PixelT>(rows,cols)
-      {}
+    {}
     //: Construct an image with origin 0,0 and size rows cols.
-
+    
     ImageC(const IndexRangeC &rows,const IndexRangeC &cols)
       : Array2dC<PixelT>(rows,cols)
-      {}
+    {}
     //: Construct an image with the given range of indexes.
     
     ImageC(UIntT rows,UIntT cols,const BufferC<PixelT> &buf)
       : Array2dC<PixelT>(IndexRange2dC(0,rows-1,0,cols-1),buf)
-      {}
+    {}
     //: Construct an image with origin 0,0 and size rows cols with space in 'buf'
     
     ImageC(UIntT rows,UIntT cols,PixelT *data,bool deletable = true)
       : Array2dC<PixelT>(IndexRange2dC(0,rows-1,0,cols-1),BufferC<PixelT>(rows * cols,data,false,deletable))
-      {}
+    {}
     //: Construct an image with origin 0,0 and size rows cols with space in 'buf'
     
     UIntT Rows() const
-      { return Range1().Size(); }
+    { return Range1().Size(); }
     //: Number of rows in image.
     
     UIntT Cols() const
-      { return Range2().Size(); }
+    { return Range2().Size(); }
     //: Number of rows in image.
     
     inline IndexC TRow() const
-      { return Range1().Min(); }
+    { return Range1().Min(); }
     // Returns the top row index.
     
     inline IndexC LCol() const
-      { return Range2().Min(); }
+    { return Range2().Min(); }
     // Returns the left side column index.
     
     inline IndexC BRow() const
-      { return Range1().Max(); }
+    { return Range1().Max(); }
     // Returns the bottom row index.
     
     inline IndexC RCol() const
-      { return Range2().Max(); }
+    { return Range2().Max(); }
     // Returns the right side column index.
-
+    
     PixelT *Row(IndexC row) 
-      { return &(RangeBufferAccessC<BufferAccessC<PixelT> >::operator[](row)[rng2.Min()]); }
+    { return &(RangeBufferAccessC<BufferAccessC<PixelT> >::operator[](row)[rng2.Min()]); }
     //: Get a pointer to begining of row.
     
     inline PixelT BiLinear(const TFVectorC<RealT,2> &pnt)  const;
     //: Get a bi linearly interpolated pixel value.
-
+    
     ImageC<PixelT> Rotate180(Index2dC centre = Index2dC(0,0)) const;
     //: Create a copy of the image which is rotated 180 degree's.
     // The image is rotated around the center given.

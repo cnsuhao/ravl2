@@ -42,7 +42,7 @@ namespace RavlN {
     
     inline SizeBufferAccessC()
       : sz(0)
-      {}
+    {}
     //: Default constructor.
     
     inline SizeBufferAccessC(DataT * bp, SizeT size = 0);
