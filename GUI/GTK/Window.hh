@@ -40,9 +40,10 @@ namespace RavlGUIN {
     virtual bool Create();
     //: Create the widget.
     
-    void Close();
+    virtual bool Close();
     //: Close window.
     // Thread safe.
+    // If you override this, you MUST call WindowBodyC::Close() at the end of your Close() function
     
     void SetCursor(CursorC &cur);
     //: Set cursor.
@@ -51,6 +52,9 @@ namespace RavlGUIN {
     //: Set the title of the window.
   
     void SetBackground(const RavlImageN::ImageC<RavlImageN::ByteRGBValueC>& im);
+    //: Set the background of the window
+
+    void SetBackground(const RavlImageN::ImageC<RavlImageN::ByteRGBValueC>& im, GtkStateType& state);
     //: Set the background of the window
 
   protected:
@@ -63,6 +67,9 @@ namespace RavlGUIN {
     // destructor.
     
     bool GUISetBackground(RavlImageN::ImageC<RavlImageN::ByteRGBValueC>& im);
+    //: Sets the background of the window
+
+    bool GUISetBackground(RavlImageN::ImageC<RavlImageN::ByteRGBValueC>& im, GtkStateType& state);
     //: Sets the background of the window
 
     bool GUISetTitle(StringC &str);
@@ -118,6 +125,10 @@ namespace RavlGUIN {
       { return static_cast<const WindowBodyC  &>(WidgetC::Body()); }
     //: Access body.
     
+    bool GUISetBackground(RavlImageN::ImageC<RavlImageN::ByteRGBValueC>& im, GtkStateType& state) 
+    { return Body().GUISetBackground(im,state); }
+    //: Sets the background of the window
+
     bool GUISetBackground(RavlImageN::ImageC<RavlImageN::ByteRGBValueC>& im) 
     { return Body().GUISetBackground(im); }
     //: Sets the background of the window
@@ -142,21 +153,25 @@ namespace RavlGUIN {
     }
     //: Destroy this window.
     
+    void SetBackground(const RavlImageN::ImageC<RavlImageN::ByteRGBValueC>& im, GtkStateType& state) 
+    { Body().SetBackground(im,state); }
+    //: Set the background of the window
+
     void SetBackground(const RavlImageN::ImageC<RavlImageN::ByteRGBValueC>& im) 
     { Body().SetBackground(im); }
     //: Set the background of the window
 
     void SetTitle(const StringC &str)
-      { Body().SetTitle(str); }
+    { Body().SetTitle(str); }
     //: Set the title of the window.
     
-    void Close()
-      { Body().Close(); }
+    bool Close()
+    { return Body().Close(); }
     //: Close window.
     // Thread safe.
     
     void SetCursor(CursorC &cur)
-      { Body().SetCursor(cur); }
+    { Body().SetCursor(cur); }
     //: Set cursor.
     
     friend class WindowBodyC;

@@ -29,11 +29,7 @@ namespace RavlGUIN {
   static int rootWinCount = 0;
   /* when invoked (via signal delete_event), terminates the application.
    */
-  static void close_application( GtkWidget *widget, GdkEvent *event, gpointer data ) { 
-    if(--rootWinCount == 0)
-      Manager.Quit(); 
-  }
-  
+
   //: Constructor.
   
   WindowBodyC::WindowBodyC(int nsx,int nsy,const char *ntitle,GtkWindowType nWinType,int nboarder,bool nrootWin)
@@ -65,9 +61,8 @@ namespace RavlGUIN {
       widget = gtk_window_new (winType);  
       if(rootWin && winType == GTK_WINDOW_TOPLEVEL) {
 	rootWinCount++;
-	gtk_signal_connect( GTK_OBJECT (widget), "delete_event",
-			    GTK_SIGNAL_FUNC (close_application), NULL );
       }
+      ConnectRef(Signal("delete_event"),*this,&WindowBodyC::Close);
       
     if(title != 0)
       gtk_window_set_title (GTK_WINDOW (widget),title.chars());
@@ -100,8 +95,8 @@ namespace RavlGUIN {
 	gtk_widget_destroy(widget);
 	widget = 0;
       }
-    if(widgetId != 0)
-      Manager.Deregister(*this); 
+      if(widgetId != 0)
+	Manager.Deregister(*this); 
     }
 #endif
   }
@@ -109,8 +104,11 @@ namespace RavlGUIN {
   //: Close window.
   // Thread safe.
   
-  void WindowBodyC::Close() {
+  bool WindowBodyC::Close() {
+    ONDEBUG(cerr << "WindowBodyC::Close() called" << endl);
     Manager.Queue(Trigger(WindowC(*this),&WindowC::GUICloseDown));
+    ONDEBUG(cerr << "WindowBodyC::Close() done" << endl);
+    return true;
   }
   
   //: Set cursor.
@@ -146,6 +144,25 @@ namespace RavlGUIN {
   
   //: Set the title of the window.
 
+  bool WindowBodyC::GUISetBackground(ImageC<ByteRGBValueC>& im, GtkStateType& state) {
+    if(widget != 0) {
+       GdkPixmap* pixmap = gdk_pixmap_new(widget->window,
+ 					 im.Cols(),
+ 					 im.Rows(),
+ 					 -1);
+       gdk_draw_rgb_image(pixmap,
+ 			 widget->style->black_gc,
+ 			 0,0,
+ 			 im.Cols(),im.Rows(),
+ 			 GDK_RGB_DITHER_NORMAL,
+ 			 (unsigned char *) im.Row(im.TRow()),
+ 			 im.Cols() * 3);
+       // Set pixmap
+       widget->style->bg_pixmap[state] = pixmap;       
+    }
+    return true;
+  }
+
   bool WindowBodyC::GUISetBackground(ImageC<ByteRGBValueC>& im) {
     if(widget != 0) {
        GdkPixmap* pixmap = gdk_pixmap_new(widget->window,
@@ -159,16 +176,21 @@ namespace RavlGUIN {
  			 GDK_RGB_DITHER_NORMAL,
  			 (unsigned char *) im.Row(im.TRow()),
  			 im.Cols() * 3);
-       widget->style->bg_pixmap[0] = pixmap;
-       widget->style->bg_pixmap[1] = pixmap;
-       widget->style->bg_pixmap[2] = pixmap;
-       widget->style->bg_pixmap[3] = pixmap;
-       widget->style->bg_pixmap[4] = pixmap;
+       // Set pixmap
+       widget->style->bg_pixmap[GTK_STATE_NORMAL] = pixmap;
+       widget->style->bg_pixmap[GTK_STATE_ACTIVE] = pixmap;
+       widget->style->bg_pixmap[GTK_STATE_PRELIGHT] = pixmap;
+       widget->style->bg_pixmap[GTK_STATE_SELECTED] = pixmap;
+       widget->style->bg_pixmap[GTK_STATE_INSENSITIVE] = pixmap;
     }
     return true;
   }
 
-  //: Set the title of the window.
+  //: Set the background of the window.
+  
+  void WindowBodyC::SetBackground(const ImageC<ByteRGBValueC>& im, GtkStateType& state) {
+    Manager.Queue(Trigger(WindowC(*this),&WindowC::GUISetBackground,im,state));
+  }
   
   void WindowBodyC::SetBackground(const ImageC<ByteRGBValueC>& im) {
     Manager.Queue(Trigger(WindowC(*this),&WindowC::GUISetBackground,im));
@@ -177,15 +199,20 @@ namespace RavlGUIN {
   //: Close down window.
   
   bool WindowBodyC::GUICloseDown() {
+    ONDEBUG(cerr << "WindowBodyC::GuiCloseDown() called" << endl);
     if(closeDown)
       return true;
     closeDown = true;
-    if(rootWin) {  // Killing the root window exits the application...
-      Manager.Quit();
-      return true;
+    if(rootWin) {
+      if (--rootWinCount == 0) {
+	ONDEBUG(cerr << "WindowBodyC::GuiCloseDown() calling Manager.Quit()" << endl);
+	Manager.Quit(); 
+	return true;
+      }
     }
     Hide();
     Destroy();
+    ONDEBUG(cerr << "WindowBodyC::GuiCloseDown() done" << endl);
     return true;
   }
   
