@@ -48,7 +48,7 @@ namespace RavlN {
   
   ExceptionC::~ExceptionC()  {
     if(ref)
-      delete (char *)desc;
+      delete [] desc;
   }
   
   //: Dump contents of exception to cerr;
