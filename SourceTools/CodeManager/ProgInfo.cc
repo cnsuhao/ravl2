@@ -23,13 +23,19 @@ namespace RavlN {
     sources += dir + filenameSeperator + progName;
     // We could check for duplications here, but there
     // really shouldn't be.
-    if(defs["PLIB"] == "") { // Are these just for the exe ?
+    if(defs["PLIB"].IsEmpty()) { // Are these just for the exe ?
       StringListC sl(defs["SOURCES"]);
       for(DLIterC<StringC> it(sl);it;it++) 
 	sources += dir + filenameSeperator + *it;
-    }
+      StringListC pl(defs["USESLIBS"]);
+      for(DLIterC<StringC> it(pl);it;it++) {
+	if(!useslibs.Contains(*it))
+	  useslibs += *it;
+      }
+    } else
+      useslibs += defs["PLIB"];
+      
     // We need to check for repeated inclusions in USESLIBS.
-    useslibs += defs["PLIB"];
     {
       StringListC pl(defs["PROGLIBS"]);
       for(DLIterC<StringC> it(pl);it;it++) {
