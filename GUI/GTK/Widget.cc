@@ -44,6 +44,7 @@ namespace RavlGUIN {
 #define GTKSIG_CLISTSEL (GtkSignalFunc) WidgetBodyC::gtkCListSelect,SigTypeCListSel
 #define GTKSIG_CLISTCOL (GtkSignalFunc) WidgetBodyC::gtkCListCol,SigTypeCListCol
 #define GTKSIG_TERM    0,SigTypeUnknown
+#define GTKSIG_KEYBOARD (GtkSignalFunc) WidgetBodyC::gtkEventKeyboard,SigTypeEventKeyboard
 
   GTKSignalInfoC &WidgetBodyC::SigInfo(const char *nm)  {
     static Tuple2C<const char *,GTKSignalInfoC> signalInfo [] = {
@@ -55,8 +56,8 @@ namespace RavlGUIN {
       GTKSIG("motion_notify_event"  ,GTKSIG_EVENT_MOUSEMOTION ), // gtkwidget
       GTKSIG("delete_event"         ,GTKSIG_EVENT   ), // gtkwidget
       GTKSIG("expose_event"         ,GTKSIG_EVENT   ), // gtkwidget
-      GTKSIG("key_press_event"      ,GTKSIG_EVENT   ), // gtkwidget
-      GTKSIG("key_release_event"    ,GTKSIG_EVENT   ), // gtkwidget
+      GTKSIG("key_press_event"      ,GTKSIG_KEYBOARD), // gtkwidget
+      GTKSIG("key_release_event"    ,GTKSIG_KEYBOARD), // gtkwidget
       GTKSIG("enter_notify_event"   ,GTKSIG_EVENT   ), // gtkwidget
       GTKSIG("leave_notify_event"   ,GTKSIG_EVENT   ), // gtkwidget
       GTKSIG("configure_event"      ,GTKSIG_EVENT   ), // gtkwidget
@@ -119,6 +120,14 @@ namespace RavlGUIN {
     sig(event); 
     return 1;
   }
+  
+  int WidgetBodyC::gtkEventKeyboard(GtkWidget *widget,GdkEvent *event,Signal0C *data) { 
+    Signal1C<GdkEventKey *> sig(*data);
+    RavlAssert(sig.IsValid());
+    sig((GdkEventKey *)event); 
+    return 1;
+  }
+  
 
   int WidgetBodyC::gtkGeneric(GtkWidget *widget,Signal0C *data) { 
     (*data)();
@@ -235,7 +244,17 @@ namespace RavlGUIN {
     switch(si.signalType)
       {
       case SigTypeGeneric: ret = Signal0C(true); break;
-      case SigTypeEvent:  ret = Signal2C<GdkEvent *,WidgetC>(0,WidgetC(*this)); break;
+      case SigTypeEvent:  
+	ret = Signal2C<GdkEvent *,WidgetC>(0,WidgetC(*this)); 
+	break;
+      case SigTypeEventKeyboard: 
+	if(sN == "key_press_event") // Enable press events.
+	  AddEventMask(GDK_KEY_PRESS_MASK); 
+	if(sN == "key_release_event") // Enable Release events.
+	  AddEventMask(GDK_KEY_RELEASE_MASK);
+	
+	ret = Signal2C<GdkEventKey *,WidgetC>(0,WidgetC(*this)); 
+	break;
       case SigTypeEventMouseButton:
 	if(sN == "button_press_event") // Enable press events.
 	  AddEventMask(GDK_BUTTON_PRESS_MASK); 
@@ -300,16 +319,18 @@ namespace RavlGUIN {
       //if(GTK_WIDGET_NO_WINDOW (widget))
       gtk_widget_set_events (widget,(GdkEventMask) eventMask);
     }
-    
+    if(eventMask & (GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK))
+      GTK_WIDGET_SET_FLAGS(widget,GTK_CAN_FOCUS);    
     gtk_signal_connect (GTK_OBJECT (widget), "destroy",
 			(GtkSignalFunc) gtkDestroy, this);
     for(HashIterC<const char *,Signal0C> it(signals);it.IsElm();it.Next())
       ConnectUp(it.Key(),it.Data());
-    
+#if 0    
     if(tooltip != 0) {
       WidgetC me(*this);
       //guiGlobalToolTips.AddToolTip(me,tooltip);
     }
+#endif
   }
   
   //: Show widget to the world.
@@ -419,5 +440,14 @@ namespace RavlGUIN {
     RavlAssert(widget != 0);
     gtk_widget_shape_combine_mask(widget,&mask,off_x,off_y);
   }
+
+  //: Grab keyboard focus.
+  
+  void WidgetBodyC::GUIGrabFocus() {
+    if(widget == 0)
+      return ;
+    gtk_widget_grab_focus(widget);
+  }
+
 }
 

@@ -130,6 +130,8 @@ namespace RavlGUIN {
     void ShapeCombineMask(GdkBitmap &mask,int off_x = 0,int off_y = 0);
     //: Make a shape mask for the widget.
     
+    void GUIGrabFocus();
+    //: Grab keyboard focus.
   protected:
     bool GUISetState(GtkStateType &state);
     //: Set state of widget.
@@ -169,6 +171,7 @@ namespace RavlGUIN {
     static int gtkEvent(GtkWidget *widget,GdkEvent *event,Signal0C *data);
     static int gtkEventMouseButton(GtkWidget *widget,GdkEvent *event,Signal0C *data);
     static int gtkEventMouseMotion(GtkWidget *widget,GdkEvent *event,Signal0C *data);
+    static int gtkEventKeyboard(GtkWidget *widget,GdkEvent *event,Signal0C *data);
     static int gtkGeneric(GtkWidget *widget,Signal0C *data);
     static int gtkString(GtkWidget *widget,Signal0C *data);
     
@@ -321,6 +324,10 @@ namespace RavlGUIN {
       { Body().ShapeCombineMask(mask,off_x,off_y); }
     //: Make a shape mask for the widget.
     // GUI thread only.
+    
+    void GUIGrabFocus()
+    { Body().GUIGrabFocus(); }
+    //: Grab keyboard focus.
     
     friend class WidgetBodyC;
     friend class ManagerC;

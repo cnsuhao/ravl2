@@ -10,8 +10,9 @@
 
 #include "Ravl/GUI/MouseEvent.hh"
 #include <gtk/gtk.h>
+#include <iostream.h>
 
-#define RAVLDODEBUG 1
+#define DODEBUG 1
 
 #if DODEBUG
 #define ONDEBUG(x) x
@@ -41,7 +42,7 @@ namespace RavlGUIN {
     
   {
     change = 1 << (ev.button - 1);
-    //ONDEBUG(cerr << "Button: " << ev.button << "\n");
+    ONDEBUG(cerr << "MouseEventC::MouseEventC(), Button: " << ev.button << "\n");
   }
   
   //: Constructor.

@@ -25,6 +25,7 @@
 #include "Ravl/Vector3d.hh"
 #include "Ravl/3D/TriMesh.hh"
 #include "Ravl/DP/FileFormatIO.hh"
+#include "Ravl/OS/Date.hh"
 
 #include <gtk/gtk.h>
 #include <gdk/gdk.h>
@@ -67,23 +68,7 @@ int main(int nargs,char *args[])
   StringC meshFile = opts.String("t","/vol/vssp/motion3d/DispMap/cubehead/detail.tri","Mesh to load ");
   bool useDisplayList = opts.Boolean("dl",false,"Use display lists. ");
   opts.Check();
-  
-  WindowC win(100,100,"Hello");
-  Canvas3DC area(800,800);
-  area.SetRenderMode(C3D_SMOOTH);
-  Connect(area.Signal("button_press_event"),&pressFunc);
-  Connect(area.Signal("button_release_event"),&releaseFunc);
-  if(doMotion)
-    Connect(area.Signal("motion_notify_event"),&moveFunc);
-  
-  win.Add(area);
-  cerr << "Starting gui. \n";
-  Manager.Execute();
-  win.Show();
-  area.Render(&InitGL); // Set things up.
-  area.Light(RealRGBValueC(0.8,0.8,0.8),Point3dC(3,3,10));
-  area.ViewPoint(90,Point3dC(0,0,3)); // Setup view point.
-  
+
   DObject3DC object;
   if(!meshFile.IsEmpty()) {
     TriMeshC ts;
@@ -95,6 +80,23 @@ int main(int nargs,char *args[])
     object = DTriMesh3DC(ts);
   } else
     object = DCube3DC(Vector3dC(1,1,1),RealRGBValueC(0,1,0));
+  
+  WindowC win(100,100,"Hello");
+  Canvas3DC area(800,800);
+  area.SetRenderMode(C3D_SMOOTH);
+  Connect(area.Signal("button_press_event"),&pressFunc);
+  Connect(area.Signal("button_release_event"),&releaseFunc);
+  if(doMotion)
+    Connect(area.Signal("motion_notify_event"),&moveFunc);
+  
+  win.Add(area);
+  cerr << "Starting gui. \n";
+  win.Show();
+  Manager.Execute();
+  Sleep(1);
+  area.Render(&InitGL); // Set things up.
+  area.Light(RealRGBValueC(0.8,0.8,0.8),Point3dC(3,3,10));
+  area.ViewPoint(90,Point3dC(0,0,3)); // Setup view point.
   
   if(useDisplayList)
     object.EnableDisplayList();
