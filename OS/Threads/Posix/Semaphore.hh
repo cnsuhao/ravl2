@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_THREADSEMAPHORE_HEADER
-#define RAVL_THREADSEMAPHORE_HEADER 1
+#ifndef RAVL_SEMAPHORE_HEADER
+#define RAVL_SEMAPHORE_HEADER 1
 //////////////////////////////////////////////////////////////
 //! userlevel=Normal
 //! author="Charles Galambos"
@@ -29,7 +29,7 @@ namespace RavlN
   
   class SemaphoreC {
   public:
-    SemaphoreC(int initVal = 1) 
+    SemaphoreC(int initVal) 
       : count(initVal)
     {}
     //: Constructor.
