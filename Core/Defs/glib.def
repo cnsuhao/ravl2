@@ -17,12 +17,29 @@ include Math.def
 
 ifneq ($(strip $(filter-out $(RESOURCES),libGTK2)),)
 
-INCLUDES += `glib-config --cflags`
-EXELIB := `glib-config --libs`  $(EXELIB)
+# GTK 1
+ifndef GLIBCFLAGS 
+GLIBCFLAGS = `glib-config --cflags`
+endif 
+ifndef GLIBLIBS
+GLIBLIBS = `glib-config --libs`
+endif 
 
+# GTK 2
 else
-INCLUDES +=  `pkg-config glib-2.0 --cflags` -DRAVL_USE_GTK2=1
-EXELIB := `pkg-config glib-2.0 --libs`  $(EXELIB)
+ifndef GLIBCFLAGS
+GLIBCFLAGS =  `pkg-config glib-2.0 --cflags` -DRAVL_USE_GTK2=1
+endif 
+ifndef GLIBLIBS
+GLIBLIBS =  `pkg-config glib-2.0 --libs`
 endif
 
 endif
+INCLUDES += $(GLIBCFLAGS) 
+EXELIB := $(GLIBLIBS) $(EXELIB) 
+
+endif
+
+
+
+
