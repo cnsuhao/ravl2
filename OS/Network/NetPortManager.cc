@@ -53,10 +53,11 @@ namespace RavlN {
     NetPortManagerC manager(*this);
     LaunchThread(manager,&NetPortManagerC::Run);
     ready.Wait();
+    Sleep(0.1);
     return true;
   }
-
-
+  
+  
   //: Run port manager.
   
   bool NetPortManagerBodyC::Run() {
@@ -82,7 +83,7 @@ namespace RavlN {
     iports.Lookup(name,ret);
     return ret;
   }
-
+  
   //: Register new port.
   
   bool NetPortManagerBodyC::Register(const StringC &name,NetISPortServerBaseC &ips) {
