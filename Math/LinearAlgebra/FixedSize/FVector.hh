@@ -63,6 +63,15 @@ namespace RavlN {
       { return Sqrt(SqrEuclidDistance(i)); }
     //: Returns the magintude of the difference between the two vectors.
     
+    FVectorC<N> Unit() const {
+      FVectorC<N> ret;
+      RealT mag = Magnitude();
+      for(UIntT i = 0;i < N;i++)
+	ret[i] = data[i] / mag;
+      return ret;
+    }
+    //: Create a unit vector with the same direction.
+    
   };
 }
 
