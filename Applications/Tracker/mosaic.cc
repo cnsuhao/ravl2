@@ -24,7 +24,6 @@
 // <li> median filter applied to warped frames to create the mosaic</li>
 // <li> warp mosaic into each frame and subtract from frame to generate foreground objects (optional)</li>
 // </ul>
-// <p>It does <font color=red>not</font> do lens distortion correction; for this use <code>RemoveDistortion</code></p>
 
 #include "Ravl/config.h"
 #include "Ravl/Option.hh"
@@ -79,7 +78,7 @@ int Mosaic(int nargs,char **argv) {
   RealT K1 = opt.Real("K1",0.0,"Cubic radial distortion coefficient. ");
   RealT K2 = opt.Real("K2",0.0,"Quintic radial distortion coefficient. ");
   opt.Comment("Tracking:");
-  int newFreq    = opt.Int("nf",5,"Frequency of introducing new features. ");
+  int newFreq    = opt.Int("nf",1,"Frequency of introducing new features. ");
   int cthreshold = opt.Int("ct",30,"Corner threshold. ");
   int cwidth     = opt.Int("cw",7,"Corner filter width. ");
   int mthreshold = opt.Int("mt",20,"Match threshold. ");
@@ -98,13 +97,12 @@ int Mosaic(int nargs,char **argv) {
   Point2dC pointBL = opt.Point2d("pbl", 1.0, 0.0, "Bottom-left coordinates of projection of first image (in units of picture size)");
   Point2dC pointBR = opt.Point2d("pbr", 1.0, 1.0, "Bottom-right coordinates of projection of first image (in units of picture size)");
   opt.Comment("Foreground image generation:");
-  bool noForeground = opt.Boolean("nofg", false, "Suppress foreground image generation");
+  StringC ofn = opt.String("fg","","Output sequence. (Default: no foreground sequence generated)");
   int fgThreshold = opt.Int("ft",24,"Minimum distance between image and mosaic pixel values to be a foreground pixel");
   opt.Comment("Input and output video:");
   int startFrame = opt.Int("sf", 0, "Start frame");
   int maxFrames = opt.Int("mf",200,"Maximum number of frames to process");
   StringC ifn = opt.String("","@V4LH:/dev/video0","Input sequence. ");
-  StringC ofn = opt.String("","@X","Output sequence. ");
   opt.Check();
     
 #if 0
@@ -123,7 +121,7 @@ int Mosaic(int nargs,char **argv) {
   // Set mosaic coordinate system
   mosaicBuilder.SetCoordinates(pointTL, pointTR, pointBL, pointBR);
   // If we are not automaically growing the mosaic size as required, we need to expand the mosaic border to allow for growth
-  if (resize == none) 
+  if ((resize == none) || opt.IsOnCommandLine("bo")) 
     mosaicBuilder.SetBorderExpansion(border.Row(), border.Col());
   // If there is lens distortion, correct it (& save the results)
   if (K1 > 0.0 || K2 > 0.0) mosaicBuilder.SetLensCorrection(K1, K2, cx_ratio, cy_ratio, fx, fy);
@@ -131,19 +129,17 @@ int Mosaic(int nargs,char **argv) {
   // Build the mosaic homograpy data
   if (!mosaicBuilder.GrowMosaic(ifn, startFrame, maxFrames)) exit (-1);
 
-
   // construct mosaic image from median image & save it
-  ImageC<ByteRGBValueC> mosaicRGB = ByteRGBMedianImageC2ByteRGBImageCT(mosaicBuilder.GetMosaic());
-  Save(mosaicFile,mosaicRGB);
+  Save (mosaicFile, mosaicBuilder.GetMosaic());
 
   // save interframe projections if required
   if (homogFile != "") {
     OStreamC homogStream(homogFile);
-    homogStream<<mosaicBuilder.GetMotion() << mosaicBuilder.GetCropRect() << endl<< mosaicRGB.Rectangle() << endl;
+    homogStream<<mosaicBuilder.GetMotion() << mosaicBuilder.GetCropRect() << endl<< mosaicBuilder.GetMosaic().Rectangle() << endl;
     homogStream.Close();
   }
 
-  if (noForeground) return 0;
+  if (!opt.IsOnCommandLine("fg")) return 0;
 
   // Open the output stream for the foreground segmentation images.
   DPOPortC<ImageC<ByteRGBValueC> > outp;

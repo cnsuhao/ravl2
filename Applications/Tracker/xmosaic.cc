@@ -206,10 +206,9 @@ void XMosaicBodyC::Destroy() {
 
 bool XMosaicBodyC::SaveMosaic(StringC &fn) {
     RWLockHoldC holdMosaic(accessMosaic,RWLOCK_READONLY);
-    ImageC<ByteRGBMedianC> mosaic = mosaicBuilder.GetMosaic();
-    ImageC<ByteRGBValueC> rgb = ByteRGBMedianImageC2ByteRGBImageCT(mosaic);
+    ImageC<ByteRGBValueC> mosaic = mosaicBuilder.GetMosaic();
     holdMosaic.Unlock(); // Finished reading mosaic.
-    if(!RavlN::Save(fn,rgb)) // Save RGB image.
+    if(!RavlN::Save(fn,mosaic)) // Save RGB image.
       AlertBox(StringC("Failed to save mosaic to '") + fn + "'.");
     return true;
 }
@@ -241,15 +240,14 @@ bool XMosaicBodyC::BuilderThread() {
 #if 0
     // Try and update only the modified section...
     IndexRange2dC cropRect = mosaicBuilder.GetCropRect();
-    ImageC<ByteRGBMedianC> mosaic(mosaicBuilder.GetMosaic(),cropRect);
+    ImageC<ByteRGBValueC> mosaic(mosaicBuilder.GetMosaic(),cropRect);
 #else
-    ImageC<ByteRGBMedianC> mosaic = mosaicBuilder.GetMosaic();
+    ImageC<ByteRGBValueC> mosaic = mosaicBuilder.GetMosaic();
 #endif
-    ImageC<ByteRGBValueC> rgb = ByteRGBMedianImageC2ByteRGBImageCT(mosaic);
     holdMosaic.Unlock(); // Finished reading mosaic.
     
     //: Render it to the canvas.
-    canvas.DrawImage(rgb,rgb.Frame().Origin());
+    canvas.DrawImage(mosaic,mosaic.Frame().Origin());
   }
   ONDEBUG(cerr << "XMosaicBodyC::BuilderThread(), Exiting. \n");
   return true;
@@ -266,12 +264,6 @@ int xmosaic(int nargs,char **argv) {
   int mwidth     = opt.Int("mw",17,"Tracker feature width (i.e. minimum distance between features). ");
   int lifeTime   = opt.Int("ml",8,"Lifetime of a point without a match in the incoming images. ");
   int searchSize = opt.Int("ss",25,"Search size. How far to look from the predicted position of the feature.");
-  RealT cx_ratio = opt.Real("cx",0.5,"Image centre x coordinate as ratio of image width. ");
-  RealT cy_ratio = opt.Real("cy",0.5,"Image centre y coordinate as ratio of image height. ");
-  RealT fx = opt.Real("fx",1.0,"Focal distance in vertical pixels. ");
-  RealT fy = opt.Real("fy",1.0,"Focal distance in horizontal pixels. ");
-  RealT K1 = opt.Real("K1",0.0,"Cubic radial distortion coefficient. ");
-  RealT K2 = opt.Real("K2",0.0,"Quintic radial distortion coefficient. ");
   int borderC    = opt.Int("bc", 200, "Width of horizontal border around image");
   int borderR    = opt.Int("br", 200, "Width of vertical border around image");
   int cropT = opt.Int("crt", 0, "Width of cropping region at top of image");
