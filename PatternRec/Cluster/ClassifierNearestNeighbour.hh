@@ -33,12 +33,12 @@ namespace RavlN {
   {
   public:
     ClassifierNearestNeighbourBodyC(const SampleVectorC &vectors,
-				  const SampleLabelC &labels,
-				  const DistanceC &xdistMetric = DistanceSqrEuclideanC());
+				    const SampleLabelC &labels,
+				    const DistanceC &xdistMetric = DistanceSqrEuclideanC());
     //: Constructor.
 
     ClassifierNearestNeighbourBodyC(const SampleVectorC &vectors,
-				  const DistanceC &xdistMetric = DistanceSqrEuclideanC());
+				    const DistanceC &xdistMetric = DistanceSqrEuclideanC());
     //: Constructor.
     
     ClassifierNearestNeighbourBodyC(istream &strm);
@@ -76,14 +76,14 @@ namespace RavlN {
     // Creates an invalid handle.
     
     ClassifierNearestNeighbourC(const SampleVectorC &vectors,
-			      const SampleLabelC &labels,
-			      const DistanceC &xdistMetric = DistanceSqrEuclideanC())
+				const SampleLabelC &labels,
+				const DistanceC &xdistMetric = DistanceSqrEuclideanC())
       : ClassifierC(*new ClassifierNearestNeighbourBodyC(vectors,labels,xdistMetric))
     {}
     //: Constructor.
     
     ClassifierNearestNeighbourC(const SampleVectorC &vectors,
-			      const DistanceC &xdistMetric = DistanceSqrEuclideanC())
+				const DistanceC &xdistMetric = DistanceSqrEuclideanC())
       : ClassifierC(*new ClassifierNearestNeighbourBodyC(vectors,xdistMetric))
     {}
     //: Constructor.
