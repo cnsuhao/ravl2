@@ -45,12 +45,20 @@ namespace Ravl3DN {
     { return edge; }
     //: Access first edge.
     
+  public:
     void SetEdge(HEMeshEdgeBodyC *nedge)
     { edge = nedge; }
     //: Set first edge.
     
     UIntT NoEdges() const;
     //: Get number of edges on face.
+    
+    bool HasVertex(HEMeshVertexC vert) const;
+    //: Check that the vertex is connected to this face.
+    
+    HEMeshEdgeC Edge() 
+    { return HEMeshEdgeC(*edge); }
+    //: Get an edge leading to the face.
     
   private:
     HEMeshEdgeBodyC *edge; // Ptr to one of the edges adjacent to the face.
@@ -113,10 +121,19 @@ namespace Ravl3DN {
     { return Body().NoEdges(); }
     //: Get number of edges on face.
     
+    bool HasVertex(HEMeshVertexC vert) const
+    { return Body().HasVertex(vert); }
+    //: Check that the vertex is connected to this face.
+    
+    HEMeshEdgeC Edge() 
+    { return Body().Edge(); }
+    //: Get an edge leading to the face.
+    
   private:
     HEMeshFaceBodyC *body;
     friend class HEMeshFaceEdgeIterC;
     friend class HEMeshBodyC;
+    friend class HEMeshEdgeC;
   };
   
   //! userlevel=Normal
@@ -220,6 +237,12 @@ namespace Ravl3DN {
     HEMeshEdgeBodyC *at;
   };
   
+  //////////////////////////////////////////////////////
+  
+  inline
+  HEMeshFaceC HEMeshEdgeC::OpenEdge()
+  { return Body().OpenEdge(); }
+
 }
 
 #endif

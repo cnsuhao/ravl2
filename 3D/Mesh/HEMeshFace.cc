@@ -21,6 +21,15 @@ namespace Ravl3DN {
       count++;
     return count;
   }
+
+  //: Check that the vertex is connected to this face.
+  
+  bool HEMeshFaceBodyC::HasVertex(HEMeshVertexC vert) const {
+    for(HEMeshFaceEdgeIterC it(const_cast<HEMeshFaceBodyC &>(*this));it;it++)
+      if(it.Data().Vertex() == vert) 
+	return true;
+    return false;
+  }
   
   
 }

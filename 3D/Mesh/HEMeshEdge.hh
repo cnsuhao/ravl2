@@ -26,6 +26,7 @@ namespace Ravl3DN {
   class HEMeshFaceBodyC;  
   class HEMeshEdgeBodyC;
   class HEMeshBodyC;
+  class HEMeshFaceBodyC;
   
   //! userlevel=Develop
   //: Half edge in mesh.
@@ -78,6 +79,16 @@ namespace Ravl3DN {
     { return HEMeshVertexC(const_cast<HEMeshVertexBodyC &>(*vertex)); }
     //: Access vertex.
     
+    HEMeshVertexC CollapseEdge();
+    //: Collapse edge to zero length.
+    // This deletes the edge from the mesh and merges the vertex's
+    // at either end.  The new vertex is returned.
+    
+    HEMeshFaceC OpenEdge();
+    //: Open an edge, merging the faces on either side.
+    // This deletes the edge from the mesh and returns
+    // a handle to the new face.
+    
   protected:
     HEMeshEdgeBodyC()
       : pair(0)
@@ -119,6 +130,9 @@ namespace Ravl3DN {
     HEMeshEdgeC(HEMeshVertexBodyC &vert,HEMeshFaceBodyC &face)
       : body(new HEMeshEdgeBodyC(vert,face))
     {}
+    //: Constructor.
+    
+    HEMeshEdgeC(HEMeshVertexC vert,HEMeshFaceC face);
     //: Constructor.
     
     HEMeshEdgeC(HEMeshEdgeBodyC &bod)
@@ -166,7 +180,15 @@ namespace Ravl3DN {
     bool HasPair() const
     { return Body().HasPair(); }
     //: Does this edge have a pair.
-
+    
+    HEMeshEdgeC Pair()
+    { return HEMeshEdgeC(Body().Pair()); }
+    //: Access edge's apair.
+    
+    HEMeshVertexC Vertex() const
+    { return Body().Vertex(); }
+    //: Get vertex associated with the edge. 
+    
     UIntT Hash() const
     { return ((UIntT) body) >> 3; }
     //: Hash value for handle.
@@ -174,6 +196,21 @@ namespace Ravl3DN {
     bool operator==(const HEMeshEdgeC &oth) const
     { return body == oth.body; }
     //: Is this a handle to the same object ?
+    
+    bool operator==(const HEMeshEdgeBodyC *oth) const
+    { return body == oth; }
+    //: Is this a handle to oth ?
+
+    HEMeshVertexC CollapseEdge()
+    { return Body().CollapseEdge(); }
+    //: Collapse edge to zero length.
+    // This deletes the edge from the mesh and merges the vertex's
+    // at either end.  The new vertex is returned.
+    
+    HEMeshFaceC OpenEdge();
+    //: Open an edge, merging the faces on either side.
+    // This deletes the edge from the mesh and returns
+    // a handle to the new face.
     
   private:
     HEMeshEdgeBodyC *body;
@@ -184,6 +221,7 @@ namespace Ravl3DN {
     friend class HEMeshVertexEdgeIterC;
     friend class HEMeshFaceC;
     friend class HEMeshFaceEdgeIterC;
+    friend class HEMeshFaceBodyC;
   };
   
   //////////////////////////////////////////////////////////////////////////

@@ -9,6 +9,7 @@
 
 #include "Ravl/3D/HEMeshVertex.hh"
 #include "Ravl/3D/HEMeshEdge.hh"
+#include "Ravl/3D/HEMeshFace.hh"
 
 namespace Ravl3DN {
     
@@ -28,9 +29,25 @@ namespace Ravl3DN {
 	break;
       at = at.Pair().Next();
     }
+#else
+    RavlAssert(0);
 #endif
     
     return HEMeshEdgeC();
   }
+
+  //: Link this vertex to othvert on given face
+  
+  HEMeshEdgeC HEMeshVertexBodyC::Link(HEMeshVertexC vert,HEMeshFaceC face) {
+    HEMeshEdgeC ret;
+    RavlAssert(face.HasVertex(vert));
+    RavlAssert(face.HasVertex(*this));
+    
+    HEMeshEdgeC newEdge1(vert,face);
+    HEMeshEdgeC newEdge2(*this,face);
+    
+    return ret;
+  }
+
   
 }

@@ -8,6 +8,37 @@
 //! lib=Ravl3D
 
 #include "Ravl/3D/HEMeshEdge.hh"
+#include "Ravl/3D/HEMeshFace.hh"
 
 namespace Ravl3DN {
+
+  //: Collapse edge to zero length.
+  // This deletes the edge from the mesh and merges the vertex's
+  // at either end.
+  
+  HEMeshVertexC HEMeshEdgeBodyC::CollapseEdge() {
+    // Check face isn't relying on this edge.
+    if(face->Edge() == this) {
+      HEMeshEdgeBodyC *oth = &Next();
+      // Has face collapsed to zero size ?
+      if(oth == this) {
+      } else
+	face->SetEdge(oth);
+    }
+    Unlink();
+    RavlAssertMsg(0,"HEMeshEdgeBodyC::CollapseEdge(), Not implemented. ");
+    return HEMeshVertexC();
+  }
+  
+  HEMeshFaceC HEMeshEdgeBodyC::OpenEdge() {
+    RavlAssertMsg(0,"HEMeshEdgeBodyC::OpenEdge(), Not implemented. ");
+    return HEMeshFaceC();
+  }
+  
+  //: Constructor.
+  
+  HEMeshEdgeC::HEMeshEdgeC(HEMeshVertexC vert,HEMeshFaceC face)
+    : body(new HEMeshEdgeBodyC(vert.Body(),face.Body()))
+  {}
+
 }

@@ -47,6 +47,10 @@ namespace Ravl3DN {
     { return *edge; }
     //: Access edge.
     
+    HEMeshEdgeC Link(HEMeshVertexC othvert,HEMeshFaceC face);
+    //: Link this vertex to othvert on given face
+    // Both vertexes must share the given face. 
+    
   protected:
     HEMeshVertexBodyC(const Vector3dC &pos,const Vector3dC &norm)
       : VertexC(pos,norm),

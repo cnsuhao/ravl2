@@ -57,6 +57,9 @@ namespace Ravl3DN {
       return nvert;
     }
     //: Insert a new vertex into the mesh.
+
+    HEMeshVertexC InsertVertexOnEdge(HEMeshEdgeC edge);
+    //: Insert a vertex on an edge.
     
     HEMeshFaceC InsertFace(const SArray1dC<HEMeshVertexC> &vertices,HashC<Tuple2C<HEMeshVertexC,HEMeshVertexC> , HEMeshEdgeC> &edgeTab);
     //: Insert face defined by vertices.
@@ -107,6 +110,10 @@ namespace Ravl3DN {
     HEMeshVertexC InsertVertex(const VertexC &vert)
     { return Body().InsertVertex(vert); }
     //: Insert a new vertex into the mesh.
+    
+    HEMeshVertexC InsertVertexOnEdge(HEMeshEdgeC edge)
+    { return Body().InsertVertexOnEdge(edge); }
+    //: Insert a vertex on an edge.
     
     HEMeshFaceC InsertFace(const SArray1dC<HEMeshVertexC> &vertices,HashC<Tuple2C<HEMeshVertexC,HEMeshVertexC> , HEMeshEdgeC> &edgeTab)
     { return Body().InsertFace(vertices,edgeTab); }
