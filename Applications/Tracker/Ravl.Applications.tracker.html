@@ -1,0 +1,21 @@
+! author="Charles Galambos"
+! docentry="Ravl.Applications.tracker"
+
+: Track some Points 
+
+<p> This program demonstrates Point tracking. By default it will attempt to grab from a connected video source. </p> 
+
+<h3> Usage: </h3> 
+<pre> 
+   -ct (30) [30] Corner threshold.  
+   -cw (7) [7] Corner filter width.  
+   -mt (20) [20] Matching threshold.  
+   -mw (15) [15] Tracker feature width.  
+   -ml (8) [8] Lifetime of a point without a match in the incoming images.  
+   -ss (25) [25] Search size. How far to look from the predicted position of the feature. 
+   -no (false) [false] No output, usefull for benchmarking. 
+   -mf (-1) [-1] Maximum frames to process.  
+   arg (@V4LH:/dev/video0) [@V4LH:/dev/video0] Input sequence.  
+   arg (@X) [@X] Output sequence.  
+   -help (false) [false] Print usage information. 
+</pre> 

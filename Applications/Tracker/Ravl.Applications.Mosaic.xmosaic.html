@@ -1,0 +1,38 @@
+! author="Charles Galambos"
+! docentry="Ravl.Applications.xmosaic"
+
+: Mosaicing software 
+
+<p>This program demonstrates the Mosaicing capabilities of Ravl. By default the program will grab images from a connected video device.</p>
+
+<h3> Usage: </h3> 
+<pre>
+Usage: /vol/vssp/localsoft/Auto/linux/trees/Ravl.3/build/lib/RAVL/linux/bin/xmosaic [options] 
+   -nf (5) [5] Frequency of introducing new features.  
+   -ct (30) [30] Corner threshold.  
+   -cw (7) [7] Corner filter width.  
+   -mt (20) [20] Match threshold.  
+   -mw (17) [17] Tracker feature width.  
+   -ml (8) [8] Lifetime of a point without a match in the incoming images.  
+   -ss (25) [25] Search size. How far to look from the predicted position of the feature. 
+   -cx (0.5) [0.5] Image centre x coordinate as ratio of image width.  
+   -cy (0.5) [0.5] Image centre y coordinate as ratio of image height.  
+   -fx (1) [1] Focal distance in vertical pixels.  
+   -fy (1) [1] Focal distance in horizontal pixels.  
+   -K1 (0) [0] Cubic radial distortion coefficient.  
+   -K2 (0) [0] Quintic radial distortion coefficient.  
+   -bc (200) [200] Width of horizontal border around image 
+   -br (200) [200] Width of vertical border around image 
+   -crt (0) [0] Width of cropping region at top of image 
+   -crb (0) [0] Width of cropping region at bottom of image 
+   -crl (0) [0] Width of cropping region at left of image 
+   -crr (0) [0] Width of cropping region at right of image 
+   -ptl (0.000000 0.000000) [0.000000 0.000000] Top-left coordinates of first image
+   -ptr (0.000000 1.000000) [0.000000 1.000000] Top-right coordinates of first image
+   -pbl (1.000000 0.000000) [1.000000 0.000000] Bottom-left coordinates of first image
+   -pbr (1.000000 1.000000) [1.000000 1.000000] Bottom-right coordinates of first image
+   -mf (-1) [-1] Maximum number of frames to process  
+   arg (@V4LH:/dev/video0) [@V4LH:/dev/video0] Input sequence.  
+   arg (@X) [@X] Output sequence.  
+   -help (false) [false] Print usage information. 
+</pre>
