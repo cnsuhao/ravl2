@@ -14,14 +14,14 @@ $(ifset:docentry:
 <td>$(for:.:$maindocentry:$(silent:
 		    $(ifset:parent:$(set:parent=$(parent).$(subst: :_:%arg%)))
 	            $(else:$(set:parent=$(subst: :_:%arg%)))
-)-<A HREF="../Tree/$(parent).html">%arg%</A>)-<b>$(FullName)</b>
+)<A HREF="../Tree/$(parent).html">%arg%</A> - )<b>$(FullName)</b>
 </table>)
 
 &nbsp;<p>
 
 $(//: **************** Side bar with methods ************************ )
 
-<table align="right" width=48%>
+<table align="right">
 <tr><td bgcolor="$(hdrcolour)">
 &nbsp;<font size=2 face="arial,helvetica" color="white">
 <B>PUBLIC</B></font></td></tr><tr>

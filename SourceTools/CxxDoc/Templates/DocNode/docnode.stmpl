@@ -15,7 +15,7 @@ $(set:parent=)
 $(for:.:$docentry:$(silent:
 		    $(ifset:parent:$(set:parent=$(parent).$(subst: :_:%arg%)))
 	            $(else:$(set:parent=$(subst: :_:%arg%)))
-)-$(if:$docentry_!=$parent:<A HREF="$(parent).html">%arg%</A>)$(else:<b>%arg%</b>)
+)$(if:$docentry_!=$parent:<A HREF="$(parent).html">%arg%</A> - )$(else:<b>%arg%</b>)
 )</table>)
 
 <table width=100% align="middle">
@@ -35,7 +35,7 @@ $(ifany:docnode:
 <td>
   <font face="arial,helvetica" size=+1>
   <ul>
-$(forall:docnode:<li><A HREF="$(mkhref:)">$(subst:_: :$(ObjectName))</A>$(ifset:brief:- $(brief))
+$(forall:docnode:<li><A HREF="$(mkhref:)">$(subst:_: :$(ObjectName))</A>$(ifset:brief: - $(brief))
 )
   </ul>
   </font>
