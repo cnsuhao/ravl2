@@ -82,6 +82,30 @@ namespace RavlGUIN {
     return true;
   }
   
+  bool TableBodyC::Create(GtkWidget *_widget) {
+    widget = _widget;
+    for(DLIterC<WidgeInfoC> it(children);it;it++) {
+      WidgeInfoC &child = *it;
+      if(child.widge.Widget() == 0) {
+	if(!child.widge.Create()) {
+	  cerr << "TableBodyC::Create(), Widget create failed. \n";
+	  return false;
+	}
+      }
+      //cerr << "TableBodyC::Create(), Making entry " << it.Data().widge.WidgetName()<< "\n";
+      gtk_table_attach(GTK_TABLE(widget),
+		       child.widge.Widget(),
+		       child.left_attach,child.right_attach,
+		       child.top_attach,child.bottom_attach,
+		       child.xoptions,child.yoptions,
+		       child.xpadding,child.ypadding);
+      gtk_widget_show (child.widge.Widget());
+    }
+    //children.Empty(); // Might as well free the memory.
+    ConnectSignals();
+    return true;
+  }
+  
   //: Undo all references.
   
   void TableBodyC::Destroy() {
