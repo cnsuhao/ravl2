@@ -111,21 +111,26 @@ namespace RavlN {
     //: Access body.
     
   public:    
-    MatrixC &Lda()
+    inline MatrixC &Lda()
     { return Body().Lda(); }
     //: Access eigen vectors and values.
 
-    const MatrixC &Lda() const
+    inline const MatrixC &Lda() const
     { return Body().Lda(); }
     //: Access eigen vectors and values.
     
-    VectorC &Mean()
+    inline VectorC &Mean()
     { return Body().Mean(); }
     //: Access mean vector.
     
-    const VectorC &Mean() const
+    inline const VectorC &Mean() const
     { return Body().Mean(); }
     //: Access mean vector.
+
+    inline FunctionC Apply(const DataSetVectorLabelC &in)
+    { return Body().Apply(in) ; } 
+    //: Create function from the given data.
+
   };
 
 }
