@@ -211,7 +211,7 @@ int Validate(char *dir)
     if(logfile.Exists())
       logfile.Remove();
     ChildOSProcessC testit(exeFile,logfile,true);
-    if(!testit.IsRunning()) {
+    if( (!testit.IsRunning()) && (!testit.ExitedOk() ) ) {
       cout << "FAILED -> Can't run program. \n"<< flush;
       passed = false;
       continue;
