@@ -34,8 +34,10 @@ namespace RavlN {
     { DisconnectAll(); }
     //: Destructor.
     
-    void DisconnectAll();
+    void DisconnectAll(bool waitThreadsExit = false);
     //: Disconnect everything.
+    // If waitThreadExit is true, the routine won't return
+    // till all threads have left the connection.
     
     void operator+=(const SignalConnectorC &c)
     { cons += c; }
@@ -69,9 +71,12 @@ namespace RavlN {
     {}
     //: Constructor.
     
-    void DisconnectAll()
-    { Body().DisconnectAll(); }
+    void DisconnectAll(bool waitThreadsExit = false)
+    { Body().DisconnectAll(waitThreadsExit); }
     //: Disconnect everything.
+    // If waitThreadExit is true, the routine won't return
+    // till all threads have left the connection. NOTE: If this routine
+    // is itself being called on the signal it will deadlock. 
     
     void operator+=(const SignalConnectorC &c)
     { Body().operator+=(c); }

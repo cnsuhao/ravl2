@@ -15,9 +15,9 @@ namespace RavlN {
 
   //: Disconnect everything.
   
-  void SignalConnectionSetBodyC::DisconnectAll() {
+  void SignalConnectionSetBodyC::DisconnectAll(bool waitThreadsExit) {
     for(HSetIterC<SignalConnectorC> it(cons);it;it++)
-      const_cast<SignalConnectorC &>(*it).Disconnect();
+      const_cast<SignalConnectorC &>(*it).Disconnect(waitThreadsExit);
     cons.Empty();
   }
 }

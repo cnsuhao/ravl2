@@ -39,15 +39,11 @@ namespace RavlN {
   
   //: Disonnect old output.
   
-  void Signal0BodyC::Disconnect(SignalConnector0BodyC &con) {
+  void Signal0BodyC::Disconnect(SignalConnector0BodyC &con,bool waitThreadsExit) {
     RWLockHoldC hold(access,false); //
     int ind = con.ind;
     if(ind < 0)
       return ; // Disconnected already.
-    
-#if 0
-#endif
-    
     // Make new array 1 smaller than old one.
     SArray1dC<SignalConnectorC> newouts(outputs.Size() - 1);
     for(int j = 0;j < ind;j++)
@@ -59,6 +55,13 @@ namespace RavlN {
     }
     con.ind = -1; // Flag as disconnected.
     outputs = newouts; // Replace outputs.
+    hold.Unlock();
+    if(waitThreadsExit) {
+      // This ensures all threads have left this signal on exit.
+      // Unfortunatly if this disconnect is being called from this signal
+      // it will deadlock. 
+      RWLockHoldC holdExec(execLock,RWLOCK_WRITE);
+    }
   }
   
   //: Disconnect an input.
@@ -153,11 +156,9 @@ namespace RavlN {
       // Prevent threads from running while we disconnect the outputs.
       // Note this may create a deadlock if the thread is being disconnect
       // from by a currently running signal.
-      
-      RWLockHoldC holdExec(execLock,RWLOCK_WRITE); 
       for(;it;it++) 
 	it.Data().Disconnect();
-    } while(outputs.Size() > 0) ;    
+    } while(outputs.Size() > 0) ;
   }
   
   //: Disconnect all signals.
@@ -176,7 +177,7 @@ namespace RavlN {
   
   SignalConnector0BodyC::~SignalConnector0BodyC() {
     if(ind >= 0 && sigbod != 0) // Disconnect.
-      sigbod->Disconnect(*this);
+      sigbod->Disconnect(*this,false);
   }
   
   //: Pass signal on.
@@ -189,8 +190,8 @@ namespace RavlN {
   
   //: Disconnect from input list.
   
-  void SignalConnector0BodyC::Disconnect() { 
-    sigbod->Disconnect(*this); 
+  void SignalConnector0BodyC::Disconnect(bool waitThreadsExit) { 
+    sigbod->Disconnect(*this,waitThreadsExit); 
   }
   
   ostream &operator<<(ostream &os,const SignalConnectorC &sc) {
@@ -216,7 +217,7 @@ namespace RavlN {
   //: Destructor.
   
   SignalInterConnect0BodyC::~SignalInterConnect0BodyC() { 
-    Disconnect(); 
+    Disconnect(false); 
   }
   
   //: Invoke signal.
@@ -226,10 +227,10 @@ namespace RavlN {
     return target->Invoke();
   }
   
-  void SignalInterConnect0BodyC::Disconnect()  { 
+  void SignalInterConnect0BodyC::Disconnect(bool waitThreadsExit)  { 
     if(target != 0)
       target->DisconnectInput(*this);
-    SignalConnector0BodyC::Disconnect(); 
+    SignalConnector0BodyC::Disconnect(waitThreadsExit); 
   }
 }
 

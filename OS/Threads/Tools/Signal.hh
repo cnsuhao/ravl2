@@ -51,7 +51,7 @@ namespace RavlN {
     virtual ~SignalConnector0BodyC();
     //: Default constructor.
     
-    virtual void Disconnect();
+    virtual void Disconnect(bool waitThreadsExit);
     //: Disconnect from input list.
     
     virtual bool Invoke();
@@ -80,8 +80,8 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    void Disconnect()
-    { Body().Disconnect(); }
+    void Disconnect(bool waitThreadsExit = false)
+    { Body().Disconnect(waitThreadsExit); }
     //: Disconnect handle.
     
     bool Invoke()
@@ -146,7 +146,7 @@ namespace RavlN {
     ~SignalInterConnect0BodyC();
     //: Destructor.
     
-    virtual void Disconnect();
+    virtual void Disconnect(bool waitThreadsExit);
     //: Disconnect from input list.
     
     virtual bool Invoke();
@@ -233,7 +233,7 @@ namespace RavlN {
     void Connect(SignalConnector0BodyC &con);
     //: Connect a new output.
     
-    void Disconnect(SignalConnector0BodyC &con);
+    void Disconnect(SignalConnector0BodyC &con,bool waitThreadsExit);
     //: Disconnect an output.
     
     void ConnectInput(SignalInterConnect0BodyC &in);
