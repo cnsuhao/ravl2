@@ -2,16 +2,18 @@
 //! rcsid="$Id$"
 
 #include <iostream.h>
-#include "amma/TxtPFile.hh"
-#include "amma/Option.hh"
+#include "Ravl/Text/TextFile.hh"
+#include "Ravl/Option.hh"
+
+using namespace RavlN;
 
 int main(int nargs,char *args[])
 {
-  OptionC option(nargs,args,TRUE);
+  OptionC option(nargs,args);
   StringC fname = option.String("i","exText.cc","Input filename. ");
   option.Check();
   
-  TextPFileC in(fname);
+  TextFileC in(fname);
   
   if(in.IsReadonly()) 
     cerr << "File is read only. \n";

@@ -200,7 +200,8 @@ namespace RavlN {
       { Body().Empty(); }
     //: Empty all contents, set name to noname
     
-    void Dump(ostream &strm) const;
+    void Dump(ostream &strm) const
+      { Body().Dump(strm); }
     //: Dump to stdout.
     
     inline bool IsLoaded() const
