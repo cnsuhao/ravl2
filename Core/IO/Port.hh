@@ -476,11 +476,15 @@ namespace RavlN {
     
     inline bool IsGetReady() const 
     { return Body().IsGetReady(); }
-    // Is valid data.
+    //: Is some data ready ?
+    // true = yes.
+    // Defaults to !IsGetEOS().
     
+   
     inline bool IsGetEOS() const 
     { return Body().IsGetEOS(); }
-    // Is valid data.
+    //: Has the End Of Stream been reached ? 
+    // true = yes 
   
     inline bool Discard()
     { return Body().Discard(); }
