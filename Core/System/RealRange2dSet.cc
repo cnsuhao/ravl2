@@ -52,7 +52,7 @@ namespace RavlN {
   
     if(remainder.TRow() < rect2.TRow()) {
       ONDEBUG(cerr << "Top Cut. \n");
-      ret.InsLast(RealRange2dC(remainder.TRow(),rect2.TRow()-1,remainder.LCol(),remainder.RCol()));
+      ret.InsLast(RealRange2dC(remainder.TRow(),rect2.TRow(),remainder.LCol(),remainder.RCol()));
       remainder.TRow() = rect2.TRow(); // Cut it down.
     }
   
@@ -60,7 +60,7 @@ namespace RavlN {
   
     if(remainder.LCol() < rect2.LCol()) {
       ONDEBUG(cerr << "Left Cut. \n");
-      ret.InsLast(RealRange2dC(remainder.TRow(),remainder.BRow(),remainder.LCol(),rect2.LCol()-1));
+      ret.InsLast(RealRange2dC(remainder.TRow(),remainder.BRow(),remainder.LCol(),rect2.LCol()));
       remainder.LCol() = rect2.LCol(); // Cut it down.
     }
 
@@ -68,7 +68,7 @@ namespace RavlN {
   
     if(remainder.BRow() > rect2.BRow()) {
       ONDEBUG(cerr << "Bottom Cut. \n");
-      ret.InsLast(RealRange2dC(rect2.BRow()+1,remainder.BRow(),remainder.LCol(),remainder.RCol()));
+      ret.InsLast(RealRange2dC(rect2.BRow(),remainder.BRow(),remainder.LCol(),remainder.RCol()));
       remainder.BRow() = rect2.BRow(); // Cut it down.
     }
 
@@ -76,7 +76,7 @@ namespace RavlN {
   
     if(remainder.RCol() > rect2.RCol()) {
       ONDEBUG(cerr << "Right Cut. \n");
-      ret.InsLast(RealRange2dC(remainder.TRow(),remainder.BRow(),rect2.RCol()+1,remainder.RCol()));
+      ret.InsLast(RealRange2dC(remainder.TRow(),remainder.BRow(),rect2.RCol(),remainder.RCol()));
       remainder.RCol() = rect2.RCol(); // Cut it down.
     }
   
