@@ -144,6 +144,7 @@ namespace RavlN {
     ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::Init(), Called. " << (void *) this);
     if(!nskt.IsOpen()) {
       ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::Init(), Socket not opened. ");
+      shutdown = true;
       return false;
     }
     //nskt.SetNonBlocking(true);
