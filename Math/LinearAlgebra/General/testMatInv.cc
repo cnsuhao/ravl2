@@ -17,49 +17,55 @@
 
 using namespace RavlN;
 
-int testInverse(int n,int r,bool useNearSingular);
+enum InvMethodT { INV_NORMAL ,INV_NEARSINGULAR, INV_PSEUDO };
+
+int testInverse(int n,int r,InvMethodT method);
+
 
 int main(int argc,char **argv) {
   OptionC  option(argc,argv,true);  
   //bool verbose  = option.Boolean("v",FALSE,"Verbose mode.");
   IntT n = option.Int("m",30,"Size of matrix to use. ");
   IntT r = option.Int("r",10,"Do r experiments. ");
-  bool tns = option.Boolean("tns",false,"Test near singular only. ");
-  bool tn = option.Boolean("tn",false,"Test normal inverse only. ");
+  InvMethodT method = (InvMethodT) option.Int("mn",0,"Method 0=Normal, 1=NearSingular, 2=Pseudo . ");
+  bool doAll = !option.IsOnCommandLine("-mn");
   
   option.Check();
-  if(tns) 
-    return testInverse(n,r,true);
-  if(tn) 
-    return testInverse(n,r,false);
-  if(testInverse(n,r,false) != 0)
-    return 1;
-  if(testInverse(n,r,true) != 0)
-    return 1;
+  if(!doAll)
+    return testInverse(n,r,method);
+  for(int i = 0;i < 3;i++) {
+    if(testInverse(n,r,(InvMethodT) i) != 0) {
+      cerr << "Test " << i << " failed. \n";
+      return 1;
+    }
+  }  
   cerr << "Tested passed ok. \n";
   return 0;
 }
 
 
-int testInverse(int n,int r,bool useNearSingular) {
-  if(useNearSingular)
-    cerr << "Testing near singular inverse.\n";
-  else
-    cerr << "Testing normal inverse.\n";
+int testInverse(int n,int r,InvMethodT method) {
+  switch(method) {
+  case INV_NEARSINGULAR: cerr << "Testing near singular.\n"; break;
+  case INV_PSEUDO:cerr << "Testing pseudo inverse.\n"; break;
+  case INV_NORMAL:cerr << "Testing normal inverse.\n"; break;
+  }
   
   for(IntT i = 0;i < r;i++) {
     MatrixC x;
-    if(useNearSingular)
-      x = RandomSymmetricMatrix(n);
-    else
+    switch(method) {
+    case INV_NEARSINGULAR: x = RandomSymmetricMatrix(n); break;
+    case INV_PSEUDO:
+    case INV_NORMAL:
       x = RandomMatrix(n,n);
+      break;
+    }
     MatrixC y;
     RealT det;
-    if(!useNearSingular)
-      y = x.Inverse();
-    else {
-      //y = MatrixRSC(x).NearSingularInverse(det);
-      y = x.PseudoInverse();
+    switch(method) {
+    case INV_NORMAL:	y = x.Inverse(); break;
+    case INV_NEARSINGULAR: y = MatrixRSC(x).NearSingularInverse(det); break;
+    case INV_PSEUDO: y = x.PseudoInverse(); break;
     }
     MatrixC z = (y * x) - MatrixC::Identity(n);
     RealT ret = (z.SumOfAbs() * 100)/(n*n);
