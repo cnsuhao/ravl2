@@ -43,7 +43,7 @@ namespace RavlN {
 	oz(1)
     {}
     //: Default constructor.
-    // Creates an identity transform.
+    // Creates an invalid (zero) transform.
 
     Projection2dC(const Matrix3dC &transform,RealT niz = 1,RealT noz = 1)
       : trans(transform),
