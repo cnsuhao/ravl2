@@ -117,6 +117,7 @@ namespace RavlGUIN {
       GTKSIG("enter_notify_event"   ,GTKSIG_EVENT   ), // gtkwidget
       GTKSIG("leave_notify_event"   ,GTKSIG_EVENT   ), // gtkwidget
       GTKSIG("configure_event"      ,GTKSIG_EVENT   ), // gtkwidget
+      GTKSIG("scroll_event"         ,GTKSIG_EVENT   ), // gtkwidget
       GTKSIG("hide"                 ,GTKSIG_GENERIC ), // gtkwidget
       GTKSIG("show"                 ,GTKSIG_GENERIC ), // gtkwidget
       GTKSIG("map"                  ,GTKSIG_GENERIC ), // gtkwidget
