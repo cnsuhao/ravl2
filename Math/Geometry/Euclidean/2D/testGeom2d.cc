@@ -126,20 +126,22 @@ int testCircle2d() {
 
 int testConvexHull2d() {
   cerr << "testConvexHull2d() Called. \n";
-  int i;
-  DListC<Point2dC> pnts;
-  
-  // Generate a point set.
-  for(int i = 0;i < 10;i++)
-    pnts.InsLast(Point2dC(Random1() * 100,Random1() * 100));
-  
-  DListC<Point2dC> tmp = pnts.Copy();
-  Polygon2dC poly = ConvexHull(tmp);
-  //cout << "Hull=" << poly << "\n";
-  
-  for(DLIterC<Point2dC> it(pnts);it;it++) {
-    if(!poly.Contains(*it)) {
-      cerr << *it << " not in polygon. \n";
+  for(int j = 0;j < 10;j++) {
+    DListC<Point2dC> pnts;
+    
+    // Generate a point set.
+    for(int i = 0;i < (10 + j * 10);i++)
+      pnts.InsLast(Point2dC(Random1() * 100,Random1() * 100));
+    
+    DListC<Point2dC> tmp = pnts.Copy();
+    Polygon2dC poly = ConvexHull(tmp);
+    //cout << "Hull=" << poly << "\n";
+    
+    for(DLIterC<Point2dC> it(pnts);it;it++) {
+      if(!poly.Contains(*it)) {
+	cerr << *it << " not in polygon. \n";
+	return __LINE__;
+      }
     }
   }
   

@@ -34,18 +34,20 @@ namespace RavlN {
 	}
       }
     }
-    
     DListC<Point2dC> hull;
-    Point2dC pntLeft = *mostLeft;
+    if(left.IsEmpty())
+      return hull; // Nothing left!
     
-    // Take points we know are on the hull out.
-    hull.MoveLast(mostLeft);
+    Point2dC pntLeft = *mostLeft;
+    hull.MoveLast(mostLeft); // Take points we know are on the hull out.
     
     DListC<Point2dC> shull = SubHull(left,start,pntLeft);
     hull.MoveFirst(shull);
     
-    shull = SubHull(left,pntLeft,end);
-    hull.MoveLast(shull);
+    if(!left.IsEmpty()) {
+      shull = SubHull(left,pntLeft,end);
+      hull.MoveLast(shull);
+    }
     // Drop the rest of the points in 'left'
     
     return hull;
@@ -89,12 +91,15 @@ namespace RavlN {
     Point2dC pntRight = *right;
     hull.MoveFirst(left);
     tmp.MoveFirst(right); // Move right most point onto a temporary list.
-    DListC<Point2dC> shull = SubHull(points,pntLeft,pntRight);
-    hull.MoveLast(shull);
+    if(!points.IsEmpty()) {
+      DListC<Point2dC> shull = SubHull(points,pntLeft,pntRight);
+      hull.MoveLast(shull);
+    }
     hull.MoveLast(tmp); // Put right most point in.
-    shull = SubHull(points,pntRight,pntLeft);
-    hull.MoveLast(shull);
-    
+    if(!points.IsEmpty()) {
+      DListC<Point2dC> shull = SubHull(points,pntRight,pntLeft);
+      hull.MoveLast(shull);
+    }
     ret = Polygon2dC(hull);
     return ret;
   }
