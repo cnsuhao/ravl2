@@ -82,10 +82,11 @@ namespace RavlImageN {
   DListC<PointTrackC> PointTrackerC::Apply(const ImageC<ByteT> &img) {
     DListC<PointTrackC> ret;
     Update(img);
+    IntT removeThresh = Sqr(mwidth) * mthreshold;
     for(DLIterC<PointTrackModelC> itt(tracks);itt;itt++) {
       if(itt->Frame() != frameCount)
 	continue; // Ignore those not seen in this frame.
-      RealT conf = 1-((itt->MatchScore() / mthreshold) * 0.75); // Gives number between 0.25 and 1
+      RealT conf = 1-((itt->MatchScore() / removeThresh) * 0.75); // Gives number between 0.25 and 1
       ret.InsLast(PointTrackC(itt->ID(),itt->Location(),conf));
     }
     return ret;
