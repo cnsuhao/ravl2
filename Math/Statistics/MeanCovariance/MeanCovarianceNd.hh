@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLMEANCOVND_HH
-#define RAVLMEANCOVND_HH
+#ifndef RAVL_MEANCOVARIANCEND_HH
+#define RAVL_MEANCOVARIANCEND_HH
 //////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! userlevel=Normal

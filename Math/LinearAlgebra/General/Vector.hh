@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLVECTOR_HEADER
-#define RAVLVECTOR_HEADER 1
+#ifndef RAVL_VECTOR_HEADER
+#define RAVL_VECTOR_HEADER 1
 ///////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Math/LinearAlgebra/General/Vector.hh"
