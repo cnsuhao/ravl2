@@ -14,6 +14,7 @@
 //! date="10.6.97"
 //! docentry="Ravl.OS.File System"
 //! rcsid="$Id$"
+//! example=exFilename.cc
 
 #include "Ravl/String.hh"
 #include "Ravl/OS/FilePermission.hh"

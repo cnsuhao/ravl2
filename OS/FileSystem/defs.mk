@@ -42,7 +42,7 @@ USESLIBS = RavlOS RavlCore
 PROGLIBS = RavlIO
 
 # Examples - programs demonstrating using of software in this directory.
-EXAMPLES = 
+EXAMPLES = exFilename.cc
 #exDeadLine.cc exChild.cc dynLoad.cc exSerial.cc
 
 # Tests - program testing runtime consistency of the software
