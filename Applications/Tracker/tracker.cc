@@ -8,6 +8,7 @@
 //! file="Ravl/Image/Processing/Tracking/tracker.cc"
 //! lib=RavlImageProc
 
+#include "Ravl/config.h"
 #include "Ravl/Option.hh"
 #include "Ravl/DP/SequenceIO.hh"
 #include "Ravl/Image/PointTracker.hh"
@@ -70,3 +71,9 @@ int main(int nargs,char **argv) {
   }
   return 0;
 }
+
+
+#if RAVL_COMPILER_MIPSPRO
+#include "Ravl/Image/Edgel.hh"
+static SArray1dIterC<EdgelC> sgi_bug_fix1 ; 
+#endif 
