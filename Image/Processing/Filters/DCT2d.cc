@@ -470,9 +470,9 @@ namespace RavlImageN {
     expand1d_lookup_table();
     make2Darray();
 
-    scaleDC = 1.0/(float)N;
-    scaleMix = sqrt(2.0)/(float)N;
-    scaleAC = 2.0 * scaleDC;
+    scaleDC = 1.0f/(float)N;
+    scaleMix = sqrt(2.0f)/(float)N;
+    scaleAC = 2.0f * scaleDC;
   }
 
   VecRadDCTC::~VecRadDCTC()
@@ -517,10 +517,10 @@ namespace RavlImageN {
 	S2=dest[yi1][xj2];
 	S3=dest[yi2][xj2];  
 	
-	sum1 = S0 + S1;
-	sum2 = S2 + S3;
-	diff1= S0 - S1;
-	diff2= S2 - S3;
+	sum1 = (float)(S0 + S1);
+	sum2 = (float)(S2 + S3);
+	diff1= (float)(S0 - S1);
+	diff2= (float)(S2 - S3);
  
 	dest[yi1][xj1] = sum1+sum2;
 	dest[yi2][xj1] = (diff1+diff2)*ct2d[step++];
@@ -553,10 +553,10 @@ namespace RavlImageN {
 	      S2=dest[yi1][xj2];
 	      S3=dest[yi2][xj2];
 
-	      sum1=S0+S1;
-	      sum2 = S2+S3;
-	      diff1=S0-S1;
-	      diff2 = S2-S3;
+	      sum1 = (float)(S0+S1);
+	      sum2 = (float)(S2+S3);
+	      diff1 = (float)(S0-S1);
+	      diff2 = (float)(S2-S3);
 
 	      if (q<=1) {
 		dest[yi1][xj1] = sum1+sum2;
@@ -612,13 +612,13 @@ namespace RavlImageN {
     for(k=0; k<m; k++)
       {
 	len=1; inc=N; i=0;
-	et[i]=e; i++; ct[p]=2 * Cos(PIO2 * e / N); p++;
+	et[i]=e; i++; ct[p]=(float)(2.0 * Cos(PIO2 * e / N)); p++;
 	for(t=0; t<mm1; t++)
 	  {
 	    for(l=0; l<len; l++)
 	      {
 		et[i] = et[l] + inc;
-		ct[p] = 2 * Cos(et[i] * PIO2 /N);
+		ct[p] = (float)(2.0 * Cos(et[i] * PIO2 /N));
 		i++;  p++;
 	      }
 	    len = len << 1; inc=inc >> 1;
@@ -650,8 +650,8 @@ namespace RavlImageN {
 	    l=ble; c=ct[p]; p++;
 	    for(i=0; i<ncb; i++)
 	      {
-		cosine_array[l+step] = 1.0;
-		cosine_array[step+l+bB]=c;
+		cosine_array[l+step] = 1.0f;
+		cosine_array[step+l+bB]= (float)c;
 		value++;
 		l++;
 	      }
