@@ -16,5 +16,5 @@ endif
 # The USERBUILD=1 in the following causes USERLIBS = Auto to be used by default.
 
 # can use this alias for making
-alias qm "gmake -f $QMAKE_INSTALL/Tools/QMake/QMake.mk USERBUILD=1 \!* && rehash"
+alias qm "gmake -f $QMAKE_INSTALL/QMake.mk USERBUILD=1 \!* && rehash"
 
