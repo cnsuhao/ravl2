@@ -150,7 +150,7 @@ namespace RavlN {
     // Do not use, Try Lookup(key,data);
     // Ptr == NULL, if matching key not found.
     
-    inline bool Lookup(const K &Key,T &data);
+    inline bool Lookup(const K &Key,T &data) const;
     //: Lookup data for key.
     // Returns true if entry is found, and is assigned to 'data'.
     
@@ -455,7 +455,7 @@ namespace RavlN {
   
   template<class K,class T>
   inline 
-  bool HashC<K,T>::Lookup(const K &Key,T &data) {
+  bool HashC<K,T>::Lookup(const K &Key,T &data) const{
     UIntT hashVal;
     HashElemC<K,T> *elem = LookupHV(Key,hashVal);
     if(elem == 0) 
