@@ -4,8 +4,8 @@
 // Public License (GPL). See the gpl.licence file for details or
 // see http://www.gnu.org/copyleft/gpl.html
 // file-header-ends-here
-#ifndef RAVLAUTOPORTGENERATOR_HEADER
-#define RAVLAUTOPORTGENERATOR_HEADER 1
+#ifndef RAVL_AUTOPORTGENERATOR_HEADER
+#define RAVL_AUTOPORTGENERATOR_HEADER 1
 ///////////////////////////////////////////////////////
 //! docentry="Ravl.Source Tools.AutoPort"
 //! rcsid="$Id$"
@@ -15,7 +15,10 @@
 #include "Ravl/Text/TemplateComplex.hh"
 
 namespace RavlN {
-
+  
+  //! userlevel=Develop
+  //: Auto port engine
+  
   class AutoPortGeneratorBodyC 
     : public TemplateComplexBodyC
   {
@@ -131,6 +134,9 @@ namespace RavlN {
     StringC outputDir;
     AutoPortSourceC src; // Info about source.
   };
+  
+  //! userlevel=Normal
+  //: Auto port engine
   
   class AutoPortGeneratorC 
     : public TemplateComplexC

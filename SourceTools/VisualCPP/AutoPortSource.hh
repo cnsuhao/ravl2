@@ -20,6 +20,7 @@ namespace RavlN {
   
   class AutoPortSourceC;
   
+  //! userlevel=Develop
   //: Code Porter Body
   
   class AutoPortSourceBodyC 
@@ -76,6 +77,7 @@ namespace RavlN {
     friend class AutoPortSourceC;
   };
   
+  //! userlevel=Normal
   //: Code Porting tool.
   
   class AutoPortSourceC 
