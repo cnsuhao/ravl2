@@ -4,15 +4,15 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLINDEXRANGE2D_HH
-#define RAVLINDEXRANGE2D_HH
+#ifndef RAVL_INDEXRANGE2D_HH
+#define RAVL_INDEXRANGE2D_HH
 ///////////////////////////////////////////////////////////
 //! file="Ravl/Core/Base/IndexRange2d.hh"
 //! lib=RavlCore
 //! author="Radek Marik"
 //! docentry="Ravl.Core.Indexing"
 //! rcsid="$Id$"
-//! date="06/08/95"
+//! date="06/08/1995"
 //! userlevel=Default
 
 #include "Ravl/Index.hh"

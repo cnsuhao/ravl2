@@ -12,6 +12,8 @@
 #include "Ravl/RCWrap.hh"
 #include "Ravl/IndexRange1d.hh"
 #include "Ravl/IntC.hh"
+#include "Ravl/SubIndexRange2dIter.hh"
+#include "Ravl/SubIndexRange3dIter.hh"
 
 using namespace RavlN;
 
@@ -25,6 +27,8 @@ public:
 
 int testIndex();
 int testMisc();
+int testSubIndexRange2dIter();
+int testSubIndexRange3dIter();
 
 int main()
 {
@@ -37,7 +41,14 @@ int main()
     cerr << "Test failed at line:" << ln << "\n";
     return 1;
   }
-  
+  if((ln = testSubIndexRange2dIter()) != 0) {
+    cerr << "Test failed at line:" << ln << "\n";
+    return 1;
+  }
+  if((ln = testSubIndexRange3dIter()) != 0) {
+    cerr << "Test failed at line:" << ln << "\n";
+    return 1;
+  }
   cerr << "Test passed ok. \n";
   return 0;
 }
@@ -76,6 +87,33 @@ int testMisc() {
   if(v != 1) return __LINE__;
   return 0;
 }
+
+int testSubIndexRange2dIter() {
+  IndexRange2dC rect1(0,6,0,5);
+  IndexRange2dC rect2(IndexC(5),IndexC(5));
+  //cerr << "Area=" << rect2.Area() << "\n";
+  int rects = 0;
+  for(SubIndexRange2dIterC it(rect1,rect2);it;it++) {
+    if(it.Window().Area() != rect2.Area()) return __LINE__;
+    rects++;
+  }
+  if(rects != 6) return __LINE__;
+  return 0;
+}
+
+int testSubIndexRange3dIter() {
+  IndexRange3dC rect1(0,5,0,6,0,7);
+  IndexRange3dC rect2(IndexC(5),IndexC(5),IndexC(5));
+  //cerr << "Area=" << rect2.Area() << "\n";
+  int rects = 0;
+  for(SubIndexRange3dIterC it(rect1,rect2);it;it++) {
+    if(it.Window().Volume() != rect2.Volume()) return __LINE__;
+    rects++;
+  }
+  if(rects != 24) return __LINE__;
+  return 0;
+}
+
 
 template class RCHandleC<TestBodyC>;
 template class RCWrapC<IntT>;

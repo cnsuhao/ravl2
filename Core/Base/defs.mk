@@ -20,7 +20,7 @@ HEADERS=Types.hh config.h Pair.hh \
  Index3d.hh RCWrap.hh Empty.hh IntC.hh TFVector.hh FIndex.hh \
  StdConst.hh RCAbstract.hh Math.hh CallMethods.hh CallMethodRefs.hh \
  DeepCopy.hh StdHash.hh Const.hh IndexRange3d.hh Average.hh RealC.hh \
- SmartPtr.hh
+ SmartPtr.hh SubIndexRange2dIter.hh SubIndexRange3dIter.hh
 
 SOURCES=Assert.cc Exception.cc EntryPnt.cc Index.cc String.cc \
  RefCounter.cc HandleRefCounter.cc Trigger.cc Calls.cc \
