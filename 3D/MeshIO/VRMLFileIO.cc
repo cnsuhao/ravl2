@@ -297,7 +297,7 @@ namespace Ravl3DN {
             IntT v;
             for (v=0; v<3; v++) {
               const Vector2dC coord = fit.Data().TextureCoord(v);
-              outf << coord.X() << ' ' << -coord.Y() << ", ";
+              outf << coord[0] << ' ' << -coord[1] << ", ";
             }
             outf << '\n';
           }
