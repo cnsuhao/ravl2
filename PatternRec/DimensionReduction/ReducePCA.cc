@@ -27,6 +27,8 @@ namespace RavlN {
   //: Design the transform.
   
   void ReducePCABodyC::DesignHighDim(SampleC<VectorC> &sample,RealT variation) {
+    // FIXME :- This could be implemented more efficently.
+    
     SampleVectorC sv(sample);
     UIntT N = sample.Size(); // number of training samples
     if(N == 0)
