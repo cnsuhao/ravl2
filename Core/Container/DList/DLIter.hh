@@ -12,7 +12,7 @@
 //! file="Ravl/Core/Container/DList/DLIter.hh"
 //! lib=RavlCore
 //! userlevel=Normal
-//! author="Charles Galambos"
+//! author="Radek Marik, Charles Galambos"
 //! example=exDList.cc
 
 // DLIterC is based on code written by Radek Marik.

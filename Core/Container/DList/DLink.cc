@@ -41,7 +41,7 @@ namespace RavlN {
     lastCut->succ = succ;     // from the cut chain to this one
     succ = &firstCut;         // from this chain to the cut chain
   }
-
+  
   //// DLinkHeadC /////////////////////////////////////////////////
   
   //: Count the number of elements in the list.

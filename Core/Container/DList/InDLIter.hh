@@ -12,7 +12,7 @@
 //! file="Ravl/Core/Container/DList/InDLIter.hh"
 //! lib=RavlCore
 //! userlevel=Advanced
-//! author="Charles Galambos"
+//! author="Radek Marik, Charles Galambos"
 //! date="24/01/2001"
 
 // IntrDListC is based on code written by Radek Marik.
