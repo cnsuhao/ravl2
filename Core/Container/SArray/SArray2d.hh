@@ -135,7 +135,7 @@ namespace RavlN {
     //: Take a slice along the diagonal of the array.
     
     SArray1dC<DataC> SliceRow(IndexC i)
-      { return SArray1dC<DataC>(data,SArray1d()[i]); }
+      { return SArray1dC<DataC>(data.Data(),SArray1d()[i]); }
     //: Access row as 1d array.
     // NB. Changes made to the slice will also affect this array!
     
