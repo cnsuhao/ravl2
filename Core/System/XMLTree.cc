@@ -30,7 +30,7 @@ namespace RavlN {
     Read(in);
   }
 
-  //: Read from a stream using this node as the root.
+  //: Read from an XML stream using this node as the root.
   
   bool XMLTreeBodyC::Read(XMLIStreamC &in) {
     if(!in)
@@ -77,6 +77,34 @@ namespace RavlN {
     return true;
   }
 
+  // : Write (sub)tree as valid XML file
+  bool XMLTreeBodyC::Write(OStreamC &out,int level) const {
+    XMLTreeC me(const_cast<XMLTreeBodyC &>(*this));
+    if (level == 0) {  // no tag at top level
+      for(DLIterC<XMLTreeC> it(me.Children());it;it++) {
+	it.Data().Write(out,level+1);
+      }
+    }
+    else if (Name() == "?content") Indent(out,level) << Data()["."] << "\n";
+    else {
+      Indent(out,level) << '<' << Name();
+      for(HashIterC<StringC,StringC> ita(Data());ita;ita++) {
+	out << ' ' << ita.Key() << "=\"" << ita.Data() << "\"";
+      }
+      if(me.Children().IsEmpty()) {
+	out << "/>\n";
+      } 
+      else {
+	out << ">\n";
+	for(DLIterC<XMLTreeC> it(me.Children());it;it++) {
+	  it.Data().Write(out,level+1);
+	}
+	Indent(out,level) << "</" << Name() << ">\n";
+      }
+    }
+    return true;
+  }
+
   //: Add subtree to node.
   
   bool XMLTreeBodyC::Add(const StringC &name,const XMLTreeC &subtree) {
@@ -114,27 +142,19 @@ namespace RavlN {
   
   ostream &XMLTreeBodyC::Dump(ostream &out,int level) const {
     XMLTreeC me(const_cast<XMLTreeBodyC &>(*this));
-    if (Name() == "?content") Indent(out,level) << Data()["."] << "\n";
-    else if (level == 0) {
+    Indent(out,level) << '<' << Name();
+    for(HashIterC<StringC,StringC> ita(Data());ita;ita++) {
+      out << ' ' << ita.Key() << "=\"" << ita.Data() << "\"";
+    }
+    if(me.Children().IsEmpty()) {
+      out << "/>\n";
+    } 
+    else {
+      out << ">\n";
       for(DLIterC<XMLTreeC> it(me.Children());it;it++) {
 	it.Data().Dump(out,level+1);
       }
-    }
-    else {
-      Indent(out,level) << '<' << Name();
-      for(HashIterC<StringC,StringC> ita(Data());ita;ita++) {
-	out << ' ' << ita.Key() << "=\"" << ita.Data() << "\"";
-      }
-      if(me.Children().IsEmpty()) {
-	out << "/>\n";
-      } 
-      else {
-	out << ">\n";
-	for(DLIterC<XMLTreeC> it(me.Children());it;it++) {
-	  it.Data().Dump(out,level+1);
-	}
-	Indent(out,level) << "</" << Name() << ">\n";
-      }
+      Indent(out,level) << "</" << Name() << ">\n";
     }
     return out;
   }

@@ -53,8 +53,16 @@ namespace RavlN {
     explicit XMLTreeBodyC(XMLIStreamC &in);
     //: Construct from an XMLStream.
     
+    bool Read(IStreamC &in) 
+      { XMLIStreamC ins(in); return Read(ins); }
+    //: Read from a stream
+
     bool Read(XMLIStreamC &in);
-    //: Read from a stream using this node as the root.
+    //: Read from an XML stream using this node as the root.
+
+    bool Write(OStreamC &out, int level=0) const;
+    //: Write to a stream using this node as the root.
+    // !param level - level of the XML tree for indenting / formatting purposes 
     
     const StringC &Name() const
     { return name; }
@@ -84,7 +92,9 @@ namespace RavlN {
     const DListC<XMLTreeC> &Children() const
     { return children; }
     //: Access list of children.
+
   protected:
+
     static ostream &Indent(ostream &out,int level);
     bool isPI; // Is this a processing instruction ?
     StringC name;
@@ -153,10 +163,18 @@ namespace RavlN {
     
   public:
     
-    bool Read(XMLIStreamC &in)
+    bool Read(IStreamC &in)
     { return Body().Read(in); }
     //: Read from a stream using this node as the root.
 
+    bool Read(XMLIStreamC &in)
+    { return Body().Read(in); }
+    //: Read from an XML stream using this node as the root.
+
+    bool Write(OStreamC &out, int level=0) const
+    { return Body().Write(out, level); }
+    //: Write to a stream using this node as the root.
+    
     const StringC &Name() const
     { return Body().Name(); }
     //: Access name.
