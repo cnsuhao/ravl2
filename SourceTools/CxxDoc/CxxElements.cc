@@ -325,16 +325,24 @@ namespace RavlCxxDocN
   // template args and all.
   
   StringC ClassTemplateBodyC::FullName(RCHashC<StringC,ObjectC> &templSub,DesciptionGeneratorC &dg,int maxDepth) const {
+    ONDEBUG(cerr << "ClassTemplateBodyC::FullName(), Called for " << Name() <<  "\n");
     StringC ret = dg.TextFor(ObjectC(const_cast<ObjectBodyC &>((ObjectBodyC &)*this))).Copy();
     ret += dg.TextFor('<');
     bool first = true;
     for(ConstDLIterC<ObjectC> it(templArgs.List());it;it++) {
+      ONDEBUG(cerr << "ClassTemplateBodyC::FullName(), Arg='" << it->Name() <<  "' \n");
       if(first)
 	first = false;
       else
 	ret += dg.TextFor(',');
       // Is template arg a datatype in itself ? or a constant.
 
+      StringC alias;
+      if(DataTypeC::IsA(*it)) { // This should be true.
+	DataTypeC dt(const_cast<ObjectC &>(*it));
+	alias = dt.Alias(); 
+      }
+      
       if(maxDepth < 1) {
 	ONDEBUG(cerr << "ClassTemplateBodyC::FullName() ");
 	cerr << "ERROR: Maximum template depth exceeded template class arg '" << it->Name() <<  "'\n";
@@ -343,12 +351,17 @@ namespace RavlCxxDocN
       } else {
 	if(maxDepth < 9)
 	  cerr << "ClassTemplateBodyC::FullName(),  WARNING: Maximum template depth nearly exceeded (" << maxDepth <<") in '" << Name() << "' arg '" << it->Name() <<  "'\n";
-	ret += it->FullName(templSub,dg,maxDepth-1);
+	ObjectC obj;
+	if(!templSub.Lookup(alias,obj)) {
+	  ret += it->FullName(templSub,dg,maxDepth-1);
+	} else {
+	  ret += obj.FullName(templSub,dg,maxDepth-1);
+	  alias = StringC(); // Don't display alias.
+	}
       }
-      if(DataTypeC::IsA(*it)) { // This should be true.
+      if(!alias.IsEmpty()) {
 	ret += ' ';
-	DataTypeC dt(const_cast<ObjectC &>(*it));
-	ret += dt.Alias();
+	ret += alias;
       }
     }
     ret += dg.TextFor('>');
@@ -636,13 +649,14 @@ namespace RavlCxxDocN
   //: Get full name of object
   // template args and all.
   
-  StringC InheritBodyC::FullName(RCHashC<StringC,ObjectC> &allTemplSub,DesciptionGeneratorC &dg = defaultDescGen,int maxDepth = 60) const {
+  StringC InheritBodyC::FullName(RCHashC<StringC,ObjectC> &allTemplSub,DesciptionGeneratorC &dg,int maxDepth) const {
     ScopeC fromScope = const_cast<InheritBodyC &>(*this).From();
     RCHashC<StringC,ObjectC> lsub = templSub;
-    cerr << "InheritBodyC::FullName(), Subst=" << templSub << " Path=" << inheritDef.FullName(lsub,dg,maxDepth) << "\n";
+    ONDEBUG(cerr << "InheritBodyC::FullName(), Subst=" << templSub << " ScopeDef='" <<const_cast<InheritBodyC &>(*this).ScopeDef(lsub) << "' \n");
     if(!fromScope.IsValid())
-      return const_cast<InheritBodyC &>(*this).ScopeDef(lsub) + StringC(" *1*");
-    return fromScope.FullName(lsub,dg,maxDepth)  + StringC(" *2*");
+      return const_cast<InheritBodyC &>(*this).ScopeDef(lsub);
+    ONDEBUG(cerr << "InheritBodyC::FullName(), Path='" << dg.TextFor(fromScope) << "' \n");
+    return fromScope.FullName(lsub,dg,maxDepth);
   }
   
   
