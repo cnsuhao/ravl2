@@ -89,14 +89,12 @@ namespace RavlGUIN {
   
   Vector3dC DObjectSet3DBodyC::Center() { 
     Vector3dC cent(0,0,0);
+    if (parts.Size() == 0) return cent;
     RealT count = 0;
     for(DLIterC<DObject3DC> it(parts);it.IsElm();it.Next()) {
       cent += it.Data().Center();
       count++;
     }
-    // Avoid divide-by-zero
-    if (count == 0)
-      count = 1;
     center = cent / count;
     gotCenter = true;
     return center; 
@@ -106,6 +104,7 @@ namespace RavlGUIN {
   // defaults to 1
 
   RealT DObjectSet3DBodyC::Extent() { 
+    if (parts.Size() == 0) return 1;
     Vector3dC at = Center();
     RealT maxDist = 0;
     for(DLIterC<DObject3DC> it(parts);it.IsElm();it.Next()) {
@@ -113,7 +112,6 @@ namespace RavlGUIN {
       if(dist > maxDist)
 	maxDist = dist;
     }
-    if (maxDist == 0) maxDist = 1;
     extent = maxDist;
     gotExtent = true;
     return extent; 
