@@ -200,7 +200,7 @@ namespace Ravl3DN {
     //: Default constructor.
 
     HEMeshVertexEdgeIterC(HEMeshVertexC &face)
-      : first(0),
+      : first(&face.FirstEdge().Body()),
 	at(&face.FirstEdge().Body())
     {}
     //: Construct from a face
@@ -217,7 +217,7 @@ namespace Ravl3DN {
     //: Is this the first element in list.
     
     bool Next() { 
-      at = static_cast<HEMeshEdgeBodyC *>(&at->Pair().Next());
+      at = &at->Pair().Next();
       if(at == first) {
 	at = 0;
 	return false;

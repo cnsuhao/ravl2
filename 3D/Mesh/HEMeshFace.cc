@@ -10,6 +10,17 @@
 #include "Ravl/3D/HEMeshFace.hh"
 
 namespace Ravl3DN {
+
+  //: Get number of edges on face.
+  
+  UIntT HEMeshFaceBodyC::NoEdges() const {
+    if(edge == 0)
+      return 0;
+    UIntT count = 0;
+    for(HEMeshFaceEdgeIterC it(const_cast<HEMeshFaceBodyC &>(*this));it;it++)
+      count++;
+    return count;
+  }
   
   
 }

@@ -19,6 +19,8 @@
 #include "Ravl/DList.hh"
 #include "Ravl/InDList.hh"
 #include "Ravl/SArray1d.hh"
+#include "Ravl/Hash.hh"
+#include "Ravl/Tuple2.hh"
 
 namespace Ravl3DN {
 
@@ -56,7 +58,7 @@ namespace Ravl3DN {
     }
     //: Insert a new vertex into the mesh.
     
-    HEMeshFaceC InsertFace(const SArray1dC<HEMeshVertexC> &vertices);
+    HEMeshFaceC InsertFace(const SArray1dC<HEMeshVertexC> &vertices,HashC<Tuple2C<HEMeshVertexC,HEMeshVertexC> , HEMeshEdgeC> &edgeTab);
     //: Insert face defined by vertices.
     
     UIntT NoFaces() const
@@ -106,8 +108,8 @@ namespace Ravl3DN {
     { return Body().InsertVertex(vert); }
     //: Insert a new vertex into the mesh.
     
-    HEMeshFaceC InsertFace(const SArray1dC<HEMeshVertexC> &vertices)
-    { return Body().InsertFace(vertices); }
+    HEMeshFaceC InsertFace(const SArray1dC<HEMeshVertexC> &vertices,HashC<Tuple2C<HEMeshVertexC,HEMeshVertexC> , HEMeshEdgeC> &edgeTab)
+    { return Body().InsertFace(vertices,edgeTab); }
     //: Insert face defined by vertices.
 
     UIntT NoFaces() const

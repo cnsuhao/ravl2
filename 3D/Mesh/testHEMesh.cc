@@ -35,8 +35,8 @@ int testTri2HEMesh() {
   SArray1dC<UIntT> ind(4 * 3);
   ind[0] = 0; ind[1]  = 1; ind[2]  = 2;
   ind[3] = 3; ind[4]  = 1; ind[5]  = 0;
-  ind[6] = 0; ind[7]  = 3; ind[8]  = 2;
-  ind[9] = 3; ind[10] = 1; ind[11] = 2;
+  ind[6] = 3; ind[7]  = 0; ind[8]  = 2;
+  ind[9] = 3; ind[10] = 2; ind[11] = 1;
   
   TriMeshC tm(verts,ind);
   if(tm.Faces().Size() != 4) return __LINE__;

@@ -13,7 +13,7 @@
 #include "Ravl/SArr1Iter.hh"
 #include "Ravl/Hash.hh"
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -30,12 +30,14 @@ namespace Ravl3DN {
     for(SArray1dIter2C<HEMeshVertexC,VertexC> it(verts,mesh.Vertices());it;it++)
       it.Data1() = InsertVertex(it.Data2());
     // Creat the faces.
+    HashC<Tuple2C<HEMeshVertexC,HEMeshVertexC> , HEMeshEdgeC> edgeTab;
     for(SArray1dIterC<TriC> it(mesh.Faces());it;it++) {
       SArray1dC<HEMeshVertexC> face(3);
       for(int i = 0;i < 3;i++)
 	face[i] = verts[mesh.Index(*it,i)];
-      InsertFace(face);
+      InsertFace(face,edgeTab);
     }
+    ONDEBUG(cerr << "EdgeTab Size=" << edgeTab.Size() << "\n");
   }
 
   //: Build a TriMesh from this mesh.
@@ -60,7 +62,7 @@ namespace Ravl3DN {
       ONDEBUG(cerr << "HEMeshBodyC::TriMesh(), Building face " << fait.Index() << "\n");
       RavlAssert(fait);
       HEMeshFaceC aface(*fit);
-      HEMeshFaceEdgeIterC eit(aface);
+      HEMeshFaceEdgeIterC eit(aface);      
       RavlAssert(eit);
       VertexC &v1 = verts[vindex[eit->Vertex()]];
       eit++;
@@ -69,8 +71,10 @@ namespace Ravl3DN {
       eit++;
       RavlAssert(eit);
       VertexC &v3 = verts[vindex[eit->Vertex()]];
+#if DODEBUG
       eit++;
       RavlAssert(!eit);
+#endif
       *fait = TriC(v1,v2,v3);
     }
       

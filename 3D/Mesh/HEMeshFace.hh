@@ -49,6 +49,9 @@ namespace Ravl3DN {
     { edge = nedge; }
     //: Set first edge.
     
+    UIntT NoEdges() const;
+    //: Get number of edges on face.
+    
   private:
     HEMeshEdgeBodyC *edge; // Ptr to one of the edges adjacent to the face.
     friend class HEMeshFaceEdgeIterC;
@@ -106,6 +109,10 @@ namespace Ravl3DN {
     { return body == oth.body; }
     //: Is this a handle to the same object ?
     
+    UIntT NoEdges() const
+    { return Body().NoEdges(); }
+    //: Get number of edges on face.
+    
   private:
     HEMeshFaceBodyC *body;
     friend class HEMeshFaceEdgeIterC;
@@ -124,6 +131,12 @@ namespace Ravl3DN {
     //: Default constructor.
     
     HEMeshFaceEdgeIterC(HEMeshFaceC &face)
+      : first(face.FirstEdge()),
+	at(face.FirstEdge())
+    {}
+    //: Construct from a face
+
+    HEMeshFaceEdgeIterC(HEMeshFaceBodyC &face)
       : first(face.FirstEdge()),
 	at(face.FirstEdge())
     {}
@@ -196,7 +209,7 @@ namespace Ravl3DN {
     // Iterator must be at a valid element
     // before calling this method.
     
-    HEMeshEdgeBodyC *operator ->()
+    HEMeshEdgeBodyC *operator->()
     { return at; }
     //: Access edge.
     // Iterator must be at a valid element
