@@ -97,11 +97,13 @@ namespace RavlN {
     SArray1dC<UIntT>nums = dset.ClassNums();
     if(equalPriors) {
       priors = SArray1dC<RealT>(nums.Size());
-      for(SArray1dIterC<RealT>it(priors);it;it++) it.Data1() = 1.0/(RealT)nums.Size();      
+      for(SArray1dIterC<RealT> it(priors);it;it++) 
+	it.Data1() = 1.0/(RealT)nums.Size();      
     } else if ((!equalPriors) && (priors.Size()<1)) {
       priors = SArray1dC<RealT>(nums.Size());
       RealT tot = (RealT)dset.Size();
-      for(SArray1dIter2C<RealT, UIntT>it(priors, nums);it;it++) it.Data1() = (RealT)it.Data2()/tot;
+      for(SArray1dIter2C<RealT, UIntT> it(priors, nums);it;it++) 
+	it.Data1() = (RealT)it.Data2()/tot;
     } else {
       if(priors.Size()!=nums.Size()) 
 	RavlIssueError("User set priors not same size as the number of classes");

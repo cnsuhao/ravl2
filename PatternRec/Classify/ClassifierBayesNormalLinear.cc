@@ -37,7 +37,7 @@ namespace RavlN {
     : mean(means), invCov(covariance.Inverse()), konst(priors.Size())
   {     
     //: Lets compute the constant
-    for(SArray1dIter3C<RealT, VectorC, RealT>it(konst, mean, priors);it;it++) 
+    for(SArray1dIter3C<RealT, VectorC, RealT> it(konst, mean, priors);it;it++) 
       it.Data1() = (-0.5 *  invCov.TMul(it.Data2()).Dot(it.Data2())) + Log(it.Data3());
   }
   
@@ -45,13 +45,13 @@ namespace RavlN {
   
   ClassifierBayesNormalLinearBodyC::ClassifierBayesNormalLinearBodyC(istream &strm) 
     : ClassifierBodyC(strm)
-{ strm >> mean >> invCov >> konst; }
+  { strm >> mean >> invCov >> konst; }
   
   //: Load from binary stream.
   
   ClassifierBayesNormalLinearBodyC::ClassifierBayesNormalLinearBodyC(BinIStreamC &strm) 
     : ClassifierBodyC(strm)
-{ strm >> mean >> invCov >> konst; }
+  { strm >> mean >> invCov >> konst; }
   
   //: Writes object to stream.
   
