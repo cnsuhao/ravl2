@@ -183,6 +183,7 @@ namespace RavlN {
   //: Handle packet transmition.
   
   bool NetEndPointBodyC::RunTransmit() {
+    skt.SetNoDelay(); // Send packets asap.
     int wfd = skt.Fd();
     if(wfd < 0) {
       cerr << "NetEndPointBodyC::RunTransmit(), ERROR: No connection. \n";    
@@ -215,6 +216,7 @@ namespace RavlN {
 	// Write data.
 	if(!WriteData(wfd,&(pkt.Data()[0]),pkt.Size()))
 	  break;
+	
 	ONDEBUG(cerr << "  Sent packet. \n");
       }
     } catch(ExceptionC &e) {

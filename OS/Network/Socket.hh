@@ -76,6 +76,12 @@ namespace RavlN {
     IntT ConnectedPort();
     //: Get other port number.
     
+    void SetNoDelay();
+    //: Send data as soon as possible. 
+    // Don't gather data into larger packets. 
+    // This should make transactions faster at the expense of sending more 
+    // packets over the network.
+    
   protected:
     bool GetHostByName(const char *name,struct sockaddr_in &sin);
     //: Attempt to get info about named host.
@@ -157,22 +163,28 @@ namespace RavlN {
     // 'backLog' is the maximum number of connects that will be kept pending, between calls
     // to Listen().
     
-    
     void Close()
-      { Body().Close(); }
+    { Body().Close(); }
     //: Close the socket.
     
     void SetDontClose(bool ndontClose)
-      { Body().SetDontClose(ndontClose); }
+    { Body().SetDontClose(ndontClose); }
     //: Setup don't close flag.
     
     StringC ConnectedHost()
-      { return Body().ConnectedHost(); }
+    { return Body().ConnectedHost(); }
     //: Get host name 
     
     IntT ConnectedPort()
-      { return Body().ConnectedPort(); }
+    { return Body().ConnectedPort(); }
     //: Get other port number.
+    
+    void SetNoDelay()
+    { Body().SetNoDelay(); }
+    //: Send data as soon as possible. 
+    // Don't gather data into larger packets. 
+    // This should make transactions faster at the expense of sending more 
+    // packets over the network.
     
     friend class SocketBodyC;
   };

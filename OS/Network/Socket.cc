@@ -34,6 +34,7 @@
 #include <winsock.h>
 #else
 #include <netinet/in.h>
+#include <netinet/tcp.h>
 #include <arpa/inet.h>
 #if RAVL_HAVE_SYS_SOCKET_H
 #include <sys/socket.h>
@@ -126,6 +127,16 @@ namespace RavlN {
     if(addr != 0)
       delete [] (char *) addr;
     addr = 0;
+  }
+
+  //: Send data as soon as possible. 
+  
+  void SocketBodyC::SetNoDelay() {
+    // Disable delays.
+    int n = 1;
+    if(setsockopt(fd,SOL_TCP,TCP_NODELAY,&n,sizeof(int)) != 0) {
+      cerr << "SocketBodyC::SetNoDelay(), Failed. errno=" << errno <<"\n";
+    }
   }
   
   //: Attempt to get info about named host.
