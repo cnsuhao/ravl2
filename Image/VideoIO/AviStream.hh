@@ -201,7 +201,7 @@ namespace RavlImageN{
     ByteT bFirstEntry;
     ByteT bNumEntries;
     UInt16T wFlags;
-    PalEntryST peNew[];
+    PalEntryST * peNew;
   } PalChangeST;
   
   //: Struct describing palette change informations
