@@ -10,7 +10,7 @@
 //! author="Bill Christmas"
 //! date="14/07/2000"
 //! rcsid="$Id$"
-//! lib=LMSMotion
+//! lib=RavlImageProc
 //! docentry="Image.Motion.Optical Flow"
 //! example=exLMSMultiScale.cc
 
