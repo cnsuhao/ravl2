@@ -176,7 +176,7 @@ namespace RavlN {
   // NB. This function destory's the contents of this matrix!
   
   template<unsigned int N,unsigned int M>
-  void EigenValues(FMatrixC<N,M> &mat,FVectorC<N> &vec) {
+  void EigenValues(const FMatrixC<N,M> &mat,FVectorC<N> &vec) {
     RavlAssertMsg(N == M,"MatrixTFC::EigenValues() Matrix must be square. ");
     FMatrixC<N,M> tmp(mat);
     eigval(&tmp[0][0],&vec[0],N);
@@ -214,8 +214,7 @@ namespace RavlN {
   //: Calculate the eigen values and vectors of a real symmetric matrix.
   // This matrix is filed with the eigen vectors
   // A = E*D*E~ where D is the diagonal matrix of eigenvalues
-  //   D[i,j] = ret[i] if i=j and 0 otherwise. 'ret' is the
-  // returned matrix.
+  //   D[i,j] = ret[i] if i=j and 0 otherwise. 
   
   template<unsigned int N,unsigned int M>
   RealT MaxEigenValue(FMatrixC<N,M> &mat,FVectorC<N> &maxv) {
