@@ -65,18 +65,17 @@ namespace RavlN {
   
   DListC<StringC> DirectoryC::List() const  {
 #ifdef WIN32
-	DListC<StringC> ret;
-	WIN32_FIND_DATA dataFind;
-	memset(&dataFind, 0, sizeof(WIN32_FIND_DATA));
-	StringC strSearch = StringC(chars()) + "/*";
-	HANDLE hFindFile = FindFirstFile(strSearch, &dataFind);
-	BOOL bFoundNext = hFindFile ? TRUE : FALSE;
-	while (bFoundNext)
-	{
-		ret.InsLast(StringC(dataFind.cFileName));
-		bFoundNext = FindNextFile(hFindFile, &dataFind);
-	}
-	return ret;
+    DListC<StringC> ret;
+    WIN32_FIND_DATA dataFind;
+    memset(&dataFind, 0, sizeof(WIN32_FIND_DATA));
+    StringC strSearch = StringC(chars()) + "/*";
+    HANDLE hFindFile = FindFirstFile(strSearch, &dataFind);
+    BOOL bFoundNext = hFindFile ? TRUE : FALSE;
+    while (bFoundNext) {
+      ret.InsLast(StringC(dataFind.cFileName));
+      bFoundNext = FindNextFile(hFindFile, &dataFind);
+    }
+    return ret;
 #else
 #if RAVL_HAVE_UNIXDIRFUNCS
     DListC<StringC> ret;
