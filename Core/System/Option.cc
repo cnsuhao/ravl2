@@ -333,7 +333,8 @@ namespace RavlN {
   
   DListC<StringC> OptionC::List(const char * name, const char * def, const char * comment ) {
     DListC<StringC> ret = GetOptions(name,-1);
-    if (!IsOnCommandLine(name)) ret = StringListC(def);
+    // Note: we can't use default values for anonymous options.
+    if (!IsOnCommandLine(name) && *name != 0) ret = StringListC(def);
     StrOStreamC os;  
     if(*name == 0) os << "arg";
     else os << '-' << name;
