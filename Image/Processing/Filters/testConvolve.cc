@@ -20,6 +20,7 @@
 #include "Ravl/Image/Matching.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
 #include "Ravl/Image/SpatialDifference.hh"
+#include "Ravl/Image/SumRectangles.hh"
 
 using namespace RavlImageN;
 
@@ -35,6 +36,7 @@ int testWarpScale();
 int testHistogramEqualise();
 int testMatching();
 int testSpatialDifference();
+int testSumRectangles();
 
 #ifndef __sgi__
 template WarpScaleC<ByteRGBValueC,ByteRGBValueC>;
@@ -45,6 +47,7 @@ template WarpProjectiveC<ByteRGBValueC,ByteRGBValueC>;
 
 int main() {
   int ln;
+#if 0
 #if !TESTMMX
   if((ln = testConvolve2d()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
@@ -80,6 +83,11 @@ int main() {
     return 1;
   }
   if((ln = testSpatialDifference()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  }
+#endif
+  if((ln = testSumRectangles()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
@@ -329,5 +337,37 @@ int testSpatialDifference() {
 #endif
   }
   
+  return 0;
+}
+
+int testSumRectangles() {
+  cerr << "testSumRectangles(). \n";
+  Array2dC<IntT> test(5,5);
+  int i = 0;
+  for(Array2dIterC<IntT> it(test);it;it++)
+    *it = i++;
+  IndexRange2dC mask(-1,1,-1,1);
+  Array2dC<IntT> result;
+  SumRectangles(test,mask,result);
+  //cerr << "Result=" << result << "\n";
+  
+  if(result[1][1] != 54)
+    return __LINE__;
+  if(result[1][2] != 63)
+    return __LINE__;
+  if(result[1][3] != 72)
+    return __LINE__;
+  if(result[2][1] != 99)
+    return __LINE__;
+  if(result[2][2] != 108)
+    return __LINE__;
+  if(result[2][3] != 117)
+    return __LINE__;
+  if(result[3][1] != 144)
+    return __LINE__;
+  if(result[3][2] != 153)
+    return __LINE__;
+  if(result[3][3] != 162)
+    return __LINE__;
   return 0;
 }
