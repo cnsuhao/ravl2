@@ -4,9 +4,9 @@
 </head>
 <body>
 
-The name conventions held in the RAVL library enable to determine the
-type of a language element without looking for its definition.  This
-can be found very convenient when reading unfamiliar source of
+The naming conventions held in the RAVL library enable you to
+determine the type of a language element without looking for its
+definition.  This is convenient when reading unfamiliar source
 code. Furthermore, it is then possible to use a name that indicates
 its type for variables in your program.  For example
 
@@ -26,7 +26,7 @@ types, objects, and macros are as follows:
 
 <p> <b> Files </b> <br>
 
-File should be named after the key user class they contain, with out
+Files should be named after the key user class they contain, without
 the final 'C'.  C++ Header files should end in '.hh' and source files
 with '.cc'.  
 
@@ -59,17 +59,17 @@ to avoid confusion. The examples are InitUserInterface(), Vector3dC::StartPoint(
 The latter example is a name of the member function StartPoint() of the
 class Vector3dC.
 
-<p> <b> Identifiers of Objects </b> <br> In a object name the first
+<p> <b> Identifiers of Objects </b> <br> In an object name the first
 letter of the first word should be lower case, but the first letter of
 all subsequent words is upper case.  The name does not contain
 underscores unless needed to avoid confusion.
 
 <p> <b> Macros </b> <br>
-In general macro's should be avoided, but where they are used
+In general macros should be avoided, but where they are used
 the name should be written in upper case letters. Words are
 separated by underscores, e.g.
 <pre>
-#define DO_IT()   image.Fill(100).Threshold(20)
+#define WIPE_IT()   image.Fill(100)
 </pre>
 
 Following above rules one can read a source code very easy: 

@@ -30,7 +30,7 @@ int main(int nargs,char **argv) {
   StringC infile = opt.String("i","infile.ppm","Input filename");
   opt.Check();
   
-  ImageC<ByteT> img;
+  ImageC &lt; ByteT &gt; img;
   if(!Load(infile,img)) {
     cerr << "Failed to load file " << infile << "\n";
     return 1;
@@ -44,21 +44,49 @@ int main(int nargs,char **argv) {
 
 Next you'll have to tell QMake that you want to build an
 executable.  It uses a file call 'defs.mk' which tells
-it about files in the current directory.  For this example
-all you need is: <p>
+it about files in the current directory.  More information on 'defs.mk'
+files can be found in <a href="Ravl.QMake.Defs.html">Ravl.QMake.Defs</a>.
+
+For this example all you need is: <p>
 
 <code><pre>    
   # defs.mk
   MAINS=myprog.cc
 </pre></code><p>
 
-In the directory run 'qm' and the make system will
+In the directory run <b>qm</b> and the make system will
 build an executable to your project out. If you 'qm'
 isn't on your path you can setup an alias by sourcing
 either '{install}/share/RAVL/QMake/qmake.cshrc' if you use
 a 'csh' based shell or '{install}/share/RAVL/QMake/qmake.sh' if
 you use a bourne based shell (Like bash). <p>
 
+When you run <b>qm</b> you'll get some messages similar to the following.
+<p>
+<code><pre>    
+% qm
+--- Making dir /buf/ees1cg/share/RAVL/Admin/linux/depend/local/local/None 
+--- Making dir /buf/ees1cg/qm//buf/ees1cg//linux/local/None/check/objs 
+--- Compile check myprog.cc
+--- Binary dependency myprog
+--- Making dir /buf/ees1cg/lib/RAVL/linux/bin 
+--- Making dir /buf/ees1cg/bin 
+--- Creating redirect for myprog.
+--- Linking check myprog ( /buf/ees1cg/lib/RAVL/linux/bin/myprog ) 
+</pre></code><p>
+
+You can then run the program.  The simplest way is just to cut and paste
+the path given in the linking stage.  To the program to list is options
+you use the <b>-help</b> switch. Here's an example: <p>
+
+<pre><code>
+% /buf/ees1cg/x/lib/RAVL/linux/bin/myprog -help
+Usage: /buf/ees1cg/x/lib/RAVL/linux/bin/myprog [options] 
+   -i (infile.ppm) [infile.ppm] Input filename 
+   -help (true) [false] Print usage information. 
+</pre></code><p>
+
+Congratulations, you've compiled and run your first Ravl program!
 
   </body>
 </html>
