@@ -23,12 +23,12 @@ namespace RavlN {
   //! userlevel=Develop
   //: Send objects to a class method.
   
-  template<class DataT,class ObjT>
+  template<class DataT,class ObjT,class RetT = bool>
   class DPOMethodBodyC 
     : public DPOPortBodyC<DataT>
   {
   public:
-    typedef bool (ObjT::*Func1T)(const DataT &dat);
+    typedef RetT (ObjT::*Func1T)(const DataT &dat);
     
     DPOMethodBodyC() 
       : func(0)
@@ -42,13 +42,12 @@ namespace RavlN {
     //: Construct from a filename.
     
     virtual bool Put(const DataT &dat) 
-    { return (obj.*func)(dat); }
+    { (obj.*func)(dat); return true; }
     //: Put data.
     
     virtual IntT PutArray(const SArray1dC<DataT> &data) {
       for(SArray1dIterC<DataT> it(data);it;it++)
-	if(!(obj.*func)(*it))
-	  return it.Index().V();
+	(obj.*func)(*it);
       return data.Size();
     }
     //: Get an array of data from stream.
@@ -65,6 +64,20 @@ namespace RavlN {
     ObjT obj;
     Func1T func;
   };
+  
+#if 0
+  template<class DataT,class ObjT>
+  bool DPOMethodBodyC<DataT,ObjT,bool>::Put(const DataT &dat) 
+  { return (obj.*func)(dat); }
+  
+  template<class DataT,class ObjT>
+  IntT DPOMethodBodyC<DataT,ObjT,bool>::PutArray(const SArray1dC<DataT> &data) {
+    for(SArray1dIterC<DataT> it(data);it;it++)
+      (obj.*func)(*it)
+	return it.Index().V();
+    return data.Size();
+  }
+#endif
   
   /////////////////////////////////////
   //! userlevel=Develop
@@ -116,7 +129,7 @@ namespace RavlN {
   //! userlevel=Normal
   //: Send objects to a class method.
   
-  template<class DataT,class ObjT>
+  template<class DataT,class ObjT,class RetT = bool>
   class DPOMethodC 
     : public DPOPortC<DataT> 
   {
@@ -125,8 +138,8 @@ namespace RavlN {
     {}
     //: Default constructor.
     
-    inline DPOMethodC(const ObjT &nobj,typename DPOMethodBodyC<DataT,ObjT>::Func1T meth)
-      : DPEntityC(*new DPOMethodBodyC<DataT,ObjT>(nobj,meth))
+    inline DPOMethodC(const ObjT &nobj,typename DPOMethodBodyC<DataT,ObjT,RetT>::Func1T meth)
+      : DPEntityC(*new DPOMethodBodyC<DataT,ObjT,RetT>(nobj,meth))
     {}
     //: Constructor.
     
@@ -157,9 +170,9 @@ namespace RavlN {
   { return DPIMethodC<DataT,ObjT>(nobj,meth); }
   //: Turn a class method into an input port.
   
-  template<class DataT,class ObjT>
-  DPOPortC<DataT> OMethod(const ObjT &nobj,bool (ObjT::*meth)(const DataT &dat))
-  { return DPOMethodC<DataT,ObjT>(nobj,meth); }
+  template<class DataT,class ObjT,class RetT>
+  DPOPortC<DataT> OMethod(const ObjT &nobj,RetT (ObjT::*meth)(const DataT &dat))
+  { return DPOMethodC<DataT,ObjT,RetT>(nobj,meth); }
   //: Turn a class method into an output port.
   
 };
