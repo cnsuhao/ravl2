@@ -19,6 +19,9 @@
 #include "Ravl/TFVector.hh"
 #include "Ravl/String.hh"
 
+#include "Ravl/fdstreambuf.hh"
+#include "Ravl/fdstream.hh"
+
 #if RAVL_HAVE_UNISTD_H
 #include <unistd.h>
 #endif
@@ -32,6 +35,7 @@ int SimpleTest();
 int VectorTest();
 int StrStreamTest();
 int testRawFD(); /* NB. This is only usefull on some platforms. */
+int testFDStream();
 
 StringC testFile = "/tmp/testStream" + StringC((IntT) getpid());
 
@@ -48,6 +52,10 @@ int main() {
   }
   if((errLine = StrStreamTest()) != 0) {
     cerr << "String stream test failed line: " << errLine << "\n";
+    return 1;
+  }
+  if((errLine = testFDStream()) != 0) {
+    cerr << "test failed line: " << errLine << "\n";
     return 1;
   }
   if((errLine = testRawFD()) != 0) {
@@ -157,6 +165,40 @@ int StrStreamTest() {
     cerr << "'" << ret << "'\n";
     
   }  
+  return 0;
+}
+
+int testFDStream() {
+#if RAVL_COMPILER_GCC3
+  cerr << "testFDStream(), Started. \n";
+  int fds[2];
+  pipe(fds);
+  char let = 'a';
+  cerr << "Writting data... \n";
+  
+  ofdstream os(fds[1]);
+  if(!os)  return __LINE__;
+  os << let << let;
+  os.flush();
+  
+  cerr << "Read data... \n";
+  
+  char rlet1 = 0,rlet2 = 0;
+  
+  ifdstream is(fds[0]);
+  if(!is)  return __LINE__;
+  cerr << "Reading byte1 \n";
+  is >> rlet1;
+  cerr << "Reading byte1 done. Let=" << (int) rlet1 <<" \n";
+  if(!is)  return __LINE__;  
+  is >> rlet2;
+  if(!is)  return __LINE__;  
+  
+  cerr << "Let=" << (int) let << " RLet1=" << (int) rlet1 << " RLet2=" << (int) rlet2 << "\n";
+  
+  if(let != rlet1) return __LINE__;
+  if(let != rlet2) return __LINE__;
+#endif  
   return 0;
 }
 
