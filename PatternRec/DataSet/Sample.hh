@@ -13,6 +13,7 @@
 //! file="Ravl/PatternRec/DataSet/Sample.hh"
 
 #include "Ravl/DArray1d.hh"
+#include "Ravl/DArray1dIter.hh"
 #include "Ravl/Collection.hh"
 
 namespace RavlN {
@@ -52,6 +53,10 @@ namespace RavlN {
     UIntT Append(const DataT & dat)
     { return DArray1dC<DataT>::Append(dat).V(); }
     //: Insert a single sample into sample
+    
+    UIntT operator+=(const DataT & dat)
+    { return Append(dat); }
+    //: Indentical to Append().
     
     SizeT Size() const
     { return DArray1dC<DataT>::Size(); }
@@ -119,9 +124,29 @@ namespace RavlN {
     //: Is this empty ?
     
   }; // end of class SampleC 
+   
+  template <class DataT>
+  ostream &operator<<(ostream &s,const SampleC<DataT> &dat ) {
+    s << ((int) 0) << " " << ((int) dat.Size()-1) << "\n";
+    for(DArray1dIterC<DataT> it(dat.DArray());it;it++)
+      s << *it << "\n";
+    return s;
+  }
+  //: Output to stream.
 
-
-  //: Take a subsample of this set.
+  template <class DataT>
+  istream &operator>>(istream &s,SampleC<DataT> &dat ) {
+    int min,max;
+    s >> min >> max;
+    dat = SampleC<DataT>((min - max) + 1);
+    for(DArray1dIterC<DataT> it(dat);it;it++) {
+      DataT v;
+      s >> v;
+      dat += v;
+    }
+    return s;
+  }
+  //: Read from stream.
   
   template <class DataT>
   SampleC<DataT> SampleC<DataT>::SubSample(const CollectionC<UIntT> &x) {
@@ -147,6 +172,7 @@ namespace RavlN {
     RemoveLast();
     return ret;
   }
+
   
   
 }

@@ -14,9 +14,11 @@
 
 #include "Ravl/PatternRec/Sample.hh"
 #include "Ravl/Vector.hh"
+#include "Ravl/Matrix.hh"
 
 namespace RavlN {
-  
+
+  class MatrixRUTC;
   class MeanCovarianceC;  
   
   //! userlevel=Normal
@@ -52,6 +54,14 @@ namespace RavlN {
     
     MeanCovarianceC MeanCovariance() const;
     //: Find the mean and covariance of the sample
+    
+    MatrixRUTC SumOuterProducts() const;
+    //: Compute the sum of the outerproducts.
+    
+    MatrixC TMul(const SampleC<VectorC> &sam2) const;
+    //: Compute the sum of the outerproducts.
+    // sam2 must have the same size as this sample vector.
+    
   }; 
   
 }

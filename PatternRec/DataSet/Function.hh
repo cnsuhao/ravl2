@@ -17,6 +17,7 @@
 #include "Ravl/RCHandleV.hh"
 
 namespace RavlN {
+  template<class DataT> class SampleC;
   
   //! userlevel=Develop
   //: Map an input vector to an output vector.
@@ -35,8 +36,17 @@ namespace RavlN {
     FunctionBodyC(BinIStreamC &strm);
     //: Load from binary stream.
     
+    FunctionBodyC(UIntT inSize,UIntT outSize)
+      : inputSize(inSize),
+	outputSize(outSize)
+    {}
+    //: Create function with given number of inputs and outputs.
+    
     virtual VectorC Apply(const VectorC &data) const;
     //: Apply function to 'data'
+    
+    virtual SampleC<VectorC> Apply(const SampleC<VectorC> &data);
+    //: Apply transform to whole dataset.
     
     virtual MatrixC Jacobian (const VectorC &X) const;
     //: Calculate Jacobian matrix at X
@@ -105,6 +115,9 @@ namespace RavlN {
     VectorC Apply(const VectorC &data) const
     { return Body().Apply(data); }
     //: Apply function to 'data'
+    
+    SampleC<VectorC> Apply(const SampleC<VectorC> &data);
+    //: Apply transform to whole dataset.
     
     VectorC operator() (const VectorC &X) const 
     { return Body().Apply(X); }

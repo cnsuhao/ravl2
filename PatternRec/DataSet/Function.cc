@@ -10,6 +10,8 @@
 #include "Ravl/PatternRec/Function.hh"
 #include "Ravl/Matrix.hh"
 #include "Ravl/BinStream.hh"
+#include "Ravl/PatternRec/Sample.hh"
+#include "Ravl/DArray1dIter2.hh"
 
 namespace RavlN {
 
@@ -49,7 +51,16 @@ namespace RavlN {
     RavlAssertMsg(0,"RavlN::Apply(), Abstract method called. \n");
     return data;
   }
-
+  
+  //: Apply transform to whole dataset.
+  
+  SampleC<VectorC> FunctionBodyC::Apply(const SampleC<VectorC> &data) {
+    SampleC<VectorC> ret(data.Size());
+    for(DArray1dIterC<VectorC> it(data.DArray());it;it++)
+      ret += Apply(*it);
+    return ret;
+  }
+  
   MatrixC FunctionBodyC::Jacobian (const VectorC &X) const {
     MatrixC J (outputSize,inputSize);
     VectorC dX (inputSize);
@@ -63,5 +74,12 @@ namespace RavlN {
     }
     return J;
   }
+
+  //////////////////////////////////////////////////////////
+  
+  //: Apply transform to whole dataset.
+  
+  SampleC<VectorC> FunctionC::Apply(const SampleC<VectorC> &data)
+  { return Body().Apply(data); }
 
 }

@@ -10,7 +10,9 @@
 
 #include "Ravl/PatternRec/SampleVector.hh"
 #include "Ravl/DArray1dIter.hh"
+#include "Ravl/DArray1dIter2.hh"
 #include "Ravl/MeanCovariance.hh"
+#include "Ravl/MatrixRUT.hh"
 
 namespace RavlN {
 
@@ -53,6 +55,31 @@ namespace RavlN {
     cov /= n;
     cov -= mean.OuterProduct();
     return MeanCovarianceC(in,mean,cov);
+  }
+
+  //: Compute the sum of the outerproducts.
+  
+  MatrixRUTC SampleVectorC::SumOuterProducts() const {
+    MatrixRUTC ret;
+    DArray1dIterC<VectorC> it(*this);
+    if(!it) return ret; // No samples.
+    ret = OuterProductRUT(*it);
+    for(it++;it;it++)
+      ret.AddOuterProduct(*it);
+    return ret;
+  }
+  
+  //: Compute the sum of the outerproducts.
+  // sam2 must have the same size as this sample vector.
+  
+  MatrixC SampleVectorC::TMul(const SampleC<VectorC> &sam2) const {
+    MatrixC ret;
+    DArray1dIter2C<VectorC,VectorC> it(*this,sam2.DArray());
+    if(!it) return ret; // No samples.    
+    ret = it.Data1().OuterProduct(it.Data2());
+    for(it++;it;it++)
+      ret.AddOuterProduct(it.Data1(),it.Data2());
+    return ret;
   }
   
 }

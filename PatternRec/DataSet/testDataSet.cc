@@ -15,10 +15,12 @@
 #include "Ravl/PatternRec/DataSet2Iter.hh"
 #include "Ravl/PatternRec/DataSet3Iter.hh"
 #include "Ravl/PatternRec/SampleIO.hh"
+#include "Ravl/PatternRec/SampleVector.hh"
 #include "Ravl/PatternRec/SampleIter.hh"
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/OS/Date.hh"
 #include "Ravl/Stream.hh"
+#include "Ravl/MatrixRUT.hh"
 
 using namespace RavlN;
 
@@ -29,6 +31,7 @@ int testSampleIO();
 int testDataSet1();
 int testDataSet2();
 int testDataSet3();
+int testSampleVector();
 
 #if USE_SPEEDTEST
 #include "Ravl/DList.hh"
@@ -60,6 +63,10 @@ int main() {
     return 1;
   }
   if((ln = testDataSet3()) != 0) {
+    cerr << "Test failed line " << ln << "\n";
+    return 1;
+  }
+  if((ln = testSampleVector()) != 0) {
     cerr << "Test failed line " << ln << "\n";
     return 1;
   }
@@ -139,6 +146,21 @@ int testDataSet3() {
   return 0;
 }
 
+int testSampleVector() {
+  SampleVectorC sv;
+  sv += VectorC(1,2,3);
+  sv += VectorC(1,1,1);
+  MatrixRUTC sop = sv.SumOuterProducts();
+  sop.MakeSymmetric();
+  MatrixC t(3,3);
+  t.Fill(0);
+  t += VectorC(1,2,3).OuterProduct();
+  t += VectorC(1,1,1).OuterProduct();
+  if((sop - t).SumSqr() > 0.0000001) return __LINE__;
+  cerr << "SOP=" << sop << "\n";;
+  return 0;
+}
+
 #if USE_SPEEDTEST
 const int testSize = 1000000;
 int testSpeed() {
@@ -199,4 +221,5 @@ int testSpeed() {
   
   return 0;
 }
+
 #endif
