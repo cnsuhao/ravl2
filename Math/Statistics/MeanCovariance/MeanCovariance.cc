@@ -260,8 +260,7 @@ namespace RavlN {
   //: Evaluate the value of guassian distribution at 'vec'.
   
   RealT MeanCovarianceC::Gauss(const VectorC &vec) const {
-    MatrixC invCov = Covariance();
-    invCov.InverseIP();
+    MatrixC invCov = Covariance().Inverse();
     VectorC diff = vec - m;
     RealT e =  diff.Dot(invCov * diff) / -2;
     RealT a = Pow(2 * RavlConstN::pi,(RealT) vec.Size() / 2) * Sqrt(cov.Det()) ;
