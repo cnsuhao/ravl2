@@ -25,17 +25,20 @@
 namespace RavlN {
   
   ////////////////////////////////////////////////////////
-  
+    static AttributeTypeStringC idAttribute("id","Port identifier");
+
   //: Default constructor.
   
   DPPortBodyC::DPPortBodyC()
-  { portId = (StringC("Port-") + StringC((UIntT) this >> 2)); }
+  { portId = (StringC("Port-") + StringC((UIntT) this >> 2)); 
+  RegisterID() ; }
   
   //: Stream constructor.
 
   DPPortBodyC::DPPortBodyC(istream &in) 
     : DPEntityBodyC(in)
-  { in >> portId; }
+{ in >> portId; 
+ RegisterID() ; }
   
 
   //: Destructor.
@@ -50,6 +53,12 @@ namespace RavlN {
     return DPPortC(); 
   }
   
+  //: Register ID
+  // registers the id with the attriubte ctrl mechanism 
+  void DPPortBodyC::RegisterID(void) 
+{  RegisterAttribute ( idAttribute ) ;  }
+
+
   //: Does port work asynchronously ?
   
   bool DPPortBodyC::IsAsync() const  { 
@@ -122,7 +131,6 @@ namespace RavlN {
   //: Get list of attributes available.
   
   bool DPPortBodyC::GetAttrList(DListC<StringC> &list) const {
-    list.InsLast("id");
     return AttributeCtrlBodyC::GetAttrList(list);
   }
 
@@ -131,12 +139,10 @@ namespace RavlN {
   AttributeCtrlC DPPortBodyC::ParentCtrl() const 
   { return ConnectedTo(); }
   
-  static AttributeTypeStringC idAttribute("id","Port identifier");
   
   //: Get a list of available attribute types.
   
   bool DPPortBodyC::GetAttrTypes(DListC<AttributeTypeC> &list) const {
-    list.InsLast(idAttribute);
     return AttributeCtrlBodyC::GetAttrTypes(list);
   }
   

@@ -68,7 +68,10 @@ namespace RavlN {
     
     virtual ~DPPortBodyC();
     //: Destructor.
-    
+
+    void DPPortBodyC::RegisterID(void) ;
+    //: Register Port ID  
+
     virtual bool IsAsync() const;
     //: Does port work asynchronously ?
     // Can more than one thread read from this port safely ?
