@@ -44,6 +44,45 @@ myTrigger = Trigger(&amp;PrintNumber,2);
 <pre>
 myTrigger();
 </pre>
-    
+
+    <h3>Using calls </h3>
+
+Calls are wrappers for C++ function pointers which allow
+you to find the difference between calling a method of a
+class and a normal function, and to add default arguments
+to the call that the code calling the function need not know about. <br>
+
+<h4> Default arguments </h4>
+
+When you setup a callback function, you can set default parameters. This
+especially useful if the method you wish to call requires more information
+than the callback normally provides. In the 3rd argument is set to 3, since
+its only called with 2 arguments, 30 is passed as its default value.
+
+<pre>
+#include "Ravl/Calls.hh"
+
+bool callback(int &v1,double &v2,int &x) {
+  // Do something....
+  return true;
+}
+
+int myprog() {
+
+  // Declare callback variable.
+  CallFunc2&lt;int,double&gt; func;  
+  
+  // Setup call back.
+  func = Trigger(&amp;callback,10,20,30);
+
+  // Some paramiters...  
+  int v1 = 0;
+  double v2 = 1.2;
+  
+  // Call function.
+  func(v1,v2);
+  
+}
+</pre>
   </body>
 </html>
