@@ -206,8 +206,8 @@ SaveLevel(IntT level, const PairC<NumImageC<RealT> > &im,
 	   << "\nmotion rectangle: " << motion.Rectangle() << "\n";
       RavlAssert(0);
     }
-#if 0
     IndexRange2dC frame = im.Rectangle();
+#if 0
     frame.BRow()--;
     frame.RCol()--;
 #endif
