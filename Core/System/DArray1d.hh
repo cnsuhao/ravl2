@@ -548,7 +548,11 @@ namespace RavlN {
   template<class DataT>
   DataT &DArray1dBodyC<DataT>::Index(IndexC i) {
     IntrDLIterC<DChunkC<DataT> > it;
-    bool x = FindChunk(i.V(),it);
+//comment x variable if assertions are not active
+#if RAVL_CHECK
+    bool x = 
+#endif    
+    FindChunk(i.V(),it);
     RavlAssertMsg(x,"Index out of range. ");
     return it->Index(i);
   }
@@ -556,7 +560,11 @@ namespace RavlN {
   template<class DataT>
   const DataT &DArray1dBodyC<DataT>::Index(IndexC i) const {
     IntrDLIterC<DChunkC<DataT> > it;
-    bool x = FindChunk(i.V(),it);
+//comment x variable if assertions are not active
+#if RAVL_CHECK
+    bool x = 
+#endif    
+    FindChunk(i.V(),it);
     RavlAssertMsg(x,"Index out of range. ");
     return it->Index(i);
   }
@@ -565,7 +573,11 @@ namespace RavlN {
   DataT &DArray1dBodyC<DataT>::Nth(UIntT i) {
     IntrDLIterC<DChunkC<DataT> > it;
     UIntT at;
-    bool x = FindNthChunk(i,at,it);
+//comment x variable if assertions are not active
+#if RAVL_CHECK
+    bool x = 
+#endif    
+    FindNthChunk(i,at,it);
     RavlAssertMsg(x,"Index out of range. ");
     return it->Nth(i - at);
   }
@@ -574,7 +586,11 @@ namespace RavlN {
   const DataT &DArray1dBodyC<DataT>::Nth(UIntT i) const {
     IntrDLIterC<DChunkC<DataT> > it;
     UIntT at;
-    bool x = FindNthChunk(i,at,it);
+//comment x variable if assertions are not active
+#if RAVL_CHECK
+    bool x = 
+#endif    
+    FindNthChunk(i,at,it);
     RavlAssertMsg(x,"Index out of range. ");
     return it->Nth(i - at);    
   }

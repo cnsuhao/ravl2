@@ -65,7 +65,8 @@ namespace RavlN {
       IntT ret = input.GetArray(src);
       if(ret > 0)
 	src = SArray1dC<InT>(src,ret);
-#ifndef NDEBUG
+//comment ap variable if assertions are not active
+#if RAVL_CHECK
       IntT ap = 
 #endif
 	ApplyArray(src,dest);

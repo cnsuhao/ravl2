@@ -87,7 +87,7 @@ namespace RavlN {
     VectorC shift(in.First().Size());
     VectorC mean;
     for(SampleIterC<VectorC> sit(in);sit;sit++) { // Got through all possible start points.
-      int i = 0;
+//      int i = 0;
       do {
 	mean = sit->Copy();
 	shift.Fill(0);
