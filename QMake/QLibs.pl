@@ -141,8 +141,8 @@ if(!defined($opt_d)) {
   $useslibs = "USESLIBS= $useslibs";
   $proglibs = "PROGLIBS= $proglibs";
 } else {
-    $u = "USESLIBS= ";
-    $p = "PROGLIBS= ";
+    $u = " ";
+    $p = " ";
 
     for $l (split(' ', $useslibs)) {
 	$u = $u." $l.def";
