@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLDPFILESEQUENCE_HEADER
-#define RAVLDPFILESEQUENCE_HEADER 1
+#ifndef RAVL_DPFILESEQUENCE_HEADER
+#define RAVL_DPFILESEQUENCE_HEADER 1
 /////////////////////////////////////////////////////////
 //! docentry="Ravl.OS.Sequence"
 //! rcsid="$Id$"
@@ -32,6 +32,7 @@ namespace RavlN {
   public:
     DPFileSequenceBaseBodyC(StringC fn,UIntT start = ((UIntT) -1),UIntT end = ((UIntT) -1),IntT digits = -1,bool forLoad = true);
     //: Constructor.
+    // If 'fn' is an empty string, ProbeFormat must be called later.
     
     DPFileSequenceBaseBodyC();
     //: Default constructor.
@@ -149,6 +150,7 @@ namespace RavlN {
       : DPEntityC(*new DPFileSequenceBaseC(fn,start,end,digits,forLoad))
       {}
     //: Constructor.
+    // If 'fn' is an empty string, ProbeFormat must be called later.
     
     DPFileSequenceBaseC()
       : DPEntityC(true)

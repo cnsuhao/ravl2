@@ -39,8 +39,10 @@ namespace RavlN {
       templateFile(fn),
       subst("%d") // Number pattern   
   {
-    if(digits == -1)
-      ProbeFormat(fn);
+    if(!fn.IsEmpty()) {
+      if(digits == -1)
+	ProbeFormat(fn);
+    }
   }
   
   //: Default constructor.
@@ -130,7 +132,6 @@ namespace RavlN {
   //: See if we can find the format.
   
   bool DPFileSequenceBaseBodyC::ProbeFormat(FilenameC rootFn) {
-    FilenameC test(rootFn);
     templateFile = rootFn;
     ONDEBUG(cerr << "DPFileSequenceBaseBodyC::ProbeFormat(), Called for '" << rootFn << "'\n");
     
