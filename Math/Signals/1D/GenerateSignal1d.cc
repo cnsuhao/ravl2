@@ -34,7 +34,7 @@ namespace RavlN {
     Array1dC<RealT> ret(size);
     for (Array1dIterC<RealT> it(ret);it;it++)
       *it = stdDeviation * RandomGauss() + mean;
-    return size;
+    return ret;
   }
   //: Generate a 1-d guassian curve.
 
