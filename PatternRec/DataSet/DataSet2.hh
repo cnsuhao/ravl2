@@ -26,14 +26,19 @@ namespace RavlN {
     : public DataSet1BodyC<Sample1T>
   {
   public:
+    DataSet2BodyC()
+    {}
+    //: Default constructor.
+    
     DataSet2BodyC(const Sample1T & samp1,const Sample2T & samp2);
     //: Create a dataset from a sample
     
-    DataSet2BodyC(const Sample1T & samp1,const Sample2T & samp2,const CollectionC<UIntT> &nindex);
-    //: Create a dataset from a sample and an index.
-    
     Sample2T &Sample2()
-      { return samp2; }
+    { return samp2; }
+    //: Access complete sample.
+
+    const Sample2T &Sample2() const
+    { return samp2; }
     //: Access complete sample.
     
     UIntT Append(const typename Sample1T::ElementT &data1,const typename Sample2T::ElementT &data2);
@@ -56,6 +61,11 @@ namespace RavlN {
     DataSet2C()
     {}
     //: Default constructor.
+
+    DataSet2C(bool)
+      : DataSet1C<Sample1T>(*new DataSet2BodyC<Sample1T,Sample2T>())
+    {}
+    //: Constructor.
     
     DataSet2C(const Sample1T & dat1,const Sample2T & dat2)
       : DataSet1C<Sample1T>(*new DataSet2BodyC<Sample1T,Sample2T>(dat1,dat2))
@@ -63,13 +73,8 @@ namespace RavlN {
     //: Create a dataset from a sample
     
   protected:
-    DataSet2C(const Sample1T & dat1,const Sample2T & dat2,const CollectionC<UIntT> &nindex)
-      : DataSetBaseC(*new DataSet2BodyC<Sample1T,Sample2T>(dat1,dat2,nindex))
-      {}
-    //: Create a dataset from a sample and an index.
-    
     DataSet2C(DataSet2BodyC<Sample1T,Sample2T> &bod)
-      : DataSetBaseC(bod)
+      : DataSet1C<Sample1T>(bod)
       {}
     //: Body constructor.
     
@@ -83,7 +88,11 @@ namespace RavlN {
     
   public:
     Sample2T &Sample2()
-      { return Body().Sample2(); }
+    { return Body().Sample2(); }
+    //: Access complete sample.
+    
+    const Sample2T &Sample2() const
+    { return Body().Sample2(); }
     //: Access complete sample.
     
     DataSet2C<Sample1T,Sample2T> Shuffle() const
@@ -103,12 +112,6 @@ namespace RavlN {
   DataSet2BodyC<Sample1T,Sample2T>::DataSet2BodyC(const Sample1T & dat1,const Sample2T &dat2)
     : DataSet1BodyC<Sample1T>(dat1),
       samp2(dat2)
-  {}
-  
-  template<class Sample1T,class Sample2T>
-  DataSet2BodyC<Sample1T,Sample2T>::DataSet2BodyC(const Sample1T & dat1,const Sample2T & dat2,const CollectionC<UIntT> &nindex)
-    : DataSet1BodyC<Sample1T>(dat1,nindex),
-      samp2(sp)
   {}
   
   template<class Sample1T,class Sample2T>

@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_DATASET2ITER_HEADER
-#define RAVL_DATASET2ITER_HEADER 1
+#ifndef RAVL_DATASET3ITER_HEADER
+#define RAVL_DATASET3ITER_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Pattern Recognition.Data Set"
@@ -28,8 +28,10 @@ namespace RavlN {
     {}
     //: Default construtor.
     
-    DataSet3IterC(DataSet3C<Sample1T,Sample2T,Sample3T> &nds)
-      : DArray1dIter3C<typename Sample1T::ElementT,typename Sample2T::ElementT,typename Sample3T::ElementT>(nds.Sample1(),nds.Sample2(),nds.Sample3())
+    DataSet3IterC(const DataSet3C<Sample1T,Sample2T,Sample3T> &nds)
+      : DArray1dIter3C<typename Sample1T::ElementT,typename Sample2T::ElementT,typename Sample3T::ElementT>(nds.Sample1().DArray(),
+													    nds.Sample2().DArray(),
+													    nds.Sample3().DArray())
     {}
     //: Construct from a data set.
     

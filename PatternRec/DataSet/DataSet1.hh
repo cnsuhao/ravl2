@@ -36,7 +36,11 @@ namespace RavlN {
     //: Create a dataset from a sample and an index.
     
     SampleT &Sample1()
-      { return samp1; }
+    { return samp1; }
+    //: Access sample.
+
+    const SampleT &Sample1() const
+    { return samp1; }
     //: Access sample.
     
     UIntT Append(const typename SampleT::ElementT &data);
@@ -91,6 +95,10 @@ namespace RavlN {
     
   public:
     SampleT &Sample1()
+      { return Body().Sample1(); }
+    //: Access complete sample.
+    
+    const SampleT &Sample1() const
       { return Body().Sample1(); }
     //: Access complete sample.
     

@@ -26,17 +26,27 @@ namespace RavlN {
     : public DataSet2BodyC<Sample1T,Sample2T>
   {
   public:
+    DataSet3BodyC()
+    {}
+    //: Default constructor.
+    
     DataSet3BodyC(const Sample1T & samp1,const Sample2T & samp2,const Sample3T & samp3);
     //: Create a dataset from a sample
-    
-    DataSet3BodyC(const Sample1T & samp1,const Sample2T & samp2,const Sample3T & samp3,const CollectionC<UIntT> &nindex);
-    //: Create a dataset from a sample and an index.
     
     UIntT Append(const typename Sample1T::ElementT &data1,const typename Sample2T::ElementT &data2,const typename Sample3T::ElementT &data3);
     //: Append a data entry.
     // returns its index.
+
+    Sample3T &Sample3()
+    { return samp3; }
+    //: Access complete sample.
     
-  private:
+    const Sample3T &Sample3() const
+    { return samp3; }
+    //: Access complete sample.
+    
+    
+  protected:
     Sample3T samp3;
     //: the actual data
   };
@@ -53,17 +63,17 @@ namespace RavlN {
     {}
     //: Default constructor.
     
+    DataSet3C(bool)
+      : DataSet2C<Sample1T,Sample2T>(*new DataSet3BodyC<Sample1T,Sample2T,Sample3T>())
+    {}
+    //: Default constructor.
+    
     DataSet3C(const Sample1T & dat1,const Sample2T & dat2,const Sample3T & dat3)
       : DataSet2C<Sample1T,Sample2T>(*new DataSet3BodyC<Sample1T,Sample2T,Sample3T>(dat1,dat2,dat3))
       {}
     //: Create a dataset from a sample
     
-  protected:
-    DataSet3C(const Sample1T & dat1,const Sample2T & dat2,const Sample3T & dat3,const CollectionC<UIntT> &nindex)
-      : DataSetBaseC(*new DataSet3BodyC<Sample1T,Sample2T,Sample3T>(dat1,dat2,dat3,nindex))
-      {}
-    //: Create a dataset from a sample and an index.
-    
+  protected:    
     DataSet3C(DataSet3BodyC<Sample1T,Sample2T,Sample3T> &bod)
       : DataSetBaseC(bod)
       {}
@@ -77,9 +87,13 @@ namespace RavlN {
       { return static_cast<const DataSet3BodyC<Sample1T,Sample2T,Sample3T> &>(DataSetBaseC::Body()); }
     //: Access body.
     
-  protected:
+  public:
     Sample3T &Sample3()
-      { return Body().Sample3(); }
+    { return Body().Sample3(); }
+    //: Access complete sample.
+    
+    const Sample3T &Sample3() const
+    { return Body().Sample3(); }
     //: Access complete sample.
     
     UIntT Append(const typename Sample1T::ElementT &data1,const typename Sample2T::ElementT &data2,const typename Sample3T::ElementT &data3)
@@ -94,12 +108,6 @@ namespace RavlN {
   template<class Sample1T,class Sample2T,class Sample3T>
   DataSet3BodyC<Sample1T,Sample2T,Sample3T>::DataSet3BodyC(const Sample1T & dat1,const Sample2T &dat2,const Sample3T &dat3)
     : DataSet2BodyC<Sample1T,Sample2T>(dat1,dat2),
-      samp3(dat3)
-  {}
-  
-  template<class Sample1T,class Sample2T,class Sample3T>
-  DataSet3BodyC<Sample1T,Sample2T,Sample3T>::DataSet3BodyC(const Sample1T & dat1,const Sample2T & dat2,const Sample3T & dat3,const CollectionC<UIntT> &nindex)
-    : DataSet2BodyC<Sample1T,Sample2T>(dat1,dat2,nindex),
       samp3(dat3)
   {}
   

@@ -28,8 +28,8 @@ namespace RavlN {
     {}
     //: Default construtor.
     
-    DataSet1IterC(DataSet1C<SampleT> &nds)
-      : DArray1dIterC<typename SampleT::ElementT>(nds.Sample())
+    DataSet1IterC(const DataSet1C<SampleT> &nds)
+      : DArray1dIterC<typename SampleT::ElementT>(nds.Sample1().DArray())
     {}
     //: Construct from a data set.
     

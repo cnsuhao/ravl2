@@ -14,6 +14,10 @@
 #include "Ravl/DArray1d.hh"
 #include "Ravl/Collection.hh"
 namespace RavlN {
+
+  template<class SampleT> class DataSet1IterC;
+  template<class Sample1T,class Sample2T> class DataSet2IterC;
+  template<class Sample1T,class Sample2T,class Sample3T> class DataSet3IterC;
   
   //! userlevel=Normal
   //: Sample of DataT's
@@ -60,7 +64,19 @@ namespace RavlN {
     const DataT &operator[](IndexC ind) const
       { return DArray1dC<DataT>::operator[](ind); }
     //: Access a sample.
+
+    friend class DataSet1IterC<DataT>;
+
+    DArray1dC<DataT> &DArray()
+    { return *this; }
+    //: Access DArray.
+    // For internal use only.
     
+    const DArray1dC<DataT> &DArray() const
+    { return *this; }
+    //: Access DArray.
+    // For internal use only.
+
   }; // end of class SampleC 
 
 

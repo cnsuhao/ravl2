@@ -20,7 +20,7 @@ namespace RavlN {
   //: Iterate through a data set.
   
   template<class Sample1T,class Sample2T>
-  class DataSet2IterC 
+  class DataSet2IterC
     : public DArray1dIter2C<typename Sample1T::ElementT,typename Sample2T::ElementT>
   {
   public:
@@ -28,8 +28,8 @@ namespace RavlN {
     {}
     //: Default construtor.
     
-    DataSet2IterC(DataSet2C<Sample1T,Sample2T> &nds)
-      : DArray1dIter2C<typename Sample1T::ElementT,typename Sample2T::ElementT>(nds.Sample1(),nds.Sample2())
+    DataSet2IterC(const DataSet2C<Sample1T,Sample2T> &nds)
+      : DArray1dIter2C<typename Sample1T::ElementT,typename Sample2T::ElementT>(nds.Sample1().DArray(),nds.Sample2().DArray())
     {}
     //: Construct from a data set.
     
