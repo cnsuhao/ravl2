@@ -79,10 +79,10 @@ namespace RavlGUIN {
     void DoSomeSetup();
     //: Don't call directly!!!!!!!!!!
     
-    void DrawImage(const ImageC<ByteT> &img,Index2dC offset=Index2dC(0,0));
+    virtual void DrawImage(const ImageC<ByteT> &img,Index2dC offset=Index2dC(0,0));
     //: Draw an image on the canvas.
     
-    void DrawImage(const ImageC<ByteRGBValueC> &img,Index2dC offset=Index2dC(0,0));
+    virtual void DrawImage(const ImageC<ByteRGBValueC> &img,Index2dC offset=Index2dC(0,0));
     //: Draw an rgb image on the canvas.
     
     void DrawLine(IntT x1,IntT y1,IntT x2,IntT y2,IntT colId = 0); 
