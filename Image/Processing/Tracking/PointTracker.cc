@@ -95,7 +95,7 @@ namespace RavlImageN {
   
   IntT PointTrackerC::Update(const ImageC<ByteT> &img) {
     DListC<CornerC> cl;
-    if(frameCount % 10 == 0)
+    if(frameCount % 10 == 1)
       cl = cornerDet.Apply(img);
     ONDEBUG(ImageC<ByteT> timg(img.Copy()));
     //ONDEBUG(ImageC<ByteT> timg(img.Frame()); timg.Fill(0));
