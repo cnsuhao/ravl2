@@ -103,7 +103,8 @@ namespace RavlN {
     // 'extend' extra elements initalised by the default constuctor
     // are appended to the end of the array.
     
-    void CopyFrom(const Slice1dC<DataT> &slice);
+    void CopyFrom(const Slice1dC<DataT> &slice)
+    { SizeBufferAccessC<DataT>::CopyFrom(slice); }
     //: Copy contents of slice into array.
     // The first element of the slice is copied to element
     // 0 of this array, second to 1 etc.  If this array isn't
@@ -409,13 +410,6 @@ namespace RavlN {
     return ret;
   }
   
-  template <class DataT>
-  void SArray1dC<DataT>::CopyFrom(const Slice1dC<DataT> &slice) {
-    RavlAssert(slice.Size() <= Size());
-    DataT *at = DataStart();
-    for(Slice1dIterC<DataT> it(slice);it;it++,at++)
-      *at = *it;    
-  }
 
   template <class DataT>
   SArray1dC<DataT> 

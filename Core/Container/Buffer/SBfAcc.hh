@@ -156,6 +156,11 @@ namespace RavlN {
     //: Copy contents of another buffer into this one.
     // NB. Buffers MUST be the same length.
     
+    void CopyFrom(const Slice1dC<DataT> &slice);
+    //: Copy slice into this array.
+    // slice must have the same length as this buffer. <br>
+    // Implementation can be found in Slice1d.hh 
+    
     void Reverse();
     //: Reverse the order of elements in this array in place.
     
@@ -169,12 +174,6 @@ namespace RavlN {
     bool operator==(const SizeBufferAccessC<DataT> &ba) const
     { return (buff == ba.buff) && (sz == ba.sz); }
     //: Are two accesses the same ?
-    
-    void Copy(const Slice1dC<DataT> &slice);
-    //: Copy slice into this array.
-    // slice must have the same length as this buffer. <br>
-    // Implementation can be found in Slice1d.hh
-    
   protected:
     
     // Copy

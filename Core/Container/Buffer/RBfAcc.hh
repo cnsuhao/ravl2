@@ -207,7 +207,7 @@ namespace RavlN {
     { return (buff == ba.buff) && (range == ba.range); }
     //: Are two accesses the same ?
     
-    void Copy(const Slice1dC<DataT> &slice);
+    void CopyFrom(const Slice1dC<DataT> &slice);
     //: Copy slice into this array.
     // slice must have the same length as this buffer. <br>
     // Implementation can be found in Slice1d.hh
