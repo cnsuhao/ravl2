@@ -60,7 +60,25 @@ namespace RavlGUIN {
     data->WidgetDestroy(); 
     return 1;
   }
-  
+
+  // How to add a new signal:
+  //
+  // 1) Check if a method with a suitable prototype already exists
+  //    the names of the functions can be seen in the list of defines below, with
+  //    a WidgetBodyC:: before them. If it does skip to step 6. 
+  // 2) Add a new signal type to SignalTypeT in SignalInfo.hh 
+  // 3) Write a new function to convert the gtk signal into a c++ one.
+  //    an example is WidgetBodyC::gtkEventMouseMotion(..)
+  // 4) Add your new enumerated type to the switch statement in WidgetBodyC::Signal(const char *nm)
+  //    its here you create the SignalC you want to use. Its also a good place to do any general 
+  //    configuration needed BEFORE the widget is created.
+  // 5) If you need to do any configuration after the widget has been created, then 
+  //    WidgetBodyC::ConnectSignals() is the place to put this. Note: This is for generic stuff.
+  //    widget specific code should be put in the class for that widget.
+  // 6) Add a line to the signalInfo[] list
+  //    in SigInfoInit().  i.e. GTKSIG("some_event"         ,GTKSIG_EVENT   ),
+  // 7) Done!
+
 #define GTKSIG(name,type) Tuple2C<const char *,GTKSignalInfoC>(name,GTKSignalInfoC(name,type))
 #define GTKSIG_GENERIC (GtkSignalFunc) WidgetBodyC::gtkGeneric,SigTypeGeneric
 #define GTKSIG_EVENT   (GtkSignalFunc) WidgetBodyC::gtkEvent,SigTypeEvent 
