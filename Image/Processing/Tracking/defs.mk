@@ -14,4 +14,6 @@ SOURCES=PointTrack.cc PointTrackModel.cc PointTracker.cc
 
 MAINS=tracker.cc
 
-USESLIBS=RavlImage RavlImageIO RavlVideoIO RavlDPDisplay RavlImgIOV4L RavlImageProc
+USESLIBS=RavlImage RavlImageProc
+
+PROGLIBS=RavlDPDisplay RavlVideoIO RavlImageIO
