@@ -75,17 +75,11 @@ namespace RavlN {
     {}
     // Default constructor.
     
-    DPIOPortC(const DPIOPortC<InT,OutT> &oth) 
-      : DPEntityC(oth),
-	DPIPortC<InT>(oth),
-	DPOPortC<OutT>(oth)
-    {}
-    //: Copy constructor.
-    
     DPIOPortC(DPIOPortBodyC<InT,OutT> &bod) 
       : DPEntityC(bod),
 	DPIPortC<InT>(bod),
-	DPOPortC<OutT>(bod)
+	DPOPortC<OutT>(bod),
+	DPStreamOpC(bod)
     {}
     //: Body constructor.
     
@@ -94,7 +88,7 @@ namespace RavlN {
     {}
     //: Stream constructor.
     
-    inline const DPIOPortC<InT,OutT> Copy() const  { 
+    inline DPIOPortC<InT,OutT> Copy() const  { 
       if(!IsValid())
 	return DPIOPortC<InT,OutT>(); // Nothing to copy.
       return DPIOPortC<InT,OutT>(dynamic_cast<DPIOPortBodyC<InT,OutT> &>(Body().Copy())); 

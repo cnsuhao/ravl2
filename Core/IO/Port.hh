@@ -38,7 +38,9 @@ namespace RavlN {
   // This is throw if a Get is unabled to
   // comlete because there is no data available.
   
-  class DataNotReadyC : public ExceptionC {
+  class DataNotReadyC 
+    : public ExceptionC 
+  {
   public:
     DataNotReadyC(const char *msg = "")
       : ExceptionC(msg)
