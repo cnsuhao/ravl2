@@ -32,7 +32,7 @@ namespace RavlN {
   
   class BaseStackTypesG {
   public:
-#if !defined(VISUAL_CPP) && !defined(__sgi__)
+#if !RAVL_COMPILER_VISUALCPP && !defined(__sgi__)
     static const int incrBlkSize = 2; 
 #else
     static int incrBlkSize;

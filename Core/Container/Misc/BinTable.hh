@@ -99,7 +99,7 @@ namespace RavlN {
     
     friend class BinIterC<IT,DIT,BT>;
     
-#if !defined(__sgi__) && !defined(VISUAL_CPP)
+#if !defined(__sgi__) && !(RAVL_COMPILER_VISUALCPP && !RAVL_COMPILER_VISUALCPPNET)
     friend ostream &operator<< <>(ostream &s,const BinTableC<IT,DIT,BT> &);
     friend istream &operator>> <>(istream &s,BinTableC<IT,DIT,BT> &);
 #else

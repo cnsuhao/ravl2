@@ -13,7 +13,7 @@
 
 namespace RavlN
 {
-#if !(RAVL_COMPILER_VISUAL_CPP || RAVL_COMPILER_MIPSPRO )
+#if !((RAVL_COMPILER_VISUALCPP && !RAVL_COMPILER_VISUALCPPNET) || RAVL_COMPILER_MIPSPRO)
   template CallFunc0BodyC<bool>;  
 #endif
   

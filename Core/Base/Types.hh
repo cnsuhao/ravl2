@@ -81,7 +81,7 @@ namespace RavlN {
   __extension__ typedef unsigned long long int UInt64T;
   //: 64 bit unsigned integer.
   
-#elif defined VISUAL_CPP
+#elif RAVL_COMPILER_VISUALCPP
   typedef __int64 Int64T;
   //: 64 bit signed integer.
   

@@ -11,7 +11,7 @@
 
 #include "Ravl/MTLocks.hh"
 
-#ifdef VISUAL_CPP 
+#if RAVL_COMPILER_VISUALCPP 
 #include <process.h>
 int _getpid( void );
 #else
@@ -29,7 +29,7 @@ namespace RavlN {
   //: Get thread id.
   int SysGetThreadID() {
     if(MTGetThreadID == 0)
-#ifdef VISUAL_CPP 
+#if RAVL_COMPILER_VISUALCPP 
       return _getpid();
 #else
     return getpid();

@@ -318,7 +318,7 @@ namespace RavlN {
     friend class HashIterC<K,T>;
 
     //  friend HashIterT<K,T>;
-#if !defined(__sgi__) && !defined(VISUAL_CPP)
+#if !defined(__sgi__) && !(RAVL_COMPILER_VISUALCPP && !RAVL_COMPILER_VISUALCPPNET)
     friend ostream &operator<< <> (ostream &out,const HashC<K,T> &obj);
     friend BinOStreamC &operator<< <> (BinOStreamC &out,const HashC<K,T> &obj);
 #else

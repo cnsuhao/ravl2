@@ -77,7 +77,7 @@ namespace RavlN {
     
     bool Contains(UIntT i) const
     { return i < N; }
-    //: Test if array contains index i·
+    //: Test if array contains index i¸
     
     DataT &operator[](UIntT ind) { 
 #if RAVL_CHECK
@@ -496,7 +496,7 @@ namespace RavlN {
     return in;
   }
   
-#ifndef VISUAL_CPP
+#if !RAVL_COMPILER_VISUALCPP
   template<unsigned int N>
   inline ostream &operator<<(ostream &out,const TFVectorC<ByteT,N> &dat) {
     for(UIntT i = 0;i < N;i++)

@@ -124,7 +124,7 @@ namespace RavlN {
   bool StreamBaseC::Close() {
     if(s == 0)
       return false;
-#if !defined(VISUAL_CPP) && !RAVL_COMPILER_GCC3
+#if !RAVL_COMPILER_VISUALCPP && !RAVL_COMPILER_GCC3
     fstreambase *fsb = dynamic_cast<fstreambase *>(s);
 #else
     fstream *fsb = dynamic_cast<fstream *>(s);

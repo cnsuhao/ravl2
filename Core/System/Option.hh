@@ -171,7 +171,7 @@ namespace RavlN {
     // This MUST be called before any options are processed for
     // it to have any effect.
     
-#ifndef VISUAL_CPP
+#if !RAVL_COMPILER_VISUALCPP
   protected:
 #endif
     StringC GetOption1(const char *name);

@@ -12,7 +12,7 @@
 #include "Ravl/StackIter.hh"
 
 namespace RavlN {
-#if defined(VISUAL_CPP) || defined(__sgi__)
+#if RAVL_COMPILER_VISUALCPP || defined(__sgi__)
   int BaseStackTypesG::incrBlkSize = 2;
 #else
   int StackDummVarThing = 1; // Avoid empty files.

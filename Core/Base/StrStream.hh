@@ -37,7 +37,7 @@ class istrstream;
 #include <strstream>
 #endif
 #else
-#ifndef VISUAL_CPP
+#if !RAVL_COMPILER_VISUALCPP
 #include <strstream.h>
 #else
 #include <strstrea.h>

@@ -511,7 +511,7 @@ namespace RavlN {
 
   //! userlevel=Normal
 
-#if !defined(VISUAL_CPP)
+#if !(RAVL_COMPILER_VISUALCPP && !RAVL_COMPILER_VISUALCPPNET)
 
   template<class ObjT,class RetT>
   inline

@@ -83,7 +83,7 @@ namespace RavlN {
   protected:
     BinTableC<IT,DIT,DListC<BT> > table;
     
-#if !defined(__sgi__) && !defined(VISUAL_CPP)
+#if !defined(__sgi__) && !(RAVL_COMPILER_VISUALCPP && !RAVL_COMPILER_VISUALCPPNET)
     friend ostream &operator<< <>(ostream &s,const BinListC<IT,DIT,BT> &);
     friend istream &operator>> <>(istream &s,BinListC<IT,DIT,BT> &);
 #else

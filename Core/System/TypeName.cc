@@ -92,7 +92,7 @@ namespace RavlN {
       }
     }
 #else
-#if defined(__sgi__) || defined(VISUAL_CPP)
+#if defined(__sgi__) || RAVL_COMPILER_VISUALCPP
     // Generate a standard class name.
     StringC newName(name);
     newName.gsub("> >",">>");

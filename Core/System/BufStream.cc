@@ -19,7 +19,7 @@
 #include <strstream>
 #endif
 #else
-#ifndef VISUAL_CPP
+#if !RAVL_COMPILER_VISUALCPP
 #include <strstream.h>
 #else
 #include <strstrea.h>
@@ -107,7 +107,7 @@ namespace RavlN {
   
   BufIStreamC::BufIStreamC(const SArray1dC<char> &dat) 
     :
-#ifdef VISUAL_CPP
+#if RAVL_COMPILER_VISUALCPP
     IStreamC(*(iss = new istrstream(const_cast<char *>(dat.ReferenceElm()),dat.Size())),true),
 #else
 #if RAVL_HAVE_STRINGSTREAM
