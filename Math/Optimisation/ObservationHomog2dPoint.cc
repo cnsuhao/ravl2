@@ -36,18 +36,6 @@ namespace RavlN {
     Ni1 = nNi1;
   }
 
-  //: Get point position on first plane
-  const VectorC& ObservationHomog2dPointBodyC::GetZ1() const
-  {
-    return z1;
-  }
-
-  //: Get point position inverse covariance on first plane
-  const MatrixRSC& ObservationHomog2dPointBodyC::GetNi1() const
-  {
-    return Ni1;
-  }
-
   //: Evaluate an observation for a single point
   VectorC ObservationHomog2dPointBodyC::EvaluateFunctionH(const StateVectorC &state_vec)
   {

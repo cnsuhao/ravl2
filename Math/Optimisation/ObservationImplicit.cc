@@ -124,12 +124,6 @@ namespace RavlN {
     return true;
   }
 
-  //: Returns the number of constraints imposed on the state
-  UIntT ObservationImplicitBodyC::GetNumConstraints() const
-  {
-    return Fsize;
-  }
-
   //: Evaluate the observation function F(x,z) given x and z
   VectorC ObservationImplicitBodyC::EvaluateFunctionF(const StateVectorC &state_vec)
   {

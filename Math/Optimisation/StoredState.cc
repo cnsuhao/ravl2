@@ -22,9 +22,4 @@ namespace RavlN {
   {
     state_vec = state_vec_init.Copy();
   }
-
-  //: Solution parameters x for sample with lowest residual
-  const StateVectorC & StoredStateC::GetSolution() const {
-    return state_vec;
-  }
 }

@@ -70,7 +70,18 @@ namespace RavlN {
     IntT i=0;
     UIntT num_constraints=0;
 
+    // check that there are enough observations
+    for(SArray1dIterC<ObservationC> it(obs_array);it;it++) {
+      num_constraints += it.Data().GetNumConstraints();
+      if(num_constraints >= min_num_constraints)
+	break;
+    }
+
+    if(num_constraints < min_num_constraints)
+      throw ExceptionC("Not enough data for sample in ObservationListManagerC::RandomSample(UIntT). ");
+
     // generate random sample
+    num_constraints = 0;
     for(SArray1dIterC<IntT> it(index);it;it++, i++) {
       for(;;) {
 	// add index of random observation to sample

@@ -45,22 +45,23 @@ namespace RavlN {
     virtual bool Postprocess();
     //: Postprocess state vector after an adjustment to the parameters
 
-    const VectorC &GetXStep() const;
+    inline const VectorC &GetXStep() const
+    { return xstep; }
     //: Get step sizes for numerical differentiation
 
-    const VectorC &GetX() const;
+    inline const VectorC &GetX() const;
     //: Get state vector
 
-    bool SetX(VectorC &xnew);
+    inline bool SetX(VectorC &xnew);
     //: Set state vector
 
-    bool IncX(VectorC &xinc);
+    inline bool IncX(VectorC &xinc);
     //: Increment state vector
 
-    bool IncElX(IntT index, RealT val);
+    inline bool IncElX(IntT index, RealT val);
     //: Increment element of state vector
 
-    bool DecElX(IntT index, RealT val);
+    inline bool DecElX(IntT index, RealT val);
     //: Decrement element of state vector
 
   protected:

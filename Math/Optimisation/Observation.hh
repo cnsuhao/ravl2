@@ -49,22 +49,22 @@ namespace RavlN {
     virtual UIntT GetNumConstraints() const;
     //: Returns the number of constraints imposed on the state
 
-    const VectorC& GetZ() const;
+    inline const VectorC& GetZ() const;
     //: Get observation vector z
 
-    const MatrixRSC& GetNi() const;
+    inline const MatrixRSC& GetNi() const;
     //: Get observation inverse covariance N^-1
 
-    const ObsVectorC& GetObsVec() const;
+    inline const ObsVectorC& GetObsVec() const;
     //: Get observation vector/inverse covariance object
 
-    bool GetSelected() const;
+    inline bool GetSelected() const;
     //: Return observation "selected" flag
 
-    void SetSelected();
+    inline void SetSelected();
     //: Set the "selected" flag to true
 
-    void SetUnSelected();
+    inline void SetUnSelected();
     //: Set the "selected" flag to false
 
   protected:

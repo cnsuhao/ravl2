@@ -42,11 +42,13 @@ namespace RavlN {
     virtual MatrixC EvaluateJacobianHx(const StateVectorC &state_vec);
     //: Evaluate the Jacobian of an observation for a single point
 
-    const VectorC& GetZ1() const;
+    inline const VectorC& GetZ1() const
+    { return z1; }
     //: Get point position on first plane
 
-    const MatrixRSC& GetNi1() const;
-    //: Get point position inverse covariance in first plane
+    inline const MatrixRSC& GetNi1() const
+    { return Ni1; }
+    //: Get point position inverse covariance on first plane
 
   private:
     VectorC z1; // point position on first plane

@@ -113,10 +113,9 @@ static void
     b[2] += xy[1];
   }
 
-  // invert matrix and solve (don't do this at home)
-  Matrix3dC Ainv = A.Inverse();
-  Vector3dC Ainvb = Ainv*b;
-  cout << "Best estimate: a=" << Ainvb[0] << " b=" << Ainvb[1] << " c=" << Ainvb[2] << endl;
+  // solve linear equations
+  SolveIP(A,b);
+  cout << "Best estimate: a=" << b[0] << " b=" << b[1] << " c=" << b[2] << endl;
 }
 
 static bool

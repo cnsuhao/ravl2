@@ -76,7 +76,8 @@ namespace RavlN {
     // parameters are scaled reasonable homogeneously, and is the default
     // if the parameter is excluded.
 
-    const VectorC &SolutionVector() const;
+    inline const VectorC &SolutionVector() const
+    { return state_vec.GetX(); }
     // Latest estimate of solution parameters
 
     const MatrixRSC &InverseCovarianceMatrix(DListC<ObservationC> obs_list);
@@ -92,7 +93,8 @@ namespace RavlN {
     // However there may be data-dependent conditioning issues, and it is
     // safer to leave the inversion for the user program.
 
-    RealT GetResidual() const;
+    inline RealT GetResidual() const
+    { return residual; }
     //: Get stored Chi-squared residual for latest state estimate
     // This is the
     // <a href="../../../LevenbergMarquardt/levmarq.html#chi2-def">error function</a>

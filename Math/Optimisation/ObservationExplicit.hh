@@ -42,7 +42,8 @@ namespace RavlN {
 		     VectorC &a);
     //: Increment the linear system
 
-    UIntT GetNumConstraints() const;
+    UIntT GetNumConstraints() const
+    { return GetZ().Size(); }
     //: Returns the number of constraints imposed on the state
     
     virtual VectorC EvaluateFunctionH(const StateVectorC &state_vec);

@@ -34,8 +34,9 @@ namespace RavlN {
     StateVectorC state_vec; // state parameter vector
 
   public:
-    const StateVectorC &GetSolution() const;
-    //: Solution parameters x
+    inline const StateVectorC &GetSolution() const
+    { return state_vec; }
+    //: Solution parameters x for sample with lowest residual
   };
 }
 

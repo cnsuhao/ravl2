@@ -112,12 +112,6 @@ namespace RavlN {
     }
   }
 
-  // Latest estimate of solution parameters
-  const VectorC &LevenbergMarquardtC::SolutionVector() const
-  {
-    return state_vec.GetX();
-  }
-
   // Inverse covariance matrix of solution
   const MatrixRSC &LevenbergMarquardtC::InverseCovarianceMatrix(DListC<ObservationC> obs_list)
   {
@@ -136,11 +130,5 @@ namespace RavlN {
     }
 
     return A;
-  }
-
-  // Chi-squared residual at latest estimate
-  RealT LevenbergMarquardtC::GetResidual() const
-  {
-    return residual;
   }
 }

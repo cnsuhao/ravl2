@@ -69,14 +69,14 @@ namespace RavlN {
 	b[i*2+1] = zh1*y2;
       }
 
-      MatrixC Ai = A.Inverse();
-      VectorC x = Ai*b;
-      Matrix3dC P(x[0], x[1], x[2],
-		  x[3], x[4], x[5],
-		  x[6], x[7], 1.0);
-      
-      StateVectorHomog2dC sv(P,zh1,zh2);
-      return sv;
+      // solve for solution vector
+      if(!SolveIP(A,b))
+	throw ExceptionNumericalC("Dependent linear equations in FitHomog2dPointsC::FitModel(DListC<ObservationC>). ");
+
+      Matrix3dC P(b[0], b[1], b[2],
+		  b[3], b[4], b[5],
+		  b[6], b[7], 1.0);
+      return StateVectorHomog2dC (P,zh1,zh2);
     }
 
     // compute solution for homography parameters using symmetric eigensystem

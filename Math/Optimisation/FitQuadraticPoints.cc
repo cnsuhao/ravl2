@@ -63,10 +63,11 @@ namespace RavlN {
 	bv[i] = yc; // element of b vector
       }
 
-      // invert matrix and solve (don't do this at home)
-      Matrix3dC Ainv = Am.Inverse();
-      Vector3dC Ainvb = Ainv*bv;
-      return StateVectorQuadraticC(Ainvb[0], Ainvb[1], Ainvb[2]);
+      // solve linear equations
+      if(!SolveIP(Am,bv))
+	return StateVectorC();
+
+      return StateVectorQuadraticC(bv[0], bv[1], bv[2]);
     }
 
     Matrix3dC A;
@@ -106,9 +107,10 @@ namespace RavlN {
       b[2] += yc;
     }
 
-    // invert matrix and solve (don't do this at home)
-    Matrix3dC Ainv = A.Inverse();
-    Vector3dC Ainvb = Ainv*b;
-    return StateVectorQuadraticC(Ainvb[0], Ainvb[1], Ainvb[2]);
+    // solve linear equations
+    if(!SolveIP(A,b))
+	return StateVectorC();
+
+    return StateVectorQuadraticC(b[0], b[1], b[2]);
   }
 }

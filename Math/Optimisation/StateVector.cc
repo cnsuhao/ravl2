@@ -88,10 +88,4 @@ namespace RavlN {
   {
     return true;
   }
-
-  //: Get step sizes for numerical differentiation
-  const VectorC& StateVectorBodyC::GetXStep() const
-  {
-    return xstep;
-  }
 }

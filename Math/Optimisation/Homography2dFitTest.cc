@@ -257,7 +257,7 @@ static bool
   cout << "2D homography fitting test (implicit): Residual=" << lm.GetResidual() << endl;
   cout << "Selected " << compatible_obs_list.Size() << " observations using RANSAC" << endl;
   VectorC x = lm.SolutionVector();
-  x *= 1.0/x[8];
+  x /= x[8];
 
   cout << "Initial: (" << x[0] << " " << x[1] << " " << x[2] << ")" << endl;
   cout << "         (" << x[3] << " " << x[4] << " " << x[5] << ")" << endl;

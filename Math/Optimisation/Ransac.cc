@@ -31,8 +31,14 @@ namespace RavlN {
     // generate sample
     DListC<ObservationC> sample = obs_manager.RandomSample(min_num_constraints);
 
-    // fit model
-    StateVectorC sv = model_fitter.FitModel(sample);
+    // fit model and abort on any numerical errors found
+    StateVectorC sv;
+    try {
+      sv = model_fitter.FitModel(sample);
+    }
+    catch(ExceptionNumericalC) {
+      return false;
+    }
 
     // generate list of observations to be evaluated
     DListC<ObservationC> obs_list = obs_manager.ObservationList(sv);

@@ -21,7 +21,7 @@ SOURCES = ObsVector.cc ObsVectorBiGaussian.cc ObsVectorPoint2dPair.cc \
 	  ObservationHomog2dPoint.cc ObservationImpHomog2dPoint.cc \
 	  StoredState.cc LevenbergMarquardt.cc \
 	  Ransac.cc ObservationManager.cc FitToSample.cc EvaluateSolution.cc \
-	  EvaluateNumInliers.cc EvaluateLikelihood.cc \
+	  EvaluateNumInliers.cc EvaluateLikelihood.cc PointTracker.cc \
 	  FitLine2dPoints.cc FitQuadraticPoints.cc FitHomog2dPoints.cc
 
 HEADERS = ObsVector.hh ObsVectorBiGaussian.hh ObsVectorPoint2dPair.hh \
@@ -36,12 +36,12 @@ HEADERS = ObsVector.hh ObsVectorBiGaussian.hh ObsVectorPoint2dPair.hh \
 	  EvaluateNumInliers.hh EvaluateLikelihood.hh \
 	  FitLine2dPoints.hh FitQuadraticPoints.hh FitHomog2dPoints.hh
 
-MAINS=OrthogonalRegressionTest.cc QuadraticFitTest.cc Homography2dFitTest.cc
+MAINS=OrthogonalRegressionTest.cc QuadraticFitTest.cc Homography2dFitTest.cc Mosaic.cc
 
 EHT=Ravl.Math.Optimisation.html Ravl.Math.Optimisation.Examples.html
 
 TESTEXES= OrthogonalRegressionTest.cc QuadraticFitTest.cc Homography2dFitTest.cc
 
-EXAMPLES= OrthogonalRegressionTest.cc QuadraticFitTest.cc Homography2dFitTest.cc
+EXAMPLES= OrthogonalRegressionTest.cc QuadraticFitTest.cc Homography2dFitTest.cc Mosaic.cc
 
-USESLIBS=RavlCore RavlMath
+USESLIBS=RavlCore RavlMath RavlImage RavlImageProc RavlOSIO RavlVideoIO RavlImageIO
