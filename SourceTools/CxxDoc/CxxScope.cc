@@ -272,10 +272,14 @@ namespace RavlCxxDocN
     HSetC<StringC> set;
     StringListC ent1(de1,";");
     StringListC ent2(de2,";");
-    for(DLIterC<StringC> it(ent1);it;it++)
-      set += (*it).TopAndTail();
-    for(DLIterC<StringC> it(ent2);it;it++)
-      set += (*it).TopAndTail();
+    {
+      for(DLIterC<StringC> it(ent1);it;it++)
+	set += (*it).TopAndTail();
+    }
+    {
+      for(DLIterC<StringC> it(ent2);it;it++)
+	set += (*it).TopAndTail();
+    }
     HSetIterC<StringC> it(set);
     if(!it.IsElm())
       return true;

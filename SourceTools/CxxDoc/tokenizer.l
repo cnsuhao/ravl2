@@ -9,7 +9,11 @@
   #include <stdlib.h>
   #include <iostream.h>
   #include "cxx.tab.h"
-  #include <FlexLexer.h>
+  #include "FlexLexer.h"
+
+#if RAVL_VISUALCPP_NAMESPACE_BUG  
+  using RavlN::StringC;
+#endif
 
   using namespace RavlN;
 

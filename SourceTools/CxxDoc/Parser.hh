@@ -26,6 +26,12 @@ class FlexLexer;
 namespace RavlCxxDocN
 {
   using namespace RavlN;
+
+#if RAVL_VISUALCPP_NAMESPACE_BUG  
+  using RavlN::RCBodyC;
+  using RavlN::FilenameC;
+  using RavlN::RCHandleC;
+#endif
   
   //! userlevel=Develop
   //: C++ File Parser

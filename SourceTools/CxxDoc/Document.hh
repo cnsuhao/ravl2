@@ -57,7 +57,7 @@ namespace RavlCxxDocN {
     bool GotoInherit(StringC &param);
     //: Goto an inherited class.
     
-    bool MakeFilename(StringC &pattern);
+    bool MakeFilenameCmd(StringC &pattern);
     //: Make a filename from a pattern and a full object name.
     
     bool InsertDocNode(StringC &node);

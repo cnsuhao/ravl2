@@ -13,7 +13,7 @@
 
 #define YYSTYPE RavlCxxDocN::ObjectC 
 
-#include <FlexLexer.h>
+#include "FlexLexer.h"
 #include "Ravl/Stack.hh"
 #include "Ravl/CxxDoc/Parser.hh"
 #include "Ravl/OS/Directory.hh"

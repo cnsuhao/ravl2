@@ -27,6 +27,13 @@
 namespace RavlCxxDocN
 {
   using namespace RavlN;
+
+#if RAVL_VISUALCPP_NAMESPACE_BUG  
+  using RavlN::StringC;
+  using RavlN::RCHashC;
+  using RavlN::HashIterC;
+  using RavlN::DLIterC;
+#endif
   
   static int anonObjectCount = 1;
   RCHashC<StringC,ObjectC> emptyTemplSubst; // Empty template subsitution.
@@ -217,8 +224,10 @@ namespace RavlCxxDocN
   
   void ObjectListBodyC::Dump(ostream &out,int indent) {
     Pad(out,indent) << "List: '" << name << "'  Type:" << TypeName() << "\n";
-    for(HashIterC<StringC,StringC> it(comment.Vars());it.IsElm();it.Next())
-      Pad(out,indent+1) << "(" << it.Key() << "=" << it.Data() <<")\n";
+    {
+      for(HashIterC<StringC,StringC> it(comment.Vars());it.IsElm();it.Next())
+	Pad(out,indent+1) << "(" << it.Key() << "=" << it.Data() <<")\n";
+    }
     for(DLIterC<ObjectC> it(list);it.IsElm();it.Next()) {
       if(!it.Data().IsValid()) {
 	Pad(out,indent+2) << "Invalid ref.\n";

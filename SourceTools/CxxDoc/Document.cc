@@ -193,7 +193,7 @@ namespace RavlCxxDocN {
     // Setup commands.
     SetupCommand("forall",*this,&DocumentBodyC::Forall);
     SetupCommand("ifany",*this,&DocumentBodyC::IfAny);
-    SetupCommand("MakeFilename",*this,&DocumentBodyC::MakeFilename);
+    SetupCommand("MakeFilename",*this,&DocumentBodyC::MakeFilenameCmd);
     SetupCommand("GotoInherit",*this,&DocumentBodyC::GotoInherit);
     SetupCommand("HtmlMethodName",*this,&DocumentBodyC::HtmlMethodName);
     SetupCommand("HtmlTypeName",*this,&DocumentBodyC::HtmlTypeName);
@@ -549,7 +549,7 @@ namespace RavlCxxDocN {
   
   //: Makefile name, send it to output.
   
-  bool DocumentBodyC::MakeFilename(StringC &pattern) {
+  bool DocumentBodyC::MakeFilenameCmd(StringC &pattern) {
     Output() << MakeFilename(pattern,obj.Top(),true);
     return true;
   }

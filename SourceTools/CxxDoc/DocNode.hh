@@ -22,6 +22,7 @@
 #include "Ravl/CxxDoc/Object.hh"
 
 namespace RavlCxxDocN {
+  using namespace RavlN;
   
   class DocNodeC;
   
