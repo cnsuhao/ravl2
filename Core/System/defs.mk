@@ -10,7 +10,7 @@
 PACKAGE=Ravl
 
 HEADERS=StringList.hh Option.hh TypeName.hh BufStream.hh \
- SubStringList.hh XMLStream.hh
+ SubStringList.hh XMLStream.hh Collection.hh
 
 SOURCES=StringList.cc Option.cc TypeName.cc BufStream.cc \
  SubStringList.cc XMLStream.cc StreamParse.cc
@@ -25,4 +25,4 @@ EXAMPLES=exOption.cc
 
 EHT=Ravl.Core.XML.html
 
-TESTEXES=testRavlCore.cc testXMLStream.cc
+TESTEXES=testRavlCore.cc testXMLStream.cc testCollection.cc
