@@ -4,21 +4,31 @@
 <extlibs>
 <extlib name="LibPNG">
 <includepath>C:\Program Files\GnuWin32\include\</includepath>
+<includepath>C:\GTKWIN32\include\</includepath>
 <libpath>C:\Program Files\GnuWin32\lib\</libpath>
+<libpath>C:\GTKWIN32\lib\</libpath>
 <lib>libpng.lib</lib>
+<lib>libz.lib</lib>
 </extlib>
 
 <extlib name="LibJPEG">
-<includepath>H:\opt\include</includepath>
-<libpath>H:\opt\lib\</libpath>
+<includepath>H:\src\thirdparty\include</includepath>
+<libpath>H:\src\thirdparty\lib</libpath>
 <lib>jpeg.lib</lib>
 </extlib>
 
 <extlib name="LibTIFF">
-<includepath>C:\Program Files\GnuWin32\include\</includepath>
-<libpath>C:\Program Files\GnuWin32\lib\</libpath>
-<lib>libtiff.a</lib>
+<includepath>H:\src\thirdparty\include</includepath>
+<libpath>H:\src\thirdparty\lib</libpath>
+<lib>libtiff.lib</lib>
 </extlib>
+
+<extlib name="LibJasper">
+<includepath>H:\src\thirdparty\include</includepath>
+<libpath>H:\src\thirdparty\lib</libpath>
+<lib>libjasper.lib</lib>
+</extlib>
+
 
 <extlib name="GTK">
 <includepath>C:\GTKWIN32\include\gtk-2.0\</includepath>
@@ -63,13 +73,15 @@
 <includepath>C:\Program Files\Rainbow Technologies\SuperPro\6.3\MSVCDev\include\</includepath>
 <libpath>C:\Program Files\Rainbow Technologies\SuperPro\6.3\MSVCDev\lib\MD\</includepath>
 <lib>spromeps.lib</lib>
+<lib>wsock32.lib</lib>
 </extlib>
 
 <extlib name="IntelMKL">
 <includepath>C:\Program Files\Intel\MKL70\include</includepath>
 <libpath>C:\Program Files\Intel\MKL70\ia32\lib</includepath>
 <lib>mkl_ia32.lib</lib>
-<lib>guide.lib</lib>
+<lib>libguide.lib</lib>
+<lib>mkl_c.lib</lib>
 </extlib>
 
 
