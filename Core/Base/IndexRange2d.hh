@@ -220,6 +220,10 @@ namespace RavlN {
     { return IndexRange2dC(Range1() - offset[0],Range2() - offset[1]); }
     //: Shifts the rectangle to the new position.
     
+    inline IndexRange2dC operator*( const IndexC & factor) const 
+      { return IndexRange2dC ( Range1() * factor, Range2() * factor) ; } 
+    //: Multiply the ranges by a factor 
+
     inline IndexRange2dC operator/( const IndexC & factor) const 
       { return IndexRange2dC ( Range1() / factor, Range2()  / factor ) ; } 
     //: Divide the ranges by a factor 
@@ -310,6 +314,15 @@ namespace RavlN {
     //: Add the 'sr' to this rectangle.
     // This does TRow() += sr.TRow(), BRow() += sr.BRow().....
     
+
+
+    const IndexRange2dC & operator *= (const IndexC & factor) { 
+      Range1() *= factor ; 
+      Range2() *= factor ; 
+      return *this ; 
+    }
+    //: Multiply the ranges by a factor 
+
 
     const IndexRange2dC & operator /= (const IndexC & factor ) { 
       Range1() /= factor ; 
