@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLTEXTBUFF_HEADER
-#define RAVLTEXTBUFF_HEADER 1
+#ifndef RAVL_TEXTBUFFER_HEADER
+#define RAVL_TEXTBUFFER_HEADER 1
 ///////////////////////////////////////////
 //! file="Ravl/OS/Text/TextBuffer.hh"
 //! lib=RavlOS
@@ -13,10 +13,11 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.OS.Text Processing"
 //! rcsid="$Id$"
-//! date="05/12/97"
+//! date="05/12/1997"
 
 #include "Ravl/Text/TextFileLine.hh"
 #include "Ravl/DList.hh"
+#include "Ravl/RCHandleV.hh"
 #include "Ravl/Assert.hh"
 
 namespace RavlN {
@@ -68,19 +69,19 @@ namespace RavlN {
     //: Dump to stdout.
     
     inline UIntT NoLines() const 
-      { return noLines; }
+    { return noLines; }
     //: Return number of lines in buffer.
     
     inline bool IsReadonly() const 
-      { return Readonly; }
+    { return Readonly; }
     //: Is readonly ?
     
     inline void SetModified() 
-      { Modified = true; }
+    { Modified = true; }
     //: Set renumber flag.
     
     DListC<TextFileLineC> &Lines() 
-      { return lines; }
+    { return lines; }
     //: Access list of lines directly.
     
     StringC &operator[](IntT x);
@@ -89,11 +90,11 @@ namespace RavlN {
     // iterating through a buffer.
     
     inline bool IsModified() const 
-      { return Modified; }
+    { return Modified; }
     //: Has buffer been modified ?
     
     inline void SetReadonly(bool newval) 
-      { Readonly = newval; }
+    { Readonly = newval; }
     //: Set readonly flag for file.
 
     bool RemoveTrailingWhiteSpace();
@@ -119,28 +120,28 @@ namespace RavlN {
   {
   public:
     TextBufferC()
-      {}
+    {}
     //: Default constructor.
     // creates an invalid handle to a text buffer.
 
     TextBufferC(bool)
       : RCHandleC<TextBufferBodyC>(*new TextBufferBodyC())
-      {}
+    {}
     //: Default constructor.
     // creates an invalid handle to a text buffer.
     
   protected:
     TextBufferC(TextBufferBodyC &bod)
       : RCHandleC<TextBufferBodyC>(bod)
-      {}
+    {}
     //: Body constructor.
     
     TextBufferBodyC & Body()
-      { return RCHandleC<TextBufferBodyC>::Body(); }
+    { return RCHandleC<TextBufferBodyC>::Body(); }
     //: Access body.
 
     const TextBufferBodyC& Body() const
-      { return RCHandleC<TextBufferBodyC>::Body(); }
+    { return RCHandleC<TextBufferBodyC>::Body(); }
     //: Access body.
     
   public:
@@ -159,73 +160,73 @@ namespace RavlN {
     //: Create buffer from stream.
     
     bool AppendFile(const StringC &filename)
-      { return Body().AppendFile(filename); }
+    { return Body().AppendFile(filename); }
     //: Append a file to the end of this one.
     
     bool Append(istream &strm)
-      { return Body().Append(strm); }
+    { return Body().Append(strm); }
     //: Append contents of a stream to this file.
     
     bool SaveAs(const StringC &filename)
-      { return Body().SaveAs(filename); }
+    { return Body().SaveAs(filename); }
     //: Try and save this file as another name.
     
     UIntT AppendLine(const StringC &text,bool noFinalRet = false)
-      { return Body().AppendLine(text,noFinalRet); }
+    { return Body().AppendLine(text,noFinalRet); }
     //: Append a line of text to file.
     // If 'noFinalReturn' is false, ensure each line ends with '\n', otherwise leave it alone. <p>
     // returns LineNo or -1 if failed. <p>
       
     UIntT Append(const StringC &text,bool noFinalRet = false)
-      { return Body().Append(text,noFinalRet); }
+    { return Body().Append(text,noFinalRet); }
     //: Append a line of text to file.
     // If 'noFinalReturn' is false, ensure each line ends with '\n', otherwise leave it alone. <p>
     // returns LineNo or -1 if failed. <p>
     
     IntT GlobalSubst(const StringC &org,const StringC &nv)
-      { return Body().GlobalSubst(org,nv); }
+    { return Body().GlobalSubst(org,nv); }
     //: Substute 'org' for 'nv' the whole buffer.
     // returns the number of substitutions done.
     
     void Empty()
-      { Body().Empty(); }
+    { Body().Empty(); }
     //: Empty all contents, set name to noname
     
     void Dump(ostream &strm) const 
-      { Body().Dump(strm); }
+    { Body().Dump(strm); }
     //: Dump to stdout.
     // For debuging only.
     
     inline UIntT NoLines() const 
-      { return Body().NoLines(); }
+    { return Body().NoLines(); }
     //: Return number of lines in buffer.
     
     inline bool IsReadonly() const 
-      { return Body().IsReadonly(); }
+    { return Body().IsReadonly(); }
     //: Is readonly ?
     
     inline void SetModified() 
-      { Body().SetModified(); }
+    { Body().SetModified(); }
     //: Set renumber flag.
     
     DListC<TextFileLineC> &Lines() 
-      { return Body().Lines(); }
+    { return Body().Lines(); }
     //: Access list of lines directly.
     
     inline StringC &operator[](IntT x) 
-      { return Body().operator[](x); }
+    { return Body().operator[](x); }
     //: Access a line in the file.
     
     inline bool IsModified() const 
-      { return Body().IsModified();}
+    { return Body().IsModified();}
     //: Has buffer been modified ?
     
     inline void SetReadonly(bool newval) 
-      { Body().SetReadonly(newval); }
+    { Body().SetReadonly(newval); }
     //: Set readonly flag for file.
     
     bool RemoveTrailingWhiteSpace()
-      { return Body().RemoveTrailingWhiteSpace(); }
+    { return Body().RemoveTrailingWhiteSpace(); }
     //: Remove trailing white space from the file.
     // returns true if changes have been made.
     

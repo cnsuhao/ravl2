@@ -10,7 +10,6 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Core.IO.Formats" 
 //! author="Charles Galambos"
-//! rcsid="$Id$"
 //! lib=RavlIO
 //! file="Ravl/Core/IO/FileFormatRegistry.hh"
 

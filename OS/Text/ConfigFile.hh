@@ -17,7 +17,7 @@
 //! docentry="Ravl.OS.Text Processing"
 
 #include "Ravl/Hash.hh"
-#include "Ravl/RefCounter.hh"
+#include "Ravl/RCHandleV.hh"
 #include "Ravl/StringList.hh"
 #include "Ravl/Text/TextFragment.hh"
 #include "Ravl/RCAbstract.hh"
@@ -82,7 +82,7 @@ namespace RavlN {
     // If none found an invalid handle is returned.
     
     ConfigFileIterVarC IterVars()
-      { return HashIterC<StringC,StringC>(tab); }
+    { return HashIterC<StringC,StringC>(tab); }
     //: Iterate variables.
     
     DListC<StringC> ListSections();
@@ -124,27 +124,27 @@ namespace RavlN {
   //: Config file.
   
   class ConfigFileC 
-    : public RCHandleC<ConfigFileBodyC>
+    : public RCHandleVC<ConfigFileBodyC>
   {
   public:
     ConfigFileC() 
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     
     ConfigFileC(bool) 
-      : RCHandleC<ConfigFileBodyC>(*new ConfigFileBodyC())
-      {}
+      : RCHandleVC<ConfigFileBodyC>(*new ConfigFileBodyC())
+    {}
     //: Constructor.
     
     ConfigFileC(const StringC &fn,bool doCheck = true)
-      : RCHandleC<ConfigFileBodyC>(*new ConfigFileBodyC())
-      { Load(fn,doCheck); }
+      : RCHandleVC<ConfigFileBodyC>(*new ConfigFileBodyC())
+    { Load(fn,doCheck); }
     //: Filename.
     
     ConfigFileC(const RCAbstractC &ah) 
-      : RCHandleC<ConfigFileBodyC>(ah)
-      {}
+      : RCHandleVC<ConfigFileBodyC>(ah)
+    {}
     //: Abstract constructor.
     // Note: If ah is not a handle for a config file an
     // invalid handle will be created. As with the default
@@ -153,25 +153,25 @@ namespace RavlN {
     
   protected:
     ConfigFileC(ConfigFileBodyC &bod) 
-      : RCHandleC<ConfigFileBodyC>(bod)
-      {}
+      : RCHandleVC<ConfigFileBodyC>(bod)
+    {}
     //: Body constructor.
     
     ConfigFileC(TextFileC &af,const StringC &name)
-      : RCHandleC<ConfigFileBodyC>(*new ConfigFileBodyC(af,name))
-      {}
+      : RCHandleVC<ConfigFileBodyC>(*new ConfigFileBodyC(af,name))
+    {}
     //: Sub-section. constructor.
     
     void SetVar(const StringC &str,const StringC &val,const TextFragmentC &frag)    
-      { Body().SetVar(str,val,frag); }
+    { Body().SetVar(str,val,frag); }
     //: Set a new variable.
     
     void AddVar(const StringC &tag,const StringC &data,const TextFragmentC &nf)    
-      { Body().AddVar(tag,data,nf); }
+    { Body().AddVar(tag,data,nf); }
     //: Add text to a variable.
     
     void AddSection(const StringC &tag,ConfigFileC &cf,const TextFragmentC &nf)    
-      { Body().AddSection(tag,cf,nf); }
+    { Body().AddSection(tag,cf,nf); }
     //: Add section.
     
   public:
@@ -188,48 +188,48 @@ namespace RavlN {
     // ensure the correct class is created. ****
     
     bool CheckTag(const StringC &tag)
-      { return Body().CheckTag(tag); }
+    { return Body().CheckTag(tag); }
     //: Check if a tag is valid.
     
     StringC Value(const StringC &tag)
-      { return Body().Value(tag); }
+    { return Body().Value(tag); }
     //: Get value of tag.
 
     StringC Value(const StringC &tag) const
-      { return Body().Value(tag); }
+    { return Body().Value(tag); }
     //: Get value of tag.
 
     UIntT Order(const StringC &tag)
-      { return Body().Order(tag); }
+    { return Body().Order(tag); }
     //: Get the order no for tagged object.
     
     StringC &operator[](const StringC &tag) 
-      { return Body().operator[](tag); }
+    { return Body().operator[](tag); }
     //:  Get value of tag.
 
     const StringC &operator[](const StringC &tag) const
-      { return Body().operator[](tag); }
+    { return Body().operator[](tag); }
     //:  Get value of tag.
     
     bool IsDefined(StringC tag)
-      { return Body().IsDefined(tag); }
+    { return Body().IsDefined(tag); }
     //: Is tag defined ?
     
     ConfigFileC Section(const StringC &tag)
-      { return Body().Section(tag); }
+    { return Body().Section(tag); }
     //: Look for sub-section.
     // If none found an invalid handle is returned.
     
     ConfigFileIterVarC IterVars()
-      { return Body().IterVars(); }
+    { return Body().IterVars(); }
     //: Iterate variables.
     
     DListC<StringC> ListSections()
-      { return Body().ListSections(); }
+    { return Body().ListSections(); }
     //: Make a list of sections.
     
     void Dump(ostream &out,int depth = 0)
-      { Body().Dump(out,depth); }
+    { Body().Dump(out,depth); }
     //: Dump contents of file to 'out' stream.
     
     friend class ConfigFileBodyC;

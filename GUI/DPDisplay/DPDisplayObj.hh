@@ -13,7 +13,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.GUI.Data Display"
 
-#include "Ravl/RefCounter.hh"
+#include "Ravl/RCHandleV.hh"
 #include "Ravl/IndexRange2d.hh"
 #include "Ravl/Vector2d.hh"
 #include "Ravl/String.hh"

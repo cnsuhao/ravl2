@@ -60,7 +60,7 @@ namespace RavlN {
   // Construct from abstract handle.
   
   DPEntityC::DPEntityC(const RCAbstractC &abst)
-    : RCHandleC<DPEntityBodyC>(abst) 
+    : RCHandleVC<DPEntityBodyC>(abst) 
   { CheckHandleType(Body()); }
   
 

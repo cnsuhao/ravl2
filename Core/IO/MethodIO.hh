@@ -11,7 +11,7 @@
 //! example=exDataProc.cc
 //! lib=RavlIO
 //! author="Charles Galambos"
-//! date="04/07/98"
+//! date="04/07/1998"
 //! example=exMethodIO.cc
 //! rcsid="$Id$"
 //! file="Ravl/Core/IO/MethodIO.hh"

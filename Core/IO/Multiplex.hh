@@ -13,7 +13,7 @@
 //! file="Ravl/Core/IO/Multiplex.hh"
 //! lib=RavlIO
 //! author="Charles Galambos"
-//! date="04/07/98"
+//! date="04/07/1998"
 
 #include "Ravl/DP/Port.hh"
 #include "Ravl/SArray1d.hh"

@@ -10,12 +10,12 @@
 //! docentry="Ravl.Math.Geometry.2D"
 //! rcsid="$Id$"
 //! author="Charles Galambos"
-//! date="26/08/98"
+//! date="26/08/1998"
 //! lib=RavlMath
 
 #include "Ravl/Point2d.hh"
 #include "Ravl/Vector2d.hh"
-#include "Ravl/RefCounter.hh"
+#include "Ravl/RCHandleV.hh"
 
 namespace RavlN {
   class IndexRange2dC;

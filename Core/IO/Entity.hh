@@ -4,19 +4,19 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLDPENTITY_HEADER
-#define RAVLDPENTITY_HEADER 1
+#ifndef RAVL_DPENTITY_HEADER
+#define RAVL_DPENTITY_HEADER 1
 ////////////////////////////////////////////////////
 //! userlevel=Develop
 //! example=exDataProc.cc
 //! file="Ravl/Core/IO/Entity.hh"
 //! lib=RavlIO
 //! author="Charles Galambos"
-//! date="16/06/98"
+//! date="16/06/1998"
 //! docentry="Ravl.Core.Data Processing"
 //! rcsid="$Id$"
 
-#include "Ravl/RefCounter.hh"
+#include "Ravl/RCHandleV.hh"
 
 namespace RavlN {
   
@@ -31,16 +31,16 @@ namespace RavlN {
   {
   public:
     DPEntityBodyC() 
-      {}
+    {}
     //: Default constructor.
     
     DPEntityBodyC(const DPEntityBodyC &oth)
       : RCBodyVC (oth)
-      {}
+    {}
     //: Copy constructor.
     
     DPEntityBodyC(istream &in) 
-      {}
+    {}
     //: Stream constructor.
     
     virtual bool Save(ostream &out) const; 
@@ -57,22 +57,23 @@ namespace RavlN {
   // provide a virtual 'save' function. 
   
   class DPEntityC 
-    : public RCHandleC<DPEntityBodyC> 
+    : public RCHandleVC<DPEntityBodyC> 
   {
   public:
-    DPEntityC(bool ) {}
+    DPEntityC(bool ) 
+    {}
     //: Default constructor.
     // This is explicit to avoid problems with 
     // virtual derived classes using the wrong constructor.
     
     DPEntityC(const DPEntityC &oth) 
-      : RCHandleC<DPEntityBodyC>(oth)
-      {}
+      : RCHandleVC<DPEntityBodyC>(oth)
+    {}
     //: Copy constructor.
     
     DPEntityC(DPEntityBodyC &nbod) 
-      : RCHandleC<DPEntityBodyC>(nbod)
-      {}
+      : RCHandleVC<DPEntityBodyC>(nbod)
+    {}
     //: Constructor.
 
     DPEntityC(const RCAbstractC &abst);
@@ -82,19 +83,19 @@ namespace RavlN {
     //: Load from stream using virtual constructor.
     
     inline const DPEntityC &operator= (const DPEntityC &dat) 
-      { RCHandleC<DPEntityBodyC>::operator= (dat); return *this; }
+    { RCHandleC<DPEntityBodyC>::operator= (dat); return *this; }
     //: Assignment.
     
     inline DPEntityBodyC& Body() 
-      { return RCHandleC<DPEntityBodyC>::Body(); }
+    { return RCHandleC<DPEntityBodyC>::Body(); }
     //: Access body.
     
     inline const DPEntityBodyC& Body() const
-      { return RCHandleC<DPEntityBodyC>::Body(); }
+    { return RCHandleC<DPEntityBodyC>::Body(); }
     //: Access body.
     
     inline bool Save(ostream &out) const
-      { return Body().Save(out); }
+    { return Body().Save(out); }
   };
   
   // Stream operators.

@@ -13,7 +13,7 @@
 //! userlevel=Normal
 //! docentry="Ravl.OS.Threads"
 //! author="Charles Galambos"
-//! date="02/07/99"
+//! date="02/07/1999"
 
 #if !defined(__sgi__)
 #define _GNU_SOURCE 1
@@ -25,7 +25,7 @@
 #endif
 
 #include <pthread.h>
-#include "Ravl/RefCounter.hh"
+#include "Ravl/RCHandleV.hh"
 
 namespace RavlN
 {
