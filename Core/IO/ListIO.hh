@@ -159,11 +159,8 @@ namespace RavlN {
   
   template<class DataT>
   UIntT DPISListBodyC<DataT>::Tell() const {
-    return pos;
+    return pos + 1;
   }
-  //: Find current location in stream.
-  // Defined as the index of the next object to be written or read. 
-  // May return ((UIntT) (-1)) if not implemented.
   
   template<class DataT>
   UIntT DPISListBodyC<DataT>::Size() const {
