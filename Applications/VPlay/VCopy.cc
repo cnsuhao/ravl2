@@ -108,8 +108,12 @@ int main(int nargs,char *args[])
     if (verb)
       cout << "STATUS: Stream ready.\n" << flush;
     
-    es += vidIn >>= DPFixedBufferC<ImageC<ByteRGBValueC > >(bufferSize)
-		>>= vidOut;
+    if(bufferSize == 0) {
+      es += vidIn >>= vidOut;
+    } else {
+      es += vidIn >>= DPFixedBufferC<ImageC<ByteRGBValueC > >(bufferSize)
+		  >>= vidOut;
+    }
     
   } else {
     DPISPortC<ImageC<ByteYUVValueC> > vidIn;
@@ -154,8 +158,12 @@ int main(int nargs,char *args[])
     if(verb)
       cout << "STATUS: Stream ready.\n" << flush;
     
-    es += vidIn >>= DPFixedBufferC<ImageC<ByteYUVValueC > >(bufferSize) 
-		>>= vidOut;
+    if(bufferSize == 0) {
+      es += vidIn >>= vidOut;
+    } else {
+      es += vidIn >>= DPFixedBufferC<ImageC<ByteYUVValueC > >(bufferSize) 
+		  >>= vidOut;
+    }
   }
   es.Wait();
   if(verb)
