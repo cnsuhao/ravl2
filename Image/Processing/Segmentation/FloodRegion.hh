@@ -50,6 +50,7 @@ namespace RavlImageN {
   class FloodRegionC {
   public:
     FloodRegionC(const ImageC<PixelT> &nimg)
+      : pixQueue(128-12)
     { SetupImage(nimg); }
     //: Constructor with image to segment.
     
@@ -155,8 +156,6 @@ namespace RavlImageN {
     
     inline
     bool AddIfInside(Index2dC at) {
-      if(!marki.Contains(at))
-	return true;
       if(!inclusionTest(img[at]))
 	return true; // Is outside the region.
       if(marki[at] != id) {
@@ -170,24 +169,28 @@ namespace RavlImageN {
     
     inline 
     void AddPixels(DListC<CrackC> &boundary,Index2dC at) {
-      if(AddIfInside(at + Index2dC(0,1)))
+      if(at[1] >= marki.Frame().Range2().Max() || AddIfInside(Index2dC(at[0],at[1]+1)))
 	boundary.InsLast(CrackC(at,CR_UP));
-      if(AddIfInside(at + Index2dC(0,-1)))
+      if(at[1] <= marki.Frame().Range2().Min() || AddIfInside(Index2dC(at[0],at[1]-1)))
 	boundary.InsLast(CrackC(at,CR_DOWN));
-      if(AddIfInside(at + Index2dC(1,0)))
+      if(at[0] >= marki.Frame().Range1().Max() || AddIfInside(Index2dC(at[0]+1,at[1])))
 	boundary.InsLast(CrackC(at,CR_RIGHT));
-      if(AddIfInside(at + Index2dC(-1,0)))
-	boundary.InsLast(CrackC(at,CR_LEFT));
+      if(at[0] <= marki.Frame().Range1().Min() || AddIfInside(Index2dC(at[0]-1,at[1])))
+	boundary.InsLast(CrackC(at,CR_LEFT));  
     }
     //: Add pixels with a boundry.
     
     inline 
     void AddPixels(IndexRange2dC &rng,Index2dC at) {
       rng.Involve(at);
-      AddIfInside(at + Index2dC(0,1));
-      AddIfInside(at + Index2dC(0,-1));
-      AddIfInside(at + Index2dC(1,0));
-      AddIfInside(at + Index2dC(-1,0));
+      if(at[1] < marki.Frame().Range2().Max())
+	AddIfInside(Index2dC(at[0],at[1]+1));
+      if(at[1] > marki.Frame().Range2().Min())
+	AddIfInside(Index2dC(at[0],at[1]-1));
+      if(at[0] < marki.Frame().Range1().Max())
+	AddIfInside(Index2dC(at[0]+1,at[1]));
+      if(at[0] > marki.Frame().Range1().Min())
+	AddIfInside(Index2dC(at[0]-1,at[1]));
     }
     //: Add pixels to a region.
     
