@@ -12,6 +12,8 @@
 #include "Ravl/FFT2d.hh"
 #include "Ravl/Exception.hh"
 #include "Ravl/SArr2Iter2.hh"
+#include "Ravl/Slice1d.hh"
+
 #include "ccmath/ccmath.h"
 
 #define DODEBUG 0
@@ -28,7 +30,8 @@ namespace RavlN {
   FFT2dBodyC::FFT2dBodyC(Index2dC nn,bool iinv) 
     : n(0),
       m(0),
-      inv(iinv)
+      inv(iinv),
+      base2(false)
   { Init(nn,iinv); }
   
   //: Destructor
@@ -42,9 +45,18 @@ namespace RavlN {
     // Remeber settings in case we asked...
     inv = iinv;
     size = nsize;
-    RavlAssert(IsPow2(size[0].V()) && IsPow2(size[1].V()));
-    m = ILog2(size[0].V());
-    n = ILog2(size[1].V());
+    if(IsPow2(size[0].V()) && IsPow2(size[1].V())) {
+      m = ILog2(size[0].V());
+      n = ILog2(size[1].V());
+      base2 = true;
+    } else {
+      base2 = false;
+      
+      nf = pfac(size[1].V(),primeFactors,'o');
+      
+      tmp1 = SArray2dC<ComplexC>(size[0].V(),size[1].V());
+      tmp1Ptr = SArray2dC<ComplexC *>(size[0].V(),size[1].V());
+    }
     return true;
   }
   
@@ -55,12 +67,46 @@ namespace RavlN {
     RavlAssert(dat.Size1() == (UIntT) size[0].V());
     RavlAssert(dat.Size2() == (UIntT) size[1].V());
     SArray2dC<ComplexC> ret = dat.Copy();
-    //cerr << dat <<  "\n";
-    if(inv)
-      fft2_d((complex *) ((void *) &(ret[0][0])),m,n,'i');
-    else
-      fft2_d((complex *) ((void *) &(ret[0][0])),m,n,'d');
-    //cerr << "result:" << ret << "\n";;
+    if(base2) {
+      //cerr << dat <<  "\n";
+      if(inv)
+	fft2_d((complex *) ((void *) &(ret[0][0])),m,n,'i');
+      else
+	fft2_d((complex *) ((void *) &(ret[0][0])),m,n,'d');
+      //cerr << "result:" << ret << "\n";;
+      return ret;
+    }
+    int nr = dat.Size2();
+    int i,j;
+    SArray1dC<ComplexC> cplx(size[1].V());
+    SArray1dC<complex> idat(dat.Size());
+    SArray1dC<complex *> ptrArr(size[1].V());
+    for(BufferAccessIter2C<complex *,complex> it(ptrArr,idat);it;it++)
+	it.Data1() = &it.Data2();  
+    for(SArray2dIter2C<ComplexC *,ComplexC> it(tmp1Ptr,tmp1);it;it++)
+      it.Data1() = &it.Data2();
+    
+    if(inv) {
+      // fft of rows.
+      for(i = 0;i < (int) dat.Size1();i++)
+	fftgc((Cpx **)((void *) (tmp1Ptr[i].DataStart())),
+	      (complex *)((void *) (tmp1[i].DataStart())),
+	      nr,primeFactors,'i');
+      // fft of cols.
+      for(j = 0;j < (int) dat.Size2();j++) {
+	idat.Copy(tmp1.SliceColumn(j));
+	
+	fftgc((complex **) ((void *)&(ptrArr[0])),
+	      (complex *) ((void *) idat.DataStart()),
+	      n,
+	      primeFactors,
+	      'i');
+	
+	for(Slice1dIter2C<complex *,ComplexC> itb(ptrArr,ret.SliceCol(j));itb;itb++)
+	  itb.Data2() = *((ComplexC *)itb.Data1());
+      }
+    } else {
+    }
     return ret;
   }
   

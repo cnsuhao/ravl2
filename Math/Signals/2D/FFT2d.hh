@@ -15,6 +15,7 @@
 #include "Ravl/RefCounter.hh"
 #include "Ravl/Complex.hh"
 #include "Ravl/SArray2d.hh"
+#include "Ravl/FFT1d.hh"
 
 namespace RavlN {
   
@@ -53,10 +54,14 @@ namespace RavlN {
   protected:
     Index2dC size;  // Size of the transform.
     IntT n,m;
-    bool inv; // Is the transform backward ??
+    bool inv;      // Is the transform backward ??
+    bool base2;    // Are both dimentions a power of 2?    
     
     int primeFactors[32];
     int nf; // Number of factors. Sufficent for all 32-bit lengths.
+    
+    SArray2dC<ComplexC> tmp1;
+    SArray2dC<ComplexC *> tmp1Ptr;
   };
   
   //! userlevel=Normal
