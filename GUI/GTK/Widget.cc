@@ -23,6 +23,7 @@
 #include "Ravl/Threads/Signal2.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
 #include "Ravl/GUI/TreeModel.hh"
+#include "WidgetDNDInfo.hh"
 #include <gtk/gtk.h>
 #include <gdk/gdktypes.h>
 
@@ -36,25 +37,6 @@
 namespace RavlGUIN {
   
   using namespace RavlImageN;
-
-  //: Extra drag and drop info, where its needed.
-  
-  class WidgetDndInfoC {
-  public:
-    WidgetDndInfoC()
-      : isSource(false),
-	isTarget(false)
-    {}
-    //: Constructor.
-    
-    bool isSource;
-    bool isTarget;
-    DestDefaultsT TargFlags;
-    ModifierTypeT SrcFlags;
-    SArray1dC<GtkTargetEntry> TargEntries;
-    SArray1dC<GtkTargetEntry> SrcEntries;
-    DragActionT TargActions,SrcActions;
-  };
   
   int WidgetBodyC::gtkDestroy (GtkWidget *widget,WidgetBodyC * data) { 
     ONDEBUG(cerr << "Got destroy for widget : " << ((void *) data) << "\n");

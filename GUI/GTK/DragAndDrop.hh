@@ -108,6 +108,14 @@ namespace RavlGUIN {
     // Used in response to 'data_get'. <br>
     // Note: dtype is currently ignored under GTK+-2
     
+    DragActionT SuggestedAction();
+    //: Get suggested action.
+    // See GdkDragAction for definition of bit mask.
+    
+    DragActionT Actions();
+    //: Possible actions that can be taken
+    // See GdkDragAction for definition of bit mask.
+    
   protected:
     // Info....
     GdkDragContext *context;

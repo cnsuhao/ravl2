@@ -230,8 +230,10 @@ namespace RavlGUIN {
       cerr << "NotebookBodyC::GUIShowPage(), ERROR: Called before widget initalised. \n";
       return true;
     }
-    if(page.Widget() == 0)
+    if(page.Widget() == 0) {
+      ONDEBUG(cerr << "NotebookBodyC::GUIShowPage(), Creating page. \n");
       page.Create();
+    }
     int pageNo = gtk_notebook_page_num(GTK_NOTEBOOK (widget),page.Widget());
     if(pageNo < 0) {
       ONDEBUG(cerr << "NotebookBodyC::GUIShowPage(), Initalising page. \n");

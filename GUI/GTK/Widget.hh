@@ -195,16 +195,16 @@ namespace RavlGUIN {
     void GUIGrabFocus();
     //: Grab keyboard focus.
     
-    bool GUIDNDSource(ModifierTypeT flags,const SArray1dC<GtkTargetEntry> &entries,DragActionT actions);
+    virtual bool GUIDNDSource(ModifierTypeT flags,const SArray1dC<GtkTargetEntry> &entries,DragActionT actions);
     //: Setup widget as drag and drop source.
     
-    bool GUIDNDSourceDisable();
+    virtual bool GUIDNDSourceDisable();
     //: Disable widget as a drag and drop source.
     
-    bool GUIDNDTarget(DestDefaultsT flags,const SArray1dC<GtkTargetEntry> &entries,DragActionT actions);
+    virtual bool GUIDNDTarget(DestDefaultsT flags,const SArray1dC<GtkTargetEntry> &entries,DragActionT actions);
     //: Setup widget as drag and drop target.
     
-    bool GUIDNDTargetDisable();
+    virtual bool GUIDNDTargetDisable();
     //: Disable widget as a drag and drop source.
     
     bool GUIDNDBegin(IntT button,GdkEvent *event);

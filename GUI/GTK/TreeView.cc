@@ -19,8 +19,18 @@
 #include "Ravl/Threads/Signal1.hh"
 #include "Ravl/HashIter.hh"
 #include "Ravl/StringList.hh"
+#include "Ravl/GUI/DragAndDrop.hh"
 
 #include  <gtk/gtk.h>
+
+#include "WidgetDNDInfo.hh"
+
+#define DODEBUG 0
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
 
 
 namespace RavlGUIN {
@@ -648,7 +658,98 @@ namespace RavlGUIN {
     gtk_tree_view_scroll_to_cell(GTK_TREE_VIEW(widget), path.TreePath(), NULL, true, 0, 0);
     return true;
   }
+  
+  //: Get path to a position in the tree.
+  // 'pos' must be widget coordinates.
+  
+  TreeModelPathC TreeViewBodyC::GUIGetPathTo(const Index2dC &pos) {
+    if(widget == 0) return TreeModelPathC(); // Nothing yet!
+    GtkTreePath *path = 0;
+    if(!gtk_tree_view_get_dest_row_at_pos(GTK_TREE_VIEW(widget),
+                                          pos[1].V(),pos[0].V(),
+                                          &path,
+                                          0)) {
+      return TreeModelPathC();
+    }       
+    return TreeModelPathC(path,true);
+  }
 
+  //: Get iter for row at position 'pos' in the tree.
+  // 'pos' must be widget coordinates.
+  
+  TreeModelIterC TreeViewBodyC::GUIGetIter(const Index2dC &pos) {
+    TreeModelPathC path = GUIGetPathTo(pos);
+    
+    if(!path.IsValid() || path.Text().IsEmpty()) {
+      ONDEBUG(cerr << "TreeViewBodyC::GUIGetIter, Path empty. \n");
+      return TreeModelIterC();
+    }
+    ONDEBUG(cerr << "TreeViewBodyC::GUIGetIter, Path='" << path.Text() << "' \n");
+    return  treeModel.Path2Iter(path.Text());
+  }
+  
+  //: Setup widget as drag and drop source.
+  
+  bool TreeViewBodyC::GUIDNDSource(ModifierTypeT flags,const SArray1dC<GtkTargetEntry> &entries,DragActionT actions) {
+    if(dndInfo == 0)
+      dndInfo = new WidgetDndInfoC();
+    dndInfo->isSource = true;
+    dndInfo->SrcFlags = flags;
+    dndInfo->SrcEntries = entries;
+    dndInfo->SrcActions = actions;
+    if(widget == 0)
+      return true;
+
+    gtk_tree_view_enable_model_drag_source(GTK_TREE_VIEW(widget),
+                                           (GdkModifierType) flags,
+                                           &(entries[0]),
+                                           entries.Size(),
+                                           (GdkDragAction) actions
+                                           );
+    
+    
+    return true;
+  }
+  
+  //: Disable widget as a drag and drop source.
+  
+  bool TreeViewBodyC::GUIDNDSourceDisable() {
+    if(dndInfo != 0)
+      dndInfo->isSource = false;
+    if(widget != 0)
+      gtk_tree_view_unset_rows_drag_source (GTK_TREE_VIEW(widget));
+    return true;
+  }
+    
+  //: Setup widget as drag and drop target.
+  
+  bool TreeViewBodyC::GUIDNDTarget(DestDefaultsT flags,const SArray1dC<GtkTargetEntry> &entries,DragActionT actions) {
+    if(dndInfo == 0)
+      dndInfo = new WidgetDndInfoC();
+    dndInfo->TargFlags = flags;
+    dndInfo->TargEntries = entries;
+    dndInfo->TargActions = actions;
+    dndInfo->isTarget = true;
+    if(widget == 0) 
+      return true;
+    cerr << "TreeViewBodyC::GUIDNDTarget(), Called. \n";
+    gtk_tree_view_enable_model_drag_dest(GTK_TREE_VIEW(widget),
+                                         &(entries[0]),
+                                         entries.Size(),
+                                         (GdkDragAction) actions);
+    return true;
+  }
+  
+  //: Disable widget as a drag and drop source.
+  
+  bool TreeViewBodyC::GUIDNDTargetDisable() {
+    if(dndInfo != 0)
+      dndInfo->isSource = false;
+    if(widget != 0)
+      gtk_tree_view_unset_rows_drag_dest (GTK_TREE_VIEW(widget));
+    return true;
+  }
+  
 }
 
 

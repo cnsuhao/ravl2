@@ -372,9 +372,28 @@ namespace RavlGUIN {
     }
     //: Selection filter function
     // Only used by internal functions, please leave this alone :)
-
+    
+    TreeModelPathC GUIGetPathTo(const Index2dC &pos);
+    //: Get path to a position in the tree.
+    // 'pos' must be widget coordinates.
+    
+    TreeModelIterC GUIGetIter(const Index2dC &pos);
+    //: Get iter for row at position 'pos' in the tree.
+    // 'pos' must be widget coordinates.
+    
   protected:
-
+    virtual bool GUIDNDSource(ModifierTypeT flags,const SArray1dC<GtkTargetEntry> &entries,DragActionT actions);
+    //: Setup widget as drag and drop source.
+    
+    virtual bool GUIDNDSourceDisable();
+    //: Disable widget as a drag and drop source.
+    
+    virtual bool GUIDNDTarget(DestDefaultsT flags,const SArray1dC<GtkTargetEntry> &entries,DragActionT actions);
+    //: Setup widget as drag and drop target.
+    
+    virtual bool GUIDNDTargetDisable();
+    //: Disable widget as a drag and drop source.
+    
     TreeModelC treeModel;
     GtkTreeSelection *selection;
     Signal1C<DListC<TreeModelIterC> > selectionChanged;
@@ -602,7 +621,17 @@ namespace RavlGUIN {
     //: Scroll the treeview to the specified path
     // GUI thread only
     //!bug: The GTK function this calls does not seem to do anything at the moment, not sure why.
-
+    
+    TreeModelPathC GUIGetPathTo(const Index2dC &pos)
+    { return Body().GUIGetPathTo(pos); }
+    //: Get path to a position in the tree.
+    // 'pos' must be in widget cooridinates.
+    
+    TreeModelIterC GUIGetIter(const Index2dC &pos)
+    { return Body().GUIGetIter(pos); }
+    //: Get iter for row at position 'pos' in the tree.
+    // 'pos' must be widget coordinates.
+    
     friend class TreeViewBodyC;
 
   };

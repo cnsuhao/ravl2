@@ -59,5 +59,24 @@ namespace RavlGUIN {
 #endif
     return true;
   }
+
+
+  //: Get suggested action.
+  // See GdkDragAction for definition of bit mask.
+  
+  DragActionT DNDDataInfoC::SuggestedAction() {
+    if(context == 0)
+      return 0;
+    return context->suggested_action;
+  }
+  
+  //: Possible actions that can be taken
+  // See GdkDragAction for definition of bit mask.
+  
+  DragActionT DNDDataInfoC::Actions() {
+    if(context == 0)
+      return 0;
+    return context->actions;
+  }
   
 }
