@@ -1,4 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!--! autoLinkContext=RavlImageN -->
+<!--! autoLink=on -->
 <html>
   <head>
     <title>How to write a simple program with RAVL.</title>
@@ -22,15 +24,15 @@ basic command line parsing, and loads an image. <p>
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ImgIO.hh"
 
-using namespace RavlN;
 using namespace RavlImageN;
+using namespace RavlN;
 
 int main(int nargs,char **argv) {
   OptionC opt(nargs,argv);
   StringC infile = opt.String("i","infile.ppm","Input filename");
   opt.Check();
   
-  ImageC &lt; ByteT &gt; img;
+  ImageC&lt;ByteT&gt; img;
   if(!Load(infile,img)) {
     cerr << "Failed to load file " << infile << "\n";
     return 1;
