@@ -8,7 +8,7 @@
       Sequences of images are handled in RAVL in a similar way to
       sequences of any other kind of object. Details of how sequences
       work in RAVL can be found in <a
-      href="Ravl.OS.Sequence.html">Ravl.OS.Sequence</a>.  The
+				      href="Ravl.OS.Sequence.html">Ravl.OS.Sequence</a>, but see <a href="#EXAMPLE">below</a> for a video-based example.  The
       differences between image sequences and other RAVL sequences
       are:</p>
 
@@ -23,6 +23,10 @@
       ImageC&lt;RGBValueC&gt;), the appropriate conversion is
       automatically done.</li> 
       
+      <li>Where the image sequence is stored one image per file, an automatic
+      <a href="Ravl.OS.Sequence.Numbered_Files.html"> file numbering system
+      </a> is used.</li>
+
       <li>As well as reading and writing files, the <a
       href="Ravl.Core.IO.Virtual_Files.html">virtual files</a>
       mechanism provides direct access to selected devices such as a
@@ -33,17 +37,18 @@
     <p>
       For an exhaustive list of all supported formats (including much
       besides images and video, but no including the virtual files),
-      use the <code>conv -lf</code> command.  Here's an out-of date summary of
+      <i>use the <code>conv -lf</code> command</i>.  Here's an out-of date summary of
       some of the built-in ones:</p>
 
     <ul>
+      <li><b>pnm</b> Binary (pbm), grey-scale (pgm) and colour (ppm) images, <a href="Ravl.OS.Sequence.Numbered_Files.html">one image to a file</a></li>
       <li><b>sqcif</b> Binary byte YUV420 images, 72 by 88
       <li><b>qcif</b>  Binary byte YUV420 images, 144 by 176
       <li><b>cif</b>  Binary byte YUV420 images, 288 by 352
       <li><b>4cif</b>  Binary byte YUV420 images, 576 by 704
       <li><b>16cif</b>  Binary byte YUV420 images, 1152 by 1408
       <li><b>yuv</b> Binary byte YUV images, 576 by 720
-      <li><b>syuv</b> Binary byte YUV images, 576 by 720 one image to a file.
+      <li><b>syuv</b> Binary byte YUV images, 576 by 720, <a href="Ravl.OS.Sequence.Numbered_Files.html">one image to a file</a>
       <li><b>rgb</b>  Binary byte RGB images, 242 by 360
       <li><b>rgb2</b> Binary byte RGB images, 288 by 384
       <li><b>frgb</b> Binary byte RGB images, 484 by 720
@@ -57,7 +62,7 @@
     href="Ravl.Images.Video.Video_IO.html"> other external libraries</a>.
     </p>
 
-    <h2>Programming the video I/O</h2>
+    <h2><a name="EXAMPLE">Programming the video I/O</a></h2>
 
     <p>Following is a example of how to use this mechanism to read and
       write a sequence of images.</p>
