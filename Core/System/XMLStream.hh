@@ -548,6 +548,10 @@ namespace RavlN {
     // The attribute value is stored using its default streaming 
     // operators. (ostream and istream)
     
+    StringC &Content()
+    { return content; }
+    //: Access tag content.
+    
   protected:
     
     StringC ReadAttrib(XMLElementC &elem);
@@ -557,6 +561,7 @@ namespace RavlN {
     XMLTagOpsT GetTag(XMLElementC &elem,StringC &name);
     //: Get the next tag from the stream without modifying the Context.
     
+    StringC content;
   };
   
   //! userlevel=Normal
@@ -576,6 +581,10 @@ namespace RavlN {
 	XMLBaseC(true)
     {}
     //: Construct from an ordinary stream.
+    
+    OStreamC &Stream()
+    { return *this; }
+    //: Stream.
     
     bool WriteHeader();
     //: Write XML header.
@@ -653,9 +662,15 @@ namespace RavlN {
   }
   //: Catch silly mistakes.
   
+  XMLOStreamC &operator<<(XMLOStreamC &strm,const StringC &str);
+  //: Write tag contents.
+  
+  XMLIStreamC &operator>>(XMLIStreamC &strm,StringC &str);
+  //: Read tag contents as string.
+  
   XMLOStreamC &operator<<(XMLOStreamC &strm,const XMLTagOpsT &elem);
   //: Do an output stream op.
-
+  
   XMLIStreamC &operator>>(XMLIStreamC &strm,const XMLTagOpsT &elem);
   //: Do an input stream op.
   

@@ -173,8 +173,10 @@ namespace RavlN {
 	gotTag = false;
 	foundEndTag = false;
 	c = GetChar();
-	if(c != '<')
+	if(c != '<') {
+	  content += c;
 	  continue; // Skip non-tag characters.
+	}
 	gotTag = true;
 	// Work out what sort of tag we've got.
 	c = GetChar();
@@ -445,17 +447,17 @@ namespace RavlN {
   //: Write XML header.
   
   bool XMLOStreamC::WriteHeader() {
-    (*this) << "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
+    Stream() << "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
     return true;
   }
 
   //: Write a Processing Instruction to the stream with the given name and attributes.
   
   bool XMLOStreamC::WritePI(const StringC &name,const RCHashC<StringC,StringC> &attribs) {
-    (*this) << "<?" << name << ' ';
+    Stream() << "<?" << name << ' ';
     for(HashIterC<StringC,StringC> it(attribs);it;it++)
-      (*this) << ' ' << it.Key() << "=\"" << it.Data() << "\"";
-    (*this) << " ?>";
+      Stream() << ' ' << it.Key() << "=\"" << it.Data() << "\"";
+    Stream() << " ?>";
     return true;
   }
 
@@ -488,13 +490,13 @@ namespace RavlN {
     }
     if(AutoIndent())
       Indent(-1); // -1 because we're already in the tag.
-    (*this) << '<' << Context().Name();
+    Stream() << '<' << Context().Name();
     for(HashIterC<StringC,StringC> it((RavlN::HashC<RavlN::StringC,RavlN::StringC> &)Context().Attributes());it;it++)
-      (*this) << ' ' << it.Key() << "=\"" << it.Data() << "\"";
+      Stream() << ' ' << it.Key() << "=\"" << it.Data() << "\"";
     if(Context().IsEmptyTag()) 
-      (*this) << " />";
+      Stream() << " />";
     else
-      (*this) << " >";
+      Stream() << " >";
     SetContent(true);
   }
   
@@ -510,7 +512,7 @@ namespace RavlN {
     if(!Context().IsEmptyTag()) {
       if(AutoIndent())
 	Indent(-1);
-      (*this) << "</" << name << ">";
+      Stream() << "</" << name << ">";
     }
     if(IsStrict()) {
       if(!EndOfContext(name)) {
@@ -532,7 +534,7 @@ namespace RavlN {
     if(!Context().IsEmptyTag()) {
       if(AutoIndent())
 	Indent(-1);
-      (*this) << "</" << Context().Name() << ">";
+      Stream() << "</" << Context().Name() << ">";
     }
     EndOfContext();
   }
@@ -540,14 +542,14 @@ namespace RavlN {
   //: Indent the following line appropriatly.
   
   void XMLOStreamC::Indent(int off) {
-    (*this) << '\n';
+    Stream() << '\n';
     IntT lvl = LevelsNested() + off;
     if(lvl < 0) {
       cerr << "XMLOStreamC::Indent(), Warning: Negative tab. \n";
     }
     // Could do something with tabs to make files smaller ?
     for(IntT i = 0;i < lvl;i++) 
-      (*this) << ' ';
+      Stream() << ' ';
   }
 
   
@@ -639,6 +641,26 @@ namespace RavlN {
 	RavlAssertMsg(0,"XMLIStreamC & operator>>(XMLTagOpsT) Illegal tag op. ");
 	break;
       }
+    return strm;
+  }
+  
+  //: Write tag contents.
+  
+  XMLOStreamC &operator<<(XMLOStreamC &strm,const StringC &str) {   
+    if(!strm.IsContent())
+      strm << XMLEndTag; // End tag.
+    ((OStreamC &) strm) << XMLBaseC::EncodeLitteral(str);
+    return strm;
+  }
+  
+  //: Read tag contents as string.
+  
+  XMLIStreamC &operator>>(XMLIStreamC &strm,StringC &str) {
+    StringC name;
+    RCHashC<StringC,StringC> attr;
+    strm.PeekTag(name,attr); // Make sure content is read.
+    str = XMLBaseC::DecodeLitteral(strm.Content());
+    strm.Content() = StringC(); // Reset string.
     return strm;
   }
   
