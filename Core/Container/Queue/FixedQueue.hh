@@ -19,6 +19,8 @@
 #include "Ravl/Assert.hh"
 
 namespace RavlN {
+  template<class T> class FixedQueueIterC;
+  
   //! userlevel=Normal
   //: Fixed size circular queue.
   // A SMALL object.
@@ -104,6 +106,8 @@ namespace RavlN {
     T *head; // Next free location.
     T *tail; // Last used location.
     T *eoa;  // Ptr to end of array.
+
+    friend class FixedQueueIterC<T>;
   };
   
   //! userlevel=Normal
@@ -127,12 +131,12 @@ namespace RavlN {
     // Note: Chaning the queue after the iterator is contructed
     // will not affect the indexs iterated, though the data will
     // change.
-
+    
     void First(FixedQueueC<T> &queue) {
       SArray1dC<T>::operator=(queue);
-      at = &queue.First();
-      end = &queue.Last();
-      eoa = (&(*this)[queue.MaxSize()-1])+1;
+      at = queue.tail;
+      end = queue.head;
+      eoa = queue.eoa;
     }
     //: Goto first element in queue.
     
