@@ -74,13 +74,13 @@ namespace RavlN {
     //: Default constructor.
     
     inline DataT & operator[](const Index2dC & i) { 
-      RavlAssert(rng2.Contains(i.Col()));
+      RavlAssertMsg(rng2.Contains(i.Col()),"Index 1 access out of range. ");
       return RangeBufferAccessC<BufferAccessC<DataT> >::operator[](i.Row())[i.Col()]; 
     }
     //: access to the item array[(i)]
     
     inline const DataT & operator[](const Index2dC & i) const { 
-      RavlAssert(rng2.Contains(i.Col()));
+      RavlAssertMsg(rng2.Contains(i.Col()),"Index 1 access out of range. ");
       return RangeBufferAccessC<BufferAccessC<DataT> >::operator[](i.Row())[i.Col()]; 
     }
     //: return the item array[(i)]
