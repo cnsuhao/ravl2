@@ -41,8 +41,15 @@ namespace RavlGUIN {
     //: Should file selector be hiden after selection ?
     
     Signal1C<StringC> &Selected()
-      { return selected; }
+    { return selected; }
     //: Access selected signal.
+    
+    bool GUISetTitle(const StringC &name);
+    //: Set the title of the window.
+    // GUI thread only.
+    
+    bool SetTitle(const StringC &name);
+    //: Set the title of the window.
     
   protected:
     void Destroy();
@@ -85,13 +92,22 @@ namespace RavlGUIN {
   public:
     
     Signal1C<StringC> &Selected()
-      { return Body().Selected(); }
+    { return Body().Selected(); }
     //: Access selected signal.
     
     void SetHideOnSelect(bool val)
-      { Body().hideOnSelect = val; }
+    { Body().hideOnSelect = val; }
     //: Set hide on select flag.
     // Thread safe, goes into effect immediatly.
+    
+    bool GUISetTitle(const StringC &name)
+    { return Body().GUISetTitle(name); }
+    //: Set the titel of the window.
+    // GUI thread only.
+    
+    bool SetTitle(const StringC &name)
+    { return Body().SetTitle(name); }
+    //: Set the titel of the window.
     
   };
   

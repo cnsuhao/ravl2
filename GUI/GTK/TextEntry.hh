@@ -119,6 +119,14 @@ namespace RavlGUIN {
     // The inital content of the entry is set to ntext.
     // If MaxLen is set to a negative number, the length is unlimited.
     
+    TextEntryC(const WidgetC &base)
+      : WidgetC(base)
+    {
+      if(dynamic_cast<TextEntryBodyC *>(&WidgetC::Body()) == 0)
+	Invalidate();
+    }
+    //: Base class contructor.
+    
   protected:
     TextEntryC(TextEntryBodyC &bod)
       : WidgetC(bod)

@@ -86,8 +86,17 @@ namespace RavlGUIN {
   
     ButtonC(ButtonBodyC &bod)
       : WidgetC(bod)
-      {}
+    {}
     //: Body constructor.
+    
+    ButtonC(const WidgetC &base)
+      : WidgetC(base)
+    {
+      if(dynamic_cast<ButtonBodyC *>(&WidgetC::Body()) == 0)
+	Invalidate();
+    }
+    //: Construct from base class
+    // Creates an invalid handle.
     
   protected:
     

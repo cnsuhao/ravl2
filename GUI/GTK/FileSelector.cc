@@ -12,6 +12,7 @@
 
 #include "Ravl/GUI/FileSelector.hh"
 #include "Ravl/OS/Filename.hh"
+#include "Ravl/GUI/Manager.hh"
 #include <gtk/gtk.h>
 
 namespace RavlGUIN {
@@ -68,4 +69,25 @@ namespace RavlGUIN {
     selected.DisconnectAll();
     WidgetBodyC::Destroy();
   }
+
+
+  //: Set the title of the window.
+  // GUI thread only.
+  
+  bool FileSelectorBodyC::GUISetTitle(const StringC &nname) {
+    //cerr << "FileSelectorBodyC::GUISetTitle(), Called. \n";
+    name = nname;
+    if(widget == 0)
+      return true;
+    gtk_window_set_title(GTK_WINDOW(widget),nname);    
+    return true;
+  }
+  
+  //: Set the title of the window.
+  
+  bool FileSelectorBodyC::SetTitle(const StringC &nname) {
+    Manager.Queue(Trigger(FileSelectorC(*this),&FileSelectorC::GUISetTitle,nname));
+    return true;
+  }
+  
 }

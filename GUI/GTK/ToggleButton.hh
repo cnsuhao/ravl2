@@ -44,7 +44,7 @@ namespace RavlGUIN {
     //: Create the widget.
     
     Signal1C<bool> &SigChanged()
-      { return sigChanged; }
+    { return sigChanged; }
     //: Access changed signal.
     
     bool GUISetToggle(bool &val);
@@ -96,44 +96,53 @@ namespace RavlGUIN {
   
     ToggleButtonC(ButtonBodyC &bod)
       : ButtonC(bod)
-      {}
+    {}
     //: Body constructor.
+    
+    ToggleButtonC(const WidgetC &widge)
+      : ButtonC(widge)
+    {
+      if(dynamic_cast<ToggleButtonBodyC *>(&WidgetC::Body()) == 0)
+	Invalidate();
+    }
+    //: Create from base class.
+    // Creates an invalid handle if types don't match.
     
   protected:
     
     ToggleButtonBodyC &Body() 
-      { return static_cast<ToggleButtonBodyC &>(WidgetC::Body()); }
+    { return static_cast<ToggleButtonBodyC &>(WidgetC::Body()); }
     //: Access body.
     
     const ToggleButtonBodyC &Body() const
-      { return static_cast<const ToggleButtonBodyC &>(WidgetC::Body()); }
+    { return static_cast<const ToggleButtonBodyC &>(WidgetC::Body()); }
     //: Access body.
     
     bool SignalState()
-      { return Body().SignalState(); }
+    { return Body().SignalState(); }
     // Signal state to clients with 'sigChanged'
     
   public:
     bool GUIIsActive() const
-      { return Body().GUIIsActive(); }
+    { return Body().GUIIsActive(); }
     //: Test if button is active.
     // GUI thread only.
     
     bool IsActive() const
-      { return Body().GUIIsActive(); }
+    { return Body().GUIIsActive(); }
     //: Test if button is active.
     
     Signal1C<bool> &SigChanged()
-      { return Body().SigChanged(); }
+    { return Body().SigChanged(); }
     //: Access changed signal.
     
     bool GUISetToggle(bool &val)
-      { return Body().GUISetToggle(val); }
+    { return Body().GUISetToggle(val); }
     //: Set toggle state.
     // GUI thread only.
     
     void SetToggle(bool val)
-      { Body().SetToggle(val); }
+    { Body().SetToggle(val); }
     //: Set toggle state.
     
     friend class ToggleButtonBodyC;
@@ -150,12 +159,12 @@ namespace RavlGUIN {
   public:
     CheckButtonBodyC(const char *nlabel = 0,bool nInitState = false)
       : ToggleButtonBodyC(nlabel,nInitState)
-      {}
+    {}
     //: Constructor.
     
     CheckButtonBodyC(const char *nlabel,const PixmapC &pixm)
       : ToggleButtonBodyC(nlabel,pixm)
-      {}
+    {}
     //: Constructor.
     
   protected:
@@ -177,14 +186,23 @@ namespace RavlGUIN {
     
     CheckButtonC(const PixmapC &pixm,const char *label = 0)
       : ToggleButtonC(*new CheckButtonBodyC(label,pixm))
-      {}
+    {}
     //: Create a button.
     // If label is set to 0 none will be used.
+    
+    CheckButtonC(const WidgetC &base)
+      : ToggleButtonC(base)
+    {
+      if(dynamic_cast<CheckButtonBodyC *>(&WidgetC::Body()) == 0)
+	Invalidate();
+    }
+    //: Create for base class.
+    // Creates an invalid handle if classes don't match.
     
   protected:  
     CheckButtonC(CheckButtonBodyC &bod)
       : ToggleButtonC(bod)
-      {}
+    {}
     //: Body constructor.
     
   };

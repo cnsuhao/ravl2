@@ -73,14 +73,23 @@ namespace RavlGUIN {
   {
   public:
     SpinButtonC()
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     
     SpinButtonC(IntT digits,RealT nclimbRate,RealT nvalue,RealT nlower,RealT nupper,RealT nstep_increment)
       : WidgetC(*new SpinButtonBodyC(digits,nclimbRate,nvalue,nlower,nupper,nstep_increment))
-      {}
+    {}
     //: Constructor.
+    
+    SpinButtonC(const WidgetC &base)
+      : WidgetC(base)
+    {
+      if(dynamic_cast<SpinButtonBodyC *>(&WidgetC::Body()) == 0)
+	Invalidate();
+    }
+    //: Create from base class.
+    // Creates an invalid handle if types don't match.
     
   protected:
     SpinButtonC(SpinButtonBodyC &bod)

@@ -109,9 +109,17 @@ namespace RavlGUIN {
     
     ComboC(const DListC<StringC> &lst,bool editable = true)
       : WidgetC(*new ComboBodyC(lst,editable))
-      {}
+    {}
     //: Create a Combo box.
     
+    ComboC(const WidgetC &base)
+      : WidgetC(base)
+    {
+      if(dynamic_cast<ComboBodyC *>(&WidgetC::Body()) == 0)
+	Invalidate();
+    }
+    //: Base class constructor.
+    // If types don't match an invalid handle will be created.
     
   protected:
     ComboC(ComboBodyC &bod)

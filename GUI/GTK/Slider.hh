@@ -55,23 +55,23 @@ namespace RavlGUIN {
     //: Update the slider value.
     
     inline
-      RealT Upper() const 
-      { return upper; }
+    RealT Upper() const 
+    { return upper; }
     //: Read upper limit
     
     inline
-      RealT Lower() const 
-      { return lower; }
+    RealT Lower() const 
+    { return lower; }
     //: Read lower limit
     
     void SetValuePosition(GtkPositionType pos)
-      { numPos = pos; }
+    { numPos = pos; }
     //: Set number position.
     // Only has effect BEFORE Create() is called.
     // Values for pos are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKPOSITIONTYPE">here</A>.
     
     void SetDrawValue(bool ndrawValue)
-      { drawValue = ndrawValue; }  
+    { drawValue = ndrawValue; }  
     //: Draw the value of the slider ?
     // Only has effect BEFORE Create() is called.
     
@@ -117,86 +117,95 @@ namespace RavlGUIN {
   {
   public:
     SliderC()
-      {}
+    {}
     //: Default constructor.
     
     SliderC(RealT nvalue, RealT nlower, RealT nupper, 
 	    RealT nstep_increment = 1,RealT npage_increment = 1,
 	    RealT npage_size = 1)
       : WidgetC(*new SliderBodyC(nvalue,nlower,nupper, 
-				   nstep_increment,npage_increment,
-				   npage_size))
-      {}
+				 nstep_increment,npage_increment,
+				 npage_size))
+    {}
     //: Constructor
     
     SliderC(bool nvert,RealT nvalue, RealT nlower, RealT nupper, 
 	    RealT nstep_increment = 1,RealT npage_increment = 1,
 	    RealT npage_size = 1)
       : WidgetC(*new SliderBodyC(nvert,nvalue,nlower,nupper, 
-				   nstep_increment,npage_increment,
-				    npage_size))
+				 nstep_increment,npage_increment,
+				 npage_size))
     {}
     //: Constructor
     
     SliderC(SliderBodyC &bod)
       : WidgetC(bod)
-      {}
+    {}
     //: Body Constructor.
+    
+    SliderC(const WidgetC &base)
+      : WidgetC(base)
+    {
+      if(dynamic_cast<SliderBodyC *>(&WidgetC::Body()) == 0)
+	Invalidate();
+    }
+    //: Create from base class.
+    // Creates an invalid handle if class types don't match.
     
   protected:
     SliderBodyC &Body() 
-      { return static_cast<SliderBodyC &>(WidgetC::Body()); }
+    { return static_cast<SliderBodyC &>(WidgetC::Body()); }
     //: Access body.
     
     const SliderBodyC &Body() const 
-      { return static_cast<const SliderBodyC &>(WidgetC::Body()); }
+    { return static_cast<const SliderBodyC &>(WidgetC::Body()); }
     //: Access body.
     
     bool GUIUpdateValue(RealT &val)
-      { return Body().GUIUpdateValue(val); }
+    { return Body().GUIUpdateValue(val); }
     //: Update the slider value.
     
     bool GUIUpdateRange(RealT &lower,RealT &upper)
-      { return Body().GUIUpdateRange(lower,upper); }
+    { return Body().GUIUpdateRange(lower,upper); }
     //: Update the slider value.
     
     bool GUIUpdate(RealT &val,RealT &lower,RealT &upper,RealT &inc)
-      { return Body().GUIUpdate(val,lower,upper,inc); }
+    { return Body().GUIUpdate(val,lower,upper,inc); }
     //: Update the slider value.
     
   public:
     void SetValuePosition(GtkPositionType pos)
-      { Body().SetValuePosition(pos); }
+    { Body().SetValuePosition(pos); }
     //: Set number position.
     // Only has effect BEFORE Create() is called.
     // Values for pos are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKPOSITIONTYPE">here</A>.
     
     void SetDrawValue(bool ndrawValue)
-      { Body().SetDrawValue(ndrawValue); }
+    { Body().SetDrawValue(ndrawValue); }
     //: Set draw value.
     
     bool UpdateValue(RealT val)
-      { return Body().UpdateValue(val); }
+    { return Body().UpdateValue(val); }
     //: Update the slider value.
     
     bool UpdateRange(RealT lower,RealT upper)
-      { return Body().UpdateRange(lower,upper); }
+    { return Body().UpdateRange(lower,upper); }
     //: Update the slider value.
     
     bool Update(RealT val,RealT lower,RealT upper,RealT inc = 1)
-      { return Body().Update(val,lower,upper,inc); }
+    { return Body().Update(val,lower,upper,inc); }
     //: Update the slider value.
     
     RealT Upper() const 
-      { return Body().Upper(); }
-  //: Read upper limit
+    { return Body().Upper(); }
+    //: Read upper limit
     
     RealT Lower() const 
-      { return Body().Lower(); }
+    { return Body().Lower(); }
     //: Read lower limit
     
     Signal1C<RealT> &SigChanged() 
-      { return Body().SigChanged(); }
+    { return Body().SigChanged(); }
     //: Access changed signal.
     
     friend class SliderBodyC;

@@ -92,6 +92,15 @@ namespace RavlGUIN {
     {}
     //: Default constructor.
     // Creates an invalid handle.
+
+    LabelC(const WidgetC &base)
+      : WidgetC(base)
+    {
+      if(dynamic_cast<LabelBodyC *>(&WidgetC::Body()) == 0)
+	Invalidate();
+    }
+    //: Base class constructor.
+    // If types don't match an invalid handle will be created.
     
   protected:
     LabelC(LabelBodyC &bod)
