@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_DVIEWPOINT_HEADER
-#define RAVL_DVIEWPOINT_HEADER 1
+#ifndef RAVLGUI_DVIEWPOINT3D_HEADER
+#define RAVLGUI_DVIEWPOINT3D_HEADER 1
 ////////////////////////////////////////////
 //! docentry="Ravl.GUI.3D"
 //! rcsid="$Id$"
@@ -36,12 +36,12 @@ namespace RavlGUIN {
 		      RealT dFar
 		      )
       : fov(nFov),
-      eye(nEye),
-      centre(nCentre),
-      up(nUp),
-      m_dNear(dNear),
-      m_dFar(dFar)
-      {}
+	eye(nEye),
+	centre(nCentre),
+	up(nUp),
+	m_dNear(dNear),
+	m_dFar(dFar)
+    {}
     //: Default constructor.
     
     virtual bool Render(Canvas3DC &c3d);
