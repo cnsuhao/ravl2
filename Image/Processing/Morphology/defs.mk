@@ -9,7 +9,7 @@
 
 PACKAGE=Ravl/Image
 
-HEADERS=Erode.hh Dilate.hh DilateSubSample2X.hh
+HEADERS=Erode.hh Dilate.hh DilateSubSample2X.hh MorphOpen.hh MorphClose.hh
 
 PLIB=RavlImage
 
