@@ -11,6 +11,7 @@
 
 #include "Ravl/Point2d.hh"
 #include "Ravl/LinePP2d.hh"
+#include "Ravl/Polygon2d.hh"
 
 #include "Ravl/DP/FileFormatStream.hh"
 #include "Ravl/DP/FileFormatBinStream.hh"
@@ -22,15 +23,19 @@ namespace RavlN {
   
   static TypeNameC type1(typeid(LinePP2dC),"LinePP2dC");
   static TypeNameC type2(typeid(DListC<LinePP2dC>),"DListC<LinePP2dC>");
+  static TypeNameC type3(typeid(Polygon2dC),"RavlN::Polygon2dC");
   
   FileFormatStreamC<Point2dC> FileFormatStream_LinePP2d;
-  
   FileFormatBinStreamC<Point2dC> FileFormatBinStream_LinePP2d;
   
-  // Add some IO for arrays of Points.
+  // Add some IO for listss of lines.
   
   FileFormatStreamC<DListC<LinePP2dC> > FileFormatStream_DListC_LinePP2d;
-  
   FileFormatBinStreamC<DListC<LinePP2dC> > FileFormatBinStream_DListC_LinePP2d;
+  
+  // Add some IO for polygons
+  
+  FileFormatStreamC<Polygon2dC> FileFormatStream_Polygon2d;
+  FileFormatBinStreamC<Polygon2dC> FileFormatBinStream_Polygon2d;
   
 }
