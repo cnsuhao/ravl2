@@ -40,6 +40,7 @@ namespace RavlImageN {
   extern void InitImgIOByteVYU();
   extern void InitFrameImageCnv();
   extern void InitImgIOByteYUV422();
+  extern void InitImgIOByteVYU();
   
   extern void InitCompatIORGB();
   extern void InitCompatIOYUV();

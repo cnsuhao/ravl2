@@ -35,6 +35,13 @@ namespace RavlImageN {
     return ret;
   }
   
+  ImageC<ByteYUV422ValueC> ByteImageCT2ByteYUV422ImageCT(const ImageC<ByteT> &dat) { 
+    ImageC<ByteYUV422ValueC> ret(dat.Rectangle());
+    for(Array2dIter2C<ByteYUV422ValueC,ByteT> it(ret,dat);it;it++) 
+      it.Data1() = ByteYUV422ValueC(128,it.Data2());
+    return ret;
+  }
+  
   // Convert a YUV422 image into a YUV444 image.
   // What to do about interlace ?
   
@@ -110,6 +117,7 @@ namespace RavlImageN {
   DP_REGISTER_CONVERTION(ByteYUV422ImageCT2ByteYUVImageCT,1);
   DP_REGISTER_CONVERTION(ByteYUV422ImageCT2ByteRGBImageCT,1.1); // There is some data loss as the colour cubes don't entirely overlap.
   DP_REGISTER_CONVERTION(ByteYUV422ImageCT2ByteImageCT,2);
+  DP_REGISTER_CONVERTION(ByteImageCT2ByteYUV422ImageCT,1);
   
   FileFormatStreamC<ImageC<ByteYUV422ValueC> > FileFormatStream_ImageC_ByteYUV422ValueC;
   FileFormatBinStreamC<ImageC<ByteYUV422ValueC> > FileFormatBinStream_ImageC_ByteYUV422ValueC;
