@@ -14,6 +14,7 @@
 #include "Ravl/Vector3d.hh"
 #include "Ravl/3D/TexTriMesh.hh"
 #include "Ravl/GUI/DTexTriMesh3D.hh"
+#include "Ravl/GUI/DTriMesh3D.hh"
 #include "Ravl/DP/FileFormatIO.hh"
 
 #include <GL/gl.h>
@@ -25,16 +26,29 @@ using namespace Ravl3DN;
 int main(int nargs,char *args[]) 
 {
   OptionC opts(nargs,args); // Make sure help option is detected.
-  StringC file = opts.String("i","","input filename");
-  opts.Compulsory("i");
+  StringC file = opts.String("i",PROJECT_OUT "/share/RAVL/data/cube.tri","input filename");
+  bool verbose = opts.Boolean("v",false,"Verbose mode. ");
+  bool texture = opts.Boolean("t",false,"Use texture. ");
   opts.Check();
   
-  TexTriMeshC mesh;
-  if (!Load(file,mesh)) {
-    cerr << "Could not load input file " << file << endl;
-    return 1;
+  DObject3DC object;
+  if(texture) {
+    TexTriMeshC mesh;
+    if (!Load(file,mesh,"",verbose)) {
+      cerr << "Could not load input file " << file << endl;
+      return 1;
+    }
+    object = DTexTriMesh3DC(mesh);
+  } else {
+    TriMeshC mesh;
+    if (!Load(file,mesh,"",verbose)) {
+      cerr << "Could not load input file " << file << endl;
+      return 1;
+    }
+    object = DTriMesh3DC(mesh);
+    
   }
-
+  
   Manager.Init(nargs,args);
   
   WindowC win(100,100,"Hello");  
@@ -44,8 +58,8 @@ int main(int nargs,char *args[])
 
   cerr << "Starting gui. \n";
   Manager.Execute();
-
-  view.Add(DTexTriMesh3DC(mesh));
+  
+  view.Add(object);
   view.SceneComplete();
 
   Manager.Wait();
