@@ -288,6 +288,13 @@ namespace RavlN {
     localtime_r(&s,&b);
     return b.tm_wday;  
   }
+
+  //: Get day of week in text form.
+  
+  const StringC &DateC::TextDayInWeek() const {
+    static StringC days[7] = {"Sun","Mon","Tue","Wed","Thu","Fri","Sat"};
+    return days[DayInWeek()];
+  }
   
   //: Are we daylight saveing ?
   // True = yes

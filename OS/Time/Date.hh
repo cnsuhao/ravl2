@@ -177,6 +177,9 @@ namespace RavlN {
     IntT DayInWeek() const;
     //: Get day of week. Since sunday, 0-6
     
+    const StringC &TextDayInWeek() const;
+    //: Get day of week in text form.
+    
     bool DaylightSaving() const;
     //: Are we daylight saveing ?
     // True = yes
