@@ -46,6 +46,13 @@ namespace RavlN {
     // Returns twice the signed area of this polygon.
     // Ref.: -  O'Rourke,J.: Computatinal geometry in C;
     //          Cambridge University Press, 1994, pp. 20-26
+    //!deprecated: Use Area instead
+
+    RealT Area() const;
+    //!return: the signed area of this polygon
+
+    Point2dC Centroid() const;
+    //!return: the centre of mass of the polygon
   
     bool IsDiagonal(const DLIterC<Point2dC> & a, const DLIterC<Point2dC> & b, bool allowExternal = false) const;
     // Returns true if (a, b) is a proper internal or external (if allowExternal is true)

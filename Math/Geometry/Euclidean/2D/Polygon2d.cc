@@ -25,6 +25,31 @@ namespace RavlN {
       return sum;
    }
   
+   RealT Polygon2dC::Area() const {
+      RealT sum = 0.0;
+      DLIterC<Point2dC> pLast(*this);
+      pLast.Last();
+
+      for (DLIterC<Point2dC> ptr(*this); ptr != pLast; ptr++)
+        sum += ptr.Data().X() * ptr.NextData().Y() - ptr.NextData().X() * ptr.Data().Y();
+      return sum * 0.5;
+   }
+    
+   Point2dC Polygon2dC::Centroid() const {
+      RealT x = 0.0;
+      RealT y = 0.0;
+      DLIterC<Point2dC> pLast(*this);
+      pLast.Last();
+
+      for (DLIterC<Point2dC> ptr(*this); ptr != pLast; ptr++) {
+        RealT temp = ptr.Data().X() * ptr.NextData().Y() - ptr.NextData().X() * ptr.Data().Y();
+        x += (ptr.Data().X() + ptr.NextData().X()) * temp;
+        y += (ptr.Data().Y() + ptr.NextData().Y()) * temp;
+      }
+      RealT scale = 1.0 / (6.0 * Area());
+      return Point2dC(x * scale, y * scale);
+   }
+  
    bool Polygon2dC::IsDiagonal(const DLIterC<Point2dC> & a, const DLIterC<Point2dC> & b, bool allowExternal) const {
       if (allowExternal) {
          
