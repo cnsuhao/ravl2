@@ -71,7 +71,7 @@ namespace RavlImageN {
     { return IsElm(); }
     //: At a valid position ?
     
-  public:
+  protected:
     UIntT size2;
     ImageRectangleC imageRect;
     ImageRectangleC window;
