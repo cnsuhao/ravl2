@@ -109,6 +109,7 @@ namespace RavlLogicN {
     bool Ask(const LiteralC &lit) const
     { return Body().Ask(lit); }
     //: Ask if a literal is set.
+
     
     bool Ask(const LiteralC &lit,BindSetC &binds) const
     { return Body().Ask(lit,binds); }
@@ -117,6 +118,11 @@ namespace RavlLogicN {
     bool Tell(const LiteralC &lit)
     { return Body().Tell(lit); }
     //: Set a literal.
+    
+    bool operator+=(const LiteralC &lit)
+    { return Body().Tell(lit); }
+    //: Add a literal to the state.
+    // This is just an alias for tell.
     
     LiteralIterC List() const
     { return Body().List(); }
