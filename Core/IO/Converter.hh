@@ -256,7 +256,7 @@ DPConverterBaseC DPConv_ ## func(RavlN::RegisterConversion(func,cost));
 
 // Fixed type conversion macro
 #define DP_REGISTER_CONVERTION_FT(InT,OutT,func,cost) \
-DPConverterFuncC<InT,OutT> DPConv_ ## func(func,ncost);
+DPConverterFuncC<InT,OutT > DPConv_ ## func(func,cost);
 
 }
 #endif
