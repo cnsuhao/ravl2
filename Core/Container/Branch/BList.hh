@@ -31,6 +31,13 @@ namespace RavlN {
     //: Default constructor.
     // Creates an empty list.
     
+    BListC(const DataT &newData,const BListC<DataT> &originalList)
+      : list(BLinkC<DataT>(newData,originalList.list))
+    {}
+    //: Create a copy of 'originalList' with 'newData' prepended to the begining
+    // This is a quick operation, as the old list is only
+    // refrence not copied.
+    
     void InsFirst(const DataT &dat) 
     { list = BLinkC<DataT>(dat,list); }
     //: Insert data into list.

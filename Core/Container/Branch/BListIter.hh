@@ -81,6 +81,10 @@ namespace RavlN {
     { place = place->Next().BodyPtr(); }
     //: Goto next element in the list.
     
+    bool IsLast() const
+    { return place->Next().BodyPtr() == 0; }
+    //: Is this the last element in the list?
+    
     void operator++(int)
     { Next(); }
     //: Goto next element in the list.
