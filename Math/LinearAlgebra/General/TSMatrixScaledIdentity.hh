@@ -247,6 +247,10 @@ namespace RavlN {
   
   template<class DataT>
   TSMatrixC<DataT> TSMatrixScaledIdentityBodyC<DataT>::MulT(const TSMatrixC<DataT> & B) const {
+    if(B.MatrixType() == typeid(TSMatrixScaledIdentityBodyC<DataT>)) {
+      TSMatrixScaledIdentityC<DataT> msi(B);
+      return TSMatrixScaledIdentityC<DataT>(msi.Rows(),scale * msi.Scale());
+    }
     return TSMatrixScaledIdentityBodyC<DataT>::Mul(B.T());
   }
   

@@ -28,11 +28,11 @@ SMatrixC createMatrix(UIntT size,IntT type) {
   switch(type)
     {
     case 0:  ret = SMatrixC(RandomMatrix(size,size)); filled = true; break;
-    case 1:  ret = SMatrixC(TSMatrixDiagonalC<RealT>(size)); break;
-    case 2:  ret = SMatrixC(TSMatrixRightUpperC<RealT>(size)); break;
-    case 3:  ret = SMatrixC(TSMatrixLeftLowerC<RealT>(size)); break;
-    case 4:  ret = SMatrixC(TSMatrixScaledIdentityC<RealT>(size,Random1())); filled=true; break;
-    case 5:  ret = SMatrixC(TSMatrixSymmetricC<RealT>(size)); break;
+    case 1:  ret = TSMatrixDiagonalC<RealT>(size); break;
+    case 2:  ret = TSMatrixRightUpperC<RealT>(size); break;
+    case 3:  ret = TSMatrixLeftLowerC<RealT>(size); break;
+    case 4:  ret = TSMatrixScaledIdentityC<RealT>(size,Random1()); filled=true; break;
+    case 5:  ret = TSMatrixSymmetricC<RealT>(RandomSymmetricMatrix(size)); filled=true; break;
     case 6:  {
       SMatrixC ret(TSMatrixSparseC<RealT>(size,size));
       int n = (size * size)/5;
@@ -47,7 +47,10 @@ SMatrixC createMatrix(UIntT size,IntT type) {
       return SMatrixC();
     }
   if(!filled) {
-    RavlAssert(ret.IsRowDirectAccess());
+    if(!ret.IsRowDirectAccess()) {
+      cerr << "Matrix type " << type << " is not direct row access. \n";
+      RavlAssert(0);
+    }
     for(UIntT i = 0;i < size;i++) {
       for(Array1dIterC<RealT> it(ret.Row(i));it;it++)
 	*it = Random1();
@@ -55,7 +58,6 @@ SMatrixC createMatrix(UIntT size,IntT type) {
   }
   return ret;
 }
-
 
 int testMatrix(MatrixC mat1,MatrixC mat2,int iters,int method) {
   MatrixC res(mat1.Rows(),mat2.Cols());
@@ -148,14 +150,16 @@ int main(int nargs,char **argv) {
   IntT type2 = opt.Int("m2",0,"Matrix 2 type. "); 
   IntT method = opt.Int("op",0,"Operation. 0=All 1=Mul 2=TMul 3=MulT 4=Add");
   
-  bool testAll = opt.Boolean("a",false,"Test all combinations of matrices.");
+  bool testAll = opt.Boolean("a",true,"Test all combinations of matrices.");
   
   opt.Check();
   cout <<"Iterations=" << iters << " Matrix Size=" << matSize << "\n";
-  cout << " 0=Full 1=Diagonal 2=RightUpper 3=LeftLower 4=ScaledIdentity 5=Sparse. \n";
+  cout << " 0=Full 1=Diagonal 2=RightUpper 3=LeftLower 4=ScaledIdentity 5=Symmetric 6=Sparse. \n";
   
   cout.precision(2);
   cout.setf(ios_base::fixed);
+  int n = 0;
+  RealT total = 0;
   if(testAll) {
     for(int i = 0;i < noMatrixTypes;i++) {
       for(int j = 0;j < noMatrixTypes;j++) {
@@ -163,10 +167,13 @@ int main(int nargs,char **argv) {
 	SMatrixC mat2 = createMatrix(matSize,j);
 	
 	RealT ratio = Evaluate(mat1,mat2,iters,method);
+	n++;
+	total += ratio;
 	cout  << ratio << " " << flush;
       }
       cout << "\n";
     }
+    cerr << "Average=" << (total/n) << "\n";
     return 0;
   }
   SMatrixC mat1 = createMatrix(matSize,type1);

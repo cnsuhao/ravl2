@@ -25,7 +25,7 @@
 
 using namespace RavlN;
 
-#define DODEBUG 0
+#define DODEBUG 1
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -287,11 +287,11 @@ SMatrixC createMatrix(UIntT size,IntT type) {
   switch(type)
     {
     case 0:  ret = SMatrixC(RandomMatrix(size,size)); filled = true; break;
-    case 1:  ret = SMatrixC(TSMatrixDiagonalC<RealT>(size)); break;
-    case 2:  ret = SMatrixC(TSMatrixRightUpperC<RealT>(size)); break;
-    case 3:  ret = SMatrixC(TSMatrixLeftLowerC<RealT>(size)); break;
-    case 4:  ret = SMatrixC(TSMatrixScaledIdentityC<RealT>(size,Random1())); filled=true; break;
-    case 5:  ret = SMatrixC(TSMatrixSymmetricC<RealT>(size)); break;
+    case 1:  ret = TSMatrixDiagonalC<RealT>(size); break;
+    case 2:  ret = TSMatrixRightUpperC<RealT>(size); break;
+    case 3:  ret = TSMatrixLeftLowerC<RealT>(size); break;
+    case 4:  ret = TSMatrixScaledIdentityC<RealT>(size,Random1()); filled=true; break;
+    case 5:  ret = TSMatrixSymmetricC<RealT>(RandomSymmetricMatrix(size)); filled=true; break;
     case 6:  {
       SMatrixC ret(TSMatrixSparseC<RealT>(size,size));
       int n = (size * size)/5;
@@ -331,6 +331,20 @@ int testCombinations() {
 	cerr << "Failed at " << i << " " << j << "\n";
 	return ln;
       }
+#if 0
+      if((ln = MatrixTest(mat1,mat2.T())) > 0) {
+	cerr << "Failed at " << i << " " << j << "\n";
+	return ln;
+      }
+      if((ln = MatrixTest(mat1.T(),mat2)) > 0) {
+	cerr << "Failed at " << i << " " << j << "\n";
+	return ln;
+      }
+      if((ln = MatrixTest(mat1.T(),mat2.T())) > 0) {
+	cerr << "Failed at " << i << " " << j << "\n";
+	return ln;
+      }
+#endif
     }
     cout << "\n";
   }

@@ -54,6 +54,21 @@ namespace RavlN {
       matrix[j][i] = val; 
     }
     //: Set element.
+
+    virtual TSMatrixC<DataT> T() const;
+    //: Get transpose of matrix.
+    
+    virtual TSMatrixC<DataT> TMul(const TSMatrixC<DataT> & B) const 
+    { return Mul(B); }
+    //: Multiplication A.T() * B
+    
+    virtual TVectorC<DataT> TMul(const TVectorC<DataT> & B) const
+    { return Mul(B); }
+    //: Multiplication A.T() * B
+    
+    virtual TSMatrixC<DataT> ATA() const
+    { return AAT(); }
+    //: Return  A.T() * A.
     
     TSMatrixLeftLowerC<DataT> Cholesky() const;
     //: Perform Cholesky decomposition on this matrix.
@@ -111,6 +126,8 @@ namespace RavlN {
     TSMatrixLeftLowerC<DataT> Cholesky() const;
     //: Perform Cholesky decomposition on this matrix.
     // Find L such that L * L.T() = this matrix.
+
+    friend class TSMatrixSymmetricBodyC<DataT>; 
   };
 
 }
@@ -142,10 +159,16 @@ namespace RavlN {
   }
   
   //////////////////////////////////////////////////////////////
+
+  template<class DataT>
+  TSMatrixC<DataT> TSMatrixSymmetricBodyC<DataT>::T() const
+  { return TSMatrixSymmetricC<DataT>(const_cast<TSMatrixSymmetricBodyC<DataT> &>(*this)); }
+  
   
   template<class DataT>
   TSMatrixLeftLowerC<DataT> TSMatrixSymmetricC<DataT>::Cholesky() const
   { return Body().Cholesky(); }
+  
   
 }
 

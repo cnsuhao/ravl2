@@ -546,12 +546,12 @@ namespace RavlN {
 #else
     const SizeT xrdim = Rows();
     out.Fill(0);
-    SArray1dC<Array1dC<DataT> > rowArr(cdim);
+    SArray1dC<Array1dC<DataT> > rowArr(xrdim);
     for(UIntT c = 0;c < xrdim;c++)
       rowArr[c] = Row(c);
     IndexRangeC rcols(0,Cols());
     for (UIntT r = 0; r < xrdim; r++) {
-      Array1dC<DataT> row = mat.Row(r);
+      Array1dC<DataT> row = rowArr[r];
       //cerr << "Row=" << row << "\n";
       for (UIntT c = 0; c < xrdim; c++) {
 	RangeBufferAccessC<DataT> orow(out[c],rcols);
