@@ -116,7 +116,7 @@ namespace RavlGUIN {
       return true;
     if(pc.FixedEnd() == ((UIntT) -1)) 
       return true;
-    UIntT seekTo = pc.FixedEnd()-1;
+    UIntT seekTo = pc.FixedEnd();
     hold.Unlock();
     Pause();  
     Seek(seekTo); 
@@ -260,7 +260,6 @@ namespace RavlGUIN {
     if(loc == ((UIntT) -1)) 
       return true; // We don't have a clue!
     sigUpdateFrameNo(loc); // Signal update.
-    frameSlider.UpdateValue(loc);
     bool updateSlider = false;
     if(pc.FixedEnd() != ((UIntT)-1)) {
       if(pc.FixedEnd() != frameSlider.Upper())
@@ -280,6 +279,7 @@ namespace RavlGUIN {
 	}
       }
     }
+    frameSlider.UpdateValue(loc);
     return true;
   }
   
