@@ -11,15 +11,14 @@
 
 #include"Ravl/config.h"
 
-#if RAVL_HAVE_UNISTD_H
-#include <unistd.h>
-#endif
-
 #if RAVL_OS_SOLARIS
 #define __EXTENSIONS__ 1
 #include <sys/time.h>
 #endif
 
+#if RAVL_HAVE_UNISTD_H
+#include <unistd.h>
+#endif
 
 #if RAVL_OS_IRIX
 #ifndef _POSIX_C_SOURCE
