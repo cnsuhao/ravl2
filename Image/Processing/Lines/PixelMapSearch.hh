@@ -19,6 +19,7 @@
 #include "Ravl/Image/PixelMap.hh"
 #include "Ravl/Image/PCPixelList.hh"
 #include "Ravl/Image/Image.hh"
+#include "Ravl/QInt.hh"
 
 namespace RavlImageN {
 
@@ -121,7 +122,7 @@ namespace RavlImageN {
   Point2dC PixelMapSearchC<CurveT>::NewPoints(Point2dC CurAt,DListC<PCIndex2dC> &NewPnts)  {
     Point2dC MAt = (CurAt/Map.BinSize()) - Vector2dC(0.5,0.5);
     // Find nearest grid.
-    Index2dC IndAt((IndexC) ((IntT) MAt[0]),(IndexC) ((IntT) MAt[1]));
+    Index2dC IndAt((IndexC) (QFloor(MAt[0])),(IndexC) (QFloor(MAt[1])));
     Point2dC Center = (Point2dC(IndAt) * Map.BinSize()) + Map.BinSize();
     IntT dx,dy;
     //cerr << "NewPoints: " << Center << "\n";

@@ -27,6 +27,7 @@
 #include "Ravl/IO.hh"
 #include "Ravl/Statistics.hh"
 #include "Ravl/SobolSequence.hh"
+#include "Ravl/QInt.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -186,7 +187,7 @@ namespace RavlImageN {
     bool ret = PPHTTest(Curve2dLineC(tSin[theta],tCos[theta],-peak[1]),
 			Point2dC(at),
 			theta,
-			Round(peak[1]),
+			QRound(peak[1]),
 			0,
 			thresh);
     
@@ -245,7 +246,7 @@ namespace RavlImageN {
     cout <<"\n";
 #else
     SArray1dC<IntT> threshData(1);
-    threshData[0] = Round(threshHold);
+    threshData[0] = QRound(threshHold);
 #endif
     
     PCPixelListC pit(res);
@@ -398,7 +399,7 @@ namespace RavlImageN {
 	RealT y = pixR * tSin[k] + pixC * tCos[k];
 	ONDYNTHRESH(angleCount[k]++);
 	//cout << "Vote:" << at << "\n";
-	tmp = ++(accum[k][Round(y)]);
+	tmp = ++(accum[k][QRound(y)]);
 	if(tmp > maxval) {
 	  maxk = k;
 	  maxy = y;
@@ -414,7 +415,7 @@ namespace RavlImageN {
       for(IntT k = nst;k < MaxA;k++) {
 	RealT y = pixR * tSin[k] + pixC * tCos[k];
 	ONDYNTHRESH(angleCount[k]++);
-	tmp = ++accum[k][Round(y)];
+	tmp = ++accum[k][QRound(y)];
 	if(tmp > maxval) {
 	  maxk = k;
 	  maxy = y;
@@ -428,7 +429,7 @@ namespace RavlImageN {
       RealT y = pixR * tSin[k] + pixC * tCos[k];
       //cout << "Vote:" << at << "\n";
       ONDYNTHRESH(angleCount[k]++);
-      if((tmp = ++accum[k][Round(y)]) > maxval) {
+      if((tmp = ++accum[k][QRound(y)]) > maxval) {
 	maxk = k;
 	maxy = y;
 	maxval = tmp;
@@ -470,7 +471,7 @@ namespace RavlImageN {
       IntT ne = Endk - dim_the;
       Endk = MaxA;
       for(IntT k = MinA;k < ne;k++) {
-	--accum[k][Round(pixR * tSin[k] + pixC * tCos[k])];
+	--accum[k][QRound(pixR * tSin[k] + pixC * tCos[k])];
 	ONDYNTHRESH(angleCount[k]--);
       }
     }
@@ -479,12 +480,12 @@ namespace RavlImageN {
       IntT nst = Startk + dim_the;
       Startk = MinA;
       for(IntT k = nst;k < MaxA;k++) {
-	--accum[k][Round(pixR * tSin[k] + pixC * tCos[k])];
+	--accum[k][QRound(pixR * tSin[k] + pixC * tCos[k])];
 	ONDYNTHRESH(angleCount[k]--);
       }
     }
     for (IntT k=Startk;k < Endk; k++) {
-      --accum[k][Round(pixR * tSin[k] + pixC * tCos[k])];
+      --accum[k][QRound(pixR * tSin[k] + pixC * tCos[k])];
       ONDYNTHRESH(angleCount[k]--);
     }
     return true;
