@@ -128,6 +128,11 @@ namespace Ravl3DN {
     //: Access vertex pointer.
     // Advanced users only.
     
+    void SetVertexPtr(UIntT n,VertexC *vp)
+    { vertices[n] = vp; }
+    //: Access vertex pointer.
+    // Advanced users only.
+    
     VertexC *VertexPtr(UIntT n) const
     { return vertices[n]; }
     //: Access vertex pointer.
@@ -136,13 +141,21 @@ namespace Ravl3DN {
     UByteT& TextureID()
     { return textureID; }
     //: Access the texture ID.
-
+    
     UByteT TextureID() const
     { return textureID; }
     //: Access the texture ID.
-
+    
+    void SetTextureID(UByteT id)
+    { textureID = id; }
+    //: Set the texture id.
+    
     Vector2dC &TextureCoord(UIntT n) 
     { return texture[n]; }
+    //: Access texture co-ordinates.
+    
+    void SetTextureCoord(UIntT n,const Vector2dC &tc) 
+    { texture[n] = tc; }
     //: Access texture co-ordinates.
     
     const Vector2dC &TextureCoord(UIntT n) const
@@ -160,6 +173,10 @@ namespace Ravl3DN {
     TFVectorC<ByteT,3> &Colour()
     { return colour; }
     //: Colour of face.
+    
+    void SetColour(const TFVectorC<ByteT,3> &col)
+    { colour = col; }
+    //: Set colour of face.
     
     const TFVectorC<ByteT,3> &Colour() const
     { return colour; }
