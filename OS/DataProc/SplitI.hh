@@ -21,6 +21,7 @@
 #include "Ravl/DLIter.hh" 
 #include "Ravl/BlkQueue.hh"
 #include "Ravl/Threads/Mutex.hh"
+#include "Ravl/DP/IOJoin.hh"
 
 namespace RavlN { 
 
