@@ -139,6 +139,11 @@ namespace RavlN {
     //: This object is set to be the union of two set of data points 'meanCov1'
     //: and 'meanCov2'.
 
+    FMeanCovarianceC<N> operator*(const FMeanCovarianceC<N> &oth) const;
+    //: Calculate the product of the two probability density functions.
+    // This assumes the estimates of the distributions are accurate. (The number
+    // of samples is ignored) 
+
   protected:
     FMeanC<N> m;   // The mean vector of this data set.
     FMatrixC<N,N> cov; // the covariance matrix of this data set.
@@ -359,6 +364,18 @@ namespace RavlN {
     *this = meanCov1;
     *this += meanCov2;
     return *this;
+  }
+
+  template<unsigned int N>
+  FMeanCovarianceC<N> FMeanCovarianceC<N>::operator*(const FMeanCovarianceC<N> &oth) const {
+    FMatrixC<N,N> sumCov(Covariance());
+    sumCov += oth.Covariance();
+    sumCov.InverseIP();
+    FVectorC<N> mean = oth.Covariance() * sumCov * Mean();
+    mean += Covariance() * sumCov * oth.Mean();
+    return FMeanCovarianceC<N>(Number() + oth.Number(),
+			       mean,
+			       Covariance() * sumCov * oth.Covariance());
   }
   
 }

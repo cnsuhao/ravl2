@@ -15,6 +15,7 @@
 #include "Ravl/MeanCovariance2d.hh"
 #include "Ravl/MeanCovariance3d.hh"
 #include "Ravl/MeanCovariance.hh"
+#include "Ravl/Matrix2d.hh"
 #include <iostream.h>
 
 using namespace RavlN;
@@ -23,6 +24,7 @@ int testMeanVar();
 int testFMean();
 int testFMeanCovar();
 int testMeanCovar();
+int testMeanCovar2d();
 
 const RealT small = 0.000000001;
 
@@ -45,6 +47,10 @@ int main() {
   }
   if((ln = testMeanCovar()) != 0) {
     cerr << "testMeanCovar, failed. Line:" << ln << "\n";
+    return 1;
+  }
+  if((ln = testMeanCovar2d()) != 0) {
+    cerr << "testMeanVar, failed. Line:" << ln << "\n";
     return 1;
   }
   cerr << "Test passed ok.\n";
@@ -79,7 +85,8 @@ int testFMean() {
   mean += Vector2dC(0,1);
   mean += Vector2dC(2,5);
   if((mean.Mean() - Vector2dC(1,3)).SumSqr() > 0.00001) return __LINE__;
-  //cout << "Mean=" << mean << "\n";
+  if(mean.Number() != 2) return __LINE__;
+  //cout << "Mean=" << mean << "\n";  
   return 0;
 }
 
@@ -101,7 +108,29 @@ int testFMeanCovar() {
   cerr << "Covar2=" << meanco2.Covariance() << "\n";
   cerr << "Covar3=" << meanco3.Covariance() << "\n";
 #endif
-  if((meanco2.Covariance() - meanco3.Covariance()).SumSqr() > 0.00001) return __LINE__;
+  if((meanco2.Covariance() - meanco3.Covariance()).SumSqr() > 0.00001) return __LINE__;  
+  return 0;
+}
+
+
+int testMeanCovar2d() {
+  // Check product operation.
+  MeanCovariance2dC mc1;
+  mc1 += Vector2dC(0,0);
+  mc1 += Vector2dC(0.5,1);
+  mc1 += Vector2dC(-0.5,1);
+  mc1 += Vector2dC(0,2);
+  MeanCovariance2dC mc2;
+  mc2 += Vector2dC(0,0);
+  mc2 += Vector2dC(1,0.5);
+  mc2 += Vector2dC(1,-0.5);
+  mc2 += Vector2dC(2,0);
+  
+  MeanCovariance2dC mc3 = mc1 * mc2;
+  //cerr << "Product=" << mc3 << "\n";
+  if((mc3.Mean() - Vector2dC(0.2,0.2)).SumSqr() > 0.000001) return __LINE__;
+  if((mc3.Covariance() - Matrix2dC(0.1,0,0,0.1)).SumSqr() > 0.000001) return __LINE__;
+  
   return 0;
 }
 
@@ -121,5 +150,23 @@ int testMeanCovar() {
 #endif
   if((meancov2.Covariance() - meancov.Covariance()).SumSqr() > 0.00001) return __LINE__;
   if(VectorC(meancov2.Mean() - meancov.Mean()).SumSqr() > 0.00001) return __LINE__;
+
+
+  MeanCovarianceC mcn1(2);
+  mcn1 += VectorC(0,0);
+  mcn1 += VectorC(0.5,1);
+  mcn1 += VectorC(-0.5,1);
+  mcn1 += VectorC(0,2);
+  MeanCovarianceC mcn2(2);
+  mcn2 += VectorC(0,0);
+  mcn2 += VectorC(1,0.5);
+  mcn2 += VectorC(1,-0.5);
+  mcn2 += VectorC(2,0);
+
+  MeanCovarianceC mcn3 = mcn1 * mcn2;
+  // cerr << "Product=" << mcn3 << "\n";
+  if((mcn3.Mean() - VectorC(0.2,0.2)).SumSqr() > 0.000001) return __LINE__;
+  if((mcn3.Covariance() - MatrixC(0.1,0,0,0.1)).SumSqr() > 0.000001) return __LINE__;
   return 0;
 }
+

@@ -6,8 +6,8 @@
 // file-header-ends-here
 #ifndef RAVL_MEANCOVARIANCE2D_HEADER
 #define RAVL_MEANCOVARIANCE2D_HEADER 1
-//! author="Radek Marik"
-//! date="01.01.1994"
+//! author="Charles Galambos"
+//! date="30/4/2002"
 //! docentry="Ravl.Math.Statistics"
 //! rcsid="$Id$"
 //! lib=RavlMath
@@ -16,6 +16,9 @@
 
 namespace RavlN {
 
+  //! userlevel=Normal
+  //: Mean covariance in 2 dimentions.
+  
   class MeanCovariance2dC
     : public FMeanCovarianceC<2>
   {
@@ -25,6 +28,11 @@ namespace RavlN {
     //: Default constructor.
     // Creates zero mean and zero covariance matrix representing
     // the fixed-dimensional set containing no data points.
+    
+    MeanCovariance2dC(const FMeanCovarianceC<2> & mc)
+      : FMeanCovarianceC<2>(mc)
+    {}
+    //: Construct from base class.
     
     MeanCovariance2dC(const FVectorC<2> & point)
       : FMeanCovarianceC<2>(point)

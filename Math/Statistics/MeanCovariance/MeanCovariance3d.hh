@@ -6,8 +6,8 @@
 // file-header-ends-here
 #ifndef RAVL_MEANCOVARIANCE3D_HEADER
 #define RAVL_MEANCOVARIANCE3D_HEADER 1
-//! author="Radek Marik"
-//! date="01.01.1994"
+//! author="Charles Galambos"
+//! date="30/4/2002"
 //! docentry="Ravl.Math.Statistics"
 //! rcsid="$Id$"
 //! lib=RavlMath
@@ -15,6 +15,9 @@
 #include "Ravl/FMeanCovariance.hh"
 
 namespace RavlN {
+
+  //! userlevel=Normal
+  //: Mean covariance in 3 dimentions.
 
   class MeanCovariance3dC
     : public FMeanCovarianceC<3>
@@ -25,6 +28,11 @@ namespace RavlN {
     //: Default constructor.
     // Creates zero mean and zero covariance matrix representing
     // the fixed-dimensional set containing no data points.
+
+    MeanCovariance3dC(const FMeanCovarianceC<3> & mc)
+      : FMeanCovarianceC<3>(mc)
+    {}
+    //: Construct from base class.
     
     MeanCovariance3dC(const FVectorC<3> & point)
       : FMeanCovarianceC<3>(point)

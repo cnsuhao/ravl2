@@ -219,16 +219,28 @@ namespace RavlN {
 			    const MeanCovarianceC & meanCov2) {
     return *this = (meanCov1.Copy()+=meanCov2);
   }
+
+  //: Calculate the product of the two probability density functions.
+  // This assumes the estimates of the distributions are accurate. (The number
+  // of samples is ignored) 
   
-  ostream & 
-  operator<<(ostream & outS, const MeanCovarianceC & meanCov) {
+  MeanCovarianceC MeanCovarianceC::operator*(const MeanCovarianceC &oth) const {
+    MatrixC sumCov = Covariance() + oth.Covariance();
+    sumCov.InverseIP();
+    MatrixC newCov = Covariance() * sumCov * oth.Covariance();
+    VectorC mean = oth.Covariance() * sumCov * Mean();
+    mean += Covariance() * sumCov * oth.Mean();
+    return MeanCovarianceC(Number() + oth.Number(),mean,newCov);
+  }
+  
+  
+  ostream & operator<<(ostream & outS, const MeanCovarianceC & meanCov) {
     outS << meanCov.Mean() << '\n' 
 	 << meanCov.Covariance() << '\n';
     return outS;
   }
   
-  istream & 
-  operator>>(istream & inS, MeanCovarianceC & meanCov) {
+  istream & operator>>(istream & inS, MeanCovarianceC & meanCov) {
     inS >> meanCov.m >> meanCov.cov;
     return inS;
   }

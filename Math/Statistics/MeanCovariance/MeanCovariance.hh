@@ -4,13 +4,13 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_MEANCOVARIANCEND_HH
-#define RAVL_MEANCOVARIANCEND_HH
+#ifndef RAVL_MEANCOVARIANCEND_HEADER
+#define RAVL_MEANCOVARIANCEND_HEADER
 //////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! userlevel=Normal
 //! author="Radek Marik"
-//! date="01.01.1994"
+//! date="01/01/1994"
 //! docentry="Ravl.Math.Statistics"
 //! lib=RavlMath
 //! file="Ravl/Math/Statistics/MeanCovariance/MeanCovarianceNd.hh"
@@ -144,12 +144,17 @@ namespace RavlN {
     // Be carefull to remove the point which was already added
     // to the set, otherwise the representation
     // will not describe a real set.
-
+    
     const MeanCovarianceC & SetSum(const MeanCovarianceC & meanCov1,
 				   const MeanCovarianceC & meanCov2);
-    // This object is set to be the union of two set of data points 'meanCov1'
-    // and 'meanCov2'.
-
+    //: This object is set to be the union of two set of data points 'meanCov1'
+    //: and 'meanCov2'.
+    
+    MeanCovarianceC operator*(const MeanCovarianceC &oth) const;
+    //: Calculate the product of the two probability density functions.
+    // This assumes the estimates of the distributions are accurate. (The number
+    // of samples is ignored) 
+    
   protected:
     MeanNdC m;   // The mean vector of this data set.
     MatrixC cov; // the covariance matrix of this data set.
