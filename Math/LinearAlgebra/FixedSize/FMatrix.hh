@@ -105,7 +105,7 @@ namespace RavlN {
   template<unsigned int N,unsigned int M>
   FVectorC<N> Solve(const FMatrixC<N,M> &mat,const FVectorC<N> &b) {
     FMatrixC<N,M> tmp(mat);      
-    FMatrixC<N,M> ret(b);      
+    FVectorC<N> ret(b);      
     RavlAssertMsg(N == M,"FMatrixC::SolveIP(), Matrix must be square. ");
     if(solv(&tmp[0][0],&ret[0],N) != 0) 
       throw ExceptionNumericalC("FMatrixC<N,M>::Solve(), Matrix is singular. ");
