@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////
 //! rcsid=$Id$
 //! file="Ravl/Math/Geometry/Euclidean/FPoint.hh"
-//! lib=RavlGeom
+//! lib=RavlMath
 //! userlevel=Develop
 //! author="Charles Galambos"
 //! date="24/01/2001"

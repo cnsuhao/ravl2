@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! rcsid="$Id$"
-//! lib=RavlGeom
+//! lib=RavlMath
 //! file="Ravl/Math/Geometry/Euclidean/Point2d.cc"
 
 #include "Ravl/Point2d.hh"

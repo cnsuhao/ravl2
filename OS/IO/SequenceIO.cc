@@ -6,7 +6,7 @@
 // file-header-ends-here
 //////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! lib=RavlOS
+//! lib=RavlOSIO
 //! file="Ravl/OS/IO/SequenceIO.cc"
 //! userlevel=Normal
 

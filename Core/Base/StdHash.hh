@@ -14,6 +14,7 @@
 //! docentry="Ravl.Core.Hash Tables"
 //! example=WordFreq.cc
 //! userlevel=Normal
+//! rcsid="$Id$"
 
 #include "Ravl/Types.hh"
 

@@ -11,7 +11,7 @@
 //! rcsid="$Id$"
 //! userlevel=Normal
 //! file="Ravl/OS/IO/SequenceIO.hh"
-//! lib=RavlOS
+//! lib=RavlOSIO
 //! author="Charles Galambos"
 //! date="08/04/99"
 

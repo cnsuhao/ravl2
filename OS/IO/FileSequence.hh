@@ -10,7 +10,7 @@
 //! docentry="Ravl.OS.Sequence"
 //! rcsid="$Id$"
 //! file="Ravl/OS/IO/FileSequence.hh"
-//! lib=RavlOS
+//! lib=RavlOSIO
 //! author="Charles Galambos"
 //! date="23/03/99"
 

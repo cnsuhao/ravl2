@@ -11,7 +11,7 @@
 //! rcsid="$Id$"
 //! file="Ravl/GUI/3D/3DCanvas.hh"
 //! lib=RavlGUI3D
-//! example=ex3DCanvas.cc
+//! example=exCanvas3D.cc
 //! author="Charles Galambos"
 //! date="12/04/99"
 

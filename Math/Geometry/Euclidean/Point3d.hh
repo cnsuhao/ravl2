@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Math/Geometry/Euclidean/Point3d.hh"
-//! lib=RavlGeom
+//! lib=RavlMath
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! date="24/01/2001"
