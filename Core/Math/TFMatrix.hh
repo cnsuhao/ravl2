@@ -528,13 +528,13 @@ namespace RavlN {
   
   template<class DataT,unsigned int N>
 #if RAVL_COMPILER_VISUALCPPNET
-  const TFMatrixC<DataT,1,N>::VectorAsMatrixT &TFVectorC<DataT,N>::T() const { 
+  const TFMatrixC<DataT,1,N>::VectorAsMatrixT &TFVectorC<DataT,N>::T() const 
+  { return *((const TFMatrixC<DataT,1,N> *) ((void *)this)); }  
 #else
-  const TFMatrixC<DataT,1,N> &TFVectorC<DataT,N>::T() const { 
+  const TFMatrixC<DataT,1,N> &TFVectorC<DataT,N>::T() const
+  { return *((const TFMatrixC<DataT,1,N> *) ((void *)this)); }
 #endif
-    return *((const TFMatrixC<DataT,1,N> *) ((void *)this)); //: A bit hacky, but very fast.
-  }
-
+  
   template<class DataT,unsigned int N>
   TFMatrixC<DataT,N,N> &TFVectorC<DataT,N>::OuterProduct(const TFVectorC<DataT,N> &av, 
 							 TFMatrixC<DataT,N,N> &result) const {
