@@ -55,25 +55,35 @@ namespace RavlN {
     }
     return fnc;
   }
-  //! author="Bill Chrismas"
   //: Creates an array of binomial coefficients 
 
   // <p>It generates row "size" from Pascal's
   // triangle. E.g. GenerateBinomial(5) would create the array: 1,4,6,4,1.</p>
 
-  // <p>It can be used as a finite approximation of a Gaussian.  The
-  // "variance" of this Gaussian is (size-1)/4.<p>
+  // <p>It can be used as a finite approximation of a Gaussian, but with the property that the spectral content at &frac12; sampling frequency = 0.  The
+  // "variance" of this Gaussian is (size-1)/4.
+  // The rational is this:
+  // <ul>
+  // <li> The simplest possible non-trivial Gaussian filter is a 2nd-order one,
+  // which from symmetry considerations will have two equal coefficients.
+  // <li> Higher-order filters can be viewed as convolved 2nd-order filters,
+  // i.e. an <i>n</i>th order filter is a convolution of <i>n</i>+1 2nd-order filters.
+  // By the Central Limit Theorem these will approximate a Gaussian profile
+  // more and more closely as the order increases.
+  // <li> At the same time because they are of finite width they avoid the
+  // problem of truncating the Gaussian tails.
+  // </ul>
   
   //!param: size - size of the array that is created
   //!param: doNorm - if true, the array is normalised so that the sum of the terms = 1.
-  //!param: centre - if true, the array index is centred so that array[0] is the middle of the array. (If size is even, the centre of the array is at -1/2.)
+  //!param: centre - if true, the array index is centred so that array[0] is the middle of the array. (If size is even, the centre of the array is at -&frac12;.)
   //!param: derivative - if > 0, the Gaussian is differentiated this number of times
 
-  //! userlevel=develop
   template<class DataT>
   Array1dC<DataT> GenerateBinomial(DataT seed,SizeT size, bool doNorm = false,bool centre = false)
 { return GenerateBinomial<DataT>(size, doNorm, centre); }
-    //!deprecated: use this function instead:<br>
+  //! userlevel=Obsolete
+  //Use this function instead:<br>
   //<code>  template<class DataT>  Array1dC<DataT> GenerateBinomial(SizeT size, bool doNorm = false,bool center = false, UIntT derivative = 0)</code>
 
 }
