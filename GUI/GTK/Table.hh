@@ -39,8 +39,7 @@ namespace RavlGUIN {
 		   UIntT nypadding = 0
 		   );
     //: Add object to table.
-    // See http://www.ee.surrey.ac.uk/Docs/gtk/gtk+-1.2.7/gtk_tut-4.html#ss4.4
-    // for an explanation of the options.
+    // Values for attach options are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKATTACHOPTIONS">here</A>.
     
   protected:
     virtual bool Create();
@@ -128,6 +127,8 @@ namespace RavlGUIN {
 				nxpadding,nypadding); 
       }
   //: Add object to table.
+  // Values for attach options are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKATTACHOPTIONS">here</A>.
+
   };
 
 }

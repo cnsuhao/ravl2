@@ -69,9 +69,11 @@ namespace RavlGUIN {
   public:
     CListBodyC(const DListC<StringC> &titles,GtkSelectionMode nselMode = GTK_SELECTION_SINGLE);
     //: Constructor
+    // Values for nselMode are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSELECTIONMODE">here</A>.
     
     CListBodyC(const char *titles[],int *colWidths = 0,GtkSelectionMode nselMode = GTK_SELECTION_SINGLE);
     //: Constructor
+    // Values for nselMode are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSELECTIONMODE">here</A>.
     
     virtual bool Create();
     //: Create the widget.
@@ -207,6 +209,7 @@ namespace RavlGUIN {
       : WidgetC(* new CListBodyC(titles,colWidths,nselMode))
     {}
     //: Constructor
+    // Values for nselMode are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKSELECTIONMODE">here</A>.
     
     
   protected:

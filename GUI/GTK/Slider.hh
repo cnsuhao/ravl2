@@ -68,6 +68,7 @@ namespace RavlGUIN {
       { numPos = pos; }
     //: Set number position.
     // Only has effect BEFORE Create() is called.
+    // Values for pos are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKPOSITIONTYPE">here</A>.
     
     void SetDrawValue(bool ndrawValue)
       { drawValue = ndrawValue; }  
@@ -168,6 +169,7 @@ namespace RavlGUIN {
       { Body().SetValuePosition(pos); }
     //: Set number position.
     // Only has effect BEFORE Create() is called.
+    // Values for pos are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKPOSITIONTYPE">here</A>.
     
     void SetDrawValue(bool ndrawValue)
       { Body().SetDrawValue(ndrawValue); }

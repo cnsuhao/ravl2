@@ -32,12 +32,15 @@ namespace RavlGUIN
   public:
     NotebookBodyC(GtkPositionType ntabpos = GTK_POS_TOP,bool nshowtabs = true,bool nshowborder = true);
     //: Default constructor.
+    // Values for position types are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKPOSITIONTYPE">here</A>.
     
     NotebookBodyC(const DListC<WidgetC> &widges,GtkPositionType ntabpos =GTK_POS_TOP,bool nshowtabs = true,bool nshowborder = true);
     //: Constructor
+    // Values for position types are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKPOSITIONTYPE">here</A>.
   
     NotebookBodyC(const WidgetC &widges,GtkPositionType ntabpos =GTK_POS_TOP,bool nshowtabs = true,bool nshowborder = true);
     //: Constructor
+    // Values for position types are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKPOSITIONTYPE">here</A>.
   
     virtual bool Create();
     //: Create the widget.
@@ -104,16 +107,19 @@ namespace RavlGUIN
       : ContainerWidgetC(*new NotebookBodyC(ntabpos,nshowtabs,nshowborder))
     {}
     //: Constructor
+    // Values for position types are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKPOSITIONTYPE">here</A>.
   
     NotebookC(const DListC<WidgetC> &widges,GtkPositionType ntabpos = GTK_POS_TOP,bool nshowtabs = true,bool nshowborder = true)
       : ContainerWidgetC(*new NotebookBodyC(widges,ntabpos,nshowtabs,nshowborder))
     {}
     //: Constructor
+    // Values for position types are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKPOSITIONTYPE">here</A>.
     
     NotebookC(const WidgetC &widges,GtkPositionType ntabpos = GTK_POS_TOP,bool nshowtabs = true,bool nshowborder = true)
       : ContainerWidgetC(*new NotebookBodyC(widges,ntabpos,nshowtabs,nshowborder))
     {}
     //: Constructor
+    // Values for position types are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKPOSITIONTYPE">here</A>.
   
   protected:
     NotebookC(NotebookBodyC &bod)
