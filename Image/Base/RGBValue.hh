@@ -16,6 +16,7 @@
 //! docentry="Ravl.Images.Pixel Types"
 
 #include "Ravl/TFVector.hh"
+#include "Ravl/Stream.hh"
 
 namespace RavlImageN {
   using namespace RavlN;
@@ -105,26 +106,41 @@ namespace RavlImageN {
   template<class CompT>
   inline
   istream &operator>>(istream &strm,RGBValueC<CompT> &val) 
-    { return strm >> ((TFVectorC<CompT,3> &)(val)); }
+  { return strm >> ((TFVectorC<CompT,3> &)(val)); }
   //: Stream input.
   
   template<class CompT>
   inline
   ostream &operator<<(ostream &strm,const RGBValueC<CompT> &val) 
-    { return strm << ((const TFVectorC<CompT,3> &)(val)); }
+  { return strm << ((const TFVectorC<CompT,3> &)(val)); }
   //: Stream output.
   
   template<class CompT>
   inline
   BinIStreamC &operator>>(BinIStreamC &strm,RGBValueC<CompT> &val) 
-    { return strm >> ((TFVectorC<CompT,3> &)(val)); }
+  { return strm >> ((TFVectorC<CompT,3> &)(val)); }
   //: Binary stream input.
   
   template<class CompT>
   inline
   BinOStreamC &operator<<(BinOStreamC &strm,const RGBValueC<CompT> &val) 
-    { return strm << ((const TFVectorC<CompT,3> &)(val)); }
+  { return strm << ((const TFVectorC<CompT,3> &)(val)); }
   //: Binary stream output
+
+  inline istream &operator>>(istream &strm,RGBValueC<ByteT> &val) { 
+    int r,g,b;
+    strm >> r >> g >> b;
+    val.Set(r,g,b);
+    return strm; 
+  }
+  //: Stream input.
+  // This is to make sure bytes are handled as numeric values.
+  
+  inline ostream &operator<<(ostream &strm,const RGBValueC<ByteT> &val) 
+  { return strm << ((int) val.Red()) << ' ' << ((int) val.Green()) << ' ' << ((int) val.Blue()); }
+  //: Stream output.
+  // This is to make sure bytes are handled as numeric values.
+  
 }
 
 #endif
