@@ -17,9 +17,7 @@ SOURCES = Socket.cc NetStream.cc SocketStrm.cc Packet.cc \
 
 MUSTLINK = RavlSysNetworkML.cc
 
-LIBDEPS = RavlNet.def
-
-PLIB = RavlOS
+PLIB = RavlNet
 
 EHT=Ravl.OS.Network.html
 
