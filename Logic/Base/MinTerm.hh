@@ -13,7 +13,7 @@
 //! file="Ravl/Logic/Base/MinTerm.hh"
 
 #include "Ravl/SArray1d.hh"
-#include "Ravl/Logic/Condition.hh"
+#include "Ravl/Logic/And.hh"
 
 namespace RavlLogicN {
   
@@ -22,45 +22,26 @@ namespace RavlLogicN {
   // This is a set of negative and positive conditions which are anded together.
   
   class MinTermBodyC 
-    : public ConditionBodyC
+    : public AndBodyC
   {
   public:
-    MinTermBodyC()
-    {}
+    MinTermBodyC();
     //: Default constructor.
     
-    MinTermBodyC(const SArray1dC<LiteralC> &ts,const SArray1dC<LiteralC> &ns)
-      : t(ts),
-	n(ns)
-    {}
+    MinTermBodyC(const SArray1dC<LiteralC> &ts,const SArray1dC<LiteralC> &ns);
     //: Constructor
     
-    SArray1dC<LiteralC> &Pos()
+    const SArray1dC<LiteralC> &Pos()
     { return t; }
     //: Positive terms.
     
-    SArray1dC<LiteralC> &Neg()
+    const SArray1dC<LiteralC> &Neg()
     { return n; }
     //: Negated terms.
     
-    virtual UIntT Hash() const;
-    //: Generate hash value for condition.
-    
-    virtual bool IsEqual(const LiteralC &oth) const;
-    //: Is this equal to another condition ?
-
-    virtual bool IsGrounded() const;
-    //: Is this a simple expression with no variables ?
-
-    virtual bool Unify(const LiteralC &oth,BindSetC &bs) const;
-    //: Unify with another variable.
-
-    virtual StringC Name() const;
-    //: Get the name of symbol.
-    
   protected:
-    SArray1dC<LiteralC> t; // True symbols
-    SArray1dC<LiteralC> n; // Negated symbols
+    SArray1dC<LiteralC> t;
+    SArray1dC<LiteralC> n;
   };
   
   //! userlevel=Normal
@@ -68,7 +49,7 @@ namespace RavlLogicN {
   // This is a set of negative and positive conditions which are anded together.
   
   class MinTermC 
-    : public ConditionC
+    : public AndC
   {
   public:
     MinTermC()
@@ -76,13 +57,13 @@ namespace RavlLogicN {
     //: Default constructor
     
     MinTermC(const SArray1dC<LiteralC> &ts,const SArray1dC<LiteralC> &ns)
-      : ConditionC(*new MinTermBodyC(ts,ns)) 
+      : AndC(*new MinTermBodyC(ts,ns)) 
     {}
     //: Contructor
 
   protected:
     MinTermC(MinTermBodyC &bod)
-      : ConditionC(bod)
+      : AndC(bod)
     {}
     //: Body constructor.
     
@@ -96,18 +77,18 @@ namespace RavlLogicN {
     
   public:    
     MinTermC(const LiteralC &term)
-      : ConditionC(term)
+      : AndC(term)
     {
       if(dynamic_cast<const MinTermBodyC *>(&LiteralC::Body()) == 0)
 	Invalidate();
     }
     //: Construct from base class.
     
-    SArray1dC<LiteralC> &Pos()
+    const SArray1dC<LiteralC> &Pos()
     { return Body().Pos(); }
     //: Positive terms.
     
-    SArray1dC<LiteralC> &Neg()
+    const SArray1dC<LiteralC> &Neg()
     { return Body().Neg(); }
     //: Negated terms.
     

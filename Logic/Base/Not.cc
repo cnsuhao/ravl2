@@ -16,15 +16,13 @@
 
 namespace RavlLogicN {
   
-  static LiteralC literalNot("not");
+  LiteralC literalNot("not");
 
   //: Default constructor.
   
   NotBodyC::NotBodyC()
     : ConditionBodyC(2)
-  {
-    args[0] = literalNot;
-  }
+  { args[0] = literalNot; }
   
   //: Constructor.
   
@@ -63,9 +61,8 @@ namespace RavlLogicN {
   
   //: Get the name of symbol.
   
-  StringC NotBodyC::Name() const {
-    return StringC("!") + Term().Name(); 
-  }
+  StringC NotBodyC::Name() const 
+  { return StringC("!") + Term().Name(); }
 
   //: Test if condition is true in 'state'.
   

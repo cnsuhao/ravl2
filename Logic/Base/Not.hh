@@ -117,6 +117,8 @@ namespace RavlLogicN {
   
   LiteralC operator!(const LiteralC &lit);
   //: Not operator.
+
+  extern LiteralC literalNot;
   
 }
 

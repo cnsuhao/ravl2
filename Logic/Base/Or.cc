@@ -23,19 +23,25 @@
 #endif
 
 namespace RavlLogicN {
-
-  static LiteralC literalOr("or");
+  
+  LiteralC literalOr("or");
 
   //: Default constructor.
   
   OrBodyC::OrBodyC()
-  {}
+    : ConditionBodyC(1)
+  { args[0] = literalOr; }
   
   //:  constructor.
   
   OrBodyC::OrBodyC(const SArray1dC<LiteralC> &nterms) 
-    : ConditionBodyC(nterms)
-  {}
+    : ConditionBodyC(nterms.Size() + 1)
+  {
+    args[0] = literalOr;
+    for(BufferAccessIter2C<LiteralC,LiteralC> it(nterms,args.BufferFrom(1,nterms.Size()));it;it++)
+      it.Data2() = it.Data1();
+    ONDEBUG(cerr << "OrBodyC::OrBodyC(), Name=" << Name() << "\n");    
+  }
   
   //: Constructor.
 

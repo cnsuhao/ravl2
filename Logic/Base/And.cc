@@ -24,13 +24,22 @@
 
 namespace RavlLogicN {
   
-  static LiteralC literalAnd("and");
+  LiteralC literalAnd("and");
+  
+  //: Default constructor.
+  
+  AndBodyC::AndBodyC()
+    : ConditionBodyC(1)
+  { args[0] = literalAnd; }
   
   //: Constructor.
   
   AndBodyC::AndBodyC(const SArray1dC<LiteralC> &set)
-    : ConditionBodyC(set)
+    : ConditionBodyC(set.Size() + 1)
   {
+    args[0] = literalAnd;
+    for(BufferAccessIter2C<LiteralC,LiteralC> it(set,args.BufferFrom(1,set.Size()));it;it++)
+      it.Data2() = it.Data1();
     ONDEBUG(cerr << "AndBodyC::AndBodyC(), Name=" << Name() << "\n");
   }
   

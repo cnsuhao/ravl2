@@ -10,89 +10,36 @@
 //! file="Ravl/Logic/Base/MinTerm.cc"
 
 #include "Ravl/Logic/MinTerm.hh"
+#include "Ravl/Logic/Not.hh"
+#include "Ravl/Logic/Or.hh"
 #include "Ravl/SArr1Iter.hh"
 #include "Ravl/Logic/BindSet.hh"
 
 namespace RavlLogicN {
+
+  //: Default constructor.
   
-  //: Generate hash value for condition.
+  MinTermBodyC::MinTermBodyC() 
+    : AndBodyC(1)
+  {}
   
-  UIntT MinTermBodyC::Hash() const {
-    UIntT ret = 2;
-    for(SArray1dIterC<LiteralC> it(t);it;it++)
-      ret += it->Hash();
-    for(SArray1dIterC<LiteralC> it(n);it;it++)
-      ret += it->Hash() ^ 0xf0f0f0f0;
-    return ret;
-  }
+  //: Constructor
   
-  //: Is this equal to another condition ?
-  
-  bool MinTermBodyC::IsEqual(const LiteralC &oth) const {
-    MinTermC mt(oth);
-    if(mt.IsValid())
-      return false;
-    // This is hard...
-    RavlAssertMsg(0,"MinTermBodyC::IsEqual(), ERROR: Not implemented.");
-    return false;
-  }
-  
-  //: Is this a simple expression with no variables ?
-  
-  bool MinTermBodyC::IsGrounded() const {
-    for(SArray1dIterC<LiteralC> it(t);it;it++)
-      if(!it->IsGrounded())
-	return false;
-    for(SArray1dIterC<LiteralC> it(n);it;it++)
-      if(!it->IsGrounded())
-	return false;
-    return true;
-  }
-  
-  //: Unify with another variable.
-  
-  bool MinTermBodyC::Unify(const LiteralC &oth,BindSetC &bs) const {
-    BindMarkT bm = bs.Mark();
-    for(SArray1dIterC<LiteralC> it(t);it;it++) {
-      if(!it->Unify(oth,bs)) {
-	bs.Undo(bm);
-	return false;
-      }
+  MinTermBodyC::MinTermBodyC(const SArray1dC<LiteralC> &ts,const SArray1dC<LiteralC> &ns) 
+    : AndBodyC()
+  {
+    if(ns.Size() > 0) 
+      args = SArray1dC<LiteralC>(ts.Size() + 2);
+    else
+      args = SArray1dC<LiteralC>(ts.Size() + 1);
+    args[0] = literalAnd;
+    for(BufferAccessIter2C<LiteralC,LiteralC> it(ts,args.BufferFrom(1,ts.Size()));it;it++)
+      it.Data2() = it.Data1();
+    t = args.From(1,ts.Size());
+    if(ns.Size() > 0) {
+      OrC orv(ns);
+      args[ts.Size() + 1] = NotC(orv); 
     }
-    for(SArray1dIterC<LiteralC> it(n);it;it++) {
-      if(it->Unify(oth,bs)) {
-	bs.Undo(bm);
-	return false;
-      }
-    }
-    return true;
-  }
-  
-  //: Get the name of symbol.
-  
-  StringC MinTermBodyC::Name() const {
-    StringC ret("and(and(");
-    SArray1dIterC<LiteralC> it(t);
-    if(it) {
-      ret += it->Name();
-      it++;
-      for(;it;it++) {
-	ret += ',';
-	ret += it->Name();
-      }
-    }
-    ret +="),!and(";
-    it = n;
-    if(it) {
-      ret += it->Name();
-      it++;
-      for(;it;it++) {
-	ret += ',';
-	ret += it->Name();
-      }
-    }    
-    ret += ")";
-    return ret;
   }
   
 }
