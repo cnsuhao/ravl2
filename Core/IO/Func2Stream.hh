@@ -12,7 +12,7 @@
 //! file="Ravl/Core/IO/Func2Stream.hh"
 //! lib=RavlIO
 //! author="Charles Galambos"
-//! date="09/07/98"
+//! date="09/07/1998"
 
 #include "Ravl/DP/StreamOp.hh"
 #include "Ravl/DP/IOJoin.hh"
@@ -34,8 +34,8 @@ namespace RavlN {
     
     DPFuncIStreamBodyC(const DPIPortC<InT> &nin,FuncT nfunc)
       : DPIStreamOpBodyC<InT,OutT>(nin),
-      func(nfunc)
-      {}
+	func(nfunc)
+    {}
     //: Constructor.
     
     virtual OutT Get()  { 
@@ -82,8 +82,8 @@ namespace RavlN {
     
     DPCPFuncIStreamBodyC(const DPIPortC<InT> &nin,FuncT nfunc)
       : DPIStreamOpBodyC<InT,OutT>(nin),
-      func(nfunc)
-      {}
+	func(nfunc)
+    {}
     //: Constructor.
     
     virtual OutT Get() { 
@@ -96,7 +96,7 @@ namespace RavlN {
       InT buff;
       RavlAssert(input.IsValid());
       if(!input.Get(buff))
-      return false;
+	return false;
       outbuff = func(buff);
       return true;
     }
@@ -130,8 +130,8 @@ namespace RavlN {
     
     DPFuncOStreamBodyC(const DPOPortC<OutT> &nin,FuncT nfunc)
       : DPOStreamOpBodyC<InT,OutT>(nin),
-      func(nfunc)
-      {}
+	func(nfunc)
+    {}
     //: Constructor.
   
     virtual bool Put(const InT &buff) { 
@@ -165,8 +165,8 @@ namespace RavlN {
     
     DPCPFuncOStreamBodyC(const DPOPortC<OutT> &nin,FuncT nfunc)
       : DPOStreamOpBodyC<InT,OutT>(nin),
-      func(nfunc)
-      {}
+	func(nfunc)
+    {}
     //: Constructor.
     
     virtual bool Put(const InT &buff) { 
@@ -196,22 +196,24 @@ namespace RavlN {
     typedef OutT (*FuncT)(ParamT);
     typedef OutT (*CPFuncT)(const ParamT &);
     
-    DPFuncIStreamC() {}
+    DPFuncIStreamC() 
+      : DPEntityC(true)
+    {}
     //: Default Constructor.
     
     DPFuncIStreamC(const DPIPortC<InT> &nin,FuncT func)
-      : DPIStreamOpC<InT,OutT>((DPIPortBodyC<OutT> &) *new DPFuncIStreamBodyC<InT,OutT,ParamT>(nin,func))
-      {}
+      : DPEntityC((DPIPortBodyC<OutT> &) *new DPFuncIStreamBodyC<InT,OutT,ParamT>(nin,func))
+    {}
     //: Constructor.
     
     DPFuncIStreamC(const DPIPortC<InT> &nin,CPFuncT func)
-      : DPIStreamOpC<InT,OutT>((DPIPortBodyC<OutT> &) *new DPCPFuncIStreamBodyC<InT,OutT,ParamT>(nin,func))
-      {}
+      : DPEntityC((DPIPortBodyC<OutT> &) *new DPCPFuncIStreamBodyC<InT,OutT,ParamT>(nin,func))
+    {}
     //: Constructor.
     
     DPFuncIStreamC(const DPFuncIStreamC<InT,OutT,ParamT> &oth) 
-      : DPIStreamOpC<InT,OutT>(oth)
-      {}
+      : DPEntityC(oth)
+    {}
     //: Copy Constructor.
     
   };
@@ -231,17 +233,17 @@ namespace RavlN {
     
     DPFuncOStreamC(const DPOPortC<OutT> &nin,FuncT func)
       : DPOStreamOpC<InT,OutT>(*new DPFuncOStreamBodyC<InT,OutT,ParamT>(nin,func))
-      {}
+    {}
     //: Constructor.
     
     DPFuncOStreamC(const DPOPortC<OutT> &nin,CPFuncT func)
       : DPOStreamOpC<InT,OutT>(*new DPCPFuncOStreamBodyC<InT,OutT,ParamT>(nin,func))
-      {}
+    {}
     //: Constructor.
     
     DPFuncOStreamC(const DPFuncOStreamC<InT,OutT,ParamT> &oth) 
       : DPOStreamOpC<InT,OutT>(oth)
-      {}
+    {}
     //: Copy Constructor.
     
   };
