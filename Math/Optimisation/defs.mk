@@ -1,3 +1,7 @@
+PACKAGE=Ravl
+
+NESTED= DocLevenbergMarquardt.r
+
 PLIB = RavlOptimise
 
 SOURCES = ObsVector.cc ObsVectorBiGaussian.cc ObsVectorPoint2dPair.cc \
@@ -15,7 +19,7 @@ HEADERS = ObsVector.hh ObsVectorBiGaussian.hh ObsVectorPoint2dPair.hh \
 	  Observation.hh ObservationExplicit.hh ObservationQuadraticPoint.hh \
 	  ObservationImplicit.hh ObservationLine2dPoint.hh \
 	  ObservationImpQuadraticPoint.hh \
-	  ObservationHomog2dPoint.hh ObservationImpHomog2dPoint.cc \
+	  ObservationHomog2dPoint.hh ObservationImpHomog2dPoint.hh \
 	  LevenbergMarquardt.hh
 
 MAINS=OrthogonalRegressionTest.cc QuadraticFitTest.cc Homography2dFitTest.cc
