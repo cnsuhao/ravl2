@@ -5,19 +5,20 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////////////
-//! rcsid="$id$"
+//! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/RealC.cc"
 
 #include "Ravl/RealC.hh"
 #include "Ravl/Stream.hh"
+#include "Ravl/BinStream.hh"
 
 namespace RavlN {
 
 #if RAVL_STRICT_NAMESPACES
   //using namespace std;
 #endif
-
+  
   ostream &operator<<(ostream &out,const RealC &x) {
     out << x.v;
     return out;
@@ -26,6 +27,16 @@ namespace RavlN {
   istream &operator>>(istream &in,RealC &x) {
     in >> x.v;
     return in;
+  }
+
+  BinOStreamC &operator<<(BinOStreamC &strm,const RealC &x) {
+    strm << x.v;
+    return strm;
+  }
+  
+  BinIStreamC &operator>>(BinIStreamC &strm,RealC &x) {
+    strm >> x.v;
+    return strm;
   }
   
 }

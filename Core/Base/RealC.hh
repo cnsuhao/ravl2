@@ -23,6 +23,9 @@
 
 namespace RavlN {
   
+  class BinIStreamC;
+  class BinOStreamC;
+  
   //: Real value with a default constructor that assigns it a value of 0.
   
   // Its main feature is the default constructor sets 
@@ -85,6 +88,9 @@ namespace RavlN {
   
   ostream &operator<<(ostream &out,const RealC &x);  
   istream &operator>>(istream &in,RealC &x);
+
+  BinOStreamC &operator<<(BinOStreamC &out,const RealC &x);
+  BinIStreamC &operator>>(BinIStreamC &in,RealC &x);
 
 }
 #endif

@@ -22,6 +22,9 @@
 
 namespace RavlN {
   
+  class BinIStreamC;
+  class BinOStreamC;
+  
   //: Integer with a default constructor that assigns it a value of 0
   // Its main feature is the default constructor sets 
   // its value to zero.  Usefull in things like histograms.
@@ -86,6 +89,9 @@ namespace RavlN {
   
   ostream &operator<<(ostream &out,const IntC &x);  
   istream &operator>>(istream &in,IntC &x);
+  
+  BinOStreamC &operator<<(BinOStreamC &out,const IntC &x);
+  BinIStreamC &operator>>(BinIStreamC &in,IntC &x);
   
   //: unsigned integer with a default constructor that assigns it a value of 0.
   // Its main feature is the default constructor sets 
@@ -153,6 +159,9 @@ namespace RavlN {
   
   ostream &operator<<(ostream &out,const UIntC &x);  
   istream &operator>>(istream &in,UIntC &x);
+  
+  BinOStreamC &operator<<(BinOStreamC &out,const UIntC &x);
+  BinIStreamC &operator>>(BinIStreamC &in,UIntC &x);
   
 }
 #endif

@@ -5,12 +5,13 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////////////
-//! rcsid="$id$"
+//! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/IntC.cc"
 
 #include "Ravl/IntC.hh"
 #include "Ravl/Stream.hh"
+#include "Ravl/BinStream.hh"
 
 namespace RavlN {
 
@@ -28,6 +29,16 @@ namespace RavlN {
     return in;
   }
 
+  BinOStreamC &operator<<(BinOStreamC &strm,const IntC &x) {
+    strm << x.v;
+    return strm;
+  }
+  
+  BinIStreamC &operator>>(BinIStreamC &strm,IntC &x) {
+    strm >> x.v;
+    return strm;
+  }
+
   ostream &operator<<(ostream &out,const UIntC &x) {
     out << ((unsigned int) x.v);
     return out;
@@ -36,6 +47,16 @@ namespace RavlN {
   istream &operator>>(istream &in,UIntC &x) {
     in >> ((unsigned int &) x.v);
     return in;
+  }
+
+  BinOStreamC &operator<<(BinOStreamC &strm,const UIntC &x) {
+    strm << x.v;
+    return strm;
+  }
+  
+  BinIStreamC &operator>>(BinIStreamC &strm,UIntC &x) {
+    strm >> x.v;
+    return strm;
   }
 
 }
