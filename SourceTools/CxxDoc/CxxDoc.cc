@@ -65,7 +65,7 @@ int BuildCxx(int argc, char **argv)
   StringC localProjOut = opt.String("p",prjo,"Project out. ");
   StringC inFiles = opt.String("i",localProjOut + "/include" , "Directory containing header files");
   StringC outFile = opt.String("o",localProjOut + "/share/doc/RAVL/Auto", "output document");
-  StringC ehtFiles = opt.String("eht",localProjOut + "/share/RAVL/AutoDoc/EHT","Location of EHT files. ");
+  StringC ehtFiles = opt.String("eht",localProjOut + "/Admin/AutoDoc/EHT","Location of EHT files. ");
   StringC installHome = opt.String("ih",PROJECT_OUT,"Install home.");
   StringC templFiles = opt.String("tc",installHome + "/share/RAVL/CxxDoc/Class", "Directory of template files for class pages, or single template file");
   
