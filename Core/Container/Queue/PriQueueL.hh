@@ -4,14 +4,14 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLPriQueueL_HEADER
-#define RAVLPriQueueL_HEADER 1
+#ifndef RAVL_PRIQUEUEL_HEADER
+#define RAVL_PRIQUEUEL_HEADER 1
 /////////////////////////////////////////////////////////////////
 //! author="Charles Galambos"
 //! lib=RavlCore
 //! userlevel=Normal
-//! example=TPriQ.cc
-//! date="28/10/96"
+//! example=testPriQ.cc
+//! date="28/10/1996"
 //! file="Ravl/Core/Container/Queue/PriQueueL.hh"
 //! docentry="Ravl.Core.Queues"
 //! rcsid="$Id$"
@@ -19,77 +19,76 @@
 #include "Ravl/HeapNode.hh"
 #include "Ravl/RefCounter.hh"
 #include "Ravl/Assert.hh"
-//#include "Ravl/TrigFuncs.hh"
 
-#define PRIQUEUEL_DEBUG 0
+#define RAVL_PRIQUEUEL_DEBUG 0
 
 namespace RavlN {
 
   //! userlevel=Develop
   //: Pointer based version of Priority Queue.  
   
-  template <class K,class D>
+  template <class KeyT,class DataT>
   class PriQueueLBodyC
     : public RCBodyC
   {
   public:
     PriQueueLBodyC()
       : root(0)
-      {}
+    {}
     //: Default constructor.
     
     ~PriQueueLBodyC()
-      { Empty(); }
+    { Empty(); }
     //: Destructor.
     
-    PriQueueLBodyC & operator=(const PriQueueLBodyC<K,D> &Oth);
+    PriQueueLBodyC & operator=(const PriQueueLBodyC<KeyT,DataT> &Oth);
     //: Assignment operator
     
     bool IsElm() const 
-      { return (root != 0); }
+    { return (root != 0); }
     //: Does the queue contains any items ?
     
     bool IsEmpty() const 
-      { return (root == 0); }
+    { return (root == 0); }
     //: Is the queue empty ?
-  
-    D &Top() 
-      { return root->Data(); }
+    
+    DataT &Top() 
+    { return root->Data(); }
     //: Look/Modify data on top of queue.
   
-    const D &Top() const 
-      { return root->Data(); }
+    const DataT &Top() const 
+    { return root->Data(); }
     //: Look at data on top of queue.
     
-    const K &TopKey() const 
-      { return root->Key(); }
+    const KeyT &TopKey() const 
+    { return root->Key(); }
     //: Look at key on top of queue.
     
     void DelTop() 
-      { delete &GetTopPair(); }
+    { delete &GetTopPair(); }
     //: Delete item on top of queue.
     // NB. IsElm(), must be true before calling this.
     
-    Tuple2C<K,D> &GetTopPair();
+    Tuple2C<KeyT,DataT> &GetTopPair();
     //: Get Key/Data pair from queue.
     // WARNING: For advanced users only.
     // !! Users responsability to delete returned info after use. !!
     
-    D GetTop();
+    DataT GetTop();
     //: Get Data from top of queue.
     
-    void Insert(const K &Key,const D &Data);
+    void Insert(const KeyT &Key,const DataT &Data);
     //: Insert Data/Key into queue.
     
-    void Insert(Tuple2C<K,D> &New);
-  //: Insert Data/Key into queue.
+    void Insert(Tuple2C<KeyT,DataT> &New);
+    //: Insert Data/Key into queue.
     
-    bool Remove(const Tuple2C<K,D> &New);
+    bool Remove(const Tuple2C<KeyT,DataT> &New);
     //: Remove all instances of Key from queue.
     //!bug: NOT IMPLEMENTED
     // Returns True if found.
     
-    bool Remove(const K &Key);
+    bool Remove(const KeyT &Key);
     //: Remove all instances of Key from queue.
     //!bug: NOT IMPLEMENTED
     // Returns True if found.
@@ -97,8 +96,8 @@ namespace RavlN {
     int Size() const ;
     //: Get number of items in queue. Slow !!!
     
-#if PRIQUEUEL_DEBUG  
-    void Dump(HeapNodeC<K,D> *Place = 0,int level = 0);
+#if RAVL_PRIQUEUEL_DEBUG  
+    void Dump(HeapNodeC<KeyT,DataT> *Place = 0,int level = 0);
     //: Dump to stdout
 #endif
     
@@ -106,7 +105,7 @@ namespace RavlN {
     //: Empty the queue of all its contents.
     
   protected:
-    HeapNodeC<K,D> *root;
+    HeapNodeC<KeyT,DataT> *root;
     
   };
   
@@ -123,104 +122,104 @@ namespace RavlN {
   // The order in which items of equal priority are retrieved should
   // be treated as 'unknown'. 
   
-  template <class K,class D>
+  template <class KeyT,class DataT>
   class PriQueueLC
-    : public RCHandleC<PriQueueLBodyC<K,D> >
+    : public RCHandleC<PriQueueLBodyC<KeyT,DataT> >
   {
   public:
     PriQueueLC()
-      : RCHandleC<PriQueueLBodyC<K,D> >(*new PriQueueLBodyC<K,D>())
-      {}
+      : RCHandleC<PriQueueLBodyC<KeyT,DataT> >(*new PriQueueLBodyC<KeyT,DataT>())
+    {}
     //: Default constructor.
     
     bool IsElm() const 
-      { return Body().IsElm(); }
+    { return Body().IsElm(); }
     //: Does the queue contains any items ?
     
     bool IsEmpty() const 
-      { return Body().IsEmpty(); }
+    { return Body().IsEmpty(); }
     //: Is the queue empty ?
   
-    D &Top() 
-      { return Body().Top(); }
+    DataT &Top() 
+    { return Body().Top(); }
     //: Look/Modify data on top of queue.
   
-    const D &Top() const 
-      { return Body().Top(); }
+    const DataT &Top() const 
+    { return Body().Top(); }
     //: Look at data on top of queue.
     
-    const K &TopKey() const 
-      { return Body().TopKey(); }
+    const KeyT &TopKey() const 
+    { return Body().TopKey(); }
     //: Look at key on top of queue.
     
     void DelTop() 
-      { Body().DelTop(); }
+    { Body().DelTop(); }
     //: Delete item on top of queue.
     // NB. IsElm(), must be true before calling this.
     
-    Tuple2C<K,D> &GetTopPair()
-      { return Body().GetTopPair(); }
+    Tuple2C<KeyT,DataT> &GetTopPair()
+    { return Body().GetTopPair(); }
     //: Get Key/Data pair from queue.
     // WARNING: For advanced users only.
     // !! Users responsability to delete returned info after use. !!
     
-    D GetTop()
-      { return Body().GetTop(); }
+    DataT GetTop()
+    { return Body().GetTop(); }
     //: Get Data from top of queue.
     
-    void Insert(const K &key,const D &data)
-      { Body().Insert(key,data); }
+    void Insert(const KeyT &key,const DataT &data)
+    { Body().Insert(key,data); }
     //: Insert Data/Key into queue.
     
-    void Insert(Tuple2C<K,D> &newun)
-      { Body().Insert(newun); }
+    void Insert(Tuple2C<KeyT,DataT> &newun)
+    { Body().Insert(newun); }
     //: Insert Data/Key into queue.
     
-    bool Remove(const Tuple2C<K,D> &old)
-      { return Body().Remove(old); }
+    bool Remove(const Tuple2C<KeyT,DataT> &old)
+    { return Body().Remove(old); }
     //: Remove all instances of Key from queue.
     //!bug: NOT IMPLEMENTED
     // Returns True if found.
     
-    bool Remove(const K &key)
-      { return Body().Remove(key); }
+    bool Remove(const KeyT &key)
+    { return Body().Remove(key); }
     //: Remove all instances of Key from queue.
     //!bug: NOT IMPLEMENTED
     // Returns True if found.
     
     int Size() const 
-      { return Body().Size(); }
+    { return Body().Size(); }
     //: Get number of items in queue. Slow !!!
     
-#if PRIQUEUEL_DEBUG  
-    void Dump(HeapNodeC<K,D> *Place = 0,int level = 0)
-      { Body().Dump(Place,level); }
+#if RAVL_PRIQUEUEL_DEBUG  
+    void Dump(HeapNodeC<KeyT,DataT> *Place = 0,int level = 0)
+    { Body().Dump(Place,level); }
     //: Dump to stdout
 #endif
     
     void Empty()
-      { Body().Empty(); }
+    { Body().Empty(); }
     //: Empty the queue of all its contents.
     
   };
   
   
-  template <class K,class D>
-  void PriQueueLBodyC<K,D>::Empty() {
+  template <class KeyT,class DataT>
+  void PriQueueLBodyC<KeyT,DataT>::Empty() {
     if(root != 0) {
       delete root;
       root = 0;
     }
   }
   
-  template <class K,class D>
-  Tuple2C<K,D> &PriQueueLBodyC<K,D>::GetTopPair() {
-    Tuple2C<K,D> &TheTop = root->GetPair();
+  template <class KeyT,class DataT>
+  Tuple2C<KeyT,DataT> &PriQueueLBodyC<KeyT,DataT>::GetTopPair() {
+    Tuple2C<KeyT,DataT> &TheTop = root->GetPair();
     root->SetPairNULL();
-    HeapNodeC<K,D> *Place = root,**LastPtr = &root;
+    HeapNodeC<KeyT,DataT> *Place = root,**LastPtr = &root;
     for(;;) {
-      HeapNodeC<K,D> *Child0 =  Place->Child(0);
-      HeapNodeC<K,D> *Child1 =  Place->Child(1);
+      HeapNodeC<KeyT,DataT> *Child0 =  Place->Child(0);
+      HeapNodeC<KeyT,DataT> *Child1 =  Place->Child(1);
       if(Child0 == 0) {
 	if(Child1 == 0) {
 	  (*LastPtr) = 0;
@@ -256,23 +255,23 @@ namespace RavlN {
     return TheTop;
   }
   
-  template <class K,class D>
-  D PriQueueLBodyC<K,D>::GetTop() {
-    Tuple2C<K,D> &Pair = GetTopPair();
-    D Ret = Pair.Data2();
+  template <class KeyT,class DataT>
+  DataT PriQueueLBodyC<KeyT,DataT>::GetTop() {
+    Tuple2C<KeyT,DataT> &Pair = GetTopPair();
+    DataT Ret = Pair.Data2();
     delete &Pair;
     return Ret;
   }
   
-  template <class K,class D>
-  void PriQueueLBodyC<K,D>::Insert(Tuple2C<K,D> &newElem) {
+  template <class KeyT,class DataT>
+  void PriQueueLBodyC<KeyT,DataT>::Insert(Tuple2C<KeyT,DataT> &newElem) {
     if(root == 0) {
-      root = new HeapNodeC<K,D> (newElem);
+      root = new HeapNodeC<KeyT,DataT> (newElem);
       return ;
     }
-    HeapNodeC<K,D> *place = root;
-    Tuple2C<K,D> *tmp,*hold = &newElem;
-    const K &key = newElem.Data1();
+    HeapNodeC<KeyT,DataT> *place = root;
+    Tuple2C<KeyT,DataT> *tmp,*hold = &newElem;
+    const KeyT &key = newElem.Data1();
     for(;;) {
       RavlAssert(place != 0);
       if(key < place->Key()) { // Swap data.
@@ -281,12 +280,12 @@ namespace RavlN {
 	hold = tmp;
       }
       if(place->Child(0) == 0) {
-	place->Child(0) = new HeapNodeC<K,D> (*hold);
+	place->Child(0) = new HeapNodeC<KeyT,DataT> (*hold);
 	place->DeltaBalance(-1);
 	break;
       }
       if(place->Child(1) == 0) {
-	place->Child(1) = new HeapNodeC<K,D> (*hold);
+	place->Child(1) = new HeapNodeC<KeyT,DataT> (*hold);
 	place->DeltaBalance(1);
 	break;
       }
@@ -303,9 +302,9 @@ namespace RavlN {
   ///////////////////////////
   // Insert Data/Key into queue.
   
-  template <class K,class D>
-  void PriQueueLBodyC<K,D>::Insert(const K &nKey,const D &nData) {
-    Tuple2C<K,D> &newun = *(new Tuple2C<K,D> (nKey,nData));
+  template <class KeyT,class DataT>
+  void PriQueueLBodyC<KeyT,DataT>::Insert(const KeyT &nKey,const DataT &nData) {
+    Tuple2C<KeyT,DataT> &newun = *(new Tuple2C<KeyT,DataT> (nKey,nData));
     Insert(newun);
   }
   
@@ -313,8 +312,8 @@ namespace RavlN {
   // Remove all instances of Key from queue.
   // Returns True if found.
   
-  template <class K,class D>
-  bool PriQueueLBodyC<K,D>::Remove(const K &Key) {
+  template <class KeyT,class DataT>
+  bool PriQueueLBodyC<KeyT,DataT>::Remove(const KeyT &Key) {
     RavlAssert(0); // NOT IMPLEMENTED.
     return false;
   }
@@ -323,18 +322,18 @@ namespace RavlN {
   // Remove all instances of Key from queue.
   // Returns True if found.
   
-  template <class K,class D>
-  bool PriQueueLBodyC<K,D>::Remove(const Tuple2C<K,D> &newun) {
+  template <class KeyT,class DataT>
+  bool PriQueueLBodyC<KeyT,DataT>::Remove(const Tuple2C<KeyT,DataT> &newun) {
     return Remove(newun.Data1());
   }
   
   
-#if PRIQUEUEL_DEBUG  
+#if RAVL_PRIQUEUEL_DEBUG  
   ////////////////////
   // Dump to stdout
   
-  template <class K,class D>
-  void PriQueueLBodyC<K,D>::Dump(HeapNodeC<K,D> *Place,int level) {
+  template <class KeyT,class DataT>
+  void PriQueueLBodyC<KeyT,DataT>::Dump(HeapNodeC<KeyT,DataT> *Place,int level) {
     bool Theroot = false;
     if(Place == 0) {
       Place = root;
@@ -356,8 +355,8 @@ namespace RavlN {
   //////////////////////////
   // Get number of items in queue, slow !
   
-  template <class K,class D>
-  int PriQueueLBodyC<K,D>::Size() const {
+  template <class KeyT,class DataT>
+  int PriQueueLBodyC<KeyT,DataT>::Size() const {
     if(root == 0)
       return 0;
     return root->Size();

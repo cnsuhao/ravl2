@@ -8,7 +8,7 @@
 #define RAVL_PRIQUEUE_HEADER 1
 ////////////////////////////////////////////////
 //! userlevel=Normal
-//! example=TPriQH.cc
+//! example=testPriQH.cc
 //! docentry="Ravl.Core.Queues"
 //! rcsid="$Id$"
 //! file="Ravl/Core/Container/Queue/PriQueue.hh"
@@ -31,13 +31,17 @@ namespace RavlN {
   // This queue assumes: **** Small numbers == High priority. ****
   // </pre>
   
-  template <class K,class D>
+  template <class KeyT,class DataT>
   class PriQueueC {
   public:
-    PriQueueC(UIntT initSize = 32);
+    PriQueueC(UIntT initSize = 32)
+      : data(SDArray1dC<Tuple2C<KeyT,DataT> >(initSize))
+    {}
     //: Default constructor.
     
-    PriQueueC(const PriQueueC<K,D> &body);
+    PriQueueC(const PriQueueC<KeyT,DataT> &body)
+      : data(body.data)
+    {}
     //: Copy constructor.
     
     bool IsElm(void) const
@@ -48,17 +52,26 @@ namespace RavlN {
     { return Array().Size() == 0; }
     //: Is the queue empty ?
     
-    D &Top(void);
+    DataT &Top(void) { 
+      RavlAssert(IsElm()); 
+      return Array()[0].Data2();
+    }
     //: Look/Modify data on top of queue.
     // Reference not garanteed to stay valid
     // after any insert/delete operation !
     
-    const D &Top(void) const;
+    const DataT &Top(void) const {
+      RavlAssert(IsElm());
+      return Array()[0].Data2();
+    }
     //: Look at data on top of queue.
     // Reference not garanteed to stay valid
     // after any insert/delete operation !
     
-    const K &TopKey(void) const;
+    const KeyT &TopKey(void) const {
+      RavlAssert(IsElm());
+      return Array()[0].Data1();
+    }
     //: Look at key on top of queue.
     // Reference not garanteed to stay valid
     // after any insert/delete operation !
@@ -67,28 +80,28 @@ namespace RavlN {
     //: Delete item on top of queue.
     // NB. IsElm(), must be true before calling this.
     
-    Tuple2C<K,D> GetTopPair(void);
+    Tuple2C<KeyT,DataT> GetTopPair(void);
     //: Get Key/Data pair from queue.
     
-    D GetTop(void);
+    DataT GetTop(void);
     //: Get Data from top of queue.
     
-    void Insert(const K &Key,const D &Data)
-    { Insert(Tuple2C<K,D>(Key,Data)); }
+    void Insert(const KeyT &Key,const DataT &Data)
+    { Insert(Tuple2C<KeyT,DataT>(Key,Data)); }
     //: Insert Data/Key into queue.
     // Will resize the queue if nessary.
     
-    void Insert(const Tuple2C<K,D> &dat);
+    void Insert(const Tuple2C<KeyT,DataT> &dat);
     //: Insert Data/Key into queue.
     // Will resize the queue if nessary.
     
-    bool Remove(const Tuple2C<K,D> &New)
+    bool Remove(const Tuple2C<KeyT,DataT> &New)
     { return false; }
     //: Remove all instances of Key from queue.
     //!bug: NOT IMPLEMENTED
     // Returns True if found.
     
-    bool Remove(const K &Key)
+    bool Remove(const KeyT &Key)
     { return false; }
     //: Remove all instances of Key from queue.
     //!bug: NOT IMPLEMENTED
@@ -105,57 +118,28 @@ namespace RavlN {
     bool Check();
     //: Check consistancy.
   protected:
-    RCWrapC<SDArray1dC<Tuple2C<K,D> > > data;
+    RCWrapC<SDArray1dC<Tuple2C<KeyT,DataT> > > data;
     
-    SDArray1dC<Tuple2C<K,D> > &Array() 
+    SDArray1dC<Tuple2C<KeyT,DataT> > &Array() 
     { return data.Data(); }
     
-    const SDArray1dC<Tuple2C<K,D> > &Array() const 
+    const SDArray1dC<Tuple2C<KeyT,DataT> > &Array() const 
     { return data.Data(); }
   };
   
   //////////////////////////////////////////
   
-  template <class K,class D>
-  PriQueueC<K,D>::PriQueueC(UIntT initSize)
-    : data(SDArray1dC<Tuple2C<K,D> >(initSize))
-  {}
   
-  template <class K,class D>
-  PriQueueC<K,D>::PriQueueC(const PriQueueC<K,D> &body)
-    : data(body.data)
-  {}
-    
-  template <class K,class D>
-  D &PriQueueC<K,D>::Top(void) {
-    RavlAssert(IsElm());
-    return Array()[0].Data2();
-  }
-  
-  template <class K,class D>
-  const D &
-  PriQueueC<K,D>::Top(void) const {
-    RavlAssert(IsElm());
-    return Array()[0].Data2();
-  }
-  
-  template <class K,class D>
-  const K &
-  PriQueueC<K,D>::TopKey(void) const {
-    RavlAssert(IsElm());
-    return Array()[0].Data1();
-  }
-  
-  template <class K,class D>
-  void PriQueueC<K,D>::DelTop(void) {
-    SDArray1dC<Tuple2C<K,D> > &arr = Array();
+  template <class KeyT,class DataT>
+  void PriQueueC<KeyT,DataT>::DelTop(void) {
+    SDArray1dC<Tuple2C<KeyT,DataT> > &arr = Array();
     UIntT child;
     const UIntT tsize = arr.Size() - 1;
     if(tsize == 0) {
       arr.Chop();
       return ;
     }
-    Tuple2C<K,D> lastelem = arr[tsize];
+    Tuple2C<KeyT,DataT> lastelem = arr[tsize];
     UIntT i;
     for(i = 1;i * 2 <= tsize;i = child+1) {
       child = (i * 2) - 1;
@@ -170,23 +154,23 @@ namespace RavlN {
     arr.Chop();
   }
   
-  template <class K,class D>
-  Tuple2C<K,D> PriQueueC<K,D>::GetTopPair(void) {
-    Tuple2C<K,D> ret = Array()[0];
+  template <class KeyT,class DataT>
+  Tuple2C<KeyT,DataT> PriQueueC<KeyT,DataT>::GetTopPair(void) {
+    Tuple2C<KeyT,DataT> ret = Array()[0];
     DelTop();
     return ret;
   }
   
-  template <class K,class D>
-  D PriQueueC<K,D>::GetTop(void)  {
-    D ret = Array()[0].Data2();
+  template <class KeyT,class DataT>
+  DataT PriQueueC<KeyT,DataT>::GetTop(void)  {
+    DataT ret = Array()[0].Data2();
     DelTop();
     return ret;
   }
   
-  template <class K,class D>
-  void PriQueueC<K,D>::Insert(const Tuple2C<K,D> &dat) {
-    SDArray1dC<Tuple2C<K,D> > &arr = Array();
+  template <class KeyT,class DataT>
+  void PriQueueC<KeyT,DataT>::Insert(const Tuple2C<KeyT,DataT> &dat) {
+    SDArray1dC<Tuple2C<KeyT,DataT> > &arr = Array();
     UIntT i;
     i = arr.Size() + 1;
     if(i == 1) { // First in queue ?
@@ -199,7 +183,7 @@ namespace RavlN {
       return ;
     }
     i /= 2;
-    Tuple2C<K,D> tmp(arr[i-1]); 
+    Tuple2C<KeyT,DataT> tmp(arr[i-1]); 
     // Have to use tempory here as array may be resized and the
     // reference returned from arr[] may be invalid.
     arr.Add(tmp); // Move up.
@@ -208,9 +192,9 @@ namespace RavlN {
     arr[i-1] = dat;
   }
   
-  template <class K,class D>
-  bool PriQueueC<K,D>::Check() {
-    SDArray1dC<Tuple2C<K,D> > &arr = Array();
+  template <class KeyT,class DataT>
+  bool PriQueueC<KeyT,DataT>::Check() {
+    SDArray1dC<Tuple2C<KeyT,DataT> > &arr = Array();
     for(UIntT i = 1;i < Size();i++) {
       RavlAssert(arr[((i+1)/2)-1].Data1() < arr[i].Data1());
     }
