@@ -9,6 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlAV
 //! author="Charles Galambos"
+//! docentry="Ravl.Images.Video"
 
 #include "Ravl/AVFrame.hh"
 #include "Ravl/DP/SPort.hh"

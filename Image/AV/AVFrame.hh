@@ -10,6 +10,7 @@
 //! lib=RavlAV
 //! author="Charles Galambos"
 //! userlevel=Normal
+//! docentry="Ravl.Images.Video"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Audio/AudioFrame.hh"

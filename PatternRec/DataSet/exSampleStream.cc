@@ -8,6 +8,7 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/DataSet/exSampleStream.cc"
+//! docentry="Ravl.Pattern_Recognition.Data Set"
 
 //: Example implementation for a sample stream.
 
