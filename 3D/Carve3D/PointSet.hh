@@ -17,6 +17,7 @@
 #include "Ravl/RefCounter.hh"
 #include "Ravl/SArray1d.hh"
 #include "Ravl/3D/Vertex.hh"
+#include "Ravl/Stream.hh"
 
 namespace Ravl3DN
 {
@@ -42,6 +43,9 @@ namespace Ravl3DN
     {}
     //:Default constructor
     
+    PointSetBodyC(BinIStreamC &is);
+    //: Stream constructor.
+
     PointSetBodyC(UIntT numPoints,bool haveColour = false)
       : m_vertices(numPoints), m_haveColour(haveColour)
     { 
@@ -99,6 +103,11 @@ namespace Ravl3DN
     {}
     //: Default constructor
 
+    PointSetC(BinIStreamC &is)
+      : RCHandleC<PointSetBodyC>(*new PointSetBodyC(is))
+    {}
+    //: Stream constructor  
+
     PointSetC(UIntT numPoints,bool haveColour = false)
       : RCHandleC<PointSetBodyC>(*new PointSetBodyC(numPoints,haveColour))
     {}
@@ -147,6 +156,12 @@ namespace Ravl3DN
     //: Centroid of points.
   };
   
+  BinOStreamC & operator<<(BinOStreamC & is, const PointSetC& oPointSet);
+  // Prints the point set into the stream
+  
+  BinIStreamC & operator>>(BinIStreamC& os, PointSetC& oPointSet);
+  // Assigns the values into the point set 
+
 }
 
 #endif

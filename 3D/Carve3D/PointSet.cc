@@ -9,6 +9,7 @@
 
 #include "Ravl/3D/PointSet.hh"
 #include "Ravl/SArr1Iter.hh"
+#include "Ravl/BinStream.hh"
 
 namespace Ravl3DN {
 #if RAVL_VISUALCPP_NAMESPACE_BUG
@@ -35,4 +36,30 @@ namespace Ravl3DN {
     c *= 1.0 / m_vertices.Size();
     return c;
   }
+
+  // Prints the point set into the stream
+  BinOStreamC & operator<<(BinOStreamC & os, const PointSetC& oPointSet)
+  {
+    os << oPointSet.HaveColour();
+    os << oPointSet.Vertices();
+    if (oPointSet.HaveColour()) os << oPointSet.Colours();
+    return os;
+  }
+  
+  // Stream constructor.  
+  PointSetBodyC::PointSetBodyC(BinIStreamC &is) 
+  {
+    is >> m_haveColour;
+    is >> m_vertices;
+    if (m_haveColour) is >> m_colours;
+  }
+  
+
+  // Assigns the values into the point set 
+  BinIStreamC & operator>>(BinIStreamC& is, PointSetC& oPointSet)
+  {
+    oPointSet = PointSetC(is);
+    return is;
+  }
+
 }

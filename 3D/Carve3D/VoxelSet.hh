@@ -43,6 +43,9 @@ namespace Ravl3DN
     {
     }
 
+    VoxelSetBodyC(BinIStreamC &is);
+    //: Stream constructor.
+    
     virtual ~VoxelSetBodyC()
     {
     }
@@ -130,6 +133,11 @@ namespace Ravl3DN
     }
     //:Default constructor
 
+    VoxelSetC(BinIStreamC &is)
+      : RCHandleC<VoxelSetBodyC>(*new VoxelSetBodyC(is))
+    {}
+    //: Stream constructor
+    
     VoxelSetC(const Matrix3dC& R,
 	      const Vector3dC& t,
 	      RealT voxel_size,
@@ -202,6 +210,12 @@ namespace Ravl3DN
     {
     }
   };
+
+  BinOStreamC & operator<<(BinOStreamC & is, const VoxelSetC& oVoxelSet);
+  // Prints the voxel set into the stream
+  
+  BinIStreamC & operator>>(BinIStreamC& os, VoxelSetC& oVoxelSet);
+  // Assigns the values into the voxel set 
 
 }
 

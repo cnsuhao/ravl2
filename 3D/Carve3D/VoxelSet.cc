@@ -6,6 +6,7 @@
 // file-header-ends-here
 
 #include "Ravl/3D/VoxelSet.hh"
+#include "Ravl/BinStream.hh"
 
 //! rcsid="$Id$"
 //! lib=RavlCarve3D
@@ -19,4 +20,33 @@ namespace Ravl3DN
 
   VoxelSetC VoxelSetBodyC::ContiguousPortion(UIntT total_portions, UIntT portion_index)
   { return VoxelSetC(); }
+
+  // Prints the voxel set into the stream
+  BinOStreamC & operator<<(BinOStreamC & os, const VoxelSetC& oVoxelSet)
+  {
+    os << oVoxelSet.OccupiedThreshold();
+    os << oVoxelSet.voxelSize();
+    os << oVoxelSet.R();
+    os << oVoxelSet.t();
+    os << oVoxelSet.Array();
+    return os;
+  }
+  
+  //: Stream constructor.  
+  VoxelSetBodyC::VoxelSetBodyC(BinIStreamC &is) 
+  {
+    is >> occupied_threshold;
+    is >> voxel_size;
+    is >> _R;
+    is >> _t;
+    is >> vox;
+  }
+  
+  // Assigns the values into the voxel set 
+  BinIStreamC & operator>>(BinIStreamC& is, VoxelSetC& oVoxelSet)
+  {
+    oVoxelSet = VoxelSetC(is);
+    return is;
+  }
+
 }
