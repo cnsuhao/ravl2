@@ -414,10 +414,10 @@ namespace RavlN {
       if(!DPPlayControlBodyC::Open(nPort))
 	return false;
       input = nPort;
-      if(pause) {
-	lock.Unlock();
+      lock.Unlock();
+      ReparentAttributeCtrl(input);
+      if(pause)
 	sema.Post(); // Display at least first frame.
-      }
       return true;
     }
     //: Open new video stream.
@@ -427,6 +427,12 @@ namespace RavlN {
     
     virtual DListC<DPIPlugBaseC> IPlugs() const;
     //: Input plugs.
+    
+    virtual AttributeCtrlC ParentCtrl() const { 
+      MutexLockC lock(access);
+      return AttributeCtrlC(input); 
+    }
+    //: Get Parent attribute control.
     
   protected:
     DPISPortC<DataT> input; // Where to get data from.
