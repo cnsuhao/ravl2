@@ -20,6 +20,7 @@
 #include "Ravl/SArr2Iter2.hh"
 #include "Ravl/SArr2Iter3.hh"
 #include "Ravl/TVector.hh"
+#include "Ravl/BfAccIter.hh"
 
 namespace RavlN {
   //! userlevel=Advanced
@@ -50,6 +51,10 @@ namespace RavlN {
       { return Size2(); }
     //: Return the number of columns
     
+    TMatrixC<DataT> operator*(RealT val) const
+      { return TMatrixC<DataT>(SArray2dC<DataT>::operator*(val)); }
+    //: Multiply by a constant.
+
     TVectorC<DataT> operator*(const TVectorC<DataT> & vector) const;
     //: Multiplication "TVectorC<DataT>" = "This" * vector
     
@@ -73,6 +78,10 @@ namespace RavlN {
     
     const TMatrixC<DataT> &SetDiagonal(const TVectorC<DataT> &d);
     //: Set the diagonal of this matrix.
+    // If d.Size() != Cols() an error is given.
+
+    const TMatrixC<DataT> &AddDiagonal(const TVectorC<DataT> &d);
+    //: Add a vector to the diagonal of this matrix.
     // If d.Size() != Cols() an error is given.
     
     DataT SumOfAbs() const;
@@ -255,12 +264,42 @@ namespace RavlN {
   }
 
   template<class DataT>
+  const TMatrixC<DataT> &TMatrixC<DataT>::AddDiagonal(const TVectorC<DataT> &d) {
+    RavlAssert(d.Size() == Cols());
+    for(UIntT i = 0;i < Cols();i++)
+      (*this)[i][i] += d[i];
+    return (*this);
+  }
+
+  template<class DataT>
   const TMatrixC<DataT> &TMatrixC<DataT>::SetSmallToBeZero(const DataT &min) {
     for(BufferAccess2dIterC<DataT> it(*this,Size2());it;it++)
       if(Abs(*it) < min)
 	SetToZero(*it);
     return (*this);
   }
+
+  ///// Some functions from TVectorC<> that return matrixes. //////
+  
+  template<class DataT>
+  TMatrixC<DataT> TVectorC<DataT>::OuterProduct(const TVectorC<DataT> &a) const { 
+    TMatrixC<DataT> ret(Size(),a.Size());
+    BufferAccessIterC<DataT> v1(*this);
+    BufferAccess2dIterC<DataT> it(ret,ret.Size2());
+    while(it) {
+      BufferAccessIterC<DataT> v2(a);
+      do {
+	*it = (*v1) * (*v2);
+	v2++;
+      } while(it.Next()) ;
+      v1++;
+    }
+    return ret;
+  }
+  
+  template<class DataT>
+  TMatrixC<DataT> TVectorC<DataT>::OuterProduct() const
+  { return OuterProduct(*this); }
   
 }
 

@@ -85,6 +85,19 @@ int Validate()
   if(error > 0.000000001)
     return __LINE__;
 #endif
+
+  TVectorC<RealT> v1(3);
+  v1[0] = 1; v1[1] = 2; v1[2] = 3;
+  TVectorC<RealT> v2(3);
+  v2[0] = 3; v2[1] = 2; v2[2] = 1;
+  TMatrixC<RealT> op = v1.OuterProduct(v2);
+  // Check some of the values.
+  if(op[0][0] != 3) return __LINE__;
+  if(op[0][2] != 1) return __LINE__;
+  if(op[2][0] != 9) return __LINE__;
+  if(op[2][2] != 3) return __LINE__;
+  if(op[1][1] != 4) return __LINE__;
+  //cerr  << "OuterProduct=" << op << "\n";
   return 0;
 }
 

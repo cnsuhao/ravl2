@@ -20,6 +20,8 @@
 #include "Ravl/SArr1Iter2.hh"
 
 namespace RavlN {
+  template<class DataT> class TMatrixC;
+  
   //! userlevel=Advanced
   //: Templated vectors.
   
@@ -37,7 +39,7 @@ namespace RavlN {
       {}
     //: Constructor for array of DataT's.
     
-    inline TVectorC(SizeT n);
+    explicit inline TVectorC(SizeT n);
     //: Constructor.
     
     DataT Sum() const;      
@@ -79,6 +81,13 @@ namespace RavlN {
     const TVectorC<DataT> &SetSmallToBeZero(const DataT &min);
     //: Set values smaller than 'min' to zero in vector.
     
+    TMatrixC<DataT> OuterProduct(const TVectorC<DataT> &a) const;
+    //: Calculate the outer product of this vector and a.
+    // To use the function you must also include 'Ravl/Matrix.hh'.
+    
+    TMatrixC<DataT> OuterProduct() const;
+    //: Calculate the outer product of this vector with itself.
+    // To use the function you must also include 'Ravl/Matrix.hh'.
   };
   
   ////////////////////////////////////////

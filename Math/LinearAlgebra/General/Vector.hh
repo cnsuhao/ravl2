@@ -30,7 +30,7 @@ namespace RavlN {
       {}
     //: Default constructor.
     
-    VectorC(UIntT size)
+    explicit VectorC(UIntT size)
       : TVectorC<RealT>(size)
       {}
     //: Default constructor.
