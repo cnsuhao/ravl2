@@ -14,15 +14,17 @@
 
 #include "Ravl/IntrDList.hh"
 #include "Ravl/Array1d.hh"
+#include "Ravl/Stream.hh"
 
 namespace RavlN {
-  
+ 
   template<class DataT> class DArray1dC;
   template<class DataT> class DArray1dIterC;
   
-  //! userlevel=Develop
-  //: Chunk of a dynamic array.
+ 
 
+
+  //! userlevel=Develop  //: Chunk of a dynamic array.
   template<class DataT>
   class DChunkC 
     : public DLinkC
@@ -175,6 +177,22 @@ namespace RavlN {
     }
     //: Construct from a normal array.
     
+
+    DArray1dBodyC( istream & stream ) 
+      : nextFree(0),allocBlocksize(1024)
+      {
+	UIntT noChunks ; 
+	stream >> noChunks ;  
+	for ( IndexC cnum=1 ; cnum <= noChunks ; cnum ++ ) 
+	  {
+	    Array1dC<DataT> arr ; 
+	    stream >> arr ; 
+	    chunks.InsLast ( *new DChunkC<DataT> (arr) ) ; 
+	  } 
+      }
+    //: Construct from a stream 
+
+
     bool Save(ostream &strm) const;
     //: Save to stream.
     
@@ -349,6 +367,11 @@ namespace RavlN {
     // Uses 'arr' to build a dynamic array.  Note, the data is NOT copied,
     // modifications to elements of 'arr' will be visible in the new array.
     
+    DArray1dC( istream & stream ) 
+      : RCHandleC<DArray1dBodyC<DataT> > (*new DArray1dBodyC<DataT> ( stream) ) {}
+    //: stream constructor 
+    
+
     bool Save(ostream &strm) const { 
       if(IsValid())
 	return Body().Save(strm); 
@@ -485,14 +508,23 @@ namespace RavlN {
   };
 
 
+  //: Output operator 
   template<class DataT>
   ostream &operator<<(ostream &s,const DArray1dC<DataT> &obj) {
     obj.Save(s);
     return s;
   }
   
+  //: Input operator 
+  template<class DataT> 
+  istream & operator >> (istream & stream, DArray1dC<DataT> & obj) { 
+    obj = DArray1dC<DataT> (stream) ; 
+    return stream ; 
+  }
+
+
+
   //: Save to stream.
-  
   template<class DataT>
   bool DArray1dBodyC<DataT>::Save(ostream &s) const {
     s << chunks.Size() << "\n";
