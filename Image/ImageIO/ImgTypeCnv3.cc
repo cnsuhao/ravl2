@@ -26,7 +26,7 @@ namespace RavlImageN
 
   // Real RGB rolling average -> RGB
 
-  ImageC<ByteRGBValueC>  DPConvRealRGBAverageImageC2ByteRGBValueImageCT(const ImageC<RealRGBAverageC> &dat)   { 
+  ImageC<ByteRGBValueC>  RealRGBAverageImageC2ByteRGBImageCT(const ImageC<RealRGBAverageC> &dat)   { 
     ImageC<ByteRGBValueC> ret(dat.Rectangle()); 
     for(Array2dIter2C<ByteRGBValueC,RealRGBAverageC> it(ret,dat);it.IsElm();it.Next()) 
       it.Data1() = it.Data2();
@@ -35,17 +35,17 @@ namespace RavlImageN
 
   // Byte RGB median -> RGB
 
-  ImageC<ByteRGBValueC>  DPConvByteRGBMedianImageC2ByteRGBValueImageCT(const ImageC<ByteRGBMedianC> &dat)   { 
+  ImageC<ByteRGBValueC>  ByteRGBMedianImageC2ByteRGBImageCT(const ImageC<ByteRGBMedianC> &dat)   { 
     ImageC<ByteRGBValueC> ret(dat.Rectangle()); 
     for(Array2dIter2C<ByteRGBValueC,ByteRGBMedianC> it(ret,dat);it.IsElm();it.Next()) 
       it.Data1() = it.Data2();
     return ret;
   }
   
-  DP_REGISTER_CONVERSION_NAMED(DPConvRealRGBAverageImageC2ByteRGBValueImageCT,1,
+  DP_REGISTER_CONVERSION_NAMED(RealRGBAverageImageC2ByteRGBImageCT,1,
 			       "ImageC<ByteRGBValueC>  RavlImageN::Convert(const ImageC<RealRGBAverageC> &)");
 
-  DP_REGISTER_CONVERSION_NAMED(DPConvByteRGBMedianImageC2ByteRGBValueImageCT,1,
+  DP_REGISTER_CONVERSION_NAMED(ByteRGBMedianImageC2ByteRGBImageCT,1,
 			       "ImageC<ByteRGBValueC>  RavlImageN::Convert(const ImageC<ByteRGBMedianC> &)");
   
 }

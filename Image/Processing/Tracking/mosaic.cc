@@ -195,7 +195,7 @@ int Mosaic(int nargs,char **argv) {
 #endif
   }
 
-  ImageC<ByteRGBValueC> mosaicRGB = DPConvByteRGBMedianImageC2ByteRGBValueImageCT(mosaicBuilder.GetMosaic());
+  ImageC<ByteRGBValueC> mosaicRGB = ByteRGBMedianImageC2ByteRGBImageCT(mosaicBuilder.GetMosaic());
 
   // save constructed mosaic
   Save("/tmp/mosaic.ppm",mosaicRGB);

@@ -34,14 +34,14 @@ namespace RavlImageN {
   static TypeNameC type1(typeid(ImageC<ByteT>),"ImageC<ByteT>");  
   static TypeNameC type2(typeid(ImageC<SByteT>),"ImageC<SByteT>");
   
-  ImageC<ByteT>  DPConvBoolImageC2ByteImageCT(const ImageC<bool> &dat)   { 
+  ImageC<ByteT>  BoolImageC2ByteImageCT(const ImageC<bool> &dat)   { 
     ImageC<ByteT> ret(dat.Rectangle()); 
     for(Array2dIter2C<ByteT,bool> it(ret,dat);it.IsElm();it.Next()) 
       it.Data1() = it.Data2() ? 255 : 0;
     return ret;
   }
   
-  DP_REGISTER_CONVERSION_NAMED(DPConvBoolImageC2ByteImageCT,1,
+  DP_REGISTER_CONVERSION_NAMED(BoolImageC2ByteImageCT,1,
 			       "ImageC<ByteT>  RavlImageN::Convert(const ImageC<bool> &)");
   
   FileFormatStreamC<ImageC<ByteT> > FileFormatStream_ImageC_ByteT;

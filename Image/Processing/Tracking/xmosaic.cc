@@ -199,7 +199,7 @@ void XMosaicBodyC::Destroy() {
 bool XMosaicBodyC::SaveMosaic(StringC &fn) {
     RWLockHoldC holdMosaic(accessMosaic,RWLOCK_READONLY);
     ImageC<ByteRGBMedianC> mosaic = mosaicBuilder.GetMosaic();
-    ImageC<ByteRGBValueC> rgb = DPConvByteRGBMedianImageC2ByteRGBValueImageCT(mosaic);
+    ImageC<ByteRGBValueC> rgb = ByteRGBMedianImageC2ByteRGBImageCT(mosaic);
     holdMosaic.Unlock(); // Finished reading mosaic.
     if(!RavlN::Save(fn,rgb)) // Save RGB image.
       AlertBox(StringC("Failed to save mosaic to '") + fn + "'.");
@@ -237,7 +237,7 @@ bool XMosaicBodyC::BuilderThread() {
 #else
     ImageC<ByteRGBMedianC> mosaic = mosaicBuilder.GetMosaic();
 #endif
-    ImageC<ByteRGBValueC> rgb = DPConvByteRGBMedianImageC2ByteRGBValueImageCT(mosaic);
+    ImageC<ByteRGBValueC> rgb = ByteRGBMedianImageC2ByteRGBImageCT(mosaic);
     holdMosaic.Unlock(); // Finished reading mosaic.
     
     //: Render it to the canvas.
