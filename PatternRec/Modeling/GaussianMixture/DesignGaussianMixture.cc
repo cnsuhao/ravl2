@@ -31,7 +31,7 @@
 #include "Ravl/SArray1dIter2.hh"
 #include "Ravl/Vector.hh"
 #include "Ravl/MatrixRS.hh"
-
+#include "Ravl/DP/Entity.hh"
 #pragma instantiate RavlN::SArray1dIter3C<RavlN::VectorC,RavlN::MatrixRSC,double>
 #pragma instantiate RavlN::GaussianMixtureBodyC* RavlN::VCLoad(istream&,RavlN::GaussianMixtureBodyC*)
 #pragma instantiate RavlN::SArray1dIter2C<RavlN::VectorC,RavlN::MatrixRSC>
@@ -40,6 +40,7 @@
 #pragma instantiate RavlN::BufferAccessIter3C<RavlN::VectorC,RavlN::MatrixRSC,double>
 #pragma instantiate RavlN::SArray1dIter2C<RavlN::VectorC,double>
 #pragma instantiate RavlN::SArray1dIter2C<RavlN::MatrixRSC,double>
+//#pragma instantiate RavlN::DPEntityC
 #endif 
 
 namespace RavlN {

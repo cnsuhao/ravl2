@@ -21,7 +21,7 @@ PLIB=RavlPatternRec
 
 LIBDEPS=
 
-USESLIBS=RavlCore RavlMath RavlOS RavlPatternRec
+USESLIBS=RavlCore RavlIO RavlMath RavlOS RavlPatternRec
 
 AUXFILES=class5.strm
 
