@@ -416,28 +416,33 @@ namespace RavlN {
   //: Callback on sequence size changing.
   
   bool DPPlayControlBodyC::CBSequenceSizeChanged() {
-    cerr << "DPPlayControlBodyC::CBSequenceSizeChanged, Called. \n";
     RavlAssert(ctrl.IsValid());
     
     MutexLockC lock(access);
     // Sort out end of sequence.
     UIntT sSize = ctrl.Size();
+    UIntT oldEnd = end;
+    ONDEBUG(cerr << "DPPlayControlBodyC::CBSequenceSizeChanged, Called. Size=" << sSize << "\n");
     if(sSize != ((UIntT) -1))
       end = sSize -1;
     else
       end = sSize;
+    if(lastFrame == oldEnd && end > oldEnd)
+      at++;
+    if(at >= end)
+      at = end;
     return true;
   }
   
   //: Callback on sequence start changing.
   
   bool DPPlayControlBodyC::CBSequenceStartChanged() {
-    cerr << "DPPlayControlBodyC::CBSequenceStartChanged, Called. \n";
     RavlAssert(ctrl.IsValid());
     
     MutexLockC lock(access);
     // Sort out position of start of sequence.
     start = ctrl.Start();
+    ONDEBUG(cerr << "DPPlayControlBodyC::CBSequenceStartChanged, Called. Start=" << start << " \n");
     if(start == ((UIntT) -1))
       start = 0;
     return true;

@@ -191,6 +191,10 @@ namespace RavlN {
     { return DPIPortBodyC<OutT>::Save(out); }
     //: Save to ostream.
     
+    virtual AttributeCtrlC ParentCtrl() const 
+    { return AttributeCtrlC(input); }
+    //: Get Parent attribute control.
+    
   protected:
     DPIPortC<InT> input; // Where to get data from.
     
@@ -294,7 +298,11 @@ namespace RavlN {
     virtual DPPortC ConnectedTo() const
     { return output; }
     //: What does this connect to ?
-
+    
+    virtual AttributeCtrlC ParentCtrl() const 
+    { return AttributeCtrlC(output); }
+    //: Get Parent attribute control.
+    
     virtual DListC<DPOPortBaseC> OPorts() const {
       DListC<DPOPortBaseC> lst = DPStreamOpBodyC::OPorts();
       lst.InsLast(DPOPortBaseC(const_cast<DPOStreamOpBodyC<InT,OutT> &>(*this)));
@@ -319,6 +327,12 @@ namespace RavlN {
   public:
     inline DPOPortC<OutT> &Output() { return output; }
     //: Access output port.
+    
+    virtual void Output(const DPOPortC<InT> &oport) {
+      output = oport; 
+      ReparentAttributeCtrl(output); // Make sure changed signals are changed appropriately.
+    }
+    //: Setup new output port.
   }; 
   
   ///////////////////////////////////

@@ -19,6 +19,8 @@
 #include "Ravl/DP/Plug.hh"
 #include "Ravl/Threads/Mutex.hh"
 #include "Ravl/Trigger.hh"
+#include "Ravl/DP/AttributeCtrlUpdateSignal.hh"
+#include "Ravl/CallMethods.hh"
 
 namespace RavlN {
   
@@ -36,14 +38,20 @@ namespace RavlN {
     explicit DPISPortShareBodyC()
       : lastOffset((UIntT) -1),
 	clients(0)
-    {}
+    {
+      this->MapBackChangedSignal("start");
+      this->MapBackChangedSignal("size");
+    }
     //: Default constructor.
     
     explicit DPISPortShareBodyC(const DPISPortC<DataT> &ip)
       : input(ip),
 	lastOffset((UIntT) -1),
 	clients(0)
-    {}
+    {
+      this->MapBackChangedSignal("start");
+      this->MapBackChangedSignal("size");
+    }
     //: Constructor.
     
     virtual bool ConnectPort(const DPIPortBaseC &port) {
@@ -416,7 +424,10 @@ namespace RavlN {
       : offset(0),
 	start(0),
 	size((UIntT) -1)
-    {}
+    {
+      this->MapBackChangedSignal("start");
+      this->MapBackChangedSignal("size");
+    }
     //: Default constructor.
     
     DPISPortShareClientBodyC(const DPISPortShareC<DataT> &sharedPort)
@@ -424,6 +435,15 @@ namespace RavlN {
 	input(sharedPort)
     {
       input.RegisterClient();
+      
+      this->MapBackChangedSignal("start");
+      this->MapBackChangedSignal("size");
+      
+      // Listen out for changes to cached stream parameters
+      attrCtrlUpdateStart.Connect(this->AttributeCtrl(),"start",TriggerR(*this,&DPISPortShareClientBodyC<DataT>::CBStartChanged));
+      attrCtrlUpdateSize.Connect(this->AttributeCtrl(),"size",TriggerR(*this,&DPISPortShareClientBodyC<DataT>::CBSizeChanged));
+
+      // Cache stream parameters.
       offset = input.Start();
       size = input.Size();
       start =  input.Start();
@@ -533,95 +553,33 @@ namespace RavlN {
       return true;
     }
     //: Discard the next input datum.
-
-    //:----------------------------------------------------------
-    // Attributes
     
-    virtual bool GetAttr(const StringC &attrName,StringC &attrValue) 
-    { return input.GetAttr(attrName,attrValue); }
-    //: Get a attribute.
-    // Returns false if the attribute name is unknown.
-    // This is for handling attributes such as frame rate, and compression ratios.
-    
-    virtual bool SetAttr(const StringC &attrName,const StringC &attrValue) 
-    { return input.SetAttr(attrName,attrValue); }
-    //: Set a attribute.
-    // Returns false if the attribute name is unknown.
-    // This is for handling attributes such as frame rate, and compression ratios.
-    
-    virtual bool GetAttr(const StringC &attrName,IntT &attrValue) 
-    { return input.GetAttr(attrName,attrValue); }
-    //: Get a attribute.
-    // Returns false if the attribute name is unknown.
-    // This is for handling attributes such as frame rate, and compression ratios.
-    
-    virtual bool SetAttr(const StringC &attrName,const IntT &attrValue) 
-    { return input.SetAttr(attrName,attrValue); }
-    //: Set a attribute.
-    // Returns false if the attribute name is unknown.
-    // This is for handling attributes such as frame rate, and compression ratios.
-    
-    virtual bool GetAttr(const StringC &attrName,RealT &attrValue) 
-    { return input.GetAttr(attrName,attrValue); }
-    //: Get a attribute.
-    // Returns false if the attribute name is unknown.
-    // This is for handling attributes such as frame rate, and compression ratios.
-    
-    virtual bool SetAttr(const StringC &attrName,const RealT &attrValue) 
-    { return input.SetAttr(attrName,attrValue); }
-    //: Set a attribute.
-    // Returns false if the attribute name is unknown.
-    // This is for handling attributes such as frame rate, and compression ratios.
-    
-    virtual bool GetAttr(const StringC &attrName,bool &attrValue) 
-    { return input.GetAttr(attrName,attrValue); }
-    //: Get a attribute.
-    // Returns false if the attribute name is unknown.
-    // This is for handling attributes such as frame rate, and compression ratios.
-    
-    virtual bool SetAttr(const StringC &attrName,const bool &attrValue) 
-    { return input.SetAttr(attrName,attrValue); }
-    //: Set a attribute.
-    // Returns false if the attribute name is unknown.
-    // This is for handling attributes such as frame rate, and compression ratios.
-    
-    virtual bool GetAttrList(DListC<StringC> &list) const 
-    { return input.GetAttrList(list); }
-    //: Get list of attributes available.
-    // This method will ADD all available attribute names to 'list'.
-    
-    virtual bool GetAttrTypes(DListC<AttributeTypeC> &list) const 
-    { return input.GetAttrTypes(list); }
-    //: Get a list of available attribute types.
-    
-#if 0
-    virtual AttributeTypeC GetAttrType(const StringC &attrName) const 
-    { return input.GetAttrType(attrName); }
-    //: Get type of a particular attribute.
-    // Returns an invalid handle if attribute is unknown.
-#endif
-    
-    virtual IntT RegisterChangedSignal(const StringC &attrName,const TriggerC &trig) 
-    { return input.RegisterChangedSignal(attrName,trig); }
-    
-    //: Register a value changed signal.
-    // Note: This method may not be implemented for all AttributeCtrl's.
-    // Returns an id for the trigger, or -1 if operation fails.
-    
-    virtual bool RemoveChangedSignal(IntT id) 
-    { return input.RemoveChangedSignal(id); }
-    //: Remove a changed signal.
-    // Note: This method may not be implemented for all AttributeCtrl's.
-    
-    virtual bool RegisterAttribute(const AttributeTypeC &attr) 
-    { return input.RegisterAttribute(attr); }
-    //: Register a new attribute type.
+    virtual AttributeCtrlC ParentCtrl() const
+    { return AttributeCtrlC(input); }
+    //: Get Parent attribute control.
     
   protected:
+    bool CBStartChanged() { 
+      start = input.Start();
+      //cerr << "DPISPortShareClientBodyC::CBStartChanged, Called. Start="<< start << "\n";
+      return true; 
+    }
+    //: Callback on input start changing.
+    
+    bool CBSizeChanged() {
+      size = input.Size();
+      //cerr << "DPISPortShareClientBodyC::CBSizeChanged, Called. Size=" << size << "\n";
+      return true;
+    }
+    //: Callback on input size changing.
+    
     UIntT start;
     UIntT size;
     UIntT offset;
     DPISPortShareC<DataT> input;
+    
+    AttributeCtrlUpdateSignalC attrCtrlUpdateStart;
+    AttributeCtrlUpdateSignalC attrCtrlUpdateSize;
   };
   
   //! userlevel=Advanced

@@ -102,6 +102,10 @@ namespace RavlN {
     //: Register sport attributes.
     // Currently size and start.
     
+    bool RegisterSPortAttributes(AttributeCtrlC &attrHandle);
+    //: Register sport attributes.
+    // Currently size and start.
+    
   };
   
   //////////////////////////////////////////////////
@@ -357,7 +361,7 @@ namespace RavlN {
   {
   public:
     DPOSPortBodyC()
-    {}
+    { DPSeekCtrlBodyC::RegisterSPortAttributes(*this); }
     //: Default constructor.
     
     virtual bool Save(ostream &out) const 
@@ -373,6 +377,61 @@ namespace RavlN {
     //!param: buffer - buffer to store retrieved data from
     //!return: true if data retrieved successfully.
     // Note: The position next put in stream after this operation is not garanteed.
+    
+    virtual bool GetAttr(const StringC &attrName,IntT &attrValue) {
+      if(attrName == "size") {
+	attrValue = Size();
+	return true;
+      }
+      if(attrName == "start") {
+	attrValue = Start();
+	return true;
+      }
+      if(attrName == "position") {
+	attrValue = Tell();
+	return true;
+      }
+      return DPPortBodyC::GetAttr(attrName,attrValue);
+    }
+    
+    virtual bool GetAttr(const StringC &attrName,RealT &attrValue) {
+      if(attrName == "size") {
+	attrValue = static_cast<RealT>(Size64());
+	return true;
+      }
+      if(attrName == "start") {
+	attrValue = static_cast<RealT>(Start64());
+	return true;
+      }
+      if(attrName == "position") {
+	attrValue = static_cast<RealT>(Tell64());
+	return true;
+      }
+      return DPPortBodyC::GetAttr(attrName,attrValue);
+    }
+    
+    virtual bool GetAttr(const StringC &attrName,StringC &attrValue) {
+      if(attrName == "size") {
+	attrValue = StringC(Size64());
+	return true;
+      }
+      if(attrName == "start") {
+	attrValue = StringC(Start64());
+	return true;
+      }
+      if(attrName == "position") {
+	attrValue = StringC(Tell64());
+	return true;
+      }
+      return DPPortBodyC::GetAttr(attrName,attrValue);
+    }
+    //: Get a stream attribute.
+    // Returns false if the attribute name is unknown.
+    
+    virtual bool GetAttr(const StringC &attrName,bool &attrValue) 
+    { return DPPortBodyC::GetAttr(attrName,attrValue); }
+    //: Get a stream attribute.
+    // Returns false if the attribute name is unknown.
     
   };
 

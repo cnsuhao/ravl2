@@ -228,7 +228,7 @@ namespace RavlN {
   
   bool NetAttributeCtrlBodyC::RegisterAttribute(const AttributeTypeC &attr) {
     SysLog(SYSLOG_ERR) << "NetAttributeCtrlBodyC::RegisterAttribute(), Attempt to register attribute on network port.";
-    return false;
+    return AttributeCtrlBodyC::RegisterAttribute(attr);
   }
   
   //: Handle get failed

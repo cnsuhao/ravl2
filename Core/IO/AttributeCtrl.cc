@@ -442,7 +442,17 @@ namespace RavlN {
       return false;
     return attrInfo->RemoveChangedSignal(id,parent);
   }
-
+  
+  //: Map attribute changed signal to parent even if its an attribute at this level.
+  
+  bool AttributeCtrlBodyC::MapBackChangedSignal(const StringC &name) {
+    MTWriteLockC lock(3);
+    if(attrInfo == 0)
+      attrInfo = new AttributeCtrlInternalC();
+    lock.Unlock();
+    return attrInfo->MapBackChangedSignal(name);
+  }
+  
   //: Let the attribute ctrl know its parent has changed.
   
   bool AttributeCtrlBodyC::ReparentAttributeCtrl(const AttributeCtrlC &newParent) {
@@ -496,6 +506,11 @@ namespace RavlN {
       ret &= it->SetToDefault(me);
     return ret;
   }
+  
+  //: Access control.
+  
+  AttributeCtrlC AttributeCtrlBodyC::AttributeCtrl() 
+  { return AttributeCtrlC(*this); }
   
   //--------------------------------------------------------------------------
 

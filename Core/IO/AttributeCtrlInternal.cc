@@ -4,6 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
+//! rcsid="$Id$"
+//! lib=RavlIO
 
 #include "Ravl/DP/AttributeCtrlInternal.hh"
 #include "Ravl/CallMethods.hh"
@@ -86,9 +88,14 @@ namespace RavlN {
       RemapChangedSignals(parent);
     }
     // Do we need to map a parent changed signal into this one ?
-    if(!attribTypes.IsElm(attrName) && !parentSignalMap.IsElm(attrName)) {
+    if((!attribTypes.IsElm(attrName) || mapSignalBack[attrName]) && !parentSignalMap.IsElm(attrName)) {
+      if(!parentAttrCtrl.IsValid() && !mapSignalBack[attrName]) {
+        cerr << "AttributeCtrlInternalC::RegisterChangedSignal, Unknown attribute '" << attrName << "' (No parent) \n";
+        //RavlAssert(0);
+        return -1;
+      }
       IntT value = parentAttrCtrl.RegisterChangedSignal(attrName,TriggerR(*this,&AttributeCtrlInternalC::CBHandleChangeSignal,attrName));
-      if(value < 0) {
+      if(value < 0 && !mapSignalBack[attrName]) {
         cerr << "AttributeCtrlInternalC::RegisterChangedSignal, Unknown attribute '" << attrName << "' \n";
         return -1;
       }
@@ -97,7 +104,7 @@ namespace RavlN {
     // Register signal in local context.
     IntT id = trigIdAlloc++;
     DListC<TriggerC> &list = name2trigList[attrName];
-    list.InsFirst(trig);
+    list.InsLast(trig);
     trigId2trig[id] = list;
     return id;
   }
@@ -137,6 +144,13 @@ namespace RavlN {
     // Call everything with the lock disabled.
     for(DLIterC<TriggerC> it(lst);it;it++)
       (*it).Invoke();
+    return true;
+  }
+  
+  //: Map attribute changed signal to parent even if its an attribute at this level.
+  
+  bool AttributeCtrlInternalC::MapBackChangedSignal(const StringC &sigName) {
+    mapSignalBack += sigName;
     return true;
   }
   

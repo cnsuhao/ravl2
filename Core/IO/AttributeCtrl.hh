@@ -118,6 +118,9 @@ namespace RavlN {
     //: Remove a changed signal.
     // Note: This method may not be implemented for all AttributeCtrl's.
     
+    virtual bool MapBackChangedSignal(const StringC &name);
+    //: Map attribute changed signal to parent even if its an attribute at this level.
+    
     virtual bool RegisterAttribute(const AttributeTypeC &attr);
     //: Register a new attribute type.
     
@@ -129,6 +132,9 @@ namespace RavlN {
     
     bool RestoreDefaults();
     //: Set all attributes to default values.
+    
+    AttributeCtrlC AttributeCtrl();
+    //: Access this access control as a handle object.
     
   protected:
     virtual bool SignalChange(const StringC &attrName);
@@ -270,6 +276,10 @@ namespace RavlN {
     { return Body().RemoveChangedSignal(id); }
     //: Remove a changed signal.
     // Note: This method may not be implemented for all AttributeCtrl's.
+    
+    bool MapBackChangedSignal(const StringC &name)
+    { return Body().MapBackChangedSignal(name); }
+    //: Map attribute changed signal to parent even if its an attribute at this level.
     
     bool RegisterAttribute(const AttributeTypeC &attr) 
     { return Body().RegisterAttribute(attr); }

@@ -16,6 +16,7 @@
 #include "Ravl/Hash.hh"
 #include "Ravl/DLIter.hh"
 #include "Ravl/AMutex.hh"
+#include "Ravl/HSet.hh"
 
 namespace RavlN {
   
@@ -86,6 +87,9 @@ namespace RavlN {
     bool IssueRefreshSignal();
     //: Signal updates on all registered callbacks
     
+    bool MapBackChangedSignal(const StringC &sigName);
+    //: Map attribute changed signal to parent even if its an attribute at this level.
+    
   protected:
     bool CBHandleChangeSignal(StringC &sigName);
     //: Handle an update signal from the parent object.
@@ -103,6 +107,7 @@ namespace RavlN {
     HashC<IntT,DLIterC<TriggerC> > trigId2trig;
     HashC<StringC,DListC<TriggerC> > name2trigList;
     HashC<StringC,IntT> parentSignalMap;
+    HSetC<StringC> mapSignalBack;
     AttributeCtrlC parentAttrCtrl;
     
     IntT trigIdAlloc;

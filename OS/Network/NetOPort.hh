@@ -75,7 +75,11 @@ namespace RavlN {
   public:
     NetOSPortBodyC(const StringC &address,const StringC &portName)
       : NetOSPortBaseC(address,portName,typeid(DataT))
-    { Init(); }
+    { 
+      this->MapBackChangedSignal("start");
+      this->MapBackChangedSignal("size");
+      Init(); 
+    }
     //: Constructor.
     // The 'address' has the format  'host:port' where port may be a
     // host name or its ip (dotted numbers) address and port is the 
@@ -166,83 +170,10 @@ namespace RavlN {
     }
     //: Put data.
     // This function MUST be provided by client class.
-
-    virtual bool GetAttr(const StringC &attrName,StringC &attrValue)
-    { return netAttr.GetAttr(attrName,attrValue); }
-    //: Get a attribute.
-    // Returns false if the attribute name is unknown.
-    // This is for handling attributes such as frame rate, and compression ratios.
     
-    virtual bool SetAttr(const StringC &attrName,const StringC &attrValue)
-    { return netAttr.SetAttr(attrName,attrValue); }
-    //: Set a attribute.
-    // Returns false if the attribute name is unknown.
-    // This is for handling attributes such as frame rate, and compression ratios.
-    
-    virtual bool GetAttr(const StringC &attrName,IntT &attrValue)
-    { return netAttr.GetAttr(attrName,attrValue); }
-    //: Get a attribute.
-    // Returns false if the attribute name is unknown.
-    // This is for handling attributes such as frame rate, and compression ratios.
-    
-    virtual bool SetAttr(const StringC &attrName,const IntT &attrValue)
-    { return netAttr.SetAttr(attrName,attrValue); }
-    //: Set a attribute.
-    // Returns false if the attribute name is unknown.
-    // This is for handling attributes such as frame rate, and compression ratios.
-    
-    virtual bool GetAttr(const StringC &attrName,RealT &attrValue)
-    { return netAttr.GetAttr(attrName,attrValue); }
-    //: Get a attribute.
-    // Returns false if the attribute name is unknown.
-    // This is for handling attributes such as frame rate, and compression ratios.
-    
-    virtual bool SetAttr(const StringC &attrName,const RealT &attrValue)
-    { return netAttr.SetAttr(attrName,attrValue); }
-    //: Set a attribute.
-    // Returns false if the attribute name is unknown.
-    // This is for handling attributes such as frame rate, and compression ratios.
-    
-    virtual bool GetAttr(const StringC &attrName,bool &attrValue)
-    { return netAttr.GetAttr(attrName,attrValue); }
-    //: Get a attribute.
-    // Returns false if the attribute name is unknown.
-    // This is for handling attributes such as frame rate, and compression ratios.
-    
-    virtual bool SetAttr(const StringC &attrName,const bool &attrValue)
-    { return netAttr.SetAttr(attrName,attrValue); }
-    //: Set a attribute.
-    // Returns false if the attribute name is unknown.
-    // This is for handling attributes such as frame rate, and compression ratios.
-    
-    virtual bool GetAttrList(DListC<StringC> &list) const
-    { return netAttr.GetAttrList(list); }
-    //: Get list of attributes available.
-    // This method will ADD all available attribute names to 'list'.
-    
-    virtual bool GetAttrTypes(DListC<AttributeTypeC> &list) const
-    { return netAttr.GetAttrTypes(list); } 
-    //: Get a list of available attribute types.
-    
-    virtual AttributeTypeC GetAttrType(const StringC &attrName) const
-    { return netAttr.GetAttrType(attrName); } 
-    //: Get type of a particular attribute. 
-    // Returns an invalid handle if attribute is unknown.
-    
-    virtual IntT RegisterChangedSignal(const StringC &attrName,const TriggerC &trig)
-    { return netAttr.RegisterChangedSignal(attrName,trig); } 
-    //: Register a value changed signal.
-    // Note: This method may not be implemented for all AttributeCtrl's.
-    // Returns an id for the trigger, or -1 if operation fails.
-    
-    virtual bool RemoveChangedSignal(IntT id)
-    { return netAttr.RemoveChangedSignal(id); } 
-    //: Remove a changed signal.
-    // Note: This method may not be implemented for all AttributeCtrl's.
-    
-    virtual bool RegisterAttribute(const AttributeTypeC &attr)
-    { return netAttr.RegisterAttribute(attr); } 
-    //: Register a new attribute type.
+    virtual AttributeCtrlC ParentCtrl() const
+    { return netAttr; }
+    //: Get Parent attribute control.
     
   };
 

@@ -125,6 +125,16 @@ namespace RavlN {
     return true;
   }
 
+  //: Register sport attributes.
+  // Currently size and start.
+  
+  bool DPSeekCtrlBodyC::RegisterSPortAttributes(AttributeCtrlC &attrHandle) {
+    attrHandle.RegisterAttribute(AttributeTypeNumC<IntT>("size","Size of stream. (-1 == unknown)",true,false,-1,RavlConstN::maxInt,1,-1));
+    attrHandle.RegisterAttribute(AttributeTypeNumC<IntT>("start","Start of stream. ",true,false,0,RavlConstN::maxInt,1,0));
+    attrHandle.RegisterAttribute(AttributeTypeNumC<IntT>("position","Position in stream. ",true,false,0,RavlConstN::maxInt,1,0));
+    return true;
+  }
+
   //////////////////////////////////////////////////////
   
   //: Default constructor.

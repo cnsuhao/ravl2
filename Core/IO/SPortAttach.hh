@@ -66,39 +66,39 @@ namespace RavlN {
   public:
     DPSeekCtrlAttachC()
       : DPEntityC(true)
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     
     DPSeekCtrlAttachC(const DPSeekCtrlC &sctrl)
       : DPEntityC(*new DPSeekCtrlAttachBodyC(sctrl))
-      {}
+    {}
     //: Constructor.
     
     DPSeekCtrlAttachC(const DPPortC &pb,bool smartDefault = true)
       : DPEntityC(*new DPSeekCtrlAttachBodyC(pb,smartDefault))
-      {}
+    {}
     //: Constructor.
   
   protected:
     inline DPSeekCtrlAttachBodyC &Body() 
-      { return dynamic_cast<DPSeekCtrlAttachBodyC &>(DPEntityC::Body()); }
+    { return dynamic_cast<DPSeekCtrlAttachBodyC &>(DPEntityC::Body()); }
     //: Access body.
   
     inline const DPSeekCtrlAttachBodyC &Body() const
-      { return dynamic_cast<const DPSeekCtrlAttachBodyC &>(DPEntityC::Body()); }
+    { return dynamic_cast<const DPSeekCtrlAttachBodyC &>(DPEntityC::Body()); }
     //: Access body.
     
   public:
-  void SetSeekCtrl(const DPSeekCtrlC &sc)
+    void SetSeekCtrl(const DPSeekCtrlC &sc)
     { Body().SetSeekCtrl(sc); }
-  //: Set seek control.
+    //: Set seek control.
   
   };
   
   ///////////////////////////////////
-  //! userlevel=Develop
-  //: Seek control attach.
+      //! userlevel=Develop
+      //: Seek control attach.
   
   template<class DataT>
   class DPISPortAttachBodyC 
@@ -106,26 +106,32 @@ namespace RavlN {
       public DPSeekCtrlAttachBodyC
   {
   public:
-    DPISPortAttachBodyC()
-      {}
+    DPISPortAttachBodyC() {
+      this->MapBackChangedSignal("start");
+      this->MapBackChangedSignal("size");
+    }
     //: Default constructor.
     
     DPISPortAttachBodyC(const DPIPortC<DataT> &aport,const DPSeekCtrlC &sc)
       : DPSeekCtrlAttachBodyC(sc),
 	port(aport)
-      {
-	RavlAssert(sctrl.IsValid());
-	RavlAssert(port.IsValid());
-      }
+    {
+      this->MapBackChangedSignal("start");
+      this->MapBackChangedSignal("size");
+      RavlAssert(sctrl.IsValid());
+      RavlAssert(port.IsValid());
+    }
     //: Constructor.
     // Attach 'aport' to seek ctrl 'sc'
     
     DPISPortAttachBodyC(const DPIPortC<DataT> &aport,bool smartDefault = true)
       : DPSeekCtrlAttachBodyC(aport,smartDefault),
-      port(aport)
-      {
-	RavlAssert(port.IsValid());
-      }
+        port(aport)
+    {
+      this->MapBackChangedSignal("start");
+      this->MapBackChangedSignal("size");
+      RavlAssert(port.IsValid());
+    }
     //: Constructor.
     // Attach 'aport' to seek ctrl 'sc'
 
@@ -134,60 +140,64 @@ namespace RavlN {
     //: Save to ostream.
     
     virtual bool Seek(UIntT off)
-      { return sctrl.Seek(off); }
+    { return sctrl.Seek(off); }
     //: Seek to location in stream.
     
     virtual bool DSeek(IntT off)
-      { return sctrl.DSeek(off); }
+    { return sctrl.DSeek(off); }
     //: Delta Seek, goto location relative to the current one.
   
     virtual UIntT Tell() const
-      { return sctrl.Tell(); }
+    { return sctrl.Tell(); }
     //: Find current location in stream.
   
     virtual UIntT Size() const
-      { return sctrl.Size(); }
+    { return sctrl.Size(); }
     //: Find the total size of the stream.
     
     virtual UIntT Start() const
-      { return sctrl.Start(); }
+    { return sctrl.Start(); }
     //: Find the offset where the stream begins, normally zero.
     // Defaults to 0
     
     virtual bool IsGetReady() const
-      { return port.IsGetReady(); }
+    { return port.IsGetReady(); }
     //: Is some data ready ?
     // true = yes.
     // Defaults to !IsGetEOS().
     
     virtual bool IsGetEOS() const
-      { return port.IsGetEOS(); }
+    { return port.IsGetEOS(); }
     //: Has the End Of Stream been reached ?
     // true = yes.
     
     virtual const type_info &InputType() const
-      { return port.InputType(); }
+    { return port.InputType(); }
     //: Input type.
     
     virtual DataT Get() 
-      { return port.Get(); }
+    { return port.Get(); }
     //: Get next piece of data.
     
     virtual bool Get(DataT &buff) 
-      {  return port.Get(buff); }
+    {  return port.Get(buff); }
     //: Try and get next piece of data.
     
     virtual DPPortC ConnectedTo() const
-      { return port; }
+    { return port; }
     //: What does this connect to ?
+    
+    virtual AttributeCtrlC ParentCtrl() const
+    { return AttributeCtrlC(port); }
+    //: Get Parent attribute control.
     
   protected:
     DPIPortC<DataT> port; 
   };
   
   ///////////////////////////////////
-  //! userlevel=Advanced
-  //: Seek control attach.
+      //! userlevel=Advanced
+      //: Seek control attach.
   
   template<class DataT>
   class DPISPortAttachC 
@@ -197,31 +207,31 @@ namespace RavlN {
   public:
     DPISPortAttachC()
       : DPEntityC(true)
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.  
     
     DPISPortAttachC(const DPIPortC<DataT> &aport,const DPSeekCtrlC &sc)
       : DPEntityC(*new DPISPortAttachBodyC<DataT>(aport,sc))
-      {}
+    {}
     //: Constructor.
     // Attach 'aport' to seek ctrl 'sc'
     
     DPISPortAttachC(const DPIPortC<DataT> &aport,bool smartDefault = true)
       : DPEntityC(*new DPISPortAttachBodyC<DataT>(aport,smartDefault))
-      {}
+    {}
     //: Constructor.
     // Attach 'aport' to seek ctrl 'sc'
     
     void SetSeekCtrl(const DPSeekCtrlC &sc)
-      { DPSeekCtrlAttachC::Body().SetSeekCtrl(sc); }
+    { DPSeekCtrlAttachC::Body().SetSeekCtrl(sc); }
     //: Set seek control.
     
   };
   
   ///////////////////////////////////
-  //! userlevel=Develop
-  //: Seek control attach.
+      //! userlevel=Develop
+      //: Seek control attach.
   
   template<class DataT>
   class DPOSPortAttachBodyC 
@@ -229,21 +239,29 @@ namespace RavlN {
       public DPSeekCtrlAttachBodyC
   {
   public:
-    DPOSPortAttachBodyC()
-      {}
+    DPOSPortAttachBodyC() {
+      this->MapBackChangedSignal("start");
+      this->MapBackChangedSignal("size");
+    }
     //: Default constructor.
     
     DPOSPortAttachBodyC(const DPOPortC<DataT> &aport,const DPSeekCtrlC &sc)
       : DPSeekCtrlAttachBodyC(sc),
-      port(aport)
-      {}
+        port(aport)
+    {
+      this->MapBackChangedSignal("start");
+      this->MapBackChangedSignal("size");
+    }
     //: Constructor.
     // Attach 'aport' to seek ctrl 'sc'
     
     DPOSPortAttachBodyC(const DPOPortC<DataT> &aport,bool smartDefault = true)
       : DPSeekCtrlAttachBodyC(aport,smartDefault),
-      port(aport)
-      {}
+        port(aport)
+    {
+      this->MapBackChangedSignal("start");
+      this->MapBackChangedSignal("size");
+    }
     //: Constructor.
     // Attach 'aport' to seek ctrl 'sc'
     
@@ -252,51 +270,55 @@ namespace RavlN {
     //: Save to ostream.
     
     virtual bool Seek(UIntT off)
-      { return sctrl.Seek(off); }
+    { return sctrl.Seek(off); }
     //: Seek to location in stream.
     
     virtual bool DSeek(IntT off)
-      { return sctrl.DSeek(off); }
+    { return sctrl.DSeek(off); }
     //: Delta Seek, goto location relative to the current one.
     
     virtual UIntT Tell() const
-      { return sctrl.Tell(); }
+    { return sctrl.Tell(); }
     //: Find current location in stream.
     
     virtual UIntT Size() const
-      { return sctrl.Size(); }
+    { return sctrl.Size(); }
     //: Find the total size of the stream.
     
     virtual UIntT Start() const
-      { return sctrl.Start(); }
+    { return sctrl.Start(); }
     //: Find the offset where the stream begins, normally zero.
     // Defaults to 0
     
     virtual void PutEOS()
-      { port.PutEOS(); }
+    { port.PutEOS(); }
     //: Is some data ready ?
     // true = yes.
     // Defaults to !IsGetEOS().
     
     virtual const type_info &OutputType() const
-      { return port.OutputType(); }
+    { return port.OutputType(); }
     //: Input type.
     
     virtual bool Put(const DataT &buff) 
-      {  return port.Put(buff); }
+    {  return port.Put(buff); }
     //: Try and get next piece of data.
     
     virtual DPPortC ConnectedTo() const
-      { return port; }
+    { return port; }
     //: What does this connect to ?
+    
+    virtual AttributeCtrlC ParentCtrl() const
+    { return AttributeCtrlC(port); }
+    //: Get Parent attribute control.
     
   protected:
     DPOPortC<DataT> port; 
   };
   
   ///////////////////////////////////
-  //! userlevel=Advanced
-  //: Seek control attach.
+      //! userlevel=Advanced
+      //: Seek control attach.
   
   template<class DataT>
   class DPOSPortAttachC 
@@ -306,19 +328,19 @@ namespace RavlN {
   public:
     DPOSPortAttachC()
       : DPEntityC(true)
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.  
     
     DPOSPortAttachC(const DPOPortC<DataT> &aport,const DPSeekCtrlC &sc)
       : DPEntityC(*new DPOSPortAttachBodyC<DataT>(aport,sc))
-      {}
+    {}
     //: Constructor.
     // Attach 'aport' to seek ctrl 'sc'
     
     DPOSPortAttachC(const DPOPortC<DataT> &aport,bool smartDefault = true)
       : DPEntityC(*new DPOSPortAttachBodyC<DataT>(aport,smartDefault))
-      {}
+    {}
     //: Constructor.
     // Attach 'aport' to seek ctrl 'sc'
     
