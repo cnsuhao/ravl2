@@ -31,7 +31,7 @@ namespace RavlImageN {
     //: Setup a scan.
     // frame - Rectangle to be scanned.
     // roiSize - Size of rectangle to start from.
-    // minColSize - Smallest number of columbs for window.
+    // minColSize - Smallest number of columns for window.
     // scale - Size of scale steps.
     // step - fraction of roi to step through when scanning an image.
     

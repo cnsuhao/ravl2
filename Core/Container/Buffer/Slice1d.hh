@@ -29,7 +29,7 @@ namespace RavlN {
   
   //:  Slice through array
   // Slices are NOT simple arrays, they have an additional paramiter
-  // 'stride' which allows them to access both rows and columbs of
+  // 'stride' which allows them to access both rows and columns of
   // block matrixes equally.
   // This intended to support numerical types, operations
   // on the vector are implemented as would be expected
