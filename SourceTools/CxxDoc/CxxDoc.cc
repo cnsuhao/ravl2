@@ -66,10 +66,11 @@ int BuildCxx(int argc, char **argv)
   StringC inFiles = opt.String("i",localProjOut + "/include" , "Directory containing header files");
   StringC outFile = opt.String("o",localProjOut + "/share/doc/RAVL/Auto", "output document");
   StringC ehtFiles = opt.String("eht",localProjOut + "/share/RAVL/AutoDoc/EHT","Location of EHT files. ");
-  StringC templFiles = opt.String("tc",PROJECT_OUT "/share/RAVL/CxxDoc/Class", "Directory of template files for class pages, or single template file");
-
+  StringC installHome = opt.String("ih",PROJECT_OUT,"Install home.");
+  StringC templFiles = opt.String("tc",installHome + "/share/RAVL/CxxDoc/Class", "Directory of template files for class pages, or single template file");
+  
 #if 1
-  StringC docNodeFiles = opt.String("td",PROJECT_OUT "/share/RAVL/CxxDoc/DocNode", "Directory of template files for doc node page, or single template file");
+  StringC docNodeFiles = opt.String("td",installHome + "/share/RAVL/CxxDoc/DocNode", "Directory of template files for doc node page, or single template file");
 #else
   StringC docNodeFiles = opt.String("td","", "Directory of template files for doc node page, or single template file");
 #endif
