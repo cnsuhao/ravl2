@@ -128,12 +128,6 @@ namespace RavlN {
     // This deletes the edge from the mesh and merges the vertex's
     // at either end.  The remaining vertex is returned.
     
-    HEMeshBaseFaceC OpenEdge();
-    //: Open an edge, merging the faces on either side.
-    // This deletes the edge from the mesh and returns
-    // a handle to the new face. <p>
-    // NOT IMPLEMENTED
-    
     bool operator==(const HEMeshBaseEdgeBodyC &bod) const
     { return this == &bod; }
     //: Is this the same body ?
@@ -337,12 +331,6 @@ namespace RavlN {
     // This deletes the edge from the mesh and merges the vertex's
     // at either end.  The new vertex is returned. The edge is deleted,
     // and the handle becomes invalid after the call completes.
-    
-    HEMeshBaseFaceC OpenEdge();
-    //: Open an edge, merging the faces on either side.
-    // This deletes the edge from the mesh and returns
-    // a handle to the new face. <p>
-    // NOT IMPLEMENTED
     
   protected:
     HEMeshBaseEdgeBodyC *body;

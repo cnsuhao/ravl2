@@ -305,9 +305,6 @@ namespace RavlN {
   
   //////////////////////////////////////////////////////
   
-  inline HEMeshBaseFaceC HEMeshBaseEdgeC::OpenEdge()
-  { return Body().OpenEdge(); }
-  
   inline void HEMeshBaseEdgeC::SetFace(HEMeshBaseFaceC face)
   { Body().SetFace(face.Body()); }
   

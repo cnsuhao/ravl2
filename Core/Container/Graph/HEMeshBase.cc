@@ -308,6 +308,10 @@ namespace RavlN {
 	  cerr << "HEMeshBaseBodyC::CheckMesh(), Edge with invalid vertex. \n";
 	  ret = false;
 	} else {
+	  if(!curEdge.Vertex().FirstEdge().IsValid()) {
+	    cerr <<"HEMeshBaseBodyC::CheckMesh(), Vertex has invalid edge pointer. \n";
+	    ret = false;
+	  }
 	  if(vertSeen.IsMember(curEdge.Vertex())) {
 	    cerr << "HEMeshBaseBodyC::CheckMesh(), Duplicate vertex in face. \n";
 	    ret = false;

@@ -105,17 +105,7 @@ namespace RavlN {
     delete deadVertex;
     return ret;
   }
-  
-  //: Open an edge, merging the faces on either side.
-  // This deletes the edge from the mesh and returns
-  // a handle to the new face.
-  
-  HEMeshBaseFaceC HEMeshBaseEdgeBodyC::OpenEdge() {
-    RavlAssertMsg(0,"HEMeshBaseEdgeBodyC::OpenEdge(), Not implemented. ");
-#if 0
-#endif
-    return HEMeshBaseFaceC();
-  }
+    
   
   //: Constructor.
   

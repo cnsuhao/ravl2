@@ -165,11 +165,6 @@ namespace RavlN {
     // at either end.  The new vertex is returned. The edge is deleted,
     // and the handle becomes invalid after the call completes.
     
-    THEMeshFaceC<VertexDataT,FaceDataT,EdgeDataT> OpenEdge();
-    //: Open an edge, merging the faces on either side.
-    // This deletes the edge from the mesh and returns
-    // a handle to the new face. <p>
-    // NOT IMPLEMENTED
     
   private:
     
