@@ -90,6 +90,9 @@ namespace RavlGUIN
     IntT GetCurrentPage();
     //: Get the id of the current page being displayed.
     
+    IntT GetPageId(WidgetC &page);
+    //: Get the id of the page
+
     Signal1C<IntT> &SigChanged()
     { return m_sigChanged; }
     //: Access page changed signal.
@@ -208,7 +211,11 @@ namespace RavlGUIN
     IntT GetCurrentPage()
     { return Body().GetCurrentPage(); }
     //: Get the id of the current page being displayed.
-    
+
+    IntT GetPageId(WidgetC &page) 
+    { return Body().GetPageId(page); }
+    //: Get the id of the page
+
     Signal1C<IntT> &SigChanged()
     { return Body().SigChanged(); }
     //: Access page changed signal.

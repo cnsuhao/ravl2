@@ -20,7 +20,7 @@
 #include "Ravl/Stream.hh"
 #include <gtk/gtk.h>
 
-#define DODEBUG 0
+#define DODEBUG 1
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -268,6 +268,7 @@ namespace RavlGUIN {
     }
     ONDEBUG(cerr << "NotebookBodyC::GUIShowPage(), Showing " << pageNo << "\n");
     gtk_notebook_set_page(GTK_NOTEBOOK (widget),pageNo);
+    ONDEBUG(cerr << "NotebookBodyC::GUIShowPage(), Done \n");
     return true;
   }
   
@@ -283,7 +284,15 @@ namespace RavlGUIN {
     ReadBackLockC readBackLock; // Lock the GUI thread.
     return gtk_notebook_get_current_page(GTK_NOTEBOOK (widget));
   }
+
+  //: Get the id of a page
+  IntT NotebookBodyC::GetPageId(WidgetC & page) {
+    ReadBackLockC readBackLock; // Lock the GUI thread.
+    return gtk_notebook_page_num(GTK_NOTEBOOK (widget), page.Widget());
+  }
   
+
+
   ///////////////////////////////////////////
   
   //: Default constructor
