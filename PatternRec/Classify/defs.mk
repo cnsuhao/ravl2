@@ -11,18 +11,17 @@ DESCRIPTION = Pattern Recognition Classifiers
 
 PACKAGE = Ravl/PatternRec
 
-HEADERS=Classifier.hh DesignClassifierSupervised.hh  DesignClassifierUnsupervised.hh \
+HEADERS= DesignClassifierSupervised.hh  \
  DesignDiscriminantFunction.hh DesignKNearestNeighbour.hh \
- ClassifierKNearestNeighbour.hh ClassifierNearestNeighbour.hh ClassifierAverageNearestNeighbour.hh \
- ClassifierDiscriminantFunction.hh DesignKMeans.hh DesignMeanShiftCluster.hh \
- DesignCluster.hh ClassifierGaussianMixture.hh DesignClassifierGaussianMixture.hh \
+ ClassifierKNearestNeighbour.hh ClassifierAverageNearestNeighbour.hh \
+ ClassifierDiscriminantFunction.hh \
+  ClassifierGaussianMixture.hh DesignClassifierGaussianMixture.hh \
  ClassifierPreprocess.hh
 
-SOURCES=Classifier.cc DesignClassifierSupervised.cc DesignClassifierUnsupervised.cc \
+SOURCES= DesignClassifierSupervised.cc \
  DesignDiscriminantFunction.cc DesignKNearestNeighbour.cc \
- ClassifierKNearestNeighbour.cc ClassifierNearestNeighbour.cc ClassifierAverageNearestNeighbour.cc \
- ClassifierDiscriminantFunction.cc DesignKMeans.cc DesignMeanShiftCluster.cc \
- DesignCluster.cc ClassifierGaussianMixture.cc DesignClassifierGaussianMixture.cc \
+ ClassifierKNearestNeighbour.cc ClassifierAverageNearestNeighbour.cc \
+ ClassifierDiscriminantFunction.cc ClassifierGaussianMixture.cc DesignClassifierGaussianMixture.cc \
  ClassifierPreprocess.cc
 
 PLIB = RavlPatternRec
@@ -35,4 +34,4 @@ USESLIBS=RavlPatternRec
 
 EHT = Ravl.Pattern_Recognition.Classify.html
 
-EXAMPLES= exKMeansCluster.cc exKNearestNeighbour.cc
+EXAMPLES=  exKNearestNeighbour.cc

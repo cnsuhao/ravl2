@@ -9,7 +9,7 @@
 
 DESCRIPTION= Classes for numerical modeling of functions. 
 
-NESTED=Basic.r DimensionReduction.r
+NESTED=Basic.r DimensionReduction.r GaussianMixture.r
 
 # NeuralNet.r
 
