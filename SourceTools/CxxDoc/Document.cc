@@ -510,8 +510,8 @@ namespace RavlCxxDocN {
     }
     
     if(!anObj.IsValid()) { // Assume its not documented...
-      if(xObj.Name() == "void")
-	return StringC("void");
+      if(nativeTypes.IsMember(xObj.Name()))
+	return xObj.Name(); // All native types are fine as plain text.
       ONDEBUG(cerr << "WARNING: Can't resolve name, for HtmlTypeName. '" << xObj.Name() << "' -> '" << xObj.Name() << "'\n");
       return MakeHtml(xObj.Name());
     }

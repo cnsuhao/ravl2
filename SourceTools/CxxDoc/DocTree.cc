@@ -333,8 +333,8 @@ namespace RavlCxxDocN {
       path.InsFirst(projName);
       pos = projName + '.' + xpos;
     }
-    
     DocNodeC parent = root.AddNode(path); // Find parent node.
+    ONDEBUG(cerr << "DocTreeBodyC::InsertDocLeaf(), Adding leaf '" << pos << "' to node '" << parent.Name() << "' \n");
     // Add child.
     parent.Append(DocNodeC(nm,pos,userlevel,brief,docFilename,nodeType,true));
     return true;

@@ -13,6 +13,7 @@
 #include "Ravl/DLIter.hh"
 #include "Ravl/CDLIter.hh"
 #include "Ravl/HashIter.hh"
+#include "Ravl/HSet.hh"
 
 #define DODEBUG 0
 
@@ -23,6 +24,17 @@
 #endif
 
 namespace RavlCxxDocN {
+  
+  static HSetC<StringC> UserLevels() {
+    HSetC<StringC> ret;
+    ret += "Normal";
+    ret += "Advanced";
+    ret += "Develop";
+    ret += "Default";
+    return ret;
+  }
+  
+  static HSetC<StringC> validUserlevels = UserLevels();
   
   //// DocNodeBodyC ////////////////////////////////
   
@@ -45,7 +57,12 @@ namespace RavlCxxDocN {
     ONDEBUG(cerr << "DocNodeBodyC::DocNodeBodyC(), Creating node :'" << nm << "' DocName:'" << docName << "' Userlevel:'" << userlvl << "' \n");
     Comment().Header() = brief;
     SetVar("brief",brief);
-    SetVar("userlevel",userlvl);
+    if(validUserlevels[userlvl])
+      SetVar("userlevel",userlvl);
+    else {
+      cerr << "WARNING: Invalid userlevel detected '" << userlvl << "' in node :'" << nm << "' DocName:'" << docName << "' \n";
+      SetVar("userlevel","Default");
+    }
     SetVar("docentry",nposition);
     SetVar("docNodeType",nodeType);
     if(docFilename != "")
