@@ -80,7 +80,7 @@ namespace RavlImageN
     for(Array2dIter2C<ByteRGBValueC,ByteYUVValueC> it(ret,dat);it.IsElm();it.Next()) {
       RealRGBValueC p(RealYUVValueC(it.Data2()));
       p.Limit(0,255);
-      it.Data1() = ByteRGBValueC((ByteT) p.Red(),(ByteT) p.Green(),(ByteT) p.Blue());
+      it.Data1().Set((ByteT) p.Red(),(ByteT) p.Green(),(ByteT) p.Blue());
     }
     return ret;
   }
@@ -92,7 +92,7 @@ namespace RavlImageN
     for(Array2dIter2C<ByteYUVValueC,ByteRGBValueC> it(ret,dat);it.IsElm();it.Next()) {
       RealYUVValueC v(RealRGBValueC(it.Data2()));
       v.Limit(0,255);
-      it.Data1() = ByteYUVValueC((ByteT) v.Y(),(ByteT) v.U(),(ByteT) v.V());
+      it.Data1().Set((ByteT) v.Y(),(ByteT) v.U(),(ByteT) v.V());
     }
     return ret;
   }
