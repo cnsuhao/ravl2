@@ -23,7 +23,7 @@
 
 namespace RavlImageN {
   
-  //: Load a RGB image in PPM format.
+  //: Load an RGBA image in TIFF format.
   // Use via function found in amma/StdType/DataProc/FileFormatIO.hh
   
   class DPIImageTIFFByteRGBAC 
@@ -36,7 +36,7 @@ namespace RavlImageN {
     //: Constructor from stream 
   };
 
-  //: Save a RGB image in PPM format.
+  //: Save an RGBA image in TIFF format.
   
   class DPOImageTIFFByteRGBAC 
     : public DPOPortC<ImageC<ByteRGBAValueC> > {

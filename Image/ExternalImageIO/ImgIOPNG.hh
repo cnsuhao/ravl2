@@ -23,7 +23,7 @@
 
 namespace RavlImageN {
   
-  //: Load a RGB image in PPM format.
+  //: Load an RGB image in PNG format.
   // Use via function found in amma/StdType/DataProc/FileFormatIO.hh
   
   class DPIImagePNGByteRGBC : public DPIPortC<ImageC<ByteRGBValueC> > {
@@ -35,7 +35,7 @@ namespace RavlImageN {
     //: Constructor from stream 
   };
   
-  //: Save a RGB image in PPM format.
+  //: Save an RGB image in PNG format.
   
   class DPOImagePNGByteRGBC : public DPOPortC<ImageC<ByteRGBValueC> >
   {
@@ -47,7 +47,7 @@ namespace RavlImageN {
     //: Constructor from stream.  
   };
   
-  //: Load a RGB image in PPM format.
+  //: Load a byte image in PNG format.
   // Use via function found in amma/StdType/DataProc/FileFormatIO.hh
   
   class DPIImagePNGByteGreyC 
@@ -61,7 +61,7 @@ namespace RavlImageN {
     //: Constructor from stream 
   };
   
-  //: Save a RGB image in PPM format.
+  //: Save a byte image in PNG format.
   
   class DPOImagePNGByteGreyC 
     : public DPOPortC<ImageC<ByteT> >

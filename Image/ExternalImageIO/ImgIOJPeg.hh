@@ -24,7 +24,7 @@
 
 namespace RavlImageN {
   
-  //: Load a RGB image in JPEG format.
+  //: Load an RGB image in JPEG format.
   // Use via function found in amma/StdType/DataProc/FileFormatIO.hh
   
   class DPIImageJPegByteRGBC 
@@ -38,7 +38,7 @@ namespace RavlImageN {
     //: Constructor from stream 
   };
   
-  //: Save a RGB image in JPEG format.
+  //: Save an RGB image in JPEG format.
   
   class DPOImageJPegByteRGBC 
     : public DPOPortC<ImageC<ByteRGBValueC> >
@@ -78,7 +78,7 @@ namespace RavlImageN {
     //: Constructor from stream.  
   };
   
-  //: Load a Grey image in JPEG format.
+  //: Load a byte image in JPEG format.
   // Use via function found in amma/StdType/DataProc/FileFormatIO.hh
   
   class DPIImageJPegByteGreyC 
@@ -92,7 +92,7 @@ namespace RavlImageN {
     //: Constructor from stream 
   };
   
-  //: Save a Grey image in JPEG format.
+  //: Save a byte image in JPEG format.
   
   class DPOImageJPegByteGreyC 
     : public DPOPortC<ImageC<ByteT> >
