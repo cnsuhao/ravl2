@@ -29,6 +29,7 @@ namespace RavlGUIN {
   ToggleButtonBodyC::ToggleButtonBodyC(const char *nlabel,bool nInitState)
     : ButtonBodyC(nlabel),
       initState(nInitState),
+      initInconsistant(false),
       sigChanged(true)
   {}
   
@@ -37,6 +38,7 @@ namespace RavlGUIN {
   ToggleButtonBodyC::ToggleButtonBodyC(const char *nlabel,const PixmapC &pixm,bool nInitState)
     : ButtonBodyC(nlabel,pixm),
       initState(nInitState),
+      initInconsistant(false),
       sigChanged(true)
   {}
   
@@ -67,6 +69,8 @@ namespace RavlGUIN {
       return false;
     if(initState)  // Default state is off.
       SetActive(initState); // This will actual cause a signal ??
+    if(initInconsistant)
+      GUISetInconsistent(initInconsistant);
     Connect(Signal("toggled"),ToggleButtonC(*this),&ToggleButtonC::SignalState);
     //ConnectSignals();
     
@@ -130,8 +134,25 @@ namespace RavlGUIN {
   
   //: Set toggle state.
   
-  void ToggleButtonBodyC::SetToggle(bool &val) {
-    Manager.Queue(Trigger(ToggleButtonC(*this),&ToggleButtonC::GUISetToggle,val));
+  void ToggleButtonBodyC::SetToggle(bool &val) 
+  { Manager.Queue(Trigger(ToggleButtonC(*this),&ToggleButtonC::GUISetToggle,val)); }
+  
+  //: Set inconsistant state
+  // GUI thread only.
+  
+  bool ToggleButtonBodyC::GUISetInconsistent(bool val) {
+    initInconsistant = val;
+    if(widget == 0)
+      return false;
+    gtk_toggle_button_set_inconsistent(GTK_TOGGLE_BUTTON(widget),val);
+    return true;
+  }
+  
+  //: Set inconsistant state
+  
+  bool ToggleButtonBodyC::SetInconsistent(bool &val) { 
+    Manager.Queue(Trigger(ToggleButtonC(*this),&ToggleButtonC::GUISetInconsistent,val)); 
+    return true;
   }
   
   //: Create a button.

@@ -57,6 +57,13 @@ namespace RavlGUIN {
     void SetToggle(bool &val);
     //: Set toggle state.
     
+    bool GUISetInconsistent(bool val);
+    //: Set inconsistant state
+    // GUI thread only.
+    
+    bool SetInconsistent(bool &val);
+    //: Set inconsistant state
+    
   protected:
     bool SignalState();
     // Signal state to clients with 'sigChanged'
@@ -70,6 +77,7 @@ namespace RavlGUIN {
     // be created easily.
     
     bool initState; // Inital state.
+    bool initInconsistant;
     
     Signal1C<bool> sigChanged;
     
@@ -147,6 +155,15 @@ namespace RavlGUIN {
     void SetToggle(bool val)
     { Body().SetToggle(val); }
     //: Set toggle state.
+    
+    bool GUISetInconsistent(bool val)
+    { return Body().GUISetInconsistent(val); }
+    //: Set inconsistant state
+    // GUI thread only.
+    
+    bool SetInconsistent(bool &val)
+    { return Body().SetInconsistent(val); }
+    //: Set inconsistant state
     
     friend class ToggleButtonBodyC;
   };
