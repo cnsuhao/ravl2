@@ -7,6 +7,8 @@ $(set:docentry_=$(subst: :_:$(docentry)))
 <body BGCOLOR=#FFFFFF>
 
 $(include:topbar.stmpl)
+
+$(//: **************** Put in bread crumbs *********************** )
 $(ifset:docentry:
 <table width=100% bgcolor="#C0C0C0"><tr>$(set:parent=)
 <td>$(for:.:$docentry:$(silent:
