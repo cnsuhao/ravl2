@@ -567,6 +567,18 @@ namespace RavlGUIN {
   // GUI thread only.
   
   GdkColor &CanvasBodyC::GetColour(int n) {
+    //: special treatment for black - not in the default colormap
+    if(n==65) {
+      GdkColor ret;
+      GdkColormap *colorMap = gdk_window_get_colormap(widget->window);
+      if(!gdk_color_black(colorMap,&ret)) {
+	cerr << "Failed to set color to black" << endl;
+      }
+      GdkColor &r = ret;
+      return r;
+    }
+
+    //: for all other colors in the table
     static GdkColor nullColour;
     GdkColor &ret = colourTab[((UIntT)(n-1)) % colourTab.Size()];
     if(ret.pixel == 0) { // Need to allocate ?

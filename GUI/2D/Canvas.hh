@@ -62,7 +62,7 @@ namespace RavlGUIN {
     
     GdkColor &GetColour(int n);
     //: Access colour.
-    // GUI thread only.
+    // GUI thread only. (n=65 is black)
     
     bool Resize(int nsx,int nsy);
     //: Resize canvas.
