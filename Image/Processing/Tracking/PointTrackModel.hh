@@ -38,7 +38,7 @@ namespace RavlImageN {
   class PointTrackModelBodyC : public RCBodyC
   {
   public:
-    PointTrackModelBodyC(UIntT nid,const Index2dC &nat,IntT frameNo,const Array2dC<ByteT> &ntempl,IntT nremoveThreshold)
+    PointTrackModelBodyC(UIntT nid,const Index2dC &nat,IntT frameNo,const Array2dC<ByteT> &ntempl,RealT nremoveThreshold)
       : id(nid),
 	at(nat),
 	vel(0,0),
@@ -67,7 +67,7 @@ namespace RavlImageN {
     { return frame; }
     //: Access frame number object was last seen.
     
-    void Update(const Point2dC &nat,UIntT frameNo,IntT nmatchScore) { 
+    void Update(const Point2dC &nat,UIntT frameNo,RealT nmatchScore) { 
       vel = (nat - at) / (RealT)(frameNo - frame);
       at = nat;
       frame = frameNo;
@@ -83,7 +83,7 @@ namespace RavlImageN {
     { return vel; }
     //: Estimated velocity of point.
     
-    IntT MatchScore() const
+    RealT MatchScore() const
     { return matchScore; }
     //: Get the last match score.
     
@@ -106,10 +106,10 @@ namespace RavlImageN {
     Point2dC at;  // Point at which it was last seen.
     Vector2dC vel; // Difference between previous two positions.
     UIntT frame;   // Frame number.
-    IntT matchScore; // Last match score.
+    RealT matchScore; // Last match score.
     Array2dC<ByteT> templ; // Template of feature.
     bool live;   // Is this a live track ?
-    IntT removeThreshold;
+    RealT removeThreshold;
   };
   
   class PointTrackModelC : public RCHandleC<PointTrackModelBodyC>
@@ -120,7 +120,7 @@ namespace RavlImageN {
     //: Default constructor.
     // Creates an invalid handle.
 
-    PointTrackModelC(UIntT nid,const Index2dC &nat,IntT frameNo,const Array2dC<ByteT> &ntempl,IntT nremoveThreshold)
+    PointTrackModelC(UIntT nid,const Index2dC &nat,IntT frameNo,const Array2dC<ByteT> &ntempl,RealT nremoveThreshold)
       : RCHandleC<PointTrackModelBodyC>(*new PointTrackModelBodyC(nid,nat,frameNo,ntempl,nremoveThreshold))
     {}
     //: Create new track.
@@ -165,7 +165,7 @@ namespace RavlImageN {
     { return Body().Velocity(); }
     //: Estimated velocity of point.
     
-    IntT MatchScore() const
+    RealT MatchScore() const
     { return Body().MatchScore(); }
     //: Get the last match score.
     

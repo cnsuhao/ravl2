@@ -31,13 +31,15 @@ namespace RavlImageN {
   public:
     PointTrackerC(int cthreshold = 20,
 		  int cwidth = 7,
-		  int nmthreshold = 20,
+		  RealT nmthreshold = 20,
 		  int nmwidth = 15,
 		  int lifeTime = 8,
 		  int searchSize = 25,
-		  int newFreq = 10);
+		  int newFreq = 10,
+		  bool useNormCorrelation = false
+		  );
     //: Constructor.
-    // Matching width.
+    // When using normalised correlation nmthreshold should be set to around 2
     
     RCHashC<UIntT,PointTrackC> Apply(const ImageC<ByteT> &img);
     //: Returns a list of tracks.
@@ -73,10 +75,11 @@ namespace RavlImageN {
     IntT frameCount;
     CornerDetectorC cornerDet;
     IntT mwidth;
-    IntT mthreshold;
+    RealT mthreshold;
     IntT lifeTime;
     IntT searchSize;
     DListC<PointTrackModelC> tracks; // Set of tracks being considered.
+    bool useNormCorrelation;
   };
 }
 

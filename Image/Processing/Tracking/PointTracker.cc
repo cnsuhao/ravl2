@@ -8,6 +8,8 @@
 //! file="Ravl/Image/Processing/Tracking/PointTracker.cc"
 //! lib=RavlImageProc
 
+#define RAVL_USE_CORRELATION 1
+
 #include "Ravl/Image/PointTracker.hh"
 #include "Ravl/Array2dIter2.hh"
 #include "Ravl/Image/Matching.hh"
@@ -17,6 +19,10 @@
 #include "Ravl/Image/CornerDetectorSusan.hh"
 #include "Ravl/Image/CornerDetectorHarris.hh"
 #include "Ravl/Image/MatchPatch.hh"
+
+#include "Ravl/Image/MatchNormalisedCorrelation.hh"
+
+#include "Ravl/Sums1d2.hh"
 
 #define DODEBUG 0
 #if DODEBUG 
@@ -29,9 +35,10 @@
 
 namespace RavlImageN {
   
+  
   //: Constructor.
   
-  PointTrackerC::PointTrackerC(int cthreshold,int cwidth,int nmthreshold,int nmwidth,int nlifeTime,int nsearchSize,int nnewFreq)
+  PointTrackerC::PointTrackerC(int cthreshold,int cwidth,RealT nmthreshold,int nmwidth,int nlifeTime,int nsearchSize,int nnewFreq,bool nUseNormCorrelation)
     : idAlloc(1),
       newFreq(nnewFreq),
       frameCount(1),
@@ -40,7 +47,8 @@ namespace RavlImageN {
       mwidth(nmwidth),
       mthreshold(nmthreshold),
       lifeTime(nlifeTime),
-      searchSize(nsearchSize)
+      searchSize(nsearchSize),
+      useNormCorrelation(nUseNormCorrelation)
   {}
   
   
@@ -66,11 +74,11 @@ namespace RavlImageN {
   
   //: Init tracks
   void PointTrackerC::AddTracks(const ImageC<ByteT> &img, ImageC<ByteT>* debugimg) {
-
+    
     // Detect corners
     DListC<CornerC> cl;
     cl = cornerDet.Apply(img);
-
+    
     // Drop corners that are too close to existing tracks
     for(DLIterC<PointTrackModelC> itt(tracks);itt;itt++) {
       for(DLIterC<CornerC> it(cl);it;it++) {
@@ -82,28 +90,44 @@ namespace RavlImageN {
 	}
       }
     }
-
+    
     // Make tracks for good corners
-    IntT removeThresh = Sqr(mwidth) * mthreshold;
+    RealT removeThresh = Sqr(mwidth) * mthreshold;
     for(DLIterC<CornerC> it(cl);it;it++) {
       IndexRange2dC fr(it->Location(),mwidth,mwidth);
       if(!img.Frame().Contains(fr))
          continue;
       Array2dC<ByteT> templ(img,fr,Index2dC(-mwidth/2,-mwidth/2));
+      
+#if 0
+      // Check variance of window.
+      Sums1d2C tsums;
+      for(Array2dIterC<ByteT> sit(templ);sit;sit++)
+	tsums += *sit;
+      RealT var = tsums.Variance();
+      cerr << "Patch var=" << var << "\n";
+      if(var < 1000)
+	continue;
+#endif
       tracks.InsLast(PointTrackModelC(idAlloc++,it->Location(),frameCount,templ,removeThresh));
       ONDEBUG(DrawFrame(*debugimg,(ByteT) 255,IndexRange2dC(it->Location(),mwidth,mwidth)));
     }
-    
-    
   }
-
+  
   //: Update tracks.
   IntT PointTrackerC::Update(const ImageC<ByteT> &img) {
-
     ONDEBUG(ImageC<ByteT> timg(img.Copy()));
     //ONDEBUG(ImageC<ByteT> timg(img.Frame()); timg.Fill(0));
-
-    IntT removeThresh = Sqr(mwidth) * mthreshold;
+    
+    MatchNormalisedCorrelationC normCorr;
+    RealT removeThresh;
+    if(useNormCorrelation) {
+      normCorr = MatchNormalisedCorrelationC(img);
+      removeThresh = mthreshold;
+    } else {
+      removeThresh = Sqr(mwidth) * mthreshold;
+    }
+    
     frameCount++; 
     for(DLIterC<PointTrackModelC> itt(tracks);itt;itt++) {
       if(!itt->IsLive()) { // Has something else flagged the point as unneeded ?
@@ -120,13 +144,23 @@ namespace RavlImageN {
       }
       Point2dC at;
       IntT score = 100000000;
+      if(useNormCorrelation) {
+	IndexRange2dC searchArea(lookAt,searchSize,searchSize);
+	searchArea.ClipBy(img.Frame());
 #if 0
-      IndexRange2dC searchArea(lookAt,searchSize,searchSize);
-      searchArea.ClipBy(img.Frame());
-      SearchMinAbsDifference(itt->Template(),img,searchArea,at,score);
+	SearchMinAbsDifference(itt->Template(),img,searchArea,at,score);
 #else
-      SearchMinAbsDifferenceCreep(itt->Template(),img,lookAt,at,score,searchSize);
+	Index2dC iat;
+	RealT rscore;
+	normCorr.Search(itt->Template(),searchArea,rscore,iat);
+	//cerr << rscore << "  " << (1.0/rscore) << "\n";
+	score = (IntT) (1.0/rscore);
+	at = iat;
 #endif
+      } else {
+	SearchMinAbsDifferenceCreep(itt->Template(),img,lookAt,at,score,searchSize);
+      }
+      
       //cerr <<"Score=" << score << " At=" << at << " Thresh=" << removeThresh << "\n";
       if(score > removeThresh) {
 	// Lost track of the object.
@@ -140,7 +174,7 @@ namespace RavlImageN {
       itt->Update(at,frameCount,score);
       ONDEBUG(DrawCross(timg,(ByteT) 255,at));
     }
-
+    RavlAssert(newFreq != 0);
     // If we're on the right frame, add new tracks
     if((frameCount-1) % newFreq == 0)
 #if DODEBUG

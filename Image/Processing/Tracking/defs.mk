@@ -25,5 +25,6 @@ TESTEXES=testTracking.cc
 #testImageTracker.cc
 
 USESLIBS=RavlImage RavlImageProc RavlOptimise RavlImageIO
-# 
+
+PROGLIBS=RavlVideoIO RavlImgIOV4L.opt RavlDPDisplay.opt CSPDriver.opt
 
