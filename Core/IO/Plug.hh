@@ -23,7 +23,7 @@ namespace RavlN {
   //: Input plug base.
   
   class DPPlugBaseBodyC 
-    : public RCBodyVC
+    : virtual public DPEntityBodyC
   {
   public:
     DPPlugBaseBodyC()
@@ -35,7 +35,7 @@ namespace RavlN {
       : hold(nhold)
     {}
     //: Constructor.
-
+    
     DPPlugBaseBodyC(const StringC &nPlugId,const DPEntityC &nhold)
       : plugId(nPlugId),
 	hold(nhold)
@@ -55,26 +55,27 @@ namespace RavlN {
   //: Input plug base.
   
   class DPPlugBaseC 
-    : public RCHandleC<DPPlugBaseBodyC>
+    : virtual public DPEntityC
   {
   public:
     DPPlugBaseC()
+      : DPEntityC(true)
     {}
     //: Default constructor.
     // Creates an invalid handle.
     
   protected:
     DPPlugBaseC(DPPlugBaseBodyC &bod)
-      : RCHandleC<DPPlugBaseBodyC>(bod)
+      : DPEntityC(bod)
     {}
     //: Body constructor.
     
     DPPlugBaseBodyC &Body()
-    { return RCHandleC<DPPlugBaseBodyC>::Body(); }
+    { return dynamic_cast<DPPlugBaseBodyC &>(DPEntityC::Body()); }
     //: Access body.
     
     const DPPlugBaseBodyC &Body() const
-    { return RCHandleC<DPPlugBaseBodyC>::Body(); }
+    { return dynamic_cast<const DPPlugBaseBodyC &>(DPEntityC::Body()); }
     //: Access body.
     
   public:
@@ -123,22 +124,23 @@ namespace RavlN {
   {
   public:
     DPIPlugBaseC()
+      : DPEntityC(true)
     {}
     //: Default constructor.
     // Creates an invalid handle.
     
   protected:
     DPIPlugBaseC(DPIPlugBaseBodyC &bod)
-      : DPPlugBaseC(bod)
+      : DPEntityC(bod)
     {}
     //: Body constructor.
     
     DPIPlugBaseBodyC &Body()
-    { return static_cast<DPIPlugBaseBodyC &>(DPPlugBaseC::Body()); }
+    { return dynamic_cast<DPIPlugBaseBodyC &>(DPEntityC::Body()); }
     //: Access body.
     
     const DPIPlugBaseBodyC &Body() const
-    { return static_cast<const DPIPlugBaseBodyC &>(DPPlugBaseC::Body()); }
+    { return dynamic_cast<const DPIPlugBaseBodyC &>(DPEntityC::Body()); }
     //: Access body.
     
   public:
@@ -190,22 +192,23 @@ namespace RavlN {
   {
   public:
     DPOPlugBaseC()
+      : DPEntityC(true)
     {}
     //: Default constructor.
     // Creates an invalid handle.
     
   protected:
     DPOPlugBaseC(DPOPlugBaseBodyC &bod)
-      : DPPlugBaseC(bod)
+      : DPEntityC(bod)
     {}
     //: Body constructor.
     
     DPOPlugBaseBodyC &Body()
-    { return static_cast<DPOPlugBaseBodyC &>(DPPlugBaseC::Body()); }
+    { return dynamic_cast<DPOPlugBaseBodyC &>(DPEntityC::Body()); }
     //: Access body.
     
     const DPOPlugBaseBodyC &Body() const
-    { return static_cast<const DPOPlugBaseBodyC &>(DPPlugBaseC::Body()); }
+    { return dynamic_cast<const DPOPlugBaseBodyC &>(DPEntityC::Body()); }
     //: Access body.
     
   public:
@@ -275,12 +278,12 @@ namespace RavlN {
   {
   public:
     explicit DPIPlugC(const DPIPortC<DataT> &nport,const DPEntityC &nhold = DPEntityC(true))
-      : DPIPlugBaseC(*new DPIPlugBodyC<DataT>(nport,nhold))
+      : DPEntityC(*new DPIPlugBodyC<DataT>(nport,nhold))
     {}
     //: Constructor.
 
     DPIPlugC(const DPIPortC<DataT> &nport,const StringC &nPlugId,const DPEntityC &nhold = DPEntityC(true))
-      : DPIPlugBaseC(*new DPIPlugBodyC<DataT>(nport,nPlugId,nhold))
+      : DPEntityC(*new DPIPlugBodyC<DataT>(nport,nPlugId,nhold))
     {}
     //: Constructor.
     
@@ -361,12 +364,12 @@ namespace RavlN {
   {
   public:
     explicit DPOPlugC(const DPOPortC<DataT> &nport,const DPEntityC &nhold = DPEntityC(true))
-      : DPOPlugBaseC(*new DPOPlugBodyC<DataT>(nport,nhold))
+      : DPEntityC(*new DPOPlugBodyC<DataT>(nport,nhold))
     {}
     //: Constructor.
 
     DPOPlugC(const DPOPortC<DataT> &nport,const StringC &nPlugId,const DPEntityC &nhold = DPEntityC(true))
-      : DPOPlugBaseC(*new DPOPlugBodyC<DataT>(nport,nPlugId,nhold))
+      : DPEntityC(*new DPOPlugBodyC<DataT>(nport,nPlugId,nhold))
     {}
     //: Constructor.
     
