@@ -10,7 +10,7 @@
 //! author="Kieron J Messer"
 //! docentry="Ravl.Images.Filtering"
 //! example=exGaussConvolve.cc
-//! lib=RavlFace
+//! lib=RavlImageProc
 //! rcsid="$Id$"
 
 #include "Ravl/Image/Image.hh"
