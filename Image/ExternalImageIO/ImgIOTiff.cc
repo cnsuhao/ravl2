@@ -193,13 +193,17 @@ namespace RavlImageN {
   
   //: Get next piece of data.
   
-  ImageC<ByteRGBAValueC> DPIImageTIFFByteRGBABodyC::Get() {
+  ImageC<ByteRGBAValueC> DPIImageTIFFByteRGBABodyC::Get()
+  {
     ONDEBUG(cerr << "DPIImageTIFFByteRGBABodyC::Get(), Called. \n");
+
     ImageC<ByteRGBAValueC> img;
     if (tif == 0) 
       throw DataNotReadyC("DPIImageTIFFByteRGBABodyC: Not file handle. ");
+
     size_t npixels;
     uint32* raster;
+
 #if 0
     uint32 w, h;
     TIFFGetField(tif, TIFFTAG_IMAGEWIDTH, &w);
@@ -213,39 +217,67 @@ namespace RavlImageN {
       throw DataNotReadyC("DPIImageTIFFByteRGBABodyC: Read failed. ");
     img = ImageC<ByteRGBAValueC>(h,w,BufferRC<ByteRGBAValueC>((ByteRGBAValueC *) raster,true),true);
 #else
+
     TIFFRGBAImage tiffimg;
     char emsg[1024];
     
-    if (!TIFFRGBAImageBegin(&tiffimg, tif, 0, emsg)) {
+    if (!TIFFRGBAImageBegin(&tiffimg, tif, 0, emsg)) 
+    {
       throw DataNotReadyC("DPIImageTIFFByteRGBABodyC: ImageBegin failed.. ");
     }
+
     npixels = tiffimg.width * tiffimg.height;
     UIntT allocSize = npixels * sizeof (uint32);
     raster = (uint32*) _TIFFmalloc(allocSize);
-    if (raster == 0) {
+    if (raster == 0)
+    {
       TIFFRGBAImageEnd(&tiffimg);
       throw DataNotReadyC("DPIImageTIFFByteRGBABodyC: Allocation failed.. ");
     }
     
-    if (!TIFFRGBAImageGet(&tiffimg, raster, tiffimg.width, tiffimg.height)) {
+    if (!TIFFRGBAImageGet(&tiffimg, raster, tiffimg.width, tiffimg.height)) 
+    {
       TIFFRGBAImageEnd(&tiffimg);
       throw DataNotReadyC("DPIImageTIFFByteRGBABodyC: Allocation failed.. ");
-  }
+    }
+
+    // Allocate whole image buffer, and copy from file data buffer
+    // FIXME: this is very inefficient - should read straight from file to image
+    img = ImageC<ByteRGBAValueC>(tiffimg.height, tiffimg.width);
+
     ONDEBUG(cerr << "DPIImageTIFFByteRGBABodyC::Get(), Orientation : " << tiffimg.orientation << "\n");
     switch(tiffimg.orientation)
-      {
+    {
       default:
+      {
 	cerr << "DPIImageTIFFByteRGBABodyC::Get(), WARNING Unexpected orientation : " << tiffimg.orientation << "\n";
-      case ORIENTATION_BOTLEFT:
-	img = ImageC<ByteRGBAValueC>(tiffimg.height,tiffimg.width,BufferC<ByteRGBAValueC>(allocSize,(ByteRGBAValueC *) raster,true));
-	break;
-      case ORIENTATION_TOPLEFT:
-	RavlAssert(0); // If we do this the image will be upside down.
-	img = ImageC<ByteRGBAValueC>(tiffimg.height,tiffimg.width,BufferC<ByteRGBAValueC>(allocSize,(ByteRGBAValueC *) raster,true));
-	break;   
       }
+      case ORIENTATION_BOTLEFT:
+      {
+	_TIFFmemcpy(img.DataStart(), raster, allocSize);
+	// img = ImageC<ByteRGBAValueC>(tiffimg.height,tiffimg.width,BufferC<ByteRGBAValueC>(allocSize,(ByteRGBAValueC *) raster,true));
+	break;
+      }
+      case ORIENTATION_TOPLEFT:
+      {
+	// RavlAssert(0); // If we do this the image will be upside down.
+	// img = ImageC<ByteRGBAValueC>(tiffimg.height,tiffimg.width,BufferC<ByteRGBAValueC>(allocSize,(ByteRGBAValueC *) raster,true));
+	UIntT h = tiffimg.height;
+	UIntT w = tiffimg.width;
+	UIntT hw = h*w;
+	uint32* buff = (uint32*)img.Row(0);
+
+	for (UIntT y = 0, ny = hw-w; y < hw; y+=w, ny-=w)
+	  for (UIntT x = 0; x < w; x++)
+	    buff[y+x] = raster[ny+x];
+
+	break;
+      } 
+    }
+
     TIFFRGBAImageEnd(&tiffimg);
 #endif
+
     done = true;
     return img;
   }
