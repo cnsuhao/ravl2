@@ -16,6 +16,6 @@ USESLIBS= RavlCore RavlOSIO RavlImage RavlOS RavlImageIO RavlVideoIO  \
 
 PROGLIBS= RavlDPDisplay.opt RavlExtImgIO.opt RavlDV.opt RavlImgIOV4L.opt  \
  RavlPatternRecIO RavlMPEG2.opt CSPDriver.opt RavlURLIO.opt RavlDevAudio.opt \
- RavlAudioFile.opt RavlDMeda.opt RavlImgIOMeteor1.opt RavlDPGraph.opt
+ RavlAudioFile.opt RavlDMeda.opt RavlImgIOMeteor1.opt RavlDPGraph.opt RavlAudioIO.opt
 
 EHT = execonv.eht
