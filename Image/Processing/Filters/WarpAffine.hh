@@ -29,7 +29,7 @@ namespace RavlImageN {
   //! userlevel=Normal
   //: Scale an image using bi-Linear Interpolation.
   
-  template <class InT, class OutT = InT,class WorkT = OutT,class MixerT = PixelMixerAssignC<WorkT,OutT>,class SampleT = SampleBilinearC<InT,OutT> >
+  template <class InT, class OutT = InT,class WorkT = OutT,class MixerT = PixelMixerAssignC<WorkT,OutT>,class SampleT = SampleBilinearC<InT,WorkT> >
   class WarpAffineC
   {
   public:
