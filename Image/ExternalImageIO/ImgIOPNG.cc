@@ -29,8 +29,7 @@
 
 ///// Some 'C' IO interface routines. /////////////////////////////////////
 
-extern "C" 
-{
+extern "C" {
   static void my_png_filein(png_structp png_ptr, png_bytep data, png_size_t length);
   static void my_png_fileout(png_structp png_ptr, png_bytep data, png_size_t length);
   static void my_png_flush(png_structp png_ptr);
