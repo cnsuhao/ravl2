@@ -14,6 +14,7 @@
 //! docentry="Ravl.OS.Threads"
 //! author="Charles Galambos"
 //! date="02/07/1999"
+//! example=exLaunchThread.cc 
 
 #include "Ravl/Threads/Thread.hh"
 #include "Ravl/Threads/ThreadEvent.hh"
