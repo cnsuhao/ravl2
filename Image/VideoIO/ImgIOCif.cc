@@ -287,8 +287,7 @@ namespace RavlImageN {
 	for (IndexC c = -h_offset; c < cols-h_offset; c+=2) {
 	  if ((c >= 0) && (c < Img.Cols())) {
 	    IndexC R(r+Img.TRow()), C(c+Img.LCol());
-	    strm.put((UByteT) (Img[R][C].U()+Img[R][C+1].U()
-			       +Img[R+1][C].U()+Img[R+1][C+1].U())/4 + 128);
+	    strm.put( (UByteT) ((Img[R][C].U()+Img[R][C+1].U()+Img[R+1][C].U()+Img[R+1][C+1].U())/4 + 128 ));
 	  }
 	  else strm.put((UByteT)128);
 	}
@@ -302,8 +301,7 @@ namespace RavlImageN {
 	for (IndexC c = -h_offset; c < cols-h_offset; c+=2) {
 	  if ((c >= 0) && (c < Img.Cols())) {
 	    IndexC R(r+Img.TRow()), C(c+Img.LCol());
-	    strm.put((UByteT) (Img[R][C].V()+Img[R][C+1].V()
-			       +Img[R+1][C].V()+Img[R+1][C+1].V())/4 + 128);
+	    strm.put((UByteT) ((Img[R][C].V()+Img[R][C+1].V()+Img[R+1][C].V()+Img[R+1][C+1].V())/4 + 128));
 	  }
 	  else strm.put((UByteT)128);
 	}
