@@ -70,6 +70,16 @@ namespace RavlN {
     {}
     //: Create rectangle from individual values.
     
+    RealRange3dC(const TFVectorC<RealT,3> &center,RealT size)
+      : is(center[0]-size,center[0]+size), 
+	js(center[1]-size,center[1]+size),
+	ks(center[2]-size,center[2]+size)
+    {}
+    //: Create an 3d range from a center point and a size.
+    // Size is the distance from the center to the edge, so
+    // a size of 0 gives a single voxel, and a size of 1 generates
+    // a 3x3x3 cube
+    
     inline TFVectorC<RealT,3> Origin() const
     { return TFVector3(is.Min(),js.Min(),ks.Min()); }
     //: Returns the origin index of the rectangle.
