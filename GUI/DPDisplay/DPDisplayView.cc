@@ -98,7 +98,7 @@ namespace RavlGUIN {
 
   bool DPDisplayViewBodyC::AddObject(const DPDisplayObjC &obj) {
     ONDEBUG(cerr << "DPDisplayViewBodyC::AddObject(), Called \n");
-    RWLockHoldC hold(lockDisplayList,false);
+    RWLockHoldC hold(lockDisplayList,RWLOCK_WRITE);
     if(displayList.IsEmpty())
       displaySize = obj.Frame();
     else
@@ -112,7 +112,7 @@ namespace RavlGUIN {
   
   bool DPDisplayViewBodyC::Clear() {
     ONDEBUG(cerr << "DPDisplayViewBodyC::Clear(), Called \n");
-    RWLockHoldC hold(lockDisplayList,false);
+    RWLockHoldC hold(lockDisplayList,RWLOCK_WRITE);
     displayList.Empty(); 
     return true;
   }
@@ -132,7 +132,7 @@ namespace RavlGUIN {
   
   bool DPDisplayViewBodyC::GUIRefresh() {
     ONDEBUG(cerr << "DPDisplayViewBodyC::GUIRefresh(), Called \n");
-    RWLockHoldC hold(lockDisplayList,true);
+    RWLockHoldC hold(lockDisplayList,RWLOCK_WRITE);
     refreshQueued = false;
     for(DLIterC<DPDisplayObjC> it(displayList);it;it++)
       it->Draw(*this);
@@ -154,6 +154,7 @@ namespace RavlGUIN {
   //: Update sliders info.
   
   bool DPDisplayViewBodyC::UpdateSlider() {
+    RWLockHoldC hold(lockDisplayList,RWLOCK_READONLY); // To protect access to displaySize.
     Index2dC canSize = canvas.Size();
     int vdiff = displaySize.Rows() - canSize[0].V();
     int hdiff = displaySize.Cols() - canSize[1].V();
@@ -170,9 +171,8 @@ namespace RavlGUIN {
   //: Query position,
   
   bool DPDisplayViewBodyC::Query(Vector2dC pos,StringC &info) { 
-    //ONDEBUG(cerr <<"DPDisplayViewBodyC::Query(), Position=" << pos << "\n");    
-    //RWLockHoldC hold(lockDisplayList,true);
-
+    //ONDEBUG(cerr <<"DPDisplayViewBodyC::Query(), Position=" << pos << "\n");
+    RWLockHoldC hold(lockDisplayList,RWLOCK_READONLY); // To protect access to displaySize.
     for(DLIterC<DPDisplayObjC> it(displayList);it;it++) {
       if(it->Query(pos,info)) {
 	//ONDEBUG(cerr <<"DPDisplayViewBodyC::Query(), Position=" << pos << " Result=" << info <<"\n");
@@ -187,7 +187,7 @@ namespace RavlGUIN {
   
   bool DPDisplayViewBodyC::CallbackExpose(GdkEvent *&event) {
     ONDEBUG(cerr << "DPDisplayViewBodyC::Expose(), Called \n");
-    RWLockHoldC hold(lockDisplayList,true);
+    RWLockHoldC hold(lockDisplayList,RWLOCK_READONLY);
     for(DLIterC<DPDisplayObjC> it(displayList);it;it++)
       it->Draw(*this);
     return true;

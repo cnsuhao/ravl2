@@ -69,9 +69,12 @@ namespace RavlGUIN {
     
     // Create a window and display it.
     win = WindowC(winSize.Cols()+10,winSize.Rows()+10,name);
-    view = DPDisplayViewC(winSize);
-    win.Add(view);
+    DPDisplayViewC nview(winSize);
+    win.Add(nview);
     win.Show();
+    
+    // Don't setup view until we're ready to start processing data.
+    view = nview;
   }
   
   //: Add object to the display list.
