@@ -8,12 +8,13 @@
     <h3>What are signals ? </h3>
     
     A Signal is essentially a list of functions to call on an
-    event. Signals currently may have 0,1,2 or 3 parameters which will
-    be passed to the functions in the list.  The advantage of using
-    signals over simple function pointers is the exact form of the arguments or
-    number of functions to call need not be known by the provider of the
-    signal.  They are simpler to use that virtual functions as no new
-    class need be defined.
+    event. Signals currently may have 0, 1, 2 or 3 parameters which
+    will be passed to the functions in the list.  The advantage of
+    using signals over simple function pointers is that the exact form
+    of the arguments or number of functions need not be known by the
+    provider of the signal.  They are simpler to use than virtual
+    functions as no new class needs be defined.
+
     <p>
       A useful feature of the signal implementation is that two
       signal structures can be connected together <b>without</b>
@@ -23,7 +24,7 @@
     <p>
       If you are in a situation where you only want to call 1
       function, but still want flexibility in the exact form of that
-      function its worth looking at the <a href="Ravl.Core.Calls.html">Calls and Triggers</a> 
+      function it's worth looking at the <a href="Ravl.Core.Calls.html">Calls and Triggers</a> 
       in the RAVL core.
 
     <h4>Notes on RAVL's signal implementation </h4>
@@ -38,7 +39,7 @@
       <li> Signal objects are reference counted.
       <li> Adding and removing connections is thread safe.
       <li> The default implementation makes copies of the objects the
-	signal will be delived to, enabling it to call methods of
+	signal will be delivered to, enabling it to call methods of
 	reference counted objects safely.
     </ul>
       
@@ -51,7 +52,7 @@
       The signal code is part of the threads library so you have to
       add <b>RavlThreads</b> to your <a
       href="Ravl.QMake.Defs.html#USESLIBS">USESLIBS line</a> in
-      defs.mk.  We're going to use signals with 1 paramiter so we
+      defs.mk.  We're going to use signals with 1 parameter so we
       include the Signal1 header file.
     <pre>
 #include "Ravl/Threads/Signal1.hh"
@@ -66,10 +67,10 @@ Signal1C<IntT> sig(0);
 
     <h4>Calling global functions. </h4>
     
-    Suppose we have a function 'PrintNumberA' we wish to be called
+    Suppose we have a function `PrintNumberA' we wish to be called
     when the signal is triggered. Note, the arguments of methods must
     always be non-const references to a type, and the functions should
-    always return a bool. This significanly simplifies the
+    always return a bool. This significantly simplifies the
     implementation as it avoids implementing code for all possible
     combinations argument types and return types.
     
@@ -80,7 +81,7 @@ bool PrintNumberA(int &amp;i) {
 }
 </pre>
 
-    This an be connected to the signal with the <b>Connect(..)</b> command.
+    This can be connected to the signal with the <b>Connect(..)</b> command.
 
 <pre>
 Connect(sig, &amp;PrintNumberA);
@@ -96,7 +97,7 @@ Connect(sig, sig2);
 </pre>
 
     Finally to send a signal you use the () operator on the signal
-    itself. If you omit a paramiter the default value you initalise it
+    itself. If you omit a parameter the default value you initialise it
     with will be used instead. Calling the following:
 
 <pre>
@@ -109,18 +110,18 @@ PrintNumberA called with value 3
 </pre>
 
     The arguments of the function do <b>not</b> have to match the
-    signal you are calling. If the function takes more paramiters than
+    signal you are calling. If the function takes more parameters than
     you are using you can supply the values when you call connect. To connect
-    the following function 'PrintNumber2':
+    the following function `PrintNumber2':
     
 <pre>
 bool PrintNumber2(int &amp;i,RealT &v2) {
-  cout << "PrintNumberA called with value " << i << " v2=" << v2 << "\n";
+  cout << "PrintNumber2 called with value " << i << " v2=" << v2 << "\n";
   return true;
 }
 </pre>
     
-    you supply the extra paramiter at the end of the connect command, like this:
+    you supply the extra parameter at the end of the connect command, like this:
 
 <pre>
 Connect(sig, &amp;PrintNumber2,0,0.1);
@@ -128,7 +129,7 @@ Connect(sig, &amp;PrintNumber2,0,0.1);
     
     Note: you have to supply values for all arguments of the function
     even where they are provided by the signal. When the signal is triggered
-    it will call 'PrintNumber2' with the the first paramiter from the signal
+    it will call `PrintNumber2' with the the first parameter from the signal
     and the second set to a real value of 0.1.
     
     <h4>Calling class methods. </h4>
@@ -148,8 +149,8 @@ public:
 </pre>    
     
     There are two ways to connect to a method you can either connect
-    to a copy of the object (essentail for reference counted objects.)
-    or to a reference to it.  If you use a refrence it is the programmers
+    to a copy of the object (essential for reference counted objects.)
+    or to a reference to it.  If you use a reference it is the programmers
     responsibility to ensure the object is valid when a signal is called.
     <p>
       To connect with a copy you would call <b>Connect</b> as follows:
@@ -170,7 +171,7 @@ ConnectRef(sig,xyz,&amp;MyClassC::Print);
     Note: There are some potential race conditions in multi-threaded
     applications if you use the reference method of connecting to
     classes.  It is possible that the class processing a signal is
-    destroyied before the call is complete with unpredictable results.
+    destroyed before the call is complete with unpredictable results.
     This is guaranteed not to happen with the reference counted calls,
     the signal mechanism ensures a reference is kept to the object
     until all calls are complete.
