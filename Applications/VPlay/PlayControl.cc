@@ -17,7 +17,6 @@
 #include "Ravl/GUI/TextEntry.hh"
 #include "Ravl/GUI/PackInfo.hh"
 #include "Ravl/GUI/Label.hh"
-#include "Ravl/GUI/ToggleButton.hh"
 #include "Ravl/GUI/Combo.hh"
 #include "Ravl/GUI/List.hh"
 #include "Ravl/StringList.hh"
@@ -320,6 +319,15 @@ namespace RavlGUIN {
     return true;
   }
   
+  bool PlayControlBodyC::EnableExtended(bool &enable)  {
+    ONDEBUG(cerr << "PlayControlBodyC::EnableExtended(), Called. \n");
+    if(enable) {
+      enableextras.Show();
+    } else
+      enableextras.Hide();
+    return true;
+  }
+  
   //: Set start of sub-sequence
   
   bool PlayControlBodyC::SetSubStart(StringC &text) {
@@ -402,7 +410,8 @@ namespace RavlGUIN {
 	);
     
     textSkip = TextEntryR(StringC(skip),*this,&PlayControlBodyC::SetSkip,-1,true);
-    Add(PackInfoC(CheckButtonR("Extended controls","Show extended control panel",false,*this,&PlayControlBodyC::ShowExtended),false,false));
+    enableextras = CheckButtonR("Extended controls","Show extended control panel",false,*this,&PlayControlBodyC::ShowExtended);
+    Add(PackInfoC(enableextras,false,false));
     
     extraControls = PackInfoC(VBox(HBox(LabelC("skip:") + textSkip) +
 				   HBox(LabelC("Start:") + TextEntryR(StringC(skip),*this,&PlayControlBodyC::SetSubStart,-1,true)) +
