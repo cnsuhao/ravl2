@@ -33,7 +33,8 @@
 namespace RavlN
 {
   
-  //! userlevel=Normal : Conditional variable.  
+  //! userlevel=Normal
+  //: Conditional variable.  
   //This wraps the pthreads conditional variable and its associated mutex
   //into a single object.  See man pages on e.g. pthread_cond_init for
   //a full description.  See also SemaphoreC for an example of its
