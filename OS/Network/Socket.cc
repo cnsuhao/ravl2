@@ -73,7 +73,8 @@ namespace RavlN {
     : fd(-1),
       server(nserver),
       addr(0),
-      dontClose(false)
+      dontClose(false),
+      writeTimeout(120)
   {
     int at = name.index(':');
     if(at < 0) {
@@ -113,7 +114,7 @@ namespace RavlN {
       server(nserver),
       addr(naddr),
       dontClose(false)
-  {}
+  { SetNonBlocking(true); }
   
   //: Open socket.
   
@@ -340,7 +341,8 @@ namespace RavlN {
 	Sleep(0.1);
 	continue;
       }
-      cerr << "ERROR: failed to connect socket " << errno << ".\n";
+      if(errno != ECONNREFUSED) // This is common..
+	cerr << "ERROR: failed to connect socket " << errno << ".\n";
       Close();
 #if DODEBUG
       if(errno == EADDRINUSE) {
@@ -359,6 +361,7 @@ namespace RavlN {
       delete [] (char *) addr;
     addr = (struct sockaddr *) new char [sizeof(struct sockaddr)];
     memcpy((char *) addr,(sockaddr*)&sin,sizeof(struct sockaddr));
+    SetNonBlocking(true);
     return fd;
   }
   
@@ -637,7 +640,7 @@ namespace RavlN {
     
     while(fd >= 0) {
       FD_SET(fd,&wfds);
-      timeout.tv_sec = 60; // Time-out of a minute...
+      timeout.tv_sec = writeTimeout; // Time-out of a minute...
       timeout.tv_usec = 0;
       if((rn = select(fd+1,0,&wfds,0,&timeout)) == 0) {
 	SysLog(SYSLOG_WARNING) << "SocketBodyC::Write(), Timeout writting to socket. : " << errno;
@@ -673,7 +676,7 @@ namespace RavlN {
     } 
     if(at == total || fd < 0) return at; // All done ?
     
-    SysLog(SYSLOG_WARNING) << "SocketBodyC::WriteV(), Socket write interupted, attempting to recover. (Relatively untested code.) \n";
+    ONDEBUG(SysLog(SYSLOG_WARNING) << "SocketBodyC::WriteV(), Socket write interupted, attempting to recover. (Relatively untested code.) ");
     
     // Write in 1 lump failed, break it up.
     int b = 0,xat = 0;
@@ -686,6 +689,7 @@ namespace RavlN {
       if(at < xat){
 	IntT toGo = xat - at;
 	IntT done = len[b] - toGo;
+	ONDEBUG(cerr << "Reading " << toGo << " bytes to complete the block " << b << " xat=" << xat << " done=" << done << " toGo=" << toGo << "\n");
 	IntT x = Write(&(buffer[b][done]),toGo);
 	if(x < 0) { 
 	  if(n > 100) free(vecp);
@@ -702,7 +706,7 @@ namespace RavlN {
       int blocksToGo = n - b;
       if(blocksToGo == 0)
 	break; // We're done!
-      timeout.tv_sec = 60; // Time-out of a minute...
+      timeout.tv_sec = writeTimeout; // Time-out of a minute...
       timeout.tv_usec = 0;
       FD_SET(fd,&wfds);
       if((rn = select(fd+1,0,&wfds,0,&timeout)) == 0) {
@@ -742,7 +746,7 @@ namespace RavlN {
     
     while(at < size && fd >= 0) {
       FD_SET(fd,&wfds);
-      timeout.tv_sec = 60; // Time-out of a minute...
+      timeout.tv_sec = writeTimeout; // Time-out of a minute...
       timeout.tv_usec = 0;
       if((rn = select(fd+1,0,&wfds,0,&timeout)) == 0) {
 	SysLog(SYSLOG_WARNING) << "SocketBodyC::Write(), Timeout writting to socket. :" << errno;
@@ -760,7 +764,7 @@ namespace RavlN {
 	return at;
       }
       FD_SET(fd,&wfds);
-      timeout.tv_sec = 60; // Time-out of a minute...
+      timeout.tv_sec = writeTimeout; // Time-out of a minute...
       timeout.tv_usec = 0;
       if((rn = select(fd+1,0,&wfds,0,&timeout)) == 0) {
 	SysLog(SYSLOG_WARNING) << "SocketBodyC::Write(), Timeout writting to socket. :" << errno;

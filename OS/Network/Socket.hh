@@ -53,6 +53,12 @@ namespace RavlN {
     ~SocketBodyC();
     //: Open socket.
     
+    void SetWriteTimeout(IntT value)
+    { writeTimeout = value; }
+    //: Set the amount of time you should attempt to write to socket.
+    // This limits the time spent attempting to write to a socket
+    // without sending a single byte. The default is 120 seconds.
+    
     int Fd() const
     { return fd; }
     //: Access file descriptor.
@@ -126,6 +132,7 @@ namespace RavlN {
     bool server;
     struct sockaddr *addr; // Allocated as a char array.
     bool dontClose;
+    IntT writeTimeout;     // Write timeout in seconds. -1 = None.
   };
   
   
@@ -172,6 +179,12 @@ namespace RavlN {
     //: Access body.
     
   public:
+    void SetWriteTimeout(IntT value)
+    { Body().SetWriteTimeout(value); }
+    //: Set the amount of time you should attempt to write to socket.
+    // This limits the maximum time spent attempting to write to a socket
+    // without sending a single byte. The default is 120 seconds.
+    
     int Fd() const
     { return Body().Fd(); }
     //: Access file descriptor.
