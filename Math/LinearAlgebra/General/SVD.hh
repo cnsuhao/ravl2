@@ -528,8 +528,8 @@ namespace RavlN
     IntT Rank () const {
       RealT eps = Pow(2.0,-52.0);
       RealT tol = Max(m,n)*s[0]*eps;
-      int r = 0;
-      for (int i = 0; i < s.dim(); i++) {
+      int r = 0; 
+      for (unsigned int i = 0; i < s.Size(); i++) {
 	if (s[i] > tol)
 	  r++;
       }
