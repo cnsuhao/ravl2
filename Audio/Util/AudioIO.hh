@@ -19,7 +19,10 @@
 namespace RavlAudioN {
   using namespace RavlN;
   
+  //! userlevel=Develop
   //: Audio IO base class.
+  // This class is effectively an abstract base class which can be inherited from and used
+  // with DPIAudioC<> DPOAudioC<> to create full audio IO streams.
   
   class AudioIOBaseC {
   public:
@@ -90,6 +93,8 @@ namespace RavlAudioN {
   
   //! userlevel=Develop
   //: Audio input port.
+  // This class is intended to be used with a class inherited from AudioIOBaseC
+  // to create full audio IO streams.
   
   template<typename DataT,typename IOClassT> 
   class DPIAudioBodyC
@@ -174,8 +179,10 @@ namespace RavlAudioN {
   };
   
   //! userlevel=Normal
-  //: Audio input port.
-
+  //: Audio input port helper class.
+  // This class is intended to be used with a class inherited from AudioIOBaseC
+  // to create full audio IO streams.
+  
   template<typename DataT,typename IOClassT> 
   class DPIAudioC
     : public DPIPortC<DataT>
@@ -195,7 +202,9 @@ namespace RavlAudioN {
   // -----------------------------------------------------------------------
   
   //! userlevel=Develop
-  //: Audio input port.
+  //: Audio output port helper class.
+  // This class is intended to be used with a class inherited from AudioIOBaseC
+  // to create full audio IO streams.
   
   template<typename DataT,typename IOClassT> 
   class DPOAudioBodyC
@@ -260,8 +269,10 @@ namespace RavlAudioN {
   };
   
   //! userlevel=Normal
-  //: Audio input port.
-
+  //: Audio output port helper class
+  // This class is intended to be used with a class inherited from AudioIOBaseC
+  // to create full audio IO streams.
+  
   template<typename DataT,typename IOClassT> 
   class DPOAudioC
     : public DPOPortC<DataT>
