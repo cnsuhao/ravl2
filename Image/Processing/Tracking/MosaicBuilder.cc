@@ -20,7 +20,7 @@
 #include "Ravl/HashIter.hh"
 #include "Ravl/Image/ImageConv.hh"
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #include "Ravl/IO.hh"
 #include "Ravl/Image/ImgIO.hh"
@@ -35,22 +35,22 @@ namespace RavlImageN {
   using namespace RavlN;
 
   //: Constructor for mosaic builder
-  MosaicBuilderC::MosaicBuilderC(int cthreshold,
-				 int cwidth,
-				 int mthreshold,
-				 int mwidth,
-				 int lifeTime,
-				 int searchSize,
-				 int newFreq,
-				 int nborderC, int nborderR,
-				 double nzhomog,
-				 int ncropT, int ncropB,
-				 int ncropL, int ncropR,
+  MosaicBuilderC::MosaicBuilderC(IntT cthreshold,
+				 IntT cwidth,
+				 IntT mthreshold,
+				 IntT mwidth,
+				 IntT lifeTime,
+				 IntT searchSize,
+				 IntT newFreq,
+				 IntT nborderC, IntT nborderR,
+				 RealT nzhomog,
+				 IntT ncropT, IntT ncropB,
+				 IntT ncropL, IntT ncropR,
 				 const Point2dC &npointTL,
 				 const Point2dC &npointTR,
 				 const Point2dC &npointBL,
 				 const Point2dC &npointBR,
-				 int nmaxFrames)
+				 IntT nmaxFrames)
     : borderC(nborderC), borderR(nborderR),
       cropT(ncropT), cropB(ncropB), cropL(ncropL), cropR(ncropR),
       pointTL(npointTL), pointTR(npointTR),
@@ -92,21 +92,21 @@ namespace RavlImageN {
       rect.LCol() += cropL; rect.RCol() -= cropR;
 
       // crop image
-      ImageC<ByteRGBValueC> cropped_img(img,rect);
+      ImageC<ByteRGBValueC> croppedImg(img,rect);
       
       // convert image to grey level
-      grey_img = RGBImageCT2ByteImageCT(cropped_img);
+      greyImg = RGBImageCT2ByteImageCT(croppedImg);
 
       // initialise tracker
-      corners = tracker.Apply(grey_img);
+      corners = tracker.Apply(greyImg);
       last = corners;
 
       // create initially empty mosaic
-      mosaic_rect=rect;
-      mosaic_rect.BRow() += 2*borderR;
-      mosaic_rect.RCol() += 2*borderC;
+      mosaicRect=rect;
+      mosaicRect.BRow() += 2*borderR;
+      mosaicRect.RCol() += 2*borderC;
   
-      mosaic = ImageC<ByteRGBMedianC>(mosaic_rect);
+      mosaic = ImageC<ByteRGBMedianC>(mosaicRect);
       ByteRGBValueC val(0,0,0);
       for(Array2dIterC<ByteRGBMedianC> it(mosaic); it;it++ )
 	*it = ByteRGBMedianC(val);
@@ -154,8 +154,8 @@ namespace RavlImageN {
       
       if(maxFrames>0) Parray[0]=Psm;
       Psm = Psm.Inverse();
-      WarpProjectiveC<ByteRGBValueC,ByteRGBMedianC,PixelMixerRecursiveC<ByteRGBValueC,ByteRGBMedianC> > pwarp(mosaic_rect,Psm,zhomog,1.0,false);
-      pwarp.Apply(cropped_img,mosaic);
+      WarpProjectiveC<ByteRGBValueC,ByteRGBMedianC,PixelMixerRecursiveC<ByteRGBValueC,ByteRGBMedianC> > pwarp(mosaicRect,Psm,zhomog,1.0,false);
+      pwarp.Apply(croppedImg,mosaic);
 
       frameNo=0;
       return true;
@@ -163,13 +163,13 @@ namespace RavlImageN {
 
     // not the first image
     frameNo++;
-    ImageC<ByteRGBValueC> cropped_img(img,rect);
+    ImageC<ByteRGBValueC> croppedImg(img,rect);
 
     // convert image to grey level
-    grey_img = RGBImageCT2ByteImageCT(cropped_img);
+    greyImg = RGBImageCT2ByteImageCT(croppedImg);
 
     // Apply tracker.
-    corners = tracker.Apply(grey_img);
+    corners = tracker.Apply(greyImg);
     
     // Generate an observation set for tracked points.
     DListC<ObservationC> obsList;
@@ -205,21 +205,21 @@ namespace RavlImageN {
     }
 
     // select observations compatible with solution
-    DListC<ObservationC> compatible_obs_list = evalInliers.CompatibleObservations(ransac.GetSolution(),obsList);
+    DListC<ObservationC> compatibleObsList = evalInliers.CompatibleObservations(ransac.GetSolution(),obsList);
 
     // initialise Levenberg-Marquardt algorithm
     StateVectorHomog2dC sv = ransac.GetSolution();
-    LevenbergMarquardtC lm = LevenbergMarquardtC(sv, compatible_obs_list);
+    LevenbergMarquardtC lm = LevenbergMarquardtC(sv, compatibleObsList);
       
     cout << "2D homography fitting: Initial residual=" << lm.GetResidual() << endl;
-    cout << "Selected " << compatible_obs_list.Size() << " observations using RANSAC" << endl;
+    cout << "Selected " << compatibleObsList.Size() << " observations using RANSAC" << endl;
     VectorC x = lm.SolutionVector();
     x /= x[8];
     try {
       // apply iterations
       RealT lambda = 100.0;
       for ( int i = 0; i < 4; i++ ) {
-	bool accepted = lm.Iteration(compatible_obs_list, lambda);
+	bool accepted = lm.Iteration(compatibleObsList, lambda);
 	if ( accepted )
 	  // iteration succeeded in reducing the residual
 	  lambda /= 10.0;
@@ -228,7 +228,7 @@ namespace RavlImageN {
 	  lambda *= 10.0;
 	  
 	cout << " Accepted=" << accepted << " Residual=" << lm.GetResidual();
-	cout << " DOF=" << 2*compatible_obs_list.Size()-8 << endl;
+	cout << " DOF=" << 2*compatibleObsList.Size()-8 << endl;
       }
     } catch(...) {
       // Failed to find a solution.
@@ -260,8 +260,8 @@ namespace RavlImageN {
     
     if(maxFrames>0)Parray[frameNo]=Psm;
     Psm = Psm.Inverse();
-    WarpProjectiveC<ByteRGBValueC,ByteRGBMedianC,PixelMixerRecursiveC<ByteRGBValueC,ByteRGBMedianC> > pwarp(mosaic_rect,Psm,zhomog,1.0,false);
-    pwarp.Apply(cropped_img,mosaic);
+    WarpProjectiveC<ByteRGBValueC,ByteRGBMedianC,PixelMixerRecursiveC<ByteRGBValueC,ByteRGBMedianC> > pwarp(mosaicRect,Psm,zhomog,1.0,false);
+    pwarp.Apply(croppedImg,mosaic);
     
 #if DODEBUG
     ImageC<ByteRGBValueC> timg(img.Copy());
@@ -274,7 +274,7 @@ namespace RavlImageN {
     
     // Draw green crosses around the selected corners
     val = ByteRGBValueC(0,255,0);
-    for(DLIterC<ObservationC> oit(compatible_obs_list);oit;oit++) {
+    for(DLIterC<ObservationC> oit(compatibleObsList);oit;oit++) {
       const VectorC &z=oit->GetZ();
       Point2dC p(z[0],z[1]);
       IndexRange2dC rect(p,5,5);

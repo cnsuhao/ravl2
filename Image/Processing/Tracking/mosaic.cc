@@ -13,6 +13,7 @@
 #include "Ravl/Image/MosaicBuilder.hh"
 #include "Ravl/Image/WarpProjective.hh"
 #include "Ravl/Image/RemoveDistortion.hh"
+#include "Ravl/Image/ImageMatcher.hh"
 #include "Ravl/EntryPnt.hh"
 #include "Ravl/Array2dIter2.hh"
 #include "Ravl/Array2dIter3.hh"
@@ -24,16 +25,6 @@
 #include "Ravl/Image/ImageConv.hh"
 #include "Ravl/Image/RealRGBValue.hh"
 
-#include "Ravl/Projection2d.hh"
-#include "Ravl/Image/ImageTracker.hh"
-#include "Ravl/ObservationHomog2dPoint.hh"
-#include "Ravl/Ransac.hh"
-#include "Ravl/ObservationManager.hh"
-#include "Ravl/EvaluateNumInliers.hh"
-#include "Ravl/FitHomog2dPoints.hh"
-#include "Ravl/StateVectorHomog2d.hh"
-#include "Ravl/LevenbergMarquardt.hh"
-
 using namespace RavlN;
 using namespace RavlImageN;
 
@@ -43,46 +34,46 @@ static void
   ByteRGBValueC pix[9];
   UIntT weight[9];
   UIntT count;
-  ImageC<ByteRGBValueC> imcopy(img.Rows(),img.Cols());
+  ImageC<ByteRGBValueC> imcopy = img.Copy();
   
-  for(UIntT i=0; i<img.Rows(); i++)
-    for(UIntT j=0; j<img.Cols(); j++) {
+  for(IndexC i=img.Frame().TRow(); i<=img.Frame().BRow(); i++)
+    for(IndexC j=img.Frame().LCol(); j<=img.Frame().RCol(); j++) {
       count = 0;
       pix[count] = img[i][j]; weight[count++] = 4;
-      if ( i != 0 ) {
+      if ( i != img.Frame().TRow() ) {
 	pix[count] = img[i-1][j];
 	weight[count++] = 2;
-	if ( j != 0 ) {
+	if ( j != img.Frame().LCol() ) {
 	  pix[count] = img[i-1][j-1];
 	  weight[count++] = 1;
 	}
 
-	if ( j != img.Cols()-1 ) {
+	if ( j != img.Frame().RCol() ) {
 	  pix[count] = img[i-1][j+1];
 	  weight[count++] = 1;
 	}
       }
 
-      if ( i != img.Rows()-1 ) {
+      if ( i != img.Frame().BRow() ) {
 	pix[count] = img[i+1][j];
 	weight[count++] = 2;
-	if ( j != 0 ) {
+	if ( j != img.Frame().LCol() ) {
 	  pix[count] = img[i+1][j-1];
 	  weight[count++] = 1;
 	}
 
-	if ( j != img.Cols()-1 ) {
+	if ( j != img.Frame().RCol() ) {
 	  pix[count] = img[i+1][j+1];
 	  weight[count++] = 1;
 	}
       }
 
-      if ( j != 0 ) {
+      if ( j != img.Frame().LCol() ) {
 	pix[count] = img[i][j-1];
 	weight[count++] = 2;
       }
 
-      if ( j != img.Cols()-1 ) {
+      if ( j != img.Frame().RCol() ) {
 	pix[count] = img[i][j+1];
 	weight[count++] = 2;
       }
@@ -102,8 +93,8 @@ static void
       imcopy[i][j] = pix[0];
     }
 
-  for(UIntT i=0; i<img.Rows(); i++)
-    for(UIntT j=0; j<img.Cols(); j++)
+  for(IndexC i=img.Frame().TRow(); i<=img.Frame().BRow(); i++)
+    for(IndexC j=img.Frame().LCol(); j<=img.Frame().RCol(); j++)
       img[i][j] = imcopy[i][j];
 }
 
@@ -199,7 +190,9 @@ int Mosaic(int nargs,char **argv) {
 	return 1;
     }
 
+#if 0
     Save("@X:Mosaic",mosaicBuilder.GetMosaic());
+#endif
   }
 
   ImageC<ByteRGBValueC> mosaicRGB = DPConvByteRGBMedianImageC2ByteRGBValueImageCT(mosaicBuilder.GetMosaic());
@@ -239,14 +232,15 @@ int Mosaic(int nargs,char **argv) {
   kernel.Fill(true);
   kernel[-2][-2] = kernel[-2][2] = kernel[2][-2] = kernel[2][2] = false;
 
-  // image tracker
-  ImageTrackerC tracker(17,25,20);
-
   // first motion estimate for registration with the mosaic
   Projection2dC proj(mosaicBuilder.GetMotion(0),IMAGE_ZHOMOG,MOSAIC_ZHOMOG);
 
   // convert mosaic to grey level
   ImageC<ByteT> mosaicGrey = RGBImageCT2ByteImageCT(mosaicRGB);
+
+  // image matcher
+  ImageMatcherC matcher(mosaicGrey, cropT, cropB, cropL, cropR,
+			17, 25, 20, MOSAIC_ZHOMOG, IMAGE_ZHOMOG );
 
   // compute foreground segmented image
   for(IntT frameNo = 0;frameNo < maxFrames;frameNo++) {
@@ -254,96 +248,24 @@ int Mosaic(int nargs,char **argv) {
     if(!inp.Get(img))
       break;
 
-    // crop image and convert to grey level
-    img = ImageC<ByteRGBValueC>(img,mosaicBuilder.GetCropRect());
+    // convert image to grey level
     ImageC<ByteT> imgGrey = RGBImageCT2ByteImageCT(img);
 
-    // compute corner matches to mosaic
-    DListC<PairC<Point2dC> > matchList = tracker.TrackImage(mosaicGrey,imgGrey,proj);
-
-    // set corner error covariance matrix to 2x2 identity
-    MatrixRSC epos(2);
-    epos[0][0] = 1;
-    epos[1][1] = 1;
-    epos[1][0] = 0;
-    epos[0][1] = 0;
-
-    // RANSAC objects
-    FitHomog2dPointsC fitHomog2d(IMAGE_ZHOMOG,MOSAIC_ZHOMOG);
-    EvaluateNumInliersC evalInliers(1.0,2.0);
-
-    // Generate an observation set for tracked points.
-    DListC<ObservationC> obsList;
-    for(DLIterC<PairC<Point2dC> > it(matchList);it;it++) {
-      const Point2dC& loc1=it->A();
-      const Point2dC& loc2=it->B();
-      cout << "A=" << loc1 << " B=" << loc2 << endl;
-      obsList.InsLast(ObservationHomog2dPointC(Vector2dC(loc1[0],loc1[1]),epos,
-                                               Vector2dC(loc2[0],loc2[1]),epos));
-    }
-
-    ObservationListManagerC obsListManager(obsList);
-    RansacC ransac(obsListManager,fitHomog2d,evalInliers);
-
-    for(int i = 0;i <100;i++)
-      ransac.ProcessSample(8);
-
-    // carry on optimising solution if Ransac succeeding
-    if(!ransac.GetSolution().IsValid())
-      // failed to find a solution
+    // match image to mosaic and update the motion
+    if(!matcher.Apply(imgGrey, proj))
       continue;
 
-    // select observations compatible with solution
-    DListC<ObservationC> compatible_obs_list = evalInliers.CompatibleObservations(ransac.GetSolution(),obsList);
-
-    // initialise Levenberg-Marquardt algorithm
-    StateVectorHomog2dC sv = ransac.GetSolution();
-    LevenbergMarquardtC lm = LevenbergMarquardtC(sv, compatible_obs_list);
-
-    cout << "2D homography fitting: Initial residual=" << lm.GetResidual() << endl;
-    cout << "Selected " << compatible_obs_list.Size() << " observations using RANSAC" << endl;
-    VectorC x = lm.SolutionVector();
-    x /= x[8];
-    try {
-      // apply iterations
-      RealT lambda = 100.0;
-      for ( int i = 0; i < 4; i++ ) {
-        bool accepted = lm.Iteration(compatible_obs_list, lambda);
-        if ( accepted )
-          // iteration succeeded in reducing the residual
-          lambda /= 10.0;
-        else
-          // iteration failed to reduce the residual
-          lambda *= 10.0;
-
-        cout << " Accepted=" << accepted << " Residual=" << lm.GetResidual();
-        cout << " DOF=" << 2*compatible_obs_list.Size()-8 << endl;
-      }
-    } catch(...) {
-      // Failed to find a solution.
-      cerr << "Caught exception from LevenbergMarquardtC. \n";
-      return false;
-    }
-
-    // get solution homography
-    sv = lm.GetSolution();
-    Matrix3dC P = sv.GetHomog();
-    P /= P[2][2];
-
-    cout << "Solution: (" << P[0][0] << " " << P[0][1] << " " << P[0][2] << ")" << endl;
-    cout << "          (" << P[1][0] << " " << P[1][1] << " " << P[1][2] << ")" << endl;
-    cout << "          (" << P[2][0] << " " << P[2][1] << " " << P[2][2] << ")" << endl;
-
-    // update 2D projection from image onto mosaic
-    proj = Projection2dC(P.Inverse(),IMAGE_ZHOMOG,MOSAIC_ZHOMOG);
-
-    P = mosaicBuilder.GetMotion(frameNo).Inverse();
+    Matrix3dC P = mosaicBuilder.GetMotion(frameNo).Inverse();
     P /= P[2][2];
 
     cout << "Mosaic: (" << P[0][0] << " " << P[0][1] << " " << P[0][2] << ")" << endl;
     cout << "        (" << P[1][0] << " " << P[1][1] << " " << P[1][2] << ")" << endl;
     cout << "        (" << P[2][0] << " " << P[2][1] << " " << P[2][2] << ")" << endl;
 
+    // crop image
+    img = ImageC<ByteRGBValueC>(img,mosaicBuilder.GetCropRect());
+
+    // warp mosaic onto image
     ImageC<ByteRGBValueC> warped_img(mosaicBuilder.GetCropRect());
     WarpProjectiveC<ByteRGBValueC,ByteRGBValueC> pwarp(mosaicBuilder.GetCropRect(),proj.Matrix(),MOSAIC_ZHOMOG,IMAGE_ZHOMOG,true);
     pwarp.Apply(mosaicRGB,warped_img);

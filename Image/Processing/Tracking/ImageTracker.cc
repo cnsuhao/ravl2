@@ -12,7 +12,7 @@
 #include "Ravl/Image/MatchPatch.hh"
 #include "Ravl/Image/DrawCross.hh"
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #include "Ravl/IO.hh"
 #define ONDEBUG(x) x

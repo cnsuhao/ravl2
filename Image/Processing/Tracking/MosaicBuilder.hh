@@ -35,21 +35,21 @@ namespace RavlImageN {
   class MosaicBuilderC
   {
   public:
-    MosaicBuilderC(int cthreshold,
-		   int cwidth,
-		   int mthreshold,
-		   int mwidth,
-		   int lifeTime,
-		   int searchSize,
-		   int newFreq,
-		   int borderC, int borderR,
-		   double zhomog,
-		   int cropT, int cropB, int cropL, int cropR,
+    MosaicBuilderC(IntT cthreshold,
+		   IntT cwidth,
+		   IntT mthreshold,
+		   IntT mwidth,
+		   IntT lifeTime,
+		   IntT searchSize,
+		   IntT newFreq,
+		   IntT borderC, IntT borderR,
+		   RealT zhomog,
+		   IntT cropT, IntT cropB, IntT cropL, IntT cropR,
 		   const Point2dC &npointTL,
 		   const Point2dC &npointTR,
 		   const Point2dC &npointBL,
 		   const Point2dC &npointBR,
-		   int maxFrames);
+		   IntT maxFrames);
     //: Constructor
     // Initialises mosaic builder
 
@@ -80,8 +80,8 @@ namespace RavlImageN {
     ImageC<ByteRGBValueC> img;
     FitHomog2dPointsC fitHomog2d;
     EvaluateNumInliersC evalInliers;
-    IndexRange2dC rect, mosaic_rect;
-    ImageC<ByteT> grey_img;
+    IndexRange2dC rect, mosaicRect;
+    ImageC<ByteT> greyImg;
     RCHashC<UIntT,PointTrackC> corners, last;
     Matrix3dC Psum, Pmosaic;
     ImageC<ByteRGBMedianC> mosaic;
