@@ -44,6 +44,14 @@ extern "C" {
   typedef struct _GdkGC	  GdkGC;
   typedef struct _GdkDragContext GdkDragContext;
   typedef struct _GtkSelectionData GtkSelectionData;
+  typedef struct _GtkTargetEntry   GtkTargetEntry;
+  
+  
+  typedef int DragProtocolT; // GtkDragProtocolT
+  typedef int DragActionT;   // GdkDragAction
+  typedef int ModifierTypeT; // GdkModifierType
+  typedef int DestDefaultsT; // GtkDestDefaults
+  typedef int TargetFlagsT;  // GtkTargetFlags
   
   
 }

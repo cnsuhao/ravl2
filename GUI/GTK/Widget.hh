@@ -41,7 +41,10 @@ namespace RavlGUIN {
   class IndexRectangleC;
   class MenuC;
   struct GTKSignalInfoC;
+  class TargetEntryC;
+  class WidgetDndInfoC;
   
+  //! userlevel=Develop
   //: Widget base body.
   
   class WidgetBodyC
@@ -134,6 +137,25 @@ namespace RavlGUIN {
     
     void GUIGrabFocus();
     //: Grab keyboard focus.
+    
+    bool GUIDNDSource(ModifierTypeT flags,SArray1dC<GtkTargetEntry> entries,DragActionT actions);
+    //: Setup widget as drag and drop source.
+    
+    bool GUIDNDSourceDisable();
+    //: Disable widget as a drag and drop source.
+    
+    bool GUIDNDTarget(DestDefaultsT flags,SArray1dC<GtkTargetEntry> entries,DragActionT actions);
+    //: Setup widget as drag and drop target.
+    
+    bool GUIDNDTargetDisable();
+    //: Disable widget as a drag and drop source.
+    
+    static SArray1dC<GtkTargetEntry> CommonTargetEntries();
+    //: Get a list of common target entries.
+    // name="text/plain" info=0 <br>
+    // name="text/uri-list" info=1 <br>
+    // name="STRING" info=2 <br>
+    
   protected:
     bool GUISetState(GtkStateType &state);
     //: Set state of widget.
@@ -165,8 +187,11 @@ namespace RavlGUIN {
     //: Get information about a named signal.
     
     const char *tooltip;
-
+    
     bool gotRef; // Do we have a refrence to the object.
+    
+    WidgetDndInfoC *dndInfo; // Drag and drop info.
+    
   private:
     // Some call backs.
     
@@ -181,11 +206,12 @@ namespace RavlGUIN {
     static int gtkCListSelect(GtkWidget *widget,IntT row,IntT column,GdkEventButton *event,Signal0C *data);
     static int gtkCListCol(GtkWidget *widget,IntT column,Signal0C *data);
     
-    static int gtkDNDLeave(GtkWidget *widget,GdkDragContext *context,unsigned int time);
-    static int gtkDNDMotion(GtkWidget *widget,GdkDragContext *context,int x,int y,unsigned int time);
-    static int gtkDNDDrop(GtkWidget *widget,GdkDragContext *context,int x,int y,unsigned int time);
-    static int gtkDNDDataRecieved(GtkWidget *widget,GdkDragContext *context,int x,int y,GtkSelectionData *data,unsigned int info,unsigned int time);
-    static int gtkDNDDragDataGet(GtkWidget *widget,GdkDragContext *context,GtkSelectionData *data,unsigned int info,unsigned int time);
+    static int gtkDNDContext(GtkWidget *widget,GdkDragContext *context,Signal0C *data);
+    static int gtkDNDContextTime(GtkWidget *widget,GdkDragContext *context,unsigned int time,Signal0C *data);
+    static int gtkDNDPosition(GtkWidget *widget,GdkDragContext *context,int x,int y,unsigned int time,Signal0C *data);
+    
+    static int gtkDNDDataGet(GtkWidget *widget,GdkDragContext *context,GtkSelectionData *data,unsigned int info,unsigned int time,Signal0C *data);
+    static int gtkDNDDataRecieved(GtkWidget *widget,GdkDragContext *context,int x,int y,GtkSelectionData *data,unsigned int info,unsigned int time,Signal0C *data);
     
     friend class ManagerC;
     friend class WidgetC;

@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLGUISIGNALINFO_HEADER
-#define RAVLGUISIGNALINFO_HEADER 1
+#ifndef RAVLGUI_SIGNALINFO_HEADER
+#define RAVLGUI_SIGNALINFO_HEADER 1
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! userlevel=Develop
@@ -14,7 +14,7 @@
 //! userlevel=Advanced
 //! docentry="Ravl.GUI.Internal"
 //! author="Charles Galambos"
-//! date="23/09/99"
+//! date="23/09/1999"
 
 //**** This header is for internal use ONLY ******
 
@@ -34,7 +34,10 @@ namespace RavlGUIN {
     SigTypeEventKeyboard,
     SigTypeString,
     SigTypeCListSel,
-    SigTypeCListCol
+    SigTypeCListCol,
+    SigTypeDNDContext,
+    SigTypeDNDPosition,
+    SigTypeDNDData,
   };
   
   //: Signal info

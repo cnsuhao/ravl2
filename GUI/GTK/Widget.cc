@@ -16,10 +16,12 @@
 #include "Ravl/GUI/SignalInfo.hh"
 #include "Ravl/GUI/ToolTips.hh"
 #include "Ravl/GUI/MouseEvent.hh"
+#include "Ravl/GUI/DragAndDrop.hh"
 #include "Ravl/CallMethods.hh"
 #include "Ravl/Tuple2.hh"
 #include "Ravl/Threads/Signal2.hh"
 #include <gtk/gtk.h>
+#include <gdk/gdktypes.h>
 
 #define DODEBUG 0
 #if DODEBUG
@@ -29,6 +31,25 @@
 #endif
 
 namespace RavlGUIN {
+  
+  //: Extra drag and drop info, where its needed.
+  
+  class WidgetDndInfoC {
+  public:
+    WidgetDndInfoC()
+      : isSource(false),
+	isTarget(false)
+    {}
+    //: Constructor.
+    
+    bool isSource;
+    bool isTarget;
+    DestDefaultsT TargFlags;
+    ModifierTypeT SrcFlags;
+    SArray1dC<GtkTargetEntry> TargEntries;
+    SArray1dC<GtkTargetEntry> SrcEntries;
+    DragActionT TargActions,SrcActions;
+  };
   
   int WidgetBodyC::gtkDestroy (GtkWidget *widget,WidgetBodyC * data) { 
     ONDEBUG(cerr << "Got destroy for widget : " << ((void *) data) << "\n");
@@ -46,6 +67,11 @@ namespace RavlGUIN {
 #define GTKSIG_CLISTCOL (GtkSignalFunc) WidgetBodyC::gtkCListCol,SigTypeCListCol
 #define GTKSIG_TERM    0,SigTypeUnknown
 #define GTKSIG_KEYBOARD (GtkSignalFunc) WidgetBodyC::gtkEventKeyboard,SigTypeEventKeyboard
+#define GTKSIG_DNDCONTEXT      (GtkSignalFunc) WidgetBodyC::gtkDNDContext,SigTypeDNDContext
+#define GTKSIG_DNDPOSITION     (GtkSignalFunc) WidgetBodyC::gtkDNDPosition,SigTypeDNDPosition
+#define GTKSIG_DNDLEAVE        (GtkSignalFunc) WidgetBodyC::gtkDNDContextTime,SigTypeDNDPosition
+#define GTKSIG_DNDDATAGET      (GtkSignalFunc) WidgetBodyC::gtkDNDContext,SigTypeDNDData
+#define GTKSIG_DNDDATARECIEVED (GtkSignalFunc) WidgetBodyC::gtkDNDDataRecieved,SigTypeDNDData
 
   GTKSignalInfoC &WidgetBodyC::SigInfo(const char *nm)  {
     static Tuple2C<const char *,GTKSignalInfoC> signalInfo [] = {
@@ -85,6 +111,14 @@ namespace RavlGUIN {
       GTKSIG("select_row"           ,GTKSIG_CLISTSEL), // CList
       GTKSIG("unselect_row"         ,GTKSIG_CLISTSEL), // CList
       GTKSIG("click_column"         ,GTKSIG_CLISTCOL), // CList
+      GTKSIG("drag_begin"           ,GTKSIG_DNDCONTEXT),     // gtkwidget
+      GTKSIG("drag_end"             ,GTKSIG_DNDCONTEXT),     // gtkwidget
+      GTKSIG("drag_data_delete"     ,GTKSIG_DNDCONTEXT),     // gtkwidget
+      GTKSIG("drag_leave"           ,GTKSIG_DNDLEAVE),       // gtkwidget
+      GTKSIG("drag_drop"            ,GTKSIG_DNDPOSITION),    // gtkwidget
+      GTKSIG("drag_motion"          ,GTKSIG_DNDPOSITION),    // gtkwidget
+      GTKSIG("drag_data_get"        ,GTKSIG_DNDDATAGET),     // gtkwidget
+      GTKSIG("drag_data_received"   ,GTKSIG_DNDDATARECIEVED),// gtkwidget
       GTKSIG("destroy",GTKSIG_TERM)  // Duplicate first key to terminate array.
     };
     static HashC<const char *,GTKSignalInfoC> signalTable(signalInfo);
@@ -154,25 +188,54 @@ namespace RavlGUIN {
     sig(column);
     return 1;
   }
-  
-  int WidgetBodyC::gtkDNDLeave(GtkWidget *widget,GdkDragContext *context,unsigned int time) {
-    return 0;
+
+  int WidgetBodyC::gtkDNDContext(GtkWidget *widget,GdkDragContext *context,Signal0C *data) {
+    Signal1C<GdkDragContext *> sig(*data);
+    RavlAssert(sig.IsValid());
+    sig(context);
+    return 1;
   }
   
-  int WidgetBodyC::gtkDNDMotion(GtkWidget *widget,GdkDragContext *context,int x,int y,unsigned int time) {
-    return 0;
+  int WidgetBodyC::gtkDNDContextTime(GtkWidget *widget,GdkDragContext *context,unsigned int time,Signal0C *data) {
+    Signal2C<GdkDragContext *,PositionTimeC> sig(*data);
+    RavlAssert(sig.IsValid());
+    PositionTimeC pt(0,0,time);    
+    sig(context,pt);
+    return 1;
   }
   
-  int WidgetBodyC::gtkDNDDrop(GtkWidget *widget,GdkDragContext *context,int x,int y,unsigned int time) {
-    return 0;
+  int WidgetBodyC::gtkDNDPosition(GtkWidget *widget,GdkDragContext *context,int x,int y,unsigned int time,Signal0C *data) {
+    Signal2C<GdkDragContext *,PositionTimeC> sig(*data);
+    RavlAssert(sig.IsValid());
+    PositionTimeC pt(x,y,time);    
+    sig(context,pt);
+    return 1;
   }
   
-  int WidgetBodyC::gtkDNDDataRecieved(GtkWidget *widget,GdkDragContext *context,int x,int y,GtkSelectionData *data,unsigned int info,unsigned int time) {
-    return 0;
+  int WidgetBodyC::gtkDNDDataRecieved(GtkWidget *widget,GdkDragContext *context,int x,int y,GtkSelectionData *data,unsigned int info,unsigned int time,Signal0C *sigptr) {
+    
+    // Do some sanity checks
+    if(data == 0) {
+      ONDEBUG(cerr << "WidgetBodyC::gtkDNDDataRecieved(), WARNING: Recieved NULL selection. \n");
+      return 1;
+    }
+    if(data->length < 0) {
+      ONDEBUG(cerr << "WidgetBodyC::gtkDNDDataRecieved(), WARNING: Recieved invalid selection. \n");
+      return 1;
+    }
+    Signal1C<DNDDataInfoC> sig(*sigptr);
+    RavlAssert(sig.IsValid());
+    DNDDataInfoC inf(context,data,info,time,x,y);
+    sig(inf);
+    return 1;
   }
   
-  int WidgetBodyC::gtkDNDDragDataGet(GtkWidget *widget,GdkDragContext *context,GtkSelectionData *data,unsigned int info,unsigned int time) {
-    return 0;
+  int WidgetBodyC::gtkDNDDataGet(GtkWidget *widget,GdkDragContext *context,GtkSelectionData *data,unsigned int info,unsigned int time,Signal0C *sigptr) {
+    Signal1C<DNDDataInfoC> sig(*sigptr);
+    RavlAssert(sig.IsValid());
+    DNDDataInfoC inf(context,data,info,time);
+    sig(inf);
+    return 1;
   }
   
   //: Default constructor.
@@ -182,7 +245,8 @@ namespace RavlGUIN {
       widgetId(0),
       eventMask(GDK_EXPOSURE_MASK),
       tooltip(0),
-      gotRef(false)
+      gotRef(false),
+      dndInfo(0)
   {}
   
   WidgetBodyC::WidgetBodyC(const char *ntooltip)
@@ -190,7 +254,8 @@ namespace RavlGUIN {
       widgetId(0),
       eventMask(GDK_EXPOSURE_MASK),
       tooltip(ntooltip),
-      gotRef(false)
+      gotRef(false),
+      dndInfo(0)
   {}
   
   
@@ -208,6 +273,11 @@ namespace RavlGUIN {
 	}
       }
       widget = 0;
+    }
+    // Have we got some drag and drop info ?
+    if(dndInfo != 0) {
+      delete dndInfo;
+      dndInfo = 0;
     }
     ONDEBUG(cerr << "WidgetBodyC::~WidgetBodyC(), Done.  " << ((void *) this) << "\n");
   }
@@ -305,6 +375,9 @@ namespace RavlGUIN {
       case SigTypeString: // HACK!!
 	cerr << "WidgetBodyC::Signal(), Got SigTypeString from:" << nm << "\n";
 	return ret;
+      case SigTypeDNDContext: ret = Signal1C<GdkDragContext *>(0); break;
+      case SigTypeDNDPosition: ret = Signal2C<GdkDragContext *,PositionTimeC>(0); break;
+      case SigTypeDNDData: { DNDDataInfoC dnd; ret = Signal1C<DNDDataInfoC>(dnd); } break;
       case SigTypeUnknown:
       default:
 	cerr << "WidgetBodyC::Signal(), ERROR Unknown signal type:" << nm << "\n";
@@ -349,7 +422,26 @@ namespace RavlGUIN {
     
     gtk_object_ref(GTK_OBJECT(widget));  // Make refrence to object.
     gotRef = true;
-    
+#if 1
+    if(dndInfo != 0) { // Setup drag and drop ?
+      //gtk_widget_realize(widget); // Make sure widget is realised.
+      //RavlAssertMsg(!GTK_WIDGET_NO_WINDOW(widget),"Widget must have a window to initalise drag and drop.");
+      if(dndInfo->isSource)
+	gtk_drag_source_set(widget, 
+			    (GdkModifierType) dndInfo->SrcFlags,
+			    &(dndInfo->SrcEntries[0]),
+			    dndInfo->SrcEntries.Size(),
+			    (GdkDragAction) dndInfo->SrcActions);
+      if(dndInfo->isTarget)
+	gtk_drag_dest_set(widget,
+			  (GtkDestDefaults) dndInfo->TargFlags,
+			  &(dndInfo->TargEntries[0]),
+			  dndInfo->TargEntries.Size(),
+			  (GdkDragAction) dndInfo->TargActions);
+      delete dndInfo; // No needed after this.
+      dndInfo = 0;
+    }
+#endif
     if(eventMask != (int) GDK_EXPOSURE_MASK)  {// Has it changed from default ?
       //if(GTK_WIDGET_NO_WINDOW (widget))
       gtk_widget_set_events (widget,(GdkEventMask) eventMask);
@@ -489,6 +581,92 @@ namespace RavlGUIN {
       return ;
     gtk_widget_grab_focus(widget);
   }
-
+  
+  //: Setup widget as drag and drop source.
+  
+  bool WidgetBodyC::GUIDNDSource(ModifierTypeT flags,SArray1dC<GtkTargetEntry> entries,DragActionT actions) {
+    if(widget == 0) {
+      if(dndInfo == 0)
+	dndInfo = new WidgetDndInfoC();
+      dndInfo->isSource = true;
+      dndInfo->SrcFlags = flags;
+      dndInfo->SrcEntries = entries;
+      dndInfo->SrcActions = actions;
+      return true;
+    }
+    gtk_drag_source_set(widget, 
+			(GdkModifierType) flags,
+			&(entries[0]),
+			entries.Size(),
+			(GdkDragAction) actions);
+    return true;
+  }
+  
+  //: Disable widget as a drag and drop source.
+  
+  bool WidgetBodyC::GUIDNDSourceDisable() {
+    if(dndInfo != 0)
+      dndInfo->isSource = false;
+    if(widget != 0)
+      gtk_drag_source_unset(widget);
+    return true;
+  }
+  
+  //: Setup widget as drag and drop target.
+  
+  bool WidgetBodyC::GUIDNDTarget(DestDefaultsT flags,SArray1dC<GtkTargetEntry> entries,DragActionT actions) {
+    if(widget == 0) {
+      if(dndInfo == 0)
+	dndInfo = new WidgetDndInfoC();
+      dndInfo->TargFlags = flags;
+      dndInfo->TargEntries = entries;
+      dndInfo->TargActions = actions;
+      dndInfo->isTarget = true;
+      return true;
+    }
+    gtk_drag_dest_set(widget,
+		      (GtkDestDefaults) flags,
+		      &(entries[0]),
+		      entries.Size(),
+		      (GdkDragAction) actions);
+    return true;
+  }
+  
+  //: Disable widget as a drag and drop source.
+  
+  bool WidgetBodyC::GUIDNDTargetDisable() {
+    if(dndInfo != 0)
+      dndInfo->isSource = false;
+    if(widget != 0)
+      gtk_drag_dest_unset(widget);
+    return true;
+  }
+  
+  static SArray1dC<GtkTargetEntry> InitCommonTargetEntries() {
+    SArray1dC<GtkTargetEntry> te(4);
+    te[0].target = "text/plain";
+    te[0].flags = 0;
+    te[0].info = 0;
+    te[1].target = "text/uri-list";
+    te[1].flags = 0;
+    te[1].info = 1;
+    te[2].target = "application/x-rootwin-drop";
+    te[2].flags = 0;
+    te[2].info = 1;
+    te[3].target = "STRING";
+    te[3].flags = 0;
+    te[3].info = 2;
+    return te;
+  }
+  //: Get a list of common target entries.
+  // name="text/plain" info=0 <br>
+  // name="text/uri-list" info=1 <br>
+  // name="STRING" info=2 <br>
+  
+  SArray1dC<GtkTargetEntry> WidgetBodyC::CommonTargetEntries() {
+    static SArray1dC<GtkTargetEntry> te = InitCommonTargetEntries();
+    return te;
+  }
+  
 }
 
