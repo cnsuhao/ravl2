@@ -9,14 +9,35 @@
 //! file="Ravl/Image/AV/AVFrame.cc"
 
 #include "Ravl/AVFrame.hh"
-
 namespace RavlImageN {
 
-  //: Constructor.
-  
-  AVFrameC::AVFrameC(const AudioFrameC &audioData,ImageC<ByteRGBValueC> &img)
+  //: Constructor
+  //: -----------------------------------------------------------------------------------------------------------------------
+  AVFrameBodyC::AVFrameBodyC(const AudioFrameC &audioData,ImageC<ByteRGBValueC> &img)
     : audio(audioData),
       image(img)
   {}
+
+   //: Constructor from binary stream 
+  //: -----------------------------------------------------------------------------------------------------------------------
+  AVFrameBodyC::AVFrameBodyC(BinIStreamC & s) 
+{  s >> audio >> image ; }
+  
+  //: Constructor from stream 
+  //: -----------------------------------------------------------------------------------------------------------------------
+  AVFrameBodyC::AVFrameBodyC(istream & s) 
+{ s >> audio >> image ; }
+
+
+  //: Save to binary stream 
+  //: -----------------------------------------------------------------------------------------------------------------------
+  bool AVFrameBodyC::Save ( BinOStreamC  & s) const 
+{ s << audio << image ; return true ; }
+
+  //: Save to stream 
+  //: -----------------------------------------------------------------------------------------------------------------------
+  bool AVFrameBodyC::Save ( ostream & s ) const 
+{ s << audio << image ; return true ; } 
+
 
 }
