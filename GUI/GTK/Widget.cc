@@ -221,8 +221,11 @@ namespace RavlGUIN {
     reqState = state;
     if(widget == 0)
       return true;
-    if(reqState != GTK_WIDGET_STATE(widget))
+    if(reqState != GTK_WIDGET_STATE(widget)) {
       gtk_widget_set_state(widget,reqState);
+      if(reqState != GTK_STATE_INSENSITIVE)
+	gtk_widget_set_sensitive(widget,true);
+    }
     return true;
   }
   

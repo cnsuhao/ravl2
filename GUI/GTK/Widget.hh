@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLGUIWIDGET_HEADER
-#define RAVLGUIWIDGET_HEADER 1
+#ifndef RAVLGUI_WIDGET_HEADER
+#define RAVLGUI_WIDGET_HEADER 1
 /////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/GUI/GTK/Widget.hh"
@@ -108,11 +108,13 @@ namespace RavlGUIN {
     
     void SetState(GtkStateType state);
     //: Set state 
+    // One of: GTK_STATE_NORMAL GTK_STATE_ACTIVE  GTK_STATE_PRELIGHT,
+    // GTK_STATE_SELECTED GTK_STATE_INSENSITIVE
     
     virtual void WidgetDestroy();
     //: Called when the underlying widget it destroyed.
     // The default version of this method simpily 0's the widget ptr.
-  
+    
     Signal0C &Signal(const char *);
     //: Get handle for named signal.
     // See handle class for description.
@@ -194,67 +196,67 @@ namespace RavlGUIN {
   {
   public:
     WidgetC() 
-      {}
+    {}
     //: Default constructor.
     
     WidgetC(const WidgetC &oth) 
       : RCHandleC<WidgetBodyC>(oth)
-      {}
+    {}
     //: Copy constructor.
     
   protected:
     WidgetC(WidgetBodyC &bod) 
       : RCHandleC<WidgetBodyC>(bod)
-      {}
+    {}
     //: Body Constructor.
     
     WidgetBodyC &Body() 
-      { return RCHandleC<WidgetBodyC>::Body(); }
+    { return RCHandleC<WidgetBodyC>::Body(); }
     //: Access body.
     
     const WidgetBodyC &Body() const
-      { return RCHandleC<WidgetBodyC>::Body(); }
+    { return RCHandleC<WidgetBodyC>::Body(); }
     //: Access body.  
   
     bool GUISetState(GtkStateType &state)
-      { return Body().GUISetState(state); }
+    { return Body().GUISetState(state); }
     //: Set state of widget.
     
   public:
     void Destroy() 
-      { Body().Destroy(); }
+    { Body().Destroy(); }
     //: See body class for details.
     
     GtkWidget *Widget() 
-      { return Body().Widget(); }
+    { return Body().Widget(); }
     //: Access widget.
     
     StringC WidgetName() const
-      { return Body().WidgetName(); }
+    { return Body().WidgetName(); }
     //: Get widget's name.
     // Call only from GUI thread.
     
     StringC Name() const
-      { return Body().Name(); }
+    { return Body().Name(); }
     //: Get name of widget.
     // Defaults to WidgetName(), but may be differnt
     // for Lables etc.
     
     int WidgetID() const 
-      { return Body().WidgetID(); }
+    { return Body().WidgetID(); }
     //: Get widget id.
     
     bool Create()
-      { return Body().Create(); }
+    { return Body().Create(); }
     //: Create the widget.
     
     bool GUIShow()
-      { return Body().GUIShow(); }
+    { return Body().GUIShow(); }
     //: Show widget on the display.
     // Call only from GUI thread.
     
     bool GUIHide()
-      { return Body().GUIHide(); }
+    { return Body().GUIHide(); }
     //: Hide widget on the display.
     // Call only from GUI thread.
     
@@ -269,7 +271,7 @@ namespace RavlGUIN {
     // Thread safe.
     
     Index2dC Position() const
-      { return Body().Position(); }
+    { return Body().Position(); }
     //: Widget position.
     
     Index2dC Size() const
@@ -277,16 +279,18 @@ namespace RavlGUIN {
     //: Size of wiget in pixels
     
     bool GUISetUSize(IntT x,IntT y)
-      { return Body().GUISetUSize(x,y); }
+    { return Body().GUISetUSize(x,y); }
     //: Set size of widget.
     // GUI thread only.
     
     void SetState(GtkStateType state)
-      { Body().SetState(state); }
+    { Body().SetState(state); }
     //: Set state 
-    
+    // One of: GTK_STATE_NORMAL GTK_STATE_ACTIVE  GTK_STATE_PRELIGHT,
+    // GTK_STATE_SELECTED GTK_STATE_INSENSITIVE
+
     IndexRange2dC Rectangle() const
-      { return Body().Rectangle(); }
+    { return Body().Rectangle(); }
     //: Widget position and extent within its parent window.
     
     DListC<WidgetC> operator+ (const WidgetC &widge) const {
@@ -309,20 +313,20 @@ namespace RavlGUIN {
     // if not otherwise specified it is a Signal1C<WidgetC>.
     
     void SetToolTip(const char *text,const char *ctxt = 0)
-      { Body().SetToolTip(text,ctxt); }
+    { Body().SetToolTip(text,ctxt); }
     //: Set the tool tip for the widget.
     // NB. Not all widgets can display tooltips.
     
     void AddEventMask(IntT event) 
-      { Body().AddEventMask(event); }
+    { Body().AddEventMask(event); }
     //: Add to the event mask.
     
     void DelEventMask(IntT event)
-      { Body().DelEventMask(event); }
+    { Body().DelEventMask(event); }
     //: Remove from the event mask.
     
     void ShapeCombineMask(GdkBitmap &mask,int off_x = 0,int off_y = 0)
-      { Body().ShapeCombineMask(mask,off_x,off_y); }
+    { Body().ShapeCombineMask(mask,off_x,off_y); }
     //: Make a shape mask for the widget.
     // GUI thread only.
     
