@@ -418,7 +418,7 @@ endif
 
 build_subdirs: srcfiles
 ifneq ($(strip $(TARG_NESTED)),)
-	$(SHOWIT)for SUBDIR in $(TARG_NESTED) ; do \
+	+ $(SHOWIT)for SUBDIR in $(TARG_NESTED) ; do \
 	  if [ -d $$SUBDIR ] ; then \
 	   echo "------ Making $(DPATH)/"$$SUBDIR ; \
 	   if ( $(MAKEMD) $(TARGET) TARGET=$(TARGET) -C $$SUBDIR DPATH=$(DPATH)/$$SUBDIR ) ; then \
@@ -437,7 +437,7 @@ endif
 
 src_all: srcfiles 
 ifneq ($(strip $(TARG_NESTED)),)
-	$(SHOWIT)for SUBDIR in $(TARG_NESTED) ; do \
+	+ $(SHOWIT)for SUBDIR in $(TARG_NESTED) ; do \
 	  if [ -d $$SUBDIR ] ; then \
 	   echo "------ Source $(DPATH)/"$$SUBDIR; \
 	   if ( $(MAKEMO) src_all -C $$SUBDIR DPATH=$(DPATH)/$$SUBDIR ) ; then \

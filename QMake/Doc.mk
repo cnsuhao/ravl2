@@ -117,7 +117,7 @@ TARG_DOCNODE=$(patsubst %,$(INST_DOCNODE)/%,$(DOCNODE))
 docfiles: $(TARG_MAN1) $(TARG_MAN2) $(TARG_MAN5) $(TARG_DOCEXAMPLES) $(TARG_HTML) $(TARG_EHT) $(TARG_DOCNODE)
 
 docinit: docfiles
-	@for SUBDIR in stupid_for_loop_thing $(TARG_NESTED) ; do \
+	+ $(SHOWIT)for SUBDIR in stupid_for_loop_thing $(TARG_NESTED) ; do \
 	  if [ -d $$SUBDIR ] ; then \
 	   echo "------ Documenting $(DPATH)/"$$SUBDIR; \
 	   $(MAKE) docinit -C $$SUBDIR DPATH=$(DPATH)/$$SUBDIR -f $(MAKEHOME)/Doc.mk $(DEF_INC) ; \
@@ -184,5 +184,3 @@ $(INST_DOCNODE)/% : % $(INST_DOCNODE)/.dir
 	fi ; \
 	$(CP) $< $(INST_DOCNODE)/$(@F) ; \
 	$(CHMOD) 444 $(INST_DOCNODE)/$(@F)
-
-#include $(MAKEHOME)/rcs.mk

@@ -67,7 +67,7 @@ include $(MAKEHOME)/config.$(ARC)
 NOVAR=1
 include $(MAKEHOME)/Dirs.mk
 
-# The following is for loging only.
+# The following is for logging only.
 -include $(QCWD)/defs.mk
 
 
