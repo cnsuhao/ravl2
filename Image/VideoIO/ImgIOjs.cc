@@ -198,11 +198,12 @@ namespace RavlImageN {
       IndexC atrow = head.TRow();
       IndexC offset = head.LCol();
       IndexC brow = head.BRow();
-      for(;atrow <= brow;atrow++) 
+      for(;atrow <= brow;atrow++)
 	strm.read((char *) &(head[atrow][offset]),width);
     }
     //ONDEBUG(cerr << "Reading image... \n");
-    
+    if(!strm.good())
+      return false;
     frameNo++;
     return true; 
   }

@@ -101,6 +101,8 @@ namespace RavlImageN {
       return false; // File to big.
     strm.is().clear(); // Clear any errors.
     strm.Seek(CalcOffset(off));
+    if(strm.is().fail())
+      return false;
     frameNo = off;// Wait to after seek in case of exception.
     return true;
   }
@@ -115,6 +117,8 @@ namespace RavlImageN {
     UIntT nfrmno = frameNo + off;
     strm.is().clear(); // Clear any errors.
     strm.Seek(CalcOffset(nfrmno));
+    if(strm.is().fail())
+      return false;
     frameNo = nfrmno; // Wait to after seek in case of exception.
     return true;
   }
@@ -145,7 +149,7 @@ namespace RavlImageN {
   bool DPIImageCifBodyC::Get(ImageC<ByteYUVValueC> &head) { 
     const IndexC rows = rect.Rows();
     const IndexC cols = rect.Cols();
-    if(!strm.good())
+    if(!strm.good() || strm.is().fail())
       return false;
     
     // Check input image.
@@ -155,6 +159,8 @@ namespace RavlImageN {
     // Read data.
     for(Array2dIterC<ByteYUVValueC> it(head);it.IsElm();it.Next())
       it.Data().Y() = strm.get();
+    if(!strm.good())
+      return false; // Error while reading..
     IndexC r;
     for (r=0; r< rows;) {
       ByteYUVValueC *r1,*r2,*eor;
@@ -173,6 +179,8 @@ namespace RavlImageN {
 	r2++;     
       }
     }
+    if(!strm.good())
+      return false; // Error while reading..
     for ( r=0; r< rows;) {
       ByteYUVValueC *r1,*r2,*eor;
       r1 = head.Row(r++);
@@ -190,6 +198,8 @@ namespace RavlImageN {
 	r2++;
       }
     }
+    if(!strm.good())
+      return false; // Error while reading..
     frameNo++;
     return true; 
   }

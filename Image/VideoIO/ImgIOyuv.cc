@@ -129,7 +129,8 @@ namespace RavlImageN {
     }
     
     // --------------------
-    
+    if(!strm.good())
+      return false;
     frameNo++;
     return true; 
   }
@@ -156,6 +157,8 @@ namespace RavlImageN {
     if(off == ((UIntT)-1))
       return false; 
     strm.Seek(CalcOffset(off));
+    if(!strm.good())
+      return false;
     frameNo = off;// Wait to after seek in case of exception.
     if(frameNo > seqSize)
       seqSize = frameNo;
@@ -171,6 +174,8 @@ namespace RavlImageN {
     }
     UIntT nfrmno = frameNo + off;
     strm.Seek(CalcOffset(nfrmno));
+    if(!strm.good())
+      return false;
     frameNo = nfrmno; // Wait to after seek in case of exception.
     if(frameNo > seqSize)
       seqSize = frameNo;
