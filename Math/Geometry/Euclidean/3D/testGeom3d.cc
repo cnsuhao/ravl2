@@ -15,6 +15,7 @@
 #include "Ravl/AxisAngle.hh"
 #include "Ravl/StdConst.hh"
 #include "Ravl/LinePP3d.hh"
+#include "Ravl/BinStream.hh"
 
 using namespace RavlN;
 
