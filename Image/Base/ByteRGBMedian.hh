@@ -22,6 +22,8 @@ namespace RavlImageN {
   using namespace RavlN;
   
   //: RGB + grey value class
+  // It stores the Y component of an RGB pixel along with the R, G and B components, to avoid repeated evaluation of Y
+
   class ByteRGBGreyValueC
     : public ByteRGBValueC
   {
@@ -65,6 +67,7 @@ namespace RavlImageN {
   };
 
   //: RGB median value class.
+  // All of the values needed to compute the median are stored, to facilitate fast updating of the median as new data is added
   class ByteRGBMedianC
     : public ByteRGBValueC
   {
@@ -99,6 +102,7 @@ namespace RavlImageN {
       Set(rgb_grey.Red(),rgb_grey.Green(),rgb_grey.Blue());
     }
     //: Mix operator
+    // Adds a new pixel to the collection and finds the new median value
 
   public:
     CollectionC<ByteRGBGreyValueC> pixels;
