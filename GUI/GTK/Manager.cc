@@ -9,6 +9,8 @@
 //! lib=RavlGUI
 //! file="Ravl/GUI/GTK/Manager.cc"
 
+#define RAVL_USE_GTKTHREADS 1  /* Use thread based event handling stratagy. */
+
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/GUI/Window.hh"
 #include "Ravl/GUI/ToolTips.hh"
@@ -32,13 +34,14 @@
 #include <glib.h>
 #include <stdlib.h>
 
-#define DODEBUG 0
+#define DODEBUG 1
 
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
 #define ONDEBUG(x)
 #endif
+
 
 namespace RavlGUIN {
   
@@ -61,6 +64,7 @@ namespace RavlGUIN {
       guiThreadID(0)
   {
     InitDone() = true;
+#if !RAVL_USE_GTKTHREADS
     int p[2];
     if(pipe(p) != 0) {
       perror("ManagerC::ManagerC(), Failed. \n");
@@ -68,6 +72,7 @@ namespace RavlGUIN {
     }
     ifp = p[0];
     ofp = p[1];
+#endif
   } 
   
   
@@ -91,10 +96,12 @@ namespace RavlGUIN {
     ONDEBUG(cerr << "ManagerC::~ManagerC(), Removing final reference to root win.. \n");
     
     delayEvents.Empty();
+#if  !RAVL_USE_GTKTHREADS
     close(ifp);
     close(ofp);
     ifp = -1;
     ofp = -1;
+#endif
   }
   
   //: Desructor.
@@ -121,6 +128,11 @@ namespace RavlGUIN {
   
   void ManagerC::Init(int &nargs,char *args[])  {
     RavlAssert(!initCalled); // Init should only be called once.
+
+#if  RAVL_USE_GTKTHREADS
+    g_thread_init(NULL);
+#endif
+    
     /* this is called in all GTK applications.  arguments are parsed from
      * the command line and are returned to the application. */
     gtk_init (&nargs, &args);
@@ -136,6 +148,7 @@ namespace RavlGUIN {
   }
   
   
+#if !RAVL_USE_GTKTHREADS
   static gboolean manager_input_callback(GIOChannel   *source,
 					 GIOCondition  condition,
 					 gpointer      data) {
@@ -145,6 +158,7 @@ namespace RavlGUIN {
       manager.HandleNotify();
     return true;
   }
+#endif
   
   bool StartFunc() {
     Manager.Start();  
@@ -186,18 +200,29 @@ namespace RavlGUIN {
     // Get screen size from GDK
     screensize.Set(gdk_screen_height(),gdk_screen_width());
     physicalScreensize = Point2dC(gdk_screen_height_mm(),gdk_screen_width_mm());
+    
+#if  RAVL_USE_GTKTHREADS
+    startupDone.Post();
+    ManagerC manager(*this);
+    LaunchThread(manager,&ManagerC::HandleNotify);
+    gdk_threads_enter();
+    gtk_main();
+    gdk_threads_leave();
+#else
+    
     // Setup IO...
     
     guiThreadID = ThisThreadID();
     GIOChannel *channel = g_io_channel_unix_new(ifp);
     g_io_add_watch_full(channel,G_PRIORITY_DEFAULT_IDLE+10,G_IO_IN,manager_input_callback, this,0);
     g_io_channel_unref (channel);
-  
+    
     startupDone.Post();
     
     // Pass control over to GTK.
     
     gtk_main ();
+#endif
   
     managerStarted = false;
     
@@ -237,10 +262,12 @@ namespace RavlGUIN {
   //: Notify interface of event.
   
   bool ManagerC::Notify(IntT id) {
+#if RAVL_USE_GTKTHREADS
     if(write(ofp,&id,sizeof(IntT)) != sizeof(id)) {
       perror("ManagerC::Notify(),  Failed ");
       return false;
     }
+#endif
     return true;
   }
   
@@ -248,6 +275,14 @@ namespace RavlGUIN {
   //: Handle notify request.
   
   void ManagerC::HandleNotify() {
+#if RAVL_USE_GTKTHREADS
+    TriggerC trig;
+    while(!shutdownflag) {
+      events.Get(trig);
+      if(trig.IsValid())
+	trig.Invoke();
+    }
+#else
     IntT r;
     if(read(ifp,&r,sizeof(IntT)) != sizeof(IntT)) {
       perror("ManagerC::HandleNotify(),  Failed ");
@@ -266,6 +301,7 @@ namespace RavlGUIN {
       return ;
     }
     ONDEBUG(cerr << "ManagerC::HandleNotify() Called on " << r << " Done.\n");
+#endif
   }
   
   //: Access window.

@@ -150,7 +150,7 @@ namespace RavlGUIN {
     IntT ifp,ofp;  // File handle for event pipe.
     bool initCalled;
     bool managerStarted;
-    bool shutdownFlag;
+    volatile bool shutdownFlag;
     ThreadEventC shutdownDone;
     ThreadEventC startupDone;
     UIntT guiThreadID;
