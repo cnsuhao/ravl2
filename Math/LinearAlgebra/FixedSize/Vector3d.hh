@@ -30,10 +30,10 @@ namespace RavlN {
       {}
     //: Default constructor.
     
-    Vector3dC(const FVectorC<3> &base)
+    Vector3dC(const TFVectorC<RealT,3> &base)
       : FVectorC<3>(base)
       {}
-    //: Constructor.
+    //: Base onstructor.
     
     Vector3dC(RealT v1,RealT v2,RealT v3) { 
       data[0] = v1;

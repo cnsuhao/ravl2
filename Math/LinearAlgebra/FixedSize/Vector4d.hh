@@ -27,10 +27,10 @@ namespace RavlN {
       {}
     //: Default constructor.
     
-    Vector4dC(const FVectorC<2> &base)
-      : FVectorC<2>(base)
+    Vector4dC(const TFVectorC<RealT,4> &base)
+      : FVectorC<4>(base)
       {}
-    //: Constructor.
+    //: Base onstructor.
     
     Vector4dC(RealT v1,RealT v2,RealT v3,RealT v4) { 
       data[0] = v1;

@@ -29,10 +29,10 @@ namespace RavlN {
       {}
     //: Default constructor.
     
-    Vector2dC(const FVectorC<2> &base)
+    Vector2dC(const TFVectorC<RealT,2> &base)
       : FVectorC<2>(base)
       {}
-    //: Constructor.
+    //: Base onstructor.
     
     Vector2dC(RealT v1,RealT v2) { 
       data[0] = v1;
