@@ -53,6 +53,7 @@ namespace RavlGUIN {
     
     if(Child().IsValid()) {
       Child().GUIShow();  // Create it and show it.
+      gtk_misc_set_alignment (GTK_MISC (Child().Widget()), 0.0, 0.5);
       gtk_container_add (GTK_CONTAINER (widget), Child().Widget());
     } else {
       ONDEBUG(cerr << "TreeItemBodyC::Create(), Warning : No child object. \n");
