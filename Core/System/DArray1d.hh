@@ -320,7 +320,7 @@ namespace RavlN {
       : RCHandleC<DArray1dBodyC<DataT> >(*new DArray1dBodyC<DataT>(range))
     {}
     //: Range constructor.
-    // Creates a array with range elements allocated.
+    // Creates a array with 'range' elements allocated.
     
     DArray1dC(SizeT size)
       : RCHandleC<DArray1dBodyC<DataT> >(*new DArray1dBodyC<DataT>(size))
@@ -332,19 +332,22 @@ namespace RavlN {
       : RCHandleC<DArray1dBodyC<DataT> >(*new DArray1dBodyC<DataT>(size,preAlloc))
     {}
     //: Constructor an array with an expected size.
-    // This is usefull if you know you'll be appending 'size' elements.
+    // This is usefull if you know you'll be appending 'size' elements.  The array
+    // will initial appear empty, but Append operations will be fast.
     
     DArray1dC(const Array1dC<DataT> &arr)
       : RCHandleC<DArray1dBodyC<DataT> >(*new DArray1dBodyC<DataT>(arr))
     {}
     //: Array constructor.
-    // Creates an array of the given size starting from index 0.
-
+    // Uses 'arr' to build a dynamic array.  Note, the data is NOT copied,
+    // modifications to elements of 'arr' will be visible in the new array.
+    
     DArray1dC(const SArray1dC<DataT> &arr)
       : RCHandleC<DArray1dBodyC<DataT> >(*new DArray1dBodyC<DataT>(arr))
     {}
     //: SArray constructor.
-    // Creates an array of the given size starting from index 0.
+    // Uses 'arr' to build a dynamic array.  Note, the data is NOT copied,
+    // modifications to elements of 'arr' will be visible in the new array.
     
     bool Save(ostream &strm) const { 
       if(IsValid())
