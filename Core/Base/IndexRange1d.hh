@@ -162,6 +162,16 @@ namespace RavlN {
     //: Both minimum and maximum limits are shifted by subtracting the offset 'i'.
     // Returns a reference to this range.
     
+    inline const IndexRangeC & operator+=(IntT i)
+    { return (*this) += IndexC(i); }
+    //: Both minimum and maximum limits are shifted by adding the offset 'i'.
+    // Returns a reference to this range.
+    
+    inline const IndexRangeC & operator-=(IntT i)
+    { return (*this) -= IndexC(i); }
+    //: Both minimum and maximum limits are shifted by subtracting the offset 'i'.
+    // Returns a reference to this range.
+    
     inline IndexRangeC operator+(IndexC i) const
     { return IndexRangeC(Min() + i,Max() + i); }
     //: Create a new IndexRangeC with minimum and maximum limits shifted by adding the offset 'i'.
@@ -217,6 +227,34 @@ namespace RavlN {
       return *this;
     }
     //: Modify this range to ensure subRange is contained within it.
+    
+    const IndexRangeC operator+=(const IndexRangeC &subRange) {
+      minI += subRange.minI;
+      maxI += subRange.maxI;
+      return *this;
+    }
+    //: Add subRange to this one.
+    // minI += subRange.minI; minI += subRange.minI <br>
+    // returns a refrence to this range.
+    
+    const IndexRangeC operator-=(const IndexRangeC &subRange) {
+      minI -= subRange.minI;
+      maxI -= subRange.maxI;
+      return *this;
+    }
+    //: Subtract subRange from this one.
+    // minI -= subRange.minI;  minI -= subRange.minI <br>
+    // returns a refrence to this range.
+    
+    IndexRangeC operator+(const IndexRangeC &subRange) const 
+    { return IndexRangeC(minI + subRange.minI,maxI + subRange.maxI); }
+    //: Add ranges together.
+    // returns minI + subRange.minI, maxI + subRange.maxI
+    
+    IndexRangeC operator-(const IndexRangeC &subRange) const 
+    { return IndexRangeC(minI - subRange.minI,maxI - subRange.maxI); }
+    //: Subtract ranges.
+    // returns minI - subRange.minI, maxI - subRange.maxI
     
   private:    
     IndexC minI; // Minimum index.

@@ -289,6 +289,16 @@ namespace RavlN {
     }
     //: Subtract the 'sr' from this rectangle.
     // This does TRow() -= sr.TRow(), BRow() -= sr.BRow().....
+
+    const IndexRange2dC &operator+=(const IndexRange2dC &sr) {
+      TRow() += sr.TRow();
+      BRow() += sr.BRow();
+      LCol() += sr.LCol();
+      RCol() += sr.RCol();
+      return *this;
+    }
+    //: Add the 'sr' to this rectangle.
+    // This does TRow() += sr.TRow(), BRow() += sr.BRow().....
     
     IndexRange2dC operator-(const IndexRange2dC &sr) const {
       IndexRange2dC ret(*this);
@@ -300,6 +310,17 @@ namespace RavlN {
     }
     //: Subtract the 'sr' from this rectangle.
     // As operator-=(const IndexRange2dC &sr), but returns the modified rectangle.
+
+    IndexRange2dC operator+(const IndexRange2dC &sr) const {
+      IndexRange2dC ret(*this);
+      ret.TRow() += sr.TRow();
+      ret.BRow() += sr.BRow();
+      ret.LCol() += sr.LCol();
+      ret.RCol() += sr.RCol();
+      return ret;
+    }
+    //: Add the 'sr' to this rectangle.
+    // As operator+=(const IndexRange2dC &sr), but returns the modified rectangle.
     
   protected:
     inline const IndexRange2dC & Range() const
