@@ -138,6 +138,10 @@ namespace RavlN {
       return *this;
     }
     //: This index range is clipped to contain at most the index range 'r'.
+
+    inline bool Contains(const IndexRange2dC & oth) const
+      { return Range1().Contains(oth.Range1()) && Range2().Contains(oth.Range2()); }
+    // Returns true if this range contains the subrange 'oth'.
     
     inline const IndexRange2dC & operator+=(const Index2dC & offset);
     // Shifts the rectangle to the new position.
