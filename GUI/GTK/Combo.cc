@@ -168,7 +168,7 @@ namespace RavlGUIN {
   
   bool ComboBodyC::Create() {
     widget = gtk_combo_new();
-    
+    cerr << "  bool ComboBodyC::Create() " << widget ;
     // gtk_list_clear_items (GTK_LIST (combo->list), 0, -1);
     
     for(DLIterC<StringC> it(choices);it.IsElm();it.Next()) {
@@ -181,16 +181,31 @@ namespace RavlGUIN {
     if(maxEntryLength >= 0) {
       gtk_entry_set_max_length (GTK_ENTRY (GTK_COMBO(widget)->entry), maxEntryLength);
       GtkStyle *entryStyle = gtk_widget_get_style(GTK_COMBO(widget)->entry);
+      
+
 #if 0
       entryStyle->font_desc;
       PangoFontMetrics *fontMetrics = pango_fontset_get_metrics (PangoFontset *fontset);
       IntT digitWidth = pango_font_metrics_get_approximate_digit_width(metrics);
 #else
+#if RAVL_USE_GTK2 
       GdkFont *entryFont = gtk_style_get_font(entryStyle);
-      IntT digitWidth = gdk_string_width (entryFont,"0123456789") / 5;
+#else 
+      GdkFont * entryFont = entryStyle->font ; 
 #endif
+      IntT digitWidth = gdk_string_width (entryFont,"0123456789") / 5;
+#endif 
+
+#if RAVL_USE_GTK2
       gtk_widget_set_size_request(widget,maxEntryLength * digitWidth,-1);
-    }
+#else 
+      GtkRequisition req ; 
+      req.width = maxEntryLength * digitWidth ; 
+      req.height = -1 ; 
+      gtk_widget_size_request ( widget, &req ) ;
+#endif 
+
+   }
     
     if(!editable)
       gtk_entry_set_editable(GTK_ENTRY(GTK_COMBO(widget)->entry),0);
@@ -242,14 +257,28 @@ namespace RavlGUIN {
   //!param: chars - Maximum number of charactors in widget.
   
   bool ComboBodyC::GUISetMaxLength(IntT chars) {
+    cerr << "\n GUISetMaxLength"   << widget; 
     maxEntryLength = chars;
     if(widget == 0)
       return true;
     gtk_entry_set_max_length (GTK_ENTRY (GTK_COMBO(widget)->entry), maxEntryLength);
+#if RAVL_USE_GTK2
     GtkStyle *entryStyle = gtk_widget_get_style(GTK_COMBO(widget)->entry);
     GdkFont *entryFont = gtk_style_get_font(entryStyle);
     IntT digitWidth = gdk_string_width (entryFont,"0123456789") / 5;
     gtk_widget_set_size_request(widget,maxEntryLength * digitWidth,-1);
+#else 
+    GtkStyle *entryStyle = gtk_widget_get_style(GTK_COMBO(widget)->entry);
+    GdkFont *entryFont = entryStyle->font ; 
+    IntT digitWidth = gdk_string_width (entryFont,"0123456789") / 5;
+    GtkRequisition req ; 
+    req.width = maxEntryLength * digitWidth ; 
+    req.height = -1 ; 
+    //    gtk_widget_size_request(widget, &req);
+    gtk_widget_set_usize ( widget,  maxEntryLength * digitWidth,  -1) ; 
+    gtk_widget_queue_resize (widget) ;
+    cerr << req.width << "\theight: " << req.height ; 
+#endif 
     return true;
   }
   
