@@ -45,8 +45,14 @@ GLIBLIBS = `$(GLIBCONFIG) --libs`
 endif 
 
 else
+
+ifndef GTKCFLAGS
 GTKCFLAGS=  `pkg-config gtk+-2.0 --cflags` -DRAVL_USE_GTK2=1
+endif
+ifndef GTKLIBS
 GTKLIBS= `pkg-config gtk+-2.0 --libs`
+endif
+
 endif
 
 INCLUDES += $(GTKCFLAGS) $(GLIBCFLAGS)
