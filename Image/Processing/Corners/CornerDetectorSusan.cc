@@ -11,6 +11,7 @@
 
 #include "Ravl/Image/PeakDetector.hh"
 #include "Ravl/Image/CornerDetectorSusan.hh"
+#include "Ravl/Math.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -225,14 +226,14 @@ namespace RavlImageN {
 	  continue;
 	sq=sq/2;
 	if(yy < sq) {
-	  divide=(RealT)y/(RealT)abs(x);
-	  sq=abs(x)/x;
+	  divide=(RealT)y/(RealT)Abs(x);
+	  sq=Abs(x)/x;
 	  sq=*(cp-img[(i+FTOI(divide))][j+sq]) +
 	    *(cp-img[(i+FTOI(2*divide))][j+2*sq]) +
 	    *(cp-img[(i+FTOI(3*divide))][j+3*sq]);
 	} else if(xx < sq) {
-	  divide=(RealT)x/(RealT)abs(y);
-	  sq=abs(y)/y;
+	  divide=(RealT)x/(RealT)Abs(y);
+	  sq=Abs(y)/y;
 	  sq=*(cp-img[(i+sq)][j+FTOI(divide)]) +
 	    *(cp-img[(i+2*sq)][j+FTOI(2*divide)]) +
 	    *(cp-img[(i+3*sq)][j+FTOI(3*divide)]);
