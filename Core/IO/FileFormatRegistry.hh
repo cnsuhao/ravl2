@@ -97,6 +97,16 @@ namespace RavlN {
     // NB. an instace of TypeInfoInstC must exists for the contained class if this
     // is to work.
     
+    bool Load(IStreamC &strm,RCWrapAbstractC &obj,StringC fileformat,bool verbose);
+    //: Load to an abstract object handle.
+    // NB. an instace of TypeInfoInstC must exists for the contained class if this
+    // is to work.
+    
+    bool Save(OStreamC &strm,const RCWrapAbstractC &obj,StringC fileformat,bool verbose);
+    //: Save an abstract object handle.
+    // NB. an instace of TypeInfoInstC must exists for the contained class if this
+    // is to work.
+    
     DListC<FileFormatBaseC> ListFormats(bool forLoad,const StringC &fileFormat = StringC(""),const type_info &typespec = typeid(void));
     //: List all file formats that support the given type.
     // forLoad == true, then for load. forLoad == false, then for save. <p>  
@@ -288,13 +298,25 @@ namespace RavlN {
     // More information <a href="../Tree/Basic_Types.IO.html#LoadSave">here</a>
     
     bool Load(const StringC &filename,RCWrapAbstractC &obj,StringC fileformat,bool verbose)
-      { return Body().Load(filename,obj,fileformat,verbose); }
+    { return Body().Load(filename,obj,fileformat,verbose); }
     //: Load to an abstract object handle.
     // NB. an instace of TypeInfoInstC must exists for the contained class if this
     // is to work.
     
     bool Save(const StringC &filename,const RCWrapAbstractC &obj,StringC fileformat,bool verbose)
-      { return Body().Save(filename,obj,fileformat,verbose); }
+    { return Body().Save(filename,obj,fileformat,verbose); }
+    //: Save an abstract object handle.
+    // NB. an instace of TypeInfoInstC must exists for the contained class if this
+    // is to work.
+    
+    bool Load(IStreamC &strm,RCWrapAbstractC &obj,StringC fileformat,bool verbose)
+    { return Body().Load(strm,obj,fileformat,verbose); }
+    //: Load to an abstract object handle.
+    // NB. an instace of TypeInfoInstC must exists for the contained class if this
+    // is to work.
+    
+    bool Save(OStreamC &strm,const RCWrapAbstractC &obj,StringC fileformat,bool verbose)
+    { return Body().Save(strm,obj,fileformat,verbose); }
     //: Save an abstract object handle.
     // NB. an instace of TypeInfoInstC must exists for the contained class if this
     // is to work.

@@ -46,7 +46,7 @@ namespace RavlN {
   bool FileFormatRegistryBodyC::Insert(FileFormatBaseC &ff) {
     if(ff.Name() != "") {
       FormatByName()[ff.Name()].InsLast(ff);
-      ONDEBUG(cout << "Registering file format :" << ff.Name() << endl);
+      ONDEBUG(cout << "Registering file format '" << ff.Name() << "'  : " << ff.Description() << "\n");
     }
     Formats().InsLast(ff);
     return true;
@@ -421,10 +421,10 @@ namespace RavlN {
   //: Create an output pipe.
 
   DPOPortBaseC FileFormatRegistryBodyC::CreateOutput(StringC filename,
-						 StringC format,
-						 const type_info &obj_type,
-						 bool verbose
-						 ) {
+						     StringC format,
+						     const type_info &obj_type,
+						     bool verbose
+						     ) {
     FileFormatDescC fmtInfo;
     if(!FindOutputFormat(fmtInfo,filename,format,obj_type,verbose))
       return DPOPortBaseC();
@@ -438,14 +438,10 @@ namespace RavlN {
   //: Create an input pipe.
   
   DPIPortBaseC FileFormatRegistryBodyC::CreateInput(IStreamC &in,
-						StringC format,
-						const type_info &obj_type,
-						bool verbose
-						) {
-    if(obj_type == typeid(void)) {
-      ONDEBUG(cerr << "CreateInput(StreamC), Asked to load void \n");
-      return DPIPortBaseC();
-    }
+						    StringC format,
+						    const type_info &obj_type,
+						    bool verbose
+						    ) {
     FileFormatBaseC form;
     // Should look for best ??
     DListC<DPConverterBaseC> conv;
@@ -459,7 +455,14 @@ namespace RavlN {
 	  continue;
       }
       // Look for all loaders that can load from stream.
-      const type_info &ti = it.Data().ProbeLoad(in,obj_type);
+
+      const type_info *reqType = 0;
+      if(obj_type != typeid(void))
+	reqType = &obj_type;
+      else
+	reqType = &it.Data().DefaultType();
+      const type_info &ti = it.Data().ProbeLoad(in,*reqType);
+      
       if(ti == typeid(void))
 	continue; // Can't load give input.
       if(ti == obj_type) {
@@ -469,14 +472,20 @@ namespace RavlN {
 	break;
       }
       // Can we convert to requested type ?
+      if(obj_type != typeid(void)) {
 #if RAVL_USE_IO_AUTO_TYPECONVERTER
-      conv = typeConverter.FindConversion(ti,obj_type);
-      if(conv.Size() > 0) {
+	conv = typeConverter.FindConversion(ti,obj_type);
+	if(conv.Size() > 0) {
+	  form = it.Data();
+	  bestin = &ti;
+	  break;
+	}
+#endif
+      } else {
+	conv = DListC<DPConverterBaseC>();
 	form = it.Data();
 	bestin = &ti;
-	break;
       }
-#endif
     }
     if(!form.IsValid()) {
       ONDEBUG(cerr << "CreateInput(StreamC), Can't load stream. \n");
@@ -502,10 +511,10 @@ namespace RavlN {
   }
   
   DPOPortBaseC FileFormatRegistryBodyC::CreateOutput(OStreamC &to,
-						 StringC format,
-						 const type_info &obj_type,
-						 bool verbose
-						 ) {
+						     StringC format,
+						     const type_info &obj_type,
+						     bool verbose
+						     ) {
     if(obj_type == typeid(void)) {
       ONDEBUG(cerr << "CreateOutput(OStreamC), Asked to output void. \n");
       return DPOPortBaseC();
@@ -594,6 +603,7 @@ namespace RavlN {
   
   bool FileFormatRegistryBodyC::Load(const StringC &filename,RCWrapAbstractC &obj,StringC fileformat,bool verbose) {
     DPIPortBaseC port = CreateInput(filename,fileformat,typeid(void),verbose);
+    ONDEBUG(cerr << "FileFormatRegistryBodyC::Load(const StringC &,const RCWrapAbstractC &), Called. \n");
     if(!port.IsValid()) 
       return false;
     DPTypeInfoC lt = DPTypeInfoBodyC::Types()[port.InputType().name()];
@@ -617,7 +627,48 @@ namespace RavlN {
 	cerr << "Save(RCWrapAbstractC), Asked to save invalid handle to file '" + filename + "'\n";
       return false;
     }
+    ONDEBUG(cerr << "FileFormatRegistryBodyC::Save(const StringC &,const RCWrapAbstractC &), Called. Type=" << TypeName(obj.DataType()) << "\n");
     DPOPortBaseC port = CreateOutput(filename,fileformat,obj.DataType(),verbose);
+    if(!port.IsValid()) 
+      return false; // Just plain don't know now to save.
+    DPTypeInfoC lt = DPTypeInfoBodyC::Types()[obj.DataType().name()];
+    if(!lt.IsValid()) {
+      cerr << "Save(RCWrapAbstractC), No TypeInfoC class for type '" << TypeName(obj.DataType()) << "', save failed. \n";
+      return false;
+    }
+    return lt.Put(port,obj);
+  }
+  
+  //: Load to an abstract object handle.
+  // NB. an instace of TypeInfoInstC must exists for the contained class if this
+  // is to work.
+  
+  bool FileFormatRegistryBodyC::Load(IStreamC &strm,RCWrapAbstractC &obj,StringC fileformat,bool verbose) {
+    ONDEBUG(cerr << "FileFormatRegistryBodyC::Load(IStreamC &,const RCWrapAbstractC &), Called. \n");
+    DPIPortBaseC port = CreateInput(strm,fileformat,typeid(void),verbose);
+    if(!port.IsValid()) 
+      return false;
+    DPTypeInfoC lt = DPTypeInfoBodyC::Types()[port.InputType().name()];
+    if(!lt.IsValid()) {
+      cerr << "Load(RCWrapAbstractC), No TypeInfoC class for type '" << TypeName(port.InputType()) << "', load failed. \n";
+      return false;
+    }
+    obj = lt.Get(port);
+    return true;
+  }
+  
+  //: Save an abstract object handle.
+  // NB. an instace of TypeInfoInstC must exists for the contained class if this
+  // is to work.
+  
+  bool FileFormatRegistryBodyC::Save(OStreamC &strm,const RCWrapAbstractC &obj,StringC fileformat,bool verbose) {
+    if(!obj.IsValid()) {
+      if(verbose)
+	cerr << "Save(RCWrapAbstractC), Asked to save invalid handle to stream\n";
+      return false;
+    }
+    ONDEBUG(cerr << "FileFormatRegistryBodyC::Save(OStreamC &,const RCWrapAbstractC &), Called. Type=" << TypeName(obj.DataType()) << "\n");
+    DPOPortBaseC port = CreateOutput(strm,fileformat,obj.DataType(),verbose);
     if(!port.IsValid()) 
       return false; // Just plain don't know now to save.
     DPTypeInfoC lt = DPTypeInfoBodyC::Types()[obj.DataType().name()];

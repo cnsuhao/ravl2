@@ -116,13 +116,25 @@ namespace RavlN {
   //!param: verbose -  if true, a message is printed to stdout describing the filename, the format used, the object type being loaded and any status information. 
   // More information <a href="../Tree/Ravl.Core.IO.html#LoadSave">here</a>
   
-  bool Load(const StringC &filename,RCWrapAbstractC &obj,StringC fileformat,bool verbose);
+  bool LoadAbstract(const StringC &filename,RCWrapAbstractC &obj,StringC fileformat,bool verbose);
   //! userlevel=Advanced
   //: Load to an abstract object handle.
   // NB. an instace of TypeInfoInstC must exists for the contained class if this
   // is to work.
   
-  bool Save(const StringC &filename,const RCWrapAbstractC &obj,StringC fileformat,bool verbose);
+  bool SaveAbstract(const StringC &filename,const RCWrapAbstractC &obj,StringC fileformat,bool verbose);
+  //! userlevel=Advanced
+  //: Save an abstract object handle.
+  // NB. an instace of TypeInfoInstC must exists for the contained class if this
+  // is to work.
+  
+  bool LoadAbstract(IStreamC &strm,RCWrapAbstractC &obj,StringC fileformat,bool verbose);
+  //! userlevel=Advanced
+  //: Load to an abstract object handle.
+  // NB. an instace of TypeInfoInstC must exists for the contained class if this
+  // is to work.
+  
+  bool SaveAbstract(OStreamC &strm,const RCWrapAbstractC &obj,StringC fileformat,bool verbose);
   //! userlevel=Advanced
   //: Save an abstract object handle.
   // NB. an instace of TypeInfoInstC must exists for the contained class if this

@@ -15,6 +15,14 @@
 
 #include "Ravl/DP/FileFormatRegistry.hh"
 
+#define DODEBUG 0
+#if DODEBUG
+#include "Ravl/TypeName.hh"
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
+
 namespace RavlN {
   
   class RCWrapAbstactC;
@@ -79,7 +87,7 @@ namespace RavlN {
   // NB. an instace of TypeInfoInstC must exists for the contained class if this
   // is to work.
   
-  bool Load(const StringC &filename,RCWrapAbstractC &obj,StringC fileformat,bool verbose)
+  bool LoadAbstract(const StringC &filename,RCWrapAbstractC &obj,StringC fileformat,bool verbose)
   { return SystemFileFormatRegistry().Load(filename,obj,fileformat,verbose); }
   
   /////////////////////////////////
@@ -88,8 +96,28 @@ namespace RavlN {
   // NB. an instace of TypeInfoInstC must exists for the contained class if this
   // is to work.
   
-  bool Save(const StringC &filename,const RCWrapAbstractC &obj,StringC fileformat,bool verbose) 
+  bool SaveAbstract(const StringC &filename,const RCWrapAbstractC &obj,StringC fileformat,bool verbose) 
   { return SystemFileFormatRegistry().Save(filename,obj,fileformat,verbose); }
+  
+  //! userlevel=Advanced
+  //: Load to an abstract object handle.
+  // NB. an instace of TypeInfoInstC must exists for the contained class if this
+  // is to work.
+  
+  bool LoadAbstract(IStreamC &strm,RCWrapAbstractC &obj,StringC fileformat,bool verbose) { 
+    ONDEBUG(cerr << "LoadAbstract(IStreamC &,RCWrapAbstractC &), Called.  \n");
+    return SystemFileFormatRegistry().Load(strm,obj,fileformat,verbose); 
+  }
+  
+  //! userlevel=Advanced
+  //: Save an abstract object handle.
+  // NB. an instace of TypeInfoInstC must exists for the contained class if this
+  // is to work.
+  
+  bool SaveAbstract(OStreamC &strm,const RCWrapAbstractC &obj,StringC fileformat,bool verbose) { 
+    ONDEBUG(cerr << "SaveAbstract(OStreamC &,const RCWrapAbstractC &), Called. Type=" << TypeName(obj.DataType()) << " \n");
+    return SystemFileFormatRegistry().Save(strm,obj,fileformat,verbose); 
+  }
   
   /////////////////////////////////
   //! userlevel=Advanced
@@ -97,7 +125,7 @@ namespace RavlN {
   // If typespec is void then all types are listed.
   
   DListC<FileFormatBaseC> ListFormats(bool forLoad,const StringC &fileFormat,const type_info &typespec) 
-   { return SystemFileFormatRegistry().ListFormats(forLoad,fileFormat,typespec); }
+  { return SystemFileFormatRegistry().ListFormats(forLoad,fileFormat,typespec); }
   
   //////////////////////////////////
   //: Identify a file.
