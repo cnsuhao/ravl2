@@ -94,7 +94,7 @@ namespace RavlImageN {
     UIntT labels;         // Number of labels in map.
   };
   
-  //! userlevel=Develop
+  //! userlevel=Normal
   //: Segmentation map.
   
   class SegmentationC 
