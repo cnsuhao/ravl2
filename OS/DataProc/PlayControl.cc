@@ -132,7 +132,8 @@ namespace RavlN {
   
   UIntT DPPlayControlBodyC::Tell() const { 
 #if FORCE_AT
-    RavlAssert(ctrl.IsValid());
+    if(!ctrl.IsValid())
+      return 0;
     MutexLockC lock(access);
     UIntT ret =  ctrl.Tell();
     if((IntT) ret != at) {
@@ -149,7 +150,8 @@ namespace RavlN {
   //: How long is the stream ?
   
   UIntT DPPlayControlBodyC::Size() const { 
-    RavlAssert(ctrl.IsValid());
+    if(!ctrl.IsValid())
+      return 0;
     MutexLockC lock(access);
     return ctrl.Size(); 
     // Unlock access here.
@@ -158,7 +160,8 @@ namespace RavlN {
   //: Seek to an absolute position in stream
   
   bool DPPlayControlBodyC::Seek(UIntT pos) { 
-    RavlAssert(ctrl.IsValid());
+    if(!ctrl.IsValid())
+      return false;
     MutexLockC lock(access);
     IntT seekto = pos;
     

@@ -436,6 +436,11 @@ namespace RavlN {
     {}
     //: Copy Constructor.
     
+    DPIPlayControlC(bool)
+      : DPEntityC(*new DPIPlayControlBodyC<DataT>())
+    {}
+    //: Constructor.
+    
   protected:
     DPIPlayControlC(const DPIPlayControlBodyC<DataT> &bod)
       : DPEntityC((DPIPortBodyC<DataT> &) bod)
