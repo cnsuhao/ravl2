@@ -71,7 +71,7 @@ namespace RavlN {
   
   MatrixC DistanceMahalanobisBodyC::Jacobian (const VectorC &X) const {
     MatrixC V = X;
-    RealT divisor = 1/(2.0*sqrt(X.Dot (iCovar * X)));
+    RealT divisor = 1/(2.0*Sqrt(X.Dot (iCovar * X)));
     MatrixC dSdX = (V.TMul (iCovar.T()) + V.TMul (iCovar)) * divisor;
     return dSdX;
   }
