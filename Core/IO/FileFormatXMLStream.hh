@@ -35,12 +35,23 @@ namespace RavlN {
     virtual const type_info &ProbeLoad(IStreamC &in,const type_info &/*obj_type*/) const  {
       if(!in.good())
 	return typeid(void);
-      XMLIStreamC bin(in);
+      XMLIStreamC ix(in);
       streampos mark = in.Tell();
-      // Check class name.
-      StringC classname;
-      bin.PeekTag(classname);
-      //cout << "Stream Probe: '" << classname << "' Looking for: '" << TypeName(typeid(DataT)) << "'\n";
+      if(!ix.ReadHeader()) {
+	// ReadHeader() will attempt to restore the stream state
+	// so we can just return.
+	return typeid(void); // Don't know how to load this.
+      }
+      // Read RAVL processing instruction.
+      StringC name;
+      RCHashC<StringC,StringC> attr;
+      XMLTagOpsT top = ix.ReadTag(name,attr);
+      if(name != "RAVL" || top != XML_PI) {
+	in.Seek(mark);
+	return typeid(void);
+      }
+      // Extract class name.
+      StringC classname = attr["class"];
       in.Seek(mark);
       if(classname != StringC(TypeName(typeid(DataT)))) 
 	return typeid(void); // Don't know how to load this.

@@ -34,7 +34,7 @@ namespace RavlN {
   {
   public:
     DPOXMLFileBodyC() 
-      {}
+    {}
     //: Default constructor.
     
     DPOXMLFileBodyC(const StringC &nfname,bool useHeader=false)
@@ -45,8 +45,12 @@ namespace RavlN {
       if(!out.Stream().good()) 
 	cerr << "DPOXMLFileBodyC<DataT>::DPOXMLFileBodyC<DataT>(StringC,bool), Failed to open file.\n";
 #endif
-      if(useHeader) 
-	out << XMLStartTag(TypeName(typeid(DataT))) << XMLEndTag;
+      if(useHeader) {
+	out.WriteHeader();
+	RCHashC<StringC,StringC> attr;
+	attr["class"] = TypeName(typeid(DataT));
+	out.WritePI("RAVL",attr);
+      }
     }
     //: Construct from a filename.
     
@@ -59,7 +63,10 @@ namespace RavlN {
 	cerr << "DPOXMLFileBodyC<DataT>::DPOXMLFileBodyC<DataT>(OStreamC,bool), Passed bad output stream. \n";
 #endif
       if(useHeader) {
-	out << XMLStartTag(TypeName(typeid(DataT))) << XMLEndTag;
+	out.WriteHeader();
+	RCHashC<StringC,StringC> attr;
+	attr["class"] = TypeName(typeid(DataT));
+	out.WritePI("RAVL",attr);
 #ifdef RAVL_CHECK
 	if(!out.Stream().good()) 
 	  cerr << "DPOXMLFileBodyC<DataT>::DPOXMLFileBodyC<DataT>(XMLOStreamC,bool), Bad stream after writting header! \n";

@@ -13,13 +13,16 @@
 #include "Ravl/DP/CoreIO.hh"
 
 namespace RavlN {
-
+  
   extern void IncludeFileFormatStream();
+  extern void InitFileFormatBinStream();
+  
   //: Initalise all the core IO.
   
   void InitCoreIO() {
     InitFixedIndexIO();
     IncludeFileFormatStream();
+    InitFileFormatBinStream();
   }
   
 }
