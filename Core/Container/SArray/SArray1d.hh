@@ -426,8 +426,8 @@ namespace RavlN {
     SArray1dC<DataT> newarr(len1 + len2);
     for(BufferAccessIter2C<DataT,DataT> it(*this,newarr);it;it++)
       it.Data2() = it.Data1();
-    for(BufferAccessIter2C<DataT,DataT> it(Oth,newarr,0,len1);it;it++)
-      it.Data2() = it.Data1();
+    for(BufferAccessIter2C<DataT,DataT> it2(Oth,newarr,0,len1);it2;it2++)
+      it2.Data2() = it2.Data1();
     return newarr;
   }
 
