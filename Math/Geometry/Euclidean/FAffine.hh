@@ -41,7 +41,7 @@ namespace RavlN {
     inline FVectorC<N> Translation() const { return T; }
     //: Constant access to the translation component of the transformation.
     
-    inline void Scale(FVectorC<N> xy);
+    inline void Scale(const FVectorC<N> &xy);
     //: In place Scaling along the X & Y axis by value given in the vector.
     // If all values 1, then no effect.
     
@@ -115,9 +115,9 @@ namespace RavlN {
   {}
   
   template<unsigned int N>
-  inline void FAffineC<N>::Scale(FVectorC<N> xy) {
+  inline void FAffineC<N>::Scale(const FVectorC<N> &xy) {
     for(UIntT i = 0;i < N;i++)
-      for(UIntT j = 0;j < N;i++)
+      for(UIntT j = 0;j < N;j++)
 	SR[i][j] *= xy[j];
   }
   
