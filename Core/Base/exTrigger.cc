@@ -6,6 +6,7 @@
 // file-header-ends-here
 /////////////////////////////////////////////////////////////////
 //! author="Lee Gregory"
+//! docentry="Ravl.Core.Calls"
 
 #include "Ravl/Stream.hh"
 #include "Ravl/DList.hh" 
