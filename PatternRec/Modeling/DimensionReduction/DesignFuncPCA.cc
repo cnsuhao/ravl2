@@ -92,9 +92,11 @@ namespace RavlN {
     // Calculate difference vectors
     
     mean = sv.Mean();
-    CollectionC<VectorC> collection(sample.Size());
+    CollectionC<VectorC> collection(N);
     for(SampleIterC<VectorC> it(sample);it;it++) 
       collection.Insert(*it - mean);
+    
+    // Pick random sample.
     
     MatrixC A (d, N);
     for (IndexC index = 0; index < A.Cols(); index++)      
@@ -104,7 +106,7 @@ namespace RavlN {
     MatrixC AT = A.T();
     MatrixC L = AT.AAT();
     L /= N;
-
+    
     // Calculate Eigenvectors.
     VectorMatrixC Leigenvecs  =  EigenVectors(L);
     //cout << "finished computing eigen vecs: " << endl << flush;
@@ -144,10 +146,10 @@ namespace RavlN {
     UIntT numComponents = 0;
     //ONDEBUG(cerr << "Values=" << temp << "\n");
     if (variation < 1.0) {
-      RealT limit = variation*total;
+      RealT limit = variation * total;
       while ((runningTotal += temp[numComponents++]) < limit);
     } else {
-      numComponents = UIntT(variation < temp.Size()? variation: temp.Size());
+      numComponents = UIntT(variation < temp.Size() ? variation: temp.Size());
       for (UIntT i = 0; i < numComponents; i++)
 	runningTotal += temp[i];
     }
@@ -164,8 +166,9 @@ namespace RavlN {
   //: Design the transform.
   
   FunctionC DesignFuncPCABodyC::DesignLowDim(const SampleC<VectorC> &sample,RealT variation) {
+    if(sample.IsEmpty())
+      return FunctionC();
     IntT dim = sample.First().Size();
-    //SetSizeX (dim);
     SampleVectorC sv(sample);
     MeanCovarianceC stats = sv.MeanCovariance();
     mean = stats.Mean();
@@ -174,7 +177,7 @@ namespace RavlN {
     
     //: need to sort matrix into order
     Leigenvecs.Sort();
-
+    
     ONDEBUG(cerr << "Values=" << Leigenvecs.Vector() << "\n");
     
     RealT total = Leigenvecs.Vector().Sum();
@@ -192,7 +195,6 @@ namespace RavlN {
     
     pca = VectorMatrixC (Leigenvecs.Vector().From(0,numComponents-1),
 			 Leigenvecs.Matrix().SubMatrix(dim,numComponents).T());
-    
     
     return FuncMeanProjectionC(mean,pca.Matrix());
   }
