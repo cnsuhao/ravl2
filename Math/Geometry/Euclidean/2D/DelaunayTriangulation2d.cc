@@ -176,7 +176,7 @@ namespace RavlN {
     RavlAssert(ret.CheckMesh(true));
 #if 1
     for(int i = 0;i < 3;i++) {
-      ret.DeleteVertex(tempFace[i]);
+      ret.DeleteVertex(tempFace[i],true);
       RavlAssert(ret.CheckMesh(true));
     }
 #endif
