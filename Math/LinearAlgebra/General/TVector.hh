@@ -44,9 +44,11 @@ namespace RavlN {
     {}
     //: Construct from a slice.
     
-    explicit inline TVectorC(SizeT n);
+    explicit inline TVectorC(SizeT n)
+      : SArray1dC <DataT>(n)
+    {}
     //: Constructor.
-
+    
 #if !RAVL_COMPILER_VISUALCPP
     template<unsigned int N>
     inline TVectorC(const TFVectorC<DataT,N> &dat)
@@ -100,7 +102,8 @@ namespace RavlN {
     //: Returns the modulus of the vector.
     // The Sqrt(SumOfSqr()).
     
-    DataT TMul(const TVectorC<DataT> & b) const;
+    DataT TMul(const TVectorC<DataT> & b) const
+    { return Dot(b); }
     //: multiplication 'DataT' = (*this).T() * b
     
     DataT Dot(const TVectorC<DataT> & v) const;         
@@ -149,40 +152,36 @@ namespace RavlN {
   }
   
   template<class DataT>
-  inline 
-  TVectorC<DataT>::TVectorC(SizeT n)
-    : SArray1dC <DataT>(n)
-  {}
-  
-  template<class DataT>
-  DataT 
-  TVectorC<DataT>::Sum() const  {
+  DataT TVectorC<DataT>::Sum() const  {
+    DataT sum;
     BufferAccessIterC<DataT> it(*this);
-    if(!it.IsElm())
-      return 0;
-    DataT sum = it.Data();
-    it.Next();
-    for(;it.IsElm();it.Next())
+    if(!it) {
+      SetZero(sum);
+      return sum;
+    }
+    sum = StdCopy(*it);
+    for(it++;it;it++)
       sum += it.Data();
     return sum;
   }
   
   template<class DataT>
   DataT TVectorC<DataT>::Product() const  {
+    DataT prod;
     BufferAccessIterC<DataT> it(*this);
-    if(!it.IsElm())
-      return 1; // Or throw an exception ?
-    DataT prod = it.Data();
-    it.Next();
-    for(;it.IsElm();it.Next())
-      prod *= it.Data();
+    if(!it) {
+      prod = 1;
+      return prod; // Or throw an exception ?
+    }
+    prod = StdCopy(*it);
+    for(it++;it;it++)
+      prod *= *it;
     return prod;
   }
   
   template<class DataT>
-  const TVectorC<DataT> & 
-  TVectorC<DataT>::Reciprocal() {
-    for(BufferAccessIterC<DataT> it(*this);it.IsElm();it.Next())
+  const TVectorC<DataT> &TVectorC<DataT>::Reciprocal() {
+    for(BufferAccessIterC<DataT> it(*this);it;it++)
       it.Data() = 1/it.Data();
     return *this;
   }
@@ -190,8 +189,13 @@ namespace RavlN {
   template<class DataT>
   DataT TVectorC<DataT>::SumOfSqr() const {
     DataT ret;
-    SetToZero(ret);
-    for(BufferAccessIterC<DataT> it(*this);it;it++)
+    BufferAccessIterC<DataT> it(*this);
+    if(!it) {
+      SetZero(ret);
+      return ret;
+    }
+    ret = Sqr(*it);
+    for(it++;it;it++)
       ret += Sqr(*it);
     return ret;
   }
@@ -199,26 +203,22 @@ namespace RavlN {
   template<class DataT>
   DataT TVectorC<DataT>::SumOfAbs() const {
     DataT ret;
-    SetToZero(ret);
+    SetZero(ret);
     for(BufferAccessIterC<DataT> it(*this);it;it++)
       ret += Abs(*it);
     return ret;
   }
   
   template<class DataT>
-  DataT 
-  TVectorC<DataT>::TMul(const TVectorC<DataT> & b) const {
-    DataT sum = 0;
-    for(BufferAccessIter2C<DataT,DataT> it(*this,b);it.IsElm();it.Next())
-      sum += it.Data1() * it.Data2();
-    return sum;
-  }
-  
-  template<class DataT>
-  DataT 
-  TVectorC<DataT>::Dot(const TVectorC<DataT> & v) const {
-    DataT sum = 0;
-    for(BufferAccessIter2C<DataT,DataT> it(*this,v);it.IsElm();it.Next())
+  DataT TVectorC<DataT>::Dot(const TVectorC<DataT> & v) const {
+    DataT sum;
+    BufferAccessIter2C<DataT,DataT> it(*this,v);
+    if(!it) {
+      SetZero(sum);
+      return sum;
+    }
+    sum = it.Data1() * it.Data2();
+    for(it++;it;it++)
       sum += it.Data1() * it.Data2();
     return sum;  
   }
@@ -227,21 +227,21 @@ namespace RavlN {
   const TVectorC<DataT> &TVectorC<DataT>::SetSmallToBeZero(const DataT &min) {
     for(BufferAccessIterC<DataT> it(*this);it;it++)
       if(Abs(*it) < min)
-	SetToZero(*it);
+	SetZero(*it);
     return *this;
   }
 
 
   template<class DataT>
   DataT TVectorC<DataT>::MaxValue() const {
+    DataT max;
     BufferAccessIterC<DataT> it(*this);
     if(!it.IsElm()) {
-      DataT ret;
-      SetToZero(ret);
-      return ret;
+      SetZero(max);
+      return max;
     }
-    DataT max = *it;
-    for(;it;it++) 
+    max = *it;
+    for(it++;it;it++) 
       if(*it > max)
 	max = *it;
     return max;
@@ -249,14 +249,14 @@ namespace RavlN {
 
   template<class DataT>
   DataT TVectorC<DataT>::MaxMagintude() const {
+    DataT max;
     BufferAccessIterC<DataT> it(*this);
     if(!it.IsElm()) {
-      DataT ret;
-      SetToZero(ret);
-      return ret;
+      SetZero(max);
+      return max;
     }
-    DataT max = Abs(*it);
-    for(;it;it++) {
+    max = Abs(*it);
+    for(it++;it;it++) {
       DataT mag = Abs(*it);
       if(mag > max)
 	max = mag;
@@ -267,13 +267,13 @@ namespace RavlN {
   template<class DataT>
   DataT TVectorC<DataT>::MinValue() const {
     BufferAccessIterC<DataT> it(*this);
+    DataT min;
     if(!it.IsElm()) {
-      DataT ret;
-      SetToZero(ret);
-      return ret;
+      SetZero(min);
+      return min;
     }
-    DataT min = *it;
-    for(;it;it++) 
+    min = *it;
+    for(it++;it;it++) 
       if(*it < min)
 	min = *it;
     return min;
@@ -283,6 +283,7 @@ namespace RavlN {
   IndexC TVectorC<DataT>::MaxIndex() const {
     IndexC ind = 0;
     BufferAccessIterC<DataT> it(*this);
+    if(!it) return ind;
     DataT maxVal = *it;
     for(it++;it;it++) {
       if(*it > maxVal) {
@@ -297,6 +298,7 @@ namespace RavlN {
   IndexC TVectorC<DataT>::MaxAbsIndex() const {
     IndexC ind = 0;
     BufferAccessIterC<DataT> it(*this);
+    if(!it) return ind;
     DataT maxVal = *it;
     for(it++;it;it++) {
       DataT aM = Abs(*it);

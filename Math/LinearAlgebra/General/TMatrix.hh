@@ -229,9 +229,10 @@ namespace RavlN {
       return out;
     out.Fill(0);
     for (UIntT i = 0;i < Rows(); i++) {
-      BufferAccessIter3C<DataT,DataT,DataT> it((*this)[i],vector,out);
-      for(it++;it;it++)
-	it.Data3() += it.Data1() * it.Data2();
+      const DataT &dat = vector[i];
+      BufferAccessIter2C<DataT,DataT> it((*this)[i],out);
+      for(;it;it++)
+	it.Data2() += it.Data1() * dat;
     }
     return out;
   }
@@ -431,7 +432,7 @@ namespace RavlN {
   const TMatrixC<DataT> &TMatrixC<DataT>::SetSmallToBeZero(const DataT &min) {
     for(BufferAccess2dIterC<DataT> it(*this,Size2());it;it++)
       if(Abs(*it) < min)
-	SetToZero(*it);
+	SetZero(*it);
     return (*this);
   }
   
