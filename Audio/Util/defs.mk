@@ -9,9 +9,11 @@
 
 PACKAGE=Ravl/Audio
 
-HEADERS=AudioIO.hh  Types.hh WindowSignal.hh Segment.hh Transcription.hh
+HEADERS=AudioIO.hh  Types.hh WindowSignal.hh Segment.hh Transcription.hh \
+ AudioFrame.hh
 
-SOURCES=AudioIO.cc WindowSignal.cc  Segment.cc Transcription.cc
+SOURCES=AudioIO.cc WindowSignal.cc  Segment.cc Transcription.cc \
+ AudioFrame.cc
 
 PLIB=RavlAudioUtil
 
