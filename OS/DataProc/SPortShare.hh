@@ -21,6 +21,11 @@
 
 namespace RavlN {
   
+  //! userlevel=Develop
+  //: Share access to a port amounst several outputs.
+  // This allows asynchronus/independant access to a seekable stream
+  // by two or more threads.
+  
   template<class DataT>
   class DPISPortShareBodyC
     : public DPIPlugBaseBodyC,
@@ -72,10 +77,12 @@ namespace RavlN {
       MutexLockC lock(access);
       if(frameNo != lastOffset) {
 	if(!input.Seek(frameNo)) {
-	  cerr << "DPISPortShareBodyC(), Failed to seek to frame " << frameNo << ".\n";
-	  return false;
-	}
-	lastOffset = frameNo;
+	  //cerr << "DPISPortShareBodyC(), Failed to seek to frame " << frameNo << ".\n";
+	  // Input doesn't support seeking or we're out of the valid range, 
+	  // so just get the last frameno, if available as set it as last.
+	  lastOffset = input.Tell(); 
+	} else
+	  lastOffset = frameNo;
       }
       if(input.Get(buf)) {
 	lastOffset++;
@@ -272,6 +279,11 @@ namespace RavlN {
     TriggerC triggerCountZero; // Called when client count drops to zero.
   };
   
+  //! userlevel=Develop
+  //: Share access to a port amounst several outputs.
+  // This allows asynchronus/independant access to a seekable stream
+  // by two or more threads.
+  
   template<class DataT>
   class DPISPortShareC
     : public DPIPlugBaseC,
@@ -377,9 +389,14 @@ namespace RavlN {
     //: Access trigger called when client count drops to zero.
     
   }; 
-    
+  
   //:---------------------------------------------------------------------------------------------
-    
+  
+  //! userlevel=Develop
+  //: Share access to a port amoungst several outputs.
+  // This allows asynchronus/independant access to a seekable stream
+  // by two or more threads.
+  
   template<class DataT>
   class DPISPortShareClientBodyC
     : public DPStreamOpBodyC,
@@ -598,7 +615,10 @@ namespace RavlN {
     DPISPortShareC<DataT> input;
   };
   
-  //: Shared port.
+  //! userlevel=Advanced
+  //: Share access to a port amounst several outputs.
+  // This allows asynchronus/independant access to a seekable stream
+  // by two or more threads.
   
   template<class DataT>
   class DPISPortShareClientC
