@@ -11,7 +11,7 @@
 #include "Ravl/PatternRec/ClassifierLinearCombination.hh"
 #include "Ravl/VirtualConstructor.hh"
 #include "Ravl/BinStream.hh"
-#include "Ravl/SArray1dIter2.hh"
+#include "Ravl/SArray1dIter3.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -31,7 +31,7 @@ namespace RavlN {
     strm >> version;
     if(version != 0)
       throw ExceptionOutOfRangeC("ClassifierLinearCombinationBodyC(istream &), Unrecognised version number in stream. ");
-    strm >> m_weakClassifiers >> m_weights >> m_sumWeights;
+    strm >> m_weakClassifiers >> m_weights >> m_sumWeights >> m_featureSet;
   }
   
   //: Load from binary stream.
@@ -43,7 +43,7 @@ namespace RavlN {
     strm >> version;
     if(version != 0)
       throw ExceptionOutOfRangeC("ClassifierWeakLinearBodyC(BinIStreamC &), Unrecognised version number in stream. ");
-    strm >> m_weakClassifiers >> m_weights >> m_sumWeights;
+    strm >> m_weakClassifiers >> m_weights >> m_sumWeights >> m_featureSet;
   }
   
   //: Writes object to stream, can be loaded using constructor
@@ -52,7 +52,7 @@ namespace RavlN {
     if(!ClassifierBodyC::Save(out))
       return false;
     IntT version = 0;
-    out << ' ' << version << ' ' << m_weakClassifiers << ' ' << m_weights << ' ' << m_sumWeights;
+    out << ' ' << version << ' ' << m_weakClassifiers << ' ' << m_weights << ' ' << m_sumWeights << ' ' << m_featureSet;
     return true;
   }
   
@@ -62,14 +62,21 @@ namespace RavlN {
     if(!ClassifierBodyC::Save(out))
       return false;
     IntT version = 0;
-    out << version << m_weakClassifiers << m_weights << m_sumWeights;
+    out << version << m_weakClassifiers << m_weights << m_sumWeights << m_featureSet;
     return true;
   }
 
   UIntT ClassifierLinearCombinationBodyC::Classify(const VectorC &data) const {
+    return Classify(data,m_featureSet);
+  }
+
+  UIntT ClassifierLinearCombinationBodyC::Classify(const VectorC &data,const SArray1dC<IndexC> &featureSet) const {
     RealT weightedSumLabels = 0.0;
-    for(SArray1dIter2C<ClassifierC,RealT> it(m_weakClassifiers,m_weights); it; it++)
-      weightedSumLabels += it.Data2() * it.Data1().Classify(data);
+    SArray1dC<IndexC> oneFeature(1);
+    for(SArray1dIter3C<ClassifierC,RealT,IndexC> it(m_weakClassifiers,m_weights,featureSet); it; it++) {
+      oneFeature[0] = it.Data3();
+      weightedSumLabels += it.Data2() * it.Data1().Classify(data,oneFeature);
+    }
     return weightedSumLabels >= 0.5 * m_sumWeights;
   }
       

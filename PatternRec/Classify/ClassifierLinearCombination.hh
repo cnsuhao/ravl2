@@ -15,6 +15,7 @@
 //! file="Ravl/PatternRec/Classifier/ClassifierLinearCombination.hh"
 
 #include "Ravl/PatternRec/Classifier.hh"
+#include "Ravl/SArray1dIter2.hh"
 
 namespace RavlN {
 
@@ -30,11 +31,14 @@ namespace RavlN {
     ClassifierLinearCombinationBodyC(SArray1dC<ClassifierC> weakClassifiers, SArray1dC<RealT> weights)
       :m_weakClassifiers(weakClassifiers),
        m_weights(weights),
-       m_sumWeights(0.0)
+       m_sumWeights(0.0),
+       m_featureSet(weakClassifiers.Size())
     {
       RavlAssert(weakClassifiers.Size() == weights.Size());
-      for(SArray1dIterC<RealT> it(weights); it; it++)
-	m_sumWeights += *it;
+      for(SArray1dIter2C<RealT,IndexC> it(weights,m_featureSet); it; it++) {
+	m_sumWeights += it.Data1();
+	it.Data2() = it.Index();
+      }
     }
     //: Constructor.
     //!param: weakClassifiers - a set of classifiers to be combined
@@ -55,22 +59,15 @@ namespace RavlN {
     
     virtual UIntT Classify(const VectorC &data) const;
     //: Classifier vector 'data' return the most likely label.
-    
-    virtual VectorC Confidence(const VectorC &data) const { 
-      VectorC vec(2);
-      vec.Fill(0.0);
-      vec[Classify(data)] = 1.0;
-      return vec;
-    }
-     //: Estimate the confidence for each label.
-    // The meaning of the confidence assigned to each label depends
-    // on the classifier used. The higher the confidence the more likely
-    // it is the label is correct.
 
+    virtual UIntT Classify(const VectorC &data,const SArray1dC<IndexC> &featureSet) const;
+    //: Classify vector 'data' using only the given subset of features
+    
   protected:
     SArray1dC<ClassifierC> m_weakClassifiers;
     SArray1dC<RealT> m_weights;
     RealT m_sumWeights;
+    SArray1dC<IndexC> m_featureSet;
   };
   
   //! userlevel=Normal

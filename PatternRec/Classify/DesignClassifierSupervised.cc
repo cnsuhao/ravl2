@@ -12,7 +12,7 @@
 #include "Ravl/PatternRec/DesignClassifierSupervised.hh"
 #include "Ravl/PatternRec/SampleIter.hh"
 #include "Ravl/config.h"
-
+#include "Ravl/PatternRec/SampleVector.hh"
 
 
 namespace RavlN {
@@ -53,6 +53,9 @@ namespace RavlN {
     return ClassifierC();
   }
 
+  ClassifierC DesignClassifierSupervisedBodyC::Apply(const SampleC<VectorC> &in,const SampleC<UIntT> &out,const SArray1dC<IndexC> &featureSet) {
+    return Apply(SampleVectorC(in,featureSet),out);
+  }
   
   //: Load from stream.
   

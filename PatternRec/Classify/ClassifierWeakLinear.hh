@@ -27,9 +27,8 @@ namespace RavlN {
     : public ClassifierBodyC
   {
   public:
-    ClassifierWeakLinearBodyC(IndexC feature, RealT threshold, RealT parity);
+    ClassifierWeakLinearBodyC(RealT threshold, RealT parity);
     //: Constructor
-    //!param: feature   - feature number to use for classification
     //!param: threshold - a positive threshold value
     //!param: parity    - parity (+1 or -1) used to indicate direction of inequality
     // Classification is label 1 if parity*feature < parity*threshold
@@ -47,8 +46,18 @@ namespace RavlN {
     //: Writes object to stream, can be loaded using constructor
     
     virtual UIntT Classify(const VectorC &data) const
-    { return m_parity * data[m_feature] < m_parityThreshold; }
+    { 
+      RavlAssert(data.Size() == 1);
+      return Classify(data,m_featureSet);
+    }
     //: Classifier vector 'data' return the most likely label.
+
+    virtual UIntT Classify(const VectorC &data,const SArray1dC<IndexC> &featureSet) const
+    { 
+      RavlAssert(featureSet.Size() == 1); 
+      return m_parity * data[featureSet[0]] < m_parityThreshold;
+    }
+    //: Classify vector using only the feature in the set
     
     virtual VectorC Confidence(const VectorC &data) const { 
       VectorC vec(2);
@@ -62,7 +71,7 @@ namespace RavlN {
     // it is the label is correct.
     
   protected:
-    IndexC m_feature;
+    SArray1dC<IndexC> m_featureSet;
     RealT m_parityThreshold;
     RealT m_parity;
   };
@@ -76,11 +85,10 @@ namespace RavlN {
     : public ClassifierC
   {
   public:
-    ClassifierWeakLinearC(IndexC feature, RealT threshold, RealT parity)
-      : ClassifierC(*new ClassifierWeakLinearBodyC(feature,threshold,parity))
+    ClassifierWeakLinearC(RealT threshold, RealT parity)
+      : ClassifierC(*new ClassifierWeakLinearBodyC(threshold,parity))
     {}
     //: Constructor.
-    //!param: feature   - feature number to use for classification
     //!param: threshold - a positive threshold value
     //!param: parity    - parity (+1 or -1) used to indicate direction of inequality
     // Classification is label 1 if parity*feature < parity*threshold

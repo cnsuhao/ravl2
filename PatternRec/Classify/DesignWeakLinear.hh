@@ -13,6 +13,7 @@
 
 #include "Ravl/PatternRec/DesignClassifierSupervised.hh"
 #include "Ravl/PatternRec/DesignFunctionSupervised.hh"
+#include "Ravl/MeanVariance.hh"
 
 namespace RavlN {
   
@@ -23,9 +24,8 @@ namespace RavlN {
     : public DesignClassifierSupervisedBodyC
   {
   public:
-    DesignWeakLinearBodyC(IndexC feature, RealT falseNegative)
-      :m_feature(feature),
-       m_falseNegative(falseNegative)
+    DesignWeakLinearBodyC(RealT weight)
+      :m_weight(weight)
     {}
     //: Constructor.
     
@@ -47,9 +47,16 @@ namespace RavlN {
     virtual ClassifierC Apply(const SampleC<VectorC> &in,const SampleC<UIntT> &out,const SampleC<RealT> &weight);
     //: Create a clasifier with weights for the samples.
     
+    virtual ClassifierC Apply(const SampleC<VectorC> &in,const SampleC<UIntT> &out,const SArray1dC<IndexC> &featureSet);
+    //: Create a clasifier
+    
+  private:
+    RealT BestThreshold(RealT start);
+    RealT Difference(RealT x);
   protected:
-    IndexC m_feature;
-    RealT m_falseNegative;
+    RealT m_weight;
+    MeanVarianceC m_dist0;
+    MeanVarianceC m_dist1;
   };
   
   //! userlevel=Normal
@@ -64,12 +71,11 @@ namespace RavlN {
     //: Default constructor.
     // Creates an invalid handle.
     
-    DesignWeakLinearC(IndexC feature, RealT falseNegative)
-      : DesignClassifierSupervisedC(*new DesignWeakLinearBodyC(feature,falseNegative))
+    DesignWeakLinearC(RealT weight)
+      : DesignClassifierSupervisedC(*new DesignWeakLinearBodyC(weight))
     {}
     //: Create a new designer.
-    //!param: feature       - which feature number to use for the classifier
-    //!param: falseNegative - acceptable level of false negatives on class 0
+    //!param: weight - A priori probability for labels. Greater than 0.5 favours label1, less than 0.5 favours label0. 0 < weight < 1.
     
     DesignWeakLinearC(istream &strm);
     //: Load from stream.

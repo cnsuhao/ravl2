@@ -49,12 +49,33 @@ namespace RavlN {
     // on the classifier used. The higher the confidence the more likely
     // it is the label is correct.
     
+    virtual UIntT Classify(const VectorC &data,const SArray1dC<IndexC> &featureSet) const;
+    //: Classifier vector 'data' return the most likely label.
+    
+    virtual VectorC Apply(const VectorC &data,const SArray1dC<IndexC> &featureSet) const;
+    //: Estimate the confidence for each label.
+    // The meaning of the confidence assigned to each label depends
+    // on the classifier used. The higher the confidence the more likely
+    // it is the label is correct.
+    
     UIntT NoLabels() const
     { return outputSize; }
     //: Returns the maximum number of output labels.
     // Identical to OutputSize().
+    //!deprecated: Use NumLabels()
     
     UIntT NoLabels(UIntT labels)
+    { return OutputSize(labels); }
+    //: Returns the maximum number of output labels.
+    // Identical to OutputSize().
+    //!deprecated: Use NumLabels(UIntT numLabels)
+    
+    UIntT NumLabels() const
+    { return outputSize; }
+    //: Returns the maximum number of output labels.
+    // Identical to OutputSize().
+    
+    UIntT NumLabels(UIntT labels)
     { return OutputSize(labels); }
     //: Returns the maximum number of output labels.
     // Identical to OutputSize().
@@ -121,13 +142,37 @@ namespace RavlN {
     // it is the label is correct. <p>
     // The result is identical to that of the apply method.
     
+    UIntT Classify(const VectorC &data,const SArray1dC<IndexC> &featureSet) const
+    { return Body().Classify(data,featureSet); }
+    //: Classifier vector 'data' return the most likely label.
+    
+    VectorC Confidence(const VectorC &data,const SArray1dC<IndexC> &featureSet) const
+    { return Body().Apply(data,featureSet); }
+    //: Estimate the confidence for each label.
+    // The meaning of the confidence assigned to each label depends
+    // on the classifier used. The higher the confidence the more likely
+    // it is the label is correct. <p>
+    // The result is identical to that of the apply method.
+    
     UIntT NoLabels() const
     { return Body().NoLabels(); }
     //: Returns the maximum number of output labels.
+    //!deprecated: Use NumLabels(UIntT numLabels)
     
     UIntT NoLabels(UIntT labels)
     { return Body().NoLabels(labels); }
     //: Set the number of labels
+    //!deprecated: Use NumLabels(UIntT numLabels)
+    
+    UIntT NumLabels() const
+    { return Body().NumLabels(); }
+    //: Returns the maximum number of output labels.
+    // Identical to OutputSize().
+    
+    UIntT NumLabels(UIntT labels)
+    { return Body().NumLabels(labels); }
+    //: Returns the maximum number of output labels.
+    // Identical to OutputSize().
     
   };
   

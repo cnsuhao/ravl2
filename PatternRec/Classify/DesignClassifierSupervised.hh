@@ -47,10 +47,16 @@ namespace RavlN {
     //: Writes object to stream, can be loaded using constructor
     
     virtual ClassifierC Apply(const SampleC<VectorC> &in,const SampleC<UIntT> &out);
-    //: Create a clasifier.
+    //: Create a classifier.
     
     virtual ClassifierC Apply(const SampleC<VectorC> &in,const SampleC<UIntT> &out,const SampleC<RealT> &weight);
-    //: Create a clasifier with weights for the samples.
+    //: Create a classifier with weights for the samples.
+
+    virtual ClassifierC Apply(const SampleC<VectorC> &in,const SampleC<UIntT> &out,const SArray1dC<IndexC> &featureSet);
+    //: Create a classifier using feature subset
+    //!param: in         - sample set of feature vectors
+    //!param: out        - sample set of labels
+    //!param: featureSet - array of feature indexes to use from sample set when designing classifier
     
   };
   
@@ -94,11 +100,19 @@ namespace RavlN {
   public:
     ClassifierC Apply(const SampleC<VectorC> &in,const SampleC<UIntT> &out)
     { return Body().Apply(in,out); }
-    //: Create a clasifier.
+    //: Create a classifier.
     
     ClassifierC Apply(const SampleC<VectorC> &in,const SampleC<UIntT> &out,const SampleC<RealT> &weight) 
     { return Body().Apply(in,out,weight); }
-    //: Create a clasifier with weights for the samples.
+    //: Create a classifier with weights for the samples.
+
+    ClassifierC Apply(const SampleC<VectorC> &in,const SampleC<UIntT> &out,const SArray1dC<IndexC> &featureSet)
+    { return Body().Apply(in,out,featureSet); }
+    //: Create a classifier using feature subset
+    //!param: in         - sample set of feature vectors
+    //!param: out        - sample set of labels
+    //!param: featureSet - array of feature indexes to use from sample set when designing classifier
+    
   };
 
   inline istream &operator>>(istream &strm,DesignClassifierSupervisedC &obj) {

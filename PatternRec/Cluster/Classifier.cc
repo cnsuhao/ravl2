@@ -9,6 +9,7 @@
 //! file="Ravl/PatternRec/Classifier/Classifier.cc"
 
 #include "Ravl/PatternRec/Classifier.hh"
+#include "Ravl/SArray1dIter2.hh"
 
 namespace RavlN {
 
@@ -59,6 +60,25 @@ namespace RavlN {
     RavlAssert(res < NoLabels());
     ret[res] = 1;
     return ret;
+  }
+  
+  //: Classifier vector 'data' return the most likely label.
+  
+  UIntT ClassifierBodyC::Classify(const VectorC &data,const SArray1dC<IndexC> &featureSet) const {
+    VectorC reduced(featureSet.Size());
+    for(SArray1dIter2C<IndexC,RealT> itf(featureSet,reduced); itf; itf++)
+      itf.Data2() = data[itf.Data1()];
+    return Classify(reduced);
+  }
+  
+  //: Generate a probability for each label.
+  // Note: Not all classifiers return a true probablility vector.
+  
+  VectorC ClassifierBodyC::Apply(const VectorC &data,const SArray1dC<IndexC> &featureSet) const {
+    VectorC reduced(featureSet.Size());
+    for(SArray1dIter2C<IndexC,RealT> itf(featureSet,reduced); itf; itf++)
+      itf.Data2() = data[itf.Data1()];
+    return Apply(reduced);
   }
   
   
