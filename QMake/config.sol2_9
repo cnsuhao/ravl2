@@ -35,6 +35,7 @@ CP = cp
 CHMOD = chmod
 RM = rm
 XARGS = xargs
+TR = /usr/bin/tr 
 TOUCH = /usr/bin/touch
 LIBPATHSWITCH = -Wl,-R#
 

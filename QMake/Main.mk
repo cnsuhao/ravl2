@@ -665,6 +665,10 @@ ifndef XARGS
   XARGS = xargs
 endif
 
+ifndef TR 
+  TR = tr 
+endif 
+
 ifneq ($(VAR),shared)
 $(INST_LIB)/lib$(PLIB)$(LIBEXT) : $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) $(INST_LIB)/dummymain$(OBJEXT) $(INST_LIB)/.dir
 	$(SHOWIT)echo "--- Building" $(@F) ; \
@@ -686,7 +690,7 @@ $(INST_LIB)/lib$(PLIB)$(LIBEXT) :  $(TARG_OBJS) $(TARG_MUSTLINK_OBJS) $(INST_LIB
 	  $(CC) $(LDLIBFLAGS) -o $(INST_LIB)/$(@F) $(TARG_OBJS) ; \
 	fi ; \
 	echo "---- Building object list " ; \
-	echo "$(patsubst %$(OBJEXT),%$(OBJEXT)@,$(TARG_OBJS))" | tr '@' '\n' >> $(INST_OBJS)/libObjs.txt ; \
+	echo "$(patsubst %$(OBJEXT),%$(OBJEXT)@,$(TARG_OBJS))" | $(TR) '@' '\n' >> $(INST_OBJS)/libObjs.txt ; \
 	sort -b -u $(INST_OBJS)/libObjs.txt -o $(INST_OBJS)/libObjs.txt ; \
 	echo "---- Resolve C++ symbols " ; \
 	if $(CXX) $(LDFLAGS) $(INST_LIB)/dummymain$(OBJEXT) $(TARG_OBJS) $(LIBS) -o $(WORKTMP)/a.out ; then \
