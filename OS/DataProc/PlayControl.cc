@@ -311,7 +311,7 @@ namespace RavlN {
       } else { 
 	ONDEBUG(cerr << "Hit end : "<< at << " Inc:" << inc <<"\n");
 	// Failed, hit end.
-	if(end != ((UInt64T) -1) && playMode < 2) {
+	if(end != ((UIntT) -1) && playMode < 2) {
 	  if(!ctrl.Seek(end)) { // Show last frame.
 	    cerr << "Warning: Seek to end failed. \n";
 	    at = ctrl.Tell();
