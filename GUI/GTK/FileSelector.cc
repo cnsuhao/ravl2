@@ -90,4 +90,23 @@ namespace RavlGUIN {
     return true;
   }
   
+  //: Set file to open
+  // GUI thread only.
+  
+  bool FileSelectorBodyC::GUISetFilename(const StringC &nname) {
+    defaultFN = nname;
+    if(widget == 0)
+      return true;
+    gtk_file_selection_set_filename (GTK_FILE_SELECTION(widget), 
+				     defaultFN);
+    return true;
+  }
+  
+  //: Set file to open
+  
+  bool FileSelectorBodyC::SetFilename(const StringC &nname) {
+    Manager.Queue(Trigger(FileSelectorC(*this),&FileSelectorC::GUISetFilename,nname));
+    return true;
+  }
+  
 }

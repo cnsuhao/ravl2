@@ -51,6 +51,13 @@ namespace RavlGUIN {
     bool SetTitle(const StringC &name);
     //: Set the title of the window.
     
+    bool GUISetFilename(const StringC &name);
+    //: Set file to open
+    // GUI thread only.
+    
+    bool SetFilename(const StringC &name);
+    //: Set file to open
+    
   protected:
     void Destroy();
     //: Dissconnect all signals.
@@ -108,6 +115,15 @@ namespace RavlGUIN {
     bool SetTitle(const StringC &name)
     { return Body().SetTitle(name); }
     //: Set the titel of the window.
+    
+    bool GUISetFilename(const StringC &name)
+    { return Body().GUISetFilename(name); }
+    //: Set file to open
+    // GUI thread only.
+    
+    bool SetFilename(const StringC &name)
+    { return Body().SetFilename(name); }
+    //: Set file to open
     
   };
   
