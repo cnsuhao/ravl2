@@ -11,6 +11,9 @@ DESCRIPTION =Edge detection
 
 PACKAGE=Ravl/Image
 
+MAINS=
+#doEdgeDet.cc
+
 HEADERS=EdgeSobel.hh EdgeDeriche.hh SqrComposition.hh \
  EdgeNonMaxSuppression.hh Edgel.hh
 
