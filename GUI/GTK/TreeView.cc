@@ -61,11 +61,8 @@ namespace RavlGUIN {
       bod->GUIDeselectAll();
       return;
     }
-    GtkTreeModel *model;
     TreeModelIterC rowIter;
-    DListC<TreeModelIterC> ret;
-    if (gtk_tree_selection_get_selected (selection, &model, rowIter.TreeIter()))
-      ret.InsLast(rowIter);
+    DListC<TreeModelIterC> ret = bod->GUISelected();
     bod->SelectionChanged()(ret);
   }
 
