@@ -58,6 +58,14 @@ namespace RavlN {
     { return (RealT) (((RealT) bin + 0.5)* scale) + offset; }
     //: Get the middle of given bin.
     
+    RealT MinLimit() const
+    { return (RealT) IMin().V() * scale + offset; }
+    //: Lower limit on values in the histogram range.
+
+    RealT MaxLimit() const
+    { return (RealT) (IMax().V()+1) * scale + offset; }
+    //: Lower limit on values in the histogram range.
+    
     void Reset()
     { Fill(0); }
     //: Reset counters in histogram to zero.
@@ -106,6 +114,13 @@ namespace RavlN {
     DListC<RealT> Peaks(UIntT width,UIntT threshold = 0) const;
     //: Find a list of peaks in the histogram.
     // The peaks are bigger than 'threshold' and larger than all those within +/- width.
+    
+    bool MinMax(IndexC &min,IndexC &max) const;
+    //: Find the minimum and maximum bins with votes in.
+    // Returns false if the histogram is empty, true otherwise.
+    
+    UIntT Sum(IndexC min,IndexC max) const;
+    //: Sum votes in the bins from min to max inclusive.
     
   protected:
     RealT scale; // Scale factor.

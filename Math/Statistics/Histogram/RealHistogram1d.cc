@@ -10,6 +10,7 @@
 
 #include "Ravl/RealHistogram1d.hh"
 #include "Ravl/SArray1dIter.hh"
+#include "Ravl/SArray1dIterR.hh"
 #include "Ravl/DList.hh"
 
 namespace RavlN {
@@ -88,7 +89,41 @@ namespace RavlN {
     return ret;
   }
 
+  //: Find the minimum and maximum bins with votes in.
+  // Returns false if the histogram is empty, true otherwise.
+  
+  bool RealHistogram1dC::MinMax(IndexC &min,IndexC &max) const {
+    min = -1;
+    max = -1;
+    for(SArray1dIterC<UIntC> it(*this);it;it++) {
+      if(*it != 0) {
+	min = it.Index();
+	break;
+      }
+    }
+    if(min == -1)
+      return false;
+    for(SArray1dIterRC<UIntC> rit(*this);rit;rit--) {
+      if(*rit != 0) {
+	max=rit.Index();
+	break;
+      }
+    }
+    return true;
+  }
+  
+  //: Sum votes in the bins from min to max.
+  
+  UIntT RealHistogram1dC::Sum(IndexC min,IndexC max) const {
+    UIntT ret = 0;
+    if(min > max)
+      return ret;
+    for(SArray1dIterC<UIntC> it(SArray1dC<UIntC>(*this).From(min.V(),(max - min).V()+1));it;it++)
+      ret += *it;
+    return ret;
+  }
 
+  
   ostream &operator<<(ostream &strm,const RealHistogram1dC &hist) {
     strm << hist.Offset() << ' ' << hist.Scale() << ' ' << (const SArray1dC<UIntC> &)(hist);
     return strm;
