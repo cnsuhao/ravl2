@@ -48,9 +48,9 @@ int main(int nargs,char *args[])
   lineInfo[1] = "y";
   lineInfo[2] = "z";
   int val = 0;
-  aList.GUIAppendLine(val,lineInfo);
+  aList.AppendLine(val,lineInfo);
   val = 1;
-  aList.GUIAppendLine(val,lineInfo);
+  aList.AppendLine(val,lineInfo);
   
   Manager.Wait();
   
