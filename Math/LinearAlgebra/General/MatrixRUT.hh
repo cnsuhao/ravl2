@@ -68,6 +68,12 @@ namespace RavlN {
     
     void AddOuterProduct(const VectorC &vec,RealT a);
     //: Add outer product of 'vec' with itself to this matrix multiplied by a
+
+    void SubtractOuterProduct(const VectorC &vec);
+    //: Subtract outer product of 'vec' with itself to this matrix.
+    
+    void SubtractOuterProduct(const VectorC &vec,RealT a);
+    //: Subtract outer product of 'vec' with itself to this matrix multiplied by a
     
     const MatrixRUTC &operator+=(const MatrixRUTC &mat);
     //: Add another right upper matrix to this one.

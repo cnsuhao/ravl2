@@ -60,6 +60,32 @@ namespace RavlN {
       mit.NextRow(++off);
     }
   }
+
+  //: Subtract outer product of 'vec' with itself to this matrix.
+  
+  void MatrixRUTC::SubtractOuterProduct(const VectorC &vec) {
+    SArray2dIterC<RealT> mit(*this);
+    int off = 0;
+    for(BufferAccessIterC<RealT> it(vec);it;it++) {
+      const RealT v1 = (*it); 
+      for(BufferAccessIterC<RealT> it2 = it;it2;it2++,mit.NextCol())
+	*mit -= v1 * (*it2);
+      mit.NextRow(++off);
+    }
+  }
+
+  //: Subtract outer product of 'vec' with itself to this matrix.
+  
+  void MatrixRUTC::SubtractOuterProduct(const VectorC &vec,RealT a) {
+    SArray2dIterC<RealT> mit(*this);
+    int off = 0;
+    for(BufferAccessIterC<RealT> it(vec);it;it++) {
+      const RealT v1 = *it * a;
+      for(BufferAccessIterC<RealT> it2 = it;it2;it2++,mit.NextCol())
+	*mit -= v1 * (*it2);
+      mit.NextRow(++off);
+    }
+  }
   
   //: Add another right upper matrix to this one.
   
