@@ -107,8 +107,9 @@
 #define RAVL_HAVE_PTHREAD_COND RAVL_OS_POSIX
 #define RAVL_HAVE_BYTESWAP     RAVL_OS_LINUX
 #define RAVL_HAVE_NETDB_H      RAVL_OS_UNIX
-#define RAVL_HAVE_UNISTD_H     RAVL_OS_UNIX
-#define RAVL_HAVE_SYS_SOCKET_H RAVL_OS_UNIX
+#define RAVL_HAVE_UNISTD_H     RAVL_OS_UNIX       /* have unistd.h */
+#define RAVL_HAVE_SYS_SOCKET_H RAVL_OS_UNIX       /* have sys/socket.h  */
+#define RAVL_HAVE_TERMIOS      RAVL_OS_UNIX       /* have termios for controlling serial ports. */
 #define RAVL_USE_TIMEB_H       RAVL_OS_WIN32
 #define RAVL_USE_WINSOCK       RAVL_OS_WIN32
 #define RAVL_HAVE_IO_H         RAVL_OS_WIN32
@@ -158,7 +159,7 @@
 #define RAVL_HAVE_STREAMASCLASS   !RAVL_HAVE_STDNAMESPACE    /* istream and ostream are classes not typedefs. */
 #define RAVL_VISUALCPP_NAMESPACE_BUG RAVL_COMPILER_VISUALCPP /* Bug in namespace handling under Visual C++ 6.x */
 #define RAVL_ISTREAM_UNGET_BUG       RAVL_COMPILER_VISUALCPP /* Bug in stream unget under Visual C++ 6.x */
-#define RAVL_NEW_ANSI_CXX_DRAFT   !RAVL_COMPILER_VISUALCPP /* The mainly effects the use of <> in templated friend declarations */
+#define RAVL_NEW_ANSI_CXX_DRAFT   RAVL_COMPILER_GCC          /* The mainly effects the use of <> in templated friend declarations */
 
 /* Define a macro so we can easily switch in and out exception specs
 // for functions.
