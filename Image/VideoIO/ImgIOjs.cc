@@ -126,7 +126,7 @@ namespace RavlImageN {
   {
     FilenameC fn(fileName);
     ReadHeader(strm);
-    seqSize = (StreamSizeT) (fn.FileSize() / (StreamSizeT) frameSize);
+    seqSize = (StreamSizeT) ((fn.FileSize() / (StreamSizeT) frameSize)) - 1;
     ONDEBUG(cerr << "DPIImageJSBodyC::DPIImageJSBodyC(const StringC &), Sequence size=" << seqSize << " Filesize=" << fn.FileSize() << "\n");
   }
 
