@@ -45,7 +45,7 @@ namespace RavlN {
     {}
     //: Constructor.
     
-    virtual bool SetPort(const DPIPortBaseC &port) {
+    virtual bool ConnectPort(const DPIPortBaseC &port) {
       MutexLockC lock(access);
       input = SPort(DPIPortC<DataT>(const_cast<DPIPortBaseC &>(port)));
       lastOffset = (UIntT) -1;
@@ -53,7 +53,7 @@ namespace RavlN {
     }
     //: set port.
     
-    bool SetPort(DPIPortC<DataT> &sp) {
+    bool ConnectPort(DPIPortC<DataT> &sp) {
       MutexLockC lock(access);
       input = sp;
       lastOffset = (UIntT) -1;
