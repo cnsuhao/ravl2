@@ -129,7 +129,7 @@ namespace RavlN {
   template<unsigned int N>
   inline FAffineC<N> FAffineC<N>::I(void) const {
     FAffineC<N> ret;
-    ret.SR = SR.I();
+    ret.SR = SR.Inverse();
     Mul(ret.SR,T,ret.T);
     ret.T *= -1;
     return ret;
@@ -147,7 +147,7 @@ namespace RavlN {
   
   template<unsigned int N>
   inline FAffineC<N> FAffineC<N>::operator/(const FAffineC &In) const{
-    return FAffineC(SR*In.SRMatrix().I(), In.SRMatrix().I()*(T-In.Translation()));
+    return FAffineC(SR*In.SRMatrix().Inverse(), In.SRMatrix().Inverse()*(T-In.Translation()));
   }
   
   template<unsigned int N>
