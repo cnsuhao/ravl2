@@ -181,7 +181,6 @@ namespace RavlN {
   // <code>LongIntT</code>, <code>RealT</code>, ....  Result is a string.
   
   // </ul>
-  // The <a href = "http://www.ee.surrey.ac.uk/cgi-bin/info2www?(libg%2B%2B.info)String">libg++ info file for the String class </a> contains the relevant information.
   
   class StringC {
     friend class      SubStringC;
