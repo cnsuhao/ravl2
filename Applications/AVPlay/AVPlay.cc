@@ -208,7 +208,7 @@ protected:
 
 
 
-int doVPlay(int nargs,char *args[]) 
+int doAVPlay(int nargs,char *args[]) 
 {
   bool noDisplay = false;
   // Make sure you can list options even when you don't have a display.
@@ -243,7 +243,7 @@ int doVPlay(int nargs,char *args[])
     return 1;
   }
   
-  ONDEBUG(cerr << "VPlay: Setting up input stream ... \n");
+  ONDEBUG(cerr << "AVPlay: Setting up input stream ... \n");
   // Setup video source.
   // Put in vpCtrl early, else we may not get a seekable port.
   
@@ -251,18 +251,18 @@ int doVPlay(int nargs,char *args[])
   
   if(audioinfile.IsEmpty()) { // Open a plain AV file ?
     if(!OpenISequence(vidIn,infile,formatIn,verb)) {
-      cerr << "VPlay: Failed to open '" << infile << "' (Audio/Video)\n";
+      cerr << "AVPlay: Failed to open '" << infile << "' (Audio/Video)\n";
       exit(1);
     }
   } else {// Open seperate audio and video files.
     DPISPortC<SampleElemC<2,Int16T> > audioIn;
     if(!OpenISequence(audioIn,audioinfile,audioFormatIn,verb)) {
-      cerr << "VPlay: Failed to open '" << audioinfile << "' (Audio)\n";
+      cerr << "AVPlay: Failed to open '" << audioinfile << "' (Audio)\n";
       exit(1);
     }
     DPISPortC<ImageC<ByteRGBValueC> > imgIn;
     if(!OpenISequence(imgIn,infile,formatIn,verb)) {
-      cerr << "VPlay: Failed to open '" << infile << "' (Video)\n";
+      cerr << "AVPlay: Failed to open '" << infile << "' (Video)\n";
       exit(1);
     }
     vidIn = AVMixerC(imgIn,audioIn); // Setup mixer.
@@ -275,15 +275,15 @@ int doVPlay(int nargs,char *args[])
   }
    
   //:---------------------------------------------------------------------------------------------
-  ONDEBUG(cerr << "VPlay: Setting up audio output stream ... \n");
+  ONDEBUG(cerr << "AVPlay: Setting up audio output stream ... \n");
   DPOPortC<SampleElemC<2,Int16T> > audioOut;
   if(!OpenOSequence(audioOut,audioOutFile,audioOutFormat,verb)) {
-    cerr << "VPlay: Failed to open '" << infile << "'\n";
+    cerr << "AVPlay: Failed to open '" << infile << "'\n";
     exit(1);
   }
  
   
-  ONDEBUG(cerr << "VPlay: Setting up streams.\n");
+  ONDEBUG(cerr << "AVPlay: Setting up streams.\n");
   //:---------------------------------------------------------------------------------------------
   if(start < 0) {
     start = vidIn.Tell();
@@ -296,11 +296,11 @@ int doVPlay(int nargs,char *args[])
   
   DPIPlayControlC<AVFrameC> vpCtrl(vidIn,false,start,endFrame);  
   
-  ONDEBUG(cerr << "VPlay: Play control built.\n");
+  ONDEBUG(cerr << "AVPlay: Play control built.\n");
   
   DPIPortC<AVFrameC> src =  vpCtrl;
   
-  ONDEBUG(cerr << "VPlay: Conversion stream built.\n");
+  ONDEBUG(cerr << "AVPlay: Conversion stream built.\n");
   // Try and establish size of images.
   
   int sx = 300,sy = 300;
@@ -308,13 +308,13 @@ int doVPlay(int nargs,char *args[])
   ImageRectangleC rect;
   {
     AVFrameC tmp(vidIn.Get());
-    ONDEBUG(cerr << "VPlay: Got inital frame. \n");
+    ONDEBUG(cerr << "AVPlay: Got inital frame. \n");
     vidIn.DSeek(-1);
     rect = tmp.Image().Rectangle();
     audioOut.SetAttr("samplerate",tmp.Audio().AudioFrequency());
   }
   
-  ONDEBUG(cerr << "VPlay: Image size found..\n");
+  ONDEBUG(cerr << "AVPlay: Image size found..\n");
   sy = rect.Rows();
   sx = rect.Cols();
   if(sx < 1 || sy < 1) {
@@ -411,4 +411,4 @@ int doVPlay(int nargs,char *args[])
 }
 
 
-RAVL_ENTRY_POINT(doVPlay);
+RAVL_ENTRY_POINT(doAVPlay);
