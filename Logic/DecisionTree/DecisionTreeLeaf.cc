@@ -32,7 +32,7 @@ namespace RavlLogicN {
   
   //: Dump node in human readable form,
   
-  void DecisionTreeLeafBodyC::Dump(ostream &out,IntT level = 0) const {
+  void DecisionTreeLeafBodyC::Dump(ostream &out,IntT level) const {
     Pad(out,level) << "Leaf: " << decision << "\n";
   }
   

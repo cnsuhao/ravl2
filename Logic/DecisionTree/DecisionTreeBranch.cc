@@ -18,7 +18,7 @@ namespace RavlLogicN {
   
   //: Dump node in human readable form,
   
-  void DecisionTreeBranchBodyC::Dump(ostream &out,IntT level = 0) const {
+  void DecisionTreeBranchBodyC::Dump(ostream &out,IntT level) const {
     cerr << "DecisionTreeBranchBodyC::Dump(), Abstract method called \n";
   }
   

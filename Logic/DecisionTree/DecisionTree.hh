@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLLOGICDECISIONTREE_HEADER
-#define RAVLLOGICDECISIONTREE_HEADER 1
+#ifndef RAVLLOGIC_DECISIONTREE_HEADER
+#define RAVLLOGIC_DECISIONTREE_HEADER 1
 /////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlLogic

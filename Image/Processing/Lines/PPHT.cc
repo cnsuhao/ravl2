@@ -41,6 +41,7 @@ namespace RavlImageN {
   // Help the compiler a bit...
   static DPOPortBodyC<Curve2dLineSegmentC> out1;
   static DPIPortBodyC<Curve2dLineSegmentC> out2;
+  static DPOPortBodyC<ImageC<ByteT> > out3;
 #endif
   
   /////////////////////////////////////////////////////////////////////////////////
