@@ -115,12 +115,12 @@ namespace RavlN {
     
     TMatrixC<DataT> AAT() const;
     //: Return  A * A.T().
-    // Note: Because of effects of memory layout it this is much
-    // slower than ATA(). It may even be worth using T().ATA()
-    // over this call.
     
     TMatrixC<DataT> ATA() const;
     //: Return  A.T() * A.
+    // Note: Because of effects of memory layout it this is much
+    // slower than ATA(). It may even be worth using T().AAT()
+    // over this call.
     
     TMatrixC<DataT> T() const;
     //: Get transpose of matrix.
