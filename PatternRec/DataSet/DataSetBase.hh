@@ -31,9 +31,16 @@ namespace RavlN {
     {}
     //: Default constructor.
     
+    DataSetBaseBodyC(UIntT estSize)
+    {}
+    //: Construct with an estimated size.
+    
     static CollectionC<UIntT> RandomIndexSet(UIntT size);
     //: Generate a random index set from this collection of with the given size.
     // Size is limited to the size of this set.
+    
+    virtual void Shuffle();
+    //: Shuffle the order of the dataset.
     
   protected:
     
@@ -66,7 +73,9 @@ namespace RavlN {
     //: Access body.
     
   public:
-
+    void Shuffle()
+    { return Body().Shuffle(); }
+    //: Shuffle the order of the dataset.
     
     friend class DataSetBaseBodyC;
   };

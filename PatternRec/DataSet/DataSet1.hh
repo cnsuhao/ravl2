@@ -14,6 +14,7 @@
 
 #include "Ravl/PatternRec/DataSetBase.hh"
 #include "Ravl/Vector.hh"
+#include "Ravl/DArray1dIter.hh"
 
 namespace RavlN {
   template<class SampleT> class DataSet1C;
@@ -26,15 +27,14 @@ namespace RavlN {
     : public DataSetBaseBodyC
   {
   public:
-    DataSet1BodyC()
+    DataSet1BodyC(UIntT sizeEstimate)
+      : DataSetBaseBodyC(sizeEstimate),
+	samp1(sizeEstimate,true)
     {}
     //: Create an empty dataset.
     
     DataSet1BodyC(const SampleT & samp);
     //: Create a dataset from a sample
-    
-    DataSet1BodyC(const SampleT & samp,const CollectionC<UIntT> &nindex);
-    //: Create a dataset from a sample and an index.
     
     SampleT &Sample1()
     { return samp1; }
@@ -52,6 +52,9 @@ namespace RavlN {
     //: Extract a sample.
     // The elements are removed from this set. NB. The order
     // of this dataset is NOT preserved.
+    
+    virtual void Shuffle();
+    //: Shuffle the order of the dataset.
     
     UIntT Size() const
     { return samp1.Size(); }
@@ -74,9 +77,9 @@ namespace RavlN {
     DataSet1C()
     {}
     //: Default constructor.
-
-    DataSet1C(bool)
-      : DataSetBaseC(*new DataSet1BodyC<SampleT>())
+    
+    DataSet1C(UIntT sizeEstimate)
+      : DataSetBaseC(*new DataSet1BodyC<SampleT>(sizeEstimate))
     {}
     //: Default constructor.
     
@@ -85,19 +88,14 @@ namespace RavlN {
       {}
     //: Create a dataset from a sample
     
-  protected:
-    DataSet1C(const SampleT & dat,const CollectionC<UIntT> &nindex)
-      : DataSetBaseC(*new DataSet1BodyC<SampleT>(dat,nindex))
-      {}
-    //: Create a dataset from a sample and an index.
-    
+  protected:    
     DataSet1C(DataSet1BodyC<SampleT> &bod)
       : DataSetBaseC(bod)
       {}
     //: Body constructor.
     
     DataSet1BodyC<SampleT> &Body()
-      { return static_cast<DataSet1BodyC<SampleT> &>(DataSetBaseC::Body()); }
+    { return static_cast<DataSet1BodyC<SampleT> &>(DataSetBaseC::Body()); }
     //: Access body.
 
     const DataSet1BodyC<SampleT> &Body() const
@@ -106,11 +104,11 @@ namespace RavlN {
     
   public:
     SampleT &Sample1()
-      { return Body().Sample1(); }
+    { return Body().Sample1(); }
     //: Access complete sample.
     
     const SampleT &Sample1() const
-      { return Body().Sample1(); }
+    { return Body().Sample1(); }
     //: Access complete sample.
     
     UIntT Append(const typename SampleT::ElementT &data)
@@ -137,12 +135,6 @@ namespace RavlN {
     : DataSetBaseBodyC(sp.Size()),
       samp1(sp)
   {}
-
-  template<class SampleT>
-  DataSet1BodyC<SampleT>::DataSet1BodyC(const SampleT & sp,const CollectionC<UIntT> &nindex)
-    : DataSetBaseBodyC(nindex),
-      samp1(sp)
-  {}
   
   template<class SampleT>
   UIntT DataSet1BodyC<SampleT>::Append(const typename SampleT::ElementT &data) {
@@ -151,12 +143,25 @@ namespace RavlN {
   
   template<class SampleT>
   DataSet1C<SampleT> DataSet1BodyC<SampleT>::ExtractSample(RealT proportion) {
+    RavlAssert(proportion >= 0 && proportion <= 1);
+    UIntT size = Size();
+    UIntT entries = (UIntT) (proportion * (RealT) size);
     DataSet1C<SampleT> ret;
-    RavlAssertMsg(0,"Not implemented."); 
+    for(;entries > 0;entries--) {
+      UIntT entry = RandomInt() % size;
+      ret.Append(samp1.PickElement(entry));
+      size--;
+    }
     return ret;
   }
   
-
+  template<class SampleT>
+  void DataSet1BodyC<SampleT>::Shuffle() {
+    UIntT size = Size();
+    for(DArray1dIterC<typename SampleT::ElementT> it(samp1.DArray());it;it++)
+      Swap(*it,samp1.Nth(RandomInt() % size));
+  }
+  
 }
 
 #endif

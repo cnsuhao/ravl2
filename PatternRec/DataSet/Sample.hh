@@ -14,6 +14,7 @@
 
 #include "Ravl/DArray1d.hh"
 #include "Ravl/Collection.hh"
+
 namespace RavlN {
 
   template<class SampleT> class DataSet1IterC;
@@ -51,26 +52,41 @@ namespace RavlN {
     { return DArray1dC<DataT>::Append(dat).V(); }
     //: Insert a single sample into sample
     
-#if 0
-    DataT Pick()
-      { return CollectionC<DataT>::Pick(); }
-    //: Pick a random item from the collection
-#endif
-    
     SizeT Size() const
-      { return DArray1dC<DataT>::Size(); }
+    { return DArray1dC<DataT>::Size(); }
     //: Return the number of valid samples in the collection
     
+    DataT PickElement(UIntT i);
+    //: Pick a item i from the collection
+    // Note: The order of the collection is NOT preserved.
+    // This minimizes the distruption to the underlying
+    // representation by removing an element from the end
+    // of the array and placing it in the hole left by 
+    // removing 'i'.
+
+    DataT &Nth(UIntT i)
+    { return DArray1dC<DataT>::Nth(i); }
+    //: Access nth element in sample.
+    
+    const DataT &Nth(UIntT i) const
+    { return DArray1dC<DataT>::Nth(i); }
+    //: Access nth element in sample.
+    
+    DataT Pick()
+    { return PickElement(RandomInt() % Size()); }
+    //: Pick a random item from the collection
+    // Note: The order of the collection is NOT preserved.
+    
     DataT &operator[](IndexC ind)
-      { return DArray1dC<DataT>::operator[](ind); }
+    { return DArray1dC<DataT>::operator[](ind); }
     //: Access a sample.
     
     const DataT &operator[](IndexC ind) const
-      { return DArray1dC<DataT>::operator[](ind); }
+    { return DArray1dC<DataT>::operator[](ind); }
     //: Access a sample.
-
+    
     friend class DataSet1IterC<DataT>;
-
+    
     DArray1dC<DataT> &DArray()
     { return *this; }
     //: Access DArray.
@@ -96,7 +112,7 @@ namespace RavlN {
     const DataT &Last() const
     { return DArray1dC<DataT>::Last(); }
     //: Access last element in the array.
-
+    
   }; // end of class SampleC 
 
 
@@ -109,8 +125,6 @@ namespace RavlN {
       ret.Insert((*this)[*it]);
     return ret;
   }
-
-  //: Extract an entry from sample.
   
   template <class DataT>
   DataT SampleC<DataT>::ExtractEntry(int ind) {
@@ -119,6 +133,16 @@ namespace RavlN {
     Remove(ind);
     return ret;
   }
+  
+  template <class DataT>
+  DataT SampleC<DataT>::PickElement(UIntT i) {
+    DataT &val = Nth(i);
+    DataT ret = val;
+    val = Last();
+    RemoveLast();
+    return ret;
+  }
+  
   
 }
 

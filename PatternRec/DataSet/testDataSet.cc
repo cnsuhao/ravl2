@@ -35,6 +35,10 @@ int testDataSet3();
 int testSpeed();
 #endif
 
+template DataSet1C<SampleC<IntT> >;
+template DataSet2C<SampleC<IntT>,SampleC<RealT> >;
+template DataSet3C<SampleC<IntT>,SampleC<RealT>,SampleC<bool> >;
+
 int main() {
   int ln;
   if((ln = testSample()) != 0) {

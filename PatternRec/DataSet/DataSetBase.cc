@@ -45,5 +45,11 @@ namespace RavlN {
 #endif
     return ret;
   }
+
+  //: Shuffle the order of the dataset.
+  
+  void DataSetBaseBodyC::Shuffle() {
+    RavlAssertMsg(0,"DataSetBaseBodyC::Shuffle(), Abstract method called. ");
+  }
   
 }

@@ -15,6 +15,7 @@
 #include "Ravl/PatternRec/DataSet2.hh"
 #include "Ravl/PatternRec/Sample.hh"
 #include "Ravl/Vector.hh"
+#include "Ravl/DArray1dIter3.hh"
 
 namespace RavlN {
   template<class Sample1T,class Sample2T,class Sample3T> class DataSet3C;
@@ -27,17 +28,23 @@ namespace RavlN {
     : public DataSet2BodyC<Sample1T,Sample2T>
   {
   public:
-    DataSet3BodyC()
+    DataSet3BodyC(UIntT sizeEstimate)
+      : DataSet2BodyC<Sample1T,Sample2T>(sizeEstimate),
+	samp3(sizeEstimate,true)
     {}
     //: Default constructor.
     
-    DataSet3BodyC(const Sample1T & samp1,const Sample2T & samp2,const Sample3T & samp3);
+    DataSet3BodyC(const Sample1T & samp1,
+		  const Sample2T & samp2,
+		  const Sample3T & samp3);
     //: Create a dataset from a sample
     
-    UIntT Append(const typename Sample1T::ElementT &data1,const typename Sample2T::ElementT &data2,const typename Sample3T::ElementT &data3);
+    UIntT Append(const typename Sample1T::ElementT &data1,
+		 const typename Sample2T::ElementT &data2,
+		 const typename Sample3T::ElementT &data3);
     //: Append a data entry.
     // returns its index.
-
+    
     Sample3T &Sample3()
     { return samp3; }
     //: Access complete sample.
@@ -45,7 +52,14 @@ namespace RavlN {
     const Sample3T &Sample3() const
     { return samp3; }
     //: Access complete sample.
+
+    DataSet3C<Sample1T,Sample2T,Sample3T> ExtractSample(RealT proportion);
+    //: Extract a sample.
+    // The elements are removed from this set. NB. The order
+    // of this dataset is NOT preserved.    
     
+    virtual void Shuffle();
+    //: Shuffle the order of the dataset.
     
   protected:
     Sample3T samp3;
@@ -64,10 +78,10 @@ namespace RavlN {
     {}
     //: Default constructor.
     
-    DataSet3C(bool)
-      : DataSet2C<Sample1T,Sample2T>(*new DataSet3BodyC<Sample1T,Sample2T,Sample3T>())
+    DataSet3C(UIntT sizeEstimate)
+      : DataSet2C<Sample1T,Sample2T>(*new DataSet3BodyC<Sample1T,Sample2T,Sample3T>(sizeEstimate))
     {}
-    //: Default constructor.
+    //: Constructor.
     
     DataSet3C(const Sample1T & dat1,const Sample2T & dat2,const Sample3T & dat3)
       : DataSet2C<Sample1T,Sample2T>(*new DataSet3BodyC<Sample1T,Sample2T,Sample3T>(dat1,dat2,dat3))
@@ -76,16 +90,16 @@ namespace RavlN {
     
   protected:    
     DataSet3C(DataSet3BodyC<Sample1T,Sample2T,Sample3T> &bod)
-      : DataSetBaseC(bod)
-      {}
+      : DataSet2C<Sample1T,Sample2T>(bod)
+    {}
     //: Body constructor.
     
     DataSet3BodyC<Sample1T,Sample2T,Sample3T> &Body()
-      { return static_cast<DataSet3BodyC<Sample1T,Sample2T,Sample3T> &>(DataSetBaseC::Body()); }
+    { return static_cast<DataSet3BodyC<Sample1T,Sample2T,Sample3T> &>(DataSetBaseC::Body()); }
     //: Access body.
 
     const DataSet3BodyC<Sample1T,Sample2T,Sample3T> &Body() const
-      { return static_cast<const DataSet3BodyC<Sample1T,Sample2T,Sample3T> &>(DataSetBaseC::Body()); }
+    { return static_cast<const DataSet3BodyC<Sample1T,Sample2T,Sample3T> &>(DataSetBaseC::Body()); }
     //: Access body.
     
   public:
@@ -101,6 +115,12 @@ namespace RavlN {
     { return Body().Append(data1,data2,data3); }
     //: Append a data entry.
     // returns its index.
+    
+    DataSet3C<Sample1T,Sample2T,Sample3T> ExtractSample(RealT proportion)
+    { return Body().ExtractSample(proportion); }
+    //: Extract a sample.
+    // The elements are removed from this set. NB. The order
+    // of this dataset is NOT preserved.
     
     friend class DataSet3BodyC<Sample1T,Sample2T,Sample3T>;
   };
@@ -121,6 +141,32 @@ namespace RavlN {
     return no1;
   }
   
+  template<class Sample1T,class Sample2T,class Sample3T>
+  DataSet3C<Sample1T,Sample2T,Sample3T> DataSet3BodyC<Sample1T,Sample2T,Sample3T>::ExtractSample(RealT proportion) {
+    RavlAssert(proportion >= 0 && proportion <= 1);
+    UIntT size = Size();
+    UIntT entries = (UIntT) (proportion * (RealT) size);
+    DataSet3C<Sample1T,Sample2T,Sample3T> ret;
+    for(;entries > 0;entries--) {
+      UIntT entry = RandomInt() % size;
+      ret.Append(samp1.PickElement(entry),samp2.PickElement(entry),samp3.PickElement(entry));
+      size--;
+    }
+    return ret;
+  }
+  
+  template<class Sample1T,class Sample2T,class Sample3T>
+  void DataSet3BodyC<Sample1T,Sample2T,Sample3T>::Shuffle() {
+    UIntT size = Size();
+    for(DArray1dIter3C<typename Sample1T::ElementT,typename Sample2T::ElementT,typename Sample3T::ElementT> it(Sample1().DArray(),Sample2().DArray(),Sample3().DArray());
+	it;it++) {
+      UIntT entry = RandomInt() % size;
+      Swap(it.Data1(),samp1.Nth(entry));
+      Swap(it.Data2(),samp2.Nth(entry));
+      Swap(it.Data3(),samp3.Nth(entry));
+    }
+  }
+
 
 }
 
