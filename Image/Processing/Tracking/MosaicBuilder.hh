@@ -28,7 +28,7 @@
 
 namespace RavlImageN {
   
-  //! userlevel=Normal
+  //! userlevel=Develop
   //! autoLink=on
   //: Mosaic building class
   

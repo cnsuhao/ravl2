@@ -32,7 +32,7 @@ namespace RavlImageN {
 
   //:-
   
-  //! userlevel=Normal
+  //! userlevel=Develop
   //: Tracking information on a single point.
   
   class PointTrackModelBodyC : public RCBodyC
