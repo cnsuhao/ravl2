@@ -32,8 +32,13 @@ namespace RavlN {
   public:
     DPProcIStreamBodyC(const DPProcessC<InT,OutT> &bod,const DPIPortC<InT> &nin)
       : DPProcessC<InT,OutT>(bod),
-      DPIStreamOpBodyC<InT,OutT>(nin)
-      {}
+	DPIStreamOpBodyC<InT,OutT>(nin)
+    {}
+    //: Constructor.
+
+    DPProcIStreamBodyC(const DPProcessC<InT,OutT> &bod)
+      : DPProcessC<InT,OutT>(bod)
+    {}
     //: Constructor.
     
     DPProcIStreamBodyC(const DPProcIStreamBodyC<InT,OutT> &oth);
@@ -45,7 +50,7 @@ namespace RavlN {
     }
     //: Process next piece of data.
     
-   virtual bool Get(OutT &outbuff) { 
+    virtual bool Get(OutT &outbuff) { 
       InT buff;
       RavlAssert(input.IsValid());
       if(!input.Get(buff))
@@ -87,19 +92,24 @@ namespace RavlN {
   public:
     DPProcIStreamC() 
       : DPEntityC(true)
-      {}
+    {}
     //: Default Constructor.
     // Creates an invalid handle.
     
     DPProcIStreamC(const DPProcessC<InT,OutT> &bod,const DPIPortC<InT> &nin)
       : DPEntityC((DPIPortBodyC<OutT> &) *new DPProcIStreamBodyC<InT,OutT>(bod,nin))
-      {}
+    {}
+    //: Constructor.
+
+    DPProcIStreamC(const DPProcessC<InT,OutT> &bod)
+      : DPEntityC((DPIPortBodyC<OutT> &) *new DPProcIStreamBodyC<InT,OutT>(bod))
+    {}
     //: Constructor.
     
     DPProcIStreamC(const DPProcIStreamC<IntT,OutT> &oth) 
       : DPEntityC(oth),
-      DPIStreamOpC<InT,OutT>(oth)
-      {}
+	DPIStreamOpC<InT,OutT>(oth)
+    {}
     //: Copy Constructor.
     
   };
