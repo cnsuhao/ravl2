@@ -35,7 +35,7 @@ namespace RavlImageN {
     s >> rect;
     img = ImageC<ByteT>(rect);
     int x;
-    for(BufferAccess2dIterC<ByteT> it(img,img.Range2());it;) {
+    for(BufferAccess2dIterC<ByteT> it(img,img.Range2());it;it++) {
       s >> x;
       *it = (ByteT) x;
     }
