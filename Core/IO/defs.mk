@@ -22,14 +22,16 @@ HEADERS=Entity.hh Process.hh Port.hh SPort.hh SPortAttach.hh \
  Method2Proc.hh MethodIO.hh ContainerIO.hh Plug.hh Tap.hh StreamProcess.hh \
  Process21.hh Process31.hh Method2Proc21.hh Method2Proc31.hh StreamOp21.hh \
  StreamOp31.hh Func2Proc21.hh Func2Proc31.hh OffsetScale.hh RunningAverage.hh \
- IOPort.hh XMLFileIO.hh FileFormatXMLStream.hh ListIO.hh
+ IOPort.hh XMLFileIO.hh FileFormatXMLStream.hh ListIO.hh AttributeType.hh \
+ AttributeCtrl.hh AttributeValueTypes.hh
 
 SOURCES=Entity.cc Process.cc Port.cc SPort.cc SPortAttach.cc ProcInfo.cc \
  Converter.cc TypeInfo.cc Pipes.cc FileFormat.cc FileFormatDesc.cc \
  FileFormatStream.cc FileFormatBinStream.cc FileFormatGen.cc \
  FileFormatIO.cc TypeConverter.cc FileFormatRegistry.cc IndexIO.cc \
  Event.cc EventSet.cc Plug.cc StreamOp.cc StreamProcess.cc IOConnect.cc \
- FileFormatXMLStream.cc DataConv.cc
+ FileFormatXMLStream.cc DataConv.cc AttributeCtrl.cc AttributeType.cc \
+ AttributeValueTypes.cc
 
 MUSTLINK= CoreIO.cc
 # ProcInfo.cc

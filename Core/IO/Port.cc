@@ -12,6 +12,7 @@
 #include "Ravl/DP/Port.hh"
 #include "Ravl/String.hh"
 #include "Ravl/DList.hh"
+#include "Ravl/DP/AttributeValueTypes.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -24,12 +25,24 @@
 namespace RavlN {
   
   ////////////////////////////////////////////////////////
-  //: Stream constructor.
   
+  //: Default constructor.
+  
+  DPPortBodyC::DPPortBodyC()
+    : portId(StringC("Port-") + StringC((UIntT) this >> 2))
+  {}
+  
+  //: Stream constructor.
+
   DPPortBodyC::DPPortBodyC(istream &in) 
     : DPEntityBodyC(in)
   { in >> portId; }
   
+
+  //: Destructor.
+  
+  DPPortBodyC::~DPPortBodyC() 
+  {}
   
   //: Is this port connected to another ?
   // If not returns invalid handle.
@@ -61,26 +74,7 @@ namespace RavlN {
       attrValue = portId;
       return true;
     }
-    DPPortC parent = ConnectedTo();
-    // Try pasing it back along the processing chain.
-    if(parent.IsValid())
-      if(parent.GetAttr(attrName,attrValue))
-	return true;
-#if RAVL_CHECK
-    cerr << "DPPortBodyC::GetAttr(const StringC &,StringC &), Unknown attribute '" << attrName << "'\n";
-#endif
-    return false; 
-  }
-
-  //: Get a stream attribute.
-  // Return the value of an attribute or an empty string if its unkown.
-  // This is for handling stream attributes such as frame rate, and compression ratios.
-  
-  StringC DPPortC::GetAttr(const StringC &attrName) { 
-    StringC ret;
-    if(!Body().GetAttr(attrName,ret))
-      return StringC(); 
-    return ret;
+    return AttributeCtrlBodyC::GetAttr(attrName,attrValue);
   }
   
   //: Set a stream attribute.
@@ -91,15 +85,7 @@ namespace RavlN {
       portId = attrValue;
       return true;
     }
-    DPPortC parent = ConnectedTo();
-    // Try pasing it back along the processing chain.
-    if(parent.IsValid())
-      if(parent.SetAttr(attrName,attrValue))
-	return true;
-#if RAVL_CHECK
-    cerr << "DPPortBodyC::SetAttr(const StringC &,const StringC &), Unknown attribute '" << attrName << "' Value:'" << attrValue << "'\n";
-#endif
-    return false; 
+    return AttributeCtrlBodyC::SetAttr(attrName,attrValue);
   }
   
   //: Get a stream attribute.
@@ -107,15 +93,7 @@ namespace RavlN {
   // This is for handling stream attributes such as frame rate, and compression ratios.
   
   bool DPPortBodyC::GetAttr(const StringC &attrName,IntT &attrValue) {
-    DPPortC parent = ConnectedTo();
-    // Try pasing it back along the processing chain.
-    if(parent.IsValid())
-      if(parent.GetAttr(attrName,attrValue))
-	return true;
-#if RAVL_CHECK
-    cerr << "DPPortBodyC::GetAttr(const StringC &,IntT &), Unknown attribute '" << attrName << "'\n";
-#endif
-    return false;
+    return AttributeCtrlBodyC::GetAttr(attrName,attrValue);
   }
   
   //: Set a stream attribute.
@@ -123,16 +101,7 @@ namespace RavlN {
   // This is for handling stream attributes such as frame rate, and compression ratios.
   
   bool DPPortBodyC::SetAttr(const StringC &attrName,const IntT &attrValue) {
-    ONDEBUG(cerr << "DPPortBodyC::SetAttr(const StringC &,const IntT &) '" << attrName << "' = " <<attrValue << " \n");
-    DPPortC parent = ConnectedTo();
-    // Try pasing it back along the processing chain.
-    if(parent.IsValid())
-      if(parent.SetAttr(attrName,attrValue))
-	return true;
-#if RAVL_CHECK
-    cerr << "DPPortBodyC::SetAttr(const StringC &,const IntT &), Unknown attribute '" << attrName << "' Value:'" << attrValue << "'\n";
-#endif
-    return false;
+    return AttributeCtrlBodyC::SetAttr(attrName,attrValue);
   }
   
   //: Get a stream attribute.
@@ -140,45 +109,46 @@ namespace RavlN {
   // This is for handling stream attributes such as frame rate, and compression ratios.
   
   bool DPPortBodyC::GetAttr(const StringC &attrName,RealT &attrValue) {
-    DPPortC parent = ConnectedTo();
-    ONDEBUG(cerr << "DPPortBodyC::GetAttr(const StringC &,const IntT &) '" << attrName << "'  Parent=" << parent.Hash() << "\n");
-    // Try pasing it back along the processing chain.
-    if(parent.IsValid())
-      if(parent.GetAttr(attrName,attrValue))
-	return true;
-#if RAVL_CHECK
-    cerr << "DPPortBodyC::GetAttr(const StringC &,RealT &), Unknown attribute '" << attrName << "'\n";
-#endif
-    return false;
+    return AttributeCtrlBodyC::GetAttr(attrName,attrValue);
   }
   
   //: Set a stream attribute.
   // Returns false if the attribute name is unknown.
   // This is for handling stream attributes such as frame rate, and compression ratios.
-
+  
   bool DPPortBodyC::SetAttr(const StringC &attrName,const RealT &attrValue) {
-    DPPortC parent = ConnectedTo();
-    ONDEBUG(cerr << "DPPortBodyC::SetAttr(const StringC &,const IntT &) '" << attrName << "' = " <<attrValue << " Parent=" << parent.Hash() << " Obj=" << TypeName(typeid(*this)) << "\n");
-    // Try pasing it back along the processing chain.
-    if(parent.IsValid())
-      if(parent.SetAttr(attrName,attrValue))
-	return true;
-#if RAVL_CHECK
-    cerr << "DPPortBodyC::SetAttr(const StringC &,const RealT &), Unknown attribute '" << attrName << "' Value:'" << attrValue << "'\n";
-#endif
-    return false;
+    return AttributeCtrlBodyC::SetAttr(attrName,attrValue);
   }
 
   //: Get list of attributes available.
   
   bool DPPortBodyC::GetAttrList(DListC<StringC> &list) const {
-    DPPortC parent = ConnectedTo();
-    // Try pasing it back along the processing chain.
-    if(parent.IsValid())
-      parent.GetAttrList(list);
-    return true;
+    list.InsLast("id");
+    return AttributeCtrlBodyC::GetAttrList(list);
+  }
+
+  //: Get Parent attribute control.
+  
+  AttributeCtrlC DPPortBodyC::ParentCtrl() const 
+  { return ConnectedTo(); }
+  
+  static AttributeTypeStringC idAttribute("id","Port identifier");
+  
+  //: Get a list of available attribute types.
+  
+  bool DPPortBodyC::GetAttrTypes(DListC<AttributeTypeC> &list) const {
+    list.InsLast(idAttribute);
+    return AttributeCtrlBodyC::GetAttrTypes(list);
   }
   
+  //: Get type of a particular attribute. 
+  // Returns an invalid handle if attribute is unknown.
+  AttributeTypeC DPPortBodyC::GetAttrType(const StringC &attrName) const {
+    if(attrName == "id")
+      return idAttribute;
+    return AttributeCtrlBodyC::GetAttrType(attrName);
+  }
+
   /////////////////////////////////////////////////////////
   
   // Input type.

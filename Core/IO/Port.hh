@@ -16,6 +16,7 @@
 //! userlevel=Normal
 
 #include "Ravl/DP/Entity.hh"
+#include "Ravl/DP/AttributeCtrl.hh"
 #include "Ravl/Assert.hh"
 #include "Ravl/Exception.hh"
 #include "Ravl/SArray1d.hh"
@@ -32,7 +33,6 @@ namespace RavlN {
   
   class DPPortC;
   class StringC;
-  template<class DataT> class DListC;
   
   //! userlevel=Normal
   //: Exception, Data Not Ready.
@@ -52,11 +52,10 @@ namespace RavlN {
   //: Abstract port body.
   
   class DPPortBodyC 
-    : virtual public DPEntityBodyC 
+    : public AttributeCtrlBodyC 
   {
   public:
-    DPPortBodyC() 
-    {}
+    DPPortBodyC();
     //: Default constructor.
     
     DPPortBodyC(const StringC &nportId)
@@ -67,8 +66,7 @@ namespace RavlN {
     DPPortBodyC(istream &in);
     //: Stream constructor.
     
-    virtual ~DPPortBodyC() 
-    {}
+    virtual ~DPPortBodyC();
     //: Destructor.
     
     virtual bool IsAsync() const;
@@ -116,7 +114,17 @@ namespace RavlN {
     //: Get list of attributes available.
     // This method will ADD all available attribute names to 'list'.
     
+    virtual bool GetAttrTypes(DListC<AttributeTypeC> &list) const;
+    //: Get a list of available attribute types.
+    
+    virtual AttributeTypeC GetAttrType(const StringC &attrName) const;
+    //: Get type of a particular attribute. 
+    // Returns an invalid handle if attribute is unknown.
+    
   protected:
+    virtual AttributeCtrlC ParentCtrl() const;
+    //: Get Parent attribute control.
+    
     StringC portId; // Port ID, this can be accessed as the attribute 'id', defaults to empty string.
   };
   
@@ -332,7 +340,7 @@ namespace RavlN {
   //: Base port handle.
   
   class DPPortC 
-    : virtual public DPEntityC 
+    : public AttributeCtrlC 
   {
   public:
     DPPortC() 
@@ -375,51 +383,6 @@ namespace RavlN {
     { return Body().ConnectedTo(); }
     //: Is this port connected to another ?
     // If not returns invalid handle.
-    
-    StringC GetAttr(const StringC &attrName);
-    //: Get a stream attribute.
-    // Return the value of an attribute or an empty string if its unkown.
-    // This is for handling stream attributes such as frame rate, and compression ratios.
-    
-    inline bool GetAttr(const StringC &attrName,StringC &attrValue)
-    { return Body().GetAttr(attrName,attrValue); }    
-    //: Get a stream attribute.
-    // Returns false if the attribute name is unknown.
-    // This is for handling stream attributes such as frame rate, and compression ratios.
-    
-    inline bool SetAttr(const StringC &attrName,const StringC &attrValue)
-    { return Body().SetAttr(attrName,attrValue); }
-    //: Set a stream attribute.
-    // Returns false if the attribute name is unknown.
-    // This is for handling stream attributes such as frame rate, and compression ratios.
-
-    inline bool GetAttr(const StringC &attrName,IntT &attrValue)
-    { return Body().GetAttr(attrName,attrValue); }
-    //: Get a stream attribute.
-    // Returns false if the attribute name is unknown.
-    // This is for handling stream attributes such as frame rate, and compression ratios.
-    
-    inline bool SetAttr(const StringC &attrName,const IntT &attrValue)
-    { return Body().SetAttr(attrName,attrValue); }
-    //: Set a stream attribute.
-    // Returns false if the attribute name is unknown.
-    // This is for handling stream attributes such as frame rate, and compression ratios.
-    
-    inline bool GetAttr(const StringC &attrName,RealT &attrValue)
-    { return Body().GetAttr(attrName,attrValue); }
-    //: Get a stream attribute.
-    // Returns false if the attribute name is unknown.
-    // This is for handling stream attributes such as frame rate, and compression ratios.
-    
-    inline bool SetAttr(const StringC &attrName,const RealT &attrValue)
-    { return Body().SetAttr(attrName,attrValue); }
-    //: Set a stream attribute.
-    // Returns false if the attribute name is unknown.
-    // This is for handling stream attributes such as frame rate, and compression ratios.
-    
-    inline bool GetAttrList(DListC<StringC> &list) const
-    { return Body().GetAttrList(list); }
-    //: Get list of attributes available.
     
   };
   
