@@ -63,6 +63,7 @@ namespace RavlImageN {
       }
     } while(minAt != lastMin);
     rat = LocatePeakSubPixel(scoreMap,minAt,0.25);
+    rat = minAt;
     rminScore = minScore;
     return minScore;
   }
@@ -73,8 +74,8 @@ namespace RavlImageN {
     : idAlloc(1),
       newFreq(nnewFreq),
       frameCount(1),
-      cornerDet(CornerDetectorHarrisC(cthreshold,cwidth)),
-      //cornerDet(CornerDetectorSusanC(cthreshold)),
+      //cornerDet(CornerDetectorHarrisC(cthreshold,cwidth)),
+      cornerDet(CornerDetectorSusanC(cthreshold)),
       mwidth(nmwidth),
       mthreshold(nmthreshold),
       lifeTime(nlifeTime),
@@ -111,11 +112,12 @@ namespace RavlImageN {
       Index2dC lookAt(Round(lookAtp[0]),Round(lookAtp[1]));
       //cerr << "Vel=" << itt->Velocity() << "\n";
       if(!img.Frame().Contains(lookAt)) { // Has point left the image ?
+	itt->SetLive(false);
 	itt.Del();
 	continue;
       }
       Point2dC at;
-      IntT score;
+      IntT score = 100000000;
 #if 0
       IndexRange2dC searchArea(lookAt,searchSize,searchSize);
       searchArea.ClipBy(img.Frame());
