@@ -35,10 +35,10 @@ namespace RavlN {
       for(DLIterC<StringC> it(sl);it;it++) 
 	sources += dir + filenameSeperator + *it;
       StringListC pl(defs["USESLIBS"]);
-      for(DLIterC<StringC> it(pl);it;it++) {
+      {for(DLIterC<StringC> it(pl);it;it++) {
 	if(!useslibs.Contains(*it))
 	  useslibs += *it;
-      }
+      }}
     } else
       useslibs += defs["PLIB"];
       
