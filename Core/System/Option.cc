@@ -331,8 +331,9 @@ namespace RavlN {
   ////////////////////////////////////
   // Gets a list of strings following the option 'name'. 
   
-  DListC<StringC> OptionC::List(const char * name, const char * comment ) {
+  DListC<StringC> OptionC::List(const char * name, const char * def, const char * comment ) {
     DListC<StringC> ret = GetOptions(name,-1);
+    if (!IsOnCommandLine(name)) ret = StringListC(def);
     StrOStreamC os;  
     if(*name == 0) os << "arg";
     else os << '-' << name;
@@ -346,6 +347,7 @@ namespace RavlN {
     Comment(os.String());
     return ret;
   }
+  
   
   /////////////////////////////////
   // xor_opt defines a set of mutually exclusive options 

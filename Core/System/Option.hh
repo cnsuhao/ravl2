@@ -133,15 +133,19 @@ namespace RavlN {
     //N.B.: if "name" is the empty string, the default value is returned
     
     unsigned char UnsignedChar(const char * name, unsigned char def,const char * comment);
-    //: Gets a unsigned char.
+    //: Gets an unsigned char.
     
     bool Boolean(const char * name, bool def,const char * comment);
     //: Gets toggle (boolean value).
         
-    DListC<StringC> List(const char * name,const char * comment );
+    DListC<StringC> List(const char * name, const char * def, const char * comment );
     //: Gets a list of strings following the option 'name'. 
     // This function can used only if the header file 'DList.hh' is 
     // called before this header file.
+    
+    inline DListC<StringC> List(const char * name,const char * comment )
+      { return List(name, "", comment); }
+    //!deprecated: has no default list; use previous List() method,.
     
     //!section:  Dependency definition functions.
     /* -------------------------------- */
