@@ -7,8 +7,13 @@
 //! rcsid="$Id$"
 //! lib=RavlAV
 //! author="Charles Galambos"
-
+#include "Ravl/config.h" 
 #include "Ravl/AVMixer.hh"
+
+#if RAVL_COMPILER_MIPSPRO 
+#pragma instantiate RavlN::DPIPortBodyC<RavlImageN::ImageC<RavlImageN::ByteRGBValueC> >
+#pragma instantiate RavlN::DPIPortBodyC<RavlAudioN::SampleElemC<(const UIntT)2,short> >
+#endif 
 
 namespace RavlImageN {
   
