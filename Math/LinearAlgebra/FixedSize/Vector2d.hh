@@ -136,7 +136,7 @@ namespace RavlN {
   
   inline
   Vector2dC Angle2Vector2d(RealT angle) 
-  { return Vector2dC(Sin(angle),Cos(angle)); }
+  { return Vector2dC(Cos(angle),Sin(angle)); }
   //: Convert an angle to a unit vector in that direction.
   
 }
