@@ -100,7 +100,7 @@ namespace RavlCxxDocN
   
   //: Resolve a name.
   
-  ObjectC ScopeBodyC::ResolveName(const StringC &str,bool useInherit = true) {
+  ObjectC ScopeBodyC::ResolveName(const StringC &str,bool useInherit) {
     ObjectC start(*this);
     if(str == "::") // Start at root ?
       return RootScope();
@@ -126,7 +126,7 @@ namespace RavlCxxDocN
   
   //: Resolve a name.
   
-  ObjectC ScopeBodyC::ResolveName(DListC<ObjectC> path,RCHashC<StringC,ObjectC> &templSub,bool useInherit = true) {
+  ObjectC ScopeBodyC::ResolveName(DListC<ObjectC> path,RCHashC<StringC,ObjectC> &templSub,bool useInherit) {
     ObjectC start(*this);
     DLIterC<ObjectC> it(path);
     // Go back through parent scopes looking for an object that matches 'path'.
