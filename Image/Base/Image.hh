@@ -113,7 +113,15 @@ namespace RavlImageN {
     inline IndexC RCol() const
     { return Range2().Max(); }
     // Returns the right side column index.
-    
+
+    inline ImageRectangleC Frame() const
+    { return Array2dC<PixelT>::Frame(); }
+    // Returns the frame of the image
+
+    inline ImageRectangleC Rectangle() const
+    { return Array2dC<PixelT>::Rectangle(); }
+    // Returns the frame of the image
+
     PixelT *Row(IndexC row) 
     { return &(RangeBufferAccessC<BufferAccessC<PixelT> >::operator[](row)[rng2.Min()]); }
     //: Get a pointer to begining of row.
