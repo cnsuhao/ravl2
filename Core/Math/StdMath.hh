@@ -71,7 +71,7 @@ namespace RavlN {
   }
   //: Returns the cube root of 'x'.
   
-#ifndef VISUAL_CPP
+#if !defined(VISUAL_CPP) && !defined(__cygwin__)
   // FIXME:- We have to sort this out..
   
   inline RealT Erf(RealT x)

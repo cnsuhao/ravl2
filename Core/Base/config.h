@@ -57,7 +57,7 @@
  */
 #define RAVL_USE_PARALLEL 0
 
-#if !defined(__sol2__) && !defined(VISUAL_CPP)
+#if !defined(__sol2__) && !defined(VISUAL_CPP) && !defined(__cygwin__)
 #define RAVL_USE_LARGEFILESUPPORT 1
 #else
 #define RAVL_USE_LARGEFILESUPPORT 0
@@ -84,7 +84,7 @@
 #define RAVL_HAVE_IOS_BINARY 0
 #endif
 
-#if !defined(__sol2__) && !defined(VISUAL_CPP)
+#if !defined(__sol2__) && !defined(VISUAL_CPP) && !defined(__cygwin__)
 #define RAVL_HAVE_POSIX_THREADS_RWLOCK 1
 #else
 #define RAVL_HAVE_POSIX_THREADS_RWLOCK 0
@@ -125,20 +125,32 @@
 #endif
 #endif
 
-#if defined(VISUAL_CPP) || defined(__cygwin__)
-#define RAVL_HAVE_VALUES_H 0
-#define RAVL_HAVE_FLOAT_H 1
-#define RAVL_HAVE_PTHREAD_COND 0
-#define RAVL_HAVE_HYPOT 0
-#define RAVL_HAVE_NAN_H 0
+#if defined(__cygwin__)
+#define RAVL_HAVE_IEEEFP_H 1
+#define RAVL_HAVE_NETDB_H 1
+#define RAVL_HAVE_UNISTD_H 1
+#define RAVL_HAVE_SYS_SOCKET_H 1
+#define RAVL_USE_WINSOCK 1
+#define RAVL_HAVE_UNIXDIRFUNCS 1
+#endif
+
+#if defined(VISUAL_CPP)
 #define RAVL_HAVE_IEEEFP_H 0
-#define RAVL_HAVE_UNISTD_H 0
-#define RAVL_HAVE_IO_H 1
 #define RAVL_HAVE_NETDB_H 0
-#define RAVL_HAVE_EXCEPTION_SPECS 0
+#define RAVL_HAVE_UNISTD_H 0
 #define RAVL_HAVE_SYS_SOCKET_H 0
 #define RAVL_USE_WINSOCK 1
 #define RAVL_HAVE_UNIXDIRFUNCS 0
+#endif
+
+#if defined(VISUAL_CPP) || defined(__cygwin__)
+#define RAVL_HAVE_HYPOT 0
+#define RAVL_HAVE_VALUES_H 0
+#define RAVL_HAVE_FLOAT_H 1
+#define RAVL_HAVE_PTHREAD_COND 0
+#define RAVL_HAVE_NAN_H 0
+#define RAVL_HAVE_IO_H 1
+#define RAVL_HAVE_EXCEPTION_SPECS 0
 #else
 #define RAVL_HAVE_VALUES_H 1
 #define RAVL_HAVE_FLOAT_H 1
@@ -174,7 +186,11 @@
 #define RAVL_USE_TIMEB_H 0
 #endif
 
+#if defined(__cygwin__) 
+#define RAVL_HAVE_REENTRANT_UNIXDIRFUNCS 0
+#else
 #define RAVL_HAVE_REENTRANT_UNIXDIRFUNCS 1
+#endif
 #define RAVL_LIMITED_FILENAMES 0
 
 /* Define a macro so we can easily switch in and out exception specs
