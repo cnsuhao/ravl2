@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLCHILDEXECPROCESS_HEADER
-#define RAVLCHILDEXECPROCESS_HEADER 1
+#ifndef RAVL_CHILDEXECPROCESS_HEADER
+#define RAVL_CHILDEXECPROCESS_HEADER 1
 /////////////////////////////////////////////////////////////////
 //! example=exChild.cc
 //! file="Ravl/OS/Exec/ChildOSProcess.hh"
@@ -13,7 +13,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.OS.Exec"
 //! rcsid="$Id$"
-//! date="24/11/98"
+//! date="24/11/1998"
 
 #include "Ravl/Stream.hh"
 #include "Ravl/String.hh"
@@ -57,29 +57,29 @@ namespace RavlN {
     //: Run, sending output to a file.
     
     IStreamC &StdOut() 
-      { return pstdout; }
+    { return pstdout; }
     //: Get the stdout of the process.
     // Is invalid, if output is not directed back to this process.
     
     IStreamC &StdErr() 
-      { return pstderr; }
+    { return pstderr; }
     //: Get the stderr of the process.
     // Is invalid, if output is not directed back to this process.
     
     OStreamC &StdIn() 
-      { return pstdin; }
+    { return pstdin; }
     //: Send to the stdin of the process.
     // Is invalid, if output is not directed back to this process.
     
     int GetPID() const 
-      { return pid; }
+    { return pid; }
     //: Get the process ID.
     
     bool IsRunning();
     //: Test if child is still running.
     
     bool ExitedOk() 
-      { return exitok; }
+    { return exitok; }
     //: Test eixted ok flag.
     // only valid if child has actual exited cleanly
     // as apposed to a seg fault or signal.
@@ -148,6 +148,11 @@ namespace RavlN {
     : public OSProcessC
   {
   public:
+    ChildOSProcessC()
+    {}
+    //: Default constructor.
+    // Creates an invalid handle.
+    
     ChildOSProcessC(StringC cmd,bool useStdOut = false,bool useStdErr = false,bool useStdIn = false);
     //: Start a child process.
     // if useStdOut, useStdErr or useStdIn is TRUE, the matching channel
@@ -157,55 +162,54 @@ namespace RavlN {
     //: Start a child process.
     // Send output to file 'out', if redirectStderr is TRUE send
     // stderr there too. 
-
+    
   protected:
     ChildOSProcessBodyC &Body() 
-      { return static_cast<ChildOSProcessBodyC &>(OSProcessC::Body()); }
+    { return static_cast<ChildOSProcessBodyC &>(OSProcessC::Body()); }
     //: Access body.
     
     const ChildOSProcessBodyC &Body() const 
-      { return static_cast<const ChildOSProcessBodyC &>(OSProcessC::Body()); }
+    { return static_cast<const ChildOSProcessBodyC &>(OSProcessC::Body()); }
     //: Access body.
     
-
   public:    
     IStreamC &StdOut() 
-      { return Body().StdOut(); }
+    { return Body().StdOut(); }
     //: Get the stdout of the process.
     // Is invalid, if output is not directed back to this process.
     
     IStreamC &StdErr() 
-      { return Body().StdErr(); }
+    { return Body().StdErr(); }
     //: Get the stderr of the process.
     // Is invalid, if output is not directed back to this process.
     
     OStreamC &StdIn() 
-      { return Body().StdIn(); }
+    { return Body().StdIn(); }
     //: Send to the stdin of the process.
     // Is invalid, if output is not directed back to this process.
     
     int GetPID() const 
-      { return Body().GetPID(); }
+    { return Body().GetPID(); }
     //: Get the process ID.
     
     bool IsRunning() 
-      { return Body().IsRunning(); }
+    { return Body().IsRunning(); }
     //: Test if child is still running.
     
     bool ExitedOk() 
-      { return Body().ExitedOk(); }
+    { return Body().ExitedOk(); }
     //: Test eixted ok flag.
     // only valid if child has actual exited.
     
     inline bool Wait() 
-      { return Body().Wait(); }
+    { return Body().Wait(); }
     //: Wait for program to exit.
     // It returns false if the wait failed. Possibly because
     // the child program has terminated already, or was never 
     // started.
   
     inline bool Wait(double maxTime) 
-      { return Body().Wait(maxTime); }
+    { return Body().Wait(maxTime); }
     //: Wait for program to exit.
     // maxTime in the maximum time in seconds,
     // if it is negative it won't time out. <p>
@@ -214,7 +218,7 @@ namespace RavlN {
     // started.
     
     IntT ExitCode() const 
-      { return Body().ExitCode(); }
+    { return Body().ExitCode(); }
     //: Get exit code.
     // Return the exit code of the program, if the program
     // failed to exit normaly this is set to the signal number
@@ -222,7 +226,7 @@ namespace RavlN {
     // program has exited.
     
     bool Terminate(double maxDelay = 10) 
-      { return Body().Terminate(maxDelay); }
+    { return Body().Terminate(maxDelay); }
     //: Close the processes politely but firmly.
     // This first sends a SIGQUIT, then after maxDelay if the process
     // hasn't exited in sends a SIGTERM.  It will wait upto another maxDelay seconds
