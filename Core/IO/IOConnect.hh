@@ -17,16 +17,71 @@
 
 #include "Ravl/DP/Port.hh"
 #include "Ravl/DP/IOJoin.hh"
+#include "Ravl/DP/StreamOp.hh"
 
 namespace RavlN {
+  
+  //! userlevel=Develop
+  //: IO Connector base
+  
+  class DPIOConnectBaseBodyC
+    : public DPStreamOpBodyC
+  {
+  public:
+    DPIOConnectBaseBodyC();
+    //: Default constructor.
+    
+    virtual StringC OpName() const;
+    //: Op type name.
+    
+    virtual bool Run();
+    //: Run until a stream completes.
+    
+    virtual bool Step();
+    //: Do a single processing step.
+    
+  };
 
+  //! userlevel=Develop
+  //: IO Connector base
+  
+  class DPIOConnectBaseC
+    : public DPStreamOpC
+  {
+  public:
+    DPIOConnectBaseC()
+      : DPEntityC(true)
+    {}
+    //: Default constructor.
+    // Create an invalid handle.
+    
+  protected:
+    DPIOConnectBaseC(DPIOConnectBaseBodyC &bod)
+      : DPEntityC(bod)
+    {}
+    //: Body constructor.
+
+    DPIOConnectBaseBodyC &Body() 
+    { return dynamic_cast<DPIOConnectBaseBodyC &>(DPEntityC::Body()); }
+    //: Access body.
+    
+    const DPIOConnectBaseBodyC &Body() const
+    { return dynamic_cast<const DPIOConnectBaseBodyC &>(DPEntityC::Body()); }
+    //: Access body.
+    
+  public:
+    inline bool Run()
+    { return Body().Run(); }
+    //: Do processing.
+  };
+  
   //////////////////////////
   //! userlevel=Develop
   //: Connect some IOPorts body.
   
   template<class DataT>
   class DPIOConnectBodyC 
-    : public DPEntityBodyC 
+    : public DPIOConnectBaseBodyC 
   {
   public:
     DPIOConnectBodyC(const DPIPortC<DataT> &from,const DPOPortC<DataT> &to);
@@ -37,6 +92,21 @@ namespace RavlN {
     
     bool Step();
     //: Do a single processing step.
+
+    virtual DListC<DPIPlugBaseC> IPlugs() const {
+      DListC<DPIPlugBaseC> ret;
+      ret.InsLast(DPIPlugC<DataT>(from,DPEntityC(const_cast<DPIOConnectBodyC<DataT> &>(*this))));
+      return ret;
+    }
+    //: Input plugs.
+    
+    virtual DListC<DPOPlugBaseC> OPlugs() const {
+      DListC<DPOPlugBaseC> ret;
+      ret.InsLast(DPOPlugC<DataT>(to,DPEntityC(const_cast<DPIOConnectBodyC<DataT> &>(*this))));
+      return ret;
+    }
+    //: Output plugs
+    
   private:
     DPIPortC<DataT> from;
     DPOPortC<DataT> to;
@@ -48,7 +118,7 @@ namespace RavlN {
   
   template<class DataT>
   class DPIOConnectC
-    : public DPEntityC
+    : public DPIOConnectBaseC
   {
   public:
     DPIOConnectC(const DPIPortC<DataT> &from,const DPOPortC<DataT> &to)
@@ -64,16 +134,8 @@ namespace RavlN {
     inline const DPIOConnectBodyC<DataT> &Body() const
     { return dynamic_cast<const DPIOConnectBodyC<DataT> &>(DPEntityC::Body()); }
     //: Access body.
-
-  public:
-    inline bool Run()
-    { return Body().Run(); }
-    //: Do processing.
     
-    inline void Dummy() 
-    {}
-    //: Used to avoid some warnings.
-
+  public:
   };
   
   //////////////////////////////
@@ -95,6 +157,8 @@ namespace RavlN {
   
   template<class DataT>
   bool DPIOConnectBodyC<DataT>::Run(void) {
+    if(!from.IsValid() || !to.IsValid())
+      return false;
     DataT buff;
     while(1) {
       if(!from.Get(buff))
@@ -108,6 +172,8 @@ namespace RavlN {
   
   template<class DataT>
   bool DPIOConnectBodyC<DataT>::Step() {
+    if(!from.IsValid() || !to.IsValid())
+      return false;
     if(!from.IsGetReady()) {
       to.PutEOS();
       return false;
