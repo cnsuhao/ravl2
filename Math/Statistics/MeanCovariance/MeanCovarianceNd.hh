@@ -15,13 +15,15 @@ namespace RavlN {
   // This class computes the mean of a set of vectors.
   
   class MeanCovarianceNdC 
-  : protected MeanNdC
+    : protected MeanNdC
   {
   public:
     MeanCovarianceNdC(SizeT dim = 0)
       : MeanNdC(dim)
       {}
     //: Constructor.
+    
+  protected:
     
     
   };
