@@ -1407,7 +1407,7 @@ namespace RavlN {
     return (UIntT) atoi(chars());
   }
   
-  //: Interpret string as an integer.
+  //: Interpret string as a 64-bit integer.
   
   Int64T StringC::Int64Value() const {
 #if RAVL_COMPILER_VISUALCPP
@@ -1417,7 +1417,7 @@ namespace RavlN {
 #endif
   }
   
-  //: Interpret string as an integer.
+  //: Interpret string as a 64-bit unsigned integer.
   
   UInt64T StringC::UInt64Value() const {
 #if RAVL_COMPILER_VISUALCPP

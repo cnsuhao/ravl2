@@ -707,10 +707,10 @@ namespace RavlN {
     //: Interpret string as an unsigned integer.
     
     Int64T Int64Value() const;
-    //: Interpret string as an integer.
+    //: Interpret string as a 64-bit integer.
     
     UInt64T UInt64Value() const;
-    //: Interpret string as an integer.
+    //: Interpret string as a 64-bit unsigned integer.
     
     RealT RealValue() const;
     //: Interpret string as a floating point value.
