@@ -196,10 +196,10 @@ namespace RavlN {
   // is placed in 'vec'.
   
   template<unsigned int N,unsigned int M>
-  void EigenVectors(FMatrixC<N,M> &mat,FMatrixC<N,M> &E,FVectorC<N> &D) {
+  void EigenVectors(const FMatrixC<N,M> &mat,FMatrixC<N,M> &E,FVectorC<N> &D) {
     RavlAssertMsg(N == M,"FMatrixC::EigenVectorsIP() Matrix must be square. ");
-    FMatrixC<N,M> tmp(mat);
-    eigen(&tmp[0][0],&D[0],N);
+    E = mat;
+    eigen(&E[0][0],&D[0],N);
   }
   //: Calculate the eigen values and vectors of a real symmetric matrix.
   // A = E*D*E~ where D is the diagonal matrix of eigenvalues
