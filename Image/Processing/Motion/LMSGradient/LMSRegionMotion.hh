@@ -23,7 +23,7 @@
 namespace RavlImageN {
   using namespace RavlN;
   
-  //! example="exLMSMotionRegion.cc"
+  //! example="exLMSRegionMotion.cc"
   //! lib=LMSMotion
   //! docentry="Image.Motion.Model Based"
   
