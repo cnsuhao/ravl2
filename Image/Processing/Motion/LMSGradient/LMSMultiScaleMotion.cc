@@ -8,6 +8,7 @@
 //! lib=RavlImageProc
 
 #include "Ravl/Image/LMSMultiScaleMotion.hh"
+#include "Ravl/Image/BilinearInterpolation.hh"
 #include "Ravl/DLIter.hh"
 #include "Ravl/Array2dIter2.hh"
 #include "Ravl/DP/FileFormatIO.hh"
@@ -137,7 +138,7 @@ namespace RavlImageN {
       Vector2dC rp(p[0],p[1]);
       Vector2dC p_shifted(rp + it.Data2());
       if (im.Frame().Contains(p_shifted)) {
-	it.Data1() = im.BiLinear(p_shifted - shift);
+	BilinearInterpolation(im,p_shifted - shift,it.Data1());
       } else {
 	Index2dC at(rp + it.Data2());
 	if(at[0] < im.Frame().TRow())

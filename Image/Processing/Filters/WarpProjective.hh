@@ -14,6 +14,7 @@
 
 #include "Ravl/Image/PixelMixer.hh"
 #include "Ravl/Image/Image.hh"
+#include "Ravl/Image/BilinearInterpolation.hh"
 #include "Ravl/Array2dIter.hh"
 #include "Ravl/Matrix3d.hh"
 #include "Ravl/Vector3d.hh"
@@ -155,7 +156,7 @@ namespace RavlImageN {
     // If the output maps entirely within input, we don't have to do any checking.
     
     Vector3dC ldir(inv[0][1] * iz,inv[1][1] * iz,inv[2][1]);
-
+    OutT tmp;
 #if 0    
     RealRange2dC orng(outImg.Frame());
     if(irng.Contains(Project(orng.TopRight())) &&
@@ -243,7 +244,8 @@ namespace RavlImageN {
       RavlAssert(workingOutImg.Frame().Range2().Contains(colRange));
       for(BufferAccessIterC<OutT> rit(outImg[r],colRange);rit;rit++) {
 	Point2dC ipat(at[0]/at[2],at[1]/at[2]);
-	mixer(*rit,src.BiLinear(ipat - Point2dC(0.5,0.5)));
+	BilinearInterpolation(src,ipat - Point2dC(0.5,0.5),tmp);
+	mixer(*rit,tmp);
 	at += ldir;
       }
     }
@@ -261,17 +263,20 @@ namespace RavlImageN {
       if(fillBackground) {
 	do {
 	  Point2dC ipat(at[0]/at[2],at[1]/at[2]);
-	  if(irng.Contains(ipat))
-	    mixer(*it,src.BiLinear(ipat - Point2dC(0.5,0.5)));
-	  else
+	  if(irng.Contains(ipat)) {
+	    BilinearInterpolation(src,ipat - Point2dC(0.5,0.5),tmp);
+	    mixer(*it,tmp);
+	  } else
 	    SetZero(*it);
 	  at += ldir;
 	} while(it.Next()) ;
       } else {
 	do {
 	  Point2dC ipat(at[0]/at[2],at[1]/at[2]);
-	  if(irng.Contains(ipat))
-	    mixer(*it,src.BiLinear(ipat - Point2dC(0.5,0.5)));
+	  if(irng.Contains(ipat)) {
+	    BilinearInterpolation(src,ipat - Point2dC(0.5,0.5),tmp);
+	    mixer(*it,tmp);
+	  }
 	  at += ldir;
 	} while(it.Next()) ;
       }

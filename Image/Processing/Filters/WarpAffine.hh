@@ -20,6 +20,7 @@
 #include "Ravl/Point2d.hh"
 #include "Ravl/LinePP2d.hh"
 #include "Ravl/Image/PixelMixer.hh"
+#include "Ravl/Image/BilinearInterpolation.hh"
 
 namespace RavlImageN {
   using namespace RavlN;
@@ -27,7 +28,7 @@ namespace RavlImageN {
   //! userlevel=Normal
   //: Scale an image using bi-Linear Interpolation.
   
-  template <class InT, class OutT = InT,class MixerT = PixelMixerAssignC<InT,OutT> >
+  template <class InT, class OutT = InT,class WorkT = OutT,class MixerT = PixelMixerAssignC<WorkT,OutT> >
   class WarpAffineC
   {
   public:
@@ -36,7 +37,8 @@ namespace RavlImageN {
 	trans(ntrans),
 	itrans(ntrans.I()),
 	fillBackground(nFillBackground),
-	mixer(mix)
+	mixer(mix),
+	useMidPixelCorretion(true)
     {}
     //: Constructor.
     // 'ir' is the output rectangle.
@@ -71,6 +73,26 @@ namespace RavlImageN {
     }
     //: Get range of input rectangle that will be used.
     // Note: This may be larger than the actual input provided.
+
+    ImageRectangleC InputRectangle(const ImageRectangleC &outRec) const { 
+      RealRange2dC orng(outRec);
+      RealRange2dC rret(trans * orng.TopRight(),0);
+      rret.Involve(trans * orng.TopLeft());
+      rret.Involve(trans * orng.BottomRight());
+      rret.Involve(trans * orng.BottomLeft());
+      return rret.IndexRange();
+    }
+    //: Get range of input rectangle that is need to fill 'outRec'
+    
+    ImageRectangleC OutputRectangle(const ImageRectangleC &inrec) const { 
+      RealRange2dC irng(inrec);
+      RealRange2dC rret(itrans * irng.TopRight(),0);
+      rret.Involve(itrans * irng.TopLeft());
+      rret.Involve(itrans * irng.BottomRight());
+      rret.Involve(itrans * irng.BottomLeft());
+      return rret.IndexRange();
+    }
+    //: Get range of output rectangle that will required to get get all of 'inrec'.
     
     MixerT &Mixer() 
     { return mixer; }
@@ -80,21 +102,28 @@ namespace RavlImageN {
     { rec = rng; }
     //: Set the output rectangle.
     
+    void SetMidPixelCorrection(bool correction)
+    { useMidPixelCorrection = correction; }
+    //: Set mid pixel correction flag.
+    
   protected:
     ImageRectangleC rec;   // Output rectangle.
     Affine2dC trans;       // Transform.
     Affine2dC itrans;      // Inverse transform
     bool fillBackground;   // Fill background with zero ?
     MixerT mixer;
+    bool useMidPixelCorrection;
   };
   
-  template <class InT, class OutT,class MixerT>
-  void WarpAffineC<InT,OutT,MixerT>::Apply(const ImageC<InT> &src,ImageC<OutT> &outImg) {
-    RealRange2dC orng(rec);
+  template <class InT, class OutT,class WorkT,class MixerT>
+  void WarpAffineC<InT,OutT,WorkT,MixerT>::Apply(const ImageC<InT> &src,ImageC<OutT> &outImg) {
     RealRange2dC irng(src.Frame());
     irng = irng.Expand(-1.1); // There's an off by a bit error somewhere in here...
+    RealRange2dC orng(rec);
     if(!outImg.IsValid())
       outImg = ImageC<OutT>(rec);
+    else
+      orng = RealRange2dC(outImg.Frame());
     
     //cerr << "Trans0=" << trans * orng.TopRight() << " from " << orng.TopRight() << "\n";
     
@@ -102,9 +131,11 @@ namespace RavlImageN {
     Vector2dC ldir(srm[0][1],srm[1][1]);
     Vector2dC sdir(srm[0][0],srm[1][0]);
     Point2dC lstart = trans * Point2dC(orng.Origin());
-    lstart -= Vector2dC(0.5,0.5); //Co-ordinate system correction.
+    if(useMidPixelCorrection)
+      lstart -= Vector2dC(0.5,0.5); //Co-ordinate system correction.
     Array2dIterC<OutT> it(outImg);
     
+    WorkT tmp;
     if(irng.Contains(trans * orng.TopRight()) &&
        irng.Contains(trans * orng.TopLeft()) &&
        irng.Contains(trans * orng.BottomRight()) &&
@@ -113,7 +144,8 @@ namespace RavlImageN {
       for(;it;) {
 	Point2dC pat = lstart;
 	do {
-	  mixer(*it,src.BiLinear(pat));
+	  BilinearInterpolation(src,pat,tmp);
+	  mixer(*it,tmp);
 	  pat += ldir;
 	} while(it.Next()) ;
 	lstart += sdir;
@@ -146,7 +178,7 @@ namespace RavlImageN {
       int ce = (((int) ep[1]) - outImg.LCol()).V();
       const OutT *end = &(*it) + ce;
       for(;&(*it) < end;it.NextCol()) {
-	*it = src.BiLinear(pat);
+	BilinearInterpolation(src,pat,*it);
 	pat += ldir;
       }
       if(fillBackground) {
@@ -162,16 +194,19 @@ namespace RavlImageN {
       Point2dC pat = lstart;
       if(fillBackground) {
 	do {
-	  if(irng.Contains(pat))
-	    mixer(*it,src.BiLinear(pat));
-	  else
+	  if(irng.Contains(pat)) {
+	    BilinearInterpolation(src,pat,tmp);
+	    mixer(*it,tmp);
+	  } else
 	    SetZero(*it);
 	  pat += ldir;
 	} while(it.Next()) ;
       } else {
 	do {
-	  if(irng.Contains(pat))
-	    mixer(*it,src.BiLinear(pat));
+	  if(irng.Contains(pat)) {
+	    BilinearInterpolation(src,pat,tmp);
+	    mixer(*it,tmp);
+	  }
 	  pat += ldir;
 	} while(it.Next()) ;
       }
