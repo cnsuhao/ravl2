@@ -147,7 +147,7 @@ namespace RavlN {
     // Creates a new reference to 'oth'
     
     RCHandleC(CreateBodyFlagT)
-      : body(*new BodyT())
+      : body(new BodyT())
       { body->IncRefCounter(); }
     //: Constructor.
     // creates a body class with its default constructor.
@@ -242,7 +242,10 @@ namespace RavlN {
     RCAbstractC Abstract() 
       { return RCAbstractC(Body()); }
     //: Create an abstract handle.    
-    
+      
+    friend ostream &operator<<(ostream &strm,const RCHandleC<BodyT> &obj);
+    friend istream &operator>>(istream &strm,RCHandleC<BodyT> &obj);
+ 
   };
 
 
@@ -275,7 +278,7 @@ namespace RavlN {
   //: Write a handle to a stream.
 
   template<class BodyT>
-  istream &operator<<(istream &strm,RCHandleC<BodyT> &obj) {
+  istream &operator>>(istream &strm,RCHandleC<BodyT> &obj) {
     if(!obj.IsValid())
       obj = RCHandleC<BodyT>(CreateBodyE);
     strm >> obj.Body(); 
