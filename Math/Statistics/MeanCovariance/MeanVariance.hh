@@ -27,16 +27,16 @@ namespace RavlN {
     
     MeanVarianceC()
       : n(0),
-      mean(0),
-      var(0)
-      {}
+	mean(0),
+	var(0)
+    {}
     //: Default constructor.
     
     MeanVarianceC(SizeT nn,RealT nmean,RealT nvar)
       : n(nn),
-      mean(nmean),
-      var(nvar)
-      {}
+	mean(nmean),
+	var(nvar)
+    {}
     //: Constructor.
     
     RealT StdDeviation() const

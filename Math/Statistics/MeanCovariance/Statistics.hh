@@ -3,6 +3,7 @@
 ///////////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! userlevel=Normal
+//! docentry="Ravl.Math.Statistics"
 //! author="Daniel A. Atkinson"
 
 #include "Ravl/Types.hh"
