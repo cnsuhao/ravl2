@@ -14,7 +14,7 @@
 #include "Ravl/IntrDLIter.hh"
 #include "Ravl/HEMeshBaseFaceIter.hh"
 
-#define DODEBUG 0
+#define DODEBUG 1
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -103,8 +103,12 @@ namespace RavlN {
       HEMeshBaseEdgeC edgep = edge.Pair();
       HEMeshBaseEdgeC edge2 = NewEdge(vert,edgep.Face());
       edgep.LinkBefore(edge2);
-      edge2.SetPair(edge1);
-      edge1.SetPair(edge2);
+      
+      edge.SetPair(edge2);
+      edge2.SetPair(edge);
+      
+      edge1.SetPair(edgep);
+      edgep.SetPair(edge1);
     }
     
     return true;
@@ -113,7 +117,7 @@ namespace RavlN {
   //: Insert a vertex on an edge, assuming and maintaing a triangular mesh.
   
   bool HEMeshBaseBodyC::InsertVertexInEdgeTri(HEMeshBaseVertexC vert,HEMeshBaseEdgeC edge) {
-    ONDEBUG(cerr << "HEMeshBaseBodyC::InsertVertexInEdgeTri), Inserting vertex " << vert.Hash() << "\n"); 
+    ONDEBUG(cerr << "HEMeshBaseBodyC::InsertVertexInEdgeTri(), Inserting vertex " << vert.Hash() << "\n"); 
     RavlAssert(vert.IsValid());
     RavlAssert(edge.IsValid());
     
@@ -127,8 +131,12 @@ namespace RavlN {
       edgep = edge.Pair();
       edge2 = NewEdge(vert,edgep.Face());
       edgep.LinkBefore(edge2);
-      edge2.SetPair(edge1);
-      edge1.SetPair(edge2);
+
+      edge.SetPair(edge2);
+      edge2.SetPair(edge);
+      
+      edge1.SetPair(edgep);
+      edgep.SetPair(edge1);
     }
     
     SplitFace(edge1,edge.Next());
@@ -266,6 +274,8 @@ namespace RavlN {
     RavlAssert(from.IsValid());
     RavlAssert(to.IsValid());
     RavlAssert(from.Face() == to.Face());
+    RavlAssert(to.Next() != from);
+    RavlAssert(from.Next() != to);
     
     HEMeshBaseFaceC face1 = to.Face();
     HEMeshBaseFaceC face2 = NewFace();
@@ -282,7 +292,7 @@ namespace RavlN {
     
     for(HEMeshBaseEdgeC at = edge2.Next();at != edge2;at = at.Next())
       at.SetFace(face2);
-    
+    RavlAssert(CheckMesh(true));
     return edge2;
   }
   
