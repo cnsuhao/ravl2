@@ -90,6 +90,12 @@ namespace RavlN {
     
     const DataT &operator[](IndexC i) const;
     //: Constant access to element i in vector.
+
+    DataT &operator[](int i);
+    //: Access element i in vector.
+    
+    const DataT &operator[](int i) const;
+    //: Constant access to element i in vector.
     
     DataT &First()
     { return ref[stride * rng.Min().V()]; }
@@ -305,6 +311,18 @@ namespace RavlN {
   const DataT &Slice1dC<DataT>::operator[](IndexC i) const { 
     RavlAssertMsg(rng.Contains(i),"Slice1dC, Index out of range.");
     return ref[i.V() * stride]; 
+  }
+  
+  template<class DataT>
+  DataT &Slice1dC<DataT>::operator[](int i) {
+    RavlAssertMsg(rng.Contains(i),"Slice1dC, Index out of range.");
+    return ref[i * stride]; 
+  }
+  
+  template<class DataT>
+  const DataT &Slice1dC<DataT>::operator[](int i) const {
+    RavlAssertMsg(rng.Contains(i),"Slice1dC, Index out of range.");
+    return ref[i * stride]; 
   }
 
   template<class DataT>
