@@ -20,6 +20,6 @@ LIBDEPS=RavlMathHistogram.def
 
 USESLIBS=RavlMath
 
-TEXTEXES=testHistogram.cc
+TESTEXES=testHistogram.cc
 
 EXAMPLES=exHistogram.cc
