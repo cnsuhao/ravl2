@@ -118,7 +118,7 @@ namespace RavlImageN {
     region.minat = Index2dC(offset / stride,offset % stride);
     if(region.hist == 0)
       region.hist = new IntT [limitMaxValue+2];
-    memset(&(region.hist[level]),0,((valueRange.Max().V() + 1) - level) * sizeof(IntT));
+    memset(&(region.hist[level]),0,((limitMaxValue + 1) - level) * sizeof(IntT));
     region.hist[level] = 1;
     region.total = 1;
     region.thresh = 0;
@@ -324,15 +324,26 @@ namespace RavlImageN {
 	  // cerr << " Threshold=" << et.thresh << " " << chist[et.thresh] << "\n";
 	}
       }
+      
+      if(it->closed == 0) { // Is region closed ?
+	ExtremaThresholdC &et = thresh[nthresh++];
+	et.pos = maxValue;
+	int margin = up - i;
+	et.margin = margin;
+	et.thresh = maxValue;	
+      }
+      
       ExtremaThresholdC *newthresh = new ExtremaThresholdC[nthresh];
       IntT nt = 0;
-      if(nthresh > 2) {
+      if(nthresh >= 2) { // Use first threshold ?
 	if(thresh[0].margin > thresh[1].margin)
 	  newthresh[nt++] = thresh[0];
       }
+      
+#if 1
+      // Do peak detection on thresholds.
       for(int j = 1;j < nthresh-1;j++) {
 	//cerr << " Threshold=" << thresh[i].margin << "\n";
-#if 1
 	ExtremaThresholdC &next = thresh[j+1];
 	ExtremaThresholdC &cur = thresh[j];
 	ExtremaThresholdC &prev = thresh[j-1];
@@ -340,11 +351,26 @@ namespace RavlImageN {
 	  //cerr << " Using=" << thresh[i].margin << "\n";
 	  newthresh[nt++] = cur;
 	}
-#else
-	newthresh[nt++] = thresh[j];
-#endif
       }
-      if(nthresh > 2) {
+#else 
+      IntT lastSize = -1;
+      RealT lastCount = -1;
+      IntT lastInd = -1;
+      for(int j = 0;j < nthresh;j++) {
+	if((lastSize * 1.05) > thresh[j].pos) 
+	  continue; // Reject it, not enough difference.
+#if 0	
+	if(lastCount < fhist[thresh[j].pos])
+	  newthresh[nt++] = thresh[j];
+	lastCount = fhist[*it];
+	lastInd = it.Index().V();
+#endif
+	newthresh[nt++] = thresh[j];
+	//lastSize = chist[thresh[j].pos];
+	lastSize = thresh[j].pos;
+      }
+#endif
+      if(nthresh > 2) { // Use last threshold ?
 	if(thresh[nthresh-2].margin < thresh[nthresh-1].margin)
 	  newthresh[nt++] = thresh[nthresh-1];
       }
@@ -356,7 +382,7 @@ namespace RavlImageN {
 	delete [] newthresh;
       }
       //cerr << "Thresholds=" << nthresh << " Kept=" << it->nThresh << "\n";
-    }
+    } // for(SArray1dIterC<ExtremaRegionC> it(...
     //cerr << "SegmentExtremaBaseC::Thresholds() Interesting regions=" << regions <<" \n";
   }  
 }

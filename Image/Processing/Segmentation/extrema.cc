@@ -23,7 +23,7 @@ int main(int nargs,char **argv) {
   OptionC opt(nargs,argv);
   IntT minSize = opt.Int("ms",10,"Minimum region size. ");
   RealT minMargin = opt.Real("mm",10,"Minimum margin. ");
-  IntT limit = opt.Int("l",256,"Limit on difference to consider.");
+  IntT limit = opt.Int("l",255,"Limit on difference to consider.");
   bool seq = opt.Boolean("s",false,"Process a sequence. ");
   bool drawResults = opt.Boolean("d",false,"Draw results into a window.");
   bool drawBlack = opt.Boolean("db",false,"Draw results into a black background.");

@@ -20,6 +20,21 @@
 
 namespace RavlImageN {
 
+  //: Construct from an IntT image.
+  // Negative values will be set to 0.
+  
+  SegmentationBodyC::SegmentationBodyC(const ImageC<IntT> &nsegmap) 
+    : segmap(nsegmap.Frame()),
+      labels(0)
+  {
+    for(Array2dIter2C<UIntT,IntT> it(segmap,nsegmap);it;it++) {
+      it.Data1() = it.Data2() >= 0 ? it.Data2() : 0;
+      if(it.Data1() > labels)
+	labels = it.Data1();
+    }
+    labels++;
+  }
+  
   //: Generate a table of region adjacencies.
   
   SArray1dC<HSetC<UIntT> > SegmentationBodyC::Adjacency(bool biDir) {

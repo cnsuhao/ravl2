@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef _CHROMA_THRESHOLD_HH_
-#define _CHROMA_THRESHOLD_HH_
+#ifndef RAVLIMAGE_CHROMA_THRESHOLD_HH_
+#define RAVLIMAGE_CHROMA_THRESHOLD_HH_
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! author="Joel Mitchelson"

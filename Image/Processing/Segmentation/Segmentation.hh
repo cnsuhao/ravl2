@@ -44,6 +44,10 @@ namespace RavlImageN {
     {}
     //: Constructor.
     
+    SegmentationBodyC(const ImageC<IntT> &nsegmap);
+    //: Construct from an IntT image.
+    // Negative values will be labeled as region 0.
+    
     SArray1dC<HSetC<UIntT> > Adjacency(bool biDir = false);
     //: Generate a table of region adjacencies.
     // For each region, a set of adjacent regions is 
@@ -135,7 +139,12 @@ namespace RavlImageN {
       : RCHandleC<SegmentationBodyC>(*new SegmentationBodyC(tup.Data1(),tup.Data2()))
     {}
     //: Constructor.
-
+    
+    SegmentationC(const ImageC<IntT> &nsegmap)
+      : RCHandleC<SegmentationBodyC>(*new SegmentationBodyC(nsegmap))
+    {}      
+    //: Construct from an IntT image.
+    // Negative values will be labeled as region 0.
     
   protected:
     SegmentationC(SegmentationBodyC &bod)

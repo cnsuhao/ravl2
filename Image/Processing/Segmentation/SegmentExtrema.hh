@@ -79,7 +79,8 @@ namespace RavlImageN {
   class SegmentExtremaBaseC {
   public:
     SegmentExtremaBaseC(IntT nMinSize,RealT nMinMargin,IntT nlimitMaxValue = 255)
-      : minSize(nMinSize),
+      : labelAlloc(1),
+	minSize(nMinSize),
 	minMargin(nMinMargin),
 	limitMaxValue(nlimitMaxValue)
     {}
@@ -163,10 +164,12 @@ namespace RavlImageN {
     : public SegmentExtremaBaseC
   {
   public:
-    SegmentExtremaC(IntT nMinSize,RealT nMinMargin,IntT nlimitMaxValue = 255)
-      : SegmentExtremaBaseC(nMinSize,nMinMargin,nlimitMaxValue)
+    SegmentExtremaC(IntT minRegionSize,RealT minMargin = 10,IntT nlimitMaxPixelValue = 255)
+      : SegmentExtremaBaseC(minRegionSize,minMargin,nlimitMaxPixelValue)
     {}
     //: Constructor.
+    //!param:minRegionSize - Minimum region size to detect.
+    //!param:minMargin - Threshold for region stability.
     
     DListC<BoundaryC> Apply(const ImageC<PixelT> &img) {
       SortPixels(img);
@@ -256,6 +259,8 @@ namespace RavlImageN {
     FloodRegionC<PixelT> flood(img);
     
     DListC<BoundaryC> bounds;
+    if(labelAlloc == 0)
+      return bounds;
     for(SArray1dIterC<ExtremaRegionC> it(regionMap,labelAlloc-1);it;it++) {
       if(it->nThresh > 0)
 	bounds += GrowRegionBoundry(*it,flood);
@@ -286,6 +291,8 @@ namespace RavlImageN {
     FloodRegionC<PixelT> flood(img);
     
     DListC<ImageC<IntT> > masks;
+    if(labelAlloc == 0)
+      return masks;
     for(SArray1dIterC<ExtremaRegionC> it(regionMap,labelAlloc-1);it;it++) {
       if(it->nThresh > 0)
         masks += GrowRegionMask(*it,flood);
@@ -304,7 +311,7 @@ namespace RavlImageN {
     //cerr << " Thresholds=" << region.nThresh << "\n";
     for(int i = 0;i < region.nThresh;i++) {
       ImageC<IntT> mask;
-      if(flood.GrowRegion(region.minat,region.thresh[i].thresh,mask))
+      if(flood.GrowRegion(region.minat,region.thresh[i].thresh,mask,1))
         ret.InsLast(mask);
     }
     return ret;
