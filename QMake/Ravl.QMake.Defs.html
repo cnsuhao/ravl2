@@ -181,10 +181,12 @@ variables are provided:
 </UL>
 
 <LI><DT><A NAME="REQUIRES"></A><B>REQUIRES</B></DT>
-<DD>A list of features required to compile the model. For example:
+<DD>A space seperated list of features required to compile the module. For example:
  <PRE>REQUIRES = libGTK</PRE> means that this directory and its subdirectories
 can only be compiled if resource libGTK is available. A list of available resources
-is generated in the config.local.$(ARC) file and places in the RESOURCES variable.
+is generated in the config.local.$(ARC) file and placed in the RESOURCES variable. <br>
+Examples of possible values include: libAudioFile,libDV,libavc1394,libCurl,
+libClipStationPro,libDMedia,devVideo4Linux.
 </DD>
 </UL>
 
