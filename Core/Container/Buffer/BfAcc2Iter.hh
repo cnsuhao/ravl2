@@ -186,6 +186,14 @@ namespace RavlN {
     }
     //: Goto next element.
     
+    void operator+=(UIntT n) {
+      cit.Next(n);
+      if(!cit.IsElm())
+	for (UIntT r(0); r<n; ++r) CNextRow();      
+    }
+    //: Goto next element when subsampling by a factor of n.
+    //  That is, when used to iterate through a 2D array, it will subsample rows and columns by a factor of n
+    
     DataT &operator*() 
     { return *cit; }
     //: Access data of current element
