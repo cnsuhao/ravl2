@@ -73,6 +73,7 @@ namespace RavlN {
     
     virtual bool IsAsync() const;
     //: Does port work asynchronously ?
+    // Can more than one thread read from this port safely ?
     
     virtual bool Save(ostream &out) const;
     //: Save to ostream.
@@ -367,7 +368,8 @@ namespace RavlN {
     
     inline bool IsAsync() const 
     { return Body().IsAsync(); }
-    //: Does port work asynchronously ??
+    //: Does port work asynchronously ?
+    // Can more than one thread read from this port safely ?
     
     inline DPPortC ConnectedTo() const
     { return Body().ConnectedTo(); }
