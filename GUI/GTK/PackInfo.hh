@@ -30,6 +30,9 @@ namespace RavlGUIN {
     
     PackInfoBodyC(const WidgetC &widge,bool nexpand = true,bool nfill = true,IntT npadding = 0);
     //: Constructor.
+
+    ~PackInfoBodyC();
+    //: Destructor.
     
     bool &Expand()
       { return expand; }

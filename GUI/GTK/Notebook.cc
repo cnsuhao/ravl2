@@ -160,6 +160,5 @@ namespace RavlGUIN {
   //: Default constructor
   
   NotebookC::NotebookC()
-    : ContainerWidgetC(*new NotebookBodyC())
   {}
 }

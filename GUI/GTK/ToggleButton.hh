@@ -80,7 +80,12 @@ namespace RavlGUIN {
     : public ButtonC
   {
   public:
-    ToggleButtonC(const char *label = 0,bool nInitState = false);
+    ToggleButtonC()
+    {}
+    //: Default constructor.
+    // Creates an invalud handle.
+    
+    ToggleButtonC(const char *label,bool nInitState = false);
     //: Create a button.
     
     ToggleButtonC(const PixmapC &pixm,const char *label = 0)
@@ -190,7 +195,7 @@ namespace RavlGUIN {
   //: Construct a toggle button.
   
   template<class ObjT>
-  ToggleButtonC ToggleButton(const char *label,bool initState,const ObjT &obj,void (ObjT::*func)(bool))
+  ToggleButtonC ToggleButton(const char *label,bool initState,const ObjT &obj,bool (ObjT::*func)(bool))
   { 
     ToggleButtonC ret = ToggleButtonC(label,initState);
     Connect(ret.SigChanged(),obj,func);
@@ -202,7 +207,7 @@ namespace RavlGUIN {
   { return CheckButtonC(label,initState); }
   
   template<class ObjT>
-  ToggleButtonC CheckButton(const char *label,bool initState,const ObjT &obj,void (ObjT::*func)(bool &))
+  ToggleButtonC CheckButton(const char *label,bool initState,const ObjT &obj,bool (ObjT::*func)(bool &))
   { 
     CheckButtonC ret = CheckButtonC(label,initState);
     Connect(ret.SigChanged(),obj,func);
@@ -210,7 +215,7 @@ namespace RavlGUIN {
   }
 
   template<class ObjT>
-  ToggleButtonC ToggleButton(const char *label,const char *tooltip,bool initState,const ObjT &obj,void (ObjT::*func)(bool))
+  ToggleButtonC ToggleButton(const char *label,const char *tooltip,bool initState,const ObjT &obj,bool (ObjT::*func)(bool))
   { 
     ToggleButtonC ret = ToggleButtonC(label,initState);
     ret.SetToolTip(tooltip);
@@ -219,7 +224,7 @@ namespace RavlGUIN {
   }
   
   template<class ObjT>
-  ToggleButtonC CheckButton(const char *label,const char *tooltip,bool initState,const ObjT &obj,void (ObjT::*func)(bool &))
+  ToggleButtonC CheckButton(const char *label,const char *tooltip,bool initState,const ObjT &obj,bool (ObjT::*func)(bool &))
   { 
     CheckButtonC ret = CheckButtonC(label,initState);
     ret.SetToolTip(tooltip);
@@ -230,7 +235,7 @@ namespace RavlGUIN {
   ///// Refrence //////////////////////////
 
   template<class ObjT>
-  ToggleButtonC ToggleButtonR(const char *label,bool initState,ObjT &obj,void (ObjT::*func)(bool &))
+  ToggleButtonC ToggleButtonR(const char *label,bool initState,ObjT &obj,bool (ObjT::*func)(bool &))
   { 
     ToggleButtonC ret = ToggleButtonC(label,initState);
     ConnectRef(ret.SigChanged(),obj,func);
@@ -238,7 +243,7 @@ namespace RavlGUIN {
   }
   
   template<class ObjT,class DataT>
-  ToggleButtonC ToggleButtonR(const char *label,bool initState,ObjT &obj,void (ObjT::*func)(bool &,DataT &dat),const DataT &dat)
+  ToggleButtonC ToggleButtonR(const char *label,bool initState,ObjT &obj,bool (ObjT::*func)(bool &,DataT &dat),const DataT &dat)
   { 
     ToggleButtonC ret = ToggleButtonC(label,initState);
     ConnectRef(ret.SigChanged(),obj,func,initState,dat);
@@ -246,7 +251,7 @@ namespace RavlGUIN {
   }
   
   template<class ObjT>
-  ToggleButtonC CheckButtonR(const char *label,bool initState,ObjT &obj,void (ObjT::*func)(bool &))
+  ToggleButtonC CheckButtonR(const char *label,bool initState,ObjT &obj,bool (ObjT::*func)(bool &))
   { 
     CheckButtonC ret = CheckButtonC(label,initState);
     ConnectRef(ret.SigChanged(),obj,func);
@@ -254,7 +259,7 @@ namespace RavlGUIN {
   }
 
   template<class ObjT,class DataT>
-  ToggleButtonC CheckButtonR(const char *label,bool initState,ObjT &obj,void (ObjT::*func)(bool &,DataT &dat),const DataT &dat)
+  ToggleButtonC CheckButtonR(const char *label,bool initState,ObjT &obj,bool (ObjT::*func)(bool &,DataT &dat),const DataT &dat)
   { 
     ToggleButtonC ret = CheckButtonC(label,initState);
     ConnectRef(ret.SigChanged(),obj,func,initState,dat);
@@ -262,7 +267,7 @@ namespace RavlGUIN {
   }
 
   template<class ObjT>
-  ToggleButtonC ToggleButtonR(const char *label,const char *tooltip,bool initState,ObjT &obj,void (ObjT::*func)(bool))
+  ToggleButtonC ToggleButtonR(const char *label,const char *tooltip,bool initState,ObjT &obj,bool (ObjT::*func)(bool))
   { 
     ToggleButtonC ret = ToggleButtonC(label,initState);
     ret.SetToolTip(tooltip);
@@ -271,7 +276,7 @@ namespace RavlGUIN {
   }
   
   template<class ObjT>
-  ToggleButtonC CheckButtonR(const char *label,const char *tooltip,bool initState,ObjT &obj,void (ObjT::*func)(bool &))
+  ToggleButtonC CheckButtonR(const char *label,const char *tooltip,bool initState,ObjT &obj,bool (ObjT::*func)(bool &))
   { 
     CheckButtonC ret = CheckButtonC(label,initState);
     ret.SetToolTip(tooltip);

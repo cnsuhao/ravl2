@@ -36,10 +36,9 @@ int main(int nargs,char *args[])
   WindowC win(100,100,"Hello");
   
   NotebookC nb(GTK_POS_TOP);
-  nb.Add(
-	    VBox(Button("A Button 1",&buttonA,1) + Button("A Button 3",&buttonA,3)) + 
-	    VBox(Button("A Button 2",&buttonB,2) + Button("A Button 4",&buttonB,4))
-	    );
+  nb.Add(VBox(Button("A Button 1",&buttonA,1) + Button("A Button 3",&buttonA,3)) + 
+	 VBox(Button("A Button 2",&buttonB,2) + Button("A Button 4",&buttonB,4))
+	 );
   win.Add(nb);
   win.Show();
   

@@ -10,6 +10,13 @@
 
 #include "Ravl/GUI/PackInfo.hh"
 
+#define DODEBUG 0
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
+
 namespace RavlGUIN {
 
   //: Default constructor.
@@ -18,7 +25,7 @@ namespace RavlGUIN {
       fill(true),
       padding(0)
   {
-    //cerr << "PackInfoBodyC::PackInfoBodyC(), Called \n";
+    ONDEBUG(cerr << "PackInfoBodyC::PackInfoBodyC(), Called \n");
   }
     
   //: Constructor.
@@ -28,7 +35,13 @@ namespace RavlGUIN {
       fill(nfill),
       padding(npadding)
   {
-    //cerr << "PackInfoBodyC::PackInfoBodyC(), Called " << expand <<" "<< fill <<" "<< padding <<"\n";
+    ONDEBUG(cerr << "PackInfoBodyC::PackInfoBodyC(), Called " << expand <<" "<< fill <<" "<< padding <<"\n");
+  }
+  
+  //: Destructor.
+
+  PackInfoBodyC::~PackInfoBodyC() {
+    ONDEBUG(cerr << "PackInfoBodyC::~PackInfoBodyC(), Called \n");
   }
 
   //: Create the widget.

@@ -15,23 +15,32 @@
 
 using namespace RavlGUIN;
 
+bool GUISelectSalvo(CListEventC &cle) {
+  cerr << "GUISelectSalvo(), Called \n";
+  return true;
+}
+
+bool GUIUnselectSalvo(CListEventC &cle) {
+  cerr << "GUIUnselectSalvo(), Called \n";
+  return true;
+}
+
 int main(int nargs,char *args[]) 
 {
   Manager.Init(nargs,args);
   
   WindowC win(100,100,"Hello");
-  
-  DListC<StringC> strLst;
-  strLst.InsFirst("Hello1");
-  strLst.InsFirst("Hello2");
-  strLst.InsFirst("Hello3");
-  strLst.InsFirst("A longer message");
-#if 0
-  CListC aList(strLst);
-#else  
+    
   const char *titles[] = {"one","two","three",0};
   CListC aList(titles);
-#endif
+  
+  Connect(aList.Signal("select_row"),&GUISelectSalvo);
+  Connect(aList.Signal("unselect_row"),&GUIUnselectSalvo);
+
+  win.Add(aList);
+  win.Show();
+  Manager.Execute();
+  
   //aList.Add(StringC("Hi!!!"));
   SArray1dC<StringC> lineInfo(3);
   lineInfo[0] = "x";
@@ -39,12 +48,11 @@ int main(int nargs,char *args[])
   lineInfo[2] = "z";
   int val = 0;
   aList.GUIAppendLine(val,lineInfo);
-    
-  win.Add(aList);
+  val = 1;
+  aList.GUIAppendLine(val,lineInfo);
   
-  win.Show();
   
   //aList.Add(StringC("Hi2"));
-  Manager.Start();
+  Manager.Wait();
   
 }

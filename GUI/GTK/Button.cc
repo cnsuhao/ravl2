@@ -11,6 +11,7 @@
 
 #include "Ravl/GUI/Button.hh"
 #include "Ravl/GUI/Window.hh"
+#include "Ravl/GUI/Manager.hh"
 #include <iostream.h>
 #include <gtk/gtk.h>
 
@@ -44,6 +45,25 @@ namespace RavlGUIN {
       return gtk_button_new ();
     return gtk_button_new_with_label (aLab);
   }
+
+  //: Set toggle label.
+  // GUI thread only.
+  
+  bool ButtonBodyC::GUISetLabel(StringC &text) {
+    label = text;
+    GtkWidget *tb = gtk_label_new(text.chars());
+    if(GTK_BIN(widget)->child != 0)
+      gtk_container_remove(GTK_CONTAINER(widget),GTK_BIN(widget)->child);
+    gtk_container_add(GTK_CONTAINER(widget),tb);
+    return true;
+  }
+  
+  //: Set toggle label.
+  
+  void ButtonBodyC::SetLabel(StringC &text) {
+    Manager.Queue(Trigger(ButtonC(*this),&ButtonC::GUISetLabel,text));
+  }
+
   
   bool  ButtonBodyC::Create() {
     if(widget != 0)

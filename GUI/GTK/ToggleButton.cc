@@ -121,7 +121,7 @@ namespace RavlGUIN {
   void ToggleButtonBodyC::SetToggle(bool &val) {
     Manager.Queue(Trigger(ToggleButtonC(*this),&ToggleButtonC::GUISetToggle,val));
   }
-
+  
   //: Create a button.
   
   ToggleButtonC::ToggleButtonC(const char *nlabel,bool nInitState)

@@ -43,6 +43,13 @@ namespace RavlGUIN
     virtual bool Create();
     //: Create the widget.
     
+    bool GUISetLabel(StringC &text);
+    //: Set toggle label.
+    // GUI thread only.
+    
+    void SetLabel(StringC &text);
+    //: Set toggle label.
+    
   protected:
     virtual GtkWidget *BuildWidget(const char *lab = 0);
     //: Create the actual widget.
@@ -62,7 +69,12 @@ namespace RavlGUIN
     : public WidgetC
   {
   public:
-    ButtonC(const char *label = 0,const char *tooltip = 0);
+    ButtonC()
+    {}
+    //: Default constructor.
+    // Creates an invalid handle.
+    
+    ButtonC(const char *label,const char *tooltip = 0);
     //: Create a button.
     
     ButtonC(const PixmapC &pixm,const char *label = 0)
@@ -90,6 +102,15 @@ namespace RavlGUIN
     Signal0C SigClicked() 
       { return Body().Signal("clicked"); }
     //: Short cut clicked signal.
+
+    bool GUISetLabel(StringC &text)
+    { return Body().GUISetLabel(text); }
+    //: Set toggle label.
+    // GUI thread only.
+    
+    void SetLabel(StringC &text)
+    { return Body().SetLabel(text); }
+    //: Set toggle label.
     
     friend class ButtonBodyC;
   };

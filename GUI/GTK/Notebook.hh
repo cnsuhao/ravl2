@@ -112,6 +112,7 @@ namespace RavlGUIN
   public:
     NotebookC();
     //: Default constructor
+    // Creates an invalid handle.
     
     NotebookC(GtkPositionType ntabpos,bool nshowtabs = true,bool nshowborder = true)
       : ContainerWidgetC(*new NotebookBodyC(ntabpos,nshowtabs,nshowborder))

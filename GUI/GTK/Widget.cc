@@ -21,7 +21,6 @@
 #include <gtk/gtk.h>
 
 #define DODEBUG 0
-
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -166,7 +165,7 @@ namespace RavlGUIN {
   //: Destructor.
 
   WidgetBodyC::~WidgetBodyC() { 
-    ONDEBUG(cerr << "WidgetBodyC::~WidgetBodyC(), Started  " << ((void *) this) << "\n");
+    ONDEBUG(cerr << "WidgetBodyC::~WidgetBodyC(), Started  " << ((void *) this) << " Name=" << WidgetName() << "\n");
     //RavlAssert(IsValidObject());
     if(widget != 0) {
       if(GTK_IS_WIDGET(widget)) { // Incase it was destroyed within GTK.
@@ -183,7 +182,7 @@ namespace RavlGUIN {
   
   StringC WidgetBodyC::WidgetName() const {
     if(widget == 0)
-      StringC("-Unknown-");
+      return StringC("-Unknown-");
     const char *nm = gtk_widget_get_name(widget);
     if(nm == 0)
       StringC((int) widget); // Use address as dummy.

@@ -13,7 +13,7 @@
 #include "Ravl/SArr1Iter2.hh"
 #include <gtk/gtk.h>
 
-#define DODEBUG 0
+#define DODEBUG 1
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
