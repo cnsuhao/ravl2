@@ -1,6 +1,7 @@
-/*
+
 /*! file="Ravl/GUI/3D/gtkglarea.c" */
- * Copyright (C) 1997-1998 Janne Löf <jlof@mail.student.oulu.fi>
+
+/* Copyright (C) 1997-1998 Janne Löf <jlof@mail.student.oulu.fi>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -16,6 +17,7 @@
  * License along with this library; if not, write to the Free
  * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
+
 /*! rcsid="$Id$" */
 /*! lib=RavlGUI3D */
 /*! license=own */
