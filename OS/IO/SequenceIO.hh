@@ -51,7 +51,7 @@ namespace RavlN
       else
 	op = DPOSPortAttachC<DataT>(anOp);
     }
-    return TRUE;
+    return true;
   }
   //: Open a seekable output stream.
   // - Not all streams are seekable, the seek/tell functions are not garanteed to work
