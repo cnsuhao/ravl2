@@ -215,6 +215,8 @@ int testIndexRange3dIter() {
 }
 
 int testFPNumber() {
+#if !RAVL_COMPILER_GCC2
+  
   // Check conversion an equality.
   FPNumberC<8> p8 = 1;
   if(p8 != 1) return __LINE__;
@@ -291,6 +293,7 @@ int testFPNumber() {
   //cerr <<"p4=" << p4 <<" p6=" << p6 << " p8=" << p8 <<"\n";
   if(p4 != 4) return __LINE__;
   
+#endif  
   return 0;
 }
 
