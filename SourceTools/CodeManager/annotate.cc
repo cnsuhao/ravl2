@@ -16,6 +16,7 @@
 #include "Ravl/Text/TextFile.hh"
 #include "Ravl/Text/ConfigFile.hh"
 #include "Ravl/OS/Filename.hh"
+#include "Ravl/Resource.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -158,7 +159,8 @@ bool SetupHeaders(const StringC &cfgFile) {
 int main(int nargs,char **argv) {
   OptionC option(nargs,argv);
   StringC fn = option.String("i",".","Input filename. ");
-  StringC hdrConfig = option.String("c",PROJECT_OUT "/share/RAVL/CodeManager/fixSource.cfg","File to use a header. ");
+  hdrConfig = option.String("c",hdrConfig,"File to look in for header information. ");
+  StringC hdrConfig = Resource("RAVL/CodeManager","fixSource.cfg");
   dryRun = option.Boolean("d",false,"Do a dry run. Don't change anything. ");
   setFileloc = option.Boolean("fl",setFileloc,"If true the file location will be updated. ");
   bool all = option.Boolean("a",true,"Go into inactive directories as well. ");
