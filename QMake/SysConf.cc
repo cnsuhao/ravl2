@@ -24,9 +24,6 @@ int main(int narg,char **argv) {
       switch(argv[i][1]) 
 	{
 	case 'a':
-#if defined(__alpha__)
-	  val = 1;  /* One Porcessor default */
-#else
 #ifdef _SC_NPROCESSORS_ONLN
 	  val = sysconf(_SC_NPROCESSORS_ONLN);
 #elif defined(_SC_NPROC_ONLN)
@@ -34,8 +31,7 @@ int main(int narg,char **argv) {
 #else
 	  val = 1;  /* One Porcessor default */
 #endif
-#endif
-#if defined(__sol2__)
+#if defined(__sol2__) && 0 
 	  if(val > 2)
 	    val = 2; // Limit processor usage to 2.
 #endif
