@@ -69,7 +69,6 @@ int main(int nargs,char **argv) {
   StringC chartCoordFile = opt.String("co",PROJECT_OUT "/share/RAVL/pixmaps/CalibrationChart.coords","Calibration coordinages in the chart. ");
   StringC matchFilename = opt.String("mf","","File containing matched coordinates.");
   StringC sceneName = opt.String("","image.pgm","Image in which to search for chart. ");
-  
   opt.Check();
   
   // --- Load some data ---
@@ -170,7 +169,7 @@ int main(int nargs,char **argv) {
     os << pass << "\n";
     for(SArray1dIter3C<Point2dC,Point2dC,bool> it(chartPoints,matches,matchesOk);it;it++) {
       if(it.Data3())
-	os << it.Data1() << "," << it.Data2() << "\n";
+	os << it.Data1() << " 0 " << it.Data2() << "\n";
     }
   }
   
