@@ -242,7 +242,12 @@ namespace RavlN {
     }
     
     // Open file to start probe..
+    
     in = IStreamC(filename,true); // Open in binary mode, particularly for windows.
+    if(in.IsEndOfStream() && filename[0] != '@') {
+      cerr << "Can't open '" << filename << "', empty or invalid file.\n";
+      return false;
+    }
     if(!in.good() && filename[0] != '@') {
       cerr << "Can't open file '" << filename << "'\n";
       return false;
