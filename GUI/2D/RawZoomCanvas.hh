@@ -9,6 +9,8 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlGUI2D
+//! docentry="Ravl.GUI.Control"
+//! example=exRawZoomCanvas.cc
 
 #include "Ravl/GUI/RawCanvas.hh"
 #include "Ravl/Vector2d.hh"

@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlGUI2D
 
-#include "Magellan/GUI/RawZoomCanvas.hh"
+#include "Ravl/GUI/RawZoomCanvas.hh"
 #include "Ravl/Image/WarpScale.hh"
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/ByteRGBValue.hh"
@@ -31,14 +31,14 @@ namespace RavlGUIN {
   {}
   
   bool RawZoomCanvasBodyC::Create() {
+                       
     ConnectRef(Signal("configure_event"),*this,&RawZoomCanvasBodyC::EventConfigure);
     return RawCanvasBodyC::Create();
   }
   
   //: Handle configure event.
   
-  bool RawZoomCanvasBodyC::EventConfigure(GdkEvent* &event) {
-    
+  bool RawZoomCanvasBodyC::EventConfigure(GdkEvent* &event) {    
     RawCanvasBodyC::TranslateConfigureEvent(event,widgetSize);
     cerr << "RawZoomCanvasBodyC::EventConfigure(), Called. Size=" << widgetSize << "\n";
     return true;
@@ -100,7 +100,7 @@ namespace RavlGUIN {
   void RawZoomCanvasBodyC::GUIDrawImage(const ImageC<ByteRGBValueC> &image,const Point2dC &offset,bool ignoreImageOrigin) {
     cerr << "RawZoomCanvasBodyC::GUIDrawImage(), Called. \n";
     IndexRange2dC drawRect = World2GUIi(image.Frame());
-    cerr << "DrawRect=" << drawRect << "\n";
+    cerr << "DrawRect=" << drawRect << " widgetSize=" << widgetSize << "\n";
     drawRect.ClipBy(widgetSize);
     if(drawRect.Area() <= 0)
       return ;

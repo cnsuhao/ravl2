@@ -19,5 +19,5 @@ PLIB=RavlGUI2D
 
 USESLIBS=RavlGUI RavlImage
 
-EXAMPLES= exCanvas.cc
+EXAMPLES= exCanvas.cc exRawZoomCanvas.cc
 
