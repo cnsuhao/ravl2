@@ -672,8 +672,7 @@ namespace RavlN {
     if(lastBlk.IMax() == nextFree)
       lastBlk = Array1dC<DataT>(); // Empty last block holder.
     chunks.Last().Data().SetIMax(nextFree); // Must be a faster way to extend the array bounds.
-    nextFree++;
-    return nextFree;
+    return nextFree++;
   }
   
   template<class DataT>
