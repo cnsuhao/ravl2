@@ -9,6 +9,8 @@
 //! rcsid="$Id$"
 
 #include "Ravl/Stream.hh"
+#include "Ravl/BinStream.hh"
+#include "Ravl/StrStream.hh"
 #include "Ravl/SArray1d.hh"
 #include "Ravl/SArray1dIter.hh"
 #include "Ravl/SArray1dIter2.hh"
@@ -19,6 +21,7 @@ using namespace RavlN;
 
 int testBasic();
 int testSort();
+int testIO();
 
 int  main()
 {
@@ -28,6 +31,10 @@ int  main()
     return 1;
   }
   if((ln = testSort()) != 0) {
+    cerr << "Test failed line " << ln << "\n";
+    return 1;
+  }
+  if((ln = testIO()) != 0) {
     cerr << "Test failed line " << ln << "\n";
     return 1;
   }
@@ -145,6 +152,41 @@ int testSort() {
   for(int i = 1;i < (int) arr.Size();i++)
     if(arr[i-1] < arr[i]) return __LINE__;
   
+  return 0;
+}
+
+int testIO() {
+  SArray1dC<RealT> v(4);
+  for(int i = 0;i < 4;i++)
+    v[i] = i;
+  
+  // Test binary IO.
+  {
+    StrOStreamC os;
+    {
+      BinOStreamC bin(os);
+      bin << v;
+    }
+    SArray1dC<RealT> v2;
+    StrIStreamC ifs(os.String());
+    {
+      BinIStreamC bin(ifs);
+      bin >> v2;
+    }
+    if((v - v2).SumOfSqr() > 0.000001)
+      return __LINE__;
+  }
+
+  // Test text IO.
+  {
+    StrOStreamC os;
+    os << v;
+    SArray1dC<RealT> v2;
+    StrIStreamC ifs(os.String());
+    ifs >> v2;
+    if((v - v2).SumOfSqr() > 0.000001)
+      return __LINE__;
+  }
   return 0;
 }
 

@@ -4,7 +4,6 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-// $Id$
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/SArray/testSArray3d.cc"
@@ -15,10 +14,29 @@
 #include "Ravl/SArray3dIter2.hh"
 #include "Ravl/SArray3dIter3.hh"
 #include "Ravl/Stream.hh"
+#include "Ravl/StrStream.hh"
+#include "Ravl/BinStream.hh"
 
 using namespace RavlN;
 
+int testBasic();
+int testIO();
+
 int main() {
+  int ln ;
+  if((ln = testBasic()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  }
+  if((ln = testIO()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  }
+  cerr << "Test passed ok. \n";
+  return 0;
+}
+
+int testBasic() {
   cerr << "Starting test of SArray3d.\n";
   SArray3dC<int> testArr(10,10,10);
   testArr[Index3dC(1,1,1)] = 2;
@@ -55,8 +73,50 @@ int main() {
     it.Data1() = 0;
   for(SArray3dIter3C<int,int,int> it(testArr,testArr,testArr);it;it++)
     it.Data1() = 0;
-  cerr << "Test passed ok. \n";
   return 0; 
+}
+
+int testIO() {
+  cerr << "Starting IO test of SArray3d.\n";
+  SArray3dC<RealT> m(2,3,4);
+  
+  for(int i = 0;i < 2;i++)
+    for(int j = 0;j < 3;j++)
+      for(int k = 0;k < 4;k++)
+	m[i][j][k] = i + j + k;
+  
+  // Check binary io.
+  {
+    StrOStreamC os;
+    {
+      BinOStreamC bin(os);
+      bin << m;
+    }
+    SArray3dC<RealT> m2;
+    {
+      StrIStreamC ifs(os.String());
+      BinIStreamC bin(ifs);
+      bin >> m2; 
+    }
+    if((m - m2).SumOfSqr() > 0.000001)
+      return __LINE__;
+  }
+  
+  // Check text io.
+  {
+    StrOStreamC os;
+    {
+      os << m;
+    }
+    SArray3dC<RealT> m2;
+    {
+      StrIStreamC ifs(os.String());
+      ifs >> m2; 
+    }
+    if((m - m2).SumOfSqr() > 0.000001)
+      return __LINE__;
+  }
+  return 0;
 }
 
 template class SArray3dC<UIntT>;

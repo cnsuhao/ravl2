@@ -121,7 +121,7 @@ namespace RavlN {
     // The operator returns the result as a new array.
     
     SArray1dC<DataT> operator*(const SArray1dC<DataT> & arr) const;
-    //: Mutliplies 2 numerical arrays. 
+    //: Multiplies 2 numerical arrays. 
     // The operator returns the result as a new array.
     
     SArray1dC<DataT> operator/(const SArray1dC<DataT> & arr) const;
@@ -129,7 +129,7 @@ namespace RavlN {
     // The operator returns the result as a new array.
     
     SArray1dC<DataT> operator*(const DataT &number) const;
-    //: Multiplys the array by the 'number'. 
+    //: Multiplies the array by the 'number'. 
     // The operator returns the result as a new array.
     
     SArray1dC<DataT> operator/(const DataT &number) const;

@@ -101,14 +101,14 @@ namespace RavlN {
     // the result as a new array.
     
     SArray2dC<DataT> operator*(const SArray2dC<DataT> & arr) const;
-    // Mutliplies 2 numerical arrays. The operator returns the result as a new array.
+    // Multiplies 2 numerical arrays. The operator returns the result as a new array.
     
     SArray2dC<DataT> operator/(const SArray2dC<DataT> & arr) const;
-    // Devides 2 numerical arrays. The operator returns
+    // Divides 2 numerical arrays. The operator returns
     // the result as a new array.
     
     SArray2dC<DataT> operator*(const DataT &number) const;
-    // Multiplys the array by the 'number'. The operator
+    // Multiplies the array by the 'number'. The operator
     // returns the result as a new array.
     
     SArray2dC<DataT> operator/(const DataT &number) const;
@@ -201,7 +201,7 @@ namespace RavlN {
   
   template <class DataT>
   ostream & operator<<(ostream & s, const SArray2dC<DataT> & arr) {
-    s << "0 " <<  (arr.Size1()-1) << " 0 " << (arr.Size2()-1) << "\n";
+    s  << arr.Size1() << " " << arr.Size2() << "\n";
     s << ((SizeBufferAccess2dC<DataT> &) arr);
     return s;
   }
@@ -209,10 +209,9 @@ namespace RavlN {
   
   template <class DataT>
   istream & operator>>(istream & s, SArray2dC<DataT> & arr) {
-    SizeT size1,size2,x1,x2;
-    s >> x1 >> size1 >> x2 >> size2;
-    RavlAssert(x1 == 0 && x2 == 0);  // Only accept arrays starting at origin.
-    arr = SArray2dC<DataT>(size1+1,size2+1);
+    SizeT size1,size2;
+    s >> size1 >> size2;
+    arr = SArray2dC<DataT>(size1,size2);
     s >> ((SizeBufferAccess2dC<DataT> &) arr);
     return s;
   }
@@ -220,17 +219,15 @@ namespace RavlN {
   
   template<class DataT>
   BinOStreamC &operator<<(BinOStreamC & s, const SArray2dC<DataT> & arr) {
-    SizeT x = 0;
-    s << x << (arr.Size1()-1) << x << (arr.Size2()-1);
+    s << arr.Size1() << arr.Size2();
     s << ((SizeBufferAccess2dC<DataT> &) arr);
     return s;
   }
 
   template<class DataT>
   BinIStreamC &operator>>(BinIStreamC & s, SArray2dC<DataT> & arr) {
-    SizeT size1,size2,x1,x2;
-    s >> size1 >> x1 >> size2 >> x2;
-    RavlAssert(x1 == 0 && x2 == 0); // Only accept arrays starting at origin.
+    SizeT size1,size2;
+    s >> size1 >> size2;
     arr = SArray2dC<DataT>(size1,size2);
     return s >> ((SizeBufferAccess2dC<DataT> &) arr);
   }

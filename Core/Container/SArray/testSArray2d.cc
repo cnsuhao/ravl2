@@ -4,7 +4,6 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-// $Id$
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/SArray/testSArray2d.cc"
@@ -14,10 +13,29 @@
 #include "Ravl/SArray2dIter.hh"
 #include "Ravl/SArray2dIter2.hh"
 #include "Ravl/SArray2dIter3.hh"
+#include "Ravl/StrStream.hh"
+#include "Ravl/BinStream.hh"
 
 using namespace RavlN;
 
+int testBasic();
+int testIO();
+
 int main() {
+  int ln ;
+  if((ln = testBasic()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  }
+  if((ln = testIO()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  }
+  cerr << "Test passed ok. \n";
+  return 0; 
+}
+
+int testBasic() {
   cerr << "Starting test of SArray2d.\n";
   SArray2dC<int> testArr(10,10);
   testArr[Index2dC(1,1)] = 2;
@@ -29,21 +47,21 @@ int main() {
   
   SArray2dC<int> subArr(testArr,5,5);
   for(SArray2dIter2C<int,int> it(subArr,testArr);it;it++)
-    if(it.Data1() != it.Data2()) return 1;
+    if(it.Data1() != it.Data2()) return __LINE__;
   
   Slice1dC<int> slice = testArr.Diagonal();
   int v = 0;
   for(Slice1dIterC<int> its(slice);its;its++,v+=11) {
     if(*its != v) {
       cerr << "Diagonal slice test failed. " << *its << " " << v << "\n";
-      return 1;
+      return __LINE__;
     }
   }
   v = 0;
   for(SArray2dIterC<int> it(testArr);it;it++,v++) {
     if(*it != v) {
       cerr << "Iterator test failed. " << *it << " " << v << "\n";
-      return 1;
+      return __LINE__;
     }
     *it = 0;
   }
@@ -58,14 +76,56 @@ int main() {
   
   
   Index2dC at(0,0);
-  if(testArr[at] != testArr[0][0]) return 1;
+  if(testArr[at] != testArr[0][0]) return __LINE__;
   SArray2dC<int> testMin(1,1);
   testMin.Fill(1);
-  if(testMin[0][0] != 1) return 1;
-  
-  cerr << "Test passed ok. \n";
-  return 0; 
+  if(testMin[0][0] != 1) return __LINE__;
+    
+  return 0;
 }
+
+int testIO() {
+  SArray2dC<RealT> m(2,3);
+  
+  for(int i = 0;i < 2;i++)
+    for(int j = 0;j < 3;j++)
+      m[i][j] = i + j;
+
+  // Test binary IO.
+  {
+    StrOStreamC os;
+    {
+      BinOStreamC bin(os);
+      bin << m;
+    }
+    SArray2dC<RealT> m2;
+    {
+      StrIStreamC ifs(os.String());
+      BinIStreamC bin(ifs);
+      bin >> m2; 
+    }
+    if((m - m2).SumOfSqr() > 0.000001)
+      return __LINE__;
+  }
+  
+  // Test text IO.
+  {
+    StrOStreamC os;
+    {
+      os << m;
+    }
+    SArray2dC<RealT> m2;
+    {
+      StrIStreamC ifs(os.String());
+      ifs >> m2; 
+    }
+    if((m - m2).SumOfSqr() > 0.000001)
+      return __LINE__;
+  }
+  
+  return 0;
+}
+
 
 template class SArray2dC<UIntT>;
 template class SArray2dIterC<UIntT>;
