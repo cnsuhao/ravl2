@@ -199,7 +199,7 @@ namespace RavlN {
 	ONDEBUG(cerr << "  Sent packet. \n");
       }
     } catch(ExceptionC &e) {
-      cerr << "AMMA Exception :'" << e.what() << "'\n";
+      cerr << "RAVL Exception :'" << e.what() << "'\n";
       cerr << "NetEndPointBodyC::RunTransmit(), Exception caught, terminating link. \n";
     } catch(exception &e) {
       cerr << "C++ Exception :'" << e.what() << "'\n";
@@ -243,7 +243,7 @@ namespace RavlN {
 	}
       }
     } catch(ExceptionC &e) {
-      cerr << "AMMA Exception :'" << e.what() << "'\n";
+      cerr << "RAVL Exception :'" << e.what() << "'\n";
       cerr << "NetEndPointBodyC::RunRecieve(), Exception caught, terminating link. \n";
     } catch(exception &e) {
       cerr << "C++ Exception :'" << e.what() << "'\n";
@@ -292,7 +292,7 @@ namespace RavlN {
 	}
       }
     } catch(ExceptionC &e) {
-      cerr << "AMMA Exception :'" << e.what() << "'\n";
+      cerr << "RAVL Exception :'" << e.what() << "'\n";
       cerr << "NetEndPointBodyC::RunDecode(), Exception caught, terminating link. \n";
     } catch(exception &e) {
       cerr << "C++ Exception :'" << e.what() << "'\n";
