@@ -100,7 +100,7 @@ namespace RavlN {
 
   //: Find correlated paramiters.
   
-  SArray1dC<IntT> DesignFuncLSQBodyC::FindCorelatedParameters(const MatrixRUTC &mat,RealT thresh = 1e-6) {
+  SArray1dC<IntT> DesignFuncLSQBodyC::FindCorelatedParameters(const MatrixRUTC &mat,RealT thresh) {
     ONDEBUG(cerr << "DesignFuncLSQBodyC::FindCorelatedParamiters(), Looking for corelations. \n");
     SArray1dC<IntT> ret(mat.Rows());
     ret.Fill(-1);

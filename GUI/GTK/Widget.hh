@@ -210,8 +210,8 @@ namespace RavlGUIN {
     static int gtkDNDContextTime(GtkWidget *widget,GdkDragContext *context,unsigned int time,Signal0C *data);
     static int gtkDNDPosition(GtkWidget *widget,GdkDragContext *context,int x,int y,unsigned int time,Signal0C *data);
     
-    static int gtkDNDDataGet(GtkWidget *widget,GdkDragContext *context,GtkSelectionData *data,unsigned int info,unsigned int time,Signal0C *data);
-    static int gtkDNDDataRecieved(GtkWidget *widget,GdkDragContext *context,int x,int y,GtkSelectionData *data,unsigned int info,unsigned int time,Signal0C *data);
+    static int gtkDNDDataGet(GtkWidget *widget,GdkDragContext *context,GtkSelectionData *sel,unsigned int info,unsigned int time,Signal0C *data);
+    static int gtkDNDDataRecieved(GtkWidget *widget,GdkDragContext *context,int x,int y,GtkSelectionData *sel,unsigned int info,unsigned int time,Signal0C *data);
     
     friend class ManagerC;
     friend class WidgetC;
