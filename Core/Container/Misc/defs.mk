@@ -11,7 +11,8 @@
 PACKAGE=Ravl
 
 HEADERS=Stack.hh StackIt.hh Tuple2.hh Tuple3.hh Tuple4.hh \
- BlkStack.hh BlkStackIter.hh
+ BlkStack.hh BlkStackIter.hh \
+ BinTable.hh BinIter.hh BinList.hh
 
 SOURCES=Stack.cc
 
@@ -21,6 +22,6 @@ LIBDEPS=RavlCMisc.def
 
 USESLIBS=RavlCore
 
-TESTEXES=testStack.cc testBlkStack.cc testQueue.cc
+TESTEXES=testStack.cc testBlkStack.cc testQueue.cc testBinTable.cc
 
 EHT=Ravl.Core.Stacks.eht Ravl.Core.Tuples.eht
