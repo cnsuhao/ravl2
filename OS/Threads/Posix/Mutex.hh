@@ -56,7 +56,8 @@ namespace RavlN
       int rc;
       if((rc = pthread_mutex_trylock(&mutex)) == 0)
 	return true;
-      if(errno != EPERM && errno != EBUSY && errno != EINTR && rc != EBUSY && errno != EAGAIN)
+      if(errno != EPERM && errno != EBUSY && errno != EINTR && 
+	 rc != EBUSY && errno != EAGAIN && rc !=  EDEADLK)
 	Error("Trylock failed for unexpected reason.",errno,rc);
       return false;
     }
