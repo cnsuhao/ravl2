@@ -6,6 +6,14 @@
 # file-header-ends-here
 ifndef LIBPTP2_DEF
 LIBPTP2_DEF = 1
-EXELIB := -L/usr/local/lib -lusb -lptp2 $(EXELIB) 
-INCLUDES += -I/usr/local/include 
+  ifdef LIBPTP2_HOME
+    ifeq ($(LIBPTP2_HOME),/usr)
+      EXELIB := -lusb -lptp2 $(EXELIB) 
+    else
+      EXELIB := -L$(LIBPTP2_HOME)/lib -lusb -lptp2 $(EXELIB) 
+      INCLUDES += -I$(LIBPTP2_HOME)/include 
+    endif
+  else
+    EXELIB := -lusb -lptp2 $(EXELIB) 
+  endif
 endif

@@ -12,7 +12,9 @@ SYSTEMDEF = 1
 ifeq ($(ARC),sgi)
 EXELIB :=  -lm -lfetchop $(EXELIB)
 else
-INCLUDES += -I/opt/GNUdevelop/include 
+ifdef GCC_INCLUDES
+  INCLUDES += -I$(GCC_INCLUDES)
+endif
 EXELIB :=  -lm $(EXELIB)
 endif
 

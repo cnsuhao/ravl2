@@ -10,7 +10,11 @@ FFTW_DEF=1
   ifndef FFTW_HOME
     EXELIB := -lfftw $(EXELIB)
   else 
-    INCLUDES := -I$(FFTW_HOME)/include $(INCLUDES)
-    EXELIB := -L$(FFTW_HOME)/lib -lfftw $(EXELIB)
+    ifeq ($(FFTW_HOME),/usr)
+      EXELIB := -lfftw $(EXELIB)
+    else
+      INCLUDES := -I$(FFTW_HOME)/include $(INCLUDES)
+      EXELIB := -L$(FFTW_HOME)/lib -lfftw $(EXELIB)
+    endif
   endif 
 endif 
