@@ -98,7 +98,7 @@ int testDesignGaussianMixture()
 {
   //: Set a random seed
   //: Different seeds we do a different result
-  RandomSeedDefault(12342121211);
+  RandomSeedDefault(123421211);
 
   //: Load a dataset
   StringC datafile = StringC(PROJECT_OUT) + "/share/RAVL/data/class5.strm";
