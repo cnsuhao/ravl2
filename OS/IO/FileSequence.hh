@@ -112,8 +112,8 @@ namespace RavlN {
     //: Does sequence have holes ?
     // This will only be detected during the playing of a sequence.
     
-    void HasHoles(bool ahole) const
-    { return hasHoles = ahole; }
+    void HasHoles(bool ahole) 
+    { hasHoles = ahole; }
     //: Does sequence have holes ?
     
   protected:
@@ -217,7 +217,7 @@ namespace RavlN {
     //: Does sequence have holes ?
     // This will only be detected during the playing of a sequence.
     
-    void HasHoles(bool ahole) const
+    void HasHoles(bool ahole)
     { Body().HasHoles(ahole); }
     //: Set flag indicating if a sequence has holes.
     
