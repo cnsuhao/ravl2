@@ -52,13 +52,13 @@ namespace RavlN
   
   bool SetCurrentThreadPriority(UIntT priority);
   //: Set the priority of the process
-  // THEAD SAFE.
+  // THREAD SAFE.
   //!param: priority - 0 to 32767, Higher means more runtime will be given to the thread.
   //!return: true if priority change succeeded, false otherwise.
 
   int CurrentThreadPriority(UIntT priority);
   //: Get the priority of the process
-  // THEAD SAFE.
+  // THREAD SAFE.
   //!return: priority - 0 to 32767, Higher means more runtime will be given to the thread.
   
   extern void cancellationHandler(void *data);
@@ -99,25 +99,25 @@ namespace RavlN
     // If your going to use this method you should ensure that the thread
     // is not using reference counting, and has no resource locks at the
     // time this method is called. <br>
-    // THEAD SAFE.
+    // THREAD SAFE.
     
     bool SetPriority(int pri);
     //: Set the priority of the process
     //!param: pri - 0 to 32767, Higher faster.
     //!return: true if priority change succeeded, false otherwise.
-    // THEAD SAFE.
+    // THREAD SAFE.
     
     int Priority() const;
     //: Get the priority of the thread
     //!return: 0 to 32767, Higher means more runtime will be given to the thread.
-    // THEAD SAFE.
+    // THREAD SAFE.
     
     inline UIntT ID() const
     { return ((UIntT) threadID); }
     //: Get a unique ID for this thread.
     // NB. An id may no be assigned to the thread until
     // after Execute() has been called.
-    // THEAD SAFE.
+    // THREAD SAFE.
     
   protected:
     virtual int Start(); 
@@ -209,14 +209,14 @@ namespace RavlN
     // If your going to use this method you should ensure that the thread
     // is not using reference counting, and has no resource locks at the
     // time this method is called. <br>
-    // THEAD SAFE.
+    // THREAD SAFE.
     
     bool SetPriority(int pri)
     { return Body().SetPriority(pri); }
     //: Set the priority of the process
     //!param: pri - 0 to 32767, Higher means more runtime will be given to the thread.
     //!return: true if priority change succeeded.
-    // THEAD SAFE.
+    // THREAD SAFE.
     
     int Priority() const
     { return Body().Priority(); }
