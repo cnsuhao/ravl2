@@ -72,15 +72,15 @@ IntT testBase() {
   index[t1] = 0; 
   index[t1] = 1; 
   index[t3] = 3; 
-  cerr << "Index=" << index << " " << index[t1] << "\n";
+  //  cerr << "Index=" << index << " " << index[t1] << "\n";
   if(index[l1] != 0) return __LINE__;
   if(index[t1] != 1) return __LINE__;
   if(index[t2] != 2) return __LINE__;
   if(index[t3] != 3) return __LINE__;
   if(index.Size() != 4) return  __LINE__;
-  //  cerr << "Dump:\n";
+  //cerr << "Dump:\n";
   //index.Dump(cerr);
-
+  
   if(!index.Del(t2)) return __LINE__;
   if(index[l1] != 0) return __LINE__;
   if(index[t1] != 1) return __LINE__;
@@ -88,7 +88,14 @@ IntT testBase() {
   UIntT v;
   if(index.Lookup(t2,v)) return __LINE__;
   if(index.Size() != 3) return  __LINE__;
-  index.Dump(cout);
+  //cerr << "Dump:\n";
+  //index.Dump(cerr);
+  
+  if(!index.Del(l1)) return __LINE__;
+  if(!index.Del(t1)) return __LINE__;
+  if(!index.Del(t3)) return __LINE__;
+  if(index.Del(l1)) return __LINE__;
+  if(index.Del(t3)) return __LINE__;
   return 0;
 }
 

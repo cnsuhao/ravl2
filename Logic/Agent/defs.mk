@@ -19,4 +19,4 @@ USESLIBS=RavlLogic RavlDPMT RavlLogicNLP
 
 TESTEXES= testActiveBlackboard.cc
 
-EXAMPLE=exAgent.cc
+EXAMPLES=exAgent.cc

@@ -56,17 +56,17 @@ namespace RavlLogicN {
     virtual bool Save(BinOStreamC &out) const;
     //: Save to binary stream 'out'.
     
-    virtual bool IsVariable() const
-    { return false; }
+    virtual bool IsVariable() const;
     //: Is this a variable ?
 
-    virtual bool IsGrounded() const
-    { return true; }
+    virtual bool IsGrounded() const;
     //: Is this a simple expression with no variables ?
     
-    virtual bool IsTuple() const
-    { return false; }
+    virtual bool IsTuple() const;
     //: Is this literal a tuple ?
+    
+    virtual bool IsCondition() const;
+    //: Test if this is a condition.
     
     virtual bool Unify(const LiteralC &oth,BindSetC &bs) const;
     //: Unify with another variable.
@@ -176,6 +176,10 @@ namespace RavlLogicN {
     bool IsTuple() const
     { return Body().IsTuple(); }
     //: Is this literal a tuple ?
+    
+    bool IsCondition() const
+    { return Body().IsCondition(); }
+    //: Test if this is a condition.
     
     bool Unify(const LiteralC &val,BindSetC &bs) const
     { return Body().Unify(val,bs); }

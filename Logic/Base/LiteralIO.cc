@@ -13,6 +13,9 @@
 #include "Ravl/Logic/LiteralIO.hh"
 #include "Ravl/Stack.hh"
 #include "Ravl/Logic/Tuple.hh"
+#include "Ravl/Logic/And.hh"
+#include "Ravl/Logic/Or.hh"
+#include "Ravl/Logic/Not.hh"
 #include "Ravl/Logic/NamedVar.hh"
 #include "Ravl/Logic/NamedLiteral.hh"
 #include "Ravl/DList.hh"
@@ -50,8 +53,9 @@ namespace RavlLogicN {
   }
   
   bool LoadState(IStreamC &is,StateC &state,ContextC &loadContext) {
-    StackC<DListC<LiteralC> > context;
+    StackC<Tuple2C<DListC<LiteralC>,bool> > context;
     int ln = 0;
+    bool invertNext = false;
     try {
       while(!is.IsEndOfStream()) { // Any more characters.
 	char let = is.GetChar();
@@ -59,21 +63,45 @@ namespace RavlLogicN {
 	switch(let) {
 	case '(': { // Open tuple
 	  DListC<LiteralC> lits;
-	  context.Push(lits);	    
+	  context.Push(Tuple2C<DListC<LiteralC>,bool>(lits,invertNext));
+	  invertNext = false;
 	} break;
 	case ')': { // Close tuple
 	  if(context.IsEmpty()) {
 	    cerr << "ERROR: Parse error at line " << ln << ", unmatched ')' found. \n";
 	    throw ExceptionParseErrorC("Unexpected ')' found. ");
 	  }
-	  int n = context.Top().Size();
-	  TupleC tup(n);
+	  if(invertNext) {
+	    cerr << "ERROR: Parse error at line " << ln << ", Unexpect '!' found. \n";
+	    throw ExceptionParseErrorC("Unexpected '!' found. ");
+	  }
+	  int n = context.Top().Data1().Size();
+	  if(n == 0) {
+	    state.Tell(Literal());
+	    break;
+	  }
+	  TupleC tup;
+	  LiteralC first = context.Top().Data1().First();
+	  if(first == literalAnd)
+	    tup = AndC(n);
+	  else if(first == literalOr)
+	    tup = OrC(n);
+	  else if(first == literalNot) {
+	    if(n != 2) {
+	      cerr << "ERROR: Parse error at line " << ln << ", Not must have exactly 1 argument. \n";
+	      throw ExceptionParseErrorC("Not must have exactly 1 argument. ");
+	    }
+	    tup = NotC(n);
+	  } else
+	    tup = TupleC(n);
 	  int i = 0;
-	  for(DLIterC<LiteralC> it(context.Top());it;it++,i++)
+	  for(DLIterC<LiteralC> it(context.Top().Data1());it;it++,i++)
 	    tup.SetArg(i,*it);
+	  if(context.Top().Data2())
+	    tup = NotC(true,tup);
 	  context.DelTop();
 	  if(!context.IsEmpty())
-	    context.Top().InsLast(tup);
+	    context.Top().Data1().InsLast(tup);
 	  else
 	    state.Tell(tup);
 	} break;
@@ -89,9 +117,11 @@ namespace RavlLogicN {
 	case '#':
 	case '$':
 	  break; // Ignore these characters silently for now.
+	case '!':
+	  invertNext = true;
+	  break;
 	case '@':
 	case '~':
-	case '!':
 	case '¬':
 	case '{':
 	case '}':
@@ -122,8 +152,12 @@ namespace RavlLogicN {
 	  LiteralC lit;
 	  if(!loadContext.Lookup(val,lit))
 	    lit = NamedLiteralC(val);
+	  if(invertNext) {
+	    lit = NotC(true,lit);
+	    invertNext = false;
+	  }
 	  if(!context.IsEmpty())
-	    context.Top().InsLast(lit);
+	    context.Top().Data1().InsLast(lit);
 	  else
 	    state.Tell(lit);
 	} break;
@@ -144,8 +178,12 @@ namespace RavlLogicN {
 	    if(var && !lit.IsVariable())
 	      throw ExceptionParseErrorC("Conflicting literal variable/literal types.");
 	  }
+	  if(invertNext) {
+	    lit = NotC(true,lit);
+	    invertNext = false;
+	  }
 	  if(!context.IsEmpty())
-	    context.Top().InsLast(lit);
+	    context.Top().Data1().InsLast(lit);
 	  else
 	    state.Tell(lit);
 	  } break;

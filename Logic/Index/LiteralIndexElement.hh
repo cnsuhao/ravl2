@@ -55,6 +55,10 @@ namespace RavlLogicN
     // in the tree is assigned to 'next'.  var is the variable to witch
     // the value of the iterator should be bound.
     
+    virtual UIntT Size() const;
+    //: Return the size of the index.
+    // The number of branches from this node is returned.
+    
     virtual void Dump(ostream &out,int level = 0) const;
     //: Dump index in human readable form.
     // For debugging only.
@@ -125,6 +129,11 @@ namespace RavlLogicN
     bool Insert(const TupleC &key,LiteralIndexElementC &next) 
     { return Body().Insert(key,next); }
     //: Insert/Replace element into the node.
+    
+    UIntT Size() const
+    { return Body().Size(); }
+    //: Return the size of the index.
+    // The number of branches from this node is returned.
     
     void Dump(ostream &out,int level = 0) const
     { Body().Dump(out,level); }

@@ -54,6 +54,10 @@ namespace RavlLogicN {
     //: Get name for element.
     // usefull for debuging.
     
+    virtual UIntT Size() const;
+    //: Return the size of the index.
+    // The number of branches from this node is returned.
+    
     virtual void Dump(ostream &out,int level = 0) const;
     //: Dump index in human readable form.
     // For debugging only.

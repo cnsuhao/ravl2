@@ -11,11 +11,12 @@
 
 #include "Ravl/Logic/LiteralIndexBase.hh"
 #include "Ravl/Logic/LiteralIndexNode.hh"
-#include "Ravl/Logic/LiteralIndexBase.hh"
+#include "Ravl/Logic/LiteralIndexFilterBase.hh"
 #include "Ravl/Logic/Tuple.hh"
 #include "Ravl/Logic/Unify.hh"
 #include "Ravl/PointerManager.hh"
 #include "Ravl/BinStream.hh"
+#include "Ravl/Stack.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -90,22 +91,13 @@ namespace RavlLogicN {
   LiteralIndexLeafC LiteralIndexBaseBodyC::Lookup(const LiteralC &key) {
     LiteralIndexLeafC ret;
     map.Lookup(key,ret);
-    return ret; // If the lookup didn't work 'ret' will be invalid.
-#if 0
-    // Didn't work, so search through tree.   
-    LiteralIndexElementC place = root;
-    while(place.IsValid()) {
-      if(place.Lookup(key,place)) 
-	return LiteralIndexLeafC(place);
-    }
     return ret;
-#endif
   }
   
   //: Generate a new leaf.
   
   LiteralIndexLeafC LiteralIndexBaseBodyC::NewLeaf(const LiteralC &key) {
-    RavlAssertMsg(0,"ERROR: Default routine not overriden. ");
+    //RavlAssertMsg(0,"ERROR: Default routine not overriden. ");
     return LiteralIndexLeafC(key);
   }
   
@@ -211,26 +203,43 @@ namespace RavlLogicN {
   
   bool LiteralIndexBaseBodyC::Del(const LiteralC &key) {
     LiteralIndexLeafC elem;
+    ONDEBUG(cerr << "LiteralIndexBaseBodyC::Del(), Key '" << key.Name() << "' \n");
     if(!map.Lookup(key,elem)) {
-      ONDEBUG(cerr << "LiteralIndexBaseBodyC::Insert(), Key '" << key << "' is already in index. \n");
+      ONDEBUG(cerr << "LiteralIndexBaseBodyC::Del(), Key '" << key.Name() << "' is not in index \n");
       return false;
     }
     map.Del(key);
     TupleC tkey(key);
-    if(!tkey.IsValid())
+    if(!tkey.IsValid()) {
+      ONDEBUG(cerr << "LiteralIndexBaseBodyC::Del(), Key '" << key.Name() << "' not a tuple \n");
       return true;// Not a tuple. Easy!
+    }
     
-    LiteralIndexElementC last,place,next;
+    StackC<LiteralIndexElementC> history;
+    LiteralIndexElementC place,next;
     place = root;
     RavlAssert(place.IsValid());
+    // Go through tree looking for leaf node.
     while(!place.Lookup(tkey,next)) {
-      last = place;
+      if(!next.IsValid())
+	break;
+      ONDEBUG(cerr << "  Push " << tkey.Name() << " from " << place.Hash() << " Size=" << place.Size() << "\n");
+      history.Push(place);
       place = next;
+      next.Invalidate();
     }
-    if(last.IsValid())
-      return last.Del(tkey);
-    // root node was a leaf!
-    root.Invalidate();
+    // Go back through stack tidying up
+    while(!history.IsEmpty()) {
+      next = history.GetFirst();
+      ONDEBUG(cerr << "  Deleting " << tkey.Name() << " from " << next.Hash() << " Size=" << place.Size() << "\n");
+      next.Del(tkey); // Delete sub node from tree
+      if(next.Size() > 0) // Does this node need deleting ?
+	break;
+    }
+    if(root.Size() == 0) {
+      ONDEBUG(cerr << "  Deleting root.\n");
+      root.Invalidate(); // root node not needed
+    }
     return true;
   }
 

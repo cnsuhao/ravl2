@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlLogicAgent
+//! file="Ravl/Logic/Agent/Agent.cc"
 
 #include "Ravl/Logic/Agent.hh"
 

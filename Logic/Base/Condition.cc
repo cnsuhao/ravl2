@@ -28,6 +28,11 @@ namespace RavlLogicN {
     : TupleBodyC(strm)
   {}
   
+  //: Test if this is a condition.
+  
+  bool ConditionBodyC::IsCondition() const
+  { return true; }
+  
   //: Save to binary stream 'out'.
   
   bool ConditionBodyC::Save(ostream &out) const {

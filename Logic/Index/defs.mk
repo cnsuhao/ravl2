@@ -13,11 +13,12 @@ HEADERS=LiteralIndexBase.hh LiteralIndexElement.hh LiteralIndexLeaf.hh \
  LiteralIndexNode.hh LiteralIndex.hh LiteralIndexIter.hh \
  LiteralIndexFilterBase.hh LiteralIndexFilter.hh LiteralIndexLeafIter.hh \
  BLiteralIndex.hh BMinTermIndex.hh BMinTermIndexIter.hh BMinTermListIndex.hh \
- LiteralIndexLeafVarIter.hh
+ LiteralIndexLeafVarIter.hh StateIndexed.hh LiteralIndexFilterRaw.hh
 
 SOURCES=LiteralIndexBase.cc LiteralIndexElement.cc LiteralIndexLeaf.cc \
  LiteralIndexNode.cc LiteralIndexIter.cc LiteralIndexFilterBase.cc \
- LiteralIndexLeafIter.cc LiteralIndexLeafVarIter.cc
+ LiteralIndexLeafIter.cc LiteralIndexLeafVarIter.cc StateIndexed.cc \
+ LiteralIndexFilterRaw.cc
 
 PLIB=RavlLogic
 

@@ -96,6 +96,17 @@ namespace RavlLogicN {
     return true;
   }
 
+  //: Return the size of the index.
+  // The number of branches from this node is returned.
+  
+  UIntT LiteralIndexNodeBodyC::Size() const {
+    UIntT ret = index.Size();
+    if(none.IsValid())
+      ret++;
+    return ret;
+  }
+  
+  
   //: Dump index in human readable form.
   // For debugging only.
   

@@ -68,6 +68,12 @@ namespace RavlLogicN {
     next.Invalidate();
     return false;
   }
+  
+  //: Return the size of the index.
+  // The number of branches from this node is returned.
+  
+  UIntT LiteralIndexElementBodyC::Size() const
+  { return 0; }
 
   //: Dump index in human readable form.
   // For debugging only.

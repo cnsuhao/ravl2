@@ -10,6 +10,7 @@
 //! docentry="Ravl.Logic.Agent"
 //! rcsid="$Id$"
 //! lib=RavlLogicAgent
+//! file="Ravl/Logic/Agent/Agent.hh"
 
 #include "Ravl/Logic/LiteralIndex.hh"
 #include "Ravl/DP/Port.hh"

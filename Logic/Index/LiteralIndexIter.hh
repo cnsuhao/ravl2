@@ -39,8 +39,8 @@ namespace RavlLogicN {
     //: Goto next element.
     // returns true if its valid.
     
-    void operator++()
-    {  hit.Next(); }
+    void operator++(int)
+    { hit.Next(); }
     //: Goto next element
 
     bool IsElm() const 

@@ -10,6 +10,7 @@
 //! docentry="Ravl.Logic.Agent"
 //! rcsid="$Id$"
 //! lib=RavlLogicAgent
+//! file="Ravl/Logic/Agent/AgentPlan.hh"
 
 #include "Ravl/Logic/Agent.hh"
 #include "Ravl/Logic/NLPlanner.hh"

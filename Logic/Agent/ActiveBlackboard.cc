@@ -9,11 +9,13 @@
 //! file="Ravl/Logic/Agent/ActiveBlackboard.cc"
 
 #include "Ravl/Logic/ActiveBlackboard.hh"
+#include "Ravl/Logic/LiteralIndexIter.hh"
 #include "Ravl/Logic/State.hh"
 #include "Ravl/Logic/LiteralIO.hh"
 #include "Ravl/Logic/Unify.hh"
 #include "Ravl/Calls.hh"
 #include "Ravl/CallMethods.hh"
+#include "Ravl/Logic/Not.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -28,9 +30,118 @@ namespace RavlLogicN {
   
   ActiveBlackboardBodyC::ActiveBlackboardBodyC() 
     : index(true),
-      triggers(true)
+      ptriggers(true),
+      ntriggers(true)
   {}
-
+  
+  static EmptyC anEmpty;
+  static RCWrapC<EmptyC> emptyWrap(anEmpty);
+  
+  //: Tell blackboard something.
+  
+  bool ActiveBlackboardBodyC::Tell(const LiteralC &key) 
+  {
+    if(key.IsCondition()) {
+      NotC aNot(key);
+      if(aNot.IsValid())
+	return Retract(aNot.Term());
+      AndC aAnd(key);
+      if(aAnd.IsValid()) {
+	bool ret = true;
+	SArray1dIterC<LiteralC> it(aAnd.Terms());
+	for(it++;it;it++)
+	  ret &= Tell(*it);
+	return ret;
+      }
+      RavlAssertMsg(0,"ActiveBlackboardBodyC::Tell(), Unhandled conditional.");
+      return false;
+    }
+    return Tell(key,(RCWrapAbstractC &)emptyWrap); 
+  }
+  
+  //: Tell blackboard something.
+  
+  bool ActiveBlackboardBodyC::Tell(const LiteralC &key,const RCWrapAbstractC &data) {
+    if(key.IsCondition()) {
+      NotC aNot(key);
+      if(aNot.IsValid())
+	return Retract(aNot.Term(),data);
+      AndC aAnd(key);
+      if(aAnd.IsValid()) {
+	bool ret = true;
+	SArray1dIterC<LiteralC> it(aAnd.Terms());
+	for(it++;it;it++)
+	  ret &= Tell(*it,data);
+	return ret;
+      }
+      RavlAssertMsg(0,"ActiveBlackboardBodyC::Tell(), Unhandled conditional.");
+      return false;
+    }
+    RWLockHoldC lock(rwlock,RWLOCK_WRITE);
+    index[key] = data;
+    lock.Unlock();
+    ProcessDelta(key,const_cast<RCWrapAbstractC &>(data),true);
+    return true;
+  }
+  
+  //: Remove a fact from the blackboard.
+  
+  bool ActiveBlackboardBodyC::Retract(const LiteralC &key) {
+    if(key.IsCondition()) {
+      NotC aNot(key);
+      if(aNot.IsValid())
+	return Tell(aNot.Term());
+      OrC aOr(key);
+      if(aOr.IsValid()) {
+	bool ret = true;
+	SArray1dIterC<LiteralC> it(aOr.Terms());
+	for(it++;it;it++)
+	  ret &= Retract(*it);
+	return ret;
+      }
+      RavlAssertMsg(0,"ActiveBlackboardBodyC::Retract(), Unhandled conditional.");
+      return false;
+    }
+    RWLockHoldC lock(rwlock,RWLOCK_WRITE);
+    RCWrapAbstractC data;
+    if(!index.Lookup(key,data))
+      return false;
+    if(!index.Del(key))
+      return false;
+    lock.Unlock();
+    ProcessDelta(key,data,false);
+    return true;
+  }
+  
+  //: Remove a fact from the blackboard.
+  
+  bool ActiveBlackboardBodyC::Retract(const LiteralC &key,const RCWrapAbstractC &data) {
+    if(key.IsCondition()) {
+      NotC aNot(key);
+      if(aNot.IsValid())
+	return Tell(aNot.Term(),data);
+      OrC aOr(key);
+      if(aOr.IsValid()) {
+	bool ret = true;
+	SArray1dIterC<LiteralC> it(aOr.Terms());
+	for(it++;it;it++)
+	  ret &= Retract(*it,data);
+	return ret;
+      }
+      RavlAssertMsg(0,"ActiveBlackboardBodyC::Retract(), Unhandled conditional.");
+      return false;
+    }
+    RWLockHoldC lock(rwlock,RWLOCK_WRITE);
+    RCWrapAbstractC idata;
+    if(!index.Lookup(key,idata))
+      return false;
+    if(!index.Del(key))
+      return false;
+    lock.Unlock();
+    ProcessDelta(key,idata,false);
+    return true;    
+  }
+  
   //: Load rules from a file.
   
   bool ActiveBlackboardBodyC::LoadRules(const StringC &filename) {
@@ -40,33 +151,61 @@ namespace RavlLogicN {
       return false;
     LiteralC pre = Var();
     LiteralC post = Var();
-    LiteralC lit = Tuple(pre,post);
+    LiteralC rules = Tuple(LiteralC("rule"),pre,post);
+    LiteralC asserts = Tuple(LiteralC("tell"),post);
     BindSetC bnd(true);
-    for(LiteralIterC it(state.Filter(lit,bnd));it;it++) {
+    for(LiteralIterC it(state.Filter(rules,bnd));it;it++) {
       TupleC tup = *it;
-      cerr << "ActiveBlackboardBodyC::LoadRules(), Loading rule " << tup.Name() << "\n";
-      AddRule(tup[0],tup[1]);
+      ONDEBUG(cerr << "ActiveBlackboardBodyC::LoadRules(), Rule: " << tup.Name() << "\n");
+      AddRule(tup[1],tup[2]);
     }
+    for(LiteralIterC it(state.Filter(asserts,bnd));it;it++) {
+      TupleC tup = *it;
+      ONDEBUG(cerr << "ActiveBlackboardBodyC::LoadRules(), Assert: " << tup.Name() << "\n");
+      Tell(tup[1]);
+    }
+    
     return true;
   }
   
   //: Register a trigger.
   
-  UIntT ActiveBlackboardBodyC::AddTrigger(const LiteralC &condition,TriggerC trigger) {
-    DListC<TriggerC> &list = triggers.Access(condition);
+  UIntT ActiveBlackboardBodyC::AddTrigger(const LiteralC &key,TriggerC trigger) {
+    if(key.IsCondition()) {
+      NotC aNot(key);
+      if(aNot.IsValid()) {
+	DListC<TriggerC> &list = ntriggers.Access(aNot.Term());
+	list.InsLast(trigger);
+	return 0;
+      }
+      OrC aOr(key);
+      if(aOr.IsValid()) {
+	SArray1dIterC<LiteralC> it(aOr.Terms());
+	for(it++;it;it++)
+	  AddTrigger(*it,trigger);
+	return 0;
+      }
+      RavlAssertMsg(0,"ActiveBlackboardBodyC::AddTrigger(), Unhandled conditional.");      
+      return false;
+    }
+    DListC<TriggerC> &list = ptriggers.Access(key);
     list.InsLast(trigger);
     return 0;
   }
   
   //: Process add signal.
   
-  bool ActiveBlackboardBodyC::ProcessAdd(const LiteralC &key,RCWrapAbstractC &data) {
-    ONDEBUG(cerr << "ActiveBlackboardBodyC::ProcessAdd(), Called. Key=" << key.Name() << "\n");
+  bool ActiveBlackboardBodyC::ProcessDelta(const LiteralC &key,RCWrapAbstractC &data,bool tell) {
+    ONDEBUG(cerr << "ActiveBlackboardBodyC::ProcessDelta(), Called. Key=" << key.Name() << "\n");
     RWLockHoldC lock(rwlock,RWLOCK_READONLY);
     LiteralC literal(key);
     DListC<DListC<TriggerC> > todo;
-    for(LiteralIndexFilterC<DListC<TriggerC> > it(triggers,key);it;it++) {
-      todo.InsLast(it.MappedData());
+    if(tell) {
+      for(LiteralIndexFilterC<DListC<TriggerC> > it(ptriggers,key);it;it++)
+	todo.InsLast(it.MappedData());
+    } else {
+      for(LiteralIndexFilterC<DListC<TriggerC> > it(ntriggers,key);it;it++)
+	todo.InsLast(it.MappedData());
     }
     lock.Unlock();
     LiteralC x(key);
@@ -113,6 +252,14 @@ namespace RavlLogicN {
   UIntT ActiveBlackboardBodyC::AddRule(const LiteralC &pre,const LiteralC &post) {
     LiteralC tmp;
     return AddTrigger(pre,TriggerR(*this,&ActiveBlackboardBodyC::AssertPost,tmp,pre,post));
+  }
+  
+  //: Dump state of blackboard.
+  
+  void ActiveBlackboardBodyC::Dump(ostream &out) const {
+    RWLockHoldC lock(rwlock,RWLOCK_READONLY);
+    for(LiteralIndexIterC<RCWrapAbstractC> it(index);it;it++)
+      out << it.Data().Name() << "\n";
   }
   
 }

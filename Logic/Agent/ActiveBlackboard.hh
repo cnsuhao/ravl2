@@ -38,27 +38,24 @@ namespace RavlLogicN {
     UIntT AddTrigger(const LiteralC &condition,TriggerC trigger);
     //: Register a trigger.
     
+    bool Tell(const LiteralC &key,const RCWrapAbstractC &data);
+    //: Tell blackboard something.
+    
     template<class DataT>
     bool Tell(const LiteralC &key,const DataT &data) {
-      RWLockHoldC lock(rwlock,RWLOCK_WRITE);
       RCWrapC<DataT> wrap(data);
-      index[key] = wrap;
-      lock.Unlock();
-      ProcessAdd(key,wrap);
-      return true;
+      return Tell(key,(const RCWrapAbstractC &) wrap);
     }
     //: Tell blackboard something.
-
-    bool Tell(const LiteralC &key) {
-      RWLockHoldC lock(rwlock,RWLOCK_WRITE);
-      EmptyC empty;
-      RCWrapC<EmptyC> wrap(empty);
-      index[key] = wrap;
-      lock.Unlock();
-      ProcessAdd(key,wrap);
-      return true;
-    }
+    
+    bool Tell(const LiteralC &key);
     //: Tell blackboard something.
+    
+    bool Retract(const LiteralC &key);
+    //: Remove a fact from the blackboard.
+    
+    bool Retract(const LiteralC &key,const RCWrapAbstractC &data);
+    //: Remove a fact from the blackboard.
     
     bool Ask(const LiteralC &key,RCWrapAbstractC &data) {
       RWLockHoldC lock(rwlock,RWLOCK_READONLY);
@@ -106,8 +103,11 @@ namespace RavlLogicN {
     // When 'pre' condition it met, assert 'post' condition.
     // Returns an id for the rule.
     
+    void Dump(ostream &out) const;
+    //: Dump state of blackboard.
+    
   protected:
-    bool ProcessAdd(const LiteralC &lit,RCWrapAbstractC &data);
+    bool ProcessDelta(const LiteralC &lit,RCWrapAbstractC &data,bool tell = true);
     //: Process add signal.
     
     bool AssertPost(LiteralC event,const LiteralC &preCond,const LiteralC &postCond);
@@ -116,7 +116,8 @@ namespace RavlLogicN {
     RWLockC rwlock;
     
     LiteralIndexC<RCWrapAbstractC> index;
-    LiteralIndexC<DListC<TriggerC> > triggers;
+    LiteralIndexC<DListC<TriggerC> > ptriggers;
+    LiteralIndexC<DListC<TriggerC> > ntriggers;
   };
   
   //! userlevel=Normal
@@ -164,10 +165,18 @@ namespace RavlLogicN {
     bool Tell(const LiteralC &key,const DataT &data) 
     { return Body().Tell(key,data); }
     //: Tell blackboard something.
-
+    
+    bool Tell(const LiteralC &key,const RCWrapAbstractC &data)
+    { return Body().Tell(key,data); }
+    //: Tell blackboard something.
+    
     bool Tell(const LiteralC &key) 
     { return Body().Tell(key); }
     //: Tell blackboard something.
+    
+    bool Retract(const LiteralC &key)
+    { return Body().Retract(key); }
+    //: Remove a fact from the blackboard.
     
     bool Ask(const LiteralC &key,RCWrapAbstractC &data) 
     { return Body().Ask(key,data); }
@@ -192,6 +201,9 @@ namespace RavlLogicN {
     //: Add a rule to the blackboard.
     // When 'pre' condition it met, assert 'post' condition.
     
+    void Dump(ostream &out) const
+    { return Body().Dump(out); }
+    //: Dump state of blackboard.
   };
   
   

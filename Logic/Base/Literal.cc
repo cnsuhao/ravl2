@@ -56,6 +56,22 @@ namespace RavlLogicN {
   bool LiteralBodyC::Save(ostream &out) const 
   { return RCBodyVC::Save(out); }
   
+  //: Is this a variable ?
+  bool LiteralBodyC::IsVariable() const
+  { return false; }
+
+  //: Is this a simple expression with no variables ?
+  bool LiteralBodyC::IsGrounded() const
+  { return true; }
+  
+  //: Is this literal a tuple ?
+  bool LiteralBodyC::IsTuple() const
+  { return false; }
+  
+  //: Test if this is a condition.
+  bool LiteralBodyC::IsCondition() const
+  { return false; }
+  
   // Unify with another variable.
   
   bool LiteralBodyC::Unify(const LiteralC &oth,BindSetC &bs) const {

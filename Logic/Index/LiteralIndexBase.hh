@@ -43,6 +43,7 @@ namespace RavlLogicN {
     LiteralIndexLeafC Lookup(const LiteralC &key);
     //: Lookup exact match in index.
     // returns an invalid handle if not found.
+
     
     LiteralIndexLeafC Insert(const LiteralC &key);
     //: Insert key into index.
@@ -121,11 +122,11 @@ namespace RavlLogicN {
     //: Body constructor.
     
     LiteralIndexBaseBodyC &Body()
-      { return RCHandleC<LiteralIndexBaseBodyC>::Body(); }
+    { return RCHandleC<LiteralIndexBaseBodyC>::Body(); }
     //: Access body.
-
+    
     const LiteralIndexBaseBodyC &Body() const
-      { return RCHandleC<LiteralIndexBaseBodyC>::Body(); }
+    { return RCHandleC<LiteralIndexBaseBodyC>::Body(); }
     //: Access body.
     
     bool Load(BinIStreamC &strm)
@@ -169,6 +170,7 @@ namespace RavlLogicN {
     friend class LiteralIndexFilterBaseBodyC;
     friend class LiteralIndexLeafBodyIterC;
     friend class LiteralIndexLeafVarBodyIterC;                 
+    friend class LiteralIndexBaseBodyC;
   };
   
   ostream &operator<<(ostream &strm,const LiteralIndexBaseC &index);

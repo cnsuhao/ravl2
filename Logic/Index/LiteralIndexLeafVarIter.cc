@@ -34,7 +34,7 @@ namespace RavlLogicN {
   bool LiteralIndexLeafVarBodyIterC::Next() { 
     if(isFirst) {
       isFirst = false;
-      return true;
+      return hit.IsElm();
     }
     return hit.Next(); 
   }

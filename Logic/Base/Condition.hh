@@ -69,7 +69,9 @@ namespace RavlLogicN {
     // are any). The new value is assigned to 'result' <p>
     // Returns true if at least one substitution has been made,
     // false if none.
-    //: Get hash value for symbol.
+    
+    virtual bool IsCondition() const;
+    //: Test if this is a condition.
     
   protected:
     void AddTerms(const SArray1dC<LiteralC> &terms);
