@@ -78,7 +78,9 @@ namespace RavlN {
     //: Get transpose of matrix.
     
     static TMatrixC<DataT> Identity(UIntT n);
-    //: Construct an identity matrx of n by n.
+    //: Returns an identity matrx of n by n.
+    // NB. This is a static function and should be called  MatrixC::Identity(n).
+    // where n is the size of the matrix.
     
     const TMatrixC<DataT> &SetDiagonal(const TVectorC<DataT> &d);
     //: Set the diagonal of this matrix.
