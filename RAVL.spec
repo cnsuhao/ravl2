@@ -1,10 +1,13 @@
+
+%define version 0.6
+
 Summary: RAVL, Recognition And Vision Library
 Name: RAVL
-Version: 0.6
-Release: 11
+Version: %{version}
+Release: 12
 Source0: %{name}-%{version}.tar.bz2
 License: LGPL
-Group: Development/Libraries
+Group: Applications/Engineering
 BuildRoot: %{_builddir}/%{name}-root
 Requires: gtk+ >= 1.2.5
 %description
@@ -19,8 +22,20 @@ General C++ Library, with modules for Computer Vision, Pattern Recognition and m
 DEFAULTTMP=$RPM_BUILD_ROOT
 ARC=`QMake/config.arc`
 LD_LIBRARY_PATH=$RPM_BUILD_ROOT/usr/lib/RAVL/$ARC/shared\:$LD_LIBRARY_PATH
-echo "Root $LD_LIBRARY_PATH $ARC"
 ./install /usr rpm $RPM_BUILD_ROOT/usr
+if test -f  $RPM_BUILD_ROOT/usr/.dir ; then
+  rm $RPM_BUILD_ROOT/usr/.dir ;
+fi
+if test -f $RPM_BUILD_ROOT/usr/lib/.dir ; then
+  rm $RPM_BUILD_ROOT/usr/lib/.dir 
+fi
+if test -f $RPM_BUILD_ROOT/usr/bin/.dir ; then
+  rm $RPM_BUILD_ROOT/usr/bin/.dir 
+fi
+if test -f $RPM_BUILD_ROOT/usr/include/.dir ; then
+  rm $RPM_BUILD_ROOT/usr/include/.dir
+fi
+ln -s -f $RPM_BUILD_ROOT/usr/lib/RAVL/$ARC/shared/* $RPM_BUILD_ROOT/usr/lib
 %files
 %defattr(-,root,root)
 
@@ -31,13 +46,13 @@ echo "Root $LD_LIBRARY_PATH $ARC"
 /usr/share/RAVL/AutoPort
 /usr/share/RAVL/CodeManager
 /usr/share/RAVL/CxxDoc
+/usr/share/RAVL/config.arc
 
 ################### Documentation package #########################
 
 %package -n RAVL-doc
 Summary:    HTML documentation for the RAVL libraries.
 Group:      Development/Libraries
-#Requires:   %{nam} = %{PACKAGE_VERSION}
 %description -n RAVL-doc
 Documentation for the RAVL libraries.
 
@@ -49,6 +64,7 @@ Documentation for the RAVL libraries.
 %package -n RAVL-devel
 Summary:    Development package for creating RAVL applications.
 Group:      Development/Libraries
+Requires:  RAVL = %{version}
 %description -n RAVL-devel
 
 Development libraries and tools for RAVL.
@@ -64,8 +80,9 @@ Development libraries and tools for RAVL.
 
 %package -n RAVL-debug
 
-Summary:    Debug libraries for RAVL.
+Summary:    Static debug libraries for RAVL.
 Group:      Development/Libraries
+Requires:  RAVL-devel = %{version}
 
 %description -n RAVL-debug
 
@@ -74,3 +91,19 @@ Debugging libraries and tools for RAVL.
 %files -n RAVL-debug
 
 /usr/lib/RAVL/*/debug
+
+################### Opt package #########################
+
+%package -n RAVL-opt
+
+Summary:    Static optimised libraries for RAVL.
+Group:      Development/Libraries
+Requires:  RAVL-devel = %{version}
+
+%description -n RAVL-opt
+
+Static optimised libraries for RAVL.
+
+%files -n RAVL-opt
+
+/usr/lib/RAVL/*/opt
