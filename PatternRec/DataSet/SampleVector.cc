@@ -10,12 +10,13 @@
 
 #include "Ravl/PatternRec/SampleVector.hh"
 #include "Ravl/DArray1dIter.hh"
+#include "Ravl/MeanCovariance.hh"
 
 namespace RavlN {
 
   //: Find the mean vector.
   
-  VectorC SampleVectorC::Mean() {
+  VectorC SampleVectorC::Mean() const {
     DArray1dIterC<VectorC> it(*this);
     if(!it)
       return VectorC();
@@ -23,6 +24,27 @@ namespace RavlN {
     for(;it;it++)
       total += *it;
     return total/ ((RealT) Size());
+  }
+  
+  //: Find the mean and covariance of the sample
+  
+  MeanCovarianceC SampleVectorC::MeanCovariance() const {
+    UIntT in = Size();
+    if(in == 0)
+      return MeanCovariance();
+    RealT n = (RealT) in;
+    DArray1dIterC<VectorC> it(*this);
+    MatrixC cov = it->OuterProduct();
+    VectorC mean = it->Copy();
+    it++;
+    for(;it;it++) {
+      mean += *it;
+      cov += it->OuterProduct();
+    }
+    mean /= n;
+    cov /= n;
+    cov -= mean.OuterProduct();
+    return MeanCovarianceC(in,mean,cov);
   }
   
 }

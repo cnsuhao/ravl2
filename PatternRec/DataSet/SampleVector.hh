@@ -12,33 +12,42 @@
 //! lib=RavlPatternRec
 //! file="Ravl/PatternRec/DataSet/SampleVector.hh"
 
-#include"Ravl/PatternRec/Sample.hh"
-#include"Ravl/Vector.hh"
+#include "Ravl/PatternRec/Sample.hh"
+#include "Ravl/Vector.hh"
 
 namespace RavlN {
+  
+  class MeanCovarianceC;  
   
   //! userlevel=Normal
   //: Sample of vectors.
   
-  class SampleVectorC 
+  class SampleVectorC
     : public SampleC<VectorC>
   {
     
   public:
     SampleVectorC(SizeT maxSize=10)
       : SampleC<VectorC>(maxSize)
-      {}
+    {}
     //: Create a sample of data with a maximum size
     
     SampleVectorC(const SArray1dC<VectorC> & dat)
       : SampleC<VectorC>(dat)
-      {}
+    {}
     //: Create a sample of data from an array
     
-    VectorC Mean();
+    SampleVectorC(const SampleC<VectorC> &svec)
+      : SampleC<VectorC>(svec)
+    {}
+    //: Construct from base class.
+    
+    VectorC Mean() const;
     //: Find the mean vector of the sample.
     
-  }; // end of class SampleVectorC 
+    MeanCovarianceC MeanCovariance() const;
+    //: Find the mean and covariance of the sample
+  }; 
   
 }
 
