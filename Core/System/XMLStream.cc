@@ -118,7 +118,7 @@ namespace RavlN {
   //: Read a tag from a stream.
   // returns true if one is found or false if end of group found.
   
-  bool XMLIStreamC::ReadTag(StringC &name,RCHashC<StringC,StringC> &attr) {
+  XMLTagOpsT XMLIStreamC::ReadTag(StringC &name,RCHashC<StringC,StringC> &attr) {
     char c;
     bool gotTag = false;
     bool endOfTag = false;
@@ -209,10 +209,19 @@ namespace RavlN {
     }
     if(IsContext())
       attr = Context().Attributes();
-    if(emptyTag)
+    if(emptyTag) {
       EndOfContext(id);
+      name = id;
+      if(!foundEndTag)
+	return XMLEmptyTag;
+      return XMLEndTag;
+    }
+    if(!gotTag)
+      return XMLContent;
     name = id;
-    return foundEndTag;
+    if(foundEndTag)
+      return XMLEndTag;
+    return XMLBeginTag;
   }
 
   //: Skip to after the end of the current element.
@@ -222,7 +231,7 @@ namespace RavlN {
     StringC name;
     int level = 0;
     for(;;) {
-      if(ReadTag(name)) {
+      if(ReadTag(name) == XMLEndTag) {
 	// Found end tag.
 	if(level == 0)
 	  break;
@@ -445,7 +454,7 @@ namespace RavlN {
 	{
 	  StringC name;
 	  for(;;) {
-	    if(strm.ReadTag(name))
+	    if(strm.ReadTag(name) == XMLEndTag)
 	      break;
 	    cerr << "Unexpected start tag '" << name << "' found, skipping. \n";
 	    strm.SkipElement();

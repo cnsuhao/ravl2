@@ -391,17 +391,17 @@ namespace RavlN {
     //: Construct from an ordinary stream.
 
     
-    bool ReadTag(StringC &name,RCHashC<StringC,StringC> &attr);
+    XMLTagOpsT ReadTag(StringC &name,RCHashC<StringC,StringC> &attr);
     //: Read a tag from a stream.
-    // returns true if one is found or false if end of group found.
+    // returns XMLBeginTag, XMLEndTag or XMLEmptyTag.
     // This will skip comments and DTD info, and anything else it doesn't understand.
     
-    bool ReadTag(StringC &name) {
+    XMLTagOpsT ReadTag(StringC &name) {
       RCHashC<StringC,StringC> attr;
       return ReadTag(name,attr);
     }
     //: Read a tag from a stream.
-    // returns true if one is found or false if end of group found.
+    // returns XMLBeginTag, XMLEndTag or XMLEmptyTag.
     // This will skip comments and DTD info, and anything else it doesn't understand.
     
     bool SkipElement();
@@ -592,14 +592,18 @@ namespace RavlN {
   XMLIStreamC &operator>>(XMLIStreamC &strm,SArray1dC<DataT> &arr) {
     UIntT size = 0;
     StringC name;
-    strm.ReadTag(name);
+    if(strm.ReadTag(name) != XMLBeginTag)
+      throw ExceptionInvalidStreamC("Unexpected tag when reading SArray1dC ");
     strm >> XMLAttribute("size",size);
     SArray1dC<DataT> ret(size);
     for(SArray1dIterC<DataT> it(ret);it;it++) {
-      if(strm.ReadTag(name)) {
+      XMLTagOpsT tt = strm.ReadTag(name);
+      if(tt == XMLEndTag) {
 	//cerr << "Found end:" << name << "\n";
 	break; // Found end of array tag.
       }
+      if(tt == XMLEmptyTag )
+	throw ExceptionInvalidStreamC("Unexpected tag when reading SArray1dC ");
       if(name != "data") {
 	cerr << "WARNING: Read array ignoring tag '" << name << "'\n";
 	strm.SkipElement();

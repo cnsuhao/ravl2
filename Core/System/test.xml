@@ -1,5 +1,8 @@
 <hello/>
 <!-- a comment -->
 <?xml fred ?>
-<test Fred="1">Some data... </test>
+<test Fred="1">Some data... 
+<bean>
+</bean>
+</test>
 

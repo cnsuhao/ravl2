@@ -10,10 +10,11 @@
 PACKAGE=Ravl
 
 HEADERS=StringList.hh Option.hh TypeName.hh BufStream.hh \
- SubStringList.hh XMLStream.hh Collection.hh CollectionIter.hh
+ SubStringList.hh XMLStream.hh XMLTree.hh \
+ Collection.hh CollectionIter.hh
 
 SOURCES=StringList.cc Option.cc TypeName.cc BufStream.cc \
- SubStringList.cc XMLStream.cc StreamParse.cc
+ SubStringList.cc XMLStream.cc XMLTree.cc StreamParse.cc
 
 PLIB=RavlCore
 
@@ -21,7 +22,7 @@ LIBDEPS=RavlSys.def
 
 USESLIBS=RavlCore
 
-EXAMPLES=exOption.cc
+EXAMPLES=exOption.cc exXMLTree.cc
 
 EHT=Ravl.Core.XML.html
 
