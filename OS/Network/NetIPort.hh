@@ -254,8 +254,8 @@ namespace RavlN {
     if(gotEOS)
       return false;
     ep.Send(NPMsg_ReqData,at);
-    if(!recieved.Wait(10)) {
-      cerr << "NetISPortBodyC<DataT>::Get(), WARNING: Timeout getting frame. \n";
+    if(!recieved.Wait()) {
+      cerr << "NetISPortBodyC<DataT>::Get(), WARNING: Failed to get frame. \n";
       return false;
     }
     // 'at' is updated by the RecvData method. 
