@@ -4,14 +4,14 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLGUISPINBUTTON_HEADER
-#define RAVLGUISPINBUTTON_HEADER 1
+#ifndef RAVLGUI_SPINBUTTON_HEADER
+#define RAVLGUI_SPINBUTTON_HEADER 1
 //////////////////////////////////////////////////////////
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! file="Ravl/GUI/GTK/SpinButton.hh"
 //! lib=RavlGUI
-//! date="29/08/99"
+//! date="29/08/1999"
 //! docentry="Ravl.GUI.Control"
 
 #include "Ravl/GUI/Widget.hh"
