@@ -8,8 +8,8 @@
 //! lib=RavlCore
 //! file="Ravl/Core/Container/DList/testDList.cc"
 
-#include "Ravl/InDList.hh"
-#include "Ravl/InDLIter.hh"
+#include "Ravl/IntrDList.hh"
+#include "Ravl/IntrDLIter.hh"
 #include "Ravl/DList.hh"
 #include "Ravl/StrStream.hh"
 #include "Ravl/BinStream.hh"

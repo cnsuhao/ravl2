@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Core.Lists"
-//! file="Ravl/Core/Container/DList/InDLIter.hh"
+//! file="Ravl/Core/Container/DList/IntrDLIter.hh"
 //! lib=RavlCore
 //! userlevel=Advanced
 //! author="Radek Marik, Charles Galambos"
@@ -17,7 +17,7 @@
 
 // IntrDListC is based on code written by Radek Marik.
 
-#include "Ravl/InDList.hh"
+#include "Ravl/IntrDList.hh"
 
 namespace RavlN {
   

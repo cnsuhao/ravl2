@@ -10,7 +10,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Core.Lists"
 //! userlevel=Advanced
-//! file="Ravl/Core/Container/DList/InDList.hh"
+//! file="Ravl/Core/Container/DList/IntrDList.hh"
 //! lib=RavlCore
 //! author="Radek Marik, Charles Galambos"
 
@@ -164,7 +164,7 @@ namespace RavlN {
 
 }
 
-#include "Ravl/InDLIter.hh"
+#include "Ravl/IntrDLIter.hh"
 
 namespace RavlN {  
   

@@ -12,7 +12,7 @@ DESCRIPTION = Double linked lists.
 
 PACKAGE=Ravl
 
-HEADERS = DLink.hh DList.hh DLIter.hh CDLIter.hh InDList.hh InDLIter.hh
+HEADERS = DLink.hh DList.hh DLIter.hh CDLIter.hh IntrDList.hh IntrDLIter.hh
 
 SOURCES = DLink.cc DList.cc 
 
