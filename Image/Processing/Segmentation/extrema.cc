@@ -28,6 +28,7 @@ int main(int nargs,char **argv) {
   bool drawResults = opt.Boolean("d",false,"Draw results into a window.");
   bool drawBlack = opt.Boolean("db",false,"Draw results into a black background.");
   bool invert = opt.Boolean("inv",false,"Invert image before processing. ");
+  bool verbose = opt.Boolean("v",false,"Verbose mode. ");
   StringC fn = opt.String("","test.pgm","Input image. ");
   StringC ofn = opt.String("","","Output boundries. ");  
   opt.Check();
@@ -61,6 +62,8 @@ int main(int nargs,char **argv) {
       pimg = img;
     
     DListC<BoundaryC> bounds = lst.Apply(pimg);
+    if(verbose)
+      cerr << "Regions=" << bounds.Size() << "\n";
     if(drawResults) {
       ImageC<ByteT> res;
       if(!drawBlack)

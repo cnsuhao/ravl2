@@ -335,29 +335,13 @@ namespace RavlImageN {
       
       ExtremaThresholdC *newthresh = new ExtremaThresholdC[nthresh];
       IntT nt = 0;
-      if(nthresh >= 2) { // Use first threshold ?
-	if(thresh[0].margin > thresh[1].margin)
-	  newthresh[nt++] = thresh[0];
-      }
       
-#if 1
-      // Do peak detection on thresholds.
-      for(int j = 1;j < nthresh-1;j++) {
-	//cerr << " Threshold=" << thresh[i].margin << "\n";
-	ExtremaThresholdC &next = thresh[j+1];
-	ExtremaThresholdC &cur = thresh[j];
-	ExtremaThresholdC &prev = thresh[j-1];
-	if(next.margin < cur.margin && prev.margin < cur.margin) {
-	  //cerr << " Using=" << thresh[i].margin << "\n";
-	  newthresh[nt++] = cur;
-	}
-      }
-#else 
       IntT lastSize = -1;
       RealT lastCount = -1;
       IntT lastInd = -1;
       for(int j = 0;j < nthresh;j++) {
-	if((lastSize * 1.05) > thresh[j].pos) 
+	UIntT size = chist[thresh[j].pos];
+	if((lastSize * 1.05) > size) 
 	  continue; // Reject it, not enough difference.
 #if 0	
 	if(lastCount < fhist[thresh[j].pos])
@@ -366,14 +350,9 @@ namespace RavlImageN {
 	lastInd = it.Index().V();
 #endif
 	newthresh[nt++] = thresh[j];
-	//lastSize = chist[thresh[j].pos];
-	lastSize = thresh[j].pos;
+	lastSize = size;
       }
-#endif
-      if(nthresh > 2) { // Use last threshold ?
-	if(thresh[nthresh-2].margin < thresh[nthresh-1].margin)
-	  newthresh[nt++] = thresh[nthresh-1];
-      }
+      
       if(nt > 0) {
 	it->thresh = newthresh;
 	it->nThresh = nt;
