@@ -23,6 +23,8 @@ namespace Ravl3DN {
     if(face1.Sides() < 4) { // Will face be deleted ?
       if(face1 == Data()) {
 	Prev();
+	if(!IsElm()) // If we're at the beginning of the list we're ok.
+	  return true;
 	changed = true;
       }
     }
