@@ -30,6 +30,6 @@ EXAMPLES = exImgIO.cc
 
 TESTEXES = testImgIO.cc
 
-USESLIBS = RavlCore RavlIO
+USESLIBS = RavlCore RavlIO RavlImage
 
 EHT = Ravl.Images.IO.html
