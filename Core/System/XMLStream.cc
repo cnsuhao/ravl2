@@ -460,7 +460,7 @@ namespace RavlN {
     Stream() << " ?>";
     return true;
   }
-
+  
   //: Begin writting a tag with the given attributes.
   
   void XMLOStreamC::StartTag(const StringC &name,const RCHashC<StringC,StringC> &attribs,bool emptyTag) {
@@ -474,7 +474,7 @@ namespace RavlN {
   
   void XMLOStreamC::StartTag(const StringC &name,bool emptyTag) {
     RCHashC<StringC,StringC> none;
-    LastOpenTag() = name;
+    //  LastOpenTag() = name;
     StartTag(name,none,emptyTag);
   }
   
@@ -647,6 +647,14 @@ namespace RavlN {
       }
     return strm;
   }
+
+  XMLOStreamC &operator<<(XMLOStreamC &strm,const XMLElementC &elem) { 
+    if(strm.IsContext() && !strm.IsContent())
+      strm.StartContents(); // Make sure we're in a content section.
+    strm.StartContext(elem);
+    return strm;
+  }
+  //: Output a element, well start to.
   
   //: Write tag contents.
   

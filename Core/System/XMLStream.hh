@@ -12,6 +12,7 @@
 //! docentry="Ravl.Core.XML"
 //! author="Charles Galambos"
 //! file="Ravl/Core/System/XMLStream.hh"
+//! example=exXMLStream.cc
 
 #include "Ravl/Stream.hh"
 #include "Ravl/StrStream.hh"
@@ -661,13 +662,9 @@ namespace RavlN {
 
   };
   
-  inline
-  XMLOStreamC &operator<<(XMLOStreamC &strm,const XMLElementC &elem) { 
-    strm.StartContext(elem);
-    return strm;
-  }
+  XMLOStreamC &operator<<(XMLOStreamC &strm,const XMLElementC &elem);
   //: Output a element, well start to.
-
+  
   inline
   ostream &operator<<(ostream &strm,const XMLTagOpsT &elem) { 
     RavlAssertMsg(0,"XMLTagOpsT saved to non-xml stream. \n");
@@ -683,6 +680,21 @@ namespace RavlN {
   
   XMLIStreamC &operator>>(XMLIStreamC &strm,StringC &str);
   //: Read tag contents as string.
+  
+  inline
+  XMLOStreamC &operator<<(XMLOStreamC &strm,int val)
+  { strm << StringC(val); return strm; }
+  //: write integer.
+  
+  inline
+  XMLOStreamC &operator<<(XMLOStreamC &strm,RealT val)
+  { strm << StringC(val); return strm; }
+  //: write real value
+  
+  inline
+  XMLOStreamC &operator<<(XMLOStreamC &strm,float val)
+  { strm << StringC((RealT) val); return strm; }
+  //: write float value
   
   XMLOStreamC &operator<<(XMLOStreamC &strm,const XMLTagOpsT &elem);
   //: Do an output stream op.

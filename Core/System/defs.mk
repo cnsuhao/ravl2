@@ -27,7 +27,7 @@ LIBDEPS=RavlSys.def
 
 USESLIBS=RavlCore
 
-EXAMPLES=exOption.cc exXMLTree.cc exVariableLengthCode.cc
+EXAMPLES=exOption.cc exXMLTree.cc exVariableLengthCode.cc exXMLStream.cc
 
 EHT=Ravl.Core.XML.html Ravl.Core.IO.Type_Name.html Ravl.Core.IO.Function_Register.html
 
