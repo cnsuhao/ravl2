@@ -23,7 +23,7 @@ $(//:************** Some usefull info ********************* )
 $(set:tabTitle=<tr><td align="right"><font size="+2" color="#23238E" FACE="arial,Helvetica">  )
 $(set:tabData=<td align="left"><font size="+2" color="#23238E" FACE="arial,Helvetica">)
 <center>
-<table bgcolor="#EFEFEF" width=49%  cellspacing=0 border=0>
+<table bgcolor="#EFEFEF" width=80%  cellspacing=0 border=0>
 <tr><td COLSPAN="2" align=center><font size="+3" color="#23238E" FACE="arial,Helvetica"><b>&nbsp;&nbsp;&nbsp;$(FullName)&nbsp;&nbsp;&nbsp;</b></font>
 <tr><td COLSPAN="2">&nbsp;</tr>
 $(ifset:brief:<tr><td align=center COLSPAN="2"><font size="+2" color="#23238E" FACE="arial,Helvetica">$(brief)</font>
