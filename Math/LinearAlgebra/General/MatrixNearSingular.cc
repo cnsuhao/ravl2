@@ -70,6 +70,7 @@ namespace RavlN {
     RealT sign = 1.0;
     for(int ind = 0;ind < (int) eigenvec.Vector().Size();ind++) {
       RealT value = eigenvec.Vector()[ind];
+      //cerr << "Eigen value. " << value << " \n";
       if (value == 0.0) 
 	sign=0.0;
       else if (value < 0.0) { // check for -ve eigenvalues
@@ -80,7 +81,7 @@ namespace RavlN {
       }
       inv += OuterProduct(eigenvec.Matrix().SliceColumn(ind)) * (1.0/value);
     }    
-    det = exp(det) * sign;
+    det = Exp(det) * sign;
     return inv;
 #else
     RavlAssertMsg(0,"MatrixC::NearSingularInverse(), Not implemented.");
