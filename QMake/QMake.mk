@@ -115,7 +115,7 @@ allns: all
 src:
 	$(SMAKEMO) src_all NOINCDEFS=1 TARGET=src_all 
 
-novar: 
+novar:
 	$(SMAKEMD) fullbuild TARGET=fullbuild  
 
 opt:
@@ -144,6 +144,16 @@ gprof:
 
 chead:
 	$(SMAKEMD) cheadbuild FULLCHECKING=1 TARGET=cheadbuild  
+
+
+ne:	
+	$(SMAKEMD) fullbuild VAR=check TARGET=fullbuild NOEXEBUILD=1 
+
+optne:
+	$(SMAKEMD) fullbuild VAR=opt TARGET=fullbuild NOEXEBUILD=1 
+
+debugne:
+	$(SMAKEMD) fullbuild VAR=debug TARGET=fullbuild NOEXEBUILD=1 
 
 
 test: src

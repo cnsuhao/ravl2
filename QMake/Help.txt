@@ -6,10 +6,12 @@ Common targets:
   debug     Build binaries and code with debug information, but link
             with the check verson of RAVL. This should be quicker than
 	    debuging all of RAVL.
-  debugfull Build binaries with debug information, link executables with
+  debugall  Build binaries with debug information, link executables with
 	    the all available debug information. NB. The executables may
 	    be very large.
   opt       Optimised build. 
+  ne, nedebug, neopt 
+            As check,debug and opt but only building libraries, not executables.
   shared    Build optimised shared libraries/executables.
   prof      Output optimised code with profiling info suitable for prof.
   gprof     Output optimised code with profiling info suitable for gprof.
@@ -27,11 +29,7 @@ Common targets:
   doc       Make automatic documentation.
   docentry  Make semantic documentation
   chead     Check headers with original RAVL make system.
-  ci	    Check in directory tree. See 'notes' for details.
   lib_info  Tell's you which libraries are needed/used to create an executable.
-  listco    RCS: List all files that are check-out in source tree.
-  listoff   RCS: List all directories that are turned off.
-  listfix   RCS: List all lines in source than contain 'FIXME'. 
   help      Print this help on the QMake system. 
   defs      List of public def's files.
   test	    Compile and run test executables.
