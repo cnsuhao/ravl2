@@ -23,3 +23,5 @@ LIBDEPS=RavlOSExec.def
 TESTEXES= testChildProc.cc
 
 EXAMPLES= exChild.cc
+
+EHT=Ravl.OS.Exec.html

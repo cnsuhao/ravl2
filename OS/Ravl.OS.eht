@@ -1,4 +1,5 @@
 ! author="Charles Galambos"
+! children="Time;File System;Sequence;Exec;Threads;Signals;Network"
 : Operating System interface
 
 Operating system interface, including timing, file system queries,

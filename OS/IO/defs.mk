@@ -16,3 +16,5 @@ SOURCES=FileSequence.cc SequenceIO.cc
 PLIB=RavlOSIO
 
 USESLIBS=RavlOS RavlIO
+
+EHT=Ravl.OS.Sequence.html
