@@ -6,15 +6,18 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! file="Ravl/Image/Processing/Tracking/mosaic.cc"
+//! author="Phil McLauchlan"
 //! lib=RavlImageProc
 
 #include "Ravl/Option.hh"
+#include "Ravl/StdConst.hh"
 #include "Ravl/DP/SequenceIO.hh"
 #include "Ravl/Image/MosaicBuilder.hh"
 #include "Ravl/Image/WarpProjective.hh"
 #include "Ravl/Image/RemoveDistortion.hh"
 #include "Ravl/Image/ImageMatcher.hh"
 #include "Ravl/EntryPnt.hh"
+#include "Ravl/Array1d.hh"
 #include "Ravl/Array2dIter2.hh"
 #include "Ravl/Array2dIter3.hh"
 #include "Ravl/DP/Converter.hh"
@@ -24,79 +27,11 @@
 #include "Ravl/Image/Dilate.hh"
 #include "Ravl/Image/ImageConv.hh"
 #include "Ravl/Image/RealRGBValue.hh"
+#include "Ravl/Image/ConvolveSeparable2d.hh"
 
 using namespace RavlN;
 using namespace RavlImageN;
 
-static void
- Smooth8Way(ImageC<ByteRGBValueC> &img)
-{
-  ByteRGBValueC pix[9];
-  UIntT weight[9];
-  UIntT count;
-  ImageC<ByteRGBValueC> imcopy = img.Copy();
-  
-  for(IndexC i=img.Frame().TRow(); i<=img.Frame().BRow(); i++)
-    for(IndexC j=img.Frame().LCol(); j<=img.Frame().RCol(); j++) {
-      count = 0;
-      pix[count] = img[i][j]; weight[count++] = 4;
-      if ( i != img.Frame().TRow() ) {
-	pix[count] = img[i-1][j];
-	weight[count++] = 2;
-	if ( j != img.Frame().LCol() ) {
-	  pix[count] = img[i-1][j-1];
-	  weight[count++] = 1;
-	}
-
-	if ( j != img.Frame().RCol() ) {
-	  pix[count] = img[i-1][j+1];
-	  weight[count++] = 1;
-	}
-      }
-
-      if ( i != img.Frame().BRow() ) {
-	pix[count] = img[i+1][j];
-	weight[count++] = 2;
-	if ( j != img.Frame().LCol() ) {
-	  pix[count] = img[i+1][j-1];
-	  weight[count++] = 1;
-	}
-
-	if ( j != img.Frame().RCol() ) {
-	  pix[count] = img[i+1][j+1];
-	  weight[count++] = 1;
-	}
-      }
-
-      if ( j != img.Frame().LCol() ) {
-	pix[count] = img[i][j-1];
-	weight[count++] = 2;
-      }
-
-      if ( j != img.Frame().RCol() ) {
-	pix[count] = img[i][j+1];
-	weight[count++] = 2;
-      }
-
-      UIntT total_weight=0;
-      RealRGBValueC total_rgb(0,0,0);
-      for(UIntT k=0; k<count; k++) {
-	total_weight += weight[k];
-	total_rgb.Red()   += (RealT)(weight[k]*pix[k].Red());
-	total_rgb.Green() += (RealT)(weight[k]*pix[k].Green());
-	total_rgb.Blue()  += (RealT)(weight[k]*pix[k].Blue());
-      }
-
-      pix[0].Red()   = (ByteT)(total_rgb.Red()/(RealT)total_weight + 0.5);
-      pix[0].Green() = (ByteT)(total_rgb.Green()/(RealT)total_weight + 0.5);
-      pix[0].Blue()  = (ByteT)(total_rgb.Blue()/(RealT)total_weight + 0.5);
-      imcopy[i][j] = pix[0];
-    }
-
-  for(IndexC i=img.Frame().TRow(); i<=img.Frame().BRow(); i++)
-    for(IndexC j=img.Frame().LCol(); j<=img.Frame().RCol(); j++)
-      img[i][j] = imcopy[i][j];
-}
 
 #define IMAGE_ZHOMOG 100.0
 #define MOSAIC_ZHOMOG 1.0
@@ -104,6 +39,20 @@ static void
   
 int Mosaic(int nargs,char **argv) {
   OptionC opt(nargs,argv);
+  opt.Comment("Creates mosaic image from video sequence, and generates sequence of foreground images based on difference between input images and mosaic.\n");
+  opt.Comment("Preprocessing:");
+  int cropT = opt.Int("crt", 0, "Width of cropping region at top of image");
+  int cropB = opt.Int("crb", 0, "Width of cropping region at bottom of image");
+  int cropL = opt.Int("crl", 0, "Width of cropping region at left of image");
+  int cropR = opt.Int("crr", 0, "Width of cropping region at right of image");
+  opt.Comment("Camera details:");
+  RealT cx_ratio = opt.Real("cx",0.5,"Image centre x coordinate as ratio of image width. ");
+  RealT cy_ratio = opt.Real("cy",0.5,"Image centre y coordinate as ratio of image height. ");
+  RealT fx = opt.Real("fx",1.0,"Focal distance in vertical pixels. ");
+  RealT fy = opt.Real("fy",1.0,"Focal distance in horizontal pixels. ");
+  RealT K1 = opt.Real("K1",0.0,"Cubic radial distortion coefficient. ");
+  RealT K2 = opt.Real("K2",0.0,"Quintic radial distortion coefficient. ");
+  opt.Comment("Tracking:");
   int newFreq    = opt.Int("nf",5,"Frequency of introducing new features. ");
   int cthreshold = opt.Int("ct",30,"Corner threshold. ");
   int cwidth     = opt.Int("cw",7,"Corner filter width. ");
@@ -111,26 +60,24 @@ int Mosaic(int nargs,char **argv) {
   int mwidth     = opt.Int("mw",17,"Tracker feature width. ");
   int lifeTime   = opt.Int("ml",8,"Lifetime of a point without a match in the incoming images. ");
   int searchSize = opt.Int("ss",25,"Search size. How far to look from the predicted position of the feature.");
-  RealT cx_ratio = opt.Real("cx",0.5,"Image centre x coordinate as ratio of image width. ");
-  RealT cy_ratio = opt.Real("cy",0.5,"Image centre y coordinate as ratio of image height. ");
-  RealT fx = opt.Real("fx",1.0,"Focal distance in vertical pixels. ");
-  RealT fy = opt.Real("fy",1.0,"Focal distance in horizontal pixels. ");
-  RealT K1 = opt.Real("K1",0.0,"Cubic radial distortion coefficient. ");
-  RealT K2 = opt.Real("K2",0.0,"Quintic radial distortion coefficient. ");
-  int borderC    = opt.Int("bc", 200, "Width of horizontal border around image");
-  int borderR    = opt.Int("br", 200, "Width of vertical border around image");
-  int cropT = opt.Int("crt", 0, "Width of cropping region at top of image");
-  int cropB = opt.Int("crb", 0, "Width of cropping region at bottom of image");
-  int cropL = opt.Int("crl", 0, "Width of cropping region at left of image");
-  int cropR = opt.Int("crr", 0, "Width of cropping region at right of image");
-  Point2dC pointTL = opt.Point2d("ptl", 0.0, 0.0, "Top-left coordinates of first image");
-  Point2dC pointTR = opt.Point2d("ptr", 0.0, 1.0, "Top-right coordinates of first image");
-  Point2dC pointBL = opt.Point2d("pbl", 1.0, 0.0, "Bottom-left coordinates of first image");
-  Point2dC pointBR = opt.Point2d("pbr", 1.0, 1.0, "Bottom-right coordinates of first image");
-  int maxFrames = opt.Int("mf",-1,"Maximum number of frames to process ");
+  opt.Comment("Mosaic:");
+  int borderC    = opt.Int("bc", 200, "Width of horizontal border around initial mosaic image");
+  int borderR    = opt.Int("br", 200, "Width of vertical border around initial mosaic image");
+  Point2dC pointTL = opt.Point2d("ptl", 0.0, 0.0, "Top-left coordinates of projection of first image");
+  Point2dC pointTR = opt.Point2d("ptr", 0.0, 1.0, "Top-right coordinates of projection of first image");
+  Point2dC pointBL = opt.Point2d("pbl", 1.0, 0.0, "Bottom-left coordinates of projection of first image");
+  Point2dC pointBR = opt.Point2d("pbr", 1.0, 1.0, "Bottom-right coordinates of projection of first image");
+  StringC mosaicFile = opt.String("mo", "/tmp/mosaic.ppm", "Output file for mosaic");
+  StringC homogFile = opt.String("hf", "", "Output file for interframe projections used to construct mosaic (default: no output)");
+  opt.Comment("Foreground image generation:");
+  bool noForeground = opt.Boolean("nofg", false, "Suppress foreground image generation");
+  int fgThreshold = opt.Int("ft",24,"Minimum distance between image and mosaic pixel values to be a foreground pixel");
+  opt.Comment("Input and output video:");
+  int maxFrames = opt.Int("mf",200,"Maximum number of frames to process");
   StringC ifn = opt.String("","@V4LH:/dev/video0","Input sequence. ");
   StringC ofn = opt.String("","@X","Output sequence. ");
   opt.Check();
+  if (maxFrames < 0) maxFrames = 200;  // a hack; currently program fails if default is used.
 
   // Open an input stream.
   DPIPortC<ImageC<ByteRGBValueC> > inp;
@@ -142,14 +89,6 @@ int Mosaic(int nargs,char **argv) {
   inp.SetAttr("FrameBufferSize","2");
 #endif
   ImageC<ByteRGBValueC> img;
-#if 0
-  for(UIntT frameNo = 0;frameNo < 200;frameNo++)
-    // Read an image from the input.
-    if(!inp.Get(img)) {
-      cerr << "Failed to read image from input '" << ifn << "'\n";
-      return 1;
-    }
-#endif
   
   // Create a mosaic class instance
   MosaicBuilderC mosaicBuilder(cthreshold, cwidth, mthreshold, mwidth,
@@ -165,7 +104,7 @@ int Mosaic(int nargs,char **argv) {
 
   for(IntT frameNo = 0;frameNo < maxFrames;frameNo++) {
     if(!inp.Get(img))
-      return 1;
+      break;
 
     if(K1 == 0.0 && K2 == 0.0) {
       // no distortion, so build mosaic from original images
@@ -198,7 +137,16 @@ int Mosaic(int nargs,char **argv) {
   ImageC<ByteRGBValueC> mosaicRGB = ByteRGBMedianImageC2ByteRGBImageCT(mosaicBuilder.GetMosaic());
 
   // save constructed mosaic
-  Save("/tmp/mosaic.ppm",mosaicRGB);
+  Save(mosaicFile,mosaicRGB);
+
+  // save interframe projections if required
+  if (homogFile != "") {
+    OStreamC homogStream(homogFile);
+    homogStream<<mosaicBuilder.GetMotion() << mosaicBuilder.GetCropRect();
+    homogStream.Close();
+  }
+
+  if (noForeground) return 0;
 
   // reopen input sequence
   if(!OpenISequence(inp,ifn)) {
@@ -206,14 +154,6 @@ int Mosaic(int nargs,char **argv) {
     return 1;
   }
 
-#if 0
-  for(UIntT frameNo = 0;frameNo < 200;frameNo++)
-    // Read an image from the input.
-    if(!inp.Get(img)) {
-      cerr << "Failed to read image from input '" << ifn << "'\n";
-      return 1;
-    }
-#endif
   // Open the output stream for the foreground segmentation images.
   DPOPortC<ImageC<ByteRGBValueC> > outp;
   if(!OpenOSequence(outp,ofn,"")) {
@@ -238,7 +178,7 @@ int Mosaic(int nargs,char **argv) {
   // convert mosaic to grey level
   ImageC<ByteT> mosaicGrey = RGBImageCT2ByteImageCT(mosaicRGB);
 
-  // image matcher
+  // set up image matcher, used to improve estimate of homography
   ImageMatcherC matcher(mosaicGrey, cropT, cropB, cropL, cropR,
 			17, 25, 20, MOSAIC_ZHOMOG, IMAGE_ZHOMOG );
 
@@ -262,8 +202,9 @@ int Mosaic(int nargs,char **argv) {
     cout << "        (" << P[1][0] << " " << P[1][1] << " " << P[1][2] << ")" << endl;
     cout << "        (" << P[2][0] << " " << P[2][1] << " " << P[2][2] << ")" << endl;
 
-    // crop image
-    img = ImageC<ByteRGBValueC>(img,mosaicBuilder.GetCropRect());
+    // crop image to ensure it fits withing mosaic
+    img = ImageC<ByteRGBValueC>(img,mosaicBuilder.GetCropRect()).Copy();
+    // (The .Copy() is a temporary fix to get round DPOPort / @X bug 
 
     // warp mosaic onto image
     ImageC<ByteRGBValueC> warped_img(mosaicBuilder.GetCropRect());
@@ -271,20 +212,23 @@ int Mosaic(int nargs,char **argv) {
     pwarp.Apply(mosaicRGB,warped_img);
 
     // smooth both images to suppress artefacts
+    Array1dC<RealT> lpfkernel(-1,1); 
+    lpfkernel[-1] = lpfkernel[1] = 0.25; lpfkernel[0] = 0.5;
+    ConvolveSeparable2dC<RealT, ByteRGBValueC, ByteRGBValueC, RGBValueC<RealT> > lpf(lpfkernel,lpfkernel);
     for(IntT i=0; i < 3; i++) {
-      Smooth8Way(img);
-      Smooth8Way(warped_img);
+      img = lpf.Apply(img);
+      warped_img = lpf.Apply(warped_img);
     }
 
     // subtract and threshold
     ImageC<bool> mask(mosaicBuilder.GetCropRect());
     mask.Fill(false);
-    for(Array2dIter3C<ByteRGBValueC,ByteRGBValueC,bool> it(img,warped_img,mask);
+    for(Array2dIter3C<ByteRGBValueC,ByteRGBValueC,bool> it(img,warped_img,mask,false);
 	it.IsElm(); it.Next()) {
       IntT diff2 = Sqr((IntT)it.Data1().Red()   - (IntT)it.Data2().Red()) +
                    Sqr((IntT)it.Data1().Green() - (IntT)it.Data2().Green()) +
 	           Sqr((IntT)it.Data1().Blue()  - (IntT)it.Data2().Blue());
-      if ( diff2 > 600 )
+      if ( diff2 > fgThreshold*fgThreshold )
 	it.Data3() = true;
     }
 
@@ -297,7 +241,7 @@ int Mosaic(int nargs,char **argv) {
     cout << "mask.Rows()=" << mask.Rows() << " mask.Cols()=" << mask.Cols() << endl;
 
     ByteRGBValueC val(0,0,0);
-    for(Array2dIter2C<ByteRGBValueC,bool> it(img,mask);
+    for(Array2dIter2C<ByteRGBValueC,bool> it(img,mask,false);
 	it.IsElm(); it.Next()) {
       if ( !it.Data2() )
 	it.Data1() = val;
