@@ -1,9 +1,14 @@
-#if !defined(TIMECODE_H)
-#define TIMECODE_H
-
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2002, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
+#ifndef RAVL_TIMECODE_HEADER 
+#define RAVL_TIMECODE_HEADER 1
 ////////////////////////////////////////////////////////////////////////////
-//! rcsid=""
-//! date="14/05/102"
+//! rcsid="$Id$"
+//! date="14/05/2002"
 //! lib=RavlCore
 //! file="Ravl/Core/Base/TimeCode.hh"
 //! docentry="Ravl.Core.Misc"
@@ -15,51 +20,43 @@
 
 namespace RavlN {
 
+  class StringC;
+  
+  //! userlevel=Normal
+  //: Time code.
   
   class TimeCodeC  
   {
-    
   public:
     
-    // ============
+    //:------------------
     // Constructors
-    // ============
+    
     TimeCodeC(ByteT hr, ByteT min, ByteT sec, ByteT fr);
-    // Construct timecode from 4 bytes
+    //: Construct timecode from 4 bytes
     
     TimeCodeC(ByteT * in);
-    // Construct timecode from byte array
+    //: Construct timecode from byte array
     
     TimeCodeC(int hr, int min, int sec, int fr);
-    // Construct timecode from 4 ints
+    //: Construct timecode from 4 ints
     
     TimeCodeC(const long int nFrames);
-    // Construct timecode from absolute frame count
-    
-    TimeCodeC(const TimeCodeC &in);
-    // Construct timecode from another timecode
+    //: Construct timecode from absolute frame count
     
     TimeCodeC(const char * string);
-    // Construct from a valid string representation
+    //: Construct from a valid string representation
     
-    TimeCodeC();
-    // Construct empty timecode
+    TimeCodeC()
+      : m_liFrame(0)
+    {}
+    //: Construct empty timecode
     
-    virtual ~TimeCodeC();
-    // Destroy timecode
-        
-    // =========
-    // Operators
-    // =========
-    
-    TimeCodeC &operator=(const TimeCodeC &in);
-    // Equal assignment
-    
+    //:-------------------
+    //: Operators
+
     bool operator==(const TimeCodeC &in) const; 
-    // Checks for equals assignment
-    
-    bool operator==(TimeCodeC &in); 
-    // Checks for equals assignment
+    //: Checks for equals assignment
     
     bool operator!=(const TimeCodeC &in);
     // Checks for not equals assignment
@@ -97,30 +94,26 @@ namespace RavlN {
     friend istream &operator>>(istream &s, TimeCodeC &inds);
     // Input stream fot timecode
     
-    // ================
+    //:----------------------
     // Member Functions
-    // ================
+    
     unsigned int Hash() const { return (unsigned int) m_liFrame; }
     //: the hash key
     
-    inline int bcd(ByteT in){return (in >> 4) * 10  + (in & 0xf);}
-    // Routine to convert binary coded decimal to int
+    inline int bcd(ByteT in) { return (in >> 4) * 10  + (in & 0xf);}
+    //: Routine to convert binary coded decimal to int
     
-    char * ToChar() const;
-    // Return a char  representation of timecode
+    StringC ToText() const;
+    //: Return a char  representation of timecode
     
     int NumberOfFramesTo(const TimeCodeC &in);
-    // Count the number of frames to a timecode
+    //: Count the number of frames to a timecode
     
     bool IsValid();
-    // Checks whether the timecode holds valid data
+    //: Checks whether the timecode holds valid data
         
     long int getFrameCount() const {return m_liFrame;}
-
-
-    // =====================
-    // Object Representation
-    // =====================
+    //: Access frame count.
     
   public:
     
@@ -130,25 +123,13 @@ namespace RavlN {
     
   };
   
+  ostream &operator<<(ostream &s, const TimeCodeC &out);
+  //: Write time code out to stream.
   
-  inline
-  ostream &
-  operator<<(ostream &s, const TimeCodeC &out)
-    //==========================================
-  {
-    s << out.ToChar();
-    return s;
-  }
+  istream &operator>>(istream &s, TimeCodeC &tc);
+  //: Read time code in from stream.
+  // NOT IMPLEMENTED.
   
-  inline
-  istream &
-  operator>>(istream &s, TimeCodeC &tc)
-    //===================================
-  {
-    //cerr << "operator>>(istream &s, TimeCodeC &tc): not implemented" << endl;
-    IssueError(__FILE__, __LINE__, "not implemented");
-    return s;
-  }
 } // end namespace RavlN
 
-#endif // !defined(AFX_TIMECODEC_H)
+#endif
