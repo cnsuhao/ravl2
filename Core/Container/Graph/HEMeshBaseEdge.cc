@@ -10,7 +10,7 @@
 #include "Ravl/HEMeshBaseEdge.hh"
 #include "Ravl/HEMeshBaseFace.hh"
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #include "Ravl/Stream.hh"
 #define ONDEBUG(x) x
@@ -49,6 +49,7 @@ namespace RavlN {
       vertex->edge = 0; // Well we tried.
       return ;
     }
+    RavlAssert(&(pair->Prev()) != this);
     vertex->edge = &pair->Prev();
   }
   

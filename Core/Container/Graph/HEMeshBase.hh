@@ -110,7 +110,7 @@ namespace RavlN {
     HEMeshBaseEdgeC NewEdge(const HEMeshBaseVertexC &vert,const HEMeshBaseFaceC &face)
     { return NewEdge(const_cast<HEMeshBaseVertexC &>(vert).Body(),const_cast<HEMeshBaseFaceC &>(face).Body()); }
     //: Create a new edge
-
+    
     IntrDListC<HEMeshBaseFaceBodyC> faces;  // List of faces in the mesh.
     IntrDListC<HEMeshBaseVertexBodyC> vertices; // List of vertices.
     

@@ -12,8 +12,9 @@
 #include "Ravl/Hash.hh"
 #include "Ravl/HSet.hh"
 #include "Ravl/IntrDLIter.hh"
+#include "Ravl/HEMeshBaseFaceIter.hh"
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -196,14 +197,17 @@ namespace RavlN {
     RavlAssert(edge.HasPair());
     HEMeshBaseEdgeC edgep = edge.Pair();
     
+    RavlAssert(vertFrom.Next() != vertTo);
+    RavlAssert(vertFrom.Prev() != vertTo);
     RavlAssert(vertFrom.Vertex() != vertTo.Vertex());
     
     RavlAssert(edgep != vertFrom);
     RavlAssert(edgep != vertTo);
-    
+    RavlAssert(!(vertFrom.Face() == vertTo.Face()));
     RavlAssert(vertFrom.Face() == edge.Face() || vertFrom.Face() == edgep.Face());
     RavlAssert(vertTo.Face() == edge.Face() || vertTo.Face() == edgep.Face());
-    
+
+
     // Make sure vertex's don't refer directly to these edges.
     
     edge.Body().CorrectVertexEdgePtr();
@@ -216,6 +220,8 @@ namespace RavlN {
     edgep.Body().CutPaste(edge.Body().Next(),edge.Body()); // Note: this removes 'edge' and leaves it self pointing.
     edgep.Unlink(); // Take out the edges we're moving.
     
+    RavlAssert(edge.Body().IsSelfPointing());
+    
     // Set new vertex's for edge.
     
     edge.Body().SetVertex(vertTo.Vertex().Body());
@@ -223,10 +229,9 @@ namespace RavlN {
     
     edgep.Body().SetVertex(vertFrom.Vertex().Body());
     //vertFrom.Vertex().SetEdge(edgep.Body());
-
-    HEMeshBaseEdgeC tmp = vertFrom.Next();
-    edge.Body().CutPaste(vertTo.Body().Next() ,tmp.Body());
-    tmp.Body().LinkBef(edgep.Body());
+    
+    edge.Body().CutPaste(vertTo.Body().Next() ,vertFrom.Next().Body());
+    vertTo.Body().LinkAft(edgep.Body());
     
     // Go around new faces correcting the face pointers. 
     
@@ -414,6 +419,11 @@ namespace RavlN {
 	    cerr << "HEMeshBaseBodyC::CheckMesh(), Error: Last vertex doesn't match egde pairs vertex. Other edge=" << curEdge.Pair().Hash() << "\n";
 	    ret = false;
 	  }
+	  // Paranoia... double check 
+	  if(curEdge.Pair().Prev().Vertex() != curEdge.Vertex()) {
+	    cerr << "HEMeshBaseBodyC::CheckMesh(), Error: Pair's previous vertex doesn't match edge's vertex. Other edge=" << curEdge.Pair().Hash() << "\n";
+	    ret = false;
+	  }
 	} else {
 	  if(!canBeOpen) {
 	    cerr << "HEMeshBaseBodyC::CheckMesh(), Error: Open face found. \n";
@@ -456,25 +466,38 @@ namespace RavlN {
   
   bool HEMeshBaseBodyC::DeleteVertex(HEMeshBaseVertexC vert) {
     RavlAssert(vert.IsValid());
+    ONDEBUG(cerr << "HEMeshBaseBodyC::DeleteVertex(), Vert=" << vert.Hash() << " HasEdge=" << vert.HasEdge() << " \n");
+    DListC<HEMeshBaseFaceC> delFaces;
+#if 0
     HEMeshBaseToVertexEdgeIterC it(vert);
-    ONDEBUG(cerr << "HEMeshBaseBodyC::DeleteVertex(), Vert=" << vert.Hash() << " HasEdge=" << vert.HasEdge() << " Valid=" << ((bool) it) << "\n");
-    DListC<HEMeshBaseFaceC> faces;
     if(it) {
       for(;it;it++) {
 	ONDEBUG(cerr << "HEMeshBaseBodyC::DeleteVertex(), Fwd FaceAt=" << (*it).Hash() << "\n");
-	faces += it.Data().Face();
+	delFaces += it.Data().Face();
       }
       it.First();
       for(it--;it;it--) {
 	ONDEBUG(cerr << "HEMeshBaseBodyC::DeleteVertex(), Bkw FaceAt=" << (*it).Hash() << "\n");
-	faces += it.Data().Face();
-      }
-      ONDEBUG(cerr << "HEMeshBaseBodyC::DeleteVertex(), No Face=" << faces.Size() << "\n");
-      for(DLIterC<HEMeshBaseFaceC> it2(faces);it2;it2++) {
-	ONDEBUG(cerr << "HEMeshBaseBodyC::DeleteVertex(), Face=" << it2.Data().Hash() << " Valid=" << it2.Data().IsValid() << " Face=" << ((void *) &(it2->Body())) << "\n");
-	delete &(it2->Body());
+	delFaces += it.Data().Face();
       }
     }
+#else
+    for(HEMeshBaseFaceIterC fit(faces);fit;fit++) {
+      for(HEMeshBaseFaceEdgeIterC eit(*fit);eit;eit++) {
+	if(eit->Vertex() == vert) {
+	  delFaces.InsLast(*fit);
+	  break;
+	}
+      }
+    }
+#endif
+    ONDEBUG(cerr << "HEMeshBaseBodyC::DeleteVertex(), No Face=" << faces.Size() << "\n");
+    for(DLIterC<HEMeshBaseFaceC> it2(delFaces);it2;it2++) {
+      ONDEBUG(cerr << "HEMeshBaseBodyC::DeleteVertex(), Face=" << it2.Data().Hash() << " Valid=" << it2.Data().IsValid() << " Face=" << ((void *) &(it2->Body())) << "\n");
+      it2->Body().Unlink();
+      delete &(it2->Body());
+    }
+    vert.Body().Unlink();
     delete &vert.Body();
     return true;
   }

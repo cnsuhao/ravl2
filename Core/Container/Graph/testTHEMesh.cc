@@ -13,6 +13,7 @@
 #include "Ravl/THEMesh.hh"
 #include "Ravl/THEMeshVertex.hh"
 #include "Ravl/THEMeshVertexIter.hh"
+#include "Ravl/Random.hh"
 
 using namespace RavlN;
 
@@ -20,12 +21,14 @@ int testTHEMeshBasic();
 int testHEMeshBase();
 int testInsertVertexOnFace();
 int testTwistEdge();
+int testTwistEdgeMore();
 int testSplitFace();
 int testInsertVertexInEdge();
 int testInsertVertexInEdgeTri();
 
 int main(int nargs,char **argv) {
   int ln;
+#if 1
   if((ln = testHEMeshBase()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
@@ -38,7 +41,13 @@ int main(int nargs,char **argv) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
+#endif
   if((ln = testTwistEdge()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  }
+#if 1
+  if((ln = testTwistEdgeMore()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
@@ -54,6 +63,7 @@ int main(int nargs,char **argv) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   } 
+#endif
   cerr << "Test passed. \n";
   return 0;
 }
@@ -97,6 +107,7 @@ int testTwistEdge() {
   
   mesh.InsertFace(tempFace2,edgeTab); // Insert initial face.
   
+  cerr << "Checking initial mesh. \n";
   if(!mesh.CheckMesh(true)) return __LINE__;
   
   HEMeshBaseEdgeC edge = edgeTab[Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC>(tempFace1[1],tempFace1[2])];
@@ -111,15 +122,56 @@ int testTwistEdge() {
   // Twist edge.
   
   mesh.TwistEdge(edge,efrom,eto);
+  cerr << "Checking twisted mesh. \n";
   
   if(!mesh.CheckMesh(true)) return __LINE__;
   
   // Twist edge back.
   
-  mesh.TwistEdge(edge,efrom.Prev(),eto.Prev());
+  mesh.TwistEdge(edge,edge.Next(),edge.Pair().Next());
+  cerr << "Checking untwisted mesh. \n";
   
   if(!mesh.CheckMesh(true)) return __LINE__;
   
+  mesh.TwistEdge(edge,edge.Next(),edge.Pair().Next());
+  cerr << "Checking twisted mesh. \n";
+  
+  if(!mesh.CheckMesh(true)) return __LINE__;
+  
+  return 0;
+}
+
+int testTwistEdgeMore() {
+  HEMeshBaseC mesh(true);
+  SArray1dC<HEMeshBaseVertexC> tempFace(3);
+  tempFace[0] = mesh.InsertVertex();
+  tempFace[1] = mesh.InsertVertex();
+  tempFace[2] = mesh.InsertVertex();
+  
+  HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> edgeTab;
+  HEMeshBaseFaceC face = mesh.InsertFace(tempFace,edgeTab); // Insert initial face.
+  if(!mesh.CheckMesh(true)) return __LINE__;
+  if(!face.IsValid()) return __LINE__;
+  
+  HEMeshBaseVertexC vert = mesh.InsertVertex();
+  if(!vert.IsValid()) return __LINE__;
+  if(!mesh.InsertVertexInFace(vert,face)) return __LINE__;
+  if(!mesh.CheckMesh(true)) return __LINE__;
+
+  SArray1dC<HEMeshBaseEdgeC> edges(3);
+  HEMeshBaseVertexEdgeIterC eit(vert);
+  if(!eit) return __LINE__;
+  edges[0] = *eit; eit++;
+  if(!eit) return __LINE__;
+  edges[1] = *eit; eit++;
+  if(!eit) return __LINE__;
+  edges[2] = *eit; eit++;
+  if(eit) return __LINE__;
+  
+  HEMeshBaseEdgeC edge = edges[RandomInt() % 3];
+  mesh.TwistEdge(edge,edge.Next(),edge.Pair().Next());
+  if(!mesh.CheckMesh(true)) return __LINE__;
+    
   return 0;
 }
 
@@ -212,3 +264,4 @@ int testTHEMeshBasic() {
   test.InsertFace(true,arr,edgeTab);
   return 0;
 }
+
