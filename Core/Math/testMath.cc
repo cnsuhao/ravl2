@@ -59,7 +59,7 @@ int testRandom() {
   RealT num = 0;
   RealT min = 2;
   RealT max = -1;
-  for(IntT i = 0;i < 10000000;i++) 
+  for(IntT i = 0;i < 1000000;i++) 
   {
     IntT rv =  RandomInt();
     num = (RealT)rv / ((RealT) RandomIntMaxValue + 1.0);

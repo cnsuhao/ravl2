@@ -13,6 +13,7 @@
 #include "Ravl/PriQueue.hh"
 #include "Ravl/Random.hh"
 #include "Ravl/Stream.hh"
+#include <stdlib.h>
 
 using namespace RavlN;
 
