@@ -35,10 +35,10 @@ namespace RavlGUIN {
     : public LBoxBodyC
   {
   public:
-    PlayControlBodyC(const DPPlayControlC &ctrl,bool simpleControls = false);
+    PlayControlBodyC(const DPPlayControlC &ctrl,bool simpleControls = false,bool extendedControls = true);
     //: Constructor.
     
-    PlayControlBodyC(bool simpleControls = false);
+    PlayControlBodyC(bool simpleControls = false,bool extendedControls = true);
     //: Default constructor.
     
     ~PlayControlBodyC();
@@ -141,7 +141,7 @@ namespace RavlGUIN {
     
     Signal1C<IntT> sigUpdateFrameNo; // Signal frame number update.
     bool simpleControls;
-    
+    bool extendedControls;
     friend class PlayControlC;
     
   };
@@ -154,13 +154,13 @@ namespace RavlGUIN {
     : public LBoxC
   {
   public:
-    PlayControlC(const DPPlayControlC &ctrl,bool simpleControls = false)
-      : LBoxC(*new PlayControlBodyC(ctrl,simpleControls))
+    PlayControlC(const DPPlayControlC &ctrl,bool simpleControls = false,bool extendedControls = true)
+      : LBoxC(*new PlayControlBodyC(ctrl,simpleControls,extendedControls))
     {}
     //: Constructor.
     
-    PlayControlC(bool simpleControls)
-      : LBoxC(*new PlayControlBodyC(simpleControls))
+    PlayControlC(bool simpleControls,bool extendedControls = true)
+      : LBoxC(*new PlayControlBodyC(simpleControls,extendedControls))
     {}
     //: Constructor.
     

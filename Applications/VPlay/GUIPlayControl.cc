@@ -298,23 +298,25 @@ namespace RavlGUIN {
   
   //: Default constructor.
   
-  PlayControlBodyC::PlayControlBodyC(bool nsimpleControls)
+  PlayControlBodyC::PlayControlBodyC(bool nsimpleControls,bool nExtendedControls)
     : LBoxBodyC(true,5,true),
       doneAdd(false),
       baseSpeed(1),
       skip(1),
       sigUpdateFrameNo((IntT) 1),
-      simpleControls(nsimpleControls)
+      simpleControls(nsimpleControls),
+      extendedControls(nExtendedControls)
   { InitGUI(); }
   
-  PlayControlBodyC::PlayControlBodyC(const DPPlayControlC &nctrl,bool nsimpleControls)
+  PlayControlBodyC::PlayControlBodyC(const DPPlayControlC &nctrl,bool nsimpleControls,bool nExtendedControls)
     : LBoxBodyC(true,5,true),
       pc(nctrl),
       doneAdd(false),
       baseSpeed(1),
       skip(1),
       sigUpdateFrameNo((IntT) 1),
-      simpleControls(nsimpleControls)
+      simpleControls(nsimpleControls),
+      extendedControls(nExtendedControls)
   { InitGUI(); }
   
   //: Show/Hide extended controls.
@@ -426,7 +428,7 @@ namespace RavlGUIN {
 	);
     
     textSkip = TextEntryR(StringC(skip),*this,&PlayControlBodyC::SetSkip,-1,true);
-    if(!simpleControls) {
+    if(!simpleControls && extendedControls) {
       enableextras = CheckButtonR("Extended controls","Show extended control panel",false,*this,&PlayControlBodyC::ShowExtended);
       Add(PackInfoC(enableextras,false,false));
       extraControls = PackInfoC(VBox(HBox(LabelC("skip:") + textSkip) +
