@@ -112,7 +112,7 @@ namespace RavlN {
     //: Return  A.T() * A.
 #endif
     
-    virtual TMatrixC<DataT> TMatrix() const;
+    virtual TMatrixC<DataT> TMatrix(bool) const;
     //: Get as full matrix.
     
     virtual void SetDiagonal(const TVectorC<DataT> &d) { 
@@ -165,6 +165,12 @@ namespace RavlN {
   public:
     friend class TSMatrixRightUpperBodyC<DataT>;
   };
+  
+}
+
+#include "Ravl/TSMatrixLeftLower.hh"
+
+namespace RavlN {
   
   template<class DataT>
   TSMatrixRightUpperBodyC<DataT>::TSMatrixRightUpperBodyC(const TMatrixC<DataT> &ndata)
@@ -259,7 +265,7 @@ namespace RavlN {
 #endif
   
   template<class DataT>
-  TMatrixC<DataT> TSMatrixRightUpperBodyC<DataT>::TMatrix() const {
+  TMatrixC<DataT> TSMatrixRightUpperBodyC<DataT>::TMatrix(bool) const {
     TMatrixC<DataT> ret(Rows(),Cols());
     const DataT *at1 = &(data[0]);
     for(UIntT j = 0;j < Rows();j++) {
@@ -273,13 +279,10 @@ namespace RavlN {
     }
     return ret;
   }
-
-  //: Get transpose of matrix.
-  // This is a no-op.
   
   template<class DataT>
   TSMatrixC<DataT> TSMatrixRightUpperBodyC<DataT>::T() const {
-    return TSMatrixC<DataT>(TMatrix().T());
+    return TSMatrixC<DataT>(TMatrix(false).T());
   }
 }
 

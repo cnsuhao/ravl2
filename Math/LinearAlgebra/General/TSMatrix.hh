@@ -139,7 +139,7 @@ namespace RavlN {
     virtual void SwapRows(int i,int j);
     //: Swap two rows in the matrix.
     
-    virtual TMatrixC<DataT> TMatrix() const
+    virtual TMatrixC<DataT> TMatrix(bool alwaysCopy = false) const
     { RavlAssert(0); return TMatrixC<DataT>(); }
     //: Access as a TMatrix.
     // Note, the returned matrix may not be a copy and should not be changed!
@@ -329,8 +329,8 @@ namespace RavlN {
     //: Add a vector to the diagonal of this matrix.
     // If d.Size() != Cols() an error is given.
     
-    TMatrixC<DataT> TMatrix() const
-    { return Body().TMatrix(); }
+    TMatrixC<DataT> TMatrix(bool alwaysCopy = false) const
+    { return Body().TMatrix(alwaysCopy); }
     //: Access as a TMatrix.
     // Note, this may not be a copy and should not be changed!
 
@@ -370,12 +370,8 @@ namespace RavlN {
     const type_info &thisType = MatrixType();
       if(thisType == oth.MatrixType())
       ret = TSMatrixC<DataT>(static_cast<TSMatrixBodyC<DataT> &>(Copy()));
-    else {
-      if(thisType == typeid(TSMatrixFullBodyC<DataT>))
-	ret = TSMatrixC<DataT>(TMatrix().Copy());
-      else
-	ret = TSMatrixC<DataT>(TMatrix());
-    }
+    else 
+      ret = TSMatrixC<DataT>(TMatrix(true));
     ret.AddIP(oth);
     return ret;
   }
@@ -387,12 +383,8 @@ namespace RavlN {
     const type_info &thisType = MatrixType();
       if(thisType == oth.MatrixType())
       ret = TSMatrixC<DataT>(static_cast<TSMatrixBodyC<DataT> &>(Copy()));
-    else {
-      if(thisType == typeid(TSMatrixFullBodyC<DataT>))
-	ret = TSMatrixC<DataT>(TMatrix().Copy());
-      else
-	ret = TSMatrixC<DataT>(TMatrix());
-    }
+    else
+      ret = TSMatrixC<DataT>(TMatrix(true));
     ret.SubIP(oth);
     return ret;
   }

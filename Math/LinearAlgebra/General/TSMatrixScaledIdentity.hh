@@ -97,7 +97,7 @@ namespace RavlN {
     virtual TSMatrixC<DataT> ATA() const;
     //: Return  A.T() * A.
 
-    virtual TMatrixC<DataT> TMatrix() const;
+    virtual TMatrixC<DataT> TMatrix(bool) const;
     //: Get as full matrix.
 
     const DataT &Scale() const
@@ -225,7 +225,7 @@ namespace RavlN {
   }
   
   template<class DataT>
-  TMatrixC<DataT> TSMatrixScaledIdentityBodyC<DataT>::TMatrix() const {
+  TMatrixC<DataT> TSMatrixScaledIdentityBodyC<DataT>::TMatrix(bool) const {
     TMatrixC<DataT> ret(Rows(),Cols());
     ret.Fill(0);
     for(UIntT i = 0;i < Rows();i++)

@@ -110,7 +110,7 @@ namespace RavlN {
     virtual TSMatrixC<DataT> ITMul(const TSMatrixC<DataT> & B) const;
     //: Multiply B by the transpose of the inverse of this matrix.
     
-    virtual TMatrixC<DataT> TMatrix() const;
+    virtual TMatrixC<DataT> TMatrix(bool) const;
     //: Get as full matrix.
     
     virtual void SetDiagonal(const TVectorC<DataT> &d) { 
@@ -240,7 +240,7 @@ namespace RavlN {
   { return TSMatrixDiagonalBodyC<DataT>::IMul(B); }
   
   template<class DataT>
-  TMatrixC<DataT> TSMatrixDiagonalBodyC<DataT>::TMatrix() const {
+  TMatrixC<DataT> TSMatrixDiagonalBodyC<DataT>::TMatrix(bool) const {
     TMatrixC<DataT> ret(Rows(),Cols());
     ret.Fill(0);
     ret.SetDiagonal(data);

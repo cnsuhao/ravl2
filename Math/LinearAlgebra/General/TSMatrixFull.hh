@@ -138,8 +138,10 @@ namespace RavlN {
     { matrix.SwapRows(i,j); }
     //: Swap two rows in the matrix.
     
-    TMatrixC<DataT> TMatrix() const
-    { return matrix; }
+    TMatrixC<DataT> TMatrix(bool alwaysCopy) const { 
+      if(alwaysCopy) return matrix.Copy();
+      return matrix; 
+    }
     //: Access as normal matrix.
     
     TMatrixC<DataT> &FullTMatrix()

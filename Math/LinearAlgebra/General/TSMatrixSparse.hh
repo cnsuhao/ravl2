@@ -297,7 +297,7 @@ namespace RavlN {
     virtual DataT MulSumColumn(UIntT c,const Array1dC<DataT> &dat) const;
     //: Multiply columb by values from dat and sum them.
     
-    virtual TMatrixC<DataT> TMatrix() const;
+    virtual TMatrixC<DataT> TMatrix(bool alwaysCopy = false) const;
     //: Access as a TMatrix.
 
     virtual void AddIP(const TSMatrixC<DataT> &oth);
@@ -586,7 +586,7 @@ namespace RavlN {
   }
   
   template<class DataT>
-  TMatrixC<DataT> TSMatrixSparseBodyC<DataT>::TMatrix() const {
+  TMatrixC<DataT> TSMatrixSparseBodyC<DataT>::TMatrix(bool) const {
     TMatrixC<DataT> ret(Rows(),Cols());
     for(UIntT i = 0;i < Rows();i++) {
       DataT *rstart = &(ret[i][0]);
