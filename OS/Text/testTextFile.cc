@@ -14,15 +14,21 @@
 #include "Ravl/Text/TextFile.hh"
 #include "Ravl/Text/TextCursor.hh"
 #include "Ravl/Text/TemplateFile.hh"
+#include "Ravl/Text/ConfigFile.hh"
 #include "Ravl/StrStream.hh"
 
 using namespace RavlN;
 
 int testTextFile();
+int testConfigFile();
 
 int main() {
   int ln;
   if((ln = testTextFile()) != 0) {
+    cerr << "Error line " << ln << "\n";
+    return 1;
+  }
+  if((ln = testConfigFile()) != 0) {
     cerr << "Error line " << ln << "\n";
     return 1;
   }
@@ -48,5 +54,13 @@ int testTextFile() {
   StringC to = oss.String();
   cerr << "Out='" << to << "'\n";
   if(to != tmp) return __LINE__;  
+  return 0;
+}
+
+
+int testConfigFile() {
+  ConfigFileC conf(true);
+  
+  ConfigFileC sc= conf.Section("hello");
   return 0;
 }
