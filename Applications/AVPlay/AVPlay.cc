@@ -176,7 +176,7 @@ static bool file_selector(StringC &filename,FileSelectorC &fs,Tuple2C<DPIPlayCon
 
 class AVRenderC {
 public:
-  AVRenderC(const DPOPortC<SampleElemC<2,Int16T> > &oi,const DPOPortC<Int16T> &oa)
+  AVRenderC(const DPOPortC<ImageC<ByteRGBValueC> > &oi,const DPOPortC<SampleElemC<2,Int16T> > &oa)
     : audioOut(oa),
       imageOut(oi)
   {}
@@ -228,7 +228,7 @@ int doVPlay(int nargs,char *args[])
   bool simpleOnly = option.Boolean("sc",false,"Display Simple Controls only. ");
   //bool deInterlace = option.Boolean("di",false,"De-interlace. (Subsample by 2) ");
   DListC<StringC> attribs = option.List("at","List of attributes to set. ");
-  StringC audioOutFile = option.String("ao","@DEVAUDIO:/dev/dsp","Audio output stream.");
+  StringC audioOutFile = option.String("ao","@DEVAUDIO:/dev/audio","Audio output stream.");
   StringC audioOutFormat = option.String("aof","","Audio output format. ");
   StringC formatIn = option.String("if","","Input format. ");
   StringC audioinfile = option.String("a","","Audio input filename");  
