@@ -138,7 +138,7 @@ namespace RavlGUIN {
     return true;
   }
 
-  bool TextEntryBodyC::HideText(bool& hide) {
+  bool TextEntryBodyC::HideText(const bool& hide) {
     Manager.Queue(Trigger(TextEntryC(*this),&TextEntryC::GUIHideText,hide));
     return true;
   }

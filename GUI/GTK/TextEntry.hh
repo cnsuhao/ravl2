@@ -52,7 +52,7 @@ namespace RavlGUIN {
     Signal1C<StringC> &Activate() { return activate; }
     //: Activate, called when text is changed.
     
-    bool HideText(bool& hide);
+    bool HideText(const bool& hide);
     //: Hides text entered into this field
     // If the argument is true, text in this field will be displayed as *s
 
@@ -133,7 +133,7 @@ namespace RavlGUIN {
     // GUI thread only
 
   public:
-    bool HideText(bool& hide) 
+    bool HideText(const bool& hide) 
     { return Body().HideText(hide); }
     //: Hides text entered into this field
     // If the argument is true, text in this field will be displayed as *s
