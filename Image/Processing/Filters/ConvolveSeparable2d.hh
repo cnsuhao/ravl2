@@ -47,8 +47,8 @@ namespace RavlImageN {
     { Apply(in,result); }
     
   protected:
-    ConvolveVert2dC<KernelPixelT,InPixelT,SumTypeT>  vert;
-    ConvolveHorz2dC<KernelPixelT,SumTypeT,OutPixelT> horz;
+    ConvolveVert2dC<KernelPixelT,InPixelT,SumTypeT,SumTypeT>  vert;
+    ConvolveHorz2dC<KernelPixelT,SumTypeT,OutPixelT,SumTypeT> horz;
   };
   
   template<class KernelPixelT,class InPixelT,class OutPixelT,class SumTypeT>

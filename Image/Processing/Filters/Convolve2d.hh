@@ -14,10 +14,7 @@
 //! file="Ravl/Image/Processing/Filters/Convolve2d.hh"
 //! docentry="Ravl.Images.Filtering"
 
-#include "Ravl/Image/Image.hh"
-#include "Ravl/Array2dIter.hh"
-#include "Ravl/Array2dIter2.hh"
-#include "Ravl/Image/Rectangle2dIter.hh"
+#include "Ravl/Image/Correlate2d.hh"
 
 namespace RavlImageN {
   
@@ -25,63 +22,34 @@ namespace RavlImageN {
   //: 2D Convolution
   
   template<class KernelPixelT,class InPixelT = KernelPixelT,class OutPixelT = InPixelT,class SumTypeT = KernelPixelT>
-  class Convolve2dC {
+  class Convolve2dC 
+    : protected Correlate2dC<KernelPixelT,InPixelT,OutPixelT,SumTypeT>
+  {
   public:
     Convolve2dC()
     {}
     //: Default constructor.
-
+    // Use SetKernel() to setup a kernel before calling Apply().
+    
     Convolve2dC(const ImageC<KernelPixelT> &nkernel)
     { SetKernel(nkernel); }
     //: Default constructor.
     
     void SetKernel(const ImageC<KernelPixelT> &nkernel) { 
-      kernel = nkernel.Rotate180(); // The apply method actualy does correlation.
+      // The apply method actualy does correlation.
+      Correlate2dC<KernelPixelT,InPixelT,OutPixelT,SumTypeT>::SetKernel(nkernel.Rotate180());
     }
     //: Set the convolution kernel.
+    // Note: This method flips the kernel, so does take some time.
     
-    void Apply(const ImageC<InPixelT> &in,ImageC<OutPixelT> &result) const;
+    void Apply(const ImageC<InPixelT> &in,ImageC<OutPixelT> &result) const
+    { Correlate2dC<KernelPixelT,InPixelT,OutPixelT,SumTypeT>::Apply(in,result); }
     //: Do convolution on image 'in', put the output in 'result' 
     
     void operator()(const ImageC<InPixelT> &in,ImageC<OutPixelT> &result) const
-    { Apply(in,result); }
-    
-  protected:
-    ImageC<KernelPixelT> kernel;
+    { Apply(in,result); }    
   };
   
-  template<class KernelPixelT,class InPixelT,class OutPixelT,class SumTypeT>
-  void Convolve2dC<KernelPixelT,InPixelT,OutPixelT,SumTypeT>::Apply(const ImageC<InPixelT> &in,ImageC<OutPixelT> &result) const {
-    RavlAssertMsg(kernel.Frame().Area() > 0,"Convolution kernel too small. ");
-    ImageRectangleC resRect = in.Rectangle();
-    resRect.TRow() -= kernel.Rectangle().TRow();
-    resRect.BRow() -= kernel.Rectangle().BRow();
-    resRect.LCol() -= kernel.Rectangle().LCol();
-    resRect.RCol() -= kernel.Rectangle().RCol();
-    RavlAssertMsg(resRect.Area() > 0,"Convole2dC::Apply(), ERROR: Input rectangle too small.");
-    if(!result.Rectangle().Contains(resRect)) // Check the result rectangle is large enough.
-      result = ImageC<OutPixelT>(resRect); // If its not make another.
-      
-    Array2dIterC<OutPixelT> res(result,resRect);
-    for(Rectangle2dIterC rit(in.Frame(),kernel.Frame());rit;rit++,res++) {
-      BufferAccess2dIter2C<KernelPixelT,InPixelT> it(kernel,kernel.Range1(),kernel.Range2(),
-					     in,rit.Window().Range1(),rit.Window().Range2());
-      SumTypeT sum = (SumTypeT) (it.Data1() * it.Data2());
-      it++;
-      for(;it;it++)
-	sum += (SumTypeT) it.Data1() * (SumTypeT) it.Data2();
-      *res =(OutPixelT) sum;
-    }
-  }
-  //: Do convolution.
-
-#if RAVL_USE_MMX
-  template <> void Convolve2dC<short,short,short,short>::Apply(const ImageC<short> &in,ImageC<short> &result) const;
-  //: Use some MMX code to speed this up.
-  
-  template <> void Convolve2dC<short,short,short,int>::Apply(const ImageC<short> &in,ImageC<short> &result) const;
-  //: Use some MMX code to speed this up.
-#endif
 }
 
 #endif

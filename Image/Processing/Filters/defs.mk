@@ -13,9 +13,10 @@ MAINS=doFilter.cc
 
 HEADERS= Convolve2d.hh ConvolveSeparable2d.hh ConvolveHorz2d.hh \
  ConvolveVert2d.hh BilinearInterpolation.hh HomomorphicFilter.hh \
- HistogramEqualise.hh
+ HistogramEqualise.hh Correlate2d.hh
 
-SOURCES= Convolve2d.cc HomomorphicFilter.cc
+SOURCES= HomomorphicFilter.cc Correlate2d.cc
+# Convolve2d.cc
 
 TESTEXES= testConvolve.cc
 
