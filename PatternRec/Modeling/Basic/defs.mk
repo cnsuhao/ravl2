@@ -9,10 +9,10 @@
 PACKAGE=Ravl/PatternRec
 
 HEADERS=FuncLinearCoeff.hh FuncLinear.hh FuncQuadratic.hh FuncOrthPolynomial.hh \
- DesignFuncLSQ.hh
+ DesignFuncLSQ.hh FuncPDF.hh FuncPDFNormal.hh
 
 SOURCES=FuncLinearCoeff.cc FuncLinear.cc FuncQuadratic.cc FuncOrthPolynomial.cc \
- DesignFuncLSQ.cc
+ DesignFuncLSQ.cc FuncPDF.cc FuncPDFNormal.cc
 
 PLIB=RavlPatternRec
 
