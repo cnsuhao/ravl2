@@ -18,6 +18,14 @@
 #include "Ravl/DList.hh"
 #include "Ravl/DLIter.hh"
 
+#define DODEBUG 0
+
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
+
 namespace RavlN {
   //////////////////////////////
   //! userlevel=Develop
@@ -77,7 +85,7 @@ namespace RavlN {
   protected:
     DListC<DataT> container;
     typename DListC<DataT>::IteratorT iter;
-    IntT pos;
+    IntT next;
   };
   
   /////////////////////////////////
@@ -110,14 +118,15 @@ namespace RavlN {
   DPISListBodyC<DataT>::DPISListBodyC(const DListC<DataT> &dat)
     : container(dat),
       iter(const_cast<DListC<DataT> &>(dat)),
-      pos(0)
+      next(0)
   {}
 
   template<class DataT>
   DataT DPISListBodyC<DataT>::Get() {
     const DataT &dat = iter.Data();
     iter++;
-    pos++;
+    next++;
+    cerr << "DPISListC::Get -  next frame = " << next << endl;
     return dat;
   }
   
@@ -127,7 +136,8 @@ namespace RavlN {
       return false;
     buff = *iter;
     iter++;
-    pos++;
+    next++;
+    ONDEBUG(cerr << "DPISListC::Get -  next frame = " << next << endl);
     return true;
   }
   
@@ -138,37 +148,43 @@ namespace RavlN {
 	return it.Index().V();
       *it = *iter;
       iter++;
-      pos++;
+      next++;
     }
+    ONDEBUG(cerr << "DPISListC::GetArray -  next frame = " << next << endl);
     return data.Size();
   }
 
   template<class DataT>
   bool DPISListBodyC<DataT>::Seek(UIntT off) {
     iter.Nth(off);
-    pos = off;
+    next = off;
+    ONDEBUG(cerr << "DPISListC::Seek -  target = " << off << ", next frame = " << next << endl);
     return true;
   }
   
   template<class DataT>
   bool DPISListBodyC<DataT>::DSeek(IntT off) {
     iter.RelNth(off);
-    pos += off;
+    next += off;
+    ONDEBUG(cerr << "DPISListC::DSeek - offset  = " << off << ", next frame = " << next << endl);
     return true;
   }
   
   template<class DataT>
   UIntT DPISListBodyC<DataT>::Tell() const {
-    return pos + 1;
+    ONDEBUG(cerr << "DPISListC::Tell - next frame = " << next << endl);
+    return next;
   }
   
   template<class DataT>
   UIntT DPISListBodyC<DataT>::Size() const {
+    ONDEBUG(cerr << "DPISListC::Size - size = " << container.Size() << endl);
     return container.Size();
   }
   
   template<class DataT>
   UIntT DPISListBodyC<DataT>::Start() const {
+    ONDEBUG(cerr << "DPISListC::Start - start = 0" << endl);
     return 0;
   }
 
