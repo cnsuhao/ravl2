@@ -287,6 +287,8 @@ namespace RavlGUIN {
     { Body().GUIGrabFocus(); }
     //: Grab keyboard focus.
     
+  public:
+
     bool GUIDNDSource(ModifierTypeT flags,const SArray1dC<GtkTargetEntry> &entries,DragActionT actions)
     { return Body().GUIDNDSource(flags,entries,actions); }
     //: Setup widget as drag and drop source.
@@ -304,8 +306,6 @@ namespace RavlGUIN {
     { return Body().GUIDNDTargetDisable(); }
     //: Disable widget as a drag and drop source.
     
-  public:
-
     bool GUIShow()
     { return Body().GUIShow(); }
     //: Show widget on the display.
