@@ -206,7 +206,7 @@ namespace RavlN {
   template<class DataT>
   bool NetISPortBodyC<DataT>::RecvData(UIntT &pos,DataT &dat) {
     //cerr << "NetISPortBodyC<DataT>::RecvData(), Called for Pos=" << pos << "\n";
-    RWLockHoldC hold(rwlock,false);
+    RWLockHoldC hold(rwlock,RWLOCK_WRITE);
     data = dat;
     flag = 0;
     hold.Unlock();
@@ -222,13 +222,10 @@ namespace RavlN {
     //cerr << "NetISPortBodyC<DataT>::Get(DataT &), Called for Pos=" << at << "\n";
     if(gotEOS)
       return false;
-    RWLockHoldC hold(rwlock,true);
-    hold.Unlock();
     ep.Send(4,at);
     recieved.Wait();
-    hold.LockRd();
-    if(flag != 0)
-      return false;
+    RWLockHoldC hold(rwlock,RWLOCK_READONLY);
+    if(flag != 0) return false;
     buf = data;
     if(at != (UIntT)(-1))
       at++;

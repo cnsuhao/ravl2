@@ -79,7 +79,7 @@ namespace RavlN {
   NetISPortServerBaseC NetPortManagerBodyC::Lookup(const StringC &name) {
     ONDEBUG(cerr << "NetPortManagerBodyC::Lookup(),  Called. Port='" << name << "' \n");
     NetISPortServerBaseC ret; 
-    RWLockHoldC hold(access,true);
+    RWLockHoldC hold(access,RWLOCK_READONLY);
     iports.Lookup(name,ret);
     return ret;
   }
@@ -88,7 +88,7 @@ namespace RavlN {
   
   bool NetPortManagerBodyC::Register(const StringC &name,NetISPortServerBaseC &ips) {
     ONDEBUG(cerr << "NetPortManagerBodyC::Register(),  Called. Port='" << name << "' \n");
-    RWLockHoldC hold(access,false);
+    RWLockHoldC hold(access,RWLOCK_WRITE);
     if(iports.IsElm(name)) 
       return false; // Already registered.
     iports[name] = ips;
@@ -98,7 +98,7 @@ namespace RavlN {
   //: Unregister port.
   
   bool NetPortManagerBodyC::Unregister(const StringC &name) {
-    RWLockHoldC hold(access,false);
+    RWLockHoldC hold(access,RWLOCK_WRITE);
     return iports.Del(name);
   }
 

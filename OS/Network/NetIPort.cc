@@ -62,6 +62,7 @@ namespace RavlN {
   
   bool NetISPortBaseC::RecvState(UIntT &nat,UIntT &nstart,UIntT &nsize) {
     ONDEBUG(cerr << "NetISPortBaseC::RecvState(), At=" << at << " Start=" << nstart << " Size=" << nsize << "\n");
+    RWLockHoldC hold(rwlock,RWLOCK_WRITE);
     at = nat;
     start = nstart;
     size = nsize;
@@ -72,8 +73,7 @@ namespace RavlN {
   
   bool NetISPortBaseC::ReqFailed(IntT &nflag) {
     ONDEBUG(cerr << "NetISPortBaseC::ReqFailed(), Flag=" << flag << "\n");
-    if(nflag == 1)
-      gotEOS = true;
+    if(nflag == 1) gotEOS = true;
     flag = nflag;
     recieved.Post();
     return true;
