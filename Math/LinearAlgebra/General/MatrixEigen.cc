@@ -32,11 +32,9 @@ namespace RavlN {
   VectorC EigenValuesIP(MatrixC &mat) {
     RavlAlwaysAssert(mat.IsContinuous()); // Should we cope with this silently ?
     RavlAlwaysAssertMsg(mat.Rows() == mat.Cols(),"MatrixC::EigenValuesIP() Matrix must be square. ");
-    if(mat.Rows() == 0)
-      return VectorC(0);
-    if(mat.Rows() == 1)
-      return mat.AsVector();
     VectorC ret(mat.Rows());
+    if(mat.Rows() == 0)
+      return ret;
     if(mat.Rows() == 1) {
       ret[0] = mat[0][0];
       return ret;
@@ -73,8 +71,6 @@ namespace RavlN {
   VectorC EigenVectorsIP(MatrixC &mat) {
     RavlAlwaysAssert(mat.IsContinuous()); // Should we cope with this silently ?
     RavlAlwaysAssertMsg(mat.Rows() == mat.Cols(),"MatrixC::EigenVectorsIP() Matrix must be square. ");
-    if(mat.Rows() == 0)
-      return VectorC(0);
     VectorC ret(mat.Rows());
     if(mat.Rows() == 0)
       return ret;
