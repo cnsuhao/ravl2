@@ -18,12 +18,6 @@
 #include "Ravl/IO.hh"
 #include "Ravl/Image/ImgIO.hh"
 
-#if 0
-// Display stuff
-#include "Ravl/GUI/DPDisplayObj.hh"
-#include "Ravl/GUI/DPDisplayImage.hh"
-#endif
-
 using namespace RavlN;
 using namespace RavlImageN;
 
@@ -37,10 +31,16 @@ int main(int nargs,char **argv) {
   int mwidth     = opt.Int("mw",15,"Tracker feature width. ");
   int lifeTime   = opt.Int("ml",8,"Lifetime of a point without a match in the incoming images. ");
   int searchSize = opt.Int("ss",25,"Search size. How far to look from the predicted position of the feature.");
+  int borderC    = opt.Int("bc", 200, "Width of horizontal border around image");
+  int borderR    = opt.Int("br", 200, "Width of vertical border around image");
+  int cropT = opt.Int("crt", 0, "Width of cropping region at top of image");
+  int cropB = opt.Int("crb", 0, "Width of cropping region at bottom of image");
+  int cropL = opt.Int("crl", 0, "Width of cropping region at left of image");
+  int cropR = opt.Int("crr", 0, "Width of cropping region at right of image");
   StringC ifn = opt.String("","@V4LH:/dev/video0","Input sequence. ");
   StringC ofn = opt.String("","@X","Output sequence. ");
   opt.Check();
-  
+
   // Open an input stream.
   DPIPortC<ImageC<ByteRGBValueC> > inp;
   if(!OpenISequence(inp,ifn)) {
@@ -58,7 +58,7 @@ int main(int nargs,char **argv) {
   // Create a tracker.
   PointTrackerC tracker(cthreshold,cwidth,mthreshold,mwidth,lifeTime,searchSize);
   
-  ImageC<ByteRGBValueC> img;
+  ImageC<ByteRGBValueC> img, cropped_img;
   RCHashC<UIntT,Point2dC> last;
   
   MatrixRSC epos(2);
@@ -68,15 +68,25 @@ int main(int nargs,char **argv) {
   epos[0][1] = 0;
 
   FitHomog2dPointsC fitHomog2d(ZHOMOG,ZHOMOG);
-  EvaluateNumInliersC evalInliers(0.1);
+  EvaluateNumInliersC evalInliers(1.0, 2.0);
 
   if(!inp.Get(img))
     return 1;
 
   IndexRange2dC rect(img.Frame());
 
+  // compute cropping region
+  IndexRange2dC crop_rect(rect);
+  crop_rect.TRow() += cropT; crop_rect.BRow() -= cropB;
+  crop_rect.LCol() += cropL; crop_rect.RCol() -= cropR;
+
+  // crop image
+  cropped_img = ImageC<ByteRGBValueC>(img,crop_rect);
+
   // convert image to grey level
-  ImageC<ByteT> grey_img = RGBImageCT2ByteImageCT(img);
+  ImageC<ByteT> grey_img = RGBImageCT2ByteImageCT(cropped_img);
+
+  // initialise tracker
   DListC<PointTrackC> corners = tracker.Apply(grey_img);
 
   // build initial hash table
@@ -88,12 +98,39 @@ int main(int nargs,char **argv) {
 		 0,1,0,
 		 0,0,1);
 
+  // create initially empty mosaic
+  IndexRange2dC mosaic_rect=rect;
+  mosaic_rect.BRow() += 2*borderR;
+  mosaic_rect.RCol() += 2*borderC;
+  
+  ImageC<ByteT> mosaic(mosaic_rect);
+  mosaic.Fill(0);
+
+  // compute homography mapping first image coordinates to mosaic coordinates
+  Matrix3dC Pmosaic(1.0,0.0,-borderR,
+		    0.0,1.0,-borderC,
+		    0.0,0.0,ZHOMOG);
+  
+  // projective warp of first image
+  Matrix3dC Psm=Psum*Pmosaic;
+  Psm = Psm.Inverse();
+  WarpProjectiveC<ByteT,ByteT> pwarp(mosaic_rect,Psm,ZHOMOG,1.0,false);
+  cout << "Width=" << mosaic.Cols() << " Height=" << mosaic.Rows() << endl;
+  pwarp.Apply(grey_img,mosaic);
+  cout << "Width=" << mosaic.Cols() << " Height=" << mosaic.Rows() << endl;
+  Save("@X:Mosaic",mosaic);
+
   for(;;) {
     // Read an image from the input.
     if(!inp.Get(img))
       break;
     img = ImageC<ByteRGBValueC>(img,rect);
-    grey_img = RGBImageCT2ByteImageCT(img);
+
+    // crop image
+    cropped_img = ImageC<ByteRGBValueC>(img,crop_rect);
+
+    // convert image to grey level
+    grey_img = RGBImageCT2ByteImageCT(cropped_img);
 
     // Apply tracker.
     corners = tracker.Apply(grey_img);
@@ -111,11 +148,11 @@ int main(int nargs,char **argv) {
       Point2dC lat;
       if(!last.Lookup(it->ID(),lat))
 	continue; // Matching point not found.
-      obsList.InsLast(ObservationHomog2dPointC(it->Location(),epos,lat,epos));
+      obsList.InsLast(ObservationHomog2dPointC(lat,epos,it->Location(),epos));
     }
     
     last = newpnts;
-    
+
     ObservationListManagerC obsListManager(obsList);
     RansacC ransac(obsListManager,fitHomog2d,evalInliers);
 
@@ -144,7 +181,7 @@ int main(int nargs,char **argv) {
 
     // apply iterations
     RealT lambda = 100.0;
-    for ( int i = 0; i < 20; i++ ) {
+    for ( int i = 0; i < 4; i++ ) {
       bool accepted = lm.Iteration(compatible_obs_list, lambda);
       if ( accepted )
 	// iteration succeeded in reducing the residual
@@ -169,14 +206,16 @@ int main(int nargs,char **argv) {
     // accumulate homography
     Psum = P*Psum;
 
+    // compute homography to map image onto mosaic
+    
     // projective warp
-    ImageC<ByteT> warped = grey_img.Copy();
-    //warped.Fill(0);
-    WarpProjectiveC<ByteT,ByteT> pwarp(rect,Psum,ZHOMOG,ZHOMOG,true);
-    cout << "Width=" << warped.Cols() << " Height=" << warped.Rows() << endl;
-    pwarp.Apply(grey_img,warped);
-    cout << "Width=" << warped.Cols() << " Height=" << warped.Rows() << endl;
-    Save("warped.pgm",warped);
+    Psm=Psum*Pmosaic;
+    Psm = Psm.Inverse();
+    WarpProjectiveC<ByteT,ByteT> pwarp(mosaic_rect,Psm,ZHOMOG,1.0,false);
+    cout << "Width=" << mosaic.Cols() << " Height=" << mosaic.Rows() << endl;
+    pwarp.Apply(grey_img,mosaic);
+    cout << "Width=" << mosaic.Cols() << " Height=" << mosaic.Rows() << endl;
+    Save("@X:Mosaic",mosaic);
 
     // Draw green boxes around the selected corners
     val = ByteRGBValueC(0,255,0);
