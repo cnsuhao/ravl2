@@ -77,7 +77,8 @@ namespace RavlImageN {
     Vector2dC ldir(srm[0][1],srm[1][1]);
     Vector2dC sdir(srm[0][0],srm[1][0]);
     Point2dC lstart(at[0] * sdir + at[1] * ldir);
-    Array2dIterC<OutT> it(outImg);      
+    lstart -= Vector2dC(0.5,0.5); //Co-ordinate system correction.
+    Array2dIterC<OutT> it(outImg);
     
     if(irng.Contains(trans * orng.TopRight()) &&
        irng.Contains(trans * orng.TopLeft()) &&

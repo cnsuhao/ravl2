@@ -38,6 +38,7 @@ int testMatching();
 template WarpScaleC<ByteRGBValueC,ByteRGBValueC>;
 template WarpAffineC<ByteT,ByteT>;
 template WarpProjectiveC<ByteT,ByteT>;
+template WarpProjectiveC<ByteRGBValueC,ByteRGBValueC>;
 #endif
 
 int main() {
