@@ -213,7 +213,7 @@ namespace RavlN {
     //!return: Reference to element in table
     
     inline bool Insert(const K &key,const T &data) 
-    { return Update(Key,Data); }
+    { return Update(key,data); }
     //: Default insertion operation, same as Update(K,T);
     //!param: key - Key for element to update.
     //!param: data - Data to update entry with.
