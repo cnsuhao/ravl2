@@ -10,6 +10,8 @@
 
 #include "Ravl/TFMatrix.hh"
 #include "Ravl/Stream.hh"
+#include "Ravl/ScalMath.hh"
+#include "Ravl/Math.hh"
 
 using namespace RavlN;
 
@@ -17,6 +19,7 @@ int Simple();
 int Validate();
 int ValidateNS();
 int VectorOps();
+int ScalMath();
 
 int main() {
   int line;
@@ -33,6 +36,10 @@ int main() {
     return 1;
   }
   if((line = VectorOps())) {
+    cerr << "test failed on line " << line << "\n";
+    return 1;
+  }
+  if((line = ScalMath())) {
     cerr << "test failed on line " << line << "\n";
     return 1;
   }
@@ -137,5 +144,17 @@ int VectorOps() {
   if(mat[1][0] != 4) return __LINE__;
   if(mat[0][1] != 3) return __LINE__;
   if(mat[1][1] != 6) return __LINE__;  
+  return 0;
+}
+
+int ScalMath() {
+  RealT fac = 1.0;
+  for(int i = 1;i < 70;i++) {
+    fac = fac * (RealT) i;
+    RealT zyx = Factorial(i);
+    //cerr << "I=" << i << " X=" << zyx << " Y=" << fac << "\n";
+    if(!IsSmall(Abs(fac - zyx),fac))
+      return __LINE__;
+  }
   return 0;
 }

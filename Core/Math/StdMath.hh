@@ -132,7 +132,16 @@ namespace RavlN {
 #endif
   }
   //: Is Not A Number ?
-    
+  
+  inline RealT  Radians(RealT angle)
+  { return angle/180.0 * RavlConstN::pi; }
+  //: Convert angle from degrees to radians.
+  
+  inline RealT Degrees(RealT angle)
+  { return angle/RavlConstN::pi * 180.0; }
+  //: Convert angle from radians to degrees.
+  
+  
 }  
 #endif
 

@@ -15,7 +15,7 @@
 
 namespace RavlN {
 #if !RAVL_NEW_ANSI_CXX_DRAFT
-  const IntT RavlPreComputedFactorialSize = 32; 
+  const IntT RavlPreComputedFactorialSize = 64; 
 #endif
   
 #if RAVL_NEW_ANSI_CXX_DRAFT

@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLScalMath_HH
-#define RAVLScalMath_HH
+#ifndef RAVL_SCALMATH_HEADER
+#define RAVL_SCALMATH_HEADER 1
 //////////////////////////////////////////////////////////
 //! file="Ravl/Core/Math/ScalMath.hh"
 //! lib=RavlCore
@@ -13,7 +13,7 @@
 //! author="Radek Marik"
 //! docentry="Ravl.Math"
 //! rcsid="$Id$"
-//! date="02/11/95"
+//! date="02/11/1995"
 
 #include "Ravl/Types.hh"
 #include "Ravl/StdMath.hh"
@@ -22,7 +22,7 @@
 namespace RavlN {
   
 #if RAVL_NEW_ANSI_CXX_DRAFT
-  static const IntT RavlPreComputedFactorialSize = 32; 
+  static const IntT RavlPreComputedFactorialSize = 64; 
   // The number of precomputed factorials.
   
   extern RealT RavlPreComputedFactorial[RavlPreComputedFactorialSize]; 
@@ -31,22 +31,24 @@ namespace RavlN {
   extern const IntT RavlPreComputedFactorialSize; 
   // The number of precomputed factorials.
   
-  extern RealT RavlPreComputedFactorial[32]; // NB. !!! Size must be same as 'factorialSize' !!!
+  extern RealT RavlPreComputedFactorial[64]; // NB. !!! Size must be same as 'factorialSize' !!!
   // The table of precomputed factorials.     
 #endif
   
   //! userlevel=Normal
   
-  inline IntT Factorial(UIntT n) {
-    IntT fac = 1;
-    for (; n > 1; n--)
-      fac *= n;
+  inline RealT Factorial(UIntT n) {
+    if(n < ((UIntT) RavlPreComputedFactorialSize))
+      return RavlPreComputedFactorial[n];
+    RealT fac = RavlPreComputedFactorial[RavlPreComputedFactorialSize-1];
+    UIntT i = (RavlPreComputedFactorialSize);
+    for (; i <= n; i++)
+      fac *= (RealT) i;
     return fac;
   }
-  // Returns the factorial of the integer 'n'. The result is computed
-  // using integer arithmetic.
+  // Returns the factorial of the integer 'n'. 
   
-  inline RealT RBinomCoeff(IntT n, IntT k) {
+  inline RealT BinomalCoeff(IntT n, IntT k) {
     double numerator = 1.0;
     for (IntT i = n; i > n-k; i--)
       numerator *= i;
