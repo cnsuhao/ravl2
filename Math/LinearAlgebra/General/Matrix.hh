@@ -59,6 +59,11 @@ namespace RavlN {
     {}
     //: Construct a new matrix, fill with copy of 'data'.
     
+    MatrixC(UIntT rows,UIntT cols,SArray1dC<RealT> &data)
+      : TMatrixC<RealT>(rows,cols,data)
+    {}      
+    //: Convert an array into a rows by cols matrix.
+    
     MatrixC(const TMatrixC<RealT> &oth)
       : TMatrixC<RealT>(oth)
     {}
@@ -132,6 +137,15 @@ namespace RavlN {
     
     void Dump() const;
     //: Dump to cout in a human readable format.
+    
+    void NormaliseRows();
+    //: Normalise rows so they have a magnitude of 1.
+    // Zero rows are ignored.
+    
+    void NormaliseColumns();
+    //: Normalise columns so they have a magnitude of 1.
+    // Zero rows are ignored.
+    
   };
   
   

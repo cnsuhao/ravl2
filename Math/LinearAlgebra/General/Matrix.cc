@@ -15,7 +15,7 @@
 // General matrix functions.
 
 namespace RavlN {
-
+  
   //: Test if matrix only contains real values.
   // This will return false if either nan's (Not an number) 
   // or infinite values are found.
@@ -40,6 +40,34 @@ namespace RavlN {
     }
   }
   
+  //: Normalise rows so they have a magnitude of 1.
+  // Zero rows are ignored.
+  
+  void MatrixC::NormaliseRows() {
+    for(UIntT i = 0;i < Rows();i++) {
+      SizeBufferAccessC<RealT> row = (*this)[i];
+      BufferAccessIterC<RealT> it(row);
+      RealT sumsq = 0;
+      for(;it;it++)
+	sumsq += Sqr(*it);
+      sumsq = 1/Sqrt(sumsq);
+      for(;it;it++)
+	*it *= sumsq;
+    }
+  }
+  
+  //: Normalise columns so they have a magnitude of 1.
+  // Zero rows are ignored.
+  
+  void MatrixC::NormaliseColumns() {
+    for(UIntT i = 0;i < Cols();i++) {
+      Slice1dC<RealT> col = SliceColumn(i);
+      RealT sumsq = col.SumOfSqr();
+      sumsq = 1/Sqrt(sumsq);
+      col *= sumsq;
+    }
+  }
+
   
 #ifdef __sgi__
   // Help the compiler a bit...
