@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLIMAGERECTANGLEITER_HEADER
-#define RAVLIMAGERECTANGLEITER_HEADER 1
+#ifndef RAVLIMAGE_RECTANGLEITER_HEADER
+#define RAVLIMAGE_RECTANGLEITER_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! author="Charles Galambos"
@@ -24,17 +24,17 @@ namespace RavlImageN {
   public:
     Rectange2dIterC(const ImageRectangleC &nImageRect,const ImageRectangleC &nwindow)
       : size1(nwindow.Range1().Size()),
-      imageRect(nImageRect),
-      window(nwindow)
-      { First(); }
+	imageRect(nImageRect),
+	window(nwindow)
+    { First(); }
     //: Constructor.
     
     ImageRectangleC &Window()
-      { return window; }
+    { return window; }
     //: Access current window.
 
     const ImageRectangleC &Window() const
-      { return window; }
+    { return window; }
     //: Access current window.
     
     void First() { 
@@ -42,22 +42,33 @@ namespace RavlImageN {
       window.Range1().Min() = imageRect.Range1().Min();
       window.Range1().Max() = window.Range1().Min() + size1;
       window.Range2().Min() = imageRect.Range2().Min();
-      window.Range2().Max() = window.Range1().Min() + size2;
+      window.Range2().Max() = window.Range2().Min() + size2;
     }
     //: Goto first position.
     
-    void Next() {
+    bool Next() {
       ++(window.Range1());
       if(window.Range1().Max() <= imageRect.Range1().Max())
-	return ;
+	return true;
       window.Range1().Min() = imageRect.Range1().Min();
       window.Range1().Max() = window.Range1().Min() + size1;
       ++(window.Range2());
+      return false;
     }
-    // Goto next position.
+    //:Goto next position.
+    // Returns true if window is on the same row.
+
+    bool operator++(int) 
+    { return Next(); }
+    //:Goto next position.
+    // Returns true if window is on the same row.
     
     bool IsElm() const
-      { return window.Range2().Max() <= imageRect.Range2().Max(); }
+    { return window.Range2().Max() <= imageRect.Range2().Max(); }
+    //: At a valid position ?
+
+    operator bool() const
+    { return IsElm(); }
     //: At a valid position ?
     
   public:
