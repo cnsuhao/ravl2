@@ -465,7 +465,7 @@ namespace RavlN {
       return DPIPortBaseC(); // Failed to find typeinformation...
     }
     DPIPipeBaseC fin(ti.CreateIPipe(DPIFileSequenceC(*this)));
-    assert(fin.IsValid());
+    RavlAssert(fin.IsValid());
     fin.SetStreamStatus(true,true);
     fin.SetAuxOperation(AuxFunction);
     return fin.Port();
@@ -476,7 +476,7 @@ namespace RavlN {
   bool DPIFileSequenceBodyC::AuxFunction(DPIPipeBaseC &auxFun,DPEntityC &hold) {
     DPIFileSequenceC fs(hold);
     //ONDEBUG(cerr << "DPIFileSequenceBodyC::AuxFunction(), Called. File:'" << fs.Filename() << "'  Fmt:" << fs.Format().Name() << "\n");
-    assert(fs.IsValid());
+    RavlAssert(fs.IsValid());
     
     // Check for end of stream...
     if(!fs.IsElm()) {
@@ -520,7 +520,7 @@ namespace RavlN {
       return DPOPortBaseC(); // Failed to find typeinformation...
     }
     DPOPipeBaseC fin(ti.CreateOPipe(DPOFileSequenceC(*this)));
-    assert(fin.IsValid());
+    RavlAssert(fin.IsValid());
     fin.SetStreamStatus(true,true);
     fin.SetAuxOperation(AuxFunction);
     return fin.Port();
@@ -531,7 +531,7 @@ namespace RavlN {
   bool DPOFileSequenceBodyC::AuxFunction(DPOPipeBaseC &auxFun,DPEntityC &hold) {
     DPOFileSequenceC fs(hold);
     //ONDEBUG(cerr << "DPOFileSequenceBodyC::AuxFunction(), Called. File:'" << fs.Filename() << "'  Fmt:" << fs.Format().Name() << "\n");
-    assert(fs.IsValid());
+    RavlAssert(fs.IsValid());
     
     // Check for end of stream...
     if(!fs.IsElm()) {

@@ -84,7 +84,7 @@ namespace RavlCxxDocN {
       : ObjectC(obj)
       {
 	if(!IsA(obj)) {
-	  assert(0);
+	  RavlAssert(0);
 	  Invalidate();
 	}
       }
@@ -241,7 +241,7 @@ namespace RavlCxxDocN {
       : ObjectC(obj)
       {
 	if(dynamic_cast<DataTypeBodyC *>(&ObjectC::Body()) == 0) {
-	  assert(0);
+	  RavlAssert(0);
 	  Invalidate();
 	}
       }
@@ -378,7 +378,7 @@ namespace RavlCxxDocN {
       : ScopeC(obj)
       {
 	if(dynamic_cast<ClassBodyC *>(&ObjectC::Body()) == 0) {
-	  assert(0);
+	  RavlAssert(0);
 	  Invalidate();
 	}
       }
@@ -484,7 +484,7 @@ namespace RavlCxxDocN {
       : ClassC(obj)
       {
 	if(dynamic_cast<ClassTemplateBodyC *>(&ObjectC::Body()) == 0) {
-	  assert(0);
+	  RavlAssert(0);
 	  Invalidate();
 	}
       }
@@ -628,7 +628,7 @@ namespace RavlCxxDocN {
       : ObjectC(obj)
       {
 	if(dynamic_cast<MethodBodyC *>(&ObjectC::Body()) == 0) {
-	  assert(0);
+	  RavlAssert(0);
 	  Invalidate();
 	}
       }
@@ -773,7 +773,7 @@ namespace RavlCxxDocN {
       : MethodC(obj)
       {
 	if(dynamic_cast<MethodTemplateBodyC *>(&ObjectC::Body()) == 0) {
-	  assert(0);
+	  RavlAssert(0);
 	  Invalidate();
 	}
       }
@@ -871,7 +871,7 @@ namespace RavlCxxDocN {
       : ObjectC(obj)
       {
 	if(dynamic_cast<TypedefBodyC *>(&ObjectC::Body()) == 0) {
-	  assert(0);
+	  RavlAssert(0);
 	  Invalidate();
 	}
       }
@@ -962,7 +962,7 @@ namespace RavlCxxDocN {
       : ObjectC(obj)
       {
 	if(dynamic_cast<VariableBodyC *>(&ObjectC::Body()) == 0) {
-	  assert(0);
+	  RavlAssert(0);
 	  Invalidate();
 	}
       }
@@ -1368,7 +1368,7 @@ namespace RavlCxxDocN {
       : ObjectListC(obj)
       {
 	if(dynamic_cast<EnumBodyC *>(&ObjectC::Body()) == 0) {
-	  assert(0);
+	  RavlAssert(0);
 	  Invalidate();
 	}
       }

@@ -132,7 +132,7 @@ namespace RavlCxxDocN {
       : ObjectListC(obj)
       {
 	if(dynamic_cast<ScopeBodyC *>(&ObjectC::Body()) == 0) {
-	  assert(0);
+	  RavlAssert(0);
 	  Invalidate();
 	}
       }

@@ -638,7 +638,7 @@ namespace RavlCxxDocN {
       : ObjectC(obj)
       {
 	if(!IsA(obj)) {
-	  assert(0);
+	  RavlAssert(0);
 	  Invalidate();
 	}
       }
@@ -661,7 +661,7 @@ namespace RavlCxxDocN {
   public:
     DListC<ObjectC> &List()
       { 
-	assert(IsValid());
+	RavlAssert(IsValid());
 	return Body().List(); 
       }
     //: Access list.
@@ -671,7 +671,7 @@ namespace RavlCxxDocN {
     //: Access list.
     
     void Append(const ObjectC &obj) { 
-	assert(IsValid());
+	RavlAssert(IsValid());
 	Body().Append(const_cast<ObjectC &>(obj)); 
       }
     //: Append to list.

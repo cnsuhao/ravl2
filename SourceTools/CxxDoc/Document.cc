@@ -609,7 +609,7 @@ namespace RavlCxxDocN {
     //ONDEBUG(cerr << "DocumentBodyC::Lookup(), " << obj.Top().Name() << " '" << varname << "' \n");
     if(!obj.Top().IsValid()) {
       cerr << "DocumentBodyC::Lookup(), ERROR: Called on invalid object. Stackdepth:" << obj.Size() << "\n";
-      assert(0);
+      RavlAssert(0);
       return false;
     }
     if(obj.Top().Comment().Vars().Lookup(varname,buff)) {
