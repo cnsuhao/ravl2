@@ -293,6 +293,11 @@ namespace RavlN {
     n1 = 0.0 ; }
   //: Set Zero
   
+  template<UIntT N> 
+  inline 
+  FPNumberC<N> StdCopy (FPNumberC<N> num ) { return num ; }
+  //: StdCopy 
+  
 }
 
 #endif
