@@ -92,15 +92,20 @@ namespace RavlN {
     //: Access the mean.
     // Returns the mean vector of data points which are represented
     // by this object.
-
+    
     const MeanNdC & MeanNd() const
     { return m; }
     //: Access the mean nd object.
     // Returns the mean vector of data points which are represented
     // by this object.
-
     
     const MatrixRSC & Covariance() const
+    { return cov; }
+    //: Access the covariance.
+    // Returns the covariance matrix of data points which are represented
+    // by this object.
+
+    MatrixRSC & Covariance()
     { return cov; }
     //: Access the covariance.
     // Returns the covariance matrix of data points which are represented
