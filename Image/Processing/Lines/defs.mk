@@ -4,7 +4,6 @@
 # General Public License (LGPL). See the lgpl.licence file for details or
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
-# $Id$
 #! rcsid="$Id$"
 #! file="Ravl/Image/Processing/Lines/defs.mk"
 
@@ -14,10 +13,12 @@ MAINS = doPPHT.cc
 #genSobelImg.cc
 
 HEADERS= PixelMap.hh PixelMapSearch.hh PCPixel.hh PCPixelList.hh \
- PCMapping.hh PPHT.hh
+ PCMapping.hh PPHT.hh 
+#ArcDetector.hh
 
 SOURCES= PixelMap.cc PixelMapSearch.cc PCPixel.cc PCPixelList.cc \
- PCMapping.cc PPHT.cc
+ PCMapping.cc PPHT.cc 
+#ArcDetector.cc
 
 PLIB=RavlImageProc
 
