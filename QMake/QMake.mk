@@ -327,24 +327,24 @@ redoc:
 
 distclean: chkclean dbclean optclean
 	$(SHOWIT)echo "--- Deleting " $(BUILDDIR); \
-	if [ -d $(BUILDDIR) $(NOFILE) ] ; then \
-	  $(RM) -r $(BUILDDIR) ; \
+	if [ -d $(BUILDDIR) ] ; then \
+	  $(RM) -rf $(BUILDDIR) ; \
 	fi ; \
 	echo "--- Deleting " $(INST_INCLUDE) ; \
-	if [ -d $(INST_INCLUDE) $(NOFILE) ] ; then \
-	  $(RM) -r $(INST_INCLUDE) ; \
+	if [ -d $(INST_INCLUDE) ] ; then \
+	  $(RM) -rf $(INST_INCLUDE) ; \
 	fi ; \
 	echo "--- Deleting " $(INST_LIBDEF) ; \
-	if [ -d $(INST_LIBDEF) $(NOFILE) ] ; then \
-	  $(RM) -r $(INST_LIBDEF) ; \
+	if [ -d $(INST_LIBDEF)  ] ; then \
+	  $(RM) -rf $(INST_LIBDEF) ; \
 	fi ; \
 	echo "--- Deleting " $(INST_DOC) ; \
-	if [ -d $(INST_DOC) $(NOFILE) ] ; then \
-	  $(RM) -r $(INST_DOC) ; \
+	if [ -d $(INST_DOC)  ] ; then \
+	  $(RM) -rf $(INST_DOC) ; \
 	fi ; \
 	echo "--- Deleting " $(INST_DEPEND) ; \
-	if [ -d $(INST_DEPEND) $(NOFILE) ] ; then \
-	  $(RM) -r $(INST_DEPEND) ; \
+	if [ -d $(INST_DEPEND) ] ; then \
+	  $(RM) -rf $(INST_DEPEND) ; \
 	fi ;
 
 ###############################################
