@@ -20,7 +20,18 @@ namespace RavlImageN
 {
   
   //! userlevel=Normal
-  //: Chroma threholding.
+  //: Chroma threholding
+  //
+  // <p>This is a multi-purpose class for searching for a known colour in an rgb image. 
+  // Can be used for skin colour detection, blue-screening, etc. Is intended as
+  // an easy way to try out new ideas, rather than a very efficient or accurate method.</p>
+  //
+  // <p>RGB is normalised by intensity to be robust to illumination changes.
+  // The range of colours to be found are modelled as a gaussian.  The (incorrect)
+  // assumption is made that normalised rgb components are independent, but this
+  // seems to work well for many applications. The gaussian can either be
+  // constructed directly, or computed from an example image containing only
+  // the required colour.
   
   class ChromaThresholdRGBC
   {
@@ -45,7 +56,18 @@ namespace RavlImageN
       label_no_match(nlabel_no_match),
       label_black(nlabel_black)
     {} 
-    //: Construct with user-specified params
+    //: Construct with user-specified params of the gaussian
+    //!param: nr0 - mean red component
+    //!param: ng0 - mean green component
+    //!param: nb0 - mean blue component
+    //!param: nrw - inverse variance of red component
+    //!param: ngw - inverse variance of green component
+    //!param: nbw - inverse variance of blue component
+    //!param: nblack_thresh - luminance in range (0,1] below which a pixel is considered black rather than coloured.
+    //!param: nlabel_match - label to give to pixels which match the specified colour
+    //!param: nlabel_no_match - label to give to pixels which do not match the specified colour
+    //!param: nlabel_black - label to give to black pixels (ones below nblack_thresh)
+    // Should have nr0 + ng0 + nb0 = 1 for a valid model.
     
     ChromaThresholdRGBC(const ImageC<ByteRGBValueC>& image,
 			RealT tolerance = 1.0,
@@ -54,33 +76,33 @@ namespace RavlImageN
 			ByteT nlabel_no_match = 0,
 			ByteT nlabel_black = 0);
     //: Construct from example image
+    //!param: image - example image containing only the required colour
+    //!param: nblack_thresh - luminance in range (0,1] below which a pixel is considered black rather than coloured.
+    //!param: nlabel_match - label to give to pixels which match the specified colour
+    //!param: nlabel_no_match - label to give to pixels which do not match the specified colour
+    //!param: nlabel_black - label to give to black pixels (ones below nblack_thresh)
     
   public:
     void Apply(ImageC<ByteT>& result, const ImageC<ByteRGBValueC>& image) const;
     //: perform threshold on RGB image and return binary result
 
-    void Apply(ImageC<ByteT>& result, 
-	       const ImageC<ByteRGBAValueC>& image, 
-	       ImageC<ByteRGBAValueC>& auximage) const;
-    //: perform threshold on RGBA image, return binary result
-    //: and copy results to alpha channel of aux image if non-empty
+    void Apply(ImageC<ByteT>& result, const ImageC<ByteRGBAValueC>& image) const;
+    //: perform threshold on RGB image and return binary result
 
-    void Apply(ImageC<ByteT>& result,
-	       ImageC<ByteRGBAValueC>& image,
-	       bool copy_to_alpha = false)
+    void ApplyCopyAlpha(ImageC<ByteT>& result, 
+			const ImageC<ByteRGBAValueC>& image, 
+			ImageC<ByteRGBAValueC>& auximage) const;
+    //: perform threshold on RGBA image, return binary result
+    //: and copy results to alpha channel of aux image
+
+    void ApplyCopyAlpha(ImageC<ByteT>& result,
+	       ImageC<ByteRGBAValueC>& image)
     {
-      if (copy_to_alpha)
-      {
-	Apply(result, image, image);
-      }
-      else
-      {
-	ImageC<ByteRGBAValueC> empty_image;
-	Apply(result, image, empty_image);
-      }
+      
+      ApplyCopyAlpha(result, image, image);
     }
     //: perform threshold on RGBA image, return binary result
-    //: and optionally copy results to alpha channel of original image
+    //: and copy results to alpha channel of original image
 
 
   protected:
