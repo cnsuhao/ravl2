@@ -15,6 +15,8 @@ SOURCES=FFT2d.cc
 
 LIBDEPS=RavlSignal2.def
 
+TESTEXES=testFFT2d.cc
+
 PLIB=RavlMath
 
 USESLIBS= RavlMath

@@ -57,8 +57,11 @@ namespace RavlN {
     bool inv;      // Is the transform backward ??
     bool base2;    // Are both dimentions a power of 2?    
     
-    int primeFactors[32];
-    int nf; // Number of factors. Sufficent for all 32-bit lengths.
+    int primeFactors1[32];
+    int nf1; // Number of factors. Sufficent for all 32-bit lengths.
+
+    int primeFactors2[32];
+    int nf2; // Number of factors. Sufficent for all 32-bit lengths.
     
     SArray2dC<ComplexC> tmp1;
     SArray2dC<ComplexC *> tmp1Ptr;
@@ -79,6 +82,12 @@ namespace RavlN {
     
     FFT2dC(Index2dC size,bool iinv = false)
       : RCHandleC<FFT2dBodyC>(*new FFT2dBodyC(size,iinv))
+      {}
+    //: Create a fft class.
+    // If iinv is true do an inverse transform
+
+    FFT2dC(SizeT s1,SizeT s2,bool iinv = false)
+      : RCHandleC<FFT2dBodyC>(*new FFT2dBodyC(Index2dC(s1,s2),iinv))
       {}
     //: Create a fft class.
     // If iinv is true do an inverse transform
