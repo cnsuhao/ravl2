@@ -12,6 +12,8 @@
      <li> StateVectorLine2dC encapsulates a line on a plane;
      <li> StateVectorHomog2dC encapsulates a 3x3 homography representing a
           2D projective linear transformation between two planes;
+     <li> StateVectorAffine2dC encapsulates a homography representing a
+          2D affine linear transformation between two planes;
      <li> StateVectorRot3dC encapsulates a 3D rotation.
      <li> StateVectorQuadraticC encapsulates the parameters of a quadratic
           curve on a plane.
@@ -51,6 +53,8 @@
      <li> FitHomog2dPointsC fits a homography to a sample of four or more
           point pairs on two planes, represented by either
 	  ObservationHomog2dPointC or ObservationImpHomog2dPointC objects.
+     <li> FitAffine2dPointsC fits a affine homography to a sample of four or more
+          point pairs on two planes, represented by ObservationAffine2dPointC.
      <li> FitQuadraticPointsC fits a quadratic curve to 2D points, represented
           by ObservationQuadraticPointC objects.
   </ol>
