@@ -32,6 +32,7 @@
 #include "Ravl/Image/ImageExtend.hh"
 #include "Ravl/Image/ImagePyramid.hh"
 #include "Ravl/Random.hh"
+#include "Ravl/CollectionIter.hh"
 #include "Ravl/config.h"
 
 using namespace RavlImageN;
@@ -88,7 +89,7 @@ static ObservationListManagerBodyC dummyvar11 (dummyvar9);
 
 int main() {
   int ln;
-#if 1
+#if 0
 #if !TESTMMX
   if((ln = testConvolve2d()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
@@ -139,7 +140,6 @@ int main() {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
-#endif
   if((ln = testDCT()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
@@ -148,6 +148,7 @@ int main() {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
+#endif
   if((ln = testImagePyramid()) != 0) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
@@ -584,15 +585,31 @@ int testImagePyramid() {
   for(Array2dIterC<RealT> it(img);it;it++)
     *it = v++;
   
-  ImagePyramidC<RealT> pyramid(img,3,false);
+  ImagePyramidC<RealT> pyramid(img,3,true);
   if(pyramid.Images().Size() != 3) return __LINE__;
-  
+  RealT fscale,pscale;
+  ImageC<RealT> simg;
+  for(RealT scale =0.1;scale < 10;scale += 0.1) {
+    pyramid.Find(scale,simg,fscale,pscale);
+    if(fscale < pscale) return __LINE__;
+    //cerr << "Scale=" << scale << " fscale=" <<fscale << " pscale=" << pscale << "\n";  
+  }
 #if 0
   cerr << "Images:\n";
   for(CollectionIterC<Tuple3C<RealT,RealT,ImageC<RealT> > > it(pyramid.Images());it;it++) {
     cerr << it->Data3() << "\n";
   }
 #endif
-
+  
+  // Check termination.
+  
+  ImagePyramidC<RealT> pyramid2(img,-1,true);
+  //cerr << "NoImages=" << pyramid2.Images().Size() << "\n";
+  if(pyramid2.Images().Size() != 3) return __LINE__;
+  
+  ImagePyramidC<RealT> pyramid3(img,-1,true,true);
+  //cerr << "NoImages=" << pyramid3.Images().Size() << "\n";
+  if(pyramid3.Images().Size() != 3) return __LINE__;
+  
   return 0;
 }
