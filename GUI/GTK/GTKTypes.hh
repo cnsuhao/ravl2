@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLGTKTYPES_HEADER
-#define RAVLGTKTYPES_HEADER 1
+#ifndef RAVLGUI_GTKTYPES_HEADER
+#define RAVLGUI_GTKTYPES_HEADER 1
 ///////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/GUI/GTK/GTKTypes.hh"
@@ -13,7 +13,7 @@
 //! userlevel=Develop
 //! author="Charles Galambos"
 //! docentry="Ravl.GUI.Internal"
-//! date="23/03/99"
+//! date="23/03/1999"
 
 extern "C" {
   struct _GdkWindow;
@@ -33,6 +33,7 @@ extern "C" {
   typedef struct _GdkDrawable GdkWindow;
 #endif
   
+  typedef struct _GdkFont GdkFont;
   typedef struct _GdkCursor GdkCursor;
   typedef union  _GdkEvent  GdkEvent;
   typedef struct _GdkEventExpose GdkEventExpose;

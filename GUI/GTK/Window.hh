@@ -4,13 +4,13 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLGUIWINDOW_HEADER
-#define RAVLGUIWINDOW_HEADER 1
+#ifndef RAVLGUI_WINDOW_HEADER
+#define RAVLGUI_WINDOW_HEADER 1
 /////////////////////////////////////////////////
 //! file="Ravl/GUI/GTK/Window.hh"
 //! lib=RavlGUI
 //! author="Charles Galambos"
-//! date="23/03/99"
+//! date="23/03/1999"
 //! rcsid="$Id$"
 //! docentry="Ravl.GUI.Layout"
 

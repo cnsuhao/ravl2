@@ -4,14 +4,14 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLGUIRAWCANVAS_HEADER 
-#define RAVLGUIRAWCANVAS_HEADER  1
+#ifndef RAVLGUI_RAWCANVAS_HEADER 
+#define RAVLGUI_RAWCANVAS_HEADER  1
 //////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/GUI/GTK/RawCanvas.hh"
 //! lib=RavlGUI
 //! author="Charles Galambos"
-//! date="23/09/99"
+//! date="23/09/1999"
 //! docentry="Ravl.GUI.Control"
 
 #include "Ravl/GUI/Widget.hh"

@@ -128,8 +128,10 @@ namespace RavlGUIN
   MenuC::MenuC(WidgetC &widge)
     : ContainerWidgetC(widge)
   {
-    if(dynamic_cast<const MenuBodyC *>(&(WidgetC::Body())) == 0)
-      Invalidate();
+    if(IsValid()) {
+      if(dynamic_cast<const MenuBodyC *>(&(WidgetC::Body())) == 0)
+	Invalidate();
+    }
   }
 
 
