@@ -129,7 +129,8 @@ namespace RavlGUIN {
       selection = opt;
       return false;
     }
-    gtk_entry_set_text (GTK_ENTRY (GTK_COMBO(widget)->entry), opt.chars());
+    if(selection != opt) // Do we actually need to change the selection ?
+      gtk_entry_set_text (GTK_ENTRY (GTK_COMBO(widget)->entry), opt.chars());
     return true;
   }
   
@@ -168,6 +169,10 @@ namespace RavlGUIN {
   }
   
   bool ComboBodyC::FilterSignal(StringC &sel) {
+    //cerr << "ComboBodyC::FilterSignal(), Sel='" << sel << "'\n";
+    if(sel == selection)
+      return true; // Its not changed!
+    selection = sel;
     if (allowsignals) {
       // Send signal
       sigSelected(sel);
