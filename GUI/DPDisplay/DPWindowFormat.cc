@@ -43,6 +43,8 @@ namespace RavlGUIN {
     ONDEBUG(cerr << "DPWindowFormatBodyC::ProbeSave(), Called. Filename=" << filename << " obj_type=" << TypeName(obj_type) << " ForceFormat=" << forceFormat << "\n");
     if(forceFormat)
       return typeid(DPDisplayObjC);
+    if(filename.IsEmpty())
+      return typeid(void);
     if(filename[0] != '@')
       return typeid(void);
     StringC device = ExtractDevice(filename);
