@@ -101,7 +101,10 @@ namespace RavlGUIN {
     Index2dC Size() const;
     //: Access Size of wiget.
     
-    bool GUISetUSize(IntT x,IntT y);
+    bool SetUSize(IntT x,IntT y);
+    //: Set size of widget.
+
+    bool GUISetUSize(IntT& x,IntT& y);
     //: Set size of widget.
     // GUI thread only.
     
@@ -315,7 +318,11 @@ namespace RavlGUIN {
     { return Body().Size(); }
     //: Size of wiget in pixels
     
-    bool GUISetUSize(IntT x,IntT y)
+    bool SetUSize(IntT x,IntT y)
+    { return Body().SetUSize(x,y); }
+    //: Set size of widget.
+    
+    bool GUISetUSize(IntT& x,IntT& y)
     { return Body().GUISetUSize(x,y); }
     //: Set size of widget.
     // GUI thread only.

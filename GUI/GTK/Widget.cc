@@ -521,11 +521,16 @@ namespace RavlGUIN {
       return Index2dC(0,0);
     return Index2dC(widget->allocation.height,widget->allocation.width);
   }
+
+  bool WidgetBodyC::SetUSize(IntT x,IntT y) {
+    Manager.Queue(Trigger(WidgetC(*this),&WidgetC::GUISetUSize,x,y));
+    return true;
+  }
   
   //: Set size of widget.
   // GUI thread only.
   
-  bool WidgetBodyC::GUISetUSize(IntT x,IntT y) {
+  bool WidgetBodyC::GUISetUSize(IntT& x,IntT& y) {
     if(widget == 0) {
       cerr << "WARNING: WidgetBodyC::GUISetUSize() Called on widget before its been displayed. \n";
       return true;
