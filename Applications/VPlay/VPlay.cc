@@ -43,9 +43,9 @@
 
 #include <stdlib.h>
 
-#define GTKDEBUG 1
+#define DODEBUG 1
 
-#if GTKDEBUG
+#if DODEBUG
 #define ONDEBUG(x) x
 #else
 #define ONDEBUG(x)
