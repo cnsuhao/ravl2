@@ -12,10 +12,49 @@
 //! docentry="Ravl.Images.Lines"
 
 #include "Ravl/Image/Edgel.hh"
-#include "Ravl/Arc.hh"
+#include "Ravl/Arc2d.hh"
+#include "Ravl/DList.hh"
+#include "Ravl/Array1dIter.hh"
 
-namespace RavlN {
+namespace RavlImageN {
+  
+  //! userlevel=Normal
+  //: A circular arc and associated edgels.
+  
+  class Arc2dSegmentC 
+    : public Arc2dC
+  {
+  public:
+    Arc2dSegmentC()
+    {}
+    //: Default constructor.
+    
+    Arc2dSegmentC(const Arc2dC &arc,const Array1dC<Point2dC> &nEdges)
+      : Arc2dC(arc),
+	edges(nEdges)
+    {}
+    //: Construct from an arc and a set of edges.
+    
+    const Array1dC<Point2dC> &Edges() const
+    { return edges; }
+    //: Access edges on arc.
 
+    Array1dC<Point2dC> &Edges()
+    { return edges; }
+    //: Access edges on arc.
+    
+    IntT IMax() const
+    { return edges.IMax().V(); }
+    //: Maximum index.
+    
+    IntT IMin() const
+    { return edges.IMin().V(); }
+    //: Maximum index.
+    
+  protected:
+    Array1dC<Point2dC> edges;
+  };
+  
   //! userlevel=Normal
   //: Circular Arc Detector.
   
@@ -24,9 +63,22 @@ namespace RavlN {
     ArcDetectorC();
     //: Default constructor.
     
-    DListC<ArcC> Apply(DListC<DListC<Index2dC> > edges);
+    DListC<Arc2dSegmentC> Apply(DListC<DListC<Index2dC> > edges);
     //: Given a set of edge lists create a set of arc's.
     
+    DListC<Array1dC<Point2dC> > List2PntArray(DListC<DListC<Index2dC> > edges,IntT minLength = 0);
+    //: Convert index list to point arrays.
+    
+  protected:
+    IntT FindArcs(const Array1dC<Point2dC> &pixels,DListC<Arc2dSegmentC> &arcs);
+    //: Find all arcs in 'pixels'.
+    
+    IntT CheckArc(const Arc2dC &arc,const Array1dC<Point2dC> &pixels,int start);
+    //: Check candate arc.
+    
+    RealT arcTolerance; // Tolarance for arc in pixels.
+    RealT minRadius;    // Minimum radius.
+    RealT maxRadius;    // Maximum radius.
   };
 }
 

@@ -9,16 +9,14 @@
 
 PACKAGE = Ravl/Image
 
-MAINS = doPPHT.cc 
+MAINS = doPPHT.cc doArcs.cc
 #genSobelImg.cc
 
 HEADERS= PixelMap.hh PixelMapSearch.hh PCPixel.hh PCPixelList.hh \
- PCMapping.hh PPHT.hh 
-#ArcDetector.hh
+ PCMapping.hh PPHT.hh ArcDetector.hh
 
 SOURCES= PixelMap.cc PixelMapSearch.cc PCPixel.cc PCPixelList.cc \
- PCMapping.cc PPHT.cc 
-#ArcDetector.cc
+ PCMapping.cc PPHT.cc ArcDetector.cc
 
 PLIB=RavlImageProc
 
@@ -26,7 +24,8 @@ LIBDEPS=RavlImageProcHT.def
 
 USESLIBS=RavlImageProc 
 
-PROGLIBS=RavlIO RavlOS RavlOSIO
+PROGLIBS=RavlIO RavlOS RavlOSIO RavlImageIO 
+#RavlImgIOV4L
 
 EHT = Ravl.Images.Lines.html 
 #exedoPPHT.eht
