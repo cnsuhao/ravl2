@@ -63,8 +63,18 @@ namespace RavlN {
     //: Access body.
     
     const TriggerBodyC &Body() const
-    { return  RCHandleC<TriggerBodyC>::Body(); }
+    { return RCHandleC<TriggerBodyC>::Body(); }
     //: Access body.
+    
+    TriggerBodyC *BodyPtr()
+    { return RCHandleC<TriggerBodyC>::BodyPtr(); }
+    //: Access body pointer.
+    // Used in upcasting.
+    
+    const TriggerBodyC *BodyPtr() const
+    { return RCHandleC<TriggerBodyC>::BodyPtr(); }
+    //: Access body pointer.
+    // Used in upcasting.
     
   public:
     void Invoke()

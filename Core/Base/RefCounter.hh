@@ -164,9 +164,9 @@ namespace RavlN {
     
     template<class DT>
     bool IsHandleType(const DT &/*dummy*/) const
-    { return (dynamic_cast<const DT *>(&Body()) != 0); }
+    { return (dynamic_cast<const DT *>(body) != 0); }
     //: Is handle of given type ?
-
+    
     template<class DT>
     void CheckHandleType(const DT &dummy) const RAVL_THROW(ExceptionErrorCastC) { 
       if(!IsHandleType(dummy))
@@ -216,6 +216,15 @@ namespace RavlN {
     }
     //: Constant access to body of object.
     
+    BodyT *BodyPtr()
+    { return body; }
+    //: Access body pointer.
+    // Used in upcasting.
+    
+    const BodyT *BodyPtr() const
+    { return body; }
+    //: Access body pointer.
+    // Used in upcasting.
   public:
     UIntT References() const
     { return Body().References(); }

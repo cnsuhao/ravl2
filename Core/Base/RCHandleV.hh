@@ -64,6 +64,16 @@ namespace RavlN {
     { return RCHandleC<BodyT>::Body(); }
     //: Constant access to body of object.
     
+    BodyT *BodyPtr()
+    { return RCHandleC<BodyT>::BodyPtr(); }
+    //: Access body pointer.
+    // Used in upcasting.
+    
+    const BodyT *BodyPtr() const
+    { return RCHandleC<BodyT>::BodyPtr(); }
+    //: Access body pointer.
+    // Used in upcasting.
+    
   public:
 
     bool Save(ostream &out) const
