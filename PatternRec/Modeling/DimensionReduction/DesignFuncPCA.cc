@@ -73,7 +73,7 @@ namespace RavlN {
     if(in.Size() == 0)
       return FunctionC(); // Can't do anything without data.
     VectorC vec = in.First();
-    if(vec.Size() > 30 || forceHimDim)
+    if(vec.Size() > in.Size() || forceHimDim)
       return DesignHighDim(in,varPreserved);
     return DesignLowDim(in,varPreserved);
   }
