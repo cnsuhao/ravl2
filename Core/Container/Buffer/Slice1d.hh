@@ -18,6 +18,7 @@
 #include "Ravl/Buffer.hh"
 #include "Ravl/Assert.hh"
 #include "Ravl/IndexRange1d.hh"
+#include "Ravl/RBfAcc.hh"
 
 //: Ravl namespace.
 
@@ -26,7 +27,6 @@ namespace RavlN {
   template<class DataT> class Slice1dIterC;
   template<class Data1T,class Data2T> class Slice1dIter2C;
   template<class Data1T,class Data2T,class Data3T> class Slice1dIter3C;
-  
   //:  Slice through array
   // Slices are NOT simple arrays, they have an additional paramiter
   // 'stride' which allows them to access both rows and columns of
