@@ -195,8 +195,9 @@ int testRefCounter() {
   }
   ravl_atomic_dec(&test);
   if(ravl_atomic_read(&test) != 1)  return __LINE__;
+  ravl_atomic_inc(&test);
+  if(ravl_atomic_dec_and_test(&test)) return __LINE__;
   if(!ravl_atomic_dec_and_test(&test)) return __LINE__;
-  //if(ravl_atomic_inc_return(&test) != 1) return __LINE__;
   return 0;
 }
 
