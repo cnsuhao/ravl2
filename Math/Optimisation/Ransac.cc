@@ -28,8 +28,14 @@ namespace RavlN {
     // reset "selected" flags
     obs_manager.UnselectAllObservations();
 
-    // generate sample
-    DListC<ObservationC> sample = obs_manager.RandomSample(min_num_constraints);
+    // generate sample and abort if it can't be generated
+    DListC<ObservationC> sample;
+    try {
+      sample = obs_manager.RandomSample(min_num_constraints);
+    }
+    catch(ExceptionC) {
+      return false;
+    }
 
     // fit model and abort on any numerical errors found
     StateVectorC sv;

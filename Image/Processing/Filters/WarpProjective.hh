@@ -6,7 +6,6 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_WARPPROJECTIVE_HEADER
 #define RAVLIMAGE_WARPPROJECTIVE_HEADER 1
-///////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! docentry="Ravl.Images.Warping"
@@ -99,8 +98,8 @@ namespace RavlImageN {
   
   template <class InT, class OutT,class MixerT>
   Point2dC WarpProjectiveC<InT,OutT,MixerT>::BackProject(const Point2dC &pnt) const {
-    Vector3dC vo = trans * Vector3dC(pnt[0],pnt[1],oz);
-    return Point2dC(iz*vo[0]/vo[2],iz*vo[1]/vo[2]);
+    Vector3dC vi = trans * Vector3dC(pnt[0],pnt[1],iz);
+    return Point2dC(oz*vi[0]/vi[2],oz*vi[1]/vi[2]);
   }
   
   template <class InT, class OutT,class MixerT>
@@ -124,9 +123,10 @@ namespace RavlImageN {
     pat[1] += 0.5;
     
     // adjust source window for area where bilinear interpolation can be
-    // computed safely
-    irng.TRow() += 0.5; irng.BRow() -= 1.5;
-    irng.LCol() += 0.5; irng.RCol() -= 1.5;
+    // computed safely. Using 0.51 instead of 0.5 ensures that points on the
+    // boundary are not used, for safety.
+    irng.TRow() += 0.51; irng.BRow() -= 0.51;
+    irng.LCol() += 0.51; irng.RCol() -= 0.51;
     Array2dIterC<OutT> it(outImg);      
 
     if(irng.Contains(Project(orng.TopRight())) &&

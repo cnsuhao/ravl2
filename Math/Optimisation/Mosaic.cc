@@ -167,63 +167,66 @@ int main(int nargs,char **argv) {
       DrawFrame(img,val,rect);
     }
 
-    // select observations compatible with solution
-    DListC<ObservationC> compatible_obs_list = evalInliers.CompatibleObservations(ransac.GetSolution(),obsList);
+    // carry on optimising solution if Ransac succeeding
+    if(ransac.GetSolution().IsValid()) {
+      // select observations compatible with solution
+      DListC<ObservationC> compatible_obs_list = evalInliers.CompatibleObservations(ransac.GetSolution(),obsList);
 
-    // initialise Levenberg-Marquardt algorithm
-    StateVectorHomog2dC sv = ransac.GetSolution();
-    LevenbergMarquardtC lm = LevenbergMarquardtC(sv, compatible_obs_list);
+      // initialise Levenberg-Marquardt algorithm
+      StateVectorHomog2dC sv = ransac.GetSolution();
+      LevenbergMarquardtC lm = LevenbergMarquardtC(sv, compatible_obs_list);
+      
+      cout << "2D homography fitting: Initial residual=" << lm.GetResidual() << endl;
+      cout << "Selected " << compatible_obs_list.Size() << " observations using RANSAC" << endl;
+      VectorC x = lm.SolutionVector();
+      x *= 1.0/x[8];
 
-    cout << "2D homography fitting: Initial residual=" << lm.GetResidual() << endl;
-    cout << "Selected " << compatible_obs_list.Size() << " observations using RANSAC" << endl;
-    VectorC x = lm.SolutionVector();
-    x *= 1.0/x[8];
+      // apply iterations
+      RealT lambda = 100.0;
+      for ( int i = 0; i < 4; i++ ) {
+	bool accepted = lm.Iteration(compatible_obs_list, lambda);
+	if ( accepted )
+	  // iteration succeeded in reducing the residual
+	  lambda /= 10.0;
+	else
+	  // iteration failed to reduce the residual
+	  lambda *= 10.0;
 
-    // apply iterations
-    RealT lambda = 100.0;
-    for ( int i = 0; i < 4; i++ ) {
-      bool accepted = lm.Iteration(compatible_obs_list, lambda);
-      if ( accepted )
-	// iteration succeeded in reducing the residual
-	lambda /= 10.0;
-      else
-	// iteration failed to reduce the residual
-	lambda *= 10.0;
+	cout << " Accepted=" << accepted << " Residual=" << lm.GetResidual();
+	cout << " DOF=" << 2*compatible_obs_list.Size()-8 << endl;
+      }
 
-      cout << " Accepted=" << accepted << " Residual=" << lm.GetResidual();
-      cout << " DOF=" << 2*compatible_obs_list.Size()-8 << endl;
-    }
+      // get solution homography
+      sv = lm.GetSolution();
+      Matrix3dC P = sv.GetHomog();
+      P /= P[2][2];
 
-    // get solution homography
-    sv = lm.GetSolution();
-    Matrix3dC P = sv.GetHomog();
-    P /= P[2][2];
+      cout << "Solution: (" << P[0][0] << " " << P[0][1] << " " << P[0][2] << ")" << endl;
+      cout << "          (" << P[1][0] << " " << P[1][1] << " " << P[1][2] << ")" << endl;
+      cout << "          (" << P[2][0] << " " << P[2][1] << " " << P[2][2] << ")" << endl;
 
-    cout << "Solution: (" << P[0][0] << " " << P[0][1] << " " << P[0][2] << ")" << endl;
-    cout << "          (" << P[1][0] << " " << P[1][1] << " " << P[1][2] << ")" << endl;
-    cout << "          (" << P[2][0] << " " << P[2][1] << " " << P[2][2] << ")" << endl;
+      // accumulate homography
+      Psum = P*Psum;
 
-    // accumulate homography
-    Psum = P*Psum;
-
-    // compute homography to map image onto mosaic
+      // compute homography to map image onto mosaic
     
-    // projective warp
-    Psm=Psum*Pmosaic;
-    Psm = Psm.Inverse();
-    WarpProjectiveC<ByteT,ByteT> pwarp(mosaic_rect,Psm,ZHOMOG,1.0,false);
-    cout << "Width=" << mosaic.Cols() << " Height=" << mosaic.Rows() << endl;
-    pwarp.Apply(grey_img,mosaic);
-    cout << "Width=" << mosaic.Cols() << " Height=" << mosaic.Rows() << endl;
-    Save("@X:Mosaic",mosaic);
+      // projective warp
+      Psm=Psum*Pmosaic;
+      Psm = Psm.Inverse();
+      WarpProjectiveC<ByteT,ByteT> pwarp(mosaic_rect,Psm,ZHOMOG,1.0,false);
+      cout << "Width=" << mosaic.Cols() << " Height=" << mosaic.Rows() << endl;
+      pwarp.Apply(grey_img,mosaic);
+      cout << "Width=" << mosaic.Cols() << " Height=" << mosaic.Rows() << endl;
+      Save("@X:Mosaic",mosaic);
 
-    // Draw green boxes around the selected corners
-    val = ByteRGBValueC(0,255,0);
-    for(DLIterC<ObservationC> it(compatible_obs_list);it;it++) {
-      const VectorC &z=it->GetZ();
-      Point2dC p(z[0],z[1]);
-      IndexRange2dC rect(p,8,8);
-      DrawFrame(img,val,rect);
+      // Draw green boxes around the selected corners
+      val = ByteRGBValueC(0,255,0);
+      for(DLIterC<ObservationC> it(compatible_obs_list);it;it++) {
+	const VectorC &z=it->GetZ();
+	Point2dC p(z[0],z[1]);
+	IndexRange2dC rect(p,8,8);
+	DrawFrame(img,val,rect);
+      }
     }
 
     // Write an image out.
