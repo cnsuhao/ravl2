@@ -31,17 +31,17 @@ namespace RavlImageN {
   // computes the LMS fit from the various sums of squares
   inline
   static Vector2dC LMSRegressionEngine(const Matrix2dC &A, 
-					      const Vector2dC &b, 
-					      RealT dt_sq, // inputs
-					      RealT noise, 
-					      IntT N, // inputs
-					      Vector2dC &lambda, 
-					      RealT &sig_sq, 
-					      Matrix2dC &cov)  // outputs
+				       const Vector2dC &b, 
+				       RealT dt_sq, // inputs
+				       RealT noise, 
+				       IntT N, // inputs
+				       Vector2dC &lambda, 
+				       RealT &sig_sq, 
+				       Matrix2dC &cov)  // outputs
   {
     // calculate Z as inverted averaged "A" matrix    
-    Matrix2dC E = A;
-    EigenVectorsIP(E,lambda);
+    Matrix2dC E;
+    EigenVectors(A,E,lambda);
     
     RealT l_inv0 = lambda[0] / (Sqr(lambda[0]) + Sqr(N*noise)); // (pseudo) inverse
     RealT l_inv1 = lambda[1] / (Sqr(lambda[1]) + Sqr(N*noise)); // of eigenvalues
@@ -78,16 +78,21 @@ namespace RavlImageN {
     ImageC<RealT> dt_sq (rect);
     
     // grad_t = grad * -dt
-    for(Array2dIter5C<Vector2dC,Vector2dC,RealT,RealT,Matrix2dC> it(grad_t,grad,dt,dt_sq,grad_grad,rect);it;it++) {
-      Mul(it.Data2(),-it.Data3(),it.Data1());
+    for(Array2dIter5C<Vector2dC,Vector2dC,RealT,RealT,Matrix2dC> it(grad_t,    // 1
+								    grad,      // 2
+								    dt,        // 3
+								    dt_sq,     // 4
+								    grad_grad, // 5
+								    rect);it;it++) {
       it.Data2().OuterProduct(it.Data5());
+      Mul(it.Data2(),-it.Data3(),it.Data1());
       it.Data4() = Sqr(it.Data3());
     }
     
     // find the sums of products
     // ======================
     
-    IndexRange2dC mask(Index2dC(0,0),region);
+    IndexRange2dC mask(Index2dC(0,0),region,region);
     
     ImageC<Matrix2dC> sum_grad_grad;
     SumRectangles(grad_grad,mask,sum_grad_grad);

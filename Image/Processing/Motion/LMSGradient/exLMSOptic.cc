@@ -18,7 +18,6 @@
 // over the first image.  The ppm output file option plots the motion as a
 // colour overlay.
 
-
 #include "Ravl/Option.hh"
 #include "Ravl/EntryPnt.hh"
 #include "Ravl/DP/FileFormatIO.hh"
