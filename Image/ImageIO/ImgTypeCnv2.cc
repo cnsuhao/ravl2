@@ -102,10 +102,7 @@ namespace RavlImageN
 			       "ImageC<ByteT> RavlImageN::Convert(const ImageC<ByteYUVValueC> &)");
   
   DP_REGISTER_CONVERTION_NAMED(YUVImageCT2RGBImageCT        ,1,
-			       "ImageC<RealRGBValueC> RavlImageN::Convert(const ImageC<RealYUVValueC> &)");
-  
-  DP_REGISTER_CONVERTION_NAMED(RGBImageCT2YUVImageCT        ,1,
-			       "ImageC<RealYUVValueC> RavlImageN::Convert(const ImageC<RealRGBValueC> &)");
+			       "ImageC<ByteRGBValueC> RavlImageN::Convert(const ImageC<ByteYUVValueC> &)");
   
   DP_REGISTER_CONVERTION_NAMED(RGBImageCT2DoubleImageCT     ,3,
 			       "ImageC<RealT> RavlImageN::Convert(const ImageC<ByteRGBValueC> &)");
@@ -115,6 +112,9 @@ namespace RavlImageN
   
   DP_REGISTER_CONVERTION_NAMED(RealYUVImageCT2RealRGBImageCT,1,
 			       "ImageC<RealRGBValueC> RavlImageN::Convert(const ImageC<RealYUVValueC> &)");
+  
+  DP_REGISTER_CONVERTION_NAMED(RGBImageCT2YUVImageCT        ,1,
+			       "ImageC<ByteYUVValueC> RavlImageN::Convert(const ImageC<ByteRGBValueC> &)");
   
   DP_REGISTER_CONVERTION_NAMED(RealRGBImageCT2RealYUVImageCT,1,
 			       "ImageC<RealYUVValueC> RavlImageN::Convert(const ImageC<RealRGBValueC> &)");
