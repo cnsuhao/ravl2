@@ -17,6 +17,7 @@
 #include "Ravl/DP/SPort.hh"
 #include "Ravl/DList.hh"
 #include "Ravl/DLIter.hh"
+#include "Ravl/Assert.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -62,24 +63,12 @@ namespace RavlN {
     // Returns false, if seek failed.
     // if an error occurered (Seek returned False) then stream position will not be changed.
 
-    virtual bool DSeek(IntT off);
-    //: Delta Seek, goto location relative to the current one.
-    // The default behavour of this functions is : Do some error checking then: 
-    // Seek((UIntT)((IntT) Tell() + off)); 
-    // if an error occurered (DSeek returned False) then stream position will not be changed.
-
     virtual UIntT Tell() const;
     //: Find current location in stream.
     // Defined as the index of the next object to be written or read. 
-    // May return ((UIntT) (-1)) if not implemented.
 
     virtual UIntT Size() const;
     //: Find the total size of the stream. (assuming it starts from 0)
-    // May return ((UIntT) (-1)) if not implemented.
-
-    virtual UIntT Start() const;
-    //: Find the offset where the stream begins, normally zero.
-    // Defaults to 0
 
   protected:
     DListC<DataT> container;
@@ -122,6 +111,8 @@ namespace RavlN {
 
   template<class DataT>
   DataT DPISListBodyC<DataT>::Get() {
+    if(!iter)
+      throw DataNotReadyC("Invalid iterator in DPISListC");
     const DataT &dat = iter.Data();
     iter++;
     next++;
@@ -133,6 +124,7 @@ namespace RavlN {
   bool DPISListBodyC<DataT>::Get(DataT &buff) {
     if(!iter)
       return false;
+    RavlAssert(iter->IsValid());
     buff = *iter;
     iter++;
     next++;
@@ -155,17 +147,19 @@ namespace RavlN {
 
   template<class DataT>
   bool DPISListBodyC<DataT>::Seek(UIntT off) {
-    iter.Nth(off);
-    next = off;
+    if ((IntT)off < 0) {
+      next = 0;
+      iter.First();
+    }
+    else if (off >= Size()) {
+      next = Size()-1;
+      iter.Last();
+    }
+    else {
+      next = off;
+      iter.Nth(off);
+    }
     ONDEBUG(cerr << "DPISListC::Seek -  target = " << off << ", next frame = " << next << endl);
-    return true;
-  }
-  
-  template<class DataT>
-  bool DPISListBodyC<DataT>::DSeek(IntT off) {
-    iter.RelNth(off);
-    next += off;
-    ONDEBUG(cerr << "DPISListC::DSeek - offset  = " << off << ", next frame = " << next << endl);
     return true;
   }
   
@@ -181,12 +175,6 @@ namespace RavlN {
     return container.Size();
   }
   
-  template<class DataT>
-  UIntT DPISListBodyC<DataT>::Start() const {
-    ONDEBUG(cerr << "DPISListC::Start - start = 0" << endl);
-    return 0;
-  }
-
 #undef ONDEBUG
 #undef DODEBUG
   
