@@ -20,55 +20,6 @@
 namespace RavlGUIN {
   using namespace RavlImageN;
   
-  ///////////////////////////////////////////////
-  //! userlevel=Develop
-  //: Swap buffers.
-  
-  class DSwapBuff3DBodyC
-    : public DObject3DBodyC
-  {
-  public:
-    DSwapBuff3DBodyC(const RealRGBValueC &col)
-      : colour(col)
-      {}
-    //: Constructor.
-    
-    virtual bool Render(Canvas3DC &c3d);
-    //: Render object.
-    
-  protected:
-    RealRGBValueC colour;
-  };
-  
-  //! userlevel=Normal
-  //: Swap buffers.
-  
-  class DSwapBuff3DC
-    : public DObject3DC
-  {
-  public:
-    DSwapBuff3DC(const RealRGBValueC &col = RealRGBValueC(1,0,0))
-      : DObject3DC(*new DSwapBuff3DBodyC(col))
-      {}
-    //: Default constructor.
-    
-    DSwapBuff3DC(const DObject3DC &base) 
-      : DObject3DC(base)
-      { 
-	if(dynamic_cast<DSwapBuff3DBodyC *>(&DObject3DC::Body()) == 0)
-	  Invalidate();
-      }
-    //: Base object constructor.
-    
-    
-  protected:
-    DSwapBuff3DBodyC &Body() 
-      { return dynamic_cast<DSwapBuff3DBodyC &>(DObject3DC::Body()); }
-    
-    const DSwapBuff3DBodyC &Body() const
-      { return dynamic_cast<const DSwapBuff3DBodyC &>(DObject3DC::Body()); }  
-  };
-  
   ///////////////////////////////////////////////////////
   //! userlevel=Develop
   //: Rotate objects

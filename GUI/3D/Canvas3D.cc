@@ -120,11 +120,11 @@ namespace RavlGUIN {
   
   bool Canvas3DBodyC::SwapBuffers() {
     gtk_gl_area_swapbuffers(GTK_GL_AREA(widget));
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glLoadIdentity();
+    //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    //glLoadIdentity();
     return true;
   }
-
+  
   //: Process OpenGL requests.
   
   bool Canvas3DBodyC::ProcessReq(DObject3DC &obj) {

@@ -13,19 +13,7 @@
 #include "Ravl/GUI/Canvas3D.hh"
 
 namespace RavlGUIN {
-
-  //////////////////////////////////////////////
-  //: Render object.
   
-  bool DSwapBuff3DBodyC::Render(Canvas3DC &c3d) {
-    c3d.GUISwapBuffers();
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glFlush();
-    
-    return true;
-  }
-  
-  //////////////////////////////////////////////
   //: Render object.
   
   bool DTransform3DBodyC::Render(Canvas3DC &c3d) {

@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLGUICANVAS3D_HEADER
-#define RAVLGUICANVAS3D_HEADER 1
+#ifndef RAVLGUI_CANVAS3D_HEADER
+#define RAVLGUI_CANVAS3D_HEADER 1
 /////////////////////////////////////////////////////
 //! docentry="Ravl.GUI.3D"
 //! rcsid="$Id$"
@@ -170,18 +170,13 @@ namespace RavlGUIN {
   public:
     
     bool GUISwapBuffers() 
-      { return Body().SwapBuffers(); }
+    { return Body().SwapBuffers(); }
     //: swap buffers.
     // NB. Only call from the GUI thread.
     
     bool Put(const DObject3DC &r)
       { return Body().Put(r); }
     //: Put render object on canvas.
-    
-    void SwapBuffers()
-      { Body().Put(DSwapBuff3DC()); }
-    //: Swap display buffers.
-    // Thread safe.
     
     void ViewPoint(RealT fov = 90,
 		   Point3dC nEye = Point3dC(0,0,5),
@@ -265,6 +260,11 @@ namespace RavlGUIN {
     //: Call OpenGL rendering function.
     // Use only a refrence to 'nobj', not a copy.
     // NB. This means the refrence counter will NOT be incremented.
+    
+    void SwapBuffers()
+    { RenderRef(*this,Canvas3DC::GUISwapBuffers); }
+    //: Swap display buffers.
+    // Thread safe.
     
     void SetTextureMode(bool& bTexture) {Body().SetTextureMode(bTexture);}
     //: Enable or disable texturing
