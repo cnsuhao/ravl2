@@ -76,14 +76,14 @@ namespace RavlLogicN {
   };
   
   template<class DataT>
-  inline istream &operator>>(istream &strm,DescisionTreeC<DataT> &obj) {
-    obj = DescisionTreeC<DataT>(strm);
+  inline istream &operator>>(istream &strm,DecisionTreeC<DataT> &obj) {
+    obj = DecisionTreeC<DataT>(strm);
     return strm;
   }
   //: Load from a stream.
   
   template<class DataT>
-  inline ostream &operator<<(ostream &out,const DescisionTreeC<DataT> &obj) {
+  inline ostream &operator<<(ostream &out,const DecisionTreeC<DataT> &obj) {
     //obj.Save(out);
     out << obj.Name();
     return out;
@@ -91,14 +91,14 @@ namespace RavlLogicN {
   //: Save to a stream.
   
   template<class DataT>
-  inline BinIStreamC &operator>>(BinIStreamC &strm,DescisionTreeC<DataT> &obj) {
-    obj = DescisionTreeC<DataT>(strm);
+  inline BinIStreamC &operator>>(BinIStreamC &strm,DecisionTreeC<DataT> &obj) {
+    obj = DecisionTreeC<DataT>(strm);
     return strm;
   }
   //: Load from a binary stream.
   
   template<class DataT>
-  inline BinOStreamC &operator<<(BinOStreamC &out,const DescisionTreeC<DataT> &obj) {
+  inline BinOStreamC &operator<<(BinOStreamC &out,const DecisionTreeC<DataT> &obj) {
     obj.Save(out);
     return out;
   }
