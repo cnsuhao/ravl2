@@ -9,7 +9,7 @@
 ///////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=Ravl3DIO
-//! author="Jonathan Starck"
+//! author="James Smith"
 //! docentry="Ravl.3D.IO"
 //! userlevel=Normal
 
@@ -22,7 +22,9 @@ namespace Ravl3DN {
   
   //! userlevel=Develop
   //: POVRay file IO - for POVRay meshes
-  
+  // POV-Ray is a free, high-quality, cross-platform raytracing program.
+  // For more info, see <A HREF="http://www.povray.org">povray.org</A>
+
   class DPOPOVRayFileBodyC
     : public DPOPortBodyC<TriMeshC>
   {
@@ -46,6 +48,8 @@ namespace Ravl3DN {
   
   //! userlevel=Advanced
   //: POVRay file IO - for POVRay meshes
+  // POV-Ray is a free, high-quality, cross-platform raytracing program.
+  // For more info, see <A HREF="http://www.povray.org">povray.org</A>
 
   class DPOPOVRayFileC
     : public DPOPortC<TriMeshC>
@@ -65,6 +69,8 @@ namespace Ravl3DN {
   
   //! userlevel=Develop
   //: POVRay file IO - for POVRay meshes
+  // POV-Ray is a free, high-quality, cross-platform raytracing program.
+  // For more info, see <A HREF="http://www.povray.org">povray.org</A>
   
   class DPOTexPOVRayFileBodyC
     : public DPOPortBodyC<TexTriMeshC>
@@ -87,6 +93,8 @@ namespace Ravl3DN {
   
   //! userlevel=Advanced
   //: POVRay file IO - for POVRay meshes
+  // POV-Ray is a free, high-quality, cross-platform raytracing program.
+  // For more info, see <A HREF="http://www.povray.org">povray.org</A>
 
   class DPOTexPOVRayFileC
     : public DPOPortC<TexTriMeshC>
