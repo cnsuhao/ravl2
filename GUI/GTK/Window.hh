@@ -60,6 +60,10 @@ namespace RavlGUIN {
     //: Influences positioning of the window.
     // Values for pos are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKWINDOWPOSITION">here</A>.
     
+    void UserResizable(bool& resizable);
+    //: Allow the user to resize the window?
+    // Default is true. If set to false, window will shrink to the minimum size dictated by it's children.
+
     void Raise();
     //: Raises the window
 
@@ -95,6 +99,10 @@ namespace RavlGUIN {
     bool GUIUpdateCursor(CursorC &newCursor);
     //: Update cursor.
   
+    bool GUIUserResizable(bool& resizable);
+    //: Allow the user to resize the window?
+    // Default is true. If set to false, window will shrink to the minimum size dictated by it's children.
+
     bool GUIRaise();
     //: Raises the window
 
@@ -117,6 +125,7 @@ namespace RavlGUIN {
     bool closeDown; // Indicates close down is in progress or pending.
     CursorC cursor; // Invalid == default.
     bool cursorChange;
+    bool userresizable;
     GtkWindowType winType;
     
     friend class WindowC;
@@ -173,6 +182,11 @@ namespace RavlGUIN {
     //: Influences positioning of the window.
     // Values for pos are listed <A HREF="http://developer.gnome.org/doc/API/gtk/gtk-standard-enumerations.html#GTKWINDOWPOSITION">here</A>.
 
+    void GUIUserResizable(bool& resizable) 
+    { Body().GUIUserResizable(resizable); }
+    //: Allow the user to resize the window?
+    // Default is true. If set to false, window will shrink to the minimum size dictated by it's children.
+
     bool GUIRaise()
     { return Body().GUIRaise(); }
     //: Raises the window
@@ -196,6 +210,11 @@ namespace RavlGUIN {
     }
     //: Destroy this window.
     
+    void UserResizable(bool& resizable) 
+    { Body().UserResizable(resizable); }
+    //: Allow the user to resize the window?
+    // Default is true. If set to false, window will shrink to the minimum size dictated by it's children.
+
     void Raise()
     { Body().Raise(); }
     //: Raises the window

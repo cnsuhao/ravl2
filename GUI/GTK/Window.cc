@@ -38,6 +38,7 @@ namespace RavlGUIN {
       rootWin(nrootWin),
       closeDown(false),
       cursorChange(false),
+      userresizable(true),
       winType(nWinType)
   {
     if(rootWin)
@@ -75,6 +76,8 @@ namespace RavlGUIN {
       }
     }
     ConnectSignals();
+    // Set resizableness
+    if (!userresizable) GUIUserResizable(userresizable);
     return true;
   }
   
@@ -185,6 +188,24 @@ namespace RavlGUIN {
     return true;
   }
   
+  void WindowBodyC::UserResizable(bool& resizable) {
+    Manager.Queue(Trigger(WindowC(*this),&WindowC::GUIUserResizable,resizable));
+  }
+
+  bool WindowBodyC::GUIUserResizable(bool& resizable) {
+    if (widget!=0) {
+      if (resizable) {
+	gtk_window_set_policy(GTK_WINDOW(widget), false, true, false);
+      }
+      else {
+	gtk_window_set_policy(GTK_WINDOW(widget), false, false, true);
+      }
+    }
+    else
+      userresizable = resizable;
+    return true;
+  }
+
   void WindowBodyC::Raise() {
     Manager.Queue(Trigger(WindowC(*this),&WindowC::GUIRaise));
   }
