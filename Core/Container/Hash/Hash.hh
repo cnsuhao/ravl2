@@ -490,10 +490,11 @@ namespace RavlN {
   
   template<class K,class T>
   istream &operator>>(istream &in,HashC<K,T> &obj) { 
-    obj = HashC<K,T>(in);
+    HashC<K,T> newun(in);
+    obj.Move(newun);
     return in;
   }
-
+  
   template<class K,class T>
   BinOStreamC &operator<<(BinOStreamC &out,const HashC<K,T> &obj) { 
     out << obj.elements;
@@ -507,7 +508,8 @@ namespace RavlN {
   
   template<class K,class T>
   BinIStreamC &operator>>(BinIStreamC &in,HashC<K,T> &obj) { 
-    obj = HashC<K,T>(in);
+    HashC<K,T> newun(in);
+    obj.Move(newun);
     return in;
   }
   
