@@ -37,6 +37,12 @@ namespace RavlN {
     //: Constructs the object from the vector 'vec' and the matrix 'mat'.
     //: The new object contains handles of 'vec' and 'matrix' (BIG OBJECT).
     
+    VectorMatrixC(const VectorMatrixC &vm)
+      : VectorC(vm.Vector()),
+	MatrixC(vm.Matrix())
+    {}
+    //: Copy constructor.
+    
     inline const VectorC & Vector() const
     { return *this; }
     //: Access to the vector.

@@ -40,6 +40,13 @@ namespace RavlN {
     {}
     //: Base class constructor.
     
+    TMatrixC(const TVectorC<DataT> &vec)
+      : SArray2dC<DataT>(vec.Buffer(),vec.Size(),1)
+    {}
+    //: Treat vector as column matrix.
+    // Note: This does not copy the vector, changes
+    // made to the matrix will appear in the vector.
+    
     inline TMatrixC(SizeT rows,SizeT cols);
     //: Constructor.
     

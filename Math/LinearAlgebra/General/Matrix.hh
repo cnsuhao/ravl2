@@ -37,25 +37,30 @@ namespace RavlN {
     //: Test if matrix only contains real values.
     // This will return false if either nan's (Not an number) 
     // or infinite values are found.
+
+    MatrixC(const VectorC &vec)
+      : TMatrixC<RealT>((const TVectorC<RealT> &)vec)
+    {}
+    //: Treat vector as columb matrix.
     
     MatrixC(UIntT rows,UIntT cols)
       : TMatrixC<RealT>(rows,cols)
-      {}
+    {}
     //: Construct a new matrix of rows x cols.
     
     MatrixC(UIntT rows,UIntT cols,const RealT *data)
       : TMatrixC<RealT>(rows,cols,data)
-      {}
+    {}
     //: Construct a new matrix of rows x cols with row wise array of data.
     
     MatrixC(const TMatrixC<RealT> &oth)
       : TMatrixC<RealT>(oth)
-      {}
+    {}
     //: Base class constructor.
     
     MatrixC(const SArray2dC<RealT> &oth)
       : TMatrixC<RealT>(oth)
-      {}
+    {}
     //: Base class constructor.
     
     MatrixC(RealT v1,RealT v2,
