@@ -29,7 +29,8 @@ namespace RavlN {
   NetPortManagerBodyC::NetPortManagerBodyC(const StringC &nname)
     : name(nname),
       managerOpen(false),
-      ready(0)
+      ready(0),
+      terminate(false)
   {}
   
   //: Open manager at address.
@@ -57,6 +58,13 @@ namespace RavlN {
     return true;
   }
   
+  //: Close down manager.
+  
+  bool NetPortManagerBodyC::Close() {
+    terminate = true;
+    sktserv.Close();
+    return true;
+  }
   
   //: Run port manager.
   
@@ -65,12 +73,15 @@ namespace RavlN {
     RavlAssert(sktserv.IsOpen());
     NetPortManagerC manager(*this);
     ready.Post();
-    while(1) {
+    while(!terminate) {
       SocketC skt = sktserv.Listen();
+      if(!skt.IsValid())
+	continue; // Listen or bind failed for some reason.
       // When a socket connects, make and end point and send a 'hello' message.
       NetPortClientC cl(skt,manager);
       // Register client somewhere ?
     }
+    //cerr << "NetPortManagerBodyC::Run(), Done. \n";
     return true;
   }
   
@@ -142,5 +153,13 @@ namespace RavlN {
   
   bool NetPortOpen(const StringC &addr) 
   { return GlobalNetPortManager().Open(addr); }
+
+  bool NetPortClose() { 
+    if(!GlobalNetPortManager().IsValid())
+      return false;
+    GlobalNetPortManager().Close();
+    return true;
+  }
+  //: Close down net port manager.
 
 }

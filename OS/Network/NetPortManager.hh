@@ -54,6 +54,9 @@ namespace RavlN {
     bool Open(const StringC &addr);
     //: Open manager at address.
     
+    bool Close();
+    //: Close down manager.
+    
     virtual bool RegisterConnection(NetISPortServerBaseC &isport);
     //: Called when a connection is established.
     
@@ -73,7 +76,7 @@ namespace RavlN {
     bool managerOpen;
     SocketC sktserv;
     SemaphoreC ready;
-    
+    volatile bool terminate;
     friend class NetPortManagerC;
   };
 
@@ -140,6 +143,10 @@ namespace RavlN {
     { return Body().Open(addr); }
     //: Open manager at address.
     
+    bool Close()
+    { return Body().Close(); }
+    //: Close down manager.
+    
     bool RegisterConnection(NetISPortServerBaseC &isport)
     { return Body().RegisterConnection(isport); }
     //: Called when a connection is established.
@@ -161,6 +168,9 @@ namespace RavlN {
   // The 'address' has the format  'host:port' where port may be a
   // host name or its ip (dotted numbers) address and port is the 
   // number of the port to use.
+  
+  bool NetPortClose();
+  //: Close down net port manager.
   
 }
 
