@@ -75,7 +75,7 @@ namespace RavlImageN {
     ByteRGBMedianC()
       : ByteRGBValueC(0,0,0),
 	pixels(10)
-    {}
+    {} 
     //: Default constructor.
     // creates an undefined median pixel, with RGB value arbitrarily set to black.
 
@@ -92,16 +92,10 @@ namespace RavlImageN {
     //: Constructor.
     
     void Combine(const ByteRGBValueC &pix) {
-      ByteRGBGreyValueC rgb_grey(pix);
-
-      // add new pixel to the collection
-      pixels.Insert(rgb_grey);
-
-      // compute the median of the collection
-      rgb_grey = pixels.KthHighest(pixels.Size()/2);
-
-      Set(rgb_grey.Red(),rgb_grey.Green(),rgb_grey.Blue());
+      Add(pix) ; // add pixel 
+      Update() ; // update median 
     }
+
     //: Mix operator
     // Adds a new pixel to the collection and finds the new median value
 
@@ -109,7 +103,22 @@ namespace RavlImageN {
       Combine(pix);
       return *this;
     }
-    //: Add another value to the collection
+    //: Mix operator
+    // Adds a new pixel to the collection and finds the new median value
+
+    void Add ( const ByteRGBValueC & pix ) {
+      ByteRGBGreyValueC rgb_grey(pix) ; 
+      pixels.Insert(rgb_grey) ; 
+    }
+
+    //: Adds another value to the collection but does NOT update the median. 
+    // returns true on success 
+
+    void Update (void) { 
+      ByteRGBGreyValueC rgb_grey = pixels.KthHighest(pixels.Size()/2) ; 
+      Set( rgb_grey.Red(), rgb_grey.Green(), rgb_grey.Blue() ) ; 
+    }
+    //: Computes the median and updates the median value. 
 
   public:
     CollectionC<ByteRGBGreyValueC> pixels;
