@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef _DPOINTSET3D_
-#define _DPOINTSET3D_ 1
+#ifndef RAVLGUI_DPOINTSET3D_HEADER
+#define RAVLGUI_DPOINTSET3D_HEADER 1
 ///////////////////////////////////////////////////
 //! docentry="Ravl.GUI.3D"
 //! rcsid="$Id$"
@@ -15,21 +15,19 @@
 //! date="31/1/2002"
 
 #include "Ravl/GUI/DObject3D.hh"
-#include "Ravl/3D/PointSet.hh"
+#include "Ravl/PointSet3d.hh"
 
 namespace RavlGUIN 
 {
-  using namespace Ravl3DN;
   
-  // Draw a Point Set
-  // THIS CLASS IS OBSOLETE! use DSurfacePointVertexArrayC and DSurfacePointVertexByteRGBArrayC
-  // This class will be removed in early 2003.
+  //! userlevel=Normal
+  //: Draw a Point Set
 
-  class DPointSet3DBodyC
+  class DPointSet3dBodyC
     : public DObject3DBodyC
   {
   public:
-    DPointSet3DBodyC(const PointSetC& oPointSet)
+    DPointSet3dBodyC(const PointSet3dC& oPointSet)
       : pointSet(oPointSet)
     {}
     // Constructor.
@@ -46,33 +44,33 @@ namespace RavlGUIN
     // defaults to 1
     
   protected:
-    PointSetC pointSet;
+    PointSet3dC pointSet;
   };
   
     
-  class DPointSet3DC
+  class DPointSet3dC
     : public DObject3DC
   {
   public:
-    DPointSet3DC()
+    DPointSet3dC()
     {}
     // Default constructor, creates an invalid handle.
     
-    DPointSet3DC(const PointSetC& oPointSet)
-      : DObject3DC(*new DPointSet3DBodyC(oPointSet))
+    DPointSet3dC(const PointSet3dC& oPointSet)
+      : DObject3DC(*new DPointSet3dBodyC(oPointSet))
     {}
     // Constructor.
     
   protected:
-    DPointSet3DBodyC& Body() 
-    { return dynamic_cast<DPointSet3DBodyC &>(DObject3DC::Body()); }
+    DPointSet3dBodyC& Body() 
+    { return dynamic_cast<DPointSet3dBodyC &>(DObject3DC::Body()); }
     
-    const DPointSet3DBodyC &Body() const
-    { return dynamic_cast<const DPointSet3DBodyC &>(DObject3DC::Body()); }  
+    const DPointSet3dBodyC &Body() const
+    { return dynamic_cast<const DPointSet3dBodyC &>(DObject3DC::Body()); }  
     
   public:  
   };
   
 }
 
-#endif //_DPOINTSET3D_
+#endif 
