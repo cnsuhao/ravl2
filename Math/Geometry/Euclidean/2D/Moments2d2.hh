@@ -17,6 +17,7 @@
 
 #include "Ravl/Types.hh"
 #include "Ravl/Index2d.hh"
+#include "Ravl/Point2d.hh"
 
 namespace RavlN {
   
@@ -34,7 +35,10 @@ namespace RavlN {
     
     inline void AddPixel (const Index2dC &pxl);
     //: Adds a pixel to the object and updates sums.
-  
+
+    inline void AddPixel (const Point2dC &pxl,RealT weight);
+    //: Adds a position with a weight to the object and updates sums.
+    
     inline const Moments2d2C & Centerlize();
     //: Recomputes the moments according to the centroid.
     
@@ -155,6 +159,23 @@ namespace RavlN {
     m02 += row*row;
     m20 += col*col;
   }
+
+  //: Adds a position with a weight to the object and updates sums.
+  
+  void Moments2d2C::AddPixel (const Point2dC &pxl,RealT weight) {
+    RealT row = pxl[0];
+    RealT col = pxl[1];
+    
+    m00 += weight;
+    RealT wrow = row * weight;
+    RealT wcol = col * weight;
+    m01 += wrow;
+    m10 += wcol;
+    m11 += row*wcol;
+    m02 += row*wrow;
+    m20 += col*wcol;
+  }
+  
   
   inline 
   const Moments2d2C & Moments2d2C::Centerlize() {
