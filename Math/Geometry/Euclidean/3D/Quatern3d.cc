@@ -14,14 +14,16 @@
 #include "Ravl/Quatern3d.hh"
 //#include "Ravl/Homtm.hh"
 #include "Ravl/Stream.hh"
+#include "Ravl/config.h"
 
 //#include <iomanip.h>
 
 
 namespace RavlN {
 
-#ifdef __sgi__
+#if RAVL_OS_IRIX
   // Help the compiler on sgi
+  #include "Ravl/TFMatrix.hh"
   TFMatrixC<double,3,3> sgi_xyz; 
 #endif
 
