@@ -36,4 +36,4 @@ EXAMPLES = exExtImgIO.cc
 
 USESLIBS = RavlImage RavlIO LibJPEG LibPNG LibTIFF 
 
-PROGLIBS = RavlDPDisplay
+PROGLIBS = RavlDPDisplay.opt

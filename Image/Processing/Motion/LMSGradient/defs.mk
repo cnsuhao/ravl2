@@ -22,7 +22,7 @@ LIBDEPS=RavlImageLMSMotion.def
 
 USESLIBS = RavlImageProc
 
-PROGLIBS = RavlDPDisplay RavlImageIO
+PROGLIBS = RavlImageIO RavlDPDisplay.opt
 
 EXAMPLES = exLMSOptic.cc exLMSMultiScale.cc exLMSRegionMotion.cc
 

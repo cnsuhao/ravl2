@@ -27,7 +27,7 @@ LIBDEPS=RavlMath2D.def
 
 USESLIBS=RavlMath
 
-PROGLIBS=RavlIO RavlDPDisplay
+PROGLIBS=RavlIO RavlDPDisplay.opt
 
 TESTEXES=testLine2d.cc testGeom2d.cc
 

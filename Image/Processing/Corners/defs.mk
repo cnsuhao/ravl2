@@ -23,5 +23,4 @@ EXAMPLES= exCorner.cc
 
 EHT= Ravl.Images.Corner_Detection.html
 
-PROGLIBS=RavlImageIO RavlDPDisplay 
-# RavlImgIOV4L
+PROGLIBS=RavlImageIO RavlDPDisplay.opt RavlImgIOV4L.opt

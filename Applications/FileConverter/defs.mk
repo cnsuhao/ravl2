@@ -11,7 +11,9 @@ DESCRIPTION= General purpose file converter.
 
 MAINS = conv.cc
 
-USESLIBS= RavlCore RavlOSIO RavlImage RavlOS RavlImageIO RavlVideoIO RavlExtImgIO \
-  RavlDPDisplay Ravl3DIO RavlMathIO
+USESLIBS= RavlCore RavlOSIO RavlImage RavlOS RavlImageIO RavlVideoIO  \
+	 Ravl3DIO RavlMathIO
+
+PROGLIBS= RavlDPDisplay.opt RavlExtImgIO.opt
 
 EHT = execonv.eht

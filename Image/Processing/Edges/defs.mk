@@ -27,6 +27,6 @@ LIBDEPS=RavlImageEdges.def
 
 USESLIBS=RavlImageProc 
 
-PROGLIBS= RavlImageIO RavlDPMT RavlOSIO RavlVideoIO RavlIO RavlDPDisplay
+PROGLIBS= RavlImageIO RavlDPMT RavlOSIO RavlVideoIO RavlIO RavlDPDisplay.opt
 
 EHT=Ravl.Images.Edges.html
