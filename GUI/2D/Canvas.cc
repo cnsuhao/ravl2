@@ -209,6 +209,25 @@ namespace RavlGUIN {
   void CanvasBodyC::DrawRectangle(IntT x1,IntT y1,IntT x2,IntT y2,IntT c) {
     Manager.Queue(Trigger(CanvasC(*this),&CanvasC::GUIDrawRectangle,x1,y1,x2,y2,c));
   }
+
+  void CanvasBodyC::DrawFrame(IntT x1,IntT y1,IntT x2,IntT y2,IntT c) {
+    Manager.Queue(Trigger(CanvasC(*this),&CanvasC::GUIDrawFrame,x1,y1,x2,y2,c));
+  }
+
+  void CanvasBodyC::SetLineStyle(IntT iWidth, GdkLineStyle linestyle, GdkCapStyle capstyle, GdkJoinStyle joinstyle) {
+    Manager.Queue(Trigger(CanvasC(*this),&CanvasC::GUISetLineStyle,iWidth,linestyle,capstyle,joinstyle));
+  }
+  
+  bool CanvasBodyC::GUISetLineStyle(IntT& iWidth, GdkLineStyle& linestyle, GdkCapStyle& capstyle, GdkJoinStyle& joinstyle) {
+    if (DrawGC() != 0) {
+      gdk_gc_set_line_attributes(DrawGC(),
+				 iWidth,
+				 linestyle,
+				 capstyle,
+				 joinstyle);
+    }
+    return true;
+  }
   
   //: Turn auto refresh after draw routines on/off.
   
@@ -367,7 +386,7 @@ namespace RavlGUIN {
   
   bool CanvasBodyC::GUIDrawRectangle(IntT &x1,IntT &y1,IntT &x2,IntT &y2,IntT &c) {
     if(!IsReady()) {
-      ONDEBUG(cerr <<"CanvasBodyC::GUIDrawLine(), WARNING: Asked to render data before canvas is initialise. \n");
+      ONDEBUG(cerr <<"CanvasBodyC::GUIDrawRectangle(), WARNING: Asked to render data before canvas is initialise. \n");
       toDo.InsFirst(TriggerR(*this,&CanvasBodyC::GUIDrawRectangle,x1,y1,x2,y2,c));
       return true;
     }
@@ -382,6 +401,31 @@ namespace RavlGUIN {
     gdk_draw_rectangle (DrawArea(),
 			gc,
 			true,
+			x1, y1,
+			x2, y2);
+    if(autoRefresh)
+      GUIRefresh();
+    return true;
+    
+  }
+
+  bool CanvasBodyC::GUIDrawFrame(IntT &x1,IntT &y1,IntT &x2,IntT &y2,IntT &c) {
+    if(!IsReady()) {
+      ONDEBUG(cerr <<"CanvasBodyC::GUIDrawFrame(), WARNING: Asked to render data before canvas is initialise. \n");
+      toDo.InsFirst(TriggerR(*this,&CanvasBodyC::GUIDrawFrame,x1,y1,x2,y2,c));
+      return true;
+    }
+    GdkGC *gc;
+    if(c == 0)
+      gc = widget->style->white_gc;
+    else{
+      gc = DrawGC();
+      gdk_gc_set_foreground(gc,&GetColour(c));
+    }
+    
+    gdk_draw_rectangle (DrawArea(),
+			gc,
+			false,
 			x1, y1,
 			x2, y2);
     if(autoRefresh)

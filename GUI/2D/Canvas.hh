@@ -91,6 +91,9 @@ namespace RavlGUIN {
     void DrawRectangle(IntT x1,IntT y1,IntT x2,IntT y2,IntT colId = 0); 
     //: Draw a filled rectangle.
     
+    void DrawFrame(IntT x1,IntT y1,IntT x2,IntT y2,IntT colId = 0); 
+    //: Draw an empty rectangle.
+    
     void DrawText(IntT x1,IntT y1,StringC text,IntT colId = 0);
     //: Draw some text
     
@@ -109,9 +112,24 @@ namespace RavlGUIN {
     bool GUIDrawText(IntT &x1,IntT &y1,StringC &text,IntT &colId);
     //: Draw some text
     // Call with GUI thread only!
+
+    void SetLineStyle(IntT iWidth, GdkLineStyle linestyle=GDK_LINE_SOLID, GdkCapStyle capstyle=GDK_CAP_NOT_LAST, GdkJoinStyle joinstyle=GDK_JOIN_MITER);
+    //: Set line style - GUI thead only
+    // Values for linestyle are <a href="http://developer.gnome.org/doc/API/gdk/gdk-graphics-contexts.html#GDKLINESTYLE">here</a>
+    // Values for capstyle are <a href="http://developer.gnome.org/doc/API/gdk/gdk-graphics-contexts.html#GDKCAPSTYLE">here</a>
+    // Values for joinstyle are <a href="http://developer.gnome.org/doc/API/gdk/gdk-graphics-contexts.html#GDKJOINSTYLE">here</a>
+
+    bool GUISetLineStyle(IntT& iWidth, GdkLineStyle& linestyle, GdkCapStyle& capstyle, GdkJoinStyle& joinstyle);
+    //: Set line style - GUI thead only
+    // Values for linestyle are <a href="http://developer.gnome.org/doc/API/gdk/gdk-graphics-contexts.html#GDKLINESTYLE">here</a>
+    // Values for capstyle are <a href="http://developer.gnome.org/doc/API/gdk/gdk-graphics-contexts.html#GDKCAPSTYLE">here</a>
+    // Values for joinstyle are <a href="http://developer.gnome.org/doc/API/gdk/gdk-graphics-contexts.html#GDKJOINSTYLE">here</a>
     
     bool GUIDrawRectangle(IntT &x1,IntT &y1,IntT &x2,IntT &y2,IntT &colId); 
-    //: Draw a frame.
+    //: Draw a filled rectangle.
+    
+    bool GUIDrawFrame(IntT &x1,IntT &y1,IntT &x2,IntT &y2,IntT &colId); 
+    //: Draw an empty rectangle
     
     bool GUIClear();
     //: Clear canvas to given colour.
@@ -262,6 +280,10 @@ namespace RavlGUIN {
     { Body().DrawRectangle(x1,y1,x2,y2,colId); }
     //: Draw a filled rectangle
     
+    void DrawFrame(IntT x1,IntT y1,IntT x2,IntT y2,IntT colId = 0)
+    { Body().DrawFrame(x1,y1,x2,y2,colId); }
+    //: Draw an empty rectangle
+    
     bool GUIDrawLine(IntT &x1,IntT &y1,IntT &x2,IntT &y2,IntT &colId)
     { return Body().GUIDrawLine(x1,y1,x2,y2,colId); }
     //: Draw a line.
@@ -271,9 +293,27 @@ namespace RavlGUIN {
     //: Draw a line.
     // Call with GUI thread only!
     
+    void SetLineStyle(IntT iWidth, GdkLineStyle linestyle=GDK_LINE_SOLID, GdkCapStyle capstyle=GDK_CAP_NOT_LAST, GdkJoinStyle joinstyle=GDK_JOIN_MITER)
+    { Body().SetLineStyle(iWidth,linestyle,capstyle,joinstyle); }
+    //: Set line style - GUI thead only
+    // Values for linestyle are <a href="http://developer.gnome.org/doc/API/gdk/gdk-graphics-contexts.html#GDKLINESTYLE">here</a>
+    // Values for capstyle are <a href="http://developer.gnome.org/doc/API/gdk/gdk-graphics-contexts.html#GDKCAPSTYLE">here</a>
+    // Values for joinstyle are <a href="http://developer.gnome.org/doc/API/gdk/gdk-graphics-contexts.html#GDKJOINSTYLE">here</a>
+
+    bool GUISetLineStyle(IntT& iWidth, GdkLineStyle& linestyle, GdkCapStyle& capstyle, GdkJoinStyle& joinstyle) 
+    { return Body().GUISetLineStyle(iWidth,linestyle,capstyle,joinstyle); }
+    //: Set line style - GUI thead only
+    // Values for linestyle are <a href="http://developer.gnome.org/doc/API/gdk/gdk-graphics-contexts.html#GDKLINESTYLE">here</a>
+    // Values for capstyle are <a href="http://developer.gnome.org/doc/API/gdk/gdk-graphics-contexts.html#GDKCAPSTYLE">here</a>
+    // Values for joinstyle are <a href="http://developer.gnome.org/doc/API/gdk/gdk-graphics-contexts.html#GDKJOINSTYLE">here</a>
+
     bool GUIDrawRectangle(IntT &x1,IntT &y1,IntT &x2,IntT &y2,IntT &colId)
     { return Body().GUIDrawRectangle(x1,y1,x2,y2,colId); }
     //: Draw a filled rectangle.
+    
+    bool GUIDrawFrame(IntT &x1,IntT &y1,IntT &x2,IntT &y2,IntT &colId)
+    { return Body().GUIDrawFrame(x1,y1,x2,y2,colId); }
+    //: Draw an empty rectangle.
     
     bool GUIDrawImage(ImageC<ByteT> &img,Index2dC &offset)
     { return Body().GUIDrawImage(img,offset); }
