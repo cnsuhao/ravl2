@@ -74,7 +74,7 @@ namespace RavlN {
 
     template<class Data1T>
     bool Send(UIntT id,const Data1T &dat1) {
-      OBufStreamC os;
+      BufOStreamC os;
       BinOStreamC bos(os);
       bos << id << dat1;
       Transmit(NetPacketC(os.Data()));
@@ -84,7 +84,7 @@ namespace RavlN {
     
     template<class Data1T,class Data2T>
     bool Send(UIntT id,const Data1T &dat1,const Data2T &dat2) {
-      OBufStreamC os;
+      BufOStreamC os;
       BinOStreamC bos(os);
       bos << id << dat1 << dat2;
       Transmit(NetPacketC(os.Data()));
@@ -94,7 +94,7 @@ namespace RavlN {
 
     template<class Data1T,class Data2T,class Data3T>
     bool Send(UIntT id,const Data1T &dat1,const Data2T &dat2,const Data3T &dat3) {
-      OBufStreamC os;
+      BufOStreamC os;
       BinOStreamC bos(os);
       bos << id << dat1 << dat2  << dat3;
       Transmit(NetPacketC(os.Data()));

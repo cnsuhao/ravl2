@@ -51,7 +51,7 @@ namespace RavlN
     //: Access data in packet.
 
     IStreamC DecodeStream() const
-      { return IBufStreamC(data); }
+    { return BufIStreamC(data); }
     //: Create a decoding stream.
     
     //BinOStreamC EncodeStream()

@@ -138,7 +138,7 @@ namespace RavlN {
   //: Interpret string 'str' and return the result.
   
   StringC TemplateComplexBodyC::Interpret(const StringC &str) {
-    OStrStreamC outStr;
+    StrOStreamC outStr;
     output.Push(outStr);
     TextFileC subTextBuff(str,true,true);
     if(!BuildSub(subTextBuff))
@@ -504,7 +504,7 @@ namespace RavlN {
   //: Make all text upper case.
   
   bool TemplateComplexBodyC::DoUpperCase(StringC &txt) {
-    OStrStreamC outStr; 
+    StrOStreamC outStr; 
     output.Push(outStr);
     TextFileC subTextBuff(txt,true,true);
     if(!BuildSub(subTextBuff))
@@ -517,7 +517,7 @@ namespace RavlN {
   //: Make all text lower case.
   
   bool TemplateComplexBodyC::DoLowerCase(StringC &txt) {
-    OStrStreamC outStr;    
+    StrOStreamC outStr;    
     output.Push(outStr);
     TextFileC subTextBuff(txt,true,true);
     if(!BuildSub(subTextBuff))
@@ -566,7 +566,7 @@ namespace RavlN {
     if(value == "") 
       return true;
     
-    OStrStreamC outStr;    
+    StrOStreamC outStr;    
     output.Push(outStr);
     TextFileC subTextBuff(value,true,true);
     
