@@ -1580,7 +1580,7 @@ case 42:
     break;}
 case 43:
 #line 240 "cxx.y"
-{ yyval=yyvsp[-2]; yyvsp[-2].Name() += StringC(" = ") + yyvsp[0].Name(); ;
+{ yyval = yyvsp[-2].Name() +  StringC(" = ") + yyvsp[0].Name(); ;
     break;}
 case 46:
 #line 252 "cxx.y"
@@ -1588,11 +1588,11 @@ case 46:
     break;}
 case 47:
 #line 255 "cxx.y"
-{ yyval=yyvsp[-2]; yyval.Name() += strp_ColonColon + yyvsp[0].Name(); ;
+{ yyval = yyvsp[-2].Name() + strp_ColonColon + yyvsp[0].Name(); ;
     break;}
 case 48:
 #line 256 "cxx.y"
-{ yyval=yyvsp[-2]; yyval.Name() += strp_ColonColon + yyvsp[0].Name(); ;
+{ yyval = yyvsp[-2].Name() + strp_ColonColon + yyvsp[0].Name(); ;
     break;}
 case 49:
 #line 259 "cxx.y"
@@ -1842,7 +1842,7 @@ case 104:
     break;}
 case 105:
 #line 429 "cxx.y"
-{ yyval=yyvsp[-1]; yyval.Name() += yyvsp[0].Name(); ;
+{ yyval = yyvsp[-1].Name() + ' ' +  yyvsp[0].Name(); ;
     break;}
 case 106:
 #line 431 "cxx.y"
@@ -2131,7 +2131,7 @@ case 179:
     break;}
 case 180:
 #line 551 "cxx.y"
-{ yyval=yyvsp[-1]; yyvsp[-1].Name() += yyvsp[0].Name(); ;
+{ yyvsp[-1] = yyvsp[-1].Name() + yyvsp[0].Name(); ;
     break;}
 case 181:
 #line 553 "cxx.y"

@@ -237,7 +237,7 @@ enum_name_list: enum_name_elem { ObjectListC ol(STR(VarNameList)); ol.Append($1)
    | enum_name_list ',' enum_name_elem { ObjectListC ol($1); ol.Append($3); $$ = ol; }
 ;
 enum_name_elem: IDENTIFIER { $$=$1; }
-   | IDENTIFIER '=' expr_no_commas_list { $$=$1; $1.Name() += StringC(" = ") + $3.Name(); }
+   | IDENTIFIER '=' expr_no_commas_list { $$ = $1.Name() +  StringC(" = ") + $3.Name(); }
 ;
 
 /* ----- misc ---- */
@@ -252,8 +252,8 @@ string:                 /* Strings may be chained.... */
 unqualified_id: IDENTIFIER   { $$=$1; } 
         ;
 
-qualified_id: IDENTIFIER CLCL unqualified_id { $$=$1; $$.Name() += strp_ColonColon + $3.Name(); }
-        | IDENTIFIER CLCL qualified_id       { $$=$1; $$.Name() += strp_ColonColon + $3.Name(); }
+qualified_id: IDENTIFIER CLCL unqualified_id { $$ = $1.Name() + strp_ColonColon + $3.Name(); }
+        | IDENTIFIER CLCL qualified_id       { $$ = $1.Name() + strp_ColonColon + $3.Name(); }
         ;
 
 maybe_identifier: IDENTIFIER  { $$=$1; }
@@ -426,7 +426,7 @@ expr_no_commas_list_opt: /*empty*/ { $$=ObjectC(""); }
   | expr_no_commas_list            { $$=$1; }
 ;
 expr_no_commas_list: expr_no_commas    { $$=$1; }
-  |   expr_no_commas_list expr_no_commas  { $$=$1; $$.Name() += $2.Name(); }
+  |   expr_no_commas_list expr_no_commas  { $$ = $1.Name() + ' ' +  $2.Name(); }
 ;
 expr_no_commas: '(' arg_expr_list_all ')' { $$=ObjectC(strp_OpenBracket + $2.Name() + strp_CloseBracket); }
    | '[' expr_no_commas_list ']'          { $$=ObjectC(StringC("[") + $2.Name() + "]"); }
@@ -548,7 +548,7 @@ arg_expr_list_all: /*empty*/ { $$ =ObjectC(""); }
    | arg_expr_list        { $$ = $1; }
 ;
 arg_expr_list: arg_expr_list_item { $$=$1; }
-   | arg_expr_list arg_expr_list_item { $$=$1; $1.Name() += $2.Name(); }
+   | arg_expr_list arg_expr_list_item { $1 = $1.Name() + $2.Name(); }
 ;
 arg_expr_list_item:  '(' arg_expr_list_all ')' { $$=ObjectC(strp_OpenBracket + $2.Name() + strp_CloseBracket); }
    | IDENTIFIER | CONSTANT | BINOP
