@@ -13,14 +13,23 @@
 #include "Ravl/Logic/StateSet.hh"
 #include "Ravl/Logic/Or.hh"
 #include "Ravl/Logic/And.hh"
+#include "Ravl/Logic/Not.hh"
 
 using namespace RavlLogicN;
+
+#define DODEBUG 1
+#if DODEBUG
+#define ONDEBUG(x) x
+#else
+#define ONDEBUG(x)
+#endif
 
 int testBasic();
 int testBind();
 int testStateSet();
 int testStateOr();
 int testStateAnd();
+int testStateNot();
 
 int main() {
   int err;
@@ -41,6 +50,10 @@ int main() {
     return 1;
   }
   if((err = testStateAnd()) != 0) {
+    cerr << "testStateAnd failed at : " << err << "\n";
+    return 1;
+  }
+  if((err = testStateNot()) != 0) {
     cerr << "testStateAnd failed at : " << err << "\n";
     return 1;
   }
@@ -216,9 +229,40 @@ int testStateAnd() {
   BindSetC binds(true);
   int count = 0;
   for(LiteralIterC it(andTest.Solutions(state,binds));it;it++) {
-    if(it.Data() != t4) return __LINE__;  
+    ONDEBUG(cerr << "Got solution, Binds :" << binds << "\n");
     if(!binds.IsBound(v1)) return __LINE__;
     if(!binds.IsBound(v2)) return __LINE__;
+    count++;
+  }
+  if(count != 4) return __LINE__;
+  return 0;
+}
+
+int testStateNot() {
+  //cerr << "testStateAnd() \n";
+  StateSetC state(true);
+  LiteralC l1(true);
+  LiteralC l2(true);
+  LiteralC l3(true);
+  VarC v1(true);
+  
+  TupleC t1(l1,l2);
+  TupleC t2(l2,l3);
+  TupleC t3(l2,l1);
+  TupleC t4(l1,l3);
+  state.Tell(t1);
+  state.Tell(t2);
+  state.Tell(t3);
+  state.Tell(t4);
+  
+  ConditionC notTest = !(Tuple(l1,l3) + Tuple(l2,v1));
+  //cerr << "testStateAnd() Creating iter.\n";
+  BindSetC binds(true);
+  int count = 0;
+  for(LiteralIterC it(notTest.Solutions(state,binds));it;it++) {
+    ONDEBUG(cerr << "Got solution, Binds :" << binds << "\n");
+    //    if(!binds.IsEmpty()) return __LINE__;
+    if(it.Data() != t1) return __LINE__;
     count++;
   }
   if(count != 1) return __LINE__;

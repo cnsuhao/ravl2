@@ -52,9 +52,12 @@ namespace RavlLogicN {
     
     virtual StringC Name() const;
     //: Get the name of symbol.
-
+    
     virtual bool Test(const StateC &state,BindSetC &binds) const;
     //: Test if condition is true in 'state'.
+    
+    virtual LiteralIterC Solutions(const StateC &state,BindSetC &binds) const;
+    //: Return iterator through possibile matches to this literal in 'state', if any.
    
   protected:
     LiteralC term;
@@ -109,6 +112,8 @@ namespace RavlLogicN {
     LiteralC &Term()
     { return Body().Term(); }
     //: Access set of terms.
+    
+    friend class NotBodyC;
   };
   
   //! userlevel=Normal

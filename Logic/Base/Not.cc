@@ -10,6 +10,8 @@
 
 #include "Ravl/Logic/Not.hh"
 #include "Ravl/Logic/BindSet.hh"
+#include "Ravl/Logic/LiteralFilterIter.hh"
+#include "Ravl/Logic/State.hh"
 
 namespace RavlLogicN {
 
@@ -57,7 +59,14 @@ namespace RavlLogicN {
   //: Test if condition is true in 'state'.
   
   bool NotBodyC::Test(const StateC &state,BindSetC &binds) const {
+    RavlAssert(term.IsValid());
     return !term.Test(state,binds);
+  }
+
+  //: Return iterator through possibile matches to this literal in 'state', if any.
+  LiteralIterC NotBodyC::Solutions(const StateC &state,BindSetC &binds) const {
+    NotC me(const_cast<NotBodyC &>(*this));
+    return LiteralFilterIterC(state.List(),me);
   }
   
   //: Not operator.
@@ -67,7 +76,7 @@ namespace RavlLogicN {
     NotC xnot(lit);
     if(xnot.IsValid())
       return xnot.Term(); // Double not simplifies.
-    return NotC(lit);
+    return NotC(true,lit);
   }
 
   

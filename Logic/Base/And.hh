@@ -54,7 +54,7 @@ namespace RavlLogicN {
     SizeT Size() const
     { return terms.Size(); }
     //: Get the number of terms to be anded together.
-    
+
     virtual LiteralIterC Solutions(const StateC &state,BindSetC &binds) const;
     //: Return iterator through possibile matches to this literal in 'state', if any.
     

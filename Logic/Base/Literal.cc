@@ -79,8 +79,10 @@ namespace RavlLogicN {
   
   //: Return iterator through possibile solutions, if any.
   
-  LiteralIterC LiteralC::Solutions(const StateC &state,BindSetC &binds) const
-   { return Body().Solutions(state,binds); }
+  LiteralIterC LiteralC::Solutions(const StateC &state,BindSetC &binds) const { 
+    RavlAssert(IsValid());
+    return Body().Solutions(state,binds); 
+  }
 
 
 }

@@ -11,7 +11,7 @@
 #include "Ravl/Logic/StateAndIter.hh"
 #include "Ravl/Logic/LiteralIter1.hh"
 
-#define DODEBUG 1
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -28,40 +28,40 @@ namespace RavlLogicN {
     initalBm = binds.Mark();
     First();
   }
-  
-  //: Goto next valid solution.
-  // Its not clear we have to worry about the bind marks, the iterator's
-  // should deal with this themselves.
-  
+
   bool StateAndIterBodyC::NextValid() {
     ONDEBUG(cerr << "StateAndIterBodyC::NextValid(), Called. MaxTerms:" << lAnd.Size() << "\n");
+    
     RavlAssert(lAnd.Size() != 0); // What to do with zero terms ?
     int maxTerm = lAnd.Size() - 1;
     while(!stack.IsEmpty()) {
-      if(!stack.Top().iter.IsElm()) {
-	stack.DelTop();
-	continue; // Backtrack.
-      }
-      int nextTerm = stack.Top().termNo + 1;
-      if(nextTerm <= maxTerm) {
+      int nextTerm;
+      while(stack.Top().termNo < maxTerm) {
+	nextTerm = stack.Top().termNo + 1;
 	BindMarkT mark = binds.Mark();
 	ONDEBUG(cerr << "StateAndIterBodyC::NextValid(), Iterating term " << nextTerm <<" " << lAnd.Terms()[nextTerm] << " \n");
 	LiteralIterC lit = state.ListFilter(lAnd.Terms()[nextTerm],binds);
 	ONDEBUG(cerr << "Binds= " << binds << "\n");
-	if(!lit.IsElm()) { // Any solutions ?
-	  stack.DelTop(); // Reached a dead-end, backtrack and try again.
-	  continue;
+	if(!lit.IsElm()) {
+	  stack.DelTop(); // Back track.
+	  break;
 	}
 	stack.Push(StateAndBackTrackPointC(mark,nextTerm,lit));
-	if(nextTerm == maxTerm)
+	if(stack.Top().termNo == maxTerm)
 	  return true;
-	continue;
       }
-      if(stack.Top().iter.Next()) {
-	ONDEBUG(cerr << "StateAndIterBodyC::NextValid(), one more solution... \n");
+      if(stack.Top().termNo == maxTerm && stack.Top().iter.IsElm())
 	return true;
+      for(;!stack.IsEmpty();) {
+	if(stack.Top().iter.IsElm()) {
+	  if(stack.Top().iter.Next()) {
+	    ONDEBUG(cerr << "StateAndIterBodyC::NextValid(), Back tracking. \n");
+	    break;
+	  }
+	}
+	stack.DelTop();
       }
-    }
+    } 
     ONDEBUG(cerr << "StateAndIterBodyC::NextValid(), No more solutions. \n");
     binds.Undo(initalBm); // Make sure all binds are cleared.
     return false;
@@ -72,9 +72,10 @@ namespace RavlLogicN {
   
   bool StateAndIterBodyC::Next() {
     ONDEBUG(cerr << "StateAndIterBodyC::Next(), Called. \n");
+    RavlAssert(!stack.IsEmpty());
+    RavlAssert(stack.Top().iter.IsElm());
     if(stack.Top().iter.Next())
       return true;
-    RavlAssert(!stack.Top().iter.IsElm());
     return NextValid();
   }
     
