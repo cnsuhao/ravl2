@@ -344,7 +344,7 @@ namespace RavlN {
     void Unget(StringC text);
     //: Put string back. 
     // Note: you must unget exactly what was previously read.
-    // This includs a '\n' as a terminator 
+    // This includes a '\n' as a terminator 
     
     void Unget(const char *dat,int len);
     //: Put string back.
