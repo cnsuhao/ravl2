@@ -63,12 +63,12 @@ namespace RavlN {
     VectorC Psameagain;
     VectorC Pdiff;
     minimumCost = domain.Cost(P);
-    Plast = P.Copy();
+    Plast = P.Copy(); // Make a copy of current best guess.
     for (UIntT iter = 0; iter < _iterations; iter++) {
       fP = minimumCost;
       indexOfBiggest = 0;
       valueOfBiggest = 0.0;
-      for (SArray1dIterC<VectorC> it(Di); it; it++) {
+      for (SArray1dIterC<VectorC> it(Di); it; it++) { // Go through direction vectors.
 #if 1
 	// Find the domain limits along the direction vector.
 	
@@ -78,7 +78,7 @@ namespace RavlN {
 	  if(lit.Data1() == 0.0)
 	    continue; // Avoid division by zero.
 	  RealT maxv = (lit.Data3() - lit.Data2()) / lit.Data1();
-	  RealT minv = (lit.Data2() - lit.Data4()) / lit.Data1();
+	  RealT minv = (lit.Data4() - lit.Data2()) / lit.Data1();
 	  if(minv > maxv)
 	    Swap(minv,maxv);
 	  if(max > maxv)
@@ -86,6 +86,7 @@ namespace RavlN {
 	  if(minv > min)
 	    min = minv;
 	}
+	//_point + _direction * X[0];
 	_parameters1d.Setup(0,min,max,1000);
 #endif
 	
