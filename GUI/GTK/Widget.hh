@@ -209,6 +209,10 @@ namespace RavlGUIN {
     WidgetDndInfoC *dndInfo; // Drag and drop info.
     
   private:
+    WidgetBodyC(const WidgetBodyC &)
+    { RavlAssertMsg(0,"WidgetBodyC's can't be copied. "); }
+    //: Disable copy constructor.
+    
     // Some call backs.
     
     static int gtkDestroy(GtkWidget *widget,WidgetBodyC * data);
