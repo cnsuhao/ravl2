@@ -43,9 +43,6 @@ namespace RavlN {
     ~HEMeshBaseBodyC();
     //: Destructor.
     
-    HEMeshBaseVertexC InsertVertexOnEdge(HEMeshBaseEdgeC edge);
-    //: Insert a vertex on an edge.
-    
     HEMeshBaseFaceC InsertFace(HEMeshBaseFaceC &face,
 			       const SArray1dC<HEMeshBaseVertexC> &vertices,
 			       HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> &edgeTab);
@@ -58,12 +55,25 @@ namespace RavlN {
     }
     //: Insert face defined by vertices.
     
-    bool InsertVertexInFace(HEMeshBaseVertexC &vert,HEMeshBaseFaceC &face);
+    bool InsertVertexInEdge(HEMeshBaseVertexC vert,HEMeshBaseEdgeC edge);
+    //: Insert a vertex on an edge.
+    
+    bool InsertVertexInEdgeTri(HEMeshBaseVertexC vert,HEMeshBaseEdgeC edge);
+    //: Insert a vertex on an edge, assuming and maintaing a triangular mesh.
+    // The edge is inserted between vert and edge.Next().Vertex().
+    
+    bool InsertVertexInFace(HEMeshBaseVertexC vert,HEMeshBaseFaceC face);
     //: Insert a vertex into a face, link all vertexes already in the face to it.
     
-    bool TwistEdge(HEMeshBaseEdgeC &edge,HEMeshBaseEdgeC &vertFrom,HEMeshBaseEdgeC &vertTo);
+    bool TwistEdge(HEMeshBaseEdgeC edge,HEMeshBaseEdgeC vertFrom,HEMeshBaseEdgeC vertTo);
     //: Twist an edge that lies between two faces.
-    // Both 'from' and 'to' must be one of the faces adjacent to 'edge'.
+    // Both 'from' and 'to' must be on one of the faces adjacent to 'edge'.
+    
+    HEMeshBaseEdgeC SplitFace(HEMeshBaseEdgeC from,HEMeshBaseEdgeC to);
+    //: Split a face with a new edge.
+    // Edges from and to must be on the same face. The new edge is placed
+    // between the vertex's they point to.  The new edge that is adjacent to the
+    // new face is returned.
     
     UIntT NoFaces() const
     { return faces.Size(); }
@@ -81,20 +91,20 @@ namespace RavlN {
     //: Insert a new vertex into the mesh.
     
     
-    HEMeshBaseEdgeC NewEdge(const HEMeshBaseVertexC &vert,const HEMeshBaseFaceC &face)
-    { return NewEdge(const_cast<HEMeshBaseVertexC &>(vert).Body(),const_cast<HEMeshBaseFaceC &>(face).Body()); }
-    //: Create a new face.
-    
   protected:
     virtual HEMeshBaseFaceC NewFace();
     //: Create a new face.
     
     virtual HEMeshBaseVertexC NewVertex();
-    //: Create a new face.
+    //: Create a new vertex.
     
     virtual HEMeshBaseEdgeC NewEdge(HEMeshBaseVertexBodyC &vert,HEMeshBaseFaceBodyC &face);
-    //: Create a new face.
+    //: Create a new edge.
     
+    HEMeshBaseEdgeC NewEdge(const HEMeshBaseVertexC &vert,const HEMeshBaseFaceC &face)
+    { return NewEdge(const_cast<HEMeshBaseVertexC &>(vert).Body(),const_cast<HEMeshBaseFaceC &>(face).Body()); }
+    //: Create a new edge
+
     IntrDListC<HEMeshBaseFaceBodyC> faces;  // List of faces in the mesh.
     IntrDListC<HEMeshBaseVertexBodyC> vertices; // List of vertices.
     
@@ -139,29 +149,20 @@ namespace RavlN {
     
     HEMeshBaseVertexC NewVertex()
     { return Body().NewVertex(); }
-    //: Create a new face.
+    //: Create a new vertex.
     
     HEMeshBaseEdgeC NewEdge(HEMeshBaseVertexBodyC &vert,HEMeshBaseFaceBodyC &face)
     { return Body().NewEdge(vert,face); }
-    //: Create a new face.
+    //: Create a new edge.
     
     HEMeshBaseEdgeC NewEdge(HEMeshBaseVertexC &vert,HEMeshBaseFaceC &face)
     { return Body().NewEdge(vert.Body(),face.Body()); }
-    //: Create a new face.
+    //: Create a new edge.
     
   public:
     HEMeshBaseVertexC InsertVertex()
     { return Body().InsertVertex(); }
     //: Insert a new vertex into the mesh.
-    
-    HEMeshBaseVertexC InsertVertexOnEdge(HEMeshBaseEdgeC edge)
-    { return Body().InsertVertexOnEdge(edge); }
-    //: Insert a vertex on an edge.
-    
-    bool TwistEdge(HEMeshBaseEdgeC &edge,HEMeshBaseEdgeC &vertFrom,HEMeshBaseEdgeC &vertTo)
-    { return Body().TwistEdge(edge,vertFrom,vertTo); }
-    //: Twist an edge that lies between two faces.
-    // Both 'from' and 'to' must be one of the faces adjacent to 'edge'
     
     HEMeshBaseFaceC InsertFace(HEMeshBaseFaceC &face,
 			       const SArray1dC<HEMeshBaseVertexC> &vertices,
@@ -174,10 +175,31 @@ namespace RavlN {
     { return Body().InsertFace(vertices,edgeTab); }
     //: Insert face defined by vertices.
     
-    bool InsertVertexInFace(HEMeshBaseVertexC &vert,HEMeshBaseFaceC &face)
+    bool InsertVertexInEdge(HEMeshBaseVertexC vert,HEMeshBaseEdgeC edge)
+    { return Body().InsertVertexInEdge(vert,edge); }
+    //: Insert a vertex on an edge.
+
+    bool InsertVertexInEdgeTri(HEMeshBaseVertexC vert,HEMeshBaseEdgeC edge)
+    { return Body().InsertVertexInEdgeTri(vert,edge); }
+    //: Insert a vertex on an edge, assuming and maintaing a triangular mesh.
+    // The edge is inserted between vert and edge.Next().Vertex().
+    
+    bool InsertVertexInFace(HEMeshBaseVertexC vert,HEMeshBaseFaceC face)
     { return Body().InsertVertexInFace(vert,face); }
     //: Insert a vertex into a face, link all vertexes already in the face to it.
     // This method assumes 'vert' is not connected to a mesh.
+    
+    bool TwistEdge(HEMeshBaseEdgeC edge,HEMeshBaseEdgeC vertFrom,HEMeshBaseEdgeC vertTo)
+    { return Body().TwistEdge(edge,vertFrom,vertTo); }
+    //: Twist an edge that lies between two faces.
+    // Both 'from' and 'to' must be one of the faces adjacent to 'edge'
+    
+    HEMeshBaseEdgeC SplitFace(HEMeshBaseEdgeC from,HEMeshBaseEdgeC to)
+    { return Body().SplitFace(from,to); }
+    //: Split a face with a new edge.
+    // Edges from and to must be on the same face. The new edge is placed
+    // between the vertex's they point to.  The new edge that is adjacent to the
+    // new face is returned.
     
     UIntT NoFaces() const
     { return Body().NoFaces(); }

@@ -87,17 +87,56 @@ namespace RavlN {
   
   //: Insert a vertex on an edge.
   
-  HEMeshBaseVertexC HEMeshBaseBodyC::InsertVertexOnEdge(HEMeshBaseEdgeC edge) {
-    HEMeshBaseVertexC ret;
-    //vertices.InsLast(nvert.Body());
-    RavlAssertMsg(0,"HEMeshBaseBodyC::InsertVertexOnEdge(), Not Implemented.");
-    return ret;
+  bool HEMeshBaseBodyC::InsertVertexInEdge(HEMeshBaseVertexC vert,HEMeshBaseEdgeC edge) {
+    RavlAssert(vert.IsValid());
+    RavlAssert(edge.IsValid());
+    
+    HEMeshBaseEdgeC edge1 = NewEdge(vert,edge.Face());
+    edge.LinkBefore(edge1);
+    vert.SetEdge(edge1.Body());
+    
+    if(edge.HasPair()) {
+      HEMeshBaseEdgeC edgep = edge.Pair();
+      HEMeshBaseEdgeC edge2 = NewEdge(vert,edgep.Face());
+      edgep.LinkBefore(edge2);
+      edge2.SetPair(edge1);
+      edge1.SetPair(edge2);
+    }
+    
+    return true;
   }
 
-
+  //: Insert a vertex on an edge, assuming and maintaing a triangular mesh.
+  
+  bool HEMeshBaseBodyC::InsertVertexInEdgeTri(HEMeshBaseVertexC vert,HEMeshBaseEdgeC edge) {
+    RavlAssert(vert.IsValid());
+    RavlAssert(edge.IsValid());
+    
+    HEMeshBaseEdgeC edge1 = NewEdge(vert,edge.Face());
+    edge.LinkBefore(edge1);
+    vert.SetEdge(edge1.Body());
+    
+    HEMeshBaseEdgeC edge2;
+    HEMeshBaseEdgeC edgep;
+    if(edge.HasPair()) {
+      edgep = edge.Pair();
+      edge2 = NewEdge(vert,edgep.Face());
+      edgep.LinkBefore(edge2);
+      edge2.SetPair(edge1);
+      edge1.SetPair(edge2);
+    }
+    
+    SplitFace(edge1,edge.Next());
+    if(edge.HasPair())
+      SplitFace(edge2,edgep.Next());
+    
+    return true;
+  }
+  
+  
   //: Insert a vertex into a face, link all vertexes already in the face to it.
   
-  bool HEMeshBaseBodyC::InsertVertexInFace(HEMeshBaseVertexC &vert,HEMeshBaseFaceC &face) {
+  bool HEMeshBaseBodyC::InsertVertexInFace(HEMeshBaseVertexC vert,HEMeshBaseFaceC face) {
     ONDEBUG(cerr << "HEMeshBaseBodyC::InsertVertexInFace(), Called.  Vert=" << vert.Hash() << " Face=" << face.Hash() << "\n");
     // Put in first link to new vertex.
     
@@ -133,14 +172,15 @@ namespace RavlN {
     }
     firstEdge.SetPair(lastEdge);
     lastEdge.SetPair(firstEdge);
+    vert.SetEdge(firstEdge.Body());
     
     return true;
   }
-
+  
   //: Twist an edge that lies between two faces.
   // Both 'from' and 'to' must be one of the faces adjacent to 'edge'.
   
-  bool HEMeshBaseBodyC::TwistEdge(HEMeshBaseEdgeC &edge,HEMeshBaseEdgeC &vertFrom,HEMeshBaseEdgeC &vertTo) {
+  bool HEMeshBaseBodyC::TwistEdge(HEMeshBaseEdgeC edge,HEMeshBaseEdgeC vertFrom,HEMeshBaseEdgeC vertTo) {
     ONDEBUG(cerr << "HEMeshBaseBodyC::TwistEdge(), Called.  edge=" << edge.Hash() << " From=" << vertFrom.Hash() << " To=" << vertTo.Hash() << "\n");
     RavlAssert(vertFrom != vertTo);
     RavlAssert(edge.HasPair());
@@ -155,11 +195,9 @@ namespace RavlN {
     
     edge.Body().SetVertex(vertTo.Vertex().Body());
     edgep.Body().SetVertex(vertFrom.Vertex().Body());
-   
+    
     HEMeshBaseEdgeC tmp =  vertFrom.Next();
-    
     edge.Body().CutPaste(vertTo.Body().Next() ,vertFrom.Body().Next());
-    
     tmp.Body().LinkBef(edgep.Body());
 		  
     // Go around new faces correcting the face pointers. 
@@ -179,8 +217,35 @@ namespace RavlN {
       at.SetFace(face);
     }
     
-    
     return true;
+  }
+  
+  //: Split a face with a new edge.
+  // Edges from and to must be on the same face. The new edge is placed
+  // between the vertex's they point to.  The new edge is returned.
+  
+  HEMeshBaseEdgeC HEMeshBaseBodyC::SplitFace(HEMeshBaseEdgeC from,HEMeshBaseEdgeC to) {
+    RavlAssert(from.IsValid());
+    RavlAssert(to.IsValid());
+    RavlAssert(from.Face() == to.Face());
+    
+    HEMeshBaseFaceC face1 = to.Face();
+    HEMeshBaseFaceC face2 = NewFace();
+    faces.InsLast(face2.Body());
+    
+    HEMeshBaseEdgeC edge1 = NewEdge(from.Vertex(),face1);
+    HEMeshBaseEdgeC edge2 = NewEdge(to.Vertex(),face2);
+    edge1.SetPair(edge2);
+    edge2.SetPair(edge1);
+    face2.SetEdge(edge2);
+
+    edge2.Body().CutPaste(to.Body().Next(),from.Body().Next()); 
+    to.LinkAfter(edge1);
+    
+    for(HEMeshBaseEdgeC at = edge2.Next();at != edge2;at = at.Next())
+      at.SetFace(face2);
+    
+    return edge2;
   }
   
   //: Check mesh structure is consistant.
@@ -214,16 +279,40 @@ namespace RavlN {
       ONDEBUG(cerr << " Checking face " << curFace.Hash() << "\n");
       if(faceDone.IsMember(curFace)) {
 	cerr << "HEMeshBaseBodyC::CheckMesh(), Infinite loop in face links. \n";
+	ret = false;
 	break;
       }
       faceDone += curFace;
       HSetC<HEMeshBaseEdgeC> edgeDone;
+      HSetC<HEMeshBaseVertexC> vertSeen;
       for(HEMeshBaseFaceEdgeIterC efit(*fit);efit;efit++) {
 	HEMeshBaseEdgeC curEdge(*efit);
+	if(curEdge.Next().Prev() != curEdge) {
+	  cerr << "HEMeshBaseBodyC::CheckMesh(), Bad next pointer in edge. \n";
+	  ret = false;
+	  break;	  
+	}
+	if(curEdge.Prev().Next() != curEdge) {
+	  cerr << "HEMeshBaseBodyC::CheckMesh(), Bad prev pointer in edge. \n";
+	  ret = false;
+	  break;
+	}
+	
 	ONDEBUG(cerr << " Checking Edge " << curEdge.Hash() << "\n");
 	if(edgeDone.IsMember(curEdge)) {
 	  cerr << "HEMeshBaseBodyC::CheckMesh(), Infinite loop in edge links. \n";
+	  ret = false;
 	  break;
+	}
+	if(!curEdge.Vertex().IsValid()) {
+	  cerr << "HEMeshBaseBodyC::CheckMesh(), Edge with invalid vertex. \n";
+	  ret = false;
+	} else {
+	  if(vertSeen.IsMember(curEdge.Vertex())) {
+	    cerr << "HEMeshBaseBodyC::CheckMesh(), Duplicate vertex in face. \n";
+	    ret = false;
+	  }
+	  vertSeen += curEdge.Vertex();
 	}
 	edgeDone += curEdge;
 	if(efit->Face() != *fit) {

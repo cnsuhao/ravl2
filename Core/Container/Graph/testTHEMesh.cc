@@ -20,6 +20,9 @@ int testTHEMeshBasic();
 int testHEMeshBase();
 int testInsertVertexOnFace();
 int testTwistEdge();
+int testSplitFace();
+int testInsertVertexInEdge();
+int testInsertVertexInEdgeTri();
 
 int main(int nargs,char **argv) {
   int ln;
@@ -39,6 +42,18 @@ int main(int nargs,char **argv) {
     cerr << "Test failed on line " << ln << "\n";
     return 1;
   }
+ if((ln = testSplitFace()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  }
+  if((ln = testInsertVertexInEdge()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  } 
+  if((ln = testInsertVertexInEdgeTri()) != 0) {
+    cerr << "Test failed on line " << ln << "\n";
+    return 1;
+  } 
   cerr << "Test passed. \n";
   return 0;
 }
@@ -50,14 +65,12 @@ int testInsertVertexOnFace() {
   tempFace[0] = mesh.InsertVertex();
   tempFace[1] = mesh.InsertVertex();
   tempFace[2] = mesh.InsertVertex();
-  cerr << " Creating face. \n";
   
   HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> edgeTab;
   HEMeshBaseFaceC face = mesh.InsertFace(tempFace,edgeTab); // Insert initial face.
   if(!mesh.CheckMesh(true)) return __LINE__;
   if(!face.IsValid()) return __LINE__;
   
-  cerr << " Inserting vertex. \n";
   HEMeshBaseVertexC vert = mesh.InsertVertex();
   if(!vert.IsValid()) return __LINE__;
   if(!mesh.InsertVertexInFace(vert,face)) return __LINE__;
@@ -96,6 +109,74 @@ int testTwistEdge() {
   if(!eto.IsValid()) return __LINE__;
   
   mesh.TwistEdge(edge,efrom,eto);
+  
+  if(!mesh.CheckMesh(true)) return __LINE__;
+  
+  return 0;
+}
+
+int testSplitFace() {
+  cout << "testSplitFace(), Called. \n";
+  HEMeshBaseC mesh(true);
+  SArray1dC<HEMeshBaseVertexC> tempFace(4);
+  tempFace[0] = mesh.InsertVertex();
+  tempFace[1] = mesh.InsertVertex();
+  tempFace[2] = mesh.InsertVertex();
+  tempFace[3] = mesh.InsertVertex();
+  
+  HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> edgeTab;
+  HEMeshBaseFaceC face = mesh.InsertFace(tempFace,edgeTab); // Insert initial face.
+  
+  if(!mesh.CheckMesh(true)) return __LINE__;
+  
+  HEMeshBaseEdgeC e1 = face.FindEdge(tempFace[0]);
+  HEMeshBaseEdgeC e2 = face.FindEdge(tempFace[2]);
+  
+  mesh.SplitFace(e1,e2);
+  
+  if(!mesh.CheckMesh(true)) return __LINE__;
+  
+  return 0;
+}
+
+int testInsertVertexInEdge() {
+  cout << "testInsertVertexInEdge(), Called. \n";
+  
+  HEMeshBaseC mesh(true);
+  SArray1dC<HEMeshBaseVertexC> tempFace(3);
+  tempFace[0] = mesh.InsertVertex();
+  tempFace[1] = mesh.InsertVertex();
+  tempFace[2] = mesh.InsertVertex();
+  
+  HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> edgeTab;
+  HEMeshBaseFaceC face = mesh.InsertFace(tempFace,edgeTab); // Insert initial face.
+  if(!mesh.CheckMesh(true)) return __LINE__;
+
+  HEMeshBaseEdgeC e1 = face.FindEdge(tempFace[1]);
+  HEMeshBaseVertexC newVert = mesh.InsertVertex();
+  mesh.InsertVertexInEdge(newVert,e1);
+  
+  if(!mesh.CheckMesh(true)) return __LINE__;
+  
+  return 0;
+}
+
+int testInsertVertexInEdgeTri() {
+  cout << "testInsertVertexInEdgeTri(), Called. \n";
+  
+  HEMeshBaseC mesh(true);
+  SArray1dC<HEMeshBaseVertexC> tempFace(3);
+  tempFace[0] = mesh.InsertVertex();
+  tempFace[1] = mesh.InsertVertex();
+  tempFace[2] = mesh.InsertVertex();
+  
+  HashC<Tuple2C<HEMeshBaseVertexC,HEMeshBaseVertexC> , HEMeshBaseEdgeC> edgeTab;
+  HEMeshBaseFaceC face = mesh.InsertFace(tempFace,edgeTab); // Insert initial face.
+  if(!mesh.CheckMesh(true)) return __LINE__;
+
+  HEMeshBaseEdgeC e1 = face.FindEdge(tempFace[1]);
+  HEMeshBaseVertexC newVert = mesh.InsertVertex();
+  mesh.InsertVertexInEdgeTri(newVert,e1);
   
   if(!mesh.CheckMesh(true)) return __LINE__;
   
