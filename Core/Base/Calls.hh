@@ -856,7 +856,7 @@ namespace RavlN {
     // the call returns silently.
 
     CallFunc5BodyC() 
-      : CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT>(&CallFunc5BodyC<Data1T,Data2T,Data3T,Data4T,Data5T,RetT>::IssueError)
+      : CallFunc4BodyC<Data1T,Data2T,Data3T,Data4T,RetT>((VoidFuncPtrT) &CallFunc5BodyC<Data1T,Data2T,Data3T,Data4T,Data5T,RetT>::IssueError)
     {}
     //: Default constructor.
     
