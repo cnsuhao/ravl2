@@ -36,9 +36,6 @@ namespace RavlGUIN {
     ComboBodyC(const DListC<StringC> &choices,bool editable = true);
     //: Constructor.
     
-    virtual bool Create();
-    //: Create the widget.
-    
     StringC Selected() const;
     //: Get currently selected string.
     
@@ -48,10 +45,10 @@ namespace RavlGUIN {
     bool ClearSelection();
     //: Clear the current selection.
 
-    bool AddEntry(StringC &opt);
+    bool AddEntry(const StringC &opt);
     //: Add new entry to combo list.
 
-    bool DelEntry(StringC &opt);
+    bool DelEntry(const StringC &opt);
     //: Delete entry from combo list.
 
     bool GUIClear();
@@ -62,18 +59,18 @@ namespace RavlGUIN {
     //: Clear selection.
     // Call on the GUI thread only.
 
-    bool GUIAddEntry(StringC &opt);
+    bool GUIAddEntry(const StringC &opt);
     //: Add new entry to combo list.
     // Call on the GUI thread only.
     
-    bool GUIDelEntry(StringC &opt);
+    bool GUIDelEntry(const StringC &opt);
     //: Add new entry to combo list.
     // Call on the GUI thread only.
     
-    bool SetSelection(StringC &opt);
+    bool SetSelection(const StringC &opt);
     //: Set selection string.
     
-    bool GUISetSelection(StringC &opt);
+    bool GUISetSelection(const StringC &opt);
     //: Set selection string.
     
     bool GUIEntryExists(const StringC &entry);
@@ -85,6 +82,11 @@ namespace RavlGUIN {
     //!param: chars - Maximum number of charactors in widget, set to -1 for no limits.
     
   protected:
+    virtual bool Create();
+    //: Create the widget.
+    
+    virtual bool Create(GtkWidget *widget);
+    //: Create with a widget supplied from elsewhere.
     
     bool FilterSignal(StringC& sel);    
     //: Blocks unwanted GTK "selected" signals 
@@ -166,11 +168,11 @@ namespace RavlGUIN {
     { return Body().ClearSelection(); }
     //: Clear the current selection
 
-    bool AddEntry(StringC &opt)
+    bool AddEntry(const StringC &opt)
     { return Body().AddEntry(opt); }
     //: Add new entry to combo list.
     
-    bool DelEntry(StringC &opt)
+    bool DelEntry(const StringC &opt)
     { return Body().DelEntry(opt); }
     //: Add new entry to combo list.
 
@@ -194,11 +196,11 @@ namespace RavlGUIN {
     //: Add new entry to combo list.
     // Call on the GUI thread only.
 
-    bool SetSelection(StringC &opt)
+    bool SetSelection(const StringC &opt)
     { return Body().SetSelection(opt); }
     //: Set selection string.
     
-    bool GUISetSelection(StringC &opt)
+    bool GUISetSelection(const StringC &opt)
     { return Body().GUISetSelection(opt); }
     //: Set selection string.
     

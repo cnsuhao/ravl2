@@ -56,14 +56,14 @@ namespace RavlGUIN {
 
   //: Add new entry to combo list.
   
-  bool ComboBodyC::AddEntry(StringC &opt) {
+  bool ComboBodyC::AddEntry(const StringC &opt) {
     Manager.Queue(Trigger(ComboC(*this),&ComboC::GUIAddEntry,opt));
     return true;
   }
   
   //: Add new entry to combo list.
   
-  bool ComboBodyC::DelEntry(StringC &opt) {
+  bool ComboBodyC::DelEntry(const StringC &opt) {
     Manager.Queue(Trigger(ComboC(*this),&ComboC::GUIDelEntry,opt));
     return true;
   }
@@ -102,7 +102,7 @@ namespace RavlGUIN {
   //: Add new entry to combo list.
   // Call on the GUI thread only.
   
-  bool ComboBodyC::GUIAddEntry(StringC &opt) {
+  bool ComboBodyC::GUIAddEntry(const StringC &opt) {
     choices.InsLast(opt);
     if(widget == 0)
       return true;
@@ -122,7 +122,7 @@ namespace RavlGUIN {
   //: Add new entry to combo list.
   // Call on the GUI thread only.
   
-  bool ComboBodyC::GUIDelEntry(StringC &opt) {
+  bool ComboBodyC::GUIDelEntry(const StringC &opt) {
     //    RavlAssertMsg(0,"ComboBodyC::GUIDelEntry(), Not implemented. ");
     GtkWidget *li;
     if(!cmap.Lookup(opt,li))
@@ -141,14 +141,14 @@ namespace RavlGUIN {
 
   //: Set selection string.
   
-  bool ComboBodyC::SetSelection(StringC &opt) {
+  bool ComboBodyC::SetSelection(const StringC &opt) {
     Manager.Queue(Trigger(ComboC(*this),&ComboC::GUISetSelection,opt));
     return true;
   }
   
   //: Set selection string.
   
-  bool ComboBodyC::GUISetSelection(StringC &opt) {
+  bool ComboBodyC::GUISetSelection(const StringC &opt) {
     if(widget == 0) {
       selection = opt;
       return false;
@@ -165,6 +165,28 @@ namespace RavlGUIN {
     return cmap.IsElm(entry);
   }
   
+  //: Create with a widget supplied from elsewhere.
+  
+  bool ComboBodyC::Create(GtkWidget *nwidget) {
+    widget = nwidget;
+    
+    for(DLIterC<StringC> it(choices);it.IsElm();it.Next()) {
+      GtkWidget *li = gtk_list_item_new_with_label ((gchar *) it.Data().chars());
+      gtk_widget_show (li);
+      gtk_container_add (GTK_CONTAINER (GTK_COMBO(widget)->list), li);
+      cmap[*it] = li;
+    }
+    
+    if(!selection.IsEmpty())
+      gtk_entry_set_text (GTK_ENTRY (GTK_COMBO(widget)->entry), selection.chars());
+    
+    ConnectSignals();
+    gtk_signal_connect(GTK_OBJECT(GTK_COMBO(widget)->entry), "changed",
+		       GTK_SIGNAL_FUNC (WidgetBodyC::gtkString),& signals["combo_activate"]);    
+    
+    return true;
+  }
+
   //: Create the widget.
   
   bool ComboBodyC::Create() {
@@ -178,7 +200,7 @@ namespace RavlGUIN {
       gtk_container_add (GTK_CONTAINER (GTK_COMBO(widget)->list), li);
       cmap[*it] = li;
     }
-
+    
     if(maxEntryLength >= 0) {
       gtk_entry_set_max_length (GTK_ENTRY (GTK_COMBO(widget)->entry), maxEntryLength);
       GtkStyle *entryStyle = gtk_widget_get_style(GTK_COMBO(widget)->entry);
@@ -215,10 +237,8 @@ namespace RavlGUIN {
       gtk_entry_set_text (GTK_ENTRY (GTK_COMBO(widget)->entry), selection.chars());
     
     ConnectSignals();
-#if 1
     gtk_signal_connect(GTK_OBJECT(GTK_COMBO(widget)->entry), "changed",
 		       GTK_SIGNAL_FUNC (WidgetBodyC::gtkString),& signals["combo_activate"]);
-#endif
     
     return true;
   }
