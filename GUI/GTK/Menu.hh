@@ -237,10 +237,17 @@ namespace RavlGUIN {
   
   
   template<class Data1T,class Data2T>
-  MenuItemC MenuItem(const StringC &label,void (*func)(Data1T &, Data2T &),const Data1T &dat1 = Data1T(),const Data2T &dat2 = Data2T())
-  {
+  MenuItemC MenuItem(const StringC &label,bool (*func)(Data1T &, Data2T &),const Data1T &dat1 = Data1T(),const Data2T &dat2 = Data2T()) {
     MenuItemC ret(label);
     Connect(ret.SigSelected(),func,dat1,dat2);
+    return ret;
+  }
+  //: Create new menu item, connect to a function.
+  
+  template<class Data1T>
+  MenuItemC MenuItem(const StringC &label,bool (*func)(Data1T &),const Data1T &dat1 = Data1T()) {
+    MenuItemC ret(label);
+    Connect(ret.SigSelected(),func,dat1);
     return ret;
   }
   //: Create new menu item, connect to a function.

@@ -94,7 +94,7 @@ namespace RavlGUIN {
   };
   
   template<class DataT>
-  ComboC Combo(const DListC<StringC> &lst,void (*func)(ComboC &, DataT &ref),const DataT &dat = DataT(),bool editable = true)
+  ComboC Combo(const DListC<StringC> &lst,bool (*func)(ComboC &, DataT &ref),const DataT &dat = DataT(),bool editable = true)
   { 
     ComboC ret(lst,editable);
     Connect(ret.SigSelected(),func,ret,dat);
@@ -103,7 +103,7 @@ namespace RavlGUIN {
   //: Contruct a combo box, call back to function.
   
   template<class DataT>
-  ComboC Combo(const DListC<StringC> &lst,const DataT &dat,void (DataT::*func)(StringC &ref),bool editable = true)
+  ComboC Combo(const DListC<StringC> &lst,const DataT &dat,bool (DataT::*func)(StringC &ref),bool editable = true)
   { 
     ComboC ret(lst,editable);
     Connect(ret.SigSelected(),dat,func);
@@ -112,7 +112,7 @@ namespace RavlGUIN {
   //: Contruct a combo box, call back to method in class.
 
   template<class DataT>
-  ComboC Combo(const DListC<StringC> &lst,const char *tooltip,const DataT &dat,void (DataT::*func)(StringC &ref),bool editable = true)
+  ComboC Combo(const DListC<StringC> &lst,const char *tooltip,const DataT &dat,bool (DataT::*func)(StringC &ref),bool editable = true)
   {
     ComboC ret(lst,editable);
     Connect(ret.SigSelected(),dat,func);
@@ -123,7 +123,7 @@ namespace RavlGUIN {
   // With tooltip.
 
   template<class DataT>
-  ComboC ComboR(const DListC<StringC> &lst,DataT &dat,void (DataT::*func)(StringC &ref),bool editable = true)
+  ComboC ComboR(const DListC<StringC> &lst,DataT &dat,bool (DataT::*func)(StringC &ref),bool editable = true)
   { 
     ComboC ret(lst,editable);
     ConnectRef(ret.SigSelected(),dat,func);
@@ -132,7 +132,7 @@ namespace RavlGUIN {
   //: Contruct a combo box, call back to method in refrenced class.
 
   template<class DataT>
-  ComboC ComboR(const DListC<StringC> &lst,char *tooltip,const DataT &dat,void (DataT::*func)(StringC &ref),bool editable = true)
+  ComboC ComboR(const DListC<StringC> &lst,char *tooltip,const DataT &dat,bool (DataT::*func)(StringC &ref),bool editable = true)
   {
     ComboC ret(lst,editable);
     ConnectRef(ret.SigSelected(),dat,func);
