@@ -511,6 +511,8 @@ namespace RavlN {
 	//cerr << "Deleting edge:" << firstEdge.Hash() << "\n";
 	OpenEdge(firstEdge);
       }
+      // Now it not connected delete it.
+      delete &vert.Body();
       return true;
     }
     DListC<HEMeshBaseFaceC> delFaces;
