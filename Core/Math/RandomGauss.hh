@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RavlRandomGauss_HEADER
-#define RavlRandomGauss_HEADER 1
+#ifndef RAVL_RANDOMGAUSS_HEADER
+#define RAVL_RANDOMGAUSS_HEADER 1
 ///////////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! userlevel=Normal
@@ -16,6 +16,7 @@
 //! docentry="Ravl.Core.Math"
 
 #include "Ravl/Random.hh"
+#include "Ravl/RandomMersenneTwister.hh"
 
 namespace RavlN {  
   
@@ -27,16 +28,16 @@ namespace RavlN {
     RandomGaussC();
     //: Default.
 
-    float Generate(RandomSeedT &seed);
-    //: Generate with external seed.
+    float Generate(RandomMersenneTwisterC& generator);
+    //: Generate with external generator
     
     float Generate() {
-      return Generate(seed);
+      return Generate(twister);
     }
-    //: Generate number with internal seed.
+    //: Generate number with internal generator
     
   protected:
-    RandomSeedT seed;
+    RandomMersenneTwisterC twister;
     bool iset;
     float gset;
     float gasdev;

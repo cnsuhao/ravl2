@@ -16,42 +16,31 @@
 //! docentry="Ravl.Core.Math"
 
 #include "Ravl/Types.hh"
-#include "Ravl/config.h"
-#include <stdlib.h>
-
-extern "C" {
-  extern long nrand48(unsigned short *);
-  extern double erand48(unsigned short *);
-};
 
 namespace RavlN {  
   
-  typedef unsigned short RandomSeedT[3];
-  //: Seed for random number
-  
-  const long int RandomIntMaxValue = ((UIntT) (1 << 31))-1;
-  
-  inline long int RandomInt(RandomSeedT & idum) 
-  { return nrand48(idum); }
+  const unsigned long RandomUIntMaxValue = 0xffffffff;
+  //: Maximum value of random unsigned int
+
+  const unsigned long RandomIntMaxValue = 0x7fffffff;
+  //: Maximum value of random int
+
+  long RandomInt();
   //: Returns an integer between 0 and RandomIntMaxValue.
-  
-  long int RandomInt();
-  //: Returns an integer between 0 and RandomIntMaxValue.
-  
-  inline double Random1(RandomSeedT & idum)
-  { return  erand48(idum); }
-  //: Returns a random number between 0 and 1 with a uniform distribution.
+  // Uses RandomMersenneTwisterC
   
   double Random1();
   //: Returns a random number between 0 and 1 with a uniform distribution.
+  // Uses RandomMersenneTwisterC
   
   float  RandomGauss();
   //: Returns a Gaussian distributed zero mean random
   //: number with variance 1.0.
   // RandomGauss is based on Random1.
   
-  void RandomSeedDefault(int i);
+  void RandomSeedDefault(unsigned long seed);
   //: Set the seed for the default random number generator.
+  // Uses RandomMersenneTwisterC
 }
 
 #endif

@@ -10,8 +10,8 @@
 //! file="Ravl/Core/Math/Random.cc"
 
 #include "Ravl/Random.hh"
+#include "Ravl/RandomMersenneTwister.hh"
 #include "Ravl/MTLocks.hh"
-#include "Ravl/Stream.hh"
 
 #define DODEBUG 1
 
@@ -21,46 +21,26 @@
 #define ONDEBUG(x)
 #endif
 
-extern "C" {
-  extern unsigned short *seed48(unsigned short *);
-};
-
-
 namespace RavlN {
 
-  RandomSeedT randomIdum;
-  // The default variable of generators.
+  RandomMersenneTwisterC twister;
 
-  static unsigned short *st = seed48(randomIdum);
-
-  //: Set the seed for the default random number generator.
-  
-  void RandomSeedDefault(int i) {
+  //: Set the seed for the default random number generator.  
+  void RandomSeedDefault(unsigned long seed) {
     MTWriteLockC lock(1);
-    randomIdum[0] = i;
-    randomIdum[1] = i >> 16;
-    randomIdum[2] = i >> 24;
+    twister.Seed(seed);
   }
   
-  // Returns an integer between 0 and RandomIntMax.
-  
+  // Returns an integer
   long int RandomInt() {
-    MTWriteLockC lock(1);
-    return RandomInt(randomIdum);
+    MTWriteLockC lock(1);    
+    return twister.Int();
   }
   
   // Returns a uniform random number between 0 and 1.
-  
   double Random1() {
     MTWriteLockC lock(1);
-    return Random1(randomIdum);
+    return twister.Double();
   }
 
 }
-
-
-// IAPS - Image analysis program system.
-// End of file Random.cc
-
-
-
