@@ -35,7 +35,8 @@ MAINS = CxxDoc.cc
 #doDocTree.cc
 
 EHT= Ravl.Source_Tools.CxxDoc.html Ravl.Introduction.Documentation.Formatting.html \
- Ravl.Introduction.Documentation.docentry.html 	Ravl.Introduction.Documentation.html
+ Ravl.Introduction.Documentation.docentry.html 	Ravl.Introduction.Documentation.html \
+ Ravl.Introduction.Documentation.Code.html Ravl.Introduction.Documentation.Sections.html
 
 USESLIBS=  RavlCore RavlOS
 
