@@ -17,13 +17,13 @@
 #include "Ravl/GUI/Canvas3D.hh"
 #include "Ravl/GUI/DViewPoint3D.hh"
 #include "Ravl/GUI/DCube3D.hh"
-#include "Ravl/GUI/DTriSet3D.hh"
+#include "Ravl/GUI/DTriMesh3D.hh"
 #include "Ravl/GUI/DLight3D.hh"
 #include "Ravl/GUI/MouseEvent.hh"
 #include "Ravl/Option.hh"
 #include "Ravl/GUI/Bitmap.hh"
 #include "Ravl/Vector3d.hh"
-#include "Ravl/3D/TriSet.hh"
+#include "Ravl/3D/TriMesh.hh"
 #include "Ravl/DP/FileFormatIO.hh"
 
 #include <gtk/gtk.h>
@@ -86,13 +86,13 @@ int main(int nargs,char *args[])
   
   DObject3DC object;
   if(!meshFile.IsEmpty()) {
-    TriSetC ts;
+    TriMeshC ts;
     //: Load a mesh from a file.
     if(!Load(meshFile,ts,"",true)) {
       cerr << "Failed to load file. \n";
       return 1;
     }
-    object = DTriSet3DC(ts);
+    object = DTriMesh3DC(ts);
   } else
     object = DCube3DC(Vector3dC(1,1,1),RealRGBValueC(0,1,0));
   
