@@ -27,6 +27,10 @@ int main() {
     for(IndexC j = 0;j < 10;j++)
       testArr[i][j] = place++;
   
+  SArray2dC<int> subArr(testArr,5,5);
+  for(SArray2dIter2C<int,int> it(subArr,testArr);it;it++)
+    if(it.Data1() != it.Data2()) return 1;
+  
   Slice1dC<int> slice = testArr.Diagonal();
   int v = 0;
   for(Slice1dIterC<int> its(slice);its;its++,v+=11) {
@@ -51,6 +55,7 @@ int main() {
     it.Data1() = 0;
   for(SArray2dIter3C<int,int,int> it(testArr,testArr,testArr);it;it++)
     it.Data1() = 0;
+  
   
   Index2dC at(0,0);
   if(testArr[at] != testArr[0][0]) return 1;

@@ -21,6 +21,7 @@
 #include "Ravl/Index2d.hh"
 #include "Ravl/IndexRange2d.hh"
 #include "Ravl/BfAcc2Iter.hh"
+#include "Ravl/BfAccIter.hh"
 #include "Ravl/BfAcc2Iter2.hh"
 #include "Ravl/BfAcc2Iter3.hh"
 #include "Ravl/SArray2d.hh"
@@ -96,6 +97,12 @@ namespace RavlN {
     // become 0,0 of the sarray. Otherwise if the array does not 
     // contain element '0,0' an error will occure in check mode, 
     // when optimised is enabled an empty array  will be returned. 
+    
+    SArray1dC<DataT> AsVector(bool alwaysCopy = false);
+    //: Access 2d array as 1d vector.
+    // This will only copy the data if the data isn't continuous or
+    // alwaysCopy is true, this can make it much more effecient than
+    // a straigh copy.
     
     Array1dC<DataT> SliceRow(IndexC i)
     { return Array1dC<DataT>(data.Data(),(*this)[i]); }
@@ -333,7 +340,6 @@ namespace RavlN {
     return SArray2dC<DataT>(data,*this,Range1().Max().V()+1,Range2().Max().V()+1);
   }
   
-    
   template <class DataT>
   ostream & operator<<(ostream & s, const Array2dC<DataT> & arr) {
     s << arr.Rectangle() << "\n";
@@ -493,6 +499,24 @@ namespace RavlN {
     SetZero(ret);
     for(BufferAccess2dIterC<DataT> it(*this,Range2());it;it++)
       ret += Sqr(it.Data1());
+    return ret;
+  }
+
+  //: Access 2d array as 1d vector.
+  // This will only copy the data if the data isn't continuous or
+  // alwaysCopy is true, this can make it much more effecient than
+  // a straigh copy.
+  
+  template <class DataT>
+  SArray1dC<DataT> Array2dC<DataT>::AsVector(bool alwaysCopy) {
+    if(!alwaysCopy && (Stride() == Range2().Size())) {
+      DataT *start = &((*this)[Frame().Origin()]);
+      return SArray1dC<DataT>(data.Data(),SizeBufferAccessC<DataT>(start,Frame().Area()));
+    }
+    SArray1dC<DataT> ret(Frame().Area());
+    BufferAccessIterC<DataT> rit(ret);
+    for(BufferAccess2dIterC<DataT> it(*this,Range2());it;it++,rit++)
+      *rit = *it;
     return ret;
   }
   

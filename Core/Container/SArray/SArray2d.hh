@@ -67,8 +67,12 @@ namespace RavlN {
     // startOffset is the location in the buffer to use as 0,0.
     // If stride is set to zero, size2 is used.
     
+    SArray2dC(SArray2dC<DataT> &arr,SizeT size1,SizeT size2);
+    //: Construct an access to a sub array of this one.
+    
     SArray2dC<DataT> Copy() const;
     //: Copy array.
+    
     
     //:------------------
     // Special operations
@@ -82,6 +86,12 @@ namespace RavlN {
     { return data; }
     //: Constant access base data buffer.
     // Experts only!
+    
+    SArray1dC<DataT> AsVector(bool alwaysCopy = false);
+    //: Access 2d array as 1d vector.
+    // This will only copy the data if the data isn't continuous or
+    // alwaysCopy is true, this can make it much more effecient than
+    // a straigh copy.
 
     SArray2dC<DataT> operator+(const SArray2dC<DataT> & arr) const;
     // Sums 2 numerical arrays. The operator returns the result as a new array.
@@ -260,8 +270,13 @@ namespace RavlN {
   { BuildAccess(startOffset,stride); }
   
   template<class DataT>
-  SArray2dC<DataT> 
-  SArray2dC<DataT>::Copy() const {
+  SArray2dC<DataT>::SArray2dC(SArray2dC<DataT> &arr,SizeT size1,SizeT size2)
+    : SizeBufferAccess2dC<DataT>(arr,size1,size2),
+      data(arr.data)
+  {}
+  
+  template<class DataT>
+  SArray2dC<DataT> SArray2dC<DataT>::Copy() const {
     SArray2dC<DataT> newun(Size1(),size2); // Allocate new array.
     for(BufferAccess2dIter2C<DataT,DataT > it(*this,size2,
 					      newun,size2);
@@ -269,7 +284,19 @@ namespace RavlN {
       it.Data2() = it.Data1();
     return newun;
   }
-  
+
+  template<class DataT>
+  SArray1dC<DataT> SArray2dC<DataT>::AsVector(bool alwaysCopy) {
+    if(!alwaysCopy && ((UIntT) Stride() == Size2())) {
+      DataT *start = &((*this)[0][0]);
+      return SArray1dC<DataT>(data.Data(),SizeBufferAccessC<DataT>(start,Size1() * Size2()));
+    }
+    SArray1dC<DataT> ret(Size1() * Size2());
+    BufferAccessIterC<DataT> rit(ret);
+    for(BufferAccess2dIterC<DataT> it(*this,Size2());it;it++,rit++)
+      *rit = *it;
+    return ret;
+  }
   
   template<class DataT>
   SArray2dC<DataT> SArray2dC<DataT>::operator+(const SArray2dC<DataT> & arr) const {
