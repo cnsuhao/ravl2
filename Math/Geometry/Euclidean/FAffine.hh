@@ -19,6 +19,8 @@
 #include "Ravl/FVector.hh"
 
 namespace RavlN {
+  class BinOStreamC;
+  class BinIStreamC;
   
   //! userlevel=Normal
   //: General affine transformation.
@@ -87,8 +89,21 @@ namespace RavlN {
   
   template<unsigned int N>
   ostream & operator<< (ostream & outS, const FAffineC<N> & vector);
+  
   template<unsigned int N>
   istream & operator>> (istream & inS, FAffineC<N> & vector);
+  
+  template<unsigned int N>
+  inline BinOStreamC & operator<< (BinOStreamC & outS, const FAffineC<N> & vector) {
+    outS << vector.SRMatrix() << vector.Translation();
+    return outS;
+  }
+  
+  template<unsigned int N>
+  inline BinIStreamC & operator>> (BinIStreamC & inS, FAffineC<N> & vector) {
+    inS >> vector.SRMatrix() >> vector.Translation();
+    return inS;
+  }
   
   /////////////////////////////////////////////////
   
