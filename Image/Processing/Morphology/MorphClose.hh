@@ -24,6 +24,8 @@ namespace RavlImageN {
     BinaryErode(image,kernel,tmp,inRegion);
     BinaryDilate(tmp,kernel,result,inRegion);
   }
-  
+  //: Perform a morphological 'close' on the image.  This first Erode's then Dilate's the regions in 'image'.
+  // Note: The result image is the result of two morphological operations with the given kernel and will 
+  // be smaller than the original image.
 }
 #endif
