@@ -688,12 +688,16 @@ endif
 
 build_pureexe: $(TARG_PUREEXE)
 
+ifndef SCRIPT_INSTALL
+SCRIPT_INSTALL=$(CP)
+endif
+
 $(TARG_SCRIPT) : $(INST_GENBIN)/% : % $(INST_GENBIN)/.dir
 	$(SHOWIT)echo "--- Script $(@F) " ; \
 	if [ -f $(INST_GENBIN)/$(@F) ] ; then \
 	  $(CHMOD) +w $(INST_GENBIN)/$(@F) ; \
 	fi ; \
-	$(CP) $* $(INST_GENBIN)/$* ; \
+	$(SCRIPT_INSTALL) $* $(INST_GENBIN)/$* ; \
 	$(CHMOD) 555 $(INST_GENBIN)/$* 
 
 

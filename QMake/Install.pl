@@ -12,6 +12,8 @@ while(<infile>) {
       print outfile "setenv RAVL_INSTALL $PROJOUT\n" ;
     } elsif(/\A[ ]*\$QMAKE_INSTALL_DIR[ ]+\=[ ]*[^ ]*/) {
       print outfile "\$QMAKE_INSTALL_DIR = \"$NEWHOME\" ;\n" ;
+    } elsif(/\A[ ]*QMAKE_INSTALL[ ]*\=[ ]*[^ ]*/) {
+      print outfile "QMAKE_INSTALL=$NEWHOME ;\n" ;
     } elsif(/\A[ ]*RAVL_INSTALL[ ]*\=[ ]*[^ ]*/) {
       print outfile "RAVL_INSTALL=$PROJOUT\n" ;
     }else {

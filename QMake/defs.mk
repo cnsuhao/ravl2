@@ -31,4 +31,6 @@ EHT= exeSysConf.eht Ravl.QMake.html Ravl.QMake.Defs.html Ravl.QMake.Commands.htm
 
 SCRIPTS=qm
 
+SCRIPT_INSTALL=perl ./Install.pl $(PROJECT_OUT)/share/RAVL/QMake $(PROJECT_OUT)
+
 AUXINSTALL=perl ./Install.pl $(PROJECT_OUT)/share/RAVL/QMake $(PROJECT_OUT)
