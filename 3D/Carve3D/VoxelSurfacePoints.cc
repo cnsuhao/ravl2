@@ -7,6 +7,14 @@ namespace Ravl3DN
   using namespace RavlN;
   using namespace RavlImageN;
 
+  PointSetC VoxelSurfacePoints(const VoxelSetC vox)
+  { 
+    return VoxelSurfacePoints(vox, 
+			      SArray1dC< ImageC<ByteRGBAValueC> >(), 
+			      Pinhole0ArrayC(),
+			      Vector3dC(0,0,0) ); 
+  }
+
   PointSetC VoxelSurfacePoints(const VoxelSetC vox,
 			       SArray1dC< ImageC<ByteRGBAValueC> > image,
 			       const Pinhole0ArrayC& camera,

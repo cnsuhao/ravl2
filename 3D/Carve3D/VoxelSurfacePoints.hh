@@ -20,13 +20,7 @@ namespace Ravl3DN
 			       const Vector3dC& viewpoint);
   //:Compute set of point locations and normals on voxel set surface
 
-  PointSetC VoxelSurfacePoints(const VoxelSetC vox) 
-  { 
-    return VoxelSurfacePoints(vox, 
-			      SArray1dC< ImageC<ByteRGBAValueC> >(), 
-			      Pinhole0ArrayC(),
-			      Vector3dC(0,0,0) ); 
-  }
+  PointSetC VoxelSurfacePoints(const VoxelSetC vox);
   //: Compute set of point locations/normals/colours on the current volume surface
   // image is used to find the colour of each surface point
 }
