@@ -11,25 +11,17 @@ Surrey, England for research purposes into the public domain and
 to support its use in a wider community.
 
 <P>
-You can now search the online RAVL documentation using Google:
-<!-- Search Google -->
-<center>
-<FORM method=GET action=http://www.google.com/custom>
-<TABLE bgcolor=#D7EFFF cellspacing=0 border=0>
-<tr valign=top><td>
-<A HREF=http://www.google.com/search>
-<IMG SRC=http://www.google.com/logos/Logo_40wht.gif border=0 ALT=Google align=middle></A>
-</td>
-<td>
-<INPUT TYPE=text name=q size=31 maxlength=255 value="">
-<INPUT type=submit name=sa VALUE="Google Search">
-<INPUT type=hidden name=cof VALUE="AH:center;GL:0;AWFID:91a4763b1bd9823c;">
-<font face=arial,sans-serif size=-1><input type=hidden name=domains value="ravl.sourceforge.net"><br><input type=radio name=sitesearch value="" > Search WWW <input type=radio name=sitesearch value="ravl.sourceforge.net" checked> Search ravl.sourceforge.net </font><br>
-</td></tr></TABLE>
+You can search the online RAVL documentation:
+<!-- Search -->
+<CENTER>
+<FORM method="GET" action="http://ravl.sourceforge.net/search/search.php">
+<INPUT TYPE=text name=search size=31 maxlength=255 value="">
+<INPUT TYPE=hidden name=page value=1>
+<INPUT type=submit VALUE="Search RAVL">
 </FORM>
 </center>
-<!-- Search Google --><p>
-Note that since the index isn't maintained locally it might take a few weeks for this to get updated after a new release.<p><p>
+<!-- Search --><p>
+NOTE: The RAVL search engine is still in testing, if you have any problems, please mail <A HREF="mailto:smith@omniperception.com">James Smith</A> with details.<p><p>
 
 
 RAVL is hosted by : 
