@@ -68,12 +68,12 @@ int doPPHT(int argc,char **argv)
   srand(option.Int("s",(int) time(0),"Seed random number generator.  "));  
   bool verb = option.Boolean("v",false,"Verbose. ");
   bool seq = option.Boolean("seq",false,"Process sequence. ");
-  bool fullDir = option.Boolean("fd",false,"Full direction. ");
+  bool fullDir = option.Boolean("fd",true,"Full direction. ");
   bool doSHT = option.Boolean("sht",false,"Do SHT instread.");
   bool setupOnly = option.Boolean("so",false,"Do setup only.");
   
-  RealT hystLower = option.Real("hl",10,"Edge detector, Lower hysterisis threshold. ");
-  RealT hystUpper = option.Real("hu",17,"Edge detector, Upper hysterisis threshold. ");
+  RealT hystLower = option.Real("hl",2,"Edge detector, Lower hysterisis threshold. ");
+  RealT hystUpper = option.Real("hu",7,"Edge detector, Upper hysterisis threshold. ");
   
   RealT cWidth = option.Real("cw",2.5,"Line corridor width in pixels ");
   IntT maxGap = option.Int("mg",5,"Maxium size of gap inline in pixels ");

@@ -601,7 +601,7 @@ namespace RavlImageN {
     
     // Threholds.
     
-    threshTab = SArray1dC<IntT>(1200);
+    threshTab = SArray1dC<IntT>(2200);
     for(unsigned int i = 0;i < threshTab.Size();i++) {
       threshTab[i] = CalcThresh((i+1) << 3);
       //cerr << ((i+1) << 3) << " " << threshTab[i] << "\n";
