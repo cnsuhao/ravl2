@@ -48,7 +48,7 @@ namespace Ravl3DN {
     UIntT i = 0;
     UIntT discard = elements-1;
     while(inf) {
-      StringC word = inf.ClipWord(" ,]",true).TopAndTail();
+      StringC word = inf.ClipWord(" \n,]",true).TopAndTail();
       char let = inf.GetChar();
       if(!word.IsEmpty()) {
 	if(!(negSep && discard == i))
@@ -517,7 +517,7 @@ namespace Ravl3DN {
             IntT v;
             for (v=0; v<3; v++) {
               const Vector2dC coord = fit.Data().TextureCoord(v);
-              outf << coord[0] << ' ' << -coord[1] << ", ";
+              outf << coord[0] << ' ' << coord[1] << ", ";
             }
             outf << '\n';
           }
