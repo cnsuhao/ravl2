@@ -4,18 +4,19 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef TVECTOR_HEADER
-#define TVECTOR_HEADER 1
+#ifndef RAVL_TVECTOR_HEADER
+#define RAVL_TVECTOR_HEADER 1
 ///////////////////////////////////////////////////
 //! userlevel=Normal
 //! docentry="Ravl.Math.Linear Algebra"
 //! rcsid="$Id$"
 //! file="Ravl/Math/LinearAlgebra/General/TVector.hh"
 //! author="Charles Galambos"
-//! date="10/09/98"
+//! date="10/09/1998"
 //! lib=RavlMath
 
 #include "Ravl/SArray1d.hh"
+#include "Ravl/Slice1d.hh"
 #include "Ravl/SArr1Iter.hh"
 #include "Ravl/SArr1Iter2.hh"
 
@@ -31,13 +32,18 @@ namespace RavlN {
   {
   public:
     inline TVectorC()
-      {}
+    {}
     //: Default constructor.
     
     inline TVectorC(const SArray1dC<DataT> &oth)
       : SArray1dC<DataT>(oth)
-      {}
+    {}
     //: Constructor for array of DataT's.
+
+    inline TVectorC(const Slice1dC<DataT> &oth,bool alwaysCopy = true)
+      : SArray1dC<DataT>(oth,alwaysCopy)
+    {}
+    //: Construct from a slice.
     
     explicit inline TVectorC(SizeT n);
     //: Constructor.
@@ -68,7 +74,7 @@ namespace RavlN {
     //: It is assumed that all elements of the vector differs from zero.
     
     DataT Modulus() const
-      { return Sqrt(SumOfSqr()); } 
+    { return Sqrt(SumOfSqr()); } 
     //: Returns the modulus of the vector.
     // The Sqrt(SumOfSqr()).
     

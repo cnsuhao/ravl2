@@ -45,6 +45,11 @@ namespace RavlN {
       : TVectorC<RealT>(oth)
       {}
     //: Base class constructor.
+
+    VectorC(const Slice1dC<RealT> &oth,bool alwaysCopy = true)
+      : TVectorC<RealT>(oth,alwaysCopy)
+      {}
+    //: Construct from a slice 
     
     VectorC(RealT v1,RealT v2)
       : TVectorC<RealT>(2)
