@@ -27,8 +27,7 @@ namespace RavlN {
   public:
     DPISampleStreamBodyC()
       : startFrame(0),
-	sampleRate(1),
-	pos(0)
+	sampleRate(1)
     {}
     //: Constructor
 
@@ -36,27 +35,24 @@ namespace RavlN {
       : DPIStreamOpBodyC<DataT,DataT>(nin),
 	sinput(SPort(nin)),
 	startFrame(nStartFrame),
-	sampleRate(nSampleRate),
-	pos(0)
-    {}
+	sampleRate(nSampleRate)
+    {
+      sinput.Seek64(startFrame); // Make sure sequence is aligned with start frame.
+    }
     //: Constructor
 
     DPISampleStreamBodyC(Int64T nSampleRate,Int64T nStartFrame = 0)
       : startFrame(nStartFrame),
-	sampleRate(nSampleRate),
-	pos(0)
+	sampleRate(nSampleRate)
     {}
     //: Constructor
     
-    virtual bool Seek(UIntT off) {
-      Int64T newOff = startFrame + (Int64T) off * sampleRate;
-      pos = newOff;
-      return sinput.Seek64(newOff);
-    }
+    virtual bool Seek(UIntT off) 
+    { return sinput.Seek64(startFrame + (Int64T) off * sampleRate); }
     //: Seek to position in stream.
     
     inline bool DSeek(IntT off) 
-    { return sinput.DSeek(off * sampleRate); }
+    { return sinput.DSeek((Int64T) off * sampleRate); }
     //: Delta seek
     
     virtual UIntT Tell() const 
@@ -71,11 +67,8 @@ namespace RavlN {
     { return (sinput.Start64() - startFrame) / sampleRate; }
     //: First frame.
     
-    virtual bool Seek64(Int64T off) {
-      Int64T newOff = startFrame + off * sampleRate;
-      pos = newOff;
-      return sinput.Seek64(newOff);
-    }
+    virtual bool Seek64(Int64T off) 
+    { return sinput.Seek64(startFrame + off * sampleRate); }
     //: Seek to position in stream.
     
     inline bool DSeek64(Int64T off) 
@@ -97,13 +90,14 @@ namespace RavlN {
     virtual DataT Get()  {
       DataT ret = sinput.Get();
       if(!sinput.DSeek(sampleRate-1)) {
-	if(sampleRate < 0)
+	if(sampleRate < 1) {
+	  cerr << "WARNING: SampleStreamC, Can't use negative sample rates on a non-seekable stream. \n";
 	  return ret;
+	}
+	// If seeking doesn't work, just discard some frames.
 	for(Int64T i = 1;i < sampleRate;i++)
 	  input.Discard();
-	pos += sampleRate;
-      } else
-	pos = sinput.Tell64();
+      }
       return ret;
     }
     //: Get next piece of data.
@@ -112,13 +106,15 @@ namespace RavlN {
       if(!sinput.Get(buff))
 	return false;
       if(!sinput.DSeek(sampleRate-1)) {
-	if(sampleRate < 0)
+	if(sampleRate < 1) {
+	  cerr << "WARNING: SampleStreamC, Can't use negative sample rates on a non-seekable stream. \n";
 	  return false;
+	}
+	// If seeking doesn't work, just discard some frames.
 	for(Int64T i = 1;i < sampleRate;i++)
-	  input.Discard();
-	pos += sampleRate;
-      } else
-	pos = sinput.Tell64();
+	  if(!input.Discard())
+	    cerr << "WARNING: SampleStreamC, Stream sync lost. \n";
+      }
       return true;
     }
     //: Try and get next piece of data.
@@ -126,7 +122,7 @@ namespace RavlN {
     void Input(const DPIPortC<DataT> &ins) { 
       DPIStreamOpBodyC<DataT,DataT>::Input(ins);
       sinput = SPort(ins);
-      pos = sinput.Tell64();
+      sinput.Seek64(startFrame); // Make sure sequence is aligned with start frame.
     }
     // Setup input port.
 
@@ -138,19 +134,26 @@ namespace RavlN {
     { return sampleRate; }
     //: Sample rate.
     
-    void StartFrame(Int64T nStartFrame)
-    { startFrame = nStartFrame; }
+    void StartFrame(Int64T nStartFrame) { 
+      startFrame = nStartFrame;
+      if(sinput.IsValid()) 
+	sinput.Seek64(startFrame);      
+    }
     //: Access start frame.
+    // Note this will reset the position to zero.
     
-    void SampleRate(Int64T nSampleRate)
-    { sampleRate = nSampleRate; }
+    void SampleRate(Int64T nSampleRate) { 
+      sampleRate = nSampleRate; 
+      if(sinput.IsValid()) 
+	sinput.Seek64(startFrame);
+    }
     //: Sample rate.
+    // Note this will reset the position to zero.
     
   protected:
     DPISPortC<DataT> sinput;
     Int64T startFrame;
     Int64T sampleRate;
-    StreamPosT pos;
  };
 
   template<class DataT>
@@ -201,10 +204,12 @@ namespace RavlN {
     void StartFrame(Int64T nStartFrame)
     { Body().StartFrame(nStartFrame); }
     //: Access start frame.
+    // Note: this will reset the position to zero.
     
     void SampleRate(Int64T nSampleRate)
-    {  Body().SampleRate(nSampleRate); }
+    { Body().SampleRate(nSampleRate); }
     //: Sample rate.
+    // Note: this will reset the position to zero.
     
     
   };
