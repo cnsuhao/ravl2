@@ -21,7 +21,13 @@
 
 namespace RavlImageN {
   using namespace RavlN;
-  
+#if RAVL_VISUALCPP_NAMESPACE_BUG
+  using RavlN::Point2dC;
+  using RavlN::RealT;
+  using RavlN::ByteT;
+  using RavlN::Vector2dC;
+#endif
+
   //! userlevel=Normal
   //: Corner descriptor.
   

@@ -50,12 +50,14 @@ namespace RavlN {
       : TVectorC<RealT>(oth,alwaysCopy)
     {}
     //: Construct from a slice 
-    
+
+#if !RAVL_COMPILER_VISUALCPP
     template<unsigned int N>
     inline VectorC(const TFVectorC<RealT,N> &dat) 
       : TVectorC<RealT>(dat)
     {}
     //: Construct from a fixed size array.
+#endif
     
     VectorC(RealT v1,RealT v2)
       : TVectorC<RealT>(2)

@@ -47,6 +47,7 @@ namespace RavlN {
     explicit inline TVectorC(SizeT n);
     //: Constructor.
 
+#if !RAVL_COMPILER_VISUALCPP
     template<unsigned int N>
     inline TVectorC(const TFVectorC<DataT,N> &dat)
       : SArray1dC<DataT>(N)
@@ -67,6 +68,7 @@ namespace RavlN {
       return ret;
     }
     //: Convert to a fixed size vector.
+#endif
     
     DataT Sum() const;      
     //: Returns the sum all elements of the vector.

@@ -21,6 +21,8 @@ namespace RavlImageN {
   using namespace RavlN;
 #if RAVL_VISUALCPP_NAMESPACE_BUG
   using RavlN::TFVectorC;
+  using RavlN::BinIStreamC;
+  using RavlN::BinOStreamC;
 #endif
   
   //! userlevel=Normal

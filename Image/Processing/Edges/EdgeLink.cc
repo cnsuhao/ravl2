@@ -148,7 +148,8 @@ namespace RavlImageN {
   
   DListC<DListC<Index2dC> >  EdgeLinkC::LinkEdges() {
     DListC<DListC<Index2dC> > strings;
-    for(Array2dIterC<ByteT> it(*this);it;it++) {
+    Array2dIterC<ByteT> it(*this);
+    for(;it;it++) {
       if(GetState(*it) != EDGE_INSTRING) 
 	continue;
       Index2dC pxl = it.Index();
@@ -189,7 +190,7 @@ namespace RavlImageN {
     }
     // the upper six bit contain information about neigbouring edge direction
     // remove the information                                                
-    for(Array2dIterC<ByteT> it(*this);it;it++) {
+    for(it.First();it;it++) {
       // Remove the information about
       // the edge direction.
       *it &= 3;

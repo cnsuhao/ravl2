@@ -18,6 +18,7 @@
 #include "Ravl/Image/RGBValue.hh"
 
 namespace RavlImageN {
+  using namespace RavlN;
   
   //: Byte RGB value class.
   

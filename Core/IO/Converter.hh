@@ -260,6 +260,7 @@ DPConverterBaseC DPConv_ ## func(RavlN::RegisterConversion(func,cost,fname));
   // Labotomise automatic type conversion.
   // Where the conversion is required on use DP_REGISTER_CONVERTION_FT
 #define DP_REGISTER_CONVERTION(func,cost)
+#define DP_REGISTER_CONVERTION_NAMED(func,cost,fname)
 #endif
 
   // Fixed type conversion macro

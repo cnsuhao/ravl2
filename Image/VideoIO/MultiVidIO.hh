@@ -23,7 +23,15 @@
 
 #if RAVL_HAVE_UNISTD_H
 #include <unistd.h>
+#else
+#ifdef WIN32
+#include <io.h>
+#ifndef R_OK
+#define R_OK 04
 #endif
+#endif
+#endif
+
 #if RAVL_HAVE_ANSICPPHEADERS
 #include <iomanip>
 #else
