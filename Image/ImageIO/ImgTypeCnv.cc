@@ -23,9 +23,9 @@ namespace RavlImageN
   void InitStdImageCnv()
   {}
 
-//ByteYUVValueC
-// Some type conversions for standard images.
-
+  //ByteYUVValueC
+  // Some type conversions for standard images.
+  
   // Byte to double image.
   
   ImageC<RealT> ByteImageCT2DoubleImageCT(const ImageC<ByteT> &dat) { 
@@ -83,8 +83,6 @@ namespace RavlImageN
     return ret;
   }
   
-  
-  
   // Handle converters.
   
   DP_REGISTER_CONVERSION_NAMED(ByteImageCT2ByteRGBImageCT   ,1,
@@ -99,4 +97,5 @@ namespace RavlImageN
 			       "ImageC<ByteT> RavlImageN::Convert(const ImageC<RealT> &)");
   DP_REGISTER_CONVERSION_NAMED(IntImageCT2DoubleImageCT     ,1,
 			       "ImageC<RealT> RavlImageN::Convert(const ImageC<IntT> &)");
+
 }
