@@ -1,9 +1,0 @@
-! author="Charles Galambos"
-! docentry="Utilities.Porting"
-
-: Visual C++ Project file utility.  
-
-This program takes an AMMA style directory tree and turns it into
-a Visual C++ project.
-
-

@@ -1,0 +1,10 @@
+! author="Charles Galambos"
+! docentry="Ravl.QMake.autoport"
+
+: QMake porting utility (to Visual C++ & others.)
+
+This program builds make and project files suitable
+for use on systems that don't support QMake directly.
+In particular it supports generation of MS's Visual C++
+project files.
+
