@@ -12,7 +12,7 @@
 #include "Ravl/Image/MatchPatch.hh"
 #include "Ravl/Image/DrawCross.hh"
 
-#define DODEBUG 0
+#define DODEBUG 1
 #if DODEBUG
 #include "Ravl/IO.hh"
 #define ONDEBUG(x) x
@@ -42,7 +42,7 @@ namespace RavlImageN {
     
     Projection2dC iproj = proj.Inverse();
     
-    WarpProjectiveC<ByteT> warp(proj);
+    WarpProjectiveC<ByteT> warp(iproj);
     
     // Generate patches.
 
@@ -50,9 +50,10 @@ namespace RavlImageN {
     IntT sum;
     ONDEBUG(ByteT white = 255);
     ONDEBUG(ImageC<ByteT> out(mosaic.Copy()));
-    
+    IntT removeThresh = Sqr(patchSize) * matchThreshold;
+
     for(DLIterC<CornerC> it(corners);it;it++) {
-      if(roi.Contains(it->Location()))
+      if(!roi.Contains(it->Location()))
 	continue;
       
       Point2dC cpnt = it->Location();
@@ -76,7 +77,7 @@ namespace RavlImageN {
       SearchMinAbsDifferenceCreep(patchOffset,mosaic,projLoc,rat,sum,searchSize);
       ONDEBUG(cerr << "Thresh=" << sum << "\n");
       // Put matches in the list.
-      if(sum < matchThreshold) {
+      if(sum < removeThresh) {
 	// correct coordinates to centre of pixel
 	rat[0] += 0.5;
 	rat[1] += 0.5;
