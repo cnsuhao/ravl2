@@ -50,7 +50,7 @@ namespace Ravl3DN
     Array2dC< SArray1dC<ByteT*> > lookup;
   };
 
-  //! userlevel=Normal
+  //! userlevel=Develop
   //:Lookup for fast mapping from image pixels to voxels
 
   class VoxelCameraLookupC : public RCHandleC<VoxelCameraLookupBodyC>

@@ -164,7 +164,7 @@ namespace Ravl3DN
     }
 
     // Calculate the intersection points
-    if (dStart>dEnd) 
+    if (dStart < 0.0 || dStart > dEnd) 
       return false;
     voxel_start = line_origin + line_dir*dStart;
     voxel_end   = line_origin + line_dir*dEnd;

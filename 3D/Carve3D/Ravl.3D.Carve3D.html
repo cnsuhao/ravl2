@@ -5,5 +5,32 @@
   </head>
 
   <body>
+    <p>Given silhouettes of an object from multiple camera views, this library computes the
+    maximum volume in 3D space which may have produced them.  It requires calibration
+    parameters for the camera views to be known 
+    - see <a href="Ravl.3D.Camera_Calibration.html">camera calibration</a>.</p>
+
+    <p>Code is designed to be fast, for real-time carving.  Carving is done using 
+      a pre-computed lookup table based on the camera parameters.</p>
+
+    <p><a href="../Class/Ravl3DN.VoxelSetC.html">VoxelSetC</a> is the data structure which 
+      represents an occupied volume in space.  To carve this based on a set of calibrated cameras, use
+      <a href="../Class/Ravl3DN.VoxelCarveC.html">VoxelCarveC</a>.  
+      A lookup table is created on construction, so expect the constructor to take many 
+      seconds or even minutes depending on the size of the voxel set. 
+      Once constructed, the 
+      <a href="../Class/Ravl3DN.VoxelCarveC.html#UpdateObSArray1dCStImageCStByteTBtBtCb_">
+	VoxelCarveC::Update(...)</a> method 
+      will quickly compute the occupied volume given any set of silhouette images.  
+      The current implementation is single-threaded.  Faster multi-thread versions on the way.</p>
+
+    <p>Voxel carving is often used for visualisation.  The VoxelSurfacePoints(...) 
+      functions <a href="../Class/Ravl3DN.VoxelSurfacePointsObconst_VoxelSetCCb.html">[1]</a> and 
+      "<a href="../Class/Ravl3DN.VoxelSurfacePointsObconst_VoxelSetC_const_SArray1dCLtImageCLtByteRGBAValueCGtGt_const_Pinhole0ArrayC_Amp_const_Vector3dC_AmpCb.html">[2]</a> 
+      compute the set of points one the surface of the voxel set, 
+      expressed as a <a href="../Class/Ravl3DN.PointSetC.html">PointSetC</a>.  
+      This can be rendered in OpenGL using <a href="../Class/RavlGUIN.DPointSetC.html">RavlGUIN::DPointSetC</a>.
+    </p>
+
   </body>
 </html>

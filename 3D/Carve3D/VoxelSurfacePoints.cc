@@ -19,13 +19,13 @@ namespace Ravl3DN
   { 
     return VoxelSurfacePoints(vox, 
 			      SArray1dC< ImageC<ByteRGBAValueC> >(), 
-			      Pinhole0ArrayC(),
+			      SArray1dC<PinholeCamera0C>(),
 			      Vector3dC(0,0,0) ); 
   }
 
   PointSetC VoxelSurfacePoints(const VoxelSetC vox,
 			       SArray1dC< ImageC<ByteRGBAValueC> > image,
-			       const Pinhole0ArrayC& camera,
+			       const SArray1dC<PinholeCamera0C>& camera,
 			       const Vector3dC& viewpoint)
   {
     // lists for surface points

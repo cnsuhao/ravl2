@@ -17,13 +17,13 @@ namespace Ravl3DN
   using namespace RavlN;
   using namespace RavlImageN;
 
-  //!userlevel:Develop
-  //:Efficient multi-view voxel carving
+  //! userlevel = Develop
+  //: Efficient multi-view voxel carving
 
   class VoxelCarveBodyC : public RCBodyVC
   {
   public:
-    VoxelCarveBodyC(Pinhole0ArrayC camera,
+    VoxelCarveBodyC(SArray1dC<PinholeCamera0C> camera,
 		    UIntT image_rows,
 		    UIntT image_cols,
 		    VoxelSetC nvoxel)
@@ -65,11 +65,11 @@ namespace Ravl3DN
     SArray1dC< VoxelCameraLookupC > lookup;
   };
 
-  //!userlevel:Normal
-  //:Efficient multi-view voxel carving
+  //! userlevel = Normal
+  //: Efficient multi-view voxel carving
   // Carves volume cells (voxels) given segmented images
   // from 1 or more calibrated cameras. A lookup table
-  // is used for speed
+  // is used for speed.
 
   class VoxelCarveC : public RCHandleC<VoxelCarveBodyC>
   {
@@ -79,7 +79,7 @@ namespace Ravl3DN
     }
     //: default constructor
 
-    VoxelCarveC(Pinhole0ArrayC camera,
+    VoxelCarveC(SArray1dC<PinholeCamera0C> camera,
 		    UIntT image_rows,
 		    UIntT image_cols,
 		    VoxelSetC voxel)
@@ -89,21 +89,22 @@ namespace Ravl3DN
 							voxel))
     {
     }
-    //:Lookup creation constructor
-    // Prepare lookups for the set of cameras specified by camera,
-    // using input images of image_rows x image_cols, for carving
-    // voxels in the given voxel class
+    //: Lookup creation constructor
+    // Prepare lookups for the set of cameras specified by <i>camera</i>,
+    // using input images of <i>image_rows</i> x <i>image_cols</i>, for carving
+    // voxels in the given <i>voxel</i> class. Expect this to take several seconds
+    // or even minutes depending on the size of the voxel set.
 
   public:
     void Update(SArray1dC< ImageC<ByteT> > image)
       { Body().Update(image); }
-    //:Apply lookups to the given array of images
+    //: Apply lookups to the given array of images
 
     UIntT NumViews() const { return Body().NumViews(); }
-    //:Get number of camera views for which lookups are stored
+    //: Get number of camera views for which lookups are stored
 
     const PinholeCamera0C& Camera(UIntT iview) const { return Body().Camera(iview); }
-    //:Get camera parameters for the ith view
+    //: Get camera parameters for the ith view
   };
 }
 

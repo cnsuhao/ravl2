@@ -23,7 +23,7 @@ namespace Ravl3DN
   class VoxelSetC;
 
   //! userlevel=Develop
-  //:A cuboid of volume cells (voxels) in 3D space
+  //: A cuboid of volume cells (voxels) in 3D space
 
   class VoxelSetBodyC : public RCBodyVC
   {
@@ -114,10 +114,12 @@ namespace Ravl3DN
 
 
   //! userlevel=Normal
-  //:A cuboid of volume cells (voxels) in 3D space
+  //: A cuboid of volume cells (voxels) in 3D space
   // Each voxel has an 8-bit flag for storing any user-defined attributes.
-  // A voxel set has a coordinate system with xyz corresponding to index 1,2,3
+  // <p>
+  // The voxel set has a coordinate system with xyz corresponding to index 0,1,2.
   // The origin of the coordinate system is at the centre of the voxel with index (0,0,0)
+  // <p>
   // Voxel subsets created with ContiguousPortion(...) have the same world 
   // to voxel set transformation but different ranges of indices
   class VoxelSetC : public RCHandleC<VoxelSetBodyC>
@@ -140,11 +142,14 @@ namespace Ravl3DN
 						  occupied_threshold))
     {
     }
-    //:Construct a cube of voxels
+    //: Construct a cube of voxels
     // R*x + t transforms a 3D point x from world co-ordinates to voxel co-ordinates
+    // <p>
     // voxel_size is the length of each side of a single voxel
+    // <p>
     // Units of voxel_size must match those of t
-    // Cube_side_num_voxels is the number of voxels along each side of the cube
+    // <p>
+    // cube_side_num_voxels is the number of voxels along each side of the cube
 
   public:
     RealT voxelSize() const { return Body().voxelSize(); }

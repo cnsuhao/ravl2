@@ -10,4 +10,4 @@ HEADERS=PinholeCamera0.hh
 SOURCES=PinholeCamera0.cc
 PLIB=RavlCameraCal
 USESLIBS=RavlCore RavlMath
-
+EHT=Ravl.3D.Camera_Calibration.html

@@ -25,7 +25,7 @@ namespace Ravl3DN
 
   class VoxelSetC;
 
-  //!userlevel:Develop
+  //! userlevel=Develop
   //: Array of 3D vertices and attributes
   
   class PointSetBodyC: public RCBodyC
@@ -81,63 +81,63 @@ namespace Ravl3DN
     bool m_haveColour;                  // Indicates if points are coloured
   };
 
-  //!userlevel:Normal
-  //:Array of 3D vertices and attributes
-  // Use Ravl-GUI-3D-DPointSetC to correctly render the point set
+  //! userlevel=Normal
+  //: Array of 3D vertices and attributes
+  // Use Ravl-GUI-3D-DPointSetC to correctly render the point set.
 
   class PointSetC: public RCHandleC<PointSetBodyC>
   {
   public:
     PointSetC()
     {}
-    //:Default constructor
+    //: Default constructor
 
     PointSetC(UIntT numPoints,bool haveColour = false)
       : RCHandleC<PointSetBodyC>(*new PointSetBodyC(numPoints,haveColour))
     {}
-    //:Construct a point set with a number of points.
+    //: Construct a point set with a number of points.
 
   protected:
     PointSetC(PointSetBodyC &bod)
       : RCHandleC<PointSetBodyC>(bod)
     {}
-    //:Body constructor.
+    //: Body constructor.
     
     PointSetBodyC &Body()
     { return RCHandleC<PointSetBodyC>::Body(); }
-    //:Access body.
+    //: Access body.
 
     const PointSetBodyC &Body() const
     { return RCHandleC<PointSetBodyC>::Body(); }
-    //:Access body.
+    //: Access body.
 
   public:
     PointSetC Copy() const
     { return PointSetC(static_cast<PointSetBodyC &>(Body().Copy())); }
-    //:Make a copy of the point set.
+    //: Make a copy of the point set.
 
     bool HaveColour() const { return Body().HaveColour(); }
-    //:Do the points have colour attributes?
+    //: Do the points have colour attributes?
 
     SArray1dC<VertexC>& Vertices()
     { return Body().Vertices(); }
-    //:Access the array of all vertices in the point set.
+    //: Access the array of all vertices in the point set.
 
     const SArray1dC<VertexC>& Vertices() const
     { return Body().Vertices(); }
-    //:Access the array of all vertices in the point set.
+    //: Access the array of all vertices in the point set.
     
     SArray1dC<ByteRGBValueC>& Colours()
     { return Body().Colours(); }
-    //:Access the array of all colours in the point set.
+    //: Access the array of all colours in the point set.
 
     const SArray1dC<ByteRGBValueC>& Colours() const
     { return Body().Colours(); }
-    //:Access the array of all colours in the point set.
+    //: Access the array of all colours in the point set.
 
     Vector3dC Centroid() const
       { return Body().Centroid(); }
-    // Centroid of points
+    //: Centroid of points.
   };
   
 }

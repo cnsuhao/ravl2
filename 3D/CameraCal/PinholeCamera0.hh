@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlCameraCal
 //! author="Joel Mitchelson"
-//! docentry="Ravl.3D"
+//! docentry="Ravl.3D.Camera Calibration"
 #ifndef _CAMERA_CAL_PINHOLE_CAMERA_0_HH_
 #define _CAMERA_CAL_PINHOLE_CAMERA_0_HH_
 
@@ -23,9 +23,9 @@ namespace Ravl3DN
 
   //! userlevel=Normal
 
-  //:Simple pinhole camera model
-  // Describes the transform of 3D world points to 2D image points
-  // This class is simplest camera model with no lens distortion
+  //: Simple pinhole camera model
+  // Describes the transform of 3D world points to 2D image points.
+  // This class is simplest camera model with no lens distortion.
 
   class PinholeCamera0C
   {
@@ -63,25 +63,24 @@ namespace Ravl3DN
       z[1] = _cy + _fy * Rx[1] / Rx[2];
     }
     //: Project 3D point in space to 2D image point
-    //  Projects according to:
-    //    z[0] = cx + fx*( (R*x + t)[0] / (R*x + t)[2] )
-    //    z[1] = cy + fy*( (R*x + t)[1] / (R*x + t)[2] )
+    //  Projects according to:<br>
+    //    z[0] = cx + fx*( (R*x + t)[0] / (R*x + t)[2] )<br>
+    //    z[1] = cy + fy*( (R*x + t)[1] / (R*x + t)[2] )<br>
     //  Can result in a divide-by-zero for degenerate points.
     //  See ProjectCheck if this is to be avoided.
 
     bool ProjectCheck(Vector2dC& z, const Vector3dC& x) const
     {
       Vector3dC Rx = (_R * x) + _t;
-      if (Rx[2] < 1E-3)
+      if (Rx[2] > -1E-3 && Rx[2] < 1E-3)
 	return false;
       z[0] = _cx + _fx * Rx[0] / Rx[2];
       z[1] = _cy + _fy * Rx[1] / Rx[2];
       return true;
     }
-    //:Project 3D point in space to 2D image point
+    //: Project 3D point in space to 2D image point
     // The same as Project(...) but checks that the point
-    // is not degenerate and lies in front of the camera.
-    // Returns true for valid points, false otherwise.
+    // is not degenerate.
 
     void ProjectJacobian(FMatrixC<2,3>& Jz, const Vector3dC& x) const
     {
@@ -106,14 +105,14 @@ namespace Ravl3DN
     }
     //:Inverse projection up to a scale factor
     // Origin + lambda*ProjectInverseDirection is the camera ray
-    // corresponding to image point z
+    // corresponding to image point z.
 
     void Origin(Vector3dC& org) const
     {
       org = _R.TMul(_t) * -1.0;
     }
     //: Origin of the camera in world co-ordinates
-    //  Computed as -R.T() * t
+    //  Computed as -R.T() * t.
 
   protected:
     RealT _cx;
@@ -129,9 +128,6 @@ namespace Ravl3DN
 
   ostream& operator<<(ostream& s, const PinholeCamera0C& camera);
   //:Write camera parameters to a text stream
-
-  typedef SArray1dC<PinholeCamera0C> Pinhole0ArrayC;
-  //:Array of camera parameters
 };
 
 #endif

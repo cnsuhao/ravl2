@@ -26,15 +26,24 @@ namespace Ravl3DN
   using namespace RavlN;
   using namespace RavlImageN;
 
+  //! userlevel=Normal
+  //! AutoLink=on
+
   PointSetC VoxelSurfacePoints(const VoxelSetC vox,
 			       const SArray1dC< ImageC<ByteRGBAValueC> > image,
-			       const Pinhole0ArrayC& camera,
+			       const SArray1dC<PinholeCamera0C>& camera,
 			       const Vector3dC& viewpoint);
   //:Compute set of point locations and normals on voxel set surface
+  // Returns the set of point locations as a <a href="Ravl3DN.PointSetC.html">PointSetC</a>.
+  //!param: vox - the voxel set - a <a href="Ravl3DN.VoxelSetC.html">VoxelSetC</a> object
+  //!param: image - array of colour images used to find the colour of each surface point
+  //!param: camera - camera parameters corresponding to each image
+  //!param: viewpoint - the viewpoint from which to optimise colours
 
   PointSetC VoxelSurfacePoints(const VoxelSetC vox);
-  //: Compute set of point locations/normals/colours on the current volume surface
-  // image is used to find the colour of each surface point
+  //: Compute set of point locations/normals/colours on voxel set surface
+  // Returns the set of point locations as a <a href="Ravl3DN.PointSetC.html">PointSetC</a>
+  //!param: vox - the voxel set - a <a href="Ravl3DN.VoxelSetC.html">VoxelSetC</a> object
 }
 
 #endif
