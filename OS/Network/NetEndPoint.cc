@@ -25,7 +25,7 @@
 #include <unistd.h>
 #include <sys/uio.h>
 
-#define DODEBUG 0
+#define DODEBUG 1
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
@@ -574,10 +574,6 @@ namespace RavlN {
 	  ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::RunRecieve(), Read data failed. Assuming connection broken. "); 
 	  break;
 	}
-	// Don't q packet if we're in the middle of shutting down in an attempt to
-	// to avoid blocking on something that won't happen.
-	if(shutdown) 
-	  break;
 	NetPacketC pkt(data);
 	receiveQ.Put(pkt);
       }
@@ -620,12 +616,17 @@ namespace RavlN {
     NetPacketC pkt;
     NetEndPointC me(*this);
     try {
-      while(!shutdown) {
+      while(1) {
 	NetPacketC pkt;
-	if(!receiveQ.Get(pkt,1.5))
-	  continue;
-	if(shutdown)
-	  break;
+	if(!shutdown) {
+	  if(!receiveQ.Get(pkt,1.5))
+	    continue;
+	} else {
+	  // We're shutting down, try and finish processing any
+	  // remaining packets, but exit when the Q is empty.
+	  if(!receiveQ.TryGet(pkt))
+	    break;
+	}
 	if(!pkt.IsValid()) 
 	  continue;
 	//ONDEBUG(cerr << "Recieved packet:");
