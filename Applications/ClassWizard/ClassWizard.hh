@@ -9,6 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlClassWizard
 //! author="Charles Galambos"
+//! docentry="Ravl.Source Tools.Class Wizard"
 
 #include "Ravl/CxxDoc/Parser.hh"
 #include "Ravl/SourceTools/DefsFile.hh"

@@ -12,6 +12,11 @@
 #include "Ravl/SourceTools/ClassWizard.hh"
 #include "Ravl/Option.hh"
 
+//: Tool for automaticly generating handle classes and methods
+// This program searches for classes with a name ending in BodyC
+// and ensure's the corresponding handle class exposes all its
+// public functions.
+
 using namespace RavlN;
 int main(int nargs,char **argv)
 {
