@@ -69,6 +69,7 @@ namespace RavlGUIN {
     
     gtk_widget_show(widget);
     MutexLockC lock(access);
+    //cerr << "NotebookBodyC::Create(), Creating pages. Widget=" << ((void *) this) << "\n";
     for(DLIterC<WidgetC> it(children);it;it++) {
       WidgetC tab;    
       // Check we have a tab widget.
@@ -80,6 +81,7 @@ namespace RavlGUIN {
       }
       FixupPage(*it,tab);
     }
+    //cerr << "NotebookBodyC::Create(), Done with pages. \n";
     lock.Unlock();
     ConnectSignals();
     return true;
@@ -153,11 +155,13 @@ namespace RavlGUIN {
   
   //: Do the main bit of AppendPage.
   bool NotebookBodyC::FixupPage(WidgetC &page,WidgetC &tab) {
+    //cerr << "NotebookBodyC::FixupPage(), Start. this=" << ((void*) this ) << " Widget=" << page.Hash() << "\n";
     if(!page.GUIShow())
       return false;
     if(!tab.GUIShow())
       return false;
     // Add page.
+    //cerr << "NotebookBodyC::FixupPage(), Adding this=" << ((void*) this ) << " Widget=" << page.Hash() << "\n";
     gtk_notebook_append_page(GTK_NOTEBOOK (widget),page.Widget(),tab.Widget());
     return true;
   }
@@ -165,10 +169,11 @@ namespace RavlGUIN {
   //: Append a new page.
   
   bool NotebookBodyC::GUIAppendPage(WidgetC &page,WidgetC &tab) {
-    tabWidges[page] = tab;
     MutexLockC lock(access);
+    tabWidges[page] = tab;
     children.InsLast(page);
     lock.Unlock();
+    //cerr << "NotebookBodyC::GUIAppendPage(), this=" << ((void*) this ) << " PageWidget=" << page.Hash() << " Widget=" << widget << "\n";
     if(widget == 0)
       return true;
     return FixupPage(page,tab);
@@ -177,6 +182,7 @@ namespace RavlGUIN {
   //: Append a new page.
   
   void NotebookBodyC::AppendPage(const WidgetC &page,const WidgetC &tab) {
+    //cerr << "NotebookBodyC::AppendPage(), this=" << ((void*) this ) << " Widget=" << page.Hash() << "\n";
     Manager.Queue(Trigger(NotebookC(*this),&NotebookC::GUIAppendPage,
 			  const_cast<WidgetC &>(page),const_cast<WidgetC &>(tab))
 		  );
