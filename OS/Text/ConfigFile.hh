@@ -4,15 +4,15 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLCONFIGFILE_HEADER
-#define RAVLCONFIGFILE_HEADER 1
+#ifndef RAVL_CONFIGFILE_HEADER
+#define RAVL_CONFIGFILE_HEADER 1
 ///////////////////////////////////////////////////////////////////////
 //! file="Ravl/OS/Text/ConfigFile.hh"
 //! userlevel=Advanced
 //! author="Charles Galambos"
 //! lib=RavlOS
 //! rcsid="$Id$"
-//! date="14/05/98"
+//! date="14/05/1998"
 //! example=exConfigFile.cc
 //! docentry="Ravl.OS.Text Processing"
 
