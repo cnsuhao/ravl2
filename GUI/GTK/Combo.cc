@@ -11,6 +11,7 @@
 
 #include "Ravl/Threads/Signal1.hh"
 #include "Ravl/Threads/Signal2.hh"
+#include "Ravl/GUI/WidgetStyle.hh"
 #include "Ravl/GUI/Combo.hh"
 #include "Ravl/GUI/Manager.hh"
 #include <gtk/gtk.h>
@@ -148,5 +149,26 @@ namespace RavlGUIN {
     }
     return true;
   }
+
+  bool ComboBodyC::GUISetStyle(WidgetStyleC& style) {    
+    // Set widget style
+    WidgetBodyC::GUISetStyle(style);
+    // Set style of child label
+    if (widget != 0) {
+      // Set entry style
+      GtkWidget *entry = GTK_COMBO(widget)->entry;
+      if(entry != 0) {
+	gtk_widget_set_style(GTK_WIDGET(entry),style.Style());
+      }
+      // Set listbox style
+      GtkWidget *list = GTK_COMBO(widget)->list;
+      if(list != 0) {
+	gtk_widget_set_style(GTK_WIDGET(list),style.Style());
+      }
+    }
+    return true;
+  }
+
+
 
 }

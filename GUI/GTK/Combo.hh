@@ -72,6 +72,9 @@ namespace RavlGUIN {
     bool FilterSignal(StringC& sel);    
     //: Blocks unwanted GTK "selected" signals 
 
+    bool GUISetStyle(WidgetStyleC& style);
+    //: Set style of button and child widgets
+
     DListC<StringC> choices;
     HashC<StringC,GtkWidget *> cmap; // Widget map.
     bool editable;
