@@ -15,6 +15,7 @@
 
 #include "Ravl/Types.hh"
 #include "Ravl/BinStream.hh"
+#include "Ravl/BitStream.hh"
 #include "Ravl/StrStream.hh"
 #include "Ravl/TFVector.hh"
 #include "Ravl/String.hh"
@@ -37,6 +38,7 @@ int StringTest();
 int StrStreamTest();
 int testRawFD(); /* NB. This is only usefull on some platforms. */
 int testFDStream();
+int testBitStream();
 
 StringC testFile = "/tmp/testStream" + StringC((IntT) getpid());
 
@@ -64,6 +66,10 @@ int main() {
     return 1;
   }
   if((errLine = testRawFD()) != 0) {
+    cerr << "test failed line: " << errLine << "\n";
+    return 1;
+  }
+  if((errLine = testBitStream()) != 0) {
     cerr << "test failed line: " << errLine << "\n";
     return 1;
   }
@@ -294,5 +300,38 @@ int testRawFD() {
   
   if(let != rlet1) return __LINE__;
   if(let != rlet2) return __LINE__;
+  return 0;
+}
+
+int testBitStream() {
+  cerr << "testBitStream(), Called. \n";
+  StrOStreamC ostr;
+  int i;
+  {
+    BitOStreamC ob(ostr);
+    ob.WriteBit(true);
+    ob.WriteBit(false);
+    ob.WriteUByte(0x56);
+    ob.WriteUInt(0x12345678);
+    ob.WriteBit(true);
+    for(i = 1;i < 8;i++)
+      ob.WriteUByte(i,i);
+    for(i = 1;i < 32;i++)
+      ob.WriteUInt(i,i);
+    ob.Flush();
+  }
+  
+  StrIStreamC istr(ostr.String());
+  BitIStreamC bi(istr);
+  if(!bi.ReadBit()) return __LINE__;
+  if(bi.ReadBit()) return __LINE__;
+  if(bi.ReadUByte() != 0x56) return __LINE__;
+  if(bi.ReadUInt() != 0x12345678) return __LINE__;
+  if(!bi.ReadBit()) return __LINE__;
+  for(i = 1;i < 8;i++)
+    if(bi.ReadUByte(i) != i) return __LINE__;
+  for(i = 1;i < 32;i++)
+    if(bi.ReadUInt(i) != (UIntT) i) return __LINE__;
+  
   return 0;
 }

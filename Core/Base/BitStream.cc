@@ -50,7 +50,7 @@ namespace RavlN {
   UIntT BitIStreamC::ReadUInt(UIntT bits) { 
     if(bits == 0)
       return 0;
-    RavlAssert(bits <= 32);
+    RavlAssert(bits < 32);
     UIntT ret = 0;
 #if RAVL_BIGENDIAN
     //cerr << "Read UIntT: Bits:" << bits << " at(before):" << at << " \n";
@@ -111,11 +111,12 @@ namespace RavlN {
 	buff = (data & Mask(nbits)) << (at+1);
     }
   }
+
   
   void BitOStreamC::WriteUInt(UIntT data,UIntT bits) { 
     if(bits == 0)
       return ;
-    RavlAssert(bits <= 32);
+    RavlAssert(bits < 32);
 #if RAVL_BIGENDIAN
     //cerr << "Writing UIntT: " << hex << data << " Bits:" << bits << " \n";
     UByteT *place = &((UByteT *)&data)[3-(bits/8)];

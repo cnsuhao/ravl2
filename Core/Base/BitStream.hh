@@ -12,7 +12,7 @@
 //! lib=RavlCore
 //! docentry="Ravl.Core.IO.Streams"
 //! author="Charles Galambos"
-//! date="04/06/99"
+//! date="04/06/1999"
 //! userlevel=Default
 
 #include "Ravl/Stream.hh"
@@ -26,16 +26,16 @@ namespace RavlN {
   public:  
     BitStreamBaseC()
       : at(1024),
-      buff(0)
-      {}
+	buff(0)
+    {}
     //: Default constructor.
     
     bool IsByteAligned() const { return at == 7; }
     //: Is byte aligned ?
     
     UIntT Mask(UIntT nbits) const 
-      { return ((UIntT)1 << (nbits)) -1; }
-  //: Create a mask nbits long.
+    { return ((UIntT)1 << (nbits)) -1; }
+    //: Create a mask nbits long.
     
   protected:
     IntT  at;   // Bit offset.
@@ -56,17 +56,17 @@ namespace RavlN {
   {
   public:
     BitIStreamC()
-      {}
+    {}
     //: Default constructor.
   
     BitIStreamC(const StringC &filename)
       : strm(filename)
-      { at = -1; }
+    { at = -1; }
     //: Constructor.
   
     BitIStreamC(const IStreamC &strm)
       : strm(strm)
-      { at = -1; }
+    { at = -1; }
     //: Construct from a normal strm.
     
     inline bool ReadBit() { 
@@ -103,22 +103,22 @@ namespace RavlN {
       return ret;
     }
     //: Read a unsigned byte from stream.
-  
+    
     UByteT ReadUByte(IntT nbits);
-    //: Read a bit vector.
+    //: Read 1 to 7 bits from stream into a byte.
     
     UIntT ReadUInt() { 
       UIntT ret;
 #if RAVL_BIGENDIAN
-      ((UByteT *)&ret)[1] = ReadUByte(); 
+      ((UByteT *)&ret)[0] = ReadUByte(); 
+      ((UByteT *)&ret)[1] = ReadUByte();
       ((UByteT *)&ret)[2] = ReadUByte();
       ((UByteT *)&ret)[3] = ReadUByte();
-      ((UByteT *)&ret)[4] = ReadUByte();
 #else
-      ((UByteT *)&ret)[4] = ReadUByte(); 
-      ((UByteT *)&ret)[3] = ReadUByte();
+      ((UByteT *)&ret)[3] = ReadUByte(); 
       ((UByteT *)&ret)[2] = ReadUByte();
       ((UByteT *)&ret)[1] = ReadUByte();
+      ((UByteT *)&ret)[0] = ReadUByte();
 #endif
       return ret;
     }
@@ -126,7 +126,7 @@ namespace RavlN {
     // MSB First.
     
     UIntT ReadUInt(UIntT bits);
-    //: Read an unsigned integer.
+    //: Read an unsigned integer of 1 to 31 bits
     // MSB First.
     
     IntT ReadInt(UIntT bits) {
@@ -136,7 +136,7 @@ namespace RavlN {
 	return signbit - (val & ~signbit);
       return val;
     }
-    //: Read a signed integer.
+    //: Read a signed integer of 1 to 31 bits
     // MSB First.
     
     inline void DiscardBit() {
@@ -159,8 +159,13 @@ namespace RavlN {
     // and next alignment.
     
     inline bool good() const
-      { return strm.good(); }
+    { return strm.good(); }
     //: Is stream good ?
+    
+    bool Close() 
+    { return strm.Close(); }
+    //: Close the stream.
+    
   protected:
     IStreamC strm;
   };
@@ -190,10 +195,10 @@ namespace RavlN {
     
     BitOStreamC(const OStreamC &strm)
       : strm(strm)
-      {
-	at = buffSize-1; 
-	buff = 0;
-      }
+    {
+      at = buffSize-1; 
+      buff = 0;
+    }
     //: Construct from a normal stream
     // NB. 'Flush' must be used before any write operations
     // are done on 'strm' after using the class.
@@ -227,26 +232,31 @@ namespace RavlN {
     //: Write a byte to stream.
     
     void WriteUByte(UByteT data,IntT nbits);
-    //: Write an array of n bits.
+    //: Write from 1 to 7 bits.
     
     void WriteUInt(UIntT data) { 
 #if RAVL_BIGENDIAN
-      WriteUByte(((const UByteT *)&data)[1]); 
+      WriteUByte(((const UByteT *)&data)[0]); 
+      WriteUByte(((const UByteT *)&data)[1]);
       WriteUByte(((const UByteT *)&data)[2]);
       WriteUByte(((const UByteT *)&data)[3]);
-      WriteUByte(((const UByteT *)&data)[4]);
 #else
-      WriteUByte(((const UByteT *)&data)[4]); 
-      WriteUByte(((const UByteT *)&data)[3]);
+      WriteUByte(((const UByteT *)&data)[3]); 
       WriteUByte(((const UByteT *)&data)[2]);
       WriteUByte(((const UByteT *)&data)[1]);
+      WriteUByte(((const UByteT *)&data)[0]);
 #endif
     }
-    //: Write an unsigned integer.
+    //: Write an unsigned 32 bit integer 
     // MSB First.
     
     void WriteUInt(UIntT data,UIntT bits);
-    //: Write an unsigned integer.
+    //: Write an unsigned integer with 1 to 31 bits.
+    // MSB First.
+
+    void WriteInt(IntT data,UIntT bits)
+    { WriteUInt((UIntT) data,bits); }
+    //: Write an integer with 1 to 31 bits.
     // MSB First.
     
     void Flush() {
@@ -259,8 +269,14 @@ namespace RavlN {
     //: Flush output buffer. (Use only before closing.)
     
     inline bool good() const
-      { return strm.good(); }
+    { return strm.good(); }
     //: Is stream good ?
+
+    bool Close() { 
+      Flush(); 
+      return strm.Close(); 
+    }
+    //: Close the stream.
     
   protected:
     OStreamC strm; 
