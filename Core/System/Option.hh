@@ -166,9 +166,11 @@ namespace RavlN {
     
     bool SaveOptions(StringC filename);
     //: Save options to a file.
+    // If OptionC is constructed on argv and argc, the effect is to save the command line
     
     bool LoadOptions(StringC filename);
     //: Load options from a file.
+    // The format is as it would be on a command line.<br>
     // This MUST be called before any options are processed for
     // it to have any effect.
     
