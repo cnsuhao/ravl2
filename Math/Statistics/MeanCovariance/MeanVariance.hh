@@ -20,6 +20,9 @@ namespace RavlN {
 
   //! userlevel=Normal
   //: Mean and variance of a single variable.
+  // If you want to build up statistics about a sample use the Sums1d2C
+  // class to accumulate the information and create a MeanVarianceC from
+  // there.
   
   class MeanVarianceC {
   public:
