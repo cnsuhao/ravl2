@@ -151,7 +151,8 @@ int StringTest() {
 
 int SimpleTest() {
   ByteT val;
-
+  RealT rval = 0.5;
+  FloatT fval = 0.7;
   val = 1;
   {
     BinOStreamC os(testFile);
@@ -159,23 +160,25 @@ int SimpleTest() {
       cerr << "Failed to open output. \n";
       return __LINE__;
     }
-    
-    os << val;
+    os << val << rval << fval;
   }
-  
   val = 2;
+  RealT nval;
+  FloatT nfval;
   {
     BinIStreamC is(testFile);
     if(!is.Stream()) {
       cerr << "Failed to open output. \n";
       return __LINE__;
     }
-    is >> val;
+    is >> val >> nval >> nfval;
     if(val != 1) {
       cerr << "Test failed. " << ((int) val) << "\n";
       return __LINE__; 
     }
   }
+  if(Abs(nval - rval) > 0.00000001)  return __LINE__;
+  if(Abs(nfval - fval) > 0.00000001) return __LINE__;
   return 0;
 }
 
