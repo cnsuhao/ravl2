@@ -68,6 +68,8 @@ namespace RavlN {
   template<class KeyT,class DataT> 
   bool BHashIterC<KeyT,DataT>::First() {
     it.First();
+    if(!it)
+      return false;
     lit = *it;
     done.Empty();
     while(!lit) {
