@@ -303,7 +303,7 @@ namespace RavlN {
   inline const GraphNodeIterC<NodeT,EdgeT> &
   GraphNodeIterC<NodeT,EdgeT>::operator=(const GraphNodeIterC<NodeT,EdgeT> &Oth)  {
     RavlAssert(Oth.IsNodeValid());
-    GraphNodeBaseC::operator=(Oth);
+    ((GraphNodeBaseC &) *this) = Oth;
     return *this;
   }
   
@@ -355,7 +355,7 @@ namespace RavlN {
   
   template<class NodeT,class EdgeT>
   inline void GraphNodeIterC<NodeT,EdgeT>::Invalidate() 
-  { GraphNodeBaseC::operator=(GraphNodeBaseC()); }
+  { IntrDLIterC<GraphNodeBaseBodyC>::Invalidate(); }
  
   template<class NodeT,class EdgeT>
   inline void 

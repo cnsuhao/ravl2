@@ -358,7 +358,7 @@ namespace RavlN {
     
   protected:
     UIntT hashVal;
-    const K Key;
+    K Key;
     T Hold;
     
     friend class HashC<K,T>;
@@ -368,7 +368,7 @@ namespace RavlN {
   
   template<class K,class T>
   inline HashElemC<K,T>::HashElemC(istream &in) { 
-    in >> const_cast<K &>(Key) >> Hold;
+    in >> Key >> Hold;
     hashVal = StdHash(Key); 
   }
 

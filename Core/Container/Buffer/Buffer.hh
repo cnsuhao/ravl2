@@ -113,27 +113,17 @@ namespace RavlN {
     // The reference element need not to be the valid element of the buffer.
     
     void Fill(const DataT &val)
-      { return Body().Fill(val); }
+    { Body().Fill(val); }
     //: Fill buffer with value.
     
     const SizeBufferAccessC<DataT> &BufferAccess() const
       { return Body(); }
     //: Access buffer.
 
-#if 0
-    operator SizeBufferAccessC<DataT> &()
-      { return Body(); }
-    //: Access as a size buffer.
-    
-    operator const SizeBufferAccessC<DataT> &() const
-      { return Body(); }
-    //: Access as a size buffer.
-#else
     operator SizeBufferAccessC<DataT> &() const
       { return const_cast<SizeBufferAccessC<DataT> &>(((const SizeBufferAccessC<DataT> &)Body())); }
     //: Access as a size buffer.
     // I don't like this, but it gets around an irritating warning from gcc.
-#endif
   };
 
   ////////////////////////////////////////////////////////////

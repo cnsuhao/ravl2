@@ -54,7 +54,7 @@ namespace RavlN {
     { return stk.Top()->Data(); }
     //: Access data.
     
-    const DataT &Key() const
+    const KeyT &Key() const
     { return stk.Top()->Key(); }
     //: Access data.
     

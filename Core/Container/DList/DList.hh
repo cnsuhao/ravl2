@@ -315,7 +315,7 @@ namespace RavlN {
     //: Count the number of elements in the list.
     
     void Reverse() 
-      { return Body().Reverse(); }
+    { Body().Reverse(); }
     //: Reverse the order of the list.
     
     DListC<DataT> Copy() const

@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLBINARYTREEUPITER_HEADER
-#define RAVLBINARYTREEUPITER_HEADER 1
+#ifndef RAVL_BINARYTREEUPITER_HEADER
+#define RAVL_BINARYTREEUPITER_HEADER 1
 /////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Core.Trees"
@@ -55,7 +55,7 @@ namespace RavlN {
     { return stk.Top()->Data(); }
     //: Access data.
     
-    const DataT &Key() const
+    const KeyT &Key() const
     { return stk.Top()->Key(); }
     //: Access data.
     

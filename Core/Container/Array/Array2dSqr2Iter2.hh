@@ -128,8 +128,8 @@ namespace RavlN {
     { return cit.Data2(); }
     //: Access bottom right data element 
 
-    const Data1T &DataBR2() const
-      { return cit.Data2(); }
+    const Data2T &DataBR2() const
+    { return cit.Data2(); }
     //: Access bottom right data element 
 
     Data2T &DataBL2() 
