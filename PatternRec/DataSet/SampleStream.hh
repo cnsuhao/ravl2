@@ -8,6 +8,8 @@
 #define RAVL_SAMPLESTREAM_HEADER 1
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! author="Charles Galambos"
+//! docentry="Ravl.PatternRec.Data Set"
 
 #include "Ravl/DP/SPort.hh"
 #include "Ravl/Tuple2.hh"
@@ -46,7 +48,7 @@ namespace RavlN {
   };
   
   //! userlevel=Normal
-  //: Stream of samples.
+  //: Stream of samples with 2 values.
   
   template<typename Data1T,typename Data2T>
   class SampleStream2C 
