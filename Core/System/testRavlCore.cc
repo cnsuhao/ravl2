@@ -260,19 +260,26 @@ int testIntrDList() {
 int testOption() {
   cout << "Testing OptionC.\n";
   // Do a quick check that OptionC is doing something sensible.
-  int nargs = 5;
-  char *argv[] = { "arg0","-d","0.3","-i","4",0 };
+  int nargs = 14;
+  char *argv[] = { "arg0","-d","0.3","-i","4","-k","1","2","-o1","t1 t2","-o2","t3 t4","-o3","t5 t6",0 };
   OptionC opt(nargs,argv);
   RealT vd= opt.Real("d",0,"Read in a real. ");
   RealT vd2= opt.Real("d2",0.4,"Read in a real. ");
   IntT vi= opt.Int("i",1,"Read in a int. ");
+  Index2dC ind = opt.Index2d("k",0,1,"Index 2");
+  StringC s1 = opt.String("o1","","Option 1");
+  StringC s2 = opt.String("o2","","Option 2");
+  StringC s3 = opt.String("o3","","Option 3");
   opt.Check();
   if(vd != 0.3) return __LINE__;
   if(vi != 4) return __LINE__;
   if(vd2 != 0.4) return __LINE__;
   if(!opt.IsOnCommandLine("d")) return __LINE__;
   if(opt.IsOnCommandLine("x")) return __LINE__;
-  
+  //cout << " '" << s1 << "' '" << s2 << "' '" << s3 << "'\n";
+  if(s1 != "t1 t2") return __LINE__;
+  if(s2 != "t3 t4") return __LINE__;
+  if(s3 != "t5 t6") return __LINE__;
   return 0;
 }
 

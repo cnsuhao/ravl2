@@ -4,18 +4,11 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
+// 24-Feb-93, J. Matas, created.
 // 22-Oct-93 Radek Marik adopted for C++
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/System/exOption.cc"
-
-/* 24-Feb-93, J. Matas, created */
-/*
-   A  program for  a complex command line parsing
-   for usage run: ex4 -help
-*/
-/*---------------------------------------------------------------------*/
-//static char sccsid[]="@(#)93/06/23 g.matas@ee.surrey.ac.uk 1.1 ex4.c";
 
 #include "Ravl/Stream.hh"
 #include "Ravl/Option.hh"
@@ -62,6 +55,10 @@ main(int argc, char **argv)
        << "file 1:    " << file1 << '\n'
        << "file 2:    " << file2 << '\n';
   
+  cout << "List=";
+  for(DLIterC<StringC> it(opts);it;it++)
+    cout << "'" << *it << "' ";
+  cout << "\n";
   option.PrintUsage();
   return 0;
 } 
