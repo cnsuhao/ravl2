@@ -214,10 +214,12 @@ namespace RavlN {
     : public DPConverterC<DPProcessC<InT,OutT> >
   {
   public:
-    DPConverterFuncC(OutT (*func)(const InT &in),RealT ncost = 1)
+    DPConverterFuncC(OutT (*func)(const InT &in),RealT ncost = 1,const char *funcName = 0)
       : DPConverterC<DPProcessC<InT,OutT> > (*new DPConverterBodyC<DPProcessC<InT,OutT> > (DPFuncP2ProcC<InT,OutT>(func)
-											   ,ncost))
-      {}
+											   ,ncost)) {
+      if(funcName != 0)
+	RegisterFunction(funcName,func);
+    }
     //: Default constructor. 
   };
 
