@@ -12,10 +12,12 @@ DESCRIPTION = Pattern Recognition Classifiers
 PACKAGE=Ravl/PatternRec
 
 HEADERS=Classifier.hh DesignClassifierUnsupervised.hh ClassifierNearestNeighbour.hh \
- DesignKMeans.hh DesignMeanShiftCluster.hh DesignCluster.hh DesignKohonenNet.hh
+ DesignKMeans.hh DesignMeanShiftCluster.hh DesignCluster.hh DesignKohonenNet.hh \
+ ClassifierFuzzyCMeans.hh DesignFuzzyCMeansCluster.hh
 
 SOURCES=Classifier.cc DesignClassifierUnsupervised.cc ClassifierNearestNeighbour.cc \
- DesignKMeans.cc DesignMeanShiftCluster.cc DesignCluster.cc DesignKohonenNet.cc
+ DesignKMeans.cc DesignMeanShiftCluster.cc DesignCluster.cc DesignKohonenNet.cc \
+ ClassifierFuzzyCMeans.cc DesignFuzzyCMeansCluster.cc 
 
 PLIB=RavlPatternRec
 
@@ -23,4 +25,4 @@ LIBDEPS=RavlPatternRecCluster.def
 
 USESLIBS=RavlPatternRec
 
-EXAMPLES=exKMeansCluster.cc
+EXAMPLES=exKMeansCluster.cc exFuzzyCMeansCluster.cc
