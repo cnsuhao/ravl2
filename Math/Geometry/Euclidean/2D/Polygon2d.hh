@@ -69,6 +69,9 @@ namespace RavlN {
     // be collinear.
     // Ref.: -  O'Rourke,J.: Computatinal geometry in C;
     //          Cambridge University Press, 1994, pp. 35-42
+
+    RealT Perimeter() const;
+    //: Returns the perimeter length of this polygon.
   
   };
   
