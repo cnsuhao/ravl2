@@ -27,17 +27,17 @@ namespace RavlImageN {
       return ; // Nothing to draw around.
     DataT *it1,*it2,*eor;
     
-    it1 = &(dat[rect.TRow()][rect.LCol().V()]);
-    it2 = &(dat[rect.BRow()][rect.LCol().V()]);
-    IntT ColN = rect.Cols();
+    it1 = &(dat[dr.TRow()][dr.LCol().V()]);
+    it2 = &(dat[dr.BRow()][dr.LCol().V()]);
+    IntT ColN = dr.Cols();
     eor = &(it1[ColN]);
     for(;it1 != eor;) {
       *(it1++) = value;
       *(it2++) = value;
     }
     ColN--;
-    for(IndexC r = rect.Origin().Row()+1; r < rect.End().Row(); r++) {
-      it1 = &(dat[r][rect.LCol().V()]);
+    for(IndexC r = dr.Origin().Row()+1; r < dr.End().Row(); r++) {
+      it1 = &(dat[r][dr.LCol().V()]);
       it1[0] = value;
       it1[ColN] = value;
     }
