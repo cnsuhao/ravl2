@@ -70,7 +70,7 @@ namespace RavlGUIN {
     
     inline
     void GLTexCoord(const Point2dC &p)
-    { glTexCoord2d(p.X(),p.Y()); }
+    { glTexCoord2d(p.Y(),p.X()); }
     //: Set a texture coordinate
   
     virtual Vector3dC Center()
