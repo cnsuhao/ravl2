@@ -22,10 +22,14 @@
 #define ONDEBUG(x)
 #endif
 
-
 namespace RavlGUIN {
   void value_changed( GtkAdjustment *adj,SliderBodyC *data ) {
     data->SigChanged()(adj->value); 
+  }
+  
+  int value_released(GtkWidget *widget,GdkEvent *event,SliderBodyC *data ) {
+    data->SigReleased()(); 
+    return 0;
   }
   
   //: Constructor.
@@ -50,7 +54,8 @@ namespace RavlGUIN {
       numPos(GTK_POS_TOP),
       drawValue(true),
       setValue(false),
-      sigChanged(true)
+      sigChanged(true),
+      sigReleased(true)
   {
     ONDEBUG(cerr << "Horiz Constructor. \n");
   }
@@ -72,7 +77,8 @@ namespace RavlGUIN {
       numPos(GTK_POS_TOP),
       drawValue(true),
       setValue(false),
-      sigChanged(true)
+      sigChanged(true),
+      sigReleased(true)
   {
     if(!vert)
       numPos = GTK_POS_TOP;
@@ -112,6 +118,10 @@ namespace RavlGUIN {
     
     gtk_signal_connect (GTK_OBJECT (adj), "value_changed",
 			GTK_SIGNAL_FUNC (value_changed), this);
+    gtk_signal_connect (GTK_OBJECT (widget), "button_release_event",
+			GTK_SIGNAL_FUNC (value_released), this);
+    gtk_signal_connect (GTK_OBJECT (widget), "key_release_event",
+			GTK_SIGNAL_FUNC (value_released), this);
     
     return true;
   }

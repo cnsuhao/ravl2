@@ -133,6 +133,7 @@ namespace RavlGUIN {
 	    ConnectRef(sl.SigChanged(),*this,&AttributeEditorBodyC::SetAttribInt,val,it->Name());
 	    widge = sl;	
 	    updateTrigger = TriggerR(*this,&AttributeEditorBodyC::UpdateAttribInt,it->Name(),widge);
+	    ConnectRef(sl.SigReleased(),*this,&AttributeEditorBodyC::UpdateAttribInt,it->Name(),widge);
 	  } else {
 	    StringC str(val);
 	    LabelC label(str);

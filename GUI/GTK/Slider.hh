@@ -16,6 +16,7 @@
 //! docentry="Ravl.GUI.Control"
 
 #include "Ravl/GUI/Widget.hh"
+#include "Ravl/Threads/Signal.hh"
 #include "Ravl/Threads/Signal1.hh"
 #include "Ravl/Threads/Signal2.hh"
 
@@ -87,6 +88,9 @@ namespace RavlGUIN {
     Signal1C<RealT> &SigChanged() { return sigChanged; }
     //: Access changed signal.
     
+    Signal0C &SigReleased() { return sigReleased; }
+    //: Access released signal.
+    
   protected:
     
     bool setConfig;
@@ -106,6 +110,7 @@ namespace RavlGUIN {
     bool drawValue; // Draw the current value ?
     bool setValue;  // Flag if value has been set.
     Signal1C<RealT> sigChanged; // Signal value change.
+    Signal0C sigReleased; // Signal value released.
     
     friend class SliderC;
   };
@@ -208,6 +213,10 @@ namespace RavlGUIN {
     Signal1C<RealT> &SigChanged() 
     { return Body().SigChanged(); }
     //: Access changed signal.
+    
+    Signal0C &SigReleased() 
+    { return Body().SigReleased(); }
+    //: Access released signal.
     
     friend class SliderBodyC;
   };
