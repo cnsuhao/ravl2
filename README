@@ -40,8 +40,10 @@ INSTALLATION
 - The appropriate version of perl (Tested with 5.005_03) must be in your 
   default path.
 
-- Currently there are problems with using ccmath on IRIX 6.5, these are
-  being fixed.
+- Currently there are problems with using ccmath on IRIX, these are
+  being looked at.  If your not interested in the matrix stuff you can
+  turn it off by editing ./Ravl/defs.mk and removing the '.r' after the
+  'math' in the NESTED line.
 
 To install go the root RAVL directory and type:
 
