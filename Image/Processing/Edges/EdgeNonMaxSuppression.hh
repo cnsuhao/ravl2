@@ -9,13 +9,15 @@
 //////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Image/IPStream/Edge/NonMaxSupp.hh"
-//! lib=RavlImage
+//! lib=RavlImageProc
 //! authors="George Matas, Radek Marik and Charles Galambos"
 //! date="04/07/2000"
 //! docentry="Ravl.Images.Processing.Edges"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Tuple3.hh"
+#include "Ravl/Image/Edgel.hh"
+#include "Ravl/SArray1d.hh"
 
 namespace RavlImageN {
 
@@ -36,12 +38,25 @@ namespace RavlImageN {
 	       const ImageC<RealT> & inDcIm,  
 	       const ImageC<RealT> & inGrad,
 	       ImageC<RealT> & out,
+	       RealT &mean,
+	       IntT &edgels
+	       );
+    //: Apply non-maximal suppression to edge images.
+    // This produces a new gradient magnitude image.
+    
+    bool Apply(const ImageC<RealT> & inDrIm, 
+	       const ImageC<RealT> & inDcIm,  
+	       const ImageC<RealT> & inGrad,
+	       SArray1dC<EdgelC> & outEdges,
 	       RealT &mean
 	       );
+    //: Apply non-maximal suppression to edge images.
+    // return a list of edgels.
     
   protected:
     void DoNonMaxSupp(ImageC<RealT> &res,
 		      RealT &meanRes,
+		      IntT &outCount,
 		      const ImageC<RealT> & inDrIm, 
 		      const ImageC<RealT> & inDcIm,  
 		      const ImageC<RealT> & inGrad,
@@ -77,13 +92,38 @@ namespace RavlImageN {
       { return RCHandleC<EdgeNonMaxSuppressionBodyC>::Body(); }
     //: Access body.
     
-    void DoNonMaxSupp(ImageC<RealT> &res,RealT &meanRes,
+    void DoNonMaxSupp(ImageC<RealT> &res,RealT &meanRes,IntT &count,
 		      const ImageC<RealT> & inDrIm, 
 		      const ImageC<RealT> & inDcIm,  
 		      const ImageC<RealT> & inGrad,
 		      int &startRow,int &endRow)
-      { Body().DoNonMaxSupp(res,meanRes,inDrIm,inDcIm,inGrad,startRow,endRow); }
+      {  Body().DoNonMaxSupp(res,meanRes,count,inDrIm,inDcIm,inGrad,startRow,endRow); }
     //: Do a stripe.
+
+
+  public:
+    
+    bool Apply(const ImageC<RealT> & inDrIm, 
+	       const ImageC<RealT> & inDcIm,  
+	       const ImageC<RealT> & inGrad,
+	       ImageC<RealT> & out,
+	       RealT &mean,
+	       IntT &edgels
+	       )
+      { return Body().Apply(inDrIm,inDcIm,inGrad,out,mean,edgels); }
+    //: Apply non-maximal suppression to edge images.
+    // This produces a new gradient magnitude image.
+    
+    bool Apply(const ImageC<RealT> & inDrIm, 
+	       const ImageC<RealT> & inDcIm,  
+	       const ImageC<RealT> & inGrad,
+	       SArray1dC<EdgelC> & outEdges,
+	       RealT &mean
+	       )
+      { return Body().Apply(inDrIm,inDcIm,inGrad,outEdges,mean); }
+    //: Apply non-maximal suppression to edge images.
+    // return a list of edgels.
+
     
     friend class EdgeNonMaxSuppressionBodyC;
   };

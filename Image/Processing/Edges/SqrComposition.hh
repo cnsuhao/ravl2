@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Image/IPStream/Edge/SqrCompos.hh"
-//! lib=RavlImage
+//! lib=RavlImageProc
 //! docentry="Ravl.Images.Processing.Misc"
 //! author="Charles Galambos"
 //! date="04/07/2000"

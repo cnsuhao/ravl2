@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Images.Processing.Edges"
-//! lib=RavlImage
+//! lib=RavlImageProc
 //! author="Charles Galambos"
 
 #include "Ravl/Image/Image.hh"

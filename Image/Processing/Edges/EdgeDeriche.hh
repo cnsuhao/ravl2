@@ -11,7 +11,7 @@
 //! file="Ravl/Image/IPStream/Edge/Deriche.hh"
 //! authors="George Matas, Radek Marik and Charles Galambos"
 //! docentry="Ravl.Images.Processing.Edges"
-//! lib=RavlImage
+//! lib=RavlImageProc
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/RefCounter.hh"
@@ -73,7 +73,7 @@ namespace RavlImageN {
   //: Deriche edge filter.
   
   class EdgeDericheC 
-    : RCHandleC<EdgeDericheBodyC>
+    : public RCHandleC<EdgeDericheBodyC>
   { 
   public:
     EdgeDericheC(RealT omega = 0.001 ,RealT alpha = 2.0)

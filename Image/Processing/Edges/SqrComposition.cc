@@ -6,7 +6,7 @@
 // file-header-ends-here
 //////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! lib=RavlImage
+//! lib=RavlImageProc
 
 #include "Ravl/Image/SqrComposition.hh"
 #include "Ravl/Array2dIter3.hh"
