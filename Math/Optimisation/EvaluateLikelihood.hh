@@ -54,15 +54,11 @@ namespace RavlN {
     : public EvaluateSolutionC
   {
   public:
-    EvaluateLikelihoodC()
-    {}
-    //: Default constructor
-    // Creates an invalid handle
     
     EvaluateLikelihoodC(RealT chi2Thres=0.0)
       : EvaluateSolutionC(*new EvaluateLikelihoodBodyC(chi2Thres))
     {}
-    //: Constructor.
+    //: Default constructor
     // The chi2Thres parameter is used as a threshold on the non-robust
     // negative log-likelihood when selecting observations compatible with
     // the best model. If you only want the model parameters and don't care
