@@ -73,6 +73,7 @@ template class DArray1dIter2C<IntT,RealT>;
 template class DArray1dIter3C<IntT,RealT,ByteT>;
 
 const int testSize = 10000;
+
 int testDArray1d() {
   DArray1dC<int> test(10);
   
@@ -95,8 +96,7 @@ int testDArray1d() {
   for(DArray1dIterC<int> it(test);it;it++,i++) 
     if(*it != i) return __LINE__;
   
-  
-  DArray1dC<int> test2;
+  DArray1dC<int> test2(5,true);
   for(i = 0;i < testSize;i++) {
     if(test2.Size() != (UIntT) i) {
       cerr << "Test failed at count " << i << "\n";
