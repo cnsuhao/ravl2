@@ -286,6 +286,12 @@ namespace RavlN {
     return FPNumberC<RN>(BitShift(n1.v,RN - (N - M)) / n2.v ,true); 
   }
   //: Divide.
+
+  template<UIntT N> 
+  inline 
+  void SetZero ( FPNumberC<N> & n1 ) {
+    n1 = 0.0 ; }
+  //: Set Zero
   
 }
 
