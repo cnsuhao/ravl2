@@ -1,3 +1,3 @@
 MAINS=SkinBlobFind.cc
-USESLIBS=RavlImage RavlImageIO RavlExtImgIO RavlOSIO
+USESLIBS=RavlImage RavlImageIO RavlExtImgIO RavlOSIO RavlImageProc
 EHT=exeSkinBlobFind.eht
