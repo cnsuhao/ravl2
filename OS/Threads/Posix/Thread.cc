@@ -98,6 +98,7 @@ namespace RavlN {
     sparam.sched_priority = priority;
     if(pthread_setschedparam(threadID,policy,&sparam) == 0)
       return true; // I hope, but don't know.
+    cerr << "SetCurrentThreadPriority(). Error:" << errno << "\n";
     return false;
 #endif
 #if RAVL_HAVE_WIN32_THREADS
