@@ -262,7 +262,7 @@ namespace RavlGUIN {
     // NB. This means the refrence counter will NOT be incremented.
     
     void SwapBuffers()
-    { RenderRef(*this,Canvas3DC::GUISwapBuffers); }
+    { RenderRef(*this,&Canvas3DC::GUISwapBuffers); }
     //: Swap display buffers.
     // Thread safe.
     
