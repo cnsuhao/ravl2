@@ -29,7 +29,7 @@ namespace RavlN {
     char c;
     read(&c,1);
     if(is().gcount() != 1)
-      throw ExceptionEndOfStreamC("End of stream found in 'XMLIStreamC::GetChar()' ");
+      throw ExceptionEndOfStreamC("End of stream found in 'IStreamC::GetChar()' ");
     return c;
   }
 
