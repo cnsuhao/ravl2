@@ -12,6 +12,7 @@
 //! rcsid="$Id$"
 //! lib=RavlImage
 //! date="13/2/2003"
+//! file="Ravl/Image/Base/Reflect.hh"
 
 #include "Ravl/Image/Image.hh"
 

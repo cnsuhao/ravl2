@@ -11,6 +11,7 @@
 #include "Ravl/TypeName.hh"
 //! rcsid="$Id$"
 //! lib=Ravl3DIO
+//! file="Ravl/3D/MeshIO/FormatVRMLFile.cc"
 
 #define DPDEBUG 0
 #if DPDEBUG

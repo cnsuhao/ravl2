@@ -13,6 +13,7 @@
 //! docentry="Ravl.Math.Optimisation.Examples"
 //! example="Homography2dFitTest.cc"
 //! lib=RavlOptimise
+//! file="Ravl/Math/Optimisation/FitHomog2dPoints.hh"
 
 #include "Ravl/FitToSample.hh"
 

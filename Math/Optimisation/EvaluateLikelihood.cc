@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlOptimise
+//! file="Ravl/Math/Optimisation/EvaluateLikelihood.cc"
 
 #include "Ravl/EvaluateLikelihood.hh"
 

@@ -9,6 +9,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Images.Segmentation"
 //! userlevel=Normal
+//! file="Ravl/Image/Processing/Segmentation/extrema.cc"
 
 #include "Ravl/Image/SegmentExtrema.hh"
 #include "Ravl/Option.hh"

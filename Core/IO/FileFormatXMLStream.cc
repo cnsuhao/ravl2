@@ -7,7 +7,7 @@
 ///////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlIO
-//! file="Ravl/Core/IO/FileFormatBinStream.cc"
+//! file="Ravl/Core/IO/FileFormatXMLStream.cc"
 
 #include "Ravl/DP/FileFormatXMLStream.hh"
 

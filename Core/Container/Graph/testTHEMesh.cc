@@ -9,6 +9,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Core.Graphs.Half Edge Mesh"
 //! userlevel=Develop
+//! file="Ravl/Core/Container/Graph/testTHEMesh.cc"
 
 #include "Ravl/THEMeshEdge.hh"
 #include "Ravl/THEMeshFace.hh"

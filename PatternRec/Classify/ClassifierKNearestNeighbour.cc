@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
-//! file="Ravl/PatternRec/Classifier/ClassifierKNearestNeighbour.cc"
+//! file="Ravl/PatternRec/Classify/ClassifierKNearestNeighbour.cc"
 
 #include "Ravl/PatternRec/ClassifierKNearestNeighbour.hh"
 #include "Ravl/PatternRec/DataSet2Iter.hh"

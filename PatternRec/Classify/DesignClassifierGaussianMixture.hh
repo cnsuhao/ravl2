@@ -9,7 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! docentry="Ravl.Pattern Recognition.Classifier"
-//! file="Ravl/PatternRec/Classifier/DesignClassifierGaussianMixture.hh"
+//! file="Ravl/PatternRec/Classify/DesignClassifierGaussianMixture.hh"
 
 #include "Ravl/PatternRec/DesignClassifierSupervised.hh"
 

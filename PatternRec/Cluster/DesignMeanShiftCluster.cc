@@ -7,6 +7,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! file="Ravl/PatternRec/Cluster/DesignMeanShiftCluster.cc"
 
 #include "Ravl/PatternRec/DesignMeanShiftCluster.hh"
 #include "Ravl/HSet.hh"

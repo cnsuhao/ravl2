@@ -6,7 +6,7 @@
 // file-header-ends-here
 ////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/3D/Mesh/TexTriMesh.hh"
+//! file="Ravl/3D/Mesh/TexTriMesh.cc"
 //! lib=Ravl3D
 //! docentry="Ravl.3D.Mesh"
 //! author="Jonathan Starck"

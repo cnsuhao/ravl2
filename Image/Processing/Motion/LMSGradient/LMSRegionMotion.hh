@@ -6,7 +6,7 @@
 // file-header-ends-here
 #ifndef RAVLIMAGE_LMSREGIONMOTION_HEADER
 #define RAVLIMAGE_LMSREGIONMOTION_HEADER
-//! file="Ravl/Image/Motion/LMSGradient/LMSRegionMotion.hh"
+//! file="Ravl/Image/Processing/Motion/LMSGradient/LMSRegionMotion.hh"
 //! userlevel=Normal
 //! rcsid="$Id$"
 //! author="Bill Christmas"

@@ -9,6 +9,7 @@
 //! lib=RavlPatternRec
 //! docentry="Ravl.Pattern Recognition.Classifier"
 //! userlevel=Normal
+//! file="Ravl/PatternRec/Classify/exKNearestNeighbour.cc"
 
 #include "Ravl/PatternRec/DesignKNearestNeighbour.hh"
 #include "Ravl/PatternRec/DataSet2.hh"

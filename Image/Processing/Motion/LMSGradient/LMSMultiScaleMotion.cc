@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Motion/LMSGradient/LMSMultiScaleMotion.cc"
 
 #include "Ravl/Image/LMSMultiScaleMotion.hh"
 #include "Ravl/Image/BilinearInterpolation.hh"

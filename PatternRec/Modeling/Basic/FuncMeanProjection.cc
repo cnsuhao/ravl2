@@ -7,6 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! author="Charles Galambos"
+//! file="Ravl/PatternRec/Modeling/Basic/FuncMeanProjection.cc"
 
 #include "Ravl/PatternRec/FuncMeanProjection.hh"
 #include "Ravl/VirtualConstructor.hh"

@@ -12,6 +12,7 @@
 //! docentry="Ravl.Images"
 //! rcsid="$Id$"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Filters/DeinterlaceStream.hh"
 
 #include "Ravl/DP/StreamOp.hh"
 #include "Ravl/DP/SPort.hh"

@@ -15,6 +15,7 @@
 #include "Ravl/THEMesh.hh"
 #include "Ravl/Point2d.hh"
 #include "Ravl/RealRange2d.hh"
+//! file="Ravl/Math/Geometry/Euclidean/2D/HEMesh2d.hh"
 
 namespace RavlN {
   

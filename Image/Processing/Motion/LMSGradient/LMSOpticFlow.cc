@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Motion/LMSGradient/LMSOpticFlow.cc"
 
 #include "Ravl/StdConst.hh"
 #include "Ravl/Vector2d.hh"

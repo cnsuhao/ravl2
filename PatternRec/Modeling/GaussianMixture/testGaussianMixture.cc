@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
-//! file="Ravl/PatternRec/Modeling/Basic/testGaussianMixture.cc"
+//! file="Ravl/PatternRec/Modeling/GaussianMixture/testGaussianMixture.cc"
 //! author="Kieron Messer"
 //! docentry="Ravl.Pattern Recognition.Expectation Maximization"
 //! userlevel=Develop

@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! rcsid="$Id$"
-//! file="Ravl/Image/Processing/Tracking/mosaic.cc"
+//! file="Ravl/Applications/Tracker/mosaic.cc"
 //! author="Phil McLauchlan"
 //! lib=RavlImageProc
 //! docentry="Ravl.Applications.Mosaic.mosaic"

@@ -10,6 +10,7 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! docentry="Ravl.Pattern Recognition.Cluster"
+//! file="Ravl/PatternRec/Cluster/DesignCluster.hh"
 
 #include "Ravl/PatternRec/DesignClassifierUnsupervised.hh"
 #include "Ravl/MeanCovariance.hh"

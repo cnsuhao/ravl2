@@ -10,6 +10,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlGUI
+//! file="Ravl/GUI/GTK/WaitForExit.hh"
 
 #include "Ravl/Types.hh"
 

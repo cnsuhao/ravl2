@@ -8,6 +8,7 @@
 //! lib=RavlOptimise
 //! docentry="Ravl.Math.Optimisation.Examples"
 //! userlevel=Normal
+//! file="Ravl/Math/Optimisation/Homography2dFitTest.cc"
 
 #include "Ravl/LevenbergMarquardt.hh"
 #include "Ravl/StateVectorHomog2d.hh"

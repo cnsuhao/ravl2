@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
-//! file="Ravl/PatternRec/DataSet/Function.cc"
+//! file="Ravl/PatternRec/FeatureSelection/FeatureSelector.cc"
 
 #include "Ravl/PatternRec/FeatureSelector.hh"
 #include "Ravl/VirtualConstructor.hh"

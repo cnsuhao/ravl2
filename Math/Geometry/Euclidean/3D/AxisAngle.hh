@@ -11,6 +11,7 @@
 //! date="7/12/2002"
 //! author="Joel Mitchelson"
 //! docentry="Ravl.Math.Geometry.3D"
+//! file="Ravl/Math/Geometry/Euclidean/3D/AxisAngle.hh"
 
 
 #include "Ravl/Vector3d.hh"

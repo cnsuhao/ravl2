@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRecIO
+//! file="Ravl/PatternRec/IO/RavlPatternRecIO.cc"
 
 namespace RavlN {
   extern void InitRavlSampleIO();

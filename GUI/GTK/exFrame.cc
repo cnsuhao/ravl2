@@ -7,7 +7,7 @@
 /////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlGUI
-//! file="Ravl/GUI/GTK/exLBox.cc"
+//! file="Ravl/GUI/GTK/exFrame.cc"
 //! docentry="Ravl.GUI.Layout"
 //! userlevel=Normal
 //! author="Charles Galambos"

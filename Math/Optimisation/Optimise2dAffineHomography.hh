@@ -13,6 +13,7 @@
 //! docentry="Ravl.Math.Optimisation.Examples"
 //! example="Affine2dFitTest.cc"
 //! lib=RavlOptimise
+//! file="Ravl/Math/Optimisation/Optimise2dAffineHomography.hh"
 
 #include "Ravl/StateVectorAffine2d.hh"
 #include "Ravl/Point2dPairObs.hh"

@@ -8,6 +8,7 @@
 //! lib=RavlImageProc
 //! author="Charles Galambos"
 //! date="22/11/2002"
+//! file="Ravl/Image/Processing/Filters/WarpThinPlateSpline.cc"
 
 #include "Ravl/Image/WarpThinPlateSpline.hh"
 #include "Ravl/MatrixRS.hh"

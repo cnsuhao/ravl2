@@ -10,6 +10,7 @@
 //! lib=RavlPatternRec
 //! author="Kieron Messer"
 //! docentry="Ravl.Pattern Recognition.Expectation Maximization"
+//! file="Ravl/PatternRec/Modeling/GaussianMixture/DesignGaussianMixture.hh"
 
 #include "Ravl/PatternRec/DesignFunctionUnsupervised.hh"
 #include "Ravl/PatternRec/GaussianMixture.hh"

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlImageProc
+//! file="Ravl/Applications/Tracker/xmosaic.cc"
 
 #include "Ravl/EntryPnt.hh"
 #include "Ravl/Option.hh"

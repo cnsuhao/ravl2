@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlAudioFeatures
+//! file="Ravl/Audio/Features/VectorDelta012.cc"
 
 #include "Ravl/Audio/VectorDelta012.hh"
 #include "Ravl/FixedQueue.hh"

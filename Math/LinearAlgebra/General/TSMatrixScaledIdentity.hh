@@ -11,7 +11,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Math.Linear Algebra.Smart Matrix"
 //! date="19/8/2002"
-//! file="Ravl/Math/LinearAlgebra/General/TSMatrixDiagonal.hh"
+//! file="Ravl/Math/LinearAlgebra/General/TSMatrixScaledIdentity.hh"
 
 #include "Ravl/TSMatrixPartial.hh"
 #include "Ravl/SArray1dIter3.hh"

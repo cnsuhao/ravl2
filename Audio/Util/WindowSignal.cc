@@ -8,6 +8,7 @@
 //! lib=RavlAudioUtil
 //! author="Charles Galambos"
 //! docentry="Ravl.Audio.Processing"
+//! file="Ravl/Audio/Util/WindowSignal.cc"
 
 #include "Ravl/Audio/WindowSignal.hh"
 #include "Ravl/Math.hh"

@@ -12,6 +12,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Math.Optimisation"
 //! lib=RavlOptimise
+//! file="Ravl/Math/Optimisation/ObsVectorBiGaussian.hh"
 
 #include "Ravl/ObsVector.hh"
 

@@ -7,6 +7,7 @@
 #include "Ravl/PatternRec/Cost.hh"
 //! rcsid="$Id$"
 //! lib=Optimisation
+//! file="Ravl/PatternRec/Optimise/Cost.cc"
 
 //////////////////////////////////////////
 //: Constructor

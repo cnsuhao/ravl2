@@ -11,6 +11,7 @@
 //! author="Charles Galambos"
 //! date="28/11/2002"
 //! docentry="Ravl.Images.Tracking"
+//! file="Ravl/Image/Processing/Tracking/MatchNormalisedCorrelation.hh"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/SummedAreaTable2.hh"

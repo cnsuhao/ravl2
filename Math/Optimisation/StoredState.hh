@@ -12,6 +12,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Math.Optimisation"
 //! lib=RavlOptimise
+//! file="Ravl/Math/Optimisation/StoredState.hh"
 
 #include "Ravl/StateVector.hh"
 

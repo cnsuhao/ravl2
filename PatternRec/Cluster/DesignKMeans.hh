@@ -11,6 +11,7 @@
 //! lib=RavlPatternRec
 //! docentry="Ravl.Pattern Recognition.Cluster"
 //! example=exKMeansCluster.cc
+//! file="Ravl/PatternRec/Cluster/DesignKMeans.hh"
 
 #include "Ravl/PatternRec/DesignCluster.hh"
 #include "Ravl/PatternRec/DistanceSqrEuclidean.hh"

@@ -12,6 +12,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Math.Optimisation.Examples"
 //! lib=RavlOptimise
+//! file="Ravl/Math/Optimisation/StateVectorRot3d.hh"
 
 #include "Ravl/StateVector.hh"
 #include "Ravl/Matrix3d.hh"

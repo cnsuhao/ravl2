@@ -13,6 +13,7 @@
 //! docentry="Ravl.Core.Indexing"
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/System/IndexNd.hh"
 
 #include "Ravl/Index.hh"
 #include "Ravl/SArray1d.hh"

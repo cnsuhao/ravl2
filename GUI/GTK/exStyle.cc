@@ -10,6 +10,7 @@
 //! date="28/10/2002"
 //! userlevel=Normal
 //! docentry="Ravl.GUI.Styles"
+//! file="Ravl/GUI/GTK/exStyle.cc"
 
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/GUI/Window.hh"

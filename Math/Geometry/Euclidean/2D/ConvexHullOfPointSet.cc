@@ -7,6 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlMath
 //! author="Charles Galambos"
+//! file="Ravl/Math/Geometry/Euclidean/2D/ConvexHullOfPointSet.cc"
 
 #include "Ravl/Polygon2d.hh"
 #include "Ravl/LineABC2d.hh"

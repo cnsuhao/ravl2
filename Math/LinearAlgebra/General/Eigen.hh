@@ -4,6 +4,8 @@
 //! userlevel=Normal
 //! docentry="Ravl.Math.Linear Algebra"
 //! rcsid="$Id$"
+//! lib=RavlMath
+//! file="Ravl/Math/LinearAlgebra/General/Eigen.hh"
 
 #include "Ravl/TMatrix.hh"
 #include "Ravl/TVector.hh"

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlAudioFeatures
+//! file="Ravl/Audio/Features/MelCepstrum.cc"
 
 #include "Ravl/Audio/MelCepstrum.hh"
 #include "Ravl/StdConst.hh"

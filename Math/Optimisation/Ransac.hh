@@ -13,6 +13,7 @@
 //! docentry="Ravl.Math.Optimisation"
 //! example="OrthogonalRegressionTest.cc Homography2dFitTest.cc"
 //! lib=RavlOptimise
+//! file="Ravl/Math/Optimisation/Ransac.hh"
 
 #include "Ravl/StoredState.hh"
 #include "Ravl/ObservationManager.hh"

@@ -11,7 +11,7 @@
 #include "Ravl/EntryPnt.hh"
 ////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/3D/Mesh/TexTriMeshBinIO.hh"
+//! file="Ravl/3D/Mesh/TexTriMeshBinIO.cc"
 //! lib=Ravl3D
 //! docentry="Ravl.3D.Mesh"
 //! author="Jonathan Starck"

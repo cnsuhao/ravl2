@@ -11,6 +11,7 @@
 //! date="13/9/2002"
 //! author="Charles Galambos"
 //! docentry="Ravl.Math.Geometry.2D"
+//! file="Ravl/Math/Geometry/Euclidean/2D/LinePP2d.hh"
 
 #include "Ravl/Vector2d.hh"
 #include "Ravl/Point2d.hh"

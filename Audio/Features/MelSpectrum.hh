@@ -10,6 +10,7 @@
 //! lib=RavlAudioFeatures
 //! docentry="Ravl.Audio.Feature Extraction"
 //! author="Charles Galambos"
+//! file="Ravl/Audio/Features/MelSpectrum.hh"
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/RealRange1d.hh"

@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! rcsid="$Id$"
-//! file="Ravl/Image/Processing/Tracking/MosaicBuilder.cc"
+//! file="Ravl/Image/Processing/Tracking/ImageMatcher.cc"
 //! lib=RavlImageProc
 
 #include "Ravl/Image/ImageMatcher.hh"

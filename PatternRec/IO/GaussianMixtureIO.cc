@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRecIO
+//! file="Ravl/PatternRec/IO/GaussianMixtureIO.cc"
 
 #include "Ravl/Vector.hh"
 #include "Ravl/DP/FileFormatStream.hh"

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlOptimise
+//! file="Ravl/Math/Optimisation/ObsVectorPoint2dPair.cc"
 
 #include "Ravl/ObsVectorPoint2dPair.hh"
 

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=Optimisation
+//! file="Ravl/PatternRec/Optimise/Parameters.cc"
 
 #include "Ravl/PatternRec/Parameters.hh"
 #include "Ravl/config.h"

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlCxxDoc
+//! file="Ravl/SourceTools/CxxDoc/Executables.cc"
 
 #include "Ravl/CxxDoc/Executables.hh"
 

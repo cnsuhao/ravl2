@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Filters/Matching.cc"
 
 #include "Ravl/config.h"
 #include "Ravl/Array2dIter2.hh"

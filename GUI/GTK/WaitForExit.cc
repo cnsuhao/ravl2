@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlGUI
+//! file="Ravl/GUI/GTK/WaitForExit.cc"
 
 #include "Ravl/GUI/WaitForExit.hh"
 #include "Ravl/GUI/Manager.hh"

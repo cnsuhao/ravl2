@@ -12,6 +12,7 @@
 //! example=exGaussConvolve.cc
 //! lib=RavlImageProc
 //! rcsid="$Id$"
+//! file="Ravl/Image/Processing/Filters/GaussConvolve.hh"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/GenerateSignal1d.hh"

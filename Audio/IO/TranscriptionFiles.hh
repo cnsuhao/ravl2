@@ -10,6 +10,7 @@
 //! docentry="Ravl.Audio.Feature Extraction"
 //! rcsid="$Id$"
 //! lib=RavlAudioIO
+//! file="Ravl/Audio/IO/TranscriptionFiles.hh"
 
 #include "Ravl/DP/FileListIO.hh"
 #include "Ravl/String.hh"

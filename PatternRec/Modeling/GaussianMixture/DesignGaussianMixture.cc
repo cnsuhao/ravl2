@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! file="Ravl/PatternRec/Modeling/GaussianMixture/DesignGaussianMixture.cc"
 
 #include "Ravl/PatternRec/DesignGaussianMixture.hh"
 #include "Ravl/PatternRec/DesignKMeans.hh"

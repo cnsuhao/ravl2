@@ -5,7 +5,7 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 #! rcsid="$Id$"
-#! file="Ravl/Image/Processing/Tracking/defs.mk"
+#! file="Ravl/Applications/Tracker/defs.mk"
 
 DONOT_SUPPORT=arm
 

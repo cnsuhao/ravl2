@@ -3,7 +3,7 @@
 // file-header-ends-here
 ///////////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/Core/Math/RandomMersenneTwister.hh"
+//! file="Ravl/Core/Math/RandomMersenneTwister.cc"
 //! lib=RavlCore
 //! author="James Smith"
 //! date="31/10/2002"

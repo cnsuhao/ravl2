@@ -12,6 +12,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Math.Optimisation"
 //! lib=RavlOptimise
+//! file="Ravl/Math/Optimisation/Observation.hh"
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/Vector.hh"

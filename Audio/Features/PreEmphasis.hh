@@ -10,6 +10,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlAudioFeatures
+//! file="Ravl/Audio/Features/PreEmphasis.hh"
 
 #include "Ravl/Audio/Types.hh"
 #include "Ravl/DP/StreamOp.hh"

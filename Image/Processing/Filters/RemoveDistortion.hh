@@ -9,7 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! docentry="Ravl.Images.Warping"
-//! file="Ravl/Image/Processing/Fileters/RemoveDistortion.hh"
+//! file="Ravl/Image/Processing/Filters/RemoveDistortion.hh"
 //! author="Philip McLauchlan"
 //! date="16/07/2002"
 

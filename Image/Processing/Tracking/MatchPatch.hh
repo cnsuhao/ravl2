@@ -11,6 +11,7 @@
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! docentry="Ravl.Images.Tracking"
+//! file="Ravl/Image/Processing/Tracking/MatchPatch.hh"
 
 #include "Ravl/Image/PeakDetector.hh"
 #include "Ravl/SquareIter.hh"

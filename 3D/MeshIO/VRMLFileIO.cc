@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=Ravl3DIO
+//! file="Ravl/3D/MeshIO/VRMLFileIO.cc"
 
 #include "Ravl/3D/VRMLFileIO.hh"
 #include "Ravl/SArray1dIter.hh"

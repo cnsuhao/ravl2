@@ -8,7 +8,7 @@
 #define RAVL_POINT2D_HEADER 1
 /////////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/Math/Geometry/Euclidean/Point2d.hh"
+//! file="Ravl/Math/Geometry/Euclidean/2D/Point2d.hh"
 //! lib=RavlMath
 //! userlevel=Normal
 //! author="Charles Galambos"

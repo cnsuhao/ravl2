@@ -10,6 +10,7 @@
 //! rcsid="$Id$"
 //! lib=RavlAudioFeatures
 //! docentry="Ravl.Audio.Feature Extraction"
+//! file="Ravl/Audio/Features/VectorDelta012.hh"
 
 #include "Ravl/FixedQueue.hh"
 #include "Ravl/Types.hh"

@@ -14,6 +14,7 @@
 //! example=testNumOptimise.cc
 //! docentry="Ravl.Pattern Recognition.Optimisation.Implementation"
 //! rcsid="$Id$"
+//! file="Ravl/PatternRec/Optimise/OptimiseSobol.hh"
 
 #include "Ravl/PatternRec/Optimise.hh"
 

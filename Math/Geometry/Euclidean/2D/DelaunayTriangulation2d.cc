@@ -7,6 +7,7 @@
 //! rcsid="$Id$"
 //! author="Charles Galambos"
 //! lib=RavlMath
+//! file="Ravl/Math/Geometry/Euclidean/2D/DelaunayTriangulation2d.cc"
 
 #include "Ravl/DelaunayTriangulation2d.hh"
 #include "Ravl/THEMeshFaceIter.hh"

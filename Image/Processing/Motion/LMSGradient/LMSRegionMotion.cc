@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Motion/LMSGradient/LMSRegionMotion.cc"
 
 #include "Ravl/Image/LMSRegionMotion.hh"
 #include "LMSRegressionEngine.hh"

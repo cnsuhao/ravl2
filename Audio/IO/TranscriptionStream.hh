@@ -12,6 +12,7 @@
 //! rcsid="$Id$"
 //! lib=RavlAudioIO
 //! examples=exTranscriptionStream.cc
+//! file="Ravl/Audio/IO/TranscriptionStream.hh"
 
 #include "Ravl/DP/Port.hh"
 #include "Ravl/Audio/TranscriptionFiles.hh"

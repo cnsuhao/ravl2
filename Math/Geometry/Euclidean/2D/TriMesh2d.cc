@@ -7,6 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlMath
 //! author="Charles Galambos"
+//! file="Ravl/Math/Geometry/Euclidean/2D/TriMesh2d.cc"
 
 #include "Ravl/TriMesh2d.hh"
 #include "Ravl/SArray1dIter.hh"

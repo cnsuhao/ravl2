@@ -11,6 +11,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Pattern Recognition.Data Set"
 //! examples=exSampleStream.cc
+//! file="Ravl/PatternRec/DataSet/SampleStream.hh"
 
 #include "Ravl/DP/SPort.hh"
 #include "Ravl/Tuple2.hh"

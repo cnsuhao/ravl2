@@ -9,6 +9,7 @@
 //! docentry="Ravl.Images.Motion.Optical Flow"
 //! userlevel=Normal
 //! author="Bill Christmas"
+//! file="Ravl/Image/Processing/Motion/LMSGradient/exLMSMultiScale.cc"
 
 #include "Ravl/Option.hh"
 #include "Ravl/OS/Filename.hh"

@@ -13,6 +13,7 @@
 //! docentry="Ravl.Math.Optimisation.Examples"
 //! example="Homography2dFitTest.cc"
 //! lib=RavlOptimise
+//! file="Ravl/Math/Optimisation/Point2dPairObs.hh"
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/Vector2d.hh"

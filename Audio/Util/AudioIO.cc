@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlAudioUtil
+//! file="Ravl/Audio/Util/AudioIO.cc"
 
 #include "Ravl/Audio/AudioIO.hh"
 #include "Ravl/DList.hh"

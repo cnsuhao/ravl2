@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! file="Ravl/PatternRec/DataSet/DataSetVectorLabel.cc"
 
 #include "Ravl/PatternRec/DataSetVectorLabel.hh"
 #include "Ravl/PatternRec/DataSet2Iter.hh"

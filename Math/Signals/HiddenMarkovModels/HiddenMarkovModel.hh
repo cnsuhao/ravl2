@@ -10,6 +10,7 @@
 //! rcsid="$Id$"
 //! lib=RavlHMM
 //! docentry="Ravl.Math.Signals"
+//! file="Ravl/Math/Signals/HiddenMarkovModels/HiddenMarkovModel.hh"
 
 #include "Ravl/Matrix.hh"
 #include "Ravl/Vector.hh"

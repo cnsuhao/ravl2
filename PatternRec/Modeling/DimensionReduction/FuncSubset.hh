@@ -10,7 +10,7 @@
 //! lib=RavlPatternRec
 //! docentry="Ravl.Pattern Recognition.Dimension Reduction"
 //! author="Charles Galambos"
-//! file="Ravl/PatternRec/DimensionReduction/Funcsubset.hh"
+//! file="Ravl/PatternRec/Modeling/DimensionReduction/FuncSubset.hh"
 
 #include "Ravl/PatternRec/Function.hh"
 

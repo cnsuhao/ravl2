@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
-//! file="Ravl/PatternRec/Classifier/ClassifierWeakLinear.cc"
+//! file="Ravl/PatternRec/FeatureSelection/FeatureSelectAsymmetricAdaBoost.cc"
 
 #include "Ravl/PatternRec/FeatureSelectAsymmetricAdaBoost.hh"
 #include "Ravl/VirtualConstructor.hh"

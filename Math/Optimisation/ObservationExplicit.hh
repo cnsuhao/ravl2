@@ -12,6 +12,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Math.Optimisation"
 //! lib=RavlOptimise
+//! file="Ravl/Math/Optimisation/ObservationExplicit.hh"
 
 #include "Ravl/Observation.hh"
 #include "Ravl/MatrixRS.hh"

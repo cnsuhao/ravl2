@@ -12,7 +12,7 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! docentry="Ravl.Pattern Recognition.Classifier"
-//! file="Ravl/PatternRec/Classifier/DesignClassifierSupervised.hh"
+//! file="Ravl/PatternRec/Classify/DesignClassifierSupervised.hh"
 //! example=exKNearestNeighbour.cc
 
 #include "Ravl/RCHandleV.hh"

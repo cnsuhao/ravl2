@@ -10,6 +10,7 @@
 //! lib=RavlAudioFeatures
 //! docentry="Ravl.Audio.Feature Extraction"
 //! author="Charles Galambos"
+//! file="Ravl/Audio/Features/MelCepstrum.hh"
 
 #include "Ravl/SArray1d.hh"
 

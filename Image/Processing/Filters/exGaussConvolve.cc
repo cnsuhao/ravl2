@@ -9,6 +9,7 @@
 //! author="Kieron J Messer"
 //! docentry="Ravl.Images.Filtering"
 //! userlevel=Normal
+//! file="Ravl/Image/Processing/Filters/exGaussConvolve.cc"
 
 #include "Ravl/Option.hh"
 #include "Ravl/OS/Filename.hh"

@@ -11,7 +11,7 @@
 //! lib=RavlPatternRec
 //! docentry="Ravl.Pattern Recognition.Feature Selection"
 //! author="Robert Crida"
-//! file="Ravl/PatternRec/Classifier/Classifier.hh"
+//! file="Ravl/PatternRec/FeatureSelection/FeatureSelectAsymmetricAdaBoost.hh"
 
 #include "Ravl/PatternRec/FeatureSelector.hh"
 

@@ -12,7 +12,7 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! docentry="Ravl.Pattern Recognition.Cluster"
-//! file="Ravl/PatternRec/Classifier/DesignClassifierSupervised.hh"
+//! file="Ravl/PatternRec/Cluster/DesignClassifierUnsupervised.hh"
 //! example=exKMeansCluster.cc
 
 #include "Ravl/RCHandleV.hh"

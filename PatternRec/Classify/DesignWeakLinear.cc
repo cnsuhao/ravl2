@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
-//! file="Ravl/PatternRec/Classifier/DesignWeakLinear.cc"
+//! file="Ravl/PatternRec/Classify/DesignWeakLinear.cc"
 
 #include "Ravl/PatternRec/DesignWeakLinear.hh"
 #include "Ravl/PatternRec/ClassifierWeakLinear.hh"

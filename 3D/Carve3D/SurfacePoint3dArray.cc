@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=Ravl3D
+//! file="Ravl/3D/Carve3D/SurfacePoint3dArray.cc"
 
 #include "Ravl/3D/SurfacePoint3dArray.hh"
 #include "Ravl/SArray1dIter.hh"

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! file="Ravl/PatternRec/Modeling/DimensionReduction/DesignFuncPCA.cc"
 
 #include "Ravl/PatternRec/DesignFuncPCA.hh"
 #include "Ravl/PatternRec/FuncMeanProjection.hh"

@@ -11,7 +11,7 @@
 //! lib=RavlPatternRec
 //! docentry="Ravl.Pattern Recognition.Classifier"
 //! author="Charles Galambos"
-//! file="Ravl/PatternRec/Classifier/Classifier.hh"
+//! file="Ravl/PatternRec/Cluster/Classifier.hh"
 
 #include "Ravl/PatternRec/Function.hh"
 #include "Ravl/Vector.hh"

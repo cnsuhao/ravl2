@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! rcsid="$Id$"
-//! file="Ravl/Image/Processing/Filters/undistort.cc"
+//! file="Ravl/Image/Processing/Filters/unDistort.cc"
 //! lib=RavlImageProc
 
 #include "Ravl/Option.hh"

@@ -9,6 +9,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Math.Geometry.2D"
 //! userlevel=Normal
+//! file="Ravl/Math/Geometry/Euclidean/2D/exDelaunayTriangulation2d.cc"
 
 #include "Ravl/DelaunayTriangulation2d.hh"
 #include "Ravl/Option.hh"

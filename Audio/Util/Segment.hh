@@ -11,6 +11,7 @@
 //! docentry="Ravl.Audio.Feature Extraction"
 //! rcsid="$Id$"
 //! lib=RavlAudioUtil
+//! file="Ravl/Audio/Util/Segment.hh"
 
 #include "Ravl/String.hh"
 #include "Ravl/IndexRange1d.hh"

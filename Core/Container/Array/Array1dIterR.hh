@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Core.Arrays.1D"
-//! file="Ravl/Core/Container/Array/Array1dIter.hh"
+//! file="Ravl/Core/Container/Array/Array1dIterR.hh"
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! userlevel=Normal

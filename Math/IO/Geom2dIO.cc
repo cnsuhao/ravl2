@@ -7,6 +7,7 @@
 /////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! lib=RavlMathIO
+//! file="Ravl/Math/IO/Geom2dIO.cc"
 
 #include "Ravl/Point2d.hh"
 #include "Ravl/LinePP2d.hh"

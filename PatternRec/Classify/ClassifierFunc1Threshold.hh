@@ -11,6 +11,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Pattern Recognition.Classifier"
 //! date="9/3/2003"
+//! file="Ravl/PatternRec/Classify/ClassifierFunc1Threshold.hh"
 
 #include "Ravl/PatternRec/Classifier.hh"
 #include "Ravl/PatternRec/Function1.hh"

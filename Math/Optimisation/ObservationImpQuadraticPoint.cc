@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlOptimise
+//! file="Ravl/Math/Optimisation/ObservationImpQuadraticPoint.cc"
 
 #include "Ravl/ObservationImpQuadraticPoint.hh"
 #include "Ravl/ObsVectorBiGaussian.hh"

@@ -12,6 +12,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Math.Optimisation.Examples"
 //! lib=RavlOptimise
+//! file="Ravl/Math/Optimisation/ObservationAffine2dPoint.hh"
 
 #include "Ravl/ObservationExplicit.hh"
 #include "Ravl/Vector2d.hh"

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=Ravl3D
+//! file="Ravl/3D/Carve3D/SurfacePoint3dArray.hh"
 
 #ifndef RAVL3D_SURFACE_POINT_3D_ARRAY_HEADER
 #define RAVL3D_SURFACE_POINT_3D_ARRAY_HEADER 1

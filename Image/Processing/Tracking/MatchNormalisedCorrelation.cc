@@ -7,6 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! author="Charles Galambos"
+//! file="Ravl/Image/Processing/Tracking/MatchNormalisedCorrelation.cc"
 
 #include "Ravl/Image/MatchNormalisedCorrelation.hh"
 #include "Ravl/Sums1d2.hh"

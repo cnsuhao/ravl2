@@ -9,6 +9,7 @@
 //! lib=RavlPatternRec
 //! docentry="Ravl.Pattern Recognition.Cluster"
 //! userlevel=Normal
+//! file="Ravl/PatternRec/Cluster/exKMeansCluster.cc"
 
 #include "Ravl/PatternRec/DesignKMeans.hh"
 #include "Ravl/PatternRec/DataSet1.hh"

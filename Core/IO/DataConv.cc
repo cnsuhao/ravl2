@@ -7,6 +7,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlIO
+//! file="Ravl/Core/IO/DataConv.cc"
 
 #include "Ravl/DP/DataConv.hh"
 #include "Ravl/DP/TypeConverter.hh"

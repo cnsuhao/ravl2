@@ -12,7 +12,7 @@
 //! author="Robert Crida"
 //! userlevel=Normal
 //! docentry="Ravl.Pattern Recognition.Classifier"
-//! file="Ravl/PatternRec/Classifier/ClassifierWeakLinear.hh"
+//! file="Ravl/PatternRec/Classify/ClassifierWeakLinear.hh"
 
 #include "Ravl/PatternRec/Classifier.hh"
 

@@ -8,6 +8,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Contrib.Audio IO.Unix"
 //! lib=RavlAudioIO
+//! file="Ravl/Audio/IO/SphereFormat.cc"
 
 #include "Ravl/Audio/SphereFormat.hh"
 #include "Ravl/Audio/SphereIO.hh"

@@ -9,6 +9,7 @@
 #include "Ravl/DP/FileFormatBinStream.hh"
 //! rcsid="$Id$"
 //! lib=Ravl3DIO
+//! file="Ravl/3D/MeshIO/TexTriMeshIO.cc"
 
 namespace Ravl3DN {
 

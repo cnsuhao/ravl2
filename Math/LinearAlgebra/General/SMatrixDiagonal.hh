@@ -11,6 +11,7 @@
 //! lib=RavlMath
 //! author="Charles Galambos"
 //! docentry="Ravl.Math.Linear Algebra.Smart Matrix"
+//! file="Ravl/Math/LinearAlgebra/General/SMatrixDiagonal.hh"
 
 #include "Ravl/TSMatrixDiagonal.hh"
 

@@ -5,7 +5,7 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 #! rcsid="$Id$"
-#! file="Ravl/Core/Machine/sparc-solaris-gnu/defs.mk"
+#! file="Ravl/Core/Machine/sparc-solaris-gnu-9/defs.mk"
 
 DESCRIPTION= Atomic operations for solaris-sparc
 

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Container/Graph/HEMeshBaseVertex.cc"
 
 #include "Ravl/HEMeshBaseVertex.hh"
 #include "Ravl/HEMeshBaseEdge.hh"

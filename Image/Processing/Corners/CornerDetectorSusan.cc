@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! author="Charles Galambos based on code by S.M.Smith"
-//! file="Ravl/Image/Processing/Corners/CornerDetectorHarris.cc"
+//! file="Ravl/Image/Processing/Corners/CornerDetectorSusan.cc"
 
 #include "Ravl/Image/PeakDetector.hh"
 #include "Ravl/Image/CornerDetectorSusan.hh"

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Lines/doArcs.cc"
 
 #include "Ravl/config.h"
 #include "Ravl/Image/ArcDetector.hh"

@@ -8,7 +8,7 @@
 //! lib=RavlCore
 //! date="26.04.1995"
 //! author="Andrew Stoddart"
-//! file="Ravl/Core/Math/RandomGs.cc"
+//! file="Ravl/Core/Math/RandomGauss.cc"
 
 #include "Ravl/StdMath.hh" // sqrt(), log()
 #include "Ravl/RandomGauss.hh"

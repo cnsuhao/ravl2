@@ -11,6 +11,7 @@
 //! docentry="Ravl.Math.Geometry"
 //! date="13/9/2002"
 //! author="Charles Galambos"
+//! file="Ravl/Math/Geometry/Euclidean/FLinePP.hh"
 
 #include "Ravl/FPoint.hh"
 

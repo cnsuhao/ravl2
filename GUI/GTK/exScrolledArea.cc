@@ -10,6 +10,7 @@
 //! docentry="Ravl.GUI.Layout"
 //! userlevel=Normal
 //! author="Charles Galambos"
+//! file="Ravl/GUI/GTK/exScrolledArea.cc"
 
 #include "Ravl/GUI/Window.hh"
 #include "Ravl/GUI/Manager.hh"

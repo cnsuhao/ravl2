@@ -11,6 +11,7 @@
 //! docentry="Ravl.Images.Warping"
 //! author="Charles Galambos"
 //! date="16/07/2002"
+//! file="Ravl/Image/Processing/Filters/WarpProjective.hh"
 
 #include "Ravl/Image/PixelMixer.hh"
 #include "Ravl/Image/Image.hh"

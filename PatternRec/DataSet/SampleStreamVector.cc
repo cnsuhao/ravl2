@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! file="Ravl/PatternRec/DataSet/SampleStreamVector.cc"
 
 #include "Ravl/PatternRec/SampleStreamVector.hh"
 #include "Ravl/DList.hh"

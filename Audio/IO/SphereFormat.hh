@@ -12,6 +12,7 @@
 //! example=exAudioIO.cc
 //! lib=RavlAudioIO
 //! rcsid="$Id$"
+//! file="Ravl/Audio/IO/SphereFormat.hh"
 
 #include "Ravl/DP/FileFormat.hh"
 

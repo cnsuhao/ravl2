@@ -7,6 +7,7 @@
 #include "Ravl/PatternRec/CostFunction.hh"
 //! rcsid="$Id$"
 //! lib=Optimisation
+//! file="Ravl/PatternRec/Optimise/CostFunction.cc"
 
 namespace RavlN {
 

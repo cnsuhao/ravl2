@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlOptimise
+//! file="Ravl/Math/Optimisation/StateVectorRot3d.cc"
 
 #include "Ravl/StateVectorRot3d.hh"
 

@@ -8,6 +8,7 @@
 //! lib=RavlAudioIO
 //! docentry="Ravl.Audio.Feature Extraction"
 //! userlevel=Normal
+//! file="Ravl/Audio/IO/exTranscriptionStream.cc"
 
 #include "Ravl/Audio/TranscriptionStream.hh"
 #include "Ravl/Option.hh"

@@ -11,6 +11,7 @@
 //! author="Charles Galambos"
 //! userlevel=Normal
 //! docentry="Ravl.Math.Geometry.2D"
+//! file="Ravl/Math/Geometry/Euclidean/2D/Curve2dCircle.hh"
 
 #include "Ravl/Circle2d.hh"
 

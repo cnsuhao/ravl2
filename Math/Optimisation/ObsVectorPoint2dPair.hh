@@ -13,6 +13,7 @@
 //! docentry="Ravl.Math.Optimisation.Examples"
 //! example="Homography2dFitTest.cc"
 //! lib=RavlOptimise
+//! file="Ravl/Math/Optimisation/ObsVectorPoint2dPair.hh"
 
 #include "Ravl/ObsVectorBiGaussian.hh"
 #include "Ravl/Vector2d.hh"

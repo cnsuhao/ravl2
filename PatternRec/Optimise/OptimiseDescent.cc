@@ -8,6 +8,7 @@
 #include "Ravl/StrStream.hh"
 //! rcsid="$Id$"
 //! lib=Optimisation
+//! file="Ravl/PatternRec/Optimise/OptimiseDescent.cc"
 
 namespace RavlN {
 

@@ -11,6 +11,7 @@
 //! lib=RavlMath
 //! userlevel=Normal
 //! docentry="Ravl.Math.Geometry.2D"
+//! file="Ravl/Math/Geometry/Euclidean/2D/DelaunayTriangulation2d.hh"
 
 #include "Ravl/HEMesh2d.hh"
 

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Statistics/MeanCovariance/Sums1d2.cc"
 
 #include "Ravl/Sums1d2.hh"
 #include "Ravl/Stream.hh"

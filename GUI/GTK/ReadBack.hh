@@ -13,6 +13,7 @@
 //! lib=RavlGUI
 //! userlevel=Advanced
 //! docentry="Ravl.GUI.Internal"
+//! file="Ravl/GUI/GTK/ReadBack.hh"
 
 #include "Ravl/Threads/Semaphore.hh"
 #include "Ravl/RefCounter.hh"

@@ -10,6 +10,7 @@
 #include "Ravl/DP/FileFormatIO.hh"
 //! rcsid="$Id$"
 //! lib=Ravl3DIO
+//! file="Ravl/3D/MeshIO/CTriFileIO.cc"
 
 namespace Ravl3DN {
 

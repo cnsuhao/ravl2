@@ -11,6 +11,7 @@
 //! author="Charles Galambos, based on code by Jiri Matas."
 //! docentry="Ravl.Images.Segmentation"
 //! userlevel=Normal
+//! file="Ravl/Image/Processing/Segmentation/FloodRegion.hh"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/DrawFrame.hh"

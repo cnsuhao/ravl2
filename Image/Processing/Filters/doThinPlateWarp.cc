@@ -9,6 +9,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Images.Warping"
 //! userlevel=Normal
+//! file="Ravl/Image/Processing/Filters/doThinPlateWarp.cc"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/WarpThinPlateSpline.hh"

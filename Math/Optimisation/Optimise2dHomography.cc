@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlOptimise
+//! file="Ravl/Math/Optimisation/Optimise2dHomography.cc"
 
 #include "Ravl/Optimise2dHomography.hh"
 #include "Ravl/ObservationHomog2dPoint.hh"

@@ -12,7 +12,7 @@
 //! author="Robert Crida"
 //! userlevel=Normal
 //! docentry="Ravl.Pattern Recognition.Classifier"
-//! file="Ravl/PatternRec/Classifier/ClassifierLinearCombination.hh"
+//! file="Ravl/PatternRec/Classify/ClassifierLinearCombination.hh"
 
 #include "Ravl/PatternRec/Classifier.hh"
 #include "Ravl/SArray1dIter2.hh"

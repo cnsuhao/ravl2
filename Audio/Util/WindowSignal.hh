@@ -10,6 +10,7 @@
 //! docentry="Ravl.Audio.Feature Extraction"
 //! rcsid="$Id$"
 //! lib=RavlAudioUtil
+//! file="Ravl/Audio/Util/WindowSignal.hh"
 
 #include "Ravl/Audio/Types.hh"
 #include "Ravl/DP/StreamOp.hh"

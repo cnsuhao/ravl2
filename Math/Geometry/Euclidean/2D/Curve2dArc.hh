@@ -11,6 +11,7 @@
 //! author="Charles Galambos"
 //! userlevel=Normal
 //! docentry="Ravl.Math.Geometry.2D"
+//! file="Ravl/Math/Geometry/Euclidean/2D/Curve2dArc.hh"
 
 #include "Ravl/Arc2d.hh"
 #include "Ravl/StdConst.hh"

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Tracking/ImageTracker.cc"
 
 #include "Ravl/Image/ImageTracker.hh"
 #include "Ravl/Image/WarpProjective.hh"

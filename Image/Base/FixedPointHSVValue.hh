@@ -10,6 +10,7 @@
 //! lib=RavlImage
 //! docentry="Ravl.Images.Pixel Types"
 //! author="Joel Mitchelson"
+//! file="Ravl/Image/Base/FixedPointHSVValue.hh"
 
 #include "Ravl/Stream.hh"
 #include "Ravl/Image/ByteRGBValue.hh"

@@ -12,7 +12,7 @@
 //! date="10/2/1998"
 //! userlevel=Normal
 //! example=testCost.cc
-//! file="Ravl/PatternRec/FuncTools/CostOptimise/Parameters.hh"
+//! file="Ravl/PatternRec/Optimise/Parameters.hh"
 //! docentry="Ravl.Pattern Recognition.Optimisation.Cost Functions"
 //! rcsid="$Id$"
 

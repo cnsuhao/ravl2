@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlOptimise
+//! file="Ravl/Math/Optimisation/ObservationLine2dPoint.cc"
 
 #include "Ravl/ObservationLine2dPoint.hh"
 #include "Ravl/StateVectorLine2d.hh"

@@ -12,6 +12,7 @@
 //! docentry="Ravl.Audio.Feature Extraction"
 //! lib=RavlAudioFeatures
 //! examples=exFeatureMFCC.cc
+//! file="Ravl/Audio/Features/FeatureMFCC.hh"
 
 #include "Ravl/Audio/WindowSignal.hh"
 #include "Ravl/Audio/MelSpectrum.hh"

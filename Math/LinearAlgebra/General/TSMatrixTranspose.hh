@@ -11,6 +11,7 @@
 //! docentry="Ravl.Math.Linear Algebra.Smart Matrix"
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/LinearAlgebra/General/TSMatrixTranspose.hh"
 
 #include "Ravl/TSMatrix.hh"
 

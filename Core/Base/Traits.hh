@@ -11,6 +11,7 @@
 //! docentry="Ravl.Core.Misc"
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Base/Traits.hh"
 
 #include "Ravl/config.h"
 

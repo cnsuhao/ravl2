@@ -8,6 +8,7 @@
 //! lib=RavlOptimise
 //! docentry="Ravl.Math.Optimisation.Examples"
 //! userlevel=Normal
+//! file="Ravl/Math/Optimisation/Affine2dFitTest.cc"
 
 #include "Ravl/LevenbergMarquardt.hh"
 #include "Ravl/Ransac.hh"

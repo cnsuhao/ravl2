@@ -10,6 +10,7 @@
 //! userlevel=Advanced
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/LinearAlgebra/General/RawMatrix.hh"
 
 #include "Ravl/Types.hh"
 

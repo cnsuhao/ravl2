@@ -13,6 +13,7 @@
 //! docentry="Ravl.Math.Optimisation.Examples"
 //! example="QuadraticFitTest.cc"
 //! lib=RavlOptimise
+//! file="Ravl/Math/Optimisation/OptimiseQuadraticCurve.hh"
 
 #include "Ravl/StateVectorQuadratic.hh"
 #include "Ravl/Point2dObs.hh"

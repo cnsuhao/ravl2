@@ -12,6 +12,7 @@
 //! author="Jonathan Starck"
 //! docentry="Ravl.3D.IO.Formats"
 //! userlevel=Normal
+//! file="Ravl/3D/MeshIO/FormatCTriFile.hh"
 
 #include "Ravl/DP/FileFormat.hh"
 #include "Ravl/3D/TexTriMesh.hh"

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlOptimise
+//! file="Ravl/Math/Optimisation/FitHomog2dPoints.cc"
 
 #include "Ravl/FitHomog2dPoints.hh"
 #include "Ravl/StateVectorHomog2d.hh"

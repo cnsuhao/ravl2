@@ -7,6 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! author="Charles Galambos, based on code by Jiri Matas."
+//! file="Ravl/Image/Processing/Segmentation/SegmentExtrema.cc"
 
 #include "Ravl/Image/SegmentExtrema.hh"
 #include "Ravl/Image/DrawFrame.hh"

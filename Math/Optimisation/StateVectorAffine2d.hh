@@ -12,6 +12,7 @@
 //! rcsid="$Id$"
 //! docentry="Ravl.Math.Optimisation.Examples"
 //! lib=RavlOptimise
+//! file="Ravl/Math/Optimisation/StateVectorAffine2d.hh"
 
 #include "Ravl/StateVector.hh"
 #include "Ravl/Affine2d.hh"

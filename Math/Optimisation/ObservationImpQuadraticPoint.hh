@@ -13,6 +13,7 @@
 //! docentry="Ravl.Math.Optimisation.Examples"
 //! example="QuadraticFitTest.cc"
 //! lib=RavlOptimise
+//! file="Ravl/Math/Optimisation/ObservationImpQuadraticPoint.hh"
 
 #include "Ravl/ObservationImplicit.hh"
 

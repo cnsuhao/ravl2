@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlHMM
+//! file="Ravl/Math/Signals/HiddenMarkovModels/HiddenMarkovModel.cc"
 
 #include "Ravl/HiddenMarkovModel.hh"
 #include "Ravl/SArray1dIter2.hh"

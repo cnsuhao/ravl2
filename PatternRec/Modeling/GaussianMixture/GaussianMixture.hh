@@ -10,7 +10,7 @@
 //! lib=RavlPatternRec
 //! docentry="Ravl.Pattern Recognition.Dimension Reduction"
 //! author="Charles Galambos"
-//! file="Ravl/PatternRec/DimensionReduction/Funcsubset.hh"
+//! file="Ravl/PatternRec/Modeling/GaussianMixture/GaussianMixture.hh"
 
 #include "Ravl/PatternRec/Function1.hh"
 #include "Ravl/MeanCovariance.hh"

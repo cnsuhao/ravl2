@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlOptimise
+//! file="Ravl/Math/Optimisation/OptimiseOrthogonalRegression.cc"
 
 #include "Ravl/OptimiseOrthogonalRegression.hh"
 #include "Ravl/ObservationLine2dPoint.hh"

@@ -8,6 +8,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlAudioIO
+//! file="Ravl/Audio/IO/TranscriptionStream.cc"
 
 #include "Ravl/Audio/TranscriptionStream.hh"
 #include "Ravl/Audio/TranscriptionFiles.hh"

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlOptimise
+//! file="Ravl/Math/Optimisation/FitLine2dPoints.cc"
 
 #include "Ravl/FitLine2dPoints.hh"
 #include "Ravl/StateVectorLine2d.hh"

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlOptimise
+//! file="Ravl/Math/Optimisation/StateVectorQuadratic.cc"
 
 #include "Ravl/StateVectorQuadratic.hh"
 

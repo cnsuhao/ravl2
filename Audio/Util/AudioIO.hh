@@ -10,6 +10,7 @@
 //! lib=RavlAudioUtil
 //! author="Charles Galambos"
 //! docentry="Ravl.Audio.IO"
+//! file="Ravl/Audio/Util/AudioIO.hh"
 
 #include "Ravl/DP/SPort.hh"
 #include "Ravl/Audio/Types.hh"

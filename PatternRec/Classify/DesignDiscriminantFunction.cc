@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
-//! file="Ravl/PatternRec/Classifier/DesignDiscriminantFunction.cc"
+//! file="Ravl/PatternRec/Classify/DesignDiscriminantFunction.cc"
 
 #include "Ravl/PatternRec/DesignDiscriminantFunction.hh"
 #include "Ravl/PatternRec/ClassifierDiscriminantFunction.hh"

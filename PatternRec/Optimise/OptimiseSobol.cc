@@ -9,6 +9,7 @@
 #include "Ravl/StrStream.hh"
 //! rcsid="$Id$"
 //! lib=Optimisation
+//! file="Ravl/PatternRec/Optimise/OptimiseSobol.cc"
 
 namespace RavlN {
 

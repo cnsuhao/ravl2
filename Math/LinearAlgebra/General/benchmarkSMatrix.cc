@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/LinearAlgebra/General/benchmarkSMatrix.cc"
 
 #include "Ravl/SMatrix.hh"
 #include "Ravl/Matrix.hh"

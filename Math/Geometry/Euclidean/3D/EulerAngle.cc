@@ -8,6 +8,7 @@
 //! lib=RavlMath
 //! date="7/12/2002"
 //! author="Joel Mitchelson"
+//! file="Ravl/Math/Geometry/Euclidean/3D/EulerAngle.cc"
 
 #include "Ravl/EulerAngle.hh"
 #include "Ravl/StdConst.hh"

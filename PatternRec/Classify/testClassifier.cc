@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
-//! file="Ravl/PatternRec/Classifier/testClassifier.cc"
+//! file="Ravl/PatternRec/Classify/testClassifier.cc"
 //! docentry="Ravl.Pattern Recognition.Classifier"
 //! userlevel=Develop
 

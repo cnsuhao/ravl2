@@ -9,6 +9,7 @@
 //! author="Joel Mitchelson"
 //! docentry="Ravl.Math.Geometry.3D"
 //! userlevel=Develop
+//! file="Ravl/Math/Geometry/Euclidean/3D/testGeom3d.cc"
 
 #include "Ravl/EulerAngle.hh"
 #include "Ravl/AxisAngle.hh"

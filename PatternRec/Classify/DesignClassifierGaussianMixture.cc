@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
-//! file="Ravl/PatternRec/Classifier/DesignClassifierGaussianMixture.cc"
+//! file="Ravl/PatternRec/Classify/DesignClassifierGaussianMixture.cc"
 
 #include "Ravl/PatternRec/DesignClassifierGaussianMixture.hh"
 #include "Ravl/PatternRec/ClassifierGaussianMixture.hh"

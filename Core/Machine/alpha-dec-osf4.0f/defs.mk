@@ -5,7 +5,7 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 #! rcsid="$Id$"
-#! file="Ravl/Core/Machine/i386-linux-gnu/defs.mk"
+#! file="Ravl/Core/Machine/alpha-dec-osf4.0f/defs.mk"
 
 DESCRIPTION= Atomic operations for alpha based systems.
 

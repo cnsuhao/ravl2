@@ -9,6 +9,7 @@
 #include "Ravl/VirtualConstructor.hh"
 //! rcsid="$Id$"
 //! lib=Optimisation
+//! file="Ravl/PatternRec/Optimise/Optimise.cc"
 
 namespace RavlN {
 

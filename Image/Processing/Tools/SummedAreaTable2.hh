@@ -11,7 +11,7 @@
 //! date="28/11/2002"
 //! docentry="Ravl.Images.Misc"
 //! lib=RavlImageProc
-//! file="Ravl/Image/Processing/Tools/SummedAreaTable.hh"
+//! file="Ravl/Image/Processing/Tools/SummedAreaTable2.hh"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Array2dSqr2Iter2.hh"

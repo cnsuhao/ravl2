@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlOptimise
+//! file="Ravl/Math/Optimisation/Optimise2dAffineHomography.cc"
 
 #include "Ravl/Optimise2dAffineHomography.hh"
 #include "Ravl/ObservationAffine2dPoint.hh"

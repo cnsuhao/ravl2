@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/LinearAlgebra/FixedSize/testSpecificFMatrix.cc"
 
 #include "Ravl/Matrix3d.hh"
 #include "Ravl/Matrix2d.hh"

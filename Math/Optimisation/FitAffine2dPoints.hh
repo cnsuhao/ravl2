@@ -13,6 +13,7 @@
 //! docentry="Ravl.Math.Optimisation.Examples"
 //! example="AffineFitTest.cc"
 //! lib=RavlOptimise
+//! file="Ravl/Math/Optimisation/FitAffine2dPoints.hh"
 
 #include "Ravl/FitToSample.hh"
 

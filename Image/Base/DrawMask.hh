@@ -11,6 +11,7 @@
 //! docentry="Ravl.Images"
 //! author="Charles Galambos"
 //! userlevel=Normal
+//! file="Ravl/Image/Base/DrawMask.hh"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Array2dIter2.hh"

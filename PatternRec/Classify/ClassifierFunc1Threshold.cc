@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! file="Ravl/PatternRec/Classify/ClassifierFunc1Threshold.cc"
 
 #include "Ravl/PatternRec/ClassifierFunc1Threshold.hh"
 #include "Ravl/VirtualConstructor.hh"

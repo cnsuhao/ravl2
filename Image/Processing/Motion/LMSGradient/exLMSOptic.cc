@@ -9,6 +9,7 @@
 //! docentry="Ravl.Images.Motion"
 //! userlevel=Normal
 //! author="Bill Christmas"
+//! file="Ravl/Image/Processing/Motion/LMSGradient/exLMSOptic.cc"
 
 //:Program calculates optical flow from pair of input images
 //

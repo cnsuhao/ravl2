@@ -10,6 +10,7 @@
 //! docentry="Ravl.Audio.Feature Extraction"
 //! rcsid="$Id$"
 //! lib=RavlAudioUtil
+//! file="Ravl/Audio/Util/Transcription.hh"
 
 #include "Ravl/Audio/Segment.hh"
 #include "Ravl/DList.hh"

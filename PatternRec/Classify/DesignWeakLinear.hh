@@ -9,7 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! docentry="Ravl.Pattern Recognition.Classifier"
-//! file="Ravl/PatternRec/Classifier/DesignWeakLinear.hh"
+//! file="Ravl/PatternRec/Classify/DesignWeakLinear.hh"
 
 #include "Ravl/PatternRec/DesignClassifierSupervised.hh"
 #include "Ravl/PatternRec/DesignFunctionSupervised.hh"

@@ -8,6 +8,7 @@
 //! lib=RavlOptimise
 //! docentry="Ravl.Math.Optimisation.Examples"
 //! userlevel=Normal
+//! file="Ravl/Math/Optimisation/OrthogonalRegressionTest.cc"
 
 #include "Ravl/LevenbergMarquardt.hh"
 #include "Ravl/StateVectorLine2d.hh"

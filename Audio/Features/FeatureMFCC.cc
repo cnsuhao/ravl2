@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlAudioFeatures
+//! file="Ravl/Audio/Features/FeatureMFCC.cc"
 
 #include "Ravl/Audio/FeatureMFCC.hh"
 #include "Ravl/PowerSpectrum1d.hh"

@@ -11,6 +11,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Images.Lines"
 //! date="19/11/2002"
+//! file="Ravl/Image/Processing/Lines/ArcDetector.hh"
 
 #include "Ravl/Image/Edgel.hh"
 #include "Ravl/Arc2d.hh"

@@ -9,6 +9,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Audio"
 //! userlevel=Normal
+//! file="Ravl/Audio/IO/audioconv.cc"
 
 //: Audio file converter
 // This program is designed to convert audio files between various format.

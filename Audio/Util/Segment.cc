@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlAudioUtil
+//! file="Ravl/Audio/Util/Segment.cc"
 
 #include "Ravl/Audio/Segment.hh"
 

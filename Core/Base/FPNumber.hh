@@ -10,6 +10,7 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! docentry="Ravl.Core.Fixed Point Arithmetic"
+//! file="Ravl/Core/Base/FPNumber.hh"
 
 #include "Ravl/Types.hh"
 #include "Ravl/Stream.hh"

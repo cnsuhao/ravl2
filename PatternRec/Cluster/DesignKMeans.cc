@@ -7,6 +7,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
+//! file="Ravl/PatternRec/Cluster/DesignKMeans.cc"
 
 #include "Ravl/PatternRec/DesignKMeans.hh"
 #include "Ravl/HSet.hh"

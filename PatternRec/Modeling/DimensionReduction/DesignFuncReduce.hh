@@ -10,6 +10,7 @@
 //! lib=RavlPatternRec
 //! author="Charles Galambos"
 //! docentry="Ravl.Pattern Recognition.Dimension Reduction"
+//! file="Ravl/PatternRec/Modeling/DimensionReduction/DesignFuncReduce.hh"
 
 #include "Ravl/PatternRec/DesignFunctionUnsupervised.hh"
 #include "Ravl/Matrix.hh"

@@ -11,6 +11,7 @@
 //! lib=RavlDPMT
 //! date="2/5/2003"
 //! docentry="Ravl.Core.Data Processing.Threads" 
+//! file="Ravl/OS/DataProc/SerialisePort.hh"
 
 #include "Ravl/DP/StreamOp.hh"
 #include "Ravl/Threads/Mutex.hh"

@@ -10,6 +10,7 @@
 //! lib=RavlCore
 //! docentry="Ravl.Core.Resource"
 //! userlevel=Normal
+//! file="Ravl/Core/Base/Resource.hh"
 
 #include "Ravl/String.hh"
 

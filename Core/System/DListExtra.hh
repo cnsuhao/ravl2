@@ -10,6 +10,7 @@
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! docentry="Ravl.Core.Lists"
+//! file="Ravl/Core/System/DListExtra.hh"
 
 #include "Ravl/DList.hh"
 #include "Ravl/DLIter.hh"

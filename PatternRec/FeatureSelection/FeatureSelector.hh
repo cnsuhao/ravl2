@@ -11,7 +11,7 @@
 //! lib=RavlPatternRec
 //! docentry="Ravl.Pattern Recognition.Feature Selection"
 //! author="Robert Crida"
-//! file="Ravl/PatternRec/Classifier/Classifier.hh"
+//! file="Ravl/PatternRec/FeatureSelection/FeatureSelector.hh"
 
 #include "Ravl/PatternRec/DesignClassifierSupervised.hh"
 #include "Ravl/PatternRec/DataSetVectorLabel.hh"

@@ -10,6 +10,7 @@
 //! docentry="Ravl.Audio.IO"
 //! rcsid="$Id$"
 //! lib=RavlAudioIO
+//! file="Ravl/Audio/IO/SphereIO.hh"
 
 #include "Ravl/Audio/Types.hh"
 #include "Ravl/Audio/AudioIO.hh"

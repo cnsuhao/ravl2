@@ -5,7 +5,7 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //! rcsid="$Id$"
-//! file="Ravl/Image/Processing/Tracking/tracker.cc"
+//! file="Ravl/Applications/Tracker/tracker.cc"
 //! lib=RavlImageProc
 
 #include "Ravl/config.h"

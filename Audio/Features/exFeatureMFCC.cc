@@ -9,6 +9,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Audio.Feature Extraction"
 //! userlevel=Normal
+//! file="Ravl/Audio/Features/exFeatureMFCC.cc"
 
 #include "Ravl/Option.hh"
 #include "Ravl/Audio/FeatureMFCC.hh"

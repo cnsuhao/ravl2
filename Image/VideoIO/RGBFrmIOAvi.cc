@@ -8,7 +8,7 @@
 //! userlevel=Normal
 //! rcsid="$Id$"
 //! lib=RavlVideoIO
-//! file="Ravl/Image/VideoIO/FrmIOAvi.cc"
+//! file="Ravl/Image/VideoIO/RGBFrmIOAvi.cc"
 
 #include "Ravl/Image/RGBFrmIOAvi.hh"
 #include "Ravl/OS/Filename.hh"

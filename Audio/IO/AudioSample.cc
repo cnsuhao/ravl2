@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlAudioIO
+//! file="Ravl/Audio/IO/AudioSample.cc"
 
 #include "Ravl/Vector.hh"
 #include "Ravl/DP/FileFormatStream.hh"

@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlOptimise
+//! file="Ravl/Math/Optimisation/ObservationExplicit.cc"
 
 #include "Ravl/ObservationExplicit.hh"
 #include "Ravl/Array1d.hh"

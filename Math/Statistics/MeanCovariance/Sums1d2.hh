@@ -11,6 +11,7 @@
 //! docentry="Ravl.Math.Statistics"
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Statistics/MeanCovariance/Sums1d2.hh"
 
 #include "Ravl/Math.hh"
 #include "Ravl/MeanVariance.hh"

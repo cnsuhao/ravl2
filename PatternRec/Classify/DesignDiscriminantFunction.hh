@@ -9,7 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! docentry="Ravl.Pattern Recognition.Classifier"
-//! file="Ravl/PatternRec/Classifier/DesignDiscriminantFunction.hh"
+//! file="Ravl/PatternRec/Classify/DesignDiscriminantFunction.hh"
 //! author="Charles Galambos"
 
 #include "Ravl/PatternRec/DesignClassifierSupervised.hh"

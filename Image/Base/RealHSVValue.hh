@@ -7,7 +7,7 @@
 #ifndef RAVL_HSVVALUE_HEADER
 #define RAVL_HSVVALUE_HEADER 1
 ////////////////////////////////////////////////////////////////////
-//! file="Ravl/Image/Base/HSVValue.hh"
+//! file="Ravl/Image/Base/RealHSVValue.hh"
 //! lib=RavlImage
 //! userlevel=Normal
 //! author="Lee Gregory"

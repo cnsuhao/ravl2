@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlOptimise
+//! file="Ravl/Math/Optimisation/StateVectorLine2d.cc"
 
 #include "Ravl/StateVectorLine2d.hh"
 

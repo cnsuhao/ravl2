@@ -11,6 +11,7 @@
 //! docentry="Ravl.Images"
 //! rcsid="$Id$"
 //! lib=RavlImage
+//! file="Ravl/Image/Base/ScaleValues.hh"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Array2dIter.hh"

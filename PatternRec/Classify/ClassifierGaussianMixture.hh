@@ -11,7 +11,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Pattern Recognition.Classifier"
 //! lib=RavlPatternRec
-//! file="Ravl/PatternRec/Classifier/ClassifierDiscriminantFunction.hh"
+//! file="Ravl/PatternRec/Classify/ClassifierGaussianMixture.hh"
 
 #include "Ravl/PatternRec/Classifier.hh"
 #include "Ravl/PatternRec/GaussianMixture.hh"

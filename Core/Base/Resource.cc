@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlCore
+//! file="Ravl/Core/Base/Resource.cc"
 
 #include "Ravl/Resource.hh"
 

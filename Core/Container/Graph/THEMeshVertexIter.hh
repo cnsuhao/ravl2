@@ -11,6 +11,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Core.Graphs.Half Edge Mesh"
 //! date="22/5/2002"
+//! file="Ravl/Core/Container/Graph/THEMeshVertexIter.hh"
 
 #include "Ravl/THEMeshVertex.hh"
 #include "Ravl/HEMeshBaseVertexIter.hh"

@@ -13,6 +13,7 @@
 //! docentry="Ravl.Math.Optimisation.Examples"
 //! example="Homography2dFitTest.cc"
 //! lib=RavlOptimise
+//! file="Ravl/Math/Optimisation/ObservationImpHomog2dPoint.hh"
 
 #include "Ravl/ObservationImplicit.hh"
 #include "Ravl/Vector2d.hh"

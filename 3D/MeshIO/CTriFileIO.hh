@@ -12,6 +12,7 @@
 //! author="Jonathan Starck"
 //! docentry="Ravl.3D.IO"
 //! userlevel=Normal
+//! file="Ravl/3D/MeshIO/CTriFileIO.hh"
 
 #include "Ravl/3D/TexTriMesh.hh"
 #include "Ravl/DP/Port.hh"

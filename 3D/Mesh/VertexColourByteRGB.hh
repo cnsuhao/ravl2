@@ -8,6 +8,7 @@
 #define RAVL3D_VERTEX_COLOUR_BYTE_RGB_HEADER 1
 //! rcsid="$Id$"
 //! lib=Ravl3D
+//! file="Ravl/3D/Mesh/VertexColourByteRGB.hh"
 
 #include "Ravl/3D/Vertex.hh"
 #include "Ravl/Image/ByteRGBValue.hh"

@@ -5,6 +5,7 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 #! rcsid="$Id$"
+#! file="Ravl/PatternRec/Optimise/defs.mk"
 DESCRIPTION = Optimisation
 
 PACKAGE = Ravl/PatternRec

@@ -9,6 +9,7 @@
 //! rcsid="$Id$"
 //! lib=RavlImageProc
 //! docentry="Ravl.Images.Tracking"
+//! file="Ravl/Image/Processing/Tracking/ImageTracker.hh"
 
 #include "Ravl/Pair.hh"
 #include "Ravl/Image/Image.hh"

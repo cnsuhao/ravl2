@@ -13,6 +13,7 @@
 //! docentry="Ravl.Math.Optimisation.Examples"
 //! example="OrthogonalRegressionTest.cc"
 //! lib=RavlOptimise
+//! file="Ravl/Math/Optimisation/FitLine2dPoints.hh"
 
 #include "Ravl/FitToSample.hh"
 

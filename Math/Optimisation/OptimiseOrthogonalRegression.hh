@@ -13,6 +13,7 @@
 //! docentry="Ravl.Math.Optimisation.Examples"
 //! example="OrthogonalRegressionTest.cc"
 //! lib=RavlOptimise
+//! file="Ravl/Math/Optimisation/OptimiseOrthogonalRegression.hh"
 
 #include "Ravl/StateVectorLine2d.hh"
 #include "Ravl/Point2dObs.hh"

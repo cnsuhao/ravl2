@@ -7,6 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlAudioIO
 //! author="Charles Galambos"
+//! file="Ravl/Audio/IO/SphereIO.cc"
 
 #include "Ravl/Audio/SphereIO.hh"
 #include "Ravl/StringList.hh"

@@ -7,6 +7,7 @@
 //! lib=RavlCore
 //! author="Charles Galambos"
 //! rcsid="$Id$"
+//! file="Ravl/Core/Container/Graph/HEMeshBaseFaceIter.cc"
 
 #include "Ravl/HEMeshBaseFaceIter.hh"
 

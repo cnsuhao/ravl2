@@ -5,7 +5,7 @@
 # see http://www.gnu.org/copyleft/lesser.html
 # file-header-ends-here
 #! rcsid="$Id$"
-#! file="Ravl/PatternRec/defs.mk"
+#! file="Ravl/PatternRec/FeatureSelection/defs.mk"
 
 DESCRIPTION = Pattern Recognition Feature Selection
 

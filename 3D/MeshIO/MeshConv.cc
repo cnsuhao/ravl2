@@ -6,6 +6,8 @@
 // file-header-ends-here
 ///////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
+//! lib=Ravl3DIO
+//! file="Ravl/3D/MeshIO/MeshConv.cc"
 
 #include "Ravl/3D/TriMesh.hh"
 #include "Ravl/3D/TexTriMesh.hh"

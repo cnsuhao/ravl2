@@ -12,6 +12,7 @@
 //! author="James Smith"
 //! docentry="Ravl.3D.IO"
 //! userlevel=Normal
+//! file="Ravl/3D/MeshIO/POVRayFileIO.hh"
 
 #include "Ravl/3D/TexTriMesh.hh"
 #include "Ravl/3D/TriMesh.hh"

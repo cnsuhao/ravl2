@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/LinearAlgebra/FixedSize/Matrix2d.cc"
 
 #include "Ravl/Matrix2d.hh"
 

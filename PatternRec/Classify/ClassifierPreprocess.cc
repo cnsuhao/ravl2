@@ -6,7 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
-//! file="Ravl/PatternRec/Classifier/ClassifierPreprocess.cc"
+//! file="Ravl/PatternRec/Classify/ClassifierPreprocess.cc"
 
 #include "Ravl/PatternRec/ClassifierPreprocess.hh"
 #include "Ravl/VirtualConstructor.hh"

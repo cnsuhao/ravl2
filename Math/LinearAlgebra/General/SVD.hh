@@ -4,6 +4,7 @@
 //! docentry="Ravl.Math.Linear Algebra"
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/LinearAlgebra/General/SVD.hh"
 
 #include "Ravl/TMatrix.hh"
 #include "Ravl/TVector.hh"

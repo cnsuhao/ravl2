@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlAudioUtil
+//! file="Ravl/Audio/Util/Transcription.cc"
 
 #include "Ravl/Audio/Transcription.hh"
 #include "Ravl/Stream.hh"

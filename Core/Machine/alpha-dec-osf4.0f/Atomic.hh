@@ -7,7 +7,7 @@
 #ifndef RAVL_ALPHA_ATOMIC_HEADER
 #define RAVL_ALPHA_ATOMIC_HEADER 1
 //////////////////////////////////////////////////////////////////
-//! file="Ravl/Core/Machine/Generic/Atomic.hh"
+//! file="Ravl/Core/Machine/alpha-dec-osf4.0f/Atomic.hh"
 //! userlevel=Default
 //! author="Charles Galambos"
 //! date="25/02/1999"

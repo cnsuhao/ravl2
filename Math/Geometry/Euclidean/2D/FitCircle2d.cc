@@ -8,6 +8,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Geometry/Euclidean/2D/FitCircle2d.cc"
 
 #include "Ravl/Circle2d.hh"
 #include "Ravl/Matrix.hh"

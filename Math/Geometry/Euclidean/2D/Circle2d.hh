@@ -7,7 +7,7 @@
 #ifndef RAVL_CIRCLE2D_HEADER
 #define RAVL_CIRCLE2D_HEADER 1
 ////////////////////////////////////////////////////////////
-//! file="Ravl/Geometry/AnGeo2/Circle2d.hh"
+//! file="Ravl/Math/Geometry/Euclidean/2D/Circle2d.hh"
 //! userlevel=Normal
 //! author="Charles Galambos"
 //! date="25/2/1997"

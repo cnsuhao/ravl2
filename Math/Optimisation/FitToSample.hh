@@ -13,6 +13,7 @@
 //! docentry="Ravl.Math.Optimisation"
 //! example="OrthogonalRegressionTest.cc Homography2dFitTest.cc FitQuadraticTest.cc"
 //! lib=RavlOptimise
+//! file="Ravl/Math/Optimisation/FitToSample.hh"
 
 #include "Ravl/RefCounter.hh"
 #include "Ravl/StateVector.hh"

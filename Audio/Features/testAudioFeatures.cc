@@ -9,6 +9,7 @@
 //! docentry="Ravl.Audio.Feature Extraction"
 //! userlevel=Develop
 //! author="Charles Galambos"
+//! file="Ravl/Audio/Features/testAudioFeatures.cc"
 
 #include "Ravl/Audio/MelSpectrum.hh"
 #include "Ravl/Audio/MelCepstrum.hh"

@@ -7,7 +7,7 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! author="Charles Galambos"
-//! file="Ravl/PatternRec/DimensionReduction/FuncSubset.cc"
+//! file="Ravl/PatternRec/Modeling/GaussianMixture/GaussianMixture.cc"
 
 #include "Ravl/PatternRec/GaussianMixture.hh"
 #include "Ravl/BinStream.hh"

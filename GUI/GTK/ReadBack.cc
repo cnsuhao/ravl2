@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! rcsid="$Id$"
 //! lib=RavlGUI
+//! file="Ravl/GUI/GTK/ReadBack.cc"
 
 #include "Ravl/GUI/ReadBack.hh"
 #include "Ravl/GUI/Manager.hh"

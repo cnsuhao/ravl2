@@ -13,6 +13,7 @@
 //! lib=RavlImageProc
 //! docentry="Ravl.Images.Motion.Optical Flow"
 //! example=exLMSMultiScale.cc
+//! file="Ravl/Image/Processing/Motion/LMSGradient/LMSMultiScaleMotion.hh"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/LMSOpticFlow.hh"

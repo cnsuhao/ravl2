@@ -9,7 +9,7 @@
 //! date="1/9/1997"
 //! author="Charles Galambos"
 //! lib=RavlLogicNLP
-//! file="Ravl/Logic/NonLinearPlanner/testNonLinearPlanner.cc"
+//! file="Ravl/Logic/NonLinearPlanner/exNonlinearPlanner.cc"
 //! docentry="Ravl.Logic.Planning"
 //! userlevel=Normal
 

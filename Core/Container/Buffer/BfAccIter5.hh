@@ -8,7 +8,7 @@
 #define RAVL_SBFACCITER5_HEADER 1
 ///////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! file="Ravl/Core/Container/Buffer/BfAccIter4.hh"
+//! file="Ravl/Core/Container/Buffer/BfAccIter5.hh"
 //! author="Charles Galambos"
 //! lib=RavlCore
 //! docentry="Ravl.Core.Arrays.Buffer"

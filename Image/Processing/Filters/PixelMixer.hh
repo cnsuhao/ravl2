@@ -12,6 +12,7 @@
 //! author="Charles Galambos"
 //! lib=RavlImageProc
 //! date="20/07/2002"
+//! file="Ravl/Image/Processing/Filters/PixelMixer.hh"
 
 #include "Ravl/Types.hh"
 

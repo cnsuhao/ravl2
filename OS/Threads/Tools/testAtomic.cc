@@ -9,6 +9,7 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Core.Misc"
 //! userlevel=Develop
+//! file="Ravl/OS/Threads/Tools/testAtomic.cc"
 
 #include "Ravl/Threads/Semaphore.hh"
 #include "Ravl/Threads/LaunchThread.hh"

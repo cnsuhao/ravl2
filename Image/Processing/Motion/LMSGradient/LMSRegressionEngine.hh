@@ -10,6 +10,7 @@
 //! date="07/12/1999"
 //! rcsid="$Id$"
 //! lib=RavlImageProc
+//! file="Ravl/Image/Processing/Motion/LMSGradient/LMSRegressionEngine.hh"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Vector2d.hh"

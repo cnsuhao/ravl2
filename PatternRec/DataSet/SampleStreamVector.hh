@@ -11,6 +11,7 @@
 //! rcsid="$Id$"
 //! lib=RavlPatternRec
 //! examples=exSampleStream.cc
+//! file="Ravl/PatternRec/DataSet/SampleStreamVector.hh"
 
 #include "Ravl/PatternRec/SampleStream.hh"
 #include "Ravl/Vector.hh"

@@ -8,6 +8,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlMath
+//! file="Ravl/Math/Geometry/Euclidean/2D/Arc2d.cc"
 
 #include "Ravl/Arc2d.hh"
 #include "Ravl/Angle.hh"
