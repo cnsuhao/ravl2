@@ -11,6 +11,7 @@
 
 #include "Ravl/EntryPnt.hh"
 #include "Ravl/Array1d.hh"
+#include "Ravl/SArray1d.hh"
 #include "Ravl/Array1dIter.hh"
 #include "Ravl/Array1dIter2.hh"
 #include "Ravl/Array2d.hh"
@@ -27,6 +28,8 @@
 #include "Ravl/Cache.hh"
 #include "Ravl/String.hh"
 #include "Ravl/StrStream.hh"
+#include "Ravl/BinStream.hh"
+#include "Ravl/Random.hh"
 
 #include <string.h>
 
@@ -53,6 +56,7 @@ int testOption();
 int testFunctionRegister();
 int testCache();
 int testStringArrayIO();
+int testSArrayIO();
 
 int testRavlCore(int argc,char **argv) {
   int line = 0;
@@ -97,6 +101,10 @@ int testRavlCore(int argc,char **argv) {
     return 1;
   }
   
+  if((line = testSArrayIO()) != 0) {
+    cerr << "SArrayIO io test failed line :" << line << "\n";
+    return 1;
+  }
   cout << "Test passed. \n";
   return 0;
 }
@@ -333,6 +341,34 @@ int testStringArrayIO() {
   if(str[1] != xstr[1]) return __LINE__;
   if(str[2] != xstr[2]) return __LINE__;
   
+  return 0;
+}
+
+int testSArrayIO() {
+  cout << "Testing SArray1dC<RealT> Binary IO. \n";
+  for(int s = 0;s < 500;s++) {
+    UIntT i;
+    SArray1dC<ByteT> bytePad(s);
+    for(i = 0;i < bytePad.Size();i++)
+      bytePad[i] = (ByteT) i;
+    SArray1dC<RealT> values(s);
+    for(i = 0;i < values.Size();i++)
+      values[i] = Random1();
+    
+    StrOStreamC outs;
+    BinOStreamC bos(outs);
+    bos << bytePad << values;
+    SArray1dC<RealT> newValues;
+    StringC str = outs.String();
+    StrIStreamC ins(str);
+    BinIStreamC bis(ins);
+    SArray1dC<ByteT> tmp;
+    bis >> tmp >> newValues;
+    if(newValues.Size() != values.Size())
+      return __LINE__;
+    for(i = 0;i < values.Size();i++)
+      if(Abs(newValues[i] - values[i]) > 0.000000001) return __LINE__;
+  }
   return 0;
 }
 
