@@ -276,6 +276,27 @@ namespace RavlN {
     //: Returns true if this range contains at least one common index with 
     //: the range 'r'.
     
+    const IndexRange2dC &operator-=(const IndexRange2dC &sr) {
+      TRow() -= sr.TRow();
+      BRow() -= sr.BRow();
+      LCol() -= sr.LCol();
+      RCol() -= sr.RCol();
+      return *this;
+    }
+    //: Subtract the 'sr' from this rectangle.
+    // This does TRow() -= sr.TRow(), BRow() -= sr.BRow().....
+    
+    IndexRange2dC operator-(const IndexRange2dC &sr) const {
+      IndexRange2dC ret(*this);
+      ret.TRow() -= sr.TRow();
+      ret.BRow() -= sr.BRow();
+      ret.LCol() -= sr.LCol();
+      ret.RCol() -= sr.RCol();
+      return ret;
+    }
+    //: Subtract the 'sr' from this rectangle.
+    // As operator-=(const IndexRange2dC &sr), but returns the modified rectangle.
+    
   protected:
     inline const IndexRange2dC & Range() const
     { return(*this); }
