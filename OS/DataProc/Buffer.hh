@@ -91,6 +91,7 @@ namespace RavlN {
   //////////////////////////////////
   //! userlevel=Normal
   //: MT safe queue handle.
+  // This buffer has no size length limit.
   
   template<class DataT>
   class DPBufferC 
@@ -161,7 +162,7 @@ namespace RavlN {
       throw DataNotReadyC("Unexpected data not ready.");
     }
 #endif
-    ret = list.GetFirst();
+    ret = list.PopFirst();
     access.Unlock();
     return ret; 
   }
@@ -181,7 +182,7 @@ namespace RavlN {
       return false;
     }
 #endif
-    buff = list.GetFirst();
+    buff = list.PopFirst();
     access.Unlock();
     return true;
   }
@@ -203,14 +204,14 @@ namespace RavlN {
       }
 #endif
       // We've got at least 1 item.
-      *it = list.GetFirst();
+      *it = list.PopFirst();
       it++;
       // Read anything else we can.
       // don't read a list item before its semaphore has been posted.
       for(;it && !list.IsEmpty();it++) {
 	if(!ready.TryWait())
 	  break;
-	*it = list.GetFirst();
+	*it = list.PopFirst();
       }
       access.Unlock();
     }

@@ -57,11 +57,13 @@ namespace RavlN {
       NetISPortServerBaseC isport;      
       if(!manager.Lookup(port,isport)) {
 	cerr << "NetPortClientBodyC::MsgConnectTo(), Failed to find port. \n";
+	Send(NPMsg_ReqFailed,1); // End of stream.
 	// Send a failure message ?
 	return true;
       }
       if(isport.PortType() != datatype) {
 	cerr << "NetPortClientBodyC::MsgConnectTo(), Missmatch in data types. \n";      
+	Send(NPMsg_ReqFailed,1); // End of stream.
 	return true;
       }
       // Connect something ?
@@ -80,11 +82,13 @@ namespace RavlN {
       NetOSPortServerBaseC osport;
       if(!manager.Lookup(port,osport)) {
 	cerr << "NetPortClientBodyC::MsgConnectTo(), Failed to find port. \n";
+	Send(NPMsg_ReqFailed,1); // End of stream.
 	// Send a failure message ?
 	return true;
       }
       if(osport.PortType() != datatype) {
 	cerr << "NetPortClientBodyC::MsgConnectTo(), Missmatch in data types. \n";      
+	Send(NPMsg_ReqFailed,1); // End of stream.
 	return true;
       }
       // Connect something ?

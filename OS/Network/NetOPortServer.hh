@@ -224,6 +224,7 @@ namespace RavlN {
   template<class DataT>
   bool NetOSPortServerBodyC<DataT>::PutData(UIntT &pos,DataT &data) {
     if(!oport.IsValid()) {
+      //cerr << "NetOSPortServerBodyC<DataT>::ReqData(), Invalid output port.\n";      
       ep.Send(NPMsg_ReqFailed,1); // Report end of stream.
       return true;
     }
@@ -235,6 +236,7 @@ namespace RavlN {
     if(oport.Put(data)) {
       at++;
     } else { // Failed to get data.
+      //cerr << "NetOSPortServerBodyC<DataT>::ReqData(), Put failed. \n";
       if(!oport.IsPutReady())
 	ep.Send(NPMsg_ReqFailed,1); // Ug
       else

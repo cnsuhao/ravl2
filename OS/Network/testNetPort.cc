@@ -110,18 +110,18 @@ int testNetOPort() {
   DListC<IntT> lst;
   
   // Setup server IPort.
-  cerr << "testNetPort(), Setup server IPort. \n";
+  cerr << "testNetPort(), Setup server OPort. \n";
   DPOPortC<IntT> op = DPOContainer(lst);
   
-  // Export the stream 'op' as test1
+  // Export the stream 'op' as test2
   if(!NetExport("test2",op)) {
-    cerr << "Failed to export 'test1' \n";
+    cerr << "Failed to export 'test2' \n";
     return __LINE__;
   }
   
   // ********************** CLIENT SIDE ******************************
   
-  cerr << "testNetPort(), Setup  NetIPort. \n";
+  cerr << "testNetPort(), Setup  NetOPort. \n";
 
   // Make a connection to the server.
   NetOSPortC<IntT>  osp (server,"test2");
