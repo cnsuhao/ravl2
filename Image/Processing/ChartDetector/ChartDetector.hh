@@ -9,6 +9,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlChartDetector
+//! docentry="Ravl.Images.Chart Detector"
 
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Image/SegmentExtrema.hh"

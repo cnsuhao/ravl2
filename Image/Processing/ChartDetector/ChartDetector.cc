@@ -215,6 +215,7 @@ namespace RavlImageN {
     
     Affine2dC bestAffine;
     RealT bestScore = 0;
+    RealT bestCorrelation = 0;
     IntT bestIter = 0;
     
     ONDEBUG(cerr << "ChartDetectorBodyC::Apply(), Starting RANSAC. \n");
@@ -252,22 +253,27 @@ namespace RavlImageN {
       //cerr << "Test hypothesis. \n";
       
       RealT inlierFraction = TestHypothesis(affine,sceneModel);
-      if(inlierFraction > bestScore) {
-	//cerr << "Model=" << modelPos << "\n";
-	//cerr << "Image=" << scenePos << "\n";
-	bestAffine = affine;
-	bestScore = inlierFraction;
-	bestIter = i;
-
-	// Lets take a closer look...
-	
-	WarpAffineC<ByteT> warp(exampleImage.Frame(),bestAffine.I());
-	ImageC<ByteT> result = warp.Apply(sceneImage);
-	RealT score = NormalisedCorrelation(exampleImage,result);
-	//cerr << "Score=" << score << "\n";
-	if(score > acceptCorrelationThreshold)
-	  break;
-      }
+      if(inlierFraction <= bestScore) 
+	continue;
+      //cerr << "Model=" << modelPos << "\n";
+      //cerr << "Image=" << scenePos << "\n";
+      
+      // Lets take a closer look...
+      
+      WarpAffineC<ByteT> warp(exampleImage.Frame(),bestAffine.I());
+      ImageC<ByteT> result = warp.Apply(sceneImage);
+      RealT corr = NormalisedCorrelation(exampleImage,result);
+      //if(corr < bestCorrelation) 
+      //	continue;
+      
+      //cerr << "Score=" << score << "\n";
+      if(corr > acceptCorrelationThreshold)
+	break;
+      
+      bestAffine = affine;
+      bestScore = inlierFraction;
+      bestIter = i;
+      bestCorrelation = corr;
     }
 
     ONDEBUG(cerr << "ChartDetectorBodyC::Apply(), Affine Hypothesis. BestScore=" << bestScore << " Iter=" << bestIter << " Best=" << bestAffine << " \n");
@@ -281,13 +287,12 @@ namespace RavlImageN {
     ONDEBUG(cerr << "ResultSize=" << result.Frame() << "\n");
     Save("@X:Target",result);
 #endif
-#if 1
+    
     // Get a list of inlier matches.
     
     DListC<Tuple2C<ChartDetectorRegionC,ChartDetectorRegionC> > inliers = ListInliers(bestAffine,sceneModel);
     
     transform = FitProjection(inliers);
-#endif
     
     //cerr << "ChartDetectorBodyC::Apply(), Projective Hypothesis=" << transform << " \n";
     

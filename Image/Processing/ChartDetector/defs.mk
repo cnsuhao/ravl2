@@ -10,12 +10,18 @@ PACKAGE=Ravl/Image
 
 MAINS=chartdet.cc
 
-HEADERS= ChartDetector.hh ChartDetectorRegion.hh
+HEADERS= ChartDetector.hh ChartDetectorRegion.hh ChartLocalise.hh \
+ CostAffineImageCorrelation.hh
 
-SOURCES= ChartDetector.cc ChartDetectorRegion.cc
+SOURCES= ChartDetector.cc ChartDetectorRegion.cc ChartLocalise.cc \
+ CostAffineImageCorrelation.cc
 
 PLIB=RavlChartDetector
 
-USESLIBS=RavlImage RavlImageProc RavlImageIO 
+USESLIBS=RavlImage RavlImageProc RavlImageIO  Optimisation
 
-PROGLIBS=RavlDPDisplay
+PROGLIBS=RavlDPDisplay RavlExtImgIO RavlOS
+
+AUXFILES=CalibrationChart.ps CalibrationChart.jpg CalibrationChart.coords
+
+AUXDIR=share/RAVL/pixmaps
