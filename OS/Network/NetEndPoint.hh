@@ -489,7 +489,7 @@ namespace RavlN {
     { return Body().Ready(); }
     //: Call when your ready to recieved data from the network..
     
-    bool WaitSetupComplete(RealT timeOut = 10)
+    bool WaitSetupComplete(RealT timeOut = 30)
     { return Body().WaitSetupComplete(timeOut); }
     //: Wait for setup to complete.
     // May fail if peer drops connection for some resson.

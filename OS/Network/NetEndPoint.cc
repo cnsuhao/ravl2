@@ -146,6 +146,7 @@ namespace RavlN {
       ONDEBUG(SysLog(SYSLOG_DEBUG) << "NetEndPointBodyC::Init(), Socket not opened. ");
       return false;
     }
+    nskt.SetNonBlocking(true);
     istrm = NetIByteStreamC(nskt);
     ostrm = NetOByteStreamC(nskt);
     

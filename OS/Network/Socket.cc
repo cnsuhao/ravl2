@@ -50,6 +50,7 @@
 #endif
 
 #include <sys/uio.h>
+#include <fcntl.h>
 
 #include "Ravl/OS/SysLog.hh"
 
@@ -442,7 +443,21 @@ namespace RavlN {
   // true= read and write's won't do blocking waits.
   
   bool SocketBodyC::SetNonBlocking(bool block) {
-    cerr << "SocketBodyC::SetNonBlocking(), Not implemented. \n";
+    long flags = fcntl(fd,F_GETFL);
+    if(flags < 0) {
+      cerr << "SocketBodyC::SetNonBlocking(), WARNING: Get flags failed. \n";
+      return false;
+    }
+    long newFlags;
+    if(block) 
+      newFlags = flags | O_NONBLOCK;
+    else
+      newFlags = flags & ~O_NONBLOCK;
+    flags = fcntl(fd,F_SETFL,newFlags);
+    if(flags < 0) {
+      cerr << "SocketBodyC::SetNonBlocking(), WARNING: Set flags failed. \n";
+      return false;
+    }
     return false;
   }
   
@@ -470,7 +485,7 @@ namespace RavlN {
       int n = read(fd,&(buff[at]),size - at);
       if(n == 0) { // Linux indicates a close by returning 0 bytes read.  Is this portable ??
 	ONDEBUG(SysLog(SYSLOG_DEBUG) << "Socket close. ");
-	return false;
+	return at;
       }
       if(n < 0) {
 	ONDEBUG(SysLog(SYSLOG_DEBUG) << "SocketBodyC::Read(), Error on read. ");
@@ -568,7 +583,7 @@ namespace RavlN {
 	  SysLog(SYSLOG_WARNING) << "SocketBodyC::ReadV(), Error writing to socket :" << errno;
 #endif
 	  if(n > 100) free(vecp);
-	  return false;
+	  return at;
 	}
 	x = 0;
       }
@@ -582,8 +597,10 @@ namespace RavlN {
   
   IntT SocketBodyC::WriteV(const char **buffer,IntT *len,int n) {
     if(n == 0) return 0;
+    struct timeval timeout;
     struct iovec vecBuf[100];
     struct iovec *vecp = vecBuf;
+    int rn;
     IntT at = 0,total = 0;
     if(n > 100) {
       vecp = (struct iovec *) malloc(n * sizeof(iovec));
@@ -603,8 +620,23 @@ namespace RavlN {
     
     do {
       FD_SET(fd,&wfds);
-      if(select(fd+1,0,&wfds,0,0) == 0)
-	continue;
+      timeout.tv_sec = 60; // Time-out of a minute...
+      timeout.tv_usec = 0;
+      if((rn = select(fd+1,0,&wfds,0,&timeout)) == 0) {
+	SysLog(SYSLOG_WARNING) << "SocketBodyC::Write(), Timeout writting to socket. :" << errno;
+	return at;
+      }
+      if(rn < 0) {
+	if(errno == EINTR || errno == EAGAIN)
+	  continue;
+#if RAVL_OS_LINUX
+	char buff[256];
+	SysLog(SYSLOG_WARNING) << "SocketBodyC::Write(), Error writing to socket :" << errno << " '" << strerror_r(errno,buff,256) << "' ";
+#else
+	SysLog(SYSLOG_WARNING) << "SocketBodyC::Write(), Error writing to socket :" << errno;
+#endif
+	return at;
+      }
       //cerr << "writev(" << fd << "," << (void *) vecp << "," << n << ");\n";
       if((at = writev(fd,vecp,n)) > 0)
 	break;
@@ -647,17 +679,20 @@ namespace RavlN {
       }
       RavlAssert(xat == at);
       b++;
+      timeout.tv_sec = 60; // Time-out of a minute...
+      timeout.tv_usec = 0;
+      
       int x = writev(fd,&(vecp[b]),n - b);
       if(x < 0) {
 	if(errno != EINTR && errno != EAGAIN) {
 #if RAVL_OS_LINUX
 	  char buff[256];
-	  SysLog(SYSLOG_WARNING) << "SocketBodyC::WriteV(),(2) Error writing to socket :" << errno << " '" << strerror_r(errno,buff,256) << "' ";
+	  SysLog(SYSLOG_WARNING) << "SocketBodyC::WriteV(), Error writing to socket :" << errno << " '" << strerror_r(errno,buff,256) << "' ";
 #else
-	  SysLog(SYSLOG_WARNING) << "SocketBodyC::WriteV(),(2) Error writing to socket :" << errno;
+	  SysLog(SYSLOG_WARNING) << "SocketBodyC::WriteV(), Error writing to socket :" << errno;
 #endif
 	  if(n > 100) free(vecp);
-	  return false;
+	  return at;
 	}
 	x = 0;
       }
@@ -671,7 +706,48 @@ namespace RavlN {
   
   IntT SocketBodyC::Write(const char *buff,UIntT size) {
     UIntT at = 0;
+    int rn;
+    fd_set wfds;
+    FD_ZERO(&wfds);
+    struct timeval timeout;
+    
     while(at < size && fd >= 0) {
+      FD_SET(fd,&wfds);
+      timeout.tv_sec = 60; // Time-out of a minute...
+      timeout.tv_usec = 0;
+      if((rn = select(fd+1,0,&wfds,0,&timeout)) == 0) {
+	SysLog(SYSLOG_WARNING) << "SocketBodyC::Write(), Timeout writting to socket. :" << errno;
+	return at;
+      }
+      if(rn < 0) {
+	if(errno == EINTR || errno == EAGAIN)
+	  continue;
+#if RAVL_OS_LINUX
+	char buff[256];
+	SysLog(SYSLOG_WARNING) << "SocketBodyC::Write(), Error writing to socket :" << errno << " '" << strerror_r(errno,buff,256) << "' ";
+#else
+	SysLog(SYSLOG_WARNING) << "SocketBodyC::Write(), Error writing to socket :" << errno;
+#endif
+	return at;
+      }
+      FD_SET(fd,&wfds);
+      timeout.tv_sec = 60; // Time-out of a minute...
+      timeout.tv_usec = 0;
+      if((rn = select(fd+1,0,&wfds,0,&timeout)) == 0) {
+	SysLog(SYSLOG_WARNING) << "SocketBodyC::Write(), Timeout writting to socket. :" << errno;
+	return at;
+      }
+      if(rn < 0) {
+	if(errno == EINTR || errno == EAGAIN)
+	  continue;
+#if RAVL_OS_LINUX
+	char buff[256];
+	SysLog(SYSLOG_WARNING) << "SocketBodyC::Write(), Error writing to socket :" << errno << " '" << strerror_r(errno,buff,256) << "' ";
+#else
+	SysLog(SYSLOG_WARNING) << "SocketBodyC::Write(), Error writing to socket :" << errno;
+#endif
+	return at;
+      }
       int n = write(fd,&(buff[at]),size - at);
       if(n < 0) {
 	ONDEBUG(SysLog(SYSLOG_DEBUG) << "SocketBodyC::RunReceive(), Error on read. ");
@@ -679,11 +755,11 @@ namespace RavlN {
 	  continue;
 #if RAVL_OS_LINUX
 	char buff[256];
-	SysLog(SYSLOG_WARNING) << "SocketBodyC::Write(),(2) Error writing to socket :" << errno << " '" << strerror_r(errno,buff,256) << "' ";
+	SysLog(SYSLOG_WARNING) << "SocketBodyC::Write(), Error writing to socket :" << errno << " '" << strerror_r(errno,buff,256) << "' ";
 #else
-	SysLog(SYSLOG_WARNING) << "SocketBodyC::Write(),(2) Error writing to socket :" << errno;
+	SysLog(SYSLOG_WARNING) << "SocketBodyC::Write(), Error writing to socket :" << errno;
 #endif
-	return false;
+	return at;
       }
       at += n;
     }    

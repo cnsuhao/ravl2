@@ -17,7 +17,7 @@
 #include "Ravl/EntryPnt.hh"
 #include "Ravl/OS/NetEndPoint.hh"
 #include "Ravl/OS/Date.hh"
-//#include "Ravl/BinString.hh"
+#include "Ravl/OS/Socket.hh"
 
 using namespace RavlN;
 
