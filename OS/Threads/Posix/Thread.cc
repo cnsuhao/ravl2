@@ -8,7 +8,6 @@
 //! rcsid="$Id$"
 //! lib=RavlThreads
 //! file="Ravl/OS/Threads/Posix/Thread.cc"
-//! example=exThread.cc
 
 #include "Ravl/config.h"
 

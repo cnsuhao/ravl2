@@ -14,6 +14,8 @@
 //! docentry="Ravl.OS.Threads"
 //! author="Charles Galambos"
 //! date="02/07/1999"
+//! example=exThread.cc
+
 #include "Ravl/config.h"
 #if !defined(__sgi__)
 #define _GNU_SOURCE 1
