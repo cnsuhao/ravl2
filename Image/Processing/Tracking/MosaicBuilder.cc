@@ -43,8 +43,8 @@ namespace RavlImageN {
       pointBL(1.0, 0.0), pointBR(1.0, 1.0),
       zhomog(100), mosaicZHomog(1),
       K1(0), K2(0), cx_ratio(0.5), cy_ratio(0.5), fx(1.0), fy(1.0),
-      filterSubsample(1), trackingHomogs(nVerbose), Parray(0),
-      frameNo(0),
+      filterSubsample(1), updateSearchSize(5), 
+      trackingHomogs(nVerbose), Parray(0), frameNo(0),
       verbose(nVerbose)
   { SetProjectiveScale(zhomog, mosaicZHomog); }
 
@@ -207,7 +207,9 @@ namespace RavlImageN {
       Projection2dC P = trackingHomogs.Apply(RGBImageCT2ByteImageCT(img));
       // accumulate homography
       Psum = P*Psum;
-      Parray.Append(Psum*Pmosaic);
+      Projection2dC Pacc(Psum*Pmosaic);
+      MatchToMosaic(img, Pacc);
+      Parray.Append(Pacc);
       return P.IsValid();
     }
   }
@@ -328,6 +330,31 @@ namespace RavlImageN {
     // So at this point, the result will transform a point from mosaic coords to frame 0 coords, using the "mosaic" coordinate system
   }
   
+  //: Improves inter-frame homography already calculated, by matching image to mosaic
+  bool MosaicBuilderBodyC::MatchToMosaic(const ImageC<ByteRGBValueC>& img, Projection2dC& proj) {
+    if (updateSearchSize == 0) return false;
+    try  {
+      // use proj as estimate to match image with current mosaic & update homog
+      if (verbose) cout << "Unrefined homography:\n" << proj << endl;
+      ImageMatcherC matchUpdate(RGBImageCT2ByteImageCT(GetMosaic()),
+				0, 0, 0, 0, 17, updateSearchSize, 20,
+				mosaicZHomog, zhomog);
+      Projection2dC projCopy(proj);
+      if(!matchUpdate.Apply(RGBImageCT2ByteImageCT(img), projCopy)) {
+	cout << "Couldn't match image" << endl;
+	return false;
+      }
+      proj = projCopy;
+      if (verbose) cout << "Refined homography:\n" << proj << endl;
+    }
+    catch (...) {
+      cout << "Exception caught in mosaic image matcher." << endl;
+      return false;
+    }
+    return true;
+  }
+
+
   //: Returns the mosaic image
   const ImageC<ByteRGBValueC> MosaicBuilderBodyC::GetMosaic() const { 
     return ByteRGBMedianImageC2ByteRGBImageCT(mosaic);

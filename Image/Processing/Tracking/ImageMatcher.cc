@@ -137,7 +137,7 @@ namespace RavlImageN {
     // get solution homography
     sv = lm.GetSolution();
     Matrix3dC P = sv.GetHomog();
-    P /= P[2][2];
+    P *= zhomogTemplate/(zhomogImage*P[2][2]);
     if (verbose)  cout << "Solution: " << P << endl;
 
     // update 2D projection from image onto template

@@ -72,9 +72,10 @@ int Mosaic(int nargs,char **argv) {
   opt.Comment("Homographies:");
   StringC homogFile = opt.String("hf", "", "Output file for interframe projections used to construct mosaic (default: no output)");
   opt.Comment("Mosaic:");
+  IntT refineSearchSize = opt.Int("rss", 5, "Search size for image matcher of homography refinement (0 to disable)");
   StringC mosaicFile = opt.String("mo", "/tmp/mosaic.ppm", "Output file for mosaic");
   Index2dC border = opt.Index2d("bo", 200, 200, "Width of vertical & horizontal borders around initial mosaic image (default is (0, 0) if auto is on)");
-  autoResizeT resize = (autoResizeT) opt.Int("auto", 0, "Automatically expands the mosaic rectangle to accommodate projected images as necessary. 0 = no expansion; 1 = one-pass (slower); 2 = two-pass (faster)");
+  autoResizeT resize = (autoResizeT) opt.Int("auto", 1, "Automatically expands the mosaic rectangle to accommodate projected images as necessary. 0 = no expansion; 1 = one-pass (slower); 2 = two-pass (faster)");
   Point2dC pointTL = opt.Point2d("ptl", 0.0, 0.0, "Top-left coordinates of projection of first image (in units of picture size)");
   Point2dC pointTR = opt.Point2d("ptr", 0.0, 1.0, "Top-right coordinates of projection of first image (in units of picture size)");
   Point2dC pointBL = opt.Point2d("pbl", 1.0, 0.0, "Bottom-left coordinates of projection of first image (in units of picture size)");
@@ -96,20 +97,29 @@ int Mosaic(int nargs,char **argv) {
 
   // Create a mosaic class instance
   MosaicBuilderC mosaicBuilder(resize, verbose);
+
   // Set tracker params
   mosaicBuilder.SetTracker(cthreshold, cwidth, mthreshold, mwidth,
 			   lifeTime, searchSize, newFreq);
-  // and crop image borders
+  // Crop image borders
   mosaicBuilder.SetCropRegion(cropT, cropB, cropL, cropR);
+
   // Load mask to avoid unwanted regions if required 
   if(!maskName.IsEmpty())  mosaicBuilder.SetMask(maskName);
+
   // Set mosaic coordinate system
   mosaicBuilder.SetCoordinates(pointTL, pointTR, pointBL, pointBR);
+
   // If we are not automaically growing the mosaic size as required, we need to expand the mosaic border to allow for growth
   if ((resize == none) || opt.IsOnCommandLine("bo")) 
     mosaicBuilder.SetBorderExpansion(border.Row(), border.Col());
+
+  // Trigger (or not) refinement of homography
+  mosaicBuilder.SetHomogRefine( refineSearchSize);
+
   // If there is lens distortion, correct it (& save the results)
   if (K1 > 0.0 || K2 > 0.0) mosaicBuilder.SetLensCorrection(K1, K2, cx_ratio, cy_ratio, fx, fy);
+
   // Skip frames if required
   mosaicBuilder.SetSubsample(filterSubsample);
 

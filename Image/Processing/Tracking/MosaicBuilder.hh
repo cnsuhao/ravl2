@@ -188,6 +188,14 @@ namespace RavlImageN {
     Projection2dC Im2Mosaic(const ImageC<ByteRGBValueC> &img);
     //: Computes the homography between the first frame and the mosaic
     
+    void SetHomogRefine(IntT searchSize)
+      { updateSearchSize = searchSize; }
+    //: Set search area for image matcher used to refine interframe homography
+    // If searchSize = 0, this step is not used (default = 5).
+
+    bool MatchToMosaic(const ImageC<ByteRGBValueC>& img, Projection2dC& proj);
+    //: Improves inter-frame homography already calculated, by matching image to current mosaic
+
     bool GetImage(ImageC<ByteRGBValueC>& img)
       //: Returns next image from sequence
       {	
@@ -212,6 +220,7 @@ namespace RavlImageN {
     RealT zhomog, mosaicZHomog;
     RealT K1, K2, cx_ratio, cy_ratio, fx, fy;  // lens parameters
     UIntT filterSubsample; //median filter temporal subsample factor
+    IntT updateSearchSize;  // matcher search area used for refining homography
 
     // stored data
     TrackingHomogC trackingHomogs; // engine that generates interframe homographies from tracked corners
@@ -300,7 +309,7 @@ namespace RavlImageN {
 		       IntT searchSize,
 		       IntT newFreq)
       { Body().SetTracker(cthreshold, cwidth, mthreshold, mwidth, lifeTime, searchSize, newFreq); }
-    //: Set tracker parameters
+    //: Set <a href="RavlImageN.PointTrackerC.html">tracker parameters</a>
     // Defaults are respectively: 30, 7, 20, 17, 8, 25, 1
 
     void SetCropRegion(IntT cropT, IntT cropB, IntT cropL, IntT cropR)
@@ -355,6 +364,11 @@ namespace RavlImageN {
       { Body().SetSubsample(factor); }
     //: Set temporal subsample factor for median filter
     // I.e. only accumulate every <code>factor</code>th frame in mosaic image.  Default value = 1.
+
+    void SetHomogRefine(IntT searchSize)
+      { Body().SetHomogRefine(searchSize); }
+    //: Set search area for image matcher used to refine interframe homography
+    // If searchSize = 0, this refining step is not used (default: searchSize = 5).
 
     //:-
     //: Methods to grow the mosaic
@@ -416,6 +430,14 @@ namespace RavlImageN {
       { return Body().Im2Mosaic(img); }
     //: Computes the homography between the first frame and the mosaic
     
+    bool MatchToMosaic(const ImageC<ByteRGBValueC>& img, Projection2dC& proj)
+      { return Body().MatchToMosaic(img, proj); }
+    //: Improves inter-frame homography already calculated, by matching image to current mosaic
+    // Over an image sequence, the accumulated interframe homographies will gradually drift.  The following steps prevent this:<ul>
+    // <li> The accumulated homography is used to warp the current image to the mosaic coordinates.  
+    // <li> The warped image is  matched to the mosaic, which also generates the homography between the current image and the mosaic.
+    // <li> The image-to-mosaic homography is used to calculate a new inter-frame homography to replace the original one.</ul>
+
     bool InvolveFrame(const IndexRange2dC& rect, const Projection2dC& homog)
       { return Body().InvolveFrame(rect, homog); }
     //: Expand mosaic rectangle to include projected frame corners
