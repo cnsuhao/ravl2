@@ -14,6 +14,7 @@
 #include "Ravl/Option.hh"
 #include "Ravl/StringList.hh"
 #include "Ravl/Index2d.hh"
+#include "Ravl/TFVector.hh"
 
 #include <stdlib.h>
 #include <ctype.h>

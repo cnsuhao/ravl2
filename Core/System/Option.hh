@@ -20,12 +20,13 @@
 
 #include "Ravl/String.hh"
 #include "Ravl/DList.hh"
-#include "Ravl/TFVector.hh"
 #include "Ravl/StrStream.hh"
 #include "Ravl/Assert.hh"
 
 namespace RavlN {
+
   class Index2dC;
+  template<class DataT,unsigned int N> class TFVectorC;
   
   //! userlevel=Basic
   //: The class OptionC is a simple parser of a command line. 
