@@ -119,6 +119,7 @@ namespace RavlN {
   //: Close the socket.
   
   void SocketBodyC::Close() {
+    ONDEBUG(cerr << "SocketBodyC::Close() dontclose=" << dontClose << " fd=" << fd << "\n");
     if(!dontClose) {
       if(fd >= 0)
 	close(fd);
@@ -167,8 +168,8 @@ namespace RavlN {
       name = "localhost";
     while(1) {
       ONDEBUG(cerr << " Looking for '" << name << "'\n");
-#if RAVL_OS_LINUX
       opErrno = 0;
+#if RAVL_OS_LINUX
       gethostbyname_r(name,&ent,hostentData,buffSize,&result, &opErrno);
       //cerr << " Result:" << ((void *) result) << " " << opErrno << "\n";
       if(opErrno == 0 && result != 0)
@@ -434,4 +435,12 @@ namespace RavlN {
     IntT ret = ntohs( name.sin_port );
     return ret;
   }
+
+  //: Enable non-blocking use of read and write.
+  // true= read and write's won't do blocking waits.
+  
+  bool SocketBodyC::SetNonBlocking(bool block) {
+    return false;
+  }
+
 }

@@ -85,6 +85,10 @@ namespace RavlN {
     // This should make transactions faster at the expense of sending more 
     // packets over the network.
     
+    bool SetNonBlocking(bool block);
+    //: Enable non-blocking use of read and write.
+    // true= read and write's won't do blocking waits.
+    
   protected:
     bool GetHostByName(const char *name,struct sockaddr_in &sin);
     //: Attempt to get info about named host.
@@ -193,6 +197,11 @@ namespace RavlN {
     // Don't gather data into larger packets. 
     // This should make transactions faster at the expense of sending more 
     // packets over the network.
+    
+    bool SetNonBlocking(bool block)
+    { return Body().SetNonBlocking(block); }
+    //: Enable non-blocking use of read and write.
+    // true= read and write's won't do blocking waits.
     
     friend class SocketBodyC;
   };
