@@ -14,8 +14,7 @@
 #include "Ravl/HashIter.hh"
 #include "Ravl/Hash.hh"
 #include "Ravl/IntC.hh"
-
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 using namespace RavlN;
 
