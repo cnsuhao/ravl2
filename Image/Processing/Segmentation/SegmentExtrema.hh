@@ -243,12 +243,14 @@ namespace RavlImageN {
     
     for(Array2dIter2C<PixelT,ExtremaChainPixelC> it(img,pixs,img.Frame());it;it++) {
       PixelT val = it.Data1();
-      if(val >= limitMaxValue)
+      it.Data2().region = 0;
+      if(val >= limitMaxValue) {
+        it.Data2().next = 0;
 	continue;
+      }
       ExtremaChainPixelC * &tmp = levels[val]; 
       it.Data2().next = tmp;
       tmp = &it.Data2();
-      it.Data2().region = 0;
     }
     
     return true;
