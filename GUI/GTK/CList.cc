@@ -162,7 +162,7 @@ namespace RavlGUIN {
   }
   
   //: Remove a line entry.  
-// GUI thread only.
+  // GUI thread only.
   
   bool CListBodyC::GUIRemoveLine(int &id) {
     int rowNo = gtk_clist_find_row_from_data (GTK_CLIST(widget),(void *) id);
@@ -274,6 +274,90 @@ namespace RavlGUIN {
   
   bool CListBodyC::SelectAll() {
     Manager.Queue(Trigger(CListC(*this),&CListC::GUISelectAll));
+    return true;
+  }
+
+  //: Move the row with the given id to the rowNo .
+  
+  bool CListBodyC::GUIMoveID2Row(int &id,int &rowNo) {
+    if(widget == 0) {
+      // FIXME:- This should be handled properly.
+      ONDEBUG(cerr << "WARNING: CListBodyC::GUIMoveID2Row() called before widget created. \n");
+      // Find the data we want to move.
+      DLIterC<Tuple2C<IntT,SArray1dC<CListCellC> > > it(data);
+      for(;it && (it.Data().Data1() != id);it++) ;
+      if(!it) {
+	cerr << "CListBodyC::GUIMoveID2Row(), WARNING: Can't find element with id " << id << "\n";
+	return true;
+      }
+      DLIterC<Tuple2C<IntT,SArray1dC<CListCellC> > > itx(data);
+      //if(itx == it)
+      //continue; // Already there.
+      itx.Nth(rowNo);
+      itx.MoveBef(it);
+      return true;
+    }
+    int newRowNo = gtk_clist_find_row_from_data (GTK_CLIST(widget),(void *) id);
+    if(rowNo < 0)
+      return true; // Not found.
+    gtk_clist_row_move(GTK_CLIST(widget),newRowNo,rowNo);
+    return true;
+  }
+  
+  //: Move the row with the given id to the rowNo .
+  
+  bool CListBodyC::MoveID2Row(int id,int rowNo) {
+    Manager.Queue(Trigger(CListC(*this),&CListC::GUIMoveID2Row,id,rowNo));
+    return true;
+  }
+
+  //: Stop rendering updates to CList.
+  // Calling this before doing many changes to the list
+  // and then calling Thaw() will speed up the updates.
+  bool CListBodyC::Freeze() {
+    Manager.Queue(Trigger(CListC(*this),&CListC::GUIFreeze));    
+    return true;
+  }
+  
+  //: Stop rendering updates to CList.
+  // Calling this before doing many changes to the list
+  // and then calling Thaw() will speed up the updates.
+  bool CListBodyC::GUIFreeze() {
+    if(widget == 0) 
+      return true;    
+    gtk_clist_freeze(GTK_CLIST(widget));
+    return true;
+  }
+  
+  //: Start rendering updates to CList.
+  bool CListBodyC::Thaw() {
+    Manager.Queue(Trigger(CListC(*this),&CListC::GUIThaw));
+    return true;
+  }
+  
+  //: Start rendering updates to CList.
+  bool CListBodyC::GUIThaw() {
+    if(widget == 0) 
+      return true;
+    gtk_clist_thaw(GTK_CLIST(widget));
+    return true;
+  }
+
+  //: Clear all entries from the list.
+  
+  bool CListBodyC::Clear() {
+    Manager.Queue(Trigger(CListC(*this),&CListC::GUIClear));
+    return true;
+  }
+  
+  //: Clear all entries from the list.
+  
+  bool CListBodyC::GUIClear() {
+    if(widget == 0) {
+      data.Empty();
+      return true;
+    }
+    gtk_clist_clear(GTK_CLIST(widget));    
     return true;
   }
   

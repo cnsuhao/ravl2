@@ -120,6 +120,34 @@ namespace RavlGUIN {
     DListC<IntT> Selection();
     //: Access current selection.
     
+    bool GUIMoveID2Row(int &id,int &rowNo);
+    //: Move the row with the given id to the rowNo .
+    
+    bool MoveID2Row(int id,int rowNo);
+    //: Move the row with the given id to the rowNo .
+
+    bool Freeze();
+    //: Stop rendering updates to CList.
+    // Calling this before doing many changes to the list
+    // and then calling Thaw() will speed up the updates.
+
+    bool GUIFreeze();
+    //: Stop rendering updates to CList.
+    // Calling this before doing many changes to the list
+    // and then calling Thaw() will speed up the updates.
+    
+    bool Thaw();
+    //: Start rendering updates to CList.
+    
+    bool GUIThaw();
+    //: Start rendering updates to CList.
+    
+    bool Clear();
+    //: Clear all entries from the list.
+    
+    bool GUIClear();
+    //: Clear all entries from the list.
+    
   protected:
     virtual void Destroy();
     //: Undo all refrences.
@@ -241,6 +269,42 @@ namespace RavlGUIN {
     DListC<IntT> Selection()
     { return Body().Selection(); }
     //: Access current selection.
+    
+    bool GUIMoveID2Row(int &id,int &rowNo)
+    { return Body().GUIMoveID2Row(id,rowNo); }
+    //: Move the row with the given id to the rowNo .
+    
+    bool MoveID2Row(int id,int rowNo)
+    { return Body().MoveID2Row(id,rowNo); }
+    //: Move the row with the given id to the rowNo .
+
+    bool Freeze()
+    { return Body().Freeze(); }
+    //: Stop rendering updates to CList.
+    // Calling this before doing many changes to the list
+    // and then calling Thaw() will speed up the updates.
+
+    bool GUIFreeze()
+    { return Body().GUIFreeze(); }
+    //: Stop rendering updates to CList.
+    // Calling this before doing many changes to the list
+    // and then calling Thaw() will speed up the updates.
+    
+    bool Thaw()
+    { return Body().Thaw(); }
+    //: Start rendering updates to CList.
+    
+    bool GUIThaw()
+    { return Body().GUIThaw(); }
+    //: Start rendering updates to CList.
+
+    bool Clear()
+    { return Body().Clear(); } 
+    //: Clear all entries from the list.
+    
+    bool GUIClear()
+    { return Body().GUIClear(); }
+    //: Clear all entries from the list.
     
     friend class CListBodyC;
   };

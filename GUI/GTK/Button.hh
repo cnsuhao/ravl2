@@ -99,10 +99,10 @@ namespace RavlGUIN
     //: Access body.
     
   public:
-    Signal0C SigClicked() 
-      { return Body().Signal("clicked"); }
+    Signal0C &SigClicked() 
+    { return Body().Signal("clicked"); }
     //: Short cut clicked signal.
-
+    
     bool GUISetLabel(StringC &text)
     { return Body().GUISetLabel(text); }
     //: Set toggle label.
