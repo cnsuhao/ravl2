@@ -39,6 +39,7 @@
 #define RAVL_COMPILER_GCC3 (defined(__GNUC__) && (__GNUC__ >= 3))  /* gcc 3.x */
 #define RAVL_COMPILER_MIPSPRO (!defined(__GNUC__) && defined(__sgi))   /* MIPS Pro compiler */
 #define RAVL_COMPILER_VISUALCPP (!defined(__GNUC__) && defined(WIN32)) /* Visual C++ */
+#define RAVL_COMPILER_VISUALCPPNET (!defined(__GNUC__) && defined(WIN32) && (_MSC_VER >= 1300)) /* Visual C++ .NET*/
 
 #define RAVL_CPU_IX86  defined(__i386__)  /* 386 base varient. */
 #define RAVL_CPU_SPARC defined(__sparc)   /* sun sparc based system. */
@@ -60,6 +61,7 @@
 #define RAVL_COMPILER_GCC3      0
 #define RAVL_COMPILER_MIPSPRO   0
 #define RAVL_COMPILER_VISUALCPP 1
+#define RAVL_COMPILER_VISUALCPPNET (_MSC_VER >= 1300)
 
 #define RAVL_CPU_IX86  1
 #define RAVL_CPU_SPARC 0
@@ -163,8 +165,8 @@
 /********************************************************************************/
 /****** Compiler/ C++ Library ***************************************************/
 
-#define RAVL_HAVE_STDNAMESPACE    RAVL_COMPILER_GCC3       /* Use std namespace. */
-#define RAVL_HAVE_ANSICPPHEADERS  RAVL_COMPILER_GCC        /* Use ansi complient c++ headers, i.e without the .h */
+#define RAVL_HAVE_STDNAMESPACE    (RAVL_COMPILER_GCC3 || RAVL_COMPILER_VISUALCPPNET) /* Use std namespace. */
+#define RAVL_HAVE_ANSICPPHEADERS  (RAVL_COMPILER_GCC || RAVL_COMPILER_VISUALCPPNET) /* Use ansi complient c++ headers, i.e without the .h */
 #define RAVL_HAVE_EXCEPTIONS      1                        /* are exceptions enabled ? */
 #define RAVL_HAVE_EXCEPTION_H     !RAVL_COMPILER_VISUALCPP /* Have exception.h ? */
 #define RAVL_HAVE_EXCEPTION_SPECS !RAVL_COMPILER_VISUALCPP /* throw(..) exceptions specs accepted ? */

@@ -168,7 +168,7 @@ namespace RavlN {
     //: Is handle of given type ?
 
     template<class DT>
-    void CheckHandleType(const DT &dummy) const throw(ExceptionErrorCastC) { 
+    void CheckHandleType(const DT &dummy) const RAVL_THROW(ExceptionErrorCastC) { 
       if(!IsHandleType(dummy))
 	throw ExceptionErrorCastC("RCHandleC::CheckRCHandleType(), Failed.",
 				  typeid(Body()),
