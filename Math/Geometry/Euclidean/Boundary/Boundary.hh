@@ -23,6 +23,7 @@
 namespace RavlN {
   template<class KeyT, class DataT> class RCHashC;
   template<class DataT> class PairC;
+  template<class DataT> class Array2dC;
   
   //! userlevel=Normal
   //: Crack code boundary
@@ -39,6 +40,9 @@ namespace RavlN {
     BoundaryC(bool orient = true);
     //: Empty boundary with orientation 'orient'.
     // If orient is true, the object is on the left of the boundry.
+    
+    BoundaryC(const Array2dC<IntT> &emask,IntT inLabel);
+    //: Create a boundary from the edges between 'inLabel' pixels an other values
     
     BoundaryC(const DListC<EdgeC> & edgeList, bool orient);
     //: Create the boundary from the list of edges with a appropriate orientation. 
@@ -60,10 +64,17 @@ namespace RavlN {
     // a plane. This can be inverted with the BReverse() method.
     
     DListC<BoundaryC> Order(const EdgeC & firstEdge, bool orient = true);
+    //: Order boundry from edge.
+    // Note: There is a bug in this code which can cause an infinite loop
+    // for some edge patterns. In particular where the two edges go through
+    // the same vertex. <br>
     // Order the edgels of this boundary such that it can be traced 
     // continuously along the direction of the first edge. The orientation 
     // of the boundary is set according to 'orient'. If the boundary is open,
     // 'firstEdge' and 'orient' are ignored.
+    
+    DListC<BoundaryC> OrderEdges() const;
+    //: Generate an order list of boundries.
     
     bool Orient() const
     { return orientation; }

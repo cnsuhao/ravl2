@@ -13,6 +13,7 @@
 
 #include "Ravl/Boundary.hh"
 #include "Ravl/Stream.hh"
+#include "Ravl/Array2d.hh"
 
 using namespace RavlN;
 
@@ -27,6 +28,7 @@ int testCrackCode();
 int testBoundry();
 int testEdge();
 int testMidPoint();
+int testOrderEdges();
 
 int main() {
   int ln;
@@ -46,6 +48,10 @@ int main() {
     cerr << "Test failed at line " << ln << "\n";
     return 1;
   }
+  if((ln = testOrderEdges()) != 0) {
+    cerr << "Test failed at line " << ln << "\n";
+    return 1;
+  } 
   cerr << "Test passed. \n";
   return 0;
 }
@@ -153,5 +159,70 @@ int testMidPoint() {
     //ONDEBUG(cerr << " Mid=" << edge.MidPoint() << " m1=" << m1 << " diff=" << (m1 - edge.MidPoint()) << "\n");
     if((m1 - edge.MidPoint()).SumOfSqr() > 0.00001) return __LINE__;
   }
+  return 0;
+}
+
+
+int testOrderEdges() {
+  cerr << "testOrderEdges() Called. \n";
+  
+  Array2dC<IntT> emask(5,5);
+  
+  emask.Fill(0);
+  emask[1][1] = 1;
+  emask[1][2] = 1;
+  emask[1][3] = 1;
+  emask[2][1] = 1;
+  emask[3][1] = 1;
+  emask[2][3] = 1;
+  emask[3][2] = 1;
+  
+  BoundaryC bnds(emask,1);
+  DListC<BoundaryC> lst = bnds.OrderEdges();
+  
+  // cerr << "Lst.Size()=" << lst.Size() << "\n";
+  // cerr << "Lst.First().Size()=" << lst.First() << "\n";
+  // cerr << "Lst.Last() =" << lst.Last() << "\n";
+  
+  if(lst.Size() != 2) return __LINE__;
+  if((lst.First().Size() + lst.Last().Size()) != 16) return __LINE__;
+  
+  // Check its not a fluke, try a different orientation.
+  
+  emask.Fill(0);
+  emask[1][2] = 1;
+  emask[1][3] = 1;
+  emask[2][1] = 1;
+  emask[3][1] = 1;
+  emask[2][3] = 1;
+  emask[3][2] = 1;
+  emask[3][3] = 1;
+  
+  BoundaryC bnds2(emask,1);
+  lst = bnds2.OrderEdges();
+  if(lst.Size() != 2) return __LINE__;
+  if((lst.First().Size() + lst.Last().Size()) != 16) return __LINE__;
+  
+  BoundaryC bnds3;
+  bnds3.InsLast(EdgeC(BVertexC(2,2),1));
+  bnds3.InsLast(EdgeC(BVertexC(2,3),0));
+  bnds3.InsLast(EdgeC(BVertexC(3,3),3));
+  lst = bnds3.OrderEdges();
+  if(lst.Size() != 1) return __LINE__;
+  if(lst.First().Size() != 3) return __LINE__;
+  // cerr << "Lst.Size()=" << lst.Size() << "\n";
+  // cerr << "Lst.First().Size()=" << lst.First() << "\n";
+
+  BoundaryC bnds4;
+  bnds4.InsLast(EdgeC(BVertexC(2,2),1));
+  //bnds4.InsLast(EdgeC(BVertexC(2,3),0));
+  bnds4.InsLast(EdgeC(BVertexC(3,3),3));
+  bnds4.InsLast(EdgeC(BVertexC(3,2),2));
+  lst = bnds4.OrderEdges();  
+  if(lst.Size() != 1) return __LINE__;
+  if(lst.First().Size() != 3) return __LINE__;
+  //cerr << "Lst.Size()=" << lst.Size() << "\n";
+  //cerr << "Lst.First().Size()=" << lst.First() << "\n";
+  
   return 0;
 }

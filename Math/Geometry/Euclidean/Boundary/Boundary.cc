@@ -19,6 +19,7 @@
 #include "Ravl/RCHash.hh"
 #include "Ravl/HashIter.hh"
 #include "Ravl/Pair.hh"
+#include "Ravl/Array2dSqr3Iter.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -28,6 +29,27 @@
 #endif
 
 namespace RavlN {
+
+  //: Create a boundary from the edges between 'inLabel' pixels an other values
+  
+  BoundaryC::BoundaryC(const Array2dC<IntT> &emask,IntT inLabel) {
+    if(emask.Frame().Rows() < 3 || emask.Frame().Cols() < 3) {
+      cerr << "RegionMaskBodyC::Boundary(), Mask too small to compute boundary. \n";
+      return;
+    }
+    for(Array2dSqr3IterC<IntT> it(emask);it;it++) {
+      if(it.DataMM() != inLabel)
+	continue;
+      if(it.DataMR() != inLabel)
+	InsLast(EdgeC(it.Index(),CR_UP));
+      if(it.DataML() != inLabel)
+	InsLast(EdgeC(it.Index(),CR_DOWN));
+      if(it.DataTM() != inLabel)
+	InsLast(EdgeC(it.Index(),CR_LEFT));
+      if(it.DataBM() != inLabel)
+	InsLast(EdgeC(it.Index(),CR_RIGHT));
+    }
+  }
 
   BoundaryC::BoundaryC(const DListC<EdgeC> & edgeList, bool orient)
     : DListC<EdgeC>(edgeList), 
@@ -152,10 +174,104 @@ namespace RavlN {
     return bnds;
   }
   
+
+
   BoundaryC BoundaryC::Copy() const {
     //  cout << "BoundaryC::Copy()\n";
     return BoundaryC(DListC<EdgeC>::Copy(),orientation);
   }
+  
+  //: Generate a set of ordered boundries.
+  
+  DListC<BoundaryC> BoundaryC::OrderEdges() const {
+    ONDEBUG(cerr << "DListC<BoundaryC> BoundaryC::OrderEdges() const \n");
+    DListC<BoundaryC> ret;
+    
+    HashC<EdgeC,EdgeC> edges;
+    HashC<BVertexC,DListC<EdgeC> > leavers;
+    
+    // Make table of all possible paths.
+    
+    for(DLIterC<EdgeC> it(*this);it;it++) {
+      ONDEBUG(cerr << "Begin=" << it->Begin() << "\n");
+      leavers[it->Begin()].InsLast(*it);
+    }
+    
+    ONDEBUG(cerr << "leavers.Size()=" << leavers.Size() << ". \n");
+    
+    // Make table of prefered paths.
+    EdgeC invalid(BVertexC(0,0),CR_NODIR);    
+    for(DLIterC<EdgeC> it(*this);it;it++) {
+      ONDEBUG(cerr << "End=" << it->End() << "\n");
+      DListC<EdgeC> &lst = leavers[it->End()];
+      UIntT size = lst.Size();
+      switch(size) {
+      case 0: // Nothing leaving...
+	edges[*it] = invalid;
+	break;
+      case 1: 
+	edges[*it] = lst.First();
+	break;
+      case 2:
+	{
+	// Need to choose the edge to follow
+	  RelativeCrackCodeT rc1 = it->Relative(lst.First());
+	  RelativeCrackCodeT rc2 = it->Relative(lst.Last());
+	  if(rc1 > rc2) 
+	    edges[*it] = lst.First();
+	  else
+	    edges[*it] = lst.Last();
+	} break;
+      default:
+	RavlAssertMsg(0,"BoundaryC::OrderEdges(), Unexpected edge topology. ");
+      }
+    }
+    leavers.Empty(); // Done with these.
+      
+    // Seperate boundries or boundry segements.
+    ONDEBUG(cerr << "edges.Size()=" << edges.Size() << ". \n");
+    
+    EdgeC at,nxt;
+    HashC<EdgeC,BoundaryC> startMap;
+    while(!edges.IsEmpty()) {
+      HashIterC<EdgeC,EdgeC> it(edges); // Use iterator to pick an edge.
+      BoundaryC bnds;
+      at=it.Key();
+      EdgeC first = at;
+      for(;;) {
+	if(!edges.Lookup(at,nxt))
+	  break;
+	bnds.InsLast(at);
+	edges.Del(at);
+	at = nxt;
+      }
+      if(at == first) { // If its a loop we're done.
+	ONDEBUG(cerr << "Found closed boundary. \n");
+	ret.InsLast(bnds);
+      } else {
+	ONDEBUG(cerr << "Found open boundary. \n");
+	// Tie boundry segements together.
+	// 'at' is the last edge from the segment.
+	// 'first' is the first edge from the segment.
+	BoundaryC nbnds;
+	if(startMap.Lookup(at,nbnds)) {
+	  ONDEBUG(cerr << "Joinging boundary. \n");
+	  //nbnds.DelFirst();
+	  bnds.MoveLast(nbnds);
+	  startMap.Del(at);
+	  first = bnds.First();
+	}
+	startMap[first] = bnds;
+      }
+    }
+    
+    // Clean up any remaining boundry segments.
+    ONDEBUG(cerr << "StartMap.Size()=" << startMap.Size() << "\n");
+    for(HashIterC<EdgeC,BoundaryC> smit(startMap);smit;smit++)
+      ret.InsLast(smit.Data());
+    return ret;
+  }
+  
   
   BoundaryC &BoundaryC::BReverse() {
     //  cout << "BoundaryC::BReverse()\n";
