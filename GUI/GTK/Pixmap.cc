@@ -14,8 +14,7 @@
 #include "Ravl/GUI/Pixmap.hh"
 #include <gtk/gtk.h>
   
-#define RAVLDODEBUG 0
-
+#define DODEBUG 0
 #if DODEBUG
 #define ONDEBUG(x) x
 #else
