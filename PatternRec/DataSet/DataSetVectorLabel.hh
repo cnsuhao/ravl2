@@ -7,14 +7,12 @@
 #ifndef RAVL_DATASETVECTORLABEL_HEADER
 #define RAVL_DATASETVECTORLABEL_HEADER 1
 //! rcsid="$Id$"
-//! docentry="Ravl.Pattern Recognition.Data Set"
 //! lib=RavlPatternRec
-//! file="Ravl/PatternRec/DataSet/DataSetVectorLabel.hh"
 
 #include "Ravl/PatternRec/DataSet2.hh"
 #include "Ravl/PatternRec/SampleVector.hh"
 #include "Ravl/PatternRec/SampleLabel.hh"
-
+#include "Ravl/MeanCovariance.hh"
 
 namespace RavlN {
 
@@ -31,8 +29,27 @@ namespace RavlN {
     {}
     //: Constructor
     
-    SArray1dC<SampleVectorC> SeperateLabels();
+    SArray1dC<SampleVectorC> SeperateLabels() const;
     //: Create a seperate sample for each label.
+
+    VectorC GlobalMean() const;
+    //: returns mean of the input vectors
+
+    SArray1dC<VectorC> ClassMeans () const;
+    //: Returns mean of input vectors for each label value
+
+    SArray1dC<UIntT> ClassNums () const;
+    //: Returns array containing the count of each label value
+
+    SArray1dC<MeanCovarianceC> ClassStats () const;
+    //: Returns mean and covariance of input vectors for each label value
+
+    MatrixC BetweenClassScatter () const;
+    //: Returns between class scatter (covariance) matrix
+
+    MatrixC WithinClassScatter () const;
+    //: Returns within class scatter (covariance) matrix
+
   };
   
   //! userlevel=Normal
@@ -66,9 +83,35 @@ namespace RavlN {
     //: Access body.
     
   public:
-    SArray1dC<SampleVectorC> SeperateLabels()
+    SArray1dC<SampleVectorC> SeperateLabels() const
     { return Body().SeperateLabels(); }
     //: Create a seperate sample for each label.
+
+    VectorC GlobalMean() const
+    { return Body().GlobalMean(); }     
+    //: returns mean of the input vectors
+
+    SArray1dC<VectorC> ClassMeans () const
+    { return Body().ClassMeans(); }
+    //: Returns mean of input vectors for each label value
+
+    SArray1dC<UIntT> ClassNums () const
+    { return Body().ClassNums(); }
+    //: Returns array containing the count of each label value
+
+
+    SArray1dC<MeanCovarianceC> ClassStats () const
+    { return Body().ClassStats(); }
+    //: Returns mean and covariance of input vectors for each label value
+
+    MatrixC BetweenClassScatter () const
+    { return Body().BetweenClassScatter (); }
+    //: Returns between class scatter (covariance) matrix
+
+    MatrixC WithinClassScatter () const
+    { return Body().WithinClassScatter (); }
+    //: Returns within class scatter (covariance) matrix
+
     
   };
 }
