@@ -301,13 +301,14 @@ namespace RavlImageN {
       lab=curr;
     }
 
+    //cout << "\n " << labelTable << "*****" ; 
     
     // find highest value in lable table , this assumes that they run in sequence. 
-    UIntT maxLabel = 0 ; 
-    for ( SArray1dIterC<UIntT> iter ( labelTable) ; iter.IsElm() ; iter.Next() )
-    	if ( iter.Data() > maxLabel ) maxLabel = iter.Data() ; 
-    
-    return Tuple2C<ImageC<UIntT>,UIntT>(jp,maxLabel+1);
+    //UIntT maxLabel = 0 ; 
+    //for ( SArray1dIterC<UIntT> iter ( labelTable) ; iter.IsElm() ; iter.Next() )
+      //if ( iter.Data() > maxLabel ) maxLabel = iter.Data() ; 
+    //
+    return Tuple2C<ImageC<UIntT>,UIntT>(jp,lab);
   }
 
 }
