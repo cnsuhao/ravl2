@@ -13,7 +13,7 @@
 //! lib=RavlIO
 //! author="Charles Galambos"
 //! date="09/07/1998"
-//! userlevel=Default
+//! userlevel=Normal
 
 #include "Ravl/DP/Port.hh"
 #include "Ravl/DP/Plug.hh"

@@ -11,6 +11,7 @@
 //! date="16/7/2002"
 //! author="Charles Galambos"
 //! lib=RavlIO
+//! docentry="Ravl.Core.Data Processing.Internal" 
 
 #include "Ravl/DP/StreamProcess.hh"
 #include "Ravl/DP/Process31.hh"

@@ -23,7 +23,9 @@
 #include "Ravl/DP/SPortAttach.hh"
 #include "Ravl/DP/MethodIO.hh"
 #include "Ravl/DP/Method2Proc21.hh"
+#include "Ravl/DP/Func2Proc21.hh"
 #include "Ravl/DP/Method2Proc31.hh"
+#include "Ravl/DP/Func2Proc31.hh"
 #include "Ravl/DP/StreamOp21.hh"
 #include "Ravl/DP/StreamOp31.hh"
 
@@ -148,13 +150,21 @@ public:
   int i;
 };
 
+int Func21(const double &x,const bool &)
+{ return (int) x + 1; }
+
+int Func31(const double &x,const bool &,const char &)
+{ return (int) x + 1; }
+
 TestC tc;
 
 int testFunc2Proc()
 {
   DPFunc2ProcC<int,int,conv> func;
-  DPIStreamOp21C<double,bool,int> sop2(Process(tc,&TestC::Method21));
-  DPIStreamOp31C<double,bool,char,int> sop3(Process(tc,&TestC::Method31));
+  DPIStreamOp21C<double,bool,int> mop2(Process(tc,&TestC::Method21));
+  DPIStreamOp31C<double,bool,char,int> mop3(Process(tc,&TestC::Method31));
+  DPIStreamOp21C<double,bool,int> fop2(Process(&Func21));
+  DPIStreamOp31C<double,bool,char,int> fop3(Process(&Func31));
   return 0;
 }
 
