@@ -120,6 +120,12 @@ namespace RavlN {
     result[1] = R[0][1]*x[0] + R[1][1]*x[1] + R[2][1]*x[2];
     result[2] = R[0][2]*x[0] + R[1][2]*x[1] + R[2][2]*x[2];
   }
+  
+  inline
+  RealT Determinant(const FMatrixC<3,3> &mat) 
+  { return ((const Matrix3dC &)mat).Det(); }
+  //: Compute the determinant of a 2x2 matrix.
+  
 }
 
 #endif

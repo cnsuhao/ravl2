@@ -75,8 +75,8 @@ namespace RavlN {
     //: Invert matrix in place.
     
   };
-
-
+  
+  
   inline
   TFVectorC<RealT,2> TFMatrixC<RealT,2,2>::operator*(const TFVectorC<RealT,2> & vec) const {
     TFVectorC<RealT,2> ret;
@@ -175,6 +175,11 @@ namespace RavlN {
   // This matrix is filed with the eigen vectors
   // A = E*D*E~ where D is the diagonal matrix of eigenvalues
   //   D[i,j] = ret[i] if i=j and 0 otherwise. 
+  
+  inline
+  RealT Determinant(const FMatrixC<2,2> &mat) 
+  { return ((const Matrix2dC &)mat).Det(); }
+  //: Compute the determinant of a 2x2 matrix.
   
 }
 

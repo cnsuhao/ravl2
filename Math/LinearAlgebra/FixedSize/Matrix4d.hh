@@ -121,6 +121,11 @@ namespace RavlN {
     result[3] = R[3][0]*x[0] + R[3][1]*x[1] + R[3][2]*x[2] + R[3][3]*x[3];
   }
   
+  inline
+  RealT Determinant(const FMatrixC<4,4> &mat) 
+  { return ((const Matrix4dC &)mat).Det(); }
+  //: Compute the determinant of a 2x2 matrix.
+  
 }
 
 #endif

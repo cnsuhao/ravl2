@@ -19,6 +19,12 @@
 
 namespace RavlN {
   
+  //: Compute determinant of a n by n matrix.
+  //:-
+  
+  RealT Determinant(const RealT *data,UIntT n) 
+  { return MatrixC(n,n,const_cast<RealT*>(data)).Det(); }
+  
   
   RealT MatrixC::Det() const {
     RavlAssertMsg(Rows() == Cols(),"Can only find the determinant of square matrices.\n");

@@ -71,8 +71,24 @@ namespace RavlN {
     // Returns true if matrix was non-singular (i.e. successful inversion). 
     // NB. This will only work for square matrixes.
     
-    
+    RealT Det() const { 
+      RavlAssert(N == M);
+      return Determinant(*this); 
+    }
+    //: Compute the determinant of the matrix.
+    // Note: Matrix MUST be square.
   };
+  
+  //! userlevel=Develop
+  RealT Determinant(const RealT *data,UIntT n);
+  //: Compute determinant of a n by n matrix.
+  //:-
+  
+  template<unsigned int N>
+  RealT Determinant(const FMatrixC<N,N> &mat) 
+  { return Determinant(&(mat[0][0]),N); }
+  //: Compute the determinant of the matrix.
+  // Note: Matrix MUST be square.
   
   template<unsigned int N,unsigned int M>
   bool SolveIP(FMatrixC<N,M> &mat,FVectorC<N> &b) {
