@@ -28,7 +28,7 @@ namespace RavlN {
 	cerr << "ERROR: TickerTriggerBodyC::Startup(), ask to launch an invalid event.\n";
 	return 1;
       }
-      while(delay > 0) {
+      while(delay > 0 && !terminatePending) {
 	next.SetToNow();
 	next += delay;
 	ONDEBUG(cerr << "Ticker called " << ((void *) this) <<". \n");
