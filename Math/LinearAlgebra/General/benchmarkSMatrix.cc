@@ -10,7 +10,7 @@
 #include "Ravl/TSMatrixRightUpper.hh"
 #include "Ravl/TSMatrixLeftLower.hh"
 #include "Ravl/TSMatrixSparse.hh"
-#include "Ravl/TSMatrixPositiveDefinite.hh"
+#include "Ravl/TSMatrixSymmetric.hh"
 #include "Ravl/TSMatrixScaledIdentity.hh"
 #include "Ravl/Random.hh"
 
