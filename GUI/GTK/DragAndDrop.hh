@@ -94,6 +94,10 @@ namespace RavlGUIN {
     { return time; }
     //: Return time of event.
     
+    bool PutString(int dtype,const StringC &str);
+    //: Put a string.
+    // Used in response to 'data_get'.
+    
   protected:
     // Info....
     GdkDragContext *context;

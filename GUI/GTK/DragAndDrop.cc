@@ -34,9 +34,16 @@ namespace RavlGUIN {
   StringC DNDDataInfoC::String() {
     if(data == 0)
       return StringC();
-    if(data->format == 8)
+    if(data->format != 8)
       cerr << "DNDDataInfoC::String(), WARNING: Selection may not be a string. \n";
     return StringC((char *) data->data,data->length);
+  }
+
+  //: Put a string.
+  
+  bool DNDDataInfoC::PutString(int dtype,const StringC &str) {
+    gtk_selection_data_set (data,dtype,8, (const guchar *)str.chars(), str.Size());
+    return true;
   }
   
 }

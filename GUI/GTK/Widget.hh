@@ -138,13 +138,13 @@ namespace RavlGUIN {
     void GUIGrabFocus();
     //: Grab keyboard focus.
     
-    bool GUIDNDSource(ModifierTypeT flags,SArray1dC<GtkTargetEntry> entries,DragActionT actions);
+    bool GUIDNDSource(ModifierTypeT flags,const SArray1dC<GtkTargetEntry> &entries,DragActionT actions);
     //: Setup widget as drag and drop source.
     
     bool GUIDNDSourceDisable();
     //: Disable widget as a drag and drop source.
     
-    bool GUIDNDTarget(DestDefaultsT flags,SArray1dC<GtkTargetEntry> entries,DragActionT actions);
+    bool GUIDNDTarget(DestDefaultsT flags,const SArray1dC<GtkTargetEntry> &entries,DragActionT actions);
     //: Setup widget as drag and drop target.
     
     bool GUIDNDTargetDisable();
@@ -365,6 +365,22 @@ namespace RavlGUIN {
     void GUIGrabFocus()
     { Body().GUIGrabFocus(); }
     //: Grab keyboard focus.
+    
+    bool GUIDNDSource(ModifierTypeT flags,const SArray1dC<GtkTargetEntry> &entries,DragActionT actions)
+    { return Body().GUIDNDSource(flags,entries,actions); }
+    //: Setup widget as drag and drop source.
+    
+    bool GUIDNDSourceDisable()
+    { return Body().GUIDNDSourceDisable(); }
+    //: Disable widget as a drag and drop source.
+    
+    bool GUIDNDTarget(DestDefaultsT flags,const SArray1dC<GtkTargetEntry> &entries,DragActionT actions)
+    { return Body().GUIDNDTarget(flags,entries,actions); }
+    //: Setup widget as drag and drop target.
+    
+    bool GUIDNDTargetDisable()
+    { return Body().GUIDNDTargetDisable(); }
+    //: Disable widget as a drag and drop source.
     
     friend class WidgetBodyC;
     friend class ManagerC;

@@ -70,7 +70,7 @@ namespace RavlGUIN {
 #define GTKSIG_DNDCONTEXT      (GtkSignalFunc) WidgetBodyC::gtkDNDContext,SigTypeDNDContext
 #define GTKSIG_DNDPOSITION     (GtkSignalFunc) WidgetBodyC::gtkDNDPosition,SigTypeDNDPosition
 #define GTKSIG_DNDLEAVE        (GtkSignalFunc) WidgetBodyC::gtkDNDContextTime,SigTypeDNDPosition
-#define GTKSIG_DNDDATAGET      (GtkSignalFunc) WidgetBodyC::gtkDNDContext,SigTypeDNDData
+#define GTKSIG_DNDDATAGET      (GtkSignalFunc) WidgetBodyC::gtkDNDDataGet,SigTypeDNDData
 #define GTKSIG_DNDDATARECIEVED (GtkSignalFunc) WidgetBodyC::gtkDNDDataRecieved,SigTypeDNDData
 
   GTKSignalInfoC &WidgetBodyC::SigInfo(const char *nm)  {
@@ -230,7 +230,12 @@ namespace RavlGUIN {
     return 1;
   }
   
-  int WidgetBodyC::gtkDNDDataGet(GtkWidget *widget,GdkDragContext *context,GtkSelectionData *data,unsigned int info,unsigned int time,Signal0C *sigptr) {
+  int WidgetBodyC::gtkDNDDataGet(GtkWidget *widget,
+				 GdkDragContext *context,
+				 GtkSelectionData *data,
+				 unsigned int info,
+				 unsigned int time,
+				 Signal0C *sigptr) {
     Signal1C<DNDDataInfoC> sig(*sigptr);
     RavlAssert(sig.IsValid());
     DNDDataInfoC inf(context,data,info,time);
@@ -584,7 +589,7 @@ namespace RavlGUIN {
   
   //: Setup widget as drag and drop source.
   
-  bool WidgetBodyC::GUIDNDSource(ModifierTypeT flags,SArray1dC<GtkTargetEntry> entries,DragActionT actions) {
+  bool WidgetBodyC::GUIDNDSource(ModifierTypeT flags,const SArray1dC<GtkTargetEntry> &entries,DragActionT actions) {
     if(widget == 0) {
       if(dndInfo == 0)
 	dndInfo = new WidgetDndInfoC();
@@ -614,7 +619,7 @@ namespace RavlGUIN {
   
   //: Setup widget as drag and drop target.
   
-  bool WidgetBodyC::GUIDNDTarget(DestDefaultsT flags,SArray1dC<GtkTargetEntry> entries,DragActionT actions) {
+  bool WidgetBodyC::GUIDNDTarget(DestDefaultsT flags,const SArray1dC<GtkTargetEntry> &entries,DragActionT actions) {
     if(widget == 0) {
       if(dndInfo == 0)
 	dndInfo = new WidgetDndInfoC();
