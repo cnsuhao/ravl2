@@ -8,6 +8,7 @@ ifndef LIBTIFF_DEF
 LIBTIFF_DEF = 1
 
 include Math.def
+include zlib.def
 
 ifeq ($(ARC),linux)
 EXELIB := -ltiff $(EXELIB)
@@ -16,9 +17,14 @@ ifeq ($(ARC),sgi)
 LIBTIFF_HOME=/opt/freeware
 INCLUDES += -I$(LIBTIFF_HOME)/include 
 EXELIB := -Wl,-rpath,$(LIBTIFF_HOME)/lib32 -L$(LIBTIFF_HOME)/lib32 -ltiff $(EXELIB)
+
 else
 LIBTIFF_HOME=/opt/PDlibs/tiff-v3.4beta037
+#LIBTIFF_HOME=/vol/home/cvsspraid2/cvssppg/eep2lg/tiff-v3.5.7/libtiff
 INCLUDES += -I$(LIBTIFF_HOME)/include 
+#LIBTIFF_HOME=/tmp/tiff
+#INCLUDES += -I$(LIBTIFF_HOME)/include
+
 EXELIB := -L$(LIBTIFF_HOME)/lib -ltiff $(EXELIB)
 endif
 endif

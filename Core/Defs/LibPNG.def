@@ -10,7 +10,16 @@ LIBPNG_DEF = 1
 include Math.def
 include zlib.def
 
+
+
+
+
 EXELIB := -lpng $(EXELIB)
+
+#LIBPNG_HOME=/home
+#INCLUDES += -I$(LIBPNG_HOME)/include
+#EXELIB := -L$(LIBPNG_HOME)/lib $(EXELIB)
+
 
 ifeq ($(ARC),sgi)
 LIBPNG_HOME=/opt/PDlibs/
@@ -18,10 +27,11 @@ INCLUDES += -I$(LIBPNG_HOME)/include
 EXELIB := -Wl,-rpath,$(LIBPNG_HOME)/lib -L$(LIBPNG_HOME)/lib  $(EXELIB)
 else
 ifeq ($(ARC),sol2)
-LIBPNG_HOME=/opt/PDlibs
+LIBPNG_HOME=/opt/PDlibs/png-1.0.7
 INCLUDES += -I$(LIBPNG_HOME)/include 
 EXELIB := -L$(LIBPNG_HOME)/lib $(EXELIB)
 endif
+
 endif
 
 endif

@@ -12,27 +12,38 @@ GTKDEF = 1
 include x11.def
 
 ifeq (x,x)
-ifeq ($(ARC),linux)
-GLIBPATH = /usr
-GTKPPATH = /usr
-else
-GLIBPATH = /opt/PDgtk/glib-1.2.7
-GTKPPATH = /opt/PDgtk/gtk+-1.2.7
-endif
+
+#ifeq ($(ARC),linux)
+#GLIBPATH = /usr
+#GTKPPATH = /usr
+#else
+#GLIBPATH = /opt/PDgtk/glib-1.2.7
+#GTKPPATH = /opt/PDgtk/gtk+-1.2.7
+#endif
 
 #GTKCONFIG = $(GTKPPATH)/bin/gtk-config
+
 GTKCONFIG = gtk-config
+GLIBCONFIG = glib-config 
 
 GTKCFLAGS = `$(GTKCONFIG) --cflags`
-GTKLIBS =  `$(GTKCONFIG) --libs`
+GTKCFLAGS += `$(GLIBCONFIG) --cflags`
 
-ifeq ($(ARC),sol2)
-GTKLIBS += -R$(GTKPPATH)/lib -R$(GLIBPATH)/lib
-endif
+GTKLIBS =  -L/opt/lib `$(GTKCONFIG) --libs`
+GTKLIBS += `$(GLIBCONFIG) --libs`
 
-ifeq ($(ARC),sgi)
-GTKLIBS += -Wl,-rpath,$(GTKPPATH)/lib,-rpath,$(GLIBPATH)/lib
-endif
+GLIBCFLAGS = `$(GLIBCONFIG) --cflags`
+GLIBCFLAGS = `$(GLIBCONFIG) --cflags`
+
+
+
+#ifeq ($(ARC),sol2)
+#GTKLIBS += -R$(GTKPPATH)/lib -R$(GLIBPATH)/lib
+#endif
+
+#ifeq ($(ARC),sgi)
+#GTKLIBS += -Wl,-rpath,$(GTKPPATH)/lib,-rpath,$(GLIBPATH)/lib
+#endif
 
 else
 GTKCFLAGS= `pkg-config gtk+-2.0 --cflags` -DRAVL_USE_GTK2=1
