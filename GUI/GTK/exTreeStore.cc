@@ -28,7 +28,6 @@
 
 using namespace RavlGUIN;
 
-#endif
 
 TreeStoreC treeStore;
 
@@ -47,6 +46,7 @@ bool ToggleCallback(TreeModelIterC &at) {
   treeStore.SetValue(at,3,val);
   return true;
 }
+#endif
 
 int main(int nargs,char **argv) {
 #if RAVL_USE_GTK2
