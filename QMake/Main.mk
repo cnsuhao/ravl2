@@ -724,7 +724,7 @@ $(TARG_EXE) : $(INST_BIN)/% : $(INST_OBJS)/%$(OBJEXT) $(INST_GENBIN)/% $(EXTRAOB
 	fi
 
 $(ROOTDIR)/share/RAVL/config.arc : $(ROOTDIR)/share/RAVL/QMake/config.arc
-	$(SHOWIT)cp $(ROOTDIR)/share/RAVL/QMake/config.arc $(ROOTDIR)/share/RAVL/config.arc
+	$(SHOWIT)cp $(ROOTDIR)/share/RAVL/QMake/config.arc $(ROOTDIR)/share/RAVL/config.arc ; \
 	$(CHMOD) 555 $(ROOTDIR)/share/RAVL/config.arc
 
 $(INST_GENBIN)/RAVLExec : $(INST_GENBIN)/.dir $(MAKEHOME)/RAVLExec $(ROOTDIR)/share/RAVL/config.arc
