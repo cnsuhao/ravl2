@@ -78,6 +78,9 @@ namespace RavlGUIN {
     ConnectSignals();
     // Set resizableness
     if (!userresizable) GUIUserResizable(userresizable);
+    // Set transience
+    if (m_wParent.IsValid()) GUIMakeTransient(m_wParent);
+    // Done
     return true;
   }
   
@@ -240,9 +243,11 @@ namespace RavlGUIN {
     Manager.Queue(Trigger(WindowC(*this),&WindowC::GUIMakeTransient,parent));
   }
 
-  bool WindowBodyC::GUIMakeTransient(WindowC& parent) {
+  bool WindowBodyC::GUIMakeTransient(OneChildC& parent) {
     if (widget!=0 && parent.Widget()!=0)
       gtk_window_set_transient_for(GTK_WINDOW(widget),GTK_WINDOW(parent.Widget()));
+    else 
+      m_wParent = parent;
     return true;
   }
    

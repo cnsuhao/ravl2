@@ -51,8 +51,6 @@ namespace RavlGUIN {
     bool m_bYesNo;
     Signal1C<bool> sigDone;
 
-    const WindowC* m_pwParent; // Used only during create
-
     friend class MessageBoxC;
   };
   

@@ -112,7 +112,7 @@ namespace RavlGUIN {
     bool GUISetModal(bool& modal);
     //: Makes the window modal
 
-    bool GUIMakeTransient(WindowC& parent);
+    bool GUIMakeTransient(OneChildC& parent);
     //: Makes this window transient for the parent
 
     virtual bool GUIShow();
@@ -125,8 +125,9 @@ namespace RavlGUIN {
     bool closeDown; // Indicates close down is in progress or pending.
     CursorC cursor; // Invalid == default.
     bool cursorChange;
-    bool userresizable;
+    bool userresizable; // Used only to cache UserResizable calls - irrelevant after Create()
     GtkWindowType winType;
+    OneChildC m_wParent; // Used only to cache MakeTransient calls - irrelevant after Create()
     
     friend class WindowC;
   };
