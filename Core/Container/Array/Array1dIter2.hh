@@ -37,8 +37,11 @@ namespace RavlN {
         dat1(arr1),
         dat2(arr2)
     {
-      if(matching) 
+      if(matching) {
 	RavlAssert(arr1.Range() == arr2.Range());
+      } else {
+	RavlAssert(arr1.Range().Size() <= arr2.Range().Size());
+      }
     }
     //: Constructor.
     // If you don't intend to iterator over the same range for each array set the 'matching' paramiter to 

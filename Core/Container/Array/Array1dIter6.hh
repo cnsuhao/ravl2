@@ -51,6 +51,12 @@ namespace RavlN {
 	RavlAssertMsg(arr1.Range() == arr4.Range(),"Array1dIter6C, First and fourth array ranges don't match.");
 	RavlAssertMsg(arr1.Range() == arr5.Range(),"Array1dIter6C, First and fifth array ranges don't match.");
 	RavlAssertMsg(arr1.Range() == arr6.Range(),"Array1dIter6C, First and sixth array ranges don't match.");
+       } else {
+	RavlAssertMsg(arr1.Range().Size() <= arr2.Range().Size(),"Array1dIter6C, Second array smaller than first.");
+	RavlAssertMsg(arr1.Range().Size() <= arr3.Range().Size(),"Array1dIter6C, Third array smaller than first");
+	RavlAssertMsg(arr1.Range().Size() <= arr4.Range().Size(),"Array1dIter6C, Forth array smaller than first");
+	RavlAssertMsg(arr1.Range().Size() <= arr5.Range().Size(),"Array1dIter6C, Fifth array smaller than first");
+	RavlAssertMsg(arr1.Range().Size() <= arr6.Range().Size(),"Array1dIter6C, Sixth array smaller than first");
       }
     }
     //: Constructor.

@@ -45,8 +45,13 @@ namespace RavlN {
         dat3(arr3)
     { 
       if(matching) {
-	RavlAssert(dat1.Range().Size() == dat2.Range().Size());
-	RavlAssert(dat1.Range().Size() == dat3.Range().Size());
+	RavlAssertMsg(dat1.Range().Size() == dat2.Range().Size(),"Array2dIter3C, Mismatch in sizes of rectangles 1 and 2. ");
+	RavlAssertMsg(dat1.Range().Size() == dat3.Range().Size(),"Array2dIter3C, Mismatch in sizes of rectangles 1 and 3. ");
+      } else {
+	RavlAssertMsg(dat1.Range().Rows() <= dat2.Range().Rows(),"Array2dIter3C, Second array is has fewer rows than the first. ");
+	RavlAssertMsg(dat1.Range().Cols() <= dat2.Range().Cols(),"Array2dIter3C, Second array is has fewer cols than the first. ");
+	RavlAssertMsg(dat1.Range().Rows() <= dat3.Range().Rows(),"Array2dIter3C, Third array is has fewer rows than the first. ");
+	RavlAssertMsg(dat1.Range().Cols() <= dat3.Range().Cols(),"Array2dIter3C, Third array is has fewer cols than the first. ");
       }
       First();
     }

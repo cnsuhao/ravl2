@@ -63,6 +63,19 @@ namespace RavlN {
 	RavlAssert(dat1.Range().Size() == dat4.Range().Size());
 	RavlAssert(dat1.Range().Size() == dat5.Range().Size());
 	RavlAssert(dat1.Range().Size() == dat6.Range().Size());
+      } else {
+	RavlAssertMsg(dat1.Range().Rows() <= dat2.Range().Rows(),"Array2dIter3C, Second array is has fewer rows than the first. ");
+	RavlAssertMsg(dat1.Range().Cols() <= dat2.Range().Cols(),"Array2dIter3C, Second array is has fewer cols than the first. ");
+	RavlAssertMsg(dat1.Range().Rows() <= dat3.Range().Rows(),"Array2dIter3C, Third array is has fewer rows than the first. ");
+	RavlAssertMsg(dat1.Range().Cols() <= dat3.Range().Cols(),"Array2dIter3C, Third array is has fewer cols than the first. ");
+	RavlAssertMsg(dat1.Range().Rows() <= dat4.Range().Rows(),"Array2dIter3C, Fourth array is has fewer rows than the first. ");
+	RavlAssertMsg(dat1.Range().Cols() <= dat4.Range().Cols(),"Array2dIter3C, Fourth array is has fewer cols than the first. ");
+	RavlAssertMsg(dat1.Range().Rows() <= dat5.Range().Rows(),"Array2dIter3C, Fifth array is has fewer rows than the first. ");
+	RavlAssertMsg(dat1.Range().Cols() <= dat5.Range().Cols(),"Array2dIter3C, Fifth array is has fewer cols than the first. ");
+	RavlAssertMsg(dat1.Range().Rows() <= dat6.Range().Rows(),"Array2dIter3C, Sixth array is has fewer rows than the first. ");
+	RavlAssertMsg(dat1.Range().Cols() <= dat6.Range().Cols(),"Array2dIter3C, Sixth array is has fewer cols than the first. ");
+	RavlAssertMsg(dat1.Range().Rows() <= dat7.Range().Rows(),"Array2dIter3C, Seventh array is has fewer rows than the first. ");
+	RavlAssertMsg(dat1.Range().Cols() <= dat7.Range().Cols(),"Array2dIter3C, Seventh array is has fewer cols than the first. ");
       }
       First();
     }

@@ -40,8 +40,12 @@ namespace RavlN {
         dat1(arr1),
         dat2(arr2)
     { 
-      if(matching) 
-	RavlAssert(dat1.Range().Size() == dat2.Range().Size());
+      if(matching) {
+	RavlAssertMsg(dat1.Range().Size() == dat2.Range().Size(),"Array2dIter2C, Array size mismatch");
+      } else {
+	RavlAssertMsg(dat1.Range().Rows() <= dat2.Range().Rows(),"Array2dIter2C, Second array is has fewer rows than the first. ");
+	RavlAssertMsg(dat1.Range().Cols() <= dat2.Range().Cols(),"Array2dIter2C, Second array is has fewer cols than the first. ");
+      }	
       First();
     }
     //: Constructor.
