@@ -20,6 +20,7 @@
 #include "Ravl/Image/MosaicBuilder.hh"
 #include "Ravl/Image/ImageMatcher.hh"
 #include "Ravl/Image/ImageConv.hh"
+#include "Ravl/Image/ForegroundSep.hh"
 #include "Ravl/Image/WarpProjective.hh"
 #include "Ravl/Image/RemoveDistortion.hh"
 #include "Ravl/Image/ImageConv.hh"
@@ -32,8 +33,6 @@
 #include "Ravl/Image/ImgIO.hh"
 #define DODEBUG 0
 #if DODEBUG
-#include "Ravl/IO.hh"
-#include "Ravl/Image/ImgIO.hh"
 #include "Ravl/Image/DrawCross.hh"
 #include "Ravl/Image/DrawFrame.hh"
 #define ONDEBUG(x) x
@@ -51,6 +50,7 @@ namespace RavlImageN {
       pointTL(0.0, 0.0), pointTR(0.0, 1.0),
       pointBL(1.0, 0.0), pointBR(1.0, 1.0),
       zhomog(100), mosaicZHomog(1),
+      K1(0), K2(0), cx_ratio(0.5), cy_ratio(0.5), fx(1.0), fy(1.0),
       Parray(0),
       tracker(30,7,20,17,8,25,1),
       epos(2),
@@ -109,39 +109,28 @@ namespace RavlImageN {
     // open i/p video stream
     if (!OpenSequence(ipFile, startFrame)) exit (-1);
     // Compute homographies & warp frames
+    ImageC<ByteRGBValueC> img;
     if (resize == twopass) { // two-pass version
-      while (frameNo < noOfFrames) {
+      for (; frameNo < noOfFrames; ++frameNo) {
 	cout << "Tracking frame " << frameNo << endl;
-	if(!input.Get(img)) {
-	  cerr<<"Could not read image at frame no. "<<frameNo<<endl;
-	  break;
-	}
+	if (!GetImage(img))  break;
 	if (!PrepareFrame(img)) break; 
 	if (!FindProj(img)) break;
-	InvolveFrame(rect, Parray[frameNo]);
-
-	frameNo++;
+	InvolveFrame(img.Rectangle(), Parray[frameNo]);
       }
       mosaic = ImageC<ByteRGBMedianC>(mosaicRect);
       input.Seek(startFrame);
       for (frameNo = 0; frameNo < Parray.Size(); ++frameNo){
 	cout << "Warping frame " << frameNo << endl;
-	if(!input.Get(img)) {
-	  cerr<<"Could not read image at frame no. "<<frameNo<<endl;
-	  break;
-	}
+	if (!GetImage(img))  break;
 	if (!PrepareFrame(img)) break;
-	if (WarpFrame(img)) cout << "Mosaic was expanded" << endl;
+	WarpFrame(img);
       }
     }
     else { // one-pass version
       while(frameNo < noOfFrames) {
 	cout << "Processing frame " << frameNo << endl;
-	if(!input.Get(img)) {
-	  cerr<<"Could not read image at frame no. "<<frameNo<<endl;
-	  img = ImageC<ByteRGBValueC>();
-	  break;
-	}
+	if (!GetImage(img))  break;
 	if (!Apply(img)) break;
       }
     }
@@ -154,8 +143,13 @@ namespace RavlImageN {
 {
     if (!PrepareFrame(img)) return false; 
     if (!FindProj(img)) return false;  // process next image to get projection info
-
-    if (WarpFrame(img)) cout << "Mosaic was expanded" << endl;
+    // If we are resizing the mosaic as we go, and mosaic rectangle needs 
+    // expanding, then we need to copy mosaic to a new, bigger image.
+    if (InvolveFrame(img.Rectangle(), Parray[frameNo]) && (resize==onepass)) {
+      cout << "Mosaic was expanded" << endl;
+      ExpandMosaic();
+    }
+    WarpFrame(img); 
 
 #if DODEBUG
     ImageC<ByteRGBValueC> timg(img.Copy());
@@ -186,7 +180,7 @@ namespace RavlImageN {
   //: Open file for mosaicing
   bool MosaicBuilderBodyC::OpenSequence(const StringC& ipFile, IntT startFrame) {
     if(!OpenISequence(input,ipFile)) {
-      cerr << "Failed to open input file `" << ipFile << "'" << endl;
+      cerr << "Failed to open input sequence `" << ipFile << "'" << endl;
       return false;
     }
     if (startFrame > 0)  input.Seek(startFrame);
@@ -205,17 +199,17 @@ namespace RavlImageN {
     }
     if (frameNo == 0) {
       // set frame from first image
-      rect = IndexRange2dC(img.Frame());
+      cropRect = IndexRange2dC(img.Frame());
       // adjust frame for cropping region
-      rect.TRow() += cropT; rect.BRow() -= cropB;
-      rect.LCol() += cropL; rect.RCol() -= cropR;
+      cropRect.TRow() += cropT; cropRect.BRow() -= cropB;
+      cropRect.LCol() += cropL; cropRect.RCol() -= cropR;
     }
-    if (!rect.IsValid()) {
+    if (!cropRect.IsValid()) {
       cerr<<"Cropped image rectangle too small at frame no. "<<frameNo<<endl;
       img = ImageC<ByteRGBValueC>();
       return false;
     }
-    img = ImageC<ByteRGBValueC>(img, rect);
+    img = ImageC<ByteRGBValueC>(img, cropRect);
     return true;
   }
 
@@ -309,56 +303,57 @@ namespace RavlImageN {
   }
 
 
-  //: Warps current frame into mosaic coords
-  bool MosaicBuilderBodyC::WarpFrame(const ImageC<ByteRGBValueC>& img) {
-    // If we are resizing the mosaic as we go, and mosaic rectangle needs 
-    // expanding, then we need to copy mosaic to a new, bigger image.
-    IndexRange2dC oldRect = mosaicRect;
-    if(resize == onepass) {
-      // Expand mosaic rectangle if needed to include projected frame corners
-      Projection2dC warp(Parray[frameNo].Inverse(), mosaicZHomog, zhomog);
-      mosaicRect.Involve(warp.Project(rect.TopLeft()));
-      mosaicRect.Involve(warp.Project(rect.TopRight()));
-      mosaicRect.Involve(warp.Project(rect.BottomLeft()));
-      mosaicRect.Involve(warp.Project(rect.BottomRight()));
-      // If rectangle changed, need to copy mosaic
-      if (oldRect != mosaicRect){
-	ImageC<ByteRGBMedianC> newMosaic(mosaicRect);
-	for(Array2dIter2C<ByteRGBMedianC,ByteRGBMedianC> it(mosaic, newMosaic, mosaic.Rectangle()); it;it++ )
-	  it.Data2() = it.Data1();
-	mosaic = newMosaic;
-      }
+  //: Expand mosaic rectangle to include projected frame corners
+  bool MosaicBuilderBodyC::InvolveFrame(const IndexRange2dC& rect, const Matrix3dC& homog) {
+    Projection2dC warp(homog.Inverse(), mosaicZHomog, zhomog);
+    if (frameNo == 0) { 
+      // initialise rectangle at pixel guaranteed in projected image
+      mosaicRect = IndexRange2dC(warp.Project(rect.Center()), 1); 
     }
-    // Projective warp, combining new image with mosaic median image
+    IndexRange2dC oldRect = mosaicRect;
+    mosaicRect.Involve(warp.Project(rect.TopLeft()));
+    mosaicRect.Involve(warp.Project(rect.TopRight()));
+    mosaicRect.Involve(warp.Project(rect.BottomLeft()));
+    mosaicRect.Involve(warp.Project(rect.BottomRight()));
+    if (frameNo == 0) {
+      mosaicRect.TRow() -= borderR;
+      mosaicRect.LCol() -= borderC;
+      mosaicRect.BRow() += borderR;
+      mosaicRect.RCol() += borderC;
+    }
+    return (oldRect != mosaicRect);
+  }
+
+  
+  //: Expands mosaic to fit expanded mosaic rectangle
+  void MosaicBuilderBodyC::ExpandMosaic() {
+    // Create expanded mosaic with no median info in it
+    ImageC<ByteRGBMedianC> newMosaic(mosaicRect);
+    if (mosaic.IsValid()) {
+      for(Array2dIter2C<ByteRGBMedianC,ByteRGBMedianC> it(mosaic, newMosaic, mosaic.Rectangle()); it;it++ )
+	it.Data2() = it.Data1();
+      mosaic = newMosaic;
+    }
+  }
+
+  //: Warps current frame into mosaic coords
+  void MosaicBuilderBodyC::WarpFrame(const ImageC<ByteRGBValueC>& img) {
+    if (frameNo == 0) {
+      mosaic = ImageC<ByteRGBMedianC>(mosaicRect);
+    }
     WarpProjectiveC<ByteRGBValueC,ByteRGBMedianC,PixelMixerRecursiveC<ByteRGBValueC,ByteRGBMedianC> > pwarp(mosaic.Rectangle(),Parray[frameNo].Inverse(),zhomog,1.0,false);
     pwarp.Apply(img,mosaic);
-    return (oldRect != mosaicRect);
   }
 
 
   // Generates foreground image sequence
   bool MosaicBuilderBodyC::GenerateForeground(IntT startFrame, UIntT noOfFrames, DPOPortC<ImageC<ByteRGBValueC> >& outp, int fgThreshold) {
+    // find start of sequence
     input.Seek(startFrame);
-    // 5x5 kernel for morphological operations, with this shape:
-    //  ***
-    // *****
-    // *****
-    // *****
-    //  ***
-    IndexRangeC centred(-2,2);
-    ImageC<bool> kernel(centred,centred);
-    kernel.Fill(true);
-    kernel[-2][-2] = kernel[-2][2] = kernel[2][-2] = kernel[2][2] = false;
-    
-    // first motion estimate for registration with the mosaic
-    //Projection2dC proj(GetMotion(0),zhomog,mosaicZHomog);
-    
-    // convert mosaic to grey level
-    ImageC<ByteRGBValueC> mosaicRGB = ByteRGBMedianImageC2ByteRGBImageCT(GetMosaic());
-    ImageC<ByteT> mosaicGrey = RGBImageCT2ByteImageCT(mosaicRGB);
-    ImageMatcherC matcher(mosaicGrey, cropT, cropB, cropL, cropR,
-			  17, 25, 20, mosaicZHomog, zhomog);
-    
+    // set up foreground separator
+    ForegroundSepC fgSep(GetMosaic(), mosaicZHomog, zhomog, fgThreshold);
+    if (mask.IsValid()) fgSep.SetMask(mask);  // exclude unwanted regions
+    ImageC<ByteRGBValueC> img;
     // compute foreground segmented image
     for(frameNo = 0;frameNo < noOfFrames; frameNo++) {
 
@@ -366,55 +361,8 @@ namespace RavlImageN {
       if(!input.Get(img))  break;
       cout << "Projection for frame " << frameNo << endl;
       PrepareFrame(img) ;
-
-      // convert image to grey level
-      ImageC<ByteT> imgGrey = RGBImageCT2ByteImageCT(img);
-      
-      Projection2dC proj(GetMotion(frameNo),zhomog,mosaicZHomog);
-      // match image to mosaic and update the motion "proj"
-      if(!matcher.Apply(imgGrey, proj))
-	continue;
-            
-      // warp mosaic onto image
-      ImageC<ByteRGBValueC> warped_img(GetCropRect());
-      WarpProjectiveC<ByteRGBValueC,ByteRGBValueC> pwarp(GetCropRect(),proj);
-      pwarp.Apply(mosaicRGB,warped_img);
-      
-      // smooth both images to suppress artefacts
-      GaussConvolveC<ByteRGBValueC, ByteRGBValueC, RealT, RealRGBValueC> lpf(7);
-      img = lpf.Apply(img);
-      warped_img = lpf.Apply(warped_img);
-      
-      // subtract and threshold
-      ImageC<bool> outmask(GetCropRect());
-      for (Array2dIter3C<ByteRGBValueC,ByteRGBValueC,bool>
-	   it(img,warped_img,outmask,img.Rectangle()); it.IsElm(); it.Next()) {
-	IntT diff2 = 
-	  Sqr((IntT)it.Data1().Red()   - (IntT)it.Data2().Red()) +
-	  Sqr((IntT)it.Data1().Green() - (IntT)it.Data2().Green()) +
-	  Sqr((IntT)it.Data1().Blue()  - (IntT)it.Data2().Blue());
-	it.Data3() = (diff2 > fgThreshold*fgThreshold);
-      }
-
-      // exclude pixels from graphics mask (if used)
-      if (mask.Rectangle().Contains(outmask.Rectangle())) {
-	// (will be true if mask has been used)
-	for (Array2dIter2C<bool,bool> it(mask,outmask,outmask.Rectangle());
-	     it.IsElm(); it.Next()) {
-	  it.Data2() &= it.Data1();
-	}
-      }
-
-      // erode and dilate binary mask
-      ImageC<bool> result;
-      BinaryErode(outmask, kernel, result);
-      BinaryDilate(result, kernel, outmask);
-      // blank out background pixels
-      ByteRGBValueC black(0,0,0);
-      for(Array2dIter2C<ByteRGBValueC,bool> it(img,outmask,img.Rectangle());
-	  it.IsElm(); it.Next()) {
-	if ( !it.Data2() ) it.Data1() = black;
-      }
+      // Separate out the f/g
+      img = fgSep.Apply(img, GetMotion(frameNo));
       // Write an image out.
       outp.Put(img);
     }
@@ -424,14 +372,6 @@ namespace RavlImageN {
   //: Start new mosaic using 'img' as the initial frame.
   bool MosaicBuilderBodyC::Reset(const ImageC<ByteRGBValueC> &img) {
     last = corners;
-    
-    // create initially empty mosaic
-    mosaicRect=rect;
-    mosaicRect.TRow() -= borderR;
-    mosaicRect.LCol() -= borderC;
-    mosaicRect.BRow() += borderR;
-    mosaicRect.RCol() += borderC;
-    mosaic = ImageC<ByteRGBMedianC>(mosaicRect);
     
     // initialise accumulated motion Psum by solving for transformation
     // from mosaic coords to image coords
@@ -482,17 +422,11 @@ namespace RavlImageN {
     return true;    
   }
   
-
-  //: Expand mosaic rectangle to include projected frame corners
-  bool MosaicBuilderBodyC::InvolveFrame(const IndexRange2dC& rect, const Matrix3dC& homog) {
-    Projection2dC warp(homog.Inverse(), mosaicZHomog, zhomog);
-    IndexRange2dC oldRect = mosaicRect;
-    mosaicRect.Involve(warp.Project(rect.TopLeft()));
-    mosaicRect.Involve(warp.Project(rect.TopRight()));
-    mosaicRect.Involve(warp.Project(rect.BottomLeft()));
-    mosaicRect.Involve(warp.Project(rect.BottomRight()));
-    return (oldRect != mosaicRect);
+  //: Returns the mosaic image
+  const ImageC<ByteRGBValueC> MosaicBuilderBodyC::GetMosaic() const { 
+    return ByteRGBMedianImageC2ByteRGBImageCT(mosaic);
   }
 
-  
+
+
 }

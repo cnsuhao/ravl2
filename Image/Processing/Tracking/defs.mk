@@ -10,10 +10,11 @@
 PACKAGE=Ravl/Image
 
 HEADERS=PointTrack.hh PointTrackModel.hh PointTracker.hh MosaicBuilder.hh \
- MatchPatch.hh ImageTracker.hh ImageMatcher.hh MatchNormalisedCorrelation.hh
+ MatchPatch.hh ImageTracker.hh ImageMatcher.hh MatchNormalisedCorrelation.hh \
+ ForegroundSep.hh
 
 SOURCES=PointTrack.cc PointTrackModel.cc PointTracker.cc MosaicBuilder.cc \
- ImageTracker.cc ImageMatcher.cc MatchNormalisedCorrelation.cc
+ ImageTracker.cc ImageMatcher.cc MatchNormalisedCorrelation.cc ForegroundSep.cc
 
 PLIB=RavlImageProc
 
