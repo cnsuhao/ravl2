@@ -234,8 +234,8 @@ namespace RavlN {
   bool NetEndPointBodyC::Close() {
     if(!shutdown) {
       MutexLockC lock(accessMsgReg);
-      msgReg.Empty(); 
       shutdown = true;
+      msgReg.Empty(); 
       skt.Close();
       receiveQ.Put(NetPacketC()); // Put an empty packet to indicate shutdown.
       transmitQ.Put(NetPacketC()); // Put an empty packet to indicate shutdown.
