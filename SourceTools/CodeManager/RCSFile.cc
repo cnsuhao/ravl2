@@ -9,6 +9,7 @@
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! lib=RavlSourceTools
+//! file="Ravl/SourceTools/CodeManager/RCSFile.cc"
 
 #include "Ravl/SourceTools/RCSFile.hh"
 #include "Ravl/OS/UserInfo.hh"

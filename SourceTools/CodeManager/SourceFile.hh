@@ -11,6 +11,7 @@
 //! author="Charles Galambos"  
 //! docentry="Ravl.Source Tools.Code Manager"
 //! lib=RavlSourceTools
+//! file="Ravl/SourceTools/CodeManager/SourceFile.hh"
 
 #include "Ravl/Text/TextFile.hh"
 #include "Ravl/Hash.hh"

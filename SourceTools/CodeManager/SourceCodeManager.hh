@@ -7,7 +7,7 @@
 #ifndef RAVLSRCCHECK_HEADER 
 #define RAVLSRCCHECK_HEADER 1
 /////////////////////////////////////////////////////////////
-//! file="Ravl/Util/DefCheck/SrcCheck.hh"
+//! file="Ravl/SourceTools/CodeManager/SourceCodeManager.hh"
 //! author="Charles Galambos"
 //! userlevel=Advanced
 //! date="2/4/1998"

@@ -8,6 +8,7 @@
 // $Id$
 //! rcsid="$Id$"
 //! lib=RavlSourceTools
+//! file="Ravl/SourceTools/CodeManager/DefsFile.cc"
 
 #include "Ravl/SourceTools/DefsFile.hh"
 #include "Ravl/Text/TextFile.hh"

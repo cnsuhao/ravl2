@@ -7,7 +7,7 @@
 #ifndef RAVLRCSFILE_HEADER
 #define RAVLRCSFILE_HEADER 1
 ////////////////////////////////////////////////////////
-//! file="Ravl/Util/DefCheck/RCSFile.hh"
+//! file="Ravl/SourceTools/CodeManager/RCSFile.hh"
 //! lib=RavlSourceTools
 //! userlevel=Normal
 //! author="Charles Galambos"

@@ -9,6 +9,7 @@
 // $Id$
 //! rcsid="$Id$"
 //! lib=RavlSourceTools
+//! file="Ravl/SourceTools/CodeManager/amma2ravl.cc"
 
 #include "Ravl/Option.hh"
 #include "Ravl/SourceTools/DefsFile.hh"
@@ -42,7 +43,7 @@ static bool CheckDirectory(StringC &dir,DefsMkFileC &defs) {
       cerr << "Failed to load file '" << fn << "'\n";
       continue;
     }
-    theFile.GlobalSubst("\"amma/PThread/Mutex.hh\"","\"Ravl/Threads/Mutex.hh\"");
+    theFile.GlobalSubst("\"amma/PThread/","\"Ravl/Threads/");
     theFile.GlobalSubst("\"amma/DeadLine.hh\"","\"Ravl/OS/DeadLineTimer.hh\"");
     theFile.GlobalSubst("\"amma/RCHandle.hh\"","\"Ravl/RefCounter.hh\"");
     theFile.GlobalSubst("\"amma/Filename.hh\"","\"Ravl/OS/Filename.hh\"");
@@ -54,8 +55,12 @@ static bool CheckDirectory(StringC &dir,DefsMkFileC &defs) {
     theFile.GlobalSubst("\"amma/DP/Signal3.hh\"","\"Ravl/Threads/Signal3.hh\"");
     theFile.GlobalSubst("\"amma/StrList.hh\"","\"Ravl/StringList.hh\"");
     theFile.GlobalSubst("\"amma/Date.hh\"","\"Ravl/OS/Date.hh\"");
+    theFile.GlobalSubst("\"amma/StdTypes.hh\"","\"Ravl/Types.hh\"");
+    theFile.GlobalSubst("\"amma/PThread/MsgPipe.hh\"","\"Ravl/Threads/MessageQueue.hh\"");
     
     if(guiUpdates) {
+      theFile.GlobalSubst("GUIDEBUG","DODEBUG");
+      
       theFile.GlobalSubst("PixelC","Index2dC");
       theFile.GlobalSubst("GUIManager","Manager");
       theFile.GlobalSubst("GUIWidget","Widget");
@@ -95,11 +100,18 @@ static bool CheckDirectory(StringC &dir,DefsMkFileC &defs) {
       theFile.GlobalSubst("GUIGraph1d","Graph1d");
       theFile.GlobalSubst("GUIRadioButton","RadioButton");
       theFile.GlobalSubst("GUILBox","LBox");
+      theFile.GlobalSubst("GUIEventBox","EventBox");
+      theFile.GlobalSubst("GUIFrame","Frame");
+      theFile.GlobalSubst("GUIProgressBar","ProgressBar");
 
       // Other stuff.
       theFile.GlobalSubst("StdGUI","RavlGUIN");
       theFile.GlobalSubst("#define GUI","#define RAVLGUI");
       theFile.GlobalSubst("#ifndef GUI","#ifndef RAVLGUI");
+
+      // Helper functions.
+      theFile.GlobalSubst("MenuCheckItemRef(","MenuCheckItemR(");
+      
     }
     if(guiSrc) {
       theFile.GlobalSubst("DPEntityC::Body()","WidgetC::Body()");
@@ -107,6 +119,8 @@ static bool CheckDirectory(StringC &dir,DefsMkFileC &defs) {
     }
     theFile.GlobalSubst("BodyRefCounterC","RCBodyC");
     theFile.GlobalSubst("BodyRefCounterVC","RCBodyVC");
+    theFile.GlobalSubst("Launch(","ThreadLaunch(");
+    theFile.GlobalSubst("MsgPipeC<","MessageQueueC<");
     theFile.GlobalSubst("SignalEvent(","Trigger(");
     theFile.GlobalSubst("PThread::","");
     theFile.GlobalSubst("StdDP::","");
@@ -121,6 +135,7 @@ static bool CheckDirectory(StringC &dir,DefsMkFileC &defs) {
     theFile.GlobalSubst("amma","Ravl");
     theFile.GlobalSubst("AMMA","RAVL");
     theFile.GlobalSubst("HashARC<","HashC<");
+    theFile.GlobalSubst("AMMA_CHECK","QMAKE_CHECK");
     
     if(theFile.IsModified()) {
       cerr << "Updated file :" << fn << "\n";

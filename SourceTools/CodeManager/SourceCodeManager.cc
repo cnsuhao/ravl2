@@ -8,6 +8,7 @@
 // SrcCheck.cc
 //! rcsid="$Id$"
 //! lib=RavlSourceTools
+//! file="Ravl/SourceTools/CodeManager/SourceCodeManager.cc"
 
 #include "Ravl/SourceTools/SourceCodeManager.hh"
 #include "Ravl/StringList.hh"
@@ -43,20 +44,15 @@ namespace RavlN {
   
   bool SourceCodeManagerC::ForAllDirs(CallFunc2C<StringC,DefsMkFileC,bool> op,bool inActiveAsWell) {
     BlkQueueC<StringC> toDo;
-    toDo.InsLast(".");
+    toDo.InsLast(rootDir);
     while(!toDo.IsEmpty()) {
       StringC at = toDo.Pop();
-      StringC dir;
-      if(at != ".")
-	dir = rootDir + filenameSeperator + at;
-      else
-	dir = rootDir;
-      DefsMkFileC defs = DefsMkFileC(dir + filenameSeperator + "defs.mk");
+      DefsMkFileC defs = DefsMkFileC(at + filenameSeperator + "defs.mk");
       if(verbose)
-	cout << "Processing directory '" << dir << "'\n";
-      if(!op(dir,defs)) {
+	cout << "Processing directory '" << at << "'\n";
+      if(!op(at,defs)) {
 	if(verbose) 
-	  cerr << "SourceCodeManagerC::ForAll(), Error processing directory :'" << dir << "'\n";
+	  cerr << "SourceCodeManagerC::ForAll(), Error processing directory :'" << at << "'\n";
 	break;
       }
       // Sort out subdirectories.

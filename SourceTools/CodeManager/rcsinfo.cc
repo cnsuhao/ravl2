@@ -9,6 +9,7 @@
 // $Id$
 //! rcsid="$Id$"
 //! lib=RavlSourceTools
+//! file="Ravl/SourceTools/CodeManager/rcsinfo.cc"
 
 #include "Ravl/DList.hh"
 #include "Ravl/String.hh"

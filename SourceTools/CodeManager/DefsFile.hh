@@ -7,7 +7,7 @@
 #ifndef RAVLDEFSFILE_HEADER
 #define RAVLDEFSFILE_HEADER 1
 ///////////////////////////////////////////////////////////////////////
-//! file="Ravl/Util/DefCheck/DefFile.hh"
+//! file="Ravl/SourceTools/CodeManager/DefsFile.hh"
 //! author="Charles Galambos"
 //! lib=RavlSourceTools
 //! rcsid="$Id$"

@@ -9,6 +9,7 @@
 // $Id$
 //! rcsid="$Id$"
 //! lib=RavlSourceTools
+//! file="Ravl/SourceTools/CodeManager/defsCheck.cc"
 
 #include "Ravl/Option.hh"
 #include "Ravl/SourceTools/DefsFile.hh"

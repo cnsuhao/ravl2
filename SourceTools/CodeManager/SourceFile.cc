@@ -6,6 +6,7 @@
 // file-header-ends-here
 //! lib=RavlSourceTools
 //! rcsid="$Id$"
+//! file="Ravl/SourceTools/CodeManager/SourceFile.cc"
 
 #include "Ravl/SourceTools/SourceFile.hh"
 #include "Ravl/Text/TextCursor.hh"
