@@ -10,8 +10,12 @@
 //! file="Ravl/Image/VideoIO/DVFrame.cc"
 
 #include "Ravl/Image/DVFrame.hh"
+#include "Ravl/TypeName.hh"
+
 
 namespace RavlImageN {
+  static TypeNameC type1(typeid(DVFrameC),"RavlImageN::DVFrameC");  
+  
 #if RAVL_VISUALCPP_NAMESPACE_BUG
   using RavlN::SizeT;
 #endif
