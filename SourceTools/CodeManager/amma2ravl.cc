@@ -198,6 +198,8 @@ static bool UpdateFile(FilenameC fn) {
   theFile.GlobalSubst("Matrix3d3C","Matrix3dC");
   theFile.GlobalSubst("IStrStreamC","StrIStreamC");
   theFile.GlobalSubst("OStrStreamC","StrOStreamC");
+  theFile.GlobalSubst("IBitStreamC","BitIStreamC");
+  theFile.GlobalSubst("OBitStreamC","BitOStreamC");
   theFile.GlobalSubst(".RDim()",".Rows()");
   theFile.GlobalSubst(".CDim()",".Cols()");
   theFile.GlobalSubst(".Rnum()",".Rows()");
