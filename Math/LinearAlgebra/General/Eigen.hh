@@ -13,6 +13,8 @@ namespace RavlN
 {
 
   //: Computes eigenvalues and eigenvectors of a real (non-complex) matrix. 
+  // NOTE: This code has only recently been ported to RAVL and its interface
+  // has not been stabilized. 
   // <P>
   // If A is symmetric, then A = V*D*V' where the eigenvalue matrix D is
   // diagonal and the eigenvector matrix V is orthogonal. That is,
