@@ -77,7 +77,7 @@ namespace RavlN {
     // if the stride of the slice is not 1, and alwaysCopy is true the
     // a copy is done.
     
-    Array1dC(SizeT dim);
+    explicit Array1dC(SizeT dim);
     //: An array with the range <0, 'dim'-1>.
     
     Array1dC(IndexC min,IndexC max);
@@ -86,7 +86,7 @@ namespace RavlN {
     Array1dC(IntT min,IntT max);
     //: An array with the range <min,max>.
     
-    Array1dC(const IndexRangeC & range);
+    explicit Array1dC(const IndexRangeC & range);
     //: An array with the range <'range'.Min(), 'range'.Max()>.
     
     Array1dC(istream & s);

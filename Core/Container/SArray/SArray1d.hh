@@ -62,7 +62,7 @@ namespace RavlN {
     SArray1dC();
     //: Create an array of zero length
     
-    SArray1dC(const SizeT dim);
+    explicit SArray1dC(const SizeT dim);
     //: Creates an uninitialized array with the range <0, 'dim'-1>.
     
     SArray1dC(const Slice1dC<DataT> &slice,bool alwaysCopy = true);
