@@ -76,7 +76,9 @@ namespace RavlN {
   ThreadBodyC::~ThreadBodyC()
   { 
     if(live) {
+      RavlAssertMsg(0,"ERROR: Destructor called on live thread."); // This is bad!  Core dump so we can trace where this happened.
       cerr << "WARNING: Destructor called on live thread. \n";
+      
 #if RAVL_OS_CYGWIN
       pthread_exit((void *)threadID);
 #else
