@@ -29,6 +29,7 @@ bool buffer;
 int totalSize = 100000;
 bool testFreeze = false;
 SemaphoreC serverReady(0);
+int timeout = 15;
 
 bool TransmitThread() {
   SocketC os(address,true);
@@ -39,6 +40,7 @@ bool TransmitThread() {
   serverReady.Post(); 
   os = os.Listen();
   os.SetNonBlocking(true);
+  os.SetWriteTimeout(timeout);
   cerr << "Transmit started. \n";
   for(int i = 0;i < totalSize;) {
     int a[257],b[257],c[257];
@@ -147,6 +149,7 @@ int main(int nargs,char **argv)
   buffer = opts.Boolean("b",false,"Buffer. ");
   totalSize = opts.Int("s",100000,"Test size. ");
   testFreeze = opts.Boolean("f",false,"Test reader freeze. ");
+  timeout = opts.Int("to",30,"Set write timeout. ");;
   opts.Check();
   
   LaunchThread(&TransmitThread);
