@@ -243,7 +243,7 @@ namespace RavlN {
 	level++;
 	continue;
       }
-      RavlAssertMsg(tt != XMLEmptyTag,"Unexpected tag type. ");
+      RavlAssertMsg(tt == XMLEmptyTag,"Unexpected tag type. ");
     }
     if(name != curCtxt) {
       cerr << "WARNING: End tag name mismatch, got '" << name << "' expected '" << curCtxt << "'\n";
