@@ -4,15 +4,15 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLSOBELSEQUENCE_HEADER
-#define RAVLSOBELSEQUENCE_HEADER 1
+#ifndef RAVL_SOBELSEQUENCE_HEADER
+#define RAVL_SOBELSEQUENCE_HEADER 1
 ////////////////////////////////////////////////////
 //! file="Ravl/Math/Sequence/SobolSequence.hh"
 //! lib=RavlMath
 //! author="Charles Galambos"
 //! rcsid="$Id$"
 //! docentry="Ravl.Math.Sequences"
-//! date="15/03/99"
+//! date="15/03/1999"
 
 #include "Ravl/SArray1d.hh"
 #include "Ravl/SArray2d.hh"
@@ -28,18 +28,18 @@ namespace RavlN {
     //: Genererate a sequence with n dimentions.
     
     IntT N() const 
-      { return n; }
+    { return n; }
     //: Get dimention of sequence.
     
     bool First();
     //: Goto first point in sequence.
     
     bool IsElm() const 
-      { return !done; }
+    { return !done; }
     //: Are the numbers left in the sequence ?
 
     operator bool() const
-      { return !done; }
+    { return !done; }
     //: Are the numbers left in the sequence ?
     
     bool Next();
@@ -47,11 +47,11 @@ namespace RavlN {
     // Return: false if out of numbers.
     
     void operator++(int)
-      { Next(); }
+    { Next(); }
     //: Goto next value in the sequence.
     
     const SArray1dC<RealT> &Data() const 
-      { return result; }
+    { return result; }
     //: Get point. each element will have a value between
     // 0 and one.
     
