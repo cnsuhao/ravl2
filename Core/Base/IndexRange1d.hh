@@ -175,12 +175,38 @@ namespace RavlN {
     { return (*this) -= IndexC(i); }
     //: Both minimum and maximum limits are shifted by subtracting the offset 'i'.
     // Returns a reference to this range.
+
+    inline const IndexRangeC & operator+=(UIntT i)
+    { return (*this) += IndexC(i); }
+    //: Both minimum and maximum limits are shifted by adding the offset 'i'.
+    // Returns a reference to this range.
+    
+    inline const IndexRangeC & operator-=(UIntT i)
+    { return (*this) -= IndexC(i); }
+    //: Both minimum and maximum limits are shifted by subtracting the offset 'i'.
+    // Returns a reference to this range.
     
     inline IndexRangeC operator+(IndexC i) const
     { return IndexRangeC(Min() + i,Max() + i); }
     //: Create a new IndexRangeC with minimum and maximum limits shifted by adding the offset 'i'.
     
     inline IndexRangeC operator-(IndexC i) const
+    { return IndexRangeC(Min() - i,Max() - i); }
+    //: Create a new IndexRangeC with minimum and maximum limits shifted by subtracting the offset 'i'.
+    
+    inline IndexRangeC operator+(IntT i) const
+    { return IndexRangeC(Min() + i,Max() + i); }
+    //: Create a new IndexRangeC with minimum and maximum limits shifted by adding the offset 'i'.
+    
+    inline IndexRangeC operator-(IntT i) const
+    { return IndexRangeC(Min() - i,Max() - i); }
+    //: Create a new IndexRangeC with minimum and maximum limits shifted by subtracting the offset 'i'.
+
+    inline IndexRangeC operator+(UIntT i) const
+    { return IndexRangeC(Min() + i,Max() + i); }
+    //: Create a new IndexRangeC with minimum and maximum limits shifted by adding the offset 'i'.
+    
+    inline IndexRangeC operator-(UIntT i) const
     { return IndexRangeC(Min() - i,Max() - i); }
     //: Create a new IndexRangeC with minimum and maximum limits shifted by subtracting the offset 'i'.
     
