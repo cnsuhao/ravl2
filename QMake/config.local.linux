@@ -54,18 +54,18 @@ RESOURCES += libAudioFile
 
 ## libDV ################################################
 
-RESOURCES += libDV
+#RESOURCES += libDV
 #LIBDV_HOME=
 
 ## libavc1394 ################################################
 
-RESOURCES += libavc1394
+#RESOURCES += libavc1394
 #LIBAVC1394_HOME=
 
 ## libdc1394 ################################################
 # Camera control.
 
-RESOURCES += libdc1394
+#RESOURCES += libdc1394
 
 ## libcurl ################################################
 
@@ -81,7 +81,7 @@ RESOURCES += libdc1394
 
 ## libGuppi ################################################
 
-RESOURCES += libGuppi
+#RESOURCES += libGuppi
 
 ## devVideo4Linux ################################################
 
