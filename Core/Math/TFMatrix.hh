@@ -147,26 +147,23 @@ namespace RavlN {
       return ret;
     }
     //: Mutiply two matrixes.
-
-    TFVectorC<DataT,M> SliceRow(IndexC r)
-    {
+    
+    TFVectorC<DataT,M> SliceRow(IndexC r) const {
       TFVectorC<DataT,M> ret;
       for(UIntT c = 0; c < M; c++)
 	ret[c] = data[r][c.V()];
       return ret;
     }
     //: Access to row as a vector
-
-    TFVectorC<DataT,N> SliceCol(IndexC c)
-    {
+    
+    TFVectorC<DataT,N> SliceCol(IndexC c) const {
       TFVectorC<DataT,N> ret;
       for(UIntT r = 0; r < N; r++)
 	ret[r] = data[r][c.V()];
       return ret;
     }
     // Access to column as a vector
-
-
+    
     template<unsigned int MT>
     TFMatrixC<DataT,M,MT> TMul(const TFMatrixC<DataT,N,MT> & mat) const 
     {
