@@ -179,7 +179,11 @@ namespace RavlN {
     //: Access body.
     
   public:
-
+    
+    DPISampleStreamC<DataT> &operator=(const DPISampleStreamC<DataT> &other)
+    { DPEntityC::operator=(other); return *this; }
+    //: Assigment 
+    
     Int64T StartFrame() const
     { return Body().StartFrame(); }
     //: Access start frame.
