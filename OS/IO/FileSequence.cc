@@ -119,6 +119,7 @@ namespace RavlN {
     }
     StringC ret(templateFile.Copy());
     ret.gsub(subst,num);
+    ONDEBUG(cerr << "DPFileSequenceBaseBodyC::Filename(" << digs << "," << fno << ") = '" << ret << "' \n");
     return ret;
   }
   
@@ -269,8 +270,10 @@ namespace RavlN {
   
   bool DPFileSequenceBaseBodyC::ProbeExample(FilenameC rootFn) {
     ONDEBUG(cerr << "DPFileSequenceBaseBodyC::ProbeExample('" << rootFn << "') \n");
-    if(!rootFn.Exists()) // Does the root file name exist ?
-      return false;
+    if(forLoad) {
+      if(!rootFn.Exists()) // Does the root file name exist ?
+	return false;
+    }
     int i;
     // Find the last digit...
     bool digits_set = false;
@@ -280,8 +283,10 @@ namespace RavlN {
       if(isdigit(rootFn[i]))
 	break;
     }
-    if(i < 0) // No digits ??
+    if(i < 0) { // No digits ?? 
+      ONDEBUG(cerr << "No digits found. Not an example. \n");
       return false;// Then its not an example.
+    }
     
     int lastd = i;
     // Find the first digit...
@@ -290,7 +295,7 @@ namespace RavlN {
 	break;
     }
     i++;
-    if(rootFn[i] == '0')    // Got a leading 0 ?
+    if(rootFn[i] == '0' && (lastd != i)) // Got a leading 0 ? 
       digits = (lastd - i)+1; // Calc required number of digits...
     else
       digits = 0;
@@ -305,10 +310,11 @@ namespace RavlN {
       if(!Filename(digits,no+1).Exists()) {
 	if(digits_set)
 	  digits = -1; // Scrub failed hypothesis.
+	ONDEBUG(cerr << "Failed to load example. Rejecting. \n");
 	return false;
       }
     }
-    ONDEBUG(cerr << "DPFileSequenceBaseBodyC::ProbeExample(), File Sequence found for '" << rootFn << "'. \n");
+    ONDEBUG(cerr << "DPFileSequenceBaseBodyC::ProbeExample(), File Sequence found for '" << rootFn << "'. Template='" << templateFile << "' Digits=" << digits << " \n");
     if(start == ((UIntT) -1)) {
       // Test if the example is the start..
       if(!forLoad || !Filename(digits,no-1).Exists()) 
@@ -493,17 +499,29 @@ namespace RavlN {
     RavlAssert(fs.IsValid());
     
     // Check for end of stream...
-    if(!fs.IsElm()) {
-      auxFun.SetStreamStatus(false,false);
-      auxFun.SetInput(DPIPortBaseC());
-      return true; // Its normal to get to the end of a sequence.
-    }
-    StringC nextName = fs.NextName();
-    DPIPortBaseC ipb = fs.Format().CreateInput(nextName,fs.LoadType());
-    if(!ipb.IsValid()) {
-      cerr << "DPIFileSequenceBodyC::AuxFunction(), WARNING: Failed to create input '" << nextName << "' of type " << TypeName(fs.LoadType()) << " \n";
-      return false;
-    }
+    DPIPortBaseC ipb;
+    do {
+      if(!fs.IsElm()) {
+	auxFun.SetStreamStatus(false,false);
+	auxFun.SetInput(DPIPortBaseC());
+	return true; // Its normal to get to the end of a sequence.
+      }
+      FilenameC nextName = fs.NextName();
+      if(!nextName.Exists()) {
+	if(!fs.HasHoles()) {
+	  cerr << "WARNING: File sequence is incomplete, missing '" << nextName << "'. \n";
+	  cerr << " Further missing file on this sequence will be silently skipped. \n";
+	  fs.HasHoles(true);
+	}
+	continue;
+      }
+      ipb = fs.Format().CreateInput(nextName,fs.LoadType());
+      if(!ipb.IsValid()) {
+	cerr << "DPIFileSequenceBodyC::AuxFunction(), WARNING: Failed to create input '" << nextName << "' of type " << TypeName(fs.LoadType()) << " \n";
+	return false;
+      }
+    } while(0);
+    
     //ONDEBUG(cerr << " TN:" << TypeName(typeid(auxFun.DPEntityC::Body())) << " CI:" << TypeName(typeid(ipb.DPEntityC::Body())) << "\n");
     bool ret = auxFun.SetInput(ipb);
     //ONDEBUG(cerr << "DPIFileSequenceBodyC::AuxFunction(), Done.. \n");
@@ -548,23 +566,13 @@ namespace RavlN {
     RavlAssert(fs.IsValid());
     FilenameC nextName;
     
-    do {
-      // Check for end of stream...
-      if(!fs.IsElm()) {
-	auxFun.SetStreamStatus(false,false);
-	auxFun.SetOutput(DPOPortBaseC());
-	return true; // Its normal to get to the end of a sequence.
-      }
-      nextName = fs.NextName();
-      if(!nextName.Exists()) {
-	if(!fs.HasHoles()) {
-	  cerr << "WARNING: File sequence is incomplete, missing '" << nextName << "'. \n";
-	  cerr << " Further missing file on this sequence will be silently skipped. \n";
-	  fs.HasHoles(true);
-	}
-	continue;
-      }
-    } while(0) ;
+    // Check for end of stream...
+    if(!fs.IsElm()) {
+      auxFun.SetStreamStatus(false,false);
+      auxFun.SetOutput(DPOPortBaseC());
+      return true; // Its normal to get to the end of a sequence.
+    }
+    nextName = fs.NextName();
     
     DPOPortBaseC ipb = fs.Format().CreateOutput(nextName,fs.SaveType());
     if(!ipb.IsValid()) {
