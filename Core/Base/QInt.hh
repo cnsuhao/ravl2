@@ -32,6 +32,8 @@
 #define RAVL_QINT_HEADER 1
 
 #include "Ravl/config.h"
+#include <math.h>
+
 #define RAVL_QINT_WORKAROUND 1
 
 //#if defined (RAVL_IEEE_DOUBLE_FORMAT)
@@ -160,21 +162,12 @@ static inline long QInt (double inval)
 }
 #endif
 
-#if 0
-// To round an floating-point value we'll add 2^52+0.5*2^32 to it,
-// and will subtract 2^32 back after taking the required bits out.
-#define FIST_MAGIC_QROUND (((65536.0 * 65536.0 * 16.0) + (65536.0 * 0.5)) * 65536.0)
-
-static inline long QRound (double inval)
-{
-  register double dtemp = FIST_MAGIC_QROUND + inval;
-  //return RAVL_LONG_AT_BYTE (dtemp, RAVL_LOWER_WORD_BYTE) - 0x80000000;
-  return static_cast<int>(reinterpret_cast<long long int &>(dtemp) >> (RAVL_LOWER_WORD_BYTE * 8)) - 0x80000000;
-}
-//: Round a floating-point value and convert to integer
-
+// __tune_pentium4 is a GCC define indicating target processor.
+#ifdef __tune_pentium4__
+inline int QRound(double x)
+{ return (int ( x+ ((x < 0) ? -0.5 : +0.5))); }
 #else
-/* this turns out to be faster on my machine. */
+// These are faster on Pentium III's
 #if RAVL_QINT_WORKAROUND
 inline int QRound(double inval) {
   register union { double dtemp; long result; } x ;
