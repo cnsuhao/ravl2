@@ -172,6 +172,13 @@ namespace RavlN {
     // be reallocated which will invalidate any iterators
     // held on the collection.
     
+    void operator+=(const DataT &dat)
+      { Body().Insert(dat); }
+    //: Add data item to the collection.
+    //  NB. This may cause the storage array to 
+    // be reallocated which will invalidate any iterators
+    // held on the collection.
+    
     DataT Pick()
     { return Body().Pick(); }
     //: Pick a random item from the collection.
