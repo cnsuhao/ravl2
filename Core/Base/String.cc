@@ -1270,7 +1270,7 @@ namespace RavlN {
     return s;
   }
   
-  int readline(istream& s, StringC& x, char terminator, int discard) {
+  int readline(istream& s, StringC& x, char terminator, bool discard) {
 #if !RAVL_COMPILER_GCC3
     // Should check what this does before just disabling it.
     if (!s.ipfx(0))

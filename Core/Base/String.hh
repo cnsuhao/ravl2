@@ -661,8 +661,8 @@ namespace RavlN {
     friend BinIStreamC& operator>>(BinIStreamC& s, StringC& x);
     
     friend int readline(istream& s, StringC& x, 
-			char terminator = '\n',
-			int discard_terminator = 1);
+			char terminator,
+			bool discard_terminator);
     
     // status
     
@@ -988,12 +988,11 @@ namespace RavlN {
   };
 
   int readline(istream& s, StringC& x, 
-	       char terminator,
-	       int discard_terminator);
+	       char terminator = '\n',
+	       bool discard_terminator=true);
   //: Read a line of text from a stream.
-  // Returns the number of charactors read into the string 'x'.
+  // Returns the number of characters read into the string 'x'.
   
-  ///// 
   
   inline StringC::StringC(const SubStringC&  y)
     : rep(Salloc(0, y.chars(), y.length(), y.length())) 
