@@ -19,7 +19,6 @@ PACKAGE = Ravl/GUI
 
 LOCALHEADERS=WidgetDNDInfo.hh
 
-
 HEADERS = Manager.hh Widget.hh GTKTypes.hh SignalInfo.hh \
  MouseEvent.hh Window.hh Cursor.hh ToolTips.hh CWidget.hh \
  Button.hh Pixmap.hh  OneChild.hh PackInfo.hh LBox.hh \
@@ -30,8 +29,7 @@ HEADERS = Manager.hh Widget.hh GTKTypes.hh SignalInfo.hh \
  Notebook.hh CList.hh VLabel.hh RadioButton.hh ProgressBar.hh \
  TextBox.hh DragAndDrop.hh Paned.hh MessageBox.hh WidgetStyle.hh \
  ReadBack.hh  WaitForExit.hh TreeModel.hh TreeStore.hh  TreeView.hh \
- ListStore.hh Pixbuf.hh AspectFrame.hh ButtonBox.hh  ColourSelector.hh \
- WidgetDNDInfo.hh
+ ListStore.hh Pixbuf.hh AspectFrame.hh ButtonBox.hh  ColourSelector.hh 
 
 SOURCES = Manager.cc Widget.cc MouseEvent.cc Window.cc \
  Cursor.cc ToolTips.cc CWidget.cc Button.cc Pixmap.cc \
