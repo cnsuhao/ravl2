@@ -15,6 +15,6 @@ SOURCES= LineABC2d.cc Curve2d.cc Curve2dLine.cc Curve2dLineFit.cc Curve2dLineSeg
 
 PLIB=RavlMath
 
-LIBDEPS=RavlGeom2d.def
+LIBDEPS=RavlMath2D.def
 
-USESLIBS=RavlMath RavlCore 
+USESLIBS=RavlMath

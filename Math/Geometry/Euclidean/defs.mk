@@ -19,5 +19,5 @@ PLIB=RavlMath
 
 LIBDEPS=RavlGeom.def
 
-USESLIBS=RavlMath RavlCore 
+USESLIBS=RavlMath
 
