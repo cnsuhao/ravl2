@@ -14,6 +14,7 @@
 #include "Ravl/Audio/Types.hh"
 #include "Ravl/DP/StreamOp.hh"
 #include "Ravl/Types.hh"
+#include "Ravl/SArray1dIter2.hh"
 
 namespace RavlAudioN {
   
