@@ -43,6 +43,7 @@ namespace RavlN {
     virtual bool SetPort(const DPIPortBaseC &port) {
       MutexLockC lock(access);
       input = SPort(DPIPortC<DataT>(const_cast<DPIPortBaseC &>(port)));
+      lastOffset = (UIntT) -1;
       return port.IsValid();
     }
     //: set port.
@@ -50,6 +51,7 @@ namespace RavlN {
     bool SetPort(DPIPortC<DataT> &sp) {
       MutexLockC lock(access);
       input = sp;
+      lastOffset = (UIntT) -1;
       return true;
     }
     //: Set port.
@@ -385,7 +387,9 @@ namespace RavlN {
   {
   public:
     DPISPortShareClientBodyC()
-      : offset(0)
+      : offset(0),
+	start(0),
+	size((UIntT) -1)
     {}
     //: Default constructor.
     
@@ -394,7 +398,9 @@ namespace RavlN {
 	input(sharedPort)
     {
       input.RegisterClient();
-      offset = input.Start(); 
+      offset = input.Start();
+      size = input.Size();
+      start =  input.Start();
     }
     //: Constructor.
     
@@ -407,7 +413,10 @@ namespace RavlN {
     //:----------------------------------------------------------
     // Get controls
     
-    bool Seek(UIntT off)  {
+    bool Seek(UIntT off) {
+      //cerr << "DPISPortShareClientBodyC()::Seek() Off=" << off << " Start=" << start << " Size=" << size << "\n";
+      if(off < start || off >= size)
+	return false;
       offset = off;
       return true;
     }
@@ -418,13 +427,16 @@ namespace RavlN {
     // position will not be changed.
     
     virtual bool DSeek(IntT off) {
+      //cerr << "DPISPortShareClientBodyC()::DSeek() At=" << offset << " Off=" << off << " Start=" << start << " Size=" << size << "\n";
+      Int64T newOff = (Int64T) offset + off;
       if(off < 0) {
-	if(offset > (UIntT) -off)
-	offset += off;
-      else
-	offset = 0;
-      } else
-	offset += off;
+	if(newOff < start)
+	  return false;
+      } else {
+	if(newOff >= size)
+	  return false;
+      }
+      offset += off;
       return true;
     }
     //: Delta Seek, goto location relative to the current one.
@@ -441,12 +453,12 @@ namespace RavlN {
     // May return ((UIntT) (-1)) if not implemented.
     
     virtual UIntT Size() const
-    { return input.Size(); }
+    { return size; }
     //: Find the total size of the stream. (assuming it starts from 0)
     // May return ((UIntT) (-1)) if not implemented.
     
     virtual UIntT Start() const
-    { return input.Start(); }
+    { return start; }
     //: Find the offset where the stream begins, normally zero.
     // Defaults to 0
     
@@ -465,6 +477,7 @@ namespace RavlN {
     
     virtual DataT Get()  {
       DataT ret;
+      //cerr << "DPISPortShareClientBodyC()::Get() Offset=" << offset << "\n";
       if(!input.Get(offset,ret))
 	throw DataNotReadyC("Get failed");
       offset++;
@@ -473,6 +486,7 @@ namespace RavlN {
     //: Get next piece of data.
     
     virtual bool Get(DataT &buff) { 
+      //cerr << "DPISPortShareClientBodyC()::Get(DataT&) Offset=" << offset << "\n";
       if(input.Get(offset,buff)) {
 	offset++;
 	return true;
@@ -578,6 +592,8 @@ namespace RavlN {
     //: Register a new attribute type.
     
   protected:
+    UIntT start;
+    UIntT size;
     UIntT offset;
     DPISPortShareC<DataT> input;
   };
