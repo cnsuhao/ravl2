@@ -39,8 +39,8 @@ namespace RavlN {
   //!param: angle - Angle of major axis.
   
   Ellipse2dC::Ellipse2dC(const Point2dC &centre,RealT major,RealT minor,RealT angle) {
-    p = FAffineC<2>(Matrix2dC(Cos(angle),Sin(angle),
-			      -Sin(angle),Cos(angle)) * 
+    p = FAffineC<2>(Matrix2dC(Cos(angle),-Sin(angle),
+			      Sin(angle),Cos(angle)) * 
 		    Matrix2dC(major,0,
 			      0,minor),
 		    centre);
@@ -60,7 +60,6 @@ namespace RavlN {
   bool Ellipse2dC::IsOnCurve(const Point2dC &pnt) const {
     Point2dC mp = p.Inverse() * pnt;
     RealT d = mp.SumOfSqr() - 1;
-    //cerr << "d=" << d << "\n";
     return IsSmall(d);
   }
 
@@ -74,8 +73,14 @@ namespace RavlN {
     centre = p.Translation();
     FMatrixC<2,2> U,V;
     FVectorC<2> S = SVD(p.SRMatrix(), U, V);
+    ONDEBUG(cerr << "U:\n"<<U<<"V:\n"<<V);
     U = U * V.T();
-    angle = atan(U[0][1]/U[0][0]);
+    ONDEBUG(cerr<<"U*V.T():\n"<<U<<endl);
+    // U contains the rotation in the form:
+    // cos -sin
+    // sin  cos
+    // hence angle can be computed as:
+    angle = atan(U[1][0]/U[0][0]);
     major = S[0];
     minor = S[1];
 
@@ -98,12 +103,14 @@ namespace RavlN {
   //: Compute an ellipse from a covariance matrix, mean, and standard deviation.
   
   Ellipse2dC EllipseMeanCovariance(const Matrix2dC &covar,const Point2dC &mean,RealT stdDev) {
-    Matrix2dC su,sv;
-    Vector2dC dv = SVD(covar,su,sv);
+    Vector2dC dv;
+    Matrix2dC E;
+    EigenVectors(covar,E,dv);
+    ONDEBUG(cerr<<"l: "<<dv<<"\nE\n"<<E<<endl);
     Matrix2dC d(stdDev*Sqrt(dv[0]),0,
 		0,stdDev*Sqrt(dv[1]));
     // FIXME:- Multiply out by hand to make it faster.
-    Matrix2dC sr = (su * d).MulT(sv);
+    Matrix2dC sr = E * d;
     return Ellipse2dC(sr,mean);
   }
 

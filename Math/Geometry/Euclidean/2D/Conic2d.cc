@@ -74,7 +74,7 @@ namespace RavlN {
     SArray1dC<Point2dC> normPoints;
     Normalise(points,normPoints,Hi);
     
-    // ---------- Compute paramiters ----------------------
+    // ---------- Compute parameters ----------------------
     if(samples == 5)
       samples++;
     MatrixC A(samples,6);
@@ -118,6 +118,13 @@ namespace RavlN {
   //: Compute ellipse parameters.
   
   bool Conic2dC::ComputeEllipse(Point2dC &c,Matrix2dC &mat) const {
+    // (Bill Xmas) I think what this does is:
+    // - compute centre by completing the square on ax^2 +bxy + .....
+    // - shift the centre of the ellipse to the origin
+    // - sort out the projective scale
+    // returning the result in Euclidean form in "c" & "mat"
+
+    // compute centre by completing the square on ax^2 +bxy + .....
     TFVectorC<RealT,6> u = p;    
     RealT idet = 1 / (u[0] * u[2] - Sqr(u[1]) * 0.25);
     if(idet <= 0) {
@@ -131,7 +138,7 @@ namespace RavlN {
     c = Point2dC((-u[3] * u[2] + u[4] * u[1] * 0.5) * 2,
 		 (-u[0] * u[4] + u[3] * u[1] * 0.5) * 2);
     
-    RealT scale = 1/(u[0] * Sqr(c[0]) + 
+    RealT scale = -1/(u[0] * Sqr(c[0]) + 
  		     u[1] * c[0] * c[1] + 
 		     u[2] * Sqr(c[1]) + 
 		     u[3] * c[0] + 
@@ -155,17 +162,29 @@ namespace RavlN {
   // otherwise degenerate.
   
   bool Conic2dC::AsEllipse(Ellipse2dC &ellipse) const {
-    Matrix2dC t;
-    Point2dC c;
-    if(!ComputeEllipse(c,t))
+    // Ellipse representation is transformation required to transform unit
+    // circle into ellipse.  This is the inverse of the "square root" of
+    // Euclidean matrix representation
+    Matrix2dC euc; // Euclidean representation of elipse equation
+    Point2dC centre;
+    // Separate projective ellipse representation into Euclidean + translation
+    if(!ComputeEllipse(centre,euc))
       return false;
-    Matrix2dC su,sv;
-    Vector2dC dv = SVD(t,su,sv);
-    Matrix2dC d(-1/Sqrt(dv[0]),0,
-		0,-1/Sqrt(dv[1]));
+    ONDEBUG(cerr << "Euclidean ellipse is:\n" << euc << endl);
+    FVectorC<2> lambda;
+    FMatrixC<2,2> E;
+    EigenVectors(euc,E,lambda);
+    ONDEBUG(cerr << "Eigen decomp is:\n" << E << "\n" << lambda << endl);
+    // Matrix "scale" (inverted swapped root of eigenvalues) contains major & minor axes
+    // We swap eigenvalues when inverting to keep major axis as element [0][0]
+    Matrix2dC scale(1/Sqrt(lambda[1]),0,
+		0,1/Sqrt(lambda[0]));
+    // Multiplying by constant matrix compensates for eigenvalue swap
     // FIXME:- Multiply out by hand to make it faster.
-    Matrix2dC sr = (su * d).MulT(sv);
-    ellipse = Ellipse2dC(sr,c);
+    Matrix2dC rot = E * Matrix2dC(0,1,-1,0);
+    ellipse = Ellipse2dC(rot * scale, centre);
+    ONDEBUG(cerr<<"\nRot:\n"<<rot<<"\nscale:\n"<<scale<<"\nellipse:\n"<<ellipse<<endl);
+    ONDEBUG(cerr<<"[1,0] on unit circle goes to "<<ellipse.Projection()*(Vector2dC(1,0))<<" on ellipse"<<endl;);
     return true;
   }
   
@@ -179,13 +198,13 @@ namespace RavlN {
     Matrix2dC t;
     if(!ComputeEllipse(centre,t))
       return false;
-    angle = -atan2(2*t[0][1],t[0][0]-t[1][1])/2;
+    angle = atan2(-2*t[0][1],-t[0][0]+t[1][1])/2;
     RealT cosa=Cos(angle);
     RealT sina=Sin(angle);
     RealT w = 2*t[0][1]*cosa*sina;
-    major =Sqrt(1.0/(-t[0][0]*cosa*cosa+w-t[1][1]*sina*sina));
-    minor =Sqrt(1.0/(-t[0][0]*sina*sina-w-t[1][1]*cosa*cosa));
-    ONDEBUG(cerr << "Center=" << c << " Major=" << major << " Minor=" << minor << " Angle=" << angle << "\n");
+    major =Sqrt(1.0/(t[0][0]*cosa*cosa+w+t[1][1]*sina*sina));
+    minor =Sqrt(1.0/(t[0][0]*sina*sina-w+t[1][1]*cosa*cosa));
+    ONDEBUG(cerr << "Center=" << centre << " Major=" << major << " Minor=" << minor << " Angle=" << angle << "\n");
     return true;
     
   }
