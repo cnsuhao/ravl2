@@ -205,10 +205,14 @@ namespace RavlN {
   //: Get data from unix filehandle.
   
   OStreamC::OStreamC(int fd,bool buffered) { 
+#if !USE_GCC30
     if(buffered)
       Init(out = new ofstream(fd),StringC(fd)); 
     else
       Init(out = new ofstream(fd,0,0),StringC(fd)); 
+#else
+    RavlAssertMsg(0,"Not implemented. ");
+#endif
   }
   
   //: Print to stream using good old 'C' sytle formating.
@@ -272,19 +276,25 @@ namespace RavlN {
 #endif
       Init(ifstrm = new ifstream(filename),filename);
     in = ifstrm;
+#if !USE_GCC30
     if(!buffered) {
       RavlAssert(ifstrm != 0);
       ifstrm->setbuf(0,0);
     }
+#endif
   }
   
   //: Get data from unix filehandle.
   
   IStreamC::IStreamC(int fd,bool buffered) {   
+#if !USE_GCC30
     if(buffered)
       Init(in = new ifstream(fd),StringC(fd));
     else
       Init(in = new ifstream(fd,0,0),StringC(fd));
+#else
+    RavlAssertMsg(0,"Not implemented. ");
+#endif
   }
   
   /////////////////////////

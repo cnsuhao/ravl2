@@ -7,11 +7,11 @@
 //! rcsid="$Id$"
 //! lib=RavlCore
 
+
 #include "Ravl/TFVector.hh"
 #include "Ravl/Pair.hh"
 #include "Ravl/FIndex.hh"
-
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 using namespace RavlN;
 

@@ -17,10 +17,7 @@
 
 #include "Ravl/IndexRange1d.hh"
 #include "Ravl/BufferAccess.hh"
-#include <assert.h>
-
-class istream;
-class ostream;
+#include "Ravl/Types.hh"
 
 namespace RavlN {
   

@@ -43,8 +43,13 @@ Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include <new.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <iostream.h>
 #include <assert.h>
+
+#if RAVL_HAVE_ANSICPPHEADERS
+#include <iostream>
+#else
+#include <iostream.h>
+#endif
 
 #ifndef __GNUG__
 //#include <builtin.h>
@@ -932,7 +937,7 @@ namespace RavlN {
   }
 #endif
   
-#if defined(__GNUG__) && !defined(_G_NO_NRV)
+#if defined(__GNUG__) && !defined(_G_NO_NRV) && !defined(USE_GCC30)
 #define RETURN(r) return
 #define RETURNS(r) return r;
 #define RETURN_OBJECT(TYPE, NAME) /* nothing */
@@ -1031,7 +1036,7 @@ namespace RavlN {
     return dest;
   }
   
-#if defined(__GNUG__) && !defined(_G_NO_NRV)
+#if defined(__GNUG__) && !defined(_G_NO_NRV) && !defined(USE_GCC30)
   
   StringC StrCreplicate(char c, int n) return w; {
     w.rep = Sresize(w.rep, n);
@@ -1134,6 +1139,9 @@ namespace RavlN {
 // IO
 
   istream& operator>>(istream& s, StringC& x) {
+#if USE_GCC30
+    RavlAssertMsg(0,"istream& operator>>(istream& s, StringC& x), Not implemented. ");
+#else
     if (!s.ipfx(0) || (!(s.flags() & ios::skipws) && !ws(s))) {
       s.clear(ios::failbit|s.rdstate()); // Redundant if using GNU iostreams.
       return s;
@@ -1151,16 +1159,21 @@ namespace RavlN {
     }
     x.rep->s[i] = 0;
     x.rep->len = i;
+    ios_base::iostate new_state = s.rdstate();
     int new_state = s.rdstate();
     if (i == 0) new_state |= ios::failbit;
     if (ch == EOF) new_state |= ios::eofbit;
     s.clear(new_state);
+#endif
     return s;
   }
   
   int readline(istream& s, StringC& x, char terminator, int discard) {
+#if !USE_GCC30
+    // Should check what this does before just disabling it.
     if (!s.ipfx(0))
       return 0;
+#endif
     int ch;
     int i = 0;
     x.rep = Sresize(x.rep, 80);

@@ -21,9 +21,6 @@
 #include "Ravl/IndexRange2d.hh"
 #include "Ravl/Assert.hh"
 
-class istream;
-class ostream;
-
 namespace RavlN {
   
   class BinOStreamC;
