@@ -5,6 +5,9 @@
  *  public license (LGPL). ( See the lgpl.license file for details.)
  * ------------------------------------------------------------------------
  */
+#ifdef __cplusplus
+extern "C" {
+#endif
 #ifndef CPX
 struct complex {double re,im;};
 typedef struct complex Cpx;
@@ -24,3 +27,6 @@ struct complex csin(Cpx a),ccos(Cpx a),ctan(Cpx a);
 struct complex casin(Cpx f),cacos(Cpx f),catan(Cpx f);
 struct complex csinh(Cpx h),ccosh(Cpx h),ctanh(Cpx h);
 struct complex casinh(Cpx g),cacosh(Cpx g),catanh(Cpx g);
+#ifdef __cplusplus
+}
+#endif

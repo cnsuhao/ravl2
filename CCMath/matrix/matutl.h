@@ -8,6 +8,9 @@
 
 /* Utility routines for real and complex matrix computations
  */
+#ifdef __cplusplus
+extern "C" {
+#endif
 #ifndef CPX
 struct complex {double re,im;};
 typedef struct complex Cpx;
@@ -30,3 +33,6 @@ void ldumat(double *x,double *y,int i,int k);
 void ldvmat(double *x,double *y,int k);
 int qrbdv(double *x,double *y,double *z,int i,double *w,int j);
 int qrbdi(double *x,double *y,int l);
+#ifdef __cplusplus
+}
+#endif
