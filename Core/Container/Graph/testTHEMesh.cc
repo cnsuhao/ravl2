@@ -89,6 +89,13 @@ int testInsertVertexOnFace() {
   if(!vert.IsValid()) return __LINE__;
   if(!mesh.InsertVertexInFace(vert,face)) return __LINE__;
   if(!mesh.CheckMesh(true)) return __LINE__;
+
+  // Now try and delete is again.
+  
+  mesh.DeleteVertex(vert,false);
+  
+  if(!mesh.CheckMesh(true)) return __LINE__;
+  
   return 0;
 }
 

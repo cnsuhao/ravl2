@@ -320,6 +320,12 @@ namespace RavlN {
     edge.Body().CorrectVertexEdgePtr();
     edgep.Body().CorrectVertexEdgePtr();
     
+    if(face2 == face1) { // Same face either side of the edge ?
+      delete &(edge.Body());
+      delete &(edgep.Body());
+      return true;
+    }
+    
     // Change all the face pointers for face we're going to remove.
     for(HEMeshBaseEdgeC at = edgep.Next();at != edgep;at = at.Next())
       at.SetFace(face1);
@@ -331,8 +337,9 @@ namespace RavlN {
     
     delete &(edge.Body());
     delete &(edgep.Body());
-    face2.Body().edge = 0;
+    
     ONDEBUG(cerr << "Deleting face " << face2.Hash() << "\n");
+    face2.Body().edge = 0;
     delete &(face2.Body());
     
     return true;
@@ -480,7 +487,7 @@ namespace RavlN {
     ONDEBUG(cerr << "HEMeshBaseBodyC::NewVertex(), Called. \n");
     return HEMeshBaseVertexC(true);
   }
-    
+  
   //: Create a new face.
   
   HEMeshBaseEdgeC HEMeshBaseBodyC::NewEdge(HEMeshBaseVertexBodyC &vert,HEMeshBaseFaceBodyC &face) { 
@@ -491,9 +498,21 @@ namespace RavlN {
   //: Remove a vertex and assoicated faces from the mesh.
   // Note: This does not close the resulting face, so a hole will be left in the mesh.
   
-  bool HEMeshBaseBodyC::DeleteVertex(HEMeshBaseVertexC vert) {
+  bool HEMeshBaseBodyC::DeleteVertex(HEMeshBaseVertexC vert,bool leaveHole) {
     RavlAssert(vert.IsValid());
     ONDEBUG(cerr << "HEMeshBaseBodyC::DeleteVertex(), Vert=" << vert.Hash() << " HasEdge=" << vert.HasEdge() << " \n");
+    if(!leaveHole) {
+      // Would be probably faster to write a dedicated routine to do this,
+      // will do on request.
+      while(1) {
+	HEMeshBaseEdgeC firstEdge = vert.FirstEdge();
+	if(!firstEdge.IsValid())
+	  break;
+	cerr << "Deleting edge:" << firstEdge.Hash() << "\n";
+	OpenEdge(firstEdge);
+      }
+      return true;
+    }
     DListC<HEMeshBaseFaceC> delFaces;
     
     for(HEMeshBaseFaceIterC fit(faces);fit;fit++) {
