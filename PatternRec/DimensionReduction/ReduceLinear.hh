@@ -48,6 +48,14 @@ namespace RavlN {
     virtual bool Save (BinOStreamC &out) const;
     //: Writes object to stream, can be loaded using constructor
     
+    const VectorC &Mean() const
+    { return mean; }
+    //: Access mean vector.
+    
+    const MatrixC &Projection() const
+    { return proj; }
+    //: Access projection matrix.
+    
   protected:
     VectorC mean; // Mean.
     MatrixC proj;  // Rotation/projection to apply.
@@ -87,6 +95,13 @@ namespace RavlN {
     //: Access body.
     
   public:    
+    const VectorC &Mean() const
+    { return Body().Mean(); }
+    //: Access mean vector.
+    
+    const MatrixC &Projection() const
+    { return Body().Projection(); }
+    //: Access projection matrix.
   };
 
 }
