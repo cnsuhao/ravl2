@@ -11,11 +11,13 @@ PACKAGE=Ravl
 
 NESTED=2D.r 3D.r
 
-HEADERS=FPoint.hh Point2d.hh Point4d.hh
+HEADERS=FPoint.hh Point2d.hh Point4d.hh FAffine.hh
 
 SOURCES=Point2d.cc
 
 PLIB=RavlMath
+
+EXAMPLES = exFAffine.cc
 
 LIBDEPS=RavlGeom.def
 
