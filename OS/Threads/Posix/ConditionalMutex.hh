@@ -34,11 +34,16 @@ namespace RavlN
 {
   
   //! userlevel=Normal
-  //: Conditional variable.  
-  //This wraps the pthreads conditional variable and its associated mutex
-  //into a single object.  See man pages on e.g. pthread_cond_init for
-  //a full description.  See also SemaphoreC for an example of its
-  //use.
+  //: Sleeping until signal arrives.
+  //
+  // <p>This class implements a "condition variable".  
+  // It causes a thread to sleep until signalled from another thread.  </p>
+  //
+  // <p>ConditionalMutexC wraps the pthreads condition variable and
+  // its associated mutex
+  // into a single object.  See man pages on e.g. pthread_cond_init for
+  // a full description.  See also SemaphoreC for an example of its
+  // use.</p>
   
   class ConditionalMutexC 
     : public MutexC 
@@ -63,7 +68,7 @@ namespace RavlN
 #else
     ;
 #endif
-    //: Boardcast a signal to all waiting threads.
+    //: Broadcast a signal to all waiting threads.
     // Always succeeds.
     
     void Signal() 
@@ -73,7 +78,7 @@ namespace RavlN
     ;
 #endif
     //: Signal one waiting thread.
-    // Always succeeds.
+    // Always succeeds.  The particular thread selected is arbitrary.
     
     void Wait()
 #if RAVL_HAVE_PTHREAD_COND 
@@ -83,16 +88,16 @@ namespace RavlN
 #endif
       
     //: Wait for conditional.
-    // This unlocks the mutex and then waits for a signal.
-    // from either Signal or Broadcast, when it get it
+    // This unlocks the mutex and then waits for a signal
+    // from either Signal or Broadcast.  When it gets the signal
     // the mutex is re-locked and control returned to the
     // program. <p>
     // Always succeeds.
     
     bool Wait(RealT maxTime);
     //: Wait for conditional.
-    // This unlocks the mutex and then waits for a signal.
-    // from either Signal, Broadcast or timeout, when it get it
+    // This unlocks the mutex and then waits for a signal
+    // from either Signal, Broadcast or timeout.  When it get the signal
     // the mutex is re-locked and control returned to the
     // program. <p>
     // Returns false, if timeout occures.
