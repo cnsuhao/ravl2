@@ -36,16 +36,16 @@ namespace RavlImageN {
     //: Get colour threshold
     // Values should be between 0 and 512
     
-    int GetThreshold()
+    int GetThreshold() const
     { return thresh; }
     //: Get threshold used
 
     void Apply(ImageC<ByteT>& mask, 
-	       const ImageC<ByteRGBValueC> &image);
+	       const ImageC<ByteRGBValueC> &image) const;
     //: Produce a background/foreground mask from an RGB image
     //  255 is assigned to foreground, 0 otherwise
 
-    ImageC<ByteT> Apply(const ImageC<ByteRGBValueC> &image)
+    ImageC<ByteT> Apply(const ImageC<ByteRGBValueC> &image) const
     {
       ImageC<ByteT> ret(image.Frame());
       Apply(ret, image);
@@ -55,11 +55,11 @@ namespace RavlImageN {
     //  255 is assigned to foreground, 0 otherwise
     
     void Apply(ImageC<ByteT>& mask,
-	       const ImageC<ByteYUV422ValueC>& image);
+	       const ImageC<ByteYUV422ValueC>& image) const;
     //: Produce a background/foreground mask from YUV 422 image
     //  255 is assigned to foreground, 0 otherwise
 
-    ImageC<ByteT> Apply(const ImageC<ByteYUV422ValueC>& image)
+    ImageC<ByteT> Apply(const ImageC<ByteYUV422ValueC>& image) const
     {
       ImageC<ByteT> ret(image.Frame());
       Apply(ret, image);

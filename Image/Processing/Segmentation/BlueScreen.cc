@@ -23,7 +23,7 @@
 namespace RavlImageN
 {
   void BlueScreenC::Apply(ImageC<ByteT>& mask, 
-			  const ImageC<ByteRGBValueC> &image) 
+			  const ImageC<ByteRGBValueC> &image) const
   {
     const int const_thresh(thresh);
     for(Array2dIter2C<ByteT,ByteRGBValueC> i(mask,image); i; i++)
@@ -34,7 +34,7 @@ namespace RavlImageN
   }
 
   void BlueScreenC::Apply(ImageC<ByteT>& mask,
-			  const ImageC<ByteYUV422ValueC> &image) 
+			  const ImageC<ByteYUV422ValueC> &image) const
   {
     const int const_thresh(100*thresh);
     Array2dIterC<ByteT> idest(mask);
