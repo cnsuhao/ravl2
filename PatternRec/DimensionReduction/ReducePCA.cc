@@ -64,10 +64,12 @@ namespace RavlN {
     smallVec.Fill(0.0);
     
     FOR_MATRIX_COLS (Wpca,index2) {
-      VectorC vec(Wpca.SliceColumn(index2));
-      vec.MakeUnit();
       if (Leigenvecs.Vector()[index2] < 1e-10) 
 	Wpca.SetColumn (index2,smallVec);
+      else {
+	Slice1dC<RealT> slice = Wpca.SliceColumn(index2);
+	slice /= slice.Modulus();
+      }
     }
     VectorC temp (Wpca.Cols());
     temp.Fill (0.0);
