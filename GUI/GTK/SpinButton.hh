@@ -119,12 +119,12 @@ namespace RavlGUIN {
     { return Body().SigChanged(); }
     //: Access changed signal.
     
-    void SetValue(RealT &val)
+    void SetValue(RealT val)
     { Body().SetValue(val); }
     //: Set value 
     // Thread safe.
     
-    bool GUISetValue(RealT &val)
+    bool GUISetValue(RealT val)
     { return Body().GUISetValue(val); }
     //: Set value 
     // GUI thread only.

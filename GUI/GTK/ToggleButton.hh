@@ -139,7 +139,7 @@ namespace RavlGUIN {
     { return Body().SigChanged(); }
     //: Access changed signal.
     
-    bool GUISetToggle(bool &val)
+    bool GUISetToggle(bool val)
     { return Body().GUISetToggle(val); }
     //: Set toggle state.
     // GUI thread only.

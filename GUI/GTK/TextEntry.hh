@@ -146,7 +146,7 @@ namespace RavlGUIN {
     
   public: 
     
-    bool GUISetText(StringC &txt)
+    bool GUISetText(const StringC &txt)
       { return Body().GUISetText(txt); }
     //: Set text to edit.
     // This should only be called within the GUI thread.
