@@ -30,9 +30,12 @@
 #define RavlGUIN RavlN
 #endif
 #endif
+namespace RavlImageN {
+  class ByteRGBValueC;
+}
 
 namespace RavlGUIN {
-
+  using namespace RavlImageN;
   using namespace RavlN;
   
   class WidgetC;
@@ -43,7 +46,7 @@ namespace RavlGUIN {
   class TargetEntryC;
   class WidgetDndInfoC;
   class WidgetStyleC;
-
+  
   //! userlevel=Develop
   //: Widget base body.
   
@@ -144,6 +147,18 @@ namespace RavlGUIN {
     bool GUIHide();
     //: Hide widget from the world.
     // Call only from GUI thread.
+    
+    bool SetBackgroundColour(ByteRGBValueC &colour,GtkStateType &state);
+    //: Set background colour.
+    
+    bool SetForgroundColour(ByteRGBValueC &colour,GtkStateType &state);
+    //: Set background colour.
+    
+    bool GUISetBackgroundColour(ByteRGBValueC &colour,GtkStateType &state);
+    //: Set background colour.
+    
+    bool GUISetForgroundColour(ByteRGBValueC &colour,GtkStateType &state);
+    //: Set background colour.
     
     static Tuple2C<const char *,GTKSignalInfoC> *SigInfoInit();
     //: Get init information about signals.
@@ -432,6 +447,24 @@ namespace RavlGUIN {
     friend class MenuC; // Hack to make IsA() work. What to do about this ?
     friend class TreeBodyC; // Another hack
     
+    bool SetBackgroundColour(const ByteRGBValueC &colour,GtkStateType state = GTK_STATE_NORMAL)
+    { return Body().SetBackgroundColour(const_cast<ByteRGBValueC &>(colour),state); }
+    //: Set the widgets background colour.
+    
+    bool SetForgroundColour(const ByteRGBValueC &colour,GtkStateType state  = GTK_STATE_NORMAL)
+    { return Body().SetForgroundColour(const_cast<ByteRGBValueC &>(colour),state); }
+    //: Set the widgets forground colour.
+    
+    bool GUISetBackgroundColour(ByteRGBValueC &colour,GtkStateType &state)
+    { return Body().GUISetBackgroundColour(colour,state); }
+    //: Set the widgets background colour.
+    // GUI thread only.
+    
+    bool GUISetForgroundColour(ByteRGBValueC &colour,GtkStateType &state)
+    { return Body().GUISetForgroundColour(colour,state); }
+    //: Set the widgets forground colour.
+    // GUI thread only.
+
   };
   
   inline

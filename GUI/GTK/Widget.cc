@@ -21,6 +21,7 @@
 #include "Ravl/CallMethods.hh"
 #include "Ravl/Tuple2.hh"
 #include "Ravl/Threads/Signal2.hh"
+#include "Ravl/Image/ByteRGBValue.hh"
 #include <gtk/gtk.h>
 #include <gdk/gdktypes.h>
 
@@ -711,7 +712,63 @@ namespace RavlGUIN {
   void WidgetBodyC::SetStyle(WidgetStyleC& style) {
     Manager.Queue(Trigger(WidgetC(*this),&WidgetC::GUISetStyle,style));
   }
-
+  
+  
+  //: Set background colour.
+  
+  bool WidgetBodyC::SetBackgroundColour(ByteRGBValueC &colour,GtkStateType &state) {
+    Manager.Queue(Trigger(WidgetC(*this),&WidgetC::GUISetBackgroundColour,colour,state));
+    return true;
+  }
+  
+  //: Set background colour.
+  
+  bool WidgetBodyC::SetForgroundColour(ByteRGBValueC &colour,GtkStateType &state) {
+    Manager.Queue(Trigger(WidgetC(*this),&WidgetC::GUISetForgroundColour,colour,state));
+    return true;
+  }
+  
+  //: Set background colour.
+  
+  bool WidgetBodyC::GUISetBackgroundColour(ByteRGBValueC &colour,GtkStateType &state) {
+    GdkColor color;
+    color.red = (IntT) colour.Red() * 255;
+    color.green = (IntT) colour.Green() * 255;
+    color.blue = (IntT) colour.Blue() * 255;
+#if RAVL_USE_GTK2
+    gtk_widget_modify_bg (widget, state, &color);
+#else
+    GtkRcStyle *rc_style;
+    rc_style = gtk_rc_style_new ();
+    rc_style->bg[state] = color;
+    rc_style->color_flags[state] |= GTK_RC_BG;
+    gtk_widget_modify_style (widget, rc_style);
+    gtk_rc_style_unref (rc_style);
+#endif
+    return true;
+  }
+  
+  //: Set background colour.
+  
+  bool WidgetBodyC::GUISetForgroundColour(ByteRGBValueC &colour,GtkStateType &state) {
+    GdkColor color;
+    color.red = (IntT) colour.Red() * 255;
+    color.green = (IntT) colour.Green() * 255;
+    color.blue = (IntT) colour.Blue() * 255;
+#if RAVL_USE_GTK2
+    gtk_widget_modify_fg (widget, state, &color);
+#else
+    GtkRcStyle *rc_style;
+    rc_style = gtk_rc_style_new ();
+    rc_style->fg[state] = color;
+    rc_style->color_flags[state] |= GTK_RC_FG;
+    gtk_widget_modify_style (widget, rc_style);
+    gtk_rc_style_unref (rc_style);
+#endif
+    return true;
+  }
+  
   
 }
+
 
