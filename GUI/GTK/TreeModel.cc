@@ -460,6 +460,7 @@ namespace RavlGUIN {
   
   TreeModelIterC TreeModelBodyC::Path2Iter(const char *pathName) {
     TreeModelIterC ret;
+    ret.Model(model);
     GtkTreePath *path = gtk_tree_path_new_from_string (pathName);
     gtk_tree_model_get_iter (model, ret.TreeIter(), path);
     gtk_tree_path_free (path);
