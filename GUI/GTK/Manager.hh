@@ -24,6 +24,7 @@
 #include "Ravl/Hash.hh"
 #include "Ravl/Threads/ThreadEvent.hh"
 #include "Ravl/Threads/MessageQueue.hh"
+#include "Ravl/Index2d.hh"
 
 namespace RavlGUIN {
   using namespace RavlN;
@@ -105,6 +106,11 @@ namespace RavlGUIN {
     void TidyUp();
     //: Tidy up before exiting..
     
+    Index2dC ScreenSize() const 
+    { return screensize; }
+    //: Get the current screen resolution
+    // Only meaningful after the manager has been started.
+
   protected:
     
     IntT Register(WidgetBodyC &win);
@@ -142,7 +148,8 @@ namespace RavlGUIN {
     ThreadEventC shutdownDone;
     ThreadEventC startupDone;
     UIntT guiThreadID;
-    
+    Index2dC screensize;
+
     friend class WidgetBodyC;
     friend class WindowBodyC;
   };
