@@ -157,12 +157,13 @@ namespace RavlN {
     
     // Compensate for 'inc'
     if(pos != end) {
+      IntT ci = inc-1;
       if(inc >= 1) {
-	if(((seekto - inc) >= (int) start) && ((seekto -inc) <= (int)end))
-	  seekto = pos - inc;
+	if(((seekto - ci) >= (int) start) && ((seekto - ci) <= (int)end))
+	  seekto = pos - ci;
       } else {
-	if((( seekto - (inc-1)) >= (int) start) && ((seekto -(inc-1)) <= (int)end))
-	  seekto = pos - (inc-1);
+	if((( seekto - ci) >= (int) start) && ((seekto - ci) <= (int)end))
+	  seekto = pos - ci;
       }
     } else {
       inc = 1;
@@ -174,7 +175,7 @@ namespace RavlN {
       cerr << "WARNING: Seek to " << pos <<" failed. \n";
       return false;
     }
-    ONDEBUG(cerr << "DPPlayControlBodyC::Seek(), Seek to :" << pos << " (Comp:" << seekto << ") Tell:" << ctrl.Tell() << "\n");
+    ONDEBUG(cerr << "DPPlayControlBodyC::Seek(), Seek to :" << pos << " (Comp:" << seekto << ") Tell:" << ctrl.Tell() << " Inc:" << inc << "\n");
     at = seekto;
     if(pause) { // Make sure it gets displayed if we're paused.
       lock.Unlock();// Unlock access.
