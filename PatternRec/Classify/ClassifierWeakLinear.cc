@@ -78,4 +78,7 @@ namespace RavlN {
       
   RAVL_INITVIRTUALCONSTRUCTOR_FULL(ClassifierWeakLinearBodyC,ClassifierWeakLinearC,ClassifierC);
 
+  void InitRavlClassifierWeakLinearIO() {
+  }
+
 }

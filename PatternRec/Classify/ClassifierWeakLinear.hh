@@ -116,5 +116,7 @@ namespace RavlN {
     //: Body ptr constructor.
   };
       
+  void InitRavlClassifierWeakLinearIO();
+
 }
 #endif
