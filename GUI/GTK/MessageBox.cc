@@ -1,0 +1,62 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2002, Omniperception Ltd
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
+////////////////////////////////////////////////
+//! rcsid="$Id$"
+//! lib=RavlGUI
+//! file="Ravl/GUI/GTK/MessageBox.cc"
+
+#include "Ravl/GUI/MessageBox.hh"
+#include "Ravl/GUI/Button.hh"
+#include "Ravl/GUI/Label.hh"
+#include "Ravl/GUI/LBox.hh"
+
+
+namespace RavlGUIN {
+  
+  //: Constructor.  
+  MessageBoxBodyC::MessageBoxBodyC(StringC message, bool bYesNo, const char *title)
+    : WindowBodyC(200,100,title,GTK_WINDOW_TOPLEVEL,0,false),
+      m_strMessage(message),
+      m_bYesNo(bYesNo),
+      sigDone(false)
+  {
+    // Make sure this isn't deleted before the buttons have been clicked
+    IncRefCounter();
+  }
+  
+
+  //: Create the widget.  
+  bool MessageBoxBodyC::Create() {
+
+    if (m_bYesNo) {
+      Add(VBox(Label(m_strMessage) +
+	       HBox(ButtonR("Yes",*this,&MessageBoxBodyC::OnClick,true) +
+		    ButtonR("No",*this,&MessageBoxBodyC::OnClick,false))
+	       ,10,false,10));
+    }
+    else {
+      Add(VBox(Label(m_strMessage) +
+	       HBox(ButtonR("OK",*this,&MessageBoxBodyC::OnClick,true)),10,false,10));
+    }
+
+    return WindowBodyC::Create();
+  }
+  
+  bool MessageBoxBodyC::OnClick(bool& bResult) {
+    // First, hide the window
+    Hide();
+    // Send the "done" signal
+    sigDone(bResult);
+    // Delete the box if we are holding the only reference
+    if(DecRefCounter())
+      delete this;
+    // Done
+    return bResult;
+  }
+
+}
+

@@ -1,0 +1,158 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2002, Omniperception Ltd
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
+#ifndef RAVLGUI_MESSAGEBOX_HEADER
+#define RAVLGUI_MESSAGEBOX_HEADER 1
+/////////////////////////////////////////////////
+//! file="Ravl/GUI/GTK/MessageBox.hh"
+//! lib=RavlGUI
+//! author="James Smith"
+//! date="22/10/2002"
+//! rcsid="$Id$"
+//! docentry="Ravl.GUI.Dialogs"
+//! example="exMessageBox.cc"
+
+#include "Ravl/GUI/Window.hh"
+#include "Ravl/String.hh"
+#include "Ravl/OS/Date.hh"
+
+namespace RavlGUIN {
+  
+  using namespace RavlN;
+
+  class MessageBoxC;
+  
+  //! userlevel=Develop
+  //: Window body.
+  
+  class MessageBoxBodyC 
+    : public WindowBodyC
+  {
+  public:
+    MessageBoxBodyC(StringC message, bool bYesNo = false, const char *title = 0);
+    //: Constructor.
+    
+    virtual bool Create();
+    //: Create the widget.
+    
+    Signal1C<bool>& SigDone() {return sigDone;}
+    //: "Finished" signal
+
+  protected:
+
+    bool OnClick(bool &bResult);
+    //: Handles button presses
+
+    StringC m_strMessage;
+    bool m_bYesNo;
+    Signal1C<bool> sigDone;
+
+    friend class MessageBoxC;
+  };
+  
+  //! userlevel=Normal
+  //: Message box handle.
+  
+  class MessageBoxC 
+    : public WindowC
+  {
+  public:
+    MessageBoxC()
+      {}
+    //: Default constructor.
+    // Creates an invalid handle.
+    
+    MessageBoxC(StringC message, bool bYesNo = false, const char *title = 0)
+      : WindowC( *new MessageBoxBodyC(message,bYesNo,title))
+    {}
+    //: Constructor.
+    
+  protected:
+    MessageBoxC(MessageBoxBodyC &bod)
+      : WindowC(bod)
+    {}
+    //: Body constructor.
+    
+    MessageBoxBodyC &Body() 
+    { return static_cast<MessageBoxBodyC  &>(WidgetC::Body()); }
+    //: Access body.
+    
+    const MessageBoxBodyC  &Body() const
+    { return static_cast<const MessageBoxBodyC  &>(WidgetC::Body()); }
+    //: Access body.
+    
+  public:
+
+    Signal1C<bool>& SigDone() {return Body().SigDone();}
+    //: "Finished" signal
+
+    void Destroy() { 
+      WidgetC::Destroy(); 
+      Invalidate();
+    }
+    //: Destroy this window.
+    
+    friend class MessageBoxBodyC;
+  };
+
+  inline
+  void QuestionBox(StringC message,bool (*func)(bool &result))
+  { 
+    MessageBoxC ret = MessageBoxC(message,true,"Question");
+    Connect(ret.SigDone(),func);
+    ret.Show();
+  }
+  
+  template<class ObjT>
+  void QuestionBox(StringC message,const ObjT &obj,bool (ObjT::*func)(bool &result))
+  { 
+    MessageBoxC ret = MessageBoxC(message,true,"Question");
+    Connect(ret.SigDone(),obj,func);
+    ret.Show();
+  }
+
+  template<class ObjT,class DataT>
+  void QuestionBoxR(StringC message,ObjT &obj,bool (ObjT::*func)(bool &result))
+  { 
+    MessageBoxC ret = MessageBoxC(message,true,"Question");
+    ConnectRef(ret.SigDone(),obj,func);
+    ret.Show();
+  }
+  
+  inline
+  void AlertBox(StringC message)
+  { 
+    MessageBoxC ret = MessageBoxC(message,false,"Alert");
+    ret.Show();
+  }
+
+  inline
+  void AlertBox(StringC message,bool (*func)())
+  { 
+    MessageBoxC ret = MessageBoxC(message,false,"Alert");
+    Connect(ret.SigDone(),func);
+    ret.Show();
+  }
+  
+  template<class ObjT>
+  void AlertBox(StringC message,const ObjT &obj,bool (ObjT::*func)())
+  { 
+    MessageBoxC ret = MessageBoxC(message,false,"Alert");
+    Connect(ret.SigDone(),obj,func);
+    ret.Show();
+  }
+
+  template<class ObjT>
+  void AlertBoxR(StringC message,ObjT &obj,bool (ObjT::*func)())
+  { 
+    MessageBoxC ret = MessageBoxC(message,false,"Alert");
+    ConnectRef(ret.SigDone(),obj,func);
+    ret.Show();
+  }
+
+}
+
+#endif
