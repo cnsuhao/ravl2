@@ -21,6 +21,8 @@
 #include "Ravl/PatternRec/SampleIter.hh"
 #include "Ravl/MeanCovariance.hh"
 #include "Ravl/Matrix.hh"
+#include "Ravl/PatternRec/SampleStream.hh"
+#include "Ravl/PatternRec/SampleStreamVector.hh"
 
 namespace RavlN {
   
@@ -52,6 +54,9 @@ namespace RavlN {
     
     virtual FunctionC Apply(const DataSetVectorLabelC &in);
     //: Create function from the given data.
+
+    FunctionC Apply(SampleStreamC<VectorC>  &inPca,  SampleStream2C<VectorC, StringC> &inLda);
+    //: Create function from the given data.
     
     MatrixC &Lda()
     { return lda; }
@@ -68,6 +73,14 @@ namespace RavlN {
     const VectorC &Mean() const
     { return mean; }
     //: Access mean vector.
+
+    UIntT &SamplesPerClass()
+      {return classSamp;}
+    //: Access number of samples per class used for LDA training
+
+    const UIntT &SamplesPerClass()const
+      {return classSamp;}
+    //: Access number of samples per class used for LDA training
     
   protected:
     
@@ -77,7 +90,8 @@ namespace RavlN {
     VectorC mean; // Last mean vector.
     MatrixC lda; // Last lda transform matrix.
     
-    bool forceHimDim;
+    bool forceHimDim;   
+    UIntT classSamp;
   };
   
   //! userlevel=Normal
@@ -128,12 +142,23 @@ namespace RavlN {
     { return Body().Mean(); }
     //: Access mean vector.
 
+    inline UIntT &SamplesPerClass()
+      {return Body().SamplesPerClass();}
+    //: Access number of samples per class used for LDA training
+
+    inline const UIntT &SamplesPerClass()const
+      {return Body().SamplesPerClass();}
+    //: Access number of samples per class used for LDA training
+
     inline FunctionC Apply(const DataSetVectorLabelC &in)
     { return Body().Apply(in) ; } 
+    //: Create function from the given data.
+
+    inline FunctionC Apply(SampleStreamC<VectorC> &inPca,  SampleStream2C<VectorC, StringC> &inLda)
+    { return Body().Apply(inPca,  inLda) ; } 
     //: Create function from the given data.
 
   };
 
 }
-
 #endif

@@ -9,6 +9,7 @@
 //! file="Ravl/PatternRec/Modeling/DimensionReduction/DesignFuncLDA.cc"
 
 #include "Ravl/PatternRec/DesignFuncLDA.hh"
+#include "Ravl/DP/SPort.hh"
 
 #define DODEBUG 0
 #if DODEBUG
@@ -23,7 +24,8 @@ namespace RavlN {
   
   DesignFuncLDABodyC::DesignFuncLDABodyC(RealT variationPreserved)
     : DesignFuncReduceBodyC(variationPreserved),
-      forceHimDim(false)
+      forceHimDim(false), classSamp(0)
+      
   {}
   
   //: Load from stream.
@@ -32,6 +34,7 @@ namespace RavlN {
     : DesignFuncReduceBodyC(strm)
   {
     strm >> mean >> lda;
+    classSamp = 0;
   }
   
   //: Load from binary stream.
@@ -40,6 +43,7 @@ namespace RavlN {
     : DesignFuncReduceBodyC(strm)
   {
     strm >> mean >> lda;
+    classSamp = 0;
   }
   
   //: Writes object to stream, can be loaded using constructor
@@ -64,29 +68,111 @@ namespace RavlN {
   
   FunctionC DesignFuncLDABodyC::Apply(const DataSetVectorLabelC &in) {
 
-     SampleC<VectorC>   inVecs(in.Sample1().Size());
-    for(SampleIterC<VectorC> it(in.Sample1()); it ;it++)
-      inVecs += *it;
+    //SampleC<VectorC>   inVecs(in.Sample1().Size());
+    //for(SampleIterC<VectorC> it(in.Sample1()); it ;it++)
+    //inVecs += *it;
   
-    UIntT N  =  inVecs.Size();
-    UIntT d =  inVecs.First().Size();
-    UIntT maxN =  UIntT(0.2* (RealT)d);   //maximum nof data to use for the PCA step
-    SampleC<VectorC> inVecsPca(Min(N,maxN));
-    if(N <maxN)  inVecsPca= inVecs;
-    else    for(UIntT i = 0; i<maxN;i++)  inVecsPca.Append(inVecs.Pick());
+    //UIntT N  =  inVecs.Size();
+    //UIntT d =  inVecs.First().Size();
+    //UIntT maxN =  UIntT(0.2* (RealT)d);   //maximum nof data to use for the PCA step
+    //UIntT maxN =  d;   //maximum nof data to use for the PCA step
+    //SampleC<VectorC> inVecsPca(Min(N,maxN));
+    //if(N <maxN)  inVecsPca= inVecs;
+    //else    for(UIntT i = 0; i<maxN;i++)  inVecsPca.Append(inVecs.Pick());
+
+    DataSetVectorLabelC train;
+    if(classSamp == 0)  train = in;
+    else train = in.ExtractPerLabel(classSamp);
+
+    SampleC<VectorC> inVecsPca = train.Sample1();
       
     DesignFuncPCAC pca(varPreserved);
     FunctionC pcaFunc = pca.Apply(inVecsPca);
+    cerr << "Dimentinality  reduction using PCA from"  << pcaFunc.InputSize() << " to " <<   pcaFunc.OutputSize() << endl;
     mean = pca.Mean();
-    SampleC<VectorC> outPca = pcaFunc.Apply(in.Sample1());
+    SampleC<VectorC> outPca = pcaFunc.Apply(inVecsPca);
 
-    DataSetVectorLabelC inLda(outPca, in.Sample2());
+    DataSetVectorLabelC inLda(outPca, train.Sample2());
 
     MatrixC Sb = inLda.BetweenClassScatter ();
     MatrixC Sw = inLda.WithinClassScatter ();
     MatrixC matLDA = DesignMatrixTransformation(Sw, Sb);
     
-    lda = matLDA.SubMatrix(matLDA.Rows(),Min(matLDA.Cols(),in.Sample2().MaxValue())).T() * pca.Pca().Matrix();
+    lda = matLDA.SubMatrix(matLDA.Rows(),Min(matLDA.Cols(),train.Sample2().MaxValue())).T() * pca.Pca().Matrix();
+
+    return FuncMeanProjectionC(mean, lda);
+  }
+
+
+  FunctionC DesignFuncLDABodyC::Apply(SampleStreamC<VectorC> &inPca,  SampleStream2C<VectorC, StringC> &inLda) {
+
+    //: first we need to do the pca
+    DesignFuncPCAC pca(varPreserved);
+    SampleStreamVectorC ssv(inPca);
+    SampleVectorC sv;
+    {
+      SArray1dC<VectorC> vecs(2000);
+      IntT n = ssv.GetArray(vecs);
+      cerr << n << "  samples are used for dimensionality reduction using PCA \n";
+      SArray1dC<VectorC> subvecs(vecs, n);
+      sv = SampleVectorC(subvecs);
+    }
+    FunctionC pcaFunc = pca.Apply(sv);
+    //FunctionC pcaFunc = pca.Apply(inPca);
+    UIntT D = pcaFunc.InputSize();
+    UIntT Dpca = pcaFunc.OutputSize();
+    cerr << "Dimentionality  reduction using PCA from"  << D  << " to " << Dpca   << endl;
+    VectorC mean1 = pca.Mean();
+
+    //: Now we need to calculate the mean of the database first.
+    //: Note that we assumed that input data for pca and lda are not necessarily equal
+    Tuple2C<VectorC, StringC> data;
+    VectorC mean2(D);
+    mean2.Fill(0.0);
+    RealT N = 0.0;
+    while(inLda.Get(data)){
+      mean2 += data.Data1();
+      N++;
+    }
+    mean2  /= N;
+    mean = mean2;
+    VectorC meanPca = pcaFunc.Apply(mean2);
+
+    //: Now scatter matrices are calculated
+    inLda.First();
+    MatrixC Sb(Dpca, Dpca, 0.0), Sw(Dpca, Dpca, 0.0);
+    MeanCovarianceC meancov(Dpca);
+    StringC prevID = "X";
+    UIntT numClasses= 0;
+    while(inLda.Get(data)) {
+      VectorC vec = data.Data1();
+      VectorC vecPca = pcaFunc.Apply(vec);
+      StringC ID  = data.Data2();
+      if((ID != prevID) && (prevID != "X")) { 
+	VectorC m = meancov.Mean();
+	MatrixC cov = meancov.Covariance();
+	RealT p = (RealT) meancov.Number()/N;
+	VectorC diff = m - meanPca;
+	Sb += (diff.OuterProduct (diff, p));
+	Sw += (cov * p);
+	meancov.SetZero();
+	numClasses++;
+      }
+      prevID = ID;
+      meancov += vecPca;
+    }
+    {
+      VectorC m = meancov.Mean();
+      MatrixC cov = meancov.Covariance();
+      RealT p = (RealT) meancov.Number()/N;
+      VectorC diff = m - meanPca;
+      Sb += (diff.OuterProduct (diff, p));
+      Sw += (cov * p);
+    }
+
+    MatrixC matLDA = DesignMatrixTransformation(Sw, Sb);
+    
+    lda = matLDA.SubMatrix(matLDA.Rows(),Min(matLDA.Cols(), numClasses)).T() * pca.Pca().Matrix();
 
     return FuncMeanProjectionC(mean, lda);
   }
