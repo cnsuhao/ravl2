@@ -10,6 +10,8 @@
 #include "Ravl/3D/TriMesh.hh"
 #include "Ravl/BinStream.hh"
 #include "Ravl/SArr1Iter.hh"
+#include "Ravl/Exception.hh"
+#include "Ravl/EntryPnt.hh"
 
 namespace Ravl3DN {
   
@@ -24,6 +26,8 @@ namespace Ravl3DN {
   }
   
   BinOStreamC &operator<<(BinOStreamC &s,const TriMeshC &ts) {
+    UByteT version = 0;
+    s << version;
     RavlAssert(ts.IsValid());
     s << ts.Vertices(); 
     s << ts.Faces().Size(); 
@@ -37,6 +41,13 @@ namespace Ravl3DN {
   }
   
   BinIStreamC &operator>>(BinIStreamC &s,TriMeshC &ts) {
+    UByteT version;
+    s >> version;
+    if(version != 0) {
+      if(!UsingRavlMain()) // If we're probably not going to catch an exception write an error on stdout as well. 
+	cerr << "ERROR: Unknown version number in TriMeshC binary stream. ";
+      throw ExceptionOutOfRangeC("Unknown version number in TriMeshC binary stream. ");
+    }
     SArray1dC<VertexC> vecs;
     s >> vecs;
     UIntT nfaces,i1,i2,i3;
