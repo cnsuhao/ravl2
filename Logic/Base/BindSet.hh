@@ -18,6 +18,16 @@
 #include "Ravl/HSet.hh"
 
 namespace RavlLogicN {
+  using namespace RavlN;
+#if RAVL_VISUALCPP_NAMESPACE_BUG
+  using RavlN::HashElemC;
+  using RavlN::RCBodyC;
+  using RavlN::HashC;
+  using RavlN::UIntT;
+  using RavlN::RCHandleC;
+  using RavlN::HashIterC;
+  using RavlN::StringC;
+#endif
 
   class BindC;
   class BindSetC;

@@ -16,6 +16,7 @@
 #include "Ravl/Logic/Literal.hh"
 
 namespace RavlLogicN {
+  using namespace RavlN;
 
   //! userlevel=Develop
   //: Variable body.

@@ -15,6 +15,7 @@
 #include "Ravl/Exception.hh"
 
 namespace RavlLogicN {
+  using namespace RavlN;
   
   bool LoadState(IStreamC &is,StateC &state);
   //: Load data into stream.

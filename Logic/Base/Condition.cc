@@ -32,10 +32,12 @@ namespace RavlLogicN {
   
   void ConditionBodyC::AddTerms(const SArray1dC<LiteralC> &terms) {
     SArray1dC<LiteralC> newun(args.Size() + terms.Size());
-    for(BufferAccessIter2C<LiteralC,LiteralC> it(args,newun);it;it++)
+    BufferAccessIter2C<LiteralC,LiteralC> it(args,newun);
+    for(;it;it++)
       it.Data2() = it.Data1();
-    for(BufferAccessIter2C<LiteralC,LiteralC> it(newun.From(args.Size()),terms);it;it++)
-      it.Data1() = it.Data2();
+    BufferAccessIter2C<LiteralC,LiteralC> newit(newun.From(args.Size()),terms);
+    for(;newit;newit++)
+      newit.Data1() = newit.Data2();
     args = newun;
   }
   

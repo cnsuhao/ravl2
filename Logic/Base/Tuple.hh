@@ -17,6 +17,13 @@
 #include "Ravl/SArray1d.hh"
 
 namespace RavlLogicN {
+  using namespace RavlN;
+#if RAVL_VISUALCPP_NAMESPACE_BUG
+  using RavlN::UIntT;
+  using RavlN::SArray1dC;
+  using RavlN::StringC;
+  using RavlN::HSetC;
+#endif
   
   //! userlevel=Develop
   //: Tuple of literals.

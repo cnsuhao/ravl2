@@ -17,6 +17,7 @@
 #include "Ravl/DList.hh"
 
 namespace RavlLogicN {
+  using namespace RavlN;
   
   //! userlevel=Develop
   //: Logical List.

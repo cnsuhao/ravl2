@@ -17,6 +17,7 @@
 #include "Ravl/HSet.hh"
 
 namespace RavlLogicN {
+  using namespace RavlN;
   
   //! userlevel=Normal
   //: Set of example literals.
