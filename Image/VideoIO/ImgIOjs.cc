@@ -254,7 +254,6 @@ namespace RavlImageN {
   bool DPOImageJSBodyC::WriteHeader(const ImageRectangleC &wrect) {
     if(doneHeader)
       return true;
-    doneHeader = true;
     rect = wrect;
     strm.Seek(0);
     
@@ -286,6 +285,7 @@ namespace RavlImageN {
 #endif
     if(strm.WriteAll(header,4 * 9) < 0)
       return false;
+    doneHeader = true;
     SetupIO();
     return true;
   }
@@ -334,9 +334,12 @@ namespace RavlImageN {
   // Returns false if can't.
   
   bool DPOImageJSBodyC::Put(const ImageC<ByteYUV422ValueC> &img) {
-    if(!doneHeader)
-      if(!WriteHeader(img.Rectangle()))
+    if(!doneHeader) {
+      if(!WriteHeader(img.Rectangle())) {
+        cerr << "DPOImageJSBodyC::Put(), ERROR: Failed to write file header. \n";
 	return false;
+      }
+    }
     RavlAssert(img.Rectangle() == rect); // Expected image size ?
     strm.Seek(CalcOffset(frameNo));
     if(&(img[rect.TRow()][rect.RCol()]) == (&(img[rect.TRow()+1][rect.LCol()]))+1) {
