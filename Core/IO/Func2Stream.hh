@@ -115,7 +115,7 @@ namespace RavlN {
     //: Get an array of data from stream.
     
   }; 
-
+  
   //////////////////////////////
   //! userlevel=Develop
   //: Wrapped function output stream body.

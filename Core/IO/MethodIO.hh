@@ -1,9 +1,15 @@
+// This file is part of RAVL, Recognition And Vision Library 
+// Copyright (C) 2001, University of Surrey
+// This code may be redistributed under the terms of the GNU Lesser
+// General Public License (LGPL). See the lgpl.licence file for details or
+// see http://www.gnu.org/copyleft/lesser.html
+// file-header-ends-here
 #ifndef RAVL_DPMETHODIO_HEADER
 #define RAVL_DPMETHODIO_HEADER 1
 //////////////////////////////////////////////////////////
 //! docentry="Data Processing;Basic Types.IO"
 //! example=exDataProc.cc
-//! lib=DataProc
+//! lib=RavlIO
 //! author="Charles Galambos"
 //! date="04/07/98"
 //! example=exMethodIO.cc
