@@ -15,9 +15,7 @@
 //! date="26/08/98"
 
 #include "Ravl/Curve2dLine.hh"
-
-class ostream;
-class istream;
+#include "Ravl/Stream.hh"
 
 namespace RavlN {
 
