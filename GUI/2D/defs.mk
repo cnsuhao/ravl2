@@ -12,7 +12,7 @@ PACKAGE=Ravl/GUI
 HEADERS=Canvas.hh 
 #Graph1d.hh
 
-SOURCES=Canvas.cc 
+SOURCES=Canvas.cc RawCanvas2d.cc
 #Graph1d.cc
 
 PLIB=RavlGUI2D

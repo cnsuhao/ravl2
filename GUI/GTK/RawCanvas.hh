@@ -16,8 +16,14 @@
 
 #include "Ravl/GUI/Widget.hh"
 
-namespace RavlGUIN {
+namespace RavlImageN {
+  template<class PixelT> class ImageC;
+  class ByteRGBValueC;
+}
 
+namespace RavlGUIN {
+  using namespace RavlImageN;
+  
   //! userlevel=Develop
   //: RawCanvas body.
   
@@ -32,6 +38,59 @@ namespace RavlGUIN {
     
     GdkDrawable *DrawArea();
     //: Access draw area.
+    
+    GdkGC *GUIDrawGC();
+    //: Get drawing context.
+    
+    GdkFont *GUIDrawFont();
+    //: Font to use.
+    
+    GdkGC *GUIDrawGCBlack();
+    //: Get black drawing context.
+    
+    GdkGC *GUIDrawGCWhite();
+    //: Get white drawing context.
+    
+    GdkGC *GUIDrawGCGrey();
+    //: Get grey drawing context.
+    
+    GdkWindow *GUIDrawWindow();
+    //: Get get draw area.
+    
+    void GUIDrawLine(GdkGC *gc,Index2dC p1,Index2dC p2);
+    //: Draw a line.
+    
+    void GUIDrawRectangle(GdkGC *gc,const IndexRange2dC &rect,bool fill = false);
+    //: Draw a rectangle.
+    
+    void GUIDrawRectangle(GdkGC *gc,Index2dC topLeft,Index2dC bottomRight,bool fill = false);
+    //: Draw a rectangle.
+    
+    void GUIDrawText(GdkGC *gc,GdkFont *font,Index2dC at,const StringC &txt);
+    //: Draw text.
+    
+    Index2dC GUITextSize(GdkFont *font,const StringC &txt);
+    //: Find the size of 'text' rendered in 'font'.
+    
+    void GUIDrawCircle(GdkGC *gc,Index2dC cent,UIntT size,bool fill);
+    //: Draw a circle.
+    
+    void GUIDrawImage(const ImageC<ByteRGBValueC> &image,const Index2dC &offset = Index2dC(0,0),bool ignoreImageOrigin = false);
+    //: Draw an image into the canvas with its origin offset by 'offset'.
+    // Note: You have to include the RavlGUI2d library to use this function.
+    
+    void GUIDrawImage(const ImageC<ByteT> &image,const Index2dC &offset = Index2dC(0,0),bool ignoreImageOrigin = false);
+    //: Draw an image into the canvas with its origin offset by 'offset'.
+    // Note: You have to include the RavlGUI2d library to use this function.
+    
+    bool TranslateExposeEvent(const GdkEvent* event,IndexRange2dC &rect,IntT &toFollow);
+    //: Translate an expose event.
+    // 'rect' is the area to be updated.
+    // 'toFollow' is a count of how many expose events queued to follow this one.
+    
+    bool TranslateConfigureEvent(const GdkEvent* event,IndexRange2dC &widgeSize);
+    //: Translate a configure event.
+    // 'rect' is the new size for the widget.
     
   protected:  
     virtual bool Create();
