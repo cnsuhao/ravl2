@@ -199,25 +199,32 @@ namespace RavlImageN {
   
   //: Write out image.
   
-  bool DPOImagePNMByteRGBBodyC::Put(const ImageC<ByteRGBValueC> &nimg) {
+  bool DPOImagePNMByteRGBBodyC::Put(const ImageC<ByteRGBValueC> &nimg) 
+  {
     ImageC<ByteRGBValueC> img(nimg);
     outf << "P6\n";
     outf << img.Cols() << " " << img.Rows() << "\n";
     outf << "255\n";
-    if(sizeof(ByteRGBValueC) == 3) {
+    if(sizeof(ByteRGBValueC) == 3)
+    {
       // Packing is not a problem.
       for(IndexC i = img.TRow();i <= img.BRow();i++) 
 	outf.write((const char *)img.Row(i),img.Cols() * sizeof(ByteRGBValueC));
-    } else {
+    } 
+    else 
+    {
       // This may be slow but it avoids problems with structs being byte padded.
       for(Array2dIterC<ByteRGBValueC> it(img);it.IsElm();it.Next())
 	outf.write((const char *) &it.Data(),3);   
     }
+
 #ifndef VISUAL_CPP
-    outf << flush; // Make sure is available ASAP.
+    // outf << flush; // Make sure is available ASAP.
+    flush(outf);
 #else
     outf.os().flush();
 #endif
+
     done = true;
     return true;
   }
@@ -485,7 +492,8 @@ namespace RavlImageN {
     for(IndexC i = img.TRow();i <= img.BRow();i++) 
       outf.write((const char *) img.Row(i),img.Cols());
 #ifndef VISUAL_CPP
-    outf << flush; // Make sure is available ASAP.
+    // outf << flush; // Make sure is available ASAP.
+    flush(outf);
 #else
     outf.os().flush();
 #endif
