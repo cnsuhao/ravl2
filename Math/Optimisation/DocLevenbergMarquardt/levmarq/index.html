@@ -1,0 +1,722 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2K.1beta (1.47)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Levenberg-Marquardt minimisation</TITLE>
+<META NAME="description" CONTENT="Levenberg-Marquardt minimisation">
+<META NAME="keywords" CONTENT="levmarq">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2K.1beta">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="levmarq.css">
+
+<LINK REL="next" HREF="node1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4"
+  HREF="node1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="next.png"></A> 
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="up_g.png"> 
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="prev_g.png">   
+<BR>
+<B> Next:</B> <A NAME="tex2html5"
+  HREF="node1.html">Robust observations</A>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+
+<P>
+<H1 ALIGN="CENTER">Levenberg-Marquardt minimisation</H1>
+<P ALIGN="CENTER"><STRONG>Philip F McLauchlan</STRONG></P>
+
+<P>
+The Levenberg-Marquardt
+algorithm&nbsp;[<A
+ HREF="node3.html#Marquardt:JSIAM63">3</A>,<A
+ HREF="node3.html#Bjorck:96">2</A>]
+is a general non-linear downhill minimisation algorithm
+for the case when derivatives of the objective function are known.
+It dynamically mixes Gauss-Newton and gradient-descent iterations.
+We shall develop the L-M algorithm for a simple
+case in our notation, which is derived from Kalman filtering
+theory&nbsp;[<A
+ HREF="node3.html#BarShalom:Fortmann:88">1</A>]. The Ravl implementation of
+Levenberg-Marquardt will then be presented. Let the unknown parameters be
+represented by the vector <IMG
+ WIDTH="16" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img5.png"
+ ALT="${\bf x}$">, and let noisy measurements of
+<IMG
+ WIDTH="16" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img5.png"
+ ALT="${\bf x}$"> be made:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+{\bf z}{\scriptstyle (j)}= {\bf h}(j;{\bf x}) + {\bf w}{\scriptstyle (j)},\;\;j=1,\ldots,k
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="measure_equation"></A><IMG
+ WIDTH="400" HEIGHT="28" BORDER="0"
+ SRC="img6.png"
+ ALT="\begin{displaymath}
+{\bf z}{\scriptstyle (j)}= {\bf h}(j;{\bf x}) + {\bf w}{\scriptstyle (j)},\;\;j=1,\ldots,k
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(1)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+where <!-- MATH
+ ${\bf h}{\scriptstyle (j)}$
+ -->
+<IMG
+ WIDTH="32" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="${\bf h}{\scriptstyle (j)}$"> is a measurement function and <!-- MATH
+ ${\bf w}{\scriptstyle (j)}$
+ -->
+<IMG
+ WIDTH="35" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="${\bf w}{\scriptstyle (j)}$"> is zero-mean
+noise with covariance <!-- MATH
+ $N{\scriptstyle (j)}$
+ -->
+<IMG
+ WIDTH="37" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img9.png"
+ ALT="$N{\scriptstyle (j)}$">. Since we are describing an iterative
+minimization algorithm, we shall assume that we have already obtained
+an estimate <IMG
+ WIDTH="27" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img10.png"
+ ALT="$\hat{\bf x}^-$"> of <IMG
+ WIDTH="16" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img5.png"
+ ALT="${\bf x}$">.
+Then the maximum likelihood solution for a new estimate <IMG
+ WIDTH="16" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\hat{\bf x}$"> minimizes
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\chi^2(\hat{\bf x}) = \sum_{j=1}^k({\bf z}{\scriptstyle (j)}-{\bf h}(j;\hat{\bf x}))^{\top}N{\scriptstyle (j)}^{-1}({\bf z}{\scriptstyle (j)}-{\bf h}(j;\hat{\bf x})).
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="chi2-def"></A><IMG
+ WIDTH="457" HEIGHT="58" BORDER="0"
+ SRC="img12.png"
+ ALT="\begin{displaymath}
+\chi^2(\hat{\bf x}) = \sum_{j=1}^k({\bf z}{\scriptstyle (j)...
+...e (j)}^{-1}({\bf z}{\scriptstyle (j)}-{\bf h}(j;\hat{\bf x})).
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(2)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+We form a quadratic approximation to <IMG
+ WIDTH="40" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img13.png"
+ ALT="$\chi^2(.)$"> around <IMG
+ WIDTH="27" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img10.png"
+ ALT="$\hat{\bf x}^-$">, and minimize
+this approximation to <IMG
+ WIDTH="40" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img13.png"
+ ALT="$\chi^2(.)$"> to obtain a new estimate <IMG
+ WIDTH="26" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img14.png"
+ ALT="$\hat{\bf x}^+$">.
+In general we can write such a quadratic approximation as
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+\chi^2({\bf x}) \approx a - 2{\bf a}^{\top}({\bf x}-\hat{\bf x}^-) + ({\bf x}-\hat{\bf x}^-)^{\top}A ({\bf x}-\hat{\bf x}^-)
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="452" HEIGHT="28" BORDER="0"
+ SRC="img15.png"
+ ALT="\begin{displaymath}\chi^2({\bf x}) \approx a - 2{\bf a}^{\top}({\bf x}-\hat{\bf x}^-) + ({\bf x}-\hat{\bf x}^-)^{\top}A ({\bf x}-\hat{\bf x}^-)
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+for scalar <IMG
+ WIDTH="14" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img16.png"
+ ALT="$a$">, vectors <IMG
+ WIDTH="15" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img17.png"
+ ALT="${\bf a}$">, <IMG
+ WIDTH="16" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img18.png"
+ ALT="${\bf b}$"> and matrices <IMG
+ WIDTH="18" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img19.png"
+ ALT="$A$">, <IMG
+ WIDTH="19" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img20.png"
+ ALT="$B$">.
+Note that here and in equation&nbsp;(<A HREF="levmarq.html#chi2-def">2</A>) the signs and factors of two
+are chosen WLOG to simplify the resulting expressions for the solution.
+Differentiating, we obtain
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+\frac{\partial \chi^2}{\partial {\bf x}} = - 2{\bf a}+ 2A({\bf x}-\hat{\bf x}^-), \;\;\;\;
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="365" HEIGHT="41" BORDER="0"
+ SRC="img21.png"
+ ALT="\begin{displaymath}
+\frac{\partial \chi^2}{\partial {\bf x}} = - 2{\bf a}+ 2A({\bf x}-\hat{\bf x}^-), \;\;\;\;
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+\frac{\partial^2 \chi^2}{\partial {\bf x}^2} = 2A, \;\;\;\;
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="314" HEIGHT="41" BORDER="0"
+ SRC="img22.png"
+ ALT="\begin{displaymath}
+\frac{\partial^2 \chi^2}{\partial {\bf x}^2} = 2A, \;\;\;\;
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+At the minimum point <IMG
+ WIDTH="16" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\hat{\bf x}$"> we have <!-- MATH
+ $\partial \chi^2/\partial {\bf x}={\bf0}$
+ -->
+<IMG
+ WIDTH="90" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img23.png"
+ ALT="$\partial \chi^2/\partial {\bf x}={\bf0}$">
+which means that
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+A (\hat{\bf x}^+-\hat{\bf x}^-) = {\bf a}.
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="chi2-min"></A><IMG
+ WIDTH="341" HEIGHT="28" BORDER="0"
+ SRC="img24.png"
+ ALT="\begin{displaymath}
+A (\hat{\bf x}^+-\hat{\bf x}^-) = {\bf a}.
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(3)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+Thus we need to obtain <IMG
+ WIDTH="15" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img17.png"
+ ALT="${\bf a}$"> and <IMG
+ WIDTH="18" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img19.png"
+ ALT="$A$"> to compute the update.
+We now consider the form of <IMG
+ WIDTH="40" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img13.png"
+ ALT="$\chi^2(.)$"> in&nbsp;(<A HREF="levmarq.html#chi2-def">2</A>).
+Writing the Jacobian of <!-- MATH
+ ${\bf h}(j,{\bf x})$
+ -->
+<IMG
+ WIDTH="52" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img25.png"
+ ALT="${\bf h}(j,{\bf x})$"> as
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+H{\scriptstyle (j)}=\frac{\partial {\bf h}{\scriptstyle (j)}}{\partial {\bf x}},
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="329" HEIGHT="39" BORDER="0"
+ SRC="img26.png"
+ ALT="\begin{displaymath}H{\scriptstyle (j)}=\frac{\partial {\bf h}{\scriptstyle (j)}}{\partial {\bf x}},
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+we have
+<BR>
+<DIV ALIGN="CENTER"><A NAME="chi2p-def"></A><A NAME="chi2pp-def"></A>
+<!-- MATH
+ \begin{eqnarray}
+\frac{\partial \chi^2}{\partial {\bf x}} &=& -2\sum_{j=1}^kH{\scriptstyle (j)}^{\top}N{\scriptstyle (j)}^{-1}({\bf z}{\scriptstyle (j)}-{\bf h}(j;{\bf x})),\\
+ \frac{\partial^2 \chi^2}{\partial {\bf x}^2} &=& 2\sum_{j=1}^kH{\scriptstyle (j)}^{\top}N{\scriptstyle (j)}^{-1}H{\scriptstyle (j)}- 2\sum_{j=1}^k\left(\frac{\partial H{\scriptstyle (j)}}{\partial {\bf x}}\right)^{\top}N{\scriptstyle (j)}^{-1}({\bf z}{\scriptstyle (j)}-{\bf h}(j;{\bf x})) \nonumber \\
+            &\approx& 2\sum_{j=1}^kH{\scriptstyle (j)}^{\top}N{\scriptstyle (j)}^{-1}H{\scriptstyle (j)},
+\end{eqnarray}
+ -->
+<TABLE ALIGN="CENTER" CELLPADDING="0" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="36" HEIGHT="58" ALIGN="MIDDLE" BORDER="0"
+ SRC="img27.png"
+ ALT="$\displaystyle \frac{\partial \chi^2}{\partial {\bf x}}$"></TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="18" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img28.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="250" HEIGHT="69" ALIGN="MIDDLE" BORDER="0"
+ SRC="img29.png"
+ ALT="$\displaystyle -2\sum_{j=1}^kH{\scriptstyle (j)}^{\top}N{\scriptstyle (j)}^{-1}({\bf z}{\scriptstyle (j)}-{\bf h}(j;{\bf x})),$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(4)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="43" HEIGHT="58" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$\displaystyle \frac{\partial^2 \chi^2}{\partial {\bf x}^2}$"></TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="18" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img28.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="447" HEIGHT="69" ALIGN="MIDDLE" BORDER="0"
+ SRC="img31.png"
+ ALT="$\displaystyle 2\sum_{j=1}^kH{\scriptstyle (j)}^{\top}N{\scriptstyle (j)}^{-1}H{...
+...t)^{\top}N{\scriptstyle (j)}^{-1}({\bf z}{\scriptstyle (j)}-{\bf h}(j;{\bf x}))$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+&nbsp;</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT">&nbsp;</TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="18" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img32.png"
+ ALT="$\textstyle \approx$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="166" HEIGHT="69" ALIGN="MIDDLE" BORDER="0"
+ SRC="img33.png"
+ ALT="$\displaystyle 2\sum_{j=1}^kH{\scriptstyle (j)}^{\top}N{\scriptstyle (j)}^{-1}H{\scriptstyle (j)},$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(5)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+In the last formula for <!-- MATH
+ $\partial^2 \chi^2/\partial {\bf x}^2$
+ -->
+<IMG
+ WIDTH="74" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img34.png"
+ ALT="$\partial^2 \chi^2/\partial {\bf x}^2$">, the terms
+involving the second derivatives of <!-- MATH
+ ${\bf h}{\scriptstyle (j)}(.)$
+ -->
+<IMG
+ WIDTH="49" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img35.png"
+ ALT="${\bf h}{\scriptstyle (j)}(.)$">
+have been omitted. This is done because these terms are
+generally much smaller and can in practice be omitted, as well as because
+the second derivatives are more difficult and complex to compute than the
+first derivatives.
+
+<P>
+Now we solve the above equations for <IMG
+ WIDTH="15" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img17.png"
+ ALT="${\bf a}$"> and <IMG
+ WIDTH="18" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img19.png"
+ ALT="$A$"> given
+the values of function <!-- MATH
+ ${\bf h}{\scriptstyle (j)}$
+ -->
+<IMG
+ WIDTH="32" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="${\bf h}{\scriptstyle (j)}$"> and the Jacobian <!-- MATH
+ $H{\scriptstyle (j)}$
+ -->
+<IMG
+ WIDTH="37" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img36.png"
+ ALT="$H{\scriptstyle (j)}$">
+evaluated at the previous estimate <IMG
+ WIDTH="27" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img10.png"
+ ALT="$\hat{\bf x}^-$">.
+We have immediately
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+A = \sum_{j=1}^kH{\scriptstyle (j)}^{\top}N{\scriptstyle (j)}^{-1}H{\scriptstyle (j)}.
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="372" HEIGHT="58" BORDER="0"
+ SRC="img37.png"
+ ALT="\begin{displaymath}A = \sum_{j=1}^kH{\scriptstyle (j)}^{\top}N{\scriptstyle (j)}^{-1}H{\scriptstyle (j)}.
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+We now write the <EM>innovation</EM> vectors <!-- MATH
+ $\mbox{\boldmath$\nu$}{\scriptstyle (j)}$
+ -->
+<IMG
+ WIDTH="32" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img38.png"
+ ALT="$\mbox{\boldmath$\nu$}{\scriptstyle (j)}$"> as
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+\mbox{\boldmath$\nu$}{\scriptstyle (j)}= {\bf z}{\scriptstyle (j)}- {\bf h}(j;\hat{\bf x}^-)
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="354" HEIGHT="28" BORDER="0"
+ SRC="img39.png"
+ ALT="\begin{displaymath}\mbox{\boldmath$\nu$}{\scriptstyle (j)}= {\bf z}{\scriptstyle (j)}- {\bf h}(j;\hat{\bf x}^-)
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+Then we have
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+{\bf a}= \sum_{j=1}^kH{\scriptstyle (j)}^{\top}N{\scriptstyle (j)}^{-1}\mbox{\boldmath$\nu$}{\scriptstyle (j)}
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="a-solved"></A><IMG
+ WIDTH="366" HEIGHT="58" BORDER="0"
+ SRC="img40.png"
+ ALT="\begin{displaymath}
+{\bf a}= \sum_{j=1}^kH{\scriptstyle (j)}^{\top}N{\scriptstyle (j)}^{-1}\mbox{\boldmath$\nu$}{\scriptstyle (j)}
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(6)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+Combining equations&nbsp;(<A HREF="levmarq.html#chi2-min">3</A>) and&nbsp;(<A HREF="levmarq.html#a-solved">6</A>) we
+obtain the linear system
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+A (\hat{\bf x}^+ - \hat{\bf x}^-) = {\bf a}= \sum_{j=1}^kH{\scriptstyle (j)}^{\top}N{\scriptstyle (j)}^{-1}\mbox{\boldmath$\nu$}{\scriptstyle (j)}
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="LM_update"></A><IMG
+ WIDTH="418" HEIGHT="58" BORDER="0"
+ SRC="img41.png"
+ ALT="\begin{displaymath}
+A (\hat{\bf x}^+ - \hat{\bf x}^-) = {\bf a}= \sum_{j=1}^kH{...
+...{\scriptstyle (j)}^{-1}\mbox{\boldmath$\nu$}{\scriptstyle (j)}
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(7)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+to be solved for the adjustment <!-- MATH
+ $\hat{\bf x}^+ - \hat{\bf x}^-$
+ -->
+<IMG
+ WIDTH="66" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img42.png"
+ ALT="$\hat{\bf x}^+ - \hat{\bf x}^-$">.
+The covariance of the state is
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+P = A^{-1}.
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="315" HEIGHT="24" BORDER="0"
+ SRC="img43.png"
+ ALT="\begin{displaymath}P = A^{-1}.
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+
+<P>
+The update&nbsp;(<A HREF="levmarq.html#LM_update">7</A>) may be repeated,
+substituting the new <IMG
+ WIDTH="26" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img14.png"
+ ALT="$\hat{\bf x}^+$"> as <IMG
+ WIDTH="27" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img10.png"
+ ALT="$\hat{\bf x}^-$">, and
+improving the estimate until convergence is achieved according to some
+criterion. Levenberg-Marquardt modifies this updating procedure by
+adding a value <IMG
+ WIDTH="15" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img44.png"
+ ALT="$\lambda$"> to the diagonal elements of the linear system matrix
+before inverting it to obtain the update.
+<IMG
+ WIDTH="15" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img44.png"
+ ALT="$\lambda$"> is reduced if the last iteration gave
+an improved estimate, i.e. if <IMG
+ WIDTH="23" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img45.png"
+ ALT="$\chi^2$"> was reduced, and increased if <IMG
+ WIDTH="16" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img46.png"
+ ALT="$J$">
+increased, in which case the estimate of <IMG
+ WIDTH="16" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img5.png"
+ ALT="${\bf x}$"> is reset to the
+estimate before the last iteration. It is this that allows the algorithm
+to smoothly switch between Gauss-Newton (small <IMG
+ WIDTH="15" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img44.png"
+ ALT="$\lambda$">) and gradient
+descent (large <IMG
+ WIDTH="15" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img44.png"
+ ALT="$\lambda$">).
+
+<P>
+This version is a generalization
+of Levenberg-Marquardt as it is normally presented
+(e.g.&nbsp;[<A
+ HREF="node3.html#Press:etal:88">4</A>]) in that we incorporate vector measurements
+<!-- MATH
+ ${\bf z}{\scriptstyle (j)}$
+ -->
+<IMG
+ WIDTH="30" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img47.png"
+ ALT="${\bf z}{\scriptstyle (j)}$"> with covariances <!-- MATH
+ $N{\scriptstyle (j)}$
+ -->
+<IMG
+ WIDTH="37" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img9.png"
+ ALT="$N{\scriptstyle (j)}$">, rather than scalar measurements
+with variances. The full algorithm is as follows:
+
+<OL>
+<LI>Start with a prior estimate <IMG
+ WIDTH="27" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img10.png"
+ ALT="$\hat{\bf x}^-$"> of <IMG
+ WIDTH="16" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img5.png"
+ ALT="${\bf x}$">. Initialize <IMG
+ WIDTH="15" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img44.png"
+ ALT="$\lambda$">
+        to some starting value, e.g. 0.001.
+</LI>
+<LI>Compute the updated estimate <IMG
+ WIDTH="26" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img14.png"
+ ALT="$\hat{\bf x}^+$"> by solving the linear
+        system&nbsp;(<A HREF="levmarq.html#LM_update">7</A>) for the adjustment, having first added
+        <IMG
+ WIDTH="15" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img44.png"
+ ALT="$\lambda$"> to each diagonal element of <IMG
+ WIDTH="18" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img19.png"
+ ALT="$A$">.
+</LI>
+<LI>Compute the least-squares residuals <!-- MATH
+ $\chi^2(\hat{\bf x}^-)$
+ -->
+<IMG
+ WIDTH="56" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img48.png"
+ ALT="$\chi^2(\hat{\bf x}^-)$"> and <!-- MATH
+ $\chi^2(\hat{\bf x}^+)$
+ -->
+<IMG
+ WIDTH="56" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img49.png"
+ ALT="$\chi^2(\hat{\bf x}^+)$">
+        from&nbsp;(<A HREF="levmarq.html#chi2-def">2</A>).
+ 
+<OL>
+<LI>If <!-- MATH
+ $\chi^2(\hat{\bf x}^+)<\chi^2(\hat{\bf x}^-)$
+ -->
+<IMG
+ WIDTH="127" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img50.png"
+ ALT="$\chi^2(\hat{\bf x}^+)&lt;\chi^2(\hat{\bf x}^-)$">, reduce <IMG
+ WIDTH="15" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img44.png"
+ ALT="$\lambda$"> by a specified factor
+        (say 10), set <IMG
+ WIDTH="27" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img10.png"
+ ALT="$\hat{\bf x}^-$"> to <IMG
+ WIDTH="26" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img14.png"
+ ALT="$\hat{\bf x}^+$">, and return to step 2.
+</LI>
+<LI>Otherwise, the update failed to reduce the residual, so increase
+        <IMG
+ WIDTH="15" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img44.png"
+ ALT="$\lambda$"> by a factor (say 10), forget the updated <IMG
+ WIDTH="26" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img14.png"
+ ALT="$\hat{\bf x}^+$"> and
+        return to step 2.
+ 
+</LI>
+</OL>
+</LI>
+</OL>
+The algorithm continues until some pre-specified termination criterion
+has been met, such as a small change to the state vector, or a limit on
+the number of iterations.
+
+<P>
+If the measurements <!-- MATH
+ ${\bf z}{\scriptstyle (j)}$
+ -->
+<IMG
+ WIDTH="30" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img47.png"
+ ALT="${\bf z}{\scriptstyle (j)}$"> are unbiased and normally distributed,
+the residual <!-- MATH
+ $\chi^2(\hat{\bf x}^+)$
+ -->
+<IMG
+ WIDTH="56" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img49.png"
+ ALT="$\chi^2(\hat{\bf x}^+)$"> is a <IMG
+ WIDTH="23" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img45.png"
+ ALT="$\chi^2$"> random variable, and testing
+the value of <IMG
+ WIDTH="23" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img45.png"
+ ALT="$\chi^2$"> against a <IMG
+ WIDTH="23" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img45.png"
+ ALT="$\chi^2$"> distribution is a good way
+of checking that the measurement noise model is reasonable.
+The number of degrees of freedom (DOF) of the <IMG
+ WIDTH="23" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img45.png"
+ ALT="$\chi^2$"> distribution
+can be determined as the total size of the measurement vectors,
+minus the size of the state.
+If the <IMG
+ WIDTH="66" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img51.png"
+ ALT="$SIZE(.)$"> function returns the dimension of its vector
+argument, then the degrees of freedom may be computed as
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+DOF = \sum_{j=1}^kSIZE({\bf z}{\scriptstyle (j)}) - SIZE({\bf x}).
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="LM_DOF"></A><IMG
+ WIDTH="408" HEIGHT="58" BORDER="0"
+ SRC="img52.png"
+ ALT="\begin{displaymath}
+DOF = \sum_{j=1}^kSIZE({\bf z}{\scriptstyle (j)}) - SIZE({\bf x}).
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(8)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"></A>
+
+<UL>
+<LI><A NAME="tex2html6"
+  HREF="node1.html">Robust observations</A>
+<LI><A NAME="tex2html7"
+  HREF="node2.html">Implicit observations</A>
+<LI><A NAME="tex2html8"
+  HREF="node3.html">Bibliography</A>
+<LI><A NAME="tex2html9"
+  HREF="node4.html">About this document ...</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4"
+  HREF="node1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="next.png"></A> 
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="up_g.png"> 
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="prev_g.png">   
+<BR>
+<B> Next:</B> <A NAME="tex2html5"
+  HREF="node1.html">Robust observations</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+Philip McLauchlan
+2002-08-28
+</ADDRESS>
+</BODY>
+</HTML>

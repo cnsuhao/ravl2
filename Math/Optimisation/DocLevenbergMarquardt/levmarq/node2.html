@@ -1,0 +1,269 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2K.1beta (1.47)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Implicit observations</TITLE>
+<META NAME="description" CONTENT="Implicit observations">
+<META NAME="keywords" CONTENT="levmarq">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2K.1beta">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="levmarq.css">
+
+<LINK REL="next" HREF="node3.html">
+<LINK REL="previous" HREF="node1.html">
+<LINK REL="up" HREF="levmarq.html">
+<LINK REL="next" HREF="node3.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html28"
+  HREF="node3.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="next.png"></A> 
+<A NAME="tex2html26"
+  HREF="levmarq.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="up.png"></A> 
+<A NAME="tex2html20"
+  HREF="node1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html29"
+  HREF="node3.html">Bibliography</A>
+<B> Up:</B> <A NAME="tex2html27"
+  HREF="levmarq.html">Levenberg-Marquardt minimisation</A>
+<B> Previous:</B> <A NAME="tex2html21"
+  HREF="node1.html">Robust observations</A>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00002000000000000000">
+Implicit observations</A>
+</H2>
+Equation&nbsp;<A HREF="levmarq.html#measure_equation">1</A> does not encapsulate the most general
+form of observation, since it assumes that the observation vector <IMG
+ WIDTH="14" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img67.png"
+ ALT="${\bf z}$">
+can be separated explicitly as a function <!-- MATH
+ ${\bf h}({\bf x})$
+ -->
+<IMG
+ WIDTH="38" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img68.png"
+ ALT="${\bf h}({\bf x})$"> of the state <IMG
+ WIDTH="16" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img5.png"
+ ALT="${\bf x}$">.
+It is sometimes therefore necessary to introduce an implicit observation
+equation of the form
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+{\bf F}({\bf x},{\bf z}-{\bf w}) = {\bf0}
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="337" HEIGHT="28" BORDER="0"
+ SRC="img69.png"
+ ALT="\begin{displaymath}{\bf F}({\bf x},{\bf z}-{\bf w}) = {\bf0}
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+where <IMG
+ WIDTH="20" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img70.png"
+ ALT="${\bf w}$"> again represents a random noise vector having covariance <IMG
+ WIDTH="21" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img71.png"
+ ALT="$N$">.
+However with some manipulation and extra computation we can effectively
+convert the linearised version of the implicit <IMG
+ WIDTH="18" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img72.png"
+ ALT="${\bf F}$">-type function into an
+explicit <IMG
+ WIDTH="16" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img73.png"
+ ALT="${\bf h}$">-type function, allowing it to be incorporated in the same way.
+We linearise <IMG
+ WIDTH="34" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img74.png"
+ ALT="${\bf F}(.)$"> with respect to <IMG
+ WIDTH="16" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img5.png"
+ ALT="${\bf x}$"> and <IMG
+ WIDTH="14" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img67.png"
+ ALT="${\bf z}$"> around the
+estimated state <IMG
+ WIDTH="16" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img11.png"
+ ALT="$\hat{\bf x}$"> and observation <IMG
+ WIDTH="14" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img67.png"
+ ALT="${\bf z}$">, assuming
+that the noise <IMG
+ WIDTH="20" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img70.png"
+ ALT="${\bf w}$"> is small:
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+{\bf F}({\bf x},{\bf z}_t) = {\bf F}(\hat{\bf x},{\bf z})
+	+ \frac{\partial {\bf F}}{\partial {\bf x}} ({\bf x}-\hat{\bf x})
+	- \frac{\partial {\bf F}}{\partial {\bf z}} {\bf w}= {\bf0}
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="435" HEIGHT="39" BORDER="0"
+ SRC="img75.png"
+ ALT="\begin{displaymath}{\bf F}({\bf x},{\bf z}_t) = {\bf F}(\hat{\bf x},{\bf z})
++ ...
+...)
+- \frac{\partial {\bf F}}{\partial {\bf z}} {\bf w}= {\bf0}
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+where <IMG
+ WIDTH="16" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img5.png"
+ ALT="${\bf x}$"> here represents the true value of the state vector, and <IMG
+ WIDTH="20" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img76.png"
+ ALT="${\bf z}_t$">
+is the true observation vector (as opposed to the actually measured vector
+<IMG
+ WIDTH="14" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img67.png"
+ ALT="${\bf z}$">), so that <!-- MATH
+ ${\bf w}= {\bf z}-{\bf z}_t$
+ -->
+<IMG
+ WIDTH="82" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img77.png"
+ ALT="${\bf w}= {\bf z}-{\bf z}_t$">.
+We identify the following quantities with their equivalents for an <IMG
+ WIDTH="16" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img73.png"
+ ALT="${\bf h}$">-type
+observation:
+<DL>
+<DT></DT>
+<DD>The <B>innovation</B> vector is <!-- MATH
+ $\mbox{\boldmath$\nu$}=-{\bf F}(\hat{\bf x},{\bf z})$
+ -->
+<IMG
+ WIDTH="99" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img78.png"
+ ALT="$\mbox{\boldmath$\nu$}=-{\bf F}(\hat{\bf x},{\bf z})$">.
+  
+</DD>
+<DT></DT>
+<DD>The <B>Jacobian</B> matrix is
+	<!-- MATH
+ $H=\frac{\partial {\bf F}}{\partial {\bf x}}$
+ -->
+<IMG
+ WIDTH="62" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img79.png"
+ ALT="$H=\frac{\partial {\bf F}}{\partial {\bf x}}$">.
+  
+</DD>
+<DT></DT>
+<DD>The <B>noise vector</B> is
+	<!-- MATH
+ ${\bf w}' = \frac{\partial {\bf F}}{\partial {\bf z}} {\bf w}$
+ -->
+<IMG
+ WIDTH="79" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img80.png"
+ ALT="${\bf w}' = \frac{\partial {\bf F}}{\partial {\bf z}} {\bf w}$">.
+  
+</DD>
+<DT></DT>
+<DD>The <B>noise covariance</B> matrix is
+	<!-- MATH
+ $N' = \frac{\partial {\bf F}}{\partial {\bf z}} N \left(\frac{\partial {\bf F}}{\partial {\bf z}}\right)^{\top}$
+ -->
+<IMG
+ WIDTH="129" HEIGHT="46" ALIGN="MIDDLE" BORDER="0"
+ SRC="img81.png"
+ ALT="$N' = \frac{\partial {\bf F}}{\partial {\bf z}} N \left(\frac{\partial {\bf F}}{\partial {\bf z}}\right)^{\top}$">.
+</DD>
+</DL>
+Extra computation is therefore needed to convert the observation covariance
+from <IMG
+ WIDTH="21" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img71.png"
+ ALT="$N$"> to <IMG
+ WIDTH="25" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img82.png"
+ ALT="$N'$">. The innovation vector <!-- MATH
+ $\mbox{\boldmath$\nu$}$
+ -->
+<IMG
+ WIDTH="16" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img83.png"
+ ALT="$\mbox{\boldmath$\nu$}$">, Jacobian matrix <IMG
+ WIDTH="21" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img84.png"
+ ALT="$H$"> and
+observation covariance <IMG
+ WIDTH="25" HEIGHT="19" ALIGN="BOTTOM" BORDER="0"
+ SRC="img82.png"
+ ALT="$N'$"> are substituted into the Levenberg-Marquardt
+algorithm in place of their equivalents for the <IMG
+ WIDTH="16" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img73.png"
+ ALT="${\bf h}$">-type observation.
+
+<P>
+
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html28"
+  HREF="node3.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="next.png"></A> 
+<A NAME="tex2html26"
+  HREF="levmarq.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="up.png"></A> 
+<A NAME="tex2html20"
+  HREF="node1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html29"
+  HREF="node3.html">Bibliography</A>
+<B> Up:</B> <A NAME="tex2html27"
+  HREF="levmarq.html">Levenberg-Marquardt minimisation</A>
+<B> Previous:</B> <A NAME="tex2html21"
+  HREF="node1.html">Robust observations</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+Philip McLauchlan
+2002-08-28
+</ADDRESS>
+</BODY>
+</HTML>

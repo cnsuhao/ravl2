@@ -1,0 +1,248 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2K.1beta (1.47)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Robust observations</TITLE>
+<META NAME="description" CONTENT="Robust observations">
+<META NAME="keywords" CONTENT="levmarq">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2K.1beta">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="levmarq.css">
+
+<LINK REL="next" HREF="node2.html">
+<LINK REL="previous" HREF="levmarq.html">
+<LINK REL="up" HREF="levmarq.html">
+<LINK REL="next" HREF="node2.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html18"
+  HREF="node2.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="next.png"></A> 
+<A NAME="tex2html16"
+  HREF="levmarq.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="up.png"></A> 
+<A NAME="tex2html10"
+  HREF="levmarq.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html19"
+  HREF="node2.html">Implicit observations</A>
+<B> Up:</B> <A NAME="tex2html17"
+  HREF="levmarq.html">Levenberg-Marquardt minimisation</A>
+<B> Previous:</B> <A NAME="tex2html11"
+  HREF="levmarq.html">Levenberg-Marquardt minimisation</A>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00001000000000000000">
+Robust observations</A>
+</H2>
+An important drawback of standard least-squares algorithm such as
+Levenberg-Marquardt is that they assume that all observations are correct.
+Various types of estimators have been successfully used to deal with
+the presence of outliers in the data.
+Examples are least median-of-squares, RANSAC and Hough transform estimators.
+These estimators involve a radical redesign of the measurement error model.
+We employ what is probably
+the simplest method of ``robustifying'' the standard Gaussian error model.
+The robust error model used here assumes that the errors follow a
+distribution combining a narrow ``inlier'' Gaussian with a wide ``outlier''
+Gaussian, as shown for a one-dimensional distribution in
+Figure&nbsp;<A HREF="node1.html#gauss_mix">1</A>.
+
+<P></P>
+<DIV ALIGN="CENTER"><A NAME="gauss_mix"></A><A NAME="633"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 1:</STRONG>
+The error model used to model outliers in the observations
+	incorporated in robust Levenberg-Marquardt,
+	a combination of a narrow inlier Gaussian with
+	variance <IMG
+ WIDTH="23" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1.png"
+ ALT="$\sigma ^2$">, and wide Gaussian for outliers with
+	variance <!-- MATH
+ $\sigma_{\rm out}^2$
+ -->
+<IMG
+ WIDTH="34" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img53.png"
+ ALT="$\sigma_{\rm out}^2$">. Both distributions on the
+	observation error <IMG
+ WIDTH="18" HEIGHT="17" ALIGN="BOTTOM" BORDER="0"
+ SRC="img3.png"
+ ALT="$w$"> have zero mean. The inlier and outlier
+	Gaussians are scaled so that they meet continuously at a specific
+	error value <!-- MATH
+ $w_{\rm cutoff}$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img54.png"
+ ALT="$w_{\rm cutoff}$">, which is effectively an upper error
+	threshold for observations to be treated as inliers.</CAPTION>
+<TR><TD><IMG
+ WIDTH="678" HEIGHT="368" BORDER="0"
+ SRC="img55.png"
+ ALT="\begin{figure}\centerline{\epsfig{file=gauss_mix.ps,width=150mm}} \end{figure}"></TD></TR>
+</TABLE>
+</DIV><P></P>
+The distribution is a function of the observation error<A NAME="tex2html2"
+  HREF="footnode.html#foot634"><SUP>1</SUP></A><!-- MATH
+ ${\bf w}= {\bf z}- {\bf h}({\bf x})$
+ -->
+<IMG
+ WIDTH="101" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img58.png"
+ ALT="${\bf w}= {\bf z}- {\bf h}({\bf x})$">.
+The relative vertical scaling of the two Gaussians is chosen so that the
+two distribution functions are equal at a chosen point <!-- MATH
+ $w_{\rm cutoff}$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img4.png"
+ ALT="$w_{\rm cutoff}$">.
+
+<P>
+For a general multi-dimensional observation, we have a inverse covariance
+matrix <IMG
+ WIDTH="38" HEIGHT="20" ALIGN="BOTTOM" BORDER="0"
+ SRC="img59.png"
+ ALT="$N^{-1}$"> for the inlier distribution.
+We restrict the outlier distribution <!-- MATH
+ $N_{\rm out}^{-1}$
+ -->
+<IMG
+ WIDTH="38" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img60.png"
+ ALT="$N_{\rm out}^{-1}$"> to be a rescaled version
+of the inlier distribution, so that
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+N_{\rm out}^{-1}= \frac{1}{K} N^{-1}
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="331" HEIGHT="38" BORDER="0"
+ SRC="img61.png"
+ ALT="\begin{displaymath}N_{\rm out}^{-1}= \frac{1}{K} N^{-1}
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+for some value <IMG
+ WIDTH="50" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img62.png"
+ ALT="$K&gt;1$">. We then choose a threshold <!-- MATH
+ $\chi_{\rm cutoff}^2$
+ -->
+<IMG
+ WIDTH="49" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img63.png"
+ ALT="$\chi_{\rm cutoff}^2$">
+on the value of the normalised squared error <IMG
+ WIDTH="23" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img45.png"
+ ALT="$\chi^2$"> for switching between
+the two distributions. The probability distribution function is therefore
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{displaymath}
+p({\bf w}) = \left\{ \begin{array}{ll} e^{-{\bf w}^{\top}N^{-1}{\bf w}} &
+    \mbox{if}\;\;\;{\bf w}^{\top}N^{-1}{\bf w}< \chi_{\rm cutoff}^2\;\;\mbox{(inlier)} \\&\\
+		 e^{(K^{-1}-1)\chi_{\rm cutoff}^2} e^{-{\bf w}^{\top}N_{\rm out}^{-1}{\bf w}}
+  & \mbox{otherwise (outlier)} \end{array} \right.
+\end{displaymath}
+ -->
+
+<IMG
+ WIDTH="515" HEIGHT="69" BORDER="0"
+ SRC="img64.png"
+ ALT="\begin{displaymath}p({\bf w}) = \left\{ \begin{array}{ll} e^{-{\bf w}^{\top}N^{-...
+...{-1}{\bf w}}
+&amp; \mbox{otherwise (outlier)} \end{array} \right.
+\end{displaymath}">
+</DIV>
+<BR CLEAR="ALL">
+<P></P>
+The scaling of the outlier distribution is chosen so that the two distributions
+are correctly aligned at the chosen cutoff point <!-- MATH
+ $\chi_{\rm cutoff}^2$
+ -->
+<IMG
+ WIDTH="49" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img63.png"
+ ALT="$\chi_{\rm cutoff}^2$">.
+This leads directly to the correct ``compensation'' value for the likelihood
+function <!-- MATH
+ $(K^{-1}- 1)\chi_{\rm cutoff}^2$
+ -->
+<IMG
+ WIDTH="121" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img65.png"
+ ALT="$(K^{-1}- 1)\chi_{\rm cutoff}^2$">, to be added to the least-squares
+residual when the outlier distribution is selected during application
+of a minimisation iteration.
+Note that each Levenberg-Marquardt observation can be chosen as robust
+or non-robust, and potentially each with a different choice for
+covariance scale factor <IMG
+ WIDTH="21" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img66.png"
+ ALT="$K$"> and squared error threshold <!-- MATH
+ $\chi_{\rm cutoff}^2$
+ -->
+<IMG
+ WIDTH="49" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img63.png"
+ ALT="$\chi_{\rm cutoff}^2$">.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html18"
+  HREF="node2.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="next.png"></A> 
+<A NAME="tex2html16"
+  HREF="levmarq.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="up.png"></A> 
+<A NAME="tex2html10"
+  HREF="levmarq.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="prev.png"></A>   
+<BR>
+<B> Next:</B> <A NAME="tex2html19"
+  HREF="node2.html">Implicit observations</A>
+<B> Up:</B> <A NAME="tex2html17"
+  HREF="levmarq.html">Levenberg-Marquardt minimisation</A>
+<B> Previous:</B> <A NAME="tex2html11"
+  HREF="levmarq.html">Levenberg-Marquardt minimisation</A>
+<!--End of Navigation Panel-->
+<ADDRESS>
+Philip McLauchlan
+2002-08-28
+</ADDRESS>
+</BODY>
+</HTML>
