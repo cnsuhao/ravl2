@@ -269,6 +269,11 @@ namespace RavlN {
     RealRange2dC Rotate180(TFVectorC<RealT,2> centre);
     //: Rotate rectangle 180 degree's around the given center.
     
+    inline bool IsOverlapping(const RealRange2dC & r) const
+    { return Range1().IsOverlapping(r.Range1()) && Range2().IsOverlapping(r.Range2()); }
+    //: Returns true if this range contains a common area with 
+    //: the range 'r'.
+    
     IndexRange2dC IndexRange() const
     { return IndexRange2dC(rows.IndexRange(),cols.IndexRange());  }
     //: Get the smallest integer range containing the real range.
