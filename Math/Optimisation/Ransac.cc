@@ -8,6 +8,7 @@
 //! lib=RavlOptimise
 
 #include "Ravl/Ransac.hh"
+#include "Ravl/StdConst.hh"
 
 namespace RavlN {
 
@@ -19,7 +20,7 @@ namespace RavlN {
       modelFitter(nmodelFitter),
       evaluator(nevaluator)
   {
-    highestVote = DBL_MIN;
+    highestVote = RavlConstN::minReal;
   }
 
   //: Generate sample, compute vote and update best solution and vote
