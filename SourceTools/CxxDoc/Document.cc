@@ -630,7 +630,9 @@ namespace RavlCxxDocN {
     }
     ret += pattern;
     //cerr << "FullPath:" << obj.FullPath() <<"\n";
-    ret.gsub("%",anobj.ActualPath().TopAndTail());
+    StringC objName = anobj.ActualPath().TopAndTail() ; 
+    objName.gsub("/","Slash") ; 
+    ret.gsub("%", objName);
     ret.gsub("<","Lt");
     ret.gsub(">","Gt");
     ret.gsub("(","Ob"); // These may appear in pages on functions.
