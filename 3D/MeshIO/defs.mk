@@ -21,7 +21,8 @@ SOURCES= VRMLFileIO.cc FormatVRMLFile.cc \
 	 TriFileIO.cc FormatTriFile.cc \
          MeshIOObj.cc FormatMeshObj.cc \
 	 TriMeshIO.cc TexTriMeshIO.cc \
-	 POVRayFileIO.cc FormatPOVRayFile.cc
+	 POVRayFileIO.cc FormatPOVRayFile.cc \
+         MeshConv.cc
 
 MUSTLINK= RavlMeshIO.cc
 

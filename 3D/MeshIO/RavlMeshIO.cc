@@ -20,5 +20,6 @@ namespace Ravl3DN {
     InitTexTriMeshIO();
     InitTriMeshIO();
     InitPOVRayFormat();
+    InitMeshConv();
   }
 }
