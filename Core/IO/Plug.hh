@@ -39,6 +39,8 @@ namespace RavlN {
     virtual bool SetPort(const DPIPortBaseC &port);
     //: set port.
     
+    virtual const type_info &InputType() const;
+    //: Return type of port.
   protected:
     DPEntityC hold; // Make sure object is not deleted.
   };
@@ -74,6 +76,10 @@ namespace RavlN {
     { return Body().SetPort(port); }
     //: Set port.
     
+    const type_info &InputType() const
+    { return Body().InputType(); }
+    //: Return type of port.
+    
   };
   
   ///////////////////////////////////////////////////////////////////
@@ -97,6 +103,9 @@ namespace RavlN {
     
     virtual bool SetPort(const DPOPortBaseC &port);
     //: set port.
+
+    virtual const type_info &OutputType() const;
+    //: Return type of port.
     
   protected:
     DPEntityC hold; // Make sure object is not deleted.
@@ -133,6 +142,10 @@ namespace RavlN {
     { return Body().SetPort(port); }
     //: Set port.
     
+    const type_info &OutputType() const
+    { return Body().OutputType(); }
+    //: Return type of port.
+    
   };
 
   
@@ -166,6 +179,10 @@ namespace RavlN {
     }
     //: set port.
     
+    virtual const type_info &InputType() const
+    { return typeid(DataT); }
+    //: Return type of port.
+    
   private:
     DPIPortC<DataT> &port;
   };
@@ -198,6 +215,7 @@ namespace RavlN {
     DPIPortC<DataT> &Port()
     { return Body().Port(); }
     //: Access handle to port.
+    
     
   };
   
@@ -235,6 +253,10 @@ namespace RavlN {
       return port.IsValid();
     }
     //: set port.
+    
+    virtual const type_info &OutputType() const
+    { return typeid(DataT); }
+    //: Return type of port.
     
   private:
     DPOPortC<DataT> &port;
