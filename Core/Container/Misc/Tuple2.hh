@@ -13,9 +13,10 @@
 //! file="Ravl/Core/Container/Misc/Tuple2.hh"
 //! lib=RavlCore
 //! author="Charles Galambos"
-//! date="09/06/98"
+//! date="09/06/1998"
 
 #include "Ravl/Types.hh"
+#include "Ravl/DeepCopy.hh"
 
 namespace RavlN {
   class BinIStreamC;
@@ -41,6 +42,16 @@ namespace RavlN {
     {}
     //: Copy constructor.
     
+    Tuple2C<T1,T2> Copy() const
+    { return Tuple2C<T1,T2>(d1,d2); }
+    //: Make a copy of this object.
+    
+    Tuple2C<T1,T2> DeepCopy(UIntT levels = ((UIntT) -1)) const { 
+      if(levels <= 1) return Copy();
+      return Tuple2C<T1,T2>(StdDeepCopy(d1,levels-1),StdDeepCopy(d2,levels-1));
+    }
+    //: Make a deep copy of the tuple.
+    
     T1 &Data1() { return d1; }
     //: Data access.
     
@@ -52,7 +63,7 @@ namespace RavlN {
     
     const T2 &Data2() const { return d2; }
     //: Data access.
-
+    
     UIntT Hash() const {
       UIntT h2 = StdHash(d2);
       return (StdHash(d1) + h2) ^ (h2 << 7); 

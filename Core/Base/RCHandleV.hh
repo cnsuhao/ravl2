@@ -131,6 +131,14 @@ namespace RavlN {
     { return RCAbstractC(Body()); }
     //: Create an abstract handle.    
     
+    RCHandleVC<BodyT> Copy() const
+    { return RCHandleVC<BodyT>(Body().Copy()); }
+    //: Make copy of body.
+    
+    RCHandleVC<BodyT> DeepCopy(UIntT levels = ((UIntT) -1)) const
+    { return RCHandleVC<BodyT>(Body().DeepCopy(levels)); }
+    //: Make a deep copy of body.
+    
 #if RAVL_NEW_ANSI_CXX_DRAFT
     friend istream &operator>> <BodyT>(istream &strm,RCHandleVC<BodyT> &obj);
     friend BinIStreamC &operator>> <BodyT>(BinIStreamC &strm,RCHandleVC<BodyT> &obj);

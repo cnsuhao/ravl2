@@ -20,6 +20,7 @@
 #include "Ravl/DLink.hh"
 #include "Ravl/Assert.hh"
 #include "Ravl/RefCounter.hh"
+#include "Ravl/DeepCopy.hh"
 
 //: Ravl global namespace.
 
@@ -62,6 +63,11 @@ namespace RavlN {
     //: Make copy of body.
     // This should be provided in derived classes.
     // this funtion will issue an assertion failure if called.
+    
+    RCBodyC &DeepCopy(UIntT levels = ((UIntT) -1)) const;
+    //: Make a deep copy of body.
+    // If levels == 0, no copy is made.
+    // levels == 1 is equivelent to Copy().
     
     void Empty() {
       while(&head.Next() != &head)
@@ -473,6 +479,33 @@ namespace RavlN {
       ret->InsLast(*it);
     return *ret;
   }
+  
+  //: Make a deep copy of body.
+  // If levels == 0, no copy is made.
+  // levels == 1 is equivelent to Copy().
+  
+  template<class DataT> 
+  RCBodyC &DListBodyC<DataT>::DeepCopy(UIntT levels) const {
+    DListBodyC<DataT> *ret;
+    switch(levels) {
+    case 0: return const_cast<DListBodyC<DataT> &>(*this);  // No copy.
+    case 1: return Copy();
+    case 2: { // Just one level...
+      DListBodyC<DataT> *ret = new DListBodyC<DataT>();
+      levels--;
+      for(DLIterC<DataT> it(*this);it;it++)
+	ret->InsLast(StdCopy(*it));
+    } break;
+    default: { // Many levels.
+      ret = new DListBodyC<DataT>();
+      levels--;
+      for(DLIterC<DataT> it(*this);it;it++)
+	ret->InsLast(StdDeepCopy(*it,levels));
+    } break; 
+    }
+    return *ret;
+  }
+  
   
   template<class DataT> 
   void DListBodyC<DataT>::operator+=(const DListC<DataT> &dat) {

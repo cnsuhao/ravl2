@@ -51,6 +51,18 @@ namespace RavlN {
 	d3(oth.d3)
     {}
     //: Copy constructor.
+
+    Tuple3C<T1,T2,T3> Copy() const
+    { return Tuple3C<T1,T2,T3>(d1,d2,d3); }
+    //: Make a copy of this object.
+    
+    Tuple3C<T1,T2,T3> DeepCopy(UIntT levels = ((UIntT) -1)) const { 
+      if(levels <= 1) return Copy();
+      return Tuple3C<T1,T2,T3>(StdDeepCopy(d1,levels-1),
+			       StdDeepCopy(d2,levels-1),
+			       StdDeepCopy(d3,levels-1)); 
+    }
+    //: Make a deep copy of the container.
     
     T1 &Data1() { return d1; }
     //: Data access.

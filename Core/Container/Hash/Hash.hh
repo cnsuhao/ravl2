@@ -23,6 +23,7 @@
 #include "Ravl/Tuple2.hh"
 #include "Ravl/StdHash.hh"
 #include "Ravl/Types.hh"
+#include "Ravl/DeepCopy.hh"
 
 #define HASHC_DEBUG 0
 
@@ -34,7 +35,7 @@ namespace RavlN {
   
   class BinOStreamC;
   class BinIStreamC;
-  
+ 
   template<class K,class T> class HashIterC;
   template<class K,class T> class HashC;
   template<class K,class T> class HashElemC;
@@ -135,6 +136,9 @@ namespace RavlN {
     {}
     //: Copy access structure.
     
+    HashC(const HashC<K,T> &oth,UIntT levels);
+    //: Copy access structure.
+    
     HashC(Tuple2C<K,T> *data); 
     //: Initalise from simple array.
     // NB. Array must be terminated by a duplicate of 
@@ -148,6 +152,14 @@ namespace RavlN {
     
     HashC<K,T> Copy() const;
     //: Make a copy of the table.
+    
+    HashC<K,T> DeepCopy(UIntT levels = ((UIntT) -1)) const
+    { return HashC<K,T>(*this,levels); }
+    //: Make a deep copy of the object.
+    // levels == 0, no copy. <br>
+    // levels == 1, As Copy(). <br>
+    // levels == 2, Copy one level down. <br>
+    // Note: As keys should be constant, they are not copied.
     
     inline const T *Lookup(const K &Key) const;
     //: Find data matching key.
@@ -417,6 +429,42 @@ namespace RavlN {
   }
   
   ///////////////////////////////////////////////////////////////////
+
+  template<class K,class T>
+  HashC<K,T>::HashC(const HashC<K,T> &oth,UIntT levels) 
+    : HashBaseC(oth.elements)
+  {
+    RavlAssertMsg(levels != 0,"HashC is not refrence counted, level 0 copy is impossible. ");
+    switch(levels) {
+    case 1: table = oth.table.Copy(); break;
+    case 2: {
+      table = SArray1dC<IntrDListC<HashElemC<K,T> > >(oth.elements);
+      for(BufferAccessIterC<IntrDListC<HashElemC<K,T> > > it(oth.table);it;it++) {
+	for(IntrDLIterC<HashElemC<K,T> > place(*it);place;place++) {
+	  const UIntT hashVal = place->GetHashVal();
+	  const UIntT ind = hashVal % table.Size();
+	  table[ind].InsFirst(*new HashElem(place->GetKey(),
+					    hashVal,
+					    StdCopy(place->GetData())));
+	}
+      } 
+    } break;
+    default: {
+      levels--;
+      table = SArray1dC<IntrDListC<HashElemC<K,T> > >(oth.elements);
+      for(BufferAccessIterC<IntrDListC<HashElemC<K,T> > > it(oth.table);it;it++) {
+	for(IntrDLIterC<HashElemC<K,T> > place(*it);place;place++) {
+	  const UIntT hashVal = place->GetHashVal();
+	  const UIntT ind = hashVal % table.Size();
+	  table[ind].InsFirst(*new HashElem(place->GetKey(),
+					    hashVal,
+					    StdDeepCopy(place->GetData(),levels)));
+	}
+	
+      }
+    }
+    }
+  }
   
   template<class K,class T>
   HashC<K,T>::HashC(Tuple2C<K,T> *data) 

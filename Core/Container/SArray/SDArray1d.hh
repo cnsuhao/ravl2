@@ -53,6 +53,13 @@ namespace RavlN {
     void Empty(void);
     //: Remove all contents.
     
+    SDArray1dC<T> Copy() const
+    { return *this; }
+    //: Make a copy of this array.
+    
+    SDArray1dC<T> DeepCopy(UIntT levels) const;
+    //: Make a copy of this array.
+    
     UIntT Add(const T &Data);
     //: Append data to end.
     // Returns the index of the appended item.
@@ -142,7 +149,7 @@ namespace RavlN {
   template<class T>
   SDArray1dC<T>::SDArray1dC(const SDArray1dC<T> &Oth) 
     : Used(Oth.Used),
-    size(Oth.size)
+      size(Oth.size)
   {
     Data = new char [sizeof(T) * size];
     T *Place,*OPlace,*End = &((T *)Data)[Used];
@@ -168,6 +175,29 @@ namespace RavlN {
     delete [] Data;
   }
   
+  template<class T>
+  SDArray1dC<T> SDArray1dC<T>::DeepCopy(UIntT levels) const {
+    SDArray1dC<T> ret(Used);
+    RavlAssertMsg(levels != 0,"SDArray1dC is not refrence counted, level 0 copy is impossible. ");
+    switch(levels) {
+    case 1: ret = *this; break;
+    case 2: {
+      levels--;
+      const T *end = &((const T *)Data)[Used];
+      for(const T *place = (T *) Data;place != end;place++)
+	ret.Add(StdCopy(*place));
+    } break;
+    default: {
+      levels--;
+      const T *end = &((const T *)Data)[Used];
+      for(const T *place = (T *)Data;place != end;place++)
+	ret.Add(StdDeepCopy(*place,levels));
+    } break;
+    }
+    return ret;
+  }
+
+
   template<class T>
   void SDArray1dC<T>::Resize(UIntT nsize) {
     T *Place,*NPlace,*End = &((T *)Data)[Used];

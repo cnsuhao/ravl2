@@ -68,6 +68,14 @@ namespace RavlN {
     //: String constructor
     // Expects data in sec:usec format 
     // as produced by Text() method.
+
+    DateC Copy() const
+    { return *this; }
+    //: Make a copy of this object.
+    
+    DateC DeepCopy(UIntT levels) const
+    { return *this; }
+    //: Make a copy.
     
     static bool IsLeapYear(int year);
     //: Is give year a leap year ?

@@ -287,9 +287,13 @@ namespace RavlN {
     {}
     //: Destructor.
     
-    inline StringC Copy(void) const
+    inline StringC Copy() const
     { return StringC(Scopy(0,rep)); }
     //: Make a copy of this string.
+    
+    inline StringC DeepCopy(UIntT levels) const
+    { return (levels == 0) ?  *this : Copy(); }
+    //: Make a deep copy.
     
     unsigned int Hash(void) const; 
     //: Create a hash value that is "fairly unique" for string.

@@ -39,9 +39,15 @@ namespace RavlN {
       { return EmptyC(); }
     //: Assigment operator.
     
-    EmptyC Copy() const { return EmptyC(); }
+    EmptyC Copy() const 
+    { return EmptyC(); }
     //: Make a copy.
     // Ohhh what hard work...
+    
+    EmptyC DeepCopy(UIntT levels) const
+    { return EmptyC(); }
+    //: Make a deep copy.
+    // not far to go.
     
     bool operator==(const EmptyC &) const
       { return true; }

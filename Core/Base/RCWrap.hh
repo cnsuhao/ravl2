@@ -17,6 +17,8 @@
 
 #include "Ravl/RCHandleV.hh"
 #include "Ravl/RCAbstract.hh"
+#include "Ravl/DeepCopy.hh"
+#include "Ravl/Types.hh"
 #if RAVL_HAVE_RTTI
 #if RAVL_HAVE_ANSICPPHEADERS
 #include <typeinfo>
@@ -108,6 +110,29 @@ namespace RavlN {
     }
     //: Construct from a stream.
     
+#if 0
+    virtual RCBodyVC &Copy() const
+    { return *new RCWrapBodyC<DataT>(data); }
+    //: Make copy of body.
+    // DISABLED.
+    
+    virtual RCBodyC &DeepCopy(UIntT levels = ((UIntT) -1)) const {
+      switch(levels) {
+      case 0: return const_cast<RCWrapBodyC<DataT> &>(*this);
+      case 1: return Copy();
+      case 2: return *new RCWrapBodyC<DataT>(StdCopy(data));
+      default: break;
+      }
+      return *new RCWrapBodyC<DataT>(StdDeepCopy(data,levels-1));
+    }
+    //: Make a deep copy of body.
+    // DISABLED. The use of a virtual function would force
+    // all wrapped classes to implement a DeepCopy() operator of
+    // some form.  This would cause undue overhead when using this
+    // class, as providing a DeepCopy() may not always be appropriate.
+    
+#endif
+    
     DataT &Data()
     { return data; }
     //: Access data.
@@ -196,6 +221,18 @@ namespace RavlN {
     //: Make a copy of this handle.
     // NB. This assumes the wrapped object is SMALL, and so
     // just using the copy constructor is sufficent.
+
+    RCWrapC<DataT> DeepCopy(UIntT levels = ((UIntT) -1)) const {
+      switch(levels) {
+      case 0: return *this;
+      case 1: return Copy();
+      case 2: return RCWrapC<DataT>(StdCopy(Body().Data()));
+      default: break; 
+      }
+      levels--;
+      return RCWrapC<DataT>(StdDeepCopy(Body().Data(),levels)); 
+    }
+    //: Make a copy of this handle.
     
     DataT &Data()
     { return Body().Data(); }

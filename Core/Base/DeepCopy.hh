@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLDEEPCOPY_HEADER
-#define RAVLDEEPCOPY_HEADER 1
+#ifndef RAVL_DEEPCOPY_HEADER
+#define RAVL_DEEPCOPY_HEADER 1
 //////////////////////////////////////////
 //! lib=RavlCore
 //! author="Charles Galambos"
@@ -47,20 +47,24 @@ namespace RavlN {
     return val;
   } 
   //: Deep copy for built in type.
- 
+  
   inline
-  UInt16T StdDeepCopy(const UInt16T &val,UIntT levels = ((UIntT) -1)) {
-    return val;
-  }
+  UInt16T StdDeepCopy(const UInt16T &val,UIntT levels = ((UIntT) -1)) 
+  { return val; }
   //: Deep copy for built in type.
-
+  
+  inline
+  Int16T StdDeepCopy(const Int16T &val,UIntT levels = ((UIntT) -1)) 
+  { return val; }
+  //: Deep copy for built in type.
+  
   template<class DataT>
   inline
   DataT StdDeepCopy(const DataT &val,UIntT levels = ((UIntT) -1)) {
     return val.DeepCopy(levels);
   }
   //: Call deep copy on a class.
-  
+  // Copy to a depth of 'levels' 
 }
 
 #endif
