@@ -1,4 +1,5 @@
 ! author="Bill Christmas, Charles Galambos"
+! children="Naming Conventions;Documentation;Reference Counting;Debugging"
 : Recognition And Vision Library 
 
     <p>This C++ library provides basic classes, together with a range of Image Processing, Vision and Pattern Recognition classes.</p>

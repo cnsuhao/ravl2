@@ -38,7 +38,7 @@ namespace RavlN {
   
   //! userlevel=Develop
   //: Double linked list body.
-  // Implementation:<p>
+  // Implementation: <p>
   // The list contains a head element and a chain of
   // elements. Empty list contains just its head element.
   // Because of efficiency references to elements of a list are not
@@ -250,12 +250,12 @@ namespace RavlN {
 
   template<class DataT>
   BinOStreamC &operator<<(BinOStreamC &strm,const DListC<DataT> &lst);
-  //: Send to stream.
+  //: Write to a binary stream.
   
   template<class DataT>
   BinIStreamC &operator>>(BinIStreamC &strm,DListC<DataT> &lst);
-  //: Read from stream.
-
+  //: Read from a binary stream.
+  // 
   
   //! userlevel=Normal
   //: Double linked List 
