@@ -17,7 +17,7 @@
 namespace RavlN {
   
   RealRangeC::RealRangeC(istream & s)
-  { s >> min >> max; }
+  { s >> minV >> maxV; }
   
   bool RealRangeC::In(const RealRangeC & range) const {
     return IsInside(Min(),range) && IsInside(Max(),range);
@@ -25,9 +25,9 @@ namespace RavlN {
   
   IndexRangeC operator*(const RealRangeC &realRange,const IndexRangeC &indexRange) {
     RealT size = indexRange.Size();
-    IndexC max = indexRange.Min() + IndexC(realRange.Max() * size);
-    IndexC min = indexRange.Min() + IndexC(realRange.Min() * size);
-    return IndexRangeC(min,max);
+    IndexC maxV = indexRange.Min() + IndexC(realRange.Max() * size);
+    IndexC minV = indexRange.Min() + IndexC(realRange.Min() * size);
+    return IndexRangeC(minV,maxV);
   }
   
   istream &operator>>(istream & sss, RealRangeC & range) { 

@@ -36,20 +36,20 @@ namespace RavlN {
     // Constructors, copy, assigment, and destructor.
     
     inline RealRangeC(RealT size = 0)
-      : min(0),
-	max(size-1)
+      : minV(0),
+	maxV(size-1)
     {}
     //: Creates the index range <0, dim-1>.
     
     inline RealRangeC(const IndexRangeC &rng)
-      : min(rng.Min()),
-	max(rng.Max() + 1)
+      : minV(rng.Min()),
+	maxV(rng.Max() + 1)
     {}
     //: Create real range from an IndexRangeC.
     
     inline RealRangeC(RealT minReal, RealT maxReal)
-      : min(minReal),
-	max(maxReal)
+      : minV(minReal),
+	maxV(maxReal)
     {}
     //: Creates the index range <minReal, maxReal>.
     
@@ -60,7 +60,7 @@ namespace RavlN {
     //: Access to the object information.
     
     inline RealT Size() const
-    { return (max-min); }
+    { return (maxV-minV); }
     //: Returns the number of elements in the range.
     
     inline const RealRangeC & Range() const
@@ -68,19 +68,19 @@ namespace RavlN {
     //: Returns this object.
     
     inline const RealT & Min()  const
-    { return min; }
+    { return minV; }
     //: Returns the minimum index of the range.
     
     inline const RealT & Max()  const
-    { return max; }
+    { return maxV; }
     //: Returns the maximum index of the range.
     
     inline RealT & Min()
-    { return min; }
+    { return minV; }
     //: Returns the minimum index of the range.
     
     inline RealT & Max()
-    { return max; }
+    { return maxV; }
     //: Returns the maximum index of the range.
     
     inline RealT Center() const
@@ -182,12 +182,12 @@ namespace RavlN {
     //: the factor 'f'. The upper limits is changed.
     
     inline RealRangeC Expand(RealT n) const
-    { return RealRangeC(min - n,max + n); }
+    { return RealRangeC(minV - n,maxV + n); }
     //: Returns the range extended by adding 'n' items on both limits of
     //: this range. 
     
     inline RealRangeC Shrink(RealT n) const
-    { return RealRangeC(min + n,max - n); }
+    { return RealRangeC(minV + n,maxV - n); }
     //: Returns the range extended by adding 'n' items on both limits of
     //: this range. 
     
@@ -200,8 +200,8 @@ namespace RavlN {
     //: returns this range. 
 
     const RealRangeC &Involve(RealT i) { 
-      if(min > i) min = i;
-      if(max < i) max = i;
+      if(minV > i) minV = i;
+      if(maxV < i) maxV = i;
       return *this;
     }
     //: Modify this range to ensure index i is contained within it.
@@ -214,12 +214,12 @@ namespace RavlN {
     //: Modify this range to ensure subRange is contained within it.
     
     IndexRangeC IndexRange() const
-    { return IndexRangeC(Floor(min),Ceil(max));  }
+    { return IndexRangeC(Floor(minV),Ceil(maxV));  }
     //: Get the smallest integer range containing the real range.
     
   private:
-    RealT min; // Minimum index.
-    RealT max; // Maximum index.
+    RealT minV; // Minimum index.
+    RealT maxV; // Maximum index.
     
     //friend istream & operator>>(istream & s, RealRangeC & range);
   };
