@@ -12,10 +12,8 @@ PACKAGE=Ravl
 NESTED=2D.r 3D.r Boundary.r
 
 HEADERS=FPoint.hh FLinePP.hh Point4d.hh FAffine.hh
-#Point2d.hh 
 
-#SOURCES=Point2d.cc
-#PLIB=RavlMath
+PLIB=RavlMath
 
 EXAMPLES = exFAffine.cc
 
