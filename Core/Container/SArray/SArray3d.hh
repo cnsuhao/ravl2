@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLSARRAY2D_HEADER
-#define RAVLSARRAY2D_HEADER 1
+#ifndef RAVL_SARRAY2D_HEADER
+#define RAVL_SARRAY2D_HEADER 1
 /////////////////////////////////////////////////////
 //! userlevel=Normal
 //! docentry="Ravl.Core.Arrays.3D"
@@ -13,7 +13,7 @@
 //! file="Ravl/Core/Container/SArray/SArray3d.hh"
 //! lib=RavlCore
 //! author="Charles Galambos"
-//! date="10/09/98"
+//! date="10/09/1998"
 
 #include "Ravl/SBfAcc3d.hh"
 #include "Ravl/Buffer3d.hh"
@@ -30,7 +30,7 @@ namespace RavlN {
   template<class DataT> class Slice1dIterC;
 
   //! userlevel=Advanced  
-  //: Simple 2 dimentional array.
+  //: Simple 3 dimentional array.
   
   template<class DataT>
   class SArray3dC 
@@ -56,13 +56,14 @@ namespace RavlN {
     // This can be used, for example to view a 1d array, as a 3d array.
     // startOffset is the location in the buffer to use as 0,0.
     // If stride is set to zero, size2 is used.
+    // <p> NOT IMPLEMENTED, Will be on request.
 #endif
     
     SArray3dC<DataT> Copy() const;
     //: Copy array.
     
+    //:------------------
     // Special operations
-    // -----------------
     
     Buffer3dC<DataT> &Buffer() 
       { return data; }
@@ -136,11 +137,13 @@ namespace RavlN {
 			     Stride()+1);
     }
     //: Take a slice along the diagonal of the array.
+    // <p> NOT IMPLEMENTED, Will be on request.
     
     SArray1dC<DataT> SliceRow(IndexC i)
       { return SArray1dC<DataT>(data.Data(),SArray1d()[i]); }
     //: Access row as 1d array.
     // NB. Changes made to the slice will also affect this array!
+    // <p> NOT IMPLEMENTED, Will be on request.
     
     Slice1dC<DataT> SliceColumn(IndexC i) { 
       return Slice1dC<DataT>(data.Data(),
@@ -150,14 +153,17 @@ namespace RavlN {
     }
     //: Access columb as 1d slice.
     // NB. Changes made to the slice will also affect this array!
+    // <p> NOT IMPLEMENTED, Will be on request.
     
     void SetColumn(IndexC i,const SArray1dC<DataT> &val);
     //: Set the values in the column i to those in 'val'.
     // 'val' must have a size equal to the number of rows.
+    // <p> NOT IMPLEMENTED, Will be on request.
     
     void SetRow(IndexC i,const SArray1dC<DataT> &val);
     //: Set the values in the row i to those in 'val'.
     // 'val' must have a size equal to the number of columns
+    // <p> NOT IMPLEMENTED, Will be on request.
 #endif    
   protected:
     void BuildAccess(SizeT size1);
