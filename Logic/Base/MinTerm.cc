@@ -34,6 +34,8 @@ namespace RavlLogicN {
     args[1] = t;
     args[2] = !n;
     ONDEBUG(cerr << "MinTermBodyC::MinTermBodyC() = " << Name() << "\n");
+    RavlAssert(t.IsValid());
+    RavlAssert(n.IsValid());
   }
 
   //: Constructor.
@@ -50,6 +52,8 @@ namespace RavlLogicN {
     args[1] = t;
     args[2] = !n;
     ONDEBUG(cerr << "MinTermBodyC::MinTermBodyC(const AndC &,const OrC &) = " << Name() << "\n");
+    RavlAssert(t.IsValid());
+    RavlAssert(n.IsValid());
   }
   
   //: Construct from a single literal.
@@ -68,19 +72,19 @@ namespace RavlLogicN {
     else
       AndAdd(lit);
     ONDEBUG(cerr << "MinTermBodyC::MinTermBodyC(const LiteralC &,bool) Lit=" << lit << " this=" << Name() << "\n");  
+    RavlAssert(t.IsValid());
+    RavlAssert(n.IsValid());
   }
   
   //: Constructor
   
   MinTermBodyC::MinTermBodyC(const SArray1dC<LiteralC> &ts,const SArray1dC<LiteralC> &ns,bool useArrayDirectly) 
-    : AndBodyC(3),
-      t(true),
-      n(true)
+    : AndBodyC(3)
   {
-    args[1] = t;
-    args[2] = !n;
     SetTerms(ts,ns,useArrayDirectly); 
     ONDEBUG(cerr << "MinTermBodyC::MinTermBodyC(const SArray1dC<LiteralC> &,const SArray1dC<LiteralC> &,bool) = " << Name() << "\n");  
+    RavlAssert(t.IsValid());
+    RavlAssert(n.IsValid());
   }
   
   //: Setup terms.
@@ -89,16 +93,16 @@ namespace RavlLogicN {
     OrC orv(ns,useArrayDirectly);
     AndC xa(ts,useArrayDirectly);
     t = xa;
-    n = !orv;
+    n = orv;
     args[1] = t;
-    args[2] = n;
+    args[2] = !n;
     ONDEBUG(cerr << "MinTermBodyC::SetTerms(), " << Name() << "\n");
   }
   
   //: Copy minterm.
   
   RCBodyVC &MinTermBodyC::Copy() const {
-    return *new MinTermBodyC(Pos(),Neg()); 
+    return *new MinTermBodyC(Pos().Copy(),Neg().Copy(),true); 
   }
   
   
@@ -108,6 +112,12 @@ namespace RavlLogicN {
     if(!lit.IsValid())
       return true;
     ONDEBUG(cerr << "MinTermBodyC::AndAdd(),'" << Name() << "' * '" << lit.Name() << "'\n");
+    MinTermC mt(lit);
+    if(mt.IsValid()) {
+      PosTerm().AndAdd(mt.PosTerm());
+      NegTerm().OrAdd(mt.NegTerm());
+      return true;
+    }
     AndC andt(lit);
     if(andt.IsValid()) {
       SArray1dIterC<LiteralC> it(andt.Terms());
@@ -118,7 +128,6 @@ namespace RavlLogicN {
 	ret &= AndAdd(*it);
       return ret;
     }
-    
     NotC nt(lit);
     if(nt.IsValid()) {
       AndNotAdd(nt.Term());
@@ -140,8 +149,13 @@ namespace RavlLogicN {
     if(andt.IsValid()) {
       SArray1dIterC<LiteralC> it(andt.Terms());
       RavlAssert(it);
-      for(it++;it;it++) 
-	n.OrAdd(*it);
+      for(it++;it;it++) {
+	NotC nt2(*it);
+	if(nt2.IsValid()) {
+	  AndAdd(nt2.Term());
+	} else
+	  n.OrAdd(*it);
+      }
       return true;
     }
     n.OrAdd(lit);
@@ -151,6 +165,9 @@ namespace RavlLogicN {
   //: Does this minterm cover all terms of mt ?
   
   bool MinTermBodyC::Covers(const MinTermC &mt,BindSetC &bs) const {
+    if(!mt.IsValid())
+      return false;
+    RavlAssert(bs.IsValid());
     BindMarkT ibm = bs.Mark();
     // FIXME:- Do some kind of backtracking.
     // Check positive terms.
@@ -174,6 +191,8 @@ namespace RavlLogicN {
       }
     }
     // Check negative terms.
+    RavlAssert(mt.NegTerm().IsValid());
+    RavlAssert(mt.Neg().IsValid());
     it = mt.Neg();
     RavlAssert(it);
     it++;

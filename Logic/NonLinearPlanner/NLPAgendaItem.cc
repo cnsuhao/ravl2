@@ -5,10 +5,10 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////
-// Logic2/PlanNL/NLPAgendaItem.cc  4/1/97   By Charles Galambos
-// $Id$
 //! rcsid="$Id$"
 //! lib=RavlLogicNLP
+//! date="4/1/1997"
+//! author="Charles Galambos"
 
 #include "Ravl/Logic/NLPAgendaItem.hh"
 //#include "Ravl/Logic/NLPlanner.hh"
@@ -49,7 +49,7 @@ namespace RavlLogicN {
     //VLOCKOBJ(plan);
     RavlAssert(plan.IsValid(aStep));
     newSteps = plan.ListSteps(aCond,Step().Data().PreCondition());
-    
+    ONDEBUG(cerr << "NLPAgendaOpenGoalBodyC(), Found " << newSteps.Size() << " steps.");
     // FIXME :- Do this properly.
     if(newSteps.IsEmpty())
       priority = 1;

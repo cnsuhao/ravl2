@@ -52,6 +52,7 @@ namespace RavlLogicN {
       args[0] = literalAnd;
       return ;
     }
+    RavlAssert(nterms[0] != literalAnd);
     args = SArray1dC<LiteralC>(nterms.Size() + 1);
     args[0] = literalAnd;
     for(BufferAccessIter2C<LiteralC,LiteralC> it(nterms,args.BufferFrom(1,nterms.Size()));it;it++)
@@ -59,20 +60,11 @@ namespace RavlLogicN {
     ONDEBUG(cerr << "AndBodyC::AndBodyC(), Name=" << Name() << "\n");    
   }
   
-  //: Is this equal to another condition ?
-  
-  bool AndBodyC::IsEqual(const LiteralC &oth) const {
-    AndC a(oth);
-    if(!a.IsValid())
-      return false;
-    RavlAssertMsg(0,"AndBodyC::IsEqual(), Not implemented. ");
-    return false;
-  }
-  
   
   //: Unify with another variable.
   
   bool AndBodyC::Unify(const LiteralC &oth,BindSetC &bs) const {
+    RavlAssert(bs.IsValid());
     BindMarkT bm = bs.Mark();
     for(SArray1dIterC<LiteralC> it(args);it;it++) {
       if(!it->Unify(oth,bs)) {
@@ -92,6 +84,10 @@ namespace RavlLogicN {
       AndAdd(an.Terms().After(0));
     else
       AddTerm(lit);
+#if DODEBUG
+    if(args.Size() > 1)
+      RavlAssert(args[1] != literalAnd);
+#endif
   }
   
   //: Add literals.
@@ -99,6 +95,10 @@ namespace RavlLogicN {
   void AndBodyC::AndAdd(const SArray1dC<LiteralC> &lits) {
     // FIXME :- Try and minimize
     AddTerms(lits);
+#if DODEBUG
+    if(args.Size() > 1)
+      RavlAssert(args[1] != literalAnd);
+#endif
   }
   
   //: Return iterator through possibile matches to this literal in 'state', if any.

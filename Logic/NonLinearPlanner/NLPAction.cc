@@ -5,16 +5,15 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////
-// L2World/NLPAction.cc  18/3/97   By Charles Galambos
-// $Id$
 //! rcsid="$Id$"
 //! lib=RavlLogicNLP
+//! date="18/3/1997"
+//! author="Charles Galambos"
 
 #include "Ravl/Assert.hh"
 #include "Ravl/Collection.hh"
 #include "Ravl/Logic/NLPAction.hh"
 #include "Ravl/Logic/BMinTermIndexIter.hh"
-//#include "Ravl/Logic/NLPlanner.hh"
 
 #define VDEBUG 1
 #if VDEBUG
@@ -59,10 +58,10 @@ namespace RavlLogicN {
     newSteps = openGoal.NewSteps();
     BuildPossSteps(Plan());
   }
-
+  
   ///////////////////////////
   // Build list of exiting steps in plan that may help.
-
+  
   void NLPActionOpenGoalBodyC::BuildPossSteps(NonLinearPlanC &NLPlan) {
     MinTermC &cnd = OpenCond();
     DListC<NLPStepNodeT> someSteps;

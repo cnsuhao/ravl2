@@ -45,6 +45,9 @@ namespace RavlLogicN {
     virtual bool Test(const StateC &state,BindSetC &binds) const;
     //: Test if condition is true in 'state'.
     
+    virtual bool IsEqual(const LiteralC &oth) const;
+    //: Is this equal to another condition ?
+    
   protected:
     void AddTerms(const SArray1dC<LiteralC> &terms);
     //: Add some terms.

@@ -48,5 +48,42 @@ namespace RavlLogicN {
     newun[args.Size()] = term;
     args = newun;
   }
+  
+  //: Is this equal to another condition ?
+  
+  bool ConditionBodyC::IsEqual(const LiteralC &oth) const {
+    ConditionC a(oth);
+    if(!a.IsValid())
+      return false;
+    if(Arity() != a.Arity())
+      return false;
+    if(this == &a.Body())
+      return true;
+    switch(Arity()) {
+    case 0: return true;
+    case 1: return true; // Both AndC's must start with literalAnd.
+    case 2: return args[1] == a[1];
+    case 3:
+      if(args[1] == a[1])
+	return args[2] == a[2];
+      if(args[1] != a[2]) 
+	return false;
+      return args[2] == a[1]; 
+    default:
+      // Is there a faster way ?
+      SArray1dIterC<LiteralC> it(args);
+      it++;
+      HSetC<LiteralC> argset;
+      for(;it;it++)
+	argset += *it;
+      SArray1dIterC<LiteralC> it2(a.Args());
+      it2++;
+      for(;it2;it2++)
+	if(!argset[*it2]) return false;
+      break;
+    }
+    RavlAssertMsg(0,"AndBodyC::IsEqual(), Not implemented. ");
+    return false;
+  }
 
 }

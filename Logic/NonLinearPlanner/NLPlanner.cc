@@ -5,9 +5,9 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ////////////////////////////////////////////////////////////
-// L2World/NLPlanner.cc   4/1/97    By Charles Galambos
-// $Id$
 //! rcsid="$Id$"
+//! date="4/1/1997"
+//! author="Charles Galambos" 
 //! lib=RavlLogicNLP
 
 #include "Ravl/Logic/NLPlanner.hh"
@@ -29,8 +29,18 @@ namespace RavlLogicN {
   
   static DListC<NLPStepC> FindStep(MinTermC &goal,MinTermC &full,DListC<NLPStepC> &list) {
     DListC<NLPStepC> ret;
-    ONDEBUG(cerr << "FindStep(), Called. \n");
-    
+    ONDEBUG(cerr << "FindStep(), Called. Find goal:" << goal << " \n");
+    BindSetC bs(true);
+    for(DLIterC<NLPStepC> it(list);it;it++) {
+      bs.Empty();
+      MinTermC postCond = it->PostCondition();
+      RavlAssert(postCond.IsValid());
+      if(postCond.Covers(goal,bs)) {
+	ONDEBUG(cerr << "FindStep(), Got step:" << *it << " \n");
+	ret.InsLast(*it);
+      }
+    }
+    ONDEBUG(if(ret.IsEmpty()) cerr << "No steps found to meet goal.");
     return ret;
   }
 		  
@@ -106,12 +116,11 @@ namespace RavlLogicN {
       return true;
     }
     // Get item from agenda and put into the queue.
-#if 0
     NLPActionC act = plan.GetTopOfAgenda().GetAction(plan);
     plans.Empty();
     plans.Insert(plan.Score(),act);
     RavlAssert(plans.Size() == 1);
-#endif
+    
     // And we're ready !
     return true;
   }
@@ -143,11 +152,9 @@ namespace RavlLogicN {
 	// Check new plan is an actual improvement on the old one.
       
 	// Put new plan back into queue.
-#if 0
 	NLPActionC act = newPlan.GetTopOfAgenda().GetAction(newPlan);
 	plans.Insert(newPlan.Score(),act);
 	DoDBCheck(newPlan);
-#endif
       }
       curSearch++;
       if(limSearch > 0) {
@@ -182,12 +189,14 @@ namespace RavlLogicN {
   
   DListC<NLPStepC> NLPlannerBodyC::ListSteps(MinTermC &goal,MinTermC &full) {
     DListC<NLPStepC> ret;
-    RavlAssert(listSteps.IsValid());    
+    RavlAssert(listSteps.IsValid());
+    ONDEBUG(cerr << "NLPlannerBodyC::ListSteps(), Called for " << goal << "\n");
     for(DLIterC<NLPStepC> it(listSteps(goal,full));it;it++) {
       BindSetC bs;
       if(it->PostCondition().Covers(goal,bs))
 	ret += *it;
     }
+    ONDEBUG(cerr << "NLPlannerBodyC::ListSteps(), Got " << ret.Size() <<" steps. \n");
     return ret;
   }
   

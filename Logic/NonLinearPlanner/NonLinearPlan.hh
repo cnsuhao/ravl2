@@ -328,6 +328,10 @@ namespace RavlLogicN {
     CallFunc2C<MinTermC,MinTermC,DListC<NLPStepC> > &ListSteps()
     { return Body().ListSteps(); }
     //: Access listStep methods.
+
+    inline NLPAgendaItemC GetTopOfAgenda() 
+    { return Body().GetTopOfAgenda(); }
+    //: Return current agenda item and remove it.
     
   protected:
     NonLinearPlanC(NonLinearPlanBodyC &bod)
@@ -338,10 +342,6 @@ namespace RavlLogicN {
     inline NLPAgendaItemC TopOfAgenda() 
     { return Body().TopOfAgenda(); }
     //: Look at current agenda item.
-    
-    inline NLPAgendaItemC GetTopOfAgenda() 
-    { return Body().GetTopOfAgenda(); }
-    //: Return current agenda item and remove it.
     
     friend class NonLinearPlanBodyC;
   };

@@ -36,7 +36,8 @@ namespace RavlLogicN {
   NonLinearPlanBodyC::NonLinearPlanBodyC(const MinTermC &initCond,
 					 const MinTermC &goalCond,
 					 const CallFunc2C<MinTermC,MinTermC,DListC<NLPStepC> > &step) 
-    : steps(0),
+    : bnds(true),
+      steps(0),
       listSteps(step)
   {
     ONDEBUG(cerr << "NonLinearPlanBodyC::NonLinearPlanBodyC(), Called. Inital=" << initCond.Name() << " Goal=" << goalCond.Name() << "\n");
@@ -152,11 +153,12 @@ namespace RavlLogicN {
       return NLPCausalLinkT(); // Can't have steps before start.
     
     const MinTermC &stepPreC = to.Data().PreCondition();
+#if 0
     if(!stepPreC.Unify(goalCond,bnds)) {
       ONDEBUG(cerr << "NonLinearPlanBodyC::InsCausalLink(), Failed to unify '" << stepPreC.Name() << "' and '" << goalCond.Name() << "' Bnds:'" << bnds.Name() << "' \n");
       return NLPCausalLinkT(); // Binding failed.
     }
-    
+#endif    
     NLPCausalLinkT CL = plan.InsEdge(from,to,NLPCausalLinkC(goalCond));
     if(!CL.IsValid())
       return CL;

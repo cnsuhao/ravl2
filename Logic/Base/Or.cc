@@ -62,17 +62,6 @@ namespace RavlLogicN {
     args[1] = term;
   }
   
-  //: Is this equal to another condition ?
-  
-  bool OrBodyC::IsEqual(const LiteralC &oth) const {    
-    OrC a(oth);
-    if(!a.IsValid())
-      return false;
-    RavlAssertMsg(0,"OrBodyC::IsEqual(), Not implemented. ");
-    return false;
-
-  }
-  
   //: Unify with another variable.
   
   bool OrBodyC::Unify(const LiteralC &oth,BindSetC &bs) const {

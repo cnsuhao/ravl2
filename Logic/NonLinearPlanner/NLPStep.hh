@@ -30,6 +30,14 @@ namespace RavlLogicN {
 	confidence(nConfidence)
     {}
     //: Constructor.
+
+    NLPStepC(const LiteralC &nact,const LiteralC &npre,const LiteralC &npost,RealT nConfidence = 1)
+      : act(nact),
+	pre(npre,false),
+	post(npost,false),
+	confidence(nConfidence)
+    {}
+    //: Constructor.
     
     NLPStepC ReplaceVars(HashC<LiteralC,LiteralC> &subs) const;
     //: Replace variables in step with new ones.
@@ -60,7 +68,10 @@ namespace RavlLogicN {
     MinTermC post; // Post condition for step.
     RealT confidence; // Confidence in step working.
   };
-
+  
+  ostream &operator<<(ostream &strm,const NLPStepC &step);
+  //: Write out step.
+  
 }
 
 #endif

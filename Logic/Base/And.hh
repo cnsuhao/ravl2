@@ -43,9 +43,6 @@ namespace RavlLogicN {
     { return args; }
     //: Access set of terms.
     
-    virtual bool IsEqual(const LiteralC &oth) const;
-    //: Is this equal to another condition ?
-    
     virtual bool Unify(const LiteralC &oth,BindSetC &bs) const;
     //: Unify with another variable.
     
