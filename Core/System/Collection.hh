@@ -46,18 +46,21 @@ namespace RavlN {
     //: Create a copy of this collection.
     
     inline
-    void Insert(const DataT &dat);
+    UIntT Insert(const DataT &dat);
     //: Add a data item to the collection.
     //  NB. This may cause the storage array to 
     // be reallocated which will invalidate any iterators
-    // held on the collection.
+    // held on the collection. <p>
+    // The index at which the item was placed is returned.
     
     inline
-    void InsertRandom(const DataT &dat);
+    UIntT InsertRandom(const DataT &dat);
     //: Add a data item to the collection in a random place.
     //  NB. This may cause the storage array to 
     // be reallocated which will invalidate any iterators
-    // held on the collection.
+    // held on the collection. <p>
+    // The index at which the item was placed is returned.
+    
     
     DataT Pick();
     //: Pick a random item from the collection.
@@ -165,16 +168,16 @@ namespace RavlN {
     //: Create a copy of this collection.
     
     inline
-    void Insert(const DataT &dat)
-    { Body().Insert(dat); }
+    UIntT Insert(const DataT &dat)
+    { return Body().Insert(dat); }
     //: Add a data item to the collection.
     //  NB. This may cause the storage array to 
     // be reallocated which will invalidate any iterators
     // held on the collection.
     
     inline
-    void InsertRandom(const DataT &dat)
-    { Body().InsertRandom(dat); }
+    UIntT InsertRandom(const DataT &dat)
+    { return Body().InsertRandom(dat); }
     //: Add a data item to the collection in a random place.
     //  NB. This may cause the storage array to 
     // be reallocated which will invalidate any iterators
@@ -286,15 +289,17 @@ namespace RavlN {
   
   template<class DataT>
   inline
-  void CollectionBodyC<DataT>::Insert(const DataT &dat) {
+  UIntT CollectionBodyC<DataT>::Insert(const DataT &dat) {
     if(n >= data.Size())
       data = data.Copy(data.Size() * 2); // Double the size of the collection.
+    int i = n;
     data[n++] = dat;
+    return i;
   } 
 
   template<class DataT>
   inline
-  void CollectionBodyC<DataT>::InsertRandom(const DataT &dat) {
+  UIntT CollectionBodyC<DataT>::InsertRandom(const DataT &dat) {
     if(n >= data.Size())
       data = data.Copy(data.Size() * 2); // Double the size of the collection.
     SizeT p = (SizeT)((RealT) Random1() * n);
@@ -302,6 +307,7 @@ namespace RavlN {
       p = n-1; // Incase of rounding errors.
     data[n++] = data[p];
     data[p] = dat;
+    return p;
   }
   
   template<class DataT>
