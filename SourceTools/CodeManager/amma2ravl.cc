@@ -97,7 +97,6 @@ static bool CheckDirectory(StringC &dir,DefsMkFileC &defs) {
     if(guiUpdates) {
       theFile.GlobalSubst("GUIDEBUG","DODEBUG");
       
-      theFile.GlobalSubst("PixelC","Index2dC");
       theFile.GlobalSubst("GUIManager","Manager");
       theFile.GlobalSubst("GUIWidget","Widget");
       theFile.GlobalSubst("GUIMouseEvent","MouseEvent");
@@ -167,7 +166,7 @@ static bool CheckDirectory(StringC &dir,DefsMkFileC &defs) {
     theFile.GlobalSubst("DoubleImageValueT","RealT");
     theFile.GlobalSubst("ByteGreyValueT","ByteT");
     theFile.GlobalSubst("namespace StdImageN","namespace RavlImageN");
-    
+    theFile.GlobalSubst("PixelC","Index2dC");
     
     // Core.
     
