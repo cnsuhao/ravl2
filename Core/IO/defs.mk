@@ -18,7 +18,7 @@ HEADERS=Entity.hh Process.hh Port.hh SPort.hh SPortAttach.hh \
  FileFormatDesc.hh FileFormatStream.hh FileFormatBinStream.hh \
  FileFormatGen.hh FileFormatIO.hh TypeConverter.hh FileFormatRegistry.hh \
  CoreIO.hh ComposeSingle.hh Compose.hh Func2Stream.hh IOConnect.hh \
- IFailOver.hh  IOTap.hh  Multiplex.hh SplitO.hh SplitI.hh Event.hh EventSet.hh \
+ IFailOver.hh  IOTap.hh  Multiplex.hh SplitO.hh Event.hh EventSet.hh \
  Method2Proc.hh MethodIO.hh ContainerIO.hh Plug.hh Tap.hh StreamProcess.hh \
  Process21.hh Process31.hh Method2Proc21.hh Method2Proc31.hh StreamOp21.hh \
  StreamOp31.hh Func2Proc21.hh Func2Proc31.hh OffsetScale.hh RunningAverage.hh \
