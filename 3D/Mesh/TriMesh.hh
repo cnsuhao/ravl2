@@ -180,7 +180,7 @@ namespace Ravl3DN {
     // each successive triple of indexes represents a face in the mesh.
     
     void UpdateVertexNormals()
-    { return Body().UpdateVertexNormals(); }
+    {  Body().UpdateVertexNormals(); }
     //: Recalculate vertex normals.
     
     UIntT Index(const TriC &tri,int no) const
@@ -189,11 +189,11 @@ namespace Ravl3DN {
     // no should be 0 to 2.
     
     void Limits(Vector3dC &min,Vector3dC &max) const
-    { return Body().Limits(min,max); }
+    { Body().Limits(min,max); }
     //: Find largest and smallest for each compoent of all vertices.
     
     void OffsetScale(const Vector3dC &off,RealT scale)
-    { return Body().OffsetScale(off,scale); }
+    { Body().OffsetScale(off,scale); }
     //: Offset and Scale mesh by given values.
     
   };
