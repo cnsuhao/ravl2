@@ -18,6 +18,7 @@
 #include "Ravl/StrStream.hh"
 #include "Ravl/DP/SPort.hh"
 #include "Ravl/DP/SequenceIO.hh"
+#include "Ravl/CDLIter.hh"
 #include <iomanip.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -34,27 +35,93 @@ namespace RavlImageN
     : public DPISPortBodyC< SArray1dC< ImageC< PixelC > > >
   {
   public:
-    DPIMultiVidBodyC(const StringC &fnBase, const StringC& fnFormat) {
+    DPIMultiVidBodyC(const DListC<StringC>& view_list)
+    {
+      LoadFileList(view_list);
+    }
+    //: construct from list of file names
+
+    DPIMultiVidBodyC(const StringC &fnBase, const StringC& fnFormat) 
+    {
+      // list of names of sequences for each view
+      DListC<StringC> view_list;
+
+      // look for sequence files
+      for (UIntT iview = 0; true; iview++) 
+      {
+	// filename of first frame for this view
+	StrOStreamC fnFirstFile;
+	fnFirstFile.form("%s.%d.00000.%s", 
+			 (const char*)fnBase,
+			 iview,
+			 (const char*)fnFormat);
+
+	StringC strFirstFile(fnFirstFile.String());
+
+	// check it exists
+	if (access(strFirstFile, R_OK) != 0)
+	  break;
+
+	// filename of sequence
+	StrOStreamC fnSequence;
+	fnSequence.form("%s.%d.%s.%s", 
+			(const char*)fnBase,
+			"%05d",
+			(const char*)fnFormat);
+
+	// add to list
+	view_list += strFirstFile;
+      }
+
+      // load files
+      if (!LoadFileList(view_list))
+	return;
+
+      // numframes should be set by now, but it seems
+      // port.Size() doesn't always work
+      if (numframes == 0)
+      {
+	while (1)
+	{
+	  StrOStreamC str_frame; 
+	  str_frame.form("%s.0.%05d.%s",
+			 (const char*)fnBase,
+			 numframes,
+			 (const char*)fnFormat);
+	  // cerr << "Looking for: " << str_frame.String() << endl;
+	  if (access(str_frame.String(), R_OK) != 0)
+	    break;
+	  ++numframes;
+	}
+      }
+    }
+    //: Construct from base filename and format
+
+  protected:
+
+    bool LoadFileList(const DListC<StringC>& view_list) 
+    {
+      // empty stream
       frame = 0;
       numviews = 0;
       numframes = 0;
-
-      while (1) {
-	// look for sequence files
-	StrOStreamC fnSequence;
-	fnSequence << fnBase << "." << setw(1) << numviews << ".%05d." << fnFormat;
-
+      
+      // look for sequence files
+      for (ConstDLIterC<StringC> ifile(view_list); ifile; ifile++)
+      {
 	// create new port for sequence
 	DPISPortC< ImageC<PixelC> > port;
 
 	// open sequence
-	if (!OpenISequence(port, fnSequence.String()))
-	  break;
-	
 	// if not ready, can't use this sequence
-	if (!port.IsGetReady())
-	  break;
-	
+	if (!OpenISequence(port, *ifile, "", false) || 
+	    !port.IsGetReady())
+	{
+	  array_port.Empty();
+	  numviews = 0;
+	  return false;
+	}
+		
 	// take min frame count as number of frames
 	if (numframes == 0)
 	  numframes = port.Size();
@@ -67,44 +134,12 @@ namespace RavlImageN
 	// continue until we have found all the views there are
 	++numviews;
       }
-#if 1
-      // numframes should be set by now, but it seems
-      // port.Size() doesn't always work
-      if (numframes == 0)
-      {
-	while (1)
-	{
-	  StrOStreamC str_frame; 
-#ifdef __linux__
-	  str_frame
-	    << fnBase 
-	    << ".0."
-	    << setw(5) << numframes
-	    << fnFormat;
-	  if (access(str_frame.String(), R_OK) != 0)
-	    break;
-#else	  
-	  str_frame.form("%s.0.%05d.%s",
-			 (const char*)fnBase,
-			 numframes,
-			 (const char*)fnFormat);
-	    // cerr << "Looking for: " << str_frame.String() << endl;
-	  if (access(str_frame.String(), R_OK) != 0)
-	    break;
-#endif
-	  ++numframes;
-	}
-      }
-#endif
-      // numframes = -1;
 
-      // cerr << "Found " << numviews << " views with " << numframes << " frames." << endl;
-
-      // return true if at least one view was opened
-      // return ( (numviews > 0) ? true : false );
+      return true;
     }
-    //: Constructor from filename
-    
+    //: Initialise port from list of filenames
+
+  public:    
     virtual bool GetAttr(const StringC &attrName,StringC &attrValue)
     {
       if (downcase(attrName) == "numviews")
@@ -117,6 +152,7 @@ namespace RavlImageN
 	return DPISPortBodyC< SArray1dC< ImageC< PixelC > > >::GetAttr(attrName, attrValue);
       }
     }
+    //: Port attributes.  The <i>numviews</i> attribute is implemented in this class.
 
     virtual bool Seek(UIntT off)
     {
@@ -216,29 +252,42 @@ namespace RavlImageN
   //
   // Used for reading syncronised multi-view video sequences
   // from disk or from frame grabbers. <p>
-  //
-  // Expects sequences of the form basename.C.FFFFF.type <br>
+  // 
+  // Can open an arbitary list of video files/sequences, 
+  // or sequences of the form basename.C.FFFFF.type <br>
   // Where:<br>
   //   basename is a text id for the file<br>
   //   C        is a 1 digit view number<br>
   //   FFFFF    is a 5 digit frame number<br>
   //   type     is the file type, such as "tif", "ppm", etc<br>
-  //
-  // To open a sequence from disk use: <br>
-  //
+  // <br>
+  // To open a file sequence named in this way use: <br>
+  // <br>
   //   DPISPortC< SArray1dC< ImageC<DataT> > > port;<br>
   //   OpenISequence(port, "@multiview:basename:type");<br>
-  //
+  // <br>
   // Sequences are expected to start from frame 0, view 0
   // If no type is specified, tif is assumed
-  
+  // <br>
+  // To open a predefined list, use:<br>
+  // <br>
+  //   DPISPortC< SArray1dC< ImageC<DataT> > > port;<br>
+  //   OpenISequence(port, "@viewlist:seq1;seq2;...;seqN");<br>
+  //
+
   template<class PixelC> class DPIMultiVidC 
     : public DPISPortC< SArray1dC< ImageC< PixelC > > >
   {
   public:
+    DPIMultiVidC(const DListC<StringC>& view_list)
+      : DPEntityC(*new DPIMultiVidBodyC<PixelC>(view_list))
+    { }
+    //: construct from list of sequences/files, one per view
+
     DPIMultiVidC(const StringC &fnBase, const StringC& fnFormat)
       : DPEntityC(*new DPIMultiVidBodyC<PixelC>(fnBase, fnFormat))
     { }
+    //: construct from base filename and format
   };
 
   //! userlevel=Develop
@@ -254,8 +303,26 @@ namespace RavlImageN
       done_init(false),
       frame(0)
     {}
-    //: Constructor from filename
-    
+    //: Construct from base filename and format.
+    //  Actual opening of streams is delayed until the first Put(...) operation.
+
+    DPOMultiVidBodyC(const DListC<StringC>& view_list) :
+      done_init(false),
+      frame(0)
+    {
+      // allocate array of ports, one for each view
+      array_port = SArray1dC< DPOSPortC< ImageC<PixelC> > > (view_list.Size());
+
+      // open the ports
+      UIntT iview = 0;
+      for (ConstDLIterC<StringC> ifile(view_list); ifile; ifile++)
+	OpenOSequence(array_port[iview++], *ifile, "", false);
+
+      // initialisation complete
+      done_init = true;
+    }
+    //: Construct from list of sequence names
+
     virtual bool Seek(UIntT off)
     { return false; }
     //: Seek to location in stream.
@@ -288,10 +355,13 @@ namespace RavlImageN
 	for (UIntT iview = 0; iview < array_port.Size(); iview++) {
 	  StrOStreamC fnSequence;
 	  fnSequence << fnBase << "." << setw(1) << iview << ".%05d." << fnFormat;
-	  OpenOSequence(array_port[iview], fnSequence.String());
+	  OpenOSequence(array_port[iview], fnSequence.String(), "", false);
 	}
 	done_init = true;
       }
+
+      RavlAssert(array_port.Size() == buff.Size()); 
+      // must used fixed number of views per frame
 
       bool putok = true;
       for (UIntT iview = 0; iview < array_port.Size(); iview++)
@@ -335,29 +405,44 @@ namespace RavlImageN
   //
   // Used for saving multi-view video sequences to disk<p>
   //
-  // Saves sequences of the form basename.C.FFFFF.type <br>
+  // Saves sequences to a specified list of files, 
+  // or files with names of the form basename.C.FFFFF.type <br>
   // Where:<br>
   //   basename is a text id for the file<br>
   //   C        is a 1 digit view number<br>
   //   FFFFF    is a 5 digit frame number<br>
   //   type     is the file type, such as "tif", "ppm", etc<p>
   //
-  // To save a sequence to disk use: <br>
-  //
+  // To save a sequence to disk using this convention: <br>
+  // <br>
   //   DPOSPortC< SArray1dC< ImageC<DataT> > > port;<br>
   //   OpenOSequence(port, "@multiview:basename:type");<p>
-  //
+  // <br>
   // Sequences start at frame 0, view 0<br>
-  // If no type is specified, tif is assumed
+  // If no type is specified, tif is assumed<br>
+  // <br>
+  // Otherwise, use:<br>
+  // <br>
+  //   DPOSPortC< SArray1dC< ImageC<DataT> > > port;<br>
+  //   OpenOSequence(port, "@viewlist:seq1;seq2;...;seqN");<p>
+  // <br>
 
   template<class PixelC> class DPOMultiVidC 
     : public DPOSPortC< SArray1dC< ImageC< PixelC > > >
   {
   public:
+
+    DPOMultiVidC(const DListC<StringC>& view_list)
+      : DPEntityC(*new DPOMultiVidBodyC<PixelC>(view_list))
+    { }
+    //: Construct from base filename and format.
+    //  Actual opening of streams is delayed until the first Put(...) operation.
+
     DPOMultiVidC(const StringC &fnBase, const StringC& fnFormat)
       : DPEntityC(*new DPOMultiVidBodyC<PixelC>(fnBase, fnFormat))
-    {
-    }
+    { }
+    //: Construct from base filename and format.
+    //  Actual opening of streams is delayed until the first Put(...) operation.  
   };
   
   //! docentry="Ravl.Images.Video.Formats"
@@ -376,7 +461,8 @@ namespace RavlImageN
     //: always return 0 - cannot determine type from stream
     
     virtual const type_info &ProbeLoad(const StringC &filename,IStreamC &in,const type_info &obj_type) const {
-      if (downcase(filename).contains("@multiview:") &&
+      if ((filename.contains("@multiview:") || 
+	   filename.contains("@viewlist")) &&
 	  obj_type == typeid(SArray1dC< ImageC< PixelC > >))
       { return obj_type; }
       return typeid(void);
@@ -384,7 +470,8 @@ namespace RavlImageN
     //: Probe for load.  
     
     virtual const type_info &ProbeSave(const StringC &filename,const type_info &obj_type,bool forceFormat) const {
-      if (downcase(filename).contains("@multiview:") &&
+      if ((filename.contains("@multiview:") ||
+	   filename.contains("@viewlist:")) &&
 	  obj_type == typeid(SArray1dC< ImageC< PixelC > >))
 	return obj_type; 
       return typeid(void);    
@@ -405,20 +492,40 @@ namespace RavlImageN
     //: Create a output port for saving.
     // Will create an Invalid port if not supported.
     
-    virtual DPIPortBaseC CreateInput(const StringC &filename,const type_info &obj_type) const {
-      StringC fnBase;
-      StringC fnFormat;
-      ParsePathName(filename, fnBase, fnFormat);
-      return DPIMultiVidC<PixelC>(fnBase, fnFormat);
+    virtual DPIPortBaseC CreateInput(const StringC &filename,const type_info &obj_type) const 
+    {
+      if (filename.contains("@viewlist:"))
+      {
+	DListC<StringC> view_list;
+	ParsePathName(filename, view_list);
+	return DPIMultiVidC<PixelC>(view_list);
+      }
+      else
+      {
+	StringC fnBase;
+	StringC fnFormat;
+	ParsePathName(filename, fnBase, fnFormat);
+	return DPIMultiVidC<PixelC>(fnBase, fnFormat);
+      }
     }
     //: Create a input port for loading from file 'filename'.
     // Will create an Invalid port if not supported. <p>
     
-    virtual DPOPortBaseC CreateOutput(const StringC &filename,const type_info &obj_type) const {
-      StringC fnBase;
-      StringC fnFormat;
-      ParsePathName(filename, fnBase, fnFormat);
-      return DPOMultiVidC<PixelC>(fnBase, fnFormat);      
+    virtual DPOPortBaseC CreateOutput(const StringC &filename,const type_info &obj_type) const 
+    {
+      if (filename.contains("@viewlist:"))
+      {
+	DListC<StringC> view_list;
+	ParsePathName(filename, view_list);
+	return DPOMultiVidC<PixelC>(view_list);
+      }
+      else
+      {
+	StringC fnBase;
+	StringC fnFormat;
+	ParsePathName(filename, fnBase, fnFormat);
+	return DPOMultiVidC<PixelC>(fnBase, fnFormat);      
+      }
     }
     //: Create a output port for saving to file 'filename'..
     // Will create an Invalid port if not supported. <p>
@@ -451,6 +558,19 @@ namespace RavlImageN
     }
     //: work out video file base name and file format from specified path
 
+    static bool ParsePathName(const StringC& filename, DListC<StringC>& view_list)
+    {
+      StrIStreamC stream_list(StringC(filename).after(':'));
+      for (int i = 0; i < 10; i++)
+      {
+	StringC str_view = stream_list.ClipTo(';');
+	if (str_view.IsEmpty())
+	  break;
+	view_list += str_view;
+      }
+      return true;
+    }
+    //: work out list of files from specified path
   };
 
   //! docentry="Ravl.Images.Video.Formats"
