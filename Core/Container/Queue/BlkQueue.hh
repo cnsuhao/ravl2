@@ -19,7 +19,12 @@
 //! rcsid="$Id$"
 
 #include "Ravl/Assert.hh"
+
+#if RAVL_HAVE_ANSICPPHEADERS
+#include <new>
+#else
 #include <new.h>
+#endif
 
 namespace RavlN {
   //: Basic Queue.

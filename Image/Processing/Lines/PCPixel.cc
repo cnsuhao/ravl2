@@ -9,7 +9,7 @@
 //! file="Ravl/Image/Processing/Lines/PCPixel.cc"
 
 #include "Ravl/Image/PCPixel.hh"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 namespace RavlImageN {
 

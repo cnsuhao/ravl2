@@ -11,8 +11,8 @@
 
 #include "Ravl/OS/Date.hh"
 #include "Ravl/String.hh"
-#include <iostream.h>
-#include <stdlib.h>
+#include "Ravl/Stream.hh"
+//#include <stdlib.h>
 
 using namespace RavlN;
 

@@ -20,7 +20,6 @@
 
 #include "Ravl/IO.hh"
 
-#include <fstream.h>
 
 using namespace RavlImageN;
 
@@ -172,7 +171,7 @@ int TestIO()
   
   // Write out test image.
   {
-    ofstream out(testFn);
+    OStreamC out(testFn);
     out << testImg;
     if(!out) {
       cerr << "Image write failed! \n";
@@ -184,7 +183,7 @@ int TestIO()
   
   // Read in test image.
   {
-    ifstream in(testFn); 
+    IStreamC in(testFn); 
     if(!in) {
       cerr << "Image read failed! \n";
       return __LINE__;

@@ -19,9 +19,7 @@
 #include "Ravl/SBfAcc2d.hh"
 #include "Ravl/Index3d.hh"
 #include "Ravl/BfAcc3Iter.hh"
-
-class istream;
-class ostream;
+#include "Ravl/Types.hh"
 
 namespace RavlN {
   

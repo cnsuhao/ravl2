@@ -4,13 +4,9 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLSTACKIT_HEADER
-#define RAVLSTACKIT_HEADER
-//! date="12/10/95"
-//-------------------------------------------------------------------------- 
-//  Copyright (c) 1995 by George (Jiri) Matas        g.matas@ee.surrey.ac.uk
-//  All rights reserved.
-//--------------------------------------------------------------------------
+#ifndef RAVL_STACKIT_HEADER
+#define RAVL_STACKIT_HEADER
+//! date="12/10/1995"
 //! docentry="Ravl.Core.Stacks"
 //! file="Ravl/Core/Container/Misc/StackIt.hh"
 //! lib=RavlCore
@@ -34,40 +30,68 @@ namespace RavlN {
   public:
     StackIterC(StackC<T> & s)
       : BaseStackC<T>(s),
-      stack(s)
-      { DecrTop() ;}
+	stack(s)
+    { DecrTop() ;}
     //: Constructor.
     
     StackC<T>& Stack()       
-      { return stack; }
+    { return stack; }
     //: Access the stack we're iterating.
     
     StackC<T>& Container()   
-      { return stack; }
+    { return stack; }
     //: Access the stack we're iterating.
     
     T& Data() 
-      { return topBlk->d[top];}
+    { return topBlk->d[top];}
+    //: Access the data.
+
+    const T& Data() const
+    { return topBlk->d[top];}
     //: Access the data.
     
+    T& operator *()
+    { return Data(); }
+    //: Access data.
+
+    const T& operator *() const
+    { return Data(); }
+    //: Access data.
+
+    T* operator ->()
+    { return &Data(); }
+    //: Access data.
+    
+    const T* operator ->() const
+    { return &Data(); }
+    //: Access data.
+    
     void First()       
-      { BaseStackC<T>::operator=(stack); DecrTop();}
+    { BaseStackC<T>::operator=(stack); DecrTop();}
     //: Goto first element in stack.
     
     void Next() 
-      { DecrTop(); }  
+    { DecrTop(); }  
+    //: Goto next element in stack.
+
+    void operator++(int)
+    { Next(); }
     //: Goto next element in stack.
     
     bool IsElm() const 
-      { return top>=0 ;} 
-    //: Is element.
+    { return top>=0 ;} 
+    //: Is this a valid element ?
+    
+    operator bool() const
+    { return IsElm(); }
+    //: Is this a valid element ?
     
     bool IsLast() const 
-      { return top==1 && blkSize==incrBlkSize;}
+    { return top==1 && blkSize==incrBlkSize;}
     //: Last item in stack.
     
     long Index() const 
-      { return Size() + 1;}
+    { return Size() + 1;}
     //: Position in stack.
     
   private:

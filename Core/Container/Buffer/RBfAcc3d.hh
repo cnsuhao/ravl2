@@ -20,14 +20,9 @@
 #include "Ravl/Index3d.hh"
 #include "Ravl/IndexRange3d.hh"
 #include "Ravl/BfAcc3Iter.hh"
-
-class istream;
-class ostream;
+#include "Ravl/Types.hh"
 
 namespace RavlN {
-  
-  class BinOStreamC;
-  class BinIStreamC;
   
   //! userlevel=Advanced
   //: Access to 3d buffer.

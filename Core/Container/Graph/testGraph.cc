@@ -4,16 +4,13 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-// $Id$
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Graph/testGraph.cc"
 
-#include <stdio.h>
-
 #include "Ravl/Graph.hh"
 #include "Ravl/IntC.hh"
-#include <fstream.h>
+#include "Ravl/Stream.hh"
 
 using namespace RavlN;
 
@@ -39,13 +36,13 @@ int main() {
   GraphC<IntC,IntC> x(CreateGraph());
   
   {
-    ofstream out("/tmp/testGraph");
+    OStreamC out("/tmp/testGraph");
     out << x;
   }
   
   GraphC<IntC,IntC> G;
   {
-    ifstream in("/tmp/testGraph");
+    IStreamC in("/tmp/testGraph");
     in >> G;
   }
 

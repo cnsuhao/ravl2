@@ -50,9 +50,10 @@ RealT MultiplyBy2(const RealT &val)
 
 int testSimple() {  
   StrOStreamC ostr;
-  StrIStreamC src("1 2 3 4");
+  StrIStreamC src("1 2 3 4 ");
   DPIFileC<RealT>(src) >>  Process(MultiplyBy2) >> DPOFileC<RealT>(ostr);
   StringC result = ostr.String();
+  //cerr << "Result=" << result << "\n";
   if(result != "2\n4\n6\n8\n") return __LINE__;
   return 0;
 }

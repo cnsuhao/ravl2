@@ -75,7 +75,7 @@ namespace Ravl3DN {
   
   HEMeshVertexC HEMeshEdgeBodyC::CollapseEdge() {
     HEMeshVertexBodyC *deadVertex = Prev().vertex;
-    HEMeshVertexC ret(vertex);
+    HEMeshVertexC ret(*vertex);
     // Redirect all vertex pointers away from dead vertex.
     for(HEMeshVertexEdgeIterC it(*deadVertex);it;it++) 
       it->vertex = vertex;

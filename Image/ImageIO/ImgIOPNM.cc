@@ -218,12 +218,9 @@ namespace RavlImageN {
 	outf.write((const char *) &it.Data(),3);   
     }
     
-#ifndef VISUAL_CPP
     //outf << flush; // Make sure is available ASAP.
-    flush(outf);
-#else
+    //flush(outf);
     outf.os().flush();
-#endif
 
     done = true;
     return true;
@@ -491,12 +488,7 @@ namespace RavlImageN {
     // Can write row at time because no packing problems.
     for(IndexC i = img.TRow();i <= img.BRow();i++) 
       outf.write((const char *) img.Row(i),img.Cols());
-#ifndef VISUAL_CPP
-    // outf << flush; // Make sure is available ASAP.
-    flush(outf);
-#else
     outf.os().flush();
-#endif
     done = true;
     return true;
   }

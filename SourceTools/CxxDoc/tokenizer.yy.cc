@@ -22,7 +22,10 @@
 #ifdef __cplusplus
 
 #include <stdlib.h>
-class istream;
+
+#include "Ravl/Types.hh"
+
+/*class istream;*/
 
 /* Use prototypes in function declarations. */
 #define YY_USE_PROTOS
@@ -945,13 +948,13 @@ goto find_rule; \
 
 #line 5 "tokenizer.l"
 
+  #include "Ravl/Stream.hh"
   #include "Ravl/CxxDoc/Object.hh"
   #include "Ravl/CxxDoc/Strings.hh"
    
   #define YYSTYPE RavlCxxDocN::ObjectC
 
   #include <stdlib.h>
-  #include <iostream.h>
   #include "cxx.tab.h"
   #include "FlexLexer.h"
 
@@ -964,7 +967,7 @@ goto find_rule; \
   class MyLexer : public yyFlexLexer
   {
     public:
-    char *gettext() {return yytext;};
+       char *gettext() { return yytext; };
   };
 
   namespace RavlCxxDocN {

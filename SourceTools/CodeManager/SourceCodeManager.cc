@@ -12,7 +12,7 @@
 #include "Ravl/StringList.hh"
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/BlkQueue.hh"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 namespace RavlN {
 

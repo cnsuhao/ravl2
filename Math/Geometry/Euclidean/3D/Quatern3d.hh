@@ -195,9 +195,6 @@ namespace RavlN {
     //: derivative of the product ('this' * 'q1' * 'q2') with respect to 
     //  'this' (nr=0), 'q1' (nr=1) or 'q2' (nr=2)
     
-    void KwikPrint(ostream & outS, int w=10, int p=7) const;
-    // One line printout to specified precision
-    
     void Print() const;
     // short print out
     

@@ -19,7 +19,8 @@
 #include <time.h>
 #include <stdio.h>
 #include "ccmath/ccmath.h"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
+
 using namespace RavlN;
 
 int main(int na,char **av)

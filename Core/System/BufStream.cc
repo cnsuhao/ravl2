@@ -9,24 +9,66 @@
 //! lib=RavlCore
 //! file="Ravl/Core/System/BufStream.cc"
 
-#ifndef VISUAL_CPP
-#ifndef __sgi__
-#include <strstream>
+#include "Ravl/BufStream.hh"
+
+#if RAVL_HAVE_ANSICPPHEADERS
+#if USE_GCC30
+#include <sstream>
 #else
-#include <strstream.h>
+#include <strstream>
 #endif
+#else
+#ifndef VISUAL_CPP
+#include <strstream.h>
 #else
 #include <strstrea.h>
 #endif
-
-#include "Ravl/BufStream.hh"
+#endif
 
 namespace RavlN {
+
+#if USE_GCC3
+
+  class BufferStringBodyC 
+    : public BufferBodyC<char>
+  {
+  public:
+    BufferStringBodyC(string &nstr,UIntT size)
+      : BufferBodyC<char>(size,(char *) nstr.data()),
+	str(nstr)
+    {}
+    //: Constructor.
+    
+  protected:
+    string str;
+  };
+
+  class BufferStringC 
+    : public BufferC<char> 
+  {
+  public:
+    BufferStringC()
+    {}
+    //: Default constructor.
+    // Creates an invalid handle.
+    
+    BufferStringC(string &str,UIntT size)
+      : BufferC<char>(*new BufferStringBodyC(str,size))
+    {}
+    //: Constructor.
+  };
+    
+#endif
   ///////////////////
   //: Default constructor.
   
   BufOStreamC::BufOStreamC()
-    : OStreamC(*(oss = new ostrstream()),true)
+    : 
+#if !USE_GCC3
+    OStreamC(*(oss = new ostrstream()),true)
+#else
+    OStreamC(*(oss = new ostringstream()),true)
+#endif
   {}
   
   ///////////////////
@@ -34,7 +76,19 @@ namespace RavlN {
   // NB. This does NOT clean the buffer.
   
   SArray1dC<char> &BufOStreamC::Data() {
-    data = SArray1dC<char>(oss->str(),oss->pcount());
+    RavlAssert(0);
+#if USE_GCC3
+#if 0
+    data = SArray1dC<char>((char *) oss->str().data(),oss->str().size());
+#else
+    string astr(oss->str());
+    SizeT size = oss->str().size();
+    BufferStringC buf(astr,size);
+    data = SArray1dC<char>(buf,size);
+#endif
+#else
+    data = SArray1dC<char>((char *) oss->str(),oss->pcount());
+#endif
     return data;
   }
   
@@ -42,11 +96,16 @@ namespace RavlN {
   
   //: Default constructor.
   
-  BufIStreamC::BufIStreamC(const SArray1dC<char> &dat)
+  BufIStreamC::BufIStreamC(const SArray1dC<char> &dat) 
+    :
 #ifdef VISUAL_CPP
-    : IStreamC(*(iss = new istrstream(const_cast<char *>(dat.ReferenceElm()),dat.Size())),true),
+    IStreamC(*(iss = new istrstream(const_cast<char *>(dat.ReferenceElm()),dat.Size())),true),
 #else
-      : IStreamC(*(iss = new istrstream(dat.ReferenceElm(),dat.Size())),true),
+#if !USE_GCC3
+    IStreamC(*(iss = new istrstream(dat.ReferenceElm(),dat.Size())),true),
+#else
+    IStreamC(*(iss = new istringstream(string(dat.ReferenceElm(),dat.Size()))),true),
+#endif
 #endif
       data(dat)
   {}

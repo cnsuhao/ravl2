@@ -16,7 +16,7 @@
 #include "Ravl/Image/Image.hh"
 #include "Ravl/Array2dIter2.hh"
 #include "Ravl/TypeName.hh"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 #ifdef __sgi__
 istream &operator>>(istream &s,RavlN::SByteT b) {

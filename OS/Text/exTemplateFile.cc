@@ -9,11 +9,10 @@
 //! lib=RavlOS
 //! file="Ravl/OS/Text/exTemplateFile.cc"
 
-
-#include <iostream.h>
 #include "Ravl/Text/TemplateFile.hh"
 #include "Ravl/EntryPnt.hh"
 #include "Ravl/Option.hh"
+#include "Ravl/Stream.hh"
 
 using namespace RavlN;
 

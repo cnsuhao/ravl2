@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLDPTUPLE2_HEADER
-#define RAVLDPTUPLE2_HEADER 1
+#ifndef RAVL_TUPLE2_HEADER
+#define RAVL_TUPLE2_HEADER 1
 /////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! docentry="Ravl.Core.Tuples"
@@ -16,9 +16,6 @@
 //! date="09/06/98"
 
 #include "Ravl/Types.hh"
-
-class istream;
-class ostream;
 
 namespace RavlN {
   class BinIStreamC;
@@ -34,14 +31,14 @@ namespace RavlN {
     
     Tuple2C(const T1 &nd1,const T2 &nd2) 
       : d1(nd1),
-      d2(nd2)
-      {}
+	d2(nd2)
+    {}
     //: Constructor.
     
     Tuple2C(const Tuple2C<T1,T2> &oth) 
       : d1(oth.d1),
-      d2(oth.d2)
-      {}
+	d2(oth.d2)
+    {}
     //: Copy constructor.
     
     T1 &Data1() { return d1; }
@@ -63,11 +60,11 @@ namespace RavlN {
     //: Get hash value for tuple.
     
     bool operator==(const Tuple2C<T1,T2> &oth) const
-      { return (oth.d1 == d1) && (oth.d2 == d2); }
+    { return (oth.d1 == d1) && (oth.d2 == d2); }
     //: Are tuples equal ?
     
     bool operator!=(const Tuple2C<T1,T2> &oth) const
-      { return  (oth.d1 != d1) || (oth.d2 != d2);}
+    { return  (oth.d1 != d1) || (oth.d2 != d2);}
     //: Are tuples unequal ?
     
   protected:

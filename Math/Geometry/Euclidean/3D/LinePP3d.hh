@@ -10,16 +10,13 @@
 //! userlevel=Normal
 //! author="Radek Marik"
 //! docentry="Ravl.Math.Geometry.3D"
-//! date="26.10.1992"
+//! date="26/10/1992"
 //! rcsid="$Id$"
 //! lib=RavlMath
 
 #include "Ravl/Types.hh"
 #include "Ravl/Point3d.hh"
 #include "Ravl/Vector3d.hh"
-
-class ostream;
-class istream;
 
 namespace RavlN {
 

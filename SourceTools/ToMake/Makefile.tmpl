@@ -8,7 +8,7 @@ CC = gcc
 CPPFLAGS = -Wall -pipe -O -DAMMA_CHECK -DGNU -D__linux__ -Dunix -DPROJECT_OUT="/buf/soft" -DCPUG_ARCH="$(platform)"
 LDFLAGS = -L$(libdir)
 INCLUDES = -I$(incdir)
-DEFINES =  -DAMMA_CHECK -ansi -DGNU -D__linux__ -Dunix -DNEWGCC -DPROJECT_OUT="/buf/soft" -DCPUG_ARCH="linux"
+DEFINES =  -DAMMA_CHECK -ansi -DGNU -D__linux__ -Dunix -DPROJECT_OUT="/buf/soft" -DCPUG_ARCH="linux"
 COMPILE = $$(INCLUDES) $$(DEFINES) $$(CPPFLAGS) $$(CFLAGS)
 .SUFFIXES: .cc .c .o .a
 LOCALLIB = 
@@ -118,5 +118,5 @@ clean:
 	rm *.o
 )
 
-			
+
 

@@ -21,7 +21,11 @@
 class istream;
 class ostream;
 #else
+#if RAVL_HAVE_ANSICPPHEADERS
+#include <iostream>
+#else
 #include <iostream.h>
+#endif
 #endif
 
 //!maindoc=1
@@ -29,7 +33,13 @@ class ostream;
 // This namespace contains all the core ravl functionality.
 
 namespace RavlN {  
+#if USE_GCC30 
+  using namespace std;
+#endif  
   
+  class BinOStreamC;
+  class BinIStreamC;
+
   typedef int IntT;
   //: Integer of at least 32 bits
   

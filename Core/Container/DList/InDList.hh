@@ -18,9 +18,7 @@
 
 #include "Ravl/DLink.hh"
 #include "Ravl/Assert.hh"
-
-class ostream;
-class istream;
+#include "Ravl/Types.hh"
 
 namespace RavlN {
 

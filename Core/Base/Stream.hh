@@ -19,12 +19,12 @@
 #include "Ravl/Assert.hh"
 #include "Ravl/HandleRefCounter.hh"
 #include "Ravl/Exception.hh"
+#include <stdarg.h>
 #if RAVL_HAVE_ANSICPPHEADERS
 #include <iostream>
 #else
 #include <iostream.h>
 #endif
-#include <stdarg.h>
 
 #if !RAVL_HAVE_STREAMSIZE
 typedef unsigned int streamsize;
@@ -39,12 +39,16 @@ namespace RavlN {
     : public HandleRefCounterC
   {
   public:
+#if USE_GCC30
+    typedef std::ios::seekdir SeekDirT;
+#else
 #if RAVL_HAVE_IOS_SEEKDIR
     // GCC...
     typedef ::ios::seekdir SeekDirT;
 #else
     // IRIX...
     typedef ios::seek_dir SeekDirT;
+#endif
 #endif
     
     StreamBaseC()

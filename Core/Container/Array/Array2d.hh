@@ -26,9 +26,7 @@
 #include "Ravl/SArray2d.hh"
 #include "Ravl/Math.hh"
 #include "Ravl/Slice1d.hh"
- 
-class istream;
-class ostream;
+#include "Ravl/Types.hh" 
 
 namespace RavlN {
   

@@ -1,11 +1,11 @@
 /* Hacked C++ parser. */
 %{
-#include <stdlib.h>
-#include <iostream.h>
-
+#include "Ravl/Stream.hh"
 #include "Ravl/CxxDoc/CxxElements.hh"
 #include "Ravl/CxxDoc/DocNode.hh"
 #include "Ravl/CxxDoc/Strings.hh"
+
+#include <stdlib.h>
 
 #ifndef NDEBUG
 #define YYDEBUG 1

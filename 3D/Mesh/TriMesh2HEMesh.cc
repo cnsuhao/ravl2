@@ -51,6 +51,7 @@ namespace Ravl3DN {
     SArray1dIterC<VertexC> vit(verts);
     for(IntrDLIterC<HEMeshVertexBodyC> it(vertices);it;it++,vit++) {
       vindex[HEMeshVertexC(*it)] = vit.Index().V();
+      ONDEBUG(cerr << "Hash=" << HEMeshVertexC(*it).Hash() << " " << HEMeshVertexC(*it).Hash() <<" Ind=" << vit.Index().V() << "\n");
       RavlAssert(vit);
       *vit = *it;
     }
@@ -63,13 +64,16 @@ namespace Ravl3DN {
       HEMeshFaceC aface(*fit);
       HEMeshFaceEdgeIterC eit(aface);      
       RavlAssert(eit);
+      ONDEBUG(cerr << "Vert1=" <<vindex[eit->Vertex()] << " Hash=" << eit->Vertex().Hash() << "\n");
       VertexC &v1 = verts[vindex[eit->Vertex()]];
       eit++;
       RavlAssert(eit);
       VertexC &v2 = verts[vindex[eit->Vertex()]];
+      ONDEBUG(cerr << "Vert2=" <<vindex[eit->Vertex()] <<  " Hash=" << eit->Vertex().Hash() << "\n");
       eit++;
       RavlAssert(eit);
       VertexC &v3 = verts[vindex[eit->Vertex()]];
+      ONDEBUG(cerr << "Vert2=" <<vindex[eit->Vertex()] <<  " Hash=" << eit->Vertex().Hash() << "\n");
 #if DODEBUG
       eit++;
       RavlAssert(!eit);

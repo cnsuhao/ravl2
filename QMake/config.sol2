@@ -46,9 +46,9 @@ MKDEPUP = /usr/ucb/echo -n '$$(INST_OBJS)/' > $(INST_DEPEND)/$*.d ; cat $(WORKTM
 CFLAGS   = -Wall -pipe 
 CCFLAGS  = -Wall -pipe 
 
-CCPPFLAGS= -DGNU -D__$(ARC)__ -Dunix -DNEWGCC 
+CCPPFLAGS= -DGNU -D__$(ARC)__ -Dunix
 
-CPPFLAGS = -DGNU -D__$(ARC)__ -Dunix -DNEWGCC
+CPPFLAGS = -DGNU -D__$(ARC)__ -Dunix
 LDFLAGS = 
 SOLDFLAGS = $(CCFLAGS) -G
 PAR_MAKE = --jobs=$(PROCS)

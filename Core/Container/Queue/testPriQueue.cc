@@ -11,7 +11,7 @@
 
 #include "Ravl/PriQueueL.hh"
 #include "Ravl/EntryPnt.hh"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 using namespace RavlN;
 

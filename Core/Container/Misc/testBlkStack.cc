@@ -13,8 +13,9 @@
 #include "Ravl/BlkStack.hh"
 #include "Ravl/BlkStackIter.hh"
 #include "Ravl/Assert.hh"
+#include "Ravl/Stream.hh"
+
 #include <stdlib.h>
-#include <iostream.h>
 
 using namespace RavlN;
 

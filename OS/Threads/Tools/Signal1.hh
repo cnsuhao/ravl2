@@ -17,8 +17,7 @@
 
 #include "Ravl/Threads/Signal.hh"
 #include "Ravl/InDLIter.hh"
-
-class ostream;
+#include "Ravl/Types.hh"
 
 namespace RavlN {
 
@@ -35,25 +34,25 @@ namespace RavlN {
   public:
     inline SignalConnector1BodyC(const DataT &def)
       : defaultVal(def)
-      {}
+    {}
     //: Default constructor.
     
     inline SignalConnector1BodyC(Signal0C &from)
       : SignalConnector0BodyC(from)
-      {}
+    {}
     //: Constructor.
     
     inline SignalConnector1BodyC(Signal0C &from,const DataT &def)
       : SignalConnector0BodyC(from),
-      defaultVal(def)
-      {}
+	defaultVal(def)
+    {}
     //: Constructor.
     
     virtual bool Invoke(DataT &) = 0;
     //: Pass signal on.
     
     virtual bool Invoke()
-      { return Invoke(defaultVal); }
+    { return Invoke(defaultVal); }
     //: Pass signal on, use default value.
     
   protected:
@@ -80,7 +79,7 @@ namespace RavlN {
     //: Invoke signal, with value.
     
     inline virtual bool Invoke();
-  //: Invoke signal, with default value.
+    //: Invoke signal, with default value.
   };
 
   ///////////////////////////
@@ -94,7 +93,7 @@ namespace RavlN {
   public:
     SignalInterConnect1C(Signal0C &from,Signal1C<DataT> &targ)
       : SignalConnectorC(*new SignalInterConnect1BodyC<DataT>(from,targ))
-      {}
+    {}
     //: Constructor.
   };
   
@@ -111,18 +110,18 @@ namespace RavlN {
     
     Signal1FuncBodyC(Signal0C &from,Func1T nFunc,const DataT &def)
       : SignalConnector0BodyC(from),
-      SignalConnector1BodyC<DataT>(from,def),
-      func(nFunc)
-      {}
+	SignalConnector1BodyC<DataT>(from,def),
+	func(nFunc)
+    {}
     //: Constructor.
     
     virtual bool Invoke()
-      { return func(defaultVal); }
+    { return func(defaultVal); }
     //: Call function.
     // Use default value.
     
     virtual bool Invoke(DataT &val)
-      { return func(val); }
+    { return func(val); }
     //: Call function.
     
   protected:
@@ -137,9 +136,9 @@ namespace RavlN {
     : public SignalConnectorC
   {
   public:
-    Signal1FuncC(Signal0C &from,Signal1FuncBodyC<DataT>::Func1T nFunc,const DataT &def = DataT())
+    Signal1FuncC(Signal0C &from,typename Signal1FuncBodyC<DataT>::Func1T nFunc,const DataT &def = DataT())
       : SignalConnectorC(*new Signal1FuncBodyC<DataT>(from,nFunc,def))
-      {}
+    {}
     //: Constructor.
   };
   
@@ -159,22 +158,22 @@ namespace RavlN {
 		       Func1T nFunc,
 		       const DataT &dat = DataT())
       : SignalConnector0BodyC(from),
-      SignalConnector1BodyC<DataT>(from,dat),
-      obj(nobj),
-      func(nFunc)
-      {}
+	SignalConnector1BodyC<DataT>(from,dat),
+	obj(nobj),
+	func(nFunc)
+    {}
     //: Constructor.
     
     virtual bool Invoke()
-      { return (obj.*func)(defaultVal); }
+    { return (obj.*func)(defaultVal); }
     //: Call function.
     
     virtual bool Invoke(DataT &val)
-      { return (obj.*func)(val); }
+    { return (obj.*func)(val); }
     //: Call function.
     
     inline bool operator()(DataT &val)
-      { return Invoke(val); }
+    { return Invoke(val); }
     //: Simple invokation.
     
   protected:
@@ -195,7 +194,7 @@ namespace RavlN {
 		   bool (ObjT::*nFunc)(DataT &),
 		   const DataT &dat = DataT())
       : SignalConnectorC(*new Signal1MethodBodyC<DataT,ObjT>(from,nobj,nFunc,dat))
-      {}
+    {}
     //: Constructor.
   };
   
@@ -218,22 +217,22 @@ namespace RavlN {
 			  Func1T nFunc,
 			  const DataT &dat = DataT())
       : SignalConnector0BodyC(from),
-      SignalConnector1BodyC<DataT>(from,dat),
-      obj(nobj),
-      func(nFunc)
-      {}
+	SignalConnector1BodyC<DataT>(from,dat),
+	obj(nobj),
+	func(nFunc)
+    {}
     //: Constructor.
     
     virtual bool Invoke()
-      { return  (obj.*func)(defaultVal); }
+    { return  (obj.*func)(defaultVal); }
     //: Call function.
     
     virtual bool Invoke(DataT &val)
-      { return (obj.*func)(val); }
+    { return (obj.*func)(val); }
     //: Call function.
     
     inline bool operator()(DataT &val)
-      { return Invoke(val); }
+    { return Invoke(val); }
     //: Simple invokation.
     
   protected:
@@ -258,8 +257,8 @@ namespace RavlN {
 		      bool (ObjT::*nFunc)(DataT &),
 		      const DataT &dat = DataT())
       : SignalConnectorC(*new Signal1MethodRefBodyC<DataT,ObjT>(from,nobj,nFunc,dat))
-      {}
-  //: Constructor.
+    {}
+    //: Constructor.
   };
 
   ////////////////////////////////////////////////////////////////
@@ -274,7 +273,7 @@ namespace RavlN {
   public:
     Signal1BodyC(const DataT &def)
       : defaultVal(def)
-      {}
+    {}
     //: Constructor.
     
     virtual bool Invoke(DataT &v) {
@@ -307,7 +306,7 @@ namespace RavlN {
       }
       return ret;
     }
-  //: Send signal with default value where needed.
+    //: Send signal with default value where needed.
   
   protected:
     DataT defaultVal; // Default data value.
@@ -324,54 +323,54 @@ namespace RavlN {
     typedef bool (*Func1T)(DataT &dat);
     
     Signal1C()
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     
     Signal1C(const Signal0C &base)
       : Signal0C(base)
-      {
-	if(dynamic_cast<const Signal1BodyC<DataT> *>(&Signal0C::Body()) == 0)
+    {
+      if(dynamic_cast<const Signal1BodyC<DataT> *>(&Signal0C::Body()) == 0)
 	Invalidate();
-      }
+    }
     //: Base constructor.
     // Creates an invalid handle if body type
     // is correct.
     
     Signal1C(const DataT &defV)
       : Signal0C(*new Signal1BodyC<DataT>(defV))
-      {}
+    {}
     //: Default constructor.
     // Creates an invalid handle.
     
   protected:
     Signal1C(Signal1BodyC<DataT> &sig)
       : Signal0C(sig)
-      {}
+    {}
     //: Body constructor.
     
     inline Signal1BodyC<DataT> &Body() 
-      { return static_cast<Signal1BodyC<DataT> &>(Signal0C::Body()); }
+    { return static_cast<Signal1BodyC<DataT> &>(Signal0C::Body()); }
     //: Access body.
     
     inline const Signal1BodyC<DataT> &Body() const 
-      { return static_cast<const Signal1BodyC<DataT> &>(Signal0C::Body()); }
+    { return static_cast<const Signal1BodyC<DataT> &>(Signal0C::Body()); }
     //: Access body.
     
   public:
     inline bool Invoke(DataT &dat)
-      { return Body().Invoke(dat); }
+    { return Body().Invoke(dat); }
     //: Send default signal.
     
     inline bool operator()(DataT &dat)
-      { return Body().Invoke(dat); }
+    { return Body().Invoke(dat); }
     //: Simple invokation.
     
     inline bool operator()(const DataT &dat)
-      { 
-	DataT tmp(dat);
-	return Body().Invoke(tmp); 
-      }
+    { 
+      DataT tmp(dat);
+      return Body().Invoke(tmp); 
+    }
     //: Simple invokation.  
   };
   

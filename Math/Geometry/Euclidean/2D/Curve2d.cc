@@ -11,8 +11,7 @@
 #include "Ravl/Curve2d.hh"
 #include "Ravl/IndexRange2d.hh"
 #include "Ravl/Assert.hh"
-
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 #ifndef __sgi__
 #include <typeinfo>

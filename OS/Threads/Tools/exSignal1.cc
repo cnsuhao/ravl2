@@ -11,6 +11,8 @@
 
 #include "Ravl/Threads/Signal1.hh"
 
+using namespace RavlN;
+
 bool PrintNumberA(int &i) {
   cout << "PrintNumberA called with value " << i << "\n";
   return true;
@@ -20,8 +22,6 @@ bool PrintNumberB(int &i) {
   cout << "PrintNumberB called with value " << i << "\n";
   return true;
 }
-
-using namespace RavlN;
 
 int main() {
   

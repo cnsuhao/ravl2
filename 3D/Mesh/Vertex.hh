@@ -16,7 +16,7 @@
 #include "Ravl/Vector3d.hh"
 #include "Ravl/Point3d.hh"
 #include "Ravl/Vector2d.hh"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 namespace Ravl3DN {
   using namespace RavlN;

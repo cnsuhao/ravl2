@@ -10,8 +10,6 @@
 /*! file="Ravl/Core/Base/config.h" */
 /*! lib=RavlCore */
 
-#define USE_GCC30 0
-
 /******* AMMA/QMAKE COMPATIBILITY *******/
 #if !defined(RAVL_CHECK)
 #if defined(AMMA_CHECK) || defined(QMAKE_CHECK)
@@ -32,6 +30,15 @@
 #else
 #define RAVL_PARANOID(x)
 #endif
+
+/***** Detect version of GCC if in use. ****/
+
+#if defined(__GNUC__) && (__GNUC__ >= 3)
+#define USE_GCC3 1
+#else
+#define USE_GCC3 0
+#endif
+#define USE_GCC30 USE_GCC3
 
 /************************************/
 

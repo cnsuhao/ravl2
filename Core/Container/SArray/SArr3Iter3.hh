@@ -4,15 +4,15 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLSARR2ITER3_HEADER
-#define RAVLSARR2ITER3_HEADER 1
+#ifndef RAVL_SARR2ITER3_HEADER
+#define RAVL_SARR2ITER3_HEADER 1
 ////////////////////////////////////////////////////////////
 //! docentry="Ravl.Core.Arrays.3D"
 //! rcsid="$Id$
 //! file="Ravl/Core/Container/SArray/SArr3Iter3.hh"
 //! lib=RavlCore
 //! author="Charles Galambos"
-//! date="10/09/98"
+//! date="10/09/1998"
 //! userlevel=Advanced
 
 #include "Ravl/SArray3d.hh"
@@ -28,16 +28,16 @@ namespace RavlN {
   {
   public:
     SArray3dIter3C()
-      {}
+    {}
     //: Default constructor.
     
     SArray3dIter3C(const SArray3dC<Data1T> &arr,
 		   const SArray3dC<Data2T> &narr2,
 		   const SArray3dC<Data3T> &narr3)
       : arr1(arr),
-      arr2(narr2),
-      arr3(narr3)
-      { First(); }
+	arr2(narr2),
+	arr3(narr3)
+    { First(); }
     //: Constructor.
     
     inline bool First() {
@@ -49,7 +49,7 @@ namespace RavlN {
     // returns true if there is a first element.
     
     Index3dC Index() const { 
-      assert(arr1.IsValid());
+      RavlAssert(arr1.IsValid());
       Index2dC i2 = sit.Index(rit.Data1().ReferenceElm());
       return Index3dC((IndexC) (&(rit.Data1()) - arr1.ReferenceElm()),
 		      (IndexC) i2.Row(),

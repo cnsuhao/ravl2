@@ -46,9 +46,10 @@
 //	...
 //! license=own 
 
-#include <iostream.h>
 
 extern "C++" {
+#include "Ravl/Stream.hh"
+  using namespace std;
 
 struct yy_buffer_state;
 typedef int yy_state_type;

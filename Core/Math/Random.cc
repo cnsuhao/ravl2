@@ -5,14 +5,13 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 ///////////////////////////////////////////////////////
-// $Id$
 //! rcsid="$Id$"
 //! lib=RavlCore
 //! file="Ravl/Core/Math/Random.cc"
 
-#include <iostream.h>
 #include "Ravl/Random.hh"
 #include "Ravl/MTLocks.hh"
+#include "Ravl/Stream.hh"
 
 #define DODEBUG 1
 

@@ -17,9 +17,6 @@
 
 #include "Ravl/Types.hh"
 
-class istream;
-class ostream;
-
 //: Ravl namespace.
 
 namespace RavlN {

@@ -6,12 +6,13 @@
 // file-header-ends-here
 //! date="26.10.1992"
 //! author="Radek Marik"
-// elementary boundary edge based on crack code
 //! rcsid="$Id$"
 //! lib=RavlMath
 
-#include <iostream.h>
+// elementary boundary edge based on crack code
+
 #include "Ravl/Edge.hh"
+#include "Ravl/Stream.hh"
 
 namespace RavlN {
   

@@ -10,7 +10,7 @@
 //! file="Ravl/OS/Threads/Tools/TickerTrigger.cc"
 
 #include "Ravl/Threads/TickerTrigger.hh"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 #define DODEBUG 0
 #if DODEBUG

@@ -13,7 +13,8 @@
 #include "Ravl/SourceTools/AutoPortSource.hh"
 #include "Ravl/SourceTools/AutoPortGenerator.hh"
 #include "Ravl/OS/Directory.hh"
-#include <fstream.h>
+#include "Ravl/Stream.hh"
+
 
 #define DODEBUG 1
 #if DODEBUG

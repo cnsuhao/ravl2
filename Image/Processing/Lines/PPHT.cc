@@ -169,7 +169,12 @@ namespace RavlImageN {
     // Found point.
     // row theta.
     IntT theta = (IntT) peak[0];
-    bool ret = PPHTTest(Curve2dLineC(tSin[theta],tCos[theta],-peak[1]),Point2dC(at),peak[0],Round(peak[1]),0,thresh);
+    bool ret = PPHTTest(Curve2dLineC(tSin[theta],tCos[theta],-peak[1]),
+			Point2dC(at),
+			theta,
+			Round(peak[1]),
+			0,
+			thresh);
     
     //ONDEBUG(if(!ret) cout << ret << " " << thresh << "\n";);
     

@@ -9,8 +9,7 @@
 //! lib=RavlCore
 //! file="Ravl/Core/Base/testCalls.cc"
 
-#include <iostream.h>
-
+#include "Ravl/Stream.hh"
 #include "Ravl/Calls.hh"
 #include "Ravl/CallMethods.hh"
 #include "Ravl/CallMethodRefs.hh"

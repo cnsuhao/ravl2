@@ -9,10 +9,10 @@
 //! lib=RavlOS
 //! file="Ravl/OS/Text/exTemplateComplex.cc"
 
-#include <iostream.h>
 #include "Ravl/Text/TemplateComplex.hh"
 #include "Ravl/EntryPnt.hh"
 #include "Ravl/Option.hh"
+#include "Ravl/Stream.hh"
 
 using namespace RavlN;
 

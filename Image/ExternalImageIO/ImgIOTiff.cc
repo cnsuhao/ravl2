@@ -112,7 +112,7 @@ namespace RavlImageN {
   
   tsize_t DPOImageTIFFByteRGBABodyC::TIFFReadProc(thandle_t dptr, tdata_t data, tsize_t noBytes) {
     cerr << "DPOImageTIFFByteRGBABodyC::TIFFWriteProc(), WARNING: read called on a write-only stream. \n";
-    assert(0);
+    RavlAssert(0);
     return 0;
   }
   
@@ -326,7 +326,7 @@ namespace RavlImageN {
   
   tsize_t DPIImageTIFFByteRGBABodyC::TIFFWriteProc(thandle_t dptr, tdata_t, tsize_t) {
     cerr << "DPIImageTIFFByteRGBABodyC::TIFFWriteProc(), WARNING: Write called on a read-only stream. \n";
-    assert(0);
+    RavlAssert(0);
     return 0;
   }
   

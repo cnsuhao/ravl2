@@ -18,10 +18,11 @@
 #include "Ravl/StringList.hh"
 #include "Ravl/DLIter.hh"
 #include "Ravl/Exception.hh"
+#include "Ravl/Stream.hh"
+
 #include <unistd.h>
 #include <string.h>
 #include <stdio.h>
-#include <iostream.h>
 #include <assert.h>
 #include <signal.h>
 

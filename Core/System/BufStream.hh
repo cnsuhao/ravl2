@@ -17,8 +17,12 @@
 #include "Ravl/Stream.hh"
 #include "Ravl/SArray1d.hh"
 
+#if USE_GCC30
+#include <sstream>
+#else
 class ostrstream;
 class istrstream;
+#endif
 
 namespace RavlN {
   
@@ -40,7 +44,11 @@ namespace RavlN {
     
   protected:
     SArray1dC<char> data;
+#if !USE_GCC30
     ostrstream *oss; // Output string stream.
+#else
+    ostringstream *oss; // Output string stream.
+#endif
   };
   
   ////////////////////////////
@@ -65,7 +73,11 @@ namespace RavlN {
     
   protected:
     SArray1dC<char> data;
+#if !USE_GCC30
     istrstream *iss; // Output string stream.
+#else
+    istringstream *iss; // Output string stream.
+#endif
   };
   
 

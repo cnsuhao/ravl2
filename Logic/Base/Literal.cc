@@ -13,7 +13,7 @@
 #include "Ravl/Logic/LiteralIter.hh"
 #include "Ravl/Logic/State.hh"
 #include "Ravl/Assert.hh"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 #define DODEBUG 1
 #if DODEBUG

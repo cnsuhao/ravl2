@@ -16,7 +16,7 @@
 #include "Ravl/MeanCovariance3d.hh"
 #include "Ravl/MeanCovariance.hh"
 #include "Ravl/Matrix2d.hh"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 using namespace RavlN;
 

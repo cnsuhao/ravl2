@@ -10,16 +10,13 @@
 //! lib=RavlMath
 //! userlevel=Normal
 //! author="Radek Marik"
-//! date="26.02.1994"
+//! date="26/02/1994"
 //! docentry="Ravl.Math.Geometry.3D"
 //! rcsid="$Id$"
 
 #include "Ravl/Types.hh" //RealT
 #include "Ravl/Point3d.hh"
 #include "Ravl/Vector3d.hh"
-
-class ostream;
-class istream;
 
 namespace RavlN {
 
@@ -56,25 +53,32 @@ namespace RavlN {
     //:-=============================================-
     //: Access to the plane elements and conversions.
     
-    inline const Point3dC & Point() const;
+    inline const Point3dC & Point() const
+    { return *this; }
     // Access to the point of the constant object.
     
-    inline const Vector3dC & Vector1() const;
+    inline const Vector3dC & Vector1() const
+    { return vector1; }
     // Access to the first vector of the constant object.
     
-    inline const Vector3dC & Vector2() const;
+    inline const Vector3dC & Vector2() const
+    { return vector2; }
     // Access to the second vector of the constant object.
     
-    inline Point3dC & Point();
+    inline Point3dC & Point()
+    { return *this; }
     // Access to the point.
     
-    inline Vector3dC & Vector1();
+    inline Vector3dC & Vector1()
+    { return vector1; }
     // Access to the first vector.
     
-    inline Vector3dC & Vector2();
+    inline Vector3dC & Vector2()
+    { return vector2; }
     // Access to the second vector.
     
-    inline Vector3dC Normal() const;
+    inline Vector3dC Normal() const
+    { return vector1.Cross(vector2); }
     // Returns the normal of the plane.
     
     PlaneABCD3dC PlaneABCD3d() const;
@@ -99,7 +103,8 @@ namespace RavlN {
     // of this plane with the line 'l'. The coordinate system of the returned
     // point is determined by the point of the plane and its two vectors.
     
-    inline Point3dC Point(const RealT t1, const RealT t2) const;
+    inline Point3dC Point(const RealT t1, const RealT t2) const
+    { return Point() + vector1 * t1 + vector2 * t2; }
     // Returns the point of the plane: point + t1 * vector1 + t2 * vector2.
     
   private:
@@ -149,52 +154,12 @@ namespace RavlN {
   {}
   
   inline 
-  const Point3dC & 
-  PlanePVV3dC::Point() const
-  { return *this; }
-  
-  inline 
-  const Vector3dC & 
-  PlanePVV3dC::Vector1() const
-  { return vector1; }
-  
-  inline 
-  const Vector3dC & 
-  PlanePVV3dC::Vector2() const
-  { return vector2; }
-  
-  inline 
-  Point3dC & 
-  PlanePVV3dC::Point()
-  { return *this; }
-  
-  inline 
-  Vector3dC & 
-  PlanePVV3dC::Vector1()
-  { return vector1; }
-  
-  inline 
-  Vector3dC & 
-  PlanePVV3dC::Vector2()
-  { return vector2; }
-  
-  inline 
-  Vector3dC 
-  PlanePVV3dC::Normal() const
-  { return vector1.Cross(vector2); }
-  
-  inline 
   PlanePVV3dC & 
   PlanePVV3dC::UnitVectors() {
     vector1.Unit();
     vector2.Unit();
     return *this;
-  }
-  
-  inline 
-  Point3dC 
-  PlanePVV3dC::Point(const RealT t1, const RealT t2) const
-  { return Point() + vector1 * t1 + vector2 * t2; }
+  }  
   
 }
 

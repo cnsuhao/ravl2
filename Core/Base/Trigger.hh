@@ -18,6 +18,11 @@
 #include "Ravl/RCHandleV.hh"
 
 namespace RavlN {
+  //! userlevel=Develop
+  typedef void (*VoidFuncPtrT)();
+  //: Void function pointer.
+  
+  //:-
   
   //! userlevel=Develop
   //: Signal Event handle
@@ -32,7 +37,6 @@ namespace RavlN {
     
     virtual void Invoke();
     //: Trigger event.
-
   };
   
   //! userlevel=Normal

@@ -14,8 +14,8 @@
 #include "Ravl/GUI/Label.hh"
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/HashIter.hh"
+#include "Ravl/Stream.hh"
 #include <gtk/gtk.h>
-#include <iostream.h>
 
 #define DODEBUG 0
 #if DODEBUG

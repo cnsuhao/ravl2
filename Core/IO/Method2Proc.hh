@@ -67,7 +67,7 @@ namespace RavlN {
     : public DPProcessC<InT,OutT>
   {
   public:
-    DPMethod2ProcC(const ObjT &nobj,DPMethod2ProcBodyC<InT,OutT,ObjT>::FuncT func,bool stateless = true)
+    DPMethod2ProcC(const ObjT &nobj,typename DPMethod2ProcBodyC<InT,OutT,ObjT>::FuncT func,bool stateless = true)
       : DPProcessC<InT,OutT>(*new DPMethod2ProcBodyC<InT,OutT,ObjT>(nobj,func,stateless))
     {}
     //: Default constructor.

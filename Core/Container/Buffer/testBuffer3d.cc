@@ -9,13 +9,13 @@
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Buffer/testBuffer3d.cc"
 
+#include "Ravl/Stream.hh"
 #include "Ravl/Buffer3d.hh"
 #include "Ravl/SBfAcc3d.hh"
 #include "Ravl/RBfAcc3d.hh"
 #include "Ravl/BfAcc3Iter.hh"
 #include "Ravl/BfAcc3Iter2.hh"
 #include "Ravl/BfAcc3Iter3.hh"
-#include "Ravl/Stream.hh"
 
 using namespace RavlN;
 
@@ -44,9 +44,9 @@ int TestRangeBuffer() {
   IndexRangeC r3(3,4);
 #endif
   Buffer3dC<int> bf (r1.Size(),r2.Size(),r3.Size());
-  if(bf.Size1() != r1.Size()) return __LINE__;
-  if(bf.Size2() != r2.Size()) return __LINE__;
-  if(bf.Size3() != r3.Size()) return __LINE__;
+  if(bf.Size1() != (UIntT) r1.Size()) return __LINE__;
+  if(bf.Size2() != (UIntT) r2.Size()) return __LINE__;
+  if(bf.Size3() != (UIntT) r3.Size()) return __LINE__;
   
   //cerr << "Buffer at :" << ((void *) bf.Data().ReferenceElm()) << "\n";
   

@@ -11,8 +11,9 @@
 
 #include "Ravl/Threads/LaunchThread.hh"
 #include "Ravl/Threads/MessageQueue.hh"
+#include "Ravl/Stream.hh"
+
 #include <unistd.h>
-#include <iostream.h>
 
 using namespace RavlN;
 

@@ -13,7 +13,7 @@
 #include "Ravl/DList.hh"
 #include "Ravl/StrStream.hh"
 #include "Ravl/BinStream.hh"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 using namespace RavlN;
 

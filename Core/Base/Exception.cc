@@ -10,7 +10,6 @@
 //! file="Ravl/Core/Base/Exception.cc"
 
 #include "Ravl/Exception.hh"
-#include <iostream.h>
 
 #if RAVL_HAVE_ANSICPPHEADERS
 #include <iostream>

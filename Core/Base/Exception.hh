@@ -22,7 +22,7 @@
 #endif
 
 namespace RavlN {
-#if USE_GCC30
+#if USE_GCC3
   using namespace std;
 #endif
   

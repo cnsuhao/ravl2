@@ -19,9 +19,15 @@
 #include "Ravl/DP/SPort.hh"
 #include "Ravl/DP/SequenceIO.hh"
 #include "Ravl/CDLIter.hh"
-#include <iomanip.h>
+#include "Ravl/Stream.hh"
+
 #include <unistd.h>
-#include <stdio.h>
+#if RAVL_HAVE_ANSICPPHEADERS
+#include <iomanip>
+#else
+#include <iomanip.h>
+#endif
+
 
 namespace RavlImageN
 {

@@ -23,8 +23,8 @@
 #include "Ravl/RCHash.hh"
 #include "Ravl/HSet.hh"
 #include "Ravl/Option.hh"
-#include <string.h>
 
+#include <string.h>
 
 #if RAVL_HAVE_ANSICPPHEADERS
 #include <iostream>

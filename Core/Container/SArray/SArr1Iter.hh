@@ -4,15 +4,15 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLSARR1ITER_HEADER
-#define RAVLSARR1ITER_HEADER 1
+#ifndef RAVL_SARR1ITER_HEADER
+#define RAVL_SARR1ITER_HEADER 1
 ///////////////////////////////////////////////////
 //! docentry="Ravl.Core.Arrays.1D"
 //! rcsid="$Id$"
 //! file="Ravl/Core/Container/SArray/SArr1Iter.hh"
 //! lib=RavlCore
 //! author="Charles Galambos"
-//! date="10/09/98"
+//! date="10/09/1998"
 //! userlevel=Advanced
 
 #include "Ravl/SArray1d.hh"
@@ -30,7 +30,7 @@ namespace RavlN {
   {
   public:
     SArray1dIterC()
-      {}
+    {}
     //: Default constructor.
     
     SArray1dIterC(const SArray1dC<DataT> &arr);
@@ -44,15 +44,15 @@ namespace RavlN {
     //: Assignment to an array.
     
     inline void First()
-      { BufferAccessIterC<DataT>::First((SizeBufferAccessC<DataT> &)arr); }
+    { BufferAccessIterC<DataT>::First((SizeBufferAccessC<DataT> &)arr); }
     //: Goto first element in array.
     
     SArray1dC<DataT> &Array()
-      { return arr; }
+    { return arr; }
     //: Access array.
     
     IndexC Index() const
-      { return (IntT) (&Data() - &arr[0]); }   //: Get current index.
+    { return (IntT) (&Data() - &arr[0]); }   //: Get current index.
     // This is a little slow.
     
     bool IsFirst() const

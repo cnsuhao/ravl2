@@ -21,11 +21,9 @@
 #include "Ravl/InDList.hh"
 #include "Ravl/InDLIter.hh"
 #include "Ravl/RCHandleV.hh"
+#include "Ravl/Types.hh"
 
 #define RAVL_GRAPH_DEBUG 1
-
-class ostream;
-class istream;
 
 namespace RavlN {
   

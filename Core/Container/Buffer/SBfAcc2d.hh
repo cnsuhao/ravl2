@@ -18,10 +18,7 @@
 #include "Ravl/SBfAcc.hh"
 #include "Ravl/BfAcc2Iter.hh"
 #include "Ravl/Index2d.hh"
-#include <assert.h>
-
-class istream;
-class ostream;
+#include "Ravl/Types.hh"
 
 namespace RavlN {
   

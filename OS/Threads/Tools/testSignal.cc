@@ -19,15 +19,15 @@
 
 using namespace RavlN;
 
-int count = 0;
+int callcount = 0;
 
 bool test1() {
-  count++;
+  callcount++;
   return true;
 }
 
 bool test2() {
-  count += 2;
+  callcount += 2;
   return true;
 }
 
@@ -47,19 +47,19 @@ int main(int argc,char **argv)
   SignalConnectorC c2 = Connect(sig1,&test2);
 
   sig1();
-  if(count != 3) {
+  if(callcount != 3) {
     cerr<< "Signal test failed \n";
     return 1;
   }
   c1.Disconnect();
   sig1();
-  if(count != 5) {
+  if(callcount != 5) {
     cerr<< "Signal test failed \n";
     return 1;
   }
   SignalConnectorC c3 = Connect(sig1,&test2);
   sig1();
-  if(count != 9) {
+  if(callcount != 9) {
     cerr<< "Signal test failed \n";
     return 1;
   }
@@ -67,8 +67,8 @@ int main(int argc,char **argv)
   Connect(sig1,sig2);
   Connect(sig2,&test2);
   sig1();
-  if(count != 15) {
-    cerr<< "Signal test failed  " << count << "\n";
+  if(callcount != 15) {
+    cerr<< "Signal test failed  " << callcount << "\n";
     return 1;
   }
   

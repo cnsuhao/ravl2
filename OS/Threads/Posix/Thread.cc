@@ -16,7 +16,6 @@
 #include <unistd.h>
 #endif
 
-#include <iostream.h>
 #include <errno.h>
 
 #if defined(__sol2__)
@@ -30,6 +29,7 @@
 #include "Ravl/Threads/Thread.hh"
 #include "Ravl/Exception.hh"
 #include "Ravl/Assert.hh"
+#include "Ravl/Stream.hh"
 
 namespace RavlN {
   extern void IncPThreadSysDBLock();

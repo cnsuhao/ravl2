@@ -18,6 +18,7 @@
 
 #include "Ravl/BfAccIter.hh"
 #include "Ravl/Array2d.hh"
+#include "Ravl/Assert.hh"
 
 namespace RavlN {
   
@@ -59,7 +60,7 @@ namespace RavlN {
     //: Assign to another array.
 
     Index2dC Index() const { 
-      assert(dat.IsValid());
+      RavlAssert(dat.IsValid());
       return BufferAccess2dIterC<DataT>::Index(dat.ReferenceElm());
     }
     //: Get index of current location.

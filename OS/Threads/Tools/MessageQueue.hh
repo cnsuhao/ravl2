@@ -16,7 +16,13 @@
 
 #include "Ravl/Threads/Mutex.hh"
 #include "Ravl/Threads/Semaphore.hh"
+
+#if RAVL_HAVE_ANSICPPHEADERS
+#include <new>
+#else
 #include <new.h>
+#endif
+
 
 namespace RavlN
 {

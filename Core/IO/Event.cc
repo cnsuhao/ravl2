@@ -10,7 +10,7 @@
 //! file="Ravl/Core/IO/Event.cc"
 
 #include "Ravl/DP/Event.hh"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 namespace RavlN {
 

@@ -13,7 +13,7 @@
 //! file="Ravl/Core/Base/RCAbstract.cc"
 
 #include "Ravl/RCAbstract.hh"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 namespace RavlN {
   //: Dump info about handle

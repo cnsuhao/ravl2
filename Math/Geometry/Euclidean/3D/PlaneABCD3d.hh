@@ -12,14 +12,11 @@
 //! author="Radek Marik"
 //! docentry="Ravl.Math.Geometry.3D"
 //! rcsid="$Id$"
-//! date="06/08/95"
+//! date="06/08/1995"
 
-#include "Ravl/Types.hh" //RealT
+#include "Ravl/Types.hh"
 #include "Ravl/Vector3d.hh"
 #include "Ravl/Point3d.hh"
-
-class ostream;
-class istream;
 
 namespace RavlN {
 

@@ -12,10 +12,9 @@
 #include "Ravl/StdConst.hh"
 #include "Ravl/Quatern3d.hh"
 //#include "Ravl/Homtm.hh"
+#include "Ravl/Stream.hh"
 
-#include <iomanip.h>
-#include <iostream.h>
-#include <fstream.h>
+//#include <iomanip.h>
 
 
 namespace RavlN {
@@ -445,12 +444,6 @@ namespace RavlN {
     if (nr==2) return (Dq0q1Dq(q3, 1) * q1.Dq0q1Dq(q2, 1));
     cout << "Error: Wrong input in Quatern3dC::Dq0q1q2Dq. \n";
     return MatrixC();
-  }
-  
-  void Quatern3dC::KwikPrint(ostream & outS, int w, int p) const {
-    outS.precision(p);
-    outS << setw(w) << q[0] << " " << setw(w) << q[1] << " "
-	 << setw(w) << q[2] << " " << setw(w) << q[3];
   }
   
   void Quatern3dC::Print() const {

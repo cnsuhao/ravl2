@@ -12,10 +12,9 @@
 #include "Ravl/Threads/RWLock.hh"
 #include "Ravl/Threads/Thread.hh"
 #include "Ravl/Threads/Semaphore.hh"
+#include "Ravl/Stream.hh"
 
-#include <iostream.h>
 #include <stdlib.h>
-#include <assert.h>
 
 using namespace RavlN;
 

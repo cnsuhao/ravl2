@@ -11,7 +11,7 @@
 
 #include "Ravl/ScalMath.hh"
 #include "Ravl/StdConst.hh"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 namespace RavlN {
 #if !RAVL_NEW_ANSI_CXX_DRAFT

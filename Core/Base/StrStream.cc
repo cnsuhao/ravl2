@@ -9,17 +9,22 @@
 //! lib=RavlCore
 //! file="Ravl/Core/Base/StrStream.cc"
 
-#ifndef VISUAL_CPP
-#ifndef __sgi__
-#include <strstream>
+#include "Ravl/StrStream.hh"
+#include "Ravl/Calls.hh"
+
+#if RAVL_HAVE_ANSICPPHEADERS
+#if USE_GCC30
+#include <sstream>
 #else
-#include <strstream.h>
+#include <strstream>
 #endif
+#else
+#ifndef VISUAL_CPP
+#include <strstream.h>
 #else
 #include <strstrea.h>
 #endif
-#include "Ravl/StrStream.hh"
-#include "Ravl/Calls.hh"
+#endif
 
 namespace RavlN {
   
@@ -27,13 +32,22 @@ namespace RavlN {
   //: Default constructor.
 
   StrOStreamC::StrOStreamC()
-    : OStreamC(*(oss = new ostrstream()),true)
+    :
+#if !USE_GCC3
+    OStreamC(*(oss = new ostrstream()),true)
+#else
+    OStreamC(*(oss = new ostringstream()),true)
+#endif
   {}
 
   //: Get the number of bytes written so far.
   
   UIntT StrOStreamC::Size() const {
+#if !USE_GCC3
     return oss->pcount();
+#else
+    return oss->str().size();
+#endif
   }
   
   ///////////////////
@@ -41,12 +55,16 @@ namespace RavlN {
   // NB. This does NOT clean the buffer.
   
   StringC StrOStreamC::String() {
-    UIntT count =  oss->pcount();
-    char *data = oss->str(); 
+    UIntT count = Size();
+#if USE_GCC3
+    const char *data = oss->str().data();
+#else
+    const char *data = &(oss->str()[0]); 
+#endif
     // This is a bit ugly, we have to copy the 
     // string into another buffer.
-    StringC ret(data,count,count);
-    delete [] data; // Free buffer.
+    StringC ret(data,count,count); // It would be nice to avoid this copy!!
+    //delete [] data; // Free buffer.
     return ret;
   }
   
@@ -55,12 +73,17 @@ namespace RavlN {
   //: Default constructor.
   
   StrIStreamC::StrIStreamC(const StringC &dat)
+    :
+#if !USE_GCC3
 #ifdef VISUAL_CPP
-    : IStreamC(*(iss = new istrstream(const_cast<char *>(dat.chars()),dat.length())),true),
+    IStreamC(*(iss = new istrstream(const_cast<char *>(dat.chars()),dat.length())),true),
 #else
-    : IStreamC(*(iss = new istrstream(dat.chars(),dat.length())),true),
+    IStreamC(*(iss = new istrstream(dat.chars(),dat.length())),true),
 #endif
-      buff(dat)
+#else
+    IStreamC(*(iss = new istringstream(string(dat.chars(),dat.length()))),true),
+#endif
+    buff(dat)
   {}
 }
 

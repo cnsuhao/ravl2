@@ -4,21 +4,19 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_LINEPV3d_HH
-#define RAVL_LINEPV3d_HH
+#ifndef RAVL_LINEPV3D_HEADER
+#define RAVL_LINEPV3D_HEADER
 /////////////////////////////////////////////////////////////////////////
 //! userlevel=Normal
 //! author="Radek Marik"
 //! docentry="Ravl.Math.Geometry.3D"
 //! rcsid="$Id$"
-//! date="06/08/95"
+//! date="06/08/1995"
 //! lib=RavlMath
 
 #include "Ravl/Point3d.hh"
 #include "Ravl/Vector3d.hh"
-
-class ostream;
-class istream;
+#include "Ravl/Types.hh"
 
 namespace RavlN {
 
@@ -33,8 +31,8 @@ namespace RavlN {
   {
   public:
   
+    //:----------------------------------------------
     // Constructors, assigment, copy, and destructor.
-    // ----------------------------------------------
     
     inline LinePV3dC()
       : point(0, 0, 0), direction(0, 0, 0)
@@ -53,8 +51,8 @@ namespace RavlN {
     //: Creates the line passing through the point 'a' and with
     //: the direction 'v'.
     
+    //:-------------------------------
     // Access to elements of the line.
-    // -------------------------------
     
     inline const Point3dC & FirstPoint() const
     { return point; }
@@ -85,13 +83,14 @@ namespace RavlN {
     // The end point of the returned line is determined by the sum of the
     // start point and the direction vector of this line.
     
+    //:-------------------------
     // Geometrical computations.
-    // -------------------------
     
     RealT Distance(const LinePV3dC & line);
     //: Returns the shortest distance between the lines. 
-  
-    inline RealT Distance(const Point3dC & p) const;
+    
+    inline RealT Distance(const Point3dC & p) const
+    { return  Vector().Cross(FirstPoint() - p).Magnitude() / Vector().Magnitude(); }
     //: Returns the distance of the point 'p' from this line.
     
     LinePV3dC ShortestLine(const LinePV3dC & line) const;
@@ -104,7 +103,7 @@ namespace RavlN {
     //: Returns the point which belongs to both lines. 
     // If the lines have no intersection, the function returns the point which
     // lies in the middle of the shortest line segment between both lines.
-
+    
 #if 0    
     LinePV3dC ProjectionInto(const PlaneABCD3dC & p) const;
     // Returns the line which is the orthogonal projection of this
@@ -122,12 +121,6 @@ namespace RavlN {
   
   istream & operator>>(istream & inS, LinePV3dC & line);
   // Sets the 'line' according to data read from the input stream.
-  
-  inline 
-  RealT LinePV3dC::Distance(const Point3dC & p) const {
-    return  Vector().Cross(FirstPoint() - p).Magnitude()
-      /Vector().Magnitude();
-  }
   
 }
 

@@ -96,7 +96,7 @@ namespace Ravl3DN {
     //: Look for a connection from this vertex to oth.
     // Returns an invalid handle if ones is not found.
     
-    HEMeshEdgeC FirstEdge() const;
+    inline HEMeshEdgeC FirstEdge() const;
     //: Access edge.
     
   protected:
@@ -110,8 +110,8 @@ namespace Ravl3DN {
     {}
     //: Construct a new vetrex from a vertex
     
-    HEMeshVertexC(HEMeshVertexBodyC *nbody)
-      : body(nbody)
+    HEMeshVertexC(HEMeshVertexBodyC &nbody)
+      : body(&nbody)
     {}
     //: Construct from pointer.
     

@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLStringList_HH
-#define RAVLStringList_HH
+#ifndef RAVL_STRINGLIST_HEADER
+#define RAVL_STRINGLIST_HEADER
 ////////////////////////////////////////////////////////////////////////
 //! file="Ravl/Core/System/StringList.hh"
 //! lib=RavlCore
@@ -13,13 +13,14 @@
 //! author="Bill Christmas"
 //! docentry="Ravl.Core.Lists"
 //! rcsid="$Id$"
-//! date="12/07/96"
+//! date="12/07/1996"
 
-#include <iostream.h>
 #include "Ravl/String.hh"
 #include "Ravl/DList.hh"
  
 namespace RavlN {
+  
+  //! userlevel=Normal
   //: List of StringC's
   
   class StringListC 

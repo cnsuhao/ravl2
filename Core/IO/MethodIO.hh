@@ -125,7 +125,7 @@ namespace RavlN {
     {}
     //: Default constructor.
     
-    inline DPOMethodC(const ObjT &nobj,DPOMethodBodyC<DataT,ObjT>::Func1T meth)
+    inline DPOMethodC(const ObjT &nobj,typename DPOMethodBodyC<DataT,ObjT>::Func1T meth)
       : DPEntityC(*new DPOMethodBodyC<DataT,ObjT>(nobj,meth))
     {}
     //: Constructor.
@@ -145,7 +145,7 @@ namespace RavlN {
     {}
     //: Default constructor.
     
-    inline DPIMethodC(const ObjT &nobj,DPIMethodBodyC<DataT,ObjT>::Func1T meth)
+    inline DPIMethodC(const ObjT &nobj,typename DPIMethodBodyC<DataT,ObjT>::Func1T meth)
       : DPEntityC(*new DPIMethodBodyC<DataT,ObjT>(nobj,meth))
     {}
     //: Constructor.

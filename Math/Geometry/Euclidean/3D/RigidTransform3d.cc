@@ -7,9 +7,8 @@
 //! rcsid="$Id$"
 //! lib=RavlMath
 
-
 #include "Ravl/RigidTransform3d.hh"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 namespace RavlN {
 

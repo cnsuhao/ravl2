@@ -49,7 +49,7 @@ namespace RavlImageN {
   ImageC<DataT> HistogramEqualiseC<DataT>::Apply (const ImageC<DataT> &in) {
     // Build the histogram.
     
-    Array1dC<RealT> pr(minValue,maxValue);
+    Array1dC<RealT> pr((IntT) Floor(minValue),(IntT) Floor(maxValue));
     pr.Fill(0.0);
     for(Array2dIterC<DataT> it(in);it;it++)
       pr[Floor(*it)]++;
@@ -60,7 +60,7 @@ namespace RavlImageN {
     RealT n = (RealT) in.Frame().Area();
     RealT sum = 0.0;
     DataT diff = maxValue - minValue;
-    Array1dC<DataT> tr(minValue,maxValue);
+    Array1dC<DataT> tr((IntT) Floor(minValue),(IntT) Floor(maxValue));
     for(Array1dIter2C<DataT,RealT> it(tr,pr);it;it++) {
       RealT val = it.Data2();
       it.Data1() = (DataT) (sum * diff) + minValue;

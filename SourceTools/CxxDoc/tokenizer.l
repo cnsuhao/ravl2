@@ -3,13 +3,13 @@
 
 %{
 
+  #include "Ravl/Stream.hh"
   #include "Ravl/CxxDoc/Object.hh"
   #include "Ravl/CxxDoc/Strings.hh"
    
   #define YYSTYPE RavlCxxDocN::ObjectC
 
   #include <stdlib.h>
-  #include <iostream.h>
   #include "cxx.tab.h"
   #include "FlexLexer.h"
 
@@ -22,7 +22,7 @@
   class MyLexer : public yyFlexLexer
   {
     public:
-    char *gettext() {return yytext;};
+       char *gettext() { return yytext; };
   };
 
   namespace RavlCxxDocN {

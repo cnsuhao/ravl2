@@ -12,20 +12,19 @@
 #include "Ravl/Threads/TickerTrigger.hh"
 #include "Ravl/Atomic.hh"
 #include "Ravl/OS/DeadLineTimer.hh"
-
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 using namespace RavlN;
 
-ravl_atomic_t count;
+ravl_atomic_t callcount;
 
 class ExampleC
 {
 public: 
   bool DoIt()
     {
-      ravl_atomic_inc(&count);
-      //cerr << "Done " << dec << atomic_read(&count) << ". \n";
+      ravl_atomic_inc(&callcount);
+      //cerr << "Done " << dec << atomic_read(&callcount) << ". \n";
       return true;
     }  
 };
@@ -34,7 +33,7 @@ int main()
 {
 
   cerr << "Starting tick test. \n";
-  ravl_atomic_set(&count,0);
+  ravl_atomic_set(&callcount,0);
   
   ExampleC ae;
   
@@ -46,7 +45,7 @@ int main()
   DeadLineTimerC dlt(10.0);
   dlt.WaitForIt();
   
-  int result = ravl_atomic_read(&count);
+  int result = ravl_atomic_read(&callcount);
   int targ = 100;
   cerr << "Result : " << result << "  Target:" << targ << "\n";
   

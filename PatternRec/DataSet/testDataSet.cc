@@ -18,7 +18,7 @@
 #include "Ravl/PatternRec/SampleIter.hh"
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/OS/Date.hh"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 using namespace RavlN;
 

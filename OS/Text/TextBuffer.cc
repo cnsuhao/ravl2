@@ -14,9 +14,8 @@
 #include "Ravl/Text/TextBuffer.hh"
 #include "Ravl/CDLIter.hh"
 #include "Ravl/OS/Filename.hh"
-#include <iostream.h>
-#include <fstream.h>
-#include <stdio.h>
+#include "Ravl/Stream.hh"
+
 #include <ctype.h>
 
 #define DODEBUG 0
@@ -52,7 +51,7 @@ namespace RavlN {
   
   bool TextBufferBodyC::AppendFile(const StringC &nFilename)  {
     ONDEBUG(cerr << "TextBufferBodyC::AppendFile(), Asked to append '" << nFilename << "' \n");
-    ifstream fin(nFilename);
+    IStreamC fin(nFilename);
     if(!fin)
       return false;
     return Append(fin);
@@ -149,7 +148,7 @@ namespace RavlN {
 	return false;
       }
     }
-    ofstream fout(nFilename);
+    OStreamC fout(nFilename);
     if(!fout)
       return false;
     for(DLIterC<TextFileLineC> It(lines);It.IsElm();It.Next())

@@ -22,8 +22,7 @@
 #include "Ravl/SArr1Iter.hh"
 #include "Ravl/Tuple2.hh"
 #include "Ravl/StdHash.hh"
-
-#include <iostream.h>
+#include "Ravl/Types.hh"
 
 #define HASHC_DEBUG 0
 

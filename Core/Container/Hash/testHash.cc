@@ -6,17 +6,16 @@
 // file-header-ends-here
 ///////////////////////////////////////////////////
 //! rcsid="$Id$"
-//! author=Charles Galambos
+//! author="Charles Galambos"
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Hash/testHash.cc"
 
 #include "Ravl/Hash.hh"
 #include "Ravl/BiHash.hh"
 #include "Ravl/HashIter.hh"
-#include <iostream.h>
-#include <stdlib.h>
 #include "Ravl/String.hh"
 #include "Ravl/BinStream.hh"
+#include "Ravl/Stream.hh"
 
 using namespace RavlN;
 

@@ -11,16 +11,13 @@
 //! lib=RavlCore
 //! userlevel=Normal
 //! author="Radek Marik"
-//! date="26.01.1994"
+//! date="26/01/1994"
 //! example=exComplx.cc
 //! docentry="Ravl.Core.Math"
 //! rcsid="$Id$"
 
 #include "Ravl/Types.hh"
 #include "Ravl/StdMath.hh"
-
-class ostream;
-class istream;
 
 namespace RavlN {
   

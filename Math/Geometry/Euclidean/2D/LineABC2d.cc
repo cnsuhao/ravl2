@@ -8,7 +8,7 @@
 //! lib=RavlMath
 
 #include "Ravl/LineABC2d.hh"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 namespace RavlN {
 

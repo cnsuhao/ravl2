@@ -9,8 +9,8 @@
 //! lib=RavlCore
 //! file="Ravl/Core/Base/Index.cc"
 
-#include <iostream.h>
 #include "Ravl/Index.hh"
+#include "Ravl/Stream.hh"
 
 namespace RavlN {
   istream & operator>>(istream & sss, IndexC & i) { 

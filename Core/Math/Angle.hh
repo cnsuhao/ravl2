@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLANGLE_HEADER
-#define RAVLANGLE_HEADER 1
+#ifndef RAVL_ANGLE_HEADER
+#define RAVL_ANGLE_HEADER 1
 ////////////////////////////////////////////////////////
 //! file="Ravl/Core/Math/Angle.hh"
 //! lib=RavlCore
@@ -13,12 +13,11 @@
 //! author="Charles Galambos"
 //! docentry="Ravl.Core.Math"
 //! rcsid="$Id$"
-//! date="09/02/98"
+//! date="09/02/1998"
 
 #include "Ravl/StdConst.hh"
 #include "Ravl/StdMath.hh"
-
-class ostream;
+#include "Ravl/Types.hh"
 
 namespace RavlN {
 
@@ -29,28 +28,45 @@ namespace RavlN {
   
   class AngleC {
   public:
-    inline AngleC(RealT anglerad = 0,RealT maxval = RavlConstN::pi * 2);
+    inline AngleC(RealT anglerad = 0,RealT maxval = RavlConstN::pi * 2)
+      : angle(anglerad),
+	max(maxval)
+    { Normalise(); }
     //: Construct from value in radians.
     // maxval is angle to wrap around at. 
     //  for directed lines this should be 2*pi.
     //  for undirected lines is should be pi.
     
-    void Restrict(RealT newMax);
+    void Restrict(RealT newMax) {
+      max = newMax;
+      Normalise();
+    }
     //: Restrict angle to values between 0 and newMax.
     
-    inline void Normalise();
+    inline void Normalise()
+    { angle -= Floor(angle/max) * max; }
     //: Normalise the angle.
     
-    inline AngleC operator- (const AngleC &val) const;
+    inline AngleC operator- (const AngleC &val) const
+    { return AngleC(angle - val.angle,max); }
     //: Subtract angles.
     
-    inline AngleC operator+ (const AngleC &val) const;
+    inline AngleC operator+ (const AngleC &val) const
+    { return AngleC(angle + val.angle,max); }
     //: Add angles.
     
-    inline const AngleC &operator-= (const AngleC &val) ;
+    inline const AngleC &operator-= (const AngleC &val) {
+      angle -= val.angle;
+      Normalise();
+      return *this;
+    }
     //: Subtract angles.
     
-    inline const AngleC &operator+= (const AngleC &val) ;
+    inline const AngleC &operator+= (const AngleC &val)  {
+      angle += val.angle;
+      Normalise();
+      return *this;
+    }
     //: Add angles.
     
     inline RealT Diff(const AngleC &val) const;
@@ -76,34 +92,6 @@ namespace RavlN {
     RealT max;
   };
   
-  /////////////////////////////////////////////
-  
-  inline 
-  void AngleC::Normalise() {
-    angle -= Floor(angle/max) * max;
-  }
-  
-  inline 
-  AngleC::AngleC(RealT anglerad,RealT maxval) 
-    : angle(anglerad),
-      max(maxval)
-  { Normalise(); }
-  
-  inline
-  void AngleC::Restrict(RealT newMax) {
-    max = newMax;
-    Normalise();
-  }
-  
-  inline 
-  AngleC AngleC::operator- (const AngleC &val) const {
-    return AngleC(angle - val.angle,max);
-  }
-  
-  inline 
-  AngleC AngleC::operator+ (const AngleC &val) const {
-    return AngleC(angle + val.angle,max);
-  }
   
   inline 
   RealT AngleC::Diff(const AngleC &val) const {
@@ -118,19 +106,6 @@ namespace RavlN {
     return ret;
   }
   
-  inline 
-  const AngleC &AngleC::operator-= (const AngleC &val) {
-    angle -= val.angle;
-    Normalise();
-    return *this;
-  }
-  
-  inline
-  const AngleC &AngleC::operator+= (const AngleC &val) {
-    angle += val.angle;
-    Normalise();
-    return *this;
-  }
 }
 
 

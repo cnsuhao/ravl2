@@ -30,7 +30,6 @@ namespace RavlN {
     : public TriggerBodyC
   {
   public:
-    typedef RetT (*VoidFuncPtrT)();
     
     CallFunc0BodyC(VoidFuncPtrT nfunc)
       : func(nfunc)
@@ -38,7 +37,7 @@ namespace RavlN {
     //: Constructor.
     
     CallFunc0BodyC(bool issueErrorOnCall) {
-      cerr << "CallFunc0BodyC(bool issueErrorOnCall), Called. \n";
+      //cerr << "CallFunc0BodyC(bool issueErrorOnCall), Called. \n";
       if(issueErrorOnCall)
 	func = (VoidFuncPtrT) &CallFunc0BodyC<RetT>::IssueError;
       else
@@ -224,7 +223,7 @@ namespace RavlN {
     //: Error function.
     
   protected:
-    CallFunc1BodyC(RetT (*nfunc)(),const DataT &ndat)
+    CallFunc1BodyC(void (*nfunc)(),const DataT &ndat)
       : CallFunc0BodyC<RetT>(nfunc),
 	dat1(ndat)
       {}
@@ -380,7 +379,7 @@ namespace RavlN {
     //: Copy call.
     
   protected:
-    CallFunc2BodyC(RetT (*nfunc)(),const Data1T &ndat1,const Data2T &ndat2)
+    CallFunc2BodyC(void (*nfunc)(),const Data1T &ndat1,const Data2T &ndat2)
       : CallFunc1BodyC<Data1T,RetT>(nfunc,ndat1),
 	dat2(ndat2)
       {}
@@ -563,7 +562,7 @@ namespace RavlN {
     //: Error function.
     
   protected:
-    CallFunc3BodyC(RetT (*nfunc)(),const Data1T &ndat1,const Data2T &ndat2,const Data3T &ndat3)
+    CallFunc3BodyC(void (*nfunc)(),const Data1T &ndat1,const Data2T &ndat2,const Data3T &ndat3)
       : CallFunc2BodyC<Data1T,Data2T,RetT>((VoidFuncPtrT) nfunc,ndat1,ndat2),
 	dat3(ndat3)
       {}
@@ -727,7 +726,7 @@ namespace RavlN {
     //: Copy call.
     
   protected:
-    CallFunc4BodyC(RetT (*nfunc)(),const Data1T &ndat1,const Data2T &ndat2,const Data3T &ndat3,const Data4T &ndat4)
+    CallFunc4BodyC(void (*nfunc)(),const Data1T &ndat1,const Data2T &ndat2,const Data3T &ndat3,const Data4T &ndat4)
       : CallFunc3BodyC<Data1T,Data2T,Data3T,RetT>((VoidFuncPtrT) nfunc,ndat1,ndat2,ndat3),
 	dat4(ndat4)
       {}
@@ -913,7 +912,7 @@ namespace RavlN {
     //: Copy call.
     
   protected:
-    CallFunc5BodyC(RetT (*nfunc)(),
+    CallFunc5BodyC(void (*nfunc)(),
 		   const Data1T &ndat1,
 		   const Data2T &ndat2,
 		   const Data3T &ndat3,

@@ -15,11 +15,9 @@
 //! lib=RavlMath
 //! file="Ravl/Math/Statistics/MeanCovariance/MeanCovarianceNd.hh"
 
+#include "Ravl/Types.hh"
 #include "Ravl/MeanNd.hh"
 #include "Ravl/Matrix.hh"
-
-class istream;
-class ostream;
 
 namespace RavlN {
   

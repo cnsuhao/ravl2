@@ -17,7 +17,7 @@
 #include "Ravl/Image/UInt16RGBValue.hh"
 #include "Ravl/Stream.hh"
 
-#include <stdio.h>
+//#include <stdio.h>
 #include <setjmp.h>
 
 #define DODEBUG 1
@@ -26,6 +26,8 @@
 #else
 #define ONDEBUG(x)
 #endif
+
+using namespace RavlN;
 
 ///// Some 'C' IO interface routines. /////////////////////////////////////
 
@@ -37,7 +39,7 @@ extern "C" {
 
 void my_png_filein(png_structp png_ptr, png_bytep data, png_size_t length) {
   RavlN::IStreamC &is = *((RavlN::IStreamC *)png_get_io_ptr(png_ptr));
-  assert(is.good());
+  RavlAssert(is.good());
   is.read((char *) data,(streamsize) length);
   if(!is.good())
     png_error(png_ptr, "Read Error");  
@@ -45,7 +47,7 @@ void my_png_filein(png_structp png_ptr, png_bytep data, png_size_t length) {
 
 void my_png_fileout(png_structp png_ptr, png_bytep data, png_size_t length) {
   RavlN::OStreamC &os = *((RavlN::OStreamC *)png_get_io_ptr(png_ptr));
-  assert(os.good());
+  RavlAssert(os.good());
   os.write((const char *) data,(streamsize) length);
   if(!os.good())
     png_error(png_ptr, "Write Error");  
@@ -274,7 +276,7 @@ namespace RavlImageN {
     ONDEBUG(cerr << "Width:" << width << " Height:" << height << " ReqBitDepth:" << req_bit_depth <<  " Channels:" << req_chan << "\n");
     ONDEBUG(cerr << "Row bytes " << png_get_rowbytes(png_ptr, info_ptr) << " Expected:" << (width * (req_bit_depth/8) * req_chan) << "\n");
     // Check the configuration is at least roughly right!!
-    assert(png_get_rowbytes(png_ptr, info_ptr)  == (width * (req_bit_depth/8) * req_chan));
+    RavlAssert(png_get_rowbytes(png_ptr, info_ptr)  == (width * (req_bit_depth/8) * req_chan));
     
     return true;
   }

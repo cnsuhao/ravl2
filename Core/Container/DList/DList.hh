@@ -389,7 +389,7 @@ namespace RavlN {
     { Body().MoveLast(at); }
     //: Move the single item 'at' to the end of this list.
     
-    void MergeSort(DListBodyC<DataT>::MergeSortCmpT cmp)
+    void MergeSort(typename DListBodyC<DataT>::MergeSortCmpT cmp)
     { Body().MergeSort(cmp); }
     //: Merge sort the list with comparison function 'cmp'.
 

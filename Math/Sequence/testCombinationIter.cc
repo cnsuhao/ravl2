@@ -10,7 +10,7 @@
 //! file="Ravl/Math/Sequence/testCombinationIter.cc"
 
 #include "Ravl/CombinationIter.hh"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 using namespace RavlN;
 

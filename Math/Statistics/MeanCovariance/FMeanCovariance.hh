@@ -10,16 +10,14 @@
 //! rcsid="$Id$"
 //! userlevel=Normal
 //! author="Radek Marik"
-//! date="01.01.1994"
+//! date="01/01/1994"
 //! docentry="Ravl.Math.Statistics"
 //! lib=RavlMath
 //! file="Ravl/Math/Statistics/MeanCovariance/MeanCovarianceNd.hh"
 
+#include "Ravl/Types.hh"
 #include "Ravl/FMean.hh"
 #include "Ravl/FMatrix.hh"
-
-class istream;
-class ostream;
 
 namespace RavlN {
   

@@ -10,8 +10,7 @@
 //! file="Ravl/OS/Network/NetMessage.cc"
 
 #include "Ravl/OS/NetMessage.hh"
-#include <iostream.h>
-#include <assert.h>
+#include "Ravl/Stream.hh"
 
 namespace RavlN
 {

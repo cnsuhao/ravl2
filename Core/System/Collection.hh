@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLCOLLECTION_HEADER
-#define RAVLCOLLECTION_HEADER 1
+#ifndef RAVL_COLLECTION_HEADER
+#define RAVL_COLLECTION_HEADER 1
 //////////////////////////////////////////////////////
 //! rcsid=$Id$
 //! docentry="Ravl.Core.Misc"
@@ -32,7 +32,7 @@ namespace RavlN {
   public:
     CollectionBodyC(SizeT maxSize = 10)
       : data(maxSize+1),
-      n(0)
+	n(0)
     {}
     //: Create an empty collection.
     // maxSize should be set to maximum number of 
@@ -40,7 +40,7 @@ namespace RavlN {
     
     CollectionBodyC(const SArray1dC<DataT> &dat)
       : data(dat),
-      n(dat.Size())
+	n(dat.Size())
     {}
     //: Create a collection from an array of data.
     
@@ -167,7 +167,7 @@ namespace RavlN {
     //: Create a collection from an array of data.
     
     CollectionC<DataT> Copy() const
-      { return Body().Copy(); }
+    { return Body().Copy(); }
     //: Create a copy of this collection.
     
     inline
@@ -187,7 +187,7 @@ namespace RavlN {
     // held on the collection.
 
     void operator+=(const DataT &dat)
-      { Body().Insert(dat); }
+    { Body().Insert(dat); }
     //: Add data item to the collection.
     //  NB. This may cause the storage array to 
     // be reallocated which will invalidate any iterators
@@ -206,7 +206,7 @@ namespace RavlN {
     //: Create a shuffled version of this collection.
     
     void ShuffleIP()
-      { Body().ShuffleIP(); }
+    { Body().ShuffleIP(); }
     //: Shuffle collection in place.
     
     void Merge(const CollectionC<DataT> &x)
@@ -259,11 +259,11 @@ namespace RavlN {
     // 'ne' may be bigger than the size of this collection.
     
     DataT &operator[](IndexC ind)
-      { return Body().operator[](ind); }
+    { return Body().operator[](ind); }
     //: Array style access.
     
     const DataT &operator[](IndexC ind) const
-      { return Body().operator[](ind); }
+    { return Body().operator[](ind); }
     //: Array style access.
     
     typedef CollectionIterC<DataT> IteratorT;
@@ -294,7 +294,7 @@ namespace RavlN {
   inline
   UIntT CollectionBodyC<DataT>::Insert(const DataT &dat) {
     if(n >= data.Size())
-      data = data.Copy(data.Size() * 2); // Double the size of the collection.
+      data = data.Copy((UIntT) data.Size() * 2); // Double the size of the collection.
     int i = n;
     data[n++] = dat;
     return i;

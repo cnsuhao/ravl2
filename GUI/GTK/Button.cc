@@ -13,7 +13,7 @@
 #include "Ravl/GUI/Button.hh"
 #include "Ravl/GUI/Window.hh"
 #include "Ravl/GUI/Manager.hh"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 #include <gtk/gtk.h>
 
 #define DODEBUG 0

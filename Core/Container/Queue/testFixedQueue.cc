@@ -10,7 +10,7 @@
 //! file="Ravl/Core/Container/Queue/testFixedQueue.cc"
 
 #include "Ravl/FixedQueue.hh"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 using namespace RavlN;
 

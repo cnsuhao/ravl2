@@ -9,10 +9,10 @@
 //! lib=RavlOS
 //! file="Ravl/OS/Text/exConfigFile.cc"
 
-#include <iostream.h>
 #include "Ravl/Text/ConfigFile.hh"
 #include "Ravl/EntryPnt.hh"
 #include "Ravl/Option.hh"
+#include "Ravl/Stream.hh"
 
 using namespace RavlN;
 

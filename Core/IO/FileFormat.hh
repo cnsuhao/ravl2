@@ -4,15 +4,15 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLFILEFORMAT_HEADER
-#define RAVLFILEFORMAT_HEADER 1
+#ifndef RAVL_FILEFORMAT_HEADER
+#define RAVL_FILEFORMAT_HEADER 1
 //////////////////////////////////////////////////
 //! example=exFileFormat.cc
 //! docentry="Ravl.Core.IO.Formats" 
 //! lib=RavlIO
 //! file="Ravl/Core/IO/FileFormat.hh"
 //! author="Charles Galambos"
-//! date="13/08/98"
+//! date="13/08/1998"
 //! rcsid="$Id$"
 //! userlevel=Default
 
@@ -261,7 +261,7 @@ namespace RavlN {
     inline const FileFormatBodyC &Body() const
       { return static_cast<const FileFormatBodyC &>(DPEntityC::Body()); }
     
-    friend FileFormatBodyC;
+    friend class FileFormatBodyC;
   };
   
   //////////////////////////////////////////////////
@@ -408,7 +408,7 @@ namespace RavlN {
 
   inline 
   DPIPortBaseC FileFormatBaseC::CreateInput(IStreamC &in,const type_info &obj_type) const
-{ return Body().CreateInput(in,obj_type); }
+  { return Body().CreateInput(in,obj_type); }
   
   inline
   DPOPortBaseC FileFormatBaseC::CreateOutput(OStreamC &out,const type_info &obj_type) const 

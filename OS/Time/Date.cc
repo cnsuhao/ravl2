@@ -191,11 +191,7 @@ namespace RavlN {
     char buff[50];
     time_t s = (time_t) sec;
     StringC ret;
-#if defined(__sol2__) && !defined(NEWGCC)
-    ret = StringC(ctime_r(&s,buff,49));
-#else
     ret = StringC(ctime_r(&s,buff));
-#endif
     ret.del("\n"); // Get rid of return.
     return ret;
   }

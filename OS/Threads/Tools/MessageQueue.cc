@@ -5,13 +5,12 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 /////////////////////////////////////////////////////////////////////
-// $Id$
 //! rcsid="$Id$"
 //! lib=RavlThreads
 //! file="Ravl/OS/Threads/Tools/MessageQueue.cc"
 
 #include "Ravl/Threads/MessageQueue.hh"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 namespace RavlN {
   void MessageQueueBaseC::Dump(void) const {

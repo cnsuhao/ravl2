@@ -17,9 +17,9 @@
 
 #include "Ravl/Assert.hh"
 #include "Ravl/Math.hh"
+#include "Ravl/Types.hh"
 
 namespace RavlN {
-  
   class BinIStreamC;
   class BinOStreamC;
   

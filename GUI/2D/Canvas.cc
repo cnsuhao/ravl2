@@ -13,8 +13,9 @@
 #include "Ravl/GUI/MouseEvent.hh"
 #include "Ravl/GUI/Manager.hh"
 #include "Ravl/CallMethodRefs.hh"
+#include "Ravl/Stream.hh"
+
 #include <gtk/gtk.h>
-#include <iostream.h>
 
 #define DODEBUG 0
 #if DODEBUG

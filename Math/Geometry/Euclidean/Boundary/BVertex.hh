@@ -4,14 +4,14 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVL_BVERTEX_HH
-#define RAVL_BVERTEX_HH
+#ifndef RAVL_BVERTEX_HEADER
+#define RAVL_BVERTEX_HEADER
 /////////////////////////////////////////////////////////////////////////
 //! file="Ravl/Geometry/Boundary/BVertex.hh"
 //! lib=RavlMath
 //! userlevel=Normal
 //! author="Radek Marik"
-//! date="26.06.1994"
+//! date="26/06/1994"
 //! docentry="Ravl.Math.Geometry.2D.Boundry"
 //! rcsid="$Id$"
 
@@ -29,7 +29,7 @@ namespace RavlN {
   //
   //<pre>
   //        [i,j] <------------ [i,j+1]
-  //        |                    /^\       
+  //        |                    /^\         .
   //        |      (i,j)          |       
   //        V                     |       
   //       [i+1,j] ---------> [i+1, j+1]

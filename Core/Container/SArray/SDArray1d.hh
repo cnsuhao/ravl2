@@ -4,21 +4,26 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLSDArray1d_HEADER
-#define RAVLSDArray1d_HEADER 1
+#ifndef RAVL_SDARRAY1D_HEADER
+#define RAVL_SDARRAY1D_HEADER 1
 /////////////////////////////////////////////////////////////
 //! file="Ravl/Core/Container/SArray/SDArray1d.hh"
 //! lib=RavlCore
 //! userlevel=Advanced
 //! author="Charles Galambos"
-//! date="4/9/96"
+//! date="4/9/1996"
 //! docentry="Ravl.Core.Arrays.1D"
 //! rcsid="$Id$"
 
 #include "Ravl/Types.hh"
 #include "Ravl/Index.hh"
 #include "Ravl/Assert.hh"
+
+#if RAVL_HAVE_ANSICPPHEADERS
+#include <new>
+#else
 #include <new.h>
+#endif
 
 namespace RavlN {
   

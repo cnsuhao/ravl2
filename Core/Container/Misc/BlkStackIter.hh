@@ -82,7 +82,7 @@ namespace RavlN {
     
     
   protected:
-    BlkStackC<DataT>::SBlkC *block;
+    typename BlkStackC<DataT>::SBlkC *block;
     DataT *at;
     DataT *bob;
   };

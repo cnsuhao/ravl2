@@ -29,7 +29,7 @@ MKDEPUP = echo -n '$$(INST_OBJS)/' > $(INST_DEPEND)/$*.d ; cat $(WORKTMP)/$*.d  
 
 CFLAGS   = -Wall -pipe 
 CCFLAGS  =  -pipe 
-CCPPFLAGS= -DGNU -D__$(ARC)__ -Dunix -DNEWGCC
+CCPPFLAGS= -DGNU -D__$(ARC)__ -Dunix 
 CPPFLAGS = -DGNU -D__$(ARC)__ -Dunix
 LDFLAGS = 
 PAR_MAKE = 

@@ -158,7 +158,7 @@ namespace RavlN {
     : public SignalConnectorC
   {
   public:
-    Signal2FuncC(Signal0C &from,Signal2FuncBodyC<Data1T,Data2T>::Func2T nFunc,const Data1T &def1 = Data1T(),const Data2T &def2 = Data2T())
+    Signal2FuncC(Signal0C &from,typename Signal2FuncBodyC<Data1T,Data2T>::Func2T nFunc,const Data1T &def1 = Data1T(),const Data2T &def2 = Data2T())
       : SignalConnectorC(*new Signal2FuncBodyC<Data1T,Data2T>(from,nFunc,def1,def2))
       {}
     //: Constructor.
@@ -177,7 +177,7 @@ namespace RavlN {
     
     Signal2MethodBodyC(Signal0C &from,
 		       const ObjT &nobj,
-		       Func2T nFunc,
+		       typename Signal2MethodBodyC<Data1T,Data2T,ObjT>::Func2T nFunc,
 		       const Data1T &dat1 = Data1T(),
 		       const Data2T &dat2 = Data2T())
       : SignalConnector0BodyC(from),
@@ -189,7 +189,7 @@ namespace RavlN {
     //: Constructor.
     
     virtual bool Invoke()
-      { return (obj.*func)(defaultVal,defaultVal2); }
+    { return (obj.*func)(defaultVal,defaultVal2); }
     //: Call function.
     
     virtual bool Invoke(Data1T &val)
@@ -215,7 +215,7 @@ namespace RavlN {
   public:
     Signal2MethodC(Signal0C &from,
 		   const ObjT &nobj,
-		   Signal2MethodBodyC<Data1T,Data2T,ObjT>::Func2T nFunc,
+		   typename Signal2MethodBodyC<Data1T,Data2T,ObjT>::Func2T nFunc,
 		   const Data1T &dat1 = Data1T(),
 		   const Data2T &dat2 = Data2T())
       : SignalConnectorC(*new Signal2MethodBodyC<Data1T,Data2T,ObjT>(from,nobj,nFunc,dat1,dat2))
@@ -239,7 +239,7 @@ namespace RavlN {
     
     Signal2MethodRefBodyC(Signal0C &from,
 			  ObjT &nobj,
-			  Func2T nFunc,
+			  typename Signal2MethodRefBodyC<Data1T,Data2T,ObjT>::Func2T nFunc,
 			  const Data1T &dat1 = Data1T(),
 			  const Data2T &dat2 = Data2T())
       : SignalConnector0BodyC(from),
@@ -280,7 +280,7 @@ namespace RavlN {
   public:
     Signal2MethodRefC(Signal0C &from,
 		      ObjT &nobj,
-		      Signal2MethodRefBodyC<Data1T,Data2T,ObjT>::Func2T nFunc,
+		      typename Signal2MethodRefBodyC<Data1T,Data2T,ObjT>::Func2T nFunc,
 		      const Data1T &dat1 = Data1T(),
 		      const Data2T &dat2 = Data2T())
       : SignalConnectorC(*new Signal2MethodRefBodyC<Data1T,Data2T,ObjT>(from,nobj,nFunc,dat1,dat2))

@@ -14,7 +14,7 @@
 #include "Ravl/Vector.hh"
 #include "Ravl/MeanCovariance.hh"
 #include "Ravl/SArray1d.hh"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 #define DODEBUG 0
 #if DODEBUG

@@ -13,7 +13,7 @@
 //! example=exImgSeq.cc
 //! rcsid="$Id$"
 //! author="Charles Galambos"
-//! date="13/05/99"
+//! date="13/05/1999"
 
 #include "Ravl/DP/SPort.hh"
 #include "Ravl/Image/Image.hh"
@@ -43,13 +43,13 @@ namespace RavlImageN {
     // Where size in the size of the Y image.
     
     inline UIntT CalcOffset(UIntT frameNo) const  {
-      assert(frameSize > 0);
+      RavlAssert(frameSize > 0);
       return frameSize * frameNo; 
     }
     //: Calculate the offset of a frame.
     
     inline IntT CalcOffset(IntT frameNo) const {
-      assert(frameSize > 0);
+      RavlAssert(frameSize > 0);
       return frameSize * frameNo; 
     }
     //: Calculate the offset of a frame.

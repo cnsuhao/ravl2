@@ -13,7 +13,12 @@
 #include "Ravl/OS/Filename.hh"
 #include "Ravl/OS/Date.hh"
 #include "Ravl/CallMethods.hh"
+
+#if RAVL_HAVE_ANSICPPHEADERS
+#include <fstream>
+#else
 #include <fstream.h>
+#endif
 
 namespace RavlN {
   

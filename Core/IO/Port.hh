@@ -20,8 +20,7 @@
 #include "Ravl/Exception.hh"
 #include "Ravl/SArray1d.hh"
 #include "Ravl/SArr1Iter.hh"
-
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 #if RAVL_HAVE_ANSICPPHEADERS
 #include <typeinfo>

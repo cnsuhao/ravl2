@@ -22,8 +22,7 @@
 #include "Ravl/SArr1Iter.hh"
 #include "Ravl/Assert.hh"
 #include "Ravl/InDList.hh"
-
-class ostream;
+#include "Ravl/Types.hh"
 
 namespace RavlN {
 

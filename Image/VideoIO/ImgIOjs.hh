@@ -35,13 +35,13 @@ namespace RavlImageN {
     //: Read header from stream.
     
     inline StreamOffsetT CalcOffset(UIntT frameNo) const {
-      assert(frameSize > 0);
+      RavlAssert(frameSize > 0);
       return offset + ((StreamOffsetT) frameSize * (StreamOffsetT) frameNo); 
     }
     //: Calculate the offset of a frame.
 
     inline StreamOffsetT CalcOffset(IntT frameNo) const  {
-      assert(frameSize > 0);
+      RavlAssert(frameSize > 0);
       return offset + ((StreamOffsetT) frameSize * (StreamOffsetT) frameNo); 
     }
     //: Calculate the offset of a frame.

@@ -11,8 +11,8 @@
 #include "Ravl/Index2d.hh"
 #include "Ravl/Assert.hh"
 #include "Ravl/IndexRange2d.hh"
-#include <iostream.h>
-#include <math.h>
+#include "Ravl/Stream.hh"
+#include "Ravl/Math.hh"
 
 namespace RavlN {
   Index2dC relNeighPixel[9]= {Index2dC( 0,  1),

@@ -98,7 +98,7 @@ namespace RavlN {
       // fft of cols.
       for(j = 0;j < (int) dat.Size2();j++) {
 	Slice1dC<ComplexC> slice(tmp1.Buffer().Data(),tmp1Ptr[0][j],tmp1.Size1(),tmp1.Stride());
-	idat.Copy(slice);
+	idat.CopyFrom(slice);
 	for(BufferAccessIter2C<ComplexC *,ComplexC> it(ptrArr,idat);it;it++)
 	  it.Data1() = &it.Data2();
 	//cerr << idat << "\n";
@@ -118,7 +118,7 @@ namespace RavlN {
       // fft of cols.
       for(j = 0;j < (int) dat.Size2();j++) {
 	Slice1dC<ComplexC> slice(tmp1.Buffer().Data(),tmp1Ptr[0][j],dat.Size1(),dat.Stride());
-	idat.Copy(slice);
+	idat.CopyFrom(slice);
 	//cerr << const_cast<SArray2dC<ComplexC> &>(dat).SliceColumn(j) << "\n";
 	for(BufferAccessIter2C<ComplexC *,ComplexC> it(ptrArr,idat);it;it++)
 	  it.Data1() = &it.Data2();
@@ -164,7 +164,7 @@ namespace RavlN {
 	      size[1].V(),primeFactors2,'i');
       // fft of cols.
       for(j = 0;j < (int) dat.Size2();j++) {
-	idat.Copy(tmp1.SliceColumn(j));
+	idat.CopyFrom(tmp1.SliceColumn(j));
 	for(BufferAccessIter2C<ComplexC *,ComplexC> it(ptrArr,idat);it;it++) 
 	  it.Data1() = &it.Data2();
 	
@@ -183,7 +183,7 @@ namespace RavlN {
 	      size[1].V(),primeFactors2,'d');
       // fft of cols.
       for(j = 0;j < (int) dat.Size2();j++) {
-	idat.Copy(tmp1.SliceColumn(j));
+	idat.CopyFrom(tmp1.SliceColumn(j));
 	for(BufferAccessIter2C<ComplexC *,ComplexC> it(ptrArr,idat);it;it++) 
 	  it.Data1() = &it.Data2();
 	

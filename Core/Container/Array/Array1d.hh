@@ -21,9 +21,7 @@
 #include "Ravl/SArray1d.hh"
 #include "Ravl/BfAccIter.hh"
 #include "Ravl/BfAccIter2.hh"
-
-class ostream;
-class istream;
+#include "Ravl/Types.hh"
 
 namespace RavlN {
   class BinIStreamC;

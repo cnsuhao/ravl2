@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLSubStringList_HH
-#define RAVLSubStringList_HH
+#ifndef RAVL_SUBSTRINGLIST_HEADER
+#define RAVL_SUBSTRINGLIST_HEADER
 ////////////////////////////////////////////////////////////////////////
 //! file="Ravl/Core/System/SubStringList.hh"
 //! lib=RavlCore
@@ -13,11 +13,11 @@
 //! author="Bill Christmas"
 //! docentry="Ravl.Core.Lists"
 //! rcsid="$Id$"
-//! date="12/07/96"
+//! date="12/07/1996"
 
-#include <iostream.h>
 #include "Ravl/String.hh"
 #include "Ravl/DList.hh"
+#include "Ravl/Types.hh"
  
 namespace RavlN {
   

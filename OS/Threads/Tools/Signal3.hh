@@ -175,7 +175,8 @@ namespace RavlN {
     : public SignalConnectorC
   {
   public:
-    Signal3FuncC(Signal0C &from,Signal3FuncBodyC<Data1T,Data2T,Data3T>::Func3T nFunc,
+    Signal3FuncC(Signal0C &from,
+		 typename Signal3FuncBodyC<Data1T,Data2T,Data3T>::Func3T nFunc,
 		 const Data1T &def1 = Data1T(),
 		 const Data2T &def2 = Data2T(),
 		 const Data3T &def3 = Data3T())
@@ -240,7 +241,7 @@ namespace RavlN {
   public:
     Signal3MethodC(Signal0C &from,
 		   const ObjT &nobj,
-		   Signal3MethodBodyC<Data1T,Data2T,Data3T,ObjT>::Func3T nFunc,
+		   typename Signal3MethodBodyC<Data1T,Data2T,Data3T,ObjT>::Func3T nFunc,
 		   const Data1T &dat1 = Data1T(),
 		   const Data2T &dat2 = Data2T(),
 		   const Data3T &dat3 = Data3T())
@@ -306,7 +307,7 @@ namespace RavlN {
   public:
     Signal3MethodRefC(Signal0C &from,
 		      ObjT &nobj,
-		      Signal3MethodRefBodyC<Data1T,Data2T,Data3T,ObjT>::Func3T nFunc,
+		      typename Signal3MethodRefBodyC<Data1T,Data2T,Data3T,ObjT>::Func3T nFunc,
 		      const Data1T &dat1 = Data1T(),
 		      const Data2T &dat2 = Data2T(),
 		      const Data3T &dat3 = Data3T())

@@ -18,7 +18,7 @@
 #include "Ravl/Collection.hh"
 #include "Ravl/CollectionIter.hh"
 #include "Ravl/HSet.hh"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 using namespace RavlN;
 

@@ -90,7 +90,7 @@ namespace RavlN {
       : CallFunc1BodyC<DataT,RetT>((VoidFuncPtrT) 0,ndat),
 	mPtr(nfunc),
         obj(nobj)
-      {}
+    {}
     //: Constructor.
     
     virtual void Invoke()

@@ -15,9 +15,15 @@
 #include "Ravl/OS/UserInfo.hh"
 #include "Ravl/StringList.hh"
 #include "Ravl/Hash.hh"
+
 #include <stdlib.h>
 #include <ctype.h>
+
+#if RAVL_HAVE_ANSICPPHEADERS
+#include <fstream>
+#else
 #include <fstream.h>
+#endif
 
 #include <sys/types.h>
 

@@ -4,27 +4,31 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLSTRSTREAM_HEADER
-#define RAVLSTRSTREAM_HEADER 1
+#ifndef RAVL_STRSTREAM_HEADER
+#define RAVL_STRSTREAM_HEADER 1
 //////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! file="Ravl/Core/Base/StrStream.hh"
 //! lib=RavlCore
 //! author="Charles Galambos"
-//! date="25/02/99"
+//! date="25/02/1999"
 //! docentry="Ravl.Core.IO.Streams"
 //! userlevel=Default
 
 #include "Ravl/Stream.hh"
 #include "Ravl/String.hh"
 
-#if !USE_GCC30
+#if !USE_GCC3
 class ostrstream;
 class istrstream;
 #else
 #ifndef VISUAL_CPP
-#ifndef __sgi__
+#if RAVL_HAVE_ANSICPPHEADERS
+#if USE_GCC3
+#include <sstream>
+#else
 #include <strstream>
+#endif
 #else
 #include <strstream.h>
 #endif
@@ -54,7 +58,12 @@ namespace RavlN {
     UIntT Size() const;
     //: Get the number of bytes written so far.
   protected:
+
+#if !USE_GCC3
     ostrstream *oss; // Output string stream.
+#else
+    ostringstream *oss; // Output string stream.
+#endif
   };
   
   ////////////////////////////
@@ -78,7 +87,11 @@ namespace RavlN {
     //: Get string used as buffer.
     
   protected:
+#if !USE_GCC3
     istrstream *iss; // Output string stream.
+#else
+    istringstream *iss; // Output string stream.
+#endif
     StringC buff;
   };
 }

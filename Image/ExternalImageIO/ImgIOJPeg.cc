@@ -325,7 +325,7 @@ namespace RavlImageN {
       return true;
     }
     cerr << "DPImageIOJPegIBaseC::SetupFormat(), Unknown pixel type.  '" << ti.name() << "'\n";
-    assert(0);
+    RavlAssert(0);
     return false;
   }
   
@@ -416,7 +416,7 @@ namespace RavlImageN {
       return true;
     }
     cerr << "DPImageIOJPegOBaseC::SetupFormat(), Unknown pixel type.  '" << ti.name() << "'\n";
-    assert(0);
+    RavlAssert(0);
     return false;
   }
   

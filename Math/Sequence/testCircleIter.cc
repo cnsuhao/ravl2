@@ -10,7 +10,7 @@
 
 #include "Ravl/CircleIter.hh"
 #include "Ravl/Point2d.hh"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 using namespace RavlN;
 

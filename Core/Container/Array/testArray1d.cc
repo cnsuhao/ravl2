@@ -9,12 +9,12 @@
 //! lib=RavlCore
 //! file="Ravl/Core/Container/Array/testArray1d.cc"
 
-#include <iostream.h>
 #include "Ravl/Array1d.hh"
 #include "Ravl/SArray1d.hh"
 #include "Ravl/Array1dIter.hh"
 #include "Ravl/Array1dIter2.hh"
 #include "Ravl/Array1dIter3.hh"
+#include "Ravl/Stream.hh"
 
 using namespace RavlN;
 

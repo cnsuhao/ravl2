@@ -16,8 +16,7 @@
 #include "Ravl/Option.hh"
 #include "Ravl/DP/FileFormatIO.hh"
 #include "Ravl/OS/Filename.hh"
-#include <iostream.h>
-
+#include "Ravl/Stream.hh"
 
 namespace RavlN {
   extern int IncludeFileFormatStream();

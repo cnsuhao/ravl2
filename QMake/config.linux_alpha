@@ -26,9 +26,9 @@ MKDEPUP = echo -n '$$(INST_OBJS)/' > $(INST_DEPEND)/$*.d ; cat $(WORKTMP)/$*.d  
 # Universal flags.
 
 CFLAGS   = -Wall -pipe 
-CCFLAGS  = -Wall -pipe -DNEWGCC
-CCPPFLAGS= -DGNU -D__$(ARC)__ -Dunix -DNEWGCC
-CPPFLAGS = -DGNU -D__$(ARC)__ -Dunix -DNEWGCC
+CCFLAGS  = -Wall -pipe 
+CCPPFLAGS= -DGNU -D__$(ARC)__ -Dunix
+CPPFLAGS = -DGNU -D__$(ARC)__ -Dunix
 LDFLAGS = $(CCFLAGS)
 PAR_MAKE = --jobs=$(PROCS)
 

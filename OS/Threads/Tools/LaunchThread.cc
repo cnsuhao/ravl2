@@ -10,8 +10,8 @@
 //! file="Ravl/OS/Threads/Tools/LaunchThread.cc"
 
 #include "Ravl/Threads/LaunchThread.hh"
-#include <iostream.h>
 #include "Ravl/Threads/MessageQueue.hh"
+#include "Ravl/Stream.hh"
 
 namespace RavlN {
   MessageQueueC<LaunchThreadC> launchThreads(32);

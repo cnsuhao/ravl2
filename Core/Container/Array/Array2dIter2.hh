@@ -59,7 +59,7 @@ namespace RavlN {
     // Return TRUE if there actually is one.
 
     Index2dC Index() const { 
-      assert(dat1.IsValid());
+      RavlAssert(dat1.IsValid());
       return Index2dC((IntT) (&(rit.Data1()) - dat1.ReferenceElm()),
 		      (IntT) (&(cit.Data1()) - rit.Data1().ReferenceElm()));
     }

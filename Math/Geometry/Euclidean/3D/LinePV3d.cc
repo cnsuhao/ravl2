@@ -24,7 +24,7 @@
 #include "Ravl/Vector3d.hh"
 #include "Ravl/LinePV3d.hh"
 #include "Ravl/PlaneABCD3d.hh"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
 
 namespace RavlN {
   

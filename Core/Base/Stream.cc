@@ -12,7 +12,13 @@
 #include "Ravl/Stream.hh"
 #include "Ravl/StreamType.hh"
 #include "Ravl/Calls.hh"
+
+#if RAVL_HAVE_ANSICPPHEADERS
+#include <fstream>
+#else
 #include <fstream.h>
+#endif
+
 #include <stdio.h>
 
 // Note: The implementation of the stream parsing functions
@@ -37,7 +43,7 @@
 #endif
 
 namespace RavlN {
-#if USE_GCC30
+#if USE_GCC3
   using namespace std;
 #endif
   
@@ -67,7 +73,7 @@ namespace RavlN {
   bool StreamBaseC::Close() {
     if(s == 0)
       return false;
-#if !defined(VISUAL_CPP) && !USE_GCC30
+#if !defined(VISUAL_CPP) && !USE_GCC3
     fstreambase *fsb = dynamic_cast<fstreambase *>(s);
 #else
     fstream *fsb = dynamic_cast<fstream *>(s);
@@ -187,30 +193,46 @@ namespace RavlN {
 #endif
     if(append)
       fmode |= ios::app;  
-#if !USE_GCC30
+#if !USE_GCC3
     Init(ofstrm = new ofstream(filename.chars(),fmode),filename);
 #else
     Init(ofstrm = new ofstream(filename.chars(),(std::_Ios_Openmode) fmode),filename);
-    
 #endif
       
     //Init(ofstrm = new ofstream(filename),filename);
     out = ofstrm;
-#if !USE_GCC30
+#if !USE_GCC3
     if(!buffered) 
       ofstrm->setbuf(0,0);
 #endif
   }
   
+#if USE_GCC3 && 0
+  class UnixBasicFilebufC
+    : public basic_filebuf<char,traits_type>
+  {
+  public:
+    UnixBasicFilebufC(int fd,ios_base::openmode __mode)
+    { _M_file.sys_open(fd,__mode,false); }
+    //: Contruct from a filehandle.
+  };
+  
+#endif
+
+
   //: Get data from unix filehandle.
   
   OStreamC::OStreamC(int fd,bool buffered) { 
-#if !USE_GCC30
+#if !USE_GCC3
     if(buffered)
       Init(out = new ofstream(fd),StringC(fd)); 
     else
       Init(out = new ofstream(fd,0,0),StringC(fd)); 
 #else
+    //ofstream *ofs = new ofstream();    
+    //ofs.rdbuf() = 
+    //Init(out = ofs,StringC(fd)); 
+
     RavlAssertMsg(0,"Not implemented. ");
 #endif
   }
@@ -276,7 +298,7 @@ namespace RavlN {
 #endif
       Init(ifstrm = new ifstream(filename),filename);
     in = ifstrm;
-#if !USE_GCC30
+#if !USE_GCC3
     if(!buffered) {
       RavlAssert(ifstrm != 0);
       ifstrm->setbuf(0,0);
@@ -287,7 +309,7 @@ namespace RavlN {
   //: Get data from unix filehandle.
   
   IStreamC::IStreamC(int fd,bool buffered) {   
-#if !USE_GCC30
+#if !USE_GCC3
     if(buffered)
       Init(in = new ifstream(fd),StringC(fd));
     else

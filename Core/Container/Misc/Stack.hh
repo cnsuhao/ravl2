@@ -18,7 +18,12 @@
 #include "Ravl/Types.hh"
 #include "Ravl/Assert.hh"
 #include "Ravl/Exception.hh"
+
+#if RAVL_HAVE_ANSICPPHEADERS
+#include <new>
+#else
 #include <new.h>
+#endif
 
 namespace RavlN {
   
@@ -46,14 +51,14 @@ namespace RavlN {
   {
   public:
     inline        BaseStackC();
-  //: Default constructor
+    //: Default constructor
     // create an empty stack.
     
     inline        BaseStackC(const BaseStackC<T>&);
     //: Copy constructor.
     
     inline       T& Top()         ;
-  //: Access element at the top of the stack.
+    //: Access element at the top of the stack.
     // i.e. the next one returned if Pop() is called.
   
     inline const T& Top()   const ;
@@ -87,11 +92,11 @@ namespace RavlN {
     //! userlevel=Develop
     //--------- private function for memory allocation 
     // place at the top of the file to allow inlining
-  
+    
     struct s_Blk {s_Blk* link; T d[1];};
     
     inline s_Blk* AllocBlk() const
-      { return (s_Blk*) new char[sizeof(s_Blk) + sizeof(T)* (blkSize-1)]; }
+    { return (s_Blk*) new char[sizeof(s_Blk) + sizeof(T)* (blkSize-1)]; }
     
     int     blkSize;    // size of the first (top) block in the stack 
     s_Blk   *topBlk;    // pointer to the first (top) block  
@@ -144,7 +149,7 @@ namespace RavlN {
     // Same as Push().
   
     inline void   DelTop();
-  //: Remove an element from the top of the stack. 
+    //: Remove an element from the top of the stack. 
     // Same as Pop(), but no value returned.
     // This may be faster then Pop
     
@@ -218,14 +223,14 @@ namespace RavlN {
   
   template <class T>
   void  StackC<T>::AddBlk() {
-    s_Blk * current = topBlk;
+    typename StackC<T>::s_Blk * current = topBlk;
     topBlk  = AllocBlk();
     topBlk->link = current;
   }
   
   template <class T>
   void StackC<T>::DelBlk() {
-    s_Blk *last = topBlk->link;
+    typename StackC<T>::s_Blk *last = topBlk->link;
     delete [] ((char *) topBlk);
     topBlk = last;
   }
@@ -310,9 +315,9 @@ namespace RavlN {
       // stack in inital state, no copy needed
       // to prevent gcc 2.7.2 complaining about possible uninitialised use
       // s could still be empty, with top==0 and one alloc-ed block!
-      s_Blk *copiedBlk = s.topBlk;
+      typename StackC<T>::s_Blk *copiedBlk = s.topBlk;
       topBlk = AllocBlk();
-      s_Blk *firstBlk = topBlk;
+      typename StackC<T>::s_Blk *firstBlk = topBlk;
       do {
 	while(top > 0) {                // copy one block
 	  --top;
@@ -328,8 +333,8 @@ namespace RavlN {
       } while(1);
       topBlk->link = 0;
       topBlk       = firstBlk;
-    top     = s.top;
-    blkSize = s.blkSize;
+      top     = s.top;
+      blkSize = s.blkSize;
     }
   }
 }

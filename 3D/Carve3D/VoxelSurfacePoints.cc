@@ -124,7 +124,7 @@ namespace Ravl3DN
 	      // FIXME: transformation should not really be applied here 
 	      //        should be done only during rendering
 	      // surface voxel
-	      RealT r_norm = 1.0 / sqrt(nx*nx + ny*ny + nz*nz);
+	      RealT r_norm = 1.0 / Sqrt(nx*nx + ny*ny + nz*nz);
 	      Vector3dC x = R*Vector3dC(i,j,k) + t;
 	      Vector3dC n = R*Vector3dC(nx*r_norm,ny*r_norm,nz*r_norm);
 	      

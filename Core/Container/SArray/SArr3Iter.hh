@@ -4,15 +4,15 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLSARR3ITER_HEADER
-#define RAVLSARR3ITER_HEADER 1
+#ifndef RAVL_SARR3ITER_HEADER
+#define RAVL_SARR3ITER_HEADER 1
 ////////////////////////////////////////////////////////////
 //! docentry="Ravl.Core.Arrays.3D"
 //! rcsid="$Id$
 //! file="Ravl/Core/Container/SArray/SArr3Iter.hh"
 //! lib=RavlCore
 //! author="Charles Galambos"
-//! date="10/09/98"
+//! date="10/09/1998"
 //! userlevel=Advanced
 
 #include "Ravl/SArray3d.hh"
@@ -27,16 +27,16 @@ namespace RavlN {
   
   template<class DataT>
   class SArray3dIterC 
-  : public BufferAccess3dIterC<DataT>
+    : public BufferAccess3dIterC<DataT>
   {
   public:
     SArray3dIterC()
-      {}
+    {}
     //: Default constructor.
     
     SArray3dIterC(const SArray3dC<DataT> &narr)
       : arr(narr)
-      { First(); }
+    { First(); }
     //: Constructor.
     
     const SArray3dIterC<DataT> &operator=(SArray3dC<DataT> &narr) {
@@ -47,11 +47,11 @@ namespace RavlN {
     //: Assignment to an array.
     
     inline void First()
-      { BufferAccess3dIterC<DataT>::First(arr,arr.Size2(),arr.Size3()); }
+    { BufferAccess3dIterC<DataT>::First(arr,arr.Size2(),arr.Size3()); }
     //: Goto first element in array.
     
     Index3dC Index() const { 
-      assert(arr.IsValid());
+      RavlAssert(arr.IsValid());
       Index2dC i2 = sit.Index(rit->ReferenceElm());
       return Index3dC((IndexC) (&(*rit) - arr.ReferenceElm()),
 		      (IndexC) i2.Row(),

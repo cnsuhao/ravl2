@@ -13,11 +13,12 @@
 //! docentry="Ravl.Core.Indexing"
 //! rcsid="$Id$"
 //! date="06/08/1995"
-//! userlevel=Default
+//! userlevel=Normal
 
 #include "Ravl/Index.hh"
 #include "Ravl/IndexRange1d.hh"
 #include "Ravl/Index3d.hh"
+#include "Ravl/Types.hh"
 
 namespace RavlN {
 

@@ -4,8 +4,8 @@
 // General Public License (LGPL). See the lgpl.licence file for details or
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
-#ifndef RAVLBLKSTACK_HEADER
-#define RAVLBLKSTACK_HEADER 1
+#ifndef RAVL_BLKSTACK_HEADER
+#define RAVL_BLKSTACK_HEADER 1
 /////////////////////////////////////////////////////////////////////////////////
 //! rcsid="$Id$"
 //! author="Charles Galambos"
@@ -115,7 +115,7 @@ namespace RavlN {
   };
   
   template<class DataT>
-  BlkStackC<DataT>::SBlkC *BlkStackC<DataT>::PushBlk(int sizeEst) {
+  typename BlkStackC<DataT>::SBlkC *BlkStackC<DataT>::PushBlk(int sizeEst) {
     if(lastBlk != 0) {
       lastBlk->last = topBlk;
       topBlk = lastBlk; // We have one saved from earlier, use it.

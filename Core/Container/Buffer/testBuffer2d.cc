@@ -28,11 +28,11 @@ int main()
   IndexRangeC r2(2,5);
   
   Buffer2dC<int> bf (r1.Size(),r2.Size());
-  if(bf.Size1() != r1.Size()) {
+  if(bf.Size1() != (UIntT) r1.Size()) {
     cerr << "Size1 test failed. \n";
     return 1;
   }
-  if(bf.Size2() != r2.Size()) {
+  if(bf.Size2() != (UIntT) r2.Size()) {
     cerr << "Size2 test failed. \n";
     return 1;
   }

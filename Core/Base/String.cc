@@ -34,20 +34,21 @@ Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include "Ravl/String.hh"
 #include "Ravl/Index.hh"
 
-#if !defined(VISUAL_CPP) && !defined(NEWGCC) && !defined(__cygwin__)
+#if defined(__sgi__)
 #include <std.h>
 #endif
 
 #include <ctype.h>
 #include <limits.h>
-#include <new.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
 
 #if RAVL_HAVE_ANSICPPHEADERS
+#include <new>
 #include <iostream>
 #else
+#include <new.h>
 #include <iostream.h>
 #endif
 
@@ -1135,10 +1136,7 @@ namespace RavlN {
 // IO
 
   istream& operator>>(istream& s, StringC& x) {
-#if USE_GCC30
-    RavlAssertMsg(0,"istream& operator>>(istream& s, StringC& x), Not implemented. ");
-#else
-    if (!s.ipfx(0) || (!(s.flags() & ios::skipws) && !ws(s))) {
+    if (!s || (!(s.flags() & ios::skipws) && !ws(s))) {
       s.clear(ios::failbit|s.rdstate()); // Redundant if using GNU iostreams.
       return s;
     }
@@ -1158,6 +1156,9 @@ namespace RavlN {
     int new_state = s.rdstate();
     if (i == 0) new_state |= ios::failbit;
     if (ch == EOF) new_state |= ios::eofbit;
+#if USE_GCC30
+    s.clear((std::_Ios_Iostate )new_state);
+#else
     s.clear(new_state);
 #endif
     return s;

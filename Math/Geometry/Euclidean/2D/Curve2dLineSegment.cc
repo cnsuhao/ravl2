@@ -5,15 +5,15 @@
 // see http://www.gnu.org/copyleft/lesser.html
 // file-header-ends-here
 //////////////////////////////////////////////////////
-// Parametric Line Segment.
-// $Id$
 //! rcsid="$Id$"
 //! lib=RavlMath
 
 #include "Ravl/Curve2dLineSegment.hh"
 #include "Ravl/Assert.hh"
 #include "Ravl/SArray1d.hh"
-#include <iostream.h>
+#include "Ravl/Stream.hh"
+
+// Parametric Line Segment.
 
 namespace RavlN {
 

@@ -24,6 +24,10 @@
 #endif
 
 namespace RavlN {
+#if USE_GCC30
+  using namespace std;
+#endif
+  
   // Unfortunalty the C++ standard does not specify what
   // string is returned from the type_info.name() function.
   // This means if you wish to use files containing with
